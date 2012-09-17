@@ -16,7 +16,6 @@ if operatingSystem == 'win32':
     osPath += cwd + 'buildtools\\windows\\cmake\\bin;'   
     
 newPath = osPath + oldPath
-print 'osPath: ' + osPath
 os.environ['PATH'] = newPath
 
 # Find our Compiler and put it's location in the path
@@ -33,9 +32,62 @@ for line in fi:
 
 compilerPath = compilerPath.replace(compiler + '\n', '').rstrip()
 osPath += compilerPath + ';'
-os.environ['PATH'] = osPath
 
 os.system('rm -rf compiler.txt')
+
+# Find cmd.exe and put it's locaiton in the path
+if operatingSystem == 'win32':
+    os.system('which cmd.exe > cmd.txt')
+    
+    fi = fileinput.FileInput('cmd.txt')
+    cmdPath = ''
+    for line in fi:
+        cmdPath = line
+
+    cmdPath = cmdPath.replace('cmd.exe\n', '').rstrip()
+    osPath += cmdPath + ';'   
+
+    os.system('rm -rf cmd.txt')    
+
+# Change The Path
+os.environ['PATH'] = osPath 
+    
+# Figure out what kind of build we need to do
+buildType  = "DEBUG"
+buildParam = ""
+if len(sys.argv) > 1:
+    buildType = sys.argv[1]
+if len(sys.argv) > 2:
+    buildParam = sys.argv[2]
+
+if buildType.upper() == "HELP" or buildType == "?":
+    os.system("cls")
+    print '###########################################################'
+    print '# iSAM Build System                                       #'
+    print '###########################################################'
+    print 'Usage:'
+    print 'doBuild <buildType> <buildParam>'
+    print ''
+    print 'Valid Build Types:'
+    print '  thirdparty - Builds required third party libraries'
+    print '  debug - Builds a debug version of iSAM (default)'
+    print '  release - Builds a release version of iSAM'
+    print ''
+    print 'Valid Build Parameters: (thirdparty only)'
+    print '  <libary name> - Target third party library to build or rebuild'
+    print ''
+    print 'Valid Build parameters: (debug/release only)'
+    print '  admb - Use ADMB auto-differentiation in compiled executable'
+    sys.exit()    
+    
+if buildType.upper() != "DEBUG" and buildType.upper() != "RELEASE" and buildType.upper() != "THIRDPARTY":
+    sys.exit('Invalid build type ' + buildType + '. Supported build types are "release" and "debug" and "thirdparty"')    
+    
+os.putenv('isam_build_type', buildType)
+os.putenv('isam_build_param', buildParam)    
     
 # Start to build parts of the system
-subprocess.call('python ' + cwd + 'buildtools\\build_third_party.py')
+if buildType.upper() == "THIRDPARTY":
+    subprocess.call('python ' + cwd + 'buildtools\\build_third_party.py')
+else:
+    subprocess.call('python ' + cwd + 'buildtools\\build_main_code.py ')
