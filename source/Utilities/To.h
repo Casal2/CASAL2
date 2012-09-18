@@ -40,7 +40,7 @@ Target To(const Source& arg) {
  * boolean types
  */
 template<>
-inline bool To(const std::string& arg) {
+inline bool To(const ::std::string& arg) {
 
   string value = arg;
   for (unsigned i = 0; i < value.length(); ++i)
@@ -54,6 +54,16 @@ inline bool To(const std::string& arg) {
   THROW_EXCEPTION("Invalid boolean conversion from string " + arg);
 };
 
+/**
+ * This method converts a string into a lowercase version of it
+ */
+inline string ToLowercase(const ::std::string &arg) {
+  string return_value = arg;
+  for (unsigned i = 0; i < return_value.size(); ++i)
+    return_value[i] = tolower(return_value[i]);
+
+  return return_value;
+};
 
 
 } /* namespace Utilities */
