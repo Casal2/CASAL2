@@ -11,7 +11,7 @@
 
 #include "Version.h"
 #include "GlobalConfiguration/GlobalConfiguration.h"
-#include "Reports/Children/StandardHeaderReport.h"
+#include "Reports/Children/StandardHeader.h"
 #include "RuntimeController/RuntimeController.h"
 
 // Namespaces
