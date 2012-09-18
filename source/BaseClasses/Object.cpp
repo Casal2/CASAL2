@@ -21,8 +21,8 @@ namespace Base {
 Object::Object() {
 
   // Default our members
-  sLabel        = "";
-  pGlobalConfig = GlobalConfiguration::getInstance();
+  label_          = "";
+  global_config_  = GlobalConfiguration::Instance();
 }
 
 /**

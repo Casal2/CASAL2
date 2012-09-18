@@ -42,26 +42,29 @@ namespace iSAM {
 class GlobalConfiguration {
 public:
   // Methods
-  static shared_ptr<GlobalConfiguration> getInstance();
+  static shared_ptr<GlobalConfiguration> Instance();
 
   virtual                     ~GlobalConfiguration();
-  void                        clear();
-  void                        addCommandLineParameter(string parameter) { vCommandLineParameters.push_back(parameter); }
-  vector<string>&             getCommandLineParameters() { return vCommandLineParameters; }
-  bool                        getDebugMode() { return util::To<bool>(mParameters[PARAM_DEBUG]); }
-  void                        setDebugMode(string value) { mParameters[PARAM_DEBUG] = value; }
-  int                         getRandomSeed();
-  void                        setRandomSeed(string value) { mParameters[PARAM_RANDOM_NUMBER_SEED] = value; }
-  string                      getConfigFile() { return mParameters[PARAM_CONFIG_FILE]; }
-  void                        setConfigFile(string value) { mParameters[PARAM_CONFIG_FILE] = value; }
+  void                        Clear();
+
+  // Accessors and Mutators
+  void                        set_command_line_parameters(vector<string> &parameters) { command_line_parameters_ = parameters; }
+  vector<string>&             command_line_parameters() { return command_line_parameters_; }
+  void                        set_debug_mode(string value) { parameters_[PARAM_DEBUG] = value; }
+  bool                        debug_mode() { return util::To<bool>(parameters_[PARAM_DEBUG]); }
+  void                        set_random_seed(string value) { parameters_[PARAM_RANDOM_NUMBER_SEED] = value; }
+  int                         random_seed();
+  void                        set_config_file(string value) { parameters_[PARAM_CONFIG_FILE] = value; }
+  string                      config_file() { return parameters_[PARAM_CONFIG_FILE]; }
+
 
 private:
   // Methods
   GlobalConfiguration();
 
   // Members
-  map<string, string>         mParameters;
-  vector<string>              vCommandLineParameters;
+  map<string, string>         parameters_;
+  vector<string>              command_line_parameters_;
 
 };
 

@@ -38,8 +38,8 @@ namespace iSAM {
 RuntimeController::RuntimeController() {
 
   // Assign some variables
-  pGlobalConfig = GlobalConfiguration::getInstance();
-  eRunMode      = RunMode::INVALID;
+  global_config_ = GlobalConfiguration::Instance();
+  run_mode_      = RunMode::kInvalid;
 
 }
 
@@ -54,7 +54,7 @@ RuntimeController::~RuntimeController() {
  *
  * @return shared_ptr to the static instance
  */
-shared_ptr<RuntimeController> RuntimeController::getInstance() {
+shared_ptr<RuntimeController> RuntimeController::Instance() {
   RuntimeControllerPtr instance = RuntimeControllerPtr(new RuntimeController());
   return instance;
 }
@@ -66,7 +66,7 @@ shared_ptr<RuntimeController> RuntimeController::getInstance() {
  * @param argc The number of arguments that have been provided
  * @param argv Pointer to an array containing the arguments
  */
-void RuntimeController::parseCommandLine(int argc, const char* argv[]) {
+void RuntimeController::ParseCommandLine(int argc, const char* argv[]) {
 
   // Build Options menu
   options_description oDesc("Usage");
@@ -83,27 +83,27 @@ void RuntimeController::parseCommandLine(int argc, const char* argv[]) {
 
   ostringstream o;
   o << oDesc;
-  sCommandLineUsage = o.str();
+  command_line_usage_ = o.str();
 
   // Read our Parameters
-  variables_map vmParams;
-  boost::program_options::store(boost::program_options::parse_command_line(argc, argv, oDesc), vmParams);
-  notify(vmParams);
+  variables_map parameters;
+  boost::program_options::store(boost::program_options::parse_command_line(argc, argv, oDesc), parameters);
+  notify(parameters);
 
   /**
    * Determine what run mode we should be in. If we're
    * in help, version or license then we don't need to continue.
    */
-  if ( (vmParams.count("help")) || (vmParams.size() == 0) ) {
-    eRunMode = RunMode::HELP;
+  if ( (parameters.count("help")) || (parameters.size() == 0) ) {
+    run_mode_ = RunMode::kHelp;
     return;
 
-  } else if (vmParams.count("version")) {
-    eRunMode = RunMode::VERSION;
+  } else if (parameters.count("version")) {
+    run_mode_ = RunMode::kVersion;
     return;
 
-  } else if (vmParams.count("license")) {
-    eRunMode = RunMode::LICENSE;
+  } else if (parameters.count("license")) {
+    run_mode_ = RunMode::kLicense;
     return;
   }
 
@@ -112,32 +112,31 @@ void RuntimeController::parseCommandLine(int argc, const char* argv[]) {
    * run. So we need to check to ensure the command line makes
    * sense.
    */
-  unsigned runModeCount = 0;
-  runModeCount += vmParams.count("run");
-  runModeCount += vmParams.count("estimate");
+  unsigned run_mode_count = 0;
+  run_mode_count += parameters.count("run");
+  run_mode_count += parameters.count("estimate");
 
-  if (runModeCount == 0)
+  if (run_mode_count == 0)
     THROW_EXCEPTION("No valid run modes have been specified");
-  if (runModeCount > 1)
+  if (run_mode_count > 1)
     THROW_EXCEPTION("More than 1 run mode has been specified");
 
-  if (vmParams.count("run"))
-    eRunMode = RunMode::BASIC;
-  else if (vmParams.count("estimate"))
-    eRunMode = RunMode::ESTIMATION;
+  if (parameters.count("run"))
+    run_mode_ = RunMode::kBasic;
+  else if (parameters.count("estimate"))
+    run_mode_ = RunMode::kEstimation;
   else
     THROW_EXCEPTION("Invalid run mode has been specified, or this run mode is not currently supported");
 
   /**
    * TODO: Load the Free-Parameters into the Estimate system
    */
-
-  if (vmParams.count("debug"))
-    pGlobalConfig->setDebugMode("true");
-  if (vmParams.count("genseed"))
-    pGlobalConfig->setRandomSeed(vmParams["genseed"].as<string>());
-  if (vmParams.count("file"))
-    pGlobalConfig->setConfigFile(vmParams["file"].as<string>());
+  if (parameters.count("debug"))
+    global_config_->set_debug_mode("true");
+  if (parameters.count("genseed"))
+    global_config_->set_random_seed(parameters["genseed"].as<string>());
+  if (parameters.count("file"))
+    global_config_->set_config_file(parameters["file"].as<string>());
 }
 
 } /* namespace iSAM */

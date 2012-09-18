@@ -28,9 +28,9 @@ public:
   // Methods
   Report();
   virtual                     ~Report();
-  virtual void                prepare() = 0;
-  virtual void                run() = 0;
-  virtual void                finalise() = 0;
+  virtual void                Prepare() = 0;
+  virtual void                Run() = 0;
+  virtual void                Finalise() = 0;
 };
 
 } /* namespace iSAM */

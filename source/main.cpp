@@ -20,82 +20,85 @@ using std::cout;
 using std::endl;
 
 /**
- *
+ * Application entry point
  */
 int main(int argc, char * argv[]) {
 
   // Create instance now so it can record the time.
-  Reports::StandardHeader stdReport;
+  Reports::StandardHeader standard_report;
 
   /**
    * Store our command line parameters
    */
-  GlobalConfigurationPtr config = GlobalConfiguration::getInstance();
+  GlobalConfigurationPtr config = GlobalConfiguration::Instance();
+
+  vector<string> parameters;
   for (int i = 0; i < argc; ++i)
-    config->addCommandLineParameter(argv[i]);
+    parameters.push_back(argv[i]);
+  config->set_command_line_parameters(parameters);
 
   try {
     /**
      * Ask the runtime controller to parse the parameters.
      */
-    RuntimeControllerPtr runtime = RuntimeController::getInstance();
-    runtime->parseCommandLine(argc, (const char **)argv);
+    RuntimeControllerPtr runtime = RuntimeController::Instance();
+    runtime->ParseCommandLine(argc, (const char **)argv);
 
     /**
      * Check the run mode and call the handler.
      */
-    switch (runtime->getRunMode()) {
-    case RunMode::INVALID:
+    switch (runtime->run_mode()) {
+    case RunMode::kInvalid:
       THROW_EXCEPTION("Invalid run mode specified.");
       break;
 
-    case RunMode::VERSION:
+    case RunMode::kVersion:
       cout << SOURCE_CONTROL_VERSION << endl;
       break;
 
-    case RunMode::LICENSE:
+    case RunMode::kLicense:
       cout << "License has not been implemented yet" << endl;
       break;
 
-    case RunMode::HELP:
-      cout << runtime->getCommandLineUsage() << endl;
+    case RunMode::kHelp:
+      cout << runtime->command_line_usage() << endl;
       break;
 
     default:
-      stdReport.prepare();
+      standard_report.Prepare();
 
       // runTime->run();
 
-      stdReport.finalise();
+      standard_report.Finalise();
       break;
     }
 
-  } catch (const string &ex) {
+  } catch (const string &isam_exception) {
     /**
      * This is the standard method of printing an error to the user. So
      * we expect exceptions to be thrown up cleanly.
      */
-    cout << "## ERROR - iSAM has experience a problem and has stopped execution" << endl;
-    cout << "## Execution stack trace: " << endl;
+    cout << "## ERROR - iSAM experienced a problem and has stopped execution" << endl;
+    cout << "## Execution stack: " << endl;
 
     // Un-Wind our Exception Stack
-    int iLastLocation = 0;
-    while (iLastLocation != -1) {
-      int iLoc = ex.find_first_of(">", iLastLocation+1);
-      cout << ex.substr(iLastLocation+1, (iLoc-iLastLocation)) << endl;
-      iLastLocation = iLoc;
+    int last_location = 0;
+    while (last_location != -1) {
+      int location = isam_exception.find_first_of(">", last_location+1);
+      cout << isam_exception.substr(last_location+1, (location-last_location)) << endl;
+      last_location = location;
     }
     cout << endl;
     return -1;
 
-  } catch(exception &ex) {
+  } catch(exception &isam_exception) {
     /**
      * Unexpected exception was caught. We should be catching and handling all
      * exceptions internally and bubbling them up as const strings.
      */
     cout << "## ERROR - iSAM has encountered an unexpected exception" << endl;
     cout << "## Exception details: " << endl;
-    cout << "## " << ex.what() << endl;
+    cout << "## " << isam_exception.what() << endl;
     return -1;
   }
 

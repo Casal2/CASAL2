@@ -32,7 +32,7 @@ GlobalConfiguration::~GlobalConfiguration() {
  *
  * @return static shared_ptr<> to the instance
  */
-shared_ptr<GlobalConfiguration> GlobalConfiguration::getInstance() {
+shared_ptr<GlobalConfiguration> GlobalConfiguration::Instance() {
   static GlobalConfigurationPtr instance = GlobalConfigurationPtr(new GlobalConfiguration());
   return instance;
 }
@@ -41,9 +41,9 @@ shared_ptr<GlobalConfiguration> GlobalConfiguration::getInstance() {
  * This method will clear any previously set parameters within our global configuration.
  * All member objects need to be cleared during this method.
  */
-void GlobalConfiguration::clear() {
-  mParameters.clear();
-  vCommandLineParameters.clear();
+void GlobalConfiguration::Clear() {
+  parameters_.clear();
+  command_line_parameters_.clear();
 }
 
 } /* namespace iSAM */

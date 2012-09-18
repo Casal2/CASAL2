@@ -26,6 +26,7 @@
 
 #include "../GlobalConfiguration/GlobalConfiguration.h"
 #include "../Translations/Translations.h"
+#include "../Utilities/NoCopy.h"
 
 // Namespaces
 using std::string;
@@ -41,12 +42,14 @@ public:
   // Methods
   Object();
   virtual                     ~Object();
-  string                      getLabel() { return sLabel; }
+  string                      Label() { return label_; }
 
 protected:
   // Members
-  string                      sLabel;
-  GlobalConfigurationPtr      pGlobalConfig;
+  string                      label_;
+  GlobalConfigurationPtr      global_config_;
+
+  DISALLOW_COPY_AND_ASSIGN(Object);
 };
 
 } /* namespace Base */

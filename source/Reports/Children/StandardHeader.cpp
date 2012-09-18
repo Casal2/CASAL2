@@ -36,7 +36,7 @@ namespace Reports {
 StandardHeader::StandardHeader() {
 
   // Variables
-  tmeStart   = time(NULL);
+  time_start_   = time(NULL);
 
   // Linux Vars
 #ifndef __MINGW32__
@@ -54,7 +54,7 @@ StandardHeader::~StandardHeader() {
  * Prepare the header. This involves building
  * all of the information we need so it can be printed.
  */
-void StandardHeader::prepare() {
+void StandardHeader::Prepare() {
 
   ostringstream               header;
   header << "iSAM" << endl;
@@ -63,13 +63,13 @@ void StandardHeader::prepare() {
    * Build the Command line
    */
   header << "Call: ";
-  vector<string>& commandLine = pGlobalConfig->getCommandLineParameters();
+  vector<string>& commandLine = global_config_->command_line_parameters();
   for (unsigned i = 0; i < commandLine.size(); ++i)
     header << commandLine[i] << " ";
   header << endl;
 
     // Build Date
-  header << "Date: " << ctime(&tmeStart);
+  header << "Date: " << ctime(&time_start_);
 
   /**
    * Version information
@@ -108,14 +108,14 @@ void StandardHeader::prepare() {
  * This report does it's printing during the start and finalise methods
  * so we do not need to have any logic within the run method.
  */
-void StandardHeader::run() { }
+void StandardHeader::Run() { }
 
 /**
  * Finalise our report. This will calculate how much time it took
  * to do the execution of our application and print this to the
  * console.
  */
-void StandardHeader::finalise() {
+void StandardHeader::Finalise() {
 #ifndef __MINGW32__
   times(&cpu_stop);
   double cpu_time=(static_cast<double>(cpu_stop.tms_utime)+static_cast<double>(cpu_stop.tms_stime))-(static_cast<double>(cpu_start.tms_utime) + static_cast<double>(cpu_start.tms_stime));
@@ -127,7 +127,7 @@ void StandardHeader::finalise() {
   cout << "Total CPU time: " << std::setprecision(P) << cpu_time << (cpu_time==1?" hour":" hours") << ".\n";
 #endif
 
-  double elapsed_time = static_cast<double>(time(NULL)-tmeStart);
+  double elapsed_time = static_cast<double>(time(NULL)-time_start_);
   if(elapsed_time < 60) {
     int P = (int) floor(log10(elapsed_time))+4;
     cout << "Total elapsed time: " << std::setprecision(P) << fmax(1,elapsed_time) << (elapsed_time<=1?" second":" seconds") << endl;

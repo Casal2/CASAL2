@@ -34,13 +34,13 @@ public:
   // Functions
   StandardHeader();
   virtual                     ~StandardHeader();
-  void                        prepare();
-  void                        run();
-  void                        finalise();
+  void                        Prepare();
+  void                        Run();
+  void                        Finalise();
 
 protected:
   // Variables
-  time_t                      tmeStart;
+  time_t                      time_start_;
 
   // Linux Vars
 #ifndef __MINGW32__

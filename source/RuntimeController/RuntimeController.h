@@ -29,12 +29,12 @@ namespace iSAM {
 
 namespace RunMode {
 typedef enum {
-  INVALID,
-  LICENSE,
-  VERSION,
-  HELP,
-  BASIC,
-  ESTIMATION
+  kInvalid,
+  kLicense,
+  kVersion,
+  kHelp,
+  kBasic,
+  kEstimation
 } Type;
 }
 
@@ -46,21 +46,23 @@ using boost::shared_ptr;
 class RuntimeController {
 public:
   // Methods
-  static shared_ptr<RuntimeController> getInstance();
+  static shared_ptr<RuntimeController> Instance();
 
   virtual                     ~RuntimeController();
-  void                        parseCommandLine(int argc, const char* argv[]);
-  string                      getCommandLineUsage() { return sCommandLineUsage; }
-  RunMode::Type               getRunMode() { return eRunMode; }
+  void                        ParseCommandLine(int argc, const char* argv[]);
+
+  // Accessors and mutators
+  string                      command_line_usage() { return command_line_usage_; }
+  RunMode::Type               run_mode() { return run_mode_; }
 
 private:
   // Methods
   RuntimeController();
 
   // Members
-  GlobalConfigurationPtr      pGlobalConfig;
-  RunMode::Type               eRunMode;
-  string                      sCommandLineUsage;
+  GlobalConfigurationPtr      global_config_;
+  RunMode::Type               run_mode_;
+  string                      command_line_usage_;
 };
 
 // Typdef
