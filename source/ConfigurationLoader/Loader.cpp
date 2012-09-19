@@ -242,21 +242,141 @@ void Loader::LoadConfigIntoCache(string file_name) {
  *
  */
 void Loader::AssignParameters(shared_ptr<Object> object) {
+  try {
+     // Extra Label
+     int space_location = current_block_[0].find(" ");
+     if (space_location > 0) {
+       string label = current_block_[0].substr(space_location+1, current_block_[0].length()-space_location);
+       object->AddParameter(PARAM_LABEL, label);
+     }
 
+     // Loop through rest of parameters
+     for (int i = 1; i < (int)current_block_.size(); ++i) {
+       string current_line = current_block_[i];
+
+       // See if this is a 1 variable name flag.
+       space_location = current_line.find_first_of(' ');
+       if (space_location == -1) {
+         object->AddParameter(current_line, "");
+         continue;
+       }
+
+       // Get variable name
+       string name = util::ToLowercase(current_line.substr(0, space_location));
+
+       // If this is a table block, then we need to hand it to the table loader
+       if (name == PARAM_TABLE) {
+         AssignTableParameters(object, i);
+         continue;
+       }
+
+       // Setup variables
+       int next_space = 0;
+       space_location++;
+
+       do {
+         // Extract value, setup for next run
+         next_space = current_line.find(' ', space_location);
+         string value = current_line.substr(space_location, next_space-space_location);
+         space_location = next_space + 1;
+
+         if (name == "")
+           THROW_EXCEPTION("Cannot have blank variable name in configuration file");
+
+         // Add the parameter
+         if (value != "")
+           object->AddParameter(name, value);
+       } while (next_space > 0);
+     }
+   } catch (string &ex) {
+     RETHROW_EXCEPTION(ex);
+   }
 }
 
 /**
  *
  */
 void Loader::AssignTableParameters(shared_ptr<Object> object, int &current_index) {
+  try {
+    string label = "";
+    vector<string> rows;
+    vector<string> data;
 
+    // Ensure our table has a label, this will allow us to assign variables to it.
+    int iSpaceLocation = current_block_[current_index].find(" ");
+    if (iSpaceLocation > 0) {
+      label = current_block_[current_index].substr(iSpaceLocation+1, current_block_[current_index].length()-iSpaceLocation);
+      //if (label == "")
+        //THROW_EXCEPTION("Table is missing a label for object" + object->getParameterList()->getString(PARAM_LABEL, true, "Unknown"));
+
+      label = util::ToLowercase(label);
+    } else {
+      //THROW_EXCEPTION("Table is missing a label for object" + object->getParameterList()->getString(PARAM_LABEL, true, "Unknown"));
+    }
+
+    // Loop through this section; and handle the first line as the row order
+    // and any subsequent lines as data
+    current_index++;
+    for (int i = current_index; i < (int)current_block_.size(); ++i) {
+      string sCurrentLine = current_block_[i];
+
+      if (sCurrentLine == PARAM_END_TABLE) {
+        //object->getParameterList()->addTable(label, rows, data);
+        current_index = i;
+        return;
+      }
+
+      // Setup variables
+      int iNxtSpace = 0;
+      iSpaceLocation = 0;
+
+      do {
+        // Extract value, setup for next run
+        iNxtSpace = sCurrentLine.find(' ', iSpaceLocation);
+        string sValue = sCurrentLine.substr(iSpaceLocation, iNxtSpace-iSpaceLocation);
+        iSpaceLocation = iNxtSpace + 1;
+
+        // If i == CurrentIndex we're adding order. Otherwise we're adding data
+        if (i == current_index && sValue != "")
+          rows.push_back(sValue);
+        else if (sValue != "")
+          data.push_back(sValue);
+
+      } while (iNxtSpace > 0);
+    }
+
+  } catch (const string &ex) {
+    RETHROW_EXCEPTION(ex);
+  }
 }
 
 /**
  *
  */
 void Loader::SplitLineIntoVector(string line, vector<string> &parameters) {
+  // Clear Our Old Parameters
+  parameters.clear();
 
+  // Variables
+  int     first_space   = -1;
+
+  first_space = line.find_first_of(CONFIG_SEPERATOR_ESTIMATE_VALUES);
+  if (first_space == -1) {
+    parameters.push_back( line );
+    return;
+  }
+
+  while (first_space >= 0) {
+    // Check Difference Between Our Spaces
+    if (first_space > 0)
+      parameters.push_back( line.substr(0, first_space));
+
+    line = line.erase(0, first_space+1);
+    first_space = line.find_first_of(CONFIG_SEPERATOR_ESTIMATE_VALUES, 0);
+  }
+  // If anything is remaining, add it to the list
+  if (line.length() > 0)
+    parameters.push_back(line);
 }
 
 } /* namespace Configuration */

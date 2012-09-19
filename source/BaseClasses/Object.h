@@ -27,6 +27,7 @@
 #include "../GlobalConfiguration/GlobalConfiguration.h"
 #include "../Translations/Translations.h"
 #include "../Utilities/NoCopy.h"
+#include "../ParameterList/ParameterList.h"
 
 // Namespaces
 using std::string;
@@ -43,11 +44,16 @@ public:
   Object();
   virtual                     ~Object();
   string                      Label() { return label_; }
+  void                        AddParameter(const string &name, const string &value) { };
+
+  // Accessors and Mutators
+  ParameterList&              parameters() { return parameters_; }
 
 protected:
   // Members
   string                      label_;
   GlobalConfigurationPtr      global_config_;
+  ParameterList               parameters_;
 
   DISALLOW_COPY_AND_ASSIGN(Object);
 };
