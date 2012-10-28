@@ -17,22 +17,33 @@
 #ifndef WORLD_H_
 #define WORLD_H_
 
+// Headers
+#include <map>
+#include <vector>
+#include <string>
+#include "../Utilities/Types.h"
+
 // Namespaces
 namespace iSAM {
+
+using std::string;
+using std::map;
+using std::vector;
+using iSAM::Utilities::Double;
 
 /**
  * Class Definition
  */
-class World {
+class Partition {
 public:
   // Methods
-  World();
-  virtual ~World();
+  Partition();
+  virtual ~Partition();
 
 private:
   // Members
-  double**                    partition_; // 2D Array (Category[H] x Age[W])
-  double**                    adjustment_partition_; // Partition that holds modifications to be made
+  vector<vector<Double> >     partition_; // 2D Array (Category[H] x Age[W])
+  vector<vector<Double> >     adjustment_partition_; // Partition that holds modifications to be made
 };
 
 } /* namespace iSAM */

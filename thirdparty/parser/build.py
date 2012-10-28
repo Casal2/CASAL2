@@ -26,13 +26,10 @@ os.system("ar rvs parser.a parser.o 1>> isam_build.log 2>>&1")
     
 # Move our headers and libraries
 print '-- Moving headers and libraries'
-destPath = '..\\..\\..\\' + targetPath + '\\'
+destPath = '..\\..\\..\\' + targetPath
 
-os.makedirs(destPath + "\\include")
-os.makedirs(destPath + "\\lib")
-
-shutil.move('parser.a', destPath + "\\lib\\")
-shutil.move('parser.h', destPath + "\\include\\")
+shutil.copy('parser.a', destPath + "\\lib\\")
+shutil.copy('parser.h', destPath + "\\include\\")
 
 # Finally touch the success file to create it
-os.system('touch ..\\..\\..\\' + targetPath + '\\isam.success')
+os.system('touch ..\\..\\..\\' + targetPath + '\\parser.success')

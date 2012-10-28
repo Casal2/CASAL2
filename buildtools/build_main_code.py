@@ -10,7 +10,8 @@ print '#########################################################################
 
 # Variables
 operatingSystem = sys.platform
-buildType = os.getenv('isam_build_type')
+buildType   = os.getenv('isam_build_type')
+buildParam  = os.getenv('isam_build_param', '')
 
 if operatingSystem == 'win32':
     cmakeCompiler = 'MinGW'
@@ -25,7 +26,11 @@ if not os.path.exists(outputDirectory):
 os.chdir(outputDirectory)
 
 print '-> Generating CMake File'
-subprocess.call('cmake -G "' + cmakeCompiler + ' Makefiles" -D' + buildType.upper() +'=1 ..\\..\\..')
+if buildParam != '':
+    print '-> Build Parameter: ' + buildParam.upper()
+    subprocess.call('cmake -G "' + cmakeCompiler + ' Makefiles" -D' + buildType.upper() + '=1 -D' +  buildParam.upper() + '=1 ..\\..\\..')
+else:
+    subprocess.call('cmake -G "' + cmakeCompiler + ' Makefiles" -D' + buildType.upper() + '=1 ..\\..\\..')
 
 print '-> Building software. Build Type: ' + buildType.upper()
-subprocess.call('make')
+os.system('mingw32-make')

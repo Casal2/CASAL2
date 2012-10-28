@@ -13,14 +13,21 @@ print '#########################################################################
 path="thirdparty\\"
 operatingSystem = sys.platform
 cwd = os.getcwd()
+buildParam = os.getenv('isam_build_param', '')   
 
-# Ensure Destination Path is ready
+# Ensure Destination Paths is ready
 thirdPartyBuildFolder = 'build\\' + operatingSystem + '\\thirdparty'
 if not os.path.exists(thirdPartyBuildFolder):
     os.makedirs(thirdPartyBuildFolder)
-
-buildParam = os.getenv('isam_build_param', '')   
     
+thirdPartyIncludeFolder = 'build\\' + operatingSystem + '\\thirdparty\\include'
+if not os.path.exists(thirdPartyIncludeFolder):
+    os.makedirs(thirdPartyIncludeFolder)
+
+thirdPartyLibFolder = 'build\\' + operatingSystem + '\\thirdparty\\lib'
+if not os.path.exists(thirdPartyLibFolder):
+    os.makedirs(thirdPartyLibFolder)    
+        
 # Inside every thirdparty folder will exist either
 # build.py - Build file for all platforms
 # windows.py - Build file for Windows
@@ -34,15 +41,11 @@ for fname in dirList:
     os.chdir(cwd)
     
     # Setup the target directories for our output
-    targetDirectory = 'build\\' + operatingSystem + '\\thirdparty\\' + fname
-    if os.path.exists(targetDirectory + '\\isam.success') and buildParam == "":   
+    targetDirectory = 'build\\' + operatingSystem + '\\thirdparty\\'
+    if os.path.exists(targetDirectory + '\\' + fname + '.success') and buildParam == "":   
         print '--> Skipping library: ' + fname + ' (already built) '
         continue
-    else:
-        if os.path.exists(targetDirectory):
-            shutil.rmtree(targetDirectory, True)
-        os.makedirs(targetDirectory)
-    
+   
     print ''
     print '--> Building Library: ' + fname
     
@@ -63,8 +66,8 @@ for fname in dirList:
             subprocess.call('python linux.py')
 
     os.chdir(cwd)
-    if not os.path.exists(targetDirectory + "\\isam.success"):                
-        shutil.rmtree(targetDirectory, True)
+    if not os.path.exists(targetDirectory + "\\" + fname + ".success"):                
+        #shutil.rmtree(targetDirectory, True)
         print '## ERROR - Failed to build third party library: ' + fname
         sys.exit(-1)               
 

@@ -1,10 +1,12 @@
 import os
 import os.path
 import shutil
+from distutils import dir_util
 
 # Variables
 boostFileName = 'boost_1_50_0'
 targetPath    = os.getenv('isam_third_party_target_directory')
+targetPath = '..\\..\\..\\' + targetPath + '\\'
 
 # Clean our any existing files if they already exist
 print '-- Cleaning Boost files'
@@ -27,7 +29,6 @@ if os.path.exists('temp.tar'):
 
 # Build Boost
 print '-- Building Boost - check isam_build.log for progress - estimated time 30 minutes'
-oldPath = os.getcwd()
 os.chdir(boostFileName)
 
 os.system('bootstrap.bat gcc 1> isam_bootstrap.log 2>&1')
@@ -35,7 +36,7 @@ os.system('b2.exe --toolset=gcc runtime-link=static threading=multi 1> isam_buil
     
 # Move our headers and libraries
 print '-- Moving headers and libraries'
-os.system('mv boost ..\\..\\..\\' + targetPath + '\\include\\')
-os.system('mv stage\\lib ..\\..\\..\\' + targetPath + '\\lib')
+dir_util.copy_tree('boost', targetPath + 'include\\boost\\')
+dir_util.copy_tree('stage\\lib', targetPath + 'lib')
 
-os.system('touch ..\\..\\..\\' + targetPath + '\\isam.success')
+os.system('touch ' + targetPath + 'boost.success')

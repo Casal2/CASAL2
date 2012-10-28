@@ -1,0 +1,3 @@
+1. Accessing the partition should be done using accessors only
+2. Categories are time-varying (Shadow-Partition?)
+3. Processes etc will be part of an "execution-chain" that is pre-built before executing the model

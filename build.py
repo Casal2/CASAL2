@@ -69,6 +69,7 @@ if buildType.upper() == "HELP" or buildType == "?":
     print 'doBuild <buildType> <buildParam>'
     print ''
     print 'Valid Build Types:'
+    print '  clean - Remove any previous build information'
     print '  thirdparty - Builds required third party libraries'
     print '  debug - Builds a debug version of iSAM (default)'
     print '  release - Builds a release version of iSAM'
@@ -80,8 +81,8 @@ if buildType.upper() == "HELP" or buildType == "?":
     print '  admb - Use ADMB auto-differentiation in compiled executable'
     sys.exit()    
     
-if buildType.upper() != "DEBUG" and buildType.upper() != "RELEASE" and buildType.upper() != "THIRDPARTY":
-    sys.exit('Invalid build type ' + buildType + '. Supported build types are "release" and "debug" and "thirdparty"')    
+if buildType.upper() != "DEBUG" and buildType.upper() != "RELEASE" and buildType.upper() != "THIRDPARTY" and buildType.upper() != "CLEAN":
+    sys.exit('Invalid build type ' + buildType + '. Supported build types are "release", "debug", "clean" and "thirdparty"')    
     
 os.putenv('isam_build_type', buildType)
 os.putenv('isam_build_param', buildParam)    
@@ -89,5 +90,11 @@ os.putenv('isam_build_param', buildParam)
 # Start to build parts of the system
 if buildType.upper() == "THIRDPARTY":
     subprocess.call('python ' + cwd + 'buildtools\\build_third_party.py')
+elif buildType.upper() == "CLEAN":
+    print '-> Cleaning previous build information'
+    os.system('rm -rf build\\win32\\debug')    
+    os.system('rm -rf build\\win32\\release')    
+    os.system('rm -rf build/linux/debug')    
+    os.system('rm -rf build/linux/release')    
 else:
     subprocess.call('python ' + cwd + 'buildtools\\build_main_code.py ')
