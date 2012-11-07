@@ -7,8 +7,8 @@
 
 #include "ConstantMortality.h"
 
-namespace iSAM {
-namespace Processes {
+namespace isam {
+namespace processes {
 
 ConstantMortality::ConstantMortality() {
   // TODO Auto-generated constructor stub
@@ -19,5 +19,5 @@ ConstantMortality::~ConstantMortality() {
   // TODO Auto-generated destructor stub
 }
 
-} /* namespace Processes */
-} /* namespace iSAM */
+} /* namespace processes */
+} /* namespace isam */

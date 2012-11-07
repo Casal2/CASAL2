@@ -19,8 +19,8 @@
 #define FACTORY_H_
 
 // namespaces
-namespace iSAM {
-namespace Base {
+namespace isam {
+namespace base {
 
 /**
  * Class definition
@@ -32,6 +32,6 @@ private:
   virtual ~Factory() { };
 };
 
-} /* namespace Base */
-} /* namespace iSAM */
+} /* namespace base */
+} /* namespace isam */
 #endif /* FACTORY_H_ */

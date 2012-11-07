@@ -11,8 +11,8 @@
  */
 
 // Namespaces
-namespace iSAM {
-namespace Base {
+namespace isam {
+namespace base {
 
 /**
  * Default constructor
@@ -38,5 +38,5 @@ ClassType& Manager<ClassType, StoredType>::Instance() {
   return singleton;
 }
 
-} /* namespae Base */
-} /* namespace iSAM */
+} /* namespae base */
+} /* namespace isam */

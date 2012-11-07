@@ -13,7 +13,7 @@
 // Headers
 #include "GlobalConfiguration.h"
 
-namespace iSAM {
+namespace isam {
 
 /**
  * Default Constructor
@@ -46,4 +46,4 @@ void GlobalConfiguration::Clear() {
   command_line_parameters_.clear();
 }
 
-} /* namespace iSAM */
+} /* namespace isam */

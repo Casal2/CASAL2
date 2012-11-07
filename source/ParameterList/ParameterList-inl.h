@@ -23,7 +23,7 @@
 using std::cout;
 using std::endl;
 
-namespace iSAM {
+namespace isam {
 /**
  * This method will fill the vector <list> with any values stored
  * against the parameter <name>
@@ -56,5 +56,5 @@ void ParameterList::fillVector(vector<Type> &list, string name, bool optional) {
   }
 }
 
-} /* namespace iSAM */
+} /* namespace isam */
 #endif /* PARAMETERLIST_INL_H_ */

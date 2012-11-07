@@ -8,7 +8,7 @@
 #ifndef PROCESS_H_
 #define PROCESS_H_
 
-namespace iSAM {
+namespace isam {
 
 class Process {
 public:
@@ -21,5 +21,5 @@ public:
 //  virtual void                Rebuild() = 0;
 };
 
-} /* namespace iSAM */
+} /* namespace isam */
 #endif /* PROCESS_H_ */

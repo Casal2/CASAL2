@@ -11,34 +11,24 @@
  */
 
 // Headers
+#include "Loader.h"
+
 #include <fstream>
 #include <iostream>
+#include <algorithm>
 
-#include "Loader.h"
-#include "../Translations/Translations.h"
-#include "../Utilities/To.h"
+#include "Translations/Translations.h"
+#include "Utilities/To.h"
 
 // Namespaces
 using std::ifstream;
 using std::cout;
 using std::endl;
 
-namespace util = iSAM::Utilities;
+namespace util = isam::utilities;
 
-namespace iSAM {
-namespace Configuration {
-
-/**
- * Default constructor
- */
-Loader::Loader() {
-}
-
-/**
- * Destructor
- */
-Loader::~Loader() {
-}
+namespace isam {
+namespace configuration {
 
 /**
  * Load the configuration file into our system. This method will
@@ -241,7 +231,7 @@ void Loader::LoadConfigIntoCache(string file_name) {
 /**
  *
  */
-void Loader::AssignParameters(shared_ptr<Object> object) {
+void Loader::AssignParameters(shared_ptr<base::Object> object) {
   try {
      // Extra Label
      int space_location = current_block_[0].find(" ");
@@ -296,7 +286,7 @@ void Loader::AssignParameters(shared_ptr<Object> object) {
 /**
  *
  */
-void Loader::AssignTableParameters(shared_ptr<Object> object, int &current_index) {
+void Loader::AssignTableParameters(shared_ptr<base::Object> object, int &current_index) {
   try {
     string label = "";
     vector<string> rows;
@@ -379,8 +369,8 @@ void Loader::SplitLineIntoVector(string line, vector<string> &parameters) {
     parameters.push_back(line);
 }
 
-} /* namespace Configuration */
-} /* namespace iSAM */
+} /* namespace configuration */
+} /* namespace isam */
 
 
 

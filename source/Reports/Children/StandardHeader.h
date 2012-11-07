@@ -21,15 +21,15 @@
 #endif
 
 // headers
-#include "../Report.h"
+#include "Reports/Report.h"
 
 // Namespaces
-namespace iSAM {
-namespace Reports {
+namespace isam {
+namespace reports {
 /**
  * Class Definition
  */
-class StandardHeader : public iSAM::Report {
+class StandardHeader : public isam::Report {
 public:
   // Functions
   StandardHeader();
@@ -49,7 +49,7 @@ protected:
 #endif
 };
 
-} /* namespace Report */
-} /* namespace iSAM */
+} /* namespace report */
+} /* namespace isam */
 
 #endif /* CSTANDARDHEADERREPORT_H_ */

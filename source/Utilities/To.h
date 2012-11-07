@@ -19,55 +19,68 @@
 
 // Headers
 #include <string>
+#include <vector>
 #include <boost/lexical_cast.hpp>
 
-#include "Exception.h"
+#include "Utilities/Exception.h"
 
-namespace iSAM {
-namespace Utilities {
+// Namespaces
+namespace isam {
+namespace utilities {
+
+using std::vector;
+
+
+/**
+ * This method converts a string into a lowercase version of it
+ *
+ * @param Copy of the string to lowercase
+ * @return a lowercase version of the string
+ */
+inline string ToLowercase(const ::std::string arg) {
+  string value = arg;
+  for (char &c : value)
+    c = tolower(c);
+
+  return value;
+};
 
 /**
  * This is a shortened version of the method used
  * to call boost::lexical_cast<Target>(source);.
  */
 template<typename Target, typename Source>
-Target To(const Source& arg) {
+Target To(const Source arg) {
   return boost::lexical_cast<Target>(arg);
 };
 
 /**
  * This is one of our specializations that handles
  * boolean types
+ *
+ * @param arg The arguement to check for valid boolean type
+ * return true/false. Exception on failure
  */
 template<>
-inline bool To(const ::std::string& arg) {
+inline bool To(const ::std::string arg) {
+  vector<string> true_values  = { "t", "true" };
+  vector<string> false_values = { "f", "false" };
 
-  string value = arg;
-  for (unsigned i = 0; i < value.length(); ++i)
-    value[i] = toupper(value[i]);
+  string value = ToLowercase(arg);
 
-  if (arg == "TRUE" || arg == "T")
+  if (std::find(true_values.begin(), true_values.end(), value) != true_values.end())
     return true;
-  else if (arg == "FALSE" || arg == "F")
+  if (std::find(false_values.begin(), false_values.end(), value) != false_values.end())
     return false;
 
-  THROW_EXCEPTION("Invalid boolean conversion from string " + arg);
-};
-
-/**
- * This method converts a string into a lowercase version of it
- */
-inline string ToLowercase(const ::std::string &arg) {
-  string return_value = arg;
-  for (unsigned i = 0; i < return_value.size(); ++i)
-    return_value[i] = tolower(return_value[i]);
-
-  return return_value;
+  THROW_EXCEPTION("Could not convert string value into a boolean " << arg);
 };
 
 
-} /* namespace Utilities */
-} /* namespace iSAM */
+
+
+} /* namespace utilities */
+} /* namespace isam */
 
 
 #endif /* TO_H_ */

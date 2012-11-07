@@ -15,7 +15,7 @@
 #include "RuntimeController/RuntimeController.h"
 
 // Namespaces
-using namespace iSAM;
+using namespace isam;
 using std::cout;
 using std::endl;
 
@@ -25,7 +25,7 @@ using std::endl;
 int main(int argc, char * argv[]) {
 
   // Create instance now so it can record the time.
-  Reports::StandardHeader standard_report;
+  reports::StandardHeader standard_report;
 
   /**
    * Store our command line parameters

@@ -10,28 +10,28 @@
  * $Date: 2008-03-04 16:33:32 +1300 (Tue, 04 Mar 2008) $
  */
 
-// Global headers
+// Headers
+#include "ParameterList.h"
+
 #include <map>
 #include <vector>
 #include <string>
 #include <iostream>
 #include <algorithm>
 
-// Local headers
-#include "ParameterList.h"
-#include "../Utilities/To.h"
-#include "../Utilities/Exception.h"
-#include "../Translations/Translations.h"
+#include "Translations/Translations.h"
+#include "Utilities/To.h"
+#include "Utilities/Exception.h"
 
 // Using
-namespace util = iSAM::Utilities;
+namespace util = isam::utilities;
 using std::map;
 using std::vector;
 using std::string;
 using std::cout;
 using std::endl;
 
-namespace iSAM {
+namespace isam {
 
 /**
  * Default constructor
@@ -480,4 +480,4 @@ void ParameterList::clear() {
   tables_.clear();
 }
 
-}
+} /* namespace isam */

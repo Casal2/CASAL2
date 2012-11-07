@@ -7,8 +7,8 @@
 
 #include "Ageing.h"
 
-namespace iSAM {
-namespace Processes {
+namespace isam {
+namespace processes {
 
 Ageing::Ageing() {
   // TODO Auto-generated constructor stub
@@ -19,5 +19,5 @@ Ageing::~Ageing() {
   // TODO Auto-generated destructor stub
 }
 
-} /* namespace Processes */
-} /* namespace iSAM */
+} /* namespace processes */
+} /* namespace isam */

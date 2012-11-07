@@ -18,12 +18,12 @@
 #define AGEING_H_
 
 // Headers
-#include "../Process.h"
+#include "Processes/Process.h"
 
-namespace iSAM {
-namespace Processes {
+namespace isam {
+namespace processes {
 
-class Ageing : public iSAM::Process {
+class Ageing : public isam::Process {
 public:
   // Methods
   Ageing();
@@ -31,6 +31,6 @@ public:
 
 };
 
-} /* namespace Processes */
-} /* namespace iSAM */
+} /* namespace processes */
+} /* namespace isam */
 #endif /* AGEING_H_ */

@@ -7,7 +7,7 @@
 
 #include "Process.h"
 
-namespace iSAM {
+namespace isam {
 
 Process::Process() {
   // TODO Auto-generated constructor stub

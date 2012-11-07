@@ -15,7 +15,7 @@
  */
 #include "Report.h"
 
-namespace iSAM {
+namespace isam {
 
 Report::Report() {
 }
@@ -23,4 +23,4 @@ Report::Report() {
 Report::~Report() {
 }
 
-} /* namespace iSAM */
+} /* namespace isam */

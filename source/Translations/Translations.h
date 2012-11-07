@@ -15,7 +15,7 @@
 #endif
 
 #if LANGUAGE == LANGUAGE_UK
-#include "English_UK.h"
+#include "Translations/English_UK.h"
 #endif
 
 #endif /* TRANSLATIONS_H_ */

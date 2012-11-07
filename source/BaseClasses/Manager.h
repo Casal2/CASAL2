@@ -23,11 +23,11 @@
 #include <vector>
 #include <boost/shared_ptr.hpp>
 
-#include "../Utilities/NoCopy.h"
+#include "Utilities/NoCopy.h"
 
 // Namespaces
-namespace iSAM {
-namespace Base {
+namespace isam {
+namespace base {
 
 using boost::shared_ptr;
 using std::vector;
@@ -53,8 +53,8 @@ protected:
   DISALLOW_COPY_AND_ASSIGN(Manager);
 };
 
-} /* namespace Base */
-} /* namespace iSAM */
+} /* namespace base */
+} /* namespace isam */
 
 #include "Manager-inl.h"
 

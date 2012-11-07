@@ -22,10 +22,10 @@
 // Headers
 #include <boost/shared_ptr.hpp>
 
-#include "../GlobalConfiguration/GlobalConfiguration.h"
+#include "GlobalConfiguration/GlobalConfiguration.h"
 
 // Namespaces
-namespace iSAM {
+namespace isam {
 
 namespace RunMode {
 typedef enum {
@@ -68,5 +68,5 @@ private:
 // Typdef
 typedef boost::shared_ptr<RuntimeController> RuntimeControllerPtr;
 
-} /* namespace iSAM */
+} /* namespace isam */
 #endif /* RUNTIMECONTROLLER_H_ */

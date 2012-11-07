@@ -16,7 +16,7 @@
 
 // Headers
 #include "RuntimeController.h"
-#include "../Utilities/Exception.h"
+#include "Utilities/Exception.h"
 
 #include <iostream>
 #include <sstream>
@@ -30,7 +30,7 @@ using std::cout;
 using std::endl;
 using std::ostringstream;
 
-namespace iSAM {
+namespace isam {
 
 /**
  * Default Constructor
@@ -139,7 +139,7 @@ void RuntimeController::ParseCommandLine(int argc, const char* argv[]) {
     global_config_->set_config_file(parameters["file"].as<string>());
 }
 
-} /* namespace iSAM */
+} /* namespace isam */
 
 
 

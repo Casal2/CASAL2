@@ -24,16 +24,16 @@
 // Headers
 #include <string>
 
-#include "../GlobalConfiguration/GlobalConfiguration.h"
-#include "../Translations/Translations.h"
-#include "../Utilities/NoCopy.h"
-#include "../ParameterList/ParameterList.h"
+#include "GlobalConfiguration/GlobalConfiguration.h"
+#include "ParameterList/ParameterList.h"
+#include "Translations/Translations.h"
+#include "Utilities/NoCopy.h"
 
 // Namespaces
 using std::string;
 
-namespace iSAM {
-namespace Base {
+namespace isam {
+namespace base {
 
 /**
  * Class Definition
@@ -58,6 +58,6 @@ protected:
   DISALLOW_COPY_AND_ASSIGN(Object);
 };
 
-} /* namespace Base */
-} /* namespace iSAM */
+} /* namespace base */
+} /* namespace isam */
 #endif /* BASEOBJECT_H_ */

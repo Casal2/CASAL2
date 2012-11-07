@@ -13,8 +13,8 @@
 // Headers
 #include "Object.h"
 
-namespace iSAM {
-namespace Base {
+namespace isam {
+namespace base {
 /**
  * Default Constructor
  */
@@ -31,5 +31,5 @@ Object::Object() {
 Object::~Object() {
 }
 
-} /* namespace Base */
-} /* namespace iSAM */
+} /* namespace base */
+} /* namespace isam */

@@ -23,8 +23,8 @@
 #include <string>
 #include <boost/shared_ptr.hpp>
 
-#include "../Translations/Translations.h"
-#include "../Utilities/To.h"
+#include "Translations/Translations.h"
+#include "Utilities/To.h"
 
 // Namespaces
 using std::map;
@@ -32,9 +32,9 @@ using std::vector;
 using std::string;
 using boost::shared_ptr;
 
-namespace util = iSAM::Utilities;
+namespace util = isam::utilities;
 
-namespace iSAM {
+namespace isam {
 
 /**
  * Class Definitiion
@@ -71,5 +71,5 @@ private:
 // Typedef
 typedef boost::shared_ptr<GlobalConfiguration> GlobalConfigurationPtr;
 
-} /* namespace iSAM */
+} /* namespace isam */
 #endif /* GLOBALCONFIGURATION_H_ */

@@ -21,15 +21,30 @@
 #include <map>
 #include <vector>
 #include <string>
-#include "../Utilities/Types.h"
+
+#include "Utilities/Types.h"
 
 // Namespaces
-namespace iSAM {
+namespace isam {
 
 using std::string;
 using std::map;
 using std::vector;
-using iSAM::Utilities::Double;
+using isam::utilities::Double;
+
+enum ModelType {
+  kLengthModel,
+  kAgeModel,
+  kCustomModel
+};
+
+/**
+ * Structs
+ */
+struct CategoryOptions {
+  string                name_;
+  vector<string>        bins_;
+};
 
 /**
  * Class Definition
@@ -37,14 +52,14 @@ using iSAM::Utilities::Double;
 class Partition {
 public:
   // Methods
-  Partition();
-  virtual ~Partition();
+  Partition() = default;
+  virtual ~Partition() = default;
 
 private:
   // Members
-  vector<vector<Double> >     partition_; // 2D Array (Category[H] x Age[W])
-  vector<vector<Double> >     adjustment_partition_; // Partition that holds modifications to be made
+  vector<CategoryOptions>       categories_;
+  map<string, vector<Double> >  partition_;  // 2D Array map<Category, vector<Age/Length/Bin> >
 };
 
-} /* namespace iSAM */
+} /* namespace isam */
 #endif /* WORLD_H_ */

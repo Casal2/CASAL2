@@ -8,8 +8,8 @@
 #ifndef CONSTANTMORTALITY_H_
 #define CONSTANTMORTALITY_H_
 
-namespace iSAM {
-namespace Processes {
+namespace isam {
+namespace processes {
 
 class ConstantMortality {
 public:
@@ -17,6 +17,6 @@ public:
   virtual ~ConstantMortality();
 };
 
-} /* namespace Processes */
-} /* namespace iSAM */
+} /* namespace processes */
+} /* namespace isam */
 #endif /* CONSTANTMORTALITY_H_ */

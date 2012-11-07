@@ -17,13 +17,13 @@
 #define REPORT_H_
 
 // Headers
-#include "../BaseClasses/Object.h"
+#include "BaseClasses/Object.h"
 
-namespace iSAM {
+namespace isam {
 /**
  * Class definition
  */
-class Report : public Base::Object {
+class Report : public base::Object {
 public:
   // Methods
   Report();
@@ -33,5 +33,5 @@ public:
   virtual void                Finalise() = 0;
 };
 
-} /* namespace iSAM */
+} /* namespace isam */
 #endif /* REPORT_H_ */

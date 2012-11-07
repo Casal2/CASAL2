@@ -67,7 +67,7 @@ using std::vector;
 using std::string;
 using std::set;
 
-namespace iSAM {
+namespace isam {
 
 /**
  * Struct Definition: SParameterTable
@@ -120,7 +120,7 @@ protected:
 
 };
 
-} /* namespace iSAM */
+} /* namespace isam */
 
 // Inline include for template methods
 #include "ParameterList-inl.h"

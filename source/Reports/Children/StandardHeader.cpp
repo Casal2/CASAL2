@@ -7,7 +7,9 @@
 // $Date: 2008-03-04 16:33:32 +1300 (Tue, 04 Mar 2008) $
 //============================================================================
 
-// Global Headers
+// Headers
+#include "StandardHeader.h"
+
 #include <iostream>
 #include <vector>
 #include <iomanip>
@@ -16,10 +18,7 @@
 #include <ctime>
 #include <sstream>
 
-
-// Local Headers
-#include "StandardHeader.h"
-#include "../../Version.h"
+#include "Version.h"
 
 // Namespaces
 using std::endl;
@@ -27,8 +26,8 @@ using std::cout;
 using std::cerr;
 using std::ostringstream;
 
-namespace iSAM {
-namespace Reports {
+namespace isam {
+namespace reports {
 
 /**
  * Default Constructor
@@ -143,5 +142,5 @@ void StandardHeader::Finalise() {
   cout << "Completed" << endl;
 }
 
-} /* namespace Report */
-} /* namespace iSAM */
+} /* namespace report */
+} /* namespace isam */

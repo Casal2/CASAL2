@@ -8,8 +8,8 @@
 #ifndef CONSTANTRECRUITMENT_H_
 #define CONSTANTRECRUITMENT_H_
 
-namespace iSAM {
-namespace Processes {
+namespace isam {
+namespace processes {
 
 class ConstantRecruitment {
 public:
@@ -17,6 +17,6 @@ public:
   virtual ~ConstantRecruitment();
 };
 
-} /* namespace Processes */
-} /* namespace iSAM */
+} /* namespace processes */
+} /* namespace isam */
 #endif /* CONSTANTRECRUITMENT_H_ */

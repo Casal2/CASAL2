@@ -18,8 +18,8 @@
 #define TYPES_H_
 
 // Namespaces
-namespace iSAM {
-namespace Utilities {
+namespace isam {
+namespace utilities {
 
 /**
  * double conditional depending on if we're using ADMB or not
@@ -35,8 +35,8 @@ typedef double Double;
 
 
 
-} /* namespace Utilities */
-} /* namespace iSAM */
+} /* namespace utilities */
+} /* namespace isam */
 
 
 

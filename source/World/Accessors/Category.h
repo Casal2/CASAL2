@@ -18,12 +18,11 @@
 #define CATEGORY_H_
 
 // Headers
-#include "../World.h"
+#include "World/Partition.h"
 
 // Namespaces
-namespace iSAM {
-namespace World {
-namespace Acessors {
+namespace isam {
+namespace accessors {
 
 typedef vector<Double>::iterator CategoryIterator;
 
@@ -42,7 +41,6 @@ private:
   CategoryIterator            iterator_;
 };
 
-}/* namespace Acessors */
-} /* namespace World */
-} /* namespace iSAM */
+}/* namespace accessors */
+} /* namespace isam */
 #endif /* CATEGORY_H_ */
