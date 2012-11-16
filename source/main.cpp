@@ -10,9 +10,11 @@
 #include <iostream>
 
 #include "Version.h"
+#include "ConfigurationLoader/Loader.h"
 #include "GlobalConfiguration/GlobalConfiguration.h"
+#include "Model/Model.h"
 #include "Reports/Children/StandardHeader.h"
-#include "RuntimeController/RuntimeController.h"
+#include "Utilities/CommandLineParser/CommandLineParser.h"
 
 // Namespaces
 using namespace isam;
@@ -41,13 +43,14 @@ int main(int argc, char * argv[]) {
     /**
      * Ask the runtime controller to parse the parameters.
      */
-    RuntimeControllerPtr runtime = RuntimeController::Instance();
-    runtime->ParseCommandLine(argc, (const char **)argv);
+    utilities::CommandLineParser parser;
+    parser.Parse(argc, (const char **)argv);
 
     /**
      * Check the run mode and call the handler.
      */
-    switch (runtime->run_mode()) {
+    ModelPtr model = Model::Instance();
+    switch (model->run_mode()) {
     case RunMode::kInvalid:
       THROW_EXCEPTION("Invalid run mode specified.");
       break;
@@ -61,15 +64,29 @@ int main(int argc, char * argv[]) {
       break;
 
     case RunMode::kHelp:
-      cout << runtime->command_line_usage() << endl;
+      cout << parser.command_line_usage() << endl;
       break;
 
     default:
-      standard_report.Prepare();
+      if (!config->debug_mode())
+        standard_report.Prepare();
 
-      // runTime->run();
+      /**
+       * Load our configuration files
+       */
+      configuration::Loader config_loader;
+      config_loader.LoadConfigFile();
 
-      standard_report.Finalise();
+      /**
+       * Override any config values
+       */
+      parser.OverrideGlobalValues();
+
+      // Run the model
+      model->Run();
+
+      if (!config->debug_mode())
+        standard_report.Finalise();
       break;
     }
 
@@ -91,15 +108,6 @@ int main(int argc, char * argv[]) {
     cout << endl;
     return -1;
 
-  } catch(exception &isam_exception) {
-    /**
-     * Unexpected exception was caught. We should be catching and handling all
-     * exceptions internally and bubbling them up as const strings.
-     */
-    cout << "## ERROR - iSAM has encountered an unexpected exception" << endl;
-    cout << "## Exception details: " << endl;
-    cout << "## " << isam_exception.what() << endl;
-    return -1;
   }
 
 	return 0;

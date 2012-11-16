@@ -26,11 +26,14 @@
 #include <string>
 
 #include "BaseClasses/Object.h"
+#include "ParameterList/Table.h"
 
 // Namespaces
 using std::vector;
 using std::string;
 using isam::base::Object;
+using isam::base::ObjectPtr;
+using isam::parameter::TablePtr;
 
 namespace isam {
 namespace configuration {
@@ -43,21 +46,33 @@ public:
   // Methods
   Loader() = default;
   virtual                     ~Loader() = default;
-  void                        LoadConfigFile(bool skip_loading_file = false);
-  void                        LoadIntoCache(vector<string> &lines);
+  void                        LoadConfigFile();
+  bool                        CreateNewObject();
 
-protected:
-  // Methods
-  void                        ProcessBlock();
-  string                      GetTypeFromCurrentBlock();
-  void                        LoadConfigIntoCache(string file_name);
-  void                        AssignParameters(shared_ptr<base::Object> object);
-  void                        AssignTableParameters(shared_ptr<base::Object> object, int &current_index);
-  void                        SplitLineIntoVector(string line, vector<string> &parameters);
+  // Accessors
+  string                      block_type() { return block_type_; }
+  void                        set_block_type(string new_value) { block_type_ = new_value; }
+  string                      block_label() { return block_label_; }
+  void                        set_block_label(string new_value) { block_label_ = new_value; }
+  string                      object_type() { return object_type_; }
+  void                        set_object_type(string new_value) { object_type_ = new_value; }
+  bool                        needs_new_object() { return needs_new_object_; }
+  void                        set_needs_new_object(bool new_value) { needs_new_object_ = new_value; }
+  ObjectPtr                   current_object() { return current_object_; }
+  bool                        loading_table() { return loading_table_; }
+  void                        set_loading_table(bool new_value) { loading_table_ = new_value; }
+  TablePtr                    current_table() { return current_table_; }
+  void                        set_current_table(TablePtr new_value) { current_table_ = new_value; }
 
+private:
   // Members
-  vector<string>              lines_;
-  vector<string>              current_block_;
+  string                      block_type_       = "";
+  string                      block_label_      = "";
+  string                      object_type_      = "";
+  bool                        needs_new_object_ = true;
+  ObjectPtr                   current_object_;
+  TablePtr                    current_table_;
+  bool                        loading_table_    = false;
 };
 
 } /* namespace configuration */

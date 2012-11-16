@@ -19,6 +19,10 @@ namespace isam {
  * Default Constructor
  */
 GlobalConfiguration::GlobalConfiguration() {
+
+  parameters_[PARAM_DEBUG]            = "f";
+  parameters_[PARAM_SKIP_CONFIG_FILE] = "f";
+  parameters_[PARAM_CONFIG_FILE]      = "isam.cfg";
 }
 
 /**

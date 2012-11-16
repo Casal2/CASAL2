@@ -23,8 +23,8 @@
 
 // Headers
 #include <string>
+#include <boost/shared_ptr.hpp>
 
-#include "GlobalConfiguration/GlobalConfiguration.h"
 #include "ParameterList/ParameterList.h"
 #include "Translations/Translations.h"
 #include "Utilities/NoCopy.h"
@@ -44,7 +44,6 @@ public:
   Object();
   virtual                     ~Object();
   string                      Label() { return label_; }
-  void                        AddParameter(const string &name, const string &value) { };
 
   // Accessors and Mutators
   ParameterList&              parameters() { return parameters_; }
@@ -52,11 +51,16 @@ public:
 protected:
   // Members
   string                      label_;
-  GlobalConfigurationPtr      global_config_;
   ParameterList               parameters_;
 
   DISALLOW_COPY_AND_ASSIGN(Object);
 };
+
+/**
+ * Typedef
+ */
+typedef boost::shared_ptr<isam::base::Object> ObjectPtr;
+
 
 } /* namespace base */
 } /* namespace isam */

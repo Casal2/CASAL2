@@ -22,7 +22,6 @@ Object::Object() {
 
   // Default our members
   label_          = "";
-  global_config_  = GlobalConfiguration::Instance();
 }
 
 /**

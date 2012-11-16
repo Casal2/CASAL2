@@ -1,28 +1,30 @@
 /**
- * @file RuntimeController.cpp
+ * @file CommandLineParser.cpp
  * @author  Scott Rasmussen (scott.rasmussen@zaita.com)
  * @version 1.0
- * @date 18/09/2012
+ * @date 16/11/2012
  * @section LICENSE
  *
  * Copyright NIWA Science ©2012 - www.niwa.co.nz
  *
- * @section DESCRIPTION
- *
- * The time class represents a moment of time.
- *
  * $Date: 2008-03-04 16:33:32 +1300 (Tue, 04 Mar 2008) $
  */
 
-// Headers
-#include "RuntimeController.h"
-#include "Utilities/Exception.h"
+ // Headers
+#include "CommandLineParser.h"
 
 #include <iostream>
 #include <sstream>
 #include <boost/program_options.hpp>
 
+#include "GlobalConfiguration/GlobalConfiguration.h"
+#include "Model/Model.h"
+#include "Utilities/Logging/Logging.h"
+
 // Namespaces
+namespace isam {
+namespace utilities {
+
 using boost::program_options::options_description;
 using boost::program_options::value;
 using boost::program_options::variables_map;
@@ -30,33 +32,10 @@ using std::cout;
 using std::endl;
 using std::ostringstream;
 
-namespace isam {
-
 /**
  * Default Constructor
  */
-RuntimeController::RuntimeController() {
-
-  // Assign some variables
-  global_config_ = GlobalConfiguration::Instance();
-  run_mode_      = RunMode::kInvalid;
-
-}
-
-/**
- * Destructor
- */
-RuntimeController::~RuntimeController() {
-}
-
-/**
- * Generic single method to return the static instance.
- *
- * @return shared_ptr to the static instance
- */
-shared_ptr<RuntimeController> RuntimeController::Instance() {
-  RuntimeControllerPtr instance = RuntimeControllerPtr(new RuntimeController());
-  return instance;
+CommandLineParser::CommandLineParser() {
 }
 
 /**
@@ -66,8 +45,7 @@ shared_ptr<RuntimeController> RuntimeController::Instance() {
  * @param argc The number of arguments that have been provided
  * @param argv Pointer to an array containing the arguments
  */
-void RuntimeController::ParseCommandLine(int argc, const char* argv[]) {
-
+void CommandLineParser::Parse(int argc, const char* argv[]) {
   // Build Options menu
   options_description oDesc("Usage");
   oDesc.add_options()
@@ -91,19 +69,32 @@ void RuntimeController::ParseCommandLine(int argc, const char* argv[]) {
   notify(parameters);
 
   /**
+   * Load any variables into the global config that need to be available
+   * immediately
+   */
+  GlobalConfigurationPtr global_config = GlobalConfiguration::Instance();
+  if (parameters.count("debug"))
+    global_config->set_debug_mode("true");
+  if (parameters.count("config"))
+    global_config->set_config_file(parameters["config"].as<string>());
+
+
+  /**
    * Determine what run mode we should be in. If we're
    * in help, version or license then we don't need to continue.
    */
+  ModelPtr model = Model::Instance();
+
   if ( (parameters.count("help")) || (parameters.size() == 0) ) {
-    run_mode_ = RunMode::kHelp;
+    model->set_run_mode(RunMode::kHelp);
     return;
 
   } else if (parameters.count("version")) {
-    run_mode_ = RunMode::kVersion;
+    model->set_run_mode(RunMode::kVersion);
     return;
 
   } else if (parameters.count("license")) {
-    run_mode_ = RunMode::kLicense;
+    model->set_run_mode(RunMode::kLicense);
     return;
   }
 
@@ -117,60 +108,43 @@ void RuntimeController::ParseCommandLine(int argc, const char* argv[]) {
   run_mode_count += parameters.count("estimate");
 
   if (run_mode_count == 0)
-    THROW_EXCEPTION("No valid run modes have been specified");
+    LOG_ERROR("No valid run mode has been specified on the command line. Please specify a valid run mode (e.g -r)");
   if (run_mode_count > 1)
-    THROW_EXCEPTION("More than 1 run mode has been specified");
+    LOG_ERROR("Multiple run modes have been specified on the command line. Only 1 run mode is valid");
 
   if (parameters.count("run"))
-    run_mode_ = RunMode::kBasic;
+    model->set_run_mode(RunMode::kBasic);
   else if (parameters.count("estimate"))
-    run_mode_ = RunMode::kEstimation;
+    model->set_run_mode(RunMode::kEstimation);
   else
-    THROW_EXCEPTION("Invalid run mode has been specified, or this run mode is not currently supported");
+    LOG_ERROR("An invalid or unknown run mode has been specified on the command line.");
 
   /**
-   * TODO: Load the Free-Parameters into the Estimate system
+   * Now we store any variables we want to use to override global defaults.
    */
-  if (parameters.count("debug"))
-    global_config_->set_debug_mode("true");
   if (parameters.count("genseed"))
-    global_config_->set_random_seed(parameters["genseed"].as<string>());
-  if (parameters.count("file"))
-    global_config_->set_config_file(parameters["file"].as<string>());
+    override_values_["genseed"] = parameters["genseed"].as<string>();
 }
 
+/**
+ * This method will take any values that we've stored from
+ * the command line and load them into the global configuration.
+ *
+ * This is done after we parse the configuration files because
+ * some of the information in the configuration files will
+ * be modified by the command line.
+ */
+void CommandLineParser::OverrideGlobalValues() {
+  LOG_TRACE();
+
+  GlobalConfigurationPtr global_config = GlobalConfiguration::Instance();
+  for (auto i = override_values_.begin(); i != override_values_.end(); ++i) {
+    global_config->parameters().Add(i->first, i->second);
+  }
+}
+
+} /* namespace utilities */
 } /* namespace isam */
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

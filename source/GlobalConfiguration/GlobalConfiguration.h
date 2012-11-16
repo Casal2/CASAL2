@@ -23,6 +23,7 @@
 #include <string>
 #include <boost/shared_ptr.hpp>
 
+#include "BaseClasses/Object.h"
 #include "Translations/Translations.h"
 #include "Utilities/To.h"
 
@@ -39,7 +40,7 @@ namespace isam {
 /**
  * Class Definitiion
  */
-class GlobalConfiguration {
+class GlobalConfiguration : public isam::base::Object {
 public:
   // Methods
   static shared_ptr<GlobalConfiguration> Instance();
@@ -56,7 +57,7 @@ public:
   int                         random_seed();
   void                        set_config_file(string value) { parameters_[PARAM_CONFIG_FILE] = value; }
   string                      config_file() { return parameters_[PARAM_CONFIG_FILE]; }
-
+  bool                        skip_config_file() { return util::To<bool>(parameters_[PARAM_SKIP_CONFIG_FILE]); }
 
 private:
   // Methods

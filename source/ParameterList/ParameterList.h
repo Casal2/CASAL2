@@ -61,11 +61,13 @@
 #include <string>
 #include <set>
 
+#include "Table.h"
+
 // Namespaces
 using std::map;
 using std::vector;
 using std::string;
-using std::set;
+using isam::parameter::TablePtr;
 
 namespace isam {
 
@@ -83,40 +85,64 @@ struct ParameterTable {
 class ParameterList {
 public:
   // Methods
-  ParameterList();
-  virtual                     ~ParameterList();
-  void                        registerAllowed(string name);
-  void                        addParameter(string name, string value);
-  void                        setParameter(string name, string value);
-  void                        addTable(string name, vector<string> &columns, vector<string> &data);
-  void                        replaceTable(string tableName, vector<string> &columns, vector<string> &data);
-  bool                        hasParameter(string name, bool checkTables = true);
-  unsigned                    countTables(string name);
-  void                        checkInvalidParameters(bool skipTables = false);
-  vector<string>              getTableNames();
-  void                        clear();
+  ParameterList() = default;
+  virtual                     ~ParameterList() = default;
+  void                        RegisterAllowed(const string label);
+  bool                        HasParameter(const string& label);
+  bool                        Add(const string& label, const string& value);
+  bool                        Add(const string& label, const vector<string>& values);
+  TablePtr                    AddTable(const string& label);
 
-  // Accessors and Mutators
-  string                      getString(string name, bool optional = false, string defaultValue = "");
-  double                      getDouble(string name, bool optional = false, double defaultValue = 0.0);
-  int                         getInt(string name, bool optional = false, int defaultValue = 0);
-  unsigned                    getUnsigned(string name, bool optional = false, unsigned defaultValue = 0);
-  bool                        getBool(string name, bool optional = false, bool defaultValue = true);
-  void                        fillVector(vector<string> &list, string name, bool optional = false);
-  void                        fillVector(vector<double> &list, string name, bool optional = false);
-  void                        fillVector(vector<int> &list, string name, bool optional = false);
-  void                        fillVector(vector<bool> &list, string name, bool optional = false);
-  template<class Type> void   fillVector(vector<Type> &list, string name, bool optional = false);
-
-  // Table getters
-  void                        fillTableColumnVector(vector<string> &list, string tableName, unsigned tableIndex = 0);
-  void                        fillTableDataVector(vector<string> &list, string tableName, unsigned tableIndex = 0);
-
-protected:
+private:
   // Members
-  map<string, vector<string> >          parameters_;
-  vector<string>                        valid_parameters_;
-  map<string, vector<ParameterTable> >  tables_;
+  vector<string>                allowed_parameters_;
+  map<string, vector<string> >  parameters_;
+  map<string, TablePtr>         tables_;
+
+
+
+
+
+
+
+
+//
+//
+//
+//public:
+//  // Methods
+//
+//  void                        addParameter(string name, string value);
+//  void                        setParameter(string name, string value);
+//  void                        addTable(string name, vector<string> &columns, vector<string> &data);
+//  void                        replaceTable(string tableName, vector<string> &columns, vector<string> &data);
+//  bool                        hasParameter(string name, bool checkTables = true);
+//  unsigned                    countTables(string name);
+//  void                        checkInvalidParameters(bool skipTables = false);
+//  vector<string>              getTableNames();
+//  void                        clear();
+//
+//  // Accessors and Mutators
+//  string                      getString(string name, bool optional = false, string defaultValue = "");
+//  double                      getDouble(string name, bool optional = false, double defaultValue = 0.0);
+//  int                         getInt(string name, bool optional = false, int defaultValue = 0);
+//  unsigned                    getUnsigned(string name, bool optional = false, unsigned defaultValue = 0);
+//  bool                        getBool(string name, bool optional = false, bool defaultValue = true);
+//  void                        fillVector(vector<string> &list, string name, bool optional = false);
+//  void                        fillVector(vector<double> &list, string name, bool optional = false);
+//  void                        fillVector(vector<int> &list, string name, bool optional = false);
+//  void                        fillVector(vector<bool> &list, string name, bool optional = false);
+//  template<class Type> void   fillVector(vector<Type> &list, string name, bool optional = false);
+//
+//  // Table getters
+//  void                        fillTableColumnVector(vector<string> &list, string tableName, unsigned tableIndex = 0);
+//  void                        fillTableDataVector(vector<string> &list, string tableName, unsigned tableIndex = 0);
+//
+//protected:
+//  // Members
+////  map<string, vector<string> >          parameters_;
+//  vector<string>                        valid_parameters_;
+//  map<string, vector<ParameterTable> >  tables_;
 
 };
 

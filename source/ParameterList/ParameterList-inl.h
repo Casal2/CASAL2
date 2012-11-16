@@ -32,29 +32,29 @@ namespace isam {
  * @param name The name of the attribute to load the values for
  * @param optional Specifies if an exception is thrown if the value is missing
  */
-template<class Type>
-void ParameterList::fillVector(vector<Type> &list, string name, bool optional) {
-  if (!hasParameter(name)) {
-    if (optional) {
-      return;
-    } else {
-      THROW_EXCEPTION("Parameter has not been defined and is not optional: " + name);
-    }
-  }
-
-  // Clear the list
-  list.clear();
-
-  vector<string>::iterator iter = parameters_[name].begin();
-  while (iter != parameters_[name].end()) {
-    try {
-      list.push_back(boost::lexical_cast<Type>((*iter)));
-    } catch (const std::bad_cast &ex) {
-      THROW_EXCEPTION("Failed to convert type: " + *iter + ". Reason: " + ex.what());
-    }
-    iter++;
-  }
-}
+//template<class Type>
+//void ParameterList::fillVector(vector<Type> &list, string name, bool optional) {
+//  if (!hasParameter(name)) {
+//    if (optional) {
+//      return;
+//    } else {
+//      THROW_EXCEPTION("Parameter has not been defined and is not optional: " + name);
+//    }
+//  }
+//
+//  // Clear the list
+//  list.clear();
+//
+//  vector<string>::iterator iter = parameters_[name].begin();
+//  while (iter != parameters_[name].end()) {
+//    try {
+//      list.push_back(boost::lexical_cast<Type>((*iter)));
+//    } catch (const std::bad_cast &ex) {
+//      THROW_EXCEPTION("Failed to convert type: " + *iter + ". Reason: " + ex.what());
+//    }
+//    iter++;
+//  }
+//}
 
 } /* namespace isam */
 #endif /* PARAMETERLIST_INL_H_ */
