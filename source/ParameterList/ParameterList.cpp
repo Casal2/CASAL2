@@ -61,8 +61,14 @@ bool ParameterList::HasParameter(const string& label) {
  * @param value The value to store
  */
 bool ParameterList::Add(const string& label, const string& value) {
-  if (std::find(allowed_parameters_.begin(), allowed_parameters_.end(), label) == allowed_parameters_.end())
+  if (std::find(allowed_parameters_.begin(), allowed_parameters_.end(), label) == allowed_parameters_.end()) {
+    LOG_INFO("Could not find parameter '" << label << "' in allowed_parameters_");
+    LOG_INFO("Allowed Parameters: n=" << allowed_parameters_.size());
+    for (unsigned i = 0; i < allowed_parameters_.size(); ++i) {
+      LOG_INFO("[" << i << "] = " << allowed_parameters_[i]);
+    }
     return false;
+  }
 
   parameters_[label].push_back(value);
   return true;
@@ -75,16 +81,11 @@ bool ParameterList::Add(const string& label, const string& value) {
  * @param values The values to store against the parameter
  */
 bool ParameterList::Add(const string& label, const vector<string>& values) {
-  if (std::find(allowed_parameters_.begin(), allowed_parameters_.end(), label) == allowed_parameters_.end()) {
-    LOG_INFO("Could not find parameter in allowed_parameters_: " << label);
-    LOG_INFO("Allowed Parameters: " << allowed_parameters_.size());
-    for (unsigned i = 0; i < allowed_parameters_.size(); ++i) {
-      LOG_INFO("[" << i << "] = " << allowed_parameters_[i]);
-    }
-    return false;
-
+  for (unsigned i = 0; i < values.size(); ++i) {
+    if (!this->Add(label, values[i]))
+      return false;
   }
-  parameters_[label].assign(values.begin(), values.end());
+
   return true;
 }
 

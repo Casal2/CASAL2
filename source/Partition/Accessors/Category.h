@@ -18,7 +18,7 @@
 #define CATEGORY_H_
 
 // Headers
-#include "World/Partition.h"
+#include "Partition/Partition.h"
 
 // Namespaces
 namespace isam {
