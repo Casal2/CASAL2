@@ -10,6 +10,10 @@ print '#########################################################################
 
 # Variables
 operatingSystem = sys.platform
+if operatingSystem == 'linux2' or operatingSystem == 'linux3':
+ operatingSystem = 'linux'
+print '--> Operating System: ' + operatingSystem
+
 buildType   = os.getenv('isam_build_type')
 buildParam  = os.getenv('isam_build_param', '')
 
@@ -19,7 +23,7 @@ else:
     cmakeCompiler = 'Unix'
 
 # Change current working directory    
-outputDirectory = 'build\\' + operatingSystem  + '\\' + buildType
+outputDirectory = 'build/' + operatingSystem  + '/' + buildType
 if not os.path.exists(outputDirectory):  
     os.makedirs(outputDirectory)
     
@@ -28,9 +32,13 @@ os.chdir(outputDirectory)
 print '-> Generating CMake File'
 if buildParam != '':
     print '-> Build Parameter: ' + buildParam.upper()
-    subprocess.call('cmake -G "' + cmakeCompiler + ' Makefiles" -D' + buildType.upper() + '=1 -D' +  buildParam.upper() + '=1 ..\\..\\..')
+    os.system('cmake -G "' + cmakeCompiler + ' Makefiles" -D' + buildType.upper() + '=1 -D' +  buildParam.upper() + '=1 ../../..')
 else:
-    subprocess.call('cmake -G "' + cmakeCompiler + ' Makefiles" -D' + buildType.upper() + '=1 ..\\..\\..')
+    os.system('cmake -G "' + cmakeCompiler + ' Makefiles" -D' + buildType.upper() + '=1 ../../..')
 
 print '-> Building software. Build Type: ' + buildType.upper()
-os.system('mingw32-make')
+if operatingSystem == 'win32':
+    os.system('mingw32-make')
+else:
+    os.system('make')
+

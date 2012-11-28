@@ -8,12 +8,16 @@ import fileinput
 operatingSystem = sys.platform
 oldPath = os.getenv('PATH')
 osPath = ''
-cwd = os.getcwd() + '\\'
+cwd = os.path.normpath(os.getcwd())
+
+if operatingSystem == 'linux2' or operatingSystem == 'linux3':
+ operatingSystem = 'linux'
 
 # Modify our system PATH environment variable based on OS
 if operatingSystem == 'win32':        
-    osPath += cwd + 'buildtools\\windows\\unixutils;'
-    osPath += cwd + 'buildtools\\windows\\cmake\\bin;'   
+    osPath += cwd + '\\buildtools\\windows\\unixutils;'
+    osPath += cwd + '\\buildtools\\windows\\cmake\\bin;'   
+    osPath += cwd + '\\buildtools\\windows\\Python27\\;'   
     
 newPath = osPath + oldPath
 os.environ['PATH'] = newPath
@@ -50,18 +54,20 @@ if operatingSystem == 'win32':
     os.system('rm -rf cmd.txt')    
 
 # Change The Path
+if operatingSystem != 'win32':
+    osPath += newPath
 os.environ['PATH'] = osPath 
     
 # Figure out what kind of build we need to do
 buildType  = "DEBUG"
 buildParam = ""
-if len(sys.argv) > 1:
+
+if len(sys.argv) > 1 and len(str(sys.argv[1])) > 1:
     buildType = sys.argv[1]
-if len(sys.argv) > 2:
+if len(sys.argv) > 2 and len(str(sys.argv[2])) > 1:
     buildParam = sys.argv[2]
 
 if buildType.upper() == "HELP" or buildType == "?":
-    os.system("cls")
     print '###########################################################'
     print '# iSAM Build System                                       #'
     print '###########################################################'
@@ -69,7 +75,8 @@ if buildType.upper() == "HELP" or buildType == "?":
     print 'doBuild <buildType> <buildParam>'
     print ''
     print 'Valid Build Types:'
-    print '  clean - Remove any previous build information'
+    print '  clean - Remove any previous debug/release build information'
+    print '  cleanall - Remove all previous build information'
     print '  thirdparty - Builds required third party libraries'
     print '  debug - Builds a debug version of iSAM (default)'
     print '  release - Builds a release version of iSAM'
@@ -81,20 +88,32 @@ if buildType.upper() == "HELP" or buildType == "?":
     print '  admb - Use ADMB auto-differentiation in compiled executable'
     sys.exit()    
     
-if buildType.upper() != "DEBUG" and buildType.upper() != "RELEASE" and buildType.upper() != "THIRDPARTY" and buildType.upper() != "CLEAN":
-    sys.exit('Invalid build type ' + buildType + '. Supported build types are "release", "debug", "clean" and "thirdparty"')    
+if buildType.upper() != "DEBUG" and buildType.upper() != "RELEASE" and buildType.upper() != "THIRDPARTY" and buildType.upper() != "CLEAN" and buildType.upper() != "CLEANALL":
+    print 'Invalid build type ' + buildType + '. Supported build types are "release", "debug", "clean", "cleanall" and "thirdparty"'
+    sys.exit()    
     
-os.putenv('isam_build_type', buildType)
-os.putenv('isam_build_param', buildParam)    
+os.putenv('isam_build_type', buildType.lower())
+os.putenv('isam_build_param', buildParam.lower())    
+os.putenv('isam_operating_system', operatingSystem.lower())
     
 # Start to build parts of the system
 if buildType.upper() == "THIRDPARTY":
-    subprocess.call('python ' + cwd + 'buildtools\\build_third_party.py')
+    os.system('python ' + cwd + '/buildtools/build_third_party.py')
 elif buildType.upper() == "CLEAN":
     print '-> Cleaning previous build information'
-    os.system('rm -rf build\\win32\\debug')    
-    os.system('rm -rf build\\win32\\release')    
+    os.system('rm -rf build/win32/debug')    
+    os.system('rm -rf build/win32/release')    
     os.system('rm -rf build/linux/debug')    
-    os.system('rm -rf build/linux/release')    
+    os.system('rm -rf build/linux/release')  
+elif buildType.upper() == "CLEANALL":    
+    print '-> Cleaning all previous build information'
+    os.system('rm -rf build/win32/debug')    
+    os.system('rm -rf build/win32/release')  
+    os.system('rm -rf build/win32/thirdparty')
+    os.system('rm -rf build/linux/debug')    
+    os.system('rm -rf build/linux/release')  
+    os.system('rm -rf build/linux/thirdparty')
 else:
-    subprocess.call('python ' + cwd + 'buildtools\\build_main_code.py ')
+    command = 'python ' + os.path.normpath(cwd + '/buildtools/build_main_code.py')
+    print 'COMMAND: ' + command
+    os.system(command)

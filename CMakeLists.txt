@@ -38,7 +38,8 @@ ELSEIF (LINUX)
  
 ENDIF ()
 
-SET(COMPILE_OPTIONS "${COMPILE_OPTIONS} -I${CMAKE_HOME_DIRECTORY}/build/${buildOS}/thirdparty/include")
+SET(COMPILE_OPTIONS "${COMPILE_OPTIONS} -I${CMAKE_HOME_DIRECTORY}/source -I${CMAKE_HOME_DIRECTORY}/build/${buildOS}/thirdparty/include")
+SET(COMPILE_OPTIONS "${COMPILE_OPTIONS} -std=c++11 -std=gnu++11")
 MESSAGE("COMPILE_OPTIONS: ${COMPILE_OPTIONS}")
 
 # Get a list of our third party libraries
