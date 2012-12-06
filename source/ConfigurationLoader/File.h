@@ -47,9 +47,6 @@ public:
   void                        Parse();
 
 private:
-  // Methods
-  void                        ParseLine(string &line);
-
   // Members
   Loader*                     loader_;
   string                      file_name_        = "not specified";

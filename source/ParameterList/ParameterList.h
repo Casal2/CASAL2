@@ -72,11 +72,20 @@ using isam::parameter::TablePtr;
 namespace isam {
 
 /**
- * Struct Definition: SParameterTable
+ * Struct Definition: Parameter
+ */
+struct Parameter {
+  vector<string>  values_;
+  string          file_name_; // File values for error reporting
+  unsigned        line_number_;
+};
+/**
+ * Struct Definition: ParameterTable
  */
 struct ParameterTable {
-  vector<string> columns_;
-  vector<string> data_;
+  string          file_name_;
+  unsigned        line_number_;
+  TablePtr        table_;
 };
 
 /**
@@ -89,61 +98,16 @@ public:
   virtual                     ~ParameterList() = default;
   void                        RegisterAllowed(const string label);
   bool                        HasParameter(const string& label);
-  bool                        Add(const string& label, const string& value);
-  bool                        Add(const string& label, const vector<string>& values);
-  TablePtr                    AddTable(const string& label);
+  bool                        Add(const string& label, const string& value, const string& file_name, const unsigned& line_number);
+  bool                        Add(const string& label, const vector<string>& values, const string& file_name, const unsigned& line_number);
+  bool                        AddTable(const string& label, const vector<string>& columns, const vector<vector<string> >& data, const string& file_name, const unsigned& line_number);
+  const Parameter&            Get(const string& label);
 
 private:
   // Members
-  vector<string>                allowed_parameters_;
-  map<string, vector<string> >  parameters_;
-  map<string, TablePtr>         tables_;
-
-
-
-
-
-
-
-
-//
-//
-//
-//public:
-//  // Methods
-//
-//  void                        addParameter(string name, string value);
-//  void                        setParameter(string name, string value);
-//  void                        addTable(string name, vector<string> &columns, vector<string> &data);
-//  void                        replaceTable(string tableName, vector<string> &columns, vector<string> &data);
-//  bool                        hasParameter(string name, bool checkTables = true);
-//  unsigned                    countTables(string name);
-//  void                        checkInvalidParameters(bool skipTables = false);
-//  vector<string>              getTableNames();
-//  void                        clear();
-//
-//  // Accessors and Mutators
-//  string                      getString(string name, bool optional = false, string defaultValue = "");
-//  double                      getDouble(string name, bool optional = false, double defaultValue = 0.0);
-//  int                         getInt(string name, bool optional = false, int defaultValue = 0);
-//  unsigned                    getUnsigned(string name, bool optional = false, unsigned defaultValue = 0);
-//  bool                        getBool(string name, bool optional = false, bool defaultValue = true);
-//  void                        fillVector(vector<string> &list, string name, bool optional = false);
-//  void                        fillVector(vector<double> &list, string name, bool optional = false);
-//  void                        fillVector(vector<int> &list, string name, bool optional = false);
-//  void                        fillVector(vector<bool> &list, string name, bool optional = false);
-//  template<class Type> void   fillVector(vector<Type> &list, string name, bool optional = false);
-//
-//  // Table getters
-//  void                        fillTableColumnVector(vector<string> &list, string tableName, unsigned tableIndex = 0);
-//  void                        fillTableDataVector(vector<string> &list, string tableName, unsigned tableIndex = 0);
-//
-//protected:
-//  // Members
-////  map<string, vector<string> >          parameters_;
-//  vector<string>                        valid_parameters_;
-//  map<string, vector<ParameterTable> >  tables_;
-
+  vector<string>              allowed_parameters_;
+  map<string, Parameter>      parameters_;
+  map<string, ParameterTable> tables_;
 };
 
 } /* namespace isam */

@@ -57,34 +57,45 @@ bool ParameterList::HasParameter(const string& label) {
 /**
  * Add a single value to our parameter list
  *
- * @param label The label of the parameter
- * @param value The value to store
+ * @param label The label for the parameter
+ * @param value The value of the parameter
+ * @param file_name The file where the parameter was specified
+ * @param line_number The line number where the parameter was specified
+ * @return true on success, false on failure
  */
-bool ParameterList::Add(const string& label, const string& value) {
-  if (std::find(allowed_parameters_.begin(), allowed_parameters_.end(), label) == allowed_parameters_.end()) {
-    LOG_INFO("Could not find parameter '" << label << "' in allowed_parameters_");
-    LOG_INFO("Allowed Parameters: n=" << allowed_parameters_.size());
-    for (unsigned i = 0; i < allowed_parameters_.size(); ++i) {
-      LOG_INFO("[" << i << "] = " << allowed_parameters_[i]);
-    }
+bool ParameterList::Add(const string& label, const vector<string>& values, const string& file_name, const unsigned& line_number) {
+  if (std::find(allowed_parameters_.begin(), allowed_parameters_.end(), label) == allowed_parameters_.end())
     return false;
-  }
 
-  parameters_[label].push_back(value);
+  Parameter newParameter;
+  newParameter.values_      = values;
+  newParameter.file_name_   = file_name;
+  newParameter.line_number_ = line_number;
+
+  parameters_[label] = newParameter;
+
   return true;
 }
 
 /**
- * Add some values to be stored against a parameter
+ * Add a single value to our parameter list
  *
- * @param label The name of the parameter to store against
- * @param values The values to store against the parameter
+ * @param label The label for the parameter
+ * @param value The value of the parameter
+ * @param file_name The file where the parameter was specified
+ * @param line_number The line number where the parameter was specified
+ * @return true on success, false on failure
  */
-bool ParameterList::Add(const string& label, const vector<string>& values) {
-  for (unsigned i = 0; i < values.size(); ++i) {
-    if (!this->Add(label, values[i]))
-      return false;
-  }
+bool ParameterList::Add(const string& label, const string& value, const string& file_name, const unsigned& line_number) {
+  if (std::find(allowed_parameters_.begin(), allowed_parameters_.end(), label) == allowed_parameters_.end())
+    return false;
+
+  Parameter newParameter;
+  newParameter.values_.push_back(value);
+  newParameter.file_name_   = file_name;
+  newParameter.line_number_ = line_number;
+
+  parameters_[label] = newParameter;
 
   return true;
 }
@@ -92,16 +103,41 @@ bool ParameterList::Add(const string& label, const vector<string>& values) {
 /**
  * Add a new table to our parameter list
  *
- * @param label The label of the table
+ * @param label The label for the table
+ * @param columns A vector containing the columns
+ * @param data A double vector containing the data
+ * @param file_name Name of file where table definition finished
+ * @param line_number Line number where table definition finished
+ * @return true on success, false on failure
  */
-TablePtr ParameterList::AddTable(const string& label) {
+bool ParameterList::AddTable(const string& label, const vector<string>& columns, const vector<vector<string> >& data, const string& file_name, const unsigned& line_number) {
   if (std::find(allowed_parameters_.begin(), allowed_parameters_.end(), label) == allowed_parameters_.end())
-    return TablePtr();
+    return false;
 
-  tables_[label] = TablePtr(new isam::parameter::Table(label));
-  return tables_[label];
+  TablePtr table = TablePtr(new isam::parameter::Table(label));
+  table->AddColumns(columns);
+  for (vector<string> row : data)
+    table->AddRow(row);
+
+  ParameterTable parameter_table;
+  parameter_table.file_name_    = file_name;
+  parameter_table.line_number_  = line_number;
+  parameter_table.table_        = table;
+  return true;
 }
 
+/**
+ * Return a constant reference to one of our parameter objects.
+ *
+ * NOTE: This method MUST be called with a valid label otherwise
+ * a reference to an empty parameter will be returned.
+ *
+ * @param label The parameter to return
+ * @return The parameter reference
+ */
+const Parameter& ParameterList::Get(const string& label) {
+  return parameters_[label];
+}
 
 
 

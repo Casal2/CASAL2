@@ -20,7 +20,7 @@
 #define CONFIG_END_REPORT                   "*end"
 #define CONFIG_FALSE                        "false"
 #define CONFIG_FALSE_SHORT                  "f"
-#define CONFIG_INCLUDE                      "@include"
+#define CONFIG_INCLUDE                      "!include"
 #define CONFIG_MULTI_COMMENT_END            "}"
 #define CONFIG_MULTI_COMMENT_START          "{"
 #define CONFIG_RATIO_SEPARATOR              ":"

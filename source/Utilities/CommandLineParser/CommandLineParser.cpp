@@ -139,7 +139,7 @@ void CommandLineParser::OverrideGlobalValues() {
 
   GlobalConfigurationPtr global_config = GlobalConfiguration::Instance();
   for (auto i = override_values_.begin(); i != override_values_.end(); ++i) {
-    global_config->parameters().Add(i->first, i->second);
+    global_config->parameters().Add(i->first, i->second, "", 0);
   }
 }
 

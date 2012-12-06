@@ -29,7 +29,7 @@ Table::Table(const string &label)
  *
  * @param columns A list of columns for this table
  */
-void Table::AddColumns(vector<string> &columns) {
+void Table::AddColumns(const vector<string> &columns) {
   columns_.assign(columns.begin(), columns.end());
 }
 

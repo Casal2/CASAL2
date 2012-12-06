@@ -16,6 +16,9 @@
 #include <fstream>
 #include <iostream>
 #include <algorithm>
+#include <boost/algorithm/string/replace.hpp>
+#include <boost/algorithm/string/trim_all.hpp>
+#include <boost/algorithm/string/split.hpp>
 
 #include "File.h"
 #include "Translations/Translations.h"
@@ -58,31 +61,234 @@ void Loader::LoadConfigFile() {
   string config_file = GlobalConfiguration::Instance()->config_file();
   FilePtr file = FilePtr(new File(this));
   if (!file->OpenFile(config_file))
-    LOG_ERROR("Failed to open the primary configuration file: " << config_file);
+    LOG_ERROR("Failed to open the first configuration file: " << config_file << ". Does this file exist? Is it in the right path?");
 
   file->Parse();
 
-  if (needs_new_object_)
-    LOG_ERROR("The configuration files are invalid. Either the file has not specified any block objects "
-        << "or it ends with a @block definition that has no valid parameters");
+  LOG_INFO("file_lines_.size() == " << file_lines_.size());
+  if (file_lines_.size() == 0)
+    LOG_ERROR("The configuration file " << config_file << " is empty. Please specify a valid configuration file");
+
+  ParseFileLines();
 }
 
 /**
- * Create a new internal object pointer to the isam::BaseObject we want to
- * assign the parameters too.
+ * This method will add the parameter line to our vector
+ * of FileLines for parsing.
+ *
+ * @param line The file line information to store
  */
-bool Loader::CreateNewObject() {
-  LOG_INFO("Creating new object. Defined by @" << block_type_ << " with type parameter '" << object_type_ << "'");
+void Loader::AddFileLine(FileLine line) {
+  file_lines_.push_back(line);
+}
 
-  if (block_type_ == PARAM_MODEL) {
-    current_object_ = Model::Instance();
+/**
+ * This method will go through our loaded FileLines vector
+ * and build a new vector for each block that is defined.
+ * Once a vector has been built containing block data it'll
+ * be passed through to ParseBlock(vector<string>) for parsing.
+ *
+ * This method will also store the current sub-type variables.
+ */
+void Loader::ParseFileLines() {
+  LOG_TRACE();
+
+  vector<FileLine> block;
+
+  for (unsigned i = 0; i < file_lines_.size(); ++i) {
+    if (file_lines_[i].line_ == "")
+      continue;
+
+    // Check if we're entering a new block
+    if (file_lines_[i].line_[0] == '@') {
+      if (block.size() > 0)
+        ParseBlock(block);
+
+      block.clear();
+    }
+
+    block.push_back(file_lines_[i]);
+  }
+
+  ParseBlock(block);
+}
+
+/**
+ * This method will parse a single block from our loaded
+ * configuration data. A block definition starts with an
+ * @block line.
+ *
+ * @param block Vector of block's line definitions
+ */
+void Loader::ParseBlock(vector<FileLine> &block) {
+  LOG_TRACE();
+  if (block.size() == 0)
+    LOG_CODE_ERROR("block.size() == 0");
 
 
-  } else
-    return false;
+  for(FileLine file_line : block) {
+    LOG_INFO("file_line: " << file_line.file_name_ << ":" << file_line.line_number_ << " = " << file_line.line_);
+  }
 
-  needs_new_object_ = false;
-  return true;
+  /**
+   * Get the block type
+   * e.g
+   * @block <label>
+   */
+  vector<string> line_parts;
+  string block_type = "";
+  string block_label = "";
+
+  boost::split(line_parts, block[0].line_, boost::is_any_of(" "));
+  if (line_parts.size() == 0)
+    LOG_ERROR("At line " << block[0].line_number_ << " of " << block[0].file_name_
+        << ": Could not successfully split the line into an array. Line is incorrectly formatted");
+  if (line_parts.size() > 2)
+    LOG_ERROR("At line " << block[0].line_number_ << " of " << block[0].file_name_
+        << ": The block's label cannot have a space or tab in it. Please use alphanumeric characters and underscores only");
+
+  block_type = line_parts[0].substr(1); // Skip the first char '@'
+  block_label = line_parts.size() == 2 ? line_parts[1] : "";
+
+  /**
+   * Look for the object type
+   * e.g
+   * @block <label>
+   * type <object_type>
+   */
+  string object_type = "";
+
+  for(FileLine file_line : block) {
+    if (file_line.line_.length() >= 5 && file_line.line_.substr(0, 4) == PARAM_TYPE) {
+
+      // Split the line into a vector
+      boost::split(line_parts, file_line.line_, boost::is_any_of(" "));
+      if (line_parts.size() == 0)
+        LOG_ERROR("At line " << file_line.line_number_ << " of " << file_line.file_name_
+            << ": Could not successfully split the line into an array. Line is incorrectly formatted");
+
+      if (line_parts.size() != 2)
+        LOG_ERROR("At line " << file_line.line_number_ << " of " << file_line.file_name_
+            << ": No valid value was specified as the type");
+
+      object_type = line_parts[1];
+      continue;
+    }
+  }
+
+  /**
+   * Create Object
+   */
+  ObjectPtr object = CreateObject(block_type, object_type);
+  if (!object)
+    LOG_ERROR("At line " << block[0].line_number_ << " of " << block[0].file_name_
+        << ": Block type or object type is invalid.\n"
+        << "Block Type: " << block_type << "\n"
+        << "Object Type: " << object_type);
+
+  if (block_label != "" && !object->parameters().Add(PARAM_LABEL, block_label, block[0].file_name_, block[0].line_number_))
+    LOG_ERROR("At line " << block[0].line_number_ << " of " << block[0].file_name_
+        << ": The block @" << block_type << " does not support having a label");
+
+  /**
+   * Load the parameters into our new object
+   */
+  string current_line      = "";
+  bool   loading_table     = false;
+  bool   loading_columns   = false;
+  string table_label       = "";
+  vector<string>           table_columns;
+  vector<vector<string> >  table_data;
+
+  // Iterate the loaded file lines for this block
+  for(FileLine file_line : block) {
+    current_line = file_line.line_;
+
+    if (current_line.length() == 0)
+      continue;
+    if (current_line[0] == '@')
+      continue; // Skip @block definition
+    LOG_INFO("current_line: " << current_line);
+
+    // Split the line
+    boost::split(line_parts, current_line, boost::is_any_of(" "));
+    if (line_parts.size() == 0)
+      LOG_ERROR("At line " << file_line.line_number_ << " of " << file_line.file_name_
+          << ": Could not successfully split the line into an array. Line is incorrectly formatted");
+
+    // Load the parameters
+    string parameter_type = util::ToLowercase(line_parts[0]);
+    vector<string> values(line_parts.begin() + 1, line_parts.end());
+
+    if (!loading_table && parameter_type == PARAM_TABLE) {
+      // Start loading a new table
+      loading_table   = true;
+      loading_columns = true;
+
+      if (line_parts.size() != 2)
+        LOG_ERROR("At line " << file_line.line_number_ << " of " << file_line.file_name_
+            << ": table parameter requires a valid label. Please use alphanumeric characters and underscores only");
+
+      table_label = util::ToLowercase(line_parts[1]);
+      table_data.clear();
+
+    } else if (loading_table && loading_columns) {
+      // We're on the line after the table <label> definition where the columns will be
+      table_columns.assign(line_parts.begin(), line_parts.end());
+      loading_columns = false;
+
+    } else if (loading_table && parameter_type != PARAM_END_TABLE) {
+      // We're loading a standard row of data for the table
+      if (line_parts.size() != table_columns.size())
+        LOG_ERROR("At line " << file_line.line_number_ << " of " << file_line.file_name_
+            << ": Table data does not contain the correct number of columns. Expected (" << table_columns.size() << ") : Actual (" << line_parts.size() << ")");
+
+      table_data.push_back(line_parts);
+
+    } else if (loading_table && parameter_type == PARAM_END_TABLE) {
+      // We've found the end of our table.
+      if (line_parts.size() != 1)
+        LOG_ERROR("At line " << file_line.line_number_ << " of " << file_line.file_name_
+            << ": end_table cannot contain any extra values");
+
+      loading_table   = false;
+      loading_columns = false;
+
+      if (!object->parameters().AddTable(table_label, table_columns, table_data, file_line.file_name_, file_line.line_number_))
+        LOG_ERROR("At line " << file_line.line_number_ << " of " << file_line.file_name_
+            << ": Could not add table '" << table_label << "' to block. Table is not supported");
+
+    }
+
+    if (object->parameters().HasParameter(parameter_type)) {
+      const Parameter& parameter = object->parameters().Get(parameter_type);
+      LOG_ERROR("At line " << file_line.line_number_ << " of " << file_line.file_name_
+          << ": Parameter '" << parameter_type << "' was already specified at line " << parameter.line_number_ << " of " << parameter.file_name_);
+    }
+
+    if (!object->parameters().Add(parameter_type, values, file_line.file_name_, file_line.line_number_))
+      LOG_ERROR("At line " << file_line.line_number_ << " of " << file_line.file_name_
+          << ": Could not add parameter '" << parameter_type << "' to block. Parameter is not supported");
+  }
+}
+
+/**
+ * This method will create an object pointer and return it so it
+ * can be populated with it's configuration parameter values.
+ *
+ *  @param block_type The @block type that we want to create
+ *  @param objec_type The type <object_type> value. It's a sub-type of the block type
+ *  @return A shared_ptr to the object we've created
+ */
+ObjectPtr Loader::CreateObject(const string &block_type, const string &object_type) {
+
+  ObjectPtr object;
+
+  if (block_type == PARAM_MODEL) {
+    object = Model::Instance();
+  }
+
+  return object;
 }
 
 } /* namespace configuration */

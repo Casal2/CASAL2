@@ -62,6 +62,15 @@ namespace utilities {
   isam::utilities::Logging::Instance().ForceLog(o.str()); \
   exit(-1); }
 
+#define LOG_CODE_ERROR(value) {\
+    ostringstream o;\
+    o << "\n\n\n";\
+    o << "[ERROR] - A coding error has been encountered that prevents the program from continuing\n"\
+      << "[ERROR] - This error requires developer intervention to correct. Please contact a developer\n"\
+      << "Source: " << __FILE__ << ":" << __FUNCTION__ << " (Line: " << __LINE__ << ")\n"\
+      << "Error: " << value;\
+    isam::utilities::Logging::Instance().ForceLog(o.str()); \
+    exit(-1); }
 /**
  * Class Definition: Logging
  */

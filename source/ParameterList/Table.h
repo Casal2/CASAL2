@@ -36,7 +36,7 @@ class Table {
 public:
   explicit Table(const string &label);
   virtual                     ~Table() = default;
-  void                        AddColumns(vector<string> &columns);
+  void                        AddColumns(const vector<string> &columns);
   void                        AddRow(vector<string> &row);
   bool                        HasColumns() { return columns_.size() != 0; }
   unsigned                    ColumnCount() { return columns_.size(); }

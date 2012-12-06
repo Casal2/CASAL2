@@ -39,6 +39,16 @@ namespace isam {
 namespace configuration {
 
 /**
+ * FileLine Structure
+ */
+struct FileLine {
+public:
+  string    file_name_      = "";
+  unsigned  line_number_    = 0;
+  string    line_           = "";
+};
+
+/**
  * Class Definition
  */
 class Loader {
@@ -48,31 +58,16 @@ public:
   virtual                     ~Loader() = default;
   void                        LoadConfigFile();
   bool                        CreateNewObject();
-
-  // Accessors
-  string                      block_type() { return block_type_; }
-  void                        set_block_type(string new_value) { block_type_ = new_value; }
-  string                      block_label() { return block_label_; }
-  void                        set_block_label(string new_value) { block_label_ = new_value; }
-  string                      object_type() { return object_type_; }
-  void                        set_object_type(string new_value) { object_type_ = new_value; }
-  bool                        needs_new_object() { return needs_new_object_; }
-  void                        set_needs_new_object(bool new_value) { needs_new_object_ = new_value; }
-  ObjectPtr                   current_object() { return current_object_; }
-  bool                        loading_table() { return loading_table_; }
-  void                        set_loading_table(bool new_value) { loading_table_ = new_value; }
-  TablePtr                    current_table() { return current_table_; }
-  void                        set_current_table(TablePtr new_value) { current_table_ = new_value; }
+  void                        AddFileLine(FileLine line);
+  void                        ParseFileLines();
 
 private:
+  // Methods
+  void                        ParseBlock(vector<FileLine> &block);
+  ObjectPtr                   CreateObject(const string &block_type, const string &object_type);
+
   // Members
-  string                      block_type_       = "";
-  string                      block_label_      = "";
-  string                      object_type_      = "";
-  bool                        needs_new_object_ = true;
-  ObjectPtr                   current_object_;
-  TablePtr                    current_table_;
-  bool                        loading_table_    = false;
+  vector<FileLine>            file_lines_;
 };
 
 } /* namespace configuration */
