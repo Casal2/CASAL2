@@ -9,7 +9,7 @@ targetPath    = os.getenv('isam_third_party_target_directory')
 
 # Clean our any existing files if they already exist
 print '-- Cleaning Boost files'
-if os.path.exists('boostFileName'):
+if os.path.exists(boostFileName):
     shutil.rmtree(boostFileName)
 
 # Make a copy of boost.tar.gz as temp.tar.gz if one doesn't exist
