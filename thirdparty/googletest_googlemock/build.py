@@ -1,5 +1,4 @@
 import os
-import os.path
 import shutil
 from distutils import dir_util
 
@@ -25,8 +24,8 @@ os.system("make 1> isam_build.log 2>&1")
 # Move our headers and libraries
 print '-- Moving headers and libraries'
 shutil.copy('gmock_main.a', targetPath + "/lib/")
-dir_util.copy_tree(os.path.normpath('../include/'), os.path.normpath(targetPath + '/include/'))
-#dir_util.copy_tree('../gtest/include/', targetPath + '/include/')
+dir_util.copy_tree('../include/', targetPath + '/include/')
+dir_util.copy_tree('../gtest/include/', targetPath + '/include/')
 
 # Finally touch the success file to create it
 os.system('touch ' + targetPath + '/googletest_googlemock.success')
