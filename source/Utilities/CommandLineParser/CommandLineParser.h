@@ -34,7 +34,7 @@ using std::map;
 class CommandLineParser {
 public:
   // Methods
-  CommandLineParser();
+  CommandLineParser() = default;
   virtual                     ~CommandLineParser() = default;
   void                        Parse(int argc, const char* argv[]);
   void                        OverrideGlobalValues();

@@ -33,12 +33,6 @@ using std::endl;
 using std::ostringstream;
 
 /**
- * Default Constructor
- */
-CommandLineParser::CommandLineParser() {
-}
-
-/**
  * This method will take the raw command line input from the main() method
  * and process them into something more useful.
  *
@@ -46,6 +40,8 @@ CommandLineParser::CommandLineParser() {
  * @param argv Pointer to an array containing the arguments
  */
 void CommandLineParser::Parse(int argc, const char* argv[]) {
+  LOG_TRACE();
+
   // Build Options menu
   options_description oDesc("Usage");
   oDesc.add_options()
