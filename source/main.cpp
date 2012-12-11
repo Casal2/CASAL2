@@ -43,7 +43,7 @@ int main(int argc, char * argv[]) {
     /**
      * Ask the runtime controller to parse the parameters.
      */
-    utilities::CommandLineParser parser;
+    isam::utilities::CommandLineParser parser;
     parser.Parse(argc, (const char **)argv);
 
     /**

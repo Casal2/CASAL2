@@ -15,21 +15,6 @@ namespace isam {
 namespace base {
 
 /**
- * Default constructor
- */
-template <class ClassType, class StoredType>
-Manager<ClassType, StoredType>::Manager() {
-}
-
-/**
- * Destructor
- */
-template <class ClassType, class StoredType>
-Manager<ClassType, StoredType>::~Manager() {
-}
-
-
-/**
  * This method is our singleton instance method
  */
 template <class ClassType, class StoredType>
