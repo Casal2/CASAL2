@@ -1,23 +1,23 @@
 /*
- * Category.cpp
+ * Finder.cpp
  *
- *  Created on: 20/11/2012
+ *  Created on: 11/12/2012
  *      Author: Admin
  */
 
-#include "Category.h"
+#include "Finder.h"
 
 namespace isam {
-namespace partition {
+namespace categories {
 
-Category::Category() {
+Finder::Finder() {
   // TODO Auto-generated constructor stub
 
 }
 
-Category::~Category() {
+Finder::~Finder() {
   // TODO Auto-generated destructor stub
 }
 
-} /* namespace partition */
+} /* namespace categories */
 } /* namespace isam */

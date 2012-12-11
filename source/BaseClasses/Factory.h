@@ -18,18 +18,33 @@
 #ifndef FACTORY_H_
 #define FACTORY_H_
 
+// Headers
+#include <boost/shared_ptr.hpp>
+
 // namespaces
 namespace isam {
 namespace base {
 
+using boost::shared_ptr;
+
 /**
  * Class definition
  */
+template<class ObjectType, class ManagerType>
 class Factory {
+public:
+  // Methods
+  static shared_ptr<ObjectType> Create() {
+    shared_ptr<ObjectType> return_value = shared_ptr<ObjectType>(new ObjectType());
+
+    ManagerType::Instance().AddObject(return_value);
+    return return_value;
+  }
+
 private:
   // Methods
-  Factory() { };
-  virtual ~Factory() { };
+  Factory() = delete;;
+  virtual ~Factory() = delete;;
 };
 
 } /* namespace base */

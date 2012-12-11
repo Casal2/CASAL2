@@ -20,12 +20,13 @@
 #include <boost/algorithm/string/trim_all.hpp>
 #include <boost/algorithm/string/split.hpp>
 
+#include "Categories/Categories.h"
 #include "File.h"
+#include "GlobalConfiguration/GlobalConfiguration.h"
+#include "Model/Model.h"
 #include "Translations/Translations.h"
 #include "Utilities/To.h"
 #include "Utilities/Logging/Logging.h"
-#include "GlobalConfiguration/GlobalConfiguration.h"
-#include "Model/Model.h"
 
 // Namespaces
 using std::ifstream;
@@ -286,6 +287,10 @@ ObjectPtr Loader::CreateObject(const string &block_type, const string &object_ty
 
   if (block_type == PARAM_MODEL) {
     object = Model::Instance();
+
+  } else if (block_type == PARAM_CATEGORY) {
+    object = Categories::Instance();
+
   }
 
   return object;
