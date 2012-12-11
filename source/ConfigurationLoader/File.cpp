@@ -136,7 +136,7 @@ void File::Parse() {
 
         if (first_quote == string::npos || last_quote == string::npos || first_quote == last_quote)
           LOG_ERROR("At line " << line_number_ << " of " << file_name_
-              << ": File name arguement to " << CONFIG_INCLUDE << " must be surrounded by quotes");
+              << ": File name argument to " << CONFIG_INCLUDE << " must be surrounded by quotes");
 
         string include_name = current_line.substr(first_quote);
         boost::replace_all(include_name, "\"", "");
