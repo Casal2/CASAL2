@@ -23,7 +23,10 @@
 #include "Categories/Categories.h"
 #include "File.h"
 #include "GlobalConfiguration/GlobalConfiguration.h"
+#include "InitialisationPhases/Factory.h"
 #include "Model/Model.h"
+#include "Processes/Factory.h"
+#include "TimeSteps/Factory.h"
 #include "Translations/Translations.h"
 #include "Utilities/To.h"
 #include "Utilities/Logging/Logging.h"
@@ -191,6 +194,11 @@ void Loader::ParseBlock(vector<FileLine> &block) {
     LOG_ERROR("At line " << block[0].line_number_ << " of " << block[0].file_name_
         << ": The block @" << block_type << " does not support having a label");
 
+  // Store where this object was defined for use in printing errors later
+  object->set_block_type(block_type);
+  object->set_defined_file_name(block[0].file_name_);
+  object->set_defined_line_number(block[0].line_number_);
+
   /**
    * Load the parameters into our new object
    */
@@ -209,7 +217,6 @@ void Loader::ParseBlock(vector<FileLine> &block) {
       continue;
     if (current_line[0] == '@')
       continue; // Skip @block definition
-    LOG_INFO("current_line: " << current_line);
 
     // Split the line
     boost::split(line_parts, current_line, boost::is_any_of(" "));
@@ -261,7 +268,7 @@ void Loader::ParseBlock(vector<FileLine> &block) {
 
     }
 
-    if (object->parameters().HasParameter(parameter_type)) {
+    if (object->parameters().IsDefined(parameter_type)) {
       const Parameter& parameter = object->parameters().Get(parameter_type);
       LOG_ERROR("At line " << file_line.line_number_ << " of " << file_line.file_name_
           << ": Parameter '" << parameter_type << "' was already specified at line " << parameter.line_number_ << " of " << parameter.file_name_);
@@ -288,10 +295,22 @@ ObjectPtr Loader::CreateObject(const string &block_type, const string &object_ty
   if (block_type == PARAM_MODEL) {
     object = Model::Instance();
 
-  } else if (block_type == PARAM_CATEGORY) {
+  } else if (block_type == PARAM_CATEGORIES) {
     object = Categories::Instance();
 
+  } else if (block_type == PARAM_INITIALIZATION_PHASE) {
+    object = initialisationphases::Factory::Create();
+
+  } else if (block_type == PARAM_PROCESS) {
+    object = processes::Factory::Create(block_type, object_type);
+
+  } else if (block_type == PARAM_RECRUITMENT) {
+    object = processes::Factory::Create(block_type, object_type);
+
+  } else if (block_type == PARAM_TIME_STEP) {
+    object = timesteps::Factory::Create();
   }
+
 
   return object;
 }

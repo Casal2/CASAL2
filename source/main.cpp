@@ -83,7 +83,7 @@ int main(int argc, char * argv[]) {
       parser.OverrideGlobalValues();
 
       // Run the model
-      model->Run();
+      model->Start();
 
       if (!config->debug_mode())
         standard_report.Finalise();

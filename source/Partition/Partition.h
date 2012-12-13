@@ -39,14 +39,6 @@ enum ModelType {
 };
 
 /**
- * Structs
- */
-struct CategoryOptions {
-  string                name_;
-  vector<string>        bins_;
-};
-
-/**
  * Class Definition
  */
 class Partition {
@@ -57,7 +49,6 @@ public:
 
 private:
   // Members
-  vector<CategoryOptions>       categories_;
   map<string, vector<Double> >  partition_;  // 2D Array map<Category, vector<Age/Length/Bin> >
 };
 

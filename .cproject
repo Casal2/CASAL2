@@ -35,6 +35,7 @@
 								<option id="gnu.c.compiler.option.preprocessor.def.symbols.1109534826" name="Defined symbols (-D)" superClass="gnu.c.compiler.option.preprocessor.def.symbols" valueType="definedSymbols">
 									<listOptionValue builtIn="false" value="BOOST_THREAD_USE_LIB=1"/>
 								</option>
+								<option id="gnu.c.compiler.option.warnings.toerrors.84980506" superClass="gnu.c.compiler.option.warnings.toerrors" value="true" valueType="boolean"/>
 								<inputType id="cdt.managedbuild.tool.gnu.c.compiler.input.382347423" superClass="cdt.managedbuild.tool.gnu.c.compiler.input"/>
 							</tool>
 							<tool id="cdt.managedbuild.tool.gnu.cross.cpp.compiler.69474464" name="Cross G++ Compiler" superClass="cdt.managedbuild.tool.gnu.cross.cpp.compiler">
@@ -48,6 +49,7 @@
 									<listOptionValue builtIn="false" value="BOOST_THREAD_USE_LIB=1 "/>
 								</option>
 								<option id="gnu.cpp.compiler.option.other.other.1853976476" name="Other flags" superClass="gnu.cpp.compiler.option.other.other" value="-c -fmessage-length=0 -std=c++11 -std=c++0x" valueType="string"/>
+								<option id="gnu.cpp.compiler.option.warnings.toerrors.346239384" superClass="gnu.cpp.compiler.option.warnings.toerrors" value="true" valueType="boolean"/>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.compiler.input.139783512" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.input"/>
 							</tool>
 							<tool id="cdt.managedbuild.tool.gnu.cross.c.linker.505847400" name="Cross GCC Linker" superClass="cdt.managedbuild.tool.gnu.cross.c.linker"/>

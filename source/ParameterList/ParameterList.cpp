@@ -50,7 +50,7 @@ void ParameterList::RegisterAllowed(const string label) {
  *
  * @param label The label to check
  */
-bool ParameterList::HasParameter(const string& label) {
+bool ParameterList::IsDefined(const string& label) {
   return parameters_.find(label) != parameters_.end();
 }
 

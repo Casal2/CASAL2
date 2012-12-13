@@ -8,10 +8,12 @@
 #ifndef CONSTANTRECRUITMENT_H_
 #define CONSTANTRECRUITMENT_H_
 
+#include "Processes/Process.h"
+
 namespace isam {
 namespace processes {
 
-class ConstantRecruitment {
+class ConstantRecruitment : public isam::Process {
 public:
   ConstantRecruitment();
   virtual ~ConstantRecruitment();

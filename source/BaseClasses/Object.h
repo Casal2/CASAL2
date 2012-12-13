@@ -18,8 +18,8 @@
  *
  * $Date: 2008-03-04 16:33:32 +1300 (Tue, 04 Mar 2008) $
  */
-#ifndef BASEOBJECT_H_
-#define BASEOBJECT_H_
+#ifndef BASE_OBJECT_H_
+#define BASE_OBJECT_H_
 
 // Headers
 #include <string>
@@ -47,10 +47,19 @@ public:
 
   // Accessors and Mutators
   ParameterList&              parameters() { return parameters_; }
+  void                        set_block_type(string value) { block_type_ = value; }
+  void                        set_defined_file_name(string value) { defined_file_name_ = value; }
+  void                        set_defined_line_number(unsigned value) { defined_line_number_ = value; }
 
 protected:
+  // Methods
+  void                        CheckForRequiredParameter(const string &label);
+
   // Members
+  string                      block_type_;
   string                      label_;
+  string                      defined_file_name_;
+  unsigned                    defined_line_number_;
   ParameterList               parameters_;
 
   DISALLOW_COPY_AND_ASSIGN(Object);
@@ -64,4 +73,4 @@ typedef boost::shared_ptr<isam::base::Object> ObjectPtr;
 
 } /* namespace base */
 } /* namespace isam */
-#endif /* BASEOBJECT_H_ */
+#endif /* BASE_OBJECT_H_ */

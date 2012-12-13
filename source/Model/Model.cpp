@@ -45,9 +45,79 @@ shared_ptr<Model> Model::Instance() {
   return model;
 }
 
-void Model::Run() {
+/**
+ * Start our model. This is the entry point method for the model
+ * after being called from the main() method.
+ *
+ * This method will start stepping through the states and verifying
+ * each step.
+ */
+void Model::Start() {
+  if (state_ != State::kInitialise)
+    LOG_CODE_ERROR("Model state should always be initialise when entering the start method");
 
-  cout << "Running the Model!!" << endl;
+  Initialise();
+
+  state_ = State::kValidate;
+  Validate();
+
+  state_ = State::kBuild;
+  Build();
+
+  state_ = State::kVerify;
+  Verify();
+
+  switch(run_mode_) {
+  case RunMode::kBasic:
+    RunBasic();
+    break;
+
+  case RunMode::kEstimation:
+    RunEstimation();
+    break;
+
+  default:
+    LOG_ERROR("Invalid run mode has been specified. This run mode is not supported: " << run_mode_);
+    break;
+  }
+
 }
+
+/**
+ *
+ */
+void Model::Initialise() { }
+
+/**
+ *
+ */
+void Model::Validate() { }
+
+/**
+ *
+ */
+void Model::Build() { }
+
+/**
+ *
+ */
+void Model::Verify() { }
+
+/**
+ *
+ */
+void Model::RunBasic() {
+  cout << "Running model in basic mode" << endl;
+
+}
+
+/**
+ *
+ */
+void Model::RunEstimation() {
+  cout << "Running model in estimation mode" << endl;
+}
+
+
 
 } /* namespace isam */
