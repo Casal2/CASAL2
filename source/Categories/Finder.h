@@ -17,13 +17,29 @@
 #ifndef FINDER_H_
 #define FINDER_H_
 
+// Headers
+#include <string>
+#include <vector>
+
+// Namespaces
 namespace isam {
 namespace categories {
 
+using std::string;
+using std::vector;
+
+
+/**
+ * Class definition
+ */
 class Finder {
 public:
-  Finder();
-  virtual ~Finder();
+  // Methods
+
+private:
+  // Methods
+  Finder() = delete;
+  virtual ~Finder() = delete;
 };
 
 } /* namespace categories */

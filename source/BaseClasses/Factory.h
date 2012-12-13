@@ -15,8 +15,8 @@
  *
  * $Date: 2008-03-04 16:33:32 +1300 (Tue, 04 Mar 2008) $
  */
-#ifndef FACTORY_H_
-#define FACTORY_H_
+#ifndef BASE_FACTORY_H_
+#define BASE_FACTORY_H_
 
 // Headers
 #include <boost/shared_ptr.hpp>
@@ -49,4 +49,4 @@ private:
 
 } /* namespace base */
 } /* namespace isam */
-#endif /* FACTORY_H_ */
+#endif /* BASE_FACTORY_H_ */

@@ -13,6 +13,8 @@
 // Headers
 #include "Object.h"
 
+#include "Utilities/Logging/Logging.h"
+
 namespace isam {
 namespace base {
 /**
@@ -28,6 +30,12 @@ Object::Object() {
  * Destructor
  */
 Object::~Object() {
+}
+
+void Object::CheckForRequiredParameter(const string &label) {
+  if (!parameters_.IsDefined(label))
+    LOG_ERROR("At line " << defined_line_number_ << " in file " << defined_file_name_
+        << ": " << block_type_ << " block requires the '" << label << "' parameter");
 }
 
 } /* namespace base */

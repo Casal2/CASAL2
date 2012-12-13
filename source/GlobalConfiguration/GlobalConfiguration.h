@@ -52,12 +52,12 @@ public:
   void                        set_command_line_parameters(vector<string> &parameters) { command_line_parameters_ = parameters; }
   vector<string>&             command_line_parameters() { return command_line_parameters_; }
   void                        set_debug_mode(string value) { parameters_[PARAM_DEBUG] = value; }
-  bool                        debug_mode() { return util::To<bool>(parameters_[PARAM_DEBUG]); }
+  bool                        debug_mode();
   void                        set_random_seed(string value) { parameters_[PARAM_RANDOM_NUMBER_SEED] = value; }
   int                         random_seed();
   void                        set_config_file(string value) { parameters_[PARAM_CONFIG_FILE] = value; }
   string                      config_file() { return parameters_[PARAM_CONFIG_FILE]; }
-  bool                        skip_config_file() { return util::To<bool>(parameters_[PARAM_SKIP_CONFIG_FILE]); }
+  bool                        skip_config_file();
 
 private:
   // Methods

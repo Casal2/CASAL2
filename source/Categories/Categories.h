@@ -27,6 +27,16 @@ namespace isam {
 using boost::shared_ptr;
 
 /**
+ * Struct Definition
+ */
+struct CategoryInfo {
+  string name_ = "";
+  vector<unsigned>  years_;
+  unsigned          min_age_ = 0;
+  unsigned          max_age_ = 0;
+};
+
+/**
  * Class Definition
  */
 class Categories : public isam::base::Object {
@@ -34,10 +44,19 @@ public:
   // Methods
   static shared_ptr<Categories> Instance();
   virtual                       ~Categories() = default;
+  void                          validate();
+
+  // Accessors
+  string                        format() { return format_; }
 
 private:
   // Methods
   Categories();
+
+  // Members
+  string                      format_;
+  vector<string>              names_;
+  map<string, CategoryInfo>   categories_;
 
 };
 

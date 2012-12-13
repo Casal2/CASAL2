@@ -49,9 +49,14 @@ inline string ToLowercase(const ::std::string arg) {
  * This is a shortened version of the method used
  * to call boost::lexical_cast<Target>(source);.
  */
-template<typename Target, typename Source>
-Target To(const Source arg) {
-  return boost::lexical_cast<Target>(arg);
+template<typename Target>
+bool To(const ::std::string arg, Target &result) {
+  try {
+    result = boost::lexical_cast<Target>(arg);
+  } catch (...) {
+    return false;
+  }
+  return true;
 };
 
 /**
@@ -62,18 +67,23 @@ Target To(const Source arg) {
  * return true/false. Exception on failure
  */
 template<>
-inline bool To(const ::std::string arg) {
+inline bool To(const ::std::string arg, bool &result) {
   vector<string> true_values  = { "t", "true" };
   vector<string> false_values = { "f", "false" };
 
   string value = ToLowercase(arg);
 
-  if (std::find(true_values.begin(), true_values.end(), value) != true_values.end())
+  if (std::find(true_values.begin(), true_values.end(), value) != true_values.end()) {
+    result = true;
     return true;
-  if (std::find(false_values.begin(), false_values.end(), value) != false_values.end())
-    return false;
+  }
 
-  THROW_EXCEPTION("Could not convert string value into a boolean " << arg);
+  if (std::find(false_values.begin(), false_values.end(), value) != false_values.end()) {
+    result = false;
+    return true;
+  }
+
+  return false;
 };
 
 

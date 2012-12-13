@@ -15,8 +15,8 @@
  *
  * $Date: 2008-03-04 16:33:32 +1300 (Tue, 04 Mar 2008) $
  */
-#ifndef MANAGER_H_
-#define MANAGER_H_
+#ifndef BASE_MANAGER_H_
+#define BASE_MANAGER_H_
 
 // Headers
 #include <string>
@@ -61,4 +61,4 @@ protected:
 
 #include "Manager-inl.h"
 
-#endif /* MANAGER_H_ */
+#endif /* BASE_MANAGER_H_ */

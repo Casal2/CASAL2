@@ -40,9 +40,9 @@ enum Type {
 namespace State {
 enum Type {
   kInitialise,
-  kVerify,
   kValidate,
   kBuild,
+  kVerify,
   kPreExecute,
   kExecute,
   kFinalise,
@@ -58,19 +58,33 @@ public:
   // Methods
   static shared_ptr<Model>    Instance();
   virtual                     ~Model() = default;
-  void                        Run();
+  void                        Start();
 
   // Accessors
   void                        set_run_mode(RunMode::Type new_mode) { run_mode_ = new_mode; }
   RunMode::Type               run_mode() { return run_mode_; }
+  unsigned                    start_year() { return start_year_; }
+  unsigned                    run_length() { return run_length_; }
+  unsigned                    min_age() { return min_age_; }
+  unsigned                    max_age() { return max_age_; }
 
 private:
   // Methods
   Model();
+  void                        Initialise();
+  void                        Validate();
+  void                        Build();
+  void                        Verify();
+  void                        RunBasic();
+  void                        RunEstimation();
 
   // Members
   RunMode::Type               run_mode_ = RunMode::kInvalid;
   State::Type                 state_    = State::kInitialise;
+  unsigned                    start_year_ = 0;
+  unsigned                    run_length_ = 0;
+  unsigned                    min_age_ = 0;
+  unsigned                    max_age_ = 0;
 };
 
 /**

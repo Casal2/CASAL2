@@ -45,12 +45,12 @@ namespace utilities {
 
 #define LOG_INFO(value) {\
   ostringstream o;\
-  o << "[INFO] " << __FILE__ << ":" << __FUNCTION__ << ":" << __LINE__ << " = " << value;\
+  o << "[I] " << __FILE__ << ":" << __FUNCTION__ << ":" << __LINE__ << " = " << value;\
   isam::utilities::Logging::Instance().Log(o.str()); }
 
 #define LOG_WARNING(value) {\
   ostringstream o;\
-  o << "[WARNING] " << __FILE__ << ":" << __FUNCTION__ << ":" << __LINE__ << " = " << value;\
+  o << "[W] " << __FILE__ << ":" << __FUNCTION__ << ":" << __LINE__ << " = " << value;\
   isam::utilities::Logging::Instance().Log(o.str()); }
 
 #define LOG_ERROR(value) {\

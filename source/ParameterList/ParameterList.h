@@ -97,7 +97,7 @@ public:
   ParameterList() = default;
   virtual                     ~ParameterList() = default;
   void                        RegisterAllowed(const string label);
-  bool                        HasParameter(const string& label);
+  bool                        IsDefined(const string& label);
   bool                        Add(const string& label, const string& value, const string& file_name, const unsigned& line_number);
   bool                        Add(const string& label, const vector<string>& values, const string& file_name, const unsigned& line_number);
   bool                        AddTable(const string& label, const vector<string>& columns, const vector<vector<string> >& data, const string& file_name, const unsigned& line_number);
