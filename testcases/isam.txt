@@ -1,9 +1,14 @@
 @model
-start_year 1999
-run_length 10
+start_year 2000
+run_length 12
 min_age 1
-max_age 50
-age_plus t
+max_age 10
 
 @categories
 names male female
+
+@recruitment
+type constant
+categories male female
+ages 1
+r0 10000
