@@ -44,7 +44,11 @@ shared_ptr<Categories> Categories::Instance() {
 /**
  * Validate our Categories
  */
-void Categories::validate() {
+void Categories::Validate() {
+
+  // Check that we actually had a categories block
+  if (block_type_ == "")
+    LOG_ERROR("The @categories block is missing from the configuration file. This block is required");
 
   // Check for all required parameters
   CheckForRequiredParameter(PARAM_NAMES);

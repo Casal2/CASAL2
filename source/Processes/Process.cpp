@@ -10,12 +10,9 @@
 namespace isam {
 
 Process::Process() {
-  // TODO Auto-generated constructor stub
-
 }
 
 Process::~Process() {
-  // TODO Auto-generated destructor stub
 }
 
 } /* namespace iSAM */

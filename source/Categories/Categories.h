@@ -44,7 +44,7 @@ public:
   // Methods
   static shared_ptr<Categories> Instance();
   virtual                       ~Categories() = default;
-  void                          validate();
+  void                          Validate();
 
   // Accessors
   string                        format() { return format_; }

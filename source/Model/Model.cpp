@@ -15,6 +15,8 @@
 
 #include <iostream>
 
+#include "Categories/Categories.h"
+#include "Processes/Manager.h"
 #include "Utilities/Logging/Logging.h"
 
 // Namespaces
@@ -84,19 +86,32 @@ void Model::Start() {
 }
 
 /**
- *
+ * This method will initialise everything that is needed to be done before the Validation starts.
  */
-void Model::Initialise() { }
+void Model::Initialise() {
+}
+
+/**
+ * First we will do the local validations. Then we will call validation on the other objects
+ */
+void Model::Validate() {
+
+  // Check that we've actually defined a @model block
+  if (block_type_ == "")
+    LOG_ERROR("The @model block is missing from configuration file. This block is required.");
+
+  // Call validation for the other objects required by the model
+  Categories::Instance()->Validate();
+  processes::Manager::Instance().Validate();
+}
 
 /**
  *
  */
-void Model::Validate() { }
+void Model::Build() {
 
-/**
- *
- */
-void Model::Build() { }
+
+}
 
 /**
  *

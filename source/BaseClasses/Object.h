@@ -56,10 +56,10 @@ protected:
   void                        CheckForRequiredParameter(const string &label);
 
   // Members
-  string                      block_type_;
-  string                      label_;
-  string                      defined_file_name_;
-  unsigned                    defined_line_number_;
+  string                      block_type_           = "";
+  string                      label_                = "";
+  string                      defined_file_name_    = "";
+  unsigned                    defined_line_number_  = 0;
   ParameterList               parameters_;
 
   DISALLOW_COPY_AND_ASSIGN(Object);

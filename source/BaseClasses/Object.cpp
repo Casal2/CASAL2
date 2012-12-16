@@ -21,9 +21,6 @@ namespace base {
  * Default Constructor
  */
 Object::Object() {
-
-  // Default our members
-  label_          = "";
 }
 
 /**

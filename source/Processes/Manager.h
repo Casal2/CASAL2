@@ -1,22 +1,39 @@
-/*
- * Manager.h
+/**
+ * @file Manager.h
+ * @author  Scott Rasmussen (scott.rasmussen@zaita.com)
+ * @version 1.0
+ * @date 14/12/2012
+ * @section LICENSE
  *
- *  Created on: 13/12/2012
- *      Author: Admin
+ * Copyright NIWA Science ©2012 - www.niwa.co.nz
+ *
+ * @section DESCRIPTION
+ *
+ * The time class represents a moment of time.
+ *
+ * $Date: 2008-03-04 16:33:32 +1300 (Tue, 04 Mar 2008) $
  */
+#ifndef PROCESSES_MANAGER_H_
+#define PROCESSES_MANAGER_H_
 
-#ifndef MANAGER_H_
-#define MANAGER_H_
+// Headers
+#include "BaseClasses/Manager.h"
+#include "Processes/Process.h"
 
+// Namespaces
 namespace isam {
 namespace processes {
 
-class Manager {
+/**
+ * Class Definition
+ */
+class Manager : public isam::base::Manager<isam::processes::Manager, isam::Process> {
 public:
   Manager();
-  virtual ~Manager();
+  virtual                     ~Manager() noexcept(true);
+  void                        Validate();
 };
 
 } /* namespace processes */
 } /* namespace isam */
-#endif /* MANAGER_H_ */
+#endif /* PROCESSES_MANAGER_H_ */
