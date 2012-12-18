@@ -13,6 +13,7 @@
 // Headers
 #include "Factory.h"
 
+#include "Processes/Manager.h"
 #include "Processes/Children/Ageing.h"
 #include "Processes/Children/ConstantMortality.h"
 #include "Processes/Children/ConstantRecruitment.h"
@@ -33,8 +34,8 @@ ProcessPtr Factory::Create(const string& block_type, const string& process_type)
 
   }
 
-  //if (result)
-  //  ProcessManager::Instance().Add(result);
+  if (result)
+    isam::processes::Manager::Instance().AddObject(result);
 
   return result;
 }

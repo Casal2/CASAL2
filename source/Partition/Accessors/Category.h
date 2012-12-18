@@ -18,29 +18,50 @@
 #define CATEGORY_H_
 
 // Headers
-#include "Partition/Partition.h"
+#include <map>
+#include <vector>
+#include <string>
+
+#include "Utilities/Types.h"
 
 // Namespaces
 namespace isam {
+namespace partition {
 namespace accessors {
 
-typedef vector<Double>::iterator CategoryIterator;
+using std::map;
+using std::vector;
+using std::pair;
+using std::string;
+using isam::utilities::Double;
 
 /**
  *
  */
 class Category {
+private:
+  // Typedefs
+  typedef map<unsigned, vector<pair<string, vector<Double>& > > > CategoryMap; // map<year, vector<pair<category, vector<values>>>>
+  typedef vector<pair<string, vector<Double>& > >  CategoryInfo; // vector<pair<category, values>>
+
 public:
-  Category(string category);
+  // Methods
+  Category();
   virtual                     ~Category();
-  CategoryIterator            begin();
-  CategoryIterator            end();
+  void                        Begin();
+  bool                        Next();
+
+  // Accessors
+  vector<Double>&             current_values();
+  string                      current_category();
 
 private:
   // Members
-  CategoryIterator            iterator_;
+  CategoryMap                 category_map_;
+  CategoryInfo::iterator      category_iter_;
 };
 
 }/* namespace accessors */
+}/* namespace partition */
 } /* namespace isam */
 #endif /* CATEGORY_H_ */

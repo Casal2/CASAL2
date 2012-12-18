@@ -61,24 +61,18 @@
 #include <string>
 #include <set>
 
+#include "Parameter.h"
 #include "Table.h"
 
 // Namespaces
 using std::map;
 using std::vector;
 using std::string;
-using isam::parameter::TablePtr;
+using isam::parameterlist::TablePtr;
+using isam::parameterlist::Parameter;
 
 namespace isam {
 
-/**
- * Struct Definition: Parameter
- */
-struct Parameter {
-  vector<string>  values_;
-  string          file_name_; // File values for error reporting
-  unsigned        line_number_;
-};
 /**
  * Struct Definition: ParameterTable
  */

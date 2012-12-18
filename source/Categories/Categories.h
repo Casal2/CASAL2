@@ -48,6 +48,7 @@ public:
 
   // Accessors
   string                        format() { return format_; }
+  vector<string>                category_names() { return category_names_; }
 
 private:
   // Methods
@@ -56,6 +57,7 @@ private:
   // Members
   string                      format_;
   vector<string>              names_;
+  vector<string>              category_names_;
   map<string, CategoryInfo>   categories_;
 
 };

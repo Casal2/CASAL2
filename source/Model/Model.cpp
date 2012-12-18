@@ -16,8 +16,11 @@
 #include <iostream>
 
 #include "Categories/Categories.h"
+#include "Partition/Accessors/Category.h"
+#include "Partition/Partition.h"
 #include "Processes/Manager.h"
 #include "Utilities/Logging/Logging.h"
+#include "Utilities/To.h"
 
 // Namespaces
 namespace isam {
@@ -55,6 +58,8 @@ shared_ptr<Model> Model::Instance() {
  * each step.
  */
 void Model::Start() {
+  LOG_TRACE();
+
   if (state_ != State::kInitialise)
     LOG_CODE_ERROR("Model state should always be initialise when entering the start method");
 
@@ -89,19 +94,43 @@ void Model::Start() {
  * This method will initialise everything that is needed to be done before the Validation starts.
  */
 void Model::Initialise() {
+  LOG_TRACE();
 }
 
 /**
  * First we will do the local validations. Then we will call validation on the other objects
  */
 void Model::Validate() {
+  LOG_TRACE();
 
   // Check that we've actually defined a @model block
   if (block_type_ == "")
     LOG_ERROR("The @model block is missing from configuration file. This block is required.");
 
+  // Validate our own parameters
+  CheckForRequiredParameter(PARAM_START_YEAR);
+  CheckForRequiredParameter(PARAM_RUN_LENGTH);
+  CheckForRequiredParameter(PARAM_MIN_AGE);
+  CheckForRequiredParameter(PARAM_MAX_AGE);
+
+  // Validate: start_year
+  start_year_ = parameters_.Get(PARAM_START_YEAR).GetValue<unsigned>();
+  run_length_ = parameters_.Get(PARAM_RUN_LENGTH).GetValue<unsigned>();
+  min_age_    = parameters_.Get(PARAM_MIN_AGE).GetValue<unsigned>();
+  max_age_    = parameters_.Get(PARAM_MAX_AGE).GetValue<unsigned>();
+
+  if (min_age_ > max_age_) {
+    Parameter min_age = parameters_.Get(PARAM_MIN_AGE);
+    Parameter max_age = parameters_.Get(PARAM_MAX_AGE);
+
+    LOG_ERROR("At line " << max_age.line_number() << " in file " << max_age.file_name()
+        << ": max_age is less than the min_age defined at line " << min_age.line_number() << " in file " << min_age.file_name());
+  }
+
   // Call validation for the other objects required by the model
   Categories::Instance()->Validate();
+  Partition::Instance().Validate();
+
   processes::Manager::Instance().Validate();
 }
 
@@ -109,19 +138,27 @@ void Model::Validate() {
  *
  */
 void Model::Build() {
+  LOG_TRACE();
 
+  Partition::Instance().Build();
+
+  isam::partition::accessors::Category category_accessor;
 
 }
 
 /**
  *
  */
-void Model::Verify() { }
+void Model::Verify() {
+  LOG_TRACE();
+
+}
 
 /**
  *
  */
 void Model::RunBasic() {
+  LOG_TRACE();
   cout << "Running model in basic mode" << endl;
 
 }

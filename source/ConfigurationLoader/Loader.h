@@ -33,7 +33,7 @@ using std::vector;
 using std::string;
 using isam::base::Object;
 using isam::base::ObjectPtr;
-using isam::parameter::TablePtr;
+using isam::parameterlist::TablePtr;
 
 namespace isam {
 namespace configuration {

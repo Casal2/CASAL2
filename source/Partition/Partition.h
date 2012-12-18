@@ -44,12 +44,20 @@ enum ModelType {
 class Partition {
 public:
   // Methods
-  Partition() = default;
-  virtual ~Partition() = default;
+  virtual                     ~Partition() = default;
+  static Partition&           Instance();
+  void                        Validate();
+  void                        Build();
+
+  // Accessors
+  map<string, vector<Double> >& grid() { return grid_; }
 
 private:
+  // Methods
+  Partition() = default;
+
   // Members
-  map<string, vector<Double> >  partition_;  // 2D Array map<Category, vector<Age/Length/Bin> >
+  map<string, vector<Double> >  grid_;  // 2D Array map<Category, vector<Age/Length/Bin> >
 };
 
 } /* namespace isam */

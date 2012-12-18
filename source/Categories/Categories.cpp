@@ -62,10 +62,7 @@ void Categories::Validate() {
    */
   if (parameters_.IsDefined(PARAM_FORMAT)) {
     Parameter parameter = parameters_.Get(PARAM_FORMAT);
-    if (parameter.values_.size() > 1)
-      LOG_ERROR("At line " << parameter.line_number_ << " in file " << parameter.file_name_
-          << ": format can only have 1 parameter specified. E.g format species.sex.stage");
-    format_ = parameter.values_[0];
+    format_ = parameter.GetValue<string>();
   }
 
   /**
@@ -78,7 +75,7 @@ void Categories::Validate() {
 
   // Parameter: Names
   Parameter parameter = parameters_.Get(PARAM_NAMES);
-  names_ = parameter.values_;
+  names_ = parameter.values();
 
   ModelPtr model = Model::Instance();
 
@@ -89,6 +86,7 @@ void Categories::Validate() {
   for (unsigned i = 0; i < names_.size(); ++i) {
 
     // TODO: Verify the name matches the format string properly
+    // TODO: Expand the names
 
     // Create a new CategoryInfo object
     CategoryInfo new_category_info;
@@ -96,21 +94,9 @@ void Categories::Validate() {
     new_category_info.min_age_  = model->min_age();
     new_category_info.max_age_  = model->max_age();
     categories_[names_[i]] = new_category_info;
+
+    category_names_.push_back(names_[i]);
   }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
   // Parameter: Years
   if (parameters_.IsDefined(PARAM_YEARS)) {
@@ -123,8 +109,6 @@ void Categories::Validate() {
     parameter = parameters_.Get(PARAM_AGES);
 
   }
-
-
 }
 
 } /* namespace isam */
