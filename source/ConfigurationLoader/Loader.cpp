@@ -271,7 +271,7 @@ void Loader::ParseBlock(vector<FileLine> &block) {
     if (object->parameters().IsDefined(parameter_type)) {
       const Parameter& parameter = object->parameters().Get(parameter_type);
       LOG_ERROR("At line " << file_line.line_number_ << " of " << file_line.file_name_
-          << ": Parameter '" << parameter_type << "' was already specified at line " << parameter.line_number_ << " of " << parameter.file_name_);
+          << ": Parameter '" << parameter_type << "' was already specified at line " << parameter.line_number() << " of " << parameter.file_name());
     }
 
     if (!object->parameters().Add(parameter_type, values, file_line.file_name_, file_line.line_number_))

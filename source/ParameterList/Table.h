@@ -24,7 +24,7 @@
 
 // Namespaces
 namespace isam {
-namespace parameter {
+namespace parameterlist {
 
 using std::string;
 using std::vector;
@@ -50,8 +50,8 @@ private:
 /**
  * Typedefs
  */
-typedef boost::shared_ptr<isam::parameter::Table> TablePtr;
+typedef boost::shared_ptr<isam::parameterlist::Table> TablePtr;
 
-} /* namespace parameter */
+} /* namespace parameterlist */
 } /* namespace isam */
 #endif /* TABLE_H_ */

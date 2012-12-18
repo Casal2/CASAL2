@@ -21,6 +21,7 @@
 // Headers
 #include <string>
 #include <sstream>
+#include <cstdlib>
 
 // Using
 using std::string;

@@ -15,7 +15,7 @@
 
 // Namespaces
 namespace isam {
-namespace parameter {
+namespace parameterlist {
 
 /**
  * Default constructor
@@ -42,5 +42,5 @@ void Table::AddRow(vector<string> &row) {
   data_.push_back(row);
 }
 
-} /* namespace parameter */
+} /* namespace parameterlist */
 } /* namespace isam */
