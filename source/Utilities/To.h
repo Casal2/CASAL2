@@ -46,6 +46,18 @@ inline string ToLowercase(const ::std::string arg) {
 };
 
 /**
+ * This method will lowercase an entire vector of strings.
+ *
+ * @param values The vector containing strings to lowercase
+ */
+inline void ToLowercase(vector<string> &values) {
+
+  for (unsigned i = 0; i < values.size(); ++i) {
+    values[i] = isam::utilities::ToLowercase(values[i]);
+  }
+}
+
+/**
  * This is a shortened version of the method used
  * to call boost::lexical_cast<Target>(source);.
  */

@@ -27,8 +27,14 @@ namespace isam {
  */
 class TimeStep : public isam::base::Object {
 public:
+  // Methods
   TimeStep();
-  virtual ~TimeStep();
+  virtual                     ~TimeStep() = default;
+  void                        Validate();
+
+private:
+  // Members
+  vector<string>              process_names_;
 };
 
 /**

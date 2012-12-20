@@ -51,8 +51,8 @@ namespace utilities {
 
 #define LOG_WARNING(value) {\
   ostringstream o;\
-  o << "[W] " << __FILE__ << ":" << __FUNCTION__ << ":" << __LINE__ << " = " << value;\
-  isam::utilities::Logging::Instance().Log(o.str()); }
+  o << "[WARNING] " << __FILE__ << ":" << __FUNCTION__ << ":" << __LINE__ << " = " << value << std::endl;\
+  isam::utilities::Logging::Instance().ForceLog(o.str()); }
 
 #define LOG_ERROR(value) {\
   ostringstream o;\

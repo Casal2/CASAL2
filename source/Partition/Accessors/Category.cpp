@@ -54,24 +54,11 @@ Category::Category() {
   for (unsigned i = 0; i < run_length; ++i) {
 
     for (string category : category_names) {
-      LOG_INFO("Adding category " << category << " @ year " << start_year + i);
     // if (category in start_year + i
       pair<string, vector<Double>& > category_reference = { category, grid[category] };
       category_map_[start_year + i].push_back(category_reference);
     }
   }
-
-  // TODO: DEBUG
-  cout << "** CATEGORY ACCESSOR DEBUG" << endl;
-  cout << std::left << std::setw(10) << "year" << std::setw(20) << "category" << endl;
-  for (auto i = category_map_.begin(); i != category_map_.end(); ++i) {
-
-    for (auto j = i->second.begin(); j != i->second.end(); ++j) {
-      cout << std::left << std::setw(10) << i->first << std::setw(20) << j->first << endl;
-    }
-  }
-  cout << endl << endl;
-
 }
 
 /**

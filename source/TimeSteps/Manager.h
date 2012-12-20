@@ -21,8 +21,10 @@ namespace timesteps {
  */
 class Manager : public isam::base::Manager<isam::timesteps::Manager, isam::TimeStep> {
 public:
+  // Methods
   Manager();
-  virtual ~Manager() noexcept(true);
+  virtual                     ~Manager() noexcept(true);
+  void                        Validate();
 };
 
 } /* namespace timesteps */

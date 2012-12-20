@@ -1,47 +1,45 @@
 /**
- * @file Ageing.h
+ * @file MortalityConstantRate.h
  * @author  Scott Rasmussen (scott.rasmussen@zaita.com)
  * @version 1.0
- * @date 18/09/2012
+ * @date 20/12/2012
  * @section LICENSE
  *
  * Copyright NIWA Science ©2012 - www.niwa.co.nz
  *
  * @section DESCRIPTION
  *
- * This is a simple ageing process. It's responsible for ageing all
- * fish by 1 each time it's called.
+ * The time class represents a moment of time.
  *
  * $Date: 2008-03-04 16:33:32 +1300 (Tue, 04 Mar 2008) $
  */
-#ifndef AGEING_H_
-#define AGEING_H_
+#ifndef MORTALITYCONSTANTRATE_H_
+#define MORTALITYCONSTANTRATE_H_
 
 // Headers
 #include "Processes/Process.h"
 
-// Namespaces
+// namespaces
 namespace isam {
 namespace processes {
 
 /**
  * Class Definition
  */
-class Ageing : public isam::Process {
+class MortalityConstantRate : public isam::Process {
 public:
   // Methods
-  Ageing();
-  virtual                     ~Ageing() = default;
+  MortalityConstantRate();
+  virtual                     ~MortalityConstantRate() = default;
   void                        Validate();
-  void                        Build();
-  void                        Execute();
 
 private:
   // Members
   vector<string>              category_names_;
-
+  vector<double>              m_;
+  vector<string>              selectivity_names_;
 };
 
 } /* namespace processes */
 } /* namespace isam */
-#endif /* AGEING_H_ */
+#endif /* MORTALITYCONSTANTRATE_H_ */

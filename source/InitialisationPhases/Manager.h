@@ -21,8 +21,10 @@ namespace initialisationphases {
  */
 class Manager : public base::Manager<isam::initialisationphases::Manager, isam::InitialisationPhase> {
 public:
+  // Methods
   Manager();
-  virtual ~Manager() noexcept(true);
+  virtual                     ~Manager() noexcept(true);
+  void                        Validate();
 };
 
 } /* namespace initialisationphases */

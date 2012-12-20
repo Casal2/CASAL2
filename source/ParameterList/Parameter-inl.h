@@ -80,7 +80,7 @@ vector<T> Parameter::GetValues() const {
   for (size_t i = 0; i < values_.size(); ++i) {
     T temp_value;
 
-    if (!isam::utilities::To<unsigned>(values_[i], temp_value)) {
+    if (!isam::utilities::To<T>(values_[i], temp_value)) {
       LOG_CODE_ERROR("Failed to convert type. This shouldn't occur because we did a type check above");
     }
 
