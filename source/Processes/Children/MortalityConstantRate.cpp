@@ -42,13 +42,14 @@ MortalityConstantRate::MortalityConstantRate() {
  */
 void MortalityConstantRate::Validate() {
 
+  CheckForRequiredParameter(PARAM_LABEL);
   CheckForRequiredParameter(PARAM_TYPE);
   CheckForRequiredParameter(PARAM_CATEGORIES);
   CheckForRequiredParameter(PARAM_M);
   CheckForRequiredParameter(PARAM_SELECTIVITIES);
-  AssignLabelFromParameters();
 
   // Assign and validate parameters
+  label_          = parameters_.Get(PARAM_LABEL).GetValue<string>();
   category_names_ = parameters_.Get(PARAM_CATEGORIES).GetValues<string>();
 
   Parameter parameter = parameters_.Get(PARAM_M);

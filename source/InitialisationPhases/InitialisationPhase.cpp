@@ -25,15 +25,13 @@ InitialisationPhase::InitialisationPhase() {
  * Validate our initialisation phase.
  *
  * 1. Check for any required parameters
- * 2. Assign the label
- * 3. Assign any remaining variables
+ * 2. Assign local variables from parameters
  */
 void InitialisationPhase::Validate() {
 
   CheckForRequiredParameter(PARAM_LABEL);
   CheckForRequiredParameter(PARAM_TIME_STEPS);
   CheckForRequiredParameter(PARAM_YEARS);
-  AssignLabelFromParameters();
 
   label_            = parameters_.Get(PARAM_LABEL).GetValue<string>();
   time_step_names_  = parameters_.Get(PARAM_TIME_STEPS).GetValues<string>();

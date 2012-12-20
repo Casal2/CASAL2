@@ -36,15 +36,5 @@ void Object::CheckForRequiredParameter(const string &label) {
         << ": " << block_type_ << " block requires the '" << label << "' parameter");
 }
 
-/**
- * This method will check that we have a label in our parameters_. Assign it to
- * the internal object and lowercase it.
- */
-void Object::AssignLabelFromParameters() {
-
-  CheckForRequiredParameter(PARAM_LABEL);
-  label_ = parameters_.Get(PARAM_LABEL).GetValue<string>();
-}
-
 } /* namespace base */
 } /* namespace isam */

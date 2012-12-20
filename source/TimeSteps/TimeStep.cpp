@@ -28,10 +28,11 @@ TimeStep::TimeStep() {
  * Validate our time step
  */
 void TimeStep::Validate() {
+  CheckForRequiredParameter(PARAM_LABEL);
   CheckForRequiredParameter(PARAM_PROCESSES);
-  AssignLabelFromParameters();
 
-  process_names_ = parameters_.Get(PARAM_PROCESSES).GetValues<string>();
+  label_          = parameters_.Get(PARAM_LABEL).GetValue<string>();
+  process_names_  = parameters_.Get(PARAM_PROCESSES).GetValues<string>();
 }
 
 } /* namespace isam */

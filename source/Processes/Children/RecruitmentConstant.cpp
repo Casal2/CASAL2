@@ -46,9 +46,9 @@ void RecruitmentConstant::Validate() {
   CheckForRequiredParameter(PARAM_CATEGORIES);
   CheckForRequiredParameter(PARAM_AGE);
   CheckForRequiredParameter(PARAM_R0);
-  AssignLabelFromParameters();
 
   // Assign local parameters
+  label_           = parameters_.Get(PARAM_LABEL).GetValue<string>();
   category_names_  = parameters_.Get(PARAM_CATEGORIES).GetValues<string>();
   r0_              = parameters_.Get(PARAM_R0).GetValue<double>();
   age_             = parameters_.Get(PARAM_AGE).GetValue<unsigned>();
