@@ -38,9 +38,10 @@ Ageing::Ageing() {
  */
 void Ageing::Validate() {
 
+  CheckForRequiredParameter(PARAM_LABEL);
   CheckForRequiredParameter(PARAM_CATEGORIES);
-  AssignLabelFromParameters();
 
+  label_          = parameters_.Get(PARAM_LABEL).GetValue<string>();
   category_names_ = parameters_.Get(PARAM_CATEGORIES).GetValues<string>();
 }
 

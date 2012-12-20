@@ -16,6 +16,7 @@
 #include "Processes/Manager.h"
 #include "Processes/Children/Ageing.h"
 #include "Processes/Children/MortalityConstantRate.h"
+#include "Processes/Children/MortalityEvent.h"
 #include "Processes/Children/RecruitmentConstant.h"
 
 // Namespaces
@@ -37,6 +38,9 @@ ProcessPtr Factory::Create(const string& block_type, const string& process_type)
 
   } else if (block_type == PARAM_MORTALITY && process_type == PARAM_CONSTANT_RATE) {
     result = ProcessPtr(new MortalityConstantRate());
+
+  } else if (block_type == PARAM_MORTALITY && process_type == PARAM_EVENT) {
+    result = ProcessPtr(new MortalityEvent());
 
   }
 
