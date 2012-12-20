@@ -13,18 +13,16 @@ namespace isam {
 namespace processes {
 
 Manager::Manager() {
-  // TODO Auto-generated constructor stub
-
 }
 
 Manager::~Manager() noexcept(true) {
-  // TODO Auto-generated destructor stub
 }
 
 /**
  * Validate any loaded processes we have.
  */
 void Manager::Validate() {
+  LOG_TRACE();
 
   if (objects_.size() == 0)
     LOG_ERROR("The configuration file requires you specify at least one type of process. E.g @recruitment, @mortality, @ageing");

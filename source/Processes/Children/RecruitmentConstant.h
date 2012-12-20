@@ -26,14 +26,21 @@ namespace processes {
 /**
  * Class definition
  */
-class ConstantRecruitment : public isam::Process {
+class RecruitmentConstant : public isam::Process {
 public:
   // Methods
-  ConstantRecruitment();
-  virtual                     ~ConstantRecruitment();
+  RecruitmentConstant();
+  virtual                     ~RecruitmentConstant() = default;
   void                        Validate();
   void                        Build();
   void                        Execute();
+
+private:
+  // Members
+  vector<string>              category_names_;
+  vector<double>              proportions_;
+  unsigned                    r0_;
+  unsigned                    age_;
 };
 
 } /* namespace processes */

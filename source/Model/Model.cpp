@@ -16,9 +16,11 @@
 #include <iostream>
 
 #include "Categories/Categories.h"
+#include "InitialisationPhases/Manager.h"
 #include "Partition/Accessors/Category.h"
 #include "Partition/Partition.h"
 #include "Processes/Manager.h"
+#include "TimeSteps/Manager.h"
 #include "Utilities/Logging/Logging.h"
 #include "Utilities/To.h"
 
@@ -131,7 +133,9 @@ void Model::Validate() {
   Categories::Instance()->Validate();
   Partition::Instance().Validate();
 
+  initialisationphases::Manager::Instance().Validate();
   processes::Manager::Instance().Validate();
+  timesteps::Manager::Instance().Validate();
 }
 
 /**

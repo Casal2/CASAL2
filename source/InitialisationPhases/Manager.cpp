@@ -19,5 +19,17 @@ Manager::~Manager() noexcept(true) {
   // TODO Auto-generated destructor stub
 }
 
+/**
+ *
+ */
+void Manager::Validate() {
+  LOG_TRACE();
+
+  for(InitialisationPhasePtr phase : objects_) {
+    phase->Validate();
+  }
+
+}
+
 } /* namespace initialisationphases */
 } /* namespace isam */

@@ -54,6 +54,7 @@ public:
 protected:
   // Methods
   void                        CheckForRequiredParameter(const string &label);
+  void                        AssignLabelFromParameters();
 
   // Members
   string                      block_type_           = "";

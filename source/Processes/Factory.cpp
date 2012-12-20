@@ -15,8 +15,8 @@
 
 #include "Processes/Manager.h"
 #include "Processes/Children/Ageing.h"
-#include "Processes/Children/ConstantMortality.h"
-#include "Processes/Children/ConstantRecruitment.h"
+#include "Processes/Children/MortalityConstantRate.h"
+#include "Processes/Children/RecruitmentConstant.h"
 
 // Namespaces
 namespace isam {
@@ -29,8 +29,14 @@ ProcessPtr Factory::Create(const string& block_type, const string& process_type)
 
   ProcessPtr result;
 
-  if (block_type == "recruitment" && process_type == "constant") {
-    result = ProcessPtr(new ConstantRecruitment());
+  if (block_type == PARAM_RECRUITMENT && process_type == PARAM_CONSTANT) {
+    result = ProcessPtr(new RecruitmentConstant());
+
+  } else if (block_type == PARAM_AGEING && process_type == "") {
+    result = ProcessPtr(new Ageing());
+
+  } else if (block_type == PARAM_MORTALITY && process_type == PARAM_CONSTANT_RATE) {
+    result = ProcessPtr(new MortalityConstantRate());
 
   }
 

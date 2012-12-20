@@ -183,6 +183,9 @@ void Loader::ParseBlock(vector<FileLine> &block) {
   /**
    * Create Object
    */
+  block_type  = utilities::ToLowercase(block_type);
+  object_type = utilities::ToLowercase(object_type);
+
   ObjectPtr object = CreateObject(block_type, object_type);
   if (!object)
     LOG_ERROR("At line " << block[0].line_number_ << " of " << block[0].file_name_
@@ -292,14 +295,23 @@ ObjectPtr Loader::CreateObject(const string &block_type, const string &object_ty
 
   ObjectPtr object;
 
+
+
+
   if (block_type == PARAM_MODEL) {
     object = Model::Instance();
+
+  } else if (block_type == PARAM_AGEING) {
+    object = processes::Factory::Create(block_type, object_type);
 
   } else if (block_type == PARAM_CATEGORIES) {
     object = Categories::Instance();
 
   } else if (block_type == PARAM_INITIALIZATION_PHASE) {
     object = initialisationphases::Factory::Create();
+
+  } else if (block_type == PARAM_MORTALITY) {
+    object = processes::Factory::Create(block_type, object_type);
 
   } else if (block_type == PARAM_PROCESS) {
     object = processes::Factory::Create(block_type, object_type);

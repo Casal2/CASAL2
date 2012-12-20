@@ -1,10 +1,18 @@
-/*
- * InitialisationPhase.h
+/**
+ * @file InitialisationPhase.h
+ * @author  Scott Rasmussen (scott.rasmussen@zaita.com)
+ * @version 1.0
+ * @date 20/12/2012
+ * @section LICENSE
  *
- *  Created on: 13/12/2012
- *      Author: Admin
+ * Copyright NIWA Science ©2012 - www.niwa.co.nz
+ *
+ * @section DESCRIPTION
+ *
+ * The time class represents a moment of time.
+ *
+ * $Date: 2008-03-04 16:33:32 +1300 (Tue, 04 Mar 2008) $
  */
-
 #ifndef INITIALISATIONPHASE_H_
 #define INITIALISATIONPHASE_H_
 
@@ -13,11 +21,26 @@
 
 namespace isam {
 
+/**
+ * Class Defintiion
+ */
 class InitialisationPhase : public isam::base::Object {
 public:
+  // Methods
   InitialisationPhase();
-  virtual ~InitialisationPhase();
+  virtual                     ~InitialisationPhase() = default;
+  void                        Validate();
+
+private:
+  // Members
+  unsigned                    years_;
+  vector<string>              time_step_names_;
 };
+
+/*
+ * Typedef
+ */
+typedef boost::shared_ptr<InitialisationPhase> InitialisationPhasePtr;
 
 } /* namespace isam */
 #endif /* INITIALISATIONPHASE_H_ */

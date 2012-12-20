@@ -9,13 +9,35 @@
 
 namespace isam {
 
+/**
+ * Default constructor
+ */
 InitialisationPhase::InitialisationPhase() {
-  // TODO Auto-generated constructor stub
+  LOG_TRACE();
+
+  parameters_.RegisterAllowed(PARAM_LABEL);
+  parameters_.RegisterAllowed(PARAM_TIME_STEPS);
+  parameters_.RegisterAllowed(PARAM_YEARS);
 
 }
 
-InitialisationPhase::~InitialisationPhase() {
-  // TODO Auto-generated destructor stub
+/**
+ * Validate our initialisation phase.
+ *
+ * 1. Check for any required parameters
+ * 2. Assign the label
+ * 3. Assign any remaining variables
+ */
+void InitialisationPhase::Validate() {
+
+  CheckForRequiredParameter(PARAM_LABEL);
+  CheckForRequiredParameter(PARAM_TIME_STEPS);
+  CheckForRequiredParameter(PARAM_YEARS);
+  AssignLabelFromParameters();
+
+  label_            = parameters_.Get(PARAM_LABEL).GetValue<string>();
+  time_step_names_  = parameters_.Get(PARAM_TIME_STEPS).GetValues<string>();
+  years_            = parameters_.Get(PARAM_YEARS).GetValue<unsigned>();
 }
 
 } /* namespace isam */
