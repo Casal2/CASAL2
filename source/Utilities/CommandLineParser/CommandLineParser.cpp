@@ -61,8 +61,15 @@ void CommandLineParser::Parse(int argc, const char* argv[]) {
 
   // Read our Parameters
   variables_map parameters;
-  boost::program_options::store(boost::program_options::parse_command_line(argc, argv, oDesc), parameters);
-  notify(parameters);
+
+  try {
+    boost::program_options::store(boost::program_options::parse_command_line(argc, argv, oDesc), parameters);
+    notify(parameters);
+
+  } catch (boost::program_options::unknown_option &ex) {
+    cout << "An error occurred while processing the command line. " << ex.what() << endl;
+
+  }
 
   /**
    * Load any variables into the global config that need to be available

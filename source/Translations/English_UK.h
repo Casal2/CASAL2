@@ -6,9 +6,11 @@
 // Description :
 // $Date: 2008-03-04 16:33:32 +1300 (Tue, 04 Mar 2008) $
 //============================================================================
-
 #ifndef ENGLISH_UK_H_
 #define ENGLISH_UK_H_
+
+// WARNING
+// TEXT STRING DEFINED AS PARAM_X MUST BE LOWERCASE ONLY
 
 //**********************************************************************
 // BASE CONFIGURATION
@@ -201,6 +203,7 @@
 #define PARAM_LOGNORMAL                           "lognormal"
 #define PARAM_LOWER_BOUND                         "lower_bound"
 #define PARAM_M                                   "m"
+#define PARAM_MATURATION                          "maturation"
 #define PARAM_MAX_AGE                             "max_age"
 #define PARAM_MAX_CORRELATION                     "max_correlation"
 #define PARAM_MAX_EVALUATIONS                     "evaluations"
@@ -259,6 +262,7 @@
 #define PARAM_Q                                   "q"
 #define PARAM_R0                                  "r0"
 #define PARAM_R0_LAYER                            "r0_layer"
+#define PARAM_RATE                                "rate"
 #define PARAM_RECRUITMENT                         "recruitment"
 #define PARAM_RECRUITMENT_VALUES                  "recruitment_values"
 #define PARAM_RANDOM_NUMBER_SEED                  "random_number_seed"

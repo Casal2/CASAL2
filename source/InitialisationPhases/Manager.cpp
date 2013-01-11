@@ -11,12 +11,9 @@ namespace isam {
 namespace initialisationphases {
 
 Manager::Manager() {
-  // TODO Auto-generated constructor stub
-
 }
 
 Manager::~Manager() noexcept(true) {
-  // TODO Auto-generated destructor stub
 }
 
 /**
