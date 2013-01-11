@@ -310,6 +310,9 @@ ObjectPtr Loader::CreateObject(const string &block_type, const string &object_ty
   } else if (block_type == PARAM_INITIALIZATION_PHASE) {
     object = initialisationphases::Factory::Create();
 
+  } else if (block_type == PARAM_MATURATION) {
+    object = processes::Factory::Create(block_type, object_type);
+
   } else if (block_type == PARAM_MORTALITY) {
     object = processes::Factory::Create(block_type, object_type);
 
@@ -322,7 +325,6 @@ ObjectPtr Loader::CreateObject(const string &block_type, const string &object_ty
   } else if (block_type == PARAM_TIME_STEP) {
     object = timesteps::Factory::Create();
   }
-
 
   return object;
 }
