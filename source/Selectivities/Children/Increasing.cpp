@@ -29,13 +29,23 @@ Increasing::Increasing() {
 }
 
 /**
- * Validate our selectivity
+ * Validate this selectivity. This will load the
+ * values that were passed in from the configuration
+ * file and assign them to the local variables.
+ *
+ * We'll then do some basic checks on the local
+ * variables to ensure they are within the business
+ * rules for the model.
  */
 void Increasing::Validate() {
+  LOG_TRACE();
+
+  CheckForRequiredParameter(PARAM_LABEL);
   CheckForRequiredParameter(PARAM_L);
   CheckForRequiredParameter(PARAM_H);
   CheckForRequiredParameter(PARAM_V);
 
+  label_  = parameters_.Get(PARAM_LABEL).GetValue<string>();
   low_    = parameters_.Get(PARAM_L).GetValue<double>();
   high_   = parameters_.Get(PARAM_H).GetValue<double>();
   v_      = parameters_.Get(PARAM_V).GetValues<double>();
@@ -65,11 +75,13 @@ void Increasing::Validate() {
 }
 
 /**
- * Reset our selectivity so the values are loaded
- * ready for the next execute phase
+ * Reset this selectivity so it's ready for the next execution
+ * phase in the model.
+ *
+ * This method will rebuild the cache of selectivity values
+ * for each age in the model.
  */
 void Increasing::Reset() {
-
   ModelPtr model = Model::Instance();
   for (unsigned age = model->min_age(); age <= model->max_age(); ++age) {
 

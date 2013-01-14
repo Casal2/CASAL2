@@ -35,7 +35,13 @@ DoubleExponential::DoubleExponential() {
 }
 
 /**
- * Validate this selectivity
+ * Validate this selectivity. This will load the
+ * values that were passed in from the configuration
+ * file and assign them to the local variables.
+ *
+ * We'll then do some basic checks on the local
+ * variables to ensure they are within the business
+ * rules for the model.
  */
 void DoubleExponential::Validate() {
   LOG_TRACE();
@@ -49,12 +55,13 @@ void DoubleExponential::Validate() {
   CheckForRequiredParameter(PARAM_Y2);
 
   // Load our parameters
-  x0_ = parameters_.Get(PARAM_X0).GetValue<double>();
-  x1_ = parameters_.Get(PARAM_X1).GetValue<double>();
-  x2_ = parameters_.Get(PARAM_X2).GetValue<double>();
-  y0_ = parameters_.Get(PARAM_Y0).GetValue<double>();
-  y1_ = parameters_.Get(PARAM_Y1).GetValue<double>();
-  y2_ = parameters_.Get(PARAM_Y2).GetValue<double>();
+  label_  = parameters_.Get(PARAM_LABEL).GetValue<string>();
+  x0_     = parameters_.Get(PARAM_X0).GetValue<double>();
+  x1_     = parameters_.Get(PARAM_X1).GetValue<double>();
+  x2_     = parameters_.Get(PARAM_X2).GetValue<double>();
+  y0_     = parameters_.Get(PARAM_Y0).GetValue<double>();
+  y1_     = parameters_.Get(PARAM_Y1).GetValue<double>();
+  y2_     = parameters_.Get(PARAM_Y2).GetValue<double>();
 
   if (parameters_.IsDefined(PARAM_ALPHA))
     alpha_ = parameters_.Get(PARAM_ALPHA).GetValue<double>();
@@ -79,8 +86,11 @@ void DoubleExponential::Validate() {
 }
 
 /**
- * Reset the values for this selectivity so that it's
- * ready for the next execution phase
+ * Reset this selectivity so it's ready for the next execution
+ * phase in the model.
+ *
+ * This method will rebuild the cache of selectivity values
+ * for each age in the model.
  */
 void DoubleExponential::Reset() {
   ModelPtr model = Model::Instance();

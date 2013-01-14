@@ -1,22 +1,68 @@
-/*
- * KnifeEdge.cpp
+/**
+ * @file KnifeEdge.cpp
+ * @author  Scott Rasmussen (scott.rasmussen@zaita.com)
+ * @version 1.0
+ * @date 15/01/2013
+ * @section LICENSE
  *
- *  Created on: 9/01/2013
- *      Author: Admin
+ * Copyright NIWA Science ©2013 - www.niwa.co.nz
+ *
+ * $Date: 2008-03-04 16:33:32 +1300 (Tue, 04 Mar 2008) $
  */
 
+// Headers
 #include "KnifeEdge.h"
 
+#include "Model/Model.h"
+
+// namespaces
 namespace isam {
 namespace selectivities {
 
+/**
+ * Default constructor
+ */
 KnifeEdge::KnifeEdge() {
-  // TODO Auto-generated constructor stub
-
+  parameters_.RegisterAllowed(PARAM_ALPHA);
+  parameters_.RegisterAllowed(PARAM_E);
 }
 
-KnifeEdge::~KnifeEdge() {
-  // TODO Auto-generated destructor stub
+/**
+ * Validate this selectivity. This will load the
+ * values that were passed in from the configuration
+ * file and assign them to the local variables.
+ *
+ * We'll then do some basic checks on the local
+ * variables to ensure they are within the business
+ * rules for the model.
+ */
+void KnifeEdge::Validate() {
+  LOG_TRACE();
+
+  CheckForRequiredParameter(PARAM_LABEL);
+  CheckForRequiredParameter(PARAM_E);
+
+  label_  = parameters_.Get(PARAM_LABEL).GetValue<string>();
+  edge_   = parameters_.Get(PARAM_E).GetValue<double>();
+  if (parameters_.IsDefined(PARAM_ALPHA))
+    alpha_ = parameters_.Get(PARAM_ALPHA).GetValue<double>();
+}
+
+/**
+ * Reset this selectivity so it's ready for the next execution
+ * phase in the model.
+ *
+ * This method will rebuild the cache of selectivity values
+ * for each age in the model.
+ */
+void KnifeEdge::Reset() {
+  ModelPtr model = Model::Instance();
+  for (unsigned age = model->min_age(); age <= model->max_age(); ++age) {
+    if (age >= edge_)
+      values_[age] = alpha_;
+    else
+      values_[age] = 0.0;
+  }
 }
 
 } /* namespace selectivities */

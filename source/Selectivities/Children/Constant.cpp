@@ -20,7 +20,13 @@ Constant::Constant()
 }
 
 /**
- * Validate this selectivity
+ * Validate this selectivity. This will load the
+ * values that were passed in from the configuration
+ * file and assign them to the local variables.
+ *
+ * We'll then do some basic checks on the local
+ * variables to ensure they are within the business
+ * rules for the model.
  */
 void Constant::Validate() {
   LOG_TRACE();
