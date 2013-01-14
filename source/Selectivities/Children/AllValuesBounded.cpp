@@ -29,11 +29,18 @@ AllValuesBounded::AllValuesBounded() {
 }
 
 /**
- * Validate this selectivity
+ * Validate this selectivity. This will load the
+ * values that were passed in from the configuration
+ * file and assign them to the local variables.
+ *
+ * We'll then do some basic checks on the local
+ * variables to ensure they are within the business
+ * rules for the model.
  */
 void AllValuesBounded::Validate() {
   LOG_TRACE();
 
+  CheckForRequiredParameter(PARAM_LABEL);
   CheckForRequiredParameter(PARAM_L);
   CheckForRequiredParameter(PARAM_H);
   CheckForRequiredParameter(PARAM_V);
@@ -42,56 +49,60 @@ void AllValuesBounded::Validate() {
   unsigned min_age = model->min_age();
   unsigned max_age = model->max_age();
 
+  label_  = parameters_.Get(PARAM_LABEL).GetValue<string>();
+
   // Param: L
   low_ = parameters_.Get(PARAM_L).GetValue<unsigned>();
   if (low_ < min_age) {
-    Parameter parameter = parameters_.Get(PARAM_L);
-    LOG_ERROR(parameter.location() << ": Parameter 'l' is less than the 'min_age' for the model\n"
+    LOG_ERROR(parameters_.location(PARAM_L) << ": Parameter 'l' is less than the 'min_age' for the model\n"
         << "Model 'min_age' is " << min_age << " and 'l' is " << low_);
   }
 
   // Param: H
   high_ = parameters_.Get(PARAM_H).GetValue<unsigned>();
   if (high_ > max_age) {
-    Parameter parameter = parameters_.Get(PARAM_H);
-    LOG_ERROR(parameter.location() << ": Parameter 'h' is greater than the 'max_age' for the model\n"
+    LOG_ERROR(parameters_.location(PARAM_H) << ": Parameter 'h' is greater than the 'max_age' for the model\n"
         << "Model 'max_age' is " << max_age << " and 'h' is " << high_);
   }
 
   if (low_ >= high_) {
-    Parameter parameter = parameters_.Get(PARAM_L);
-    LOG_ERROR(parameter.location() << ": Parameter 'l' is greater than or equal to parameter 'h'\n"
+    LOG_ERROR(parameters_.location(PARAM_L) << ": Parameter 'l' is greater than or equal to parameter 'h'\n"
         << "'l' = " << low_ << " and 'h' = " << high_);
   }
 
   // Param: V
   v_ = parameters_.Get(PARAM_V).GetValues<double>();
   if (v_.size() != (high_ - low_)) {
-    Parameter parameter = parameters_.Get(PARAM_V);
-    LOG_ERROR(parameter.location() << ": Parameter 'v' does not have the right amount of elements n = h - l\n"
+    LOG_ERROR(parameters_.location(PARAM_V) << ": Parameter 'v' does not have the right amount of elements n = h - l\n"
         << "Expected " << high_ - low_ << " but got " << v_.size());
   }
 
-  // TODO: Register all v values as estimable
+  // TODO: Register v_ as estimable
 }
 
 /**
- * Return the correct result for this selectivity from the cache.
- * Any age_or_length below low_ will return 0.0
- * Any age_or_length above high_ will return the last v_ value
+ * Reset this selectivity so it's ready for the next execution
+ * phase in the model.
  *
- * @parameter age_or_length The age or length to get the value for
- * @return The value from the cache
+ * This method will rebuild the cache of selectivity values
+ * for each age in the model.
  */
-Double AllValuesBounded::GetResult(unsigned age_or_length) {
+void AllValuesBounded::Reset() {
+  ModelPtr model = Model::Instance();
+  unsigned min_age = model->min_age();
 
-  if (age_or_length < low_)
-    return 0.0;
-
-  if (age_or_length > high_)
-    return values_[high_];
-
-  return values_[age_or_length];
+  /**
+   * Resulting age map should look like
+   * While Age < Low :: Value = 0.0
+   * While Age > Low && Age < High :: Value = v_
+   * While age > High :: Value = Last element if v_
+   */
+  for (unsigned age = min_age; age < low_; ++age)
+    values_[age] = 0.0;
+  for (unsigned i = 0; i < v_.size(); ++i)
+    values_[i + min_age] = v_[i];
+  for (unsigned age = min_age + v_.size(); age < high_; ++age)
+    values_[age] = *v_.rbegin();
 }
 
 } /* namespace selectivities */

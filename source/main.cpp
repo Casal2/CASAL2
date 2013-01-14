@@ -1,9 +1,10 @@
-#ifdef TEST
-#define BOOST_AUTO_TEST_MAIN
-#define BOOST_TEST_MODULE SPM_Unit_Tests
+#ifdef TESTMODE
+#include <gtest/gtest.h>
 
-// Headers
-#include <boost/test/included/unit_test.hpp>
+int main(int argc, char **argv) {
+  ::testing::InitGoogleTest(&argc, argv);
+  return RUN_ALL_TESTS();
+}
 #else
 
 // Headers

@@ -25,7 +25,6 @@ namespace selectivities {
  * Constructor
  */
 DoubleNormal::DoubleNormal() {
-
   parameters_.RegisterAllowed(PARAM_MU);
   parameters_.RegisterAllowed(PARAM_SIGMA_L);
   parameters_.RegisterAllowed(PARAM_SIGMA_R);
@@ -33,15 +32,24 @@ DoubleNormal::DoubleNormal() {
 }
 
 /**
- * Validate the parameters for this selectivity
+ * Validate this selectivity. This will load the
+ * values that were passed in from the configuration
+ * file and assign them to the local variables.
+ *
+ * We'll then do some basic checks on the local
+ * variables to ensure they are within the business
+ * rules for the model.
  */
 void DoubleNormal::Validate() {
+  LOG_TRACE();
 
+  CheckForRequiredParameter(PARAM_LABEL);
   CheckForRequiredParameter(PARAM_MU);
   CheckForRequiredParameter(PARAM_SIGMA_L);
   CheckForRequiredParameter(PARAM_SIGMA_R);
   CheckForRequiredParameter(PARAM_ALPHA);
 
+  label_    = parameters_.Get(PARAM_LABEL).GetValue<string>();
   mu_       = parameters_.Get(PARAM_MU).GetValue<double>();
   sigma_l_  = parameters_.Get(PARAM_SIGMA_L).GetValue<double>();
   sigma_r_  = parameters_.Get(PARAM_SIGMA_R).GetValue<double>();
@@ -56,11 +64,13 @@ void DoubleNormal::Validate() {
 }
 
 /**
- * Reset the selectivity so it's ready for use
- * during the next execution phase
+ * Reset this selectivity so it's ready for the next execution
+ * phase in the model.
+ *
+ * This method will rebuild the cache of selectivity values
+ * for each age in the model.
  */
 void DoubleNormal::Reset() {
-
   ModelPtr model = Model::Instance();
   for (unsigned age = model->min_age(); age <= model->max_age(); ++age) {
     if (age < mu_)

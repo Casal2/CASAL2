@@ -32,13 +32,13 @@ public:
   AllValuesBounded();
   virtual                     ~AllValuesBounded() {};
   void                        Validate() override final;
-  Double                      GetResult(unsigned age_or_length) override final;
+  void                        Reset() override final;
 
 private:
   // Members
   unsigned                    low_;
   unsigned                    high_;
-  vector<double>              v_;
+  vector<Double>              v_;
 };
 
 } /* namespace selectivities */

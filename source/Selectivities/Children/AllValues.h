@@ -36,7 +36,7 @@ public:
 
 private:
   // Members
-  vector<double>              v_;
+  vector<Double>              v_;
 };
 
 } /* namespace selectivities */

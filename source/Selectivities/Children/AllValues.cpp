@@ -22,12 +22,17 @@ namespace selectivities {
  * Default constructor
  */
 AllValues::AllValues() {
-
   parameters_.RegisterAllowed(PARAM_V);
 }
 
 /**
- * Validate the parameters for this selectivity
+ * Validate this selectivity. This will load the
+ * values that were passed in from the configuration
+ * file and assign them to the local variables.
+ *
+ * We'll then do some basic checks on the local
+ * variables to ensure they are within the business
+ * rules for the model.
  */
 void AllValues::Validate() {
   LOG_TRACE();
@@ -36,29 +41,32 @@ void AllValues::Validate() {
   CheckForRequiredParameter(PARAM_V);
 
   // Vs should be the same length as the world age spread
-  v_ = parameters_.Get(PARAM_V).GetValues<double>();
+  label_  = parameters_.Get(PARAM_LABEL).GetValue<string>();
+  v_      = parameters_.Get(PARAM_V).GetValues<double>();
 
   ModelPtr model = Model::Instance();
   if (v_.size() != model->age_spread()) {
-    Parameter parameter = parameters_.Get(PARAM_V);
-    LOG_ERROR("At line " << parameter.line_number() << " of file " << parameter.file_name()
-        << ": Number of 'v' values supplied is not the same as the model age spread.\n"
+    LOG_ERROR(parameters_.location(PARAM_V) << ": Number of 'v' values supplied is not the same as the model age spread.\n"
         << "Expected: " << model->age_spread() << " but got " << v_.size());
   }
+
+  // TODO: Register v_ as estimable
+}
+
+/**
+ * Reset this selectivity so it's ready for the next execution
+ * phase in the model.
+ *
+ * This method will rebuild the cache of selectivity values
+ * for each age in the model.
+ */
+void AllValues::Reset() {
+  ModelPtr model = Model::Instance();
 
   unsigned min_age = model->min_age();
   for (unsigned i = 0; i < v_.size(); ++i) {
     values_[min_age + i] = v_[i];
-    // TODO: Register each V as an estimable
-    // RegisterEstimable(values_[min_age + i]
   }
-}
-
-/**
- *
- */
-void AllValues::Reset() {
-
 }
 
 } /* namespace selectivities */

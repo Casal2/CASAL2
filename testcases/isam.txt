@@ -48,8 +48,8 @@ categories immature.male mature.male immature.female mature.female
 M 0.065 0.065 0.065 0.065
 selectivities One One One One
 
-@process Fishing
-type event_mortality
+@mortality Fishing
+type event
 categories immature.male mature.male immature.female mature.female
 years           1998         1999         2000         2001         2002         2003         2004          2005          2006          2007
 catches  1849.153714 14442.000000 28323.203463 24207.464203 47279.000000 58350.943094 82875.872790 115974.547730 113852.472257 119739.517172
@@ -63,6 +63,23 @@ from immature.male immature.female
 to mature.male mature.female
 proportions 1.0 1.0
 selectivities Maturation Maturation
+
+# Definition of selecivities
+@selectivity One
+type constant
+c 1
+
+@selectivity Maturation
+type logistic_producing
+L 5
+H 30
+a50 8
+ato95 3
+
+@selectivity FishingSel
+type logistic
+a50 8
+ato95 3
 
 
 
