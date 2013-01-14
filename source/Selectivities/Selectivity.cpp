@@ -20,7 +20,6 @@ namespace isam {
  * Default Constructor
  */
 Selectivity::Selectivity() {
-
   parameters_.RegisterAllowed(PARAM_LABEL);
 }
 
@@ -28,6 +27,17 @@ Selectivity::Selectivity() {
  * Destructor
  */
 Selectivity::~Selectivity() {
+}
+
+/**
+ * Return the cached value for the specified age or length from
+ * our internal map
+ *
+ * @param age_or_length The age or length to get selectivity value for
+ * @return The value stored in the map or 0.0 as default
+ */
+Double Selectivity::GetResult(unsigned age_or_length) {
+  return values_[age_or_length];
 }
 
 } /* namespace isam */

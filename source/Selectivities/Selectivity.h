@@ -30,14 +30,17 @@ public:
   Selectivity();
   virtual                     ~Selectivity();
   virtual void                Validate() = 0;
-  virtual void                Build() = 0;
-  virtual Double              GetResult(unsigned age_or_length) = 0;
+  virtual void                Build() {};
+  virtual void                Reset() {};
+  virtual Double              GetResult(unsigned age_or_length);
 
 protected:
   // Members
   map<unsigned, Double>       values_;
 
 };
+
+// TODO: Handle rebuild of caches after an iteration
 
 /**
  * Typedef
