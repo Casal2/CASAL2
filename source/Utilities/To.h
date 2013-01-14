@@ -98,8 +98,20 @@ inline bool To(const ::std::string arg, bool &result) {
   return false;
 };
 
-
-
+/**
+ * This is a method of converting from a known type to another
+ * type. This method differs from above because we don't have
+ * a hard-coded string source
+ */
+template<typename Source, typename Target>
+bool To(const Source arg, Target &result) {
+  try {
+    result = boost::lexical_cast<Target>(arg);
+  } catch (...) {
+    return false;
+  }
+  return true;
+}
 
 } /* namespace utilities */
 } /* namespace isam */

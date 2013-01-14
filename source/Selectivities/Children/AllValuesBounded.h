@@ -1,20 +1,44 @@
-/*
- * AllValuesBounded.h
+/**
+ * @file AllValuesBounded.h
+ * @author  Scott Rasmussen (scott.rasmussen@zaita.com)
+ * @version 1.0
+ * @date 14/01/2013
+ * @section LICENSE
  *
- *  Created on: 9/01/2013
- *      Author: Admin
+ * Copyright NIWA Science ©2013 - www.niwa.co.nz
+ *
+ * @section DESCRIPTION
+ *
+ * The time class represents a moment of time.
+ *
+ * $Date: 2008-03-04 16:33:32 +1300 (Tue, 04 Mar 2008) $
  */
-
 #ifndef ALLVALUESBOUNDED_H_
 #define ALLVALUESBOUNDED_H_
 
+// Headers
+#include "Selectivities/Selectivity.h"
+
+// Namespaces
 namespace isam {
 namespace selectivities {
 
-class AllValuesBounded {
+/**
+ * Class Definition
+ */
+class AllValuesBounded : public isam::Selectivity {
 public:
+  // Methods
   AllValuesBounded();
-  virtual ~AllValuesBounded();
+  virtual                     ~AllValuesBounded() {};
+  void                        Validate() override final;
+  Double                      GetResult(unsigned age_or_length) override final;
+
+private:
+  // Members
+  unsigned                    low_;
+  unsigned                    high_;
+  vector<double>              v_;
 };
 
 } /* namespace selectivities */

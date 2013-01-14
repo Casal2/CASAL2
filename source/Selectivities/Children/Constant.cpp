@@ -17,19 +17,13 @@ Constant::Constant()
 : c_(0.0) {
 
   parameters_.RegisterAllowed(PARAM_C);
-
 }
 
 /**
- * Destructor
- */
-Constant::~Constant() {
-}
-
-/**
- *
+ * Validate this selectivity
  */
 void Constant::Validate() {
+  LOG_TRACE();
 
   CheckForRequiredParameter(PARAM_LABEL);
   CheckForRequiredParameter(PARAM_C);
@@ -39,7 +33,11 @@ void Constant::Validate() {
 }
 
 /**
+ * Return the constant result regardless of the
+ * age or length specified
  *
+ * @param age_or_length unsused in this selectivity
+ * @return the constant value
  */
 Double Constant::GetResult(unsigned age_or_length) {
   return c_;

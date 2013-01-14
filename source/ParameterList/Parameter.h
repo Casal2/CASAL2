@@ -52,6 +52,7 @@ public:
   string                      file_name() const { return file_name_; }
   void                        set_line_number(const unsigned& line_number) { line_number_ = line_number; }
   unsigned                    line_number() const { return line_number_; }
+  string                      location() const;
 
 private:
   // Methods

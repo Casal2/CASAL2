@@ -97,6 +97,9 @@ public:
   bool                        AddTable(const string& label, const vector<string>& columns, const vector<vector<string> >& data, const string& file_name, const unsigned& line_number);
   const Parameter&            Get(const string& label);
 
+  // Accessors
+  string                      location(const string& label) { return parameters_[label].location(); }
+
 private:
   // Members
   vector<string>              allowed_parameters_;
