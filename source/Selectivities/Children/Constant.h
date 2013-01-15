@@ -36,7 +36,7 @@ public:
 
 private:
   // Members
-  Double                      c_;
+  Double                      c_ = 0.0;
 };
 
 } /* namespace selectivities */

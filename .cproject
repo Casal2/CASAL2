@@ -189,7 +189,7 @@
 									<listOptionValue builtIn="false" value="boost_program_options-mgw46-mt-sd-1_50"/>
 									<listOptionValue builtIn="false" value=":gmock_main.a"/>
 								</option>
-								<option id="gnu.cpp.link.option.userobjs.352775305" name="Other objects" superClass="gnu.cpp.link.option.userobjs" valueType="userObjs"/>
+								<option id="gnu.cpp.link.option.userobjs.352775305" name="Other objects" superClass="gnu.cpp.link.option.userobjs"/>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.linker.input.1827614111" superClass="cdt.managedbuild.tool.gnu.cpp.linker.input">
 									<additionalInput kind="additionalinputdependency" paths="$(USER_OBJS)"/>
 									<additionalInput kind="additionalinput" paths="$(LIBS)"/>
@@ -238,6 +238,7 @@
 		<configuration configurationName="Debug">
 			<resource resourceType="PROJECT" workspacePath="/trunk"/>
 		</configuration>
+		<configuration configurationName="TestMode"/>
 	</storageModule>
 	<storageModule moduleId="org.eclipse.cdt.internal.ui.text.commentOwnerProjectMappings"/>
 </cproject>

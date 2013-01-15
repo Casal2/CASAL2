@@ -24,7 +24,8 @@ namespace selectivities {
 /**
  * Default Constructor
  */
-Logistic::Logistic() {
+Logistic::Logistic()
+: Selectivity(Model::Instance()) {
   parameters_.RegisterAllowed(PARAM_A50);
   parameters_.RegisterAllowed(PARAM_ATO95);
   parameters_.RegisterAllowed(PARAM_ALPHA);

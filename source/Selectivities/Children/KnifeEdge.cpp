@@ -13,16 +13,22 @@
 // Headers
 #include "KnifeEdge.h"
 
-#include "Model/Model.h"
-
 // namespaces
 namespace isam {
 namespace selectivities {
 
 /**
- * Default constructor
+ * Default constructor (using constructor delegation)
  */
-KnifeEdge::KnifeEdge() {
+KnifeEdge::KnifeEdge()
+: KnifeEdge(Model::Instance()) {
+}
+
+/**
+ * Explicit Constructor
+ */
+KnifeEdge::KnifeEdge(ModelPtr model)
+: Selectivity(model) {
   parameters_.RegisterAllowed(PARAM_ALPHA);
   parameters_.RegisterAllowed(PARAM_E);
 }
@@ -56,8 +62,7 @@ void KnifeEdge::Validate() {
  * for each age in the model.
  */
 void KnifeEdge::Reset() {
-  ModelPtr model = Model::Instance();
-  for (unsigned age = model->min_age(); age <= model->max_age(); ++age) {
+  for (unsigned age = model_->min_age(); age <= model_->max_age(); ++age) {
     if (age >= edge_)
       values_[age] = alpha_;
     else
