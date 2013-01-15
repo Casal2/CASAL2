@@ -14,7 +14,7 @@ namespace selectivities {
  * Default Constructor
  */
 Constant::Constant()
-: c_(0.0) {
+: Selectivity(Model::Instance()) {
 
   parameters_.RegisterAllowed(PARAM_C);
 }

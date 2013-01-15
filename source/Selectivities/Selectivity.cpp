@@ -13,20 +13,18 @@
 // Headers
 #include "Selectivity.h"
 
+#include "Model/Model.h"
+
 // Namesapces
 namespace isam {
 
 /**
- * Default Constructor
+ * Explicit Constructor
  */
-Selectivity::Selectivity() {
-  parameters_.RegisterAllowed(PARAM_LABEL);
-}
+Selectivity::Selectivity(ModelPtr model)
+: model_(model) {
 
-/**
- * Destructor
- */
-Selectivity::~Selectivity() {
+  parameters_.RegisterAllowed(PARAM_LABEL);
 }
 
 /**

@@ -21,7 +21,8 @@ namespace selectivities {
 /**
  * Default constructor
  */
-Increasing::Increasing() {
+Increasing::Increasing()
+: Selectivity(Model::Instance()) {
   parameters_.RegisterAllowed(PARAM_L);
   parameters_.RegisterAllowed(PARAM_H);
   parameters_.RegisterAllowed(PARAM_V);

@@ -9,20 +9,49 @@
  *
  * $Date: 2008-03-04 16:33:32 +1300 (Tue, 04 Mar 2008) $
  */
-#ifdef TESTMODE
+//#ifdef TESTMODE
+#include "KnifeEdge.h"
 
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
 
-#include "Model/Model.h"
+#include "TestResources/MockClasses/Model.h"
 
-class MockModel : public isam::Model {
-public:
-  MOCK_CONST_METHOD0(min_age, unsigned());
-};
+// Namespaces
+namespace isam {
 
-using ::testing::AtLeast;
+using ::testing::Return;
 
+/**
+ * Test the results of our KnifeEdge are correct
+ */
+TEST(Selectivities, KnifeEdge) {
+  boost::shared_ptr<MockModel> model = boost::shared_ptr<MockModel>(new MockModel);
+  EXPECT_CALL(*model.get(), min_age()).WillRepeatedly(Return(10));
+  EXPECT_CALL(*model.get(), max_age()).WillRepeatedly(Return(20));
 
+  isam::selectivities::KnifeEdge knife_edge(model);
+  knife_edge.parameters().Add(PARAM_LABEL, "unit_test_knife_edge", __FILE__, __LINE__);
+  knife_edge.parameters().Add(PARAM_E, "15", __FILE__, __LINE__);
+  knife_edge.Validate();
+  knife_edge.Build();
 
-#endif
+  EXPECT_DOUBLE_EQ(0.0, knife_edge.GetResult(9)); // Below model->min_age()
+  EXPECT_DOUBLE_EQ(0.0, knife_edge.GetResult(10)); // At model->min_age()
+  EXPECT_DOUBLE_EQ(0.0, knife_edge.GetResult(11));
+  EXPECT_DOUBLE_EQ(0.0, knife_edge.GetResult(12));
+  EXPECT_DOUBLE_EQ(0.0, knife_edge.GetResult(13));
+  EXPECT_DOUBLE_EQ(0.0, knife_edge.GetResult(14));
+  EXPECT_DOUBLE_EQ(1.0, knife_edge.GetResult(15));
+  EXPECT_DOUBLE_EQ(1.0, knife_edge.GetResult(16));
+  EXPECT_DOUBLE_EQ(1.0, knife_edge.GetResult(17));
+  EXPECT_DOUBLE_EQ(1.0, knife_edge.GetResult(18));
+  EXPECT_DOUBLE_EQ(1.0, knife_edge.GetResult(19));
+  EXPECT_DOUBLE_EQ(1.0, knife_edge.GetResult(20)); // At model->max_age()
+  EXPECT_DOUBLE_EQ(0.0, knife_edge.GetResult(21)); // This is above model->max_age()
+  EXPECT_DOUBLE_EQ(0.0, knife_edge.GetResult(22));
+  EXPECT_DOUBLE_EQ(0.0, knife_edge.GetResult(23));
+}
+
+} /* namespace isam */
+//#endif

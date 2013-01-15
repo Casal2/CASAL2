@@ -30,6 +30,7 @@ class KnifeEdge : public isam::Selectivity {
 public:
   // Methods
   KnifeEdge();
+  explicit KnifeEdge(ModelPtr model);
   virtual                     ~KnifeEdge() {};
   void                        Validate() override final;
   void                        Reset() override final;

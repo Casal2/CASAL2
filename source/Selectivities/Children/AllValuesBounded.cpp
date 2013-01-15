@@ -12,6 +12,7 @@
 
 // Headers
 #include "AllValuesBounded.h"
+
 #include "Model/Model.h"
 
 // Namespaces
@@ -21,7 +22,8 @@ namespace selectivities {
 /**
  * Default constructor
  */
-AllValuesBounded::AllValuesBounded() {
+AllValuesBounded::AllValuesBounded()
+: Selectivity(Model::Instance()) {
 
   parameters_.RegisterAllowed(PARAM_L);
   parameters_.RegisterAllowed(PARAM_H);

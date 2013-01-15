@@ -24,7 +24,8 @@ namespace selectivities {
 /**
  * Constructor
  */
-DoubleNormal::DoubleNormal() {
+DoubleNormal::DoubleNormal()
+: Selectivity(Model::Instance()) {
   parameters_.RegisterAllowed(PARAM_MU);
   parameters_.RegisterAllowed(PARAM_SIGMA_L);
   parameters_.RegisterAllowed(PARAM_SIGMA_R);

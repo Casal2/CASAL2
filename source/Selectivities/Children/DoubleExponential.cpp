@@ -22,7 +22,8 @@ namespace selectivities {
 /**
  * Default constructor
  */
-DoubleExponential::DoubleExponential() {
+DoubleExponential::DoubleExponential()
+: Selectivity(Model::Instance()) {
   parameters_.RegisterAllowed(PARAM_X0);
   parameters_.RegisterAllowed(PARAM_X1);
   parameters_.RegisterAllowed(PARAM_X2);

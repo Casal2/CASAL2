@@ -65,11 +65,11 @@ public:
   RunMode::Type               run_mode() { return run_mode_; }
   unsigned                    start_year() { return start_year_; }
   unsigned                    run_length() { return run_length_; }
-  unsigned                    min_age() { return min_age_; }
-  unsigned                    max_age() { return max_age_; }
+  virtual unsigned            min_age() const { return min_age_; }
+  virtual unsigned            max_age() const { return max_age_; }
   unsigned                    age_spread() { return (max_age_ - min_age_) + 1; }
 
-private:
+protected:
   // Methods
   Model();
   void                        Initialise();

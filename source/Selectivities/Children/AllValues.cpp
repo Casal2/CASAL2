@@ -21,7 +21,8 @@ namespace selectivities {
 /**
  * Default constructor
  */
-AllValues::AllValues() {
+AllValues::AllValues()
+: Selectivity(Model::Instance()) {
   parameters_.RegisterAllowed(PARAM_V);
 }
 

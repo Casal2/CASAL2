@@ -12,6 +12,7 @@
 #include <map>
 
 #include "BaseClasses/Object.h"
+#include "Model/Model.h"
 #include "Utilities/Types.h"
 
 // Namespaces
@@ -27,20 +28,21 @@ using isam::utilities::Double;
 class Selectivity : public isam::base::Object {
 public:
   // Methods
-  Selectivity();
-  virtual                     ~Selectivity();
+  Selectivity() = delete;
+  explicit Selectivity(ModelPtr model);
+  virtual                     ~Selectivity() {};
   virtual void                Validate() = 0;
-  virtual void                Build() {};
+  virtual void                Build() { Reset(); };
   virtual void                Reset() {};
   virtual Double              GetResult(unsigned age_or_length);
 
 protected:
   // Members
+  ModelPtr                    model_;
   map<unsigned, Double>       values_;
-
 };
 
-// TODO: Handle rebuild of caches after an iteration
+
 
 /**
  * Typedef
