@@ -9,7 +9,7 @@
  *
  * $Date: 2008-03-04 16:33:32 +1300 (Tue, 04 Mar 2008) $
  */
-//#ifdef TESTMODE
+#ifdef TESTMODE
 #include "KnifeEdge.h"
 
 #include <gmock/gmock.h>
@@ -54,4 +54,4 @@ TEST(Selectivities, KnifeEdge) {
 }
 
 } /* namespace isam */
-//#endif
+#endif

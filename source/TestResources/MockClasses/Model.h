@@ -29,6 +29,7 @@ class MockModel : public isam::Model {
 public:
   MOCK_CONST_METHOD0(min_age, unsigned());
   MOCK_CONST_METHOD0(max_age, unsigned());
+  MOCK_CONST_METHOD0(age_spread, unsigned());
 };
 
 } /* namespace isam */

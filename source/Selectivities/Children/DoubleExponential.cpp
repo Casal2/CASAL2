@@ -23,7 +23,14 @@ namespace selectivities {
  * Default constructor
  */
 DoubleExponential::DoubleExponential()
-: Selectivity(Model::Instance()) {
+: DoubleExponential(Model::Instance()) {
+}
+
+/**
+ * Explicit Constructor
+ */
+DoubleExponential::DoubleExponential(ModelPtr model)
+: Selectivity(model) {
   parameters_.RegisterAllowed(PARAM_X0);
   parameters_.RegisterAllowed(PARAM_X1);
   parameters_.RegisterAllowed(PARAM_X2);
@@ -94,8 +101,7 @@ void DoubleExponential::Validate() {
  * for each age in the model.
  */
 void DoubleExponential::Reset() {
-  ModelPtr model = Model::Instance();
-  for (unsigned age = model->min_age(); age <= model->max_age(); ++age) {
+  for (unsigned age = model_->min_age(); age <= model_->max_age(); ++age) {
     if (age <= x0_)
       values_[age] = alpha_ * y0_ * pow((y1_ / y0_), ((double)age - x0_)/(x1_ - x0_));
     else

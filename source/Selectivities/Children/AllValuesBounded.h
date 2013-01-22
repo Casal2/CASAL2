@@ -30,6 +30,7 @@ class AllValuesBounded : public isam::Selectivity {
 public:
   // Methods
   AllValuesBounded();
+  explicit AllValuesBounded(ModelPtr model);
   virtual                     ~AllValuesBounded() {};
   void                        Validate() override final;
   void                        Reset() override final;

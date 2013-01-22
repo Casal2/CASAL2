@@ -67,7 +67,7 @@ public:
   unsigned                    run_length() { return run_length_; }
   virtual unsigned            min_age() const { return min_age_; }
   virtual unsigned            max_age() const { return max_age_; }
-  unsigned                    age_spread() { return (max_age_ - min_age_) + 1; }
+  virtual unsigned            age_spread() const { return (max_age_ - min_age_) + 1; }
 
 protected:
   // Methods
