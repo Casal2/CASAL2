@@ -30,6 +30,7 @@ class DoubleExponential : public isam::Selectivity {
 public:
   // Methods
   DoubleExponential();
+  explicit DoubleExponential(ModelPtr model);
   virtual                     ~DoubleExponential() {};
   void                        Validate() override final;
   void                        Reset() override final;

@@ -22,9 +22,18 @@ namespace selectivities {
  * Default constructor
  */
 AllValues::AllValues()
-: Selectivity(Model::Instance()) {
+: AllValues(Model::Instance()) {
+}
+
+/**
+ * Explicit Constructor
+ */
+  AllValues::AllValues(ModelPtr model)
+: Selectivity(model) {
+
   parameters_.RegisterAllowed(PARAM_V);
 }
+
 
 /**
  * Validate this selectivity. This will load the
@@ -45,10 +54,9 @@ void AllValues::Validate() {
   label_  = parameters_.Get(PARAM_LABEL).GetValue<string>();
   v_      = parameters_.Get(PARAM_V).GetValues<double>();
 
-  ModelPtr model = Model::Instance();
-  if (v_.size() != model->age_spread()) {
+  if (v_.size() != model_->age_spread()) {
     LOG_ERROR(parameters_.location(PARAM_V) << ": Number of 'v' values supplied is not the same as the model age spread.\n"
-        << "Expected: " << model->age_spread() << " but got " << v_.size());
+        << "Expected: " << model_->age_spread() << " but got " << v_.size());
   }
 
   // TODO: Register v_ as estimable
@@ -62,9 +70,7 @@ void AllValues::Validate() {
  * for each age in the model.
  */
 void AllValues::Reset() {
-  ModelPtr model = Model::Instance();
-
-  unsigned min_age = model->min_age();
+  unsigned min_age = model_->min_age();
   for (unsigned i = 0; i < v_.size(); ++i) {
     values_[min_age + i] = v_[i];
   }

@@ -30,6 +30,7 @@ class AllValues : public isam::Selectivity {
 public:
   // Methods
   AllValues();
+  explicit AllValues(ModelPtr model);
   virtual                     ~AllValues() {};
   void                        Validate() override final;
   void                        Reset() override final;

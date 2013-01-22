@@ -23,8 +23,15 @@ namespace selectivities {
  * Default constructor
  */
 AllValuesBounded::AllValuesBounded()
-: Selectivity(Model::Instance()) {
+: AllValuesBounded(Model::Instance()) {
+}
 
+/**
+ * Explicit Constructor
+ */
+AllValuesBounded::AllValuesBounded(ModelPtr model)
+
+: Selectivity(model) {
   parameters_.RegisterAllowed(PARAM_L);
   parameters_.RegisterAllowed(PARAM_H);
   parameters_.RegisterAllowed(PARAM_V);
@@ -47,9 +54,8 @@ void AllValuesBounded::Validate() {
   CheckForRequiredParameter(PARAM_H);
   CheckForRequiredParameter(PARAM_V);
 
-  ModelPtr model = Model::Instance();
-  unsigned min_age = model->min_age();
-  unsigned max_age = model->max_age();
+  unsigned min_age = model_->min_age();
+  unsigned max_age = model_->max_age();
 
   label_  = parameters_.Get(PARAM_LABEL).GetValue<string>();
 
@@ -90,8 +96,7 @@ void AllValuesBounded::Validate() {
  * for each age in the model.
  */
 void AllValuesBounded::Reset() {
-  ModelPtr model = Model::Instance();
-  unsigned min_age = model->min_age();
+  unsigned min_age = model_->min_age();
 
   /**
    * Resulting age map should look like
