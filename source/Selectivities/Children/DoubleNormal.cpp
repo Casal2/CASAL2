@@ -25,7 +25,14 @@ namespace selectivities {
  * Constructor
  */
 DoubleNormal::DoubleNormal()
-: Selectivity(Model::Instance()) {
+: DoubleNormal(Model::Instance()) {
+}
+
+/**
+ * Explicit constructor
+ */
+DoubleNormal::DoubleNormal(ModelPtr model)
+: Selectivity(model) {
   parameters_.RegisterAllowed(PARAM_MU);
   parameters_.RegisterAllowed(PARAM_SIGMA_L);
   parameters_.RegisterAllowed(PARAM_SIGMA_R);
@@ -48,13 +55,14 @@ void DoubleNormal::Validate() {
   CheckForRequiredParameter(PARAM_MU);
   CheckForRequiredParameter(PARAM_SIGMA_L);
   CheckForRequiredParameter(PARAM_SIGMA_R);
-  CheckForRequiredParameter(PARAM_ALPHA);
 
   label_    = parameters_.Get(PARAM_LABEL).GetValue<string>();
   mu_       = parameters_.Get(PARAM_MU).GetValue<double>();
   sigma_l_  = parameters_.Get(PARAM_SIGMA_L).GetValue<double>();
   sigma_r_  = parameters_.Get(PARAM_SIGMA_R).GetValue<double>();
-  alpha_    = parameters_.Get(PARAM_ALPHA).GetValue<double>();
+
+  if (parameters_.IsDefined(PARAM_ALPHA))
+    alpha_    = parameters_.Get(PARAM_ALPHA).GetValue<double>();
 
   if (alpha_ <= 0.0)
     LOG_ERROR(parameters_.location(PARAM_MU) << ": alpha cannot be less than or equal to 0.0");
@@ -72,8 +80,7 @@ void DoubleNormal::Validate() {
  * for each age in the model.
  */
 void DoubleNormal::Reset() {
-  ModelPtr model = Model::Instance();
-  for (unsigned age = model->min_age(); age <= model->max_age(); ++age) {
+  for (unsigned age = model_->min_age(); age <= model_->max_age(); ++age) {
     if (age < mu_)
       values_[age] = pow(2.0, -((age - mu_) / sigma_l_ * (age - mu_) / sigma_l_)) * alpha_;
     else

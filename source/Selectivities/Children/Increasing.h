@@ -30,6 +30,7 @@ class Increasing : public isam::Selectivity {
 public:
   // Methods
   Increasing();
+  explicit Increasing(ModelPtr model);
   virtual                     ~Increasing() {};
   void                        Validate() override final;
   void                        Reset() override final;

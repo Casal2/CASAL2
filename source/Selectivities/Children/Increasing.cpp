@@ -22,7 +22,15 @@ namespace selectivities {
  * Default constructor
  */
 Increasing::Increasing()
-: Selectivity(Model::Instance()) {
+: Increasing(Model::Instance()) {
+
+}
+
+/**
+ * Explicit constructor
+ */
+Increasing::Increasing(ModelPtr model)
+: Selectivity(model) {
   parameters_.RegisterAllowed(PARAM_L);
   parameters_.RegisterAllowed(PARAM_H);
   parameters_.RegisterAllowed(PARAM_V);
@@ -53,11 +61,10 @@ void Increasing::Validate() {
   if (parameters_.IsDefined(PARAM_ALPHA))
     alpha_ = parameters_.Get(PARAM_ALPHA).GetValue<double>();
 
-  ModelPtr model = Model::Instance();
   if (alpha_ <= 0.0)
     LOG_ERROR(parameters_.location(PARAM_ALPHA) << ": alpha (" << alpha_ << ") cannot be less than or equal to 0.0");
-  if (low_ < model->min_age() || low_ > model->max_age())
-    LOG_ERROR(parameters_.location(PARAM_L) << ": 'l' (" << low_ << ") must be between the model min_age (" << model->min_age() << ") and max_age" << model->max_age() << ")");
+  if (low_ < model_->min_age() || low_ > model_->max_age())
+    LOG_ERROR(parameters_.location(PARAM_L) << ": 'l' (" << low_ << ") must be between the model min_age (" << model_->min_age() << ") and max_age (" << model_->max_age() << ")");
   if (high_ <= low_)
     LOG_ERROR(parameters_.location(PARAM_H) << ": 'h' (" << high_ << ") cannot be less than or the same as 'l' (" << low_ << ")");
 
@@ -83,17 +90,16 @@ void Increasing::Validate() {
  * for each age in the model.
  */
 void Increasing::Reset() {
-  ModelPtr model = Model::Instance();
-  for (unsigned age = model->min_age(); age <= model->max_age(); ++age) {
+  for (unsigned age = model_->min_age(); age <= model_->max_age(); ++age) {
 
     if (age < low_) {
       values_[age] = 0.0;
 
     } else if (age > high_) {
-      values_[age] = v_[high_ - low_];
+      values_[age] = *v_.rbegin();
 
     } else {
-      double value = 0.0;
+      double value = *v_.begin();
       for (unsigned i = low_ + 1; i < age; ++i) {
         if (i > high_ || value >= alpha_)
           break;
