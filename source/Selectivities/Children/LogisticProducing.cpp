@@ -25,7 +25,15 @@ namespace selectivities {
  * Default constructor
  */
 LogisticProducing::LogisticProducing()
-: Selectivity(Model::Instance()) {
+: LogisticProducing(Model::Instance()) {
+
+}
+
+/**
+ * Explicit constructor
+ */
+LogisticProducing::LogisticProducing(ModelPtr model)
+: Selectivity(model) {
   parameters_.RegisterAllowed(PARAM_L);
   parameters_.RegisterAllowed(PARAM_H);
   parameters_.RegisterAllowed(PARAM_A50);
@@ -73,8 +81,7 @@ void LogisticProducing::Validate() {
  * for each age in the model.
  */
 void LogisticProducing::Reset() {
-  ModelPtr model = Model::Instance();
-  for (unsigned age = model->min_age(); age <= model->max_age(); ++age) {
+  for (unsigned age = model_->min_age(); age <= model_->max_age(); ++age) {
 
     if (age < low_)
       values_[age] = 0.0;

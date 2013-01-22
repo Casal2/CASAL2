@@ -30,6 +30,7 @@ class DoubleNormal : public isam::Selectivity {
 public:
   // Methods
   DoubleNormal();
+  explicit DoubleNormal(ModelPtr model);
   virtual                     ~DoubleNormal() {};
   void                        Validate() override final;
   void                        Reset() override final;
@@ -39,7 +40,7 @@ private:
   Double                      mu_ = 0.0;
   Double                      sigma_l_ = 0.0;
   Double                      sigma_r_ = 0.0;
-  Double                      alpha_ = 0.0;
+  Double                      alpha_ = 1.0;
 };
 
 } /* namespace selectivities */

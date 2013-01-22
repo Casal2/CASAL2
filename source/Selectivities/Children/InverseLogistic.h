@@ -30,6 +30,7 @@ class InverseLogistic : public isam::Selectivity {
 public:
   // Methods
   InverseLogistic();
+  explicit InverseLogistic(ModelPtr model);
   virtual                     ~InverseLogistic() {};
   void                        Validate() override final;
   void                        Reset() override final;

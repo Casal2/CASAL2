@@ -25,7 +25,16 @@ namespace selectivities {
  * Default constructor
  */
 InverseLogistic::InverseLogistic()
-: Selectivity(Model::Instance()) {
+: InverseLogistic(Model::Instance()) {
+
+}
+
+/**
+ * Explicit constructor
+ */
+InverseLogistic::InverseLogistic(ModelPtr model)
+: Selectivity(model) {
+
   parameters_.RegisterAllowed(PARAM_A50);
   parameters_.RegisterAllowed(PARAM_ATO95);
   parameters_.RegisterAllowed(PARAM_ALPHA);
@@ -71,8 +80,7 @@ void InverseLogistic::Validate() {
 void InverseLogistic::Reset() {
   double threshold = 0.0;
 
-  ModelPtr model = Model::Instance();
-  for (unsigned age = model->min_age(); age <= model->max_age(); ++age) {
+  for (unsigned age = model_->min_age(); age <= model_->max_age(); ++age) {
     threshold = (a50_ - age) / aTo95_;
 
     if (threshold > 5.0)

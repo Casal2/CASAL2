@@ -25,7 +25,15 @@ namespace selectivities {
  * Default Constructor
  */
 Logistic::Logistic()
-: Selectivity(Model::Instance()) {
+: Logistic(Model::Instance()) {
+
+}
+
+/**
+ * Explicit Constructor
+ */
+Logistic::Logistic(ModelPtr model)
+: Selectivity(model) {
   parameters_.RegisterAllowed(PARAM_A50);
   parameters_.RegisterAllowed(PARAM_ATO95);
   parameters_.RegisterAllowed(PARAM_ALPHA);
@@ -68,8 +76,7 @@ void Logistic::Validate() {
 void Logistic::Reset() {
   double threshold = 0.0;
 
-  ModelPtr model = Model::Instance();
-  for (unsigned age = model->min_age(); age <= model->max_age(); ++age) {
+  for (unsigned age = model_->min_age(); age <= model_->max_age(); ++age) {
     threshold = (a50_ - age) / aTo95_;
 
     if (threshold > 5.0)

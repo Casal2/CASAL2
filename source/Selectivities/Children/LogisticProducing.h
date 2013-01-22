@@ -30,6 +30,7 @@ class LogisticProducing : public isam::Selectivity {
 public:
   // Methods
   LogisticProducing();
+  explicit LogisticProducing(ModelPtr model);
   virtual                     ~LogisticProducing() {};
   void                        Validate() override final;
   void                        Reset() override final;
