@@ -199,7 +199,7 @@ void Model::Iterate() {
 //    init_phase_manager->ExecuteProcesses(phase);
   }
 
-  timesteps::Manager& time_step_manager = timesteps::Manager::Instance();
+//  timesteps::Manager& time_step_manager = timesteps::Manager::Instance();
   for (unsigned year = start_year_; year <= final_year_; ++year) {
 //    time_step_manager->ExecuteProcesses(year);
   }

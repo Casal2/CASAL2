@@ -39,26 +39,26 @@ namespace util = isam::utilities;
 Category::Category() {
   LOG_TRACE();
 
-  ModelPtr model = Model::Instance();
-  unsigned start_year = model->start_year();
-  unsigned run_length = model->run_length();
-  LOG_INFO("Model details: start_year: " << start_year << "; run_length: " << run_length);
-
-  // TODO: Get category specific year information
-  CategoriesPtr categories = Categories::Instance();
-  vector<string> category_names = categories->category_names();
-
-  Partition& partition = Partition::Instance();
-  map<string, vector<Double> > grid = partition.grid();
-
-  for (unsigned i = 0; i < run_length; ++i) {
-
-    for (string category : category_names) {
-    // if (category in start_year + i
-      pair<string, vector<Double>& > category_reference = { category, grid[category] };
-      category_map_[start_year + i].push_back(category_reference);
-    }
-  }
+//  ModelPtr model = Model::Instance();
+//  unsigned start_year = model->start_year();
+//  unsigned run_length = model->run_length();
+//  LOG_INFO("Model details: start_year: " << start_year << "; run_length: " << run_length);
+//
+//  // TODO: Get category specific year information
+//  CategoriesPtr categories = Categories::Instance();
+//  vector<string> category_names = categories->category_names();
+//
+//  Partition& partition = Partition::Instance();
+//  map<string, vector<Double> > grid = partition.grid();
+//
+//  for (unsigned i = 0; i < run_length; ++i) {
+//
+//    for (string category : category_names) {
+//    // if (category in start_year + i
+//      pair<string, vector<Double>& > category_reference = { category, grid[category] };
+//      category_map_[start_year + i].push_back(category_reference);
+//    }
+//  }
 }
 
 /**

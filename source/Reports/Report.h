@@ -28,6 +28,8 @@ public:
   // Methods
   Report();
   virtual                     ~Report();
+  void                        Validate() {};
+  void                        Build() {};
   virtual void                Prepare() = 0;
   virtual void                Run() = 0;
   virtual void                Finalise() = 0;

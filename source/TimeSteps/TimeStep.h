@@ -18,6 +18,7 @@
 
 // Headers
 #include "BaseClasses/Object.h"
+#include "Processes/Process.h"
 
 // Namespaces
 namespace isam {

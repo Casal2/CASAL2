@@ -28,7 +28,6 @@ InitialisationPhase::InitialisationPhase() {
  * 2. Assign local variables from parameters
  */
 void InitialisationPhase::Validate() {
-
   CheckForRequiredParameter(PARAM_LABEL);
   CheckForRequiredParameter(PARAM_TIME_STEPS);
   CheckForRequiredParameter(PARAM_YEARS);
@@ -39,17 +38,14 @@ void InitialisationPhase::Validate() {
 }
 
 /**
- *
+ * Execute the timesteps we have.
  */
 void InitialisationPhase::Execute() {
-
   for (unsigned year = 0; year < years_; ++year) {
     for (TimeStepPtr time_step : time_steps_) {
       time_step->Execute();
     }
   }
-
-
 }
 
 

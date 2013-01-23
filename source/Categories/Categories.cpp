@@ -80,8 +80,8 @@ void Categories::Validate() {
   ModelPtr model = Model::Instance();
 
   vector<unsigned> default_years;
-  for (unsigned i = 0; i < model->run_length(); ++i)
-    default_years.push_back(model->start_year() + i);
+  for (unsigned i = model->start_year(); i <= model->final_year(); ++i)
+    default_years.push_back(i);
 
   for (unsigned i = 0; i < names_.size(); ++i) {
 
