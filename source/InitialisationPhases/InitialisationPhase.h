@@ -30,11 +30,14 @@ public:
   InitialisationPhase();
   virtual                     ~InitialisationPhase() = default;
   void                        Validate();
+  void                        Build() { };
+  void                        Execute();
 
 private:
   // Members
   unsigned                    years_;
   vector<string>              time_step_names_;
+  vector<TimeStepPtr>         time_steps_;
 };
 
 /*

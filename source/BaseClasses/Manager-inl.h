@@ -23,5 +23,25 @@ ClassType& Manager<ClassType, StoredType>::Instance() {
   return singleton;
 }
 
+/**
+ * Validate the objects stored in the manager
+ */
+template <class ClassType, class StoredType>
+void Manager<ClassType, StoredType>::Validate() {
+  for(shared_ptr<StoredType> stored_object : objects_) {
+    stored_object->Validate();
+  }
+}
+
+/**
+ * Build the objects stored in the manager
+ */
+template <class ClassType, class StoredType>
+void Manager<ClassType, StoredType>::Build() {
+  for(shared_ptr<StoredType> stored_object : objects_) {
+    stored_object->Build();
+  }
+}
+
 } /* namespae base */
 } /* namespace isam */

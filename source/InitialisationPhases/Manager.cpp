@@ -17,15 +17,12 @@ Manager::~Manager() noexcept(true) {
 }
 
 /**
- *
+ * Execute all of the time steps in the current phase
  */
-void Manager::Validate() {
-  LOG_TRACE();
-
+void Manager::Execute() {
   for(InitialisationPhasePtr phase : objects_) {
-    phase->Validate();
+    phase->Execute();
   }
-
 }
 
 } /* namespace initialisationphases */

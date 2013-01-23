@@ -20,6 +20,7 @@
 #include "Partition/Accessors/Category.h"
 #include "Partition/Partition.h"
 #include "Processes/Manager.h"
+#include "Selectivities/Manager.h"
 #include "TimeSteps/Manager.h"
 #include "Utilities/Logging/Logging.h"
 #include "Utilities/To.h"
@@ -30,11 +31,13 @@ namespace isam {
 using std::cout;
 using std::endl;
 
-
+/**
+ * Default Constructor
+ */
 Model::Model() {
   LOG_TRACE();
   parameters_.RegisterAllowed(PARAM_START_YEAR);
-  parameters_.RegisterAllowed(PARAM_RUN_LENGTH);
+  parameters_.RegisterAllowed(PARAM_FINAL_YEAR);
   parameters_.RegisterAllowed(PARAM_MIN_AGE);
   parameters_.RegisterAllowed(PARAM_MAX_AGE);
   parameters_.RegisterAllowed(PARAM_AGE_PLUS);
@@ -111,15 +114,19 @@ void Model::Validate() {
 
   // Validate our own parameters
   CheckForRequiredParameter(PARAM_START_YEAR);
-  CheckForRequiredParameter(PARAM_RUN_LENGTH);
+  CheckForRequiredParameter(PARAM_FINAL_YEAR);
   CheckForRequiredParameter(PARAM_MIN_AGE);
   CheckForRequiredParameter(PARAM_MAX_AGE);
 
   // Validate: start_year
   start_year_ = parameters_.Get(PARAM_START_YEAR).GetValue<unsigned>();
-  run_length_ = parameters_.Get(PARAM_RUN_LENGTH).GetValue<unsigned>();
+  final_year_ = parameters_.Get(PARAM_FINAL_YEAR).GetValue<unsigned>();
   min_age_    = parameters_.Get(PARAM_MIN_AGE).GetValue<unsigned>();
   max_age_    = parameters_.Get(PARAM_MAX_AGE).GetValue<unsigned>();
+
+  if (start_year_ > final_year_) {
+    LOG_ERROR(parameters_.location(PARAM_FINAL_YEAR) << ": final_year is before the start_year, final_year must be greater than the start_year");
+  }
 
   if (min_age_ > max_age_) {
     Parameter min_age = parameters_.Get(PARAM_MIN_AGE);
@@ -135,6 +142,7 @@ void Model::Validate() {
 
   initialisationphases::Manager::Instance().Validate();
   processes::Manager::Instance().Validate();
+  selectivities::Manager::Instance().Validate();
   timesteps::Manager::Instance().Validate();
 }
 
@@ -145,6 +153,11 @@ void Model::Build() {
   LOG_TRACE();
 
   Partition::Instance().Build();
+
+  initialisationphases::Manager::Instance().Build();
+  processes::Manager::Instance().Build();
+  selectivities::Manager::Instance().Build();
+  timesteps::Manager::Instance().Build();
 
   isam::partition::accessors::Category category_accessor;
 
@@ -172,6 +185,26 @@ void Model::RunBasic() {
  */
 void Model::RunEstimation() {
   cout << "Running model in estimation mode" << endl;
+}
+
+/**
+ * This method will do a single iteration of the model. During
+ * a basic run it'll only run once, but during the other times
+ * it'll run multiple times.
+ */
+void Model::Iterate() {
+
+  initialisationphases::Manager& init_phase_manager = initialisationphases::Manager::Instance();
+  for (unsigned phase = 0; init_phase_manager.count(); ++phase) {
+//    init_phase_manager->ExecuteProcesses(phase);
+  }
+
+  timesteps::Manager& time_step_manager = timesteps::Manager::Instance();
+  for (unsigned year = start_year_; year <= final_year_; ++year) {
+//    time_step_manager->ExecuteProcesses(year);
+  }
+
+
 }
 
 

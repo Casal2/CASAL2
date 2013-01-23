@@ -43,9 +43,9 @@ public:
   // Methods
   Object();
   virtual                     ~Object();
-  string                      Label() { return label_; }
 
   // Accessors and Mutators
+  string                      label() { return label_; }
   ParameterList&              parameters() { return parameters_; }
   void                        set_block_type(string value) { block_type_ = value; }
   void                        set_defined_file_name(string value) { defined_file_name_ = value; }

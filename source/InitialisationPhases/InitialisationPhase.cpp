@@ -38,4 +38,19 @@ void InitialisationPhase::Validate() {
   years_            = parameters_.Get(PARAM_YEARS).GetValue<unsigned>();
 }
 
+/**
+ *
+ */
+void InitialisationPhase::Execute() {
+
+  for (unsigned year = 0; year < years_; ++year) {
+    for (TimeStepPtr time_step : time_steps_) {
+      time_step->Execute();
+    }
+  }
+
+
+}
+
+
 } /* namespace isam */

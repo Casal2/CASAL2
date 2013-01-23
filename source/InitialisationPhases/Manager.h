@@ -24,7 +24,7 @@ public:
   // Methods
   Manager();
   virtual                     ~Manager() noexcept(true);
-  void                        Validate();
+  void                        Execute();
 };
 
 } /* namespace initialisationphases */

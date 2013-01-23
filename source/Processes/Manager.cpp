@@ -33,5 +33,23 @@ void Manager::Validate() {
 
 }
 
+/**
+ * Return the process with the name passed in as a parameter.
+ * If no process is found then an empty pointer will
+ * be returned.
+ *
+ * @param label The name of the process to find
+ * @return A pointer to the process or empty pointer
+ */
+ProcessPtr Manager::GetProcess(const string& label) {
+
+  for (ProcessPtr process : objects_) {
+    if (process->label() == label)
+      return process;
+  }
+
+  return ProcessPtr();
+}
+
 } /* namespace processes */
 } /* namespace isam */

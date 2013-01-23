@@ -25,6 +25,7 @@ Selectivity::Selectivity(ModelPtr model)
 : model_(model) {
 
   parameters_.RegisterAllowed(PARAM_LABEL);
+  parameters_.RegisterAllowed(PARAM_TYPE);
 }
 
 /**
