@@ -12,6 +12,8 @@
 
 #include "TimeStep.h"
 
+#include "Processes/Manager.h"
+
 namespace isam {
 
 /**
@@ -34,5 +36,20 @@ void TimeStep::Validate() {
   label_          = parameters_.Get(PARAM_LABEL).GetValue<string>();
   process_names_  = parameters_.Get(PARAM_PROCESSES).GetValues<string>();
 }
+
+/**
+ * Build our time step
+ */
+void TimeStep::Build() {
+
+}
+
+/**
+ * Execute the time step
+ */
+void TimeStep::Execute() {
+
+}
+
 
 } /* namespace isam */

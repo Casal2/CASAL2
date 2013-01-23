@@ -9,6 +9,7 @@
  *
  * $Date: 2008-03-04 16:33:32 +1300 (Tue, 04 Mar 2008) $
  */
+#ifdef TESTMODE
 
 // Headers
 #include "Constant.h"
@@ -37,3 +38,4 @@ TEST(Selectivities, Constant) {
 }
 
 } /* namespace isam */
+#endif

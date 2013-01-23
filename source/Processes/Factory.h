@@ -9,8 +9,8 @@
  *
  * $Date: 2008-03-04 16:33:32 +1300 (Tue, 04 Mar 2008) $
  */
-#ifndef FACTORY_H_
-#define FACTORY_H_
+#ifndef PROCESSES_FACTORY_H_
+#define PROCESSES_FACTORY_H_
 
 // Headers
 #include <string>
@@ -36,4 +36,4 @@ private:
 
 } /* namespace processes */
 } /* namespace isam */
-#endif /* FACTORY_H_ */
+#endif /* PROCESSES_FACTORY_H_ */

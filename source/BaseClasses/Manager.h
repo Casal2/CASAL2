@@ -41,9 +41,13 @@ public:
   // Methods
   virtual                     ~Manager() = default;
   static ClassType&           Instance();
-  void                        AddObject(shared_ptr<StoredType> object) {
-    objects_.push_back(object);
-  }
+  void                        AddObject(shared_ptr<StoredType> object) { objects_.push_back(object); }
+  virtual void                Validate();
+  virtual void                Build();
+  virtual void                Reset() {};
+
+  // Accessors
+  unsigned                    count() { return objects_.size(); }
 
 protected:
   // Methods

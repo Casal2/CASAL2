@@ -31,10 +31,13 @@ public:
   TimeStep();
   virtual                     ~TimeStep() = default;
   void                        Validate();
+  void                        Build();
+  void                        Execute();
 
 private:
   // Members
   vector<string>              process_names_;
+  vector<ProcessPtr>          processes_;
 };
 
 /**

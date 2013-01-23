@@ -26,6 +26,7 @@
 #include "InitialisationPhases/Factory.h"
 #include "Model/Model.h"
 #include "Processes/Factory.h"
+#include "Selectivities/Factory.h"
 #include "TimeSteps/Factory.h"
 #include "Translations/Translations.h"
 #include "Utilities/To.h"
@@ -279,7 +280,7 @@ void Loader::ParseBlock(vector<FileLine> &block) {
 
     if (!object->parameters().Add(parameter_type, values, file_line.file_name_, file_line.line_number_))
       LOG_ERROR("At line " << file_line.line_number_ << " of " << file_line.file_name_
-          << ": Could not add parameter '" << parameter_type << "' to block. Parameter is not supported");
+          << ": Could not add parameter '" << parameter_type << "' to block '" << block_type << "'. Parameter is not supported");
   }
 }
 
@@ -321,6 +322,9 @@ ObjectPtr Loader::CreateObject(const string &block_type, const string &object_ty
 
   } else if (block_type == PARAM_RECRUITMENT) {
     object = processes::Factory::Create(block_type, object_type);
+
+  } else if (block_type == PARAM_SELECTIVITY) {
+    object = selectivities::Factory::Create(block_type, object_type);
 
   } else if (block_type == PARAM_TIME_STEP) {
     object = timesteps::Factory::Create();

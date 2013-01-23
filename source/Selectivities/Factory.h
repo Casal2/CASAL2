@@ -1,23 +1,32 @@
-/*
- * Factory.h
+/**
+ * @file Factory.h
+ * @author  Scott Rasmussen (scott.rasmussen@zaita.com)
+ * @version 1.0
+ * @date 23/01/2013
+ * @section LICENSE
  *
- *  Created on: 21/12/2012
- *      Author: Admin
+ * Copyright NIWA Science ©2013 - www.niwa.co.nz
+ *
+ * $Date: 2008-03-04 16:33:32 +1300 (Tue, 04 Mar 2008) $
  */
+#ifndef SELECTIVITIES_FACTORY_H_
+#define SELECTIVITIES_FACTORY_H_
 
-#ifndef FACTORY_H_
-#define FACTORY_H_
-
+// Headers
 #include "BaseClasses/Factory.h"
 #include "Selectivities/Selectivity.h"
 #include "Selectivities/Manager.h"
 
+// Namespaces
 namespace isam {
 namespace selectivities {
 
-class Factory : public isam::base::Factory<isam::Selectivity, isam::selectivities::Manager> {
+/**
+ * Class Definition
+ */
+class Factory {
 public:
-  static SelectivityPtr Create(const string& block_type, const string& process_type);
+  static SelectivityPtr Create(const string& block_type, const string& selectivity_type);
 private:
   Factory() = delete;
   virtual ~Factory() = delete;
@@ -25,4 +34,4 @@ private:
 
 } /* namespace selectivities */
 } /* namespace isam */
-#endif /* FACTORY_H_ */
+#endif /* SELECTIVITIES_FACTORY_H_ */

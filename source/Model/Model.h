@@ -64,7 +64,7 @@ public:
   void                        set_run_mode(RunMode::Type new_mode) { run_mode_ = new_mode; }
   RunMode::Type               run_mode() { return run_mode_; }
   unsigned                    start_year() { return start_year_; }
-  unsigned                    run_length() { return run_length_; }
+  unsigned                    final_year() { return final_year_; }
   virtual unsigned            min_age() const { return min_age_; }
   virtual unsigned            max_age() const { return max_age_; }
   virtual unsigned            age_spread() const { return (max_age_ - min_age_) + 1; }
@@ -78,12 +78,13 @@ protected:
   void                        Verify();
   void                        RunBasic();
   void                        RunEstimation();
+  void                        Iterate();
 
   // Members
   RunMode::Type               run_mode_ = RunMode::kInvalid;
   State::Type                 state_    = State::kInitialise;
   unsigned                    start_year_ = 0;
-  unsigned                    run_length_ = 0;
+  unsigned                    final_year_ = 0;
   unsigned                    min_age_ = 0;
   unsigned                    max_age_ = 0;
 };

@@ -28,7 +28,6 @@ void Manager::Validate() {
   for (TimeStepPtr time_step : objects_) {
     time_step->Validate();
   }
-
 }
 
 } /* namespace timesteps */

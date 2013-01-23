@@ -32,6 +32,8 @@ public:
   Manager();
   virtual                     ~Manager() noexcept(true);
   void                        Validate();
+  ProcessPtr                  GetProcess(const string& label);
+
 };
 
 } /* namespace processes */
