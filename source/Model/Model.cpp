@@ -131,6 +131,9 @@ void Model::Validate() {
   max_age_    = parameters_.Get(PARAM_MAX_AGE).GetValue<unsigned>();
   time_steps_ = parameters_.Get(PARAM_TIME_STEPS).GetValues<string>();
 
+  if (parameters_.IsDefined(PARAM_AGE_PLUS))
+    age_plus_ = parameters_.Get(PARAM_AGE_PLUS).GetValue<bool>();
+
   if (start_year_ > final_year_) {
     LOG_ERROR(parameters_.location(PARAM_FINAL_YEAR) << ": final_year is before the start_year, final_year must be greater than the start_year");
   }

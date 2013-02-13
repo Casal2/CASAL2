@@ -30,7 +30,8 @@ namespace selectivities {
 class Manager : public isam::base::Manager<isam::selectivities::Manager, isam::Selectivity> {
 public:
   Manager();
-  virtual ~Manager() noexcept(true) {};
+  virtual                     ~Manager() noexcept(true) {};
+  SelectivityPtr              GetSelectivity(const string& label);
 };
 
 } /* namespace selectivities */

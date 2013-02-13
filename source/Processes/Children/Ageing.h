@@ -18,11 +18,14 @@
 #define AGEING_H_
 
 // Headers
+#include "Partition/Accessors/Categories.h"
 #include "Processes/Process.h"
 
 // Namespaces
 namespace isam {
 namespace processes {
+
+namespace accessor = isam::partition::accessors;
 
 /**
  * Class Definition
@@ -38,8 +41,9 @@ public:
 
 private:
   // Members
+  ModelPtr                    model_;
+  accessor::CategoriesPtr     partition_;
   vector<string>              category_names_;
-
 };
 
 } /* namespace processes */

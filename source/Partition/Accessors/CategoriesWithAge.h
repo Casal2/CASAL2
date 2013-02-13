@@ -56,7 +56,6 @@ private:
   map<unsigned, DataType >    data_; // map<year, vector<pair<category, Double*> > >
 };
 
-
 // Typedef
 typedef boost::shared_ptr<CategoriesWithAge> CategoriesWithAgePtr;
 

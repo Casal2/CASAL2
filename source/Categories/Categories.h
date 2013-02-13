@@ -66,7 +66,7 @@ private:
 };
 
 // Typedef
-typedef boost::shared_ptr<Categories> CategoriesPtr;
+typedef boost::shared_ptr<isam::Categories> CategoriesPtr;
 
 } /* namespace isam */
 

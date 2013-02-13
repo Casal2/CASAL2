@@ -25,6 +25,8 @@ namespace accessors {
  * Default constructor
  */
 CategoriesWithAge::CategoriesWithAge(const vector<string>& category_names, const unsigned& age) {
+  LOG_TRACE();
+
   // Variables
   model_ = Model::Instance();
   unsigned start_year = model_->start_year();
@@ -53,7 +55,7 @@ unsigned CategoriesWithAge::size() {
 }
 
 /**
- * Return an interator to the first element in our vector
+ * Return an iterator to the first element in our vector
  * for the current year.
  */
 CategoriesWithAge::DataType::iterator CategoriesWithAge::begin() {

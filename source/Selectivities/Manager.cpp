@@ -15,5 +15,21 @@ Manager::Manager() {
 
 }
 
+/**
+ *
+ */
+SelectivityPtr Manager::GetSelectivity(const string& label) {
+  SelectivityPtr result;
+
+  for(SelectivityPtr selectivity : objects_) {
+    if (selectivity->label() == label) {
+      result = selectivity;
+      break;
+    }
+  }
+
+  return result;
+}
+
 } /* namespace selectivities */
 } /* namespace isam */

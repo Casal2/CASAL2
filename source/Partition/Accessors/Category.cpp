@@ -37,25 +37,24 @@ namespace util = isam::utilities;
  * Construction of this object involves building the category map
  */
 Category::Category(const string& category_name) {
-//  LOG_TRACE();
-//
-//  model_ = Model::Instance();
-//  unsigned start_year = model_->start_year();
-//  unsigned final_year = model_->final_year();
-//  LOG_INFO("Model details: start_year: " << start_year << "; final_year: " << final_year);
-//
-//  CategoriesPtr categories = Categories::Instance();
-//  vector<string> category_names = categories->category_names();
-//
-//  Partition& partition = Partition::Instance();
-//  map<string, vector<Double> > grid = partition.grid();
-//  for (unsigned year = start_year; year <= final_year; ++year) {
-//    for (string category : category_names) {
-//      if (categories->IsValidInYear(category, year)) {
-//        category_map_[year] = grid[category];
-//      }
-//    }
-//  }
+  LOG_TRACE();
+
+  model_ = Model::Instance();
+  unsigned start_year = model_->start_year();
+  unsigned final_year = model_->final_year();
+  LOG_INFO("Model details: start_year: " << start_year << "; final_year: " << final_year);
+
+  CategoriesPtr categories = Categories::Instance();
+
+
+  Partition& partition = Partition::Instance();
+  partition::Category& category = partition.category(category_name);
+  for (unsigned year = start_year; year <= final_year; ++year) {
+    if (std::find(category.years_.begin(), category.years_.end(), year) == category.years_.end())
+            continue; // Not valid in this year
+
+    data_[year] = &category.data_;
+  }
 }
 
 /**
