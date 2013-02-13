@@ -17,11 +17,14 @@
 #define CONSTANTRECRUITMENT_H_
 
 // Headers
+#include "Partition/Accessors/CategoriesWithAge.h"
 #include "Processes/Process.h"
 
 // Namespaces
 namespace isam {
 namespace processes {
+
+using isam::partition::accessors::CategoriesWithAgePtr;
 
 /**
  * Class definition
@@ -38,9 +41,10 @@ public:
 private:
   // Members
   vector<string>              category_names_;
-  vector<double>              proportions_;
+  map<string, double>         proportions_;
   unsigned                    r0_;
   unsigned                    age_;
+  CategoriesWithAgePtr        partition_;
 };
 
 } /* namespace processes */

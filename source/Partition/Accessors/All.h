@@ -9,18 +9,23 @@
  *
  * @section DESCRIPTION
  *
- * The time class represents a moment of time.
+ * This accessors will give a complete view of the partition.
+ *
+ * NOTE: This accessor ignores any specific rules a category
+ * may have regarding visibility during specific years. It will
+ * always print every category in the model regardless of year.
  *
  * $Date: 2008-03-04 16:33:32 +1300 (Tue, 04 Mar 2008) $
  */
-#ifndef ALL_H_
-#define ALL_H_
+#ifndef PARTITION_ACCESSORS_ALL_H_
+#define PARTITION_ACCESSORS_ALL_H_
 
 // Headers
 #include <map>
 #include <vector>
 #include <string>
 
+#include "Partition/Partition.h"
 #include "Utilities/Types.h"
 
 // Namespaces
@@ -39,11 +44,23 @@ using isam::utilities::Double;
  */
 class All {
 public:
+  // Typedefs
+  typedef vector<partition::Category*> DataType;
+
+  // Methods
   All();
-  virtual ~All();
+  virtual                     ~All() = default;
+  DataType::iterator          Begin();
+  DataType::iterator          End();
+  unsigned                    Size();
+
+private:
+  // Members
+  All::DataType               data_;
+
 };
 
 } /* namespace accessors */
 } /* namespace partition */
 } /* namespace isam */
-#endif /* ALL_H_ */
+#endif /* PARTITION_ACCESSORS_ALL_H_ */

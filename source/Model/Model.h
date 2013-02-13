@@ -65,9 +65,11 @@ public:
   RunMode::Type               run_mode() { return run_mode_; }
   unsigned                    start_year() { return start_year_; }
   unsigned                    final_year() { return final_year_; }
+  unsigned                    current_year() { return current_year_; }
   virtual unsigned            min_age() const { return min_age_; }
   virtual unsigned            max_age() const { return max_age_; }
   virtual unsigned            age_spread() const { return (max_age_ - min_age_) + 1; }
+  const vector<string>&       time_steps() const { return time_steps_; }
 
 protected:
   // Methods
@@ -85,8 +87,10 @@ protected:
   State::Type                 state_    = State::kInitialise;
   unsigned                    start_year_ = 0;
   unsigned                    final_year_ = 0;
+  unsigned                    current_year_ = 0;
   unsigned                    min_age_ = 0;
   unsigned                    max_age_ = 0;
+  vector<string>              time_steps_;
 };
 
 /**

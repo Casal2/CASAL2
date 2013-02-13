@@ -13,8 +13,8 @@
  *
  * $Date: 2008-03-04 16:33:32 +1300 (Tue, 04 Mar 2008) $
  */
-#ifndef MANAGER_H_
-#define MANAGER_H_
+#ifndef REPORTS_MANAGER_H_
+#define REPORTS_MANAGER_H_
 
 // Headers
 #include "BaseClasses/Manager.h"
@@ -31,8 +31,16 @@ class Manager : public isam::base::Manager<reports::Manager, isam::Report> {
 public:
   Manager();
   virtual                     ~Manager() noexcept(true);
+  void                        Build() override final;
+  void                        Execute(State::Type model_state);
+  void                        Execute(unsigned year, const string& time_step_label);
+
+private:
+  // Members
+  map<State::Type, vector<ReportPtr> >  state_reports_;
+  map<string, vector<ReportPtr> >       time_step_reports_;
 };
 
 } /* namespace reports */
 } /* namespace isam */
-#endif /* MANAGER_H_ */
+#endif /* REPORTS_MANAGER_H_ */

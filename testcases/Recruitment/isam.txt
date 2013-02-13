@@ -1,0 +1,29 @@
+@model
+start_year 1994
+final_year 2008
+min_age 1
+max_age 10
+age_plus t
+time_steps step_one
+
+@categories
+format stage.sex
+names immature.male mature.male immature.female mature.female
+
+@time_step step_one
+processes my_recruitment
+
+@Recruitment my_recruitment
+type constant
+categories immature.male immature.female
+proportions 0.5 0.5
+R0 997386
+age 1
+
+@report category_info_test
+type category_info
+
+@report partition
+type partition
+time_step step_one
+year 1994

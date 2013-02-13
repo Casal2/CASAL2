@@ -121,6 +121,7 @@
 #define PARAM_CATEGORIES                          "categories"
 #define PARAM_CATEGORY                            "category"
 #define PARAM_CATEGORY_INDEX                      "category_index"
+#define PARAM_CATEGORY_INFO                       "category_info"
 #define PARAM_CATEGORY_TRANSITION                 "category_transition"
 #define PARAM_CATEGORY_TRANSITION_RATE            "category_transition_rate"
 #define PARAM_CATEGORY_VALUES                     "category_values"

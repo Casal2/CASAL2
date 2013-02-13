@@ -16,6 +16,7 @@ int main(int argc, char **argv) {
 #include "Model/Model.h"
 #include "Reports/Children/StandardHeader.h"
 #include "Utilities/CommandLineParser/CommandLineParser.h"
+#include "Utilities/Logging/Logging.h"
 
 // Namespaces
 using namespace isam;
@@ -53,7 +54,7 @@ int main(int argc, char * argv[]) {
     ModelPtr model = Model::Instance();
     switch (model->run_mode()) {
     case RunMode::kInvalid:
-      THROW_EXCEPTION("Invalid run mode specified.");
+      LOG_ERROR("Invalid run mode specified.");
       break;
 
     case RunMode::kVersion:

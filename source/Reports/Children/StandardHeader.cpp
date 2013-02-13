@@ -108,7 +108,7 @@ void StandardHeader::Prepare() {
  * This report does it's printing during the start and finalise methods
  * so we do not need to have any logic within the run method.
  */
-void StandardHeader::Run() { }
+void StandardHeader::Execute() { }
 
 /**
  * Finalise our report. This will calculate how much time it took

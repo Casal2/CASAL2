@@ -13,18 +13,35 @@
 // Headers
 #include "All.h"
 
+#include "Categories/Categories.h"
+#include "Partition/Partition.h"
+
 // Namespaces
 namespace isam {
 namespace partition {
 namespace accessors {
 
+/**
+ * Default constructor
+ */
 All::All() {
-  // TODO Auto-generated constructor stub
 
+  vector<string> category_names = Categories::Instance()->category_names();
+  for (string category_name : category_names) {
+    data_.push_back(&Partition::Instance().category(category_name));
+  }
 }
 
-All::~All() {
-  // TODO Auto-generated destructor stub
+All::DataType::iterator All::Begin() {
+  return data_.begin();
+}
+
+All::DataType::iterator All::End() {
+  return data_.end();
+}
+
+unsigned All::Size() {
+  return data_.size();
 }
 
 } /* namespace accessors */
