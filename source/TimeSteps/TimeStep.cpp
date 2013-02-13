@@ -42,13 +42,19 @@ void TimeStep::Validate() {
  */
 void TimeStep::Build() {
 
+  // Get the pointers to our processes
+  processes::Manager& process_manager = processes::Manager::Instance();
+  for (string process_name : process_names_) {
+    processes_.push_back(process_manager.GetProcess(process_name));
+  }
 }
 
 /**
  * Execute the time step
  */
 void TimeStep::Execute() {
-
+  for (ProcessPtr process : processes_)
+    process->Execute();
 }
 
 

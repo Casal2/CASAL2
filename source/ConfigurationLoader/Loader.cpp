@@ -26,6 +26,7 @@
 #include "InitialisationPhases/Factory.h"
 #include "Model/Model.h"
 #include "Processes/Factory.h"
+#include "Reports/Factory.h"
 #include "Selectivities/Factory.h"
 #include "TimeSteps/Factory.h"
 #include "Translations/Translations.h"
@@ -296,9 +297,7 @@ ObjectPtr Loader::CreateObject(const string &block_type, const string &object_ty
 
   ObjectPtr object;
 
-
-
-
+  LOG_INFO("CreateObject = block_type: " << block_type << "; object_type: " << object_type);
   if (block_type == PARAM_MODEL) {
     object = Model::Instance();
 
@@ -322,6 +321,9 @@ ObjectPtr Loader::CreateObject(const string &block_type, const string &object_ty
 
   } else if (block_type == PARAM_RECRUITMENT) {
     object = processes::Factory::Create(block_type, object_type);
+
+  } else if (block_type == PARAM_REPORT) {
+    object = reports::Factory::Create(block_type, object_type);
 
   } else if (block_type == PARAM_SELECTIVITY) {
     object = selectivities::Factory::Create(block_type, object_type);

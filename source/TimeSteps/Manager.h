@@ -24,7 +24,14 @@ public:
   // Methods
   Manager();
   virtual                     ~Manager() noexcept(true);
-  void                        Validate();
+  void                        Validate() override final;
+  void                        Build() override final;
+  void                        Execute(unsigned year);
+
+private:
+  // Members
+  vector<TimeStepPtr>         ordered_time_steps_;
+
 };
 
 } /* namespace timesteps */

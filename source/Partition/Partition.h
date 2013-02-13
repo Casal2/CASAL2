@@ -38,6 +38,16 @@ enum ModelType {
   kCustomModel
 };
 
+namespace partition {
+struct Category {
+  string    name_;
+  unsigned  min_age_;
+  unsigned  max_age_;
+  vector<unsigned>  years_;
+  vector<double>  data_;
+};
+} /* namespace partition */
+
 /**
  * Class Definition
  */
@@ -50,14 +60,14 @@ public:
   void                        Build();
 
   // Accessors
-  map<string, vector<Double> >& grid() { return grid_; }
+  partition::Category&        category(const string& category_label) { return partition_[category_label]; }
 
 private:
   // Methods
   Partition() = default;
 
   // Members
-  map<string, vector<Double> >  grid_;  // 2D Array map<Category, vector<Age/Length/Bin> >
+  map<string, partition::Category> partition_; // map<Category Name, partition::Category Struct>
 };
 
 } /* namespace isam */

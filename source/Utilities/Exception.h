@@ -32,8 +32,8 @@ using std::endl;
 namespace isam {
 namespace utilities {
 
-#define THROW_EXCEPTION(X) { ostringstream o; o << __FILE__ << ":" << __LINE__ << endl << "## " << X << endl; throw string(o.str()); }
-#define RETHROW_EXCEPTION(X) { ostringstream o; o << __FILE__ << ":" << __LINE__ << endl << X; throw string(o.str()); }
+//#define THROW_EXCEPTION(X) { ostringstream o; o << __FILE__ << ":" << __LINE__ << endl << "## " << X << endl; throw string(o.str()); }
+//#define RETHROW_EXCEPTION(X) { ostringstream o; o << __FILE__ << ":" << __LINE__ << endl << X; throw string(o.str()); }
 
 } /* namespace utilities */
 } /* namespace isam */

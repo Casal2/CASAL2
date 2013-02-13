@@ -14,14 +14,15 @@
  *
  * $Date: 2008-03-04 16:33:32 +1300 (Tue, 04 Mar 2008) $
  */
-#ifndef CATEGORY_H_
-#define CATEGORY_H_
+#ifndef PARTITION_ACCESSORS_CATEGORY_H_
+#define PARTITION_ACCESSORS_CATEGORY_H_
 
 // Headers
 #include <map>
 #include <vector>
 #include <string>
 
+#include "Model/Model.h"
 #include "Utilities/Types.h"
 
 // Namespaces
@@ -39,29 +40,23 @@ using isam::utilities::Double;
  *
  */
 class Category {
-private:
-  // Typedefs
-  typedef map<unsigned, vector<pair<string, vector<Double>& > > > CategoryMap; // map<year, vector<pair<category, vector<values>>>>
-  typedef vector<pair<string, vector<Double>& > >  CategoryInfo; // vector<pair<category, values>>
-
 public:
-  // Methods
-  Category();
-  virtual                     ~Category();
-  void                        Begin();
-  bool                        Next();
+  // Typedefs
+  typedef vector<Double>& DataType;
 
-  // Accessors
-  vector<Double>&             current_values();
-  string                      current_category();
+  // Methods
+  Category(const string& category_name);
+  virtual                     ~Category() = default;
+//  DataType::iterator          begin();
+//  DataType::iterator          end();
 
 private:
   // Members
-  CategoryMap                 category_map_;
-  CategoryInfo::iterator      category_iter_;
+//  ModelPtr                    model_;
+//  map<unsigned, DataType >     category_map_;
 };
 
 }/* namespace accessors */
 }/* namespace partition */
 } /* namespace isam */
-#endif /* CATEGORY_H_ */
+#endif /* PARTITION_ACCESSORS_CATEGORY_H_ */

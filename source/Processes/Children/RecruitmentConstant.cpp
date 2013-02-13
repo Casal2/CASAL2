@@ -20,6 +20,8 @@
 namespace isam {
 namespace processes {
 
+using isam::partition::accessors::CategoriesWithAge;
+
 /**
  * Default Constructor
  */
@@ -60,31 +62,36 @@ void RecruitmentConstant::Validate() {
    */
   if (parameters_.IsDefined(PARAM_PROPORTIONS)) {
     Parameter parameter = parameters_.Get(PARAM_PROPORTIONS);
-    proportions_ = parameters_.Get(PARAM_PROPORTIONS).GetValues<double>();
+    vector<double> proportions = parameters_.Get(PARAM_PROPORTIONS).GetValues<double>();
 
-    if (proportions_.size() != category_names_.size()) {
+    if (proportions.size() != category_names_.size()) {
       LOG_ERROR("At line " << parameter.line_number() << " of file " << parameter.file_name()
           << ": Number of proportions provided is not the same as the number of categories provided. Expected: "
-          << category_names_.size()<< " but got " << proportions_.size());
+          << category_names_.size()<< " but got " << proportions.size());
     }
 
     double proportion_total = 0.0;
-    for (double proportion : proportions_)
+
+    for (double proportion : proportions)
       proportion_total += proportion;
 
     if (!utilities::doublecompare::IsOne(proportion_total)) {
       LOG_WARNING("At line " << parameter.line_number() << " of file " << parameter.file_name()
           <<": proportion does not sum to 1.0. Proportion sums to " << proportion_total << ". Auto-scaling proportions to sum to 1.0");
 
-      for (double& proportion : proportions_)
+      for (double& proportion : proportions)
         proportion = proportion / proportion_total;
+    }
+
+    for (unsigned i = 0; i < category_names_.size(); ++i) {
+      proportions_[category_names_[i]] = proportions[i];
     }
 
   } else {
     // Assign equal proportions to every category
     double proportion = category_names_.size() / 1.0;
-    proportions_.assign(category_names_.size(), proportion);
-
+    for (string category : category_names_)
+      proportions_[category] = proportion;
   }
 
 }
@@ -94,13 +101,27 @@ void RecruitmentConstant::Validate() {
  * have to other objects in the system.
  */
 void RecruitmentConstant::Build() {
-
+  partition_ = CategoriesWithAgePtr(new CategoriesWithAge(category_names_, age_));
 }
 
 /**
- *
+ * Execute our constant recruitment process
  */
 void RecruitmentConstant::Execute() {
+  /**
+   * Calculate new proportion totals for categories missing this year
+   */
+ double total_proportions = 0.0;
+ for (auto iterator = partition_->begin(); iterator != partition_->end(); ++iterator) {
+    total_proportions += proportions_[iterator->first];
+ }
+
+ /**
+  * Update our partition with new recruitment values
+  */
+ for (auto iterator = partition_->begin(); iterator != partition_->end(); ++iterator) {
+   *iterator->second += (proportions_[iterator->first] / total_proportions) * r0_;
+ }
 
 }
 

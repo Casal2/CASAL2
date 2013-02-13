@@ -35,7 +35,7 @@ public:
   StandardHeader();
   virtual                     ~StandardHeader();
   void                        Prepare();
-  void                        Run();
+  void                        Execute();
   void                        Finalise();
 
 protected:

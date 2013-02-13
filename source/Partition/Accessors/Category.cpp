@@ -36,39 +36,46 @@ namespace util = isam::utilities;
  *
  * Construction of this object involves building the category map
  */
-Category::Category() {
-  LOG_TRACE();
-
-//  ModelPtr model = Model::Instance();
-//  unsigned start_year = model->start_year();
-//  unsigned run_length = model->run_length();
-//  LOG_INFO("Model details: start_year: " << start_year << "; run_length: " << run_length);
+Category::Category(const string& category_name) {
+//  LOG_TRACE();
 //
-//  // TODO: Get category specific year information
+//  model_ = Model::Instance();
+//  unsigned start_year = model_->start_year();
+//  unsigned final_year = model_->final_year();
+//  LOG_INFO("Model details: start_year: " << start_year << "; final_year: " << final_year);
+//
 //  CategoriesPtr categories = Categories::Instance();
 //  vector<string> category_names = categories->category_names();
 //
 //  Partition& partition = Partition::Instance();
 //  map<string, vector<Double> > grid = partition.grid();
-//
-//  for (unsigned i = 0; i < run_length; ++i) {
-//
+//  for (unsigned year = start_year; year <= final_year; ++year) {
 //    for (string category : category_names) {
-//    // if (category in start_year + i
-//      pair<string, vector<Double>& > category_reference = { category, grid[category] };
-//      category_map_[start_year + i].push_back(category_reference);
+//      if (categories->IsValidInYear(category, year)) {
+//        category_map_[year] = grid[category];
+//      }
 //    }
 //  }
 }
 
 /**
+ * This method will return an iterator to the
+ * first category for the current year.
  *
+ * @return Iterator to the first element for the current year
  */
-Category::~Category() {
-}
+//Category::DataType::iterator Category::begin() {
+//  return category_map_[model_->current_year()].begin();
+//}
 
-void Category::Begin() { }
-bool Category::Next() { return true; }
+/**
+ * This method returns the end iterator for comparison.
+ *
+ * @return Iterator that is the end of the current year for comparison
+ */
+//Category::DataType::iterator Category::end() {
+//  return category_map_[model_->current_year()].end();
+//}
 
 } /* namespace accessors */
 } /* namespace partition */

@@ -1,22 +1,35 @@
-/*
- * Manager.cpp
+/**
+ * @file Manager.cpp
+ * @author  Scott Rasmussen (scott.rasmussen@zaita.com)
+ * @version 1.0
+ * @date 13/02/2013
+ * @section LICENSE
  *
- *  Created on: 13/12/2012
- *      Author: Admin
+ * Copyright NIWA Science ©2013 - www.niwa.co.nz
+ *
+ * $Date: 2008-03-04 16:33:32 +1300 (Tue, 04 Mar 2008) $
  */
 
+// Headers
 #include "Manager.h"
 
+#include "Model/Model.h"
+#include "Reports/Manager.h"
+
+// Namespaces
 namespace isam {
 namespace timesteps {
 
+/**
+ * Default Constructor
+ */
 Manager::Manager() {
-  // TODO Auto-generated constructor stub
-
 }
 
+/**
+ * Destructor
+ */
 Manager::~Manager() noexcept(true) {
-  // TODO Auto-generated destructor stub
 }
 
 /**
@@ -27,6 +40,43 @@ void Manager::Validate() {
 
   for (TimeStepPtr time_step : objects_) {
     time_step->Validate();
+  }
+}
+
+/**
+ * Build our time step manager.
+ *
+ * Get the time steps and order them.
+ */
+void Manager::Build() {
+
+  // Build our objects
+  for(TimeStepPtr time_step : objects_)
+    time_step->Build();
+
+  // Order our time steps based on the parameter given to the model
+  vector<string> time_steps = Model::Instance()->time_steps();
+  for(string time_step_label : time_steps) {
+    for(TimeStepPtr time_step : objects_) {
+      if (time_step->label() == time_step_label) {
+        ordered_time_steps_.push_back(time_step);
+        break;
+      }
+    }
+  }
+}
+
+/**
+ * Execute all of the timesteps
+ * for the current year.
+ */
+void Manager::Execute(unsigned year) {
+
+  reports::Manager& report_manager = reports::Manager::Instance();
+
+  for (TimeStepPtr time_step : ordered_time_steps_) {
+    time_step->Execute();
+    report_manager.Execute(year, time_step->label());
   }
 }
 

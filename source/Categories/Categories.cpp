@@ -93,6 +93,7 @@ void Categories::Validate() {
     new_category_info.name_     = names_[i];
     new_category_info.min_age_  = model->min_age();
     new_category_info.max_age_  = model->max_age();
+    new_category_info.years_    = default_years;
     categories_[names_[i]] = new_category_info;
 
     category_names_.push_back(names_[i]);
@@ -101,7 +102,6 @@ void Categories::Validate() {
   // Parameter: Years
   if (parameters_.IsDefined(PARAM_YEARS)) {
     parameter = parameters_.Get(PARAM_YEARS);
-
   }
 
   // Parameter: Ages
@@ -110,6 +110,38 @@ void Categories::Validate() {
 
   }
 }
+
+/**
+ *
+ */
+unsigned Categories::min_age(const string& category_name) {
+  if (categories_.find(category_name) == categories_.end())
+    LOG_CODE_ERROR("Could not find category_name: " << category_name << " in the list of loaded categories");
+
+  return categories_[category_name].min_age_;
+}
+
+/**
+ *
+ */
+unsigned Categories::max_age(const string& category_name) {
+  if (categories_.find(category_name) == categories_.end())
+    LOG_CODE_ERROR("Could not find category_name: " << category_name << " in the list of loaded categories");
+
+  return categories_[category_name].max_age_;
+}
+
+/**
+ *
+ */
+vector<unsigned> Categories::years(const string& category_name) {
+  if (categories_.find(category_name) == categories_.end())
+    LOG_CODE_ERROR("Could not find category_name: " << category_name << " in the list of loaded categories");
+
+  return categories_[category_name].years_;
+}
+
+
 
 } /* namespace isam */
 

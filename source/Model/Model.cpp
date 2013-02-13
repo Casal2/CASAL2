@@ -20,6 +20,7 @@
 #include "Partition/Accessors/Category.h"
 #include "Partition/Partition.h"
 #include "Processes/Manager.h"
+#include "Reports/Manager.h"
 #include "Selectivities/Manager.h"
 #include "TimeSteps/Manager.h"
 #include "Utilities/Logging/Logging.h"
@@ -69,15 +70,19 @@ void Model::Start() {
     LOG_CODE_ERROR("Model state should always be initialise when entering the start method");
 
   Initialise();
+  reports::Manager::Instance().Execute(State::kInitialise);
 
   state_ = State::kValidate;
   Validate();
+  reports::Manager::Instance().Execute(State::kValidate);
 
   state_ = State::kBuild;
   Build();
+  reports::Manager::Instance().Execute(State::kBuild);
 
   state_ = State::kVerify;
   Verify();
+  reports::Manager::Instance().Execute(State::kVerify);
 
   switch(run_mode_) {
   case RunMode::kBasic:
@@ -117,12 +122,14 @@ void Model::Validate() {
   CheckForRequiredParameter(PARAM_FINAL_YEAR);
   CheckForRequiredParameter(PARAM_MIN_AGE);
   CheckForRequiredParameter(PARAM_MAX_AGE);
+  CheckForRequiredParameter(PARAM_TIME_STEPS);
 
   // Validate: start_year
   start_year_ = parameters_.Get(PARAM_START_YEAR).GetValue<unsigned>();
   final_year_ = parameters_.Get(PARAM_FINAL_YEAR).GetValue<unsigned>();
   min_age_    = parameters_.Get(PARAM_MIN_AGE).GetValue<unsigned>();
   max_age_    = parameters_.Get(PARAM_MAX_AGE).GetValue<unsigned>();
+  time_steps_ = parameters_.Get(PARAM_TIME_STEPS).GetValues<string>();
 
   if (start_year_ > final_year_) {
     LOG_ERROR(parameters_.location(PARAM_FINAL_YEAR) << ": final_year is before the start_year, final_year must be greater than the start_year");
@@ -142,6 +149,7 @@ void Model::Validate() {
 
   initialisationphases::Manager::Instance().Validate();
   processes::Manager::Instance().Validate();
+  reports::Manager::Instance().Validate();
   selectivities::Manager::Instance().Validate();
   timesteps::Manager::Instance().Validate();
 }
@@ -156,11 +164,9 @@ void Model::Build() {
 
   initialisationphases::Manager::Instance().Build();
   processes::Manager::Instance().Build();
+  reports::Manager::Instance().Build();
   selectivities::Manager::Instance().Build();
   timesteps::Manager::Instance().Build();
-
-  isam::partition::accessors::Category category_accessor;
-
 }
 
 /**
@@ -176,8 +182,18 @@ void Model::Verify() {
  */
 void Model::RunBasic() {
   LOG_TRACE();
-  cout << "Running model in basic mode" << endl;
 
+  // Model is about to run
+  reports::Manager::Instance().Execute(State::kPreExecute);
+
+  /**
+   * Running the model now
+   */
+  cout << "Running model in basic mode" << endl;
+  Iterate();
+
+  // Model has finished so we can run finalise.
+  reports::Manager::Instance().Execute(State::kFinalise);
 }
 
 /**
@@ -193,6 +209,7 @@ void Model::RunEstimation() {
  * it'll run multiple times.
  */
 void Model::Iterate() {
+  timesteps::Manager& time_step_manager = timesteps::Manager::Instance();
 
   initialisationphases::Manager& init_phase_manager = initialisationphases::Manager::Instance();
   for (unsigned phase = 0; init_phase_manager.count(); ++phase) {
@@ -200,8 +217,8 @@ void Model::Iterate() {
   }
 
 //  timesteps::Manager& time_step_manager = timesteps::Manager::Instance();
-  for (unsigned year = start_year_; year <= final_year_; ++year) {
-//    time_step_manager->ExecuteProcesses(year);
+  for (current_year_ = start_year_; current_year_ <= final_year_; ++current_year_) {
+    time_step_manager.Execute(current_year_);
   }
 
 
