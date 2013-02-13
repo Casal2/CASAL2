@@ -13,6 +13,9 @@
 // Headers
 #include "MaturationRate.h"
 
+#include "Categories/Categories.h"
+#include "Selectivities/Manager.h"
+
 // Namespaces
 namespace isam {
 namespace processes {
@@ -75,6 +78,57 @@ void MaturationRate::Validate() {
     LOG_ERROR("At line " << parameter.line_number() << " in file " << parameter.file_name()
         << ": Number of selectivities provided does not match the number of proportions provided."
         << " Expected " << proportions_.size() << " but got " << selectivity_names_.size());
+  }
+
+  // Validate that each from and to category have the same age range.
+  CategoriesPtr categories = Categories::Instance();
+  for (unsigned i = 0; i < from_category_names_.size(); ++i) {
+    if (categories->min_age(from_category_names_[i]) != categories->min_age(to_category_names_[i])) {
+      LOG_ERROR(parameters_.location(PARAM_FROM) << ": Category " << from_category_names_[i] << " does not"
+          << " have the same age range as the 'to' category " << to_category_names_[i]);
+    }
+
+    if (categories->max_age(from_category_names_[i]) != categories->max_age(to_category_names_[i])) {
+      LOG_ERROR(parameters_.location(PARAM_FROM) << ": Category " << from_category_names_[i] << " does not"
+          << " have the same age range as the 'to' category " << to_category_names_[i]);
+    }
+  }
+}
+
+/**
+ * Build any runtime relationships this class needs.
+ * - Build the partition accessors
+ */
+void MaturationRate::Build() {
+  from_partition_ = accessor::CategoriesPtr(new partition::accessors::Categories(from_category_names_));
+  to_partition_   = accessor::CategoriesPtr(new partition::accessors::Categories(to_category_names_));
+
+  for(string label : selectivity_names_) {
+    SelectivityPtr selectivity = selectivities::Manager::Instance().GetSelectivity(label);
+    if (!selectivity)
+      LOG_ERROR(parameters_.location(PARAM_SELECTIVITIES) << ": Selectivity " << label << " does not exist. Have you defined it?");
+    selectivities_.push_back(selectivity);
+  }
+}
+
+/**
+ * Execute our maturation rate process.
+ */
+void MaturationRate::Execute() {
+
+  auto from_iter     = from_partition_->Begin();
+  auto to_iter       = to_partition_->Begin();
+  unsigned min_age   = (*from_iter)->min_age_;
+  double amount      = 0.0;
+
+  for (unsigned i = 0; from_iter != from_partition_->End() && to_iter != to_partition_->End(); ++from_iter, ++to_iter, ++i) {
+    SelectivityPtr selectivity = selectivities_[i];
+
+    for (unsigned offset = 0; offset < (*from_iter)->data_.size(); ++offset) {
+      amount = proportions_[i] * selectivity->GetResult(min_age + offset) * (*from_iter)->data_[offset];
+      (*from_iter)->data_[offset] -= amount;
+      (*to_iter)->data_[offset] += amount;
+    }
   }
 }
 

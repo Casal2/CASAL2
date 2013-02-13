@@ -44,7 +44,7 @@ struct Category {
   unsigned  min_age_;
   unsigned  max_age_;
   vector<unsigned>  years_;
-  vector<double>  data_;
+  vector<Double>  data_;
 };
 } /* namespace partition */
 

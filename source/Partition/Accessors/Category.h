@@ -42,7 +42,7 @@ using isam::utilities::Double;
 class Category {
 public:
   // Typedefs
-  typedef vector<Double>& DataType;
+  typedef vector<Double>* DataType;
 
   // Methods
   Category(const string& category_name);
@@ -52,8 +52,8 @@ public:
 
 private:
   // Members
-//  ModelPtr                    model_;
-//  map<unsigned, DataType >     category_map_;
+  ModelPtr                    model_;
+  map<unsigned, DataType >    data_;
 };
 
 }/* namespace accessors */

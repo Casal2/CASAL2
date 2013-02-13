@@ -69,6 +69,7 @@ public:
   virtual unsigned            min_age() const { return min_age_; }
   virtual unsigned            max_age() const { return max_age_; }
   virtual unsigned            age_spread() const { return (max_age_ - min_age_) + 1; }
+  bool                        age_plus() const { return age_plus_; }
   const vector<string>&       time_steps() const { return time_steps_; }
 
 protected:
@@ -90,6 +91,7 @@ protected:
   unsigned                    current_year_ = 0;
   unsigned                    min_age_ = 0;
   unsigned                    max_age_ = 0;
+  bool                        age_plus_ = true;
   vector<string>              time_steps_;
 };
 

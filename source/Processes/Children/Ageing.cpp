@@ -46,17 +46,32 @@ void Ageing::Validate() {
 }
 
 /**
- *
+ * Build any runtime objects an relationships for
+ * this object
  */
 void Ageing::Build() {
-
+  partition_  = accessor::CategoriesPtr(new accessor::Categories(category_names_));
+  model_      = Model::Instance();
 }
 
 /**
  *
  */
 void Ageing::Execute() {
+  for (auto iterator = partition_->Begin(); iterator != partition_->End(); ++iterator) {
+    Double carry_over = 0.0;
+    Double temp       = 0.0;
 
+    for(Double& data : (*iterator)->data_) {
+      temp = data;
+      data = carry_over;
+      carry_over = temp;
+    }
+
+    if (model_->age_plus()) {
+      (* (*iterator)->data_.rbegin() ) += carry_over;
+    }
+  }
 }
 
 } /* namespace processes */

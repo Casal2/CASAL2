@@ -19,9 +19,14 @@
 // Headers
 #include "Processes/Process.h"
 
+#include "Partition/Accessors/Categories.h"
+#include "Selectivities/Selectivity.h"
+
 // Namespaces
 namespace isam {
 namespace processes {
+
+namespace accessor = isam::partition::accessors;
 
 /**
  * Class defintiion
@@ -32,6 +37,8 @@ public:
   MaturationRate();
   virtual                     ~MaturationRate() = default;
   void                        Validate();
+  void                        Build();
+  void                        Execute();
 
 private:
   // Members
@@ -39,6 +46,10 @@ private:
   vector<string>              to_category_names_;
   vector<double>              proportions_;
   vector<string>              selectivity_names_;
+  accessor::CategoriesPtr     from_partition_;
+  accessor::CategoriesPtr     to_partition_;
+  vector<SelectivityPtr>      selectivities_;
+
 };
 
 } /* namespace processes */

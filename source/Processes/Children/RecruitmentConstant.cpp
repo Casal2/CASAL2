@@ -57,7 +57,7 @@ void RecruitmentConstant::Validate() {
 
   /**
    * Check our parameter proportion is the correct length
-   * and sums to 1.0. If it doesn't sum to one we'll make it
+   * and sums to 1.0. If it doesn't sum to 1.0 we'll make it
    * and print a warning message
    */
   if (parameters_.IsDefined(PARAM_PROPORTIONS)) {
@@ -109,7 +109,7 @@ void RecruitmentConstant::Build() {
  */
 void RecruitmentConstant::Execute() {
   /**
-   * Calculate new proportion totals for categories missing this year
+   * Calculate new proportion totals to account for dynamic categories
    */
  double total_proportions = 0.0;
  for (auto iterator = partition_->begin(); iterator != partition_->end(); ++iterator) {
