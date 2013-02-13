@@ -19,11 +19,13 @@
 // Headers
 #include "Partition/Accessors/CategoriesWithAge.h"
 #include "Processes/Process.h"
+#include "Utilities/Types.h"
 
 // Namespaces
 namespace isam {
 namespace processes {
 
+using isam::utilities::Double;
 using isam::partition::accessors::CategoriesWithAgePtr;
 
 /**
@@ -41,7 +43,7 @@ public:
 private:
   // Members
   vector<string>              category_names_;
-  map<string, double>         proportions_;
+  map<string, Double>         proportions_;
   unsigned                    r0_;
   unsigned                    age_;
   CategoriesWithAgePtr        partition_;

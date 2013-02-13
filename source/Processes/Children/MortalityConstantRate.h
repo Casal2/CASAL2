@@ -17,11 +17,15 @@
 #define MORTALITYCONSTANTRATE_H_
 
 // Headers
+#include "Partition/Accessors/Categories.h"
 #include "Processes/Process.h"
+#include "Selectivities/Selectivity.h"
 
 // namespaces
 namespace isam {
 namespace processes {
+
+namespace accessor = isam::partition::accessors;
 
 /**
  * Class Definition
@@ -32,12 +36,16 @@ public:
   MortalityConstantRate();
   virtual                     ~MortalityConstantRate() = default;
   void                        Validate();
+  void                        Build();
+  void                        Execute();
 
 private:
   // Members
   vector<string>              category_names_;
-  vector<double>              m_;
+  vector<Double>              m_;
   vector<string>              selectivity_names_;
+  accessor::CategoriesPtr     partition_;
+  vector<SelectivityPtr>      selectivities_;
 };
 
 } /* namespace processes */

@@ -70,16 +70,16 @@ void RecruitmentConstant::Validate() {
           << category_names_.size()<< " but got " << proportions.size());
     }
 
-    double proportion_total = 0.0;
+    Double proportion_total = 0.0;
 
-    for (double proportion : proportions)
+    for (Double proportion : proportions)
       proportion_total += proportion;
 
     if (!utilities::doublecompare::IsOne(proportion_total)) {
       LOG_WARNING("At line " << parameter.line_number() << " of file " << parameter.file_name()
           <<": proportion does not sum to 1.0. Proportion sums to " << proportion_total << ". Auto-scaling proportions to sum to 1.0");
 
-      for (double& proportion : proportions)
+      for (Double& proportion : proportions)
         proportion = proportion / proportion_total;
     }
 
@@ -89,7 +89,7 @@ void RecruitmentConstant::Validate() {
 
   } else {
     // Assign equal proportions to every category
-    double proportion = category_names_.size() / 1.0;
+    Double proportion = category_names_.size() / 1.0;
     for (string category : category_names_)
       proportions_[category] = proportion;
   }
@@ -111,7 +111,7 @@ void RecruitmentConstant::Execute() {
   /**
    * Calculate new proportion totals to account for dynamic categories
    */
- double total_proportions = 0.0;
+ Double total_proportions = 0.0;
  for (auto iterator = partition_->begin(); iterator != partition_->end(); ++iterator) {
     total_proportions += proportions_[iterator->first];
  }

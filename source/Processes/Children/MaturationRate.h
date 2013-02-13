@@ -44,7 +44,7 @@ private:
   // Members
   vector<string>              from_category_names_;
   vector<string>              to_category_names_;
-  vector<double>              proportions_;
+  vector<Double>              proportions_;
   vector<string>              selectivity_names_;
   accessor::CategoriesPtr     from_partition_;
   accessor::CategoriesPtr     to_partition_;

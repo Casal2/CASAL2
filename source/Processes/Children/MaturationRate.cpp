@@ -56,6 +56,11 @@ void MaturationRate::Validate() {
   proportions_          = parameters_.Get(PARAM_PROPORTIONS).GetValues<double>();
   selectivity_names_    = parameters_.Get(PARAM_SELECTIVITIES).GetValues<string>();
 
+  if (proportions_.size() == 1)
+    proportions_.assign(from_category_names_.size(), proportions_[0]);
+  if (selectivity_names_.size() == 1)
+    selectivity_names_.assign(from_category_names_.size(), selectivity_names_[0]);
+
   // Validate the from and to vectors are the same size
   if (from_category_names_.size() != to_category_names_.size()) {
     Parameter parameter = parameters_.Get(PARAM_TO);
@@ -81,7 +86,7 @@ void MaturationRate::Validate() {
   }
 
   // Validate that each from and to category have the same age range.
-  CategoriesPtr categories = Categories::Instance();
+  isam::CategoriesPtr categories = isam::Categories::Instance();
   for (unsigned i = 0; i < from_category_names_.size(); ++i) {
     if (categories->min_age(from_category_names_[i]) != categories->min_age(to_category_names_[i])) {
       LOG_ERROR(parameters_.location(PARAM_FROM) << ": Category " << from_category_names_[i] << " does not"
@@ -92,6 +97,12 @@ void MaturationRate::Validate() {
       LOG_ERROR(parameters_.location(PARAM_FROM) << ": Category " << from_category_names_[i] << " does not"
           << " have the same age range as the 'to' category " << to_category_names_[i]);
     }
+  }
+
+  // Validate the proportions are between 0.0 and 1.0
+  for (Double proportion : proportions_) {
+    if (proportion < 0.0 || proportion > 1.0)
+      LOG_ERROR(parameters_.location(PARAM_PROPORTIONS) << ": proportion " << proportion << " must be between 0.0 and 1.0 (inclusive)");
   }
 }
 
@@ -119,7 +130,7 @@ void MaturationRate::Execute() {
   auto from_iter     = from_partition_->Begin();
   auto to_iter       = to_partition_->Begin();
   unsigned min_age   = (*from_iter)->min_age_;
-  double amount      = 0.0;
+  Double amount      = 0.0;
 
   for (unsigned i = 0; from_iter != from_partition_->End() && to_iter != to_partition_->End(); ++from_iter, ++to_iter, ++i) {
     SelectivityPtr selectivity = selectivities_[i];
