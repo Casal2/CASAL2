@@ -13,6 +13,7 @@
 // Headers
 #include "MortalityConstantRate.h"
 
+#include "Categories/Categories.h"
 #include "Selectivities/Manager.h"
 #include "Utilities/Logging/Logging.h"
 
@@ -31,18 +32,19 @@ MortalityConstantRate::MortalityConstantRate() {
   parameters_.RegisterAllowed(PARAM_CATEGORIES);
   parameters_.RegisterAllowed(PARAM_M);
   parameters_.RegisterAllowed(PARAM_SELECTIVITIES);
-
 }
 
 /**
  * Validate our Mortality Constant Rate process
  *
- * 1. Validate the required parameters
- * 2. Assign the label from the parameters
- * 3. Assign and validate remaining parameters
+ * - Validate the required parameters
+ * - Assign the label from the parameters
+ * - Assign and validate remaining parameters
+ * - Duplicate 'm' and 'selectivities' if only 1 vale specified
+ * - Check m is between 0.0 and 1.0
+ * - Check the categories are real
  */
 void MortalityConstantRate::Validate() {
-
   CheckForRequiredParameter(PARAM_LABEL);
   CheckForRequiredParameter(PARAM_TYPE);
   CheckForRequiredParameter(PARAM_CATEGORIES);
@@ -74,8 +76,14 @@ void MortalityConstantRate::Validate() {
 
   // Validate our Ms are between 1.0 and 0.0
   for (double m : m_) {
-    if (m > 1.0 || m < 0.0)
+    if (m < 0.0 || m > 1.0)
       LOG_ERROR(parameters_.location(PARAM_M) << ": m value " << m << " must be between 0.0 and 1.0 (inclusive)");
+  }
+
+  // Check categories are real
+  for (const string& label : category_names_) {
+    if (!Categories::Instance()->IsValid(label))
+      LOG_ERROR(parameters_.location(PARAM_CATEGORIES) << ": category " << label << " does not exist. Have you defined it?");
   }
 }
 
@@ -90,7 +98,7 @@ void MortalityConstantRate::Build() {
   for (string label : selectivity_names_) {
     SelectivityPtr selectivity = selectivities::Manager::Instance().GetSelectivity(label);
     if (!selectivity)
-      LOG_ERROR(parameters_.location(PARAM_SELECTIVITIES) << ": Selectivity " << label << " does not exist. Have you defined it?");
+      LOG_ERROR(parameters_.location(PARAM_SELECTIVITIES) << ": selectivity " << label << " does not exist. Have you defined it?");
 
     selectivities_.push_back(selectivity);
   }
@@ -100,7 +108,6 @@ void MortalityConstantRate::Build() {
  * Execute the process
  */
 void MortalityConstantRate::Execute() {
-
   Double amount     = 0.0;
   unsigned min_age  = 0;
 
@@ -109,7 +116,8 @@ void MortalityConstantRate::Execute() {
     min_age = (*iterator)->min_age_;
 
     for (unsigned offset = 0; offset < (*iterator)->data_.size(); ++offset) {
-      amount = (*iterator)->data_[offset] * selectivities_[i]->GetResult(min_age + offset) * m_[i];
+      double mortality_rate = 1-exp(-(selectivities_[i]->GetResult(min_age + offset) * m_[i]));
+      amount = (*iterator)->data_[offset] * mortality_rate;
       (*iterator)->data_[offset] -= amount;
     }
   }

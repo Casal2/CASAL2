@@ -45,7 +45,11 @@ void TimeStep::Build() {
   // Get the pointers to our processes
   processes::Manager& process_manager = processes::Manager::Instance();
   for (string process_name : process_names_) {
-    processes_.push_back(process_manager.GetProcess(process_name));
+    ProcessPtr process = process_manager.GetProcess(process_name);
+    if (!process)
+      LOG_ERROR(parameters_.location(PARAM_PROCESSES) << ": process " << process_name << " does not exist. Have you defined it?");
+
+    processes_.push_back(process);
   }
 }
 

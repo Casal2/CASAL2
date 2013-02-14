@@ -22,6 +22,13 @@ inline bool IsZero(const double &value) { return (value < ZERO && value > -ZERO)
 inline bool IsTrueZero(const double &value) { return (value < TRUE_ZERO && value > -TRUE_ZERO); }
 inline bool IsOne(const double &value) { return ( ((value-ONE) < ZERO) && ((value-ONE) > -ZERO) ); }
 
+inline Double ZeroFun(double x) {
+  if (x >= ZERO)
+    return x;
+
+  return ZERO / (2 - (x / ZERO));
+}
+
 } /* namespace doublecompare */
 } /* namespace utilities */
 } /* namespace isam */

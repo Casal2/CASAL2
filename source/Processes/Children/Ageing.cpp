@@ -14,6 +14,7 @@
 #include "Ageing.h"
 
 #include "Utilities/To.h"
+#include "Categories/Categories.h"
 
 // Namespaces
 namespace isam {
@@ -37,12 +38,17 @@ Ageing::Ageing() {
  * 3. Assign any remaining parameters
  */
 void Ageing::Validate() {
-
   CheckForRequiredParameter(PARAM_LABEL);
   CheckForRequiredParameter(PARAM_CATEGORIES);
 
   label_          = parameters_.Get(PARAM_LABEL).GetValue<string>();
   category_names_ = parameters_.Get(PARAM_CATEGORIES).GetValues<string>();
+
+  // Ensure defined categories were valid
+  for(const string& category : category_names_) {
+    if (!Categories::Instance()->IsValid(category))
+      LOG_ERROR(parameters_.location(PARAM_CATEGORIES) << ": category " << category << " is not a valid category");
+  }
 }
 
 /**

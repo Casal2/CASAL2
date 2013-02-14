@@ -31,7 +31,7 @@ class Manager : public isam::base::Manager<isam::processes::Manager, isam::Proce
 public:
   Manager();
   virtual                     ~Manager() noexcept(true);
-  void                        Validate();
+  void                        Validate() override final;
   ProcessPtr                  GetProcess(const string& label);
 
 };

@@ -57,6 +57,8 @@ void Manager::Execute(State::Type model_state) {
  * @param time_step_label The last time step to be completed
  */
 void Manager::Execute(unsigned year, const string& time_step_label) {
+  LOG_TRACE();
+
   for(ReportPtr report : time_step_reports_[time_step_label]) {
     if (report->year() == year)
       report->Execute();

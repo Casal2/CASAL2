@@ -31,12 +31,12 @@ Categories::Categories(const vector<string>& category_labels) {
   unsigned start_year = model_->start_year();
   unsigned final_year = model_->final_year();
   LOG_INFO("Model details: start_year: " << start_year << "; final_year: " << final_year);
+  LOG_INFO("Categories: " << category_labels.size());
 
   Partition& partition = Partition::Instance();
 
   for(string category_label : category_labels) {
     partition::Category& category = partition.category(category_label);
-
     for (unsigned year = start_year; year <= final_year; ++year) {
       if (std::find(category.years_.begin(), category.years_.end(), year) == category.years_.end())
               continue; // Not valid in this year

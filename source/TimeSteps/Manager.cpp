@@ -33,6 +33,22 @@ Manager::~Manager() noexcept(true) {
 }
 
 /**
+ *
+ */
+TimeStepPtr Manager::GetTimeStep(const string& label) const {
+  LOG_INFO("label: " << label);
+  TimeStepPtr result;
+  for (TimeStepPtr time_step : objects_) {
+    if (time_step->label() == label) {
+      result = time_step;
+      break;
+    }
+  }
+
+  return result;
+}
+
+/**
  * Validate our Time Steps
  */
 void Manager::Validate() {
@@ -71,6 +87,7 @@ void Manager::Build() {
  * for the current year.
  */
 void Manager::Execute(unsigned year) {
+  LOG_TRACE();
 
   reports::Manager& report_manager = reports::Manager::Instance();
 

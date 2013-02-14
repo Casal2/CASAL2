@@ -30,7 +30,6 @@ void Manager::Validate() {
   for (ProcessPtr process : objects_) {
     process->Validate();
   }
-
 }
 
 /**

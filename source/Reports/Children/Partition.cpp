@@ -16,6 +16,7 @@
 #include <iostream>
 #include <iomanip>
 
+#include "Model/Model.h"
 #include "Partition/Accessors/All.h"
 
 // Namespaces
@@ -50,24 +51,26 @@ void Partition::Execute() {
   }
 
   // Print the header
-  cout << "*partition\n";
-  cout << std::left << std::setw(longest_length + 1);
+  cout << "*" << this->label() << "\n";
+  cout << "report.type: partition\n";
+  cout << "year: " << Model::Instance()->current_year() << "\n";
+  cout << "time_step: " << time_step_ << "\n";
   cout << "category";
   for (unsigned i = lowest; i <= highest; ++i)
-    cout << std::setw(14) << i;
+    cout << "," << i;
   cout << "\n";
 
-  cout.precision(5);
+  cout.precision(1);
   cout << std::fixed;
 
   for (auto iterator = all_view.Begin(); iterator != all_view.End(); ++iterator) {
-    cout << std::left << std::setw(longest_length + 1) << (*iterator)->name_;
+    cout << (*iterator)->name_;
     unsigned age = (*iterator)->min_age_;
     for (auto values = (*iterator)->data_.begin(); values != (*iterator)->data_.end(); ++values, age++) {
       if (age >= lowest && age <= highest)
-        cout << std::setw(14) << *values;
+        cout << "," << *values;
       else
-        cout << std::setw(16) << "null";
+        cout << "," << "null";
     }
     cout << "\n";
   }

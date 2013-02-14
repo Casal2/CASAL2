@@ -130,6 +130,7 @@ void Model::Validate() {
   min_age_    = parameters_.Get(PARAM_MIN_AGE).GetValue<unsigned>();
   max_age_    = parameters_.Get(PARAM_MAX_AGE).GetValue<unsigned>();
   time_steps_ = parameters_.Get(PARAM_TIME_STEPS).GetValues<string>();
+  initialisation_phases_ = parameters_.Get(PARAM_INITIALIZATION_PHASES).GetValues<string>();
 
   if (parameters_.IsDefined(PARAM_AGE_PLUS))
     age_plus_ = parameters_.Get(PARAM_AGE_PLUS).GetValue<bool>();
@@ -212,19 +213,14 @@ void Model::RunEstimation() {
  * it'll run multiple times.
  */
 void Model::Iterate() {
-  timesteps::Manager& time_step_manager = timesteps::Manager::Instance();
-
+  current_year_ = start_year_;
   initialisationphases::Manager& init_phase_manager = initialisationphases::Manager::Instance();
-  for (unsigned phase = 0; init_phase_manager.count(); ++phase) {
-//    init_phase_manager->ExecuteProcesses(phase);
-  }
+  init_phase_manager.Execute();
 
-//  timesteps::Manager& time_step_manager = timesteps::Manager::Instance();
+  timesteps::Manager& time_step_manager = timesteps::Manager::Instance();
   for (current_year_ = start_year_; current_year_ <= final_year_; ++current_year_) {
     time_step_manager.Execute(current_year_);
   }
-
-
 }
 
 
