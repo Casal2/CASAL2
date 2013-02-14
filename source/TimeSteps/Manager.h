@@ -27,6 +27,7 @@ public:
   void                        Validate() override final;
   void                        Build() override final;
   void                        Execute(unsigned year);
+  TimeStepPtr                 GetTimeStep(const string& label) const;
 
 private:
   // Members

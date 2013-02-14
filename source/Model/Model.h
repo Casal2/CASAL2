@@ -71,7 +71,7 @@ public:
   virtual unsigned            age_spread() const { return (max_age_ - min_age_) + 1; }
   bool                        age_plus() const { return age_plus_; }
   const vector<string>&       time_steps() const { return time_steps_; }
-
+  const vector<string>&       initialisation_phases() const { return initialisation_phases_; }
 protected:
   // Methods
   Model();
@@ -92,6 +92,7 @@ protected:
   unsigned                    min_age_ = 0;
   unsigned                    max_age_ = 0;
   bool                        age_plus_ = true;
+  vector<string>              initialisation_phases_;
   vector<string>              time_steps_;
 };
 

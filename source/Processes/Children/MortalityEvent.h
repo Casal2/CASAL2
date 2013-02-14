@@ -17,11 +17,16 @@
 #define MORTALITYEVENT_H_
 
 // Headers
+#include "Model/Model.h"
+#include "Partition/Accessors/Categories.h"
 #include "Processes/Process.h"
+#include "Selectivities/Selectivity.h"
 
 // Namespaces
 namespace isam {
 namespace processes {
+
+namespace accessor = isam::partition::accessors;
 
 /**
  * Class definition
@@ -31,16 +36,21 @@ public:
   // Methods
   MortalityEvent();
   virtual                     ~MortalityEvent() = default;
-  void                        Validate();
+  void                        Validate() override final;
+  void                        Build() override final;
+  void                        Execute() override final;
 
 private:
   // Members
   vector<string>              category_names_;
-  vector<unsigned>            years_;
-  vector<double>              catches_;
+  map<unsigned, double>       catches_;
   double                      u_max_;
   vector<string>              selectivity_names_;
   string                      penalty_;
+  accessor::CategoriesPtr     partition_;
+  ModelPtr                    model_;
+  vector<SelectivityPtr>      selectivities_;
+  map<string, map<unsigned, double> > vulnerable_;
 };
 
 } /* namespace processes */

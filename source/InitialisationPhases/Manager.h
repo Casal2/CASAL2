@@ -24,7 +24,12 @@ public:
   // Methods
   Manager();
   virtual                     ~Manager() noexcept(true);
+  void                        Build() override final;
   void                        Execute();
+
+private:
+  // Members
+  vector<InitialisationPhasePtr>  ordered_initialisation_phases_;
 };
 
 } /* namespace initialisationphases */

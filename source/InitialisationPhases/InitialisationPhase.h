@@ -31,7 +31,7 @@ public:
   InitialisationPhase();
   virtual                     ~InitialisationPhase() = default;
   void                        Validate();
-  void                        Build() { };
+  void                        Build();
   void                        Execute();
 
 private:

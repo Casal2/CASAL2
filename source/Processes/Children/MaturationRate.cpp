@@ -37,11 +37,17 @@ MaturationRate::MaturationRate() {
 /**
  * Validate our Maturation Rate process
  *
- * 1. Check for the required parameters
- * 2. Assign variables from our parameters
+ * - Check for the required parameters
+ * - Assign variables from our parameters
+ * - Verify the categories are real
+ * - If proportions or selectivities only has 1 element specified
+ *   add more elements until they match number of categories
+ * - Verify vector lengths are all the same
+ * - Verify categories From->To have matching age ranges
+ * - Check all proportions are between 0.0 and 1.0
+
  */
 void MaturationRate::Validate() {
-  // Check for required parameters
   CheckForRequiredParameter(PARAM_LABEL);
   CheckForRequiredParameter(PARAM_TYPE);
   CheckForRequiredParameter(PARAM_FROM);
@@ -49,7 +55,6 @@ void MaturationRate::Validate() {
   CheckForRequiredParameter(PARAM_PROPORTIONS);
   CheckForRequiredParameter(PARAM_SELECTIVITIES);
 
-  // Assign local variables
   label_                = parameters_.Get(PARAM_LABEL).GetValue<string>();
   from_category_names_  = parameters_.Get(PARAM_FROM).GetValues<string>();
   to_category_names_    = parameters_.Get(PARAM_TO).GetValues<string>();
@@ -61,32 +66,39 @@ void MaturationRate::Validate() {
   if (selectivity_names_.size() == 1)
     selectivity_names_.assign(from_category_names_.size(), selectivity_names_[0]);
 
+  // Validate Categories
+  isam::CategoriesPtr categories = isam::Categories::Instance();
+  for (const string& label : from_category_names_) {
+    if (!categories->IsValid(label))
+      LOG_ERROR(parameters_.location(PARAM_FROM) << ": category " << label << " does not exist. Have you defined it?");
+  }
+  for(const string& label : to_category_names_) {
+    if (!categories->IsValid(label))
+      LOG_ERROR(parameters_.location(PARAM_TO) << ": category " << label << " does not exist. Have you defined it?");
+  }
+
   // Validate the from and to vectors are the same size
   if (from_category_names_.size() != to_category_names_.size()) {
-    Parameter parameter = parameters_.Get(PARAM_TO);
-    LOG_ERROR("At line " << parameter.line_number() << " in file " << parameter.file_name()
-        << ": Number of to categories provided does not match the number of from categories provided."
+    LOG_ERROR(parameters_.location(PARAM_TO)
+        << ": Number of 'to' categories provided does not match the number of 'from' categories provided."
         << " Expected " << from_category_names_.size() << " but got " << to_category_names_.size());
   }
 
   // Validate the to category and proportions vectors are the same size
   if (to_category_names_.size() != proportions_.size()) {
-    Parameter parameter = parameters_.Get(PARAM_PROPORTIONS);
-    LOG_ERROR("At line " << parameter.line_number() << " in file " << parameter.file_name()
+    LOG_ERROR(parameters_.location(PARAM_PROPORTIONS)
         << ": Number of proportions provided does not match the number of 'to' categories provided."
         << " Expected " << to_category_names_.size() << " but got " << proportions_.size());
   }
 
   // Validate the number of selectivities matches the number of proportions
   if (proportions_.size() != selectivity_names_.size()) {
-    Parameter parameter = parameters_.Get(PARAM_SELECTIVITIES);
-    LOG_ERROR("At line " << parameter.line_number() << " in file " << parameter.file_name()
+    LOG_ERROR(parameters_.location(PARAM_SELECTIVITIES)
         << ": Number of selectivities provided does not match the number of proportions provided."
         << " Expected " << proportions_.size() << " but got " << selectivity_names_.size());
   }
 
   // Validate that each from and to category have the same age range.
-  isam::CategoriesPtr categories = isam::Categories::Instance();
   for (unsigned i = 0; i < from_category_names_.size(); ++i) {
     if (categories->min_age(from_category_names_[i]) != categories->min_age(to_category_names_[i])) {
       LOG_ERROR(parameters_.location(PARAM_FROM) << ": Category " << from_category_names_[i] << " does not"
@@ -109,8 +121,12 @@ void MaturationRate::Validate() {
 /**
  * Build any runtime relationships this class needs.
  * - Build the partition accessors
+ * - Verify the selectivities are valid
+ * - Get pointers to the selectivities
  */
 void MaturationRate::Build() {
+  LOG_TRACE();
+
   from_partition_ = accessor::CategoriesPtr(new partition::accessors::Categories(from_category_names_));
   to_partition_   = accessor::CategoriesPtr(new partition::accessors::Categories(to_category_names_));
 
@@ -126,7 +142,6 @@ void MaturationRate::Build() {
  * Execute our maturation rate process.
  */
 void MaturationRate::Execute() {
-
   auto from_iter     = from_partition_->Begin();
   auto to_iter       = to_partition_->Begin();
   unsigned min_age   = (*from_iter)->min_age_;

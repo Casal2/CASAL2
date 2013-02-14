@@ -33,7 +33,7 @@ public:
   Process();
   virtual                     ~Process();
   virtual void                Validate() {};
-  virtual void                Build() {};
+  virtual void                Build() { LOG_TRACE(); };
   virtual void                PreExecute() {};
   virtual void                Execute() {};
   virtual void                Reset() {};

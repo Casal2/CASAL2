@@ -112,6 +112,14 @@ void Categories::Validate() {
 }
 
 /**
+ * Check if the parameter category label is a valid
+ * category or not.
+ */
+bool Categories::IsValid(const string& label) const {
+  return std::find(category_names_.begin(), category_names_.end(), label) != category_names_.end();
+}
+
+/**
  *
  */
 unsigned Categories::min_age(const string& category_name) {

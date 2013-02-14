@@ -45,6 +45,7 @@ public:
   static shared_ptr<Categories> Instance();
   virtual                       ~Categories() = default;
   void                          Validate();
+  bool                          IsValid(const string& label) const;
 
   // Accessors
   string                        format() const { return format_; }

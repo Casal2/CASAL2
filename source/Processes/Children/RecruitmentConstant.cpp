@@ -13,6 +13,7 @@
 // Headers
 #include "RecruitmentConstant.h"
 
+#include "Categories/Categories.h"
 #include "Utilities/DoubleCompare.h"
 #include "Utilities/Logging/Logging.h"
 
@@ -42,18 +43,20 @@ RecruitmentConstant::RecruitmentConstant() {
  * 3. Assign remaining local parameters
  */
 void RecruitmentConstant::Validate() {
-
-  // Check for the required parameters
   CheckForRequiredParameter(PARAM_LABEL);
   CheckForRequiredParameter(PARAM_CATEGORIES);
   CheckForRequiredParameter(PARAM_AGE);
   CheckForRequiredParameter(PARAM_R0);
 
-  // Assign local parameters
   label_           = parameters_.Get(PARAM_LABEL).GetValue<string>();
   category_names_  = parameters_.Get(PARAM_CATEGORIES).GetValues<string>();
   r0_              = parameters_.Get(PARAM_R0).GetValue<double>();
   age_             = parameters_.Get(PARAM_AGE).GetValue<unsigned>();
+
+  for(const string& label : category_names_) {
+    if (!Categories::Instance()->IsValid(label))
+      LOG_ERROR(parameters_.location(PARAM_CATEGORIES) << ": category " << label << " does not exist. Have you defined it?");
+  }
 
   /**
    * Check our parameter proportion is the correct length
@@ -61,11 +64,10 @@ void RecruitmentConstant::Validate() {
    * and print a warning message
    */
   if (parameters_.IsDefined(PARAM_PROPORTIONS)) {
-    Parameter parameter = parameters_.Get(PARAM_PROPORTIONS);
     vector<double> proportions = parameters_.Get(PARAM_PROPORTIONS).GetValues<double>();
 
     if (proportions.size() != category_names_.size()) {
-      LOG_ERROR("At line " << parameter.line_number() << " of file " << parameter.file_name()
+      LOG_ERROR(parameters_.location(PARAM_PROPORTIONS)
           << ": Number of proportions provided is not the same as the number of categories provided. Expected: "
           << category_names_.size()<< " but got " << proportions.size());
     }
@@ -76,7 +78,7 @@ void RecruitmentConstant::Validate() {
       proportion_total += proportion;
 
     if (!utilities::doublecompare::IsOne(proportion_total)) {
-      LOG_WARNING("At line " << parameter.line_number() << " of file " << parameter.file_name()
+      LOG_WARNING(parameters_.location(PARAM_PROPORTIONS)
           <<": proportion does not sum to 1.0. Proportion sums to " << proportion_total << ". Auto-scaling proportions to sum to 1.0");
 
       for (Double& proportion : proportions)
@@ -122,7 +124,6 @@ void RecruitmentConstant::Execute() {
  for (auto iterator = partition_->begin(); iterator != partition_->end(); ++iterator) {
    *iterator->second += (proportions_[iterator->first] / total_proportions) * r0_;
  }
-
 }
 
 } /* namespace processes */
