@@ -1,0 +1,42 @@
+/**
+ * @file Manager.h
+ * @author  Scott Rasmussen (scott.rasmussen@zaita.com)
+ * @version 1.0
+ * @date 15/02/2013
+ * @section LICENSE
+ *
+ * Copyright NIWA Science ©2013 - www.niwa.co.nz
+ *
+ * @section DESCRIPTION
+ *
+ * The time class represents a moment of time.
+ *
+ * $Date: 2008-03-04 16:33:32 +1300 (Tue, 04 Mar 2008) $
+ */
+#ifndef PENALTIES_MANAGER_H_
+#define PENALTIES_MANAGER_H_
+
+// Headers
+#include "BaseClasses/Manager.h"
+#include "Penalties/Penalty.h"
+
+// Namespaces
+namespace isam {
+namespace penalties {
+
+/**
+ * Class Definition
+ */
+class Manager : public isam::base::Manager<penalties::Manager, isam::Penalty> {
+public:
+  // Methods
+  Manager();
+  virtual                     ~Manager() noexcept(true) {};
+  PenaltyPtr                  GetPenalty(const string& label) const;
+  void                        FlagPenalty(const string& name, double value) {};
+
+};
+
+} /* namespace penalties */
+} /* namespace isam */
+#endif /* PENALTIES_MANAGER_H_ */

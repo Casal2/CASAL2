@@ -25,6 +25,7 @@
 #include "GlobalConfiguration/GlobalConfiguration.h"
 #include "InitialisationPhases/Factory.h"
 #include "Model/Model.h"
+#include "Penalties/Factory.h"
 #include "Processes/Factory.h"
 #include "Reports/Factory.h"
 #include "Selectivities/Factory.h"
@@ -315,6 +316,9 @@ ObjectPtr Loader::CreateObject(const string &block_type, const string &object_ty
 
   } else if (block_type == PARAM_MORTALITY) {
     object = processes::Factory::Create(block_type, object_type);
+
+  } else if (block_type == PARAM_PENALTY) {
+    object = penalties::Factory::Create();
 
   } else if (block_type == PARAM_PROCESS) {
     object = processes::Factory::Create(block_type, object_type);

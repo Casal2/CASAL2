@@ -13,6 +13,7 @@
 // Headers
 #include "MortalityEvent.h"
 
+#include "Penalties/Manager.h"
 #include "Selectivities/Manager.h"
 #include "Utilities/DoubleCompare.h"
 
@@ -61,7 +62,7 @@ void MortalityEvent::Validate() {
   catches             = parameters_.Get(PARAM_CATCHES).GetValues<double>();
   u_max_              = parameters_.Get(PARAM_U_MAX).GetValue<double>(0.99);
   selectivity_names_  = parameters_.Get(PARAM_SELECTIVITIES).GetValues<string>();
-  penalty_            = parameters_.Get(PARAM_PENALTY).GetValue<string>("");
+  penalty_name_       = parameters_.Get(PARAM_PENALTY).GetValue<string>("");
 
   // Validate that our number of years and catches vectors are the same size
   if (years.size() != catches.size()) {
@@ -107,6 +108,13 @@ void MortalityEvent::Build() {
 
     selectivities_.push_back(selectivity);
   }
+
+  if (penalty_name_ != "") {
+    penalty_ = penalties::Manager::Instance().GetPenalty(penalty_name_);
+    if (!penalty_) {
+      LOG_ERROR(parameters_.location(PARAM_PENALTY) << ": penalty " << penalty_name_ << " does not exist. Have you defined it?");
+    }
+  }
 }
 
 /**
@@ -138,7 +146,8 @@ void MortalityEvent::Execute() {
   double exploitation = catches_[model_->current_year()] / utilities::doublecompare::ZeroFun(vulnerable);
   if (exploitation > u_max_) {
     exploitation = u_max_;
-    // TODO: Trigger penalty
+    if (penalty_)
+      penalty_->Trigger(label_, catches_[model_->current_year()], vulnerable*u_max_);
 
   } else if (exploitation < 0.0) {
     exploitation = 0.0;

@@ -19,6 +19,7 @@
 #include "InitialisationPhases/Manager.h"
 #include "Partition/Accessors/Category.h"
 #include "Partition/Partition.h"
+#include "Penalties/Manager.h"
 #include "Processes/Manager.h"
 #include "Reports/Manager.h"
 #include "Selectivities/Manager.h"
@@ -152,6 +153,7 @@ void Model::Validate() {
   Partition::Instance().Validate();
 
   initialisationphases::Manager::Instance().Validate();
+  penalties::Manager::Instance().Validate();
   processes::Manager::Instance().Validate();
   reports::Manager::Instance().Validate();
   selectivities::Manager::Instance().Validate();
@@ -167,6 +169,7 @@ void Model::Build() {
   Partition::Instance().Build();
 
   initialisationphases::Manager::Instance().Build();
+  penalties::Manager::Instance().Build();
   processes::Manager::Instance().Build();
   reports::Manager::Instance().Build();
   selectivities::Manager::Instance().Build();
