@@ -19,6 +19,7 @@
 // Headers
 #include "Model/Model.h"
 #include "Partition/Accessors/Categories.h"
+#include "Penalties/Penalty.h"
 #include "Processes/Process.h"
 #include "Selectivities/Selectivity.h"
 
@@ -46,11 +47,12 @@ private:
   map<unsigned, double>       catches_;
   double                      u_max_;
   vector<string>              selectivity_names_;
-  string                      penalty_;
+  string                      penalty_name_;
   accessor::CategoriesPtr     partition_;
   ModelPtr                    model_;
   vector<SelectivityPtr>      selectivities_;
   map<string, map<unsigned, double> > vulnerable_;
+  PenaltyPtr                  penalty_;
 };
 
 } /* namespace processes */
