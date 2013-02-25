@@ -19,10 +19,21 @@
 // Headers
 #include "BaseClasses/Manager.h"
 #include "Penalties/Penalty.h"
+#include "Utilities/Types.h"
 
 // Namespaces
 namespace isam {
 namespace penalties {
+
+using isam::utilities::Double;
+
+/**
+ * Struct Definition
+ */
+struct Info {
+  string label_;
+  Double score_;
+};
 
 /**
  * Class Definition
@@ -33,8 +44,14 @@ public:
   Manager();
   virtual                     ~Manager() noexcept(true) {};
   PenaltyPtr                  GetPenalty(const string& label) const;
-  void                        FlagPenalty(const string& name, double value) {};
+  void                        FlagPenalty(const string& label, double value);
 
+  // Accessors
+  const vector<Info>&         flagged_penalties() const { return flagged_penalties_; }
+
+private:
+  // Members
+  vector<Info>                flagged_penalties_;
 };
 
 } /* namespace penalties */

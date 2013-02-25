@@ -39,5 +39,19 @@ PenaltyPtr Manager::GetPenalty(const string& label) const {
   return result;
 }
 
+/**
+ * Flag a penalty and store it for retrieval later
+ *
+ * @param label of the penalty to flag
+ * @param value The penalty amount
+ */
+void Manager::FlagPenalty(const string& label, double value) {
+  Info penalty;
+  penalty.label_  = label;
+  penalty.score_  = value;
+
+  flagged_penalties_.push_back(penalty);
+}
+
 } /* namespace penalties */
 } /* namespace isam */
