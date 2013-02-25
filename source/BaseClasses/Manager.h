@@ -39,15 +39,16 @@ template <class ClassType, class StoredType>
 class Manager {
 public:
   // Methods
-  virtual                     ~Manager() = default;
-  static ClassType&           Instance();
-  void                        AddObject(shared_ptr<StoredType> object) { objects_.push_back(object); }
-  virtual void                Validate();
-  virtual void                Build();
-  virtual void                Reset() {};
+  virtual                         ~Manager() = default;
+  static ClassType&               Instance();
+  void                            AddObject(shared_ptr<StoredType> object) { objects_.push_back(object); }
+  vector<shared_ptr<StoredType> > GetObjects() { return objects_; }
+  virtual void                    Validate();
+  virtual void                    Build();
+  virtual void                    Reset() {};
 
   // Accessors
-  unsigned                    count() { return objects_.size(); }
+  unsigned                        count() { return objects_.size(); }
 
 protected:
   // Methods

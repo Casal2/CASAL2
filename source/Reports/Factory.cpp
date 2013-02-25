@@ -15,6 +15,7 @@
 
 #include "Reports/Manager.h"
 #include "Reports/Children/CategoryInfo.h"
+#include "Reports/Children/ObjectiveFunction.h"
 #include "Reports/Children/Partition.h"
 
 // Namespaces
@@ -33,6 +34,9 @@ ReportPtr Factory::Create(const string& block_type, const string& report_type) {
 
   } else if (block_type == PARAM_REPORT && report_type == PARAM_PARTITION) {
     result = ReportPtr(new Partition());
+
+  } else if (block_type == PARAM_REPORT && report_type == PARAM_OBJECTIVE_FUNCTION) {
+    result = ReportPtr(new ObjectiveFunction());
   }
 
   if (result)
