@@ -59,7 +59,7 @@ T Parameter::GetValue(T default_value) const {
 
   RequireValueType<T>();
 
-  T result_value;
+  T result_value = default_value;
   if (!isam::utilities::To<T>(values_[0], result_value)) {
     LOG_CODE_ERROR("Failed to convert type. This shouldn't occur because we did a type check above");
   }
