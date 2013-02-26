@@ -7,7 +7,7 @@ import fileinput
 from distutils import dir_util
 
 # Variables
-admbFileName    = 'admb-11'
+admbFileName    = 'admb-11_1'
 targetPath      = os.getenv('isam_third_party_target_directory')
 operatingSystem = os.getenv('isam_operating_system')
 
