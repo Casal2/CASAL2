@@ -21,11 +21,15 @@ print '-- Decompressing ADMB - check isam_unzip.log'
 if os.path.exists(admbFileName + '.zip'):
     os.system('unzip ' + admbFileName + '.zip 1> isam_unzip.log 2>&1')
 
-# Build ADMB
-print '-- Building ADMB - check ' + admbFileName + '/isam_make.log for progress - estimated time 30-60 minutes'
+# Build Configure scripts
+print '-- Configuring ADMB - check ' + admbFileName + '/isam_configure.log for progress'
 os.chdir(admbFileName)
+os.system("make --directory=scripts/configure/ 1> isam_configure.log 2>&1")
 os.system("chmod +x configure")
-os.system("./configure 1> isam_make.log 2>&1")
+os.system("./configure 1>> isam_configure.log 2>&1")
+    
+# Build ADMB
+print '-- Building ADMB - check ' + admbFileName + '/isam_make.log for progress - estimated time up to 30 minutes'
 os.system("make -j4 1>> isam_make.log 2>&1")
 
 # Figure out where the binaries have been built too
@@ -40,7 +44,7 @@ if not os.path.exists('build/' + buildFolder + '/include'):
     print '## include folder is not present in the build directory'
     sys.exit(-1) 
 
-    if not os.path.exists('build/' + buildFolder + '/lib'):
+if not os.path.exists('build/' + buildFolder + '/lib'):
     print '## Failed to build ADMB - Check log file for error'
     print '## lib folder is not present in the build directory'
     sys.exit(-1) 
