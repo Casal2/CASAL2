@@ -9,13 +9,6 @@ SET(CMAKE_ROOT   build/cmake)
 
 MESSAGE("CMAKE_HOME_DIRECTORY: ${CMAKE_HOME_DIRECTORY}")
 
-# This snippet of code will find all of our source and test files
-# and auto-populate variables with them for the build
-FILE(GLOB_RECURSE sourceFiles RELATIVE ${CMAKE_HOME_DIRECTORY} source/*.cpp)
-FILE(GLOB_RECURSE testFiles RELATIVE ${CMAKE_HOME_DIRECTORY} source/*.Test.cpp)
-# Remove the test files from the source files list
-list(REMOVE_ITEM sourceFiles ${testFiles})
-
 # GLOBAL BUILD VARIABLES AND LIBRARIES
 IF (DEBUG)
  SET(COMPILE_OPTIONS "-O0 -g3 -Wall -Werror -fmessage-length=0 -DBOOST_THREAD_USE_LIB=1")
@@ -31,32 +24,43 @@ ENDIF (ADMB)
 IF (WIN32)
  ## WINDOWS BUILD VARIABLES AND LIBRARIES
  SET(buildOS win32) 
+ SET(COMPILE_OPTIONS "${COMPILE_OPTIONS} -std=c++11 -std=gnu++11")
  
-ELSEIF (LINUX)
+ELSE (WIN32)
  ## LINUX BUILD VARIABLES AND LIBRARIES
  SET(buildOS linux)
+ SET(COMPILE_OPTIONS "${COMPILE_OPTIONS} -std=c++0x -std=gnu++0x")
  
 ENDIF ()
 
-SET(COMPILE_OPTIONS "${COMPILE_OPTIONS} -I${CMAKE_HOME_DIRECTORY}/source -I${CMAKE_HOME_DIRECTORY}/build/${buildOS}/thirdparty/include")
-SET(COMPILE_OPTIONS "${COMPILE_OPTIONS} -std=c++11 -std=gnu++11")
 MESSAGE("COMPILE_OPTIONS: ${COMPILE_OPTIONS}")
 
-# Get a list of our third party libraries
-FILE(GLOB children RELATIVE ${CMAKE_HOME_DIRECTORY} build/${buildOS}/thirdparty/*)
-SET(thirdPartyDirs "")
+INCLUDE_DIRECTORIES("${CMAKE_HOME_DIRECTORY}/source")
+INCLUDE_DIRECTORIES("${CMAKE_HOME_DIRECTORY}/build/${buildOS}/thirdparty/include")
+LINK_DIRECTORIES("${CMAKE_HOME_DIRECTORY}/build/${buildOS}/thirdparty/lib/")
 
-# Now check for folders to use
-FOREACH(child ${children})
- IF (IS_DIRECTORY ${CMAKE_HOME_DIRECTORY}/${child})   
-  SET(thirdPartyDirs ${thirdPartyDirs} ${CMAKE_HOME_DIRECTORY}/${child})
- ENDIF()
+# This snippet of code will find all of our source and test files
+# and auto-populate variables with them for the build
+FILE(GLOB_RECURSE sourceFiles RELATIVE ${CMAKE_HOME_DIRECTORY} source/*.cpp)
+FILE(GLOB_RECURSE testFiles RELATIVE ${CMAKE_HOME_DIRECTORY} source/*.Test.cpp)
+# Remove the test files from the source files list
+list(REMOVE_ITEM sourceFiles ${testFiles})
+
+# Get a list of our third party libraries
+FILE(GLOB thirdPartyLibrariesRaw RELATIVE ${CMAKE_HOME_DIRECTORY} build/${buildOS}/thirdparty/lib/*.a)
+MESSAGE("THIRD PARTY PATH: ${CMAKE_HOME_DIRECTORY}/build/${buildOS}/thirdparty/lib/")
+MESSAGE("THIRD PARTY LIBS: ${thirdPartyLibrariesRaw}")
+FOREACH(library ${thirdPartyLibrariesRaw})
+  STRING(REPLACE "build/${buildOS}/thirdparty/lib/" "" shortLibrary ${library})
+  SET(thirdPartyLibraries ${thirdPartyLibraries} -l:${shortLibrary})
 ENDFOREACH()
+MESSAGE("THIRD PARTY LIBS: ${thirdPartyLibraries}")
 
 SET(LINK_OPTIONS " ")
 
 ADD_EXECUTABLE(${EXE_NAME} ${sourceFiles} )
 SET_TARGET_PROPERTIES(${EXE_NAME} PROPERTIES COMPILE_FLAGS ${COMPILE_OPTIONS} LINK_FLAGS ${LINK_OPTIONS})
+TARGET_LINK_LIBRARIES(${EXE_NAME} ${thirdPartyLibraries})
 
 
 
