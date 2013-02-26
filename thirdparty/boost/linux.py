@@ -36,6 +36,6 @@ os.system('./b2 --toolset=gcc link=static runtime-link=static threading=multi 1>
 # Move our headers and libraries
 print '-- Moving headers and libraries'
 dir_util.copy_tree('boost', targetPath + '/include/boost/')
-dir_util.copy_tree('stage/lib', targetPath + '/lib')
+shutil.copy('stage/lib/libboost_program_options.a', targetPath + "/lib/")
 
 os.system('touch ' + targetPath + '/boost.success')
