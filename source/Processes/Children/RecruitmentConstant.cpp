@@ -98,8 +98,7 @@ void RecruitmentConstant::Validate() {
       proportions_[category] = proportion;
   }
 
-  // TODO: Fix this register
-  //RegisterAsEstimable(PARAM_PROPORTIONS, proportions_);
+  RegisterAsEstimable(PARAM_PROPORTIONS, proportions_);
 }
 
 /**

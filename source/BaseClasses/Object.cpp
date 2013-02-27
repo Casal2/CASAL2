@@ -115,5 +115,23 @@ void Object::RegisterAsEstimable(const string& label, vector<Double>& variables)
   }
 }
 
+/**
+ * This method will register a map of variables as estimables.
+ * When register each variable it'll be done like:
+ *
+ * process_label.variable(map.string)
+ *
+ * @param label The label for the process
+ * @param variables Map containing index and double values to store
+ */
+void Object::RegisterAsEstimable(const string& label, map<string, Double>& variables) {
+  estimable_sizes_[label] = variables.size();
+
+  for (auto iterator = variables.begin(); iterator != variables.end(); ++iterator) {
+    string new_label = label + "(" + iterator->first + ")";
+    RegisterAsEstimable(new_label, &iterator->second);
+  }
+}
+
 } /* namespace base */
 } /* namespace isam */
