@@ -18,7 +18,7 @@ if os.path.exists(gmockFileName + '.zip'):
     os.system('unzip ' + gmockFileName + '.zip 1> isam_unzip.log 2>&1')
 
 # Configure The Build
-if (operatingSystem == 'linux')
+if (operatingSystem == 'linux'):
     cwd = os.path.normpath(os.getcwd())
     os.chdir(gmockFileName)
     os.system("./configure 1> isam_configure.log 2>&1")    
