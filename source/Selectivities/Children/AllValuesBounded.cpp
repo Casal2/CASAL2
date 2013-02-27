@@ -85,7 +85,7 @@ void AllValuesBounded::Validate() {
         << "Expected " << high_ - low_ << " but got " << v_.size());
   }
 
-  // TODO: Register v_ as estimable
+  RegisterAsEstimable(PARAM_V, v_);
 }
 
 /**

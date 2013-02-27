@@ -44,7 +44,7 @@ private:
   // Members
   vector<string>              category_names_;
   map<string, Double>         proportions_;
-  unsigned                    r0_;
+  Double                      r0_;
   unsigned                    age_;
   CategoriesWithAgePtr        partition_;
 };

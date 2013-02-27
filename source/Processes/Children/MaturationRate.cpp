@@ -116,6 +116,8 @@ void MaturationRate::Validate() {
     if (proportion < 0.0 || proportion > 1.0)
       LOG_ERROR(parameters_.location(PARAM_PROPORTIONS) << ": proportion " << proportion << " must be between 0.0 and 1.0 (inclusive)");
   }
+
+  RegisterAsEstimable(PARAM_PROPORTIONS, proportions_);
 }
 
 /**

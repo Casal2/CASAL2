@@ -28,12 +28,14 @@
 #include "ParameterList/ParameterList.h"
 #include "Translations/Translations.h"
 #include "Utilities/NoCopy.h"
+#include "Utilities/Types.h"
 
 // Namespaces
-using std::string;
-
 namespace isam {
 namespace base {
+
+using std::string;
+using isam::utilities::Double;
 
 /**
  * Class Definition
@@ -43,9 +45,12 @@ public:
   // Methods
   Object();
   virtual                     ~Object();
+  bool                        IsEstimableAVector(const string& label) const;
+  unsigned                    GetEstimableSize(const string& label) const;
+  Double*                     GetEstimable(const string& label);
 
   // Accessors and Mutators
-  string                      label() { return label_; }
+  string                      label() const { return label_; }
   ParameterList&              parameters() { return parameters_; }
   void                        set_block_type(string value) { block_type_ = value; }
   void                        set_defined_file_name(string value) { defined_file_name_ = value; }
@@ -53,7 +58,10 @@ public:
 
 protected:
   // Methods
-  void                        CheckForRequiredParameter(const string &label);
+  void                        CheckForRequiredParameter(const string &label) const;
+  void                        RegisterAsEstimable(const string& label, Double* variable);
+  void                        RegisterAsEstimable(const string& label, vector<Double>& variables);
+
 
   // Members
   string                      block_type_           = "";
@@ -61,6 +69,8 @@ protected:
   string                      defined_file_name_    = "";
   unsigned                    defined_line_number_  = 0;
   ParameterList               parameters_;
+  map<string, Double*>        estimables_;
+  map<string, unsigned>       estimable_sizes_;
 
   DISALLOW_COPY_AND_ASSIGN(Object);
 };

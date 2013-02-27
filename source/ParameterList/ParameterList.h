@@ -91,11 +91,12 @@ public:
   ParameterList() = default;
   virtual                     ~ParameterList() = default;
   void                        RegisterAllowed(const string label);
-  bool                        IsDefined(const string& label);
+  bool                        IsDefined(const string& label) const;
   bool                        Add(const string& label, const string& value, const string& file_name, const unsigned& line_number);
   bool                        Add(const string& label, const vector<string>& values, const string& file_name, const unsigned& line_number);
   bool                        AddTable(const string& label, const vector<string>& columns, const vector<vector<string> >& data, const string& file_name, const unsigned& line_number);
   const Parameter&            Get(const string& label);
+  void                        CopyFrom(const ParameterList& source);
 
   // Accessors
   string                      location(const string& label) { return parameters_[label].location(); }

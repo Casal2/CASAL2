@@ -11,7 +11,7 @@
  *
  * This class is a the configuration file representation of the
  * estimate that we've specified. We use an intermediate stage because
- * there is not going to be a 1:1 relationship betwee the configuration
+ * there is not going to be a 1:1 relationship between the configuration
  * file block and the number of estimates we need to create for it.
  *
  * This class is responsible for creating N estimates per configuration
@@ -20,18 +20,34 @@
  *
  * $Date: 2008-03-04 16:33:32 +1300 (Tue, 04 Mar 2008) $
  */
-#ifndef INFO_H_
-#define INFO_H_
+#ifndef ESTIMATES_INFO_H_
+#define ESTIMATES_INFO_H_
 
+// Headers
+#include "BaseClasses/Object.h"
+
+// Namespaces
 namespace isam {
 namespace estimates {
 
-class Info {
+/**
+ * Class definition
+ */
+class Info : public isam::base::Object {
 public:
+  // Methods
   Info();
-  virtual ~Info();
+  virtual                     ~Info();
+  void                        Validate();
+  void                        BuildEstimates();
+
+private:
+  // Members
+  string                      parameter_;
 };
+
+typedef boost::shared_ptr<isam::estimates::Info> EstimateInfoPtr;
 
 } /* namespace estimates */
 } /* namespace isam */
-#endif /* INFO_H_ */
+#endif /* ESTIMATES_INFO_H_ */

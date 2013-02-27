@@ -21,6 +21,7 @@
 #include <boost/algorithm/string/split.hpp>
 
 #include "Categories/Categories.h"
+#include "Estimates/Factory.h"
 #include "File.h"
 #include "GlobalConfiguration/GlobalConfiguration.h"
 #include "InitialisationPhases/Factory.h"
@@ -307,6 +308,9 @@ ObjectPtr Loader::CreateObject(const string &block_type, const string &object_ty
 
   } else if (block_type == PARAM_CATEGORIES) {
     object = Categories::Instance();
+
+  } else if (block_type == PARAM_ESTIMATE) {
+    object = estimates::info::Factory::Create();
 
   } else if (block_type == PARAM_INITIALIZATION_PHASE) {
     object = initialisationphases::Factory::Create();

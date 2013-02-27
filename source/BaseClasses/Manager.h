@@ -41,7 +41,7 @@ public:
   // Methods
   virtual                         ~Manager() = default;
   static ClassType&               Instance();
-  void                            AddObject(shared_ptr<StoredType> object) { objects_.push_back(object); }
+  virtual void                    AddObject(shared_ptr<StoredType> object) { objects_.push_back(object); }
   vector<shared_ptr<StoredType> > GetObjects() { return objects_; }
   virtual void                    Validate();
   virtual void                    Build();

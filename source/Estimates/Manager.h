@@ -5,18 +5,28 @@
  *      Author: Admin
  */
 
-#ifndef MANAGER_H_
-#define MANAGER_H_
+#ifndef ESTIMATE_MANAGER_H_
+#define ESTIMATE_MANAGER_H_
+
+#include "BaseClasses/Manager.h"
+#include "Estimates/Estimate.h"
+#include "Estimates/Info.h"
 
 namespace isam {
 namespace estimates {
 
-class Manager {
+class Manager : public isam::base::Manager<estimates::Manager, isam::Estimate> {
 public:
   Manager();
-  virtual ~Manager();
+  virtual                         ~Manager() noexcept(true);
+  void                            AddObject(EstimatePtr object) override final { objects_.push_back(object); }
+  void                            AddObject(EstimateInfoPtr object) { estimate_infos_.push_back(object); }
+  void                            Validate() override final;
+
+private:
+  vector<EstimateInfoPtr>         estimate_infos_;
 };
 
 } /* namespace estimates */
 } /* namespace isam */
-#endif /* MANAGER_H_ */
+#endif /* ESTIMATE_MANAGER_H_ */

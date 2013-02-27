@@ -117,3 +117,5 @@ else:
     command = 'python ' + os.path.normpath(cwd + '/buildtools/build_main_code.py')
     print 'COMMAND: ' + command
     os.system(command)
+    
+sys.exit()

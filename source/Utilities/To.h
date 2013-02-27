@@ -22,7 +22,9 @@
 #include <vector>
 #include <boost/lexical_cast.hpp>
 
+#include "Utilities/Logging/Logging.h"
 #include "Utilities/Exception.h"
+
 
 // Namespaces
 namespace isam {
@@ -111,6 +113,22 @@ bool To(const Source arg, Target &result) {
     return false;
   }
   return true;
+}
+
+/**
+ * This method will do an inline conversion and return
+ * the result instead of loading a parameter with it.
+ */
+template<typename Source, typename Target>
+Target ToInline(const Source arg) {
+  Target result;
+  try {
+    result = boost::lexical_cast<Target>(arg);
+
+  } catch (...) {
+    LOG_CODE_ERROR("Failed to do an inline conversion from " << arg);
+  }
+  return result;
 }
 
 } /* namespace utilities */

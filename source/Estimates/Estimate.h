@@ -19,17 +19,49 @@
  *
  * $Date: 2008-03-04 16:33:32 +1300 (Tue, 04 Mar 2008) $
  */
-
 #ifndef ESTIMATE_H_
 #define ESTIMATE_H_
 
+// Headers
+#include "BaseClasses/Object.h"
+#include "Utilities/Types.h"
+
+// Namespaces
 namespace isam {
 
-class Estimate {
+using isam::utilities::Double;
+
+/**
+ * Class Definition
+ */
+class Estimate : public isam::base::Object {
 public:
+  // Methods
   Estimate();
-  virtual ~Estimate();
+  virtual                     ~Estimate();
+  void                        Validate();
+  void                        Build();
+
+  // Accessors
+  void                        set_target(Double* new_target) { target_ = new_target; };
+  string                      parameter() const { return parameter_; }
+  Double                      lower_bound() const { return lower_bound_; }
+  Double                      upper_bound() const { return upper_bound_; }
+
+private:
+  // Members
+  Double*                     target_;
+  string                      parameter_;
+  Double                      lower_bound_;
+  Double                      upper_bound_;
+  bool                        mcmc_fixed_;
+  string                      prior_label_;
+  unsigned                    estimation_phase_;
+  vector<string>              same_labels;
+  vector<Double*>             sames_;
 };
+
+typedef boost::shared_ptr<isam::Estimate> EstimatePtr;
 
 } /* namespace isam */
 #endif /* ESTIMATE_H_ */

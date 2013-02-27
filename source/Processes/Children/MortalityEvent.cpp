@@ -34,6 +34,8 @@ MortalityEvent::MortalityEvent() {
   parameters_.RegisterAllowed(PARAM_SELECTIVITIES);
   parameters_.RegisterAllowed(PARAM_PENALTY);
 
+  RegisterAsEstimable(PARAM_U_MAX, &u_max_);
+
   model_ = Model::Instance();
 }
 

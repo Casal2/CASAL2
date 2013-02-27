@@ -37,6 +37,11 @@ DoubleNormal::DoubleNormal(ModelPtr model)
   parameters_.RegisterAllowed(PARAM_SIGMA_L);
   parameters_.RegisterAllowed(PARAM_SIGMA_R);
   parameters_.RegisterAllowed(PARAM_ALPHA);
+
+  RegisterAsEstimable(PARAM_MU, &mu_);
+  RegisterAsEstimable(PARAM_SIGMA_L, &sigma_l_);
+  RegisterAsEstimable(PARAM_SIGMA_R, &sigma_r_);
+  RegisterAsEstimable(PARAM_ALPHA, &alpha_);
 }
 
 /**

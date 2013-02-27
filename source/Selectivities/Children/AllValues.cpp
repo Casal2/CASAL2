@@ -59,7 +59,7 @@ void AllValues::Validate() {
         << "Expected: " << model_->age_spread() << " but got " << v_.size());
   }
 
-  // TODO: Register v_ as estimable
+  RegisterAsEstimable(PARAM_V, v_);
 }
 
 /**

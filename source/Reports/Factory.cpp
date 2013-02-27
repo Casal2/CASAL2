@@ -15,6 +15,7 @@
 
 #include "Reports/Manager.h"
 #include "Reports/Children/CategoryInfo.h"
+#include "Reports/Children/EstimateSummary.h"
 #include "Reports/Children/ObjectiveFunction.h"
 #include "Reports/Children/Partition.h"
 
@@ -29,15 +30,21 @@ ReportPtr Factory::Create(const string& block_type, const string& report_type) {
 
   ReportPtr result;
   LOG_INFO("block_type: " << block_type << "; report_type: " << report_type);
-  if (block_type == PARAM_REPORT && report_type == PARAM_CATEGORY_INFO) {
-    result = ReportPtr(new CategoryInfo());
+  if (block_type == PARAM_REPORT) {
+    if (report_type == PARAM_CATEGORY_INFO) {
+        result = ReportPtr(new CategoryInfo());
 
-  } else if (block_type == PARAM_REPORT && report_type == PARAM_PARTITION) {
-    result = ReportPtr(new Partition());
+    } else if (report_type == PARAM_ESTIMATE_SUMMARY) {
+      result = ReportPtr(new EstimateSummary());
 
-  } else if (block_type == PARAM_REPORT && report_type == PARAM_OBJECTIVE_FUNCTION) {
-    result = ReportPtr(new ObjectiveFunction());
+    } else if (report_type == PARAM_PARTITION) {
+      result = ReportPtr(new Partition());
+
+    } else if (report_type == PARAM_OBJECTIVE_FUNCTION) {
+      result = ReportPtr(new ObjectiveFunction());
+    }
   }
+
 
   if (result)
     isam::reports::Manager::Instance().AddObject(result);

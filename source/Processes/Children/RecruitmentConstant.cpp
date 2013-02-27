@@ -33,6 +33,8 @@ RecruitmentConstant::RecruitmentConstant() {
   parameters_.RegisterAllowed(PARAM_PROPORTIONS);
   parameters_.RegisterAllowed(PARAM_AGE);
   parameters_.RegisterAllowed(PARAM_R0);
+
+  RegisterAsEstimable(PARAM_R0, &r0_);
 }
 
 /**
@@ -96,6 +98,8 @@ void RecruitmentConstant::Validate() {
       proportions_[category] = proportion;
   }
 
+  // TODO: Fix this register
+  //RegisterAsEstimable(PARAM_PROPORTIONS, proportions_);
 }
 
 /**
