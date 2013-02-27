@@ -61,6 +61,7 @@ protected:
   void                        CheckForRequiredParameter(const string &label) const;
   void                        RegisterAsEstimable(const string& label, Double* variable);
   void                        RegisterAsEstimable(const string& label, vector<Double>& variables);
+  void                        RegisterAsEstimable(const string& label, map<string, Double>& variables);
 
 
   // Members

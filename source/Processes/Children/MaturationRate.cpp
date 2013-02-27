@@ -61,8 +61,6 @@ void MaturationRate::Validate() {
   proportions_          = parameters_.Get(PARAM_PROPORTIONS).GetValues<double>();
   selectivity_names_    = parameters_.Get(PARAM_SELECTIVITIES).GetValues<string>();
 
-  if (proportions_.size() == 1)
-    proportions_.assign(from_category_names_.size(), proportions_[0]);
   if (selectivity_names_.size() == 1)
     selectivity_names_.assign(from_category_names_.size(), selectivity_names_[0]);
 
@@ -92,7 +90,7 @@ void MaturationRate::Validate() {
   }
 
   // Validate the number of selectivities matches the number of proportions
-  if (proportions_.size() != selectivity_names_.size()) {
+  if (proportions_.size() != selectivity_names_.size() && proportions_.size() != 1) {
     LOG_ERROR(parameters_.location(PARAM_SELECTIVITIES)
         << ": Number of selectivities provided does not match the number of proportions provided."
         << " Expected " << proportions_.size() << " but got " << selectivity_names_.size());
@@ -151,9 +149,10 @@ void MaturationRate::Execute() {
 
   for (unsigned i = 0; from_iter != from_partition_->End() && to_iter != to_partition_->End(); ++from_iter, ++to_iter, ++i) {
     SelectivityPtr selectivity = selectivities_[i];
+    double proportions = proportions_.size() > 1 ? proportions_[i] : proportions_[0];
 
     for (unsigned offset = 0; offset < (*from_iter)->data_.size(); ++offset) {
-      amount = proportions_[i] * selectivity->GetResult(min_age + offset) * (*from_iter)->data_[offset];
+      amount = proportions * selectivity->GetResult(min_age + offset) * (*from_iter)->data_[offset];
       (*from_iter)->data_[offset] -= amount;
       (*to_iter)->data_[offset] += amount;
     }

@@ -117,8 +117,10 @@ void MortalityConstantRate::Execute() {
   for (unsigned i = 0; iterator != partition_->End(); ++iterator, ++i) {
     min_age = (*iterator)->min_age_;
 
+    double m = m_.size() > 1 ? m_[i] : m_[0];
+
     for (unsigned offset = 0; offset < (*iterator)->data_.size(); ++offset) {
-      double mortality_rate = 1-exp(-(selectivities_[i]->GetResult(min_age + offset) * m_[i]));
+      double mortality_rate = 1-exp(-(selectivities_[i]->GetResult(min_age + offset) * m));
       amount = (*iterator)->data_[offset] * mortality_rate;
       (*iterator)->data_[offset] -= amount;
     }
