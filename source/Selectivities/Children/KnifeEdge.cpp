@@ -31,6 +31,9 @@ KnifeEdge::KnifeEdge(ModelPtr model)
 : Selectivity(model) {
   parameters_.RegisterAllowed(PARAM_ALPHA);
   parameters_.RegisterAllowed(PARAM_E);
+
+  RegisterAsEstimable(PARAM_ALPHA, &alpha_);
+  RegisterAsEstimable(PARAM_E, &edge_);
 }
 
 /**

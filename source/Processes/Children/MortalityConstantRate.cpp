@@ -85,6 +85,8 @@ void MortalityConstantRate::Validate() {
     if (!Categories::Instance()->IsValid(label))
       LOG_ERROR(parameters_.location(PARAM_CATEGORIES) << ": category " << label << " does not exist. Have you defined it?");
   }
+
+  RegisterAsEstimable(PARAM_M, m_);
 }
 
 /**

@@ -16,6 +16,7 @@
 #include <iostream>
 
 #include "Categories/Categories.h"
+#include "Estimates/Manager.h"
 #include "InitialisationPhases/Manager.h"
 #include "Partition/Accessors/Category.h"
 #include "Partition/Partition.h"
@@ -158,6 +159,9 @@ void Model::Validate() {
   reports::Manager::Instance().Validate();
   selectivities::Manager::Instance().Validate();
   timesteps::Manager::Instance().Validate();
+
+  // Final Objects to validate as they have dependencies
+  estimates::Manager::Instance().Validate();
 }
 
 /**
@@ -168,6 +172,7 @@ void Model::Build() {
 
   Partition::Instance().Build();
 
+  estimates::Manager::Instance().Build();
   initialisationphases::Manager::Instance().Build();
   penalties::Manager::Instance().Build();
   processes::Manager::Instance().Build();

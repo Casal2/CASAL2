@@ -34,10 +34,13 @@ InverseLogistic::InverseLogistic()
  */
 InverseLogistic::InverseLogistic(ModelPtr model)
 : Selectivity(model) {
-
   parameters_.RegisterAllowed(PARAM_A50);
   parameters_.RegisterAllowed(PARAM_ATO95);
   parameters_.RegisterAllowed(PARAM_ALPHA);
+
+  RegisterAsEstimable(PARAM_A50, &a50_);
+  RegisterAsEstimable(PARAM_ATO95, &aTo95_);
+  RegisterAsEstimable(PARAM_ALPHA, &alpha_);
 }
 
 /**

@@ -9,7 +9,7 @@ run doBuild from a command line (recommend you use Console2)
 http://sourceforge.net/projects/console/
 
 Command: doBuild thirdparty
-Command: doBuild debug|release
+Command: doBuild debug (or release)
 
 
 ## Linux

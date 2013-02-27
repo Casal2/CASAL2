@@ -50,7 +50,7 @@ void ParameterList::RegisterAllowed(const string label) {
  *
  * @param label The label to check
  */
-bool ParameterList::IsDefined(const string& label) {
+bool ParameterList::IsDefined(const string& label) const {
   return parameters_.find(label) != parameters_.end();
 }
 
@@ -130,14 +130,27 @@ bool ParameterList::AddTable(const string& label, const vector<string>& columns,
  * @return The parameter reference
  */
 const Parameter& ParameterList::Get(const string& label) {
-//
-//  if (!IsDefined(label)) {
-//    Parameter new_parameter;
-//    new_parameter.set_label(label);
-//    parameters_[label] = new_parameter;
-//  }
-
   return parameters_[label];
+}
+
+/**
+ * This method will copy all of the parameters from
+ * the source parameter list into this parameter list.
+ *
+ * NOTE: The TablesPtr are not recreated.
+ *
+ * @param source The source parameter list
+ */
+void ParameterList::CopyFrom(const ParameterList& source) {
+  allowed_parameters_.assign(source.allowed_parameters_.begin(), source.allowed_parameters_.end());
+
+  map<string, Parameter>::const_iterator iter;
+  for (iter = source.parameters_.begin(); iter != source.parameters_.end(); ++iter)
+    parameters_[iter->first] = iter->second;
+
+  map<string, ParameterTable>::const_iterator iter2;
+  for (iter2 = source.tables_.begin(); iter2 != source.tables_.end(); ++iter2)
+    tables_[iter2->first] = iter2->second;
 }
 
 } /* namespace isam */

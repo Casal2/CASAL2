@@ -79,7 +79,7 @@ void Increasing::Validate() {
     }
   }
 
-  // TODO: Register the estimables
+  RegisterAsEstimable(PARAM_V, v_);
 }
 
 /**

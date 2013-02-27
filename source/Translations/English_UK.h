@@ -211,6 +211,7 @@
 #define PARAM_MAX_GENERATIONS                     "max_generations"
 #define PARAM_MAX_ITERATIONS                      "iterations"
 #define PARAM_MCMC                                "mcmc"
+#define PARAM_MCMC_FIXED                          "mcmc_fixed"
 #define PARAM_META                                "meta"
 #define PARAM_METHOD                              "method"
 #define PARAM_METROPOLIS_HASTINGS                 "metropolis_hastings"

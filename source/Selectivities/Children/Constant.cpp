@@ -17,6 +17,8 @@ Constant::Constant()
 : Selectivity(Model::Instance()) {
 
   parameters_.RegisterAllowed(PARAM_C);
+
+  RegisterAsEstimable(PARAM_C, &c_);
 }
 
 /**

@@ -39,7 +39,11 @@ DoubleExponential::DoubleExponential(ModelPtr model)
   parameters_.RegisterAllowed(PARAM_Y2);
   parameters_.RegisterAllowed(PARAM_ALPHA);
 
-  // TODO: Register Estimables
+  RegisterAsEstimable(PARAM_X0, &x0_);
+  RegisterAsEstimable(PARAM_Y0, &y0_);
+  RegisterAsEstimable(PARAM_Y1, &y1_);
+  RegisterAsEstimable(PARAM_Y2, &y2_);
+  RegisterAsEstimable(PARAM_ALPHA, &alpha_);
 }
 
 /**
