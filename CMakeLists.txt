@@ -20,12 +20,6 @@ IF (ADMB)
   SET(COMPILE_OPTIONS "${COMPILE_OPTIONS} -DADMB")
 ENDIF (ADMB)
 
-# Figure out what compiler version we're using
-EXECUTE_PROCESS( COMMAND gcc -dumpversion GCC_VERSION)
-MESSAGE("Compiler Version: ${GCC_VERSION}")
-STRING(SUBSTRING "${GCC_VERSION}" 0 3 GCC_VERSION)
-MESSAGE("Compiler Version: ${GCC_VERSION}")
-
 # Set variables based on OS
 IF (WIN32)
  ## WINDOWS BUILD VARIABLES AND LIBRARIES
