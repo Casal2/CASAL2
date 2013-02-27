@@ -5,17 +5,25 @@ from distutils import dir_util
 # Variables
 gmockFileName = 'gmock-1.6.0'
 targetPath    = os.getenv('isam_third_party_target_directory')
+operatingSystem = os.getenv('isam_operating_system')
 
 # Clean our any existing files if they already exist
 print '-- Cleaning files'
 if os.path.exists(gmockFileName):
     shutil.rmtree(gmockFileName)
-
+    
 # Decompress our archive
 print '-- Decompressing - check isam_unzip.log'
 if os.path.exists(gmockFileName + '.zip'):
     os.system('unzip ' + gmockFileName + '.zip 1> isam_unzip.log 2>&1')
 
+# Configure The Build
+if (operatingSystem == 'linux')
+    cwd = os.path.normpath(os.getcwd())
+    os.chdir(gmockFileName)
+    os.system("./configure 1> isam_configure.log 2>&1")    
+    os.chdir(cwd)
+    
 # Build 
 print '-- Building - check ' + gmockFileName +'/make/isam_build.log'
 os.chdir(gmockFileName + '/make')
