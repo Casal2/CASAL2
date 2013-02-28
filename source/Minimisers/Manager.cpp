@@ -19,5 +19,10 @@ Manager::~Manager() noexcept(true) {
   // TODO Auto-generated destructor stub
 }
 
+MinimiserPtr Manager::GetActive() {
+  MinimiserPtr result;
+  return result;
+}
+
 } /* namespace minimisers */
 } /* namespace isam */

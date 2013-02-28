@@ -22,6 +22,7 @@ namespace isam {
 Minimiser::Minimiser() {
   parameters_.RegisterAllowed(PARAM_LABEL);
   parameters_.RegisterAllowed(PARAM_TYPE);
+  parameters_.RegisterAllowed(PARAM_ACTIVE);
   parameters_.RegisterAllowed(PARAM_COVARIANCE);
 }
 
@@ -40,6 +41,7 @@ void Minimiser::Validate() {
 
   label_            = parameters_.Get(PARAM_LABEL).GetValue<string>();
   type_             = parameters_.Get(PARAM_TYPE).GetValue<string>();
+  active_           = parameters_.Get(PARAM_ACTIVE).GetValue<bool>(false);
   build_covariance_ = parameters_.Get(PARAM_COVARIANCE).GetValue<bool>(true);
 }
 

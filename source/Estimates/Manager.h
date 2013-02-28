@@ -23,9 +23,11 @@ public:
   void                            AddObject(EstimateInfoPtr object) { estimate_infos_.push_back(object); }
   void                            Validate() override final;
   unsigned                        GetEnabledCount();
+  vector<EstimatePtr>             GetEnabled();
 
 private:
   vector<EstimateInfoPtr>         estimate_infos_;
+
 };
 
 } /* namespace estimates */

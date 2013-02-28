@@ -18,11 +18,14 @@
 #include <cmath>
 
 #include "Utilities/RandomNumberGenerator.h"
+#include "Utilities/DoubleCompare.h"
 
 // Namespaces
 namespace isam {
 namespace minimisers {
 namespace desolver {
+
+namespace compare = isam::utilities::doublecompare;
 
 /**
  * Default constructor
@@ -149,10 +152,200 @@ void Engine::Setup(vector<double> start_values, vector<double> lower_bounds,
 }
 
 /**
+ * Start solving the model
+ *
+ * @param max_generations
+ * @return True if we solve, false otherwise
+ */
+bool Engine::Solve(unsigned max_generations) {
+  bool new_best_energy  = false;
+
+
+  trial_energy_ = EnergyFunction(current_values_);
+  if (trial_energy_ < best_energy_) {
+    new_best_energy = true;
+
+    // Copy the solution to our best.
+    best_energy_ = trial_energy_;
+    best_solution_.assign(current_values_.begin(), current_values_.end());
+//    if(!(pConfig->getQuietMode())) {
+//      cerr << "Current estimates: ";
+//      for (int k = 0; k < (int)vBestSolution.size(); ++k)
+//        cerr << vBestSolution[k] << " ";
+//      cerr << "\n";
+//      cerr << "Objective function value: " << dTrialEnergy << "\n\n";
+//    }
+  }
+
+  for (unsigned i = 0; i < max_generations; ++i) {
+//    if(!(pConfig->getQuietMode()))
+//      cerr << DESOLVER_CURRENT_GENERATION << (i+1) << "\n";
+    for (unsigned j = 0; j < population_size_; ++j) {
+      // Build our Trial Solution
+      (this->*calculate_solution_)(j);
+
+      trial_energy_ = EnergyFunction(current_values_);
+      if (trial_energy_ < population_energy_[j]) {
+        // Copy solution to our Population
+        population_energy_[j] = trial_energy_;
+        population_[j].assign(current_values_.begin(), current_values_.end());
+
+        // Is this a new all-time low for our search?
+        if (trial_energy_ < best_energy_) {
+          new_best_energy = true;
+          // Copy the solution to our best.
+          best_energy_ = trial_energy_;
+          best_solution_.assign(current_values_.begin(), current_values_.end());
+
+//          if(!(pConfig->getQuietMode())) {
+//            cerr << "Current estimates: ";
+//            for (int k = 0; k < (int)vBestSolution.size(); ++k)
+//              cerr << vBestSolution[k] << " ";
+//            cerr << endl;
+//            cerr << "Objective function value: " << dTrialEnergy << "\n";
+//          }
+        }
+      }
+    } // end for()
+
+    // If we have a new Best, lets generate a gradient.
+    if (new_best_energy)
+      if (GenerateGradient()) {
+        generations_ = i;
+        return true; // Convergence!
+      }
+
+    new_best_energy = false;
+  }
+
+  return false;
+}
+
+/**
  *
  */
-void Engine::SelectSamples(unsigned candidate) {
+bool Engine::GenerateGradient() {
 
+  double convergence_check = 0;
+  for (unsigned i = 0; i < vector_size_; ++i) {
+    // Create Vars
+    double min = 1e20;
+    double max = -1e20;
+
+    for (unsigned j = 0; j < population_size_; ++j) {
+      double scaled = ScaleValue(population_[j][i], lower_bounds_[i], upper_bounds_[i]);
+
+      if (scaled < min)
+        max = scaled;
+      if (scaled > max)
+        max = scaled;
+    }
+
+    convergence_check = max - min;
+
+    if (convergence_check > tolerance_) {
+//      if(!(pConfig->getQuietMode())) {
+//        cerr << DESOLVERCONVERGENCE_CHECK << dConvergenceCheck << "\n";
+//        cerr << DESOLVERCONVERGENCE_THRESHOLD << dTolerance << "\n" << endl;
+//      }
+      return false; // No Convergence
+    }
+  }
+//  if(!(pConfig->getQuietMode())) {
+//    cerr << DESOLVERCONVERGENCE_CHECK << dConvergenceCheck << "\n";
+//    cerr << DESOLVERCONVERGENCE_THRESHOLD << dTolerance << "\n" << endl;
+//  }
+  return true; // Convergence
+}
+
+/**
+ * Scale the current values so they're between -1.0 and 1.0
+ */
+void Engine::ScaleValues() {
+  for (unsigned i = 0; i < vector_size_; ++i) {
+    // Boundary-Pinning
+    if (compare::IsEqual(lower_bounds_[i], upper_bounds_[i]))
+      scaled_values_[i] = 0.0;
+    else
+      scaled_values_[i] = ScaleValue(current_values_[i], lower_bounds_[i], upper_bounds_[i]);
+  }
+}
+
+/**
+ * Unscale the current values back to their original values
+ */
+void Engine::UnScaleValues() {
+  for (unsigned i = 0; i < vector_size_; ++i) {
+    if (compare::IsEqual(lower_bounds_[i], upper_bounds_[i]))
+      current_values_[i] = lower_bounds_[i];
+    else
+      current_values_[i] = UnScaleValue(scaled_values_[i], lower_bounds_[i], upper_bounds_[i]);
+  }
+}
+
+/**
+ * Scale a value so that it's between -1.0 and 1.0 using the
+ * bounds as a reference.
+ *
+ * @param value The value to scale
+ * @param min lower bound
+ * @param max upper bound
+ * @return The scaled value
+ */
+double Engine::ScaleValue(double value, double min, double max) {
+  if (compare::IsEqual(value, min))
+    return -1;
+  else if (compare::IsEqual(value, max))
+    return 1;
+
+  return asin(2 * (value - min) / (max - min) - 1) / 1.57079633;
+}
+
+/**
+ * Unscale a value back from -1.0 and 1.0
+ *
+ * @param value The value to scale
+ * @param min The lower bound
+ * @param max The upper bound
+ * @return The unscaled value
+ */
+double Engine::UnScaleValue(const double& value, double min, double max) {
+  // courtesy of AUTODIF - modified to correct error -
+  // penalty on values outside [-1,1] multiplied by 100 as of 14/1/02.
+  double t = 0.0;
+  double y = 0.0;
+
+  t = min + (max - min) * (sin(value * 1.57079633) + 1) / 2;
+  this->CondAssign(y, -.9999 - value, (value + .9999) * (value + .9999), 0);
+  penalty_ += y;
+  this->CondAssign(y, value - .9999, (value - .9999) * (value - .9999), 0);
+  penalty_ += y;
+  this->CondAssign(y, -1 - value, 1e5 * (value + 1) * (value + 1), 0);
+  penalty_ += y;
+  this->CondAssign(y, value - 1, 1e5 * (value - 1) * (value - 1), 0);
+  penalty_ += y;
+
+  return (t);
+}
+
+/**
+ * Conditional Assignment
+ */
+void Engine::CondAssign(double &res, const double &cond, const double &arg1, const double &arg2) {
+  res = (cond) > 0 ? arg1 : arg2;
+}
+
+/**
+ * Conditional Assignment
+ */
+void Engine::CondAssign(double &res, const double &cond, const double &arg) {
+  res = (cond) > 0 ? arg : res;
+}
+
+/**
+ * Select some population indexes to use for the next candidate
+ */
+void Engine::SelectSamples(unsigned candidate) {
   utilities::RandomNumberGenerator& rng = utilities::RandomNumberGenerator::Instance();
 
   // Build first Sample

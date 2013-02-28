@@ -50,6 +50,7 @@ public:
   bool                        enabled() const { return enabled_; }
   void                        set_enabled(bool new_value) { enabled_ = new_value; }
   Double                      value() { return *target_; }
+  void                        set_value(Double new_value) { *target_ = new_value; }
 
 private:
   // Members

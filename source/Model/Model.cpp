@@ -212,7 +212,8 @@ void Model::RunBasic() {
  *
  */
 void Model::RunEstimation() {
-  cout << "Running model in estimation mode" << endl;
+  MinimiserPtr minimiser = minimisers::Manager::Instance().GetActive();
+  minimiser->Execute();
 }
 
 /**

@@ -32,6 +32,7 @@ public:
   // Methods
   Manager();
   virtual                     ~Manager() noexcept(true);
+  MinimiserPtr               GetActive();
 };
 
 } /* namespace minimisers */

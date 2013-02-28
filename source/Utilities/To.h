@@ -82,8 +82,8 @@ bool To(const ::std::string arg, Target &result) {
  */
 template<>
 inline bool To(const ::std::string arg, bool &result) {
-  vector<string> true_values  = { "t", "true" };
-  vector<string> false_values = { "f", "false" };
+  vector<string> true_values  = { "t", "true", "yes", "y" };
+  vector<string> false_values = { "f", "false", "no", "n" };
 
   string value = ToLowercase(arg);
 

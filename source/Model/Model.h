@@ -59,6 +59,8 @@ public:
   static shared_ptr<Model>    Instance();
   virtual                     ~Model() = default;
   void                        Start();
+  void                        Iterate();
+  void                        Reset() { };
 
   // Accessors
   void                        set_run_mode(RunMode::Type new_mode) { run_mode_ = new_mode; }
@@ -72,6 +74,7 @@ public:
   bool                        age_plus() const { return age_plus_; }
   const vector<string>&       time_steps() const { return time_steps_; }
   const vector<string>&       initialisation_phases() const { return initialisation_phases_; }
+
 protected:
   // Methods
   Model();
@@ -81,7 +84,6 @@ protected:
   void                        Verify();
   void                        RunBasic();
   void                        RunEstimation();
-  void                        Iterate();
 
   // Members
   RunMode::Type               run_mode_ = RunMode::kInvalid;
