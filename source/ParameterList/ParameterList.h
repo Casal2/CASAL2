@@ -99,7 +99,7 @@ public:
   void                        CopyFrom(const ParameterList& source);
 
   // Accessors
-  string                      location(const string& label) { return parameters_[label].location(); }
+  string                      location(const string& label);
 
 private:
   // Members

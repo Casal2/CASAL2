@@ -23,7 +23,7 @@ namespace reports {
  * Default constructor
  */
 ObjectiveFunction::ObjectiveFunction() {
-  model_state_ = State::kFinalise;
+  model_state_ = State::kPostExecute;
 }
 
 /**

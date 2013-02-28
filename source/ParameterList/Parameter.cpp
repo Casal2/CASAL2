@@ -20,6 +20,11 @@
 namespace isam {
 namespace parameterlist {
 
+Parameter::Parameter(const string& label)
+: label_(label) {
+
+}
+
 string Parameter::location() const {
   string line_number;
   isam::utilities::To<unsigned, string>(line_number_, line_number);

@@ -67,12 +67,13 @@ bool ParameterList::Add(const string& label, const vector<string>& values, const
   if (std::find(allowed_parameters_.begin(), allowed_parameters_.end(), label) == allowed_parameters_.end())
     return false;
 
-  Parameter new_parameter;
-  new_parameter.set_label(label);
+  Parameter new_parameter(label);
   new_parameter.set_values(values);
   new_parameter.set_file_name(file_name);
   new_parameter.set_line_number(line_number);
-  parameters_[label] = new_parameter;
+
+  std::pair<const string, Parameter> value = std::pair<const string, Parameter>(label, new_parameter);
+  parameters_.insert(value);
 
   return true;
 }
@@ -130,7 +131,17 @@ bool ParameterList::AddTable(const string& label, const vector<string>& columns,
  * @return The parameter reference
  */
 const Parameter& ParameterList::Get(const string& label) {
-  return parameters_[label];
+  map<string, Parameter>::iterator iter = parameters_.find(label);
+
+  if (iter == parameters_.end()) {
+    parameters_.insert(std::pair<const string, Parameter>(label, Parameter(label)));
+    iter = parameters_.find(label);
+    if (iter == parameters_.end()) {
+      LOG_CODE_ERROR("Failed to add a new blank parameter to the object with label: " << label);
+    }
+  }
+
+  return iter->second;
 }
 
 /**
@@ -146,11 +157,26 @@ void ParameterList::CopyFrom(const ParameterList& source) {
 
   map<string, Parameter>::const_iterator iter;
   for (iter = source.parameters_.begin(); iter != source.parameters_.end(); ++iter)
-    parameters_[iter->first] = iter->second;
+    parameters_.insert(std::pair<const string, Parameter>(iter->first, iter->second));
 
   map<string, ParameterTable>::const_iterator iter2;
   for (iter2 = source.tables_.begin(); iter2 != source.tables_.end(); ++iter2)
     tables_[iter2->first] = iter2->second;
+}
+
+/**
+ * Find the location string for one of our parameters.
+ *
+ * @param label The label for the parameter
+ * @return The location string for an error message
+ */
+string ParameterList::location(const string& label) {
+  map<string, Parameter>::iterator iter = parameters_.find(label);
+  if (iter == parameters_.end()) {
+    LOG_CODE_ERROR("parameters_ object is missing the parameter: " << label);
+  }
+
+  return iter->second.location();
 }
 
 } /* namespace isam */

@@ -56,10 +56,10 @@ double CallBack::EnergyFunction(vector<double> test_solution) {
 
   ObjectiveFunction& objective = ObjectiveFunction::Instance();
 
-  model_->Reset();
-  model_->Iterate();
+  model_->FullIteration();
 
   objective.CalculateScore();
+  LOG_INFO("Objective Score: " << objective.score());
   return objective.score();
 }
 

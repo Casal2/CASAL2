@@ -28,6 +28,9 @@ namespace parameterlist {
 template<typename T>
 T Parameter::GetValue() const {
 
+  if (values_.size() == 0) {
+    LOG_CODE_ERROR("Trying to call .GetValue() on a parameter with no values. Perhaps you need to specify a default_value for it? Label: " << label_);
+  }
   if (values_.size() != 1) {
     LOG_ERROR("At line " << line_number_ << " in file " << file_name_
         << ": " << label_ << " can only have 1 parameter specified. E.g " << label_ << " <value>");

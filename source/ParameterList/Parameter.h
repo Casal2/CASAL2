@@ -35,7 +35,7 @@ using std::vector;
 class Parameter {
 public:
   // Methods
-  Parameter() = default;
+  explicit Parameter(const string& label);
   virtual                     ~Parameter() = default;
   template<typename T>
   T                           GetValue() const;

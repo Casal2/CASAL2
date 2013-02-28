@@ -32,7 +32,13 @@ public:
   // Methods
   Manager();
   virtual                     ~Manager() noexcept(true);
-  MinimiserPtr               GetActive();
+  void                        Validate() override final;
+
+  // Accessors
+  MinimiserPtr                active_minimiser() { return active_minimiser_; }
+
+private:
+  MinimiserPtr                active_minimiser_;
 };
 
 } /* namespace minimisers */
