@@ -47,5 +47,22 @@ void Manager::Validate() {
   }
 }
 
+/**
+ * Count how many of our estimates are enabled
+ * and return the count
+ *
+ * @return The number of enabled estimates
+ */
+unsigned Manager::GetEnabledCount() {
+  unsigned count = 0;
+
+  for (EstimatePtr estimate : objects_) {
+    if (estimate->enabled())
+      count++;
+  }
+
+  return count;
+}
+
 } /* namespace estimates */
 } /* namespace isam */

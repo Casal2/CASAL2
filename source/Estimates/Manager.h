@@ -22,6 +22,7 @@ public:
   void                            AddObject(EstimatePtr object) override final { objects_.push_back(object); }
   void                            AddObject(EstimateInfoPtr object) { estimate_infos_.push_back(object); }
   void                            Validate() override final;
+  unsigned                        GetEnabledCount();
 
 private:
   vector<EstimateInfoPtr>         estimate_infos_;

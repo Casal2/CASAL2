@@ -54,7 +54,7 @@ public:
   void                        set_debug_mode(string value) { parameters_[PARAM_DEBUG] = value; }
   bool                        debug_mode();
   void                        set_random_seed(string value) { parameters_[PARAM_RANDOM_NUMBER_SEED] = value; }
-  int                         random_seed();
+  unsigned                    random_seed();
   void                        set_config_file(string value) { parameters_[PARAM_CONFIG_FILE] = value; }
   string                      config_file() { return parameters_[PARAM_CONFIG_FILE]; }
   bool                        skip_config_file();

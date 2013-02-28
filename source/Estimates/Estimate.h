@@ -47,6 +47,9 @@ public:
   string                      parameter() const { return parameter_; }
   Double                      lower_bound() const { return lower_bound_; }
   Double                      upper_bound() const { return upper_bound_; }
+  bool                        enabled() const { return enabled_; }
+  void                        set_enabled(bool new_value) { enabled_ = new_value; }
+  Double                      value() { return *target_; }
 
 private:
   // Members
@@ -59,6 +62,7 @@ private:
   unsigned                    estimation_phase_;
   vector<string>              same_labels;
   vector<Double*>             sames_;
+  bool                        enabled_;
 };
 
 typedef boost::shared_ptr<isam::Estimate> EstimatePtr;
