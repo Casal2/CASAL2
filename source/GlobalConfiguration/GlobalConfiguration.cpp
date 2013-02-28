@@ -14,6 +14,7 @@
 #include "GlobalConfiguration.h"
 
 #include "Utilities/Logging/Logging.h"
+#include "Utilities/To.h"
 
 namespace isam {
 
@@ -22,9 +23,10 @@ namespace isam {
  */
 GlobalConfiguration::GlobalConfiguration() {
 
-  parameters_[PARAM_DEBUG]            = "f";
-  parameters_[PARAM_SKIP_CONFIG_FILE] = "f";
-  parameters_[PARAM_CONFIG_FILE]      = "isam.txt";
+  parameters_[PARAM_DEBUG]                = "f";
+  parameters_[PARAM_SKIP_CONFIG_FILE]     = "f";
+  parameters_[PARAM_CONFIG_FILE]          = "isam.txt";
+  parameters_[PARAM_RANDOM_NUMBER_SEED]   = "12345";
 }
 
 /**
@@ -84,6 +86,13 @@ bool GlobalConfiguration::skip_config_file() {
 void GlobalConfiguration::Clear() {
   parameters_.clear();
   command_line_parameters_.clear();
+}
+
+/**
+ * Get the random number seed from our global configuration
+ */
+unsigned GlobalConfiguration::random_seed() {
+  return util::ToInline<string, unsigned>(parameters_[PARAM_RANDOM_NUMBER_SEED]);
 }
 
 } /* namespace isam */

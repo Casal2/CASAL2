@@ -25,6 +25,7 @@
 #include "File.h"
 #include "GlobalConfiguration/GlobalConfiguration.h"
 #include "InitialisationPhases/Factory.h"
+#include "Minimisers/Factory.h"
 #include "Model/Model.h"
 #include "Penalties/Factory.h"
 #include "Processes/Factory.h"
@@ -317,6 +318,9 @@ ObjectPtr Loader::CreateObject(const string &block_type, const string &object_ty
 
   } else if (block_type == PARAM_MATURATION) {
     object = processes::Factory::Create(block_type, object_type);
+
+  } else if (block_type == PARAM_MINIMIZER) {
+    object = minimisers::Factory::Create(block_type, object_type);
 
   } else if (block_type == PARAM_MORTALITY) {
     object = processes::Factory::Create(block_type, object_type);
