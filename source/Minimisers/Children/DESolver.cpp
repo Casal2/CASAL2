@@ -53,8 +53,8 @@ void DESolver::Validate() {
   crossover_probability_  = parameters_.Get(PARAM_CROSSOVER_PROBABILITY).GetValue<double>(0.9);
   difference_scale_       = parameters_.Get(PARAM_DIFFERENCE_SCALE).GetValue<double>(0.02);
   max_generations_        = parameters_.Get(PARAM_MAX_GENERATIONS).GetValue<unsigned>();
-  tolerance_              = parameters_.Get(PARAM_TOLERANCE).GetValue<double>();
-  method_                 = parameters_.Get(PARAM_METHOD).GetValue<string>();
+  tolerance_              = parameters_.Get(PARAM_TOLERANCE).GetValue<double>(0.01);
+  method_                 = parameters_.Get(PARAM_METHOD).GetValue<string>("not_yet_implemented");
 
   if (crossover_probability_ > 1.0 || crossover_probability_ < 0.0) {
     LOG_ERROR(parameters_.location(PARAM_CROSSOVER_PROBABILITY) << ": crossover_probability must be between 0.0 and 1.0. You entered: " << crossover_probability_);
@@ -94,7 +94,11 @@ void DESolver::Execute() {
   solver.Setup(start_values, lower_bounds, upper_bounds, kBest1Exp, difference_scale_, crossover_probability_);
 
   // Solver
-  solver.Solve(max_generations_);
+  if (solver.Solve(max_generations_)) {
+    LOG_INFO("DE Solver has successfully converged");
+  } else {
+    LOG_INFO("DE Solver has failed to converge");
+  }
 }
 
 } /* namespace minimisers */

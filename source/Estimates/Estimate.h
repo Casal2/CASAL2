@@ -63,7 +63,7 @@ private:
   unsigned                    estimation_phase_;
   vector<string>              same_labels;
   vector<Double*>             sames_;
-  bool                        enabled_;
+  bool                        enabled_ = true;
 };
 
 typedef boost::shared_ptr<isam::Estimate> EstimatePtr;

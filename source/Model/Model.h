@@ -45,6 +45,7 @@ enum Type {
   kVerify,
   kPreExecute,
   kExecute,
+  kPostExecute,
   kFinalise,
   kReset
 };
@@ -59,8 +60,7 @@ public:
   static shared_ptr<Model>    Instance();
   virtual                     ~Model() = default;
   void                        Start();
-  void                        Iterate();
-  void                        Reset() { };
+  void                        FullIteration();
 
   // Accessors
   void                        set_run_mode(RunMode::Type new_mode) { run_mode_ = new_mode; }
@@ -82,6 +82,8 @@ protected:
   void                        Validate();
   void                        Build();
   void                        Verify();
+  void                        Iterate();
+  void                        Reset() { };
   void                        RunBasic();
   void                        RunEstimation();
 

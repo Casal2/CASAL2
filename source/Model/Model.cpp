@@ -18,6 +18,7 @@
 #include "Categories/Categories.h"
 #include "Estimates/Manager.h"
 #include "InitialisationPhases/Manager.h"
+#include "Minimisers/Manager.h"
 #include "Partition/Accessors/Category.h"
 #include "Partition/Partition.h"
 #include "Penalties/Manager.h"
@@ -75,14 +76,17 @@ void Model::Start() {
   reports::Manager::Instance().Execute(State::kInitialise);
 
   state_ = State::kValidate;
+  LOG_INFO("Model: State Change to Validate");
   Validate();
   reports::Manager::Instance().Execute(State::kValidate);
 
   state_ = State::kBuild;
+  LOG_INFO("Model: State Change to Build");
   Build();
   reports::Manager::Instance().Execute(State::kBuild);
 
   state_ = State::kVerify;
+  LOG_INFO("Model: State Change to Verify");
   Verify();
   reports::Manager::Instance().Execute(State::kVerify);
 
@@ -154,6 +158,7 @@ void Model::Validate() {
   Partition::Instance().Validate();
 
   initialisationphases::Manager::Instance().Validate();
+  minimisers::Manager::Instance().Validate();
   penalties::Manager::Instance().Validate();
   processes::Manager::Instance().Validate();
   reports::Manager::Instance().Validate();
@@ -174,6 +179,7 @@ void Model::Build() {
 
   estimates::Manager::Instance().Build();
   initialisationphases::Manager::Instance().Build();
+  minimisers::Manager::Instance().Build();
   penalties::Manager::Instance().Build();
   processes::Manager::Instance().Build();
   reports::Manager::Instance().Build();
@@ -194,26 +200,41 @@ void Model::Verify() {
  */
 void Model::RunBasic() {
   LOG_TRACE();
-
   // Model is about to run
+  LOG_INFO("Model: State change to PreExecute");
   reports::Manager::Instance().Execute(State::kPreExecute);
 
   /**
    * Running the model now
    */
-  cout << "Running model in basic mode" << endl;
+  LOG_INFO("Model: State change to Execute");
   Iterate();
 
   // Model has finished so we can run finalise.
+  LOG_INFO("Model: State change to PostExecute");
+  reports::Manager::Instance().Execute(State::kPostExecute);
+
+  LOG_INFO("Model: State change to Finalise")
   reports::Manager::Instance().Execute(State::kFinalise);
 }
 
 /**
- *
+ * Run the model in estimation mode.
  */
 void Model::RunEstimation() {
-  MinimiserPtr minimiser = minimisers::Manager::Instance().GetActive();
+  /*
+   * Before running the model in estimation mode we'll do an iteration
+   * as a basic model. We don't call any reports though.
+   */
+  LOG_INFO("Doing pre-estimation iteration of the model");
+  Iterate();
+
+  LOG_INFO("Calling minimiser to begin the estimation");
+  MinimiserPtr minimiser = minimisers::Manager::Instance().active_minimiser();
   minimiser->Execute();
+
+  LOG_INFO("Model: State change to Finalise")
+  reports::Manager::Instance().Execute(State::kFinalise);
 }
 
 /**
@@ -222,6 +243,8 @@ void Model::RunEstimation() {
  * it'll run multiple times.
  */
 void Model::Iterate() {
+  LOG_TRACE();
+
   current_year_ = start_year_;
   initialisationphases::Manager& init_phase_manager = initialisationphases::Manager::Instance();
   init_phase_manager.Execute();
@@ -230,6 +253,24 @@ void Model::Iterate() {
   for (current_year_ = start_year_; current_year_ <= final_year_; ++current_year_) {
     time_step_manager.Execute(current_year_);
   }
+}
+
+void Model::FullIteration() {
+  Reset();
+
+  // Model is about to run
+  LOG_INFO("Model: State change to PreExecute");
+  reports::Manager::Instance().Execute(State::kPreExecute);
+
+  /**
+   * Running the model now
+   */
+  LOG_INFO("Model: State change to Execute");
+  Iterate();
+
+  // Model has finished so we can run finalise.
+  LOG_INFO("Model: State change to PostExecute");
+  reports::Manager::Instance().Execute(State::kPostExecute);
 }
 
 
