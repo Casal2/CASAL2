@@ -60,10 +60,19 @@ public:
   void                        Setup(vector<double> start_values, vector<double> lower_bounds,
                                   vector<double> upper_bounds, int de_strategy, double diff_scale,
                                   double crossover_prob);
+  virtual bool                Solve(unsigned max_generations);
+  virtual double              EnergyFunction(vector<double> test_solution) = 0;
 
 private:
   // Methods
   void                        SelectSamples(unsigned candidate);
+  bool                        GenerateGradient();
+  void                        ScaleValues();
+  void                        UnScaleValues();
+  double                      ScaleValue(double value, double min, double max);
+  double                      UnScaleValue(const double& value, double min, double max);
+  void                        CondAssign(double &res, const double &cond, const double &arg1, const double &arg2);
+  void                        CondAssign(double &res, const double &cond, const double &arg);
   void                        Best1Exp(unsigned candidate);
   void                        Rand1Exp(unsigned candidate);
   void                        RandToBest1Exp(unsigned candidate);

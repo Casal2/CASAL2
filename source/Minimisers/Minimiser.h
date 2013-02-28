@@ -36,9 +36,14 @@ public:
   virtual void                Build();
   virtual void                Execute() = 0;
 
+  // Acessors
+  bool                        active() const { return active_; }
+  void                        set_active(bool new_value) { active_ = new_value; }
+
 protected:
   // Members
   string                      type_;
+  bool                        active_;
   bool                        build_covariance_;
 };
 

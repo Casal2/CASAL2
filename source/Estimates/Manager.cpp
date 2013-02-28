@@ -64,5 +64,20 @@ unsigned Manager::GetEnabledCount() {
   return count;
 }
 
+/**
+ *
+ */
+vector<EstimatePtr> Manager::GetEnabled() {
+  vector<EstimatePtr> result;
+
+  for (EstimatePtr estimate : objects_) {
+    if (estimate->enabled())
+      result.push_back(estimate);
+  }
+
+  return result;
+
+}
+
 } /* namespace estimates */
 } /* namespace isam */

@@ -8,6 +8,9 @@
 #ifndef DOUBLECOMPARE_H_
 #define DOUBLECOMPARE_H_
 
+#include "Utilities/Types.h"
+
+// Namespaces
 namespace isam {
 namespace utilities {
 namespace doublecompare {
@@ -21,8 +24,9 @@ namespace doublecompare {
 inline bool IsZero(const double &value) { return (value < ZERO && value > -ZERO); }
 inline bool IsTrueZero(const double &value) { return (value < TRUE_ZERO && value > -TRUE_ZERO); }
 inline bool IsOne(const double &value) { return ( ((value-ONE) < ZERO) && ((value-ONE) > -ZERO) ); }
+inline bool IsEqual(double A, double B) { return ( ((A-B) < ZERO) && ((A-B) > -ZERO) ); }
 
-inline Double ZeroFun(double x) {
+inline isam::utilities::Double ZeroFun(double x) {
   if (x >= ZERO)
     return x;
 

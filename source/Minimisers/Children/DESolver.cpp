@@ -14,6 +14,7 @@
 #include "DESolver.h"
 
 #include "Estimates/Manager.h"
+#include "Minimisers/Children/DESolver/CallBack.h"
 
 // Namespaces
 namespace isam {
@@ -66,8 +67,6 @@ void DESolver::Validate() {
 void DESolver::Execute() {
   estimates::Manager& estimate_manager = estimates::Manager::Instance();
 
-//  unsigned enabled_estimables = estimate_manager.GetEnabledCount();
-
   vector<double>  lower_bounds;
   vector<double>  upper_bounds;
   vector<double>  start_values;
@@ -91,9 +90,11 @@ void DESolver::Execute() {
   }
 
   // Setup Engine
+  desolver::CallBack solver = desolver::CallBack(start_values.size(), population_size_, tolerance_);
+  solver.Setup(start_values, lower_bounds, upper_bounds, kBest1Exp, difference_scale_, crossover_probability_);
 
   // Solver
-
+  solver.Solve(max_generations_);
 }
 
 } /* namespace minimisers */
