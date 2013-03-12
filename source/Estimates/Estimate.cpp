@@ -1,21 +1,33 @@
-/*
- * Estimate.cpp
+/**
+ * @file Estimate.cpp
+ * @author  Scott Rasmussen (scott.rasmussen@zaita.com)
+ * @version 1.0
+ * @date 8/03/2013
+ * @section LICENSE
  *
- *  Created on: 14/01/2013
- *      Author: Admin
+ * Copyright NIWA Science ©2013 - www.niwa.co.nz
+ *
+ * $Date: 2008-03-04 16:33:32 +1300 (Tue, 04 Mar 2008) $
  */
 
+// Headers
 #include "Estimate.h"
 
+#include "Priors/Manager.h"
+
+// Namespaces
 namespace isam {
 
+/**
+ * Default constructor
+ */
 Estimate::Estimate() {
-  // TODO Auto-generated constructor stub
-
 }
 
+/**
+ * Destructor
+ */
 Estimate::~Estimate() {
-  // TODO Auto-generated destructor stub
 }
 
 /**
@@ -52,7 +64,25 @@ void Estimate::Validate() {
  * and sames
  */
 void Estimate::Build() {
+  if (prior_label_ != "") {
+    prior_ = priors::Manager::Instance().GetPrior(prior_label_);
+    if (!prior_) {
+      LOG_ERROR(parameters_.location(PARAM_PRIOR) << ": prior " << prior_label_ << " has not been specified as a @prior object in the configuration file");
+    }
+  }
+}
 
+/**
+ * Caclulate and return the value of our prior
+ *
+ * @return Prior score
+ */
+Double Estimate::GetPriorScore() {
+  if (!prior_) {
+    LOG_CODE_ERROR("Prior == 0. No prior has been specified or built for this object");
+  }
+
+  return prior_->GetScore(*target_);
 }
 
 } /* namespace isam */

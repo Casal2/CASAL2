@@ -13,6 +13,7 @@
 // Headers
 #include "ObjectiveFunction.h"
 
+#include "Estimates/Manager.h"
 #include "Penalties/Manager.h"
 
 // Namespaces
@@ -36,6 +37,8 @@ ObjectiveFunction& ObjectiveFunction::Instance() {
  * Calculate our score for the current run
  */
 void ObjectiveFunction::CalculateScore() {
+  score_list_.clear();
+
   /**
    * Get the scores from each of the observations/likelihoods
    */
@@ -58,6 +61,18 @@ void ObjectiveFunction::CalculateScore() {
   /**
    * Get the scores from each of the priors
    */
+  vector<EstimatePtr> estimates = estimates::Manager::Instance().GetObjects();
+  for (EstimatePtr estimate : estimates) {
+    if (!estimate->prior())
+      continue;
+
+    objective::Score new_score;
+    new_score.label_ = PARAM_PRIOR + string("->") + estimate->parameter();
+    new_score.score_ = estimate->GetPriorScore();
+
+    score_list_.push_back(new_score);
+    score_ += new_score.score_;
+  }
 }
 
 } /* namespace isam */

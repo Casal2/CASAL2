@@ -15,6 +15,7 @@
 
 #include <iostream>
 
+#include "Catchabilities/Manager.h"
 #include "Categories/Categories.h"
 #include "Estimates/Manager.h"
 #include "InitialisationPhases/Manager.h"
@@ -22,6 +23,7 @@
 #include "Partition/Accessors/Category.h"
 #include "Partition/Partition.h"
 #include "Penalties/Manager.h"
+#include "Priors/Manager.h"
 #include "Processes/Manager.h"
 #include "Reports/Manager.h"
 #include "Selectivities/Manager.h"
@@ -157,9 +159,11 @@ void Model::Validate() {
   Categories::Instance()->Validate();
   Partition::Instance().Validate();
 
+  catchabilities::Manager::Instance().Validate();
   initialisationphases::Manager::Instance().Validate();
   minimisers::Manager::Instance().Validate();
   penalties::Manager::Instance().Validate();
+  priors::Manager::Instance().Validate();
   processes::Manager::Instance().Validate();
   reports::Manager::Instance().Validate();
   selectivities::Manager::Instance().Validate();
@@ -174,13 +178,15 @@ void Model::Validate() {
  */
 void Model::Build() {
   LOG_TRACE();
-
   Partition::Instance().Build();
 
   estimates::Manager::Instance().Build();
+
+  catchabilities::Manager::Instance().Build();
   initialisationphases::Manager::Instance().Build();
   minimisers::Manager::Instance().Build();
   penalties::Manager::Instance().Build();
+  priors::Manager::Instance().Build();
   processes::Manager::Instance().Build();
   reports::Manager::Instance().Build();
   selectivities::Manager::Instance().Build();
