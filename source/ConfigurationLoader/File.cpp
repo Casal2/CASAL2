@@ -74,7 +74,6 @@ void File::Parse() {
   /**
    * Iterate through our file parsing the contents
    */
-  bool      multi_line_comment  = false;
   string    current_line        = "";
   while (getline(file_, current_line)) {
     ++line_number_;
@@ -82,38 +81,11 @@ void File::Parse() {
     if (current_line.length() == 0)
       continue;
 
-    /**
-     * If we're in a multi-line comment we need to look for the end, or discard the line
-     */
-    if (multi_line_comment) {
-      size_t pos = current_line.find_first_of(CONFIG_MULTI_COMMENT_END);
-      if (pos == string::npos)
-        continue;
-
-      multi_line_comment = false;
-      current_line = current_line.substr(pos + 1, current_line.length() - pos);
-    }
-
-    /**
-     * Check if we're entering a multi-line comment. Strip any comment parts of the line
-     */
-    size_t pos = current_line.find_first_of(CONFIG_MULTI_COMMENT_START);
-    if (pos != string::npos) {
-      multi_line_comment = true;
-      current_line = current_line.substr(0, pos);
-    }
-
-    /**
-     * Check and remove any single-line (end of line) comments
-     * e.g <data> #comment
-     */
-    pos = current_line.find_first_of(CONFIG_SINGLE_COMMENT);
-    if (pos != string::npos)
-      current_line = current_line.substr(0, pos);
+    // Handle comments
+    HandleComments(current_line);
 
     if (current_line.length() == 0)
       continue;
-    LOG_INFO("current_line == " << current_line);
 
     /**
      * Change tabs to spaces, remove any leading/trailing or multiple spaces
@@ -121,6 +93,7 @@ void File::Parse() {
      */
     boost::replace_all(current_line, "\t", " ");
     boost::trim_all(current_line);
+    LOG_INFO("current_line == '" << current_line << "'");
 
     /**
      * Now we need to check if this line is an include line for a new
@@ -164,6 +137,67 @@ void File::Parse() {
 
     loader_->AddFileLine(current_file_line);
   } // while(get_line())
+}
+
+/**
+ * This method will parse the line continually looking for comments
+ * and removing them when they are found.
+ *
+ * @param current_line The current line to parse
+ */
+void File::HandleComments(string& current_line) {
+
+  /**
+   * Trigger is flagged when we find a comment in the line. If a comment
+   * was triggered we'll re-loop to pick up any extra comments in the lines
+   *
+   */
+  bool trigger = true;
+  while (trigger) {
+    trigger = false;
+
+    /**
+     * If we're not in a multi line comment, we're safe to remove any single line
+     * comments from the line.
+     */
+    if (!multi_line_comment_) {
+      size_t single_line_pos = current_line.find_first_of(CONFIG_SINGLE_COMMENT);
+      if (single_line_pos != string::npos) {
+        trigger = true;
+        current_line = current_line.substr(0, single_line_pos);
+      }
+    }
+
+    /**
+     * If we're in a multi-line comment then we're ok to look for the end of it in the current line.
+     */
+    if (multi_line_comment_) {
+      size_t pos = current_line.find_first_of(CONFIG_MULTI_COMMENT_END);
+      if (pos == string::npos)
+        continue;
+
+      multi_line_comment_ = false;
+      trigger = true;
+      current_line = current_line.substr(pos + 1, current_line.length() - pos);
+    }
+
+    /**
+     * Look for a new multi-line comment to begin. Then if we begin one look for the ending
+     * which maybe right after it.
+     */
+    size_t start_pos = current_line.find_first_of(CONFIG_MULTI_COMMENT_START);
+    if (start_pos != string::npos) {
+      size_t end_pos = current_line.find_first_of(CONFIG_MULTI_COMMENT_END, start_pos);
+      if (end_pos != string::npos) {
+        current_line = current_line.substr(0, start_pos) + current_line.substr(end_pos+1);
+      } else {
+        multi_line_comment_ = true;
+        current_line = current_line.substr(0, start_pos);
+      }
+
+      trigger = true;
+    }
+  }
 }
 
 } /* namespace configuration */

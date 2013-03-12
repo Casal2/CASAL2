@@ -20,6 +20,7 @@
 #include <boost/algorithm/string/trim_all.hpp>
 #include <boost/algorithm/string/split.hpp>
 
+#include "Catchabilities/Factory.h"
 #include "Categories/Categories.h"
 #include "Estimates/Factory.h"
 #include "File.h"
@@ -28,6 +29,7 @@
 #include "Minimisers/Factory.h"
 #include "Model/Model.h"
 #include "Penalties/Factory.h"
+#include "Priors/Factory.h"
 #include "Processes/Factory.h"
 #include "Reports/Factory.h"
 #include "Selectivities/Factory.h"
@@ -307,6 +309,9 @@ ObjectPtr Loader::CreateObject(const string &block_type, const string &object_ty
   } else if (block_type == PARAM_AGEING) {
     object = processes::Factory::Create(block_type, object_type);
 
+  } else if (block_type == PARAM_CATCHABILITY) {
+    object = catchabilities::Factory::Create();
+
   } else if (block_type == PARAM_CATEGORIES) {
     object = Categories::Instance();
 
@@ -327,6 +332,9 @@ ObjectPtr Loader::CreateObject(const string &block_type, const string &object_ty
 
   } else if (block_type == PARAM_PENALTY) {
     object = penalties::Factory::Create();
+
+  } else if (block_type == PARAM_PRIOR) {
+    object = priors::Factory::Create(block_type, object_type);
 
   } else if (block_type == PARAM_PROCESS) {
     object = processes::Factory::Create(block_type, object_type);

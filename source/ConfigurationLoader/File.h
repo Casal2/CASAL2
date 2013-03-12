@@ -47,11 +47,16 @@ public:
   void                        Parse();
 
 private:
+  // Methods
+  void                        HandleComments(string& current_line);
+
   // Members
   Loader*                     loader_;
-  string                      file_name_        = "not specified";
+  string                      file_name_            = "not specified";
   ifstream                    file_;
-  unsigned                    line_number_      = 0;
+  unsigned                    line_number_          = 0;
+  bool                        multi_line_comment_   = false;
+  bool                        single_line_comment_  = false;
 };
 
 /**
