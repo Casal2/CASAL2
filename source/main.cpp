@@ -31,8 +31,6 @@ int main(int argc, char * argv[]) {
   // Create instance now so it can record the time.
   reports::StandardHeader standard_report;
 
-  intentional break;
-
   /**
    * Store our command line parameters
    */
