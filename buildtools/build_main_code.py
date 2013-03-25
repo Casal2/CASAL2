@@ -32,13 +32,20 @@ os.chdir(outputDirectory)
 print '-> Generating CMake File'
 if buildParam != '':
     print '-> Build Parameter: ' + buildParam.upper()
-    os.system('cmake -G "' + cmakeCompiler + ' Makefiles" -D' + buildType.upper() + '=1 -D' +  buildParam.upper() + '=1 ../../..')
+    if os.system('cmake -G "' + cmakeCompiler + ' Makefiles" -D' + buildType.upper() + '=1 -D' +  buildParam.upper() + '=1 ../../..') != os.EX_OK:
+        print '## ERROR: Failed to execute cmake successfully to rebuild the make files'
+        sys.exit(1)
 else:
-    os.system('cmake -G "' + cmakeCompiler + ' Makefiles" -D' + buildType.upper() + '=1 ../../..')
+    if os.system('cmake -G "' + cmakeCompiler + ' Makefiles" -D' + buildType.upper() + '=1 ../../..') != os.EX_OK:
+        print '## ERROR: Failed to execute cmake successfully to rebuild the make files'
 
 print '-> Building software. Build Type: ' + buildType.upper()
 if operatingSystem == 'win32':
-    os.system('mingw32-make')
+    if os.system('mingw32-make') != os.EX_OK:
+        print 'Failed to build iSAM. Please see above for build error'
+        sys.exit(1)
 else:
-    os.system('make')
-
+    if os.system('make') != os.EX_OK:
+        print 'Failed to build iSAM. Please see above for build error'
+        sys.exit(1)
+    

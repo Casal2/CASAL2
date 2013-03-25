@@ -60,17 +60,20 @@ for fname in dirList:
     
     # Call appropriate build script
     if os.path.exists('build.py'):        
-        os.system('python build.py')
+        if os.system('python build.py') != os.EX_OK:
+            sys.exit(1);
     else:
         if operatingSystem == 'win32':
-            os.system('python windows.py')
+            if os.system('python windows.py') != os.EX_OK:
+                sys.exit(1)
         elif operatingSystem == 'linux':
-            os.system('python linux.py')
-
+            if os.system('python linux.py') != os.EX_OK:
+                sys.exit(1)
     os.chdir(cwd)
     if not os.path.exists(targetDirectory + "/" + fname + ".success"):                
         print '## ERROR - Failed to build third party library: ' + fname
-        sys.exit(-1)               
+        print '## ERROR - Could not validate existence of the .success file to prove completion'
+        sys.exit(1)               
 
                 
                 
