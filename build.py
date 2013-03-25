@@ -98,7 +98,8 @@ os.putenv('isam_operating_system', operatingSystem.lower())
     
 # Start to build parts of the system
 if buildType.upper() == "THIRDPARTY":
-    os.system('python ' + cwd + '/buildtools/build_third_party.py')
+    if not os.system('python ' + cwd + '/buildtools/build_third_party.py'):
+        sys.exit(1)
 elif buildType.upper() == "CLEAN":
     print '-> Cleaning previous build information'
     os.system('rm -rf build/win32/debug')    
@@ -116,6 +117,7 @@ elif buildType.upper() == "CLEANALL":
 else:
     command = 'python ' + os.path.normpath(cwd + '/buildtools/build_main_code.py')
     print 'COMMAND: ' + command
-    os.system(command)
+    if not os.system(command):
+        sys.exit(1)
     
 sys.exit()
