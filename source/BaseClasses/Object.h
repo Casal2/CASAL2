@@ -63,6 +63,8 @@ protected:
   void                        RegisterAsEstimable(const string& label, vector<Double>& variables);
   void                        RegisterAsEstimable(const string& label, map<string, Double>& variables);
 
+  // Accessors
+  string                      location();
 
   // Members
   string                      block_type_           = "";

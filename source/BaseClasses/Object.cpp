@@ -133,5 +133,15 @@ void Object::RegisterAsEstimable(const string& label, map<string, Double>& varia
   }
 }
 
+/**
+ * This method will print the same value as the locations() method on the ParameterList for a given
+ * parameter except it'll doing it for the whole base object
+ */
+string Object::location() {
+  string line_number;
+  isam::utilities::To<unsigned, string>(defined_line_number_, line_number);
+  return "At line " + line_number + " in file " + defined_file_name_;
+}
+
 } /* namespace base */
 } /* namespace isam */

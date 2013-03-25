@@ -13,9 +13,27 @@
 // Headers
 #include "Factory.h"
 
+#include "Observations/Manager.h"
+
 // Namespaces
 namespace isam {
 namespace observations {
+
+/**
+ * Create an observation, add it to the manager and return it.
+ *
+ * @param block_type The type of @block in the configuration file
+ * @param object_type The value stored in the 'type' parameter for this block
+ * @return shared_ptr to the observation
+ */
+ObservationPtr Factory::Create(const string& block_type, const string& object_type) {
+  ObservationPtr result;
+
+  if (result)
+    isam::observations::Manager::Instance().AddObject(result);
+
+  return result;
+}
 
 } /* namespace observations */
 } /* namespace isam */

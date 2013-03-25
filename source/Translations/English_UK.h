@@ -204,6 +204,7 @@
 #define PARAM_LOGISTIC                            "logistic"
 #define PARAM_LOGISTIC_PRODUCING                  "logistic_producing"
 #define PARAM_LOG_NORMAL                          "log_normal"
+#define PARAM_LOG_NORMAL_WITH_Q                   "log_normal_with_q"
 #define PARAM_LOWER_BOUND                         "lower_bound"
 #define PARAM_M                                   "m"
 #define PARAM_MATURATION                          "maturation"

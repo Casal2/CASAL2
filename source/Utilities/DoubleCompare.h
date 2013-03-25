@@ -33,6 +33,13 @@ inline isam::utilities::Double ZeroFun(double x) {
   return ZERO / (2 - (x / ZERO));
 }
 
+inline isam::utilities::Double ZeroFun(double x, double delta) {
+  if (x >= delta)
+    return x;
+
+  return delta / (2 - (x / delta));
+}
+
 } /* namespace doublecompare */
 } /* namespace utilities */
 } /* namespace isam */
