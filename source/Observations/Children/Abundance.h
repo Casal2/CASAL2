@@ -20,10 +20,15 @@
 #include "Observations/Observation.h"
 
 #include "Catchabilities/Catchability.h"
+#include "Partition/Accessors/Categories.h"
+#include "Partition/Accessors/Cached/Categories.h"
 
 // Namespaces
 namespace isam {
 namespace priors {
+
+using partition::accessors::CategoriesPtr;
+using partition::accessors::cached::CachedCategoriesPtr;
 
 /**
  * Class definition
@@ -35,6 +40,7 @@ public:
   virtual                     ~Abundance();
   void                        Validate() override final;
   void                        Build() override final;
+  void                        PreExecute() override final;
   void                        Execute() override final;
 
 private:
@@ -45,6 +51,9 @@ private:
   CatchabilityPtr             catchability_;
   Double                      delta_;
   Double                      process_error_;
+  CachedCategoriesPtr         cached_partition_;
+  CategoriesPtr               partition_;
+
 };
 
 } /* namespace priors */

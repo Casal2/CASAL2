@@ -2,22 +2,26 @@
  * @file Factory.h
  * @author  Scott Rasmussen (scott.rasmussen@zaita.com)
  * @version 1.0
- * @date 6/03/2013
+ * @date 22/03/2013
  * @section LICENSE
  *
  * Copyright NIWA Science ©2013 - www.niwa.co.nz
  *
+ * @section DESCRIPTION
+ *
+ * The time class represents a moment of time.
+ *
  * $Date: 2008-03-04 16:33:32 +1300 (Tue, 04 Mar 2008) $
  */
-#ifndef OBSERVATIONS_FACTORY_H_
-#define OBSERVATIONS_FACTORY_H_
+#ifndef LIKELIHOODS_FACTORY_H_
+#define LIKELIHOODS_FACTORY_H_
 
 // Headers
-#include "Observations/Observation.h"
+#include "Likelihoods/Likelihood.h"
 
 // Namespaces
 namespace isam {
-namespace observations {
+namespace likelihoods {
 
 /**
  * Class Definition
@@ -25,7 +29,7 @@ namespace observations {
 class Factory {
 public:
   // methods
-  static ObservationPtr       Create(const string& block_type, const string& object_type);
+  static LikelihoodPtr        Create(const string& likelihood_type);
 
 private:
   // Methods
@@ -33,6 +37,6 @@ private:
   virtual ~Factory() = delete;
 };
 
-} /* namespace observations */
+} /* namespace likelihoods */
 } /* namespace isam */
-#endif /* OBSERVATIONS_FACTORY_H_ */
+#endif /* LIKELIHOODS_FACTORY_H_ */

@@ -35,7 +35,8 @@ enum Type {
   kHelp,
   kBasic,
   kEstimation,
-  kSimulation
+  kSimulation,
+  kProfiling
 };}
 
 namespace State {

@@ -61,6 +61,7 @@ public:
 
   // Accessors
   partition::Category&        category(const string& category_label) { return partition_[category_label]; }
+  partition::Category         category_copy(const string& category_label) { return partition_[category_label]; }
 
 private:
   // Methods

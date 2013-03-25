@@ -28,6 +28,7 @@
 #include "InitialisationPhases/Factory.h"
 #include "Minimisers/Factory.h"
 #include "Model/Model.h"
+#include "Observations/Factory.h"
 #include "Penalties/Factory.h"
 #include "Priors/Factory.h"
 #include "Processes/Factory.h"
@@ -329,6 +330,9 @@ ObjectPtr Loader::CreateObject(const string &block_type, const string &object_ty
 
   } else if (block_type == PARAM_MORTALITY) {
     object = processes::Factory::Create(block_type, object_type);
+
+  } else if (block_type == PARAM_OBSERVATION) {
+    object = observations::Factory::Create(block_type, object_type);
 
   } else if (block_type == PARAM_PENALTY) {
     object = penalties::Factory::Create();

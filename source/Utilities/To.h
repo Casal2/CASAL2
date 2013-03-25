@@ -106,7 +106,7 @@ inline bool To(const ::std::string arg, bool &result) {
  * a hard-coded string source
  */
 template<typename Source, typename Target>
-bool To(const Source arg, Target &result) {
+bool To(const Source& arg, Target& result) {
   try {
     result = boost::lexical_cast<Target>(arg);
   } catch (...) {

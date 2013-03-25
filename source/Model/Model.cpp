@@ -20,6 +20,7 @@
 #include "Estimates/Manager.h"
 #include "InitialisationPhases/Manager.h"
 #include "Minimisers/Manager.h"
+#include "Observations/Manager.h"
 #include "Partition/Accessors/Category.h"
 #include "Partition/Partition.h"
 #include "Penalties/Manager.h"
@@ -162,6 +163,7 @@ void Model::Validate() {
   catchabilities::Manager::Instance().Validate();
   initialisationphases::Manager::Instance().Validate();
   minimisers::Manager::Instance().Validate();
+  observations::Manager::Instance().Validate();
   penalties::Manager::Instance().Validate();
   priors::Manager::Instance().Validate();
   processes::Manager::Instance().Validate();
@@ -185,6 +187,7 @@ void Model::Build() {
   catchabilities::Manager::Instance().Build();
   initialisationphases::Manager::Instance().Build();
   minimisers::Manager::Instance().Build();
+  observations::Manager::Instance().Build();
   penalties::Manager::Instance().Build();
   priors::Manager::Instance().Build();
   processes::Manager::Instance().Build();
