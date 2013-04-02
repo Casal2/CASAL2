@@ -21,6 +21,8 @@
 // Headers
 #include <boost/shared_ptr.hpp>
 
+#include "Model/Model.h"
+
 // namespaces
 namespace isam {
 namespace base {

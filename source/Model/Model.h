@@ -20,11 +20,13 @@
 #include <boost/shared_ptr.hpp>
 
 #include "BaseClasses/Object.h"
+#include "Catchabilities/Manager.h"
 
 // Namespaces
 namespace isam {
 
 using boost::shared_ptr;
+using isam::catchabilities::CatchabilityManagerPtr;
 
 // Enumerated Types
 namespace RunMode {
@@ -100,6 +102,7 @@ protected:
   bool                        age_plus_ = true;
   vector<string>              initialisation_phases_;
   vector<string>              time_steps_;
+  CatchabilityManagerPtr      catchability_manager_;
 };
 
 /**

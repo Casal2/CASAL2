@@ -25,7 +25,7 @@
 
 // Namespaces
 namespace isam {
-namespace priors {
+namespace observations {
 
 using partition::accessors::CategoriesPtr;
 using partition::accessors::cached::CachedCategoriesPtr;
@@ -56,6 +56,6 @@ private:
 
 };
 
-} /* namespace priors */
+} /* namespace observation */
 } /* namespace isam */
 #endif /* ABUNDANCE_H_ */

@@ -29,5 +29,33 @@ Manager::Manager() {
 Manager::~Manager() noexcept(true) {
 }
 
+/**
+ * PreExecute our observations that have matching year and time step labels.
+ * This is usually used to build caches of something before the time step
+ * has been executed
+ *
+ * @param year The current year the model is in
+ * @param time_step The time step that is about to be executed
+ */
+void Manager::PreExecute(unsigned year, const string& time_step) {
+  for (ObservationPtr observation : objects_) {
+    if (observation->year() == year && observation->time_step() == time_step)
+      observation->PreExecute();
+  }
+}
+
+/**
+ * Execute our observations that have matching year and time step labels
+ *
+ * @param year The current year the model is in
+ * @param time_step The time step that just finished execution
+ */
+void Manager::Execute(unsigned year, const string& time_step) {
+  for (ObservationPtr observation : objects_) {
+    if (observation->year() == year && observation->time_step() == time_step)
+      observation->Execute();
+  }
+}
+
 } /* namespace observations */
 } /* namespace isam */

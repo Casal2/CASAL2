@@ -14,6 +14,7 @@
 #include "ObjectiveFunction.h"
 
 #include "Estimates/Manager.h"
+#include "Observations/Manager.h"
 #include "Penalties/Manager.h"
 
 // Namespaces
@@ -42,7 +43,15 @@ void ObjectiveFunction::CalculateScore() {
   /**
    * Get the scores from each of the observations/likelihoods
    */
+  vector<ObservationPtr> observations = observations::Manager::Instance().GetObjects();
+  for(ObservationPtr observation : observations) {
+    objective::Score new_score;
+    new_score.label_ = PARAM_OBS + string("->") + observation->label();
+    new_score.score_ = observation->score();
 
+    score_list_.push_back(new_score);
+    score_ += new_score.score_;
+  }
 
   /**
    * Get the scores from each of the penalties

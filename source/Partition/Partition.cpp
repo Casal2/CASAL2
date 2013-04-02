@@ -63,4 +63,17 @@ void Partition::Build() {
   }
 }
 
+/**
+ *  This method will return a reference to one of our partition categories.
+ *
+ *  @param category_label The name of the category
+ */
+partition::Category& Partition::category(const string& category_label) {
+  auto find_iter = partition_.find(category_label);
+  if (find_iter == partition_.end())
+    LOG_CODE_ERROR("The partition does not have a category " << category_label);
+
+  return find_iter->second;
+}
+
 } /* namespace isam */

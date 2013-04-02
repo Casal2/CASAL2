@@ -39,6 +39,7 @@ void Catchability::Validate() {
   CheckForRequiredParameter(PARAM_LABEL);
   CheckForRequiredParameter(PARAM_Q);
 
+  label_ = parameters_.Get(PARAM_LABEL).GetValue<string>();
   q_ = parameters_.Get(PARAM_Q).GetValue<double>();
 }
 

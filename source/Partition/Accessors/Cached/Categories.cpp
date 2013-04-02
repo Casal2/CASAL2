@@ -39,23 +39,20 @@ Categories::Categories(const vector<string>& category_labels) {
 void Categories::BuildCache() {
   data_.clear();
 
-  unsigned start_year = model_->start_year();
-  unsigned final_year = model_->final_year();
-  LOG_INFO("Model details: start_year: " << start_year << "; final_year: " << final_year);
-
+  unsigned year = model_->current_year();
   Partition& partition = Partition::Instance();
   for(string category_label : category_labels_) {
     partition::Category& category = partition.category(category_label);
-    for (unsigned year = start_year; year <= final_year; ++year) {
-      if (std::find(category.years_.begin(), category.years_.end(), year) == category.years_.end())
-              continue; // Not valid in this year
+    LOG_INFO("Category: " << category_label << " has " << category.years_.size() << " years loaded");
 
-      data_.push_back(category);
-    }
+    if (std::find(category.years_.begin(), category.years_.end(), year) == category.years_.end())
+      continue; // Not valid in this year
+
+    data_.push_back(category);
   }
 
   if (data_.size() != category_labels_.size())
-    LOG_CODE_ERROR("Number of categories loaded is not the same as the number provided");
+    LOG_CODE_ERROR("Number of categories loaded is not the same as the number provided (" << data_.size() << " != " << category_labels_.size() << ")");
 
 }
 

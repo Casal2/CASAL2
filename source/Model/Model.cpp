@@ -20,6 +20,7 @@
 #include "Estimates/Manager.h"
 #include "InitialisationPhases/Manager.h"
 #include "Minimisers/Manager.h"
+#include "ObjectiveFunction/ObjectiveFunction.h"
 #include "Observations/Manager.h"
 #include "Partition/Accessors/Category.h"
 #include "Partition/Partition.h"
@@ -218,6 +219,7 @@ void Model::RunBasic() {
    */
   LOG_INFO("Model: State change to Execute");
   Iterate();
+  ObjectiveFunction::Instance().CalculateScore();
 
   // Model has finished so we can run finalise.
   LOG_INFO("Model: State change to PostExecute");
