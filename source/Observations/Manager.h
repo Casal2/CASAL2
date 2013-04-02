@@ -25,8 +25,11 @@ namespace observations {
  */
 class Manager : public isam::base::Manager<observations::Manager, isam::Observation> {
 public:
+  // methods
   Manager();
-  virtual ~Manager() noexcept(true);
+  virtual                     ~Manager() noexcept(true);
+  void                        PreExecute(unsigned year, const string& time_step);
+  void                        Execute(unsigned year, const string& time_step);
 };
 
 } /* namespace observations */

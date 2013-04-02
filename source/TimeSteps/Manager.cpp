@@ -14,6 +14,7 @@
 #include "Manager.h"
 
 #include "Model/Model.h"
+#include "Observations/Manager.h"
 #include "Reports/Manager.h"
 
 // Namespaces
@@ -90,9 +91,14 @@ void Manager::Execute(unsigned year) {
   LOG_TRACE();
 
   reports::Manager& report_manager = reports::Manager::Instance();
+  observations::Manager& observations_manager = observations::Manager::Instance();
 
   for (TimeStepPtr time_step : ordered_time_steps_) {
+    observations_manager.PreExecute(year, time_step->label());
+
     time_step->Execute();
+
+    observations_manager.Execute(year, time_step->label());
     report_manager.Execute(year, time_step->label());
   }
 }

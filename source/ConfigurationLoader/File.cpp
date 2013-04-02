@@ -173,8 +173,10 @@ void File::HandleComments(string& current_line) {
      */
     if (multi_line_comment_) {
       size_t pos = current_line.find_first_of(CONFIG_MULTI_COMMENT_END);
-      if (pos == string::npos)
+      if (pos == string::npos) {
+        current_line = "";
         continue;
+      }
 
       multi_line_comment_ = false;
       trigger = true;

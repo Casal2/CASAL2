@@ -59,6 +59,11 @@ public:
   virtual void                Execute() { };
   virtual void                PostExecute() { };
 
+  // accessors
+  Double                      score() const { return score_; }
+  unsigned                    year() const { return year_; }
+  const string&               time_step() const { return time_step_label_; }
+
 protected:
   // methods
   void                        SaveComparison(string key, int age, double expected, double observed, double error_value, double score);

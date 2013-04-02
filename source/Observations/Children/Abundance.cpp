@@ -18,7 +18,7 @@
 
 // Namespaces
 namespace isam {
-namespace priors {
+namespace observations {
 
 namespace utils = isam::utilities;
 
@@ -213,8 +213,6 @@ void Abundance::Execute() {
       }
     }
   }
-
-
 }
 
 

@@ -14,6 +14,7 @@
 #include "Factory.h"
 
 #include "Observations/Manager.h"
+#include "Observations/Children/Abundance.h"
 
 // Namespaces
 namespace isam {
@@ -28,6 +29,11 @@ namespace observations {
  */
 ObservationPtr Factory::Create(const string& block_type, const string& object_type) {
   ObservationPtr result;
+
+  if (block_type == PARAM_OBSERVATION) {
+    if (object_type == PARAM_ABUNDANCE)
+      result = ObservationPtr(new Abundance());
+  }
 
   if (result)
     isam::observations::Manager::Instance().AddObject(result);

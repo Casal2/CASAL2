@@ -35,6 +35,9 @@ public:
   CatchabilityPtr             GetCatchability(const string& label);
 };
 
+// Typedef
+typedef boost::shared_ptr<isam::catchabilities::Manager> CatchabilityManagerPtr;
+
 } /* namespace catchabilities */
 } /* namespace isam */
 #endif /* MANAGER_H_ */

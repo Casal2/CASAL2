@@ -13,6 +13,7 @@
 // Headers
 #include "Observation.h"
 
+#include "Categories/Categories.h"
 #include "Likelihoods/Factory.h"
 #include "Model/Model.h"
 #include "Selectivities/Manager.h"
@@ -26,8 +27,17 @@ namespace isam {
 Observation::Observation() {
   parameters_.RegisterAllowed(PARAM_LABEL);
   parameters_.RegisterAllowed(PARAM_TYPE);
+  parameters_.RegisterAllowed(PARAM_YEAR);
+  parameters_.RegisterAllowed(PARAM_TIME_STEP);
+  parameters_.RegisterAllowed(PARAM_LIKELIHOOD);
+  parameters_.RegisterAllowed(PARAM_TIME_STEP_PROPORTION);
+  parameters_.RegisterAllowed(PARAM_TIME_STEP_PROPORTION_METHOD);
+  parameters_.RegisterAllowed(PARAM_CATEGORIES);
+  parameters_.RegisterAllowed(PARAM_SELECTIVITIES);
+  parameters_.RegisterAllowed(PARAM_SIMULATION_LIKELIHOOD);
 
   mean_proportion_method_ = true;
+  score_                  = 0.0;
 }
 
 /**
@@ -75,6 +85,9 @@ void Observation::Validate() {
     LOG_ERROR(parameters_.location(PARAM_TIME_STEP_PROPORTION_METHOD) << ": time_step_proportion_method (" << temp <<") must be either difference or mean");
   if (temp != PARAM_MEAN)
     mean_proportion_method_ = false;
+
+  if (category_labels_.size() != 1 && selectivity_labels_.size() == 1)
+    selectivity_labels_.assign(category_labels_.size(), selectivity_labels_[0]);
 
   if (category_labels_.size() != selectivity_labels_.size()) {
     LOG_ERROR(parameters_.location(PARAM_SELECTIVITIES) << ": number of selectivites (" << selectivity_labels_.size()
