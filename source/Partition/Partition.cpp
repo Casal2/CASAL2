@@ -76,4 +76,26 @@ partition::Category& Partition::category(const string& category_label) {
   return find_iter->second;
 }
 
+/**
+ * This method will print the contents of the partition out to stdout.
+ * It's useful when trying to debug why the partition may not be working properly
+ */
+void Partition::Debug() {
+  cout << "-- Partition Debug -- " << endl;
+  for (auto iter = partition_.begin(); iter != partition_.end(); ++iter) {
+    cout << "Category: " << iter->first << endl;
+    cout << "min_age: " << iter->second.min_age_ << endl;
+    cout << "max_age: " << iter->second.max_age_ << endl;
+    cout << "years: ";
+    for (unsigned i = 0; i < iter->second.years_.size(); ++i)
+      cout << iter->second.years_[i] << ", ";
+    cout << endl;
+    cout << "data: ";
+    for (unsigned i = 0; i < iter->second.data_.size(); ++i)
+      cout << iter->second.data_[i] << ", ";
+    cout << endl;
+  }
+  cout << "-- End Partition Debug -- " << endl;
+}
+
 } /* namespace isam */

@@ -58,6 +58,8 @@ public:
   static Partition&           Instance();
   void                        Validate();
   void                        Build();
+  void                        Clear() { partition_.clear(); }
+  void                        Debug();
 
   // Accessors
   partition::Category&        category(const string& category_label);

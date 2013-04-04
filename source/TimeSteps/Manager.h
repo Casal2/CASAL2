@@ -28,6 +28,7 @@ public:
   void                        Build() override final;
   void                        Execute(unsigned year);
   TimeStepPtr                 GetTimeStep(const string& label) const;
+  void                        RemoveAllObjects() override final { objects_.clear(); ordered_time_steps_.clear(); }
 
 private:
   // Members

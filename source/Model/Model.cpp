@@ -56,10 +56,14 @@ Model::Model() {
 /**
  * Our singleton accessor method
  *
+ * @param force_new Force a new instance or not
  * @return singleton shared ptr
  */
-shared_ptr<Model> Model::Instance() {
+shared_ptr<Model> Model::Instance(bool force_new) {
   static ModelPtr model = ModelPtr(new Model());
+  if (force_new)
+    model.reset(new Model());
+
   return model;
 }
 
@@ -101,6 +105,9 @@ void Model::Start() {
 
   case RunMode::kEstimation:
     RunEstimation();
+    break;
+
+  case RunMode::kTesting:
     break;
 
   default:

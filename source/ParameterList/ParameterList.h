@@ -97,6 +97,7 @@ public:
   bool                        AddTable(const string& label, const vector<string>& columns, const vector<vector<string> >& data, const string& file_name, const unsigned& line_number);
   const Parameter&            Get(const string& label);
   void                        CopyFrom(const ParameterList& source);
+  void                        Clear() { parameters_.clear(), tables_.clear(); }
 
   // Accessors
   string                      location(const string& label);

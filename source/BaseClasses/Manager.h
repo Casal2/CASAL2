@@ -43,6 +43,7 @@ public:
   static ClassType&               Instance();
   virtual void                    AddObject(shared_ptr<StoredType> object) { objects_.push_back(object); }
   vector<shared_ptr<StoredType> > GetObjects() { return objects_; }
+  virtual void                    RemoveAllObjects() { objects_.clear(); }
   virtual void                    Validate();
   virtual void                    Build();
   virtual void                    Reset() {};
