@@ -22,10 +22,14 @@
 #include <string>
 #include <sstream>
 #include <cstdlib>
+#include <iostream>
 
 // Using
 using std::string;
 using std::ostringstream;
+using std::cout;
+using std::cerr;
+using std::endl;
 
 namespace isam {
 namespace utilities {

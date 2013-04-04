@@ -38,7 +38,8 @@ enum Type {
   kBasic,
   kEstimation,
   kSimulation,
-  kProfiling
+  kProfiling,
+  kTesting
 };}
 
 namespace State {
@@ -61,7 +62,7 @@ enum Type {
 class Model : public base::Object {
 public:
   // Methods
-  static shared_ptr<Model>    Instance();
+  static shared_ptr<Model>    Instance(bool force_new = false);
   virtual                     ~Model() = default;
   void                        Start();
   void                        FullIteration();

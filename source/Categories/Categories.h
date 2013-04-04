@@ -46,6 +46,7 @@ public:
   virtual                       ~Categories() = default;
   void                          Validate();
   bool                          IsValid(const string& label) const;
+  void                          RemoveAllObjects();
 
   // Accessors
   string                        format() const { return format_; }

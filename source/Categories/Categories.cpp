@@ -149,6 +149,16 @@ vector<unsigned> Categories::years(const string& category_name) {
   return categories_[category_name].years_;
 }
 
+/**
+ * This method will remove all of the information from our categories
+ */
+void Categories::RemoveAllObjects() {
+  parameters_.Clear();
+  format_ = "";
+  names_.clear();
+  category_names_.clear();
+  categories_.clear();
+}
 
 
 } /* namespace isam */

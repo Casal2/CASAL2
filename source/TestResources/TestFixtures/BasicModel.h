@@ -17,8 +17,17 @@
 #ifndef TESTFIXTURES_BASICMODEL_H_
 #define TESTFIXTURES_BASICMODEL_H_
 #ifdef TESTMODE
+
+// Headers
+#include <gmock/gmock.h>
+#include <gtest/gtest.h>
+#include <string>
+
+// Namespaces
 namespace isam {
 namespace testfixtures {
+
+using std::string;
 
 /**
  * Class Definition
@@ -27,7 +36,9 @@ class BasicModel : public ::testing::Test {
 public:
   // Setup and TearDown Methods
   BasicModel();
-  virtual       ~BasicModel();
+  virtual                     ~BasicModel();
+  virtual void                SetUp();
+  virtual void                TearDown();
 };
 
 } /* namespace testfixtures */
