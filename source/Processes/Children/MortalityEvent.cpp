@@ -120,6 +120,7 @@ void MortalityEvent::Build() {
 }
 
 /**
+ * Execute our mortality event object.
  *
  */
 void MortalityEvent::Execute() {

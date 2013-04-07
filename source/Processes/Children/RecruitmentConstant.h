@@ -9,7 +9,9 @@
  *
  * @section DESCRIPTION
  *
- * The time class represents a moment of time.
+ * This class represents a constant recruitment class. Every year
+ * fish will be recruited (bred/born etc) in to 1 age for a collection
+ * of categories
  *
  * $Date: 2008-03-04 16:33:32 +1300 (Tue, 04 Mar 2008) $
  */

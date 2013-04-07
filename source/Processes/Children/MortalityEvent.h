@@ -9,7 +9,9 @@
  *
  * @section DESCRIPTION
  *
- * The time class represents a moment of time.
+ * This is a time-varying mortality class. Every year fish will be killed
+ * off by an "event" that involves the user providing the amount as a
+ * catch value from the configuration file.
  *
  * $Date: 2008-03-04 16:33:32 +1300 (Tue, 04 Mar 2008) $
  */
