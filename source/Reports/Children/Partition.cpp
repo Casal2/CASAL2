@@ -68,7 +68,7 @@ void Partition::Execute() {
     unsigned age = (*iterator)->min_age_;
     for (auto values = (*iterator)->data_.begin(); values != (*iterator)->data_.end(); ++values, age++) {
       if (age >= lowest && age <= highest)
-        cout << "," << *values;
+        cout << "," << std::fixed << std::setprecision(6) << *values;
       else
         cout << "," << "null";
     }
