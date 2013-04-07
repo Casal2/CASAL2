@@ -9,7 +9,8 @@
  *
  * @section DESCRIPTION
  *
- * The time class represents a moment of time.
+ * This class is a constant annual mortality rate class. Every year
+ * this process is executed fish will be killed off at a constant rate.
  *
  * $Date: 2008-03-04 16:33:32 +1300 (Tue, 04 Mar 2008) $
  */

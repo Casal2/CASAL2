@@ -9,7 +9,9 @@
  *
  * @section DESCRIPTION
  *
- * The time class represents a moment of time.
+ * This class is a category transition/shift class that allows you to
+ * mature fish from 1 category to another. This is used when maturing
+ * fish from an immature to mature stage etc.
  *
  * $Date: 2008-03-04 16:33:32 +1300 (Tue, 04 Mar 2008) $
  */

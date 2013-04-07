@@ -61,7 +61,7 @@ void Ageing::Build() {
 }
 
 /**
- *
+ * Execute our ageing class.
  */
 void Ageing::Execute() {
   for (auto iterator = partition_->Begin(); iterator != partition_->End(); ++iterator) {
