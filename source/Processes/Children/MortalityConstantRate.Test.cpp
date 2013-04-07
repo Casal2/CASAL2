@@ -1,5 +1,5 @@
 /**
- * @file Abundance.Test.cpp
+ * @file MortalityConstantRate.Test.cpp
  * @author  Scott Rasmussen (scott.rasmussen@zaita.com)
  * @version 1.0
  * @date 5/04/2013
@@ -12,12 +12,10 @@
 #ifdef TESTMODE
 
 // Headers
-#include "Abundance.h"
+#include "MortalityConstantRate.h"
 
 #include <iostream>
 
-#include "Catchabilities/Factory.h"
-#include "Observations/Factory.h"
 #include "Processes/Factory.h"
 #include "TimeSteps/Factory.h"
 #include "TimeSteps/Manager.h"
@@ -36,7 +34,7 @@ using isam::testfixtures::BasicModel;
 /**
  *
  */
-TEST_F(BasicModel, Observation_Abundance) {
+TEST_F(BasicModel, Processes_Mortality_Constant_Rate) {
 
   // Recruitment process
   vector<string> recruitment_categories   = { "immature.male", "immature.female" };
@@ -70,38 +68,45 @@ TEST_F(BasicModel, Observation_Abundance) {
   time_step->parameters().Add(PARAM_LABEL, "step_one", __FILE__, __LINE__);
   time_step->parameters().Add(PARAM_PROCESSES, processes, __FILE__, __LINE__);
 
-  // Catchability
-  isam::CatchabilityPtr catchability = catchabilities::Factory::Create();
-  catchability->parameters().Add(PARAM_LABEL, "catchability", __FILE__, __LINE__);
-  catchability->parameters().Add(PARAM_Q, "0.000153139", __FILE__, __LINE__);
-
-  // Observation
-  vector<string> observation_categories = { "immature.male", "immature.female" };
-  vector<string> obs = { "all", "22.50" };
-  vector<string> error_values = { "all", "0.2" };
-  isam::ObservationPtr observation = observations::Factory::Create(PARAM_OBSERVATION, PARAM_ABUNDANCE);
-  observation->parameters().Add(PARAM_LABEL, "abundance", __FILE__, __LINE__);
-  observation->parameters().Add(PARAM_TYPE, "abundance", __FILE__, __LINE__);
-  observation->parameters().Add(PARAM_CATCHABILITY, "catchability", __FILE__, __LINE__);
-  observation->parameters().Add(PARAM_YEAR, "2008", __FILE__, __LINE__);
-  observation->parameters().Add(PARAM_TIME_STEP, "step_one", __FILE__, __LINE__);
-  observation->parameters().Add(PARAM_CATEGORIES, observation_categories, __FILE__, __LINE__);
-  observation->parameters().Add(PARAM_SELECTIVITIES, "constant_one", __FILE__, __LINE__);
-  observation->parameters().Add(PARAM_OBS, obs, __FILE__, __LINE__);
-  observation->parameters().Add(PARAM_ERROR_VALUE, error_values, __FILE__, __LINE__);
-  observation->parameters().Add(PARAM_LIKELIHOOD, "log_normal", __FILE__, __LINE__);
-
   Model::Instance()->Start();
+
+  partition::Category& immature_male   = Partition::Instance().category("immature.male");
+  partition::Category& immature_female = Partition::Instance().category("immature.female");
+  partition::Category& mature_male     = Partition::Instance().category("mature.male");
+  partition::Category& mature_female   = Partition::Instance().category("mature.female");
+
+  // Verify blank partition
+  for (unsigned i = 0; i < immature_male.data_.size(); ++i)
+    EXPECT_DOUBLE_EQ(0.0, immature_male.data_[i]) << " where i = " << i << "; age = " << i + immature_male.min_age_;
+  for (unsigned i = 0; i < immature_female.data_.size(); ++i)
+    EXPECT_DOUBLE_EQ(0.0, immature_female.data_[i]) << " where i = " << i << "; age = " << i + immature_female.min_age_;
+  for (unsigned i = 0; i < mature_male.data_.size(); ++i)
+    EXPECT_DOUBLE_EQ(0.0, mature_male.data_[i]) << " where i = " << i << "; age = " << i + mature_male.min_age_;
+  for (unsigned i = 0; i < mature_female.data_.size(); ++i)
+    EXPECT_DOUBLE_EQ(0.0, mature_female.data_[i]) << " where i = " << i << "; age = " << i + mature_female.min_age_;
+
+  /**
+   * Do 1 iteration of the model then check the categories to see if
+   * the maturation was successful
+   */
   Model::Instance()->FullIteration();
 
-  const vector<obs::Comparison>& comparisons = observation->comparisons();
-  ASSERT_EQ(1u, comparisons.size());
+  // 1-exp(-(selectivities_[i]->GetResult(min_age + offset) * m));
+  double immature_male_value    = 60000;
+  double immature_female_value  = 40000;
+  for (unsigned i = 0; i < immature_male.data_.size() && i < 15; ++i) {
+    immature_male_value   -= (1 - exp(-0.065)) * immature_male_value;
+    immature_female_value -= (1 - exp(-0.065)) * immature_female_value;
 
-  EXPECT_EQ("all", comparisons[0].key_);
-  EXPECT_DOUBLE_EQ(0.2, comparisons[0].error_value_);
-  EXPECT_DOUBLE_EQ(142.01537476494462, comparisons[0].expected_);
-  EXPECT_DOUBLE_EQ(22.5, comparisons[0].observed_);
-  EXPECT_DOUBLE_EQ(40.738892086047329, comparisons[0].score_);
+    EXPECT_DOUBLE_EQ(immature_male_value, immature_male.data_[i]) << " where i = " << i << "; age = " << i + immature_male.min_age_;
+    EXPECT_DOUBLE_EQ(immature_female_value, immature_female.data_[i]) << " where i = " << i << "; age = " << i + immature_female.min_age_;
+  }
+
+  // Mature should still be 0 because we had no maturation
+  for (unsigned i = 0; i < mature_male.data_.size(); ++i)
+    EXPECT_DOUBLE_EQ(0.0, mature_male.data_[i]) << " where i = " << i << "; age = " << i + mature_male.min_age_;
+  for (unsigned i = 0; i < mature_female.data_.size(); ++i)
+    EXPECT_DOUBLE_EQ(0.0, mature_female.data_[i]) << " where i = " << i << "; age = " << i + mature_female.min_age_;
 }
 
 } /* namespace processes */

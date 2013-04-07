@@ -63,6 +63,7 @@ public:
   Double                      score() const { return score_; }
   unsigned                    year() const { return year_; }
   const string&               time_step() const { return time_step_label_; }
+  const vector<obs::Comparison>& comparisons() const { return comparisons_; }
 
 protected:
   // methods

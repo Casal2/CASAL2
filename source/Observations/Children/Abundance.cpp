@@ -173,6 +173,7 @@ void Abundance::Execute() {
         start_value        = (*cached_partition_iter).data_[offset];
         end_value          = (*partition_iter)->data_[offset];
         final_value        = 0.0;
+
         if (mean_proportion_method_)
           final_value = start_value + ((end_value - start_value) * time_step_proportion_);
         else
@@ -180,57 +181,40 @@ void Abundance::Execute() {
 
         expected_total += selectivity_result * final_value;
       }
-
-      /**
-       * expected_total is the number of fish the model has for the category across
-       */
-      expected_total *= catchability_->q();
-      error_value = error_values_[(*proportions_iter).first];
-
-      // Store the values
-      keys.push_back((*proportions_iter).first);
-      expecteds.push_back(expected_total);
-      observeds.push_back((*proportions_iter).second);
-      error_values.push_back(error_value);
-      process_errors.push_back(process_error_);
     }
 
     /**
-     * Simulate or generate results
-     * During simulation mode we'll simulate results for this observation
+     * expected_total is the number of fish the model has for the category across
      */
-    if (Model::Instance()->run_mode() == RunMode::kSimulation) {
-      likelihood_->SimulateObserved(keys, observeds, expecteds, error_values, process_errors, delta_);
-      for (unsigned offset = 0; offset < observeds.size(); ++offset)
-        SaveComparison(keys[offset], expecteds[offset], observeds[offset], error_values[offset], 0.0);
+    expected_total *= catchability_->q();
+    error_value = error_values_[(*proportions_iter).first];
 
-    } else {
-      score_ = 0.0;
-      likelihood_->GetResult(scores, expecteds, observeds, error_values, process_errors, delta_);
-      for (unsigned offset = 0; offset < scores.size(); ++offset) {
-        score_ += scores[offset];
-        SaveComparison(keys[offset], expecteds[offset], observeds[offset], likelihood_->AdjustErrorValue(process_errors[offset], error_values[offset]), scores[offset]);
-      }
+    // Store the values
+    keys.push_back((*proportions_iter).first);
+    expecteds.push_back(expected_total);
+    observeds.push_back((*proportions_iter).second);
+    error_values.push_back(error_value);
+    process_errors.push_back(process_error_);
+  }
+
+  /**
+   * Simulate or generate results
+   * During simulation mode we'll simulate results for this observation
+   */
+  if (Model::Instance()->run_mode() == RunMode::kSimulation) {
+    likelihood_->SimulateObserved(keys, observeds, expecteds, error_values, process_errors, delta_);
+    for (unsigned offset = 0; offset < observeds.size(); ++offset)
+      SaveComparison(keys[offset], expecteds[offset], observeds[offset], error_values[offset], 0.0);
+
+  } else {
+    score_ = 0.0;
+    likelihood_->GetResult(scores, expecteds, observeds, error_values, process_errors, delta_);
+    for (unsigned offset = 0; offset < scores.size(); ++offset) {
+      score_ += scores[offset];
+      SaveComparison(keys[offset], expecteds[offset], observeds[offset], likelihood_->AdjustErrorValue(process_errors[offset], error_values[offset]), scores[offset]);
     }
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 } /* namespace priors */
 } /* namespace isam */

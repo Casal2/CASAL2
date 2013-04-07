@@ -132,7 +132,7 @@ void Observation::Build() {
  */
 void Observation::SaveComparison(string key, int age, double expected, double observed, double error_value, double score) {
   RunMode::Type run_mode = Model::Instance()->run_mode();
-  if (run_mode != RunMode::kBasic && run_mode != RunMode::kProfiling && run_mode != RunMode::kSimulation)
+  if (run_mode != RunMode::kBasic && run_mode != RunMode::kProfiling && run_mode != RunMode::kSimulation && run_mode != RunMode::kTesting)
     return;
 
   observations::Comparison new_comparison;
