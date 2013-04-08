@@ -1,7 +1,0 @@
-@estimate my_estimate
-parameter process[my_recruitment].r0
-lower_bound 10000
-upper_bound 20000
-
-@report e-summary
-type estimate_summary
