@@ -1,0 +1,136 @@
+@estimate my_estimate
+parameter process[my_recruitment].r0
+lower_bound 10000
+upper_bound 2000000
+
+@minimiser de
+type de_solver
+covariance false
+population_size 100
+max_generations 1000
+
+@catchability CPUEq
+q 0.000153139
+
+# OBSERVATIONS: CPUE
+@observation CPUE-1998
+type abundance
+catchability CPUEq
+year 1998
+time_step step_one
+categories immature.male mature.male immature.female mature.female
+selectivities FishingSel
+obs all 22.55065505
+error_value all 0.2
+likelihood log_normal
+#process_error 0.00
+
+
+@observation CPUE-1999
+type abundance
+catchability CPUEq
+year 1999
+time_step step_one
+categories immature.male mature.male immature.female mature.female
+selectivities FishingSel FishingSel FishingSel FishingSel
+obs All 57.30952381
+error_value  All 0.2
+likelihood log_normal
+#process_error 0.00
+
+@observation CPUE-2000
+type abundance
+catchability CPUEq
+year 2000
+time_step step_one
+categories immature.male mature.male immature.female mature.female
+selectivities FishingSel FishingSel FishingSel FishingSel
+obs All 57.92066148
+error_value  All 0.2
+likelihood log_normal
+#process_error 0.00
+
+@observation CPUE-2001
+type abundance
+catchability CPUEq
+year 2001
+time_step step_one
+categories immature.male mature.male immature.female mature.female
+selectivities FishingSel FishingSel FishingSel FishingSel
+obs All 33.52834377
+error_value  All 0.2
+likelihood log_normal
+#process_error 0.00
+
+@observation CPUE-2002
+type abundance
+catchability CPUEq
+year 2002
+time_step step_one
+categories immature.male mature.male immature.female mature.female
+selectivities FishingSel FishingSel FishingSel FishingSel
+obs All 108.4380734
+error_value  All 0.2
+likelihood log_normal
+#process_error 0.00
+
+@observation CPUE-2003
+type abundance
+catchability CPUEq
+year 2003
+time_step step_one
+categories immature.male mature.male immature.female mature.female
+selectivities FishingSel FishingSel FishingSel FishingSel
+obs All 72.84761934
+error_value  All 0.2
+likelihood log_normal
+#process_error 0.00
+
+@observation CPUE-2004
+type abundance
+catchability CPUEq
+year 2004
+time_step step_one
+categories immature.male mature.male immature.female mature.female
+selectivities FishingSel FishingSel FishingSel FishingSel
+obs All 38.29753826
+error_value  All 0.2
+likelihood log_normal
+#process_error 0.00
+
+@observation CPUE-2005
+type abundance
+catchability CPUEq
+year 2005
+time_step step_one
+categories immature.male mature.male immature.female mature.female
+selectivities FishingSel FishingSel FishingSel FishingSel
+obs All 75.84993311
+error_value  All 0.2
+likelihood log_normal
+#process_error 0.00
+
+@observation CPUE-2006
+type abundance
+catchability CPUEq
+year 2006
+time_step step_one
+categories immature.male mature.male immature.female mature.female
+selectivities FishingSel FishingSel FishingSel FishingSel
+obs All 109.47353102
+error_value  All 0.2
+likelihood log_normal
+#process_error 0.00
+
+@observation CPUE-2007
+type abundance
+catchability CPUEq
+year 2007
+time_step step_one
+categories immature.male mature.male immature.female mature.female
+selectivities FishingSel FishingSel FishingSel FishingSel
+obs All 85.7732931
+error_value  All 0.2
+likelihood log_normal
+#process_error 0.00
+
