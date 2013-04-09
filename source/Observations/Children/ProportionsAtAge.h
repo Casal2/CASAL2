@@ -1,22 +1,42 @@
-/*
- * ProportionsAtAge.h
+/**
+ * @file ProportionsAtAge.h
+ * @author  Scott Rasmussen (scott.rasmussen@zaita.com)
+ * @version 1.0
+ * @date 8/04/2013
+ * @section LICENSE
  *
- *  Created on: 8/03/2013
- *      Author: Admin
+ * Copyright NIWA Science ©2013 - www.niwa.co.nz
+ *
+ * @section DESCRIPTION
+ *
+ * The time class represents a moment of time.
+ *
+ * $Date: 2008-03-04 16:33:32 +1300 (Tue, 04 Mar 2008) $
  */
-
 #ifndef PROPORTIONSATAGE_H_
 #define PROPORTIONSATAGE_H_
 
-namespace isam {
-namespace priors {
+// Headers
+#include "Observations/Observation.h"
 
-class ProportionsAtAge {
+// Namespace
+namespace isam {
+namespace observations {
+
+/**
+ * Class Definition
+ */
+class ProportionsAtAge : public isam::Observation {
 public:
+  // Methods
   ProportionsAtAge();
-  virtual ~ProportionsAtAge();
+  virtual                     ~ProportionsAtAge() = default;
+  void                        Validate() override final;
+  void                        Build() override final;
+  void                        PreExecute() override final;
+  void                        Execute() override final;
 };
 
-} /* namespace priors */
+} /* namespace observations */
 } /* namespace isam */
 #endif /* PROPORTIONSATAGE_H_ */

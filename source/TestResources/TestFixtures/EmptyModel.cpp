@@ -1,8 +1,8 @@
 /**
- * @file BasicModel.cpp
+ * @file EmptyModel.cpp
  * @author  Scott Rasmussen (scott.rasmussen@zaita.com)
  * @version 1.0
- * @date 2/04/2013
+ * @date 9/04/2013
  * @section LICENSE
  *
  * Copyright NIWA Science ©2013 - www.niwa.co.nz
@@ -12,7 +12,7 @@
 #ifdef TESTMODE
 
 // Headers
-#include "BasicModel.h"
+#include "EmptyModel.h"
 
 #include "Catchabilities/Manager.h"
 #include "Categories/Categories.h"
@@ -33,58 +33,26 @@
 #include "Utilities/Logging/Logging.h"
 #include "Utilities/To.h"
 
-// Namespaces
 namespace isam {
 namespace testfixtures {
 
-/**
- * Constructor
- */
-BasicModel::BasicModel() {
+EmptyModel::EmptyModel() {
+  // TODO Auto-generated constructor stub
+
 }
 
-/**
- * Destructor
- */
-BasicModel::~BasicModel() {
+EmptyModel::~EmptyModel() {
+  // TODO Auto-generated destructor stub
 }
 
-/**
- *
- */
-void BasicModel::SetUp() {
+void EmptyModel::SetUp() {
   Model::Instance()->set_run_mode(RunMode::kTesting);
-
-  isam::base::ObjectPtr object;
-
-  /**
-   * Add Model Parameters
-   */
-  object = Model::Instance();
-  object->set_block_type(PARAM_MODEL);
-  object->parameters().Add(PARAM_START_YEAR, "1994", __FILE__, __LINE__);
-  object->parameters().Add(PARAM_FINAL_YEAR, "2008", __FILE__, __LINE__);
-  object->parameters().Add(PARAM_MIN_AGE, "1", __FILE__, __LINE__);
-  object->parameters().Add(PARAM_MAX_AGE, "20", __FILE__, __LINE__);
-  object->parameters().Add(PARAM_AGE_PLUS, "true", __FILE__, __LINE__);
-  object->parameters().Add(PARAM_TIME_STEPS, "step_one", __FILE__, __LINE__);
-
-  object = Categories::Instance();
-  vector<string> categories = { "immature.male", "mature.male", "immature.female", "mature.female" };
-  object->set_block_type(PARAM_CATEGORIES);
-  object->parameters().Add(PARAM_FORMAT, "stage.sex", __FILE__, __LINE__);
-  object->parameters().Add(PARAM_NAMES, categories, __FILE__, __LINE__);
-
-  object = selectivities::Factory::Create(PARAM_SELECTIVITY, PARAM_CONSTANT);
-  object->parameters().Add(PARAM_LABEL, "constant_one", __FILE__, __LINE__);
-  object->parameters().Add(PARAM_TYPE, "constant", __FILE__, __LINE__);
-  object->parameters().Add(PARAM_C, "1", __FILE__, __LINE__);
 }
 
-/**
- *
- */
-void BasicModel::TearDown() {
+void EmptyModel::TearDown() {
+  /**
+   * Clean our Model
+   */
   Model::Instance(true);
 
   Categories::Instance()->RemoveAllObjects();
@@ -105,5 +73,4 @@ void BasicModel::TearDown() {
 
 } /* namespace testfixtures */
 } /* namespace isam */
-
-#endif /* TESTMODE */
+#endif

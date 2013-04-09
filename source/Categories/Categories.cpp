@@ -119,6 +119,10 @@ bool Categories::IsValid(const string& label) const {
   return std::find(category_names_.begin(), category_names_.end(), label) != category_names_.end();
 }
 
+bool Categories::IsCombinedLabels(const string& label) const {
+  return (label.find_first_of("+") != string::npos);
+}
+
 /**
  *
  */

@@ -57,7 +57,7 @@ namespace configuration {
  * Once it has the name it'll load the file into a member vector
  * then start parsing it.
  */
-void Loader::LoadConfigFile() {
+void Loader::LoadConfigFile(const string& override_file_name) {
 
   /**
    * Check if we want to skip loading the configuration files or not. This is utilised
@@ -71,6 +71,8 @@ void Loader::LoadConfigFile() {
    * Open our first configuration file and start loading it
    */
   string config_file = GlobalConfiguration::Instance()->config_file();
+  if (override_file_name != "")
+    config_file = override_file_name;
   FilePtr file = FilePtr(new File(this));
   if (!file->OpenFile(config_file))
     LOG_ERROR("Failed to open the first configuration file: " << config_file << ". Does this file exist? Is it in the right path?");
@@ -239,6 +241,16 @@ void Loader::ParseBlock(vector<FileLine> &block) {
     string parameter_type = util::ToLowercase(line_parts[0]);
     vector<string> values(line_parts.begin() + 1, line_parts.end());
 
+    /**
+     * Re-process the values based on the symbols we support
+     */
+    if (!HandleOperators(values))
+      LOG_ERROR("At line " << file_line.line_number_ << " of " << file_line.file_name_
+          << ": Line could not be processed properly for operators(+ , -). Please check the format of your line");
+
+    /**
+     *
+     */
     if (!loading_table && parameter_type == PARAM_TABLE) {
       // Start loading a new table
       loading_table   = true;
@@ -357,6 +369,57 @@ ObjectPtr Loader::CreateObject(const string &block_type, const string &object_ty
   }
 
   return object;
+}
+
+/**
+ * This method will search through the line for values that have operators in them and then
+ * rebuild the vector with the values properly split out as they should be.
+ *
+ * Operators:
+ * + = Join 2 values together as a single value
+ * , = These values are 1 parameter (e.g 1,2,4,5
+ * - = Split integer range values out (e.g 1-3 = 1,2,3
+ *
+ * @param line_values The vector containing the split parts we want to modify
+ * @return true on success, false on failure
+ */
+bool Loader::HandleOperators(vector<string>& line_values) {
+  if (line_values.size() < 2)
+    return true;
+
+  vector<string> new_values;
+  /**
+   * Firstly, we have to go through and where the user has specified a space
+   * between operators remove that space (effectively we have to combine
+   * some elements of our vector).
+   *
+   * This will also implicitly handle the + operator
+   */
+  auto iterator   = line_values.begin();
+
+  bool join_required = false;
+  for (; iterator != line_values.end(); iterator++) {
+    if (!join_required) {
+      if (*iterator == "+" || *iterator == "," || *iterator == "-") {
+        join_required = true;
+        if (new_values.size() == 0)
+          return false;
+
+        new_values[new_values.size() - 1] = new_values[new_values.size() - 1] + *iterator;
+        continue;
+      }
+    }
+
+    if (join_required) {
+      new_values[new_values.size() - 1] = new_values[new_values.size() - 1] + *iterator;
+      join_required = false;
+    } else {
+      new_values.push_back(*iterator);
+    }
+  }
+
+  line_values = new_values;
+  return true;
 }
 
 } /* namespace configuration */

@@ -27,7 +27,7 @@ namespace isam {
 namespace utilities {
 namespace string {
 
-bool ContainsInvalidCharacters(const std::string &to_check);
+
 
 
 }

@@ -41,7 +41,14 @@ namespace utilities {
  * If we're building with TEST defined then we'll blank all of them except LOG_ERROR which
  * will throw an exception
  */
+#ifdef TESTMODE
+#define LOG_TRACE() {};
+#define LOG_INFO(value) { ostringstream o; o << value; };
+#define LOG_WARNING(value) { ostringstream o; o << value; };
+#define LOG_ERROR(value) { ostringstream o; o << value; cout << "Error: " << o.str() << endl; throw std::string(o.str()); };
+#define LOG_CODE_ERROR(value) { ostringstream o; o << value; cout << "Error: " << o.str() << endl; throw std::string(o.str());}
 
+#else
 // Macros
 #define LOG_TRACE() {\
   ostringstream o;\
@@ -76,6 +83,8 @@ namespace utilities {
       << "Error: " << value;\
     isam::utilities::Logging::Instance().ForceLog(o.str()); \
     exit(-1); }
+
+#endif
 /**
  * Class Definition: Logging
  */
