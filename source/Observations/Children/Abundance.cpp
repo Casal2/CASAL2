@@ -33,12 +33,6 @@ Abundance::Abundance() {
   parameters_.RegisterAllowed(PARAM_PROCESS_ERROR);
 }
 
-/*
- * Destructor
- */
-Abundance::~Abundance() {
-}
-
 /**
  * Validate configuration file parameters
  */

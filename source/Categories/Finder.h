@@ -21,6 +21,8 @@
 #include <string>
 #include <vector>
 
+#include "Categories/Accessor.h"
+
 // Namespaces
 namespace isam {
 namespace categories {
@@ -35,6 +37,7 @@ using std::vector;
 class Finder {
 public:
   // Methods
+//  static categories::AccessorPtr GetAccessor(const string& category_search_string);
 
 private:
   // Methods

@@ -162,9 +162,18 @@ void File::HandleComments(string& current_line) {
      */
     if (!multi_line_comment_) {
       size_t single_line_pos = current_line.find_first_of(CONFIG_SINGLE_COMMENT);
-      if (single_line_pos != string::npos) {
+      size_t multi_comment_start = current_line.find_first_of(CONFIG_MULTI_COMMENT_START);
+
+      bool process_single_line = false;
+      if (multi_comment_start == string::npos && single_line_pos != string::npos)
+        process_single_line = true;
+      if (multi_comment_start != string::npos && single_line_pos != string::npos && single_line_pos < multi_comment_start)
+        process_single_line = true;
+
+      if (process_single_line) {
         trigger = true;
         current_line = current_line.substr(0, single_line_pos);
+        continue;
       }
     }
 
@@ -192,12 +201,12 @@ void File::HandleComments(string& current_line) {
       size_t end_pos = current_line.find_first_of(CONFIG_MULTI_COMMENT_END, start_pos);
       if (end_pos != string::npos) {
         current_line = current_line.substr(0, start_pos) + current_line.substr(end_pos+1);
+        trigger = true;
+
       } else {
         multi_line_comment_ = true;
         current_line = current_line.substr(0, start_pos);
       }
-
-      trigger = true;
     }
   }
 }

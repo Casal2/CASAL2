@@ -41,7 +41,7 @@ public:
   virtual void                SimulateObserved(const vector<string> &keys, vector<Double> &observeds, const vector<Double> &expecteds,
                                 const vector<Double> &error_values, const vector<Double> &process_errors, const Double delta) = 0;
   virtual Double              GetInitialScore(const vector<string> &keys, const vector<Double> &process_errors,
-                                const vector<Double> &error_values) { return 0; }
+                                const vector<Double> &error_values);
 };
 
 // Typedef

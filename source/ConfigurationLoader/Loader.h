@@ -56,7 +56,7 @@ public:
   // Methods
   Loader() = default;
   virtual                     ~Loader() = default;
-  void                        LoadConfigFile();
+  void                        LoadConfigFile(const string& override_file_name = "");
   bool                        CreateNewObject();
   void                        AddFileLine(FileLine line);
   void                        ParseFileLines();
@@ -65,6 +65,7 @@ private:
   // Methods
   void                        ParseBlock(vector<FileLine> &block);
   ObjectPtr                   CreateObject(const string &block_type, const string &object_type);
+  bool                        HandleOperators(vector<string> &line_values);
 
   // Members
   vector<FileLine>            file_lines_;

@@ -37,7 +37,7 @@ class Abundance : public isam::Observation {
 public:
   // Methods
   Abundance();
-  virtual                     ~Abundance();
+  virtual                     ~Abundance() = default;
   void                        Validate() override final;
   void                        Build() override final;
   void                        PreExecute() override final;
