@@ -47,11 +47,13 @@ void Abundance::Validate() {
   delta_              = parameters_.Get(PARAM_DELTA).GetValue<double>(1e-10);
   process_error_      = parameters_.Get(PARAM_PROCESS_ERROR).GetValue<double>(0.0);
 
+  // Delta
   if (delta_ < 0.0)
     LOG_ERROR(parameters_.location(PARAM_DELTA) << ": delta (" << delta_ << ") cannot be less than 0.0");
   if (process_error_ < 0.0)
     LOG_ERROR(parameters_.location(PARAM_PROCESS_ERROR) << ": process_error (" << process_error_ << ") cannot be less than 0.0");
 
+  // Obs
   vector<string> obs  = parameters_.Get(PARAM_OBS).GetValues<string>();
   if (obs.size() % 2 != 0)
     LOG_ERROR(parameters_.location(PARAM_OBS) << ": obs values must be in pairs. e.g obs <category> <value> <category> <value>");
@@ -66,6 +68,7 @@ void Abundance::Validate() {
     proportions_[obs[i]] = value;
   }
 
+  // Error Value
   vector<string> error_values = parameters_.Get(PARAM_ERROR_VALUE).GetValues<string>();
   if (error_values.size() % 2 != 0)
     LOG_ERROR(parameters_.location(PARAM_ERROR_VALUE) << ": error_value values must be in pairs. e.g error_value <category> <value>");

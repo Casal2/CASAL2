@@ -35,6 +35,19 @@ public:
   void                        Build() override final;
   void                        PreExecute() override final;
   void                        Execute() override final;
+
+private:
+  // Members
+  unsigned                    min_age_;
+  unsigned                    max_age_;
+  bool                        age_plus_;
+  unsigned                    age_spread_;
+  Double                      delta_;
+  Double                      tolerance_;
+  Double                      process_error_;
+  string                      ageing_error_label_;
+  vector<vector<double> >     proportions_;
+  vector<double>              error_values_;
 };
 
 } /* namespace observations */
