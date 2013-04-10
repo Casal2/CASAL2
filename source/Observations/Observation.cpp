@@ -13,6 +13,10 @@
 // Headers
 #include "Observation.h"
 
+#include <boost/algorithm/string/replace.hpp>
+#include <boost/algorithm/string/trim_all.hpp>
+#include <boost/algorithm/string/split.hpp>
+
 #include "Categories/Categories.h"
 #include "Likelihoods/Factory.h"
 #include "Model/Model.h"
@@ -86,17 +90,43 @@ void Observation::Validate() {
   if (temp != PARAM_MEAN)
     mean_proportion_method_ = false;
 
-  if (category_labels_.size() != 1 && selectivity_labels_.size() == 1)
-    selectivity_labels_.assign(category_labels_.size(), selectivity_labels_[0]);
+  /**
+   * Because this observation supports categories that are provided in groups
+   * (using the + operator) we need to verify the number of selectivities
+   * matches the true number of categories
+   *
+   * The number of selectivities can be either the number of true categories
+   * or the number of defined collections
+   */
+  unsigned expected_selectivity_count = 0;
+  CategoriesPtr categories = Categories::Instance();
+  for (const string& category_label : category_labels_)
+    expected_selectivity_count += categories->GetNumberOfCategoriesDefined(category_label);
 
-  if (category_labels_.size() != selectivity_labels_.size()) {
-    LOG_ERROR(parameters_.location(PARAM_SELECTIVITIES) << ": number of selectivites (" << selectivity_labels_.size()
-        << ") does not match the number of categories (" << category_labels_.size() << ")");
-  }
+  if (category_labels_.size() != selectivity_labels_.size() && expected_selectivity_count != selectivity_labels_.size())
+    LOG_ERROR(parameters_.location(PARAM_SELECTIVITIES) << ": Number of selectivities provided (" << selectivity_labels_.size()
+        << ") is not valid. You can specify either the number of category collections (" << category_labels_.size() << ") or "
+        << "the number of total categories (" << expected_selectivity_count << ")");
 
   /**
-   * TODO: Verify that the categories are valid during the year of this observation
+   * Now go through each category and split it if required, then check each piece to ensure
+   * it's a valid category
    */
+  vector<string> split_category_labels;
+  for (const string& category_label : category_labels_) {
+    boost::split(split_category_labels, category_label, boost::is_any_of("+"));
+
+    for (const string& split_category_label : split_category_labels) {
+      if (!categories->IsValid(split_category_label)) {
+        if (split_category_label == category_label) {
+          LOG_ERROR(parameters_.location(PARAM_CATEGORIES) << ": The category " << split_category_label << " is not a valid category.");
+        } else {
+          LOG_ERROR(parameters_.location(PARAM_CATEGORIES) << ": The category " << split_category_label << " is not a valid category."
+              << " It was defined in the category collection " << category_label);
+        }
+      }
+    }
+  }
 }
 
 /**

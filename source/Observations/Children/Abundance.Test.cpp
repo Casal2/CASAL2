@@ -79,6 +79,7 @@ TEST_F(BasicModel, Observation_Abundance) {
   vector<string> observation_categories = { "immature.male", "immature.female" };
   vector<string> obs = { "all", "22.50" };
   vector<string> error_values = { "all", "0.2" };
+  vector<string> selectivities = { "constant_one", "constant_one" };
   isam::ObservationPtr observation = observations::Factory::Create(PARAM_OBSERVATION, PARAM_ABUNDANCE);
   observation->parameters().Add(PARAM_LABEL, "abundance", __FILE__, __LINE__);
   observation->parameters().Add(PARAM_TYPE, "abundance", __FILE__, __LINE__);
@@ -86,7 +87,7 @@ TEST_F(BasicModel, Observation_Abundance) {
   observation->parameters().Add(PARAM_YEAR, "2008", __FILE__, __LINE__);
   observation->parameters().Add(PARAM_TIME_STEP, "step_one", __FILE__, __LINE__);
   observation->parameters().Add(PARAM_CATEGORIES, observation_categories, __FILE__, __LINE__);
-  observation->parameters().Add(PARAM_SELECTIVITIES, "constant_one", __FILE__, __LINE__);
+  observation->parameters().Add(PARAM_SELECTIVITIES, selectivities, __FILE__, __LINE__);
   observation->parameters().Add(PARAM_OBS, obs, __FILE__, __LINE__);
   observation->parameters().Add(PARAM_ERROR_VALUE, error_values, __FILE__, __LINE__);
   observation->parameters().Add(PARAM_LIKELIHOOD, "log_normal", __FILE__, __LINE__);
