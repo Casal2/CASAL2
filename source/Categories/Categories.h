@@ -47,6 +47,7 @@ public:
   void                          Validate();
   bool                          IsValid(const string& label) const;
   bool                          IsCombinedLabels(const string& label) const;
+  unsigned                      GetNumberOfCategoriesDefined(const string& label) const;
   void                          RemoveAllObjects();
 
   // Accessors
