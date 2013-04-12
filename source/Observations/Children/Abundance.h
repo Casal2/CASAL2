@@ -20,15 +20,15 @@
 #include "Observations/Observation.h"
 
 #include "Catchabilities/Catchability.h"
-#include "Partition/Accessors/Categories.h"
-#include "Partition/Accessors/Cached/Categories.h"
+#include "Partition/Accessors/CombinedCategories.h"
+#include "Partition/Accessors/Cached/CombinedCategories.h"
 
 // Namespaces
 namespace isam {
 namespace observations {
 
-using partition::accessors::CategoriesPtr;
-using partition::accessors::cached::CachedCategoriesPtr;
+using partition::accessors::CombinedCategoriesPtr;
+using partition::accessors::cached::CachedCombinedCategoriesPtr;
 
 /**
  * Class definition
@@ -45,14 +45,14 @@ public:
 
 private:
   // Members
-  map<string, Double>         proportions_;
-  map<string, Double>         error_values_;
+  vector<Double>              proportions_;
+  vector<Double>              error_values_;
   string                      catchability_label_;
   CatchabilityPtr             catchability_;
   Double                      delta_;
   Double                      process_error_;
-  CachedCategoriesPtr         cached_partition_;
-  CategoriesPtr               partition_;
+  CachedCombinedCategoriesPtr cached_partition_;
+  CombinedCategoriesPtr       partition_;
 
 };
 

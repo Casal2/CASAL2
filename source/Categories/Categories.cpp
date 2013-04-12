@@ -13,6 +13,10 @@
 // Headers
 #include "Categories.h"
 
+#include <boost/algorithm/string/replace.hpp>
+#include <boost/algorithm/string/trim_all.hpp>
+#include <boost/algorithm/string/split.hpp>
+
 #include "Model/Model.h"
 #include "Utilities/Logging/Logging.h"
 #include "Utilities/To.h"
@@ -119,8 +123,21 @@ bool Categories::IsValid(const string& label) const {
   return std::find(category_names_.begin(), category_names_.end(), label) != category_names_.end();
 }
 
+/**
+ *
+ */
 bool Categories::IsCombinedLabels(const string& label) const {
   return (label.find_first_of("+") != string::npos);
+}
+
+/**
+ *
+ */
+unsigned Categories::GetNumberOfCategoriesDefined(const string& label) const {
+  vector<string> category_labels;
+  boost::split(category_labels, label, boost::is_any_of("+"));
+
+  return category_labels.size();
 }
 
 /**

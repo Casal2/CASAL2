@@ -1,8 +1,8 @@
 /**
- * @file Abundance.Test.cpp
+ * @file CombinedCategories.Test.cpp
  * @author  Scott Rasmussen (scott.rasmussen@zaita.com)
  * @version 1.0
- * @date 5/04/2013
+ * @date 12/04/2013
  * @section LICENSE
  *
  * Copyright NIWA Science ©2013 - www.niwa.co.nz
@@ -11,10 +11,8 @@
  */
 #ifdef TESTMODE
 
-// Headers
-#include "Abundance.h"
-
-#include <iostream>
+// headers
+#include "CombinedCategories.h"
 
 #include "Catchabilities/Factory.h"
 #include "Observations/Factory.h"
@@ -25,18 +23,18 @@
 #include "Selectivities/Factory.h"
 #include "TestResources/TestFixtures/BasicModel.h"
 
-// Namespaces
+// namespaces
 namespace isam {
-namespace processes {
+namespace partition {
+namespace accessors {
+namespace cached {
 
-using std::cout;
-using std::endl;
 using isam::testfixtures::BasicModel;
 
 /**
  *
  */
-TEST_F(BasicModel, Observation_Abundance) {
+TEST_F(BasicModel, Accessors_Cached_CombinedCategories) {
 
   // Recruitment process
   vector<string> recruitment_categories   = { "immature.male", "immature.female" };
@@ -70,49 +68,37 @@ TEST_F(BasicModel, Observation_Abundance) {
   time_step->parameters().Add(PARAM_LABEL, "step_one", __FILE__, __LINE__);
   time_step->parameters().Add(PARAM_PROCESSES, processes, __FILE__, __LINE__);
 
-  // Catchability
-  isam::CatchabilityPtr catchability = catchabilities::Factory::Create();
-  catchability->parameters().Add(PARAM_LABEL, "catchability", __FILE__, __LINE__);
-  catchability->parameters().Add(PARAM_Q, "0.000153139", __FILE__, __LINE__);
-
-  // Observation
-  vector<string> observation_categories = { "immature.male+immature.female", "immature.female" };
-  vector<string> obs = { "22.50", "11.25" };
-  vector<string> error_values = { "0.2", "0.2" };
-  vector<string> selectivities = { "constant_one", "constant_one" };
-  isam::ObservationPtr observation = observations::Factory::Create(PARAM_OBSERVATION, PARAM_ABUNDANCE);
-  observation->parameters().Add(PARAM_LABEL, "abundance", __FILE__, __LINE__);
-  observation->parameters().Add(PARAM_TYPE, "abundance", __FILE__, __LINE__);
-  observation->parameters().Add(PARAM_CATCHABILITY, "catchability", __FILE__, __LINE__);
-  observation->parameters().Add(PARAM_YEAR, "2008", __FILE__, __LINE__);
-  observation->parameters().Add(PARAM_TIME_STEP, "step_one", __FILE__, __LINE__);
-  observation->parameters().Add(PARAM_CATEGORIES, observation_categories, __FILE__, __LINE__);
-  observation->parameters().Add(PARAM_SELECTIVITIES, selectivities, __FILE__, __LINE__);
-  observation->parameters().Add(PARAM_OBS, obs, __FILE__, __LINE__);
-  observation->parameters().Add(PARAM_ERROR_VALUE, error_values, __FILE__, __LINE__);
-  observation->parameters().Add(PARAM_LIKELIHOOD, "log_normal", __FILE__, __LINE__);
-
+  // Run the model
   Model::Instance()->Start();
   Model::Instance()->FullIteration();
 
-  const vector<obs::Comparison>& comparisons = observation->comparisons();
-  ASSERT_EQ(2u, comparisons.size());
+  Partition::Instance().category("immature.male").years_.push_back(2009);
+  Partition::Instance().category("immature.female").years_.push_back(2009);
 
-  EXPECT_EQ("immature.male+immature.female", comparisons[0].key_);
-  EXPECT_DOUBLE_EQ(0.2, comparisons[0].error_value_);
-  EXPECT_DOUBLE_EQ(142.01537476494462, comparisons[0].expected_);
-  EXPECT_DOUBLE_EQ(22.5, comparisons[0].observed_);
-  EXPECT_DOUBLE_EQ(40.738892086047329, comparisons[0].score_);
+  // Build our accessor
+  vector<string> accessor_category_labels = { "immature.male+immature.female", "immature.male", "immature.female" };
+  CachedCombinedCategoriesPtr accessor = CachedCombinedCategoriesPtr(new CombinedCategories(accessor_category_labels));
 
-  EXPECT_EQ("immature.female", comparisons[1].key_);
-  EXPECT_DOUBLE_EQ(0.2, comparisons[1].error_value_);
-  EXPECT_DOUBLE_EQ(56.806149905977861, comparisons[1].expected_);
-  EXPECT_DOUBLE_EQ(11.25, comparisons[1].observed_);
-  EXPECT_DOUBLE_EQ(31.002921785658106, comparisons[1].score_);
+  accessor->BuildCache();
+  ASSERT_EQ(3u, accessor->Size());
+
+//  auto cache_iter = accessor->Begin();
+//  EXPECT_EQ("immature.male+immature.female", cache_iter->first);
+//  ASSERT_EQ(2u, cache_iter->second.size());
+//
+//  EXPECT_EQ("immature.male", cache_iter->second[0].name_);
+//
+//  ++cache_iter;
+//  EXPECT_EQ("immature.male", cache_iter->first);
+//
+//
+//  ++cache_iter;
+//  EXPECT_EQ("immature.female", cache_iter->first);
 }
 
-} /* namespace processes */
+
+} /* namespace cached */
+} /* namespace accessors */
+} /* namespace partition */
 } /* namespace isam */
-
-
-#endif /* TESTMODE */
+#endif
