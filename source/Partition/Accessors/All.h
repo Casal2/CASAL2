@@ -24,6 +24,7 @@
 #include <map>
 #include <vector>
 #include <string>
+#include <boost/shared_ptr.hpp>
 
 #include "Partition/Partition.h"
 #include "Utilities/Types.h"
@@ -57,8 +58,9 @@ public:
 private:
   // Members
   All::DataType               data_;
-
 };
+
+typedef boost::shared_ptr<isam::partition::accessors::All> AllPtr;
 
 } /* namespace accessors */
 } /* namespace partition */

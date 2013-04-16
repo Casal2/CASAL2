@@ -124,8 +124,6 @@ void Abundance::PreExecute() {
  * Run our observation to generate the score
  */
 void Abundance::Execute() {
-  Observation::Execute();
-
                   score_              = 0.0;
   double          expected_total      = 0.0; // value in the model
   vector<string>  keys;
