@@ -19,9 +19,15 @@
 // Headers
 #include "Observations/Observation.h"
 
+#include "Partition/Accessors/CombinedCategories.h"
+#include "Partition/Accessors/Cached/CombinedCategories.h"
+
 // Namespace
 namespace isam {
 namespace observations {
+
+using partition::accessors::CombinedCategoriesPtr;
+using partition::accessors::cached::CachedCombinedCategoriesPtr;
 
 /**
  * Class Definition
@@ -46,9 +52,15 @@ private:
   Double                      tolerance_;
   Double                      process_error_;
   string                      ageing_error_label_;
-  vector<vector<double> >     proportions_;
-  vector<double>              error_values_;
+  vector<vector<Double> >     proportions_;
+  vector<Double>              error_values_;
+  CachedCombinedCategoriesPtr cached_partition_;
+  CombinedCategoriesPtr       partition_;
+  vector<Double>              age_results_;
 };
+
+// Typedef
+typedef boost::shared_ptr<isam::observations::ProportionsAtAge> ProportionsAtAgePtr;
 
 } /* namespace observations */
 } /* namespace isam */

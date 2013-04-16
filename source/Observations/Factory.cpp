@@ -15,6 +15,7 @@
 
 #include "Observations/Manager.h"
 #include "Observations/Children/Abundance.h"
+#include "Observations/Children/ProportionsAtAge.h"
 
 // Namespaces
 namespace isam {
@@ -33,6 +34,8 @@ ObservationPtr Factory::Create(const string& block_type, const string& object_ty
   if (block_type == PARAM_OBSERVATION) {
     if (object_type == PARAM_ABUNDANCE)
       result = ObservationPtr(new Abundance());
+    else if (object_type == PARAM_PROPORTIONS_AT_AGE)
+      result = ProportionsAtAgePtr(new ProportionsAtAge());
   }
 
   if (result)

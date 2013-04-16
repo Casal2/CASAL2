@@ -160,7 +160,7 @@ void Observation::Build() {
  * @param error_value The error value for this comparison
  * @param score The amount of score for this comparison
  */
-void Observation::SaveComparison(string key, int age, double expected, double observed, double error_value, double score) {
+void Observation::SaveComparison(string key, unsigned age, double expected, double observed, double error_value, double score) {
   RunMode::Type run_mode = Model::Instance()->run_mode();
   if (run_mode != RunMode::kBasic && run_mode != RunMode::kProfiling && run_mode != RunMode::kSimulation && run_mode != RunMode::kTesting)
     return;
@@ -187,7 +187,7 @@ void Observation::SaveComparison(string key, int age, double expected, double ob
  * @param score The amount of score for this comparison
  */
 void Observation::SaveComparison(string key, double expected, double observed, double error_value, double score) {
-  SaveComparison(key, -1, expected, observed, error_value, score);
+  SaveComparison(key, 0, expected, observed, error_value, score);
 }
 
 } /* namespace isam */

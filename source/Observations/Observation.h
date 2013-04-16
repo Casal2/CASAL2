@@ -29,12 +29,12 @@ namespace isam {
 namespace observations {
 
 struct Comparison {
-  string key_ = "";
-  int    age_ = 0;
-  Double expected_;
-  Double observed_;
-  Double error_value_;
-  Double score_;
+  string    key_ = "";
+  unsigned  age_ = 0;
+  Double    expected_;
+  Double    observed_;
+  Double    error_value_;
+  Double    score_;
 };
 
 } /* namespace observations */
@@ -56,7 +56,7 @@ public:
   virtual void                Validate();
   virtual void                Build();
   virtual void                PreExecute() { };
-  virtual void                Execute() { };
+  virtual void                Execute() = 0;
   virtual void                PostExecute() { };
 
   // accessors
@@ -67,7 +67,7 @@ public:
 
 protected:
   // methods
-  void                        SaveComparison(string key, int age, double expected, double observed, double error_value, double score);
+  void                        SaveComparison(string key, unsigned age, double expected, double observed, double error_value, double score);
   void                        SaveComparison(string key, double expected, double observed, double erroe_value, double score);
 
   // members
