@@ -16,7 +16,9 @@
 #include <boost/tokenizer.hpp>
 #include <boost/lexical_cast.hpp>
 
+#include "Catchabilities/Manager.h"
 #include "Processes/Manager.h"
+#include "Selectivities/Manager.h"
 #include "Utilities/To.h"
 
 // Namespaces
@@ -78,6 +80,12 @@ isam::base::ObjectPtr FindObject(const string& parameter_absolute_name) {
 
   if (type == PARAM_PROCESS) {
     result = processes::Manager::Instance().GetProcess(label);
+
+  } else if (type == PARAM_CATCHABILITY) {
+    result = catchabilities::Manager::Instance().GetCatchability(label);
+
+  } else if (type == PARAM_SELECTIVITY) {
+    result = selectivities::Manager::Instance().GetSelectivity(label);
   }
 
 
