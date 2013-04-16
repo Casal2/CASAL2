@@ -1,9 +1,9 @@
+{
 @report state-1
 type partition 
 time_step step_one
 year 1994
 
-{
 @report state-2
 type partition
 time_step step_one
@@ -13,13 +13,13 @@ year 1998
 type partition
 time_step step_one
 year 2004
-}
+
 
 @report state-4
 type partition
 time_step step_one
 year 2008
-
+}
 
 @report my-objective-function
 type objective_function
