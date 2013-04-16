@@ -170,6 +170,7 @@ void ProportionsAtAge::PreExecute() {
  */
 void ProportionsAtAge::Execute() {
   LOG_TRACE();
+
   /**
    * Verify our cached partition and partition sizes are correct
    */
@@ -263,25 +264,27 @@ void ProportionsAtAge::Execute() {
 
     if (expected_values.size() != observeds.size())
       LOG_CODE_ERROR("expected_values.size(" << expected_values.size() << ") != observeds.size(" << observeds.size() << ")");
+  }
 
-    /**
-     * Simulate or generate results
-     * During simulation mode we'll simulate results for this observation
-     */
-    if (Model::Instance()->run_mode() == RunMode::kSimulation) {
-      likelihood_->SimulateObserved(keys, observeds, expecteds, error_values, process_errors, delta_);
-      for (unsigned index = 0; index < observeds.size(); ++index)
-        SaveComparison(keys[index], ages[index], expecteds[index], observeds[index], error_values[index], 0.0);
+  /**
+   * Simulate or generate results
+   * During simulation mode we'll simulate results for this observation
+   */
+  if (Model::Instance()->run_mode() == RunMode::kSimulation) {
+    likelihood_->SimulateObserved(keys, observeds, expecteds, error_values, process_errors, delta_);
+    for (unsigned index = 0; index < observeds.size(); ++index)
+      SaveComparison(keys[index], ages[index], expecteds[index], observeds[index], error_values[index], 0.0);
 
-    } else {
-      score_ = 0.0;
-      likelihood_->GetResult(scores, expecteds, observeds, error_values, process_errors, delta_);
-      for (unsigned index = 0; index < scores.size(); ++index) {
-        score_ += scores[index];
-        SaveComparison(keys[index], ages[index], expecteds[index], observeds[index], likelihood_->AdjustErrorValue(process_errors[index], error_values[index]), scores[index]);
-      }
+  } else {
+    score_ = likelihood_->GetInitialScore(keys, process_errors, error_values);
+
+    likelihood_->GetResult(scores, expecteds, observeds, error_values, process_errors, delta_);
+    for (unsigned index = 0; index < scores.size(); ++index) {
+      score_ += scores[index];
+      SaveComparison(keys[index], ages[index], expecteds[index], observeds[index], likelihood_->AdjustErrorValue(process_errors[index], error_values[index]), scores[index]);
     }
   }
+
 }
 
 } /* namespace observations */
