@@ -36,14 +36,16 @@ public:
   // Methods
   MortalityConstantRate();
   virtual                     ~MortalityConstantRate() = default;
-  void                        Validate();
-  void                        Build();
-  void                        Execute();
+  void                        Validate() override final;
+  void                        Build() override final;
+  void                        Execute() override final;
+  void                        Reset() override final;
 
 private:
   // Members
   vector<string>              category_names_;
   vector<Double>              m_;
+  vector<vector<Double> >     mortality_rates_;
   vector<string>              selectivity_names_;
   accessor::CategoriesPtr     partition_;
   vector<SelectivityPtr>      selectivities_;

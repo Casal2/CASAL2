@@ -95,9 +95,9 @@ void DESolver::Execute() {
 
   // Solver
   if (solver.Solve(max_generations_)) {
-    LOG_INFO("DE Solver has successfully converged");
+    cerr << "DE Solver has successfully converged" << endl;
   } else {
-    LOG_INFO("DE Solver has failed to converge");
+    cerr << "DE Solver has failed to converge" << endl;
   }
 }
 

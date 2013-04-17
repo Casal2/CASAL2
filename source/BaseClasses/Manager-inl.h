@@ -43,5 +43,17 @@ void Manager<ClassType, StoredType>::Build() {
   }
 }
 
+/**
+ * Reset all of the stored objects for the
+ * next iteration
+ */
+template <class ClassType, class StoredType>
+void Manager<ClassType, StoredType>::Reset() {
+  for(shared_ptr<StoredType> stored_object : objects_) {
+    stored_object->Reset();
+  }
+}
+
+
 } /* namespae base */
 } /* namespace isam */

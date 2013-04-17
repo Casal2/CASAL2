@@ -46,6 +46,7 @@ public:
   virtual void                Build() {};
   virtual void                Prepare() {};
   virtual void                Execute() = 0;
+  virtual void                Reset() {};
   virtual void                Finalise() {};
 
   // Accessors

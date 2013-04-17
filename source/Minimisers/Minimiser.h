@@ -34,6 +34,7 @@ public:
   virtual                     ~Minimiser();
   virtual void                Validate();
   virtual void                Build();
+  void                        Reset() {};
   virtual void                Execute() = 0;
 
   // Acessors

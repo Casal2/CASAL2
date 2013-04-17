@@ -42,6 +42,7 @@ public:
   virtual                     ~Estimate();
   void                        Validate();
   void                        Build();
+  void                        Reset() { };
   Double                      GetPriorScore();
 
   // Accessors

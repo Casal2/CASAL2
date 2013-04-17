@@ -59,7 +59,6 @@ double CallBack::EnergyFunction(vector<double> test_solution) {
   model_->FullIteration();
 
   objective.CalculateScore();
-  LOG_INFO("Objective Score: " << objective.score());
   return objective.score();
 }
 

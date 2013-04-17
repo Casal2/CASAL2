@@ -212,6 +212,25 @@ void Model::Verify() {
 
 }
 
+void Model::Reset() {
+  LOG_TRACE();
+
+  Partition::Instance().Reset();
+
+  estimates::Manager::Instance().Reset();
+
+  catchabilities::Manager::Instance().Reset();
+  initialisationphases::Manager::Instance().Reset();
+  minimisers::Manager::Instance().Reset();
+  observations::Manager::Instance().Reset();
+  penalties::Manager::Instance().Reset();
+  priors::Manager::Instance().Reset();
+  processes::Manager::Instance().Reset();
+  reports::Manager::Instance().Reset();
+  selectivities::Manager::Instance().Reset();
+  timesteps::Manager::Instance().Reset();
+}
+
 /**
  *
  */
@@ -253,6 +272,9 @@ void Model::RunEstimation() {
 
   LOG_INFO("Model: State change to Finalise")
   reports::Manager::Instance().Execute(State::kFinalise);
+
+  run_mode_ = RunMode::kBasic;
+  FullIteration();
 }
 
 /**

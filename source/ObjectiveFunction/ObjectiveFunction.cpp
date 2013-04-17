@@ -39,6 +39,7 @@ ObjectiveFunction& ObjectiveFunction::Instance() {
  */
 void ObjectiveFunction::CalculateScore() {
   score_list_.clear();
+  score_ = 0.0;
 
   /**
    * Get the scores from each of the observations/likelihoods

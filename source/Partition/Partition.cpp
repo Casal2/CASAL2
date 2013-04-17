@@ -64,6 +64,15 @@ void Partition::Build() {
 }
 
 /**
+ * Reset our partition so all values are 0.0
+ */
+void Partition::Reset() {
+  for (auto iter = partition_.begin(); iter != partition_.end(); ++iter) {
+    iter->second.data_.assign(iter->second.data_.size(), 0.0);
+  }
+}
+
+/**
  *  This method will return a reference to one of our partition categories.
  *
  *  @param category_label The name of the category

@@ -35,6 +35,7 @@ public:
   virtual                     ~Catchability();
   void                        Validate();
   void                        Build() { };
+  void                        Reset() { };
 
   // Accessors
   Double                      q() const { return q_; }

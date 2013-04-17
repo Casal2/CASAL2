@@ -63,6 +63,7 @@
 #define GAMMADIFF_CONVERGENCE_UNCLEAR             "Unclear convergence, maybe local minimum"
 #define GAMMADIFF_EVALUATIONS_MAX                 "Maximum evaluations/iterations with no convergence"
 #define GAMMADIFF_CONVERGENCE                     "Convergence was successful"
+#define GAMMADIFF_CONVERGENCE_SUCCESSFUL          "Convergence was successful"
 #define GAMMADIFF_RETURN_VALUE_UNKNOWN            "Fatal error, unknown return value = "
 #define GAMMADIFF_LESS_START_LOWER_BOUND          "Start value is less than lower bound"
 #define GAMMADIFF_GREATER_START_UPPER_BOUND       "Start value is greater than upper bound"

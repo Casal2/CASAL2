@@ -32,6 +32,7 @@ public:
   virtual                     ~InitialisationPhase() = default;
   void                        Validate();
   void                        Build();
+  void                        Reset() { };
   void                        Execute();
 
 private:
