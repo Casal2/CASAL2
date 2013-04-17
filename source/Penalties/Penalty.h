@@ -38,6 +38,7 @@ public:
   virtual                     ~Penalty() = default;
   void                        Validate();
   void                        Build() {};
+  void                        Reset() {};
   void                        Trigger(const string& source_label, double value_1, double value_2);
 
 private:

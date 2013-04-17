@@ -33,6 +33,7 @@ public:
   virtual                     ~TimeStep() = default;
   void                        Validate();
   void                        Build();
+  void                        Reset() {};
   void                        Execute();
 
 private:

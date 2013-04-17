@@ -46,7 +46,7 @@ public:
   virtual void                    RemoveAllObjects() { objects_.clear(); }
   virtual void                    Validate();
   virtual void                    Build();
-  virtual void                    Reset() {};
+  virtual void                    Reset();
 
   // Accessors
   unsigned                        count() { return objects_.size(); }

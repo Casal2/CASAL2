@@ -58,6 +58,7 @@ public:
   static Partition&           Instance();
   void                        Validate();
   void                        Build();
+  void                        Reset();
   void                        Clear() { partition_.clear(); }
   void                        Debug();
 

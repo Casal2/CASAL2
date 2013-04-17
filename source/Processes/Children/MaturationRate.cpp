@@ -150,9 +150,13 @@ void MaturationRate::Execute() {
   for (unsigned i = 0; from_iter != from_partition_->End() && to_iter != to_partition_->End(); ++from_iter, ++to_iter, ++i) {
     SelectivityPtr selectivity = selectivities_[i];
     double proportions = proportions_.size() > 1 ? proportions_[i] : proportions_[0];
+    if (proportions == 0.0)
+      continue;
 
     for (unsigned offset = 0; offset < (*from_iter)->data_.size(); ++offset) {
       amount = proportions * selectivity->GetResult(min_age + offset) * (*from_iter)->data_[offset];
+      if (amount == 0.0)
+        continue;
       (*from_iter)->data_[offset] -= amount;
       (*to_iter)->data_[offset] += amount;
     }

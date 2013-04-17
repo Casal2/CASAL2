@@ -57,6 +57,7 @@ public:
   virtual void                Build();
   virtual void                PreExecute() { };
   virtual void                Execute() = 0;
+  void                        Reset();
   virtual void                PostExecute() { };
 
   // accessors

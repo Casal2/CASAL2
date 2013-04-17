@@ -150,6 +150,13 @@ void Observation::Build() {
 }
 
 /**
+ * Reset our observation so it can be called again
+ */
+void Observation::Reset() {
+  comparisons_.clear();
+}
+
+/**
  * Save the comparison that was done during an observation to the list of comparisons. Each comparison contributes part to a score
  * and we will need to know what those parts are when reporting.
  *

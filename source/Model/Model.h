@@ -88,7 +88,7 @@ protected:
   void                        Build();
   void                        Verify();
   void                        Iterate();
-  void                        Reset() { };
+  void                        Reset();
   void                        RunBasic();
   void                        RunEstimation();
 

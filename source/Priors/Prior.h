@@ -35,6 +35,7 @@ public:
   virtual                     ~Prior();
   virtual void                Validate();
   void                        Build() {};
+  void                        Reset() {};
   virtual Double              GetScore(Double param) = 0;
 
 protected:

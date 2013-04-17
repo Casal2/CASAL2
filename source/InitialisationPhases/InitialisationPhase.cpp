@@ -63,6 +63,7 @@ void InitialisationPhase::Build() {
  * Execute the timesteps we have.
  */
 void InitialisationPhase::Execute() {
+  LOG_TRACE();
   for (unsigned year = 0; year < years_; ++year) {
     for (TimeStepPtr time_step : time_steps_) {
       time_step->Execute();

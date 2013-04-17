@@ -64,10 +64,10 @@ void Ageing::Build() {
  * Execute our ageing class.
  */
 void Ageing::Execute() {
-  for (auto iterator = partition_->Begin(); iterator != partition_->End(); ++iterator) {
-    Double carry_over = 0.0;
-    Double temp       = 0.0;
+  Double carry_over = 0.0;
+  Double temp       = 0.0;
 
+  for (auto iterator = partition_->Begin(); iterator != partition_->End(); ++iterator) {
     for(Double& data : (*iterator)->data_) {
       temp = data;
       data = carry_over;

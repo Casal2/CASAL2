@@ -14,6 +14,7 @@
 #include "Factory.h"
 
 #include "Minimisers/Children/DESolver.h"
+#include "Minimisers/Children/GammaDiff.h"
 #include "Minimisers/Manager.h"
 
 // Namespaces
@@ -33,6 +34,10 @@ MinimiserPtr Factory::Create(const string& block_type, const string& object_type
   if (block_type == PARAM_MINIMIZER) {
     if (object_type == PARAM_DE_SOLVER) {
       result = MinimiserPtr(new DESolver());
+
+    } else if (object_type == PARAM_GAMMADIFF) {
+      result = MinimiserPtr(new GammaDiff());
+
     }
   }
 

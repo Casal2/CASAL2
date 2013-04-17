@@ -110,21 +110,33 @@ void MortalityConstantRate::Build() {
  * Execute the process
  */
 void MortalityConstantRate::Execute() {
-  Double amount     = 0.0;
-  unsigned min_age  = 0;
+
+  if (mortality_rates_.size() == 0) {
+    auto iter = partition_->Begin();
+    mortality_rates_.resize(category_names_.size());
+    for (unsigned i = 0; iter != partition_->End(); ++iter, ++i) {
+      unsigned min_age = (*iter)->min_age_;
+      double m = m_.size() > 1 ? m_[i] : m_[0];
+
+      for (unsigned j = 0; j < (*iter)->data_.size(); ++j) {
+        mortality_rates_[i].push_back(1-exp(-selectivities_[i]->GetResult(min_age + j) * m));
+      }
+    }
+  }
 
   auto iterator = partition_->Begin();
   for (unsigned i = 0; iterator != partition_->End(); ++iterator, ++i) {
-    min_age = (*iterator)->min_age_;
-
-    double m = m_.size() > 1 ? m_[i] : m_[0];
-
-    for (unsigned offset = 0; offset < (*iterator)->data_.size(); ++offset) {
-      double mortality_rate = 1-exp(-(selectivities_[i]->GetResult(min_age + offset) * m));
-      amount = (*iterator)->data_[offset] * mortality_rate;
-      (*iterator)->data_[offset] -= amount;
+    for (unsigned j = 0; j < (*iterator)->data_.size(); ++j) {
+      (*iterator)->data_[j] -= (*iterator)->data_[j] * mortality_rates_[i][j];
     }
   }
+}
+
+/**
+ * Reset the Mortality Process
+ */
+void MortalityConstantRate::Reset() {
+  mortality_rates_.clear();
 }
 
 } /* namespace processes */

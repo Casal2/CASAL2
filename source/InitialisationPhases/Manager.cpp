@@ -50,6 +50,7 @@ void Manager::Build() {
  * Execute all of the time steps in the current phase
  */
 void Manager::Execute() {
+  LOG_TRACE();
   for(InitialisationPhasePtr phase : ordered_initialisation_phases_) {
     phase->Execute();
   }

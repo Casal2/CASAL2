@@ -19,6 +19,7 @@
 
 #include "Utilities/RandomNumberGenerator.h"
 #include "Utilities/DoubleCompare.h"
+#include "Utilities/Logging/Logging.h"
 
 // Namespaces
 namespace isam {
@@ -160,26 +161,24 @@ void Engine::Setup(vector<double> start_values, vector<double> lower_bounds,
 bool Engine::Solve(unsigned max_generations) {
   bool new_best_energy  = false;
 
-
   trial_energy_ = EnergyFunction(current_values_);
+  cerr << "First Trial Energy: " << trial_energy_ << endl;
   if (trial_energy_ < best_energy_) {
     new_best_energy = true;
 
     // Copy the solution to our best.
-    best_energy_ = trial_energy_;
-    best_solution_.assign(current_values_.begin(), current_values_.end());
-//    if(!(pConfig->getQuietMode())) {
-//      cerr << "Current estimates: ";
-//      for (int k = 0; k < (int)vBestSolution.size(); ++k)
-//        cerr << vBestSolution[k] << " ";
-//      cerr << "\n";
-//      cerr << "Objective function value: " << dTrialEnergy << "\n\n";
-//    }
+    best_energy_    = trial_energy_;
+    best_solution_  = current_values_;
+
+    cerr << "Current estimates: ";
+    for (unsigned i = 0; i < best_solution_.size(); ++i)
+      cerr << best_solution_[i] << " ";
+    cerr << endl;
+    cerr << "Objective function value: " << trial_energy_ << endl << endl;
   }
 
   for (unsigned i = 0; i < max_generations; ++i) {
-//    if(!(pConfig->getQuietMode()))
-//      cerr << DESOLVER_CURRENT_GENERATION << (i+1) << "\n";
+    cerr << "DESolver: current generation: " << (i+1) << "\n";
     for (unsigned j = 0; j < population_size_; ++j) {
       // Build our Trial Solution
       (this->*calculate_solution_)(j);
@@ -196,6 +195,9 @@ bool Engine::Solve(unsigned max_generations) {
           // Copy the solution to our best.
           best_energy_ = trial_energy_;
           best_solution_.assign(current_values_.begin(), current_values_.end());
+
+
+          cerr << "Objective function value: " << trial_energy_ << endl;
 
 //          if(!(pConfig->getQuietMode())) {
 //            cerr << "Current estimates: ";
@@ -218,6 +220,20 @@ bool Engine::Solve(unsigned max_generations) {
     new_best_energy = false;
   }
 
+  cerr << "Best Solution: ";
+  for (unsigned i = 0; i < best_solution_.size(); ++i)
+    cerr << best_solution_[i] << " ";
+  cerr << "= " << best_energy_ << endl;
+
+  cerr << "Population:" << endl;
+  for (unsigned i = 0; i < population_size_; ++i) {
+    cerr << i << "] ";
+    for (unsigned j = 0; j < vector_size_; ++j) {
+      cerr << population_[i][j] << " ";
+    }
+    cerr << "= " << population_energy_[i] << endl;
+  }
+
   return false;
 }
 
@@ -236,25 +252,21 @@ bool Engine::GenerateGradient() {
       double scaled = ScaleValue(population_[j][i], lower_bounds_[i], upper_bounds_[i]);
 
       if (scaled < min)
-        max = scaled;
+        min = scaled;
       if (scaled > max)
         max = scaled;
     }
 
     convergence_check = max - min;
 
+
     if (convergence_check > tolerance_) {
-//      if(!(pConfig->getQuietMode())) {
-//        cerr << DESOLVERCONVERGENCE_CHECK << dConvergenceCheck << "\n";
-//        cerr << DESOLVERCONVERGENCE_THRESHOLD << dTolerance << "\n" << endl;
-//      }
+      cerr << "DESolver: (no convergence) convergence_check: " << convergence_check << "; tolerance: " << tolerance_ << endl;
       return false; // No Convergence
     }
   }
-//  if(!(pConfig->getQuietMode())) {
-//    cerr << DESOLVERCONVERGENCE_CHECK << dConvergenceCheck << "\n";
-//    cerr << DESOLVERCONVERGENCE_THRESHOLD << dTolerance << "\n" << endl;
-//  }
+
+  cerr << "DESolver: (convergence) convergence_check: " << convergence_check << "; tolerance: " << tolerance_ << endl;
   return true; // Convergence
 }
 

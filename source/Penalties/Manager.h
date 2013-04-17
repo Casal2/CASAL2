@@ -45,6 +45,7 @@ public:
   virtual                     ~Manager() noexcept(true) {};
   PenaltyPtr                  GetPenalty(const string& label) const;
   void                        FlagPenalty(const string& label, double value);
+  void                        Reset() override final { flagged_penalties_.clear(); }
 
   // Accessors
   const vector<Info>&         flagged_penalties() const { return flagged_penalties_; }

@@ -30,6 +30,8 @@ ObjectiveFunction::ObjectiveFunction() {
  * Execute the report
  */
 void ObjectiveFunction::Execute() {
+  if (Model::Instance()->run_mode() != RunMode::kBasic)
+    return;
 
   // Header
   cout << CONFIG_ARRAY_START << label_ << CONFIG_ARRAY_END << "\n";
