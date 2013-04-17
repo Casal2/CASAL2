@@ -41,6 +41,7 @@ public:
   void                        Validate() override final;
   void                        Build() override final;
   void                        Execute() override final;
+  void                        Reset() override final;
 
 private:
   // Members
@@ -51,6 +52,7 @@ private:
   accessor::CategoriesPtr     from_partition_;
   accessor::CategoriesPtr     to_partition_;
   vector<SelectivityPtr>      selectivities_;
+  vector<vector<Double> >     maturation_rates_;
 
 };
 

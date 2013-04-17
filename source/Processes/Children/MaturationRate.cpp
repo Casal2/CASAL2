@@ -144,23 +144,33 @@ void MaturationRate::Build() {
 void MaturationRate::Execute() {
   auto from_iter     = from_partition_->Begin();
   auto to_iter       = to_partition_->Begin();
-  unsigned min_age   = (*from_iter)->min_age_;
   Double amount      = 0.0;
 
-  for (unsigned i = 0; from_iter != from_partition_->End() && to_iter != to_partition_->End(); ++from_iter, ++to_iter, ++i) {
-    SelectivityPtr selectivity = selectivities_[i];
-    double proportions = proportions_.size() > 1 ? proportions_[i] : proportions_[0];
-    if (proportions == 0.0)
-      continue;
+  if (maturation_rates_.size() == 0) {
+    maturation_rates_.resize(from_partition_->Size());
+    for (unsigned i = 0; i < maturation_rates_.size(); ++i) {
+      double proportion = proportions_.size() > 1 ? proportions_[i] : proportions_[0];
+      unsigned min_age   = (*from_iter)->min_age_;
 
+      for (unsigned j = 0; j < (*from_iter)->data_.size(); ++j)
+        maturation_rates_[i].push_back(proportion * selectivities_[i]->GetResult(min_age + j));
+    }
+  }
+
+  for (unsigned i = 0; from_iter != from_partition_->End() && to_iter != to_partition_->End(); ++from_iter, ++to_iter, ++i) {
     for (unsigned offset = 0; offset < (*from_iter)->data_.size(); ++offset) {
-      amount = proportions * selectivity->GetResult(min_age + offset) * (*from_iter)->data_[offset];
-      if (amount == 0.0)
-        continue;
+      amount = maturation_rates_[i][offset] * (*from_iter)->data_[offset];
       (*from_iter)->data_[offset] -= amount;
       (*to_iter)->data_[offset] += amount;
     }
   }
+}
+
+/**
+ * Reset our maturation rates for a new run
+ */
+void MaturationRate::Reset() {
+  maturation_rates_.clear();
 }
 
 } /* namespace processes */

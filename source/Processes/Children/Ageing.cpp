@@ -68,6 +68,8 @@ void Ageing::Execute() {
   Double temp       = 0.0;
 
   for (auto iterator = partition_->Begin(); iterator != partition_->End(); ++iterator) {
+    carry_over = 0.0;
+
     for(Double& data : (*iterator)->data_) {
       temp = data;
       data = carry_over;
