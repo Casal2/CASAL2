@@ -12,14 +12,14 @@ cwd = os.path.normpath(os.getcwd())
 
 EX_OK = getattr(os, "EX_OK", 0)
 
-if operatingSystem == 'linux2' or operatingSystem == 'linux3':
- operatingSystem = 'linux'
+if operatingSystem.startswith('linux'):
+  operatingSystem = 'linux'
 
 # Modify our system PATH environment variable based on OS
 if operatingSystem == 'win32':        
-    osPath += cwd + '\\buildtools\\windows\\unixutils;'
-    osPath += cwd + '\\buildtools\\windows\\cmake\\bin;'   
-    osPath += cwd + '\\buildtools\\windows\\Python27\\;'   
+  osPath += cwd + '\\buildtools\\windows\\unixutils;'
+  osPath += cwd + '\\buildtools\\windows\\cmake\\bin;'   
+  osPath += cwd + '\\buildtools\\windows\\Python27\\;'   
     
 newPath = osPath + oldPath
 os.environ['PATH'] = newPath
