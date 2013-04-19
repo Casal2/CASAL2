@@ -58,7 +58,7 @@ void MaturationRate::Validate() {
   label_                = parameters_.Get(PARAM_LABEL).GetValue<string>();
   from_category_names_  = parameters_.Get(PARAM_FROM).GetValues<string>();
   to_category_names_    = parameters_.Get(PARAM_TO).GetValues<string>();
-  proportions_          = parameters_.Get(PARAM_PROPORTIONS).GetValues<double>();
+  proportions_          = parameters_.Get(PARAM_PROPORTIONS).GetValues<Double>();
   selectivity_names_    = parameters_.Get(PARAM_SELECTIVITIES).GetValues<string>();
 
   if (selectivity_names_.size() == 1)
@@ -149,7 +149,7 @@ void MaturationRate::Execute() {
   if (maturation_rates_.size() == 0) {
     maturation_rates_.resize(from_partition_->Size());
     for (unsigned i = 0; i < maturation_rates_.size(); ++i) {
-      double proportion = proportions_.size() > 1 ? proportions_[i] : proportions_[0];
+      Double proportion = proportions_.size() > 1 ? proportions_[i] : proportions_[0];
       unsigned min_age   = (*from_iter)->min_age_;
 
       for (unsigned j = 0; j < (*from_iter)->data_.size(); ++j)

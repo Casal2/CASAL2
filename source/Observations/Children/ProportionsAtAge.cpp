@@ -18,6 +18,7 @@
 #include "Model/Model.h"
 #include "Partition/Accessors/All.h"
 #include "Utilities/DoubleCompare.h"
+#include "Utilities/Math.h"
 #include "Utilities/To.h"
 
 // Namespaces
@@ -56,7 +57,7 @@ void ProportionsAtAge::Validate() {
   tolerance_          = parameters_.Get(PARAM_TOLERANCE).GetValue<double>(0.001);
   process_error_      = parameters_.Get(PARAM_PROCESS_ERROR).GetValue<double>(0.0);
   ageing_error_label_ = parameters_.Get(PARAM_AGEING_ERROR).GetValue<string>("");
-  error_values_       = parameters_.Get(PARAM_ERROR_VALUE).GetValues<double>();
+  error_values_       = parameters_.Get(PARAM_ERROR_VALUE).GetValues<Double>();
   age_spread_         = (max_age_ - min_age_) + 1;
 
   /**
@@ -80,13 +81,13 @@ void ProportionsAtAge::Validate() {
    * Note: use of C++ lamba functions
    */
   if (likelihood_type_ == PARAM_LOG_NORMAL) {
-    std::for_each(std::begin(error_values_), std::end(error_values_), [&](double n) {
+    std::for_each(std::begin(error_values_), std::end(error_values_), [&](Double n) {
       if (n <= 0.0)
         LOG_ERROR(parameters_.location(PARAM_ERROR_VALUE) << ": error_value (" << n << ") cannot be equal to or less than 0.0");
     });
 
   } else if (likelihood_type_ == PARAM_MULTINOMIAL) {
-    std::for_each(std::begin(error_values_), std::end(error_values_), [&](double n) {
+    std::for_each(std::begin(error_values_), std::end(error_values_), [&](Double n) {
       if (n < 0.0)
         LOG_ERROR(parameters_.location(PARAM_ERROR_VALUE) << ": error_value (" << n << ") cannot be less than 0.0");
     });
@@ -235,7 +236,7 @@ void ProportionsAtAge::Execute() {
         if (mean_proportion_method_)
           final_value = start_value + ((end_value - start_value) * time_step_proportion_);
         else
-          final_value = std::abs(start_value - end_value) * time_step_proportion_;
+          final_value = utilities::math::abs(start_value - end_value) * time_step_proportion_;
 
         expected_values[age_offset] += final_value * selectivity_result;
         running_total += final_value * selectivity_result;
@@ -249,8 +250,8 @@ void ProportionsAtAge::Execute() {
     /**
      * Convert the expected_values in to a proportion
      */
-    for (double& value : expected_values)
-      value /= running_total;
+    for (Double& value : expected_values)
+      value = value / running_total;
     LOG_INFO("Finished converting values to a proportion");
 
     for (unsigned i = 0; i < expected_values.size(); ++i) {

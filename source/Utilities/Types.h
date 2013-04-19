@@ -17,6 +17,10 @@
 #ifndef TYPES_H_
 #define TYPES_H_
 
+#ifdef USE_ADMB
+#include <admb/fvar.hpp>
+#endif
+
 // Namespaces
 namespace isam {
 namespace utilities {
@@ -24,8 +28,8 @@ namespace utilities {
 /**
  * double conditional depending on if we're using ADMB or not
  */
-#ifdef ADMB
-typedef adouble Double;
+#ifdef USE_ADMB
+typedef dvariable Double;
 
 #else
 typedef double Double;

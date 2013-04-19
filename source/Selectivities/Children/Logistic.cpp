@@ -78,7 +78,7 @@ void Logistic::Validate() {
  * for each age in the model.
  */
 void Logistic::Reset() {
-  double threshold = 0.0;
+  Double threshold = 0.0;
 
   for (unsigned age = model_->min_age(); age <= model_->max_age(); ++age) {
     threshold = (a50_ - age) / aTo95_;

@@ -54,7 +54,7 @@ void MortalityConstantRate::Validate() {
   // Assign and validate parameters
   label_              = parameters_.Get(PARAM_LABEL).GetValue<string>();
   category_names_     = parameters_.Get(PARAM_CATEGORIES).GetValues<string>();
-  m_                  = parameters_.Get(PARAM_M).GetValues<double>();
+  m_                  = parameters_.Get(PARAM_M).GetValues<Double>();
   selectivity_names_  = parameters_.Get(PARAM_SELECTIVITIES).GetValues<string>();
 
   if (m_.size() == 1)
@@ -75,7 +75,7 @@ void MortalityConstantRate::Validate() {
   }
 
   // Validate our Ms are between 1.0 and 0.0
-  for (double m : m_) {
+  for (Double m : m_) {
     if (m < 0.0 || m > 1.0)
       LOG_ERROR(parameters_.location(PARAM_M) << ": m value " << m << " must be between 0.0 and 1.0 (inclusive)");
   }
@@ -116,7 +116,7 @@ void MortalityConstantRate::Execute() {
     mortality_rates_.resize(category_names_.size());
     for (unsigned i = 0; iter != partition_->End(); ++iter, ++i) {
       unsigned min_age = (*iter)->min_age_;
-      double m = m_.size() > 1 ? m_[i] : m_[0];
+      Double m = m_.size() > 1 ? m_[i] : m_[0];
 
       for (unsigned j = 0; j < (*iter)->data_.size(); ++j) {
         mortality_rates_[i].push_back(1-exp(-selectivities_[i]->GetResult(min_age + j) * m));

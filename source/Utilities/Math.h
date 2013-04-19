@@ -37,8 +37,10 @@ inline Double LnGamma(Double t) {
   y = x = t;
   tmp = x + 5.5 - (x + 0.5) * log(x + 5.5);
   ser = 1.000000000190015;
-  for (unsigned j = 0; j <= 5; j++)
-    ser += (cof[j] / ++y);
+  for (unsigned j = 0; j <= 5; j++) {
+    y = y + 1.0;
+    ser += (cof[j] / y);
+  }
   return(log(2.5066282746310005 * ser / x) - tmp);
 }
 
@@ -48,6 +50,18 @@ inline Double LnGamma(Double t) {
 inline Double LnFactorial(Double t) {
   return isam::utilities::math::LnGamma(t + 1.0);
 }
+
+
+inline Double abs(Double value) {
+#ifdef USE_ADMB
+  return std::abs(value.xval());
+#else
+  return std::abs(value);
+#endif
+}
+
+
+
 
 
 } /* namespace math */

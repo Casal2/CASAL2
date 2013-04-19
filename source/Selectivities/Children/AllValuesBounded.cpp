@@ -79,7 +79,7 @@ void AllValuesBounded::Validate() {
   }
 
   // Param: V
-  v_ = parameters_.Get(PARAM_V).GetValues<double>();
+  v_ = parameters_.Get(PARAM_V).GetValues<Double>();
   if (v_.size() != (high_ - low_)) {
     LOG_ERROR(parameters_.location(PARAM_V) << ": Parameter 'v' does not have the right amount of elements n = h - l\n"
         << "Expected " << high_ - low_ << " but got " << v_.size());

@@ -26,8 +26,6 @@
 namespace isam {
 namespace utilities {
 
-using isam::utilities::Double;
-
 /**
  * Class definition
  */
@@ -37,11 +35,11 @@ public:
   virtual                       ~RandomNumberGenerator();
 
   // Accessors
-  Double                        uniform(Double min = 0.0, Double max = 1.0);
-  Double                        normal(Double mean = 0.0, Double sigma = 1.0);
-  Double                        log_normal(Double mean, Double cv);
-  Double                        binomial(Double p, Double n);
-  Double                        chi_square(unsigned df);
+  double                        uniform(double min = 0.0, double max = 1.0);
+  double                        normal(double mean = 0.0, double sigma = 1.0);
+  double                        log_normal(double mean, double cv);
+  double                        binomial(double p, double n);
+  double                        chi_square(unsigned df);
 
 private:
   // Methods

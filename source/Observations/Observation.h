@@ -68,8 +68,8 @@ public:
 
 protected:
   // methods
-  void                        SaveComparison(string key, unsigned age, double expected, double observed, double error_value, double score);
-  void                        SaveComparison(string key, double expected, double observed, double erroe_value, double score);
+  void                        SaveComparison(string key, unsigned age, Double expected, Double observed, Double error_value, Double score);
+  void                        SaveComparison(string key, Double expected, Double observed, Double erroe_value, Double score);
 
   // members
   string                      type_;

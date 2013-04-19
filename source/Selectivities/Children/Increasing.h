@@ -39,8 +39,8 @@ private:
   // Members
   unsigned                    low_ = 0.0;
   unsigned                    high_ = 0.0;
-  vector<double>              v_;
-  double                      alpha_ = 1.0;
+  vector<Double>              v_;
+  Double                      alpha_ = 1.0;
 };
 
 } /* namespace selectivities */

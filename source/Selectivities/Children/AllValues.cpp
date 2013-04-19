@@ -52,7 +52,7 @@ void AllValues::Validate() {
 
   // Vs should be the same length as the world age spread
   label_  = parameters_.Get(PARAM_LABEL).GetValue<string>();
-  v_      = parameters_.Get(PARAM_V).GetValues<double>();
+  v_      = parameters_.Get(PARAM_V).GetValues<Double>();
 
   if (v_.size() != model_->age_spread()) {
     LOG_ERROR(parameters_.location(PARAM_V) << ": Number of 'v' values supplied is not the same as the model age spread.\n"
