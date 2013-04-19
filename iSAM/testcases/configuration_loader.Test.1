@@ -1,0 +1,38 @@
+{
+This configuration will test the operators and comments syntax to ensure
+we're processing them correctly
+}
+
+# single line with multi line start embeded { that should be ignored
+# @ThisWouldCauseAnError if it wasn't a comment
+@model #End of line comment 
+start_year 1994 { start of mult-line comment
+@block
+meh
+} final_year 2008
+min_age 1
+max_age 50
+age_plus t
+initialisation_phases phase_one { #multi line comment on single line with single line comment embedded }
+time_steps step_one 
+
+@categories
+format stage.sex
+names immature.male mature.male immature.female mature.female
+
+@initialisation_phase phase_one
+years 200
+time_steps phase_one
+
+@time_step phase_one
+processes my_recruitment
+
+@time_step initialisation_step_two
+processes my_recruitment
+
+@Recruitment my_recruitment
+type constant
+categories immature.male immature.female
+proportions 0.5 0.5
+R0 997386
+age 1
