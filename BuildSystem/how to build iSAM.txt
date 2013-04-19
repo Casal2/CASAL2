@@ -1,0 +1,28 @@
+## Windows
+
+--> Step 1.
+Install TDC-GCC compiler and ensure g++ is in your path
+http://tdm-gcc.tdragon.net/download
+
+--> Step 2.
+run doBuild from a command line (recommend you use Console2)
+http://sourceforge.net/projects/console/
+
+Command: doBuild thirdparty
+Command: doBuild debug (or release)
+
+
+## Linux
+
+Pre-Reqs:
+- Python 2.X
+- Flex
+- M4
+- GCC/G++ V4.5 (or higher)
+
+--> Step 1
+./doBuild.sh thirdparty
+
+--> Step 2
+./doBuild.sh debug|release
+
