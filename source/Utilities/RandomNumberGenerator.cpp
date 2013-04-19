@@ -48,7 +48,7 @@ RandomNumberGenerator& RandomNumberGenerator::Instance() {
  * @param max The largest number to be generated (default 1.0)
  * @return random number
  */
-Double RandomNumberGenerator::uniform(Double min, Double max) {
+double RandomNumberGenerator::uniform(double min, double max) {
   boost::uniform_real<> uniform(min, max);
   boost::variate_generator<boost::mt19937_64&, boost::uniform_real<> > generator(generator_, uniform);
 
@@ -62,7 +62,7 @@ Double RandomNumberGenerator::uniform(Double min, Double max) {
  * @param sigma (default 1.0)
  * @return random number
  */
-Double RandomNumberGenerator::normal(Double mean, Double sigma) {
+double RandomNumberGenerator::normal(double mean, double sigma) {
   boost::normal_distribution<> normal(mean, sigma);
   boost::variate_generator<boost::mt19937_64&, boost::normal_distribution<> > generator(generator_, normal);
 
@@ -76,11 +76,11 @@ Double RandomNumberGenerator::normal(Double mean, Double sigma) {
  * @param cv
  * @return random number
  */
-Double RandomNumberGenerator::log_normal(Double mean, Double cv) {
-  Double log_sigma = sqrt(log(cv*cv + 1.0));
-  Double log_mean  = log(mean) - (log_sigma * log_sigma) / 2.0;
+double RandomNumberGenerator::log_normal(double mean, double cv) {
+  double log_sigma = sqrt(log(cv*cv + 1.0));
+  double log_mean  = log(mean) - (log_sigma * log_sigma) / 2.0;
 
-  Double random_number = normal(log_mean, log_sigma);
+  double random_number = normal(log_mean, log_sigma);
   return std::exp(random_number);
 }
 
@@ -91,10 +91,10 @@ Double RandomNumberGenerator::log_normal(Double mean, Double cv) {
  * @param n
  * @return random number
  */
-Double RandomNumberGenerator::binomial(Double p, Double n) {
-  Double count = 0;
+double RandomNumberGenerator::binomial(double p, double n) {
+  double count = 0;
   for (unsigned i = 0; i < std::ceil(n); ++i) {
-    Double temp = uniform();
+    double temp = uniform();
     if (temp <= p)
       count++;
   }
@@ -108,12 +108,12 @@ Double RandomNumberGenerator::binomial(Double p, Double n) {
  * @param df Number of random numbers to generate
  * @return random number
  */
-Double RandomNumberGenerator::chi_square(unsigned df) {
+double RandomNumberGenerator::chi_square(unsigned df) {
   boost::normal_distribution<> normal(0.0, 1.0);
-  Double sum = 0.0;
+  double sum = 0.0;
   for (unsigned i = 0; i < df; ++i) {
     boost::variate_generator<boost::mt19937_64&, boost::normal_distribution<> > generator(generator_, normal);
-    Double random = generator();
+    double random = generator();
     sum += random * random;
   }
 

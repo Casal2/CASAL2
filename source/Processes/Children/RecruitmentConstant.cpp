@@ -66,7 +66,7 @@ void RecruitmentConstant::Validate() {
    * and print a warning message
    */
   if (parameters_.IsDefined(PARAM_PROPORTIONS)) {
-    vector<double> proportions = parameters_.Get(PARAM_PROPORTIONS).GetValues<double>();
+    vector<Double> proportions = parameters_.Get(PARAM_PROPORTIONS).GetValues<Double>();
 
     if (proportions.size() != category_names_.size()) {
       LOG_ERROR(parameters_.location(PARAM_PROPORTIONS)

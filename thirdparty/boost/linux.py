@@ -4,7 +4,7 @@ import shutil
 from distutils import dir_util
 
 # Variables
-boostFileName = 'boost_1_50_0'
+boostFileName = 'boost_1_53_0'
 targetPath    = os.getenv('isam_third_party_target_directory')
 
 # Clean our any existing files if they already exist

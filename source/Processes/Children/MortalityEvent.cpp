@@ -130,15 +130,15 @@ void MortalityEvent::Execute() {
   /**
    * Work our how much of the stock is vulnerable
    */
-  double vulnerable = 0.0;
+  Double vulnerable = 0.0;
   unsigned i = 0;
   for (auto iterator = partition_->Begin(); iterator != partition_->End(); ++iterator, ++i) {
     unsigned min_age = (*iterator)->min_age_;
 
     for (unsigned offset = 0; offset < (*iterator)->data_.size(); ++offset) {
-      double temp = (*iterator)->data_[offset] * selectivities_[i]->GetResult(min_age + offset);
+      Double temp = (*iterator)->data_[offset] * selectivities_[i]->GetResult(min_age + offset);
 
-      vulnerable += temp;
+      vulnerable = vulnerable + temp;
       vulnerable_[(*iterator)->name_][min_age + offset] = temp;
     }
   }
@@ -146,7 +146,7 @@ void MortalityEvent::Execute() {
   /**
    * Work out the exploitation rate to remove (catch/vulnerable)
    */
-  double exploitation = catches_[model_->current_year()] / utilities::doublecompare::ZeroFun(vulnerable);
+  Double exploitation = catches_[model_->current_year()] / utilities::doublecompare::ZeroFun(vulnerable);
   if (exploitation > u_max_) {
     exploitation = u_max_;
     if (penalty_)
@@ -165,7 +165,7 @@ void MortalityEvent::Execute() {
     unsigned min_age = (*iterator)->min_age_;
 
     for (unsigned offset = 0; offset < (*iterator)->data_.size(); ++offset) {
-      double temp = vulnerable_[(*iterator)->name_][min_age + offset] * exploitation;
+      Double temp = vulnerable_[(*iterator)->name_][min_age + offset] * exploitation;
       (*iterator)->data_[offset] -= temp;
     }
   }

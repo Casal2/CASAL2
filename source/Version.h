@@ -19,5 +19,5 @@
 #define SOURCE_CONTROL_YEAR "2012"
 #define SOURCE_CONTROL_MONTH "August"
 #define SOURCE_CONTROL_TIME "04:22:49"
-#define SOURCE_CONTROL_VERSION "2012-08-29-04:22:49 UTC (rev. 4447)"
+#define SOURCE_CONTROL_VERSION "Scott's Internal Build"
 #endif

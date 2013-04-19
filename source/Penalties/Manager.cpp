@@ -45,7 +45,7 @@ PenaltyPtr Manager::GetPenalty(const string& label) const {
  * @param label of the penalty to flag
  * @param value The penalty amount
  */
-void Manager::FlagPenalty(const string& label, double value) {
+void Manager::FlagPenalty(const string& label, Double value) {
   Info penalty;
   penalty.label_  = label;
   penalty.score_  = value;

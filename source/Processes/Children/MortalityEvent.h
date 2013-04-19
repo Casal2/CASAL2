@@ -46,14 +46,14 @@ public:
 private:
   // Members
   vector<string>              category_names_;
-  map<unsigned, double>       catches_;
-  double                      u_max_;
+  map<unsigned, Double>       catches_;
+  Double                      u_max_;
   vector<string>              selectivity_names_;
   string                      penalty_name_;
   accessor::CategoriesPtr     partition_;
   ModelPtr                    model_;
   vector<SelectivityPtr>      selectivities_;
-  map<string, map<unsigned, double> > vulnerable_;
+  map<string, map<unsigned, Double> > vulnerable_;
   PenaltyPtr                  penalty_;
 };
 

@@ -12,7 +12,7 @@ format stage.sex
 names immature.male mature.male immature.female mature.female
 
 @initialisation_phase iphase1
-years 200
+years 20000
 time_steps initialisation_step_one
 
 @initialisation_phase iphase2

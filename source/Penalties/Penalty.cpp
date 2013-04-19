@@ -49,7 +49,7 @@ void Penalty::Validate() {
  * @param value_1 The first value to use in equation
  * @param value_2 The second valud to use in equatin
  */
-void Penalty::Trigger(const string& source_label, double value_1, double value_2) {
+void Penalty::Trigger(const string& source_label, Double value_1, Double value_2) {
 
   if (log_scale_) {
     value_1 = log(utilities::doublecompare::ZeroFun(value_1));
@@ -57,7 +57,7 @@ void Penalty::Trigger(const string& source_label, double value_1, double value_2
   }
 
   string name  = label_ + "(" + source_label + ")";
-  double value = (value_1 - value_2) * (value_1 - value_2) * multipler_;
+  Double value = (value_1 - value_2) * (value_1 - value_2) * multipler_;
   penalties::Manager::Instance().FlagPenalty(name, value);
 }
 } /* namespace isam */

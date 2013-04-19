@@ -20,10 +20,10 @@
 					<folderInfo id="cdt.managedbuild.config.gnu.cross.exe.debug.1400463574." name="/" resourcePath="">
 						<toolChain id="cdt.managedbuild.toolchain.gnu.mingw.base.2045636463" name="MinGW GCC" superClass="cdt.managedbuild.toolchain.gnu.mingw.base">
 							<targetPlatform archList="all" binaryParser="org.eclipse.cdt.core.PE" id="cdt.managedbuild.target.gnu.platform.mingw.base.1269428763" name="Debug Platform" osList="win32" superClass="cdt.managedbuild.target.gnu.platform.mingw.base"/>
-							<builder buildPath="${workspace_loc:/trunk/Debug}" id="cdt.managedbuild.builder.gnu.cross.1447724504" keepEnvironmentInBuildfile="false" name="Gnu Make Builder" parallelBuildOn="true" parallelizationNumber="6" superClass="cdt.managedbuild.builder.gnu.cross"/>
+							<builder buildPath="${workspace_loc:/trunk/Debug}" id="cdt.managedbuild.builder.gnu.cross.1744729484" keepEnvironmentInBuildfile="false" name="Gnu Make Builder" parallelBuildOn="true" parallelizationNumber="6" superClass="cdt.managedbuild.builder.gnu.cross"/>
 							<tool id="cdt.managedbuild.tool.gnu.assembler.mingw.base.751636731" name="GCC Assembler" superClass="cdt.managedbuild.tool.gnu.assembler.mingw.base">
 								<option id="gnu.both.asm.option.include.paths.1826088166" name="Include paths (-I)" superClass="gnu.both.asm.option.include.paths" valueType="includePath">
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/trunk/trunk/build/win32/thirdparty/include}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/trunk/build/win32/thirdparty/include}&quot;"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.assembler.input.334585773" superClass="cdt.managedbuild.tool.gnu.assembler.input"/>
 							</tool>
@@ -31,14 +31,20 @@
 							<tool id="cdt.managedbuild.tool.gnu.cpp.compiler.mingw.base.2009220358" name="GCC C++ Compiler" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.mingw.base">
 								<option id="gnu.cpp.compiler.option.include.paths.331292480" name="Include paths (-I)" superClass="gnu.cpp.compiler.option.include.paths" valueType="includePath">
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/source}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/build/win32/thirdparty/include/admb}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/build/win32/thirdparty/include}&quot;"/>
 								</option>
 								<option id="gnu.cpp.compiler.option.preprocessor.def.525606217" name="Defined symbols (-D)" superClass="gnu.cpp.compiler.option.preprocessor.def" valueType="definedSymbols">
 									<listOptionValue builtIn="false" value="BOOST_THREAD_USE_LIB=1 "/>
+									<listOptionValue builtIn="false" value="__GNUDOS__"/>
+									<listOptionValue builtIn="false" value="USE_ADMB"/>
 								</option>
-								<option id="gnu.cpp.compiler.option.optimization.level.232057960" name="Optimization Level" superClass="gnu.cpp.compiler.option.optimization.level" value="gnu.cpp.compiler.optimization.level.none" valueType="enumerated"/>
-								<option id="gnu.cpp.compiler.option.debugging.level.439583413" name="Debug Level" superClass="gnu.cpp.compiler.option.debugging.level" value="gnu.cpp.compiler.debugging.level.max" valueType="enumerated"/>
+								<option id="gnu.cpp.compiler.option.optimization.level.232057960" name="Optimization Level" superClass="gnu.cpp.compiler.option.optimization.level" value="gnu.cpp.compiler.optimization.level.more" valueType="enumerated"/>
+								<option id="gnu.cpp.compiler.option.debugging.level.439583413" name="Debug Level" superClass="gnu.cpp.compiler.option.debugging.level" value="gnu.cpp.compiler.debugging.level.none" valueType="enumerated"/>
 								<option id="gnu.cpp.compiler.option.other.other.586012288" name="Other flags" superClass="gnu.cpp.compiler.option.other.other" value="-c -fmessage-length=0 -std=c++11" valueType="string"/>
+								<option id="gnu.cpp.compiler.option.warnings.extrawarn.1742136230" name="Extra warnings (-Wextra)" superClass="gnu.cpp.compiler.option.warnings.extrawarn" value="false" valueType="boolean"/>
+								<option id="gnu.cpp.compiler.option.warnings.toerrors.1920338791" name="Warnings as errors (-Werror)" superClass="gnu.cpp.compiler.option.warnings.toerrors" value="true" valueType="boolean"/>
+								<option id="gnu.cpp.compiler.option.warnings.wconversion.1659149030" name="Implicit conversion warnings (-Wconversion)" superClass="gnu.cpp.compiler.option.warnings.wconversion" value="false" valueType="boolean"/>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.compiler.input.267624746" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.input"/>
 							</tool>
 							<tool id="cdt.managedbuild.tool.gnu.c.compiler.mingw.base.1763157334" name="GCC C Compiler" superClass="cdt.managedbuild.tool.gnu.c.compiler.mingw.base">
@@ -55,7 +61,12 @@
 							<tool id="cdt.managedbuild.tool.gnu.c.linker.mingw.base.1811980028" name="MinGW C Linker" superClass="cdt.managedbuild.tool.gnu.c.linker.mingw.base"/>
 							<tool id="cdt.managedbuild.tool.gnu.cpp.linker.mingw.base.664056737" name="MinGW C++ Linker" superClass="cdt.managedbuild.tool.gnu.cpp.linker.mingw.base">
 								<option id="gnu.cpp.link.option.libs.1297030559" name="Libraries (-l)" superClass="gnu.cpp.link.option.libs" valueType="libs">
-									<listOptionValue builtIn="false" value="boost_program_options-mgw47-mt-s-1_50"/>
+									<listOptionValue builtIn="false" value="boost_program_options-mgw47-mt-s-1_53"/>
+									<listOptionValue builtIn="false" value="admod"/>
+									<listOptionValue builtIn="false" value="adt"/>
+									<listOptionValue builtIn="false" value="ado"/>
+									<listOptionValue builtIn="false" value="df1b2o"/>
+									<listOptionValue builtIn="false" value=":gmock_main.a"/>
 								</option>
 								<option id="gnu.cpp.link.option.paths.205217913" name="Library search path (-L)" superClass="gnu.cpp.link.option.paths" valueType="libPaths">
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/build/win32/thirdparty/lib}&quot;"/>
@@ -68,7 +79,7 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry excluding="how to build iSAM.txt|build|buildtools|testresources|build.py|CMakeLists.txt|doc|thirdparty|doBuild.bat" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
+						<entry excluding="build|how to build iSAM.txt|testresources|buildtools|build.py|doc|CMakeLists.txt|thirdparty|doBuild.bat" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
@@ -116,7 +127,7 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry excluding="build|how to build iSAM.txt|testresources|buildtools|build.py|doc|CMakeLists.txt|thirdparty|doBuild.bat" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
+						<entry excluding="how to build iSAM.txt|build|buildtools|testresources|build.py|CMakeLists.txt|doc|thirdparty|doBuild.bat" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
@@ -198,7 +209,7 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry excluding="how to build iSAM.txt|build|buildtools|testresources|build.py|CMakeLists.txt|doc|thirdparty|doBuild.bat" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
+						<entry excluding="build|how to build iSAM.txt|testresources|buildtools|build.py|doc|CMakeLists.txt|thirdparty|doBuild.bat" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
@@ -225,6 +236,9 @@
 	<storageModule moduleId="org.eclipse.cdt.internal.ui.text.commentOwnerProjectMappings"/>
 	<storageModule moduleId="scannerConfiguration">
 		<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
+		<scannerConfigBuildInfo instanceId="cdt.managedbuild.config.gnu.cross.exe.debug.1400463574;cdt.managedbuild.config.gnu.cross.exe.debug.1400463574.;cdt.managedbuild.tool.gnu.c.compiler.mingw.base.1763157334;cdt.managedbuild.tool.gnu.c.compiler.input.457836345">
+			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId="org.eclipse.cdt.managedbuilder.core.GCCManagedMakePerProjectProfileC"/>
+		</scannerConfigBuildInfo>
 		<scannerConfigBuildInfo instanceId="cdt.managedbuild.config.gnu.cross.exe.debug.1400463574;cdt.managedbuild.config.gnu.cross.exe.debug.1400463574.;cdt.managedbuild.tool.gnu.cross.cpp.compiler.1222309839;cdt.managedbuild.tool.gnu.cpp.compiler.input.1829794012">
 			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId="org.eclipse.cdt.managedbuilder.core.GCCManagedMakePerProjectProfileCPP"/>
 		</scannerConfigBuildInfo>
@@ -232,6 +246,9 @@
 			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId="org.eclipse.cdt.managedbuilder.core.GCCManagedMakePerProjectProfileC"/>
 		</scannerConfigBuildInfo>
 		<scannerConfigBuildInfo instanceId="cdt.managedbuild.config.gnu.cross.exe.debug.1400463574;cdt.managedbuild.config.gnu.cross.exe.debug.1400463574.;cdt.managedbuild.tool.gnu.cpp.compiler.mingw.base.1042294014;cdt.managedbuild.tool.gnu.cpp.compiler.input.618963590">
+			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId="org.eclipse.cdt.managedbuilder.core.GCCManagedMakePerProjectProfileCPP"/>
+		</scannerConfigBuildInfo>
+		<scannerConfigBuildInfo instanceId="cdt.managedbuild.config.gnu.cross.exe.debug.1400463574;cdt.managedbuild.config.gnu.cross.exe.debug.1400463574.;cdt.managedbuild.tool.gnu.cpp.compiler.mingw.base.2009220358;cdt.managedbuild.tool.gnu.cpp.compiler.input.267624746">
 			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId="org.eclipse.cdt.managedbuilder.core.GCCManagedMakePerProjectProfileCPP"/>
 		</scannerConfigBuildInfo>
 		<scannerConfigBuildInfo instanceId="cdt.managedbuild.config.gnu.cross.exe.debug.1400463574;cdt.managedbuild.config.gnu.cross.exe.debug.1400463574.;cdt.managedbuild.tool.gnu.cross.cpp.compiler.69474464;cdt.managedbuild.tool.gnu.cpp.compiler.input.139783512">

@@ -57,7 +57,7 @@ void Increasing::Validate() {
   label_  = parameters_.Get(PARAM_LABEL).GetValue<string>();
   low_    = parameters_.Get(PARAM_L).GetValue<double>();
   high_   = parameters_.Get(PARAM_H).GetValue<double>();
-  v_      = parameters_.Get(PARAM_V).GetValues<double>();
+  v_      = parameters_.Get(PARAM_V).GetValues<Double>();
   if (parameters_.IsDefined(PARAM_ALPHA))
     alpha_ = parameters_.Get(PARAM_ALPHA).GetValue<double>();
 
@@ -99,7 +99,7 @@ void Increasing::Reset() {
       values_[age] = *v_.rbegin();
 
     } else {
-      double value = *v_.begin();
+      Double value = *v_.begin();
       for (unsigned i = low_ + 1; i < age; ++i) {
         if (i > high_ || value >= alpha_)
           break;

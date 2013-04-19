@@ -125,7 +125,7 @@ void Abundance::PreExecute() {
  */
 void Abundance::Execute() {
                   score_              = 0.0;
-  double          expected_total      = 0.0; // value in the model
+  Double          expected_total      = 0.0; // value in the model
   vector<string>  keys;
   vector<Double>  expecteds;
   vector<Double>  observeds;
@@ -165,9 +165,9 @@ void Abundance::Execute() {
         final_value        = 0.0;
 
         if (mean_proportion_method_)
-          final_value = start_value + ((end_value - start_value) * time_step_proportion_);
+          final_value = start_value + ((end_value.xval() - start_value.xval()) * time_step_proportion_);
         else
-          final_value = std::abs(start_value - end_value) * time_step_proportion_;
+          final_value = std::abs(start_value.xval() - end_value.xval()) * time_step_proportion_;
 
         expected_total += selectivity_result * final_value;
       }

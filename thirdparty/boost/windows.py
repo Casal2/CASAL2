@@ -4,7 +4,7 @@ import shutil
 from distutils import dir_util
 
 # Variables
-boostFileName = 'boost_1_50_0'
+boostFileName = 'boost_1_53_0'
 targetPath    = os.getenv('isam_third_party_target_directory')
 
 # Clean our any existing files if they already exist
@@ -36,6 +36,6 @@ os.system('b2.exe --toolset=gcc runtime-link=static threading=multi 1> isam_buil
 # Move our headers and libraries
 print '-- Moving headers and libraries'
 dir_util.copy_tree('boost', targetPath + '/include/boost/')
-shutil.copy('stage/lib/libboost_program_options-mgw47-mt-s-1_50.a', targetPath + "/lib/")
+shutil.copy('stage/lib/libboost_program_options-mgw47-mt-s-1_53.a', targetPath + "/lib/")
 
 os.system('touch ' + targetPath + '/boost.success')
