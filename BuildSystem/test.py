@@ -45,11 +45,7 @@ test that executables are in the path that we need
 def start_build_system():
   system_info.set_new_path()
   if not system_info.find_compiler_path():
-    return False
-  
-  #if Globals.operating_system_ == "win32":
-    #system_info.find_cmd_path()
-    
+    return False 
   return True  
 
 """
