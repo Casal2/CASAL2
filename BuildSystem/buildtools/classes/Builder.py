@@ -73,7 +73,7 @@ class ThirdPartyLibraries:
     print "--> Operating System: " + Globals.operating_system_
   
     print "--> Checking if output folder structure exists"  
-    self.output_directory_ = "bin/" + Globals.operating_system_ + "/thirdparty"
+    self.output_directory_ = os.path.normpath(os.getcwd()) + "/bin/" + Globals.operating_system_ + "/thirdparty"
     if not os.path.exists(self.output_directory_):
       print "--> Creating output directory: " + self.output_directory_
       os.makedirs(self.output_directory_)
@@ -112,29 +112,28 @@ class ThirdPartyLibraries:
       if folder.startswith("."):
         continue
       if Globals.build_parameters_ != "" and Globals.build_parameters_ != folder.lower():
+        continue            
+      if Globals.build_parameters_ == "" and os.path.exists(self.output_directory_ + "/" + folder + ".success"):
+        print "--> Skipping library " + folder + " (already built)"
         continue
       
-      found_build = True
+      found_build = True      
       target_folder = "../ThirdParty/" + folder
-      success = True
+      success = False
       
       print ""
       print "--> Building Library: " + folder
       os.chdir(target_folder)
       sys.path.append(os.path.normpath(os.getcwd()))
-      
-      if os.path.exists("build.py"):        
-        import build as builder
-        success = builder.doBuild()      
-        del sys.modules["build"]                         
-        
-      elif Globals.operating_system_ == "win32":
-        import windows as builder
-        success= builder.doBuild()
+
+      if Globals.operating_system_ == "win32":
+        import windows as third_party_builder
+        success= third_party_builder.doBuild()
         del sys.modules["windows"]
+        
       else:
-        import linux as builder
-        success= builder.doBuild()
+        import linux as third_party_builder
+        success= third_party_builder.doBuild()
         del sys.modules["linux"]
       
       sys.path.pop()
@@ -145,7 +144,8 @@ class ThirdPartyLibraries:
     if not found_build and Globals.build_parameters_ != "":
       return Globals.PrintError("Third party library " + Globals.build_parameters_ + " does not exist")
     
-    print "All third party libraries have been built successfully"
+    print ""
+    print "--> All third party libraries have been built successfully"
     return True
       
       

@@ -5,9 +5,12 @@ project(iSAM)
 SET(EXE_NAME "iSAM")
 
 # Change the output folders for our build to something cleaner and platform dependent
-SET(CMAKE_ROOT   build/cmake)
+SET(CMAKE_ROOT   bin/cmake)
 
 MESSAGE("CMAKE_HOME_DIRECTORY: ${CMAKE_HOME_DIRECTORY}")
+
+STRING(REPLACE "BuildSystem" "iSAM" ISAM_HOME_DIRECTORY ${CMAKE_HOME_DIRECTORY})
+MESSAGE("ISAM_HOME_DIRECTORY: ${ISAM_HOME_DIRECTORY}")
 
 # GLOBAL BUILD VARIABLES AND LIBRARIES
 IF (DEBUG)
@@ -35,23 +38,24 @@ ENDIF ()
 
 MESSAGE("COMPILE_OPTIONS: ${COMPILE_OPTIONS}")
 
-INCLUDE_DIRECTORIES("${CMAKE_HOME_DIRECTORY}/source")
-INCLUDE_DIRECTORIES("${CMAKE_HOME_DIRECTORY}/build/${buildOS}/thirdparty/include")
-LINK_DIRECTORIES("${CMAKE_HOME_DIRECTORY}/build/${buildOS}/thirdparty/lib/")
+INCLUDE_DIRECTORIES("${ISAM_HOME_DIRECTORY}/source")
+INCLUDE_DIRECTORIES("${CMAKE_HOME_DIRECTORY}/bin/${buildOS}/thirdparty/include")
+LINK_DIRECTORIES("${CMAKE_HOME_DIRECTORY}/bin/${buildOS}/thirdparty/lib/")
 
 # This snippet of code will find all of our source and test files
 # and auto-populate variables with them for the build
-FILE(GLOB_RECURSE sourceFiles RELATIVE ${CMAKE_HOME_DIRECTORY} source/*.cpp)
-FILE(GLOB_RECURSE testFiles RELATIVE ${CMAKE_HOME_DIRECTORY} source/*.Test.cpp)
+FILE(GLOB_RECURSE sourceFiles ${ISAM_HOME_DIRECTORY}/source/*.cpp)
+FILE(GLOB_RECURSE testFiles ${ISAM_HOME_DIRECTORY}/source/*.Test.cpp)
+
 # Remove the test files from the source files list
 list(REMOVE_ITEM sourceFiles ${testFiles})
 
 # Get a list of our third party libraries
-FILE(GLOB thirdPartyLibrariesRaw RELATIVE ${CMAKE_HOME_DIRECTORY} build/${buildOS}/thirdparty/lib/*.a)
-MESSAGE("THIRD PARTY PATH: ${CMAKE_HOME_DIRECTORY}/build/${buildOS}/thirdparty/lib/")
+FILE(GLOB thirdPartyLibrariesRaw RELATIVE ${CMAKE_HOME_DIRECTORY} bin/${buildOS}/thirdparty/lib/*.a)
+MESSAGE("THIRD PARTY PATH: ${CMAKE_HOME_DIRECTORY}/bin/${buildOS}/thirdparty/lib/")
 MESSAGE("THIRD PARTY LIBS: ${thirdPartyLibrariesRaw}")
 FOREACH(library ${thirdPartyLibrariesRaw})
-  STRING(REPLACE "build/${buildOS}/thirdparty/lib/" "" shortLibrary ${library})
+  STRING(REPLACE "bin/${buildOS}/thirdparty/lib/" "" shortLibrary ${library})
   SET(thirdPartyLibraries ${thirdPartyLibraries} -l:${shortLibrary})
 ENDFOREACH()
 MESSAGE("THIRD PARTY LIBS: ${thirdPartyLibraries}")
