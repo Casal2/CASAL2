@@ -5,8 +5,6 @@ from distutils import dir_util
 import Globals
 
 def doBuild():
-  return True
-"""
   # Variables
   gmockFileName = 'gmock-1.6.0'
   targetPath      = Globals.target_path_
@@ -42,4 +40,4 @@ def doBuild():
   
   # Finally touch the success file to create it
   os.system('touch ' + targetPath + '/googletest_googlemock.success')
-  return True"""
+  return True
