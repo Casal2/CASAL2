@@ -18,7 +18,7 @@
 #include <cmath>
 
 #include "Utilities/RandomNumberGenerator.h"
-#include "Utilities/doubleCompare.h"
+#include "Utilities/DoubleCompare.h"
 #include "Utilities/Logging/Logging.h"
 
 // Namespaces
