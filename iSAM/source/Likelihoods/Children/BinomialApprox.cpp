@@ -92,7 +92,7 @@ void BinomialApprox::SimulateObserved(const vector<string> &keys, vector<Double>
      continue;
    }
 
-   observed = rnd.binomial(expecteds[i], error_value);
+   observed = rnd.binomial(AS_DOUBLE(expecteds[i]), AS_DOUBLE(error_value));
    observeds.push_back(observed);
   }
 }

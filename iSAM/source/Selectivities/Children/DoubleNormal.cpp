@@ -86,10 +86,11 @@ void DoubleNormal::Validate() {
  */
 void DoubleNormal::Reset() {
   for (unsigned age = model_->min_age(); age <= model_->max_age(); ++age) {
-    if (age < mu_)
-      values_[age] = pow(2.0, -((age - mu_) / sigma_l_ * (age - mu_) / sigma_l_)) * alpha_;
+	  Double temp = (double)age;
+    if (temp < mu_)
+      values_[age] = pow(2.0, -((temp - mu_) / sigma_l_ * (temp - mu_) / sigma_l_)) * alpha_;
     else
-      values_[age] = pow(2.0, -((age - mu_)/sigma_r_ * (age - mu_) / sigma_r_)) * alpha_;
+      values_[age] = pow(2.0, -((temp - mu_)/sigma_r_ * (temp - mu_) / sigma_r_)) * alpha_;
   }
 }
 

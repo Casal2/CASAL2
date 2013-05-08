@@ -165,9 +165,13 @@ void Abundance::Execute() {
         final_value        = 0.0;
 
         if (mean_proportion_method_)
-          final_value = start_value + ((end_value.xval() - start_value.xval()) * time_step_proportion_);
-        else
-          final_value = std::abs(start_value.xval() - end_value.xval()) * time_step_proportion_;
+          final_value = start_value + ((end_value - start_value) * time_step_proportion_);
+        else {
+          // re-write of std::abs(start_value - end_value) * temp_step_proportion for ADMB
+          Double temp = start_value - end_value;
+          temp = temp < 0 ? temp : temp * -1.0;
+          final_value = temp * time_step_proportion_;
+        }
 
         expected_total += selectivity_result * final_value;
       }

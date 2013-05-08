@@ -9,7 +9,7 @@
  *
  * $Date: 2008-03-04 16:33:32 +1300 (Tue, 04 Mar 2008) $
  */
-
+#ifndef USE_AUTODIFF
 // Headers
 #include "Engine.h"
 
@@ -18,7 +18,7 @@
 #include <cmath>
 
 #include "Utilities/RandomNumberGenerator.h"
-#include "Utilities/DoubleCompare.h"
+#include "Utilities/doubleCompare.h"
 #include "Utilities/Logging/Logging.h"
 
 // Namespaces
@@ -360,10 +360,12 @@ void Engine::CondAssign(double &res, const double &cond, const double &arg) {
 void Engine::SelectSamples(unsigned candidate) {
   utilities::RandomNumberGenerator& rng = utilities::RandomNumberGenerator::Instance();
 
+  double population_size = population_size_ * 1.0;
+
   // Build first Sample
   if (number_of_parents_ >= 1) {
     do {
-      r1_ = rng.uniform(0.0, (double) population_size_);
+      r1_ = rng.uniform(0.0, population_size);
     } while (r1_ == candidate);
   } else
     return;
@@ -371,7 +373,7 @@ void Engine::SelectSamples(unsigned candidate) {
   // Build Second Sample
   if (number_of_parents_ >= 2) {
     do {
-      r2_ = (int) rng.uniform(0.0, (double) population_size_);
+      r2_ = (int) rng.uniform(0.0, population_size);
     } while ((r2_ == candidate) || (r2_ == r1_));
   } else
     return;
@@ -379,7 +381,7 @@ void Engine::SelectSamples(unsigned candidate) {
   // Build third sample
   if (number_of_parents_ >= 3) {
     do {
-      r3_ = rng.uniform(0.0, (double) population_size_);
+      r3_ = rng.uniform(0.0, population_size);
     } while ((r3_ == candidate) || (r3_ == r2_) || (r3_ == r1_));
   } else
     return;
@@ -387,14 +389,14 @@ void Engine::SelectSamples(unsigned candidate) {
   // etc
   if (number_of_parents_ >= 4) {
     do {
-      r4_ = rng.uniform(0.0, (double) population_size_);
+      r4_ = rng.uniform(0.0, population_size);
     } while ((r4_ == candidate) || (r4_ == r3_) || (r4_ == r2_) || (r4_ == r1_));
   }
 
   // etc
   if (number_of_parents_ >= 5) {
     do {
-      r5_ = rng.uniform(0.0, (double) population_size_);
+      r5_ = rng.uniform(0.0, population_size);
     } while ((r5_ == candidate) || (r5_ == r4_) || (r5_ == r3_) || (r5_ == r2_) || (r5_ == r1_));
   }
 
@@ -616,3 +618,4 @@ void Engine::Rand2Bin(unsigned candidate) {
 } /* namespace desolver */
 } /* namespace minimisers */
 } /* namespace isam */
+#endif

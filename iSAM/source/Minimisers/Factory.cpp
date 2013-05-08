@@ -13,9 +13,17 @@
 // Headers
 #include "Factory.h"
 
+#include "Minimisers/Manager.h"
+
+#ifdef USE_AUTODIFF
+#include "Minimisers/Children/ADMB.h"
+
+#else
 #include "Minimisers/Children/DESolver.h"
 #include "Minimisers/Children/GammaDiff.h"
-#include "Minimisers/Manager.h"
+#endif
+
+
 
 // Namespaces
 namespace isam {
@@ -31,16 +39,31 @@ namespace minimisers {
 MinimiserPtr Factory::Create(const string& block_type, const string& object_type) {
   MinimiserPtr result;
 
+#ifdef USE_AUTODIFF
+
+  if (block_type == PARAM_MINIMIZER) {
+    if (object_type == PARAM_DE_SOLVER) {
+      result = MinimiserPtr(new ADMB());
+    }
+  }
+
+  if (!result)
+    LOG_ERROR("The minimiser " << block_type << "." << object_type << " is not supported in ADMB mode");
+
+#else
   if (block_type == PARAM_MINIMIZER) {
     if (object_type == PARAM_DE_SOLVER) {
       result = MinimiserPtr(new DESolver());
 
     } else if (object_type == PARAM_GAMMADIFF) {
       result = MinimiserPtr(new GammaDiff());
-
     }
   }
 
+  if (!result)
+    LOG_ERROR("The minimiser " << block_type << "." << object_type << " is not supported in the default configuration");
+
+#endif
   if (result)
     isam::minimisers::Manager::Instance().AddObject(result);
 

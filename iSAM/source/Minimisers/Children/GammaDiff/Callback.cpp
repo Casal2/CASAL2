@@ -49,11 +49,7 @@ double CallBack::operator()(const vector<double>& Parameters) {
   model_->FullIteration();
 
   objective.CalculateScore();
-#ifdef USE_ADMB
-  return objective.score().xval();
-#else
   return objective.score();
-#endif
 }
 
 } /* namespace gammadiff */

@@ -81,7 +81,7 @@ void Logistic::Reset() {
   Double threshold = 0.0;
 
   for (unsigned age = model_->min_age(); age <= model_->max_age(); ++age) {
-    threshold = (a50_ - age) / aTo95_;
+    threshold = (a50_ - (double)age) / aTo95_;
 
     if (threshold > 5.0)
       values_[age] = 0.0;

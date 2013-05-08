@@ -28,8 +28,8 @@ Double NormalCDF(Double x, Double mu, Double sigma) {
   else if (sigma <= 0.0 && x >= mu)
     return 1;
 
-  boost::math::normal s(mu, sigma);
-  return cdf(s, x);
+  boost::math::normal s(AS_DOUBLE(mu), AS_DOUBLE(sigma));
+  return cdf(s, AS_DOUBLE(x));
 }
 
 
@@ -86,11 +86,11 @@ void Normal::Reset() {
       min_age_class = (min_age_ + j) - 0.5;
 
       if (j == 0)
-        mis_matrix_[i][j] = NormalCDF(min_age_class + 1, age, age * cv_);
+        mis_matrix_[i][j] = NormalCDF(min_age_class + 1.0, age, age * cv_);
       else if (j == age_spread_ - 1 && age_plus_)
         mis_matrix_[i][j] = NormalCDF(min_age_class, age, age * cv_);
       else
-        mis_matrix_[i][j] = NormalCDF(min_age_class + 1, age, age * cv_) - NormalCDF(min_age_class, age, age * cv_);
+        mis_matrix_[i][j] = NormalCDF(min_age_class + 1.0, age, age * cv_) - NormalCDF(min_age_class, age, age * cv_);
     }
   }
 

@@ -66,7 +66,8 @@ void KnifeEdge::Validate() {
  */
 void KnifeEdge::Reset() {
   for (unsigned age = model_->min_age(); age <= model_->max_age(); ++age) {
-    if (age >= edge_)
+    Double temp = age * 1.0;
+    if (temp >= edge_)
       values_[age] = alpha_;
     else
       values_[age] = 0.0;

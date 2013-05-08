@@ -94,7 +94,7 @@ void Multinomial::SimulateObserved(const vector<string> &keys, vector<Double> &o
       if (keys[j] != last_key) {
         last_key = keys[j];
         start_key = j;
-        n = ceil(AdjustErrorValue(process_errors[j], error_values[j]));
+        n = ceil(AS_DOUBLE(AdjustErrorValue(process_errors[j], error_values[j])));
 
         for (unsigned k = 0; k < n; ++k) {
           random_number   = rng.uniform();
@@ -104,7 +104,7 @@ void Multinomial::SimulateObserved(const vector<string> &keys, vector<Double> &o
             if (keys[l] == last_key) {
               cumulative_sum += expecteds[l];
               if (random_number <= cumulative_sum) {
-                observeds[l]++;
+                observeds[l] += 1.0;
                 break;
               }
             }
@@ -115,7 +115,7 @@ void Multinomial::SimulateObserved(const vector<string> &keys, vector<Double> &o
   }
 
   for (unsigned i = 0; i < observeds.size(); ++i)
-    observeds[i] = observeds[i] / ceil(AdjustErrorValue(process_errors[i], error_values[i]));
+    observeds[i] = observeds[i] / ceil(AS_DOUBLE(AdjustErrorValue(process_errors[i], error_values[i])));
 }
 
 /**

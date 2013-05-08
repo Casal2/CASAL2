@@ -57,7 +57,7 @@ void Partition::Execute() {
   cout << "time_step: " << time_step_ << "\n";
   cout << "category";
   for (unsigned i = lowest; i <= highest; ++i)
-    cout << "," << i;
+    cout << " " << i;
   cout << "\n";
 
   cout.precision(1);
@@ -68,9 +68,9 @@ void Partition::Execute() {
     unsigned age = (*iterator)->min_age_;
     for (auto values = (*iterator)->data_.begin(); values != (*iterator)->data_.end(); ++values, age++) {
       if (age >= lowest && age <= highest)
-        cout << "," << std::fixed << std::setprecision(6) << *values;
+        cout << " " << std::fixed << std::setprecision(6) << *values;
       else
-        cout << "," << "null";
+        cout << " " << "null";
     }
     cout << "\n";
   }

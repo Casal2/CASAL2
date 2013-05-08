@@ -9,7 +9,7 @@
  *
  * $Date: 2008-03-04 16:33:32 +1300 (Tue, 04 Mar 2008) $
  */
-
+#ifndef USE_AUTODIFF
 // Headers
 #include "CallBack.h"
 
@@ -59,13 +59,10 @@ double CallBack::EnergyFunction(vector<double> test_solution) {
   model_->FullIteration();
 
   objective.CalculateScore();
-#ifdef USE_ADMB
-  return objective.score().xval();
-#else
   return objective.score();
-#endif
 }
 
 } /* namespace desolver */
 } /* namespace minimisers */
 } /* namespace isam */
+#endif
