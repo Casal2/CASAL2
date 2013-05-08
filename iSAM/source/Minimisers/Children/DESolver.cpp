@@ -9,7 +9,7 @@
  *
  * $Date: 2008-03-04 16:33:32 +1300 (Tue, 04 Mar 2008) $
  */
-
+#ifndef USE_AUTODIFF
 // Headers
 #include "DESolver.h"
 
@@ -103,3 +103,4 @@ void DESolver::Execute() {
 
 } /* namespace minimisers */
 } /* namespace isam */
+#endif

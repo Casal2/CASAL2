@@ -20,12 +20,15 @@
  *
  * $Date: 2008-03-04 16:33:32 +1300 (Tue, 04 Mar 2008) $
  */
+#ifndef USE_AUTODIFF
 #ifndef MINIMISERS_DESOLVER_ENGINE_H_
 #define MINIMISERS_DESOLVER_ENGINE_H_
 
 // Headers
 #include <map>
 #include <vector>
+
+#include "Utilities/Types.h"
 
 // Namespaces
 namespace isam {
@@ -116,3 +119,4 @@ private:
 } /* namespace minimisers */
 } /* namespace isam */
 #endif /* MINIMISERS_DESOLVER_ENGINE_H_ */
+#endif /* USE_AUTODIFF */

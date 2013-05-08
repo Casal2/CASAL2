@@ -91,7 +91,7 @@ void LogNormalWithQ::SimulateObserved(const vector<string> &keys, vector<Double>
       continue;
     }
 
-    observed = rng.log_normal(expecteds[i], error_value);
+    observed = rng.log_normal(AS_DOUBLE(expecteds[i]), AS_DOUBLE(error_value));
     observeds.push_back(observed);
   }
 }

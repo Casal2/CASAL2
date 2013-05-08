@@ -17,6 +17,11 @@
 #ifndef TYPES_H_
 #define TYPES_H_
 
+#ifdef USE_ADOLC
+#include <adolc/adolc.h>
+
+#endif
+
 #ifdef USE_ADMB
 #include <admb/fvar.hpp>
 #endif
@@ -29,11 +34,20 @@ namespace utilities {
  * double conditional depending on if we're using ADMB or not
  */
 #ifdef USE_ADMB
+
 typedef dvariable Double;
+#define AS_DOUBLE(x) value(x)
 
-#else
+#endif
+
+
+#ifndef USE_AUTODIFF
+#ifdef Double
+#error "Compiler flags are incorrect. USE_AUTODIFF has not been defined, but an auto-differation system has been"
+#endif
+
+#define AS_DOUBLE(x) x
 typedef double Double;
-
 #endif
 
 

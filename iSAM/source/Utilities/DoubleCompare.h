@@ -18,8 +18,8 @@ namespace doublecompare {
 using isam::utilities::Double;
 
 // Defines
-#define ONE  1
-#define TRUE_ZERO 0
+#define ONE  1.0
+#define TRUE_ZERO 0.0
 #define ZERO 1e-15
 #define DELTA 1e-11
 
@@ -32,14 +32,14 @@ inline isam::utilities::Double ZeroFun(Double x) {
   if (x >= ZERO)
     return x;
 
-  return ZERO / (2 - (x / ZERO));
+  return ZERO / (2.0 - (x / ZERO));
 }
 
 inline isam::utilities::Double ZeroFun(Double x, Double delta) {
   if (x >= delta)
     return x;
 
-  return delta / (2 - (x / delta));
+  return delta / (2.0 - (x / delta));
 }
 
 } /* namespace doublecompare */

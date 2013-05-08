@@ -91,7 +91,7 @@ void LogNormal::SimulateObserved(const vector<string> &keys, vector<Double> &obs
       continue;
     }
 
-    observed = rng.binomial(expecteds[i], error_value);
+    observed = rng.binomial(AS_DOUBLE(expecteds[i]), AS_DOUBLE(error_value));
     observeds.push_back(observed);
   }
 }

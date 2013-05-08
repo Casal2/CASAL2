@@ -84,7 +84,8 @@ void InverseLogistic::Reset() {
   Double threshold = 0.0;
 
   for (unsigned age = model_->min_age(); age <= model_->max_age(); ++age) {
-    threshold = (a50_ - age) / aTo95_;
+	  Double temp = (double)age;
+    threshold = (Double)(a50_ - temp) / aTo95_;
 
     if (threshold > 5.0)
       values_[age] = alpha_;

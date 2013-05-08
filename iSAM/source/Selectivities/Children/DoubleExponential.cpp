@@ -106,7 +106,7 @@ void DoubleExponential::Validate() {
  */
 void DoubleExponential::Reset() {
   for (unsigned age = model_->min_age(); age <= model_->max_age(); ++age) {
-    if (age <= x0_)
+    if ((double)age <= x0_)
       values_[age] = alpha_ * y0_ * pow((y1_ / y0_), ((double)age - x0_)/(x1_ - x0_));
     else
       values_[age] = alpha_ * y0_ * pow((y2_ / y0_), ((double)age - x0_)/(x1_ - x0_));

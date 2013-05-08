@@ -6,7 +6,7 @@
 // Description :
 // $Date: 2008-03-04 16:33:32 +1300 (Tue, 04 Mar 2008) $
 //============================================================================
-
+#ifndef USE_AUTODIFF
 // Local Headers
 #include "GammaDiff.h"
 
@@ -58,9 +58,9 @@ void GammaDiff::Execute() {
     if (!estimate->enabled())
       continue;
 
-    lower_bounds.push_back(estimate->lower_bound());
-    upper_bounds.push_back(estimate->upper_bound());
-    start_values.push_back(estimate->value());
+    lower_bounds.push_back((double)estimate->lower_bound());
+    upper_bounds.push_back((double)estimate->upper_bound());
+    start_values.push_back((double)estimate->value());
 
     if (estimate->value() < estimate->lower_bound()) {
       LOG_ERROR("When starting the DESolver minimiser the starting value (" << estimate->value() << ") for estimate "
@@ -92,3 +92,4 @@ void GammaDiff::Execute() {
 
 } /* namespace minimisers */
 } /* namespace isam */
+#endif

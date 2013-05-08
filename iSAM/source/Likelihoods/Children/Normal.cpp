@@ -89,7 +89,7 @@ void Normal::SimulateObserved(const vector<string> &keys, vector<Double> &observ
       continue;
     }
 
-    observed = rng.normal(expecteds[i], (expecteds[i] * error_value));
+    observed = rng.normal(AS_DOUBLE(expecteds[i]), AS_DOUBLE(expecteds[i] * error_value));
     observeds.push_back(observed);
   }
 }

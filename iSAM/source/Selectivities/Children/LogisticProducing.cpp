@@ -92,13 +92,13 @@ void LogisticProducing::Reset() {
     else if (age >= high_)
       values_[age] = alpha_;
     else if (age == low_)
-      values_[age] = 1.0 / (1.0 + pow(19.0, (a50_ - age) / aTo95_)) * alpha_;
+      values_[age] = 1.0 / (1.0 + pow(19.0, (a50_ - (double)age) / aTo95_)) * alpha_;
     else {
-      Double lambda2 = 1.0 / (1.0 + pow(19.0, (a50_- (age - 1)) / aTo95_));
+      Double lambda2 = 1.0 / (1.0 + pow(19.0, (a50_- ((double)age - 1)) / aTo95_));
       if (lambda2 > 0.9999)
         values_[age] = alpha_;
-      Double lambda1 = 1.0 / (1.0 + pow(19.0, (a50_ - age) / aTo95_));
-      values_[age] = (lambda1 - lambda2) / (1 - lambda2) * alpha_;
+      Double lambda1 = 1.0 / (1.0 + pow(19.0, (a50_ - (double)age) / aTo95_));
+      values_[age] = (lambda1 - lambda2) / (1.0 - lambda2) * alpha_;
     }
   }
 }
