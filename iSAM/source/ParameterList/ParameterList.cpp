@@ -176,7 +176,7 @@ string ParameterList::location(const string& label) {
     LOG_CODE_ERROR("parameters_ object is missing the parameter: " << label);
   }
 
-  return iter->second.location();
+  return iter->second.location() + ": " + label;
 }
 
 } /* namespace isam */
