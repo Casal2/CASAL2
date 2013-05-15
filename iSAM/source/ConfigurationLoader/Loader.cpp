@@ -27,6 +27,7 @@
 #include "GlobalConfiguration/GlobalConfiguration.h"
 #include "InitialisationPhases/Factory.h"
 #include "Minimisers/Factory.h"
+#include "MCMC/MCMC.h"
 #include "Model/Model.h"
 #include "Observations/Factory.h"
 #include "Penalties/Factory.h"
@@ -336,6 +337,9 @@ ObjectPtr Loader::CreateObject(const string &block_type, const string &object_ty
 
   } else if (block_type == PARAM_MATURATION) {
     object = processes::Factory::Create(block_type, object_type);
+
+  } else if (block_type == PARAM_MCMC) {
+    object = MCMC::Instance();
 
   } else if (block_type == PARAM_MINIMIZER) {
     object = minimisers::Factory::Create(block_type, object_type);

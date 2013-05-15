@@ -49,8 +49,9 @@ void CommandLineParser::Parse(int argc, const char* argv[]) {
     ("license,l", "Display iSAM license")
     ("version,v", "Display version information")
     ("config,c", value<string>(), "Configuration file")
-    ("run,r", "Basic model run")
-    ("estimate,e", "Point estimation")
+    ("run,r", "Basic model run mode")
+    ("estimate,e", "Point estimation run mode")
+    ("mcmc,m", "Markov Chain Monte Carlo run mode")
     ("input,i", value<string>(), "Load free parameter values from file")
     ("seed,g", value<int>(), "Random number seed")
     ("debug,d", "Run in debug mode (with debug output");
@@ -109,6 +110,7 @@ void CommandLineParser::Parse(int argc, const char* argv[]) {
   unsigned run_mode_count = 0;
   run_mode_count += parameters.count("run");
   run_mode_count += parameters.count("estimate");
+  run_mode_count += parameters.count("mcmc");
 
   if (run_mode_count == 0)
     LOG_ERROR("No valid run mode has been specified on the command line. Please specify a valid run mode (e.g -r)");
@@ -119,6 +121,8 @@ void CommandLineParser::Parse(int argc, const char* argv[]) {
     model->set_run_mode(RunMode::kBasic);
   else if (parameters.count("estimate"))
     model->set_run_mode(RunMode::kEstimation);
+  else if (parameters.count("mcmc"))
+    model->set_run_mode(RunMode::kMCMC);
   else
     LOG_ERROR("An invalid or unknown run mode has been specified on the command line.");
 

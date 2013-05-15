@@ -217,6 +217,7 @@
 #define PARAM_MAX_GENERATIONS                     "max_generations"
 #define PARAM_MAX_ITERATIONS                      "iterations"
 #define PARAM_MCMC                                "mcmc"
+#define PARAM_MCMC_CHAIN                          "mcmc_chain"
 #define PARAM_MCMC_FIXED                          "mcmc_fixed"
 #define PARAM_MEAN                                "mean"
 #define PARAM_META                                "meta"

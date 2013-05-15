@@ -226,7 +226,7 @@ void ProportionsAtAge::Execute() {
         if (min_age_ + age_offset > max_age_)
           age_offset = age_spread_ - 1;
 
-        LOG_INFO("age: " << age << "; age_offset: " << age_offset << "; age_spread: " << age_spread_ << "; cat->min_age_: " << (*category_iter)->min_age_);
+//        LOG_INFO("age: " << age << "; age_offset: " << age_offset << "; age_spread: " << age_spread_ << "; cat->min_age_: " << (*category_iter)->min_age_);
 
         selectivity_result = selectivities_[category_offset]->GetResult(age);
         start_value   = (*cached_category_iter).data_[data_offset];
@@ -242,7 +242,7 @@ void ProportionsAtAge::Execute() {
         running_total += final_value * selectivity_result;
       }
     }
-    LOG_INFO("running total for categories " << category_labels_[category_offset] << " = " << running_total);
+//    LOG_INFO("running total for categories " << category_labels_[category_offset] << " = " << running_total);
 
     if (expected_values.size() != proportions_[category_offset].size())
       LOG_CODE_ERROR("expected_values.size(" << expected_values.size() << ") != proportions_[category_offset].size(" << proportions_[category_offset].size() << ")");
@@ -252,7 +252,7 @@ void ProportionsAtAge::Execute() {
      */
     for (Double& value : expected_values)
       value = value / running_total;
-    LOG_INFO("Finished converting values to a proportion");
+//    LOG_INFO("Finished converting values to a proportion");
 
     for (unsigned i = 0; i < expected_values.size(); ++i) {
       keys.push_back(category_labels_[category_offset]);

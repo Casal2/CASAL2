@@ -24,6 +24,7 @@ namespace reports {
  */
 ObjectiveFunction::ObjectiveFunction() {
   model_state_ = State::kPostExecute;
+  run_mode_    = (RunMode::Type)(RunMode::kEstimation | RunMode::kBasic);
 }
 
 /**

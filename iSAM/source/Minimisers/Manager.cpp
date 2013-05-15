@@ -1,28 +1,39 @@
-/*
- * Manager.cpp
+/**
+ * @file Manager.cpp
+ * @author  Scott Rasmussen (scott.rasmussen@zaita.com)
+ * @date 14/05/2013
+ * @section LICENSE
  *
- *  Created on: 28/02/2013
- *      Author: Admin
+ * Copyright NIWA Science ©2013 - www.niwa.co.nz
+ *
  */
 
+// headers
 #include "Manager.h"
 
+// namespaces
 namespace isam {
 namespace minimisers {
 
+/**
+ * Default constructor
+ */
 Manager::Manager() {
-  // TODO Auto-generated constructor stub
-
 }
 
+/**
+ * Destructor
+ */
 Manager::~Manager() noexcept(true) {
-  // TODO Auto-generated destructor stub
+
 }
 
+/**
+ * Validate the minimisers
+ */
 void Manager::Validate() {
   for (MinimiserPtr minimiser : objects_)
     minimiser->Validate();
-
 
   if (objects_.size() == 1) {
     objects_[0]->set_active(true);

@@ -19,10 +19,14 @@
 #define MINIMISER_H_
 
 // Headers
+#include <boost/numeric/ublas/matrix.hpp>
+
 #include "BaseClasses/Object.h"
 
 // Namespaces
 namespace isam {
+
+namespace ublas = boost::numeric::ublas;
 
 /**
  * Class Definition
@@ -36,16 +40,23 @@ public:
   virtual void                Build();
   void                        Reset() {};
   virtual void                Execute() = 0;
+  void                        BuildCovarianceMatrix();
 
   // Acessors
   bool                        active() const { return active_; }
   void                        set_active(bool new_value) { active_ = new_value; }
+  ublas::matrix<double>       covariance_matrix() const { return covariance_matrix_; }
+  ublas::matrix<double>       correlation_matrix() const { return correlation_matrix_; }
 
 protected:
   // Members
   string                      type_;
   bool                        active_;
+  double**                    hessian_;
+  unsigned                    hessian_size_;
   bool                        build_covariance_;
+  ublas::matrix<double>       covariance_matrix_;
+  ublas::matrix<double>       correlation_matrix_;
 };
 
 // Typdef

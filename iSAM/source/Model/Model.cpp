@@ -19,6 +19,7 @@
 #include "Categories/Categories.h"
 #include "Estimates/Manager.h"
 #include "InitialisationPhases/Manager.h"
+#include "MCMC/MCMC.h"
 #include "Minimisers/Manager.h"
 #include "ObjectiveFunction/ObjectiveFunction.h"
 #include "Observations/Manager.h"
@@ -105,6 +106,10 @@ void Model::Start() {
 
   case RunMode::kEstimation:
     RunEstimation();
+    break;
+
+  case RunMode::kMCMC:
+    RunMCMC();
     break;
 
   case RunMode::kTesting:
@@ -212,6 +217,9 @@ void Model::Verify() {
 
 }
 
+/**
+ *
+ */
 void Model::Reset() {
   LOG_TRACE();
 
@@ -276,6 +284,28 @@ void Model::RunEstimation() {
   run_mode_ = RunMode::kBasic;
   FullIteration();
 }
+
+/**
+ *
+ */
+void Model::RunMCMC() {
+  LOG_INFO("Entering the MCMC Sub-System");
+  MCMCPtr mcmc = MCMC::Instance();
+  mcmc->Validate();
+  mcmc->Build();
+
+  LOG_INFO("Calling minimiser to find our minimum and covariance matrix");
+  MinimiserPtr minimiser = minimisers::Manager::Instance().active_minimiser();
+  minimiser->Execute();
+  minimiser->BuildCovarianceMatrix();
+
+  LOG_INFO("Minimisation complete. Starting MCMC");
+  mcmc->Execute();
+
+  LOG_INFO("Model: State change to Finalise")
+  reports::Manager::Instance().Execute(State::kFinalise);
+}
+
 
 /**
  * This method will do a single iteration of the model. During

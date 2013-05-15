@@ -278,7 +278,7 @@ double Engine::optimise_finite_differences(gammadiff::CallBack& objective, vecto
       for (int i = 0; i < iVectorSize; ++i) {
         double dDiv   = ((vStartValues[i]-vLowerBounds[i]) / (vUpperBounds[i]-vLowerBounds[i]));
         double dProd  = (2 * dDiv - 1) * (2 * dDiv - 1);
-        double dSqrt  = sqrt(1-dProd);
+        double dSqrt  = sqrt(dc::ZeroFun(1-dProd));
         double dProd2 = (vUpperBounds[i] - vLowerBounds[i]) * dSqrt;
         dGradBoundP[i] = (4/3.14159265)/dProd2;
       }

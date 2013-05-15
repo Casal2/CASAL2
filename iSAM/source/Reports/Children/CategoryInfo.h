@@ -33,9 +33,7 @@ public:
   // Methods
   CategoryInfo();
   virtual                     ~CategoryInfo() = default;
-  void                        Prepare() override final;
   void                        Execute() override final;
-  void                        Finalise() override final;
 };
 
 } /* namespace reports */

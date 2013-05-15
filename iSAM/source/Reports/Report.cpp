@@ -42,8 +42,20 @@ void Report::Validate() {
     CheckForRequiredParameter(PARAM_YEAR);
 
     time_step_ = parameters_.Get(PARAM_TIME_STEP).GetValue<string>();
-    year_      = parameters_.Get(PARAM_YEAR).GetValue<unsigned>();
+    years_     = parameters_.Get(PARAM_YEAR).GetValues<unsigned>();
   }
+}
+
+/**
+ * Check to see if the report has
+ * the current year defined as a year
+ * when it's suppose to run
+ *
+ * @param year The year to check
+ * @return True if present, false otherwise
+ */
+bool Report::HasYear(unsigned year) {
+  return (std::find(years_.begin(), years_.end(), year) != years_.end());
 }
 
 } /* namespace isam */

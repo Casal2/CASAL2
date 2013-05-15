@@ -23,13 +23,9 @@ namespace reports {
  * Default constructor
  */
 CategoryInfo::CategoryInfo() {
+  run_mode_    = RunMode::kBasic;
   model_state_ = State::kFinalise;
 }
-
-/**
- *
- */
-void CategoryInfo::Prepare() {}
 
 /**
  *
@@ -55,11 +51,6 @@ void CategoryInfo::Execute() {
 
   cout << "*end" << endl;
 }
-
-/**
- *
- */
-void CategoryInfo::Finalise() {}
 
 } /* namespace reports */
 } /* namespace isam */

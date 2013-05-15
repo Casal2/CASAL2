@@ -23,6 +23,7 @@ namespace reports {
  * Default Constructor
  */
 EstimateSummary::EstimateSummary() {
+  run_mode_    = (RunMode::Type)(RunMode::kBasic & RunMode::kEstimation);
   model_state_ = State::kFinalise;
 }
 

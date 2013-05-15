@@ -15,6 +15,7 @@
 namespace isam {
 namespace minimisers {
 
+
 /**
  * Default constructor
  */
@@ -38,14 +39,28 @@ double UserFunction(const dvar_vector& parameters) {
     LOG_CODE_ERROR("The number of enabled estimates does not match the number of test solution values");
   }
 
-  for (int i = 0; i < parameters.size(); ++i)
-    estimates[i]->set_value(parameters.elem(i));
+  cout << "Sizes: " << estimates.size() << " : " << parameters.size() << endl;
+
+  dvariable penalty = 0;
+  for (int i = 0; i < (int)estimates.size(); ++i) {
+    double lower_bound = estimates[i]->lower_bound();
+    double upper_bound = estimates[i]->upper_bound();
+
+    cout << "L/U: " << lower_bound << " / " << upper_bound << endl;
+    dvariable constrained_value = boundp(parameters.elem(i+1), lower_bound, upper_bound, penalty);
+    estimates[i]->set_value(constrained_value);
+    cout << "Constrained: " << constrained_value << " vs " << parameters.elem(i+1) << endl;
+    cout << "Penalty: " << penalty << endl;
+    cout << endl;
+  }
 
   ObjectiveFunction& objective = ObjectiveFunction::Instance();
   Model::Instance()->FullIteration();
 
   objective.CalculateScore();
-  return objective.score().xval();
+  dvariable score = objective.score() + penalty;
+
+  return value(score);
 }
 
 /**
@@ -78,9 +93,15 @@ void ADMB::Execute() {
 
   int nvar = (int)start_values.size();
   independent_variables x(1, nvar);
+
+//  for (int i = 1; i <= x.size(); ++i)
+//    x. = start_values[i - 1]; //boundpin(start_values[i-1], value(lower_bounds[i-1]), value(upper_bounds[i-1]));
+
   fmm fmc(nvar); // creates the function minimizing control structure
-  double minimum_value = fmc.minimize(x, UserFunction);
+  double minimum_value = fmc.minimizeNoGS(x, UserFunction);
+
   cout << "The minimum value = " << minimum_value << "at x =\n" << x << "\n";
+  cout << "Finished minimisation: " << fmc.ireturn << endl;
 }
 
 } /* namespace minimisers */
