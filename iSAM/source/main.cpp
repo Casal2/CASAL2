@@ -7,6 +7,11 @@ int main(int argc, char **argv) {
 }
 #else
 
+#ifdef USE_ADMB
+#include <fvar.hpp>
+#endif
+
+
 // Headers
 #include <iostream>
 
@@ -27,6 +32,11 @@ using std::endl;
  * Application entry point
  */
 int main(int argc, char * argv[]) {
+
+#ifdef USE_ADMB
+  gradient_structure::set_MAX_DLINKS(50000);
+  gradient_structure gs;
+#endif
 
   // Create instance now so it can record the time.
   reports::StandardHeader standard_report;

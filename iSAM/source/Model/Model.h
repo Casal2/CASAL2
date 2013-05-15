@@ -31,15 +31,16 @@ using isam::catchabilities::CatchabilityManagerPtr;
 // Enumerated Types
 namespace RunMode {
 enum Type {
-  kInvalid,
-  kLicense,
-  kVersion,
-  kHelp,
-  kBasic,
-  kEstimation,
-  kSimulation,
-  kProfiling,
-  kTesting
+  kInvalid      = 1,
+  kLicense      = 2,
+  kVersion      = 3,
+  kHelp         = 4,
+  kBasic        = 8,
+  kEstimation   = 16,
+  kMCMC         = 32,
+  kSimulation   = 64,
+  kProfiling    = 128,
+  kTesting      = 256
 };}
 
 namespace State {
@@ -51,6 +52,7 @@ enum Type {
   kPreExecute,
   kExecute,
   kPostExecute,
+  kIterationComplete,
   kFinalise,
   kReset
 };
@@ -91,6 +93,7 @@ protected:
   void                        Reset();
   void                        RunBasic();
   void                        RunEstimation();
+  void                        RunMCMC();
 
   // Members
   RunMode::Type               run_mode_ = RunMode::kInvalid;

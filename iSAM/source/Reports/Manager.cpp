@@ -1,22 +1,29 @@
-/*
- * Manager.cpp
+/**
+ * @file Manager.cpp
+ * @author  Scott Rasmussen (scott.rasmussen@zaita.com)
+ * @date 15/05/2013
+ * @section LICENSE
  *
- *  Created on: 9/01/2013
- *      Author: Admin
+ * Copyright NIWA Science ©2013 - www.niwa.co.nz
+ *
  */
-
 #include "Manager.h"
+
+#include "Model/Model.h"
 
 namespace isam {
 namespace reports {
 
+/**
+ * Default Constructor
+ */
 Manager::Manager() {
-  // TODO Auto-generated constructor stub
-
 }
 
+/**
+ * Destructor
+ */
 Manager::~Manager() noexcept(true) {
-  // TODO Auto-generated destructor stub
 }
 
 /**
@@ -28,6 +35,9 @@ Manager::~Manager() noexcept(true) {
 void Manager::Build() {
   for (ReportPtr report : objects_) {
     report->Build();
+
+    if ((RunMode::Type)(report->run_mode() & RunMode::kInvalid) == RunMode::kInvalid)
+      LOG_CODE_ERROR("Report: " << report->label() << " has not been properly configured to have a run mode");
 
     if (report->model_state() != State::kExecute)
       state_reports_[report->model_state()].push_back(report);
@@ -43,8 +53,10 @@ void Manager::Build() {
  * @param model_state The state the model has just finished
  */
 void Manager::Execute(State::Type model_state) {
+  RunMode::Type run_mode = Model::Instance()->run_mode();
   for(ReportPtr report : state_reports_[model_state]) {
-      report->Execute();
+      if ( (RunMode::Type)(report->run_mode() & run_mode) == run_mode)
+        report->Execute();
   }
 }
 
@@ -58,10 +70,14 @@ void Manager::Execute(State::Type model_state) {
  */
 void Manager::Execute(unsigned year, const string& time_step_label) {
   LOG_TRACE();
-
+  RunMode::Type run_mode = Model::Instance()->run_mode();
   for(ReportPtr report : time_step_reports_[time_step_label]) {
-    if (report->year() == year)
-      report->Execute();
+    if ( (RunMode::Type)(report->run_mode() & run_mode) != run_mode)
+      continue;
+    if (!report->HasYear(year))
+      continue;
+
+    report->Execute();
   }
 }
 

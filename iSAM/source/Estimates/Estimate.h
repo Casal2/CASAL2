@@ -48,20 +48,21 @@ public:
   // Accessors
   void                        set_target(Double* new_target) { target_ = new_target; };
   string                      parameter() const { return parameter_; }
-  Double                      lower_bound() const { return lower_bound_; }
-  Double                      upper_bound() const { return upper_bound_; }
+  double                      lower_bound() const { return lower_bound_; }
+  double                      upper_bound() const { return upper_bound_; }
   bool                        enabled() const { return enabled_; }
   void                        set_enabled(bool new_value) { enabled_ = new_value; }
   Double                      value() { return *target_; }
   void                        set_value(Double new_value) { *target_ = new_value; }
   PriorPtr                    prior() { return prior_; }
+  bool                        mcmc_fixed() const { return mcmc_fixed_; }
 
 private:
   // Members
   Double*                     target_;
   string                      parameter_;
-  Double                      lower_bound_;
-  Double                      upper_bound_;
+  double                      lower_bound_;
+  double                      upper_bound_;
   bool                        mcmc_fixed_;
   string                      prior_label_;
   unsigned                    estimation_phase_;

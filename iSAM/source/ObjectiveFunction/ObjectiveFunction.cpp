@@ -45,6 +45,7 @@ void ObjectiveFunction::CalculateScore() {
    * Get the scores from each of the observations/likelihoods
    */
   vector<ObservationPtr> observations = observations::Manager::Instance().GetObjects();
+  likelihoods_ = 0.0;
   for(ObservationPtr observation : observations) {
     objective::Score new_score;
     new_score.label_ = PARAM_OBS + string("->") + observation->label();
@@ -52,12 +53,14 @@ void ObjectiveFunction::CalculateScore() {
 
     score_list_.push_back(new_score);
     score_ += new_score.score_;
+    likelihoods_ += AS_DOUBLE(new_score.score_);
   }
 
   /**
    * Get the scores from each of the penalties
    */
   const vector<penalties::Info>& penalties = penalties::Manager::Instance().flagged_penalties();
+  penalties_ = 0.0;
   for (penalties::Info penalty : penalties) {
     objective::Score new_score;
 
@@ -66,12 +69,14 @@ void ObjectiveFunction::CalculateScore() {
 
     score_list_.push_back(new_score);
     score_ += new_score.score_;
+    penalties_ += AS_DOUBLE(new_score.score_);
   }
 
   /**
    * Get the scores from each of the priors
    */
   vector<EstimatePtr> estimates = estimates::Manager::Instance().GetObjects();
+  priors_ = 0.0;
   for (EstimatePtr estimate : estimates) {
     if (!estimate->prior())
       continue;
@@ -82,6 +87,7 @@ void ObjectiveFunction::CalculateScore() {
 
     score_list_.push_back(new_score);
     score_ += new_score.score_;
+    priors_ += AS_DOUBLE(new_score.score_);
   }
 }
 

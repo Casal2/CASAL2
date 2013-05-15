@@ -1,4 +1,3 @@
-{
 @report state-1
 type partition 
 time_step step_one
@@ -19,7 +18,9 @@ year 2004
 type partition
 time_step step_one
 year 2008
-}
 
 @report my-objective-function
 type objective_function
+
+@report mcmc_chain
+type mcmc_chain

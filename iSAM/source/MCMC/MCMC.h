@@ -16,6 +16,7 @@
 
 // headers
 #include <boost/numeric/ublas/matrix.hpp>
+#include <boost/shared_ptr.hpp>
 
 #include "BaseClasses/Object.h"
 #include "Minimisers/Minimiser.h"
@@ -24,6 +25,7 @@
 namespace isam {
 
 namespace ublas = boost::numeric::ublas;
+using boost::shared_ptr;
 
 /**
  * Struct definition for a chain link
@@ -48,20 +50,31 @@ struct ChainLink {
 class MCMC : public isam::base::Object {
 public:
   // Methods
+  static shared_ptr<MCMC>     Instance();
+  virtual                     ~MCMC() = default;
   void                        Validate();
   void                        Build();
   void                        Execute();
 
+  // Getters/Setters
+  const vector<mcmc::ChainLink>&  chain() const { return chain_; }
+
 private:
   // methods
   MCMC();
-  virtual                     ~MCMC() = default;
+  void                        BuildCovarianceMatrix();
+  bool                        DoCholeskyDecmposition();
+  void                        GenerateRandomStart();
+  void                        FillMultivariateNormal(double step_size);
+  void                        FillMultivariateT(double step_size);
+  void                        UpdateStepSize();
+  void                        GenerateNewCandidates();
 
   // members
   double                      start_;
   unsigned                    length_;
   unsigned                    keep_;
-  unsigned                    estimate_cout_;
+  unsigned                    estimate_count_;
   unsigned                    jumps_;
   unsigned                    successful_jumps_;
   unsigned                    jumps_since_adapt_;
@@ -73,17 +86,19 @@ private:
   double                      step_size_;
   string                      proposal_distribution_;
   unsigned                    df_;
-  ublas::matrix<double>       original_covariance_;
-  ublas::matrix<double>       covariance_;
-  ublas::matrix<double>       covariance_lt;
+//  ublas::matrix<double>       original_covariance_;
+  ublas::matrix<double>       covariance_matrix_;
+  ublas::matrix<double>       covariance_matrix_lt;
   vector<double>              candidates_;
   vector<bool>                is_enabled_estimate_;
-  mcmc::ChainLink             chain_link_;
   vector<mcmc::ChainLink>     chain_;
   vector<unsigned>            adapt_step_size_;
   MinimiserPtr                minimiser_;
   vector<string>              estimate_labels_;
 };
+
+// Typdef
+typedef boost::shared_ptr<MCMC> MCMCPtr;
 
 } /* namespace isam */
 #endif /* MCMC_H_ */

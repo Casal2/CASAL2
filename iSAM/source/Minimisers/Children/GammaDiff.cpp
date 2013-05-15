@@ -71,23 +71,12 @@ void GammaDiff::Execute() {
     }
   }
 
-  double **pHessian = 0;
-
-  int iEstimateCount = (int)estimates.size();
-  pHessian = new double*[iEstimateCount];
-  for (int i = 0; i < iEstimateCount; ++i)
-    pHessian[i] = new double[iEstimateCount];
-
-  for (int i = 0; i < iEstimateCount; ++i)
-    for (int j = 0; j < iEstimateCount; ++j)
-      pHessian[i][j] = 0.0;
-
   int status = 0;
   gammadiff::Engine clGammaDiff;
   clGammaDiff.optimise_finite_differences(call_back,
       start_values, lower_bounds, upper_bounds,
       status, max_iterations_, max_evaluations_, gradient_tolerance_,
-      pHessian,1,step_size_);
+      hessian_,1,step_size_);
 }
 
 } /* namespace minimisers */

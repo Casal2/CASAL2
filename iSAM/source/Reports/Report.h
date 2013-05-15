@@ -48,17 +48,19 @@ public:
   virtual void                Execute() = 0;
   virtual void                Reset() {};
   virtual void                Finalise() {};
+  bool                        HasYear(unsigned year);
 
   // Accessors
+  RunMode::Type               run_mode() const { return run_mode_; }
   State::Type                 model_state() const { return model_state_; }
   const string&               time_step() const { return time_step_; }
-  unsigned                    year() const { return year_; }
 
 protected:
   // Members
+  RunMode::Type               run_mode_    = RunMode::kInvalid;
   State::Type                 model_state_ = State::kInitialise;
   string                      time_step_   = "";
-  unsigned                    year_ = 0;
+  vector<unsigned>            years_;
 };
 
 // Typedef
