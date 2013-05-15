@@ -23,7 +23,7 @@ Report::Report() {
   parameters_.RegisterAllowed(PARAM_LABEL);
   parameters_.RegisterAllowed(PARAM_TYPE);
   parameters_.RegisterAllowed(PARAM_TIME_STEP);
-  parameters_.RegisterAllowed(PARAM_YEAR);
+  parameters_.RegisterAllowed(PARAM_YEARS);
 }
 
 /**
@@ -39,10 +39,10 @@ void Report::Validate() {
 
   if (model_state_ == State::kExecute) {
     CheckForRequiredParameter(PARAM_TIME_STEP);
-    CheckForRequiredParameter(PARAM_YEAR);
+    CheckForRequiredParameter(PARAM_YEARS);
 
     time_step_ = parameters_.Get(PARAM_TIME_STEP).GetValue<string>();
-    years_     = parameters_.Get(PARAM_YEAR).GetValues<unsigned>();
+    years_     = parameters_.Get(PARAM_YEARS).GetValues<unsigned>();
   }
 }
 
