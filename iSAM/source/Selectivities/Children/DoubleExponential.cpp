@@ -81,20 +81,20 @@ void DoubleExponential::Validate() {
   // Param: x0, x1, x2 - Check that x1 is between x0 and x2
   if (x1_ < x0_ || x1_ > x2_) {
     Parameter parameter = parameters_.Get(PARAM_X1);
-    LOG_ERROR(parameter.location() << ": x1 ( " << x1_ << ") must be between x0 (" << x0_ << ") and x2 (" << x2_ << ")");
+    LOG_ERROR(parameter.location() << ": x1 ( " << AS_DOUBLE(x1_) << ") must be between x0 (" << AS_DOUBLE(x0_) << ") and x2 (" << AS_DOUBLE(x2_) << ")");
   }
 
   // Param: y0, y1, y2
   if (y0_ < 0.0)
-    LOG_ERROR(parameters_.location(PARAM_Y0) << ": y0 (" << y0_ << ") is less than 0.0");
+    LOG_ERROR(parameters_.location(PARAM_Y0) << ": y0 (" << AS_DOUBLE(y0_) << ") is less than 0.0");
   if (y1_ < 0.0)
-    LOG_ERROR(parameters_.location(PARAM_Y1) << ": y1 (" << y1_ << ") is less than 0.0");
+    LOG_ERROR(parameters_.location(PARAM_Y1) << ": y1 (" << AS_DOUBLE(y1_) << ") is less than 0.0");
   if (y2_ < 0.0)
-    LOG_ERROR(parameters_.location(PARAM_Y2) << ": y2 (" << y2_ << ") is less than 0.0");
+    LOG_ERROR(parameters_.location(PARAM_Y2) << ": y2 (" << AS_DOUBLE(y2_) << ") is less than 0.0");
 
   // Param: alpha
   if (alpha_ <= 0.0)
-    LOG_ERROR(parameters_.location(PARAM_ALPHA) << ": alpha (" << alpha_ << ") is less than or equal to 0.0");
+    LOG_ERROR(parameters_.location(PARAM_ALPHA) << ": alpha (" << AS_DOUBLE(alpha_) << ") is less than or equal to 0.0");
 }
 
 /**

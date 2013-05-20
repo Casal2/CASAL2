@@ -43,10 +43,10 @@ void ObjectiveFunction::Execute() {
 
   const vector<objective::Score>& score_list = obj_function.score_list();
   for (objective::Score score : score_list) {
-    cout << score.label_ << ": " << score.score_ << "\n";
+    cout << score.label_ << ": " << AS_DOUBLE(score.score_) << "\n";
   }
 
-  cout << PARAM_TOTAL_SCORE << ": " << obj_function.score() << "\n";
+  cout << PARAM_TOTAL_SCORE << ": " << AS_DOUBLE(obj_function.score()) << "\n";
   cout << CONFIG_END_REPORT << "\n" << endl;
 }
 

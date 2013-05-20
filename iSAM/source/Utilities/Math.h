@@ -51,19 +51,6 @@ inline Double LnFactorial(Double t) {
   return isam::utilities::math::LnGamma(t + 1.0);
 }
 
-
-inline Double abs(Double value) {
-#ifdef USE_ADMB
-  return std::abs(value.xval());
-#else
-  return std::abs(value);
-#endif
-}
-
-
-
-
-
 } /* namespace math */
 } /* namespace utilities */
 } /* namespace isam */

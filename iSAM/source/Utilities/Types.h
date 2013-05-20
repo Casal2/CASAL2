@@ -26,6 +26,10 @@
 #include <admb/fvar.hpp>
 #endif
 
+#ifdef USE_BETADIFF
+#include <adouble.h>
+#endif
+
 // Namespaces
 namespace isam {
 namespace utilities {
@@ -40,6 +44,10 @@ typedef dvariable Double;
 
 #endif
 
+#ifdef USE_BETADIFF
+typedef adouble Double;
+#define AS_DOUBLE(x) value(x)
+#endif
 
 #ifndef USE_AUTODIFF
 #ifdef Double

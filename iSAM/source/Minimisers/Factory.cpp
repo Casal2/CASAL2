@@ -16,7 +16,13 @@
 #include "Minimisers/Manager.h"
 
 #ifdef USE_AUTODIFF
+#ifdef USE_ADMB
 #include "Minimisers/Children/ADMB.h"
+#endif
+
+#ifdef USE_BETADIFF
+#include "Minimisers/Children/BetaDiff.h"
+#endif
 
 #else
 #include "Minimisers/Children/DESolver.h"
@@ -42,13 +48,20 @@ MinimiserPtr Factory::Create(const string& block_type, const string& object_type
 #ifdef USE_AUTODIFF
 
   if (block_type == PARAM_MINIMIZER) {
-    if (object_type == PARAM_DE_SOLVER) {
+#ifdef USE_ADMB
+    if (object_type == PARAM_ADMB) {
       result = MinimiserPtr(new ADMB());
     }
+#endif
+#ifdef USE_BETADIFF
+    if (object_type == PARAM_BETADIFF) {
+      result = MinimiserPtr(new BetaDiff());
+    }
+#endif
   }
 
   if (!result)
-    LOG_ERROR("The minimiser " << block_type << "." << object_type << " is not supported in ADMB mode");
+    LOG_ERROR("The minimiser " << block_type << "." << object_type << " is not supported in AutoDiff mode");
 
 #else
   if (block_type == PARAM_MINIMIZER) {

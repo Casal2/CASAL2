@@ -49,9 +49,9 @@ void Abundance::Validate() {
 
   // Delta
   if (delta_ < 0.0)
-    LOG_ERROR(parameters_.location(PARAM_DELTA) << ": delta (" << delta_ << ") cannot be less than 0.0");
+    LOG_ERROR(parameters_.location(PARAM_DELTA) << ": delta (" << AS_DOUBLE(delta_) << ") cannot be less than 0.0");
   if (process_error_ < 0.0)
-    LOG_ERROR(parameters_.location(PARAM_PROCESS_ERROR) << ": process_error (" << process_error_ << ") cannot be less than 0.0");
+    LOG_ERROR(parameters_.location(PARAM_PROCESS_ERROR) << ": process_error (" << AS_DOUBLE(process_error_) << ") cannot be less than 0.0");
 
   // Obs
   vector<string> obs  = parameters_.Get(PARAM_OBS).GetValues<string>();

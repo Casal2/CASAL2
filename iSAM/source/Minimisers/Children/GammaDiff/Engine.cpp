@@ -9,7 +9,7 @@
  *
  * $Date: 2008-03-04 16:33:32 +1300 (Tue, 04 Mar 2008) $
  */
-
+#ifndef USE_AUTODIFF
 // headers
 #include "Engine.h"
 
@@ -323,3 +323,4 @@ Engine::~Engine() {
 } /* namespace gammadiff */
 } /* namespace minimisers */
 } /* namesapce isam */
+#endif

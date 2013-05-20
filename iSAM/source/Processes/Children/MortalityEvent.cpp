@@ -93,7 +93,7 @@ void MortalityEvent::Validate() {
 
   // Validate u_max
   if (u_max_ < 0.0 || u_max_ > 1.0)
-    LOG_ERROR(parameters_.location(PARAM_U_MAX) << ": u_max must be between 0.0 and 1.0 (inclusive). Value defined was " << u_max_);
+    LOG_ERROR(parameters_.location(PARAM_U_MAX) << ": u_max must be between 0.0 and 1.0 (inclusive). Value defined was " << AS_DOUBLE(u_max_));
 }
 
 /**
@@ -155,7 +155,7 @@ void MortalityEvent::Execute() {
   } else if (exploitation < 0.0) {
     exploitation = 0.0;
   }
-  LOG_INFO("year: " << model_->current_year() << "; exploitation: " << exploitation);
+  LOG_INFO("year: " << model_->current_year() << "; exploitation: " << AS_DOUBLE(exploitation));
 
   /**
    * Remove the stock now. The amount to remove is

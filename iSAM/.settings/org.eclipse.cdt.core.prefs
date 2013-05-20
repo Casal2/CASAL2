@@ -1,4 +1,9 @@
 eclipse.preferences.version=1
+environment/project/cdt.managedbuild.config.gnu.cross.exe.debug.1400463574.1382834397.899417647/PATH/delimiter=;
+environment/project/cdt.managedbuild.config.gnu.cross.exe.debug.1400463574.1382834397.899417647/PATH/operation=replace
+environment/project/cdt.managedbuild.config.gnu.cross.exe.debug.1400463574.1382834397.899417647/PATH/value=D\:\\Programming\\MinGW64\\bin
+environment/project/cdt.managedbuild.config.gnu.cross.exe.debug.1400463574.1382834397.899417647/append=true
+environment/project/cdt.managedbuild.config.gnu.cross.exe.debug.1400463574.1382834397.899417647/appendContributed=true
 environment/project/cdt.managedbuild.config.gnu.cross.exe.debug.1400463574.1382834397/PATH/delimiter=;
 environment/project/cdt.managedbuild.config.gnu.cross.exe.debug.1400463574.1382834397/PATH/operation=replace
 environment/project/cdt.managedbuild.config.gnu.cross.exe.debug.1400463574.1382834397/PATH/value=D\:\\Programming\\MinGW64\\bin

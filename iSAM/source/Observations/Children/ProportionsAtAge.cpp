@@ -57,7 +57,7 @@ void ProportionsAtAge::Validate() {
   tolerance_          = parameters_.Get(PARAM_TOLERANCE).GetValue<double>(0.001);
   process_error_      = parameters_.Get(PARAM_PROCESS_ERROR).GetValue<double>(0.0);
   ageing_error_label_ = parameters_.Get(PARAM_AGEING_ERROR).GetValue<string>("");
-  error_values_       = parameters_.Get(PARAM_ERROR_VALUE).GetValues<Double>();
+  error_values_       = parameters_.Get(PARAM_ERROR_VALUE).GetValues<double, Double>();
   age_spread_         = (max_age_ - min_age_) + 1;
 
   /**
@@ -69,9 +69,9 @@ void ProportionsAtAge::Validate() {
   if (max_age_ > model->max_age())
     LOG_ERROR(parameters_.location(PARAM_MAX_AGE) << ": max_age (" << max_age_ << ") is greater than the model's max_age (" << model->max_age() << ")");
   if (process_error_ < 0.0)
-    LOG_ERROR(parameters_.location(PARAM_PROCESS_ERROR) << ": process_error (" << process_error_ << ") cannot be less than 0.0");
+    LOG_ERROR(parameters_.location(PARAM_PROCESS_ERROR) << ": process_error (" << AS_DOUBLE(process_error_) << ") cannot be less than 0.0");
   if (delta_ < 0.0)
-    LOG_ERROR(parameters_.location(PARAM_DELTA) << ": delta (" << delta_ << ") cannot be less than 0.0");
+    LOG_ERROR(parameters_.location(PARAM_DELTA) << ": delta (" << AS_DOUBLE(delta_) << ") cannot be less than 0.0");
   if (error_values_.size() != category_labels_.size())
     LOG_ERROR(parameters_.location(PARAM_ERROR_VALUE) << ": number error_values provided (" << error_values_.size() << ") does not match the number of "
         << "category collections provided (" << category_labels_.size() << ")");
@@ -83,13 +83,13 @@ void ProportionsAtAge::Validate() {
   if (likelihood_type_ == PARAM_LOG_NORMAL) {
     std::for_each(std::begin(error_values_), std::end(error_values_), [&](Double n) {
       if (n <= 0.0)
-        LOG_ERROR(parameters_.location(PARAM_ERROR_VALUE) << ": error_value (" << n << ") cannot be equal to or less than 0.0");
+        LOG_ERROR(parameters_.location(PARAM_ERROR_VALUE) << ": error_value (" << AS_DOUBLE(n) << ") cannot be equal to or less than 0.0");
     });
 
   } else if (likelihood_type_ == PARAM_MULTINOMIAL) {
     std::for_each(std::begin(error_values_), std::end(error_values_), [&](Double n) {
       if (n < 0.0)
-        LOG_ERROR(parameters_.location(PARAM_ERROR_VALUE) << ": error_value (" << n << ") cannot be less than 0.0");
+        LOG_ERROR(parameters_.location(PARAM_ERROR_VALUE) << ": error_value (" << AS_DOUBLE(n) << ") cannot be less than 0.0");
     });
 
   } else
@@ -236,7 +236,7 @@ void ProportionsAtAge::Execute() {
         if (mean_proportion_method_)
           final_value = start_value + ((end_value - start_value) * time_step_proportion_);
         else
-          final_value = utilities::math::abs(start_value - end_value) * time_step_proportion_;
+          final_value = fabs(start_value - end_value) * time_step_proportion_;
 
         expected_values[age_offset] += final_value * selectivity_result;
         running_total += final_value * selectivity_result;

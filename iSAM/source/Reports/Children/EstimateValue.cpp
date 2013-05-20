@@ -46,7 +46,7 @@ void EstimateValue::Execute() {
   cout << "\n";
 
   for (EstimatePtr estimate : estimates) {
-    cout << estimate->value() << " ";
+    cout << AS_DOUBLE(estimate->value()) << " ";
   }
   cout << "\n";
 

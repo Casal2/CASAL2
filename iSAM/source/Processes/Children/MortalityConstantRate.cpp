@@ -54,7 +54,7 @@ void MortalityConstantRate::Validate() {
   // Assign and validate parameters
   label_              = parameters_.Get(PARAM_LABEL).GetValue<string>();
   category_names_     = parameters_.Get(PARAM_CATEGORIES).GetValues<string>();
-  m_                  = parameters_.Get(PARAM_M).GetValues<Double>();
+  m_                  = parameters_.Get(PARAM_M).GetValues<double, Double>();
   selectivity_names_  = parameters_.Get(PARAM_SELECTIVITIES).GetValues<string>();
 
   if (m_.size() == 1)
@@ -77,7 +77,7 @@ void MortalityConstantRate::Validate() {
   // Validate our Ms are between 1.0 and 0.0
   for (Double m : m_) {
     if (m < 0.0 || m > 1.0)
-      LOG_ERROR(parameters_.location(PARAM_M) << ": m value " << m << " must be between 0.0 and 1.0 (inclusive)");
+      LOG_ERROR(parameters_.location(PARAM_M) << ": m value " << AS_DOUBLE(m) << " must be between 0.0 and 1.0 (inclusive)");
   }
 
   // Check categories are real

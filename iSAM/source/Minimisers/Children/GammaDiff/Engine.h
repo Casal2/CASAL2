@@ -6,7 +6,7 @@
 // Description :
 // $Date: 2008-03-04 16:33:32 +1300 (Tue, 04 Mar 2008) $
 //============================================================================
-
+#ifndef USE_AUTODIFF
 #ifndef MINIMISERS_GAMMADIFF_ENGINE_H_
 #define MINIMISERS_GAMMADIFF_ENGINE_H_
 
@@ -57,3 +57,4 @@ private:
 } /* namesapce isam */
 
 #endif /* MINIMISERS_GAMMADIFF_ENGINE_H_ */
+#endif
