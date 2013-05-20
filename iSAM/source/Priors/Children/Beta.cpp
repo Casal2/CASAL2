@@ -50,11 +50,11 @@ void Beta::Validate() {
   b_      = parameters_.Get(PARAM_B).GetValue<double>();
 
   if (sigma_ <= 0.0)
-    LOG_ERROR(parameters_.location(PARAM_SIGMA) << ": sigma (" << sigma_ << ") cannot be less than or equal to 0.0");
+    LOG_ERROR(parameters_.location(PARAM_SIGMA) << ": sigma (" << AS_DOUBLE(sigma_) << ") cannot be less than or equal to 0.0");
   if (a_ >= b_)
-    LOG_ERROR(parameters_.location(PARAM_B) << ": b (" << b_ << ") cannot be less than or equal to a (" << a_ << ")");
+    LOG_ERROR(parameters_.location(PARAM_B) << ": b (" << AS_DOUBLE(b_) << ") cannot be less than or equal to a (" << AS_DOUBLE(a_) << ")");
   if ( ((((mu_ - a_) * (b_ - mu_)) / (sigma_ * sigma_)) - 1) <= 0.0)
-    LOG_ERROR(parameters_.location(PARAM_SIGMA) << " sigma (" << sigma_ << ") is too large");
+    LOG_ERROR(parameters_.location(PARAM_SIGMA) << " sigma (" << AS_DOUBLE(sigma_) << ") is too large");
 }
 
 /**

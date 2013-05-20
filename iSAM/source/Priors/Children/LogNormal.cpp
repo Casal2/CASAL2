@@ -37,9 +37,9 @@ void LogNormal::Validate() {
   cv_ = parameters_.Get(PARAM_CV).GetValue<double>();
 
   if (mu_ <= 0.0)
-    LOG_ERROR(parameters_.location(PARAM_MU) << ": mu (" << mu_ << ") cannot be less than or equal to 0.0");
+    LOG_ERROR(parameters_.location(PARAM_MU) << ": mu (" << AS_DOUBLE(mu_) << ") cannot be less than or equal to 0.0");
   if (cv_ <= 0.0)
-    LOG_ERROR(parameters_.location(PARAM_CV) << ": cv (" << cv_ << ") cannot be less than or equal to 0.0");
+    LOG_ERROR(parameters_.location(PARAM_CV) << ": cv (" << AS_DOUBLE(cv_) << ") cannot be less than or equal to 0.0");
 }
 
 /**

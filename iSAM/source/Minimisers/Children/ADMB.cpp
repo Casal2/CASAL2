@@ -4,7 +4,7 @@
  *  Created on: 7/05/2013
  *      Author: Admin
  */
-#ifdef USE_AUTODIFF
+#ifdef USE_ADMB
 #include "ADMB.h"
 
 #include "Estimates/Manager.h"
@@ -106,4 +106,4 @@ void ADMB::Execute() {
 
 } /* namespace minimisers */
 } /* namespace isam */
-#endif /* USE_AUTODIFF */
+#endif /* USE_ADMB */

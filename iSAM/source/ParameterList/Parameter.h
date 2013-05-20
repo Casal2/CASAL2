@@ -43,6 +43,8 @@ public:
   T                           GetValue(T default_value) const;
   template<typename T>
   vector<T>                   GetValues() const;
+  template<typename SOURCE, typename TARGET>
+  vector<TARGET>              GetValues() const;
 
   // Accessors
   void                        set_label(const string& label) { label_ = label; }

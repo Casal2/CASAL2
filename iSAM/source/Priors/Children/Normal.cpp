@@ -44,7 +44,7 @@ void Normal::Validate() {
   cv_ = parameters_.Get(PARAM_CV).GetValue<double>();
 
   if (cv_ <= 0.0)
-    LOG_ERROR(parameters_.location(PARAM_CV) << ": cv (" << cv_ << ") cannot be less than or equal to 0.0");
+    LOG_ERROR(parameters_.location(PARAM_CV) << ": cv (" << AS_DOUBLE(cv_) << ") cannot be less than or equal to 0.0");
 }
 
 /**

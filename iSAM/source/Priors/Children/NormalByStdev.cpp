@@ -44,7 +44,7 @@ void NormalByStdev::Validate() {
   sigma_  = parameters_.Get(PARAM_SIGMA).GetValue<double>();
 
   if (sigma_ <= 0.0)
-    LOG_ERROR(parameters_.location(PARAM_SIGMA) << ": sigma (" << sigma_ << ") cannot be less than or equal to 0.0");
+    LOG_ERROR(parameters_.location(PARAM_SIGMA) << ": sigma (" << AS_DOUBLE(sigma_) << ") cannot be less than or equal to 0.0");
 }
 
 /**

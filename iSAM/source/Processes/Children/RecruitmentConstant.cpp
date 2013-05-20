@@ -66,7 +66,7 @@ void RecruitmentConstant::Validate() {
    * and print a warning message
    */
   if (parameters_.IsDefined(PARAM_PROPORTIONS)) {
-    vector<Double> proportions = parameters_.Get(PARAM_PROPORTIONS).GetValues<Double>();
+    vector<Double> proportions = parameters_.Get(PARAM_PROPORTIONS).GetValues<double, Double>();
 
     if (proportions.size() != category_names_.size()) {
       LOG_ERROR(parameters_.location(PARAM_PROPORTIONS)
@@ -81,7 +81,7 @@ void RecruitmentConstant::Validate() {
 
     if (!utilities::doublecompare::IsOne(proportion_total)) {
       LOG_WARNING(parameters_.location(PARAM_PROPORTIONS)
-          <<": proportion does not sum to 1.0. Proportion sums to " << proportion_total << ". Auto-scaling proportions to sum to 1.0");
+          <<": proportion does not sum to 1.0. Proportion sums to " << AS_DOUBLE(proportion_total) << ". Auto-scaling proportions to sum to 1.0");
 
       for (Double& proportion : proportions)
         proportion = proportion / proportion_total;

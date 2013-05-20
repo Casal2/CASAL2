@@ -82,7 +82,7 @@ void Observation::Validate() {
   }
 
   if (time_step_proportion_ < 0.0 || time_step_proportion_ > 1.0)
-    LOG_ERROR(parameters_.location(PARAM_TIME_STEP_PROPORTION) << ": time_step_proportion (" << time_step_proportion_ << ") must be between 0.0 and 1.0");
+    LOG_ERROR(parameters_.location(PARAM_TIME_STEP_PROPORTION) << ": time_step_proportion (" << AS_DOUBLE(time_step_proportion_) << ") must be between 0.0 and 1.0");
 
   string temp = time_step_proportion_method_;
   if (temp != PARAM_MEAN && temp != PARAM_DIFFERENCE)

@@ -67,9 +67,9 @@ void InverseLogistic::Validate() {
     alpha_ = parameters_.Get(PARAM_ALPHA).GetValue<double>();
 
   if (alpha_ <= 0.0)
-    LOG_ERROR(parameters_.location(PARAM_ALPHA) << ": alpha (" << alpha_ << ") cannot be less than or equal to 0.0");
+    LOG_ERROR(parameters_.location(PARAM_ALPHA) << ": alpha (" << AS_DOUBLE(alpha_) << ") cannot be less than or equal to 0.0");
   if (aTo95_ <= 0.0)
-    LOG_ERROR(parameters_.location(PARAM_ATO95) << ": ato95 (" << aTo95_ << ") cannot be less than or equal to 0.0");
+    LOG_ERROR(parameters_.location(PARAM_ATO95) << ": ato95 (" << AS_DOUBLE(aTo95_) << ") cannot be less than or equal to 0.0");
 
 }
 

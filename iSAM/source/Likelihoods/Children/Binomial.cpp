@@ -87,7 +87,7 @@ void Binomial::SimulateObserved(const vector<string> &keys, vector<Double> &obse
   for (unsigned i = 0; i < expecteds.size(); ++i) {
     error_value = AdjustErrorValue(process_errors[i], error_values[i]);
     if (error_values[i] < 0.0)
-      LOG_ERROR(this->location() << ": error_value (" << error_values[i] << ") was less than 0.0 when simulating an observed value (i = " << i << ")");
+      LOG_ERROR(this->location() << ": error_value (" << AS_DOUBLE(error_values[i]) << ") was less than 0.0 when simulating an observed value (i = " << i << ")");
 
     if (expecteds[i] <= 0.0 || error_value <= 0.0) {
       observeds.push_back(0.0);

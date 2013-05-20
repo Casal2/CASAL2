@@ -9,7 +9,7 @@
  *
  * $Date: 2008-03-04 16:33:32 +1300 (Tue, 04 Mar 2008) $
  */
-
+#ifndef USE_AUTODIFF
 // headers
 #include "Callback.h"
 
@@ -55,3 +55,4 @@ double CallBack::operator()(const vector<double>& Parameters) {
 } /* namespace gammadiff */
 } /* namespace minimiser */
 } /* namespace isam */
+#endif

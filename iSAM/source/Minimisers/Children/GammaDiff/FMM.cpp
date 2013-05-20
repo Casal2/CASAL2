@@ -9,7 +9,7 @@
  *
  * $Date: 2008-03-04 16:33:32 +1300 (Tue, 04 Mar 2008) $
  */
-
+#ifndef USE_AUTODIFF
 // Headers
 #include "FMM.h"
 
@@ -508,3 +508,4 @@ FMM::~FMM() {
 } /* namespace gammadiff */
 } /* namespace minimisers */
 } /* namesapce isam */
+#endif

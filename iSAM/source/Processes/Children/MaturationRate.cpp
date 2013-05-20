@@ -58,7 +58,7 @@ void MaturationRate::Validate() {
   label_                = parameters_.Get(PARAM_LABEL).GetValue<string>();
   from_category_names_  = parameters_.Get(PARAM_FROM).GetValues<string>();
   to_category_names_    = parameters_.Get(PARAM_TO).GetValues<string>();
-  proportions_          = parameters_.Get(PARAM_PROPORTIONS).GetValues<Double>();
+  proportions_          = parameters_.Get(PARAM_PROPORTIONS).GetValues<double, Double>();
   selectivity_names_    = parameters_.Get(PARAM_SELECTIVITIES).GetValues<string>();
 
   if (selectivity_names_.size() == 1)
@@ -112,7 +112,7 @@ void MaturationRate::Validate() {
   // Validate the proportions are between 0.0 and 1.0
   for (Double proportion : proportions_) {
     if (proportion < 0.0 || proportion > 1.0)
-      LOG_ERROR(parameters_.location(PARAM_PROPORTIONS) << ": proportion " << proportion << " must be between 0.0 and 1.0 (inclusive)");
+      LOG_ERROR(parameters_.location(PARAM_PROPORTIONS) << ": proportion " << AS_DOUBLE(proportion) << " must be between 0.0 and 1.0 (inclusive)");
   }
 
   RegisterAsEstimable(PARAM_PROPORTIONS, proportions_);

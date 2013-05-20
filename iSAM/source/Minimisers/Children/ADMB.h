@@ -4,7 +4,7 @@
  *  Created on: 7/05/2013
  *      Author: Admin
  */
-#ifdef USE_AUTODIFF
+#ifdef USE_ADMB
 #ifndef MINIMISERS_ADMB_H_
 #define MINIMISERS_ADMB_H_
 
@@ -29,4 +29,4 @@ public:
 } /* namespace minimisers */
 } /* namespace isam */
 #endif /* ADMB_H_ */
-#endif /* AUTODIFF */
+#endif /* USE_ADMB */

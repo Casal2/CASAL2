@@ -55,7 +55,7 @@ void Normal::Validate() {
   k_  = parameters_.Get(PARAM_K).GetValue<unsigned>(0);
 
   if (cv_ <= 0.0)
-    LOG_ERROR(parameters_.location(PARAM_CV) << ": cv (" << cv_ << ") cannot be less than or equal to 0.0");
+    LOG_ERROR(parameters_.location(PARAM_CV) << ": cv (" << AS_DOUBLE(cv_) << ") cannot be less than or equal to 0.0");
   if (k_ > max_age_)
     LOG_ERROR(parameters_.location(PARAM_K) << ": k (" << k_ << ") cannot be greater than the model's max age (" << max_age_ << ")");
 }

@@ -57,12 +57,12 @@ void Increasing::Validate() {
   label_  = parameters_.Get(PARAM_LABEL).GetValue<string>();
   low_    = parameters_.Get(PARAM_L).GetValue<double>();
   high_   = parameters_.Get(PARAM_H).GetValue<double>();
-  v_      = parameters_.Get(PARAM_V).GetValues<Double>();
+  v_      = parameters_.Get(PARAM_V).GetValues<double, Double>();
   if (parameters_.IsDefined(PARAM_ALPHA))
     alpha_ = parameters_.Get(PARAM_ALPHA).GetValue<double>();
 
   if (alpha_ <= 0.0)
-    LOG_ERROR(parameters_.location(PARAM_ALPHA) << ": alpha (" << alpha_ << ") cannot be less than or equal to 0.0");
+    LOG_ERROR(parameters_.location(PARAM_ALPHA) << ": alpha (" << AS_DOUBLE(alpha_) << ") cannot be less than or equal to 0.0");
   if (low_ < model_->min_age() || low_ > model_->max_age())
     LOG_ERROR(parameters_.location(PARAM_L) << ": 'l' (" << low_ << ") must be between the model min_age (" << model_->min_age() << ") and max_age (" << model_->max_age() << ")");
   if (high_ <= low_)
@@ -75,7 +75,7 @@ void Increasing::Validate() {
 
   for (unsigned i = 0; i < v_.size(); ++i) {
     if (v_[i] < 0.0 || v_[i] > 1.0) {
-      LOG_ERROR(parameters_.location(PARAM_V) << " 'v' element " << i + 1 << " (" << v_[i] << ") is not between 0.0 and 1.0");
+      LOG_ERROR(parameters_.location(PARAM_V) << " 'v' element " << i + 1 << " (" << AS_DOUBLE(v_[i]) << ") is not between 0.0 and 1.0");
     }
   }
 

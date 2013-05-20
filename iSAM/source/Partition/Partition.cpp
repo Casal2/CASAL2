@@ -101,7 +101,7 @@ void Partition::Debug() {
     cout << endl;
     cout << "data: ";
     for (unsigned i = 0; i < iter->second.data_.size(); ++i)
-      cout << iter->second.data_[i] << ", ";
+      cout << AS_DOUBLE(iter->second.data_[i]) << ", ";
     cout << endl;
   }
   cout << "-- End Partition Debug -- " << endl;
