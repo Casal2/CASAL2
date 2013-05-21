@@ -16,10 +16,6 @@
 #include "Minimisers/Manager.h"
 
 #ifdef USE_AUTODIFF
-#ifdef USE_ADMB
-#include "Minimisers/Children/ADMB.h"
-#endif
-
 #ifdef USE_BETADIFF
 #include "Minimisers/Children/BetaDiff.h"
 #endif
@@ -48,11 +44,6 @@ MinimiserPtr Factory::Create(const string& block_type, const string& object_type
 #ifdef USE_AUTODIFF
 
   if (block_type == PARAM_MINIMIZER) {
-#ifdef USE_ADMB
-    if (object_type == PARAM_ADMB) {
-      result = MinimiserPtr(new ADMB());
-    }
-#endif
 #ifdef USE_BETADIFF
     if (object_type == PARAM_BETADIFF) {
       result = MinimiserPtr(new BetaDiff());
