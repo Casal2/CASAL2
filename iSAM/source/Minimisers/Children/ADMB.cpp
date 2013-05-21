@@ -41,6 +41,8 @@ double UserFunction(const dvar_vector& parameters) {
 
   cout << "Sizes: " << estimates.size() << " : " << parameters.size() << endl;
 
+
+
   dvariable penalty = 0;
   for (int i = 0; i < (int)estimates.size(); ++i) {
     double lower_bound = estimates[i]->lower_bound();
