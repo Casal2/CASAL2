@@ -17,15 +17,6 @@
 #ifndef TYPES_H_
 #define TYPES_H_
 
-#ifdef USE_ADOLC
-#include <adolc/adolc.h>
-
-#endif
-
-#ifdef USE_ADMB
-#include <admb/fvar.hpp>
-#endif
-
 #ifdef USE_BETADIFF
 #include <adouble.h>
 #endif
@@ -35,15 +26,8 @@ namespace isam {
 namespace utilities {
 
 /**
- * double conditional depending on if we're using ADMB or not
+ * double conditional depending on if we're using auto differentiation or not
  */
-#ifdef USE_ADMB
-
-typedef dvariable Double;
-#define AS_DOUBLE(x) value(x)
-
-#endif
-
 #ifdef USE_BETADIFF
 typedef adouble Double;
 #define AS_DOUBLE(x) value(x)

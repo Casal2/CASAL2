@@ -1,6 +1,6 @@
 
-@minimiser betadiff
-type betadiff
+@minimiser admb
+type admb
 
 @catchability CPUEq
 q 0.000153139
