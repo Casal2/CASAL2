@@ -118,11 +118,79 @@ void Loader::ParseFileLines() {
     if (file_lines_[i].line_[0] == '@') {
       if (block.size() > 0)
         ParseBlock(block);
-
       block.clear();
     }
 
-    block.push_back(file_lines_[i]);
+    /**
+     * Check to see if we're using ; to separate the parameters
+     * instead of new line characters.
+     */
+    if (file_lines_[i].line_.find(";") != string::npos) {
+      vector<string> line_parts;
+      boost::split(line_parts, file_lines_[i].line_, boost::is_any_of(";"));
+
+      /**
+       * Now we check if we have an inline declaration to deal with. We don't
+       * want to process this just yet so we'll leave it where it is for now.
+       * e.g
+       * @recruitment x
+       * selectivity x_sel=[type=logistic; a50=1 ...etc]
+       */
+      size_t first_inline_bracket  = file_lines_[i].line_.find("[");
+      size_t second_inline_bracket = file_lines_[i].line_.find("]");
+      if (first_inline_bracket != string::npos && second_inline_bracket != string::npos) {
+        string first_section  = file_lines_[i].line_.substr(0, first_inline_bracket);
+        string second_section = file_lines_[i].line_.substr(first_inline_bracket, second_inline_bracket - first_inline_bracket + 1);
+        string third_section  = file_lines_[i].line_.substr(second_inline_bracket + 1);
+
+        vector<string> first_parts;
+        boost::split(first_parts, first_section, boost::is_any_of(";"));
+
+        vector<string> third_parts;
+        boost::split(third_parts, third_section, boost::is_any_of(";"));
+
+        vector<string> new_line_parts(first_parts.begin(), first_parts.end());
+
+        if (new_line_parts.size() > 0) {
+          (*new_line_parts.rbegin()).append(second_section);
+          if (third_parts.size() > 0)
+            (*new_line_parts.rbegin()).append(third_parts[0]);
+        }
+
+        for (unsigned index = 1; index < third_parts.size(); ++index)
+          new_line_parts.push_back(third_parts[index]);
+
+        for (unsigned line_index = 0; line_index < new_line_parts.size(); ++line_index) {
+          boost::trim_all(new_line_parts[line_index]);
+
+          FileLine new_line;
+          new_line.file_name_   = file_lines_[i].file_name_;
+          new_line.line_number_ = file_lines_[i].line_number_;
+          new_line.line_        = new_line_parts[line_index];
+          block.push_back(new_line);
+        }
+
+      } else if (first_inline_bracket != string::npos || second_inline_bracket != string::npos) {
+        LOG_ERROR("At line " << file_lines_[i].line_number_ << " of " << file_lines_[i].file_name_
+            << ": This line contains either a [ or a ] but not both. This line is not in a valid format");
+
+      } else {
+        /**
+         * No inline declaration so we can do a simple split
+         */
+        for (unsigned line_index = 0; line_index < line_parts.size(); ++line_index) {
+          boost::trim_all(line_parts[line_index]);
+
+          FileLine new_line;
+          new_line.file_name_   = file_lines_[i].file_name_;
+          new_line.line_number_ = file_lines_[i].line_number_;
+          new_line.line_        = line_parts[line_index];
+          block.push_back(new_line);
+        }
+      }
+    } else {
+      block.push_back(file_lines_[i]);
+    }
   }
 
   ParseBlock(block);
@@ -225,12 +293,15 @@ void Loader::ParseBlock(vector<FileLine> &block) {
 
   // Iterate the loaded file lines for this block
   for(FileLine file_line : block) {
-    current_line = file_line.line_;
-
-    if (current_line.length() == 0)
+    if (file_line.line_.length() == 0)
       continue;
-    if (current_line[0] == '@')
+    if (file_line.line_[0] == '@')
       continue; // Skip @block definition
+
+    string parent_label = block_label == "" ? block_type : block_label;
+    HandleInlineDefinitions(file_line, parent_label);
+
+    current_line = file_line.line_;
 
     // Split the line
     boost::split(line_parts, current_line, boost::is_any_of(" "));
@@ -424,6 +495,130 @@ bool Loader::HandleOperators(vector<string>& line_values) {
 
   line_values = new_values;
   return true;
+}
+
+/**
+ * This method will check the line for inline definitions and
+ * if any are found it'll extract them, create the defined
+ * object and replace the definition with a label
+ * to be used by the parent object
+ *
+ * All labels created will be prefixed with <parent>.
+ */
+void Loader::HandleInlineDefinitions(FileLine& file_line, const string& parent_label) {
+
+  /**
+   * Check if this line contains an inline definition we need to process first
+   */
+  size_t first_inline_bracket  = file_line.line_.find("[");
+  size_t second_inline_bracket = file_line.line_.find("]");
+
+  if (first_inline_bracket != string::npos && second_inline_bracket != string::npos) {
+    unsigned inline_count = 0;
+    vector<std::pair<string, string> > replacement_strings;
+    string full_definition = "";
+
+    /**
+     * Loop through all inline definition blocks
+     */
+    while (first_inline_bracket != string::npos) {
+      if (first_inline_bracket >= second_inline_bracket)
+        LOG_CODE_ERROR("first_inline_bracket (" << first_inline_bracket << ") <= second_inline_bracket (" << second_inline_bracket << ")");
+      if (first_inline_bracket <= 1)
+        LOG_ERROR("At line " << file_line.line_number_ << " of " << file_line.file_name_
+            << ": You cannot start the line with an inline definition [ operator");
+
+      /**
+       * Work out the block type for use when defining it
+       */
+      size_t space_loc = file_line.line_.find(' ');
+      if (space_loc == string::npos)
+        LOG_ERROR("At line " << file_line.line_number_ << " of " << file_line.file_name_
+            << ": This line contains no space characters so we cannot determine the label for the inline definition");
+
+      string block_type = file_line.line_.substr(0, space_loc - 1);
+
+      /**
+       * Get the label. Either it's going to be the first part of the line
+       * e.g <label> x y z
+       * or it's going to be part of the inline definition
+       * e.g timestep label=[definition]
+       */
+      string label = "";
+
+      // This means we've got a label defined
+      if (file_line.line_[first_inline_bracket - 1] == '=') {
+        string start_string = file_line.line_.substr(0, first_inline_bracket - 1);
+        size_t space_loc = start_string.find_last_of(' ');
+        if (space_loc == string::npos)
+          LOG_CODE_ERROR("space_loc == string::npos for line: " << start_string);
+
+        label = parent_label + string(".") + start_string.substr(space_loc + 1);
+        full_definition = file_line.line_.substr(space_loc + 1, second_inline_bracket - space_loc);
+
+      } else {
+        label = parent_label + string(".") + utilities::ToInline<unsigned, string>(++inline_count);
+        full_definition = file_line.line_.substr(first_inline_bracket, second_inline_bracket - first_inline_bracket + 1);
+      }
+
+      LOG_INFO("Inline definition label: " << label << " | full definition: " << full_definition);
+      replacement_strings.push_back(std::pair<string, string>(full_definition, label));
+
+      /**
+       * Now we have to split the string up between the definition block
+       */
+      string definition = file_line.line_.substr(first_inline_bracket+1, second_inline_bracket - first_inline_bracket - 1);
+      LOG_INFO("Absolute definition: " << definition);
+
+      vector<string> definition_parts;
+      boost::split(definition_parts, definition, boost::is_any_of(";"));
+
+      vector<FileLine> inline_block;
+      FileLine block_line;
+      block_line.file_name_    = file_line.file_name_;
+      block_line.line_number_  = file_line.line_number_;
+      block_line.line_         = "@" + block_type + " " + label;
+      inline_block.push_back(block_line);
+
+      for(string& definition : definition_parts) {
+        boost::replace_all(definition, "=", " ");
+        boost::trim_all(definition);
+
+        FileLine new_line;
+        new_line.file_name_     = file_line.file_name_;
+        new_line.line_number_   = file_line.line_number_;
+        new_line.line_          = definition;
+        inline_block.push_back(new_line);
+      }
+
+      ParseBlock(inline_block);
+
+      first_inline_bracket  = file_line.line_.find("[", second_inline_bracket);
+      second_inline_bracket = file_line.line_.find("]", second_inline_bracket+1);
+
+      // Check to ensure rest of the line has been defined properly.
+      if ( (first_inline_bracket != string::npos && second_inline_bracket == string::npos) ||
+           (first_inline_bracket == string::npos && second_inline_bracket != string::npos)) {
+        LOG_ERROR("At line " << file_line.line_number_ << " of " << file_line.file_name_
+            << ": This line contains either a [ or a ] but not both. This line is not in a valid format");
+      }
+    } // while (first_inline_bracket != string::npos)
+
+    /**
+     * Now we have to replace the original line with the inline definitions
+     * with the labels for the new objects we've created.
+     */
+    for(std::pair<string, string> replacement : replacement_strings)
+      boost::replace_first(file_line.line_, replacement.first, replacement.second);
+    LOG_INFO("Finished line replacement for inline definitions. New line: " << file_line.line_);
+
+  } else if (first_inline_bracket != string::npos || second_inline_bracket != string::npos) {
+    // Only one brace was present.
+    LOG_ERROR("At line " << file_line.line_number_ << " of " << file_line.file_name_
+        << ": This line contains either a [ or a ] but not both. This line is not in a valid format");
+  }
+
+  return; // no braces so no inline
 }
 
 } /* namespace configuration */

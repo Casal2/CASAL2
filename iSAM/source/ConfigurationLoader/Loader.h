@@ -66,6 +66,7 @@ private:
   void                        ParseBlock(vector<FileLine> &block);
   ObjectPtr                   CreateObject(const string &block_type, const string &object_type);
   bool                        HandleOperators(vector<string> &line_values);
+  void                        HandleInlineDefinitions(FileLine& file_line, const string& parent_label);
 
   // Members
   vector<FileLine>            file_lines_;

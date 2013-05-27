@@ -186,6 +186,21 @@ void Model::Validate() {
 
   // Final Objects to validate as they have dependencies
   estimates::Manager::Instance().Validate();
+
+  /**
+   * Do some more sanity checks
+   */
+  initialisationphases::Manager& init_phase_mngr = initialisationphases::Manager::Instance();
+  for (const string& phase : initialisation_phases_) {
+    if (!init_phase_mngr.IsPhaseDefined(phase))
+      LOG_ERROR(parameters_.location(PARAM_INITIALIZATION_PHASES) << "(" << phase << ") has not been defined. Please ensure you have defined it");
+  }
+
+  timesteps::Manager& time_step_mngr = timesteps::Manager::Instance();
+  for (const string time_step : time_steps_) {
+    if (!time_step_mngr.GetTimeStep(time_step))
+      LOG_ERROR(parameters_.location(PARAM_TIME_STEPS) << "(" << time_step << ") has not been defined. Please ensure you have defined it");
+  }
 }
 
 /**
@@ -321,6 +336,7 @@ void Model::Iterate() {
 
   timesteps::Manager& time_step_manager = timesteps::Manager::Instance();
   for (current_year_ = start_year_; current_year_ <= final_year_; ++current_year_) {
+    LOG_INFO("Iteration year: " << current_year_);
     time_step_manager.Execute(current_year_);
   }
 }

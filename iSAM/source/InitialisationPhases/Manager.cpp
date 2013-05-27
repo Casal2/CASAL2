@@ -56,5 +56,16 @@ void Manager::Execute() {
   }
 }
 
+/**
+ *
+ */
+bool Manager::IsPhaseDefined(const string& label) {
+  for(InitialisationPhasePtr phase : objects_)
+    if (phase->label() == label)
+      return true;
+
+  return false;
+}
+
 } /* namespace initialisationphases */
 } /* namespace isam */
