@@ -13,7 +13,8 @@
 // Headers
 #include "InitialisationPhase.h"
 
-#include "TimeSteps/Manager.h"
+#include "TimeSteps/Factory.h"
+#include "Processes/Manager.h"
 
 // Namespaces
 namespace isam {
@@ -25,7 +26,7 @@ InitialisationPhase::InitialisationPhase() {
   LOG_TRACE();
 
   parameters_.RegisterAllowed(PARAM_LABEL);
-  parameters_.RegisterAllowed(PARAM_TIME_STEPS);
+  parameters_.RegisterAllowed(PARAM_PROCESSES);
   parameters_.RegisterAllowed(PARAM_YEARS);
 }
 
@@ -37,11 +38,11 @@ InitialisationPhase::InitialisationPhase() {
  */
 void InitialisationPhase::Validate() {
   CheckForRequiredParameter(PARAM_LABEL);
-  CheckForRequiredParameter(PARAM_TIME_STEPS);
+  CheckForRequiredParameter(PARAM_PROCESSES);
   CheckForRequiredParameter(PARAM_YEARS);
 
   label_            = parameters_.Get(PARAM_LABEL).GetValue<string>();
-  time_step_names_  = parameters_.Get(PARAM_TIME_STEPS).GetValues<string>();
+  process_labels_   = parameters_.Get(PARAM_PROCESSES).GetValues<string>();
   years_            = parameters_.Get(PARAM_YEARS).GetValue<unsigned>();
 }
 
@@ -49,13 +50,16 @@ void InitialisationPhase::Validate() {
  * Build our runtime pointers
  */
 void InitialisationPhase::Build() {
-  timesteps::Manager& time_steps_manager = timesteps::Manager::Instance();
-  for (const string& label : time_step_names_) {
-    TimeStepPtr time_step = time_steps_manager.GetTimeStep(label);
-    if (!time_step)
-      LOG_ERROR(parameters_.location(PARAM_TIME_STEPS) << ": time step " << label << " does not exist. Have you defined it?");
+  time_step_ = timesteps::Factory::Create();
+  time_step_->parameters().Add(PARAM_LABEL, "Auto-generated", __FILE__, __LINE__);
+  time_step_->parameters().Add(PARAM_PROCESSES, process_labels_, __FILE__, __LINE__);
+  time_step_->Validate();
+  time_step_->Build();
 
-    time_steps_.push_back(time_step);
+  processes::Manager& process_manager = processes::Manager::Instance();
+  for(string label : process_labels_) {
+    if (!process_manager.GetProcess(label))
+      LOG_ERROR(parameters_.location(PARAM_PROCESSES) << "(" << label << ") has not been defined as a process. Please ensure you have defined it");
   }
 }
 
@@ -63,12 +67,9 @@ void InitialisationPhase::Build() {
  * Execute the timesteps we have.
  */
 void InitialisationPhase::Execute() {
-  LOG_TRACE();
-  for (unsigned year = 0; year < years_; ++year) {
-    for (TimeStepPtr time_step : time_steps_) {
-      time_step->Execute();
-    }
-  }
+  LOG_INFO("Executing " << years_ << " years with " << process_labels_.size() << " processes");
+  for (unsigned year = 0; year < years_; ++year)
+    time_step_->Execute();
 }
 
 

@@ -26,6 +26,7 @@ public:
   virtual                     ~Manager() noexcept(true);
   void                        Build() override final;
   void                        Execute();
+  bool                        IsPhaseDefined(const string& label);
 
 private:
   // Members

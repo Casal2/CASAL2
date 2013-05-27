@@ -38,8 +38,8 @@ public:
 private:
   // Members
   unsigned                    years_;
-  vector<string>              time_step_names_;
-  vector<TimeStepPtr>         time_steps_;
+  vector<string>              process_labels_;
+  TimeStepPtr                 time_step_;
 };
 
 /*

@@ -30,12 +30,12 @@
 #include "Utilities/NoCopy.h"
 #include "Utilities/Types.h"
 
+using isam::utilities::Double;
+
 // Namespaces
 namespace isam {
 namespace base {
-
 using std::string;
-using isam::utilities::Double;
 
 /**
  * Class Definition
