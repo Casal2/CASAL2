@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 2.6)
+cmake_minimum_required(VERSION 2.8)
 project(iSAM)
 
 # Variables
@@ -46,8 +46,6 @@ LINK_DIRECTORIES("${CMAKE_HOME_DIRECTORY}/bin/${buildOS}/thirdparty/lib/")
 # and auto-populate variables with them for the build
 FILE(GLOB_RECURSE sourceFiles ${ISAM_HOME_DIRECTORY}/source/*.cpp)
 FILE(GLOB_RECURSE testFiles ${ISAM_HOME_DIRECTORY}/source/*.Test.cpp)
-
-# Remove the test files from the source files list
 list(REMOVE_ITEM sourceFiles ${testFiles})
 
 # Get a list of our third party libraries
@@ -61,7 +59,6 @@ ENDFOREACH()
 MESSAGE("THIRD PARTY LIBS: ${thirdPartyLibraries}")
 
 SET(LINK_OPTIONS " ")
-
 ADD_EXECUTABLE(${EXE_NAME} ${sourceFiles} )
 SET_TARGET_PROPERTIES(${EXE_NAME} PROPERTIES COMPILE_FLAGS ${COMPILE_OPTIONS} LINK_FLAGS ${LINK_OPTIONS})
 TARGET_LINK_LIBRARIES(${EXE_NAME} ${thirdPartyLibraries})
