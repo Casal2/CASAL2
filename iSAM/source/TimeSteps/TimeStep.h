@@ -18,6 +18,7 @@
 
 // Headers
 #include "BaseClasses/Object.h"
+#include "DerivedQuantities/Manager.h"
 #include "Processes/Process.h"
 
 // Namespaces
@@ -40,6 +41,8 @@ private:
   // Members
   vector<string>              process_names_;
   vector<ProcessPtr>          processes_;
+  vector<DerivedQuantityPtr>  initialisation_derived_quantities_;
+  vector<DerivedQuantityPtr>  derived_quantities_;
 };
 
 /**

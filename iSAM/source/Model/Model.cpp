@@ -17,6 +17,7 @@
 
 #include "Catchabilities/Manager.h"
 #include "Categories/Categories.h"
+#include "DerivedQuantities/Manager.h"
 #include "Estimates/Manager.h"
 #include "InitialisationPhases/Manager.h"
 #include "MCMC/MCMC.h"
@@ -174,6 +175,7 @@ void Model::Validate() {
   Partition::Instance().Validate();
 
   catchabilities::Manager::Instance().Validate();
+  derivedquantities::Manager::Instance().Validate();
   initialisationphases::Manager::Instance().Validate();
   minimisers::Manager::Instance().Validate();
   observations::Manager::Instance().Validate();
@@ -213,6 +215,7 @@ void Model::Build() {
   estimates::Manager::Instance().Build();
 
   catchabilities::Manager::Instance().Build();
+  derivedquantities::Manager::Instance().Build();
   initialisationphases::Manager::Instance().Build();
   minimisers::Manager::Instance().Build();
   observations::Manager::Instance().Build();
