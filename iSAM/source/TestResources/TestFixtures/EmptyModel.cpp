@@ -37,12 +37,9 @@ namespace isam {
 namespace testfixtures {
 
 EmptyModel::EmptyModel() {
-  // TODO Auto-generated constructor stub
-
 }
 
 EmptyModel::~EmptyModel() {
-  // TODO Auto-generated destructor stub
 }
 
 void EmptyModel::SetUp() {

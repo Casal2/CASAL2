@@ -12,6 +12,7 @@
 
 #include "TimeStep.h"
 
+#include "InitialisationPhases/Manager.h"
 #include "Processes/Manager.h"
 
 namespace isam {
@@ -51,6 +52,13 @@ void TimeStep::Build() {
 
     processes_.push_back(process);
   }
+
+  /**
+   * Get any derived quantities we have specified for this time step
+   */
+  initialisationphases::Manager& init_phases_manager = initialisationphases::Manager::Instance();
+  initialisation_derived_quantities_ = init_phases_manager.GetForInitialisationTimeSteps(label_);
+  derived_quantities_                = init_phases_manager.GetForTimeSteps(label_);
 }
 
 /**

@@ -13,6 +13,7 @@
 // Headers
 #include "Manager.h"
 
+#include "DerivedQuantities/Manager.h"
 #include "Model/Model.h"
 #include "Observations/Manager.h"
 #include "Reports/Manager.h"

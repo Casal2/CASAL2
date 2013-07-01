@@ -168,7 +168,7 @@
 								<option id="gnu.cpp.compiler.option.debugging.level.365201022" name="Debug Level" superClass="gnu.cpp.compiler.option.debugging.level" value="gnu.cpp.compiler.debugging.level.max" valueType="enumerated"/>
 								<option id="gnu.cpp.compiler.option.include.paths.2056003697" name="Include paths (-I)" superClass="gnu.cpp.compiler.option.include.paths" valueType="includePath">
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/source}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/build/win32/thirdparty/include}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/BuildSystem/bin/win32/thirdparty/include}&quot;"/>
 								</option>
 								<option id="gnu.cpp.compiler.option.preprocessor.def.693643310" name="Defined symbols (-D)" superClass="gnu.cpp.compiler.option.preprocessor.def" valueType="definedSymbols">
 									<listOptionValue builtIn="false" value="TESTMODE"/>
@@ -181,10 +181,10 @@
 							<tool id="cdt.managedbuild.tool.gnu.cross.c.linker.6389411" name="Cross GCC Linker" superClass="cdt.managedbuild.tool.gnu.cross.c.linker"/>
 							<tool command="g++" commandLinePattern="${COMMAND} ${FLAGS} ${OUTPUT_FLAG} ${OUTPUT_PREFIX}${OUTPUT} ${INPUTS}" errorParsers="org.eclipse.cdt.core.GLDErrorParser" id="cdt.managedbuild.tool.gnu.cross.cpp.linker.421938548" name="Cross G++ Linker" superClass="cdt.managedbuild.tool.gnu.cross.cpp.linker">
 								<option id="gnu.cpp.link.option.paths.1739887698" name="Library search path (-L)" superClass="gnu.cpp.link.option.paths" valueType="libPaths">
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/build/win32/thirdparty/lib}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/BuildSystem/bin/win32/thirdparty/lib}&quot;"/>
 								</option>
 								<option id="gnu.cpp.link.option.libs.145212321" name="Libraries (-l)" superClass="gnu.cpp.link.option.libs" valueType="libs">
-									<listOptionValue builtIn="false" value="boost_program_options-mgw46-mt-sd-1_50"/>
+									<listOptionValue builtIn="false" value="boost_program_options-mgw47-mt-s-1_53"/>
 									<listOptionValue builtIn="false" value=":gmock_main.a"/>
 								</option>
 								<option id="gnu.cpp.link.option.userobjs.352775305" name="Other objects" superClass="gnu.cpp.link.option.userobjs"/>

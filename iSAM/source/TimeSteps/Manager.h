@@ -10,6 +10,7 @@
 
 // Headers
 #include "BaseClasses/Manager.h"
+#include "DerivedQuantities/Manager.h"
 #include "TimeSteps/TimeStep.h"
 
 // Namespaces
@@ -33,6 +34,7 @@ public:
 private:
   // Members
   vector<TimeStepPtr>         ordered_time_steps_;
+  vector<DerivedQuantityPtr>  derived_quantities_;
 
 };
 

@@ -35,11 +35,18 @@ public:
   void                        Reset() { };
   void                        Execute();
 
+  // accessors
+  void                        set_index(unsigned index) { index_ = index; }
+  unsigned                    index() { return index_; }
+
 private:
   // Members
   unsigned                    years_;
   vector<string>              process_labels_;
-  TimeStepPtr                 time_step_;
+  vector<string>              time_step_labels_;
+  vector<TimeStepPtr>         time_steps_;
+  unsigned                    index_; // index is used for derived quantities
+
 };
 
 /*

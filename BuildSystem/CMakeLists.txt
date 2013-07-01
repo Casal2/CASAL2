@@ -7,10 +7,10 @@ SET(EXE_NAME "iSAM")
 # Change the output folders for our build to something cleaner and platform dependent
 SET(CMAKE_ROOT   bin/cmake)
 
-MESSAGE("CMAKE_HOME_DIRECTORY: ${CMAKE_HOME_DIRECTORY}")
+#MESSAGE("CMAKE_HOME_DIRECTORY: ${CMAKE_HOME_DIRECTORY}")
 
 STRING(REPLACE "BuildSystem" "iSAM" ISAM_HOME_DIRECTORY ${CMAKE_HOME_DIRECTORY})
-MESSAGE("ISAM_HOME_DIRECTORY: ${ISAM_HOME_DIRECTORY}")
+#MESSAGE("ISAM_HOME_DIRECTORY: ${ISAM_HOME_DIRECTORY}")
 
 # GLOBAL BUILD VARIABLES AND LIBRARIES
 IF (DEBUG)
@@ -36,7 +36,7 @@ ELSE (WIN32)
  
 ENDIF ()
 
-MESSAGE("COMPILE_OPTIONS: ${COMPILE_OPTIONS}")
+#MESSAGE("COMPILE_OPTIONS: ${COMPILE_OPTIONS}")
 
 INCLUDE_DIRECTORIES("${ISAM_HOME_DIRECTORY}/source")
 INCLUDE_DIRECTORIES("${CMAKE_HOME_DIRECTORY}/bin/${buildOS}/thirdparty/include")
@@ -50,13 +50,13 @@ list(REMOVE_ITEM sourceFiles ${testFiles})
 
 # Get a list of our third party libraries
 FILE(GLOB thirdPartyLibrariesRaw RELATIVE ${CMAKE_HOME_DIRECTORY} bin/${buildOS}/thirdparty/lib/*.a)
-MESSAGE("THIRD PARTY PATH: ${CMAKE_HOME_DIRECTORY}/bin/${buildOS}/thirdparty/lib/")
-MESSAGE("THIRD PARTY LIBS: ${thirdPartyLibrariesRaw}")
+#MESSAGE("THIRD PARTY PATH: ${CMAKE_HOME_DIRECTORY}/bin/${buildOS}/thirdparty/lib/")
+#MESSAGE("THIRD PARTY LIBS: ${thirdPartyLibrariesRaw}")
 FOREACH(library ${thirdPartyLibrariesRaw})
   STRING(REPLACE "bin/${buildOS}/thirdparty/lib/" "" shortLibrary ${library})
   SET(thirdPartyLibraries ${thirdPartyLibraries} -l:${shortLibrary})
 ENDFOREACH()
-MESSAGE("THIRD PARTY LIBS: ${thirdPartyLibraries}")
+#MESSAGE("THIRD PARTY LIBS: ${thirdPartyLibraries}")
 
 SET(LINK_OPTIONS " ")
 ADD_EXECUTABLE(${EXE_NAME} ${sourceFiles} )
