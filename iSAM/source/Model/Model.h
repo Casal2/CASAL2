@@ -72,6 +72,7 @@ public:
   // Accessors
   void                        set_run_mode(RunMode::Type new_mode) { run_mode_ = new_mode; }
   RunMode::Type               run_mode() { return run_mode_; }
+  State::Type                 state() { return state_; }
   unsigned                    start_year() { return start_year_; }
   unsigned                    final_year() { return final_year_; }
   unsigned                    current_year() { return current_year_; }

@@ -100,11 +100,7 @@ void InitialisationPhase::Execute() {
   for (unsigned year = 0; year < years_; ++year) {
     for (TimeStepPtr time_step : time_steps_) {
       time_step->Execute();
-
-      for (DerivedQuantityPtr dq : derived_quantities) {
-        if (dq->time_step() == time_step->label())
-          dq->CalculateForInitialisationPhase(index_);
-      }
+      time_step->ExecuteInitialisationDerivedQuantities(index_);
     }
   }
 }
