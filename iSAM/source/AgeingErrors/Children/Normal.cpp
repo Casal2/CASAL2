@@ -46,9 +46,7 @@ Normal::Normal() {
 /**
  * Validate the parameters from our configuration file
  */
-void Normal::Validate() {
-  AgeingError::Validate();
-
+void Normal::DoValidate() {
   CheckForRequiredParameter(PARAM_CV);
 
   cv_ = parameters_.Get(PARAM_CV).GetValue<double>();
@@ -65,16 +63,15 @@ void Normal::Validate() {
  * ageing error. In this case we'll just
  * call the parent build then do a reset
  */
-void Normal::Build() {
-  AgeingError::Build();
-  Reset();
+void Normal::DoBuild() {
+  DoReset();
 }
 
 /**
  * Reset our mis_matrix to ensure it has the latest
  * changes from any estimable modifications
  */
-void Normal::Reset() {
+void Normal::DoReset() {
 
   Double age = 0.0;
   Double min_age_class = 0.0;

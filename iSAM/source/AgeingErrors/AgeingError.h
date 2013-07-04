@@ -33,15 +33,18 @@ public:
   // Methods
   AgeingError();
   virtual                     ~AgeingError();
-  virtual void                Validate();
-  virtual void                Build();
-  virtual void                Reset() = 0;
+  void                        Validate();
+  void                        Build();
+  void                        Reset() { DoReset(); }
+  virtual void                DoValidate() = 0;
+  virtual void                DoBuild() = 0;
+  virtual void                DoReset() = 0;
 
   // Accessors
   unsigned                    min_age() const { return min_age_; }
   unsigned                    max_age() const { return max_age_; }
   bool                        age_plus() const { return age_plus_; }
-  vector<vector<Double> >&    mix_matrix() { return mis_matrix_; }
+  vector<vector<Double> >&    mis_matrix() { return mis_matrix_; }
 //  const vector<Double>&       expected();
 
 protected:
