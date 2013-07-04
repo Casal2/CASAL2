@@ -31,9 +31,9 @@ public:
   // Methods
   Normal();
   virtual                     ~Normal() = default;
-  void                        Validate() override final;
-  void                        Build() override final;
-  void                        Reset() override final;
+  void                        DoValidate() override final;
+  void                        DoBuild() override final;
+  void                        DoReset() override final;
 
 private:
   // Members

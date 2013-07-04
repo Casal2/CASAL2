@@ -46,15 +46,19 @@ void AgeingError::Validate() {
   max_age_    = model->max_age();
   age_plus_   = model->age_plus();
   age_spread_ = model->age_spread();
+
+  DoValidate();
 }
 
 /**
- *
+ * Build our matrix then call the child DoBuild method
  */
 void AgeingError::Build() {
   mis_matrix_.resize(age_spread_);
   for (unsigned i = 0; i < age_spread_; ++i)
     mis_matrix_[i].resize(age_spread_, 0);
+
+  DoBuild();
 }
 
 } /* namespace isam */

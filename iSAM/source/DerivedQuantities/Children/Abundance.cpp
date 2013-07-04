@@ -41,7 +41,6 @@ void Abundance::DoValidate() {
   if (category_labels_.size() != selectivity_labels_.size())
     LOG_ERROR(parameters_.location(PARAM_SELECTIVITIES) << " count (" << selectivity_labels_.size() << ") "
         << " is not the same as the categories count (" << category_labels_.size() << ")");
-
 }
 
 
