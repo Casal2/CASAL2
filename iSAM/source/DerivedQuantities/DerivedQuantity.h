@@ -32,6 +32,7 @@ public:
   void                        Reset() { DoReset(); };
   void                        Calculate();
   void                        CalculateForInitialisationPhase(unsigned initialisation_phase);
+  bool                        IsAssignedToInitialisationPhase(const string& label);
 
   // accessors
   const string&               time_step() { return time_step_label_; }

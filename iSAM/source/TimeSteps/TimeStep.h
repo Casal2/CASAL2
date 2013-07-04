@@ -36,6 +36,8 @@ public:
   void                        Build();
   void                        Reset() {};
   void                        Execute();
+  void                        ExecuteInitialisationDerivedQuantities(unsigned phase);
+  void                        ExecuteDerivedQuantities();
 
 private:
   // Members

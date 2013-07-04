@@ -12,7 +12,9 @@
 
 #include "TimeStep.h"
 
+#include "DerivedQuantities/Manager.h"
 #include "InitialisationPhases/Manager.h"
+#include "Model/Model.h"
 #include "Processes/Manager.h"
 
 namespace isam {
@@ -56,9 +58,9 @@ void TimeStep::Build() {
   /**
    * Get any derived quantities we have specified for this time step
    */
-  initialisationphases::Manager& init_phases_manager = initialisationphases::Manager::Instance();
-  initialisation_derived_quantities_ = init_phases_manager.GetForInitialisationTimeSteps(label_);
-  derived_quantities_                = init_phases_manager.GetForTimeSteps(label_);
+  derivedquantities::Manager& derived_quantities_manager = derivedquantities::Manager::Instance();
+  initialisation_derived_quantities_ = derived_quantities_manager.GetForInitialisationTimeStep(label_);
+  derived_quantities_                = derived_quantities_manager.GetForTimeStep(label_);
 }
 
 /**
@@ -67,6 +69,22 @@ void TimeStep::Build() {
 void TimeStep::Execute() {
   for (ProcessPtr process : processes_)
     process->Execute();
+}
+
+/**
+ *
+ */
+void TimeStep::ExecuteInitialisationDerivedQuantities(unsigned phase) {
+  for (DerivedQuantityPtr derived_quantity : initialisation_derived_quantities_)
+    derived_quantity->CalculateForInitialisationPhase(phase);
+}
+
+/**
+ *
+ */
+void TimeStep::ExecuteDerivedQuantities() {
+  for (DerivedQuantityPtr derived_quantity : derived_quantities_)
+    derived_quantity->Calculate();
 }
 
 
