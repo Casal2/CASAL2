@@ -15,9 +15,14 @@
 
 // headers
 #include "BaseClasses/Object.h"
+#include "Model/Model.h"
+#include "Partition/Accessors/Categories.h"
+#include "Selectivities/Selectivity.h"
 
 // namespaces
 namespace isam {
+
+namespace accessor = isam::partition::accessors;
 
 /**
  * class definition
@@ -28,28 +33,28 @@ public:
   DerivedQuantity();
   virtual                     ~DerivedQuantity() = default;
   void                        Validate();
-  void                        Build() { DoBuild(); };
-  void                        Reset() { DoReset(); };
-  void                        Calculate();
-  void                        CalculateForInitialisationPhase(unsigned initialisation_phase);
+  void                        Build();
+  void                        Reset() { };
   bool                        IsAssignedToInitialisationPhase(const string& label);
+  virtual void                Calculate() = 0;
+  virtual void                Calculate(unsigned initialisation_phase) = 0;
+  Double                      GetValue(unsigned year);
 
   // accessors
   const string&               time_step() { return time_step_label_; }
 
 protected:
-  // methods
-  virtual void                DoValidate() = 0;
-  virtual void                DoBuild() = 0;
-  virtual void                DoReset() = 0;
-
-private:
   // Members
   string                      time_step_label_;
   vector<string>              initialisation_time_step_labels_;
   unsigned                    current_initialisation_phase_;
-  vector<Double>              initialisation_values_;
-  vector<Double>              values_;
+  vector<vector<Double> >     initialisation_values_;
+  map<unsigned, Double>       values_;
+  vector<string>              selectivity_labels_;
+  vector<SelectivityPtr>      selectivities_;
+  vector<string>              category_labels_;
+  ModelPtr                    model_;
+  accessor::CategoriesPtr     partition_;
 };
 
 // typedef

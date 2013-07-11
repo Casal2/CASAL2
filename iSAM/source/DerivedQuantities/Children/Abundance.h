@@ -23,16 +23,8 @@ public:
   // methods
   Abundance();
   virtual                     ~Abundance() = default;
-  void                        DoValidate() override final;
-  void                        DoBuild() override final { };
-  void                        DoReset() override final { };
-
-private:
-  // members
-  string                      time_step_label_;
-  vector<string>              initialisation_time_step_labels_;
-  vector<string>              category_labels_;
-  vector<string>              selectivity_labels_;
+  void                        Calculate() override final;
+  void                        Calculate(unsigned initialisation_phase) override final;
 };
 
 } /* namespace derivedquantities */

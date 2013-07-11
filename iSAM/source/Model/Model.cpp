@@ -79,11 +79,9 @@ shared_ptr<Model> Model::Instance(bool force_new) {
 void Model::Start() {
   LOG_TRACE();
 
-  if (state_ != State::kInitialise)
-    LOG_CODE_ERROR("Model state should always be initialise when entering the start method");
-
-  Initialise();
-  reports::Manager::Instance().Execute(State::kInitialise);
+  if (state_ != State::kStartUp)
+    LOG_CODE_ERROR("Model state should always be startup when entering the start method");
+  reports::Manager::Instance().Execute(State::kStartUp);
 
   state_ = State::kValidate;
   LOG_INFO("Model: State Change to Validate");
@@ -121,13 +119,6 @@ void Model::Start() {
     break;
   }
 
-}
-
-/**
- * This method will initialise everything that is needed to be done before the Validation starts.
- */
-void Model::Initialise() {
-  LOG_TRACE();
 }
 
 /**
@@ -333,10 +324,12 @@ void Model::RunMCMC() {
 void Model::Iterate() {
   LOG_TRACE();
 
+  state_ = State::kInitialise;
   current_year_ = start_year_;
   initialisationphases::Manager& init_phase_manager = initialisationphases::Manager::Instance();
   init_phase_manager.Execute();
 
+  state_ = State::kExecute;
   timesteps::Manager& time_step_manager = timesteps::Manager::Instance();
   for (current_year_ = start_year_; current_year_ <= final_year_; ++current_year_) {
     LOG_INFO("Iteration year: " << current_year_);

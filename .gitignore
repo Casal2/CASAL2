@@ -3,3 +3,4 @@
 /BuildSystem/buildtools/classes/*.pyc
 .metadata
 /RemoteSystemsTempFiles
+/BuildSystem/Doxygen

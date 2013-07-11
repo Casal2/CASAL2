@@ -19,28 +19,48 @@ namespace derivedquantities {
  * default constructor
  */
 Abundance::Abundance() {
-  parameters_.RegisterAllowed(PARAM_TIME_STEP);
-  parameters_.RegisterAllowed(PARAM_CATEGORIES);
-  parameters_.RegisterAllowed(PARAM_SELECTIVITIES);
-  parameters_.RegisterAllowed(PARAM_INITIALIZATION_PHASES);
+
 }
 
 /**
+ * Calculate the derived quantity value for the kExecute
+ * state of the model.
+ *
+ * This class will calculate a value that is the sum total
+ * of the population in the model filtered by category and
+ * multiplied by the selectivities.
  *
  */
-void Abundance::DoValidate() {
-  CheckForRequiredParameter(PARAM_TIME_STEP);
-  CheckForRequiredParameter(PARAM_CATEGORIES);
-  CheckForRequiredParameter(PARAM_SELECTIVITIES);
+void Abundance::Calculate() {
+  Double value = 0.0;
 
-  time_step_label_                  = parameters_.Get(PARAM_TIME_STEP).GetValue<string>();
-  initialisation_time_step_labels_  = parameters_.Get(PARAM_INITIALIZATION_PHASES).GetValues<string>();
-  category_labels_                  = parameters_.Get(PARAM_CATEGORIES).GetValues<string>();
-  selectivity_labels_               = parameters_.Get(PARAM_SELECTIVITIES).GetValues<string>();
+  auto iterator = partition_->Begin();
+  // iterate over each category
+  for (unsigned i = 0; i < partition_->Size() && iterator != partition_->End(); ++i, ++iterator) {
+    for (unsigned j = 0; j < (*iterator)->data_.size(); ++j) {
+      value += (*iterator)->data_[j] * selectivities_[i]->GetResult((*iterator)->min_age_ + j);
+    }
+  }
 
-  if (category_labels_.size() != selectivity_labels_.size())
-    LOG_ERROR(parameters_.location(PARAM_SELECTIVITIES) << " count (" << selectivity_labels_.size() << ") "
-        << " is not the same as the categories count (" << category_labels_.size() << ")");
+  values_[model_->current_year()] = value;
+}
+
+/**
+ * Calculate the value for this derived quantity during the
+ * initialisation phase and store it based on the phase we're in
+ */
+void Abundance::Calculate(unsigned initialisation_phase) {
+  Double value = 0.0;
+
+  auto iterator = partition_->Begin();
+  // iterate over each category
+  for (unsigned i = 0; i < partition_->Size() && iterator != partition_->End(); ++i, ++iterator) {
+    for (unsigned j = 0; j < (*iterator)->data_.size(); ++j) {
+      value += (*iterator)->data_[j] * selectivities_[i]->GetResult((*iterator)->min_age_ + j);
+    }
+  }
+
+  initialisation_values_[initialisation_phase].push_back(value);
 }
 
 

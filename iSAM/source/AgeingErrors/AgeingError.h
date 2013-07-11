@@ -10,8 +10,6 @@
  * @section DESCRIPTION
  *
  * The time class represents a moment of time.
- *
- * $Date: 2008-03-04 16:33:32 +1300 (Tue, 04 Mar 2008) $
  */
 #ifndef AGEINGERROR_H_
 #define AGEINGERROR_H_
@@ -36,18 +34,19 @@ public:
   void                        Validate();
   void                        Build();
   void                        Reset() { DoReset(); }
-  virtual void                DoValidate() = 0;
-  virtual void                DoBuild() = 0;
-  virtual void                DoReset() = 0;
 
   // Accessors
   unsigned                    min_age() const { return min_age_; }
   unsigned                    max_age() const { return max_age_; }
   bool                        age_plus() const { return age_plus_; }
   vector<vector<Double> >&    mis_matrix() { return mis_matrix_; }
-//  const vector<Double>&       expected();
 
 protected:
+  // Methods
+  virtual void                DoValidate() = 0;
+  virtual void                DoBuild() = 0;
+  virtual void                DoReset() = 0;
+
   // Members
   unsigned                    min_age_;
   unsigned                    max_age_;

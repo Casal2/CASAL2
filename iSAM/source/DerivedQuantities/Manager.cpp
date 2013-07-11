@@ -43,7 +43,11 @@ DerivedQuantityPtr Manager::GetDerivedQuantity(const string& label) {
 }
 
 /**
+ * Return a vector of derived quantities that are assigned to
+ * the initialisation phase time step defined byt he label
  *
+ * @param label The label of the initialisation phase time step
+ * @return A vector of derived quantities. Empty vector if none exist
  */
 vector<DerivedQuantityPtr> Manager::GetForInitialisationTimeStep(const string& label) {
   vector<DerivedQuantityPtr> results;
