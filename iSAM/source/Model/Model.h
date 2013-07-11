@@ -45,10 +45,11 @@ enum Type {
 
 namespace State {
 enum Type {
-  kInitialise,
+  kStartUp,
   kValidate,
   kBuild,
   kVerify,
+  kInitialise,
   kPreExecute,
   kExecute,
   kPostExecute,
@@ -86,7 +87,6 @@ public:
 protected:
   // Methods
   Model();
-  void                        Initialise();
   void                        Validate();
   void                        Build();
   void                        Verify();
@@ -98,7 +98,7 @@ protected:
 
   // Members
   RunMode::Type               run_mode_ = RunMode::kInvalid;
-  State::Type                 state_    = State::kInitialise;
+  State::Type                 state_    = State::kStartUp;
   unsigned                    start_year_ = 0;
   unsigned                    final_year_ = 0;
   unsigned                    current_year_ = 0;

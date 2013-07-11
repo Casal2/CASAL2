@@ -42,3 +42,4 @@ def doBuild():
   shutil.copy('stage/lib/libboost_program_options-mgw47-mt-s-1_53.a', targetPath + "/lib/")
   
   os.system('touch ' + targetPath + '/boost.success')
+  return True

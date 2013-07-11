@@ -76,7 +76,7 @@ void TimeStep::Execute() {
  */
 void TimeStep::ExecuteInitialisationDerivedQuantities(unsigned phase) {
   for (DerivedQuantityPtr derived_quantity : initialisation_derived_quantities_)
-    derived_quantity->CalculateForInitialisationPhase(phase);
+    derived_quantity->Calculate(phase);
 }
 
 /**
