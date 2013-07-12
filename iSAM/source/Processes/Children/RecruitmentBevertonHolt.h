@@ -14,6 +14,7 @@
 #define PROCESSES_RECRUITMENTBEVERTONHOLT_H_
 
 // headers
+#include "DerivedQuantities/DerivedQuantity.h"
 #include "Partition/Accessors/Categories.h"
 #include "Processes/Process.h"
 
@@ -39,7 +40,7 @@ private:
   // members
   ModelPtr                    model_;
   accessor::CategoriesPtr     partition_;
-  vector<string>              category_names_;
+  vector<string>              category_labels_;
   Double                      r0_;
   unsigned                    phase_b0_;
   Double                      b0_;
@@ -48,6 +49,9 @@ private:
   Double                      steepness_;
   string                      ssb_;
   unsigned                    ssb_offset_;
+  vector<Double>              ycs_values_;
+  vector<unsigned>            standardise_ycs_;
+  DerivedQuantityPtr          derived_quantity_;
 };
 
 } /* namespace processes */

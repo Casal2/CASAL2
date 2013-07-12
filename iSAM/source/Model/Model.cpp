@@ -237,6 +237,7 @@ void Model::Reset() {
   estimates::Manager::Instance().Reset();
 
   catchabilities::Manager::Instance().Reset();
+  derivedquantities::Manager::Instance().Reset();
   initialisationphases::Manager::Instance().Reset();
   minimisers::Manager::Instance().Reset();
   observations::Manager::Instance().Reset();
