@@ -54,7 +54,7 @@ void MortalityConstantRate::Validate() {
   // Assign and validate parameters
   label_              = parameters_.Get(PARAM_LABEL).GetValue<string>();
   category_names_     = parameters_.Get(PARAM_CATEGORIES).GetValues<string>();
-  m_                  = parameters_.Get(PARAM_M).GetValues<double, Double>();
+  m_                  = parameters_.Get(PARAM_M).GetValues<Double>();
   selectivity_names_  = parameters_.Get(PARAM_SELECTIVITIES).GetValues<string>();
 
   if (m_.size() == 1)
