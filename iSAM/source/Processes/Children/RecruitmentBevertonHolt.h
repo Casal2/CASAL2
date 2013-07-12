@@ -13,17 +13,41 @@
 #ifndef PROCESSES_RECRUITMENTBEVERTONHOLT_H_
 #define PROCESSES_RECRUITMENTBEVERTONHOLT_H_
 
+// headers
+#include "Partition/Accessors/Categories.h"
+#include "Processes/Process.h"
+
 // namespaces
 namespace isam {
 namespace processes {
 
+namespace accessor = isam::partition::accessors;
+
 /**
  * class definition
  */
-class RecruitmentBevertonHolt {
+class RecruitmentBevertonHolt : public isam::Process {
 public:
+  // methods
   RecruitmentBevertonHolt();
-  virtual ~RecruitmentBevertonHolt();
+  virtual                     ~RecruitmentBevertonHolt() = default;
+  void                        Validate();
+  void                        Build();
+  void                        Execute();
+
+private:
+  // members
+  ModelPtr                    model_;
+  accessor::CategoriesPtr     partition_;
+  vector<string>              category_names_;
+  Double                      r0_;
+  unsigned                    phase_b0_;
+  Double                      b0_;
+  vector<Double>              proportions_;
+  unsigned                    age_;
+  Double                      steepness_;
+  string                      ssb_;
+  unsigned                    ssb_offset_;
 };
 
 } /* namespace processes */

@@ -16,11 +16,14 @@
 #include <typeinfo>
 
 #include "Utilities/To.h"
+#include "Utilities/Types.h"
 #include "Utilities/Logging/Logging.h"
 
 // Namespaces
 namespace isam {
 namespace parameterlist {
+
+using isam::utilities::Double;
 
 /**
  *
@@ -93,17 +96,20 @@ vector<T> Parameter::GetValues() const {
   return result_value;
 }
 
-template<typename SOURCE, typename TARGET>
-vector<TARGET> Parameter::GetValues() const {
+/**
+ *
+ */
+template<>
+inline vector<Double> Parameter::GetValues() const {
 
-  RequireValueType<SOURCE>();
+  RequireValueType<double>();
 
-  vector<TARGET> result_value;
+  vector<Double> result_value;
 
   for (size_t i = 0; i < values_.size(); ++i) {
-    SOURCE temp_value;
+    double temp_value;
 
-    if (!isam::utilities::To<SOURCE>(values_[i], temp_value)) {
+    if (!isam::utilities::To<double>(values_[i], temp_value)) {
       LOG_CODE_ERROR("Failed to convert type. This shouldn't occur because we did a type check above");
     }
 
@@ -112,6 +118,29 @@ vector<TARGET> Parameter::GetValues() const {
 
   return result_value;
 }
+
+/**
+ *
+ */
+//template<typename SOURCE, typename TARGET>
+//vector<TARGET> Parameter::GetValues() const {
+//
+//  RequireValueType<SOURCE>();
+//
+//  vector<TARGET> result_value;
+//
+//  for (size_t i = 0; i < values_.size(); ++i) {
+//    SOURCE temp_value;
+//
+//    if (!isam::utilities::To<SOURCE>(values_[i], temp_value)) {
+//      LOG_CODE_ERROR("Failed to convert type. This shouldn't occur because we did a type check above");
+//    }
+//
+//    result_value.push_back(temp_value);
+//  }
+//
+//  return result_value;
+//}
 
 /**
  *

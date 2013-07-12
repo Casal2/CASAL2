@@ -57,7 +57,7 @@ void Increasing::Validate() {
   label_  = parameters_.Get(PARAM_LABEL).GetValue<string>();
   low_    = parameters_.Get(PARAM_L).GetValue<double>();
   high_   = parameters_.Get(PARAM_H).GetValue<double>();
-  v_      = parameters_.Get(PARAM_V).GetValues<double, Double>();
+  v_      = parameters_.Get(PARAM_V).GetValues<Double>();
   if (parameters_.IsDefined(PARAM_ALPHA))
     alpha_ = parameters_.Get(PARAM_ALPHA).GetValue<double>();
 

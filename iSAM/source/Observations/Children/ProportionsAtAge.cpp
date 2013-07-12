@@ -57,7 +57,7 @@ void ProportionsAtAge::Validate() {
   tolerance_          = parameters_.Get(PARAM_TOLERANCE).GetValue<double>(0.001);
   process_error_      = parameters_.Get(PARAM_PROCESS_ERROR).GetValue<double>(0.0);
   ageing_error_label_ = parameters_.Get(PARAM_AGEING_ERROR).GetValue<string>("");
-  error_values_       = parameters_.Get(PARAM_ERROR_VALUE).GetValues<double, Double>();
+  error_values_       = parameters_.Get(PARAM_ERROR_VALUE).GetValues<Double>();
   age_spread_         = (max_age_ - min_age_) + 1;
 
   /**

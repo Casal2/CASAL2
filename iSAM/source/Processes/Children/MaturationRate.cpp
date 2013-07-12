@@ -58,7 +58,7 @@ void MaturationRate::Validate() {
   label_                = parameters_.Get(PARAM_LABEL).GetValue<string>();
   from_category_names_  = parameters_.Get(PARAM_FROM).GetValues<string>();
   to_category_names_    = parameters_.Get(PARAM_TO).GetValues<string>();
-  proportions_          = parameters_.Get(PARAM_PROPORTIONS).GetValues<double, Double>();
+  proportions_          = parameters_.Get(PARAM_PROPORTIONS).GetValues<Double>();
   selectivity_names_    = parameters_.Get(PARAM_SELECTIVITIES).GetValues<string>();
 
   if (selectivity_names_.size() == 1)
