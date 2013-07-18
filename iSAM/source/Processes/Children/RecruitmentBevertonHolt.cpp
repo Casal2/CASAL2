@@ -13,7 +13,9 @@
 
 #include <numeric>
 
+#include "Categories/Categories.h"
 #include "DerivedQuantities/Manager.h"
+#include "InitialisationPhases/Manager.h"
 #include "Utilities/DoubleCompare.h"
 
 // namespaces
@@ -62,6 +64,7 @@ void RecruitmentBevertonHolt::Validate() {
   ssb_offset_       = parameters_.Get(PARAM_SSB_OFFSET).GetValue<unsigned>();
   proportions_      = parameters_.Get(PARAM_PROPORTIONS).GetValues<Double>();
   ycs_values_       = parameters_.Get(PARAM_YCS_VALUES).GetValues<Double>();
+  phase_b0_label_   = parameters_.Get(PARAM_B0).GetValue<string>();
 
   if (parameters_.IsDefined(PARAM_STANDARDISE_YCS_YEARS))
     standardise_ycs_  = parameters_.Get(PARAM_STANDARDISE_YCS_YEARS).GetValues<unsigned>();
@@ -73,7 +76,7 @@ void RecruitmentBevertonHolt::Validate() {
   }
 
   if (age_ < model_->min_age())
-    LOG_ERROR(parameters_.location(PARAM_AGE) << " (" << age_ << ") cannot be less than the model's min_age (" << model_->min_age << ")");
+    LOG_ERROR(parameters_.location(PARAM_AGE) << " (" << age_ << ") cannot be less than the model's min_age (" << model_->min_age() << ")");
   if (age_ > model_->max_age())
     LOG_ERROR(parameters_.location(PARAM_AGE) << " (" << age_ << ") cannot be greater than the model's max_age (" << model_->max_age() << ")");
 
@@ -120,17 +123,78 @@ void RecruitmentBevertonHolt::Validate() {
 }
 
 /**
- *
+ * Build the runtime relationships between this object and it's
  */
 void RecruitmentBevertonHolt::Build() {
   derived_quantity_ = derivedquantities::Manager::Instance().GetDerivedQuantity(ssb_);
+  partition_        = accessor::CategoriesPtr(new accessor::Categories(category_labels_));
+  phase_b0_         = initialisationphases::Manager::Instance().GetPhaseIndex(phase_b0_label_);
 }
 
 /**
- *
+ * Reset all of the values so they're ready for an execution run
+ */
+void RecruitmentBevertonHolt::Reset() {
+  ssb_values_.clear();
+  ycs_years_.clear();
+  true_ycs_values_.clear();
+  recruitment_values_.clear();
+
+  for (unsigned i = model_->start_year(); i <= model_->final_year(); ++i)
+    ycs_years_.push_back(i - ssb_offset_);
+
+  Double mean_ycs = 0;
+  for (unsigned i = 0; i < standardise_ycs_.size(); ++i) {
+    for (unsigned j = 0; j < ycs_years_.size(); ++j) {
+      if (ycs_years_[j] == standardise_ycs_[i]) {
+        mean_ycs += ycs_values_[j];
+        break;
+      }
+    }
+  }
+
+  mean_ycs /= standardise_ycs_.size();
+  for (unsigned i = 0; i < ycs_values_.size(); ++i)
+    standardise_ycs_.push_back(ycs_values_[i] / mean_ycs);
+}
+
+/**
+ * Execute this process.
  */
 void RecruitmentBevertonHolt::Execute() {
+  Double amount_per = 0.0;
 
+  if (model_->state() == State::kInitialise) {
+    initialisationphases::Manager& init_phase_manager = initialisationphases::Manager::Instance();
+    if (init_phase_manager.last_executed_phase() == phase_b0_) {
+      amount_per = r0_;
+
+    } else {
+      b0_ = derived_quantity_->GetInitialisationValue(phase_b0_, derived_quantity_->GetInitialisationValuesSize(phase_b0_) - 1);
+      Double ssb_ratio = derived_quantity_->GetValue(model_->start_year() - ssb_offset_) / b0_;
+      Double true_ycs  = 1.0 * ssb_ratio / (1 - ((5 * steepness_ - 1) / (4 * steepness_) ) * (1 - ssb_ratio));
+      amount_per = r0_ * true_ycs;
+    }
+
+  } else {
+    /**
+     * The model is not in an initialisation phase
+     */
+    Double ycs = standardise_ycs_[model_->current_year() - model_->start_year()];
+    b0_ = derived_quantity_->GetInitialisationValue(phase_b0_, derived_quantity_->GetInitialisationValuesSize(phase_b0_) - 1);
+    Double ssb_ratio = derived_quantity_->GetValue(model_->start_year() - ssb_offset_) / b0_;
+    Double true_ycs  = ycs * ssb_ratio / (1 - ((5 * steepness_ - 1) / (4 * steepness_) ) * (1 - ssb_ratio));
+    amount_per = r0_ * true_ycs;
+
+    true_ycs_values_.push_back(true_ycs);
+    recruitment_values_.push_back(amount_per);
+    ssb_values_.push_back(derived_quantity_->GetValue(model_->start_year() - ssb_offset_));
+  }
+
+  auto iterator = partition_->Begin();
+  for (unsigned i = 0; iterator != partition_->End(); ++iterator, ++i) {
+    (*iterator)->data_[i] += amount_per * proportions_[i];
+  }
 }
 
 } /* namespace processes */

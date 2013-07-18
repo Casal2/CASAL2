@@ -22,6 +22,7 @@
 
 #include "Catchabilities/Factory.h"
 #include "Categories/Categories.h"
+#include "DerivedQuantities/Factory.h"
 #include "Estimates/Factory.h"
 #include "File.h"
 #include "GlobalConfiguration/GlobalConfiguration.h"
@@ -399,6 +400,9 @@ ObjectPtr Loader::CreateObject(const string &block_type, const string &object_ty
 
   } else if (block_type == PARAM_CATEGORIES) {
     object = Categories::Instance();
+
+  } else if (block_type == PARAM_DERIVED_QUANTITY) {
+    object = derivedquantities::Factory::Create(block_type, object_type);
 
   } else if (block_type == PARAM_ESTIMATE) {
     object = estimates::info::Factory::Create();

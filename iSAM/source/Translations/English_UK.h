@@ -109,6 +109,7 @@
 #define PARAM_BASIC                               "basic"
 #define PARAM_BETA                                "beta"
 #define PARAM_BETADIFF                            "betadiff"
+#define PARAM_BEVERTON_HOLT                       "beverton_holt"
 #define PARAM_BH_RECRUITMENT                      "bh_recruitment"
 #define PARAM_BINOMIAL                            "binomial"
 #define PARAM_BINOMIAL_APPROX                     "binomial_approx"

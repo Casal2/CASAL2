@@ -39,6 +39,8 @@ public:
   virtual void                Calculate() = 0;
   virtual void                Calculate(unsigned initialisation_phase) = 0;
   Double                      GetValue(unsigned year);
+  Double                      GetInitialisationValue(unsigned phase = 0, unsigned index = 0) { return initialisation_values_[phase][index]; }
+  unsigned                    GetInitialisationValuesSize(unsigned phase) { return initialisation_values_[phase].size(); }
 
   // accessors
   const string&               time_step() { return time_step_label_; }

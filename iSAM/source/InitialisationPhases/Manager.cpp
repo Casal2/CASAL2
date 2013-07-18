@@ -55,20 +55,34 @@ void Manager::Build() {
 void Manager::Execute() {
   LOG_TRACE();
 
-  for(InitialisationPhasePtr phase : ordered_initialisation_phases_) {
-    phase->Execute();
+  for (unsigned i = 0; i < ordered_initialisation_phases_.size(); ++i) {
+    ordered_initialisation_phases_[i]->Execute();
+    last_executed_phase_ = i;
   }
 }
 
 /**
  *
  */
-bool Manager::IsPhaseDefined(const string& label) {
+bool Manager::IsPhaseDefined(const string& label) const {
   for(InitialisationPhasePtr phase : objects_)
     if (phase->label() == label)
       return true;
 
   return false;
+}
+
+/**
+ *
+ */
+unsigned Manager::GetPhaseIndex(const string& label) const {
+  for (unsigned i = 0; i < ordered_initialisation_phases_.size(); ++i) {
+    if (ordered_initialisation_phases_[i]->label() == label)
+      return i;
+  }
+
+  LOG_ERROR("The initialisation phase " << label << " has not been defined in the active list of initialisation phases");
+  return 0;
 }
 
 } /* namespace initialisationphases */

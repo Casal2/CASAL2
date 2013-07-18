@@ -35,6 +35,7 @@ public:
   void                        Validate();
   void                        Build();
   void                        Execute();
+  void                        Reset();
 
 private:
   // members
@@ -42,6 +43,7 @@ private:
   accessor::CategoriesPtr     partition_;
   vector<string>              category_labels_;
   Double                      r0_;
+  string                      phase_b0_label_;
   unsigned                    phase_b0_;
   Double                      b0_;
   vector<Double>              proportions_;
@@ -49,7 +51,11 @@ private:
   Double                      steepness_;
   string                      ssb_;
   unsigned                    ssb_offset_;
+  vector<Double>              ssb_values_;
+  vector<Double>              ycs_years_;
   vector<Double>              ycs_values_;
+  vector<Double>              true_ycs_values_;
+  vector<Double>              recruitment_values_;
   vector<unsigned>            standardise_ycs_;
   DerivedQuantityPtr          derived_quantity_;
 };

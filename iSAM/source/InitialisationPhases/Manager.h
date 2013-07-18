@@ -26,10 +26,15 @@ public:
   virtual                     ~Manager() noexcept(true);
   void                        Build() override final;
   void                        Execute();
-  bool                        IsPhaseDefined(const string& label);
+  bool                        IsPhaseDefined(const string& label) const;
+  unsigned                    GetPhaseIndex(const string& label) const;
+
+  // accessors
+  unsigned                    last_executed_phase() const { return last_executed_phase_; }
 
 private:
   // Members
+  unsigned                        last_executed_phase_ = 0;
   vector<InitialisationPhasePtr>  ordered_initialisation_phases_;
 };
 

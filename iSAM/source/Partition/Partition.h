@@ -64,6 +64,7 @@ public:
 
   // Accessors
   partition::Category&        category(const string& category_label);
+  Double                      mean_weight(unsigned age, const string& category_label) { return 0.0; }
 
 private:
   // Methods
