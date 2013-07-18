@@ -18,6 +18,7 @@
 #include "Processes/Children/MaturationRate.h"
 #include "Processes/Children/MortalityConstantRate.h"
 #include "Processes/Children/MortalityEvent.h"
+#include "Processes/Children/RecruitmentBevertonHolt.h"
 #include "Processes/Children/RecruitmentConstant.h"
 
 // Namespaces
@@ -34,6 +35,9 @@ ProcessPtr Factory::Create(const string& block_type, const string& process_type)
   if (block_type == PARAM_AGEING && process_type == "") {
     result = ProcessPtr(new Ageing());
 
+  } else if (block_type == PARAM_RECRUITMENT && process_type == PARAM_BEVERTON_HOLT){
+    result = ProcessPtr(new RecruitmentBevertonHolt());
+
   } else if (block_type == PARAM_RECRUITMENT && process_type == PARAM_CONSTANT) {
     result = ProcessPtr(new RecruitmentConstant());
 
@@ -45,7 +49,6 @@ ProcessPtr Factory::Create(const string& block_type, const string& process_type)
 
   } else if (block_type == PARAM_MORTALITY && process_type == PARAM_EVENT) {
     result = ProcessPtr(new MortalityEvent());
-
   }
 
   if (result)

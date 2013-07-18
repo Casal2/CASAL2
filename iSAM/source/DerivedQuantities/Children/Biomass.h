@@ -1,22 +1,37 @@
-/*
- * Biomass.h
+/**
+ * @file Biomass.h
+ * @author  Scott Rasmussen (scott.rasmussen@zaita.com)
+ * @date 18/07/2013
+ * @section LICENSE
  *
- *  Created on: 6/06/2013
- *      Author: Admin
+ * Copyright NIWA Science ©2013 - www.niwa.co.nz
+ *
+ * @section DESCRIPTION
+ *
+ * << Add Description >>
  */
+#ifndef DERIVEDQUANTITIES_BIOMASS_H_
+#define DERIVEDQUANTITIES_BIOMASS_H_
 
-#ifndef BIOMASS_H_
-#define BIOMASS_H_
+// headers
+#include "DerivedQuantities/DerivedQuantity.h"
 
+// namespaces
 namespace isam {
 namespace derivedquantities {
 
-class Biomass {
+/**
+ * class definition
+ */
+class Biomass : public isam::DerivedQuantity {
 public:
+  // methods
   Biomass();
-  virtual ~Biomass();
+  virtual                     ~Biomass() = default;
+  void                        Calculate() override final;
+  void                        Calculate(unsigned initialisation_phase) override final;
 };
 
 } /* namespace derivedquantities */
 } /* namespace isam */
-#endif /* BIOMASS_H_ */
+#endif /* DERIVEDQUANTITIES_BIOMASS_H_ */
