@@ -64,7 +64,7 @@ void Partition::Build() {
 }
 
 /**
- * Reset our partition so all values are 0.0
+ * Reset our partition so all data values are 0.0
  */
 void Partition::Reset() {
   for (auto iter = partition_.begin(); iter != partition_.end(); ++iter) {

@@ -13,25 +13,13 @@
 
 // namespaces
 namespace isam {
-namespace sizeweights {
+namespace agesizes {
 
 /**
- * class definition
+ * default constructor
  */
 Manager::Manager() {
 }
 
-/**
- *
- */
-SizeWeightPtr Manager::GetSizeWeight(const string& label) const {
-  for (SizeWeightPtr size_weight : objects_) {
-    if (size_weight->label() == label)
-      return size_weight;
-  }
-
-  return SizeWeightPtr();
-}
-
-} /* namespace sizeweights */
+} /* namespace agesizes */
 } /* namespace isam */
