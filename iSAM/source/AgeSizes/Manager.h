@@ -10,28 +10,27 @@
  *
  * << Add Description >>
  */
-#ifndef SIZEWEIGHTS_MANAGER_H_
-#define SIZEWEIGHTS_MANAGER_H_
+#ifndef AGESIZES_MANAGER_H_
+#define AGESIZES_MANAGER_H_
 
 // headers
+#include "AgeSizes/AgeSize.h"
 #include "BaseClasses/Manager.h"
-#include "SizeWeights/SizeWeight.h"
 
 // namespaces
 namespace isam {
-namespace sizeweights {
+namespace agesizes {
 
 /**
  * class definition
  */
-class Manager : public isam::base::Manager<isam::sizeweights::Manager, isam::SizeWeight> {
+class Manager : public isam::base::Manager<isam::agesizes::Manager, isam::AgeSize> {
 public:
   // methods
   Manager();
   virtual                     ~Manager() noexcept(true) { };
-  SizeWeightPtr               GetSizeWeight(const string& label) const;
 };
 
-} /* namespace sizeweights */
+} /* namespace agesizes */
 } /* namespace isam */
-#endif /* SIZEWEIGHTS_MANAGER_H_ */
+#endif /* AGESIZES_MANAGER_H_ */
