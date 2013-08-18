@@ -32,7 +32,7 @@ VonBertalanffy::VonBertalanffy() {
 }
 
 /**
- *
+ * validate the parameters passed in from the configuration file
  */
 void VonBertalanffy::DoValidate() {
   CheckForRequiredParameter(PARAM_LINF);
@@ -50,7 +50,7 @@ void VonBertalanffy::DoValidate() {
 }
 
 /**
- *
+ * build runtime relationships between this object and other objects in the model
  */
 void VonBertalanffy::DoBuild() {
   size_weight_ = sizeweights::Manager::Instance().GetSizeWeight(size_weight_label_);
@@ -59,7 +59,11 @@ void VonBertalanffy::DoBuild() {
 }
 
 /**
+ * Return the mean size for a given age. Mean size returned
+ * is for a single fish.
  *
+ * @param age The age of the fish to return mean size for
+ * @return the mean size for a single fish
  */
 Double VonBertalanffy::mean_size(unsigned age) const {
   if ((-k_ * (age - t0_)) > 10)
@@ -73,7 +77,10 @@ Double VonBertalanffy::mean_size(unsigned age) const {
 }
 
 /**
+ * return the mean weight for a single fish at the given age
  *
+ * @param age The age of the fish to return the mean weight for
+ * @return The mean weight of a single fish
  */
 Double VonBertalanffy::mean_weight(unsigned age) const {
   Double size = this->mean_size(age);

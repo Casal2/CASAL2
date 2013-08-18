@@ -37,7 +37,7 @@ Schnute::Schnute() {
 }
 
 /**
- *
+ * validate the parameters passed in from the configuration file
  */
 void Schnute::DoValidate() {
   CheckForRequiredParameter(PARAM_Y1);
@@ -63,7 +63,7 @@ void Schnute::DoValidate() {
 }
 
 /**
- *
+ * build runtime relationships between this object and other objects in the model
  */
 void Schnute::DoBuild() {
   size_weight_ = sizeweights::Manager::Instance().GetSizeWeight(size_weight_label_);
@@ -72,14 +72,11 @@ void Schnute::DoBuild() {
 }
 
 /**
+ * Return the mean size for a given age. Mean size returned
+ * is for a single fish.
  *
- */
-void Schnute::DoReset() {
-
-}
-
-/**
- *
+ * @param age The age of the fish to return mean size for
+ * @return the mean size for a single fish
  */
 Double Schnute::mean_size(unsigned age) const {
   Double temp = 0.0;
@@ -102,7 +99,10 @@ Double Schnute::mean_size(unsigned age) const {
 }
 
 /**
+ * return the mean weight for a single fish at the given age
  *
+ * @param age The age of the fish to return the mean weight for
+ * @return The mean weight of a single fish
  */
 Double Schnute::mean_weight(unsigned age) const {
   Double size   = this->mean_size(age);

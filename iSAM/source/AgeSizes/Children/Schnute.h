@@ -31,7 +31,7 @@ public:
   virtual                     ~Schnute() = default;
   void                        DoValidate() override final;
   void                        DoBuild() override final;
-  void                        DoReset() override final;
+  void                        DoReset() override final { };
 
   // accessors
   Double                      mean_size(unsigned age) const override final;
