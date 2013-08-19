@@ -16,9 +16,15 @@ namespace isam {
 namespace agesizes {
 
 /**
- * default constructor
+ *
  */
-Manager::Manager() {
+AgeSizePtr Manager::GetAgeSize(const string& label) {
+  for (AgeSizePtr age_size : objects_) {
+    if (age_size->label() == label)
+      return age_size;
+  }
+
+  return AgeSizePtr();
 }
 
 } /* namespace agesizes */

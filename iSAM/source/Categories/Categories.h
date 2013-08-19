@@ -20,6 +20,7 @@
 #include <boost/shared_ptr.hpp>
 
 #include "BaseClasses/Object.h"
+#include "AgeSizes/AgeSize.h"
 
 // Namespaces
 namespace isam {
@@ -34,6 +35,7 @@ struct CategoryInfo {
   vector<unsigned>  years_;
   unsigned          min_age_ = 0;
   unsigned          max_age_ = 0;
+  AgeSizePtr        age_size_;
 };
 
 /**
@@ -45,6 +47,8 @@ public:
   static shared_ptr<Categories> Instance();
   virtual                       ~Categories() = default;
   void                          Validate();
+  void                          Build();
+  void                          Reset();
   bool                          IsValid(const string& label) const;
   bool                          IsCombinedLabels(const string& label) const;
   unsigned                      GetNumberOfCategoriesDefined(const string& label) const;
@@ -56,6 +60,7 @@ public:
   unsigned                      min_age(const string& category_name);
   unsigned                      max_age(const string& category_name);
   vector<unsigned>              years(const string& category_name);
+  AgeSizePtr                    age_size(const string& category_name);
 
 private:
   // Methods
@@ -65,8 +70,9 @@ private:
   string                      format_;
   vector<string>              names_;
   vector<string>              category_names_;
+  vector<string>              age_size_labels_;
+  map<string, string>         category_age_size_labels_;
   map<string, CategoryInfo>   categories_;
-
 };
 
 // Typedef

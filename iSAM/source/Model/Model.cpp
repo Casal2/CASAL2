@@ -205,6 +205,7 @@ void Model::Build() {
 
   estimates::Manager::Instance().Build();
 
+  Categories::Instance()->Build();
   catchabilities::Manager::Instance().Build();
   derivedquantities::Manager::Instance().Build();
   initialisationphases::Manager::Instance().Build();
@@ -223,7 +224,6 @@ void Model::Build() {
  */
 void Model::Verify() {
   LOG_TRACE();
-
 }
 
 /**
@@ -236,6 +236,7 @@ void Model::Reset() {
 
   estimates::Manager::Instance().Reset();
 
+  Categories::Instance()->Reset();
   catchabilities::Manager::Instance().Reset();
   derivedquantities::Manager::Instance().Reset();
   initialisationphases::Manager::Instance().Reset();

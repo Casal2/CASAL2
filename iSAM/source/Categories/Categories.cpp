@@ -17,6 +17,7 @@
 #include <boost/algorithm/string/trim_all.hpp>
 #include <boost/algorithm/string/split.hpp>
 
+#include "AgeSizes/Manager.h"
 #include "Model/Model.h"
 #include "Utilities/Logging/Logging.h"
 #include "Utilities/To.h"
@@ -33,6 +34,7 @@ Categories::Categories() {
   parameters_.RegisterAllowed(PARAM_NAMES);
   parameters_.RegisterAllowed(PARAM_YEARS);
   parameters_.RegisterAllowed(PARAM_AGES);
+  parameters_.RegisterAllowed(PARAM_AGE_SIZES);
 }
 
 /**
@@ -83,11 +85,23 @@ void Categories::Validate() {
 
   ModelPtr model = Model::Instance();
 
+  // build the default years
   vector<unsigned> default_years;
   for (unsigned i = model->start_year(); i <= model->final_year(); ++i)
     default_years.push_back(i);
 
+  // get the age sizes
+  if (parameters_.IsDefined(PARAM_AGE_SIZES)) {
+    age_size_labels_ = parameters_.Get(PARAM_AGE_SIZES).GetValues<string>();
+    if (age_size_labels_.size() != names_.size())
+      LOG_ERROR(parameters_.location(PARAM_AGE_SIZES) << " number defined (" << age_size_labels_.size() << ") must be the same as the number " <<
+          " of categories defined (" << names_.size() << ")");
+  }
+
+  // build our categories vector
   for (unsigned i = 0; i < names_.size(); ++i) {
+    if (age_size_labels_.size() != 0)
+      category_age_size_labels_[names_[i]] = age_size_labels_[i];
 
     // TODO: Verify the name matches the format string properly
     // TODO: Expand the names
@@ -112,6 +126,35 @@ void Categories::Validate() {
   if (parameters_.IsDefined(PARAM_AGES)) {
     parameter = parameters_.Get(PARAM_AGES);
 
+  }
+}
+
+/**
+ * Build runtime relationships between the categories
+ * and other objects in the system
+ */
+void Categories::Build() {
+  Reset();
+}
+
+/*
+ *
+ */
+void Categories::Reset() {
+  /**
+   * Assign age_sizes to our categories for use
+   *
+   */
+  if (age_size_labels_.size() != 0) {
+    agesizes::Manager& age_sizes_manager = agesizes::Manager::Instance();
+
+    for (unsigned i = 0; i < names_.size(); ++i) {
+      AgeSizePtr age_size = age_sizes_manager.GetAgeSize(age_size_labels_[i]);
+      if (!age_size)
+        LOG_ERROR(parameters_.location(PARAM_AGE_SIZES) << "(" << age_size_labels_[i] << ") could not be found. Have you defined it?");
+
+      categories_[names_[i]].age_size_ = age_size;
+    }
   }
 }
 
@@ -168,6 +211,16 @@ vector<unsigned> Categories::years(const string& category_name) {
     LOG_CODE_ERROR("Could not find category_name: " << category_name << " in the list of loaded categories");
 
   return categories_[category_name].years_;
+}
+
+/**
+ *
+ */
+AgeSizePtr Categories::age_size(const string& category_name) {
+  if (categories_.find(category_name) == categories_.end())
+    LOG_CODE_ERROR("Could not find category_name: " << category_name << " in the list of loaded categories");
+
+  return categories_[category_name].age_size_;
 }
 
 /**

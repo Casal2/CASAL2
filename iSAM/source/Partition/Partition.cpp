@@ -59,6 +59,10 @@ void Partition::Build() {
     unsigned age_spread = (categories->max_age(category) - categories->min_age(category)) + 1;
     new_category.data_.resize(age_spread, 0.0);
 
+    new_category.mean_weights_.resize(age_spread, 0.0);
+    for (unsigned i = 0; i < age_spread; ++i)
+      new_category.mean_weights_[i] = categories->age_size(category)->mean_weight(i + new_category.min_age_);
+
     partition_[category] = new_category;
   }
 }
