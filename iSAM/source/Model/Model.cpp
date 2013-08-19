@@ -15,6 +15,7 @@
 
 #include <iostream>
 
+#include "AgeSizes/Manager.h"
 #include "Catchabilities/Manager.h"
 #include "Categories/Categories.h"
 #include "DerivedQuantities/Manager.h"
@@ -31,6 +32,7 @@
 #include "Processes/Manager.h"
 #include "Reports/Manager.h"
 #include "Selectivities/Manager.h"
+#include "SizeWeights/Manager.h"
 #include "TimeSteps/Manager.h"
 #include "Utilities/Logging/Logging.h"
 #include "Utilities/To.h"
@@ -165,6 +167,7 @@ void Model::Validate() {
   Categories::Instance()->Validate();
   Partition::Instance().Validate();
 
+  agesizes::Manager::Instance().Validate();
   catchabilities::Manager::Instance().Validate();
   derivedquantities::Manager::Instance().Validate();
   initialisationphases::Manager::Instance().Validate();
@@ -175,6 +178,7 @@ void Model::Validate() {
   processes::Manager::Instance().Validate();
   reports::Manager::Instance().Validate();
   selectivities::Manager::Instance().Validate();
+  sizeweights::Manager::Instance().Validate();
   timesteps::Manager::Instance().Validate();
 
   // Final Objects to validate as they have dependencies
@@ -205,6 +209,7 @@ void Model::Build() {
 
   estimates::Manager::Instance().Build();
 
+  agesizes::Manager::Instance().Build();
   Categories::Instance()->Build();
   catchabilities::Manager::Instance().Build();
   derivedquantities::Manager::Instance().Build();
@@ -216,6 +221,7 @@ void Model::Build() {
   processes::Manager::Instance().Build();
   reports::Manager::Instance().Build();
   selectivities::Manager::Instance().Build();
+  sizeweights::Manager::Instance().Build();
   timesteps::Manager::Instance().Build();
 }
 
@@ -236,6 +242,7 @@ void Model::Reset() {
 
   estimates::Manager::Instance().Reset();
 
+  agesizes::Manager::Instance().Reset();
   Categories::Instance()->Reset();
   catchabilities::Manager::Instance().Reset();
   derivedquantities::Manager::Instance().Reset();
@@ -247,6 +254,7 @@ void Model::Reset() {
   processes::Manager::Instance().Reset();
   reports::Manager::Instance().Reset();
   selectivities::Manager::Instance().Reset();
+  sizeweights::Manager::Instance().Reset();
   timesteps::Manager::Instance().Reset();
 }
 

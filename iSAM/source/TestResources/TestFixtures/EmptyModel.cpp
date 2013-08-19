@@ -14,8 +14,10 @@
 // Headers
 #include "EmptyModel.h"
 
+#include "AgeSizes/Manager.h"
 #include "Catchabilities/Manager.h"
 #include "Categories/Categories.h"
+#include "DerivedQuantities/Manager.h"
 #include "Estimates/Manager.h"
 #include "InitialisationPhases/Manager.h"
 #include "Minimisers/Manager.h"
@@ -29,6 +31,7 @@
 #include "Reports/Manager.h"
 #include "Selectivities/Factory.h"
 #include "Selectivities/Manager.h"
+#include "SizeWeights/Manager.h"
 #include "TimeSteps/Manager.h"
 #include "Utilities/Logging/Logging.h"
 #include "Utilities/To.h"
@@ -55,7 +58,9 @@ void EmptyModel::TearDown() {
   Categories::Instance()->RemoveAllObjects();
   Partition::Instance().Clear();
 
+  agesizes::Manager::Instance().RemoveAllObjects();
   catchabilities::Manager::Instance().RemoveAllObjects();
+  derivedquantities::Manager::Instance().RemoveAllObjects();
   estimates::Manager::Instance().RemoveAllObjects();
   initialisationphases::Manager::Instance().RemoveAllObjects();
   minimisers::Manager::Instance().RemoveAllObjects();
@@ -65,6 +70,7 @@ void EmptyModel::TearDown() {
   processes::Manager::Instance().RemoveAllObjects();
   reports::Manager::Instance().RemoveAllObjects();
   selectivities::Manager::Instance().RemoveAllObjects();
+  sizeweights::Manager::Instance().RemoveAllObjects();
   timesteps::Manager::Instance().RemoveAllObjects();
 }
 
