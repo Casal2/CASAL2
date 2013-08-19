@@ -57,7 +57,9 @@ public:
   unsigned                    random_seed();
   void                        set_config_file(string value) { parameters_[PARAM_CONFIG_FILE] = value; }
   string                      config_file() { return parameters_[PARAM_CONFIG_FILE]; }
+  void                        set_skip_config_file(string value) { parameters_[PARAM_SKIP_CONFIG_FILE] = value; }
   bool                        skip_config_file();
+
 
 private:
   // Methods

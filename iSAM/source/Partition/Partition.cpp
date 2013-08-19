@@ -60,8 +60,10 @@ void Partition::Build() {
     new_category.data_.resize(age_spread, 0.0);
 
     new_category.mean_weights_.resize(age_spread, 0.0);
-    for (unsigned i = 0; i < age_spread; ++i)
-      new_category.mean_weights_[i] = categories->age_size(category)->mean_weight(i + new_category.min_age_);
+    if (categories->parameters().IsDefined(PARAM_AGE_SIZES)) {
+      for (unsigned i = 0; i < age_spread; ++i)
+        new_category.mean_weights_[i] = categories->age_size(category)->mean_weight(i + new_category.min_age_);
+    }
 
     partition_[category] = new_category;
   }

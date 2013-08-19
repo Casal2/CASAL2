@@ -1,24 +1,26 @@
 /**
- * @file BasicModel.cpp
+ * @file InternalEmptyModel.cpp
  * @author  Scott Rasmussen (scott.rasmussen@zaita.com)
- * @version 1.0
- * @date 2/04/2013
+ * @date 20/08/2013
  * @section LICENSE
  *
  * Copyright NIWA Science ©2013 - www.niwa.co.nz
  *
- * $Date: 2008-03-04 16:33:32 +1300 (Tue, 04 Mar 2008) $
  */
 #ifdef TESTMODE
 
-// Headers
-#include "BasicModel.h"
+#include "InternalEmptyModel.h"
+
+#include <boost/algorithm/string/split.hpp>
+#include <boost/algorithm/string/trim_all.hpp>
+#include <boost/algorithm/string/split.hpp>
 
 #include "AgeSizes/Manager.h"
 #include "Catchabilities/Manager.h"
 #include "Categories/Categories.h"
 #include "DerivedQuantities/Manager.h"
 #include "Estimates/Manager.h"
+#include "GlobalConfiguration/GlobalConfiguration.h"
 #include "InitialisationPhases/Manager.h"
 #include "Minimisers/Manager.h"
 #include "ObjectiveFunction/ObjectiveFunction.h"
@@ -29,65 +31,33 @@
 #include "Priors/Manager.h"
 #include "Processes/Manager.h"
 #include "Reports/Manager.h"
-#include "Selectivities/Factory.h"
 #include "Selectivities/Manager.h"
 #include "SizeWeights/Manager.h"
 #include "TimeSteps/Manager.h"
 #include "Utilities/Logging/Logging.h"
 #include "Utilities/To.h"
 
-// Namespaces
 namespace isam {
 namespace testfixtures {
 
 /**
- * Constructor
- */
-BasicModel::BasicModel() {
-}
-
-/**
- * Destructor
- */
-BasicModel::~BasicModel() {
-}
-
-/**
  *
  */
-void BasicModel::SetUp() {
+void InternalEmptyModel::SetUp() {
+  configuration_file_.clear();
+
   Model::Instance()->set_run_mode(RunMode::kTesting);
 
-  isam::base::ObjectPtr object;
-
-  /**
-   * Add Model Parameters
-   */
-  object = Model::Instance();
-  object->set_block_type(PARAM_MODEL);
-  object->parameters().Add(PARAM_START_YEAR, "1994", __FILE__, __LINE__);
-  object->parameters().Add(PARAM_FINAL_YEAR, "2008", __FILE__, __LINE__);
-  object->parameters().Add(PARAM_MIN_AGE, "1", __FILE__, __LINE__);
-  object->parameters().Add(PARAM_MAX_AGE, "20", __FILE__, __LINE__);
-  object->parameters().Add(PARAM_AGE_PLUS, "true", __FILE__, __LINE__);
-  object->parameters().Add(PARAM_TIME_STEPS, "step_one", __FILE__, __LINE__);
-
-  object = Categories::Instance();
-  vector<string> categories = { "immature.male", "mature.male", "immature.female", "mature.female" };
-  object->set_block_type(PARAM_CATEGORIES);
-  object->parameters().Add(PARAM_FORMAT, "stage.sex", __FILE__, __LINE__);
-  object->parameters().Add(PARAM_NAMES, categories, __FILE__, __LINE__);
-
-  object = selectivities::Factory::Create(PARAM_SELECTIVITY, PARAM_CONSTANT);
-  object->parameters().Add(PARAM_LABEL, "constant_one", __FILE__, __LINE__);
-  object->parameters().Add(PARAM_TYPE, "constant", __FILE__, __LINE__);
-  object->parameters().Add(PARAM_C, "1", __FILE__, __LINE__);
+  GlobalConfiguration::Instance()->set_skip_config_file("true");
 }
 
 /**
  *
  */
-void BasicModel::TearDown() {
+void InternalEmptyModel::TearDown() {
+  /**
+   * Clean our Model
+   */
   Model::Instance(true);
 
   Categories::Instance()->RemoveAllObjects();
@@ -109,7 +79,41 @@ void BasicModel::TearDown() {
   timesteps::Manager::Instance().RemoveAllObjects();
 }
 
-} /* namespace testfixtures */
-} /* namespace isam */
+/**
+ * Add a new line to our internal configuration vector so we can load it.
+ *
+ * @param line The contents of the line
+ * @param file_name The name of the file where the line has been defined
+ * @param line_number The line number where the line has been defined
+ */
+void InternalEmptyModel::AddConfigurationLine(const string& line, const string& file_name, unsigned line_number) {
 
+  vector<string> lines;
+  boost::split(lines, line, boost::is_any_of("\n"));
+
+  for (string split_line : lines) {
+    config::FileLine new_line;
+    new_line.line_ = split_line;
+    new_line.file_name_ = file_name;
+    new_line.line_number_ = line_number;
+
+    configuration_file_.push_back(new_line);
+  }
+}
+
+/**
+ * Call our configuration file loader to load our internal
+ * configuration file for execution in the model
+ */
+void InternalEmptyModel::LoadConfiguration() {
+  configuration::Loader loader;
+
+  for (config::FileLine file_line : configuration_file_)
+    loader.AddFileLine(file_line);
+
+  loader.LoadConfigFile();
+}
+
+} /* namespace sizeweights */
+} /* namespace isam */
 #endif /* TESTMODE */

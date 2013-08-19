@@ -66,24 +66,23 @@ void Loader::LoadConfigFile(const string& override_file_name) {
    * by the unit testing suite to allow us to load values from memory
    */
   bool skip_loading_file = GlobalConfiguration::Instance()->skip_config_file();
-  if (skip_loading_file)
-    return;
+  if (!skip_loading_file) {
+    /**
+     * Open our first configuration file and start loading it
+     */
+    string config_file = GlobalConfiguration::Instance()->config_file();
+    if (override_file_name != "")
+      config_file = override_file_name;
+    FilePtr file = FilePtr(new File(this));
+    if (!file->OpenFile(config_file))
+      LOG_ERROR("Failed to open the first configuration file: " << config_file << ". Does this file exist? Is it in the right path?");
 
-  /**
-   * Open our first configuration file and start loading it
-   */
-  string config_file = GlobalConfiguration::Instance()->config_file();
-  if (override_file_name != "")
-    config_file = override_file_name;
-  FilePtr file = FilePtr(new File(this));
-  if (!file->OpenFile(config_file))
-    LOG_ERROR("Failed to open the first configuration file: " << config_file << ". Does this file exist? Is it in the right path?");
+    file->Parse();
 
-  file->Parse();
-
-  LOG_INFO("file_lines_.size() == " << file_lines_.size());
-  if (file_lines_.size() == 0)
-    LOG_ERROR("The configuration file " << config_file << " is empty. Please specify a valid configuration file");
+    LOG_INFO("file_lines_.size() == " << file_lines_.size());
+    if (file_lines_.size() == 0)
+      LOG_ERROR("The configuration file " << config_file << " is empty. Please specify a valid configuration file");
+  }
 
   ParseFileLines();
 }
