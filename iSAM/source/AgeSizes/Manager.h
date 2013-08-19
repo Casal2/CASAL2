@@ -27,8 +27,9 @@ namespace agesizes {
 class Manager : public isam::base::Manager<isam::agesizes::Manager, isam::AgeSize> {
 public:
   // methods
-  Manager();
+  Manager() { };
   virtual                     ~Manager() noexcept(true) { };
+  AgeSizePtr                  GetAgeSize(const string& label);
 };
 
 } /* namespace agesizes */

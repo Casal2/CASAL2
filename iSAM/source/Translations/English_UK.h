@@ -94,6 +94,7 @@
 #define PARAM_AGE_INDEX                           "age_index"
 #define PARAM_AGE_PLUS                            "age_plus"
 #define PARAM_AGE_SIZE                            "age_size"
+#define PARAM_AGE_SIZES                           "age_sizes"
 #define PARAM_AGE_WEIGHT                          "age_weight"
 #define PARAM_AGEING                              "ageing"
 #define PARAM_AGEING_ERROR                        "ageing_error"
