@@ -42,11 +42,27 @@ namespace utilities {
  * will throw an exception
  */
 #ifdef TESTMODE
-#define LOG_TRACE() {};
-#define LOG_INFO(value) { ostringstream o; o << value; };
-#define LOG_WARNING(value) { ostringstream o; o << value; };
-#define LOG_ERROR(value) { ostringstream o; o << value; cout << "Error: " << o.str() << endl; throw std::string(o.str()); };
-#define LOG_CODE_ERROR(value) { ostringstream o; o << value; cout << "Error: " << o.str() << endl; throw std::string(o.str());}
+#define LOG_TRACE() { };
+#define LOG_INFO(value) { };
+#define LOG_WARNING(value) { };
+#define LOG_ERROR(value) {\
+  ostringstream o;\
+  o << "\n\n\n";\
+  o << "[ERROR] - An error has been encountered that prevents the program from continuing\n"\
+    << "Source: " << __FILE__ << ":" << __FUNCTION__ << " (Line: " << __LINE__ << ")\n"\
+    << "Error: " << value;\
+  cout << o.str() << endl;\
+  throw std::string(o.str()); }
+
+#define LOG_CODE_ERROR(value) {\
+    ostringstream o;\
+    o << "\n\n\n";\
+    o << "[ERROR] - A coding error has been encountered that prevents the program from continuing\n"\
+      << "[ERROR] - This error requires developer intervention to correct. Please contact a developer\n"\
+      << "Source: " << __FILE__ << ":" << __FUNCTION__ << " (Line: " << __LINE__ << ")\n"\
+      << "Error: " << value;\
+    cout << o.str() << endl;\
+    throw std::string(o.str()); }
 
 #else
 // Macros

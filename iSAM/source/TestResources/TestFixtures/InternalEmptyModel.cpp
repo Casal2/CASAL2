@@ -45,8 +45,8 @@ namespace testfixtures {
  */
 void InternalEmptyModel::SetUp() {
   configuration_file_.clear();
-
-  Model::Instance()->set_run_mode(RunMode::kTesting);
+  Model::Instance(true);
+  Model::Instance()->set_run_mode(RunMode::kBasic);
 
   GlobalConfiguration::Instance()->set_skip_config_file("true");
 }
@@ -55,9 +55,6 @@ void InternalEmptyModel::SetUp() {
  *
  */
 void InternalEmptyModel::TearDown() {
-  /**
-   * Clean our Model
-   */
   Model::Instance(true);
 
   Categories::Instance()->RemoveAllObjects();
@@ -87,7 +84,6 @@ void InternalEmptyModel::TearDown() {
  * @param line_number The line number where the line has been defined
  */
 void InternalEmptyModel::AddConfigurationLine(const string& line, const string& file_name, unsigned line_number) {
-
   vector<string> lines;
   boost::split(lines, line, boost::is_any_of("\n"));
 

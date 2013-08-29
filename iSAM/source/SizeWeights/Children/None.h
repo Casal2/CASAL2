@@ -28,9 +28,9 @@ public:
   // methods
   None();
   virtual                     ~None() = default;
-  void                        DoValidate() { };
-  void                        DoBuild() { };
-  void                        DoReset() { };
+  void                        DoValidate() override final { };
+  void                        DoBuild() override final { };
+  void                        DoReset() override final { };
 
   // accessors
   Double                      mean_weight(Double size) const override final { return 1.0; }

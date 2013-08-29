@@ -4,9 +4,9 @@ max_age 50
 age_plus t
 start_year 1995
 final_year 2011
-projection_final_year 2047
-#initialisation_phases phase1=
-timesteps [processes=recruitment] [processes=spawning] [processes=ageing]
+#projection_final_year 2047
+initialisation_phases one=[years=1; processes=ageing]
+time_steps [processes=recruitment] [processes=ageing]
 
 @categories
 format stage.sex
@@ -15,18 +15,27 @@ names immature.male mature.male immature.female mature.female
 # Derived quantities
 @derived_quantity SSB
 type biomass
-time_step two
-categories spawning spawning-tag
+time_step model.1
+categories mature.male mature.female
 selectivities One One
-#initialisation_time_steps phase2a phase2b phase2b
+initialisation_time_steps one.default
 
-@recruitment bh_recruitment
+@ageing ageing
+categories immature.male mature.male immature.female mature.female
+
+@recruitment recruitment
 type beverton_holt
 categories immature.male immature.female
-standardise_YCS True
+proportions 0.5 0.5
+standardise_YCS_years 1994 1995 1996 1997 1998 1999 2000 2001 2002 2003 2004 2005 2006 2007 2008 2009 2010
 YCS_years 1994 1995 1996 1997 1998 1999 2000 2001 2002 2003 2004 2005 2006 2007 2008 2009 2010
-YCS          1    1    1    1    1    1    1    1    1    1    1    1    1    1    1    1    1
+YCS_values          1    1    1    1    1    1    1    1    1    1    1    1    1    1    1    1    1
 steepness 0.75
+b0 init_phase_one
 r0 80000
+ssb SSB
+ssb_offset 1
 
-
+@selectivity One
+type constant
+c 1

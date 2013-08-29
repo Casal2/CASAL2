@@ -9,13 +9,25 @@
 
 namespace isam {
 
+/**
+ *
+ */
 AgeSize::AgeSize() {
-  // TODO Auto-generated constructor stub
+  parameters_.RegisterAllowed(PARAM_LABEL);
+  parameters_.RegisterAllowed(PARAM_TYPE);
 
 }
 
-AgeSize::~AgeSize() {
-  // TODO Auto-generated destructor stub
+/**
+ *
+ */
+void AgeSize::Validate() {
+  CheckForRequiredParameter(PARAM_LABEL);
+  CheckForRequiredParameter(PARAM_TYPE);
+
+  label_ = parameters_.Get(PARAM_LABEL).GetValue<string>();
+
+  DoValidate();
 }
 
 } /* namespace isam */

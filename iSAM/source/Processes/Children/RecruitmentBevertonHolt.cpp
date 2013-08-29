@@ -31,6 +31,7 @@ RecruitmentBevertonHolt::RecruitmentBevertonHolt() {
   LOG_TRACE();
 
   parameters_.RegisterAllowed(PARAM_LABEL);
+  parameters_.RegisterAllowed(PARAM_TYPE);
   parameters_.RegisterAllowed(PARAM_CATEGORIES);
   parameters_.RegisterAllowed(PARAM_R0);
   parameters_.RegisterAllowed(PARAM_PROPORTIONS);
@@ -39,6 +40,7 @@ RecruitmentBevertonHolt::RecruitmentBevertonHolt() {
   parameters_.RegisterAllowed(PARAM_SSB);
   parameters_.RegisterAllowed(PARAM_B0);
   parameters_.RegisterAllowed(PARAM_SSB_OFFSET);
+  parameters_.RegisterAllowed(PARAM_YCS_YEARS);
   parameters_.RegisterAllowed(PARAM_YCS_VALUES);
   parameters_.RegisterAllowed(PARAM_STANDARDISE_YCS_YEARS);
 
@@ -54,6 +56,12 @@ void RecruitmentBevertonHolt::Validate() {
 
   CheckForRequiredParameter(PARAM_LABEL);
   CheckForRequiredParameter(PARAM_CATEGORIES);
+  CheckForRequiredParameter(PARAM_R0);
+  CheckForRequiredParameter(PARAM_SSB);
+  CheckForRequiredParameter(PARAM_SSB_OFFSET);
+  CheckForRequiredParameter(PARAM_PROPORTIONS);
+  CheckForRequiredParameter(PARAM_YCS_VALUES);
+  CheckForRequiredParameter(PARAM_B0);
 
   label_            = parameters_.Get(PARAM_LABEL).GetValue<string>();
   category_labels_  = parameters_.Get(PARAM_CATEGORIES).GetValues<string>();
@@ -85,7 +93,7 @@ void RecruitmentBevertonHolt::Validate() {
         << " categories and " << proportions_.size() << " proportions defined.");
 
   RegisterAsEstimable(PARAM_PROPORTIONS, proportions_);
-  Double running_total = std::accumulate(proportions_.begin(), proportions_.end(), 0);
+  Double running_total = std::accumulate(proportions_.begin(), proportions_.end(), 0.0);
   if (!dc::IsOne(running_total))
     LOG_ERROR(parameters_.location(PARAM_PROPORTIONS) << " sum total is " << running_total << " when it should be 1.0");
 
@@ -109,7 +117,7 @@ void RecruitmentBevertonHolt::Validate() {
     LOG_ERROR(parameters_.location(PARAM_STANDARDISE_YCS_YEARS) << " final value is greater than the model's final year");
 
   // check the number of ycs_values_ supplied matches number of years
-  unsigned number_of_years = model_->start_year() - model_->final_year() + 1;
+  unsigned number_of_years = model_->final_year() - model_->start_year() + 1;
   if (ycs_values_.size() != number_of_years)
     LOG_ERROR(parameters_.location(PARAM_YCS_VALUES) << " need to be defined for every year. Expected " << number_of_years << " but got " << ycs_values_.size());
 
@@ -126,9 +134,12 @@ void RecruitmentBevertonHolt::Validate() {
  * Build the runtime relationships between this object and it's
  */
 void RecruitmentBevertonHolt::Build() {
-  derived_quantity_ = derivedquantities::Manager::Instance().GetDerivedQuantity(ssb_);
   partition_        = accessor::CategoriesPtr(new accessor::Categories(category_labels_));
   phase_b0_         = initialisationphases::Manager::Instance().GetPhaseIndex(phase_b0_label_);
+
+  derived_quantity_ = derivedquantities::Manager::Instance().GetDerivedQuantity(ssb_);
+  if (!derived_quantity_)
+    LOG_ERROR(parameters_.location(PARAM_SSB) << "(" << ssb_ << ") could not be found. Have you defined it?");
 }
 
 /**

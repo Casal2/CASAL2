@@ -27,9 +27,13 @@ public:
   // methods
   SizeWeight();
   virtual                     ~SizeWeight() = default;
-  void                        Validate() { };
-  void                        Build() { };
-  void                        Reset() { };
+  void                        Validate();
+  void                        Build() { DoBuild(); };
+  void                        Reset() { DoReset(); };
+
+  virtual void                DoValidate() = 0;
+  virtual void                DoBuild() = 0;
+  virtual void                DoReset() = 0;
 
   // accessors
   virtual Double              mean_weight(Double size) const = 0;

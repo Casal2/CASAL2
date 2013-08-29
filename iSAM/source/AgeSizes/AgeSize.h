@@ -25,8 +25,8 @@ namespace isam {
 class AgeSize : public isam::base::Object {
 public:
   AgeSize();
-  virtual                     ~AgeSize();
-  void                        Validate() { DoValidate(); };
+  virtual                     ~AgeSize() { };
+  void                        Validate();
   void                        Build() { DoBuild(); };
   void                        Reset() { DoReset(); };
 

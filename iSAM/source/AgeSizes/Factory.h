@@ -22,7 +22,7 @@ namespace agesizes {
  */
 class Factory {
 public:
-  AgeSizePtr                  Create(const string& block_type, const string& object_type);
+  static AgeSizePtr           Create(const string& block_type, const string& object_type);
 
 private:
   Factory() = delete;

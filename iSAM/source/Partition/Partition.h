@@ -60,8 +60,10 @@ public:
   void                        Validate();
   void                        Build();
   void                        Reset();
+  void                        CalculateMeanWeights();
   void                        Clear() { partition_.clear(); }
   void                        Debug();
+
 
   // Accessors
   partition::Category&        category(const string& category_label);

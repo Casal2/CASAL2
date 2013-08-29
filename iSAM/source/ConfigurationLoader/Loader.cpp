@@ -20,6 +20,7 @@
 #include <boost/algorithm/string/trim_all.hpp>
 #include <boost/algorithm/string/split.hpp>
 
+#include "AgeSizes/Factory.h"
 #include "Catchabilities/Factory.h"
 #include "Categories/Categories.h"
 #include "DerivedQuantities/Factory.h"
@@ -36,6 +37,7 @@
 #include "Processes/Factory.h"
 #include "Reports/Factory.h"
 #include "Selectivities/Factory.h"
+#include "SizeWeights/Factory.h"
 #include "TimeSteps/Factory.h"
 #include "Translations/Translations.h"
 #include "Utilities/To.h"
@@ -94,6 +96,10 @@ void Loader::LoadConfigFile(const string& override_file_name) {
  * @param line The file line information to store
  */
 void Loader::AddFileLine(FileLine line) {
+  boost::replace_all(line.line_, "\t", " ");
+  boost::replace_all(line.line_, "  ", " ");
+  boost::trim_all(line.line_);
+
   file_lines_.push_back(line);
 }
 
@@ -391,6 +397,9 @@ ObjectPtr Loader::CreateObject(const string &block_type, const string &object_ty
   if (block_type == PARAM_MODEL) {
     object = Model::Instance();
 
+  } else if (block_type == PARAM_AGE_SIZE) {
+    object = agesizes::Factory::Create(block_type, object_type);
+
   } else if (block_type == PARAM_AGEING) {
     object = processes::Factory::Create(block_type, object_type);
 
@@ -406,7 +415,7 @@ ObjectPtr Loader::CreateObject(const string &block_type, const string &object_ty
   } else if (block_type == PARAM_ESTIMATE) {
     object = estimates::info::Factory::Create();
 
-  } else if (block_type == PARAM_INITIALIZATION_PHASE) {
+  } else if (block_type == PARAM_INITIALIZATION_PHASE || block_type == PARAM_INITIALIZATION_PHASES) {
     object = initialisationphases::Factory::Create();
 
   } else if (block_type == PARAM_MATURATION) {
@@ -442,7 +451,10 @@ ObjectPtr Loader::CreateObject(const string &block_type, const string &object_ty
   } else if (block_type == PARAM_SELECTIVITY) {
     object = selectivities::Factory::Create(block_type, object_type);
 
-  } else if (block_type == PARAM_TIME_STEP) {
+  } else if (block_type == PARAM_SIZE_WEIGHT) {
+    object = sizeweights::Factory::Create(block_type, object_type);
+
+  } else if (block_type == PARAM_TIME_STEP || block_type == PARAM_TIME_STEPS) {
     object = timesteps::Factory::Create();
   }
 

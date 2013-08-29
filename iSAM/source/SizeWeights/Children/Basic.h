@@ -28,9 +28,9 @@ public:
   // methods
   Basic();
   virtual                     ~Basic() = default;
-  void                        DoValidate();
-  void                        DoBuild() { };
-  void                        DoReset() { };
+  void                        DoValidate() override final;
+  void                        DoBuild() override final { };
+  void                        DoReset() override final { };
 
   // accessors
   Double                      mean_weight(Double size) const override final;

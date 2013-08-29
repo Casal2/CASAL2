@@ -21,6 +21,17 @@ namespace isam {
  * default constructor
  */
 SizeWeight::SizeWeight() {
+  parameters_.RegisterAllowed(PARAM_LABEL);
+  parameters_.RegisterAllowed(PARAM_TYPE);
+}
+
+void SizeWeight::Validate() {
+  CheckForRequiredParameter(PARAM_LABEL);
+  CheckForRequiredParameter(PARAM_TYPE);
+
+  label_ = parameters_.Get(PARAM_LABEL).GetValue<string>();
+
+  DoValidate();
 }
 
 } /* namespace isam */

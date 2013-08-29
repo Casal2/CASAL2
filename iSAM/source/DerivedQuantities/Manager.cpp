@@ -16,18 +16,6 @@ namespace isam {
 namespace derivedquantities {
 
 /**
- * default constructor
- */
-Manager::Manager() {
-}
-
-/**
- * destructor
- */
-Manager::~Manager() noexcept(true) {
-}
-
-/**
  * Return a named derived quantity from our collection
  *
  * @param label The label of the derived quantity
