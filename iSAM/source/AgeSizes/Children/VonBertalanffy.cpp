@@ -38,10 +38,12 @@ void VonBertalanffy::DoValidate() {
   CheckForRequiredParameter(PARAM_LINF);
   CheckForRequiredParameter(PARAM_K);
   CheckForRequiredParameter(PARAM_T0);
+  CheckForRequiredParameter(PARAM_SIZE_WEIGHT);
 
   linf_ = parameters_.Get(PARAM_LINF).GetValue<double>();
   k_    = parameters_.Get(PARAM_K).GetValue<double>();
   t0_   = parameters_.Get(PARAM_T0).GetValue<double>();
+  size_weight_label_ = parameters_.Get(PARAM_SIZE_WEIGHT).GetValue<string>();
 
   if (linf_ <= 0.0)
     LOG_ERROR(parameters_.location(PARAM_LINF) << "(" << linf_ << ") cannot be less than or equal to 0.0");

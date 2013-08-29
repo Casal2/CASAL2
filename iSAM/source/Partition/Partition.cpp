@@ -58,12 +58,7 @@ void Partition::Build() {
 
     unsigned age_spread = (categories->max_age(category) - categories->min_age(category)) + 1;
     new_category.data_.resize(age_spread, 0.0);
-
     new_category.mean_weights_.resize(age_spread, 0.0);
-    if (categories->parameters().IsDefined(PARAM_AGE_SIZES)) {
-      for (unsigned i = 0; i < age_spread; ++i)
-        new_category.mean_weights_[i] = categories->age_size(category)->mean_weight(i + new_category.min_age_);
-    }
 
     partition_[category] = new_category;
   }
@@ -75,6 +70,26 @@ void Partition::Build() {
 void Partition::Reset() {
   for (auto iter = partition_.begin(); iter != partition_.end(); ++iter) {
     iter->second.data_.assign(iter->second.data_.size(), 0.0);
+  }
+}
+
+/**
+ * Calculate the mean weights for our categories based on the information generated
+ * during the build steps of the AgeSize and SizeWeight objects
+ */
+void Partition::CalculateMeanWeights() {
+  CategoriesPtr categories                  = Categories::Instance();
+
+  if (categories->parameters().IsDefined(PARAM_AGE_SIZES)) {
+    vector<string> category_names = categories->category_names();
+
+    for(string category : category_names) {
+      unsigned age_spread = (categories->max_age(category) - categories->min_age(category)) + 1;
+      AgeSizePtr age_size = categories->age_size(category);
+
+      for (unsigned i = 0; i < age_spread; ++i)
+        partition_[category].mean_weights_[i] = age_size->mean_weight(i + partition_[category].min_age_);
+    }
   }
 }
 

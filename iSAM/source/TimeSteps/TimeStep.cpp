@@ -61,6 +61,9 @@ void TimeStep::Build() {
   derivedquantities::Manager& derived_quantities_manager = derivedquantities::Manager::Instance();
   initialisation_derived_quantities_ = derived_quantities_manager.GetForInitialisationTimeStep(label_);
   derived_quantities_                = derived_quantities_manager.GetForTimeStep(label_);
+
+  LOG_INFO("Time step " << label_ << " has " << initialisation_derived_quantities_.size() << " initialisation derived quantities");
+  LOG_INFO("Time step " << label_ << " has " << derived_quantities_.size() << " derived quantities");
 }
 
 /**

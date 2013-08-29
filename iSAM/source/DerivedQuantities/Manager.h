@@ -26,8 +26,8 @@ namespace derivedquantities {
  */
 class Manager : public isam::base::Manager<derivedquantities::Manager, isam::DerivedQuantity>{
 public:
-  Manager();
-  virtual                     ~Manager() noexcept(true);
+  Manager() { };
+  virtual                     ~Manager() noexcept(true) { };
   DerivedQuantityPtr          GetDerivedQuantity(const string& label);
   vector<DerivedQuantityPtr>  GetForInitialisationTimeStep(const string& label);
   vector<DerivedQuantityPtr>  GetForTimeStep(const string& label);

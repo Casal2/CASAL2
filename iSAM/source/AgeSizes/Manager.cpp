@@ -11,6 +11,8 @@
 // headers
 #include "Manager.h"
 
+#include "Categories/Categories.h"
+
 // namespaces
 namespace isam {
 namespace agesizes {

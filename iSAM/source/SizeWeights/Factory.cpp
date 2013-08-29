@@ -11,6 +11,7 @@
 // headers
 #include "Factory.h"
 
+#include "SizeWeights/Manager.h"
 #include "SizeWeights/Children/Basic.h"
 #include "SizeWeights/Children/None.h"
 
@@ -22,15 +23,18 @@ namespace sizeweights {
  *
  */
 SizeWeightPtr Factory::Create(const string& block_type, const string& object_type) {
-  SizeWeightPtr result;
+  SizeWeightPtr size_weight;
 
   if (block_type == PARAM_SIZE_WEIGHT && object_type == PARAM_NONE) {
-    result = SizeWeightPtr(new None());
+    size_weight = SizeWeightPtr(new None());
   } else if (block_type == PARAM_SIZE_WEIGHT && object_type == PARAM_BASIC) {
-    result = SizeWeightPtr(new Basic());
+    size_weight = SizeWeightPtr(new Basic());
   }
 
-  return result;
+  if (size_weight)
+    isam::sizeweights::Manager::Instance().AddObject(size_weight);
+
+  return size_weight;
 }
 
 } /* namespace sizeweights */

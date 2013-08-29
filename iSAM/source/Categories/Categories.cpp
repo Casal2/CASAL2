@@ -100,7 +100,7 @@ void Categories::Validate() {
 
   // build our categories vector
   for (unsigned i = 0; i < names_.size(); ++i) {
-    if (age_size_labels_.size() != 0)
+    if (age_size_labels_.size() > i)
       category_age_size_labels_[names_[i]] = age_size_labels_[i];
 
     // TODO: Verify the name matches the format string properly
@@ -134,28 +134,23 @@ void Categories::Validate() {
  * and other objects in the system
  */
 void Categories::Build() {
-  Reset();
+  agesizes::Manager& age_sizes_manager = agesizes::Manager::Instance();
+
+  auto iter = category_age_size_labels_.begin();
+  for (; iter != category_age_size_labels_.end(); ++iter) {
+    AgeSizePtr age_size = age_sizes_manager.GetAgeSize(iter->second);
+    if (!age_size)
+      LOG_ERROR(parameters_.location(PARAM_AGE_SIZES) << "(" << iter->second << ") could not be found. Have you defined it?");
+
+    cout << "Loading age_size for category: " << iter->first << endl;
+    categories_[iter->first].age_size_ = age_size;
+  }
 }
 
 /*
  *
  */
 void Categories::Reset() {
-  /**
-   * Assign age_sizes to our categories for use
-   *
-   */
-  if (age_size_labels_.size() != 0) {
-    agesizes::Manager& age_sizes_manager = agesizes::Manager::Instance();
-
-    for (unsigned i = 0; i < names_.size(); ++i) {
-      AgeSizePtr age_size = age_sizes_manager.GetAgeSize(age_size_labels_[i]);
-      if (!age_size)
-        LOG_ERROR(parameters_.location(PARAM_AGE_SIZES) << "(" << age_size_labels_[i] << ") could not be found. Have you defined it?");
-
-      categories_[names_[i]].age_size_ = age_size;
-    }
-  }
 }
 
 /**
@@ -219,6 +214,8 @@ vector<unsigned> Categories::years(const string& category_name) {
 AgeSizePtr Categories::age_size(const string& category_name) {
   if (categories_.find(category_name) == categories_.end())
     LOG_CODE_ERROR("Could not find category_name: " << category_name << " in the list of loaded categories");
+  if (!categories_[category_name].age_size_)
+    LOG_CODE_ERROR("The age size pointer was null for category " << category_name);
 
   return categories_[category_name].age_size_;
 }
@@ -232,6 +229,8 @@ void Categories::RemoveAllObjects() {
   names_.clear();
   category_names_.clear();
   categories_.clear();
+  age_size_labels_.clear();
+  category_age_size_labels_.clear();
 }
 
 

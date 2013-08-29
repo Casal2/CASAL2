@@ -50,9 +50,6 @@ void EmptyModel::SetUp() {
 }
 
 void EmptyModel::TearDown() {
-  /**
-   * Clean our Model
-   */
   Model::Instance(true);
 
   Categories::Instance()->RemoveAllObjects();

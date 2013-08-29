@@ -26,7 +26,7 @@ namespace sizeweights {
 class Factory {
 public:
   // methods
-  SizeWeightPtr               Create(const string& block_type, const string& object_type);
+  static SizeWeightPtr        Create(const string& block_type, const string& object_type);
 
 private:
   // methods

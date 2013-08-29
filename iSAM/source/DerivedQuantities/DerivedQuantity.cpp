@@ -10,6 +10,7 @@
 #include "DerivedQuantity.h"
 
 #include "Selectivities/Manager.h"
+#include "TimeSteps/Manager.h"
 
 namespace isam {
 
@@ -17,6 +18,8 @@ namespace isam {
  * default constructor
  */
 DerivedQuantity::DerivedQuantity() {
+  LOG_TRACE();
+
   parameters_.RegisterAllowed(PARAM_LABEL);
   parameters_.RegisterAllowed(PARAM_TYPE);
   parameters_.RegisterAllowed(PARAM_TIME_STEP);
@@ -34,11 +37,12 @@ DerivedQuantity::DerivedQuantity() {
 void DerivedQuantity::Validate() {
   CheckForRequiredParameter(PARAM_LABEL);
   CheckForRequiredParameter(PARAM_TYPE);
-  CheckForRequiredParameter(PARAM_TIME_STEPS);
+  CheckForRequiredParameter(PARAM_TIME_STEP);
   CheckForRequiredParameter(PARAM_SELECTIVITIES);
   CheckForRequiredParameter(PARAM_CATEGORIES);
 
-  time_step_label_                  = parameters_.Get(PARAM_TIME_STEPS).GetValue<string>();
+  label_                            = parameters_.Get(PARAM_LABEL).GetValue<string>();
+  time_step_label_                  = parameters_.Get(PARAM_TIME_STEP).GetValue<string>();
   initialisation_time_step_labels_  = parameters_.Get(PARAM_INITIALIZATION_TIME_STEPS).GetValues<string>();
   selectivity_labels_               = parameters_.Get(PARAM_SELECTIVITIES).GetValues<string>();
   category_labels_                  = parameters_.Get(PARAM_CATEGORIES).GetValues<string>();
@@ -57,7 +61,24 @@ void DerivedQuantity::Build() {
 
   selectivities::Manager& selectivity_manager = selectivities::Manager::Instance();
   for (string label : selectivity_labels_) {
-    selectivities_.push_back(selectivity_manager.GetSelectivity(label));
+    SelectivityPtr selectivity = selectivity_manager.GetSelectivity(label);
+    if (!selectivity)
+      LOG_ERROR(parameters_.location(PARAM_SELECTIVITIES) << " (" << label << ") could not be found. Have you defined it?");
+
+    selectivities_.push_back(selectivity);
+  }
+
+  /**
+   * ensure the time steps we have are valid
+   */
+  TimeStepPtr time_step = timesteps::Manager::Instance().GetTimeStep(time_step_label_);
+  if (!time_step)
+    LOG_ERROR(parameters_.location(PARAM_TIME_STEP) << " (" << time_step_label_ << ") could not be found. Have you defined it?");
+
+  for (const string label : initialisation_time_step_labels_) {
+    TimeStepPtr time_step = timesteps::Manager::Instance().GetTimeStep(label);
+    if (!time_step)
+      LOG_ERROR(parameters_.location(PARAM_INITIALIZATION_TIME_STEPS) << " (" << label << ") could not be found. Have you defined it?");
   }
 }
 
@@ -92,7 +113,7 @@ Double DerivedQuantity::GetValue(unsigned year) {
     return values_[year];
 
   if (initialisation_values_.size() == 0)
-    LOG_ERROR("Trying to get a value from derived quantity " << label_ << " when no value have been calculated");
+    LOG_ERROR("Trying to get a value from derived quantity " << label_ << " when no values have been calculated");
 
   // Calculate how many years to go back. At this point
   // either we're in the init phases or we're going back
@@ -106,6 +127,37 @@ Double DerivedQuantity::GetValue(unsigned year) {
     result = (*initialisation_values_.rbegin()->begin()); // first value of last init phase
 
   return result;
+}
+
+/**
+ *
+ */
+Double DerivedQuantity::GetInitialisationValue(unsigned phase, unsigned index) {
+  if (initialisation_values_.size() <= phase) {
+    if (initialisation_values_.size() == 0)
+      return 0.0;
+
+    return (*initialisation_values_.rbegin()->rbegin());
+  }
+
+  if (initialisation_values_[phase].size() <= index) {
+    if (initialisation_values_[phase].size() == 0)
+      return 0.0;
+    else
+      return *initialisation_values_[phase].rbegin();
+  }
+
+  return initialisation_values_[phase][index];
+}
+
+/**
+ *
+ */
+unsigned DerivedQuantity::GetInitialisationValuesSize(unsigned phase) {
+  if (initialisation_values_.size() <= phase)
+    return 0.0;
+
+  return initialisation_values_[phase].size();
 }
 
 } /* namespace isam */

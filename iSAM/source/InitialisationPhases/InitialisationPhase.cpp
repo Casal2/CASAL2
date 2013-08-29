@@ -59,16 +59,16 @@ void InitialisationPhase::Validate() {
  * Build our runtime pointers
  */
 void InitialisationPhase::Build() {
-
   if (process_labels_.size() != 0) {
     processes::Manager& process_manager = processes::Manager::Instance();
     for(string label : process_labels_) {
       if (!process_manager.GetProcess(label))
-        LOG_ERROR(parameters_.location(PARAM_PROCESSES) << "(" << label << ") has not been defined as a process. Please ensure you have defined it");
+        LOG_ERROR(parameters_.location(PARAM_PROCESSES) << " (" << label << ") has not been defined as a process. Please ensure you have defined it");
     }
 
+    LOG_INFO("Building new time step initialisation" << label_);
     TimeStepPtr time_step = timesteps::Factory::Create();
-    time_step->parameters().Add(PARAM_LABEL, "Auto-generated", __FILE__, __LINE__);
+    time_step->parameters().Add(PARAM_LABEL, string(PARAM_INITIALIZATION) + label_, __FILE__, __LINE__);
     time_step->parameters().Add(PARAM_PROCESSES, process_labels_, __FILE__, __LINE__);
     time_step->Validate();
     time_step->Build();
@@ -81,11 +81,10 @@ void InitialisationPhase::Build() {
 
       time_step = time_step_manager.GetTimeStep(label);
       if (!time_step)
-        LOG_ERROR(parameters_.location(PARAM_TIME_STEPS) << "(" << label << ") has not been defined as a time step. Please ensure you have defined it");
+        LOG_ERROR(parameters_.location(PARAM_TIME_STEPS) << " (" << label << ") has not been defined as a time step. Please ensure you have defined it");
 
       time_steps_.push_back(time_step);
     }
-
   }
 }
 
@@ -93,9 +92,6 @@ void InitialisationPhase::Build() {
  * Execute the timesteps we have.
  */
 void InitialisationPhase::Execute() {
-  derivedquantities::Manager& derived_quantity_manager = derivedquantities::Manager::Instance();
-  vector<DerivedQuantityPtr> derived_quantities = derived_quantity_manager.GetObjects();
-
   LOG_INFO("Executing " << years_ << " years with " << process_labels_.size() << " processes");
   for (unsigned year = 0; year < years_; ++year) {
     for (TimeStepPtr time_step : time_steps_) {

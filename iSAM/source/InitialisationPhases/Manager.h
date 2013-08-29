@@ -36,6 +36,7 @@ private:
   // Members
   unsigned                        last_executed_phase_ = 0;
   vector<InitialisationPhasePtr>  ordered_initialisation_phases_;
+
 };
 
 } /* namespace initialisationphases */
