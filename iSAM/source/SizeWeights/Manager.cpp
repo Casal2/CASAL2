@@ -25,14 +25,11 @@ Manager::Manager() {
  *
  */
 SizeWeightPtr Manager::GetSizeWeight(const string& label) const {
-  cout << "Looking for size_weight: " << label << endl;
   for (SizeWeightPtr size_weight : objects_) {
-    cout << "Checking size_weight: " << size_weight->label() << endl;
     if (size_weight->label() == label)
       return size_weight;
   }
 
-  cout << "None found" << endl;
   return SizeWeightPtr();
 }
 

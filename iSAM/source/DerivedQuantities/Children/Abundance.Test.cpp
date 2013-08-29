@@ -67,30 +67,15 @@ TEST_F(InternalEmptyModel, DerivedQuantities_Abundance) {
   // run the model
   ModelPtr model = Model::Instance();
   model->Start();
-//
-//  // check the results
-//  EXPECT_DOUBLE_EQ(2800.0, dq->GetValue(1994));
 
-//  // Check Results
-//  BOOST_CHECK_EQUAL(15, pQuantity->getValuesSize());
-//  BOOST_CHECK_EQUAL(pSquare->getAbundance() * 2, pQuantity->getValue(0));
-//  BOOST_CHECK_EQUAL(pQuantity->getValue(1), 2800.0);
-//  BOOST_CHECK_EQUAL(pQuantity->getValue(2), 2600.0);
-//  BOOST_CHECK_EQUAL(pQuantity->getValue(3), 2400.0);
-//  BOOST_CHECK_EQUAL(pQuantity->getValue(4), 2200.0);
-//  BOOST_CHECK_EQUAL(pQuantity->getValue(5), 2000.0);
-//  BOOST_CHECK_EQUAL(pQuantity->getValue(6), 1800.0);
-//  BOOST_CHECK_EQUAL(pQuantity->getValue(7), 1600.0);
-//  BOOST_CHECK_EQUAL(pQuantity->getValue(8), 1400.0);
-//  BOOST_CHECK_EQUAL(pQuantity->getValue(9), 1200.0);
-//  BOOST_CHECK_EQUAL(pQuantity->getValue(10), 1000.0);
-//  BOOST_CHECK_EQUAL(pQuantity->getValue(11), 800.0);
-//  BOOST_CHECK_EQUAL(pQuantity->getValue(12), 600.0);
-//  BOOST_CHECK_EQUAL(pQuantity->getValue(13), 400.0);
-//  BOOST_CHECK_EQUAL(pQuantity->getValue(14), 200.0);
-//  BOOST_CHECK_EQUAL(pQuantity->getValue(15), 0.0);
-//  BOOST_CHECK_EQUAL(pQuantity->getValue(16), 0.0); // Too Large, should return 0.0
-//  BOOST_CHECK_EQUAL(pQuantity->getValue(17), 0.0); // ""
+  // check the results
+  for (unsigned i = 0; i < 15; ++i) {
+    unsigned year = 1994 + i;
+    double value = (i + 1) * 997386.0;
+
+    EXPECT_DOUBLE_EQ(value, dq->GetValue(year)) << " for year " << year << " and value " << value;
+  }
+
 }
 
 } /* namespace derivedquantities */

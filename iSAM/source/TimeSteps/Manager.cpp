@@ -98,6 +98,7 @@ void Manager::Execute(unsigned year) {
     observations_manager.PreExecute(year, time_step->label());
 
     time_step->Execute();
+    time_step->ExecuteDerivedQuantities();
 
     observations_manager.Execute(year, time_step->label());
     report_manager.Execute(year, time_step->label());
