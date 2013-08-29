@@ -112,6 +112,9 @@ Double DerivedQuantity::GetValue(unsigned year) {
   if (values_.find(year) != values_.end())
     return values_[year];
 
+  if (values_.size() > 0 && values_.rbegin()->first < year)
+    LOG_ERROR("Trying to get a value from the derived quantity " << label_ << " for year " << year << " when the latest year calculated is "
+        << values_.rbegin()->first);
   if (initialisation_values_.size() == 0)
     LOG_ERROR("Trying to get a value from derived quantity " << label_ << " when no values have been calculated");
 

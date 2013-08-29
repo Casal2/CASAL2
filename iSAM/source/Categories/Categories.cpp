@@ -142,7 +142,6 @@ void Categories::Build() {
     if (!age_size)
       LOG_ERROR(parameters_.location(PARAM_AGE_SIZES) << "(" << iter->second << ") could not be found. Have you defined it?");
 
-    cout << "Loading age_size for category: " << iter->first << endl;
     categories_[iter->first].age_size_ = age_size;
   }
 }
