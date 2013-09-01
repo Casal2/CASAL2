@@ -52,31 +52,6 @@ void InternalEmptyModel::SetUp() {
 }
 
 /**
- *
- */
-void InternalEmptyModel::TearDown() {
-  Model::Instance(true);
-
-  Categories::Instance()->RemoveAllObjects();
-  Partition::Instance().Clear();
-
-  agesizes::Manager::Instance().RemoveAllObjects();
-  catchabilities::Manager::Instance().RemoveAllObjects();
-  derivedquantities::Manager::Instance().RemoveAllObjects();
-  estimates::Manager::Instance().RemoveAllObjects();
-  initialisationphases::Manager::Instance().RemoveAllObjects();
-  minimisers::Manager::Instance().RemoveAllObjects();
-  observations::Manager::Instance().RemoveAllObjects();
-  penalties::Manager::Instance().RemoveAllObjects();
-  priors::Manager::Instance().RemoveAllObjects();
-  processes::Manager::Instance().RemoveAllObjects();
-  reports::Manager::Instance().RemoveAllObjects();
-  selectivities::Manager::Instance().RemoveAllObjects();
-  sizeweights::Manager::Instance().RemoveAllObjects();
-  timesteps::Manager::Instance().RemoveAllObjects();
-}
-
-/**
  * Add a new line to our internal configuration vector so we can load it.
  *
  * @param line The contents of the line

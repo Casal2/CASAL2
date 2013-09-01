@@ -116,7 +116,8 @@ Double DerivedQuantity::GetValue(unsigned year) {
     LOG_ERROR("Trying to get a value from the derived quantity " << label_ << " for year " << year << " when the latest year calculated is "
         << values_.rbegin()->first);
   if (initialisation_values_.size() == 0)
-    LOG_ERROR("Trying to get a value from derived quantity " << label_ << " when no values have been calculated");
+    return 0.0;
+//    LOG_ERROR("Trying to get a value from derived quantity " << label_ << " when no values have been calculated");
 
   // Calculate how many years to go back. At this point
   // either we're in the init phases or we're going back

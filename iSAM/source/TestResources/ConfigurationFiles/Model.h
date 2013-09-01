@@ -21,4 +21,15 @@ const std::string model_no_init_phases =
 "age_plus t\n"
 "time_steps time_step_one\n";
 
+const std::string model_one_init_phase = R"(
+@model
+start_year 1994
+final_year 2008
+min_age 1
+max_age 10
+age_plus t
+initialisation_phases init_phase_one
+time_steps time_step_one
+)";
+
 #endif /* MODEL_H_ */

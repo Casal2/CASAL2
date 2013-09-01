@@ -41,18 +41,6 @@ namespace isam {
 namespace testfixtures {
 
 /**
- * Constructor
- */
-BasicModel::BasicModel() {
-}
-
-/**
- * Destructor
- */
-BasicModel::~BasicModel() {
-}
-
-/**
  *
  */
 void BasicModel::SetUp() {
@@ -83,31 +71,6 @@ void BasicModel::SetUp() {
   object->parameters().Add(PARAM_LABEL, "constant_one", __FILE__, __LINE__);
   object->parameters().Add(PARAM_TYPE, "constant", __FILE__, __LINE__);
   object->parameters().Add(PARAM_C, "1", __FILE__, __LINE__);
-}
-
-/**
- *
- */
-void BasicModel::TearDown() {
-  Model::Instance(true);
-
-  Categories::Instance()->RemoveAllObjects();
-  Partition::Instance().Clear();
-
-  agesizes::Manager::Instance().RemoveAllObjects();
-  catchabilities::Manager::Instance().RemoveAllObjects();
-  derivedquantities::Manager::Instance().RemoveAllObjects();
-  estimates::Manager::Instance().RemoveAllObjects();
-  initialisationphases::Manager::Instance().RemoveAllObjects();
-  minimisers::Manager::Instance().RemoveAllObjects();
-  observations::Manager::Instance().RemoveAllObjects();
-  penalties::Manager::Instance().RemoveAllObjects();
-  priors::Manager::Instance().RemoveAllObjects();
-  processes::Manager::Instance().RemoveAllObjects();
-  reports::Manager::Instance().RemoveAllObjects();
-  selectivities::Manager::Instance().RemoveAllObjects();
-  sizeweights::Manager::Instance().RemoveAllObjects();
-  timesteps::Manager::Instance().RemoveAllObjects();
 }
 
 } /* namespace testfixtures */

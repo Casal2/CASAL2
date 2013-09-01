@@ -7,12 +7,12 @@
  * Copyright NIWA Science ©2013 - www.niwa.co.nz
  *
  */
-#ifndef TESTRESOURCES_CONFIGURATION_CONSTANT_H_
-#define TESTRESOURCES_CONFIGURATION_CONSTANT_H_
+#ifndef TESTRESOURCES_CONFIGURATION_SELECTIVITIES_CONSTANT_H_
+#define TESTRESOURCES_CONFIGURATION_SELECTIVITIES_CONSTANT_H_
 
 #include <string>
 
-const std::string selectivity_constant_one = R"(
+const std::string selectivities_constant_one = R"(
 @selectivity one
 type constant
 c 1

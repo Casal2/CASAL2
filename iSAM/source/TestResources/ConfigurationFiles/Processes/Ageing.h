@@ -7,17 +7,22 @@
  * Copyright NIWA Science ©2013 - www.niwa.co.nz
  *
  */
-#ifndef TESTRESOURCES_CONFIGURATION_AGEING_H_
-#define TESTRESOURCES_CONFIGURATION_AGEING_H_
+#ifndef TESTRESOURCES_CONFIGURATION_PROCESSES_AGEING_H_
+#define TESTRESOURCES_CONFIGURATION_PROCESSES_AGEING_H_
 
 #include <string>
 
-const std::string ageing_no_sex = R"(
+const std::string processes_ageing_no_sex = R"(
 @ageing ageing
 categories immature mature spawning
 )";
 
-const std::string ageing_two_sex = R"(
+const std::string processes_ageing_no_sex_no_spawning = R"(
+@ageing ageing
+categories immature mature
+)";
+
+const std::string processes_ageing_two_sex = R"(
 @ageing ageing
 categories immature.male immature.female mature.male mature.female
 )";

@@ -19,4 +19,9 @@ a 1.051e-008
 b 3.036
 )";
 
+const std::string size_weights_none = R"(
+@size_weight none
+type none
+)";
+
 #endif /* MODEL_H_ */
