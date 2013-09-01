@@ -19,9 +19,7 @@
 #ifdef TESTMODE
 
 // Headers
-#include <gmock/gmock.h>
-#include <gtest/gtest.h>
-#include <string>
+#include "TestResources/TestFixtures/Base.h"
 
 // Namespaces
 namespace isam {
@@ -32,13 +30,12 @@ using std::string;
 /**
  * Class Definition
  */
-class BasicModel : public ::testing::Test {
+class BasicModel : public testfixtures::Base {
 public:
   // Setup and TearDown Methods
-  BasicModel();
-  virtual                     ~BasicModel();
-  virtual void                SetUp();
-  virtual void                TearDown();
+  BasicModel() { };
+  virtual                     ~BasicModel() { };
+  void                        SetUp() override final;
 };
 
 } /* namespace testfixtures */

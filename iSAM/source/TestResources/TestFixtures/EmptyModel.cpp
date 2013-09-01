@@ -14,62 +14,20 @@
 // Headers
 #include "EmptyModel.h"
 
-#include "AgeSizes/Manager.h"
-#include "Catchabilities/Manager.h"
-#include "Categories/Categories.h"
-#include "DerivedQuantities/Manager.h"
-#include "Estimates/Manager.h"
-#include "InitialisationPhases/Manager.h"
-#include "Minimisers/Manager.h"
-#include "ObjectiveFunction/ObjectiveFunction.h"
-#include "Observations/Manager.h"
-#include "Partition/Accessors/Category.h"
-#include "Partition/Partition.h"
-#include "Penalties/Manager.h"
-#include "Priors/Manager.h"
-#include "Processes/Manager.h"
-#include "Reports/Manager.h"
-#include "Selectivities/Factory.h"
-#include "Selectivities/Manager.h"
-#include "SizeWeights/Manager.h"
-#include "TimeSteps/Manager.h"
-#include "Utilities/Logging/Logging.h"
-#include "Utilities/To.h"
+#include "Model/Model.h"
 
+// namespaces
 namespace isam {
 namespace testfixtures {
 
-EmptyModel::EmptyModel() {
-}
-
-EmptyModel::~EmptyModel() {
-}
-
+/**
+ *
+ */
 void EmptyModel::SetUp() {
+  Model::Instance(true);
   Model::Instance()->set_run_mode(RunMode::kTesting);
 }
 
-void EmptyModel::TearDown() {
-  Model::Instance(true);
-
-  Categories::Instance()->RemoveAllObjects();
-  Partition::Instance().Clear();
-
-  agesizes::Manager::Instance().RemoveAllObjects();
-  catchabilities::Manager::Instance().RemoveAllObjects();
-  derivedquantities::Manager::Instance().RemoveAllObjects();
-  estimates::Manager::Instance().RemoveAllObjects();
-  initialisationphases::Manager::Instance().RemoveAllObjects();
-  minimisers::Manager::Instance().RemoveAllObjects();
-  observations::Manager::Instance().RemoveAllObjects();
-  penalties::Manager::Instance().RemoveAllObjects();
-  priors::Manager::Instance().RemoveAllObjects();
-  processes::Manager::Instance().RemoveAllObjects();
-  reports::Manager::Instance().RemoveAllObjects();
-  selectivities::Manager::Instance().RemoveAllObjects();
-  sizeweights::Manager::Instance().RemoveAllObjects();
-  timesteps::Manager::Instance().RemoveAllObjects();
-}
 
 } /* namespace testfixtures */
 } /* namespace isam */

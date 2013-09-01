@@ -21,4 +21,13 @@ t0    -0.117
 linf   174.545
 )";
 
+const std::string age_sizes_von_bert_no_age_size = R"(
+@age_size von_bert
+type von_bertalanffy
+size_weight none
+k      0.2
+t0     0.0
+linf   100
+)";
+
 #endif /* MODEL_H_ */

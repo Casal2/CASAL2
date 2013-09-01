@@ -17,12 +17,11 @@
 #define TESTFIXTURES_INTERNALEMPTYMODEL_H_
 
 // Headers
-#include <gmock/gmock.h>
-#include <gtest/gtest.h>
 #include <string>
 #include <vector>
 
 #include "ConfigurationLoader/Loader.h"
+#include "TestResources/TestFixtures/Base.h"
 
 // Namespaces
 namespace isam {
@@ -35,13 +34,12 @@ namespace config = isam::configuration;
 /**
  * class definition
  */
-class InternalEmptyModel : public ::testing::Test  {
+class InternalEmptyModel : public testfixtures::Base {
 public:
   // methods
   InternalEmptyModel() { };
   virtual                     ~InternalEmptyModel() { };
-  virtual void                SetUp();
-  virtual void                TearDown();
+  void                        SetUp() override final;
   void                        AddConfigurationLine(const string& line, const string& file_name, unsigned line_number);
   void                        LoadConfiguration();
 

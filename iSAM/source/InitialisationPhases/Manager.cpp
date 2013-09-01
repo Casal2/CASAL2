@@ -37,6 +37,8 @@ void Manager::Build() {
   unsigned index = 0;
 
   // Order our time steps based on the parameter given to the model
+  ordered_initialisation_phases_.clear();
+
   vector<string> phases = Model::Instance()->initialisation_phases();
   for(string label : phases) {
     for(InitialisationPhasePtr phase : objects_) {

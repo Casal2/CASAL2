@@ -46,10 +46,10 @@ TEST_F(InternalEmptyModel, DerivedQuantities_Abundance) {
   AddConfigurationLine(model_no_init_phases, __FILE__, __LINE__);
   AddConfigurationLine(categories_no_sex_with_age_size, __FILE__, __LINE__);
   AddConfigurationLine(recruitment_constant_no_sex, __FILE__, __LINE__);
-  AddConfigurationLine(ageing_no_sex, __FILE__, __LINE__);
+  AddConfigurationLine(processes_ageing_no_sex, __FILE__, __LINE__);
   AddConfigurationLine(age_sizes_von_bert, __FILE__, __LINE__);
   AddConfigurationLine(size_weights_basic, __FILE__, __LINE__);
-  AddConfigurationLine(selectivity_constant_one, __FILE__, __LINE__);
+  AddConfigurationLine(selectivities_constant_one, __FILE__, __LINE__);
   AddConfigurationLine("@time_step time_step_one; processes ageing recruitment_constant", __FILE__, __LINE__);
 
   LoadConfiguration();
