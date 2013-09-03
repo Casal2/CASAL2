@@ -1,0 +1,129 @@
+@model
+start_year 1994
+final_year 2010
+min_age 1
+max_age 10
+age_plus t
+time_steps step_one step_two step_three step_four step_five
+initialisation_phases iphase1
+
+@categories
+format stage.sex
+names immature.male mature.male immature.female mature.female
+
+@time_step step_one
+processes my_recruitment 
+
+@time_step step_two
+processes my_ageing
+
+@time_step step_three
+processes my_maturation
+
+@time_step step_four
+processes my_mortality
+
+@time_step step_five
+processes my_event_mortality
+
+@initialisation_phase iphase1
+years 10
+time_steps step_one
+{
+# Derived quantities
+@derived_quantity SSB
+type biomass
+time_step step_one
+categories mature.male mature.female
+selectivities one one
+initialisation_time_steps step_one
+}
+@ageing ageing
+categories immature.male mature.male immature.female mature.female
+
+@Recruitment my_recruitment
+type constant
+categories immature.male immature.female
+proportions 0.5 0.5
+R0 20000
+age 1
+
+{
+@recruitment my_recruitment
+type beverton_holt
+categories immature.male immature.female
+proportions 0.5 0.5
+standardise_YCS_years 1994 1995 1996 1997 1998 1999 2000 2001 2002 2003 2004 2005 2006 2007 2008 2009
+YCS_years 1994 1995 1996 1997 1998 1999 2000 2001 2002 2003 2004 2005 2006 2007 2008 2009 2010
+YCS_values          1    1    1    1    1    1    1    1    1    1    1    1    1    1    1    1    1
+steepness 0.75
+b0 iphase1
+r0 20000
+ssb SSB
+ssb_offset 1
+}
+
+@ageing my_ageing
+categories immature.female
+
+@maturation my_maturation
+type rate
+from immature.male immature.female
+to mature.male mature.female
+proportions 0.6 0.5
+selectivities Maturation one
+
+@mortality my_mortality
+type constant_rate
+categories mature.male mature.female
+m 0.5 0.6
+selectivities one one
+
+@mortality my_event_mortality
+type event
+categories immature.male mature.male immature.female mature.female
+years           1995         1999         2000         2001         2002         2003         2004          2005          2006          2007
+catches  1849.153714 14442.000000 28323.203463 24207.464203 47279.000000 58350.943094 82875.872790 115974.547730 113852.472257 119739.517172
+U_max 0.99
+selectivities FishingSel FishingSel FishingSel FishingSel
+
+@selectivity one
+type constant 
+c 1
+
+@selectivity Maturation
+type logistic_producing
+L 5
+H 30
+a50 8
+ato95 3
+
+@selectivity FishingSel
+type logistic
+a50 8
+ato95 3
+
+@report partition
+type partition 
+time_step step_one
+years 1995
+
+@report partition
+type partition
+time_step step_two
+years 1995
+
+@report partition
+type partition
+time_step step_three
+years 1995
+
+@report partition
+type partition
+time_step step_four
+years 1995
+
+@report partition
+type partition
+time_step step_five
+years 1995
