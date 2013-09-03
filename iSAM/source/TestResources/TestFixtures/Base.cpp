@@ -7,6 +7,7 @@
  * Copyright NIWA Science ©2013 - www.niwa.co.nz
  *
  */
+#ifdef TESTMODE
 
 // headers
 #include "Base.h"
@@ -80,3 +81,4 @@ void Base::TearDown() {
 
 } /* namespace testfixtures */
 } /* namespace isam */
+#endif /* TESTMODE */
