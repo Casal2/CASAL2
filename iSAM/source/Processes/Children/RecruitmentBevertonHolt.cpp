@@ -200,11 +200,14 @@ void RecruitmentBevertonHolt::Execute() {
     true_ycs_values_.push_back(true_ycs);
     recruitment_values_.push_back(amount_per);
     ssb_values_.push_back(derived_quantity_->GetValue(model_->start_year() - ssb_offset_));
+
+    LOG_INFO("year = " << model_->current_year() << "; ycs = " << ycs << "; b0_ = " << b0_ << "; ssb_ratio = " << ssb_ratio << "; true_ycs = " << true_ycs << "; amount_per = " << amount_per);
   }
 
   auto iterator = partition_->Begin();
   for (unsigned i = 0; iterator != partition_->End(); ++iterator, ++i) {
-    (*iterator)->data_[i] += amount_per * proportions_[i];
+    (*iterator)->data_[age_ - (*iterator)->min_age_] += amount_per * proportions_[i];
+    LOG_INFO("Adding " << amount_per * proportions_[i] << " to " << (*iterator)->name_);
   }
 }
 

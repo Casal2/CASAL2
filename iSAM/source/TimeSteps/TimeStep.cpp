@@ -62,6 +62,7 @@ void TimeStep::Build() {
   initialisation_derived_quantities_ = derived_quantities_manager.GetForInitialisationTimeStep(label_);
   derived_quantities_                = derived_quantities_manager.GetForTimeStep(label_);
 
+  LOG_INFO("Time step " << label_ << " has " << processes_.size() << " processes");
   LOG_INFO("Time step " << label_ << " has " << initialisation_derived_quantities_.size() << " initialisation derived quantities");
   LOG_INFO("Time step " << label_ << " has " << derived_quantities_.size() << " derived quantities");
 }
@@ -78,14 +79,19 @@ void TimeStep::Execute() {
  *
  */
 void TimeStep::ExecuteInitialisationDerivedQuantities(unsigned phase) {
-  for (DerivedQuantityPtr derived_quantity : initialisation_derived_quantities_)
+  LOG_TRACE();
+  for (DerivedQuantityPtr derived_quantity : initialisation_derived_quantities_) {
+    if (!derived_quantity)
+      LOG_CODE_ERROR("derived_quantity == 0");
     derived_quantity->Calculate(phase);
+  }
 }
 
 /**
  *
  */
 void TimeStep::ExecuteDerivedQuantities() {
+  LOG_TRACE();
   for (DerivedQuantityPtr derived_quantity : derived_quantities_)
     derived_quantity->Calculate();
 }

@@ -57,6 +57,8 @@ void DerivedQuantity::Validate() {
  * quantity and other components in the model
  */
 void DerivedQuantity::Build() {
+  LOG_TRACE();
+
   partition_  = accessor::CategoriesPtr(new accessor::Categories(category_labels_));
 
   selectivities::Manager& selectivity_manager = selectivities::Manager::Instance();

@@ -25,6 +25,7 @@ Biomass::Biomass() {
  *
  */
 void Biomass::Calculate() {
+  LOG_TRACE();
   Double value = 0.0;
 
   auto iterator = partition_->Begin();
@@ -43,6 +44,7 @@ void Biomass::Calculate() {
  *
  */
 void Biomass::Calculate(unsigned initialisation_phase) {
+  LOG_TRACE();
   Double value = 0.0;
 
   auto iterator = partition_->Begin();
@@ -53,6 +55,8 @@ void Biomass::Calculate(unsigned initialisation_phase) {
     }
   }
 
+  if (initialisation_values_.size() <= initialisation_phase)
+    initialisation_values_.resize(initialisation_phase + 1);
   initialisation_values_[initialisation_phase].push_back(value);
 }
 

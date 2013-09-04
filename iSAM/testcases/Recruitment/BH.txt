@@ -4,7 +4,7 @@ final_year 2010
 min_age 1
 max_age 10
 age_plus t
-time_steps step_one step_two step_three step_four step_five
+time_steps step_one step_two step_three step_four #step_five
 initialisation_phases iphase1
 
 @categories
@@ -15,7 +15,7 @@ names immature.male mature.male immature.female mature.female
 processes my_recruitment 
 
 @time_step step_two
-processes my_ageing
+processes ageing
 
 @time_step step_three
 processes my_maturation
@@ -28,27 +28,28 @@ processes my_event_mortality
 
 @initialisation_phase iphase1
 years 10
-time_steps step_one
-{
+processes my_recruitment ageing my_maturation my_mortality
+
 # Derived quantities
 @derived_quantity SSB
 type biomass
 time_step step_one
 categories mature.male mature.female
 selectivities one one
-initialisation_time_steps step_one
-}
+initialisation_time_steps initialisation.iphase1
+
 @ageing ageing
 categories immature.male mature.male immature.female mature.female
 
+{
 @Recruitment my_recruitment
 type constant
 categories immature.male immature.female
 proportions 0.5 0.5
 R0 20000
 age 1
+}
 
-{
 @recruitment my_recruitment
 type beverton_holt
 categories immature.male immature.female
@@ -61,22 +62,18 @@ b0 iphase1
 r0 20000
 ssb SSB
 ssb_offset 1
-}
-
-@ageing my_ageing
-categories immature.female
 
 @maturation my_maturation
 type rate
 from immature.male immature.female
 to mature.male mature.female
-proportions 0.6 0.5
-selectivities Maturation one
+proportions 0.2 0.2
+selectivities one one
 
 @mortality my_mortality
 type constant_rate
 categories mature.male mature.female
-m 0.5 0.6
+m 0.1 0.1
 selectivities one one
 
 @mortality my_event_mortality
@@ -106,24 +103,29 @@ ato95 3
 @report partition
 type partition 
 time_step step_one
-years 1995
+years 1994
 
 @report partition
 type partition
 time_step step_two
-years 1995
+years 1994
 
 @report partition
 type partition
 time_step step_three
-years 1995
+years 1994
 
 @report partition
 type partition
 time_step step_four
-years 1995
+years 1994
 
 @report partition
 type partition
 time_step step_five
-years 1995
+years 1994
+
+
+
+@report derived_quantities
+type derived_quantity

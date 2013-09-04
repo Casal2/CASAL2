@@ -26,7 +26,7 @@ processes my_mortality
 @time_step step_five
 processes my_event_mortality
 
-@initialisation_phase iphase12
+@initialisation_phase iphase1
 years 10
 time_steps step_one
 
@@ -80,24 +80,24 @@ ato95 3
 @report partition
 type partition 
 time_step step_one
-year 1995
+years 1995
 
 @report partition
 type partition
 time_step step_two
-year 1995
+years 1995
 
 @report partition
 type partition
 time_step step_three
-year 1995
+years 1995
 
 @report partition
 type partition
 time_step step_four
-year 1995
+years 1995
 
 @report partition
 type partition
 time_step step_five
-year 1995
+years 1995
