@@ -50,6 +50,7 @@ void Abundance::Calculate() {
  * initialisation phase and store it based on the phase we're in
  */
 void Abundance::Calculate(unsigned initialisation_phase) {
+  LOG_TRACE();
   Double value = 0.0;
 
   auto iterator = partition_->Begin();
@@ -59,6 +60,9 @@ void Abundance::Calculate(unsigned initialisation_phase) {
       value += (*iterator)->data_[j] * selectivities_[i]->GetResult((*iterator)->min_age_ + j);
     }
   }
+
+  if (initialisation_values_.size() <= initialisation_phase)
+    initialisation_values_.resize(initialisation_phase + 1);
 
   initialisation_values_[initialisation_phase].push_back(value);
 }

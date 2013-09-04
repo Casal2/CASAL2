@@ -53,28 +53,28 @@ void InitialisationPhase::Validate() {
   time_step_labels_ = parameters_.Get(PARAM_TIME_STEPS).GetValues<string>();
   years_            = parameters_.Get(PARAM_YEARS).GetValue<unsigned>();
 
+  // Create a new time step if we need too.
+  if (process_labels_.size() != 0) {
+    LOG_INFO("Initialisation phase needs to create a new time step: " << string(PARAM_INITIALIZATION) + string(".") + label_);
+    TimeStepPtr time_step = timesteps::Factory::Create();
+    time_step->parameters().Add(PARAM_LABEL, string(PARAM_INITIALIZATION) + string(".") + label_, __FILE__, __LINE__);
+    time_step->parameters().Add(PARAM_PROCESSES, process_labels_, __FILE__, __LINE__);
+
+    time_steps_.push_back(time_step);
+  }
+
 }
 
 /**
  * Build our runtime pointers
  */
 void InitialisationPhase::Build() {
-  if (process_labels_.size() != 0) {
-    processes::Manager& process_manager = processes::Manager::Instance();
-    for(string label : process_labels_) {
-      if (!process_manager.GetProcess(label))
-        LOG_ERROR(parameters_.location(PARAM_PROCESSES) << " (" << label << ") has not been defined as a process. Please ensure you have defined it");
-    }
+  LOG_TRACE();
 
-    LOG_INFO("Building new time step initialisation" << label_);
-    TimeStepPtr time_step = timesteps::Factory::Create();
-    time_step->parameters().Add(PARAM_LABEL, string(PARAM_INITIALIZATION) + label_, __FILE__, __LINE__);
-    time_step->parameters().Add(PARAM_PROCESSES, process_labels_, __FILE__, __LINE__);
-    time_step->Validate();
-    time_step->Build();
-    time_steps_.push_back(time_step);
-
-  } else {
+  /**
+   * only get time steps if we didn't specify processes manually
+   */
+  if (process_labels_.size() == 0) {
     timesteps::Manager& time_step_manager = timesteps::Manager::Instance();
     TimeStepPtr time_step;
     for (string label : time_step_labels_) {

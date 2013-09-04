@@ -15,6 +15,7 @@
 
 #include "Reports/Manager.h"
 #include "Reports/Children/CategoryInfo.h"
+#include "Reports/Children/DerivedQuantity.h"
 #include "Reports/Children/EstimateSummary.h"
 #include "Reports/Children/EstimateValue.h"
 #include "Reports/Children/MCMCChain.h"
@@ -34,7 +35,9 @@ ReportPtr Factory::Create(const string& block_type, const string& report_type) {
   LOG_INFO("block_type: " << block_type << "; report_type: " << report_type);
   if (block_type == PARAM_REPORT) {
     if (report_type == PARAM_CATEGORY_INFO)
-        result = ReportPtr(new CategoryInfo());
+      result = ReportPtr(new CategoryInfo());
+    else if (report_type == PARAM_DERIVED_QUANTITY)
+      result = ReportPtr(new DerivedQuantity());
     else if (report_type == PARAM_ESTIMATE_SUMMARY)
       result = ReportPtr(new EstimateSummary());
     else if (report_type == PARAM_ESTIMATE_VALUE)
