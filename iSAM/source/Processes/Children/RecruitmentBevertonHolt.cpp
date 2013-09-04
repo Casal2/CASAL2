@@ -182,7 +182,7 @@ void RecruitmentBevertonHolt::Execute() {
 
     } else {
       b0_ = derived_quantity_->GetInitialisationValue(phase_b0_, derived_quantity_->GetInitialisationValuesSize(phase_b0_) - 1);
-      Double ssb_ratio = derived_quantity_->GetValue(model_->start_year() - ssb_offset_) / b0_;
+      Double ssb_ratio = b0_ == 0 ? 0 : derived_quantity_->GetValue(model_->start_year() - ssb_offset_) / b0_;
       Double true_ycs  = 1.0 * ssb_ratio / (1 - ((5 * steepness_ - 1) / (4 * steepness_) ) * (1 - ssb_ratio));
       amount_per = r0_ * true_ycs;
     }
@@ -193,7 +193,7 @@ void RecruitmentBevertonHolt::Execute() {
      */
     Double ycs = standardise_ycs_[model_->current_year() - model_->start_year()];
     b0_ = derived_quantity_->GetInitialisationValue(phase_b0_, derived_quantity_->GetInitialisationValuesSize(phase_b0_) - 1);
-    Double ssb_ratio = derived_quantity_->GetValue(model_->start_year() - ssb_offset_) / b0_;
+    Double ssb_ratio = b0_ == 0 ? 0 : derived_quantity_->GetValue(model_->start_year() - ssb_offset_) / b0_;
     Double true_ycs  = ycs * ssb_ratio / (1 - ((5 * steepness_ - 1) / (4 * steepness_) ) * (1 - ssb_ratio));
     amount_per = r0_ * true_ycs;
 

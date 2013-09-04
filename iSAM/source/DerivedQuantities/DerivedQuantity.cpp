@@ -139,6 +139,7 @@ Double DerivedQuantity::GetValue(unsigned year) {
  *
  */
 Double DerivedQuantity::GetInitialisationValue(unsigned phase, unsigned index) {
+  LOG_INFO("phase = " << phase << "; index = " << index << "; initialisation_values_.size() = " << initialisation_values_.size());
   if (initialisation_values_.size() <= phase) {
     if (initialisation_values_.size() == 0)
       return 0.0;
@@ -146,6 +147,7 @@ Double DerivedQuantity::GetInitialisationValue(unsigned phase, unsigned index) {
     return (*initialisation_values_.rbegin()->rbegin());
   }
 
+  LOG_INFO("initialisation_values_[" << phase << "].size() = " << initialisation_values_[phase].size());
   if (initialisation_values_[phase].size() <= index) {
     if (initialisation_values_[phase].size() == 0)
       return 0.0;
