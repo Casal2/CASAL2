@@ -474,9 +474,6 @@ ObjectPtr Loader::CreateObject(const string &block_type, const string &object_ty
  * @return true on success, false on failure
  */
 bool Loader::HandleOperators(vector<string>& line_values) {
-  if (line_values.size() < 2)
-    return true;
-
   vector<string> new_values;
   /**
    * Firstly, we have to go through and where the user has specified a space
@@ -487,28 +484,65 @@ bool Loader::HandleOperators(vector<string>& line_values) {
    */
   auto iterator   = line_values.begin();
 
-  bool join_required = false;
-  for (; iterator != line_values.end(); iterator++) {
-    if (!join_required) {
-      if (*iterator == "+" || *iterator == "," || *iterator == "-") {
-        join_required = true;
-        if (new_values.size() == 0)
-          return false;
+  if (line_values.size() >= 2) {
+    bool join_required = false;
+    for (; iterator != line_values.end(); iterator++) {
+      if (!join_required) {
+        if (*iterator == "+" || *iterator == "," || *iterator == "-") {
+          join_required = true;
+          if (new_values.size() == 0)
+            return false;
 
+          new_values[new_values.size() - 1] = new_values[new_values.size() - 1] + *iterator;
+          continue;
+        }
+      }
+
+      if (join_required) {
         new_values[new_values.size() - 1] = new_values[new_values.size() - 1] + *iterator;
-        continue;
+        join_required = false;
+      } else {
+        new_values.push_back(*iterator);
       }
     }
+    line_values = new_values;
+  }
 
-    if (join_required) {
-      new_values[new_values.size() - 1] = new_values[new_values.size() - 1] + *iterator;
-      join_required = false;
-    } else {
-      new_values.push_back(*iterator);
-    }
+  /**
+   *
+   */
+  new_values.clear();
+  iterator = line_values.begin();
+  for (; iterator != line_values.end(); ++iterator) {
+    string value = (*iterator);
+    if (value.find_first_of('-') != string::npos) {
+      size_t loc = value.find_first_of('-');
+
+      string initial_value = value.substr(0, loc);
+      string final_value   = value.substr(loc+1);
+
+      int numeric_initial_value = 0;
+      if (!util::To<int>(initial_value, numeric_initial_value))
+        return false;
+
+      int numeric_final_value = 0;
+      if (!util::To<int>(final_value, numeric_final_value))
+        return false;
+
+      if (numeric_initial_value < numeric_final_value) {
+        for (int i = numeric_initial_value; i <= numeric_final_value; ++i)
+          new_values.push_back(util::ToInline<int, string>(i));
+      } else {
+        for (int i = numeric_initial_value; i >= numeric_final_value; --i)
+          new_values.push_back(util::ToInline<int, string>(i));
+      }
+
+    } else
+      new_values.push_back(value);
   }
 
   line_values = new_values;
+
   return true;
 }
 
