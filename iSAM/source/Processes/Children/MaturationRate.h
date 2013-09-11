@@ -20,7 +20,6 @@
 
 // Headers
 #include "Processes/Process.h"
-
 #include "Partition/Accessors/Categories.h"
 #include "Selectivities/Selectivity.h"
 

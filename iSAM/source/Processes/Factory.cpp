@@ -15,6 +15,7 @@
 
 #include "Processes/Manager.h"
 #include "Processes/Children/Ageing.h"
+#include "Processes/Children/Maturation.h"
 #include "Processes/Children/MaturationRate.h"
 #include "Processes/Children/MortalityConstantRate.h"
 #include "Processes/Children/MortalityEvent.h"
@@ -40,6 +41,9 @@ ProcessPtr Factory::Create(const string& block_type, const string& process_type)
 
   } else if (block_type == PARAM_RECRUITMENT && process_type == PARAM_CONSTANT) {
     result = ProcessPtr(new RecruitmentConstant());
+
+  } else if (block_type == PARAM_MATURATION && process_type == "") {
+    result = ProcessPtr(new Maturation());
 
   } else if (block_type == PARAM_MATURATION && process_type == PARAM_RATE) {
     result = ProcessPtr(new MaturationRate());
