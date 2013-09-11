@@ -277,6 +277,7 @@
 #define PARAM_R0                                  "r0"
 #define PARAM_R0_LAYER                            "r0_layer"
 #define PARAM_RATE                                "rate"
+#define PARAM_RATES                               "rates"
 #define PARAM_RECRUITMENT                         "recruitment"
 #define PARAM_RECRUITMENT_VALUES                  "recruitment_values"
 #define PARAM_RANDOM_NUMBER_SEED                  "random_number_seed"

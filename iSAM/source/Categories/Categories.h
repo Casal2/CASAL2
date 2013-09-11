@@ -53,6 +53,7 @@ public:
   bool                          IsCombinedLabels(const string& label) const;
   unsigned                      GetNumberOfCategoriesDefined(const string& label) const;
   void                          RemoveAllObjects();
+  vector<string>                FindCategories(const string& lookup_string);
 
   // Accessors
   string                        format() const { return format_; }

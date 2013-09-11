@@ -153,6 +153,24 @@ void Categories::Reset() {
 }
 
 /**
+ * Find the categories defined by the lookup string. The lookup string uses a shorthand
+ * format where you can define a collection of categories quickly.
+ *
+ * e.g
+ * categories format: sex.stage.tag
+ * categories male.immature male.mature male.mature.tag female.immature female.mature female.mature.tag
+ *
+ * lookup_string sex:male would return male.immature, male.mature, male.mature.tag
+ * lookup_string sex:* would return all categories
+ * lookup_string stage:mature would return male.mature, female.mature
+ *
+ */
+vector<string> Categories::FindCategories(const string& lookup_string) {
+  vector<string> result;
+  return result;
+}
+
+/**
  * Check if the parameter category label is a valid
  * category or not.
  */
