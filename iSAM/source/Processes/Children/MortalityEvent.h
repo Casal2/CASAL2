@@ -39,8 +39,10 @@ public:
   // Methods
   MortalityEvent();
   virtual                     ~MortalityEvent() = default;
-  void                        Validate() override final;
-  void                        Build() override final;
+  void                        DoValidate() override final;
+  void                        DoBuild() override final;
+  void                        DoPreExecute() override final { };
+  void                        DoReset() override final { };
   void                        Execute() override final;
 
 private:

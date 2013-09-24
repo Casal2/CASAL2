@@ -101,6 +101,7 @@ public:
 
   // Accessors
   string                      location(const string& label);
+  const map<string, Parameter>& parameters() { return parameters_; }
 
 private:
   // Members

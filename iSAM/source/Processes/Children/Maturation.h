@@ -33,10 +33,11 @@ public:
   // methods
   Maturation();
   virtual                     ~Maturation() = default;
-  void                        Validate() override final;
-  void                        Build() override final;
+  void                        DoValidate() override final;
+  void                        DoBuild() override final;
+  void                        DoPreExecute() override final { };
+  void                        DoReset() override final { };
   void                        Execute() override final;
-  void                        Reset() override final {};
 
 protected:
   // Members

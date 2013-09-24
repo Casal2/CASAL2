@@ -46,12 +46,14 @@ RecruitmentBevertonHolt::RecruitmentBevertonHolt() {
 
   RegisterAsEstimable(PARAM_R0, &r0_);
   RegisterAsEstimable(PARAM_STEEPNESS, &steepness_);
+
+  phase_b0_         = 0;
 }
 
 /**
  *
  */
-void RecruitmentBevertonHolt::Validate() {
+void RecruitmentBevertonHolt::DoValidate() {
   model_ = Model::Instance();
 
   CheckForRequiredParameter(PARAM_LABEL);
@@ -61,7 +63,6 @@ void RecruitmentBevertonHolt::Validate() {
   CheckForRequiredParameter(PARAM_SSB_OFFSET);
   CheckForRequiredParameter(PARAM_PROPORTIONS);
   CheckForRequiredParameter(PARAM_YCS_VALUES);
-  CheckForRequiredParameter(PARAM_B0);
 
   label_            = parameters_.Get(PARAM_LABEL).GetValue<string>();
   category_labels_  = parameters_.Get(PARAM_CATEGORIES).GetValues<string>();
@@ -72,7 +73,7 @@ void RecruitmentBevertonHolt::Validate() {
   ssb_offset_       = parameters_.Get(PARAM_SSB_OFFSET).GetValue<unsigned>();
   proportions_      = parameters_.Get(PARAM_PROPORTIONS).GetValues<Double>();
   ycs_values_       = parameters_.Get(PARAM_YCS_VALUES).GetValues<Double>();
-  phase_b0_label_   = parameters_.Get(PARAM_B0).GetValue<string>();
+  phase_b0_label_   = parameters_.Get(PARAM_B0).GetValue<string>("");
 
   if (parameters_.IsDefined(PARAM_STANDARDISE_YCS_YEARS))
     standardise_ycs_  = parameters_.Get(PARAM_STANDARDISE_YCS_YEARS).GetValues<unsigned>();
@@ -133,9 +134,11 @@ void RecruitmentBevertonHolt::Validate() {
 /**
  * Build the runtime relationships between this object and it's
  */
-void RecruitmentBevertonHolt::Build() {
+void RecruitmentBevertonHolt::DoBuild() {
   partition_        = accessor::CategoriesPtr(new accessor::Categories(category_labels_));
-  phase_b0_         = initialisationphases::Manager::Instance().GetPhaseIndex(phase_b0_label_);
+
+  if (phase_b0_label_ != "")
+    phase_b0_         = initialisationphases::Manager::Instance().GetPhaseIndex(phase_b0_label_);
 
   derived_quantity_ = derivedquantities::Manager::Instance().GetDerivedQuantity(ssb_);
   if (!derived_quantity_)
@@ -145,7 +148,7 @@ void RecruitmentBevertonHolt::Build() {
 /**
  * Reset all of the values so they're ready for an execution run
  */
-void RecruitmentBevertonHolt::Reset() {
+void RecruitmentBevertonHolt::DoReset() {
   ssb_values_.clear();
   ycs_years_.clear();
   true_ycs_values_.clear();

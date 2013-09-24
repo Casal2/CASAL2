@@ -30,13 +30,27 @@ namespace isam {
  */
 class Process : public isam::base::Object {
 public:
+  // methods
   Process();
-  virtual                     ~Process();
-  virtual void                Validate() {};
-  virtual void                Build() { LOG_TRACE(); };
-  virtual void                PreExecute() {};
-  virtual void                Execute() {};
-  virtual void                Reset() {};
+  virtual                     ~Process() { };
+  void                        Validate();
+  void                        Build();
+  void                        Reset() { };
+  void                        PreExecute() { };
+  void                        Print();
+
+  virtual void                DoValidate() = 0;
+  virtual void                DoBuild() = 0;
+  virtual void                DoPreExecute() = 0;
+  virtual void                DoReset() = 0;
+  virtual void                Execute() = 0;
+
+protected:
+  // members
+  string                      type_ = "";
+  bool                        print_report_ = false;
+  map<string, vector<string>> print_values_;
+
 };
 
 /**

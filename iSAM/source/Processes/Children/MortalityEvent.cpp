@@ -45,7 +45,7 @@ MortalityEvent::MortalityEvent() {
  * 1. Check for the required parameters
  * 2. Assign any remaining variables
  */
-void MortalityEvent::Validate() {
+void MortalityEvent::DoValidate() {
   CheckForRequiredParameter(PARAM_LABEL);
   CheckForRequiredParameter(PARAM_TYPE);
   CheckForRequiredParameter(PARAM_CATEGORIES);
@@ -100,7 +100,7 @@ void MortalityEvent::Validate() {
  * Build the runtime relationships required
  * - Build partition reference
  */
-void MortalityEvent::Build() {
+void MortalityEvent::DoBuild() {
   partition_ = accessor::CategoriesPtr(new isam::partition::accessors::Categories(category_names_));
 
   for (string label : selectivity_names_) {

@@ -26,7 +26,6 @@ namespace processes {
 Ageing::Ageing() {
   LOG_TRACE();
 
-  parameters_.RegisterAllowed(PARAM_LABEL);
   parameters_.RegisterAllowed(PARAM_CATEGORIES);
 }
 
@@ -37,11 +36,9 @@ Ageing::Ageing() {
  * 2. Assign the label from our parameters
  * 3. Assign any remaining parameters
  */
-void Ageing::Validate() {
-  CheckForRequiredParameter(PARAM_LABEL);
+void Ageing::DoValidate() {
   CheckForRequiredParameter(PARAM_CATEGORIES);
 
-  label_          = parameters_.Get(PARAM_LABEL).GetValue<string>();
   category_names_ = parameters_.Get(PARAM_CATEGORIES).GetValues<string>();
 
   // Ensure defined categories were valid
@@ -49,13 +46,19 @@ void Ageing::Validate() {
     if (!Categories::Instance()->IsValid(category))
       LOG_ERROR(parameters_.location(PARAM_CATEGORIES) << ": category " << category << " is not a valid category");
   }
+
+
 }
 
 /**
- * Build any runtime objects an relationships for
- * this object
+ * Build objects that are needed by this object during the execution phase. This
+ * includes things like the partition accessor it will need.
+ *
+ * Then build values that we want to print when print is called.
+ *
+ * Then build the basics
  */
-void Ageing::Build() {
+void Ageing::DoBuild() {
   partition_  = accessor::CategoriesPtr(new accessor::Categories(category_names_));
   model_      = Model::Instance();
 }

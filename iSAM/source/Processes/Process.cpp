@@ -1,18 +1,85 @@
-/*
- * Process.cpp
+/**
+ * @file Process.cpp
+ * @author  Scott Rasmussen (scott.rasmussen@zaita.com)
+ * @date 24/09/2013
+ * @section LICENSE
  *
- *  Created on: 18/09/2012
- *      Author: Admin
+ * Copyright NIWA Science ©2013 - www.niwa.co.nz
+ *
  */
 
+// headers
 #include "Process.h"
 
+// namespaces
 namespace isam {
 
+/**
+ * Default constructor
+ */
 Process::Process() {
+  parameters_.RegisterAllowed(PARAM_LABEL);
+  parameters_.RegisterAllowed(PARAM_PRINT_REPORT);
 }
 
-Process::~Process() {
+/**
+ * Call the validation method for the child object of this process and
+ * set some generic variables.
+ */
+void Process::Validate() {
+  CheckForRequiredParameter(PARAM_LABEL);
+  label_          = parameters_.Get(PARAM_LABEL).GetValue<string>();
+  type_           = parameters_.Get(PARAM_TYPE).GetValue<string>("");
+  print_report_   = parameters_.Get(PARAM_PRINT_REPORT).GetValue<bool>(false);
+
+  DoValidate();
+}
+
+/**
+ * Store the label and type in our print values and
+ * then call the child build method.
+ */
+void Process::Build() {
+  print_values_[PARAM_LABEL].push_back(label_);
+  if (type_ != "")
+    print_values_[PARAM_TYPE].push_back(type_);
+
+  DoBuild();
+}
+
+/**
+ * Print the stored values and parameter values for this object.
+ */
+void Process::Print() {
+  // Console::RedirectOutput();
+
+  cout << "*process_report: " << label_ << "\n";
+  if (type_ == "")
+    cout << "type: " << type_ << "\n";
+
+  if (print_values_.size() > 0) {
+    cout << "-- print values\n";
+
+    auto iter = print_values_.begin();
+    for (; iter != print_values_.end(); ++iter) {
+      cout << iter->first << ": ";
+      for (unsigned i = 0; i < iter->second.size(); ++i)
+        cout << iter->second[i] << "  \n";
+    }
+  }
+
+  cout << "-- parameters\n";
+  const map<string, Parameter>& parameters = parameters_.parameters();
+
+  auto iter = parameters.begin();
+  for (; iter != parameters.end(); ++iter) {
+    cout << iter->first << ": ";
+    const vector<string>& values = (*iter).second.values();
+    for (unsigned i = 0; i < values.size(); ++i)
+      cout << values[i] << "  \n";
+  }
+  cout << "*end\n" << endl;
+  // Console::Reset();
 }
 
 } /* namespace iSAM */

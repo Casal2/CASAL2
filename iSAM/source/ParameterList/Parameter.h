@@ -47,7 +47,7 @@ public:
   // Accessors
   void                        set_label(const string& label) { label_ = label; }
   void                        set_values(const vector<string>& values) { values_.assign(values.begin(), values.end()); }
-  vector<string>&             values() { return values_; }
+  const vector<string>&       values() const { return values_; }
   void                        set_file_name(const string& file_name) { file_name_ = file_name; }
   string                      file_name() const { return file_name_; }
   void                        set_line_number(const unsigned& line_number) { line_number_ = line_number; }

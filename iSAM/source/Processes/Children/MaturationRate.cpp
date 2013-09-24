@@ -47,7 +47,7 @@ MaturationRate::MaturationRate() {
  * - Check all proportions are between 0.0 and 1.0
 
  */
-void MaturationRate::Validate() {
+void MaturationRate::DoValidate() {
   CheckForRequiredParameter(PARAM_LABEL);
   CheckForRequiredParameter(PARAM_TYPE);
   CheckForRequiredParameter(PARAM_FROM);
@@ -124,7 +124,7 @@ void MaturationRate::Validate() {
  * - Verify the selectivities are valid
  * - Get pointers to the selectivities
  */
-void MaturationRate::Build() {
+void MaturationRate::DoBuild() {
   LOG_TRACE();
 
   from_partition_ = accessor::CategoriesPtr(new partition::accessors::Categories(from_category_names_));
@@ -169,7 +169,7 @@ void MaturationRate::Execute() {
 /**
  * Reset our maturation rates for a new run
  */
-void MaturationRate::Reset() {
+void MaturationRate::DoReset() {
   maturation_rates_.clear();
 }
 

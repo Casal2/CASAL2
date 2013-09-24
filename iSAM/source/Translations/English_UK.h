@@ -259,6 +259,7 @@
 #define PARAM_PREFERENCE_MOVEMENT                 "preference"
 #define PARAM_PREFERENCE_FUNCTION                 "preference_function"
 #define PARAM_PREFERENCE_FUNCTIONS                "preference_functions"
+#define PARAM_PRINT_REPORT                        "print_report"
 #define PARAM_PRIOR                               "prior"
 #define PARAM_PROCESS                             "process"
 #define PARAM_PROCESS_ERROR                       "process_error"

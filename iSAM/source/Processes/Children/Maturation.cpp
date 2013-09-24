@@ -38,7 +38,7 @@ Maturation::Maturation() {
 /**
  * validate the values from the configuration file
  */
-void Maturation::Validate() {
+void Maturation::DoValidate() {
   CheckForRequiredParameter(PARAM_LABEL);
   CheckForRequiredParameter(PARAM_TYPE);
   CheckForRequiredParameter(PARAM_FROM);
@@ -102,7 +102,7 @@ void Maturation::Validate() {
  * - Verify the selectivities are valid
  * - Get pointers to the selectivities
  */
-void Maturation::Build() {
+void Maturation::DoBuild() {
   LOG_TRACE();
 
   from_partition_ = accessor::CategoriesPtr(new partition::accessors::Categories(from_category_names_));
