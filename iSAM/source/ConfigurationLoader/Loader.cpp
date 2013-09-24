@@ -515,7 +515,7 @@ bool Loader::HandleOperators(vector<string>& line_values) {
   iterator = line_values.begin();
   for (; iterator != line_values.end(); ++iterator) {
     string value = (*iterator);
-    if (value.find_first_of('-') != string::npos) {
+    if (value.find_first_of('-') != string::npos && value.find_first_of('-') != 0) {
       size_t loc = value.find_first_of('-');
 
       string initial_value = value.substr(0, loc);
@@ -585,7 +585,7 @@ void Loader::HandleInlineDefinitions(FileLine& file_line, const string& parent_l
         LOG_ERROR("At line " << file_line.line_number_ << " of " << file_line.file_name_
             << ": This line contains no space characters so we cannot determine the label for the inline definition");
 
-      string block_type = file_line.line_.substr(0, space_loc - 1);
+      string block_type = file_line.line_.substr(0, space_loc);
 
       /**
        * Get the label. Either it's going to be the first part of the line

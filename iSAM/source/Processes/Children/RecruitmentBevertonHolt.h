@@ -32,10 +32,11 @@ public:
   // methods
   RecruitmentBevertonHolt();
   virtual                     ~RecruitmentBevertonHolt() = default;
-  void                        Validate();
-  void                        Build();
-  void                        Execute();
-  void                        Reset();
+  void                        DoValidate() override final;
+  void                        DoBuild() override final;
+  void                        DoPreExecute() override final { };
+  void                        DoReset() override final;
+  void                        Execute() override final;
 
 private:
   // members

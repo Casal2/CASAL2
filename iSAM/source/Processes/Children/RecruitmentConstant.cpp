@@ -44,7 +44,7 @@ RecruitmentConstant::RecruitmentConstant() {
  * 2. Assign our label from the parameters
  * 3. Assign remaining local parameters
  */
-void RecruitmentConstant::Validate() {
+void RecruitmentConstant::DoValidate() {
   CheckForRequiredParameter(PARAM_LABEL);
   CheckForRequiredParameter(PARAM_CATEGORIES);
   CheckForRequiredParameter(PARAM_AGE);
@@ -105,7 +105,7 @@ void RecruitmentConstant::Validate() {
  * Build any runtime relationships we might
  * have to other objects in the system.
  */
-void RecruitmentConstant::Build() {
+void RecruitmentConstant::DoBuild() {
   partition_ = CategoriesWithAgePtr(new CategoriesWithAge(category_names_, age_));
 }
 

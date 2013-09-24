@@ -66,10 +66,8 @@ void Categories::Validate() {
    * of categories are structured. If this is enabled then we can use a short-hand
    * lookup technique to assign values to a category.
    */
-  if (parameters_.IsDefined(PARAM_FORMAT)) {
-    Parameter parameter = parameters_.Get(PARAM_FORMAT);
-    format_ = parameter.GetValue<string>();
-  }
+  if (parameters_.IsDefined(PARAM_FORMAT))
+    format_ = parameters_.Get(PARAM_FORMAT).GetValue<string>();
 
   /**
    * Parameter: Names
@@ -80,8 +78,7 @@ void Categories::Validate() {
    */
 
   // Parameter: Names
-  Parameter parameter = parameters_.Get(PARAM_NAMES);
-  names_ = parameter.values();
+  names_ = parameters_.Get(PARAM_NAMES).GetValues<string>();
 
   ModelPtr model = Model::Instance();
 
@@ -119,12 +116,12 @@ void Categories::Validate() {
 
   // Parameter: Years
   if (parameters_.IsDefined(PARAM_YEARS)) {
-    parameter = parameters_.Get(PARAM_YEARS);
+//    parameter = parameters_.Get(PARAM_YEARS);
   }
 
   // Parameter: Ages
   if (parameters_.IsDefined(PARAM_AGES)) {
-    parameter = parameters_.Get(PARAM_AGES);
+//    parameter = parameters_.Get(PARAM_AGES);
 
   }
 }

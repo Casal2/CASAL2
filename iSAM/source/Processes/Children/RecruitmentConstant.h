@@ -38,9 +38,11 @@ public:
   // Methods
   RecruitmentConstant();
   virtual                     ~RecruitmentConstant() = default;
-  void                        Validate();
-  void                        Build();
-  void                        Execute();
+  void                        DoValidate() override final;
+  void                        DoBuild() override final;
+  void                        DoPreExecute() override final { };
+  void                        DoReset() override final { };
+  void                        Execute() override final;
 
 private:
   // Members

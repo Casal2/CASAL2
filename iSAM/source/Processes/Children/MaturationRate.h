@@ -37,10 +37,11 @@ public:
   // Methods
   MaturationRate();
   virtual                     ~MaturationRate() = default;
-  void                        Validate() override final;
-  void                        Build() override final;
+  void                        DoValidate() override final;
+  void                        DoBuild() override final;
+  void                        DoPreExecute() override final { };
+  void                        DoReset() override final;
   void                        Execute() override final;
-  void                        Reset() override final;
 
 private:
   // Members

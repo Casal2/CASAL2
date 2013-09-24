@@ -44,7 +44,7 @@ MortalityConstantRate::MortalityConstantRate() {
  * - Check m is between 0.0 and 1.0
  * - Check the categories are real
  */
-void MortalityConstantRate::Validate() {
+void MortalityConstantRate::DoValidate() {
   CheckForRequiredParameter(PARAM_LABEL);
   CheckForRequiredParameter(PARAM_TYPE);
   CheckForRequiredParameter(PARAM_CATEGORIES);
@@ -94,7 +94,7 @@ void MortalityConstantRate::Validate() {
  * - Build the partition accessor
  * - Build our list of selectivities
  */
-void MortalityConstantRate::Build() {
+void MortalityConstantRate::DoBuild() {
   partition_ = accessor::CategoriesPtr(new partition::accessors::Categories(category_names_));
 
   for (string label : selectivity_names_) {
@@ -135,7 +135,7 @@ void MortalityConstantRate::Execute() {
 /**
  * Reset the Mortality Process
  */
-void MortalityConstantRate::Reset() {
+void MortalityConstantRate::DoReset() {
   mortality_rates_.clear();
 }
 
