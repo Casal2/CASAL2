@@ -53,6 +53,7 @@ void Process::Build() {
 void Process::Print() {
   // Console::RedirectOutput();
 
+
   cout << "*process_report: " << label_ << "\n";
   if (type_ == "")
     cout << "type: " << type_ << "\n";
@@ -64,7 +65,9 @@ void Process::Print() {
     for (; iter != print_values_.end(); ++iter) {
       cout << iter->first << ": ";
       for (unsigned i = 0; i < iter->second.size(); ++i)
-        cout << iter->second[i] << "  \n";
+        cout << iter->second[i] << " ";
+
+      cout << "\n";
     }
   }
 
@@ -76,9 +79,12 @@ void Process::Print() {
     cout << iter->first << ": ";
     const vector<string>& values = (*iter).second.values();
     for (unsigned i = 0; i < values.size(); ++i)
-      cout << values[i] << "  \n";
+      cout << values[i] << " ";
+    cout << "\n";
   }
   cout << "*end\n" << endl;
+
+
   // Console::Reset();
 }
 

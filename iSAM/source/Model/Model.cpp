@@ -277,6 +277,9 @@ void Model::RunBasic() {
   Iterate();
   ObjectiveFunction::Instance().CalculateScore();
 
+
+  processes::Manager::Instance().Print();
+
   // Model has finished so we can run finalise.
   LOG_INFO("Model: State change to PostExecute");
   reports::Manager::Instance().Execute(State::kPostExecute);

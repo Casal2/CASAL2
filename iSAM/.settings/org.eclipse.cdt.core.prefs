@@ -10,8 +10,8 @@ environment/project/cdt.managedbuild.config.gnu.cross.exe.debug.1400463574.13828
 environment/project/cdt.managedbuild.config.gnu.cross.exe.debug.1400463574.1382834397/append=true
 environment/project/cdt.managedbuild.config.gnu.cross.exe.debug.1400463574.1382834397/appendContributed=true
 environment/project/cdt.managedbuild.config.gnu.cross.exe.debug.1400463574.708036977/PATH/delimiter=;
-environment/project/cdt.managedbuild.config.gnu.cross.exe.debug.1400463574.708036977/PATH/operation=append
-environment/project/cdt.managedbuild.config.gnu.cross.exe.debug.1400463574.708036977/PATH/value=D\:\\Programming\\MinGW64\\bin
+environment/project/cdt.managedbuild.config.gnu.cross.exe.debug.1400463574.708036977/PATH/operation=replace
+environment/project/cdt.managedbuild.config.gnu.cross.exe.debug.1400463574.708036977/PATH/value=D\:\\Programming\\MinGW64\\bin;D\:\\Programming\\Eclipse\\kepler;C\:\\Program Files (x86)\\AMD APP\\bin\\x86_64;C\:\\Program Files (x86)\\AMD APP\\bin\\x86;C\:\\Windows\\system32;C\:\\Windows;C\:\\Windows\\System32\\Wbem;C\:\\Windows\\System32\\WindowsPowerShell\\v1.0\\;C\:\\Program Files (x86)\\ATI Technologies\\ATI.ACE\\Core-Static;D\:\\Programming\\bin;D\:\\Programming\\AMD\\CodeAnalyst\\bin;C\:\\Program Files (x86)\\AMD\\CodeAnalyst\\bin;C\:\\Program Files\\TortoiseGit\\bin;D\:\\Apps\\CASAL;C\:\\Program Files\\TortoiseSVN\\bin;D\:\\Programmingx86\\Git\\cmd;D\:\\Programming\\doxygen\\bin;
 environment/project/cdt.managedbuild.config.gnu.cross.exe.debug.1400463574.708036977/append=true
 environment/project/cdt.managedbuild.config.gnu.cross.exe.debug.1400463574.708036977/appendContributed=true
 environment/project/cdt.managedbuild.config.gnu.cross.exe.debug.1400463574/PATH/delimiter=;
