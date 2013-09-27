@@ -33,6 +33,7 @@ public:
   virtual                     ~Manager() noexcept(true);
   void                        Validate() override final;
   ProcessPtr                  GetProcess(const string& label);
+  void                        Print();
 
 };
 

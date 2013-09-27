@@ -45,6 +45,9 @@ public:
   virtual void                DoReset() = 0;
   virtual void                Execute() = 0;
 
+  // accessors
+  bool                        print_report() const { return print_report_; }
+
 protected:
   // members
   string                      type_ = "";
