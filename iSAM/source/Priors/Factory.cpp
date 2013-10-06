@@ -30,33 +30,37 @@ namespace isam {
 namespace priors {
 
 /**
+ * Create the instance of our object as defined by the two parameters
+ * object_type and sub_type.
  *
+ * @param object_type The type of object to create (e.g age_size, process)
+ * @param sub_type The child type of the object to create (e.g ageing, schnute)
+ * @return shared_ptr to the object we've created
  */
-PriorPtr Factory::Create(const string& block_type, const string& prior_type) {
+PriorPtr Factory::Create(const string& object_type, const string& sub_type) {
+  PriorPtr result;
 
-  PriorPtr prior;
+  if (object_type == PARAM_PRIOR) {
+    if (sub_type == PARAM_BETA)
+      result = PriorPtr(new Beta());
+    else if (sub_type == PARAM_LOG_NORMAL)
+      result = PriorPtr(new LogNormal());
+    else if (sub_type == PARAM_NORMAL)
+      result = PriorPtr(new Normal());
+    else if (sub_type == PARAM_NORMAL_BY_STDEV)
+      result = PriorPtr(new NormalByStdev());
+    else if (sub_type == PARAM_NORMAL_LOG)
+      result = PriorPtr(new NormalLog());
+    else if (sub_type == PARAM_UNIFORM)
+      result = PriorPtr(new Uniform());
+    else if (sub_type == PARAM_UNIFORM_LOG)
+      result = PriorPtr(new UniformLog());
 
-  if (block_type == PARAM_PRIOR) {
-    if (prior_type == PARAM_BETA)
-      prior = PriorPtr(new Beta());
-    else if (prior_type == PARAM_LOG_NORMAL)
-      prior = PriorPtr(new LogNormal());
-    else if (prior_type == PARAM_NORMAL)
-      prior = PriorPtr(new Normal());
-    else if (prior_type == PARAM_NORMAL_BY_STDEV)
-      prior = PriorPtr(new NormalByStdev());
-    else if (prior_type == PARAM_NORMAL_LOG)
-      prior = PriorPtr(new NormalLog());
-    else if (prior_type == PARAM_UNIFORM)
-      prior = PriorPtr(new Uniform());
-    else if (prior_type == PARAM_UNIFORM_LOG)
-      prior = PriorPtr(new UniformLog());
+    if (result)
+      isam::priors::Manager::Instance().AddObject(result);
   }
 
-  if (prior)
-    isam::priors::Manager::Instance().AddObject(prior);
-
-  return prior;
+  return result;
 }
 
 } /* namespace priors */

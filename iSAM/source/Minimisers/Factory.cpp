@@ -25,51 +25,38 @@
 #include "Minimisers/Children/GammaDiff.h"
 #endif
 
-
-
 // Namespaces
 namespace isam {
 namespace minimisers {
 
 /**
- * Create the specified type of minimiser and add it to the manager
+ * Create the instance of our object as defined by the two parameters
+ * object_type and sub_type.
  *
- * @param block_type The @block type used in the configuration file
- * @param object_type The 'type' of minimiser we want to create
- * @return A shared_ptr<> to the minimiser we've created
+ * @param object_type The type of object to create (e.g age_size, process)
+ * @param sub_type The child type of the object to create (e.g ageing, schnute)
+ * @return shared_ptr to the object we've created
  */
-MinimiserPtr Factory::Create(const string& block_type, const string& object_type) {
+MinimiserPtr Factory::Create(const string& object_type, const string& sub_type) {
   MinimiserPtr result;
 
-#ifdef USE_AUTODIFF
-
-  if (block_type == PARAM_MINIMIZER) {
+  if (object_type == PARAM_MINIMIZER) {
 #ifdef USE_BETADIFF
-    if (object_type == PARAM_BETADIFF) {
+    if (sub_type == PARAM_BETADIFF) {
       result = MinimiserPtr(new BetaDiff());
     }
-#endif
-  }
-
-  if (!result)
-    LOG_ERROR("The minimiser " << block_type << "." << object_type << " is not supported in AutoDiff mode");
-
 #else
-  if (block_type == PARAM_MINIMIZER) {
-    if (object_type == PARAM_DE_SOLVER) {
+    if (sub_type == PARAM_DE_SOLVER)
       result = MinimiserPtr(new DESolver());
-
-    } else if (object_type == PARAM_GAMMADIFF) {
+    else if (sub_type == PARAM_GAMMADIFF)
       result = MinimiserPtr(new GammaDiff());
-    }
-  }
-
-  if (!result)
-    LOG_ERROR("The minimiser " << block_type << "." << object_type << " is not supported in the default configuration");
-
 #endif
-  if (result)
-    isam::minimisers::Manager::Instance().AddObject(result);
+
+    if (!result)
+      LOG_ERROR("The minimiser " << object_type << "." << sub_type << " is not supported in the current configuration");
+    if (result)
+      minimisers::Manager::Instance().AddObject(result);
+  }
 
   return result;
 }

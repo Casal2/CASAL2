@@ -24,7 +24,8 @@ namespace priors {
  */
 class Factory {
 public:
-  static PriorPtr Create(const string& block_type, const string& prior_type);
+  // methods
+  static PriorPtr Create(const string& object_type, const string& sub_type);
 
 private:
   // Methods

@@ -20,21 +20,27 @@ namespace isam {
 namespace sizeweights {
 
 /**
+ * Create the instance of our object as defined by the two parameters
+ * object_type and sub_type.
  *
+ * @param object_type The type of object to create (e.g age_size, process)
+ * @param sub_type The child type of the object to create (e.g ageing, schnute)
+ * @return shared_ptr to the object we've created
  */
-SizeWeightPtr Factory::Create(const string& block_type, const string& object_type) {
-  SizeWeightPtr size_weight;
+SizeWeightPtr Factory::Create(const string& object_type, const string& sub_type) {
+  SizeWeightPtr result;
 
-  if (block_type == PARAM_SIZE_WEIGHT && object_type == PARAM_NONE) {
-    size_weight = SizeWeightPtr(new None());
-  } else if (block_type == PARAM_SIZE_WEIGHT && object_type == PARAM_BASIC) {
-    size_weight = SizeWeightPtr(new Basic());
+  if (object_type == PARAM_SIZE_WEIGHT || object_type == PARAM_SIZE_WEIGHTS) {
+    if (sub_type == PARAM_NONE)
+      result = SizeWeightPtr(new None());
+    else if (sub_type == PARAM_BASIC)
+      result = SizeWeightPtr(new Basic());
+
+    if (result)
+      sizeweights::Manager::Instance().AddObject(result);
   }
 
-  if (size_weight)
-    isam::sizeweights::Manager::Instance().AddObject(size_weight);
-
-  return size_weight;
+  return result;
 }
 
 } /* namespace sizeweights */

@@ -56,7 +56,7 @@ selectivities one
 @mortality my_event_mortality
 type event
 categories immature.male mature.male immature.female mature.female
-years           1995         1999         2000         2001         2002         2003         2004          2005          2006          2007
+years           1995         1999-2007
 catches  1849.153714 14442.000000 28323.203463 24207.464203 47279.000000 58350.943094 82875.872790 115974.547730 113852.472257 119739.517172
 U_max 0.99
 selectivities FishingSel FishingSel FishingSel FishingSel

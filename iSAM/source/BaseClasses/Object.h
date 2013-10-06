@@ -35,6 +35,7 @@ using isam::utilities::Double;
 // Namespaces
 namespace isam {
 namespace base {
+
 using std::string;
 
 /**

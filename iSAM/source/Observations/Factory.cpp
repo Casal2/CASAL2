@@ -22,19 +22,20 @@ namespace isam {
 namespace observations {
 
 /**
- * Create an observation, add it to the manager and return it.
+ * Create the instance of our object as defined by the two parameters
+ * object_type and sub_type.
  *
- * @param block_type The type of @block in the configuration file
- * @param object_type The value stored in the 'type' parameter for this block
- * @return shared_ptr to the observation
+ * @param object_type The type of object to create (e.g age_size, process)
+ * @param sub_type The child type of the object to create (e.g ageing, schnute)
+ * @return shared_ptr to the object we've created
  */
-ObservationPtr Factory::Create(const string& block_type, const string& object_type) {
+ObservationPtr Factory::Create(const string& object_type, const string& sub_type) {
   ObservationPtr result;
 
-  if (block_type == PARAM_OBSERVATION) {
-    if (object_type == PARAM_ABUNDANCE)
+  if (object_type == PARAM_OBSERVATION) {
+    if (sub_type == PARAM_ABUNDANCE)
       result = ObservationPtr(new Abundance());
-    else if (object_type == PARAM_PROPORTIONS_AT_AGE)
+    else if (sub_type == PARAM_PROPORTIONS_AT_AGE)
       result = ProportionsAtAgePtr(new ProportionsAtAge());
   }
 

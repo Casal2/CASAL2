@@ -57,7 +57,6 @@ public:
   Loader() = default;
   virtual                     ~Loader() = default;
   void                        LoadConfigFile(const string& override_file_name = "");
-  bool                        CreateNewObject();
   void                        ClearFileLines() { file_lines_.clear(); }
   void                        AddFileLine(FileLine line);
   void                        ParseFileLines();

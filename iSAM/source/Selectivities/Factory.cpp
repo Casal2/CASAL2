@@ -34,38 +34,43 @@ namespace isam {
 namespace selectivities {
 
 /**
- * Factory method to create our selectivities
+ * Create the instance of our object as defined by the two parameters
+ * object_type and sub_type.
+ *
+ * @param object_type The type of object to create (e.g age_size, process)
+ * @param sub_type The child type of the object to create (e.g ageing, schnute)
+ * @return shared_ptr to the object we've created
  */
-SelectivityPtr Factory::Create(const string& block_type, const string& selectivity_type) {
+SelectivityPtr Factory::Create(const string& object_type, const string& sub_type) {
+  SelectivityPtr result;
 
-  SelectivityPtr object;
+  if (object_type == PARAM_SELECTIVITY || object_type == PARAM_SELECTIVITIES) {
+    if (sub_type == PARAM_ALL_VALUES)
+      result = SelectivityPtr(new AllValues());
+    else if (sub_type == PARAM_ALL_VALUES_BOUNDED)
+      result = SelectivityPtr(new AllValuesBounded());
+    else if (sub_type == PARAM_CONSTANT)
+      result = SelectivityPtr(new Constant());
+    else if (sub_type == PARAM_DOUBLE_EXPONENTIAL)
+      result = SelectivityPtr(new DoubleExponential());
+    else if (sub_type == PARAM_DOUBLE_NORMAL)
+      result = SelectivityPtr(new DoubleNormal());
+    else if (sub_type == PARAM_INCREASING)
+      result = SelectivityPtr(new Increasing());
+    else if (sub_type == PARAM_INVERSE_LOGISTIC)
+      result = SelectivityPtr(new InverseLogistic());
+    else if (sub_type == PARAM_KNIFE_EDGE)
+      result = SelectivityPtr(new KnifeEdge());
+    else if (sub_type == PARAM_LOGISTIC)
+      result = SelectivityPtr(new Logistic());
+    else if (sub_type == PARAM_LOGISTIC_PRODUCING)
+      result = SelectivityPtr(new LogisticProducing());
 
-  if (block_type == PARAM_SELECTIVITY && selectivity_type == PARAM_ALL_VALUES)
-    object = SelectivityPtr(new AllValues());
-  else if (block_type == PARAM_SELECTIVITY && selectivity_type == PARAM_ALL_VALUES_BOUNDED)
-    object = SelectivityPtr(new AllValuesBounded());
-  else if (block_type == PARAM_SELECTIVITY && selectivity_type == PARAM_CONSTANT)
-    object = SelectivityPtr(new Constant());
-  else if (block_type == PARAM_SELECTIVITY && selectivity_type == PARAM_DOUBLE_EXPONENTIAL)
-    object = SelectivityPtr(new DoubleExponential());
-  else if (block_type == PARAM_SELECTIVITY && selectivity_type == PARAM_DOUBLE_NORMAL)
-    object = SelectivityPtr(new DoubleNormal());
-  else if (block_type == PARAM_SELECTIVITY && selectivity_type == PARAM_INCREASING)
-    object = SelectivityPtr(new Increasing());
-  else if (block_type == PARAM_SELECTIVITY && selectivity_type == PARAM_INVERSE_LOGISTIC)
-    object = SelectivityPtr(new InverseLogistic());
-  else if (block_type == PARAM_SELECTIVITY && selectivity_type == PARAM_KNIFE_EDGE)
-    object = SelectivityPtr(new KnifeEdge());
-  else if (block_type == PARAM_SELECTIVITY && selectivity_type == PARAM_LOGISTIC)
-    object = SelectivityPtr(new Logistic());
-  else if (block_type == PARAM_SELECTIVITY && selectivity_type == PARAM_LOGISTIC_PRODUCING)
-    object = SelectivityPtr(new LogisticProducing());
+    if (result)
+      isam::selectivities::Manager::Instance().AddObject(result);
+  }
 
-  if (object)
-    isam::selectivities::Manager::Instance().AddObject(object);
-
-  return object;
-
+  return result;
 }
 
 } /* namespace selectivities */
