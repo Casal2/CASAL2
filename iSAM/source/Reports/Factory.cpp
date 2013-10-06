@@ -27,31 +27,35 @@ namespace isam {
 namespace reports {
 
 /**
+ * Create the instance of our object as defined by the two parameters
+ * object_type and sub_type.
  *
+ * @param object_type The type of object to create (e.g age_size, process)
+ * @param sub_type The child type of the object to create (e.g ageing, schnute)
+ * @return shared_ptr to the object we've created
  */
-ReportPtr Factory::Create(const string& block_type, const string& report_type) {
-
+ReportPtr Factory::Create(const string& object_type, const string& sub_type) {
   ReportPtr result;
-  LOG_INFO("block_type: " << block_type << "; report_type: " << report_type);
-  if (block_type == PARAM_REPORT) {
-    if (report_type == PARAM_CATEGORY_INFO)
-      result = ReportPtr(new CategoryInfo());
-    else if (report_type == PARAM_DERIVED_QUANTITY)
-      result = ReportPtr(new DerivedQuantity());
-    else if (report_type == PARAM_ESTIMATE_SUMMARY)
-      result = ReportPtr(new EstimateSummary());
-    else if (report_type == PARAM_ESTIMATE_VALUE)
-      result = ReportPtr(new EstimateValue());
-    else if (report_type == PARAM_MCMC_CHAIN)
-      result = ReportPtr(new MCMCChain());
-    else if (report_type == PARAM_PARTITION)
-      result = ReportPtr(new Partition());
-    else if (report_type == PARAM_OBJECTIVE_FUNCTION)
-      result = ReportPtr(new ObjectiveFunction());
-  }
 
-  if (result)
-    isam::reports::Manager::Instance().AddObject(result);
+  if (object_type == PARAM_REPORT) {
+    if (sub_type == PARAM_CATEGORY_INFO)
+      result = ReportPtr(new CategoryInfo());
+    else if (sub_type == PARAM_DERIVED_QUANTITY)
+      result = ReportPtr(new DerivedQuantity());
+    else if (sub_type == PARAM_ESTIMATE_SUMMARY)
+      result = ReportPtr(new EstimateSummary());
+    else if (sub_type == PARAM_ESTIMATE_VALUE)
+      result = ReportPtr(new EstimateValue());
+    else if (sub_type == PARAM_MCMC_CHAIN)
+      result = ReportPtr(new MCMCChain());
+    else if (sub_type == PARAM_PARTITION)
+      result = ReportPtr(new Partition());
+    else if (sub_type == PARAM_OBJECTIVE_FUNCTION)
+      result = ReportPtr(new ObjectiveFunction());
+
+    if (result)
+      isam::reports::Manager::Instance().AddObject(result);
+  }
 
   return result;
 }

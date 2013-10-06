@@ -27,36 +27,52 @@ namespace isam {
 namespace processes {
 
 /**
+ * Create the instance of our object as defined by the two parameters
+ * object_type and sub_type.
  *
+ * @param object_type The type of object to create (e.g age_size, process)
+ * @param sub_type The child type of the object to create (e.g ageing, schnute)
+ * @return shared_ptr to the object we've created
  */
-ProcessPtr Factory::Create(const string& block_type, const string& process_type) {
-
+ProcessPtr Factory::Create(string object_type, string sub_type) {
   ProcessPtr result;
 
-  if (block_type == PARAM_AGEING && process_type == "") {
-    result = ProcessPtr(new Ageing());
+  /**
+   * If object_type is not "process" or "processes" then we're using a special
+   * declaration (e.g @maturation) and we want to modify this back to the standard
+   * method so we only need 1 set of conditional statements.
+   */
+  if (object_type != PARAM_PROCESS && object_type != PARAM_PROCESSES) {
+    LOG_INFO("Changing object_type (" << object_type << ") and sub_type (" << ") to the standard declaration format");
+    if (sub_type != "")
+      sub_type = object_type + "_" + sub_type;
+    else
+      sub_type = object_type;
 
-  } else if (block_type == PARAM_RECRUITMENT && process_type == PARAM_BEVERTON_HOLT){
-    result = ProcessPtr(new RecruitmentBevertonHolt());
+    object_type = PARAM_PROCESS;
 
-  } else if (block_type == PARAM_RECRUITMENT && process_type == PARAM_CONSTANT) {
-    result = ProcessPtr(new RecruitmentConstant());
-
-  } else if (block_type == PARAM_MATURATION && process_type == "") {
-    result = ProcessPtr(new Maturation());
-
-  } else if (block_type == PARAM_MATURATION && process_type == PARAM_RATE) {
-    result = ProcessPtr(new MaturationRate());
-
-  } else if (block_type == PARAM_MORTALITY && process_type == PARAM_CONSTANT_RATE) {
-    result = ProcessPtr(new MortalityConstantRate());
-
-  } else if (block_type == PARAM_MORTALITY && process_type == PARAM_EVENT) {
-    result = ProcessPtr(new MortalityEvent());
+    LOG_INFO("Finished modification of object_type (" << object_type << ") and sub_type (" << sub_type << ")");
   }
 
-  if (result)
-    isam::processes::Manager::Instance().AddObject(result);
+  if (object_type == PARAM_PROCESS || object_type == PARAM_PROCESSES) {
+    if (sub_type == PARAM_AGEING)
+      result = ProcessPtr(new Ageing());
+    else if (sub_type == PARAM_RECRUITMENT_BEVERTON_HOLT)
+      result = ProcessPtr(new RecruitmentBevertonHolt());
+    else if (sub_type == PARAM_RECRUITMENT_CONSTANT)
+      result = ProcessPtr(new RecruitmentConstant());
+    else if (sub_type == PARAM_MATURATION)
+      result = ProcessPtr(new Maturation());
+    else if (sub_type == PARAM_MATURATION_RATE)
+      result = ProcessPtr(new MaturationRate());
+    else if (sub_type == PARAM_MORTALITY_CONSTANT_RATE)
+      result = ProcessPtr(new MortalityConstantRate());
+    else if (sub_type == PARAM_MORTALITY_EVENT)
+      result = ProcessPtr(new MortalityEvent());
+
+    if (result)
+      processes::Manager::Instance().AddObject(result);
+  }
 
   return result;
 }

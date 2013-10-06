@@ -20,25 +20,9 @@
 #include <boost/algorithm/string/trim_all.hpp>
 #include <boost/algorithm/string/split.hpp>
 
-#include "AgeSizes/Factory.h"
-#include "Catchabilities/Factory.h"
-#include "Categories/Categories.h"
-#include "DerivedQuantities/Factory.h"
-#include "Estimates/Factory.h"
+#include "Factory/Object.h"
 #include "File.h"
 #include "GlobalConfiguration/GlobalConfiguration.h"
-#include "InitialisationPhases/Factory.h"
-#include "Minimisers/Factory.h"
-#include "MCMC/MCMC.h"
-#include "Model/Model.h"
-#include "Observations/Factory.h"
-#include "Penalties/Factory.h"
-#include "Priors/Factory.h"
-#include "Processes/Factory.h"
-#include "Reports/Factory.h"
-#include "Selectivities/Factory.h"
-#include "SizeWeights/Factory.h"
-#include "TimeSteps/Factory.h"
 #include "Translations/Translations.h"
 #include "Utilities/To.h"
 #include "Utilities/Logging/Logging.h"
@@ -245,7 +229,7 @@ void Loader::ParseBlock(vector<FileLine> &block) {
    * @block <label>
    * type <object_type>
    */
-  string object_type = "";
+  string sub_type = "";
 
   for(FileLine file_line : block) {
     if (file_line.line_.length() >= 5 && file_line.line_.substr(0, 4) == PARAM_TYPE) {
@@ -260,7 +244,7 @@ void Loader::ParseBlock(vector<FileLine> &block) {
         LOG_ERROR("At line " << file_line.line_number_ << " of " << file_line.file_name_
             << ": No valid value was specified as the type");
 
-      object_type = line_parts[1];
+      sub_type = line_parts[1];
       continue;
     }
   }
@@ -269,14 +253,14 @@ void Loader::ParseBlock(vector<FileLine> &block) {
    * Create Object
    */
   block_type  = utilities::ToLowercase(block_type);
-  object_type = utilities::ToLowercase(object_type);
+  sub_type = utilities::ToLowercase(sub_type);
 
-  ObjectPtr object = CreateObject(block_type, object_type);
+  ObjectPtr object = factory::Object::Create(block_type, sub_type);
   if (!object)
     LOG_ERROR("At line " << block[0].line_number_ << " of " << block[0].file_name_
-        << ": Block type or object type is invalid.\n"
-        << "Block Type: " << block_type << "\n"
-        << "Object Type: " << object_type);
+        << ": Block object type or sub-type is invalid.\n"
+        << "Object Type: " << block_type << "\n"
+        << "Sub-Type: " << sub_type);
 
   if (block_label != "" && !object->parameters().Add(PARAM_LABEL, block_label, block[0].file_name_, block[0].line_number_))
     LOG_ERROR("At line " << block[0].line_number_ << " of " << block[0].file_name_
@@ -379,86 +363,6 @@ void Loader::ParseBlock(vector<FileLine> &block) {
       LOG_ERROR("At line " << file_line.line_number_ << " of " << file_line.file_name_
           << ": Could not add parameter '" << parameter_type << "' to block '" << block_type << "'. Parameter is not supported");
   }
-}
-
-/**
- * This method will create an object pointer and return it so it
- * can be populated with it's configuration parameter values.
- *
- *  @param block_type The @block type that we want to create
- *  @param objec_type The type <object_type> value. It's a sub-type of the block type
- *  @return A shared_ptr to the object we've created
- */
-ObjectPtr Loader::CreateObject(const string &block_type, const string &object_type) {
-
-  ObjectPtr object;
-
-  LOG_INFO("CreateObject = block_type: " << block_type << "; object_type: " << object_type);
-  if (block_type == PARAM_MODEL) {
-    object = Model::Instance();
-
-  } else if (block_type == PARAM_AGE_SIZE) {
-    object = agesizes::Factory::Create(block_type, object_type);
-
-  } else if (block_type == PARAM_AGEING) {
-    object = processes::Factory::Create(block_type, object_type);
-
-  } else if (block_type == PARAM_CATCHABILITY) {
-    object = catchabilities::Factory::Create();
-
-  } else if (block_type == PARAM_CATEGORIES) {
-    object = Categories::Instance();
-
-  } else if (block_type == PARAM_DERIVED_QUANTITY) {
-    object = derivedquantities::Factory::Create(block_type, object_type);
-
-  } else if (block_type == PARAM_ESTIMATE) {
-    object = estimates::info::Factory::Create();
-
-  } else if (block_type == PARAM_INITIALIZATION_PHASE || block_type == PARAM_INITIALIZATION_PHASES) {
-    object = initialisationphases::Factory::Create();
-
-  } else if (block_type == PARAM_MATURATION) {
-    object = processes::Factory::Create(block_type, object_type);
-
-  } else if (block_type == PARAM_MCMC) {
-    object = MCMC::Instance();
-
-  } else if (block_type == PARAM_MINIMIZER) {
-    object = minimisers::Factory::Create(block_type, object_type);
-
-  } else if (block_type == PARAM_MORTALITY) {
-    object = processes::Factory::Create(block_type, object_type);
-
-  } else if (block_type == PARAM_OBSERVATION) {
-    object = observations::Factory::Create(block_type, object_type);
-
-  } else if (block_type == PARAM_PENALTY) {
-    object = penalties::Factory::Create();
-
-  } else if (block_type == PARAM_PRIOR) {
-    object = priors::Factory::Create(block_type, object_type);
-
-  } else if (block_type == PARAM_PROCESS) {
-    object = processes::Factory::Create(block_type, object_type);
-
-  } else if (block_type == PARAM_RECRUITMENT) {
-    object = processes::Factory::Create(block_type, object_type);
-
-  } else if (block_type == PARAM_REPORT) {
-    object = reports::Factory::Create(block_type, object_type);
-
-  } else if (block_type == PARAM_SELECTIVITY) {
-    object = selectivities::Factory::Create(block_type, object_type);
-
-  } else if (block_type == PARAM_SIZE_WEIGHT) {
-    object = sizeweights::Factory::Create(block_type, object_type);
-
-  } else if (block_type == PARAM_TIME_STEP || block_type == PARAM_TIME_STEPS) {
-    object = timesteps::Factory::Create();
-  }
-
-  return object;
 }
 
 /**

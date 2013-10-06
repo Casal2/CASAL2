@@ -20,24 +20,27 @@ namespace isam {
 namespace derivedquantities {
 
 /**
+ * Create the instance of our object as defined by the two parameters
+ * object_type and sub_type.
  *
+ * @param object_type The type of object to create (e.g age_size, process)
+ * @param sub_type The child type of the object to create (e.g ageing, schnute)
+ * @return shared_ptr to the object we've created
  */
-DerivedQuantityPtr Factory::Create(const string& block_type, const string& derived_quantity_type) {
+DerivedQuantityPtr Factory::Create(const string& object_type, const string& sub_type) {
+  DerivedQuantityPtr result;
 
-  DerivedQuantityPtr derived_quantity;
+  if (object_type == PARAM_DERIVED_QUANTITY || object_type == PARAM_DERIVED_QUANTITIES) {
+    if (sub_type == PARAM_ABUNDANCE)
+      result = DerivedQuantityPtr(new Abundance());
+    else if (sub_type == PARAM_BIOMASS)
+      result = DerivedQuantityPtr(new Biomass());
 
-  if (block_type == PARAM_DERIVED_QUANTITY && derived_quantity_type == PARAM_ABUNDANCE) {
-    derived_quantity = DerivedQuantityPtr(new Abundance());
-
-  } else if (block_type == PARAM_DERIVED_QUANTITY && derived_quantity_type == PARAM_BIOMASS) {
-    derived_quantity = DerivedQuantityPtr(new Biomass());
-
+    if (result)
+      derivedquantities::Manager::Instance().AddObject(result);
   }
 
-  if (derived_quantity)
-    isam::derivedquantities::Manager::Instance().AddObject(derived_quantity);
-
-  return derived_quantity;
+  return result;
 }
 
 

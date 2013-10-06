@@ -28,8 +28,11 @@ using std::string;
  */
 class Factory {
 public:
-  static ReportPtr Create(const string& block_type, const string& report_type);
+  // methods
+  static ReportPtr Create(const string& object_type, const string& sub_type);
+
 private:
+  // methods
   Factory() = delete;
   virtual ~Factory() = delete;
 };

@@ -25,8 +25,11 @@ namespace derivedquantities {
  */
 class Factory {
 public:
-  static DerivedQuantityPtr Create(const string& block_type, const string& prior_type);
+  // methods
+  static DerivedQuantityPtr Create(const string& object_type, const string& sub_type);
+
 private:
+  // methods
   Factory() = delete;
   virtual ~Factory() = delete;
 };

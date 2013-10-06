@@ -26,8 +26,11 @@ namespace selectivities {
  */
 class Factory {
 public:
-  static SelectivityPtr Create(const string& block_type, const string& selectivity_type);
+  // methods
+  static SelectivityPtr Create(const string& object_type, const string& sub_type);
+
 private:
+  // methods
   Factory() = delete;
   virtual ~Factory() = delete;
 };
