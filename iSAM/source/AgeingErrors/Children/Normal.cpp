@@ -37,8 +37,8 @@ Double NormalCDF(Double x, Double mu, Double sigma) {
  * Default Constructor
  */
 Normal::Normal() {
-  parameters_.RegisterAllowed(PARAM_CV);
-  parameters_.RegisterAllowed(PARAM_K);
+  parameters_.RegisterAllowed(PARAM_CV, ParameterType::Double, "TBA");
+  parameters_.RegisterAllowed(PARAM_K, ParameterType::Unsigned, "TBA");
 
   RegisterAsEstimable(PARAM_CV, &cv_);
 }

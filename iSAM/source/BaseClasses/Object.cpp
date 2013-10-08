@@ -30,6 +30,17 @@ Object::Object() {
 Object::~Object() {
 }
 
+
+/**
+ * Print the description and usage details for this object.
+ */
+void Object::PrintDescription() const {
+  cout << "Object Description: \n";
+  cout << "Description: " << description_ << endl;
+
+  // TODO: Add parameter printing
+}
+
 /**
  * This method will check if we have a parameter defined
  * and if not log an error

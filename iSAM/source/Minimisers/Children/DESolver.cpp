@@ -24,12 +24,12 @@ namespace minimisers {
  * Default constructor
  */
 DESolver::DESolver() {
-  parameters_.RegisterAllowed(PARAM_POPULATION_SIZE);
-  parameters_.RegisterAllowed(PARAM_CROSSOVER_PROBABILITY);
-  parameters_.RegisterAllowed(PARAM_DIFFERENCE_SCALE);
-  parameters_.RegisterAllowed(PARAM_MAX_GENERATIONS);
-  parameters_.RegisterAllowed(PARAM_TOLERANCE);
-  parameters_.RegisterAllowed(PARAM_METHOD);
+  parameters_.RegisterAllowed(PARAM_POPULATION_SIZE, ParameterType::Unsigned, "The number of candidate solutions to have in the population");
+  parameters_.RegisterAllowed(PARAM_CROSSOVER_PROBABILITY, ParameterType::Double, "TBA");
+  parameters_.RegisterAllowed(PARAM_DIFFERENCE_SCALE, ParameterType::Double, "The scale to apply to new solutions when comparing candidates");
+  parameters_.RegisterAllowed(PARAM_MAX_GENERATIONS, ParameterType::Unsigned, "The maximum number of iterations to run");
+  parameters_.RegisterAllowed(PARAM_TOLERANCE, ParameterType::Double, "The total variance between the population and best candidate before acceptance");
+  parameters_.RegisterAllowed(PARAM_METHOD, ParameterType::String, "The type of candidate generation method to use");
 }
 
 /**

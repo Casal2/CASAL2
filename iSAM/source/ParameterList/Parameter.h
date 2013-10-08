@@ -24,6 +24,23 @@
 
 // Namespaces
 namespace isam {
+
+namespace ParameterType {
+// Types
+enum Type {
+  String,
+  String_Vector,
+  Double,
+  Double_Vector,
+  Integer,
+  Integer_Vector,
+  Unsigned,
+  Unsigned_Vector,
+  Boolean,
+  Unknown
+};
+} /* namespace ParameterType */
+
 namespace parameterlist {
 
 using std::string;
@@ -35,7 +52,7 @@ using std::vector;
 class Parameter {
 public:
   // Methods
-  explicit Parameter(const string& label);
+  Parameter(const string& label, const ParameterType::Type type, const string& description);
   virtual                     ~Parameter() = default;
   template<typename T>
   T                           GetValue() const;
@@ -61,6 +78,8 @@ private:
 
   // Members
   string                      label_ = "";
+  ParameterType::Type         type_ = ParameterType::Unknown;
+  string                      description_ = "";
   vector<string>              values_;
   string                      file_name_ = "";
   unsigned                    line_number_ = 0;

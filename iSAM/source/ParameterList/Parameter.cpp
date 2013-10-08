@@ -20,11 +20,23 @@
 namespace isam {
 namespace parameterlist {
 
-Parameter::Parameter(const string& label)
-: label_(label) {
+/**
+ * Default constructor
+ *
+ * @param label The name of this parameter
+ * @param type The type of values this parameter should be accepting
+ * @param descriptiong A description of this parameter
+ */
+Parameter::Parameter(const string& label, const ParameterType::Type type, const string& description)
+: label_(label), type_(type), description_(description) {
 
 }
 
+/**
+ * Return a string that shows the location this parameter was defined.
+ *
+ * @return string containing the file and line details for this parameter
+ */
 string Parameter::location() const {
   string line_number;
   isam::utilities::To<unsigned, string>(line_number_, line_number);

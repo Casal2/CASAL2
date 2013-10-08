@@ -20,13 +20,13 @@ using std::pow;
  *
  */
 Schnute::Schnute() {
-  parameters_.RegisterAllowed(PARAM_Y1);
-  parameters_.RegisterAllowed(PARAM_Y2);
-  parameters_.RegisterAllowed(PARAM_TAU1);
-  parameters_.RegisterAllowed(PARAM_TAU2);
-  parameters_.RegisterAllowed(PARAM_A);
-  parameters_.RegisterAllowed(PARAM_B);
-  parameters_.RegisterAllowed(PARAM_SIZE_WEIGHT);
+  parameters_.RegisterAllowed(PARAM_Y1, ParameterType::Double, "TBA");
+  parameters_.RegisterAllowed(PARAM_Y2, ParameterType::Double, "TBA");
+  parameters_.RegisterAllowed(PARAM_TAU1, ParameterType::Double, "TBA");
+  parameters_.RegisterAllowed(PARAM_TAU2, ParameterType::Double, "TBA");
+  parameters_.RegisterAllowed(PARAM_A, ParameterType::Double, "TBA");
+  parameters_.RegisterAllowed(PARAM_B, ParameterType::Double, "TBA");
+  parameters_.RegisterAllowed(PARAM_SIZE_WEIGHT, ParameterType::String, "TBA");
 
   RegisterAsEstimable(PARAM_Y1, &y1_);
   RegisterAsEstimable(PARAM_Y2, &y2_);

@@ -26,6 +26,8 @@ namespace processes {
 Ageing::Ageing() {
   LOG_TRACE();
 
+  description_ = "This process will age the population by 1 every time it is executed";
+
   parameters_.RegisterAllowed(PARAM_CATEGORIES);
 }
 

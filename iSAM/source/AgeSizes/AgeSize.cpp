@@ -13,8 +13,8 @@ namespace isam {
  *
  */
 AgeSize::AgeSize() {
-  parameters_.RegisterAllowed(PARAM_LABEL);
-  parameters_.RegisterAllowed(PARAM_TYPE);
+  parameters_.RegisterAllowed(PARAM_LABEL, ParameterType::String, "Label");
+  parameters_.RegisterAllowed(PARAM_TYPE, ParameterType::String, "Type");
 
 }
 

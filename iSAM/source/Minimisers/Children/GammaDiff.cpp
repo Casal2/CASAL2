@@ -22,10 +22,10 @@ namespace minimisers {
  * Default constructor
  */
 GammaDiff::GammaDiff() {
-  parameters_.RegisterAllowed(PARAM_MAX_ITERATIONS);
-  parameters_.RegisterAllowed(PARAM_MAX_EVALUATIONS);
-  parameters_.RegisterAllowed(PARAM_TOLERANCE);
-  parameters_.RegisterAllowed(PARAM_STEP_SIZE);
+  parameters_.RegisterAllowed(PARAM_MAX_ITERATIONS, ParameterType::Integer, "Maximum number of iterations");
+  parameters_.RegisterAllowed(PARAM_MAX_EVALUATIONS, ParameterType::Integer, "Maximum number of evaluations");
+  parameters_.RegisterAllowed(PARAM_TOLERANCE, ParameterType::Double, "Tolerance of the gradient for convergence");
+  parameters_.RegisterAllowed(PARAM_STEP_SIZE, ParameterType::Double, "Minimum Step-size before minimisation fails");
 }
 
 /**

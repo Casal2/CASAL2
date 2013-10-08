@@ -30,11 +30,11 @@ namespace isam {
  */
 Categories::Categories() {
   LOG_TRACE();
-  parameters_.RegisterAllowed(PARAM_FORMAT);
-  parameters_.RegisterAllowed(PARAM_NAMES);
-  parameters_.RegisterAllowed(PARAM_YEARS);
-  parameters_.RegisterAllowed(PARAM_AGES);
-  parameters_.RegisterAllowed(PARAM_AGE_SIZES);
+  parameters_.RegisterAllowed(PARAM_FORMAT, ParameterType::String, "The format that the category names should adhere too");
+  parameters_.RegisterAllowed(PARAM_NAMES, ParameterType::String_Vector, "The names of the categories to be used in the model");
+  parameters_.RegisterAllowed(PARAM_YEARS, ParameterType::String_Vector, "The years that individual categories will be active for. This overrides the model values");
+  parameters_.RegisterAllowed(PARAM_AGES, ParameterType::String_Vector, "The ages that individual categories support. This ovverrides the model values");
+  parameters_.RegisterAllowed(PARAM_AGE_SIZES, ParameterType::String_Vector, "The labels of age_size objects that are assigned to categories");
 }
 
 /**

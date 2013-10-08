@@ -24,14 +24,14 @@ namespace estimates {
  * Default Constructor
  */
 Info::Info() {
-  parameters_.RegisterAllowed(PARAM_LABEL);
-  parameters_.RegisterAllowed(PARAM_PARAMETER);
-  parameters_.RegisterAllowed(PARAM_LOWER_BOUND);
-  parameters_.RegisterAllowed(PARAM_UPPER_BOUND);
-  parameters_.RegisterAllowed(PARAM_PRIOR);
-  parameters_.RegisterAllowed(PARAM_SAME);
-  parameters_.RegisterAllowed(PARAM_ESTIMATION_PHASE);
-  parameters_.RegisterAllowed(PARAM_MCMC);
+  parameters_.RegisterAllowed(PARAM_LABEL, ParameterType::String, "Label");
+  parameters_.RegisterAllowed(PARAM_PARAMETER, ParameterType::String, "The name of the variable to estimate in the model");
+  parameters_.RegisterAllowed(PARAM_LOWER_BOUND, ParameterType::Double, "The lowest value the parameter is allowed to have");
+  parameters_.RegisterAllowed(PARAM_UPPER_BOUND, ParameterType::Double, "The highest value the parameter is allowed to have");
+  parameters_.RegisterAllowed(PARAM_PRIOR, ParameterType::String, "The name of the prior to use for the parameter");
+  parameters_.RegisterAllowed(PARAM_SAME, ParameterType::String_Vector, "A list of parameters that are bound to the value of this estimate");
+  parameters_.RegisterAllowed(PARAM_ESTIMATION_PHASE, ParameterType::String, "TBA");
+  parameters_.RegisterAllowed(PARAM_MCMC, ParameterType::String, "TBA");
 }
 
 /**

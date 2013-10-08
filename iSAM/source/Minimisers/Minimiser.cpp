@@ -35,10 +35,10 @@ namespace ublas = boost::numeric::ublas;
  * Default constructor
  */
 Minimiser::Minimiser() {
-  parameters_.RegisterAllowed(PARAM_LABEL);
-  parameters_.RegisterAllowed(PARAM_TYPE);
-  parameters_.RegisterAllowed(PARAM_ACTIVE);
-  parameters_.RegisterAllowed(PARAM_COVARIANCE);
+  parameters_.RegisterAllowed(PARAM_LABEL, ParameterType::String, "Label");
+  parameters_.RegisterAllowed(PARAM_TYPE, ParameterType::String, "Type of minimiser to use");
+  parameters_.RegisterAllowed(PARAM_ACTIVE, ParameterType::Boolean, "True if this minimiser is active");
+  parameters_.RegisterAllowed(PARAM_COVARIANCE, ParameterType::Boolean, "True if a covariance matrix should be created");
 
   hessian_ = 0;
   hessian_size_ = 0;

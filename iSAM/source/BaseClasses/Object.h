@@ -49,6 +49,7 @@ public:
   bool                        IsEstimableAVector(const string& label) const;
   unsigned                    GetEstimableSize(const string& label) const;
   Double*                     GetEstimable(const string& label);
+  void                        PrintDescription() const;
 
   // Accessors and Mutators
   string                      label() const { return label_; }
@@ -75,6 +76,7 @@ protected:
   ParameterList               parameters_;
   map<string, Double*>        estimables_;
   map<string, unsigned>       estimable_sizes_;
+  string                      description_;
 
   DISALLOW_COPY_AND_ASSIGN(Object);
 };
