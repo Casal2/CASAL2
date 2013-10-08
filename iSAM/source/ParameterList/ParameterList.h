@@ -52,8 +52,8 @@
  *
  * $Date: 2008-03-04 16:33:32 +1300 (Tue, 04 Mar 2008) $
  */
-#ifndef CPARAMETERLIST_H_
-#define CPARAMETERLIST_H_
+#ifndef PARAMETER_LIST_H_
+#define PARAMETER_LIST_H_
 
 // Headers
 #include <map>
@@ -82,6 +82,11 @@ struct ParameterTable {
   TablePtr        table_;
 };
 
+struct ParameterDefinition {
+  ParameterType::Type type_;
+  string  description_;
+};
+
 /**
  * Class Definition ParameterList
  */
@@ -90,7 +95,7 @@ public:
   // Methods
   ParameterList() = default;
   virtual                     ~ParameterList() = default;
-  void                        RegisterAllowed(const string label);
+  void                        RegisterAllowed(const string label, ParameterType::Type type = ParameterType::Unknown, const string description = "Undefined");
   bool                        IsDefined(const string& label) const;
   bool                        Add(const string& label, const string& value, const string& file_name, const unsigned& line_number);
   bool                        Add(const string& label, const vector<string>& values, const string& file_name, const unsigned& line_number);
@@ -105,9 +110,9 @@ public:
 
 private:
   // Members
-  vector<string>              allowed_parameters_;
-  map<string, Parameter>      parameters_;
-  map<string, ParameterTable> tables_;
+  map<string, ParameterDefinition>  allowed_parameters_;
+  map<string, Parameter>            parameters_;
+  map<string, ParameterTable>       tables_;
 };
 
 } /* namespace isam */
@@ -116,4 +121,4 @@ private:
 #include "ParameterList-inl.h"
 
 
-#endif /* CPARAMETERLIST_H_ */
+#endif /* PARAMETER_LIST_H_ */

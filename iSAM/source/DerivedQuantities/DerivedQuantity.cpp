@@ -20,12 +20,12 @@ namespace isam {
 DerivedQuantity::DerivedQuantity() {
   LOG_TRACE();
 
-  parameters_.RegisterAllowed(PARAM_LABEL);
-  parameters_.RegisterAllowed(PARAM_TYPE);
-  parameters_.RegisterAllowed(PARAM_TIME_STEP);
-  parameters_.RegisterAllowed(PARAM_INITIALIZATION_TIME_STEPS);
-  parameters_.RegisterAllowed(PARAM_CATEGORIES);
-  parameters_.RegisterAllowed(PARAM_SELECTIVITIES);
+  parameters_.RegisterAllowed(PARAM_LABEL, ParameterType::String, "Label");
+  parameters_.RegisterAllowed(PARAM_TYPE, ParameterType::String, "Type");
+  parameters_.RegisterAllowed(PARAM_TIME_STEP, ParameterType::String, "The time step to calculate the derived quantity after");
+  parameters_.RegisterAllowed(PARAM_INITIALIZATION_TIME_STEPS, ParameterType::String_Vector, "The initialisation time steps to calculate the derived quantity after");
+  parameters_.RegisterAllowed(PARAM_CATEGORIES, ParameterType::String_Vector, "The list of categories to use when calculating the derived quantity");
+  parameters_.RegisterAllowed(PARAM_SELECTIVITIES, ParameterType::String_Vector, "The list of selectivities to use when calculating the derived quantity. 1 per category");
 
   model_ = Model::Instance();
 }

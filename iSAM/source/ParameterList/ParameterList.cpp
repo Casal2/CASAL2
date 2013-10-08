@@ -38,10 +38,17 @@ namespace isam {
  * for validation later using the .IsValid() method.
  *
  * @param label The name of the parameter we're allowing
+ * @param type The type of values this parameter should be accepting
+ * @param description A description of this parameter
  */
-void ParameterList::RegisterAllowed(const string label) {
+void ParameterList::RegisterAllowed(const string label, ParameterType::Type type, const string description) {
   LOG_INFO("Registering allowed parameter " << label);
-  allowed_parameters_.push_back(label);
+
+  ParameterDefinition param;
+  param.type_ = type;
+  param.description_ = description;
+
+  allowed_parameters_[label] = param;
 }
 
 /**
@@ -64,10 +71,10 @@ bool ParameterList::IsDefined(const string& label) const {
  * @return true on success, false on failure
  */
 bool ParameterList::Add(const string& label, const vector<string>& values, const string& file_name, const unsigned& line_number) {
-  if (std::find(allowed_parameters_.begin(), allowed_parameters_.end(), label) == allowed_parameters_.end())
+  if (allowed_parameters_.find(label) == allowed_parameters_.end());
     return false;
 
-  Parameter new_parameter(label);
+  Parameter new_parameter(label, allowed_parameters_[label].type_, allowed_parameters_[label].description_);
   new_parameter.set_values(values);
   new_parameter.set_file_name(file_name);
   new_parameter.set_line_number(line_number);
@@ -106,7 +113,7 @@ bool ParameterList::Add(const string& label, const string& value, const string& 
  * @return true on success, false on failure
  */
 bool ParameterList::AddTable(const string& label, const vector<string>& columns, const vector<vector<string> >& data, const string& file_name, const unsigned& line_number) {
-  if (std::find(allowed_parameters_.begin(), allowed_parameters_.end(), label) == allowed_parameters_.end())
+  if (allowed_parameters_.find(label) == allowed_parameters_.end());
     return false;
 
   TablePtr table = TablePtr(new isam::parameterlist::Table(label));
@@ -134,7 +141,7 @@ const Parameter& ParameterList::Get(const string& label) {
   map<string, Parameter>::iterator iter = parameters_.find(label);
 
   if (iter == parameters_.end()) {
-    parameters_.insert(std::pair<const string, Parameter>(label, Parameter(label)));
+    parameters_.insert(std::pair<const string, Parameter>(label, Parameter(label, ParameterType::Unknown, "Undefined")));
     iter = parameters_.find(label);
     if (iter == parameters_.end()) {
       LOG_CODE_ERROR("Failed to add a new blank parameter to the object with label: " << label);
@@ -153,8 +160,6 @@ const Parameter& ParameterList::Get(const string& label) {
  * @param source The source parameter list
  */
 void ParameterList::CopyFrom(const ParameterList& source) {
-  allowed_parameters_.assign(source.allowed_parameters_.begin(), source.allowed_parameters_.end());
-
   map<string, Parameter>::const_iterator iter;
   for (iter = source.parameters_.begin(); iter != source.parameters_.end(); ++iter)
     parameters_.insert(std::pair<const string, Parameter>(iter->first, iter->second));
@@ -162,6 +167,10 @@ void ParameterList::CopyFrom(const ParameterList& source) {
   map<string, ParameterTable>::const_iterator iter2;
   for (iter2 = source.tables_.begin(); iter2 != source.tables_.end(); ++iter2)
     tables_[iter2->first] = iter2->second;
+
+  map<string, ParameterDefinition>::const_iterator iter3;
+  for (iter3 = source.allowed_parameters_.begin(); iter3 != source.allowed_parameters_.end(); ++iter3)
+    allowed_parameters_[iter3->first] = iter3->second;
 }
 
 /**

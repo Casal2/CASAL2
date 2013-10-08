@@ -21,10 +21,10 @@ namespace agesizes {
  * default constructor
  */
 VonBertalanffy::VonBertalanffy() {
-  parameters_.RegisterAllowed(PARAM_LINF);
-  parameters_.RegisterAllowed(PARAM_K);
-  parameters_.RegisterAllowed(PARAM_T0);
-  parameters_.RegisterAllowed(PARAM_SIZE_WEIGHT);
+  parameters_.RegisterAllowed(PARAM_LINF, ParameterType::Double , "TBA");
+  parameters_.RegisterAllowed(PARAM_K, ParameterType::Double, "TBA");
+  parameters_.RegisterAllowed(PARAM_T0, ParameterType::Double, "TBA");
+  parameters_.RegisterAllowed(PARAM_SIZE_WEIGHT, ParameterType::String, "TBA");
 
   RegisterAsEstimable(PARAM_LINF, &linf_);
   RegisterAsEstimable(PARAM_K, &k_);

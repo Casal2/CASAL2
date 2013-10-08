@@ -29,17 +29,16 @@ namespace dc = isam::utilities::doublecompare;
  * Constructor
  */
 MCMC::MCMC() {
-  parameters_.RegisterAllowed(PARAM_START);
-  parameters_.RegisterAllowed(PARAM_LENGTH);
-  parameters_.RegisterAllowed(PARAM_KEEP);
-  parameters_.RegisterAllowed(PARAM_LENGTH);
-  parameters_.RegisterAllowed(PARAM_MAX_CORRELATION);
-  parameters_.RegisterAllowed(PARAM_COVARIANCE_ADJUSTMENT_METHOD);
-  parameters_.RegisterAllowed(PARAM_CORRELATION_ADJUSTMENT_DIFF);
-  parameters_.RegisterAllowed(PARAM_STEP_SIZE);
-  parameters_.RegisterAllowed(PARAM_PROPOSAL_DISTRIBUTION);
-  parameters_.RegisterAllowed(PARAM_DF);
-  parameters_.RegisterAllowed(PARAM_ADAPT_STEPSIZE_AT);
+  parameters_.RegisterAllowed(PARAM_START, ParameterType::Double, "TBA");
+  parameters_.RegisterAllowed(PARAM_LENGTH, ParameterType::Unsigned, "The number of chain links to create");
+  parameters_.RegisterAllowed(PARAM_KEEP, ParameterType::Unsigned, "TBA");
+  parameters_.RegisterAllowed(PARAM_MAX_CORRELATION, ParameterType::Double, "TBA");
+  parameters_.RegisterAllowed(PARAM_COVARIANCE_ADJUSTMENT_METHOD, ParameterType::String, "TBA");
+  parameters_.RegisterAllowed(PARAM_CORRELATION_ADJUSTMENT_DIFF, ParameterType::Double, "TBA");
+  parameters_.RegisterAllowed(PARAM_STEP_SIZE, ParameterType::Double, "TBA");
+  parameters_.RegisterAllowed(PARAM_PROPOSAL_DISTRIBUTION, ParameterType::String, "TBA");
+  parameters_.RegisterAllowed(PARAM_DF, ParameterType::Unsigned, "TBA");
+  parameters_.RegisterAllowed(PARAM_ADAPT_STEPSIZE_AT, ParameterType::Unsigned_Vector, "TBA");
 
   jumps_                          = 0;
   successful_jumps_               = 0;

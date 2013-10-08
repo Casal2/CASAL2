@@ -54,6 +54,7 @@ void CommandLineParser::Parse(int argc, const char* argv[]) {
     ("mcmc,m", "Markov Chain Monte Carlo run mode")
     ("input,i", value<string>(), "Load free parameter values from file")
     ("seed,g", value<int>(), "Random number seed")
+    ("query,q", value<string>(), "Query an object type to see it's description and parameters")
     ("debug,d", "Run in debug mode (with debug output");
 
   ostringstream o;

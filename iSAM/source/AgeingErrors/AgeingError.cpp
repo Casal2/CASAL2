@@ -22,8 +22,8 @@ namespace isam {
  * Default constructor
  */
 AgeingError::AgeingError() {
-  parameters_.RegisterAllowed(PARAM_LABEL);
-  parameters_.RegisterAllowed(PARAM_TYPE);
+  parameters_.RegisterAllowed(PARAM_LABEL, ParameterType::String, "label");
+  parameters_.RegisterAllowed(PARAM_TYPE, ParameterType::String, "Type");
 }
 
 /**

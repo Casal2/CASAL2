@@ -48,14 +48,14 @@ using std::endl;
  */
 Model::Model() {
   LOG_TRACE();
-  parameters_.RegisterAllowed(PARAM_START_YEAR);
-  parameters_.RegisterAllowed(PARAM_FINAL_YEAR);
-  parameters_.RegisterAllowed(PARAM_MIN_AGE);
-  parameters_.RegisterAllowed(PARAM_MAX_AGE);
-  parameters_.RegisterAllowed(PARAM_AGE_PLUS);
-  parameters_.RegisterAllowed(PARAM_INITIALIZATION_PHASES);
-  parameters_.RegisterAllowed(PARAM_TIME_STEPS);
-  parameters_.RegisterAllowed(PARAM_PROJEECTION_FINAL_YEAR);
+  parameters_.RegisterAllowed(PARAM_START_YEAR, ParameterType::Unsigned, "The first year of the model");
+  parameters_.RegisterAllowed(PARAM_FINAL_YEAR, ParameterType::Unsigned, "The last year of the model");
+  parameters_.RegisterAllowed(PARAM_MIN_AGE, ParameterType::Unsigned, "The default minimum age for the population");
+  parameters_.RegisterAllowed(PARAM_MAX_AGE, ParameterType::Unsigned, "The default maximum age for the population");
+  parameters_.RegisterAllowed(PARAM_AGE_PLUS, ParameterType::Boolean, "True if the model supports an age-plus group");
+  parameters_.RegisterAllowed(PARAM_INITIALIZATION_PHASES, ParameterType::String_Vector, "List of initialisation phases to execute");
+  parameters_.RegisterAllowed(PARAM_TIME_STEPS, ParameterType::String_Vector, "List of time steps to execute");
+  parameters_.RegisterAllowed(PARAM_PROJEECTION_FINAL_YEAR, ParameterType::Unsigned, "The final year of the model in projection mode");
 }
 
 /**

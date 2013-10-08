@@ -20,8 +20,8 @@ namespace isam {
  * Default constructor
  */
 Catchability::Catchability() {
-  parameters_.RegisterAllowed(PARAM_LABEL);
-  parameters_.RegisterAllowed(PARAM_Q);
+  parameters_.RegisterAllowed(PARAM_LABEL, ParameterType::String, "Label");
+  parameters_.RegisterAllowed(PARAM_Q, ParameterType::Double, "The catchability amount");
 
   RegisterAsEstimable(PARAM_Q, &q_);
 }
