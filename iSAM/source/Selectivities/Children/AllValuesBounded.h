@@ -31,8 +31,8 @@ public:
   // Methods
   AllValuesBounded();
   explicit AllValuesBounded(ModelPtr model);
-  virtual                     ~AllValuesBounded() {};
-  void                        Validate() override final;
+  virtual                     ~AllValuesBounded() = default;
+  void                        DoValidate() override final;
   void                        Reset() override final;
 
 private:

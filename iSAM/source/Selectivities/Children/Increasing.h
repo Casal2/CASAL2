@@ -31,16 +31,16 @@ public:
   // Methods
   Increasing();
   explicit Increasing(ModelPtr model);
-  virtual                     ~Increasing() {};
-  void                        Validate() override final;
+  virtual                     ~Increasing() = default;
+  void                        DoValidate() override final;
   void                        Reset() override final;
 
 private:
   // Members
-  unsigned                    low_ = 0.0;
-  unsigned                    high_ = 0.0;
+  unsigned                    low_;
+  unsigned                    high_;
   vector<Double>              v_;
-  Double                      alpha_ = 1.0;
+  Double                      alpha_;
 };
 
 } /* namespace selectivities */

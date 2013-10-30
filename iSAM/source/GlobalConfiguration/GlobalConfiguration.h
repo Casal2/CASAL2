@@ -45,19 +45,20 @@ public:
   // Methods
   static shared_ptr<GlobalConfiguration> Instance();
 
-  virtual                     ~GlobalConfiguration();
+  virtual                     ~GlobalConfiguration() = default;
   void                        Clear();
+  void                        OverrideGlobalValues(const map<string, string>& override_values);
 
   // Accessors and Mutators
   void                        set_command_line_parameters(vector<string> &parameters) { command_line_parameters_ = parameters; }
   vector<string>&             command_line_parameters() { return command_line_parameters_; }
-  void                        set_debug_mode(string value) { parameters_[PARAM_DEBUG] = value; }
+  void                        set_debug_mode(string value) { global_parameters_[PARAM_DEBUG] = value; }
   bool                        debug_mode();
-  void                        set_random_seed(string value) { parameters_[PARAM_RANDOM_NUMBER_SEED] = value; }
+  void                        set_random_seed(string value) { global_parameters_[PARAM_RANDOM_NUMBER_SEED] = value; }
   unsigned                    random_seed();
-  void                        set_config_file(string value) { parameters_[PARAM_CONFIG_FILE] = value; }
-  string                      config_file() { return parameters_[PARAM_CONFIG_FILE]; }
-  void                        set_skip_config_file(string value) { parameters_[PARAM_SKIP_CONFIG_FILE] = value; }
+  void                        set_config_file(string value) { global_parameters_[PARAM_CONFIG_FILE] = value; }
+  string                      config_file() { return global_parameters_[PARAM_CONFIG_FILE]; }
+  void                        set_skip_config_file(string value) { global_parameters_[PARAM_SKIP_CONFIG_FILE] = value; }
   bool                        skip_config_file();
 
 
@@ -66,7 +67,7 @@ private:
   GlobalConfiguration();
 
   // Members
-  map<string, string>         parameters_;
+  map<string, string>         global_parameters_;
   vector<string>              command_line_parameters_;
 
 };

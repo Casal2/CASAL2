@@ -39,8 +39,8 @@ public:
   virtual                     ~MaturationRate() = default;
   void                        DoValidate() override final;
   void                        DoBuild() override final;
-  void                        DoPreExecute() override final { };
   void                        DoReset() override final;
+  void                        PreExecute() override final { };
   void                        Execute() override final;
 
 private:

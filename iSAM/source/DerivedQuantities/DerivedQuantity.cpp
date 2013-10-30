@@ -20,12 +20,12 @@ namespace isam {
 DerivedQuantity::DerivedQuantity() {
   LOG_TRACE();
 
-  parameters_.RegisterAllowed(PARAM_LABEL, ParameterType::String, "Label");
-  parameters_.RegisterAllowed(PARAM_TYPE, ParameterType::String, "Type");
-  parameters_.RegisterAllowed(PARAM_TIME_STEP, ParameterType::String, "The time step to calculate the derived quantity after");
-  parameters_.RegisterAllowed(PARAM_INITIALIZATION_TIME_STEPS, ParameterType::String_Vector, "The initialisation time steps to calculate the derived quantity after");
-  parameters_.RegisterAllowed(PARAM_CATEGORIES, ParameterType::String_Vector, "The list of categories to use when calculating the derived quantity");
-  parameters_.RegisterAllowed(PARAM_SELECTIVITIES, ParameterType::String_Vector, "The list of selectivities to use when calculating the derived quantity. 1 per category");
+  parameters_.Bind<string>(PARAM_LABEL, &label_, "Label");
+  parameters_.Bind<string>(PARAM_TYPE, &type_, "Type");
+  parameters_.Bind<string>(PARAM_TIME_STEP, &time_step_label_, "The time step to calculate the derived quantity after");
+  parameters_.Bind<string>(PARAM_INITIALIZATION_TIME_STEPS, &initialisation_time_step_labels_, "The initialisation time steps to calculate the derived quantity after", true);
+  parameters_.Bind<string>(PARAM_CATEGORIES, &category_labels_, "The list of categories to use when calculating the derived quantity");
+  parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_labels_, "The list of selectivities to use when calculating the derived quantity. 1 per category");
 
   model_ = Model::Instance();
 }
@@ -35,17 +35,7 @@ DerivedQuantity::DerivedQuantity() {
  * file for this derived quantity.
  */
 void DerivedQuantity::Validate() {
-  CheckForRequiredParameter(PARAM_LABEL);
-  CheckForRequiredParameter(PARAM_TYPE);
-  CheckForRequiredParameter(PARAM_TIME_STEP);
-  CheckForRequiredParameter(PARAM_SELECTIVITIES);
-  CheckForRequiredParameter(PARAM_CATEGORIES);
-
-  label_                            = parameters_.Get(PARAM_LABEL).GetValue<string>();
-  time_step_label_                  = parameters_.Get(PARAM_TIME_STEP).GetValue<string>();
-  initialisation_time_step_labels_  = parameters_.Get(PARAM_INITIALIZATION_TIME_STEPS).GetValues<string>();
-  selectivity_labels_               = parameters_.Get(PARAM_SELECTIVITIES).GetValues<string>();
-  category_labels_                  = parameters_.Get(PARAM_CATEGORIES).GetValues<string>();
+  parameters_.Populate();
 
   if (category_labels_.size() != selectivity_labels_.size())
     LOG_ERROR(parameters_.location(PARAM_SELECTIVITIES) << " count (" << selectivity_labels_.size() << ") "

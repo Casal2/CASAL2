@@ -32,17 +32,16 @@ class Process : public isam::base::Object {
 public:
   // methods
   Process();
-  virtual                     ~Process() { };
+  virtual                     ~Process() = default;
   void                        Validate();
   void                        Build();
-  void                        Reset() { };
-  void                        PreExecute() { };
+  void                        Reset() { DoReset(); };
   void                        Print();
 
   virtual void                DoValidate() = 0;
   virtual void                DoBuild() = 0;
-  virtual void                DoPreExecute() = 0;
   virtual void                DoReset() = 0;
+  virtual void                PreExecute() = 0;
   virtual void                Execute() = 0;
 
   // accessors

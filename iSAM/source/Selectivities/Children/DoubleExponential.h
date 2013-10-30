@@ -31,19 +31,19 @@ public:
   // Methods
   DoubleExponential();
   explicit DoubleExponential(ModelPtr model);
-  virtual                     ~DoubleExponential() {};
-  void                        Validate() override final;
+  virtual                     ~DoubleExponential() = default;
+  void                        DoValidate() override final;
   void                        Reset() override final;
 
 private:
   // Members
-  Double                      x0_ = 0.0;
-  Double                      x1_ = 0.0;
-  Double                      x2_ = 0.0;
-  Double                      y0_ = 0.0;
-  Double                      y1_ = 0.0;
-  Double                      y2_ = 0.0;
-  Double                      alpha_ = 1.0;
+  Double                      x0_;
+  Double                      x1_;
+  Double                      x2_;
+  Double                      y0_;
+  Double                      y1_;
+  Double                      y2_;
+  Double                      alpha_;
 };
 
 } /* namespace selectivities */

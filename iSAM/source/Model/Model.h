@@ -21,27 +21,13 @@
 
 #include "BaseClasses/Object.h"
 #include "Catchabilities/Manager.h"
+#include "Utilities/RunMode.h"
 
 // Namespaces
 namespace isam {
 
 using boost::shared_ptr;
 using isam::catchabilities::CatchabilityManagerPtr;
-
-// Enumerated Types
-namespace RunMode {
-enum Type {
-  kInvalid      = 1,
-  kLicense      = 2,
-  kVersion      = 3,
-  kHelp         = 4,
-  kBasic        = 8,
-  kEstimation   = 16,
-  kMCMC         = 32,
-  kSimulation   = 64,
-  kProfiling    = 128,
-  kTesting      = 256
-};}
 
 namespace State {
 enum Type {
@@ -67,11 +53,10 @@ public:
   // Methods
   static shared_ptr<Model>    Instance(bool force_new = false);
   virtual                     ~Model() = default;
-  void                        Start();
+  void                        Start(RunMode::Type run_mode);
   void                        FullIteration();
 
   // Accessors
-  void                        set_run_mode(RunMode::Type new_mode) { run_mode_ = new_mode; }
   RunMode::Type               run_mode() { return run_mode_; }
   State::Type                 state() { return state_; }
   unsigned                    start_year() { return start_year_; }

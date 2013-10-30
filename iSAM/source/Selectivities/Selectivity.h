@@ -30,11 +30,14 @@ public:
   // Methods
   Selectivity() = delete;
   explicit Selectivity(ModelPtr model);
-  virtual                     ~Selectivity() {};
-  virtual void                Validate() = 0;
+  virtual                     ~Selectivity() = default;
+  void                        Validate();
   virtual void                Build() { Reset(); };
   virtual void                Reset() {};
   virtual Double              GetResult(unsigned age_or_length);
+
+  // pure methods
+  virtual void                DoValidate() = 0;
 
 protected:
   // Members

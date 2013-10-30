@@ -30,8 +30,8 @@ class NormalLog : public isam::Prior {
 public:
   // Methods
   NormalLog();
-  virtual                     ~NormalLog() noexcept(true);
-  void                        Validate() override final;
+  virtual                     ~NormalLog() = default;
+  void                        DoValidate() override final;
   Double                      GetScore(Double param) override final;
 
 private:

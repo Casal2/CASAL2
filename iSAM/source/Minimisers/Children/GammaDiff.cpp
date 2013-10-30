@@ -22,22 +22,10 @@ namespace minimisers {
  * Default constructor
  */
 GammaDiff::GammaDiff() {
-  parameters_.RegisterAllowed(PARAM_MAX_ITERATIONS, ParameterType::Integer, "Maximum number of iterations");
-  parameters_.RegisterAllowed(PARAM_MAX_EVALUATIONS, ParameterType::Integer, "Maximum number of evaluations");
-  parameters_.RegisterAllowed(PARAM_TOLERANCE, ParameterType::Double, "Tolerance of the gradient for convergence");
-  parameters_.RegisterAllowed(PARAM_STEP_SIZE, ParameterType::Double, "Minimum Step-size before minimisation fails");
-}
-
-/**
- * Validate the minimiser
- */
-void GammaDiff::Validate() {
-  Minimiser::Validate();
-
-  max_iterations_       = parameters_.Get(PARAM_MAX_ITERATIONS).GetValue<int>(1000);
-  max_evaluations_      = parameters_.Get(PARAM_MAX_EVALUATIONS).GetValue<int>(4000);
-  gradient_tolerance_   = parameters_.Get(PARAM_TOLERANCE).GetValue<double>(0.02);
-  step_size_            = parameters_.Get(PARAM_STEP_SIZE).GetValue<double>(1e-7);
+  parameters_.Bind<int>(PARAM_MAX_ITERATIONS, &max_iterations_, "Maximum number of iterations", 1000);
+  parameters_.Bind<int>(PARAM_MAX_EVALUATIONS, &max_evaluations_, "Maximum number of evaluations", 4000);
+  parameters_.Bind<double>(PARAM_TOLERANCE, &gradient_tolerance_, "Tolerance of the gradient for convergence", 0.02);
+  parameters_.Bind<double>(PARAM_STEP_SIZE, &step_size_, "Minimum Step-size before minimisation fails", 1e-7);
 }
 
 /**

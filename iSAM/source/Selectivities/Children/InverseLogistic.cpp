@@ -34,9 +34,9 @@ InverseLogistic::InverseLogistic()
  */
 InverseLogistic::InverseLogistic(ModelPtr model)
 : Selectivity(model) {
-  parameters_.RegisterAllowed(PARAM_A50);
-  parameters_.RegisterAllowed(PARAM_ATO95);
-  parameters_.RegisterAllowed(PARAM_ALPHA);
+  parameters_.Bind<double>(PARAM_A50, &a50_, "A50");
+  parameters_.Bind<double>(PARAM_ATO95, &aTo95_, "aTo95");
+  parameters_.Bind<double>(PARAM_ALPHA, &alpha_, "Alpha", 1.0);
 
   RegisterAsEstimable(PARAM_A50, &a50_);
   RegisterAsEstimable(PARAM_ATO95, &aTo95_);
@@ -52,25 +52,11 @@ InverseLogistic::InverseLogistic(ModelPtr model)
  * variables to ensure they are within the business
  * rules for the model.
  */
-void InverseLogistic::Validate() {
-  LOG_TRACE();
-
-  CheckForRequiredParameter(PARAM_LABEL);
-  CheckForRequiredParameter(PARAM_A50);
-  CheckForRequiredParameter(PARAM_ATO95);
-
-  label_  = parameters_.Get(PARAM_LABEL).GetValue<string>();
-  a50_    = parameters_.Get(PARAM_A50).GetValue<double>();
-  aTo95_  = parameters_.Get(PARAM_ATO95).GetValue<double>();
-
-  if (parameters_.IsDefined(PARAM_ALPHA))
-    alpha_ = parameters_.Get(PARAM_ALPHA).GetValue<double>();
-
+void InverseLogistic::DoValidate() {
   if (alpha_ <= 0.0)
     LOG_ERROR(parameters_.location(PARAM_ALPHA) << ": alpha (" << AS_DOUBLE(alpha_) << ") cannot be less than or equal to 0.0");
   if (aTo95_ <= 0.0)
     LOG_ERROR(parameters_.location(PARAM_ATO95) << ": ato95 (" << AS_DOUBLE(aTo95_) << ") cannot be less than or equal to 0.0");
-
 }
 
 /**

@@ -18,7 +18,6 @@
 #include <boost/program_options.hpp>
 
 #include "GlobalConfiguration/GlobalConfiguration.h"
-#include "Model/Model.h"
 #include "Utilities/Logging/Logging.h"
 
 // Namespaces
@@ -88,18 +87,16 @@ void CommandLineParser::Parse(int argc, const char* argv[]) {
    * Determine what run mode we should be in. If we're
    * in help, version or license then we don't need to continue.
    */
-  ModelPtr model = Model::Instance();
-
   if ( (parameters.count("help")) || (parameters.size() == 0) ) {
-    model->set_run_mode(RunMode::kHelp);
+    run_mode_ = RunMode::kHelp;
     return;
 
   } else if (parameters.count("version")) {
-    model->set_run_mode(RunMode::kVersion);
+    run_mode_ = RunMode::kVersion;
     return;
 
   } else if (parameters.count("license")) {
-    model->set_run_mode(RunMode::kLicense);
+    run_mode_ = RunMode::kLicense;
     return;
   }
 
@@ -119,11 +116,11 @@ void CommandLineParser::Parse(int argc, const char* argv[]) {
     LOG_ERROR("Multiple run modes have been specified on the command line. Only 1 run mode is valid");
 
   if (parameters.count("run"))
-    model->set_run_mode(RunMode::kBasic);
+    run_mode_ = RunMode::kBasic;
   else if (parameters.count("estimate"))
-    model->set_run_mode(RunMode::kEstimation);
+    run_mode_ = RunMode::kEstimation;
   else if (parameters.count("mcmc"))
-    model->set_run_mode(RunMode::kMCMC);
+    run_mode_ = RunMode::kMCMC;
   else
     LOG_ERROR("An invalid or unknown run mode has been specified on the command line.");
 
@@ -132,23 +129,6 @@ void CommandLineParser::Parse(int argc, const char* argv[]) {
    */
   if (parameters.count("genseed"))
     override_values_["genseed"] = parameters["genseed"].as<string>();
-}
-
-/**
- * This method will take any values that we've stored from
- * the command line and load them into the global configuration.
- *
- * This is done after we parse the configuration files because
- * some of the information in the configuration files will
- * be modified by the command line.
- */
-void CommandLineParser::OverrideGlobalValues() {
-  LOG_TRACE();
-
-  GlobalConfigurationPtr global_config = GlobalConfiguration::Instance();
-  for (auto i = override_values_.begin(); i != override_values_.end(); ++i) {
-    global_config->parameters().Add(i->first, i->second, "", 0);
-  }
 }
 
 } /* namespace utilities */

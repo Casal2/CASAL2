@@ -19,7 +19,7 @@ namespace agesizes {
  * default constructor
  */
 None::None() {
-  parameters_.RegisterAllowed(PARAM_SIZE_WEIGHT, ParameterType::String, "Not used");
+  parameters_.Bind<string>(PARAM_SIZE_WEIGHT, &size_weight_, "Not Implemented");
 }
 
 } /* namespace agesizes */

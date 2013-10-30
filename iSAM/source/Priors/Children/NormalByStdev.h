@@ -30,8 +30,8 @@ class NormalByStdev : public isam::Prior {
 public:
   // Methods
   NormalByStdev();
-  virtual                     ~NormalByStdev() noexcept(true);
-  void                        Validate() override final;
+  virtual                     ~NormalByStdev() = default;
+  void                        DoValidate() override final;
   Double                      GetScore(Double param) override final;
 
 private:

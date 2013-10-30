@@ -29,35 +29,21 @@ namespace observations {
  * Default constructor
  */
 ProportionsAtAge::ProportionsAtAge() {
-  parameters_.RegisterAllowed(PARAM_MIN_AGE);
-  parameters_.RegisterAllowed(PARAM_MAX_AGE);
-  parameters_.RegisterAllowed(PARAM_AGE_PLUS);
-  parameters_.RegisterAllowed(PARAM_TOLERANCE);
-  parameters_.RegisterAllowed(PARAM_OBS);
-  parameters_.RegisterAllowed(PARAM_ERROR_VALUE);
-  parameters_.RegisterAllowed(PARAM_DELTA);
-  parameters_.RegisterAllowed(PARAM_PROCESS_ERROR);
-  parameters_.RegisterAllowed(PARAM_AGEING_ERROR);
+  parameters_.Bind<unsigned>(PARAM_MIN_AGE, &min_age_, "Minimum age");
+  parameters_.Bind<unsigned>(PARAM_MAX_AGE, &max_age_, "Maximum age");
+  parameters_.Bind<bool>(PARAM_AGE_PLUS, &age_plus_, "Use age plus group", true);
+  parameters_.Bind<double>(PARAM_TOLERANCE, &tolerance_, "Tolerance", 0.001);
+  parameters_.Bind<string>(PARAM_OBS, &obs_, "Observation values");
+  parameters_.Bind<double>(PARAM_ERROR_VALUE, &error_values_, "Error values");
+  parameters_.Bind<double>(PARAM_DELTA, &delta_, "Delta", DELTA);
+  parameters_.Bind<double>(PARAM_PROCESS_ERROR, &process_error_, "Process error", 0.0);
+  parameters_.Bind<string>(PARAM_AGEING_ERROR, &ageing_error_label_, "Label of ageing error to use", "");
 }
 
 /**
  * Validate configuration file parameters
  */
-void ProportionsAtAge::Validate() {
-  Observation::Validate();
-
-  CheckForRequiredParameter(PARAM_MIN_AGE);
-  CheckForRequiredParameter(PARAM_MAX_AGE);
-  CheckForRequiredParameter(PARAM_OBS);
-
-  min_age_            = parameters_.Get(PARAM_MIN_AGE).GetValue<unsigned>();
-  max_age_            = parameters_.Get(PARAM_MAX_AGE).GetValue<unsigned>();
-  age_plus_           = parameters_.Get(PARAM_AGE_PLUS).GetValue<bool>(true);
-  delta_              = parameters_.Get(PARAM_DELTA).GetValue<double>(DELTA);
-  tolerance_          = parameters_.Get(PARAM_TOLERANCE).GetValue<double>(0.001);
-  process_error_      = parameters_.Get(PARAM_PROCESS_ERROR).GetValue<double>(0.0);
-  ageing_error_label_ = parameters_.Get(PARAM_AGEING_ERROR).GetValue<string>("");
-  error_values_       = parameters_.Get(PARAM_ERROR_VALUE).GetValues<Double>();
+void ProportionsAtAge::DoValidate() {
   age_spread_         = (max_age_ - min_age_) + 1;
 
   /**
@@ -101,11 +87,9 @@ void ProportionsAtAge::Validate() {
    * This is because we'll have 1 set of obs per category collection provided.
    * categories male+female male = 2 collections
    */
-  vector<string> obs;
-  obs = parameters_.Get(PARAM_OBS).GetValues<string>();
   unsigned obs_expected = age_spread_ * category_labels_.size();
-  if (obs.size() != obs_expected)
-    LOG_ERROR(parameters_.location(PARAM_OBS) << ": number of obs provided (" << obs.size() << ") does not match the number expected (" << obs_expected
+  if (obs_.size() != obs_expected)
+    LOG_ERROR(parameters_.location(PARAM_OBS) << ": number of obs_ provided (" << obs_.size() << ") does not match the number expected (" << obs_expected
         << "). Number expected is the age spread (" << age_spread_ << ") * category collections (" << category_labels_.size() << ")");
 
   /**
@@ -121,8 +105,8 @@ void ProportionsAtAge::Validate() {
     total = 0.0;
     for (unsigned j = 0; j < age_spread_; ++j) {
       unsigned obs_index = i * age_spread_ + j;
-      if (!utilities::To<double>(obs[obs_index], value))
-        LOG_ERROR(parameters_.location(PARAM_OBS) << ": obs value (" << obs[obs_index] << ") at index " << obs_index + 1
+      if (!utilities::To<double>(obs_[obs_index], value))
+        LOG_ERROR(parameters_.location(PARAM_OBS) << ": obs_ value (" << obs_[obs_index] << ") at index " << obs_index + 1
             << " in the definition could not be converted to a numeric double");
 
       proportions_[i].push_back(value);
@@ -143,7 +127,7 @@ void ProportionsAtAge::Validate() {
  * Build any runtime relationships we may have and ensure
  * the labels for other objects are valid.
  */
-void ProportionsAtAge::Build() {
+void ProportionsAtAge::DoBuild() {
   Observation::Build();
 
   partition_ = CombinedCategoriesPtr(new isam::partition::accessors::CombinedCategories(category_labels_));

@@ -23,16 +23,10 @@ namespace isam {
  */
 GlobalConfiguration::GlobalConfiguration() {
 
-  parameters_[PARAM_DEBUG]                = "f";
-  parameters_[PARAM_SKIP_CONFIG_FILE]     = "f";
-  parameters_[PARAM_CONFIG_FILE]          = "isam.txt";
-  parameters_[PARAM_RANDOM_NUMBER_SEED]   = "12345";
-}
-
-/**
- * Destructor
- */
-GlobalConfiguration::~GlobalConfiguration() {
+  global_parameters_[PARAM_DEBUG]                = "f";
+  global_parameters_[PARAM_SKIP_CONFIG_FILE]     = "f";
+  global_parameters_[PARAM_CONFIG_FILE]          = "isam.txt";
+  global_parameters_[PARAM_RANDOM_NUMBER_SEED]   = "12345";
 }
 
 /**
@@ -53,9 +47,9 @@ shared_ptr<GlobalConfiguration> GlobalConfiguration::Instance() {
 bool GlobalConfiguration::debug_mode() {
   bool result = false;
 
-  bool success = util::To<bool>(parameters_[PARAM_DEBUG], result);
+  bool success = util::To<bool>(global_parameters_[PARAM_DEBUG], result);
   if (!success)
-    LOG_CODE_ERROR("Could not convert the debug_mode value stored in global configuration to a boolean. The value was " << parameters_[PARAM_DEBUG]);
+    LOG_CODE_ERROR("Could not convert the debug_mode value stored in global configuration to a boolean. The value was " << global_parameters_[PARAM_DEBUG]);
 
   return result;
 }
@@ -72,9 +66,9 @@ bool GlobalConfiguration::debug_mode() {
 bool GlobalConfiguration::skip_config_file() {
   bool result = false;
 
-  bool success = util::To<bool>(parameters_[PARAM_SKIP_CONFIG_FILE], result);
+  bool success = util::To<bool>(global_parameters_[PARAM_SKIP_CONFIG_FILE], result);
   if (!success)
-    LOG_CODE_ERROR("Could not convert skip_config_file value stored in global configuration to a boolean. The value was " << parameters_[PARAM_SKIP_CONFIG_FILE]);
+    LOG_CODE_ERROR("Could not convert skip_config_file value stored in global configuration to a boolean. The value was " << global_parameters_[PARAM_SKIP_CONFIG_FILE]);
 
   return result;
 }
@@ -84,15 +78,30 @@ bool GlobalConfiguration::skip_config_file() {
  * All member objects need to be cleared during this method.
  */
 void GlobalConfiguration::Clear() {
-  parameters_.clear();
+  global_parameters_.clear();
   command_line_parameters_.clear();
+}
+
+/**
+ * This method will take any values that we've stored from
+ * the command line and load them into the global configuration.
+ *
+ * This is done after we parse the configuration files because
+ * some of the information in the configuration files will
+ * be modified by the command line.
+ */
+void GlobalConfiguration::OverrideGlobalValues(const map<string, string>& override_values) {
+
+  for (auto i = override_values.begin(); i != override_values.end(); ++i) {
+    parameters_.Add(i->first, i->second, "", 0);
+  }
 }
 
 /**
  * Get the random number seed from our global configuration
  */
 unsigned GlobalConfiguration::random_seed() {
-  return util::ToInline<string, unsigned>(parameters_[PARAM_RANDOM_NUMBER_SEED]);
+  return util::ToInline<string, unsigned>(global_parameters_[PARAM_RANDOM_NUMBER_SEED]);
 }
 
 } /* namespace isam */

@@ -35,10 +35,10 @@ namespace ublas = boost::numeric::ublas;
  * Default constructor
  */
 Minimiser::Minimiser() {
-  parameters_.RegisterAllowed(PARAM_LABEL, ParameterType::String, "Label");
-  parameters_.RegisterAllowed(PARAM_TYPE, ParameterType::String, "Type of minimiser to use");
-  parameters_.RegisterAllowed(PARAM_ACTIVE, ParameterType::Boolean, "True if this minimiser is active");
-  parameters_.RegisterAllowed(PARAM_COVARIANCE, ParameterType::Boolean, "True if a covariance matrix should be created");
+  parameters_.Bind<string>(PARAM_LABEL, &label_, "Label");
+  parameters_.Bind<string>(PARAM_TYPE, &type_, "Type of minimiser to use");
+  parameters_.Bind<bool>(PARAM_ACTIVE, &active_, "True if this minimiser is active", false);
+  parameters_.Bind<bool>(PARAM_COVARIANCE, &build_covariance_, "True if a covariance matrix should be created", true);
 
   hessian_ = 0;
   hessian_size_ = 0;
@@ -59,13 +59,9 @@ Minimiser::~Minimiser() {
  * Validate the parameters for this minimisers
  */
 void Minimiser::Validate() {
-  CheckForRequiredParameter(PARAM_LABEL);
-  CheckForRequiredParameter(PARAM_TYPE);
+  parameters_.Populate();
 
-  label_            = parameters_.Get(PARAM_LABEL).GetValue<string>();
-  type_             = parameters_.Get(PARAM_TYPE).GetValue<string>();
-  active_           = parameters_.Get(PARAM_ACTIVE).GetValue<bool>(false);
-  build_covariance_ = parameters_.Get(PARAM_COVARIANCE).GetValue<bool>(true);
+  DoValidate();
 }
 
 /**
@@ -80,6 +76,8 @@ void Minimiser::Build() {
     for (unsigned j = 0; j < hessian_size_; ++j)
       hessian_[i][j] = 0.0;
   }
+
+  DoBuild();
 }
 
 /**

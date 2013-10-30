@@ -25,19 +25,15 @@ namespace isam {
 TimeStep::TimeStep() {
   LOG_TRACE();
 
-  parameters_.RegisterAllowed(PARAM_LABEL);
-  parameters_.RegisterAllowed(PARAM_PROCESSES);
+  parameters_.Bind<string>(PARAM_LABEL, &label_, "Label");
+  parameters_.Bind<string>(PARAM_PROCESSES, &process_names_, "Processes");
 }
 
 /**
  * Validate our time step
  */
 void TimeStep::Validate() {
-  CheckForRequiredParameter(PARAM_LABEL);
-  CheckForRequiredParameter(PARAM_PROCESSES);
-
-  label_          = parameters_.Get(PARAM_LABEL).GetValue<string>();
-  process_names_  = parameters_.Get(PARAM_PROCESSES).GetValues<string>();
+  parameters_.Populate();
 }
 
 /**

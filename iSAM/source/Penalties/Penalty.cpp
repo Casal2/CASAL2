@@ -23,21 +23,16 @@ namespace isam {
  * Default Constructor
  */
 Penalty::Penalty() {
-  parameters_.RegisterAllowed(PARAM_LABEL);
-  parameters_.RegisterAllowed(PARAM_MULTIPLIER);
-  parameters_.RegisterAllowed(PARAM_LOG_SCALE);
+  parameters_.Bind<string>(PARAM_LABEL, &label_, "Label");
+  parameters_.Bind<double>(PARAM_MULTIPLIER, &multiplier_, "Multiplier", 1.0);
+  parameters_.Bind<bool>(PARAM_LOG_SCALE, &log_scale_, "Log scale", false);
 }
 
 /**
  * Validate our penalty parameters
  */
 void Penalty::Validate() {
-  CheckForRequiredParameter(PARAM_LABEL);
-  CheckForRequiredParameter(PARAM_MULTIPLIER);
-
-  label_      = parameters_.Get(PARAM_LABEL).GetValue<string>();
-  multipler_  = parameters_.Get(PARAM_MULTIPLIER).GetValue<double>(1.0);
-  log_scale_  = parameters_.Get(PARAM_LOG_SCALE).GetValue<bool>(false);
+  parameters_.Populate();
 }
 
 /**
@@ -57,7 +52,7 @@ void Penalty::Trigger(const string& source_label, Double value_1, Double value_2
   }
 
   string name  = label_ + "(" + source_label + ")";
-  Double value = (value_1 - value_2) * (value_1 - value_2) * multipler_;
+  Double value = (value_1 - value_2) * (value_1 - value_2) * multiplier_;
   penalties::Manager::Instance().FlagPenalty(name, value);
 }
 } /* namespace isam */

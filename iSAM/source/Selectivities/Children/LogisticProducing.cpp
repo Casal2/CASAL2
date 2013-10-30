@@ -34,11 +34,11 @@ LogisticProducing::LogisticProducing()
  */
 LogisticProducing::LogisticProducing(ModelPtr model)
 : Selectivity(model) {
-  parameters_.RegisterAllowed(PARAM_L);
-  parameters_.RegisterAllowed(PARAM_H);
-  parameters_.RegisterAllowed(PARAM_A50);
-  parameters_.RegisterAllowed(PARAM_ATO95);
-  parameters_.RegisterAllowed(PARAM_ALPHA);
+  parameters_.Bind<unsigned>(PARAM_L, &low_, "Low");
+  parameters_.Bind<unsigned>(PARAM_H, &high_, "High");
+  parameters_.Bind<double>(PARAM_A50, &a50_, "A50");
+  parameters_.Bind<double>(PARAM_ATO95, &aTo95_, "Ato95");
+  parameters_.Bind<double>(PARAM_ALPHA, &alpha_, "Alpha", 1.0);
 
   RegisterAsEstimable(PARAM_A50, &a50_);
   RegisterAsEstimable(PARAM_ATO95, &aTo95_);
@@ -54,23 +54,7 @@ LogisticProducing::LogisticProducing(ModelPtr model)
  * variables to ensure they are within the business
  * rules for the model.
  */
-void LogisticProducing::Validate() {
-  LOG_TRACE();
-
-  CheckForRequiredParameter(PARAM_LABEL);
-  CheckForRequiredParameter(PARAM_L);
-  CheckForRequiredParameter(PARAM_H);
-  CheckForRequiredParameter(PARAM_A50);
-  CheckForRequiredParameter(PARAM_ATO95);
-
-  label_  = parameters_.Get(PARAM_LABEL).GetValue<string>();
-  low_    = parameters_.Get(PARAM_L).GetValue<unsigned>();
-  high_   = parameters_.Get(PARAM_H).GetValue<unsigned>();
-  a50_    = parameters_.Get(PARAM_A50).GetValue<double>();
-  aTo95_  = parameters_.Get(PARAM_ATO95).GetValue<double>();
-  if (parameters_.IsDefined(PARAM_ALPHA))
-    alpha_ = parameters_.Get(PARAM_ALPHA).GetValue<double>();
-
+void LogisticProducing::DoValidate() {
   if (alpha_ <= 0.0)
     LOG_ERROR(parameters_.location(PARAM_ALPHA) << ": alpha (" << AS_DOUBLE(alpha_) << ") cannot be less than or equal to 0.0");
   if (aTo95_ <= 0.0)

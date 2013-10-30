@@ -30,7 +30,8 @@ class UniformLog : public isam::Prior {
 public:
   // Methods
   UniformLog();
-  virtual                     ~UniformLog() noexcept(true);
+  virtual                     ~UniformLog() = default;
+  void                        DoValidate() override final { };
   Double                      GetScore(Double param) override final;
 };
 

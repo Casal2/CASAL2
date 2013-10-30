@@ -80,7 +80,7 @@ void Partition::Reset() {
 void Partition::CalculateMeanWeights() {
   CategoriesPtr categories                  = Categories::Instance();
 
-  if (categories->parameters().IsDefined(PARAM_AGE_SIZES)) {
+  if (categories->HasAgeSizes()) {
     vector<string> category_names = categories->category_names();
 
     for(string category : category_names) {

@@ -22,12 +22,14 @@ namespace isam {
  * Default constructor
  */
 Estimate::Estimate() {
-}
-
-/**
- * Destructor
- */
-Estimate::~Estimate() {
+  parameters_.Bind<string>(PARAM_LABEL, &label_, "Label");
+  parameters_.Bind<string>(PARAM_PARAMETER, &parameter_, "The name of the variable to estimate in the model");
+  parameters_.Bind<double>(PARAM_LOWER_BOUND, &lower_bound_, "The lowest value the parameter is allowed to have");
+  parameters_.Bind<double>(PARAM_UPPER_BOUND, &upper_bound_, "The highest value the parameter is allowed to have");
+  parameters_.Bind<string>(PARAM_PRIOR, &prior_label_, "The name of the prior to use for the parameter", "");
+  parameters_.Bind<string>(PARAM_SAME, &same_labels, "A list of parameters that are bound to the value of this estimate", "");
+  parameters_.Bind<unsigned>(PARAM_ESTIMATION_PHASE, &estimation_phase_, "TBA", 1u);
+  parameters_.Bind<bool>(PARAM_MCMC, &mcmc_fixed_, "TBA", "");
 }
 
 /**
@@ -37,17 +39,7 @@ Estimate::~Estimate() {
  * estimate was created so we can skip that.
  */
 void Estimate::Validate() {
-  CheckForRequiredParameter(PARAM_LABEL); // Checking to make sure we didn't code an error
-  CheckForRequiredParameter(PARAM_PARAMETER);
-
-  label_            = parameters_.Get(PARAM_LABEL).GetValue<string>();
-  parameter_        = parameters_.Get(PARAM_PARAMETER).GetValue<string>();
-  lower_bound_      = parameters_.Get(PARAM_LOWER_BOUND).GetValue<double>();
-  upper_bound_      = parameters_.Get(PARAM_UPPER_BOUND).GetValue<double>();
-  mcmc_fixed_       = parameters_.Get(PARAM_MCMC_FIXED).GetValue<bool>(false);
-  prior_label_      = parameters_.Get(PARAM_PRIOR).GetValue<string>("");
-  estimation_phase_ = parameters_.Get(PARAM_ESTIMATION_PHASE).GetValue<unsigned>(1);
-  same_labels       = parameters_.Get(PARAM_SAME).GetValues<string>();
+  parameters_.Populate();
 
   map<string, unsigned> same_count;
   for(string same : same_labels) {

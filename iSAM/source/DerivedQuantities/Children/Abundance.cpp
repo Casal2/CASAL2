@@ -16,13 +16,6 @@ namespace isam {
 namespace derivedquantities {
 
 /**
- * default constructor
- */
-Abundance::Abundance() {
-
-}
-
-/**
  * Calculate the derived quantity value for the kExecute
  * state of the model.
  *

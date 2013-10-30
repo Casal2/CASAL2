@@ -31,17 +31,17 @@ public:
   // Methods
   LogisticProducing();
   explicit LogisticProducing(ModelPtr model);
-  virtual                     ~LogisticProducing() {};
-  void                        Validate() override final;
+  virtual                     ~LogisticProducing() = default;
+  void                        DoValidate() override final;
   void                        Reset() override final;
 
 private:
   // Members
-  unsigned                    low_ = 0;
-  unsigned                    high_ = 0;
-  Double                      a50_ = 0.0;
-  Double                      aTo95_ = 0.0;
-  Double                      alpha_ = 1.0;
+  unsigned                    low_;
+  unsigned                    high_;
+  Double                      a50_;
+  Double                      aTo95_;
+  Double                      alpha_;
 };
 
 } /* namespace selectivities */

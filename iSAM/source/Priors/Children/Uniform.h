@@ -30,7 +30,8 @@ class Uniform : public isam::Prior {
 public:
   // Methods
   Uniform();
-  virtual                     ~Uniform() noexcept(true);
+  virtual                     ~Uniform() = default;
+  void                        DoValidate() override final { };
   Double                      GetScore(Double param) override final { return 0; }
 };
 

@@ -28,7 +28,7 @@ Ageing::Ageing() {
 
   description_ = "This process will age the population by 1 every time it is executed";
 
-  parameters_.RegisterAllowed(PARAM_CATEGORIES);
+  parameters_.Bind<string>(PARAM_CATEGORIES, &category_names_, "Categories");
 }
 
 /**
@@ -39,10 +39,6 @@ Ageing::Ageing() {
  * 3. Assign any remaining parameters
  */
 void Ageing::DoValidate() {
-  CheckForRequiredParameter(PARAM_CATEGORIES);
-
-  category_names_ = parameters_.Get(PARAM_CATEGORIES).GetValues<string>();
-
   // Ensure defined categories were valid
   for(const string& category : category_names_) {
     if (!Categories::Instance()->IsValid(category))

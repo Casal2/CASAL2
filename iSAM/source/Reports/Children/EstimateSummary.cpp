@@ -39,7 +39,7 @@ EstimateSummary::~EstimateSummary() noexcept(true) {
 void EstimateSummary::Execute() {
   // Header
   cout << CONFIG_ARRAY_START << label_ << CONFIG_ARRAY_END << "\n";
-  cout << PARAM_REPORT << "." << PARAM_TYPE << CONFIG_RATIO_SEPARATOR << " " << parameters_.Get(PARAM_TYPE).GetValue<string>() << "\n";
+//  cout << PARAM_REPORT << "." << PARAM_TYPE << CONFIG_RATIO_SEPARATOR << " " << parameters_.Get(PARAM_TYPE)->GetValue<string>() << "\n";
 
 
   // Print the estimates

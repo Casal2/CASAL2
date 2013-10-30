@@ -37,8 +37,8 @@ Double NormalCDF(Double x, Double mu, Double sigma) {
  * Default Constructor
  */
 Normal::Normal() {
-  parameters_.RegisterAllowed(PARAM_CV, ParameterType::Double, "TBA");
-  parameters_.RegisterAllowed(PARAM_K, ParameterType::Unsigned, "TBA");
+  parameters_.Bind<double>(PARAM_CV, &cv_, "TBA");
+  parameters_.Bind<unsigned>(PARAM_K, &k_, "TBA", 0u);
 
   RegisterAsEstimable(PARAM_CV, &cv_);
 }
@@ -47,11 +47,6 @@ Normal::Normal() {
  * Validate the parameters from our configuration file
  */
 void Normal::DoValidate() {
-  CheckForRequiredParameter(PARAM_CV);
-
-  cv_ = parameters_.Get(PARAM_CV).GetValue<double>();
-  k_  = parameters_.Get(PARAM_K).GetValue<unsigned>(0);
-
   if (cv_ <= 0.0)
     LOG_ERROR(parameters_.location(PARAM_CV) << ": cv (" << AS_DOUBLE(cv_) << ") cannot be less than or equal to 0.0");
   if (k_ > max_age_)

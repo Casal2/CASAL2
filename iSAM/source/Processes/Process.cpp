@@ -18,8 +18,10 @@ namespace isam {
  * Default constructor
  */
 Process::Process() {
-  parameters_.RegisterAllowed(PARAM_LABEL);
-  parameters_.RegisterAllowed(PARAM_PRINT_REPORT);
+  parameters_.Bind<string>(PARAM_LABEL, &label_, "Label");
+  parameters_.Bind<string>(PARAM_TYPE, &type_, "Type");
+  parameters_.Bind<bool>(PARAM_PRINT_REPORT, &print_report_, "Print parameter report", false);
+
 }
 
 /**
@@ -27,11 +29,7 @@ Process::Process() {
  * set some generic variables.
  */
 void Process::Validate() {
-  CheckForRequiredParameter(PARAM_LABEL);
-  label_          = parameters_.Get(PARAM_LABEL).GetValue<string>();
-  type_           = parameters_.Get(PARAM_TYPE).GetValue<string>("");
-  print_report_   = parameters_.Get(PARAM_PRINT_REPORT).GetValue<bool>(false);
-
+  parameters_.Populate();
   DoValidate();
 }
 
@@ -72,12 +70,12 @@ void Process::Print() {
   }
 
   cout << "-- parameters\n";
-  const map<string, Parameter>& parameters = parameters_.parameters();
+  const map<string, ParameterPtr>& parameters = parameters_.parameters();
 
   auto iter = parameters.begin();
   for (; iter != parameters.end(); ++iter) {
     cout << iter->first << ": ";
-    const vector<string>& values = (*iter).second.values();
+    const vector<string>& values = (*iter).second->values();
     for (unsigned i = 0; i < values.size(); ++i)
       cout << values[i] << " ";
     cout << "\n";

@@ -28,96 +28,96 @@ using isam::utilities::Double;
 /**
  *
  */
-template<typename T>
-T Parameter::GetValue() const {
-
-  if (values_.size() == 0) {
-    LOG_CODE_ERROR("Trying to call .GetValue() on a parameter with no values. Perhaps you need to specify a default_value for it? Label: " << label_);
-  }
-  if (values_.size() != 1) {
-    LOG_ERROR("At line " << line_number_ << " in file " << file_name_
-        << ": " << label_ << " can only have 1 parameter specified. E.g " << label_ << " <value>");
-  }
-
-  RequireValueType<T>();
-
-  T result_value;
-  if (!isam::utilities::To<T>(values_[0], result_value)) {
-    LOG_CODE_ERROR("Failed to convert type. This shouldn't occur because we did a type check above");
-  }
-
-  return result_value;
-}
-
-/**
- *
- */
-template<typename T>
-T Parameter::GetValue(T default_value) const {
-
-  if (values_.size() == 0)
-    return default_value;
-
-  if (values_.size() != 1) {
-    LOG_ERROR("At line " << line_number_ << " in file " << file_name_
-        << ": " << label_ << " can only have 1 parameter specified. E.g " << label_ << " <value>");
-  }
-
-  RequireValueType<T>();
-
-  T result_value = default_value;
-  if (!isam::utilities::To<T>(values_[0], result_value)) {
-    LOG_CODE_ERROR("Failed to convert type. This shouldn't occur because we did a type check above");
-  }
-
-  return result_value;
-}
-
-/**
- *
- */
-template<typename T>
-vector<T> Parameter::GetValues() const {
-
-  RequireValueType<T>();
-
-  vector<T> result_value;
-
-  for (size_t i = 0; i < values_.size(); ++i) {
-    T temp_value;
-
-    if (!isam::utilities::To<T>(values_[i], temp_value)) {
-      LOG_CODE_ERROR("Failed to convert type. This shouldn't occur because we did a type check above");
-    }
-
-    result_value.push_back(temp_value);
-  }
-
-  return result_value;
-}
-
-/**
- *
- */
-template<>
-inline vector<Double> Parameter::GetValues() const {
-
-  RequireValueType<double>();
-
-  vector<Double> result_value;
-
-  for (size_t i = 0; i < values_.size(); ++i) {
-    double temp_value;
-
-    if (!isam::utilities::To<double>(values_[i], temp_value)) {
-      LOG_CODE_ERROR("Failed to convert type. This shouldn't occur because we did a type check above");
-    }
-
-    result_value.push_back(temp_value);
-  }
-
-  return result_value;
-}
+//template<typename T>
+//T Parameter::GetValue() const {
+//
+//  if (values_.size() == 0) {
+//    LOG_CODE_ERROR("Trying to call .GetValue() on a parameter with no values. Perhaps you need to specify a default_value for it? Label: " << label_);
+//  }
+//  if (values_.size() != 1) {
+//    LOG_ERROR("At line " << line_number_ << " in file " << file_name_
+//        << ": " << label_ << " can only have 1 parameter specified. E.g " << label_ << " <value>");
+//  }
+//
+//  RequireValueType<T>();
+//
+//  T result_value;
+//  if (!isam::utilities::To<T>(values_[0], result_value)) {
+//    LOG_CODE_ERROR("Failed to convert type. This shouldn't occur because we did a type check above");
+//  }
+//
+//  return result_value;
+//}
+//
+///**
+// *
+// */
+//template<typename T>
+//T Parameter::GetValue(T default_value) const {
+//
+//  if (values_.size() == 0)
+//    return default_value;
+//
+//  if (values_.size() != 1) {
+//    LOG_ERROR("At line " << line_number_ << " in file " << file_name_
+//        << ": " << label_ << " can only have 1 parameter specified. E.g " << label_ << " <value>");
+//  }
+//
+//  RequireValueType<T>();
+//
+//  T result_value = default_value;
+//  if (!isam::utilities::To<T>(values_[0], result_value)) {
+//    LOG_CODE_ERROR("Failed to convert type. This shouldn't occur because we did a type check above");
+//  }
+//
+//  return result_value;
+//}
+//
+///**
+// *
+// */
+//template<typename T>
+//vector<T> Parameter::GetValues() const {
+//
+//  RequireValueType<T>();
+//
+//  vector<T> result_value;
+//
+//  for (size_t i = 0; i < values_.size(); ++i) {
+//    T temp_value;
+//
+//    if (!isam::utilities::To<T>(values_[i], temp_value)) {
+//      LOG_CODE_ERROR("Failed to convert type. This shouldn't occur because we did a type check above");
+//    }
+//
+//    result_value.push_back(temp_value);
+//  }
+//
+//  return result_value;
+//}
+//
+///**
+// *
+// */
+//template<>
+//inline vector<Double> Parameter::GetValues() const {
+//
+//  RequireValueType<double>();
+//
+//  vector<Double> result_value;
+//
+//  for (size_t i = 0; i < values_.size(); ++i) {
+//    double temp_value;
+//
+//    if (!isam::utilities::To<double>(values_[i], temp_value)) {
+//      LOG_CODE_ERROR("Failed to convert type. This shouldn't occur because we did a type check above");
+//    }
+//
+//    result_value.push_back(temp_value);
+//  }
+//
+//  return result_value;
+//}
 
 /**
  *

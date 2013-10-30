@@ -31,13 +31,13 @@ DoubleExponential::DoubleExponential()
  */
 DoubleExponential::DoubleExponential(ModelPtr model)
 : Selectivity(model) {
-  parameters_.RegisterAllowed(PARAM_X0);
-  parameters_.RegisterAllowed(PARAM_X1);
-  parameters_.RegisterAllowed(PARAM_X2);
-  parameters_.RegisterAllowed(PARAM_Y0);
-  parameters_.RegisterAllowed(PARAM_Y1);
-  parameters_.RegisterAllowed(PARAM_Y2);
-  parameters_.RegisterAllowed(PARAM_ALPHA);
+  parameters_.Bind<double>(PARAM_X0, &x0_, "X0");
+  parameters_.Bind<double>(PARAM_X1, &x1_, "X1");
+  parameters_.Bind<double>(PARAM_X2, &x2_, "X2");
+  parameters_.Bind<double>(PARAM_Y0, &y0_, "Y0");
+  parameters_.Bind<double>(PARAM_Y1, &y1_, "Y1");
+  parameters_.Bind<double>(PARAM_Y2, &y2_, "Y2");
+  parameters_.Bind<double>(PARAM_ALPHA, &alpha_, "Alpha", 1.0);
 
   RegisterAsEstimable(PARAM_X0, &x0_);
   RegisterAsEstimable(PARAM_Y0, &y0_);
@@ -55,34 +55,10 @@ DoubleExponential::DoubleExponential(ModelPtr model)
  * variables to ensure they are within the business
  * rules for the model.
  */
-void DoubleExponential::Validate() {
-  LOG_TRACE();
-
-  CheckForRequiredParameter(PARAM_LABEL);
-  CheckForRequiredParameter(PARAM_X0);
-  CheckForRequiredParameter(PARAM_X1);
-  CheckForRequiredParameter(PARAM_X2);
-  CheckForRequiredParameter(PARAM_Y0);
-  CheckForRequiredParameter(PARAM_Y1);
-  CheckForRequiredParameter(PARAM_Y2);
-
-  // Load our parameters
-  label_  = parameters_.Get(PARAM_LABEL).GetValue<string>();
-  x0_     = parameters_.Get(PARAM_X0).GetValue<double>();
-  x1_     = parameters_.Get(PARAM_X1).GetValue<double>();
-  x2_     = parameters_.Get(PARAM_X2).GetValue<double>();
-  y0_     = parameters_.Get(PARAM_Y0).GetValue<double>();
-  y1_     = parameters_.Get(PARAM_Y1).GetValue<double>();
-  y2_     = parameters_.Get(PARAM_Y2).GetValue<double>();
-
-  if (parameters_.IsDefined(PARAM_ALPHA))
-    alpha_ = parameters_.Get(PARAM_ALPHA).GetValue<double>();
-
+void DoubleExponential::DoValidate() {
   // Param: x0, x1, x2 - Check that x1 is between x0 and x2
-  if (x1_ < x0_ || x1_ > x2_) {
-    Parameter parameter = parameters_.Get(PARAM_X1);
-    LOG_ERROR(parameter.location() << ": x1 ( " << AS_DOUBLE(x1_) << ") must be between x0 (" << AS_DOUBLE(x0_) << ") and x2 (" << AS_DOUBLE(x2_) << ")");
-  }
+  if (x1_ < x0_ || x1_ > x2_)
+    LOG_ERROR(parameters_.location(PARAM_X1) << ": x1 ( " << AS_DOUBLE(x1_) << ") must be between x0 (" << AS_DOUBLE(x0_) << ") and x2 (" << AS_DOUBLE(x2_) << ")");
 
   // Param: y0, y1, y2
   if (y0_ < 0.0)

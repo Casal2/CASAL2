@@ -19,8 +19,8 @@ namespace sizeweights {
  * default constructor
  */
 Basic::Basic() {
-  parameters_.RegisterAllowed(PARAM_A);
-  parameters_.RegisterAllowed(PARAM_B);
+  parameters_.Bind<double>(PARAM_A, &a_, "A");
+  parameters_.Bind<double>(PARAM_B, &b_, "B");
 }
 
 /**
@@ -29,9 +29,6 @@ Basic::Basic() {
  * than 0.0
  */
 void Basic::DoValidate() {
-  a_ = parameters_.Get(PARAM_A).GetValue<double>();
-  b_ = parameters_.Get(PARAM_B).GetValue<double>();
-
   if (a_ <= 0.0)
     LOG_ERROR(parameters_.location(PARAM_A) << " (" << a_ << ") cannot be less than or equal to 0.0");
   if (b_ <= 0.0)

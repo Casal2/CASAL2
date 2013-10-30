@@ -31,7 +31,7 @@ AllValues::AllValues()
   AllValues::AllValues(ModelPtr model)
 : Selectivity(model) {
 
-  parameters_.RegisterAllowed(PARAM_V);
+  parameters_.Bind<double>(PARAM_V, &v_, "V");
 }
 
 
@@ -44,16 +44,7 @@ AllValues::AllValues()
  * variables to ensure they are within the business
  * rules for the model.
  */
-void AllValues::Validate() {
-  LOG_TRACE();
-
-  CheckForRequiredParameter(PARAM_LABEL);
-  CheckForRequiredParameter(PARAM_V);
-
-  // Vs should be the same length as the world age spread
-  label_  = parameters_.Get(PARAM_LABEL).GetValue<string>();
-  v_      = parameters_.Get(PARAM_V).GetValues<Double>();
-
+void AllValues::DoValidate() {
   if (v_.size() != model_->age_spread()) {
     LOG_ERROR(parameters_.location(PARAM_V) << ": Number of 'v' values supplied is not the same as the model age spread.\n"
         << "Expected: " << model_->age_spread() << " but got " << v_.size());

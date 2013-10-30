@@ -52,13 +52,18 @@ class Observation : public isam::base::Object {
 public:
   // methods
   Observation();
-  virtual                     ~Observation();
-  virtual void                Validate();
-  virtual void                Build();
-  virtual void                PreExecute() { };
-  virtual void                Execute() = 0;
+  virtual                     ~Observation() = default;
+  void                        Validate();
+  void                        Build();
   void                        Reset();
-  virtual void                PostExecute() { };
+
+  // pure methods
+  virtual void                DoValidate() = 0;
+  virtual void                DoBuild() = 0;
+  virtual void                DoReset() = 0;
+  virtual void                PreExecute() = 0;
+  virtual void                Execute() = 0;
+  virtual void                PostExecute() = 0;
 
   // accessors
   Double                      score() const { return score_; }

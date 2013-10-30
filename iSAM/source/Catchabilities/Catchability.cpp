@@ -20,27 +20,17 @@ namespace isam {
  * Default constructor
  */
 Catchability::Catchability() {
-  parameters_.RegisterAllowed(PARAM_LABEL, ParameterType::String, "Label");
-  parameters_.RegisterAllowed(PARAM_Q, ParameterType::Double, "The catchability amount");
+  parameters_.Bind<string>(PARAM_LABEL, &label_, "Label");
+  parameters_.Bind<double>(PARAM_Q, &q_, "The catchability amount");
 
   RegisterAsEstimable(PARAM_Q, &q_);
-}
-
-/**
- * Destructor
- */
-Catchability::~Catchability() {
 }
 
 /**
  * Validate our configuration file parameters
  */
 void Catchability::Validate() {
-  CheckForRequiredParameter(PARAM_LABEL);
-  CheckForRequiredParameter(PARAM_Q);
-
-  label_ = parameters_.Get(PARAM_LABEL).GetValue<string>();
-  q_ = parameters_.Get(PARAM_Q).GetValue<double>();
+  parameters_.Populate();
 }
 
 } /* namespace isam */

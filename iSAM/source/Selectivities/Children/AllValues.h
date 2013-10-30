@@ -31,8 +31,8 @@ public:
   // Methods
   AllValues();
   explicit AllValues(ModelPtr model);
-  virtual                     ~AllValues() {};
-  void                        Validate() override final;
+  virtual                     ~AllValues() = default;
+  void                        DoValidate() override final;
   void                        Reset() override final;
 
 private:

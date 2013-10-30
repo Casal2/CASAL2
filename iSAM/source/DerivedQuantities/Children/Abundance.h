@@ -21,7 +21,7 @@ namespace derivedquantities {
 class Abundance : public isam::DerivedQuantity {
 public:
   // methods
-  Abundance();
+  Abundance() = default;
   virtual                     ~Abundance() = default;
   void                        Calculate() override final;
   void                        Calculate(unsigned initialisation_phase) override final;

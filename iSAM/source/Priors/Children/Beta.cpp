@@ -21,34 +21,16 @@ namespace priors {
  * Default constructor
  */
 Beta::Beta() {
-  parameters_.RegisterAllowed(PARAM_M);
-  parameters_.RegisterAllowed(PARAM_SIGMA);
-  parameters_.RegisterAllowed(PARAM_A);
-  parameters_.RegisterAllowed(PARAM_B);
-}
-
-/**
- * Destructor
- */
-Beta::~Beta() noexcept(true) {
+  parameters_.Bind<double>(PARAM_M, &m_, "M");
+  parameters_.Bind<double>(PARAM_SIGMA, &sigma_, "Sigma");
+  parameters_.Bind<double>(PARAM_A, &a_, "A");
+  parameters_.Bind<double>(PARAM_B, &b_, "B");
 }
 
 /**
  * Validate the parameters from the configuration file
  */
-void Beta::Validate() {
-  Prior::Validate();
-
-  CheckForRequiredParameter(PARAM_MU);
-  CheckForRequiredParameter(PARAM_SIGMA);
-  CheckForRequiredParameter(PARAM_A);
-  CheckForRequiredParameter(PARAM_B);
-
-  mu_     = parameters_.Get(PARAM_MU).GetValue<double>();
-  sigma_  = parameters_.Get(PARAM_SIGMA).GetValue<double>();
-  a_      = parameters_.Get(PARAM_A).GetValue<double>();
-  b_      = parameters_.Get(PARAM_B).GetValue<double>();
-
+void Beta::DoValidate() {
   if (sigma_ <= 0.0)
     LOG_ERROR(parameters_.location(PARAM_SIGMA) << ": sigma (" << AS_DOUBLE(sigma_) << ") cannot be less than or equal to 0.0");
   if (a_ >= b_)

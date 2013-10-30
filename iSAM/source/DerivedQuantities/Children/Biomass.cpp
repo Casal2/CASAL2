@@ -16,12 +16,6 @@ namespace isam {
 namespace derivedquantities {
 
 /**
- * default constructor
- */
-Biomass::Biomass() {
-}
-
-/**
  *
  */
 void Biomass::Calculate() {

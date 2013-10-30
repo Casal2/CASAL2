@@ -25,14 +25,12 @@ namespace processes {
  * Default Constructor
  */
 MortalityEvent::MortalityEvent() {
-  parameters_.RegisterAllowed(PARAM_LABEL);
-  parameters_.RegisterAllowed(PARAM_TYPE);
-  parameters_.RegisterAllowed(PARAM_CATEGORIES);
-  parameters_.RegisterAllowed(PARAM_YEARS);
-  parameters_.RegisterAllowed(PARAM_CATCHES);
-  parameters_.RegisterAllowed(PARAM_U_MAX);
-  parameters_.RegisterAllowed(PARAM_SELECTIVITIES);
-  parameters_.RegisterAllowed(PARAM_PENALTY);
+  parameters_.Bind<string>(PARAM_CATEGORIES, &category_names_, "Categories");
+  parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "Years");
+  parameters_.Bind<double>(PARAM_CATCHES, &catches_, "Catches");
+  parameters_.Bind<double>(PARAM_U_MAX, &u_max_, "U Max", 0.99);
+  parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_names_, "List of selectivities");
+  parameters_.Bind<string>(PARAM_PENALTY, &penalty_name_, "Penalty label", "");
 
   RegisterAsEstimable(PARAM_U_MAX, &u_max_);
 
@@ -46,49 +44,27 @@ MortalityEvent::MortalityEvent() {
  * 2. Assign any remaining variables
  */
 void MortalityEvent::DoValidate() {
-  CheckForRequiredParameter(PARAM_LABEL);
-  CheckForRequiredParameter(PARAM_TYPE);
-  CheckForRequiredParameter(PARAM_CATEGORIES);
-  CheckForRequiredParameter(PARAM_YEARS);
-  CheckForRequiredParameter(PARAM_CATCHES);
-  CheckForRequiredParameter(PARAM_U_MAX);
-  CheckForRequiredParameter(PARAM_SELECTIVITIES);
-
-  // Assign Parameters
-  vector<unsigned>            years;
-  vector<double>              catches;
-
-  label_              = parameters_.Get(PARAM_LABEL).GetValue<string>();
-  category_names_     = parameters_.Get(PARAM_CATEGORIES).GetValues<string>();
-  years               = parameters_.Get(PARAM_YEARS).GetValues<unsigned>();
-  catches             = parameters_.Get(PARAM_CATCHES).GetValues<double>();
-  u_max_              = parameters_.Get(PARAM_U_MAX).GetValue<double>(0.99);
-  selectivity_names_  = parameters_.Get(PARAM_SELECTIVITIES).GetValues<string>();
-  penalty_name_       = parameters_.Get(PARAM_PENALTY).GetValue<string>("");
-
-  // Validate that our number of years and catches vectors are the same size
-  if (years.size() != catches.size()) {
-    Parameter parameter = parameters_.Get(PARAM_CATCHES);
-    LOG_ERROR("At line " << parameter.line_number() << " in file " << parameter.file_name()
-        << ": Number of catches provided does not match the number of years provided."
-        << " Expected " << years.size() << " but got " << catches.size());
+  // Validate that our number of years_ and catches_ vectors are the same size
+  if (years_.size() != catches_.size()) {
+    LOG_ERROR(parameters_.location(PARAM_CATCHES)
+        << ": Number of catches_ provided does not match the number of years_ provided."
+        << " Expected " << years_.size() << " but got " << catches_.size());
   }
 
   // Validate that the number of selectivities is the same as the number of categories
   if (category_names_.size() != selectivity_names_.size()) {
-    Parameter parameter = parameters_.Get(PARAM_SELECTIVITIES);
-    LOG_ERROR("At line " << parameter.line_number() << " in file " << parameter.file_name()
-        << ": Number of selectivities provided does not match the number of categories provided."
+    LOG_ERROR(parameters_.location(PARAM_SELECTIVITIES)
+        << " Number of selectivities provided does not match the number of categories provided."
         << " Expected " << category_names_.size() << " but got " << selectivity_names_.size());
   }
 
-  // Validate: catches and years
-  for(unsigned i = 0; i < years.size(); ++i) {
-    if (catches_.find(years[i]) != catches_.end()) {
-      LOG_ERROR(parameters_.location(PARAM_YEARS) << ": year " << years[i] << " has already been specified, please remove the duplicate");
+  // Validate: catches_ and years_
+  for(unsigned i = 0; i < years_.size(); ++i) {
+    if (catch_years_.find(years_[i]) != catch_years_.end()) {
+      LOG_ERROR(parameters_.location(PARAM_YEARS) << " year " << years_[i] << " has already been specified, please remove the duplicate");
     }
 
-    catches_[years[i]] = catches[i];
+    catches_[years_[i]] = catches_[i];
   }
 
   // Validate u_max
@@ -124,7 +100,7 @@ void MortalityEvent::DoBuild() {
  *
  */
 void MortalityEvent::Execute() {
-  if (catches_.find(model_->current_year()) == catches_.end())
+  if (catch_years_.find(model_->current_year()) == catch_years_.end())
     return;
 
   /**
@@ -146,11 +122,11 @@ void MortalityEvent::Execute() {
   /**
    * Work out the exploitation rate to remove (catch/vulnerable)
    */
-  Double exploitation = catches_[model_->current_year()] / utilities::doublecompare::ZeroFun(vulnerable);
+  Double exploitation = catch_years_[model_->current_year()] / utilities::doublecompare::ZeroFun(vulnerable);
   if (exploitation > u_max_) {
     exploitation = u_max_;
     if (penalty_)
-      penalty_->Trigger(label_, catches_[model_->current_year()], vulnerable*u_max_);
+      penalty_->Trigger(label_, catch_years_[model_->current_year()], vulnerable*u_max_);
 
   } else if (exploitation < 0.0) {
     exploitation = 0.0;

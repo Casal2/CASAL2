@@ -26,10 +26,10 @@ namespace isam {
 InitialisationPhase::InitialisationPhase() {
   LOG_TRACE();
 
-  parameters_.RegisterAllowed(PARAM_LABEL, ParameterType::String, "Label");
-  parameters_.RegisterAllowed(PARAM_PROCESSES, ParameterType::String_Vector, "A list of processes to execute during this phase");
-  parameters_.RegisterAllowed(PARAM_TIME_STEPS, ParameterType::String_Vector, "A list of time steps to execute during this phase");
-  parameters_.RegisterAllowed(PARAM_YEARS, ParameterType::Unsigned, "The number of iterations to execute this phase for");
+  parameters_.Bind<string>(PARAM_LABEL, &label_, "Label");
+  parameters_.Bind<string>(PARAM_PROCESSES, &process_labels_, "A list of processes to execute during this phase", true);
+  parameters_.Bind<string>(PARAM_TIME_STEPS, &time_step_labels_, "A list of time steps to execute during this phase", true);
+  parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "The number of iterations to execute this phase for");
 }
 
 /**
@@ -39,19 +39,13 @@ InitialisationPhase::InitialisationPhase() {
  * 2. Assign local variables from parameters
  */
 void InitialisationPhase::Validate() {
-  CheckForRequiredParameter(PARAM_LABEL);
-  CheckForRequiredParameter(PARAM_YEARS);
+  parameters_.Populate();
 
-  if (!parameters_.IsDefined(PARAM_TIME_STEPS) && !parameters_.IsDefined(PARAM_PROCESSES)) {
+  if (time_step_labels_.size() == 0 && process_labels_.size() == 0) {
     LOG_ERROR(parameters_.location(PARAM_LABEL) << " must define either " << PARAM_PROCESSES << " or " << PARAM_TIME_STEPS);
-  } else if (parameters_.IsDefined(PARAM_TIME_STEPS) && parameters_.IsDefined(PARAM_PROCESSES)) {
+  } else if (time_step_labels_.size() > 0 && process_labels_.size() > 0) {
     LOG_ERROR(parameters_.location(PARAM_PROCESSES) << " cannot be defined for an initialisation phase if you have also defined " << PARAM_TIME_STEPS);
   }
-
-  label_            = parameters_.Get(PARAM_LABEL).GetValue<string>();
-  process_labels_   = parameters_.Get(PARAM_PROCESSES).GetValues<string>();
-  time_step_labels_ = parameters_.Get(PARAM_TIME_STEPS).GetValues<string>();
-  years_            = parameters_.Get(PARAM_YEARS).GetValue<unsigned>();
 
   // Create a new time step if we need too.
   if (process_labels_.size() != 0) {
@@ -62,7 +56,6 @@ void InitialisationPhase::Validate() {
 
     time_steps_.push_back(time_step);
   }
-
 }
 
 /**

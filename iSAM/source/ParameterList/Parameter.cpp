@@ -27,8 +27,8 @@ namespace parameterlist {
  * @param type The type of values this parameter should be accepting
  * @param descriptiong A description of this parameter
  */
-Parameter::Parameter(const string& label, const ParameterType::Type type, const string& description)
-: label_(label), type_(type), description_(description) {
+Parameter::Parameter(const string& label, const string& description)
+: label_(label), description_(description) {
 
 }
 

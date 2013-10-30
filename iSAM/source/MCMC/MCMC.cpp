@@ -29,16 +29,16 @@ namespace dc = isam::utilities::doublecompare;
  * Constructor
  */
 MCMC::MCMC() {
-  parameters_.RegisterAllowed(PARAM_START, ParameterType::Double, "TBA");
-  parameters_.RegisterAllowed(PARAM_LENGTH, ParameterType::Unsigned, "The number of chain links to create");
-  parameters_.RegisterAllowed(PARAM_KEEP, ParameterType::Unsigned, "TBA");
-  parameters_.RegisterAllowed(PARAM_MAX_CORRELATION, ParameterType::Double, "TBA");
-  parameters_.RegisterAllowed(PARAM_COVARIANCE_ADJUSTMENT_METHOD, ParameterType::String, "TBA");
-  parameters_.RegisterAllowed(PARAM_CORRELATION_ADJUSTMENT_DIFF, ParameterType::Double, "TBA");
-  parameters_.RegisterAllowed(PARAM_STEP_SIZE, ParameterType::Double, "TBA");
-  parameters_.RegisterAllowed(PARAM_PROPOSAL_DISTRIBUTION, ParameterType::String, "TBA");
-  parameters_.RegisterAllowed(PARAM_DF, ParameterType::Unsigned, "TBA");
-  parameters_.RegisterAllowed(PARAM_ADAPT_STEPSIZE_AT, ParameterType::Unsigned_Vector, "TBA");
+  parameters_.Bind<double>(PARAM_START, &start_, "TBA", 0.0);
+  parameters_.Bind<unsigned>(PARAM_LENGTH, &length_, "The number of chain links to create");
+  parameters_.Bind<unsigned>(PARAM_KEEP, &keep_, "TBA", 1u);
+  parameters_.Bind<double>(PARAM_MAX_CORRELATION, &max_correlation_, "TBA", 0.8);
+  parameters_.Bind<string>(PARAM_COVARIANCE_ADJUSTMENT_METHOD, &correlation_method_, "TBA", PARAM_COVARIANCE);
+  parameters_.Bind<double>(PARAM_CORRELATION_ADJUSTMENT_DIFF, &correlation_diff_, "TBA", 0.0001);
+  parameters_.Bind<double>(PARAM_STEP_SIZE, &step_size_, "TBA", 0.0);
+  parameters_.Bind<string>(PARAM_PROPOSAL_DISTRIBUTION, &proposal_distribution_, "TBA", PARAM_T);
+  parameters_.Bind<unsigned>(PARAM_DF, &df_, "TBA", 4);
+  parameters_.Bind<unsigned>(PARAM_ADAPT_STEPSIZE_AT, &adapt_step_size_, "TBA", true);
 
   jumps_                          = 0;
   successful_jumps_               = 0;
@@ -62,21 +62,9 @@ shared_ptr<MCMC> MCMC::Instance() {
  * Validate the parameters defined in the configuration file
  */
 void MCMC::Validate() {
-  CheckForRequiredParameter(PARAM_LENGTH);
+  parameters_.Populate();
 
-  start_                  = parameters_.Get(PARAM_START).GetValue<double>(0.0);
-  length_                 = parameters_.Get(PARAM_LENGTH).GetValue<unsigned>();
-  keep_                   = parameters_.Get(PARAM_KEEP).GetValue<unsigned>(1u);
-  max_correlation_        = parameters_.Get(PARAM_MAX_CORRELATION).GetValue<double>(0.8);
-  correlation_method_     = parameters_.Get(PARAM_COVARIANCE_ADJUSTMENT_METHOD).GetValue<string>(PARAM_COVARIANCE);
-  correlation_diff_       = parameters_.Get(PARAM_CORRELATION_ADJUSTMENT_DIFF).GetValue<double>(0.0001);
-  step_size_              = parameters_.Get(PARAM_STEP_SIZE).GetValue<double>(0.0);
-  proposal_distribution_  = parameters_.Get(PARAM_PROPOSAL_DISTRIBUTION).GetValue<string>(PARAM_T);
-  df_                     = parameters_.Get(PARAM_DF).GetValue<unsigned>(4);
-
-  if (parameters_.IsDefined(PARAM_ADAPT_STEPSIZE_AT))
-    adapt_step_size_        = parameters_.Get(PARAM_ADAPT_STEPSIZE_AT).GetValues<unsigned>();
-  else
+  if (adapt_step_size_.size() == 0)
     adapt_step_size_.assign(1, 1u);
 
   if (length_ <= 0)
