@@ -24,12 +24,6 @@ UniformLog::UniformLog() {
 }
 
 /**
- * Destructor
- */
-UniformLog::~UniformLog() noexcept(true) {
-}
-
-/**
  * Calculate and return the score
  *
  * @param The parameter to return log of

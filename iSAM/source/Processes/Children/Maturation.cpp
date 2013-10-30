@@ -22,15 +22,11 @@ namespace processes {
  * default constructor
  */
 Maturation::Maturation() {
-  LOG_TRACE();
-
-  parameters_.RegisterAllowed(PARAM_LABEL);
-  parameters_.RegisterAllowed(PARAM_TYPE);
-  parameters_.RegisterAllowed(PARAM_FROM);
-  parameters_.RegisterAllowed(PARAM_TO);
-  parameters_.RegisterAllowed(PARAM_SELECTIVITIES);
-  parameters_.RegisterAllowed(PARAM_YEARS);
-  parameters_.RegisterAllowed(PARAM_RATES);
+  parameters_.Bind<string>(PARAM_FROM, &from_category_names_, "List of categories to mature from");
+  parameters_.Bind<string>(PARAM_TO, &to_category_names_, "List of categories to mature too");
+  parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_names_, "List of selectivities to use for maturation");
+  parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "The years to be associated with rates");
+  parameters_.Bind<double>(PARAM_RATES, &rates_, "The rates to mature for each year");
 
   model_ = Model::Instance();
 }
@@ -39,21 +35,6 @@ Maturation::Maturation() {
  * validate the values from the configuration file
  */
 void Maturation::DoValidate() {
-  CheckForRequiredParameter(PARAM_LABEL);
-  CheckForRequiredParameter(PARAM_TYPE);
-  CheckForRequiredParameter(PARAM_FROM);
-  CheckForRequiredParameter(PARAM_TO);
-  CheckForRequiredParameter(PARAM_RATES);
-  CheckForRequiredParameter(PARAM_YEARS);
-  CheckForRequiredParameter(PARAM_SELECTIVITIES);
-
-  label_                = parameters_.Get(PARAM_LABEL).GetValue<string>();
-  from_category_names_  = parameters_.Get(PARAM_FROM).GetValues<string>();
-  to_category_names_    = parameters_.Get(PARAM_TO).GetValues<string>();
-  rates_                = parameters_.Get(PARAM_RATES).GetValues<Double>();
-  years_                = parameters_.Get(PARAM_YEARS).GetValues<unsigned>();
-  selectivity_names_    = parameters_.Get(PARAM_SELECTIVITIES).GetValues<string>();
-
   if (selectivity_names_.size() == 1)
     selectivity_names_.assign(from_category_names_.size(), selectivity_names_[0]);
 

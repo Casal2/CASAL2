@@ -16,28 +16,9 @@ namespace selectivities {
 Constant::Constant()
 : Selectivity(Model::Instance()) {
 
-  parameters_.RegisterAllowed(PARAM_C);
+  parameters_.Bind<double>(PARAM_C, &c_, "C");
 
   RegisterAsEstimable(PARAM_C, &c_);
-}
-
-/**
- * Validate this selectivity. This will load the
- * values that were passed in from the configuration
- * file and assign them to the local variables.
- *
- * We'll then do some basic checks on the local
- * variables to ensure they are within the business
- * rules for the model.
- */
-void Constant::Validate() {
-  LOG_TRACE();
-
-  CheckForRequiredParameter(PARAM_LABEL);
-  CheckForRequiredParameter(PARAM_C);
-
-  label_          = parameters_.Get(PARAM_LABEL).GetValue<string>();
-  c_              = parameters_.Get(PARAM_C).GetValue<double>();
 }
 
 /**

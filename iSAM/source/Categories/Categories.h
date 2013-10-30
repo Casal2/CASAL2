@@ -48,12 +48,13 @@ public:
   virtual                       ~Categories() = default;
   void                          Validate();
   void                          Build();
-  void                          Reset();
+  void                          Reset() { };
   bool                          IsValid(const string& label) const;
   bool                          IsCombinedLabels(const string& label) const;
   unsigned                      GetNumberOfCategoriesDefined(const string& label) const;
   void                          RemoveAllObjects();
   vector<string>                FindCategories(const string& lookup_string);
+  bool                          HasAgeSizes() { return age_size_labels_.size() > 0; }
 
   // Accessors
   string                        format() const { return format_; }
@@ -70,6 +71,8 @@ private:
   // Members
   string                      format_;
   vector<string>              names_;
+  vector<string>              years_;
+  vector<string>              ages_;
   vector<string>              category_names_;
   vector<string>              age_size_labels_;
   map<string, string>         category_age_size_labels_;

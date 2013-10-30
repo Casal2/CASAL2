@@ -26,12 +26,10 @@ namespace processes {
 MaturationRate::MaturationRate() {
   LOG_TRACE();
 
-  parameters_.RegisterAllowed(PARAM_LABEL);
-  parameters_.RegisterAllowed(PARAM_TYPE);
-  parameters_.RegisterAllowed(PARAM_FROM);
-  parameters_.RegisterAllowed(PARAM_TO);
-  parameters_.RegisterAllowed(PARAM_PROPORTIONS);
-  parameters_.RegisterAllowed(PARAM_SELECTIVITIES);
+  parameters_.Bind<string>(PARAM_FROM, &from_category_names_, "From");
+  parameters_.Bind<string>(PARAM_TO, &to_category_names_, "To");
+  parameters_.Bind<double>(PARAM_PROPORTIONS, &proportions_, "Proportions");
+  parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_names_, "Selectivity names");
 }
 
 /**
@@ -48,19 +46,6 @@ MaturationRate::MaturationRate() {
 
  */
 void MaturationRate::DoValidate() {
-  CheckForRequiredParameter(PARAM_LABEL);
-  CheckForRequiredParameter(PARAM_TYPE);
-  CheckForRequiredParameter(PARAM_FROM);
-  CheckForRequiredParameter(PARAM_TO);
-  CheckForRequiredParameter(PARAM_PROPORTIONS);
-  CheckForRequiredParameter(PARAM_SELECTIVITIES);
-
-  label_                = parameters_.Get(PARAM_LABEL).GetValue<string>();
-  from_category_names_  = parameters_.Get(PARAM_FROM).GetValues<string>();
-  to_category_names_    = parameters_.Get(PARAM_TO).GetValues<string>();
-  proportions_          = parameters_.Get(PARAM_PROPORTIONS).GetValues<Double>();
-  selectivity_names_    = parameters_.Get(PARAM_SELECTIVITIES).GetValues<string>();
-
   if (selectivity_names_.size() == 1)
     selectivity_names_.assign(from_category_names_.size(), selectivity_names_[0]);
 

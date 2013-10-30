@@ -32,10 +32,14 @@ class Prior : public isam::base::Object {
 public:
   // Methods
   Prior();
-  virtual                     ~Prior();
-  virtual void                Validate();
+  virtual                     ~Prior() = default;
+  void                        Validate();
   void                        Build() {};
   void                        Reset() {};
+
+
+  // pure methods
+  virtual void                DoValidate() = 0;
   virtual Double              GetScore(Double param) = 0;
 
 protected:

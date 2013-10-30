@@ -41,14 +41,16 @@ public:
   virtual                     ~MortalityEvent() = default;
   void                        DoValidate() override final;
   void                        DoBuild() override final;
-  void                        DoPreExecute() override final { };
   void                        DoReset() override final { };
+  void                        PreExecute() override final { };
   void                        Execute() override final;
 
 private:
   // Members
   vector<string>              category_names_;
-  map<unsigned, Double>       catches_;
+  vector<unsigned>            years_;
+  vector<double>              catches_;
+  map<unsigned, Double>       catch_years_;
   Double                      u_max_;
   vector<string>              selectivity_names_;
   string                      penalty_name_;

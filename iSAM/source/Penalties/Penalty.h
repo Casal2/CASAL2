@@ -43,7 +43,7 @@ public:
 
 private:
   // Members
-  Double                      multipler_;
+  Double                      multiplier_;
   bool                        log_scale_;
 };
 

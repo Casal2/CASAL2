@@ -40,14 +40,15 @@ public:
   virtual                     ~RecruitmentConstant() = default;
   void                        DoValidate() override final;
   void                        DoBuild() override final;
-  void                        DoPreExecute() override final { };
   void                        DoReset() override final { };
+  void                        PreExecute() override final { };
   void                        Execute() override final;
 
 private:
   // Members
   vector<string>              category_names_;
-  map<string, Double>         proportions_;
+  vector<Double>              proportions_;
+  map<string, Double>         proportions_categories_;
   Double                      r0_;
   unsigned                    age_;
   CategoriesWithAgePtr        partition_;

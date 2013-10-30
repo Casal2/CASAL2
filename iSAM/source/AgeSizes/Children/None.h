@@ -37,6 +37,7 @@ public:
   Double                      mean_weight(unsigned age) const override final { return 1.0; }
 
 protected:
+  string                      size_weight_;
 };
 
 } /* namespace agesizes */

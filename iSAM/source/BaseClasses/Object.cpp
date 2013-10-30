@@ -18,18 +18,6 @@
 
 namespace isam {
 namespace base {
-/**
- * Default Constructor
- */
-Object::Object() {
-}
-
-/**
- * Destructor
- */
-Object::~Object() {
-}
-
 
 /**
  * Print the description and usage details for this object.
@@ -39,19 +27,6 @@ void Object::PrintDescription() const {
   cout << "Description: " << description_ << endl;
 
   // TODO: Add parameter printing
-}
-
-/**
- * This method will check if we have a parameter defined
- * and if not log an error
- *
- * @param label The label of the parameter to check
- */
-void Object::CheckForRequiredParameter(const string &label) const {
-  if (!parameters_.IsDefined(label))
-    LOG_ERROR("At line " << defined_line_number_ << " in file " << defined_file_name_
-        <<
-        ": " << block_type_ << " block requires the '" << label << "' parameter");
 }
 
 /**

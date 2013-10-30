@@ -36,8 +36,7 @@ void ObjectiveFunction::Execute() {
 
   // Header
   cout << CONFIG_ARRAY_START << label_ << CONFIG_ARRAY_END << "\n";
-  cout << PARAM_REPORT << "." << PARAM_TYPE << CONFIG_RATIO_SEPARATOR << " " << parameters_.Get(PARAM_TYPE).GetValue<string>() << "\n";
-
+//  cout << PARAM_REPORT << "." << PARAM_TYPE << CONFIG_RATIO_SEPARATOR << " " << parameters_.Get(PARAM_TYPE).GetValue<string>() << "\n";
 
   ::isam::ObjectiveFunction obj_function = isam::ObjectiveFunction::Instance();
 

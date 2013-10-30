@@ -20,10 +20,10 @@ namespace isam {
  * Default constructor
  */
 Report::Report() {
-  parameters_.RegisterAllowed(PARAM_LABEL);
-  parameters_.RegisterAllowed(PARAM_TYPE);
-  parameters_.RegisterAllowed(PARAM_TIME_STEP);
-  parameters_.RegisterAllowed(PARAM_YEARS);
+  parameters_.Bind<string>(PARAM_LABEL, &label_, "Label");
+  parameters_.Bind<string>(PARAM_TYPE, &type_, "Type");
+  parameters_.Bind<string>(PARAM_TIME_STEP, &time_step_, "Time Step label", "");
+  parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "Years", true);
 }
 
 /**
@@ -32,18 +32,14 @@ Report::Report() {
  * when the report is not running in the execute phase.
  */
 void Report::Validate() {
-  CheckForRequiredParameter(PARAM_LABEL);
-  CheckForRequiredParameter(PARAM_TYPE);
 
-  label_ = parameters_.Get(PARAM_LABEL).GetValue<string>();
+//  if (model_state_ == State::kExecute) {
+//    CheckForRequiredParameter(PARAM_TIME_STEP);
+//    CheckForRequiredParameter(PARAM_YEARS);
 
-  if (model_state_ == State::kExecute) {
-    CheckForRequiredParameter(PARAM_TIME_STEP);
-    CheckForRequiredParameter(PARAM_YEARS);
-
-    time_step_ = parameters_.Get(PARAM_TIME_STEP).GetValue<string>();
-    years_     = parameters_.Get(PARAM_YEARS).GetValues<unsigned>();
-  }
+//    time_step_ = parameters_.Get(PARAM_TIME_STEP).GetValue<string>();
+//    years_     = parameters_.Get(PARAM_YEARS).GetValues<unsigned>();
+//  }
 }
 
 /**

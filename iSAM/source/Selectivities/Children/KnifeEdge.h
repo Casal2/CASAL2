@@ -31,14 +31,14 @@ public:
   // Methods
   KnifeEdge();
   explicit KnifeEdge(ModelPtr model);
-  virtual                     ~KnifeEdge() {};
-  void                        Validate() override final;
+  virtual                     ~KnifeEdge() = default;
+  void                        DoValidate() override final { };
   void                        Reset() override final;
 
 private:
   // Members
-  Double                      edge_ = 0.0;
-  Double                      alpha_ = 1.0;
+  Double                      edge_;
+  Double                      alpha_;
 
 };
 

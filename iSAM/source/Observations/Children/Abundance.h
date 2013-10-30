@@ -38,10 +38,12 @@ public:
   // Methods
   Abundance();
   virtual                     ~Abundance() = default;
-  void                        Validate() override final;
-  void                        Build() override final;
+  void                        DoValidate() override final;
+  void                        DoBuild() override final;
+  void                        DoReset() override final { };
   void                        PreExecute() override final;
   void                        Execute() override final;
+  void                        PostExecute() override final { };
 
 private:
   // Members
@@ -53,7 +55,7 @@ private:
   Double                      process_error_;
   CachedCombinedCategoriesPtr cached_partition_;
   CombinedCategoriesPtr       partition_;
-
+  vector<string>              obs_;
 };
 
 } /* namespace observation */

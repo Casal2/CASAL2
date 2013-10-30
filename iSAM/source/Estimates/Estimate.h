@@ -39,7 +39,7 @@ class Estimate : public isam::base::Object {
 public:
   // Methods
   Estimate();
-  virtual                     ~Estimate();
+  virtual                     ~Estimate() = default;
   void                        Validate();
   void                        Build();
   void                        Reset() { };

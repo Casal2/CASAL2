@@ -30,9 +30,9 @@ class Beta : public isam::Prior {
 public:
   // Methods
   Beta();
-  virtual                     ~Beta() noexcept(true);
-  void                        Validate() override final;
-  Double                      GetScore(Double param);
+  virtual                     ~Beta() = default;
+  void                        DoValidate() override final;
+  Double                      GetScore(Double param) override final;
 
 private:
   // Members

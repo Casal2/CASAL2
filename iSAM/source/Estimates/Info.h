@@ -44,6 +44,12 @@ public:
 private:
   // Members
   string                      parameter_;
+  double                      lower_bound_;
+  double                      upper_bound_;
+  string                      prior_label_;
+  string                      same_;
+  string                      estimation_phase_;
+  string                      mcmc_;
 };
 
 typedef boost::shared_ptr<isam::estimates::Info> EstimateInfoPtr;

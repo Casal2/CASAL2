@@ -70,6 +70,8 @@ using std::vector;
 using std::string;
 using isam::parameterlist::TablePtr;
 using isam::parameterlist::Parameter;
+using isam::parameterlist::ParameterPtr;
+
 
 namespace isam {
 
@@ -82,11 +84,6 @@ struct ParameterTable {
   TablePtr        table_;
 };
 
-struct ParameterDefinition {
-  ParameterType::Type type_;
-  string  description_;
-};
-
 /**
  * Class Definition ParameterList
  */
@@ -95,23 +92,38 @@ public:
   // Methods
   ParameterList() = default;
   virtual                     ~ParameterList() = default;
-  void                        RegisterAllowed(const string label, ParameterType::Type type = ParameterType::Unknown, const string description = "Undefined");
-  bool                        IsDefined(const string& label) const;
   bool                        Add(const string& label, const string& value, const string& file_name, const unsigned& line_number);
   bool                        Add(const string& label, const vector<string>& values, const string& file_name, const unsigned& line_number);
   bool                        AddTable(const string& label, const vector<string>& columns, const vector<vector<string> >& data, const string& file_name, const unsigned& line_number);
-  const Parameter&            Get(const string& label);
+  const ParameterPtr          Get(const string& label);
   void                        CopyFrom(const ParameterList& source);
-  void                        Clear() { parameters_.clear(), tables_.clear(); }
+  void                        Clear() { /*parameters_.clear(), tables_.clear();*/ }
+
+  template<typename T>
+  void                        Bind(const string& label, T* target, const string& description) {
+
+  }
+
+  template<typename T>
+  void                        Bind(const string& label, T* target, const string& description, T default_value) {
+
+  }
+
+  template<typename T>
+  void                        Bind(const string& label, vector<T>* target, const string& description, bool optional = false) {
+
+  }
+
+
+  void                        Populate() { };
 
   // Accessors
   string                      location(const string& label);
-  const map<string, Parameter>& parameters() { return parameters_; }
+  const map<string, ParameterPtr>& parameters() { return parameters_; }
 
 private:
   // Members
-  map<string, ParameterDefinition>  allowed_parameters_;
-  map<string, Parameter>            parameters_;
+  map<string, ParameterPtr>         parameters_;
   map<string, ParameterTable>       tables_;
 };
 

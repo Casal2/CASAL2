@@ -26,7 +26,7 @@ namespace derivedquantities {
 class Biomass : public isam::DerivedQuantity {
 public:
   // methods
-  Biomass();
+  Biomass() = default;
   virtual                     ~Biomass() = default;
   void                        Calculate() override final;
   void                        Calculate(unsigned initialisation_phase) override final;

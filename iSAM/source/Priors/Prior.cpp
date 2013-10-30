@@ -20,14 +20,8 @@ namespace isam {
  * Default Constructor
  */
 Prior::Prior() {
-  parameters_.RegisterAllowed(PARAM_LABEL);
-  parameters_.RegisterAllowed(PARAM_TYPE);
-}
-
-/**
- * Destructor
- */
-Prior::~Prior() {
+  parameters_.Bind<string>(PARAM_LABEL, &label_, "Label");
+  parameters_.Bind<string>(PARAM_TYPE, &type_, "Type");
 
 }
 
@@ -35,11 +29,8 @@ Prior::~Prior() {
  *
  */
 void Prior::Validate() {
-  CheckForRequiredParameter(PARAM_LABEL);
-  CheckForRequiredParameter(PARAM_TYPE);
-
-  label_ = parameters_.Get(PARAM_LABEL).GetValue<string>();
-  type_  = parameters_.Get(PARAM_TYPE).GetValue<string>();
+  parameters_.Populate();
+  DoValidate();
 }
 
 } /* namespace isam */

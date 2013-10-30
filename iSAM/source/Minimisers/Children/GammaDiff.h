@@ -33,13 +33,15 @@ public:
   // Methods
   GammaDiff();
   virtual                     ~GammaDiff() = default;
-  void                        Validate();
-  void                        Execute();
+  void                        DoValidate() override final { };
+  void                        DoBuild() override final { };
+  void                        DoReset() override final { };
+  void                        Execute() override final;
 
 private:
   // Members
   int                         max_iterations_;
-  int max_evaluations_;
+  int                         max_evaluations_;
   double                      gradient_tolerance_;
   double                      step_size_;
 };

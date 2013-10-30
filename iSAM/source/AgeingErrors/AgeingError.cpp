@@ -22,8 +22,8 @@ namespace isam {
  * Default constructor
  */
 AgeingError::AgeingError() {
-  parameters_.RegisterAllowed(PARAM_LABEL, ParameterType::String, "label");
-  parameters_.RegisterAllowed(PARAM_TYPE, ParameterType::String, "Type");
+  parameters_.Bind<string>(PARAM_LABEL, &label_, "Label");
+  parameters_.Bind<string>(PARAM_TYPE, &type_, "Type");
 }
 
 /**
@@ -36,10 +36,7 @@ AgeingError::~AgeingError() {
  * Validate the parameters
  */
 void AgeingError::Validate() {
-  CheckForRequiredParameter(PARAM_LABEL);
-  CheckForRequiredParameter(PARAM_TYPE);
-
-  label_ = parameters_.Get(PARAM_LABEL).GetValue<string>();
+  parameters_.Populate();
 
   ModelPtr model = Model::Instance();
   min_age_    = model->min_age();

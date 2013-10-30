@@ -23,11 +23,5 @@ namespace priors {
 Uniform::Uniform() {
 }
 
-/**
- * Destructor
- */
-Uniform::~Uniform() noexcept(true) {
-}
-
 } /* namespace priors */
 } /* namespace isam */

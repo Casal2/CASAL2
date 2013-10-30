@@ -36,11 +36,16 @@ public:
   // Methods
   Minimiser();
   virtual                     ~Minimiser();
-  virtual void                Validate();
-  virtual void                Build();
-  void                        Reset() {};
-  virtual void                Execute() = 0;
+  void                        Validate();
+  void                        Build();
+  void                        Reset() { DoReset(); };
   void                        BuildCovarianceMatrix();
+
+  // pure methods
+  virtual void                DoValidate() = 0;
+  virtual void                DoBuild() = 0;
+  virtual void                DoReset() = 0;
+  virtual void                Execute() = 0;
 
   // Acessors
   bool                        active() const { return active_; }

@@ -27,11 +27,9 @@ namespace processes {
 MortalityConstantRate::MortalityConstantRate() {
   LOG_TRACE();
 
-  parameters_.RegisterAllowed(PARAM_LABEL);
-  parameters_.RegisterAllowed(PARAM_TYPE);
-  parameters_.RegisterAllowed(PARAM_CATEGORIES);
-  parameters_.RegisterAllowed(PARAM_M);
-  parameters_.RegisterAllowed(PARAM_SELECTIVITIES);
+  parameters_.Bind<string>(PARAM_CATEGORIES, &category_names_, "List of categories");
+  parameters_.Bind<double>(PARAM_M, &m_, "Mortality rates");
+  parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_names_, "Selectivities");
 }
 
 /**
@@ -45,18 +43,6 @@ MortalityConstantRate::MortalityConstantRate() {
  * - Check the categories are real
  */
 void MortalityConstantRate::DoValidate() {
-  CheckForRequiredParameter(PARAM_LABEL);
-  CheckForRequiredParameter(PARAM_TYPE);
-  CheckForRequiredParameter(PARAM_CATEGORIES);
-  CheckForRequiredParameter(PARAM_M);
-  CheckForRequiredParameter(PARAM_SELECTIVITIES);
-
-  // Assign and validate parameters
-  label_              = parameters_.Get(PARAM_LABEL).GetValue<string>();
-  category_names_     = parameters_.Get(PARAM_CATEGORIES).GetValues<string>();
-  m_                  = parameters_.Get(PARAM_M).GetValues<Double>();
-  selectivity_names_  = parameters_.Get(PARAM_SELECTIVITIES).GetValues<string>();
-
   if (m_.size() == 1)
     m_.assign(category_names_.size(), m_[0]);
   if (selectivity_names_.size() == 1)

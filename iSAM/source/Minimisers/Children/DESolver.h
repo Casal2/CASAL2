@@ -34,9 +34,11 @@ class DESolver : public isam::Minimiser {
 public:
   // Methods
   DESolver();
-  virtual                     ~DESolver();
-  void                        Validate();
-  void                        Execute();
+  virtual                     ~DESolver() = default;
+  void                        DoValidate() override final;
+  void                        DoBuild() override final { };
+  void                        DoReset() override final { };
+  void                        Execute() override final;
 
 private:
   // Members

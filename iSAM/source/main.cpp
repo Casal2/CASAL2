@@ -48,11 +48,12 @@ int main(int argc, char * argv[]) {
     isam::utilities::CommandLineParser parser;
     parser.Parse(argc, (const char **)argv);
 
+    RunMode::Type run_mode = parser.run_mode();
+
     /**
      * Check the run mode and call the handler.
      */
-    ModelPtr model = Model::Instance();
-    switch (model->run_mode()) {
+    switch (run_mode) {
     case RunMode::kInvalid:
       LOG_ERROR("Invalid run mode specified.");
       break;
@@ -82,10 +83,11 @@ int main(int argc, char * argv[]) {
       /**
        * Override any config values
        */
-      parser.OverrideGlobalValues();
+      config->OverrideGlobalValues(parser.override_values());
 
       // Run the model
-      model->Start();
+      ModelPtr model = Model::Instance();
+      model->Start(run_mode);
 
       if (!config->debug_mode())
         standard_report.Finalise();

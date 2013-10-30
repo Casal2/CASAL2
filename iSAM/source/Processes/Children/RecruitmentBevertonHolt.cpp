@@ -30,19 +30,16 @@ namespace dc = isam::utilities::doublecompare;
 RecruitmentBevertonHolt::RecruitmentBevertonHolt() {
   LOG_TRACE();
 
-  parameters_.RegisterAllowed(PARAM_LABEL);
-  parameters_.RegisterAllowed(PARAM_TYPE);
-  parameters_.RegisterAllowed(PARAM_CATEGORIES);
-  parameters_.RegisterAllowed(PARAM_R0);
-  parameters_.RegisterAllowed(PARAM_PROPORTIONS);
-  parameters_.RegisterAllowed(PARAM_AGE);
-  parameters_.RegisterAllowed(PARAM_STEEPNESS);
-  parameters_.RegisterAllowed(PARAM_SSB);
-  parameters_.RegisterAllowed(PARAM_B0);
-  parameters_.RegisterAllowed(PARAM_SSB_OFFSET);
-  parameters_.RegisterAllowed(PARAM_YCS_YEARS);
-  parameters_.RegisterAllowed(PARAM_YCS_VALUES);
-  parameters_.RegisterAllowed(PARAM_STANDARDISE_YCS_YEARS);
+  parameters_.Bind<string>(PARAM_CATEGORIES, &category_labels_, "Category labels");
+  parameters_.Bind<double>(PARAM_R0, &r0_, "R0");
+  parameters_.Bind<double>(PARAM_PROPORTIONS, &proportions_, "Proportions");
+  parameters_.Bind<unsigned>(PARAM_AGE, &age_, "Age to recruit at", true);
+  parameters_.Bind<double>(PARAM_STEEPNESS, &steepness_, "Steepness", 1.0);
+  parameters_.Bind<string>(PARAM_SSB, &ssb_, "SSB Label (derived quantity)");
+  parameters_.Bind<string>(PARAM_B0, &phase_b0_label_, "B0 Label", "");
+  parameters_.Bind<unsigned>(PARAM_SSB_OFFSET, &ssb_offset_, "SSB Offset (year offset)");
+  parameters_.Bind<double>(PARAM_YCS_VALUES, &ycs_values_, "YCS Values");
+  parameters_.Bind<unsigned>(PARAM_STANDARDISE_YCS_YEARS, &standardise_ycs_, "", true);
 
   RegisterAsEstimable(PARAM_R0, &r0_);
   RegisterAsEstimable(PARAM_STEEPNESS, &steepness_);
@@ -56,27 +53,8 @@ RecruitmentBevertonHolt::RecruitmentBevertonHolt() {
 void RecruitmentBevertonHolt::DoValidate() {
   model_ = Model::Instance();
 
-  CheckForRequiredParameter(PARAM_LABEL);
-  CheckForRequiredParameter(PARAM_CATEGORIES);
-  CheckForRequiredParameter(PARAM_R0);
-  CheckForRequiredParameter(PARAM_SSB);
-  CheckForRequiredParameter(PARAM_SSB_OFFSET);
-  CheckForRequiredParameter(PARAM_PROPORTIONS);
-  CheckForRequiredParameter(PARAM_YCS_VALUES);
-
-  label_            = parameters_.Get(PARAM_LABEL).GetValue<string>();
-  category_labels_  = parameters_.Get(PARAM_CATEGORIES).GetValues<string>();
-  r0_               = parameters_.Get(PARAM_R0).GetValue<double>();
-  age_              = parameters_.Get(PARAM_AGE).GetValue<unsigned>(model_->min_age());
-  steepness_        = parameters_.Get(PARAM_STEEPNESS).GetValue<double>(1.0);
-  ssb_              = parameters_.Get(PARAM_SSB).GetValue<string>();
-  ssb_offset_       = parameters_.Get(PARAM_SSB_OFFSET).GetValue<unsigned>();
-  proportions_      = parameters_.Get(PARAM_PROPORTIONS).GetValues<Double>();
-  ycs_values_       = parameters_.Get(PARAM_YCS_VALUES).GetValues<Double>();
-  phase_b0_label_   = parameters_.Get(PARAM_B0).GetValue<string>("");
-
-  if (parameters_.IsDefined(PARAM_STANDARDISE_YCS_YEARS))
-    standardise_ycs_  = parameters_.Get(PARAM_STANDARDISE_YCS_YEARS).GetValues<unsigned>();
+  if (age_ == 0)
+    age_ = model_->min_age();
 
   // Ensure defined categories were valid
   for(const string& category : category_labels_) {

@@ -21,10 +21,10 @@ namespace agesizes {
  * default constructor
  */
 VonBertalanffy::VonBertalanffy() {
-  parameters_.RegisterAllowed(PARAM_LINF, ParameterType::Double , "TBA");
-  parameters_.RegisterAllowed(PARAM_K, ParameterType::Double, "TBA");
-  parameters_.RegisterAllowed(PARAM_T0, ParameterType::Double, "TBA");
-  parameters_.RegisterAllowed(PARAM_SIZE_WEIGHT, ParameterType::String, "TBA");
+  parameters_.Bind<double>(PARAM_LINF, &linf_, "TBA");
+  parameters_.Bind<double>(PARAM_K, &k_, "TBA");
+  parameters_.Bind<double>(PARAM_T0, &t0_, "TBA");
+  parameters_.Bind<string>(PARAM_SIZE_WEIGHT, &size_weight_label_, "TBA");
 
   RegisterAsEstimable(PARAM_LINF, &linf_);
   RegisterAsEstimable(PARAM_K, &k_);
@@ -35,16 +35,6 @@ VonBertalanffy::VonBertalanffy() {
  * validate the parameters passed in from the configuration file
  */
 void VonBertalanffy::DoValidate() {
-  CheckForRequiredParameter(PARAM_LINF);
-  CheckForRequiredParameter(PARAM_K);
-  CheckForRequiredParameter(PARAM_T0);
-  CheckForRequiredParameter(PARAM_SIZE_WEIGHT);
-
-  linf_ = parameters_.Get(PARAM_LINF).GetValue<double>();
-  k_    = parameters_.Get(PARAM_K).GetValue<double>();
-  t0_   = parameters_.Get(PARAM_T0).GetValue<double>();
-  size_weight_label_ = parameters_.Get(PARAM_SIZE_WEIGHT).GetValue<string>();
-
   if (linf_ <= 0.0)
     LOG_ERROR(parameters_.location(PARAM_LINF) << "(" << linf_ << ") cannot be less than or equal to 0.0");
   if (k_ <= 0.0)

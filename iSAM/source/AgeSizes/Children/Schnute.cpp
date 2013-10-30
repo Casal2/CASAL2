@@ -20,13 +20,13 @@ using std::pow;
  *
  */
 Schnute::Schnute() {
-  parameters_.RegisterAllowed(PARAM_Y1, ParameterType::Double, "TBA");
-  parameters_.RegisterAllowed(PARAM_Y2, ParameterType::Double, "TBA");
-  parameters_.RegisterAllowed(PARAM_TAU1, ParameterType::Double, "TBA");
-  parameters_.RegisterAllowed(PARAM_TAU2, ParameterType::Double, "TBA");
-  parameters_.RegisterAllowed(PARAM_A, ParameterType::Double, "TBA");
-  parameters_.RegisterAllowed(PARAM_B, ParameterType::Double, "TBA");
-  parameters_.RegisterAllowed(PARAM_SIZE_WEIGHT, ParameterType::String, "TBA");
+  parameters_.Bind<double>(PARAM_Y1, &y1_, "TBA");
+  parameters_.Bind<double>(PARAM_Y2, &y2_, "TBA");
+  parameters_.Bind<double>(PARAM_TAU1, &tau1_, "TBA");
+  parameters_.Bind<double>(PARAM_TAU2, &tau2_, "TBA");
+  parameters_.Bind<double>(PARAM_A, &a_, "TBA");
+  parameters_.Bind<double>(PARAM_B, &b_, "TBA");
+  parameters_.Bind<string>(PARAM_SIZE_WEIGHT, &size_weight_label_, "TBA");
 
   RegisterAsEstimable(PARAM_Y1, &y1_);
   RegisterAsEstimable(PARAM_Y2, &y2_);
@@ -40,22 +40,6 @@ Schnute::Schnute() {
  * validate the parameters passed in from the configuration file
  */
 void Schnute::DoValidate() {
-  CheckForRequiredParameter(PARAM_Y1);
-  CheckForRequiredParameter(PARAM_Y2);
-  CheckForRequiredParameter(PARAM_TAU1);
-  CheckForRequiredParameter(PARAM_TAU2);
-  CheckForRequiredParameter(PARAM_A);
-  CheckForRequiredParameter(PARAM_B);
-  CheckForRequiredParameter(PARAM_SIZE_WEIGHT);
-
-  y1_                 = parameters_.Get(PARAM_Y1).GetValue<double>();
-  y2_                 = parameters_.Get(PARAM_Y2).GetValue<double>();
-  tau1_               = parameters_.Get(PARAM_TAU1).GetValue<double>();
-  tau2_               = parameters_.Get(PARAM_TAU2).GetValue<double>();
-  a_                  = parameters_.Get(PARAM_A).GetValue<double>();
-  b_                  = parameters_.Get(PARAM_B).GetValue<double>();
-  size_weight_label_  = parameters_.Get(PARAM_SIZE_WEIGHT).GetValue<string>();
-
   if (a_ <= 0.0)
     LOG_ERROR(parameters_.location(PARAM_A) << "(" << a_ << ") cannot be less than or equal to 0.0");
   if (b_ < 1.0)

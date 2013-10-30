@@ -44,8 +44,8 @@ using std::string;
 class Object {
 public:
   // Methods
-  Object();
-  virtual                     ~Object();
+  Object() = default;
+  virtual                     ~Object() {};
   bool                        IsEstimableAVector(const string& label) const;
   unsigned                    GetEstimableSize(const string& label) const;
   Double*                     GetEstimable(const string& label);
@@ -60,7 +60,6 @@ public:
 
 protected:
   // Methods
-  void                        CheckForRequiredParameter(const string &label) const;
   void                        RegisterAsEstimable(const string& label, Double* variable);
   void                        RegisterAsEstimable(const string& label, vector<Double>& variables);
   void                        RegisterAsEstimable(const string& label, map<string, Double>& variables);
@@ -71,6 +70,7 @@ protected:
   // Members
   string                      block_type_           = "";
   string                      label_                = "";
+  string                      type_                 = "";
   string                      defined_file_name_    = "";
   unsigned                    defined_line_number_  = 0;
   ParameterList               parameters_;

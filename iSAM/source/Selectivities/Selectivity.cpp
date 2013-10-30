@@ -24,8 +24,16 @@ namespace isam {
 Selectivity::Selectivity(ModelPtr model)
 : model_(model) {
 
-  parameters_.RegisterAllowed(PARAM_LABEL);
-  parameters_.RegisterAllowed(PARAM_TYPE);
+  parameters_.Bind<string>(PARAM_LABEL, &label_, "Label");
+  parameters_.Bind<string>(PARAM_TYPE, &type_, "Type");
+}
+
+/**
+ *
+ */
+void Selectivity::Validate() {
+  parameters_.Populate();
+  DoValidate();
 }
 
 /**

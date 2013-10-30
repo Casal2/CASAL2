@@ -48,14 +48,14 @@ using std::endl;
  */
 Model::Model() {
   LOG_TRACE();
-  parameters_.RegisterAllowed(PARAM_START_YEAR, ParameterType::Unsigned, "The first year of the model");
-  parameters_.RegisterAllowed(PARAM_FINAL_YEAR, ParameterType::Unsigned, "The last year of the model");
-  parameters_.RegisterAllowed(PARAM_MIN_AGE, ParameterType::Unsigned, "The default minimum age for the population");
-  parameters_.RegisterAllowed(PARAM_MAX_AGE, ParameterType::Unsigned, "The default maximum age for the population");
-  parameters_.RegisterAllowed(PARAM_AGE_PLUS, ParameterType::Boolean, "True if the model supports an age-plus group");
-  parameters_.RegisterAllowed(PARAM_INITIALIZATION_PHASES, ParameterType::String_Vector, "List of initialisation phases to execute");
-  parameters_.RegisterAllowed(PARAM_TIME_STEPS, ParameterType::String_Vector, "List of time steps to execute");
-  parameters_.RegisterAllowed(PARAM_PROJEECTION_FINAL_YEAR, ParameterType::Unsigned, "The final year of the model in projection mode");
+  parameters_.Bind<unsigned>(PARAM_START_YEAR, &start_year_, "The first year of the model");
+  parameters_.Bind<unsigned>(PARAM_FINAL_YEAR, &final_year_, "The last year of the model");
+  parameters_.Bind<unsigned>(PARAM_MIN_AGE, &min_age_, "The default minimum age for the population");
+  parameters_.Bind<unsigned>(PARAM_MAX_AGE, &max_age_, "The default maximum age for the population");
+  parameters_.Bind<bool>(PARAM_AGE_PLUS, &age_plus_, "True if the model supports an age-plus group", false);
+  parameters_.Bind<string>(PARAM_INITIALIZATION_PHASES, &initialisation_phases_, "List of initialisation phases to execute", true);
+  parameters_.Bind<string>(PARAM_TIME_STEPS, &time_steps_, "List of time steps to execute");
+  parameters_.Bind<unsigned>(PARAM_PROJEECTION_FINAL_YEAR, &final_year_, "The final year of the model in projection mode", 0);
 }
 
 /**
@@ -79,8 +79,9 @@ shared_ptr<Model> Model::Instance(bool force_new) {
  * This method will start stepping through the states and verifying
  * each step.
  */
-void Model::Start() {
+void Model::Start(RunMode::Type run_mode) {
   LOG_TRACE();
+  run_mode_ = run_mode;
 
   if (state_ != State::kStartUp)
     LOG_CODE_ERROR("Model state should always be startup when entering the start method");
@@ -134,35 +135,13 @@ void Model::Validate() {
   if (block_type_ == "")
     LOG_ERROR("The @model block is missing from configuration file. This block is required.");
 
-  // Validate our own parameters
-  CheckForRequiredParameter(PARAM_START_YEAR);
-  CheckForRequiredParameter(PARAM_FINAL_YEAR);
-  CheckForRequiredParameter(PARAM_MIN_AGE);
-  CheckForRequiredParameter(PARAM_MAX_AGE);
-  CheckForRequiredParameter(PARAM_TIME_STEPS);
+  parameters_.Populate();
 
-  // Validate: start_year
-  start_year_ = parameters_.Get(PARAM_START_YEAR).GetValue<unsigned>();
-  final_year_ = parameters_.Get(PARAM_FINAL_YEAR).GetValue<unsigned>();
-  min_age_    = parameters_.Get(PARAM_MIN_AGE).GetValue<unsigned>();
-  max_age_    = parameters_.Get(PARAM_MAX_AGE).GetValue<unsigned>();
-  time_steps_ = parameters_.Get(PARAM_TIME_STEPS).GetValues<string>();
-  initialisation_phases_ = parameters_.Get(PARAM_INITIALIZATION_PHASES).GetValues<string>();
-
-  if (parameters_.IsDefined(PARAM_AGE_PLUS))
-    age_plus_ = parameters_.Get(PARAM_AGE_PLUS).GetValue<bool>();
-
-  if (start_year_ > final_year_) {
+  if (start_year_ > final_year_)
     LOG_ERROR(parameters_.location(PARAM_FINAL_YEAR) << ": final_year is before the start_year, final_year must be greater than the start_year");
-  }
+  if (min_age_ > max_age_)
+    LOG_ERROR(parameters_.location(PARAM_MIN_AGE) << " (" << min_age_ << ") has been defined as greater than max_age (" << max_age_ << ")");
 
-  if (min_age_ > max_age_) {
-    Parameter min_age = parameters_.Get(PARAM_MIN_AGE);
-    Parameter max_age = parameters_.Get(PARAM_MAX_AGE);
-
-    LOG_ERROR("At line " << max_age.line_number() << " in file " << max_age.file_name()
-        << ": max_age is less than the min_age defined at line " << min_age.line_number() << " in file " << min_age.file_name());
-  }
 
   // Call validation for the other objects required by the model
   Categories::Instance()->Validate();

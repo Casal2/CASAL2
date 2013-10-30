@@ -24,14 +24,14 @@ namespace estimates {
  * Default Constructor
  */
 Info::Info() {
-  parameters_.RegisterAllowed(PARAM_LABEL, ParameterType::String, "Label");
-  parameters_.RegisterAllowed(PARAM_PARAMETER, ParameterType::String, "The name of the variable to estimate in the model");
-  parameters_.RegisterAllowed(PARAM_LOWER_BOUND, ParameterType::Double, "The lowest value the parameter is allowed to have");
-  parameters_.RegisterAllowed(PARAM_UPPER_BOUND, ParameterType::Double, "The highest value the parameter is allowed to have");
-  parameters_.RegisterAllowed(PARAM_PRIOR, ParameterType::String, "The name of the prior to use for the parameter");
-  parameters_.RegisterAllowed(PARAM_SAME, ParameterType::String_Vector, "A list of parameters that are bound to the value of this estimate");
-  parameters_.RegisterAllowed(PARAM_ESTIMATION_PHASE, ParameterType::String, "TBA");
-  parameters_.RegisterAllowed(PARAM_MCMC, ParameterType::String, "TBA");
+  parameters_.Bind<string>(PARAM_LABEL, &label_, "Label");
+  parameters_.Bind<string>(PARAM_PARAMETER, &parameter_, "The name of the variable to estimate in the model");
+  parameters_.Bind<double>(PARAM_LOWER_BOUND, &lower_bound_, "The lowest value the parameter is allowed to have");
+  parameters_.Bind<double>(PARAM_UPPER_BOUND, &upper_bound_, "The highest value the parameter is allowed to have");
+  parameters_.Bind<string>(PARAM_PRIOR, &prior_label_, "The name of the prior to use for the parameter", "");
+  parameters_.Bind<string>(PARAM_SAME, &same_, "A list of parameters that are bound to the value of this estimate", "");
+  parameters_.Bind<string>(PARAM_ESTIMATION_PHASE, &estimation_phase_, "TBA", "");
+  parameters_.Bind<string>(PARAM_MCMC, &mcmc_, "TBA", "");
 }
 
 /**
@@ -46,17 +46,10 @@ Info::~Info() {
  */
 void Info::Validate() {
   LOG_TRACE();
-  CheckForRequiredParameter(PARAM_LABEL);
-  CheckForRequiredParameter(PARAM_PARAMETER);
-  CheckForRequiredParameter(PARAM_LOWER_BOUND);
-  CheckForRequiredParameter(PARAM_UPPER_BOUND);
 
-  label_      = parameters_.Get(PARAM_LABEL).GetValue<string>();
-  parameter_  = parameters_.Get(PARAM_PARAMETER).GetValue<string>();
+  parameters_.Populate();
 
-  double lower_bound = parameters_.Get(PARAM_LOWER_BOUND).GetValue<double>();
-  double upper_bound = parameters_.Get(PARAM_UPPER_BOUND).GetValue<double>();
-  if (lower_bound >= upper_bound) {
+  if (lower_bound_ >= upper_bound_) {
     LOG_ERROR(parameters_.location(PARAM_LOWER_BOUND) << ": lower_bound cannot be equal to or greater than upper_bound");
   }
 }

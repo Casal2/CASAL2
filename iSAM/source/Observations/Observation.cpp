@@ -29,25 +29,19 @@ namespace isam {
  * Default Constructor
  */
 Observation::Observation() {
-  parameters_.RegisterAllowed(PARAM_LABEL);
-  parameters_.RegisterAllowed(PARAM_TYPE);
-  parameters_.RegisterAllowed(PARAM_YEAR);
-  parameters_.RegisterAllowed(PARAM_TIME_STEP);
-  parameters_.RegisterAllowed(PARAM_LIKELIHOOD);
-  parameters_.RegisterAllowed(PARAM_TIME_STEP_PROPORTION);
-  parameters_.RegisterAllowed(PARAM_TIME_STEP_PROPORTION_METHOD);
-  parameters_.RegisterAllowed(PARAM_CATEGORIES);
-  parameters_.RegisterAllowed(PARAM_SELECTIVITIES);
-  parameters_.RegisterAllowed(PARAM_SIMULATION_LIKELIHOOD);
+  parameters_.Bind<string>(PARAM_LABEL, &label_, "Label");
+  parameters_.Bind<string>(PARAM_TYPE, &type_, "Type of observation");
+  parameters_.Bind<unsigned>(PARAM_YEAR, &year_, "Year to execute in");
+  parameters_.Bind<string>(PARAM_TIME_STEP, &time_step_label_, "Time step to execute in");
+  parameters_.Bind<string>(PARAM_LIKELIHOOD, &likelihood_type_, "Type of likelihood to use");
+  parameters_.Bind<double>(PARAM_TIME_STEP_PROPORTION, &time_step_proportion_, "Proportion through the time step to analyse the partition from", 1.0);
+  parameters_.Bind<string>(PARAM_TIME_STEP_PROPORTION_METHOD, &time_step_proportion_method_, "Method of proportioning to use", PARAM_MEAN);
+  parameters_.Bind<string>(PARAM_CATEGORIES, &category_labels_, "Category labels to use", true);
+  parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_labels_, "Selectivity labels to use", true);
+  parameters_.Bind<string>(PARAM_SIMULATION_LIKELIHOOD, &simulation_likelihood_label_, "Simulation likelihood to use", "");
 
   mean_proportion_method_ = true;
   score_                  = 0.0;
-}
-
-/**
- * Destructor
- */
-Observation::~Observation() {
 }
 
 /**
@@ -55,26 +49,10 @@ Observation::~Observation() {
  * configuration file
  */
 void Observation::Validate() {
-  CheckForRequiredParameter(PARAM_LABEL);
-  CheckForRequiredParameter(PARAM_TYPE);
-  CheckForRequiredParameter(PARAM_YEAR);
-  CheckForRequiredParameter(PARAM_TIME_STEP);
-  CheckForRequiredParameter(PARAM_LIKELIHOOD);
-
-  label_                        = parameters_.Get(PARAM_LABEL).GetValue<string>();
-  type_                         = parameters_.Get(PARAM_TYPE).GetValue<string>();
-  year_                         = parameters_.Get(PARAM_YEAR).GetValue<unsigned>();
-  time_step_label_              = parameters_.Get(PARAM_TIME_STEP).GetValue<string>();
-  likelihood_type_              = parameters_.Get(PARAM_LIKELIHOOD).GetValue<string>();
-  time_step_proportion_         = parameters_.Get(PARAM_TIME_STEP_PROPORTION).GetValue<double>(1.0);
-  time_step_proportion_method_  = parameters_.Get(PARAM_TIME_STEP_PROPORTION_METHOD).GetValue<string>(PARAM_MEAN);
-  category_labels_              = parameters_.Get(PARAM_CATEGORIES).GetValues<string>();
-  selectivity_labels_           = parameters_.Get(PARAM_SELECTIVITIES).GetValues<string>();
+  parameters_.Populate();
 
   if (Model::Instance()->run_mode() == RunMode::kSimulation) {
     if (likelihood_type_ == PARAM_PSEUDO) {
-      CheckForRequiredParameter(PARAM_SIMULATION_LIKELIHOOD);
-      simulation_likelihood_label_ = parameters_.Get(PARAM_SIMULATION_LIKELIHOOD).GetValue<string>();
       likelihood_type_ = simulation_likelihood_label_;
     } else {
       simulation_likelihood_label_ = likelihood_type_;
@@ -127,6 +105,8 @@ void Observation::Validate() {
       }
     }
   }
+
+  DoValidate();
 }
 
 /**
@@ -147,6 +127,8 @@ void Observation::Build() {
   likelihood_ = likelihoods::Factory::Create(likelihood_type_);
   if (!likelihood_)
     LOG_ERROR(parameters_.location(PARAM_LIKELIHOOD) << ": Likelihood " << likelihood_type_ << " does not exist. Have you defined it?");
+
+  DoBuild();
 }
 
 /**
@@ -154,6 +136,8 @@ void Observation::Build() {
  */
 void Observation::Reset() {
   comparisons_.clear();
+
+  DoReset();
 }
 
 /**

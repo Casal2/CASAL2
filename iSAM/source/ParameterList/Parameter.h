@@ -21,26 +21,10 @@
 // Headers
 #include <string>
 #include <vector>
+#include <boost/shared_ptr.hpp>
 
 // Namespaces
 namespace isam {
-
-namespace ParameterType {
-// Types
-enum Type {
-  String,
-  String_Vector,
-  Double,
-  Double_Vector,
-  Integer,
-  Integer_Vector,
-  Unsigned,
-  Unsigned_Vector,
-  Boolean,
-  Unknown
-};
-} /* namespace ParameterType */
-
 namespace parameterlist {
 
 using std::string;
@@ -52,14 +36,9 @@ using std::vector;
 class Parameter {
 public:
   // Methods
-  Parameter(const string& label, const ParameterType::Type type, const string& description);
+  Parameter(const string& label, const string& description);
   virtual                     ~Parameter() = default;
-  template<typename T>
-  T                           GetValue() const;
-  template<typename T>
-  T                           GetValue(T default_value) const;
-  template<typename T>
-  vector<T>                   GetValues() const;
+  virtual void                Bind() = 0;
 
   // Accessors
   void                        set_label(const string& label) { label_ = label; }
@@ -78,12 +57,14 @@ private:
 
   // Members
   string                      label_ = "";
-  ParameterType::Type         type_ = ParameterType::Unknown;
   string                      description_ = "";
   vector<string>              values_;
   string                      file_name_ = "";
   unsigned                    line_number_ = 0;
 };
+
+// typedef
+typedef boost::shared_ptr<Parameter> ParameterPtr;
 
 } /* namespace parameterlist */
 } /* namespace isam */

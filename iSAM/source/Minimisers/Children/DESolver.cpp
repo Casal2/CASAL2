@@ -24,38 +24,19 @@ namespace minimisers {
  * Default constructor
  */
 DESolver::DESolver() {
-  parameters_.RegisterAllowed(PARAM_POPULATION_SIZE, ParameterType::Unsigned, "The number of candidate solutions to have in the population");
-  parameters_.RegisterAllowed(PARAM_CROSSOVER_PROBABILITY, ParameterType::Double, "TBA");
-  parameters_.RegisterAllowed(PARAM_DIFFERENCE_SCALE, ParameterType::Double, "The scale to apply to new solutions when comparing candidates");
-  parameters_.RegisterAllowed(PARAM_MAX_GENERATIONS, ParameterType::Unsigned, "The maximum number of iterations to run");
-  parameters_.RegisterAllowed(PARAM_TOLERANCE, ParameterType::Double, "The total variance between the population and best candidate before acceptance");
-  parameters_.RegisterAllowed(PARAM_METHOD, ParameterType::String, "The type of candidate generation method to use");
-}
-
-/**
- * Destructor
- */
-DESolver::~DESolver() {
+  parameters_.Bind<unsigned>(PARAM_POPULATION_SIZE, &population_size_, "The number of candidate solutions to have in the population");
+  parameters_.Bind<double>(PARAM_CROSSOVER_PROBABILITY, &crossover_probability_, "TBA", 0.9);
+  parameters_.Bind<double>(PARAM_DIFFERENCE_SCALE, &difference_scale_, "The scale to apply to new solutions when comparing candidates", 0.02);
+  parameters_.Bind<unsigned>(PARAM_MAX_GENERATIONS, &max_generations_, "The maximum number of iterations to run");
+  parameters_.Bind<double>(PARAM_TOLERANCE, &tolerance_, "The total variance between the population and best candidate before acceptance", 0.01);
+  parameters_.Bind<string>(PARAM_METHOD, &method_, "The type of candidate generation method to use", "not_yet_implemented");
 }
 
 /**
  * Validate the variables giving to this class
  * from the configuration file
  */
-void DESolver::Validate() {
-  // Parent validate first
-  isam::Minimiser::Validate();
-
-  CheckForRequiredParameter(PARAM_POPULATION_SIZE);
-  CheckForRequiredParameter(PARAM_MAX_GENERATIONS);
-
-  population_size_        = parameters_.Get(PARAM_POPULATION_SIZE).GetValue<unsigned>();
-  crossover_probability_  = parameters_.Get(PARAM_CROSSOVER_PROBABILITY).GetValue<double>(0.9);
-  difference_scale_       = parameters_.Get(PARAM_DIFFERENCE_SCALE).GetValue<double>(0.02);
-  max_generations_        = parameters_.Get(PARAM_MAX_GENERATIONS).GetValue<unsigned>();
-  tolerance_              = parameters_.Get(PARAM_TOLERANCE).GetValue<double>(0.01);
-  method_                 = parameters_.Get(PARAM_METHOD).GetValue<string>("not_yet_implemented");
-
+void DESolver::DoValidate() {
   if (crossover_probability_ > 1.0 || crossover_probability_ < 0.0) {
     LOG_ERROR(parameters_.location(PARAM_CROSSOVER_PROBABILITY) << ": crossover_probability must be between 0.0 and 1.0. You entered: " << crossover_probability_);
   }

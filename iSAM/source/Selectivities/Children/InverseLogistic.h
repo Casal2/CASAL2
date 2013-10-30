@@ -31,15 +31,15 @@ public:
   // Methods
   InverseLogistic();
   explicit InverseLogistic(ModelPtr model);
-  virtual                     ~InverseLogistic() {};
-  void                        Validate() override final;
+  virtual                     ~InverseLogistic() = default;
+  void                        DoValidate() override final;
   void                        Reset() override final;
 
 private:
   // Members
-  Double                      a50_ = 0.0;
-  Double                      aTo95_ = 0.0;
-  Double                      alpha_ = 1.0;
+  Double                      a50_;
+  Double                      aTo95_;
+  Double                      alpha_;
 };
 
 } /* namespace selectivities */

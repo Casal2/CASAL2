@@ -21,6 +21,8 @@
 #include <string>
 #include <map>
 
+#include "Utilities/RunMode.h"
+
 // Namespaces
 namespace isam {
 namespace utilities {
@@ -37,13 +39,15 @@ public:
   CommandLineParser() = default;
   virtual                     ~CommandLineParser() = default;
   void                        Parse(int argc, const char* argv[]);
-  void                        OverrideGlobalValues();
 
   // Accessors
   string                      command_line_usage() { return command_line_usage_; }
+  RunMode::Type               run_mode() const { return run_mode_; }
+  map<string, string>         override_values() const { return override_values_; }
 
 private:
   // Members
+  RunMode::Type               run_mode_ = RunMode::kInvalid;
   string                      command_line_usage_   = "";
   map<string, string>         override_values_;
 };

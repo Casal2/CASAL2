@@ -32,7 +32,7 @@ class Catchability : public isam::base::Object {
 public:
   // Methods
   Catchability();
-  virtual                     ~Catchability();
+  virtual                     ~Catchability() = default;
   void                        Validate();
   void                        Build() { };
   void                        Reset() { };

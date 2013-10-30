@@ -21,28 +21,14 @@ namespace priors {
  * Default constructor
  */
 Normal::Normal() {
-  parameters_.RegisterAllowed(PARAM_MU);
-  parameters_.RegisterAllowed(PARAM_CV);
-}
-
-/**
- * Destructor
- */
-Normal::~Normal() noexcept(true) {
+  parameters_.Bind<double>(PARAM_MU, &mu_, "Mu");
+  parameters_.Bind<double>(PARAM_CV, &cv_, "Cv");
 }
 
 /**
  * Validate the parameters passed in from the configuration file
  */
-void Normal::Validate() {
-  Prior::Validate();
-
-  CheckForRequiredParameter(PARAM_MU);
-  CheckForRequiredParameter(PARAM_CV);
-
-  mu_ = parameters_.Get(PARAM_MU).GetValue<double>();
-  cv_ = parameters_.Get(PARAM_CV).GetValue<double>();
-
+void Normal::DoValidate() {
   if (cv_ <= 0.0)
     LOG_ERROR(parameters_.location(PARAM_CV) << ": cv (" << AS_DOUBLE(cv_) << ") cannot be less than or equal to 0.0");
 }

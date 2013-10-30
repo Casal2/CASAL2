@@ -32,9 +32,9 @@ AllValuesBounded::AllValuesBounded()
 AllValuesBounded::AllValuesBounded(ModelPtr model)
 
 : Selectivity(model) {
-  parameters_.RegisterAllowed(PARAM_L);
-  parameters_.RegisterAllowed(PARAM_H);
-  parameters_.RegisterAllowed(PARAM_V);
+  parameters_.Bind<unsigned>(PARAM_L, &low_, "L");
+  parameters_.Bind<unsigned>(PARAM_H, &high_, "H");
+  parameters_.Bind<double>(PARAM_V, &v_, "V");
 }
 
 /**
@@ -46,28 +46,17 @@ AllValuesBounded::AllValuesBounded(ModelPtr model)
  * variables to ensure they are within the business
  * rules for the model.
  */
-void AllValuesBounded::Validate() {
-  LOG_TRACE();
-
-  CheckForRequiredParameter(PARAM_LABEL);
-  CheckForRequiredParameter(PARAM_L);
-  CheckForRequiredParameter(PARAM_H);
-  CheckForRequiredParameter(PARAM_V);
-
+void AllValuesBounded::DoValidate() {
   unsigned min_age = model_->min_age();
   unsigned max_age = model_->max_age();
 
-  label_  = parameters_.Get(PARAM_LABEL).GetValue<string>();
-
   // Param: L
-  low_ = parameters_.Get(PARAM_L).GetValue<unsigned>();
   if (low_ < min_age) {
     LOG_ERROR(parameters_.location(PARAM_L) << ": Parameter 'l' is less than the 'min_age' for the model\n"
         << "Model 'min_age' is " << min_age << " and 'l' is " << low_);
   }
 
   // Param: H
-  high_ = parameters_.Get(PARAM_H).GetValue<unsigned>();
   if (high_ > max_age) {
     LOG_ERROR(parameters_.location(PARAM_H) << ": Parameter 'h' is greater than the 'max_age' for the model\n"
         << "Model 'max_age' is " << max_age << " and 'h' is " << high_);
@@ -79,7 +68,6 @@ void AllValuesBounded::Validate() {
   }
 
   // Param: V
-  v_ = parameters_.Get(PARAM_V).GetValues<Double>();
   if (v_.size() != (high_ - low_)) {
     LOG_ERROR(parameters_.location(PARAM_V) << ": Parameter 'v' does not have the right amount of elements n = h - l\n"
         << "Expected " << high_ - low_ << " but got " << v_.size());

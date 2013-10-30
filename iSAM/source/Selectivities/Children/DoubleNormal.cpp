@@ -33,10 +33,10 @@ DoubleNormal::DoubleNormal()
  */
 DoubleNormal::DoubleNormal(ModelPtr model)
 : Selectivity(model) {
-  parameters_.RegisterAllowed(PARAM_MU);
-  parameters_.RegisterAllowed(PARAM_SIGMA_L);
-  parameters_.RegisterAllowed(PARAM_SIGMA_R);
-  parameters_.RegisterAllowed(PARAM_ALPHA);
+  parameters_.Bind<double>(PARAM_MU, &mu_, "Mu");
+  parameters_.Bind<double>(PARAM_SIGMA_L, &sigma_l_, "Sigma L");
+  parameters_.Bind<double>(PARAM_SIGMA_R, &sigma_r_, "Sigma R");
+  parameters_.Bind<double>(PARAM_ALPHA, &alpha_, "Alpha", 1.0);
 
   RegisterAsEstimable(PARAM_MU, &mu_);
   RegisterAsEstimable(PARAM_SIGMA_L, &sigma_l_);
@@ -53,22 +53,7 @@ DoubleNormal::DoubleNormal(ModelPtr model)
  * variables to ensure they are within the business
  * rules for the model.
  */
-void DoubleNormal::Validate() {
-  LOG_TRACE();
-
-  CheckForRequiredParameter(PARAM_LABEL);
-  CheckForRequiredParameter(PARAM_MU);
-  CheckForRequiredParameter(PARAM_SIGMA_L);
-  CheckForRequiredParameter(PARAM_SIGMA_R);
-
-  label_    = parameters_.Get(PARAM_LABEL).GetValue<string>();
-  mu_       = parameters_.Get(PARAM_MU).GetValue<double>();
-  sigma_l_  = parameters_.Get(PARAM_SIGMA_L).GetValue<double>();
-  sigma_r_  = parameters_.Get(PARAM_SIGMA_R).GetValue<double>();
-
-  if (parameters_.IsDefined(PARAM_ALPHA))
-    alpha_    = parameters_.Get(PARAM_ALPHA).GetValue<double>();
-
+void DoubleNormal::DoValidate() {
   if (alpha_ <= 0.0)
     LOG_ERROR(parameters_.location(PARAM_MU) << ": alpha cannot be less than or equal to 0.0");
   if (sigma_l_ <= 0.0)

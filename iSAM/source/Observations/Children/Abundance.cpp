@@ -26,27 +26,17 @@ namespace utils = isam::utilities;
  * Default constructor
  */
 Abundance::Abundance() {
-  parameters_.RegisterAllowed(PARAM_CATCHABILITY);
-  parameters_.RegisterAllowed(PARAM_OBS);
-  parameters_.RegisterAllowed(PARAM_ERROR_VALUE);
-  parameters_.RegisterAllowed(PARAM_DELTA);
-  parameters_.RegisterAllowed(PARAM_PROCESS_ERROR);
+  parameters_.Bind<string>(PARAM_CATCHABILITY, &catchability_label_, "TBA");
+  parameters_.Bind<string>(PARAM_OBS, &obs_, "Observation values");
+  parameters_.Bind<double>(PARAM_ERROR_VALUE, &error_values_, "The error values to use against the observation values");
+  parameters_.Bind<double>(PARAM_DELTA, &delta_, "Delta value for error values", 1e-10);
+  parameters_.Bind<double>(PARAM_PROCESS_ERROR, &process_error_, "Process error", 0.0);
 }
 
 /**
  * Validate configuration file parameters
  */
-void Abundance::Validate() {
-  Observation::Validate();
-
-  CheckForRequiredParameter(PARAM_CATCHABILITY);
-  CheckForRequiredParameter(PARAM_OBS);
-  CheckForRequiredParameter(PARAM_ERROR_VALUE);
-
-  catchability_label_ = parameters_.Get(PARAM_CATCHABILITY).GetValue<string>();
-  delta_              = parameters_.Get(PARAM_DELTA).GetValue<double>(1e-10);
-  process_error_      = parameters_.Get(PARAM_PROCESS_ERROR).GetValue<double>(0.0);
-
+void Abundance::DoValidate() {
   // Delta
   if (delta_ < 0.0)
     LOG_ERROR(parameters_.location(PARAM_DELTA) << ": delta (" << AS_DOUBLE(delta_) << ") cannot be less than 0.0");
@@ -54,7 +44,7 @@ void Abundance::Validate() {
     LOG_ERROR(parameters_.location(PARAM_PROCESS_ERROR) << ": process_error (" << AS_DOUBLE(process_error_) << ") cannot be less than 0.0");
 
   // Obs
-  vector<string> obs  = parameters_.Get(PARAM_OBS).GetValues<string>();
+  vector<string> obs  = obs_;
   if (obs.size() != category_labels_.size())
     LOG_ERROR(parameters_.location(PARAM_OBS) << ": obs values length (" << obs.size() << ") must match the number of category collections provided ("
         << category_labels_.size() << ")");
@@ -70,19 +60,9 @@ void Abundance::Validate() {
   }
 
   // Error Value
-  vector<string> error_values = parameters_.Get(PARAM_ERROR_VALUE).GetValues<string>();
-  if (error_values.size() != obs.size())
-    LOG_ERROR(parameters_.location(PARAM_ERROR_VALUE) << ": error_value length (" << error_values.size()
+  if (error_values_.size() != obs.size())
+    LOG_ERROR(parameters_.location(PARAM_ERROR_VALUE) << ": error_value length (" << error_values_.size()
         << ") must be same length as obs (" << obs.size() << ")");
-
-  for (unsigned i = 0; i < error_values.size(); ++i) {
-    if (!utils::To<double>(error_values[i], value))
-      LOG_ERROR(parameters_.location(PARAM_ERROR_VALUE) << ": error_value " << error_values[i] << " cannot be converted to a double");
-    if (value <= 0.0)
-      LOG_ERROR(parameters_.location(PARAM_ERROR_VALUE) << ": error_value " << value << " cannot be less than or equal to 0.0");
-
-    error_values_.push_back(value);
-  }
 
   /**
    * Verify that the likelihood is from the acceptable ones.
@@ -95,9 +75,7 @@ void Abundance::Validate() {
  * Build any runtime relationships we may have and ensure
  * the labels for other objects are valid.
  */
-void Abundance::Build() {
-  Observation::Build();
-
+void Abundance::DoBuild() {
   catchability_ = catchabilities::Manager::Instance().GetCatchability(catchability_label_);
   if (!catchability_)
     LOG_ERROR(parameters_.location(PARAM_CATCHABILITY) << ": catchability " << catchability_label_ << " could not be found. Have you defined it?");

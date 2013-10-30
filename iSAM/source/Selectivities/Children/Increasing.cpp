@@ -31,10 +31,10 @@ Increasing::Increasing()
  */
 Increasing::Increasing(ModelPtr model)
 : Selectivity(model) {
-  parameters_.RegisterAllowed(PARAM_L);
-  parameters_.RegisterAllowed(PARAM_H);
-  parameters_.RegisterAllowed(PARAM_V);
-  parameters_.RegisterAllowed(PARAM_ALPHA);
+  parameters_.Bind<unsigned>(PARAM_L, &low_, "Low");
+  parameters_.Bind<unsigned>(PARAM_H, &high_, "High");
+  parameters_.Bind<double>(PARAM_V, &v_, "V");
+  parameters_.Bind<double>(PARAM_ALPHA, &alpha_, "Alpha", 1.0);
 }
 
 /**
@@ -46,21 +46,7 @@ Increasing::Increasing(ModelPtr model)
  * variables to ensure they are within the business
  * rules for the model.
  */
-void Increasing::Validate() {
-  LOG_TRACE();
-
-  CheckForRequiredParameter(PARAM_LABEL);
-  CheckForRequiredParameter(PARAM_L);
-  CheckForRequiredParameter(PARAM_H);
-  CheckForRequiredParameter(PARAM_V);
-
-  label_  = parameters_.Get(PARAM_LABEL).GetValue<string>();
-  low_    = parameters_.Get(PARAM_L).GetValue<double>();
-  high_   = parameters_.Get(PARAM_H).GetValue<double>();
-  v_      = parameters_.Get(PARAM_V).GetValues<Double>();
-  if (parameters_.IsDefined(PARAM_ALPHA))
-    alpha_ = parameters_.Get(PARAM_ALPHA).GetValue<double>();
-
+void Increasing::DoValidate() {
   if (alpha_ <= 0.0)
     LOG_ERROR(parameters_.location(PARAM_ALPHA) << ": alpha (" << AS_DOUBLE(alpha_) << ") cannot be less than or equal to 0.0");
   if (low_ < model_->min_age() || low_ > model_->max_age())

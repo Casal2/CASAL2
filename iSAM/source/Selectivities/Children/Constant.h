@@ -30,13 +30,13 @@ class Constant : public isam::Selectivity {
 public:
   // Methods
   Constant();
-  virtual ~Constant() {};
-  void                        Validate() override final;
+  virtual                     ~Constant() = default;
+  void                        DoValidate() override final { };
   Double                      GetResult(unsigned age_or_length) override final;
 
 private:
   // Members
-  Double                      c_ = 0.0;
+  Double                      c_;
 };
 
 } /* namespace selectivities */

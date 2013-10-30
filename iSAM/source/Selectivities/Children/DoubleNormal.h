@@ -31,16 +31,16 @@ public:
   // Methods
   DoubleNormal();
   explicit DoubleNormal(ModelPtr model);
-  virtual                     ~DoubleNormal() {};
-  void                        Validate() override final;
+  virtual                     ~DoubleNormal() = default;
+  void                        DoValidate() override final;
   void                        Reset() override final;
 
 private:
   // Members
-  Double                      mu_ = 0.0;
-  Double                      sigma_l_ = 0.0;
-  Double                      sigma_r_ = 0.0;
-  Double                      alpha_ = 1.0;
+  Double                      mu_;
+  Double                      sigma_l_;
+  Double                      sigma_r_;
+  Double                      alpha_;
 };
 
 } /* namespace selectivities */
