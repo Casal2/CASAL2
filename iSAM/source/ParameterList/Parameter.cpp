@@ -44,5 +44,12 @@ string Parameter::location() const {
 
 }
 
+/**
+ *
+ */
+void Parameter::AddValue(const string& value) {
+  values_.push_back(value);
+}
+
 } /* namespace parameterlist */
 } /* namespace isam */

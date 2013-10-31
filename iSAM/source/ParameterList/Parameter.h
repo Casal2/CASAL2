@@ -37,8 +37,9 @@ class Parameter {
 public:
   // Methods
   Parameter(const string& label, const string& description);
-  virtual                     ~Parameter() = default;
+  virtual                     ~Parameter() { };
   virtual void                Bind() = 0;
+  void                        AddValue(const string& value);
 
   // Accessors
   void                        set_label(const string& label) { label_ = label; }
@@ -48,9 +49,10 @@ public:
   string                      file_name() const { return file_name_; }
   void                        set_line_number(const unsigned& line_number) { line_number_ = line_number; }
   unsigned                    line_number() const { return line_number_; }
+  void                        set_is_optional(bool is_optional) { is_optional_ = is_optional; }
   string                      location() const;
 
-private:
+protected:
   // Methods
   template<typename T>
   void                        RequireValueType() const;
@@ -61,6 +63,7 @@ private:
   vector<string>              values_;
   string                      file_name_ = "";
   unsigned                    line_number_ = 0;
+  bool                        is_optional_ = false;
 };
 
 // typedef

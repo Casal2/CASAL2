@@ -66,7 +66,7 @@ TEST_F(InternalEmptyModel, DerivedQuantities_Abundance) {
 
   // run the model
   ModelPtr model = Model::Instance();
-  model->Start();
+  model->Start(RunMode::kTesting);
 
   // check the results
   for (unsigned i = 0; i < 15; ++i) {

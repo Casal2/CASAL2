@@ -68,7 +68,7 @@ TEST_F(BasicModel, Processes_Mortality_Constant_Rate) {
   time_step->parameters().Add(PARAM_LABEL, "step_one", __FILE__, __LINE__);
   time_step->parameters().Add(PARAM_PROCESSES, processes, __FILE__, __LINE__);
 
-  Model::Instance()->Start();
+  Model::Instance()->Start(RunMode::kTesting);
 
   partition::Category& immature_male   = Partition::Instance().category("immature.male");
   partition::Category& immature_female = Partition::Instance().category("immature.female");

@@ -25,7 +25,6 @@ namespace testfixtures {
  */
 void EmptyModel::SetUp() {
   Model::Instance(true);
-  Model::Instance()->set_run_mode(RunMode::kTesting);
 }
 
 

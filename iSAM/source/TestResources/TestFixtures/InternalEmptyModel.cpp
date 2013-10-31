@@ -46,7 +46,6 @@ namespace testfixtures {
 void InternalEmptyModel::SetUp() {
   configuration_file_.clear();
   Model::Instance(true);
-  Model::Instance()->set_run_mode(RunMode::kBasic);
 
   GlobalConfiguration::Instance()->set_skip_config_file("true");
 }

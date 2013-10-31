@@ -97,32 +97,21 @@ public:
   bool                        AddTable(const string& label, const vector<string>& columns, const vector<vector<string> >& data, const string& file_name, const unsigned& line_number);
   const ParameterPtr          Get(const string& label);
   void                        CopyFrom(const ParameterList& source);
-  void                        Clear() { /*parameters_.clear(), tables_.clear();*/ }
-
+  void                        Clear() { parameters_.clear(), tables_.clear(); }
   template<typename T>
-  void                        Bind(const string& label, T* target, const string& description) {
-
-  }
-
+  void                        Bind(const string& label, T* target, const string& description);
   template<typename T>
-  void                        Bind(const string& label, T* target, const string& description, T default_value) {
-
-  }
-
+  void                        Bind(const string& label, T* target, const string& description, T default_value);
   template<typename T>
-  void                        Bind(const string& label, vector<T>* target, const string& description, bool optional = false) {
+  void                        Bind(const string& label, vector<T>* target, const string& description, bool optional = false);
+  void                        Populate();
 
-  }
-
-
-  void                        Populate() { };
-
-  // Accessors
+  // accessors
   string                      location(const string& label);
   const map<string, ParameterPtr>& parameters() { return parameters_; }
 
 private:
-  // Members
+  // members
   map<string, ParameterPtr>         parameters_;
   map<string, ParameterTable>       tables_;
 };

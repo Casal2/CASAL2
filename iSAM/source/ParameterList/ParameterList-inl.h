@@ -17,44 +17,47 @@
 #include <iostream>
 #include <exception>
 
+#include "ParameterList/Parameters/Bindable.h"
+#include "ParameterList/Parameters/BindableVector.h"
 #include "../Utilities/Exception.h"
 
 // Using
 using std::cout;
 using std::endl;
+using isam::parameters::Bindable;
+using isam::parameters::BindableVector;
 
 namespace isam {
+
 /**
- * This method will fill the vector <list> with any values stored
- * against the parameter <name>
  *
- * @param list This is the vector that is filled with the values
- * @param name The name of the attribute to load the values for
- * @param optional Specifies if an exception is thrown if the value is missing
  */
-//template<class Type>
-//void ParameterList::fillVector(vector<Type> &list, string name, bool optional) {
-//  if (!hasParameter(name)) {
-//    if (optional) {
-//      return;
-//    } else {
-//      THROW_EXCEPTION("Parameter has not been defined and is not optional: " + name);
-//    }
-//  }
-//
-//  // Clear the list
-//  list.clear();
-//
-//  vector<string>::iterator iter = parameters_[name].begin();
-//  while (iter != parameters_[name].end()) {
-//    try {
-//      list.push_back(boost::lexical_cast<Type>((*iter)));
-//    } catch (const std::bad_cast &ex) {
-//      THROW_EXCEPTION("Failed to convert type: " + *iter + ". Reason: " + ex.what());
-//    }
-//    iter++;
-//  }
-//}
+template<typename T>
+void ParameterList::Bind(const string& label, T* target, const string& description) {
+  boost::shared_ptr<Bindable<T> > parameter = boost::shared_ptr<Bindable<T> >(new Bindable<T>(label, target, description));
+  parameters_[label] = parameter;
+}
+
+/**
+ *
+ */
+template<typename T>
+void ParameterList::Bind(const string& label, T* target, const string& description, T default_value) {
+  boost::shared_ptr<Bindable<T> > parameter = boost::shared_ptr<Bindable<T> >(new Bindable<T>(label, target, description));
+  parameter->set_is_optional(true);
+  parameter->AddValue(isam::utilities::ToInline<T, string>(default_value));
+  parameters_[label] = parameter;
+}
+
+/**
+ *
+ */
+template<typename T>
+void ParameterList::Bind(const string& label, vector<T>* target, const string& description, bool optional) {
+  boost::shared_ptr<BindableVector<T> > parameter = boost::shared_ptr<BindableVector<T> >(new BindableVector<T>(label, target, description));
+  parameter->set_is_optional(true);
+  parameters_[label] = parameter;
+}
 
 } /* namespace isam */
 #endif /* PARAMETERLIST_INL_H_ */
