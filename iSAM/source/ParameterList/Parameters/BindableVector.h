@@ -10,18 +10,40 @@
  *
  * This class i
  */
-#ifndef BINDABLEVECTOR_H_
-#define BINDABLEVECTOR_H_
+#ifndef PARAMETERS_BINDABLEVECTOR_H_
+#define PARAMETERS_BINDABLEVECTOR_H_
 
+// headers
+#include <vector>
+
+#include "ParameterList/Parameter.h"
+
+// namespaces
 namespace isam {
 namespace parameters {
 
-class BindableVector {
+using std::vector;
+
+/**
+ * class definition
+ */
+template<typename T>
+class BindableVector : public isam::parameterlist::Parameter {
 public:
-  BindableVector();
-  virtual ~BindableVector();
+  // methods
+  BindableVector(const string& label, vector<T>* target, const string& description);
+  virtual                     ~BindableVector() = default;
+  void                        Bind() override final;
+
+private:
+  // members
+  vector<T>*                  target_;
 };
 
 } /* namespace parameters */
 } /* namespace isam */
+
+// headers
+#include "BindableVector-inl.h"
+
 #endif /* BINDABLEVECTOR_H_ */

@@ -10,14 +10,5 @@
 namespace isam {
 namespace parameters {
 
-BindableVector::BindableVector() {
-  // TODO Auto-generated constructor stub
-
-}
-
-BindableVector::~BindableVector() {
-  // TODO Auto-generated destructor stub
-}
-
 } /* namespace parameters */
 } /* namespace isam */

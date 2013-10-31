@@ -18,7 +18,6 @@
 namespace isam {
 namespace parameters {
 
-
 /**
  * default constructor
  *
@@ -27,7 +26,7 @@ namespace parameters {
  * @param description A text description of the parameter for the help system
  */
 template<typename T>
-Bindable<T>::Bindable(const string& label, T& target, const string& description)
+Bindable<T>::Bindable(const string& label, T* target, const string& description)
 : Parameter(label, description) {
 
   target_ = target;
@@ -39,12 +38,12 @@ Bindable<T>::Bindable(const string& label, T& target, const string& description)
  */
 template<typename T>
 void Bindable<T>::Bind() {
-  if (values_.size() == 0)
-    LOG_ERROR(location() << " does not have any value assigned to it");
+  if (values_.size() == 0 && !is_optional_)
+    LOG_ERROR(location() << " is a required parameter. Please ensure you have defined values for it in the configuration file");
   if (values_.size() > 1)
-    LOG_ERROR(location() << " only supports having a single value defined. There are  " << values_.size() << " values defined.");
+    LOG_ERROR(location() << " only supports having a single value defined. There are  " << values_.size() << " values defined");
 
-  if (!isam::utilities::To<T>(values_[0], target_))
+  if (!isam::utilities::To<T>(values_[0], *target_))
     LOG_ERROR(location() << " could not be converted to the proper type. Please check you have defined it properly");
 }
 

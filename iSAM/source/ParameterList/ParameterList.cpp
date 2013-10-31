@@ -94,6 +94,15 @@ bool ParameterList::AddTable(const string& label, const vector<string>& columns,
 }
 
 /**
+ *
+ */
+void ParameterList::Populate() {
+  auto iter = parameters_.begin();
+  for (; iter != parameters_.end(); ++iter)
+    iter->second->Bind();
+}
+
+/**
  * Return a constant reference to one of our parameter objects.
  *
  * NOTE: This method MUST be called with a valid label otherwise

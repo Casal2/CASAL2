@@ -69,7 +69,7 @@ TEST_F(BasicModel, Accessors_Cached_CombinedCategories) {
   time_step->parameters().Add(PARAM_PROCESSES, processes, __FILE__, __LINE__);
 
   // Run the model
-  Model::Instance()->Start();
+  Model::Instance()->Start(RunMode::kTesting);
   Model::Instance()->FullIteration();
 
   Partition::Instance().category("immature.male").years_.push_back(2009);

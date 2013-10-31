@@ -28,7 +28,7 @@ template<typename T>
 class Bindable : public isam::parameterlist::Parameter {
 public:
   // methods
-  Bindable(const string& label, T& target, const string& description);
+  Bindable(const string& label, T* target, const string& description);
   virtual                     ~Bindable() = default;
   void                        Bind() override final;
 

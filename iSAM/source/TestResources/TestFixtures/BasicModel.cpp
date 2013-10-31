@@ -45,7 +45,6 @@ namespace testfixtures {
  */
 void BasicModel::SetUp() {
   Model::Instance(true);
-  Model::Instance()->set_run_mode(RunMode::kTesting);
 
   isam::base::ObjectPtr object;
 

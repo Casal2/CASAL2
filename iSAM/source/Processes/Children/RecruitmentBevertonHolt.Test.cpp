@@ -65,7 +65,7 @@ TEST_F(InternalEmptyModel, Processes_BevertonHolt_Recruitment) {
 
   // run the model
   ModelPtr model = Model::Instance();
-  model->Start();
+  model->Start(RunMode::kTesting);
 
   partition::Category& immature_male   = Partition::Instance().category("immature");
   partition::Category& immature_female = Partition::Instance().category("mature");

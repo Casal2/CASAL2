@@ -37,7 +37,7 @@ TEST_F(EmptyModel, Configuration_Loader_Test_1_Comments) {
   new_loader.LoadConfigFile("testcases\\configuration_loader.Test.1");
 
   ModelPtr model = Model::Instance();
-  model->Start();
+  model->Start(RunMode::kTesting);
 
   // Check the model parameters are right
   EXPECT_EQ(1994u, model->start_year());
@@ -47,7 +47,7 @@ TEST_F(EmptyModel, Configuration_Loader_Test_1_Comments) {
   EXPECT_EQ(true, model->age_plus());
 
   isam::ProcessPtr process = processes::Manager::Instance().GetProcess("my_recruitment");
-  vector<string> categories = process->parameters().Get(PARAM_CATEGORIES).GetValues<string>();
+  const vector<string>& categories = process->parameters().Get(PARAM_CATEGORIES)->values();
   ASSERT_TRUE(categories.size() != 0);
   EXPECT_EQ(2u, categories.size());
   EXPECT_EQ("immature.male", categories[0]);
