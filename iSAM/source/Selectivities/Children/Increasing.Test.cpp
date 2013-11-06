@@ -40,6 +40,7 @@ TEST(Selectivities, Increasing) {
     v.push_back(boost::lexical_cast<string>(1.0 / (i * 1.5)));
 
   increasing.parameters().Add(PARAM_LABEL, "unit_test_increasing", __FILE__, __LINE__);
+  increasing.parameters().Add(PARAM_TYPE, "not needed in test", __FILE__, __LINE__);
   increasing.parameters().Add(PARAM_L, "12",  __FILE__, __LINE__);
   increasing.parameters().Add(PARAM_H, "18",  __FILE__, __LINE__);
   increasing.parameters().Add(PARAM_V, v,  __FILE__, __LINE__);

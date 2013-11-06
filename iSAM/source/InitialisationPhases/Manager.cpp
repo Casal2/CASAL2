@@ -29,6 +29,7 @@ Manager::~Manager() noexcept(true) {
  *
  */
 void Manager::Build() {
+  LOG_TRACE();
 
   // Build our objects
   for(InitialisationPhasePtr phase : objects_)
@@ -39,6 +40,7 @@ void Manager::Build() {
   // Order our time steps based on the parameter given to the model
   ordered_initialisation_phases_.clear();
 
+  LOG_INFO("Ordering initialisation phases");
   vector<string> phases = Model::Instance()->initialisation_phases();
   for(string label : phases) {
     for(InitialisationPhasePtr phase : objects_) {

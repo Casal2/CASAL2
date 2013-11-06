@@ -32,6 +32,7 @@ TEST(Selectivities, KnifeEdge) {
 
   isam::selectivities::KnifeEdge knife_edge(model);
   knife_edge.parameters().Add(PARAM_LABEL, "unit_test_knife_edge", __FILE__, __LINE__);
+  knife_edge.parameters().Add(PARAM_TYPE, "not needed in test", __FILE__, __LINE__);
   knife_edge.parameters().Add(PARAM_E, "15", __FILE__, __LINE__);
   knife_edge.Validate();
   knife_edge.Build();

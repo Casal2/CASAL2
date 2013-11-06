@@ -38,13 +38,16 @@ Bindable<T>::Bindable(const string& label, T* target, const string& description)
  */
 template<typename T>
 void Bindable<T>::Bind() {
-  if (values_.size() == 0 && !is_optional_)
-    LOG_ERROR(location() << " is a required parameter. Please ensure you have defined values for it in the configuration file");
   if (values_.size() > 1)
-    LOG_ERROR(location() << " only supports having a single value defined. There are  " << values_.size() << " values defined");
+    LOG_ERROR(location() << ": " << label_ << " only supports having a single value defined. There are  " << values_.size() << " values defined");
 
-  if (!isam::utilities::To<T>(values_[0], *target_))
-    LOG_ERROR(location() << " could not be converted to the proper type. Please check you have defined it properly");
+  if (values_.size() > 0) {
+    if (!isam::utilities::To<T>(values_[0], *target_))
+      LOG_ERROR(location() << ": " << label_ << " could not be converted to the proper type. Please check you have defined it properly");
+  } else {
+    if (!isam::utilities::To<T>(default_values_[0], *target_))
+      LOG_ERROR(location() << ": " << label_ << " could not be converted to the proper type. Please check you have defined it properly");
+  }
 }
 
 } /* namespace parameters */

@@ -114,6 +114,8 @@ void Observation::Validate() {
  * this observation
  */
 void Observation::Build() {
+  LOG_TRACE();
+
   for(string label : selectivity_labels_) {
     SelectivityPtr selectivity = selectivities::Manager::Instance().GetSelectivity(label);
     if (!selectivity)

@@ -38,9 +38,6 @@ BindableVector<T>::BindableVector(const string& label, vector<T>* target, const 
  */
 template<typename T>
 void BindableVector<T>::Bind() {
-  if (values_.size() == 0 && !is_optional_)
-    LOG_ERROR(location() << " is a required parameter. Please ensure you have defined values for it in the configuration file");
-
   T value;
   for (unsigned i = 0; i < values_.size(); ++i) {
     if (!isam::utilities::To<T>(values_[i], value))

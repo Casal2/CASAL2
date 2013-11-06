@@ -68,6 +68,8 @@ void Minimiser::Validate() {
  * Build the parameters for this minimiser
  */
 void Minimiser::Build() {
+  LOG_TRACE();
+
   hessian_size_ = estimates::Manager::Instance().GetEnabledCount();
 
   hessian_ = new double*[hessian_size_];

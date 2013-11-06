@@ -61,7 +61,7 @@ base::ObjectPtr Object::Create(const string& object_type, const string& sub_type
     result = Categories::Instance();
   else if (object_type == PARAM_DERIVED_QUANTITY || object_type == PARAM_DERIVED_QUANTITIES)
     result = derivedquantities::Factory::Create(object_type, sub_type);
-  else if (object_type == PARAM_ESTIMATES)
+  else if (object_type == PARAM_ESTIMATE)
     result = estimates::info::Factory::Create();
   else if (object_type == PARAM_INITIALIZATION_PHASE || object_type == PARAM_INITIALIZATION_PHASES)
     result = initialisationphases::Factory::Create();
@@ -85,6 +85,8 @@ base::ObjectPtr Object::Create(const string& object_type, const string& sub_type
     result = processes::Factory::Create(object_type, sub_type);
   else if (object_type == PARAM_REPORT)
     result = reports::Factory::Create(object_type, sub_type);
+  else if (object_type == PARAM_SELECTIVITY || object_type == PARAM_SELECTIVITIES)
+    result = selectivities::Factory::Create(object_type, sub_type);
   else if (object_type == PARAM_SIZE_WEIGHT || object_type == PARAM_SIZE_WEIGHTS)
     result = sizeweights::Factory::Create(object_type, sub_type);
   else if (object_type == PARAM_TIME_STEP || object_type == PARAM_TIME_STEPS) {

@@ -97,7 +97,7 @@ public:
   bool                        AddTable(const string& label, const vector<string>& columns, const vector<vector<string> >& data, const string& file_name, const unsigned& line_number);
   const ParameterPtr          Get(const string& label);
   void                        CopyFrom(const ParameterList& source);
-  void                        Clear() { parameters_.clear(), tables_.clear(); }
+  void                        Clear();
   template<typename T>
   void                        Bind(const string& label, T* target, const string& description);
   template<typename T>
@@ -108,12 +108,20 @@ public:
 
   // accessors
   string                      location(const string& label);
+  void                        set_parent_block_type(const string& block_type) { parent_block_type_ = block_type; }
+  void                        set_defined_file_name(string value) { defined_file_name_ = value; }
+  string                      defined_file_name() const { return defined_file_name_; }
+  void                        set_defined_line_number(unsigned value) { defined_line_number_ = value; }
+  unsigned                    defined_line_number() const { return defined_line_number_; }
   const map<string, ParameterPtr>& parameters() { return parameters_; }
 
 private:
   // members
-  map<string, ParameterPtr>         parameters_;
-  map<string, ParameterTable>       tables_;
+  string                      parent_block_type_    = "";
+  string                      defined_file_name_    = "";
+  unsigned                    defined_line_number_  = 0;
+  map<string, ParameterPtr>   parameters_;
+  map<string, ParameterTable> tables_;
 };
 
 } /* namespace isam */

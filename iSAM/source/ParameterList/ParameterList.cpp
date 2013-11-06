@@ -46,10 +46,10 @@ bool ParameterList::Add(const string& label, const vector<string>& values, const
   if (parameters_.find(label) == parameters_.end())
     return false;
 
-  ParameterPtr parameter = parameters_[label];
-  parameter->set_values(values);
-  parameter->set_file_name(file_name);
-  parameter->set_line_number(line_number);
+  auto iter = parameters_.find(label);
+  iter->second->set_values(values);
+  iter->second->set_file_name(file_name);
+  iter->second->set_line_number(line_number);
 
   return true;
 }
@@ -98,7 +98,28 @@ bool ParameterList::AddTable(const string& label, const vector<string>& columns,
  */
 void ParameterList::Populate() {
   auto iter = parameters_.begin();
-  for (; iter != parameters_.end(); ++iter)
+
+  /**
+   * go through and look for missing required parameters
+   */
+  string missing_parameters = "";
+  for (; iter != parameters_.end(); ++iter) {
+    if (iter->second->values().size() == 0 && !iter->second->is_optional())
+      missing_parameters += iter->first + " ";
+  }
+
+  if (missing_parameters != "") {
+    if (parameters_.find(PARAM_LABEL) == parameters_.end()) {
+      LOG_ERROR("At line " << defined_line_number_ << " of file " << defined_file_name_ << " the following required parameters for the block "
+          "are required but have not been defined: " << missing_parameters);
+
+    } else {
+      auto parameter = parameters_.find(PARAM_LABEL);
+      LOG_ERROR(parameter->second->location() << " the following parameters are required but have not been defined: " << missing_parameters);
+    }
+  }
+
+  for (iter = parameters_.begin(); iter != parameters_.end(); ++iter)
     iter->second->Bind();
 }
 
@@ -113,6 +134,9 @@ void ParameterList::Populate() {
  */
 const ParameterPtr ParameterList::Get(const string& label) {
   map<string, ParameterPtr>::iterator iter = parameters_.find(label);
+  if (iter == parameters_.end())
+    return ParameterPtr();
+
   return iter->second;
 }
 
@@ -125,14 +149,37 @@ const ParameterPtr ParameterList::Get(const string& label) {
  * @param source The source parameter list
  */
 void ParameterList::CopyFrom(const ParameterList& source) {
-//  map<string, ParameterPtr>::const_iterator iter;
-//  for (iter = source.parameters_.begin(); iter != source.parameters_.end(); ++iter)
-//    parameters_.insert(std::pair<const string, Parameter>(iter->first, iter->second));
-//
-//  map<string, ParameterTable>::const_iterator iter2;
-//  for (iter2 = source.tables_.begin(); iter2 != source.tables_.end(); ++iter2)
-//    tables_[iter2->first] = iter2->second;
+  LOG_TRACE();
+  this->defined_file_name_    = source.defined_file_name_;
+  this->defined_line_number_  = source.defined_line_number_;
+  this->parent_block_type_    = source.parent_block_type_;
+
+  map<string, ParameterPtr>::const_iterator iter;
+  for (iter = source.parameters_.begin(); iter != source.parameters_.end(); ++iter) {
+    const vector<string> values = iter->second->values();
+    for (string value : values) {
+      LOG_INFO("Copying value: " << value << " from " << iter->first);
+      parameters_[iter->first]->AddValue(value);
+    }
+  }
+
+  map<string, ParameterTable>::const_iterator iter2;
+  for (iter2 = source.tables_.begin(); iter2 != source.tables_.end(); ++iter2)
+    tables_[iter2->first] = iter2->second;
 }
+
+/**
+ *
+ */
+void ParameterList::Clear() {
+  auto iter = parameters_.begin();
+  for (; iter != parameters_.end(); ++iter) {
+    iter->second->Clear();
+  }
+
+  tables_.clear();
+}
+
 
 /**
  * Find the location string for one of our parameters.
