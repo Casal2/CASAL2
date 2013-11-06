@@ -36,6 +36,7 @@ TEST(Selectivities, DoubleNormal) {
   isam::selectivities::DoubleNormal double_normal(model);
 
   double_normal.parameters().Add(PARAM_LABEL, "unit_test_double_normal", __FILE__, __LINE__);
+  double_normal.parameters().Add(PARAM_TYPE, "not needed in test", __FILE__, __LINE__);
   double_normal.parameters().Add(PARAM_MU, "15",  __FILE__, __LINE__);
   double_normal.parameters().Add(PARAM_SIGMA_L, "1",  __FILE__, __LINE__);
   double_normal.parameters().Add(PARAM_SIGMA_R, "10",  __FILE__, __LINE__);

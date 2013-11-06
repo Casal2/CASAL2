@@ -82,19 +82,26 @@ bool To(const ::std::string arg, Target &result) {
  */
 template<>
 inline bool To(const ::std::string arg, bool &result) {
-  vector<string> true_values  = { "t", "true", "yes", "y" };
-  vector<string> false_values = { "f", "false", "no", "n" };
 
-  string value = ToLowercase(arg);
-
-  if (std::find(true_values.begin(), true_values.end(), value) != true_values.end()) {
-    result = true;
+  try {
+    result = boost::lexical_cast<bool>(arg);
     return true;
-  }
 
-  if (std::find(false_values.begin(), false_values.end(), value) != false_values.end()) {
-    result = false;
-    return true;
+  } catch (...) {
+    vector<string> true_values  = { "t", "true", "yes", "y" };
+    vector<string> false_values = { "f", "false", "no", "n" };
+
+    string value = ToLowercase(arg);
+
+    if (std::find(true_values.begin(), true_values.end(), value) != true_values.end()) {
+      result = true;
+      return true;
+    }
+
+    if (std::find(false_values.begin(), false_values.end(), value) != false_values.end()) {
+      result = false;
+      return true;
+    }
   }
 
   return false;

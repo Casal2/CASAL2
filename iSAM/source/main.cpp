@@ -112,6 +112,8 @@ int main(int argc, char * argv[]) {
     cout << endl;
     return -1;
 
+  } catch(...) {
+    cout << "## ERROR - iSAM experienced a problem and has stopped execution" << endl;
   }
 
 	return 0;

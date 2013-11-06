@@ -36,6 +36,7 @@ TEST(Selectivities, LogisticProducing) {
   isam::selectivities::LogisticProducing logistic_producing(model);
 
   logistic_producing.parameters().Add(PARAM_LABEL, "unit_test_logistic_producing", __FILE__, __LINE__);
+  logistic_producing.parameters().Add(PARAM_TYPE, "not needed in test", __FILE__, __LINE__);
   logistic_producing.parameters().Add(PARAM_L,     "13",  __FILE__, __LINE__);
   logistic_producing.parameters().Add(PARAM_H,     "17",  __FILE__, __LINE__);
   logistic_producing.parameters().Add(PARAM_A50,   "2",  __FILE__, __LINE__);

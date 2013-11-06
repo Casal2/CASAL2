@@ -353,8 +353,12 @@ void Loader::ParseBlock(vector<FileLine> &block) {
 
     }
 
-    if (object->parameters().Get(parameter_type)->values().size() > 0) {
-      ParameterPtr parameter = object->parameters().Get(parameter_type);
+    LOG_INFO("Getting parameter: " << parameter_type << " from " << block_type);
+    const ParameterPtr parameter = object->parameters().Get(parameter_type);
+    if (!parameter)
+      LOG_ERROR("At line " << file_line.line_number_ << " of " << file_line.file_name_
+          << ": Parameter '" << parameter_type << "' is not supported at line " << parameter->line_number() << " of " << parameter->file_name());
+    if (parameter->has_been_defined()) {
       LOG_ERROR("At line " << file_line.line_number_ << " of " << file_line.file_name_
           << ": Parameter '" << parameter_type << "' was already specified at line " << parameter->line_number() << " of " << parameter->file_name());
     }
@@ -387,30 +391,31 @@ bool Loader::HandleOperators(vector<string>& line_values) {
    * This will also implicitly handle the + operator
    */
   auto iterator   = line_values.begin();
+  LOG_INFO("line_values.size(): " << line_values.size());
+  if (line_values.size() < 2)
+    return true;
 
-  if (line_values.size() >= 2) {
-    bool join_required = false;
-    for (; iterator != line_values.end(); iterator++) {
-      if (!join_required) {
-        if (*iterator == "+" || *iterator == "," || *iterator == "-") {
-          join_required = true;
-          if (new_values.size() == 0)
-            return false;
+  bool join_required = false;
+  for (; iterator != line_values.end(); iterator++) {
+    if (!join_required) {
+      if (*iterator == "+" || *iterator == "," || *iterator == "-") {
+        join_required = true;
+        if (new_values.size() == 0)
+          return false;
 
-          new_values[new_values.size() - 1] = new_values[new_values.size() - 1] + *iterator;
-          continue;
-        }
-      }
-
-      if (join_required) {
         new_values[new_values.size() - 1] = new_values[new_values.size() - 1] + *iterator;
-        join_required = false;
-      } else {
-        new_values.push_back(*iterator);
+        continue;
       }
     }
-    line_values = new_values;
+
+    if (join_required) {
+      new_values[new_values.size() - 1] = new_values[new_values.size() - 1] + *iterator;
+      join_required = false;
+    } else {
+      new_values.push_back(*iterator);
+    }
   }
+  line_values = new_values;
 
   /**
    *
@@ -515,36 +520,38 @@ void Loader::HandleInlineDefinitions(FileLine& file_line, const string& parent_l
       }
 
       LOG_INFO("Inline definition label: " << label << " | full definition: " << full_definition);
-      replacement_strings.push_back(std::pair<string, string>(full_definition, label));
+      if (full_definition.find('=') != string::npos) {
+        replacement_strings.push_back(std::pair<string, string>(full_definition, label));
 
-      /**
-       * Now we have to split the string up between the definition block
-       */
-      string definition = file_line.line_.substr(first_inline_bracket+1, second_inline_bracket - first_inline_bracket - 1);
-      LOG_INFO("Absolute definition: " << definition);
+        /**
+         * Now we have to split the string up between the definition block
+         */
+        string definition = file_line.line_.substr(first_inline_bracket+1, second_inline_bracket - first_inline_bracket - 1);
+        LOG_INFO("Absolute definition: " << definition);
 
-      vector<string> definition_parts;
-      boost::split(definition_parts, definition, boost::is_any_of(";"));
+        vector<string> definition_parts;
+        boost::split(definition_parts, definition, boost::is_any_of(";"));
 
-      vector<FileLine> inline_block;
-      FileLine block_line;
-      block_line.file_name_    = file_line.file_name_;
-      block_line.line_number_  = file_line.line_number_;
-      block_line.line_         = "@" + block_type + " " + label;
-      inline_block.push_back(block_line);
+        vector<FileLine> inline_block;
+        FileLine block_line;
+        block_line.file_name_    = file_line.file_name_;
+        block_line.line_number_  = file_line.line_number_;
+        block_line.line_         = "@" + block_type + " " + label;
+        inline_block.push_back(block_line);
 
-      for(string& definition : definition_parts) {
-        boost::replace_all(definition, "=", " ");
-        boost::trim_all(definition);
+        for(string& definition : definition_parts) {
+          boost::replace_all(definition, "=", " ");
+          boost::trim_all(definition);
 
-        FileLine new_line;
-        new_line.file_name_     = file_line.file_name_;
-        new_line.line_number_   = file_line.line_number_;
-        new_line.line_          = definition;
-        inline_block.push_back(new_line);
+          FileLine new_line;
+          new_line.file_name_     = file_line.file_name_;
+          new_line.line_number_   = file_line.line_number_;
+          new_line.line_          = definition;
+          inline_block.push_back(new_line);
+        }
+
+        ParseBlock(inline_block);
       }
-
-      ParseBlock(inline_block);
 
       first_inline_bracket  = file_line.line_.find("[", second_inline_bracket);
       second_inline_bracket = file_line.line_.find("]", second_inline_bracket+1);

@@ -25,8 +25,9 @@ namespace isam {
 TEST(Selectivities, Constant) {
 
   isam::selectivities::Constant constant;
-  constant.parameters().Add(PARAM_LABEL, "unit_test_constant", __FILE__, __LINE__);
-  constant.parameters().Add(PARAM_C, "83", __FILE__, __LINE__);
+  EXPECT_EQ(true, constant.parameters().Add(PARAM_LABEL, "unit_test_constant", __FILE__, __LINE__));
+  EXPECT_EQ(true, constant.parameters().Add(PARAM_TYPE, "not needed in test", __FILE__, __LINE__));
+  EXPECT_EQ(true, constant.parameters().Add(PARAM_C, "83", __FILE__, __LINE__));
   constant.Validate();
   constant.Build();
 

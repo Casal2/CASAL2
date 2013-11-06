@@ -36,6 +36,7 @@ TEST(Selectivities, DoubleExponential) {
   isam::selectivities::DoubleExponential double_exponential(model);
 
   double_exponential.parameters().Add(PARAM_LABEL, "unit_test_double_exponential", __FILE__, __LINE__);
+  double_exponential.parameters().Add(PARAM_TYPE, "not needed in test", __FILE__, __LINE__);
   double_exponential.parameters().Add(PARAM_X0, "5",  __FILE__, __LINE__);
   double_exponential.parameters().Add(PARAM_X1, "7", __FILE__, __LINE__);
   double_exponential.parameters().Add(PARAM_X2, "9", __FILE__, __LINE__);

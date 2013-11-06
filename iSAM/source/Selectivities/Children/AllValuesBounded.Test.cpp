@@ -40,6 +40,7 @@ TEST(Selectivities, AllValuesBounded) {
     v.push_back(boost::lexical_cast<string>( (i + 1) * 2 ));
 
   all_values_bounded.parameters().Add(PARAM_LABEL, "unit_test_all_values_bounded", __FILE__, __LINE__);
+  all_values_bounded.parameters().Add(PARAM_TYPE, "not needed in test", __FILE__, __LINE__);
   all_values_bounded.parameters().Add(PARAM_L, "12",  __FILE__, __LINE__);
   all_values_bounded.parameters().Add(PARAM_H, "18", __FILE__, __LINE__);
   all_values_bounded.parameters().Add(PARAM_V, v, __FILE__, __LINE__);

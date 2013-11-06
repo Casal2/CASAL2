@@ -125,9 +125,9 @@ void Object::RegisterAsEstimable(const string& label, map<string, Double>& varia
  */
 string Object::location() {
   string line_number;
-  isam::utilities::To<unsigned, string>(defined_line_number_, line_number);
+  isam::utilities::To<unsigned, string>(parameters_.defined_line_number(), line_number);
 
-  string location = "At line " + line_number + " in file " + defined_file_name_;
+  string location = "At line " + line_number + " in file " + parameters_.defined_file_name();
   if (label_ != "")
     location += ": " + label_;
 

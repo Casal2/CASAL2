@@ -86,6 +86,7 @@ protected:
   State::Type                 state_    = State::kStartUp;
   unsigned                    start_year_ = 0;
   unsigned                    final_year_ = 0;
+  unsigned                    projection_final_year_ = 0;
   unsigned                    current_year_ = 0;
   unsigned                    min_age_ = 0;
   unsigned                    max_age_ = 0;

@@ -64,7 +64,7 @@ void MortalityEvent::DoValidate() {
       LOG_ERROR(parameters_.location(PARAM_YEARS) << " year " << years_[i] << " has already been specified, please remove the duplicate");
     }
 
-    catches_[years_[i]] = catches_[i];
+    catch_years_[years_[i]] = catches_[i];
   }
 
   // Validate u_max

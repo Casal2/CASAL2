@@ -30,11 +30,12 @@ TEST(SizeWeights, Basic) {
   isam::sizeweights::Basic basic;
 
   basic.parameters().Add(PARAM_LABEL, "unit_test_basic", __FILE__, __LINE__);
+  basic.parameters().Add(PARAM_TYPE, "any value is fine", __FILE__, __LINE__);
   basic.parameters().Add(PARAM_A, "1", __FILE__, __LINE__);
   basic.parameters().Add(PARAM_B, "1", __FILE__, __LINE__);
 
-  basic.DoValidate();
-  basic.DoBuild();
+  basic.Validate();
+  basic.Build();
 
   EXPECT_DOUBLE_EQ(1000.0, basic.mean_weight(1.0));
   EXPECT_DOUBLE_EQ(2000.0, basic.mean_weight(2.0));
@@ -47,11 +48,12 @@ TEST(SizeWeights, Basic) {
    */
   basic.parameters().Clear();
   basic.parameters().Add(PARAM_LABEL, "unit_test_basic", __FILE__, __LINE__);
+  basic.parameters().Add(PARAM_TYPE, "any value is fine", __FILE__, __LINE__);
   basic.parameters().Add(PARAM_A, "2", __FILE__, __LINE__);
   basic.parameters().Add(PARAM_B, "2", __FILE__, __LINE__);
 
-  basic.DoValidate();
-  basic.DoBuild();
+  basic.Validate();
+  basic.Build();
 
   EXPECT_DOUBLE_EQ(2000.0, basic.mean_weight(1.0));
   EXPECT_DOUBLE_EQ(8000.0, basic.mean_weight(2.0));

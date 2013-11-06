@@ -36,6 +36,7 @@ TEST(Selectivities, InverseLogistic) {
   isam::selectivities::InverseLogistic inverse_logistic(model);
 
   inverse_logistic.parameters().Add(PARAM_LABEL, "unit_test_inverse_logistic", __FILE__, __LINE__);
+  inverse_logistic.parameters().Add(PARAM_TYPE, "not needed in test", __FILE__, __LINE__);
   inverse_logistic.parameters().Add(PARAM_A50,   "2",  __FILE__, __LINE__);
   inverse_logistic.parameters().Add(PARAM_ATO95, "7",  __FILE__, __LINE__);
   inverse_logistic.Validate();

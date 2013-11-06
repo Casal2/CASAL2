@@ -128,8 +128,6 @@ void ProportionsAtAge::DoValidate() {
  * the labels for other objects are valid.
  */
 void ProportionsAtAge::DoBuild() {
-  Observation::Build();
-
   partition_ = CombinedCategoriesPtr(new isam::partition::accessors::CombinedCategories(category_labels_));
   cached_partition_ = CachedCombinedCategoriesPtr(new isam::partition::accessors::cached::CombinedCategories(category_labels_));
 

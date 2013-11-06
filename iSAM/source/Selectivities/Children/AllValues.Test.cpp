@@ -42,6 +42,7 @@ TEST(Selectivities, AllValues) {
 
   all_values.parameters().Add(PARAM_LABEL, "unit_test_all_values", __FILE__, __LINE__);
   all_values.parameters().Add(PARAM_V, v, __FILE__, __LINE__);
+  all_values.parameters().Add(PARAM_TYPE, "not needed in test", __FILE__, __LINE__);
   all_values.Validate();
   all_values.Build();
 

@@ -37,11 +37,13 @@ Manager::~Manager() noexcept(true) {
 void Manager::Validate() {
   LOG_TRACE();
 
+  LOG_INFO("Validating EstimateInfo objects then creating estimates");
   for (EstimateInfoPtr info : estimate_infos_) {
     info->Validate();
     info->BuildEstimates();
   }
 
+  LOG_INFO("Validating Estimates");
   for(EstimatePtr estimate : objects_) {
     estimate->Validate();
   }
