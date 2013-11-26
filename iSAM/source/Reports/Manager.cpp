@@ -33,16 +33,20 @@ Manager::~Manager() noexcept(true) {
  * based on their type.
  */
 void Manager::Build() {
+  LOG_INFO("objects_.size(): " << objects_.size());
   for (ReportPtr report : objects_) {
     report->Build();
 
     if ((RunMode::Type)(report->run_mode() & RunMode::kInvalid) == RunMode::kInvalid)
       LOG_CODE_ERROR("Report: " << report->label() << " has not been properly configured to have a run mode");
 
-    if (report->model_state() != State::kExecute)
+    if (report->model_state() != State::kExecute) {
+      LOG_INFO("Adding report " << report->label() << " to state reports");
       state_reports_[report->model_state()].push_back(report);
-    else
+    } else {
+      LOG_INFO("Adding report " << report->label() << " to time step reports");
       time_step_reports_[report->time_step()].push_back(report);
+    }
   }
 }
 
@@ -70,12 +74,18 @@ void Manager::Execute(State::Type model_state) {
  */
 void Manager::Execute(unsigned year, const string& time_step_label) {
   LOG_TRACE();
+  LOG_INFO("year: " << year << "; time_step_label: " << time_step_label << "; reports: " << time_step_reports_[time_step_label].size());
+
   RunMode::Type run_mode = Model::Instance()->run_mode();
   for(ReportPtr report : time_step_reports_[time_step_label]) {
-    if ( (RunMode::Type)(report->run_mode() & run_mode) != run_mode)
+    if ( (RunMode::Type)(report->run_mode() & run_mode) != run_mode) {
+      LOG_INFO("Skipping report: " << report->label() << " because run mode is not right");
       continue;
-    if (!report->HasYear(year))
+    }
+    if (!report->HasYear(year)) {
+      LOG_INFO("Skipping report: " << report->label() << " because it does not have year " << year);
       continue;
+    }
 
     report->Execute();
   }

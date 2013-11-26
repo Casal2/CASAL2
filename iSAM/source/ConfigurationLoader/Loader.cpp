@@ -129,6 +129,7 @@ void Loader::ParseFileLines() {
       size_t first_inline_bracket  = file_lines_[i].line_.find("[");
       size_t second_inline_bracket = file_lines_[i].line_.find("]");
       if (first_inline_bracket != string::npos && second_inline_bracket != string::npos) {
+
         string first_section  = file_lines_[i].line_.substr(0, first_inline_bracket);
         string second_section = file_lines_[i].line_.substr(first_inline_bracket, second_inline_bracket - first_inline_bracket + 1);
         string third_section  = file_lines_[i].line_.substr(second_inline_bracket + 1);
@@ -357,7 +358,7 @@ void Loader::ParseBlock(vector<FileLine> &block) {
     const ParameterPtr parameter = object->parameters().Get(parameter_type);
     if (!parameter)
       LOG_ERROR("At line " << file_line.line_number_ << " of " << file_line.file_name_
-          << ": Parameter '" << parameter_type << "' is not supported at line " << parameter->line_number() << " of " << parameter->file_name());
+          << ": Parameter '" << parameter_type << "' is not supported");
     if (parameter->has_been_defined()) {
       LOG_ERROR("At line " << file_line.line_number_ << " of " << file_line.file_name_
           << ": Parameter '" << parameter_type << "' was already specified at line " << parameter->line_number() << " of " << parameter->file_name());
@@ -392,8 +393,6 @@ bool Loader::HandleOperators(vector<string>& line_values) {
    */
   auto iterator   = line_values.begin();
   LOG_INFO("line_values.size(): " << line_values.size());
-  if (line_values.size() < 2)
-    return true;
 
   bool join_required = false;
   for (; iterator != line_values.end(); iterator++) {
@@ -552,10 +551,12 @@ void Loader::HandleInlineDefinitions(FileLine& file_line, const string& parent_l
 
         ParseBlock(inline_block);
       }
+      LOG_INFO("first_inline_bracket: " << first_inline_bracket << "; second_inline_bracket: " << second_inline_bracket);
 
       first_inline_bracket  = file_line.line_.find("[", second_inline_bracket);
       second_inline_bracket = file_line.line_.find("]", second_inline_bracket+1);
 
+      LOG_INFO("first_inline_bracket: " << first_inline_bracket << "; second_inline_bracket: " << second_inline_bracket);
       // Check to ensure rest of the line has been defined properly.
       if ( (first_inline_bracket != string::npos && second_inline_bracket == string::npos) ||
            (first_inline_bracket == string::npos && second_inline_bracket != string::npos)) {

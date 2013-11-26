@@ -38,10 +38,6 @@ void Process::Validate() {
  * then call the child build method.
  */
 void Process::Build() {
-  print_values_[PARAM_LABEL].push_back(label_);
-  if (type_ != "")
-    print_values_[PARAM_TYPE].push_back(type_);
-
   DoBuild();
 }
 

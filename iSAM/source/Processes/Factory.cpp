@@ -19,6 +19,7 @@
 #include "Processes/Children/MaturationRate.h"
 #include "Processes/Children/MortalityConstantRate.h"
 #include "Processes/Children/MortalityEvent.h"
+#include "Processes/Children/MortalityEventBiomass.h"
 #include "Processes/Children/RecruitmentBevertonHolt.h"
 #include "Processes/Children/RecruitmentConstant.h"
 
@@ -69,6 +70,8 @@ ProcessPtr Factory::Create(string object_type, string sub_type) {
       result = ProcessPtr(new MortalityConstantRate());
     else if (sub_type == PARAM_MORTALITY_EVENT)
       result = ProcessPtr(new MortalityEvent());
+    else if (sub_type == PARAM_MORTALITY_EVENT_BIOMASS)
+      result = ProcessPtr(new MortalityEventBiomass());
 
     if (result)
       processes::Manager::Instance().AddObject(result);
