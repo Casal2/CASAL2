@@ -121,12 +121,19 @@ void RecruitmentBevertonHolt::DoBuild() {
   derived_quantity_ = derivedquantities::Manager::Instance().GetDerivedQuantity(ssb_);
   if (!derived_quantity_)
     LOG_ERROR(parameters_.location(PARAM_SSB) << "(" << ssb_ << ") could not be found. Have you defined it?");
+
+
+  print_values_["b0_value"].resize(1);
+
+  DoReset();
 }
 
 /**
  * Reset all of the values so they're ready for an execution run
  */
 void RecruitmentBevertonHolt::DoReset() {
+  LOG_TRACE();
+
   ssb_values_.clear();
   ycs_years_.clear();
   true_ycs_values_.clear();
@@ -147,7 +154,7 @@ void RecruitmentBevertonHolt::DoReset() {
 
   mean_ycs /= standardise_ycs_.size();
   for (unsigned i = 0; i < ycs_values_.size(); ++i)
-    standardise_ycs_.push_back(ycs_values_[i] / mean_ycs);
+    standardise_ycs_values_.push_back(ycs_values_[i] / mean_ycs);
 }
 
 /**
@@ -163,7 +170,7 @@ void RecruitmentBevertonHolt::Execute() {
 
     } else {
       b0_ = derived_quantity_->GetInitialisationValue(phase_b0_, derived_quantity_->GetInitialisationValuesSize(phase_b0_) - 1);
-      Double ssb_ratio = b0_ == 0 ? 0 : derived_quantity_->GetValue(model_->start_year() - ssb_offset_) / b0_;
+      Double ssb_ratio = derived_quantity_->GetValue(model_->start_year() - ssb_offset_) / b0_;
       Double true_ycs  = 1.0 * ssb_ratio / (1 - ((5 * steepness_ - 1) / (4 * steepness_) ) * (1 - ssb_ratio));
       amount_per = r0_ * true_ycs;
     }
@@ -172,15 +179,22 @@ void RecruitmentBevertonHolt::Execute() {
     /**
      * The model is not in an initialisation phase
      */
-    Double ycs = standardise_ycs_[model_->current_year() - model_->start_year()];
+    LOG_INFO("standardise_ycs_values_.size(): " << standardise_ycs_values_.size() << "; model_->current_year(): " << model_->current_year() << "; model_->start_year(): " << model_->start_year());
+    Double ycs = standardise_ycs_values_[model_->current_year() - model_->start_year()];
     b0_ = derived_quantity_->GetInitialisationValue(phase_b0_, derived_quantity_->GetInitialisationValuesSize(phase_b0_) - 1);
-    Double ssb_ratio = b0_ == 0 ? 0 : derived_quantity_->GetValue(model_->start_year() - ssb_offset_) / b0_;
-    Double true_ycs  = ycs * ssb_ratio / (1 - ((5 * steepness_ - 1) / (4 * steepness_) ) * (1 - ssb_ratio));
+    Double ssb_ratio = derived_quantity_->GetValue(model_->current_year() - ssb_offset_) / b0_;
+    Double true_ycs  = ycs * ssb_ratio / (1.0 - ((5.0 * steepness_ - 1.0) / (4.0 * steepness_) ) * (1.0 - ssb_ratio));
     amount_per = r0_ * true_ycs;
 
     true_ycs_values_.push_back(true_ycs);
     recruitment_values_.push_back(amount_per);
-    ssb_values_.push_back(derived_quantity_->GetValue(model_->start_year() - ssb_offset_));
+    ssb_values_.push_back(derived_quantity_->GetValue(model_->current_year() - ssb_offset_));
+
+    print_values_["internal_ycs"].push_back(utilities::ToInline<Double, string>(ycs));
+    print_values_["true_ycs_values"].push_back(utilities::ToInline<Double, string>(true_ycs));
+    print_values_["recruitment_values"].push_back(utilities::ToInline<Double, string>(amount_per));
+    print_values_["ssb_values"].push_back(utilities::ToInline<Double, string>( (*ssb_values_.rbegin())) );
+
 
     LOG_INFO("year = " << model_->current_year() << "; ycs = " << ycs << "; b0_ = " << b0_ << "; ssb_ratio = " << ssb_ratio << "; true_ycs = " << true_ycs << "; amount_per = " << amount_per);
   }
@@ -190,6 +204,8 @@ void RecruitmentBevertonHolt::Execute() {
     (*iterator)->data_[age_ - (*iterator)->min_age_] += amount_per * proportions_[i];
     LOG_INFO("Adding " << amount_per * proportions_[i] << " to " << (*iterator)->name_);
   }
+
+  print_values_["b0_value"][0] = utilities::ToInline<Double, string>(b0_);
 }
 
 } /* namespace processes */

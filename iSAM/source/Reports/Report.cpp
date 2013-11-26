@@ -32,6 +32,7 @@ Report::Report() {
  * when the report is not running in the execute phase.
  */
 void Report::Validate() {
+  parameters_.Populate();
 
 //  if (model_state_ == State::kExecute) {
 //    CheckForRequiredParameter(PARAM_TIME_STEP);

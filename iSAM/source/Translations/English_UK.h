@@ -235,6 +235,7 @@
 #define PARAM_MORTALITY                           "mortality"
 #define PARAM_MORTALITY_CONSTANT_RATE             "mortality_constant_rate"
 #define PARAM_MORTALITY_EVENT                     "mortality_event"
+#define PARAM_MORTALITY_EVENT_BIOMASS             "mortality_event_biomass"
 #define PARAM_MU                                  "mu"
 #define PARAM_MULTINOMIAL                         "multinomial"
 #define PARAM_MULTIPLIER                          "multiplier"

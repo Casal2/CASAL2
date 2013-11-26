@@ -31,4 +31,13 @@ R0 997386
 age 1
 )";
 
+const string constant_recruitment_no_sex_100 = R"(
+@recruitment recruitment_constant
+type constant
+categories immature
+proportions 1.0
+r0 100
+age 1
+)";
+
 #endif /* MODEL_H_ */
