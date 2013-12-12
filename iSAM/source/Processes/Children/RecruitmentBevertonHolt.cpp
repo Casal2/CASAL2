@@ -93,7 +93,8 @@ void RecruitmentBevertonHolt::DoValidate() {
   if (standardise_ycs_[0] < model_->start_year() - ssb_offset_)
     LOG_ERROR(parameters_.location(PARAM_STANDARDISE_YCS_YEARS) << " first value is less than the model's start_year");
   if ((*standardise_ycs_.rbegin()) > model_->final_year() - ssb_offset_)
-    LOG_ERROR(parameters_.location(PARAM_STANDARDISE_YCS_YEARS) << " final value is greater than the model's final year");
+    LOG_ERROR(parameters_.location(PARAM_STANDARDISE_YCS_YEARS) << " final value (" << (*standardise_ycs_.rbegin())
+        << ") is greater than the model's final year - ssb_offset (" << model_->final_year() - ssb_offset_ << ")");
 
   // check the number of ycs_values_ supplied matches number of years
   unsigned number_of_years = model_->final_year() - model_->start_year() + 1;
@@ -106,7 +107,7 @@ void RecruitmentBevertonHolt::DoValidate() {
       LOG_ERROR(parameters_.location(PARAM_YCS_VALUES) << " value " << value << " cannot be less than 0.0");
   }
 
-
+  ssb_offset_++;
 }
 
 /**
@@ -165,7 +166,7 @@ void RecruitmentBevertonHolt::Execute() {
 
   if (model_->state() == State::kInitialise) {
     initialisationphases::Manager& init_phase_manager = initialisationphases::Manager::Instance();
-    if (init_phase_manager.last_executed_phase() == phase_b0_) {
+    if (init_phase_manager.last_executed_phase() <= phase_b0_) {
       amount_per = r0_;
 
     } else {
@@ -173,6 +174,8 @@ void RecruitmentBevertonHolt::Execute() {
       Double ssb_ratio = derived_quantity_->GetValue(model_->start_year() - ssb_offset_) / b0_;
       Double true_ycs  = 1.0 * ssb_ratio / (1 - ((5 * steepness_ - 1) / (4 * steepness_) ) * (1 - ssb_ratio));
       amount_per = r0_ * true_ycs;
+
+      LOG_INFO("b0_: " << b0_ << "; ssb_ratio: " << ssb_ratio << "; true_ycs: " << true_ycs << "; amount_per: " << amount_per);
     }
 
   } else {
@@ -194,7 +197,6 @@ void RecruitmentBevertonHolt::Execute() {
     print_values_["true_ycs_values"].push_back(utilities::ToInline<Double, string>(true_ycs));
     print_values_["recruitment_values"].push_back(utilities::ToInline<Double, string>(amount_per));
     print_values_["ssb_values"].push_back(utilities::ToInline<Double, string>( (*ssb_values_.rbegin())) );
-
 
     LOG_INFO("year = " << model_->current_year() << "; ycs = " << ycs << "; b0_ = " << b0_ << "; ssb_ratio = " << ssb_ratio << "; true_ycs = " << true_ycs << "; amount_per = " << amount_per);
   }

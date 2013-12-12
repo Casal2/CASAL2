@@ -101,26 +101,34 @@ bool DerivedQuantity::IsAssignedToInitialisationPhase(const string& label) {
  * @param year The year to get the derived quantity value for.
  */
 Double DerivedQuantity::GetValue(unsigned year) {
-  if (values_.find(year) != values_.end())
+  if (values_.find(year) != values_.end()) {
     return values_[year];
+  }
 
   if (values_.size() > 0 && values_.rbegin()->first < year)
     LOG_ERROR("Trying to get a value from the derived quantity " << label_ << " for year " << year << " when the latest year calculated is "
         << values_.rbegin()->first);
   if (initialisation_values_.size() == 0)
     return 0.0;
-//    LOG_ERROR("Trying to get a value from derived quantity " << label_ << " when no values have been calculated");
 
   // Calculate how many years to go back. At this point
   // either we're in the init phases or we're going back
   // in to the init phases.
-  unsigned years_to_go_back = year - model_->start_year();
+  unsigned years_to_go_back = model_->start_year() - year;
 
   Double result = 0.0;
-  if (initialisation_values_.rbegin()->size() > years_to_go_back)
-    result = (*initialisation_values_.rbegin()->rbegin() + (years_to_go_back - 1));
-  else
+  if (initialisation_values_.rbegin()->size() > years_to_go_back) {
+    result = initialisation_values_.rbegin()->at(initialisation_values_.rbegin()->size() - years_to_go_back);
+  } else {
+    LOG_CODE_ERROR("this should be going back in to another init phase if possible");
     result = (*initialisation_values_.rbegin()->begin()); // first value of last init phase
+  }
+
+  LOG_INFO("years_to_go_back: " << years_to_go_back
+      << "; year: " << year
+      << "; result: " << result
+      << "; .begin(): " << (*initialisation_values_.rbegin()->rbegin())
+      << ": .size(): " << initialisation_values_.rbegin()->size());
 
   return result;
 }

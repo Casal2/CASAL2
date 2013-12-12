@@ -1,0 +1,4 @@
+@report partition_state
+type partition
+time_step three
+years 1975 2002

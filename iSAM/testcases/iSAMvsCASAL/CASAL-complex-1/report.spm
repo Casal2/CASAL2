@@ -1,0 +1,111 @@
+# The reports/outputs
+
+@report initialisation-phase1
+type initialisation
+initialisation_phase phase1
+
+@report state-3
+type partition
+time_step three
+years 1975 2002
+
+@report SSB
+type process
+process Recruitment
+
+@report Recruitment
+type derived_quantity
+derived_quantity SSB
+
+@report estimate
+type estimate_value
+header True
+
+@report estimate-summary
+type estimate_summary
+
+@report objective
+type objective_function
+
+@report random_seed
+type random_number_seed
+
+@report MaturationMale
+type selectivity
+selectivity MaleMaturity
+
+@report MaturationFemale
+type selectivity
+selectivity FemaleMaturity
+
+@report chatFselMale
+type selectivity
+selectivity chatFselMale
+
+@report chatFselFemale
+type selectivity
+selectivity chatFselFemale
+
+@report chatTANselMale
+type selectivity
+selectivity chatTANselMale
+
+@report chatTANselFemale
+type selectivity
+selectivity chatTANselFemale
+
+@report base_layer
+type layer
+layer Base
+years 1994
+time_step one
+
+@report covariance
+type covariance
+
+@report TAN1992
+type observation
+observation chatTANbiomass1992
+
+@report TAN1993
+type observation
+observation chatTANbiomass1993
+
+@report TAN1994
+type observation
+observation chatTANbiomass1994
+
+@report TAN2000
+type observation
+observation chatTANbiomass2000
+
+@report TAN2001
+type observation
+observation chatTANbiomass2001
+
+@report TAN2002
+type observation
+observation chatTANbiomass2002
+
+@report male
+type age_weight
+age_size male
+
+@report female
+type age_weight
+age_size female
+
+@report male
+type size_weight
+age_size male
+sizes 50
+
+@report female
+type size_weight
+age_size female
+sizes 50
+
+@report checkweight
+type partition_biomass
+time_step two
+
