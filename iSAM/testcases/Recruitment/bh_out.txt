@@ -1,0 +1,801 @@
+--> Trace: ../source/Model/Model.cpp:Model:50
+[I] ../source/ParameterList/ParameterList.cpp:RegisterAllowed:43 = Registering allowed parameter start_year
+[I] ../source/ParameterList/ParameterList.cpp:RegisterAllowed:43 = Registering allowed parameter final_year
+[I] ../source/ParameterList/ParameterList.cpp:RegisterAllowed:43 = Registering allowed parameter min_age
+[I] ../source/ParameterList/ParameterList.cpp:RegisterAllowed:43 = Registering allowed parameter max_age
+[I] ../source/ParameterList/ParameterList.cpp:RegisterAllowed:43 = Registering allowed parameter age_plus
+[I] ../source/ParameterList/ParameterList.cpp:RegisterAllowed:43 = Registering allowed parameter initialisation_phases
+[I] ../source/ParameterList/ParameterList.cpp:RegisterAllowed:43 = Registering allowed parameter time_steps
+[I] ../source/ParameterList/ParameterList.cpp:RegisterAllowed:43 = Registering allowed parameter projection_final_year
+--> Trace: ../source/ConfigurationLoader/File.cpp:OpenFile:53
+--> Trace: ../source/ConfigurationLoader/File.cpp:Parse:69
+[I] ../source/ConfigurationLoader/File.cpp:Parse:96 = current_line == '@model'
+[I] ../source/ConfigurationLoader/File.cpp:Parse:96 = current_line == 'start_year 1994'
+[I] ../source/ConfigurationLoader/File.cpp:Parse:96 = current_line == 'final_year 2010'
+[I] ../source/ConfigurationLoader/File.cpp:Parse:96 = current_line == 'min_age 1'
+[I] ../source/ConfigurationLoader/File.cpp:Parse:96 = current_line == 'max_age 10'
+[I] ../source/ConfigurationLoader/File.cpp:Parse:96 = current_line == 'age_plus t'
+[I] ../source/ConfigurationLoader/File.cpp:Parse:96 = current_line == 'time_steps step_one step_two step_three step_four'
+[I] ../source/ConfigurationLoader/File.cpp:Parse:96 = current_line == 'initialisation_phases iphase1'
+[I] ../source/ConfigurationLoader/File.cpp:Parse:96 = current_line == '@categories'
+[I] ../source/ConfigurationLoader/File.cpp:Parse:96 = current_line == 'format stage.sex'
+[I] ../source/ConfigurationLoader/File.cpp:Parse:96 = current_line == 'names immature.male mature.male immature.female mature.female'
+[I] ../source/ConfigurationLoader/File.cpp:Parse:96 = current_line == '@time_step step_one'
+[I] ../source/ConfigurationLoader/File.cpp:Parse:96 = current_line == 'processes my_recruitment'
+[I] ../source/ConfigurationLoader/File.cpp:Parse:96 = current_line == '@time_step step_two'
+[I] ../source/ConfigurationLoader/File.cpp:Parse:96 = current_line == 'processes ageing'
+[I] ../source/ConfigurationLoader/File.cpp:Parse:96 = current_line == '@time_step step_three'
+[I] ../source/ConfigurationLoader/File.cpp:Parse:96 = current_line == 'processes my_maturation'
+[I] ../source/ConfigurationLoader/File.cpp:Parse:96 = current_line == '@time_step step_four'
+[I] ../source/ConfigurationLoader/File.cpp:Parse:96 = current_line == 'processes my_mortality'
+[I] ../source/ConfigurationLoader/File.cpp:Parse:96 = current_line == '@time_step step_five'
+[I] ../source/ConfigurationLoader/File.cpp:Parse:96 = current_line == 'processes my_event_mortality'
+[I] ../source/ConfigurationLoader/File.cpp:Parse:96 = current_line == '@initialisation_phase iphase1'
+[I] ../source/ConfigurationLoader/File.cpp:Parse:96 = current_line == 'years 10'
+[I] ../source/ConfigurationLoader/File.cpp:Parse:96 = current_line == 'time_steps step_one'
+[I] ../source/ConfigurationLoader/File.cpp:Parse:96 = current_line == '@derived_quantity SSB'
+[I] ../source/ConfigurationLoader/File.cpp:Parse:96 = current_line == 'type abundance'
+[I] ../source/ConfigurationLoader/File.cpp:Parse:96 = current_line == 'time_step step_one'
+[I] ../source/ConfigurationLoader/File.cpp:Parse:96 = current_line == 'categories mature.male mature.female'
+[I] ../source/ConfigurationLoader/File.cpp:Parse:96 = current_line == 'selectivities one one'
+[I] ../source/ConfigurationLoader/File.cpp:Parse:96 = current_line == 'initialisation_time_steps step_one'
+[I] ../source/ConfigurationLoader/File.cpp:Parse:96 = current_line == '@ageing ageing'
+[I] ../source/ConfigurationLoader/File.cpp:Parse:96 = current_line == 'categories immature.male mature.male immature.female mature.female'
+[I] ../source/ConfigurationLoader/File.cpp:Parse:96 = current_line == '@recruitment my_recruitment'
+[I] ../source/ConfigurationLoader/File.cpp:Parse:96 = current_line == 'type beverton_holt'
+[I] ../source/ConfigurationLoader/File.cpp:Parse:96 = current_line == 'categories immature.male immature.female'
+[I] ../source/ConfigurationLoader/File.cpp:Parse:96 = current_line == 'proportions 0.5 0.5'
+[I] ../source/ConfigurationLoader/File.cpp:Parse:96 = current_line == 'standardise_YCS_years 1994 1995 1996 1997 1998 1999 2000 2001 2002 2003 2004 2005 2006 2007 2008 2009'
+[I] ../source/ConfigurationLoader/File.cpp:Parse:96 = current_line == 'YCS_years 1994 1995 1996 1997 1998 1999 2000 2001 2002 2003 2004 2005 2006 2007 2008 2009 2010'
+[I] ../source/ConfigurationLoader/File.cpp:Parse:96 = current_line == 'YCS_values 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1'
+[I] ../source/ConfigurationLoader/File.cpp:Parse:96 = current_line == 'steepness 0.75'
+[I] ../source/ConfigurationLoader/File.cpp:Parse:96 = current_line == 'b0 iphase1'
+[I] ../source/ConfigurationLoader/File.cpp:Parse:96 = current_line == 'r0 20000'
+[I] ../source/ConfigurationLoader/File.cpp:Parse:96 = current_line == 'ssb SSB'
+[I] ../source/ConfigurationLoader/File.cpp:Parse:96 = current_line == 'ssb_offset 1'
+[I] ../source/ConfigurationLoader/File.cpp:Parse:96 = current_line == '@maturation my_maturation'
+[I] ../source/ConfigurationLoader/File.cpp:Parse:96 = current_line == 'type rate'
+[I] ../source/ConfigurationLoader/File.cpp:Parse:96 = current_line == 'from immature.male immature.female'
+[I] ../source/ConfigurationLoader/File.cpp:Parse:96 = current_line == 'to mature.male mature.female'
+[I] ../source/ConfigurationLoader/File.cpp:Parse:96 = current_line == 'proportions 0.2 0.2'
+[I] ../source/ConfigurationLoader/File.cpp:Parse:96 = current_line == 'selectivities one one'
+[I] ../source/ConfigurationLoader/File.cpp:Parse:96 = current_line == '@mortality my_mortality'
+[I] ../source/ConfigurationLoader/File.cpp:Parse:96 = current_line == 'type constant_rate'
+[I] ../source/ConfigurationLoader/File.cpp:Parse:96 = current_line == 'categories mature.male mature.female'
+[I] ../source/ConfigurationLoader/File.cpp:Parse:96 = current_line == 'm 0.1 0.1'
+[I] ../source/ConfigurationLoader/File.cpp:Parse:96 = current_line == 'selectivities one one'
+[I] ../source/ConfigurationLoader/File.cpp:Parse:96 = current_line == '@mortality my_event_mortality'
+[I] ../source/ConfigurationLoader/File.cpp:Parse:96 = current_line == 'type event'
+[I] ../source/ConfigurationLoader/File.cpp:Parse:96 = current_line == 'categories immature.male mature.male immature.female mature.female'
+[I] ../source/ConfigurationLoader/File.cpp:Parse:96 = current_line == 'years 1995 1999 2000 2001 2002 2003 2004 2005 2006 2007'
+[I] ../source/ConfigurationLoader/File.cpp:Parse:96 = current_line == 'catches 1849.153714 14442.000000 28323.203463 24207.464203 47279.000000 58350.943094 82875.872790 115974.547730 113852.472257 119739.517172'
+[I] ../source/ConfigurationLoader/File.cpp:Parse:96 = current_line == 'U_max 0.99'
+[I] ../source/ConfigurationLoader/File.cpp:Parse:96 = current_line == 'selectivities FishingSel FishingSel FishingSel FishingSel'
+[I] ../source/ConfigurationLoader/File.cpp:Parse:96 = current_line == '@selectivity one'
+[I] ../source/ConfigurationLoader/File.cpp:Parse:96 = current_line == 'type constant'
+[I] ../source/ConfigurationLoader/File.cpp:Parse:96 = current_line == 'c 1'
+[I] ../source/ConfigurationLoader/File.cpp:Parse:96 = current_line == '@selectivity Maturation'
+[I] ../source/ConfigurationLoader/File.cpp:Parse:96 = current_line == 'type logistic_producing'
+[I] ../source/ConfigurationLoader/File.cpp:Parse:96 = current_line == 'L 5'
+[I] ../source/ConfigurationLoader/File.cpp:Parse:96 = current_line == 'H 30'
+[I] ../source/ConfigurationLoader/File.cpp:Parse:96 = current_line == 'a50 8'
+[I] ../source/ConfigurationLoader/File.cpp:Parse:96 = current_line == 'ato95 3'
+[I] ../source/ConfigurationLoader/File.cpp:Parse:96 = current_line == '@selectivity FishingSel'
+[I] ../source/ConfigurationLoader/File.cpp:Parse:96 = current_line == 'type logistic'
+[I] ../source/ConfigurationLoader/File.cpp:Parse:96 = current_line == 'a50 8'
+[I] ../source/ConfigurationLoader/File.cpp:Parse:96 = current_line == 'ato95 3'
+[I] ../source/ConfigurationLoader/File.cpp:Parse:96 = current_line == '@report partition'
+[I] ../source/ConfigurationLoader/File.cpp:Parse:96 = current_line == 'type partition'
+[I] ../source/ConfigurationLoader/File.cpp:Parse:96 = current_line == 'time_step step_one'
+[I] ../source/ConfigurationLoader/File.cpp:Parse:96 = current_line == 'years 1994'
+[I] ../source/ConfigurationLoader/File.cpp:Parse:96 = current_line == '@report partition'
+[I] ../source/ConfigurationLoader/File.cpp:Parse:96 = current_line == 'type partition'
+[I] ../source/ConfigurationLoader/File.cpp:Parse:96 = current_line == 'time_step step_two'
+[I] ../source/ConfigurationLoader/File.cpp:Parse:96 = current_line == 'years 1994'
+[I] ../source/ConfigurationLoader/File.cpp:Parse:96 = current_line == '@report partition'
+[I] ../source/ConfigurationLoader/File.cpp:Parse:96 = current_line == 'type partition'
+[I] ../source/ConfigurationLoader/File.cpp:Parse:96 = current_line == 'time_step step_three'
+[I] ../source/ConfigurationLoader/File.cpp:Parse:96 = current_line == 'years 1994'
+[I] ../source/ConfigurationLoader/File.cpp:Parse:96 = current_line == '@report partition'
+[I] ../source/ConfigurationLoader/File.cpp:Parse:96 = current_line == 'type partition'
+[I] ../source/ConfigurationLoader/File.cpp:Parse:96 = current_line == 'time_step step_four'
+[I] ../source/ConfigurationLoader/File.cpp:Parse:96 = current_line == 'years 1994'
+[I] ../source/ConfigurationLoader/File.cpp:Parse:96 = current_line == '@report partition'
+[I] ../source/ConfigurationLoader/File.cpp:Parse:96 = current_line == 'type partition'
+[I] ../source/ConfigurationLoader/File.cpp:Parse:96 = current_line == 'time_step step_five'
+[I] ../source/ConfigurationLoader/File.cpp:Parse:96 = current_line == 'years 1994'
+[I] ../source/ConfigurationLoader/File.cpp:Parse:96 = current_line == '@report derived_quantities'
+[I] ../source/ConfigurationLoader/File.cpp:Parse:96 = current_line == 'type derived_quantity'
+[I] ../source/ConfigurationLoader/Loader.cpp:LoadConfigFile:84 = file_lines_.size() == 97
+--> Trace: ../source/ConfigurationLoader/Loader.cpp:ParseFileLines:115
+--> Trace: ../source/ConfigurationLoader/Loader.cpp:ParseBlock:213
+[I] ../source/ConfigurationLoader/Loader.cpp:ParseBlock:219 = file_line: BH.txt:1 = @model
+[I] ../source/ConfigurationLoader/Loader.cpp:ParseBlock:219 = file_line: BH.txt:2 = start_year 1994
+[I] ../source/ConfigurationLoader/Loader.cpp:ParseBlock:219 = file_line: BH.txt:3 = final_year 2010
+[I] ../source/ConfigurationLoader/Loader.cpp:ParseBlock:219 = file_line: BH.txt:4 = min_age 1
+[I] ../source/ConfigurationLoader/Loader.cpp:ParseBlock:219 = file_line: BH.txt:5 = max_age 10
+[I] ../source/ConfigurationLoader/Loader.cpp:ParseBlock:219 = file_line: BH.txt:6 = age_plus t
+[I] ../source/ConfigurationLoader/Loader.cpp:ParseBlock:219 = file_line: BH.txt:7 = time_steps step_one step_two step_three step_four
+[I] ../source/ConfigurationLoader/Loader.cpp:ParseBlock:219 = file_line: BH.txt:8 = initialisation_phases iphase1
+[I] ../source/ConfigurationLoader/Loader.cpp:CreateObject:396 = CreateObject = block_type: model; object_type: 
+--> Trace: ../source/ConfigurationLoader/Loader.cpp:ParseBlock:213
+[I] ../source/ConfigurationLoader/Loader.cpp:ParseBlock:219 = file_line: BH.txt:10 = @categories
+[I] ../source/ConfigurationLoader/Loader.cpp:ParseBlock:219 = file_line: BH.txt:11 = format stage.sex
+[I] ../source/ConfigurationLoader/Loader.cpp:ParseBlock:219 = file_line: BH.txt:12 = names immature.male mature.male immature.female mature.female
+[I] ../source/ConfigurationLoader/Loader.cpp:CreateObject:396 = CreateObject = block_type: categories; object_type: 
+--> Trace: ../source/Categories/Categories.cpp:Categories:32
+[I] ../source/ParameterList/ParameterList.cpp:RegisterAllowed:43 = Registering allowed parameter format
+[I] ../source/ParameterList/ParameterList.cpp:RegisterAllowed:43 = Registering allowed parameter names
+[I] ../source/ParameterList/ParameterList.cpp:RegisterAllowed:43 = Registering allowed parameter years
+[I] ../source/ParameterList/ParameterList.cpp:RegisterAllowed:43 = Registering allowed parameter ages
+[I] ../source/ParameterList/ParameterList.cpp:RegisterAllowed:43 = Registering allowed parameter age_sizes
+--> Trace: ../source/ConfigurationLoader/Loader.cpp:ParseBlock:213
+[I] ../source/ConfigurationLoader/Loader.cpp:ParseBlock:219 = file_line: BH.txt:14 = @time_step step_one
+[I] ../source/ConfigurationLoader/Loader.cpp:ParseBlock:219 = file_line: BH.txt:15 = processes my_recruitment
+[I] ../source/ConfigurationLoader/Loader.cpp:CreateObject:396 = CreateObject = block_type: time_step; object_type: 
+--> Trace: ../source/TimeSteps/TimeStep.cpp:TimeStep:26
+[I] ../source/ParameterList/ParameterList.cpp:RegisterAllowed:43 = Registering allowed parameter label
+[I] ../source/ParameterList/ParameterList.cpp:RegisterAllowed:43 = Registering allowed parameter processes
+--> Trace: ../source/ConfigurationLoader/Loader.cpp:ParseBlock:213
+[I] ../source/ConfigurationLoader/Loader.cpp:ParseBlock:219 = file_line: BH.txt:17 = @time_step step_two
+[I] ../source/ConfigurationLoader/Loader.cpp:ParseBlock:219 = file_line: BH.txt:18 = processes ageing
+[I] ../source/ConfigurationLoader/Loader.cpp:CreateObject:396 = CreateObject = block_type: time_step; object_type: 
+--> Trace: ../source/TimeSteps/TimeStep.cpp:TimeStep:26
+[I] ../source/ParameterList/ParameterList.cpp:RegisterAllowed:43 = Registering allowed parameter label
+[I] ../source/ParameterList/ParameterList.cpp:RegisterAllowed:43 = Registering allowed parameter processes
+--> Trace: ../source/ConfigurationLoader/Loader.cpp:ParseBlock:213
+[I] ../source/ConfigurationLoader/Loader.cpp:ParseBlock:219 = file_line: BH.txt:20 = @time_step step_three
+[I] ../source/ConfigurationLoader/Loader.cpp:ParseBlock:219 = file_line: BH.txt:21 = processes my_maturation
+[I] ../source/ConfigurationLoader/Loader.cpp:CreateObject:396 = CreateObject = block_type: time_step; object_type: 
+--> Trace: ../source/TimeSteps/TimeStep.cpp:TimeStep:26
+[I] ../source/ParameterList/ParameterList.cpp:RegisterAllowed:43 = Registering allowed parameter label
+[I] ../source/ParameterList/ParameterList.cpp:RegisterAllowed:43 = Registering allowed parameter processes
+--> Trace: ../source/ConfigurationLoader/Loader.cpp:ParseBlock:213
+[I] ../source/ConfigurationLoader/Loader.cpp:ParseBlock:219 = file_line: BH.txt:23 = @time_step step_four
+[I] ../source/ConfigurationLoader/Loader.cpp:ParseBlock:219 = file_line: BH.txt:24 = processes my_mortality
+[I] ../source/ConfigurationLoader/Loader.cpp:CreateObject:396 = CreateObject = block_type: time_step; object_type: 
+--> Trace: ../source/TimeSteps/TimeStep.cpp:TimeStep:26
+[I] ../source/ParameterList/ParameterList.cpp:RegisterAllowed:43 = Registering allowed parameter label
+[I] ../source/ParameterList/ParameterList.cpp:RegisterAllowed:43 = Registering allowed parameter processes
+--> Trace: ../source/ConfigurationLoader/Loader.cpp:ParseBlock:213
+[I] ../source/ConfigurationLoader/Loader.cpp:ParseBlock:219 = file_line: BH.txt:26 = @time_step step_five
+[I] ../source/ConfigurationLoader/Loader.cpp:ParseBlock:219 = file_line: BH.txt:27 = processes my_event_mortality
+[I] ../source/ConfigurationLoader/Loader.cpp:CreateObject:396 = CreateObject = block_type: time_step; object_type: 
+--> Trace: ../source/TimeSteps/TimeStep.cpp:TimeStep:26
+[I] ../source/ParameterList/ParameterList.cpp:RegisterAllowed:43 = Registering allowed parameter label
+[I] ../source/ParameterList/ParameterList.cpp:RegisterAllowed:43 = Registering allowed parameter processes
+--> Trace: ../source/ConfigurationLoader/Loader.cpp:ParseBlock:213
+[I] ../source/ConfigurationLoader/Loader.cpp:ParseBlock:219 = file_line: BH.txt:29 = @initialisation_phase iphase1
+[I] ../source/ConfigurationLoader/Loader.cpp:ParseBlock:219 = file_line: BH.txt:30 = years 10
+[I] ../source/ConfigurationLoader/Loader.cpp:ParseBlock:219 = file_line: BH.txt:31 = time_steps step_one
+[I] ../source/ConfigurationLoader/Loader.cpp:CreateObject:396 = CreateObject = block_type: initialisation_phase; object_type: 
+--> Trace: ../source/InitialisationPhases/InitialisationPhase.cpp:InitialisationPhase:27
+[I] ../source/ParameterList/ParameterList.cpp:RegisterAllowed:43 = Registering allowed parameter label
+[I] ../source/ParameterList/ParameterList.cpp:RegisterAllowed:43 = Registering allowed parameter processes
+[I] ../source/ParameterList/ParameterList.cpp:RegisterAllowed:43 = Registering allowed parameter time_steps
+[I] ../source/ParameterList/ParameterList.cpp:RegisterAllowed:43 = Registering allowed parameter years
+--> Trace: ../source/ConfigurationLoader/Loader.cpp:ParseBlock:213
+[I] ../source/ConfigurationLoader/Loader.cpp:ParseBlock:219 = file_line: BH.txt:34 = @derived_quantity SSB
+[I] ../source/ConfigurationLoader/Loader.cpp:ParseBlock:219 = file_line: BH.txt:35 = type abundance
+[I] ../source/ConfigurationLoader/Loader.cpp:ParseBlock:219 = file_line: BH.txt:36 = time_step step_one
+[I] ../source/ConfigurationLoader/Loader.cpp:ParseBlock:219 = file_line: BH.txt:37 = categories mature.male mature.female
+[I] ../source/ConfigurationLoader/Loader.cpp:ParseBlock:219 = file_line: BH.txt:38 = selectivities one one
+[I] ../source/ConfigurationLoader/Loader.cpp:ParseBlock:219 = file_line: BH.txt:39 = initialisation_time_steps step_one
+[I] ../source/ConfigurationLoader/Loader.cpp:CreateObject:396 = CreateObject = block_type: derived_quantity; object_type: abundance
+--> Trace: ../source/DerivedQuantities/DerivedQuantity.cpp:DerivedQuantity:21
+[I] ../source/ParameterList/ParameterList.cpp:RegisterAllowed:43 = Registering allowed parameter label
+[I] ../source/ParameterList/ParameterList.cpp:RegisterAllowed:43 = Registering allowed parameter type
+[I] ../source/ParameterList/ParameterList.cpp:RegisterAllowed:43 = Registering allowed parameter time_step
+[I] ../source/ParameterList/ParameterList.cpp:RegisterAllowed:43 = Registering allowed parameter initialisation_time_steps
+[I] ../source/ParameterList/ParameterList.cpp:RegisterAllowed:43 = Registering allowed parameter categories
+[I] ../source/ParameterList/ParameterList.cpp:RegisterAllowed:43 = Registering allowed parameter selectivities
+--> Trace: ../source/ConfigurationLoader/Loader.cpp:ParseBlock:213
+[I] ../source/ConfigurationLoader/Loader.cpp:ParseBlock:219 = file_line: BH.txt:41 = @ageing ageing
+[I] ../source/ConfigurationLoader/Loader.cpp:ParseBlock:219 = file_line: BH.txt:42 = categories immature.male mature.male immature.female mature.female
+[I] ../source/ConfigurationLoader/Loader.cpp:CreateObject:396 = CreateObject = block_type: ageing; object_type: 
+--> Trace: ../source/Processes/Children/Ageing.cpp:Ageing:27
+[I] ../source/ParameterList/ParameterList.cpp:RegisterAllowed:43 = Registering allowed parameter label
+[I] ../source/ParameterList/ParameterList.cpp:RegisterAllowed:43 = Registering allowed parameter categories
+--> Trace: ../source/ConfigurationLoader/Loader.cpp:ParseBlock:213
+[I] ../source/ConfigurationLoader/Loader.cpp:ParseBlock:219 = file_line: BH.txt:53 = @recruitment my_recruitment
+[I] ../source/ConfigurationLoader/Loader.cpp:ParseBlock:219 = file_line: BH.txt:54 = type beverton_holt
+[I] ../source/ConfigurationLoader/Loader.cpp:ParseBlock:219 = file_line: BH.txt:55 = categories immature.male immature.female
+[I] ../source/ConfigurationLoader/Loader.cpp:ParseBlock:219 = file_line: BH.txt:56 = proportions 0.5 0.5
+[I] ../source/ConfigurationLoader/Loader.cpp:ParseBlock:219 = file_line: BH.txt:57 = standardise_YCS_years 1994 1995 1996 1997 1998 1999 2000 2001 2002 2003 2004 2005 2006 2007 2008 2009
+[I] ../source/ConfigurationLoader/Loader.cpp:ParseBlock:219 = file_line: BH.txt:58 = YCS_years 1994 1995 1996 1997 1998 1999 2000 2001 2002 2003 2004 2005 2006 2007 2008 2009 2010
+[I] ../source/ConfigurationLoader/Loader.cpp:ParseBlock:219 = file_line: BH.txt:59 = YCS_values 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+[I] ../source/ConfigurationLoader/Loader.cpp:ParseBlock:219 = file_line: BH.txt:60 = steepness 0.75
+[I] ../source/ConfigurationLoader/Loader.cpp:ParseBlock:219 = file_line: BH.txt:61 = b0 iphase1
+[I] ../source/ConfigurationLoader/Loader.cpp:ParseBlock:219 = file_line: BH.txt:62 = r0 20000
+[I] ../source/ConfigurationLoader/Loader.cpp:ParseBlock:219 = file_line: BH.txt:63 = ssb SSB
+[I] ../source/ConfigurationLoader/Loader.cpp:ParseBlock:219 = file_line: BH.txt:64 = ssb_offset 1
+[I] ../source/ConfigurationLoader/Loader.cpp:CreateObject:396 = CreateObject = block_type: recruitment; object_type: beverton_holt
+--> Trace: ../source/Processes/Children/RecruitmentBevertonHolt.cpp:RecruitmentBevertonHolt:31
+[I] ../source/ParameterList/ParameterList.cpp:RegisterAllowed:43 = Registering allowed parameter label
+[I] ../source/ParameterList/ParameterList.cpp:RegisterAllowed:43 = Registering allowed parameter type
+[I] ../source/ParameterList/ParameterList.cpp:RegisterAllowed:43 = Registering allowed parameter categories
+[I] ../source/ParameterList/ParameterList.cpp:RegisterAllowed:43 = Registering allowed parameter r0
+[I] ../source/ParameterList/ParameterList.cpp:RegisterAllowed:43 = Registering allowed parameter proportions
+[I] ../source/ParameterList/ParameterList.cpp:RegisterAllowed:43 = Registering allowed parameter age
+[I] ../source/ParameterList/ParameterList.cpp:RegisterAllowed:43 = Registering allowed parameter steepness
+[I] ../source/ParameterList/ParameterList.cpp:RegisterAllowed:43 = Registering allowed parameter ssb
+[I] ../source/ParameterList/ParameterList.cpp:RegisterAllowed:43 = Registering allowed parameter b0
+[I] ../source/ParameterList/ParameterList.cpp:RegisterAllowed:43 = Registering allowed parameter ssb_offset
+[I] ../source/ParameterList/ParameterList.cpp:RegisterAllowed:43 = Registering allowed parameter ycs_years
+[I] ../source/ParameterList/ParameterList.cpp:RegisterAllowed:43 = Registering allowed parameter ycs_values
+[I] ../source/ParameterList/ParameterList.cpp:RegisterAllowed:43 = Registering allowed parameter standardise_ycs_years
+--> Trace: ../source/ConfigurationLoader/Loader.cpp:ParseBlock:213
+[I] ../source/ConfigurationLoader/Loader.cpp:ParseBlock:219 = file_line: BH.txt:66 = @maturation my_maturation
+[I] ../source/ConfigurationLoader/Loader.cpp:ParseBlock:219 = file_line: BH.txt:67 = type rate
+[I] ../source/ConfigurationLoader/Loader.cpp:ParseBlock:219 = file_line: BH.txt:68 = from immature.male immature.female
+[I] ../source/ConfigurationLoader/Loader.cpp:ParseBlock:219 = file_line: BH.txt:69 = to mature.male mature.female
+[I] ../source/ConfigurationLoader/Loader.cpp:ParseBlock:219 = file_line: BH.txt:70 = proportions 0.2 0.2
+[I] ../source/ConfigurationLoader/Loader.cpp:ParseBlock:219 = file_line: BH.txt:71 = selectivities one one
+[I] ../source/ConfigurationLoader/Loader.cpp:CreateObject:396 = CreateObject = block_type: maturation; object_type: rate
+--> Trace: ../source/Processes/Children/MaturationRate.cpp:MaturationRate:27
+[I] ../source/ParameterList/ParameterList.cpp:RegisterAllowed:43 = Registering allowed parameter label
+[I] ../source/ParameterList/ParameterList.cpp:RegisterAllowed:43 = Registering allowed parameter type
+[I] ../source/ParameterList/ParameterList.cpp:RegisterAllowed:43 = Registering allowed parameter from
+[I] ../source/ParameterList/ParameterList.cpp:RegisterAllowed:43 = Registering allowed parameter to
+[I] ../source/ParameterList/ParameterList.cpp:RegisterAllowed:43 = Registering allowed parameter proportions
+[I] ../source/ParameterList/ParameterList.cpp:RegisterAllowed:43 = Registering allowed parameter selectivities
+--> Trace: ../source/ConfigurationLoader/Loader.cpp:ParseBlock:213
+[I] ../source/ConfigurationLoader/Loader.cpp:ParseBlock:219 = file_line: BH.txt:73 = @mortality my_mortality
+[I] ../source/ConfigurationLoader/Loader.cpp:ParseBlock:219 = file_line: BH.txt:74 = type constant_rate
+[I] ../source/ConfigurationLoader/Loader.cpp:ParseBlock:219 = file_line: BH.txt:75 = categories mature.male mature.female
+[I] ../source/ConfigurationLoader/Loader.cpp:ParseBlock:219 = file_line: BH.txt:76 = m 0.1 0.1
+[I] ../source/ConfigurationLoader/Loader.cpp:ParseBlock:219 = file_line: BH.txt:77 = selectivities one one
+[I] ../source/ConfigurationLoader/Loader.cpp:CreateObject:396 = CreateObject = block_type: mortality; object_type: constant_rate
+--> Trace: ../source/Processes/Children/MortalityConstantRate.cpp:MortalityConstantRate:28
+[I] ../source/ParameterList/ParameterList.cpp:RegisterAllowed:43 = Registering allowed parameter label
+[I] ../source/ParameterList/ParameterList.cpp:RegisterAllowed:43 = Registering allowed parameter type
+[I] ../source/ParameterList/ParameterList.cpp:RegisterAllowed:43 = Registering allowed parameter categories
+[I] ../source/ParameterList/ParameterList.cpp:RegisterAllowed:43 = Registering allowed parameter m
+[I] ../source/ParameterList/ParameterList.cpp:RegisterAllowed:43 = Registering allowed parameter selectivities
+--> Trace: ../source/ConfigurationLoader/Loader.cpp:ParseBlock:213
+[I] ../source/ConfigurationLoader/Loader.cpp:ParseBlock:219 = file_line: BH.txt:79 = @mortality my_event_mortality
+[I] ../source/ConfigurationLoader/Loader.cpp:ParseBlock:219 = file_line: BH.txt:80 = type event
+[I] ../source/ConfigurationLoader/Loader.cpp:ParseBlock:219 = file_line: BH.txt:81 = categories immature.male mature.male immature.female mature.female
+[I] ../source/ConfigurationLoader/Loader.cpp:ParseBlock:219 = file_line: BH.txt:82 = years 1995 1999 2000 2001 2002 2003 2004 2005 2006 2007
+[I] ../source/ConfigurationLoader/Loader.cpp:ParseBlock:219 = file_line: BH.txt:83 = catches 1849.153714 14442.000000 28323.203463 24207.464203 47279.000000 58350.943094 82875.872790 115974.547730 113852.472257 119739.517172
+[I] ../source/ConfigurationLoader/Loader.cpp:ParseBlock:219 = file_line: BH.txt:84 = U_max 0.99
+[I] ../source/ConfigurationLoader/Loader.cpp:ParseBlock:219 = file_line: BH.txt:85 = selectivities FishingSel FishingSel FishingSel FishingSel
+[I] ../source/ConfigurationLoader/Loader.cpp:CreateObject:396 = CreateObject = block_type: mortality; object_type: event
+[I] ../source/ParameterList/ParameterList.cpp:RegisterAllowed:43 = Registering allowed parameter label
+[I] ../source/ParameterList/ParameterList.cpp:RegisterAllowed:43 = Registering allowed parameter type
+[I] ../source/ParameterList/ParameterList.cpp:RegisterAllowed:43 = Registering allowed parameter categories
+[I] ../source/ParameterList/ParameterList.cpp:RegisterAllowed:43 = Registering allowed parameter years
+[I] ../source/ParameterList/ParameterList.cpp:RegisterAllowed:43 = Registering allowed parameter catches
+[I] ../source/ParameterList/ParameterList.cpp:RegisterAllowed:43 = Registering allowed parameter u_max
+[I] ../source/ParameterList/ParameterList.cpp:RegisterAllowed:43 = Registering allowed parameter selectivities
+[I] ../source/ParameterList/ParameterList.cpp:RegisterAllowed:43 = Registering allowed parameter penalty
+--> Trace: ../source/ConfigurationLoader/Loader.cpp:ParseBlock:213
+[I] ../source/ConfigurationLoader/Loader.cpp:ParseBlock:219 = file_line: BH.txt:87 = @selectivity one
+[I] ../source/ConfigurationLoader/Loader.cpp:ParseBlock:219 = file_line: BH.txt:88 = type constant
+[I] ../source/ConfigurationLoader/Loader.cpp:ParseBlock:219 = file_line: BH.txt:89 = c 1
+[I] ../source/ConfigurationLoader/Loader.cpp:CreateObject:396 = CreateObject = block_type: selectivity; object_type: constant
+[I] ../source/ParameterList/ParameterList.cpp:RegisterAllowed:43 = Registering allowed parameter label
+[I] ../source/ParameterList/ParameterList.cpp:RegisterAllowed:43 = Registering allowed parameter type
+[I] ../source/ParameterList/ParameterList.cpp:RegisterAllowed:43 = Registering allowed parameter c
+--> Trace: ../source/ConfigurationLoader/Loader.cpp:ParseBlock:213
+[I] ../source/ConfigurationLoader/Loader.cpp:ParseBlock:219 = file_line: BH.txt:91 = @selectivity Maturation
+[I] ../source/ConfigurationLoader/Loader.cpp:ParseBlock:219 = file_line: BH.txt:92 = type logistic_producing
+[I] ../source/ConfigurationLoader/Loader.cpp:ParseBlock:219 = file_line: BH.txt:93 = L 5
+[I] ../source/ConfigurationLoader/Loader.cpp:ParseBlock:219 = file_line: BH.txt:94 = H 30
+[I] ../source/ConfigurationLoader/Loader.cpp:ParseBlock:219 = file_line: BH.txt:95 = a50 8
+[I] ../source/ConfigurationLoader/Loader.cpp:ParseBlock:219 = file_line: BH.txt:96 = ato95 3
+[I] ../source/ConfigurationLoader/Loader.cpp:CreateObject:396 = CreateObject = block_type: selectivity; object_type: logistic_producing
+[I] ../source/ParameterList/ParameterList.cpp:RegisterAllowed:43 = Registering allowed parameter label
+[I] ../source/ParameterList/ParameterList.cpp:RegisterAllowed:43 = Registering allowed parameter type
+[I] ../source/ParameterList/ParameterList.cpp:RegisterAllowed:43 = Registering allowed parameter l
+[I] ../source/ParameterList/ParameterList.cpp:RegisterAllowed:43 = Registering allowed parameter h
+[I] ../source/ParameterList/ParameterList.cpp:RegisterAllowed:43 = Registering allowed parameter a50
+[I] ../source/ParameterList/ParameterList.cpp:RegisterAllowed:43 = Registering allowed parameter ato95
+[I] ../source/ParameterList/ParameterList.cpp:RegisterAllowed:43 = Registering allowed parameter alpha
+--> Trace: ../source/ConfigurationLoader/Loader.cpp:ParseBlock:213
+[I] ../source/ConfigurationLoader/Loader.cpp:ParseBlock:219 = file_line: BH.txt:98 = @selectivity FishingSel
+[I] ../source/ConfigurationLoader/Loader.cpp:ParseBlock:219 = file_line: BH.txt:99 = type logistic
+[I] ../source/ConfigurationLoader/Loader.cpp:ParseBlock:219 = file_line: BH.txt:100 = a50 8
+[I] ../source/ConfigurationLoader/Loader.cpp:ParseBlock:219 = file_line: BH.txt:101 = ato95 3
+[I] ../source/ConfigurationLoader/Loader.cpp:CreateObject:396 = CreateObject = block_type: selectivity; object_type: logistic
+[I] ../source/ParameterList/ParameterList.cpp:RegisterAllowed:43 = Registering allowed parameter label
+[I] ../source/ParameterList/ParameterList.cpp:RegisterAllowed:43 = Registering allowed parameter type
+[I] ../source/ParameterList/ParameterList.cpp:RegisterAllowed:43 = Registering allowed parameter a50
+[I] ../source/ParameterList/ParameterList.cpp:RegisterAllowed:43 = Registering allowed parameter ato95
+[I] ../source/ParameterList/ParameterList.cpp:RegisterAllowed:43 = Registering allowed parameter alpha
+--> Trace: ../source/ConfigurationLoader/Loader.cpp:ParseBlock:213
+[I] ../source/ConfigurationLoader/Loader.cpp:ParseBlock:219 = file_line: BH.txt:103 = @report partition
+[I] ../source/ConfigurationLoader/Loader.cpp:ParseBlock:219 = file_line: BH.txt:104 = type partition
+[I] ../source/ConfigurationLoader/Loader.cpp:ParseBlock:219 = file_line: BH.txt:105 = time_step step_one
+[I] ../source/ConfigurationLoader/Loader.cpp:ParseBlock:219 = file_line: BH.txt:106 = years 1994
+[I] ../source/ConfigurationLoader/Loader.cpp:CreateObject:396 = CreateObject = block_type: report; object_type: partition
+[I] ../source/Reports/Factory.cpp:Create:35 = block_type: report; report_type: partition
+[I] ../source/ParameterList/ParameterList.cpp:RegisterAllowed:43 = Registering allowed parameter label
+[I] ../source/ParameterList/ParameterList.cpp:RegisterAllowed:43 = Registering allowed parameter type
+[I] ../source/ParameterList/ParameterList.cpp:RegisterAllowed:43 = Registering allowed parameter time_step
+[I] ../source/ParameterList/ParameterList.cpp:RegisterAllowed:43 = Registering allowed parameter years
+--> Trace: ../source/ConfigurationLoader/Loader.cpp:ParseBlock:213
+[I] ../source/ConfigurationLoader/Loader.cpp:ParseBlock:219 = file_line: BH.txt:108 = @report partition
+[I] ../source/ConfigurationLoader/Loader.cpp:ParseBlock:219 = file_line: BH.txt:109 = type partition
+[I] ../source/ConfigurationLoader/Loader.cpp:ParseBlock:219 = file_line: BH.txt:110 = time_step step_two
+[I] ../source/ConfigurationLoader/Loader.cpp:ParseBlock:219 = file_line: BH.txt:111 = years 1994
+[I] ../source/ConfigurationLoader/Loader.cpp:CreateObject:396 = CreateObject = block_type: report; object_type: partition
+[I] ../source/Reports/Factory.cpp:Create:35 = block_type: report; report_type: partition
+[I] ../source/ParameterList/ParameterList.cpp:RegisterAllowed:43 = Registering allowed parameter label
+[I] ../source/ParameterList/ParameterList.cpp:RegisterAllowed:43 = Registering allowed parameter type
+[I] ../source/ParameterList/ParameterList.cpp:RegisterAllowed:43 = Registering allowed parameter time_step
+[I] ../source/ParameterList/ParameterList.cpp:RegisterAllowed:43 = Registering allowed parameter years
+--> Trace: ../source/ConfigurationLoader/Loader.cpp:ParseBlock:213
+[I] ../source/ConfigurationLoader/Loader.cpp:ParseBlock:219 = file_line: BH.txt:113 = @report partition
+[I] ../source/ConfigurationLoader/Loader.cpp:ParseBlock:219 = file_line: BH.txt:114 = type partition
+[I] ../source/ConfigurationLoader/Loader.cpp:ParseBlock:219 = file_line: BH.txt:115 = time_step step_three
+[I] ../source/ConfigurationLoader/Loader.cpp:ParseBlock:219 = file_line: BH.txt:116 = years 1994
+[I] ../source/ConfigurationLoader/Loader.cpp:CreateObject:396 = CreateObject = block_type: report; object_type: partition
+[I] ../source/Reports/Factory.cpp:Create:35 = block_type: report; report_type: partition
+[I] ../source/ParameterList/ParameterList.cpp:RegisterAllowed:43 = Registering allowed parameter label
+[I] ../source/ParameterList/ParameterList.cpp:RegisterAllowed:43 = Registering allowed parameter type
+[I] ../source/ParameterList/ParameterList.cpp:RegisterAllowed:43 = Registering allowed parameter time_step
+[I] ../source/ParameterList/ParameterList.cpp:RegisterAllowed:43 = Registering allowed parameter years
+--> Trace: ../source/ConfigurationLoader/Loader.cpp:ParseBlock:213
+[I] ../source/ConfigurationLoader/Loader.cpp:ParseBlock:219 = file_line: BH.txt:118 = @report partition
+[I] ../source/ConfigurationLoader/Loader.cpp:ParseBlock:219 = file_line: BH.txt:119 = type partition
+[I] ../source/ConfigurationLoader/Loader.cpp:ParseBlock:219 = file_line: BH.txt:120 = time_step step_four
+[I] ../source/ConfigurationLoader/Loader.cpp:ParseBlock:219 = file_line: BH.txt:121 = years 1994
+[I] ../source/ConfigurationLoader/Loader.cpp:CreateObject:396 = CreateObject = block_type: report; object_type: partition
+[I] ../source/Reports/Factory.cpp:Create:35 = block_type: report; report_type: partition
+[I] ../source/ParameterList/ParameterList.cpp:RegisterAllowed:43 = Registering allowed parameter label
+[I] ../source/ParameterList/ParameterList.cpp:RegisterAllowed:43 = Registering allowed parameter type
+[I] ../source/ParameterList/ParameterList.cpp:RegisterAllowed:43 = Registering allowed parameter time_step
+[I] ../source/ParameterList/ParameterList.cpp:RegisterAllowed:43 = Registering allowed parameter years
+--> Trace: ../source/ConfigurationLoader/Loader.cpp:ParseBlock:213
+[I] ../source/ConfigurationLoader/Loader.cpp:ParseBlock:219 = file_line: BH.txt:123 = @report partition
+[I] ../source/ConfigurationLoader/Loader.cpp:ParseBlock:219 = file_line: BH.txt:124 = type partition
+[I] ../source/ConfigurationLoader/Loader.cpp:ParseBlock:219 = file_line: BH.txt:125 = time_step step_five
+[I] ../source/ConfigurationLoader/Loader.cpp:ParseBlock:219 = file_line: BH.txt:126 = years 1994
+[I] ../source/ConfigurationLoader/Loader.cpp:CreateObject:396 = CreateObject = block_type: report; object_type: partition
+[I] ../source/Reports/Factory.cpp:Create:35 = block_type: report; report_type: partition
+[I] ../source/ParameterList/ParameterList.cpp:RegisterAllowed:43 = Registering allowed parameter label
+[I] ../source/ParameterList/ParameterList.cpp:RegisterAllowed:43 = Registering allowed parameter type
+[I] ../source/ParameterList/ParameterList.cpp:RegisterAllowed:43 = Registering allowed parameter time_step
+[I] ../source/ParameterList/ParameterList.cpp:RegisterAllowed:43 = Registering allowed parameter years
+--> Trace: ../source/ConfigurationLoader/Loader.cpp:ParseBlock:213
+[I] ../source/ConfigurationLoader/Loader.cpp:ParseBlock:219 = file_line: BH.txt:130 = @report derived_quantities
+[I] ../source/ConfigurationLoader/Loader.cpp:ParseBlock:219 = file_line: BH.txt:131 = type derived_quantity
+[I] ../source/ConfigurationLoader/Loader.cpp:CreateObject:396 = CreateObject = block_type: report; object_type: derived_quantity
+[I] ../source/Reports/Factory.cpp:Create:35 = block_type: report; report_type: derived_quantity
+[I] ../source/ParameterList/ParameterList.cpp:RegisterAllowed:43 = Registering allowed parameter label
+[I] ../source/ParameterList/ParameterList.cpp:RegisterAllowed:43 = Registering allowed parameter type
+[I] ../source/ParameterList/ParameterList.cpp:RegisterAllowed:43 = Registering allowed parameter time_step
+[I] ../source/ParameterList/ParameterList.cpp:RegisterAllowed:43 = Registering allowed parameter years
+--> Trace: ../source/Utilities/CommandLineParser/CommandLineParser.cpp:OverrideGlobalValues:145
+--> Trace: ../source/Model/Model.cpp:Start:83
+[I] ../source/Model/Model.cpp:Start:90 = Model: State Change to Validate
+--> Trace: ../source/Model/Model.cpp:Validate:131
+--> Trace: ../source/Processes/Manager.cpp:Validate:25
+--> Trace: ../source/Selectivities/Children/Constant.cpp:Validate:34
+--> Trace: ../source/Selectivities/Children/LogisticProducing.cpp:Validate:58
+--> Trace: ../source/TimeSteps/Manager.cpp:Validate:57
+--> Trace: ../source/Estimates/Manager.cpp:Validate:38
+[I] ../source/TimeSteps/Manager.cpp:GetTimeStep:41 = label: step_one
+[I] ../source/TimeSteps/Manager.cpp:GetTimeStep:41 = label: step_two
+[I] ../source/TimeSteps/Manager.cpp:GetTimeStep:41 = label: step_three
+[I] ../source/TimeSteps/Manager.cpp:GetTimeStep:41 = label: step_four
+[I] ../source/Model/Model.cpp:Start:95 = Model: State Change to Build
+--> Trace: ../source/Model/Model.cpp:Build:208
+[I] ../source/Partition/Partition.cpp:Build:51 = Adding category immature.male to the partition
+[I] ../source/Partition/Partition.cpp:Build:51 = Adding category mature.male to the partition
+[I] ../source/Partition/Partition.cpp:Build:51 = Adding category immature.female to the partition
+[I] ../source/Partition/Partition.cpp:Build:51 = Adding category mature.female to the partition
+--> Trace: ../source/DerivedQuantities/DerivedQuantity.cpp:Build:60
+--> Trace: ../source/Partition/Accessors/Categories.cpp:Categories:28
+[I] ../source/Partition/Accessors/Categories.cpp:Categories:33 = Model details: start_year: 1994; final_year: 2010
+[I] ../source/Partition/Accessors/Categories.cpp:Categories:34 = Categories: 2
+[I] ../source/TimeSteps/Manager.cpp:GetTimeStep:41 = label: step_one
+[I] ../source/TimeSteps/Manager.cpp:GetTimeStep:41 = label: step_one
+--> Trace: ../source/InitialisationPhases/InitialisationPhase.cpp:Build:72
+[I] ../source/TimeSteps/Manager.cpp:GetTimeStep:41 = label: step_one
+--> Trace: ../source/Partition/Accessors/Categories.cpp:Categories:28
+[I] ../source/Partition/Accessors/Categories.cpp:Categories:33 = Model details: start_year: 1994; final_year: 2010
+[I] ../source/Partition/Accessors/Categories.cpp:Categories:34 = Categories: 4
+--> Trace: ../source/Partition/Accessors/Categories.cpp:Categories:28
+[I] ../source/Partition/Accessors/Categories.cpp:Categories:33 = Model details: start_year: 1994; final_year: 2010
+[I] ../source/Partition/Accessors/Categories.cpp:Categories:34 = Categories: 2
+--> Trace: ../source/Processes/Children/MaturationRate.cpp:Build:128
+--> Trace: ../source/Partition/Accessors/Categories.cpp:Categories:28
+[I] ../source/Partition/Accessors/Categories.cpp:Categories:33 = Model details: start_year: 1994; final_year: 2010
+[I] ../source/Partition/Accessors/Categories.cpp:Categories:34 = Categories: 2
+--> Trace: ../source/Partition/Accessors/Categories.cpp:Categories:28
+[I] ../source/Partition/Accessors/Categories.cpp:Categories:33 = Model details: start_year: 1994; final_year: 2010
+[I] ../source/Partition/Accessors/Categories.cpp:Categories:34 = Categories: 2
+--> Trace: ../source/Partition/Accessors/Categories.cpp:Categories:28
+[I] ../source/Partition/Accessors/Categories.cpp:Categories:33 = Model details: start_year: 1994; final_year: 2010
+[I] ../source/Partition/Accessors/Categories.cpp:Categories:34 = Categories: 2
+--> Trace: ../source/Partition/Accessors/Categories.cpp:Categories:28
+[I] ../source/Partition/Accessors/Categories.cpp:Categories:33 = Model details: start_year: 1994; final_year: 2010
+[I] ../source/Partition/Accessors/Categories.cpp:Categories:34 = Categories: 4
+[I] ../source/TimeSteps/TimeStep.cpp:Build:65 = Time step step_one has 1 processes
+[I] ../source/TimeSteps/TimeStep.cpp:Build:66 = Time step step_one has 1 initialisation derived quantities
+[I] ../source/TimeSteps/TimeStep.cpp:Build:67 = Time step step_one has 1 derived quantities
+[I] ../source/TimeSteps/TimeStep.cpp:Build:65 = Time step step_two has 1 processes
+[I] ../source/TimeSteps/TimeStep.cpp:Build:66 = Time step step_two has 0 initialisation derived quantities
+[I] ../source/TimeSteps/TimeStep.cpp:Build:67 = Time step step_two has 0 derived quantities
+[I] ../source/TimeSteps/TimeStep.cpp:Build:65 = Time step step_three has 1 processes
+[I] ../source/TimeSteps/TimeStep.cpp:Build:66 = Time step step_three has 0 initialisation derived quantities
+[I] ../source/TimeSteps/TimeStep.cpp:Build:67 = Time step step_three has 0 derived quantities
+[I] ../source/TimeSteps/TimeStep.cpp:Build:65 = Time step step_four has 1 processes
+[I] ../source/TimeSteps/TimeStep.cpp:Build:66 = Time step step_four has 0 initialisation derived quantities
+[I] ../source/TimeSteps/TimeStep.cpp:Build:67 = Time step step_four has 0 derived quantities
+[I] ../source/TimeSteps/TimeStep.cpp:Build:65 = Time step step_five has 1 processes
+[I] ../source/TimeSteps/TimeStep.cpp:Build:66 = Time step step_five has 0 initialisation derived quantities
+[I] ../source/TimeSteps/TimeStep.cpp:Build:67 = Time step step_five has 0 derived quantities
+[I] ../source/Model/Model.cpp:Start:100 = Model: State Change to Verify
+--> Trace: ../source/Model/Model.cpp:Verify:235
+--> Trace: ../source/Model/Model.cpp:RunBasic:268
+[I] ../source/Model/Model.cpp:RunBasic:270 = Model: State change to PreExecute
+[I] ../source/Model/Model.cpp:RunBasic:276 = Model: State change to Execute
+--> Trace: ../source/Model/Model.cpp:Iterate:338
+--> Trace: ../source/InitialisationPhases/Manager.cpp:Execute:58
+[I] ../source/InitialisationPhases/InitialisationPhase.cpp:Execute:95 = Executing 10 years with 0 processes
+[I] ../source/Processes/Children/RecruitmentBevertonHolt.cpp:Execute:210 = Adding 10000 to immature.male
+[I] ../source/Processes/Children/RecruitmentBevertonHolt.cpp:Execute:210 = Adding 10000 to immature.female
+--> Trace: ../source/TimeSteps/TimeStep.cpp:ExecuteInitialisationDerivedQuantities:82
+--> Trace: ../source/DerivedQuantities/Children/Abundance.cpp:Calculate:53
+[I] ../source/Processes/Children/RecruitmentBevertonHolt.cpp:Execute:210 = Adding 10000 to immature.male
+[I] ../source/Processes/Children/RecruitmentBevertonHolt.cpp:Execute:210 = Adding 10000 to immature.female
+--> Trace: ../source/TimeSteps/TimeStep.cpp:ExecuteInitialisationDerivedQuantities:82
+--> Trace: ../source/DerivedQuantities/Children/Abundance.cpp:Calculate:53
+[I] ../source/Processes/Children/RecruitmentBevertonHolt.cpp:Execute:210 = Adding 10000 to immature.male
+[I] ../source/Processes/Children/RecruitmentBevertonHolt.cpp:Execute:210 = Adding 10000 to immature.female
+--> Trace: ../source/TimeSteps/TimeStep.cpp:ExecuteInitialisationDerivedQuantities:82
+--> Trace: ../source/DerivedQuantities/Children/Abundance.cpp:Calculate:53
+[I] ../source/Processes/Children/RecruitmentBevertonHolt.cpp:Execute:210 = Adding 10000 to immature.male
+[I] ../source/Processes/Children/RecruitmentBevertonHolt.cpp:Execute:210 = Adding 10000 to immature.female
+--> Trace: ../source/TimeSteps/TimeStep.cpp:ExecuteInitialisationDerivedQuantities:82
+--> Trace: ../source/DerivedQuantities/Children/Abundance.cpp:Calculate:53
+[I] ../source/Processes/Children/RecruitmentBevertonHolt.cpp:Execute:210 = Adding 10000 to immature.male
+[I] ../source/Processes/Children/RecruitmentBevertonHolt.cpp:Execute:210 = Adding 10000 to immature.female
+--> Trace: ../source/TimeSteps/TimeStep.cpp:ExecuteInitialisationDerivedQuantities:82
+--> Trace: ../source/DerivedQuantities/Children/Abundance.cpp:Calculate:53
+[I] ../source/Processes/Children/RecruitmentBevertonHolt.cpp:Execute:210 = Adding 10000 to immature.male
+[I] ../source/Processes/Children/RecruitmentBevertonHolt.cpp:Execute:210 = Adding 10000 to immature.female
+--> Trace: ../source/TimeSteps/TimeStep.cpp:ExecuteInitialisationDerivedQuantities:82
+--> Trace: ../source/DerivedQuantities/Children/Abundance.cpp:Calculate:53
+[I] ../source/Processes/Children/RecruitmentBevertonHolt.cpp:Execute:210 = Adding 10000 to immature.male
+[I] ../source/Processes/Children/RecruitmentBevertonHolt.cpp:Execute:210 = Adding 10000 to immature.female
+--> Trace: ../source/TimeSteps/TimeStep.cpp:ExecuteInitialisationDerivedQuantities:82
+--> Trace: ../source/DerivedQuantities/Children/Abundance.cpp:Calculate:53
+[I] ../source/Processes/Children/RecruitmentBevertonHolt.cpp:Execute:210 = Adding 10000 to immature.male
+[I] ../source/Processes/Children/RecruitmentBevertonHolt.cpp:Execute:210 = Adding 10000 to immature.female
+--> Trace: ../source/TimeSteps/TimeStep.cpp:ExecuteInitialisationDerivedQuantities:82
+--> Trace: ../source/DerivedQuantities/Children/Abundance.cpp:Calculate:53
+[I] ../source/Processes/Children/RecruitmentBevertonHolt.cpp:Execute:210 = Adding 10000 to immature.male
+[I] ../source/Processes/Children/RecruitmentBevertonHolt.cpp:Execute:210 = Adding 10000 to immature.female
+--> Trace: ../source/TimeSteps/TimeStep.cpp:ExecuteInitialisationDerivedQuantities:82
+--> Trace: ../source/DerivedQuantities/Children/Abundance.cpp:Calculate:53
+[I] ../source/Processes/Children/RecruitmentBevertonHolt.cpp:Execute:210 = Adding 10000 to immature.male
+[I] ../source/Processes/Children/RecruitmentBevertonHolt.cpp:Execute:210 = Adding 10000 to immature.female
+--> Trace: ../source/TimeSteps/TimeStep.cpp:ExecuteInitialisationDerivedQuantities:82
+--> Trace: ../source/DerivedQuantities/Children/Abundance.cpp:Calculate:53
+[I] ../source/Model/Model.cpp:Iterate:348 = Iteration year: 1994
+--> Trace: ../source/TimeSteps/Manager.cpp:Execute:92
+[I] ../source/DerivedQuantities/DerivedQuantity.cpp:GetInitialisationValue:142 = phase = 0; index = 9; initialisation_values_.size() = 1
+[I] ../source/DerivedQuantities/DerivedQuantity.cpp:GetInitialisationValue:150 = initialisation_values_[0].size() = 10
+[I] ../source/Processes/Children/RecruitmentBevertonHolt.cpp:Execute:204 = year = 1994; ycs = 1994; b0_ = 0; ssb_ratio = 0; true_ycs = 0; amount_per = 0
+[I] ../source/Processes/Children/RecruitmentBevertonHolt.cpp:Execute:210 = Adding 0 to immature.male
+[I] ../source/Processes/Children/RecruitmentBevertonHolt.cpp:Execute:210 = Adding 0 to immature.female
+--> Trace: ../source/TimeSteps/TimeStep.cpp:ExecuteDerivedQuantities:94
+--> Trace: ../source/Reports/Manager.cpp:Execute:72
+*partition
+report.type: partition
+year: 1994
+time_step: step_one
+category 1 2 3 4 5 6 7 8 9 10
+immature.male 100000.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
+mature.male 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
+immature.female 100000.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
+mature.female 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
+*end
+
+--> Trace: ../source/TimeSteps/TimeStep.cpp:ExecuteDerivedQuantities:94
+--> Trace: ../source/Reports/Manager.cpp:Execute:72
+*partition
+report.type: partition
+year: 1994
+time_step: step_two
+category 1 2 3 4 5 6 7 8 9 10
+immature.male 0.000000 100000.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
+mature.male 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
+immature.female 0.000000 100000.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
+mature.female 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
+*end
+
+--> Trace: ../source/TimeSteps/TimeStep.cpp:ExecuteDerivedQuantities:94
+--> Trace: ../source/Reports/Manager.cpp:Execute:72
+*partition
+report.type: partition
+year: 1994
+time_step: step_three
+category 1 2 3 4 5 6 7 8 9 10
+immature.male 0.000000 80000.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
+mature.male 0.000000 20000.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
+immature.female 0.000000 80000.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
+mature.female 0.000000 20000.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
+*end
+
+--> Trace: ../source/TimeSteps/TimeStep.cpp:ExecuteDerivedQuantities:94
+--> Trace: ../source/Reports/Manager.cpp:Execute:72
+*partition
+report.type: partition
+year: 1994
+time_step: step_four
+category 1 2 3 4 5 6 7 8 9 10
+immature.male 0.000000 80000.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
+mature.male 0.000000 18096.748361 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
+immature.female 0.000000 80000.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
+mature.female 0.000000 18096.748361 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
+*end
+
+[I] ../source/Model/Model.cpp:Iterate:348 = Iteration year: 1995
+--> Trace: ../source/TimeSteps/Manager.cpp:Execute:92
+[I] ../source/DerivedQuantities/DerivedQuantity.cpp:GetInitialisationValue:142 = phase = 0; index = 9; initialisation_values_.size() = 1
+[I] ../source/DerivedQuantities/DerivedQuantity.cpp:GetInitialisationValue:150 = initialisation_values_[0].size() = 10
+[I] ../source/Processes/Children/RecruitmentBevertonHolt.cpp:Execute:204 = year = 1995; ycs = 1995; b0_ = 0; ssb_ratio = 0; true_ycs = 0; amount_per = 0
+[I] ../source/Processes/Children/RecruitmentBevertonHolt.cpp:Execute:210 = Adding 0 to immature.male
+[I] ../source/Processes/Children/RecruitmentBevertonHolt.cpp:Execute:210 = Adding 0 to immature.female
+--> Trace: ../source/TimeSteps/TimeStep.cpp:ExecuteDerivedQuantities:94
+--> Trace: ../source/Reports/Manager.cpp:Execute:72
+--> Trace: ../source/TimeSteps/TimeStep.cpp:ExecuteDerivedQuantities:94
+--> Trace: ../source/Reports/Manager.cpp:Execute:72
+--> Trace: ../source/TimeSteps/TimeStep.cpp:ExecuteDerivedQuantities:94
+--> Trace: ../source/Reports/Manager.cpp:Execute:72
+--> Trace: ../source/TimeSteps/TimeStep.cpp:ExecuteDerivedQuantities:94
+--> Trace: ../source/Reports/Manager.cpp:Execute:72
+[I] ../source/Model/Model.cpp:Iterate:348 = Iteration year: 1996
+--> Trace: ../source/TimeSteps/Manager.cpp:Execute:92
+[I] ../source/DerivedQuantities/DerivedQuantity.cpp:GetInitialisationValue:142 = phase = 0; index = 9; initialisation_values_.size() = 1
+[I] ../source/DerivedQuantities/DerivedQuantity.cpp:GetInitialisationValue:150 = initialisation_values_[0].size() = 10
+[I] ../source/Processes/Children/RecruitmentBevertonHolt.cpp:Execute:204 = year = 1996; ycs = 1996; b0_ = 0; ssb_ratio = 0; true_ycs = 0; amount_per = 0
+[I] ../source/Processes/Children/RecruitmentBevertonHolt.cpp:Execute:210 = Adding 0 to immature.male
+[I] ../source/Processes/Children/RecruitmentBevertonHolt.cpp:Execute:210 = Adding 0 to immature.female
+--> Trace: ../source/TimeSteps/TimeStep.cpp:ExecuteDerivedQuantities:94
+--> Trace: ../source/Reports/Manager.cpp:Execute:72
+--> Trace: ../source/TimeSteps/TimeStep.cpp:ExecuteDerivedQuantities:94
+--> Trace: ../source/Reports/Manager.cpp:Execute:72
+--> Trace: ../source/TimeSteps/TimeStep.cpp:ExecuteDerivedQuantities:94
+--> Trace: ../source/Reports/Manager.cpp:Execute:72
+--> Trace: ../source/TimeSteps/TimeStep.cpp:ExecuteDerivedQuantities:94
+--> Trace: ../source/Reports/Manager.cpp:Execute:72
+[I] ../source/Model/Model.cpp:Iterate:348 = Iteration year: 1997
+--> Trace: ../source/TimeSteps/Manager.cpp:Execute:92
+[I] ../source/DerivedQuantities/DerivedQuantity.cpp:GetInitialisationValue:142 = phase = 0; index = 9; initialisation_values_.size() = 1
+[I] ../source/DerivedQuantities/DerivedQuantity.cpp:GetInitialisationValue:150 = initialisation_values_[0].size() = 10
+[I] ../source/Processes/Children/RecruitmentBevertonHolt.cpp:Execute:204 = year = 1997; ycs = 1997; b0_ = 0; ssb_ratio = 0; true_ycs = 0; amount_per = 0
+[I] ../source/Processes/Children/RecruitmentBevertonHolt.cpp:Execute:210 = Adding 0 to immature.male
+[I] ../source/Processes/Children/RecruitmentBevertonHolt.cpp:Execute:210 = Adding 0 to immature.female
+--> Trace: ../source/TimeSteps/TimeStep.cpp:ExecuteDerivedQuantities:94
+--> Trace: ../source/Reports/Manager.cpp:Execute:72
+--> Trace: ../source/TimeSteps/TimeStep.cpp:ExecuteDerivedQuantities:94
+--> Trace: ../source/Reports/Manager.cpp:Execute:72
+--> Trace: ../source/TimeSteps/TimeStep.cpp:ExecuteDerivedQuantities:94
+--> Trace: ../source/Reports/Manager.cpp:Execute:72
+--> Trace: ../source/TimeSteps/TimeStep.cpp:ExecuteDerivedQuantities:94
+--> Trace: ../source/Reports/Manager.cpp:Execute:72
+[I] ../source/Model/Model.cpp:Iterate:348 = Iteration year: 1998
+--> Trace: ../source/TimeSteps/Manager.cpp:Execute:92
+[I] ../source/DerivedQuantities/DerivedQuantity.cpp:GetInitialisationValue:142 = phase = 0; index = 9; initialisation_values_.size() = 1
+[I] ../source/DerivedQuantities/DerivedQuantity.cpp:GetInitialisationValue:150 = initialisation_values_[0].size() = 10
+[I] ../source/Processes/Children/RecruitmentBevertonHolt.cpp:Execute:204 = year = 1998; ycs = 1998; b0_ = 0; ssb_ratio = 0; true_ycs = 0; amount_per = 0
+[I] ../source/Processes/Children/RecruitmentBevertonHolt.cpp:Execute:210 = Adding 0 to immature.male
+[I] ../source/Processes/Children/RecruitmentBevertonHolt.cpp:Execute:210 = Adding 0 to immature.female
+--> Trace: ../source/TimeSteps/TimeStep.cpp:ExecuteDerivedQuantities:94
+--> Trace: ../source/Reports/Manager.cpp:Execute:72
+--> Trace: ../source/TimeSteps/TimeStep.cpp:ExecuteDerivedQuantities:94
+--> Trace: ../source/Reports/Manager.cpp:Execute:72
+--> Trace: ../source/TimeSteps/TimeStep.cpp:ExecuteDerivedQuantities:94
+--> Trace: ../source/Reports/Manager.cpp:Execute:72
+--> Trace: ../source/TimeSteps/TimeStep.cpp:ExecuteDerivedQuantities:94
+--> Trace: ../source/Reports/Manager.cpp:Execute:72
+[I] ../source/Model/Model.cpp:Iterate:348 = Iteration year: 1999
+--> Trace: ../source/TimeSteps/Manager.cpp:Execute:92
+[I] ../source/DerivedQuantities/DerivedQuantity.cpp:GetInitialisationValue:142 = phase = 0; index = 9; initialisation_values_.size() = 1
+[I] ../source/DerivedQuantities/DerivedQuantity.cpp:GetInitialisationValue:150 = initialisation_values_[0].size() = 10
+[I] ../source/Processes/Children/RecruitmentBevertonHolt.cpp:Execute:204 = year = 1999; ycs = 1999; b0_ = 0; ssb_ratio = 0; true_ycs = 0; amount_per = 0
+[I] ../source/Processes/Children/RecruitmentBevertonHolt.cpp:Execute:210 = Adding 0 to immature.male
+[I] ../source/Processes/Children/RecruitmentBevertonHolt.cpp:Execute:210 = Adding 0 to immature.female
+--> Trace: ../source/TimeSteps/TimeStep.cpp:ExecuteDerivedQuantities:94
+--> Trace: ../source/Reports/Manager.cpp:Execute:72
+--> Trace: ../source/TimeSteps/TimeStep.cpp:ExecuteDerivedQuantities:94
+--> Trace: ../source/Reports/Manager.cpp:Execute:72
+--> Trace: ../source/TimeSteps/TimeStep.cpp:ExecuteDerivedQuantities:94
+--> Trace: ../source/Reports/Manager.cpp:Execute:72
+--> Trace: ../source/TimeSteps/TimeStep.cpp:ExecuteDerivedQuantities:94
+--> Trace: ../source/Reports/Manager.cpp:Execute:72
+[I] ../source/Model/Model.cpp:Iterate:348 = Iteration year: 2000
+--> Trace: ../source/TimeSteps/Manager.cpp:Execute:92
+[I] ../source/DerivedQuantities/DerivedQuantity.cpp:GetInitialisationValue:142 = phase = 0; index = 9; initialisation_values_.size() = 1
+[I] ../source/DerivedQuantities/DerivedQuantity.cpp:GetInitialisationValue:150 = initialisation_values_[0].size() = 10
+[I] ../source/Processes/Children/RecruitmentBevertonHolt.cpp:Execute:204 = year = 2000; ycs = 2000; b0_ = 0; ssb_ratio = 0; true_ycs = 0; amount_per = 0
+[I] ../source/Processes/Children/RecruitmentBevertonHolt.cpp:Execute:210 = Adding 0 to immature.male
+[I] ../source/Processes/Children/RecruitmentBevertonHolt.cpp:Execute:210 = Adding 0 to immature.female
+--> Trace: ../source/TimeSteps/TimeStep.cpp:ExecuteDerivedQuantities:94
+--> Trace: ../source/Reports/Manager.cpp:Execute:72
+--> Trace: ../source/TimeSteps/TimeStep.cpp:ExecuteDerivedQuantities:94
+--> Trace: ../source/Reports/Manager.cpp:Execute:72
+--> Trace: ../source/TimeSteps/TimeStep.cpp:ExecuteDerivedQuantities:94
+--> Trace: ../source/Reports/Manager.cpp:Execute:72
+--> Trace: ../source/TimeSteps/TimeStep.cpp:ExecuteDerivedQuantities:94
+--> Trace: ../source/Reports/Manager.cpp:Execute:72
+[I] ../source/Model/Model.cpp:Iterate:348 = Iteration year: 2001
+--> Trace: ../source/TimeSteps/Manager.cpp:Execute:92
+[I] ../source/DerivedQuantities/DerivedQuantity.cpp:GetInitialisationValue:142 = phase = 0; index = 9; initialisation_values_.size() = 1
+[I] ../source/DerivedQuantities/DerivedQuantity.cpp:GetInitialisationValue:150 = initialisation_values_[0].size() = 10
+[I] ../source/Processes/Children/RecruitmentBevertonHolt.cpp:Execute:204 = year = 2001; ycs = 2001; b0_ = 0; ssb_ratio = 0; true_ycs = 0; amount_per = 0
+[I] ../source/Processes/Children/RecruitmentBevertonHolt.cpp:Execute:210 = Adding 0 to immature.male
+[I] ../source/Processes/Children/RecruitmentBevertonHolt.cpp:Execute:210 = Adding 0 to immature.female
+--> Trace: ../source/TimeSteps/TimeStep.cpp:ExecuteDerivedQuantities:94
+--> Trace: ../source/Reports/Manager.cpp:Execute:72
+--> Trace: ../source/TimeSteps/TimeStep.cpp:ExecuteDerivedQuantities:94
+--> Trace: ../source/Reports/Manager.cpp:Execute:72
+--> Trace: ../source/TimeSteps/TimeStep.cpp:ExecuteDerivedQuantities:94
+--> Trace: ../source/Reports/Manager.cpp:Execute:72
+--> Trace: ../source/TimeSteps/TimeStep.cpp:ExecuteDerivedQuantities:94
+--> Trace: ../source/Reports/Manager.cpp:Execute:72
+[I] ../source/Model/Model.cpp:Iterate:348 = Iteration year: 2002
+--> Trace: ../source/TimeSteps/Manager.cpp:Execute:92
+[I] ../source/DerivedQuantities/DerivedQuantity.cpp:GetInitialisationValue:142 = phase = 0; index = 9; initialisation_values_.size() = 1
+[I] ../source/DerivedQuantities/DerivedQuantity.cpp:GetInitialisationValue:150 = initialisation_values_[0].size() = 10
+[I] ../source/Processes/Children/RecruitmentBevertonHolt.cpp:Execute:204 = year = 2002; ycs = 2002; b0_ = 0; ssb_ratio = 0; true_ycs = 0; amount_per = 0
+[I] ../source/Processes/Children/RecruitmentBevertonHolt.cpp:Execute:210 = Adding 0 to immature.male
+[I] ../source/Processes/Children/RecruitmentBevertonHolt.cpp:Execute:210 = Adding 0 to immature.female
+--> Trace: ../source/TimeSteps/TimeStep.cpp:ExecuteDerivedQuantities:94
+--> Trace: ../source/Reports/Manager.cpp:Execute:72
+--> Trace: ../source/TimeSteps/TimeStep.cpp:ExecuteDerivedQuantities:94
+--> Trace: ../source/Reports/Manager.cpp:Execute:72
+--> Trace: ../source/TimeSteps/TimeStep.cpp:ExecuteDerivedQuantities:94
+--> Trace: ../source/Reports/Manager.cpp:Execute:72
+--> Trace: ../source/TimeSteps/TimeStep.cpp:ExecuteDerivedQuantities:94
+--> Trace: ../source/Reports/Manager.cpp:Execute:72
+[I] ../source/Model/Model.cpp:Iterate:348 = Iteration year: 2003
+--> Trace: ../source/TimeSteps/Manager.cpp:Execute:92
+[I] ../source/DerivedQuantities/DerivedQuantity.cpp:GetInitialisationValue:142 = phase = 0; index = 9; initialisation_values_.size() = 1
+[I] ../source/DerivedQuantities/DerivedQuantity.cpp:GetInitialisationValue:150 = initialisation_values_[0].size() = 10
+[I] ../source/Processes/Children/RecruitmentBevertonHolt.cpp:Execute:204 = year = 2003; ycs = 2003; b0_ = 0; ssb_ratio = 0; true_ycs = 0; amount_per = 0
+[I] ../source/Processes/Children/RecruitmentBevertonHolt.cpp:Execute:210 = Adding 0 to immature.male
+[I] ../source/Processes/Children/RecruitmentBevertonHolt.cpp:Execute:210 = Adding 0 to immature.female
+--> Trace: ../source/TimeSteps/TimeStep.cpp:ExecuteDerivedQuantities:94
+--> Trace: ../source/Reports/Manager.cpp:Execute:72
+--> Trace: ../source/TimeSteps/TimeStep.cpp:ExecuteDerivedQuantities:94
+--> Trace: ../source/Reports/Manager.cpp:Execute:72
+--> Trace: ../source/TimeSteps/TimeStep.cpp:ExecuteDerivedQuantities:94
+--> Trace: ../source/Reports/Manager.cpp:Execute:72
+--> Trace: ../source/TimeSteps/TimeStep.cpp:ExecuteDerivedQuantities:94
+--> Trace: ../source/Reports/Manager.cpp:Execute:72
+[I] ../source/Model/Model.cpp:Iterate:348 = Iteration year: 2004
+--> Trace: ../source/TimeSteps/Manager.cpp:Execute:92
+[I] ../source/DerivedQuantities/DerivedQuantity.cpp:GetInitialisationValue:142 = phase = 0; index = 9; initialisation_values_.size() = 1
+[I] ../source/DerivedQuantities/DerivedQuantity.cpp:GetInitialisationValue:150 = initialisation_values_[0].size() = 10
+[I] ../source/Processes/Children/RecruitmentBevertonHolt.cpp:Execute:204 = year = 2004; ycs = 2004; b0_ = 0; ssb_ratio = 0; true_ycs = 0; amount_per = 0
+[I] ../source/Processes/Children/RecruitmentBevertonHolt.cpp:Execute:210 = Adding 0 to immature.male
+[I] ../source/Processes/Children/RecruitmentBevertonHolt.cpp:Execute:210 = Adding 0 to immature.female
+--> Trace: ../source/TimeSteps/TimeStep.cpp:ExecuteDerivedQuantities:94
+--> Trace: ../source/Reports/Manager.cpp:Execute:72
+--> Trace: ../source/TimeSteps/TimeStep.cpp:ExecuteDerivedQuantities:94
+--> Trace: ../source/Reports/Manager.cpp:Execute:72
+--> Trace: ../source/TimeSteps/TimeStep.cpp:ExecuteDerivedQuantities:94
+--> Trace: ../source/Reports/Manager.cpp:Execute:72
+--> Trace: ../source/TimeSteps/TimeStep.cpp:ExecuteDerivedQuantities:94
+--> Trace: ../source/Reports/Manager.cpp:Execute:72
+[I] ../source/Model/Model.cpp:Iterate:348 = Iteration year: 2005
+--> Trace: ../source/TimeSteps/Manager.cpp:Execute:92
+[I] ../source/DerivedQuantities/DerivedQuantity.cpp:GetInitialisationValue:142 = phase = 0; index = 9; initialisation_values_.size() = 1
+[I] ../source/DerivedQuantities/DerivedQuantity.cpp:GetInitialisationValue:150 = initialisation_values_[0].size() = 10
+[I] ../source/Processes/Children/RecruitmentBevertonHolt.cpp:Execute:204 = year = 2005; ycs = 2005; b0_ = 0; ssb_ratio = 0; true_ycs = 0; amount_per = 0
+[I] ../source/Processes/Children/RecruitmentBevertonHolt.cpp:Execute:210 = Adding 0 to immature.male
+[I] ../source/Processes/Children/RecruitmentBevertonHolt.cpp:Execute:210 = Adding 0 to immature.female
+--> Trace: ../source/TimeSteps/TimeStep.cpp:ExecuteDerivedQuantities:94
+--> Trace: ../source/Reports/Manager.cpp:Execute:72
+--> Trace: ../source/TimeSteps/TimeStep.cpp:ExecuteDerivedQuantities:94
+--> Trace: ../source/Reports/Manager.cpp:Execute:72
+--> Trace: ../source/TimeSteps/TimeStep.cpp:ExecuteDerivedQuantities:94
+--> Trace: ../source/Reports/Manager.cpp:Execute:72
+--> Trace: ../source/TimeSteps/TimeStep.cpp:ExecuteDerivedQuantities:94
+--> Trace: ../source/Reports/Manager.cpp:Execute:72
+[I] ../source/Model/Model.cpp:Iterate:348 = Iteration year: 2006
+--> Trace: ../source/TimeSteps/Manager.cpp:Execute:92
+[I] ../source/DerivedQuantities/DerivedQuantity.cpp:GetInitialisationValue:142 = phase = 0; index = 9; initialisation_values_.size() = 1
+[I] ../source/DerivedQuantities/DerivedQuantity.cpp:GetInitialisationValue:150 = initialisation_values_[0].size() = 10
+[I] ../source/Processes/Children/RecruitmentBevertonHolt.cpp:Execute:204 = year = 2006; ycs = 2006; b0_ = 0; ssb_ratio = 0; true_ycs = 0; amount_per = 0
+[I] ../source/Processes/Children/RecruitmentBevertonHolt.cpp:Execute:210 = Adding 0 to immature.male
+[I] ../source/Processes/Children/RecruitmentBevertonHolt.cpp:Execute:210 = Adding 0 to immature.female
+--> Trace: ../source/TimeSteps/TimeStep.cpp:ExecuteDerivedQuantities:94
+--> Trace: ../source/Reports/Manager.cpp:Execute:72
+--> Trace: ../source/TimeSteps/TimeStep.cpp:ExecuteDerivedQuantities:94
+--> Trace: ../source/Reports/Manager.cpp:Execute:72
+--> Trace: ../source/TimeSteps/TimeStep.cpp:ExecuteDerivedQuantities:94
+--> Trace: ../source/Reports/Manager.cpp:Execute:72
+--> Trace: ../source/TimeSteps/TimeStep.cpp:ExecuteDerivedQuantities:94
+--> Trace: ../source/Reports/Manager.cpp:Execute:72
+[I] ../source/Model/Model.cpp:Iterate:348 = Iteration year: 2007
+--> Trace: ../source/TimeSteps/Manager.cpp:Execute:92
+[I] ../source/DerivedQuantities/DerivedQuantity.cpp:GetInitialisationValue:142 = phase = 0; index = 9; initialisation_values_.size() = 1
+[I] ../source/DerivedQuantities/DerivedQuantity.cpp:GetInitialisationValue:150 = initialisation_values_[0].size() = 10
+[I] ../source/Processes/Children/RecruitmentBevertonHolt.cpp:Execute:204 = year = 2007; ycs = 2007; b0_ = 0; ssb_ratio = 0; true_ycs = 0; amount_per = 0
+[I] ../source/Processes/Children/RecruitmentBevertonHolt.cpp:Execute:210 = Adding 0 to immature.male
+[I] ../source/Processes/Children/RecruitmentBevertonHolt.cpp:Execute:210 = Adding 0 to immature.female
+--> Trace: ../source/TimeSteps/TimeStep.cpp:ExecuteDerivedQuantities:94
+--> Trace: ../source/Reports/Manager.cpp:Execute:72
+--> Trace: ../source/TimeSteps/TimeStep.cpp:ExecuteDerivedQuantities:94
+--> Trace: ../source/Reports/Manager.cpp:Execute:72
+--> Trace: ../source/TimeSteps/TimeStep.cpp:ExecuteDerivedQuantities:94
+--> Trace: ../source/Reports/Manager.cpp:Execute:72
+--> Trace: ../source/TimeSteps/TimeStep.cpp:ExecuteDerivedQuantities:94
+--> Trace: ../source/Reports/Manager.cpp:Execute:72
+[I] ../source/Model/Model.cpp:Iterate:348 = Iteration year: 2008
+--> Trace: ../source/TimeSteps/Manager.cpp:Execute:92
+[I] ../source/DerivedQuantities/DerivedQuantity.cpp:GetInitialisationValue:142 = phase = 0; index = 9; initialisation_values_.size() = 1
+[I] ../source/DerivedQuantities/DerivedQuantity.cpp:GetInitialisationValue:150 = initialisation_values_[0].size() = 10
+[I] ../source/Processes/Children/RecruitmentBevertonHolt.cpp:Execute:204 = year = 2008; ycs = 2008; b0_ = 0; ssb_ratio = 0; true_ycs = 0; amount_per = 0
+[I] ../source/Processes/Children/RecruitmentBevertonHolt.cpp:Execute:210 = Adding 0 to immature.male
+[I] ../source/Processes/Children/RecruitmentBevertonHolt.cpp:Execute:210 = Adding 0 to immature.female
+--> Trace: ../source/TimeSteps/TimeStep.cpp:ExecuteDerivedQuantities:94
+--> Trace: ../source/Reports/Manager.cpp:Execute:72
+--> Trace: ../source/TimeSteps/TimeStep.cpp:ExecuteDerivedQuantities:94
+--> Trace: ../source/Reports/Manager.cpp:Execute:72
+--> Trace: ../source/TimeSteps/TimeStep.cpp:ExecuteDerivedQuantities:94
+--> Trace: ../source/Reports/Manager.cpp:Execute:72
+--> Trace: ../source/TimeSteps/TimeStep.cpp:ExecuteDerivedQuantities:94
+--> Trace: ../source/Reports/Manager.cpp:Execute:72
+[I] ../source/Model/Model.cpp:Iterate:348 = Iteration year: 2009
+--> Trace: ../source/TimeSteps/Manager.cpp:Execute:92
+[I] ../source/DerivedQuantities/DerivedQuantity.cpp:GetInitialisationValue:142 = phase = 0; index = 9; initialisation_values_.size() = 1
+[I] ../source/DerivedQuantities/DerivedQuantity.cpp:GetInitialisationValue:150 = initialisation_values_[0].size() = 10
+[I] ../source/Processes/Children/RecruitmentBevertonHolt.cpp:Execute:204 = year = 2009; ycs = 2009; b0_ = 0; ssb_ratio = 0; true_ycs = 0; amount_per = 0
+[I] ../source/Processes/Children/RecruitmentBevertonHolt.cpp:Execute:210 = Adding 0 to immature.male
+[I] ../source/Processes/Children/RecruitmentBevertonHolt.cpp:Execute:210 = Adding 0 to immature.female
+--> Trace: ../source/TimeSteps/TimeStep.cpp:ExecuteDerivedQuantities:94
+--> Trace: ../source/Reports/Manager.cpp:Execute:72
+--> Trace: ../source/TimeSteps/TimeStep.cpp:ExecuteDerivedQuantities:94
+--> Trace: ../source/Reports/Manager.cpp:Execute:72
+--> Trace: ../source/TimeSteps/TimeStep.cpp:ExecuteDerivedQuantities:94
+--> Trace: ../source/Reports/Manager.cpp:Execute:72
+--> Trace: ../source/TimeSteps/TimeStep.cpp:ExecuteDerivedQuantities:94
+--> Trace: ../source/Reports/Manager.cpp:Execute:72
+[I] ../source/Model/Model.cpp:Iterate:348 = Iteration year: 2010
+--> Trace: ../source/TimeSteps/Manager.cpp:Execute:92
+[I] ../source/DerivedQuantities/DerivedQuantity.cpp:GetInitialisationValue:142 = phase = 0; index = 9; initialisation_values_.size() = 1
+[I] ../source/DerivedQuantities/DerivedQuantity.cpp:GetInitialisationValue:150 = initialisation_values_[0].size() = 10
+[I] ../source/Processes/Children/RecruitmentBevertonHolt.cpp:Execute:204 = year = 2010; ycs = 2010; b0_ = 0; ssb_ratio = 0; true_ycs = 0; amount_per = 0
+[I] ../source/Processes/Children/RecruitmentBevertonHolt.cpp:Execute:210 = Adding 0 to immature.male
+[I] ../source/Processes/Children/RecruitmentBevertonHolt.cpp:Execute:210 = Adding 0 to immature.female
+--> Trace: ../source/TimeSteps/TimeStep.cpp:ExecuteDerivedQuantities:94
+--> Trace: ../source/Reports/Manager.cpp:Execute:72
+--> Trace: ../source/TimeSteps/TimeStep.cpp:ExecuteDerivedQuantities:94
+--> Trace: ../source/Reports/Manager.cpp:Execute:72
+--> Trace: ../source/TimeSteps/TimeStep.cpp:ExecuteDerivedQuantities:94
+--> Trace: ../source/Reports/Manager.cpp:Execute:72
+--> Trace: ../source/TimeSteps/TimeStep.cpp:ExecuteDerivedQuantities:94
+--> Trace: ../source/Reports/Manager.cpp:Execute:72
+[I] ../source/Model/Model.cpp:RunBasic:281 = Model: State change to PostExecute
+[I] ../source/Model/Model.cpp:RunBasic:284 = Model: State change to Finalise
+derived_quantity: derived_quantities
+derived quantity: SSB
+Init phase: 0 = 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 
+Values [Year = Value]:
+1994 = 0.000000
+1995 = 36193.496721
+1996 = 61704.027500
+1997 = 78995.950827
+1998 = 90009.562503
+1999 = 96268.876391
+2000 = 98967.566557
+2001 = 99037.465397
+2002 = 97203.130882
+2003 = 94025.291095
+2004 = 89935.410523
+2005 = 85263.171767
+2006 = 80258.305890
+2007 = 75107.916433
+2008 = 69950.211704
+2009 = 64885.375769
+2010 = 59984.161335
+*end

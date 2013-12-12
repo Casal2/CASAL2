@@ -1,0 +1,7 @@
+@report state-3
+type partition
+time_step three
+years 1975 2002
+
+@report objective
+type objective_function

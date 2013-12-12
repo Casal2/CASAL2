@@ -1,0 +1,154 @@
+@model
+min_age 2
+max_age 25
+age_plus t
+initialisation_phases phase1
+time_steps one two three
+start_year 1975
+final_year 2002
+
+@categories
+format sex
+names male female
+age_sizes male female
+
+@age_size male
+type von_bertalanffy
+size_weight [type=none]
+k 0.277
+t0 -0.11
+linf 90.3
+
+@age_size female
+type von_bertalanffy
+size_weight [type=none]
+k 0.202
+t0 -0.20
+linf 113.4
+
+@initialisation_phase phase1
+years 200
+processes half_mortality half_mortality recruitment ageing
+
+@time_step one
+processes half_mortality fishing half_mortality
+
+@time_step two
+processes recruitment
+
+@time_step three
+processes ageing
+
+#
+#
+# Derived parameters
+#
+#
+@derived_quantity SSB
+type biomass
+categories male female
+selectivities MaleMaturity FemaleMaturity
+time_step one
+initialisation_time_steps initialisation.phase1
+
+#
+#
+# Processes
+#
+#
+@recruitment recruitment
+type beverton_holt
+categories male female
+proportions 0.5 0.5
+r0 5e6
+age 2
+steepness 0.9
+ycs_values 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00
+ssb SSB
+ssb_offset 3
+standardise_ycs_years 1973-1999
+print_report t
+
+@ageing ageing
+categories male female
+
+@mortality half_mortality
+type constant_rate
+categories male female
+selectivities one one
+M 0.10 0.10
+
+@mortality fishing
+type event
+categories male female
+years 1975-2002
+catches 1191 1488 1288 2004  609  750  997  596  302  344  544  362  509  574  804  977  991 2454 2775 2898 4094 3760 3761 3673 3524 3700 3700 3700
+u_max 0.9
+selectivities fishing_male fishing_female
+
+@selectivity one
+type constant
+c 1
+
+@selectivity fishing_male
+type logistic
+a50 9
+ato95 4
+
+@selectivity fishing_female
+type logistic
+a50 9
+ato95 4
+alpha 0.7
+
+@selectivity MaleMaturity
+type logistic
+a50 5
+ato95 2
+
+@selectivity FemaleMaturity
+type logistic
+a50 5
+ato95 2
+
+!include "isam_reports.txt"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
