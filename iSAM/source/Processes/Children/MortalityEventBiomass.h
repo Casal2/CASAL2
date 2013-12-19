@@ -55,7 +55,6 @@ private:
   vector<unsigned>            years_;
   string                      penalty_label_;
   PenaltyPtr                  penalty_;
-  map<string, map<unsigned, Double> > vulnerable_;
 };
 
 } /* namespace processes */

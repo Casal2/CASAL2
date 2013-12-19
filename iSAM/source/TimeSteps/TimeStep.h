@@ -39,6 +39,9 @@ public:
   void                        ExecuteInitialisationDerivedQuantities(unsigned phase);
   void                        ExecuteDerivedQuantities();
 
+  // accessors
+  const vector<string>&       process_names() const { return process_names_; };
+
 private:
   // Members
   vector<string>              process_names_;

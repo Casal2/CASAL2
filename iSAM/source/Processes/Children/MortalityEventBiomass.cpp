@@ -100,10 +100,7 @@ void MortalityEventBiomass::Execute() {
 
     for (unsigned offset = 0; offset < (*iterator)->data_.size(); ++offset) {
       Double temp = (*iterator)->data_[offset] * selectivities_[i]->GetResult(min_age + offset);
-
       vulnerable += temp * (*iterator)->mean_weights_[offset];
-
-//      vulnerable_[(*iterator)->name_][min_age + offset] = temp;
     }
   }
 
@@ -119,7 +116,7 @@ void MortalityEventBiomass::Execute() {
   } else if (exploitation < 0.0) {
     exploitation = 0.0;
   }
-  cout << "year: " << model_->current_year() << "; exploitation: " << AS_DOUBLE(exploitation) << "; vulnerable: " << vulnerable << endl;
+
   LOG_INFO("year: " << model_->current_year() << "; exploitation: " << AS_DOUBLE(exploitation));
 
   /**
@@ -132,7 +129,6 @@ void MortalityEventBiomass::Execute() {
 
     for (unsigned offset = 0; offset < (*iterator)->data_.size(); ++offset) {
       Double temp = (*iterator)->data_[offset] * selectivities_[i]->GetResult(min_age + offset) * exploitation;
-      cout << "current: " << temp << "; orig: " << (*iterator)->data_[offset] << endl;
       (*iterator)->data_[offset] -= temp;
     }
   }

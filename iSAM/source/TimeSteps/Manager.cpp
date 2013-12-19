@@ -51,6 +51,35 @@ TimeStepPtr Manager::GetTimeStep(const string& label) const {
 }
 
 /**
+ *
+ */
+unsigned Manager::GetTimeStepIndex(const string& time_step_label) const {
+  unsigned index = 9999;
+
+  for (index = 0; index < objects_.size(); ++index) {
+    if (objects_[index]->label() == time_step_label)
+      return index;
+  }
+
+  LOG_ERROR("The time step " << time_step_label << " could not be found");
+}
+
+/**
+ *
+ */
+unsigned Manager::GetTimeStepIndexForProcess(const string& process_label) const {
+  unsigned index = 9999;
+
+  for (index = 0; index < objects_.size(); ++index) {
+    const vector<string>& process_labels = objects_[index]->process_names();
+    if (std::find(process_labels.begin(), process_labels.end(), process_label) != process_labels.end())
+      return index;
+  }
+
+  LOG_ERROR("The process " << process_label << " could not be found in any of the time steps");
+}
+
+/**
  * Validate our Time Steps
  */
 void Manager::Validate() {
