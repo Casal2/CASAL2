@@ -30,6 +30,8 @@ public:
   void                        Execute(unsigned year);
   TimeStepPtr                 GetTimeStep(const string& label) const;
   void                        RemoveAllObjects() override final { objects_.clear(); ordered_time_steps_.clear(); derived_quantities_.clear(); }
+  unsigned                    GetTimeStepIndex(const string& time_step_label) const;
+  unsigned                    GetTimeStepIndexForProcess(const string& process_label) const;
 
 private:
   // Members

@@ -187,6 +187,7 @@ void Model::Build() {
   LOG_TRACE();
   Categories::Instance()->Build();
   Partition::Instance().Build();
+  timesteps::Manager::Instance().Build();
 
   // build managers
   estimates::Manager::Instance().Build();
@@ -202,7 +203,6 @@ void Model::Build() {
   reports::Manager::Instance().Build();
   selectivities::Manager::Instance().Build();
   sizeweights::Manager::Instance().Build();
-  timesteps::Manager::Instance().Build();
 
   Partition::Instance().CalculateMeanWeights();
 }
