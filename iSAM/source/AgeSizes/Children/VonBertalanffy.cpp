@@ -25,6 +25,9 @@ VonBertalanffy::VonBertalanffy() {
   parameters_.Bind<double>(PARAM_K, &k_, "TBA");
   parameters_.Bind<double>(PARAM_T0, &t0_, "TBA");
   parameters_.Bind<string>(PARAM_SIZE_WEIGHT, &size_weight_label_, "TBA");
+  parameters_.Bind<double>(PARAM_CV, &cv_, "TBA", 0.0);
+  parameters_.Bind<string>(PARAM_DISTRIBUTION, &distribution_, "TBA", PARAM_NORMAL);
+  parameters_.Bind<bool>(PARAM_BY_LENGTH, &by_length_, "TBA", true);
 
   RegisterAsEstimable(PARAM_LINF, &linf_);
   RegisterAsEstimable(PARAM_K, &k_);
@@ -61,7 +64,7 @@ Double VonBertalanffy::mean_size(unsigned age) const {
   if ((-k_ * (age - t0_)) > 10)
     LOG_ERROR("Fatal error in age-size relationship: exp(-k*(age-t0)) is enormous. The k or t0 parameters are probably wrong.");
 
-  Double size = linf_ * (1 - exp(-k_ * (age * t0_)));
+  Double size = linf_ * (1 - exp(-k_ * (age - t0_)));
   if (size < 0.0)
     return 0.0;
 
@@ -76,7 +79,15 @@ Double VonBertalanffy::mean_size(unsigned age) const {
  */
 Double VonBertalanffy::mean_weight(unsigned age) const {
   Double size = this->mean_size(age);
-  return size_weight_->mean_weight(size);
+
+  Double mean_weight = 0.0;
+ if (by_length_) {
+   Double cv = (size * cv_) / age;
+   mean_weight = size_weight_->mean_weight(size, distribution_, cv);
+ } else
+   mean_weight = size_weight_->mean_weight(size, distribution_, cv_);
+
+  return mean_weight;
 }
 
 } /* namespace agesizes */

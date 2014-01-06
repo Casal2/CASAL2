@@ -417,7 +417,7 @@ bool Loader::HandleOperators(vector<string>& line_values) {
   line_values = new_values;
 
   /**
-   *
+   * Handle the - (range) operator
    */
   new_values.clear();
   iterator = line_values.begin();
@@ -428,6 +428,12 @@ bool Loader::HandleOperators(vector<string>& line_values) {
 
       string initial_value = value.substr(0, loc);
       string final_value   = value.substr(loc+1);
+
+      // don't range if we've got an exponent value (e.g 12e-10)
+      if (tolower((*initial_value.rbegin())) == 'e') {
+        new_values.push_back(value);
+        continue;
+      }
 
       int numeric_initial_value = 0;
       if (!util::To<int>(initial_value, numeric_initial_value))

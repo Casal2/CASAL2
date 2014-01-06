@@ -259,6 +259,7 @@
 #define PARAM_P2                                  "p2"
 #define PARAM_PARAMETER                           "parameter"
 #define PARAM_PARTITION                           "partition"
+#define PARAM_PARTITION_MEAN_WEIGHT               "partition_mean_weight"
 #define PARAM_PENALTY                             "penalty"
 #define PARAM_POPULATION_SIZE                     "population_size"
 #define PARAM_PREFERENCE_MOVEMENT                 "preference"

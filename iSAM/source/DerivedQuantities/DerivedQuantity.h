@@ -40,7 +40,7 @@ public:
   virtual void                Calculate(unsigned initialisation_phase) = 0;
   Double                      GetValue(unsigned year);
   Double                      GetInitialisationValue(unsigned phase = 0, unsigned index = 0);
-  unsigned                    GetInitialisationValuesSize(unsigned phase);
+  Double                      GetLastValueFromInitialisation(unsigned phase);
 
   // accessors
   const string&               time_step() { return time_step_label_; }

@@ -133,6 +133,15 @@ Double DerivedQuantity::GetValue(unsigned year) {
   return result;
 }
 
+Double DerivedQuantity::GetLastValueFromInitialisation(unsigned phase) {
+  if (initialisation_values_.size() <= phase)
+    LOG_ERROR("No values have been calculated for the initialisation value in phase: " << phase);
+  if (initialisation_values_[phase].size() == 0)
+    LOG_ERROR("No values have been calculated for the initialisation value in phase: " << phase);
+
+  return *initialisation_values_[phase].rbegin();
+}
+
 /**
  *
  */
@@ -154,16 +163,6 @@ Double DerivedQuantity::GetInitialisationValue(unsigned phase, unsigned index) {
   }
 
   return initialisation_values_[phase][index];
-}
-
-/**
- *
- */
-unsigned DerivedQuantity::GetInitialisationValuesSize(unsigned phase) {
-  if (initialisation_values_.size() <= phase)
-    return 0.0;
-
-  return initialisation_values_[phase].size();
 }
 
 } /* namespace isam */

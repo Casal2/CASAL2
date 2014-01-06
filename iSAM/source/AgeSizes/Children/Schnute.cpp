@@ -27,6 +27,9 @@ Schnute::Schnute() {
   parameters_.Bind<double>(PARAM_A, &a_, "TBA");
   parameters_.Bind<double>(PARAM_B, &b_, "TBA");
   parameters_.Bind<string>(PARAM_SIZE_WEIGHT, &size_weight_label_, "TBA");
+  parameters_.Bind<double>(PARAM_CV, &cv_, "TBA", 0.0);
+  parameters_.Bind<string>(PARAM_DISTRIBUTION, &distribution_, "TBA", PARAM_NORMAL);
+  parameters_.Bind<bool>(PARAM_BY_LENGTH, &by_length_, "TBA", true);
 
   RegisterAsEstimable(PARAM_Y1, &y1_);
   RegisterAsEstimable(PARAM_Y2, &y2_);
@@ -90,7 +93,7 @@ Double Schnute::mean_size(unsigned age) const {
  */
 Double Schnute::mean_weight(unsigned age) const {
   Double size   = this->mean_size(age);
-  return size_weight_->mean_weight(size);
+  return size_weight_->mean_weight(size, distribution_, cv_);
 }
 
 } /* namespace agesizes */

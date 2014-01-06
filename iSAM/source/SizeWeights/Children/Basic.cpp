@@ -41,8 +41,12 @@ void Basic::DoValidate() {
  * @param size The size of the population to calculate mean weight for
  * @return The mean weight of the population at the parameter size
  */
-Double Basic::mean_weight(Double size) const {
-  return a_ * pow(size, b_) * 1000;
+Double Basic::mean_weight(Double size, const string &distribution, Double cv) const {
+  Double weight = a_ * pow(size, b_) * 1000;
+  if (distribution == PARAM_NORMAL || distribution == PARAM_LOG_NORMAL)
+    weight = weight * pow(1.0 + cv * cv, b_ * (b_ - 1.0) / 2.0);
+
+  return weight;
 }
 
 } /* namespace sizeweights */

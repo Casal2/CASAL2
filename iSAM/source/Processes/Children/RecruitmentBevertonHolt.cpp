@@ -179,13 +179,15 @@ void RecruitmentBevertonHolt::Execute() {
     initialisationphases::Manager& init_phase_manager = initialisationphases::Manager::Instance();
     if (init_phase_manager.last_executed_phase() <= phase_b0_) {
       amount_per = r0_;
+//      cout << "amount_per: " << amount_per << endl;
 
     } else {
-      b0_ = derived_quantity_->GetInitialisationValue(phase_b0_, derived_quantity_->GetInitialisationValuesSize(phase_b0_) - 1);
+      b0_ = derived_quantity_->GetLastValueFromInitialisation(phase_b0_);
       Double ssb_ratio = derived_quantity_->GetValue(model_->start_year() - actual_ssb_offset_) / b0_;
       Double true_ycs  = 1.0 * ssb_ratio / (1 - ((5 * steepness_ - 1) / (4 * steepness_) ) * (1 - ssb_ratio));
       amount_per = r0_ * true_ycs;
 
+//      cout << "init: b0_: " << b0_ << "; ssb_ratio: " << ssb_ratio << "; true_ycs: " << true_ycs << "; amount_per: " << amount_per << endl;
       LOG_INFO("b0_: " << b0_ << "; ssb_ratio: " << ssb_ratio << "; true_ycs: " << true_ycs << "; amount_per: " << amount_per);
     }
 
@@ -195,7 +197,7 @@ void RecruitmentBevertonHolt::Execute() {
      */
     LOG_INFO("standardise_ycs_values_.size(): " << standardise_ycs_values_.size() << "; model_->current_year(): " << model_->current_year() << "; model_->start_year(): " << model_->start_year());
     Double ycs = standardise_ycs_values_[model_->current_year() - model_->start_year()];
-    b0_ = derived_quantity_->GetInitialisationValue(phase_b0_, derived_quantity_->GetInitialisationValuesSize(phase_b0_) - 1);
+    b0_ = derived_quantity_->GetLastValueFromInitialisation(phase_b0_);
     Double ssb_ratio = derived_quantity_->GetValue(model_->current_year() - actual_ssb_offset_) / b0_;
     Double true_ycs  = ycs * ssb_ratio / (1.0 - ((5.0 * steepness_ - 1.0) / (4.0 * steepness_) ) * (1.0 - ssb_ratio));
     amount_per = r0_ * true_ycs;
@@ -209,8 +211,8 @@ void RecruitmentBevertonHolt::Execute() {
     print_values_["recruitment_values"].push_back(utilities::ToInline<Double, string>(amount_per));
     print_values_["ssb_values"].push_back(utilities::ToInline<Double, string>( (*ssb_values_.rbegin())) );
 
-    cout << "year = " << model_->current_year() << "; ycs = " << ycs << "; b0_ = " << b0_ << "; ssb_ratio = " << ssb_ratio << "; true_ycs = " << true_ycs << "; amount_per = " << amount_per << endl;
-    cout << "dq: " << derived_quantity_->GetValue(model_->current_year() - actual_ssb_offset_) << endl;
+//    cout << "year = " << model_->current_year() << "; ycs = " << ycs << "; b0_ = " << b0_ << "; ssb_ratio = " << ssb_ratio << "; true_ycs = " << true_ycs << "; amount_per = " << amount_per << endl;
+//    cout << "dq: " << derived_quantity_->GetValue(model_->current_year() - actual_ssb_offset_) << endl;
 
     LOG_INFO("year = " << model_->current_year() << "; ycs = " << ycs << "; b0_ = " << b0_ << "; ssb_ratio = " << ssb_ratio << "; true_ycs = " << true_ycs << "; amount_per = " << amount_per);
   }
