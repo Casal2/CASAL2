@@ -21,6 +21,7 @@
 #include "Reports/Children/MCMCChain.h"
 #include "Reports/Children/ObjectiveFunction.h"
 #include "Reports/Children/Partition.h"
+#include "Reports/Children/PartitionMeanWeight.h"
 
 // Namespaces
 namespace isam {
@@ -50,6 +51,8 @@ ReportPtr Factory::Create(const string& object_type, const string& sub_type) {
       result = ReportPtr(new MCMCChain());
     else if (sub_type == PARAM_PARTITION)
       result = ReportPtr(new Partition());
+    else if (sub_type == PARAM_PARTITION_MEAN_WEIGHT)
+      result = ReportPtr(new PartitionMeanWeight());
     else if (sub_type == PARAM_OBJECTIVE_FUNCTION)
       result = ReportPtr(new ObjectiveFunction());
 

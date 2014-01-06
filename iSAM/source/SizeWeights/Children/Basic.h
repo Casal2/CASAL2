@@ -33,7 +33,7 @@ public:
   void                        DoReset() override final { };
 
   // accessors
-  Double                      mean_weight(Double size) const override final;
+  Double                      mean_weight(Double size, const string &distribution, Double cv) const override final;
 
 private:
   // members

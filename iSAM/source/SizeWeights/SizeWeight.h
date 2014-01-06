@@ -36,7 +36,7 @@ public:
   virtual void                DoReset() = 0;
 
   // accessors
-  virtual Double              mean_weight(Double size) const = 0;
+  virtual Double              mean_weight(Double size, const string &distribution, Double cv) const = 0;
 };
 
 // typedef

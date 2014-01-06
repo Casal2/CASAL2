@@ -45,6 +45,9 @@ private:
   Double                      tau2_;
   Double                      a_;
   Double                      b_;
+  Double                      cv_;
+  string                      distribution_;
+  bool                        by_length_;
   string                      size_weight_label_;
   SizeWeightPtr               size_weight_;
 };
