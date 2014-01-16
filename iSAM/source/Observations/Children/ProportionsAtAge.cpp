@@ -66,7 +66,7 @@ void ProportionsAtAge::DoValidate() {
    * Ensure error values are consistent for different likelihood types
    * Note: use of C++ lamba functions
    */
-  if (likelihood_type_ == PARAM_LOG_NORMAL) {
+  if (likelihood_type_ == PARAM_LOGNORMAL) {
     std::for_each(std::begin(error_values_), std::end(error_values_), [&](Double n) {
       if (n <= 0.0)
         LOG_ERROR(parameters_.location(PARAM_ERROR_VALUE) << ": error_value (" << AS_DOUBLE(n) << ") cannot be equal to or less than 0.0");
@@ -80,7 +80,7 @@ void ProportionsAtAge::DoValidate() {
 
   } else
     LOG_ERROR(parameters_.location(PARAM_LIKELIHOOD) << ": likelihood " << likelihood_type_ << " is not supported by the proportions at age observation. "
-        << "Supported types are " << PARAM_LOG_NORMAL << " and " << PARAM_MULTINOMIAL);
+        << "Supported types are " << PARAM_LOGNORMAL << " and " << PARAM_MULTINOMIAL);
 
   /**
    * Validate the number of obs provided matches age spread * category_labels.

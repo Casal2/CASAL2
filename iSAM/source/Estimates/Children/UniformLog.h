@@ -13,20 +13,20 @@
  *
  * $Date: 2008-03-04 16:33:32 +1300 (Tue, 04 Mar 2008) $
  */
-#ifndef PRIORS_UNIFORMLOG_H_
-#define PRIORS_UNIFORMLOG_H_
+#ifndef ESTIMATES_UNIFORMLOG_H_
+#define ESTIMATES_UNIFORMLOG_H_
 
 // Headers
-#include "Priors/Prior.h"
+#include "Estimates/Estimate.h"
 
 // Namespaces
 namespace isam {
-namespace priors {
+namespace estimates {
 
 /**
  * Class definition
  */
-class UniformLog : public isam::Prior {
+class UniformLog : public isam::Estimate {
 public:
   // Methods
   UniformLog();
@@ -35,6 +35,6 @@ public:
   Double                      GetScore(Double param) override final;
 };
 
-} /* namespace priors */
+} /* namespace estimates */
 } /* namespace isam */
-#endif /* PRIORS_UNIFORMLOG_H_ */
+#endif /* ESTIMATES_UNIFORMLOG_H_ */

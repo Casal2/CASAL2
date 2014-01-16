@@ -16,18 +16,18 @@
 
 // Headers
 #include "Factory.h"
-#include "Priors/Manager.h"
-#include "Priors/Children/Beta.h"
-#include "Priors/Children/LogNormal.h"
-#include "Priors/Children/Normal.h"
-#include "Priors/Children/NormalByStdev.h"
-#include "Priors/Children/NormalLog.h"
-#include "Priors/Children/Uniform.h"
-#include "Priors/Children/UniformLog.h"
+#include "Estimates/Manager.h"
+#include "Estimates/Children/Beta.h"
+#include "Estimates/Children/LogNormal.h"
+#include "Estimates/Children/Normal.h"
+#include "Estimates/Children/NormalByStdev.h"
+#include "Estimates/Children/NormalLog.h"
+#include "Estimates/Children/Uniform.h"
+#include "Estimates/Children/UniformLog.h"
 
 // Namespaces
 namespace isam {
-namespace priors {
+namespace estimates {
 
 /**
  * Create the instance of our object as defined by the two parameters
@@ -37,31 +37,31 @@ namespace priors {
  * @param sub_type The child type of the object to create (e.g ageing, schnute)
  * @return shared_ptr to the object we've created
  */
-PriorPtr Factory::Create(const string& object_type, const string& sub_type) {
-  PriorPtr result;
+EstimatePtr Factory::Create(const string& object_type, const string& sub_type) {
+  EstimatePtr result;
 
-  if (object_type == PARAM_PRIOR) {
+  if (object_type == PARAM_ESTIMATE) {
     if (sub_type == PARAM_BETA)
-      result = PriorPtr(new Beta());
-    else if (sub_type == PARAM_LOG_NORMAL)
-      result = PriorPtr(new LogNormal());
+      result = EstimatePtr(new Beta());
+    else if (sub_type == PARAM_LOGNORMAL)
+      result = EstimatePtr(new Lognormal());
     else if (sub_type == PARAM_NORMAL)
-      result = PriorPtr(new Normal());
+      result = EstimatePtr(new Normal());
     else if (sub_type == PARAM_NORMAL_BY_STDEV)
-      result = PriorPtr(new NormalByStdev());
+      result = EstimatePtr(new NormalByStdev());
     else if (sub_type == PARAM_NORMAL_LOG)
-      result = PriorPtr(new NormalLog());
+      result = EstimatePtr(new NormalLog());
     else if (sub_type == PARAM_UNIFORM)
-      result = PriorPtr(new Uniform());
+      result = EstimatePtr(new Uniform());
     else if (sub_type == PARAM_UNIFORM_LOG)
-      result = PriorPtr(new UniformLog());
+      result = EstimatePtr(new UniformLog());
 
     if (result)
-      isam::priors::Manager::Instance().AddObject(result);
+      isam::estimates::Manager::Instance().AddObject(result);
   }
 
   return result;
 }
 
-} /* namespace priors */
+} /* namespace estimates */
 } /* namespace isam */

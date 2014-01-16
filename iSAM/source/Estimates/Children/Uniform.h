@@ -13,20 +13,20 @@
  *
  * $Date: 2008-03-04 16:33:32 +1300 (Tue, 04 Mar 2008) $
  */
-#ifndef PRIORS_UNIFORM_H_
-#define PRIORS_UNIFORM_H_
+#ifndef ESTIMATES_UNIFORM_H_
+#define ESTIMATES_UNIFORM_H_
 
 // Headers
-#include "Priors/Prior.h"
+#include "Estimates/Estimate.h"
 
 // namespaces
 namespace isam {
-namespace priors {
+namespace estimates {
 
 /**
  * Class definition
  */
-class Uniform : public isam::Prior {
+class Uniform : public isam::Estimate {
 public:
   // Methods
   Uniform();
@@ -35,6 +35,6 @@ public:
   Double                      GetScore(Double param) override final { return 0; }
 };
 
-} /* namespace priors */
+} /* namespace estimates */
 } /* namespace isam */
-#endif /* PRIORS_UNIFORM_H_ */
+#endif /* ESTIMATES_UNIFORM_H_ */

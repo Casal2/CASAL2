@@ -28,7 +28,6 @@
 #include "Partition/Accessors/Category.h"
 #include "Partition/Partition.h"
 #include "Penalties/Manager.h"
-#include "Priors/Manager.h"
 #include "Processes/Manager.h"
 #include "Reports/Manager.h"
 #include "Selectivities/Manager.h"
@@ -154,7 +153,6 @@ void Model::Validate() {
   minimisers::Manager::Instance().Validate();
   observations::Manager::Instance().Validate();
   penalties::Manager::Instance().Validate();
-  priors::Manager::Instance().Validate();
   processes::Manager::Instance().Validate();
   reports::Manager::Instance().Validate();
   selectivities::Manager::Instance().Validate();
@@ -198,7 +196,6 @@ void Model::Build() {
   minimisers::Manager::Instance().Build();
   observations::Manager::Instance().Build();
   penalties::Manager::Instance().Build();
-  priors::Manager::Instance().Build();
   processes::Manager::Instance().Build();
   reports::Manager::Instance().Build();
   selectivities::Manager::Instance().Build();
@@ -232,7 +229,6 @@ void Model::Reset() {
   minimisers::Manager::Instance().Reset();
   observations::Manager::Instance().Reset();
   penalties::Manager::Instance().Reset();
-  priors::Manager::Instance().Reset();
   processes::Manager::Instance().Reset();
   reports::Manager::Instance().Reset();
   selectivities::Manager::Instance().Reset();

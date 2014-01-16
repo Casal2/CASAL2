@@ -111,77 +111,36 @@ void Loader::ParseFileLines() {
       block.clear();
     }
 
-    /**
-     * Check to see if we're using ; to separate the parameters
-     * instead of new line characters.
-     */
     if (file_lines_[i].line_.find(";") != string::npos) {
-      vector<string> line_parts;
-      boost::split(line_parts, file_lines_[i].line_, boost::is_any_of(";"));
+      bool inside_inline_declaration = false;
+      string line = "";
+      for (char c : file_lines_[i].line_) {
+        if (c == '[')
+          inside_inline_declaration = true;
+        if (c == ']')
+          inside_inline_declaration = false;
 
-      /**
-       * Now we check if we have an inline declaration to deal with. We don't
-       * want to process this just yet so we'll leave it where it is for now.
-       * e.g
-       * @recruitment x
-       * selectivity x_sel=[type=logistic; a50=1 ...etc]
-       */
-      size_t first_inline_bracket  = file_lines_[i].line_.find("[");
-      size_t second_inline_bracket = file_lines_[i].line_.find("]");
-      if (first_inline_bracket != string::npos && second_inline_bracket != string::npos) {
-
-        string first_section  = file_lines_[i].line_.substr(0, first_inline_bracket);
-        string second_section = file_lines_[i].line_.substr(first_inline_bracket, second_inline_bracket - first_inline_bracket + 1);
-        string third_section  = file_lines_[i].line_.substr(second_inline_bracket + 1);
-
-        vector<string> first_parts;
-        boost::split(first_parts, first_section, boost::is_any_of(";"));
-
-        vector<string> third_parts;
-        boost::split(third_parts, third_section, boost::is_any_of(";"));
-
-        vector<string> new_line_parts(first_parts.begin(), first_parts.end());
-
-        if (new_line_parts.size() > 0) {
-          (*new_line_parts.rbegin()).append(second_section);
-          if (third_parts.size() > 0)
-            (*new_line_parts.rbegin()).append(third_parts[0]);
-        }
-
-        for (unsigned index = 1; index < third_parts.size(); ++index)
-          new_line_parts.push_back(third_parts[index]);
-
-        for (unsigned line_index = 0; line_index < new_line_parts.size(); ++line_index) {
-          boost::trim_all(new_line_parts[line_index]);
-
+        if (c == ';' && !inside_inline_declaration) {
           FileLine new_line;
-          new_line.file_name_   = file_lines_[i].file_name_;
-          new_line.line_number_ = file_lines_[i].line_number_;
-          new_line.line_        = new_line_parts[line_index];
+          new_line.file_name_     = file_lines_[i].file_name_;
+          new_line.line_number_   = file_lines_[i].line_number_;
+          new_line.line_          = line;
+
           block.push_back(new_line);
-        }
+          line = "";
 
-      } else if (first_inline_bracket != string::npos || second_inline_bracket != string::npos) {
-        LOG_ERROR("At line " << file_lines_[i].line_number_ << " of " << file_lines_[i].file_name_
-            << ": This line contains either a [ or a ] but not both. This line is not in a valid format");
-
-      } else {
-        /**
-         * No inline declaration so we can do a simple split
-         */
-        for (unsigned line_index = 0; line_index < line_parts.size(); ++line_index) {
-          boost::trim_all(line_parts[line_index]);
-
-          FileLine new_line;
-          new_line.file_name_   = file_lines_[i].file_name_;
-          new_line.line_number_ = file_lines_[i].line_number_;
-          new_line.line_        = line_parts[line_index];
-          block.push_back(new_line);
-        }
+        } else
+          line += c;
       }
-    } else {
+
+      FileLine new_line;
+      new_line.file_name_     = file_lines_[i].file_name_;
+      new_line.line_number_   = file_lines_[i].line_number_;
+      new_line.line_          = line;
+      block.push_back(new_line);
+
+    } else
       block.push_back(file_lines_[i]);
-    }
   }
 
   ParseBlock(block);

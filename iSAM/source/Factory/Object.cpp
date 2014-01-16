@@ -23,7 +23,6 @@
 #include "Model/Model.h"
 #include "Observations/Factory.h"
 #include "Penalties/Factory.h"
-#include "Priors/Factory.h"
 #include "Processes/Factory.h"
 #include "Reports/Factory.h"
 #include "Selectivities/Factory.h"
@@ -77,8 +76,6 @@ base::ObjectPtr Object::Create(const string& object_type, const string& sub_type
     result = observations::Factory::Create(object_type, sub_type);
   else if (object_type == PARAM_PENALTY)
     result = penalties::Factory::Create();
-  else if (object_type == PARAM_PRIOR)
-    result = priors::Factory::Create(object_type, sub_type);
   else if (object_type == PARAM_PROCESS || object_type == PARAM_PROCESSES)
     result = processes::Factory::Create(object_type, sub_type);
   else if (object_type == PARAM_AGEING || object_type == PARAM_MATURATION || object_type == PARAM_MORTALITY || object_type == PARAM_RECRUITMENT)
@@ -89,9 +86,8 @@ base::ObjectPtr Object::Create(const string& object_type, const string& sub_type
     result = selectivities::Factory::Create(object_type, sub_type);
   else if (object_type == PARAM_SIZE_WEIGHT || object_type == PARAM_SIZE_WEIGHTS)
     result = sizeweights::Factory::Create(object_type, sub_type);
-  else if (object_type == PARAM_TIME_STEP || object_type == PARAM_TIME_STEPS) {
+  else if (object_type == PARAM_TIME_STEP || object_type == PARAM_TIME_STEPS)
     result = timesteps::Factory::Create();
-  }
 
   return result;
 }

@@ -1,5 +1,5 @@
 /**
- * @file NormalByStdev.h
+ * @file Normal.h
  * @author  Scott Rasmussen (scott.rasmussen@zaita.com)
  * @version 1.0
  * @date 8/03/2013
@@ -13,33 +13,33 @@
  *
  * $Date: 2008-03-04 16:33:32 +1300 (Tue, 04 Mar 2008) $
  */
-#ifndef PRIORS_NORMALBYSTDEV_H_
-#define PRIORS_NORMALBYSTDEV_H_
+#ifndef ESTIMATES_NORMAL_H_
+#define ESTIMATES_NORMAL_H_
 
 // Headers
-#include "Priors/Prior.h"
+#include "Estimates/Estimate.h"
 
-// Namespaces
+// namespaces
 namespace isam {
-namespace priors {
+namespace estimates {
 
 /**
  * Class definition
  */
-class NormalByStdev : public isam::Prior {
+class Normal : public isam::Estimate {
 public:
   // Methods
-  NormalByStdev();
-  virtual                     ~NormalByStdev() = default;
+  Normal();
+  virtual                     ~Normal() = default;
   void                        DoValidate() override final;
   Double                      GetScore(Double param) override final;
 
 private:
   // Members
   Double                      mu_;
-  Double                      sigma_;
+  Double                      cv_;
 };
 
-} /* namespace priors */
+} /* namespace estimates */
 } /* namespace isam */
-#endif /* PRIORS_NORMALBYSTDEV_H_ */
+#endif /* ESTIMATES_NORMAL_H_ */

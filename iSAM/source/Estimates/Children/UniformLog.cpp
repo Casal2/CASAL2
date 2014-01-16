@@ -15,7 +15,7 @@
 
 // Namespaces
 namespace isam {
-namespace priors {
+namespace estimates {
 
 /**
  * Default Constructor
@@ -34,5 +34,5 @@ Double UniformLog::GetScore(Double param) {
   return score_;
 }
 
-} /* namespace priors */
+} /* namespace estimates */
 } /* namespace isam */

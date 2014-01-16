@@ -38,9 +38,9 @@ LikelihoodPtr Factory::Create(const string& likelihood_type) {
     result = LikelihoodPtr(new Binomial());
   else if (likelihood_type == PARAM_BINOMIAL_APPROX)
     result = LikelihoodPtr(new BinomialApprox());
-  else if (likelihood_type == PARAM_LOG_NORMAL)
+  else if (likelihood_type == PARAM_LOGNORMAL)
     result = LikelihoodPtr(new LogNormal());
-  else if (likelihood_type == PARAM_LOG_NORMAL_WITH_Q)
+  else if (likelihood_type == PARAM_LOGNORMAL_WITH_Q)
     result = LikelihoodPtr(new LogNormalWithQ());
   else if (likelihood_type == PARAM_MULTINOMIAL)
     result = LikelihoodPtr(new Multinomial());

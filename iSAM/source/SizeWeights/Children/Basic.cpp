@@ -43,7 +43,7 @@ void Basic::DoValidate() {
  */
 Double Basic::mean_weight(Double size, const string &distribution, Double cv) const {
   Double weight = a_ * pow(size, b_) * 1000;
-  if (distribution == PARAM_NORMAL || distribution == PARAM_LOG_NORMAL)
+  if (distribution == PARAM_NORMAL || distribution == PARAM_LOGNORMAL)
     weight = weight * pow(1.0 + cv * cv, b_ * (b_ - 1.0) / 2.0);
 
   return weight;

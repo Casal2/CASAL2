@@ -67,7 +67,7 @@ void Abundance::DoValidate() {
   /**
    * Verify that the likelihood is from the acceptable ones.
    */
-  if (likelihood_type_ != PARAM_NORMAL && likelihood_type_ != PARAM_LOG_NORMAL && likelihood_type_ != PARAM_PSEUDO)
+  if (likelihood_type_ != PARAM_NORMAL && likelihood_type_ != PARAM_LOGNORMAL && likelihood_type_ != PARAM_PSEUDO)
     LOG_ERROR(parameters_.location(PARAM_LIKELIHOOD) << ": likelihood " << likelihood_type_ << " is not supported by the Abundance observation");
 }
 

@@ -56,6 +56,7 @@ public:
   void                        Validate();
   void                        Build();
   void                        Reset();
+  bool                        HasYear(unsigned year) const { return std::find(years_.begin(), years_.end(), year) != years_.end(); }
 
   // pure methods
   virtual void                DoValidate() = 0;
@@ -67,9 +68,8 @@ public:
 
   // accessors
   Double                      score() const { return score_; }
-  unsigned                    year() const { return year_; }
   const string&               time_step() const { return time_step_label_; }
-  const vector<obs::Comparison>& comparisons() const { return comparisons_; }
+  vector<obs::Comparison>& comparisons(unsigned year) { return comparisons_[year]; }
 
 protected:
   // methods
@@ -79,7 +79,7 @@ protected:
   // members
   string                      type_;
   Double                      score_;
-  unsigned                    year_;
+  vector<unsigned>            years_;
   string                      time_step_label_;
   Double                      time_step_proportion_;
   string                      time_step_proportion_method_;
@@ -91,7 +91,7 @@ protected:
   bool                        run_in_simulation_mode_;
   vector<SelectivityPtr>      selectivities_;
   LikelihoodPtr               likelihood_;
-  vector<obs::Comparison>     comparisons_;
+  map<unsigned, vector<obs::Comparison> > comparisons_;
 };
 
 // Typedef

@@ -38,30 +38,36 @@ void ExplodeString(const string& source_parameter, string &type, string& label, 
      * This snippet of code will split the parameter from
      * objectType[ObjectName].ObjectParam(Index)
      */
-   vector<string> tokenList;
+   vector<string> token_list;
 
    typedef boost::tokenizer<boost::char_separator<char> > tokenizer;
-   boost::char_separator<char> seperator(".[]()");
+   boost::char_separator<char> seperator("[]");
    tokenizer tokens(source_parameter, seperator);
 
    for (tokenizer::iterator tok_iter = tokens.begin(); tok_iter != tokens.end(); ++tok_iter)
-     tokenList.push_back(*tok_iter);
+     token_list.push_back(*tok_iter);
 
-   /**
-    * Now, we've populated vector<string> called tokenList with
-    * all of the split objects. We should expect their to be
-    * either 3 or 4 (4 if index is specified)
-    */
-   if (tokenList.size() != 3 && tokenList.size() != 4)
+   if (token_list.size() != 3)
      return;
 
-   if (tokenList.size() == 4) {
-        index = tokenList[3];
-   }
+   type = utilities::ToLowercase(token_list[0]);
+   label      = token_list[1];
+   parameter  = utilities::ToLowercase(token_list[2].substr(1));
 
-   type       = utilities::ToLowercase(tokenList[0]);
-   label      = tokenList[1];
-   parameter  = utilities::ToLowercase(tokenList[2]);
+   /**
+    * Now check for index
+    */
+   boost::char_separator<char> seperator2("()");
+   tokenizer tokens2(parameter, seperator2);
+
+   token_list.clear();
+   for (tokenizer::iterator tok_iter = tokens2.begin(); tok_iter != tokens2.end(); ++tok_iter)
+     token_list.push_back(*tok_iter);
+
+   if (token_list.size() == 2) {
+     parameter  = utilities::ToLowercase(token_list[0]);
+     index      = token_list[1];
+   }
 }
 
 /**
@@ -87,7 +93,6 @@ isam::base::ObjectPtr FindObject(const string& parameter_absolute_name) {
   } else if (type == PARAM_SELECTIVITY) {
     result = selectivities::Manager::Instance().GetSelectivity(label);
   }
-
 
   return result;
 }

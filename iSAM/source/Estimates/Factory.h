@@ -24,7 +24,16 @@
 namespace isam {
 namespace estimates {
 
-class Factory : public isam::base::Factory<isam::Estimate, isam::estimates::Manager> { };
+class Factory {
+public:
+  // methods
+  static EstimatePtr Create(const string& object_type, const string& sub_type);
+
+private:
+  // methods
+  Factory() = delete;
+  virtual ~Factory() = delete;
+};
 
 /**
  * EstimateInfo factory
@@ -36,4 +45,4 @@ class Factory : public isam::base::Factory<isam::estimates::Info, isam::estimate
 } /* namespace estimates */
 } /* namespace isam */
 
-#endif /* FACTORY_H_ */
+#endif /* ESTIMATE_FACTORY_H_ */

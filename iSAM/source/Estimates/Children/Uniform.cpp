@@ -15,7 +15,7 @@
 
 // Namespaces
 namespace isam {
-namespace priors {
+namespace estimates {
 
 /**
  * Default constructor
@@ -23,5 +23,5 @@ namespace priors {
 Uniform::Uniform() {
 }
 
-} /* namespace priors */
+} /* namespace estimates */
 } /* namespace isam */
