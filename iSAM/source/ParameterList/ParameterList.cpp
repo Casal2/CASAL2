@@ -156,11 +156,7 @@ void ParameterList::CopyFrom(const ParameterList& source) {
 
   map<string, ParameterPtr>::const_iterator iter;
   for (iter = source.parameters_.begin(); iter != source.parameters_.end(); ++iter) {
-    const vector<string> values = iter->second->values();
-    for (string value : values) {
-      LOG_INFO("Copying value: " << value << " from " << iter->first);
-      parameters_[iter->first]->AddValue(value);
-    }
+    Add(iter->first, iter->second->values(), iter->second->file_name(), iter->second->line_number());
   }
 
   map<string, ParameterTable>::const_iterator iter2;

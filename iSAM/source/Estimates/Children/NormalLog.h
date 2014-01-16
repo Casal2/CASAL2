@@ -13,20 +13,20 @@
  *
  * $Date: 2008-03-04 16:33:32 +1300 (Tue, 04 Mar 2008) $
  */
-#ifndef PRIORS_NORMALLOG_H_
-#define PRIORS_NORMALLOG_H_
+#ifndef ESTIMATES_NORMALLOG_H_
+#define ESTIMATES_NORMALLOG_H_
 
 // Headers
-#include "Priors/Prior.h"
+#include "Estimates/Estimate.h"
 
 // Namespaces
 namespace isam {
-namespace priors {
+namespace estimates {
 
 /**
  * Class definition
  */
-class NormalLog : public isam::Prior {
+class NormalLog : public isam::Estimate {
 public:
   // Methods
   NormalLog();
@@ -40,6 +40,6 @@ private:
   Double                      sigma_;
 };
 
-} /* namespace priors */
+} /* namespace estimates */
 } /* namespace isam */
 #endif /* PRIORS_NORMALLOG_H_ */

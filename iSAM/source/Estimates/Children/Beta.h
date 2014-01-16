@@ -13,20 +13,20 @@
  *
  * $Date: 2008-03-04 16:33:32 +1300 (Tue, 04 Mar 2008) $
  */
-#ifndef PRIORS_BETA_H_
-#define PRIORS_BETA_H_
+#ifndef ESTIMATES_BETA_H_
+#define ESTIMATES_BETA_H_
 
 // Headers
-#include "Priors/Prior.h"
+#include "Estimates/Estimate.h"
 
 // Namespaces
 namespace isam {
-namespace priors {
+namespace estimates {
 
 /**
  * Class Definition
  */
-class Beta : public isam::Prior {
+class Beta : public isam::Estimate {
 public:
   // Methods
   Beta();
@@ -46,6 +46,6 @@ private:
   Double                      n_ = 0.0;
 };
 
-} /* namespace priors */
+} /* namespace estimates */
 } /* namespace isam */
-#endif /* PRIORS_BETA_H_ */
+#endif /* ESTIMATES_BETA_H_ */

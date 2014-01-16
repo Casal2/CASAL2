@@ -31,7 +31,7 @@ namespace isam {
 Observation::Observation() {
   parameters_.Bind<string>(PARAM_LABEL, &label_, "Label");
   parameters_.Bind<string>(PARAM_TYPE, &type_, "Type of observation");
-  parameters_.Bind<unsigned>(PARAM_YEAR, &year_, "Year to execute in");
+  parameters_.Bind<unsigned>(PARAM_YEAR, &years_, "Years to execute in");
   parameters_.Bind<string>(PARAM_TIME_STEP, &time_step_label_, "Time step to execute in");
   parameters_.Bind<string>(PARAM_LIKELIHOOD, &likelihood_type_, "Type of likelihood to use");
   parameters_.Bind<double>(PARAM_TIME_STEP_PROPORTION, &time_step_proportion_, "Proportion through the time step to analyse the partition from", 1.0);
@@ -165,7 +165,7 @@ void Observation::SaveComparison(string key, unsigned age, Double expected, Doub
   new_comparison.observed_ = observed;
   new_comparison.error_value_ = error_value;
   new_comparison.score_ = score;
-  comparisons_.push_back(new_comparison);
+  comparisons_[Model::Instance()->current_year()].push_back(new_comparison);
 }
 
 /**

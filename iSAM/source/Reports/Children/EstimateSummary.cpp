@@ -23,7 +23,7 @@ namespace reports {
  * Default Constructor
  */
 EstimateSummary::EstimateSummary() {
-  run_mode_    = (RunMode::Type)(RunMode::kBasic & RunMode::kEstimation);
+  run_mode_    = (RunMode::Type)(RunMode::kBasic | RunMode::kEstimation);
   model_state_ = State::kFinalise;
 }
 
@@ -51,6 +51,14 @@ void EstimateSummary::Execute() {
     cout << "Estimate: " << estimate->label() << "\n";
     cout << "Lower Bound: " << estimate->lower_bound() << "\n";
     cout << "Upper Bound: " << estimate->upper_bound() << "\n";
+    cout << "parameters:\n";
+    map<string, ParameterPtr> parameters = estimate->parameters().parameters();
+    for (auto iter = parameters.begin(); iter != parameters.end(); ++iter) {
+      cout << iter->first << ": ";
+      for (string parameter_value : iter->second->values())
+        cout << parameter_value << " ";
+      cout << "\n";
+    }
   }
 
   cout << CONFIG_END_REPORT << "\n" << endl;

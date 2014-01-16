@@ -15,7 +15,7 @@
 
 // Namespaces
 namespace isam {
-namespace priors {
+namespace estimates {
 
 /**
  * Default constructor
@@ -57,5 +57,5 @@ Double Beta::GetScore(Double param) {
   return score_;
 }
 
-} /* namespace priors */
+} /* namespace estimates */
 } /* namespace isam */

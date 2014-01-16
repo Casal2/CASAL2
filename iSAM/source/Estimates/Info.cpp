@@ -25,7 +25,8 @@ namespace estimates {
  */
 Info::Info() {
   parameters_.Bind<string>(PARAM_LABEL, &label_, "Label");
-  parameters_.Bind<string>(PARAM_PARAMETER, &parameter_, "The name of the variable to estimate in the model");
+  parameters_.Bind<string>(PARAM_TYPE, &type_, "Type");
+  parameters_.Bind<string>(PARAM_PARAMETER, &parameter_, "The name of the variable to estimate in the model", "");
   parameters_.Bind<double>(PARAM_LOWER_BOUND, &lower_bound_, "The lowest value the parameter is allowed to have");
   parameters_.Bind<double>(PARAM_UPPER_BOUND, &upper_bound_, "The highest value the parameter is allowed to have");
   parameters_.Bind<string>(PARAM_PRIOR, &prior_label_, "The name of the prior to use for the parameter", "");
@@ -71,10 +72,16 @@ void Info::BuildEstimates() {
    * Explode the parameter string so we can get the estimable
    * name (parameter) and the index
    */
+  if (parameter_ == "") {
+    parameters().Add(PARAM_PARAMETER, label_, parameters_.Get(PARAM_LABEL)->file_name(), parameters_.Get(PARAM_LABEL)->line_number());
+    parameter_ = label_;
+  }
+
+
   objects::ExplodeString(parameter_, type, label, parameter, index);
   if (type == "" || label == "" || parameter == "") {
     LOG_ERROR(parameters_.location(PARAM_PARAMETER) << ": parameter " << parameter_
-        << " is not in the correct format. Correct format is object_type[label].estimable[array index]");
+        << " is not in the correct format. Correct format is object_type[label].estimable(array index)");
   }
 
   base::ObjectPtr target = objects::FindObject(parameter_);
@@ -84,7 +91,9 @@ void Info::BuildEstimates() {
 
   if (index == "" || !target->IsEstimableAVector(parameter)) {
     // Create one estimate
-    isam::EstimatePtr estimate = isam::estimates::Factory::Create();
+    isam::EstimatePtr estimate = isam::estimates::Factory::Create(PARAM_ESTIMATE, type_);
+    if (!estimate)
+      LOG_CODE_ERROR("Failed to create estimate with type: " << type_);
     estimate->parameters().CopyFrom(parameters_);
 
     if (index != "")
@@ -95,7 +104,9 @@ void Info::BuildEstimates() {
     // Create N estimates
     unsigned n = target->GetEstimableSize(parameter);
     for (unsigned i = 0; i < n; ++i) {
-      isam::EstimatePtr estimate = isam::estimates::Factory::Create();
+      isam::EstimatePtr estimate = isam::estimates::Factory::Create(PARAM_ESTIMATE, type_);
+      if (!estimate)
+        LOG_CODE_ERROR("Failed to create estimate with type: " << type_);
 
       string new_parameter = parameter + "(" + utilities::ToInline<unsigned, string>(i+1) + ")";
       estimate->parameters().CopyFrom(parameters_);

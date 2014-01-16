@@ -15,7 +15,7 @@
 
 // Namespaces
 namespace isam {
-namespace priors {
+namespace estimates {
 
 /**
  * Default constructor
@@ -44,5 +44,5 @@ Double NormalByStdev::GetScore(Double param) {
   return score_;
 }
 
-} /* namespace priors */
+} /* namespace estimates */
 } /* namespace isam */

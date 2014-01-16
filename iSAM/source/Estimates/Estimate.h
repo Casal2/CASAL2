@@ -24,7 +24,6 @@
 
 // Headers
 #include "BaseClasses/Object.h"
-#include "Priors/Prior.h"
 #include "Utilities/Types.h"
 
 // Namespaces
@@ -41,9 +40,13 @@ public:
   Estimate();
   virtual                     ~Estimate() = default;
   void                        Validate();
-  void                        Build();
+  void                        Build() { };
   void                        Reset() { };
-  Double                      GetPriorScore();
+  Double                      GetPriorScore() { return score_; }
+
+  // pure methods
+  virtual void                DoValidate() = 0;
+  virtual Double              GetScore(Double param) = 0;
 
   // Accessors
   void                        set_target(Double* new_target) { target_ = new_target; };
@@ -54,10 +57,9 @@ public:
   void                        set_enabled(bool new_value) { enabled_ = new_value; }
   Double                      value() { return *target_; }
   void                        set_value(Double new_value) { *target_ = new_value; }
-  PriorPtr                    prior() { return prior_; }
   bool                        mcmc_fixed() const { return mcmc_fixed_; }
 
-private:
+protected:
   // Members
   Double*                     target_;
   string                      parameter_;
@@ -69,7 +71,7 @@ private:
   vector<string>              same_labels;
   vector<Double*>             sames_;
   bool                        enabled_ = true;
-  PriorPtr                    prior_;
+  Double                      score_ = 0.0;
 };
 
 typedef boost::shared_ptr<isam::Estimate> EstimatePtr;

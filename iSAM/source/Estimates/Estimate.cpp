@@ -13,8 +13,6 @@
 // Headers
 #include "Estimate.h"
 
-#include "Priors/Manager.h"
-
 // Namespaces
 namespace isam {
 
@@ -23,6 +21,7 @@ namespace isam {
  */
 Estimate::Estimate() {
   parameters_.Bind<string>(PARAM_LABEL, &label_, "Label");
+  parameters_.Bind<string>(PARAM_TYPE, &type_, "Type");
   parameters_.Bind<string>(PARAM_PARAMETER, &parameter_, "The name of the variable to estimate in the model");
   parameters_.Bind<double>(PARAM_LOWER_BOUND, &lower_bound_, "The lowest value the parameter is allowed to have");
   parameters_.Bind<double>(PARAM_UPPER_BOUND, &upper_bound_, "The highest value the parameter is allowed to have");
@@ -48,33 +47,8 @@ void Estimate::Validate() {
       LOG_ERROR(parameters_.location(PARAM_SAME) << ": same parameter '" << same << "' is a duplicate. Please remove this from your configuration file");
     }
   }
-}
 
-/**
- * Build our estimate. This is where we'll build the runtime
- * relationships to other objects in iSAM like the priors
- * and sames
- */
-void Estimate::Build() {
-  if (prior_label_ != "") {
-    prior_ = priors::Manager::Instance().GetPrior(prior_label_);
-    if (!prior_) {
-      LOG_ERROR(parameters_.location(PARAM_PRIOR) << ": prior " << prior_label_ << " has not been specified as a @prior object in the configuration file");
-    }
-  }
-}
-
-/**
- * Caclulate and return the value of our prior
- *
- * @return Prior score
- */
-Double Estimate::GetPriorScore() {
-  if (!prior_) {
-    LOG_CODE_ERROR("Prior == 0. No prior has been specified or built for this object");
-  }
-
-  return prior_->GetScore(*target_);
+  DoValidate();
 }
 
 } /* namespace isam */
