@@ -37,8 +37,8 @@ namespace config = isam::configuration;
 class InternalEmptyModel : public testfixtures::Base {
 public:
   // methods
-  InternalEmptyModel() { };
-  virtual                     ~InternalEmptyModel() { };
+  InternalEmptyModel();
+  virtual                     ~InternalEmptyModel();
   void                        SetUp() override final;
   void                        AddConfigurationLine(const string& line, const string& file_name, unsigned line_number);
   void                        LoadConfiguration();

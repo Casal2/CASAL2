@@ -1,7 +1,31 @@
+
+@report state-1
+type partition
+time_step one
+years 1977
+
+@report state-1
+type partition
+time_step two
+years 1977
+
 @report state-3
 type partition
 time_step three
-years 1975 2002
+years 1977 2002
 
 @report objective
 type objective_function
+
+@report estimate_summary
+type estimate_summary
+
+{
+@report chatCPUE
+type observation
+observation chatCPUE
+
+@report chatTANbiomass
+type observation
+observation chatTANbiomass
+}

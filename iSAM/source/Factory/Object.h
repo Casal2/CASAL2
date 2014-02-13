@@ -33,7 +33,7 @@ using std::string;
 class Object {
 public:
   // methods
-  static base::ObjectPtr      Create(const string& object_type, const string& sub_type);
+  static base::ObjectPtr      Create(string& object_type, string& sub_type);
 
 private:
   // methods

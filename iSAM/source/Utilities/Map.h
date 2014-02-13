@@ -15,6 +15,7 @@
 
 // headers
 #include <vector>
+#include <map>
 
 #include "Types.h"
 
@@ -23,6 +24,7 @@ namespace isam {
 namespace utilities {
 
 using std::vector;
+using std::map;
 
 /**
  * Build a map from 2 vectors where the first vector
@@ -32,7 +34,7 @@ using std::vector;
  * @param value The values to use
  * @return a Map of keys and values
  */
-map<unsigned, Double> MapCreate(const vector<unsigned>& key, const vector<Double>& value) {
+inline map<unsigned, Double> MapCreate(const vector<unsigned>& key, const vector<Double>& value) {
   map<unsigned, Double> result;
 
   for (unsigned i = 0; i < key.size(); ++i)

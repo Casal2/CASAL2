@@ -33,14 +33,7 @@ Report::Report() {
  */
 void Report::Validate() {
   parameters_.Populate();
-
-//  if (model_state_ == State::kExecute) {
-//    CheckForRequiredParameter(PARAM_TIME_STEP);
-//    CheckForRequiredParameter(PARAM_YEARS);
-
-//    time_step_ = parameters_.Get(PARAM_TIME_STEP).GetValue<string>();
-//    years_     = parameters_.Get(PARAM_YEARS).GetValues<unsigned>();
-//  }
+  DoValidate();
 }
 
 /**

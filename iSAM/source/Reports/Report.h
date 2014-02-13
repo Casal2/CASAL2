@@ -42,13 +42,17 @@ public:
   // Methods
   Report();
   virtual                     ~Report() = default;
-  virtual void                Validate();
-  virtual void                Build() {};
+  void                        Validate();
+  void                        Build() { DoBuild(); };
   virtual void                Prepare() {};
-  virtual void                Execute() = 0;
   virtual void                Reset() {};
   virtual void                Finalise() {};
   bool                        HasYear(unsigned year);
+
+  // pure methods
+  virtual void                DoValidate() = 0;
+  virtual void                DoBuild() = 0;
+  virtual void                Execute() = 0;
 
   // Accessors
   RunMode::Type               run_mode() const { return run_mode_; }

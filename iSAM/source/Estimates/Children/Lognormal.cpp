@@ -31,12 +31,11 @@ void Lognormal::DoValidate() {
 /**
  * Calculate and return the score
  *
- * @param param The parameter to use for calculation
  * @return The score for this prior
  */
-Double Lognormal::GetScore(Double param) {
+Double Lognormal::GetScore() {
   sigma_ = sqrt(log( 1 + cv_ * cv_));
-  score_ = log(param) + 0.5 * pow(log(param / mu_) / sigma_ * sigma_ * 0.5, 2);
+  Double score_ = log(value()) + 0.5 * pow(log(value() / mu_) / sigma_ * sigma_ * 0.5, 2);
   return score_;
 }
 

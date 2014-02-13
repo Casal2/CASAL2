@@ -58,5 +58,21 @@ void Pseudo::SimulateObserved(const vector<string> &keys, vector<Double> &observ
 
 }
 
+/**
+ * Simulate observed values
+ *
+ * @param comparisons A collection of comparisons passed by the observation
+ */
+void Pseudo::SimulateObserved(map<unsigned, vector<observations::Comparison> >& comparisons) {
+  auto iterator = comparisons.begin();
+  for (; iterator != comparisons.end(); ++iterator) {
+    LOG_INFO("Simulating values for year: " << iterator->first);
+    for (observations::Comparison& comparison : iterator->second) {
+      comparison.observed_ = 0.0;
+    }
+  }
+}
+
+
 } /* namespace likelihoods */
 } /* namespace isam */

@@ -20,6 +20,7 @@
 #include "Reports/Children/EstimateValue.h"
 #include "Reports/Children/MCMCChain.h"
 #include "Reports/Children/ObjectiveFunction.h"
+#include "Reports/Children/Observation.h"
 #include "Reports/Children/Partition.h"
 #include "Reports/Children/PartitionMeanWeight.h"
 
@@ -55,6 +56,8 @@ ReportPtr Factory::Create(const string& object_type, const string& sub_type) {
       result = ReportPtr(new PartitionMeanWeight());
     else if (sub_type == PARAM_OBJECTIVE_FUNCTION)
       result = ReportPtr(new ObjectiveFunction());
+    else if (sub_type == PARAM_OBSERVATION)
+      result = ReportPtr(new Observation());
 
     if (result)
       isam::reports::Manager::Instance().AddObject(result);

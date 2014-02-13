@@ -1,13 +1,23 @@
 # The reports/outputs
-
+{
 @report initialisation-phase1
 type initialisation
 initialisation_phase phase1
 
+@report state-1
+type partition
+time_step one
+years 1977
+
+@report state-2
+type partition
+time_step two
+years 1977
+
 @report state-3
 type partition
 time_step three
-years 1975 2002
+years 1977 2002
 
 @report SSB
 type process
@@ -23,10 +33,10 @@ header True
 
 @report estimate-summary
 type estimate_summary
-
+}
 @report objective
 type objective_function
-
+{
 @report random_seed
 type random_number_seed
 
@@ -62,6 +72,8 @@ time_step one
 
 @report covariance
 type covariance
+
+}
 
 @report TAN1992
 type observation

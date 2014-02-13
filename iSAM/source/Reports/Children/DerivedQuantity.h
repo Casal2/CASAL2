@@ -22,6 +22,8 @@ class DerivedQuantity : public isam::Report {
 public:
   DerivedQuantity();
   virtual                     ~DerivedQuantity() = default;
+  void                        DoValidate() override final { };
+  void                        DoBuild() override final { };
   void                        Execute() override final;
 };
 

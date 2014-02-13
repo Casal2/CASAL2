@@ -32,7 +32,7 @@ public:
   Uniform();
   virtual                     ~Uniform() = default;
   void                        DoValidate() override final { };
-  Double                      GetScore(Double param) override final { return 0; }
+  Double                      GetScore() override final { return 0; }
 };
 
 } /* namespace estimates */

@@ -76,7 +76,7 @@ double RandomNumberGenerator::normal(double mean, double sigma) {
  * @param cv
  * @return random number
  */
-double RandomNumberGenerator::log_normal(double mean, double cv) {
+double RandomNumberGenerator::lognormal(double mean, double cv) {
   double log_sigma = sqrt(log(cv*cv + 1.0));
   double log_mean  = log(mean) - (log_sigma * log_sigma) / 2.0;
 
@@ -99,7 +99,7 @@ double RandomNumberGenerator::binomial(double p, double n) {
       count++;
   }
 
-  return (count / std::ceil(n));
+  return count;
 }
 
 /**

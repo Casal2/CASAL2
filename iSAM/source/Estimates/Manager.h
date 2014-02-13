@@ -24,6 +24,7 @@ public:
   void                            Validate() override final;
   unsigned                        GetEnabledCount();
   vector<EstimatePtr>             GetEnabled();
+  void                            RemoveAllObjects() override final;
 
 private:
   vector<EstimateInfoPtr>         estimate_infos_;

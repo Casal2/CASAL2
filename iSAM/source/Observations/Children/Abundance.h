@@ -44,18 +44,22 @@ public:
   void                        PreExecute() override final;
   void                        Execute() override final;
   void                        PostExecute() override final { };
+  void                        CalculateScore() override final { };
+  bool                        HasYear(unsigned year) const override final { return std::find(years_.begin(), years_.end(), year) != years_.end(); }
 
 private:
   // Members
-  vector<Double>              proportions_;
-  vector<Double>              error_values_;
-  string                      catchability_label_;
-  CatchabilityPtr             catchability_;
-  Double                      delta_;
-  Double                      process_error_;
-  CachedCombinedCategoriesPtr cached_partition_;
-  CombinedCategoriesPtr       partition_;
-  vector<string>              obs_;
+  vector<unsigned>                years_;
+  map<unsigned, vector<Double> >  proportions_by_year_;
+  map<unsigned, Double>           error_values_by_year_;
+  vector<Double>                  error_values_;
+  string                          catchability_label_;
+  CatchabilityPtr                 catchability_;
+  Double                          delta_;
+  Double                          process_error_;
+  CachedCombinedCategoriesPtr     cached_partition_;
+  CombinedCategoriesPtr           partition_;
+  vector<string>                  obs_;
 };
 
 } /* namespace observation */

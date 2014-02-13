@@ -28,7 +28,6 @@
 #include "Partition/Accessors/Category.h"
 #include "Partition/Partition.h"
 #include "Penalties/Manager.h"
-#include "Priors/Manager.h"
 #include "Processes/Manager.h"
 #include "Reports/Manager.h"
 #include "Selectivities/Manager.h"
@@ -40,13 +39,17 @@
 namespace isam {
 namespace testfixtures {
 
+
+InternalEmptyModel::InternalEmptyModel() { }
+InternalEmptyModel::~InternalEmptyModel() { }
+
 /**
  *
  */
 void InternalEmptyModel::SetUp() {
-  configuration_file_.clear();
   Model::Instance(true);
 
+  configuration_file_.clear();
   GlobalConfiguration::Instance()->set_skip_config_file("true");
 }
 

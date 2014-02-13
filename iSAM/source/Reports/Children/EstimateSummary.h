@@ -31,8 +31,10 @@ class EstimateSummary : public isam::Report {
 public:
   // Methods
   EstimateSummary();
-  virtual             ~EstimateSummary() noexcept(true);
-  void                Execute() override final;
+  virtual                     ~EstimateSummary() noexcept(true);
+  void                        DoValidate() override final { };
+  void                        DoBuild() override final { };
+  void                        Execute() override final;
 };
 
 } /* namespace reports */

@@ -30,6 +30,18 @@ Manager::~Manager() noexcept(true) {
 }
 
 /**
+ *
+ */
+ObservationPtr Manager::GetObservation(const string& label) {
+  for (ObservationPtr observation : objects_) {
+    if (observation->label() == label)
+      return observation;
+  }
+
+  return ObservationPtr();
+}
+
+/**
  * PreExecute our observations that have matching year and time step labels.
  * This is usually used to build caches of something before the time step
  * has been executed
@@ -54,6 +66,15 @@ void Manager::Execute(unsigned year, const string& time_step) {
   for (ObservationPtr observation : objects_) {
     if (observation->HasYear(year) && observation->time_step() == time_step)
       observation->Execute();
+  }
+}
+
+/**
+ *
+ */
+void Manager::CalculateScores() {
+  for (ObservationPtr observation : objects_) {
+    observation->CalculateScore();
   }
 }
 

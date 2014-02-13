@@ -43,9 +43,12 @@ public:
   void                        PreExecute() override final;
   void                        Execute() override final;
   void                        PostExecute() override final { };
+  void                        CalculateScore() override final;
+  bool                        HasYear(unsigned year) const override final { return year == year_; }
 
 private:
   // Members
+  unsigned                    year_;
   unsigned                    min_age_;
   unsigned                    max_age_;
   bool                        age_plus_;
@@ -57,6 +60,7 @@ private:
   string                      ageing_error_label_;
   vector<vector<Double> >     proportions_;
   vector<Double>              error_values_;
+  vector<vector<Double> >     error_values_by_category_;
   CachedCombinedCategoriesPtr cached_partition_;
   CombinedCategoriesPtr       partition_;
   vector<Double>              age_results_;

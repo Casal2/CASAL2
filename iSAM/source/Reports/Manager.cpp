@@ -57,6 +57,8 @@ void Manager::Build() {
  * @param model_state The state the model has just finished
  */
 void Manager::Execute(State::Type model_state) {
+  LOG_TRACE();
+
   RunMode::Type run_mode = Model::Instance()->run_mode();
   for(ReportPtr report : state_reports_[model_state]) {
       if ( (RunMode::Type)(report->run_mode() & run_mode) == run_mode)

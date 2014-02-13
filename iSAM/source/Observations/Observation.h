@@ -19,26 +19,9 @@
 // Headers
 #include "BaseClasses/Object.h"
 #include "Likelihoods/Likelihood.h"
+#include "Observations/Comparison.h"
 #include "Selectivities/Selectivity.h"
 #include "Utilities/Types.h"
-
-/**
- * Struct Definitions
- */
-namespace isam {
-namespace observations {
-
-struct Comparison {
-  string    key_ = "";
-  unsigned  age_ = 0;
-  Double    expected_;
-  Double    observed_;
-  Double    error_value_;
-  Double    score_;
-};
-
-} /* namespace observations */
-} /* namespace isam */
 
 // Namespaces
 namespace isam {
@@ -56,7 +39,7 @@ public:
   void                        Validate();
   void                        Build();
   void                        Reset();
-  bool                        HasYear(unsigned year) const { return std::find(years_.begin(), years_.end(), year) != years_.end(); }
+
 
   // pure methods
   virtual void                DoValidate() = 0;
@@ -65,21 +48,25 @@ public:
   virtual void                PreExecute() = 0;
   virtual void                Execute() = 0;
   virtual void                PostExecute() = 0;
+  virtual void                CalculateScore() = 0;
+  virtual bool                HasYear(unsigned year) const = 0;
 
   // accessors
-  Double                      score() const { return score_; }
-  const string&               time_step() const { return time_step_label_; }
-  vector<obs::Comparison>& comparisons(unsigned year) { return comparisons_[year]; }
+  const map<unsigned, Double>&  scores() const { return scores_; }
+  const string&                 time_step() const { return time_step_label_; }
+  vector<obs::Comparison>&      comparisons(unsigned year) { return comparisons_[year]; }
+  map<unsigned, vector<obs::Comparison> >& comparisons() { return comparisons_; }
 
 protected:
   // methods
-  void                        SaveComparison(string key, unsigned age, Double expected, Double observed, Double error_value, Double score);
-  void                        SaveComparison(string key, Double expected, Double observed, Double erroe_value, Double score);
+  void                        SaveComparison(string category, unsigned age, Double expected, Double observed,
+      Double process_error, Double error_value, Double delta, Double score);
+  void                        SaveComparison(string category, Double expected, Double observed,
+      Double process_error, Double error_value, Double delta, Double score);
 
   // members
   string                      type_;
-  Double                      score_;
-  vector<unsigned>            years_;
+  map<unsigned, Double>       scores_;
   string                      time_step_label_;
   Double                      time_step_proportion_;
   string                      time_step_proportion_method_;

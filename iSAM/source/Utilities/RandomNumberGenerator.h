@@ -37,7 +37,7 @@ public:
   // Accessors
   double                        uniform(double min = 0.0, double max = 1.0);
   double                        normal(double mean = 0.0, double sigma = 1.0);
-  double                        log_normal(double mean, double cv);
+  double                        lognormal(double mean, double cv);
   double                        binomial(double p, double n);
   double                        chi_square(unsigned df);
 

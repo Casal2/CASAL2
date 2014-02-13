@@ -31,6 +31,8 @@ class Partition : public isam::Report {
 public:
   Partition();
   virtual                     ~Partition() = default;
+  void                        DoValidate() override final { };
+  void                        DoBuild() override final { };
   void                        Execute() override final;
 };
 

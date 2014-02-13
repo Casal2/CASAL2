@@ -13,8 +13,8 @@
  *
  * $Date: 2008-03-04 16:33:32 +1300 (Tue, 04 Mar 2008) $
  */
-#ifndef MANAGER_H_
-#define MANAGER_H_
+#ifndef AGEINGERRORS_MANAGER_H_
+#define AGEINGERRORS_MANAGER_H_
 
 // Headers
 #include "AgeingErrors/AgeingError.h"
@@ -36,4 +36,4 @@ public:
 
 } /* namespace ageingerrors */
 } /* namespace isam */
-#endif /* MANAGER_H_ */
+#endif /* AGEINGERRORS_MANAGER_H_ */

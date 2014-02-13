@@ -12,19 +12,20 @@
 // headers
 #include "Base.h"
 
+#include "AgeingErrors/Manager.h"
 #include "AgeSizes/Manager.h"
 #include "Catchabilities/Manager.h"
 #include "Categories/Categories.h"
 #include "DerivedQuantities/Manager.h"
 #include "Estimates/Manager.h"
 #include "InitialisationPhases/Manager.h"
+#include "MCMC/MCMC.h"
 #include "Minimisers/Manager.h"
 #include "ObjectiveFunction/ObjectiveFunction.h"
 #include "Observations/Manager.h"
 #include "Partition/Accessors/Category.h"
 #include "Partition/Partition.h"
 #include "Penalties/Manager.h"
-#include "Priors/Manager.h"
 #include "Processes/Manager.h"
 #include "Reports/Manager.h"
 #include "Selectivities/Factory.h"
@@ -62,6 +63,7 @@ void Base::TearDown() {
   Categories::Instance()->RemoveAllObjects();
   Partition::Instance().Clear();
 
+  ageingerrors::Manager::Instance().RemoveAllObjects();
   agesizes::Manager::Instance().RemoveAllObjects();
   catchabilities::Manager::Instance().RemoveAllObjects();
   derivedquantities::Manager::Instance().RemoveAllObjects();
@@ -70,13 +72,13 @@ void Base::TearDown() {
   minimisers::Manager::Instance().RemoveAllObjects();
   observations::Manager::Instance().RemoveAllObjects();
   penalties::Manager::Instance().RemoveAllObjects();
-  priors::Manager::Instance().RemoveAllObjects();
   processes::Manager::Instance().RemoveAllObjects();
   reports::Manager::Instance().RemoveAllObjects();
   selectivities::Manager::Instance().RemoveAllObjects();
   sizeweights::Manager::Instance().RemoveAllObjects();
   timesteps::Manager::Instance().RemoveAllObjects();
 
+  MCMC::Instance()->parameters().Clear();
 }
 
 } /* namespace testfixtures */

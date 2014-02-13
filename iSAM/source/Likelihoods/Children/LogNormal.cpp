@@ -96,5 +96,28 @@ void LogNormal::SimulateObserved(const vector<string> &keys, vector<Double> &obs
   }
 }
 
+/**
+ * Simulate observed values
+ *
+ * @param comparisons A collection of comparisons passed by the observation
+ */
+void LogNormal::SimulateObserved(map<unsigned, vector<observations::Comparison> >& comparisons) {
+  utilities::RandomNumberGenerator& rng = utilities::RandomNumberGenerator::Instance();
+
+  Double error_value = 0.0;
+  auto iterator = comparisons.begin();
+  for (; iterator != comparisons.end(); ++iterator) {
+    LOG_INFO("Simulating values for year: " << iterator->first);
+    for (observations::Comparison& comparison : iterator->second) {
+      error_value = AdjustErrorValue(comparison.process_error_, comparison.error_value_);
+
+      if (comparison.expected_ <= 0.0 || error_value <= 0.0)
+        comparison.observed_ = 0.0;
+      else
+        comparison.observed_ = rng.lognormal(AS_DOUBLE(comparison.expected_), AS_DOUBLE(error_value));
+    }
+  }
+}
+
 } /* namespace likelihoods */
 } /* namespace isam */

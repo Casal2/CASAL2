@@ -42,17 +42,16 @@ void Beta::DoValidate() {
 /**
  * Get the score
  *
- * @param param The parameter to use in the calculation
  * @return The score for this prior
  */
-Double Beta::GetScore(Double param) {
-  score_ = 0.0;
+Double Beta::GetScore() {
+  Double score_ = 0.0;
 
   v_ = (mu_ - a_) / (b_ - a_);
   t_ = (((mu_ - a_) * (b_ - mu_)) / (sigma_ * sigma_)) - 1.0;
   m_ = t_ * v_;
   n_ = t_ * (1.0 * v_);
-  score_ = ((1.0 - m_) * log(param - a_)) + ((1.0 - n_) * log(b_ - param));
+  score_ = ((1.0 - m_) * log(value() - a_)) + ((1.0 - n_) * log(b_ - value()));
 
   return score_;
 }

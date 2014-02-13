@@ -59,7 +59,7 @@ categories male female
 years 1975-2002
 catches 1191 1488 1288 2004 609 750 997 596 302 344 544 362 509 574 804 977 991 2454 2775 2898 4094 3760 3761 3673 3524 3700 3700 3700
 U_max 0.9
-selectivities chatFselMale chatFselFemale
+selectivities chatCPUE.male chatCPUE.female
 penalty event_mortality_penalty
 
 @selectivity male_maturity
@@ -71,28 +71,6 @@ ato95 2
 type logistic
 a50 5
 ato95 2
-
-@selectivity chatTANselMale
-type logistic
-a50 9
-ato95 4
-
-@selectivity chatTANselFemale
-type logistic
-a50 9
-ato95 4
-alpha 0.7
-
-@selectivity chatFselMale
-type logistic
-a50 9
-ato95 4
-
-@selectivity chatFselFemale
-type logistic
-a50 9
-ato95 4
-alpha 0.7
 
 @selectivity one
 type constant
@@ -117,3 +95,4 @@ log_scale True
 multiplier 10
 
 !include "reports.txt"
+!include "estimation.txt"

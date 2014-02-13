@@ -18,12 +18,14 @@
 
 // Headers
 #include "BaseClasses/Object.h"
+#include "Observations/Comparison.h"
 #include "Utilities/Types.h"
 
 // Namespaces
 namespace isam {
 
 using isam::utilities::Double;
+
 
 /**
  * Class definition
@@ -42,6 +44,10 @@ public:
                                 const vector<Double> &error_values, const vector<Double> &process_errors, const Double delta) = 0;
   virtual Double              GetInitialScore(const vector<string> &keys, const vector<Double> &process_errors,
                                 const vector<Double> &error_values);
+
+  virtual void                SimulateObserved(map<unsigned, vector<observations::Comparison> >& comparisons) { };
+  virtual Double              GetInitialScore(map<unsigned, vector<observations::Comparison> >& comparisons) { return 0.0; };
+  virtual void                GetScores(map<unsigned, vector<observations::Comparison> >& comparisons) { };
 };
 
 // Typedef

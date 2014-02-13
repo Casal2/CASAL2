@@ -26,7 +26,6 @@
 #include "Partition/Accessors/Category.h"
 #include "Partition/Partition.h"
 #include "Penalties/Manager.h"
-#include "Priors/Manager.h"
 #include "Processes/Manager.h"
 #include "Reports/Manager.h"
 #include "Selectivities/Factory.h"

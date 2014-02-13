@@ -31,8 +31,10 @@ class ObjectiveFunction : public isam::Report {
 public:
   // Methods
   ObjectiveFunction();
-  virtual             ~ObjectiveFunction() = default;
-  void                Execute() override final;
+  virtual                     ~ObjectiveFunction() = default;
+  void                        DoValidate() override final { };
+  void                        DoBuild() override final { };
+  void                        Execute() override final;
 };
 
 } /* namespace reports */

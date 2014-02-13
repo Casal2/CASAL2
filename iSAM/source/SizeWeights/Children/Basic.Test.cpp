@@ -27,6 +27,7 @@ using ::testing::Return;
  * Test the results of our KnifeEdge are correct
  */
 TEST(SizeWeights, Basic) {
+  // TODO: Add more unit tests
   isam::sizeweights::Basic basic;
 
   basic.parameters().Add(PARAM_LABEL, "unit_test_basic", __FILE__, __LINE__);
@@ -37,11 +38,11 @@ TEST(SizeWeights, Basic) {
   basic.Validate();
   basic.Build();
 
-  EXPECT_DOUBLE_EQ(1000.0, basic.mean_weight(1.0));
-  EXPECT_DOUBLE_EQ(2000.0, basic.mean_weight(2.0));
-  EXPECT_DOUBLE_EQ(3000.0, basic.mean_weight(3.0));
-  EXPECT_DOUBLE_EQ(4000.0, basic.mean_weight(4.0));
-  EXPECT_DOUBLE_EQ(5000.0, basic.mean_weight(5.0));
+  EXPECT_DOUBLE_EQ(1000.0, basic.mean_weight(1.0, "", 1.0));
+  EXPECT_DOUBLE_EQ(2000.0, basic.mean_weight(2.0, "", 1.0));
+  EXPECT_DOUBLE_EQ(3000.0, basic.mean_weight(3.0, "", 1.0));
+  EXPECT_DOUBLE_EQ(4000.0, basic.mean_weight(4.0, "", 1.0));
+  EXPECT_DOUBLE_EQ(5000.0, basic.mean_weight(5.0, "", 1.0));
 
   /**
    * Run some new parameters
@@ -55,11 +56,11 @@ TEST(SizeWeights, Basic) {
   basic.Validate();
   basic.Build();
 
-  EXPECT_DOUBLE_EQ(2000.0, basic.mean_weight(1.0));
-  EXPECT_DOUBLE_EQ(8000.0, basic.mean_weight(2.0));
-  EXPECT_DOUBLE_EQ(18000.0, basic.mean_weight(3.0));
-  EXPECT_DOUBLE_EQ(32000.0, basic.mean_weight(4.0));
-  EXPECT_DOUBLE_EQ(50000.0, basic.mean_weight(5.0));
+  EXPECT_DOUBLE_EQ(2000.0, basic.mean_weight(1.0, "", 1.0));
+  EXPECT_DOUBLE_EQ(8000.0, basic.mean_weight(2.0, "", 1.0));
+  EXPECT_DOUBLE_EQ(18000.0, basic.mean_weight(3.0, "", 1.0));
+  EXPECT_DOUBLE_EQ(32000.0, basic.mean_weight(4.0, "", 1.0));
+  EXPECT_DOUBLE_EQ(50000.0, basic.mean_weight(5.0, "", 1.0));
 }
 
 }

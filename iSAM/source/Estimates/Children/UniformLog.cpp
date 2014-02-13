@@ -26,11 +26,10 @@ UniformLog::UniformLog() {
 /**
  * Calculate and return the score
  *
- * @param The parameter to return log of
  * @return Score as log(param)
  */
-Double UniformLog::GetScore(Double param) {
-  score_ = log(param);
+Double UniformLog::GetScore() {
+  Double score_ = log(value());
   return score_;
 }
 

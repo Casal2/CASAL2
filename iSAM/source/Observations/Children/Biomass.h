@@ -41,10 +41,12 @@ public:
   void                        PreExecute() override final;
   void                        Execute() override final;
   void                        PostExecute() override final { };
+  void                        CalculateScore() override final { };
+  bool                        HasYear(unsigned year) const override final { return std::find(years_.begin(), years_.end(), year) != years_.end(); }
 
 private:
   // members
-  // Members
+  vector<unsigned>                years_;
   map<unsigned, vector<Double> >  proportions_by_year_;
   map<unsigned, Double>           error_values_by_year_;
   vector<Double>                  error_values_;

@@ -20,6 +20,10 @@
 namespace isam {
 namespace testfixtures {
 
+
+EmptyModel::EmptyModel() { }
+EmptyModel::~EmptyModel() {}
+
 /**
  *
  */
