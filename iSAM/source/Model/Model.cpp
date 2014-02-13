@@ -52,7 +52,7 @@ Model::Model() {
   parameters_.Bind<unsigned>(PARAM_MIN_AGE, &min_age_, "The default minimum age for the population");
   parameters_.Bind<unsigned>(PARAM_MAX_AGE, &max_age_, "The default maximum age for the population");
   parameters_.Bind<bool>(PARAM_AGE_PLUS, &age_plus_, "True if the model supports an age-plus group", false);
-  parameters_.Bind<string>(PARAM_INITIALIZATION_PHASES, &initialisation_phases_, "List of initialisation phases to execute", true);
+  parameters_.Bind<string>(PARAM_INITIALISATION_PHASES, &initialisation_phases_, "List of initialisation phases to execute", true);
   parameters_.Bind<string>(PARAM_TIME_STEPS, &time_steps_, "List of time steps to execute");
   parameters_.Bind<unsigned>(PARAM_PROJEECTION_FINAL_YEAR, &projection_final_year_, "The final year of the model in projection mode", 0);
 }
@@ -168,7 +168,7 @@ void Model::Validate() {
   initialisationphases::Manager& init_phase_mngr = initialisationphases::Manager::Instance();
   for (const string& phase : initialisation_phases_) {
     if (!init_phase_mngr.IsPhaseDefined(phase))
-      LOG_ERROR(parameters_.location(PARAM_INITIALIZATION_PHASES) << "(" << phase << ") has not been defined. Please ensure you have defined it");
+      LOG_ERROR(parameters_.location(PARAM_INITIALISATION_PHASES) << "(" << phase << ") has not been defined. Please ensure you have defined it");
   }
 
   timesteps::Manager& time_step_mngr = timesteps::Manager::Instance();
@@ -326,6 +326,8 @@ void Model::Iterate() {
     LOG_INFO("Iteration year: " << current_year_);
     time_step_manager.Execute(current_year_);
   }
+
+  observations::Manager::Instance().CalculateScores();
 }
 
 void Model::FullIteration() {

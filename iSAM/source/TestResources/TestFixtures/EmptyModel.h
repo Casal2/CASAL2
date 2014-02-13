@@ -32,8 +32,8 @@ using std::string;
 class EmptyModel : public testfixtures::Base {
 public:
   // Methods
-  EmptyModel() { };
-  virtual                     ~EmptyModel() { };
+  EmptyModel();
+  virtual                     ~EmptyModel();
   void                        SetUp() override final;
 };
 

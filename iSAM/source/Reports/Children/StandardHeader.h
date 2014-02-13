@@ -34,9 +34,11 @@ public:
   // Functions
   StandardHeader();
   virtual                     ~StandardHeader();
-  void                        Prepare();
-  void                        Execute();
-  void                        Finalise();
+  void                        DoValidate() override final { };
+  void                        DoBuild() override final { };
+  void                        Prepare() override final;
+  void                        Execute() override final;
+  void                        Finalise() override final;
 
 protected:
   // Variables

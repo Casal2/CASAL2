@@ -36,11 +36,10 @@ void NormalByStdev::DoValidate() {
 /**
  * Calculate and return our score
  *
- * @param param The value to use in the calculation
  * @return The score
  */
-Double NormalByStdev::GetScore(Double param) {
-  score_ = 0.5 * ((param - mu_) / sigma_) * ((param - mu_) / sigma_);
+Double NormalByStdev::GetScore() {
+  Double score_ = 0.5 * ((value() - mu_) / sigma_) * ((value() - mu_) / sigma_);
   return score_;
 }
 

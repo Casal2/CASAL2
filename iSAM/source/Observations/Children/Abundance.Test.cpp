@@ -84,27 +84,27 @@ TEST_F(BasicModel, Observation_Abundance) {
   observation->parameters().Add(PARAM_LABEL, "abundance", __FILE__, __LINE__);
   observation->parameters().Add(PARAM_TYPE, "abundance", __FILE__, __LINE__);
   observation->parameters().Add(PARAM_CATCHABILITY, "catchability", __FILE__, __LINE__);
-  observation->parameters().Add(PARAM_YEAR, "2008", __FILE__, __LINE__);
+  observation->parameters().Add(PARAM_YEARS, "2008", __FILE__, __LINE__);
   observation->parameters().Add(PARAM_TIME_STEP, "step_one", __FILE__, __LINE__);
   observation->parameters().Add(PARAM_CATEGORIES, observation_categories, __FILE__, __LINE__);
   observation->parameters().Add(PARAM_SELECTIVITIES, selectivities, __FILE__, __LINE__);
   observation->parameters().Add(PARAM_OBS, obs, __FILE__, __LINE__);
   observation->parameters().Add(PARAM_ERROR_VALUE, error_values, __FILE__, __LINE__);
-  observation->parameters().Add(PARAM_LIKELIHOOD, "log_normal", __FILE__, __LINE__);
+  observation->parameters().Add(PARAM_LIKELIHOOD, "lognormal", __FILE__, __LINE__);
 
   Model::Instance()->Start(RunMode::kTesting);
   Model::Instance()->FullIteration();
 
-  const vector<obs::Comparison>& comparisons = observation->comparisons();
+  const vector<obs::Comparison>& comparisons = observation->comparisons(2008);
   ASSERT_EQ(2u, comparisons.size());
 
-  EXPECT_EQ("immature.male+immature.female", comparisons[0].key_);
+  EXPECT_EQ("immature.male+immature.female", comparisons[0].category_);
   EXPECT_DOUBLE_EQ(0.2, comparisons[0].error_value_);
   EXPECT_DOUBLE_EQ(142.01537476494462, comparisons[0].expected_);
   EXPECT_DOUBLE_EQ(22.5, comparisons[0].observed_);
   EXPECT_DOUBLE_EQ(40.738892086047329, comparisons[0].score_);
 
-  EXPECT_EQ("immature.female", comparisons[1].key_);
+  EXPECT_EQ("immature.female", comparisons[1].category_);
   EXPECT_DOUBLE_EQ(0.2, comparisons[1].error_value_);
   EXPECT_DOUBLE_EQ(56.806149905977861, comparisons[1].expected_);
   EXPECT_DOUBLE_EQ(11.25, comparisons[1].observed_);

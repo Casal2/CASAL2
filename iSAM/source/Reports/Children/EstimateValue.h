@@ -27,8 +27,10 @@ class EstimateValue : public isam::Report {
 public:
   // Methods
   EstimateValue();
-  virtual             ~EstimateValue() noexcept(true);
-  void                Execute() override final;
+  virtual                     ~EstimateValue() noexcept(true);
+  void                        DoValidate() override final { };
+  void                        DoBuild() override final { };
+  void                        Execute() override final;
 };
 
 } /* namespace reports */

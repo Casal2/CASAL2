@@ -36,11 +36,10 @@ void NormalLog::DoValidate() {
 /**
  * Calculate and return the score for this prior
  *
- * @param param The parameter to use in calculations
  * @return The score
  */
-Double NormalLog::GetScore(Double param) {
-  score_ = log(param) + 0.5 * pow((log(param) - mu_) / sigma_, 2);
+Double NormalLog::GetScore() {
+  Double score_ = log(value()) + 0.5 * pow((log(value()) - mu_) / sigma_, 2);
   return score_;
 }
 

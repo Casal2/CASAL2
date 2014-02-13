@@ -32,7 +32,7 @@ public:
   UniformLog();
   virtual                     ~UniformLog() = default;
   void                        DoValidate() override final { };
-  Double                      GetScore(Double param) override final;
+  Double                      GetScore() override final;
 };
 
 } /* namespace estimates */

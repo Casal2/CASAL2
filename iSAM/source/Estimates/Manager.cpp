@@ -81,5 +81,13 @@ vector<EstimatePtr> Manager::GetEnabled() {
 
 }
 
+/**
+ *
+ */
+void Manager::RemoveAllObjects() {
+  objects_.clear();
+  estimate_infos_.clear();
+}
+
 } /* namespace estimates */
 } /* namespace isam */

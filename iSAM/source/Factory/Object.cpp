@@ -28,6 +28,7 @@
 #include "Selectivities/Factory.h"
 #include "SizeWeights/Factory.h"
 #include "TimeSteps/Factory.h"
+#include "Utilities/To.h"
 
 // namespaces
 namespace isam {
@@ -49,8 +50,11 @@ using base::ObjectPtr;
  * @param sub_type The specialisation/sub_type of the object to create
  * @return A shared_ptr to the object we've created
  */
-base::ObjectPtr Object::Create(const string& object_type, const string& sub_type) {
+base::ObjectPtr Object::Create(string& object_type, string& sub_type) {
   ObjectPtr result;
+
+  object_type = utilities::ToLowercase(object_type);
+  sub_type    = utilities::ToLowercase(sub_type);
 
   if (object_type == PARAM_AGE_SIZE || object_type == PARAM_AGE_SIZES)
     result = agesizes::Factory::Create(object_type, sub_type);
@@ -62,7 +66,7 @@ base::ObjectPtr Object::Create(const string& object_type, const string& sub_type
     result = derivedquantities::Factory::Create(object_type, sub_type);
   else if (object_type == PARAM_ESTIMATE)
     result = estimates::info::Factory::Create();
-  else if (object_type == PARAM_INITIALIZATION_PHASE || object_type == PARAM_INITIALIZATION_PHASES)
+  else if (object_type == PARAM_INITIALISATION_PHASE || object_type == PARAM_INITIALISATION_PHASES)
     result = initialisationphases::Factory::Create();
   else if (object_type == PARAM_LIKELIHOOD)
     result = likelihoods::Factory::Create(sub_type);

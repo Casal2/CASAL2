@@ -23,7 +23,7 @@ namespace reports {
  * Default constructor
  */
 ObjectiveFunction::ObjectiveFunction() {
-  model_state_ = State::kPostExecute;
+  model_state_ = State::kFinalise;
   run_mode_    = (RunMode::Type)(RunMode::kEstimation | RunMode::kBasic);
 }
 
@@ -31,9 +31,6 @@ ObjectiveFunction::ObjectiveFunction() {
  * Execute the report
  */
 void ObjectiveFunction::Execute() {
-  if (Model::Instance()->run_mode() != RunMode::kBasic)
-    return;
-
   // Header
   cout << CONFIG_ARRAY_START << label_ << CONFIG_ARRAY_END << "\n";
 //  cout << PARAM_REPORT << "." << PARAM_TYPE << CONFIG_RATIO_SEPARATOR << " " << parameters_.Get(PARAM_TYPE).GetValue<string>() << "\n";

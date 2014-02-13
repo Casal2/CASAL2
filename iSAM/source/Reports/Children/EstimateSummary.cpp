@@ -51,6 +51,7 @@ void EstimateSummary::Execute() {
     cout << "Estimate: " << estimate->label() << "\n";
     cout << "Lower Bound: " << estimate->lower_bound() << "\n";
     cout << "Upper Bound: " << estimate->upper_bound() << "\n";
+    cout << "Value: " << estimate->value() << "\n";
     cout << "parameters:\n";
     map<string, ParameterPtr> parameters = estimate->parameters().parameters();
     for (auto iter = parameters.begin(); iter != parameters.end(); ++iter) {

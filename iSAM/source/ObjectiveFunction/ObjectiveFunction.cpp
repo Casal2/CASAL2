@@ -16,6 +16,7 @@
 #include "Estimates/Manager.h"
 #include "Observations/Manager.h"
 #include "Penalties/Manager.h"
+#include "Utilities/To.h"
 
 // Namespaces
 namespace isam {
@@ -47,13 +48,17 @@ void ObjectiveFunction::CalculateScore() {
   vector<ObservationPtr> observations = observations::Manager::Instance().GetObjects();
   likelihoods_ = 0.0;
   for(ObservationPtr observation : observations) {
-    objective::Score new_score;
-    new_score.label_ = PARAM_OBS + string("->") + observation->label();
-    new_score.score_ = observation->score();
+    const map<unsigned, Double>& scores = observation->scores();
 
-    score_list_.push_back(new_score);
-    score_ += new_score.score_;
-    likelihoods_ += AS_DOUBLE(new_score.score_);
+    for(auto iter = scores.begin(); iter != scores.end(); ++iter) {
+      objective::Score new_score;
+      new_score.label_ = PARAM_OBS + string("->") + observation->label() + string("-") + utilities::ToInline<unsigned, string>(iter->first);
+      new_score.score_ = iter->second;
+
+      score_list_.push_back(new_score);
+      score_ += new_score.score_;
+      likelihoods_ += AS_DOUBLE(new_score.score_);
+    }
   }
 
   /**
@@ -80,7 +85,7 @@ void ObjectiveFunction::CalculateScore() {
   for (EstimatePtr estimate : estimates) {
     objective::Score new_score;
     new_score.label_ = PARAM_PRIOR + string("->") + estimate->label();
-    new_score.score_ = estimate->GetPriorScore();
+    new_score.score_ = estimate->GetScore();
 
     score_list_.push_back(new_score);
     score_ += new_score.score_;

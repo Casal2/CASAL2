@@ -32,7 +32,7 @@ public:
   NormalLog();
   virtual                     ~NormalLog() = default;
   void                        DoValidate() override final;
-  Double                      GetScore(Double param) override final;
+  Double                      GetScore() override final;
 
 private:
   // Members

@@ -25,6 +25,8 @@ class MCMCChain : public isam::Report {
 public:
   MCMCChain();
   virtual                     ~MCMCChain() noexcept(true);
+  void                        DoValidate() override final { };
+  void                        DoBuild() override final { };
   void                        Execute() override final;
 };
 

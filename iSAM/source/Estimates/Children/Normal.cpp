@@ -36,8 +36,8 @@ void Normal::DoValidate() {
 /**
  * Calculate and return the score for this prior
  */
-Double Normal::GetScore(Double param) {
-  score_ = 0.5 * ((param - mu_) / (cv_ * mu_)) * ((param - mu_) / (cv_ * mu_));
+Double Normal::GetScore() {
+  Double score_ = 0.5 * ((value() - mu_) / (cv_ * mu_)) * ((value() - mu_) / (cv_ * mu_));
   return score_;
 }
 

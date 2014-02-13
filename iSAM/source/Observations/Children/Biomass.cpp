@@ -27,6 +27,7 @@ namespace utils = isam::utilities;
 Biomass::Biomass() {
   parameters_.Bind<string>(PARAM_CATCHABILITY, &catchability_label_, "TBA");
   parameters_.Bind<string>(PARAM_OBS, &obs_, "Observation values");
+  parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "Years to execute in");
   parameters_.Bind<double>(PARAM_ERROR_VALUE, &error_values_, "The error values to use against the observation values");
   parameters_.Bind<double>(PARAM_DELTA, &delta_, "Delta value for error values", 1e-10);
   parameters_.Bind<double>(PARAM_PROCESS_ERROR, &process_error_, "Process error", 0.0);
@@ -108,7 +109,6 @@ void Biomass::PreExecute() {
  */
 void Biomass::Execute() {
 
-  score_ = 0.0;
   Double expected_total = 0.0; // value in the model
   vector<string> keys;
   vector<Double> expecteds;
@@ -135,17 +135,13 @@ void Biomass::Execute() {
   if (partition_->Size() != proportions_by_year_[current_year].size())
     LOG_CODE_ERROR("partition_->Size() != proportions_.size()");
 
-  for (unsigned category_offset = 0; category_offset < proportions_by_year_[current_year].size();
-      ++category_offset, ++partition_iter, ++cached_partition_iter) {
+  for (unsigned proportions_index = 0; proportions_index < proportions_by_year_[current_year].size(); ++proportions_index, ++partition_iter, ++cached_partition_iter) {
     expected_total = 0.0;
 
     auto category_iter = partition_iter->begin();
     auto cached_category_iter = cached_partition_iter->begin();
-    for (; category_iter != partition_iter->end();
-        ++cached_category_iter, ++category_iter) {
-
-      for (unsigned data_offset = 0;
-          data_offset < (*category_iter)->data_.size(); ++data_offset) {
+    for (unsigned category_offset = 0; category_iter != partition_iter->end(); ++category_offset, ++cached_category_iter, ++category_iter) {
+      for (unsigned data_offset = 0; data_offset < (*category_iter)->data_.size(); ++data_offset) {
         age = (*category_iter)->min_age_ + data_offset;
 
         selectivity_result = selectivities_[category_offset]->GetResult(age);
@@ -173,9 +169,9 @@ void Biomass::Execute() {
     error_value = error_values_by_year_[current_year];
 
     // Store the values
-    keys.push_back(category_labels_[category_offset]);
+    keys.push_back(category_labels_[proportions_index]);
     expecteds.push_back(expected_total);
-    observeds.push_back(proportions_by_year_[current_year][category_offset]);
+    observeds.push_back(proportions_by_year_[current_year][proportions_index]);
     error_values.push_back(error_value);
     process_errors.push_back(process_error_);
   }
@@ -188,21 +184,18 @@ void Biomass::Execute() {
     likelihood_->SimulateObserved(keys, observeds, expecteds, error_values,
         process_errors, delta_);
     for (unsigned index = 0; index < observeds.size(); ++index)
-      SaveComparison(keys[index], expecteds[index], observeds[index],
-          error_values[index], 0.0);
+      SaveComparison(keys[index], expecteds[index], observeds[index], process_errors[index],
+          error_values[index], delta_, 0.0);
 
   } else {
-    score_ = 0.0;
     likelihood_->GetResult(scores, expecteds, observeds, error_values,
         process_errors, delta_);
     for (unsigned index = 0; index < scores.size(); ++index) {
-      score_ += scores[index];
+      scores_[current_year] += scores[index];
       SaveComparison(keys[index], expecteds[index], observeds[index],
-          likelihood_->AdjustErrorValue(process_errors[index],
-              error_values[index]), scores[index]);
+          process_errors[index], error_values[index], delta_, scores[index]);
     }
   }
-
 }
 
 

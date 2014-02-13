@@ -26,7 +26,7 @@ namespace testfixtures {
 /**
  * Class definition
  */
-class Base : public ::testing::Test{
+class Base : public ::testing::Test {
 public:
   Base();
   virtual                     ~Base();

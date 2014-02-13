@@ -68,6 +68,8 @@ void Info::BuildEstimates() {
   string parameter  = "";
   string index      = "";
 
+  type_ = utilities::ToLowercase(type_);
+
   /**
    * Explode the parameter string so we can get the estimable
    * name (parameter) and the index
@@ -76,7 +78,6 @@ void Info::BuildEstimates() {
     parameters().Add(PARAM_PARAMETER, label_, parameters_.Get(PARAM_LABEL)->file_name(), parameters_.Get(PARAM_LABEL)->line_number());
     parameter_ = label_;
   }
-
 
   objects::ExplodeString(parameter_, type, label, parameter, index);
   if (type == "" || label == "" || parameter == "") {

@@ -42,11 +42,10 @@ public:
   void                        Validate();
   void                        Build() { };
   void                        Reset() { };
-  Double                      GetPriorScore() { return score_; }
 
   // pure methods
   virtual void                DoValidate() = 0;
-  virtual Double              GetScore(Double param) = 0;
+  virtual Double              GetScore() = 0;
 
   // Accessors
   void                        set_target(Double* new_target) { target_ = new_target; };
@@ -71,7 +70,6 @@ protected:
   vector<string>              same_labels;
   vector<Double*>             sames_;
   bool                        enabled_ = true;
-  Double                      score_ = 0.0;
 };
 
 typedef boost::shared_ptr<isam::Estimate> EstimatePtr;

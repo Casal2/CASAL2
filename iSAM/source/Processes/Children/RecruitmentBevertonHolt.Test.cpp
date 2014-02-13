@@ -59,7 +59,8 @@ TEST_F(InternalEmptyModel, Processes_BevertonHolt_Recruitment) {
   AddConfigurationLine(selectivities_constant_one, __FILE__, __LINE__);
   AddConfigurationLine(selectivities_logistic_producing_maturation, __FILE__, __LINE__);
   AddConfigurationLine(size_weights_none, __FILE__, __LINE__);
-  AddConfigurationLine("@time_step time_step_one; processes ageing maturation mortality", __FILE__, __LINE__);
+  AddConfigurationLine("@time_step time_step_one", __FILE__, __LINE__);
+  AddConfigurationLine("processes ageing maturation mortality", __FILE__, __LINE__);
 
   LoadConfiguration();
 

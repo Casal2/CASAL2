@@ -50,7 +50,8 @@ TEST_F(InternalEmptyModel, DerivedQuantities_Abundance) {
   AddConfigurationLine(age_sizes_von_bert, __FILE__, __LINE__);
   AddConfigurationLine(size_weights_basic, __FILE__, __LINE__);
   AddConfigurationLine(selectivities_constant_one, __FILE__, __LINE__);
-  AddConfigurationLine("@time_step time_step_one; processes ageing recruitment_constant", __FILE__, __LINE__);
+  AddConfigurationLine("@time_step time_step_one", __FILE__, __LINE__);
+  AddConfigurationLine("processes ageing recruitment_constant", __FILE__, __LINE__);
 
   LoadConfiguration();
 

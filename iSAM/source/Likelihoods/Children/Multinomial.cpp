@@ -14,6 +14,7 @@
 #include "Multinomial.h"
 
 #include <cmath>
+#include <set>
 
 #include "Utilities/DoubleCompare.h"
 #include "Utilities/Math.h"
@@ -23,6 +24,7 @@
 namespace isam {
 namespace likelihoods {
 
+using std::set;
 namespace dc = isam::utilities::doublecompare;
 namespace math = isam::utilities::math;
 
@@ -34,8 +36,8 @@ namespace math = isam::utilities::math;
  * @return An adjusted error value
  */
 Double Multinomial::AdjustErrorValue(const Double process_error, const Double error_value) {
-  if (process_error > 0.0)
-    return sqrt(dc::ZeroFun(error_value * error_value + process_error * process_error));
+  if (process_error > 0.0 && error_value > 0.0)
+    return (1.0/(1.0/error_value + 1.0/process_error));
 
   return error_value;
 }
@@ -63,6 +65,70 @@ void Multinomial::GetResult(vector<Double> &scores, const vector<Double> &expect
 
     scores.push_back(score);
   }
+}
+
+/**
+ *
+ */
+void Multinomial::GetScores(map<unsigned, vector<observations::Comparison> >& comparisons) {
+  for (auto year_iterator = comparisons.begin(); year_iterator != comparisons.end(); ++year_iterator) {
+    for (observations::Comparison& comparison : year_iterator->second) {
+      Double error_value = AdjustErrorValue(comparison.process_error_, comparison.error_value_);
+
+      Double score = math::LnFactorial(error_value * comparison.observed_)
+                      - error_value * comparison.observed_ * log(dc::ZeroFun(comparison.expected_, comparison.delta_));
+      comparison.score_ = score;
+    }
+  }
+}
+
+/**
+ * Grab the initial score for this likelihood
+ *
+ * @param keys Unused in this method (contains categories for simulating)
+ * @param process_errors Process errors passed to observation from the configuration file
+ * @param error_values Error values calculated in the observation
+ */
+Double Multinomial::GetInitialScore(const vector<string> &keys, const vector<Double> &process_errors,
+                              const vector<Double> &error_values) {
+
+  Double score      = 0.0;
+  string last_key   = "";
+
+  for (unsigned i = 0; i < keys.size(); ++i) {
+    if (keys[i] == last_key)
+      continue;
+
+    score += -math::LnFactorial(AdjustErrorValue(process_errors[i], error_values[i]));
+    last_key = keys[i];
+  }
+
+  return score;
+}
+
+/**
+ * Grab the initial score for this likelihood
+ *
+ * @param comparisons A collection of comparisons passed by the observation
+ */
+Double Multinomial::GetInitialScore(map<unsigned, vector<observations::Comparison> >& comparisons) {
+  if (comparisons.size() > 1)
+    LOG_CODE_ERROR("comparisons.size() == " << comparisons.size() << "; when it must be 1");
+
+  Double score = 0.0;
+
+  for (auto iterator = comparisons.begin(); iterator != comparisons.end(); ++iterator) {
+    string last_category = "";
+    for (observations::Comparison& comparison : iterator->second) {
+      if (last_category == comparison.category_)
+        continue;
+
+      last_category = comparison.category_;
+      score += -math::LnFactorial(AdjustErrorValue(comparison.process_error_, comparison.error_value_));
+    }
+  }
+
+  return score;
 }
 
 /**
@@ -118,28 +184,32 @@ void Multinomial::SimulateObserved(const vector<string> &keys, vector<Double> &o
     observeds[i] = observeds[i] / ceil(AS_DOUBLE(AdjustErrorValue(process_errors[i], error_values[i])));
 }
 
+
 /**
- * Grab the initial score for this likelihood
+ * Simulate observed values
  *
- * @param keys Unused in this method (contains categories for simulating)
- * @param process_errors Process errors passed to observation from the configuration file
- * @param error_values Error values calculated in the observation
+ * @param comparisons A collection of comparisons passed by the observation
  */
-Double Multinomial::GetInitialScore(const vector<string> &keys, const vector<Double> &process_errors,
-                              const vector<Double> &error_values) {
+void Multinomial::SimulateObserved(map<unsigned, vector<observations::Comparison> >& comparisons) {
+  utilities::RandomNumberGenerator& rng = utilities::RandomNumberGenerator::Instance();
 
-  Double score      = 0.0;
-  string last_key   = "";
+  auto iterator = comparisons.begin();
+  for (; iterator != comparisons.end(); ++iterator) {
+    LOG_INFO("Simulating values for year: " << iterator->first);
 
-  for (unsigned i = 0; i < keys.size(); ++i) {
-    if (keys[i] == last_key)
-      continue;
+    set<string> unique_keys;
+    for (observations::Comparison& comparison : iterator->second)
+      unique_keys.insert(comparison.category_);
 
-    score += -math::LnFactorial(AdjustErrorValue(process_errors[i], error_values[i]));
-    last_key = keys[i];
+    for (observations::Comparison& comparison : iterator->second) {
+      unsigned value = 0;
+      for (unsigned n = 0; n < comparison.error_value_; ++n) {
+        if (rng.uniform() <= comparison.expected_)
+          value++;
+      }
+      comparison.observed_ = (double)value;
+    }
   }
-
-  return score;
 }
 
 } /* namespace likelihoods */

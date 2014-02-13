@@ -49,9 +49,9 @@ void InitialisationPhase::Validate() {
 
   // Create a new time step if we need too.
   if (process_labels_.size() != 0) {
-    LOG_INFO("Initialisation phase needs to create a new time step: " << string(PARAM_INITIALIZATION_PHASE) + string(".") + label_);
+    LOG_INFO("Initialisation phase needs to create a new time step: " << string(PARAM_INITIALISATION_PHASE) + string(".") + label_);
     TimeStepPtr time_step = timesteps::Factory::Create();
-    time_step->parameters().Add(PARAM_LABEL, string(PARAM_INITIALIZATION) + string(".") + label_, __FILE__, __LINE__);
+    time_step->parameters().Add(PARAM_LABEL, string(PARAM_INITIALISATION) + string(".") + label_, __FILE__, __LINE__);
     time_step->parameters().Add(PARAM_PROCESSES, process_labels_, __FILE__, __LINE__);
 
     time_steps_.push_back(time_step);

@@ -29,6 +29,8 @@ public:
   // methods
   PartitionMeanWeight();
   virtual                     ~PartitionMeanWeight() = default;
+  void                        DoValidate() override final { };
+  void                        DoBuild() override final { };
   void                        Execute() override final;
 };
 

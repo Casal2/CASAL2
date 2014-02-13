@@ -14,6 +14,7 @@
 #include "Abundance.h"
 
 #include "Catchabilities/Manager.h"
+#include "Utilities/Map.h"
 #include "Utilities/To.h"
 
 // Namespaces
@@ -28,6 +29,7 @@ namespace utils = isam::utilities;
 Abundance::Abundance() {
   parameters_.Bind<string>(PARAM_CATCHABILITY, &catchability_label_, "TBA");
   parameters_.Bind<string>(PARAM_OBS, &obs_, "Observation values");
+  parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "Years to execute in");
   parameters_.Bind<double>(PARAM_ERROR_VALUE, &error_values_, "The error values to use against the observation values");
   parameters_.Bind<double>(PARAM_DELTA, &delta_, "Delta value for error values", 1e-10);
   parameters_.Bind<double>(PARAM_PROCESS_ERROR, &process_error_, "Process error", 0.0);
@@ -37,6 +39,8 @@ Abundance::Abundance() {
  * Validate configuration file parameters
  */
 void Abundance::DoValidate() {
+  LOG_TRACE();
+
   // Delta
   if (delta_ < 0.0)
     LOG_ERROR(parameters_.location(PARAM_DELTA) << ": delta (" << AS_DOUBLE(delta_) << ") cannot be less than 0.0");
@@ -45,24 +49,33 @@ void Abundance::DoValidate() {
 
   // Obs
   vector<string> obs  = obs_;
-  if (obs.size() != category_labels_.size())
+  if (obs.size() != category_labels_.size() * years_.size())
     LOG_ERROR(parameters_.location(PARAM_OBS) << ": obs values length (" << obs.size() << ") must match the number of category collections provided ("
-        << category_labels_.size() << ")");
+        << category_labels_.size() << ") * years (" << years_.size() << ")");
 
-  double value = 0.0;
-  for (unsigned i = 0; i < obs.size(); ++i) {
-    if (!utils::To<double>(obs[i], value))
-      LOG_ERROR(parameters_.location(PARAM_OBS) << ": obs value " << obs[i] << " cannot be converted to a double");
-    if (value <= 0.0)
-      LOG_ERROR(parameters_.location(PARAM_OBS) << ": obs value " << value << " cannot be less than or equal to 0.0");
-
-    proportions_.push_back(value);
-  }
 
   // Error Value
+  if (error_values_.size() == 1 && obs.size() > 1)
+    error_values_.assign(obs.size(), error_values_[0]);
   if (error_values_.size() != obs.size())
     LOG_ERROR(parameters_.location(PARAM_ERROR_VALUE) << ": error_value length (" << error_values_.size()
         << ") must be same length as obs (" << obs.size() << ")");
+
+  error_values_by_year_ = utils::MapCreate(years_, error_values_);
+
+  double value = 0.0;
+  for (unsigned i = 0; i < years_.size(); ++i) {
+    for (unsigned j = 0; j < category_labels_.size(); ++j) {
+      unsigned index = (i * category_labels_.size()) + j;
+
+      if (!utils::To<double>(obs[index], value))
+            LOG_ERROR(parameters_.location(PARAM_OBS) << ": obs value " << obs[index] << " cannot be converted to a double");
+          if (value <= 0.0)
+            LOG_ERROR(parameters_.location(PARAM_OBS) << ": obs value " << value << " cannot be less than or equal to 0.0");
+
+          proportions_by_year_[years_[i]].push_back(value);
+    }
+  }
 
   /**
    * Verify that the likelihood is from the acceptable ones.
@@ -102,45 +115,45 @@ void Abundance::PreExecute() {
  * Run our observation to generate the score
  */
 void Abundance::Execute() {
-                  score_              = 0.0;
-  Double          expected_total      = 0.0; // value in the model
-  vector<string>  keys;
-  vector<Double>  expecteds;
-  vector<Double>  observeds;
-  vector<Double>  error_values;
-  vector<Double>  process_errors;
-  vector<Double>  scores;
+  Double expected_total = 0.0; // value in the model
+  vector<string> keys;
+  vector<Double> expecteds;
+  vector<Double> observeds;
+  vector<Double> error_values;
+  vector<Double> process_errors;
+  vector<Double> scores;
 
-  Double    selectivity_result        = 0.0;
-  Double    start_value               = 0.0;
-  Double    end_value                 = 0.0;
-  Double    final_value               = 0.0;
-  unsigned  age                       = 0;
-  Double    error_value               = 0.0;
+  Double selectivity_result = 0.0;
+  Double start_value = 0.0;
+  Double end_value = 0.0;
+  Double final_value = 0.0;
+  unsigned age = 0;
+  Double error_value = 0.0;
+
+  unsigned current_year = Model::Instance()->current_year();
 
   // Loop through the obs
-  auto cached_partition_iter  = cached_partition_->Begin();
-  auto partition_iter         = partition_->Begin(); // auto = map<map<string, vector<partition::category&> > >
+  auto cached_partition_iter = cached_partition_->Begin();
+  auto partition_iter = partition_->Begin(); // auto = map<map<string, vector<partition::category&> > >
 
-  if (cached_partition_->Size() != proportions_.size())
+  if (cached_partition_->Size() != proportions_by_year_[current_year].size())
     LOG_CODE_ERROR("cached_partition_->Size() != proportions_.size()");
-  if (partition_->Size() != proportions_.size())
+  if (partition_->Size() != proportions_by_year_[current_year].size())
     LOG_CODE_ERROR("partition_->Size() != proportions_.size()");
 
-  for (unsigned category_offset = 0; category_offset < proportions_.size(); ++category_offset, ++partition_iter, ++cached_partition_iter) {
+  for (unsigned proportions_index = 0; proportions_index < proportions_by_year_[current_year].size(); ++proportions_index, ++partition_iter, ++cached_partition_iter) {
     expected_total = 0.0;
 
     auto category_iter = partition_iter->begin();
     auto cached_category_iter = cached_partition_iter->begin();
-    for (; category_iter != partition_iter->end(); ++cached_category_iter, ++category_iter) {
-
+    for (unsigned category_offset = 0; category_iter != partition_iter->end(); ++category_offset, ++cached_category_iter, ++category_iter) {
       for (unsigned data_offset = 0; data_offset < (*category_iter)->data_.size(); ++data_offset) {
         age = (*category_iter)->min_age_ + data_offset;
 
         selectivity_result = selectivities_[category_offset]->GetResult(age);
-        start_value        = (*cached_category_iter).data_[data_offset];
-        end_value          = (*category_iter)->data_[data_offset];
-        final_value        = 0.0;
+        start_value = (*cached_category_iter).data_[data_offset];
+        end_value = (*category_iter)->data_[data_offset];
+        final_value = 0.0;
 
         if (mean_proportion_method_)
           final_value = start_value + ((end_value - start_value) * time_step_proportion_);
@@ -159,12 +172,12 @@ void Abundance::Execute() {
      * expected_total is the number of fish the model has for the category across
      */
     expected_total *= catchability_->q();
-    error_value = error_values_[category_offset];
+    error_value = error_values_by_year_[current_year];
 
     // Store the values
-    keys.push_back(category_labels_[category_offset]);
+    keys.push_back(category_labels_[proportions_index]);
     expecteds.push_back(expected_total);
-    observeds.push_back(proportions_[category_offset]);
+    observeds.push_back(proportions_by_year_[current_year][proportions_index]);
     error_values.push_back(error_value);
     process_errors.push_back(process_error_);
   }
@@ -174,16 +187,19 @@ void Abundance::Execute() {
    * During simulation mode we'll simulate results for this observation
    */
   if (Model::Instance()->run_mode() == RunMode::kSimulation) {
-    likelihood_->SimulateObserved(keys, observeds, expecteds, error_values, process_errors, delta_);
+    likelihood_->SimulateObserved(keys, observeds, expecteds, error_values,
+        process_errors, delta_);
     for (unsigned index = 0; index < observeds.size(); ++index)
-      SaveComparison(keys[index], expecteds[index], observeds[index], error_values[index], 0.0);
+      SaveComparison(keys[index], expecteds[index], observeds[index], process_errors[index],
+          error_values[index], delta_, 0.0);
 
   } else {
-    score_ = 0.0;
-    likelihood_->GetResult(scores, expecteds, observeds, error_values, process_errors, delta_);
+    likelihood_->GetResult(scores, expecteds, observeds, error_values,
+        process_errors, delta_);
     for (unsigned index = 0; index < scores.size(); ++index) {
-      score_ += scores[index];
-      SaveComparison(keys[index], expecteds[index], observeds[index], likelihood_->AdjustErrorValue(process_errors[index], error_values[index]), scores[index]);
+      scores_[current_year] += scores[index];
+      SaveComparison(keys[index], expecteds[index], observeds[index],
+          process_errors[index], error_values[index], delta_, scores[index]);
     }
   }
 }
