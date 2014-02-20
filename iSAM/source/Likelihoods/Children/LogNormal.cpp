@@ -33,7 +33,7 @@ namespace dc = isam::utilities::doublecompare;
  */
 Double LogNormal::AdjustErrorValue(const Double process_error, const Double error_value) {
   if (process_error > 0.0)
-    return sqrt(dc::ZeroFun(error_value * error_value + process_error * process_error));
+    return sqrt(error_value * error_value + process_error * process_error);
 
   return error_value;
 }
@@ -62,6 +62,24 @@ void LogNormal::GetResult(vector<Double> &scores, const vector<Double> &expected
     score       = log(sigma) + 0.5 * score * score;
 
     scores.push_back(score);
+  }
+}
+
+/**
+ * Get the result from our likelihood
+ *
+ * @param comparisons A collection of comparisons passed by the observation
+ */
+void LogNormal::GetScores(map<unsigned, vector<observations::Comparison> >& comparisons) {
+  for (auto year_iterator = comparisons.begin(); year_iterator != comparisons.end(); ++year_iterator) {
+    for (observations::Comparison& comparison : year_iterator->second) {
+
+      Double error_value = AdjustErrorValue(comparison.process_error_, comparison.error_value_);
+      Double sigma = sqrt(log(1 + error_value * error_value));
+      Double score = log(comparison.observed_ / dc::ZeroFun(comparison.expected_, comparison.delta_)) / sigma + 0.5 * sigma;
+      score = log(sigma) + 0.5 * (score * score);
+      comparison.score_ = score;
+    }
   }
 }
 
@@ -104,18 +122,24 @@ void LogNormal::SimulateObserved(const vector<string> &keys, vector<Double> &obs
 void LogNormal::SimulateObserved(map<unsigned, vector<observations::Comparison> >& comparisons) {
   utilities::RandomNumberGenerator& rng = utilities::RandomNumberGenerator::Instance();
 
-  Double error_value = 0.0;
   auto iterator = comparisons.begin();
   for (; iterator != comparisons.end(); ++iterator) {
     LOG_INFO("Simulating values for year: " << iterator->first);
+
+    map<string, double> totals;
     for (observations::Comparison& comparison : iterator->second) {
-      error_value = AdjustErrorValue(comparison.process_error_, comparison.error_value_);
+      Double error_value = AdjustErrorValue(comparison.process_error_, comparison.error_value_);
 
       if (comparison.expected_ <= 0.0 || error_value <= 0.0)
-        comparison.observed_ = 0.0;
+        comparison.observed_ = comparison.delta_;
       else
         comparison.observed_ = rng.lognormal(AS_DOUBLE(comparison.expected_), AS_DOUBLE(error_value));
+
+      totals[comparison.category_] += comparison.observed_;
     }
+
+    for (observations::Comparison& comparison : iterator->second)
+      comparison.observed_ /= totals[comparison.category_];
   }
 }
 

@@ -66,6 +66,28 @@ void Binomial::GetResult(vector<Double> &scores, const vector<Double> &expecteds
 }
 
 /**
+ * Get our scores from the likelihood
+ *
+ * @param comparisons A collection of comparisons passed by the observation
+ *
+ */
+void Binomial::GetScores(map<unsigned, vector<observations::Comparison> >& comparisons) {
+  for (auto year_iterator = comparisons.begin(); year_iterator != comparisons.end(); ++year_iterator) {
+    for (observations::Comparison& comparison : year_iterator->second) {
+      Double error_value = AdjustErrorValue(comparison.process_error_, comparison.error_value_);
+
+      Double score = math::LnFactorial(error_value)
+                      - math::LnFactorial(error_value * (1.0 - comparison.observed_))
+                      - math::LnFactorial(error_value * comparison.observed_)
+                      + error_value * comparison.observed_ * log(dc::ZeroFun(comparison.expected_, comparison.delta_))
+                      + error_value * (1.0 - comparison.observed_) * log(dc::ZeroFun(1.0 - comparison.expected_, comparison.delta_));
+
+      comparison.score_ = -score;
+    }
+  }
+}
+
+/**
  * Simulate some observed values based on what the model calculated
  *
  * @param keys Unused in this method (contains categories for simulating)
@@ -112,12 +134,12 @@ void Binomial::SimulateObserved(map<unsigned, vector<observations::Comparison> >
   for (; iterator != comparisons.end(); ++iterator) {
     LOG_INFO("Simulating values for year: " << iterator->first);
     for (observations::Comparison& comparison : iterator->second) {
-      error_value = AdjustErrorValue(comparison.process_error_, comparison.error_value_);
+      error_value = ceil(AdjustErrorValue(comparison.process_error_, comparison.error_value_));
 
       if (comparison.expected_ <= 0.0 || error_value <= 0.0)
         comparison.observed_ = 0.0;
       else
-        comparison.observed_ = rng.binomial(AS_DOUBLE(comparison.expected_), AS_DOUBLE(error_value));
+        comparison.observed_ = rng.binomial(AS_DOUBLE(comparison.expected_), AS_DOUBLE(error_value)) / error_value;
     }
   }
 }

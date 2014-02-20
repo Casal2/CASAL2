@@ -33,6 +33,7 @@ class RandomNumberGenerator {
 public:
   static RandomNumberGenerator& Instance();
   virtual                       ~RandomNumberGenerator();
+  void                          Reset(unsigned new_seed = 12345u);
 
   // Accessors
   double                        uniform(double min = 0.0, double max = 1.0);
@@ -46,7 +47,7 @@ private:
   RandomNumberGenerator();
 
   // Members
-  boost::mt19937_64             generator_;
+  boost::mt19937                generator_;
 };
 
 } /* namespace utilities */
