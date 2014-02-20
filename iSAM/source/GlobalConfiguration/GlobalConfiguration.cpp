@@ -26,7 +26,7 @@ GlobalConfiguration::GlobalConfiguration() {
   global_parameters_[PARAM_DEBUG]                = "f";
   global_parameters_[PARAM_SKIP_CONFIG_FILE]     = "f";
   global_parameters_[PARAM_CONFIG_FILE]          = "isam.txt";
-  global_parameters_[PARAM_RANDOM_NUMBER_SEED]   = "12345";
+  global_parameters_[PARAM_RANDOM_NUMBER_SEED]   = "123";
 }
 
 /**

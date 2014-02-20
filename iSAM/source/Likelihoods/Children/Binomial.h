@@ -38,6 +38,7 @@ public:
                                 const vector<Double> &error_values, const vector<Double> &process_errors, const Double delta) override final;
 
   void                        SimulateObserved(map<unsigned, vector<observations::Comparison> >& comparisons) override final;
+  void                        GetScores(map<unsigned, vector<observations::Comparison> >& comparisons) override final;
 };
 
 } /* namespace likelihoods */

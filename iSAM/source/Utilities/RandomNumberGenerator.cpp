@@ -42,6 +42,13 @@ RandomNumberGenerator& RandomNumberGenerator::Instance() {
 }
 
 /**
+ *
+ */
+void RandomNumberGenerator::Reset(unsigned new_seed) {
+  generator_.seed(new_seed);
+}
+
+/**
  * Get a random uniform between min and max
  *
  * @param min The smallest number to be generated (default 0.0)
@@ -50,7 +57,7 @@ RandomNumberGenerator& RandomNumberGenerator::Instance() {
  */
 double RandomNumberGenerator::uniform(double min, double max) {
   boost::uniform_real<> uniform(min, max);
-  boost::variate_generator<boost::mt19937_64&, boost::uniform_real<> > generator(generator_, uniform);
+  boost::variate_generator<boost::mt19937&, boost::uniform_real<> > generator(generator_, uniform);
 
   return generator();
 }
@@ -64,7 +71,7 @@ double RandomNumberGenerator::uniform(double min, double max) {
  */
 double RandomNumberGenerator::normal(double mean, double sigma) {
   boost::normal_distribution<> normal(mean, sigma);
-  boost::variate_generator<boost::mt19937_64&, boost::normal_distribution<> > generator(generator_, normal);
+  boost::variate_generator<boost::mt19937&, boost::normal_distribution<> > generator(generator_, normal);
 
   return generator();
 }
@@ -112,7 +119,7 @@ double RandomNumberGenerator::chi_square(unsigned df) {
   boost::normal_distribution<> normal(0.0, 1.0);
   double sum = 0.0;
   for (unsigned i = 0; i < df; ++i) {
-    boost::variate_generator<boost::mt19937_64&, boost::normal_distribution<> > generator(generator_, normal);
+    boost::variate_generator<boost::mt19937&, boost::normal_distribution<> > generator(generator_, normal);
     double random = generator();
     sum += random * random;
   }

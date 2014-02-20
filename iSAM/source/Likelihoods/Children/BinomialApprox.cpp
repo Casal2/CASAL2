@@ -65,6 +65,26 @@ void BinomialApprox::GetResult(vector<Double> &scores, const vector<Double> &exp
 }
 
 /**
+ * Get the result from our likelihood
+ *
+ * @param comparisons A collection of comparisons passed by the observation
+ */
+void BinomialApprox::GetScores(map<unsigned, vector<observations::Comparison> >& comparisons) {
+  for (auto year_iterator = comparisons.begin(); year_iterator != comparisons.end(); ++year_iterator) {
+    for (observations::Comparison& comparison : year_iterator->second) {
+      Double error_value = AdjustErrorValue(comparison.process_error_, comparison.error_value_);
+
+      Double std_error = sqrt((dc::ZeroFun(comparison.expected_, comparison.delta_)
+                          * dc::ZeroFun(1.0 - comparison.expected_, comparison.delta_)) / error_value);
+
+      Double score = log(std_error) + 0.5 * pow((comparison.observed_ - comparison.expected_) / std_error, 2.0);
+
+      comparison.score_ = score;
+    }
+  }
+}
+
+/**
  * Simulate some observed values based on what the model calculated
  *
  * @param keys Unused in this method (contains categories for simulating)
@@ -110,12 +130,12 @@ void BinomialApprox::SimulateObserved(map<unsigned, vector<observations::Compari
   for (; iterator != comparisons.end(); ++iterator) {
     LOG_INFO("Simulating values for year: " << iterator->first);
     for (observations::Comparison& comparison : iterator->second) {
-      error_value = AdjustErrorValue(comparison.process_error_, comparison.error_value_);
+      error_value = ceil(AdjustErrorValue(comparison.process_error_, comparison.error_value_));
 
       if (comparison.expected_ <= 0.0 || error_value <= 0.0)
         comparison.observed_ = 0.0;
       else
-        comparison.observed_ = rng.binomial(AS_DOUBLE(comparison.expected_), AS_DOUBLE(error_value));
+        comparison.observed_ = rng.binomial(AS_DOUBLE(comparison.expected_), AS_DOUBLE(error_value)) / error_value;
     }
   }
 }
