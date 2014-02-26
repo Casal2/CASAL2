@@ -37,6 +37,7 @@ public:
   void                        SimulateObserved(const vector<string> &keys, vector<Double> &observeds, const vector<Double> &expecteds,
                                 const vector<Double> &error_values, const vector<Double> &process_errors, const Double delta) override final;
 
+  void                        GetScores(map<unsigned, vector<observations::Comparison> >& comparisons) override final;
   void                        SimulateObserved(map<unsigned, vector<observations::Comparison> >& comparisons) override final;
 };
 
