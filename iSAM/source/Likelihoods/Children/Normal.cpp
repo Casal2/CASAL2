@@ -31,7 +31,7 @@ namespace dc = isam::utilities::doublecompare;
  */
 Double Normal::AdjustErrorValue(const Double process_error, const Double error_value) {
   if (process_error > 0.0)
-    return sqrt(dc::ZeroFun(error_value * error_value + process_error * process_error));
+    return sqrt(error_value * error_value + process_error * process_error);
 
   return error_value;
 }
@@ -60,6 +60,24 @@ void Normal::GetResult(vector<Double> &scores, const vector<Double> &expecteds, 
     score       = log(sigma) + 0.5 * (score * score);
 
     scores.push_back(score);
+  }
+}
+
+/**
+ * Get the result from our likelihood
+ *
+ * @param comparisons A collection of comparisons passed by the observation
+ */
+void Normal::GetScores(map<unsigned, vector<observations::Comparison> >& comparisons) {
+  for (auto year_iterator = comparisons.begin(); year_iterator != comparisons.end(); ++year_iterator) {
+    for (observations::Comparison& comparison : year_iterator->second) {
+
+      Double error_value = AdjustErrorValue(comparison.process_error_, comparison.error_value_);
+      Double sigma = error_value * comparison.expected_;
+      Double score = (comparison.observed_ - comparison.expected_) / dc::ZeroFun(error_value * comparison.expected_, comparison.delta_);
+      score = log(sigma) + 0.5 * (score * score);
+      comparison.score_ = score;
+    }
   }
 }
 

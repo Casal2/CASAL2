@@ -197,18 +197,20 @@ void Multinomial::SimulateObserved(map<unsigned, vector<observations::Comparison
   for (; iterator != comparisons.end(); ++iterator) {
     LOG_INFO("Simulating values for year: " << iterator->first);
 
-    set<string> unique_keys;
-    for (observations::Comparison& comparison : iterator->second)
-      unique_keys.insert(comparison.category_);
-
+    map<string, double> totals;
     for (observations::Comparison& comparison : iterator->second) {
-      unsigned value = 0;
-      for (unsigned n = 0; n < comparison.error_value_; ++n) {
-        if (rng.uniform() <= comparison.expected_)
-          value++;
-      }
-      comparison.observed_ = (double)value;
+      Double error_value = AdjustErrorValue(comparison.process_error_, comparison.error_value_);
+
+      if (comparison.expected_ <= 0.0 || error_value <= 0.0)
+        comparison.observed_ = 0.0;
+      else
+        comparison.observed_ = rng.binomial(AS_DOUBLE(comparison.expected_), AS_DOUBLE(error_value));
+
+      totals[comparison.category_] += comparison.observed_;
     }
+
+    for (observations::Comparison& comparison : iterator->second)
+      comparison.observed_ /= totals[comparison.category_];
   }
 }
 
