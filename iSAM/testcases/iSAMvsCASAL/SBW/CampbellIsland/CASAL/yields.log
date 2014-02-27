@@ -1,0 +1,61 @@
+CASAL (C++ algorithmic stock assessment laboratory)
+Call: casal -i samples.combined -q -g 0 -Y 
+Date: Wed Jan 29 16:59:48 2014
+v2.30-2013-07-30 23:19:18 UTC (rev.4982)  (c) Copyright 2002-2012, NIWA
+User name: dunn
+Machine name: NIWA-34286 (Microsoft Windows, PID=6036)
+
+Random number seed : 0
+
+Comment from 'population.csl': Cinit run, using an informed 'q' for model start year of 1990 
+
+A male fish of size 50 cm has a weight of 0.922619 kg in your model. This size-weight scale check assumes that the growth curve is in centimetres, and that the catch is in tonnes.
+
+A female fish of size 50 cm has a weight of 0.922036 kg in your model. This size-weight scale check assumes that the growth curve is in centimetres, and that the catch is in tonnes.
+
+Calculate CAY using an initial guess of F_CAY = 0.2.
+For each mortality rate H, run 1 simulation using each of the 3000 parameter sets provided.
+Definition of mortality rate H: constant exploitation rate (catch / Bpre) not an instantaneous mortality rate. Bpre is defined as mature biomass in time step 2 after proportion 0 of the mortality in all areas applying the selectivity ogive OneSel. A lognormal error with c.v. 0.2 is applied to the actual abundance when determining catches, to reflect the effects of annual stock assessment uncertainty. 
+Risk is unacceptable if SSB drops below 20% B0 more than 10% of the time.
+
+In stochastic simulations, discard the first 50 years and base results on the next 100 years.
+
+H 0 Cav(H) 0 Bav(H) 343593 Prisk(H) 0 E(SSB(n_discard)) 345801 E(SSB(n_discard+1)) 344899
+H 0.08 Cav(H) 19891 Bav(H) 195810 Prisk(H) 0.00107667 E(SSB(n_discard)) 196760 E(SSB(n_discard+1)) 196144
+H 0.16 Cav(H) 27307.5 Bav(H) 116500 Prisk(H) 0.135597 E(SSB(n_discard)) 117097 E(SSB(n_discard+1)) 116630
+H 0.24 Cav(H) 28845.6 Bav(H) 68673.3 Prisk(H) 0.611893 E(SSB(n_discard)) 69184.2 E(SSB(n_discard+1)) 68783.8
+H 0.32 Cav(H) 26720.1 Bav(H) 39386 Prisk(H) 0.90346 E(SSB(n_discard)) 39832.6 E(SSB(n_discard+1)) 39457
+H 0.4 Cav(H) 23096.1 Bav(H) 24072.2 Prisk(H) 0.97251 E(SSB(n_discard)) 24378.7 E(SSB(n_discard+1)) 24028
+H 0.02 Cav(H) 6887.04 Bav(H) 296239 Prisk(H) 0 E(SSB(n_discard)) 297988 E(SSB(n_discard+1)) 297173
+H 0.044 Cav(H) 13218.4 Bav(H) 249886 Prisk(H) 0 E(SSB(n_discard)) 251228 E(SSB(n_discard+1)) 250504
+H 0.068 Cav(H) 17975.6 Bav(H) 212136 Prisk(H) 0.000266667 E(SSB(n_discard)) 213194 E(SSB(n_discard+1)) 212545
+H 0.092 Cav(H) 21548.7 Bav(H) 180907 Prisk(H) 0.00345 E(SSB(n_discard)) 181769 E(SSB(n_discard+1)) 181182
+H 0.116 Cav(H) 24208.3 Bav(H) 154727 Prisk(H) 0.0188667 E(SSB(n_discard)) 155456 E(SSB(n_discard+1)) 154919
+H 0.14 Cav(H) 26145.5 Bav(H) 132530 Prisk(H) 0.0650567 E(SSB(n_discard)) 133172 E(SSB(n_discard+1)) 132676
+H 0.164 Cav(H) 27496.5 Bav(H) 113528 Prisk(H) 0.153373 E(SSB(n_discard)) 114117 E(SSB(n_discard+1)) 113655
+H 0.122 Cav(H) 24754.2 Bav(H) 148839 Prisk(H) 0.0270933 E(SSB(n_discard)) 149542 E(SSB(n_discard+1)) 149016
+H 0.1292 Cav(H) 25353.4 Bav(H) 142081 Prisk(H) 0.03951 E(SSB(n_discard)) 142756 E(SSB(n_discard+1)) 142242
+H 0.1364 Cav(H) 25895.1 Bav(H) 135639 Prisk(H) 0.05551 E(SSB(n_discard)) 136291 E(SSB(n_discard+1)) 135789
+H 0.1436 Cav(H) 26382.8 Bav(H) 129492 Prisk(H) 0.07552 E(SSB(n_discard)) 130125 E(SSB(n_discard+1)) 129635
+H 0.1508 Cav(H) 26819.4 Bav(H) 123623 Prisk(H) 0.0992133 E(SSB(n_discard)) 124239 E(SSB(n_discard+1)) 123759
+H 0.158 Cav(H) 27207.8 Bav(H) 118014 Prisk(H) 0.127147 E(SSB(n_discard)) 118615 E(SSB(n_discard+1)) 118145
+H 0.1454 Cav(H) 26496.6 Bav(H) 127999 Prisk(H) 0.0809567 E(SSB(n_discard)) 128628 E(SSB(n_discard+1)) 128140
+H 0.14756 Cav(H) 26629 Bav(H) 126231 Prisk(H) 0.08806 E(SSB(n_discard)) 126854 E(SSB(n_discard+1)) 126370
+H 0.14972 Cav(H) 26757 Bav(H) 124486 Prisk(H) 0.09534 E(SSB(n_discard)) 125105 E(SSB(n_discard+1)) 124624
+H 0.15188 Cav(H) 26880.7 Bav(H) 122765 Prisk(H) 0.103207 E(SSB(n_discard)) 123379 E(SSB(n_discard+1)) 122901
+H 0.15404 Cav(H) 27000 Bav(H) 121067 Prisk(H) 0.111293 E(SSB(n_discard)) 121676 E(SSB(n_discard+1)) 121201
+H 0.1562 Cav(H) 27115.1 Bav(H) 119392 Prisk(H) 0.119833 E(SSB(n_discard)) 119997 E(SSB(n_discard+1)) 119525
+H 0.1481 Cav(H) 26661.4 Bav(H) 125792 Prisk(H) 0.0899267 E(SSB(n_discard)) 126415 E(SSB(n_discard+1)) 125931
+H 0.148748 Cav(H) 26700 Bav(H) 125268 Prisk(H) 0.09211 E(SSB(n_discard)) 125889 E(SSB(n_discard+1)) 125406
+H 0.149396 Cav(H) 26738.1 Bav(H) 124746 Prisk(H) 0.0943133 E(SSB(n_discard)) 125366 E(SSB(n_discard+1)) 124884
+H 0.150044 Cav(H) 26775.9 Bav(H) 124226 Prisk(H) 0.09653 E(SSB(n_discard)) 124844 E(SSB(n_discard+1)) 124364
+H 0.150692 Cav(H) 26813.2 Bav(H) 123709 Prisk(H) 0.0987967 E(SSB(n_discard)) 124325 E(SSB(n_discard+1)) 123845
+H 0.15134 Cav(H) 26850.2 Bav(H) 123193 Prisk(H) 0.10115 E(SSB(n_discard)) 123808 E(SSB(n_discard+1)) 123329
+
+F_CAY    = 0.151023
+MAY      = 26832.1
+B_MAY    = 123445
+Prisk    = 0.1
+
+CAY      = 43788.1 
+
