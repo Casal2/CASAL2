@@ -107,7 +107,6 @@ void ProportionsAtAge::DoValidate() {
   double value = 0.0;
   double total = 0.0;
   for (unsigned i = 0; i < category_labels_.size(); ++i) {
-    total = 0.0;
     for (unsigned j = 0; j < age_spread_; ++j) {
       unsigned obs_index = i * age_spread_ + j;
       if (!utilities::To<double>(obs_[obs_index], value))
@@ -118,15 +117,15 @@ void ProportionsAtAge::DoValidate() {
       error_values_by_category_[i].push_back( error_values_[i*age_spread_ + j]);
       total += value;
     }
+  }
 
-    // TODO: THIS MUST BE RE_PROPORTIONED SO THE TOTAL OBS SUM TO 1. NOT DISTINCT BY CATEGORY
-    if (fabs(1.0 - total) > tolerance_) {
-      LOG_WARNING(parameters_.location(PARAM_OBS) << ": obs total (" << total << ") exceeds tolerance for comparison to 1.0 for category collection "
-          << category_labels_[i] << ". Auto-scaling proportions to 1.0");
+  // TODO: THIS MUST BE RE_PROPORTIONED SO THE TOTAL OBS SUM TO 1. NOT DISTINCT BY CATEGORY
+  if (fabs(1.0 - total) > tolerance_) {
+    LOG_WARNING(parameters_.location(PARAM_OBS) << ": obs total (" << total << ") exceeds tolerance. Auto-scaling proportions to 1.0");
 
+    for (unsigned i = 0; i < category_labels_.size(); ++i)
       for (unsigned j = 0; j < proportions_[i].size(); ++j)
         proportions_[i][j] /= total;
-    }
   }
 }
 
@@ -170,76 +169,63 @@ void ProportionsAtAge::Execute() {
    * Verify our cached partition and partition sizes are correct
    */
   auto cached_partition_iter  = cached_partition_->Begin();
-  auto partition_iter         = partition_->Begin(); // auto = map<map<string(category), vector<partition::category&> > >
-
-
+  auto partition_iter         = partition_->Begin(); // vector<vector<partition::Category> >
 
   /**
    * Loop through the provided categories. Each provided category (combination) will have a list of observations
    * with it. We need to build a vector of proportions for each age using that combination and then
    * compare it to the observations.
    */
-  for (unsigned category_offset = 0; category_offset < category_labels_.size(); ++category_offset) {
-    Double      running_total      = 0.0;
+  for (unsigned category_offset = 0; category_offset < category_labels_.size(); ++category_offset, ++partition_iter, ++cached_partition_iter) {
     Double      selectivity_result = 0.0;
     Double      start_value        = 0.0;
     Double      end_value          = 0.0;
     Double      final_value        = 0.0;
 
-    for (unsigned proportions_offset = 0; proportions_offset < proportions_.size(); ++proportions_offset, ++partition_iter, ++cached_partition_iter) {
-      vector<Double> expected_values(age_spread_, 0.0);
-      running_total = 0.0;
+    vector<Double> expected_values(age_spread_, 0.0);
 
-      /**
-       * Loop through the 2 combined categories building up the
-       * expected proportions values.
-       */
-      auto category_iter = partition_iter->begin();
-      auto cached_category_iter = cached_partition_iter->begin();
-      for (; category_iter != partition_iter->end(); ++cached_category_iter, ++category_iter) {
-        for (unsigned data_offset = 0; data_offset < (*category_iter)->data_.size(); ++data_offset) {
-          // Check and skip ages we don't care about.
-          if ((*category_iter)->min_age_ + data_offset < min_age_)
-            continue;
-          if ((*category_iter)->min_age_ + data_offset > max_age_ && !age_plus_)
-            break;
+    /**
+     * Loop through the 2 combined categories building up the
+     * expected proportions values.
+     */
+    auto category_iter = partition_iter->begin();
+    auto cached_category_iter = cached_partition_iter->begin();
+    for (; category_iter != partition_iter->end(); ++cached_category_iter, ++category_iter) {
+      for (unsigned data_offset = 0; data_offset < (*category_iter)->data_.size(); ++data_offset) {
+        // Check and skip ages we don't care about.
+        if ((*category_iter)->min_age_ + data_offset < min_age_)
+          continue;
+        if ((*category_iter)->min_age_ + data_offset > max_age_ && !age_plus_)
+          break;
 
-          unsigned age_offset = ( (*category_iter)->min_age_ + data_offset) - min_age_;
-          unsigned age        = ( (*category_iter)->min_age_ + data_offset);
-          if (min_age_ + age_offset > max_age_)
-            age_offset = age_spread_ - 1;
+        unsigned age_offset = ( (*category_iter)->min_age_ + data_offset) - min_age_;
+        unsigned age        = ( (*category_iter)->min_age_ + data_offset);
+        if (min_age_ + age_offset > max_age_)
+          age_offset = age_spread_ - 1;
 
-          selectivity_result = selectivities_[category_offset]->GetResult(age);
-          start_value   = (*cached_category_iter).data_[data_offset];
-          end_value     = (*category_iter)->data_[data_offset];
-          final_value   = 0.0;
+        selectivity_result = selectivities_[category_offset]->GetResult(age);
+        start_value   = (*cached_category_iter).data_[data_offset];
+        end_value     = (*category_iter)->data_[data_offset];
+        final_value   = 0.0;
 
-          if (mean_proportion_method_)
-            final_value = start_value + ((end_value - start_value) * time_step_proportion_);
-          else
-            final_value = fabs(start_value - end_value) * time_step_proportion_;
+        if (mean_proportion_method_)
+          final_value = start_value + ((end_value - start_value) * time_step_proportion_);
+        else
+          final_value = fabs(start_value - end_value) * time_step_proportion_;
 
-          expected_values[age_offset] += final_value * selectivity_result;
-          running_total += final_value * selectivity_result;
-        }
+        expected_values[age_offset] += final_value * selectivity_result;
       }
+    }
 
-      if (expected_values.size() != proportions_[category_offset].size())
-        LOG_CODE_ERROR("expected_values.size(" << expected_values.size() << ") != proportions_[category_offset].size(" << proportions_[category_offset].size() << ")");
+    if (expected_values.size() != proportions_[category_offset].size())
+      LOG_CODE_ERROR("expected_values.size(" << expected_values.size() << ") != proportions_[category_offset].size(" << proportions_[category_offset].size() << ")");
 
-      /**
-       * Convert the expected_values in to a proportion
-       */
-      for (Double& value : expected_values)
-        value = value / running_total;
-
-      /**
-       * save our comparisons so we can use them to generate the score from the likelihoods later
-       */
-      for (unsigned i = 0; i < expected_values.size(); ++i) {
-        SaveComparison(category_labels_[category_offset], min_age_ + i, expected_values[i], proportions_[category_offset][i],
-            process_error_, error_values_by_category_[category_offset][i], delta_, 0.0);
-      }
+    /**
+     * save our comparisons so we can use them to generate the score from the likelihoods later
+     */
+    for (unsigned i = 0; i < expected_values.size(); ++i) {
+      SaveComparison(category_labels_[category_offset], min_age_ + i, expected_values[i], proportions_[category_offset][i],
+          process_error_, error_values_by_category_[category_offset][i], delta_, 0.0);
     }
   }
 }
@@ -256,9 +242,19 @@ void ProportionsAtAge::CalculateScore() {
   if (Model::Instance()->run_mode() == RunMode::kSimulation) {
     likelihood_->SimulateObserved(comparisons_);
   } else {
+    /**
+     * Convert the expected_values in to a proportion
+     */
+    Double running_total = 0.0;
+    for (obs::Comparison comparison : comparisons_[year_]) {
+      running_total += comparison.expected_;
+    }
+    for (obs::Comparison& comparison : comparisons_[year_]) {
+      comparison.expected_  = comparison.expected_ / running_total;
+    }
+
     scores_[year_] = likelihood_->GetInitialScore(comparisons_);
     likelihood_->GetScores(comparisons_);
-
     for (obs::Comparison comparison : comparisons_[year_]) {
       scores_[year_] += comparison.score_;
     }
