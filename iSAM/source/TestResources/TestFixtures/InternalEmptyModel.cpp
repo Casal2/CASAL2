@@ -64,13 +64,16 @@ void InternalEmptyModel::AddConfigurationLine(const string& line, const string& 
   vector<string> lines;
   boost::split(lines, line, boost::is_any_of("\n"));
 
+  unsigned i = 0;
   for (string split_line : lines) {
     config::FileLine new_line;
     new_line.line_ = split_line;
     new_line.file_name_ = file_name;
-    new_line.line_number_ = line_number;
+    new_line.line_number_ = line_number + i;
 
     configuration_file_.push_back(new_line);
+
+    i++;
   }
 }
 

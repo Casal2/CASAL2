@@ -49,13 +49,13 @@ void Observation::Execute() {
   cout << PARAM_OBSERVATION << ": " << observation_->label() << "\n";
   cout << "Comparisons: \n";
 
-  cout << "year age observed expected residual error_value score\n";
+  cout << "year category age observed expected residual error_value score\n";
 
   map<unsigned, vector<obs::Comparison> >& comparisons = observation_->comparisons();
   for (auto iter = comparisons.begin(); iter != comparisons.end(); ++iter) {
     for (obs::Comparison comparison : iter->second) {
 
-      cout << iter->first << " " << comparison.age_ << " " << comparison.observed_ << " " << comparison.expected_
+      cout << iter->first << " " << comparison.category_ << " " << comparison.age_ << " " << comparison.observed_ << " " << comparison.expected_
           << " " << comparison.observed_ - comparison.expected_ << " " << comparison.error_value_ << " "
           << comparison.score_ << "\n";
     }
