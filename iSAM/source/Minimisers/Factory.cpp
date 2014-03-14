@@ -22,6 +22,7 @@
 
 #else
 #include "Minimisers/Children/DESolver.h"
+#include "Minimisers/Children/DLib.h"
 #include "Minimisers/Children/GammaDiff.h"
 #endif
 
@@ -48,6 +49,8 @@ MinimiserPtr Factory::Create(const string& object_type, const string& sub_type) 
 #else
     if (sub_type == PARAM_DE_SOLVER)
       result = MinimiserPtr(new DESolver());
+    else if (sub_type == PARAM_DLIB)
+      result = MinimiserPtr(new DLib());
     else if (sub_type == PARAM_GAMMADIFF)
       result = MinimiserPtr(new GammaDiff());
 #endif

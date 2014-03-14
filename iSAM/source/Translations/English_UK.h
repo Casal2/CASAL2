@@ -156,6 +156,7 @@
 #define PARAM_DIFFERENCE_SCALE                    "difference_scale"
 #define PARAM_DISTANCE                            "distance"
 #define PARAM_DISTRIBUTION                        "distribution"
+#define PARAM_DLIB                                "dlib"
 #define PARAM_DOUBLE                              "numeric"
 #define PARAM_DOUBLE_EXPONENTIAL                  "double_exponential"
 #define PARAM_DOUBLE_NORMAL                       "double_normal"
