@@ -59,6 +59,7 @@ void Manager::Build() {
 void Manager::Execute() {
   LOG_TRACE();
 
+  last_executed_phase_ = 0;
   for (unsigned i = 0; i < ordered_initialisation_phases_.size(); ++i) {
     ordered_initialisation_phases_[i]->Execute();
     last_executed_phase_ = i;
