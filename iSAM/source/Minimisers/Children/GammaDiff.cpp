@@ -51,10 +51,10 @@ void GammaDiff::Execute() {
     start_values.push_back((double)estimate->value());
 
     if (estimate->value() < estimate->lower_bound()) {
-      LOG_ERROR("When starting the DESolver minimiser the starting value (" << estimate->value() << ") for estimate "
+      LOG_ERROR("When starting the GammDiff numerical_differences minimiser the starting value (" << estimate->value() << ") for estimate "
           << estimate->parameter() << " was less than the lower bound (" << estimate->lower_bound() << ")");
     } else if (estimate->value() > estimate->upper_bound()) {
-      LOG_ERROR("When starting the DESolver minimiser the starting value (" << estimate->value() << ") for estimate "
+      LOG_ERROR("When starting the GammDiff numerical_differences minimiser the starting value (" << estimate->value() << ") for estimate "
           << estimate->parameter() << " was greater than the upper bound (" << estimate->upper_bound() << ")");
     }
   }
