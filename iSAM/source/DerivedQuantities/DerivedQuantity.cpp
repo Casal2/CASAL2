@@ -120,7 +120,7 @@ Double DerivedQuantity::GetValue(unsigned year) {
   if (initialisation_values_.rbegin()->size() > years_to_go_back) {
     result = initialisation_values_.rbegin()->at(initialisation_values_.rbegin()->size() - years_to_go_back);
   } else {
-    LOG_CODE_ERROR("this should be going back in to another init phase if possible");
+    LOG_CODE_ERROR("this should be going back in to another init phase if possible (" << label_ << ")");
     result = (*initialisation_values_.rbegin()->begin()); // first value of last init phase
   }
 
