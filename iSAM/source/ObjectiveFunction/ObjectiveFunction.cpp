@@ -49,10 +49,12 @@ void ObjectiveFunction::CalculateScore() {
   likelihoods_ = 0.0;
   for(ObservationPtr observation : observations) {
     const map<unsigned, Double>& scores = observation->scores();
-
+    bool append_age = scores.size() > 1 ? true : false;
     for(auto iter = scores.begin(); iter != scores.end(); ++iter) {
       objective::Score new_score;
-      new_score.label_ = PARAM_OBS + string("->") + observation->label() + string("-") + utilities::ToInline<unsigned, string>(iter->first);
+      new_score.label_ = PARAM_OBS + string("->") + observation->label();
+      if (append_age)
+        new_score.label_ += string("-") + utilities::ToInline<unsigned, string>(iter->first);
       new_score.score_ = iter->second;
 
       score_list_.push_back(new_score);
