@@ -13,6 +13,7 @@
 
 #include "Estimates/Manager.h"
 #include "ObjectiveFunction/ObjectiveFunction.h"
+#include "Utilities/Math.h"
 
 // namespaces
 namespace isam {
@@ -37,15 +38,18 @@ double Callback::operator()(const ::dlib::matrix<double, 0, 1>& Parameters) cons
     LOG_CODE_ERROR("The number of enabled estimates does not match the number of test solution values");
   }
 
-  for (int i = 0; i < Parameters.size(); ++i)
-    estimates[i]->set_value(Parameters(i));
+  double penalty = 0;
+  for (int i = 0; i < Parameters.size(); ++i) {
+    double value = utilities::math::unScaleValue(Parameters(i), penalty, estimates[i]->lower_bound(), estimates[i]->upper_bound());
+    estimates[i]->set_value(value);
+  }
 
   ObjectiveFunction& objective = ObjectiveFunction::Instance();
 
   model_->FullIteration();
 
   objective.CalculateScore();
-  return objective.score();
+  return objective.score() + penalty;
 }
 
 } /* namespace dlib */

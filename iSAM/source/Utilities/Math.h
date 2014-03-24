@@ -19,6 +19,7 @@
 // Headers
 #include <cmath>
 
+#include "Utilities/DoubleCompare.h"
 #include "Utilities/Types.h"
 
 // Namespaces
@@ -26,6 +27,7 @@ namespace isam {
 namespace utilities {
 namespace math {
 
+namespace dc = isam::utilities::doublecompare;
 using isam::utilities::Double;
 
 /**
@@ -49,6 +51,60 @@ inline Double LnGamma(Double t) {
  */
 inline Double LnFactorial(Double t) {
   return isam::utilities::math::LnGamma(t + 1.0);
+}
+
+
+//**********************************************************************
+// void Engine::condassign( double &res, const double &cond, const double &arg1, const double &arg2 ) {
+// Conditional Assignment
+//**********************************************************************
+inline void condAssign(double &res, const double &cond, const double &arg1, const double &arg2) {
+  res = (cond) > 0 ? arg1 : arg2;
+}
+
+//**********************************************************************
+// void Engine::condassign( double &res, const double &cond, const double &arg)
+// Conditional Assignment
+//**********************************************************************
+inline void condAssign(double &res, const double &cond, const double &arg) {
+  res = (cond) > 0 ? arg : res;
+}
+
+/**
+ * double Engine::boundpin(double y, double fmin, double fmax)
+ * Boundary Pin
+ */
+
+inline double scaleValue(double value, double min, double max) {
+  if (dc::IsEqual(value, min))
+    return -1;
+  else if (dc::IsEqual(value, max))
+    return 1;
+
+  return asin(2 * (value - min) / (max - min) - 1) / 1.57079633;
+}
+
+/**
+ *
+ */
+inline double unScaleValue(const double& value, double& penalty, double min, double max) {
+  // courtesy of AUTODIF - modified to correct error -
+  // penalty on values outside [-1,1] multiplied by 100 as of 14/1/02.
+  double t = 0.0;
+  double y = 0.0;
+  penalty = 0.0;
+
+  t = min + (max - min) * (sin(value * 1.57079633) + 1) / 2;
+  condAssign(y, -.9999 - value, (value + .9999) * (value + .9999), 0);
+  penalty += y;
+  condAssign(y, value - .9999, (value - .9999) * (value - .9999), 0);
+  penalty += y;
+  condAssign(y, -1 - value, 1e5 * (value + 1) * (value + 1), 0);
+  penalty += y;
+  condAssign(y, value - 1, 1e5 * (value - 1) * (value - 1), 0);
+  penalty += y;
+
+  return (t);
 }
 
 } /* namespace math */

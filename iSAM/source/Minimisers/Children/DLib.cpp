@@ -16,6 +16,7 @@
 
 #include "Estimates/Manager.h"
 #include "Minimisers/Children/DLib/CallBack.h"
+#include "Utilities/Math.h"
 
 // namespaces
 namespace isam {
@@ -35,6 +36,7 @@ DLib::DLib() {
  *
  */
 void DLib::Execute() {
+  cout << "Executing DLib Minimiser" << endl;
   // Variables
   dlib::Callback  call_back;
 
@@ -54,7 +56,7 @@ void DLib::Execute() {
 
     lower_bounds(i) = estimate->lower_bound();
     upper_bounds(i) = estimate->upper_bound();
-    start_values(i) = estimate->value();
+    start_values(i) = estimate->value(); // utilities::math::scaleValue(estimate->value(), estimate->lower_bound(), estimate->upper_bound());
 //    if (start_values(i) < lower_bounds(i))
 //      start_values(i) = lower_bounds(i);
 //    if (start_values(i) < upper_bounds(i))
