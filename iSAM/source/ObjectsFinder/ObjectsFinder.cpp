@@ -25,6 +25,8 @@
 namespace isam {
 namespace objects {
 
+namespace util = isam::utilities;
+
 /**
  * See Header file for definition.
  */
@@ -69,6 +71,17 @@ void ExplodeString(const string& source_parameter, string &type, string& label, 
      index      = token_list[1];
    }
 }
+
+/**
+ * Implode the string so it's back to a target parameter. This basically handles any issues we have with
+ * case sensitivity.
+ */
+void ImplodeString(const string& type, const string& label, const string& parameter, const string& index, string& target_parameter) {
+  target_parameter = util::ToLowercase(type) + "[" + label + "]." + util::ToLowercase(parameter);
+  if (index != "")
+    target_parameter += "(" + index + ")";
+}
+
 
 /**
  * See header file for description

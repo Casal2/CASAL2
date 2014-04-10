@@ -31,6 +31,10 @@ public:
   void                        DoValidate() override final { };
   void                        DoBuild() override final { };
   void                        Execute() override final;
+
+private:
+  // members
+  bool                        first_run_ = true;
 };
 
 } /* namespace reports */

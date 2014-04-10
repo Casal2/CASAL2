@@ -24,6 +24,8 @@
 #define ESTIMATES_INFO_H_
 
 // Headers
+#include <boost/enable_shared_from_this.hpp>
+
 #include "BaseClasses/Object.h"
 
 // Namespaces
@@ -33,7 +35,7 @@ namespace estimates {
 /**
  * Class definition
  */
-class Info : public isam::base::Object {
+class Info : public isam::base::Object, public boost::enable_shared_from_this<Info> {
 public:
   // Methods
   Info();

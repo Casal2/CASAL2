@@ -12,6 +12,8 @@
 #include "EstimateValue.h"
 
 #include "Estimates/Manager.h"
+#include "Model/Model.h"
+#include "Profiles/Manager.h"
 
 // namespaces
 namespace isam {
@@ -35,22 +37,37 @@ EstimateValue::~EstimateValue() noexcept(true) {
  * Execute this report.
  */
 void EstimateValue::Execute() {
-  vector<EstimatePtr> estimates = estimates::Manager::Instance().GetEnabled();
+  ModelPtr model = Model::Instance();
 
-  cout << CONFIG_ARRAY_START << label_ << CONFIG_ARRAY_END << "\n";
-//  cout << PARAM_REPORT << "." << PARAM_TYPE << CONFIG_RATIO_SEPARATOR << " " << parameters_.Get(PARAM_TYPE).GetValue<string>() << "\n";
+  vector<EstimatePtr> estimates = estimates::Manager::Instance().GetObjects();
+  vector<ProfilePtr>  profiles  = profiles::Manager::Instance().GetObjects();
 
-  for (EstimatePtr estimate : estimates) {
-    cout << estimate->parameter() << " ";
+  /**
+   * if this is the first run we print the report header etc
+   */
+  if (first_run_) {
+    first_run_ = false;
+    cache_ << CONFIG_ARRAY_START << label_ << CONFIG_ARRAY_END << "\n";
+
+    for (EstimatePtr estimate : estimates)
+        cache_ << estimate->parameter() << " ";
+
+    if (model->run_mode() == RunMode::kProfiling) {
+      for (ProfilePtr profile : profiles)
+        cache_ << profile->parameter() << " ";
+    }
+    cache_ << "\n";
+
   }
-  cout << "\n";
 
-  for (EstimatePtr estimate : estimates) {
-    cout << AS_DOUBLE(estimate->value()) << " ";
+
+  for (EstimatePtr estimate : estimates)
+    cache_ << AS_DOUBLE(estimate->value()) << " ";
+  if (model->run_mode() == RunMode::kProfiling) {
+    for (ProfilePtr profile : profiles)
+      cache_ << profile->value() << " ";
   }
-  cout << "\n";
-
-  cout << CONFIG_END_REPORT << "\n" << endl;
+  cache_ << "\n";
 }
 
 } /* namespace reports */

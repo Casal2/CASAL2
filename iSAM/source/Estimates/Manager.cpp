@@ -78,7 +78,6 @@ vector<EstimatePtr> Manager::GetEnabled() {
   }
 
   return result;
-
 }
 
 /**
@@ -87,6 +86,68 @@ vector<EstimatePtr> Manager::GetEnabled() {
 void Manager::RemoveAllObjects() {
   objects_.clear();
   estimate_infos_.clear();
+}
+
+/**
+ * This method will look for estimates that match our parameter.
+ *
+ * First it will check all of the parameters parent info object
+ * (the object that created them) for matches. If it doesn't
+ * find a match then it'll re-loop through the estimates
+ * looking for a specific parameter there.
+ *
+ * This is because we want to prioritise matches to what was
+ * defined explicitly in the configuration file. As each @estimate
+ * block in the file can create multiple Estimate objects we
+ * will prioritise this way first before looking at what
+ * actual estimates were created.
+ *
+ * @param parameter The parameter the estimate is targetting
+ * @return True if found, false otherwise
+ */
+bool Manager::HasEstimate(const string& parameter) {
+
+  for (EstimatePtr estimate : objects_) {
+    if (estimate->parent_info()->parameters().Get(PARAM_PARAMETER)->values()[0] == parameter)
+      return true;
+  }
+
+  for (EstimatePtr estimate : objects_) {
+    if (estimate->parameter() == parameter)
+      return true;
+  }
+
+  return false;
+}
+
+/**
+ * This method will enable all estimates that match either the parameter
+ * or the parent info matches the parameter.
+ *
+ * @param parameter The parameter to match against the estimate and parent info
+ */
+void Manager::EnableEstimate(const string& parameter) {
+  for (EstimatePtr estimate : objects_) {
+    if (estimate->parent_info()->parameters().Get(PARAM_PARAMETER)->values()[0] == parameter)
+      estimate->set_enabled(true);
+    else if (estimate->parameter() == parameter)
+      estimate->set_enabled(true);
+  }
+}
+
+/**
+ * This method will disable all estimates that match either the parameter
+ * or the parent info matches the parameter.
+ *
+ * @param parameter The parameter to match against the estimate and parent info
+ */
+void Manager::DisableEstimate(const string& parameter) {
+  for (EstimatePtr estimate : objects_) {
+    if (estimate->parent_info()->parameters().Get(PARAM_PARAMETER)->values()[0] == parameter)
+      estimate->set_enabled(false);
+    else if (estimate->parameter() == parameter)
+      estimate->set_enabled(false);
+  }
 }
 
 } /* namespace estimates */

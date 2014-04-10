@@ -41,7 +41,7 @@ void DLib::Execute() {
   dlib::Callback  call_back;
 
   estimates::Manager& estimate_manager = estimates::Manager::Instance();
-  vector<EstimatePtr> estimates = estimate_manager.GetObjects();
+  vector<EstimatePtr> estimates = estimate_manager.GetEnabled();
 
   ::dlib::matrix<double, 0, 1> start_values(estimates.size());
   ::dlib::matrix<double, 0, 1> lower_bounds(estimates.size());

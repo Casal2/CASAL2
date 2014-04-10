@@ -29,6 +29,7 @@
 #include "Partition/Partition.h"
 #include "Penalties/Manager.h"
 #include "Processes/Manager.h"
+#include "Profiles/Manager.h"
 #include "Reports/Manager.h"
 #include "Selectivities/Manager.h"
 #include "SizeWeights/Manager.h"
@@ -114,6 +115,10 @@ void Model::Start(RunMode::Type run_mode) {
     RunMCMC();
     break;
 
+  case RunMode::kProfiling:
+    RunProfiling();
+    break;
+
   case RunMode::kTesting:
     break;
 
@@ -122,6 +127,7 @@ void Model::Start(RunMode::Type run_mode) {
     break;
   }
 
+  reports::Manager::Instance().FlushCaches();
 }
 
 /**
@@ -154,6 +160,7 @@ void Model::Validate() {
   observations::Manager::Instance().Validate();
   penalties::Manager::Instance().Validate();
   processes::Manager::Instance().Validate();
+  profiles::Manager::Instance().Validate();
   reports::Manager::Instance().Validate();
   selectivities::Manager::Instance().Validate();
   sizeweights::Manager::Instance().Validate();
@@ -197,6 +204,7 @@ void Model::Build() {
   observations::Manager::Instance().Build();
   penalties::Manager::Instance().Build();
   processes::Manager::Instance().Build();
+  profiles::Manager::Instance().Build();
   reports::Manager::Instance().Build();
   selectivities::Manager::Instance().Build();
   sizeweights::Manager::Instance().Build();
@@ -230,6 +238,7 @@ void Model::Reset() {
   observations::Manager::Instance().Reset();
   penalties::Manager::Instance().Reset();
   processes::Manager::Instance().Reset();
+  profiles::Manager::Instance().Reset();
   reports::Manager::Instance().Reset();
   selectivities::Manager::Instance().Reset();
   sizeweights::Manager::Instance().Reset();
@@ -304,6 +313,40 @@ void Model::RunMCMC() {
 
   LOG_INFO("Model: State change to Finalise")
   reports::Manager::Instance().Execute(State::kFinalise);
+}
+
+/**
+ *
+ */
+void Model::RunProfiling() {
+  LOG_INFO("Doing pre-profile iteration of the model");
+  Iterate();
+
+  LOG_INFO("Entering the Profiling Sub-System");
+  estimates::Manager& estimate_manager = estimates::Manager::Instance();
+  MinimiserPtr minimiser = minimisers::Manager::Instance().active_minimiser();
+
+  vector<ProfilePtr> profiles = profiles::Manager::Instance().GetObjects();
+  LOG_INFO("Working with " << profiles.size() << " profiles");
+  for (ProfilePtr profile : profiles) {
+    LOG_INFO("Disabling estimate: " << profile->parameter());
+    estimate_manager.DisableEstimate(profile->parameter());
+
+    LOG_INFO("First-Stepping profile");
+    profile->FirstStep();
+    for (unsigned i = 0; i < profile->steps() + 2; ++i) {
+      LOG_INFO("Calling minimiser to begin the estimation (profling)");
+      minimiser->Execute();
+
+      LOG_INFO("Model: State change to Finalise")
+      reports::Manager::Instance().Execute(State::kFinalise); // Change to KIterationComplete
+
+      profile->NextStep();
+    }
+    profile->RestoreOriginalValue();
+
+    estimate_manager.EnableEstimate(profile->parameter());
+  }
 }
 
 

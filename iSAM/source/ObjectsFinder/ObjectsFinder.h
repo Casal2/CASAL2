@@ -42,6 +42,8 @@ using std::string;
 void ExplodeString(const string& source_parameter, string &type, string& label, string& parameter, string& index);
 
 
+void ImplodeString(const string& type, const string& label, const string& parameter, const string& index, string& target_parameter);
+
 /**
  * This method will find the object in iSAM and return an Object pointer to it.
  *

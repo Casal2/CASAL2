@@ -48,4 +48,16 @@ bool Report::HasYear(unsigned year) {
   return (std::find(years_.begin(), years_.end(), year) != years_.end());
 }
 
+/**
+ * Flush the contents of the cache to the file or fisk.
+ */
+void Report::FlushCache() {
+  if (cache_.str() != "") {
+    cout << cache_.str();
+    cout << CONFIG_END_REPORT << "\n" << endl;
+    cout.flush();
+  }
+}
+
 } /* namespace isam */
+

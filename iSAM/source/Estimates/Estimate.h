@@ -24,6 +24,7 @@
 
 // Headers
 #include "BaseClasses/Object.h"
+#include "Estimates/Info.h"
 #include "Utilities/Types.h"
 
 // Namespaces
@@ -48,6 +49,8 @@ public:
   virtual Double              GetScore() = 0;
 
   // Accessors
+  void                        set_parent_info(estimates::EstimateInfoPtr parent_info) { parent_info_ = parent_info; }
+  estimates::EstimateInfoPtr  parent_info() const { return parent_info_; }
   void                        set_target(Double* new_target) { target_ = new_target; };
   string                      parameter() const { return parameter_; }
   double                      lower_bound() const { return lower_bound_; }
@@ -70,6 +73,7 @@ protected:
   vector<string>              same_labels;
   vector<Double*>             sames_;
   bool                        enabled_ = true;
+  estimates::EstimateInfoPtr  parent_info_;
 };
 
 typedef boost::shared_ptr<isam::Estimate> EstimatePtr;

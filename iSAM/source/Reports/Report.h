@@ -20,6 +20,7 @@
 #include <string>
 #include <iostream>
 #include <fstream>
+#include <ostream>
 
 #include "BaseClasses/Object.h"
 #include "Model/Model.h"
@@ -33,6 +34,7 @@ using std::cout;
 using std::endl;
 using std::ios_base;
 using std::iostream;
+using std::ostringstream;
 
 /**
  * Class definition
@@ -48,6 +50,7 @@ public:
   virtual void                Reset() {};
   virtual void                Finalise() {};
   bool                        HasYear(unsigned year);
+  void                        FlushCache();
 
   // pure methods
   virtual void                DoValidate() = 0;
@@ -65,6 +68,7 @@ protected:
   State::Type                 model_state_ = State::kInitialise;
   string                      time_step_   = "";
   vector<unsigned>            years_;
+  ostringstream               cache_;
 };
 
 // Typedef

@@ -25,6 +25,9 @@ public:
   unsigned                        GetEnabledCount();
   vector<EstimatePtr>             GetEnabled();
   void                            RemoveAllObjects() override final;
+  bool                            HasEstimate(const string& parameter);
+  void                            EnableEstimate(const string& parameter);
+  void                            DisableEstimate(const string& parameter);
 
 private:
   vector<EstimateInfoPtr>         estimate_infos_;

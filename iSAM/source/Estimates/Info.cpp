@@ -85,6 +85,12 @@ void Info::BuildEstimates() {
         << " is not in the correct format. Correct format is object_type[label].estimable(array index)");
   }
 
+  /**
+   * rebuild the parameter removing any case issues we may have
+   */
+  objects::ImplodeString(type, label, parameter, index, parameter_);
+  parameters_.Get(PARAM_PARAMETER)->set_value(parameter_);
+
   base::ObjectPtr target = objects::FindObject(parameter_);
   if (!target) {
     LOG_ERROR(parameters_.location(PARAM_PARAMETER) << ": parameter " << parameter_ << " is not a valid estimable in the system");
@@ -100,6 +106,7 @@ void Info::BuildEstimates() {
     if (index != "")
       parameter += "(" + index + ")";
     estimate->set_target(target->GetEstimable(parameter));
+    estimate->set_parent_info(shared_from_this());
 
   } else {
     // Create N estimates
@@ -112,6 +119,7 @@ void Info::BuildEstimates() {
       string new_parameter = parameter + "(" + utilities::ToInline<unsigned, string>(i+1) + ")";
       estimate->parameters().CopyFrom(parameters_);
       estimate->set_target(target->GetEstimable(new_parameter));
+      estimate->set_parent_info(shared_from_this());
     }
   }
 }
