@@ -93,5 +93,13 @@ void Manager::Execute(unsigned year, const string& time_step_label) {
   }
 }
 
+/**
+ * Flush the caches of all of the reports.
+ */
+void Manager::FlushCaches() {
+  for (ReportPtr report : objects_)
+    report->FlushCache();
+}
+
 } /* namespace reports */
 } /* namespace isam */

@@ -32,6 +32,7 @@ GammaDiff::GammaDiff() {
  * Execute the minimiser to solve the model
  */
 void GammaDiff::Execute() {
+  LOG_TRACE();
   // Variables
   gammadiff::CallBack  call_back;
 
@@ -41,7 +42,7 @@ void GammaDiff::Execute() {
   vector<double>  upper_bounds;
   vector<double>  start_values;
 
-  vector<EstimatePtr> estimates = estimate_manager.GetObjects();
+  vector<EstimatePtr> estimates = estimate_manager.GetEnabled();
   for (EstimatePtr estimate : estimates) {
     if (!estimate->enabled())
       continue;

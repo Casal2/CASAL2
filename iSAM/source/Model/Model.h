@@ -80,6 +80,7 @@ protected:
   void                        RunBasic();
   void                        RunEstimation();
   void                        RunMCMC();
+  void                        RunProfiling();
 
   // Members
   RunMode::Type               run_mode_ = RunMode::kInvalid;

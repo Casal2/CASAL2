@@ -24,6 +24,7 @@
 #include "Observations/Factory.h"
 #include "Penalties/Factory.h"
 #include "Processes/Factory.h"
+#include "Profiles/Factory.h"
 #include "Reports/Factory.h"
 #include "Selectivities/Factory.h"
 #include "SizeWeights/Factory.h"
@@ -82,6 +83,8 @@ base::ObjectPtr Object::Create(string& object_type, string& sub_type) {
     result = penalties::Factory::Create();
   else if (object_type == PARAM_PROCESS || object_type == PARAM_PROCESSES)
     result = processes::Factory::Create(object_type, sub_type);
+  else if (object_type == PARAM_PROFILE)
+    result = profiles::Factory::Create();
   else if (object_type == PARAM_AGEING || object_type == PARAM_MATURATION || object_type == PARAM_MORTALITY || object_type == PARAM_RECRUITMENT)
     result = processes::Factory::Create(object_type, sub_type);
   else if (object_type == PARAM_REPORT)
