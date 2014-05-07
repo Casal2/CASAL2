@@ -52,30 +52,31 @@ void Partition::Execute() {
   }
 
   // Print the header
-  cout << "*" << this->label() << "\n";
-  cout << "report.type: partition\n";
-  cout << "year: " << Model::Instance()->current_year() << "\n";
-  cout << "time_step: " << time_step_ << "\n";
-  cout << "category";
+  cache_ << "*" << this->label() << "\n";
+  cache_ << "report.type: partition\n";
+  cache_ << "year: " << Model::Instance()->current_year() << "\n";
+  cache_ << "time_step: " << time_step_ << "\n";
+  cache_ << "category";
   for (unsigned i = lowest; i <= highest; ++i)
-    cout << " " << i;
-  cout << "\n";
+    cache_ << " " << i;
+  cache_ << "\n";
 
-  cout.precision(1);
-  cout << std::fixed;
+  cache_.precision(1);
+  cache_ << std::fixed;
 
   for (auto iterator = all_view.Begin(); iterator != all_view.End(); ++iterator) {
-    cout << (*iterator)->name_;
+    cache_ << (*iterator)->name_;
     unsigned age = (*iterator)->min_age_;
     for (auto values = (*iterator)->data_.begin(); values != (*iterator)->data_.end(); ++values, age++) {
       if (age >= lowest && age <= highest)
-        cout << " " << std::fixed << std::setprecision(6) << AS_DOUBLE(*values);
+        cache_ << " " << std::fixed << std::setprecision(6) << AS_DOUBLE(*values);
       else
-        cout << " " << "null";
+        cache_ << " " << "null";
     }
-    cout << "\n";
+    cache_ << "\n";
   }
-  cout << "*end" << endl << endl;
+  cache_ << "*end" << endl << endl;
+  ready_for_writing_ = true;
 }
 
 

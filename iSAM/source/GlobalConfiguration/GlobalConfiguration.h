@@ -60,7 +60,8 @@ public:
   string                      config_file() { return global_parameters_[PARAM_CONFIG_FILE]; }
   void                        set_skip_config_file(string value) { global_parameters_[PARAM_SKIP_CONFIG_FILE] = value; }
   bool                        skip_config_file();
-
+  void                        set_simulation_candidates(unsigned value) { simulation_candidates_ = value; }
+  unsigned                    simulation_candidates() const { return simulation_candidates_; }
 
 private:
   // Methods
@@ -69,6 +70,7 @@ private:
   // Members
   map<string, string>         global_parameters_;
   vector<string>              command_line_parameters_;
+  unsigned                    simulation_candidates_ = 0;
 
 };
 

@@ -33,35 +33,35 @@ PartitionMeanWeight::PartitionMeanWeight() {
  * Execute method
  */
 void PartitionMeanWeight::Execute() {
-  cout << "*" << this->label() << "\n";
+  cache_ << "*" << this->label() << "\n";
 
   CategoriesPtr categories = Categories::Instance();
   isam::partition::accessors::All all_view;
 
   for (auto iterator = all_view.Begin(); iterator != all_view.End(); ++iterator) {
     string category = (*iterator)->name_;
-    cout << "category: " << category << "\n";
+    cache_ << "category: " << category << "\n";
 
-    cout << "mean_weights: ";
+    cache_ << "mean_weights: ";
     for (unsigned i = 0; i < (*iterator)->mean_weights_.size(); ++i)
-      cout << (*iterator)->mean_weights_[i] << " ";
-    cout << "\n";
+      cache_ << (*iterator)->mean_weights_[i] << " ";
+    cache_ << "\n";
 
     AgeSizePtr age_size = categories->age_size(category);
-    cout << "age_weight: ";
+    cache_ << "age_weight: ";
     unsigned age_spread = (categories->max_age(category) - categories->min_age(category)) + 1;
     for (unsigned i = 0; i < age_spread; ++i)
-      cout << age_size->mean_weight(i + (*iterator)->min_age_) << " ";
-    cout << "\n";
+      cache_ << age_size->mean_weight(i + (*iterator)->min_age_) << " ";
+    cache_ << "\n";
 
-    cout << "age_size: ";
+    cache_ << "age_size: ";
     for (unsigned i = 0; i < age_spread; ++i)
-          cout << age_size->mean_size(i + (*iterator)->min_age_) << " ";
-    cout << "\n";
+      cache_ << age_size->mean_size(i + (*iterator)->min_age_) << " ";
+    cache_ << "\n";
   }
 
-  cout << "*end" << endl;
-
+  cache_ << "*end" << endl;
+  ready_for_writing_ = true;
 }
 
 } /* namespace reports */

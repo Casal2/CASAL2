@@ -81,6 +81,7 @@ protected:
   void                        RunEstimation();
   void                        RunMCMC();
   void                        RunProfiling();
+  void                        RunSimulation();
 
   // Members
   RunMode::Type               run_mode_ = RunMode::kInvalid;

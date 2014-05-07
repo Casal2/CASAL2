@@ -20,12 +20,11 @@ type objective_function
 @report estimate_summary
 type estimate_summary
 
-{
 @report chatCPUE
 type observation
 observation chatCPUE
 
-@report chatTANbiomass
+@report chatTANage1992
 type observation
-observation chatTANbiomass
-}
+observation chatTANage1992
+

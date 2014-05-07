@@ -32,18 +32,19 @@ ObjectiveFunction::ObjectiveFunction() {
  */
 void ObjectiveFunction::Execute() {
   // Header
-  cout << CONFIG_ARRAY_START << label_ << CONFIG_ARRAY_END << "\n";
+  cache_ << CONFIG_ARRAY_START << label_ << CONFIG_ARRAY_END << "\n";
 //  cout << PARAM_REPORT << "." << PARAM_TYPE << CONFIG_RATIO_SEPARATOR << " " << parameters_.Get(PARAM_TYPE).GetValue<string>() << "\n";
 
   ::isam::ObjectiveFunction obj_function = isam::ObjectiveFunction::Instance();
 
   const vector<objective::Score>& score_list = obj_function.score_list();
   for (objective::Score score : score_list) {
-    cout << score.label_ << ": " << AS_DOUBLE(score.score_) << "\n";
+    cache_ << score.label_ << ": " << AS_DOUBLE(score.score_) << "\n";
   }
 
-  cout << PARAM_TOTAL_SCORE << ": " << AS_DOUBLE(obj_function.score()) << "\n";
-  cout << CONFIG_END_REPORT << "\n" << endl;
+  cache_ << PARAM_TOTAL_SCORE << ": " << AS_DOUBLE(obj_function.score()) << "\n";
+  cache_ << CONFIG_END_REPORT << "\n" << endl;
+  ready_for_writing_ = true;
 }
 
 } /* namespace reports */

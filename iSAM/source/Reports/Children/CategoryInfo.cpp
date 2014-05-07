@@ -32,24 +32,25 @@ CategoryInfo::CategoryInfo() {
  */
 void CategoryInfo::Execute() {
 
-  cout << "*category_info: " << label_ << "\n";
+  cache_ << "*category_info: " << label_ << "\n";
 
   CategoriesPtr categories = Categories::Instance();
 
   vector<string> names = categories->category_names();
   for(string name : names) {
-    cout << "Category: " << name << "\n";
-    cout << "min_age: " << categories->min_age(name) << "\n";
-    cout << "max_age: " << categories->max_age(name) << "\n";
+    cache_ << "Category: " << name << "\n";
+    cache_ << "min_age: " << categories->min_age(name) << "\n";
+    cache_ << "max_age: " << categories->max_age(name) << "\n";
 
     vector<unsigned> years = categories->years(name);
-    cout << "years: ";
+    cache_ << "years: ";
     for (unsigned year : years)
-      cout << year << " ";
-    cout << "\n\n";
+      cache_ << year << " ";
+    cache_ << "\n\n";
   }
 
-  cout << "*end" << endl;
+  cache_ << "*end" << endl;
+  ready_for_writing_ = true;
 }
 
 } /* namespace reports */

@@ -94,11 +94,23 @@ void Manager::Execute(unsigned year, const string& time_step_label) {
 }
 
 /**
- * Flush the caches of all of the reports.
+ * This method will flush all of the reports to stdout or a file depending on each
+ * report when it has finished caching it's output internally.
+ *
+ * NOTE: This method is called in it's own thread so we can continue to run the model
+ * without having to wait for the reports to be ready.
  */
-void Manager::FlushCaches() {
-  for (ReportPtr report : objects_)
-    report->FlushCache();
+void Manager::FlushReports() {
+  while(true) {
+    for (ReportPtr report : objects_) {
+      if (report->ready_for_writing())
+        report->FlushCache();
+    }
+
+
+    if (!continue_)
+      break;
+  }
 }
 
 } /* namespace reports */

@@ -6,12 +6,16 @@ max_generations 1000
 
 @minimiser gammadiff
 type numerical_differences
-active true
 iterations 1000
 evaluations 4000
 step_size 1e-7
 tolerance 0.002 #The default is 0.002
 covariance True
+
+
+@minimiser dlib
+type dlib
+active true
 
 @mcmc
 length 100

@@ -38,7 +38,7 @@ EstimateSummary::~EstimateSummary() noexcept(true) {
  */
 void EstimateSummary::Execute() {
   // Header
-  cout << CONFIG_ARRAY_START << label_ << CONFIG_ARRAY_END << "\n";
+  cache_ << CONFIG_ARRAY_START << label_ << CONFIG_ARRAY_END << "\n";
 //  cout << PARAM_REPORT << "." << PARAM_TYPE << CONFIG_RATIO_SEPARATOR << " " << parameters_.Get(PARAM_TYPE)->GetValue<string>() << "\n";
 
 
@@ -47,22 +47,23 @@ void EstimateSummary::Execute() {
   vector<EstimatePtr> estimates = estimate_manager.GetObjects();
 
   for (EstimatePtr estimate : estimates) {
-    cout << "\n";
-    cout << "Estimate: " << estimate->label() << "\n";
-    cout << "Lower Bound: " << estimate->lower_bound() << "\n";
-    cout << "Upper Bound: " << estimate->upper_bound() << "\n";
-    cout << "Value: " << estimate->value() << "\n";
-    cout << "parameters:\n";
+    cache_ << "\n";
+    cache_ << "Estimate: " << estimate->label() << "\n";
+    cache_ << "Lower Bound: " << estimate->lower_bound() << "\n";
+    cache_ << "Upper Bound: " << estimate->upper_bound() << "\n";
+    cache_ << "Value: " << estimate->value() << "\n";
+    cache_ << "parameters:\n";
     map<string, ParameterPtr> parameters = estimate->parameters().parameters();
     for (auto iter = parameters.begin(); iter != parameters.end(); ++iter) {
-      cout << iter->first << ": ";
+      cache_ << iter->first << ": ";
       for (string parameter_value : iter->second->values())
-        cout << parameter_value << " ";
-      cout << "\n";
+        cache_ << parameter_value << " ";
+      cache_ << "\n";
     }
   }
 
-  cout << CONFIG_END_REPORT << "\n" << endl;
+  cache_ << CONFIG_END_REPORT << "\n" << endl;
+  ready_for_writing_ = true;
 }
 
 } /* namespace reports */
