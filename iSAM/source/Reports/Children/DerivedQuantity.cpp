@@ -25,7 +25,7 @@ DerivedQuantity::DerivedQuantity() {
  */
 void DerivedQuantity::Execute() {
 
-  cout << "derived_quantity: " << label_ << "\n";
+  cache_ << "derived_quantity: " << label_ << "\n";
 
   derivedquantities::Manager& manager = derivedquantities::Manager::Instance();
 
@@ -33,26 +33,27 @@ void DerivedQuantity::Execute() {
 
   unsigned count = 1;
   for (DerivedQuantityPtr dq : derived_quantities) {
-    cout << "derived quantity: " << dq->label() << "\n";
+    cache_ << "derived quantity: " << dq->label() << "\n";
 
     const vector<vector<Double> > init_values = dq->initialisation_values();
     for (unsigned i = 0; i < init_values.size(); ++i) {
-      cout << "Init phase: " << i << " = ";
+      cache_ << "Init phase: " << i << " = ";
       for (unsigned j = 0; j < init_values[i].size(); ++j)
-        cout << init_values[i][j] << " ";
-      cout << "\n";
+        cache_ << init_values[i][j] << " ";
+      cache_ << "\n";
     }
 
     const map<unsigned, Double> values = dq->values();
-    cout << "Values [Year = Value]:\n";
+    cache_ << "Values [Year = Value]:\n";
     for (auto iter = values.begin(); iter != values.end(); ++iter) {
-      cout << iter->first << " = " << iter->second << "\n";
+      cache_ << iter->first << " = " << iter->second << "\n";
     }
 
     count++;
   }
 
-  cout << "*end" << endl;
+  cache_ << "*end" << endl;
+  ready_for_writing_ = true;
 }
 
 } /* namespace reports */

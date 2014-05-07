@@ -18,6 +18,7 @@
 #include "AgeSizes/Manager.h"
 #include "Catchabilities/Manager.h"
 #include "Categories/Categories.h"
+#include "GlobalConfiguration/GlobalConfiguration.h"
 #include "DerivedQuantities/Manager.h"
 #include "Estimates/Manager.h"
 #include "InitialisationPhases/Manager.h"
@@ -126,8 +127,6 @@ void Model::Start(RunMode::Type run_mode) {
     LOG_ERROR("Invalid run mode has been specified. This run mode is not supported: " << run_mode_);
     break;
   }
-
-  reports::Manager::Instance().FlushCaches();
 }
 
 /**
@@ -329,7 +328,7 @@ void Model::RunProfiling() {
   vector<ProfilePtr> profiles = profiles::Manager::Instance().GetObjects();
   LOG_INFO("Working with " << profiles.size() << " profiles");
   for (ProfilePtr profile : profiles) {
-    LOG_INFO("Disabling estimate: " << profile->parameter());
+    LOG_INFO("Disabling estiSmate: " << profile->parameter());
     estimate_manager.DisableEstimate(profile->parameter());
 
     LOG_INFO("First-Stepping profile");
@@ -349,6 +348,27 @@ void Model::RunProfiling() {
   }
 }
 
+/**
+ *
+ */
+void Model::RunSimulation() {
+  LOG_INFO("Entering the Simulation Sub-System");
+
+  unsigned simulation_candidates = GlobalConfiguration::Instance()->simulation_candidates();
+  unsigned suffix_width          = (unsigned)floor(log10((double) simulation_candidates + 1)) + 1;
+  for (unsigned i = 0; i < simulation_candidates; ++i) {
+    string report_suffix = ".";
+    unsigned iteration_width = (unsigned)floor(log10(i + 1)) + 1;
+    report_suffix.append("0", suffix_width - iteration_width);
+    report_suffix.append(utilities::ToInline<unsigned, string>(i + 1));
+    reports::Manager::Instance().set_report_suffix(report_suffix);
+
+    reports::Manager::Instance().Execute(State::kIterationComplete);
+  }
+
+  LOG_INFO("Model: State change to Finalise")
+  reports::Manager::Instance().Execute(State::kFinalise);
+}
 
 /**
  * This method will do a single iteration of the model. During

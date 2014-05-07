@@ -38,20 +38,21 @@ MCMCChain::~MCMCChain() noexcept(true) {
 void MCMCChain::Execute() {
   const vector<mcmc::ChainLink>& chain = MCMC::Instance()->chain();
 
-  cout << CONFIG_ARRAY_START << label_ << CONFIG_ARRAY_END << "\n";
+  cache_ << CONFIG_ARRAY_START << label_ << CONFIG_ARRAY_END << "\n";
 //  cout << PARAM_REPORT << "." << PARAM_TYPE << CONFIG_RATIO_SEPARATOR << " " << parameters_.Get(PARAM_TYPE).GetValue<string>() << "\n";
 
   for (unsigned i = 0; i < chain.size(); ++i) {
-    cout << i << ": ";
-    cout << chain[i].score_ << ": ";
+    cache_ << i << ": ";
+    cache_ << chain[i].score_ << ": ";
 
     for (double value : chain[i].values_)
-      cout << value << " ";
+      cache_ << value << " ";
 
-    cout << "\n";
+    cache_ << "\n";
   }
 
-  cout << CONFIG_END_REPORT << "\n" << endl;
+  cache_ << CONFIG_END_REPORT << "\n" << endl;
+  ready_for_writing_ = true;
 }
 
 } /* namespace reports */

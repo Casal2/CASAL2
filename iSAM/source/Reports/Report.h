@@ -61,14 +61,19 @@ public:
   RunMode::Type               run_mode() const { return run_mode_; }
   State::Type                 model_state() const { return model_state_; }
   const string&               time_step() const { return time_step_; }
+  bool                        ready_for_writing() const { return ready_for_writing_; }
 
 protected:
   // Members
   RunMode::Type               run_mode_    = RunMode::kInvalid;
   State::Type                 model_state_ = State::kInitialise;
   string                      time_step_   = "";
+  string                      file_name_   = "";
+  bool                        overwrite_   = true;
+  string                      last_suffix_ = "";
   vector<unsigned>            years_;
   ostringstream               cache_;
+  bool                        ready_for_writing_ = false;
 };
 
 // Typedef

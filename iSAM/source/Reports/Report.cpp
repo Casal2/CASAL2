@@ -13,8 +13,20 @@
 // Headers
 #include "Report.h"
 
+#include <string>
+#include <iostream>
+#include <fstream>
+
+#include "Reports/Manager.h"
+
 // Namespaces
 namespace isam {
+
+using std::streambuf;
+using std::ofstream;
+using std::cout;
+using std::endl;
+using std::ios_base;
 
 /**
  * Default constructor
@@ -24,6 +36,8 @@ Report::Report() {
   parameters_.Bind<string>(PARAM_TYPE, &type_, "Type");
   parameters_.Bind<string>(PARAM_TIME_STEP, &time_step_, "Time Step label", "");
   parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "Years", true);
+  parameters_.Bind<string>(PARAM_FILE_NAME, &file_name_, "File Name", "");
+  parameters_.Bind<bool>(PARAM_OVERWRITE, &overwrite_, "Overwrite file", true);
 }
 
 /**
@@ -52,11 +66,36 @@ bool Report::HasYear(unsigned year) {
  * Flush the contents of the cache to the file or fisk.
  */
 void Report::FlushCache() {
-  if (cache_.str() != "") {
+  if (file_name_ != "") {
+    string suffix = reports::Manager::Instance().report_suffix();
+
+    bool overwrite = false;
+    if (suffix != last_suffix_)
+      overwrite = overwrite_;
+    last_suffix_ = suffix;
+
+    string file_name = file_name_ + suffix;
+
+    ios_base::openmode mode = ios_base::out;
+    if (!overwrite)
+      mode = ios_base::app;
+
+    // Try to Open our File
+    ofstream file;
+    file.open(file_name.c_str(), mode);
+    if (!file.is_open())
+      LOG_ERROR("Unable to open file: " << file_name);
+
+    file << cache_.str();
+    file.close();
+
+  } else {
     cout << cache_.str();
     cout << CONFIG_END_REPORT << "\n" << endl;
     cout.flush();
   }
+
+  ready_for_writing_ = false;
 }
 
 } /* namespace isam */

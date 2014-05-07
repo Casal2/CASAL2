@@ -9,12 +9,14 @@ int main(int argc, char **argv) {
 
 // Headers
 #include <iostream>
+#include <boost/thread.hpp>
 
 #include "Version.h"
 #include "ConfigurationLoader/Loader.h"
 #include "GlobalConfiguration/GlobalConfiguration.h"
 #include "Model/Model.h"
 #include "Reports/Children/StandardHeader.h"
+#include "Reports/Manager.h"
 #include "Utilities/CommandLineParser/CommandLineParser.h"
 #include "Utilities/Logging/Logging.h"
 
@@ -22,6 +24,24 @@ int main(int argc, char **argv) {
 using namespace isam;
 using std::cout;
 using std::endl;
+
+// local variables
+RunMode::Type run_mode = RunMode::kInvalid;
+
+void ModelThread() {
+  // Run the model
+  ModelPtr model = Model::Instance();
+  model->Start(run_mode);
+
+  reports::Manager::Instance().set_continue(false);
+}
+
+/**
+ *
+ */
+void ReportThread() {
+  reports::Manager::Instance().FlushReports();
+}
 
 /**
  * Application entry point
@@ -48,7 +68,7 @@ int main(int argc, char * argv[]) {
     isam::utilities::CommandLineParser parser;
     parser.Parse(argc, (const char **)argv);
 
-    RunMode::Type run_mode = parser.run_mode();
+    run_mode = parser.run_mode();
 
     /**
      * Check the run mode and call the handler.
@@ -85,9 +105,14 @@ int main(int argc, char * argv[]) {
        */
       config->OverrideGlobalValues(parser.override_values());
 
-      // Run the model
-      ModelPtr model = Model::Instance();
-      model->Start(run_mode);
+      /**
+       * build our threads
+       */
+      boost::thread model_thread(ModelThread);
+      boost::thread report_thread(ReportThread);
+
+      model_thread.join();
+      report_thread.join();
 
       if (!config->debug_mode())
         standard_report.Finalise();

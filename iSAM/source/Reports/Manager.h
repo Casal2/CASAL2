@@ -34,12 +34,19 @@ public:
   void                        Build() override final;
   void                        Execute(State::Type model_state);
   void                        Execute(unsigned year, const string& time_step_label);
-  void                        FlushCaches();
+  void                        FlushReports();
+
+  // accessors
+  void                        set_report_suffix(const string& suffix) { report_suffix_ = suffix; }
+  const string&               report_suffix() const { return report_suffix_; }
+  void                        set_continue(bool new_continue) { continue_ = new_continue; }
 
 private:
   // Members
   map<State::Type, vector<ReportPtr> >  state_reports_;
   map<string, vector<ReportPtr> >       time_step_reports_;
+  string                                report_suffix_ = "";
+  bool                                  continue_ = true;
 };
 
 } /* namespace reports */

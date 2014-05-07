@@ -77,8 +77,8 @@ type covariance
 
 @report TAN1992
 type observation
-observation chatTANbiomass1992
-
+observation chatTANage1992
+{
 @report TAN1993
 type observation
 observation chatTANbiomass1993
@@ -120,4 +120,4 @@ sizes 50
 @report checkweight
 type partition_biomass
 time_step two
-
+}

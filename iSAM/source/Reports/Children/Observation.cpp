@@ -44,24 +44,25 @@ void Observation::DoBuild() {
  *
  */
 void Observation::Execute() {
-  cout << CONFIG_ARRAY_START << label_ << CONFIG_ARRAY_END << "\n";
+  cache_ << CONFIG_ARRAY_START << label_ << CONFIG_ARRAY_END << "\n";
 
-  cout << PARAM_OBSERVATION << ": " << observation_->label() << "\n";
-  cout << "Comparisons: \n";
+  cache_ << PARAM_OBSERVATION << ": " << observation_->label() << "\n";
+  cache_ << "Comparisons: \n";
 
-  cout << "year category age observed expected residual error_value score\n";
+  cache_ << "year category age observed expected residual error_value score\n";
 
   map<unsigned, vector<obs::Comparison> >& comparisons = observation_->comparisons();
   for (auto iter = comparisons.begin(); iter != comparisons.end(); ++iter) {
     for (obs::Comparison comparison : iter->second) {
 
-      cout << iter->first << " " << comparison.category_ << " " << comparison.age_ << " " << comparison.observed_ << " " << comparison.expected_
+      cache_ << iter->first << " " << comparison.category_ << " " << comparison.age_ << " " << comparison.observed_ << " " << comparison.expected_
           << " " << comparison.observed_ - comparison.expected_ << " " << comparison.error_value_ << " "
           << comparison.score_ << "\n";
     }
   }
 
-  cout << CONFIG_END_REPORT << "\n" << endl;
+  cache_ << CONFIG_END_REPORT << "\n" << endl;
+  ready_for_writing_ = true;
 }
 
 } /* namespace reports */
