@@ -204,5 +204,12 @@ void Abundance::Execute() {
   }
 }
 
+/**
+ *
+ */
+void Abundance::CalculateScore() {
+
+}
+
 } /* namespace priors */
 } /* namespace isam */

@@ -25,5 +25,5 @@ Double Likelihood::GetInitialScore(const vector<string> &keys, const vector<Doub
   return 0;
 }
 
-
 } /* namespace isam */
+

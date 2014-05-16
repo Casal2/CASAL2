@@ -120,6 +120,10 @@ void Model::Start(RunMode::Type run_mode) {
     RunProfiling();
     break;
 
+  case RunMode::kSimulation:
+    RunSimulation();
+    break;
+
   case RunMode::kTesting:
     break;
 
@@ -363,6 +367,7 @@ void Model::RunSimulation() {
     report_suffix.append(utilities::ToInline<unsigned, string>(i + 1));
     reports::Manager::Instance().set_report_suffix(report_suffix);
 
+    FullIteration();
     reports::Manager::Instance().Execute(State::kIterationComplete);
   }
 
