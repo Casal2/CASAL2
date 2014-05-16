@@ -184,6 +184,8 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/BuildSystem/bin/win32/thirdparty/lib}&quot;"/>
 								</option>
 								<option id="gnu.cpp.link.option.libs.145212321" name="Libraries (-l)" superClass="gnu.cpp.link.option.libs" valueType="libs">
+									<listOptionValue builtIn="false" value="boost_thread-mgw47-mt-s-1_53"/>
+									<listOptionValue builtIn="false" value="boost_system-mgw47-mt-s-1_53"/>
 									<listOptionValue builtIn="false" value="boost_program_options-mgw47-mt-s-1_53"/>
 									<listOptionValue builtIn="false" value=":gmock_main.a"/>
 								</option>

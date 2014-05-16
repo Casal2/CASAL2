@@ -70,7 +70,7 @@ private:
   // Members
   map<string, string>         global_parameters_;
   vector<string>              command_line_parameters_;
-  unsigned                    simulation_candidates_ = 0;
+  unsigned                    simulation_candidates_ = 1;
 
 };
 

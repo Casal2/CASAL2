@@ -91,10 +91,14 @@ void Report::FlushCache() {
 
   } else {
     cout << cache_.str();
-    cout << CONFIG_END_REPORT << "\n" << endl;
+    if (!skip_end_tag_)
+      cout << CONFIG_END_REPORT << "\n";
+    cout << endl;
     cout.flush();
   }
 
+  cache_.str("");
+  cache_.clear();
   ready_for_writing_ = false;
 }
 

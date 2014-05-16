@@ -112,6 +112,7 @@ void CommandLineParser::Parse(int argc, const char* argv[]) {
   run_mode_count += parameters.count("estimate");
   run_mode_count += parameters.count("mcmc");
   run_mode_count += parameters.count("profiling");
+  run_mode_count += parameters.count("simulation");
 
   if (run_mode_count == 0)
     LOG_ERROR("No valid run mode has been specified on the command line. Please specify a valid run mode (e.g -r)");

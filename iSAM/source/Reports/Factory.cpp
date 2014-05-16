@@ -23,6 +23,7 @@
 #include "Reports/Children/Observation.h"
 #include "Reports/Children/Partition.h"
 #include "Reports/Children/PartitionMeanWeight.h"
+#include "Reports/Children/SimulatedObservation.h"
 
 // Namespaces
 namespace isam {
@@ -58,6 +59,8 @@ ReportPtr Factory::Create(const string& object_type, const string& sub_type) {
       result = ReportPtr(new ObjectiveFunction());
     else if (sub_type == PARAM_OBSERVATION)
       result = ReportPtr(new Observation());
+    else if (sub_type == PARAM_SIMULATED_OBSERVATION)
+      result = ReportPtr(new SimulatedObservation());
 
     if (result)
       isam::reports::Manager::Instance().AddObject(result);

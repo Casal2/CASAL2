@@ -74,6 +74,7 @@ protected:
   vector<unsigned>            years_;
   ostringstream               cache_;
   bool                        ready_for_writing_ = false;
+  bool                        skip_end_tag_ = false;
 };
 
 // Typedef
