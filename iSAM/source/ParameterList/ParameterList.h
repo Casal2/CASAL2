@@ -99,11 +99,11 @@ public:
   void                        CopyFrom(const ParameterList& source);
   void                        Clear();
   template<typename T>
-  void                        Bind(const string& label, T* target, const string& description);
+  void                        Bind(const string& label, T* target, const string& description, const string& values);
   template<typename T>
-  void                        Bind(const string& label, T* target, const string& description, T default_value);
+  void                        Bind(const string& label, T* target, const string& description, const string& values, T default_value);
   template<typename T>
-  void                        Bind(const string& label, vector<T>* target, const string& description, bool optional = false);
+  void                        Bind(const string& label, vector<T>* target, const string& description, const string& values, bool optional = false);
   void                        Populate();
 
   // accessors

@@ -37,8 +37,8 @@ Double NormalCDF(Double x, Double mu, Double sigma) {
  * Default Constructor
  */
 Normal::Normal() {
-  parameters_.Bind<double>(PARAM_CV, &cv_, "TBA");
-  parameters_.Bind<unsigned>(PARAM_K, &k_, "TBA", 0u);
+  parameters_.Bind<double>(PARAM_CV, &cv_, "TBA", "");
+  parameters_.Bind<unsigned>(PARAM_K, &k_, "TBA", "", 0u);
 
   RegisterAsEstimable(PARAM_CV, &cv_);
 }

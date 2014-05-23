@@ -34,9 +34,9 @@ Logistic::Logistic()
  */
 Logistic::Logistic(ModelPtr model)
 : Selectivity(model) {
-  parameters_.Bind<double>(PARAM_A50, &a50_, "A50");
-  parameters_.Bind<double>(PARAM_ATO95, &aTo95_, "Ato95");
-  parameters_.Bind<double>(PARAM_ALPHA, &alpha_, "Alpha", 1.0);
+  parameters_.Bind<double>(PARAM_A50, &a50_, "A50", "");
+  parameters_.Bind<double>(PARAM_ATO95, &aTo95_, "Ato95", "");
+  parameters_.Bind<double>(PARAM_ALPHA, &alpha_, "Alpha", "", 1.0);
 
   RegisterAsEstimable(PARAM_A50, &a50_);
   RegisterAsEstimable(PARAM_ATO95, &aTo95_);

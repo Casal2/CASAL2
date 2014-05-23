@@ -23,9 +23,9 @@ namespace isam {
  * Default Constructor
  */
 Penalty::Penalty() {
-  parameters_.Bind<string>(PARAM_LABEL, &label_, "Label");
-  parameters_.Bind<double>(PARAM_MULTIPLIER, &multiplier_, "Multiplier", 1.0);
-  parameters_.Bind<bool>(PARAM_LOG_SCALE, &log_scale_, "Log scale", false);
+  parameters_.Bind<string>(PARAM_LABEL, &label_, "Label", "");
+  parameters_.Bind<double>(PARAM_MULTIPLIER, &multiplier_, "Multiplier", "", 1.0);
+  parameters_.Bind<bool>(PARAM_LOG_SCALE, &log_scale_, "Log scale", "", false);
 }
 
 /**

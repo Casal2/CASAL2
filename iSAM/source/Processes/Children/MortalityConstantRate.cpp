@@ -27,9 +27,9 @@ namespace processes {
 MortalityConstantRate::MortalityConstantRate() {
   LOG_TRACE();
 
-  parameters_.Bind<string>(PARAM_CATEGORIES, &category_names_, "List of categories");
-  parameters_.Bind<double>(PARAM_M, &m_, "Mortality rates");
-  parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_names_, "Selectivities");
+  parameters_.Bind<string>(PARAM_CATEGORIES, &category_names_, "List of categories", "");
+  parameters_.Bind<double>(PARAM_M, &m_, "Mortality rates", "");
+  parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_names_, "Selectivities", "");
 }
 
 /**

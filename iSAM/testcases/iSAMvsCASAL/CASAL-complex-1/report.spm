@@ -1,4 +1,8 @@
 # The reports/outputs
+@report sim
+type simulated_observation
+observation chatTANage1992
+
 {
 @report initialisation-phase1
 type initialisation
@@ -33,10 +37,10 @@ header True
 
 @report estimate-summary
 type estimate_summary
-}
+
 @report objective
 type objective_function
-{
+
 @report random_seed
 type random_number_seed
 
@@ -73,12 +77,10 @@ time_step one
 @report covariance
 type covariance
 
-}
-
 @report TAN1992
 type observation
 observation chatTANage1992
-{
+
 @report TAN1993
 type observation
 observation chatTANbiomass1993

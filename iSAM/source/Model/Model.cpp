@@ -49,14 +49,14 @@ using std::endl;
  */
 Model::Model() {
   LOG_TRACE();
-  parameters_.Bind<unsigned>(PARAM_START_YEAR, &start_year_, "The first year of the model");
-  parameters_.Bind<unsigned>(PARAM_FINAL_YEAR, &final_year_, "The last year of the model");
-  parameters_.Bind<unsigned>(PARAM_MIN_AGE, &min_age_, "The default minimum age for the population");
-  parameters_.Bind<unsigned>(PARAM_MAX_AGE, &max_age_, "The default maximum age for the population");
-  parameters_.Bind<bool>(PARAM_AGE_PLUS, &age_plus_, "True if the model supports an age-plus group", false);
-  parameters_.Bind<string>(PARAM_INITIALISATION_PHASES, &initialisation_phases_, "List of initialisation phases to execute", true);
-  parameters_.Bind<string>(PARAM_TIME_STEPS, &time_steps_, "List of time steps to execute");
-  parameters_.Bind<unsigned>(PARAM_PROJEECTION_FINAL_YEAR, &projection_final_year_, "The final year of the model in projection mode", 0);
+  parameters_.Bind<unsigned>(PARAM_START_YEAR, &start_year_, "The first year of the model", "");
+  parameters_.Bind<unsigned>(PARAM_FINAL_YEAR, &final_year_, "The last year of the model", "");
+  parameters_.Bind<unsigned>(PARAM_MIN_AGE, &min_age_, "The default minimum age for the population", "");
+  parameters_.Bind<unsigned>(PARAM_MAX_AGE, &max_age_, "The default maximum age for the population", "");
+  parameters_.Bind<bool>(PARAM_AGE_PLUS, &age_plus_, "True if the model supports an age-plus group", "", false);
+  parameters_.Bind<string>(PARAM_INITIALISATION_PHASES, &initialisation_phases_, "List of initialisation phases to execute", "", true);
+  parameters_.Bind<string>(PARAM_TIME_STEPS, &time_steps_, "List of time steps to execute", "");
+  parameters_.Bind<unsigned>(PARAM_PROJEECTION_FINAL_YEAR, &projection_final_year_, "The final year of the model in projection mode", "", 0);
 }
 
 /**

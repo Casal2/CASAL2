@@ -1,4 +1,4 @@
-
+{
 @report state-1
 type partition
 time_step one
@@ -27,4 +27,8 @@ observation chatCPUE
 @report chatTANage1992
 type observation
 observation chatTANage1992
+}
 
+@report sim
+type simulated_observation
+observation chatTANage1992

@@ -33,7 +33,7 @@ namespace isam {
  *
  */
 template<typename T>
-void ParameterList::Bind(const string& label, T* target, const string& description) {
+void ParameterList::Bind(const string& label, T* target, const string& description, const string& values) {
   boost::shared_ptr<Bindable<T> > parameter = boost::shared_ptr<Bindable<T> >(new Bindable<T>(label, target, description));
   parameters_[label] = parameter;
 }
@@ -42,7 +42,7 @@ void ParameterList::Bind(const string& label, T* target, const string& descripti
  *
  */
 template<typename T>
-void ParameterList::Bind(const string& label, T* target, const string& description, T default_value) {
+void ParameterList::Bind(const string& label, T* target, const string& description, const string& values, T default_value) {
   boost::shared_ptr<Bindable<T> > parameter = boost::shared_ptr<Bindable<T> >(new Bindable<T>(label, target, description));
   parameter->set_is_optional(true);
   parameter->AddDefaultValue(isam::utilities::ToInline<T, string>(default_value));
@@ -53,7 +53,7 @@ void ParameterList::Bind(const string& label, T* target, const string& descripti
  *
  */
 template<typename T>
-void ParameterList::Bind(const string& label, vector<T>* target, const string& description, bool optional) {
+void ParameterList::Bind(const string& label, vector<T>* target, const string& description, const string& values, bool optional) {
   boost::shared_ptr<BindableVector<T> > parameter = boost::shared_ptr<BindableVector<T> >(new BindableVector<T>(label, target, description));
   parameter->set_is_optional(optional);
   parameters_[label] = parameter;

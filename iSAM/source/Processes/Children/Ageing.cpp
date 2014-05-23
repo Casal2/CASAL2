@@ -28,7 +28,7 @@ Ageing::Ageing() {
 
   description_ = "This process will age the population by 1 every time it is executed";
 
-  parameters_.Bind<string>(PARAM_CATEGORIES, &category_names_, "Categories");
+  parameters_.Bind<string>(PARAM_CATEGORIES, &category_names_, "Categories", "");
 }
 
 /**

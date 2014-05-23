@@ -25,8 +25,8 @@ namespace isam {
 TimeStep::TimeStep() {
   LOG_TRACE();
 
-  parameters_.Bind<string>(PARAM_LABEL, &label_, "Label");
-  parameters_.Bind<string>(PARAM_PROCESSES, &process_names_, "Processes");
+  parameters_.Bind<string>(PARAM_LABEL, &label_, "Label", "");
+  parameters_.Bind<string>(PARAM_PROCESSES, &process_names_, "Processes", "");
 }
 
 /**

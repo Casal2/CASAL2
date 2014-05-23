@@ -24,8 +24,8 @@ namespace isam {
 Selectivity::Selectivity(ModelPtr model)
 : model_(model) {
 
-  parameters_.Bind<string>(PARAM_LABEL, &label_, "Label");
-  parameters_.Bind<string>(PARAM_TYPE, &type_, "Type");
+  parameters_.Bind<string>(PARAM_LABEL, &label_, "Label", "");
+  parameters_.Bind<string>(PARAM_TYPE, &type_, "Type", "");
 }
 
 /**

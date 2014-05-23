@@ -31,16 +31,16 @@ namespace dc = isam::utilities::doublecompare;
 RecruitmentBevertonHolt::RecruitmentBevertonHolt() {
   LOG_TRACE();
 
-  parameters_.Bind<string>(PARAM_CATEGORIES, &category_labels_, "Category labels");
-  parameters_.Bind<double>(PARAM_R0, &r0_, "R0");
-  parameters_.Bind<double>(PARAM_PROPORTIONS, &proportions_, "Proportions");
-  parameters_.Bind<unsigned>(PARAM_AGE, &age_, "Age to recruit at", true);
-  parameters_.Bind<double>(PARAM_STEEPNESS, &steepness_, "Steepness", 1.0);
-  parameters_.Bind<string>(PARAM_SSB, &ssb_, "SSB Label (derived quantity)");
-  parameters_.Bind<string>(PARAM_B0, &phase_b0_label_, "B0 Label", "");
-  parameters_.Bind<unsigned>(PARAM_SSB_OFFSET, &ssb_offset_, "SSB Offset (year offset)");
-  parameters_.Bind<double>(PARAM_YCS_VALUES, &ycs_values_, "YCS Values");
-  parameters_.Bind<unsigned>(PARAM_STANDARDISE_YCS_YEARS, &standardise_ycs_, "", true);
+  parameters_.Bind<string>(PARAM_CATEGORIES, &category_labels_, "Category labels", "");
+  parameters_.Bind<double>(PARAM_R0, &r0_, "R0", "");
+  parameters_.Bind<double>(PARAM_PROPORTIONS, &proportions_, "Proportions", "");
+  parameters_.Bind<unsigned>(PARAM_AGE, &age_, "Age to recruit at", "", true);
+  parameters_.Bind<double>(PARAM_STEEPNESS, &steepness_, "Steepness", "", 1.0);
+  parameters_.Bind<string>(PARAM_SSB, &ssb_, "SSB Label (derived quantity)", "");
+  parameters_.Bind<string>(PARAM_B0, &phase_b0_label_, "B0 Label", "", "");
+  parameters_.Bind<unsigned>(PARAM_SSB_OFFSET, &ssb_offset_, "SSB Offset (year offset)", "");
+  parameters_.Bind<double>(PARAM_YCS_VALUES, &ycs_values_, "YCS Values", "");
+  parameters_.Bind<unsigned>(PARAM_STANDARDISE_YCS_YEARS, &standardise_ycs_, "", "", true);
 
   RegisterAsEstimable(PARAM_R0, &r0_);
   RegisterAsEstimable(PARAM_STEEPNESS, &steepness_);
