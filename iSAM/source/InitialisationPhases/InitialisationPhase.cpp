@@ -26,10 +26,10 @@ namespace isam {
 InitialisationPhase::InitialisationPhase() {
   LOG_TRACE();
 
-  parameters_.Bind<string>(PARAM_LABEL, &label_, "Label");
-  parameters_.Bind<string>(PARAM_PROCESSES, &process_labels_, "A list of processes to execute during this phase", true);
-  parameters_.Bind<string>(PARAM_TIME_STEPS, &time_step_labels_, "A list of time steps to execute during this phase", true);
-  parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "The number of iterations to execute this phase for");
+  parameters_.Bind<string>(PARAM_LABEL, &label_, "Label", "");
+  parameters_.Bind<string>(PARAM_PROCESSES, &process_labels_, "A list of processes to execute during this phase", "", true);
+  parameters_.Bind<string>(PARAM_TIME_STEPS, &time_step_labels_, "A list of time steps to execute during this phase", "", true);
+  parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "The number of iterations to execute this phase for", "");
 }
 
 /**

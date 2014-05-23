@@ -21,8 +21,8 @@ namespace estimates {
  * Default constructor
  */
 NormalByStdev::NormalByStdev() {
-  parameters_.Bind<double>(PARAM_MU, &mu_, "Mu");
-  parameters_.Bind<double>(PARAM_SIGMA, &sigma_, "Sigma");
+  parameters_.Bind<double>(PARAM_MU, &mu_, "Mu", "");
+  parameters_.Bind<double>(PARAM_SIGMA, &sigma_, "Sigma", "");
 }
 
 /**

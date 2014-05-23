@@ -32,9 +32,9 @@ AllValuesBounded::AllValuesBounded()
 AllValuesBounded::AllValuesBounded(ModelPtr model)
 
 : Selectivity(model) {
-  parameters_.Bind<unsigned>(PARAM_L, &low_, "L");
-  parameters_.Bind<unsigned>(PARAM_H, &high_, "H");
-  parameters_.Bind<double>(PARAM_V, &v_, "V");
+  parameters_.Bind<unsigned>(PARAM_L, &low_, "L", "");
+  parameters_.Bind<unsigned>(PARAM_H, &high_, "H", "");
+  parameters_.Bind<double>(PARAM_V, &v_, "V", "");
 }
 
 /**

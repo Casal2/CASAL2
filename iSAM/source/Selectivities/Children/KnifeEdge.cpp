@@ -30,8 +30,8 @@ KnifeEdge::KnifeEdge()
 KnifeEdge::KnifeEdge(ModelPtr model)
 : Selectivity(model) {
 
-  parameters_.Bind<double>(PARAM_E, &edge_, "Edge");
-  parameters_.Bind<double>(PARAM_ALPHA, &alpha_, "Alpha", 1.0);
+  parameters_.Bind<double>(PARAM_E, &edge_, "Edge", "");
+  parameters_.Bind<double>(PARAM_ALPHA, &alpha_, "Alpha", "", 1.0);
 
   RegisterAsEstimable(PARAM_ALPHA, &alpha_);
   RegisterAsEstimable(PARAM_E, &edge_);

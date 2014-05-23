@@ -25,7 +25,7 @@ SimulatedObservation::SimulatedObservation() {
   model_state_ = State::kIterationComplete;
   skip_end_tag_ = true;
 
-  parameters_.Bind<string>(PARAM_OBSERVATION, &observation_label_, "Observation label");
+  parameters_.Bind<string>(PARAM_OBSERVATION, &observation_label_, "Observation label", "");
 }
 
 /**

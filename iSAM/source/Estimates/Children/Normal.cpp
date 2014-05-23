@@ -21,8 +21,8 @@ namespace estimates {
  * Default constructor
  */
 Normal::Normal() {
-  parameters_.Bind<double>(PARAM_MU, &mu_, "Mu");
-  parameters_.Bind<double>(PARAM_CV, &cv_, "Cv");
+  parameters_.Bind<double>(PARAM_MU, &mu_, "Mu", "");
+  parameters_.Bind<double>(PARAM_CV, &cv_, "Cv", "");
 }
 
 /**

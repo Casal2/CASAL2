@@ -29,16 +29,16 @@ namespace observations {
  * Default constructor
  */
 ProportionsAtAge::ProportionsAtAge() {
-  parameters_.Bind<unsigned>(PARAM_MIN_AGE, &min_age_, "Minimum age");
-  parameters_.Bind<unsigned>(PARAM_MAX_AGE, &max_age_, "Maximum age");
-  parameters_.Bind<bool>(PARAM_AGE_PLUS, &age_plus_, "Use age plus group", true);
-  parameters_.Bind<double>(PARAM_TOLERANCE, &tolerance_, "Tolerance", 0.001);
-  parameters_.Bind<unsigned>(PARAM_YEAR, &year_, "Year to execute in");
-  parameters_.Bind<string>(PARAM_OBS, &obs_, "Observation values");
-  parameters_.Bind<double>(PARAM_ERROR_VALUE, &error_values_, "Error values");
-  parameters_.Bind<double>(PARAM_DELTA, &delta_, "Delta", DELTA);
-  parameters_.Bind<double>(PARAM_PROCESS_ERROR, &process_error_, "Process error", 0.0);
-  parameters_.Bind<string>(PARAM_AGEING_ERROR, &ageing_error_label_, "Label of ageing error to use", "");
+  parameters_.Bind<unsigned>(PARAM_MIN_AGE, &min_age_, "Minimum age", "");
+  parameters_.Bind<unsigned>(PARAM_MAX_AGE, &max_age_, "Maximum age", "");
+  parameters_.Bind<bool>(PARAM_AGE_PLUS, &age_plus_, "Use age plus group", "", true);
+  parameters_.Bind<double>(PARAM_TOLERANCE, &tolerance_, "Tolerance", "", 0.001);
+  parameters_.Bind<unsigned>(PARAM_YEAR, &year_, "Year to execute in", "");
+  parameters_.Bind<string>(PARAM_OBS, &obs_, "Observation values", "");
+  parameters_.Bind<double>(PARAM_ERROR_VALUE, &error_values_, "Error values", "");
+  parameters_.Bind<double>(PARAM_DELTA, &delta_, "Delta", "", DELTA);
+  parameters_.Bind<double>(PARAM_PROCESS_ERROR, &process_error_, "Process error", "", 0.0);
+  parameters_.Bind<string>(PARAM_AGEING_ERROR, &ageing_error_label_, "Label of ageing error to use", "", "");
 }
 
 /**

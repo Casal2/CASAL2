@@ -19,8 +19,8 @@ namespace sizeweights {
  * default constructor
  */
 Basic::Basic() {
-  parameters_.Bind<double>(PARAM_A, &a_, "A");
-  parameters_.Bind<double>(PARAM_B, &b_, "B");
+  parameters_.Bind<double>(PARAM_A, &a_, "A", "");
+  parameters_.Bind<double>(PARAM_B, &b_, "B", "");
 }
 
 /**

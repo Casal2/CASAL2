@@ -26,10 +26,10 @@ namespace processes {
 MaturationRate::MaturationRate() {
   LOG_TRACE();
 
-  parameters_.Bind<string>(PARAM_FROM, &from_category_names_, "From");
-  parameters_.Bind<string>(PARAM_TO, &to_category_names_, "To");
-  parameters_.Bind<double>(PARAM_PROPORTIONS, &proportions_, "Proportions");
-  parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_names_, "Selectivity names");
+  parameters_.Bind<string>(PARAM_FROM, &from_category_names_, "From", "");
+  parameters_.Bind<string>(PARAM_TO, &to_category_names_, "To", "");
+  parameters_.Bind<double>(PARAM_PROPORTIONS, &proportions_, "Proportions", "");
+  parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_names_, "Selectivity names", "");
 }
 
 /**

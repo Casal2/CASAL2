@@ -10,6 +10,7 @@ sys.path.insert(0, "buildtools/classes")
 from System import *
 from Globals import *
 from Builder import *
+from Documentation import *
 
 """
 Print the usage for this build system
@@ -63,7 +64,7 @@ def start():
   build_target = ""
   build_parameters = ""
   
-  allowed_build_targets = [ "debug", "release", "thirdparty", "test", "all", "clean", "cleanall", "help" ]
+  allowed_build_targets = [ "debug", "release", "thirdparty", "test", "all", "clean", "cleanall", "documentation", "help" ]
  
   if not len(sys.argv) > 1:  
     os.system( [ 'clear', 'cls' ][ os.name == 'nt' ] )
@@ -138,8 +139,15 @@ def start():
     print "--> Starting " + Globals.build_target_ + " Build"
     code_builder = ThirdPartyLibraries()
     if not code_builder.start():
-      return False      
-      
+      return False
+  elif build_target == "documentation":
+    os.system( [ 'clear', 'cls' ][ os.name == 'nt' ] )
+    print "*************************************************************************"
+    print "*************************************************************************"
+    print "--> Starting " + Globals.build_target_ + " Build"
+    documentation_builder = Documentation()
+    documentation_builder.start()
+    
 """
 This is the entry point in to our build system
 """

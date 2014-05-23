@@ -29,15 +29,15 @@ namespace isam {
  * Default Constructor
  */
 Observation::Observation() {
-  parameters_.Bind<string>(PARAM_LABEL, &label_, "Label");
-  parameters_.Bind<string>(PARAM_TYPE, &type_, "Type of observation");
-  parameters_.Bind<string>(PARAM_TIME_STEP, &time_step_label_, "Time step to execute in");
-  parameters_.Bind<string>(PARAM_LIKELIHOOD, &likelihood_type_, "Type of likelihood to use");
-  parameters_.Bind<double>(PARAM_TIME_STEP_PROPORTION, &time_step_proportion_, "Proportion through the time step to analyse the partition from", 1.0);
-  parameters_.Bind<string>(PARAM_TIME_STEP_PROPORTION_METHOD, &time_step_proportion_method_, "Method of proportioning to use", PARAM_MEAN);
-  parameters_.Bind<string>(PARAM_CATEGORIES, &category_labels_, "Category labels to use", true);
-  parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_labels_, "Selectivity labels to use", true);
-  parameters_.Bind<string>(PARAM_SIMULATION_LIKELIHOOD, &simulation_likelihood_label_, "Simulation likelihood to use", "");
+  parameters_.Bind<string>(PARAM_LABEL, &label_, "Label", "");
+  parameters_.Bind<string>(PARAM_TYPE, &type_, "Type of observation", "");
+  parameters_.Bind<string>(PARAM_TIME_STEP, &time_step_label_, "Time step to execute in", "");
+  parameters_.Bind<string>(PARAM_LIKELIHOOD, &likelihood_type_, "Type of likelihood to use", "");
+  parameters_.Bind<double>(PARAM_TIME_STEP_PROPORTION, &time_step_proportion_, "Proportion through the time step to analyse the partition from", "", 1.0);
+  parameters_.Bind<string>(PARAM_TIME_STEP_PROPORTION_METHOD, &time_step_proportion_method_, "Method of proportioning to use", "", PARAM_MEAN);
+  parameters_.Bind<string>(PARAM_CATEGORIES, &category_labels_, "Category labels to use", "", true);
+  parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_labels_, "Selectivity labels to use", "", true);
+  parameters_.Bind<string>(PARAM_SIMULATION_LIKELIHOOD, &simulation_likelihood_label_, "Simulation likelihood to use", "", "");
 
   mean_proportion_method_ = true;
 }

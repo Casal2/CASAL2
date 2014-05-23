@@ -20,12 +20,12 @@ namespace isam {
 DerivedQuantity::DerivedQuantity() {
   LOG_TRACE();
 
-  parameters_.Bind<string>(PARAM_LABEL, &label_, "Label");
-  parameters_.Bind<string>(PARAM_TYPE, &type_, "Type");
-  parameters_.Bind<string>(PARAM_TIME_STEP, &time_step_label_, "The time step to calculate the derived quantity after");
-  parameters_.Bind<string>(PARAM_INITIALISATION_TIME_STEPS, &initialisation_time_step_labels_, "The initialisation time steps to calculate the derived quantity after", true);
-  parameters_.Bind<string>(PARAM_CATEGORIES, &category_labels_, "The list of categories to use when calculating the derived quantity");
-  parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_labels_, "The list of selectivities to use when calculating the derived quantity. 1 per category");
+  parameters_.Bind<string>(PARAM_LABEL, &label_, "Label", "");
+  parameters_.Bind<string>(PARAM_TYPE, &type_, "Type", "");
+  parameters_.Bind<string>(PARAM_TIME_STEP, &time_step_label_, "The time step to calculate the derived quantity after", "");
+  parameters_.Bind<string>(PARAM_INITIALISATION_TIME_STEPS, &initialisation_time_step_labels_, "The initialisation time steps to calculate the derived quantity after", "", true);
+  parameters_.Bind<string>(PARAM_CATEGORIES, &category_labels_, "The list of categories to use when calculating the derived quantity", "");
+  parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_labels_, "The list of selectivities to use when calculating the derived quantity. 1 per category", "");
 
   model_ = Model::Instance();
 }

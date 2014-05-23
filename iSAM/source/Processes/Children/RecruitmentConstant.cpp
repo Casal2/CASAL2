@@ -27,10 +27,10 @@ using isam::partition::accessors::CategoriesWithAge;
  * Default Constructor
  */
 RecruitmentConstant::RecruitmentConstant() {
-  parameters_.Bind<string>(PARAM_CATEGORIES, &category_names_, "Categories");
-  parameters_.Bind<double>(PARAM_PROPORTIONS, &proportions_, "Proportions", true);
-  parameters_.Bind<unsigned>(PARAM_AGE, &age_, "Age");
-  parameters_.Bind<double>(PARAM_R0, &r0_, "R0");
+  parameters_.Bind<string>(PARAM_CATEGORIES, &category_names_, "Categories", "");
+  parameters_.Bind<double>(PARAM_PROPORTIONS, &proportions_, "Proportions", "", true);
+  parameters_.Bind<unsigned>(PARAM_AGE, &age_, "Age", "");
+  parameters_.Bind<double>(PARAM_R0, &r0_, "R0", "");
 
   RegisterAsEstimable(PARAM_R0, &r0_);
 }

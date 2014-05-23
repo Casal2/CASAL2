@@ -22,11 +22,11 @@ namespace processes {
  * default constructor
  */
 Maturation::Maturation() {
-  parameters_.Bind<string>(PARAM_FROM, &from_category_names_, "List of categories to mature from");
-  parameters_.Bind<string>(PARAM_TO, &to_category_names_, "List of categories to mature too");
-  parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_names_, "List of selectivities to use for maturation");
-  parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "The years to be associated with rates");
-  parameters_.Bind<double>(PARAM_RATES, &rates_, "The rates to mature for each year");
+  parameters_.Bind<string>(PARAM_FROM, &from_category_names_, "List of categories to mature from", "");
+  parameters_.Bind<string>(PARAM_TO, &to_category_names_, "List of categories to mature too", "");
+  parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_names_, "List of selectivities to use for maturation", "");
+  parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "The years to be associated with rates", "");
+  parameters_.Bind<double>(PARAM_RATES, &rates_, "The rates to mature for each year", "");
 
   model_ = Model::Instance();
 }

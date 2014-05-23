@@ -26,7 +26,7 @@ Observation::Observation() {
   model_state_ = State::kPostExecute;
   run_mode_    = RunMode::kBasic;
 
-  parameters_.Bind<string>(PARAM_OBSERVATION, &observation_label_, "Observation label");
+  parameters_.Bind<string>(PARAM_OBSERVATION, &observation_label_, "Observation label", "");
 }
 
 /**

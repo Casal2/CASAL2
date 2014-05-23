@@ -33,10 +33,10 @@ DoubleNormal::DoubleNormal()
  */
 DoubleNormal::DoubleNormal(ModelPtr model)
 : Selectivity(model) {
-  parameters_.Bind<double>(PARAM_MU, &mu_, "Mu");
-  parameters_.Bind<double>(PARAM_SIGMA_L, &sigma_l_, "Sigma L");
-  parameters_.Bind<double>(PARAM_SIGMA_R, &sigma_r_, "Sigma R");
-  parameters_.Bind<double>(PARAM_ALPHA, &alpha_, "Alpha", 1.0);
+  parameters_.Bind<double>(PARAM_MU, &mu_, "Mu", "");
+  parameters_.Bind<double>(PARAM_SIGMA_L, &sigma_l_, "Sigma L", "");
+  parameters_.Bind<double>(PARAM_SIGMA_R, &sigma_r_, "Sigma R", "");
+  parameters_.Bind<double>(PARAM_ALPHA, &alpha_, "Alpha", "", 1.0);
 
   RegisterAsEstimable(PARAM_MU, &mu_);
   RegisterAsEstimable(PARAM_SIGMA_L, &sigma_l_);

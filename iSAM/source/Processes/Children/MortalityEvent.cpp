@@ -25,12 +25,12 @@ namespace processes {
  * Default Constructor
  */
 MortalityEvent::MortalityEvent() {
-  parameters_.Bind<string>(PARAM_CATEGORIES, &category_names_, "Categories");
-  parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "Years");
-  parameters_.Bind<double>(PARAM_CATCHES, &catches_, "Catches");
-  parameters_.Bind<double>(PARAM_U_MAX, &u_max_, "U Max", 0.99);
-  parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_names_, "List of selectivities");
-  parameters_.Bind<string>(PARAM_PENALTY, &penalty_name_, "Penalty label", "");
+  parameters_.Bind<string>(PARAM_CATEGORIES, &category_names_, "Categories", "");
+  parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "Years", "");
+  parameters_.Bind<double>(PARAM_CATCHES, &catches_, "Catches", "");
+  parameters_.Bind<double>(PARAM_U_MAX, &u_max_, "U Max", "", 0.99);
+  parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_names_, "List of selectivities", "");
+  parameters_.Bind<string>(PARAM_PENALTY, &penalty_name_, "Penalty label", "", "");
 
   RegisterAsEstimable(PARAM_U_MAX, &u_max_);
 
