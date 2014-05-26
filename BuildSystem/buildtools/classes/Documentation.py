@@ -37,7 +37,7 @@ class Documentation:
                                  
     def start(self):
         self.load_translations()
-        folder_list = [ 'Observations', 'Processes' ]        
+        folder_list = [ 'Observations', 'Processes', 'SizeWeights' ]        
         for folder in folder_list:
             self.clean_variables()            
             file_list = os.listdir('../iSAM/source/' + folder + '/')
@@ -83,7 +83,7 @@ class Documentation:
 
             lookup = temp[1]
             value = pieces[1]
-            self.translations_[lookup] = value           
+            self.translations_[lookup] = value.replace('_', '\_')         
         
     def load_variables(self, class_name, header_file):
         print '--> Loading variables: ' + header_file
@@ -170,7 +170,8 @@ class Documentation:
         source_file = header_file.replace('.h', '.cpp')
         print '--> Printing parent latex from ' + source_file + ' to ' + self.current_output_file_
 
-        class_name = self.parent_file_.replace('.h', '').lower()
+        class_name = self.parent_file_.replace('.h', '')
+        class_name = re.sub( '(?<!^)(?=[A-Z])', '\_', class_name).lower()
 
         if not os.path.exists('Documentation/'):
             os.makedirs('Documentation/')
@@ -197,7 +198,7 @@ class Documentation:
         print '--> Printing parent latex from ' + source_file + ' to ' + self.current_output_file_
 
         object_name = re.sub( '(?<!^)(?=[A-Z])', ' ', class_name)
-        class_name = re.sub( '(?<!^)(?=[A-Z])', '_', class_name).lower()
+        class_name = re.sub( '(?<!^)(?=[A-Z])', '\_', class_name).lower()
         file = open(self.current_output_file_, 'a')
         file.write('\subsubsection[' + object_name + ']{\\commandlabsubarg{' + self.parent_class_.lower() + '}{type}{' + class_name + '}}\n')
         file.write('\n')
