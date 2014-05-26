@@ -37,7 +37,10 @@ class Documentation:
                                  
     def start(self):
         self.load_translations()
-        folder_list = [ 'Observations', 'Processes', 'SizeWeights' ]        
+        folder_list = [ 'AgeingErrors', 'AgeSizes', 'Catchabilities', 'DerivedQuantities',
+                        'Estimates', 'InitialisationPhases', 'Likelihoods', 'MCMC', 'Minimisers',
+                        'Model', 'Observations', 'Penalties', 'Processes', 'Profiles', 'Reports',
+                        'Selectivities', 'SizeWeights', 'TimeSteps']        
         for folder in folder_list:
             self.clean_variables()            
             file_list = os.listdir('../iSAM/source/' + folder + '/')
@@ -51,15 +54,16 @@ class Documentation:
                     self.print_parent('../iSAM/source/' + folder + '/' + self.parent_file_)
                     self.clean_variables()
                     break
-            
-            file_list = os.listdir('../iSAM/source/' + folder + '/Children/')
-            for file in file_list:
-                if (file.endswith(".h")):
-                    print '--> Child File: ' + file
-                    class_name = file.replace('.h', '')
-                    self.load_variables(class_name, '../iSAM/source/' + folder + '/Children/' + file)
-                    self.print_child(file.replace('.h', ''), '../iSAM/source/' + folder + '/Children/' + file)
-                    self.clean_variables()
+
+            if os.path.exists('../iSAM/source/' + folder + '/Children'):
+                file_list = os.listdir('../iSAM/source/' + folder + '/Children/')
+                for file in file_list:
+                    if (file.endswith(".h")):
+                        print '--> Child File: ' + file
+                        class_name = file.replace('.h', '')
+                        self.load_variables(class_name, '../iSAM/source/' + folder + '/Children/' + file)
+                        self.print_child(file.replace('.h', ''), '../iSAM/source/' + folder + '/Children/' + file)
+                        self.clean_variables()
 
     def load_translations(self):
         print '--> Loading translations'
