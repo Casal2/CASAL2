@@ -11,6 +11,15 @@ def doBuild():
   boostFileName = 'boost_1_53_0'
   targetPath      = Globals.target_path_
 
+  # Figure out GCC version
+  pieces = Globals.compiler_version_.split('.')
+  if len(pieces) != 3:
+    print '#ERROR# Could not interpret GCC Version properly: ' + Globals.compiler_version_
+    return False
+  
+  gcc_version = str(pieces[0]) + str(pieces[1])
+  print '--> GCC Version for Boost: ' + gcc_version
+
   # Clean our any existing files if they already exist
   print '-- Cleaning Boost files'
   if os.path.exists(boostFileName):
@@ -39,9 +48,9 @@ def doBuild():
   # Move our headers and libraries
   print '-- Moving headers and libraries to ' + targetPath
   dir_util.copy_tree('boost', targetPath + '/include/boost')
-  shutil.copy('stage/lib/libboost_program_options-mgw47-mt-s-1_53.a', targetPath + "/lib/")
-  shutil.copy('stage/lib/libboost_system-mgw47-mt-s-1_53.a', targetPath + "/lib/")
-  shutil.copy('stage/lib/libboost_thread-mgw47-mt-s-1_53.a', targetPath + "/lib/")
+  shutil.copy('stage/lib/libboost_program_options-mgw'+gcc_version+'-mt-s-1_53.a', targetPath + "/lib/")
+  shutil.copy('stage/lib/libboost_system-mgw'+gcc_version+'-mt-s-1_53.a', targetPath + "/lib/")
+  shutil.copy('stage/lib/libboost_thread-mgw'+gcc_version+'-mt-s-1_53.a', targetPath + "/lib/")
   
   os.system('touch ' + targetPath + '/boost.success')
   return True

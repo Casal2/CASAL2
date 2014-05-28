@@ -5,6 +5,7 @@ using throughout the build system
 operating_system_ = ""
 path_             = ""
 compiler_path_    = ""
+compiler_version_ = ""
 cmd_path_         = ""
 build_target_     = ""
 build_parameters_ = ""
