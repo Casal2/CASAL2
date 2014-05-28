@@ -3,6 +3,7 @@ import sys
 import os.path
 import subprocess
 import fileinput
+import re
 import Globals # Global Variables for build system
 
 EX_OK = getattr(os, "EX_OK", 0)
@@ -66,7 +67,25 @@ class SystemInfo:
       return False
     
     return True
+  
+  """
+  This method will find the GCC Version
+  """
+  def find_gcc_version(self):
+    p = subprocess.Popen(["g++", "--version"], stdout=subprocess.PIPE)
+    out, err = p.communicate()
+    lines = out.split('\n')
+    pieces = lines[0].split()
+    if len(pieces) != 3:
+      print '## ERROR: STD out did not return correct GCC Version format (' + str(len(pieces)) + ': ' + lines[0]
+      return False
+
+
+    Globals.compiler_version_ = pieces[2].lstrip().rstrip()
+    print '--> Compiler Version: ' + Globals.compiler_version_
     
+    return True
+  
   """
   This method will find the path of cmd.exe so we can use it to call
   methods that we require
