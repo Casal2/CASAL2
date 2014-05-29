@@ -175,13 +175,14 @@ class Documentation:
         print '--> Printing parent latex from ' + source_file + ' to ' + self.current_output_file_
 
         class_name = self.parent_file_.replace('.h', '')
-        class_name = re.sub( '(?<!^)(?=[A-Z])', '\_', class_name).lower()
+        if class_name != 'MCMC':
+            class_name = re.sub( '(?<!^)(?=[A-Z])', '\_', class_name)
 
         if not os.path.exists('Documentation/'):
             os.makedirs('Documentation/')
         
         file = open(self.current_output_file_, 'w')
-        file.write('\defComLab{' + class_name + '}{Define an object type ' + class_name + '}\n')
+        file.write('\defComLab{' + class_name.lower() + '}{Define an object type ' + class_name + '}\n')
         file.write('\n')
 
         for name in self.variable_label_:
@@ -203,8 +204,9 @@ class Documentation:
 
         object_name = re.sub( '(?<!^)(?=[A-Z])', ' ', class_name)
         class_name = re.sub( '(?<!^)(?=[A-Z])', '\_', class_name).lower()
+        parent_class = re.sub( '(?<!^)(?=[A-Z])', '\_', self.parent_class_).lower()
         file = open(self.current_output_file_, 'a')
-        file.write('\subsubsection[' + object_name + ']{\\commandlabsubarg{' + self.parent_class_.lower() + '}{type}{' + class_name + '}}\n')
+        file.write('\subsubsection[' + object_name + ']{\\commandlabsubarg{' + parent_class + '}{type}{' + class_name + '}}\n')
         file.write('\n')
 
         for name in self.variable_label_:
