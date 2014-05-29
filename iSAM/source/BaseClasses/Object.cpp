@@ -36,24 +36,29 @@ void Object::PrintDescription() const {
  * @param label The label of the estimable to check
  */
 bool Object::IsEstimableAVector(const string& label) const {
-  map<string, unsigned>::const_iterator iter = estimable_sizes_.find(label);
-  if (iter == estimable_sizes_.end()) {
-    LOG_CODE_ERROR("Unable to locate the label " << label << " in our estimable_sizes map");
-  }
+  if (estimable_vectors_.find(label) == estimable_vectors_.end())
+    return false;
 
-  return (iter->second > 1);
+  return true;
 }
 
 /**
+ * This method will return the number of values that have been registered as an
+ * estimable.
  *
+ * @param label The label of the registered parameter
+ * @return The amount of values registered as estimable
  */
 unsigned Object::GetEstimableSize(const string& label) const {
-  map<string, unsigned>::const_iterator iter = estimable_sizes_.find(label);
-  if (iter == estimable_sizes_.end()) {
-    LOG_CODE_ERROR("Unable to locate the label " << label << " in our estimable_sizes map");
-  }
+  if (estimable_vectors_.find(label) != estimable_vectors_.end())
+    return estimable_vectors_.find(label)->second->size();
+  if (estimable_maps_.find(label) != estimable_maps_.end())
+    return estimable_maps_.find(label)->second->size();
 
-  return iter->second;
+  if (estimables_.find(label) == estimables_.end())
+    LOG_CODE_ERROR("Unable to locate the label " << label << " in our estimables_ vector");
+
+  return 1u;
 }
 
 /**
@@ -80,7 +85,6 @@ Double* Object::GetEstimable(const string& label) {
  * @param variable The variable to register as an estimable
  */
 void Object::RegisterAsEstimable(const string& label, Double* variable) {
-  estimable_sizes_[label] = 1;
   estimables_[label]      = variable;
 }
 
@@ -93,12 +97,7 @@ void Object::RegisterAsEstimable(const string& label, Double* variable) {
  * @param variables Vector containing all the elements to register
  */
 void Object::RegisterAsEstimable(const string& label, vector<Double>& variables) {
-  estimable_sizes_[label] = variables.size();
-
-  for(unsigned i = 0; i < variables.size(); ++i) {
-    string new_label = label + "(" + utilities::ToInline<unsigned, string>(i + 1) + ")";
-    RegisterAsEstimable(new_label, &variables[i]);
-  }
+  estimable_vectors_[label] = &variables;
 }
 
 /**
@@ -111,12 +110,7 @@ void Object::RegisterAsEstimable(const string& label, vector<Double>& variables)
  * @param variables Map containing index and double values to store
  */
 void Object::RegisterAsEstimable(const string& label, map<string, Double>& variables) {
-  estimable_sizes_[label] = variables.size();
-
-  for (auto iterator = variables.begin(); iterator != variables.end(); ++iterator) {
-    string new_label = label + "(" + iterator->first + ")";
-    RegisterAsEstimable(new_label, &iterator->second);
-  }
+  estimable_maps_[label] = &variables;
 }
 
 /**

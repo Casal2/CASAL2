@@ -34,7 +34,6 @@ public:
   void                        Validate() override final;
   ProcessPtr                  GetProcess(const string& label);
   void                        Print();
-
 };
 
 } /* namespace processes */

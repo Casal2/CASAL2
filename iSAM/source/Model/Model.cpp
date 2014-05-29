@@ -31,6 +31,7 @@
 #include "Penalties/Manager.h"
 #include "Processes/Manager.h"
 #include "Profiles/Manager.h"
+#include "Projects/Manager.h"
 #include "Reports/Manager.h"
 #include "Selectivities/Manager.h"
 #include "SizeWeights/Manager.h"
@@ -56,7 +57,7 @@ Model::Model() {
   parameters_.Bind<bool>(PARAM_AGE_PLUS, &age_plus_, "True if the model supports an age-plus group", "", false);
   parameters_.Bind<string>(PARAM_INITIALISATION_PHASES, &initialisation_phases_, "List of initialisation phases to execute", "", true);
   parameters_.Bind<string>(PARAM_TIME_STEPS, &time_steps_, "List of time steps to execute", "");
-  parameters_.Bind<unsigned>(PARAM_PROJEECTION_FINAL_YEAR, &projection_final_year_, "The final year of the model in projection mode", "", 0);
+  parameters_.Bind<unsigned>(PARAM_PROJECTION_FINAL_YEAR, &projection_final_year_, "The final year of the model in projection mode", "", 0);
 }
 
 /**
@@ -124,6 +125,10 @@ void Model::Start(RunMode::Type run_mode) {
     RunSimulation();
     break;
 
+  case RunMode::kProjection:
+    RunProjection();
+    break;
+
   case RunMode::kTesting:
     break;
 
@@ -150,6 +155,13 @@ void Model::Validate() {
   if (min_age_ > max_age_)
     LOG_ERROR(parameters_.location(PARAM_MIN_AGE) << " (" << min_age_ << ") has been defined as greater than max_age (" << max_age_ << ")");
 
+  if (run_mode_ == RunMode::kProjection) {
+    if (projection_final_year_ <= start_year_ || projection_final_year_ <= final_year_) {
+      LOG_ERROR(parameters_.location(PARAM_PROJECTION_FINAL_YEAR) << "("
+          << projection_final_year_ << ") cannot be less than or equal to start_year (" << start_year_
+          << ") or final_year (" << final_year_ << ")");
+    }
+  }
 
   // Call validation for the other objects required by the model
   Categories::Instance()->Validate();
@@ -164,6 +176,7 @@ void Model::Validate() {
   penalties::Manager::Instance().Validate();
   processes::Manager::Instance().Validate();
   profiles::Manager::Instance().Validate();
+  projects::Manager::Instance().Validate();
   reports::Manager::Instance().Validate();
   selectivities::Manager::Instance().Validate();
   sizeweights::Manager::Instance().Validate();
@@ -208,6 +221,7 @@ void Model::Build() {
   penalties::Manager::Instance().Build();
   processes::Manager::Instance().Build();
   profiles::Manager::Instance().Build();
+  projects::Manager::Instance().Build();
   reports::Manager::Instance().Build();
   selectivities::Manager::Instance().Build();
   sizeweights::Manager::Instance().Build();
@@ -242,6 +256,7 @@ void Model::Reset() {
   penalties::Manager::Instance().Reset();
   processes::Manager::Instance().Reset();
   profiles::Manager::Instance().Reset();
+  projects::Manager::Instance().Reset();
   reports::Manager::Instance().Reset();
   selectivities::Manager::Instance().Reset();
   sizeweights::Manager::Instance().Reset();
@@ -373,6 +388,32 @@ void Model::RunSimulation() {
 
   LOG_INFO("Model: State change to Finalise")
   reports::Manager::Instance().Execute(State::kFinalise);
+}
+
+/**
+ *
+ */
+void Model::RunProjection() {
+  LOG_INFO("Entering the Projection Sub-System");
+
+  state_ = State::kInitialise;
+  current_year_ = start_year_;
+  initialisationphases::Manager& init_phase_manager = initialisationphases::Manager::Instance();
+  init_phase_manager.Execute();
+
+  state_ = State::kExecute;
+  timesteps::Manager& time_step_manager = timesteps::Manager::Instance();
+  for (current_year_ = start_year_; current_year_ <= final_year_; ++current_year_) {
+    LOG_INFO("Iteration year: " << current_year_);
+    time_step_manager.Execute(current_year_);
+  }
+  LOG_INFO("Starting projection years")
+  for (; current_year_ <= projection_final_year_; ++current_year_) {
+    LOG_INFO("Iteration year: " << current_year_);
+    time_step_manager.Execute(current_year_);
+  }
+
+  observations::Manager::Instance().CalculateScores();
 }
 
 /**

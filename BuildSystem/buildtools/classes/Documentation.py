@@ -193,7 +193,7 @@ class Documentation:
             else:
                 file.write('\\defDefault{' + self.variable_default_[name] + '}\n')
             if name in self.variable_value_ and self.variable_value_[name] != '':
-                file.write('\\defValue{' + self.variable_value_[name] + '}\n')
+                file.write('\\defValue{' + self.variable_value_[name].replace('_', '\_') + '}\n')
             file.write('\n')
         
         file.close()
@@ -204,21 +204,20 @@ class Documentation:
 
         object_name = re.sub( '(?<!^)(?=[A-Z])', ' ', class_name)
         class_name = re.sub( '(?<!^)(?=[A-Z])', '\_', class_name).lower()
-        class_name = class_name.replace('m\_c\_m\_c', 'mcmc')
         parent_class = re.sub( '(?<!^)(?=[A-Z])', '\_', self.parent_class_).lower()
         file = open(self.current_output_file_, 'a')
         file.write('\subsubsection[' + object_name + ']{\\commandlabsubarg{' + parent_class + '}{type}{' + class_name + '}}\n')
         file.write('\n')
 
         for name in self.variable_label_:
-            file.write('\\defSub{' + self.translations_[name] + '} {' + self.variable_description_[name].replace('_', '\_') + '}\n')
+            file.write('\\defSub{' + self.translations_[name] + '} {' + self.variable_description_[name] + '}\n')
             file.write('\\defType{' + self.variable_type_[name] + '}\n')
             if self.variable_default_[name].startswith('PARAM_'):
                 file.write('\\defDefault{' + self.translations_[self.variable_default_[name]] + '}\n')
             else:
                 file.write('\\defDefault{' + self.variable_default_[name] + '}\n')
             if name in self.variable_value_ and self.variable_value_[name] != '':
-                file.write('\\defValue{' + self.variable_value_[name] + '}\n')
+                file.write('\\defValue{' + self.variable_value_[name].replace('_', '\_') + '}\n')
             file.write('\n')
         
         file.close()

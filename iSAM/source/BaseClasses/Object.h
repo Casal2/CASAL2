@@ -68,13 +68,14 @@ protected:
   string                      location();
 
   // Members
-  string                      block_type_           = "";
-  string                      label_                = "";
-  string                      type_                 = "";
-  ParameterList               parameters_;
-  map<string, Double*>        estimables_;
-  map<string, unsigned>       estimable_sizes_;
-  string                      description_;
+  string                        block_type_           = "";
+  string                        label_                = "";
+  string                        type_                 = "";
+  ParameterList                 parameters_;
+  map<string, Double*>          estimables_;
+  map<string, vector<Double>* > estimable_vectors_;
+  map<string, map<string, Double>* > estimable_maps_;
+  string                        description_;
 
   DISALLOW_COPY_AND_ASSIGN(Object);
 };

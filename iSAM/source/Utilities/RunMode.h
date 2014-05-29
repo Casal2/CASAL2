@@ -20,7 +20,8 @@ enum Type {
   kMCMC         = 32,
   kSimulation   = 64,
   kProfiling    = 128,
-  kTesting      = 256
+  kProjection   = 256,
+  kTesting      = 4096
 };
 }
 
