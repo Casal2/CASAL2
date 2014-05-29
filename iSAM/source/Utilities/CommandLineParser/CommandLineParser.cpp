@@ -53,6 +53,7 @@ void CommandLineParser::Parse(int argc, const char* argv[]) {
     ("mcmc,m", "Markov Chain Monte Carlo run mode")
     ("profiling,p", "Profling run mode")
     ("simulation,s", value<unsigned>(), "Simulation mode (arg = number of candidates)")
+    ("projection,j", "Projection mode")
     ("input,i", value<string>(), "Load free parameter values from file")
     ("seed,g", value<int>(), "Random number seed")
     ("query,q", value<string>(), "Query an object type to see it's description and parameters")
@@ -113,6 +114,7 @@ void CommandLineParser::Parse(int argc, const char* argv[]) {
   run_mode_count += parameters.count("mcmc");
   run_mode_count += parameters.count("profiling");
   run_mode_count += parameters.count("simulation");
+  run_mode_count += parameters.count("projection");
 
   if (run_mode_count == 0)
     LOG_ERROR("No valid run mode has been specified on the command line. Please specify a valid run mode (e.g -r)");
@@ -130,7 +132,9 @@ void CommandLineParser::Parse(int argc, const char* argv[]) {
   else if (parameters.count("simulation")) {
     run_mode_ = RunMode::kSimulation;
     global_config->set_simulation_candidates(parameters["simulation"].as<unsigned>());
-  } else
+  } else if (parameters.count("projection"))
+    run_mode_ = RunMode::kProjection;
+  else
     LOG_ERROR("An invalid or unknown run mode has been specified on the command line.");
 
   /**

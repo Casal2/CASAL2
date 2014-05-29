@@ -8,7 +8,8 @@ import Globals
 def doBuild():
   
   # Variables
-  boostFileName = 'boost_1_53_0'
+  version         = 1.53
+  boostFileName   = 'boost_1_53_0'
   targetPath      = Globals.target_path_
 
   # Figure out GCC version
