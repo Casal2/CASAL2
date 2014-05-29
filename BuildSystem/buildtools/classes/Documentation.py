@@ -204,6 +204,7 @@ class Documentation:
 
         object_name = re.sub( '(?<!^)(?=[A-Z])', ' ', class_name)
         class_name = re.sub( '(?<!^)(?=[A-Z])', '\_', class_name).lower()
+        class_name = class_name.replace('m\_c\_m\_c', 'mcmc')
         parent_class = re.sub( '(?<!^)(?=[A-Z])', '\_', self.parent_class_).lower()
         file = open(self.current_output_file_, 'a')
         file.write('\subsubsection[' + object_name + ']{\\commandlabsubarg{' + parent_class + '}{type}{' + class_name + '}}\n')
