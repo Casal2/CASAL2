@@ -35,6 +35,8 @@ Increasing::Increasing(ModelPtr model)
   parameters_.Bind<unsigned>(PARAM_H, &high_, "High", "");
   parameters_.Bind<double>(PARAM_V, &v_, "V", "");
   parameters_.Bind<double>(PARAM_ALPHA, &alpha_, "Alpha", "", 1.0);
+
+  RegisterAsEstimable(PARAM_V, &v_);
 }
 
 /**
@@ -64,8 +66,6 @@ void Increasing::DoValidate() {
       LOG_ERROR(parameters_.location(PARAM_V) << " 'v' element " << i + 1 << " (" << AS_DOUBLE(v_[i]) << ") is not between 0.0 and 1.0");
     }
   }
-
-  RegisterAsEstimable(PARAM_V, v_);
 }
 
 /**

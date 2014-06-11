@@ -44,7 +44,7 @@ public:
 private:
   // Members
   ModelPtr                    model_;
-  accessor::CategoriesPtr     partition_;
+  accessor::Categories        partition_;
   vector<string>              category_names_;
 };
 

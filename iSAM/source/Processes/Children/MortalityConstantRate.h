@@ -48,7 +48,7 @@ private:
   vector<Double>              m_;
   vector<vector<Double> >     mortality_rates_;
   vector<string>              selectivity_names_;
-  accessor::CategoriesPtr     partition_;
+  accessor::Categories        partition_;
   vector<SelectivityPtr>      selectivities_;
 };
 

@@ -41,7 +41,7 @@ public:
 private:
   // members
   ModelPtr                    model_;
-  accessor::CategoriesPtr     partition_;
+  accessor::Categories        partition_;
   vector<string>              category_labels_;
   Double                      r0_;
   string                      phase_b0_label_;

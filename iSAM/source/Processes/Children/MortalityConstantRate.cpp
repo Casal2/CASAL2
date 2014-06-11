@@ -30,6 +30,8 @@ MortalityConstantRate::MortalityConstantRate() {
   parameters_.Bind<string>(PARAM_CATEGORIES, &category_names_, "List of categories", "");
   parameters_.Bind<double>(PARAM_M, &m_, "Mortality rates", "");
   parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_names_, "Selectivities", "");
+
+  RegisterAsEstimable(PARAM_M, &m_);
 }
 
 /**
@@ -71,8 +73,6 @@ void MortalityConstantRate::DoValidate() {
     if (!Categories::Instance()->IsValid(label))
       LOG_ERROR(parameters_.location(PARAM_CATEGORIES) << ": category " << label << " does not exist. Have you defined it?");
   }
-
-  RegisterAsEstimable(PARAM_M, m_);
 }
 
 /**
@@ -81,7 +81,7 @@ void MortalityConstantRate::DoValidate() {
  * - Build our list of selectivities
  */
 void MortalityConstantRate::DoBuild() {
-  partition_ = accessor::CategoriesPtr(new partition::accessors::Categories(category_names_));
+  partition_.Init(category_names_);
 
   for (string label : selectivity_names_) {
     SelectivityPtr selectivity = selectivities::Manager::Instance().GetSelectivity(label);
@@ -97,25 +97,38 @@ void MortalityConstantRate::DoBuild() {
  */
 void MortalityConstantRate::Execute() {
 
-  if (mortality_rates_.size() == 0) {
-    auto iter = partition_->Begin();
-    mortality_rates_.resize(category_names_.size());
-    for (unsigned i = 0; iter != partition_->End(); ++iter, ++i) {
-      unsigned min_age = (*iter)->min_age_;
-      Double m = m_.size() > 1 ? m_[i] : m_[0];
+  unsigned i = 0;
+  for (auto category : partition_) {
+    Double m = m_.size() > 1 ? m_[i] : m_[0];
 
-      for (unsigned j = 0; j < (*iter)->data_.size(); ++j) {
-        mortality_rates_[i].push_back(1-exp(-selectivities_[i]->GetResult(min_age + j) * m));
-      }
+    unsigned j = 0;
+    for (Double& data : category->data_) {
+      data -= data * (1-exp(-selectivities_[i]->GetResult(category->min_age_ + j)  * m));
+      ++j;
     }
+
+    ++i;
   }
 
-  auto iterator = partition_->Begin();
-  for (unsigned i = 0; iterator != partition_->End(); ++iterator, ++i) {
-    for (unsigned j = 0; j < (*iterator)->data_.size(); ++j) {
-      (*iterator)->data_[j] -= (*iterator)->data_[j] * mortality_rates_[i][j];
-    }
-  }
+//  if (mortality_rates_.size() == 0) {
+//    auto iter = partition_.begin();
+//    mortality_rates_.resize(category_names_.size());
+//    for (unsigned i = 0; iter != partition_.end(); ++iter, ++i) {
+//      unsigned min_age = (*iter)->min_age_;
+//      Double m = m_.size() > 1 ? m_[i] : m_[0];
+//
+//      for (unsigned j = 0; j < (*iter)->data_.size(); ++j) {
+//        mortality_rates_[i].push_back(1-exp(-selectivities_[i]->GetResult(min_age + j) * m));
+//      }
+//    }
+//  }
+//
+//  auto iterator = partition_.begin();
+//  for (unsigned i = 0; iterator != partition_.end(); ++iterator, ++i) {
+//    for (unsigned j = 0; j < (*iterator)->data_.size(); ++j) {
+//      (*iterator)->data_[j] -= (*iterator)->data_[j] * mortality_rates_[i][j];
+//    }
+//  }
 }
 
 /**

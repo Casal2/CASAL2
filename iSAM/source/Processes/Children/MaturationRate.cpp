@@ -30,6 +30,8 @@ MaturationRate::MaturationRate() {
   parameters_.Bind<string>(PARAM_TO, &to_category_names_, "To", "");
   parameters_.Bind<double>(PARAM_PROPORTIONS, &proportions_, "Proportions", "");
   parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_names_, "Selectivity names", "");
+
+  RegisterAsEstimable(PARAM_PROPORTIONS, &proportions_);
 }
 
 /**
@@ -43,7 +45,6 @@ MaturationRate::MaturationRate() {
  * - Verify vector lengths are all the same
  * - Verify categories From->To have matching age ranges
  * - Check all proportions are between 0.0 and 1.0
-
  */
 void MaturationRate::DoValidate() {
   LOG_TRACE();
@@ -101,8 +102,6 @@ void MaturationRate::DoValidate() {
     if (proportion < 0.0 || proportion > 1.0)
       LOG_ERROR(parameters_.location(PARAM_PROPORTIONS) << ": proportion " << AS_DOUBLE(proportion) << " must be between 0.0 and 1.0 (inclusive)");
   }
-
-  RegisterAsEstimable(PARAM_PROPORTIONS, proportions_);
 }
 
 /**
@@ -114,8 +113,8 @@ void MaturationRate::DoValidate() {
 void MaturationRate::DoBuild() {
   LOG_TRACE();
 
-  from_partition_ = accessor::CategoriesPtr(new partition::accessors::Categories(from_category_names_));
-  to_partition_   = accessor::CategoriesPtr(new partition::accessors::Categories(to_category_names_));
+  from_partition_.Init(from_category_names_);
+  to_partition_.Init(to_category_names_);
 
   for(string label : selectivity_names_) {
     SelectivityPtr selectivity = selectivities::Manager::Instance().GetSelectivity(label);
@@ -129,12 +128,12 @@ void MaturationRate::DoBuild() {
  * Execute our maturation rate process.
  */
 void MaturationRate::Execute() {
-  auto from_iter     = from_partition_->Begin();
-  auto to_iter       = to_partition_->Begin();
+  auto from_iter     = from_partition_.begin();
+  auto to_iter       = to_partition_.begin();
   Double amount      = 0.0;
 
   if (maturation_rates_.size() == 0) {
-    maturation_rates_.resize(from_partition_->Size());
+    maturation_rates_.resize(from_partition_.size());
     for (unsigned i = 0; i < maturation_rates_.size(); ++i) {
       Double proportion = proportions_.size() > 1 ? proportions_[i] : proportions_[0];
       unsigned min_age   = (*from_iter)->min_age_;
@@ -144,7 +143,7 @@ void MaturationRate::Execute() {
     }
   }
 
-  for (unsigned i = 0; from_iter != from_partition_->End() && to_iter != to_partition_->End(); ++from_iter, ++to_iter, ++i) {
+  for (unsigned i = 0; from_iter != from_partition_.end() && to_iter != to_partition_.end(); ++from_iter, ++to_iter, ++i) {
     for (unsigned offset = 0; offset < (*from_iter)->data_.size(); ++offset) {
       amount = maturation_rates_[i][offset] * (*from_iter)->data_[offset];
       (*from_iter)->data_[offset] -= amount;

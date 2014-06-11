@@ -22,9 +22,9 @@ void Biomass::Calculate() {
   LOG_TRACE();
   Double value = 0.0;
 
-  auto iterator = partition_->Begin();
+  auto iterator = partition_.begin();
   // iterate over each category
-  for (unsigned i = 0; i < partition_->Size() && iterator != partition_->End(); ++i, ++iterator) {
+  for (unsigned i = 0; i < partition_.size() && iterator != partition_.end(); ++i, ++iterator) {
     for (unsigned j = 0; j < (*iterator)->data_.size(); ++j) {
       value += (*iterator)->data_[j] * selectivities_[i]->GetResult((*iterator)->min_age_ + j) * (*iterator)->mean_weights_[j];
     }
@@ -41,9 +41,9 @@ void Biomass::Calculate(unsigned initialisation_phase) {
   LOG_TRACE();
   Double value = 0.0;
 
-  auto iterator = partition_->Begin();
+  auto iterator = partition_.begin();
   // iterate over each category
-  for (unsigned i = 0; i < partition_->Size() && iterator != partition_->End(); ++i, ++iterator) {
+  for (unsigned i = 0; i < partition_.size() && iterator != partition_.end(); ++i, ++iterator) {
     for (unsigned j = 0; j < (*iterator)->data_.size(); ++j) {
       value += (*iterator)->data_[j] * selectivities_[i]->GetResult((*iterator)->min_age_ + j) * (*iterator)->mean_weights_[j];
     }

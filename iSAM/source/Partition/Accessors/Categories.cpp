@@ -24,7 +24,11 @@ namespace accessors {
 /**
  * Default Constructor
  */
-Categories::Categories(const vector<string>& category_labels) {
+Categories::Categories() {
+
+}
+
+void Categories::Init(const vector<string>& category_labels) {
   LOG_TRACE();
 
   model_ = Model::Instance();
@@ -52,7 +56,7 @@ Categories::Categories(const vector<string>& category_labels) {
  *
  * @return Iterator to first stored element for current year
  */
-Categories::DataType::iterator Categories::Begin() {
+Categories::DataType::iterator Categories::begin() {
   return data_[model_->current_year()].begin();
 }
 
@@ -62,18 +66,14 @@ Categories::DataType::iterator Categories::Begin() {
  *
  * @return End iterator for the stored elements for current year
  */
-Categories::DataType::iterator Categories::End() {
+Categories::DataType::iterator Categories::end() {
   return data_[model_->current_year()].end();
 }
 
 /**
- * Return the size of our container for the current year. This
- * will return the number of active categories for the current
- * year.
  *
- * @return The number of active categories for the current year
  */
-unsigned Categories::Size() {
+unsigned Categories::size() {
   return data_[model_->current_year()].size();
 }
 

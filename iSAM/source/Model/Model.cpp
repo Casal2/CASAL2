@@ -431,7 +431,7 @@ void Model::Iterate() {
 
   state_ = State::kExecute;
   timesteps::Manager& time_step_manager = timesteps::Manager::Instance();
-  for (current_year_ = start_year_; current_year_ <= final_year_; ++current_year_) {
+  for (current_year_ = start_year_; current_year_ <= final_year_; ++current_year_, current_year_index_ = current_year_ - start_year_) {
     LOG_INFO("Iteration year: " << current_year_);
     time_step_manager.Execute(current_year_);
   }

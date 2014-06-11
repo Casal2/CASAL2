@@ -54,7 +54,7 @@ private:
   Double                      u_max_;
   vector<string>              selectivity_names_;
   string                      penalty_name_;
-  accessor::CategoriesPtr     partition_;
+  accessor::Categories        partition_;
   ModelPtr                    model_;
   vector<SelectivityPtr>      selectivities_;
   map<string, map<unsigned, Double> > vulnerable_;

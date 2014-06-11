@@ -33,6 +33,7 @@ RecruitmentConstant::RecruitmentConstant() {
   parameters_.Bind<double>(PARAM_R0, &r0_, "R0", "");
 
   RegisterAsEstimable(PARAM_R0, &r0_);
+  RegisterAsEstimable(PARAM_PROPORTIONS, &proportions_categories_);
 }
 
 /**
@@ -83,8 +84,6 @@ void RecruitmentConstant::DoValidate() {
     for (string category : category_names_)
       proportions_categories_[category] = proportion;
   }
-
-  RegisterAsEstimable(PARAM_PROPORTIONS, proportions_categories_);
 }
 
 /**

@@ -32,6 +32,8 @@ AllValues::AllValues()
 : Selectivity(model) {
 
   parameters_.Bind<double>(PARAM_V, &v_, "V", "");
+
+  RegisterAsEstimable(PARAM_V, &v_);
 }
 
 
@@ -49,8 +51,6 @@ void AllValues::DoValidate() {
     LOG_ERROR(parameters_.location(PARAM_V) << ": Number of 'v' values supplied is not the same as the model age spread.\n"
         << "Expected: " << model_->age_spread() << " but got " << v_.size());
   }
-
-  RegisterAsEstimable(PARAM_V, v_);
 }
 
 /**

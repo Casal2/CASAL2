@@ -86,8 +86,8 @@ void Maturation::DoValidate() {
 void Maturation::DoBuild() {
   LOG_TRACE();
 
-  from_partition_ = accessor::CategoriesPtr(new partition::accessors::Categories(from_category_names_));
-  to_partition_   = accessor::CategoriesPtr(new partition::accessors::Categories(to_category_names_));
+  from_partition_.Init(from_category_names_);
+  to_partition_.Init(to_category_names_);
 
   for(string label : selectivity_names_) {
     SelectivityPtr selectivity = selectivities::Manager::Instance().GetSelectivity(label);
@@ -101,17 +101,21 @@ void Maturation::DoBuild() {
  * Execute our maturation rate process.
  */
 void Maturation::Execute() {
-  auto from_iter     = from_partition_->Begin();
-  auto to_iter       = to_partition_->Begin();
+  auto from_iter     = from_partition_.begin();
+  auto to_iter       = to_partition_.begin();
   Double amount      = 0.0;
 
   unsigned current_year = model_->current_year();
+  Double rate = year_rates_[current_year];
+  // if year is missing for projection then we grab the last one
+  if (year_rates_.find(current_year) == year_rates_.end())
+    rate = year_rates_.rbegin()->second;
 
-  for (unsigned i = 0; from_iter != from_partition_->End() && to_iter != to_partition_->End(); ++from_iter, ++to_iter, ++i) {
+  for (unsigned i = 0; from_iter != from_partition_.end() && to_iter != to_partition_.end(); ++from_iter, ++to_iter, ++i) {
     unsigned min_age   = (*from_iter)->min_age_;
 
     for (unsigned offset = 0; offset < (*from_iter)->data_.size(); ++offset) {
-      amount = year_rates_[current_year] * selectivities_[i]->GetResult(min_age + offset);
+      amount = rate * selectivities_[i]->GetResult(min_age + offset);
       (*from_iter)->data_[offset] -= amount;
       (*to_iter)->data_[offset] += amount;
     }
