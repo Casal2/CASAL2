@@ -49,7 +49,7 @@ void DerivedQuantity::Validate() {
 void DerivedQuantity::Build() {
   LOG_TRACE();
 
-  partition_  = accessor::CategoriesPtr(new accessor::Categories(category_labels_));
+  partition_.Init(category_labels_);
 
   selectivities::Manager& selectivity_manager = selectivities::Manager::Instance();
   for (string label : selectivity_labels_) {

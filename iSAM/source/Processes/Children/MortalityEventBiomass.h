@@ -43,7 +43,7 @@ public:
 private:
   // members
   ModelPtr                    model_;
-  accessor::CategoriesPtr     partition_;
+  accessor::Categories        partition_;
   vector<string>              category_labels_;
   vector<string>              selectivity_labels_;
   vector<SelectivityPtr>      selectivities_;

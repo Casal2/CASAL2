@@ -58,7 +58,7 @@ protected:
   vector<SelectivityPtr>      selectivities_;
   vector<string>              category_labels_;
   ModelPtr                    model_;
-  accessor::CategoriesPtr     partition_;
+  accessor::Categories        partition_;
 };
 
 // typedef

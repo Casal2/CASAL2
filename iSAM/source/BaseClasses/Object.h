@@ -61,8 +61,9 @@ public:
 protected:
   // Methods
   void                        RegisterAsEstimable(const string& label, Double* variable);
-  void                        RegisterAsEstimable(const string& label, vector<Double>& variables);
-  void                        RegisterAsEstimable(const string& label, map<string, Double>& variables);
+  void                        RegisterAsEstimable(const string& label, vector<Double>* variables);
+  void                        RegisterAsEstimable(const string& label, map<string, Double>* variables);
+  void                        RegisterAsEstimable(const string& label, map<unsigned, Double>* variables);
 
   // Accessors
   string                      location();
@@ -74,7 +75,8 @@ protected:
   ParameterList                 parameters_;
   map<string, Double*>          estimables_;
   map<string, vector<Double>* > estimable_vectors_;
-  map<string, map<string, Double>* > estimable_maps_;
+  map<string, map<string, Double>* > estimable_s_maps_;
+  map<string, map<unsigned, Double>* > estimable_u_maps_;
   string                        description_;
 
   DISALLOW_COPY_AND_ASSIGN(Object);

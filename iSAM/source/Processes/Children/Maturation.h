@@ -47,8 +47,8 @@ protected:
   vector<Double>              rates_;
   vector<unsigned>            years_;
   vector<string>              selectivity_names_;
-  accessor::CategoriesPtr     from_partition_;
-  accessor::CategoriesPtr     to_partition_;
+  accessor::Categories        from_partition_;
+  accessor::Categories        to_partition_;
   vector<SelectivityPtr>      selectivities_;
   map<unsigned, Double>       year_rates_;
 };

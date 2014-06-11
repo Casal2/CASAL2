@@ -26,8 +26,6 @@ namespace processes {
 Ageing::Ageing() {
   LOG_TRACE();
 
-  description_ = "This process will age the population by 1 every time it is executed";
-
   parameters_.Bind<string>(PARAM_CATEGORIES, &category_names_, "Categories", "");
 }
 
@@ -57,7 +55,7 @@ void Ageing::DoValidate() {
  * Then build the basics
  */
 void Ageing::DoBuild() {
-  partition_  = accessor::CategoriesPtr(new accessor::Categories(category_names_));
+  partition_.Init(category_names_);
   model_      = Model::Instance();
 }
 
@@ -68,18 +66,16 @@ void Ageing::Execute() {
   Double carry_over = 0.0;
   Double temp       = 0.0;
 
-  for (auto iterator = partition_->Begin(); iterator != partition_->End(); ++iterator) {
+  for (auto category : partition_) {
     carry_over = 0.0;
-
-    for(Double& data : (*iterator)->data_) {
+    for (Double& data : (*category).data_) {
       temp = data;
       data = carry_over;
       carry_over = temp;
     }
 
-    if (model_->age_plus()) {
-      (* (*iterator)->data_.rbegin() ) += carry_over;
-    }
+    if (model_->age_plus())
+      (* (*category).data_.rbegin() ) += carry_over;
   }
 }
 

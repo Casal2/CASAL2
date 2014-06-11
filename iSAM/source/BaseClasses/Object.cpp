@@ -52,8 +52,8 @@ bool Object::IsEstimableAVector(const string& label) const {
 unsigned Object::GetEstimableSize(const string& label) const {
   if (estimable_vectors_.find(label) != estimable_vectors_.end())
     return estimable_vectors_.find(label)->second->size();
-  if (estimable_maps_.find(label) != estimable_maps_.end())
-    return estimable_maps_.find(label)->second->size();
+  if (estimable_s_maps_.find(label) != estimable_s_maps_.end())
+    return estimable_s_maps_.find(label)->second->size();
 
   if (estimables_.find(label) == estimables_.end())
     LOG_CODE_ERROR("Unable to locate the label " << label << " in our estimables_ vector");
@@ -96,8 +96,8 @@ void Object::RegisterAsEstimable(const string& label, Double* variable) {
  * @param label The label to register the estimable under
  * @param variables Vector containing all the elements to register
  */
-void Object::RegisterAsEstimable(const string& label, vector<Double>& variables) {
-  estimable_vectors_[label] = &variables;
+void Object::RegisterAsEstimable(const string& label, vector<Double>* variables) {
+  estimable_vectors_[label] = variables;
 }
 
 /**
@@ -109,8 +109,11 @@ void Object::RegisterAsEstimable(const string& label, vector<Double>& variables)
  * @param label The label for the process
  * @param variables Map containing index and double values to store
  */
-void Object::RegisterAsEstimable(const string& label, map<string, Double>& variables) {
-  estimable_maps_[label] = &variables;
+void Object::RegisterAsEstimable(const string& label, map<string, Double>* variables) {
+  estimable_s_maps_[label] = variables;
+}
+void Object::RegisterAsEstimable(const string& label, map<unsigned, Double>* variables) {
+  estimable_u_maps_[label] = variables;
 }
 
 /**

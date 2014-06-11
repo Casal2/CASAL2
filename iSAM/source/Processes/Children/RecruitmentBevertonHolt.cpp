@@ -44,6 +44,8 @@ RecruitmentBevertonHolt::RecruitmentBevertonHolt() {
 
   RegisterAsEstimable(PARAM_R0, &r0_);
   RegisterAsEstimable(PARAM_STEEPNESS, &steepness_);
+  RegisterAsEstimable(PARAM_PROPORTIONS, &proportions_);
+  RegisterAsEstimable(PARAM_YCS_VALUES, &ycs_values_);
 
   phase_b0_         = 0;
 }
@@ -72,7 +74,6 @@ void RecruitmentBevertonHolt::DoValidate() {
     LOG_ERROR(parameters_.location(PARAM_CATEGORIES) << " defined need 1 proportion defined per category. There are " << category_labels_.size()
         << " categories and " << proportions_.size() << " proportions defined.");
 
-  RegisterAsEstimable(PARAM_PROPORTIONS, proportions_);
   Double running_total = std::accumulate(proportions_.begin(), proportions_.end(), 0.0);
   if (!dc::IsOne(running_total))
     LOG_ERROR(parameters_.location(PARAM_PROPORTIONS) << " sum total is " << running_total << " when it should be 1.0");
@@ -102,7 +103,6 @@ void RecruitmentBevertonHolt::DoValidate() {
   if (ycs_values_.size() != number_of_years)
     LOG_ERROR(parameters_.location(PARAM_YCS_VALUES) << " need to be defined for every year. Expected " << number_of_years << " but got " << ycs_values_.size());
 
-  RegisterAsEstimable(PARAM_YCS_VALUES, ycs_values_);
   for (double value : ycs_values_) {
     if (value < 0.0)
       LOG_ERROR(parameters_.location(PARAM_YCS_VALUES) << " value " << value << " cannot be less than 0.0");
@@ -113,7 +113,7 @@ void RecruitmentBevertonHolt::DoValidate() {
  * Build the runtime relationships between this object and it's
  */
 void RecruitmentBevertonHolt::DoBuild() {
-  partition_        = accessor::CategoriesPtr(new accessor::Categories(category_labels_));
+  partition_.Init(category_labels_);
 
   if (phase_b0_label_ != "")
     phase_b0_         = initialisationphases::Manager::Instance().GetPhaseIndex(phase_b0_label_);
@@ -217,11 +217,17 @@ void RecruitmentBevertonHolt::Execute() {
     LOG_INFO("year = " << model_->current_year() << "; ycs = " << ycs << "; b0_ = " << b0_ << "; ssb_ratio = " << ssb_ratio << "; true_ycs = " << true_ycs << "; amount_per = " << amount_per);
   }
 
-  auto iterator = partition_->Begin();
-  for (unsigned i = 0; iterator != partition_->End(); ++iterator, ++i) {
-    (*iterator)->data_[age_ - (*iterator)->min_age_] += amount_per * proportions_[i];
-    LOG_INFO("Adding " << amount_per * proportions_[i] << " to " << (*iterator)->name_);
+  unsigned i = 0;
+  for (auto category : partition_) {
+    category->data_[age_ - category->min_age_] += amount_per * proportions_[i];
+    ++i;
   }
+//
+//  auto iterator = partition_->Begin();
+//  for (unsigned i = 0; iterator != partition_->End(); ++iterator, ++i) {
+//    (*iterator)->data_[age_ - (*iterator)->min_age_] += amount_per * proportions_[i];
+//    LOG_INFO("Adding " << amount_per * proportions_[i] << " to " << (*iterator)->name_);
+//  }
 
   print_values_["b0_value"][0] = utilities::ToInline<Double, string>(b0_);
 }

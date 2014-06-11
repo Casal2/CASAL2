@@ -65,7 +65,7 @@ void MortalityEventBiomass::DoValidate() {
  *
  */
 void MortalityEventBiomass::DoBuild() {
-  partition_ = accessor::CategoriesPtr(new isam::partition::accessors::Categories(category_labels_));
+  partition_.Init(category_labels_);
 
   for (string label : selectivity_labels_) {
     SelectivityPtr selectivity = selectivities::Manager::Instance().GetSelectivity(label);
@@ -95,14 +95,25 @@ void MortalityEventBiomass::Execute() {
    */
   Double vulnerable = 0.0;
   unsigned i = 0;
-  for (auto iterator = partition_->Begin(); iterator != partition_->End(); ++iterator, ++i) {
-    unsigned min_age = (*iterator)->min_age_;
-
-    for (unsigned offset = 0; offset < (*iterator)->data_.size(); ++offset) {
-      Double temp = (*iterator)->data_[offset] * selectivities_[i]->GetResult(min_age + offset);
-      vulnerable += temp * (*iterator)->mean_weights_[offset];
+  for (auto categories : partition_) {
+    unsigned offset = 0;
+    for (Double& data : categories->data_) {
+      Double temp = data * selectivities_[i]->GetResult(categories->min_age_ + offset);
+      vulnerable += temp * categories->mean_weights_[offset];
+      ++offset;
     }
+
+    ++i;
   }
+
+//  for (auto iterator = partition_->Begin(); iterator != partition_->End(); ++iterator, ++i) {
+//    unsigned min_age = (*iterator)->min_age_;
+//
+//    for (unsigned offset = 0; offset < (*iterator)->data_.size(); ++offset) {
+//      Double temp = (*iterator)->data_[offset] * selectivities_[i]->GetResult(min_age + offset);
+//      vulnerable += temp * (*iterator)->mean_weights_[offset];
+//    }
+//  }
 
   /**
    * Work out the exploitation rate to remove (catch/vulnerable)
@@ -124,14 +135,24 @@ void MortalityEventBiomass::Execute() {
    * vulnerable * exploitation
    */
   i = 0;
-  for (auto iterator = partition_->Begin(); iterator != partition_->End(); ++iterator, ++i) {
-    unsigned min_age = (*iterator)->min_age_;
-
-    for (unsigned offset = 0; offset < (*iterator)->data_.size(); ++offset) {
-      Double temp = (*iterator)->data_[offset] * selectivities_[i]->GetResult(min_age + offset) * exploitation;
-      (*iterator)->data_[offset] -= temp;
+  for (auto categories : partition_) {
+    unsigned offset = 0;
+    for (Double& data : categories->data_) {
+      data -= data * selectivities_[i]->GetResult(categories->min_age_ + offset) * exploitation;
+      ++offset;
     }
+    ++i;
   }
+
+//  i = 0;
+//  for (auto iterator = partition_->Begin(); iterator != partition_->End(); ++iterator, ++i) {
+//    unsigned min_age = (*iterator)->min_age_;
+//
+//    for (unsigned offset = 0; offset < (*iterator)->data_.size(); ++offset) {
+//      Double temp = (*iterator)->data_[offset] * selectivities_[i]->GetResult(min_age + offset) * exploitation;
+//      (*iterator)->data_[offset] -= temp;
+//    }
+//  }
 
 }
 

@@ -49,8 +49,8 @@ private:
   vector<string>              to_category_names_;
   vector<Double>              proportions_;
   vector<string>              selectivity_names_;
-  accessor::CategoriesPtr     from_partition_;
-  accessor::CategoriesPtr     to_partition_;
+  accessor::Categories        from_partition_;
+  accessor::Categories        to_partition_;
   vector<SelectivityPtr>      selectivities_;
   vector<vector<Double> >     maturation_rates_;
 

@@ -91,6 +91,7 @@ protected:
   unsigned                    final_year_ = 0;
   unsigned                    projection_final_year_ = 0;
   unsigned                    current_year_ = 0;
+  unsigned                    current_year_index_ = 0;
   unsigned                    min_age_ = 0;
   unsigned                    max_age_ = 0;
   bool                        age_plus_ = true;

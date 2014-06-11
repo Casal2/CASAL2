@@ -33,6 +33,7 @@ MortalityEvent::MortalityEvent() {
   parameters_.Bind<string>(PARAM_PENALTY, &penalty_name_, "Penalty label", "", "");
 
   RegisterAsEstimable(PARAM_U_MAX, &u_max_);
+  RegisterAsEstimable(PARAM_CATCHES, &catch_years_);
 
   model_ = Model::Instance();
 }
@@ -77,7 +78,7 @@ void MortalityEvent::DoValidate() {
  * - Build partition reference
  */
 void MortalityEvent::DoBuild() {
-  partition_ = accessor::CategoriesPtr(new isam::partition::accessors::Categories(category_names_));
+  partition_.Init(category_names_);
 
   for (string label : selectivity_names_) {
     SelectivityPtr selectivity = selectivities::Manager::Instance().GetSelectivity(label);
@@ -108,16 +109,27 @@ void MortalityEvent::Execute() {
    */
   Double vulnerable = 0.0;
   unsigned i = 0;
-  for (auto iterator = partition_->Begin(); iterator != partition_->End(); ++iterator, ++i) {
-    unsigned min_age = (*iterator)->min_age_;
-
-    for (unsigned offset = 0; offset < (*iterator)->data_.size(); ++offset) {
-      Double temp = (*iterator)->data_[offset] * selectivities_[i]->GetResult(min_age + offset);
-
-      vulnerable = vulnerable + temp;
-      vulnerable_[(*iterator)->name_][min_age + offset] = temp;
+  for (auto categories : partition_) {
+    unsigned j = 0;
+    for (Double& data : categories->data_) {
+      Double local_vulnerable = data * selectivities_[i]->GetResult(categories->min_age_ + j);
+      vulnerable += local_vulnerable;
+      vulnerable_[categories->name_][categories->min_age_ + j] = local_vulnerable;
+      ++j;
     }
+
+    ++i;
   }
+//  for (auto iterator = partition_->begin(); iterator != partition_->end(); ++iterator, ++i) {
+//    unsigned min_age = (*iterator)->min_age_;
+//
+//    for (unsigned offset = 0; offset < (*iterator)->data_.size(); ++offset) {
+//      Double temp = (*iterator)->data_[offset] * selectivities_[i]->GetResult(min_age + offset);
+//
+//      vulnerable = vulnerable + temp;
+//      vulnerable_[(*iterator)->name_][min_age + offset] = temp;
+//    }
+//  }
 
   /**
    * Work out the exploitation rate to remove (catch/vulnerable)
@@ -137,14 +149,23 @@ void MortalityEvent::Execute() {
    * Remove the stock now. The amount to remove is
    * vulnerable * exploitation
    */
-  for (auto iterator = partition_->Begin(); iterator != partition_->End(); ++iterator) {
-    unsigned min_age = (*iterator)->min_age_;
-
-    for (unsigned offset = 0; offset < (*iterator)->data_.size(); ++offset) {
-      Double temp = vulnerable_[(*iterator)->name_][min_age + offset] * exploitation;
-      (*iterator)->data_[offset] -= temp;
+  for (auto categories : partition_) {
+    unsigned offset = 0;
+    for (Double& data : categories->data_) {
+      data -= vulnerable_[categories->name_][categories->min_age_ + offset] * exploitation;
+      offset++;
     }
   }
+
+//
+//  for (auto iterator = partition_->Begin(); iterator != partition_->End(); ++iterator) {
+//    unsigned min_age = (*iterator)->min_age_;
+//
+//    for (unsigned offset = 0; offset < (*iterator)->data_.size(); ++offset) {
+//      Double temp = vulnerable_[(*iterator)->name_][min_age + offset] * exploitation;
+//      (*iterator)->data_[offset] -= temp;
+//    }
+//  }
 }
 
 
