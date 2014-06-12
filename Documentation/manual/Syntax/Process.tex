@@ -1,0 +1,186 @@
+\defComLab{process}{Define an object type Process}
+
+\defSub{label} {Label}
+\defType{string}
+\defDefault{No default}
+
+\defSub{type} {Type}
+\defType{string}
+\defDefault{""}
+
+\defSub{print\_report} {Print parameter report}
+\defType{bool}
+\defDefault{false}
+
+\subsubsection[Ageing]{\commandlabsubarg{process}{type}{ageing}}
+
+\defSub{categories} {Categories}
+\defType{string}
+\defDefault{No default}
+
+\subsubsection[Maturation]{\commandlabsubarg{process}{type}{maturation}}
+
+\defSub{from} {List of categories to mature from}
+\defType{string}
+\defDefault{No default}
+
+\defSub{rates} {The rates to mature for each year}
+\defType{double}
+\defDefault{No default}
+
+\defSub{selectivities} {List of selectivities to use for maturation}
+\defType{string}
+\defDefault{No default}
+
+\defSub{to} {List of categories to mature too}
+\defType{string}
+\defDefault{No default}
+
+\defSub{years} {The years to be associated with rates}
+\defType{unsigned}
+\defDefault{No default}
+
+\subsubsection[Maturation Rate]{\commandlabsubarg{process}{type}{maturation\_rate}}
+
+\defSub{from} {From}
+\defType{string}
+\defDefault{No default}
+
+\defSub{selectivities} {Selectivity names}
+\defType{string}
+\defDefault{No default}
+
+\defSub{to} {To}
+\defType{string}
+\defDefault{No default}
+
+\defSub{proportions} {Proportions}
+\defType{double}
+\defDefault{No default}
+
+\subsubsection[Mortality Constant Rate]{\commandlabsubarg{process}{type}{mortality\_constant\_rate}}
+
+\defSub{m} {Mortality rates}
+\defType{double}
+\defDefault{No default}
+
+\defSub{selectivities} {Selectivities}
+\defType{string}
+\defDefault{No default}
+
+\defSub{categories} {List of categories}
+\defType{string}
+\defDefault{No default}
+
+\subsubsection[Mortality Event]{\commandlabsubarg{process}{type}{mortality\_event}}
+
+\defSub{penalty} {Penalty label}
+\defType{string}
+\defDefault{""}
+
+\defSub{u\_max} {U Max}
+\defType{double}
+\defDefault{0.99}
+
+\defSub{categories} {Categories}
+\defType{string}
+\defDefault{No default}
+
+\defSub{selectivities} {List of selectivities}
+\defType{string}
+\defDefault{No default}
+
+\defSub{years} {Years}
+\defType{unsigned}
+\defDefault{No default}
+
+\defSub{catches} {Catches}
+\defType{double}
+\defDefault{No default}
+
+\subsubsection[Mortality Event Biomass]{\commandlabsubarg{process}{type}{mortality\_event\_biomass}}
+
+\defSub{penalty} {Penalty label}
+\defType{string}
+\defDefault{""}
+
+\defSub{u\_max} {U Max}
+\defType{double}
+\defDefault{0.99}
+
+\defSub{categories} {Category labels}
+\defType{string}
+\defDefault{No default}
+
+\defSub{selectivities} {Selectivity labels}
+\defType{string}
+\defDefault{No default}
+
+\defSub{years} {Years to apply mortality}
+\defType{unsigned}
+\defDefault{No default}
+
+\defSub{catches} {Catches for each year}
+\defType{double}
+\defDefault{No default}
+
+\subsubsection[Recruitment Beverton Holt]{\commandlabsubarg{process}{type}{recruitment\_beverton\_holt}}
+
+\defSub{r0} {R0}
+\defType{double}
+\defDefault{No default}
+
+\defSub{ssb\_offset} {SSB Offset (year offset)}
+\defType{unsigned}
+\defDefault{No default}
+
+\defSub{standardise\_ycs\_years} {}
+\defType{unsigned}
+\defDefault{true}
+
+\defSub{ycs\_values} {YCS Values}
+\defType{double}
+\defDefault{No default}
+
+\defSub{age} {Age to recruit at}
+\defType{unsigned}
+\defDefault{true}
+
+\defSub{b0} {B0 Label}
+\defType{string}
+\defDefault{""}
+
+\defSub{steepness} {Steepness}
+\defType{double}
+\defDefault{1.0}
+
+\defSub{ssb} {SSB Label (derived quantity)}
+\defType{string}
+\defDefault{No default}
+
+\defSub{categories} {Category labels}
+\defType{string}
+\defDefault{No default}
+
+\defSub{proportions} {Proportions}
+\defType{double}
+\defDefault{No default}
+
+\subsubsection[Recruitment Constant]{\commandlabsubarg{process}{type}{recruitment\_constant}}
+
+\defSub{r0} {R0}
+\defType{double}
+\defDefault{No default}
+
+\defSub{age} {Age}
+\defType{unsigned}
+\defDefault{No default}
+
+\defSub{proportions} {Proportions}
+\defType{double}
+\defDefault{true}
+
+\defSub{categories} {Categories}
+\defType{string}
+\defDefault{No default}
+

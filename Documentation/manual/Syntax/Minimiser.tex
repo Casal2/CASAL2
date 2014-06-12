@@ -1,0 +1,67 @@
+\defComLab{minimiser}{Define an object type Minimiser}
+
+\defSub{active} {True if this minimiser is active}
+\defType{bool}
+\defDefault{false}
+
+\defSub{label} {Label}
+\defType{string}
+\defDefault{No default}
+
+\defSub{type} {Type of minimiser to use}
+\defType{string}
+\defDefault{No default}
+
+\defSub{covariance} {True if a covariance matrix should be created}
+\defType{bool}
+\defDefault{true}
+
+\subsubsection[Beta Diff]{\commandlabsubarg{minimiser}{type}{beta\_diff}}
+
+\subsubsection[D E Solver]{\commandlabsubarg{minimiser}{type}{d\_e\_solver}}
+
+\defSub{population\_size} {The number of candidate solutions to have in the population}
+\defType{unsigned}
+\defDefault{No default}
+
+\defSub{difference\_scale} {The scale to apply to new solutions when comparing candidates}
+\defType{double}
+\defDefault{0.02}
+
+\defSub{tolerance} {The total variance between the population and best candidate before acceptance}
+\defType{double}
+\defDefault{0.01}
+
+\defSub{crossover\_probability} {TBA}
+\defType{double}
+\defDefault{0.9}
+
+\defSub{method} {The type of candidate generation method to use}
+\defType{string}
+\defDefault{""}
+\defValue{not\_yet\_implemented}
+
+\defSub{max\_generations} {The maximum number of iterations to run}
+\defType{unsigned}
+\defDefault{No default}
+
+\subsubsection[D Lib]{\commandlabsubarg{minimiser}{type}{d\_lib}}
+
+\subsubsection[Gamma Diff]{\commandlabsubarg{minimiser}{type}{gamma\_diff}}
+
+\defSub{tolerance} {Tolerance of the gradient for convergence}
+\defType{double}
+\defDefault{0.02}
+
+\defSub{step\_size} {Minimum Step-size before minimisation fails}
+\defType{double}
+\defDefault{1e-7}
+
+\defSub{evaluations} {Maximum number of evaluations}
+\defType{int}
+\defDefault{4000}
+
+\defSub{iterations} {Maximum number of iterations}
+\defType{int}
+\defDefault{1000}
+

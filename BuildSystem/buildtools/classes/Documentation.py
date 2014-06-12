@@ -170,7 +170,7 @@ class Documentation:
             
 
     def print_parent(self, header_file):        
-        self.current_output_file_ = 'Documentation/' + self.parent_file_.replace('.h', '.tex')
+        self.current_output_file_ = '../Documentation/Manual/Syntax/' + self.parent_file_.replace('.h', '.tex')
         source_file = header_file.replace('.h', '.cpp')
         print '--> Printing parent latex from ' + source_file + ' to ' + self.current_output_file_
 
@@ -178,8 +178,8 @@ class Documentation:
         if class_name != 'MCMC':
             class_name = re.sub( '(?<!^)(?=[A-Z])', '\_', class_name)
 
-        if not os.path.exists('Documentation/'):
-            os.makedirs('Documentation/')
+        if not os.path.exists('../Documentation/Manual/Syntax/'):
+            os.makedirs('../Documentation/Manual/Syntax/')
         
         file = open(self.current_output_file_, 'w')
         file.write('\defComLab{' + class_name.lower() + '}{Define an object type ' + class_name + '}\n')
