@@ -1,21 +1,18 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (MiKTeX 2.9 64-bit) (preloaded format=pdflatex 2014.5.13)  12 JUN 2014 13:37
+This is pdfTeX, Version 3.1415926-2.4-1.40.13 (MiKTeX 2.9) (preloaded format=pdflatex 2013.8.26)  12 JUN 2014 14:35
 entering extended mode
 **SAM.tex
-(C:\Kath\projects\General\isam\trunk\Documentation\manual\SAM.tex
+(C:\Projects\General\iSAM\trunk\Documentation\manual\SAM.tex
 LaTeX2e <2011/06/27>
-Babel <v3.8m> and hyphenation patterns for english, afrikaans, ancientgreek, ar
-abic, armenian, assamese, basque, bengali, bokmal, bulgarian, catalan, coptic, 
-croatian, czech, danish, dutch, esperanto, estonian, farsi, finnish, french, ga
-lician, german, german-x-2013-05-26, greek, gujarati, hindi, hungarian, iceland
-ic, indonesian, interlingua, irish, italian, kannada, kurmanji, latin, latvian,
- lithuanian, malayalam, marathi, mongolian, mongolianlmc, monogreek, ngerman, n
-german-x-2013-05-26, nynorsk, oriya, panjabi, pinyin, polish, portuguese, roman
-ian, russian, sanskrit, serbian, slovak, slovenian, spanish, swedish, swissgerm
-an, tamil, telugu, turkish, turkmen, ukenglish, ukrainian, uppersorbian, usengl
-ishmax, welsh, loaded.
-(C:\MiKTeX2.9\tex\latex\base\article.cls
+Babel <v3.8m> and hyphenation patterns for english, afrikaans, ancientgreek, arabic, armenian, assamese, basque, bengali
+, bokmal, bulgarian, catalan, coptic, croatian, czech, danish, dutch, esperanto, estonian, farsi, finnish, french, galic
+ian, german, german-x-2012-05-30, greek, gujarati, hindi, hungarian, icelandic, indonesian, interlingua, irish, italian,
+ kannada, kurmanji, latin, latvian, lithuanian, malayalam, marathi, mongolian, mongolianlmc, monogreek, ngerman, ngerman
+-x-2012-05-30, nynorsk, oriya, panjabi, pinyin, polish, portuguese, romanian, russian, sanskrit, serbian, slovak, sloven
+ian, spanish, swedish, swissgerman, tamil, telugu, turkish, turkmen, ukenglish, ukrainian, uppersorbian, usenglishmax, w
+elsh, loaded.
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\base\article.cls"
 Document Class: article 2007/10/19 v1.4h Standard LaTeX document class
-(C:\MiKTeX2.9\tex\latex\base\size11.clo
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\base\size11.clo"
 File: size11.clo 2007/10/19 v1.4h Standard LaTeX file (size option)
 )
 \c@part=\count79
@@ -30,14 +27,14 @@ File: size11.clo 2007/10/19 v1.4h Standard LaTeX file (size option)
 \belowcaptionskip=\skip42
 \bibindent=\dimen102
 )
-(C:\MiKTeX2.9\tex\latex\caption\caption.sty
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\caption\caption.sty"
 Package: caption 2013/05/02 v3.3-89 Customizing captions (AR)
 
-(C:\MiKTeX2.9\tex\latex\caption\caption3.sty
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\caption\caption3.sty"
 Package: caption3 2013/05/02 v1.6-88 caption3 kernel (AR)
 Package caption3 Info: TeX engine: e-TeX on input line 57.
 
-(C:\MiKTeX2.9\tex\latex\graphics\keyval.sty
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\graphics\keyval.sty"
 Package: keyval 1999/03/16 v1.13 key=value parser (DPC)
 \KV@toks@=\toks14
 )
@@ -51,10 +48,10 @@ Package: keyval 1999/03/16 v1.13 key=value parser (DPC)
 )
 \c@ContinuedFloat=\count87
 )
-(C:\MiKTeX2.9\tex\latex\base\ifthen.sty
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\base\ifthen.sty"
 Package: ifthen 2001/05/26 v1.1c Standard LaTeX ifthen package (DPC)
 )
-(C:\MiKTeX2.9\tex\latex\float\float.sty
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\float\float.sty"
 Package: float 2001/11/08 v1.3d Float enhancements (AL)
 \c@float@type=\count88
 \float@exts=\toks15
@@ -62,16 +59,16 @@ Package: float 2001/11/08 v1.3d Float enhancements (AL)
 \@float@everytoks=\toks16
 \@floatcapt=\box27
 )
-(C:\MiKTeX2.9\tex\latex\setspace\setspace.sty
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\setspace\setspace.sty"
 Package: setspace 2011/12/19 v6.7a set line spacing
 )
-(C:\MiKTeX2.9\tex\latex\cmap\cmap.sty
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\cmap\cmap.sty"
 Package: cmap 2008/03/06 v1.0h CMap support: searchable PDF
 )
-(C:\MiKTeX2.9\tex\latex\tabulary\tabulary.sty
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\tabulary\tabulary.sty"
 Package: tabulary 2008/12/01 v0.9 tabulary package (DPC)
 
-(C:\MiKTeX2.9\tex\latex\tools\array.sty
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\tools\array.sty"
 Package: array 2008/09/09 v2.4c Tabular extension package (FMi)
 \col@sep=\dimen110
 \extrarowheight=\dimen111
@@ -85,337 +82,41 @@ Package: array 2008/09/09 v2.4c Tabular extension package (FMi)
 \tymax=\dimen114
 \TY@tablewidth=\dimen115
 )
-(C:\MiKTeX2.9\tex\latex\comment\comment.sty
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\comment\comment.sty"
 \CommentStream=\write3
  Excluding comment 'comment')
-(C:\MiKTeX2.9\tex\latex\mdframed\mdframed.sty
-Package: mdframed 2013/07/01 1.9b: mdframed
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\hyperref\hyperref.sty"
+Package: hyperref 2012/11/06 v6.83m Hypertext links for LaTeX
 
-(C:\MiKTeX2.9\tex\latex\oberdiek\kvoptions.sty
-Package: kvoptions 2011/06/30 v3.11 Key value format for package options (HO)
+("C:\Program Files (x86)\MiKTeX 2.9\tex\generic\oberdiek\hobsub-hyperref.sty"
+Package: hobsub-hyperref 2012/04/25 v1.12 Bundle oberdiek, subset hyperref (HO)
 
-(C:\MiKTeX2.9\tex\generic\oberdiek\ltxcmds.sty
-Package: ltxcmds 2011/11/09 v1.22 LaTeX kernel commands for general use (HO)
-)
-(C:\MiKTeX2.9\tex\generic\oberdiek\kvsetkeys.sty
-Package: kvsetkeys 2012/04/25 v1.16 Key value parser (HO)
-
-(C:\MiKTeX2.9\tex\generic\oberdiek\infwarerr.sty
+("C:\Program Files (x86)\MiKTeX 2.9\tex\generic\oberdiek\hobsub-generic.sty"
+Package: hobsub-generic 2012/04/25 v1.12 Bundle oberdiek, subset generic (HO)
+Package: hobsub 2012/04/25 v1.12 Construct package bundles (HO)
 Package: infwarerr 2010/04/08 v1.3 Providing info/warning/error messages (HO)
-)
-(C:\MiKTeX2.9\tex\generic\oberdiek\etexcmds.sty
-Package: etexcmds 2011/02/16 v1.5 Avoid name clashes with e-TeX commands (HO)
-
-(C:\MiKTeX2.9\tex\generic\oberdiek\ifluatex.sty
+Package: ltxcmds 2011/11/09 v1.22 LaTeX kernel commands for general use (HO)
 Package: ifluatex 2010/03/01 v1.3 Provides the ifluatex switch (HO)
 Package ifluatex Info: LuaTeX not detected.
-)
+Package: ifvtex 2010/03/01 v1.5 Detect VTeX and its facilities (HO)
+Package ifvtex Info: VTeX not detected.
+Package: intcalc 2007/09/27 v1.1 Expandable calculations with integers (HO)
+Package: ifpdf 2011/01/30 v2.3 Provides the ifpdf switch (HO)
+Package ifpdf Info: pdfTeX in PDF mode is detected.
+Package: etexcmds 2011/02/16 v1.5 Avoid name clashes with e-TeX commands (HO)
 Package etexcmds Info: Could not find \expanded.
 (etexcmds)             That can mean that you are not using pdfTeX 1.50 or
 (etexcmds)             that some package has redefined \expanded.
 (etexcmds)             In the latter case, load this package earlier.
-)))
-(C:\MiKTeX2.9\tex\latex\l3packages\xparse\xparse.sty
-(C:\MiKTeX2.9\tex\latex\l3kernel\expl3.sty
-Package: expl3 2014/05/06 v4751 L3 programming layer (loader) 
-
-(C:\MiKTeX2.9\tex\generic\oberdiek\ifpdf.sty
-Package: ifpdf 2011/01/30 v2.3 Provides the ifpdf switch (HO)
-Package ifpdf Info: pdfTeX in PDF mode is detected.
-)
-(C:\MiKTeX2.9\tex\latex\l3kernel\expl3-code.tex
-Package: expl3 2014/05/06 v4751 L3 programming layer (code) 
-L3 Module: l3bootstrap 2014/05/06 v4750 L3 Bootstrap code
-
-(C:\MiKTeX2.9\tex\latex\misc\etex.sty
-Package: etex 1998/03/26 v2.0 eTeX basic definition package (PEB)
-\et@xins=\count90
-)
-L3 Module: l3names 2014/05/04 v4728 L3 Namespace for primitives
-L3 Module: l3basics 2014/05/04 v4728 L3 Basic definitions
-L3 Module: l3expan 2014/04/30 v4712 L3 Argument expansion
-L3 Module: l3tl 2014/05/04 v4728 L3 Token lists
-L3 Module: l3seq 2014/04/30 v4712 L3 Sequences and stacks
-L3 Module: l3int 2014/05/04 v4728 L3 Integers
-\c_max_int=\count91
-\l_tmpa_int=\count92
-\l_tmpb_int=\count93
-\g_tmpa_int=\count94
-\g_tmpb_int=\count95
-L3 Module: l3quark 2014/05/04 v4728 L3 Quarks
-L3 Module: l3prg 2014/05/04 v4728 L3 Control structures
-\g__prg_map_int=\count96
-L3 Module: l3clist 2014/05/04 v4728 L3 Comma separated lists
-L3 Module: l3token 2014/05/04 v4728 L3 Experimental token manipulation
-L3 Module: l3prop 2014/04/30 v4712 L3 Property lists
-L3 Module: l3msg 2014/05/04 v4728 L3 Messages
-L3 Module: l3file 2014/05/05 v4737 L3 File and I/O operations
-\l_iow_line_count_int=\count97
-\l__iow_target_count_int=\count98
-\l__iow_current_line_int=\count99
-\l__iow_current_word_int=\count100
-\l__iow_current_indentation_int=\count101
-L3 Module: l3skip 2014/05/05 v4738 L3 Dimensions and skips
-\c_zero_dim=\dimen116
-\c_max_dim=\dimen117
-\l_tmpa_dim=\dimen118
-\l_tmpb_dim=\dimen119
-\g_tmpa_dim=\dimen120
-\g_tmpb_dim=\dimen121
-\c_zero_skip=\skip45
-\c_max_skip=\skip46
-\l_tmpa_skip=\skip47
-\l_tmpb_skip=\skip48
-\g_tmpa_skip=\skip49
-\g_tmpb_skip=\skip50
-\c_zero_muskip=\muskip10
-\c_max_muskip=\muskip11
-\l_tmpa_muskip=\muskip12
-\l_tmpb_muskip=\muskip13
-\g_tmpa_muskip=\muskip14
-\g_tmpb_muskip=\muskip15
-L3 Module: l3keys 2014/05/04 v4728 L3 Key-value interfaces
-\g__keyval_level_int=\count102
-\l_keys_choice_int=\count103
-L3 Module: l3fp 2014/04/30 v4712 L3 Floating points
-\c__fp_leading_shift_int=\count104
-\c__fp_middle_shift_int=\count105
-\c__fp_trailing_shift_int=\count106
-\c__fp_big_leading_shift_int=\count107
-\c__fp_big_middle_shift_int=\count108
-\c__fp_big_trailing_shift_int=\count109
-\c__fp_Bigg_leading_shift_int=\count110
-\c__fp_Bigg_middle_shift_int=\count111
-\c__fp_Bigg_trailing_shift_int=\count112
-L3 Module: l3box 2014/05/04 v4728 L3 Experimental boxes
-\c_empty_box=\box28
-\l_tmpa_box=\box29
-\l_tmpb_box=\box30
-\g_tmpa_box=\box31
-\g_tmpb_box=\box32
-L3 Module: l3coffins 2014/05/04 v4728 L3 Coffin code layer
-\l__coffin_internal_box=\box33
-\l__coffin_internal_dim=\dimen122
-\l__coffin_offset_x_dim=\dimen123
-\l__coffin_offset_y_dim=\dimen124
-\l__coffin_x_dim=\dimen125
-\l__coffin_y_dim=\dimen126
-\l__coffin_x_prime_dim=\dimen127
-\l__coffin_y_prime_dim=\dimen128
-\c_empty_coffin=\box34
-\l__coffin_aligned_coffin=\box35
-\l__coffin_aligned_internal_coffin=\box36
-\l_tmpa_coffin=\box37
-\l_tmpb_coffin=\box38
-\l__coffin_display_coffin=\box39
-\l__coffin_display_coord_coffin=\box40
-\l__coffin_display_pole_coffin=\box41
-\l__coffin_display_offset_dim=\dimen129
-\l__coffin_display_x_dim=\dimen130
-\l__coffin_display_y_dim=\dimen131
-L3 Module: l3color 2014/04/30 v4712 L3 Experimental color support
-L3 Module: l3luatex 2014/04/30 v4712 L3 Experimental LuaTeX-specific functions
-\g__cctab_allocate_int=\count113
-\g__cctab_stack_int=\count114
-L3 Module: l3candidates 2014/05/04 v4734 L3 Experimental additions to l3kernel
-\l__box_top_dim=\dimen132
-\l__box_bottom_dim=\dimen133
-\l__box_left_dim=\dimen134
-\l__box_right_dim=\dimen135
-\l__box_top_new_dim=\dimen136
-\l__box_bottom_new_dim=\dimen137
-\l__box_left_new_dim=\dimen138
-\l__box_right_new_dim=\dimen139
-\l__box_internal_box=\box42
-\l__coffin_bounding_shift_dim=\dimen140
-\l__coffin_left_corner_dim=\dimen141
-\l__coffin_right_corner_dim=\dimen142
-\l__coffin_bottom_corner_dim=\dimen143
-\l__coffin_top_corner_dim=\dimen144
-\l__coffin_scaled_total_height_dim=\dimen145
-\l__coffin_scaled_width_dim=\dimen146
-))
-Package: xparse 2014/05/05 v4740 L3 Experimental document command parser
-\l__xparse_current_arg_int=\count115
-\l__xparse_m_args_int=\count116
-\l__xparse_mandatory_args_int=\count117
-\l__xparse_processor_int=\count118
-\l__xparse_v_nesting_int=\count119
-)
-(C:\MiKTeX2.9\tex\latex\etoolbox\etoolbox.sty
-Package: etoolbox 2011/01/03 v2.1 e-TeX tools for LaTeX
-\etb@tempcnta=\count120
-)
-(C:\MiKTeX2.9\tex\latex\oberdiek\zref-abspage.sty
-Package: zref-abspage 2012/04/04 v2.24 Module abspage for zref (HO)
-
-(C:\MiKTeX2.9\tex\latex\oberdiek\zref-base.sty
-Package: zref-base 2012/04/04 v2.24 Module base for zref (HO)
-
-(C:\MiKTeX2.9\tex\generic\oberdiek\kvdefinekeys.sty
+Package: kvsetkeys 2012/04/25 v1.16 Key value parser (HO)
 Package: kvdefinekeys 2011/04/07 v1.3 Define keys (HO)
-)
-(C:\MiKTeX2.9\tex\generic\oberdiek\pdftexcmds.sty
-Package: pdftexcmds 2011/11/29 v0.20 Utility functions of pdfTeX for LuaTeX (HO
-)
+Package: pdftexcmds 2011/11/29 v0.20 Utility functions of pdfTeX for LuaTeX (HO)
 Package pdftexcmds Info: LuaTeX not detected.
 Package pdftexcmds Info: \pdf@primitive is available.
 Package pdftexcmds Info: \pdf@ifprimitive is available.
 Package pdftexcmds Info: \pdfdraftmode found.
-)
-(C:\MiKTeX2.9\tex\latex\oberdiek\auxhook.sty
-Package: auxhook 2011/03/04 v1.3 Hooks for auxiliary files (HO)
-)
-Package zref Info: New property list: main on input line 759.
-Package zref Info: New property: default on input line 760.
-Package zref Info: New property: page on input line 761.
-)
-(C:\MiKTeX2.9\tex\generic\oberdiek\atbegshi.sty
-Package: atbegshi 2011/10/05 v1.16 At begin shipout hook (HO)
-)
-\c@abspage=\count121
-Package zref Info: New property: abspage on input line 62.
-)
-(C:\MiKTeX2.9\tex\latex\needspace\needspace.sty
-Package: needspace 2010/09/12 v1.3d reserve vertical space
-)
-(C:\MiKTeX2.9\tex\latex\graphics\color.sty
-Package: color 2005/11/14 v1.0j Standard LaTeX Color (DPC)
-
-(C:\MiKTeX2.9\tex\latex\00miktex\color.cfg
-File: color.cfg 2007/01/18 v1.5 color configuration of teTeX/TeXLive
-)
-Package color Info: Driver file: pdftex.def on input line 130.
-
-(C:\MiKTeX2.9\tex\latex\pdftex-def\pdftex.def
-File: pdftex.def 2011/05/27 v0.06d Graphics/color for pdfTeX
-\Gread@gobject=\count122
-))
-\mdf@templength=\skip51
-\c@mdf@globalstyle@cnt=\count123
-\mdf@skipabove@length=\skip52
-\mdf@skipbelow@length=\skip53
-\mdf@leftmargin@length=\skip54
-\mdf@rightmargin@length=\skip55
-\mdf@innerleftmargin@length=\skip56
-\mdf@innerrightmargin@length=\skip57
-\mdf@innertopmargin@length=\skip58
-\mdf@innerbottommargin@length=\skip59
-\mdf@splittopskip@length=\skip60
-\mdf@splitbottomskip@length=\skip61
-\mdf@outermargin@length=\skip62
-\mdf@innermargin@length=\skip63
-\mdf@linewidth@length=\skip64
-\mdf@innerlinewidth@length=\skip65
-\mdf@middlelinewidth@length=\skip66
-\mdf@outerlinewidth@length=\skip67
-\mdf@roundcorner@length=\skip68
-\mdf@footenotedistance@length=\skip69
-\mdf@userdefinedwidth@length=\skip70
-\mdf@needspace@length=\skip71
-\mdf@frametitleaboveskip@length=\skip72
-\mdf@frametitlebelowskip@length=\skip73
-\mdf@frametitlerulewidth@length=\skip74
-\mdf@frametitleleftmargin@length=\skip75
-\mdf@frametitlerightmargin@length=\skip76
-\mdf@shadowsize@length=\skip77
-\mdf@extratopheight@length=\skip78
-\mdf@subtitleabovelinewidth@length=\skip79
-\mdf@subtitlebelowlinewidth@length=\skip80
-\mdf@subtitleaboveskip@length=\skip81
-\mdf@subtitlebelowskip@length=\skip82
-\mdf@subtitleinneraboveskip@length=\skip83
-\mdf@subtitleinnerbelowskip@length=\skip84
-\mdf@subsubtitleabovelinewidth@length=\skip85
-\mdf@subsubtitlebelowlinewidth@length=\skip86
-\mdf@subsubtitleaboveskip@length=\skip87
-\mdf@subsubtitlebelowskip@length=\skip88
-\mdf@subsubtitleinneraboveskip@length=\skip89
-\mdf@subsubtitleinnerbelowskip@length=\skip90
-
-(C:\MiKTeX2.9\tex\latex\mdframed\md-frame-0.mdf
-File: md-frame-0.mdf 2013/07/01\ 1.9b: md-frame-0
-)
-\mdf@frametitlebox=\box43
-\mdf@footnotebox=\box44
-\mdf@splitbox@one=\box45
-\mdf@splitbox@two=\box46
-\mdf@splitbox@save=\box47
-\mdfsplitboxwidth=\skip91
-\mdfsplitboxtotalwidth=\skip92
-\mdfsplitboxheight=\skip93
-\mdfsplitboxdepth=\skip94
-\mdfsplitboxtotalheight=\skip95
-\mdfframetitleboxwidth=\skip96
-\mdfframetitleboxtotalwidth=\skip97
-\mdfframetitleboxheight=\skip98
-\mdfframetitleboxdepth=\skip99
-\mdfframetitleboxtotalheight=\skip100
-\mdffootnoteboxwidth=\skip101
-\mdffootnoteboxtotalwidth=\skip102
-\mdffootnoteboxheight=\skip103
-\mdffootnoteboxdepth=\skip104
-\mdffootnoteboxtotalheight=\skip105
-\mdftotallinewidth=\skip106
-\mdfboundingboxwidth=\skip107
-\mdfboundingboxtotalwidth=\skip108
-\mdfboundingboxheight=\skip109
-\mdfboundingboxdepth=\skip110
-\mdfboundingboxtotalheight=\skip111
-\mdf@freevspace@length=\skip112
-\mdf@horizontalwidthofbox@length=\skip113
-\mdf@verticalmarginwhole@length=\skip114
-\mdf@horizontalspaceofbox=\skip115
-\mdfsubtitleheight=\skip116
-\mdfsubsubtitleheight=\skip117
-\c@mdfcountframes=\count124
-
-****** mdframed patching \endmdf@trivlist
-
-****** -- success******
-
-.................................................
-. LaTeX info: "xparse/define-command"
-. 
-. Defining document command \newmdtheoremenv with arg. spec. 'O{} m o m o ' on
-. line 601.
-.................................................
-.................................................
-. LaTeX info: "xparse/define-command"
-. 
-. Defining document command \mdtheorem with arg. spec. ' O{} m o m o ' on line
-. 701.
-.................................................
-\mdf@envdepth=\count125
-\c@mdf@env@i=\count126
-\c@mdf@env@ii=\count127
-\c@mdf@zref@counter=\count128
-Package zref Info: New property: mdf@pagevalue on input line 895.
-)
-(C:\MiKTeX2.9\tex\latex\hyperref\hyperref.sty
-Package: hyperref 2012/11/06 v6.83m Hypertext links for LaTeX
-
-(C:\MiKTeX2.9\tex\generic\oberdiek\hobsub-hyperref.sty
-Package: hobsub-hyperref 2012/04/25 v1.12 Bundle oberdiek, subset hyperref (HO)
-
-
-(C:\MiKTeX2.9\tex\generic\oberdiek\hobsub-generic.sty
-Package: hobsub-generic 2012/04/25 v1.12 Bundle oberdiek, subset generic (HO)
-Package: hobsub 2012/04/25 v1.12 Construct package bundles (HO)
-Package hobsub Info: Skipping package `infwarerr' (already loaded).
-Package hobsub Info: Skipping package `ltxcmds' (already loaded).
-Package hobsub Info: Skipping package `ifluatex' (already loaded).
-Package: ifvtex 2010/03/01 v1.5 Detect VTeX and its facilities (HO)
-Package ifvtex Info: VTeX not detected.
-Package: intcalc 2007/09/27 v1.1 Expandable calculations with integers (HO)
-Package hobsub Info: Skipping package `ifpdf' (already loaded).
-Package hobsub Info: Skipping package `etexcmds' (already loaded).
-Package hobsub Info: Skipping package `kvsetkeys' (already loaded).
-Package hobsub Info: Skipping package `kvdefinekeys' (already loaded).
-Package hobsub Info: Skipping package `pdftexcmds' (already loaded).
 Package: pdfescape 2011/11/25 v1.13 Implements pdfTeX's escape features (HO)
-Package: bigintcalc 2012/04/08 v1.3 Expandable calculations on big integers (HO
-)
+Package: bigintcalc 2012/04/08 v1.3 Expandable calculations on big integers (HO)
 Package: bitset 2011/01/30 v1.1 Handle bit-vector datatype (HO)
 Package: uniquecounter 2011/01/30 v1.2 Provide unlimited unique counter (HO)
 )
@@ -424,29 +125,35 @@ Package: letltxmacro 2010/09/02 v1.4 Let assignment for LaTeX macros (HO)
 Package: hopatch 2011/06/24 v1.1 Wrapper for package hooks (HO)
 Package: xcolor-patch 2011/01/30 xcolor patch
 Package: atveryend 2011/06/30 v1.8 Hooks at the very end of document (HO)
-Package hobsub Info: Skipping package `atbegshi' (already loaded).
+Package atveryend Info: \enddocument detected (standard20110627).
+Package: atbegshi 2011/10/05 v1.16 At begin shipout hook (HO)
 Package: refcount 2011/10/16 v3.4 Data extraction from label references (HO)
 Package: hycolor 2011/01/30 v1.7 Color options for hyperref/bookmark (HO)
 )
-(C:\MiKTeX2.9\tex\generic\ifxetex\ifxetex.sty
+("C:\Program Files (x86)\MiKTeX 2.9\tex\generic\ifxetex\ifxetex.sty"
 Package: ifxetex 2010/09/12 v0.6 Provides ifxetex conditional
 )
-\@linkdim=\dimen147
-\Hy@linkcounter=\count129
-\Hy@pagecounter=\count130
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\oberdiek\auxhook.sty"
+Package: auxhook 2011/03/04 v1.3 Hooks for auxiliary files (HO)
+)
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\oberdiek\kvoptions.sty"
+Package: kvoptions 2011/06/30 v3.11 Key value format for package options (HO)
+)
+\@linkdim=\dimen116
+\Hy@linkcounter=\count90
+\Hy@pagecounter=\count91
 
-(C:\MiKTeX2.9\tex\latex\hyperref\pd1enc.def
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\hyperref\pd1enc.def"
 File: pd1enc.def 2012/11/06 v6.83m Hyperref: PDFDocEncoding definition (HO)
 )
-\Hy@SavedSpaceFactor=\count131
+\Hy@SavedSpaceFactor=\count92
 
-(C:\MiKTeX2.9\tex\latex\00miktex\hyperref.cfg
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\00miktex\hyperref.cfg"
 File: hyperref.cfg 2002/06/06 v1.2 hyperref configuration of TeXLive
 )
 Package hyperref Info: Option `bookmarks' set `true' on input line 4319.
 Package hyperref Info: Option `bookmarksopen' set `false' on input line 4319.
-Package hyperref Info: Option `bookmarksnumbered' set `true' on input line 4319
-.
+Package hyperref Info: Option `bookmarksnumbered' set `true' on input line 4319.
 Package hyperref Info: Hyper figures OFF on input line 4443.
 Package hyperref Info: Link nesting OFF on input line 4448.
 Package hyperref Info: Hyper index ON on input line 4451.
@@ -454,17 +161,17 @@ Package hyperref Info: Plain pages OFF on input line 4458.
 Package hyperref Info: Backreferencing OFF on input line 4463.
 Package hyperref Info: Implicit mode ON; LaTeX internals redefined.
 Package hyperref Info: Bookmarks ON on input line 4688.
-\c@Hy@tempcnt=\count132
+\c@Hy@tempcnt=\count93
 
-(C:\MiKTeX2.9\tex\latex\url\url.sty
-\Urlmuskip=\muskip16
-Package: url 2013/09/16  ver 3.4  Verb mode for urls, etc.
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\ltxmisc\url.sty"
+\Urlmuskip=\muskip10
+Package: url 2006/04/12  ver 3.3  Verb mode for urls, etc.
 )
 LaTeX Info: Redefining \url on input line 5041.
-\XeTeXLinkMargin=\dimen148
-\Fld@menulength=\count133
-\Field@Width=\dimen149
-\Fld@charsize=\dimen150
+\XeTeXLinkMargin=\dimen117
+\Fld@menulength=\count94
+\Field@Width=\dimen118
+\Fld@charsize=\dimen119
 Package hyperref Info: Hyper figures OFF on input line 6295.
 Package hyperref Info: Link nesting OFF on input line 6300.
 Package hyperref Info: Hyper index ON on input line 6303.
@@ -474,159 +181,169 @@ Package hyperref Info: Link coloring with OCG OFF on input line 6320.
 Package hyperref Info: PDF/A mode OFF on input line 6325.
 LaTeX Info: Redefining \ref on input line 6365.
 LaTeX Info: Redefining \pageref on input line 6369.
-\Hy@abspage=\count134
-\c@Item=\count135
-\c@Hfootnote=\count136
+\Hy@abspage=\count95
+\c@Item=\count96
+\c@Hfootnote=\count97
 )
 
 Package hyperref Message: Driver: hpdftex.
 
-(C:\MiKTeX2.9\tex\latex\hyperref\hpdftex.def
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\hyperref\hpdftex.def"
 File: hpdftex.def 2012/11/06 v6.83m Hyperref driver for pdfTeX
-\HyAnn@Count=\count137
-\Fld@listcount=\count138
-\c@bookmark@seq@number=\count139
+\Fld@listcount=\count98
+\c@bookmark@seq@number=\count99
 
-(C:\MiKTeX2.9\tex\latex\oberdiek\rerunfilecheck.sty
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\oberdiek\rerunfilecheck.sty"
 Package: rerunfilecheck 2011/04/15 v1.7 Rerun checks for auxiliary files (HO)
-Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 2
-82.
+Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 282.
 )
-\Hy@SectionHShift=\skip118
+\Hy@SectionHShift=\skip45
 )
 Package hyperref Info: Option `breaklinks' set `true' on input line 30.
 Package hyperref Info: Option `colorlinks' set `true' on input line 30.
 
-(C:\MiKTeX2.9\tex\latex\amsmath\amsmath.sty
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\amsmath\amsmath.sty"
 Package: amsmath 2013/01/14 v2.14 AMS math features
-\@mathmargin=\skip119
+\@mathmargin=\skip46
 
 For additional information on amsmath, use the `?' option.
-(C:\MiKTeX2.9\tex\latex\amsmath\amstext.sty
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\amsmath\amstext.sty"
 Package: amstext 2000/06/29 v2.01
 
-(C:\MiKTeX2.9\tex\latex\amsmath\amsgen.sty
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\amsmath\amsgen.sty"
 File: amsgen.sty 1999/11/30 v2.0
 \@emptytoks=\toks18
-\ex@=\dimen151
+\ex@=\dimen120
 ))
-(C:\MiKTeX2.9\tex\latex\amsmath\amsbsy.sty
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\amsmath\amsbsy.sty"
 Package: amsbsy 1999/11/29 v1.2d
-\pmbraise@=\dimen152
+\pmbraise@=\dimen121
 )
-(C:\MiKTeX2.9\tex\latex\amsmath\amsopn.sty
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\amsmath\amsopn.sty"
 Package: amsopn 1999/12/14 v2.01 operator names
 )
-\inf@bad=\count140
+\inf@bad=\count100
 LaTeX Info: Redefining \frac on input line 210.
-\uproot@=\count141
-\leftroot@=\count142
+\uproot@=\count101
+\leftroot@=\count102
 LaTeX Info: Redefining \overline on input line 306.
-\classnum@=\count143
-\DOTSCASE@=\count144
+\classnum@=\count103
+\DOTSCASE@=\count104
 LaTeX Info: Redefining \ldots on input line 378.
 LaTeX Info: Redefining \dots on input line 381.
 LaTeX Info: Redefining \cdots on input line 466.
-\Mathstrutbox@=\box48
-\strutbox@=\box49
-\big@size=\dimen153
+\Mathstrutbox@=\box28
+\strutbox@=\box29
+\big@size=\dimen122
 LaTeX Font Info:    Redeclaring font encoding OML on input line 566.
 LaTeX Font Info:    Redeclaring font encoding OMS on input line 567.
-\macc@depth=\count145
-\c@MaxMatrixCols=\count146
-\dotsspace@=\muskip17
-\c@parentequation=\count147
-\dspbrk@lvl=\count148
+\macc@depth=\count105
+\c@MaxMatrixCols=\count106
+\dotsspace@=\muskip11
+\c@parentequation=\count107
+\dspbrk@lvl=\count108
 \tag@help=\toks19
-\row@=\count149
-\column@=\count150
-\maxfields@=\count151
+\row@=\count109
+\column@=\count110
+\maxfields@=\count111
 \andhelp@=\toks20
-\eqnshift@=\dimen154
-\alignsep@=\dimen155
-\tagshift@=\dimen156
-\tagwidth@=\dimen157
-\totwidth@=\dimen158
-\lineht@=\dimen159
+\eqnshift@=\dimen123
+\alignsep@=\dimen124
+\tagshift@=\dimen125
+\tagwidth@=\dimen126
+\totwidth@=\dimen127
+\lineht@=\dimen128
 \@envbody=\toks21
-\multlinegap=\skip120
-\multlinetaggap=\skip121
+\multlinegap=\skip47
+\multlinetaggap=\skip48
 \mathdisplay@stack=\toks22
 LaTeX Info: Redefining \[ on input line 2665.
 LaTeX Info: Redefining \] on input line 2666.
 )
-(C:\MiKTeX2.9\tex\latex\listings\listings.sty
-\lst@mode=\count152
-\lst@gtempboxa=\box50
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\listings\listings.sty"
+\lst@mode=\count112
+\lst@gtempboxa=\box30
 \lst@token=\toks23
-\lst@length=\count153
-\lst@currlwidth=\dimen160
-\lst@column=\count154
-\lst@pos=\count155
-\lst@lostspace=\dimen161
-\lst@width=\dimen162
-\lst@newlines=\count156
-\lst@lineno=\count157
-\lst@maxwidth=\dimen163
+\lst@length=\count113
+\lst@currlwidth=\dimen129
+\lst@column=\count114
+\lst@pos=\count115
+\lst@lostspace=\dimen130
+\lst@width=\dimen131
+\lst@newlines=\count116
+\lst@lineno=\count117
+\lst@maxwidth=\dimen132
 
-(C:\MiKTeX2.9\tex\latex\listings\lstmisc.sty
-File: lstmisc.sty 2014/03/04 1.5c (Carsten Heinz)
-\c@lstnumber=\count158
-\lst@skipnumbers=\count159
-\lst@framebox=\box51
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\listings\lstmisc.sty"
+File: lstmisc.sty 2013/08/05 1.5a (Carsten Heinz)
+\c@lstnumber=\count118
+\lst@skipnumbers=\count119
+\lst@framebox=\box31
 )
-(C:\MiKTeX2.9\tex\latex\listings\listings.cfg
-File: listings.cfg 2014/03/04 1.5c listings configuration
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\listings\listings.cfg"
+File: listings.cfg 2013/08/05 1.5a listings configuration
 ))
-Package: listings 2014/03/04 1.5c (Carsten Heinz)
+Package: listings 2013/08/05 1.5a (Carsten Heinz)
 
-(C:\MiKTeX2.9\tex\latex\geometry\geometry.sty
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\graphics\color.sty"
+Package: color 2005/11/14 v1.0j Standard LaTeX Color (DPC)
+
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\00miktex\color.cfg"
+File: color.cfg 2007/01/18 v1.5 color configuration of teTeX/TeXLive
+)
+Package color Info: Driver file: pdftex.def on input line 130.
+
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\pdftex-def\pdftex.def"
+File: pdftex.def 2011/05/27 v0.06d Graphics/color for pdfTeX
+\Gread@gobject=\count120
+))
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\geometry\geometry.sty"
 Package: geometry 2010/09/12 v5.6 Page Geometry
-\Gm@cnth=\count160
-\Gm@cntv=\count161
-\c@Gm@tempcnt=\count162
-\Gm@bindingoffset=\dimen164
-\Gm@wd@mp=\dimen165
-\Gm@odd@mp=\dimen166
-\Gm@even@mp=\dimen167
-\Gm@layoutwidth=\dimen168
-\Gm@layoutheight=\dimen169
-\Gm@layouthoffset=\dimen170
-\Gm@layoutvoffset=\dimen171
+\Gm@cnth=\count121
+\Gm@cntv=\count122
+\c@Gm@tempcnt=\count123
+\Gm@bindingoffset=\dimen133
+\Gm@wd@mp=\dimen134
+\Gm@odd@mp=\dimen135
+\Gm@even@mp=\dimen136
+\Gm@layoutwidth=\dimen137
+\Gm@layoutheight=\dimen138
+\Gm@layouthoffset=\dimen139
+\Gm@layoutvoffset=\dimen140
 \Gm@dimlist=\toks24
 
-(C:\MiKTeX2.9\tex\latex\geometry\geometry.cfg))
-(C:\MiKTeX2.9\tex\latex\natbib\natbib.sty
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\geometry\geometry.cfg"))
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\natbib\natbib.sty"
 Package: natbib 2010/09/13 8.31b (PWD, AO)
-\bibhang=\skip122
-\bibsep=\skip123
+\bibhang=\skip49
+\bibsep=\skip50
 LaTeX Info: Redefining \cite on input line 694.
-\c@NAT@ctr=\count163
+\c@NAT@ctr=\count124
 )
-(C:\MiKTeX2.9\tex\latex\base\makeidx.sty
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\base\makeidx.sty"
 Package: makeidx 2000/03/29 v1.0m Standard LaTeX package
 )
 \@indexfile=\write4
 
 Writing index file SAM.idx
-(C:\MiKTeX2.9\tex\latex\graphics\graphicx.sty
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\graphics\graphicx.sty"
 Package: graphicx 1999/02/16 v1.0f Enhanced LaTeX Graphics (DPC,SPQR)
 
-(C:\MiKTeX2.9\tex\latex\graphics\graphics.sty
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\graphics\graphics.sty"
 Package: graphics 2009/02/05 v1.0o Standard LaTeX Graphics (DPC,SPQR)
 
-(C:\MiKTeX2.9\tex\latex\graphics\trig.sty
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\graphics\trig.sty"
 Package: trig 1999/03/16 v1.09 sin cos tan (DPC)
 )
-(C:\MiKTeX2.9\tex\latex\00miktex\graphics.cfg
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\00miktex\graphics.cfg"
 File: graphics.cfg 2007/01/18 v1.5 graphics configuration of teTeX/TeXLive
 )
 Package graphics Info: Driver file: pdftex.def on input line 91.
 )
-\Gin@req@height=\dimen172
-\Gin@req@width=\dimen173
+\Gin@req@height=\dimen141
+\Gin@req@width=\dimen142
 )
-(C:\MiKTeX2.9\tex\latex\pslatex\pslatex.sty
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\pslatex\pslatex.sty"
 Package: pslatex 1996/07/24 v1.2 pslatex emulation (DPC)
 LaTeX Font Info:    Redeclaring symbol font `operators' on input line 65.
 LaTeX Font Info:    Overwriting symbol font `operators' in version `normal'
@@ -661,46 +378,44 @@ LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `normal'
 LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `bold'
 (Font)                  OT1/cmr/bx/it --> OT1/ptm/m/it on input line 75.
 <<ot1.cmap>>)
-(C:\MiKTeX2.9\tex\latex\sectsty\sectsty.sty
-Package: sectsty 2002/02/25 v2.0.2 Commands to change all sectional heading sty
-les
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\sectsty\sectsty.sty"
+Package: sectsty 2002/02/25 v2.0.2 Commands to change all sectional heading styles
 )
-(C:\MiKTeX2.9\tex\latex\fancyhdr\fancyhdr.sty
-\fancy@headwidth=\skip124
-\f@ncyO@elh=\skip125
-\f@ncyO@erh=\skip126
-\f@ncyO@olh=\skip127
-\f@ncyO@orh=\skip128
-\f@ncyO@elf=\skip129
-\f@ncyO@erf=\skip130
-\f@ncyO@olf=\skip131
-\f@ncyO@orf=\skip132
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\fancyhdr\fancyhdr.sty"
+\fancy@headwidth=\skip51
+\f@ncyO@elh=\skip52
+\f@ncyO@erh=\skip53
+\f@ncyO@olh=\skip54
+\f@ncyO@orh=\skip55
+\f@ncyO@elf=\skip56
+\f@ncyO@erf=\skip57
+\f@ncyO@olf=\skip58
+\f@ncyO@orf=\skip59
 )
-(C:\Kath\projects\General\isam\trunk\Documentation\manual\tweaklist.sty)
-(C:\Kath\projects\General\isam\trunk\Documentation\manual\version.tex)
-(C:\MiKTeX2.9\tex\latex\totpages\totpages.sty
+(C:\Projects\General\iSAM\trunk\Documentation\manual\tweaklist.sty)
+(C:\Projects\General\iSAM\trunk\Documentation\manual\version.tex)
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\totpages\totpages.sty"
 Package: totpages 2005/09/19 v2.00 Totpages Package (muewi)
 
-(C:\MiKTeX2.9\tex\latex\ms\everyshi.sty
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\ms\everyshi.sty"
 Package: everyshi 2001/05/15 v3.00 EveryShipout Package (MS)
 ))
-(C:\Kath\projects\General\isam\trunk\Documentation\manual\SAM.aux
-(C:\Kath\projects\General\isam\trunk\Documentation\manual\Introduction.aux)
-(C:\Kath\projects\General\isam\trunk\Documentation\manual\Overview.aux)
-(C:\Kath\projects\General\isam\trunk\Documentation\manual\RunningSAM.aux)
-(C:\Kath\projects\General\isam\trunk\Documentation\manual\Population.aux)
-(C:\Kath\projects\General\isam\trunk\Documentation\manual\Estimation.aux)
-(C:\Kath\projects\General\isam\trunk\Documentation\manual\Observation.aux)
-(C:\Kath\projects\General\isam\trunk\Documentation\manual\Report.aux)
-(C:\Kath\projects\General\isam\trunk\Documentation\manual\Examples.aux)
-(C:\Kath\projects\General\isam\trunk\Documentation\manual\PostProcessing.aux)
-(C:\Kath\projects\General\isam\trunk\Documentation\manual\ChangesEnhancements.a
-ux)
-(C:\Kath\projects\General\isam\trunk\Documentation\manual\Troubleshooting.aux)
-(C:\Kath\projects\General\isam\trunk\Documentation\manual\Acknowledgments.aux)
-(C:\Kath\projects\General\isam\trunk\Documentation\manual\QuickReference.aux)
-(C:\Kath\projects\General\isam\trunk\Documentation\manual\References.aux)
-(C:\Kath\projects\General\isam\trunk\Documentation\manual\License.aux))
+(C:\Projects\General\iSAM\trunk\Documentation\manual\SAM.aux
+(C:\Projects\General\iSAM\trunk\Documentation\manual\Introduction.aux)
+(C:\Projects\General\iSAM\trunk\Documentation\manual\Overview.aux)
+(C:\Projects\General\iSAM\trunk\Documentation\manual\RunningSAM.aux)
+(C:\Projects\General\iSAM\trunk\Documentation\manual\Population.aux)
+(C:\Projects\General\iSAM\trunk\Documentation\manual\Estimation.aux)
+(C:\Projects\General\iSAM\trunk\Documentation\manual\Observation.aux)
+(C:\Projects\General\iSAM\trunk\Documentation\manual\Report.aux)
+No file Examples.aux.
+(C:\Projects\General\iSAM\trunk\Documentation\manual\PostProcessing.aux)
+(C:\Projects\General\iSAM\trunk\Documentation\manual\ChangesEnhancements.aux)
+(C:\Projects\General\iSAM\trunk\Documentation\manual\Troubleshooting.aux)
+(C:\Projects\General\iSAM\trunk\Documentation\manual\Acknowledgments.aux)
+(C:\Projects\General\iSAM\trunk\Documentation\manual\QuickReference.aux)
+(C:\Projects\General\iSAM\trunk\Documentation\manual\References.aux)
+(C:\Projects\General\iSAM\trunk\Documentation\manual\License.aux))
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 228.
 LaTeX Font Info:    ... okay on input line 228.
 LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 228.
@@ -708,10 +423,9 @@ LaTeX Font Info:    ... okay on input line 228.
 LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 228.
 LaTeX Font Info:    ... okay on input line 228.
 LaTeX Font Info:    Checking defaults for OMS/pzccm/m/n on input line 228.
-LaTeX Font Info:    Try loading font information for OMS+pzccm on input line 22
-8.
+LaTeX Font Info:    Try loading font information for OMS+pzccm on input line 228.
 
-(C:\MiKTeX2.9\tex\latex\psnfss\omspzccm.fd
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\psnfss\omspzccm.fd"
 File: omspzccm.fd 2000/01/03 Fontinst v1.801 font definitions for OMS/pzccm.
 )
 LaTeX Font Info:    ... okay on input line 228.
@@ -726,40 +440,40 @@ Package caption Info: float package is loaded.
 Package caption Info: hyperref package is loaded.
 Package caption Info: listings package is loaded.
 Package caption Info: End \AtBeginDocument code.
-\AtBeginShipoutBox=\box52
-
-(C:\MiKTeX2.9\tex\context\base\supp-pdf.mkii
-[Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count164
-\scratchdimen=\dimen174
-\scratchbox=\box53
-\nofMPsegments=\count165
-\nofMParguments=\count166
-\everyMPshowfont=\toks25
-\MPscratchCnt=\count167
-\MPscratchDim=\dimen175
-\MPnumerator=\count168
-\makeMPintoPDFobject=\count169
-\everyMPtoPDFconversion=\toks26
-)
+\AtBeginShipoutBox=\box32
 Package hyperref Info: Link coloring ON on input line 228.
- (C:\MiKTeX2.9\tex\latex\hyperref\nameref.sty
+
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\hyperref\nameref.sty"
 Package: nameref 2012/10/27 v2.43 Cross-referencing by name of section
 
-(C:\MiKTeX2.9\tex\generic\oberdiek\gettitlestring.sty
+("C:\Program Files (x86)\MiKTeX 2.9\tex\generic\oberdiek\gettitlestring.sty"
 Package: gettitlestring 2010/12/03 v1.4 Cleanup title references (HO)
 )
-\c@section@level=\count170
+\c@section@level=\count125
 )
 LaTeX Info: Redefining \ref on input line 228.
 LaTeX Info: Redefining \pageref on input line 228.
 LaTeX Info: Redefining \nameref on input line 228.
 
-(C:\Kath\projects\General\isam\trunk\Documentation\manual\SAM.out)
-(C:\Kath\projects\General\isam\trunk\Documentation\manual\SAM.out)
+(C:\Projects\General\iSAM\trunk\Documentation\manual\SAM.out)
+(C:\Projects\General\iSAM\trunk\Documentation\manual\SAM.out)
 \@outlinefile=\write5
-\c@lstlisting=\count171
+\c@lstlisting=\count126
 
+("C:\Program Files (x86)\MiKTeX 2.9\tex\context\base\supp-pdf.mkii"
+[Loading MPS to PDF converter (version 2006.09.02).]
+\scratchcounter=\count127
+\scratchdimen=\dimen143
+\scratchbox=\box33
+\nofMPsegments=\count128
+\nofMParguments=\count129
+\everyMPshowfont=\toks25
+\MPscratchCnt=\count130
+\MPscratchDim=\dimen144
+\MPnumerator=\count131
+\makeMPintoPDFobject=\count132
+\everyMPtoPDFconversion=\toks26
+)
 *geometry* detected driver: pdftex
 *geometry* verbose mode - [ preamble ] result:
 * driver: pdftex
@@ -793,24 +507,19 @@ LaTeX Info: Redefining \nameref on input line 228.
 * \@reversemarginfalse
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
-ABD: EveryShipout initializing macros<<ot1tt.cmap>>
-(C:\Kath\projects\General\isam\trunk\Documentation\manual\SAMversion.tex)
-LaTeX Font Info:    Try loading font information for OT1+ptmcm on input line 23
-7.
-
-(C:\MiKTeX2.9\tex\latex\psnfss\ot1ptmcm.fd
+ABD: EveryShipout initializing macros<<ot1tt.cmap>> (C:\Projects\General\iSAM\trunk\Documentation\manual\SAMversion.tex)
+LaTeX Font Info:    Try loading font information for OT1+ptmcm on input line 237.
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\psnfss\ot1ptmcm.fd"
 File: ot1ptmcm.fd 2000/01/03 Fontinst v1.801 font definitions for OT1/ptmcm.
 )
-LaTeX Font Info:    Try loading font information for OML+ptmcm on input line 23
-7.
+LaTeX Font Info:    Try loading font information for OML+ptmcm on input line 237.
 
-(C:\MiKTeX2.9\tex\latex\psnfss\omlptmcm.fd
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\psnfss\omlptmcm.fd"
 File: omlptmcm.fd 2000/01/03 Fontinst v1.801 font definitions for OML/ptmcm.
 )<<oml.cmap>><<oms.cmap>>
-LaTeX Font Info:    Try loading font information for OMX+psycm on input line 23
-7.
+LaTeX Font Info:    Try loading font information for OMX+psycm on input line 237.
 
-(C:\MiKTeX2.9\tex\latex\psnfss\omxpsycm.fd
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\psnfss\omxpsycm.fd"
 File: omxpsycm.fd 2000/01/03 Fontinst v1.801 font definitions for OMX/psycm.
 )<<omx.cmap>>
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <12> not available
@@ -822,18 +531,30 @@ LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <7> not available
 
 <Figures/rattail.png, id=740, 316.18124pt x 90.3375pt>
 File: Figures/rattail.png Graphic file (type png)
-
-<use Figures/rattail.png>
+ <use Figures/rattail.png>
 Package pdftex.def Info: Figures/rattail.png used on input line 243.
 (pdftex.def)             Requested size: 316.18047pt x 90.33727pt.
-Package mdframed Info: mdframed works in twoside mode on input line 255.
 
-(C:\Kath\projects\General\isam\trunk\Documentation\manual\SAMversion.tex)
-[1.1
+! Undefined control sequence.
+l.249 \global\mdfdefinestyle
+                            {defKL}{%
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
 
-{C:/Users/largeke/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map} <C:/Kath/p
-rojects/General/isam/trunk/Documentation/manual/Figures/rattail.png>]
-[2.2
+! You can't use a prefix with `begin-group character {'.
+<to be read again> 
+                   {
+l.249 \global\mdfdefinestyle{
+                             defKL}{%
+I'll pretend you didn't say \long or \outer or \global or \protected.
+
+(C:\Projects\General\iSAM\trunk\Documentation\manual\SAMversion.tex) [1.1
+
+{C:/ProgramData/MiKTeX/2.9/pdftex/config/pdftex.map} <C:/Projects/General/iSAM/trunk/Documentation/manual/Figures/rattai
+l.png>] [2.2
 
 ]
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <10.95> not available
@@ -842,9 +563,9 @@ LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <8> not available
 (Font)              Font shape `OT1/ptm/b/n' tried instead on input line 282.
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <6> not available
 (Font)              Font shape `OT1/ptm/b/n' tried instead on input line 282.
- (C:\Kath\projects\General\isam\trunk\Documentation\manual\SAMversion.tex) (C:\
-Kath\projects\General\isam\trunk\Documentation\manual\SAMversion.tex)
-[1.3] [2.4
+
+(C:\Projects\General\iSAM\trunk\Documentation\manual\SAMversion.tex)
+(C:\Projects\General\iSAM\trunk\Documentation\manual\SAMversion.tex) [1.3] [2.4
 
 
 ]
@@ -858,41 +579,37 @@ LaTeX Font Info:    Font shape `OT1/phv/bx/n' in size <12> not available
 (Font)              Font shape `OT1/phv/b/n' tried instead on input line 291.
 LaTeX Font Info:    Font shape `OT1/phv/b/n' will be
 (Font)              scaled to size 10.79993pt on input line 291.
- (C:\Kath\projects\General\isam\trunk\Documentation\manual\SAM.toc
+
+(C:\Projects\General\iSAM\trunk\Documentation\manual\SAM.toc
 LaTeX Font Info:    Font shape `OT1/pcr/bx/n' in size <10.95> not available
 (Font)              Font shape `OT1/pcr/b/n' tried instead on input line 15.
-
-[3.5] [4.6] [5.7] [6.8])
+ [3.5] [4.6] [5.7] [6.8])
 \tf@toc=\write6
  [7.9] [8.10
 
 
 ]
-(C:\Kath\projects\General\isam\trunk\Documentation\manual\Introduction.tex
-(C:\Kath\projects\General\isam\trunk\Documentation\manual\SAMversion.tex)
+(C:\Projects\General\iSAM\trunk\Documentation\manual\Introduction.tex
+(C:\Projects\General\iSAM\trunk\Documentation\manual\SAMversion.tex)
 LaTeX Font Info:    Font shape `OT1/pcr/bx/n' in size <12> not available
 (Font)              Font shape `OT1/pcr/b/n' tried instead on input line 13.
 
-(C:\Kath\projects\General\isam\trunk\Documentation\manual\SAMversion.tex)
+(C:\Projects\General\iSAM\trunk\Documentation\manual\SAMversion.tex)
 LaTeX Font Info:    Font shape `OMS/ptm/m/n' in size <10.95> not available
 (Font)              Font shape `OMS/pzccm/m/n' tried instead on input line 23.
-
-[1.11
+ [1.11
 
 ]
 
-LaTeX Warning: Reference `sec:reporting-errors' on page 2 undefined on input li
-ne 41.
+LaTeX Warning: Reference `sec:reporting-errors' on page 2 undefined on input line 41.
 
 [2.12]) [3.13] [4.14
 
 
 
-]
-(C:\Kath\projects\General\isam\trunk\Documentation\manual\Overview.tex
+] (C:\Projects\General\iSAM\trunk\Documentation\manual\Overview.tex
 
 LaTeX Warning: Reference `sec:running-spm' on page 5 undefined on input line 7.
-
 
 [5.15
 
@@ -900,12 +617,10 @@ LaTeX Warning: Reference `sec:running-spm' on page 5 undefined on input line 7.
 
 
 
-]
-(C:\Kath\projects\General\isam\trunk\Documentation\manual\RunningSAM.tex
+] (C:\Projects\General\iSAM\trunk\Documentation\manual\RunningSAM.tex
 LaTeX Font Info:    Font shape `OT1/pcr/m/it' in size <10.95> not available
 (Font)              Font shape `OT1/pcr/m/sl' tried instead on input line 21.
-
-[9.19
+ [9.19
 
 ]
 LaTeX Font Info:    Font shape `OT1/pcr/bx/it' in size <10.95> not available
@@ -917,12 +632,10 @@ LaTeX Font Info:    Font shape `OT1/ptm/bx/it' in size <10.95> not available
 (Font)              Font shape `OT1/ptm/b/it' tried instead on input line 69.
 
 
-LaTeX Warning: Reference `sec:InputFileFormat' on page 11 undefined on input li
-ne 76.
+LaTeX Warning: Reference `sec:InputFileFormat' on page 11 undefined on input line 76.
 
 
-LaTeX Warning: Reference `sec:InputFileFormat' on page 11 undefined on input li
-ne 78.
+LaTeX Warning: Reference `sec:InputFileFormat' on page 11 undefined on input line 78.
 
 LaTeX Font Info:    Font shape `OT1/phv/bx/n' in size <10.95> not available
 (Font)              Font shape `OT1/phv/b/n' tried instead on input line 91.
@@ -933,13 +646,11 @@ Overfull \hbox (16.41795pt too wide) in paragraph at lines 126--138
 [][] 
  []
 
-[12.22] [13.23]) [14.24]
-(C:\Kath\projects\General\isam\trunk\Documentation\manual\Population.tex
+[12.22] [13.23]) [14.24] (C:\Projects\General\iSAM\trunk\Documentation\manual\Population.tex
 Missing character: There is no â in font ptmr7t!
 Missing character: There is no € in font ptmr7t!
 Missing character: There is no ™ in font ptmr7t!
-
-[15.25
+ [15.25
 
 
 
@@ -1004,7 +715,8 @@ Missing character: There is no ˜ in font ptmr7t!
 Missing character: There is no â in font ptmr7t!
 Missing character: There is no € in font ptmr7t!
 Missing character: There is no ™ in font ptmr7t!
- [18.28]
+
+[18.28]
 Missing character: There is no â in font ptmr7t!
 Missing character: There is no € in font ptmr7t!
 Missing character: There is no ™ in font ptmr7t!
@@ -1020,7 +732,6 @@ Missing character: There is no ™ in font ptmr7t!
  [19.29] [20.30] [21.31]
 
 Package natbib Warning: Citation `1203' on page 22 undefined on input line 215.
-
 
 [22.32] [23.33] [24.34] [25.35]
 Missing character: There is no Ã in font zptmcmr!
@@ -1044,17 +755,14 @@ Package hyperref Warning: Difference (2) between bookmark levels is greater
 Package hyperref Warning: Difference (2) between bookmark levels is greater 
 (hyperref)                than one, level fixed on input line 515.
 
-[29.39] [30.40] [31.41]) [32.42]
-(C:\Kath\projects\General\isam\trunk\Documentation\manual\Estimation.tex
-[33.43
+[29.39] [30.40] [31.41]) [32.42] (C:\Projects\General\iSAM\trunk\Documentation\manual\Estimation.tex [33.43
 
 
 
 
-] [34.44] [35.45] [36.46] [37.47] [38.48] [39.49] [40.50] [41.51])
-[42.52]
-(C:\Kath\projects\General\isam\trunk\Documentation\manual\Observation.tex
-[43.53
+] [34.44]
+[35.45] [36.46] [37.47] [38.48] [39.49] [40.50] [41.51]) [42.52]
+(C:\Projects\General\iSAM\trunk\Documentation\manual\Observation.tex [43.53
 
 
 
@@ -1064,222 +772,47 @@ LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <10> not available
 (Font)              Font shape `OT1/ptm/b/n' tried instead on input line 107.
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <7.4> not available
 (Font)              Font shape `OT1/ptm/b/n' tried instead on input line 107.
- [45.55] [46.56] [47.57] [48.58] [49.59] [50.60] [51.61]
+ [45.55] [46.56] [47.57] [48.58]
+[49.59] [50.60] [51.61]
 
-LaTeX Warning: Reference `sec:ageingerrorreport' on page 52 undefined on input 
-line 452.
+LaTeX Warning: Reference `sec:ageingerrorreport' on page 52 undefined on input line 452.
 
 [52.62]
 LaTeX Font Info:    Font shape `OMS/ptm/m/n' in size <10> not available
 (Font)              Font shape `OMS/pzccm/m/n' tried instead on input line 494.
-
 ) [53.63] [54.64
 
 
 
-]
-(C:\Kath\projects\General\isam\trunk\Documentation\manual\Report.tex) [55.65
+] (C:\Projects\General\iSAM\trunk\Documentation\manual\Report.tex) [55.65
 
-]
-[56.66
+] [56.66
 
 
 
 ]
-(C:\Kath\projects\General\isam\trunk\Documentation\manual\syntax/PopulationSynt
-ax.tex
-(C:\Kath\projects\General\isam\trunk\Documentation\manual\syntax/Documentation/
-Model.tex
-LaTeX Font Info:    Font shape `OT1/pcr/bx/n' in size <10> not available
-(Font)              Font shape `OT1/pcr/b/n' tried instead on input line 1.
-LaTeX Font Info:    Font shape `OT1/pcr/m/it' in size <10> not available
-(Font)              Font shape `OT1/pcr/m/sl' tried instead on input line 1.
-)
-(C:\Kath\projects\General\isam\trunk\Documentation\manual\syntax/Documentation/
-InitialisationPhase.tex [57.67])
-(C:\Kath\projects\General\isam\trunk\Documentation\manual\syntax/Documentation/
-TimeStep.tex)
-(C:\Kath\projects\General\isam\trunk\Documentation\manual\syntax/Documentation/
-Process.tex [58.68] [59.69] [60.70] [61.71])
-(C:\Kath\projects\General\isam\trunk\Documentation\manual\syntax/Documentation/
-DerivedQuantity.tex [62.72])
-(C:\Kath\projects\General\isam\trunk\Documentation\manual\syntax/Documentation/
-AgeSize.tex [63.73] [64.74])
-(C:\Kath\projects\General\isam\trunk\Documentation\manual\syntax/Documentation/
-SizeWeight.tex [65.75])
-(C:\Kath\projects\General\isam\trunk\Documentation\manual\syntax/Documentation/
-Selectivity.tex [66.76] [67.77] [68.78] [69.79])) [70.80]
-(C:\Kath\projects\General\isam\trunk\Documentation\manual\syntax/EstimationSynt
-ax.tex
-(C:\Kath\projects\General\isam\trunk\Documentation\manual\syntax/Documentation/
-Estimate.tex [71.81
+(C:\Projects\General\iSAM\trunk\Documentation\manual\Syntax.tex
 
+! LaTeX Error: File `syntax/Model.tex' not found.
 
-] [72.82])
-(C:\Kath\projects\General\isam\trunk\Documentation\manual\syntax/Documentation/
-Minimiser.tex [73.83])
-(C:\Kath\projects\General\isam\trunk\Documentation\manual\syntax/Documentation/
-MCMC.tex [74.84])
-(C:\Kath\projects\General\isam\trunk\Documentation\manual\syntax/Documentation/
-Profile.tex [75.85])
-(C:\Kath\projects\General\isam\trunk\Documentation\manual\syntax/Documentation/
-Catchability.tex)
-(C:\Kath\projects\General\isam\trunk\Documentation\manual\syntax/Documentation/
-Penalty.tex [76.86])) [77.87] [78.88
+Type X to quit or <RETURN> to proceed,
+or enter new name. (Default extension: tex)
 
+Enter file name: 
+! Emergency stop.
+<read *> 
+         
+l.4 \input{syntax/Model}
+                        
+*** (cannot \read from terminal in nonstop modes)
 
-]
-(C:\Kath\projects\General\isam\trunk\Documentation\manual\syntax/ObservationSyn
-tax.tex
-(C:\Kath\projects\General\isam\trunk\Documentation\manual\syntax/Documentation/
-Observation.tex [79.89] [80.90] [81.91])
-(C:\Kath\projects\General\isam\trunk\Documentation\manual\syntax/Documentation/
-Likelihood.tex)
-(C:\Kath\projects\General\isam\trunk\Documentation\manual\syntax/Documentation/
-AgeingError.tex [82.92])) [83.93] [84.94
-
-
-]
-(C:\Kath\projects\General\isam\trunk\Documentation\manual\syntax/ReportSyntax.t
-ex
-(C:\Kath\projects\General\isam\trunk\Documentation\manual\syntax/Documentation/
-Report.tex [85.95])) [86.96]
-(C:\Kath\projects\General\isam\trunk\Documentation\manual\syntax/GeneralSyntax.
-tex) [87.97
-
-
-] [88.98
-
-
-]
-(C:\Kath\projects\General\isam\trunk\Documentation\manual\Examples.tex)
-[89.99
-
-] [90.100
-
-
-
-]
-(C:\Kath\projects\General\isam\trunk\Documentation\manual\PostProcessing.tex)
-[91.101
-
-] [92.102
-
-
-
-]
-No file ChangesEnhancements.tex.
-(C:\Kath\projects\General\isam\trunk\Documentation\manual\Troubleshooting.tex)
-[93.103
-
-
-
-
-
-] [94.104
-
-
-
-]
-(C:\Kath\projects\General\isam\trunk\Documentation\manual\Acknowledgments.tex)
-[95.105
-
-] [96.106
-
-
-
-]
-(C:\Kath\projects\General\isam\trunk\Documentation\manual\QuickReference.tex)
-[97.107
-
-] [98.108
-
-
-
-]
-(C:\Kath\projects\General\isam\trunk\Documentation\manual\References.tex
-(C:\Kath\projects\General\isam\trunk\Documentation\manual\SAM.bbl)) [99.109
-
-]
-[100.110
-
-
-
-] (C:\Kath\projects\General\isam\trunk\Documentation\manual\License.tex [101.11
-1
-
-]) [102.112]
-(C:\Kath\projects\General\isam\trunk\Documentation\manual\SAM.ind [103.113
-
-
-
-
-]
-[104.114] [105.115
-
-])
-
-Package natbib Warning: There were undefined citations.
-
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 389.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 389.
-(C:\Kath\projects\General\isam\trunk\Documentation\manual\SAM.aux
-(C:\Kath\projects\General\isam\trunk\Documentation\manual\Introduction.aux)
-(C:\Kath\projects\General\isam\trunk\Documentation\manual\Overview.aux)
-(C:\Kath\projects\General\isam\trunk\Documentation\manual\RunningSAM.aux)
-(C:\Kath\projects\General\isam\trunk\Documentation\manual\Population.aux)
-(C:\Kath\projects\General\isam\trunk\Documentation\manual\Estimation.aux)
-(C:\Kath\projects\General\isam\trunk\Documentation\manual\Observation.aux)
-(C:\Kath\projects\General\isam\trunk\Documentation\manual\Report.aux)
-(C:\Kath\projects\General\isam\trunk\Documentation\manual\Examples.aux)
-(C:\Kath\projects\General\isam\trunk\Documentation\manual\PostProcessing.aux)
-(C:\Kath\projects\General\isam\trunk\Documentation\manual\ChangesEnhancements.a
-ux)
-(C:\Kath\projects\General\isam\trunk\Documentation\manual\Troubleshooting.aux)
-(C:\Kath\projects\General\isam\trunk\Documentation\manual\Acknowledgments.aux)
-(C:\Kath\projects\General\isam\trunk\Documentation\manual\QuickReference.aux)
-(C:\Kath\projects\General\isam\trunk\Documentation\manual\References.aux)
-(C:\Kath\projects\General\isam\trunk\Documentation\manual\License.aux))
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 389.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 389.
-Package rerunfilecheck Info: File `SAM.out' has not changed.
-(rerunfilecheck)             Checksum: 4D0DB04BE9D7DD8430A8E5CFD058CE20;14281.
-
-
-LaTeX Warning: There were undefined references.
-
- )
-(\end occurred inside a group at level 6)
-
-### simple group (level 6) entered at line 136 ({)
-### simple group (level 5) entered at line 136 ({)
-### simple group (level 4) entered at line 109 ({)
-### simple group (level 3) entered at line 109 ({)
-### simple group (level 2) entered at line 80 ({)
-### simple group (level 1) entered at line 80 ({)
-### bottom level 
+ 
 Here is how much of TeX's memory you used:
- 16925 strings out of 493921
- 291696 string characters out of 3153291
- 510405 words of memory out of 3000000
- 19225 multiletter control sequences out of 15000+200000
- 81552 words of font info for 169 fonts, out of 3000000 for 9000
+ 10365 strings out of 493921
+ 156409 string characters out of 3144879
+ 384784 words of memory out of 3000000
+ 12909 multiletter control sequences out of 15000+200000
+ 80420 words of font info for 165 fonts, out of 3000000 for 9000
  841 hyphenation exceptions out of 8191
- 40i,14n,43p,10392b,1681s stack positions out of 5000i,500n,10000p,200000b,50000s
-{C:/MiKTeX2.9/fonts/enc/dvips/fontname/8r.enc}<C:/MiKTeX2.9/fon
-ts/type1/public/amsfonts/cm/cmex10.pfb><C:/MiKTeX2.9/fonts/type1/public/amsfont
-s/cm/cmmi10.pfb><C:/MiKTeX2.9/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/MiKT
-eX2.9/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/MiKTeX2.9/fonts/type1/urw/c
-ourier/ucrb8a.pfb><C:/MiKTeX2.9/fonts/type1/urw/courier/ucrbo8a.pfb><C:/MiKTeX2
-.9/fonts/type1/urw/courier/ucrr8a.pfb><C:/MiKTeX2.9/fonts/type1/urw/courier/ucr
-ro8a.pfb><C:/MiKTeX2.9/fonts/type1/urw/helvetic/uhvb8a.pfb><C:/MiKTeX2.9/fonts/
-type1/urw/symbol/usyr.pfb><C:/MiKTeX2.9/fonts/type1/urw/times/utmb8a.pfb><C:/Mi
-KTeX2.9/fonts/type1/urw/times/utmbi8a.pfb><C:/MiKTeX2.9/fonts/type1/urw/times/u
-tmr8a.pfb><C:/MiKTeX2.9/fonts/type1/urw/times/utmr8a.pfb><C:/MiKTeX2.9/fonts/ty
-pe1/urw/times/utmri8a.pfb>
-Output written on SAM.pdf (115 pages, 673668 bytes).
-PDF statistics:
- 2065 PDF objects out of 2073 (max. 8388607)
- 450 named destinations out of 1000 (max. 500000)
- 1490 words of extra memory for PDF output out of 10000 (max. 10000000)
-
+ 36i,14n,43p,1336b,1680s stack positions out of 5000i,500n,10000p,200000b,50000s
+!  ==> Fatal error occurred, no output PDF file produced!
