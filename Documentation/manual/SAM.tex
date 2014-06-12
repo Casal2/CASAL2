@@ -10,13 +10,13 @@
 \usepackage{cmap} % allow searching in pdf documents
 \usepackage{tabulary} % better tables
 \usepackage{comment} % block comments
-\usepackage{mdframed}
+%\usepackage{mdframed}
 
 % hyperref for HTML links within pdf 
 % EXAMPLE: \href{http://www.niwa.co.nz}{NIWA}
 \usepackage[bookmarks=true,bookmarksopen=false,bookmarksnumbered=true,
             pdfpagelayout=TwoPageRight,
-            pdftitle={Integrated Stock Assessment Modelling (aiSAM) Users Manual}, %title to be confimed
+            pdftitle={Integrated Stock Assessment Modelling (iSAM) Users Manual}, %title to be confimed
             pdfauthor={Kermit the Frog; Fozzie Bear}, %author list required
             pdfsubject={Stock Assessment Model},
             pdftex]{hyperref}
@@ -252,16 +252,16 @@ leftmargin=1cm,rightmargin=1cm, %
 backgroundcolor=lightgray
 }
 % Text in box
-\begin{mdframed}[style=defKL]
-\SAM\ logo being developed by Erika MacKay.\\\\
-\SAM\ name tbd.\\\\
-Confirmation of structure and contents order is required in the first instance.\\\\
-Documentation copied and adapted from CASAL and SPM manuals - requres discussion, checking and rewriting.\\\\
-Chapters for command and subcommand syntax are auto-generated 
-from the \SAM\ code for Population, Estimation, Observation and
-Report sections.\\\\
-Version.tex file required to auto-update version date/time/number.
-\end{mdframed}
+%\begin{mdframed}[style=defKL]
+%\SAM\ logo being developed by Erika MacKay.\\\\
+%SAM\ name tbd.\\\\
+%Confirmation of structure and contents order is required in the first instance.\\\\
+%Documentation copied and adapted from CASAL and SPM manuals - requres discussion, checking and rewriting.\\\\
+%Chapters for command and subcommand syntax are auto-generated 
+%from the \SAM\ code for Population, Estimation, Observation and
+%Report sections.\\\\
+%Version.tex file required to auto-update version date/time/number.
+%\end{mdframed}
 % End of text in box
 
 ~\vfill
@@ -336,18 +336,8 @@ $\vcenter{Citation: \ManualRef}$
 \clearemptydoublepage{}
 \include{Report}
 
-
 \clearemptydoublepage{}
-\input{syntax/PopulationSyntax}\label{sec:syntax}
-\clearemptydoublepage{}
-\input{syntax/EstimationSyntax}
-\clearemptydoublepage{}
-\input{syntax/ObservationSyntax}
-%\input{syntax/obsSyntax}
-\clearemptydoublepage{}
-\input{syntax/ReportSyntax}
-\clearemptydoublepage{}
-\input{syntax/GeneralSyntax}
+\input{Syntax}\label{sec:syntax}
 
 \clearemptydoublepage{}
 \include{Examples}
