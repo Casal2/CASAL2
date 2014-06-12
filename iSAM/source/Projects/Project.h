@@ -21,6 +21,9 @@
 // namespaces
 namespace isam {
 
+class Project;
+typedef void (Project::*UpdateFunction)(Double);
+
 /**
  * Class definition
  */
@@ -38,9 +41,18 @@ public:
   virtual void                DoReset() = 0;
 
 protected:
+  // methods
+  void                        SetSingleValue(Double value) {}
+  void                        SetVectorValue(Double value) {}
+  void                        SetMapValue(Double value) {}
+
+  // function pointers
+  UpdateFunction              DoUpdateFunc_;
+
   // members
   string                      type_ = "";
   vector<unsigned>            years_;
+  string                      parameter_;
 };
 
 /**

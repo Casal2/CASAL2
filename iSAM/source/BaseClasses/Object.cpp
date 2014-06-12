@@ -20,16 +20,6 @@ namespace isam {
 namespace base {
 
 /**
- * Print the description and usage details for this object.
- */
-void Object::PrintDescription() const {
-  cout << "Object Description: \n";
-  cout << "Description: " << description_ << endl;
-
-  // TODO: Add parameter printing
-}
-
-/**
  * This method will check to see if the estimable label passed
  * in is registered as part of a vector or not.
  *
@@ -77,6 +67,17 @@ Double* Object::GetEstimable(const string& label) {
 }
 
 /**
+ *
+ */
+Estimable::Type Object::GetEstimableType(const string& label) const {
+  if (estimable_types_.find(label) == estimable_types_.end()) {
+    LOG_CODE_ERROR("Unable to find the estimable type with the label: " << label);
+  }
+
+  return estimable_types_.find(label)->second;
+}
+
+/**
  * This method will register a variable as an object
  * that can be targeted by an estimate to be used as part of an
  * estimation process or MCMC.
@@ -86,6 +87,7 @@ Double* Object::GetEstimable(const string& label) {
  */
 void Object::RegisterAsEstimable(const string& label, Double* variable) {
   estimables_[label]      = variable;
+  estimable_types_[label] = Estimable::kSingle;
 }
 
 /**
@@ -98,6 +100,7 @@ void Object::RegisterAsEstimable(const string& label, Double* variable) {
  */
 void Object::RegisterAsEstimable(const string& label, vector<Double>* variables) {
   estimable_vectors_[label] = variables;
+  estimable_types_[label]   = Estimable::kVector;
 }
 
 /**
@@ -110,10 +113,12 @@ void Object::RegisterAsEstimable(const string& label, vector<Double>* variables)
  * @param variables Map containing index and double values to store
  */
 void Object::RegisterAsEstimable(const string& label, map<string, Double>* variables) {
-  estimable_s_maps_[label] = variables;
+  estimable_s_maps_[label]  = variables;
+  estimable_types_[label]   = Estimable::kMap;
 }
 void Object::RegisterAsEstimable(const string& label, map<unsigned, Double>* variables) {
-  estimable_u_maps_[label] = variables;
+  estimable_u_maps_[label]  = variables;
+  estimable_types_[label]   = Estimable::kMap;
 }
 
 /**

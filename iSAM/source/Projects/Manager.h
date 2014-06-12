@@ -29,6 +29,7 @@ public:
   // methods
   Manager();
   virtual                     ~Manager() noexcept(true);
+  void                        Update(unsigned current_year);
 };
 
 } /* namespace projects */

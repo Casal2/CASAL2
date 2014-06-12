@@ -27,5 +27,12 @@ Manager::Manager() {
 Manager::~Manager() noexcept(true) {
 }
 
+/**
+ *
+ */
+void Manager::Update(unsigned current_year) {
+
+}
+
 } /* namespace projects */
 } /* namespace isam */

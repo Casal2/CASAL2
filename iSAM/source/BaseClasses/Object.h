@@ -34,6 +34,17 @@ using isam::utilities::Double;
 
 // Namespaces
 namespace isam {
+
+// Enumerated Types
+namespace Estimable {
+enum Type {
+  kInvalid      = 0,
+  kSingle       = 1,
+  kVector       = 2,
+  kMap          = 3
+};
+}
+
 namespace base {
 
 using std::string;
@@ -49,7 +60,7 @@ public:
   bool                        IsEstimableAVector(const string& label) const;
   unsigned                    GetEstimableSize(const string& label) const;
   Double*                     GetEstimable(const string& label);
-  void                        PrintDescription() const;
+  Estimable::Type             GetEstimableType(const string& label) const;
 
   // Accessors and Mutators
   string                      label() const { return label_; }
@@ -74,10 +85,10 @@ protected:
   string                        type_                 = "";
   ParameterList                 parameters_;
   map<string, Double*>          estimables_;
-  map<string, vector<Double>* > estimable_vectors_;
-  map<string, map<string, Double>* > estimable_s_maps_;
-  map<string, map<unsigned, Double>* > estimable_u_maps_;
-  string                        description_;
+  map<string, vector<Double>* >         estimable_vectors_;
+  map<string, map<string, Double>* >    estimable_s_maps_;
+  map<string, map<unsigned, Double>* >  estimable_u_maps_;
+  map<string, Estimable::Type>          estimable_types_;
 
   DISALLOW_COPY_AND_ASSIGN(Object);
 };
