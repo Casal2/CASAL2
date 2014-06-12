@@ -1,5 +1,9 @@
 \documentclass[a4paper,11pt,twoside,pdftex]{article}
 
+\title{\SAMName\ User Manual \\\SAM\ \VER} %Document title
+\author{A. Dunn, I. Doonan, S. Rasmussen, K. Large} %Document authors %check this
+\date{\DocDate} %Date of publication
+
 % Caption package for formating figure and label captions
 \usepackage[font=bf,format=hang,labelsep=colon,justification=justified,singlelinecheck=false,compatibility=false]{caption}
 
@@ -17,8 +21,8 @@
 \usepackage[bookmarks=true,bookmarksopen=false,bookmarksnumbered=true,
             pdfpagelayout=TwoPageRight,
             pdftitle={Integrated Stock Assessment Modelling (iSAM) Users Manual}, %title to be confimed
-            pdfauthor={Kermit the Frog; Fozzie Bear}, %author list required
-            pdfsubject={Stock Assessment Model},
+            pdfauthor={Alistair Dunn, Ian Doonan, Scott Rasmussen, Kath Large} %author list required
+            pdfsubject={Stock Assessment Model Users manual},
             pdftex]{hyperref}
 \hypersetup{
   breaklinks=true,      % allow line breaks in URLs
@@ -207,10 +211,7 @@ escapeinside={\%*}{*)}          % if you want to add a comment within your code
 \newcommand{\authors}{\href{mailto:"Alistair Dunn"<alistair.dunn@niwa.co.nz>?subject=SAM:}{authors}} %check this
 %hyper ref for email
 \newcommand{\Organisation}{National Institute of Water \& Atmospheric Research Ltd.} %NIWA
-\newcommand{\ManualRef}{Doonan. I.; Dunn, A.; Rasmussen, S.; Large, K.; Bull, B.; Francis, R.I.C.C.; McKenzie, A.; Gilbert, D.J.; Smith, M.H.; Bian, R.; Fu, D. (\DocYear) \SAMName\ User Manual, \SAM\ \VER. \Organisation\ \emph{Unpublished report}. \ref{TotPages} p.} % full document reference
-\title{\SAMName\ User Manual \\\SAM\ \VER} %Document title
-\author{I. Doonan, A. Dunn, S. Rasmussen, K. Large, B. Bull, R. I. C. C. Francis,\\ A. McKenzie, D. J. Gilbert, M. H. Smith, R. Bian, D. Fu} %Document authors %check this
-\date{\DocDate} %Date of publication
+\newcommand{\ManualRef}{Dunn A., Doonan I., Rasmussen S., Large, K. (\DocYear) \SAMName\ User Manual, \SAM\ \VER. \Organisation\ \emph{Unpublished report}. \ref{TotPages} p.} % full document reference
 
 % Define \clearemptydoublepage so-as to have truly blank pages between sections
 \let\origdoublepage\cleardoublepage
@@ -246,11 +247,11 @@ escapeinside={\%*}{*)}          % if you want to add a comment within your code
 
 % Some text to explain where KL at so far
 % Define box style
-\global\mdfdefinestyle{defKL}{%
-linecolor=black,linewidth=4pt,%
-leftmargin=1cm,rightmargin=1cm, %
-backgroundcolor=lightgray
-}
+%\global\mdfdefinestyle{defKL}{%
+%linecolor=black,linewidth=4pt,%
+%leftmargin=1cm,rightmargin=1cm, %
+%backgroundcolor=lightgray
+%}
 % Text in box
 %\begin{mdframed}[style=defKL]
 %\SAM\ logo being developed by Erika MacKay.\\\\
@@ -345,8 +346,8 @@ $\vcenter{Citation: \ManualRef}$
 \clearemptydoublepage{}
 \include{PostProcessing}
 
-\clearemptydoublepage{}
-\include{ChangesEnhancements} % not required for first version
+%\clearemptydoublepage{}
+%\include{ChangesEnhancements} % not required for first version
 
 \clearemptydoublepage{}
 \include{Troubleshooting}
