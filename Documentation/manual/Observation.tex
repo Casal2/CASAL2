@@ -1,0 +1,501 @@
+\section{The observation section\label{sec:observation-section}}
+
+\subsection{\I{Observations} and likelihoods\label{sec:likelihoods}\index{Likelihoods}}
+
+Observations are typically supplied as observations at an instance in time, over some spatially aggregated area. Time series of observations can be supplied as separate observations for each year or point in time. 
+
+\SAM\ allows the following types of observations;
+\begin{itemize}
+  \item Observations of proportions by age class within categories
+  \item Observations of proportions between categories within age classes
+  \item Relative and absolute abundance/biomass observations
+\end{itemize}
+
+The definitions for each type of observation are described below, including how the observed values should be supplied, how \SAM\ calculates the expected values, and the likelihoods that are available for each type of observation.
+
+\SAM\ evaluates the observations at the end of a time-step (i.e., after all of the processes for that time-step have been applied). However, the observation can be applied to the abundance at the start of a time-step or part-way through a time-step by the use of the \subcommand{proportion\_time\_step} subcommand. 
+
+By default (i.e., if \subcommand{proportion\_method} \texttt{= mean}), the partition at some point $p$ during the time-step is then evaluated as the weighted sum between the start and end of the time-step, i.e, for any element $i$ in the partition, $n_i=(1-p) n_i^{start} + p n_i^{end}$. Note that it may not be sensible to use a value other than one, depending on the processes that happen during the time-step (for example, if the time-step contains an ageing process).
+
+If the \subcommand{proportion\_method} \texttt{= difference}, then the observation is of the \emph{difference} between the population state at the start of the time-step and the end. This can be used to generate expected values for observations of, for example removals due to a mortality event, by only having a single process in the time-step. In this case, the proportion\_time\_step is simply a multiplier of the population state.
+
+\subsection{\I{Proportions-at-age observations}}
+
+Proportions-at-age observations are observations of either the relative number of individuals at age or relative biomass at age, via some selectivity. 
+
+The observation is supplied for a given year and time-step, for some selected age classes of the population (i.e., for a range of ages multiplied by a selectivity), for categories aggregated over a set of spatial cells. Note that the categories defined in the observations must have an associated selectivity, defined by \subcommand{selectivities}.
+
+The age range must be ages defined in the partition (i.e., between \commandsub{model}{min\_age} and \commandsub{model}{max\_age} inclusive), but the upper end of the age range can optionally be a plus group --- which must be either the same or less than the plus group defined for the partition. 
+
+Proportions-at-age observations can be supplied as; 
+\begin{enumerate}
+\item a set of proportions for a single category, 
+\item a set of proportions for multiple categories, or
+\item a set of proportions across aggregated categories.
+\end{enumerate}
+
+For example, for a model with the two categories \emph{male} and \emph{female}, we might supply either (i) a set of proportions for a single category (i.e., males) within each age class; (ii) a set of proportions describing the proportions of individuals within each age class across multiple categories (i.e., males and females) simultaneously, or (iii) a set of proportions for the total number of individuals over the aggregated categories  (i.e., males $+$ females) combined, within each age class.
+
+The way the categories of the observation are defined specifies which of these alternatives are used. It is also possible to have an observation with multiple and aggregated categories simultaneously.
+
+\subsubsection*{\I{Proportions-at-age for a single category}}
+
+This form of defining the observation is the simplest, and is used to model a set of proportions of a single category by age class. For example, to specify that the observations are of the proportions of male within each age class, then the subcommand \subcommand{categories} for the \commandlabsubarg{observation}{type}{proportion\_by\_age} command is,
+
+{\small{\begin{verbatim}
+categories male
+\end{verbatim}}}
+
+\SAM\ then expects that there will be a single vector of proportions supplied, with one proportion for each age class within the defined age range, and that these proportions sum to one. 
+
+For example, if the age range was 3 to 10, then 8 proportions should be supplied (one proportion for each of the the ages 3, 4, 5, 6, 7, 8, 9, and 10). The expected values will be the expected proportions of males within each of these age classes (after ignoring any males aged less than 3 or older than 10), after applying a selectivity at the year and time-step specified. The supplied vector of proportions (i.e., in this example, the 8 proportions) must sum to one, which is evaluated with a default tolerance of 0.001. 
+
+The observations must be also supplied using all or some of the the values of defined by some \emph{categorical} layer. \SAM\ calculates the expected values by summing over the defined ages (via the age range and selectivity) and categories for those spatial cells where the categorical layer has the same value as defined for each vector of observations.
+
+For example, in a $2 \times 2$ spatial model a categorical layer (e.g., with label Area) may define that cells $(1,1)$ and $(1,2)$ have value $A$ and cells $(2,1)$ and $(2,2)$ have value $B$, i.e.,
+
+{\small{\begin{verbatim}
+@layer Area
+type categorical
+data A A 
+data B B
+\end{verbatim}}}
+
+The observations for those spatial cells where the categorical layer has value $A$ would be, 
+
+{\small{\begin{verbatim}
+@observation MyProportions
+type proportions_at_age
+layer Area
+...
+categories male
+min_age 1
+max_age 5
+obs A 0.01 0.09 0.20 0.30 0.40
+...
+\end{verbatim}}}
+
+Or, for both $A$ and $B$ as,
+
+{\small{\begin{verbatim}
+@observation MyProportions
+type proportions_at_age
+layer Area
+...
+categories male
+min_age 1
+max_age 5
+obs A 0.01 0.09 0.20 0.30 0.40
+obs B 0.02 0.06 0.12 0.25 0.55
+...
+\end{verbatim}
+
+Note that to have an observation for each individual spatial cell in a model, then define a categorical layer that has a single, unique value for each spatial cell for use in the observation. 
+
+\subsubsection*{\I{Proportions-at-age for multiple categories}}
+
+This form of the observation extends the idea above for multiple categories. It is used to model a set of proportions over several categories by age class. For example, to specify that the observations are of the proportions of male or females within each age class, then the subcommand \subcommand{categories} for the \commandlabsubarg{observation}{type}{proportion\_by\_age} command is,
+
+{\small{\begin{verbatim}
+categories male female
+\end{verbatim}}}
+
+\SAM\ then expects that there will be a single vector of proportions supplied, with one proportion for each category and age class combination, and that these proportions sum to one. 
+
+For example, if there were two categories and the age range was 3 to 10, then 16 proportions should be supplied (one proportion for each of the the ages 3, 4, 5, 6, 7, 8, 9, and 10, for each category male and female). The expected values will be the expected proportions of males and within each of these age classes (after ignoring those aged less than 3 or older than 10), after applying a selectivity at the year and time-step specified. The supplied vector of proportions (i.e., in this example, the 16 proportions) must sum to one, which is evaluated with a default tolerance of 0.001. 
+
+For example, using the earlier spatial model with a categorical layer that has label Area, the observations for those spatial cells where the categorical layer has value $A$ would be, 
+
+{\small{\begin{verbatim}
+@observation MyProportions
+type proportions_at_age
+layer Area
+...
+categories male female
+min_age 1
+max_age 5
+obs A 0.01 0.05 0.10 0.20 0.20 0.01 0.05 0.15 0.20 0.03
+obs B 0.02 0.06 0.10 0.21 0.18 0.02 0.05 0.15 0.20 0.01
+...
+\end{verbatim}
+
+\subsubsection*{\I{Proportions-at-age across aggregated categories}}
+
+This form of the observation extends the idea above, but allows categories to be aggregated before the proportions are calculated. It is used to model a set of proportions from several categories that have been combined by age class. To indicate that two (or more) categories are to be aggregated, separate them with a '+' symbol. For example, to specify that the observations are of the proportions of male and females combined within each age class, then the subcommand \subcommand{categories} for the \commandlabsubarg{observation}{type}{proportion\_by\_age} command is,
+
+{\small{\begin{verbatim}
+categories male + female
+\end{verbatim}}}
+
+\SAM\ then expects that there will be a single vector of proportions supplied, with one proportion for each age class, and that these proportions sum to one. 
+
+For example, if there were two categories and the age range was 3 to 10, then 8 proportions should be supplied (one proportion for each of the the ages 3, 4, 5, 6, 7, 8, 9, and 10, for the sum of males and females within each age class). The expected values will be the expected proportions of males + females within each of these age classes (after ignoring those aged less than 3 or older than 10), after applying a selectivity at the year and time-step specified. The supplied vector of proportions (i.e., in this example, the 16 proportions) must sum to one, which is evaluated with a default tolerance of 0.001. 
+
+For example, using the earlier spatial model with a categorical layer that has label Area, the observations for those spatial cells where the categorical layer has value $A$ would be, 
+
+{\small{\begin{verbatim}
+@observation MyProportions
+type proportions_at_age
+layer Area
+...
+categories male + female
+min_age 1
+max_age 5
+obs A 0.02 0.13 0.25 0.30 0.30
+obs B 0.02 0.06 0.18 0.35 0.39
+...
+\end{verbatim}
+
+The later form can then be extended to include multiple categories, or multiple aggregated categories. For example, to describe proportions for the three groups: immature males, mature males, and all females (immature and mature females added together) for ages 1--4, a total of 12 proportions are required 
+
+{\small{\begin{verbatim}
+@observation MyProportions
+type proportions_at_age
+layer Area
+...
+categories male_immature male_mature female_immature + female_mature
+min_age 1
+max_age 4
+obs A 0.05 0.15 0.15 0.05 0.02 0.03 0.08 0.04 0.05 0.15 0.15 0.08
+...
+\end{verbatim}}}
+
+\subsubsection{Likelihoods for proportions-at-age observations}
+
+\SAM\ implements two likelihoods for proportions-at-age observations, the multinomial likelihood and the lognormal likelihood. 
+
+\subsubsection*{The multinomial likelihood\index{Multinomial likelihood ! proportions-at-age}}
+
+For the observed proportions at age $O_i$ for age classes $i$, with sample size $N$, and the expected proportions at the same age classes $E_i$, the negative log-likelihood is defined as; 
+
+\begin{equation}
+  -\log \left(L \right) =  -\log \left(N! \right) + \sum\limits_i \log \left( \left(NO_i \right)! \right) - NO_i \log \left(Z \left(E_i,\delta \right) \right)
+\end{equation}
+
+where $\sum\limits_i O_i = 1$ and $\sum\limits_i E_i = 1$. $Z \left(\theta,\delta \right)$ is a robustifying function to prevent division by zero errors, with parameter $\delta>0$. $Z \left(\theta,\delta \right)$ is defined as,
+
+\begin{equation}
+   Z \left(\theta,\delta \right) = \begin{cases}
+	  \theta, & \text{where $\theta \ge r$} \\
+	  \delta/\left( 2-\theta/\delta \right), & \text{otherwise} \\  
+  \end{cases}
+\end{equation}
+
+The default value of $\delta$ is $1 \times 10^{-11}$.
+
+\subsubsection*{The lognormal likelihood\index{Lognormal likelihood ! proportions-at-age}}
+
+For the observed proportions at age $O_i$ for age classes $i$, with c.v. $c_i$, and the expected proportions at the same age classes $E_i$, the negative log-likelihood is defined as; 
+
+\begin{equation}
+ - \log \left(L \right) = \sum\limits_i \left( \log \left( \sigma _i \right) + 0.5\left( \frac{\log \left(O_i / Z \left(E_i,\delta \right) \right)}{\sigma_i} + 0.5 \sigma_i \right)^2 \right)
+\end{equation}
+
+where 
+
+\begin{equation}
+  \sigma_i  = \sqrt{\log \left(1+c_i^2 \right)}
+\end{equation}
+
+and the $c_i$'s are the c.v.s for each age class $i$, and $Z \left(\theta,\delta \right)$ is a robustifying function to prevent division by zero errors, with parameter $\delta>0$. $Z \left(\theta,\delta \right)$ is defined as,
+
+\begin{equation}
+   Z \left(\theta,\delta \right) = \begin{cases}
+	  \theta, & \text{where $\theta \ge r$} \\
+	  \delta/\left( 2-\theta/\delta \right), & \text{otherwise} \\  
+  \end{cases}
+\end{equation}
+
+The default value of $\delta$ is $1 \times 10^{-11}$.
+
+\subsection{\I{Proportions-by-category observations}\label{sec:proportions-by-category}}
+Proportions-by-category observations are observations of either the relative number of individuals between categories within age classes, or relative biomass between categories within age classes. 
+
+The observation is supplied for a given year and time-step, for some selected age classes of the population (i.e., for a range of ages multiplied by a selectivity), for categories aggregated over a set of spatial cells. 
+
+The age range must be ages defined in the partition (i.e., between \commandsub{model}{min\_age} and \commandsub{model}{max\_age} inclusive), but the upper end of the age range can optionally be a plus group --- which may or may not be the same as the plus group defined for the partition. 
+
+Proportions-by-category observations can be supplied for any set of categories as a proportion of themselves and any set of additional categories. For example, for a model with the two categories \emph{male} and \emph{female}, we might supply observations of the proportions of males in the population at each age class. The subcommand \subcommand{categories} defines the categories for the numerator in the calculation of the proportion, and the subcommand \subcommand{categories2} supplies the additional categories to be used in the denominator of the calculation. In addition, each category must have an associated selectivity, defined by \subcommand{selectivities} for the numerator categories and \subcommand{selectivities2} for the additional categories used in the denominator, e.g., 
+
+{\small{\begin{verbatim}
+categories male
+categories2 female
+selectivities male-selectivity
+selectivities2 female-selectivity
+\end{verbatim}}}
+
+defines that the proportion of males in each age class as a proportion of males $+$ females. \SAM\ then expects that there will be a vector of proportions supplied, with one proportion for each age class within the defined age range, i.e., if the age range was 3 to 10, then 8 proportions should be supplied (one proportion for each of the the ages 3, 4, 5, 6, 7, 8, 9, and 10). The expected values will be the expected proportions of male to male $+$ female within each of these age classes, after applying the selectivities at the year and time-step specified. 
+
+The observations must be supplied using all or some of the values defined by a categorical layer. \SAM\ calculates the expected values by summing over the ages (via the age range and selectivity) and categories for those spatial cells where the categorical layer has the same value as defined for each vector of observations.
+
+For example, in a $2 \times 2$ spatial model a categorical layer (e.g., with label Area) may define that cells $(1,1)$ and $(1,2)$ have value $A$ and cells $(2,1)$ and $(2,2)$ have value $B$, i.e.,
+
+{\small{\begin{verbatim}
+@layer Area
+type categorical
+data A A 
+data B B
+\end{verbatim}}}
+
+Here we supply observations for those spatial cells where the categorical layer has value $A$ as, 
+
+{\small{\begin{verbatim}
+@observation MyProportions
+type proportions_by_category
+layer Area
+...
+categories male 
+categories2 female
+min_age 1
+max_age 5
+obs A 0.01 0.05 0.10 0.20 0.20
+...
+\end{verbatim}}}
+
+Or, for both $A$ and $B$ as,
+
+{\small{\begin{verbatim}
+@observation MyProportions
+type proportions_by_category
+layer Area
+...
+categories male
+categories2 female
+min_age 1
+max_age 5
+obs A 0.01 0.05 0.10 0.20 0.20
+obs B 0.02 0.06 0.10 0.21 0.18
+...
+\end{verbatim}}}
+
+To supply an observation for individual spatial cells, then you will need to define a categorical layer with a single, unique value for each spatial cell. 
+
+\subsubsection{Likelihoods for proportions-by-category observations}
+
+\SAM\ implements two likelihoods for proportions-by-category observations, the binomial likelihood, and the normal approximation to the binomial (binomial-approx). 
+
+\subsubsection*{The binomial likelihood\index{Binomial likelihood ! proportions-by-category}}
+
+For observed proportions $O_i$ for age class $i$, where $E_i$ are the expected proportions for age class $i$, and $N_i$ is the effective sample size for age class $i$, then the negative log-likelihood is defined as;  
+
+\begin{equation}
+  \begin{split}
+    -\log \left(L \right)= -\sum\limits_i & \left[ \right. \log \left(N_i! \right) - \log \left(\left(N_i \left(1 - O_i \right) \right)! \right) - \log \left(\left(N_i O_i \right)! \right) + N_i O_i \log \left(Z\left(E_i,\delta \right) \right) \\
+    &+ N_i \left(1 - O_i \right)\log \left(Z\left(1 - E_i,\delta\right) \right) \left. \right]
+  \end{split}
+\end{equation}
+
+
+where $Z \left(\theta,\delta \right)$ is a robustifying function to prevent division by zero errors, with parameter $\delta>0$. $Z \left(\theta,\delta \right)$ is defined as,
+
+\begin{equation}
+   Z \left(\theta,\delta \right) = \begin{cases}
+	  \theta, & \text{where $\theta \ge r$} \\
+	  \delta/\left( 2-\theta/\delta \right), & \text{otherwise} \\  
+  \end{cases}
+\end{equation}
+
+The default value of $\delta$ is $1 \times 10^{-11}$.
+
+\subsubsection*{The normal approximation to the binomial likelihood\index{Binomial likelihood (normal approximation) ! proportions-by-category}}
+
+For observed proportions $O_i$ for age class $i$, where $E_i$ are the expected proportions for age class $i$, and $N_i$ is the effective sample size for age class $i$, then the negative log-likelihood is defined as;  
+
+\begin{equation}
+  -\log \left(L \right)= \sum\limits_i \log \left( \sqrt{Z\left(E_i,\delta \right)Z\left(1-E_i,\delta\right)/N_i} \right)     + \frac{1}{2} \left( \frac{O_i-E_i}{\sqrt{Z\left(E_i,\delta\right)Z\left(1-E_i,\delta \right)/N_i}} \right)^2
+\end{equation}
+
+where $Z \left(\theta,\delta \right)$ is a robustifying function to prevent division by zero errors, with parameter $\delta>0$. $Z \left(\theta,\delta \right)$ is defined as,
+
+\begin{equation}
+   Z \left(\theta,\delta \right) = \begin{cases}
+	  \theta, & \text{where $\theta \ge r$} \\
+	  \delta/\left( 2-\theta/\delta \right), & \text{otherwise} \\  
+  \end{cases}
+\end{equation}
+
+The default value of $\delta$ is $1 \times 10^{-11}$.
+
+\subsection{\I{Abundance or biomass observations}}
+
+Abundance (or biomass) observations are observations of either a relative or absolute number (or biomass) of individuals from a set of categories after applying a selectivity. The observations classes are the same, except that a biomass observation will use the biomass as the observed (and expected) value (calculated from mean weight of individuals within each age and category) while an abundance observation is just the number of individuals. 
+
+Each observation is for a given year and time-step, for some selected age classes of the population (i.e., for a range of ages multiplied by a selectivity), for categories aggregated over a set of spatial cells. Further, you need to provide the label of the catchability coefficient $q$, which can either be estimated of fixed. For absolute abundance or absolute biomass observations, define a catchability where $q=1$.
+
+The observations can be supplied for any set of categories. For example, for a model with the two categories \emph{male} and \emph{female}, we might supply an observation of the total abundance/biomass (male $+$ female) or just male abundance/biomass. The subcommand \subcommand{categories} defines the categories used to aggregate the abundance/biomass. In addition, each category must have an associated selectivity, defined by \subcommand{selectivities}. For example,  
+
+{\small{\begin{verbatim}
+categories male
+selectivities male-selectivity
+\end{verbatim}}}
+
+defines an observation for males after applying the selectivity male-selectivity. \SAM\ then expects that there will be a single observation supplied. The expected values for the observations will be the expected abundance (or biomass) of males, after applying the selectivities, at the year and time-step specified. 
+
+The observations must be supplied using all or some of the the values of defined by a categorical layer. \SAM\ calculates the expected values by summing over the defined ages (via the age range and selectivity) and categories for those spatial cells where the categorical layer has the same value as defined for each vector of observations.
+
+For example, in a $2 \times 2$ spatial model a categorical layer (e.g., with label Area) may define that cells $(1,1)$ and $(1,2)$ have value $A$ and cells $(2,1)$ and $(2,2)$ have value $B$, i.e.,
+
+{\small{\begin{verbatim}
+@layer Area
+type categorical
+data A A 
+data B B
+\end{verbatim}}}
+
+Here we supply abundance observations for those spatial cells where the categorical layer has value $A$ as, 
+
+{\small{\begin{verbatim}
+@observation MyAbundance
+type abundance
+layer Area
+...
+categories male 
+obs A 1000
+...
+\end{verbatim}}}
+
+Or, for both $A$ and $B$ as,
+
+{\small{\begin{verbatim}
+@observation MyAbundance
+type abundance
+layer Area
+...
+categories male
+obs A 1000
+obs B 1200
+...
+\end{verbatim}}}
+
+To supply an observation for individual spatial cells, then you will need to define a categorical layer with a single, unique value for each spatial cell. 
+
+Note that, to define a biomass observation instead of an abundance observation, use 
+
+{\small{\begin{verbatim}
+@observation MyBiomass
+type biomass
+...
+\end{verbatim}}}
+
+\subsubsection{Likelihoods for abundance observations}
+
+\subsubsection*{The lognormal likelihood\index{Lognormal likelihood ! abundance}\index{Lognormal likelihood ! biomass}}
+
+For observations $O_i$, c.v. $c_i$, and expected values $qE_i$, the negative log-likelihood is defined as;
+
+\begin{equation}
+ - \log \left(L \right) = \sum\limits_i \left( \log \left( \sigma _i \right) + 0.5\left( \frac{\log \left(O_i / q Z \left(E_i,\delta \right) \right)}{\sigma_i} + 0.5 \sigma_i \right)^2 \right)
+\end{equation}
+
+where 
+
+\begin{equation}
+  \sigma_i  = \sqrt{\log \left(1+c_i^2 \right)}
+\end{equation}
+
+and $Z \left(\theta,\delta \right)$ is a robustifying function to prevent division by zero errors, with parameter $\delta>0$. $Z \left(\theta,\delta \right)$ is defined as,
+
+\begin{equation}
+   Z \left(\theta,\delta \right) = \begin{cases}
+	  \theta, & \text{where $\theta \ge r$} \\
+	  \delta/\left( 2-\theta/\delta \right), & \text{otherwise} \\  
+  \end{cases}
+\end{equation}
+
+The default value of $\delta$ is $1 \times 10^{-11}$.
+
+\subsubsection*{The normal likelihood\index{Normal likelihood ! abundance}\index{Normal likelihood ! biomass}}
+
+For observations $O_i$, c.v. $c_i$, and expected values $qE_i$, the negative log-likelihood is defined as;
+
+\begin{equation}
+ - \log \left(L \right) = \sum\limits_i \left( \log \left( c_i E_i \right) +0.5 \left( \frac{O_i-E_i}{Z\left(c_i E_i,\delta \right)}\right)^2\right)
+\end{equation}
+
+and $Z \left(\theta,\delta \right)$ is a robustifying function to prevent division by zero errors, with parameter $\delta>0$. $Z \left(\theta,\delta \right)$ is defined as,
+
+\begin{equation}
+   Z \left(\theta,\delta \right) = \begin{cases}
+	  \theta, & \text{where $\theta \ge r$} \\
+	  \delta/\left( 2-\theta/\delta \right), & \text{otherwise} \\  
+  \end{cases}
+\end{equation}
+
+The default value of $\delta$ is $1 \times 10^{-11}$.
+
+\subsection{\I{Process error}}
+
+Additional `process error' can be defined for each set of observations. Additional process error has the effect of increasing the observation error in the data, and hence of decreasing the relative weight given to the data in the fitting process. 
+
+For observations where where the likelihood is parameterised by the c.v., you can specify the process error for a given set of observations as a c.v., in which case all the c.v.s $c_i$ are changed to
+
+\begin{equation}
+  c'_i  = \sqrt {c_i^2  + c_{process\_error}^2 } 
+\end{equation}
+
+Note that $c_{process\_ error} \ge 0$, and that $c_{process\_ error} = 0$ is equivalent to no process error.
+
+Similarly, if the likelihood is parameterised by the effective sample size $N$,
+
+\begin{equation}
+ N'_i  = \frac{1}{1 / {N_i}+ 1 / N_{process\_error}}
+\end{equation}
+
+Note that this requires that $N_{process\_ error} > 0$, but we allow the special case of $N_{process\_ error}=0$, and define $N_{process\_ error}=0$ as no process error (i.e., defined to be equivalent to $N_{process\_ error}=\infty$). 
+
+For both the c.v. and $N$ process errors, the process error has more effect on small errors than on large ones. Be clear that a large value for the $N$ process error means a small process error.
+
+\subsection{\I{Ageing error}}
+
+\SAM\ can apply ageing error age frequency observations. Ageing error is applied to the expected values for proportions-at-age observations. The ageing error is applied as a misclassification matrix, which has the effect of 'smearing' the age frequencies. These are used in calculating the fits to the observed values, and hence the contribution to the total objective function. 
+
+Ageing error is optional, and if it is used, it may be omitted for any individual time series. Different ageing error models may be applied for different observation commands. See Section \ref{sec:ageingerrorreport} for reporting the misclassification matrix.
+
+The ageing error models implemented are,
+\begin{enumerate}
+  \item{None}: The default model is to apply no ageing error.
+  \item{Off by one}: Proportion $p_1$ of individuals of each age $a$ are misclassified as age $a-1$ and proportion $p_2$ are misclassified as age $a+1$. Individuals of age $a < k$ are not misclassified. If there is no plus group in the population model, then proportion $p_2$ of the oldest age class will 'fall off the edge' and disappear. 
+  \item{Normal}: Individuals of age $a$ are classified as ages which are normally distributed with mean $a$ and constant c.v. $c$. As above, if there is no plus group in the population model, some individuals of the older age classes may disappear. If $c$ is high enough, some of the younger age classes may 'fall off the other edge'. Individuals of age $a < k$ are not misclassified.
+\end{enumerate}
+
+Note that the expected values (fits) reported by \SAM\ for observations with ageing error will have had the ageing error applied. 
+
+\subsection{\I{Simulating observations}\label{sec:simulation-observations}}
+
+\SAM\ can generate simulated observations for a given model with given parameter values (using \texttt{spm -s}). Simulated observations are randomly distributed values, generated according to the error assumptions defined for each observation, around fits calculated from one or more sets of the 'true' parameter values. Simulating from a set of parameters can be used to generate observations from an operating model or as a form of parametric bootstrap. 
+
+The procedure \SAM\ uses for simulating observations is to first run using the `true' parameter values and generate the expected values. Then, if a set of observations uses ageing error, ageing error is applied. Finally a random value for each observed value is generated based on (i) the expected values, (ii) the type of likelihood specified, and (iii) the variability parameters (e.g., \subcommand{error\_value} and \subcommand{process\_error}). 
+
+Methods for generating the random error, and hence simulated values, depend on the specific likelihood type of each observation. 
+
+\begin{enumerate}
+  \item{} Normal likelihood parameterised by c.v.: Let $E_{i}$ be the fitted value for observation $i$, and $c_i$ be the corresponding c.v. (adjusted by the process error if applicable). Each simulated observation value $S_i$ is generated as an independent normal deviate with mean $E_i$ and standard deviation $E_i c_i$.
+  \item{} Log-normal likelihood: Let $E_i$ be the fitted value for observation $i$ and $c_i$ be the corresponding c.v. (adjusted by the process error if applicable). Each simulated observation value $S_i$ is generated as an independent lognormal deviate with mean and standard deviation (on the natural scale, not the log-scale) of $E_i$ and $E_i c_i$ respectively. The robustification parameter $\delta$ is ignored.
+  \item{} Multinomial likelihood: Let $E_i$ be the fitted value for observation $i$, for $i$ between $1$ and $n$, and let $N$ be the sample size (adjusted by process error if applicable, and then rounded up to the next whole number). The robustification parameter $\delta$ is ignored. Then, 
+  \begin{enumerate}
+    \item{} A sample of $N$ values from $1$ to $n$ is generated using the multinomial distribution, using sample probabilities proportional to the values of $E_i$.
+    \item{} Each simulated observation value $S_i$ is calculated as the proportion of the $N$ sampled values equalling $i$
+    \item{} The simulated observation values $S_i$ are then rescaled so that their sum is equal to $1$
+  \end{enumerate}
+\item{} Binomial and the normal approximation to the binomial likelihoods: Let $E_i$ be the fitted value for observation $i$, for $i$ between $1$ and $n$, and $N_i$ the corresponding equivalent sample size (adjusted by process error if applicable, and then rounded up to the next whole number). The robustification parameter $\delta$ is ignored. Then, 
+  \begin{enumerate}
+    \item{} A sample of $N_i$ independent binary variates is generated, equalling $1$ with probability $E_i$ 
+    \item{}	The simulated observation value $S_i$ is calculated as the sum of these binary variates divided by $N_i$
+  \end{enumerate}
+\end{enumerate}
+
+Note that \SAM\ will report simulated observations using the usual observation report (\commandlabsubarg{report}{type}{observation}). The report \commandlabsubarg{report}{type}{simulated\_observation} will generate simulated observations in a form suitable for use as input within a \SAM\ \config. See Section \ref{sec:report-section} for more detail.
+
+\subsection{\I{Pseudo-observations}}
+
+\SAM\ can generate expected values for observations without them contributing to the total objective function. These are called pseudo-observations, and can be used to either generate the expected values from \SAM\ for reporting or diagnostic purposes. To define an observation as a pseudo-observation, use the command \commandlabsubarg{observation}{likelihood}{none}. Any observation type can be used as a pseudo-observation. \SAM\ can also generate simulated observations from pseudo-observations. Note that;
+
+\begin{itemize}
+  \item Output will only be generated if a report command \commandlabsubarg{report}{type}{observation} is specified.
+  \item The observed values should be supplied (even if they are `dummy' observation). These will be processed by \SAM\ as if they were actual observation values, and must conform to the validations carried out for the other types of likelihood. 
+  \item The subcommands \subcommand{likelihood}, \subcommand{obs}, \subcommand{error\_value} and \subcommand{process\_error} have no effect when generating the expected values for the pseudo-observation.   
+  \item When simulating observations, \SAM\ needs the subcommand \subcommand{simulation\_likelihood} to tell it what sort of likelihood to use. In this case, the \subcommand{obs}, \subcommand{error\_value} and \subcommand{process\_error} are used to determine the appropriate terms to use for the likelihood when simulating.
+\end{itemize}
+
+
+
