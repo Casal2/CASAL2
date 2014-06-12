@@ -1,0 +1,54 @@
+\section{Introduction\label{sec:Introduction}}
+\CH
+\KL Needs rewriting \KLend
+
+\SAM\ (\SAMName) is a generalised age- or size-structured fish stock assessment model that allows flexibility in specifying population dynamics, paramaeter estimation and model outputs. \SAM\ can model population dynamics for an age-structured population using a range of observations, including tagging, relative abundance, and age frequency data. \SAM\ implements an age-structured population which can have user defined categories (e.g., immature, mature, male, female, etc.), and age range. 
+
+This manual describes how to use \SAM, including how to run \SAM, how to set up an \config. Further, we describe the population dynamics and estimation methods, and describe how to specify and interpret output. 
+
+\subsection{Version\label{sec:version}}
+\CH
+This document (last modified \DocVer) describes \SAM\ \VER. The \SAM\ version number is suffixed with a date/time (\texttt{yyyy-mm-dd}) and revision number, giving the revision control system UTC date and revision number for the most recent modification of the source files. User manual updates will usually be issued for each minor version or date release of \SAM, and can be obtained, on request, from the authors.\index{Version number}
+
+\subsection{Citing \SAM}
+\CH
+A suitable reference for \SAM\ and this document is:
+
+\ManualRef\index{Citation}\index{Citing \SAM}
+
+\subsection{\I{Software license}\index{Common Public License}}
+\CH
+This program and the accompanying materials are made available under the terms of the \href{http://www.opensource.org/licenses/cpl1.0.php}{Common Public License v1.0} which accompanies this software (see Section \ref{sec:Common-Public-License}).
+
+Copyright \copyright 2008-\SourceControlYearDoc, \href{http://www.niwa.co.nz}{\Organisation} and the \href{http://www.mpi.govt.nz}{New Zealand Ministry for Primary Industries}. All rights reserved.
+
+\subsection{\I{System requirements}}
+\CH
+\SAM\ is available for most IBM compatible machines running 64-bit \I{Linux} and \I{Microsoft Windows} operating systems.
+
+Several of \SAM s tasks are highly computer intensive and a fast processor is recommended. Depending on the model implemented, some of \SAM s tasks can take a considerable amount of time (minutes to hours), and in extreme cases can even take several days to estimate a model fit. Some of \SAM s tasks can be multi-threaded, and hence multi-core machines may perform some tasks quicker than single core processors.
+
+The program itself requires only a few megabytes of hard-disk space but output files can consume large amounts of disk space. Depending on number and type of user output requests, the output could range from a few hundred kilobytes to several hundred megabytes. When estimating model fits, several hundred megabytes of RAM may be required, depending on the spatial size of the model, number of categories, and complexity of processes and observations. For extremely large models, several gigabytes of RAM may be required. 
+
+\subsection{\I{Necessary files}}
+\CH
+For both 64-bit Linux and Microsoft Windows, only the binary file \texttt{spm} or \texttt{spm.exe} is required to run \SAM . No other software is required. We do not compile a version for 32-bit operating systems. 
+
+\SAM\ offers little in the way of  post-processing of the output, and a package available that allows tabulation and graphing of model outputs is recommended. We suggest software such as \href{http://www.microsoft.com}{Microsoft Excel}, \href{http://www.insightful.com}{S-Plus}, or \href{http://www.r-project.org}{\R}\ (R Development Core Team 2007). To assist in the post processing of \SAM\ output, we provide the \texttt{sam} \R\ package for importing the \SAM\ output into \R\ (see Section \ref{sec:post-processing}).
+
+\subsection{Getting help\index{Getting help}\index{User assistance}\index{Notifying errors}}
+\CH
+\SAM\ is distributed as unsupported software, however we would appreciate being notified of any problems or errors in \SAM. See Section \ref{sec:reporting-errors} for how to report errors to the \authors. Further information about \SAM\ can be obtained by contacting the \authors.
+
+\subsection{Technical details\index{Technical specifications}}
+\CH
+\SAM\ was compiled on Linux using \href{http://gcc.gnu.org}{\texttt{gcc}}, the C/C++ compiler developed by the \href{http://gcc.gnu.org}{GNU Project}. The 64-bit Linux \index{Linux} version was compiled using \texttt{gcc} version 4.8.1 20130909 (\href{http://www.opensuse.org/}{SUSE Linux}). Note that \SAM\ is not supported for Linux kernel versions prior to 2.6. The \href{http://www.microsoft.com}{Microsoft Windows}\index{Microsoft Windows} version was compiled using \href{http://www.mingw.org}{Mingw32}\index{Mingw} \href{http://gcc.gnu.org}{\texttt{gcc}} (tdm64-1) 4.7.1. The \href{http://www.microsoft.com}{Microsoft Windows} installer was built using the \href{http://nsis.sourceforge.net/Main_Page}{Nullsoft Scriptable Install System}.
+
+\SAM\ uses two minimisers --- the first is closely based on the main algorithm of \cite{779}, and which which uses finite difference gradients\index{Finite differences minimiser}, and the second is an implementation of the differential evolution solver\index{Differential evolution minimiser} \citep{1442}, and based on code by \href{mailto:<godwin@pushcorp.com>}{Lester E. Godwin} of \href{http://www.pushcorp.com}{PushCorp, Inc.} 
+
+The random number generator\index{Random number generator} used by \SAM\ uses an implementation of the Mersenne twister random number generator \citep{796}. This, the command line functionality, matrix operations, and a number of other functions use the \href{http://www.boost.org/}{BOOST} C++ library (Version 1.54.0)\index{BOOST C++ library}.
+
+Note that the output from \SAM\ may differ slightly on the different platforms due to different precision arithmetic or other platform dependent implementation issues. The source code\index{\SAM\ source code} for \SAM\ is available either as a part of the installation, or on request from the \authors.
+
+Unit tests of the underlying \SAM\ code are carried out at build time, using the \href{http://www.boost.org/}{BOOST} unit testing framework. The unit test framework aims to cover a significant proportion of the key functions and processes within the \SAM\ code base. The unit test code for \SAM\ is available as a part of the underlying source code.
+

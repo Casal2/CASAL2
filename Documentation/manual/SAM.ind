@@ -1,0 +1,290 @@
+\begin{theindex}
+
+  \item \SAM\ source code, \hyperpage{2}
+
+  \indexspace
+
+  \item About \SAM, \hyperpage{5}
+  \item Abundance or biomass observations, \hyperpage{41}
+  \item Age-size relationship, \hyperpage{55}
+  \item Ageing, \hyperpage{21}
+  \item Ageing error, \hyperpage{44}
+  \item Annual cycle, \hyperpage{5}, \hyperpage{15}, \hyperpage{21}
+  \item Annual mortality rate, \hyperpage{21}
+  \item Available reports, \hyperpage{75}
+
+  \indexspace
+
+  \item Bayesian estimation, \hyperpage{28, 29}
+  \item Beta prior, \hyperpage{33}
+  \item Beverton-Holt recruitment, \hyperpage{21}
+  \item Binomial likelihood 
+    \subitem  proportions-by-category, \hyperpage{41}
+  \item Binomial likelihood (normal approximation) 
+    \subitem  proportions-by-category, \hyperpage{41}
+  \item BOOST C++ library, \hyperpage{2}
+  \item Bounds, \hyperpage{26}
+
+  \indexspace
+
+  \item Calculation of mean weight, \hyperpage{21}
+  \item Calculation of size-at-age (in an age-based model), 
+		\hyperpage{21}
+  \item CASAL, \hyperpage{5}
+  \item Category transitions, \hyperpage{21}
+  \item Citation, \hyperpage{1}
+  \item Citing \SAM, \hyperpage{1}
+  \item Climate recruitment, \hyperpage{21}
+  \item Command 
+    \subitem  age\_size, \hyperpage{55}
+    \subitem  ageing\_error, \hyperpage{74}
+    \subitem  catchability, \hyperpage{68}
+    \subitem  derived\_quantity, \hyperpage{54}
+    \subitem  estimate, \hyperpage{63}
+    \subitem  include, \hyperpage{77}
+    \subitem  Include files, \hyperpage{13}
+    \subitem  initialisation\_phase, \hyperpage{49}
+    \subitem  m\_c\_m\_c, \hyperpage{67}
+    \subitem  minimiser, \hyperpage{65}
+    \subitem  model, \hyperpage{49}
+    \subitem  observation, \hyperpage{71}
+    \subitem  penalty, \hyperpage{68}
+    \subitem  process, \hyperpage{50}
+    \subitem  profile, \hyperpage{68}
+    \subitem  report, \hyperpage{75}
+    \subitem  selectivity, \hyperpage{58}
+    \subitem  size\_weight, \hyperpage{57}
+    \subitem  time\_step, \hyperpage{50}
+  \item Command block format, \hyperpage{12}
+  \item Command line arguments, \hyperpage{9, 10}
+  \item Commands, \hyperpage{11}
+  \item Commands 
+    \subitem  Subcommands, \hyperpage{12}
+  \item Commenting out lines, \hyperpage{13}
+  \item Comments, \hyperpage{13}
+  \item Common Public License, \hyperpage{1}
+  \item Constant mortality rate, \hyperpage{21}
+  \item Constant Recruitment, \hyperpage{21}
+  \item Convergence failure, \hyperpage{27}
+  \item Correlation matrix, \hyperpage{27}
+  \item Covariance matrix, \hyperpage{25}, \hyperpage{27}
+
+  \indexspace
+
+  \item Defining ageing error, \hyperpage{74}
+  \item Defining catchability constants, \hyperpage{68}
+  \item Defining penalties, \hyperpage{68}
+  \item Derived quantities, \hyperpage{5}, \hyperpage{21}, 
+		\hyperpage{54}
+  \item Derived quantities by cell, \hyperpage{5}, \hyperpage{21}
+  \item Determining parameter names, \hyperpage{13}
+  \item Differential evolution minimiser, \hyperpage{2}, \hyperpage{26}
+  \item Disease mortality, \hyperpage{21}
+
+  \indexspace
+
+  \item Ensuring \emph  {R}$_0$\ makes sense, \hyperpage{21}
+  \item Estimable parameters, \hyperpage{9}
+  \item Estimated parameters, \hyperpage{6}, \hyperpage{12}
+  \item Estimating parameters, \hyperpage{26}
+  \item Estimation methods, \hyperpage{63}
+  \item Estimation section, \hyperpage{6}
+  \item Event and biomass-event mortality, \hyperpage{21}
+  \item Examples, \hyperpage{79}
+  \item Exit status value, \hyperpage{14}
+
+  \indexspace
+
+  \item Finite differences minimiser, \hyperpage{2}, \hyperpage{26}
+
+  \indexspace
+
+  \item Getting help, \hyperpage{2}
+
+  \indexspace
+
+  \item Hessian, \hyperpage{25}, \hyperpage{27}
+
+  \indexspace
+
+  \item Include an external file, \hyperpage{77}
+  \item Including external files, \hyperpage{10}
+  \item Initialisation, \hyperpage{15}, \hyperpage{21}, \hyperpage{49}
+  \item Input configuration file, \hyperpage{6}, \hyperpage{9}
+  \item Input configuration file syntax, \hyperpage{11}
+  \item Interpolation of size-at-age, \hyperpage{21}
+
+  \indexspace
+
+  \item Likelihoods, \hyperpage{35}
+  \item Linux, \hyperpage{1, 2}, \hyperpage{6}, \hyperpage{9}
+  \item Local Beverton-Holt recruitment, \hyperpage{21}
+  \item Local minimums, \hyperpage{27}
+  \item Lognormal likelihood 
+    \subitem  abundance, \hyperpage{43}
+    \subitem  biomass, \hyperpage{43}
+    \subitem  proportions-at-age, \hyperpage{39}
+  \item Lognormal prior, \hyperpage{32}
+
+  \indexspace
+
+  \item Maturation, \hyperpage{21}
+  \item Maturity, in models without maturing in the partition, 
+		\hyperpage{21}
+  \item Maximum posterior density estimate (MPD), \hyperpage{25}
+  \item MCMC, \hyperpage{25}, \hyperpage{28}
+  \item Microsoft Windows, \hyperpage{1, 2}, \hyperpage{6}, 
+		\hyperpage{9}
+  \item Migration, \hyperpage{21}
+  \item Mingw, \hyperpage{2}
+  \item Model 
+    \subitem  annual cycle, \hyperpage{5}
+    \subitem  derived quantities, \hyperpage{5}
+    \subitem  derived quantities by cell, \hyperpage{5}
+    \subitem  initialisation, \hyperpage{15}
+    \subitem  partition, \hyperpage{5}
+    \subitem  processes, \hyperpage{5}
+    \subitem  state, \hyperpage{5}
+    \subitem  time-steps, \hyperpage{5}
+  \item Model overview, \hyperpage{5}
+  \item Model structure, \hyperpage{49}
+  \item Model years, \hyperpage{21}
+  \item Modifying recruitment in the initial years, \hyperpage{21}
+  \item Monte Carlo Markov Chain (MCMC), \hyperpage{25}, \hyperpage{28}, 
+		\hyperpage{67}
+  \item Mortality, \hyperpage{21}
+  \item MPD (Maximum posterior density estimate), \hyperpage{25}
+  \item Multinomial likelihood 
+    \subitem  proportions-at-age, \hyperpage{38}
+
+  \indexspace
+
+  \item Necessary files, \hyperpage{2}
+  \item Normal likelihood 
+    \subitem  abundance, \hyperpage{43}
+    \subitem  biomass, \hyperpage{43}
+  \item Normal prior, \hyperpage{32}
+  \item Notifying errors, \hyperpage{2}
+
+  \indexspace
+
+  \item Objective function, \hyperpage{26}
+  \item Objective function evaluations, \hyperpage{27}
+  \item Observation section, \hyperpage{6, 7}
+  \item Observation types, \hyperpage{71}
+  \item Observations, \hyperpage{35}
+  \item Optional command line arguments, \hyperpage{11}
+  \item Output header information, \hyperpage{10}
+
+  \indexspace
+
+  \item Parameter names, \hyperpage{13}
+  \item Partition, \hyperpage{5}
+  \item Point estimation, \hyperpage{26}, \hyperpage{65}
+  \item Population processes, \hyperpage{21}
+  \item Population section, \hyperpage{6}, \hyperpage{15}
+  \item Population structure, \hyperpage{15}
+  \item Posterior profiles, \hyperpage{28}
+  \item Prey-suitability mortality, \hyperpage{21}
+  \item Priors, \hyperpage{26}
+  \item Priors 
+    \subitem  Beta, \hyperpage{33}
+    \subitem  Lognormal, \hyperpage{32}
+    \subitem  Normal, \hyperpage{32}
+    \subitem  Uniform, \hyperpage{32}
+    \subitem  Uniform-log, \hyperpage{32}
+  \item Process error, \hyperpage{43}
+  \item Processes, \hyperpage{5}, \hyperpage{50}
+  \item Profiles, \hyperpage{25}, \hyperpage{68}
+  \item Projections, \hyperpage{21}
+  \item Proportional recruitment, \hyperpage{21}
+  \item Proportions-at-age across aggregated categories, \hyperpage{37}
+  \item Proportions-at-age for a single category, \hyperpage{36}
+  \item Proportions-at-age for multiple categories, \hyperpage{37}
+  \item Proportions-at-age observations, \hyperpage{35}
+  \item Proportions-by-category observations, \hyperpage{39}
+  \item Pseudo-observations, \hyperpage{45}
+
+  \indexspace
+
+  \item Quasi-Newton iterations, \hyperpage{27}
+
+  \indexspace
+
+  \item Random number generator, \hyperpage{2}
+  \item Recruitment, \hyperpage{21}
+  \item Redirecting standard error, \hyperpage{10}
+  \item Redirecting standard out, \hyperpage{10}
+  \item Redirecting standard output, \hyperpage{10}
+  \item Report commands and subcommands, \hyperpage{75}
+  \item Report section, \hyperpage{6, 7}
+  \item Reports, \hyperpage{47}
+  \item Reports section, \hyperpage{47}
+  \item Running \texttt  {SAM}, \hyperpage{9}
+
+  \indexspace
+
+  \item Selectivities, \hyperpage{22}, \hyperpage{58}
+    \subitem All-values, \hyperpage{23}
+    \subitem All-values-bounded, \hyperpage{23}
+    \subitem Constant, \hyperpage{22}
+    \subitem Double-exponential, \hyperpage{24}
+    \subitem Double-normal, \hyperpage{24}
+    \subitem Increasing, \hyperpage{23}
+    \subitem Inverse-logistic, \hyperpage{23}
+    \subitem Knife-edge, \hyperpage{23}
+    \subitem Logistic, \hyperpage{23}
+    \subitem Logistic-producing, \hyperpage{24}
+    \subitem Spline, \hyperpage{24}
+  \item Semalparous mortality, \hyperpage{21}
+  \item Setting the number of threads, \hyperpage{11}
+  \item Simulating observations, \hyperpage{44}
+  \item Size-age relationship, \hyperpage{21}
+  \item Size-weight, \hyperpage{57}
+  \item Size-weight relationship, \hyperpage{21}
+  \item Software license, \hyperpage{1}
+  \item Specifying recruitment, \hyperpage{21}
+  \item Specifying the parameters to be estimated, \hyperpage{26}
+  \item standard error, \hyperpage{10}
+  \item standard output, \hyperpage{10}
+  \item State, \hyperpage{5}
+  \item Subcommand argument type, \hyperpage{12}
+  \item Successful convergence, \hyperpage{27}
+  \item System requirements, \hyperpage{1}
+
+  \indexspace
+
+  \item Tag release events, \hyperpage{21}
+  \item Tag shedding rate, \hyperpage{21}
+  \item Tasks, \hyperpage{9}
+  \item Technical specifications, \hyperpage{2}
+  \item The differential evolution minimiser, \hyperpage{27}
+  \item The estimation section, \hyperpage{6}, \hyperpage{25}
+  \item The numerical differences minimiser, \hyperpage{26}
+  \item The objective function, \hyperpage{25}
+  \item The observation section, \hyperpage{6}
+  \item The population section, \hyperpage{6}, \hyperpage{15}
+  \item The report section, \hyperpage{7}, \hyperpage{47}
+  \item The state object and the partition, \hyperpage{16}
+  \item Threads
+    \subitem setting, \hyperpage{11}
+  \item Time sequences, \hyperpage{18}
+  \item Time-steps, \hyperpage{50}
+  \item time-steps, \hyperpage{5}
+
+  \indexspace
+
+  \item Uniform prior, \hyperpage{32}
+  \item Uniform-log prior, \hyperpage{32}
+  \item User assistance, \hyperpage{2}
+  \item Using \texttt  {SAM}, \hyperpage{9}
+
+  \indexspace
+
+  \item Version number, \hyperpage{1}
+
+  \indexspace
+
+  \item Weightless model, \hyperpage{21}
+
+\end{theindex}

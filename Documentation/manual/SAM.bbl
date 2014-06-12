@@ -1,0 +1,55 @@
+\begin{thebibliography}{7}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Bull et~al.(2012)Bull, Francis, Dunn, McKenzie, Gilbert, Smith, Bian,
+  and Fu]{1388}
+B.~Bull, R.I.C.C. Francis, A.~Dunn, A.~McKenzie, D.J. Gilbert, M.H. Smith,
+  R.~Bian, and D.~Fu.
+\newblock {CASAL} {C}++ {A}lgorithmic {S}tock {A}ssessment {L}aboratory):
+  {CASAL} user manual v2.30-2012/03/21.
+\newblock Technical Report 135, NIWA, 2012.
+
+\bibitem[Dennis~Jr and Schnabel(1996)]{779}
+J.~E. Dennis~Jr and R.B. Schnabel.
+\newblock \emph{Numerical methods for unconstrained optimisation and nonlinear
+  equations}.
+\newblock Classics in Applied Mathematics. Prentice Hall, 1996.
+
+\bibitem[Gelman et~al.(1995)Gelman, Carlin, Stern, and Rubin]{823}
+A~B Gelman, J~S Carlin, H~S Stern, and D~B Rubin.
+\newblock \emph{Bayesian data analysis}.
+\newblock Chapman and Hall, London, 1995.
+
+\bibitem[Gilks et~al.(1994)Gilks, Thomas, and Spiegelhalter]{143}
+W~R Gilks, A~Thomas, and D~J Spiegelhalter.
+\newblock A language and program for complex {B}ayesian modelling.
+\newblock \emph{The Statistician}, 43\penalty0 (1):\penalty0 169--177, 1994.
+
+\bibitem[Matsumoto and Nishimura(1998)]{796}
+Makoto Matsumoto and Takuji Nishimura.
+\newblock Mersenne twister: a 623-dimensionally equidistributed uniform
+  pseudo-random number generator.
+\newblock \emph{ACM Transactions on Modeling and Computer Simulation: Special
+  Issue on Uniform Random Number Generation}, 8\penalty0 (1):\penalty0 3--30,
+  January 1998.
+
+\bibitem[Punt and Hilborn(2001)]{828}
+Andre~E. Punt and Ray Hilborn.
+\newblock \emph{BAYES-SA. Bayesian stock assessment methods in fisheries.
+  User's manual. FAO Computerized information series (fisheries) 12}.
+\newblock Food and Agriculture Organisation of the United Nations, Rome
+  (Italy)., 2001.
+
+\bibitem[Storn and Price(1995)]{1442}
+Rainer Storn and Kenneth Price.
+\newblock Differential evolution - a simple and efficient adaptive scheme for
+  global optimization over continuous spaces.
+\newblock Technical Report TR-95-012, International Computer Science Institute,
+  Berkeley, CA, 1995.
+\newblock URL \url{http://citeseer.ist.psu.edu/182432.html}.
+
+\end{thebibliography}

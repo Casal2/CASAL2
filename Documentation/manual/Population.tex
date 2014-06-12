@@ -1,0 +1,662 @@
+\section{\I{The population section}\label{sec:population-section}}
+
+\subsection{Introduction}
+
+The population section\index{Population section} specifies the model structure, population dynamics, and other associated parameters. It describes the model structure (population structure), defines the population  (e.g., recruitment, migration, and mortality), selectivities, and model parameters.
+
+The population section consists of several components, including;
+\begin{itemize}
+  \item The population structure;
+  \item Model initialisation (i.e., the state of the model at the start of the first year)\index{Initialisation}\index{Model ! initialisation};
+  \item The years over which the model runs (i.e., the start and end years of the model)
+  \item The annual cycle (time-steps and processes that are applied in each time-step)\index{Annual cycle};
+  \item The specifications and parameters of the population processes (i.e. processes that add, remove individuals to or from the partition, or shift numbers between ages and categories in the partition);
+  \item Selectivities;
+  \item Parameter values and their definitions;
+  \item Derived quantities, required as parameters for some processes (e.g. spawning stock biomass to resolve the spawner-recruit relationship in a recruitment process).
+\end{itemize}
+
+
+\subsection{\I{Population structure}}
+
+The basic structure of a CASAL population model is defined in terms of an annual cycle, time steps, states, and transitions.
+
+The annual cycle defines what processes happen in each model year, and in what sequence. (In line with the New Zealand fisheries management framework, CASAL runs on an annual cycle rather than, for example, a 6-monthly cycle.) 
+
+Each year is split into one or more time steps, with at least one process occurring in each time step. Each time step can be thought of as representing a particular part of the calendar year, or you can just treat them as an abstract sequence of events.
+
+The state is the current status of the population, at any given time. The state can change one or more times in every time step of every year. The state object must contain sufficient information to figure out the future course of the fishery (given a model and a complete set of parameters).
+
+There are a number of possible changes in the state, which are called transitions. These include processes such as recruitment, natural mortality, fishing mortality, disease mortality, ageing, migration, tagging events, and semelparous mortality.
+
+The division of the year into an arbitrary number of time steps allows the user to specify the exact order in which processes and observations occur. The user needs to specify the time step in which each process occurs. If more than one process occurs in the same time step, there is a default order in which they occur (see Section 5.3). If you don’t want things to happen in this default order, then split the processes into different time steps.
+
+The key element of the state is the partition. This is a broadly applicable concept that can be used to describe many different kinds of fish model. The partition is simply a breakdown of the total number of fish in the current population into different kinds of fish. (Note that the partition records numbers of fish, not biomass.) The fish are categorised by various characters. The permissible characters are: size class or age class, sex, maturity, area, stock, tag, and growth-path. The user chooses: 
+
+\begin{itemize}
+\item	whether the partition is subdivided by size class or age class (not both)
+\item	which of the other characters are included in the partition, e.g., the number of areas, stocks, tagging events, or growth paths (if any of these characters are included in the partition).
+\end{itemize}
+
+The resulting partition can be conceptualised as a matrix, where the columns are size or age classes and the rows represent combinations of the other characters. Then the number in each cell of the matrix is the number of fish with the corresponding combination of characters. 
+
+For an example of these ideas, consider a model of a single stock with a spawning and non-spawning fishery. The non-spawning fishery happens over most of the year (say 10 months) in the home area. The mature fish then migrate to the spawning area, where the spawning fishery operates. At the end of spawning, these fish, along with the recruits from the previous year, migrate back to the home area. The modeller decides that fish will be divided in the partition by age, sex, maturity, and area (spawning and home grounds). So the partition has 8 rows (2 sexes × (mature or immature) × 2 areas) and one column per age class. 
+ 
+\KL INSERT TABLE HERE \KLend
+
+So they define four time steps, labelled 1 through 4. Step 1 includes the non-spawning fishery. Step 2 includes the migration to the spawning area. Step 3 includes the spawning fishery. Step 4 includes recruitment and the migration back to the home area. (In fact, they could have used only 3 time steps, by using a single step in place of their steps 2 and 3. Because the default order of processes within a time step places migrations before fisheries, the processes would still have occurred in the right order.) There are other details to be sorted out, such as the proportion of natural mortality occurring in each time step, but this gives the basic idea. 
+
+This structure can be used to implement complex models, with intermingling of separate stocks, with complex migration patterns over multiple areas, and multiple fisheries using different fishing methods and covering different areas and times. Note that there is little point in using a complex structure to model a stock when there are no observations to support that structure. In other words, use a structure for your model that is compatible with the data available. 
+
+The model is run from an initial year up to the current year. It can also be run past the current year to make projections — things that happen in the future — up to the final year. Alternatively, for yield calculations, it is run over an abstract simulation period.
+
+
+\subsection{\I{The state object and the partition}}
+
+The key component of the state object is the partition, a matrix of numbers of fish by combinations of characters. The columns can either be age or size classes, the rows are combinations of the following characters: 
+
+\begin{itemize}
+\item Sex (male or female);
+\item Area (any number of areas, named by the user);
+\item Stock (any number of stocks, named by the user);
+\item Maturity (immature or mature);
+\item Growth-path (any number of growth-paths);
+\item Tag. (any number of tagging events, but note that CASAL will always create a “no\_tag” member of the partition in addition to those that you specify).
+\end{itemize}
+
+A stock is defined as a subpopulation of fish which recruits separately. See Section 5.11 for the treatment of maturity when it is not a character in the partition. 
+
+Growth-paths are a feature used to implement some persistence of size at age in an age-based model that uses some length/size data. Each growth-path has its own growth curve, and the size-based model features will consequently  have different effects on different growth-paths. So, you need to tell CASAL the following: 
+
+\begin{itemize}
+\item Whether the model is age- or size-based.
+\item The number and nature of size classes in a size-based model.
+\item	The minimum and maximum age classes in an age-based model.
+\item	Whether there is a plus group.
+\item	Whether the partition is divided by sex.
+\item	Whether the partition is divided by maturity.
+\item	Whether the partition has growth-paths, and, if so, how many.
+\item	Whether the partition has multiple stocks, and, if so, how many, and their names.
+\item	Whether the partition has multiple areas, and, if so, how many, and their names.
+\item	Whether the partition includes tagged fish, and, if so, how many, and the names of the tag partitions.
+\end{itemize}
+
+Age classes are always 1 year wide, except that the maximum age group can optionally be a plus group. Users need to choose the minimum and maximum age classes. Size classes are defined by the user, and you need to specify how many size classes there are, the lower bound of each size class, and whether the last size class is a plus group, or if not, what its upper bound is. The relevant parameters are \texttt{class\_mins} and \texttt{plus\_group}. The \texttt{class\_mins} parameter contains the lower bound of each class, and concludes with the upper bound of the last class if it is not a plus group. If, for example, size classes of 30–40, 40–50, 50–60, and 60–70+ cm were desired, you would set \texttt{class\_mins 30 40 50 60} and \texttt{plus\_group true}. Whereas if 30–40, 40–50, 50–60, and 60–70 cm were desired, you would set \texttt{class\_mins 30 40 50 60 70} and \texttt{plus\_group false}.
+
+The user can specify that some combinations of characters are not possible. For example, immature fish might never occur in the area you have labelled \texttt{spawn\_ground}. To do this, you use the exclusions parameters. In this case, you would set,
+
+\texttt{exclusions\_char1 maturity}\\
+\texttt{exclusions\_val1 immature}\\
+\texttt{exclusions\_char2 area}\\
+\texttt{exclusions\_val2 spawn\_ground}
+
+It’s a good idea to use the exclusions parameter wherever appropriate because it reduces the size of the partition (so, with the above example, there will be no rows in the partition corresponding to immature fish in area \texttt{spawn\_ground}) and can save memory and calculation time.
+
+The other component of the state object in CASAL is a vector of spawning stock biomasses (SSBs, mid-spawning season biomasses of spawning fish) for each stock. CASAL needs to include this in the state object to calculate future recruitments, if there is a stock-recruitment relationship. 
+
+\subsection{\I{Time sequences}}
+
+The time sequence of the population model includes the years over which it is to run and the annual cycle for each year. The model runs from the start of year \texttt{initial} and runs to the end of year \texttt{current}. Projections extend up to the end of year \texttt{final}. The annual cycle can contain the following transition processes: 
+
+\begin{itemize}
+\item	Ageing (in an age-based model);
+\item	Recruitment;
+\item	Maturation (if maturity is a character in the partition);
+\item	Migration (if the model includes more than one area);
+\item	Growth (in a size-based model);
+\item	Natural and fishing mortality;
+\item	Disease mortality;
+\item	Tag release events;
+\item	Tag shedding rate;
+\item	Semelparous mortality.
+\end{itemize}
+
+If two or more processes are specified for the same time step then they will happen in the above order. This ordering is imposed only to simplify the specification of the annual cycle. It does not restrict the user because it applies only to processes within the same time step. If, for example, it is desired that maturation occur before recruitment then this can be done by putting these processes in separate time steps. 
+
+The basic unit of fishing mortality is a fishery, defined as fishing mortality in a single area and time step. You may need to split a single administrative fishery into multiple CASAL fisheries, in which case you will need to partition the catch. (However, this should often be avoidable. If you have an observation partway through a fishery, you can specify that a certain proportion of the mortality occurs before the observation, without needing to split the time step into two.) 
+
+If there is more than one stock, recruitment is handled separately for each stock, but all stocks must recruit in the same time step. There can be more than one maturation episode per year, each of which can apply to only one stock, or all stocks equally. Similarly there can be more than one growth episode per year, each of which can apply to only one stock, or all stocks equally. The user can define any number of migrations in a given year.
+
+To specify the time sequence, you need to tell CASAL the following: 
+
+\begin{itemize}
+\item	The initial, current, and final years;
+\item	The number of time steps in each year;
+\item	The time step in which recruitment occurs, and the area to which each stock recruits
+\item	How SSB is calculated \footnote{The SSB (spawning stock biomass) is a common model output and is also the measure of abundance used in stock-recruitment relationships in CASAL (where applicable). Different models define SSB in quite different ways so we allow several options in CASAL as to how SSB is calculated. By default, SSB is calculated for each stock as the mature biomass (of both sexes), in an area (or areas) of your choice, halfway through the natural and fishing mortality in a time step of your choice. It can alternatively be calculated after some other specified proportion of the mortality (see Section 5.4.6) and/or for one sex only. A ‘proportion spawning’ multiplier can be applied to the mature biomass to get the SSB (in multi-area models this would typically not be done, instead the appropriate proportion of fish would be migrated to the spawning area). If maturity is not in the partition, then the modeller may nevertheless know that all fish in the spawning area should be mature (i.e., because only mature fish are meant to migrate) but the model does not ‘know’ this because maturity is not persistent. In this case the user can specify that the SSB is the total biomass in the area, rather than using the mature biomass.};
+\item	In an age-based model, the time step at which ages are incremented;
+\item	If there are any migrations, the time step at which each migration occurs and the source and destination areas. Note that if there are multiple migrations in a time step and an area is the source of more than one migration, then the migrations will happen in the order that they are defined in the \texttt{population.csl} file;
+\item	If maturity is a partition character, the number of maturation episodes per year, and the time step at which each maturation episode occurs;
+\item	In a size-based model, the number of growth episodes per year, and the time step at which each growth episode occurs;
+\item	In an age-based model, the proportion of the year’s growth which has occurred by the start of each time step \footnote{Fish growth in an age-based model is handled quite differently from a size-based model. The simplest option is to assume that the mean size of a fish is based on its age, rounded down to the next lowest whole number of years. So, for example, 2-year old fish have the same mean size whether they have just passed their 2nd birthday or whether they are about to turn 3. An alternative is to allow some fish growth between birthdays. You can do this using the \texttt{growth\_props} parameter. This is a vector with one entry per time step. The mean size of fish of age $a$ years (rounded down) in the $ith$ time step is calculated as if their age was ($a+$\texttt{growth\_props[i]}). So, if the first entry of \texttt{growth\_props} is 0.5, then, in time step 1, the mean size of 2-year-old fish is calculated as if they were age 2.5. The default is \texttt{growth\_props} = 0 (i.e., no growth between birthdays).};
+\item	The proportion of the year’s natural mortality occurring in each time step;
+\item	The time step and area in which each fishery occurs;
+\item Whether fishing mortality is instantaneous or uses the Baranov equation \footnote{
+  Natural mortality and fishing mortality occurring in the same area and time step can be sequenced in two different ways. The first option is to apply half the natural mortality, then to apply the mortalities from all the fisheries instantaneously, then to apply the remaining half of the natural mortality. The second options is to use the Baranov catch equation, which implies that natural and fishing mortalities are simultaneous. We prefer the first option — the calculations are more straightforward and the result typically about the same. However you can use Baranov if you want, except that we have not yet implemented the Baranov equation for multiple fisheries in the same area in the same time step. Whichever option you use is applied to all fisheries. More on this in Section 5.4.6.
+};
+\item If there is a disease mortality event, and in which time step this occurs;
+\item	If tagging has been specified, when the tagging event occurs, how many fish by age or size class, in which member of the partition to put the tagged fish, and the tag shedding rates, if defined.
+\end{itemize}
+
+You then need to provide CASAL with details about how each process works. These processes are described individually in \KL Section 5.4 \KLend. 
+
+When defining the annual cycle, there are a number of errors can be made. Some of the less obvious ones are listed here. It is an error if: 
+
+\begin{itemize}
+\item	the sum of the proportions of the year’s natural mortality over time steps is not 1,
+\item	in an age-based model, any element of \texttt{growth\_props} is outside $[0,1]$; or if \texttt{growth\_props} is not 0 in the time step in which fish age; or if \texttt{growth\_props} diminishes between consecutive time steps without age incrementation having taken place,
+\item	in a size-based model, more than one growth episode occurs in the same time step, unless they involve different stocks,
+\item  you want to use the Baranov equation and there is a time step that includes two or more fisheries in the same area.
+\end{itemize}
+
+
+\subsection{\I{Time sequences}}
+
+The time sequence of the model is defined in two parts;
+\begin{itemize}
+  \item \I{Initialisation}
+  \item \I{Run years}
+  \item \I{Projection year}s
+\end{itemize}
+
+\subsubsection{\I{Annual cycle}}
+
+The annual cycle is implemented as a set of processes that occur, in a user-defined order, within each year. Time-steps are used to break the annual cycle into separate components, and allow observations to be associated with different sets of processes. Any number of processes can occur within each time-step, in any order and can occur multiple times within each time-step. Note that time-steps are not implemented during the initialisation phases (effectively, there is only one time-step), and that the annual cycle in the initialisation phases can be different from that which is applied during the model years.
+
+\subsubsection{\I{Initialisation}}
+
+Model initialisation can occur in several phases\index{Initialisation!phases}, each of which iterates through a number of years carrying out the population processes defined for that phase. At the end of the initialisation step, \SAM\ runs through the model years carrying out processes in the order defined in the annual cycle, and can evaluate expected values of observations in order to calculate likelihoods, project forward to determine future states,
+or simulate observations from the current state.
+
+\SAM\ initialises the initial equilibrium state as an iterative process: a general solution that initialises complex structured models can be difficult to implement using analytic techniques. However, initialising via iteration for a long-lived species with complex transitions can take many iterations and be slow to run. In \SAM, we allow for user-defined multi-phased initialisation using iteration to allow the user to optimize models for speed. Each phase of the initialisation can involve any number of processes. Note that the length of the initialisation period may affect the model outputs, and that a period should be chosen to allow the population state to converge.
+
+In addition, each initialisation process can optionally be stopped early if a user defined convergence criteria is met. For a set of user defined years in the initialisation phase, convergence is defined as met if the proportional absolute summed difference between the the state in year $t-1$ and the state in year $t$ ($\widehat{\lambda}$) is less than $\lambda$ where, 
+\begin{equation}
+  \widehat{\lambda} = \frac{\sum\limits_{i} \sum\limits_{j} \left|\text{element}(i,j)_t - \text{element}(i,j)_{t-1} \right|}{\sum\limits_{i} \sum\limits_{j} \frac{}{}\text{element}(i,j)_t}
+\end{equation}
+
+In each initialisation phase, the processes defined for that phase are carried out and used as the starting point for the following phase or, if it is the last phase, then the years that the model is run over. The first phase is always initialised with each element (i.e., each age and category) set at zero. Note that this means that recruitment processes where the numbers of recruits is based on a stock recruitment or density dependant relationship will likely fail if used in the first phase of an initialisation. 
+
+The multi-phase iteration\index{Multi-phase iteration} allows the user to determine if the initialisation has converged in a particular model run. Here, add an additional initialisation phase for, say, $1$ year as the last initialisation phase (with the same processes applied). Then, using the initialisation reports (\commandlabsubarg{report}{type}{initialisation\_phase}), print a copy of the partition just before and just after that phase. If the initialisation has converged to an equilibrium state, then the partition at both these time intervals will be the same.
+
+Hence, for initialisation you need to define;
+\begin{itemize}
+  \item The initialisation phases
+  \item The number of years in each phase and the processes to apply in each
+\end{itemize}
+
+\subsubsection{\I{Model years}}
+
+Following initialisation, the model then runs over a number of user-defined years. For this part of the model, the annual cycle can be broken into separate time-steps, and observations can be associated with the state of the model at the end of any time-step, i.e., likelihoods for particular observations are evaluated, if required, at the end of each time-step. 
+
+Processes are carried out in the order specified within each time-step, and can be the same or different to processes in other initialisation phases of the model. The run years define the years over which the model is to run and the annual cycle within each year. The model runs from the start of year \argument{initial} and runs to the end of year \argument{current}. The projection part then extends the run time up to the end of year \argument{final}. 
+
+\begin{itemize}
+  \item The time-steps and the processes applied in each
+  \item The initial year (i.e., the model start year)
+  \item The current year (i.e., the model end year)
+  \item The final year (i.e., the model projection end year)
+\end{itemize}
+
+
+\subsubsection{\I{Projections}\label{sec:projections}}
+
+\SAM\ can project, from a set of parameter estimates, the state of the model into the future. In a projection run, the model is initialised and run through the model years from \argument{initial} to the \argument{current}. Then, the model is run from \argument{current} to \argument{final}. 
+
+
+\subsection{\I{Population processes}}
+
+Population processes are those processes that change the population state of individuals. Processes produce changes in the model partition, by adding, removing or moving individuals between ages or categories. The population processes include recruitment\index{Recruitment}, ageing\index{Ageing},  mortality\index{Mortality} events (e.g., natural and exploitation) and category transition processes\index{Category transition} (i.e., processes that move individuals between categories, while preserving their age structure). See Section \ref{sec:population-section} for a complete list of available processes.
+
+Each of these processes is carried out in the user-defined prescribed order when initialising the model, and then for a user-defined order in each year in the annual cycle\index{Annual cycle}.
+
+\subsubsection{\I{Recruitment}}
+
+Recruitment processes are defined as  process that introduces new individuals into the model. \SAM\ implements two types of recruitment process, constant recruitment\index{Recruitment ! Constant} and  \I{Beverton-Holt recruitment}\index{Recruitment ! Beverton-Holt} \citep{1203}.
+
+In the recruitment processes, the number of individuals are added to a single age class within the partition, with the amount defined by the type of recruitment process and its function. If more than one category is defined, then the proportion of recruiting individuals to be added to each category is specified by the \argument{proportions} parameter. For example, if recruiting to categories labelled male and female, then you might set the proportions as $0.5$ and $0.5$ respectively to denote that half of the recruits recruit to the male category and the remaining half to the female category.
+
+For the constant and Beverton-Holt recruitment processes, the  number of individuals following recruitment in year $y$ is,  
+\begin{equation}
+  \text{element}(i,j) \leftarrow \text{element}(i,j) + p_j(R_y)
+\end{equation}
+
+where age is the age defined as the recruitment age, $p_j$ is the proportion to category $k$ defined to have recruitment, $n$ is the number of spatial locations where recruitment occurs, and the recruitment to each cell is scaled to be proportional to the value of the layer in that cell. See below for how $R_y$ is determined in each of these cases.
+
+\subsubsection*{\I{Constant Recruitment}}
+
+In the constant recruitment process the total number of recruits added each year is $R_y$, and is simply $R_0$, i.e.
+\begin{equation}
+  R_y = R_0
+\end{equation}
+
+It is equivalent to a Beverton-Holt recruitment process where steepness is set equal to one ($h=1$).
+
+For example, to specify a constant recruitment process, where individuals are added to the category `immature' at $age=1$, and the number to add is $R_0=5 \times 10^5$, then the syntax is
+
+{\small{\begin{verbatim}
+@process Recruitment
+type constant_recruitment
+categories immature
+proportions 1.0
+R0 500000
+age 1
+\end{verbatim}}}
+
+\subsubsection*{\I{Beverton-Holt recruitment}}
+
+In the Beverton-Holt recruitment process the total number of recruits added each year is $R_y$, and is the product of the average recruitment $R_0$, the annual year class strength multiplier, $YCS$, and the stock-recruit relationship i.e.,
+\begin{equation}
+  R_y = R_0 \times YCS_{y-\text{offset}} \times SR(SSB_{y-\text{offset}})
+\end{equation}
+  
+where $offset$ is the number of years offset to link the year class with the year of spawning $y$, and $SR$ is the Beverton-Holt stock-recruit relationship parametrised by the steepness $h$,
+\begin{equation}
+SR(SSB_y) = \frac{SSB_y}{B_0} / \left( 1-\frac{5h-1}{4h} \left( 1-\frac{SSB_y}{B_0} \right) \right)
+\end{equation}
+
+Note that the Beverton-Holt recruitment process requires a value for \Bzero\ and $SSB_y$ to resolve the stock-recruitment relationship. Here, a derived quantity (see Section \ref{sec:derived-quantities}) must be defined that provides the annual $SSB_y$ for the recruitment process. \Bzero\ is then defined as the value of the $SSB$ at the end of one of the initialisation phases. During initialisation the $YCS$ multipliers are assumed to be equal to one, and recruitment that happens in the initialisation phases that occur before and during the phase when \Bzero\ is determined is assumed to have steepness $h=1$ (i.e. in those initialisation phases, recruitment is simply equal to \Rzero). Recruitment in the initialisation phases after the phase where \Bzero\ was determined follow the Beverton-Holt stock-recruit relationship defined above. Recruits are then distributed across cells in proportion to the values in a numeric layer. 
+
+For example, assume a Beverton-Holt recruitment process, where individuals are added to the category `immature' at $age=1$, the number to add is $R_0=5 \times 10^5$. Then \texttt{SSB\_Biomass} is a derived quantity that specifies the total spawning stock biomass, with \Bzero\ the value of the derived quantity at the end of the initialisation phase labelled \texttt{phase1}. The $YCS$ are standardised to have mean one in the period 1994 to 2004, and recruits enter into the model two years following spawning. Then the command specification is
+
+{\small{\begin{verbatim}
+@process Recruitment
+type BH_recruitment
+categories immature
+proportions 1.0
+R0 500000
+steepness 0.75
+age 1
+B0 phase1
+SSB SSB_Biomass
+standardise_YCS_years 1994-2004
+YCS_years 1994 1995 1996 1997 1998 1999 2000 2001 2002 2003 2004 2005 2006
+YCS_values   1    1    1    1    1    1    1    1    1    1    1    1    1
+SSB_offset 2
+\end{verbatim}}}
+
+Note that if not specified, \texttt{SSB\_offset} is set at the value of $age$. This corresponds to cases where recruitment happens after spawning. \texttt{SSB\_offset} can be user-defined to a different value if needed --- for example, if recruitment happens in a time-step before spawning, the offset will need to be specified as $age + 1$.
+
+
+
+\subsubsection{\I{Ageing}\label{sec:ageing}}
+
+The ageing process simply moves all individuals in the named categories to the next age class. The ageing process is defined as,
+\begin{equation}
+  \text{element}(i,j) \leftarrow \text{element}(i,j-1)
+\end{equation}
+
+except that in the case of the plus group (if defined), 
+\begin{equation}
+  \text{element}(i,age_{\text{max}}) \leftarrow \text{element}(i,age_{\text{max}}) + \text{element}(i,age_{\text{max}-1}).
+\end{equation}
+
+For example, to apply ageing to the categories \texttt{immature} and \texttt{mature}, then the syntax is,
+
+{\small{\begin{verbatim}
+@process Ageing
+type ageing
+categories immature mature
+\end{verbatim}}}
+
+Note that ageing is \emph{not} applied by \SAM\ by default. As with other processes, \SAM\ will not apply a process unless its defined and specified as a process within the annual cycle. Hence, it is possible to specify a model where a category is not aged. \SAM\ will not check or otherwise warn if there is a category defined where ageing is not applied.
+
+\subsubsection{\I{Mortality}\label{sec:mortality}}
+
+Three types of mortality processes are permissible in \SAM, constant rate, event and biomass-event. These processes remove individuals from the partition, either as a rate, as a total number (abundance), or as a biomass of individuals. \SAM\ does not implement the Baranov catch equation or any other process where both natural and event mortality are applied simultaneously. To approximate concurrent natural and event mortality, the population processes must be defined to remove some natural mortality (e.g. as a constant), then some event mortality (e.g. fishing) in sequence. It is up to the user to specify how this happens.
+
+\subsubsection*{Constant mortality rate}
+
+To specify a constant annual mortality rate \index{Constant mortality}($M=0.2$) for categories `male' and `female', then, 
+{\small{\begin{verbatim}
+@process NaturalMortality
+type constant_mortality_rate
+categories male female
+selectivities One One
+M 0.2 0.2
+\end{verbatim}}}
+Note that the mortality rate process requires a selectivity. To apply the same mortality rate over all age classes, use a selectivity defined as $S_i=1.0$ for all ages $i$, e.g.
+{\small{\begin{verbatim}
+@selectivity One
+type constant
+c 1
+\end{verbatim}}}
+
+\subsubsection*{Event and biomass-event mortality}
+
+The event mortality process\index{Event mortality} and biomass mortality processes act in a similar manner, except that they remove a specified abundance (number of individuals) or biomass respectively, rather than applying mortality as a rate. However, the maximum abundance or biomass to remove is constrained by a maximum exploitation rate.
+
+ \SAM\ removes as many individuals or as much biomass as it can while not exceeding the maximum exploitation rate. Event mortality processes require a penalty function to discourage parameter values that do not allow the defined number of individuals to be removed. Here, the model penalises those parameter estimates that result in an insufficient number of individuals in defined categories (after applying selectivities). See Section \ref{sec:penalties} for more information on specifying penalties.
+
+For example, the event mortality applied to user-defined categories $i$, with the numbers removed at age $j$ determined by a selectivity-at-age $S_l$ is applied as follows:
+
+First, calculate the vulnerable abundance for each category $i$ in $1 \ldots I$ for ages $j = 1 \ldots J$ that are subject to event mortality,
+\begin{equation}
+  V(i,j) = S(j) N(i,j)
+\end{equation}
+
+And hence define the total vulnerable abundance $V_{total}$ as,
+\begin{equation}
+  V_{total}  = \sum\limits_i {\sum\limits_j {V(i,j)}} 
+\end{equation}
+
+Hence the exploitation rate\index{Maximum exploitation rate} to apply is 
+\begin{equation}
+U = \begin{cases}
+  C/V_{total}, & \text{if $C/V_{total} \leq U_{max}$} \\
+  U_{max}, & \text{otherwise}\\ 
+  \end{cases} 
+\end{equation}
+
+And the number removed $R$ from each age $j$ in category $i$ is,
+\begin{equation}
+  R(i,j) = UV(i,j)
+\end{equation}
+
+For example, to specify fishing mortality based on catches given for each year, over categories `immature' and 'mature', with selectivity `FishingSel' and assuming a maximum possible exploitation rate of 0.7, then the syntax is
+
+{\small{\begin{verbatim}
+@process Fishing
+type event_mortality
+categories immature mature
+years 2000 2001 2002 2003
+U_max 0.70
+selectivities FishingSel FishingSel
+penalty event_mortality_penalty
+\end{verbatim}}}
+
+\subsubsection{\I{Maturation}}
+\KL Text from CASAL, need to rewrite as relevant to SAM \KLend
+
+Maturation is the process in which immature fish become mature and are moved accordingly in the partition. See Section 5.11 for how to treat maturity when it is not a character in the partition.
+
+You can specify a single maturation episode in each year, or you can have multiple maturations. Each episode can apply to one stock, or all stocks equally, and can be applied in one area, or all areas equally. Maturation rates are expressed as an ogive (and note that this ogive contains the rates of maturation, not the proportions of mature fish).
+
+If you try to mature fish in an area where fish are constrained to be immature, CASAL will issue a warning, and will not mature those fish.
+
+So, to specify each maturation episode, the following information is required: 
+
+\begin{itemize}
+\item If it applies to only one stock, which is it?
+\item If it applies to only one area, which is it?
+\item The maturation rates, as an ogive, optionally by sex.
+\end{itemize}
+
+
+
+
+\subsubsection{\I{Migration}}
+\KL text from CASAL. Rewrites required? \KLend
+
+Migration is the process of moving fish from one area to another. It only occurs in multi-area models. You can specify any number of migrations occurring in each year. If two or more migrations are specified in the same time step then they take place in the order in which they are given.
+
+A migration can involve only one stock in an area, or all stocks. You can migrate immature fish only, or mature fish only, or both. You can state that a given proportion of these fish migrate (constant across all age or size classes), or provide an ogive of proportions migrating by age or size class.
+
+You cannot migrate fish to an area where their combination of characters is not allowed (CASAL errors out). So, for example, if moving fish to an area where only mature fish are allowed, you need to specify that only mature fish migrate.
+
+CASAL currently supports two-wave migrations. These migrations consist of two waves in different time steps. If $pi$ is the specified proportion of fish migrating from the $ith$ partition element, proportion (\texttt{pwave} $pi$) will migrate in wave 1 and proportion $(1 - \texttt{pwave})×pi/(1 - (\texttt{pwave} × pi))$ will migrate in wave 2. Specify these as two separate migrations, give \texttt{pwave} for each, and specify that the first is a `1st wave' and that the second is a `2nd wave'. (No checking is currently carried out that there are two matching waves with the same parameters. Remember that to specify \texttt{pwave} for each, not \texttt{pwave} for the first and (1-\texttt{pwave}) for the second. If you want to estimate \texttt{pwave}, you need to set the \texttt{estimate.same} parameter to make sure that \texttt{pwave} takes the same value for both waves.)
+
+CASAL also supports annual variation in migrations and density-dependent migrations. The annual variation allows the migration rate to be modified in a particular year by some factor $F$. For density dependent migrations, the rate depends on the fish abundance in the source area, the destination area, or both \mbox{--} so, you can encourage fish to move into an under populated area and/or out of an overpopulated area.
+
+Both annual variation and density dependen migration rates are calculated via an odds ratio, and a single factor ($F$) is applied to all fish in a given migration in a given year, regardless of age, sex, etc. Now let $P^i_{a,b}(y)$  be the proportion of fish in element $i$ of the partition which migrate from area $a$ to area $b$ in year $y$, prior to the application of an annual variation or density dependence. (These values depend on the migration rate, or ogive of migration rates, etc.) And let the corresponding odds be
+
+\begin{equation}
+O^i_{a,b} (y) = \frac{P^i_{a,b}(y)}{1 - P^i_{a,b}(y)}
+\end{equation}
+
+Then the effect of the annual variation or density dependence is to change the odds to
+
+ \begin{equation}
+ \vartheta^i_{a,b} (y) = O^i_{a,b}(y) \times F_{a,b}(y)
+ \end{equation}
+
+and hence the proportion of fish migrating to
+
+\begin{equation}
+\Pi^i_{a,b} (y) = \frac{\vartheta^i_{a,b}(y)}{1 - \vartheta^i_{a,b}(y)}
+\end{equation}
+
+For annually-varying migrations, the factor $F$ is just $\exp(m_y)$, where $m_y$ is the annual variation value for year $y$.  For density dependent migrations, $F$ is calculated as follows. In each year $y$, for each density dependent migration from area $a$ to area $b$
+
+ \begin{equation}
+ F_{a,b}(y) = \exp \left( -S \left( \frac{A_{a,y} - A_{a,0}}{A_{a,0}}\right) -D \left( \frac{A_{b,y} - A_{b,0}}{A_{b,0}} \right) \right)
+ \end{equation}
+
+where $S$ is a number expressing the dependence on the abundance in the source area (negative values mean that fish are encouraged to leave an overpopulated area. Set $S=0$ for no dependence); $D$ is a number expressing the dependence on the abundance in the destination area (positive values mean that fish are encouraged to move to an under populated area \mbox{--} set $D=0$ for no dependence); $A_{j,y}$ is the total abundance of all fish in area $j$, year $y$ (with $y=0$ meaning the unfished equilibrium level) just before the migration occurs.
+
+Neither annual variations nor density dependence are applied during the calculation of the initial state.  In the calculation of the initial state for a model with annually-varying migration, the above factor $F$ is set to $\exp(\overline{m})$  , where $\overline{m}$ is the mean of the annual variation values, $m_y$, over a user-specified range of years. 
+
+The specification of the annual cycle includes the time step, source area, and destination area of each migration. You also need to tell CASAL the following: 
+
+\begin{itemize}
+\item If there are multiple stocks and only one stock migrates, which is it?
+\item Do only mature fish migrate, or immature fish, or both?
+\item If a proportion of these fish migrate (constant across age or size classes), what is it? Or, if fish migrate according to an ogive across age or size classes, what is it?
+\item Is density dependence applied? If so, what are the values of the density dependence parameters $S$ and $D$?
+\item Is an annual variation applied? If so, what are the years (\texttt{annual\_variation\_years}) and values (\texttt{annual\_variation\_values}) of the annual variation, and what range of years should be used in calculating ?
+\end{itemize}
+
+Two-wave migrations require more details \mbox{--} — see earlier.
+
+
+
+
+
+\paragraph{\I{Tag release events}}
+
+\paragraph{\I{Tag shedding rate}}
+
+\subsection{\I{Derived quantities}\label{sec:derived-quantities}}
+
+\subsection{\I{Derived quantities by cell}\label{sec:derived-quantity-by-cell}}
+
+\subsection{\I{Size-age relationship}\label{sec:size-at-age}}
+
+The age-size relationship defines the size at age (and the weight at size, see Section \ref{sec:mean-weight}) of individuals at age/category within the model. There are three size-age relationships available in \SAM. The first is the naive no relationship (where each individual has size 1 irrespective of age). The second  and third are the von-Bertalanffy and Schnute relationships respectively. The size-at-age relationship is used to determine the size frequency, given age, and then with the size-weight relationship, a weight-at-age of individuals within an age/category. 
+
+The three age-size relationships are,
+
+\begin{description}
+\item {None:} where the size of each individual is exactly 1 for all ages, in which case the \texttt{none} size-weight relationship must also be used.
+\item{von Bertalanffy:}\index{von Bertalanffy growth curve} where size at age is defined as,
+\begin{equation} 
+\bar{s}(age)= L_\infty \left( 1 - \exp \left( -k \left(age-t_0 \right) \right) \right)
+\end{equation}
+
+\item{Schnute:}\index{Schnute growth curve} where size at age is defined as,
+\begin{equation}
+\bar{s}(age)=\displaystyle\begin{cases}
+  \left[ y_1^b + (y_2^b - y_1^b) \dfrac{1-\exp \left(-a(age - \tau_1) \right)}{1-\exp \left(-a(\tau_2 - \tau_1) \right)} \right]^{1/b}, & \text{if $a\ne0$ and $b\ne0$} \\
+  \AddVspace
+  y_1 \exp \left[ \ln \left( y_2 / y_1 \right) \dfrac{1-\exp \left(-a(age - \tau_1) \right)}{1-\exp \left(-a(\tau_2 - \tau_1) \right)} \right], & \text{if $a\ne0$ and $b=0$} \\
+  \AddVspace
+  \left[ y_1^b + \left( y_2^b - y_1^b \right) \dfrac{age-\tau_1}{\tau_2 - \tau_1} \right]^{1/b}, & \text{if $a=0$ and $b\ne0$} \\
+  \AddVspace
+  y_1 \exp \left[ \ln \left( y_2/y_1 \right) \dfrac{age-\tau_1}{\tau_2 - \tau_1} \right] , & \text{if $a=0$ and $b=0$} \\
+  \end{cases}
+\end{equation}
+\end{description}
+
+The von Bertalanffy curve is parameterised by $L_\infty$, $k$, and $t_0$; the Schnute curve \citep{836} by $y_1$ and $y_2$, which are the mean sizes at reference ages $\tau_1$ and $\tau_2$, and $a$ and $b$ (when $b=1$, this reduces to the von Bertalanffy with $k=a$). 
+
+When defining size-at-age in \SAM, you must also define a size-weight relationship (see Section \ref{sec:mean-weight} below).
+
+
+
+\paragraph{\I{Calculation of size-at-age (in an age-based model)}}
+
+\paragraph{\I{Interpolation of size-at-age}}
+
+\subsection{\I{Size-weight relationship}\label{sec:mean-weight}}
+
+There are two size-weight relationship,s available in \SAM. The first is the naive no relationship. Here, the weight of an individual, regardless of size, is always 1. The second is the basic relationship. 
+
+The two size-weight relationships are,
+
+\begin{itemize}
+  \item{None:} The size-weight relationship where  
+  \begin{equation}
+    \text{mean weight}=1
+  \end{equation}
+  \item{Basic:}\index{Basic size-weight relationship} The size-weight relationship where the mean weight $w$ of an individual of size $l$ is
+  \begin{equation}
+    w=a l^b
+  \end{equation}
+	Note that if a distribution of size-at-age is specified, then the mean weight is calculated over the distribution of sizes, and is
+  \begin{equation}
+	  w=(al^b)(1+cv^2)^{\frac{b(b-1)}{2}}
+  \end{equation}
+	where the $cv$ is the c.v. of sizes-at-age. This adjustment is exact for lognormal distributions, and a close approximation for normal distributions if the c.v. is not large \citep{1388}.
+\end{itemize}
+
+Be careful about the scale of $a$ --- this can easily be specified incorrectly. If the catch is in tonnes and the growth curve in centimetres, then $a$ should be on the right scale to convert a length in centimetres to a weight in tonnes. Note that there are reports available that can be used to help check that the units specified are plausible (see Section \ref{sec:report-section}).
+
+
+\paragraph{\I{Calculation of mean weight}}
+
+\subsection{\I{Weightless model}\label{sec:weightless-model}}
+
+\subsection{\I{Maturity, in models without maturing in the partition}\label{sec:maturity-notinpartition}}
+
+\newpage
+
+\subsection{\I{Selectivities}\label{sec:selectivities}}
+
+A selectivity is a function with a different value for each age class (i.e., for each column of the partition). Selectivities are used throughout \SAM\ to interpret observations (Section \ref{sec:estimation-section}) or to modify the effects of processes on each age class (Section \ref{sec:population-section}). \SAM\ implements a number of different parametric forms, including logistic, knife edge, and double normal selectivities.
+
+A selectivity is always defined to apply just to one category of the population (i.e, row of the partition). To apply the same selectivity to more than one category, then just repeat the selectivity for each category that it is applied to.
+
+Note that selectivities are indexed by age, with indices from \argument{min\_age} to \argument{max\_age}. For example, you might have an age-based selectivity that was logistic with $50\%$ selected at age $5$ and $95\%$ selected at age $7$. This would be defined by the \subcommand{type}=\argument{logistic} with parameters $a_{50}=5$ and $a_{to95}=(7-5)=2$. Then the value of the selectivity at age $x=7$ is $0.95$ and the selectivity at $x=3$ is $0.05$.
+
+Note that the function values for some choices of parameters for some selectivities can result in an computer numeric overflow error (i.e., the number calculated from parameter values is either too large or too small to be represented in computer memory). \SAM\ implements range checks on some parameters to test for a possible numeric overflow error before attempting to calculate function values. For example, the logistic selectivity is implemented such that if $(a50-x)/ato_95 > 5$ then the value of the selectivity at $x=0$, i.e., for $a50=5$, $ato_95=0.1$, then the value of the selectivity at $x=1$, without range checking would be $7.1 \times 10^{-52}$. With range checking, that value is $0$ (as $(a50 x)/ato_95=40 > 5$).
+
+The available selectivities are;
+
+\begin{itemize}
+  \item Constant
+  \item Knife-edge
+  \item All values
+  \item All values bounded
+  \item Increasing
+  \item Logistic
+	\item Inverse logistic
+  \item Logistic producing
+  \item Double normal
+  \item Double exponential
+	\item Cubic spline
+\end{itemize}
+
+The available selectivities are described below.
+
+\subsubsection[Constant]{\argument{constant}}\index{Selectivities!Constant}
+
+\begin{equation}
+f(x)=C
+\end{equation}
+
+The constant selectivity has the estimable parameter C. 
+
+\subsubsection[Knife-edge]{\argument{knife\_edge}}\index{Selectivities!Knife-edge}
+
+\begin{equation}
+f(x)= \begin{cases}
+  0, & \text{if $x < E$} \\
+  \alpha, & \text{if $x \ge E$}\\ 
+  \end{cases} 
+\end{equation}
+
+The knife-edge ogive has the estimable parameter E and a scaling parameter $\alpha$, where the default value of $\alpha = 1$
+
+\subsubsection[All-values]{\argument{all\_values}}\index{Selectivities!All-values}
+
+\begin{equation}
+f(x)=V_x
+\end{equation}
+
+The all-values selectivity has estimable parameters $V_{low}$, $V_{low+1}$ \ldots $V_{high}$. Here, you need to provide the selectivity value for each age class.
+
+\subsubsection[All-values-bounded]{\argument{all\_values\_bounded}}\index{Selectivities!All-values-bounded}
+
+\begin{equation}
+f(x)=\begin{cases}
+		 0, & \text{if $x < L$} \\
+		 V_x, & \text{if $L \le x \le H$} \\
+		 V_H, & \text{if $x > H$}
+  \end{cases}
+\end{equation}
+
+The all-values-bounded selectivity has non-estimable parameters L and H. The estimable parameters are $V_L$, $V_{L+1}$ \ldots $V_H$. Here, you need to provide an selectivity value for each age class from $L \ldots H$.
+
+\subsubsection[Increasing]{\argument{increasing}}\index{Selectivities!Increasing}
+
+\begin{equation} 
+f(x)=\begin{cases}
+	  0, & \text{if $x < L$} \\
+	  f(x-1)+ \pi_x(\alpha-f(x-1)), & \text{if $L \le x \le H$} \\
+	  f(\alpha), & \text{if $x \ge H$} \\  
+  \end{cases}
+\end{equation}
+
+The increasing ogive has non-estimable parameters $L$ and $H$. The estimable parameters are $\pi_L$, $\pi_{L+1}$ \ldots $\pi_H$ (but if these are estimated, they should always be constrained to be between 0 and 1). $\alpha$ is a scaling parameter, with default value of $\alpha = 1$. Note that the increasing ogive is similar to the all-values-bounded ogive, but is constrained to be non-decreasing.
+
+\subsubsection[Logistic]{\argument{logistic}}\index{Selectivities!Logistic}
+
+\begin{equation}
+  f(x) = \alpha / [1+19^{(a_{50}-x)/a_{to95}}]
+\end{equation}
+ 
+The logistic selectivity has estimable parameters $a_{50}$ and $a_{to95}$. $\alpha$ is a scaling parameter, with default value of $\alpha = 1$. The logistic selectivity takes values $0.5 \alpha$ at $x=a_{50}$ and $0.95 \alpha$ at $x=a_{50}+a_{to95}$. 
+
+\subsubsection[Inverse logistic]{\argument{inverse\_logistic}}\index{Selectivities!Inverse-logistic}
+
+\begin{equation}
+  f(x) = \alpha - \alpha / [1+19^{(a_{50}-x)/a_{to95}}]
+\end{equation}
+ 
+The inverse logistic selectivity has estimable parameters $a_{50}$ and $a_{to95}$. $\alpha$ is a scaling parameter, with default value of $\alpha = 1$. The logistic selectivity takes values $0.5 \alpha$ at $x=a_{50}$ and $0.95 \alpha$ at $x=a_{50}-a_{to95}$. 
+
+\subsubsection[Logistic producing]{\argument{logistic\_producing}}\index{Selectivities!Logistic-producing}
+
+\begin{equation} 
+f(x)=\begin{cases}
+	  0, & \text{if $x < L$} \\
+	  \lambda(L), & \text{if $x=L$} \\
+	  \left( \lambda(x)-\lambda(x-1) \right) / \left( 1-\lambda(x-1) \right), & \text{if $L < x < H$} \\
+	  1, & \text{if $x \ge H$} \\  
+  \end{cases}
+\end{equation}
+
+The logistic-producing selectivity has the non-estimable parameters $L$ and $H$, and has estimable parameters $a_{50}$ and $a_{to95}$. $\alpha$ is a scaling parameter, with default value of $\alpha = 1$. For category transitions, $f(x)$ represents the proportion moving, not the proportion that have moved. This selectivity was designed for use in an age-based model to model maturity. In such a model, a logistic-producing maturation selectivity will (in the absence of other influences) make the proportions mature follow a logistic curve with parameters $a_{50}$, $a_{to95}$.
+
+\subsubsection[Double-normal]{\argument{double\_normal}}\index{Selectivities!Double-normal}
+
+\begin{equation}
+  f(x) = \begin{cases}
+    \alpha 2^{-[(x- \mu)/\sigma_L ]^2}, & \text{if $x \leq \mu$} \\
+    \alpha 2^{-[(x- \mu)/\sigma_R ]^2}, & \text{if $x \ge \mu$}\\
+  \end{cases}
+\end{equation} 
+
+The double-normal selectivity has estimable parameters $a_1$, $s_L$, and $s_R$. $\alpha$ is a scaling parameter, with default value of $\alpha = 1$. It has values $\alpha$ at $x=a_1$, and $0.5 \alpha$ at $x=a_1-s_L$ and $x=a_1+s_R$. 
+
+\subsubsection[Double-exponential]{\argument{double\_exponential}}\index{Selectivities!Double-exponential}
+
+\begin{equation} 
+f(x)=\begin{cases}
+	  \alpha y_0(y_1 / y_0)^{(x-x_0)/(x_1-x_0)}, & \text{if $x \le x_0$} \\
+	  \alpha y_0(y_2 / y_0)^{(x-x_0)/(x_2-x_0)}, & \text{if $x > x_0$} \\
+  \end{cases}
+\end{equation}
+
+The double-exponential selectivity has non-estimable parameters $x_1$ and $x_2$, and estimable parameters $x_0$, $y_0$, $y_1$, and $y_2$.  $\alpha$ is a scaling parameter, with default value of $\alpha = 1$. It can be `U-shaped'. Bounds for $x_0$ must be such that $x_1 < x_0 < x_2$. With $\alpha=1$, the selectivity passes through the points $(x_1, y)$, $(x_0, y_0)$, and $(x_2, y_2)$. If both $y_1$ and $y_2$ are greater than $y_0$ the selectivity is `U-shaped' with minimum at $(x_0, y_0)$.
+
+\subsubsection[Spline]{\argument{spline}}\index{Selectivities!Spline}
+
+The spline selectivity implements a cubic spline that has non-estimable knots, and an estimable value for each knot. The cubic spline is either (i) a natural splines where the where the second derivatives are set to 0 at the boundaries, i.e., the values at the boundaries are horizontal, (ii) a spline with a fixed first derivative at the boundaries (linear, but not necessarily horizontal) and (iii) spline which turns into a parabola at the boundaries.
+
+
+
+
+
+
+
