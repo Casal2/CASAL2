@@ -26,6 +26,7 @@ def print_usage():
   print 'Valid Build Types:'
   print '  debug - Build debug version'
   print '  release - Build release version'
+  print '  documentation - Build the user manual'
   print '  thirdparty - Build all required third party libraries'
   print '  all - Does clean, thirdparty, debug, release builds in order'
   print '  clean - Remove any previous debug/release build information'
@@ -66,7 +67,7 @@ def start():
   build_target = ""
   build_parameters = ""
   
-  allowed_build_targets = [ "debug", "release", "thirdparty", "test", "all", "clean", "cleanall", "documentation", "help" ]
+  allowed_build_targets = [ "debug", "release", "documentation", "thirdparty", "test", "all", "clean", "cleanall", "help" ]
  
   if not len(sys.argv) > 1:  
     os.system( [ 'clear', 'cls' ][ os.name == 'nt' ] )
