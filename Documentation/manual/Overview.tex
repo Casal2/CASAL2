@@ -1,0 +1,46 @@
+\section{Model overview\label{sec:overview}}\index{Model overview}
+
+\subsection{Introduction}
+\CH
+The \SAMName\ (\SAM) is an age-structured population dynamics model. It implements a statistical catch-at-age population dynamics, using a discrete time-step state-space model that represents a cohort-based population age structure \index{About \SAM}. 
+
+\SAM\ is run from the console window on Microsoft Windows or from a terminal window on Linux. \SAM gets its information from input data files, the main one of which is the \emph{\config}. Commands and subcommands in the \config\ are used to define the model structure, provide observations, define parameters, and define the outputs (reports) for \SAM. Command line switches tell \SAM\ the run mode and where to direct its output. See Section \ref{sec:running-spm} for the details.
+
+ We define the model in terms of the \emph{state}\index{Model ! state}\index{State}. The state consists of two parts, the \emph{partition}\index{Model ! partition}\index{Partition}, and any \emph{derived quantities}\index{Model ! derived quantities}\index{Derived quantities} or \emph{derived quantities by cell}\index{Model ! derived quantities by cell}\index{Derived quantities by cell}. The state will typically change one or more times in every \emph{time-step}\index{Model ! time-steps}\index{time-steps} of every year, depending on the \emph{processes}\index{Model ! processes}\index{Processes} defined for each model. 
+
+The partition is a representation of the population at an instance in time, and is a matrix of the numbers of individuals within each age, and category. A derived quantity is a cumulative summary of the partition (over all cells) at some point in time. A derived quantity by cell is a cumulative summary of the partition in each of the cells at some point in time. Unlike the partition (which is updated as each new process is applied), each derived quantity records a single value for each year of the model run, and each derived quantity by cell records a layer of values for each year of the model run. Hence, derived quantities build up a vector of values over the model run years. For example, the total number of individuals in a category labelled mature at some point in the annual cycle may be a derived quantity and the total number of individuals in a category labelled mature in each cell of the model at some point in the annual cycle may be a derived quantity by cell. The state is the combination of the partition and any derived quantities or derived quantities by cell at some instance in time. Changes to the state occur by the application of processes. Additions to the vectors of derived quantities occur when a model is requested to add a value to each derived quantity vector. 
+
+Running of the model consists of two main parts --- first the model state is initialised for a number of iterations (years), then the model runs over a range of predefined years. 
+
+The application of processes within each year is controlled by the \emph{annual cycle}\index{Model ! annual cycle}\index{Annual cycle}. This defines what processes happen in each model year, and in what sequence. Initialisation can be phased, and for each phase, the user need to define the processes that occur in each year, and the order in which they are applied. 
+
+For the run years, each year is split up into one or more time-steps (with at least one process occurring in each time-step). You can think of each time-step as representing a particular part of the calendar year, or you can just treat them as an abstract sequence of events.
+
+The division of the year into an arbitrary number of time-steps allows the user to specify the exact order in which processes occur and when observations are evaluated. The user specifies the time-steps, their order, and the processes within each time-step. If more than one process occurs in the same time-step, then the occur in the order that they are specified. Observations are always evaluated at the end of the time-step in which they occur. Hence, time-steps can be used to break processes into groups, and assist in defining the timing of the observations within the annual cycle. 
+
+The population structure of \SAM\ follows the usual population modelling conventions and is similar to those implemented in other population models, for example CASAL\index{CASAL}  \citep{1388}. The model records the numbers of individuals by age and category (e.g., male, female). In general, cohorts are added via a recruitment event, are aged annually, and are removed from the population via various forms of mortality. The population is assumed to be closed (i.e., no immigration or emigration from the modelled area)
+
+A model is implemented in \SAM\ using an \config \index{Input configuration file}, which is a complete description of the model structure (i.e., spatial and population processes), observations, estimation methods, and reports (outputs) requested. \SAM\ runs from a console window on \I{Microsoft Windows} or from a text terminal on \I{Linux}. A model can be either \emph{run}, estimable parameters can be \emph{estimated} or \emph{profiled}, \emph{MCMC} distributions calculated, and these estimates can be %\emph{projected} \NYI\ into the future or 
+used by \SAM\ as parameters of an operating model to \emph{simulate} observations.
+
+A model in \SAM\ is specified by an \config, and comprises of four main components. These are the population section\index{Population section} (model structure, population dynamics, etc.), the estimation section\index{Estimation section} (methods of estimation and the parameters to be estimated), the observation section\index{Observation section} (observational data and associated likelihoods), and the report section\index{Report section} (printouts and reports from the model). The \config\  completely describes a model implemented in \SAM. See Sections \ref{sec:population-syntax}, \ref{sec:estimation-syntax}, \ref{sec:observation-syntax}, and \ref{sec:report-syntax} for details and specification of \SAM s command and subcommand syntax within the \config. 
+
+\subsection{\I{The population section}}
+\CH
+The population section\index{Population section} (Section \ref{sec:population-section}) defines the model of the population dynamics. It describes the model structure (i.e. the population structure), initialisation and run years (model period), population processes (for example, recruitment, migration, and mortality), selectivities, and key population parameters.
+
+\subsection{\I{The estimation section}}
+\CH
+The estimation section\index{Estimation section} (Section \ref{sec:estimation-section}) specifies the parameters to be estimated\index{Estimated parameters}, estimation methods, penalties and priors. Estimation is based on an objective function (e.g., negative log posterior). Depending on the run mode, the estimation section is used to specify the methods for finding a point estimate (i.e., the set of parameter values that minimizes the objective function), doing profiles, or MCMC methods and options, etc.
+
+Further, the estimation section specifies the parameters to be estimated within each model run and the estimation methods. The estimation section specifies the choice of estimation method, which model parameters are to be estimated, priors, starting values, and minimiser control values.
+
+Penalties and priors act as constraints on the estimation. They can either encourage or discourage (depending on the specific implementation) parameter estimates that are `near' some value, and hence influence the estimation process. For example, a penalty can be included in the objective function to discourage parameter estimates that lead to models where the recorded catch was unable to be fully taken.
+
+\subsection{\I{The observation section}}
+\CH
+Types of observations, their values, and the associated error structures are defined in the observation section (Section \ref{sec:observation-section}). Observations are data which allow us to make inferences about unknown parameters. The observation section\index{Observation section} specifies the observations, their errors, likelihoods, and when the observations occur. Examples include relative or absolute abundance indices, proportions-at-age frequencies, etc. Estimation uses the observations to find values for each of the estimated parameters so that each observation is `close' (in some mathematical sense) to a corresponding expected value. 
+
+\subsection{\I{The report section}}
+\CH
+The report section\index{Report section} (Section \ref{sec:report-section}) specifies the model outputs. It defines the quantities and model summaries to be output to external files or to the standard output. While \SAM\ will provide informational messages to the screen, \SAM\ will only produce model estimates, population states, and other data as requested by the report section. Note that if no reports are specified, then no output will be produced.
