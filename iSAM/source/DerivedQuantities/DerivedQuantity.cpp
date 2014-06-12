@@ -117,7 +117,10 @@ Double DerivedQuantity::GetValue(unsigned year) {
   unsigned years_to_go_back = model_->start_year() - year;
 
   Double result = 0.0;
-  if (initialisation_values_.rbegin()->size() > years_to_go_back) {
+  if (years_to_go_back == 0) {
+    LOG_WARNING("Years to go back is 0 in derived quantity " << label_ << " when it shouldn't be");
+    result = (*initialisation_values_.rbegin()->rbegin());
+  } else if (initialisation_values_.rbegin()->size() > years_to_go_back) {
     result = initialisation_values_.rbegin()->at(initialisation_values_.rbegin()->size() - years_to_go_back);
   } else {
     LOG_CODE_ERROR("this should be going back in to another init phase if possible (" << label_ << ")");

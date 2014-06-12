@@ -63,6 +63,7 @@ void Manager::PreExecute(unsigned year, const string& time_step) {
  * @param time_step The time step that just finished execution
  */
 void Manager::Execute(unsigned year, const string& time_step) {
+  LOG_TRACE();
   for (ObservationPtr observation : objects_) {
     if (observation->HasYear(year) && observation->time_step() == time_step)
       observation->Execute();
