@@ -37,6 +37,7 @@ Schnute::Schnute() {
   RegisterAsEstimable(PARAM_TAU2, &tau2_);
   RegisterAsEstimable(PARAM_A, &a_);
   RegisterAsEstimable(PARAM_B, &b_);
+  RegisterAsEstimable(PARAM_CV, &cv_);
 }
 
 /**
