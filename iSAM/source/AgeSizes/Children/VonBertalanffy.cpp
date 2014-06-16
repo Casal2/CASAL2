@@ -32,6 +32,8 @@ VonBertalanffy::VonBertalanffy() {
   RegisterAsEstimable(PARAM_LINF, &linf_);
   RegisterAsEstimable(PARAM_K, &k_);
   RegisterAsEstimable(PARAM_T0, &t0_);
+  RegisterAsEstimable(PARAM_CV, &cv_);
+
 }
 
 /**
