@@ -36,6 +36,7 @@ CombinedCategories::CombinedCategories(const vector<string>& category_labels) {
   LOG_INFO("Model details: start_year: " << start_year << "; final_year: " << final_year);
   LOG_INFO("Categories: " << category_labels.size());
 
+
   Partition& partition = Partition::Instance();
   vector<string> split_category_labels;
 
@@ -45,6 +46,7 @@ CombinedCategories::CombinedCategories(const vector<string>& category_labels) {
   /**
    * Loop through the category labels
    */
+  category_count_ = 0;
   for (unsigned i = 0; i < category_labels.size(); ++i) {
     // Split the labels in to the individual labels
     boost::split(split_category_labels, category_labels[i], boost::is_any_of("+"));
@@ -53,6 +55,7 @@ CombinedCategories::CombinedCategories(const vector<string>& category_labels) {
     for(string category_label : split_category_labels) {
       partition::Category& category = partition.category(category_label);
 
+      ++category_count_;
       for (unsigned year = start_year; year <= final_year; ++year) {
         if (std::find(category.years_.begin(), category.years_.end(), year) == category.years_.end())
                 continue; // Not valid in this year

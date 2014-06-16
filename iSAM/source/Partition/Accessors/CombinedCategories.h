@@ -52,11 +52,13 @@ public:
   DataType::iterator          Begin();
   DataType::iterator          End();
   unsigned                    Size();
+  unsigned                    category_count() const { return category_count_; }
 
 private:
   // Members
   ModelPtr                    model_;
   map<unsigned, DataType>     data_;
+  unsigned                    category_count_;
 };
 
 // Typedef
