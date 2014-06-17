@@ -96,7 +96,7 @@ void Biomass::DoBuild() {
   partition_ = CombinedCategoriesPtr(new isam::partition::accessors::CombinedCategories(category_labels_));
   cached_partition_ = CachedCombinedCategoriesPtr(new isam::partition::accessors::cached::CombinedCategories(category_labels_));
 
-  if (partition_->Size() != selectivities_.size())
+  if (partition_->category_count() != selectivities_.size())
     LOG_ERROR(parameters_.location(PARAM_SELECTIVITIES) << ": number of selectivities provided (" << selectivities_.size() << ") does not match the number "
         "of categories provided (" << partition_->category_count() << ")");
 }
