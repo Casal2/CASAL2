@@ -1,0 +1,38 @@
+@minimiser gammadiff
+type numerical_differences
+tolerance 0.000002
+iterations 1000
+step_size 1e-7
+covariance f
+
+@minimiser dlib
+type dlib
+active true
+
+@estimate process[recruitment].r0
+lower_bound 1e3
+upper_bound 1e7
+type uniform_log
+{
+@estimate catchability[Area2CPUE_preGPS.1].q
+lower_bound 1e-8
+upper_bound 100
+type uniform_log
+
+@observation Area2CPUE_preGPS
+type biomass
+catchability [q=6.52606e-005]
+time_step three
+categories Area2.Immature+Area2.Mature
+selectivities Area2Sel 
+likelihood lognormal
+years 1980-1989
+obs         3698  4684 4373 3607 2525  2417  1598 2077 1152 1837
+error_value 0.39  0.17 0.22 0.08  0.08 0.27  0.31 0.22 0.20 0.21
+process_error    .2
+}
+@selectivity Area2Sel
+type logistic
+a50 10
+ato95 .5
+

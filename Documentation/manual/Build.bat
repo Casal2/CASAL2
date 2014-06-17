@@ -1,3 +1,4 @@
+iSAM -v > SAMversion.tex
 svn_version --path ..\ --format tex --recursive --quiet --suffix Doc
 "../../isam" -v > iSAMversion.tex
 rem python QuickReference.py
