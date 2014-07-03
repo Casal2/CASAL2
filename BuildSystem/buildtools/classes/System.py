@@ -77,7 +77,7 @@ class SystemInfo:
     target_line = err_lines[len(err_lines) - 1].lstrip().rstrip()
     print '--> Full Version: ' + target_line
     pieces = target_line.split(' ')
-    if len(pieces) != 2:
+    if len(pieces) < 2:
       return Globals.PrintError('STD out did not return correct GCC Version format ' + str(len(pieces)) + ': ' + target_line)
 
     Globals.compiler_version_ = pieces[0].lstrip().rstrip()
