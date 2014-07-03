@@ -5,3 +5,4 @@ if [ $ISAM_SUCCESS -ne 0 ] ; then
  exit 1
 fi
 PATH=%oldPath%
+exit 0
