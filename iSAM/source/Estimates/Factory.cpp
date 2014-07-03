@@ -18,7 +18,7 @@
 #include "Factory.h"
 #include "Estimates/Manager.h"
 #include "Estimates/Children/Beta.h"
-#include "Estimates/Children/LogNormal.h"
+#include "Estimates/Children/Lognormal.h"
 #include "Estimates/Children/Normal.h"
 #include "Estimates/Children/NormalByStdev.h"
 #include "Estimates/Children/NormalLog.h"
