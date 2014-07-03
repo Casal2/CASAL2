@@ -47,8 +47,7 @@ class SystemInfo:
       compiler += ".exe"  
         
     if os.system('which ' + compiler + ' > temp_compiler.txt') != EX_OK:
-      print '## ERROR: Failed to execute \'which\' command to find the currently installed compiler'
-      return False
+      return Globals.PrintError('Could not find suitable compiler "gcc" in path when using "which" command.\nPlease ensure "g++" is installed and in the path (GCC on Linux, TDM-MinGw64 on Windows)')
         
     fi = fileinput.FileInput('temp_compiler.txt')
     
@@ -63,8 +62,7 @@ class SystemInfo:
     self.set_new_path()
     
     if os.system('rm -rf temp_compiler.txt') != EX_OK:
-      print '## ERROR: Failed to remove the compiler.txt after reading the compiler path'
-      return False
+      return Globals.PrintError('Failed to read the "temp_compiler.txt" file to find the location of the compiler to use.\nDo you have write access to the folder?');
     
     return True
   
@@ -77,9 +75,7 @@ class SystemInfo:
     lines = out.split('\n')
     pieces = lines[0].split()
     if len(pieces) != 3:
-      print '## ERROR: STD out did not return correct GCC Version format (' + str(len(pieces)) + ': ' + lines[0]
-      return False
-
+      return Globals.PrintError('STD out did not return correct GCC Version format (' + str(len(pieces)) + ': ' + lines[0])
 
     Globals.compiler_version_ = pieces[2].lstrip().rstrip()
     print '--> Compiler Version: ' + Globals.compiler_version_
@@ -93,8 +89,7 @@ class SystemInfo:
   def find_cmd_path(self):
     print "--- Searching for cmd in the path"
     if os.system('which cmd.exe > temp_cmd.txt') != EX_OK:
-      print '## ERROR: Failed to execute \'which\' command to find the currently installed cmd.exe path'
-      return False
+      return Globals.PrintError('Could not find suitable command executable "cmd" in path when using "which" command.\nPlease ensure "cmd is installed and in the path')
         
     fi = fileinput.FileInput('temp_cmd.txt')
     cmd_path = ''
@@ -108,7 +103,6 @@ class SystemInfo:
     self.set_new_path()      
 
     if os.system('rm -rf temp_cmd.txt') != EX_OK:
-      print '## ERROR: Failed to remove the cmd.txt after reading the cmd.exe path'
-      return False
+      return Globals.PrintError('Failed to remove the cmd.txt after reading the cmd.exe path.\nDo you have write access to directory?')
     
     return True
