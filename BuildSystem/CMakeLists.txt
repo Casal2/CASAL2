@@ -33,7 +33,7 @@ ELSE (WIN32)
  ## LINUX BUILD VARIABLES AND LIBRARIES
  SET(buildOS linux)
  SET(COMPILE_OPTIONS "${COMPILE_OPTIONS} -std=c++0x -std=gnu++0x")
- 
+ SET(thirdPartyLibraries ${thirdPartyLibraries} pthread rt)
 ENDIF ()
 
 #MESSAGE("COMPILE_OPTIONS: ${COMPILE_OPTIONS}")
