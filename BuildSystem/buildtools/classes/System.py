@@ -70,14 +70,17 @@ class SystemInfo:
   This method will find the GCC Version
   """
   def find_gcc_version(self):
-    p = subprocess.Popen(["g++", "--version"], stdout=subprocess.PIPE)
+    p = subprocess.Popen(["g++", "-v"], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     out, err = p.communicate()
     lines = out.split('\n')
-    pieces = lines[0].split()
-    if len(pieces) != 3:
-      return Globals.PrintError('STD out did not return correct GCC Version format (' + str(len(pieces)) + ': ' + lines[0])
+    err_lines = re.split('version', err)
+    target_line = err_lines[len(err_lines) - 1].lstrip().rstrip()
+    print '--> Full Version: ' + target_line
+    pieces = target_line.split(' ')
+    if len(pieces) != 2:
+      return Globals.PrintError('STD out did not return correct GCC Version format ' + str(len(pieces)) + ': ' + target_line)
 
-    Globals.compiler_version_ = pieces[2].lstrip().rstrip()
+    Globals.compiler_version_ = pieces[0].lstrip().rstrip()
     print '--> Compiler Version: ' + Globals.compiler_version_
     
     return True
