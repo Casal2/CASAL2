@@ -37,6 +37,7 @@ def print_usage():
   print ''
   print 'Valid Build parameters: (debug/release only)'
   print '  admb - Use ADMB auto-differentiation in compiled executable'
+  return True
 
 
 """
@@ -150,6 +151,8 @@ def start():
     print "--> Starting " + Globals.build_target_ + " Build"
     documentation_builder = Documentation()
     documentation_builder.start()
+  
+  return True
     
 """
 This is the entry point in to our build system
