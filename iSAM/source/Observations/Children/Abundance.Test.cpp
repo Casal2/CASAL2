@@ -79,7 +79,7 @@ TEST_F(BasicModel, Observation_Abundance) {
   vector<string> observation_categories = { "immature.male+immature.female", "immature.female" };
   vector<string> obs = { "22.50", "11.25" };
   vector<string> error_values = { "0.2", "0.2" };
-  vector<string> selectivities = { "constant_one", "constant_one" };
+  vector<string> selectivities = { "constant_one", "constant_one", "constant_one" };
   isam::ObservationPtr observation = observations::Factory::Create(PARAM_OBSERVATION, PARAM_ABUNDANCE);
   observation->parameters().Add(PARAM_LABEL, "abundance", __FILE__, __LINE__);
   observation->parameters().Add(PARAM_TYPE, "abundance", __FILE__, __LINE__);

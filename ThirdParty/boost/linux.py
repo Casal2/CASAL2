@@ -7,7 +7,7 @@ import Globals
 
 def doBuild():
     # Variables
-    boostFileName = 'boost_1_53_0'
+    boostFileName = 'boost_1_55_0'
     targetPath    = Globals.target_path_
 
     # Clean our any existing files if they already exist

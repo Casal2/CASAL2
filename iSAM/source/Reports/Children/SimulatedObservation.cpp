@@ -38,7 +38,7 @@ void SimulatedObservation::DoBuild() {
 /**
  * execute method
  */
-void SimulatedObservation::Execute() {
+void SimulatedObservation::DoExecute() {
   cache_ << CONFIG_SINGLE_COMMENT << CONFIG_ARRAY_START << label_ << CONFIG_ARRAY_END << endl;
   cache_ << CONFIG_SINGLE_COMMENT << PARAM_REPORT << "." << PARAM_TYPE << CONFIG_RATIO_SEPARATOR << " " << type_ << "\n";
   cache_ << CONFIG_SINGLE_COMMENT << PARAM_OBSERVATION << "." << PARAM_LABEL << CONFIG_RATIO_SEPARATOR << " " << observation_->label() << "\n";

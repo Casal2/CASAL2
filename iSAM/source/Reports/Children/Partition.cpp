@@ -27,15 +27,14 @@ namespace reports {
  * Default constructor
  */
 Partition::Partition() {
-  run_mode_    = RunMode::kBasic;
+  run_mode_    = (RunMode::Type)(RunMode::kBasic | RunMode::kProjection);
   model_state_ = State::kExecute;
 }
 
 /**
  *
  */
-void Partition::Execute() {
-
+void Partition::DoExecute() {
   // First, figure out the lowest and highest ages/length
   unsigned lowest         = 9999;
   unsigned highest        = 0;
@@ -75,7 +74,6 @@ void Partition::Execute() {
     }
     cache_ << "\n";
   }
-  cache_ << "*end" << endl << endl;
   ready_for_writing_ = true;
 }
 

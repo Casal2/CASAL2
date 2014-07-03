@@ -75,6 +75,31 @@ shared_ptr<Model> Model::Instance(bool force_new) {
 }
 
 /**
+ *
+ */
+vector<unsigned> Model::years() const {
+  vector<unsigned> years;
+  unsigned year;
+  for (year = current_year_; year <= final_year_; ++year)
+    years.push_back(year);
+  for (; year <= projection_final_year_; ++year)
+    years.push_back(year);
+
+  return years;
+}
+
+/**
+ *
+ */
+unsigned Model::year_spread() const {
+  unsigned spread = (final_year_ - start_year_) + 1;
+  if (run_mode_ == RunMode::kProjection)
+    spread = (projection_final_year_ - start_year_) + 1;
+
+  return spread;
+}
+
+/**
  * Start our model. This is the entry point method for the model
  * after being called from the main() method.
  *
@@ -103,6 +128,10 @@ void Model::Start(RunMode::Type run_mode) {
   LOG_INFO("Model: State Change to Verify");
   Verify();
   reports::Manager::Instance().Execute(State::kVerify);
+
+  // prepare all reports
+  LOG_INFO("Preparing Reports");
+  reports::Manager::Instance().Prepare();
 
   switch(run_mode_) {
   case RunMode::kBasic:
@@ -136,6 +165,10 @@ void Model::Start(RunMode::Type run_mode) {
     LOG_ERROR("Invalid run mode has been specified. This run mode is not supported: " << run_mode_);
     break;
   }
+
+  // finalise all reports
+  LOG_INFO("Finalising Reports");
+  reports::Manager::Instance().Finalise();
 }
 
 /**
@@ -279,9 +312,6 @@ void Model::RunBasic() {
   Iterate();
   ObjectiveFunction::Instance().CalculateScore();
 
-
-  processes::Manager::Instance().Print();
-
   // Model has finished so we can run finalise.
   LOG_INFO("Model: State change to PostExecute");
   reports::Manager::Instance().Execute(State::kPostExecute);
@@ -407,13 +437,23 @@ void Model::RunProjection() {
     LOG_INFO("Iteration year: " << current_year_);
     time_step_manager.Execute(current_year_);
   }
+
   LOG_INFO("Starting projection years")
+  projects::Manager& project_manager = projects::Manager::Instance();
   for (; current_year_ <= projection_final_year_; ++current_year_) {
     LOG_INFO("Iteration year: " << current_year_);
+    project_manager.Update(current_year_);
     time_step_manager.Execute(current_year_);
   }
 
+  // Model has finished so we can run finalise.
+  LOG_INFO("Model: State change to PostExecute");
+  reports::Manager::Instance().Execute(State::kPostExecute);
+
   observations::Manager::Instance().CalculateScores();
+
+  LOG_INFO("Model: State change to Finalise")
+  reports::Manager::Instance().Execute(State::kFinalise);
 }
 
 /**

@@ -30,6 +30,11 @@ public:
   void                        DoValidate() override final;
   void                        DoBuild() override final;
   void                        DoReset() override final;
+  void                        DoUpdate() override final;
+
+private:
+  // members
+  Double                      value_;
 };
 
 } /* namespace projects */

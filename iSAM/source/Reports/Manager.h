@@ -34,6 +34,8 @@ public:
   void                        Build() override final;
   void                        Execute(State::Type model_state);
   void                        Execute(unsigned year, const string& time_step_label);
+  void                        Prepare();
+  void                        Finalise();
   void                        FlushReports();
 
   // accessors

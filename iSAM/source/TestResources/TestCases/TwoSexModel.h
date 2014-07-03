@@ -27,6 +27,7 @@ R"(
 @model
 start_year 1994
 final_year 2008
+projection_final_year 2012
 min_age 1
 max_age 50
 age_plus t
@@ -104,10 +105,7 @@ ato95 3
 type logistic
 a50 8
 ato95 3
-)";
 
-const std::string test_cases_two_sex_model_estimation =
-R"(
 @minimiser de
 type de_solver
 covariance false
@@ -307,6 +305,19 @@ type uniform
 @penalty event_mortality_penalty
 log_scale False
 multiplier 10
+
+@project recruitment.r0
+type constant
+parameter process[Recruitment].R0
+value 100000
+years 2010 2012
+
+@derived_quantity abundance
+type abundance
+categories immature.male mature.male immature.female mature.female
+selectivities Maturation Maturation Maturation Maturation
+time_step step_one
+initialisation_time_steps initialisation_step_one
 )";
 
 } /* namespace testcases */

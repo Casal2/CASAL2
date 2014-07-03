@@ -57,11 +57,14 @@ public:
   void                        FullIteration();
 
   // Accessors
-  RunMode::Type               run_mode() { return run_mode_; }
-  State::Type                 state() { return state_; }
-  unsigned                    start_year() { return start_year_; }
-  unsigned                    final_year() { return final_year_; }
-  unsigned                    current_year() { return current_year_; }
+  RunMode::Type               run_mode() const { return run_mode_; }
+  State::Type                 state() const { return state_; }
+  unsigned                    start_year() const { return start_year_; }
+  unsigned                    final_year() const { return final_year_; }
+  unsigned                    projection_final_year() const { return projection_final_year_; }
+  vector<unsigned>            years() const;
+  unsigned                    year_spread() const;
+  unsigned                    current_year() const { return current_year_; }
   virtual unsigned            min_age() const { return min_age_; }
   virtual unsigned            max_age() const { return max_age_; }
   virtual unsigned            age_spread() const { return (max_age_ - min_age_) + 1; }

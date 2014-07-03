@@ -14,6 +14,7 @@
 
 #include "TwoSexModel.h"
 
+#include "DerivedQuantities/Manager.h"
 #include "Model/Model.h"
 #include "ObjectiveFunction/ObjectiveFunction.h"
 #include "TestResources/TestFixtures/InternalEmptyModel.h"
@@ -30,8 +31,7 @@ using isam::testfixtures::InternalEmptyModel;
  *
  */
 TEST_F(InternalEmptyModel, Model_TwoSex_BasicRun) {
-  AddConfigurationLine(test_cases_two_sex_model_population, __FILE__, __LINE__);
-  AddConfigurationLine(test_cases_two_sex_model_estimation, __FILE__, __LINE__);
+  AddConfigurationLine(test_cases_two_sex_model_population, __FILE__, 27);
   LoadConfiguration();
 
   ModelPtr model = Model::Instance();
@@ -45,8 +45,7 @@ TEST_F(InternalEmptyModel, Model_TwoSex_BasicRun) {
  *
  */
 TEST_F(InternalEmptyModel, Model_TwoSex_Estimation) {
-  AddConfigurationLine(test_cases_two_sex_model_population, __FILE__, __LINE__);
-  AddConfigurationLine(test_cases_two_sex_model_estimation, __FILE__, __LINE__);
+  AddConfigurationLine(test_cases_two_sex_model_population, __FILE__, 27);
   LoadConfiguration();
 
   ModelPtr model = Model::Instance();
@@ -54,6 +53,25 @@ TEST_F(InternalEmptyModel, Model_TwoSex_Estimation) {
 
   ObjectiveFunction& obj_function = ObjectiveFunction::Instance();
   EXPECT_DOUBLE_EQ(1993.8041771166372, obj_function.score());
+}
+
+/**
+ *
+ */
+TEST_F(InternalEmptyModel, Model_TwoSex_Foward_Projection) {
+  AddConfigurationLine(test_cases_two_sex_model_population, __FILE__, 27);
+  LoadConfiguration();
+
+  ModelPtr model = Model::Instance();
+  model->Start(RunMode::kProjection);
+
+  ObjectiveFunction& obj_function = ObjectiveFunction::Instance();
+  EXPECT_DOUBLE_EQ(1993.8041771166372, obj_function.score());
+
+  DerivedQuantityPtr dq = derivedquantities::Manager::Instance().GetDerivedQuantity("abundance");
+  EXPECT_DOUBLE_EQ(0.0, dq->GetValue(2010));
+  EXPECT_DOUBLE_EQ(0.0, dq->GetValue(2011));
+  EXPECT_DOUBLE_EQ(0.0, dq->GetValue(2012));
 }
 
 } /* namespace testcases */

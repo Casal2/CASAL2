@@ -41,7 +41,8 @@ enum Type {
   kInvalid      = 0,
   kSingle       = 1,
   kVector       = 2,
-  kMap          = 3
+  kStringMap    = 3,
+  kUnsignedMap  = 4
 };
 }
 
@@ -60,10 +61,14 @@ public:
   bool                        IsEstimableAVector(const string& label) const;
   unsigned                    GetEstimableSize(const string& label) const;
   Double*                     GetEstimable(const string& label);
+  Double*                     GetEstimable(const string& label, const string& index);
+  map<unsigned, Double>*      GetEstimableMap(const string& label);
+  vector<Double>*             GetEstimableVector(const string& label);
   Estimable::Type             GetEstimableType(const string& label) const;
 
   // Accessors and Mutators
   string                      label() const { return label_; }
+  string                      type() const { return type_; }
   ParameterList&              parameters() { return parameters_; }
   void                        set_block_type(string value) { block_type_ = value; parameters_.set_parent_block_type(value); }
   void                        set_defined_file_name(string value) { parameters_.set_defined_file_name(value); }
@@ -84,7 +89,7 @@ protected:
   string                        label_                = "";
   string                        type_                 = "";
   ParameterList                 parameters_;
-  map<string, Double*>          estimables_;
+  map<string, Double*>                  estimables_;
   map<string, vector<Double>* >         estimable_vectors_;
   map<string, map<string, Double>* >    estimable_s_maps_;
   map<string, map<unsigned, Double>* >  estimable_u_maps_;

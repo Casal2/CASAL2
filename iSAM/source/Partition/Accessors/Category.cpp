@@ -40,41 +40,19 @@ Category::Category(const string& category_name) {
   LOG_TRACE();
 
   model_ = Model::Instance();
-  unsigned start_year = model_->start_year();
-  unsigned final_year = model_->final_year();
-  LOG_INFO("Model details: start_year: " << start_year << "; final_year: " << final_year);
+  vector<unsigned> years = model_->years();
 
   CategoriesPtr categories = Categories::Instance();
-
-
   Partition& partition = Partition::Instance();
+
   partition::Category& category = partition.category(category_name);
-  for (unsigned year = start_year; year <= final_year; ++year) {
+  for (unsigned year : years) {
     if (std::find(category.years_.begin(), category.years_.end(), year) == category.years_.end())
             continue; // Not valid in this year
 
     data_[year] = &category.data_;
   }
 }
-
-/**
- * This method will return an iterator to the
- * first category for the current year.
- *
- * @return Iterator to the first element for the current year
- */
-//Category::DataType::iterator Category::begin() {
-//  return category_map_[model_->current_year()].begin();
-//}
-
-/**
- * This method returns the end iterator for comparison.
- *
- * @return Iterator that is the end of the current year for comparison
- */
-//Category::DataType::iterator Category::end() {
-//  return category_map_[model_->current_year()].end();
-//}
 
 } /* namespace accessors */
 } /* namespace partition */

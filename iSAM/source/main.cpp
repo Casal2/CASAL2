@@ -7,6 +7,11 @@ int main(int argc, char **argv) {
 }
 #else
 
+// defines
+#ifndef BOOST_USE_WINDOWS_H
+#define BOOST_USE_WINDOWS_H
+#endif
+
 // Headers
 #include <iostream>
 #include <boost/thread.hpp>

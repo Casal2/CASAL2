@@ -24,13 +24,13 @@ namespace reports {
  */
 ObjectiveFunction::ObjectiveFunction() {
   model_state_ = State::kFinalise;
-  run_mode_    = (RunMode::Type)(RunMode::kEstimation | RunMode::kBasic);
+  run_mode_    = (RunMode::Type)(RunMode::kEstimation | RunMode::kBasic | RunMode::kProjection);
 }
 
 /**
  * Execute the report
  */
-void ObjectiveFunction::Execute() {
+void ObjectiveFunction::DoExecute() {
   // Header
   cache_ << CONFIG_ARRAY_START << label_ << CONFIG_ARRAY_END << "\n";
 //  cout << PARAM_REPORT << "." << PARAM_TYPE << CONFIG_RATIO_SEPARATOR << " " << parameters_.Get(PARAM_TYPE).GetValue<string>() << "\n";

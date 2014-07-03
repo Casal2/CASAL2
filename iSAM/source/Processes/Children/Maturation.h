@@ -50,7 +50,7 @@ protected:
   accessor::Categories        from_partition_;
   accessor::Categories        to_partition_;
   vector<SelectivityPtr>      selectivities_;
-  map<unsigned, Double>       year_rates_;
+  map<unsigned, Double>       rates_by_years_;
 };
 
 } /* namespace processes */

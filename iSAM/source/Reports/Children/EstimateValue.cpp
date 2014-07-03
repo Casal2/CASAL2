@@ -36,7 +36,7 @@ EstimateValue::~EstimateValue() noexcept(true) {
 /**
  * Execute this report.
  */
-void EstimateValue::Execute() {
+void EstimateValue::DoExecute() {
   ModelPtr model = Model::Instance();
 
   vector<EstimatePtr> estimates = estimates::Manager::Instance().GetObjects();

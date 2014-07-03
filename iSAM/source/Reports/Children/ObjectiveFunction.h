@@ -34,7 +34,7 @@ public:
   virtual                     ~ObjectiveFunction() = default;
   void                        DoValidate() override final { };
   void                        DoBuild() override final { };
-  void                        Execute() override final;
+  void                        DoExecute() override final;
 };
 
 } /* namespace reports */

@@ -29,6 +29,8 @@ Maturation::Maturation() {
   parameters_.Bind<double>(PARAM_RATES, &rates_, "The rates to mature for each year", "");
 
   model_ = Model::Instance();
+
+  RegisterAsEstimable(PARAM_RATES, &rates_by_years_);
 }
 
 /**
@@ -73,7 +75,7 @@ void Maturation::DoValidate() {
   if (rates_.size() != years_.size())
     LOG_ERROR(parameters_.location(PARAM_RATES) << " number (" << rates_.size() << ") does not match the number of years (" << years_.size() << ") provided");
   for (unsigned i = 0; i < years_.size(); ++i)
-    year_rates_[years_[i]] = rates_[i];
+    rates_by_years_[years_[i]] = rates_[i];
 
 }
 
@@ -106,10 +108,10 @@ void Maturation::Execute() {
   Double amount      = 0.0;
 
   unsigned current_year = model_->current_year();
-  Double rate = year_rates_[current_year];
+  Double rate = rates_by_years_[current_year];
   // if year is missing for projection then we grab the last one
-  if (year_rates_.find(current_year) == year_rates_.end())
-    rate = year_rates_.rbegin()->second;
+  if (rates_by_years_.find(current_year) == rates_by_years_.end())
+    rate = rates_by_years_.rbegin()->second;
 
   for (unsigned i = 0; from_iter != from_partition_.end() && to_iter != to_partition_.end(); ++from_iter, ++to_iter, ++i) {
     unsigned min_age   = (*from_iter)->min_age_;
