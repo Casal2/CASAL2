@@ -30,7 +30,7 @@ public:
   virtual                     ~EstimateValue() noexcept(true);
   void                        DoValidate() override final { };
   void                        DoBuild() override final { };
-  void                        Execute() override final;
+  void                        DoExecute() override final;
 
 private:
   // members

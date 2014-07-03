@@ -16,11 +16,16 @@
 #ifndef REPORT_H_
 #define REPORT_H_
 
+#ifndef BOOST_USE_WINDOWS_H
+#define BOOST_USE_WINDOWS_H
+#endif
+
 // Headers
 #include <string>
 #include <iostream>
 #include <fstream>
 #include <ostream>
+#include <boost/thread.hpp>
 
 #include "BaseClasses/Object.h"
 #include "Model/Model.h"
@@ -36,6 +41,8 @@ using std::ios_base;
 using std::iostream;
 using std::ostringstream;
 
+typedef boost::mutex::scoped_lock lock;
+
 /**
  * Class definition
  */
@@ -46,16 +53,12 @@ public:
   virtual                     ~Report() = default;
   void                        Validate();
   void                        Build() { DoBuild(); };
-  virtual void                Prepare() {};
-  virtual void                Reset() {};
-  virtual void                Finalise() {};
+  void                        Prepare();
+  void                        Reset() {};
+  void                        Execute();
+  void                        Finalise();
   bool                        HasYear(unsigned year);
   void                        FlushCache();
-
-  // pure methods
-  virtual void                DoValidate() = 0;
-  virtual void                DoBuild() = 0;
-  virtual void                Execute() = 0;
 
   // Accessors
   RunMode::Type               run_mode() const { return run_mode_; }
@@ -64,9 +67,17 @@ public:
   bool                        ready_for_writing() const { return ready_for_writing_; }
 
 protected:
+  // pure methods
+  virtual void                DoValidate() = 0;
+  virtual void                DoBuild() = 0;
+  virtual void                DoPrepare() { };
+  virtual void                DoExecute() = 0;
+  virtual void                DoFinalise() { };
+
   // Members
   RunMode::Type               run_mode_    = RunMode::kInvalid;
   State::Type                 model_state_ = State::kInitialise;
+  static boost::mutex         lock_;
   string                      time_step_   = "";
   string                      file_name_   = "";
   bool                        overwrite_   = true;

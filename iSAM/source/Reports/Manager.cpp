@@ -60,9 +60,12 @@ void Manager::Execute(State::Type model_state) {
   LOG_TRACE();
 
   RunMode::Type run_mode = Model::Instance()->run_mode();
+  LOG_INFO("Checking " << state_reports_[model_state].size() << " reports");
   for(ReportPtr report : state_reports_[model_state]) {
       if ( (RunMode::Type)(report->run_mode() & run_mode) == run_mode)
         report->Execute();
+      else
+        LOG_INFO("Skipping report: " << report->label() << " because run mode is incorrect");
   }
 }
 
@@ -94,6 +97,26 @@ void Manager::Execute(unsigned year, const string& time_step_label) {
 }
 
 /**
+ *
+ */
+void Manager::Prepare() {
+  LOG_TRACE();
+  for (ReportPtr report : objects_) {
+    report->Prepare();
+  }
+}
+
+/**
+ *
+ */
+void Manager::Finalise() {
+  LOG_TRACE();
+  for (ReportPtr report : objects_) {
+    report->Finalise();
+  }
+}
+
+/**
  * This method will flush all of the reports to stdout or a file depending on each
  * report when it has finished caching it's output internally.
  *
@@ -101,12 +124,13 @@ void Manager::Execute(unsigned year, const string& time_step_label) {
  * without having to wait for the reports to be ready.
  */
 void Manager::FlushReports() {
+  // WARNING: DO NOT CALL THIS ANYWHERE. IT'S THREADED
+  LOG_TRACE()
   while(true) {
     for (ReportPtr report : objects_) {
       if (report->ready_for_writing())
         report->FlushCache();
     }
-
 
     if (!continue_)
       break;

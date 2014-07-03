@@ -206,11 +206,6 @@ void RecruitmentBevertonHolt::Execute() {
     recruitment_values_.push_back(amount_per);
     ssb_values_.push_back(derived_quantity_->GetValue(model_->current_year() - actual_ssb_offset_));
 
-    print_values_["internal_ycs"].push_back(utilities::ToInline<Double, string>(ycs));
-    print_values_["true_ycs_values"].push_back(utilities::ToInline<Double, string>(true_ycs));
-    print_values_["recruitment_values"].push_back(utilities::ToInline<Double, string>(amount_per));
-    print_values_["ssb_values"].push_back(utilities::ToInline<Double, string>( (*ssb_values_.rbegin())) );
-
 //    cout << "year = " << model_->current_year() << "; ycs = " << ycs << "; b0_ = " << b0_ << "; ssb_ratio = " << ssb_ratio << "; true_ycs = " << true_ycs << "; amount_per = " << amount_per << endl;
 //    cout << "dq: " << derived_quantity_->GetValue(model_->current_year() - actual_ssb_offset_) << endl;
 
@@ -229,7 +224,6 @@ void RecruitmentBevertonHolt::Execute() {
 //    LOG_INFO("Adding " << amount_per * proportions_[i] << " to " << (*iterator)->name_);
 //  }
 
-  print_values_["b0_value"][0] = utilities::ToInline<Double, string>(b0_);
 }
 
 } /* namespace processes */

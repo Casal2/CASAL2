@@ -59,11 +59,76 @@ unsigned Object::GetEstimableSize(const string& label) const {
  * @return A pointer to the estimable to be used by the Estimate object
  */
 Double* Object::GetEstimable(const string& label) {
-  if (estimables_.find(label) == estimables_.end()) {
-    LOG_CODE_ERROR("Unable to find the estimable with the label: " << label);
-  }
+  if (estimable_types_.find(label) == estimable_types_.end())
+    LOG_CODE_ERROR("estimable_types_.find(" << label << ") == estimable_types_.end()");
+  return estimables_[label];
+}
+
+Double* Object::GetEstimable(const string& label, const string& index) {
+  if (estimable_types_.find(label) == estimable_types_.end())
+    LOG_CODE_ERROR("estimable_types_.find(" << label << ") == estimable_types_.end()");
+
+  if (estimable_types_[label] == Estimable::kStringMap) {
+    if (estimable_s_maps_[label]->find(index) == estimable_s_maps_[label]->end())
+      LOG_CODE_ERROR("estimable_s_maps_[" << label << "].find(" << index << ") == estimable_s_maps_.end()");
+
+    return &(*estimable_s_maps_[label])[index];
+
+  } else if (estimable_types_[label] == Estimable::kUnsignedMap) {
+    unsigned value = 0;
+    bool success = utilities::To<unsigned>(index, value);
+    if (!success)
+      LOG_CODE_ERROR("bool success = util::To<unsigned>(" << index << ", value);");
+
+    if (estimable_u_maps_[label]->find(value) == estimable_u_maps_[label]->end())
+      LOG_CODE_ERROR("estimable_u_maps[" << label << "].find(" << value << ") == estimable_u_maps_.end()");
+
+    return &(*estimable_u_maps_[label])[value];
+
+  } else if (estimable_types_[label] == Estimable::kVector) {
+    unsigned value = 0;
+    bool success = utilities::To<unsigned>(index, value);
+    if (!success)
+      LOG_CODE_ERROR("bool success = util::To<unsigned>(" << index << ", value);");
+
+    if (estimable_vectors_[label]->size() >= value)
+      LOG_CODE_ERROR("estimable_vectors_[" << label << "]->size() >= " << value);
+
+    return &(*estimable_vectors_[label])[value];
+
+  } else if (estimable_types_[label] != Estimable::kSingle)
+    LOG_CODE_ERROR("estimable_types_[" << label << "] != Estimable::kSingle");
 
   return estimables_[label];
+}
+
+/**
+ * This method will return a pointer to a map of estimables that have
+ * been indexed by unsigned. The majority of these estimables will
+ * be indexed by year.
+ *
+ * @param label The label of the estimable to find
+ * @return a pointer to the map to use
+ */
+map<unsigned, Double>* Object::GetEstimableMap(const string& label) {
+  if (estimable_types_.find(label) == estimable_types_.end())
+    LOG_CODE_ERROR("estimable_types_.find(" << label << ") == estimable_types_.end()");
+  if (estimable_types_[label] != Estimable::kUnsignedMap)
+    LOG_CODE_ERROR("estimable_types_[" << label << "] != Estimable::kUnsignedMap");
+
+  return estimable_u_maps_[label];
+}
+
+/**
+ * This method will return a pointer to a vector of estimables
+ */
+vector<Double>* Object::GetEstimableVector(const string& label) {
+  if (estimable_types_.find(label) == estimable_types_.end())
+    LOG_CODE_ERROR("estimable_types_.find(" << label << ") == estimable_types_.end()");
+  if (estimable_types_[label] != Estimable::kVector)
+      LOG_CODE_ERROR("estimable_types_[" << label << "] != Estimable::kVector");
+
+  return estimable_vectors_[label];
 }
 
 /**
@@ -114,11 +179,11 @@ void Object::RegisterAsEstimable(const string& label, vector<Double>* variables)
  */
 void Object::RegisterAsEstimable(const string& label, map<string, Double>* variables) {
   estimable_s_maps_[label]  = variables;
-  estimable_types_[label]   = Estimable::kMap;
+  estimable_types_[label]   = Estimable::kStringMap;
 }
 void Object::RegisterAsEstimable(const string& label, map<unsigned, Double>* variables) {
   estimable_u_maps_[label]  = variables;
-  estimable_types_[label]   = Estimable::kMap;
+  estimable_types_[label]   = Estimable::kUnsignedMap;
 }
 
 /**

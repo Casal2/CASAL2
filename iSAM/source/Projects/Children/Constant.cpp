@@ -19,6 +19,7 @@ namespace projects {
  * Default constructor
  */
 Constant::Constant() {
+  parameters_.Bind<double>(PARAM_VALUE, &value_, "Value to assign to estimable", "");
 }
 
 /**
@@ -35,6 +36,14 @@ void Constant::DoBuild() { }
  * Reset
  */
 void Constant::DoReset() { }
+
+/**
+ *
+ */
+void Constant::DoUpdate() {
+  LOG_INFO("Setting Value to: " << value_);
+  (this->*DoUpdateFunc_)(value_);
+}
 
 } /* namespace projects */
 } /* namespace isam */

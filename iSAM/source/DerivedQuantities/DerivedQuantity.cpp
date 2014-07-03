@@ -136,6 +136,9 @@ Double DerivedQuantity::GetValue(unsigned year) {
   return result;
 }
 
+/**
+ *
+ */
 Double DerivedQuantity::GetLastValueFromInitialisation(unsigned phase) {
   if (initialisation_values_.size() <= phase)
     LOG_ERROR("No values have been calculated for the initialisation value in phase: " << phase);

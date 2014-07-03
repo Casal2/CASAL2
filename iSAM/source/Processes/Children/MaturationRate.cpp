@@ -31,7 +31,7 @@ MaturationRate::MaturationRate() {
   parameters_.Bind<double>(PARAM_PROPORTIONS, &proportions_, "Proportions", "");
   parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_names_, "Selectivity names", "");
 
-  RegisterAsEstimable(PARAM_PROPORTIONS, &proportions_);
+  RegisterAsEstimable(PARAM_PROPORTIONS, &proportions_by_category_);
 }
 
 /**
@@ -102,6 +102,9 @@ void MaturationRate::DoValidate() {
     if (proportion < 0.0 || proportion > 1.0)
       LOG_ERROR(parameters_.location(PARAM_PROPORTIONS) << ": proportion " << AS_DOUBLE(proportion) << " must be between 0.0 and 1.0 (inclusive)");
   }
+
+  for (unsigned i = 0; i < from_category_names_.size(); ++i)
+    proportions_by_category_[from_category_names_[i]] = proportions_[i];
 }
 
 /**

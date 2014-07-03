@@ -30,7 +30,7 @@ CategoryInfo::CategoryInfo() {
 /**
  *
  */
-void CategoryInfo::Execute() {
+void CategoryInfo::DoExecute() {
 
   cache_ << "*category_info: " << label_ << "\n";
 

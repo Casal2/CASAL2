@@ -43,7 +43,7 @@ void Observation::DoBuild() {
 /**
  *
  */
-void Observation::Execute() {
+void Observation::DoExecute() {
   cache_ << CONFIG_ARRAY_START << label_ << CONFIG_ARRAY_END << "\n";
 
   cache_ << PARAM_OBSERVATION << ": " << observation_->label() << "\n";

@@ -28,6 +28,8 @@ using std::cout;
 using std::endl;
 using std::ios_base;
 
+boost::mutex Report::lock_;
+
 /**
  * Default constructor
  */
@@ -63,9 +65,34 @@ bool Report::HasYear(unsigned year) {
 }
 
 /**
+ *
+ */
+void Report::Prepare() {
+  lock lk(Report::lock_);
+  DoPrepare();
+};
+
+/**
+ *
+ */
+void Report::Execute() {
+  lock lk(Report::lock_);
+  DoExecute();
+}
+
+/**
+ *
+ */
+void Report::Finalise() {
+  lock lk(Report::lock_);
+  DoFinalise();
+};
+
+/**
  * Flush the contents of the cache to the file or fisk.
  */
 void Report::FlushCache() {
+  lock lk(Report::lock_);
   if (file_name_ != "") {
     string suffix = reports::Manager::Instance().report_suffix();
 
@@ -97,8 +124,8 @@ void Report::FlushCache() {
     cout.flush();
   }
 
-  cache_.str("");
   cache_.clear();
+  cache_.str("");
   ready_for_writing_ = false;
 }
 

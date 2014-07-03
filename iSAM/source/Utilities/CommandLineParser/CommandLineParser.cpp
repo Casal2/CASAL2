@@ -53,7 +53,7 @@ void CommandLineParser::Parse(int argc, const char* argv[]) {
     ("mcmc,m", "Markov Chain Monte Carlo run mode")
     ("profiling,p", "Profling run mode")
     ("simulation,s", value<unsigned>(), "Simulation mode (arg = number of candidates)")
-    ("projection,j", "Projection mode")
+    ("projection,f", "Projection mode")
     ("input,i", value<string>(), "Load free parameter values from file")
     ("seed,g", value<int>(), "Random number seed")
     ("query,q", value<string>(), "Query an object type to see it's description and parameters")

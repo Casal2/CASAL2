@@ -54,7 +54,7 @@ StandardHeader::~StandardHeader() {
  * Prepare the header. This involves building
  * all of the information we need so it can be printed.
  */
-void StandardHeader::Prepare() {
+void StandardHeader::DoPrepare() {
 
   ostringstream               header;
   header << "iSAM" << endl;
@@ -108,14 +108,14 @@ void StandardHeader::Prepare() {
  * This report does it's printing during the start and finalise methods
  * so we do not need to have any logic within the run method.
  */
-void StandardHeader::Execute() { }
+void StandardHeader::DoExecute() { }
 
 /**
  * Finalise our report. This will calculate how much time it took
  * to do the execution of our application and print this to the
  * console.
  */
-void StandardHeader::Finalise() {
+void StandardHeader::DoFinalise() {
 #ifndef __MINGW32__
   times(&cpu_stop);
   double cpu_time=(static_cast<double>(cpu_stop.tms_utime)+static_cast<double>(cpu_stop.tms_stime))-(static_cast<double>(cpu_start.tms_utime) + static_cast<double>(cpu_start.tms_stime));

@@ -31,7 +31,9 @@ Manager::~Manager() noexcept(true) {
  *
  */
 void Manager::Update(unsigned current_year) {
-
+  LOG_TRACE();
+  for (ProjectPtr project : objects_)
+    project->Update(current_year);
 }
 
 } /* namespace projects */

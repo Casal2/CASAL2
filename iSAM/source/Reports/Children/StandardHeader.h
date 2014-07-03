@@ -36,9 +36,9 @@ public:
   virtual                     ~StandardHeader();
   void                        DoValidate() override final { };
   void                        DoBuild() override final { };
-  void                        Prepare() override final;
-  void                        Execute() override final;
-  void                        Finalise() override final;
+  void                        DoPrepare() override final;
+  void                        DoExecute() override final;
+  void                        DoFinalise() override final;
 
 protected:
   // Variables

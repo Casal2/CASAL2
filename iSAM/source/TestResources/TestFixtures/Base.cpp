@@ -27,6 +27,7 @@
 #include "Partition/Partition.h"
 #include "Penalties/Manager.h"
 #include "Processes/Manager.h"
+#include "Projects/Manager.h"
 #include "Reports/Manager.h"
 #include "Selectivities/Factory.h"
 #include "Selectivities/Manager.h"
@@ -73,6 +74,7 @@ void Base::TearDown() {
   observations::Manager::Instance().RemoveAllObjects();
   penalties::Manager::Instance().RemoveAllObjects();
   processes::Manager::Instance().RemoveAllObjects();
+  projects::Manager::Instance().RemoveAllObjects();
   reports::Manager::Instance().RemoveAllObjects();
   selectivities::Manager::Instance().RemoveAllObjects();
   sizeweights::Manager::Instance().RemoveAllObjects();

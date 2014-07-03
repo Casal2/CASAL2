@@ -50,15 +50,5 @@ ProcessPtr Manager::GetProcess(const string& label) {
   return ProcessPtr();
 }
 
-/**
- *
- */
-void Manager::Print() {
-  for (ProcessPtr process : objects_) {
-    if (process->print_report())
-      process->Print();
-  }
-}
-
 } /* namespace processes */
 } /* namespace isam */

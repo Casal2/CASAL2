@@ -35,7 +35,7 @@ MCMCChain::~MCMCChain() noexcept(true) {
 /**
  *
  */
-void MCMCChain::Execute() {
+void MCMCChain::DoExecute() {
   const vector<mcmc::ChainLink>& chain = MCMC::Instance()->chain();
 
   cache_ << CONFIG_ARRAY_START << label_ << CONFIG_ARRAY_END << "\n";

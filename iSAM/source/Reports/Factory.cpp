@@ -16,6 +16,7 @@
 #include "Reports/Manager.h"
 #include "Reports/Children/CategoryInfo.h"
 #include "Reports/Children/DerivedQuantity.h"
+#include "Reports/Children/Estimable.h"
 #include "Reports/Children/EstimateSummary.h"
 #include "Reports/Children/EstimateValue.h"
 #include "Reports/Children/MCMCChain.h"
@@ -24,6 +25,7 @@
 #include "Reports/Children/Partition.h"
 #include "Reports/Children/PartitionMeanWeight.h"
 #include "Reports/Children/SimulatedObservation.h"
+#include "Reports/Children/Selectivity.h"
 
 // Namespaces
 namespace isam {
@@ -45,6 +47,8 @@ ReportPtr Factory::Create(const string& object_type, const string& sub_type) {
       result = ReportPtr(new CategoryInfo());
     else if (sub_type == PARAM_DERIVED_QUANTITY)
       result = ReportPtr(new DerivedQuantity());
+    else if (sub_type == PARAM_ESTIMABLE)
+      result = ReportPtr(new Estimable());
     else if (sub_type == PARAM_ESTIMATE_SUMMARY)
       result = ReportPtr(new EstimateSummary());
     else if (sub_type == PARAM_ESTIMATE_VALUE)
@@ -61,6 +65,8 @@ ReportPtr Factory::Create(const string& object_type, const string& sub_type) {
       result = ReportPtr(new Observation());
     else if (sub_type == PARAM_SIMULATED_OBSERVATION)
       result = ReportPtr(new SimulatedObservation());
+    else if (sub_type == PARAM_SELECTIVITY)
+      result = ReportPtr(new Selectivity());
 
     if (result)
       isam::reports::Manager::Instance().AddObject(result);

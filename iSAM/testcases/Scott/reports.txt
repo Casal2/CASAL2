@@ -2,16 +2,13 @@
 @report state-1
 type partition 
 time_step step_one
-years 1994 1998 2004 2008
+years 2008 2010 2011 2012 2013 2014
 
+@report estimable_recruitment_r0
+type estimable
+parameter process[Recruitment].r0
+years 2008 2010 2011 2012 2013 2014
+time_step step_one
 }
-
-@report my-objective-function
-type objective_function
-{
-@report mcmc_chain
-type mcmc_chain
-
-@report ev
-type estimate_value
-}
+@report dq
+type derived_quantity

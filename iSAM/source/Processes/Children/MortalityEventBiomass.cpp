@@ -32,6 +32,7 @@ MortalityEventBiomass::MortalityEventBiomass() {
   parameters_.Bind<string>(PARAM_PENALTY, &penalty_label_, "Penalty label", "", "");
 
   RegisterAsEstimable(PARAM_U_MAX, &u_max_);
+  RegisterAsEstimable(PARAM_CATCHES, &catch_years_);
 
   model_ = Model::Instance();
 }
@@ -58,6 +59,13 @@ void MortalityEventBiomass::DoValidate() {
     }
 
     catch_years_[years_[i]] = catches_[i];
+  }
+
+  // add extra years in to model for things like forward projection
+  vector<unsigned> model_years = model_->years();
+  for (unsigned year : model_years) {
+    if (catch_years_.find(year) == catch_years_.end())
+      catch_years_[year] = 0.0;
   }
 }
 
@@ -87,8 +95,10 @@ void MortalityEventBiomass::DoBuild() {
  *
  */
 void MortalityEventBiomass::Execute() {
-  if (std::find(years_.begin(), years_.end(), model_->current_year()) == years_.end())
+  if (catch_years_[model_->current_year()] == 0)
     return;
+
+  LOG_TRACE();
 
   /**
    * Work our how much of the stock is vulnerable
@@ -105,15 +115,6 @@ void MortalityEventBiomass::Execute() {
 
     ++i;
   }
-
-//  for (auto iterator = partition_->Begin(); iterator != partition_->End(); ++iterator, ++i) {
-//    unsigned min_age = (*iterator)->min_age_;
-//
-//    for (unsigned offset = 0; offset < (*iterator)->data_.size(); ++offset) {
-//      Double temp = (*iterator)->data_[offset] * selectivities_[i]->GetResult(min_age + offset);
-//      vulnerable += temp * (*iterator)->mean_weights_[offset];
-//    }
-//  }
 
   /**
    * Work out the exploitation rate to remove (catch/vulnerable)
@@ -143,17 +144,6 @@ void MortalityEventBiomass::Execute() {
     }
     ++i;
   }
-
-//  i = 0;
-//  for (auto iterator = partition_->Begin(); iterator != partition_->End(); ++iterator, ++i) {
-//    unsigned min_age = (*iterator)->min_age_;
-//
-//    for (unsigned offset = 0; offset < (*iterator)->data_.size(); ++offset) {
-//      Double temp = (*iterator)->data_[offset] * selectivities_[i]->GetResult(min_age + offset) * exploitation;
-//      (*iterator)->data_[offset] -= temp;
-//    }
-//  }
-
 }
 
 } /* namespace processes */

@@ -32,7 +32,7 @@ PartitionMeanWeight::PartitionMeanWeight() {
 /**
  * Execute method
  */
-void PartitionMeanWeight::Execute() {
+void PartitionMeanWeight::DoExecute() {
   cache_ << "*" << this->label() << "\n";
 
   CategoriesPtr categories = Categories::Instance();

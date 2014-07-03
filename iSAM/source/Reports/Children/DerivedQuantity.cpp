@@ -16,14 +16,15 @@ namespace reports {
  *
  */
 DerivedQuantity::DerivedQuantity() {
-  run_mode_    = RunMode::kBasic;
+  run_mode_    = (RunMode::Type)(RunMode::kBasic | RunMode::kProjection);
   model_state_ = State::kFinalise;
 }
 
 /**
  *
  */
-void DerivedQuantity::Execute() {
+void DerivedQuantity::DoExecute() {
+  LOG_TRACE();
 
   cache_ << "derived_quantity: " << label_ << "\n";
 
@@ -52,7 +53,6 @@ void DerivedQuantity::Execute() {
     count++;
   }
 
-  cache_ << "*end" << endl;
   ready_for_writing_ = true;
 }
 

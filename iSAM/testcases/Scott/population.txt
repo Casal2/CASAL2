@@ -1,6 +1,7 @@
 @model
 start_year 1994
 final_year 2008
+projection_final_year 2015
 min_age 1
 max_age 50
 age_plus t
@@ -80,3 +81,10 @@ ato95 3
 type logistic
 a50 8
 ato95 3
+
+@derived_quantity abundance
+type abundance
+categories immature.male mature.male immature.female mature.female
+selectivities One One One One
+time_step step_one
+initialisation_time_steps initialisation_step_one

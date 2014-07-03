@@ -36,7 +36,7 @@ EstimateSummary::~EstimateSummary() noexcept(true) {
 /**
  * This method will execute our estimate summary report
  */
-void EstimateSummary::Execute() {
+void EstimateSummary::DoExecute() {
   // Header
   cache_ << CONFIG_ARRAY_START << label_ << CONFIG_ARRAY_END << "\n";
 //  cout << PARAM_REPORT << "." << PARAM_TYPE << CONFIG_RATIO_SEPARATOR << " " << parameters_.Get(PARAM_TYPE)->GetValue<string>() << "\n";
