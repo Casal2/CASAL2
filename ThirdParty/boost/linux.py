@@ -40,6 +40,8 @@ def doBuild():
     print '-- Moving headers and libraries'
     dir_util.copy_tree('boost', targetPath + '/include/boost/')
     shutil.copy('stage/lib/libboost_program_options.a', targetPath + "/lib/")
+    shutil.copy('stage/lib/libboost_system.a', targetPath + "/lib/")
+    shutil.copy('stage/lib/libboost_thread.a', targetPath + "/lib/")
 
     os.system('touch ' + targetPath + '/boost.success')
     return True
