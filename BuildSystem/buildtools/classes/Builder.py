@@ -115,7 +115,10 @@ class ThirdPartyLibraries:
         continue            
       if Globals.build_parameters_ == "" and os.path.exists(self.output_directory_ + "/" + folder + ".success"):
         print "--> Skipping library " + folder + " (already built)"
-        continue
+        continue      
+      if folder.startswith("test-") and Globals.build_parameters_ == "":
+        print '--> Skipping library ' + folder + ' (test library)'
+        continue      
       
       found_build = True      
       target_folder = "../ThirdParty/" + folder
@@ -127,11 +130,15 @@ class ThirdPartyLibraries:
       sys.path.append(os.path.normpath(os.getcwd()))
 
       if Globals.operating_system_ == "win32":
+        if not os.path.exists('windows.py'):
+          return Globals.PrintError('Third party library ' + folder + ' does not have a windows.py file.\nThis file is required to build this library on Windows')
         import windows as third_party_builder
         success= third_party_builder.doBuild()
         del sys.modules["windows"]
         
       else:
+        if not os.path.exists('linux.py'):
+          return Globals.PrintError('Third party library ' + folder + ' does not have a linux.py file.\nThis file is required to build this library on Linux')
         import linux as third_party_builder
         success= third_party_builder.doBuild()
         del sys.modules["linux"]
