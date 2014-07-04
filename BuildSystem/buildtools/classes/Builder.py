@@ -2,6 +2,7 @@ import os
 import sys
 import subprocess
 import os.path
+import shutil
 
 import Globals
 
@@ -70,38 +71,41 @@ class ThirdPartyLibraries:
   
   def start(self):
     print "--> Starting build of the third party libraries"
-    print "--> Operating System: " + Globals.operating_system_
+    print "-- Operating System: " + Globals.operating_system_
   
-    print "--> Checking if output folder structure exists"  
+    print "-- Checking if output folder structure exists"  
     self.output_directory_ = os.path.normpath(os.getcwd()) + "/bin/" + Globals.operating_system_ + "/thirdparty"
     if not os.path.exists(self.output_directory_):
-      print "--> Creating output directory: " + self.output_directory_
+      print "-- Creating output directory: " + self.output_directory_
       os.makedirs(self.output_directory_)
       
     self.include_directory = self.output_directory_ + "/include"
     if not os.path.exists(self.include_directory):
-      print "--> Creating include directory: " + self.include_directory
+      print "-- Creating include directory: " + self.include_directory
       os.makedirs(self.include_directory)
       
     self.lib_directory = self.output_directory_ + "/lib"
     if not os.path.exists(self.lib_directory):
-      print "--> Creating lib directory: " + self.lib_directory
+      print "-- Creating lib directory: " + self.lib_directory
       os.makedirs(self.lib_directory)
     
     self.lib_debug_directory = self.lib_directory + "/debug"
     if not os.path.exists(self.lib_debug_directory):
-      print "--> Creating lib debug directory: " + self.lib_debug_directory
+      print "-- Creating lib debug directory: " + self.lib_debug_directory
       os.makedirs(self.lib_debug_directory)
       
     self.lib_release_directory = self.lib_directory + "/release"
     if not os.path.exists(self.lib_release_directory):
-      print "--> Creating lib release directory: " + self.lib_release_directory
+      print "-- Creating lib release directory: " + self.lib_release_directory
       os.makedirs(self.lib_release_directory)
       
     self.input_directory = "../ThirdParty/"
     third_party_list = os.listdir(self.input_directory)
     
-    Globals.target_path_ = self.output_directory_
+    Globals.target_success_path_      = self.output_directory_ + '/'
+    Globals.target_include_path_      = self.output_directory_ + '/include/'
+    Globals.target_debug_lib_path_    = self.output_directory_ + '/lib/debug/'
+    Globals.target_release_lib_path_  = self.output_directory_ + '/lib/release/'
     
     cwd = os.path.normpath(os.getcwd())    
     build_module_name = "build"    
@@ -109,40 +113,69 @@ class ThirdPartyLibraries:
     found_build = False
     
     for folder in third_party_list:
+      # Do some simple checks to see if we want to process this folder
       if folder.startswith("."):
         continue
       if Globals.build_parameters_ != "" and Globals.build_parameters_ != folder.lower():
-        continue            
-      if Globals.build_parameters_ == "" and os.path.exists(self.output_directory_ + "/" + folder + ".success"):
-        print "--> Skipping library " + folder + " (already built)"
-        continue      
+        continue                 
       if folder.startswith("test-") and Globals.build_parameters_ == "":
         print '--> Skipping library ' + folder + ' (test library)'
         continue      
       
+      # load the version number so we can handle upgrades
+      library_version = str(-1.0)
+      success_file = self.output_directory_ + "/" + folder + ".success"
+      if os.path.exists(success_file):
+        f = open(success_file, "r")
+        library_version = f.readline().lstrip().rstrip().replace('\n', '')    
+        f.close()    
+      
       found_build = True      
       target_folder = "../ThirdParty/" + folder
       success = False
-      
-      print ""
-      print "--> Building Library: " + folder
+                  
       os.chdir(target_folder)
       sys.path.append(os.path.normpath(os.getcwd()))
 
+      """
+      # Handle loading the windows file and building this on windows
+      """
       if Globals.operating_system_ == "win32":
         if not os.path.exists('windows.py'):
           return Globals.PrintError('Third party library ' + folder + ' does not have a windows.py file.\nThis file is required to build this library on Windows')
         import windows as third_party_builder
-        success= third_party_builder.doBuild()
+        builder = third_party_builder.Builder()        
+        if os.path.exists(success_file) and Globals.build_parameters_ == "":
+          if str(library_version) == str(builder.version_) and str(library_version) != str(-1.0):
+            print '--> Skipping library ' + folder + ' (version already installed)'
+            success = True
+        else:
+          print ""
+          print "--> Building Library: " + folder
+          success = builder.start()
+          if success:
+            os.system('echo ' + str(builder.version_) + ' > ' + Globals.target_success_path_ + folder + '.success')
+            print ""
         del sys.modules["windows"]
         
       else:
         if not os.path.exists('linux.py'):
           return Globals.PrintError('Third party library ' + folder + ' does not have a linux.py file.\nThis file is required to build this library on Linux')
         import linux as third_party_builder
-        success= third_party_builder.doBuild()
+        builder = third_party_builder.Builder()        
+        if os.path.exists(success_file) and Globals.build_parameters_ == "":
+          if str(library_version) == str(builder.version_) and str(library_version) != str(-1.0):
+            print '--> Skipping library ' + folder + ' (version already installed)'
+            success = True
+        else:
+          print ""
+          print "--> Building Library: " + folder
+          success = builder.start()
+          if success:
+            os.system('echo ' + str(builder.version_) + ' > ' + Globals.target_success_path_ + folder + '.success')
+            print ""
         del sys.modules["linux"]
-      
+            
       sys.path.pop()
       os.chdir(cwd)                
       if not success:
@@ -154,34 +187,25 @@ class ThirdPartyLibraries:
     print ""
     print "--> All third party libraries have been built successfully"
     return True
-      
-      
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
+"""
+This class is responsible for cleaning the build folders
+"""   
+class Cleaner:    
+  def clean(self):
+    print '--> Starting clean of iSAM build files only (not cleaning third party)'      
+    for build_type in Globals.allowed_build_types_:    
+      for param in Globals.allowed_build_parameters_:
+        build_directory = os.path.normpath(os.getcwd()) + "/bin/" + Globals.operating_system_ + '/' + build_type
+        if param != "":
+          build_directory = build_directory + "_" + param
+        if (os.path.exists(build_directory)):
+          print '--> Deleting folder: ' + build_directory
+          shutil.rmtree(build_directory)
+          
+  def clean_all(self):
+    print '--> Starting clean of all iSAM build files (including third party)'
+    build_directory = os.path.normpath(os.getcwd()) + "/bin/" + Globals.operating_system_
+    if (os.path.exists(build_directory)):
+      shutil.rmtree(build_directory)
     

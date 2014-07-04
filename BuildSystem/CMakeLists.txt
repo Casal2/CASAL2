@@ -7,27 +7,26 @@ SET(EXE_NAME "iSAM")
 # Change the output folders for our build to something cleaner and platform dependent
 SET(CMAKE_ROOT   bin/cmake)
 
-#MESSAGE("CMAKE_HOME_DIRECTORY: ${CMAKE_HOME_DIRECTORY}")
-
 STRING(REPLACE "BuildSystem" "iSAM" ISAM_HOME_DIRECTORY ${CMAKE_HOME_DIRECTORY})
-#MESSAGE("ISAM_HOME_DIRECTORY: ${ISAM_HOME_DIRECTORY}")
 
 # GLOBAL BUILD VARIABLES AND LIBRARIES
 IF (DEBUG)
- SET(COMPILE_OPTIONS "-O0 -g3 -Wall -Werror -fmessage-length=0 -DBOOST_THREAD_USE_LIB=1")
+ SET(COMPILE_OPTIONS "-O0 -g3 -Wall -Werror -fmessage-length=0 -DBOOST_THREAD_USE_LIB=1 -Wno-unused-local-typedefs")
 ELSEIF (RELEASE)
- SET(COMPILE_OPTIONS "-O3 -g0 -Wall -Werror -fmessage-length=0 -DBOOST_THREAD_USE_LIB=1")
+ SET(COMPILE_OPTIONS "-O3 -g0 -Wall -Werror -fmessage-length=0 -DBOOST_THREAD_USE_LIB=1 -Wno-unused-local-typedefs")
+ELSEIF (TEST)
+ SET(COMPILE_OPTIONS "-O0 -g3 -Wall -Werror -fmessage-length=0 -DBOOST_THREAD_USE_LIB=1 -Wno-unused-local-typedefs")
 ENDIF ()
 
 IF (ADMB)
-  SET(COMPILE_OPTIONS "${COMPILE_OPTIONS} -DADMB")
+ SET(COMPILE_OPTIONS "${COMPILE_OPTIONS} -DADMB")
 ENDIF (ADMB)
 
 # Set variables based on OS
 IF (WIN32)
  ## WINDOWS BUILD VARIABLES AND LIBRARIES
  SET(buildOS win32) 
- SET(COMPILE_OPTIONS "${COMPILE_OPTIONS} -std=c++11 -std=gnu++11")
+ SET(COMPILE_OPTIONS "${COMPILE_OPTIONS} -D__GNUDOS__ -std=c++11")
  
 ELSE (WIN32)
  ## LINUX BUILD VARIABLES AND LIBRARIES
@@ -36,7 +35,7 @@ ELSE (WIN32)
  SET(thirdPartyLibraries ${thirdPartyLibraries} pthread rt)
 ENDIF ()
 
-#MESSAGE("COMPILE_OPTIONS: ${COMPILE_OPTIONS}")
+MESSAGE("COMPILE_OPTIONS: ${COMPILE_OPTIONS}")
 
 INCLUDE_DIRECTORIES("${ISAM_HOME_DIRECTORY}/source")
 INCLUDE_DIRECTORIES("${CMAKE_HOME_DIRECTORY}/bin/${buildOS}/thirdparty/include")
@@ -45,18 +44,23 @@ LINK_DIRECTORIES("${CMAKE_HOME_DIRECTORY}/bin/${buildOS}/thirdparty/lib/")
 # This snippet of code will find all of our source and test files
 # and auto-populate variables with them for the build
 FILE(GLOB_RECURSE sourceFiles ${ISAM_HOME_DIRECTORY}/source/*.cpp)
-FILE(GLOB_RECURSE testFiles ${ISAM_HOME_DIRECTORY}/source/*.Test.cpp)
-list(REMOVE_ITEM sourceFiles ${testFiles})
+IF (NOT TEST)
+  FILE(GLOB_RECURSE testFiles ${ISAM_HOME_DIRECTORY}/source/*.Test.cpp)
+  list(REMOVE_ITEM sourceFiles ${testFiles})
+ENDIF ()
 
 # Get a list of our third party libraries
-FILE(GLOB thirdPartyLibrariesRaw RELATIVE ${CMAKE_HOME_DIRECTORY} bin/${buildOS}/thirdparty/lib/*.a)
-#MESSAGE("THIRD PARTY PATH: ${CMAKE_HOME_DIRECTORY}/bin/${buildOS}/thirdparty/lib/")
-#MESSAGE("THIRD PARTY LIBS: ${thirdPartyLibrariesRaw}")
+IF (RELEASE)
+ SET(thirdPartyFolder "bin/${buildOS}/thirdparty/lib/release/")
+ELSE (RELEASE)
+ SET(thirdPartyFolder "bin/${buildOS}/thirdparty/lib/debug/")
+ENDIF ()
+
+FILE(GLOB thirdPartyLibrariesRaw RELATIVE ${CMAKE_HOME_DIRECTORY} ${thirdPartyFolder}/*.a)
 FOREACH(library ${thirdPartyLibrariesRaw})
-  STRING(REPLACE "bin/${buildOS}/thirdparty/lib/" "" shortLibrary ${library})
+  STRING(REPLACE ${thirdPartyFolder} "" shortLibrary ${library})
   SET(thirdPartyLibraries ${thirdPartyLibraries} -l:${shortLibrary})
 ENDFOREACH()
-#MESSAGE("THIRD PARTY LIBS: ${thirdPartyLibraries}")
 
 SET(LINK_OPTIONS " ")
 ADD_EXECUTABLE(${EXE_NAME} ${sourceFiles} )

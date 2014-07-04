@@ -9,7 +9,13 @@ compiler_version_ = ""
 cmd_path_         = ""
 build_target_     = ""
 build_parameters_ = ""
-target_path_      = ""
+target_success_path_     = ""
+target_include_path_     = ""
+target_debug_lib_path_   = ""
+target_release_lib_path_ = ""
+
+allowed_build_types_ = [ "debug", "release", "test" ]
+allowed_build_parameters_ = [ "", "admb" ]
 
 def PrintError(error_message):
   print "\n\n\n"
