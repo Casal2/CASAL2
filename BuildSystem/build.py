@@ -90,10 +90,10 @@ def start():
       return True
   
     # Find our build parameters to use, this will enable admb etc
-    if build_target == "debug" or build_target == "release":    
-      print "Valid build parameters: " + ", ".join(allowed_build_parameters)
+    if build_target in Globals.allowed_build_types_:    
+      print "Valid build parameters: " + ", ".join(Globals.allowed_build_parameters_)
       build_parameters = raw_input("Please enter build parameters [none]: ").lower()
-      while build_parameters != "" and not build_parameters in allowed_build_parameters:
+      while build_parameters != "" and not build_parameters in Globals.allowed_build_parameters_:
         print "## Error: " + build_parameters + " is not a valid build parameter"
         build_parameters = raw_input("Please enter build parameters [none]: ").lower()
       if build_parameters == "none":
@@ -106,7 +106,7 @@ def start():
       build_target = sys.argv[1]
   if len(sys.argv) > 2 and len(str(sys.argv[2])) > 1:
       build_parameters = sys.argv[2] 
-   
+
   if build_target == "" or not build_target.lower() in allowed_build_targets:
     return Globals.PrintError(build_target + " is not a valid build target")
     
@@ -123,21 +123,45 @@ def start():
   
   print " -- Build target: " + Globals.build_target_
   print " -- Build parameters: " + Globals.build_parameters_
+  print ""
   
-  if build_target == "debug" or build_target == "release":
-    allowed_build_parameters = [ "", "admb" ]    
-    if not build_parameters in allowed_build_parameters:
+  if build_target == "all":
+    print "*************************************************************************"
+    print "*************************************************************************"
+    print "--> Starting complete isam build"
+    print "--> Step 1: Third Party Libraries"
+    third_party_builder = ThirdPartyLibraries()
+    if not third_party_builder.start():
+      return False
+    
+    print "--> Step 2: Debug Build"
+    Globals.build_target_ = "debug"
+    main_code_builder = MainCode()
+    if not main_code_builder.start():
+      return False
+    
+    print "--> Step 3: Release Build"
+    Globals.build_target_ = "release"
+    if not main_code_builder.start():
+      return False
+    
+    print "--> Step 4: Test"
+    Globals.build_target_ = "test"
+    if not main_code_builder.start():
+      return False
+    
+  if build_target in Globals.allowed_build_types_:      
+    if not build_parameters in Globals.allowed_build_parameters_:
       return Globals.PrintError("Build parameter " + build_parameters + " is not valid")
     
-    os.system( [ 'clear', 'cls' ][ os.name == 'nt' ] )
+    #os.system( [ 'clear', 'cls' ][ os.name == 'nt' ] )
     print "*************************************************************************"
     print "*************************************************************************"
     print "--> Starting " + Globals.build_target_ + " Build"
     code_builder = MainCode()
     if not code_builder.start():
       return False
-  elif build_target == "thirdparty":
-    os.system( [ 'clear', 'cls' ][ os.name == 'nt' ] )
+  elif build_target == "thirdparty":    
     print "*************************************************************************"
     print "*************************************************************************"
     print "--> Starting " + Globals.build_target_ + " Build"
@@ -145,12 +169,25 @@ def start():
     if not code_builder.start():
       return False
   elif build_target == "documentation":
-    os.system( [ 'clear', 'cls' ][ os.name == 'nt' ] )
     print "*************************************************************************"
     print "*************************************************************************"
     print "--> Starting " + Globals.build_target_ + " Build"
     documentation_builder = Documentation()
     documentation_builder.start()
+  elif build_target == "clean":
+    print "*************************************************************************"
+    print "*************************************************************************"
+    print "--> Cleaning all iSAM built files"
+    cleaner = Cleaner()
+    if not cleaner.clean():
+      return False
+  elif build_target == "cleanall":
+    print "*************************************************************************"
+    print "*************************************************************************"
+    print "--> Cleaning all iSAM built files, including third party headers and libs"
+    cleaner = Cleaner()
+    if not cleaner.clean_all():
+      return False    
   
   return True
     
