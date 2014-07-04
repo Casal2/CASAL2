@@ -13,7 +13,7 @@ STRING(REPLACE "BuildSystem" "iSAM" ISAM_HOME_DIRECTORY ${CMAKE_HOME_DIRECTORY})
 IF (DEBUG)
  SET(COMPILE_OPTIONS "-O0 -g3 -Wall -Werror -fmessage-length=0 -DBOOST_THREAD_USE_LIB=1 -Wno-unused-local-typedefs")
 ELSEIF (RELEASE)
- SET(COMPILE_OPTIONS "-O3 -g0 -Wall -Werror -fmessage-length=0 -DBOOST_THREAD_USE_LIB=1 -Wno-unused-local-typedefs")
+ SET(COMPILE_OPTIONS "-O2 -g0 -Wall -Werror -fmessage-length=0 -DBOOST_THREAD_USE_LIB=1 -DBOOST_THREAD_PROVIDES_GENERIC_SHARED_MUTEX_ON_WIN -Wno-unused-local-typedefs")
 ELSEIF (TEST)
  SET(COMPILE_OPTIONS "-O0 -g3 -Wall -Werror -fmessage-length=0 -DBOOST_THREAD_USE_LIB=1 -Wno-unused-local-typedefs")
 ENDIF ()
@@ -39,7 +39,6 @@ MESSAGE("COMPILE_OPTIONS: ${COMPILE_OPTIONS}")
 
 INCLUDE_DIRECTORIES("${ISAM_HOME_DIRECTORY}/source")
 INCLUDE_DIRECTORIES("${CMAKE_HOME_DIRECTORY}/bin/${buildOS}/thirdparty/include")
-LINK_DIRECTORIES("${CMAKE_HOME_DIRECTORY}/bin/${buildOS}/thirdparty/lib/")
 
 # This snippet of code will find all of our source and test files
 # and auto-populate variables with them for the build
@@ -55,6 +54,8 @@ IF (RELEASE)
 ELSE (RELEASE)
  SET(thirdPartyFolder "bin/${buildOS}/thirdparty/lib/debug/")
 ENDIF ()
+MESSAGE("Third Party Folder: ${thirdPartyFolder}")
+LINK_DIRECTORIES("${CMAKE_HOME_DIRECTORY}/${thirdPartyFolder}")
 
 FILE(GLOB thirdPartyLibrariesRaw RELATIVE ${CMAKE_HOME_DIRECTORY} ${thirdPartyFolder}*.a)
 FOREACH(library ${thirdPartyLibrariesRaw})
