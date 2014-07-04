@@ -4,3 +4,10 @@
 .metadata
 /RemoteSystemsTempFiles
 /BuildSystem/Doxygen
+/ThirdParty/boost/windows.pyc
+/ThirdParty/boost/boost_1_55_0
+/ThirdParty/boost/isam_unzip.log
+/ThirdParty/dlib/windows.pyc
+/ThirdParty/dlib/dlib-18.6
+/ThirdParty/dlib/isam_unzip.log
+/ThirdParty/test-boost
