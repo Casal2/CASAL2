@@ -27,6 +27,6 @@ class Builder:
     
     # Move our headers and libraries
     print '-- Moving headers'
-    dir_util.copy_tree(fileName + '/dlib', Globals.target_include_path_)
+    dir_util.copy_tree(fileName + '/dlib', Globals.target_include_path_ + 'dlib')
         
     return True
