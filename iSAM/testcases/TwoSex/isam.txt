@@ -1,0 +1,8 @@
+!include "population.txt"
+!include "reports.txt"
+!include "estimation.txt"
+
+# PENALTIES
+@penalty event_mortality_penalty
+log_scale False
+multiplier 10
