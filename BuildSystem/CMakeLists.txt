@@ -56,7 +56,7 @@ ELSE (RELEASE)
  SET(thirdPartyFolder "bin/${buildOS}/thirdparty/lib/debug/")
 ENDIF ()
 
-FILE(GLOB thirdPartyLibrariesRaw RELATIVE ${CMAKE_HOME_DIRECTORY} ${thirdPartyFolder}/*.a)
+FILE(GLOB thirdPartyLibrariesRaw RELATIVE ${CMAKE_HOME_DIRECTORY} ${thirdPartyFolder}*.a)
 FOREACH(library ${thirdPartyLibrariesRaw})
   STRING(REPLACE ${thirdPartyFolder} "" shortLibrary ${library})
   SET(thirdPartyLibraries ${thirdPartyLibraries} -l:${shortLibrary})
