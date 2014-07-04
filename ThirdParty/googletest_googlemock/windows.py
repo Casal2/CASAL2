@@ -20,6 +20,7 @@ class Builder:
       shutil.rmtree(Globals.target_include_path_ + 'gmock')
     if os.path.exists(Globals.target_include_path_ + 'gtest'):
       shutil.rmtree(Globals.target_include_path_ + 'gtest')
+    os.system('rm -rf ' + Globals.target_debug_lib_path_ + library)
     os.system('rm -rf ' + Globals.target_release_lib_path_ + library)
         
     # Decompress our archive

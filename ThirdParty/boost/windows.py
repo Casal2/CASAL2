@@ -18,7 +18,7 @@ class Builder:
       return Globals.PrintError('Boost could not parse GCC Version properly: ' + Globals.compiler_version_)
     
     gcc_version = str(pieces[0]) + str(pieces[1])
-    print '--> GCC Version for Boost: ' + gcc_version
+    print '-- GCC Version for Boost: ' + gcc_version
   
     # organise the libraries we want to copy over
     debug_libraries = [ 'libboost_program_options-mgw'+gcc_version+'-mt-sd-'+self.version_+'.a',
