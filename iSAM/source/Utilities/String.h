@@ -14,8 +14,8 @@
  *
  * $Date: 2008-03-04 16:33:32 +1300 (Tue, 04 Mar 2008) $
  */
-#ifndef STRING_H_
-#define STRING_H_
+#ifndef UTILITIES_STRING_H_
+#define UTILITIES_STRING_H_
 
 // Headers
 #include <string>
@@ -27,8 +27,9 @@ namespace isam {
 namespace utilities {
 namespace string {
 
+using std::string;
 
-
+bool is_valid(const string& test_string);
 
 }
 } /* namespace utilities */

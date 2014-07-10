@@ -18,6 +18,13 @@ namespace isam {
 namespace utilities {
 namespace string {
 
+
+bool is_valid(const string& test_string) {
+ if (test_string.length() == 0)
+   return false;
+ return true;
+}
+
 }
 } /* namespace utilities */
 } /* namespace isam */
