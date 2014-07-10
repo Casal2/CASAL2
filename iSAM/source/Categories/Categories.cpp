@@ -20,6 +20,7 @@
 #include "AgeSizes/Manager.h"
 #include "Model/Model.h"
 #include "Utilities/Logging/Logging.h"
+#include "Utilities/String.h"
 #include "Utilities/To.h"
 
 // Namespaces
@@ -116,20 +117,136 @@ void Categories::Build() {
 }
 
 /**
- * Find the categories defined by the lookup string. The lookup string uses a shorthand
- * format where you can define a collection of categories quickly.
+ * This method will take a lookup string and parse it looking for our short-hand
+ * syntax. The source_parameter parameter is passed in to allow us to print
+ * proper error messages without having to pass back any enum types or something
+ * silly like that.
  *
- * e.g
- * categories format: sex.stage.tag
- * categories male.immature male.mature male.mature.tag female.immature female.mature female.mature.tag
- *
- * lookup_string sex:male would return male.immature, male.mature, male.mature.tag
- * lookup_string sex:* would return all categories
- * lookup_string stage:mature would return male.mature, female.mature
- *
+ * @param lookup_string The category definition to parse, short-hand or not
+ * @param source_parameter Source parameter object defined in configuration file
+ * @return String containing the new lookup string once it's been parsed
  */
-vector<string> Categories::FindCategories(const string& lookup_string) {
-  vector<string> result;
+string Categories::GetCategoryLabels(const string& lookup_string, const ParameterPtr source_parameter) {
+  /**
+   * if we're asking for all categories then get a list of them all joined
+   * by the + symbol
+   */
+  if (lookup_string == "*+") {
+    string all = category_names_[0];
+    for (unsigned i = 1; i < category_names_.size(); ++i)
+      all += "+" + category_names_[i];
+
+    return all;
+
+  } else if (lookup_string == "*") {
+    string all = category_names_[0];
+    for (unsigned i = 1; i < category_names_.size(); ++i)
+      all += " " + category_names_[i];
+
+    return all;
+  }
+
+  /**
+   * Check if we're just asking for a single category
+   * or collection without any short-hand syntax
+   */
+  if (lookup_string.find("=") == string::npos)
+    return lookup_string;
+
+  /**
+   * From here forward we're working with short-hand syntax.
+   * Either
+   * <format_chunk>=<lookup_string>[+]
+   * or
+   * format=<lookup_string_0>.<lookup_string_1>.etc[+]
+   */
+  string result = "";
+
+  vector<string> pieces;
+  boost::split(pieces, lookup_string, boost::is_any_of("="));
+
+  if (pieces.size() != 2) {
+    LOG_ERROR(source_parameter->location() << " short-hand category string (" << lookup_string
+        << ") is not in the proper format (e.g <format_chunk>=<lookup_chunk>)");
+  }
+
+  string format = pieces[0];
+  string lookup = pieces[1];
+
+  bool use_plus_join = false;
+  if (lookup.find("+") != string::npos) {
+    use_plus_join = true;
+    boost::replace_all(lookup, "+", "");
+  }
+
+  // organise categories split into segments to match against format
+  map<string, vector<string>> category_pieces;
+  for (string category : category_names_) {
+    vector<string> temp;
+    boost::split(temp, category, boost::is_any_of("."));
+    category_pieces[category] = temp;
+  }
+
+  if (utilities::ToLowercase(format) == PARAM_FORMAT) {
+    /**
+     * this is a full length lookup string. It must have the
+     * same number of pieces as our actual format string
+     * e.g
+     * format sex.stage.tag[+]
+     * lookup_string male.*.*
+     */
+    boost::split(pieces, format_, boost::is_any_of("."));
+    unsigned format_pieces = pieces.size();
+    boost::split(pieces, lookup, boost::is_any_of("."));
+
+    if (pieces.size() != format_pieces) {
+      LOG_ERROR(source_parameter->location() << " short-hand category string( " << lookup_string
+          << ") does not have the correct number of sections. Expected " << format_pieces << " but got " << pieces.size() <<
+          ". Pieces are chunks of the string separated with a '.' character");
+    }
+
+    vector<string> matched_categories = category_names_;
+    for (unsigned i = 0; i < pieces.size(); ++i) {
+      if (pieces[i] == "*")
+        continue;
+
+      vector<string> comma_separated_pieces;
+      boost::split(comma_separated_pieces, pieces[i], boost::is_any_of(","));
+
+      matched_categories.erase(
+          std::remove_if(matched_categories.begin(), matched_categories.end(),
+          [&i, &category_pieces, &comma_separated_pieces](string& category) {
+
+            if (std::find(comma_separated_pieces.begin(), comma_separated_pieces.end(), category_pieces[category][i]) == comma_separated_pieces.end())
+              return true;
+
+            return false;
+          }),
+          matched_categories.end()
+      );
+    }
+
+    LOG_INFO("Full format parse of categories returned " << matched_categories.size() << " results");
+    if (matched_categories.size() == 0) {
+      LOG_ERROR(source_parameter->location() << " short-hand format string (" << lookup_string <<
+          ") did not match any of the categories. Please check your string to ensure it's accurate");
+    }
+
+    result = matched_categories[0];
+    for (unsigned i = 1; i < matched_categories.size(); ++i) {
+      if (use_plus_join)
+        result += "+" + matched_categories[i];
+      else
+        result += " " + matched_categories[i];
+    }
+
+
+  } else {
+    /**
+     *
+     */
+  }
+
   return result;
 }
 
