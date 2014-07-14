@@ -56,6 +56,7 @@ public:
   bool                          HasAgeSizes() { return age_size_labels_.size() > 0; }
 
   string                        GetCategoryLabels(const string& lookup_string, const ParameterPtr source_parameter);
+  vector<string>                GetCategoryLabelsV(const string& lookup_string, const ParameterPtr source_parameter);
 
   // Accessors
   string                        format() const { return format_; }
