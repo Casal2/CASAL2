@@ -151,6 +151,56 @@ TEST_F(InternalEmptyModel, Categories_GetCategoryLabels) {
 
   result = categories->GetCategoryLabels(lookup_string, categories->parameters().Get(PARAM_NAMES));
   EXPECT_EQ(expected, result);
+
+  /**
+   * Check 11 - Spaces in format
+   * format=male . * . notag
+   */
+  lookup_string = "format=male . * . notag";
+  expected = "male.immature.notag male.mature.notag";
+
+  result = categories->GetCategoryLabels(lookup_string, categories->parameters().Get(PARAM_NAMES));
+  EXPECT_EQ(expected, result);
+
+  /**
+   * Check 12 - Shortest Format
+   * sex=male
+   */
+  lookup_string = "sex=male";
+  expected = "male.immature.notag male.immature.2000 male.immature.2001 male.immature.2002 male.mature.notag male.mature.2000 male.mature.2001 male.mature.2002";
+
+  result = categories->GetCategoryLabels(lookup_string, categories->parameters().Get(PARAM_NAMES));
+  EXPECT_EQ(expected, result);
+
+  /**
+   * Check 13 - Shortest format tag
+   * tag=notag
+   */
+  lookup_string = "tag=notag";
+  expected = "male.immature.notag male.mature.notag female.immature.notag female.mature.notag";
+
+  result = categories->GetCategoryLabels(lookup_string, categories->parameters().Get(PARAM_NAMES));
+  EXPECT_EQ(expected, result);
+
+  /**
+   * Check 14 - Shortest format tag=notag,2001
+   * tag=notag,2001
+   */
+  lookup_string = "tag=notag,2001";
+  expected = "male.immature.notag male.immature.2001 male.mature.notag male.mature.2001 female.immature.notag female.immature.2001 female.mature.notag female.mature.2001";
+
+  result = categories->GetCategoryLabels(lookup_string, categories->parameters().Get(PARAM_NAMES));
+  EXPECT_EQ(expected, result);
+
+  /**
+   * Check 15 - Shortest format tag=notag,2001 with+
+   * tag=notag,2001+
+   */
+  lookup_string = "tag=notag,2001+";
+  expected = "male.immature.notag+male.immature.2001+male.mature.notag+male.mature.2001+female.immature.notag+female.immature.2001+female.mature.notag+female.mature.2001";
+
+  result = categories->GetCategoryLabels(lookup_string, categories->parameters().Get(PARAM_NAMES));
+  EXPECT_EQ(expected, result);
 }
 
 } /* namespace derivedquantities */
