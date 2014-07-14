@@ -54,6 +54,9 @@ void MaturationRate::DoValidate() {
 
   // Validate Categories
   isam::CategoriesPtr categories = isam::Categories::Instance();
+  from_category_names_ = categories->ExpandLabels(from_category_names_, parameters_.Get(PARAM_FROM));
+  to_category_names_   = categories->ExpandLabels(to_category_names_, parameters_.Get(PARAM_TO));
+
   for (const string& label : from_category_names_) {
     if (!categories->IsValid(label))
       LOG_ERROR(parameters_.location(PARAM_FROM) << ": category " << label << " does not exist. Have you defined it?");

@@ -31,7 +31,7 @@ namespace isam {
  */
 Categories::Categories() {
   LOG_TRACE();
-  parameters_.Bind<string>(PARAM_FORMAT, &format_, "The format that the category names should adhere too", "", "");
+  parameters_.Bind<string>(PARAM_FORMAT, &format_, "The format that the category names should adhere too", "");
   parameters_.Bind<string>(PARAM_NAMES, &names_, "The names of the categories to be used in the model", "");
   parameters_.Bind<string>(PARAM_YEARS, &years_, "The years that individual categories will be active for. This overrides the model values", "", true);
   parameters_.Bind<string>(PARAM_AGES, &ages_, "The ages that individual categories support. This overrides the model values", "", true);
@@ -114,6 +114,28 @@ void Categories::Build() {
 
     categories_[iter->first].age_size_ = age_size;
   }
+}
+
+/**
+ * This method will expand short-hand syntax in to a vector with all of the elements
+ * separated.
+ *
+ * e.g male.immature sex=female == male.immature female.immature female.mature == 3 elements
+ *
+ * @param category_labels A vector of category definitions to iterate over and expand
+ * @param source_parameter The parameter object which holds configuration file details for error reporting
+ * @return a singular vector with each category as it's own element
+ */
+vector<string> Categories::ExpandLabels(const vector<string> &category_labels, const ParameterPtr source_parameter) {
+  vector<string> result;
+
+  vector<string> temp;
+  for (const string& label : category_labels) {
+    temp = GetCategoryLabelsV(label, source_parameter);
+    result.insert(result.end(), temp.begin(), temp.end());
+  }
+
+  return result;
 }
 
 /**
