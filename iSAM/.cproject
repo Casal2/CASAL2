@@ -59,13 +59,13 @@
 							<tool id="cdt.managedbuild.tool.gnu.c.linker.mingw.base.1811980028" name="MinGW C Linker" superClass="cdt.managedbuild.tool.gnu.c.linker.mingw.base"/>
 							<tool id="cdt.managedbuild.tool.gnu.cpp.linker.mingw.base.664056737" name="MinGW C++ Linker" superClass="cdt.managedbuild.tool.gnu.cpp.linker.mingw.base">
 								<option id="gnu.cpp.link.option.libs.1297030559" name="Libraries (-l)" superClass="gnu.cpp.link.option.libs" valueType="libs">
-									<listOptionValue builtIn="false" value="boost_program_options-mgw48-mt-s-1_55"/>
-									<listOptionValue builtIn="false" value="boost_system-mgw48-mt-s-1_55"/>
-									<listOptionValue builtIn="false" value="boost_thread-mgw48-mt-s-1_55"/>
+									<listOptionValue builtIn="false" value="boost_program_options-mgw48-mt-sd-1_55"/>
+									<listOptionValue builtIn="false" value="boost_system-mgw48-mt-sd-1_55"/>
+									<listOptionValue builtIn="false" value="boost_thread-mgw48-mt-sd-1_55"/>
 									<listOptionValue builtIn="false" value=":gmock_main.a"/>
 								</option>
 								<option id="gnu.cpp.link.option.paths.205217913" name="Library search path (-L)" superClass="gnu.cpp.link.option.paths" valueType="libPaths">
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/BuildSystem/bin/win32/thirdparty/lib}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/BuildSystem/bin/win32/thirdparty/lib/debug}&quot;"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.linker.input.1240651263" superClass="cdt.managedbuild.tool.gnu.cpp.linker.input">
 									<additionalInput kind="additionalinputdependency" paths="$(USER_OBJS)"/>

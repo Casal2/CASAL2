@@ -55,6 +55,7 @@ public:
   void                          RemoveAllObjects();
   bool                          HasAgeSizes() { return age_size_labels_.size() > 0; }
 
+  vector<string>                ExpandLabels(const vector<string> &category_labels, const ParameterPtr source_parameter);
   string                        GetCategoryLabels(const string& lookup_string, const ParameterPtr source_parameter);
   vector<string>                GetCategoryLabelsV(const string& lookup_string, const ParameterPtr source_parameter);
 

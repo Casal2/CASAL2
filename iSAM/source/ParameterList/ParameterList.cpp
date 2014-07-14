@@ -19,6 +19,7 @@
 #include <iostream>
 #include <algorithm>
 
+#include "Categories/Categories.h"
 #include "Translations/Translations.h"
 #include "Utilities/Logging/Logging.h"
 #include "Utilities/To.h"
@@ -119,6 +120,19 @@ void ParameterList::Populate() {
     }
   }
 
+  // handle categories
+  if (parameters_.find(PARAM_CATEGORIES) != parameters_.end() || parameters_.find(PARAM_CATEGORY) != parameters_.end()) {
+    ParameterPtr parameter;
+    if (parameters_.find(PARAM_CATEGORIES) != parameters_.end())
+      parameter = parameters_[PARAM_CATEGORIES];
+    else
+      parameter = parameters_[PARAM_CATEGORY];
+    vector<string> new_values = Categories::Instance()->ExpandLabels(parameter->values(), parameter);
+    parameter->set_values(new_values);
+  }
+
+  // NOTE: This has to be last
+  // bind parameters
   for (iter = parameters_.begin(); iter != parameters_.end(); ++iter)
     iter->second->Bind();
 }
