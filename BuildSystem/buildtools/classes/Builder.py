@@ -202,10 +202,12 @@ class Cleaner:
         if (os.path.exists(build_directory)):
           print '--> Deleting folder: ' + build_directory
           shutil.rmtree(build_directory)
+    return True
           
   def clean_all(self):
     print '--> Starting clean of all iSAM build files (including third party)'
     build_directory = os.path.normpath(os.getcwd()) + "/bin/" + Globals.operating_system_
     if (os.path.exists(build_directory)):
       shutil.rmtree(build_directory)
+    return True
     
