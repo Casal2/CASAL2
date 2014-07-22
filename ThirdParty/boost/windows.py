@@ -30,8 +30,8 @@ class Builder:
   
     # Clean our any existing files if they already exist
     print '-- Cleaning Boost files'
-#    if os.path.exists(boostFileName):
-#        shutil.rmtree(boostFileName)
+    if os.path.exists(boostFileName):
+        shutil.rmtree(boostFileName)
     if os.path.exists(Globals.target_include_path_ + 'boost'):
         shutil.rmtree(Globals.target_include_path_ + 'boost')
     for library in debug_libraries:
