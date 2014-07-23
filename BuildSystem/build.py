@@ -46,7 +46,6 @@ gets all of the system information we need and will
 test that executables are in the path that we need
 """
 def start_build_system():
-  system_info.set_new_path()
   if not system_info.find_compiler_path():
     return False 
   if not system_info.find_gcc_version():

@@ -15,7 +15,7 @@ IF (DEBUG)
 ELSEIF (RELEASE)
  SET(COMPILE_OPTIONS "-O2 -g0 -Wall -Werror -fmessage-length=0 -DBOOST_THREAD_USE_LIB=1 -DBOOST_THREAD_PROVIDES_GENERIC_SHARED_MUTEX_ON_WIN -Wno-unused-local-typedefs")
 ELSEIF (TEST)
- SET(COMPILE_OPTIONS "-O0 -g3 -Wall -Werror -fmessage-length=0 -DBOOST_THREAD_USE_LIB=1 -Wno-unused-local-typedefs")
+ SET(COMPILE_OPTIONS "-DTESTMODE -O0 -g3 -Wall -Werror -fmessage-length=0 -DBOOST_THREAD_USE_LIB=1 -Wno-unused-local-typedefs")
 ENDIF ()
 
 IF (ADMB)
