@@ -30,7 +30,12 @@ class SystemInfo:
     
   def set_new_path(self):
     print "-- Overriding the system path with new values"
-    os.environ['PATH'] = Globals.path_ + self.original_path_
+    if Globals.operating_system_ == "win32":
+      os.environ['PATH'] = Globals.path_
+      print '-- New Path: ' + Globals.path_
+    else:
+      os.environ['PATH'] = Globals.path_ + ";" + self.original_path_
+      print '-- New Path: ' + Globals.path_ + ";" + self.original_path_    
     
   def reset_original_path(self):
     os.environ['PATH'] = self.original_path_
