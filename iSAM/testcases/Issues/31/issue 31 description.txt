@@ -1,0 +1,47 @@
+Issue 31 (KL 29/07/14)
+Default constructor issue:
+Punctuation used in description and value fields in parameters_.Bind<type>(PARAM,&param,"description","value",default) causes parsing
+problems in the resulting syntax section of the manual when built by Document.py (in BuildSystem\buildtools\classes).
+
+Example1 (from Model.cpp), comma used within description, no default specified:
+parameters_.Bind<string>(PARAM_INITIALISATION_PHASES, &initialisation_phases_, "Define the labels of initialisation phases to execute, some more description here", "A valid initialisation_phase label");
+produces:
+\defSub{initialisation\_phases} {Define the labels of initialisation phases to execute}
+\defType{string}
+\defDefault{"A valid initialisation_phase label"}
+\defValue{some more description here}
+Want it to produce:
+\defSub{initialisation\_phases} {Define the labels of initialisation phases to execute, some more description here}
+\defType{string}
+\defDefault{No default}
+\defValue{A valid initialisation\_phase label}
+
+Example2 (from Model.cpp), comma used within value, no default specified:
+parameters_.Bind<string>(PARAM_INITIALISATION_PHASES, &initialisation_phases_, "Define the labels of initialisation phases to execute", "A valid initialisation_phase label, from one of \texttt{@initialisation_phase}");
+produces:
+\defSub{initialisation\_phases} {Define the labels of initialisation phases to execute}
+\defType{string}
+\defDefault{from one of \texttt{@initialisation_phase}"}
+\defValue{A valid initialisation\_phase label}
+Want it to produce:
+\defSub{initialisation\_phases} {Define the labels of initialisation phases to execute}
+\defType{string}
+\defDefault{No default}
+\defValue{A valid initialisation\_phase label, from one of \texttt{@initialisation_phase}"}
+
+Example3 (from Model.cpp), comma used within value, default specified:
+parameters_.Bind<string>(PARAM_INITIALISATION_PHASES, &initialisation_phases_, "Define the labels of initialisation phases to execute", "A valid initialisation_phase label, from one of \texttt{@initialisation_phase}", false);
+produces:
+\defSub{initialisation\_phases} {Define the labels of initialisation phases to execute}
+\defType{string}
+\defDefault{false}
+\defValue{A valid initialisation\_phase label}
+Want it to produce:
+\defSub{initialisation\_phases} {Define the labels of initialisation phases to execute}
+\defType{string}
+\defDefault{No default}
+\defValue{A valid initialisation\_phase label, from one of \texttt{@initialisation_phase}"}
+
+
+
+
