@@ -31,6 +31,7 @@ class Builder:
     # configure linux specific stuff
     cwd = os.path.normpath(os.getcwd())
     os.chdir(gmockFileName)
+    os.system("chmod +x configure")    
     os.system("./configure 1> isam_configure.log 2>&1")    
     os.chdir(cwd)
    
