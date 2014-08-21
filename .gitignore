@@ -11,3 +11,6 @@
 /ThirdParty/dlib/dlib-18.6
 /ThirdParty/dlib/isam_unzip.log
 /ThirdParty/test-boost
+/ThirdParty/test-cppad
+/ThirdParty/test-ipopt
+/ThirdParty/test-adolc
