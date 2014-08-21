@@ -156,6 +156,8 @@ class ThirdPartyLibraries:
           if success:
             os.system('echo ' + str(builder.version_) + ' > ' + Globals.target_success_path_ + folder + '.success')
             print ""
+          else:
+            return Globals.PrintError('Third party library ' + folder + ' had an error during the build. Check log files for more information')
         del sys.modules["windows"]
         
       else:
@@ -174,6 +176,8 @@ class ThirdPartyLibraries:
           if success:
             os.system('echo ' + str(builder.version_) + ' > ' + Globals.target_success_path_ + folder + '.success')
             print ""
+          else:
+            return Globals.PrintError('Third party library ' + folder + ' had an error during the build. Check log files for more information')
         del sys.modules["linux"]
             
       sys.path.pop()

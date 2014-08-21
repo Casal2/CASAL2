@@ -120,9 +120,9 @@ void Manager::Execute(unsigned year) {
   LOG_TRACE();
 
   reports::Manager& report_manager = reports::Manager::Instance();
-  for (TimeStepPtr time_step : ordered_time_steps_) {
-    time_step->Execute(year);
-    report_manager.Execute(year, time_step->label());
+  for (current_time_step_ = 0; current_time_step_ < ordered_time_steps_.size(); ++current_time_step_) {
+    ordered_time_steps_[current_time_step_]->Execute(year);
+    report_manager.Execute(year, ordered_time_steps_[current_time_step_]->label());
   }
 }
 

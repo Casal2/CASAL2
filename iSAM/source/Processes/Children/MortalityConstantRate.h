@@ -21,6 +21,7 @@
 #include "Partition/Accessors/Categories.h"
 #include "Processes/Process.h"
 #include "Selectivities/Selectivity.h"
+#include "TimeSteps/Manager.h"
 
 // namespaces
 namespace isam {
@@ -46,10 +47,13 @@ private:
   // Members
   vector<string>              category_names_;
   vector<Double>              m_;
+  vector<Double>              ratios_;
   vector<vector<Double> >     mortality_rates_;
   vector<string>              selectivity_names_;
   accessor::Categories        partition_;
   vector<SelectivityPtr>      selectivities_;
+  ModelPtr                    model_;
+  timesteps::Manager&         time_steps_manager_;
 };
 
 } /* namespace processes */

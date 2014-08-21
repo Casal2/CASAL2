@@ -33,11 +33,15 @@ public:
   unsigned                    GetTimeStepIndex(const string& time_step_label) const;
   unsigned                    GetTimeStepIndexForProcess(const string& process_label) const;
 
+  // accessors
+  vector<TimeStepPtr>         time_steps() const { return ordered_time_steps_; }
+  unsigned                    current_time_step() const { return current_time_step_; }
+
 private:
   // Members
   vector<TimeStepPtr>         ordered_time_steps_;
   vector<DerivedQuantityPtr>  derived_quantities_;
-
+  unsigned                    current_time_step_ = 0;
 };
 
 } /* namespace timesteps */

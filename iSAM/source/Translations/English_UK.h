@@ -343,6 +343,7 @@
 #define PARAM_TIME_STEP                           "time_step"
 #define PARAM_TIME_STEP_PROPORTION                "time_step_proportion"
 #define PARAM_TIME_STEP_PROPORTION_METHOD         "time_step_proportion_method"
+#define PARAM_TIME_STEP_RATIO                     "time_step_ratio"
 #define PARAM_TIME_STEPS                          "time_steps"
 #define PARAM_TO                                  "to"
 #define PARAM_TOLERANCE                           "tolerance"

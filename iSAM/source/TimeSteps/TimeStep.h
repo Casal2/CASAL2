@@ -37,9 +37,9 @@ public:
   void                        Reset() {};
   void                        ExecuteForInitialisation(unsigned phase);
   void                        Execute(unsigned year);
+  bool                        HasProcess(const string& label) { return std::find(process_names_.begin(), process_names_.end(), label) != process_names_.end(); }
 
-  // accessors
-  const vector<string>&       process_names() const { return process_names_; };
+  vector<string>              process_names() const { return process_names_; }
 
 private:
   // methods
