@@ -74,16 +74,16 @@ TEST_F(InternalEmptyModel, Model_CasalComplex1_Simulation) {
   ASSERT_EQ(1u, comparisons.size());
   ASSERT_EQ(26u, comparisons[1992].size());
 
-  EXPECT_DOUBLE_EQ(0.0033325927047311295, comparisons[1992][0].observed_);
-  EXPECT_DOUBLE_EQ(0.010337720945175074,  comparisons[1992][1].observed_);
-  EXPECT_DOUBLE_EQ(0.022200684697852937,  comparisons[1992][2].observed_);
-  EXPECT_DOUBLE_EQ(0.03210354836461965,   comparisons[1992][3].observed_);
-  EXPECT_DOUBLE_EQ(0.031475490187957762,  comparisons[1992][4].observed_);
-  EXPECT_DOUBLE_EQ(0.065309640265429694,  comparisons[1992][5].observed_);
-  EXPECT_DOUBLE_EQ(0.080539623046253006,  comparisons[1992][6].observed_);
-  EXPECT_DOUBLE_EQ(0.16234263666897,      comparisons[1992][7].observed_);
-  EXPECT_DOUBLE_EQ(0.097915145226750461,  comparisons[1992][8].observed_);
-  EXPECT_DOUBLE_EQ(0.068854611441572358,  comparisons[1992][9].observed_);
+  EXPECT_DOUBLE_EQ(0.013192513878164877,  comparisons[1992][0].observed_);
+  EXPECT_DOUBLE_EQ(0.0091956675691299439, comparisons[1992][1].observed_);
+  EXPECT_DOUBLE_EQ(0.020658929991218142,  comparisons[1992][2].observed_);
+  EXPECT_DOUBLE_EQ(0.034217049844055804,  comparisons[1992][3].observed_);
+  EXPECT_DOUBLE_EQ(0.06802639298470356,   comparisons[1992][4].observed_);
+  EXPECT_DOUBLE_EQ(0.052881902589791828,  comparisons[1992][5].observed_);
+  EXPECT_DOUBLE_EQ(0.11773976022196143,   comparisons[1992][6].observed_);
+  EXPECT_DOUBLE_EQ(0.11067034483762085,   comparisons[1992][7].observed_);
+  EXPECT_DOUBLE_EQ(0.11310574005605549,   comparisons[1992][8].observed_);
+  EXPECT_DOUBLE_EQ(0.094116674278681256,  comparisons[1992][9].observed_);
 }
 
 } /* namespace testcases */

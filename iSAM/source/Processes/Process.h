@@ -46,10 +46,12 @@ public:
 
   // accessors
   bool                        print_report() const { return print_report_; }
+  bool                        mortality_process() const { return is_mortality_process; }
 
 protected:
   // members
   string                      type_ = "";
+  bool                        is_mortality_process = false;
   bool                        print_report_ = false;
   map<string, vector<string>> print_values_;
 

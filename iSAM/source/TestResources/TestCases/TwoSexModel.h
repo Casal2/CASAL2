@@ -59,24 +59,24 @@ processes Recruitment maturation halfM Fishing halfM
 processes my_ageing
 
 @ageing my_ageing
-categories immature.male mature.male immature.female mature.female
+categories *
 
 @Recruitment Recruitment
 type constant
-categories immature.male immature.female
+categories stage=immature
 proportions 0.5 0.5
 R0 997386
 age 1
 
 @mortality halfM
 type constant_rate
-categories immature.male mature.male immature.female mature.female
+categories *
 M 0.065 0.065 0.065 0.065
 selectivities One One One One
 
 @mortality Fishing
 type event
-categories immature.male mature.male immature.female mature.female
+categories *
 years           1998         1999         2000         2001         2002         2003         2004          2005          2006          2007
 catches  1849.153714 14442.000000 28323.203463 24207.464203 47279.000000 58350.943094 82875.872790 115974.547730 113852.472257 119739.517172
 U_max 0.99
@@ -85,8 +85,8 @@ penalty event_mortality_penalty
 
 @maturation maturation
 type rate
-from immature.male immature.female
-to mature.male mature.female
+from stage=immature
+to stage=mature
 proportions 1.0 1.0
 selectivities Maturation Maturation
 
@@ -131,7 +131,7 @@ q 0.000153139
 type proportions_at_age
 year 1998
 time_step step_one
-categories immature.male + mature.male + immature.female + mature.female
+categories *+
 selectivities FishingSel FishingSel FishingSel FishingSel
 min_age 1
 max_age 35
@@ -145,7 +145,7 @@ delta 1e-11
 type proportions_at_age
 year 1999
 time_step step_one
-categories immature.male + mature.male + immature.female + mature.female
+categories *+
 selectivities FishingSel FishingSel FishingSel FishingSel
 min_age 1
 max_age 35
@@ -159,7 +159,7 @@ delta 1e-11
 type proportions_at_age
 year 2000
 time_step step_one
-categories immature.male + mature.male + immature.female + mature.female
+categories *+
 selectivities FishingSel FishingSel FishingSel FishingSel
 min_age 1
 max_age 35
@@ -173,7 +173,7 @@ delta 1e-11
 type proportions_at_age
 year 2001
 time_step step_one
-categories immature.male + mature.male + immature.female + mature.female
+categories *+
 selectivities FishingSel FishingSel FishingSel FishingSel
 min_age 1
 max_age 35
@@ -187,7 +187,7 @@ delta 1e-11
 type proportions_at_age
 year 2002
 time_step step_one
-categories immature.male + mature.male + immature.female + mature.female
+categories *+
 selectivities FishingSel FishingSel FishingSel FishingSel
 min_age 1
 age_plus True
@@ -201,7 +201,7 @@ delta 1e-11
 type proportions_at_age
 year 2003
 time_step step_one
-categories immature.male + mature.male + immature.female + mature.female
+categories *+
 selectivities FishingSel FishingSel FishingSel FishingSel
 min_age 1
 max_age 35
@@ -215,7 +215,7 @@ delta 1e-11
 type proportions_at_age
 year 2004
 time_step step_one
-categories immature.male + mature.male + immature.female + mature.female
+categories *+
 selectivities FishingSel FishingSel FishingSel FishingSel
 min_age 1
 max_age 35
@@ -229,7 +229,7 @@ delta 1e-11
 type proportions_at_age
 year 2005
 time_step step_one
-categories immature.male + mature.male + immature.female + mature.female
+categories *+
 selectivities FishingSel FishingSel FishingSel FishingSel
 min_age 1
 max_age 35
@@ -243,7 +243,7 @@ delta 1e-11
 type proportions_at_age
 year 2006
 time_step step_one
-categories immature.male + mature.male + immature.female + mature.female
+categories *+
 selectivities FishingSel FishingSel FishingSel FishingSel
 min_age 1
 max_age 35
@@ -257,7 +257,7 @@ delta 1e-11
 type proportions_at_age
 year 2007
 time_step step_one
-categories immature.male + mature.male + immature.female + mature.female
+categories *+
 selectivities FishingSel FishingSel FishingSel FishingSel
 min_age 1
 max_age 35
@@ -272,7 +272,7 @@ type abundance
 catchability CPUEq
 years 1998-2007
 time_step step_one
-categories immature.male+mature.male+immature.female+mature.female
+categories *+
 selectivities FishingSel FishingSel FishingSel FishingSel
 obs 22.55065505 57.30952381 57.92066148 33.52834377 108.4380734 72.84761934 38.29753826 75.84993311 109.47353102 85.7732931
 error_value 0.2
@@ -314,7 +314,7 @@ years 2010 2012
 
 @derived_quantity abundance
 type abundance
-categories immature.male mature.male immature.female mature.female
+categories *
 selectivities Maturation Maturation Maturation Maturation
 time_step step_one
 initialisation_time_steps initialisation_step_one

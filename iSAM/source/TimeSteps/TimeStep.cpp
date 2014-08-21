@@ -15,6 +15,7 @@
 #include "DerivedQuantities/Manager.h"
 #include "InitialisationPhases/Manager.h"
 #include "Model/Model.h"
+#include "Observations/Manager.h"
 #include "Processes/Manager.h"
 
 namespace isam {
@@ -61,14 +62,52 @@ void TimeStep::Build() {
   LOG_INFO("Time step " << label_ << " has " << processes_.size() << " processes");
   LOG_INFO("Time step " << label_ << " has " << initialisation_derived_quantities_.size() << " initialisation derived quantities");
   LOG_INFO("Time step " << label_ << " has " << derived_quantities_.size() << " derived quantities");
+
+  /**
+   * If we have a block build it
+   */
+  block_start_process_index_ = processes_.size();
+  block_end_process_Index_ = processes_.size() - 1;
+  for (unsigned i = 0; i < processes_.size(); ++i) {
+    if (processes_[i]->mortality_process()) {
+      block_start_process_index_ = block_start_process_index_ == processes_.size() ? i : block_start_process_index_;
+      block_end_process_Index_ = i;
+    }
+  }
+
+  block_start_process_index_ = block_start_process_index_ == processes_.size() ? 0 : block_start_process_index_;
+}
+
+/**
+ * Execute the time step during the initialisation phases
+ */
+void TimeStep::ExecuteForInitialisation(unsigned phase) {
+  for (unsigned index = 0; index < processes_.size(); ++index) {
+    processes_[index]->Execute();
+
+    if (index == block_end_process_Index_) {
+      ExecuteInitialisationDerivedQuantities(phase);
+    }
+  }
 }
 
 /**
  * Execute the time step
  */
-void TimeStep::Execute() {
-  for (ProcessPtr process : processes_)
-    process->Execute();
+void TimeStep::Execute(unsigned year) {
+  observations::Manager& observations_manager = observations::Manager::Instance();
+
+  for (unsigned index = 0; index < processes_.size(); ++index) {
+    if (index == block_start_process_index_)
+      observations_manager.PreExecute(year, label_);
+
+    processes_[index]->Execute();
+
+    if (index == block_end_process_Index_) {
+      ExecuteDerivedQuantities();
+      observations_manager.Execute(year, label_);
+    }
+  }
 }
 
 /**
