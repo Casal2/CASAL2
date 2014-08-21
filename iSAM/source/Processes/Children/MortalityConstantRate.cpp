@@ -13,6 +13,8 @@
 // Headers
 #include "MortalityConstantRate.h"
 
+#include <numeric>
+
 #include "Categories/Categories.h"
 #include "Selectivities/Manager.h"
 #include "Utilities/Logging/Logging.h"
@@ -24,13 +26,17 @@ namespace processes {
 /**
  * Default Constructor
  */
-MortalityConstantRate::MortalityConstantRate() {
+MortalityConstantRate::MortalityConstantRate()
+: time_steps_manager_(timesteps::Manager().Instance()) {
+
   LOG_TRACE();
 
+  model_ = Model::Instance();
   is_mortality_process = true;
 
   parameters_.Bind<string>(PARAM_CATEGORIES, &category_names_, "List of categories", "");
   parameters_.Bind<double>(PARAM_M, &m_, "Mortality rates", "");
+  parameters_.Bind<double>(PARAM_TIME_STEP_RATIO, &ratios_, "Time step ratios for M", "", true);
   parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_names_, "Selectivities", "");
 
   RegisterAsEstimable(PARAM_M, &m_);
@@ -81,6 +87,7 @@ void MortalityConstantRate::DoValidate() {
  * Build any runtime relationships
  * - Build the partition accessor
  * - Build our list of selectivities
+ * - Build our ratios for the number of time steps
  */
 void MortalityConstantRate::DoBuild() {
   partition_.Init(category_names_);
@@ -92,12 +99,39 @@ void MortalityConstantRate::DoBuild() {
 
     selectivities_.push_back(selectivity);
   }
+
+  /**
+   * Organise our time step ratios. Each time step can
+   * apply a different ratio of M so here we want to verify
+   * we have enough and re-scale them to 1.0
+   */
+  vector<TimeStepPtr> time_steps = timesteps::Manager().time_steps();
+  unsigned time_step_count = 0;
+  for(TimeStepPtr time_step : time_steps) {
+    if (time_step->HasProcess(label_))
+      ++time_step_count;
+  }
+
+  if (ratios_.size() == 0)
+    ratios_.assign(time_step_count, 1.0);
+  else {
+    if (ratios_.size() != time_step_count)
+      LOG_ERROR(parameters_.location(PARAM_TIME_STEP_RATIO) << " length (" << ratios_.size()
+          << ") does not match the number of time steps this process has been assigned too (" << time_step_count << ")");
+
+    Double sum = std::accumulate(ratios_.begin(), ratios_.end(), 0);
+    for (Double &value : ratios_)
+      value = sum / value;
+  }
 }
 
 /**
  * Execute the process
  */
 void MortalityConstantRate::Execute() {
+  // get the ratio to apply first
+  unsigned time_step = time_steps_manager_.current_time_step();
+  Double ratio = model_->state() == State::kInitialise ? 1.0 : ratios_[time_step];
 
   unsigned i = 0;
   for (auto category : partition_) {
@@ -105,32 +139,12 @@ void MortalityConstantRate::Execute() {
 
     unsigned j = 0;
     for (Double& data : category->data_) {
-      data -= data * (1-exp(-selectivities_[i]->GetResult(category->min_age_ + j)  * m));
+      data -= data * (1-exp(-selectivities_[i]->GetResult(category->min_age_ + j)  * (m * ratio)));
       ++j;
     }
 
     ++i;
   }
-
-//  if (mortality_rates_.size() == 0) {
-//    auto iter = partition_.begin();
-//    mortality_rates_.resize(category_names_.size());
-//    for (unsigned i = 0; iter != partition_.end(); ++iter, ++i) {
-//      unsigned min_age = (*iter)->min_age_;
-//      Double m = m_.size() > 1 ? m_[i] : m_[0];
-//
-//      for (unsigned j = 0; j < (*iter)->data_.size(); ++j) {
-//        mortality_rates_[i].push_back(1-exp(-selectivities_[i]->GetResult(min_age + j) * m));
-//      }
-//    }
-//  }
-//
-//  auto iterator = partition_.begin();
-//  for (unsigned i = 0; iterator != partition_.end(); ++iterator, ++i) {
-//    for (unsigned j = 0; j < (*iterator)->data_.size(); ++j) {
-//      (*iterator)->data_[j] -= (*iterator)->data_[j] * mortality_rates_[i][j];
-//    }
-//  }
 }
 
 /**
