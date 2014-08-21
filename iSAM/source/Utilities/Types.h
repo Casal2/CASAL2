@@ -21,6 +21,10 @@
 #include <adouble.h>
 #endif
 
+#ifdef USE_CPPAD
+#include <cppad/ipopt/solve.hpp>
+#endif
+
 // Namespaces
 namespace isam {
 namespace utilities {
@@ -31,6 +35,12 @@ namespace utilities {
 #ifdef USE_BETADIFF
 typedef adouble Double;
 #define AS_DOUBLE(x) value(x)
+#endif
+
+#ifdef USE_CPPAD
+typedef AD<double> Double;
+typedef CPPAD_TESTVECTOR(AD<double>) vector<Double>;
+#define AS_DOUBLE(x) x
 #endif
 
 #ifndef USE_AUTODIFF

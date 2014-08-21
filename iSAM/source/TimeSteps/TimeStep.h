@@ -35,19 +35,24 @@ public:
   void                        Validate();
   void                        Build();
   void                        Reset() {};
-  void                        Execute();
-  void                        ExecuteInitialisationDerivedQuantities(unsigned phase);
-  void                        ExecuteDerivedQuantities();
+  void                        ExecuteForInitialisation(unsigned phase);
+  void                        Execute(unsigned year);
 
   // accessors
   const vector<string>&       process_names() const { return process_names_; };
 
 private:
+  // methods
+  void                        ExecuteDerivedQuantities();
+  void                        ExecuteInitialisationDerivedQuantities(unsigned phase);
+
   // Members
   vector<string>              process_names_;
   vector<ProcessPtr>          processes_;
   vector<DerivedQuantityPtr>  initialisation_derived_quantities_;
   vector<DerivedQuantityPtr>  derived_quantities_;
+  unsigned                    block_start_process_index_;
+  unsigned                    block_end_process_Index_;
 };
 
 /**

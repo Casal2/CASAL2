@@ -34,6 +34,7 @@
 #include "SizeWeights/Manager.h"
 #include "TimeSteps/Manager.h"
 #include "Utilities/Logging/Logging.h"
+#include "Utilities/RandomNumberGenerator.h"
 #include "Utilities/To.h"
 
 namespace isam {
@@ -48,6 +49,9 @@ InternalEmptyModel::~InternalEmptyModel() { }
  */
 void InternalEmptyModel::SetUp() {
   Model::Instance(true);
+
+  utilities::RandomNumberGenerator& rng = utilities::RandomNumberGenerator::Instance();
+  rng.Reset(2468);
 
   configuration_file_.clear();
   GlobalConfiguration::Instance()->set_skip_config_file("true");

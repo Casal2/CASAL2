@@ -88,8 +88,7 @@ void InitialisationPhase::Execute() {
   LOG_INFO("Executing " << years_ << " years with " << process_labels_.size() << " processes");
   for (unsigned year = 0; year < years_; ++year) {
     for (TimeStepPtr time_step : time_steps_) {
-      time_step->Execute();
-      time_step->ExecuteInitialisationDerivedQuantities(index_);
+      time_step->ExecuteForInitialisation(index_);
     }
   }
 }

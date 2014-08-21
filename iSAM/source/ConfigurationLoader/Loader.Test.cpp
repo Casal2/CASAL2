@@ -18,7 +18,7 @@
 
 #include "Model/Model.h"
 #include "Processes/Manager.h"
-#include "TestResources/TestFixtures/EmptyModel.h"
+#include "TestResources/TestFixtures/InternalEmptyModel.h"
 
 // Namespaces
 namespace isam {
@@ -26,33 +26,7 @@ namespace configuration {
 
 using std::cout;
 using std::endl;
-using isam::testfixtures::EmptyModel;
-
-/**
- *
- */
-TEST_F(EmptyModel, Configuration_Loader_Test_1_Comments) {
-
-  Loader new_loader;
-  new_loader.LoadConfigFile("testcases\\configuration_loader.Test.1");
-
-  ModelPtr model = Model::Instance();
-  model->Start(RunMode::kTesting);
-
-  // Check the model parameters are right
-  EXPECT_EQ(1994u, model->start_year());
-  EXPECT_EQ(2008u, model->final_year());
-  EXPECT_EQ(1u, model->min_age());
-  EXPECT_EQ(50u, model->max_age());
-  EXPECT_EQ(true, model->age_plus());
-
-  isam::ProcessPtr process = processes::Manager::Instance().GetProcess("my_recruitment");
-  const vector<string>& categories = process->parameters().Get(PARAM_CATEGORIES)->values();
-  ASSERT_TRUE(categories.size() != 0);
-  EXPECT_EQ(2u, categories.size());
-  EXPECT_EQ("immature.male", categories[0]);
-  EXPECT_EQ("immature.female", categories[1]);
-}
+using isam::testfixtures::InternalEmptyModel;
 
 } /* namespace configuration */
 } /* namespace isam */

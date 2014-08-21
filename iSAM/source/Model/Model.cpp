@@ -16,6 +16,7 @@
 #include <iostream>
 
 #include "AgeSizes/Manager.h"
+#include "Asserts/Manager.h"
 #include "Catchabilities/Manager.h"
 #include "Categories/Categories.h"
 #include "GlobalConfiguration/GlobalConfiguration.h"
@@ -34,6 +35,7 @@
 #include "Projects/Manager.h"
 #include "Reports/Manager.h"
 #include "Selectivities/Manager.h"
+#include "Simulates/Manager.h"
 #include "SizeWeights/Manager.h"
 #include "TimeSteps/Manager.h"
 #include "Utilities/Logging/Logging.h"
@@ -114,20 +116,20 @@ void Model::Start(RunMode::Type run_mode) {
     LOG_CODE_ERROR("Model state should always be startup when entering the start method");
   reports::Manager::Instance().Execute(State::kStartUp);
 
-  state_ = State::kValidate;
   LOG_INFO("Model: State Change to Validate");
+  state_ = State::kValidate;
   Validate();
-  reports::Manager::Instance().Execute(State::kValidate);
+  reports::Manager::Instance().Execute(state_);
 
-  state_ = State::kBuild;
   LOG_INFO("Model: State Change to Build");
+  state_ = State::kBuild;
   Build();
-  reports::Manager::Instance().Execute(State::kBuild);
+  reports::Manager::Instance().Execute(state_);
 
-  state_ = State::kVerify;
   LOG_INFO("Model: State Change to Verify");
+  state_ = State::kVerify;
   Verify();
-  reports::Manager::Instance().Execute(State::kVerify);
+  reports::Manager::Instance().Execute(state_);
 
   // prepare all reports
   LOG_INFO("Preparing Reports");
@@ -168,6 +170,8 @@ void Model::Start(RunMode::Type run_mode) {
 
   // finalise all reports
   LOG_INFO("Finalising Reports");
+  state_ = State::kFinalise;
+  reports::Manager::Instance().Execute(state_);
   reports::Manager::Instance().Finalise();
 }
 
@@ -201,6 +205,7 @@ void Model::Validate() {
   Partition::Instance().Validate();
 
   agesizes::Manager::Instance().Validate();
+  asserts::Manager::Instance().Validate();
   catchabilities::Manager::Instance().Validate();
   derivedquantities::Manager::Instance().Validate();
   initialisationphases::Manager::Instance().Validate();
@@ -212,6 +217,7 @@ void Model::Validate() {
   projects::Manager::Instance().Validate();
   reports::Manager::Instance().Validate();
   selectivities::Manager::Instance().Validate();
+  simulates::Manager::Instance().Validate();
   sizeweights::Manager::Instance().Validate();
   timesteps::Manager::Instance().Validate();
 
@@ -246,6 +252,7 @@ void Model::Build() {
   // build managers
   estimates::Manager::Instance().Build();
   agesizes::Manager::Instance().Build();
+  asserts::Manager::Instance().Build();
   catchabilities::Manager::Instance().Build();
   derivedquantities::Manager::Instance().Build();
   initialisationphases::Manager::Instance().Build();
@@ -257,6 +264,7 @@ void Model::Build() {
   projects::Manager::Instance().Build();
   reports::Manager::Instance().Build();
   selectivities::Manager::Instance().Build();
+  simulates::Manager::Instance().Build();
   sizeweights::Manager::Instance().Build();
 
   Partition::Instance().CalculateMeanWeights();
@@ -280,6 +288,7 @@ void Model::Reset() {
   estimates::Manager::Instance().Reset();
 
   agesizes::Manager::Instance().Reset();
+  asserts::Manager::Instance().Reset();
   Categories::Instance()->Reset();
   catchabilities::Manager::Instance().Reset();
   derivedquantities::Manager::Instance().Reset();
@@ -292,6 +301,7 @@ void Model::Reset() {
   projects::Manager::Instance().Reset();
   reports::Manager::Instance().Reset();
   selectivities::Manager::Instance().Reset();
+  simulates::Manager::Instance().Reset();
   sizeweights::Manager::Instance().Reset();
   timesteps::Manager::Instance().Reset();
 }
@@ -315,9 +325,6 @@ void Model::RunBasic() {
   // Model has finished so we can run finalise.
   LOG_INFO("Model: State change to PostExecute");
   reports::Manager::Instance().Execute(State::kPostExecute);
-
-  LOG_INFO("Model: State change to Finalise")
-  reports::Manager::Instance().Execute(State::kFinalise);
 }
 
 /**
@@ -334,9 +341,6 @@ void Model::RunEstimation() {
   LOG_INFO("Calling minimiser to begin the estimation");
   MinimiserPtr minimiser = minimisers::Manager::Instance().active_minimiser();
   minimiser->Execute();
-
-  LOG_INFO("Model: State change to Finalise")
-  reports::Manager::Instance().Execute(State::kFinalise);
 
   run_mode_ = RunMode::kBasic;
   FullIteration();
@@ -358,9 +362,6 @@ void Model::RunMCMC() {
 
   LOG_INFO("Minimisation complete. Starting MCMC");
   mcmc->Execute();
-
-  LOG_INFO("Model: State change to Finalise")
-  reports::Manager::Instance().Execute(State::kFinalise);
 }
 
 /**
@@ -386,8 +387,8 @@ void Model::RunProfiling() {
       LOG_INFO("Calling minimiser to begin the estimation (profling)");
       minimiser->Execute();
 
-      LOG_INFO("Model: State change to Finalise")
-      reports::Manager::Instance().Execute(State::kFinalise); // Change to KIterationComplete
+      LOG_INFO("Model: State change to Iteration Complete")
+      reports::Manager::Instance().Execute(State::kIterationComplete); // Change to KIterationComplete
 
       profile->NextStep();
     }
@@ -412,12 +413,32 @@ void Model::RunSimulation() {
     report_suffix.append(utilities::ToInline<unsigned, string>(i + 1));
     reports::Manager::Instance().set_report_suffix(report_suffix);
 
-    FullIteration();
+    Reset();
+
+    // Model is about to run
+    LOG_INFO("Model: State change to PreExecute");
+    reports::Manager::Instance().Execute(State::kPreExecute);
+
+    state_ = State::kInitialise;
+    current_year_ = start_year_;
+    initialisationphases::Manager& init_phase_manager = initialisationphases::Manager::Instance();
+    init_phase_manager.Execute();
+
+    state_ = State::kExecute;
+    timesteps::Manager& time_step_manager = timesteps::Manager::Instance();
+    for (current_year_ = start_year_; current_year_ <= final_year_; ++current_year_, current_year_index_ = current_year_ - start_year_) {
+      LOG_INFO("Iteration year: " << current_year_);
+      time_step_manager.Execute(current_year_);
+      simulates::Manager::Instance().Update(current_year_);
+    }
+
+    observations::Manager::Instance().CalculateScores();
+
+    // Model has finished so we can run finalise.
+    LOG_INFO("Model: State change to PostExecute");
+    reports::Manager::Instance().Execute(State::kPostExecute);
     reports::Manager::Instance().Execute(State::kIterationComplete);
   }
-
-  LOG_INFO("Model: State change to Finalise")
-  reports::Manager::Instance().Execute(State::kFinalise);
 }
 
 /**
@@ -451,9 +472,6 @@ void Model::RunProjection() {
   reports::Manager::Instance().Execute(State::kPostExecute);
 
   observations::Manager::Instance().CalculateScores();
-
-  LOG_INFO("Model: State change to Finalise")
-  reports::Manager::Instance().Execute(State::kFinalise);
 }
 
 /**
@@ -479,6 +497,9 @@ void Model::Iterate() {
   observations::Manager::Instance().CalculateScores();
 }
 
+/**
+ *
+ */
 void Model::FullIteration() {
   Reset();
 
@@ -496,7 +517,4 @@ void Model::FullIteration() {
   LOG_INFO("Model: State change to PostExecute");
   reports::Manager::Instance().Execute(State::kPostExecute);
 }
-
-
-
 } /* namespace isam */
