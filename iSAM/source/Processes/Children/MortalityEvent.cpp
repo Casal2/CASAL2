@@ -25,6 +25,8 @@ namespace processes {
  * Default Constructor
  */
 MortalityEvent::MortalityEvent() {
+  is_mortality_process = true;
+
   parameters_.Bind<string>(PARAM_CATEGORIES, &category_names_, "Categories", "");
   parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "Years", "");
   parameters_.Bind<double>(PARAM_CATCHES, &catches_, "Catches", "");
