@@ -95,6 +95,8 @@ void TimeStep::ExecuteForInitialisation(unsigned phase) {
  * Execute the time step
  */
 void TimeStep::Execute(unsigned year) {
+  LOG_TRACE();
+
   observations::Manager& observations_manager = observations::Manager::Instance();
 
   for (unsigned index = 0; index < processes_.size(); ++index) {

@@ -28,8 +28,9 @@ namespace reports {
  * Class Definition
  */
 class Manager : public isam::base::Manager<reports::Manager, isam::Report> {
+  friend class isam::base::Manager<reports::Manager, isam::Report>;
 public:
-  Manager();
+  // methods
   virtual                     ~Manager() noexcept(true);
   void                        Build() override final;
   void                        Execute(State::Type model_state);
@@ -42,6 +43,10 @@ public:
   void                        set_report_suffix(const string& suffix) { report_suffix_ = suffix; }
   const string&               report_suffix() const { return report_suffix_; }
   void                        set_continue(bool new_continue) { continue_ = new_continue; }
+
+protected:
+  // methods
+  Manager();
 
 private:
   // Members

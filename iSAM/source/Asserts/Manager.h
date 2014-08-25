@@ -25,10 +25,14 @@ namespace asserts {
  * Class Definition
  */
 class Manager : public isam::base::Manager<isam::asserts::Manager, isam::Assert> {
+  friend class isam::base::Manager<isam::asserts::Manager, isam::Assert>;
 public:
-  Manager();
   virtual                     ~Manager() noexcept(true);
   void                        Validate() override final;
+
+protected:
+  // methods
+  Manager();
 };
 
 } /* namespace asserts */

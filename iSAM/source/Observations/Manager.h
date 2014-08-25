@@ -24,15 +24,18 @@ namespace observations {
  * Class Definition
  */
 class Manager : public isam::base::Manager<observations::Manager, isam::Observation> {
+  friend class isam::base::Manager<observations::Manager, isam::Observation>;
 public:
   // methods
-  Manager();
   virtual                     ~Manager() noexcept(true);
   void                        PreExecute(unsigned year, const string& time_step);
   void                        Execute(unsigned year, const string& time_step);
   ObservationPtr              GetObservation(const string& label);
   void                        CalculateScores();
 
+protected:
+  // methods
+  Manager();
 };
 
 } /* namespace observations */

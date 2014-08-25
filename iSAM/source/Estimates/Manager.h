@@ -16,8 +16,9 @@ namespace isam {
 namespace estimates {
 
 class Manager : public isam::base::Manager<estimates::Manager, isam::Estimate> {
+  friend class isam::base::Manager<estimates::Manager, isam::Estimate>;
 public:
-  Manager();
+  // methods
   virtual                         ~Manager() noexcept(true);
   void                            AddObject(EstimatePtr object) override final { objects_.push_back(object); }
   void                            AddObject(EstimateInfoPtr object) { estimate_infos_.push_back(object); }
@@ -29,7 +30,12 @@ public:
   void                            EnableEstimate(const string& parameter);
   void                            DisableEstimate(const string& parameter);
 
+protected:
+  // methods
+  Manager();
+
 private:
+  // members
   vector<EstimateInfoPtr>         estimate_infos_;
 
 };

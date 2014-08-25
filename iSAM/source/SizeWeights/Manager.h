@@ -25,11 +25,15 @@ namespace sizeweights {
  * class definition
  */
 class Manager : public isam::base::Manager<isam::sizeweights::Manager, isam::SizeWeight> {
+  friend class isam::base::Manager<isam::sizeweights::Manager, isam::SizeWeight>;
 public:
   // methods
-  Manager();
   virtual                     ~Manager() noexcept(true) { };
   SizeWeightPtr               GetSizeWeight(const string& label) const;
+
+protected:
+  // methods
+  Manager();
 };
 
 } /* namespace sizeweights */
