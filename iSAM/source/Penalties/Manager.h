@@ -39,9 +39,9 @@ struct Info {
  * Class Definition
  */
 class Manager : public isam::base::Manager<penalties::Manager, isam::Penalty> {
+  friend class isam::base::Manager<penalties::Manager, isam::Penalty>;
 public:
   // Methods
-  Manager();
   virtual                     ~Manager() noexcept(true) {};
   PenaltyPtr                  GetPenalty(const string& label) const;
   void                        FlagPenalty(const string& label, Double value);
@@ -49,6 +49,10 @@ public:
 
   // Accessors
   const vector<Info>&         flagged_penalties() const { return flagged_penalties_; }
+
+protected:
+  // methods
+  Manager();
 
 private:
   // Members

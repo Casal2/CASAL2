@@ -25,11 +25,15 @@ namespace agesizes {
  * class definition
  */
 class Manager : public isam::base::Manager<isam::agesizes::Manager, isam::AgeSize> {
+  friend class isam::base::Manager<isam::agesizes::Manager, isam::AgeSize>;
 public:
   // methods
-  Manager() { };
   virtual                     ~Manager() noexcept(true) { };
   AgeSizePtr                  GetAgeSize(const string& label);
+
+protected:
+  // methods
+  Manager() { };
 };
 
 } /* namespace agesizes */

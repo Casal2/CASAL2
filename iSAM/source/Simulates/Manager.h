@@ -25,11 +25,15 @@ namespace simulates {
  * Class definition
  */
 class Manager : public isam::base::Manager<isam::simulates::Manager, isam::Simulate> {
+  friend class isam::base::Manager<isam::simulates::Manager, isam::Simulate>;
 public:
   // methods
-  Manager();
   virtual                     ~Manager() noexcept(true);
   void                        Update(unsigned current_year);
+
+protected:
+  // methods
+  Manager();
 };
 
 } /* namespace simulates */

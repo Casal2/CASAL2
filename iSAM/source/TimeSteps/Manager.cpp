@@ -25,6 +25,7 @@ namespace timesteps {
  * Default Constructor
  */
 Manager::Manager() {
+  LOG_INFO("TimeStep Manager Constructor");
 }
 
 /**
@@ -110,6 +111,8 @@ void Manager::Build() {
       }
     }
   }
+
+  LOG_INFO("ordered_time_steps_.size(): " << ordered_time_steps_.size());
 }
 
 /**

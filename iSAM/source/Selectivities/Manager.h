@@ -28,10 +28,15 @@ namespace selectivities {
  * Class defintiion
  */
 class Manager : public isam::base::Manager<isam::selectivities::Manager, isam::Selectivity> {
+  friend class isam::base::Manager<isam::selectivities::Manager, isam::Selectivity>;
 public:
-  Manager();
+  // methods
   virtual                     ~Manager() noexcept(true) {};
   SelectivityPtr              GetSelectivity(const string& label);
+
+protected:
+  // methods
+  Manager();
 };
 
 } /* namespace selectivities */

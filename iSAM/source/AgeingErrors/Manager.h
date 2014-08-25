@@ -28,7 +28,8 @@ namespace ageingerrors {
  * Class Definition
  */
 class Manager : public isam::base::Manager<isam::ageingerrors::Manager, isam::AgeingError> {
-public:
+  friend class isam::base::Manager<isam::ageingerrors::Manager, isam::AgeingError>;
+private:
   // Methods
   Manager();
   virtual                     ~Manager() noexcept(true);

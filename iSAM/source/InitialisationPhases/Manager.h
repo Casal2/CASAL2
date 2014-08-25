@@ -20,9 +20,9 @@ namespace initialisationphases {
  * Class Definition
  */
 class Manager : public base::Manager<isam::initialisationphases::Manager, isam::InitialisationPhase> {
+  friend class base::Manager<isam::initialisationphases::Manager, isam::InitialisationPhase>;
 public:
-  // Methods
-  Manager();
+  // methods
   virtual                     ~Manager() noexcept(true);
   void                        Build() override final;
   void                        Execute();
@@ -32,8 +32,12 @@ public:
   // accessors
   unsigned                    last_executed_phase() const { return last_executed_phase_; }
 
+protected:
+  // methods
+  Manager();
+
 private:
-  // Members
+  // members
   unsigned                        last_executed_phase_ = 0;
   vector<InitialisationPhasePtr>  ordered_initialisation_phases_;
 

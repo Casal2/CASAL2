@@ -22,9 +22,14 @@ namespace profiles {
  * Class definition
  */
 class Manager : public isam::base::Manager<isam::profiles::Manager, isam::Profile> {
+  friend class isam::base::Manager<isam::profiles::Manager, isam::Profile>;
 public:
-  Manager();
+  // methods
   virtual                     ~Manager() noexcept(true) { };
+
+protected:
+  // methods
+  Manager();
 };
 
 } /* namespace profiles */

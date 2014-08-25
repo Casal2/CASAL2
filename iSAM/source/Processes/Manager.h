@@ -28,11 +28,16 @@ namespace processes {
  * Class Definition
  */
 class Manager : public isam::base::Manager<isam::processes::Manager, isam::Process> {
+  friend class isam::base::Manager<isam::processes::Manager, isam::Process>;
 public:
-  Manager();
+  // methods
   virtual                     ~Manager() noexcept(true);
   void                        Validate() override final;
   ProcessPtr                  GetProcess(const string& label);
+
+protected:
+  // methods
+  Manager();
 };
 
 } /* namespace processes */

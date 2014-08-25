@@ -28,11 +28,15 @@ namespace catchabilities {
  *
  */
 class Manager : public isam::base::Manager<isam::catchabilities::Manager, isam::Catchability> {
+  friend class isam::base::Manager<isam::catchabilities::Manager, isam::Catchability>;
 public:
   // Methods
-  Manager();
   virtual                     ~Manager() noexcept(true);
   CatchabilityPtr             GetCatchability(const string& label);
+
+protected:
+  // methods
+  Manager();
 };
 
 // Typedef

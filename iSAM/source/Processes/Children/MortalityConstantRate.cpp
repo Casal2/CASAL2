@@ -27,7 +27,7 @@ namespace processes {
  * Default Constructor
  */
 MortalityConstantRate::MortalityConstantRate()
-: time_steps_manager_(timesteps::Manager().Instance()) {
+: time_steps_manager_(timesteps::Manager::Instance()) {
 
   LOG_TRACE();
 
@@ -105,13 +105,14 @@ void MortalityConstantRate::DoBuild() {
    * apply a different ratio of M so here we want to verify
    * we have enough and re-scale them to 1.0
    */
-  vector<TimeStepPtr> time_steps = timesteps::Manager().time_steps();
+  vector<TimeStepPtr> time_steps = time_steps_manager_.time_steps();
+  LOG_INFO("time_steps.size(): " << time_steps.size());
   unsigned time_step_count = 0;
   for(TimeStepPtr time_step : time_steps) {
     if (time_step->HasProcess(label_))
       ++time_step_count;
   }
-
+  LOG_INFO("ratios_.size(): " << ratios_.size() << " | time_step_count: " << time_step_count);
   if (ratios_.size() == 0)
     ratios_.assign(time_step_count, 1.0);
   else {
@@ -121,7 +122,7 @@ void MortalityConstantRate::DoBuild() {
 
     Double sum = std::accumulate(ratios_.begin(), ratios_.end(), 0);
     for (Double &value : ratios_)
-      value = sum / value;
+      value = value / sum;
   }
 }
 
@@ -129,8 +130,12 @@ void MortalityConstantRate::DoBuild() {
  * Execute the process
  */
 void MortalityConstantRate::Execute() {
+  LOG_TRACE();
+
   // get the ratio to apply first
   unsigned time_step = time_steps_manager_.current_time_step();
+
+  LOG_INFO("Ratios.size() " << ratios_.size() << " : time_step: " << time_step);
   Double ratio = model_->state() == State::kInitialise ? 1.0 : ratios_[time_step];
 
   unsigned i = 0;

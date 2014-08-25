@@ -28,16 +28,21 @@ namespace minimisers {
  * Class Definition
  */
 class Manager : public isam::base::Manager<minimisers::Manager, isam::Minimiser> {
+  friend class isam::base::Manager<minimisers::Manager, isam::Minimiser>;
 public:
   // Methods
-  Manager();
   virtual                     ~Manager() noexcept(true);
   void                        Validate() override final;
 
   // Accessors
   MinimiserPtr                active_minimiser() { return active_minimiser_; }
 
+protected:
+  // methods
+  Manager();
+
 private:
+  // members
   MinimiserPtr                active_minimiser_;
 };
 

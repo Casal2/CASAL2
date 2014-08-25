@@ -20,15 +20,13 @@
 #include "Catchabilities/Manager.h"
 #include "Categories/Categories.h"
 #include "GlobalConfiguration/GlobalConfiguration.h"
+
 #include "DerivedQuantities/Manager.h"
 #include "Estimates/Manager.h"
 #include "InitialisationPhases/Manager.h"
 #include "MCMC/MCMC.h"
 #include "Minimisers/Manager.h"
-#include "ObjectiveFunction/ObjectiveFunction.h"
 #include "Observations/Manager.h"
-#include "Partition/Accessors/Category.h"
-#include "Partition/Partition.h"
 #include "Penalties/Manager.h"
 #include "Processes/Manager.h"
 #include "Profiles/Manager.h"
@@ -38,6 +36,12 @@
 #include "Simulates/Manager.h"
 #include "SizeWeights/Manager.h"
 #include "TimeSteps/Manager.h"
+#include "Model/Executor.h"
+#include "ObjectiveFunction/ObjectiveFunction.h"
+
+#include "Partition/Accessors/Category.h"
+#include "Partition/Partition.h"
+
 #include "Utilities/Logging/Logging.h"
 #include "Utilities/To.h"
 

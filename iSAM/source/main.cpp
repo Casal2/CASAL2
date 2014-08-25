@@ -150,6 +150,7 @@ int main(int argc, char * argv[]) {
     cout << "## ERROR - iSAM experienced a problem and has stopped execution" << endl;
   }
 
+  LOG_INFO("Done");
 	return 0;
 }
 #endif

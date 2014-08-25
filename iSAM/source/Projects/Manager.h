@@ -25,11 +25,15 @@ namespace projects {
  * Class definition
  */
 class Manager : public isam::base::Manager<isam::projects::Manager, isam::Project> {
+  friend class isam::base::Manager<isam::projects::Manager, isam::Project>;
 public:
   // methods
-  Manager();
   virtual                     ~Manager() noexcept(true);
   void                        Update(unsigned current_year);
+
+protected:
+  // methods
+  Manager();
 };
 
 } /* namespace projects */
