@@ -48,7 +48,7 @@ TEST_F(InternalEmptyModel, Model_CasalComplex3_Estimation) {
   model->Start(RunMode::kEstimation);
 
   ObjectiveFunction& obj_function = ObjectiveFunction::Instance();
-  EXPECT_DOUBLE_EQ(11.258298314507682, obj_function.score());
+  EXPECT_NEAR(11.258298314507682, obj_function.score(), 1e-5);
 }
 
 } /* namespace testcases */

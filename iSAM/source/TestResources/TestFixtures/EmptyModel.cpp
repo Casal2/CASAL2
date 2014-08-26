@@ -15,6 +15,7 @@
 #include "EmptyModel.h"
 
 #include "Model/Model.h"
+#include "Utilities/RandomNumberGenerator.h"
 
 // namespaces
 namespace isam {
@@ -29,6 +30,9 @@ EmptyModel::~EmptyModel() {}
  */
 void EmptyModel::SetUp() {
   Model::Instance(true);
+
+  utilities::RandomNumberGenerator& rng = utilities::RandomNumberGenerator::Instance();
+  rng.Reset(2468);
 }
 
 

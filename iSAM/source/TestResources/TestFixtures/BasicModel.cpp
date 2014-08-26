@@ -33,6 +33,7 @@
 #include "SizeWeights/Manager.h"
 #include "TimeSteps/Manager.h"
 #include "Utilities/Logging/Logging.h"
+#include "Utilities/RandomNumberGenerator.h"
 #include "Utilities/To.h"
 
 // Namespaces
@@ -44,6 +45,9 @@ namespace testfixtures {
  */
 void BasicModel::SetUp() {
   Model::Instance(true);
+
+  utilities::RandomNumberGenerator& rng = utilities::RandomNumberGenerator::Instance();
+  rng.Reset(2468);
 
   isam::base::ObjectPtr object;
 
