@@ -170,7 +170,7 @@
 									<listOptionValue builtIn="false" value="TESTMODE"/>
 									<listOptionValue builtIn="false" value="BOOST_THREAD_USE_LIB=1 "/>
 								</option>
-								<option id="gnu.cpp.compiler.option.other.other.1494765422" name="Other flags" superClass="gnu.cpp.compiler.option.other.other" useByScannerDiscovery="false" value="-c -fmessage-length=0 -std=c++11 -Wno-unused-local-typedefs" valueType="string"/>
+								<option id="gnu.cpp.compiler.option.other.other.1494765422" name="Other flags" superClass="gnu.cpp.compiler.option.other.other" useByScannerDiscovery="false" value="-c -fmessage-length=0 -std=c++11 -Wno-unused-local-typedefs -mfpmath=sse" valueType="string"/>
 								<option id="gnu.cpp.compiler.option.warnings.toerrors.955971480" name="Warnings as errors (-Werror)" superClass="gnu.cpp.compiler.option.warnings.toerrors" useByScannerDiscovery="false" value="true" valueType="boolean"/>
 								<option id="gnu.cpp.compiler.option.dialect.std.1376742277" name="Language standard" superClass="gnu.cpp.compiler.option.dialect.std" useByScannerDiscovery="true" value="gnu.cpp.compiler.dialect.default" valueType="enumerated"/>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.compiler.input.227681873" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.input"/>
