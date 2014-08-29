@@ -11,47 +11,50 @@
 // headers
 #include "Biomass.h"
 
+#include "InitialisationPhases/Manager.h"
+
 // namespaces
 namespace isam {
 namespace derivedquantities {
 
 /**
+ * Calculate the derived quantity value for the
+ * state of the model.
+ *
+ * This class will calculate a value that is the sum total
+ * of the population in the model filtered by category and
+ * multiplied by the selectivities.
  *
  */
-void Biomass::Calculate() {
+void Biomass::Execute() {
   LOG_TRACE();
   Double value = 0.0;
 
-  auto iterator = partition_.begin();
-  // iterate over each category
-  for (unsigned i = 0; i < partition_.size() && iterator != partition_.end(); ++i, ++iterator) {
-    for (unsigned j = 0; j < (*iterator)->data_.size(); ++j) {
-      value += (*iterator)->data_[j] * selectivities_[i]->GetResult((*iterator)->min_age_ + j) * (*iterator)->mean_weights_[j];
+  if (model_->state() == State::kInitialise) {
+    auto iterator = partition_.begin();
+    // iterate over each category
+    for (unsigned i = 0; i < partition_.size() && iterator != partition_.end(); ++i, ++iterator) {
+      for (unsigned j = 0; j < (*iterator)->data_.size(); ++j) {
+        value += (*iterator)->data_[j] * selectivities_[i]->GetResult((*iterator)->min_age_ + j) * (*iterator)->mean_weights_[j];
+      }
     }
-  }
 
-  values_[model_->current_year()] = value;
+    unsigned initialisation_phase = initialisationphases::Manager::Instance().current_initialisation_phase();
+    if (initialisation_values_.size() <= initialisation_phase)
+      initialisation_values_.resize(initialisation_phase + 1);
+    initialisation_values_[initialisation_phase].push_back(value);
 
-}
-
-/**
- *
- */
-void Biomass::Calculate(unsigned initialisation_phase) {
-  LOG_TRACE();
-  Double value = 0.0;
-
-  auto iterator = partition_.begin();
-  // iterate over each category
-  for (unsigned i = 0; i < partition_.size() && iterator != partition_.end(); ++i, ++iterator) {
-    for (unsigned j = 0; j < (*iterator)->data_.size(); ++j) {
-      value += (*iterator)->data_[j] * selectivities_[i]->GetResult((*iterator)->min_age_ + j) * (*iterator)->mean_weights_[j];
+  } else {
+    auto iterator = partition_.begin();
+    // iterate over each category
+    for (unsigned i = 0; i < partition_.size() && iterator != partition_.end(); ++i, ++iterator) {
+      for (unsigned j = 0; j < (*iterator)->data_.size(); ++j) {
+        value += (*iterator)->data_[j] * selectivities_[i]->GetResult((*iterator)->min_age_ + j) * (*iterator)->mean_weights_[j];
+      }
     }
-  }
 
-  if (initialisation_values_.size() <= initialisation_phase)
-    initialisation_values_.resize(initialisation_phase + 1);
-  initialisation_values_[initialisation_phase].push_back(value);
+    values_[model_->current_year()] = value;
+  }
 }
 
 } /* namespace derivedquantities */

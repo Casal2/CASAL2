@@ -51,7 +51,10 @@ void ImplodeString(const string& type, const string& label, const string& parame
  */
 isam::base::ObjectPtr FindObject(const string& parameter_absolute_name);
 
-
+/**
+ * Find an estimable in the system using an absolute name
+ */
+Double* FindEstimable(const string& estimable_absolute_name);
 
 } /* namespace objects */
 } /* namespace isam */

@@ -28,8 +28,9 @@ public:
   // methods
   Biomass() = default;
   virtual                     ~Biomass() = default;
-  void                        Calculate() override final;
-  void                        Calculate(unsigned initialisation_phase) override final;
+  void                        Execute() override final;
+//  void                        Calculate() override final;
+//  void                        Calculate(unsigned initialisation_phase) override final;
 };
 
 } /* namespace derivedquantities */

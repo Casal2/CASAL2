@@ -18,6 +18,7 @@
 
 // Headers
 #include "BaseClasses/Object.h"
+#include "BaseClasses/Executor.h"
 #include "DerivedQuantities/Manager.h"
 #include "Processes/Process.h"
 
@@ -38,21 +39,26 @@ public:
   void                        ExecuteForInitialisation(unsigned phase);
   void                        Execute(unsigned year);
   bool                        HasProcess(const string& label) { return std::find(process_names_.begin(), process_names_.end(), label) != process_names_.end(); }
+  void                        SubscribeToInitialisationBlock(ExecutorPtr executor) { initialisation_block_executors_.push_back(executor); }
+  void                        SubscribeToBlock(ExecutorPtr executor);
+  void                        SubscribeToBlock(ExecutorPtr executor, unsigned year) { block_executors_[year].push_back(executor); }
 
+  // accessors
   vector<string>              process_names() const { return process_names_; }
 
 private:
   // methods
-  void                        ExecuteDerivedQuantities();
-  void                        ExecuteInitialisationDerivedQuantities(unsigned phase);
+//  void                        ExecuteDerivedQuantities();
+//  void                        ExecuteInitialisationDerivedQuantities(unsigned phase);
 
   // Members
-  vector<string>              process_names_;
-  vector<ProcessPtr>          processes_;
-  vector<DerivedQuantityPtr>  initialisation_derived_quantities_;
-  vector<DerivedQuantityPtr>  derived_quantities_;
-  unsigned                    block_start_process_index_;
-  unsigned                    block_end_process_Index_;
+  vector<string>                      process_names_;
+  vector<ProcessPtr>                  processes_;
+  map<unsigned, vector<ExecutorPtr> > executors_;
+  map<unsigned, vector<ExecutorPtr> > block_executors_;
+  vector<ExecutorPtr>                 initialisation_block_executors_;
+  unsigned                            block_start_process_index_;
+  unsigned                            block_end_process_Index_;
 };
 
 /**

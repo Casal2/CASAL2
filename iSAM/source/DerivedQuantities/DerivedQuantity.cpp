@@ -66,11 +66,13 @@ void DerivedQuantity::Build() {
   TimeStepPtr time_step = timesteps::Manager::Instance().GetTimeStep(time_step_label_);
   if (!time_step)
     LOG_ERROR(parameters_.location(PARAM_TIME_STEP) << " (" << time_step_label_ << ") could not be found. Have you defined it?");
+  time_step->SubscribeToBlock(shared_ptr());
 
   for (const string label : initialisation_time_step_labels_) {
-    TimeStepPtr time_step = timesteps::Manager::Instance().GetTimeStep(label);
-    if (!time_step)
+    TimeStepPtr init_time_step = timesteps::Manager::Instance().GetTimeStep(label);
+    if (!init_time_step)
       LOG_ERROR(parameters_.location(PARAM_INITIALISATION_TIME_STEPS) << " (" << label << ") could not be found. Have you defined it?");
+    init_time_step->SubscribeToInitialisationBlock(shared_ptr());
   }
 }
 
