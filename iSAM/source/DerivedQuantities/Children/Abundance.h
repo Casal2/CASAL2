@@ -23,8 +23,7 @@ public:
   // methods
   Abundance() = default;
   virtual                     ~Abundance() = default;
-  void                        Calculate() override final;
-  void                        Calculate(unsigned initialisation_phase) override final;
+  void                        Execute() override final;
 };
 
 } /* namespace derivedquantities */

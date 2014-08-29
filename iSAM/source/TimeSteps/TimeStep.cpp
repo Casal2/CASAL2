@@ -12,7 +12,6 @@
 
 #include "TimeStep.h"
 
-#include "DerivedQuantities/Manager.h"
 #include "InitialisationPhases/Manager.h"
 #include "Model/Model.h"
 #include "Observations/Manager.h"
@@ -51,17 +50,7 @@ void TimeStep::Build() {
 
     processes_.push_back(process);
   }
-
-  /**
-   * Get any derived quantities we have specified for this time step
-   */
-  derivedquantities::Manager& derived_quantities_manager = derivedquantities::Manager::Instance();
-  initialisation_derived_quantities_ = derived_quantities_manager.GetForInitialisationTimeStep(label_);
-  derived_quantities_                = derived_quantities_manager.GetForTimeStep(label_);
-
   LOG_INFO("Time step " << label_ << " has " << processes_.size() << " processes");
-  LOG_INFO("Time step " << label_ << " has " << initialisation_derived_quantities_.size() << " initialisation derived quantities");
-  LOG_INFO("Time step " << label_ << " has " << derived_quantities_.size() << " derived quantities");
 
   /**
    * If we have a block build it
@@ -86,7 +75,11 @@ void TimeStep::ExecuteForInitialisation(unsigned phase) {
     processes_[index]->Execute();
 
     if (index == block_end_process_Index_) {
-      ExecuteInitialisationDerivedQuantities(phase);
+      for (ExecutorPtr executor : initialisation_block_executors_) {
+        LOG_INFO("Executing initialisation executor: " << executor->label());
+        executor->Execute();
+      }
+//      ExecuteInitialisationDerivedQuantities(phase);
     }
   }
 }
@@ -106,7 +99,9 @@ void TimeStep::Execute(unsigned year) {
     processes_[index]->Execute();
 
     if (index == block_end_process_Index_) {
-      ExecuteDerivedQuantities();
+//      ExecuteDerivedQuantities();
+      for (ExecutorPtr executor : block_executors_[year])
+        executor->Execute();
       observations_manager.Execute(year, label_);
     }
   }
@@ -115,23 +110,31 @@ void TimeStep::Execute(unsigned year) {
 /**
  *
  */
-void TimeStep::ExecuteInitialisationDerivedQuantities(unsigned phase) {
-  LOG_TRACE();
-  for (DerivedQuantityPtr derived_quantity : initialisation_derived_quantities_) {
-    if (!derived_quantity)
-      LOG_CODE_ERROR("derived_quantity == 0");
-    derived_quantity->Calculate(phase);
-  }
-}
+//void TimeStep::ExecuteInitialisationDerivedQuantities(unsigned phase) {
+//  LOG_TRACE();
+//  for (DerivedQuantityPtr derived_quantity : initialisation_derived_quantities_) {
+//    if (!derived_quantity)
+//      LOG_CODE_ERROR("derived_quantity == 0");
+//    derived_quantity->Calculate(phase);
+//  }
+//}
 
 /**
  *
  */
-void TimeStep::ExecuteDerivedQuantities() {
-  LOG_TRACE();
-  for (DerivedQuantityPtr derived_quantity : derived_quantities_)
-    derived_quantity->Calculate();
-}
+//void TimeStep::ExecuteDerivedQuantities() {
+////  LOG_TRACE();
+////  for (DerivedQuantityPtr derived_quantity : derived_quantities_)
+////    derived_quantity->Calculate();
+//}
 
+/**
+ *
+ */
+void TimeStep::SubscribeToBlock(ExecutorPtr executor) {
+  vector<unsigned> years = Model::Instance()->years();
+  for (unsigned year : years)
+    block_executors_[year].push_back(executor);
+}
 
 } /* namespace isam */

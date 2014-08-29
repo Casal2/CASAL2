@@ -14,7 +14,7 @@
 #define DERIVEDQUANTITY_H_
 
 // headers
-#include "BaseClasses/Object.h"
+#include "BaseClasses/Executor.h"
 #include "Model/Model.h"
 #include "Partition/Accessors/Categories.h"
 #include "Selectivities/Selectivity.h"
@@ -27,7 +27,7 @@ namespace accessor = isam::partition::accessors;
 /**
  * class definition
  */
-class DerivedQuantity : public isam::base::Object {
+class DerivedQuantity : public isam::base::Executor {
 public:
   // methods
   DerivedQuantity();
@@ -36,8 +36,10 @@ public:
   void                        Build();
   void                        Reset() { };
   bool                        IsAssignedToInitialisationPhase(const string& label);
-  virtual void                Calculate() = 0;
-  virtual void                Calculate(unsigned initialisation_phase) = 0;
+  void                        PreExecute() override final { };
+//  virtual void                Execute() { Calculate(); };
+//  virtual void                Calculate() = 0;
+//  virtual void                Calculate(unsigned initialisation_phase) = 0;
   Double                      GetValue(unsigned year);
   Double                      GetInitialisationValue(unsigned phase = 0, unsigned index = 0);
   Double                      GetLastValueFromInitialisation(unsigned phase);

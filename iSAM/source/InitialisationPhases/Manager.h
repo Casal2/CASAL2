@@ -31,6 +31,7 @@ public:
 
   // accessors
   unsigned                    last_executed_phase() const { return last_executed_phase_; }
+  unsigned                    current_initialisation_phase() const { return current_initialisation_phase_; }
 
 protected:
   // methods
@@ -38,6 +39,7 @@ protected:
 
 private:
   // members
+  unsigned                        current_initialisation_phase_;
   unsigned                        last_executed_phase_ = 0;
   vector<InitialisationPhasePtr>  ordered_initialisation_phases_;
 

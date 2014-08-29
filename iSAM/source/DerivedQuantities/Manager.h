@@ -30,11 +30,6 @@ public:
   // methods
   virtual                     ~Manager() noexcept(true) { };
   DerivedQuantityPtr          GetDerivedQuantity(const string& label);
-  vector<DerivedQuantityPtr>  GetForInitialisationTimeStep(const string& label);
-  vector<DerivedQuantityPtr>  GetForTimeStep(const string& label);
-
-protected:
-  // methods
 };
 
 } /* namespace derivedquantities */

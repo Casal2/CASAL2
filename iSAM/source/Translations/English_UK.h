@@ -173,6 +173,7 @@
 #define PARAM_ESTIMATION_PHASE                    "estimation_phase"
 #define PARAM_EVENT                               "event"
 #define PARAM_EVENT_MORTALITY                     "event_mortality"
+#define PARAM_EXPECTED_VALUE                      "expected_value"
 #define PARAM_EXPONENTIAL                         "exponential"
 #define PARAM_FADBAD                              "fadbad"
 #define PARAM_FORMAT                              "format"

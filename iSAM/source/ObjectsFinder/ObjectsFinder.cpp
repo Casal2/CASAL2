@@ -110,5 +110,29 @@ isam::base::ObjectPtr FindObject(const string& parameter_absolute_name) {
   return result;
 }
 
+/**
+ * See header for dexcription
+ */
+Double* FindEstimable(const string& estimable_absolute_name) {
+  isam::base::ObjectPtr object = FindObject(estimable_absolute_name);
+  if (!object)
+    return 0;
+
+  Double* result = 0;
+
+  string type         = "";
+  string label        = "";
+  string parameter    = "";
+  string index        = "";
+
+  ExplodeString(estimable_absolute_name, type, label, parameter, index);
+  if (index != "")
+    result = object->GetEstimable(parameter, index);
+  else
+    result = object->GetEstimable(parameter);
+
+  return result;
+}
+
 } /* namespace objects */
 } /* namespace isam */
