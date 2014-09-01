@@ -1,7 +1,7 @@
 \defComLab{mcmc}{Define an object type MCMC}
 
 \defSub{step\_size} {TBA}
-\defType{double}
+\defType{constant}
 \defDefault{0.0}
 
 \defSub{covariance\_adjustment\_method} {TBA}
@@ -9,23 +9,23 @@
 \defDefault{covariance}
 
 \defSub{length} {The number of chain links to create}
-\defType{unsigned}
+\defType{non-negative integer}
 \defDefault{No default}
 
 \defSub{adapt\_stepsize\_at} {TBA}
-\defType{unsigned}
+\defType{non-negative integer}
 \defDefault{true}
 
 \defSub{correlation\_adjustment\_diff} {TBA}
-\defType{double}
+\defType{constant}
 \defDefault{0.0001}
 
 \defSub{keep} {TBA}
-\defType{unsigned}
+\defType{non-negative integer}
 \defDefault{1u}
 
 \defSub{df} {TBA}
-\defType{unsigned}
+\defType{non-negative integer}
 \defDefault{4}
 
 \defSub{proposal\_distribution} {TBA}
@@ -33,10 +33,12 @@
 \defDefault{t}
 
 \defSub{max\_correlation} {TBA}
-\defType{double}
+\defType{constant}
 \defDefault{0.8}
 
 \defSub{start} {TBA}
-\defType{double}
+\defType{constant}
 \defDefault{0.0}
+
+\subsubsection[Metropolis Hastings]{\commandlabsubarg{m\_c\_m\_c}{type}{metropolis\_hastings}}
 

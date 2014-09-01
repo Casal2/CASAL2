@@ -55,7 +55,7 @@ using std::endl;
  */
 Model::Model() {
   LOG_TRACE();
-  parameters_.Bind<unsigned>(PARAM_START_YEAR, &start_year_, "The first year of the model", "");
+  parameters_.Bind<unsigned>(PARAM_START_YEAR, &start_year_, "The first year of the model, Whoa a comma", "");
   parameters_.Bind<unsigned>(PARAM_FINAL_YEAR, &final_year_, "The last year of the model", "");
   parameters_.Bind<unsigned>(PARAM_MIN_AGE, &min_age_, "The default minimum age for the population", "");
   parameters_.Bind<unsigned>(PARAM_MAX_AGE, &max_age_, "The default maximum age for the population", "");

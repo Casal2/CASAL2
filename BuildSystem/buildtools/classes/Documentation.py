@@ -15,32 +15,42 @@ class Documentation:
     parent_file_ = ''
     parent_class_ = ''
     variables_ = {}
-
+    estimables_ = {}
+   
     variable_type_ = {}
     variable_label_ = {}
     variable_description_ = {}
     variable_value_ = {}
     variable_default_ = {}
 
+    type_translations_ = {}
     translations_ = {}
 
     # Methods
     def __init__(self):
         print '--> Starting Documentation Builder'
+        self.type_translations_['double'] = 'constant'
+        self.type_translations_['unsigned'] = 'non-negative integer'
 
     def clean_variables(self):
         self.variable_type_ = {}
         self.variable_label_ = {}
         self.variable_description_ = {}
         self.variable_value_ = {}
-        self.variable_default_ = {}        
+        self.variable_default_ = {}
+        self.estimables_ = {}
+        self.variables_ = {}    
                                  
     def start(self):
-        self.load_translations()
+        self.clean_variables()
+        # Load our translations from the Translations.h file so we can convert
+        # PARAM_X in to actual English
+        if not self.load_translations():
+            return False
         folder_list = [ 'AgeingErrors', 'AgeSizes', 'Catchabilities', 'DerivedQuantities',
                         'Estimates', 'InitialisationPhases', 'Likelihoods', 'MCMC', 'Minimisers',
-                        'Model', 'Observations', 'Penalties', 'Processes', 'Profiles', 'Reports',
-                        'Selectivities', 'SizeWeights', 'TimeSteps']        
+                        'Model', 'Observations', 'Penalties', 'Processes', 'Profiles', 'Reports',                        
+                        'Selectivities', 'SizeWeights', 'TimeSteps']
         for folder in folder_list:
             self.clean_variables()            
             file_list = os.listdir('../iSAM/source/' + folder + '/')
@@ -50,8 +60,10 @@ class Documentation:
                     print '--> Parent File: ' + self.parent_file_
                     class_name = self.parent_file_.replace('.h', '')
                     self.parent_class_ = class_name
-                    self.load_variables(class_name, '../iSAM/source/' + folder + '/' + self.parent_file_)
-                    self.print_parent('../iSAM/source/' + folder + '/' + self.parent_file_)
+                    if not self.load_variables(class_name, '../iSAM/source/' + folder + '/' + self.parent_file_):
+                        return False
+                    if not self.print_parent('../iSAM/source/' + folder + '/' + self.parent_file_):
+                        return False
                     self.clean_variables()
                     break
 
@@ -61,13 +73,25 @@ class Documentation:
                     if (file.endswith(".h")):
                         print '--> Child File: ' + file
                         class_name = file.replace('.h', '')
-                        self.load_variables(class_name, '../iSAM/source/' + folder + '/Children/' + file)
-                        self.print_child(file.replace('.h', ''), '../iSAM/source/' + folder + '/Children/' + file)
+                        if not self.load_variables(class_name, '../iSAM/source/' + folder + '/Children/' + file):
+                            return False
+                        if not self.print_child(file.replace('.h', ''), '../iSAM/source/' + folder + '/Children/' + file):
+                            return False
                         self.clean_variables()
 
+        return True
+
+    """
+    Load the translations from our translation file. This informaiton gets stored in a map
+    so it can be used for converting the PARAM_X names in to English when we print the details
+    to the file
+    """
     def load_translations(self):
         print '--> Loading translations'
         file = fileinput.FileInput('../iSAM/source/Translations/English_UK.h')
+        if not file:
+            return Globals.PrintError('Failed to open the English_UK.h for translation loading')
+        
         for line in file:
             if not line.startswith('#define'):
                 continue
@@ -77,33 +101,43 @@ class Documentation:
 
             pieces = re.split('"', line)
             if len(pieces) != 3:
-                print '--> Error parsing translation line: ' + line
-                return
+                return Globals.PrintError('--> Error parsing translation line: ' + line)
+                
 
             temp = pieces[0].split()
             if len(temp) != 2:
-                print '--> Error parsing translation line piece: ' + pieces[0]
-                return
+                return Globals.PrintError('--> Error parsing translation line piece: ' + pieces[0])
 
             lookup = temp[1]
             value = pieces[1]
-            self.translations_[lookup] = value.replace('_', '\_')         
-        
+            self.translations_[lookup] = value.replace('_', '\_')
+        return True
+
+    """
+     Load the variables from the specified class name and header file
+    """
     def load_variables(self, class_name, header_file):
         print '--> Loading variables: ' + header_file
         start_processing = False;
         class_name = class_name.lower()
         print '--> Class: ' + class_name
-        
+        self.variables_['label_'] = 'string'
+        self.variables_['type_'] = 'string'
+
+        # First we load the header file so we can find the declaratons
+        # for the variables. This will give us a better view of the type of
+        # variable when we need to determine if the variable is a vector
+        # or just a standard variable
         fi = fileinput.FileInput(header_file)
         for line in fi:
             line = line.lower().rstrip().lstrip()
+            # Try to find the start of the class definition so we can actually start processing
             if line.startswith('class ' + class_name):
-                print '--> Processing can begin: ' + class_name
                 start_processing = True
                 continue
             if not start_processing:
                 continue
+            # skip any declarations that will be methods
             if 'virtual' in line:
                 continue
             if '(' in line:
@@ -113,6 +147,7 @@ class Documentation:
                 continue;
             if line == '' or line.startswith('//'):
                 continue
+            # Skup C++ keywords
             if line == 'public:' or line == 'protected:' or line == 'private':
                 continue
 
@@ -125,9 +160,13 @@ class Documentation:
             pieces = line.split();
             if len(pieces) < 2:
                 continue
-            print '--> Storing variable: ' + pieces[1]
-            self.variables_[pieces[1]] = pieces[0]
+            variable_type = pieces[0]
+            variable_name = pieces[1].replace(';', '')
+            print '--> Storing variable: ' + variable_name + ' as type ' + variable_type
+            self.variables_[variable_name] = variable_type
 
+        # Now we've finished with the header file we start to work with the source (.cpp) file
+        # We want to only work in the constructor because that is where everything we want is stored
         source_file = header_file.replace('.h', '.cpp')
         print '--> Loading from .cpp - ' + source_file
         start_processing = False
@@ -135,40 +174,96 @@ class Documentation:
         for line in fi:
             line = line.rstrip().lstrip()
             lower_line = line.lower().rstrip().lstrip()
+            # look specifically for the constructor then start processing
             if not start_processing and lower_line.startswith(class_name + '::' + class_name + '('):
                 print '--> Starting process'
                 start_processing = True
                 continue
             if not start_processing or line == '\n':
                 continue
+            # Stop processing after a single line with } as this is the end of the method
             if line == '}' or line == '}\n':
                 start_processing = False
                 continue
-            if not line.startswith('parameters_.Bind<'):
-                continue
-            short_line = line.replace('parameters_.Bind<', '')
-            pieces = re.split(',|<|>|;|(|)', short_line)
-            if len(pieces) < 5:
-                print '--> Error parsing line: ' + line
-                continue
-
-            pieces = filter(None, pieces)            
-            name = pieces[1].replace('(', '')
-            used_variable = pieces[2].replace('&', '').rstrip().lstrip()         
-            if used_variable in self.variables_ and self.variables_[used_variable] != pieces[0]:
-                self.variable_type_[name] = self.variables_[pieces[1].replace('&', '')]
-            else:
-                self.variable_type_[name] = pieces[0]
-            self.variable_label_[name] = name
-            self.variable_description_[name] = pieces[3].replace('"', '').rstrip().lstrip()
-            self.variable_value_[name] = pieces[4].replace('"', '').replace(')', '').rstrip().lstrip()
-            if len(pieces) == 6:
-                self.variable_default_[name] = pieces[5].replace(')', '').rstrip().lstrip()
-            else:
-                self.variable_default_[name] = 'No default'
-            print '--> Loaded variable: ' + name
+            # Only process lines witht the parameters_.Bind< or RegisterEstimable( 
+            if line.startswith('parameters_.Bind<'):
+                if not self.load_parameter_bind(line):
+                    return False
+            if line.startswith('RegisterAsEstimable('):
+                if not self.load_register_estimable(line):
+                    return False
+        return True
             
+    def load_parameter_bind(self, line):
+        short_line = line.replace('parameters_.Bind<', '')
+        pieces = re.split(',|<|>|;|(|)', short_line)
+        pieces = filter(None, pieces)
+        # Check for Name            
+        name = pieces[1].replace('(', '').rstrip().lstrip()
+        self.variable_label_[name] = name
+        print '--> Name: ' + name            
+        
+        # Check for the name of the variable we're binding too
+        used_variable = pieces[2].replace('&', '').rstrip().lstrip().lower()
+        print '-- Variable: ' + used_variable
+        
+        # Get the variable type            
+        if used_variable in self.variables_ and self.variables_[used_variable] != pieces[0]:
+            self.variable_type_[name] = pieces[0]
+        elif used_variable in self.variables_:
+            self.variable_type_[name] = self.variables_[used_variable]
+        else:
+            return Globals.PrintError('Could not set type for variable: ' + name + ' using variable ' + used_variable)
+        print '-- Type: ' + self.variable_type_[name]
 
+        # Set the description
+        index = 3;
+        description = pieces[index]
+        while description.count('"') != 2:
+            index += 1
+            description += ',' + pieces[index]
+        self.variable_description_[name] = description.replace('"', '').rstrip().lstrip()
+        print '-- Description: ' + self.variable_description_[name]            
+
+        # Set the value
+        index += 1
+        value = pieces[index]
+        while value.count('"') != 2:
+            index += 1
+            value += ',' + pieces[index]
+        value = value.replace(')', '')
+        self.variable_value_[name] = value.replace('"', '').replace(')', '').rstrip().lstrip()
+        print '-- Value: ' + self.variable_value_[name]            
+        
+        # Set the default value
+        index += 1
+        if len(pieces) > index:
+            self.variable_default_[name] = pieces[index].replace(')', '').rstrip().lstrip()
+        else:
+            self.variable_default_[name] = 'No default'
+        print '-- Default: ' + self.variable_default_[name]            
+        return True
+    
+    """
+    This method will take the RegisterAsEstimable() line and record what variable
+    is an estimate so we can specify this in the documentation
+    """
+    def load_register_estimable(self, line):
+        short_line = line.replace('RegisterAsEstimable(', '')
+        pieces = re.split(',|<|>|;|(|)', short_line)
+        pieces = filter(None, pieces)
+
+        if len(pieces) != 2:
+            return Globals.PrintError('Expected 3 pieces but got ' + str(len(pieces)) + ' with line: ' + line)
+
+        name = pieces[0]
+        variable = pieces[1].replace('&', '').replace(')', '').lstrip().rstrip()
+        print '--> Estimable: ' + name + ' with variable ' + variable
+        self.estimables_[name] = variable
+        return True
+
+    """
+    """
     def print_parent(self, header_file):        
         self.current_output_file_ = '../Documentation/Manual/Syntax/' + self.parent_file_.replace('.h', '.tex')
         source_file = header_file.replace('.h', '.cpp')
@@ -186,8 +281,16 @@ class Documentation:
         file.write('\n')
 
         for name in self.variable_label_:
+            if name not in self.translations_:
+                return Globals.PrintError('Name ' + name + ' not found in translations')
             file.write('\\defSub{' + self.translations_[name] + '} {' + self.variable_description_[name] + '}\n')
-            file.write('\\defType{' + self.variable_type_[name] + '}\n')
+
+            if name in self.estimables_:
+                file.write('\\defType{estimable}\n')
+            elif self.variable_type_[name] in self.type_translations_:
+                file.write('\\defType{' + self.type_translations_[self.variable_type_[name]] + '}\n')
+            else:
+                file.write('\\defType{' + self.variable_type_[name] + '}\n')
             if self.variable_default_[name].startswith('PARAM_'):
                 file.write('\\defDefault{' + self.translations_[self.variable_default_[name]] + '}\n')
             else:
@@ -197,7 +300,10 @@ class Documentation:
             file.write('\n')
         
         file.close()
+        return True
 
+    """
+    """
     def print_child(self, class_name, header_file):        
         source_file = header_file.replace('.h', '.cpp')
         print '--> Printing parent latex from ' + source_file + ' to ' + self.current_output_file_
@@ -212,7 +318,13 @@ class Documentation:
 
         for name in self.variable_label_:
             file.write('\\defSub{' + self.translations_[name] + '} {' + self.variable_description_[name] + '}\n')
-            file.write('\\defType{' + self.variable_type_[name] + '}\n')
+
+            if name in self.estimables_:
+                file.write('\\defType{estimable}\n')
+            elif self.variable_type_[name] in self.type_translations_:
+                file.write('\\defType{' + self.type_translations_[self.variable_type_[name]] + '}\n')
+            else:
+                file.write('\\defType{' + self.variable_type_[name] + '}\n')
             if self.variable_default_[name].startswith('PARAM_'):
                 file.write('\\defDefault{' + self.translations_[self.variable_default_[name]] + '}\n')
             else:
@@ -222,6 +334,7 @@ class Documentation:
             file.write('\n')
         
         file.close()
+        return True
             
             
     
