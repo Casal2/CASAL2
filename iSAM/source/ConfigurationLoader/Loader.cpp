@@ -158,11 +158,6 @@ void Loader::ParseBlock(vector<FileLine> &block) {
   if (block.size() == 0)
     LOG_CODE_ERROR("block.size() == 0");
 
-
-  for(FileLine file_line : block) {
-    LOG_INFO("file_line: " << file_line.file_name_ << ":" << file_line.line_number_ << " = " << file_line.line_);
-  }
-
   /**
    * Get the block type
    * e.g
@@ -313,7 +308,6 @@ void Loader::ParseBlock(vector<FileLine> &block) {
 
     }
 
-    LOG_INFO("Getting parameter: " << parameter_type << " from " << block_type);
     const ParameterPtr parameter = object->parameters().Get(parameter_type);
     if (!parameter)
       LOG_ERROR("At line " << file_line.line_number_ << " of " << file_line.file_name_
@@ -352,8 +346,6 @@ bool Loader::HandleOperators(vector<string>& line_values) {
    * This will also implicitly handle the + operator
    */
   auto iterator   = line_values.begin();
-  LOG_INFO("line_values.size(): " << line_values.size());
-
   bool join_required = false;
   for (; iterator != line_values.end(); iterator++) {
     if (!join_required) {

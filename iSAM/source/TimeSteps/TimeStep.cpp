@@ -70,7 +70,7 @@ void TimeStep::Build() {
 /**
  * Execute the time step during the initialisation phases
  */
-void TimeStep::ExecuteForInitialisation(unsigned phase) {
+void TimeStep::ExecuteForInitialisation() {
   for (unsigned index = 0; index < processes_.size(); ++index) {
     processes_[index]->Execute();
 
