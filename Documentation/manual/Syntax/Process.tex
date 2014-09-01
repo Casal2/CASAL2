@@ -15,65 +15,65 @@
 \subsubsection[Ageing]{\commandlabsubarg{process}{type}{ageing}}
 
 \defSub{categories} {Categories}
-\defType{string}
+\defType{string vector}
 \defDefault{No default}
 
 \subsubsection[Maturation]{\commandlabsubarg{process}{type}{maturation}}
 
 \defSub{from} {List of categories to mature from}
-\defType{string}
+\defType{string vector}
 \defDefault{No default}
 
 \defSub{rates} {The rates to mature for each year}
-\defType{estimable}
+\defType{estimable vector}
 \defDefault{No default}
 
 \defSub{selectivities} {List of selectivities to use for maturation}
-\defType{string}
+\defType{string vector}
 \defDefault{No default}
 
 \defSub{to} {List of categories to mature too}
-\defType{string}
+\defType{string vector}
 \defDefault{No default}
 
 \defSub{years} {The years to be associated with rates}
-\defType{non-negative integer}
+\defType{non-negative integer vector}
 \defDefault{No default}
 
 \subsubsection[Maturation Rate]{\commandlabsubarg{process}{type}{maturation\_rate}}
 
 \defSub{from} {From}
-\defType{string}
+\defType{string vector}
 \defDefault{No default}
 
 \defSub{selectivities} {Selectivity names}
-\defType{string}
+\defType{string vector}
 \defDefault{No default}
 
 \defSub{to} {To}
-\defType{string}
+\defType{string vector}
 \defDefault{No default}
 
 \defSub{proportions} {Proportions}
-\defType{estimable}
+\defType{estimable vector}
 \defDefault{No default}
 
 \subsubsection[Mortality Constant Rate]{\commandlabsubarg{process}{type}{mortality\_constant\_rate}}
 
 \defSub{m} {Mortality rates}
-\defType{estimable}
+\defType{estimable vector}
 \defDefault{No default}
 
 \defSub{selectivities} {Selectivities}
-\defType{string}
+\defType{string vector}
 \defDefault{No default}
 
 \defSub{categories} {List of categories}
-\defType{string}
+\defType{string vector}
 \defDefault{No default}
 
 \defSub{time\_step\_ratio} {Time step ratios for M}
-\defType{constant}
+\defType{constant vector}
 \defDefault{true}
 
 \subsubsection[Mortality Event]{\commandlabsubarg{process}{type}{mortality\_event}}
@@ -87,19 +87,19 @@
 \defDefault{0.99}
 
 \defSub{categories} {Categories}
-\defType{string}
+\defType{string vector}
 \defDefault{No default}
 
 \defSub{selectivities} {List of selectivities}
-\defType{string}
+\defType{string vector}
 \defDefault{No default}
 
 \defSub{years} {Years}
-\defType{non-negative integer}
+\defType{non-negative integer vector}
 \defDefault{No default}
 
 \defSub{catches} {Catches}
-\defType{estimable}
+\defType{estimable vector}
 \defDefault{No default}
 
 \subsubsection[Mortality Event Biomass]{\commandlabsubarg{process}{type}{mortality\_event\_biomass}}
@@ -113,19 +113,19 @@
 \defDefault{0.99}
 
 \defSub{categories} {Category labels}
-\defType{string}
+\defType{string vector}
 \defDefault{No default}
 
 \defSub{selectivities} {Selectivity labels}
-\defType{string}
+\defType{string vector}
 \defDefault{No default}
 
 \defSub{years} {Years to apply mortality}
-\defType{non-negative integer}
+\defType{non-negative integer vector}
 \defDefault{No default}
 
 \defSub{catches} {Catches for each year}
-\defType{estimable}
+\defType{estimable vector}
 \defDefault{No default}
 
 \subsubsection[Recruitment Beverton Holt]{\commandlabsubarg{process}{type}{recruitment\_beverton\_holt}}
@@ -139,11 +139,11 @@
 \defDefault{No default}
 
 \defSub{standardise\_ycs\_years} {}
-\defType{non-negative integer}
+\defType{non-negative integer vector}
 \defDefault{true}
 
 \defSub{ycs\_values} {YCS Values}
-\defType{estimable}
+\defType{estimable vector}
 \defDefault{No default}
 
 \defSub{age} {Age to recruit at}
@@ -163,11 +163,11 @@
 \defDefault{No default}
 
 \defSub{categories} {Category labels}
-\defType{string}
+\defType{string vector}
 \defDefault{No default}
 
 \defSub{proportions} {Proportions}
-\defType{estimable}
+\defType{estimable vector}
 \defDefault{No default}
 
 \subsubsection[Recruitment Constant]{\commandlabsubarg{process}{type}{recruitment\_constant}}
@@ -181,10 +181,10 @@
 \defDefault{No default}
 
 \defSub{proportions} {Proportions}
-\defType{estimable}
+\defType{estimable vector}
 \defDefault{true}
 
 \defSub{categories} {Categories}
-\defType{string}
+\defType{string vector}
 \defDefault{No default}
 
