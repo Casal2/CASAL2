@@ -1,22 +1,45 @@
-/*
- * ObjectiveFunction.cpp
+/**
+ * @file ObjectiveFunction.cpp
+ * @author  Scott Rasmussen (scott.rasmussen@zaita.com)
+ * @date 1/09/2014
+ * @section LICENSE
  *
- *  Created on: 19/08/2014
- *      Author: Admin
+ * Copyright NIWA Science ©2014 - www.niwa.co.nz
+ *
  */
 
-#include <Asserts/Children/ObjectiveFunction.h>
+// headers
+#include "ObjectiveFunction.h"
 
+#include "Model/Model.h"
+
+// namespaces
 namespace isam {
 namespace asserts {
 
+/**
+ *
+ */
 ObjectiveFunction::ObjectiveFunction() {
-  // TODO Auto-generated constructor stub
-
 }
 
-ObjectiveFunction::~ObjectiveFunction() {
-  // TODO Auto-generated destructor stub
+/**
+ *
+ */
+void ObjectiveFunction::DoValidate() { }
+
+/**
+ *
+ */
+void ObjectiveFunction::DoBuild() {
+  Model::Instance()->Subscribe(State::kFinalise, shared_ptr());
+}
+
+/**
+ *
+ */
+void ObjectiveFunction::Execute() {
+
 }
 
 } /* namespace asserts */

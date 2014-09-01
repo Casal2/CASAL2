@@ -19,6 +19,7 @@
 // Headers
 #include <boost/shared_ptr.hpp>
 
+#include "BaseClasses/Executor.h"
 #include "BaseClasses/Object.h"
 #include "Catchabilities/Manager.h"
 #include "Utilities/RunMode.h"
@@ -55,6 +56,7 @@ public:
   virtual                     ~Model() = default;
   void                        Start(RunMode::Type run_mode);
   void                        FullIteration();
+  void                        Subscribe(State::Type state, ExecutorPtr executor) { executors_[state].push_back(executor); }
 
   // Accessors
   RunMode::Type               run_mode() const { return run_mode_; }
@@ -101,6 +103,8 @@ protected:
   vector<string>              initialisation_phases_;
   vector<string>              time_steps_;
   CatchabilityManagerPtr      catchability_manager_;
+
+  map<State::Type, vector<ExecutorPtr>> executors_;
 };
 
 /**

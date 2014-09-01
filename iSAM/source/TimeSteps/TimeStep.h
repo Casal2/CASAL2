@@ -39,6 +39,7 @@ public:
   void                        ExecuteForInitialisation(unsigned phase);
   void                        Execute(unsigned year);
   bool                        HasProcess(const string& label) { return std::find(process_names_.begin(), process_names_.end(), label) != process_names_.end(); }
+  void                        Subscribe(ExecutorPtr executor, unsigned year) { executors_[year].push_back(executor); }
   void                        SubscribeToInitialisationBlock(ExecutorPtr executor) { initialisation_block_executors_.push_back(executor); }
   void                        SubscribeToBlock(ExecutorPtr executor);
   void                        SubscribeToBlock(ExecutorPtr executor, unsigned year) { block_executors_[year].push_back(executor); }
