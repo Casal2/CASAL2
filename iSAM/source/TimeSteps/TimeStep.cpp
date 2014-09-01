@@ -105,6 +105,9 @@ void TimeStep::Execute(unsigned year) {
       observations_manager.Execute(year, label_);
     }
   }
+
+  for (ExecutorPtr executor : executors_[year])
+    executor->Execute();
 }
 
 /**

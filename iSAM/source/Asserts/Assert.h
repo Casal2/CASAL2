@@ -18,7 +18,7 @@
 #define ASSERT_H_
 
 // headers
-#include "BaseClasses/Object.h"
+#include "BaseClasses/Executor.h"
 
 // namespaces
 namespace isam {
@@ -26,15 +26,21 @@ namespace isam {
 /**
  * Class definition
  */
-class Assert : public isam::base::Object {
+class Assert : public isam::base::Executor {
 public:
   // methods
   Assert();
   virtual                     ~Assert() = default;
-  void                        Check() { };
-  void                        Validate() { };
-  void                        Build() { };
+  void                        Validate();
+  void                        Build() { DoBuild();};
   void                        Reset() { };
+  void                        PreExecute() override final { };
+
+protected:
+  // methods
+  virtual void                DoValidate() = 0;
+  virtual void                DoBuild() = 0;
+
 };
 
 typedef boost::shared_ptr<Assert> AssertPtr;

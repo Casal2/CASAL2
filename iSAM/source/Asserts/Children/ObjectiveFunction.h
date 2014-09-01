@@ -1,23 +1,39 @@
-/*
- * ObjectiveFunction.h
+/**
+ * @file ObjectiveFunction.h
+ * @author  Scott Rasmussen (scott.rasmussen@zaita.com)
+ * @date 1/09/2014
+ * @section LICENSE
  *
- *  Created on: 19/08/2014
- *      Author: Admin
+ * Copyright NIWA Science ©2014 - www.niwa.co.nz
+ *
+ * @section DESCRIPTION
+ *
+ * << Add Description >>
  */
+#ifndef ASSERTS_OBJECTIVEFUNCTION_H_
+#define ASSERTS_OBJECTIVEFUNCTION_H_
 
-#ifndef OBJECTIVEFUNCTION_H_
-#define OBJECTIVEFUNCTION_H_
+// headers
+#include "Asserts/Assert.h"
 
+// namespaces
 namespace isam {
 namespace asserts {
 
-class ObjectiveFunction {
+/**
+ * class definition
+ */
+class ObjectiveFunction : public isam::Assert {
 public:
+  // methods
   ObjectiveFunction();
-  virtual ~ObjectiveFunction();
+  virtual                     ~ObjectiveFunction() = default;
+  void                        DoValidate() override final;
+  void                        DoBuild() override final;
+  void                        Execute() override final;
 };
 
 } /* namespace asserts */
 } /* namespace isam */
 
-#endif /* OBJECTIVEFUNCTION_H_ */
+#endif /* ASSERTS_OBJECTIVEFUNCTION_H_ */
