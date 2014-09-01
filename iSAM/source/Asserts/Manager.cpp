@@ -23,19 +23,5 @@ namespace asserts {
 Manager::Manager() {
 }
 
-/**
- * Destructor
- */
-Manager::~Manager() noexcept(true) {
-}
-
-/**
- * Validate any loaded processes we have.
- */
-void Manager::Validate() {
-  LOG_TRACE();
-
-}
-
 } /* namespace asserts */
 } /* namespace isam */

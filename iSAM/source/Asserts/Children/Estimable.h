@@ -34,9 +34,12 @@ public:
 
 private:
   // members
+  string                      parameter_;
   vector<unsigned>            years_;
   string                      time_step_label_;
   vector<unsigned>            values_;
+  map<unsigned, double>       year_values_;
+  Double*                     estimable_;
 };
 
 } /* namespace asserts */

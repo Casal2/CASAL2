@@ -47,7 +47,6 @@ namespace utilities {
 #define LOG_WARNING(value) { };
 #define LOG_ERROR(value) {\
   ostringstream o;\
-  o << "\n\n\n";\
   o << "[ERROR] - An error has been encountered that prevents the program from continuing\n"\
     << "Source: " << __FILE__ << ":" << __FUNCTION__ << " (Line: " << __LINE__ << ")\n"\
     << "Error: " << value;\

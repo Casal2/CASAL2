@@ -14,6 +14,8 @@
 #include "Factory.h"
 
 #include "Asserts/Manager.h"
+#include "Asserts/Children/Estimable.h"
+#include "Asserts/Children/ObjectiveFunction.h"
 
 // Namespaces
 namespace isam {
@@ -30,8 +32,15 @@ namespace asserts {
 AssertPtr Factory::Create(string object_type, string sub_type) {
   AssertPtr result;
 
-  if (result)
-    asserts::Manager::Instance().AddObject(result);
+  if (object_type == PARAM_ASSERT) {
+    if (sub_type == PARAM_ESTIMABLE)
+      result = AssertPtr(new Estimable());
+    else if (sub_type == PARAM_OBJECTIVE_FUNCTION)
+      result = AssertPtr(new ObjectiveFunction());
+
+    if (result)
+      asserts::Manager::Instance().AddObject(result);
+  }
 
   return result;
 }
