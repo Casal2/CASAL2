@@ -24,7 +24,16 @@ namespace initialisationphases {
 /**
  * Class Definition
  */
-class Factory : public isam::base::Factory<isam::InitialisationPhase, isam::initialisationphases::Manager> {};
+class Factory {
+public:
+  // methods
+  static InitialisationPhasePtr Create(const string& object_type, const string& sub_type);
+
+private:
+  // methods
+  Factory() = delete;
+  virtual ~Factory() = delete;
+};
 
 } /* namespace initialisationphases */
 } /* namespace isam */

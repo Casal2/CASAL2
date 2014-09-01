@@ -72,7 +72,7 @@ base::ObjectPtr Object::Create(string& object_type, string& sub_type) {
   else if (object_type == PARAM_ESTIMATE)
     result = estimates::info::Factory::Create();
   else if (object_type == PARAM_INITIALISATION_PHASE || object_type == PARAM_INITIALISATION_PHASES)
-    result = initialisationphases::Factory::Create();
+    result = initialisationphases::Factory::Create(object_type, sub_type);
   else if (object_type == PARAM_LIKELIHOOD)
     result = likelihoods::Factory::Create(sub_type);
   else if (object_type == PARAM_MINIMIZER)

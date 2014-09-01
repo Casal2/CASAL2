@@ -35,8 +35,6 @@ void Manager::Build() {
   for(InitialisationPhasePtr phase : objects_)
     phase->Build();
 
-  unsigned index = 0;
-
   // Order our time steps based on the parameter given to the model
   ordered_initialisation_phases_.clear();
 
@@ -45,7 +43,6 @@ void Manager::Build() {
   for(string label : phases) {
     for(InitialisationPhasePtr phase : objects_) {
       if (phase->label() == label) {
-        phase->set_index(index++);
         ordered_initialisation_phases_.push_back(phase);
         break;
       }

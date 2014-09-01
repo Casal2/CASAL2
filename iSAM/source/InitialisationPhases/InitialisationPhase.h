@@ -31,28 +31,20 @@ public:
   InitialisationPhase();
   virtual                     ~InitialisationPhase() = default;
   void                        Validate();
-  void                        Build();
+  void                        Build() { DoBuild(); }
   void                        Reset() { };
-  void                        Execute();
+  virtual void                Execute() = 0;
 
-  // accessors
-  void                        set_index(unsigned index) { index_ = index; }
-  unsigned                    index() { return index_; }
-
-private:
-  // Members
-  unsigned                    years_;
-  vector<string>              process_labels_;
-  vector<string>              time_step_labels_;
-  vector<TimeStepPtr>         time_steps_;
-  unsigned                    index_; // index is used for derived quantities
-
+protected:
+  // methods
+  virtual void                DoValidate() = 0;
+  virtual void                DoBuild() = 0;
 };
 
 /*
  * Typedef
  */
-typedef boost::shared_ptr<InitialisationPhase> InitialisationPhasePtr;
+typedef boost::shared_ptr<isam::InitialisationPhase> InitialisationPhasePtr;
 
 } /* namespace isam */
 #endif /* INITIALISATIONPHASE_H_ */
