@@ -12,6 +12,7 @@
 #include "ObjectiveFunction.h"
 
 #include "Model/Model.h"
+#include "ObjectiveFunction/ObjectiveFunction.h"
 
 // namespaces
 namespace isam {
@@ -21,12 +22,8 @@ namespace asserts {
  *
  */
 ObjectiveFunction::ObjectiveFunction() {
+  parameters_.Bind<double>(PARAM_VALUE, &value_, "Expected value of the objective function", "");
 }
-
-/**
- *
- */
-void ObjectiveFunction::DoValidate() { }
 
 /**
  *
@@ -39,7 +36,9 @@ void ObjectiveFunction::DoBuild() {
  *
  */
 void ObjectiveFunction::Execute() {
-
+  isam::ObjectiveFunction& obj = isam::ObjectiveFunction::Instance();
+  if (value_ != obj.score())
+    LOG_ERROR("Assert Failure: Objective Function had actual value " << obj.score() << " when we expected " << value_);
 }
 
 } /* namespace asserts */
