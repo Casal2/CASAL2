@@ -28,9 +28,13 @@ public:
   // methods
   ObjectiveFunction();
   virtual                     ~ObjectiveFunction() = default;
-  void                        DoValidate() override final;
+  void                        DoValidate() { };
   void                        DoBuild() override final;
   void                        Execute() override final;
+
+private:
+  // members
+  Double                      value_;
 };
 
 } /* namespace asserts */

@@ -174,6 +174,8 @@ void Model::Start(RunMode::Type run_mode) {
   // finalise all reports
   LOG_INFO("Finalising Reports");
   state_ = State::kFinalise;
+  for (ExecutorPtr executor : executors_[state_])
+    executor->Execute();
   reports::Manager::Instance().Execute(state_);
   reports::Manager::Instance().Finalise();
 }
@@ -278,6 +280,8 @@ void Model::Build() {
  */
 void Model::Verify() {
   LOG_TRACE();
+  for (ExecutorPtr executor : executors_[state_])
+    executor->Execute();
 }
 
 /**
@@ -498,6 +502,9 @@ void Model::Iterate() {
   }
 
   observations::Manager::Instance().CalculateScores();
+
+  for (ExecutorPtr executor : executors_[State::kExecute])
+    executor->Execute();
 }
 
 /**
