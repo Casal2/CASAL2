@@ -27,8 +27,7 @@ namespace asserts {
 class Manager : public isam::base::Manager<isam::asserts::Manager, isam::Assert> {
   friend class isam::base::Manager<isam::asserts::Manager, isam::Assert>;
 public:
-  virtual                     ~Manager() noexcept(true);
-  void                        Validate() override final;
+  virtual                     ~Manager() = default;
 
 protected:
   // methods

@@ -103,6 +103,7 @@
 #define PARAM_ALPHA                               "alpha"
 #define PARAM_ANNUAL_MORTALITY_RATE               "annual_mortality_rate"
 #define PARAM_AREA                                "area"
+#define PARAM_ASSERT                              "assert"
 #define PARAM_ATO95                               "ato95"
 #define PARAM_B                                   "b"
 #define PARAM_B0                                  "b0"
