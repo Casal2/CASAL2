@@ -33,13 +33,13 @@
 \defDefault{No default}
 
 \defSub{time\_step\_proportion} {Proportion through the time step to analyse the partition from}
-\defType{double}
+\defType{constant}
 \defDefault{1.0}
 
 \subsubsection[Abundance]{\commandlabsubarg{observation}{type}{abundance}}
 
 \defSub{process\_error} {Process error}
-\defType{double}
+\defType{constant}
 \defDefault{0.0}
 
 \defSub{obs} {Observation values}
@@ -47,7 +47,7 @@
 \defDefault{No default}
 
 \defSub{years} {Years to execute in}
-\defType{unsigned}
+\defType{non-negative integer}
 \defDefault{No default}
 
 \defSub{catchability} {TBA}
@@ -55,17 +55,17 @@
 \defDefault{No default}
 
 \defSub{error\_value} {The error values to use against the observation values}
-\defType{double}
+\defType{constant}
 \defDefault{No default}
 
 \defSub{delta} {Delta value for error values}
-\defType{double}
+\defType{constant}
 \defDefault{1e-10}
 
 \subsubsection[Biomass]{\commandlabsubarg{observation}{type}{biomass}}
 
 \defSub{process\_error} {Process error}
-\defType{double}
+\defType{constant}
 \defDefault{0.0}
 
 \defSub{obs} {Observation values}
@@ -73,7 +73,7 @@
 \defDefault{No default}
 
 \defSub{years} {Years to execute in}
-\defType{unsigned}
+\defType{non-negative integer}
 \defDefault{No default}
 
 \defSub{catchability} {TBA}
@@ -81,11 +81,11 @@
 \defDefault{No default}
 
 \defSub{error\_value} {The error values to use against the observation values}
-\defType{double}
+\defType{constant}
 \defDefault{No default}
 
 \defSub{delta} {Delta value for error values}
-\defType{double}
+\defType{constant}
 \defDefault{1e-10}
 
 \subsubsection[Proportions At Age]{\commandlabsubarg{observation}{type}{proportions\_at\_age}}
@@ -95,11 +95,11 @@
 \defDefault{true}
 
 \defSub{process\_error} {Process error}
-\defType{double}
+\defType{constant}
 \defDefault{0.0}
 
 \defSub{min\_age} {Minimum age}
-\defType{unsigned}
+\defType{non-negative integer}
 \defDefault{No default}
 
 \defSub{obs} {Observation values}
@@ -107,19 +107,19 @@
 \defDefault{No default}
 
 \defSub{tolerance} {Tolerance}
-\defType{double}
+\defType{constant}
 \defDefault{0.001}
 
 \defSub{error\_value} {Error values}
-\defType{double}
+\defType{constant}
 \defDefault{No default}
 
 \defSub{max\_age} {Maximum age}
-\defType{unsigned}
+\defType{non-negative integer}
 \defDefault{No default}
 
 \defSub{year} {Year to execute in}
-\defType{unsigned}
+\defType{non-negative integer}
 \defDefault{No default}
 
 \defSub{ageing\_error} {Label of ageing error to use}
@@ -127,7 +127,7 @@
 \defDefault{""}
 
 \defSub{delta} {Delta}
-\defType{double}
+\defType{constant}
 \defDefault{DELTA}
 
 \subsubsection[Proportions By Category]{\commandlabsubarg{observation}{type}{proportions\_by\_category}}

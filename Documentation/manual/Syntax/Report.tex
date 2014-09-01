@@ -9,7 +9,7 @@
 \defDefault{No default}
 
 \defSub{years} {Years}
-\defType{unsigned}
+\defType{non-negative integer}
 \defDefault{true}
 
 \defSub{overwrite} {Overwrite file}
@@ -28,6 +28,12 @@
 
 \subsubsection[Derived Quantity]{\commandlabsubarg{report}{type}{derived\_quantity}}
 
+\subsubsection[Estimable]{\commandlabsubarg{report}{type}{estimable}}
+
+\defSub{parameter} {Parameter to print}
+\defType{string}
+\defDefault{No default}
+
 \subsubsection[Estimate Summary]{\commandlabsubarg{report}{type}{estimate\_summary}}
 
 \subsubsection[Estimate Value]{\commandlabsubarg{report}{type}{estimate\_value}}
@@ -45,6 +51,12 @@
 \subsubsection[Partition]{\commandlabsubarg{report}{type}{partition}}
 
 \subsubsection[Partition Mean Weight]{\commandlabsubarg{report}{type}{partition\_mean\_weight}}
+
+\subsubsection[Selectivity]{\commandlabsubarg{report}{type}{selectivity}}
+
+\defSub{selectivity} {Selectivity name}
+\defType{string}
+\defDefault{No default}
 
 \subsubsection[Simulated Observation]{\commandlabsubarg{report}{type}{simulated\_observation}}
 

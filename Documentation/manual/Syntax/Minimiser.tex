@@ -21,19 +21,19 @@
 \subsubsection[D E Solver]{\commandlabsubarg{minimiser}{type}{d\_e\_solver}}
 
 \defSub{population\_size} {The number of candidate solutions to have in the population}
-\defType{unsigned}
+\defType{non-negative integer}
 \defDefault{No default}
 
 \defSub{difference\_scale} {The scale to apply to new solutions when comparing candidates}
-\defType{double}
+\defType{constant}
 \defDefault{0.02}
 
 \defSub{tolerance} {The total variance between the population and best candidate before acceptance}
-\defType{double}
+\defType{constant}
 \defDefault{0.01}
 
 \defSub{crossover\_probability} {TBA}
-\defType{double}
+\defType{constant}
 \defDefault{0.9}
 
 \defSub{method} {The type of candidate generation method to use}
@@ -42,7 +42,7 @@
 \defValue{not\_yet\_implemented}
 
 \defSub{max\_generations} {The maximum number of iterations to run}
-\defType{unsigned}
+\defType{non-negative integer}
 \defDefault{No default}
 
 \subsubsection[D Lib]{\commandlabsubarg{minimiser}{type}{d\_lib}}
@@ -50,11 +50,11 @@
 \subsubsection[Gamma Diff]{\commandlabsubarg{minimiser}{type}{gamma\_diff}}
 
 \defSub{tolerance} {Tolerance of the gradient for convergence}
-\defType{double}
+\defType{constant}
 \defDefault{0.02}
 
 \defSub{step\_size} {Minimum Step-size before minimisation fails}
-\defType{double}
+\defType{constant}
 \defDefault{1e-7}
 
 \defSub{evaluations} {Maximum number of evaluations}
