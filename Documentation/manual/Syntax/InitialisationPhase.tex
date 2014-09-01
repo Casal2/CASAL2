@@ -1,15 +1,23 @@
 \defComLab{initialisation\_phase}{Define an object type Initialisation\_Phase}
 
-\defSub{processes} {A list of processes to execute during this phase}
-\defType{string}
-\defDefault{true}
-
 \defSub{label} {Label}
 \defType{string}
 \defDefault{No default}
 
-\defSub{time\_steps} {A list of time steps to execute during this phase}
+\defSub{type} {Type}
 \defType{string}
+\defDefault{iterative}
+
+\subsubsection[Derived]{\commandlabsubarg{initialisation\_phase}{type}{derived}}
+
+\subsubsection[Iterative]{\commandlabsubarg{initialisation\_phase}{type}{iterative}}
+
+\defSub{processes} {A list of processes to execute during this phase}
+\defType{string vector}
+\defDefault{true}
+
+\defSub{time\_steps} {A list of time steps to execute during this phase}
+\defType{string vector}
 \defDefault{true}
 
 \defSub{years} {The number of iterations to execute this phase for}

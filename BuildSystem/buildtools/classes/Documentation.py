@@ -29,8 +29,12 @@ class Documentation:
     # Methods
     def __init__(self):
         print '--> Starting Documentation Builder'
-        self.type_translations_['double'] = 'constant'
-        self.type_translations_['unsigned'] = 'non-negative integer'
+        self.type_translations_['double']           = 'constant'
+        self.type_translations_['vector<double>']   = 'constant vector'
+        self.type_translations_['unsigned']         = 'non-negative integer'
+        self.type_translations_['vector<unsigned>'] = 'non-negative integer vector'
+        self.type_translations_['vector<string>']   = 'string vector'
+        self.type_translations_['vector<bool>']     = 'boolean vector'
 
     def clean_variables(self):
         self.variable_type_ = {}
@@ -208,9 +212,7 @@ class Documentation:
         print '-- Variable: ' + used_variable
         
         # Get the variable type            
-        if used_variable in self.variables_ and self.variables_[used_variable] != pieces[0]:
-            self.variable_type_[name] = pieces[0]
-        elif used_variable in self.variables_:
+        if used_variable in self.variables_:
             self.variable_type_[name] = self.variables_[used_variable]
         else:
             return Globals.PrintError('Could not set type for variable: ' + name + ' using variable ' + used_variable)
@@ -286,7 +288,10 @@ class Documentation:
             file.write('\\defSub{' + self.translations_[name] + '} {' + self.variable_description_[name] + '}\n')
 
             if name in self.estimables_:
-                file.write('\\defType{estimable}\n')
+                if self.variable_type_[name].startswith('vector<'):
+                    file.write('\\defType{estimable vector}\n')
+                else:
+                    file.write('\\defType{estimable}\n')
             elif self.variable_type_[name] in self.type_translations_:
                 file.write('\\defType{' + self.type_translations_[self.variable_type_[name]] + '}\n')
             else:
@@ -320,7 +325,10 @@ class Documentation:
             file.write('\\defSub{' + self.translations_[name] + '} {' + self.variable_description_[name] + '}\n')
 
             if name in self.estimables_:
-                file.write('\\defType{estimable}\n')
+                if self.variable_type_[name].startswith('vector<'):
+                    file.write('\\defType{estimable vector}\n')
+                else:
+                    file.write('\\defType{estimable}\n')
             elif self.variable_type_[name] in self.type_translations_:
                 file.write('\\defType{' + self.type_translations_[self.variable_type_[name]] + '}\n')
             else:
