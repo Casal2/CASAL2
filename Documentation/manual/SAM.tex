@@ -204,10 +204,10 @@ escapeinside={\%*}{*)}          % if you want to add a comment within your code
 %iSAM cannot be used officially, so new name required!!! WHAT IS IT!
 %for now \SAM is {iSAM}, \SAMName is {Stock Assessment Model}
 %\SAM and \SAMName will not change, but {} will.
-\newcommand{\VER}{v\input{SAMversion.tex}} % SAM program version
-\newcommand{\SAM}{\texttt{SAM}} % SAM short name
-\newcommand{\sam}{\texttt{sam}} % sam prefix/suffix
-\newcommand{\SAMName}{Stock Assessment Model} %SAM long name
+\newcommand{\VER}{v\input{iSAMversion.tex}} % SAM program version
+\newcommand{\SAM}{\texttt{iSAM}} % SAM short name
+\newcommand{\sam}{\texttt{isam}} % sam prefix/suffix
+\newcommand{\SAMName}{Integrated Stock Assessment Model} %SAM long name
 \newcommand{\authors}{\href{mailto:"Alistair Dunn"<alistair.dunn@niwa.co.nz>?subject=SAM:}{authors}} %check this
 %hyper ref for email
 \newcommand{\Organisation}{National Institute of Water \& Atmospheric Research Ltd.} %NIWA
@@ -232,7 +232,7 @@ escapeinside={\%*}{*)}          % if you want to add a comment within your code
 
 
 % Title page
-\pdfbookmark[1]{SAM Users Manual}{title}
+\pdfbookmark[1]{iSAM Users Manual}{title}
 \pagenumbering{alph} % alpha not used, but used to remove warnings when page 1 is re-defined below
 \maketitle
 \thispagestyle{empty} % no header/footer/page number on this page
