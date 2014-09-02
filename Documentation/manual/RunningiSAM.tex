@@ -24,19 +24,19 @@ The command and subcommand definitions in the \config\ can be extensive (especia
 \CH
 \iSAM\ uses the standard output stream \texttt{standard output}\index{standard output} to display run-time information. The \I{standard error} stream is used by \iSAM\ to output the program exit status and run-time errors. We suggest redirecting both the standard output and standard error into files\index{Redirecting standard out}\index{Redirecting standard error}. With the bash shell (on Linux systems), you can do this using the command structure,
 
-\begin{verbatim} (\sam [arguments] > out) >& err &\end{verbatim}
+\begin{verbatim} (\isam [arguments] > out) >& err &\end{verbatim}
 
 It may be useful to redirect the standard input, especially is you're using \iSAM\ inside a batch job software, i.e. 
 
-\begin{verbatim} (\sam [arguments] > out < /dev/null) >& err &\end{verbatim}
+\begin{verbatim} (\isam [arguments] > out < /dev/null) >& err &\end{verbatim}
 
 On Microsoft Windows systems, you can redirect to standard output using,
 
-\begin{verbatim} \sam [arguments] > out\end{verbatim}
+\begin{verbatim} \isam [arguments] > out\end{verbatim}
 
 And, on some Microsoft Windows systems (e.g., Windows7), you can redirect to both standard output and standard error, using the syntax, 
 
-\begin{verbatim} \sam [arguments] > out 2> err\end{verbatim}
+\begin{verbatim} \isam [arguments] > out 2> err\end{verbatim}
 
 Note that \iSAM\ outputs a few lines of header information to the output. The header\index{Output header information} consists of the program name and version, the arguments passed to \iSAM\ from the command line, the date and time that the program was called (derived from the system time), the user name, and the machine name (including the operating system and the process identification number). These can be used to track outputs as well as identifying the version of \iSAM\ used to run the model.
 
@@ -44,7 +44,7 @@ Note that \iSAM\ outputs a few lines of header information to the output. The he
 \CH
 The call to \iSAM\ is of the following form.: 
 
-\texttt{\sam [-c \emph{config\_file}] [\emph{task}] [\emph{options}]}
+\texttt{\isam [-c \emph{config\_file}] [\emph{task}] [\emph{options}]}
 
 \begin{description}
   \item [\texttt{-c \emph{config\_file}}] Define the \config\ for \iSAM. If omitted, then \iSAM\ looks for a file named \texttt{config.spm}.
