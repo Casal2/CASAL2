@@ -3,6 +3,10 @@ import sys
 import subprocess
 import os.path
 import shutil
+import fileinput
+import re
+from datetime import datetime, date
+from dateutil import tz
 
 import Globals
 
@@ -26,8 +30,38 @@ class MainCode:
     # Check to see if the third party libraries have been built
     third_party_dir = "bin/" + Globals.operating_system_ + "/thirdparty"
     if not os.path.exists(third_party_dir):
-      return Globals.PrintError("Third party libraries have not been built. Please build these first with thirdparty arguement")
-          
+      return Globals.PrintError("Third party libraries have not been built. Please build these first with thirdparty argument")
+
+    # Build the Version.h file
+    if Globals.git_path_ != '':
+      print '-- Build iSAM/source/Version.h with Git log information'
+      p = subprocess.Popen('git log -n 1 --pretty=format:\"%H%n%h%n%ci\"', stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+      out, err = p.communicate()
+      lines = out.split('\n')          
+      if len(lines) != 3:
+        return Globals.PrintError('Format printed by GIT did not meet expectations. Expected 3 lines but got ' + str(len(lines)))
+
+      time_pieces = lines[2].split(' ')
+      del time_pieces[-1];
+      temp = ' '.join(time_pieces)
+      local_time = datetime.strptime(temp, '%Y-%m-%d %H:%M:%S')
+      utc_time   = local_time.replace(tzinfo=tz.tzlocal()).astimezone(tz.tzutc())
+            
+      version = '// This file is automatically built by the build system. Do not modify this file\n'
+      version += '#ifndef VERSION_H_\n'
+      version += '#define VERSION_H_\n'
+      version += '#define SOURCE_CONTROL_REVISION ' + lines[0] + '\n'
+      version += '#define SOURCE_CONTROL_DATE "' + utc_time.strftime('%Y-%m-%d') + '"\n'
+      version += '#define SOURCE_CONTROL_YEAR "' + utc_time.strftime('%Y') + '"\n'
+      version += '#define SOURCE_CONTROL_MONTH "' + utc_time.strftime('%B') + '"\n'
+      version += '#define SOURCE_CONTROL_TIME "' + utc_time.strftime('%H:%M:%S') + '"\n'
+      version += '#define SOURCE_CONTROL_VERSION "' + utc_time.strftime('%Y-%m-%d %H:%M:%S %Z') + ' (rev. ' + lines[1] + ')"\n'
+      version += '#endif\n'
+
+      fo = open('../iSAM/source/Version.h', 'w')
+      fo.write(version)
+      fo.close()
+              
     self.output_directory_ = "bin/" + Globals.operating_system_ + "/" + Globals.build_target_ 
     if Globals.build_parameters_ != "":
       self.output_directory_ += "_" + Globals.build_parameters_

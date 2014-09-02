@@ -46,8 +46,17 @@ gets all of the system information we need and will
 test that executables are in the path that we need
 """
 def start_build_system():
-  if not system_info.find_compiler_path():
-    return False 
+  if Globals.operating_system_ == "win32":
+    Globals.cmd_path_      = system_info.find_exe_path('cmd.exe')
+    Globals.compiler_path_ = system_info.find_exe_path('g++.exe')  
+    Globals.latex_path_    = system_info.find_exe_path('bibtex.exe')
+    Globals.git_path_      = system_info.find_exe_path('git.exe')
+  else:
+    Globals.compiler_path_ = system_info.find_exe_path('g++')  
+    Globals.latex_path_    = system_info.find_exe_path('bibtex')
+    Globals.git_path_      = system_info.find_exe_path('git')    
+  system_info.set_new_path()
+  
   if not system_info.find_gcc_version():
     return False
   return True  

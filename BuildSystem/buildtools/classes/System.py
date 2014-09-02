@@ -41,35 +41,31 @@ class SystemInfo:
     os.environ['PATH'] = self.original_path_
     
   """
-  This method will get the path of the compiler for us and pre-prepend it to the
-  operating systems current path so we can use it to build the project
+  This method will search the path for a specific EXE and then ensure we put it in to our
+  path
   """
-  def find_compiler_path(self):
-    print "-- Searching for g++ in the path"
-    # Find our Compiler and put it's location in the path
-    compiler = 'g++'
-    if Globals.operating_system_ == "win32":
-      compiler += ".exe"  
-        
-    if os.system('which ' + compiler + ' > temp_compiler.txt') != EX_OK:
-      return Globals.PrintError('Could not find suitable compiler "gcc" in path when using "which" command.\nPlease ensure "g++" is installed and in the path (GCC on Linux, TDM-MinGw64 on Windows)')
-        
-    fi = fileinput.FileInput('temp_compiler.txt')
-    
-    compiler_path = ''    
+  def find_exe_path(self, exe):
+    print '-- Searching path for ' + exe
+    if os.system('which ' + exe + ' > which.tmp') != EX_OK:
+      Globals.PrintError('Could not find the executable ' + exe + ' in the path')
+      return ''
+
+    # Read path back from file
+    fi = fileinput.FileInput('which.tmp')    
+    path = ''
     for line in fi:
-        compiler_path = line
-            
-    compiler_path = compiler_path.replace(compiler + '\n', '').rstrip()
-    print "-- g++ found @ " + compiler_path
-    Globals.compiler_path_ = compiler_path
-    Globals.path_ = compiler_path + ";" + Globals.path_ 
-    self.set_new_path()
+        path = line
+    path = path.replace(exe + '\n', '').rstrip()
+    print '-- ' + exe + ' found @ ' + path
+
+    if path != "":
+      Globals.path_ = path + ";" + Globals.path_
+      
+    if os.system('rm -rf which.tmp') != EX_OK:
+      Globals.PrintError('Could not delete the temporary file "which.tmp". Do you have correct file system access?')
+      return
     
-    if os.system('rm -rf temp_compiler.txt') != EX_OK:
-      return Globals.PrintError('Failed to read the "temp_compiler.txt" file to find the location of the compiler to use.\nDo you have write access to the folder?');
-    
-    return True
+    return path
   
   """
   This method will find the GCC Version
@@ -90,27 +86,3 @@ class SystemInfo:
     
     return True
   
-  """
-  This method will find the path of cmd.exe so we can use it to call
-  methods that we require
-  """
-  def find_cmd_path(self):
-    print "--- Searching for cmd in the path"
-    if os.system('which cmd.exe > temp_cmd.txt') != EX_OK:
-      return Globals.PrintError('Could not find suitable command executable "cmd" in path when using "which" command.\nPlease ensure "cmd is installed and in the path')
-        
-    fi = fileinput.FileInput('temp_cmd.txt')
-    cmd_path = ''
-    for line in fi:
-        cmd_path = line
-
-    cmd_path = cmd_path.replace('cmd.exe\n', '').rstrip()
-    print "--- cmd found @ " + Globals.cmd_path_
-    Globals.cmd_path_ = cmd_path
-    Globals.path_ += cmd_path + ";"   
-    self.set_new_path()      
-
-    if os.system('rm -rf temp_cmd.txt') != EX_OK:
-      return Globals.PrintError('Failed to remove the cmd.txt after reading the cmd.exe path.\nDo you have write access to directory?')
-    
-    return True
