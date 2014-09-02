@@ -165,10 +165,10 @@ The annual cycle is implemented as a set of processes that occur, in a user-defi
 
 \subsubsection{\I{Initialisation}}
 
-Model initialisation can occur in several phases\index{Initialisation!phases}, each of which iterates through a number of years carrying out the population processes defined for that phase. At the end of the initialisation step, \SAM\ runs through the model years carrying out processes in the order defined in the annual cycle, and can evaluate expected values of observations in order to calculate likelihoods, project forward to determine future states,
+Model initialisation can occur in several phases\index{Initialisation!phases}, each of which iterates through a number of years carrying out the population processes defined for that phase. At the end of the initialisation step, \iSAM\ runs through the model years carrying out processes in the order defined in the annual cycle, and can evaluate expected values of observations in order to calculate likelihoods, project forward to determine future states,
 or simulate observations from the current state.
 
-\SAM\ initialises the initial equilibrium state as an iterative process: a general solution that initialises complex structured models can be difficult to implement using analytic techniques. However, initialising via iteration for a long-lived species with complex transitions can take many iterations and be slow to run. In \SAM, we allow for user-defined multi-phased initialisation using iteration to allow the user to optimize models for speed. Each phase of the initialisation can involve any number of processes. Note that the length of the initialisation period may affect the model outputs, and that a period should be chosen to allow the population state to converge.
+\iSAM\ initialises the initial equilibrium state as an iterative process: a general solution that initialises complex structured models can be difficult to implement using analytic techniques. However, initialising via iteration for a long-lived species with complex transitions can take many iterations and be slow to run. In \iSAM, we allow for user-defined multi-phased initialisation using iteration to allow the user to optimize models for speed. Each phase of the initialisation can involve any number of processes. Note that the length of the initialisation period may affect the model outputs, and that a period should be chosen to allow the population state to converge.
 
 In addition, each initialisation process can optionally be stopped early if a user defined convergence criteria is met. For a set of user defined years in the initialisation phase, convergence is defined as met if the proportional absolute summed difference between the the state in year $t-1$ and the state in year $t$ ($\widehat{\lambda}$) is less than $\lambda$ where, 
 \begin{equation}
@@ -201,7 +201,7 @@ Processes are carried out in the order specified within each time-step, and can 
 
 \subsubsection{\I{Projections}\label{sec:projections}}
 
-\SAM\ can project, from a set of parameter estimates, the state of the model into the future. In a projection run, the model is initialised and run through the model years from \argument{initial} to the \argument{current}. Then, the model is run from \argument{current} to \argument{final}. 
+\iSAM\ can project, from a set of parameter estimates, the state of the model into the future. In a projection run, the model is initialised and run through the model years from \argument{initial} to the \argument{current}. Then, the model is run from \argument{current} to \argument{final}. 
 
 
 \subsection{\I{Population processes}}
@@ -212,7 +212,7 @@ Each of these processes is carried out in the user-defined prescribed order when
 
 \subsubsection{\I{Recruitment}}
 
-Recruitment processes are defined as  process that introduces new individuals into the model. \SAM\ implements two types of recruitment process, constant recruitment\index{Recruitment ! Constant} and  \I{Beverton-Holt recruitment}\index{Recruitment ! Beverton-Holt} \citep{1203}.
+Recruitment processes are defined as  process that introduces new individuals into the model. \iSAM\ implements two types of recruitment process, constant recruitment\index{Recruitment ! Constant} and  \I{Beverton-Holt recruitment}\index{Recruitment ! Beverton-Holt} \citep{1203}.
 
 In the recruitment processes, the number of individuals are added to a single age class within the partition, with the amount defined by the type of recruitment process and its function. If more than one category is defined, then the proportion of recruiting individuals to be added to each category is specified by the \argument{proportions} parameter. For example, if recruiting to categories labelled male and female, then you might set the proportions as $0.5$ and $0.5$ respectively to denote that half of the recruits recruit to the male category and the remaining half to the female category.
 
@@ -299,11 +299,11 @@ type ageing
 categories immature mature
 \end{verbatim}}}
 
-Note that ageing is \emph{not} applied by \SAM\ by default. As with other processes, \SAM\ will not apply a process unless its defined and specified as a process within the annual cycle. Hence, it is possible to specify a model where a category is not aged. \SAM\ will not check or otherwise warn if there is a category defined where ageing is not applied.
+Note that ageing is \emph{not} applied by \iSAM\ by default. As with other processes, \iSAM\ will not apply a process unless its defined and specified as a process within the annual cycle. Hence, it is possible to specify a model where a category is not aged. \iSAM\ will not check or otherwise warn if there is a category defined where ageing is not applied.
 
 \subsubsection{\I{Mortality}\label{sec:mortality}}
 
-Three types of mortality processes are permissible in \SAM, constant rate, event and biomass-event. These processes remove individuals from the partition, either as a rate, as a total number (abundance), or as a biomass of individuals. \SAM\ does not implement the Baranov catch equation or any other process where both natural and event mortality are applied simultaneously. To approximate concurrent natural and event mortality, the population processes must be defined to remove some natural mortality (e.g. as a constant), then some event mortality (e.g. fishing) in sequence. It is up to the user to specify how this happens.
+Three types of mortality processes are permissible in \iSAM, constant rate, event and biomass-event. These processes remove individuals from the partition, either as a rate, as a total number (abundance), or as a biomass of individuals. \iSAM\ does not implement the Baranov catch equation or any other process where both natural and event mortality are applied simultaneously. To approximate concurrent natural and event mortality, the population processes must be defined to remove some natural mortality (e.g. as a constant), then some event mortality (e.g. fishing) in sequence. It is up to the user to specify how this happens.
 
 \subsubsection*{Constant mortality rate}
 
@@ -326,7 +326,7 @@ c 1
 
 The event mortality process\index{Event mortality} and biomass mortality processes act in a similar manner, except that they remove a specified abundance (number of individuals) or biomass respectively, rather than applying mortality as a rate. However, the maximum abundance or biomass to remove is constrained by a maximum exploitation rate.
 
- \SAM\ removes as many individuals or as much biomass as it can while not exceeding the maximum exploitation rate. Event mortality processes require a penalty function to discourage parameter values that do not allow the defined number of individuals to be removed. Here, the model penalises those parameter estimates that result in an insufficient number of individuals in defined categories (after applying selectivities). See Section \ref{sec:penalties} for more information on specifying penalties.
+ \iSAM\ removes as many individuals or as much biomass as it can while not exceeding the maximum exploitation rate. Event mortality processes require a penalty function to discourage parameter values that do not allow the defined number of individuals to be removed. Here, the model penalises those parameter estimates that result in an insufficient number of individuals in defined categories (after applying selectivities). See Section \ref{sec:penalties} for more information on specifying penalties.
 
 For example, the event mortality applied to user-defined categories $i$, with the numbers removed at age $j$ determined by a selectivity-at-age $S_l$ is applied as follows:
 
@@ -452,7 +452,7 @@ Two-wave migrations require more details \mbox{--} — see earlier.
 
 \subsection{\I{Size-age relationship}\label{sec:size-at-age}}
 
-The age-size relationship defines the size at age (and the weight at size, see Section \ref{sec:mean-weight}) of individuals at age/category within the model. There are three size-age relationships available in \SAM. The first is the naive no relationship (where each individual has size 1 irrespective of age). The second  and third are the von-Bertalanffy and Schnute relationships respectively. The size-at-age relationship is used to determine the size frequency, given age, and then with the size-weight relationship, a weight-at-age of individuals within an age/category. 
+The age-size relationship defines the size at age (and the weight at size, see Section \ref{sec:mean-weight}) of individuals at age/category within the model. There are three size-age relationships available in \iSAM. The first is the naive no relationship (where each individual has size 1 irrespective of age). The second  and third are the von-Bertalanffy and Schnute relationships respectively. The size-at-age relationship is used to determine the size frequency, given age, and then with the size-weight relationship, a weight-at-age of individuals within an age/category. 
 
 The three age-size relationships are,
 
@@ -479,7 +479,7 @@ The three age-size relationships are,
 
 The von Bertalanffy curve is parameterised by $L_\infty$, $k$, and $t_0$; the Schnute curve \citep{836} by $y_1$ and $y_2$, which are the mean sizes at reference ages $\tau_1$ and $\tau_2$, and $a$ and $b$ (when $b=1$, this reduces to the von Bertalanffy with $k=a$). 
 
-When defining size-at-age in \SAM, you must also define a size-weight relationship (see Section \ref{sec:mean-weight} below).
+When defining size-at-age in \iSAM, you must also define a size-weight relationship (see Section \ref{sec:mean-weight} below).
 
 \subsubsection*{\I{Calculation of size-at-age (in an age-based model)}}
 
@@ -487,7 +487,7 @@ When defining size-at-age in \SAM, you must also define a size-weight relationsh
 
 \subsubsection*{\I{Size-weight relationship}\label{sec:mean-weight}}
 
-There are two size-weight relationship,s available in \SAM. The first is the naive no relationship. Here, the weight of an individual, regardless of size, is always 1. The second is the basic relationship. 
+There are two size-weight relationship,s available in \iSAM. The first is the naive no relationship. Here, the weight of an individual, regardless of size, is always 1. The second is the basic relationship. 
 
 The two size-weight relationships are,
 
@@ -520,13 +520,13 @@ Be careful about the scale of $a$ --- this can easily be specified incorrectly. 
 
 \subsection{\I{Selectivities}\label{sec:selectivities}}
 
-A selectivity is a function with a different value for each age class (i.e., for each column of the partition). Selectivities are used throughout \SAM\ to interpret observations (Section \ref{sec:estimation-section}) or to modify the effects of processes on each age class (Section \ref{sec:population-section}). \SAM\ implements a number of different parametric forms, including logistic, knife edge, and double normal selectivities.
+A selectivity is a function with a different value for each age class (i.e., for each column of the partition). Selectivities are used throughout \iSAM\ to interpret observations (Section \ref{sec:estimation-section}) or to modify the effects of processes on each age class (Section \ref{sec:population-section}). \iSAM\ implements a number of different parametric forms, including logistic, knife edge, and double normal selectivities.
 
 A selectivity is always defined to apply just to one category of the population (i.e, row of the partition). To apply the same selectivity to more than one category, then just repeat the selectivity for each category that it is applied to.
 
 Note that selectivities are indexed by age, with indices from \argument{min\_age} to \argument{max\_age}. For example, you might have an age-based selectivity that was logistic with $50\%$ selected at age $5$ and $95\%$ selected at age $7$. This would be defined by the \subcommand{type}=\argument{logistic} with parameters $a_{50}=5$ and $a_{to95}=(7-5)=2$. Then the value of the selectivity at age $x=7$ is $0.95$ and the selectivity at $x=3$ is $0.05$.
 
-Note that the function values for some choices of parameters for some selectivities can result in an computer numeric overflow error (i.e., the number calculated from parameter values is either too large or too small to be represented in computer memory). \SAM\ implements range checks on some parameters to test for a possible numeric overflow error before attempting to calculate function values. For example, the logistic selectivity is implemented such that if $(a50-x)/ato_95 > 5$ then the value of the selectivity at $x=0$, i.e., for $a50=5$, $ato_95=0.1$, then the value of the selectivity at $x=1$, without range checking would be $7.1 \times 10^{-52}$. With range checking, that value is $0$ (as $(a50 x)/ato_95=40 > 5$).
+Note that the function values for some choices of parameters for some selectivities can result in an computer numeric overflow error (i.e., the number calculated from parameter values is either too large or too small to be represented in computer memory). \iSAM\ implements range checks on some parameters to test for a possible numeric overflow error before attempting to calculate function values. For example, the logistic selectivity is implemented such that if $(a50-x)/ato_95 > 5$ then the value of the selectivity at $x=0$, i.e., for $a50=5$, $ato_95=0.1$, then the value of the selectivity at $x=1$, without range checking would be $7.1 \times 10^{-52}$. With range checking, that value is $0$ (as $(a50 x)/ato_95=40 > 5$).
 
 The available selectivities are;
 
