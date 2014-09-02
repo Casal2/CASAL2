@@ -35,7 +35,7 @@ class MainCode:
     # Build the Version.h file
     if Globals.git_path_ != '':
       print '-- Build iSAM/source/Version.h with Git log information'
-      p = subprocess.Popen('git --no-pager log -n 1 --pretty=format:\"%H%n%h%n%ci\"', stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+      p = subprocess.Popen(['git', '--no-pager', 'log', '-n', '1', '--pretty=format:%H%n%h%n%ci' ], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
       out, err = p.communicate()
       lines = out.split('\n')          
       if len(lines) != 3:

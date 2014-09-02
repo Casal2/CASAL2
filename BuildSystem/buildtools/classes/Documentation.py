@@ -370,7 +370,7 @@ class Documentation:
         # Build the Version.tex file
         if Globals.git_path_ != '':
             print '-- Build version.tex with Git log information'
-            p = subprocess.Popen('git log -n 1 --pretty=format:\"%H%n%h%n%ci\"', stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+            p = subprocess.Popen(['git', '--no-pager', 'log', '-n', '1', '--pretty=format:%H%n%h%n%ci' ], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
             out, err = p.communicate()
             lines = out.split('\n')          
             if len(lines) != 3:
@@ -396,9 +396,9 @@ class Documentation:
         
         os.system('python QuickReference.py')
         for i in range(0,3):
-            os.system('pdflatex.exe SAM')
-            os.system('bibtex.exe SAM')
-            os.system('makeindex.exe SAM')
+            os.system('pdflatex.exe iSAM')
+            os.system('bibtex.exe iSAM')
+            os.system('makeindex.exe iSAM')
         
 
     
