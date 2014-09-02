@@ -113,27 +113,6 @@ void TimeStep::Execute(unsigned year) {
 /**
  *
  */
-//void TimeStep::ExecuteInitialisationDerivedQuantities(unsigned phase) {
-//  LOG_TRACE();
-//  for (DerivedQuantityPtr derived_quantity : initialisation_derived_quantities_) {
-//    if (!derived_quantity)
-//      LOG_CODE_ERROR("derived_quantity == 0");
-//    derived_quantity->Calculate(phase);
-//  }
-//}
-
-/**
- *
- */
-//void TimeStep::ExecuteDerivedQuantities() {
-////  LOG_TRACE();
-////  for (DerivedQuantityPtr derived_quantity : derived_quantities_)
-////    derived_quantity->Calculate();
-//}
-
-/**
- *
- */
 void TimeStep::SubscribeToBlock(ExecutorPtr executor) {
   vector<unsigned> years = Model::Instance()->years();
   for (unsigned year : years)
