@@ -390,7 +390,7 @@ class Documentation:
             version += '\\newcommand{\\SourceControlTimeDoc}{' + utc_time.strftime('%H:%M:%S') + '}\n'
             version += '\\newcommand{\\SourceControlShortVersionDoc}{' + utc_time.strftime('%Y-%m-%d') + ' (rev. ' + lines[1] + ')}\n'
             version += '\\newcommand{\\SourceControlVersionDoc}{' + utc_time.strftime('%Y-%m-%d %H:%M:%S %Z') + ' (rev. ' + lines[1] + ')}\n'
-            file_output = open('version.tex', 'w')
+            file_output = open('Version.tex', 'w')
             file_output.write(version)
             file_output.close()
         else:
@@ -403,7 +403,7 @@ class Documentation:
             version += '\\newcommand{\\SourceControlTimeDoc}{00:00:00}\n'
             version += '\\newcommand{\\SourceControlShortVersionDoc}{0000-00-00 (rev. 000000)}\n'
             version += '\\newcommand{\\SourceControlVersionDoc}{0000-00-00 00:00:00 (rev. 000000)}\n'
-            file_output = open('version.tex', 'w')
+            file_output = open('Version.tex', 'w')
             file_output.write(version)
             file_output.close()
             
