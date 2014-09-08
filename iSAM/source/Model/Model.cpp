@@ -44,6 +44,11 @@
 #include "Utilities/Logging/Logging.h"
 #include "Utilities/To.h"
 
+
+// TODO: Remove
+#include "Estimates/Transformations/Factory.h"
+
+
 // Namespaces
 namespace isam {
 

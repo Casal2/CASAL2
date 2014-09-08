@@ -26,8 +26,8 @@ namespace transformations {
  */
 class SquareRoot : public estimates::Transformation {
 public:
-  SquareRoot() = delete;
-  virtual                     ~SquareRoot() = delete;
+  SquareRoot() = default;
+  virtual                     ~SquareRoot() = default;
   Double                      Transform(Double initial_value) override final;
 };
 
