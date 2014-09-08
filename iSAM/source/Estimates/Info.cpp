@@ -15,6 +15,7 @@
 
 #include "Estimates/Factory.h"
 #include "ObjectsFinder/ObjectsFinder.h"
+#include "Utilities/To.h"
 
 // Namespaces
 namespace isam {
@@ -111,6 +112,15 @@ void Info::BuildEstimates() {
   } else {
     // Create N estimates
     unsigned n = target->GetEstimableSize(parameter);
+
+    vector<string> lower_bounds = parameters_.Get(PARAM_LOWER_BOUND)->values();
+    vector<string> upper_bounds = parameters_.Get(PARAM_UPPER_BOUND)->values();
+
+    if (lower_bounds.size() != n)
+      LOG_ERROR(parameters_.location(PARAM_LOWER_BOUND) << " must have the same number of elements as estimates that will be created (" << n << ")");
+    if (upper_bounds.size() != n)
+      LOG_ERROR(parameters_.location(PARAM_UPPER_BOUND) << " must have the same number of elements as estimates that will be created (" << n << ")");
+
     for (unsigned i = 0; i < n; ++i) {
       isam::EstimatePtr estimate = isam::estimates::Factory::Create(PARAM_ESTIMATE, type_);
       if (!estimate)
@@ -118,6 +128,9 @@ void Info::BuildEstimates() {
 
       string new_parameter = parameter + "(" + utilities::ToInline<unsigned, string>(i+1) + ")";
       estimate->parameters().CopyFrom(parameters_);
+
+      estimate->parameters().Get(PARAM_LOWER_BOUND)->set_value(lower_bounds[i]);
+      estimate->parameters().Get(PARAM_UPPER_BOUND)->set_value(upper_bounds[i]);
       estimate->set_target(target->GetEstimable(new_parameter));
       estimate->set_parent_info(shared_from_this());
     }

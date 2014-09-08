@@ -9,15 +9,6 @@
 
 namespace isam {
 
-Likelihood::Likelihood() {
-  // TODO Auto-generated constructor stub
-
-}
-
-Likelihood::~Likelihood() {
-  // TODO Auto-generated destructor stub
-}
-
 /**
  *
  */

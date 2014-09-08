@@ -10,14 +10,6 @@
 namespace isam {
 namespace estimates {
 
-Transformation::Transformation() {
-  // TODO Auto-generated constructor stub
-
-}
-
-Transformation::~Transformation() {
-  // TODO Auto-generated destructor stub
-}
 
 } /* namespace estimates */
 } /* namespace isam */

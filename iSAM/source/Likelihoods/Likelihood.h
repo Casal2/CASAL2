@@ -33,8 +33,8 @@ using isam::utilities::Double;
 class Likelihood : public isam::base::Object {
 public:
   // Methods
-  Likelihood();
-  virtual                     ~Likelihood();
+  Likelihood() = default;
+  virtual                     ~Likelihood() = default;
   virtual void                Validate() { };
   virtual void                Build() { };
   virtual Double              AdjustErrorValue(const Double process_error, const Double error_value) = 0;

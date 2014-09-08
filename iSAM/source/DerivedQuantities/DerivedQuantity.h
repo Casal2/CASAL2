@@ -37,9 +37,6 @@ public:
   void                        Reset() { };
   bool                        IsAssignedToInitialisationPhase(const string& label);
   void                        PreExecute() override final { };
-//  virtual void                Execute() { Calculate(); };
-//  virtual void                Calculate() = 0;
-//  virtual void                Calculate(unsigned initialisation_phase) = 0;
   Double                      GetValue(unsigned year);
   Double                      GetInitialisationValue(unsigned phase = 0, unsigned index = 0);
   Double                      GetLastValueFromInitialisation(unsigned phase);

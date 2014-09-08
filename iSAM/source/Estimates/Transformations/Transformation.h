@@ -18,6 +18,7 @@
 #include <boost/shared_ptr.hpp>
 #include <string>
 
+#include "BaseClasses/Object.h"
 #include "Utilities/Types.h"
 
 // namespaces
@@ -30,9 +31,9 @@ using std::string;
 /**
  * class definition
  */
-class Transformation {
+class Transformation : public isam::base::Object {
 public:
-  Transformation();
+  Transformation() = default;
   virtual ~Transformation() = default;
 
   virtual Double              Transform(Double initial_value) = 0;
