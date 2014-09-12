@@ -270,7 +270,7 @@ delta 1e-11
 @observation CPUE
 type abundance
 catchability CPUEq
-years 1998-2007
+years 1998:2007
 time_step step_one
 categories *+
 selectivities FishingSel FishingSel FishingSel FishingSel
