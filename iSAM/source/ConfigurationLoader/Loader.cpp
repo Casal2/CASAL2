@@ -398,6 +398,9 @@ bool Loader::HandleOperators(vector<string>& line_values) {
         outputs.push_back(value);
 
     } else if (value.find(CONFIG_LIST_OPERATOR) != string::npos && value.find(CONFIG_CATEGORY_SEPARATOR) != string::npos) {
+      /**
+       * Handle the list join operator ,
+       */
       boost::split(components, value, boost::is_any_of(CONFIG_CATEGORY_SEPARATOR));
 
       vector<string> list[components.size()];
@@ -429,77 +432,6 @@ bool Loader::HandleOperators(vector<string>& line_values) {
     } else
       outputs.push_back(value);
   }
-
-  cout << "Output: " <<  boost::algorithm::join(outputs, " ") << endl;
-
-  /**
-   * Firstly, we have to go through and where the user has specified a space
-   * between operators remove that space (effectively we have to combine
-   * some elements of our vector).
-   *
-   * This will also implicitly handle the + operator
-   */
-//  auto iterator   = line_values.begin();
-//  bool join_required = false;
-//  for (; iterator != line_values.end(); iterator++) {
-//    if (!join_required) {
-//      if (*iterator == CONFIG_JOIN_OPERATOR || *iterator == "," || *iterator == CONFIG_RANGE_OPERATOR) {
-//        join_required = true;
-//        if (new_values.size() == 0)
-//          return false;
-//
-//        new_values[new_values.size() - 1] = new_values[new_values.size() - 1] + *iterator;
-//        continue;
-//      }
-//    }
-//
-//    if (join_required) {
-//      new_values[new_values.size() - 1] = new_values[new_values.size() - 1] + *iterator;
-//      join_required = false;
-//    } else {
-//      new_values.push_back(*iterator);
-//    }
-//  }
-//  line_values = new_values;
-//
-//  /**
-//   * Handle the - (range) operator
-//   */
-//  new_values.clear();
-//  iterator = line_values.begin();
-//  for (; iterator != line_values.end(); ++iterator) {
-//    string value = (*iterator);
-//    if (value.find_first_of(CONFIG_RANGE_OPERATOR) != string::npos && value.find_first_of(CONFIG_RANGE_OPERATOR) != 0) {
-//      size_t loc = value.find_first_of(CONFIG_RANGE_OPERATOR);
-//
-//      string initial_value = value.substr(0, loc);
-//      string final_value   = value.substr(loc+1);
-//
-//      // don't range if we've got an exponent value (e.g 12e-10)
-//      if (tolower((*initial_value.rbegin())) == 'e') {
-//        new_values.push_back(value);
-//        continue;
-//      }
-//
-//      int numeric_initial_value = 0;
-//      if (!util::To<int>(initial_value, numeric_initial_value))
-//        return false;
-//
-//      int numeric_final_value = 0;
-//      if (!util::To<int>(final_value, numeric_final_value))
-//        return false;
-//
-//      if (numeric_initial_value < numeric_final_value) {
-//        for (int i = numeric_initial_value; i <= numeric_final_value; ++i)
-//          new_values.push_back(util::ToInline<int, string>(i));
-//      } else {
-//        for (int i = numeric_initial_value; i >= numeric_final_value; --i)
-//          new_values.push_back(util::ToInline<int, string>(i));
-//      }
-//
-//    } else
-//      new_values.push_back(value);
-//  }
 
   line_values = outputs;
 
