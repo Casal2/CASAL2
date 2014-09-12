@@ -379,6 +379,7 @@
 			<resource resourceType="PROJECT" workspacePath="/trunk"/>
 		</configuration>
 		<configuration configurationName="BetaDiff"/>
+		<configuration configurationName="AutoDiff - CPPAD"/>
 		<configuration configurationName="ADMB"/>
 		<configuration configurationName="Debug">
 			<resource resourceType="PROJECT" workspacePath="/trunk"/>

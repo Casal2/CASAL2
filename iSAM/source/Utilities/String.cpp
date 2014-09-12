@@ -13,6 +13,8 @@
 // Headers
 #include "String.h"
 
+#include <algorithm>
+
 // Namespaces
 namespace isam {
 namespace utilities {
@@ -22,7 +24,14 @@ namespace string {
 bool is_valid(const string& test_string) {
  if (test_string.length() == 0)
    return false;
- return true;
+
+ string special_chars = "[]()._-";
+
+ bool invalid
+ = std::find_if(test_string.begin(), test_string.end(),
+                    [&special_chars](char c) { return (!std::isalpha(c) && special_chars.find(c) == string::npos); }) != test_string.end();
+
+ return !invalid;
 }
 
 }
