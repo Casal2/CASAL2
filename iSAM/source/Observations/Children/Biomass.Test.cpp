@@ -76,7 +76,7 @@ steepness 0.9
 ycs_values 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00
 ssb ssb
 ssb_offset 3
-standardise_ycs_years 1973-1999
+standardise_ycs_years 1973:1999
 
 @mortality halfm
 type constant_rate
@@ -87,7 +87,7 @@ m 0.10 0.10
 @mortality fishing
 type event_biomass
 categories male female
-years 1975-2002
+years 1975:2002
 catches 1191 1488 1288 2004 609 750 997 596 302 344 544 362 509 574 804 977 991 2454 2775 2898 4094 3760 3761 3673 3524 3700 3700 3700
 U_max 0.9
 selectivities observation.male observation.female
@@ -132,7 +132,7 @@ time_step one
 categories male+female
 selectivities male=[type=logistic; a50=9; ato95=4] female=[type=logistic; a50=9; ato95=4; alpha=0.7]
 likelihood lognormal
-years 1992-2001
+years 1992:2001
 obs 1.50 1.10 0.93 1.33 1.53 0.90 0.68 0.75 0.57 1.23
 error_value 0.35
 )";

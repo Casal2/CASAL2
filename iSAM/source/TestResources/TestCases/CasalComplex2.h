@@ -89,7 +89,7 @@ steepness 0.9
 ycs_values 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00
 ssb ssb
 ssb_offset 3
-standardise_ycs_years 1973-1999
+standardise_ycs_years 1973:1999
 
 @mortality halfm
 type constant_rate
@@ -100,7 +100,7 @@ m 0.10 0.10
 @mortality fishing
 type event_biomass
 categories male female
-years 1975-2002
+years 1975:2002
 catches 1191 1488 1288 2004 609 750 997 596 302 344 544 362 509 574 804 977 991 2454 2775 2898 4094 3760 3761 3673 3524 3700 3700 3700
 U_max 0.9
 selectivities chatFselMale chatFselFemale
@@ -170,7 +170,7 @@ time_step_proportion 1.0
 categories male+female
 selectivities chatFselMale chatFselFemale
 likelihood lognormal
-years 1992-2001
+years 1992:2001
 obs 1.50 1.10 0.93 1.33 1.53 0.90 0.68 0.75 0.57 1.23
 error_value 0.35
 
@@ -181,7 +181,7 @@ time_step one
 categories male+female
 selectivities chatTANselMale chatTANselFemale
 likelihood lognormal
-years 1992-2002
+years 1992:2002
 obs 4180 2950 3353 3303 2457 2811 2873 2302 2090 1589 1567
 error_value 0.15 0.17 0.10 0.23 0.13 0.17 0.18 0.12 0.09 0.13 0.15
 
