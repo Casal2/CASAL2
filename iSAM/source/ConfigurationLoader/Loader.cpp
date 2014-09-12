@@ -19,6 +19,7 @@
 #include <boost/algorithm/string/replace.hpp>
 #include <boost/algorithm/string/trim_all.hpp>
 #include <boost/algorithm/string/split.hpp>
+#include <boost/algorithm/string/join.hpp>
 
 #include "Factory/Object.h"
 #include "File.h"
@@ -59,6 +60,7 @@ void Loader::LoadConfigFile(const string& override_file_name) {
     string config_file = GlobalConfiguration::Instance()->config_file();
     if (override_file_name != "")
       config_file = override_file_name;
+
     FilePtr file = FilePtr(new File(this));
     if (!file->OpenFile(config_file))
       LOG_ERROR("Failed to open the first configuration file: " << config_file << ". Does this file exist? Is it in the right path?");
@@ -337,7 +339,99 @@ void Loader::ParseBlock(vector<FileLine> &block) {
  * @return true on success, false on failure
  */
 bool Loader::HandleOperators(vector<string>& line_values) {
-  vector<string> new_values;
+  string line = boost::algorithm::join(line_values, " ");
+  line_values.clear();
+
+  /**
+   * Join operator + is used to join multiple categories together
+   * so a process/observation can work on them as one
+   */
+  boost::replace_all(line, " +", "+");
+  boost::replace_all(line, "+ ", "+");
+
+  /**
+   * The list operator is used when defining categories and
+   * must be combined with the . (category format) to make
+   * larger entries
+   */
+  boost::replace_all(line, " .", ".");
+  boost::replace_all(line, ". ", ".");
+
+  boost::replace_all(line, " ,", ",");
+  boost::replace_all(line, ", ", ",");
+
+  /**
+   * The range operator is used to define numerical ranges
+   * either in ascending or descending configuration
+   */
+  boost::replace_all(line, " :", ":");
+  boost::replace_all(line, ": ", ":");
+
+  vector<string> values;
+  boost::split(values, line, boost::is_any_of(" "));
+
+  vector<string> outputs;
+  for (string value : values) {
+    vector<string> components;
+    /**
+     * handle the range operator :
+     */
+    if (value.find(CONFIG_RANGE_OPERATOR) != string::npos) {
+      boost::split(components, value, boost::is_any_of(CONFIG_RANGE_OPERATOR));
+      if (components.size() == 2 && value.find('e') == string::npos) {
+        int start = 0;
+        int end = 0;
+
+        if (!util::To<int>(components[0], start))
+          return false;
+        if (!util::To<int>(components[1], end))
+          return false;
+
+        if (start <= end) {
+          for (int i = start; i <= end; ++i)
+            outputs.push_back(util::ToInline<int, string>(i));
+        } else {
+          for (int i = start; i >= end; --i)
+            outputs.push_back(util::ToInline<int, string>(i));
+        }
+      } else
+        outputs.push_back(value);
+
+    } else if (value.find(CONFIG_LIST_OPERATOR) != string::npos && value.find(CONFIG_CATEGORY_SEPARATOR) != string::npos) {
+      boost::split(components, value, boost::is_any_of(CONFIG_CATEGORY_SEPARATOR));
+
+      vector<string> list[components.size()];
+
+      for (unsigned i = 0; i < components.size(); ++i) {
+        vector<string> list_chunks;
+        boost::split(list_chunks, components[i], boost::is_any_of(CONFIG_LIST_OPERATOR));
+        for (string chunk : list_chunks)
+          list[i].push_back(chunk);
+      }
+
+      vector<string> expanded_list = list[0];
+      for (unsigned i = 1; i < components.size(); ++i) {
+        vector<string> new_elements;
+        for (string value : list[i]) {
+          for (string temp : expanded_list) {
+            temp = temp + "." + value;
+            new_elements.push_back(temp);
+          }
+        }
+        expanded_list = new_elements;
+      }
+
+      for (string list_item : expanded_list) {
+        LOG_INFO("Adding: " << list_item << " as a list item when splitting up a category list");
+        outputs.push_back(list_item);
+      }
+
+    } else
+      outputs.push_back(value);
+  }
+
+  cout << "Output: " <<  boost::algorithm::join(outputs, " ") << endl;
+
   /**
    * Firstly, we have to go through and where the user has specified a space
    * between operators remove that space (effectively we have to combine
@@ -345,69 +439,69 @@ bool Loader::HandleOperators(vector<string>& line_values) {
    *
    * This will also implicitly handle the + operator
    */
-  auto iterator   = line_values.begin();
-  bool join_required = false;
-  for (; iterator != line_values.end(); iterator++) {
-    if (!join_required) {
-      if (*iterator == "+" || *iterator == "," || *iterator == "-") {
-        join_required = true;
-        if (new_values.size() == 0)
-          return false;
+//  auto iterator   = line_values.begin();
+//  bool join_required = false;
+//  for (; iterator != line_values.end(); iterator++) {
+//    if (!join_required) {
+//      if (*iterator == CONFIG_JOIN_OPERATOR || *iterator == "," || *iterator == CONFIG_RANGE_OPERATOR) {
+//        join_required = true;
+//        if (new_values.size() == 0)
+//          return false;
+//
+//        new_values[new_values.size() - 1] = new_values[new_values.size() - 1] + *iterator;
+//        continue;
+//      }
+//    }
+//
+//    if (join_required) {
+//      new_values[new_values.size() - 1] = new_values[new_values.size() - 1] + *iterator;
+//      join_required = false;
+//    } else {
+//      new_values.push_back(*iterator);
+//    }
+//  }
+//  line_values = new_values;
+//
+//  /**
+//   * Handle the - (range) operator
+//   */
+//  new_values.clear();
+//  iterator = line_values.begin();
+//  for (; iterator != line_values.end(); ++iterator) {
+//    string value = (*iterator);
+//    if (value.find_first_of(CONFIG_RANGE_OPERATOR) != string::npos && value.find_first_of(CONFIG_RANGE_OPERATOR) != 0) {
+//      size_t loc = value.find_first_of(CONFIG_RANGE_OPERATOR);
+//
+//      string initial_value = value.substr(0, loc);
+//      string final_value   = value.substr(loc+1);
+//
+//      // don't range if we've got an exponent value (e.g 12e-10)
+//      if (tolower((*initial_value.rbegin())) == 'e') {
+//        new_values.push_back(value);
+//        continue;
+//      }
+//
+//      int numeric_initial_value = 0;
+//      if (!util::To<int>(initial_value, numeric_initial_value))
+//        return false;
+//
+//      int numeric_final_value = 0;
+//      if (!util::To<int>(final_value, numeric_final_value))
+//        return false;
+//
+//      if (numeric_initial_value < numeric_final_value) {
+//        for (int i = numeric_initial_value; i <= numeric_final_value; ++i)
+//          new_values.push_back(util::ToInline<int, string>(i));
+//      } else {
+//        for (int i = numeric_initial_value; i >= numeric_final_value; --i)
+//          new_values.push_back(util::ToInline<int, string>(i));
+//      }
+//
+//    } else
+//      new_values.push_back(value);
+//  }
 
-        new_values[new_values.size() - 1] = new_values[new_values.size() - 1] + *iterator;
-        continue;
-      }
-    }
-
-    if (join_required) {
-      new_values[new_values.size() - 1] = new_values[new_values.size() - 1] + *iterator;
-      join_required = false;
-    } else {
-      new_values.push_back(*iterator);
-    }
-  }
-  line_values = new_values;
-
-  /**
-   * Handle the - (range) operator
-   */
-  new_values.clear();
-  iterator = line_values.begin();
-  for (; iterator != line_values.end(); ++iterator) {
-    string value = (*iterator);
-    if (value.find_first_of('-') != string::npos && value.find_first_of('-') != 0) {
-      size_t loc = value.find_first_of('-');
-
-      string initial_value = value.substr(0, loc);
-      string final_value   = value.substr(loc+1);
-
-      // don't range if we've got an exponent value (e.g 12e-10)
-      if (tolower((*initial_value.rbegin())) == 'e') {
-        new_values.push_back(value);
-        continue;
-      }
-
-      int numeric_initial_value = 0;
-      if (!util::To<int>(initial_value, numeric_initial_value))
-        return false;
-
-      int numeric_final_value = 0;
-      if (!util::To<int>(final_value, numeric_final_value))
-        return false;
-
-      if (numeric_initial_value < numeric_final_value) {
-        for (int i = numeric_initial_value; i <= numeric_final_value; ++i)
-          new_values.push_back(util::ToInline<int, string>(i));
-      } else {
-        for (int i = numeric_initial_value; i >= numeric_final_value; --i)
-          new_values.push_back(util::ToInline<int, string>(i));
-      }
-
-    } else
-      new_values.push_back(value);
-  }
-
-  line_values = new_values;
+  line_values = outputs;
 
   return true;
 }

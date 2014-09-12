@@ -99,22 +99,13 @@ void File::Parse() {
      * Now we need to check if this line is an include line for a new
      * file.
      */
-    if (current_line.length() > strlen(CONFIG_INCLUDE)) {
-      string possible_include = current_line.substr(0, strlen(CONFIG_INCLUDE));
-      possible_include = util::ToLowercase(possible_include);
-
-      if (possible_include == CONFIG_INCLUDE) {
-        size_t first_quote = current_line.find_first_of("\"");
-        size_t last_quote  = current_line.find_last_of("\"");
-
-        if (first_quote == string::npos || last_quote == string::npos || first_quote == last_quote)
-          LOG_ERROR("At line " << line_number_ << " of " << file_name_
-              << ": File name argument to " << CONFIG_INCLUDE << " must be surrounded by quotes");
-
-        string include_name = current_line.substr(first_quote);
-        boost::replace_all(include_name, "\"", "");
+    if (current_line.length() > strlen(CONFIG_INCLUDE) + 2) {
+      string lower_line = util::ToLowercase(current_line);
+      if (current_line.substr(0, strlen(CONFIG_INCLUDE)) == CONFIG_INCLUDE) {
+        string include_name = current_line.substr(strlen(CONFIG_INCLUDE));
         LOG_INFO("Loading new configuration file via include " << include_name);
 
+        boost::replace_all(include_name, "\"", "");
         FilePtr include_file = FilePtr(new File(loader_));
         if (!include_file->OpenFile(include_name))
           LOG_ERROR("At line: " << line_number_ << " of " << file_name_
