@@ -16,7 +16,7 @@
 #include "Catchabilities/Factory.h"
 #include "Categories/Categories.h"
 #include "DerivedQuantities/Factory.h"
-#include "Estimates/Factory.h"
+#include "Estimates/Creators/Factory.h"
 #include "Estimates/Transformations/Factory.h"
 #include "InitialisationPhases/Factory.h"
 #include "Likelihoods/Factory.h"
@@ -71,7 +71,7 @@ base::ObjectPtr Object::Create(string& object_type, string& sub_type) {
   else if (object_type == PARAM_DERIVED_QUANTITY || object_type == PARAM_DERIVED_QUANTITIES)
     result = derivedquantities::Factory::Create(object_type, sub_type);
   else if (object_type == PARAM_ESTIMATE)
-    result = estimates::info::Factory::Create();
+    result = estimates::creators::Factory::Create(object_type, sub_type);
   else if (object_type == PARAM_INITIALISATION_PHASE || object_type == PARAM_INITIALISATION_PHASES)
     result = initialisationphases::Factory::Create(object_type, sub_type);
   else if (object_type == PARAM_LIKELIHOOD)

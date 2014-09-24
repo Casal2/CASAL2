@@ -106,6 +106,7 @@ void File::Parse() {
         LOG_INFO("Loading new configuration file via include " << include_name);
 
         boost::replace_all(include_name, "\"", "");
+        boost::trim_all(include_name);
         FilePtr include_file = FilePtr(new File(loader_));
         if (!include_file->OpenFile(include_name))
           LOG_ERROR("At line: " << line_number_ << " of " << file_name_

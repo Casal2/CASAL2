@@ -161,21 +161,39 @@ const ParameterPtr ParameterList::Get(const string& label) {
  * NOTE: The TablesPtr are not recreated.
  *
  * @param source The source parameter list
+ * @param parameter_label The parameter to copy over
  */
-void ParameterList::CopyFrom(const ParameterList& source) {
+void ParameterList::CopyFrom(const ParameterList& source, string parameter_label) {
   LOG_TRACE();
   this->defined_file_name_    = source.defined_file_name_;
   this->defined_line_number_  = source.defined_line_number_;
   this->parent_block_type_    = source.parent_block_type_;
 
-  map<string, ParameterPtr>::const_iterator iter;
-  for (iter = source.parameters_.begin(); iter != source.parameters_.end(); ++iter) {
-    Add(iter->first, iter->second->values(), iter->second->file_name(), iter->second->line_number());
+  auto iter = source.parameters_.find(parameter_label);
+  if (iter == source.parameters_.end()) {
+    LOG_CODE_ERROR("iter == source.parameters_.end() for label: " << parameter_label);
   }
 
-  map<string, ParameterTable>::const_iterator iter2;
-  for (iter2 = source.tables_.begin(); iter2 != source.tables_.end(); ++iter2)
-    tables_[iter2->first] = iter2->second;
+  Add(parameter_label, iter->second->values(), iter->second->file_name(), iter->second->line_number());
+}
+
+/**
+ *
+ */
+void ParameterList::CopyFrom(const ParameterList& source, string parameter_label, const unsigned &value_index) {
+  LOG_TRACE();
+  auto iter = source.parameters_.find(parameter_label);
+  if (iter == source.parameters_.end())
+    LOG_CODE_ERROR("iter == source.parameters_.end() for label: " << parameter_label);
+  if (iter->second->values().size() == 0)
+    return;
+
+  vector<string> values;
+  if (iter->second->values().size() <= value_index)
+    LOG_CODE_ERROR("iter->second->values().size(" << iter->second->values().size() << ") <= value_index(" << value_index << "): " << parameter_label);
+
+  values.push_back(iter->second->values()[value_index]);
+  Add(parameter_label, values, iter->second->file_name(), iter->second->line_number());
 }
 
 /**

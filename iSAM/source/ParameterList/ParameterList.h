@@ -96,7 +96,8 @@ public:
   bool                        Add(const string& label, const vector<string>& values, const string& file_name, const unsigned& line_number);
   bool                        AddTable(const string& label, const vector<string>& columns, const vector<vector<string> >& data, const string& file_name, const unsigned& line_number);
   const ParameterPtr          Get(const string& label);
-  void                        CopyFrom(const ParameterList& source);
+  void                        CopyFrom(const ParameterList& source, string parameter_label);
+  void                        CopyFrom(const ParameterList& source, string parameter_label, const unsigned &value_index);
   void                        Clear();
   template<typename T>
   void                        Bind(const string& label, T* target, const string& description, const string& values);

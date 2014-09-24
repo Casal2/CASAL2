@@ -20,9 +20,9 @@ namespace isam {
  * Default constructor
  */
 Estimate::Estimate() {
-  parameters_.Bind<string>(PARAM_LABEL, &label_, "Label", "");
+  parameters_.Bind<string>(PARAM_LABEL, &label_, "Label", "", "");
   parameters_.Bind<string>(PARAM_TYPE, &type_, "Type", "");
-  parameters_.Bind<string>(PARAM_PARAMETER, &parameter_, "The name of the variable to estimate in the model", "");
+  parameters_.Bind<string>(PARAM_PARAMETER, &parameter_, "The name of the variable to estimate in the model", "", "");
   parameters_.Bind<double>(PARAM_LOWER_BOUND, &lower_bound_, "The lowest value the parameter is allowed to have", "");
   parameters_.Bind<double>(PARAM_UPPER_BOUND, &upper_bound_, "The highest value the parameter is allowed to have", "");
   parameters_.Bind<string>(PARAM_PRIOR, &prior_label_, "The name of the prior to use for the parameter", "", "");
@@ -39,6 +39,8 @@ Estimate::Estimate() {
  */
 void Estimate::Validate() {
   parameters_.Populate();
+  if (parameter_ == "")
+    parameter_ = label_;
 
   map<string, unsigned> same_count;
   for(string same : same_labels) {

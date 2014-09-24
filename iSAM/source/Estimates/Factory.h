@@ -35,13 +35,6 @@ private:
   virtual ~Factory() = delete;
 };
 
-/**
- * EstimateInfo factory
- */
-namespace info {
-class Factory : public isam::base::Factory<isam::estimates::Info, isam::estimates::Manager> {};
-} /* namespace info */
-
 } /* namespace estimates */
 } /* namespace isam */
 
