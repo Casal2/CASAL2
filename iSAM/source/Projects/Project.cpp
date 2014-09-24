@@ -83,7 +83,7 @@ void Project::Build() {
       break;
     case Estimable::kUnsignedMap:
       DoUpdateFunc_ = &Project::SetMapValue;
-      estimable_map_ = target->GetEstimableMap(parameter);
+      estimable_map_ = target->GetEstimableUMap(parameter);
       break;
     default:
       LOG_ERROR("The estimable you have provided for use in a projection: " << parameter_ << " is not a type that is supported for projection modification");

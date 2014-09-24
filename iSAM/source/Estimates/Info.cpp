@@ -102,7 +102,7 @@ void Info::BuildEstimates() {
     isam::EstimatePtr estimate = isam::estimates::Factory::Create(PARAM_ESTIMATE, type_);
     if (!estimate)
       LOG_CODE_ERROR("Failed to create estimate with type: " << type_);
-    estimate->parameters().CopyFrom(parameters_);
+//    estimate->parameters().CopyFrom(parameters_);
 
     if (index != "")
       parameter += "(" + index + ")";
@@ -127,7 +127,7 @@ void Info::BuildEstimates() {
         LOG_CODE_ERROR("Failed to create estimate with type: " << type_);
 
       string new_parameter = parameter + "(" + utilities::ToInline<unsigned, string>(i+1) + ")";
-      estimate->parameters().CopyFrom(parameters_);
+//      estimate->parameters().CopyFrom(parameters_);
 
       estimate->parameters().Get(PARAM_LOWER_BOUND)->set_value(lower_bounds[i]);
       estimate->parameters().Get(PARAM_UPPER_BOUND)->set_value(upper_bounds[i]);

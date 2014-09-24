@@ -110,7 +110,7 @@ Double* Object::GetEstimable(const string& label, const string& index) {
  * @param label The label of the estimable to find
  * @return a pointer to the map to use
  */
-map<unsigned, Double>* Object::GetEstimableMap(const string& label) {
+map<unsigned, Double>* Object::GetEstimableUMap(const string& label) {
   if (estimable_types_.find(label) == estimable_types_.end())
     LOG_CODE_ERROR("estimable_types_.find(" << label << ") == estimable_types_.end()");
   if (estimable_types_[label] != Estimable::kUnsignedMap)

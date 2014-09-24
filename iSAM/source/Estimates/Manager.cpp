@@ -13,41 +13,31 @@
 // Headers
 #include "Manager.h"
 
+
 // Namespaces
 namespace isam {
 namespace estimates {
 
-/**
- * Default Constructor
- */
-Manager::Manager() {
-}
+using std::set;
 
 /**
- * Destructor
- */
-Manager::~Manager() noexcept(true) {
-}
-
-/**
- * Validate our Estimate Infos. Then get them to
- * build the Estimates which we will then
- * validate
+ *
  */
 void Manager::Validate() {
-  LOG_TRACE();
+  /**
+   * Run over our creators and get them to build the actual
+   * estimates the system is going to build.
+   */
+  for (CreatorPtr creator : creators_)
+    creator->CreateEstimates();
 
-  LOG_INFO("Validating EstimateInfo objects then creating estimates");
-  for (EstimateInfoPtr info : estimate_infos_) {
-    info->Validate();
-    info->BuildEstimates();
-  }
-
-  LOG_INFO("Validating Estimates");
-  for(EstimatePtr estimate : objects_) {
+  /**
+   * Validate the actual estimates now
+   */
+  for (EstimatePtr estimate : objects_)
     estimate->Validate();
-  }
 }
+
 
 /**
  * Count how many of our estimates are enabled
@@ -85,7 +75,7 @@ vector<EstimatePtr> Manager::GetEnabled() {
  */
 void Manager::RemoveAllObjects() {
   objects_.clear();
-  estimate_infos_.clear();
+  creators_.clear();
 }
 
 /**
@@ -102,7 +92,7 @@ void Manager::RemoveAllObjects() {
  * will prioritise this way first before looking at what
  * actual estimates were created.
  *
- * @param parameter The parameter the estimate is targetting
+ * @param parameter The parameter the estimate is targeting
  * @return True if found, false otherwise
  */
 bool Manager::HasEstimate(const string& parameter) {
@@ -148,6 +138,18 @@ void Manager::DisableEstimate(const string& parameter) {
     else if (estimate->parameter() == parameter)
       estimate->set_enabled(false);
   }
+}
+
+/**
+ *
+ */
+EstimatePtr Manager::GetEstimate(const string& parameter) {
+  for (EstimatePtr estimate : objects_) {
+    if (estimate->parameter() == parameter)
+      return estimate;
+  }
+
+  return EstimatePtr();
 }
 
 } /* namespace estimates */

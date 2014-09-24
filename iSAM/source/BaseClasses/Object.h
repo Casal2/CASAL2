@@ -62,7 +62,7 @@ public:
   unsigned                    GetEstimableSize(const string& label) const;
   Double*                     GetEstimable(const string& label);
   Double*                     GetEstimable(const string& label, const string& index);
-  map<unsigned, Double>*      GetEstimableMap(const string& label);
+  map<unsigned, Double>*      GetEstimableUMap(const string& label);
   vector<Double>*             GetEstimableVector(const string& label);
   Estimable::Type             GetEstimableType(const string& label) const;
 

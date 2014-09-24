@@ -21,7 +21,7 @@ namespace estimates {
  * Default constructor
  */
 Beta::Beta() {
-  parameters_.Bind<double>(PARAM_M, &m_, "M", "");
+  parameters_.Bind<double>(PARAM_MU, &mu_, "Mu", "");
   parameters_.Bind<double>(PARAM_SIGMA, &sigma_, "Sigma", "");
   parameters_.Bind<double>(PARAM_A, &a_, "A", "");
   parameters_.Bind<double>(PARAM_B, &b_, "B", "");
@@ -50,7 +50,7 @@ Double Beta::GetScore() {
   v_ = (mu_ - a_) / (b_ - a_);
   t_ = (((mu_ - a_) * (b_ - mu_)) / (sigma_ * sigma_)) - 1.0;
   m_ = t_ * v_;
-  n_ = t_ * (1.0 * v_);
+  n_ = t_ * (1.0 - v_);
   score_ = ((1.0 - m_) * log(value() - a_)) + ((1.0 - n_) * log(b_ - value()));
 
   return score_;
