@@ -31,6 +31,7 @@ namespace isam {
 namespace utilities {
 
 using std::vector;
+using std::string;
 
 
 /**

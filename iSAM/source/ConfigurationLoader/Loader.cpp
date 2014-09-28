@@ -263,7 +263,7 @@ void Loader::ParseBlock(vector<FileLine> &block) {
     /**
      * Re-process the values based on the symbols we support
      */
-    if (!HandleOperators(values))
+    if (parameter_type != PARAM_PARAMETER && !HandleOperators(values))
       LOG_ERROR("At line " << file_line.line_number_ << " of " << file_line.file_name_
           << ": Line could not be processed properly for operators(+ , -). Please check the format of your line");
 

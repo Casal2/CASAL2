@@ -11,6 +11,8 @@
 #define PARAMETERS_BINDABLE_INL_H_
 
 // headers
+#include <boost/algorithm/string/join.hpp>
+
 #include "Utilities/To.h"
 #include "Utilities/Logging/Logging.h"
 
@@ -39,7 +41,8 @@ Bindable<T>::Bindable(const string& label, T* target, const string& description)
 template<typename T>
 void Bindable<T>::Bind() {
   if (values_.size() > 1)
-    LOG_ERROR(location() << ": " << label_ << " only supports having a single value defined. There are  " << values_.size() << " values defined");
+    LOG_ERROR(location() << ": " << label_ << " only supports having a single value defined. There are  " << values_.size() << " values defined.\n"
+        << "The values defined are: " << boost::algorithm::join(values_, " | "));
 
   if (values_.size() > 0) {
     if (!isam::utilities::To<T>(values_[0], *target_))

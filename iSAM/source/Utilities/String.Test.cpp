@@ -19,7 +19,7 @@
 // namespaces
 namespace isam {
 namespace utilities {
-namespace string {
+namespace strings {
 
 using ::testing::Return;
 

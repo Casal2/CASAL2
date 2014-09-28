@@ -149,6 +149,10 @@ EstimatePtr Manager::GetEstimate(const string& parameter) {
       return estimate;
   }
 
+  for (EstimatePtr estimate : objects_)
+    cout << "Estimate: " << estimate->label() << " | " << estimate->parameter() << endl;
+
+
   return EstimatePtr();
 }
 
