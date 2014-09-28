@@ -42,11 +42,13 @@ bool Object::IsEstimableAVector(const string& label) const {
 unsigned Object::GetEstimableSize(const string& label) const {
   if (estimable_vectors_.find(label) != estimable_vectors_.end())
     return estimable_vectors_.find(label)->second->size();
+  if (estimable_u_maps_.find(label) != estimable_u_maps_.end())
+      return estimable_u_maps_.find(label)->second->size();
   if (estimable_s_maps_.find(label) != estimable_s_maps_.end())
     return estimable_s_maps_.find(label)->second->size();
 
   if (estimables_.find(label) == estimables_.end())
-    LOG_CODE_ERROR("Unable to locate the label " << label << " in our estimables_ vector");
+    LOG_CODE_ERROR("The estimable " << label << " has not been registered for the object " << block_type_ << ".type=" << type_);
 
   return 1u;
 }
@@ -117,6 +119,18 @@ map<unsigned, Double>* Object::GetEstimableUMap(const string& label) {
     LOG_CODE_ERROR("estimable_types_[" << label << "] != Estimable::kUnsignedMap");
 
   return estimable_u_maps_[label];
+}
+
+/**
+ *
+ */
+map<string, Double>* Object::GetEstimableSMap(const string& label) {
+  if (estimable_types_.find(label) == estimable_types_.end())
+    LOG_CODE_ERROR("estimable_types_.find(" << label << ") == estimable_types_.end()");
+  if (estimable_types_[label] != Estimable::kStringMap)
+    LOG_CODE_ERROR("estimable_types_[" << label << "] != Estimable::kStringMap");
+
+  return estimable_s_maps_[label];
 }
 
 /**

@@ -19,17 +19,21 @@
 
 // Headers
 #include <string>
+#include <vector>
 
 #include "Translations/Translations.h"
 
 // Namespaces
 namespace isam {
 namespace utilities {
-namespace string {
+namespace strings {
 
 using std::string;
+using std::vector;
 
-bool is_valid(const string& test_string);
+bool is_valid(const std::string& test_string);
+
+vector<std::string> explode(const std::string& source);
 
 }
 } /* namespace utilities */

@@ -48,6 +48,8 @@ protected:
   vector<string>              same_labels_;
   string                      estimation_phase_;
   string                      mcmc_;
+  bool                        update_label_;
+  bool                        update_parameter_;
 };
 
 // typedef
