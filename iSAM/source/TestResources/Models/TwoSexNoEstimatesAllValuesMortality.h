@@ -1,3 +1,116 @@
+/**
+ * @file TwoSexNoEstimatesAllValuesMortality.h
+ * @author  Scott Rasmussen (scott.rasmussen@zaita.com)
+ * @date 1/10/2014
+ * @section LICENSE
+ *
+ * Copyright NIWA Science ©2014 - www.niwa.co.nz
+ *
+ * @section DESCRIPTION
+ *
+ * << Add Description >>
+ */
+#ifndef TESTCASES_MODELS_TWO_SEX_NO_ESTIMATES_ALL_VALUES_MORTALITY_H_
+#define TESTCASES_MODELS_TWO_SEX_NO_ESTIMATES_ALL_VALUES_MORTALITY_H_
+#ifdef TESTMODE
+
+#include <string>
+
+namespace isam {
+namespace testresources {
+namespace models {
+
+/**
+ *
+ */
+const std::string two_sex_no_estimates_all_values_mortality =
+R"(
+@model
+start_year 1994
+final_year 2008
+projection_final_year 2012
+min_age 1
+max_age 50
+age_plus t
+initialisation_phases iphase1 iphase2
+time_steps step_one step_two
+
+@categories
+format stage.sex
+names immature.male mature.male immature.female mature.female
+
+@initialisation_phase iphase1
+years 200
+time_steps initialisation_step_one
+
+@initialisation_phase iphase2
+years 1
+time_steps initialisation_step_two
+
+@time_step initialisation_step_one
+processes Recruitment maturation halfM halfM my_ageing
+
+@time_step initialisation_step_two
+processes Recruitment maturation halfM halfM my_ageing
+
+@time_step step_one
+processes Recruitment maturation halfM Fishing halfM
+
+@time_step step_two
+processes my_ageing
+
+@ageing my_ageing
+categories *
+
+@Recruitment Recruitment
+type constant
+categories stage=immature
+proportions 0.5 0.5
+R0 997386
+age 1
+
+@mortality halfM
+type constant_rate
+categories *
+M 0.065 0.065 0.065 0.065
+selectivities av av av av 
+
+@selectivity av
+type all_values
+v 1 1 2 2 3 3 4 4 5 5 6 6 7 7 8 8 9 9 10 10 11 11 12 12 13 13 14 14 15 15 16 16 17 17 18 18 19 19 20 20 21 21 22 22 23 23 24 24 25 25
+
+@mortality Fishing
+type event
+categories *
+years           1998         1999         2000         2001         2002         2003         2004          2005          2006          2007
+catches  1849.153714 14442.000000 28323.203463 24207.464203 47279.000000 58350.943094 82875.872790 115974.547730 113852.472257 119739.517172
+U_max 0.99
+selectivities FishingSel FishingSel FishingSel FishingSel
+penalty event_mortality_penalty
+
+@maturation maturation
+type rate
+from stage=immature
+to stage=mature
+proportions 1.0 1.0
+selectivities Maturation Maturation
+
+@selectivity One
+type constant
+c 1
+
+@selectivity Maturation
+type logistic_producing
+L 5
+H 30
+a50 8
+ato95 3
+
+@selectivity FishingSel
+type logistic
+a50 8
+ato95 3
+
 @minimiser de
 type de_solver
 covariance false
@@ -6,15 +119,12 @@ max_generations 1000
 
 @minimiser gammadiff
 type numerical_differences
+active true
 iterations 1000
 evaluations 4000
 step_size 1e-7
-tolerance 0.002 #The default is 0.002
-covariance True
-active true
-
-@minimiser dlib
-type dlib
+tolerance 0.002
+covariance true
 
 @mcmc
 length 100
@@ -22,12 +132,11 @@ length 100
 @catchability CPUEq
 q 0.000153139
 
-# OBSERVATIONS: CATCH AT AGE
 @observation CAA-year-1998
 type proportions_at_age
 year 1998
 time_step step_one
-categories immature.male + mature.male + immature.female + mature.female
+categories *+
 selectivities FishingSel FishingSel FishingSel FishingSel
 min_age 1
 max_age 35
@@ -36,13 +145,12 @@ obs 0.00000 0.00000 0.01382 0.03178 0.08416 0.03859 0.06588 0.08455 0.05462 0.07
 error_value 343
 likelihood multinomial
 delta 1e-11
-#process_error 500
 
 @observation CAA-year-1999
 type proportions_at_age
 year 1999
 time_step step_one
-categories immature.male + mature.male + immature.female + mature.female
+categories *+
 selectivities FishingSel FishingSel FishingSel FishingSel
 min_age 1
 max_age 35
@@ -51,28 +159,26 @@ obs 0.00000 0.00000 0.00086 0.00244 0.00448 0.03929 0.10549 0.11334 0.10784 0.09
 error_value 564
 likelihood multinomial
 delta 1e-11
-#process_error 500
 
 @observation CAA-year-2000
 type proportions_at_age
 year 2000
 time_step step_one
-categories immature.male + mature.male + immature.female + mature.female
+categories *+
 selectivities FishingSel FishingSel FishingSel FishingSel
 min_age 1
 max_age 35
-age_plus True
+age_plus true
 obs 0.00000 0.00000 0.00000 0.00037 0.00415 0.00640 0.01976 0.07120 0.08222 0.07515 0.08747 0.05801 0.10737 0.08080 0.08953 0.09575 0.06014 0.06322 0.02783 0.02057 0.02040 0.00738 0.00755 0.00536 0.00203 0.00438 0.00000 0.00242 0.00000 0.00045 0.00000 0.00000 0.00008 0.00000 0.00000
 error_value 651
 likelihood multinomial
 delta 1e-11
-#process_error 500
 
 @observation CAA-year-2001
 type proportions_at_age
 year 2001
 time_step step_one
-categories immature.male + mature.male + immature.female + mature.female
+categories *+
 selectivities FishingSel FishingSel FishingSel FishingSel
 min_age 1
 max_age 35
@@ -81,13 +187,12 @@ obs 0.00000 0.00000 0.00000 0.00200 0.00350 0.03549 0.06725 0.09951 0.08653 0.04
 error_value 840
 likelihood multinomial
 delta 1e-11
-#process_error 500
 
 @observation CAA-year-2002
 type proportions_at_age
 year 2002
 time_step step_one
-categories immature.male + mature.male + immature.female + mature.female
+categories *+
 selectivities FishingSel FishingSel FishingSel FishingSel
 min_age 1
 age_plus True
@@ -96,13 +201,12 @@ obs 0.00000 0.00000 0.00900 0.00021 0.00166 0.00281 0.00261 0.01229 0.04306 0.03
 error_value 598
 likelihood multinomial
 delta 1e-11
-#process_error 500
 
 @observation CAA-year-2003
 type proportions_at_age
 year 2003
 time_step step_one
-categories immature.male + mature.male + immature.female + mature.female
+categories *+
 selectivities FishingSel FishingSel FishingSel FishingSel
 min_age 1
 max_age 35
@@ -111,13 +215,12 @@ obs 0.00000 0.00000 0.00000 0.00000 0.01000 0.00065 0.00066 0.00345 0.00887 0.00
 error_value 456
 likelihood multinomial
 delta 1e-11
-#process_error 500
 
 @observation CAA-year-2004
 type proportions_at_age
 year 2004
 time_step step_one
-categories immature.male + mature.male + immature.female + mature.female
+categories *+
 selectivities FishingSel FishingSel FishingSel FishingSel
 min_age 1
 max_age 35
@@ -126,13 +229,12 @@ obs 0.00000 0.00000 0.00300 0.00090 0.00223 0.01645 0.01668 0.01642 0.01872 0.03
 error_value 538
 likelihood multinomial
 delta 1e-11
-#process_error 500
 
 @observation CAA-year-2005
 type proportions_at_age
 year 2005
 time_step step_one
-categories immature.male + mature.male + immature.female + mature.female
+categories *+
 selectivities FishingSel FishingSel FishingSel FishingSel
 min_age 1
 max_age 35
@@ -141,13 +243,12 @@ obs 0.00000 0.00000 0.01722 0.00581 0.01447 0.01395 0.00875 0.01650 0.01843 0.01
 error_value 438
 likelihood multinomial
 delta 1e-11
-#process_error 500
 
 @observation CAA-year-2006
 type proportions_at_age
 year 2006
 time_step step_one
-categories immature.male + mature.male + immature.female + mature.female
+categories *+
 selectivities FishingSel FishingSel FishingSel FishingSel
 min_age 1
 max_age 35
@@ -156,13 +257,12 @@ obs 0.00000 0.00000 0.00000 0.00100 0.00434 0.00278 0.02499 0.02925 0.02513 0.02
 error_value 817
 likelihood multinomial
 delta 1e-11
-#process_error 500
 
 @observation CAA-year-2007
 type proportions_at_age
 year 2007
 time_step step_one
-categories immature.male + mature.male + immature.female + mature.female
+categories *+
 selectivities FishingSel FishingSel FishingSel FishingSel
 min_age 1
 max_age 35
@@ -171,60 +271,33 @@ obs 0.00000 0.00000 0.00000 0.00095 0.00970 0.01689 0.02675 0.03727 0.03764 0.03
 error_value 915
 likelihood multinomial
 delta 1e-11
-#process_error 500
 
-# OBSERVATIONS: CPUE
 @observation CPUE
 type abundance
 catchability CPUEq
 years 1998:2007
 time_step step_one
-categories immature.male+mature.male+immature.female+mature.female
+categories *+
 selectivities FishingSel FishingSel FishingSel FishingSel
 obs 22.55065505 57.30952381 57.92066148 33.52834377 108.4380734 72.84761934 38.29753826 75.84993311 109.47353102 85.7732931
 error_value 0.2
 likelihood lognormal
-#process_error 0.00
 
-@profile process[Recruitment].r0
-parameter process[Recruitment].r0
-lower_bound 50000
-upper_bound 100000
-steps 50
-
-@profile selectivity[One].c
-lower_bound 1
-upper_bound 5
-steps 3
-
-# ESTIMATION PARAMETERS
-@estimate catchability[CPUEq].q
-parameter catchability[CPUEq].q
-lower_bound 1e-10
-upper_bound 1e-1
-#lower_bound 0.000153139
-#upper_bound 0.000153139
-type Uniform
-
-@estimate process[Recruitment].R0
-parameter process[Recruitment].R0
-lower_bound 1e5
-upper_bound 1e10
-type Uniform_log
-
-@estimate selectivity[FishingSel].a50
-parameter selectivity[FishingSel].a50
-lower_bound 1
-upper_bound 20
-type Uniform
-
-@estimate selectivity[FishingSel].ato95
-parameter selectivity[FishingSel].ato95
-lower_bound 0.01
-upper_bound 50
-type Uniform
-
-# PENALTIES
 @penalty event_mortality_penalty
 log_scale False
 multiplier 10
+
+@derived_quantity abundance
+type abundance
+categories *
+selectivities Maturation Maturation Maturation Maturation
+time_step step_one
+initialisation_time_steps initialisation_step_one
+)";
+
+} /* namespace models */
+} /* namespace testresources */
+} /* namespace isam */
+
+#endif /* TESTMODE */
+#endif /* TESTCASES_MODELS_TWO_SEX_NO_ESTIMATES_H_ */

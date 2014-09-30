@@ -20,6 +20,7 @@
 #include "Model/Model.h"
 #include "TestResources/TestFixtures/InternalEmptyModel.h"
 #include "TestResources/Models/TwoSexNoEstimates.h"
+#include "TestResources/Models/TwoSexNoEstimatesAllValuesMortality.h"
 
 // Namespaces
 namespace isam {
@@ -47,7 +48,7 @@ b 10
  */
 TEST_F(InternalEmptyModel, Estimates_Single_Target) {
   AddConfigurationLine(testresources::models::two_sex_no_estimates, "TestResources/Models/TwoSexNoEstimates.h", 28);
-  AddConfigurationLine(estimate_single_target, __FILE__, 34);
+  AddConfigurationLine(estimate_single_target, __FILE__, 35);
   LoadConfiguration();
 
   ModelPtr model = Model::Instance();
@@ -80,46 +81,39 @@ TEST_F(InternalEmptyModel, Estimates_Single_Target) {
 const string estimate_multiple_defined_targets_vector =
 R"(
 @estimate e1
-parameter selectivity[FishingSel].a50
-lower_bound 1
-upper_bound 20
-type beta
-mu 0.3
-sigma 0.05
-a 0
-b 10
+parameter selectivity[av].v(21:25)
+lower_bound 1 1 1 1 1
+upper_bound 20 20 20 20 20
+type lognormal
+mu 3 5 3 5 3
+cv 4 5 4 6 4
 )";
 
 /**
  *
  */
 TEST_F(InternalEmptyModel, Estimates_Multiple_Defined_Targets_Vector) {
-  AddConfigurationLine(testresources::models::two_sex_no_estimates, "TestResources/Models/TwoSexNoEstimates.h", 28);
-  AddConfigurationLine(estimate_multiple_defined_targets_vector, __FILE__, 80);
+  AddConfigurationLine(testresources::models::two_sex_no_estimates_all_values_mortality, "TestResources/Models/TwoSexNoEstimatesAllValuesMortality.h", 28);
+  AddConfigurationLine(estimate_multiple_defined_targets_vector, __FILE__, 83);
   LoadConfiguration();
 
   ModelPtr model = Model::Instance();
   model->Start(RunMode::kEstimation);
 
   ObjectiveFunction& obj_function = ObjectiveFunction::Instance();
-  EXPECT_DOUBLE_EQ(1726.6295023192379, obj_function.score());
+  EXPECT_DOUBLE_EQ(35171.333647143554, obj_function.score());
 
-  EstimatePtr estimate = estimates::Manager::Instance().GetEstimate("selectivity[FishingSel].a50");
+  EstimatePtr estimate = estimates::Manager::Instance().GetEstimate("selectivity[av].v(21)");
   if (!estimate)
     LOG_ERROR("!estimate");
-  EXPECT_DOUBLE_EQ(estimate->value(), 7.2724038656178385);
+  EXPECT_DOUBLE_EQ(estimate->value(), 1.0000667295269956);
+  EXPECT_DOUBLE_EQ(estimate->GetScore(), 0.017919754558039881);
 
-  // Check results
-  estimate->set_value(1.0);
-  EXPECT_DOUBLE_EQ(estimate->GetScore(), -2476.5137933614251);
-  estimate->set_value(2.0);
-  EXPECT_DOUBLE_EQ(estimate->GetScore(), -2367.250113991935);
-  estimate->set_value(3.0);
-  EXPECT_DOUBLE_EQ(estimate->GetScore(), -2230.4867585646953);
-  estimate->set_value(4.0);
-  EXPECT_DOUBLE_EQ(estimate->GetScore(), -2066.4915312599851);
-  estimate->set_value(5.0);
-  EXPECT_DOUBLE_EQ(estimate->GetScore(), -1868.5574163359895);
+  estimate = estimates::Manager::Instance().GetEstimate("selectivity[av].v(25)");
+  if (!estimate)
+    LOG_ERROR("!estimate");
+  EXPECT_DOUBLE_EQ(estimate->value(), 1.000014483955731);
+  EXPECT_DOUBLE_EQ(estimate->GetScore(), 0.017861646655730232);
 }
 
 /**
@@ -140,7 +134,7 @@ cv 4 6 8
  */
 TEST_F(InternalEmptyModel, Estimates_Multiple_Defined_Targets_Unsigned_Map) {
   AddConfigurationLine(testresources::models::two_sex_no_estimates, "TestResources/Models/TwoSexNoEstimates.h", 28);
-  AddConfigurationLine(estimate_multiple_defined_targets_unsigned_map, __FILE__, 126);
+  AddConfigurationLine(estimate_multiple_defined_targets_unsigned_map, __FILE__, 124);
   LoadConfiguration();
 
   ModelPtr model = Model::Instance();
@@ -188,7 +182,7 @@ cv 3 4
  */
 TEST_F(InternalEmptyModel, Estimates_Multiple_Defined_Targets_String_Map) {
   AddConfigurationLine(testresources::models::two_sex_no_estimates, "TestResources/Models/TwoSexNoEstimates.h", 28);
-  AddConfigurationLine(estimate_multiple_defined_targets_string_map, __FILE__, 167);
+  AddConfigurationLine(estimate_multiple_defined_targets_string_map, __FILE__, 171);
   LoadConfiguration();
 
   ModelPtr model = Model::Instance();
@@ -215,47 +209,40 @@ TEST_F(InternalEmptyModel, Estimates_Multiple_Defined_Targets_String_Map) {
  */
 const string estimate_all_targets_vector =
 R"(
-@estimate e1
-parameter selectivity[FishingSel].a50
-lower_bound 1
-upper_bound 20
-type beta
-mu 0.3
-sigma 0.05
-a 0
-b 10
+@estimate e3
+parameter selectivity[av].v
+lower_bound 1 1 2 2 3 3 4 4 5 5 6 6 7 7 8 8 9 9 10 10 11 11 12 12 13 13 14 14 15 15 16 16 17 17 18 18 19 19 20 20 21 21 22 22 23 23 24 24 25 25
+upper_bound 2 2 3 3 4 4 5 5 6 6 7 7 8 8 9 9 10 10 11 11 12 12 13 13 14 14 15 15 16 16 17 17 18 18 19 19 20 20 21 21 22 22 23 23 24 24 25 25 26 26
+type lognormal
+mu 3 5 3 5 3 3 5 3 5 3 3 5 3 5 3 3 5 3 5 3 3 5 3 5 3 3 5 3 5 3 3 5 3 5 3 3 5 3 5 3 3 5 3 5 3 3 5 3 5 3
+cv 4 5 4 6 4 4 5 4 6 4 4 5 4 6 4 4 5 4 6 4 4 5 4 6 4 4 5 4 6 4 4 5 4 6 4 4 5 4 6 4 4 5 4 6 4 4 5 4 6 4
 )";
 
 /**
  *
  */
 TEST_F(InternalEmptyModel, Estimates_All_Targets_Vector) {
-  AddConfigurationLine(testresources::models::two_sex_no_estimates, "TestResources/Models/TwoSexNoEstimates.h", 28);
-  AddConfigurationLine(estimate_all_targets_vector, __FILE__, 218);
+  AddConfigurationLine(testresources::models::two_sex_no_estimates_all_values_mortality, "TestResources/Models/TwoSexNoEstimatesAllValuesMortality.h", 28);
+  AddConfigurationLine(estimate_all_targets_vector, __FILE__, 212);
   LoadConfiguration();
 
   ModelPtr model = Model::Instance();
   model->Start(RunMode::kEstimation);
 
   ObjectiveFunction& obj_function = ObjectiveFunction::Instance();
-  EXPECT_DOUBLE_EQ(1726.6295023192379, obj_function.score());
+  EXPECT_DOUBLE_EQ(39989.151448120341, obj_function.score());
 
-  EstimatePtr estimate = estimates::Manager::Instance().GetEstimate("selectivity[FishingSel].a50");
+  EstimatePtr estimate = estimates::Manager::Instance().GetEstimate("selectivity[av].v(10)");
   if (!estimate)
     LOG_ERROR("!estimate");
-  EXPECT_DOUBLE_EQ(estimate->value(), 7.2724038656178385);
+  EXPECT_DOUBLE_EQ(estimate->value(), 5.0);
+  EXPECT_DOUBLE_EQ(estimate->GetScore(), 2.2650530751015676);
 
-  // Check results
-  estimate->set_value(1.0);
-  EXPECT_DOUBLE_EQ(estimate->GetScore(), -2476.5137933614251);
-  estimate->set_value(2.0);
-  EXPECT_DOUBLE_EQ(estimate->GetScore(), -2367.250113991935);
-  estimate->set_value(3.0);
-  EXPECT_DOUBLE_EQ(estimate->GetScore(), -2230.4867585646953);
-  estimate->set_value(4.0);
-  EXPECT_DOUBLE_EQ(estimate->GetScore(), -2066.4915312599851);
-  estimate->set_value(5.0);
-  EXPECT_DOUBLE_EQ(estimate->GetScore(), -1868.5574163359895);
+  estimate = estimates::Manager::Instance().GetEstimate("selectivity[av].v(40)");
+  if (!estimate)
+    LOG_ERROR("!estimate");
+  EXPECT_DOUBLE_EQ(estimate->value(), 20.0);
+  EXPECT_DOUBLE_EQ(estimate->GetScore(), 4.9335998153292859);
 }
 
 /**
@@ -276,7 +263,7 @@ cv 4 6 4 6 8 5 6 7 8 9
  */
 TEST_F(InternalEmptyModel, Estimates_All_Targets_Unsigned_Map) {
   AddConfigurationLine(testresources::models::two_sex_no_estimates, "TestResources/Models/TwoSexNoEstimates.h", 28);
-  AddConfigurationLine(estimate_all_targets_unsigned_map, __FILE__, 266);
+  AddConfigurationLine(estimate_all_targets_unsigned_map, __FILE__, 253);
   LoadConfiguration();
 
   ModelPtr model = Model::Instance();
@@ -317,7 +304,7 @@ cv 3 4
  */
 TEST_F(InternalEmptyModel, Estimates_All_Targets_String_Map) {
   AddConfigurationLine(testresources::models::two_sex_no_estimates, "TestResources/Models/TwoSexNoEstimates.h", 28);
-  AddConfigurationLine(estimate_all_targets_string_map, __FILE__, 306);
+  AddConfigurationLine(estimate_all_targets_string_map, __FILE__, 293);
   LoadConfiguration();
 
   ModelPtr model = Model::Instance();

@@ -116,16 +116,20 @@ void Creator::CreateEstimates() {
     switch(target->GetEstimableType(parameter)) {
     case Estimable::kVector:
     {
+      update_label_ = true;
+
       vector<Double>* targets = target->GetEstimableVector(parameter);
 
+      unsigned offset = 0;
       for (string string_index : indexes) {
-        unsigned offset = 0;
-        if (!utils::To<string, unsigned>(string_index, offset))
+        unsigned u_index = 0;
+        if (!utils::To<string, unsigned>(string_index, u_index))
           LOG_ERROR(parameters_.location(PARAM_PARAMETER) << " index " << string_index << " could not be converted to a numeric type");
-        if (offset >= targets->size())
-          LOG_ERROR(parameters_.location(PARAM_PARAMETER) << " index " << string_index << " exceeds the amount of objects registered (" << targets->size() << ")");
+        if (u_index <= 0 || u_index > targets->size())
+          LOG_ERROR(parameters_.location(PARAM_PARAMETER) << " index " << string_index << " is out of range 1-" << targets->size());
 
-        CreateEstimate(new_label + "(" + string_index + ")", offset, &(*targets)[offset]);
+        CreateEstimate(new_label + "(" + string_index + ")", offset, &(*targets)[u_index-1]);
+        offset++;
       }
     }
     break;
