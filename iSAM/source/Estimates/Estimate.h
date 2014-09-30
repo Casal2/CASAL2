@@ -63,7 +63,7 @@ public:
 
 protected:
   // Members
-  Double*                     target_;
+  Double*                     target_ = 0;
   string                      parameter_;
   double                      lower_bound_;
   double                      upper_bound_;
