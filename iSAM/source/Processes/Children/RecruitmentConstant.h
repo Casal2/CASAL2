@@ -29,6 +29,7 @@ namespace processes {
 
 using isam::utilities::Double;
 using isam::partition::accessors::CategoriesWithAgePtr;
+using isam::utilities::Map;
 
 /**
  * Class definition
@@ -48,7 +49,7 @@ private:
   // Members
   vector<string>              category_names_;
   vector<Double>              proportions_;
-  map<string, Double>         proportions_categories_;
+  Map<string, Double>         proportions_categories_;
   Double                      r0_;
   unsigned                    age_;
   CategoriesWithAgePtr        partition_;

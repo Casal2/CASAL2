@@ -22,11 +22,12 @@
 #include "Utilities/String.h"
 #include "Utilities/To.h"
 
-namespace utils = isam::utilities;
-
 // namespaces
 namespace isam {
 namespace estimates {
+
+namespace utils = isam::utilities;
+using isam::utilities::Map;
 
 /**
  *
@@ -148,7 +149,7 @@ void Creator::CreateEstimates() {
 
     case Estimable::kStringMap:
     {
-      map<string, Double>* targets = target->GetEstimableSMap(parameter);
+      Map<string, Double>* targets = target->GetEstimableSMap(parameter);
       unsigned offset = 0;
       for (string index : indexes) {
         if (targets->find(index) == targets->end())
@@ -203,7 +204,7 @@ void Creator::CreateEstimates() {
     }
     case Estimable::kStringMap:
     {
-      map<string, Double>* targets = target->GetEstimableSMap(parameter);
+      Map<string, Double>* targets = target->GetEstimableSMap(parameter);
       unsigned offset = 0;
       for (auto iter : (*targets)) {
         CreateEstimate(new_label + "(" + iter.first + ")", offset, &(*targets)[iter.first]);

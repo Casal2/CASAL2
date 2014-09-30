@@ -210,6 +210,135 @@ TEST_F(InternalEmptyModel, Estimates_Multiple_Defined_Targets_String_Map) {
   EXPECT_DOUBLE_EQ(estimate->GetScore(), -0.69298502612944257);
 }
 
+/**
+ *
+ */
+const string estimate_all_targets_vector =
+R"(
+@estimate e1
+parameter selectivity[FishingSel].a50
+lower_bound 1
+upper_bound 20
+type beta
+mu 0.3
+sigma 0.05
+a 0
+b 10
+)";
+
+/**
+ *
+ */
+TEST_F(InternalEmptyModel, Estimates_All_Targets_Vector) {
+  AddConfigurationLine(testresources::models::two_sex_no_estimates, "TestResources/Models/TwoSexNoEstimates.h", 28);
+  AddConfigurationLine(estimate_all_targets_vector, __FILE__, 218);
+  LoadConfiguration();
+
+  ModelPtr model = Model::Instance();
+  model->Start(RunMode::kEstimation);
+
+  ObjectiveFunction& obj_function = ObjectiveFunction::Instance();
+  EXPECT_DOUBLE_EQ(1726.6295023192379, obj_function.score());
+
+  EstimatePtr estimate = estimates::Manager::Instance().GetEstimate("selectivity[FishingSel].a50");
+  if (!estimate)
+    LOG_ERROR("!estimate");
+  EXPECT_DOUBLE_EQ(estimate->value(), 7.2724038656178385);
+
+  // Check results
+  estimate->set_value(1.0);
+  EXPECT_DOUBLE_EQ(estimate->GetScore(), -2476.5137933614251);
+  estimate->set_value(2.0);
+  EXPECT_DOUBLE_EQ(estimate->GetScore(), -2367.250113991935);
+  estimate->set_value(3.0);
+  EXPECT_DOUBLE_EQ(estimate->GetScore(), -2230.4867585646953);
+  estimate->set_value(4.0);
+  EXPECT_DOUBLE_EQ(estimate->GetScore(), -2066.4915312599851);
+  estimate->set_value(5.0);
+  EXPECT_DOUBLE_EQ(estimate->GetScore(), -1868.5574163359895);
+}
+
+/**
+ *
+ */
+const string estimate_all_targets_unsigned_map =
+R"(
+@estimate process[Fishing].catches
+type lognormal
+lower_bound 1800 14000 28000 24000 47000 58000 82000 115000 113000 119000
+upper_bound 1900 15000 29000 25000 48000 59000 83000 116000 114000 120000
+mu 3 5 3 5 7 1 2 3 4 5
+cv 4 6 4 6 8 5 6 7 8 9
+)";
+
+/**
+ *
+ */
+TEST_F(InternalEmptyModel, Estimates_All_Targets_Unsigned_Map) {
+  AddConfigurationLine(testresources::models::two_sex_no_estimates, "TestResources/Models/TwoSexNoEstimates.h", 28);
+  AddConfigurationLine(estimate_all_targets_unsigned_map, __FILE__, 266);
+  LoadConfiguration();
+
+  ModelPtr model = Model::Instance();
+  model->Start(RunMode::kEstimation);
+
+  ObjectiveFunction& obj_function = ObjectiveFunction::Instance();
+  EXPECT_DOUBLE_EQ(2963.7305613725566, obj_function.score());
+
+  EstimatePtr estimate = estimates::Manager::Instance().GetEstimate("process[Fishing].catches(1998)");
+  if (!estimate)
+    LOG_ERROR("!estimate");
+  EXPECT_DOUBLE_EQ(estimate->value(), 1849.153714);
+  EXPECT_DOUBLE_EQ(estimate->GetScore(), 18.371135369472036);
+
+  estimate = estimates::Manager::Instance().GetEstimate("process[Fishing].catches(2006)");
+  if (!estimate)
+    LOG_ERROR("!estimate");
+  EXPECT_DOUBLE_EQ(estimate->value(), 113852.472257);
+  EXPECT_DOUBLE_EQ(estimate->GetScore(), 29.892453993650498);
+}
+
+/**
+ *
+ */
+const string estimate_all_targets_string_map =
+R"(
+@estimate recruitment.proportions
+type lognormal
+parameter process[Recruitment].proportions
+lower_bound 0.4 0.4
+upper_bound 0.6 0.6
+mu 1 2
+cv 3 4
+)";
+
+/**
+ *
+ */
+TEST_F(InternalEmptyModel, Estimates_All_Targets_String_Map) {
+  AddConfigurationLine(testresources::models::two_sex_no_estimates, "TestResources/Models/TwoSexNoEstimates.h", 28);
+  AddConfigurationLine(estimate_all_targets_string_map, __FILE__, 306);
+  LoadConfiguration();
+
+  ModelPtr model = Model::Instance();
+  model->Start(RunMode::kEstimation);
+
+  ObjectiveFunction& obj_function = ObjectiveFunction::Instance();
+  EXPECT_DOUBLE_EQ(2682.979986309937, obj_function.score());
+
+  EstimatePtr estimate = estimates::Manager::Instance().GetEstimate("process[Recruitment].proportions(immature.male)");
+  if (!estimate)
+    LOG_ERROR("!estimate");
+  EXPECT_DOUBLE_EQ(estimate->value(), 0.5);
+  EXPECT_DOUBLE_EQ(estimate->GetScore(), -0.64756858783643167);
+
+  estimate = estimates::Manager::Instance().GetEstimate("process[Recruitment].proportions(immature.female)");
+  if (!estimate)
+    LOG_ERROR("!estimate");
+  EXPECT_DOUBLE_EQ(estimate->value(), 0.5);
+  EXPECT_DOUBLE_EQ(estimate->GetScore(), -0.69298502612944257);
+}
+
 } /* namespace estimates */
 } /* namespace isam */
 #endif
