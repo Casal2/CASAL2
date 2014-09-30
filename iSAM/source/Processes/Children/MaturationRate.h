@@ -28,6 +28,7 @@ namespace isam {
 namespace processes {
 
 namespace accessor = isam::partition::accessors;
+using isam::utilities::Map;
 
 /**
  * Class defintiion
@@ -48,7 +49,7 @@ private:
   vector<string>              from_category_names_;
   vector<string>              to_category_names_;
   vector<Double>              proportions_;
-  map<string, Double>         proportions_by_category_;
+  Map<string, Double>         proportions_by_category_;
   vector<string>              selectivity_names_;
   accessor::Categories        from_partition_;
   accessor::Categories        to_partition_;

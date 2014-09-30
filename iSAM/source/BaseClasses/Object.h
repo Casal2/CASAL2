@@ -27,6 +27,7 @@
 
 #include "ParameterList/ParameterList.h"
 #include "Translations/Translations.h"
+#include "Utilities/Map.h"
 #include "Utilities/NoCopy.h"
 #include "Utilities/Types.h"
 
@@ -49,6 +50,7 @@ enum Type {
 namespace base {
 
 using std::string;
+using isam::utilities::Map;
 
 /**
  * Class Definition
@@ -63,7 +65,7 @@ public:
   Double*                     GetEstimable(const string& label);
   Double*                     GetEstimable(const string& label, const string& index);
   map<unsigned, Double>*      GetEstimableUMap(const string& label);
-  map<string, Double>*        GetEstimableSMap(const string& label);
+  Map<string, Double>*        GetEstimableSMap(const string& label);
   vector<Double>*             GetEstimableVector(const string& label);
   Estimable::Type             GetEstimableType(const string& label) const;
 
@@ -79,7 +81,7 @@ protected:
   // Methods
   void                        RegisterAsEstimable(const string& label, Double* variable);
   void                        RegisterAsEstimable(const string& label, vector<Double>* variables);
-  void                        RegisterAsEstimable(const string& label, map<string, Double>* variables);
+  void                        RegisterAsEstimable(const string& label, Map<string, Double>* variables);
   void                        RegisterAsEstimable(const string& label, map<unsigned, Double>* variables);
 
   // Accessors
@@ -92,7 +94,7 @@ protected:
   ParameterList                 parameters_;
   map<string, Double*>                  estimables_;
   map<string, vector<Double>* >         estimable_vectors_;
-  map<string, map<string, Double>* >    estimable_s_maps_;
+  map<string, Map<string, Double>* >    estimable_s_maps_;
   map<string, map<unsigned, Double>* >  estimable_u_maps_;
   map<string, Estimable::Type>          estimable_types_;
 

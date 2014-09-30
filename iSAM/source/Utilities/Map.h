@@ -16,6 +16,8 @@
 // headers
 #include <vector>
 #include <map>
+#include <set>
+#include <string>
 
 #include "Types.h"
 
@@ -25,6 +27,45 @@ namespace utilities {
 
 using std::vector;
 using std::map;
+using std::string;
+
+/**
+ * This class is responsible for providing us with a specialised container that allows
+ * the storage and retrieval of data in an "order by insertion" method.
+ *
+ * This means that no matter what order you put the data in to the map in it'll be
+ * retreived in the same order.
+ *
+ */
+struct cmp_by_insertion {
+  vector<string> current_keys_;
+
+  bool operator() (string const &a, string const &b) {
+    if (a == b)
+      return false;
+
+    unsigned a_index = current_keys_.size() + 10;
+    unsigned b_index = current_keys_.size() + 10;
+
+    for (unsigned i = 0; i < current_keys_.size(); ++i) {
+      if (current_keys_[i] == a)
+        a_index = i;
+      if (current_keys_[i] == b)
+        b_index = i;
+    }
+
+    if (a_index > current_keys_.size())
+      current_keys_.push_back(a);
+    if (b_index > current_keys_.size())
+      current_keys_.push_back(b);
+
+    return a_index <= b_index;
+  }
+};
+
+template<typename _Key, typename _Tp>
+class Map : public std::map<_Key, _Tp, cmp_by_insertion> { };
+
 
 /**
  * Build a map from 2 vectors where the first vector
