@@ -10,28 +10,14 @@
 #ifdef TESTMODE
 
 // Headers
-#include "RecruitmentBevertonHolt.h"
-
 #include <iostream>
 
-#include "Processes/Factory.h"
-#include "TimeSteps/Factory.h"
-#include "TimeSteps/Manager.h"
+#include "ObjectiveFunction/ObjectiveFunction.h"
+#include "Processes/Manager.h"
+#include "Model/Model.h"
 #include "Partition/Partition.h"
-#include "Partition/Accessors/All.h"
 #include "TestResources/TestFixtures/InternalEmptyModel.h"
-#include "TestResources/ConfigurationFiles/AgeSizes.h"
-#include "TestResources/ConfigurationFiles/Categories.h"
-#include "TestResources/ConfigurationFiles/InitialisationPhases.h"
-#include "TestResources/ConfigurationFiles/Model.h"
-#include "TestResources/ConfigurationFiles/SizeWeights.h"
-#include "TestResources/ConfigurationFiles/DerivedQuantities/Abundance.h"
-#include "TestResources/ConfigurationFiles/Processes/Ageing.h"
-#include "TestResources/ConfigurationFiles/Processes/MaturationRate.h"
-#include "TestResources/ConfigurationFiles/Processes/MortalityConstantRate.h"
-#include "TestResources/ConfigurationFiles/Processes/RecruitmentBevertonHolt.h"
-#include "TestResources/ConfigurationFiles/Selectivities/Constant.h"
-#include "TestResources/ConfigurationFiles/Selectivities/LogisticProducing.h"
+#include "TestResources/Models/CasalComplex1.h"
 
 // Namespaces
 namespace isam {
@@ -45,37 +31,37 @@ using isam::testfixtures::InternalEmptyModel;
  *
  */
 TEST_F(InternalEmptyModel, Processes_BevertonHolt_Recruitment) {
-
-  // load the snippets for our configuration
-  AddConfigurationLine(model_one_init_phase, __FILE__, __LINE__);
-  AddConfigurationLine(age_sizes_von_bert_no_age_size, __FILE__, __LINE__);
-  AddConfigurationLine(categories_no_sex_with_age_size, __FILE__, __LINE__);
-  AddConfigurationLine(derived_quantity_abudance_ssb, __FILE__, __LINE__);
-  AddConfigurationLine(initialisation_phases_one, __FILE__, __LINE__);
-  AddConfigurationLine(processes_ageing_no_sex_no_spawning, __FILE__, __LINE__);
-  AddConfigurationLine(processes_maturation_rate_immature_mature, __FILE__, __LINE__);
-  AddConfigurationLine(processes_mortality_constant_rate_no_sex, __FILE__, __LINE__);
-  AddConfigurationLine(processes_recruitment_beverton_holt, __FILE__, __LINE__);
-  AddConfigurationLine(selectivities_constant_one, __FILE__, __LINE__);
-  AddConfigurationLine(selectivities_logistic_producing_maturation, __FILE__, __LINE__);
-  AddConfigurationLine(size_weights_none, __FILE__, __LINE__);
-  AddConfigurationLine("@time_step time_step_one", __FILE__, __LINE__);
-  AddConfigurationLine("processes ageing maturation mortality", __FILE__, __LINE__);
-
+  AddConfigurationLine(testresources::models::test_cases_models_casal_complex_1, "TestResources/Models/CasalComplex1.h", 32);
   LoadConfiguration();
 
-  // run the model
   ModelPtr model = Model::Instance();
-  model->Start(RunMode::kTesting);
+  model->Start(RunMode::kBasic);
 
-  partition::Category& immature_male   = Partition::Instance().category("immature");
-  partition::Category& immature_female = Partition::Instance().category("mature");
+  partition::Category& male   = Partition::Instance().category("male");
+  EXPECT_DOUBLE_EQ(0.0, male.data_[0]);
+  EXPECT_DOUBLE_EQ(2499927.5474240803, male.data_[1]);
+  EXPECT_DOUBLE_EQ(2046756.2758644461, male.data_[2]);
 
-  // Verify blank partition
-  for (unsigned i = 0; i < immature_male.data_.size(); ++i)
-    EXPECT_DOUBLE_EQ(0.0, immature_male.data_[i]) << " where i = " << i << "; age = " << i + immature_male.min_age_;
-  for (unsigned i = 0; i < immature_female.data_.size(); ++i)
-    EXPECT_DOUBLE_EQ(0.0, immature_female.data_[i]) << " where i = " << i << "; age = " << i + immature_female.min_age_;
+  EXPECT_DOUBLE_EQ(151391.67827268399, male.data_[15]);
+  EXPECT_DOUBLE_EQ(123889.51433539754, male.data_[16]);
+  EXPECT_DOUBLE_EQ(101388.98722028485, male.data_[17]);
+
+  EXPECT_DOUBLE_EQ(45509.118554179389, male.data_[21]);
+  EXPECT_DOUBLE_EQ(37254.617197639338, male.data_[22]);
+  EXPECT_DOUBLE_EQ(168174.98846106316, male.data_[23]);
+
+  partition::Category& female = Partition::Instance().category("female");
+  EXPECT_DOUBLE_EQ(0.0, male.data_[0]);
+  EXPECT_DOUBLE_EQ(2499927.5474240803, female.data_[1]);
+  EXPECT_DOUBLE_EQ(2046760.4571484025, female.data_[2]);
+
+  EXPECT_DOUBLE_EQ(151581.19489755956, female.data_[15]);
+  EXPECT_DOUBLE_EQ(124062.47306900102, female.data_[16]);
+  EXPECT_DOUBLE_EQ(101543.48455296629, female.data_[17]);
+
+  EXPECT_DOUBLE_EQ(45592.839274420774, female.data_[21]);
+  EXPECT_DOUBLE_EQ(37324.680701432851, female.data_[22]);
+  EXPECT_DOUBLE_EQ(168519.01800652978, female.data_[23]);
 }
 
 } /* namespace processes */

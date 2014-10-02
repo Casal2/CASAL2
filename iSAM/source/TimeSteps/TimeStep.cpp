@@ -71,12 +71,15 @@ void TimeStep::Build() {
  * Execute the time step during the initialisation phases
  */
 void TimeStep::ExecuteForInitialisation(const string& phase_label) {
+  LOG_INFO("Executing for initialisation phase: " << phase_label << " with " << initialisation_block_executors_.size() << " executors");
+  LOG_INFO("initialisation_block_end_process_index_: " << initialisation_block_end_process_index_[phase_label]);
+
   for (unsigned index = 0; index < initialisation_processes_[phase_label].size(); ++index) {
     initialisation_processes_[phase_label][index]->Execute();
 
-    if (index == block_end_process_Index_) {
+    if (initialisation_block_end_process_index_[phase_label] == index) {
       for (ExecutorPtr executor : initialisation_block_executors_) {
-        LOG_INFO("Executing initialisation executor: " << executor->label());
+        LOG_INFO("Executing initialisation end executor: " << executor->label());
         executor->Execute();
       }
     }
@@ -132,6 +135,13 @@ void TimeStep::BuildInitialisationProcesses() {
   for (auto iter : initialisation_process_labels_) {
     for (string process_label : iter.second) {
       initialisation_processes_[iter.first].push_back(processes::Manager::Instance().GetProcess(process_label));
+    }
+
+    initialisation_block_end_process_index_[iter.first]   = iter.second.size() - 1;
+    for (unsigned i = 0; i < initialisation_processes_[iter.first].size(); ++i) {
+      if (initialisation_processes_[iter.first][i]->mortality_process()) {
+        initialisation_block_end_process_index_[iter.first] = i;
+      }
     }
   }
 }

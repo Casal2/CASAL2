@@ -13,10 +13,10 @@ years 1977
 type partition
 time_step three
 years 1977 2002
-
+}
 @report objective
 type objective_function
-
+{
 @report estimate_summary
 type estimate_summary
 

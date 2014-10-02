@@ -44,7 +44,7 @@ age_sizes age_size_male age_size_female
 
 @initialisation_phase phase1
 years 200
-time_steps [processes=halfm halfm] two three
+exclude_processes fishing
 
 @time_step one
 processes halfm fishing halfm
@@ -60,7 +60,7 @@ type biomass
 categories male female
 selectivities male_maturity female_maturity
 time_step one
-initialisation_time_steps phase1.1
+initialisation_time_steps one
 
 @ageing ageing
 categories male female
@@ -207,7 +207,7 @@ age_sizes age_size_male age_size_female
 
 @initialisation_phase phase1
 years 200
-time_steps [processes=halfm halfm] two three
+exclude_processes fishing
 
 @time_step one
 processes halfm fishing halfm
@@ -223,7 +223,7 @@ type biomass
 categories male female
 selectivities male_maturity female_maturity
 time_step one
-initialisation_time_steps phase1.1
+initialisation_time_steps one
 
 @ageing ageing
 categories male female
