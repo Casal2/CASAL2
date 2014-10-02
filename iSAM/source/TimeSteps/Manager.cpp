@@ -71,7 +71,7 @@ unsigned Manager::GetTimeStepIndexForProcess(const string& process_label) const 
   unsigned index = 9999;
 
   for (index = 0; index < objects_.size(); ++index) {
-    const vector<string>& process_labels = objects_[index]->process_names();
+    const vector<string>& process_labels = objects_[index]->process_labels();
     if (std::find(process_labels.begin(), process_labels.end(), process_label) != process_labels.end())
       return index;
   }
@@ -88,18 +88,6 @@ void Manager::Validate() {
   for (TimeStepPtr time_step : objects_) {
     time_step->Validate();
   }
-}
-
-/**
- * Build our time step manager.
- *
- * Get the time steps and order them.
- */
-void Manager::Build() {
-
-  // Build our objects
-  for(TimeStepPtr time_step : objects_)
-    time_step->Build();
 
   // Order our time steps based on the parameter given to the model
   vector<string> time_steps = Model::Instance()->time_steps();
@@ -113,6 +101,17 @@ void Manager::Build() {
   }
 
   LOG_INFO("ordered_time_steps_.size(): " << ordered_time_steps_.size());
+}
+
+/**
+ * Build our time step manager.
+ *
+ * Get the time steps and order them.
+ */
+void Manager::Build() {
+  // Build our objects
+  for(TimeStepPtr time_step : objects_)
+    time_step->Build();
 }
 
 /**
