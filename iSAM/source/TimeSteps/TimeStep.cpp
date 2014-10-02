@@ -70,16 +70,15 @@ void TimeStep::Build() {
 /**
  * Execute the time step during the initialisation phases
  */
-void TimeStep::ExecuteForInitialisation() {
-  for (unsigned index = 0; index < processes_.size(); ++index) {
-    processes_[index]->Execute();
+void TimeStep::ExecuteForInitialisation(const string& phase_label) {
+  for (unsigned index = 0; index < initialisation_processes_[phase_label].size(); ++index) {
+    initialisation_processes_[phase_label][index]->Execute();
 
     if (index == block_end_process_Index_) {
       for (ExecutorPtr executor : initialisation_block_executors_) {
         LOG_INFO("Executing initialisation executor: " << executor->label());
         executor->Execute();
       }
-//      ExecuteInitialisationDerivedQuantities(phase);
     }
   }
 }
@@ -119,4 +118,21 @@ void TimeStep::SubscribeToBlock(ExecutorPtr executor) {
     block_executors_[year].push_back(executor);
 }
 
+/**
+ *
+ */
+void TimeStep::SetInitialisationProcessLabels(const string& initialisation_phase_label, vector<string> process_labels_) {
+  initialisation_process_labels_[initialisation_phase_label] = process_labels_;
+}
+
+/**
+ *
+ */
+void TimeStep::BuildInitialisationProcesses() {
+  for (auto iter : initialisation_process_labels_) {
+    for (string process_label : iter.second) {
+      initialisation_processes_[iter.first].push_back(processes::Manager::Instance().GetProcess(process_label));
+    }
+  }
+}
 } /* namespace isam */

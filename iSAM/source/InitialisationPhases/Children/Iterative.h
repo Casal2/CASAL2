@@ -38,8 +38,8 @@ protected:
 
   // members
   unsigned                    years_;
-  vector<string>              process_labels_;
-  vector<string>              time_step_labels_;
+  vector<string>              insert_processes_;
+  vector<string>              exclude_processes_;
   vector<TimeStepPtr>         time_steps_;
 };
 

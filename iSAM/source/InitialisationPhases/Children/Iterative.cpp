@@ -11,6 +11,10 @@
 // headers
 #include "Iterative.h"
 
+#include <algorithm>
+#include <boost/algorithm/string/trim_all.hpp>
+#include <boost/algorithm/string/split.hpp>
+
 #include "DerivedQuantities/Manager.h"
 #include "TimeSteps/Factory.h"
 #include "Processes/Manager.h"
@@ -23,29 +27,20 @@ namespace initialisationphases {
  * Default constructor
  */
 Iterative::Iterative() {
-  parameters_.Bind<string>(PARAM_PROCESSES, &process_labels_, "A list of processes to execute during this phase", "", true);
-  parameters_.Bind<string>(PARAM_TIME_STEPS, &time_step_labels_, "A list of time steps to execute during this phase", "", true);
   parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "The number of iterations to execute this phase for", "");
+  parameters_.Bind<string>(PARAM_INSERT_PROCESSES, &insert_processes_, "The processes to insert in to target time steps", "", true);
+  parameters_.Bind<string>(PARAM_EXCLUDE_PROCESSES, &exclude_processes_, "The processes to exclude from all time steps", "", true);
 }
 
 /**
  *
  */
 void Iterative::DoValidate() {
-  if (time_step_labels_.size() == 0 && process_labels_.size() == 0) {
-    LOG_ERROR(parameters_.location(PARAM_LABEL) << " must define either " << PARAM_PROCESSES << " or " << PARAM_TIME_STEPS);
-  } else if (time_step_labels_.size() > 0 && process_labels_.size() > 0) {
-    LOG_ERROR(parameters_.location(PARAM_PROCESSES) << " cannot be defined for an initialisation phase if you have also defined " << PARAM_TIME_STEPS);
-  }
-
-  // Create a new time step if we need too.
-  if (process_labels_.size() != 0) {
-    LOG_INFO("Initialisation phase needs to create a new time step: " << string(PARAM_INITIALISATION_PHASE) + string(".") + label_);
-    TimeStepPtr time_step = timesteps::Factory::Create();
-    time_step->parameters().Add(PARAM_LABEL, string(PARAM_INITIALISATION) + string(".") + label_, __FILE__, __LINE__);
-    time_step->parameters().Add(PARAM_PROCESSES, process_labels_, __FILE__, __LINE__);
-
-    time_steps_.push_back(time_step);
+  for (string insert : insert_processes_) {
+    vector<string> pieces;
+    boost::split(pieces, insert, boost::is_any_of("()="), boost::token_compress_on);
+    if (pieces.size() != 2 && pieces.size() != 3)
+      LOG_ERROR(parameters_.location(PARAM_INSERT_PROCESSES) << " value " << insert << " does not match the format time_step(process)=new_process = " << pieces.size());
   }
 }
 
@@ -53,21 +48,50 @@ void Iterative::DoValidate() {
  *
  */
 void Iterative::DoBuild() {
+  time_steps_ = timesteps::Manager::Instance().time_steps();
 
-  /**
-   * only get time steps if we didn't specify processes manually
-   */
-  if (process_labels_.size() == 0) {
-    timesteps::Manager& time_step_manager = timesteps::Manager::Instance();
-    TimeStepPtr time_step;
-    for (string label : time_step_labels_) {
+  // Set the default process labels for the time step for this phase
+  for (TimeStepPtr time_step : time_steps_)
+    time_step->SetInitialisationProcessLabels(label_, time_step->process_labels());
 
-      time_step = time_step_manager.GetTimeStep(label);
-      if (!time_step)
-        LOG_ERROR(parameters_.location(PARAM_TIME_STEPS) << " (" << label << ") has not been defined as a time step. Please ensure you have defined it");
+  // handle any new processes we want to insert
+  for (string insert : insert_processes_) {
+    vector<string> pieces;
+    boost::split(pieces, insert, boost::is_any_of("()="), boost::token_compress_on);
 
-      time_steps_.push_back(time_step);
+    string target_process   = pieces.size() == 3 ? pieces[1] : "";
+    string new_process      = pieces.size() == 3 ? pieces[2] : pieces[1];
+
+    TimeStepPtr time_step = timesteps::Manager::Instance().GetTimeStep(pieces[0]);
+    vector<string> process_labels = time_step->initialisation_process_labels(label_);
+
+    if (target_process == "") {
+      process_labels.insert(process_labels.begin(), new_process);
+    } else {
+      vector<string>::iterator iter = std::find(process_labels.begin(), process_labels.end(), target_process);
+      if (iter == process_labels.end())
+        LOG_ERROR(parameters_.location(PARAM_INSERT_PROCESSES) << " process " << target_process << " does not exist in time step " << time_step->label());
+      process_labels.insert(iter, new_process);
     }
+
+    time_step->SetInitialisationProcessLabels(label_, process_labels);
+  }
+
+  // handle the excludes we've specified
+  for (string exclude : exclude_processes_) {
+    unsigned count = 0;
+    for (TimeStepPtr time_step : time_steps_) {
+      vector<string> process_labels = time_step->initialisation_process_labels(label_);
+      unsigned size_before = process_labels.size();
+      process_labels.erase(std::remove_if(process_labels.begin(), process_labels.end(), [exclude](string& ex) { return exclude == ex; }), process_labels.end());
+      unsigned diff = size_before - process_labels.size();
+
+      time_step->SetInitialisationProcessLabels(label_, process_labels);
+      count += diff;
+    }
+
+    if (count == 0)
+      LOG_ERROR(parameters_.location(PARAM_EXCLUDE_PROCESSES) << " process " << exclude << " does not exist in any time steps to be excluded. Please check your spelling");
   }
 }
 
@@ -75,10 +99,9 @@ void Iterative::DoBuild() {
  *
  */
 void Iterative::Execute() {
-  LOG_INFO("Executing " << years_ << " years with " << time_steps_.size() << " timesteps and " << process_labels_.size() << " processes");
   for (unsigned year = 0; year < years_; ++year) {
     for (TimeStepPtr time_step : time_steps_) {
-      time_step->ExecuteForInitialisation();
+      time_step->ExecuteForInitialisation(label_);
     }
   }
 }
