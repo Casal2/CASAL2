@@ -1,19 +1,19 @@
 /**
  * @file CasalComplex1.h
  * @author  Scott Rasmussen (scott.rasmussen@zaita.com)
- * @date 14/03/2014
+ * @date 3/10/2014
  * @section LICENSE
  *
  * Copyright NIWA Science ©2014 - www.niwa.co.nz
  *
- * @section DESCRIPTION
+ * @section
  *
  * This is testing iSAM vs CASAL-Complex-1 test case
  * developed by Alistair Dunn to ensure consistency between
  * iSAM, CASAL and SPM.
  */
-#ifndef TESTCASES_CASALCOMPLEX1_H_
-#define TESTCASES_CASALCOMPLEX1_H_
+#ifndef TESTCASES_MODELS_CASALCOMPLEX1_H_
+#define TESTCASES_MODELS_CASALCOMPLEX1_H_
 #ifdef TESTMODE
 
 // headers
@@ -21,12 +21,13 @@
 
 // namespaces
 namespace isam {
-namespace testcases {
+namespace testresources {
+namespace models {
 
 /**
  *
  */
-const std::string test_cases_casal_complex_1 =
+const std::string test_cases_models_casal_complex_1 =
 R"(
 @model
 min_age 2
@@ -407,8 +408,6 @@ alpha 0.7
 
 }
 }
-
-
-
+}
 #endif /* TESTMODE */
-#endif /* TESTCASES_CASALCOMPLEX1_H_ */
+#endif /* TESTCASES_MODELS_CASALCOMPLEX1_H_ */

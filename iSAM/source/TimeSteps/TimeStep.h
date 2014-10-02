@@ -65,6 +65,7 @@ private:
   unsigned                            block_end_process_Index_;
   map<string, vector<string>>         initialisation_process_labels_;
   map<string, vector<ProcessPtr>>     initialisation_processes_;
+  map<string, unsigned>               initialisation_block_end_process_index_;
 };
 
 /**

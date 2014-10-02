@@ -42,17 +42,11 @@ names immature.male mature.male immature.female mature.female
 
 @initialisation_phase iphase1
 years 200
-time_steps initialisation_step_one
+exclude_processes Fishing
 
 @initialisation_phase iphase2
 years 1
-time_steps initialisation_step_two
-
-@time_step initialisation_step_one
-processes Recruitment maturation halfM halfM my_ageing
-
-@time_step initialisation_step_two
-processes Recruitment maturation halfM halfM my_ageing
+exclude_processes Fishing
 
 @time_step step_one
 processes Recruitment maturation halfM Fishing halfM
@@ -116,7 +110,7 @@ type abundance
 categories *
 selectivities Maturation Maturation Maturation Maturation
 time_step step_one
-initialisation_time_steps initialisation_step_one
+initialisation_time_steps step_one
 
 @estimate catchability[CPUEq].q
 parameter catchability[CPUEq].q
@@ -182,17 +176,11 @@ names immature.male mature.male immature.female mature.female
 
 @initialisation_phase iphase1
 years 200
-time_steps initialisation_step_one
+exclude_processes Fishing
 
 @initialisation_phase iphase2
 years 1
-time_steps initialisation_step_two
-
-@time_step initialisation_step_one
-processes Recruitment maturation halfM halfM my_ageing
-
-@time_step initialisation_step_two
-processes Recruitment maturation halfM halfM my_ageing
+exclude_processes Fishing
 
 @time_step step_one
 processes Recruitment maturation halfM Fishing halfM
@@ -256,7 +244,7 @@ type abundance
 categories *
 selectivities Maturation Maturation Maturation Maturation
 time_step step_one
-initialisation_time_steps initialisation_step_one
+initialisation_time_steps step_one
 
 @estimate catchability[CPUEq].q
 parameter catchability[CPUEq].q

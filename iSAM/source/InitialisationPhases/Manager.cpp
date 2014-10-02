@@ -50,7 +50,6 @@ void Manager::Build() {
     }
   }
 
-
   for (TimeStepPtr time_step : timesteps::Manager::Instance().time_steps())
     time_step->BuildInitialisationProcesses();
 }
