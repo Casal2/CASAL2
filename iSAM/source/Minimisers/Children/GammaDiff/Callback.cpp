@@ -42,7 +42,7 @@ double CallBack::operator()(const vector<double>& Parameters) {
   }
 
   for (unsigned i = 0; i < Parameters.size(); ++i)
-    estimates[i]->set_value(Parameters[i]);
+    estimates[i]->SetTransformedValue(Parameters[i]);
 
   ObjectiveFunction& objective = ObjectiveFunction::Instance();
 

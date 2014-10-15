@@ -56,7 +56,7 @@ void DLib::Execute() {
 
     lower_bounds(i) = estimate->lower_bound();
     upper_bounds(i) = estimate->upper_bound();
-    start_values(i) = estimate->value(); // utilities::math::scaleValue(estimate->value(), estimate->lower_bound(), estimate->upper_bound());
+    start_values(i) = estimate->GetTransformedValue(); // utilities::math::scaleValue(estimate->value(), estimate->lower_bound(), estimate->upper_bound());
 //    if (start_values(i) < lower_bounds(i))
 //      start_values(i) = lower_bounds(i);
 //    if (start_values(i) < upper_bounds(i))
@@ -66,11 +66,11 @@ void DLib::Execute() {
 
 //    start_values.push_back((double)estimate->value());
 
-    if (estimate->value() < estimate->lower_bound()) {
-      LOG_ERROR("When starting the DLib minimiser the starting value (" << estimate->value() << ") for estimate "
+    if (estimate->GetTransformedValue() < estimate->lower_bound()) {
+      LOG_ERROR("When starting the DLib minimiser the starting value (" << estimate->GetTransformedValue() << ") for estimate "
           << estimate->parameter() << " was less than the lower bound (" << estimate->lower_bound() << ")");
-    } else if (estimate->value() > estimate->upper_bound()) {
-      LOG_ERROR("When starting the DLib minimiser the starting value (" << estimate->value() << ") for estimate "
+    } else if (estimate->GetTransformedValue() > estimate->upper_bound()) {
+      LOG_ERROR("When starting the DLib minimiser the starting value (" << estimate->GetTransformedValue() << ") for estimate "
           << estimate->parameter() << " was greater than the upper bound (" << estimate->upper_bound() << ")");
     }
 

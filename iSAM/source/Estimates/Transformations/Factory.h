@@ -27,7 +27,7 @@ namespace transformations {
 class Factory {
 public:
   // methods
-  static EstimateTransformationPtr Create(const string& object_type, const string& sub_type);
+  static TransformationPtr Create(const string& sub_type);
 private:
   // methods
   Factory() = delete;

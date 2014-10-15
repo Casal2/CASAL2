@@ -29,6 +29,7 @@ public:
   SquareRoot() = default;
   virtual                     ~SquareRoot() = default;
   Double                      Transform(Double initial_value) override final;
+  Double                      Untransform(Double initial_value) override final;
 };
 
 } /* namespace transformations */

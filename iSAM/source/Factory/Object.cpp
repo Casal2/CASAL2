@@ -17,7 +17,6 @@
 #include "Categories/Categories.h"
 #include "DerivedQuantities/Factory.h"
 #include "Estimates/Creators/Factory.h"
-#include "Estimates/Transformations/Factory.h"
 #include "InitialisationPhases/Factory.h"
 #include "Likelihoods/Factory.h"
 #include "MCMC/MCMC.h"
@@ -102,8 +101,6 @@ base::ObjectPtr Object::Create(string& object_type, string& sub_type) {
     result = sizeweights::Factory::Create(object_type, sub_type);
   else if (object_type == PARAM_TIME_STEP || object_type == PARAM_TIME_STEPS)
     result = timesteps::Factory::Create();
-  else if (object_type == PARAM_ESTIMATE_TRANSFORMATION)
-    result = estimates::transformations::Factory::Create(object_type, sub_type);
 
   return result;
 }
