@@ -50,6 +50,7 @@ protected:
   string                      mcmc_;
   bool                        update_label_;
   bool                        update_parameter_;
+  vector<string>              transformation_details_;
 };
 
 // typedef
