@@ -42,6 +42,7 @@ Creator::Creator() {
   parameters_.Bind<string>(PARAM_SAME, &same_labels_, "", "", "");
   parameters_.Bind<string>(PARAM_ESTIMATION_PHASE, &estimation_phase_, "", "", "");
   parameters_.Bind<string>(PARAM_MCMC, &mcmc_, "", "", "");
+  parameters_.Bind<string>(PARAM_TRANSFORMATION, &transformation_details_, "", "", "");
 
   update_label_ = false;
   update_parameter_ = false;
@@ -250,6 +251,7 @@ void Creator::CopyParameters(isam::EstimatePtr estimate, unsigned index) {
   estimate->parameters().CopyFrom(parameters_, PARAM_PRIOR);
   estimate->parameters().CopyFrom(parameters_, PARAM_ESTIMATION_PHASE);
   estimate->parameters().CopyFrom(parameters_, PARAM_MCMC);
+  estimate->parameters().CopyFrom(parameters_, PARAM_TRANSFORMATION);
 
   estimate->parameters().CopyFrom(parameters_, PARAM_LOWER_BOUND, index);
   estimate->parameters().CopyFrom(parameters_, PARAM_UPPER_BOUND, index);
