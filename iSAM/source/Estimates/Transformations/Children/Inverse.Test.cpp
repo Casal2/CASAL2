@@ -72,12 +72,12 @@ TEST_F(InternalEmptyModel, Estimates_Transformations_Inverse) {
   model->Start(RunMode::kEstimation);
 
   ObjectiveFunction& obj_function = ObjectiveFunction::Instance();
-  EXPECT_DOUBLE_EQ(1726.6294938882004, obj_function.score());
+  EXPECT_NEAR(1726.6294938882004, obj_function.score(), 1e-7);
 
   EstimatePtr estimate = estimates::Manager::Instance().GetEstimate("selectivity[FishingSel].a50");
   if (!estimate)
     LOG_ERROR("!estimate");
-  EXPECT_DOUBLE_EQ(estimate->value(), 7.2720802736802668);
+  EXPECT_NEAR(estimate->value(), 7.2720802736802668, 1e-7);
 
   // Check results
   estimate->set_value(1.0);
