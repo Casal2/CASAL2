@@ -27,6 +27,14 @@ Double Inverse::Transform(Double initial_value) {
   return result;
 }
 
+/**
+ *
+ */
+Double Inverse::Untransform(Double initial_value) {
+  Double result = initial_value == 0 ? 0 : 1 / initial_value;
+  return result;
+}
+
 } /* namespace transformations */
 } /* namespace estimates */
 } /* namespace isam */

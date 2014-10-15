@@ -31,17 +31,24 @@ using std::string;
 /**
  * class definition
  */
-class Transformation : public isam::base::Object {
+class Transformation {
 public:
+  // methods
   Transformation() = default;
-  virtual ~Transformation() = default;
-
+  virtual                     ~Transformation() = default;
+  virtual void                Validate() { };
   virtual Double              Transform(Double initial_value) = 0;
+  virtual Double              Untransform(Double initial_value) = 0;
+  void                        SetParameters(vector<string> parameters) { parameters_ = parameters; }
+
+protected:
+  // members
+  vector<string>              parameters_;
 };
+
+typedef boost::shared_ptr<isam::estimates::Transformation> TransformationPtr;
 
 } /* namespace estimates */
 } /* namespace isam */
-
-typedef boost::shared_ptr<isam::estimates::Transformation> EstimateTransformationPtr;
 
 #endif /* ESTIMATES_TRANSFORMATION_H_ */

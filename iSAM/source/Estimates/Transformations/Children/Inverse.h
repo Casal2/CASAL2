@@ -30,6 +30,7 @@ public:
   Inverse() = default;
   virtual                     ~Inverse() = default;
   Double                      Transform(Double initial_value) override final;
+  Double                      Untransform(Double initial_value) override final;
 };
 
 } /* namespace transformations */

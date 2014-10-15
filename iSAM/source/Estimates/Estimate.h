@@ -25,6 +25,7 @@
 // Headers
 #include "BaseClasses/Object.h"
 #include "Estimates/Info.h"
+#include "Estimates/Transformations/Transformation.h"
 #include "Utilities/Types.h"
 
 // Namespaces
@@ -43,6 +44,8 @@ public:
   void                        Validate();
   void                        Build() { };
   void                        Reset() { };
+  Double                      GetTransformedValue();
+  void                        SetTransformedValue(Double minimiser_value);
 
   // pure methods
   virtual void                DoValidate() = 0;
@@ -74,6 +77,8 @@ protected:
   vector<Double*>             sames_;
   bool                        enabled_ = true;
   estimates::EstimateInfoPtr  parent_info_;
+  vector<string>              transformation_details_;
+  estimates::TransformationPtr  transformation_;
 };
 
 typedef boost::shared_ptr<isam::Estimate> EstimatePtr;

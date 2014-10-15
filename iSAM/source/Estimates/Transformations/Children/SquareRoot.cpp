@@ -27,6 +27,13 @@ Double SquareRoot::Transform(Double initial_value) {
   return ::sqrt(initial_value);
 }
 
+/**
+ *
+ */
+Double SquareRoot::Untransform(Double initial_value) {
+  return initial_value * initial_value;
+}
+
 } /* namespace transformations */
 } /* namespace estimates */
 } /* namespace isam */

@@ -27,17 +27,15 @@ namespace transformations {
  * @param object_type The type of transformation to create
  * @return a shared_ptr to the estimate transformation
  */
-EstimateTransformationPtr Factory::Create(const string& object_type, const string& sub_type) {
-  EstimateTransformationPtr result;
+TransformationPtr Factory::Create(const string& sub_type) {
+  TransformationPtr result;
 
-  if (object_type == PARAM_ESTIMATE_TRANSFORMATION) {
-    if (sub_type == PARAM_LOG)
-      result = EstimateTransformationPtr(new Log());
-    else if (sub_type == PARAM_INVERSE)
-      result = EstimateTransformationPtr(new Inverse());
-    else if (sub_type == PARAM_SQUARE_ROOT)
-      result = EstimateTransformationPtr(new SquareRoot());
-  }
+  if (sub_type == PARAM_LOG)
+    result = TransformationPtr(new Log());
+  else if (sub_type == PARAM_INVERSE)
+    result = TransformationPtr(new Inverse());
+  else if (sub_type == PARAM_SQUARE_ROOT)
+    result = TransformationPtr(new SquareRoot());
 
   return result;
 }
