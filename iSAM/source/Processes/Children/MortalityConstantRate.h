@@ -40,8 +40,7 @@ public:
   void                        DoValidate() override final;
   void                        DoBuild() override final;
   void                        DoReset() override final;
-  void                        PreExecute() override final { };
-  void                        Execute() override final;
+  void                        DoExecute() override final;
 
 private:
   // Members

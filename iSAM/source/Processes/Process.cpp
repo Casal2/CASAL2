@@ -42,6 +42,27 @@ void Process::Build() {
 }
 
 /**
+ * Execute our process and any executors
+ */
+void Process::Execute(unsigned year, const string& time_step_label) {
+  for (ExecutorPtr executor : executors_[year][time_step_label])
+    executor->PreExecute();
+
+  DoExecute();
+
+  for (ExecutorPtr executor : executors_[year][time_step_label])
+    executor->Execute();
+}
+
+/**
+ *
+ */
+void Process::Subscribe(unsigned year, const string& time_step_label, ExecutorPtr executor) {
+  executors_[year][time_step_label].push_back(executor);
+}
+
+
+/**
  * Print the stored values and parameter values for this object.
  */
 void Process::Print() {

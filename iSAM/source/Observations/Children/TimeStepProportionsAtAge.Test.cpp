@@ -10,7 +10,7 @@
 #ifdef TESTMODE
 
 // Headers
-#include "ProportionsAtAge.h"
+#include "TimeStepProportionsAtAge.h"
 
 #include <iostream>
 

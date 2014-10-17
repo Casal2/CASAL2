@@ -97,7 +97,7 @@ void RecruitmentConstant::DoBuild() {
 /**
  * Execute our constant recruitment process
  */
-void RecruitmentConstant::Execute() {
+void RecruitmentConstant::DoExecute() {
   /**
    * Calculate new proportion totals to account for dynamic categories
    */

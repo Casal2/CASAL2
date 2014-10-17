@@ -133,7 +133,7 @@ void MaturationRate::DoBuild() {
 /**
  * Execute our maturation rate process.
  */
-void MaturationRate::Execute() {
+void MaturationRate::DoExecute() {
   auto from_iter     = from_partition_.begin();
   auto to_iter       = to_partition_.begin();
   Double amount      = 0.0;

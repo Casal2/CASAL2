@@ -12,7 +12,7 @@
 #ifdef TESTMODE
 
 // Headers
-#include "Abundance.h"
+#include "TimeStepAbundance.h"
 
 #include <iostream>
 

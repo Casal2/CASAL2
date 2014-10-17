@@ -179,7 +179,7 @@ void RecruitmentBevertonHolt::DoReset() {
 /**
  * Execute this process.
  */
-void RecruitmentBevertonHolt::Execute() {
+void RecruitmentBevertonHolt::DoExecute() {
   Double amount_per = 0.0;
 
   if (model_->state() == State::kInitialise) {

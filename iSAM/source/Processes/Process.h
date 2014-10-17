@@ -22,6 +22,7 @@
 #include <boost/shared_ptr.hpp>
 
 #include "BaseClasses/Object.h"
+#include "BaseClasses/Executor.h"
 
 namespace isam {
 
@@ -36,13 +37,14 @@ public:
   void                        Validate();
   void                        Build();
   void                        Reset() { DoReset(); };
+  void                        Execute(unsigned year, const string& time_step_label);
   void                        Print();
+  void                        Subscribe(unsigned year, const string& time_step_label, ExecutorPtr executor);
 
   virtual void                DoValidate() = 0;
   virtual void                DoBuild() = 0;
   virtual void                DoReset() = 0;
-  virtual void                PreExecute() = 0;
-  virtual void                Execute() = 0;
+  virtual void                DoExecute() = 0;
 
   // accessors
   bool                        print_report() const { return print_report_; }
@@ -54,7 +56,7 @@ protected:
   bool                        is_mortality_process = false;
   bool                        print_report_ = false;
   map<string, vector<string>> print_values_;
-
+  map<unsigned, map<string, vector<ExecutorPtr>>> executors_;
 };
 
 /**

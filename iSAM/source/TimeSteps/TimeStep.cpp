@@ -75,11 +75,9 @@ void TimeStep::ExecuteForInitialisation(const string& phase_label) {
   LOG_INFO("initialisation_block_end_process_index_: " << initialisation_block_end_process_index_[phase_label]);
 
   for (unsigned index = 0; index < initialisation_processes_[phase_label].size(); ++index) {
-    initialisation_processes_[phase_label][index]->Execute();
-
+    initialisation_processes_[phase_label][index]->Execute(0u, "");
     if (initialisation_block_end_process_index_[phase_label] == index) {
       for (ExecutorPtr executor : initialisation_block_executors_) {
-        LOG_INFO("Executing initialisation end executor: " << executor->label());
         executor->Execute();
       }
     }
@@ -92,19 +90,20 @@ void TimeStep::ExecuteForInitialisation(const string& phase_label) {
 void TimeStep::Execute(unsigned year) {
   LOG_TRACE();
 
-  observations::Manager& observations_manager = observations::Manager::Instance();
+  for (ExecutorPtr executor : executors_[year])
+      executor->PreExecute();
 
   for (unsigned index = 0; index < processes_.size(); ++index) {
-    if (index == block_start_process_index_)
-      observations_manager.PreExecute(year, label_);
+    if (index == block_start_process_index_) {
+      for (ExecutorPtr executor : block_executors_[year])
+        executor->PreExecute();
+    }
 
-    processes_[index]->Execute();
+    processes_[index]->Execute(year, label_);
 
     if (index == block_end_process_Index_) {
-//      ExecuteDerivedQuantities();
       for (ExecutorPtr executor : block_executors_[year])
         executor->Execute();
-      observations_manager.Execute(year, label_);
     }
   }
 

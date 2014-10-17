@@ -1,43 +1,32 @@
 /**
- * @file Biomass.cpp
+ * @file Abundance.cpp
  * @author  Scott Rasmussen (scott.rasmussen@zaita.com)
- * @date 7/01/2014
+ * @version 1.0
+ * @date 12/03/2013
  * @section LICENSE
  *
  * Copyright NIWA Science ©2013 - www.niwa.co.nz
  *
+ * $Date: 2008-03-04 16:33:32 +1300 (Tue, 04 Mar 2008) $
  */
 
-// headers
-#include "Biomass.h"
+// Headers
+#include "Abundance.h"
 
 #include "Catchabilities/Manager.h"
 #include "Utilities/Map.h"
 #include "Utilities/To.h"
 
-// namespaces
+// Namespaces
 namespace isam {
 namespace observations {
 
 namespace utils = isam::utilities;
 
 /**
- * Default constructor
+ * Validate configuration file parameters
  */
-Biomass::Biomass() {
-  parameters_.Bind<string>(PARAM_CATCHABILITY, &catchability_label_, "TBA", "");
-  parameters_.Bind<string>(PARAM_OBS, &obs_, "Observation values", "");
-  parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "Years to execute in", "");
-  parameters_.Bind<double>(PARAM_ERROR_VALUE, &error_values_, "The error values to use against the observation values", "");
-  parameters_.Bind<double>(PARAM_DELTA, &delta_, "Delta value for error values", "", 1e-10);
-  parameters_.Bind<double>(PARAM_PROCESS_ERROR, &process_error_, "Process error", "", 0.0);
-
-}
-
-/**
- *
- */
-void Biomass::DoValidate() {
+void Abundance::DoValidate() {
   LOG_TRACE();
 
   // Delta
@@ -51,7 +40,6 @@ void Biomass::DoValidate() {
   if (obs.size() != category_labels_.size() * years_.size())
     LOG_ERROR(parameters_.location(PARAM_OBS) << ": obs values length (" << obs.size() << ") must match the number of category collections provided ("
         << category_labels_.size() << ") * years (" << years_.size() << ")");
-
 
   // Error Value
   if (error_values_.size() == 1 && obs.size() > 1)
@@ -80,15 +68,14 @@ void Biomass::DoValidate() {
    * Verify that the likelihood is from the acceptable ones.
    */
   if (likelihood_type_ != PARAM_NORMAL && likelihood_type_ != PARAM_LOGNORMAL && likelihood_type_ != PARAM_PSEUDO)
-    LOG_ERROR(parameters_.location(PARAM_LIKELIHOOD) << ": likelihood " << likelihood_type_ << " is not supported by the biomass observation");
+    LOG_ERROR(parameters_.location(PARAM_LIKELIHOOD) << ": likelihood " << likelihood_type_ << " is not supported by the Abundance observation");
 }
 
 /**
- *
+ * Build any runtime relationships we may have and ensure
+ * the labels for other objects are valid.
  */
-void Biomass::DoBuild() {
-  LOG_TRACE();
-
+void Abundance::DoBuild() {
   catchability_ = catchabilities::Manager::Instance().GetCatchability(catchability_label_);
   if (!catchability_)
     LOG_ERROR(parameters_.location(PARAM_CATCHABILITY) << ": catchability " << catchability_label_ << " could not be found. Have you defined it?");
@@ -102,17 +89,23 @@ void Biomass::DoBuild() {
 }
 
 /**
+ * This method is called before any of the processes
+ * in the timestep will be executed. This allows us to
+ * take data from the partition that would otherwise be lost
+ * once it's modified.
  *
+ * In this instance we'll build the cache of our cached partition
+ * accessor. This accessor will hold the partition state for us to use
+ * during interpolation
  */
-void Biomass::PreExecute() {
+void Abundance::PreExecute() {
   cached_partition_->BuildCache();
 }
 
 /**
- *
+ * Run our observation to generate the score
  */
-void Biomass::Execute() {
-
+void Abundance::Execute() {
   Double expected_total = 0.0; // value in the model
   vector<string> keys;
   vector<Double> expecteds;
@@ -154,15 +147,15 @@ void Biomass::Execute() {
         final_value = 0.0;
 
         if (mean_proportion_method_)
-          final_value = start_value + ((end_value - start_value) * time_step_proportion_);
+          final_value = start_value + ((end_value - start_value) * proportion_of_time_);
         else {
           // re-write of std::abs(start_value - end_value) * temp_step_proportion for ADMB
           Double temp = start_value - end_value;
           temp = temp < 0 ? temp : temp * -1.0;
-          final_value = temp * time_step_proportion_;
+          final_value = temp * proportion_of_time_;
         }
 
-        expected_total += selectivity_result * final_value * (*category_iter)->mean_weights_[data_offset];
+        expected_total += selectivity_result * final_value;
       }
     }
 
@@ -202,6 +195,12 @@ void Biomass::Execute() {
   }
 }
 
+/**
+ *
+ */
+void Abundance::CalculateScore() {
 
-} /* namespace observations */
+}
+
+} /* namespace priors */
 } /* namespace isam */

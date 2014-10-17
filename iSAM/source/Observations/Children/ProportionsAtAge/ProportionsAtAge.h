@@ -35,18 +35,17 @@ using partition::accessors::cached::CachedCombinedCategoriesPtr;
 class ProportionsAtAge : public isam::Observation {
 public:
   // Methods
-  ProportionsAtAge();
+  ProportionsAtAge() = default;
   virtual                     ~ProportionsAtAge() = default;
   void                        DoValidate() override final;
-  void                        DoBuild() override final;
+  virtual void                DoBuild() override;
   void                        DoReset() override final { };
   void                        PreExecute() override final;
   void                        Execute() override final;
-  void                        PostExecute() override final { };
   void                        CalculateScore() override final;
   bool                        HasYear(unsigned year) const override final { return year == year_; }
 
-private:
+protected:
   // Members
   unsigned                    year_;
   unsigned                    min_age_;
@@ -65,9 +64,6 @@ private:
   CombinedCategoriesPtr       partition_;
   vector<Double>              age_results_;
 };
-
-// Typedef
-typedef boost::shared_ptr<isam::observations::ProportionsAtAge> ProportionsAtAgePtr;
 
 } /* namespace observations */
 } /* namespace isam */
