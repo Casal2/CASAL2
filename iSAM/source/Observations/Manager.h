@@ -28,8 +28,8 @@ class Manager : public isam::base::Manager<observations::Manager, isam::Observat
 public:
   // methods
   virtual                     ~Manager() noexcept(true);
-  void                        PreExecute(unsigned year, const string& time_step);
-  void                        Execute(unsigned year, const string& time_step);
+//  void                        PreExecute(unsigned year, const string& time_step);
+//  void                        Execute(unsigned year, const string& time_step);
   ObservationPtr              GetObservation(const string& label);
   void                        CalculateScores();
 

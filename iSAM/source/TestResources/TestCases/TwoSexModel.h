@@ -134,6 +134,7 @@ obs 0.00000 0.00000 0.01382 0.03178 0.08416 0.03859 0.06588 0.08455 0.05462 0.07
 error_value 343
 likelihood multinomial
 delta 1e-11
+time_step_proportion 1.0
 
 @observation CAA-year-1999
 type proportions_at_age
@@ -148,6 +149,7 @@ obs 0.00000 0.00000 0.00086 0.00244 0.00448 0.03929 0.10549 0.11334 0.10784 0.09
 error_value 564
 likelihood multinomial
 delta 1e-11
+time_step_proportion 1.0
 
 @observation CAA-year-2000
 type proportions_at_age
@@ -162,6 +164,7 @@ obs 0.00000 0.00000 0.00000 0.00037 0.00415 0.00640 0.01976 0.07120 0.08222 0.07
 error_value 651
 likelihood multinomial
 delta 1e-11
+time_step_proportion 1.0
 
 @observation CAA-year-2001
 type proportions_at_age
@@ -176,6 +179,7 @@ obs 0.00000 0.00000 0.00000 0.00200 0.00350 0.03549 0.06725 0.09951 0.08653 0.04
 error_value 840
 likelihood multinomial
 delta 1e-11
+time_step_proportion 1.0
 
 @observation CAA-year-2002
 type proportions_at_age
@@ -190,6 +194,7 @@ obs 0.00000 0.00000 0.00900 0.00021 0.00166 0.00281 0.00261 0.01229 0.04306 0.03
 error_value 598
 likelihood multinomial
 delta 1e-11
+time_step_proportion 1.0
 
 @observation CAA-year-2003
 type proportions_at_age
@@ -204,6 +209,7 @@ obs 0.00000 0.00000 0.00000 0.00000 0.01000 0.00065 0.00066 0.00345 0.00887 0.00
 error_value 456
 likelihood multinomial
 delta 1e-11
+time_step_proportion 1.0
 
 @observation CAA-year-2004
 type proportions_at_age
@@ -218,6 +224,7 @@ obs 0.00000 0.00000 0.00300 0.00090 0.00223 0.01645 0.01668 0.01642 0.01872 0.03
 error_value 538
 likelihood multinomial
 delta 1e-11
+time_step_proportion 1.0
 
 @observation CAA-year-2005
 type proportions_at_age
@@ -232,6 +239,7 @@ obs 0.00000 0.00000 0.01722 0.00581 0.01447 0.01395 0.00875 0.01650 0.01843 0.01
 error_value 438
 likelihood multinomial
 delta 1e-11
+time_step_proportion 1.0
 
 @observation CAA-year-2006
 type proportions_at_age
@@ -246,6 +254,7 @@ obs 0.00000 0.00000 0.00000 0.00100 0.00434 0.00278 0.02499 0.02925 0.02513 0.02
 error_value 817
 likelihood multinomial
 delta 1e-11
+time_step_proportion 1.0
 
 @observation CAA-year-2007
 type proportions_at_age
@@ -260,6 +269,7 @@ obs 0.00000 0.00000 0.00000 0.00095 0.00970 0.01689 0.02675 0.03727 0.03764 0.03
 error_value 915
 likelihood multinomial
 delta 1e-11
+time_step_proportion 1.0
 
 @observation CPUE
 type abundance
@@ -271,6 +281,7 @@ selectivities FishingSel FishingSel FishingSel FishingSel
 obs 22.55065505 57.30952381 57.92066148 33.52834377 108.4380734 72.84761934 38.29753826 75.84993311 109.47353102 85.7732931
 error_value 0.2
 likelihood lognormal
+time_step_proportion 1.0
 
 @estimate catchability[CPUEq].q
 parameter catchability[CPUEq].q
