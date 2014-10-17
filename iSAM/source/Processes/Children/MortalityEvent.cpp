@@ -102,7 +102,7 @@ void MortalityEvent::DoBuild() {
  * Execute our mortality event object.
  *
  */
-void MortalityEvent::Execute() {
+void MortalityEvent::DoExecute() {
   if (catch_years_.find(model_->current_year()) == catch_years_.end())
     return;
 

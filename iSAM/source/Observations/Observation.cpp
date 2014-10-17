@@ -33,8 +33,6 @@ Observation::Observation() {
   parameters_.Bind<string>(PARAM_TYPE, &type_, "Type of observation", "");
   parameters_.Bind<string>(PARAM_TIME_STEP, &time_step_label_, "Time step to execute in", "");
   parameters_.Bind<string>(PARAM_LIKELIHOOD, &likelihood_type_, "Type of likelihood to use", "");
-  parameters_.Bind<double>(PARAM_TIME_STEP_PROPORTION, &time_step_proportion_, "Proportion through the time step to analyse the partition from", "", 1.0);
-  parameters_.Bind<string>(PARAM_TIME_STEP_PROPORTION_METHOD, &time_step_proportion_method_, "Method of proportioning to use", "", PARAM_MEAN);
   parameters_.Bind<string>(PARAM_CATEGORIES, &category_labels_, "Category labels to use", "", true);
   parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_labels_, "Selectivity labels to use", "", true);
   parameters_.Bind<string>(PARAM_SIMULATION_LIKELIHOOD, &simulation_likelihood_label_, "Simulation likelihood to use", "", "");
@@ -56,15 +54,6 @@ void Observation::Validate() {
       simulation_likelihood_label_ = likelihood_type_;
     }
   }
-
-  if (time_step_proportion_ < 0.0 || time_step_proportion_ > 1.0)
-    LOG_ERROR(parameters_.location(PARAM_TIME_STEP_PROPORTION) << ": time_step_proportion (" << AS_DOUBLE(time_step_proportion_) << ") must be between 0.0 and 1.0");
-
-  string temp = time_step_proportion_method_;
-  if (temp != PARAM_MEAN && temp != PARAM_DIFFERENCE)
-    LOG_ERROR(parameters_.location(PARAM_TIME_STEP_PROPORTION_METHOD) << ": time_step_proportion_method (" << temp <<") must be either difference or mean");
-  if (temp != PARAM_MEAN)
-    mean_proportion_method_ = false;
 
   /**
    * Because this observation supports categories that are provided in groups
@@ -164,13 +153,6 @@ void Observation::SaveComparison(string category, unsigned age, Double expected,
   new_comparison.delta_ = delta;
   new_comparison.score_ = score;
   comparisons_[Model::Instance()->current_year()].push_back(new_comparison);
-
-//  cout << "comparison: category: " << category << "; age: " << age
-//      << "; expected: " << expected << "; observed: " << observed
-//      << "; process_error: " << process_error
-//      << "; error_value: " << error_value
-//      << "; delta: " << delta
-//      << "; score: " << score << endl;
 }
 
 /**

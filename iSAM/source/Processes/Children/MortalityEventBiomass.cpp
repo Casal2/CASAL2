@@ -96,7 +96,7 @@ void MortalityEventBiomass::DoBuild() {
 /**
  *
  */
-void MortalityEventBiomass::Execute() {
+void MortalityEventBiomass::DoExecute() {
   if (catch_years_[model_->current_year()] == 0)
     return;
 

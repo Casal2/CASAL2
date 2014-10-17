@@ -26,22 +26,6 @@ namespace isam {
 namespace observations {
 
 /**
- * Default constructor
- */
-ProportionsAtAge::ProportionsAtAge() {
-  parameters_.Bind<unsigned>(PARAM_MIN_AGE, &min_age_, "Minimum age", "");
-  parameters_.Bind<unsigned>(PARAM_MAX_AGE, &max_age_, "Maximum age", "");
-  parameters_.Bind<bool>(PARAM_AGE_PLUS, &age_plus_, "Use age plus group", "", true);
-  parameters_.Bind<double>(PARAM_TOLERANCE, &tolerance_, "Tolerance", "", 0.001);
-  parameters_.Bind<unsigned>(PARAM_YEAR, &year_, "Year to execute in", "");
-  parameters_.Bind<string>(PARAM_OBS, &obs_, "Observation values", "");
-  parameters_.Bind<double>(PARAM_ERROR_VALUE, &error_values_, "Error values", "");
-  parameters_.Bind<double>(PARAM_DELTA, &delta_, "Delta", "", DELTA);
-  parameters_.Bind<double>(PARAM_PROCESS_ERROR, &process_error_, "Process error", "", 0.0);
-  parameters_.Bind<string>(PARAM_AGEING_ERROR, &ageing_error_label_, "Label of ageing error to use", "", "");
-}
-
-/**
  * Validate configuration file parameters
  */
 void ProportionsAtAge::DoValidate() {
@@ -209,9 +193,9 @@ void ProportionsAtAge::Execute() {
         final_value   = 0.0;
 
         if (mean_proportion_method_)
-          final_value = start_value + ((end_value - start_value) * time_step_proportion_);
+          final_value = start_value + ((end_value - start_value) * proportion_of_time_);
         else
-          final_value = fabs(start_value - end_value) * time_step_proportion_;
+          final_value = fabs(start_value - end_value) * proportion_of_time_;
 
         expected_values[age_offset] += final_value * selectivity_result;
       }

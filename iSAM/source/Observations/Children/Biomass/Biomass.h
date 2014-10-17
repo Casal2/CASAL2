@@ -1,29 +1,26 @@
 /**
- * @file Abundance.h
+ * @file Biomass.h
  * @author  Scott Rasmussen (scott.rasmussen@zaita.com)
- * @version 1.0
- * @date 12/03/2013
+ * @date 7/01/2014
  * @section LICENSE
  *
  * Copyright NIWA Science ©2013 - www.niwa.co.nz
  *
  * @section DESCRIPTION
  *
- * The time class represents a moment of time.
- *
- * $Date: 2008-03-04 16:33:32 +1300 (Tue, 04 Mar 2008) $
+ * << Add Description >>
  */
-#ifndef ABUNDANCE_H_
-#define ABUNDANCE_H_
+#ifndef OBSERVATIONS_BIOMASS_H_
+#define OBSERVATIONS_BIOMASS_H_
 
-// Headers
+// headers
 #include "Observations/Observation.h"
 
 #include "Catchabilities/Catchability.h"
 #include "Partition/Accessors/CombinedCategories.h"
 #include "Partition/Accessors/Cached/CombinedCategories.h"
 
-// Namespaces
+// namespaces
 namespace isam {
 namespace observations {
 
@@ -31,24 +28,23 @@ using partition::accessors::CombinedCategoriesPtr;
 using partition::accessors::cached::CachedCombinedCategoriesPtr;
 
 /**
- * Class definition
+ * class definition
  */
-class Abundance : public isam::Observation {
+class Biomass : public isam::Observation {
 public:
-  // Methods
-  Abundance();
-  virtual                     ~Abundance() = default;
+  // methods
+  Biomass();
+  virtual                     ~Biomass() = default;
   void                        DoValidate() override final;
-  void                        DoBuild() override final;
+  virtual void                DoBuild() override;
   void                        DoReset() override final { };
   void                        PreExecute() override final;
   void                        Execute() override final;
-  void                        PostExecute() override final { };
-  void                        CalculateScore() override final;
+  void                        CalculateScore() override final { };
   bool                        HasYear(unsigned year) const override final { return std::find(years_.begin(), years_.end(), year) != years_.end(); }
 
-private:
-  // Members
+protected:
+  // members
   vector<unsigned>                years_;
   map<unsigned, vector<Double> >  proportions_by_year_;
   map<unsigned, Double>           error_values_by_year_;
@@ -62,6 +58,6 @@ private:
   vector<string>                  obs_;
 };
 
-} /* namespace observation */
+} /* namespace observations */
 } /* namespace isam */
-#endif /* ABUNDANCE_H_ */
+#endif /* OBSERVATIONS_BIOMASS_H_ */

@@ -129,7 +129,7 @@ void MortalityConstantRate::DoBuild() {
 /**
  * Execute the process
  */
-void MortalityConstantRate::Execute() {
+void MortalityConstantRate::DoExecute() {
   LOG_TRACE();
 
   // get the ratio to apply first

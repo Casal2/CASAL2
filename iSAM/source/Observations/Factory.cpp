@@ -14,9 +14,9 @@
 #include "Factory.h"
 
 #include "Observations/Manager.h"
-#include "Observations/Children/Abundance.h"
-#include "Observations/Children/Biomass.h"
-#include "Observations/Children/ProportionsAtAge.h"
+#include "Observations/Children/TimeStepAbundance.h"
+#include "Observations/Children/TimeStepBiomass.h"
+#include "Observations/Children/TimeStepProportionsAtAge.h"
 
 // Namespaces
 namespace isam {
@@ -35,11 +35,11 @@ ObservationPtr Factory::Create(const string& object_type, const string& sub_type
 
   if (object_type == PARAM_OBSERVATION) {
     if (sub_type == PARAM_ABUNDANCE)
-      result = ObservationPtr(new Abundance());
+      result = ObservationPtr(new TimeStepAbundance());
     else if (sub_type == PARAM_BIOMASS)
-      result = ObservationPtr(new Biomass());
+      result = ObservationPtr(new TimeStepBiomass());
     else if (sub_type == PARAM_PROPORTIONS_AT_AGE)
-      result = ProportionsAtAgePtr(new ProportionsAtAge());
+      result = ObservationPtr(new TimeStepProportionsAtAge());
   }
 
   if (result)

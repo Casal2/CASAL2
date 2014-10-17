@@ -17,7 +17,7 @@
 #define OBSERVATION_H_
 
 // Headers
-#include "BaseClasses/Object.h"
+#include "BaseClasses/Executor.h"
 #include "Likelihoods/Likelihood.h"
 #include "Observations/Comparison.h"
 #include "Selectivities/Selectivity.h"
@@ -31,7 +31,7 @@ namespace obs = isam::observations;
 /**
  * Class Definition
  */
-class Observation : public isam::base::Object {
+class Observation : public isam::base::Executor {
 public:
   // methods
   Observation();
@@ -45,9 +45,6 @@ public:
   virtual void                DoValidate() = 0;
   virtual void                DoBuild() = 0;
   virtual void                DoReset() = 0;
-  virtual void                PreExecute() = 0;
-  virtual void                Execute() = 0;
-  virtual void                PostExecute() = 0;
   virtual void                CalculateScore() = 0;
   virtual bool                HasYear(unsigned year) const = 0;
 
@@ -68,8 +65,7 @@ protected:
   string                      type_;
   map<unsigned, Double>       scores_;
   string                      time_step_label_;
-  Double                      time_step_proportion_;
-  string                      time_step_proportion_method_;
+  Double                      proportion_of_time_;
   bool                        mean_proportion_method_;
   vector<string>              category_labels_;
   vector<string>              selectivity_labels_;
