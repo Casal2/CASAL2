@@ -49,12 +49,12 @@ ObservationPtr Manager::GetObservation(const string& label) {
  * @param year The current year the model is in
  * @param time_step The time step that is about to be executed
  */
-void Manager::PreExecute(unsigned year, const string& time_step) {
-  for (ObservationPtr observation : objects_) {
-    if (observation->HasYear(year) && observation->time_step() == time_step)
-      observation->PreExecute();
-  }
-}
+//void Manager::PreExecute(unsigned year, const string& time_step) {
+//  for (ObservationPtr observation : objects_) {
+//    if (observation->HasYear(year) && observation->time_step() == time_step)
+//      observation->PreExecute();
+//  }
+//}
 
 /**
  * Execute our observations that have matching year and time step labels
@@ -62,13 +62,13 @@ void Manager::PreExecute(unsigned year, const string& time_step) {
  * @param year The current year the model is in
  * @param time_step The time step that just finished execution
  */
-void Manager::Execute(unsigned year, const string& time_step) {
-  LOG_TRACE();
-  for (ObservationPtr observation : objects_) {
-    if (observation->HasYear(year) && observation->time_step() == time_step)
-      observation->Execute();
-  }
-}
+//void Manager::Execute(unsigned year, const string& time_step) {
+//  LOG_TRACE();
+//  for (ObservationPtr observation : objects_) {
+//    if (observation->HasYear(year) && observation->time_step() == time_step)
+//      observation->Execute();
+//  }
+//}
 
 /**
  *

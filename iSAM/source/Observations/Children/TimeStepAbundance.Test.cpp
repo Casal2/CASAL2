@@ -91,6 +91,7 @@ TEST_F(BasicModel, Observation_Abundance) {
   observation->parameters().Add(PARAM_OBS, obs, __FILE__, __LINE__);
   observation->parameters().Add(PARAM_ERROR_VALUE, error_values, __FILE__, __LINE__);
   observation->parameters().Add(PARAM_LIKELIHOOD, "lognormal", __FILE__, __LINE__);
+  observation->parameters().Add(PARAM_TIME_STEP_PROPORTION, "1.0", __FILE__, __LINE__);
 
   Model::Instance()->Start(RunMode::kTesting);
   Model::Instance()->FullIteration();
