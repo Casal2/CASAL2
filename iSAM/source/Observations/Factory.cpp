@@ -14,6 +14,9 @@
 #include "Factory.h"
 
 #include "Observations/Manager.h"
+#include "Observations/Children/ProcessAbundance.h"
+#include "Observations/Children/ProcessBiomass.h"
+#include "Observations/Children/ProcessProportionsAtAge.h"
 #include "Observations/Children/TimeStepAbundance.h"
 #include "Observations/Children/TimeStepBiomass.h"
 #include "Observations/Children/TimeStepProportionsAtAge.h"
@@ -36,10 +39,16 @@ ObservationPtr Factory::Create(const string& object_type, const string& sub_type
   if (object_type == PARAM_OBSERVATION) {
     if (sub_type == PARAM_ABUNDANCE)
       result = ObservationPtr(new TimeStepAbundance());
+    else if (sub_type == PARAM_PROCESS_ABUNDANCE)
+      result = ObservationPtr(new ProcessAbundance());
     else if (sub_type == PARAM_BIOMASS)
       result = ObservationPtr(new TimeStepBiomass());
+    else if (sub_type == PARAM_PROCESS_BIOMASS)
+      result = ObservationPtr(new ProcessBiomass());
     else if (sub_type == PARAM_PROPORTIONS_AT_AGE)
       result = ObservationPtr(new TimeStepProportionsAtAge());
+    else if (sub_type == PARAM_PROCESS_PROPORTIONS_AT_AGE)
+      result = ObservationPtr(new ProcessProportionsAtAge());
   }
 
   if (result)

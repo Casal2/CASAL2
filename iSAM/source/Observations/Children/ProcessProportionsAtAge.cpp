@@ -34,9 +34,9 @@ ProcessProportionsAtAge::ProcessProportionsAtAge() {
   parameters_.Bind<double>(PARAM_PROCESS_ERROR, &process_error_, "Process error", "", 0.0);
   parameters_.Bind<string>(PARAM_AGEING_ERROR, &ageing_error_label_, "Label of ageing error to use", "", "");
   parameters_.Bind<string>(PARAM_PROCESS, &process_label_, "Process label", "");
+  parameters_.Bind<double>(PARAM_PROCESS_PROPORTION, &process_proportion_, "Process proportion", "", 0.5);
 
   mean_proportion_method_ = false;
-  proportion_of_time_ = 1.0;
 }
 
 /**
@@ -45,9 +45,13 @@ ProcessProportionsAtAge::ProcessProportionsAtAge() {
 void ProcessProportionsAtAge::DoBuild() {
   ProportionsAtAge::DoBuild();
 
+  if (process_proportion_ < 0.0 || process_proportion_ > 1.0)
+    LOG_ERROR(parameters_.location(PARAM_PROCESS_PROPORTION) << ": process_proportion (" << AS_DOUBLE(process_proportion_) << ") must be between 0.0 and 1.0");
+  proportion_of_time_ = process_proportion_;
+
   ProcessPtr process = processes::Manager::Instance().GetProcess(process_label_);
   if (!process)
-    LOG_ERROR(parameters_.location(PARAM_PROCESS) << process_label_ << " could not be found. Have you defined it?");
+    LOG_ERROR(parameters_.location(PARAM_PROCESS) << " " << process_label_ << " could not be found. Have you defined it?");
 
   process->Subscribe(year_, time_step_label_, shared_ptr());
 }
