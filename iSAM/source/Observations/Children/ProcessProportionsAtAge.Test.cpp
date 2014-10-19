@@ -1,7 +1,8 @@
 /**
- * @file ProportionsAtAge.Test.cpp
- * @author  Scott Rasmussen (scott.rasmussen@zaita.com)
- * @date 11/03/2014
+ * @file ProcessProportionsAtAge.Test.cpp
+ * @author Scott Rasmussen (scott.rasmussen@zaita.com)
+ * @github https://github.com/Zaita
+ * @date 17/10/2014
  * @section LICENSE
  *
  * Copyright NIWA Science ©2014 - www.niwa.co.nz
@@ -47,13 +48,13 @@ years 200
 exclude_processes fishing
 
 @time_step one
-processes halfm fishing halfm
+processes halfm fishing 
 
 @time_step two
-processes recruitment
+processes halfm
 
 @time_step three
-processes ageing
+processes recruitment ageing
 
 @derived_quantity ssb
 type biomass
@@ -125,23 +126,23 @@ log_scale True
 multiplier 10
 
 @observation observation
-type proportions_at_age
+type process_proportions_at_age
 likelihood lognormal
-time_step one
+time_step two
+process halfm
 categories male+female
-min_age 3
-max_age 15
+min_age 2
+max_age 14
 selectivities male=[type=logistic; a50=9; ato95=4] female=[type=logistic; a50=9; ato95=4; alpha=0.7]
 year 1992
 obs 0.0241 0.0473 0.0448 0.071 0.078 0.104 0.0672 0.1213 0.0869 0.111 0.0788 0.0436 0.122   
-error_value 1.399 0.795 0.764 0.663 0.724 0.735 0.709 0.684 0.673 0.59 0.669 0.878 0.53
-time_step_proportion 1.0            
+error_value 1.399 0.795 0.764 0.663 0.724 0.735 0.709 0.684 0.673 0.59 0.669 0.878 0.53           
 )";
 
 /**
  *
  */
-TEST_F(InternalEmptyModel, Observation_Proportions_At_Age_Single) {
+TEST_F(InternalEmptyModel, Observation_Process_Proportions_At_Age_Single) {
   AddConfigurationLine(test_cases_observation_proportions_at_age_single, __FILE__, 31);
   LoadConfiguration();
 
@@ -149,7 +150,7 @@ TEST_F(InternalEmptyModel, Observation_Proportions_At_Age_Single) {
   model->Start(RunMode::kBasic);
 
   ObjectiveFunction& obj_function = ObjectiveFunction::Instance();
-  EXPECT_DOUBLE_EQ(3.6938037850412622, obj_function.score());
+  EXPECT_DOUBLE_EQ(250.08722881168586, obj_function.score());
 
   ObservationPtr observation = observations::Manager::Instance().GetObservation("observation");
 
@@ -161,33 +162,33 @@ TEST_F(InternalEmptyModel, Observation_Proportions_At_Age_Single) {
   ASSERT_EQ(13u, comparisons[year].size());
   EXPECT_EQ("male+female",                comparisons[year][0].category_);
   EXPECT_DOUBLE_EQ(1.399,                 comparisons[year][0].error_value_);
-  EXPECT_DOUBLE_EQ(0.0070692498806404838, comparisons[year][0].expected_);
+  EXPECT_DOUBLE_EQ(0,                     comparisons[year][0].expected_);
   EXPECT_DOUBLE_EQ(0.0241,                comparisons[year][0].observed_);
-  EXPECT_DOUBLE_EQ(1.4828628476968397,    comparisons[year][0].score_);
+  EXPECT_DOUBLE_EQ(240.56840045905705,    comparisons[year][0].score_);
 
-  EXPECT_EQ("male+female",              comparisons[year][1].category_);
-  EXPECT_DOUBLE_EQ(0.79500000000000004, comparisons[year][1].error_value_);
-  EXPECT_DOUBLE_EQ(0.011928900863548361,comparisons[year][1].expected_);
-  EXPECT_DOUBLE_EQ(0.047300000000000002,comparisons[year][1].observed_);
-  EXPECT_DOUBLE_EQ(2.3302098364238257,  comparisons[year][1].score_);
+  EXPECT_EQ("male+female",                comparisons[year][1].category_);
+  EXPECT_DOUBLE_EQ(0.79500000000000004,   comparisons[year][1].error_value_);
+  EXPECT_DOUBLE_EQ(0.0070692498806404821, comparisons[year][1].expected_);
+  EXPECT_DOUBLE_EQ(0.047300000000000002,  comparisons[year][1].observed_);
+  EXPECT_DOUBLE_EQ(4.3426966868720482,    comparisons[year][1].score_);
 
-  EXPECT_EQ("male+female",              comparisons[year][2].category_);
-  EXPECT_DOUBLE_EQ(0.76400000000000001, comparisons[year][2].error_value_);
-  EXPECT_DOUBLE_EQ(0.019859167514238538,comparisons[year][2].expected_);
-  EXPECT_DOUBLE_EQ(0.0448,              comparisons[year][2].observed_);
-  EXPECT_DOUBLE_EQ(0.79549444254647428, comparisons[year][2].score_);
+  EXPECT_EQ("male+female",                comparisons[year][2].category_);
+  EXPECT_DOUBLE_EQ(0.76400000000000001,   comparisons[year][2].error_value_);
+  EXPECT_DOUBLE_EQ(0.011928900863548361,  comparisons[year][2].expected_);
+  EXPECT_DOUBLE_EQ(0.0448,                comparisons[year][2].observed_);
+  EXPECT_DOUBLE_EQ(2.2347896916241421,    comparisons[year][2].score_);
 
   EXPECT_EQ("male+female",              comparisons[year][3].category_);
   EXPECT_DOUBLE_EQ(0.66300000000000003, comparisons[year][3].error_value_);
-  EXPECT_DOUBLE_EQ(0.032194345844364598,comparisons[year][3].expected_);
+  EXPECT_DOUBLE_EQ(0.019859167514238552,comparisons[year][3].expected_);
   EXPECT_DOUBLE_EQ(0.070999999999999994,comparisons[year][3].observed_);
-  EXPECT_DOUBLE_EQ(0.79455888869895253, comparisons[year][3].score_);
+  EXPECT_DOUBLE_EQ(2.4051671826084839,  comparisons[year][3].score_);
 
   EXPECT_EQ("male+female",              comparisons[year][4].category_);
   EXPECT_DOUBLE_EQ(0.72399999999999998, comparisons[year][4].error_value_);
-  EXPECT_DOUBLE_EQ(0.049678735471293943,comparisons[year][4].expected_);
+  EXPECT_DOUBLE_EQ(0.032194345844364598,comparisons[year][4].expected_);
   EXPECT_DOUBLE_EQ(0.078,               comparisons[year][4].observed_);
-  EXPECT_DOUBLE_EQ(0.087675069858898724,comparisons[year][4].score_);
+  EXPECT_DOUBLE_EQ(0.99214019756872429, comparisons[year][4].score_);
 }
 
 const std::string test_cases_observation_proportions_at_age_double =
@@ -305,7 +306,7 @@ time_step_proportion 1.0
 /**
  *
  */
-TEST_F(InternalEmptyModel, Observation_Proportions_At_Age_Double) {
+TEST_F(InternalEmptyModel, Observation_Process_Proportions_At_Age_Double) {
   AddConfigurationLine(test_cases_observation_proportions_at_age_double, __FILE__, 194);
   LoadConfiguration();
 

@@ -20,7 +20,7 @@
 
 // Namespaces
 namespace isam {
-namespace processes {
+namespace observations {
 
 using std::cout;
 using std::endl;

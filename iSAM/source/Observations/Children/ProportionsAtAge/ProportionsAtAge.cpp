@@ -234,7 +234,10 @@ void ProportionsAtAge::CalculateScore() {
       running_total += comparison.expected_;
     }
     for (obs::Comparison& comparison : comparisons_[year_]) {
-      comparison.expected_  = comparison.expected_ / running_total;
+      if (running_total != 0.0)
+        comparison.expected_  = comparison.expected_ / running_total;
+      else
+        comparison.expected_  = 0.0;
     }
 
     scores_[year_] = likelihood_->GetInitialScore(comparisons_);
