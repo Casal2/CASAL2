@@ -19,8 +19,8 @@ namespace initialisationphases {
 /**
  * Class Definition
  */
-class Manager : public base::Manager<isam::initialisationphases::Manager, isam::InitialisationPhase> {
-  friend class base::Manager<isam::initialisationphases::Manager, isam::InitialisationPhase>;
+class Manager : public oldbase::Manager<isam::initialisationphases::Manager, isam::InitialisationPhase> {
+  friend class oldbase::Manager<isam::initialisationphases::Manager, isam::InitialisationPhase>;
 public:
   // methods
   virtual                     ~Manager() noexcept(true);

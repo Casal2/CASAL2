@@ -27,8 +27,8 @@ namespace selectivities {
 /**
  * Class defintiion
  */
-class Manager : public isam::base::Manager<isam::selectivities::Manager, isam::Selectivity> {
-  friend class isam::base::Manager<isam::selectivities::Manager, isam::Selectivity>;
+class Manager : public isam::oldbase::Manager<isam::selectivities::Manager, isam::Selectivity> {
+  friend class isam::oldbase::Manager<isam::selectivities::Manager, isam::Selectivity>;
 public:
   // methods
   virtual                     ~Manager() noexcept(true) {};

@@ -63,6 +63,7 @@ public:
   double                          penalties() const { return penalties_; }
   double                          priors() const { return priors_; }
   double                          likelihoods() const { return likelihoods_; }
+  double                          additional_priors() const { return additional_priors_; }
 
 private:
   // Members
@@ -70,6 +71,7 @@ private:
   double                      penalties_    = 0.0;
   double                      priors_       = 0.0;
   double                      likelihoods_  = 0.0;
+  double                      additional_priors_ = 0.0;
   vector<objective::Score>    score_list_;
 };
 

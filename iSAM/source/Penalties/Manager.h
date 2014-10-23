@@ -38,8 +38,8 @@ struct Info {
 /**
  * Class Definition
  */
-class Manager : public isam::base::Manager<penalties::Manager, isam::Penalty> {
-  friend class isam::base::Manager<penalties::Manager, isam::Penalty>;
+class Manager : public isam::oldbase::Manager<penalties::Manager, isam::Penalty> {
+  friend class isam::oldbase::Manager<penalties::Manager, isam::Penalty>;
 public:
   // Methods
   virtual                     ~Manager() noexcept(true) {};

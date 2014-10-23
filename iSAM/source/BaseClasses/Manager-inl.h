@@ -12,7 +12,7 @@
 
 // Namespaces
 namespace isam {
-namespace base {
+namespace oldbase {
 
 /**
  * This method is our singleton instance method

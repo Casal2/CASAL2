@@ -23,8 +23,8 @@ namespace observations {
 /**
  * Class Definition
  */
-class Manager : public isam::base::Manager<observations::Manager, isam::Observation> {
-  friend class isam::base::Manager<observations::Manager, isam::Observation>;
+class Manager : public isam::oldbase::Manager<observations::Manager, isam::Observation> {
+  friend class isam::oldbase::Manager<observations::Manager, isam::Observation>;
 public:
   // methods
   virtual                     ~Manager() noexcept(true);

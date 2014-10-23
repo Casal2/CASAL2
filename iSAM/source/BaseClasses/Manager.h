@@ -15,8 +15,8 @@
  *
  * $Date: 2008-03-04 16:33:32 +1300 (Tue, 04 Mar 2008) $
  */
-#ifndef BASE_MANAGER_H_
-#define BASE_MANAGER_H_
+#ifndef OLDBASE_MANAGER_H_
+#define OLDBASE_MANAGER_H_
 
 // Headers
 #include <string>
@@ -27,7 +27,7 @@
 
 // Namespaces
 namespace isam {
-namespace base {
+namespace oldbase {
 
 using boost::shared_ptr;
 using std::vector;

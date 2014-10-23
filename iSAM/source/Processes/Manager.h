@@ -27,8 +27,8 @@ namespace processes {
 /**
  * Class Definition
  */
-class Manager : public isam::base::Manager<isam::processes::Manager, isam::Process> {
-  friend class isam::base::Manager<isam::processes::Manager, isam::Process>;
+class Manager : public isam::oldbase::Manager<isam::processes::Manager, isam::Process> {
+  friend class isam::oldbase::Manager<isam::processes::Manager, isam::Process>;
 public:
   // methods
   virtual                     ~Manager() noexcept(true);

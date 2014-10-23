@@ -24,8 +24,8 @@ namespace asserts {
 /**
  * Class Definition
  */
-class Manager : public isam::base::Manager<isam::asserts::Manager, isam::Assert> {
-  friend class isam::base::Manager<isam::asserts::Manager, isam::Assert>;
+class Manager : public isam::oldbase::Manager<isam::asserts::Manager, isam::Assert> {
+  friend class isam::oldbase::Manager<isam::asserts::Manager, isam::Assert>;
 public:
   virtual                     ~Manager() = default;
 

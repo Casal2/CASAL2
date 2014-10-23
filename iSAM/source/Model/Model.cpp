@@ -15,14 +15,14 @@
 
 #include <iostream>
 
+#include "AdditionalPriors/Manager.h"
 #include "AgeSizes/Manager.h"
 #include "Asserts/Manager.h"
 #include "Catchabilities/Manager.h"
 #include "Categories/Categories.h"
-#include "GlobalConfiguration/GlobalConfiguration.h"
-
 #include "DerivedQuantities/Manager.h"
 #include "Estimates/Manager.h"
+#include "GlobalConfiguration/GlobalConfiguration.h"
 #include "InitialisationPhases/Manager.h"
 #include "MCMC/MCMC.h"
 #include "Minimisers/Manager.h"
@@ -214,6 +214,7 @@ void Model::Validate() {
   Categories::Instance()->Validate();
   Partition::Instance().Validate();
 
+  additionalpriors::Manager::Instance().Validate();
   agesizes::Manager::Instance().Validate();
   asserts::Manager::Instance().Validate();
   catchabilities::Manager::Instance().Validate();
@@ -260,6 +261,7 @@ void Model::Build() {
   timesteps::Manager::Instance().Build();
 
   // build managers
+  additionalpriors::Manager::Instance().Build();
   estimates::Manager::Instance().Build();
   agesizes::Manager::Instance().Build();
   asserts::Manager::Instance().Build();
@@ -299,6 +301,7 @@ void Model::Reset() {
 
   estimates::Manager::Instance().Reset();
 
+  additionalpriors::Manager::Instance().Reset();
   agesizes::Manager::Instance().Reset();
   asserts::Manager::Instance().Reset();
   Categories::Instance()->Reset();
