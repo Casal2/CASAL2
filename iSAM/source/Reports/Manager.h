@@ -27,8 +27,8 @@ namespace reports {
 /**
  * Class Definition
  */
-class Manager : public isam::base::Manager<reports::Manager, isam::Report> {
-  friend class isam::base::Manager<reports::Manager, isam::Report>;
+class Manager : public isam::oldbase::Manager<reports::Manager, isam::Report> {
+  friend class isam::oldbase::Manager<reports::Manager, isam::Report>;
 public:
   // methods
   virtual                     ~Manager() noexcept(true);

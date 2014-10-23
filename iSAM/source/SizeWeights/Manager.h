@@ -24,8 +24,8 @@ namespace sizeweights {
 /**
  * class definition
  */
-class Manager : public isam::base::Manager<isam::sizeweights::Manager, isam::SizeWeight> {
-  friend class isam::base::Manager<isam::sizeweights::Manager, isam::SizeWeight>;
+class Manager : public isam::oldbase::Manager<isam::sizeweights::Manager, isam::SizeWeight> {
+  friend class isam::oldbase::Manager<isam::sizeweights::Manager, isam::SizeWeight>;
 public:
   // methods
   virtual                     ~Manager() noexcept(true) { };

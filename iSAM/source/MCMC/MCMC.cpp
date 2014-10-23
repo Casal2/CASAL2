@@ -168,6 +168,7 @@ void MCMC::Execute() {
     new_link.score_                         = AS_DOUBLE(obj_function.score());
     new_link.prior_                         = obj_function.priors();
     new_link.likelihood_                    = obj_function.likelihoods();
+    new_link.additional_priors_             = obj_function.additional_priors();
     new_link.acceptance_rate_               = 0;
     new_link.acceptance_rate_since_adapt_   = 0;
     new_link.step_size_                     = step_size_;
@@ -216,6 +217,7 @@ void MCMC::Execute() {
         new_link.score_                         = AS_DOUBLE(obj_function.score());
         new_link.prior_                         = obj_function.priors();
         new_link.likelihood_                    = obj_function.likelihoods();
+        new_link.additional_priors_             = obj_function.additional_priors();
         new_link.acceptance_rate_               = successful_jumps_since_adapt_ / jumps_since_adapt_;
         new_link.acceptance_rate_since_adapt_   = successful_jumps_ / jumps_;
         new_link.step_size_                     = step_size_;

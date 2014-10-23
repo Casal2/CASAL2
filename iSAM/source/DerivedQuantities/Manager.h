@@ -24,8 +24,8 @@ namespace derivedquantities {
 /**
  * class definition
  */
-class Manager : public isam::base::Manager<derivedquantities::Manager, isam::DerivedQuantity> {
-  friend class isam::base::Manager<derivedquantities::Manager, isam::DerivedQuantity>;
+class Manager : public isam::oldbase::Manager<derivedquantities::Manager, isam::DerivedQuantity> {
+  friend class isam::oldbase::Manager<derivedquantities::Manager, isam::DerivedQuantity>;
 public:
   // methods
   virtual                     ~Manager() noexcept(true) { };

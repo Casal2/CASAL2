@@ -24,8 +24,8 @@ namespace simulates {
 /**
  * Class definition
  */
-class Manager : public isam::base::Manager<isam::simulates::Manager, isam::Simulate> {
-  friend class isam::base::Manager<isam::simulates::Manager, isam::Simulate>;
+class Manager : public isam::oldbase::Manager<isam::simulates::Manager, isam::Simulate> {
+  friend class isam::oldbase::Manager<isam::simulates::Manager, isam::Simulate>;
 public:
   // methods
   virtual                     ~Manager() noexcept(true);

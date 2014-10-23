@@ -24,8 +24,8 @@ namespace projects {
 /**
  * Class definition
  */
-class Manager : public isam::base::Manager<isam::projects::Manager, isam::Project> {
-  friend class isam::base::Manager<isam::projects::Manager, isam::Project>;
+class Manager : public isam::oldbase::Manager<isam::projects::Manager, isam::Project> {
+  friend class isam::oldbase::Manager<isam::projects::Manager, isam::Project>;
 public:
   // methods
   virtual                     ~Manager() noexcept(true);

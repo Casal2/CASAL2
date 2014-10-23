@@ -27,8 +27,8 @@ namespace minimisers {
 /**
  * Class Definition
  */
-class Manager : public isam::base::Manager<minimisers::Manager, isam::Minimiser> {
-  friend class isam::base::Manager<minimisers::Manager, isam::Minimiser>;
+class Manager : public isam::oldbase::Manager<minimisers::Manager, isam::Minimiser> {
+  friend class isam::oldbase::Manager<minimisers::Manager, isam::Minimiser>;
 public:
   // Methods
   virtual                     ~Manager() noexcept(true);

@@ -29,8 +29,8 @@ namespace estimates {
 /**
  * Class definition
  */
-class Manager : public isam::base::Manager<estimates::Manager, isam::Estimate>, public boost::enable_shared_from_this<Manager>  {
-  friend class isam::base::Manager<estimates::Manager, isam::Estimate>;
+class Manager : public isam::oldbase::Manager<estimates::Manager, isam::Estimate>, public boost::enable_shared_from_this<Manager>  {
+  friend class isam::oldbase::Manager<estimates::Manager, isam::Estimate>;
 public:
   // methods
   virtual                         ~Manager() noexcept(true) { };

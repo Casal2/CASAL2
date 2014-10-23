@@ -11,6 +11,7 @@
 // headers
 #include "Object.h"
 
+#include "AdditionalPriors/Factory.h"
 #include "AgeSizes/Factory.h"
 #include "Asserts/Factory.h"
 #include "Catchabilities/Factory.h"
@@ -59,7 +60,9 @@ base::ObjectPtr Object::Create(string& object_type, string& sub_type) {
   object_type = utilities::ToLowercase(object_type);
   sub_type    = utilities::ToLowercase(sub_type);
 
-  if (object_type == PARAM_AGE_SIZE || object_type == PARAM_AGE_SIZES)
+  if (object_type == PARAM_ADDITIONAL_PRIOR)
+    result = additionalpriors::Factory::Create(object_type, sub_type);
+  else if (object_type == PARAM_AGE_SIZE || object_type == PARAM_AGE_SIZES)
     result = agesizes::Factory::Create(object_type, sub_type);
   else if (object_type == PARAM_ASSERT)
     result = asserts::Factory::Create(object_type, sub_type);

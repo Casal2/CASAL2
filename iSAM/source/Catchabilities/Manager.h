@@ -27,8 +27,8 @@ namespace catchabilities {
 /**
  *
  */
-class Manager : public isam::base::Manager<isam::catchabilities::Manager, isam::Catchability> {
-  friend class isam::base::Manager<isam::catchabilities::Manager, isam::Catchability>;
+class Manager : public isam::oldbase::Manager<isam::catchabilities::Manager, isam::Catchability> {
+  friend class isam::oldbase::Manager<isam::catchabilities::Manager, isam::Catchability>;
 public:
   // Methods
   virtual                     ~Manager() noexcept(true);

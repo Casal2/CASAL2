@@ -13,6 +13,7 @@
 // Headers
 #include "ObjectiveFunction.h"
 
+#include "AdditionalPriors/Manager.h"
 #include "Estimates/Manager.h"
 #include "Observations/Manager.h"
 #include "Penalties/Manager.h"
@@ -92,6 +93,21 @@ void ObjectiveFunction::CalculateScore() {
     score_list_.push_back(new_score);
     score_ += new_score.score_;
     priors_ += AS_DOUBLE(new_score.score_);
+  }
+
+  /**
+   * Get the score from each additional prior
+   */
+  vector<AdditionalPriorPtr> additional_priors = additionalpriors::Manager::Instance().GetObjects();
+  additional_priors_ = 0.0;
+  for (AdditionalPriorPtr prior : additional_priors) {
+    objective::Score new_score;
+    new_score.label_ = PARAM_ADDITIONAL_PRIOR + string("->") + prior->label();
+    new_score.score_ = prior->GetScore();
+
+    score_list_.push_back(new_score);
+    score_ += new_score.score_;
+    additional_priors_ += AS_DOUBLE(new_score.score_);
   }
 }
 

@@ -24,8 +24,8 @@ namespace agesizes {
 /**
  * class definition
  */
-class Manager : public isam::base::Manager<isam::agesizes::Manager, isam::AgeSize> {
-  friend class isam::base::Manager<isam::agesizes::Manager, isam::AgeSize>;
+class Manager : public isam::oldbase::Manager<isam::agesizes::Manager, isam::AgeSize> {
+  friend class isam::oldbase::Manager<isam::agesizes::Manager, isam::AgeSize>;
 public:
   // methods
   virtual                     ~Manager() noexcept(true) { };

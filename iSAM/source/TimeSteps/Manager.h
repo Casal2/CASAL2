@@ -20,8 +20,8 @@ namespace timesteps {
 /**
  * Class Definition
  */
-class Manager : public isam::base::Manager<isam::timesteps::Manager, isam::TimeStep> {
-  friend class isam::base::Manager<isam::timesteps::Manager, isam::TimeStep>;
+class Manager : public isam::oldbase::Manager<isam::timesteps::Manager, isam::TimeStep> {
+  friend class isam::oldbase::Manager<isam::timesteps::Manager, isam::TimeStep>;
 public:
   // Methods
   virtual                     ~Manager() noexcept(true);
