@@ -39,11 +39,17 @@ public:
   void                        Validate();
   void                        Build() {};
   void                        Reset() {};
+  virtual Double              GetScore() { return 0.0; }
 
+  // accessors
+  bool                        has_score() const { return has_score_; }
 
 protected:
   // methods
   virtual void                DoValidate() = 0;
+
+  // members
+  bool                        has_score_ = true;
 };
 
 // Typedef

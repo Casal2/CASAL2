@@ -25,6 +25,8 @@ namespace penalties {
 Process::Process() {
   parameters_.Bind<double>(PARAM_MULTIPLIER, &multiplier_, "Multiplier", "", 1.0);
   parameters_.Bind<bool>(PARAM_LOG_SCALE, &log_scale_, "Log scale", "", false);
+
+  has_score_ = false;
 }
 
 /**
