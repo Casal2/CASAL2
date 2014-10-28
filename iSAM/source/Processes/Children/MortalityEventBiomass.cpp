@@ -86,7 +86,7 @@ void MortalityEventBiomass::DoBuild() {
   }
 
   if (penalty_label_ != "") {
-    penalty_ = penalties::Manager::Instance().GetPenalty(penalty_label_);
+    penalty_ = penalties::Manager::Instance().GetProcessPenalty(penalty_label_);
     if (!penalty_) {
       LOG_ERROR(parameters_.location(PARAM_PENALTY) << ": penalty " << penalty_label_ << " does not exist. Have you defined it?");
     }

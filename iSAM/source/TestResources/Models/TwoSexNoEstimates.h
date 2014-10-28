@@ -285,6 +285,7 @@ likelihood lognormal
 time_step_proportion 1.0
 
 @penalty event_mortality_penalty
+type process
 log_scale False
 multiplier 10
 

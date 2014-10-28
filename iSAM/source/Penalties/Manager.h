@@ -18,6 +18,7 @@
 
 // Headers
 #include "BaseClasses/Manager.h"
+#include "Penalties/Children/Process.h"
 #include "Penalties/Penalty.h"
 #include "Utilities/Types.h"
 
@@ -44,6 +45,7 @@ public:
   // Methods
   virtual                     ~Manager() noexcept(true) {};
   PenaltyPtr                  GetPenalty(const string& label) const;
+  penalties::ProcessPtr       GetProcessPenalty(const string& label);
   void                        FlagPenalty(const string& label, Double value);
   void                        Reset() override final { flagged_penalties_.clear(); }
 

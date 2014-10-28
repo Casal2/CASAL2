@@ -16,7 +16,7 @@
 // headers
 #include "Model/Model.h"
 #include "Partition/Accessors/Categories.h"
-#include "Penalties/Penalty.h"
+#include "Penalties/Children/Process.h"
 #include "Processes/Process.h"
 #include "Selectivities/Selectivity.h"
 
@@ -53,7 +53,7 @@ private:
   Double                      exploitation_;
   vector<unsigned>            years_;
   string                      penalty_label_;
-  PenaltyPtr                  penalty_;
+  penalties::ProcessPtr       penalty_;
 };
 
 } /* namespace processes */

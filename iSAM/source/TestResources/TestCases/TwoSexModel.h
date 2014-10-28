@@ -308,6 +308,7 @@ upper_bound 50
 type uniform
 
 @penalty event_mortality_penalty
+type process
 log_scale False
 multiplier 10
 

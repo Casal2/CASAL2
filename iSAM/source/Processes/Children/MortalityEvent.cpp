@@ -91,7 +91,7 @@ void MortalityEvent::DoBuild() {
   }
 
   if (penalty_name_ != "") {
-    penalty_ = penalties::Manager::Instance().GetPenalty(penalty_name_);
+    penalty_ = penalties::Manager::Instance().GetProcessPenalty(penalty_name_);
     if (!penalty_) {
       LOG_ERROR(parameters_.location(PARAM_PENALTY) << ": penalty " << penalty_name_ << " does not exist. Have you defined it?");
     }

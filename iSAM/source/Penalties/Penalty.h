@@ -39,12 +39,11 @@ public:
   void                        Validate();
   void                        Build() {};
   void                        Reset() {};
-  void                        Trigger(const string& source_label, Double value_1, Double value_2);
 
-private:
-  // Members
-  Double                      multiplier_;
-  bool                        log_scale_;
+
+protected:
+  // methods
+  virtual void                DoValidate() = 0;
 };
 
 // Typedef
