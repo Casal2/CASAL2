@@ -87,7 +87,7 @@ base::ObjectPtr Object::Create(string& object_type, string& sub_type) {
   else if (object_type == PARAM_OBSERVATION)
     result = observations::Factory::Create(object_type, sub_type);
   else if (object_type == PARAM_PENALTY)
-    result = penalties::Factory::Create();
+    result = penalties::Factory::Create(object_type, sub_type);
   else if (object_type == PARAM_PROCESS || object_type == PARAM_PROCESSES)
     result = processes::Factory::Create(object_type, sub_type);
   else if (object_type == PARAM_PROFILE)

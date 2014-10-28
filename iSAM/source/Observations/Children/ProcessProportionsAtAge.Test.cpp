@@ -122,6 +122,7 @@ t0 -0.20
 linf 113.4
 
 @penalty event_mortality_penalty
+type process
 log_scale True
 multiplier 10
 
@@ -286,6 +287,7 @@ t0 -0.20
 linf 113.4
 
 @penalty event_mortality_penalty
+type process
 log_scale True
 multiplier 10
 

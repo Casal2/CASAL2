@@ -143,6 +143,7 @@ type constant
 c 1
 
 @penalty event_mortality_penalty
+type process
 log_scale True
 multiplier 10
 

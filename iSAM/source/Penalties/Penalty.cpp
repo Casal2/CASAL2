@@ -24,8 +24,7 @@ namespace isam {
  */
 Penalty::Penalty() {
   parameters_.Bind<string>(PARAM_LABEL, &label_, "Label", "");
-  parameters_.Bind<double>(PARAM_MULTIPLIER, &multiplier_, "Multiplier", "", 1.0);
-  parameters_.Bind<bool>(PARAM_LOG_SCALE, &log_scale_, "Log scale", "", false);
+  parameters_.Bind<string>(PARAM_TYPE, &type_, "Type", "");
 }
 
 /**
@@ -33,26 +32,7 @@ Penalty::Penalty() {
  */
 void Penalty::Validate() {
   parameters_.Populate();
+  DoValidate();
 }
 
-/**
- * Trigger our penalty.
- * Basic value for the trigger will be: (value_1 - value_2)^2 * multiplier
- * logscale is: (log(value_1) - log(value_2))^2 * multiplier
- *
- * @param source_label The label for the source of the trigger
- * @param value_1 The first value to use in equation
- * @param value_2 The second valud to use in equatin
- */
-void Penalty::Trigger(const string& source_label, Double value_1, Double value_2) {
-
-  if (log_scale_) {
-    value_1 = log(utilities::doublecompare::ZeroFun(value_1));
-    value_2 = log(utilities::doublecompare::ZeroFun(value_2));
-  }
-
-  string name  = label_ + "(" + source_label + ")";
-  Double value = (value_1 - value_2) * (value_1 - value_2) * multiplier_;
-  penalties::Manager::Instance().FlagPenalty(name, value);
-}
 } /* namespace isam */

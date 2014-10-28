@@ -376,6 +376,8 @@
 #define PARAM_UNIFORM_LOG                         "uniform_log"
 #define PARAM_UPPER_BOUND                         "upper_bound"
 #define PARAM_V                                   "v"
+#define PARAM_VECTOR_AVERAGE                      "vector_average"
+#define PARAM_VECTOR_SMOOTHING                    "vector_smoothing"
 #define PARAM_VON_BERTALANFFY                     "von_bertalanffy"
 #define PARAM_VALUE                               "value"
 #define PARAM_VALUES                              "values"

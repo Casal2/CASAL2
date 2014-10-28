@@ -13,7 +13,6 @@
 #define PENALTIES_FACTORY_H_
 
 // Headers
-#include "BaseClasses/Factory.h"
 #include "Penalties/Manager.h"
 #include "Penalties/Penalty.h"
 
@@ -24,7 +23,16 @@ namespace penalties {
 /**
  *
  */
-class Factory : public isam::base::Factory<isam::Penalty, isam::penalties::Manager> {};
+class Factory {
+public:
+  // methods
+  static PenaltyPtr Create(string object_type, string sub_type);
+
+private:
+  // methods
+  Factory() = delete;
+  ~Factory() = delete;
+};
 
 } /* namespace penalties */
 } /* namespace isam */
