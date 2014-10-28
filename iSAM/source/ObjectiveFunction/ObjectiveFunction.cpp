@@ -67,8 +67,25 @@ void ObjectiveFunction::CalculateScore() {
   /**
    * Get the scores from each of the penalties
    */
-  const vector<penalties::Info>& penalties = penalties::Manager::Instance().flagged_penalties();
   penalties_ = 0.0;
+
+  for (PenaltyPtr penalty : penalties::Manager::Instance().GetObjects()) {
+    if (penalty->has_score()) {
+      objective::Score new_score;
+
+      new_score.label_ = PARAM_PENALTY + string("->") + penalty->label();
+      new_score.score_ = penalty->GetScore();
+
+      score_list_.push_back(new_score);
+      score_ += new_score.score_;
+      penalties_ += AS_DOUBLE(new_score.score_);
+    }
+  }
+
+  /**
+   * Go through the flagged penalties
+   */
+  const vector<penalties::Info>& penalties = penalties::Manager::Instance().flagged_penalties();
   for (penalties::Info penalty : penalties) {
     objective::Score new_score;
 
