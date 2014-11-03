@@ -62,7 +62,7 @@ void VonBertalanffy::DoBuild() {
  * @param age The age of the fish to return mean size for
  * @return the mean size for a single fish
  */
-Double VonBertalanffy::mean_size(unsigned age) const {
+Double VonBertalanffy::mean_size(unsigned year, unsigned age) const {
   if ((-k_ * (age - t0_)) > 10)
     LOG_ERROR("Fatal error in age-size relationship: exp(-k*(age-t0)) is enormous. The k or t0 parameters are probably wrong.");
 
@@ -79,8 +79,8 @@ Double VonBertalanffy::mean_size(unsigned age) const {
  * @param age The age of the fish to return the mean weight for
  * @return The mean weight of a single fish
  */
-Double VonBertalanffy::mean_weight(unsigned age) const {
-  Double size = this->mean_size(age);
+Double VonBertalanffy::mean_weight(unsigned year, unsigned age) const {
+  Double size = this->mean_size(year, age);
 
   Double mean_weight = 0.0;
  if (by_length_) {

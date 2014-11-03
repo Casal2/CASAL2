@@ -25,6 +25,7 @@
 #include "File.h"
 #include "GlobalConfiguration/GlobalConfiguration.h"
 #include "Translations/Translations.h"
+#include "Utilities/String.h"
 #include "Utilities/To.h"
 #include "Utilities/Logging/Logging.h"
 
@@ -235,8 +236,6 @@ void Loader::ParseBlock(vector<FileLine> &block) {
   bool   loading_table     = false;
   bool   loading_columns   = false;
   string table_label       = "";
-  vector<string>           table_columns;
-  vector<vector<string> >  table_data;
 
   // Iterate the loaded file lines for this block
   for(FileLine file_line : block) {
@@ -280,20 +279,25 @@ void Loader::ParseBlock(vector<FileLine> &block) {
             << ": table parameter requires a valid label. Please use alphanumeric characters and underscores only");
 
       table_label = util::ToLowercase(line_parts[1]);
-      table_data.clear();
+      current_table_ = object->parameters().GetTable(table_label);
+      current_table_->set_file_name(file_line.file_name_);
+      current_table_->set_line_number(file_line.line_number_);
 
     } else if (loading_table && loading_columns) {
       // We're on the line after the table <label> definition where the columns will be
-      table_columns.assign(line_parts.begin(), line_parts.end());
+      if (!current_table_)
+        LOG_CODE_ERROR("!current_table");
+
+      current_table_->AddColumns(line_parts);
       loading_columns = false;
 
     } else if (loading_table && parameter_type != PARAM_END_TABLE) {
       // We're loading a standard row of data for the table
-      if (line_parts.size() != table_columns.size())
+      if (line_parts.size() != current_table_->GetColumnCount())
         LOG_ERROR("At line " << file_line.line_number_ << " of " << file_line.file_name_
-            << ": Table data does not contain the correct number of columns. Expected (" << table_columns.size() << ") : Actual (" << line_parts.size() << ")");
+            << ": Table data does not contain the correct number of columns. Expected (" << current_table_->GetColumnCount() << ") : Actual (" << line_parts.size() << ")");
 
-      table_data.push_back(line_parts);
+      current_table_->AddRow(line_parts);
 
     } else if (loading_table && parameter_type == PARAM_END_TABLE) {
       // We've found the end of our table.
@@ -303,26 +307,24 @@ void Loader::ParseBlock(vector<FileLine> &block) {
 
       loading_table   = false;
       loading_columns = false;
+      current_table_ = parameters::TablePtr();
 
-      if (!object->parameters().AddTable(table_label, table_columns, table_data, file_line.file_name_, file_line.line_number_))
+    } else {
+      // loading a normal parameter
+      const ParameterPtr parameter = object->parameters().Get(parameter_type);
+      if (!parameter)
         LOG_ERROR("At line " << file_line.line_number_ << " of " << file_line.file_name_
-            << ": Could not add table '" << table_label << "' to block. Table is not supported");
+            << ": Parameter '" << parameter_type << "' is not supported");
+      if (parameter->has_been_defined()) {
+        LOG_ERROR("At line " << file_line.line_number_ << " of " << file_line.file_name_
+            << ": Parameter '" << parameter_type << "' for object " << block_type
+            << " was already specified at line " << parameter->line_number() << " of " << parameter->file_name());
+      }
 
+      if (!object->parameters().Add(parameter_type, values, file_line.file_name_, file_line.line_number_))
+        LOG_ERROR("At line " << file_line.line_number_ << " of " << file_line.file_name_
+            << ": Could not add parameter '" << parameter_type << "' to block '" << block_type << "'. Parameter is not supported");
     }
-
-    const ParameterPtr parameter = object->parameters().Get(parameter_type);
-    if (!parameter)
-      LOG_ERROR("At line " << file_line.line_number_ << " of " << file_line.file_name_
-          << ": Parameter '" << parameter_type << "' is not supported");
-    if (parameter->has_been_defined()) {
-      LOG_ERROR("At line " << file_line.line_number_ << " of " << file_line.file_name_
-          << ": Parameter '" << parameter_type << "' for object " << block_type
-          << " was already specified at line " << parameter->line_number() << " of " << parameter->file_name());
-    }
-
-    if (!object->parameters().Add(parameter_type, values, file_line.file_name_, file_line.line_number_))
-      LOG_ERROR("At line " << file_line.line_number_ << " of " << file_line.file_name_
-          << ": Could not add parameter '" << parameter_type << "' to block '" << block_type << "'. Parameter is not supported");
   }
 }
 

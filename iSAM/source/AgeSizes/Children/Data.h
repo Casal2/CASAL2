@@ -16,6 +16,7 @@
 
 // headers
 #include "AgeSizes/AgeSize.h"
+#include "SizeWeights/SizeWeight.h"
 
 // namespaces
 namespace isam {
@@ -26,11 +27,30 @@ namespace agesizes {
  */
 class Data : public AgeSize {
 public:
+  // methods
   Data();
   virtual                     ~Data() = default;
   void                        DoValidate() override final;
   void                        DoBuild() override final;
   void                        DoReset() override final {};
+  Double                      mean_size(unsigned year, unsigned age) const override final;
+  Double                      mean_weight(unsigned year, unsigned age) const override final;
+
+private:
+  // methods
+  void                        FillExternalGaps();
+  void                        FillInternalGaps();
+
+  // members
+  parameters::TablePtr          data_table_;
+  string                        external_gaps_;
+  string                        internal_gaps_;
+  map<unsigned, vector<Double>> data_by_year_;
+  vector<Double>                means_;
+  Double                        cv_;
+  string                        distribution_;
+  string                        size_weight_label_;
+  SizeWeightPtr                 size_weight_;
 };
 
 } /* namespace agesizes */

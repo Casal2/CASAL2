@@ -58,7 +58,9 @@ void Partition::Build() {
 
     unsigned age_spread = (categories->max_age(category) - categories->min_age(category)) + 1;
     new_category.data_.resize(age_spread, 0.0);
-    new_category.mean_weights_.resize(age_spread, 0.0);
+
+    for (unsigned year : model->years())
+      new_category.mean_weights_by_year_[year].resize(age_spread, 0.0);
 
     partition_[category] = new_category;
   }
@@ -78,7 +80,8 @@ void Partition::Reset() {
  * during the build steps of the AgeSize and SizeWeight objects
  */
 void Partition::CalculateMeanWeights() {
-  CategoriesPtr categories                  = Categories::Instance();
+  CategoriesPtr categories    = Categories::Instance();
+  vector<unsigned> years      = Model::Instance()->years();
 
   if (categories->HasAgeSizes()) {
     vector<string> category_names = categories->category_names();
@@ -88,7 +91,8 @@ void Partition::CalculateMeanWeights() {
       AgeSizePtr age_size = categories->age_size(category);
 
       for (unsigned i = 0; i < age_spread; ++i)
-        partition_[category].mean_weights_[i] = age_size->mean_weight(i + partition_[category].min_age_);
+        for (unsigned year: years)
+          partition_[category].mean_weights_by_year_[year][i] = age_size->mean_weight(year, i + partition_[category].min_age_);
     }
   }
 }

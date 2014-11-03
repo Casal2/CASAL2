@@ -90,7 +90,7 @@ shared_ptr<Model> Model::Instance(bool force_new) {
 vector<unsigned> Model::years() const {
   vector<unsigned> years;
   unsigned year;
-  for (year = current_year_; year <= final_year_; ++year)
+  for (year = start_year_; year <= final_year_; ++year)
     years.push_back(year);
   for (; year <= projection_final_year_; ++year)
     years.push_back(year);

@@ -82,15 +82,28 @@ bool ParameterList::Add(const string& label, const string& value, const string& 
  * @return true on success, false on failure
  */
 bool ParameterList::AddTable(const string& label, const vector<string>& columns, const vector<vector<string> >& data, const string& file_name, const unsigned& line_number) {
-  TablePtr table = TablePtr(new isam::parameterlist::Table(label));
+  if (tables_.find(label) == tables_.end())
+    return false;
+
+  parameters::TablePtr table = tables_.find(label)->second;
   table->AddColumns(columns);
   for (vector<string> row : data)
     table->AddRow(row);
+  table->set_file_name(file_name);
+  table->set_line_number(line_number);
 
-  ParameterTable parameter_table;
-  parameter_table.file_name_    = file_name;
-  parameter_table.line_number_  = line_number;
-  parameter_table.table_        = table;
+  return true;
+
+//
+//  TablePtr table = TablePtr(new isam::parameterlist::Table(label));
+//  table->AddColumns(columns);
+//  for (vector<string> row : data)
+//    table->AddRow(row);
+//
+//  ParameterTable parameter_table;
+//  parameter_table.file_name_    = file_name;
+//  parameter_table.line_number_  = line_number;
+//  parameter_table.table_        = table;
   return true;
 }
 
@@ -150,6 +163,20 @@ const ParameterPtr ParameterList::Get(const string& label) {
   map<string, ParameterPtr>::iterator iter = parameters_.find(label);
   if (iter == parameters_.end())
     return ParameterPtr();
+
+  return iter->second;
+}
+
+/**
+ * Return a constant pointer to one of our parameter tables
+ *
+ * @param label of the table to return
+ * @return
+ */
+const parameters::TablePtr ParameterList::GetTable(const string& label) {
+  auto iter = tables_.find(label);
+  if (iter == tables_.end())
+    return parameters::TablePtr();
 
   return iter->second;
 }
@@ -217,11 +244,28 @@ void ParameterList::Clear() {
  */
 string ParameterList::location(const string& label) {
   map<string, ParameterPtr>::iterator iter = parameters_.find(label);
-  if (iter == parameters_.end()) {
+  auto table_iter = tables_.find(label);
+  if (iter == parameters_.end() && table_iter == tables_.end()) {
     LOG_CODE_ERROR("parameters_ object is missing the parameter: " << label);
   }
 
-  return iter->second->location() + ": " + label;
+  if (iter != parameters_.end())
+    return iter->second->location() + ": " + label;
+
+  return table_iter->second->location() + ":"  + label;
 }
+
+/**
+ * Bind a table pointer to our map so it can be recognised and retrieved by the configuration loader
+ *
+ * @param label The label of the table to bind
+ * @param table The pointer to the table we're binding
+ * @param description used for documentation, ignored
+ * @param values used for documentation, ignored
+ */
+void ParameterList::BindTable(const string& label, parameters::TablePtr table, const string& description, const string& values) {
+  tables_[label] = table;
+}
+
 
 } /* namespace isam */

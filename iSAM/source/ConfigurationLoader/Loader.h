@@ -33,7 +33,6 @@ using std::vector;
 using std::string;
 using isam::base::Object;
 using isam::base::ObjectPtr;
-using isam::parameterlist::TablePtr;
 
 namespace isam {
 namespace configuration {
@@ -70,6 +69,7 @@ private:
 
   // Members
   vector<FileLine>            file_lines_;
+  parameters::TablePtr        current_table_;
 };
 
 } /* namespace configuration */

@@ -111,7 +111,7 @@ void MortalityEventBiomass::DoExecute() {
     unsigned offset = 0;
     for (Double& data : categories->data_) {
       Double temp = data * selectivities_[i]->GetResult(categories->min_age_ + offset);
-      vulnerable += temp * categories->mean_weights_[offset];
+      vulnerable += temp * categories->mean_weights_by_year_[model_->current_year()][offset];
       ++offset;
     }
 
