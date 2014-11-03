@@ -35,8 +35,8 @@ public:
   virtual void                DoReset() = 0;
 
   // accessors
-  virtual Double              mean_size(unsigned age) const = 0;
-  virtual Double              mean_weight(unsigned age) const = 0;
+  virtual Double              mean_size(unsigned year, unsigned age) const = 0;
+  virtual Double              mean_weight(unsigned year, unsigned age) const = 0;
 };
 
 // typedef

@@ -13,6 +13,7 @@
 
 #include "AgeSizes/Manager.h"
 #include "AgeSizes/AgeSize.h"
+#include "AgeSizes/Children/Data.h"
 #include "AgeSizes/Children/None.h"
 #include "AgeSizes/Children/Schnute.h"
 #include "AgeSizes/Children/VonBertalanffy.h"
@@ -33,7 +34,9 @@ AgeSizePtr Factory::Create(const string& object_type, const string& sub_type) {
   AgeSizePtr result;
 
   if (object_type == PARAM_AGE_SIZE || object_type == PARAM_AGE_SIZES) {
-    if (sub_type == PARAM_NONE)
+    if (sub_type == PARAM_DATA)
+      result = AgeSizePtr(new Data());
+    else if (sub_type == PARAM_NONE)
       result = AgeSizePtr(new None());
     else if (sub_type == PARAM_SCHNUTE)
       result = AgeSizePtr(new Schnute());

@@ -45,7 +45,7 @@ struct Category {
   unsigned  max_age_;
   vector<unsigned>  years_;
   vector<Double>  data_;
-  vector<Double>  mean_weights_;
+  map<unsigned, vector<Double>>  mean_weights_by_year_;
 };
 } /* namespace partition */
 

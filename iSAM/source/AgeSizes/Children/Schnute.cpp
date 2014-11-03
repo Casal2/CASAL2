@@ -66,7 +66,7 @@ void Schnute::DoBuild() {
  * @param age The age of the fish to return mean size for
  * @return the mean size for a single fish
  */
-Double Schnute::mean_size(unsigned age) const {
+Double Schnute::mean_size(unsigned year, unsigned age) const {
   Double temp = 0.0;
   Double size = 0.0;
 
@@ -92,8 +92,8 @@ Double Schnute::mean_size(unsigned age) const {
  * @param age The age of the fish to return the mean weight for
  * @return The mean weight of a single fish
  */
-Double Schnute::mean_weight(unsigned age) const {
-  Double size   = this->mean_size(age);
+Double Schnute::mean_weight(unsigned year, unsigned age) const {
+  Double size   = this->mean_size(year, age);
   return size_weight_->mean_weight(size, distribution_, cv_);
 }
 

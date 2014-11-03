@@ -68,21 +68,12 @@
 using std::map;
 using std::vector;
 using std::string;
-using isam::parameterlist::TablePtr;
+using isam::parameters::TablePtr;
 using isam::parameterlist::Parameter;
 using isam::parameterlist::ParameterPtr;
 
 
 namespace isam {
-
-/**
- * Struct Definition: ParameterTable
- */
-struct ParameterTable {
-  string          file_name_;
-  unsigned        line_number_;
-  TablePtr        table_;
-};
 
 /**
  * Class Definition ParameterList
@@ -96,6 +87,7 @@ public:
   bool                        Add(const string& label, const vector<string>& values, const string& file_name, const unsigned& line_number);
   bool                        AddTable(const string& label, const vector<string>& columns, const vector<vector<string> >& data, const string& file_name, const unsigned& line_number);
   const ParameterPtr          Get(const string& label);
+  const parameters::TablePtr  GetTable(const string& label);
   void                        CopyFrom(const ParameterList& source, string parameter_label);
   void                        CopyFrom(const ParameterList& source, string parameter_label, const unsigned &value_index);
   void                        Clear();
@@ -105,6 +97,7 @@ public:
   void                        Bind(const string& label, T* target, const string& description, const string& values, T default_value);
   template<typename T>
   void                        Bind(const string& label, vector<T>* target, const string& description, const string& values, bool optional = false);
+  void                        BindTable(const string& label, parameters::TablePtr table, const string& description, const string& values);
   void                        Populate();
 
   // accessors
@@ -122,7 +115,7 @@ private:
   string                      defined_file_name_    = "";
   unsigned                    defined_line_number_  = 0;
   map<string, ParameterPtr>   parameters_;
-  map<string, ParameterTable> tables_;
+  map<string, TablePtr>       tables_;
 };
 
 } /* namespace isam */
