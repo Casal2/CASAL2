@@ -51,6 +51,7 @@ private:
   string                        distribution_;
   string                        size_weight_label_;
   SizeWeightPtr                 size_weight_;
+  vector<Double>                time_step_proportions_;
 };
 
 } /* namespace agesizes */
