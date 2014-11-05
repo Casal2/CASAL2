@@ -55,9 +55,9 @@ TEST_F(InternalEmptyModel, AgeSizes_Data) {
   ObjectiveFunction& obj_function = ObjectiveFunction::Instance();
   EXPECT_DOUBLE_EQ(1726.6295023192379, obj_function.score());
 
-  AgeSizePtr age_size = agesizes::Manager::Instance().GetAgeSize("test_age_size");
-  if (!age_size)
-    LOG_ERROR("!age_size");
+//  AgeSizePtr age_size = agesizes::Manager::Instance().GetAgeSize("test_age_size");
+//  if (!age_size)
+//    LOG_ERROR("!age_size");
 
   // Check results
 //  estimate->set_value(1.0);
