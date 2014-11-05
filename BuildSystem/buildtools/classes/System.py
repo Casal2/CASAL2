@@ -46,8 +46,9 @@ class SystemInfo:
   """
   def find_exe_path(self, exe):
     print '-- Searching path for ' + exe
-    if os.system('which ' + exe + ' > which.tmp') != EX_OK:
-      Globals.PrintError('Could not find the executable ' + exe + ' in the path')
+    if os.system('which ' + exe + ' > which.tmp 2> err.tmp') != EX_OK:
+      os.system('rm -rf err.tmp')
+      print '## ' + exe + ' not found in the current path'
       return ''
 
     # Read path back from file

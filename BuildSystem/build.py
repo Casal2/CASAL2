@@ -11,6 +11,7 @@ from System import *
 from Globals import *
 from Builder import *
 from Documentation import *
+from Archiver import *
 
 """
 Print the usage for this build system
@@ -31,6 +32,7 @@ def print_usage():
   print '  all - Does clean, thirdparty, debug, release builds in order'
   print '  clean - Remove any previous debug/release build information'
   print '  cleanall - Remove all previous build information'
+  print '  archive - Build a zipped archive of the application'
   print ''
   print 'Valid Build Parameters: (thirdparty only)'
   print '  <libary name> - Target third party library to build or rebuild'
@@ -56,6 +58,9 @@ def start_build_system():
     Globals.latex_path_    = system_info.find_exe_path('bibtex')
     Globals.git_path_      = system_info.find_exe_path('git')    
   system_info.set_new_path()
+
+  if Globals.compiler_path_ == "":
+    return Globals.PrintError("G++ is not in the current path")
   
   if not system_info.find_gcc_version():
     return False
@@ -76,7 +81,7 @@ def start():
   build_target = ""
   build_parameters = ""
   
-  allowed_build_targets = [ "debug", "release", "documentation", "thirdparty", "test", "all", "clean", "cleanall", "help" ]
+  allowed_build_targets = [ "debug", "release", "documentation", "thirdparty", "test", "archive", "all", "clean", "cleanall", "help" ]
  
   if not len(sys.argv) > 1:  
     os.system( [ 'clear', 'cls' ][ os.name == 'nt' ] )
@@ -168,6 +173,13 @@ def start():
     print "--> Starting " + Globals.build_target_ + " Build"
     code_builder = MainCode()
     if not code_builder.start():
+      return False
+  elif build_target == "archive":
+    print "*************************************************************************"
+    print "*************************************************************************"
+    print "--> Starting " + Globals.build_target_ + " Build"
+    archive_builder = Archiver()
+    if not archive_builder.start():
       return False
   elif build_target == "thirdparty":    
     print "*************************************************************************"
