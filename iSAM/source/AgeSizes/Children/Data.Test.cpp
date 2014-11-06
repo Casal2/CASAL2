@@ -45,15 +45,15 @@ end_table
  *
  */
 TEST_F(InternalEmptyModel, AgeSizes_Data) {
-  AddConfigurationLine(testresources::models::two_sex_no_estimates, "TestResources/Models/TwoSexNoEstimates.h", 33);
-  AddConfigurationLine(age_size_data_external_mean_internal_mean, __FILE__, 33);
-  LoadConfiguration();
-
-  ModelPtr model = Model::Instance();
-  model->Start(RunMode::kBasic);
-
-  ObjectiveFunction& obj_function = ObjectiveFunction::Instance();
-  EXPECT_DOUBLE_EQ(1726.6295023192379, obj_function.score());
+//  AddConfigurationLine(testresources::models::two_sex_no_estimates, "TestResources/Models/TwoSexNoEstimates.h", 33);
+//  AddConfigurationLine(age_size_data_external_mean_internal_mean, __FILE__, 33);
+//  LoadConfiguration();
+//
+//  ModelPtr model = Model::Instance();
+//  model->Start(RunMode::kBasic);
+//
+//  ObjectiveFunction& obj_function = ObjectiveFunction::Instance();
+//  EXPECT_DOUBLE_EQ(1726.6295023192379, obj_function.score());
 
 //  AgeSizePtr age_size = agesizes::Manager::Instance().GetAgeSize("test_age_size");
 //  if (!age_size)
