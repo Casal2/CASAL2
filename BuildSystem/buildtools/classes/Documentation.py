@@ -19,6 +19,7 @@ class Documentation:
     parent_class_ = ''
     variables_ = {}
     estimables_ = {}
+    child_directories_ = []
    
     variable_type_ = {}
     variable_label_ = {}
@@ -71,13 +72,27 @@ class Documentation:
                         return False
                     self.clean_variables()
                     break
-
+            
             if os.path.exists('../iSAM/source/' + folder + '/Children'):
                 file_list = os.listdir('../iSAM/source/' + folder + '/Children/')
+                self.child_directories_ = []
                 for file in file_list:
+                    full_file = '../iSAM/source/' + folder + '/Children/' + file
+                    if os.path.isdir(full_file):
+                        self.child_directories_.append(file)
+                        
+                for file in file_list:                    
                     if (file.endswith(".h")):
                         print '--> Child File: ' + file
                         class_name = file.replace('.h', '')
+                        for directory in self.child_directories_:
+                            print '-- Dir: ' + directory
+                            if class_name.endswith(directory) and os.path.exists('../iSAM/source/' + folder + '/Children/' + directory + '/' + directory + '.h'):
+                              print 'X'
+                              if not self.load_variables(directory, '../iSAM/source/' + folder + '/Children/' + directory + '/' + directory + '.h'):
+                                return False
+                              if not self.print_child(file.replace('.h', ''), '../iSAM/source/' + folder + '/Children/' + class_name + '/' + class_name):
+                                return False                        
                         if not self.load_variables(class_name, '../iSAM/source/' + folder + '/Children/' + file):
                             return False
                         if not self.print_child(file.replace('.h', ''), '../iSAM/source/' + folder + '/Children/' + file):
