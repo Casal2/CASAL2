@@ -25,10 +25,7 @@ class Archiver:
     print "--> Checking if Third Party libraries have been built"
     third_party_dir = "bin/" + Globals.operating_system_ + "/thirdparty"
     if not os.path.exists(third_party_dir):
-      print "-- Building third party libraries"
-      builder = ThirdPartyLibraries()
-      if not builder.start():
-        return False
+      return Globals.PrintError("Please build third party libraries before you build archive")
 
     print "--> Checking for release version of iSAM binary"
     binary_path = self.output_directory_ = os.path.normpath(os.getcwd()) + "/bin/" + Globals.operating_system_ + "/release/isam"
@@ -53,5 +50,6 @@ class Archiver:
     print "-- Creating new zip archive"
     if os.system("zip -j " + output_directory + "isam.zip " + binary_path) != EX_OK:
       return Globals.PrintError("Failed to create zip archive")
+    
     return True #Success!
     
