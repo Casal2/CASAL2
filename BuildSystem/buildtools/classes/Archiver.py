@@ -43,9 +43,9 @@ class Archiver:
       os.makedirs(output_directory);
     print "-- Target output directory: " + output_directory
 
-    if os.path.exists(output_directory + "isam.zip"):
+    if os.path.exists(output_directory + "isam.gz"):
       print "-- Removing old Zip Archive"
-      os.system("rm -rf " + output_directory + "isam.zip")
+      os.system("rm -rf " + output_directory + "isam.gz")
 
     print "-- Creating new zip archive"
     if os.system("gzip -c " + binary_path + " > " + output_directory + "isam.gz") != EX_OK:
