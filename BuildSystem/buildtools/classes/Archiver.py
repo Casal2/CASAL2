@@ -48,7 +48,7 @@ class Archiver:
       os.system("rm -rf " + output_directory + "isam.zip")
 
     print "-- Creating new zip archive"
-    if os.system("zip -j " + output_directory + "isam.zip " + binary_path) != EX_OK:
+    if os.system("gzip -c " + binary_path + " > " + output_directory + "isam.gz") != EX_OK:
       return Globals.PrintError("Failed to create zip archive")
     
     return True #Success!
