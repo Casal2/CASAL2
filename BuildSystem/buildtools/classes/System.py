@@ -50,7 +50,7 @@ class SystemInfo:
       os.system('rm -rf err.tmp')
       print '## ' + exe + ' not found in the current path'
       return ''
-
+      
     # Read path back from file
     fi = fileinput.FileInput('which.tmp')    
     path = ''
@@ -61,7 +61,8 @@ class SystemInfo:
 
     if path != "":
       Globals.path_ = path + ";" + Globals.path_
-      
+
+    os.system('rm -rf err.tmp')      
     if os.system('rm -rf which.tmp') != EX_OK:
       Globals.PrintError('Could not delete the temporary file "which.tmp". Do you have correct file system access?')
       return
