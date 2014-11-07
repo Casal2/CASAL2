@@ -25,7 +25,7 @@ FILE = [open('Syntax/AgeingError.tex', 'r'),
         open('Syntax/SizeWeight.tex', 'r'),
         open('Syntax/TimeStep.tex', 'r')]
 OUTFILE = open('QuickReference.tex', 'w')
-VERSION = open('SAMversion.tex', 'r')
+VERSION = open('Version.tex', 'r')
 SYNTAX_OUTFILE = open('SAM.syn', 'w')
 ERROR_OUTFILE = open('syntax_errors.txt', 'w')
 
