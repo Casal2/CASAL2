@@ -53,10 +53,11 @@ class Documentation:
         # PARAM_X in to actual English
         if not self.load_translations():
             return False
-        folder_list = [ 'AgeingErrors', 'AgeSizes', 'Catchabilities', 'DerivedQuantities',
+        folder_list = [ 'AdditionalPriors', 'AgeingErrors', 'AgeSizes', 'Asserts',
+                        'Catchabilities', 'Categories', 'DerivedQuantities',
                         'Estimates', 'InitialisationPhases', 'Likelihoods', 'MCMC', 'Minimisers',
-                        'Model', 'Observations', 'Penalties', 'Processes', 'Profiles', 'Reports',                        
-                        'Selectivities', 'SizeWeights', 'TimeSteps']
+                        'Model', 'Observations', 'Penalties', 'Processes', 'Profiles', 'Projects',
+                        'Reports', 'Selectivities', 'Simulates', 'SizeWeights', 'TimeSteps']
         for folder in folder_list:
             self.clean_variables()            
             file_list = os.listdir('../iSAM/source/' + folder + '/')
