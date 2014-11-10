@@ -36,6 +36,7 @@ public:
 protected:
   // methods
   void                        DoValidate() override final { };
+  void                        DoBuild()  override final { };
 };
 
 } /* namespace penalties */

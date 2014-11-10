@@ -19,6 +19,7 @@
 #define PENALTIES_VECTORSMOOTHING_H_
 
 // headers
+#include "Estimates/Estimate.h"
 #include "Penalties/Penalty.h"
 
 // namespaces
@@ -33,10 +34,21 @@ public:
   // methods
   VectorSmoothing();
   virtual                     ~VectorSmoothing() = default;
+  Double                      GetScore() override final;
 
 protected:
   // methods
-  void                        DoValidate() override final { };
+  void                        DoValidate() override final;
+  void                        DoBuild() override final;
+
+private:
+  // members
+  string                      parameter_ = "";
+  map<unsigned, Double>*      estimable_map_ = 0;
+  vector<Double>*             estimable_vector_ = 0;
+  bool                        log_ = false;
+  Double                      multiplier_ = 0.0;
+  unsigned                    step_size_ = 0;
 };
 
 } /* namespace penalties */

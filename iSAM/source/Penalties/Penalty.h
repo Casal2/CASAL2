@@ -37,7 +37,7 @@ public:
   Penalty();
   virtual                     ~Penalty() = default;
   void                        Validate();
-  void                        Build() {};
+  void                        Build() { DoBuild(); };
   void                        Reset() {};
   virtual Double              GetScore() { return 0.0; }
 
@@ -47,6 +47,8 @@ public:
 protected:
   // methods
   virtual void                DoValidate() = 0;
+  virtual void                DoBuild() = 0;
+
 
   // members
   bool                        has_score_ = true;
