@@ -13,6 +13,7 @@
 #include "VectorSmoothing.h"
 
 #include "Estimates/Manager.h"
+#include "ObjectsFinder/ObjectsFinder.h"
 
 // namespaces
 namespace isam {
@@ -86,8 +87,8 @@ void VectorSmoothing::DoBuild() {
  */
 Double VectorSmoothing::GetScore() {
   vector<Double> values;
-  if (estimable_map_ != 0)
-    values.assign((*estimable_map_).begin(), (*estimable_map_).end());
+  if (estimable_vector_ != 0)
+    values.assign((*estimable_vector_).begin(), (*estimable_vector_).end());
   else if (estimable_map_ != 0) {
     for (auto iter : (*estimable_map_))
       values.push_back(iter.second);
