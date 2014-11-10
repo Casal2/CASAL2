@@ -107,22 +107,6 @@ void Data::DoBuild() {
   // Fill our gaps
   FillExternalGaps();
   FillInternalGaps();
-
-  /**
-   * TODO: Remove this
-   * DEBUG: Print the table
-   */
-  cout << "Age Size Data Table: " << endl;
-  for (string column : columns)
-    cout << std::setw(6) << std::left << column;
-  cout << endl;
-
-  for (auto iter = data_by_year_.begin(); iter != data_by_year_.end(); ++iter) {
-    cout << std::setw(8) << std::left << iter->first;
-    for (Double data : iter->second)
-      cout << std::setw(8) << std::left << data;
-    cout << endl;
-  }
 }
 
 /**
@@ -199,8 +183,6 @@ void Data::FillInternalGaps() {
     if (data_by_year_.find(year) == data_by_year_.end())
       missing_years.push_back(year);
   }
-
-  cout << "means_.size():" << means_.size() << endl;
 
   // do the filling
   if (internal_gaps_ == PARAM_MEAN) {
