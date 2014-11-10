@@ -13,11 +13,12 @@
 // Headers
 #include <iostream>
 
+#include "AgeSizes/Manager.h"
 #include "ObjectiveFunction/ObjectiveFunction.h"
 #include "Estimates/Manager.h"
 #include "Model/Model.h"
 #include "TestResources/TestFixtures/InternalEmptyModel.h"
-#include "TestResources/Models/TwoSexNoEstimates.h"
+#include "TestResources/Models/TwoSexHalfAges.h"
 
 // Namespaces
 namespace isam {
@@ -31,6 +32,7 @@ const string age_size_data_external_mean_internal_mean =
 R"(
 @age_size test_age_size
 type data
+size_weight [type=none]
 external_gaps mean
 internal_gaps mean
 table data
@@ -45,31 +47,29 @@ end_table
  *
  */
 TEST_F(InternalEmptyModel, AgeSizes_Data) {
-//  AddConfigurationLine(testresources::models::two_sex_no_estimates, "TestResources/Models/TwoSexNoEstimates.h", 33);
-//  AddConfigurationLine(age_size_data_external_mean_internal_mean, __FILE__, 33);
-//  LoadConfiguration();
-//
-//  ModelPtr model = Model::Instance();
-//  model->Start(RunMode::kBasic);
-//
-//  ObjectiveFunction& obj_function = ObjectiveFunction::Instance();
-//  EXPECT_DOUBLE_EQ(1726.6295023192379, obj_function.score());
+  AddConfigurationLine(testresources::models::two_sex_half_ages, "TestResources/Models/TwoSexHalfAges.h", 24);
+  AddConfigurationLine(age_size_data_external_mean_internal_mean, __FILE__, 33);
+  LoadConfiguration();
 
-//  AgeSizePtr age_size = agesizes::Manager::Instance().GetAgeSize("test_age_size");
-//  if (!age_size)
-//    LOG_ERROR("!age_size");
+  ModelPtr model = Model::Instance();
+  model->Start(RunMode::kBasic);
+
+  ObjectiveFunction& obj_function = ObjectiveFunction::Instance();
+  EXPECT_DOUBLE_EQ(16884.277966840153, obj_function.score());
+
+  AgeSizePtr age_size = agesizes::Manager::Instance().GetAgeSize("test_age_size");
+  if (!age_size)
+    LOG_ERROR("!age_size");
 
   // Check results
-//  estimate->set_value(1.0);
-//  EXPECT_DOUBLE_EQ(estimate->GetScore(), -2476.5137933614251);
-//  estimate->set_value(2.0);
-//  EXPECT_DOUBLE_EQ(estimate->GetScore(), -2367.250113991935);
-//  estimate->set_value(3.0);
-//  EXPECT_DOUBLE_EQ(estimate->GetScore(), -2230.4867585646953);
-//  estimate->set_value(4.0);
-//  EXPECT_DOUBLE_EQ(estimate->GetScore(), -2066.4915312599851);
-//  estimate->set_value(5.0);
-//  EXPECT_DOUBLE_EQ(estimate->GetScore(), -1868.5574163359895);
+  EXPECT_DOUBLE_EQ(1.0, age_size->mean_weight(2000, 2));
+  EXPECT_DOUBLE_EQ(35.31, age_size->mean_size(2000, 2));
+
+  EXPECT_DOUBLE_EQ(1.0, age_size->mean_weight(2001, 2));
+  EXPECT_DOUBLE_EQ(30.31, age_size->mean_size(2001, 2));
+
+  EXPECT_DOUBLE_EQ(1.0, age_size->mean_weight(1996, 2));
+  EXPECT_DOUBLE_EQ(30.31, age_size->mean_size(1996, 2));
 }
 
 } /* namespace estimates */
