@@ -39,7 +39,7 @@ public:
   void                        Validate();
   void                        Build() { DoBuild(); };
   void                        Reset() {};
-  virtual Double              GetScore() { return 0.0; }
+  virtual Double              GetScore() = 0;
 
   // accessors
   bool                        has_score() const { return has_score_; }
