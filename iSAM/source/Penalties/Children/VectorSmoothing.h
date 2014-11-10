@@ -46,7 +46,7 @@ private:
   string                      parameter_ = "";
   map<unsigned, Double>*      estimable_map_ = 0;
   vector<Double>*             estimable_vector_ = 0;
-  bool                        log_ = false;
+  bool                        log_scale_ = false;
   Double                      multiplier_ = 0.0;
   unsigned                    step_size_ = 0;
 };

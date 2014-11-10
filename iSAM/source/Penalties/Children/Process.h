@@ -31,7 +31,7 @@ public:
   Process();
   virtual                     ~Process() = default;
   void                        Trigger(const string& source_label, Double value_1, Double value_2);
-
+  Double                      GetScore() override final { return 0.0; }
 protected:
   // methods
   void                        DoValidate() override final { };

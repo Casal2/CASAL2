@@ -23,8 +23,8 @@ namespace penalties {
  */
 VectorSmoothing::VectorSmoothing() {
   parameters_.Bind<string>(PARAM_PARAMETER, &parameter_, "Label of the estimate to generate penalty on", "");
-  parameters_.Bind<bool>(PARAM_LOG, &log_, "Do the math in log space?", "", false);
-  parameters_.Bind<double>(PARAM_MULTIPLIER, &multiplier_, "Mulitplier for the penalty amount", "", 1);
+  parameters_.Bind<bool>(PARAM_LOG_SCALE, &log_scale_, "Log scale", "", false);
+  parameters_.Bind<double>(PARAM_MULTIPLIER, &multiplier_, "Multiplier for the penalty amount", "", 1);
   parameters_.Bind<unsigned>(PARAM_STEP_SIZE, &step_size_, "The element index to use", "", 3);
 }
 
@@ -81,6 +81,8 @@ void VectorSmoothing::DoBuild() {
 
 /**
  * Get the score for this penalty
+ *
+ * @return Penalty score
  */
 Double VectorSmoothing::GetScore() {
   vector<Double> values;
@@ -94,7 +96,7 @@ Double VectorSmoothing::GetScore() {
 
   Double score;
 
-  if (log_) {
+  if (log_scale_) {
     for (Double& value : values)
       value = log(value);
   }
