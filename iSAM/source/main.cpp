@@ -95,6 +95,9 @@ int main(int argc, char * argv[]) {
       cout << parser.command_line_usage() << endl;
       break;
 
+    case RunMode::kQuery:
+      break;
+
     default:
       if (!config->debug_mode())
         standard_report.Prepare();

@@ -68,6 +68,7 @@ public:
   Map<string, Double>*        GetEstimableSMap(const string& label);
   vector<Double>*             GetEstimableVector(const string& label);
   Estimable::Type             GetEstimableType(const string& label) const;
+  void                        PrintParameterQueryInfo();
 
   // Accessors and Mutators
   string                      label() const { return label_; }
