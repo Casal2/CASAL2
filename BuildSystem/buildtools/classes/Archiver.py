@@ -55,7 +55,7 @@ class Archiver:
     print '-- Re-Entering the build system to build the documentation'
     print '-- All ourput is being diverted to documentation_build.log'
     if os.system(self.do_build_ + ' documentation > documentation_build.log 2>&1') != EX_OK:
-      return GLobals.PrintError('Failed to build the documentation. Please check documenation_build.log for error')
+      return Globals.PrintError('Failed to build the documentation. Please check documenation_build.log for error')
     os.system('rm -rf documentation_build.log')
 
     ## Now we actually do the zipping of the binary
