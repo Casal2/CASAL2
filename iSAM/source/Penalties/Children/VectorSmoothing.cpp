@@ -95,7 +95,7 @@ Double VectorSmoothing::GetScore() {
   } else
     LOG_CODE_ERROR("(estimable_map_ != 0) && (estimable_map_ != 0)");
 
-  Double score;
+  Double score = 0.0;
 
   if (log_scale_) {
     for (Double& value : values)

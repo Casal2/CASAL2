@@ -94,7 +94,7 @@ Double VectorAverage::GetScore() {
   } else
     LOG_CODE_ERROR("(estimable_map_ != 0) && (estimable_map_ != 0)");
 
-  Double score;
+  Double score = 0.0;
 
   if (method_ == PARAM_K) {
     for (Double value : values)
