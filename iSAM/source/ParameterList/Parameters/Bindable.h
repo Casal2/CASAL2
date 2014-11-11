@@ -15,7 +15,10 @@
 #define PARAMETERS_BINDABLE_H_
 
 // headers
+#include <typeinfo>
+
 #include "ParameterList/Parameter.h"
+#include "Utilities/Types.h"
 
 // namespaces
 namespace isam {
@@ -31,6 +34,8 @@ public:
   Bindable(const string& label, T* target, const string& description);
   virtual                     ~Bindable() = default;
   void                        Bind() override final;
+
+  string                      stored_type() const override final { return utilities::demangle(typeid(*target_).name()); }
 
 private:
   // members

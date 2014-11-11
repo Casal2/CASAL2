@@ -107,7 +107,7 @@ public:
   string                      defined_file_name() const { return defined_file_name_; }
   void                        set_defined_line_number(unsigned value) { defined_line_number_ = value; }
   unsigned                    defined_line_number() const { return defined_line_number_; }
-  const map<string, ParameterPtr>& parameters() { return parameters_; }
+  map<string, ParameterPtr>&  parameters() { return parameters_; }
 
 private:
   // members

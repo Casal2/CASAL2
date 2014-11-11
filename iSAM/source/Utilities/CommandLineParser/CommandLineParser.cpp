@@ -16,7 +16,13 @@
 #include <iostream>
 #include <sstream>
 #include <boost/program_options.hpp>
+#include <boost/algorithm/string/replace.hpp>
+#include <boost/algorithm/string/trim_all.hpp>
+#include <boost/algorithm/string/split.hpp>
+#include <boost/algorithm/string/join.hpp>
 
+#include "BaseClasses/Object.h"
+#include "Factory/Object.h"
 #include "GlobalConfiguration/GlobalConfiguration.h"
 #include "Utilities/Logging/Logging.h"
 
@@ -100,6 +106,26 @@ void CommandLineParser::Parse(int argc, const char* argv[]) {
 
   } else if (parameters.count("license")) {
     run_mode_ = RunMode::kLicense;
+    return;
+  } else if (parameters.count("query")) {
+    string lookup = parameters["query"].as<string>();
+    vector<string> parts;
+    boost::split(parts, lookup, boost::is_any_of("."));
+    if (parts.size() == 1)
+      parts.push_back("");
+    if (parts.size() == 2) {
+      base::ObjectPtr object = factory::Object::Create(parts[0], parts[1]);
+      if (object) {
+        cout << "Printing information for " << parts[0] << " with sub-type " << parts[1] << endl;
+        object->PrintParameterQueryInfo();
+      } else {
+        cout << "Object type " << lookup << " is invalid" << endl;
+      }
+    } else {
+      cout << "Please use object_type.sub_type only when querying an object" << endl;
+    }
+
+    run_mode_ = RunMode::kQuery;
     return;
   }
 

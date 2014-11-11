@@ -17,6 +17,10 @@
 #ifndef TYPES_H_
 #define TYPES_H_
 
+#include <cstdlib>
+#include <memory>
+#include <cxxabi.h>
+
 #ifdef USE_BETADIFF
 #include <adouble.h>
 #endif
@@ -53,6 +57,21 @@ typedef double Double;
 #endif
 
 
+/**
+ * This code is used to demangle the typeid(x).name information
+ */
+inline std::string demangle(const char* name) {
+
+    int status = -4; // some arbitrary value to eliminate the compiler warning
+
+    // enable c++11 by passing the flag -std=c++11 to g++
+    std::unique_ptr<char, void(*)(void*)> res {
+        abi::__cxa_demangle(name, NULL, NULL, &status),
+        std::free
+    };
+
+    return (status==0) ? res.get() : name ;
+}
 
 
 } /* namespace utilities */

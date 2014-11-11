@@ -57,6 +57,8 @@ public:
   void                        set_is_optional(bool is_optional) { is_optional_ = is_optional; }
   bool                        is_optional() const { return is_optional_; }
   string                      location() const;
+  virtual string              stored_type() const = 0;
+  string                      description() const { return description_; }
 
 protected:
   // Methods

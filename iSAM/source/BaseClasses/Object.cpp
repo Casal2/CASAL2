@@ -13,11 +13,16 @@
 // Headers
 #include "Object.h"
 
+#include <iostream>
+
 #include "Utilities/Logging/Logging.h"
 #include "Utilities/To.h"
 
 namespace isam {
 namespace base {
+
+using std::cout;
+using std::endl;
 
 /**
  * This method will check to see if the estimable label passed
@@ -213,6 +218,21 @@ string Object::location() {
     location += ": " + label_;
 
   return location;
+}
+
+/**
+ * This method will print the object and block types and all parameters with documentation
+ * to the screen
+ */
+void Object::PrintParameterQueryInfo() {
+  cout << "Parameters:" << endl;
+
+  map<string, ParameterPtr>& map = parameters_.parameters();
+  for (auto iter : map) {
+    cout << iter.first << "<" << iter.second->stored_type() << ">\n";
+    cout << "  -- Description: " << iter.second->description() << endl;
+  }
+
 }
 
 } /* namespace base */
