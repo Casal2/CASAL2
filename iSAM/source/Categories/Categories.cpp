@@ -35,7 +35,7 @@ Categories::Categories() {
   parameters_.Bind<string>(PARAM_NAMES, &names_, "The names of the categories to be used in the model", "");
   parameters_.Bind<string>(PARAM_YEARS, &years_, "The years that individual categories will be active for. This overrides the model values", "", true);
   parameters_.Bind<string>(PARAM_AGES, &ages_, "The ages that individual categories support. This overrides the model values", "", true);
-  parameters_.Bind<string>(PARAM_AGE_SIZES, &age_size_labels_, "The labels of age\_size objects that are assigned to categories", "", true);
+  parameters_.Bind<string>(PARAM_AGE_SIZES, &age_size_labels_, "The labels of age\\_size objects that are assigned to categories", "", true);
 }
 
 /**
