@@ -32,10 +32,21 @@ public:
   // methods
   VectorAverage();
   virtual                     ~VectorAverage() = default;
+  Double                      GetScore() override final;
 
 protected:
   // methods
-  void                        DoValidate() override final { };
+  void                        DoValidate() override final;
+  void                        DoBuild()  override final;
+
+private:
+  // members
+  string                      parameter_ = "";
+  string                      method_ = "";
+  map<unsigned, Double>*      estimable_map_ = 0;
+  vector<Double>*             estimable_vector_ = 0;
+  Double                      multiplier_ = 0.0;
+  Double                      k_;
 };
 
 } /* namespace penalties */
