@@ -190,6 +190,7 @@
 #define PARAM_FILE_NAME                           "file_name"
 #define PARAM_FINAL_YEAR                          "final_year"
 #define PARAM_FLAGGED_PENALTIES                   "flagged_penalties"
+#define PARAM_FREE                                "free"
 #define PARAM_FROM                                "from"
 #define PARAM_FUNCTION                            "function"
 #define PARAM_GAMMADIFF                           "numerical_differences"
