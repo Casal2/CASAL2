@@ -279,7 +279,7 @@ void Model::Build() {
   simulates::Manager::Instance().Build();
   sizeweights::Manager::Instance().Build();
 
-  Partition::Instance().CalculateMeanWeights();
+//  Partition::Instance().CalculateMeanWeights();
 }
 
 /**

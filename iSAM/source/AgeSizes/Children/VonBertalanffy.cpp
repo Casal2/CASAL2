@@ -12,6 +12,7 @@
 #include "VonBertalanffy.h"
 
 #include "SizeWeights/Manager.h"
+#include "TimeSteps/Manager.h"
 
 // namespaces
 namespace isam {
@@ -62,11 +63,13 @@ void VonBertalanffy::DoBuild() {
  * @param age The age of the fish to return mean size for
  * @return the mean size for a single fish
  */
-Double VonBertalanffy::mean_size(unsigned year, unsigned age) const {
-  if ((-k_ * (age - t0_)) > 10)
+Double VonBertalanffy::mean_size(unsigned year, unsigned age) {
+  Double proportion = time_step_proportions_[timesteps::Manager::Instance().current_time_step()];
+
+  if ((-k_ * ((age + proportion) - t0_)) > 10)
     LOG_ERROR("Fatal error in age-size relationship: exp(-k*(age-t0)) is enormous. The k or t0 parameters are probably wrong.");
 
-  Double size = linf_ * (1 - exp(-k_ * (age - t0_)));
+  Double size = linf_ * (1 - exp(-k_ * ((age + proportion) - t0_)));
   if (size < 0.0)
     return 0.0;
 
@@ -79,7 +82,7 @@ Double VonBertalanffy::mean_size(unsigned year, unsigned age) const {
  * @param age The age of the fish to return the mean weight for
  * @return The mean weight of a single fish
  */
-Double VonBertalanffy::mean_weight(unsigned year, unsigned age) const {
+Double VonBertalanffy::mean_weight(unsigned year, unsigned age) {
   Double size = this->mean_size(year, age);
 
   Double mean_weight = 0.0;

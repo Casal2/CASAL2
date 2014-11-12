@@ -17,6 +17,7 @@
 
 #include "Model/Model.h"
 #include "SizeWeights/Manager.h"
+#include "TimeSteps/Manager.h"
 #include "Utilities/To.h"
 
 // namespaces
@@ -38,7 +39,6 @@ Data::Data() {
   parameters_.Bind<string>(PARAM_SIZE_WEIGHT, &size_weight_label_, "TBA", "");
   parameters_.Bind<double>(PARAM_CV, &cv_, "TBA", "", 0.0);
   parameters_.Bind<string>(PARAM_DISTRIBUTION, &distribution_, "TBA", "", PARAM_NORMAL);
-  parameters_.Bind<double>(PARAM_TIME_STEP_PROPORTIONS, &time_step_proportions_, "", "", true);
 }
 
 /**
@@ -242,16 +242,23 @@ void Data::FillInternalGaps() {
 /**
  *
  */
-Double Data::mean_size(unsigned year, unsigned age) const {
+Double Data::mean_size(unsigned year, unsigned age) {
   ModelPtr model = Model::Instance();
-  Double value = data_by_year_.find(year)->second[age - model->min_age()];
-  return value;
+  Double current_value = data_by_year_.find(year)->second[age - model->min_age()];
+
+  Double next_age      = current_value;
+  if ((age+1) - model->min_age() < data_by_year_.find(year)->second.size())
+    data_by_year_.find(year)->second[(age+1) - model->min_age()];
+
+  Double proportion = time_step_proportions_[timesteps::Manager::Instance().current_time_step()];
+  current_value += (next_age - current_value) * proportion;
+  return current_value;
 }
 
 /**
  *
  */
-Double Data::mean_weight(unsigned year, unsigned age) const {
+Double Data::mean_weight(unsigned year, unsigned age) {
   Double size   = this->mean_size(year, age);
   return size_weight_->mean_weight(size, distribution_, cv_);
 }

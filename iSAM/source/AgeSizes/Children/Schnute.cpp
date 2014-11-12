@@ -10,6 +10,7 @@
 #include <cmath>
 
 #include "SizeWeights/Manager.h"
+#include "TimeSteps/Manager.h"
 
 namespace isam {
 namespace agesizes {
@@ -66,12 +67,14 @@ void Schnute::DoBuild() {
  * @param age The age of the fish to return mean size for
  * @return the mean size for a single fish
  */
-Double Schnute::mean_size(unsigned year, unsigned age) const {
+Double Schnute::mean_size(unsigned year, unsigned age) {
   Double temp = 0.0;
   Double size = 0.0;
 
+  Double proportion = time_step_proportions_[timesteps::Manager::Instance().current_time_step()];
+
   if (a_ != 0.0)
-    temp = (1 - exp( -a_ * (age - tau1_))) / (1 - exp(-a_ * (tau2_ - tau1_)));
+    temp = (1 - exp( -a_ * ((age + proportion) - tau1_))) / (1 - exp(-a_ * (tau2_ - tau1_)));
   else
     temp = (age - tau1_) / (tau2_ - tau1_);
 
@@ -92,7 +95,7 @@ Double Schnute::mean_size(unsigned year, unsigned age) const {
  * @param age The age of the fish to return the mean weight for
  * @return The mean weight of a single fish
  */
-Double Schnute::mean_weight(unsigned year, unsigned age) const {
+Double Schnute::mean_weight(unsigned year, unsigned age) {
   Double size   = this->mean_size(year, age);
   return size_weight_->mean_weight(size, distribution_, cv_);
 }

@@ -13,6 +13,7 @@
 // Headers
 #include "Partition.h"
 
+#include "AgeSizes/Factory.h"
 #include "Categories/Categories.h"
 #include "Model/Model.h"
 #include "Utilities/Logging/Logging.h"
@@ -59,8 +60,13 @@ void Partition::Build() {
     unsigned age_spread = (categories->max_age(category) - categories->min_age(category)) + 1;
     new_category.data_.resize(age_spread, 0.0);
 
-    for (unsigned year : model->years())
-      new_category.mean_weights_by_year_[year].resize(age_spread, 0.0);
+    if (categories->HasAgeSizes())
+      new_category.age_size_weight_ = categories->age_size(category);
+    else {
+      new_category.age_size_weight_ = agesizes::Factory::Create(PARAM_AGE_SIZE, PARAM_NONE);
+      if (!new_category.age_size_weight_)
+        LOG_CODE_ERROR("if (!new_category.age_size_weight_)");
+    }
 
     partition_[category] = new_category;
   }
@@ -79,23 +85,23 @@ void Partition::Reset() {
  * Calculate the mean weights for our categories based on the information generated
  * during the build steps of the AgeSize and SizeWeight objects
  */
-void Partition::CalculateMeanWeights() {
-  CategoriesPtr categories    = Categories::Instance();
-  vector<unsigned> years      = Model::Instance()->years();
-
-  if (categories->HasAgeSizes()) {
-    vector<string> category_names = categories->category_names();
-
-    for(string category : category_names) {
-      unsigned age_spread = (categories->max_age(category) - categories->min_age(category)) + 1;
-      AgeSizePtr age_size = categories->age_size(category);
-
-      for (unsigned i = 0; i < age_spread; ++i)
-        for (unsigned year: years)
-          partition_[category].mean_weights_by_year_[year][i] = age_size->mean_weight(year, i + partition_[category].min_age_);
-    }
-  }
-}
+//void Partition::CalculateMeanWeights() {
+//  CategoriesPtr categories    = Categories::Instance();
+//  vector<unsigned> years      = Model::Instance()->years();
+//
+//  if (categories->HasAgeSizes()) {
+//    vector<string> category_names = categories->category_names();
+//
+//    for(string category : category_names) {
+//      unsigned age_spread = (categories->max_age(category) - categories->min_age(category)) + 1;
+//      AgeSizePtr age_size = categories->age_size(category);
+//
+//      for (unsigned i = 0; i < age_spread; ++i)
+//        for (unsigned year: years)
+//          partition_[category].mean_weights_by_year_[year][i] = age_size->mean_weight(year, i + partition_[category].min_age_);
+//    }
+//  }
+//}
 
 /**
  *  This method will return a reference to one of our partition categories.

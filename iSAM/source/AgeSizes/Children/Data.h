@@ -33,8 +33,8 @@ public:
   void                        DoValidate() override final;
   void                        DoBuild() override final;
   void                        DoReset() override final {};
-  Double                      mean_size(unsigned year, unsigned age) const override final;
-  Double                      mean_weight(unsigned year, unsigned age) const override final;
+  Double                      mean_size(unsigned year, unsigned age) override final;
+  Double                      mean_weight(unsigned year, unsigned age) override final;
 
 private:
   // methods
@@ -51,7 +51,6 @@ private:
   string                        distribution_;
   string                        size_weight_label_;
   SizeWeightPtr                 size_weight_;
-  vector<Double>                time_step_proportions_;
 };
 
 } /* namespace agesizes */

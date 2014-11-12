@@ -28,10 +28,13 @@ public:
   void                        Validate() override final;
   void                        Build() override final;
   void                        Execute(unsigned year);
+  void                        ExecuteInitialisation(const string& phase_label, unsigned years);
   TimeStepPtr                 GetTimeStep(const string& label) const;
   void                        RemoveAllObjects() override final { objects_.clear(); ordered_time_steps_.clear(); derived_quantities_.clear(); }
   unsigned                    GetTimeStepIndex(const string& time_step_label) const;
   unsigned                    GetTimeStepIndexForProcess(const string& process_label) const;
+  unsigned                    GetTimeStepCountForProcess(const string& process_label) const;
+  vector<unsigned>            GetTimeStepIndexesForProcess(const string& process_label) const;
 
   // accessors
   const vector<TimeStepPtr>&  time_steps() const { return ordered_time_steps_; }

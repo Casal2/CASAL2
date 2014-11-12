@@ -33,11 +33,8 @@ public:
   void                        DoReset() override final { };
 
   // accessors
-  Double                      mean_size(unsigned year, unsigned age) const override final { return 1.0; }
-  Double                      mean_weight(unsigned year, unsigned age) const override final { return 1.0; }
-
-protected:
-  string                      size_weight_;
+  Double                      mean_size(unsigned year, unsigned age) override final { return 1.0; }
+  Double                      mean_weight(unsigned year, unsigned age) override final { return 1.0; }
 };
 
 } /* namespace agesizes */

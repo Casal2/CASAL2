@@ -22,6 +22,7 @@
 #include <vector>
 #include <string>
 
+#include "AgeSizes/AgeSize.h"
 #include "Utilities/Types.h"
 
 // Namespaces
@@ -45,7 +46,9 @@ struct Category {
   unsigned  max_age_;
   vector<unsigned>  years_;
   vector<Double>  data_;
-  map<unsigned, vector<Double>>  mean_weights_by_year_;
+  AgeSizePtr age_size_weight_ = AgeSizePtr();
+
+//  map<unsigned, vector<Double>>  mean_weights_by_year_;
 };
 } /* namespace partition */
 
@@ -60,7 +63,7 @@ public:
   void                        Validate();
   void                        Build();
   void                        Reset();
-  void                        CalculateMeanWeights();
+//  void                        CalculateMeanWeights();
   void                        Clear() { partition_.clear(); }
   void                        Debug();
 

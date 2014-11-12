@@ -56,8 +56,8 @@ TimeStepPtr Manager::GetTimeStep(const string& label) const {
 unsigned Manager::GetTimeStepIndex(const string& time_step_label) const {
   unsigned index = 9999;
 
-  for (index = 0; index < objects_.size(); ++index) {
-    if (objects_[index]->label() == time_step_label)
+  for (index = 0; index < ordered_time_steps_.size(); ++index) {
+    if (ordered_time_steps_[index]->label() == time_step_label)
       return index;
   }
 
@@ -70,13 +70,27 @@ unsigned Manager::GetTimeStepIndex(const string& time_step_label) const {
 unsigned Manager::GetTimeStepIndexForProcess(const string& process_label) const {
   unsigned index = 9999;
 
-  for (index = 0; index < objects_.size(); ++index) {
-    const vector<string>& process_labels = objects_[index]->process_labels();
+  for (index = 0; index < ordered_time_steps_.size(); ++index) {
+    const vector<string>& process_labels = ordered_time_steps_[index]->process_labels();
     if (std::find(process_labels.begin(), process_labels.end(), process_label) != process_labels.end())
       return index;
   }
 
   LOG_ERROR("The process " << process_label << " could not be found in any of the time steps");
+}
+
+/**
+ *
+ */
+vector<unsigned> Manager::GetTimeStepIndexesForProcess(const string& process_label) const {
+  vector<unsigned> result;
+
+  for (unsigned index = 0; index < ordered_time_steps_.size(); ++index) {
+    if (ordered_time_steps_[index]->HasProcess(process_label))
+      result.push_back(index);
+  }
+
+  return result;
 }
 
 /**
@@ -123,9 +137,30 @@ void Manager::Execute(unsigned year) {
 
   reports::Manager& report_manager = reports::Manager::Instance();
   for (current_time_step_ = 0; current_time_step_ < ordered_time_steps_.size(); ++current_time_step_) {
+    LOG_INFO("Current Time Step: " <<  current_time_step_);
     ordered_time_steps_[current_time_step_]->Execute(year);
     report_manager.Execute(year, ordered_time_steps_[current_time_step_]->label());
   }
+
+  // reset this for age sizes
+  current_time_step_ = 0;
+}
+
+/**
+ * Execute all of the timesteps
+ * for the current year.
+ */
+void Manager::ExecuteInitialisation(const string& phase_label, unsigned years) {
+  LOG_TRACE();
+
+  for (unsigned i = 0; i < years; ++i) {
+    for (current_time_step_ = 0; current_time_step_ < ordered_time_steps_.size(); ++current_time_step_) {
+      ordered_time_steps_[current_time_step_]->ExecuteForInitialisation(phase_label);
+    }
+  }
+
+  // reset this for age sizes
+  current_time_step_ = 0;
 }
 
 } /* namespace timesteps */

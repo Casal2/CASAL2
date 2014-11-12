@@ -162,7 +162,7 @@ void Biomass::Execute() {
           final_value = temp * proportion_of_time_;
         }
 
-        expected_total += selectivity_result * final_value * (*category_iter)->mean_weights_by_year_[current_year][data_offset];
+        expected_total += selectivity_result * final_value * (*category_iter)->age_size_weight_->mean_weight(current_year, age);
       }
     }
 
