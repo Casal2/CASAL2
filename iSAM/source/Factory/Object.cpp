@@ -67,7 +67,7 @@ base::ObjectPtr Object::Create(string& object_type, string& sub_type) {
   else if (object_type == PARAM_ASSERT)
     result = asserts::Factory::Create(object_type, sub_type);
   else if (object_type == PARAM_CATCHABILITY)
-    result = catchabilities::Factory::Create();
+    result = catchabilities::Factory::Create(object_type, sub_type);
   else if (object_type == PARAM_CATEGORIES)
     result = Categories::Instance();
   else if (object_type == PARAM_DERIVED_QUANTITY || object_type == PARAM_DERIVED_QUANTITIES)

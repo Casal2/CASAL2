@@ -36,13 +36,10 @@ public:
   void                        Validate();
   void                        Build() { };
   void                        Reset() { };
+  virtual void                DoValidate() = 0;
 
   // Accessors
-  Double                      q() const { return q_; }
-
-private:
-  // Members
-  Double                      q_;
+  virtual Double              q() const = 0;
 };
 
 // Typdef

@@ -27,7 +27,15 @@ namespace catchabilities {
 /**
  * Class definition
  */
-class Factory : public isam::base::Factory<isam::Catchability, isam::catchabilities::Manager> { };
+class Factory {
+public:
+  // methods
+  static CatchabilityPtr Create(const string& object_type, const string& sub_type);
+
+private:
+  Factory() = delete;
+  ~Factory() = delete;
+};
 
 } /* namespace catchabilities */
 } /* namespace isam */
