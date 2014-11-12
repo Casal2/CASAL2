@@ -27,7 +27,7 @@ public:
   AgeSize();
   virtual                     ~AgeSize() { };
   void                        Validate();
-  void                        Build() { DoBuild(); };
+  void                        Build();
   void                        Reset() { DoReset(); };
 
   virtual void                DoValidate() = 0;
@@ -35,8 +35,12 @@ public:
   virtual void                DoReset() = 0;
 
   // accessors
-  virtual Double              mean_size(unsigned year, unsigned age) const = 0;
-  virtual Double              mean_weight(unsigned year, unsigned age) const = 0;
+  virtual Double              mean_size(unsigned year, unsigned age) = 0;
+  virtual Double              mean_weight(unsigned year, unsigned age) = 0;
+
+protected:
+  // members
+  vector<double>              time_step_proportions_;
 };
 
 // typedef

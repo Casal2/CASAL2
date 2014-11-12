@@ -99,11 +99,8 @@ void Iterative::DoBuild() {
  *
  */
 void Iterative::Execute() {
-  for (unsigned year = 0; year < years_; ++year) {
-    for (TimeStepPtr time_step : time_steps_) {
-      time_step->ExecuteForInitialisation(label_);
-    }
-  }
+  timesteps::Manager& time_step_manager = timesteps::Manager::Instance();
+  time_step_manager.ExecuteInitialisation(label_, years_);
 }
 
 

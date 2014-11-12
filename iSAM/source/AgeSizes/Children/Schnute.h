@@ -34,8 +34,8 @@ public:
   void                        DoReset() override final { };
 
   // accessors
-  Double                      mean_size(unsigned year, unsigned age) const override final;
-  Double                      mean_weight(unsigned year, unsigned age) const override final;
+  Double                      mean_size(unsigned year, unsigned age) override final;
+  Double                      mean_weight(unsigned year, unsigned age) override final;
 
 private:
   // members
