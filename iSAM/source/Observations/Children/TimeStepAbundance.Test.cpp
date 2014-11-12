@@ -71,7 +71,7 @@ TEST_F(BasicModel, Observation_Abundance) {
   time_step->parameters().Add(PARAM_PROCESSES, processes, __FILE__, __LINE__);
 
   // Catchability
-  isam::CatchabilityPtr catchability = catchabilities::Factory::Create();
+  isam::CatchabilityPtr catchability = catchabilities::Factory::Create(PARAM_CATCHABILITY, "");
   catchability->parameters().Add(PARAM_LABEL, "catchability", __FILE__, __LINE__);
   catchability->parameters().Add(PARAM_Q, "0.000153139", __FILE__, __LINE__);
 
