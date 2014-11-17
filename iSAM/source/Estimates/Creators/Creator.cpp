@@ -36,8 +36,8 @@ Creator::Creator() {
   parameters_.Bind<string>(PARAM_LABEL, &label_, "", "", "");
   parameters_.Bind<string>(PARAM_TYPE, &type_, "", "");
   parameters_.Bind<string>(PARAM_PARAMETER, &parameter_, "", "", "");
-  parameters_.Bind<double>(PARAM_LOWER_BOUND, &lower_bounds_, "", "");
-  parameters_.Bind<double>(PARAM_UPPER_BOUND, &upper_bounds_, "", "");
+  parameters_.Bind<Double>(PARAM_LOWER_BOUND, &lower_bounds_, "", "");
+  parameters_.Bind<Double>(PARAM_UPPER_BOUND, &upper_bounds_, "", "");
   parameters_.Bind<string>(PARAM_PRIOR, &prior_label_, "", "", "");
   parameters_.Bind<string>(PARAM_SAME, &same_labels_, "", "", "");
   parameters_.Bind<string>(PARAM_ESTIMATION_PHASE, &estimation_phase_, "", "", "");

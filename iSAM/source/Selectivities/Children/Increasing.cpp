@@ -33,8 +33,8 @@ Increasing::Increasing(ModelPtr model)
 : Selectivity(model) {
   parameters_.Bind<unsigned>(PARAM_L, &low_, "Low", "");
   parameters_.Bind<unsigned>(PARAM_H, &high_, "High", "");
-  parameters_.Bind<double>(PARAM_V, &v_, "V", "");
-  parameters_.Bind<double>(PARAM_ALPHA, &alpha_, "Alpha", "", 1.0);
+  parameters_.Bind<Double>(PARAM_V, &v_, "V", "");
+  parameters_.Bind<Double>(PARAM_ALPHA, &alpha_, "Alpha", "", 1.0);
 
   RegisterAsEstimable(PARAM_V, &v_);
 }

@@ -19,8 +19,8 @@ namespace sizeweights {
  * default constructor
  */
 Basic::Basic() {
-  parameters_.Bind<double>(PARAM_A, &a_, "A", "");
-  parameters_.Bind<double>(PARAM_B, &b_, "B", "");
+  parameters_.Bind<Double>(PARAM_A, &a_, "A", "");
+  parameters_.Bind<Double>(PARAM_B, &b_, "B", "");
 }
 
 /**
@@ -30,9 +30,9 @@ Basic::Basic() {
  */
 void Basic::DoValidate() {
   if (a_ <= 0.0)
-    LOG_ERROR(parameters_.location(PARAM_A) << " (" << a_ << ") cannot be less than or equal to 0.0");
+    LOG_ERROR(parameters_.location(PARAM_A) << " (" << AS_DOUBLE(a_) << ") cannot be less than or equal to 0.0");
   if (b_ <= 0.0)
-    LOG_ERROR(parameters_.location(PARAM_B) << " (" << b_ << ") cannot be less than or equal to 0.0");
+    LOG_ERROR(parameters_.location(PARAM_B) << " (" << AS_DOUBLE(b_) << ") cannot be less than or equal to 0.0");
 }
 
 /**

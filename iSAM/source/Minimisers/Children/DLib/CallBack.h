@@ -10,6 +10,7 @@
  *
  * << Add Description >>
  */
+#ifndef USE_AUTODIFF
 #ifndef CALLBACK_H_
 #define CALLBACK_H_
 
@@ -31,7 +32,7 @@ public:
   // methods
   Callback();
   virtual                     ~Callback() = default;
-  double                      operator()(const ::dlib::matrix<double, 0, 1>& Parameters) const;
+  Double                      operator()(const ::dlib::matrix<double, 0, 1>& Parameters) const;
 
 private:
   // members
@@ -42,3 +43,4 @@ private:
 } /* namespace minimisers */
 } /* namespace isam */
 #endif /* CALLBACK_H_ */
+#endif /* USE_AUTODIFF77

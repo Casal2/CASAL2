@@ -20,10 +20,10 @@ namespace additionalpriors {
  * Default constructor
  */
 Beta::Beta() {
-  parameters_.Bind<double>(PARAM_MU, &mu_, "Mu", "");
-  parameters_.Bind<double>(PARAM_SIGMA, &sigma_, "Sigma", "");
-  parameters_.Bind<double>(PARAM_A, &a_, "A", "");
-  parameters_.Bind<double>(PARAM_B, &b_, "B", "");
+  parameters_.Bind<Double>(PARAM_MU, &mu_, "Mu", "");
+  parameters_.Bind<Double>(PARAM_SIGMA, &sigma_, "Sigma", "");
+  parameters_.Bind<Double>(PARAM_A, &a_, "A", "");
+  parameters_.Bind<Double>(PARAM_B, &b_, "B", "");
 }
 
 /**

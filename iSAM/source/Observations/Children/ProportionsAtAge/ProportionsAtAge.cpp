@@ -88,12 +88,12 @@ void ProportionsAtAge::DoValidate() {
    */
   proportions_.resize(category_labels_.size());
   error_values_by_category_.resize(category_labels_.size());
-  double value = 0.0;
-  double total = 0.0;
+  Double value = 0.0;
+  Double total = 0.0;
   for (unsigned i = 0; i < category_labels_.size(); ++i) {
     for (unsigned j = 0; j < age_spread_; ++j) {
       unsigned obs_index = i * age_spread_ + j;
-      if (!utilities::To<double>(obs_[obs_index], value))
+      if (!utilities::To<Double>(obs_[obs_index], value))
         LOG_ERROR(parameters_.location(PARAM_OBS) << ": obs_ value (" << obs_[obs_index] << ") at index " << obs_index + 1
             << " in the definition could not be converted to a numeric double");
 

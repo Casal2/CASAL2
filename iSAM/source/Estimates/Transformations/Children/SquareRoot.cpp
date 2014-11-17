@@ -24,7 +24,7 @@ namespace transformations {
  * @return The transformed value
  */
 Double SquareRoot::Transform(Double initial_value) {
-  return ::sqrt(initial_value);
+  return sqrt(initial_value);
 }
 
 /**

@@ -25,7 +25,7 @@ namespace penalties {
 VectorSmoothing::VectorSmoothing() {
   parameters_.Bind<string>(PARAM_PARAMETER, &parameter_, "Label of the estimate to generate penalty on", "");
   parameters_.Bind<bool>(PARAM_LOG_SCALE, &log_scale_, "Log scale", "", false);
-  parameters_.Bind<double>(PARAM_MULTIPLIER, &multiplier_, "Multiplier for the penalty amount", "", 1);
+  parameters_.Bind<Double>(PARAM_MULTIPLIER, &multiplier_, "Multiplier for the penalty amount", "", 1);
   parameters_.Bind<unsigned>(PARAM_STEP_SIZE, &step_size_, "The element index to use", "", 3);
 }
 
@@ -104,7 +104,7 @@ Double VectorSmoothing::GetScore() {
 
   Double first_value = values[0];
   for (unsigned i = step_size_; i < values.size(); i += step_size_) {
-    score += abs(values[i] - first_value) * abs(values[i] - first_value);
+    score += fabs(values[i] - first_value) * fabs(values[i] - first_value);
     first_value = values[i];
   }
 

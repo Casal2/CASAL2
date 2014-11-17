@@ -28,8 +28,8 @@ Info::Info() {
   parameters_.Bind<string>(PARAM_LABEL, &label_, "Label", "");
   parameters_.Bind<string>(PARAM_TYPE, &type_, "Type", "");
   parameters_.Bind<string>(PARAM_PARAMETER, &parameter_, "The name of the variable to estimate in the model", "", "");
-  parameters_.Bind<double>(PARAM_LOWER_BOUND, &lower_bound_, "The lowest value the parameter is allowed to have", "");
-  parameters_.Bind<double>(PARAM_UPPER_BOUND, &upper_bound_, "The highest value the parameter is allowed to have", "");
+  parameters_.Bind<Double>(PARAM_LOWER_BOUND, &lower_bound_, "The lowest value the parameter is allowed to have", "");
+  parameters_.Bind<Double>(PARAM_UPPER_BOUND, &upper_bound_, "The highest value the parameter is allowed to have", "");
   parameters_.Bind<string>(PARAM_PRIOR, &prior_label_, "The name of the prior to use for the parameter", "", "");
   parameters_.Bind<string>(PARAM_SAME, &same_, "A list of parameters that are bound to the value of this estimate", "", "");
   parameters_.Bind<string>(PARAM_ESTIMATION_PHASE, &estimation_phase_, "TBA", "", "");

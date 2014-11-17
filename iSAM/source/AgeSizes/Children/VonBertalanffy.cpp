@@ -22,11 +22,11 @@ namespace agesizes {
  * default constructor
  */
 VonBertalanffy::VonBertalanffy() {
-  parameters_.Bind<double>(PARAM_LINF, &linf_, "TBA", "");
-  parameters_.Bind<double>(PARAM_K, &k_, "TBA", "");
-  parameters_.Bind<double>(PARAM_T0, &t0_, "TBA", "");
+  parameters_.Bind<Double>(PARAM_LINF, &linf_, "TBA", "");
+  parameters_.Bind<Double>(PARAM_K, &k_, "TBA", "");
+  parameters_.Bind<Double>(PARAM_T0, &t0_, "TBA", "");
   parameters_.Bind<string>(PARAM_SIZE_WEIGHT, &size_weight_label_, "TBA", "");
-  parameters_.Bind<double>(PARAM_CV, &cv_, "TBA", "", 0.0);
+  parameters_.Bind<Double>(PARAM_CV, &cv_, "TBA", "", 0.0);
   parameters_.Bind<string>(PARAM_DISTRIBUTION, &distribution_, "TBA", "", PARAM_NORMAL);
   parameters_.Bind<bool>(PARAM_BY_LENGTH, &by_length_, "TBA", "", true);
 

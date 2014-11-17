@@ -28,9 +28,9 @@ Biomass::Biomass() {
   parameters_.Bind<string>(PARAM_CATCHABILITY, &catchability_label_, "TBA", "");
   parameters_.Bind<string>(PARAM_OBS, &obs_, "Observation values", "");
   parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "Years to execute in", "");
-  parameters_.Bind<double>(PARAM_ERROR_VALUE, &error_values_, "The error values to use against the observation values", "");
-  parameters_.Bind<double>(PARAM_DELTA, &delta_, "Delta value for error values", "", 1e-10);
-  parameters_.Bind<double>(PARAM_PROCESS_ERROR, &process_error_, "Process error", "", 0.0);
+  parameters_.Bind<Double>(PARAM_ERROR_VALUE, &error_values_, "The error values to use against the observation values", "");
+  parameters_.Bind<Double>(PARAM_DELTA, &delta_, "Delta value for error values", "", 1e-10);
+  parameters_.Bind<Double>(PARAM_PROCESS_ERROR, &process_error_, "Process error", "", 0.0);
 
 }
 
@@ -62,12 +62,12 @@ void Biomass::DoValidate() {
 
   error_values_by_year_ = utils::MapCreate(years_, error_values_);
 
-  double value = 0.0;
+  Double value = 0.0;
   for (unsigned i = 0; i < years_.size(); ++i) {
     for (unsigned j = 0; j < category_labels_.size(); ++j) {
       unsigned index = (i * category_labels_.size()) + j;
 
-      if (!utils::To<double>(obs[index], value))
+      if (!utils::To<Double>(obs[index], value))
             LOG_ERROR(parameters_.location(PARAM_OBS) << ": obs value " << obs[index] << " cannot be converted to a double");
           if (value <= 0.0)
             LOG_ERROR(parameters_.location(PARAM_OBS) << ": obs value " << value << " cannot be less than or equal to 0.0");

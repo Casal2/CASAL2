@@ -44,17 +44,17 @@ public:
   // accessors
   string                      parameter() const { return parameter_; }
   unsigned                    steps() const { return steps_; }
-  double                      value() const { return *target_; }
+  Double                      value() const { return *target_; }
 
 private:
   // members
   unsigned                    steps_;
-  double                      lower_bound_;
-  double                      upper_bound_;
+  Double                      lower_bound_;
+  Double                      upper_bound_;
   string                      parameter_;
-  double                      step_size_;
-  double*                     target_;
-  double                      original_value_;
+  Double                      step_size_;
+  Double*                     target_;
+  Double                      original_value_;
 };
 
 /**

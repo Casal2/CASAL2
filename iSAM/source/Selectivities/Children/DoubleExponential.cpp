@@ -31,13 +31,13 @@ DoubleExponential::DoubleExponential()
  */
 DoubleExponential::DoubleExponential(ModelPtr model)
 : Selectivity(model) {
-  parameters_.Bind<double>(PARAM_X0, &x0_, "X0", "");
-  parameters_.Bind<double>(PARAM_X1, &x1_, "X1", "");
-  parameters_.Bind<double>(PARAM_X2, &x2_, "X2", "");
-  parameters_.Bind<double>(PARAM_Y0, &y0_, "Y0", "");
-  parameters_.Bind<double>(PARAM_Y1, &y1_, "Y1", "");
-  parameters_.Bind<double>(PARAM_Y2, &y2_, "Y2", "");
-  parameters_.Bind<double>(PARAM_ALPHA, &alpha_, "Alpha", "", 1.0);
+  parameters_.Bind<Double>(PARAM_X0, &x0_, "X0", "");
+  parameters_.Bind<Double>(PARAM_X1, &x1_, "X1", "");
+  parameters_.Bind<Double>(PARAM_X2, &x2_, "X2", "");
+  parameters_.Bind<Double>(PARAM_Y0, &y0_, "Y0", "");
+  parameters_.Bind<Double>(PARAM_Y1, &y1_, "Y1", "");
+  parameters_.Bind<Double>(PARAM_Y2, &y2_, "Y2", "");
+  parameters_.Bind<Double>(PARAM_ALPHA, &alpha_, "Alpha", "", 1.0);
 
   RegisterAsEstimable(PARAM_X0, &x0_);
   RegisterAsEstimable(PARAM_Y0, &y0_);
@@ -82,10 +82,10 @@ void DoubleExponential::DoValidate() {
  */
 void DoubleExponential::Reset() {
   for (unsigned age = model_->min_age(); age <= model_->max_age(); ++age) {
-    if ((double)age <= x0_)
-      values_[age] = alpha_ * y0_ * pow((y1_ / y0_), ((double)age - x0_)/(x1_ - x0_));
+    if ((Double)age <= x0_)
+      values_[age] = alpha_ * y0_ * pow((y1_ / y0_), ((Double)age - x0_)/(x1_ - x0_));
     else
-      values_[age] = alpha_ * y0_ * pow((y2_ / y0_), ((double)age - x0_)/(x1_ - x0_));
+      values_[age] = alpha_ * y0_ * pow((y2_ / y0_), ((Double)age - x0_)/(x1_ - x0_));
   }
 }
 

@@ -36,9 +36,9 @@ LogisticProducing::LogisticProducing(ModelPtr model)
 : Selectivity(model) {
   parameters_.Bind<unsigned>(PARAM_L, &low_, "Low", "");
   parameters_.Bind<unsigned>(PARAM_H, &high_, "High", "");
-  parameters_.Bind<double>(PARAM_A50, &a50_, "A50", "");
-  parameters_.Bind<double>(PARAM_ATO95, &aTo95_, "Ato95", "");
-  parameters_.Bind<double>(PARAM_ALPHA, &alpha_, "Alpha", "", 1.0);
+  parameters_.Bind<Double>(PARAM_A50, &a50_, "A50", "");
+  parameters_.Bind<Double>(PARAM_ATO95, &aTo95_, "Ato95", "");
+  parameters_.Bind<Double>(PARAM_ALPHA, &alpha_, "Alpha", "", 1.0);
 
   RegisterAsEstimable(PARAM_A50, &a50_);
   RegisterAsEstimable(PARAM_ATO95, &aTo95_);
@@ -76,12 +76,12 @@ void LogisticProducing::Reset() {
     else if (age >= high_)
       values_[age] = alpha_;
     else if (age == low_)
-      values_[age] = 1.0 / (1.0 + pow(19.0, (a50_ - (double)age) / aTo95_)) * alpha_;
+      values_[age] = 1.0 / (1.0 + pow(19.0, (a50_ - (Double)age) / aTo95_)) * alpha_;
     else {
-      Double lambda2 = 1.0 / (1.0 + pow(19.0, (a50_- ((double)age - 1)) / aTo95_));
+      Double lambda2 = 1.0 / (1.0 + pow(19.0, (a50_- ((Double)age - 1)) / aTo95_));
       if (lambda2 > 0.9999)
         values_[age] = alpha_;
-      Double lambda1 = 1.0 / (1.0 + pow(19.0, (a50_ - (double)age) / aTo95_));
+      Double lambda1 = 1.0 / (1.0 + pow(19.0, (a50_ - (Double)age) / aTo95_));
       values_[age] = (lambda1 - lambda2) / (1.0 - lambda2) * alpha_;
     }
   }

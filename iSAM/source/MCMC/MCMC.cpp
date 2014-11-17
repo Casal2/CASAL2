@@ -29,13 +29,13 @@ namespace dc = isam::utilities::doublecompare;
  * Constructor
  */
 MCMC::MCMC() {
-  parameters_.Bind<double>(PARAM_START, &start_, "TBA", "", 0.0);
+  parameters_.Bind<Double>(PARAM_START, &start_, "TBA", "", 0.0);
   parameters_.Bind<unsigned>(PARAM_LENGTH, &length_, "The number of chain links to create", "");
   parameters_.Bind<unsigned>(PARAM_KEEP, &keep_, "TBA", "", 1u);
-  parameters_.Bind<double>(PARAM_MAX_CORRELATION, &max_correlation_, "TBA", "", 0.8);
+  parameters_.Bind<Double>(PARAM_MAX_CORRELATION, &max_correlation_, "TBA", "", 0.8);
   parameters_.Bind<string>(PARAM_COVARIANCE_ADJUSTMENT_METHOD, &correlation_method_, "TBA", "", PARAM_COVARIANCE);
-  parameters_.Bind<double>(PARAM_CORRELATION_ADJUSTMENT_DIFF, &correlation_diff_, "TBA", "", 0.0001);
-  parameters_.Bind<double>(PARAM_STEP_SIZE, &step_size_, "TBA", "", 0.0);
+  parameters_.Bind<Double>(PARAM_CORRELATION_ADJUSTMENT_DIFF, &correlation_diff_, "TBA", "", 0.0001);
+  parameters_.Bind<Double>(PARAM_STEP_SIZE, &step_size_, "TBA", "", 0.0);
   parameters_.Bind<string>(PARAM_PROPOSAL_DISTRIBUTION, &proposal_distribution_, "TBA", "", PARAM_T);
   parameters_.Bind<unsigned>(PARAM_DF, &df_, "TBA", "", 4);
   parameters_.Bind<unsigned>(PARAM_ADAPT_STEPSIZE_AT, &adapt_step_size_, "TBA", "", true);
@@ -119,7 +119,7 @@ void MCMC::Build() {
     LOG_ERROR("While building the MCMC system the number of active estimates was 0. You need at least 1 non-fixed MCMC estimate");
 
   if (step_size_ == 0.0)
-    step_size_ = 2.4 * pow((double)active_estimates, -0.5);
+    step_size_ = 2.4 * pow((Double)active_estimates, -0.5);
 
 }
 
@@ -156,7 +156,7 @@ void MCMC::Execute() {
   Model::Instance()->FullIteration();
   ObjectiveFunction obj_function = ObjectiveFunction::Instance();
   obj_function.CalculateScore();
-  double score = AS_DOUBLE(obj_function.score());
+  Double score = AS_DOUBLE(obj_function.score());
 
   /**
    * Store first location
@@ -164,11 +164,11 @@ void MCMC::Execute() {
   {
     mcmc::ChainLink new_link;
     new_link.iteration_                     = 0;
-    new_link.penalty_                       = obj_function.penalties();
+    new_link.penalty_                       = AS_DOUBLE(obj_function.penalties());
     new_link.score_                         = AS_DOUBLE(obj_function.score());
-    new_link.prior_                         = obj_function.priors();
-    new_link.likelihood_                    = obj_function.likelihoods();
-    new_link.additional_priors_             = obj_function.additional_priors();
+    new_link.prior_                         = AS_DOUBLE(obj_function.priors());
+    new_link.likelihood_                    = AS_DOUBLE(obj_function.likelihoods());
+    new_link.additional_priors_             = AS_DOUBLE(obj_function.additional_priors());
     new_link.acceptance_rate_               = 0;
     new_link.acceptance_rate_since_adapt_   = 0;
     new_link.step_size_                     = step_size_;
@@ -184,7 +184,7 @@ void MCMC::Execute() {
   do {
     LOG_INFO("MCMC Starting");
 
-    vector<double> original_candidates = candidates_;
+    vector<Double> original_candidates = candidates_;
     UpdateStepSize();
     GenerateNewCandidates();
     for (unsigned i = 0; i < candidates_.size(); ++i)
@@ -193,9 +193,9 @@ void MCMC::Execute() {
     Model::Instance()->FullIteration();
     obj_function.CalculateScore();
 
-    double previous_score = score;
+    Double previous_score = score;
     score = AS_DOUBLE(obj_function.score());
-    double ratio = 1.0;
+    Double ratio = 1.0;
 
     if (score > previous_score)
       ratio = exp(-score + previous_score);
@@ -261,7 +261,7 @@ void MCMC::BuildCovarianceMatrix() {
   /**
    * Adjust any non-zero variances less than min_diff_ * difference between bounds
    */
-  vector<double> difference_bounds;
+  vector<Double> difference_bounds;
   vector<EstimatePtr> estimates = estimates::Manager::Instance().GetEnabled();
   for (EstimatePtr estimate : estimates) {
     difference_bounds.push_back( estimate->upper_bound() - estimate->lower_bound() );
@@ -270,7 +270,7 @@ void MCMC::BuildCovarianceMatrix() {
   for (unsigned i = 0; i < covariance_matrix_.size1(); ++i) {
     if (covariance_matrix_(i,i) < (correlation_diff_ * difference_bounds[i]) && covariance_matrix_(i,i) != 0) {
       if (correlation_method_ == PARAM_COVARIANCE) {
-        double multiply_covariance = (sqrt(correlation_diff_) * difference_bounds[i]) / sqrt(covariance_matrix_(i,i));
+        Double multiply_covariance = (sqrt(correlation_diff_) * difference_bounds[i]) / sqrt(covariance_matrix_(i,i));
         for (unsigned j = 0; j < covariance_matrix_.size1(); ++j) {
           covariance_matrix_(i,j) = covariance_matrix_(i,j) * multiply_covariance;
           covariance_matrix_(j,i) = covariance_matrix_(j,i) * multiply_covariance;
@@ -308,7 +308,7 @@ bool MCMC::DoCholeskyDecmposition() {
     if (covariance_matrix_(0,0) < 0)
       return false;
 
-    double sum = 0.0;
+    Double sum = 0.0;
 
     covariance_matrix_lt(0,0) = sqrt(covariance_matrix_(0,0));
 
@@ -346,7 +346,7 @@ bool MCMC::DoCholeskyDecmposition() {
  * Generate a set of random starting values for our estimates
  */
 void MCMC::GenerateRandomStart() {
-  vector<double> original_candidates = candidates_;
+  vector<Double> original_candidates = candidates_;
   vector<EstimatePtr> estimates = estimates::Manager::Instance().GetEnabled();
 
   unsigned attempts = 0;
@@ -377,16 +377,16 @@ void MCMC::GenerateRandomStart() {
 /**
  * Fill the candidates with an attempt using a multivariate normal
  */
-void MCMC::FillMultivariateNormal(double step_size) {
+void MCMC::FillMultivariateNormal(Double step_size) {
   utilities::RandomNumberGenerator& rng = utilities::RandomNumberGenerator::Instance();
 
-  vector<double>  normals(estimate_count_, 0.0);
+  vector<Double>  normals(estimate_count_, 0.0);
   for (unsigned i = 0; i < estimate_count_; ++i) {
     normals[i] = rng.normal();
   }
 
   for (unsigned i = 0; i < estimate_count_; ++i) {
-    double row_sum = 0.0;
+    Double row_sum = 0.0;
     for (unsigned j = 0; j < estimate_count_; ++j) {
       row_sum += covariance_matrix_lt(i, j) * normals[j];
     }
@@ -399,18 +399,18 @@ void MCMC::FillMultivariateNormal(double step_size) {
 /**
  * Fill candidates with an attempt using a multivariate
  */
-void MCMC::FillMultivariateT(double step_size) {
+void MCMC::FillMultivariateT(Double step_size) {
   utilities::RandomNumberGenerator& rng = utilities::RandomNumberGenerator::Instance();
 
-  vector<double>  normals(estimate_count_, 0.0);
-  vector<double>  chisquares(estimate_count_, 0.0);
+  vector<Double>  normals(estimate_count_, 0.0);
+  vector<Double>  chisquares(estimate_count_, 0.0);
   for (unsigned i = 0; i < estimate_count_; ++i) {
     normals[i] = rng.normal();
     chisquares[i] = 1 / (rng.chi_square(df_) / df_);
   }
 
   for (unsigned i = 0; i < estimate_count_; ++i) {
-    double row_sum = 0.0;
+    Double row_sum = 0.0;
     for (unsigned j = 0; j < estimate_count_; ++j) {
       row_sum += covariance_matrix_lt(i, j) * normals[j] * chisquares[j];
     }
@@ -431,7 +431,7 @@ void MCMC::UpdateStepSize() {
     if (std::find(adapt_step_size_.begin(), adapt_step_size_.end(), successful_jumps_) == adapt_step_size_.end())
       return;
 
-    step_size_ *= ((double)successful_jumps_since_adapt_ / (double)jumps_since_adapt_) * 4.166667;
+    step_size_ *= ((Double)successful_jumps_since_adapt_ / (Double)jumps_since_adapt_) * 4.166667;
     step_size_ = AS_DOUBLE(dc::ZeroFun(step_size_, 1e-10));
     jumps_since_adapt_ = 0;
     successful_jumps_since_adapt_ = 0;
@@ -442,7 +442,7 @@ void MCMC::UpdateStepSize() {
  * Generate some new estimate candiddates
  */
 void MCMC::GenerateNewCandidates() {
-  vector<double> original_candidates = candidates_;
+  vector<Double> original_candidates = candidates_;
 
   unsigned attempts = 0;
   bool candidates_ok = false;

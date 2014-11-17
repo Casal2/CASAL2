@@ -56,8 +56,8 @@ public:
   estimates::EstimateInfoPtr  parent_info() const { return parent_info_; }
   void                        set_target(Double* new_target) { target_ = new_target; };
   string                      parameter() const { return parameter_; }
-  double                      lower_bound() const { return lower_bound_; }
-  double                      upper_bound() const { return upper_bound_; }
+  Double                      lower_bound() const { return lower_bound_; }
+  Double                      upper_bound() const { return upper_bound_; }
   bool                        enabled() const { return enabled_; }
   void                        set_enabled(bool new_value) { enabled_ = new_value; }
   Double                      value() { return *target_; }
@@ -68,8 +68,8 @@ protected:
   // Members
   Double*                     target_ = 0;
   string                      parameter_;
-  double                      lower_bound_;
-  double                      upper_bound_;
+  Double                      lower_bound_;
+  Double                      upper_bound_;
   bool                        mcmc_fixed_;
   string                      prior_label_;
   unsigned                    estimation_phase_;

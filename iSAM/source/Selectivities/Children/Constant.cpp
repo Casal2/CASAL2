@@ -16,7 +16,7 @@ namespace selectivities {
 Constant::Constant()
 : Selectivity(Model::Instance()) {
 
-  parameters_.Bind<double>(PARAM_C, &c_, "C", "");
+  parameters_.Bind<Double>(PARAM_C, &c_, "C", "");
 
   RegisterAsEstimable(PARAM_C, &c_);
 }

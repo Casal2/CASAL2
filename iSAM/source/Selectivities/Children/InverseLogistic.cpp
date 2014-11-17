@@ -34,9 +34,9 @@ InverseLogistic::InverseLogistic()
  */
 InverseLogistic::InverseLogistic(ModelPtr model)
 : Selectivity(model) {
-  parameters_.Bind<double>(PARAM_A50, &a50_, "A50", "");
-  parameters_.Bind<double>(PARAM_ATO95, &aTo95_, "aTo95", "");
-  parameters_.Bind<double>(PARAM_ALPHA, &alpha_, "Alpha", "", 1.0);
+  parameters_.Bind<Double>(PARAM_A50, &a50_, "A50", "");
+  parameters_.Bind<Double>(PARAM_ATO95, &aTo95_, "aTo95", "");
+  parameters_.Bind<Double>(PARAM_ALPHA, &alpha_, "Alpha", "", 1.0);
 
   RegisterAsEstimable(PARAM_A50, &a50_);
   RegisterAsEstimable(PARAM_ATO95, &aTo95_);
@@ -70,7 +70,7 @@ void InverseLogistic::Reset() {
   Double threshold = 0.0;
 
   for (unsigned age = model_->min_age(); age <= model_->max_age(); ++age) {
-	  Double temp = (double)age;
+	  Double temp = (Double)age;
     threshold = (Double)(a50_ - temp) / aTo95_;
 
     if (threshold > 5.0)

@@ -21,8 +21,8 @@
 #include <memory>
 #include <cxxabi.h>
 
-#ifdef USE_BETADIFF
-#include <adouble.h>
+#ifdef USE_ADOLC
+#include <adolc/adouble.h>
 #endif
 
 #ifdef USE_CPPAD
@@ -36,9 +36,9 @@ namespace utilities {
 /**
  * double conditional depending on if we're using auto differentiation or not
  */
-#ifdef USE_BETADIFF
+#ifdef USE_ADOLC
 typedef adouble Double;
-#define AS_DOUBLE(x) value(x)
+#define AS_DOUBLE(x) x.value()
 #endif
 
 #ifdef USE_CPPAD
@@ -49,7 +49,7 @@ typedef CPPAD_TESTVECTOR(AD<double>) vector<Double>;
 
 #ifndef USE_AUTODIFF
 #ifdef Double
-#error "Compiler flags are incorrect. USE_AUTODIFF has not been defined, but an auto-differation system has been"
+#error "Compiler flags are incorrect. USE_AUTODIFF has not been defined, but an auto-differentiation system has been"
 #endif
 
 #define AS_DOUBLE(x) x

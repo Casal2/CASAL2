@@ -33,10 +33,10 @@ DoubleNormal::DoubleNormal()
  */
 DoubleNormal::DoubleNormal(ModelPtr model)
 : Selectivity(model) {
-  parameters_.Bind<double>(PARAM_MU, &mu_, "Mu", "");
-  parameters_.Bind<double>(PARAM_SIGMA_L, &sigma_l_, "Sigma L", "");
-  parameters_.Bind<double>(PARAM_SIGMA_R, &sigma_r_, "Sigma R", "");
-  parameters_.Bind<double>(PARAM_ALPHA, &alpha_, "Alpha", "", 1.0);
+  parameters_.Bind<Double>(PARAM_MU, &mu_, "Mu", "");
+  parameters_.Bind<Double>(PARAM_SIGMA_L, &sigma_l_, "Sigma L", "");
+  parameters_.Bind<Double>(PARAM_SIGMA_R, &sigma_r_, "Sigma R", "");
+  parameters_.Bind<Double>(PARAM_ALPHA, &alpha_, "Alpha", "", 1.0);
 
   RegisterAsEstimable(PARAM_MU, &mu_);
   RegisterAsEstimable(PARAM_SIGMA_L, &sigma_l_);
@@ -71,7 +71,7 @@ void DoubleNormal::DoValidate() {
  */
 void DoubleNormal::Reset() {
   for (unsigned age = model_->min_age(); age <= model_->max_age(); ++age) {
-	  Double temp = (double)age;
+	  Double temp = (Double)age;
     if (temp < mu_)
       values_[age] = pow(2.0, -((temp - mu_) / sigma_l_ * (temp - mu_) / sigma_l_)) * alpha_;
     else

@@ -46,8 +46,8 @@ public:
 private:
   // Members
   string                      parameter_;
-  double                      lower_bound_;
-  double                      upper_bound_;
+  Double                      lower_bound_;
+  Double                      upper_bound_;
   string                      prior_label_;
   string                      same_;
   string                      estimation_phase_;

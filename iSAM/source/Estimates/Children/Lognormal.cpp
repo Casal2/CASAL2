@@ -14,8 +14,8 @@ namespace estimates {
  * Default constructor
  */
 Lognormal::Lognormal() {
-  parameters_.Bind<double>(PARAM_MU, &mu_, "Mu", "");
-  parameters_.Bind<double>(PARAM_CV, &cv_, "Cv", "");
+  parameters_.Bind<Double>(PARAM_MU, &mu_, "Mu", "");
+  parameters_.Bind<Double>(PARAM_CV, &cv_, "Cv", "");
 }
 
 /**

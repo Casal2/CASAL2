@@ -48,7 +48,7 @@ private:
   // Members
   vector<string>              category_names_;
   vector<unsigned>            years_;
-  vector<double>              catches_;
+  vector<Double>              catches_;
   map<unsigned, Double>       catch_years_;
   Double                      u_max_;
   vector<string>              selectivity_names_;

@@ -31,7 +31,7 @@ AllValues::AllValues()
   AllValues::AllValues(ModelPtr model)
 : Selectivity(model) {
 
-  parameters_.Bind<double>(PARAM_V, &v_, "V", "");
+  parameters_.Bind<Double>(PARAM_V, &v_, "V", "");
 
   RegisterAsEstimable(PARAM_V, &v_);
 }

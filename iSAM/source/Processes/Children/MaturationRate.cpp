@@ -28,7 +28,7 @@ MaturationRate::MaturationRate() {
 
   parameters_.Bind<string>(PARAM_FROM, &from_category_names_, "From", "");
   parameters_.Bind<string>(PARAM_TO, &to_category_names_, "To", "");
-  parameters_.Bind<double>(PARAM_PROPORTIONS, &proportions_, "Proportions", "");
+  parameters_.Bind<Double>(PARAM_PROPORTIONS, &proportions_, "Proportions", "");
   parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_names_, "Selectivity names", "");
 
   RegisterAsEstimable(PARAM_PROPORTIONS, &proportions_by_category_);

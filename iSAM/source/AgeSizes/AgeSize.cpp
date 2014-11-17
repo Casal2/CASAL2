@@ -24,7 +24,7 @@ namespace isam {
 AgeSize::AgeSize() {
   parameters_.Bind<string>(PARAM_LABEL, &label_, "Label", "");
   parameters_.Bind<string>(PARAM_TYPE, &type_, "Type", "");
-  parameters_.Bind<double>(PARAM_TIME_STEP_PROPORTIONS, &time_step_proportions_, "", "", true);
+  parameters_.Bind<Double>(PARAM_TIME_STEP_PROPORTIONS, &time_step_proportions_, "", "", true);
 }
 
 /**

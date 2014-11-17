@@ -29,7 +29,7 @@ Ageing::Ageing() {
   LOG_TRACE();
 
   parameters_.Bind<string>(PARAM_CATEGORIES, &category_names_, "Categories", "");
-  parameters_.Bind<double>(PARAM_TIME_STEP_PROPORTIONS, &time_step_proportions_, "Proportion to age per time step", "", true);
+  parameters_.Bind<Double>(PARAM_TIME_STEP_PROPORTIONS, &time_step_proportions_, "Proportion to age per time step", "", true);
 }
 
 /**
