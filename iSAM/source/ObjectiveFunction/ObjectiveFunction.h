@@ -60,18 +60,18 @@ public:
   // Accessors
   const vector<objective::Score>& score_list() const { return score_list_; }
   Double                          score() const { return score_; }
-  double                          penalties() const { return penalties_; }
-  double                          priors() const { return priors_; }
-  double                          likelihoods() const { return likelihoods_; }
-  double                          additional_priors() const { return additional_priors_; }
+  Double                          penalties() const { return penalties_; }
+  Double                          priors() const { return priors_; }
+  Double                          likelihoods() const { return likelihoods_; }
+  Double                          additional_priors() const { return additional_priors_; }
 
 private:
   // Members
   Double                      score_        = 0.0;
-  double                      penalties_    = 0.0;
-  double                      priors_       = 0.0;
-  double                      likelihoods_  = 0.0;
-  double                      additional_priors_ = 0.0;
+  Double                      penalties_    = 0.0;
+  Double                      priors_       = 0.0;
+  Double                      likelihoods_  = 0.0;
+  Double                      additional_priors_ = 0.0;
   vector<objective::Score>    score_list_;
 };
 

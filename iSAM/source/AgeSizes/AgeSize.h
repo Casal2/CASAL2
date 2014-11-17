@@ -40,7 +40,7 @@ public:
 
 protected:
   // members
-  vector<double>              time_step_proportions_;
+  vector<Double>              time_step_proportions_;
 };
 
 // typedef

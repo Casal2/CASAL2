@@ -126,7 +126,7 @@ void LogNormal::SimulateObserved(map<unsigned, vector<observations::Comparison> 
   for (; iterator != comparisons.end(); ++iterator) {
     LOG_INFO("Simulating values for year: " << iterator->first);
 
-    map<string, double> totals;
+    map<string, Double> totals;
     for (observations::Comparison& comparison : iterator->second) {
       Double error_value = AdjustErrorValue(comparison.process_error_, comparison.error_value_);
 

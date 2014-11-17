@@ -34,9 +34,9 @@ Logistic::Logistic()
  */
 Logistic::Logistic(ModelPtr model)
 : Selectivity(model) {
-  parameters_.Bind<double>(PARAM_A50, &a50_, "A50", "");
-  parameters_.Bind<double>(PARAM_ATO95, &aTo95_, "Ato95", "");
-  parameters_.Bind<double>(PARAM_ALPHA, &alpha_, "Alpha", "", 1.0);
+  parameters_.Bind<Double>(PARAM_A50, &a50_, "A50", "");
+  parameters_.Bind<Double>(PARAM_ATO95, &aTo95_, "Ato95", "");
+  parameters_.Bind<Double>(PARAM_ALPHA, &alpha_, "Alpha", "", 1.0);
 
   RegisterAsEstimable(PARAM_A50, &a50_);
   RegisterAsEstimable(PARAM_ATO95, &aTo95_);
@@ -70,7 +70,7 @@ void Logistic::Reset() {
   Double threshold = 0.0;
 
   for (unsigned age = model_->min_age(); age <= model_->max_age(); ++age) {
-    threshold = (a50_ - (double)age) / aTo95_;
+    threshold = (a50_ - (Double)age) / aTo95_;
 
     if (threshold > 5.0)
       values_[age] = 0.0;

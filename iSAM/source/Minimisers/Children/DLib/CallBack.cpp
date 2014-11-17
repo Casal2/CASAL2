@@ -7,6 +7,7 @@
  * Copyright NIWA Science ©2014 - www.niwa.co.nz
  *
  */
+#ifndef USE_AUTODIFF
 
 // headers
 #include "CallBack.h"
@@ -30,7 +31,7 @@ Callback::Callback() {
 /**
  *
  */
-double Callback::operator()(const ::dlib::matrix<double, 0, 1>& Parameters) const {
+Double Callback::operator()(const ::dlib::matrix<double, 0, 1>& Parameters) const {
   // Update our Components with the New Parameters
   vector<EstimatePtr> estimates = estimates::Manager::Instance().GetEnabled();
 
@@ -40,7 +41,7 @@ double Callback::operator()(const ::dlib::matrix<double, 0, 1>& Parameters) cons
 
   double penalty = 0;
   for (int i = 0; i < Parameters.size(); ++i) {
-    double value = utilities::math::unScaleValue(Parameters(i), penalty, estimates[i]->lower_bound(), estimates[i]->upper_bound());
+    Double value = utilities::math::unScaleValue(Parameters(i), penalty, estimates[i]->lower_bound(), estimates[i]->upper_bound());
     estimates[i]->SetTransformedValue(value);
   }
 
@@ -55,3 +56,4 @@ double Callback::operator()(const ::dlib::matrix<double, 0, 1>& Parameters) cons
 } /* namespace dlib */
 } /* namespace minimisers */
 } /* namespace isam */
+#endif /* USE_AUTODIFF */

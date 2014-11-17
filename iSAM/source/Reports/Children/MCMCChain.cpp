@@ -45,7 +45,7 @@ void MCMCChain::DoExecute() {
     cache_ << i << ": ";
     cache_ << chain[i].score_ << ": ";
 
-    for (double value : chain[i].values_)
+    for (Double value : chain[i].values_)
       cache_ << value << " ";
 
     cache_ << "\n";

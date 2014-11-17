@@ -107,7 +107,7 @@ void Normal::SimulateObserved(const vector<string> &keys, vector<Double> &observ
       continue;
     }
 
-    observed = rng.normal(AS_DOUBLE(expecteds[i]), AS_DOUBLE(expecteds[i] * error_value));
+    observed = rng.normal(AS_DOUBLE(expecteds[i]), AS_DOUBLE((expecteds[i] * error_value)));
     observeds.push_back(observed);
   }
 }
@@ -130,7 +130,7 @@ void Normal::SimulateObserved(map<unsigned, vector<observations::Comparison> >& 
       if (comparison.expected_ <= 0.0 || error_value <= 0.0)
         comparison.observed_ = 0.0;
       else
-        comparison.observed_ = rng.normal(AS_DOUBLE(comparison.expected_), AS_DOUBLE(comparison.expected_ * error_value));
+        comparison.observed_ = rng.normal(AS_DOUBLE(comparison.expected_), AS_DOUBLE((comparison.expected_ * error_value)));
     }
   }
 }

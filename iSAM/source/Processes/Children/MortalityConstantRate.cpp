@@ -35,8 +35,8 @@ MortalityConstantRate::MortalityConstantRate()
   is_mortality_process = true;
 
   parameters_.Bind<string>(PARAM_CATEGORIES, &category_names_, "List of categories", "");
-  parameters_.Bind<double>(PARAM_M, &m_, "Mortality rates", "");
-  parameters_.Bind<double>(PARAM_TIME_STEP_RATIO, &ratios_, "Time step ratios for M", "", true);
+  parameters_.Bind<Double>(PARAM_M, &m_, "Mortality rates", "");
+  parameters_.Bind<Double>(PARAM_TIME_STEP_RATIO, &ratios_, "Time step ratios for M", "", true);
   parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_names_, "Selectivities", "");
 
   RegisterAsEstimable(PARAM_M, &m_);
@@ -120,7 +120,9 @@ void MortalityConstantRate::DoBuild() {
       LOG_ERROR(parameters_.location(PARAM_TIME_STEP_RATIO) << " length (" << ratios_.size()
           << ") does not match the number of time steps this process has been assigned too (" << time_step_count << ")");
 
-    Double sum = std::accumulate(ratios_.begin(), ratios_.end(), 0);
+    Double sum = 0.0;
+    for (Double value : ratios_) // Blah. Cannot use std::accum because of ADOLC
+      sum += value;
     for (Double &value : ratios_)
       value = value / sum;
   }

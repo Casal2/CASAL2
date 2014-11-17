@@ -125,7 +125,7 @@ void LogNormalWithQ::SimulateObserved(map<unsigned, vector<observations::Compari
   Double error_value = 0.0;
   auto iterator = comparisons.begin();
 
-  map<string, double> totals;
+  map<string, Double> totals;
   for (; iterator != comparisons.end(); ++iterator) {
     LOG_INFO("Simulating values for year: " << iterator->first);
     for (observations::Comparison& comparison : iterator->second) {

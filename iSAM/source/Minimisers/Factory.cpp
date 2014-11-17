@@ -46,6 +46,8 @@ MinimiserPtr Factory::Create(const string& object_type, const string& sub_type) 
     if (sub_type == PARAM_BETADIFF) {
       result = MinimiserPtr(new BetaDiff());
     }
+#elif defined(USE_ADOLC)
+
 #else
     if (sub_type == PARAM_DE_SOLVER)
       result = MinimiserPtr(new DESolver());

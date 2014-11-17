@@ -21,8 +21,8 @@ namespace estimates {
  * Default constructor
  */
 NormalLog::NormalLog() {
-  parameters_.Bind<double>(PARAM_MU, &mu_, "Mu", "");
-  parameters_.Bind<double>(PARAM_SIGMA, &sigma_, "Sigma", "");
+  parameters_.Bind<Double>(PARAM_MU, &mu_, "Mu", "");
+  parameters_.Bind<Double>(PARAM_SIGMA, &sigma_, "Sigma", "");
 }
 
 /**

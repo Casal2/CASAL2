@@ -20,8 +20,8 @@ namespace creators {
  * Default constructor
  */
 Normal::Normal() {
-  parameters_.Bind<double>(PARAM_MU, &mu_, "", "");
-  parameters_.Bind<double>(PARAM_CV, &cv_, "", "");
+  parameters_.Bind<Double>(PARAM_MU, &mu_, "", "");
+  parameters_.Bind<Double>(PARAM_CV, &cv_, "", "");
 }
 
 /**

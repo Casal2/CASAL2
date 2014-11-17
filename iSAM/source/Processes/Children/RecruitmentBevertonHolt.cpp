@@ -32,14 +32,14 @@ RecruitmentBevertonHolt::RecruitmentBevertonHolt() {
   LOG_TRACE();
 
   parameters_.Bind<string>(PARAM_CATEGORIES, &category_labels_, "Category labels", "");
-  parameters_.Bind<double>(PARAM_R0, &r0_, "R0", "");
-  parameters_.Bind<double>(PARAM_PROPORTIONS, &proportions_, "Proportions", "");
+  parameters_.Bind<Double>(PARAM_R0, &r0_, "R0", "");
+  parameters_.Bind<Double>(PARAM_PROPORTIONS, &proportions_, "Proportions", "");
   parameters_.Bind<unsigned>(PARAM_AGE, &age_, "Age to recruit at", "", true);
-  parameters_.Bind<double>(PARAM_STEEPNESS, &steepness_, "Steepness", "", 1.0);
+  parameters_.Bind<Double>(PARAM_STEEPNESS, &steepness_, "Steepness", "", 1.0);
   parameters_.Bind<string>(PARAM_SSB, &ssb_, "SSB Label (derived quantity)", "");
   parameters_.Bind<string>(PARAM_B0, &phase_b0_label_, "B0 Label", "", "");
   parameters_.Bind<unsigned>(PARAM_SSB_OFFSET, &ssb_offset_, "SSB Offset (year offset)", "");
-  parameters_.Bind<double>(PARAM_YCS_VALUES, &ycs_values_, "YCS Values", "");
+  parameters_.Bind<Double>(PARAM_YCS_VALUES, &ycs_values_, "YCS Values", "");
   parameters_.Bind<unsigned>(PARAM_STANDARDISE_YCS_YEARS, &standardise_ycs_, "", "", true);
 
   RegisterAsEstimable(PARAM_R0, &r0_);
@@ -74,7 +74,9 @@ void RecruitmentBevertonHolt::DoValidate() {
     LOG_ERROR(parameters_.location(PARAM_CATEGORIES) << " defined need 1 proportion defined per category. There are " << category_labels_.size()
         << " categories and " << proportions_.size() << " proportions defined.");
 
-  Double running_total = std::accumulate(proportions_.begin(), proportions_.end(), 0.0);
+  Double running_total = 0.0;
+  for (Double value : proportions_) // Again, ADOLC prevents std::accum
+    running_total += value;
   if (!dc::IsOne(running_total))
     LOG_ERROR(parameters_.location(PARAM_PROPORTIONS) << " sum total is " << running_total << " when it should be 1.0");
 
@@ -103,7 +105,7 @@ void RecruitmentBevertonHolt::DoValidate() {
   if (ycs_values_.size() != number_of_years)
     LOG_ERROR(parameters_.location(PARAM_YCS_VALUES) << " need to be defined for every year. Expected " << number_of_years << " but got " << ycs_values_.size());
 
-  for (double value : ycs_values_) {
+  for (Double value : ycs_values_) {
     if (value < 0.0)
       LOG_ERROR(parameters_.location(PARAM_YCS_VALUES) << " value " << value << " cannot be less than 0.0");
   }

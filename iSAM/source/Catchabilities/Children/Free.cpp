@@ -20,7 +20,7 @@ namespace catchabilities {
  * Default constructor
  */
 Free::Free() {
-  parameters_.Bind<double>(PARAM_Q, &q_, "The catchability amount", "");
+  parameters_.Bind<Double>(PARAM_Q, &q_, "The catchability amount", "");
 
   RegisterAsEstimable(PARAM_Q, &q_);
 }

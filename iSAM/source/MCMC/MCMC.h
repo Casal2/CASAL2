@@ -33,15 +33,15 @@ using boost::shared_ptr;
 namespace mcmc {
 struct ChainLink {
   unsigned        iteration_;
-  double          score_;
-  double          likelihood_;
-  double          prior_;
-  double          penalty_;
-  double          additional_priors_;
-  double          acceptance_rate_;
-  double          acceptance_rate_since_adapt_;
-  double          step_size_;
-  vector<double>  values_;
+  Double          score_;
+  Double          likelihood_;
+  Double          prior_;
+  Double          penalty_;
+  Double          additional_priors_;
+  Double          acceptance_rate_;
+  Double          acceptance_rate_since_adapt_;
+  Double          step_size_;
+  vector<Double>  values_;
 };
 }
 
@@ -66,13 +66,13 @@ private:
   void                        BuildCovarianceMatrix();
   bool                        DoCholeskyDecmposition();
   void                        GenerateRandomStart();
-  void                        FillMultivariateNormal(double step_size);
-  void                        FillMultivariateT(double step_size);
+  void                        FillMultivariateNormal(Double step_size);
+  void                        FillMultivariateT(Double step_size);
   void                        UpdateStepSize();
   void                        GenerateNewCandidates();
 
   // members
-  double                      start_;
+  Double                      start_;
   unsigned                    length_;
   unsigned                    keep_;
   unsigned                    estimate_count_;
@@ -81,16 +81,16 @@ private:
   unsigned                    jumps_since_adapt_;
   bool                        last_item_;
   unsigned                    successful_jumps_since_adapt_;
-  double                      max_correlation_;
+  Double                      max_correlation_;
   string                      correlation_method_;
-  double                      correlation_diff_;
-  double                      step_size_;
+  Double                      correlation_diff_;
+  Double                      step_size_;
   string                      proposal_distribution_;
   unsigned                    df_;
 //  ublas::matrix<double>       original_covariance_;
-  ublas::matrix<double>       covariance_matrix_;
-  ublas::matrix<double>       covariance_matrix_lt;
-  vector<double>              candidates_;
+  ublas::matrix<Double>       covariance_matrix_;
+  ublas::matrix<Double>       covariance_matrix_lt;
+  vector<Double>              candidates_;
   vector<bool>                is_enabled_estimate_;
   vector<mcmc::ChainLink>     chain_;
   vector<unsigned>            adapt_step_size_;

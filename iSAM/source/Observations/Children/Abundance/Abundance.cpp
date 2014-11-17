@@ -50,12 +50,12 @@ void Abundance::DoValidate() {
 
   error_values_by_year_ = utils::MapCreate(years_, error_values_);
 
-  double value = 0.0;
+  Double value = 0.0;
   for (unsigned i = 0; i < years_.size(); ++i) {
     for (unsigned j = 0; j < category_labels_.size(); ++j) {
       unsigned index = (i * category_labels_.size()) + j;
 
-      if (!utils::To<double>(obs[index], value))
+      if (!utils::To<Double>(obs[index], value))
             LOG_ERROR(parameters_.location(PARAM_OBS) << ": obs value " << obs[index] << " cannot be converted to a double");
           if (value <= 0.0)
             LOG_ERROR(parameters_.location(PARAM_OBS) << ": obs value " << value << " cannot be less than or equal to 0.0");

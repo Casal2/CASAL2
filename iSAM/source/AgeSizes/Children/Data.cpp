@@ -37,7 +37,7 @@ Data::Data() {
   parameters_.Bind<string>(PARAM_EXTERNAL_GAPS, &external_gaps_, "", "", PARAM_MEAN);
   parameters_.Bind<string>(PARAM_INTERNAL_GAPS, &internal_gaps_, "", "", PARAM_MEAN);
   parameters_.Bind<string>(PARAM_SIZE_WEIGHT, &size_weight_label_, "TBA", "");
-  parameters_.Bind<double>(PARAM_CV, &cv_, "TBA", "", 0.0);
+  parameters_.Bind<Double>(PARAM_CV, &cv_, "TBA", "", 0.0);
   parameters_.Bind<string>(PARAM_DISTRIBUTION, &distribution_, "TBA", "", PARAM_NORMAL);
 }
 

@@ -19,7 +19,7 @@ namespace projects {
  * Default constructor
  */
 Constant::Constant() {
-  parameters_.Bind<double>(PARAM_VALUE, &value_, "Value to assign to estimable", "");
+  parameters_.Bind<Double>(PARAM_VALUE, &value_, "Value to assign to estimable", "");
 }
 
 /**

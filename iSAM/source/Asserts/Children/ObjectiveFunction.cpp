@@ -22,7 +22,7 @@ namespace asserts {
  *
  */
 ObjectiveFunction::ObjectiveFunction() {
-  parameters_.Bind<double>(PARAM_VALUE, &value_, "Expected value of the objective function", "");
+  parameters_.Bind<Double>(PARAM_VALUE, &value_, "Expected value of the objective function", "");
 }
 
 /**

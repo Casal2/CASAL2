@@ -29,8 +29,8 @@ MortalityEventBiomass::MortalityEventBiomass() {
   parameters_.Bind<string>(PARAM_CATEGORIES, &category_labels_, "Category labels", "");
   parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_labels_, "Selectivity labels", "");
   parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "Years to apply mortality", "");
-  parameters_.Bind<double>(PARAM_CATCHES, &catches_, "Catches for each year", "");
-  parameters_.Bind<double>(PARAM_U_MAX, &u_max_, "U Max", "", 0.99);
+  parameters_.Bind<Double>(PARAM_CATCHES, &catches_, "Catches for each year", "");
+  parameters_.Bind<Double>(PARAM_U_MAX, &u_max_, "U Max", "", 0.99);
   parameters_.Bind<string>(PARAM_PENALTY, &penalty_label_, "Penalty label", "", "");
 
   RegisterAsEstimable(PARAM_U_MAX, &u_max_);

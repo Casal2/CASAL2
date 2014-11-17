@@ -18,14 +18,14 @@ namespace transformations {
  * @return The transformed value
  */
 Double Log::Transform(Double initial_value) {
-  return ::log(initial_value);
+  return log(initial_value);
 }
 
 /**
  *
  */
 Double Log::Untransform(Double initial_value) {
-  return ::exp(initial_value);
+  return exp(initial_value);
 }
 
 } /* namespace transformations */

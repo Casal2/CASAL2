@@ -21,14 +21,14 @@ using std::pow;
  *
  */
 Schnute::Schnute() {
-  parameters_.Bind<double>(PARAM_Y1, &y1_, "TBA", "");
-  parameters_.Bind<double>(PARAM_Y2, &y2_, "TBA", "");
-  parameters_.Bind<double>(PARAM_TAU1, &tau1_, "TBA", "");
-  parameters_.Bind<double>(PARAM_TAU2, &tau2_, "TBA", "");
-  parameters_.Bind<double>(PARAM_A, &a_, "TBA", "");
-  parameters_.Bind<double>(PARAM_B, &b_, "TBA", "");
+  parameters_.Bind<Double>(PARAM_Y1, &y1_, "TBA", "");
+  parameters_.Bind<Double>(PARAM_Y2, &y2_, "TBA", "");
+  parameters_.Bind<Double>(PARAM_TAU1, &tau1_, "TBA", "");
+  parameters_.Bind<Double>(PARAM_TAU2, &tau2_, "TBA", "");
+  parameters_.Bind<Double>(PARAM_A, &a_, "TBA", "");
+  parameters_.Bind<Double>(PARAM_B, &b_, "TBA", "");
   parameters_.Bind<string>(PARAM_SIZE_WEIGHT, &size_weight_label_, "TBA", "");
-  parameters_.Bind<double>(PARAM_CV, &cv_, "TBA", "", 0.0);
+  parameters_.Bind<Double>(PARAM_CV, &cv_, "TBA", "", 0.0);
   parameters_.Bind<string>(PARAM_DISTRIBUTION, &distribution_, "TBA", "", PARAM_NORMAL);
   parameters_.Bind<bool>(PARAM_BY_LENGTH, &by_length_, "TBA", "", true);
 

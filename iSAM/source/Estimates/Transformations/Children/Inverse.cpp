@@ -23,7 +23,9 @@ namespace transformations {
  * @return The transformed value
  */
 Double Inverse::Transform(Double initial_value) {
-  Double result = initial_value == 0 ? 0 : 1 / initial_value;
+  Double result = 0;
+  if (initial_value != 0)
+    result = 1 / initial_value;
   return result;
 }
 
@@ -31,7 +33,9 @@ Double Inverse::Transform(Double initial_value) {
  *
  */
 Double Inverse::Untransform(Double initial_value) {
-  Double result = initial_value == 0 ? 0 : 1 / initial_value;
+  Double result = 0;
+  if (initial_value != 0)
+    result = 1 / initial_value;
   return result;
 }
 

@@ -20,8 +20,8 @@ namespace creators {
  *
  */
 NormalLog::NormalLog() {
-  parameters_.Bind<double>(PARAM_MU, &mu_, "", "");
-  parameters_.Bind<double>(PARAM_SIGMA, &sigma_, "", "");
+  parameters_.Bind<Double>(PARAM_MU, &mu_, "", "");
+  parameters_.Bind<Double>(PARAM_SIGMA, &sigma_, "", "");
 }
 
 /**
