@@ -27,6 +27,7 @@ def print_usage():
   print 'Valid Build Types:'
   print '  debug - Build debug version'
   print '  release - Build release version'
+  print '  test - Build unit tests'
   print '  documentation - Build the user manual'
   print '  thirdparty - Build all required third party libraries'
   print '  all - Does clean, thirdparty, debug, release builds in order'
@@ -38,7 +39,7 @@ def print_usage():
   print '  <libary name> - Target third party library to build or rebuild'
   print ''
   print 'Valid Build parameters: (debug/release only)'
-  print '  admb - Use ADMB auto-differentiation in compiled executable'
+  print '  adolc - Use ADOLC auto-differentiation in compiled executable'
   return True
 
 
