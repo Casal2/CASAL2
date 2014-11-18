@@ -59,6 +59,7 @@ Minimiser::~Minimiser() {
  * Validate the parameters for this minimisers
  */
 void Minimiser::Validate() {
+  LOG_TRACE();
   parameters_.Populate();
 
   DoValidate();

@@ -4,6 +4,7 @@
  *  Created on: 20/05/2013
  *      Author: Admin
  */
+#ifdef USE_AUTODIFF
 #ifdef USE_BETADIFF
 #include "BetaDiff.h"
 
@@ -17,19 +18,9 @@ namespace isam {
 namespace minimisers {
 
 /**
- * Default constructor
+ * Objective Function
  */
-BetaDiff::BetaDiff() {
-}
-
-/**
- *
- */
-void BetaDiff::Validate() {}
-
-class MyModel {
-};
-
+class MyModel {};
 class MyObjective {
 public:
   Double operator()(const MyModel& model, const dvv& x_unbounded) {
@@ -52,6 +43,14 @@ public:
 
 
 /**
+ * Default constructor
+ */
+BetaDiff::BetaDiff() {
+  parameters_.Bind<int>(PARAM_MAX_ITERATIONS, &max_iterations_, "Maximum number of iterations", "", 1000);
+  parameters_.Bind<int>(PARAM_MAX_EVALUATIONS, &max_evaluations_, "Maximum number of evaluations", "", 4000);
+}
+
+/**
  *
  */
 void BetaDiff::Execute() {
@@ -71,8 +70,8 @@ void BetaDiff::Execute() {
     if (!estimate->enabled())
       continue;
 
-    lower_bounds[i] = estimate->lower_bound();
-    upper_bounds[i] = estimate->upper_bound();
+    lower_bounds[i] = AS_DOUBLE(estimate->lower_bound());
+    upper_bounds[i] = AS_DOUBLE(estimate->upper_bound());
     start_values[i] = AS_DOUBLE(estimate->GetTransformedValue());
 
 //    if (estimate->value() < estimate->lower_bound()) {
@@ -88,13 +87,11 @@ void BetaDiff::Execute() {
   MyObjective my_objective;
 
   int convergence = 0;
-  int iprint = 0;
-  int maxit = 1000;
-  int maxfn = 1000;
-
-  double score = optimise<MyModel, MyObjective>(my_model, my_objective, start_values, lower_bounds, upper_bounds, convergence, iprint, maxit, maxfn);
+  double score = optimise<MyModel, MyObjective>(my_model, my_objective, start_values, lower_bounds, upper_bounds, convergence, 0,
+      max_iterations_, max_evaluations_);
 }
 
 } /* namespace reports */
 } /* namespace isam */
 #endif /* USE_BETADIFF */
+#endif /* USE_AUTODIFF */

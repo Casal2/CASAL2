@@ -40,14 +40,14 @@ void DerivedQuantity::DoExecute() {
     for (unsigned i = 0; i < init_values.size(); ++i) {
       cache_ << "Init phase: " << i << " = ";
       for (unsigned j = 0; j < init_values[i].size(); ++j)
-        cache_ << init_values[i][j] << " ";
+        cache_ << AS_DOUBLE(init_values[i][j]) << " ";
       cache_ << "\n";
     }
 
     const map<unsigned, Double> values = dq->values();
     cache_ << "Values [Year = Value]:\n";
     for (auto iter = values.begin(); iter != values.end(); ++iter) {
-      cache_ << iter->first << " = " << iter->second << "\n";
+      cache_ << iter->first << " = " << AS_DOUBLE(iter->second) << "\n";
     }
 
     count++;

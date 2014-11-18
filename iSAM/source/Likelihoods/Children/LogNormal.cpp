@@ -54,14 +54,14 @@ void LogNormal::GetResult(vector<Double> &scores, const vector<Double> &expected
   Double error_value  = 0.0;
   Double sigma        = 0.0;
   Double score        = 0.0;
-
+  Double final_score  = 0.0;
   for (unsigned i = 0; i < expecteds.size(); ++i) {
     error_value = AdjustErrorValue(process_errors[i], error_values[i]);
     sigma       = sqrt(log(1 + error_value * error_value));
     score       = log(observeds[i] / dc::ZeroFun(expecteds[i], delta)) / sigma + 0.5 * sigma;
-    score       = log(sigma) + 0.5 * score * score;
+    final_score = log(sigma) + 0.5 * score * score; // extra var because ADOLC hates shit like this
 
-    scores.push_back(score);
+    scores.push_back(final_score);
   }
 }
 

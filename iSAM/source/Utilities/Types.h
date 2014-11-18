@@ -25,6 +25,10 @@
 #include <adolc/adouble.h>
 #endif
 
+#ifdef USE_BETADIFF
+#include <ADOLC18/SRC/adolc.h>
+#endif
+
 #ifdef USE_CPPAD
 #include <cppad/ipopt/solve.hpp>
 #endif
@@ -39,6 +43,11 @@ namespace utilities {
 #ifdef USE_ADOLC
 typedef adouble Double;
 #define AS_DOUBLE(x) x.value()
+#endif
+
+#ifdef USE_BETADIFF
+typedef adouble Double;
+#define AS_DOUBLE(x) x.toDouble()
 #endif
 
 #ifdef USE_CPPAD

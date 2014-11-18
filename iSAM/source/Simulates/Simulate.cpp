@@ -111,7 +111,7 @@ void Simulate::Update(unsigned current_year) {
  */
 void Simulate::RestoreOriginalValue() {
   LOG_TRACE();
-  LOG_INFO("Setting original value to: " << original_value_);
+  LOG_INFO("Setting original value to: " << AS_DOUBLE(original_value_));
   (this->*DoUpdateFunc_)(original_value_);
 }
 

@@ -11,6 +11,7 @@
  * This minimiser uses the BetaDiff library taken
  * from the CASAL
  */
+#ifdef USE_AUTODIFF
 #ifdef USE_BETADIFF
 #ifndef BETADIFF_H_
 #define BETADIFF_H_
@@ -33,11 +34,19 @@ public:
   // Methods
   BetaDiff();
   virtual                     ~BetaDiff() = default;
-  void                        Validate();
-  void                        Execute();
+  void                        DoValidate() override final { };
+  void                        DoBuild() override final { };
+  void                        DoReset() override final { };
+  void                        Execute() override final;
+
+private:
+  // Members
+  int                         max_iterations_;
+  int                         max_evaluations_;
 };
 
 } /* namespace reports */
 } /* namespace isam */
 #endif /* BETADIFF_H_ */
 #endif /* USE_BETADIFF */
+#endif /* USE_AUTODIFF */
