@@ -34,12 +34,13 @@ public:
   Bindable(const string& label, T* target, const string& description);
   virtual                     ~Bindable() = default;
   void                        Bind() override final;
-
+  void                        set_default_value(T value) { default_value_ = value; }
   string                      stored_type() const override final { return utilities::demangle(typeid(*target_).name()); }
 
 private:
   // members
   T*                          target_;
+  T                           default_value_;
 };
 
 } /* namespace parameters */

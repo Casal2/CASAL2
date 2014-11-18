@@ -51,9 +51,5 @@ void Parameter::AddValue(const string& value) {
   values_.push_back(value);
 }
 
-void Parameter::AddDefaultValue(const string& value) {
-  default_values_.push_back(value);
-}
-
 } /* namespace parameterlist */
 } /* namespace isam */

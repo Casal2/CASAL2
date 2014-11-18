@@ -58,7 +58,7 @@ inline Double LnFactorial(Double t) {
 // void Engine::condassign( double &res, const double &cond, const double &arg1, const double &arg2 ) {
 // Conditional Assignment
 //**********************************************************************
-inline void condAssign(Double &res, const Double &cond, const Double &arg1, const Double &arg2) {
+inline void cond_assign(Double &res, const Double &cond, const Double &arg1, const Double &arg2) {
   res = (cond) > 0 ? arg1 : arg2;
 }
 
@@ -66,7 +66,7 @@ inline void condAssign(Double &res, const Double &cond, const Double &arg1, cons
 // void Engine::condassign( double &res, const double &cond, const double &arg)
 // Conditional Assignment
 //**********************************************************************
-inline void condAssign(Double &res, const Double &cond, const Double &arg) {
+inline void cond_assign(Double &res, const Double &cond, const Double &arg) {
   res = (cond) > 0 ? arg : res;
 }
 
@@ -75,7 +75,7 @@ inline void condAssign(Double &res, const Double &cond, const Double &arg) {
  * Boundary Pin
  */
 
-inline Double scaleValue(Double value, Double min, Double max) {
+inline Double scale_value(Double value, Double min, Double max) {
   if (dc::IsEqual(value, min))
     return -1;
   else if (dc::IsEqual(value, max))
@@ -87,21 +87,20 @@ inline Double scaleValue(Double value, Double min, Double max) {
 /**
  *
  */
-inline Double unScaleValue(const Double& value, Double& penalty, Double min, Double max) {
+inline Double unscale_value(const Double& value, Double& penalty, Double min, Double max) {
   // courtesy of AUTODIF - modified to correct error -
   // penalty on values outside [-1,1] multiplied by 100 as of 14/1/02.
   Double t = 0.0;
   Double y = 0.0;
-  penalty = 0.0;
 
   t = min + (max - min) * (sin(value * 1.57079633) + 1) / 2;
-  condAssign(y, -.9999 - value, (value + .9999) * (value + .9999), 0);
+  cond_assign(y, -.9999 - value, (value + .9999) * (value + .9999), 0);
   penalty += y;
-  condAssign(y, value - .9999, (value - .9999) * (value - .9999), 0);
+  cond_assign(y, value - .9999, (value - .9999) * (value - .9999), 0);
   penalty += y;
-  condAssign(y, -1 - value, 1e5 * (value + 1) * (value + 1), 0);
+  cond_assign(y, -1 - value, 1e5 * (value + 1) * (value + 1), 0);
   penalty += y;
-  condAssign(y, value - 1, 1e5 * (value - 1) * (value - 1), 0);
+  cond_assign(y, value - 1, 1e5 * (value - 1) * (value - 1), 0);
   penalty += y;
 
   return (t);

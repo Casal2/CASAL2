@@ -9,6 +9,8 @@
  *
  * $Date: 2008-03-04 16:33:32 +1300 (Tue, 04 Mar 2008) $
  */
+#ifdef USE_AUTODIFF
+#ifdef USE_ADOLC
 // Headers
 #include "FMM.h"
 
@@ -18,7 +20,7 @@
 // namespaces
 namespace isam {
 namespace minimisers {
-namespace gammadiff {
+namespace adolc {
 
 using std::cerr;
 using std::endl;
@@ -504,6 +506,8 @@ FMM::~FMM() {
   delete [] pHessianConstruct;
 }
 
-} /* namespace gammadiff */
+} /* namespace adolc */
 } /* namespace minimisers */
 } /* namesapce isam */
+#endif /* USE_ADOLC */
+#endif /* USE_AUTODIFF */

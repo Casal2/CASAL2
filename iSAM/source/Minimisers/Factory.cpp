@@ -16,6 +16,9 @@
 #include "Minimisers/Manager.h"
 
 #ifdef USE_AUTODIFF
+#ifdef USE_ADOLC
+#include "Minimisers/Children/ADOLC.h"
+#endif
 #ifdef USE_BETADIFF
 #include "Minimisers/Children/BetaDiff.h"
 #endif
@@ -47,7 +50,9 @@ MinimiserPtr Factory::Create(const string& object_type, const string& sub_type) 
       result = MinimiserPtr(new BetaDiff());
     }
 #elif defined(USE_ADOLC)
-
+    if (sub_type == PARAM_ADOLC) {
+      result = MinimiserPtr(new ADOLC());
+    }
 #else
     if (sub_type == PARAM_DE_SOLVER)
       result = MinimiserPtr(new DESolver());

@@ -94,6 +94,7 @@
 #define PARAM_ADDITIONAL_PRIOR                    "additional_prior"
 #define PARAM_ADJACENT_CELL_MOVEMENT              "adjacent_cell"
 #define PARAM_ADMB                                "admb"
+#define PARAM_ADOLC                               "adolc"
 #define PARAM_AGE                                 "age"
 #define PARAM_AGES                                "ages"
 #define PARAM_AGE_INDEX                           "age_index"

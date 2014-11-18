@@ -29,8 +29,8 @@ Biomass::Biomass() {
   parameters_.Bind<string>(PARAM_OBS, &obs_, "Observation values", "");
   parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "Years to execute in", "");
   parameters_.Bind<Double>(PARAM_ERROR_VALUE, &error_values_, "The error values to use against the observation values", "");
-  parameters_.Bind<Double>(PARAM_DELTA, &delta_, "Delta value for error values", "", 1e-10);
-  parameters_.Bind<Double>(PARAM_PROCESS_ERROR, &process_error_, "Process error", "", 0.0);
+  parameters_.Bind<Double>(PARAM_DELTA, &delta_, "Delta value for error values", "", Double(1e-10));
+  parameters_.Bind<Double>(PARAM_PROCESS_ERROR, &process_error_, "Process error", "", Double(0.0));
 
 }
 
