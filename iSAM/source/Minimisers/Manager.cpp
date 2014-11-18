@@ -32,6 +32,7 @@ Manager::~Manager() noexcept(true) {
  * Validate the minimisers
  */
 void Manager::Validate() {
+  LOG_TRACE();
   for (MinimiserPtr minimiser : objects_)
     minimiser->Validate();
 

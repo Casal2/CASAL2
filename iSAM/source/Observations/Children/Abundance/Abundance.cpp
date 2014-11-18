@@ -188,6 +188,9 @@ void Abundance::Execute() {
     likelihood_->GetResult(scores, expecteds, observeds, error_values,
         process_errors, delta_);
     for (unsigned index = 0; index < scores.size(); ++index) {
+      if (scores_.find(current_year) == scores_.end())
+        scores_[current_year] = 0.0;
+
       scores_[current_year] += scores[index];
       SaveComparison(keys[index], expecteds[index], observeds[index],
           process_errors[index], error_values[index], delta_, scores[index]);
