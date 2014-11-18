@@ -43,4 +43,4 @@ private:
 } /* namespace minimisers */
 } /* namespace isam */
 #endif /* CALLBACK_H_ */
-#endif /* USE_AUTODIFF77
+#endif /* USE_AUTODIFF */
