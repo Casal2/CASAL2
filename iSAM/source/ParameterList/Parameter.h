@@ -40,7 +40,6 @@ public:
   virtual                     ~Parameter() { };
   virtual void                Bind() = 0;
   void                        AddValue(const string& value);
-  void                        AddDefaultValue(const string& value);
   void                        Clear() { values_.clear(); }
 
   // Accessors
@@ -48,7 +47,6 @@ public:
   void                        set_values(const vector<string>& values) { values_.assign(values.begin(), values.end()); }
   void                        set_value(const string& value) { values_.clear(); values_.push_back(value); }
   const vector<string>&       values() const { return values_; }
-  const vector<string>&       default_values() const { return default_values_; }
   void                        set_file_name(const string& file_name) { file_name_ = file_name; }
   string                      file_name() const { return file_name_; }
   void                        set_line_number(const unsigned& line_number) { line_number_ = line_number; }
@@ -68,7 +66,6 @@ protected:
   // Members
   string                      label_ = "";
   string                      description_ = "";
-  vector<string>              default_values_;
   vector<string>              values_;
   string                      file_name_ = "";
   unsigned                    line_number_ = 0;

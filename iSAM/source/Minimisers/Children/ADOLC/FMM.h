@@ -13,15 +13,17 @@
  *
  * $Date: 2008-03-04 16:33:32 +1300 (Tue, 04 Mar 2008) $
  */
-#ifndef MINIMISERS_GAMMADIFF_FMM_H_
-#define MINIMISERS_GAMMADIFF_FMM_H_
+#ifdef USE_AUTODIFF
+#ifdef USE_ADOLC
+#ifndef MINIMISERS_ADOLC_FMM_H_
+#define MINIMISERS_ADOLC_FMM_H_
 
 #include <vector>
 
 // namespaces
 namespace isam {
 namespace minimisers {
-namespace gammadiff {
+namespace adolc {
 
 using std::vector;
 
@@ -87,8 +89,10 @@ private:
   //rellength,disc;
 };
 
-} /* namespace gammadiff */
+} /* namespace adolc */
 } /* namespace minimisers */
 } /* namesapce isam */
 
-#endif /* MINIMISERS_GAMMADIFF_FMM_H_ */
+#endif /* MINIMISERS_ADOLC_FMM_H_ */
+#endif /* USE_ADOLC */
+#endif /* USE_AUTODIFF */
