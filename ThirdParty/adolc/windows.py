@@ -40,10 +40,10 @@ class Builder:
     count = 0
     while not os.path.exists('home/Admin/ADOL-C-2.5.2/ADOL-C/.libs/libadolc.a'):
       count += 1
-      if count > 60:
+      if count > 600:
         print '-- Timeout exceeded while waiting for msys to compile ADOL-C'
         return False
-      if count % 6 == 0:
+      if count % 5 == 0:
         print '-- Waiting for msys compilation to finish'
       time.sleep(5);
    
