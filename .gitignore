@@ -44,3 +44,6 @@
 /Documentation/Manual/QuickReference.tex
 /Documentation/CASAL/CASAL_Source
 /ThirdParty/test-betadiff
+/ThirdParty/adolc/windows.pyc
+/ThirdParty/adolc/msys
+/ThirdParty/adolc/isam_unzip.log
