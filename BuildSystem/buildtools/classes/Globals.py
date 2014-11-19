@@ -15,9 +15,10 @@ target_success_path_     = ""
 target_include_path_     = ""
 target_debug_lib_path_   = ""
 target_release_lib_path_ = ""
+target_special_lig_path_ = ""
 
 allowed_build_types_ = [ "debug", "release", "test" ]
-allowed_build_parameters_ = [ "", "adolc" ]
+allowed_build_parameters_ = [ "", "adolc", "betadiff" ]
 
 def PrintError(error_message):
   print "\n\n\n"

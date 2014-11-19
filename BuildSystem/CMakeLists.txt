@@ -21,7 +21,11 @@ ENDIF ()
 # BUILD PARAMETERS
 IF (ADOLC)
  SET(COMPILE_OPTIONS "${COMPILE_OPTIONS} -DUSE_AUTODIFF -DUSE_ADOLC")
-ENDIF (ADOLC)
+ SET(specialLibraries "libadolc.a")
+ELSEIF(BETADIFF)
+ SET(COMPILE_OPTIONS "${COMPILE_OPTIONS} -DUSE_AUTODIFF -DUSE_BETADIFF")
+ SET(specialLibraries "libbetadiff.a")
+ENDIF ()
 
 # Set variables based on OS
 IF (WIN32)
@@ -37,6 +41,7 @@ ELSE (WIN32)
 ENDIF ()
 
 MESSAGE("COMPILE_OPTIONS: ${COMPILE_OPTIONS}")
+MESSAGE("SPECIAL_LIBRARIES: ${specialLibraries}")
 
 INCLUDE_DIRECTORIES("${ISAM_HOME_DIRECTORY}/source")
 INCLUDE_DIRECTORIES("${CMAKE_HOME_DIRECTORY}/bin/${buildOS}/thirdparty/include")
@@ -57,6 +62,7 @@ ELSE (RELEASE)
 ENDIF ()
 MESSAGE("Third Party Folder: ${thirdPartyFolder}")
 LINK_DIRECTORIES("${CMAKE_HOME_DIRECTORY}/${thirdPartyFolder}")
+LINK_DIRECTORIES("${CMAKE_HOME_DIRECTORY}/bin/${buildOS}/thirdparty/lib/special/")
 
 FILE(GLOB thirdPartyLibrariesRaw RELATIVE ${CMAKE_HOME_DIRECTORY} ${thirdPartyFolder}*.a)
 FOREACH(library ${thirdPartyLibrariesRaw})
@@ -64,6 +70,11 @@ FOREACH(library ${thirdPartyLibrariesRaw})
   SET(thirdPartyLibraries ${thirdPartyLibraries} -l:${shortLibrary})
 ENDFOREACH()
 
+FOREACH(library ${specialLibraries})
+SET(thirdPartyLibraries ${thirdPartyLibraries} -l:${library})
+ENDFOREACH()
+
+MESSAGE("Third party libraries: ${thirdPartyLibraries}")
 SET(LINK_OPTIONS " ")
 ADD_EXECUTABLE(${EXE_NAME} ${sourceFiles} )
 SET_TARGET_PROPERTIES(${EXE_NAME} PROPERTIES COMPILE_FLAGS ${COMPILE_OPTIONS} LINK_FLAGS ${LINK_OPTIONS})

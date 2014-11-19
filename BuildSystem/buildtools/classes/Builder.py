@@ -102,6 +102,7 @@ class ThirdPartyLibraries:
   lib_directory     = ""
   lib_debug_directory = ""
   lib_release_directory = ""
+  lib_special_directory = ""
   
   def start(self):
     print "--> Starting build of the third party libraries"
@@ -122,7 +123,7 @@ class ThirdPartyLibraries:
     if not os.path.exists(self.lib_directory):
       print "-- Creating lib directory: " + self.lib_directory
       os.makedirs(self.lib_directory)
-    
+      
     self.lib_debug_directory = self.lib_directory + "/debug"
     if not os.path.exists(self.lib_debug_directory):
       print "-- Creating lib debug directory: " + self.lib_debug_directory
@@ -132,6 +133,11 @@ class ThirdPartyLibraries:
     if not os.path.exists(self.lib_release_directory):
       print "-- Creating lib release directory: " + self.lib_release_directory
       os.makedirs(self.lib_release_directory)
+
+    self.lib_special_directory = self.lib_directory + "/special"
+    if not os.path.exists(self.lib_special_directory):
+      print "-- Creating lib release directory: " + self.lib_special_directory
+      os.makedirs(self.lib_special_directory)
       
     self.input_directory = "../ThirdParty/"
     third_party_list = os.listdir(self.input_directory)
@@ -140,6 +146,7 @@ class ThirdPartyLibraries:
     Globals.target_include_path_      = self.output_directory_ + '/include/'
     Globals.target_debug_lib_path_    = self.output_directory_ + '/lib/debug/'
     Globals.target_release_lib_path_  = self.output_directory_ + '/lib/release/'
+    Globals.target_special_lib_path_  = self.output_directory_ + '/lib/special/'
     
     cwd = os.path.normpath(os.getcwd())    
     build_module_name = "build"    
