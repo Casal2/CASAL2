@@ -20,6 +20,7 @@ class Builder:
     if os.path.exists(fileName):
       shutil.rmtree(fileName)
     print '-- Removing previously built headers and libraries'
+    os.system('rm -rf ' + Globals.target_include_path_ + "ADOLC18")
     os.system('rm -rf ' + Globals.target_include_path_ + header)
     os.system('rm -rf ' + Globals.target_debug_lib_path_ + library)
     os.system('rm -rf ' + Globals.target_release_lib_path_ + library)        
