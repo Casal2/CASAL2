@@ -23,8 +23,7 @@ class Builder:
 
     print '-- Removing previously built headers and libraries'
     os.system('rm -rf ' + Globals.target_include_path_ + headers)
-    os.system('rm -rf ' + Globals.target_debug_lib_path_ + library)
-    os.system('rm -rf ' + Globals.target_release_lib_path_ + library)
+    os.system('rm -rf ' + Globals.target_special_lib_path_ + library)
     
     # Decompress our archive
     print '-- Decompressing - check isam_unzip.log'
@@ -42,8 +41,7 @@ class Builder:
     print '-- Moving headers and libraries'
     os.chdir('ADOL-C/')
     dir_util.copy_tree('include/' + headers, Globals.target_include_path_ + '/adolc/')
-    shutil.copy('.libs/' + library, Globals.target_debug_lib_path_)
-    shutil.copy('.libs/' + library, Globals.target_release_lib_path_)
+    shutil.copy('.libs/' + library, Globals.target_special_lib_path_)
 
     return True
     
