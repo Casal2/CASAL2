@@ -136,7 +136,7 @@ class ThirdPartyLibraries:
 
     self.lib_special_directory = self.lib_directory + "/special"
     if not os.path.exists(self.lib_special_directory):
-      print "-- Creating lib release directory: " + self.lib_special_directory
+      print "-- Creating lib special directory: " + self.lib_special_directory
       os.makedirs(self.lib_special_directory)
       
     self.input_directory = "../ThirdParty/"
