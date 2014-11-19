@@ -18,15 +18,6 @@ ELSEIF (TEST)
  SET(COMPILE_OPTIONS "-DTESTMODE -O0 -g3 -Wall -Werror -fmessage-length=0 -DBOOST_THREAD_USE_LIB=1 -Wno-unused-local-typedefs")
 ENDIF ()
 
-# BUILD PARAMETERS
-IF (ADOLC)
- SET(COMPILE_OPTIONS "${COMPILE_OPTIONS} -DUSE_AUTODIFF -DUSE_ADOLC")
- SET(specialLibraries "libadolc.a")
-ELSEIF(BETADIFF)
- SET(COMPILE_OPTIONS "${COMPILE_OPTIONS} -DUSE_AUTODIFF -DUSE_BETADIFF")
- SET(specialLibraries "libbetadiff.a")
-ENDIF ()
-
 # Set variables based on OS
 IF (WIN32)
  ## WINDOWS BUILD VARIABLES AND LIBRARIES
@@ -38,6 +29,20 @@ ELSE (WIN32)
  SET(buildOS linux)
  SET(COMPILE_OPTIONS "${COMPILE_OPTIONS} -std=c++11")
  SET(thirdPartyLibraries ${thirdPartyLibraries} pthread rt)
+ENDIF ()
+
+# BUILD PARAMETERS
+IF (ADOLC)
+ SET(COMPILE_OPTIONS "${COMPILE_OPTIONS} -DUSE_AUTODIFF -DUSE_ADOLC")
+ SET(specialLibraries "libadolc.a")
+ELSEIF(BETADIFF)
+ SET(COMPILE_OPTIONS "${COMPILE_OPTIONS} -DUSE_AUTODIFF -DUSE_BETADIFF")
+ SET(COMPILE_OPTIONS "${COMPILE_OPTIONS} -Wno-unused-local-typedefs -Wno-write-strings -Wno-unused-variable -Wno-unused-but-set-variable -fpermissive -Wno-permissive -Wno-error")
+ SET(COMPILE_OPTIONS "${COMPILE_OPTIONS} -iquote${CMAKE_HOME_DIRECTORY}/bin/${buildOS}/thirdparty/include/ADOLC18/SRC")
+ SET(COMPILE_OPTIONS "${COMPILE_OPTIONS} -iquote${CMAKE_HOME_DIRECTORY}/bin/${buildOS}/thirdparty/include/ADOLC18/SRC/DRIVERS")
+ SET(COMPILE_OPTIONS "${COMPILE_OPTIONS} -iquote${CMAKE_HOME_DIRECTORY}/bin/${buildOS}/thirdparty/include/ADOLC18/SRC/SPARSE")
+ SET(COMPILE_OPTIONS "${COMPILE_OPTIONS} -iquote${CMAKE_HOME_DIRECTORY}/bin/${buildOS}/thirdparty/include/ADOLC18/SRC/TAPEDOC")
+ SET(specialLibraries "libbetadiff.a") 
 ENDIF ()
 
 MESSAGE("COMPILE_OPTIONS: ${COMPILE_OPTIONS}")
