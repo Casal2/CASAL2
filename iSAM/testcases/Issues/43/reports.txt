@@ -1,0 +1,55 @@
+
+{
+@report state-1
+type partition 
+time_step step_one
+years 2009
+}
+
+@report e-summary
+type estimate_summary
+years 2009
+
+@report obv
+type objective_function
+years 2009
+
+@report 
+type derived_quantity
+label mature
+time_step step1
+years 1979:2009
+
+{
+@report N_age
+type partition
+time_step step1
+years 1979:2009
+
+
+@report mean_weight
+type partition_mean_weight
+time_step step1
+years 1979:2009
+}
+{
+
+@report state-2
+type partition
+time_step step_one
+years 1998
+
+@report state-3
+type partition
+time_step step_one
+years 2004
+
+@report state-4
+type partition
+time_step step_one
+years 2008
+
+}
+
+@report my-objective-function
+type objective_function

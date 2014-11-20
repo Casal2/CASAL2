@@ -1,0 +1,167 @@
+iSAM
+Call: isam -e 
+Date: Fri Nov 21 11:17:52 2014
+Version: 2014-11-11 02:06:49 UTC (rev. 1fd4a4c)
+Copyright (c) 2012 - 2014, NIWA (www.niwa.co.nz)
+Environment: machine:NIWA-34254, user:doonanij, os:Windows_NT, pid:11048
+
+[e-summary]
+
+Estimate: my_estimate
+Lower Bound: 1000
+Upper Bound: 2e+006
+Value: 199921
+parameters:
+estimation_phase: 
+label: my_estimate 
+lower_bound: 1000 
+mcmc: 
+parameter: process[my_recruitment].r0 
+prior: uniform_log 
+same: 
+transformation: 
+type: uniform_log 
+upper_bound: 2000000 
+
+Estimate: catchability[postCPUE].q
+Lower Bound: 1e-020
+Upper Bound: 1
+Value: 6.10633e-016
+parameters:
+estimation_phase: 
+label: catchability[postCPUE].q 
+lower_bound: 1e-20 
+mcmc: 
+parameter: catchability[postCPUE].q 
+prior: 
+same: 
+transformation: 
+type: uniform_log 
+upper_bound: 1 
+*end
+
+*end
+
+[obv]
+obs->postCPUE-1996: 22612.1
+obs->postCPUE-1997: 12756.7
+obs->postCPUE-1998: 24308.8
+obs->postCPUE-1999: 19857.5
+obs->postCPUE-2000: 9395.69
+obs->postCPUE-2001: 14951.7
+obs->postCPUE-2002: 13524.4
+obs->postCPUE-2003: 15081.5
+obs->postCPUE-2004: 17827.4
+obs->postCPUE-2005: 9345.98
+obs->postCPUE-2006: 14358.3
+obs->postCPUE-2007: 11912
+obs->postCPUE-2008: 8464.82
+prior->my_estimate: 12.2057
+prior->catchability[postCPUE].q: -35.032
+total_score: 194374
+*end
+
+*end
+
+derived_quantity: mature
+derived quantity: vuln_biomass
+Values [Year = Value]:
+1974 = 1.72779e+006
+1975 = 1.73032e+006
+1976 = 1.73275e+006
+1977 = 1.73506e+006
+1978 = 1.73728e+006
+1979 = 1.73939e+006
+1980 = 1.74142e+006
+1981 = 1.7431e+006
+1982 = 1.74103e+006
+1983 = 1.74187e+006
+1984 = 1.74262e+006
+1985 = 1.74282e+006
+1986 = 1.74456e+006
+1987 = 1.74629e+006
+1988 = 1.74796e+006
+1989 = 1.74957e+006
+1990 = 1.75112e+006
+1991 = 1.7526e+006
+1992 = 1.75401e+006
+1993 = 1.75535e+006
+1994 = 1.75666e+006
+1995 = 1.7577e+006
+1996 = 1.75764e+006
+1997 = 1.75656e+006
+1998 = 1.75565e+006
+1999 = 1.75575e+006
+2000 = 1.75596e+006
+2001 = 1.75608e+006
+2002 = 1.75635e+006
+2003 = 1.75594e+006
+2004 = 1.7557e+006
+2005 = 1.7554e+006
+2006 = 1.75396e+006
+2007 = 1.75196e+006
+2008 = 1.7501e+006
+2009 = 1.74829e+006
+derived quantity: mature
+Values [Year = Value]:
+1974 = 1.0443e+006
+1975 = 1.04684e+006
+1976 = 1.04926e+006
+1977 = 1.05158e+006
+1978 = 1.05379e+006
+1979 = 1.05591e+006
+1980 = 1.05794e+006
+1981 = 1.05971e+006
+1982 = 1.05909e+006
+1983 = 1.06022e+006
+1984 = 1.06123e+006
+1985 = 1.06184e+006
+1986 = 1.06336e+006
+1987 = 1.06485e+006
+1988 = 1.06627e+006
+1989 = 1.06763e+006
+1990 = 1.06894e+006
+1991 = 1.07018e+006
+1992 = 1.07136e+006
+1993 = 1.0725e+006
+1994 = 1.07362e+006
+1995 = 1.07458e+006
+1996 = 1.07487e+006
+1997 = 1.07451e+006
+1998 = 1.07423e+006
+1999 = 1.07457e+006
+2000 = 1.07494e+006
+2001 = 1.07521e+006
+2002 = 1.07555e+006
+2003 = 1.07543e+006
+2004 = 1.07537e+006
+2005 = 1.07523e+006
+2006 = 1.07434e+006
+2007 = 1.07304e+006
+2008 = 1.07177e+006
+2009 = 1.0705e+006
+*end
+
+[my-objective-function]
+obs->postCPUE-1996: 22612.1
+obs->postCPUE-1997: 12756.7
+obs->postCPUE-1998: 24308.8
+obs->postCPUE-1999: 19857.5
+obs->postCPUE-2000: 9395.69
+obs->postCPUE-2001: 14951.7
+obs->postCPUE-2002: 13524.4
+obs->postCPUE-2003: 15081.5
+obs->postCPUE-2004: 17827.4
+obs->postCPUE-2005: 9345.98
+obs->postCPUE-2006: 14358.3
+obs->postCPUE-2007: 11912
+obs->postCPUE-2008: 8464.82
+prior->my_estimate: 12.2057
+prior->catchability[postCPUE].q: -35.032
+total_score: 194374
+*end
+
+*end
+
+Total elapsed time: 1 second
+Completed
