@@ -67,6 +67,8 @@ Double Engine::optimise(adolc::CallBack& objective,
   vector<double> scaled_candidate_values(parameter_count, 0.0);
   vector<double> gradient_values(parameter_count, 0.0);
 
+//  bool first_iteration = true;
+
   /**
    * Validate our values, bounds etc
    */
@@ -105,7 +107,8 @@ Double Engine::optimise(adolc::CallBack& objective,
     // Do we need to evaluate objective function again?
     if ((fmm.getResult() == 0) || (fmm.getResult() == 2)) {
       cout << "About to trace the objective (model)" << endl;
-      trace_on(0);
+//      if (first_iteration) // only run once
+        trace_on(0);
 
       // declare our dependent variables
       for (unsigned i = 0; i < candidates.size(); ++i)
@@ -130,7 +133,10 @@ Double Engine::optimise(adolc::CallBack& objective,
       cout << " End" << endl;
       aobj_score += penalty; // penalty for breaking bounds
       aobj_score >>= obj_score;
-      trace_off();
+//      if (first_iteration) { // only run once
+        trace_off();
+//        first_iteration = false;
+//      }
       cout << "Finished objective function call with score = " << obj_score << " (inc Penalty: " << penalty << ")" << endl;
     }
 

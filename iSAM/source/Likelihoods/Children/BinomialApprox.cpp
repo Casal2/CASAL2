@@ -130,7 +130,7 @@ void BinomialApprox::SimulateObserved(map<unsigned, vector<observations::Compari
   for (; iterator != comparisons.end(); ++iterator) {
     LOG_INFO("Simulating values for year: " << iterator->first);
     for (observations::Comparison& comparison : iterator->second) {
-      error_value = ceil(AdjustErrorValue(comparison.process_error_, comparison.error_value_));
+      error_value = ceil(AS_DOUBLE(AdjustErrorValue(comparison.process_error_, comparison.error_value_)));
 
       if (comparison.expected_ <= 0.0 || error_value <= 0.0)
         comparison.observed_ = 0.0;

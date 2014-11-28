@@ -34,7 +34,7 @@ ENDIF ()
 # BUILD PARAMETERS
 IF (ADOLC)
  SET(COMPILE_OPTIONS "${COMPILE_OPTIONS} -DUSE_AUTODIFF -DUSE_ADOLC")
- SET(specialLibraries "libadolc.a")
+ SET(specialLibraries "-l:libadolc.a")
 ELSEIF(BETADIFF)
  SET(COMPILE_OPTIONS "${COMPILE_OPTIONS} -DUSE_AUTODIFF -DUSE_BETADIFF")
  SET(COMPILE_OPTIONS "${COMPILE_OPTIONS} -Wno-unused-local-typedefs -Wno-write-strings -Wno-unused-variable -Wno-unused-but-set-variable -fpermissive -Wno-error")
@@ -42,7 +42,20 @@ ELSEIF(BETADIFF)
  SET(COMPILE_OPTIONS "${COMPILE_OPTIONS} -iquote${CMAKE_HOME_DIRECTORY}/bin/${buildOS}/thirdparty/include/ADOLC18/SRC/DRIVERS")
  SET(COMPILE_OPTIONS "${COMPILE_OPTIONS} -iquote${CMAKE_HOME_DIRECTORY}/bin/${buildOS}/thirdparty/include/ADOLC18/SRC/SPARSE")
  SET(COMPILE_OPTIONS "${COMPILE_OPTIONS} -iquote${CMAKE_HOME_DIRECTORY}/bin/${buildOS}/thirdparty/include/ADOLC18/SRC/TAPEDOC")
- SET(specialLibraries "libbetadiff.a") 
+ SET(specialLibraries "-l:libbetadiff.a") 
+ELSEIF(CPPAD)
+ SET(COMPILE_OPTIONS "${COMPILE_OPTIONS} -DUSE_AUTODIFF -DUSE_CPPAD")
+ SET(specialLibraries "coinblas"
+ "m"
+ "quadmath"
+ "msvcrt"
+ "ipopt"
+ "coinmumps"
+ "coinlapack"
+ "blas"
+ "gfortran"
+ "coinmetis"
+ )
 ENDIF ()
 
 MESSAGE("COMPILE_OPTIONS: ${COMPILE_OPTIONS}")
@@ -76,7 +89,7 @@ FOREACH(library ${thirdPartyLibrariesRaw})
 ENDFOREACH()
 
 FOREACH(library ${specialLibraries})
-SET(thirdPartyLibraries ${thirdPartyLibraries} -l:${library})
+SET(thirdPartyLibraries ${thirdPartyLibraries} ${library})
 ENDFOREACH()
 
 MESSAGE("Third party libraries: ${thirdPartyLibraries}")
