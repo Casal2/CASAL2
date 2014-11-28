@@ -45,14 +45,14 @@ ELSEIF(BETADIFF)
  SET(specialLibraries "-l:libbetadiff.a") 
 ELSEIF(CPPAD)
  SET(COMPILE_OPTIONS "${COMPILE_OPTIONS} -DUSE_AUTODIFF -DUSE_CPPAD")
- SET(specialLibraries "coinblas"
+ SET(specialLibraries
  "m"
  "quadmath"
  "msvcrt"
  "ipopt"
  "coinmumps"
  "coinlapack"
- "blas"
+ "coinblas"
  "gfortran"
  "coinmetis"
  )
