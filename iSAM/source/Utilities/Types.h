@@ -30,6 +30,7 @@
 #endif
 
 #ifdef USE_CPPAD
+# include <cppad/cppad.hpp>
 #include <cppad/ipopt/solve.hpp>
 #endif
 
@@ -51,9 +52,8 @@ typedef adouble Double;
 #endif
 
 #ifdef USE_CPPAD
-typedef AD<double> Double;
-typedef CPPAD_TESTVECTOR(AD<double>) vector<Double>;
-#define AS_DOUBLE(x) x
+typedef CppAD::AD<double> Double;
+#define AS_DOUBLE(x) x.getValue()
 #endif
 
 #ifndef USE_AUTODIFF

@@ -82,8 +82,6 @@ def start():
   build_target = ""
   build_parameters = ""
   
-  allowed_build_targets = [ "debug", "release", "documentation", "thirdparty", "test", "archive", "all", "clean", "cleanall", "help" ]
- 
   if not len(sys.argv) > 1:  
     os.system( [ 'clear', 'cls' ][ os.name == 'nt' ] )
     print "*************************************************************************"
@@ -92,9 +90,9 @@ def start():
     print "*************************************************************************"
     print "*************************************************************************"
     print "\n"
-    print "Valid build targets: " +  ", ".join(allowed_build_targets)
+    print "Valid build targets: " +  ", ".join(Globals.allowed_build_targets_)
     build_target = raw_input("Please enter a valid build type [debug]: ").lower()
-    while build_target != "" and not build_target in allowed_build_targets:
+    while build_target != "" and not build_target in Globals.allowed_build_targets_:
       print "## Error: " + build_target + " is not a valid build target" 
       build_target = raw_input("Please enter a valid build type [debug]: ").lower()
     if build_target == "":
@@ -121,7 +119,7 @@ def start():
   if len(sys.argv) > 2 and len(str(sys.argv[2])) > 1:
       build_parameters = sys.argv[2] 
 
-  if build_target == "" or not build_target.lower() in allowed_build_targets:
+  if build_target == "" or not build_target.lower() in Globals.allowed_build_targets_:
     return Globals.PrintError(build_target + " is not a valid build target")
     
   build_target = build_target.lower()    

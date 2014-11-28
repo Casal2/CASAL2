@@ -18,12 +18,14 @@
 #ifdef USE_AUTODIFF
 #ifdef USE_ADOLC
 #include "Minimisers/Children/ADOLC.h"
-#endif
-#ifdef USE_BETADIFF
+#elif defined(USE_BETADIFF)
 #include "Minimisers/Children/BetaDiff.h"
+#elif defined(USE_CPPAD)
+#include "Minimisers/Children/CPPAD.h"
+#endif
 #endif
 
-#else
+#ifndef USE_AUTODIFF
 #include "Minimisers/Children/DESolver.h"
 #include "Minimisers/Children/DLib.h"
 #include "Minimisers/Children/GammaDiff.h"
@@ -53,7 +55,13 @@ MinimiserPtr Factory::Create(const string& object_type, const string& sub_type) 
     if (sub_type == PARAM_ADOLC) {
       result = MinimiserPtr(new ADOLC());
     }
-#else
+#elif defined(USE_CPPAD)
+    if (sub_type == PARAM_CPPAD) {
+      result = MinimiserPtr(new CPPAD());
+    }
+#endif
+
+#ifndef USE_AUTODIFF
     if (sub_type == PARAM_DE_SOLVER)
       result = MinimiserPtr(new DESolver());
     else if (sub_type == PARAM_DLIB)
