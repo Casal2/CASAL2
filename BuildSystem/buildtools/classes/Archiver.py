@@ -37,19 +37,51 @@ class Archiver:
         return Globals.PrintError('Failed to build the third party libraries. Please check third_party.log for the error')      
     os.system('rm -rf third_party.log')
 
-    print "--> Checking for release version of iSAM binary"
-    binary_path = self.output_directory_ = os.path.normpath(os.getcwd()) + "/bin/" + Globals.operating_system_ + "/release/isam"
     binary_name = 'iSAM'
+    extension = ''         
     if Globals.operating_system_ == "win32":
-      binary_path += ".exe"
+      extension = '.exe'
       binary_name += '.exe'
-    if not os.path.exists(binary_path):
+
+    print "--> Checking for release version of iSAM binary"
+    binary_path = self.output_directory_ = os.path.normpath(os.getcwd()) + "/bin/" + Globals.operating_system_ + "/release/"
+    if not os.path.exists(binary_path + binary_name):
       print '-- No iSAM binary was found'
       print '-- Re-Entering the build system to build a release binary'
       print '-- All output is being diverted to release_build.log'
       if os.system(self.do_build_ + ' release > release_build.log 2>&1') != EX_OK:
         return Globals.PrintError('Failed to build release binary. Please check release_build.log for the error')
     os.system('rm -rf release_build.log')
+
+    print '--> Checking for release version of ADOLC iSAM'
+    binary_path = self.output_directory_ = os.path.normpath(os.getcwd()) + "/bin/" + Globals.operating_system_ + "/release_adolc/"
+    if not os.path.exists(binary_path + binary_name):
+      print '-- No iSAM binary was found'
+      print '-- Re-Entering the build system to build an adolc release binary'
+      print '-- All output is being diverted to release_adolc_build.log'
+      if os.system(self.do_build_ + ' release adolc > release_adolc_build.log 2>&1') != EX_OK:
+        return Globals.PrintError('Failed to build release binary. Please check release_adolc_build.log for the error')
+    os.system('rm -rf release_adolc_build.log')    
+
+    print '--> Checking for release version of BetaDiff iSAM'
+    binary_path = self.output_directory_ = os.path.normpath(os.getcwd()) + "/bin/" + Globals.operating_system_ + "/release_betadiff/"
+    if not os.path.exists(binary_path + binary_name):
+      print '-- No iSAM binary was found'
+      print '-- Re-Entering the build system to build a betadiff release binary'
+      print '-- All output is being diverted to release_betadiff_build.log'
+      if os.system(self.do_build_ + ' release betadiff > release_betadiff_build.log 2>&1') != EX_OK:
+        return Globals.PrintError('Failed to build release binary. Please check release_betadiff_build.log for the error')
+    os.system('rm -rf release_betadiff_build.log')
+
+    print '--> Checking for release version of CppAD iSAM'
+    binary_path = self.output_directory_ = os.path.normpath(os.getcwd()) + "/bin/" + Globals.operating_system_ + "/release_cppad/"
+    if not os.path.exists(binary_path + binary_name):
+      print '-- No iSAM binary was found'
+      print '-- Re-Entering the build system to build a cppad release binary'
+      print '-- All output is being diverted to release_cppad_build.log'
+      if os.system(self.do_build_ + ' release cppad > release_cppad_build.log 2>&1') != EX_OK:
+        return Globals.PrintError('Failed to build release binary. Please check release_cppad_build.log for the error')
+    os.system('rm -rf release_cppad_build.log')   
 
     print '--> Building documentation'
     print '-- Re-Entering the build system to build the documentation'
@@ -69,10 +101,15 @@ class Archiver:
       os.system("rm -rf " + output_directory + "isam.tar.gz")
 
     # Shitty stuff to make building archive easier
+    binary_path = self.output_directory_ = os.path.normpath(os.getcwd()) + "/bin/" + Globals.operating_system_
+    
     os.system('rm -rf iSAM')
     os.system('rm -rf isam.tar')
     os.system('mkdir iSAM')
-    os.system('cp ' + binary_path + ' iSAM/' + binary_name)
+    os.system('cp ' + binary_path + '/release/' + binary_name + ' iSAM/' + binary_name)
+    os.system('cp ' + binary_path + '/release_adolc/' + binary_name + ' iSAM/iSAM_adolc' + extension)
+    os.system('cp ' + binary_path + '/release_betadiff/' + binary_name + ' iSAM/iSAM_betadiff' + extension)
+    os.system('cp ' + binary_path + '/release_cppad/' + binary_name + ' iSAM/iSAM_cppad' + extension)
     os.system('cp ../Documentation/Manual/iSAM.pdf iSAM/iSAM.pdf')
     os.system('tar cvf isam.tar iSAM/')   
     os.system('gzip isam.tar')
