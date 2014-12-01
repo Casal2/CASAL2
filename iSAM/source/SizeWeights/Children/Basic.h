@@ -40,6 +40,7 @@ private:
   Double                      a_;
   Double                      b_;
   Double                      cv_;
+  string                      units_;
 };
 
 } /* namespace sizeweights */

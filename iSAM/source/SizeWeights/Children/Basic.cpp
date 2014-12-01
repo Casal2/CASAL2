@@ -21,6 +21,7 @@ namespace sizeweights {
 Basic::Basic() {
   parameters_.Bind<Double>(PARAM_A, &a_, "A", "");
   parameters_.Bind<Double>(PARAM_B, &b_, "B", "");
+  parameters_.Bind<string>(PARAM_UNITS, &units_, "Units of measure (grams, tonnes, tons, kgs)", "");
 }
 
 /**
@@ -42,7 +43,11 @@ void Basic::DoValidate() {
  * @return The mean weight of the population at the parameter size
  */
 Double Basic::mean_weight(Double size, const string &distribution, Double cv) const {
-  Double weight = a_ * pow(size, b_) * 1000;
+  Double weight = a_ * pow(size, b_);
+  if (units_ == "kgs")
+    weight *= 1000;
+  if (units_ == "grams")
+    weight *= 1000000;
   if (distribution == PARAM_NORMAL || distribution == PARAM_LOGNORMAL)
     weight = weight * pow(1.0 + cv * cv, b_ * (b_ - 1.0) / 2.0);
 

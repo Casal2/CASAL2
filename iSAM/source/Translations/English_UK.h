@@ -380,6 +380,7 @@
 #define PARAM_TRUE_YCS_VALUES                     "true_ycs_values"
 #define PARAM_TYPE                                "type"
 #define PARAM_U_MAX                               "u_max"
+#define PARAM_UNITS                               "units"
 #define PARAM_UNIFORM                             "uniform"
 #define PARAM_UNIFORM_LOG                         "uniform_log"
 #define PARAM_UPPER_BOUND                         "upper_bound"
