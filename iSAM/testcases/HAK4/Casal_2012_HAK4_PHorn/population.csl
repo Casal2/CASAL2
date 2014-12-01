@@ -1,0 +1,127 @@
+#INITIALSATION
+@initialization
+B0 44000
+
+# PARTITION
+@size_based False
+@min_age 1
+@max_age 30
+@plus_group True
+@sex_partition False
+@mature_partition False
+@n_areas 1
+
+# TIME SEQUENCE
+@initial 1975
+@current 2012
+@final   2017
+@annual_cycle
+time_steps 3  # Sep-Feb, Mar-May, Jun-Aug
+recruitment_time 1
+spawning_time 1
+spawning_part_mort 0.5
+spawning_ps 1
+maturation_times 1
+aging_time 3
+growth_props 0.25 0.50 0.00
+M_props      0.42 0.25 0.33
+baranov False
+midmortality_partition weighted_sum
+fishery_names chatFwest chatFeast
+fishery_times 1 1
+n_migrations 0
+
+# RECRUITMENT
+@y_enter 1
+@standardise_YCS true 
+@recruitment
+YCS_years 1974 1975 1976 1977 1978 1979 1980 1981 1982 1983 1984 1985 1986 1987 1988 1989 1990 1991 1992 1993 1994 1995 1996 1997 1998 1999 2000 2001 2002 2003 2004 2005 2006 2007 2008 2009 2010 2011
+YCS       1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00
+p_male 0.5
+SR BH
+steepness 0.9
+first_free 1975
+last_free 2009
+year_range 1984 2009
+#simulation_SR BH
+#simulation_steepness 0.9
+
+# RECRUITMENT VARIABILITY
+@randomisation_method empirical
+@first_random_year 2010
+
+#MATURATION
+@maturity_props
+all    allvalues_bounded 2 13  0.02	0.05	0.13	0.29	0.50	0.70	0.84	0.93	0.97	0.99	0.99	1.00
+#all    allvalues_bounded 2 15  0.03	0.06	0.14	0.27	0.45	0.63	0.77	0.86	0.92	0.96	0.98	0.99	1.00	1.00
+
+# NATURAL MORTALITY
+@natural_mortality
+#ogive_all double_exponential 1 25 8 0.18 0.25 0.5
+all 0.19
+
+# FISHING
+@fishery chatFwest  #Single western stratum (Wcomb)
+years    1975 1976 1977 1978 1979 1980 1981 1982 1983 1984 1985 1986 1987 1988 1989 1990 1991 1992 1993 1994 1995 1996 1997 1998 1999 2000 2001 2002 2003 2004 2005 2006 2007 2008 2009 2010 2011 2012
+catches    80  152   74   28  103  481  914  393  154  224  232  282  387  385  386  309  409  718  656  368  597 1353 1475 1424 1169 1155 1208  454  497  687 2585  184  270  259 1069  231  822  800 
+# Assumed for 2012
+future_constant_catches 600
+#future_constant_catches 900
+selectivity chatFwestSel
+U_max 0.7
+
+@fishery chatFeast   #Single eastern stratum (Ecomb)
+years    1975 1976 1977 1978 1979 1980 1981 1982 1983 1984 1985 1986 1987 1988 1989 1990 1991 1992 1993 1994 1995 1996 1997 1998 1999 2000 2001 2002 2003 2004 2005 2006 2007 2008 2009 2010 2011 2012
+catches   111  336 1214    6  506  269   83  203  148  120  312   80  122  189  418  689  503 1087 1996 2912 2903 2483 1820 1124 3339 2130 1700 1058  718 1983 1434  255  683  901  832  159  118  150 
+# Assumed for 2012
+future_constant_catches 500
+#future_constant_catches 900
+selectivity chatFeastSel
+U_max 0.7
+
+
+# SELECTIVITIES
+@selectivity_names chatTANsel chatFwestSel chatFeastSel
+@selectivity chatTANsel #January survey
+all   double_normal 6 3 10
+@selectivity chatFwestSel  #West shallow stratum
+all   double_normal 6 3 10
+@selectivity chatFeastSel   #All East area
+all   double_normal 6 3 10
+
+# SIZE AT AGE
+@size_at_age_type Schnute
+@size_at_age_dist normal
+
+@size_at_age
+by_length True
+y1 24.5
+y2 104.8
+tau1 1 
+tau2 20 
+a 0.131
+b 1.70
+cv 0.1
+
+{
+# SIZE AT AGE
+@size_at_age_type von_Bert
+@size_at_age_dist normal
+
+@size_at_age
+by_length True
+k_male 0.278
+t0_male -0.21
+Linf_male 88.0
+cv_male 0.1
+k_female 0.172
+t0_female -0.254
+Linf_female 115.3
+cv_female 0.1
+}
+
+# SIZE-WEIGHT
+@size_weight
+a 2.0e-9
+b 3.288
+verify_size_weight 50 0.5 2.0

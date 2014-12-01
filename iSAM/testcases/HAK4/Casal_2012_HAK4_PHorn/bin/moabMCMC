@@ -1,0 +1,12 @@
+#!/bin/bash
+
+WD="$(pwd)"
+RUN="~/bin/casal -m -q -g 45 "
+echo $RUN > RUN
+CMD="msub -l nodes=1 -l walltime=150:00:00 -l partition=slurm -l qos=standby -p -1000 -q large -o MCMC.log.%j -e MCMC.err.%j -S /bin/bash RUN"   
+echo "Running CASAL on MOAB in" $WD
+echo -n "Job started at: " ; date
+echo $RUN
+COMMAND="cd $WD ; $CMD"
+ssh horn@turbine $COMMAND
+
