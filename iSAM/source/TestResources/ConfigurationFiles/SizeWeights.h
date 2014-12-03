@@ -17,6 +17,7 @@ const std::string size_weights_basic = R"(
 type basic
 a 1.051e-008
 b 3.036
+units tonnes
 )";
 
 const std::string size_weights_none = R"(

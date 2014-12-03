@@ -44,7 +44,7 @@ age_sizes age_size_male age_size_female
 
 @age_size age_size_male
 type von_bertalanffy
-size_weight [type=basic; a=2.49e-12; b=3.234]
+size_weight [type=basic; units=tonnes; a=2.49e-12; b=3.234]
 k 0.277
 t0 -0.11
 linf 90.3
@@ -54,7 +54,7 @@ by_length t
 
 @age_size age_size_female
 type von_bertalanffy
-size_weight [type=basic; a=1.70e-12; b=3.328]
+size_weight [type=basic; units=tonnes; a=1.70e-12; b=3.328]
 k 0.202
 t0 -0.20
 linf 113.4

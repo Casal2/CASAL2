@@ -34,6 +34,7 @@ TEST(SizeWeights, Basic) {
   basic.parameters().Add(PARAM_TYPE, "any value is fine", __FILE__, __LINE__);
   basic.parameters().Add(PARAM_A, "1", __FILE__, __LINE__);
   basic.parameters().Add(PARAM_B, "1", __FILE__, __LINE__);
+  basic.parameters().Add(PARAM_UNITS, "tonnes", __FILE__, __LINE__);
 
   basic.Validate();
   basic.Build();
@@ -52,6 +53,7 @@ TEST(SizeWeights, Basic) {
   basic.parameters().Add(PARAM_TYPE, "any value is fine", __FILE__, __LINE__);
   basic.parameters().Add(PARAM_A, "2", __FILE__, __LINE__);
   basic.parameters().Add(PARAM_B, "2", __FILE__, __LINE__);
+  basic.parameters().Add(PARAM_UNITS, "tonnes", __FILE__, __LINE__);
 
   basic.Validate();
   basic.Build();

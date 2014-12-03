@@ -34,6 +34,10 @@ void Basic::DoValidate() {
     LOG_ERROR(parameters_.location(PARAM_A) << " (" << AS_DOUBLE(a_) << ") cannot be less than or equal to 0.0");
   if (b_ <= 0.0)
     LOG_ERROR(parameters_.location(PARAM_B) << " (" << AS_DOUBLE(b_) << ") cannot be less than or equal to 0.0");
+
+  if (units_ != PARAM_TONNES && units_ != PARAM_TONS && units_ != PARAM_GRAMS && units_ != PARAM_KGS)
+    LOG_ERROR(parameters_.location(PARAM_UNITS) << " (" << units_ << ") is not supported. Supported units are: tonnes, tons, grams, kgs");
+
 }
 
 /**
@@ -44,10 +48,10 @@ void Basic::DoValidate() {
  */
 Double Basic::mean_weight(Double size, const string &distribution, Double cv) const {
   Double weight = a_ * pow(size, b_);
-  if (units_ == "kgs")
+  if (units_ == PARAM_TONNES || units_ == PARAM_TONS)
     weight *= 1000;
-  if (units_ == "grams")
-    weight *= 1000000;
+  if (units_ == PARAM_GRAMS)
+    weight /= 1000;
   if (distribution == PARAM_NORMAL || distribution == PARAM_LOGNORMAL)
     weight = weight * pow(1.0 + cv * cv, b_ * (b_ - 1.0) / 2.0);
 

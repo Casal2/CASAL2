@@ -195,10 +195,14 @@ void Model::Validate() {
   if (block_type_ == "")
     LOG_ERROR("The @model block is missing from configuration file. This block is required.");
 
+  /**
+   * Validate the parameters
+   */
   parameters_.Populate();
-
+  if (start_year_ < 1000)
+    LOG_ERROR(parameters_.location(PARAM_START_YEAR) << " (" << start_year_ << ") cannot be less than 1000");
   if (start_year_ > final_year_)
-    LOG_ERROR(parameters_.location(PARAM_FINAL_YEAR) << ": final_year is before the start_year, final_year must be greater than the start_year");
+    LOG_ERROR(parameters_.location(PARAM_FINAL_YEAR) << " (" << final_year_ << ") cannot be less than start_year (" << start_year_ << ")");
   if (min_age_ > max_age_)
     LOG_ERROR(parameters_.location(PARAM_MIN_AGE) << " (" << min_age_ << ") has been defined as greater than max_age (" << max_age_ << ")");
 

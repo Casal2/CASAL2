@@ -50,6 +50,15 @@ void RecruitmentConstant::DoValidate() {
   }
 
   /**
+   * Validate age
+   */
+  ModelPtr model = Model::Instance();
+  if (age_ < model->min_age())
+    LOG_ERROR(parameters_.location(PARAM_AGE) << " (" << age_ << ") is less than the model's min_age (" << model->min_age() << ")");
+  if (age_ > model->max_age())
+    LOG_ERROR(parameters_.location(PARAM_AGE) << " (" << age_ << ") is greater than the model's max_age (" << model->max_age() << ")");
+
+  /**
    * Check our parameter proportion is the correct length
    * and sums to 1.0. If it doesn't sum to 1.0 we'll make it
    * and print a warning message
