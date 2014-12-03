@@ -25,16 +25,13 @@ class Archiver:
       self.do_build_ += '.bat'
     else:
       self.do_build_ = './' + self.do_build_ + '.sh'
-    
-    print "--> Archiving any previously built binaries"
-    print "--> Checking if Third Party libraries have been built"
-    third_party_dir = "bin/" + Globals.operating_system_ + "/thirdparty"
-    if not os.path.exists(third_party_dir):
-      print '-- Re-Entering build system to build the third party libraries'
-      print '-- All output is being diverted to third_party.log'
-      print '-- Expected build time 10-60 minutes'
-      if os.system(self.do_build_ + ' thirdparty > third_party.log 2>&1') != EX_OK:
-        return Globals.PrintError('Failed to build the third party libraries. Please check third_party.log for the error')      
+
+    print '--> Building third party libraries'
+    print '-- Re-Entering build system to build the third party libraries'
+    print '-- All output is being diverted to third_party.log'
+    print '-- Expected build time 10-60 minutes'
+    if os.system(self.do_build_ + ' thirdparty > third_party.log 2>&1') != EX_OK:
+      return Globals.PrintError('Failed to build the third party libraries. Please check third_party.log for the error')      
     os.system('rm -rf third_party.log')
 
     binary_name = 'iSAM'
