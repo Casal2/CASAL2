@@ -17,6 +17,7 @@
 #include <vector>
 
 #include "ParameterList/Parameter.h"
+#include "Utilities/Types.h"
 
 // namespaces
 namespace isam {
@@ -34,7 +35,7 @@ public:
   BindableVector(const string& label, vector<T>* target, const string& description);
   virtual                     ~BindableVector() = default;
   void                        Bind() override final;
-  string                      stored_type() const override final { return typeid(*target_).name(); }
+  string                      stored_type() const override final { return utilities::demangle(typeid(*target_).name()); }
 
 private:
   // members
