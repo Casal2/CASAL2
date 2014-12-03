@@ -83,7 +83,11 @@ class Builder:
     print '-- Moving headers and libraries'
     dir_util.copy_tree(cppadShortFileName + '/include/cppad', Globals.target_include_path_ + '/cppad/')
     dir_util.copy_tree(ipOptFileName + '/include/coin', Globals.target_include_path_ + '/coin/')
-    for library in libraries:
-      shutil.copy(ipOptFileName + '/lib64/' + library, Globals.target_special_lib_path_)    
-     
+    if os.path.exists(ipOptFileName + '/lib64'):
+      for library in libraries:
+        shutil.copy(ipOptFileName + '/lib64/' + library, Globals.target_special_lib_path_)    
+    if os.path.exists(ipOptFileName + '/lib'):
+      for library in libraries:
+        shutil.copy(ipOptFileName + '/lib/' + library, Globals.target_special_lib_path_)
+        
     return True
