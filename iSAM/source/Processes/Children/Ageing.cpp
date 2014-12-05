@@ -30,6 +30,8 @@ Ageing::Ageing() {
 
   parameters_.Bind<string>(PARAM_CATEGORIES, &category_names_, "Categories", "");
   parameters_.Bind<Double>(PARAM_TIME_STEP_PROPORTIONS, &time_step_proportions_, "Proportion to age per time step", "", true);
+
+  process_type_ = ProcessType::kAgeing;
 }
 
 /**

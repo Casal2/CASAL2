@@ -24,10 +24,7 @@ namespace processes {
 /**
  * Default Constructor
  */
-MortalityEvent::MortalityEvent() {
-  is_mortality_process = true;
-
-  parameters_.Bind<string>(PARAM_CATEGORIES, &category_names_, "Categories", "");
+MortalityEvent::MortalityEvent() {  parameters_.Bind<string>(PARAM_CATEGORIES, &category_names_, "Categories", "");
   parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "Years", "");
   parameters_.Bind<Double>(PARAM_CATCHES, &catches_, "Catches", "");
   parameters_.Bind<Double>(PARAM_U_MAX, &u_max_, "U Max", "", 0.99);
@@ -38,6 +35,7 @@ MortalityEvent::MortalityEvent() {
   RegisterAsEstimable(PARAM_CATCHES, &catch_years_);
 
   model_ = Model::Instance();
+  process_type_ = ProcessType::kMortality;
 }
 
 /**

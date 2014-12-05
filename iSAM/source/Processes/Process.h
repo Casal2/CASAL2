@@ -26,6 +26,16 @@
 
 namespace niwa {
 
+namespace ProcessType {
+enum Type {
+  kUnknown,
+  kAgeing,
+  kMaturation,
+  kMortality,
+  kRecruitment
+};
+}
+
 /**
  * Class Definition
  */
@@ -48,11 +58,12 @@ public:
 
   // accessors
   bool                        print_report() const { return print_report_; }
-  bool                        mortality_process() const { return is_mortality_process; }
+  ProcessType::Type           process_type() const { return process_type_; }
 
 protected:
   // members
   string                      type_ = "";
+  ProcessType::Type           process_type_ = ProcessType::kUnknown;
   bool                        is_mortality_process = false;
   bool                        print_report_ = false;
   map<string, vector<string>> print_values_;

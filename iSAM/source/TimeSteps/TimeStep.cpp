@@ -58,7 +58,7 @@ void TimeStep::Build() {
   block_start_process_index_ = processes_.size();
   block_end_process_Index_ = processes_.size() - 1;
   for (unsigned i = 0; i < processes_.size(); ++i) {
-    if (processes_[i]->mortality_process()) {
+    if (processes_[i]->process_type() == ProcessType::kMortality) {
       block_start_process_index_ = block_start_process_index_ == processes_.size() ? i : block_start_process_index_;
       block_end_process_Index_ = i;
     }
@@ -138,7 +138,7 @@ void TimeStep::BuildInitialisationProcesses() {
 
     initialisation_block_end_process_index_[iter.first]   = iter.second.size() - 1;
     for (unsigned i = 0; i < initialisation_processes_[iter.first].size(); ++i) {
-      if (initialisation_processes_[iter.first][i]->mortality_process()) {
+      if (initialisation_processes_[iter.first][i]->process_type() == ProcessType::kMortality) {
         initialisation_block_end_process_index_[iter.first] = i;
       }
     }

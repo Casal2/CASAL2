@@ -32,6 +32,8 @@ MaturationRate::MaturationRate() {
   parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_names_, "Selectivity names", "");
 
   RegisterAsEstimable(PARAM_PROPORTIONS, &proportions_by_category_);
+
+  process_type_ = ProcessType::kMaturation;
 }
 
 /**
