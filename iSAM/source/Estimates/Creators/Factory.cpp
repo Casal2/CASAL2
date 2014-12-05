@@ -20,7 +20,7 @@
 #include "Estimates/Creators/Children/UniformLog.h"
 
 // namespaces
-namespace isam {
+namespace niwa {
 namespace estimates {
 namespace creators {
 
@@ -56,4 +56,4 @@ CreatorPtr Factory::Create(const string& object_type, const string& sub_type) {
 
 } /* namespace creators */
 } /* namespace estimates */
-} /* namespace isam */
+} /* namespace niwa */

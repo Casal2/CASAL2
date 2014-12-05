@@ -16,7 +16,7 @@
 #include "Utilities/To.h"
 
 // Namespaces
-namespace isam {
+namespace niwa {
 namespace parameters {
 
 /**
@@ -51,9 +51,9 @@ void Table::AddRow(vector<string> &row) {
  */
 string Table::location() const {
   string line_number;
-  isam::utilities::To<unsigned, string>(line_number_, line_number);
+  niwa::utilities::To<unsigned, string>(line_number_, line_number);
   return string("At line " + line_number + " of file " + file_name_);
 }
 
 } /* namespace parameters */
-} /* namespace isam */
+} /* namespace niwa */

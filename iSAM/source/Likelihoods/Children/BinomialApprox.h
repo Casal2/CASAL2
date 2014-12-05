@@ -20,13 +20,13 @@
 #include "Likelihoods/Likelihood.h"
 
 // Namespaces
-namespace isam {
+namespace niwa {
 namespace likelihoods {
 
 /**
  * Class definition
  */
-class BinomialApprox : public isam::Likelihood {
+class BinomialApprox : public niwa::Likelihood {
 public:
   // Methods
   BinomialApprox() = default;
@@ -42,5 +42,5 @@ public:
 };
 
 } /* namespace likelihoods */
-} /* namespace isam */
+} /* namespace niwa */
 #endif /* LIKELIHOODS_BINOMIALAPPROX_H_ */

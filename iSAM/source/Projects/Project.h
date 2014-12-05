@@ -26,7 +26,7 @@
 #include "Model/Model.h"
 
 // namespaces
-namespace isam {
+namespace niwa {
 
 class Project;
 typedef void (Project::*UpdateFunction)(Double);
@@ -34,7 +34,7 @@ typedef void (Project::*UpdateFunction)(Double);
 /**
  * Class definition
  */
-class Project : public isam::base::Object {
+class Project : public niwa::base::Object {
 public:
   // methods
   Project();
@@ -76,6 +76,6 @@ protected:
  */
 typedef boost::shared_ptr<Project> ProjectPtr;
 
-} /* namespace isam */
+} /* namespace niwa */
 
 #endif /* PROJECT_H_ */

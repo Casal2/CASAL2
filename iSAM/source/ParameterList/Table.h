@@ -23,7 +23,7 @@
 #include <boost/shared_ptr.hpp>
 
 // Namespaces
-namespace isam {
+namespace niwa {
 namespace parameters {
 
 using std::string;
@@ -61,8 +61,8 @@ private:
 /**
  * Typedefs
  */
-typedef boost::shared_ptr<isam::parameters::Table> TablePtr;
+typedef boost::shared_ptr<niwa::parameters::Table> TablePtr;
 
 } /* namespace parameters */
-} /* namespace isam */
+} /* namespace niwa */
 #endif /* TABLE_H_ */

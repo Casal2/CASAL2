@@ -18,7 +18,7 @@
 #include "Utilities/DoubleCompare.h"
 
 // Namespaces
-namespace isam {
+namespace niwa {
 namespace processes {
 
 /**
@@ -172,4 +172,4 @@ void MortalityEvent::DoExecute() {
 
 
 } /* namespace processes */
-} /* namespace isam */
+} /* namespace niwa */

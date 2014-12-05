@@ -24,15 +24,15 @@
 #include "TimeSteps/Manager.h"
 
 // namespaces
-namespace isam {
+namespace niwa {
 namespace processes {
 
-namespace accessor = isam::partition::accessors;
+namespace accessor = niwa::partition::accessors;
 
 /**
  * Class Definition
  */
-class MortalityConstantRate : public isam::Process {
+class MortalityConstantRate : public niwa::Process {
 public:
   // Methods
   MortalityConstantRate();
@@ -56,5 +56,5 @@ private:
 };
 
 } /* namespace processes */
-} /* namespace isam */
+} /* namespace niwa */
 #endif /* MORTALITYCONSTANTRATE_H_ */

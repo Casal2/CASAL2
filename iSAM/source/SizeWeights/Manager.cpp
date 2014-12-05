@@ -12,7 +12,7 @@
 #include "Manager.h"
 
 // namespaces
-namespace isam {
+namespace niwa {
 namespace sizeweights {
 
 /**
@@ -34,4 +34,4 @@ SizeWeightPtr Manager::GetSizeWeight(const string& label) const {
 }
 
 } /* namespace sizeweights */
-} /* namespace isam */
+} /* namespace niwa */

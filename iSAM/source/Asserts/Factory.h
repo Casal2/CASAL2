@@ -16,7 +16,7 @@
 #include "Asserts/Assert.h"
 
 // Namespaces
-namespace isam {
+namespace niwa {
 namespace asserts {
 
 using std::string;
@@ -36,5 +36,5 @@ private:
 };
 
 } /* namespace asserts */
-} /* namespace isam */
+} /* namespace niwa */
 #endif /* PROCESSES_FACTORY_H_ */

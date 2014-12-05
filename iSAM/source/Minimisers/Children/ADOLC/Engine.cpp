@@ -24,7 +24,7 @@
 #include "Utilities/Math.h"
 
 // namespaces
-namespace isam {
+namespace niwa {
 namespace minimisers {
 namespace adolc {
 

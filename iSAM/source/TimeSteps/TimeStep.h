@@ -23,12 +23,12 @@
 #include "Processes/Process.h"
 
 // Namespaces
-namespace isam {
+namespace niwa {
 
 /**
  * Class Definition
  */
-class TimeStep : public isam::base::Object {
+class TimeStep : public niwa::base::Object {
 public:
   // Methods
   TimeStep();
@@ -73,5 +73,5 @@ private:
  */
 typedef boost::shared_ptr<TimeStep> TimeStepPtr;
 
-} /* namespace isam */
+} /* namespace niwa */
 #endif /* TIMESTEP_H_ */

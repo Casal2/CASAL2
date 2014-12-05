@@ -16,16 +16,16 @@
 #include "Utilities/Types.h"
 
 // Namespaces
-namespace isam {
+namespace niwa {
 
 // Using
 using std::map;
-using isam::utilities::Double;
+using niwa::utilities::Double;
 
 /**
  * Class Definition
  */
-class Selectivity : public isam::base::Object {
+class Selectivity : public niwa::base::Object {
 public:
   // Methods
   Selectivity() = delete;
@@ -52,5 +52,5 @@ protected:
  */
 typedef boost::shared_ptr<Selectivity> SelectivityPtr;
 
-} /* namespace isam */
+} /* namespace niwa */
 #endif /* SELECTIVITY_H_ */

@@ -16,7 +16,7 @@
 #include "Catchabilities/Children/Free.h"
 
 // namespaces
-namespace isam {
+namespace niwa {
 namespace catchabilities {
 
 CatchabilityPtr Factory::Create(const string& object_type, const string& sub_type) {

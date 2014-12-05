@@ -16,7 +16,7 @@
 #include "Model/Model.h"
 
 // Namespaces
-namespace isam {
+namespace niwa {
 namespace selectivities {
 /**
  * Default constructor
@@ -98,4 +98,4 @@ void Increasing::Reset() {
 }
 
 } /* namespace selectivities */
-} /* namespace isam */
+} /* namespace niwa */

@@ -21,15 +21,15 @@
 #include "TestResources/TestFixtures/InternalEmptyModel.h"
 
 // Namespaces
-namespace isam {
+namespace niwa {
 namespace configuration {
 
 using std::cout;
 using std::endl;
-using isam::testfixtures::InternalEmptyModel;
+using niwa::testfixtures::InternalEmptyModel;
 
 } /* namespace configuration */
-} /* namespace isam */
+} /* namespace niwa */
 
 
 #endif /* TESTMODE */

@@ -13,7 +13,7 @@
 #include "AdditionalPrior.h"
 
 // namespaces
-namespace isam {
+namespace niwa {
 
 /**
  * Default constructor
@@ -51,4 +51,4 @@ void AdditionalPrior::Validate() {
     DoScoreFunction_ = &AdditionalPrior::GetMeanScore;
 }
 
-} /* namespace isam */
+} /* namespace niwa */

@@ -18,7 +18,7 @@
 #include "Processes/Process.h"
 
 // Namespaces
-namespace isam {
+namespace niwa {
 namespace processes {
 
 using std::string;
@@ -38,5 +38,5 @@ private:
 };
 
 } /* namespace processes */
-} /* namespace isam */
+} /* namespace niwa */
 #endif /* PROCESSES_FACTORY_H_ */

@@ -24,13 +24,13 @@
 #include "Minimisers/Minimiser.h"
 
 // Namespaces
-namespace isam {
+namespace niwa {
 namespace minimisers {
 
 /**
  * Class Definition
  */
-class DESolver : public isam::Minimiser {
+class DESolver : public niwa::Minimiser {
 public:
   // Methods
   DESolver();
@@ -51,6 +51,6 @@ private:
 };
 
 } /* namespace minimisers */
-} /* namespace isam */
+} /* namespace niwa */
 #endif /* MINIMISERS_DESOLVER_H_ */
 #endif /* USE_AUTODIFF */

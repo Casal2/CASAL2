@@ -24,7 +24,7 @@
 #include "Utilities/To.h"
 
 // Namespaces
-namespace isam {
+namespace niwa {
 
 /**
  * Default constructor
@@ -411,7 +411,7 @@ void Categories::RemoveAllObjects() {
 }
 
 
-} /* namespace isam */
+} /* namespace niwa */
 
 
 

@@ -17,7 +17,7 @@
 #include "TimeSteps/Manager.h"
 
 // Namespaces
-namespace isam {
+namespace niwa {
 namespace initialisationphases {
 
 Manager::Manager() {
@@ -92,4 +92,4 @@ unsigned Manager::GetPhaseIndex(const string& label) const {
 }
 
 } /* namespace initialisationphases */
-} /* namespace isam */
+} /* namespace niwa */

@@ -7,7 +7,7 @@
 
 #include "Lognormal.h"
 
-namespace isam {
+namespace niwa {
 namespace estimates {
 
 /**
@@ -40,4 +40,4 @@ Double Lognormal::GetScore() {
 }
 
 } /* namespace estimates */
-} /* namespace isam */
+} /* namespace niwa */

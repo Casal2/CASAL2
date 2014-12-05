@@ -12,7 +12,7 @@
 #include "Manager.h"
 
 // namespaces
-namespace isam {
+namespace niwa {
 namespace profiles {
 
 /**
@@ -22,4 +22,4 @@ Manager::Manager() {
 }
 
 } /* namespace profiles */
-} /* namespace isam */
+} /* namespace niwa */

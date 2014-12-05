@@ -21,7 +21,7 @@
 #include "Catchabilities/Manager.h"
 
 // Namespaces
-namespace isam {
+namespace niwa {
 namespace catchabilities {
 
 /**
@@ -38,5 +38,5 @@ private:
 };
 
 } /* namespace catchabilities */
-} /* namespace isam */
+} /* namespace niwa */
 #endif /* FACTORY_H_ */

@@ -17,10 +17,10 @@
 #include "InitialisationPhases/InitialisationPhase.h"
 
 // namespaces
-namespace isam {
+namespace niwa {
 namespace initialisationphases {
 
-class Derived : public isam::InitialisationPhase {
+class Derived : public niwa::InitialisationPhase {
 public:
   Derived();
   virtual                     ~Derived() = default;
@@ -33,6 +33,6 @@ protected:
 };
 
 } /* namespace initialisationphases */
-} /* namespace isam */
+} /* namespace niwa */
 
 #endif /* INITIALISATIONPHASES_DERIVED_H_ */

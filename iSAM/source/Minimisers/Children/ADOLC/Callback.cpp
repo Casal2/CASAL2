@@ -18,7 +18,7 @@
 #include "ObjectiveFunction/ObjectiveFunction.h"
 
 // namespaces
-namespace isam {
+namespace niwa {
 namespace minimisers {
 namespace adolc {
 
@@ -55,6 +55,6 @@ adouble CallBack::operator()(const vector<adouble>& Parameters) {
 
 } /* namespace adolc */
 } /* namespace minimiser */
-} /* namespace isam */
+} /* namespace niwa */
 #endif /* USE_ADOLC */
 #endif /* USE_AUTODIFF */

@@ -7,7 +7,7 @@
 
 #include <MCMC/Children/MetropolisHastings.h>
 
-namespace isam {
+namespace niwa {
 namespace mcmc {
 
 MetropolisHastings::MetropolisHastings() {
@@ -20,4 +20,4 @@ MetropolisHastings::~MetropolisHastings() {
 }
 
 } /* namespace mcmc */
-} /* namespace isam */
+} /* namespace niwa */

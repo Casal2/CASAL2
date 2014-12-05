@@ -15,7 +15,7 @@
 
 
 // Namespaces
-namespace isam {
+namespace niwa {
 namespace estimates {
 
 using std::set;
@@ -157,4 +157,4 @@ EstimatePtr Manager::GetEstimate(const string& parameter) {
 }
 
 } /* namespace estimates */
-} /* namespace isam */
+} /* namespace niwa */

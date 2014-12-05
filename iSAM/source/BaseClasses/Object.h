@@ -31,10 +31,10 @@
 #include "Utilities/NoCopy.h"
 #include "Utilities/Types.h"
 
-using isam::utilities::Double;
+using niwa::utilities::Double;
 
 // Namespaces
-namespace isam {
+namespace niwa {
 
 // Enumerated Types
 namespace Estimable {
@@ -50,7 +50,7 @@ enum Type {
 namespace base {
 
 using std::string;
-using isam::utilities::Map;
+using niwa::utilities::Map;
 
 /**
  * Class Definition
@@ -105,9 +105,9 @@ protected:
 /**
  * Typedef
  */
-typedef boost::shared_ptr<isam::base::Object> ObjectPtr;
+typedef boost::shared_ptr<niwa::base::Object> ObjectPtr;
 
 
 } /* namespace base */
-} /* namespace isam */
+} /* namespace niwa */
 #endif /* BASE_OBJECT_H_ */

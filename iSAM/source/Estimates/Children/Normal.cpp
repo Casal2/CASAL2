@@ -14,7 +14,7 @@
 #include "Normal.h"
 
 // Namespaces
-namespace isam {
+namespace niwa {
 namespace estimates {
 
 /**
@@ -42,4 +42,4 @@ Double Normal::GetScore() {
 }
 
 } /* namespace estimates */
-} /* namespace isam */
+} /* namespace niwa */

@@ -16,7 +16,7 @@
 #include <cmath>
 
 // namespaces
-namespace isam {
+namespace niwa {
 namespace minimisers {
 namespace gammadiff {
 

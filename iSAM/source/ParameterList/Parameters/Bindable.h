@@ -21,14 +21,14 @@
 #include "Utilities/Types.h"
 
 // namespaces
-namespace isam {
+namespace niwa {
 namespace parameters {
 
 /**
  * class definition
  */
 template<typename T>
-class Bindable : public isam::parameterlist::Parameter {
+class Bindable : public niwa::parameterlist::Parameter {
 public:
   // methods
   Bindable(const string& label, T* target, const string& description);
@@ -44,7 +44,7 @@ private:
 };
 
 } /* namespace parameters */
-} /* namespace isam */
+} /* namespace niwa */
 
 // headers
 #include "Bindable-inl.h"

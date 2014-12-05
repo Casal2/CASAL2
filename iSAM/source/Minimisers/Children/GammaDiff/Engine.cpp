@@ -20,7 +20,7 @@
 #include "Utilities/DoubleCompare.h"
 
 // namespaces
-namespace isam {
+namespace niwa {
 namespace minimisers {
 namespace gammadiff {
 

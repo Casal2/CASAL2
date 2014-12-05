@@ -35,7 +35,7 @@
 #endif
 
 // Namespaces
-namespace isam {
+namespace niwa {
 namespace utilities {
 
 /**
@@ -84,7 +84,7 @@ inline std::string demangle(const char* name) {
 
 
 } /* namespace utilities */
-} /* namespace isam */
+} /* namespace niwa */
 
 
 

@@ -20,10 +20,10 @@
 #include "Utilities/Logging/Logging.h"
 
 // Namespaces
-namespace isam {
+namespace niwa {
 namespace parameterlist {
 
-using isam::utilities::Double;
+using niwa::utilities::Double;
 
 /**
  *
@@ -33,7 +33,7 @@ void Parameter::RequireValueType() const {
   T result_value;
 
   for (size_t i = 0; i < values_.size(); ++i) {
-    if (!isam::utilities::To<T>(values_[i], result_value)) {
+    if (!niwa::utilities::To<T>(values_[i], result_value)) {
       LOG_ERROR("At line " << line_number_ << " in file " << file_name_
           << ": " << label_ << " cannot be interpreted as type " << typeid(T).name() << " because the value " << values_[i] << " is invalid");
     }
@@ -48,7 +48,7 @@ inline void Parameter::RequireValueType<unsigned>() const {
   unsigned result_value;
 
   for (size_t i = 0; i < values_.size(); ++i) {
-    if (!isam::utilities::To<unsigned>(values_[i], result_value)) {
+    if (!niwa::utilities::To<unsigned>(values_[i], result_value)) {
       LOG_ERROR("At line " << line_number_ << " in file " << file_name_
           << ": " << label_ << " cannot be interpreted as a positive number because the value " << values_[i] << " is invalid");
     }
@@ -57,5 +57,5 @@ inline void Parameter::RequireValueType<unsigned>() const {
 
 
 } /* namespace parameterlist */
-} /* namespace isam */
+} /* namespace niwa */
 #endif /* PARAMETERLIST_PARAMETER_INL_H_ */

@@ -7,7 +7,7 @@
 
 #include <Estimates/Transformations/Children/Log.h>
 
-namespace isam {
+namespace niwa {
 namespace estimates {
 namespace transformations {
 
@@ -30,4 +30,4 @@ Double Log::Untransform(Double initial_value) {
 
 } /* namespace transformations */
 } /* namespace estimates */
-} /* namespace isam */
+} /* namespace niwa */

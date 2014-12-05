@@ -11,7 +11,7 @@
  */
 
 // Namespaces
-namespace isam {
+namespace niwa {
 namespace oldbase {
 
 /**
@@ -56,4 +56,4 @@ void Manager<ClassType, StoredType>::Reset() {
 
 
 } /* namespae base */
-} /* namespace isam */
+} /* namespace niwa */

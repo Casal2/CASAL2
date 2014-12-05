@@ -17,7 +17,7 @@
 #include "DerivedQuantities/DerivedQuantity.h"
 
 // namespaces
-namespace isam {
+namespace niwa {
 namespace derivedquantities {
 
 /**
@@ -35,5 +35,5 @@ private:
 };
 
 } /* namespace derivedquantities */
-} /* namespace isam */
+} /* namespace niwa */
 #endif /* FACTORY_H_ */

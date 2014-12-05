@@ -15,7 +15,7 @@
 #include "Estimates/Manager.h"
 
 // namespaces
-namespace isam {
+namespace niwa {
 namespace minimisers {
 
 /**
@@ -69,5 +69,5 @@ void GammaDiff::Execute() {
 }
 
 } /* namespace minimisers */
-} /* namespace isam */
+} /* namespace niwa */
 #endif

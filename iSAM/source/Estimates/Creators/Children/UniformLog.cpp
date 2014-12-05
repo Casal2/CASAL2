@@ -12,7 +12,7 @@
 #include "UniformLog.h"
 
 // namespaces
-namespace isam {
+namespace niwa {
 namespace estimates {
 namespace creators {
 
@@ -24,4 +24,4 @@ UniformLog::UniformLog() {
 
 } /* namespace creators */
 } /* namespace estimates */
-} /* namespace isam */
+} /* namespace niwa */

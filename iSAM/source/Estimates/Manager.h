@@ -23,14 +23,14 @@
 #include "Estimates/Creators/Creator.h"
 
 // namespaces
-namespace isam {
+namespace niwa {
 namespace estimates {
 
 /**
  * Class definition
  */
-class Manager : public isam::oldbase::Manager<estimates::Manager, isam::Estimate>, public boost::enable_shared_from_this<Manager>  {
-  friend class isam::oldbase::Manager<estimates::Manager, isam::Estimate>;
+class Manager : public niwa::oldbase::Manager<estimates::Manager, niwa::Estimate>, public boost::enable_shared_from_this<Manager>  {
+  friend class niwa::oldbase::Manager<estimates::Manager, niwa::Estimate>;
 public:
   // methods
   virtual                         ~Manager() noexcept(true) { };
@@ -53,5 +53,5 @@ private:
 };
 
 } /* namespace estimates */
-} /* namespace isam */
+} /* namespace niwa */
 #endif /* ESTIMATE_MANAGER_H_ */

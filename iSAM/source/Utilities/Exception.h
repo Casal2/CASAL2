@@ -29,14 +29,14 @@ using std::stringstream;
 using std::cout;
 using std::endl;
 
-namespace isam {
+namespace niwa {
 namespace utilities {
 
 //#define THROW_EXCEPTION(X) { ostringstream o; o << __FILE__ << ":" << __LINE__ << endl << "## " << X << endl; throw string(o.str()); }
 //#define RETHROW_EXCEPTION(X) { ostringstream o; o << __FILE__ << ":" << __LINE__ << endl << X; throw string(o.str()); }
 
 } /* namespace utilities */
-} /* namespace isam */
+} /* namespace niwa */
 
 
 #endif /* EXCEPTION_ */

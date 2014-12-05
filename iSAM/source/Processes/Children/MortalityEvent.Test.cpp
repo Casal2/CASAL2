@@ -24,12 +24,12 @@
 #include "TestResources/TestFixtures/BasicModel.h"
 
 // Namespaces
-namespace isam {
+namespace niwa {
 namespace processes {
 
 using std::cout;
 using std::endl;
-using isam::testfixtures::BasicModel;
+using niwa::testfixtures::BasicModel;
 
 /**
  *
@@ -39,7 +39,7 @@ TEST_F(BasicModel, Processes_Mortality_Event_No_Penalty) {
   // Recruitment process
   vector<string> recruitment_categories   = { "immature.male", "immature.female" };
   vector<string> proportions  = { "0.6", "0.4" };
-  isam::ProcessPtr process = processes::Factory::Create(PARAM_RECRUITMENT, PARAM_CONSTANT);
+  niwa::ProcessPtr process = processes::Factory::Create(PARAM_RECRUITMENT, PARAM_CONSTANT);
   process->parameters().Add(PARAM_LABEL, "recruitment", __FILE__, __LINE__);
   process->parameters().Add(PARAM_TYPE, "constant", __FILE__, __LINE__);
   process->parameters().Add(PARAM_CATEGORIES, recruitment_categories, __FILE__, __LINE__);
@@ -68,7 +68,7 @@ TEST_F(BasicModel, Processes_Mortality_Event_No_Penalty) {
   process->parameters().Add(PARAM_CATEGORIES, ageing_categories, __FILE__, __LINE__);
 
   // Timestep
-  isam::base::ObjectPtr time_step = timesteps::Factory::Create();
+  niwa::base::ObjectPtr time_step = timesteps::Factory::Create();
   vector<string> processes    = { "ageing", "recruitment", "mortality" };
   time_step->parameters().Add(PARAM_LABEL, "step_one", __FILE__, __LINE__);
   time_step->parameters().Add(PARAM_PROCESSES, processes, __FILE__, __LINE__);
@@ -120,7 +120,7 @@ TEST_F(BasicModel, Processes_Mortality_Event_No_Penalty) {
 }
 
 } /* namespace processes */
-} /* namespace isam */
+} /* namespace niwa */
 
 
 #endif /* TESTMODE */

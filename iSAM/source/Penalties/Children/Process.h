@@ -19,13 +19,13 @@
 #include "Penalties/Penalty.h"
 
 // namespaces
-namespace isam {
+namespace niwa {
 namespace penalties {
 
 /**
  * Class definition
  */
-class Process : public isam::Penalty {
+class Process : public niwa::Penalty {
 public:
   // methods
   Process();
@@ -46,6 +46,6 @@ private:
 typedef boost::shared_ptr<penalties::Process> ProcessPtr;
 
 } /* namespace penalties */
-} /* namespace isam */
+} /* namespace niwa */
 
 #endif /* PENALTIES_PROCESS_H_ */

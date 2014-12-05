@@ -19,7 +19,7 @@
 
 
 // namespace
-namespace isam {
+namespace niwa {
 namespace reports {
 
 /**
@@ -40,6 +40,6 @@ private:
 };
 
 } /* namespace reports */
-} /* namespace isam */
+} /* namespace niwa */
 
 #endif /* REPORTS_SIMULATEDOBSERVATION_H_ */

@@ -23,13 +23,13 @@
 #include "Utilities/To.h"
 
 // Namespaces
-namespace isam {
+namespace niwa {
 namespace partition {
 namespace accessors {
 
 using std::cout;
 using std::endl;
-namespace util = isam::utilities;
+namespace util = niwa::utilities;
 
 /**
  * Default constructor.
@@ -56,4 +56,4 @@ Category::Category(const string& category_name) {
 
 } /* namespace accessors */
 } /* namespace partition */
-} /* namespace isam */
+} /* namespace niwa */

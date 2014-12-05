@@ -16,9 +16,9 @@
 #include "Utilities/To.h"
 
 // namespaces
-namespace isam {
+namespace niwa {
 
-namespace util = isam::utilities;
+namespace util = niwa::utilities;
 
 /**
  * default constructor
@@ -91,4 +91,4 @@ void Profile::RestoreOriginalValue() {
   *target_ = original_value_;
 }
 
-} /* namespace isam */
+} /* namespace niwa */

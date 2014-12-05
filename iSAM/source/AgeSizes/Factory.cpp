@@ -19,7 +19,7 @@
 #include "AgeSizes/Children/VonBertalanffy.h"
 
 // namespaces
-namespace isam {
+namespace niwa {
 namespace agesizes {
 
 /**
@@ -51,4 +51,4 @@ AgeSizePtr Factory::Create(const string& object_type, const string& sub_type) {
 }
 
 } /* namespace agesizes */
-} /* namespace isam */
+} /* namespace niwa */

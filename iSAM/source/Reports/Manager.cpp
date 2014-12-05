@@ -11,7 +11,7 @@
 
 #include "Model/Model.h"
 
-namespace isam {
+namespace niwa {
 namespace reports {
 
 /**
@@ -138,4 +138,4 @@ void Manager::FlushReports() {
 }
 
 } /* namespace reports */
-} /* namespace isam */
+} /* namespace niwa */

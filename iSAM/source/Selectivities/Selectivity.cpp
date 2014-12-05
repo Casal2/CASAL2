@@ -16,7 +16,7 @@
 #include "Model/Model.h"
 
 // Namesapces
-namespace isam {
+namespace niwa {
 
 /**
  * Explicit Constructor
@@ -47,4 +47,4 @@ Double Selectivity::GetResult(unsigned age_or_length) {
   return values_[age_or_length];
 }
 
-} /* namespace isam */
+} /* namespace niwa */

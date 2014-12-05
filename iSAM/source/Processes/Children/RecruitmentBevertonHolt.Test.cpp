@@ -20,12 +20,12 @@
 #include "TestResources/Models/CasalComplex1.h"
 
 // Namespaces
-namespace isam {
+namespace niwa {
 namespace processes {
 
 using std::cout;
 using std::endl;
-using isam::testfixtures::InternalEmptyModel;
+using niwa::testfixtures::InternalEmptyModel;
 
 /**
  *
@@ -65,7 +65,7 @@ TEST_F(InternalEmptyModel, Processes_BevertonHolt_Recruitment) {
 }
 
 } /* namespace processes */
-} /* namespace isam */
+} /* namespace niwa */
 
 
 #endif /* TESTMODE */

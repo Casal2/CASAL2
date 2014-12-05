@@ -14,7 +14,7 @@
 #include "Observations/Manager.h"
 
 // namespaces
-namespace isam {
+namespace niwa {
 namespace reports {
 
 /**
@@ -96,4 +96,4 @@ void SimulatedObservation::DoExecute() {
 }
 
 } /* namespace reports */
-} /* namespace isam */
+} /* namespace niwa */

@@ -23,7 +23,7 @@
 #include "AgeSizes/AgeSize.h"
 
 // Namespaces
-namespace isam {
+namespace niwa {
 
 using boost::shared_ptr;
 
@@ -41,7 +41,7 @@ struct CategoryInfo {
 /**
  * Class Definition
  */
-class Categories : public isam::base::Object {
+class Categories : public niwa::base::Object {
 public:
   // Methods
   static shared_ptr<Categories> Instance();
@@ -83,8 +83,8 @@ private:
 };
 
 // Typedef
-typedef boost::shared_ptr<isam::Categories> CategoriesPtr;
+typedef boost::shared_ptr<niwa::Categories> CategoriesPtr;
 
-} /* namespace isam */
+} /* namespace niwa */
 
 #endif /* CATEGORIES_H_ */

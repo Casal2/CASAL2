@@ -26,9 +26,9 @@
 #include "Utilities/DoubleCompare.h"
 
 // Namespaces
-namespace isam {
+namespace niwa {
 
-namespace dc = isam::utilities::doublecompare;
+namespace dc = niwa::utilities::doublecompare;
 namespace ublas = boost::numeric::ublas;
 
 /**
@@ -122,4 +122,4 @@ void Minimiser::BuildCovarianceMatrix() {
   }
 }
 
-} /* namespace isam */
+} /* namespace niwa */

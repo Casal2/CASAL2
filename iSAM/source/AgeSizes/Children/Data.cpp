@@ -21,7 +21,7 @@
 #include "Utilities/To.h"
 
 // namespaces
-namespace isam {
+namespace niwa {
 namespace agesizes {
 
 using std::cout;
@@ -264,4 +264,4 @@ Double Data::mean_weight(unsigned year, unsigned age) {
 }
 
 } /* namespace agesizes */
-} /* namespace isam */
+} /* namespace niwa */

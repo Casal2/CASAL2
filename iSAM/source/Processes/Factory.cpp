@@ -24,7 +24,7 @@
 #include "Processes/Children/RecruitmentConstant.h"
 
 // Namespaces
-namespace isam {
+namespace niwa {
 namespace processes {
 
 /**
@@ -81,4 +81,4 @@ ProcessPtr Factory::Create(string object_type, string sub_type) {
 }
 
 } /* namespace processes */
-} /* namespace isam */
+} /* namespace niwa */

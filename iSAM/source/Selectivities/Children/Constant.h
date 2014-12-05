@@ -20,13 +20,13 @@
 #include "Selectivities/Selectivity.h"
 
 // Namespacaes
-namespace isam {
+namespace niwa {
 namespace selectivities {
 
 /**
  * Class Definition
  */
-class Constant : public isam::Selectivity {
+class Constant : public niwa::Selectivity {
 public:
   // Methods
   Constant();
@@ -40,5 +40,5 @@ private:
 };
 
 } /* namespace selectivities */
-} /* namespace isam */
+} /* namespace niwa */
 #endif /* CONSTANT_H_ */

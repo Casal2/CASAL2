@@ -12,7 +12,7 @@
 #include "Process.h"
 
 // namespaces
-namespace isam {
+namespace niwa {
 
 /**
  * Default constructor

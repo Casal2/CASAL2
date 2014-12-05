@@ -17,7 +17,7 @@
 #include "Estimates/Creators/Creator.h"
 
 // namespaces
-namespace isam {
+namespace niwa {
 namespace estimates {
 namespace creators {
 
@@ -28,11 +28,11 @@ class UniformLog : public estimates::Creator {
 public:
   UniformLog();
   virtual                     ~UniformLog() = default;
-  void                        DoCopyParameters(isam::EstimatePtr estimate, unsigned index) override final { };
+  void                        DoCopyParameters(niwa::EstimatePtr estimate, unsigned index) override final { };
 };
 
 } /* namespace creators */
 } /* namespace estimates */
-} /* namespace isam */
+} /* namespace niwa */
 
 #endif /* UNIFORMLOG_H_ */

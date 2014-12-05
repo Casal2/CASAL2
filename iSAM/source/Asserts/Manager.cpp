@@ -14,7 +14,7 @@
 #include "Utilities/Logging/Logging.h"
 
 // namespaces
-namespace isam {
+namespace niwa {
 namespace asserts {
 
 /**
@@ -24,4 +24,4 @@ Manager::Manager() {
 }
 
 } /* namespace asserts */
-} /* namespace isam */
+} /* namespace niwa */

@@ -20,18 +20,18 @@
 #include "Model/Model.h"
 
 // Namespaces
-namespace isam {
+namespace niwa {
 
 /**
  * Class Definition
  */
-class MockModel : public isam::Model {
+class MockModel : public niwa::Model {
 public:
   MOCK_CONST_METHOD0(min_age, unsigned());
   MOCK_CONST_METHOD0(max_age, unsigned());
   MOCK_CONST_METHOD0(age_spread, unsigned());
 };
 
-} /* namespace isam */
+} /* namespace niwa */
 
 #endif /* MOCK_MODEL_H_ */

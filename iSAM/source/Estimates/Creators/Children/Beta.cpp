@@ -12,7 +12,7 @@
 #include "Beta.h"
 
 // namespaces
-namespace isam {
+namespace niwa {
 namespace estimates {
 namespace creators {
 
@@ -29,7 +29,7 @@ Beta::Beta() {
 /**
  *
  */
-void Beta::DoCopyParameters(isam::EstimatePtr estimate, unsigned index) {
+void Beta::DoCopyParameters(niwa::EstimatePtr estimate, unsigned index) {
   estimate->parameters().CopyFrom(parameters_, PARAM_MU, index);
   estimate->parameters().CopyFrom(parameters_, PARAM_SIGMA, index);
   estimate->parameters().CopyFrom(parameters_, PARAM_A, index);
@@ -39,4 +39,4 @@ void Beta::DoCopyParameters(isam::EstimatePtr estimate, unsigned index) {
 
 } /* namespace creators */
 } /* namespace estimates */
-} /* namespace isam */
+} /* namespace niwa */

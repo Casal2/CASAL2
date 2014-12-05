@@ -23,7 +23,7 @@
 #include "ObjectiveFunction/ObjectiveFunction.h"
 
 // namespaces
-namespace isam {
+namespace niwa {
 namespace minimisers {
 
 using CppAD::AD;
@@ -116,6 +116,6 @@ void CPPAD::Execute() {
 }
 
 } /* namespace minimisers */
-} /* namespace isam */
+} /* namespace niwa */
 #endif /* USE_CPPAD */
 #endif /* USE_AUTODIFF */

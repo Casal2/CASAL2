@@ -7,7 +7,7 @@
 
 #include "Constant.h"
 
-namespace isam {
+namespace niwa {
 namespace selectivities {
 
 /**
@@ -33,4 +33,4 @@ Double Constant::GetResult(unsigned age_or_length) {
 }
 
 } /* namespace selectivities */
-} /* namespace isam */
+} /* namespace niwa */

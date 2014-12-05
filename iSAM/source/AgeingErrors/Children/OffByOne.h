@@ -8,7 +8,7 @@
 #ifndef OFFBYONE_H_
 #define OFFBYONE_H_
 
-namespace isam {
+namespace niwa {
 namespace ageingerrors {
 
 class OffByOne {
@@ -18,5 +18,5 @@ public:
 };
 
 } /* namespace ageingerrors */
-} /* namespace isam */
+} /* namespace niwa */
 #endif /* OFFBYONE_H_ */

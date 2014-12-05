@@ -14,7 +14,7 @@
 #include "InitialisationPhases/Manager.h"
 
 // namespaces
-namespace isam {
+namespace niwa {
 namespace derivedquantities {
 
 /**
@@ -59,4 +59,4 @@ void Abundance::Execute() {
 }
 
 } /* namespace derivedquantities */
-} /* namespace isam */
+} /* namespace niwa */

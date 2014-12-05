@@ -19,7 +19,7 @@
 #include "Utilities/Map.h"
 
 // Namespaces
-namespace isam {
+namespace niwa {
 namespace processes {
 
 /**
@@ -102,4 +102,4 @@ void Ageing::DoExecute() {
 }
 
 } /* namespace processes */
-} /* namespace isam */
+} /* namespace niwa */

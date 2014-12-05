@@ -15,7 +15,7 @@
 #include "Simulates/Manager.h"
 
 // namespaces
-namespace isam {
+namespace niwa {
 namespace simulates {
 
 /**
@@ -41,4 +41,4 @@ SimulatePtr Factory::Create(const string& object_type, const string& sub_type) {
 }
 
 } /* namespace simulates */
-} /* namespace isam */
+} /* namespace niwa */

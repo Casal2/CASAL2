@@ -20,13 +20,13 @@
 #include "Estimates/Estimate.h"
 
 // namespaces
-namespace isam {
+namespace niwa {
 namespace estimates {
 
 /**
  * Class definition
  */
-class Uniform : public isam::Estimate {
+class Uniform : public niwa::Estimate {
 public:
   // Methods
   Uniform();
@@ -36,5 +36,5 @@ public:
 };
 
 } /* namespace estimates */
-} /* namespace isam */
+} /* namespace niwa */
 #endif /* ESTIMATES_UNIFORM_H_ */

@@ -17,7 +17,7 @@
 #include "Estimates/Transformations/Transformation.h"
 
 // namespaces
-namespace isam {
+namespace niwa {
 namespace estimates {
 namespace transformations {
 
@@ -36,6 +36,6 @@ private:
 
 } /* namespace transformations */
 } /* namespace estimates */
-} /* namespace isam */
+} /* namespace niwa */
 
 #endif /* ESTIMATES_TRANSFORMATIONS_FACTORY_H_ */

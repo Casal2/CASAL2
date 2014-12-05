@@ -15,7 +15,7 @@
 #include "AdditionalPriors/Manager.h"
 #include "AdditionalPriors/Children/Beta.h"
 
-namespace isam {
+namespace niwa {
 namespace additionalpriors {
 
 AdditionalPriorPtr Factory::Create(string object_type, string sub_type) {
@@ -33,4 +33,4 @@ AdditionalPriorPtr Factory::Create(string object_type, string sub_type) {
 }
 
 } /* namespace additionalpriors */
-} /* namespace isam */
+} /* namespace niwa */

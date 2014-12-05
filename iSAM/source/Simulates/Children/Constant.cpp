@@ -12,7 +12,7 @@
 #include "Constant.h"
 
 // namespaces
-namespace isam {
+namespace niwa {
 namespace simulates {
 
 /**
@@ -46,4 +46,4 @@ void Constant::DoUpdate() {
 }
 
 } /* namespace simulates */
-} /* namespace isam */
+} /* namespace niwa */

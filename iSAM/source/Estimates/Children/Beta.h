@@ -20,13 +20,13 @@
 #include "Estimates/Estimate.h"
 
 // Namespaces
-namespace isam {
+namespace niwa {
 namespace estimates {
 
 /**
  * Class Definition
  */
-class Beta : public isam::Estimate {
+class Beta : public niwa::Estimate {
 public:
   // Methods
   Beta();
@@ -47,5 +47,5 @@ private:
 };
 
 } /* namespace estimates */
-} /* namespace isam */
+} /* namespace niwa */
 #endif /* ESTIMATES_BETA_H_ */

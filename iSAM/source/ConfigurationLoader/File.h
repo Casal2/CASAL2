@@ -29,7 +29,7 @@ using std::cout;
 using std::endl;
 using std::string;
 
-namespace isam {
+namespace niwa {
 namespace configuration {
 
 // Declarations
@@ -65,5 +65,5 @@ private:
 typedef boost::shared_ptr<File> FilePtr;
 
 } /* namespace configuration */
-} /* namespace isam */
+} /* namespace niwa */
 #endif /* FILE_H_ */

@@ -20,7 +20,7 @@
 #include <string>
 
 // namespaces
-namespace isam {
+namespace niwa {
 namespace testcases {
 
 /**
@@ -406,7 +406,7 @@ alpha 0.7
 )";
 
 } /* namespace testcases */
-} /* namespace isam */
+} /* namespace niwa */
 
 #endif /* TESTMODE */
 #endif /* TESTCASES_CASALCOMPLEX2_H_ */

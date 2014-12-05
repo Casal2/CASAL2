@@ -20,10 +20,10 @@
 #include "Utilities/DoubleCompare.h"
 
 // namespaces
-namespace isam {
+namespace niwa {
 namespace processes {
 
-namespace dc = isam::utilities::doublecompare;
+namespace dc = niwa::utilities::doublecompare;
 
 /**
  * default constructor
@@ -236,4 +236,4 @@ void RecruitmentBevertonHolt::DoExecute() {
 }
 
 } /* namespace processes */
-} /* namespace isam */
+} /* namespace niwa */

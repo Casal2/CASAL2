@@ -14,7 +14,7 @@
 #include "Manager.h"
 
 // namespaces
-namespace isam {
+namespace niwa {
 namespace ageingerrors {
 
 /**
@@ -30,4 +30,4 @@ Manager::~Manager() noexcept(true) {
 }
 
 } /* namespace ageingerrors */
-} /* namespace isam */
+} /* namespace niwa */

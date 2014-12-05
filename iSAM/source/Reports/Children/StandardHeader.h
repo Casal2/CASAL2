@@ -24,12 +24,12 @@
 #include "Reports/Report.h"
 
 // Namespaces
-namespace isam {
+namespace niwa {
 namespace reports {
 /**
  * Class Definition
  */
-class StandardHeader : public isam::Report {
+class StandardHeader : public niwa::Report {
 public:
   // Functions
   StandardHeader();
@@ -52,6 +52,6 @@ protected:
 };
 
 } /* namespace report */
-} /* namespace isam */
+} /* namespace niwa */
 
 #endif /* CSTANDARDHEADERREPORT_H_ */

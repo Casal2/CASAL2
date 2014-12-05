@@ -13,7 +13,7 @@
 #include "Beta.h"
 
 // namespaces
-namespace isam {
+namespace niwa {
 namespace additionalpriors {
 
 /**
@@ -60,4 +60,4 @@ Double Beta::GetMeanScore() {
 }
 
 } /* namespace additionalpriors */
-} /* namespace isam */
+} /* namespace niwa */

@@ -24,12 +24,12 @@
 #include "BaseClasses/Object.h"
 #include "BaseClasses/Executor.h"
 
-namespace isam {
+namespace niwa {
 
 /**
  * Class Definition
  */
-class Process : public isam::base::Object {
+class Process : public niwa::base::Object {
 public:
   // methods
   Process();
@@ -64,5 +64,5 @@ protected:
  */
 typedef boost::shared_ptr<Process> ProcessPtr;
 
-} /* namespace isam */
+} /* namespace niwa */
 #endif /* PROCESS_H_ */

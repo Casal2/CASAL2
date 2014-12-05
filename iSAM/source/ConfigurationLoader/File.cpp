@@ -23,10 +23,10 @@
 #include "Utilities/To.h"
 
 // Namespaces
-namespace isam {
+namespace niwa {
 namespace configuration {
 
-namespace util = isam::utilities;
+namespace util = niwa::utilities;
 
 /**
  * Default Constructor
@@ -204,7 +204,7 @@ void File::HandleComments(string& current_line) {
 }
 
 } /* namespace configuration */
-} /* namespace isam */
+} /* namespace niwa */
 
 
 

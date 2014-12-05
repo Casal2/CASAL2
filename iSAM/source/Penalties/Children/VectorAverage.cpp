@@ -15,7 +15,7 @@
 #include "ObjectsFinder/ObjectsFinder.h"
 
 // namespaces
-namespace isam {
+namespace niwa {
 namespace penalties {
 
 /**
@@ -124,4 +124,4 @@ Double VectorAverage::GetScore() {
 }
 
 } /* namespace penalties */
-} /* namespace isam */
+} /* namespace niwa */

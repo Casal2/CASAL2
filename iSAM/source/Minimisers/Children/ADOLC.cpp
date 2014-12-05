@@ -18,7 +18,7 @@
 #include "ADOLC/Callback.h"
 #include "Estimates/Manager.h"
 
-namespace isam {
+namespace niwa {
 namespace minimisers {
 
 /**
@@ -72,7 +72,7 @@ void ADOLC::Execute() {
 }
 
 } /* namespace minimisers */
-} /* namespace isam */
+} /* namespace niwa */
 
 #endif /* USE_ADOLC */
 #endif /* USE_AUTODIFF */

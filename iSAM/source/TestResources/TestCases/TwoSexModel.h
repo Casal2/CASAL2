@@ -16,7 +16,7 @@
 
 #include <string>
 
-namespace isam {
+namespace niwa {
 namespace testcases {
 
 /**
@@ -327,7 +327,7 @@ initialisation_time_steps step_one
 )";
 
 } /* namespace testcases */
-} /* namespace isam */
+} /* namespace niwa */
 
 #endif /* TESTMODE */
 #endif /* TWOSEXMODEL_H_ */

@@ -13,10 +13,10 @@
 #include "Observations/Manager.h"
 
 // namespaces
-namespace isam {
+namespace niwa {
 namespace reports {
 
-namespace obs = isam::observations;
+namespace obs = niwa::observations;
 
 /**
  *
@@ -66,4 +66,4 @@ void Observation::DoExecute() {
 }
 
 } /* namespace reports */
-} /* namespace isam */
+} /* namespace niwa */

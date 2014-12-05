@@ -23,11 +23,11 @@
 #include "TestResources/Models/TwoSexNoEstimates.h"
 
 // Namespaces
-namespace isam {
+namespace niwa {
 namespace estimates {
 namespace transformations {
 
-using isam::testfixtures::InternalEmptyModel;
+using niwa::testfixtures::InternalEmptyModel;
 
 const string estimate_transformations_log =
 R"(

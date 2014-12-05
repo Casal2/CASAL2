@@ -9,7 +9,7 @@
 
 #include "DerivedQuantities/Manager.h"
 
-namespace isam {
+namespace niwa {
 namespace reports {
 
 /**
@@ -57,4 +57,4 @@ void DerivedQuantity::DoExecute() {
 }
 
 } /* namespace reports */
-} /* namespace isam */
+} /* namespace niwa */

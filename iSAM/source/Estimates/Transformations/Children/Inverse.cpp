@@ -12,7 +12,7 @@
 #include "Inverse.h"
 
 // namespaces
-namespace isam {
+namespace niwa {
 namespace estimates {
 namespace transformations {
 
@@ -41,4 +41,4 @@ Double Inverse::Untransform(Double initial_value) {
 
 } /* namespace transformations */
 } /* namespace estimates */
-} /* namespace isam */
+} /* namespace niwa */

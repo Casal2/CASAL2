@@ -17,7 +17,7 @@
 #include <boost/lexical_cast.hpp>
 
 // Namespaces
-namespace isam {
+namespace niwa {
 
 using ::testing::Return;
 
@@ -25,7 +25,7 @@ using ::testing::Return;
  * Test the results of our KnifeEdge are correct
  */
 TEST(AgeSizes, Schnute) {
-//  isam::agesizes::Schnute snute;
+//  niwa::agesizes::Schnute snute;
 
 }
 

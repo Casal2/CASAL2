@@ -20,7 +20,7 @@
 #include "Utilities/Logging/Logging.h"
 
 // Namespaces
-namespace isam {
+namespace niwa {
 namespace processes {
 
 /**
@@ -162,4 +162,4 @@ void MortalityConstantRate::DoReset() {
 }
 
 } /* namespace processes */
-} /* namespace isam */
+} /* namespace niwa */

@@ -9,7 +9,7 @@
 
 #include "Utilities/Logging/Logging.h"
 
-namespace isam {
+namespace niwa {
 namespace processes {
 
 Manager::Manager() {
@@ -51,4 +51,4 @@ ProcessPtr Manager::GetProcess(const string& label) {
 }
 
 } /* namespace processes */
-} /* namespace isam */
+} /* namespace niwa */

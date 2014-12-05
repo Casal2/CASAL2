@@ -21,13 +21,13 @@
 #include "Penalties/Penalty.h"
 
 // namespaces
-namespace isam {
+namespace niwa {
 namespace penalties {
 
 /**
  * Class definition
  */
-class VectorAverage : public isam::Penalty {
+class VectorAverage : public niwa::Penalty {
 public:
   // methods
   VectorAverage();
@@ -50,6 +50,6 @@ private:
 };
 
 } /* namespace penalties */
-} /* namespace isam */
+} /* namespace niwa */
 
 #endif /* VECTORAVERAGE_H_ */

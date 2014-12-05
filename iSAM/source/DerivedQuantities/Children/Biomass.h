@@ -17,13 +17,13 @@
 #include "DerivedQuantities/DerivedQuantity.h"
 
 // namespaces
-namespace isam {
+namespace niwa {
 namespace derivedquantities {
 
 /**
  * class definition
  */
-class Biomass : public isam::DerivedQuantity {
+class Biomass : public niwa::DerivedQuantity {
 public:
   // methods
   Biomass() = default;
@@ -34,5 +34,5 @@ public:
 };
 
 } /* namespace derivedquantities */
-} /* namespace isam */
+} /* namespace niwa */
 #endif /* DERIVEDQUANTITIES_BIOMASS_H_ */

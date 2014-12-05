@@ -21,15 +21,15 @@
 #include "Selectivities/Selectivity.h"
 
 // namespaces
-namespace isam {
+namespace niwa {
 namespace processes {
 
-namespace accessor = isam::partition::accessors;
+namespace accessor = niwa::partition::accessors;
 
 /**
  * class definition
  */
-class MortalityEventBiomass : public isam::Process {
+class MortalityEventBiomass : public niwa::Process {
 public:
   // methods
   MortalityEventBiomass();
@@ -57,5 +57,5 @@ private:
 };
 
 } /* namespace processes */
-} /* namespace isam */
+} /* namespace niwa */
 #endif /* MORTALITYEVENTBIOMASS_H_ */

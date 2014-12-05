@@ -7,10 +7,10 @@
 
 #include "Bindable.h"
 
-namespace isam {
+namespace niwa {
 namespace parameters {
 
 
 
 } /* namespace parameters */
-} /* namespace isam */
+} /* namespace niwa */

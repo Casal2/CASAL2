@@ -12,13 +12,13 @@
 #include "Reports/Report.h"
 
 // namespaces
-namespace isam {
+namespace niwa {
 namespace reports {
 
 /**
  *
  */
-class DerivedQuantity : public isam::Report {
+class DerivedQuantity : public niwa::Report {
 public:
   DerivedQuantity();
   virtual                     ~DerivedQuantity() = default;
@@ -28,5 +28,5 @@ public:
 };
 
 } /* namespace reports */
-} /* namespace isam */
+} /* namespace niwa */
 #endif /* DERIVEDQUANTITY_H_ */

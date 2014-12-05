@@ -16,7 +16,7 @@
 #include "Model/Model.h"
 
 // Namespaces
-namespace isam {
+namespace niwa {
 
 /**
  * Default constructor
@@ -58,4 +58,4 @@ void AgeingError::Build() {
   DoBuild();
 }
 
-} /* namespace isam */
+} /* namespace niwa */

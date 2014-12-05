@@ -24,7 +24,7 @@
 #include "Utilities/RunMode.h"
 
 // Namespaces
-namespace isam {
+namespace niwa {
 namespace utilities {
 
 using std::string;
@@ -53,5 +53,5 @@ private:
 };
 
 } /* namespace utilities */
-} /* namespace isam */
+} /* namespace niwa */
 #endif /* COMMANDLINEPARSER_H_ */

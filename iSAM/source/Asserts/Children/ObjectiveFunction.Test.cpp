@@ -20,10 +20,10 @@
 #include "TestResources/TestFixtures/InternalEmptyModel.h"
 
 // namespaces
-namespace isam {
+namespace niwa {
 namespace asserts {
 
-using isam::testfixtures::InternalEmptyModel;
+using niwa::testfixtures::InternalEmptyModel;
 
 const std::string simple_model =
 R"(
@@ -156,7 +156,7 @@ TEST_F(InternalEmptyModel, Asserts_ObjectiveFunction) {
   ModelPtr model = Model::Instance();
   EXPECT_NO_THROW(model->Start(RunMode::kBasic));
 
-  isam::ObjectiveFunction& obj_function = isam::ObjectiveFunction::Instance();
+  niwa::ObjectiveFunction& obj_function = niwa::ObjectiveFunction::Instance();
   EXPECT_DOUBLE_EQ(13.81289313550076, obj_function.score());
 }
 

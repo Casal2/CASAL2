@@ -18,13 +18,13 @@
 #include "Minimisers/Minimiser.h"
 
 // namespaces
-namespace isam {
+namespace niwa {
 namespace minimisers {
 
 /**
  * Class definition
  */
-class DLib : public isam::Minimiser {
+class DLib : public niwa::Minimiser {
 public:
   // methods
   DLib();
@@ -36,6 +36,6 @@ public:
 };
 
 } /* namespace minimisers */
-} /* namespace isam */
+} /* namespace niwa */
 #endif /* MINIMISERS_DLIB_H_ */
 #endif /* NOT USE_AUTODIFF */

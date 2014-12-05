@@ -18,14 +18,14 @@
 #include "DerivedQuantities/DerivedQuantity.h"
 
 // namespaces
-namespace isam {
+namespace niwa {
 namespace derivedquantities {
 
 /**
  * class definition
  */
-class Manager : public isam::oldbase::Manager<derivedquantities::Manager, isam::DerivedQuantity> {
-  friend class isam::oldbase::Manager<derivedquantities::Manager, isam::DerivedQuantity>;
+class Manager : public niwa::oldbase::Manager<derivedquantities::Manager, niwa::DerivedQuantity> {
+  friend class niwa::oldbase::Manager<derivedquantities::Manager, niwa::DerivedQuantity>;
 public:
   // methods
   virtual                     ~Manager() noexcept(true) { };
@@ -33,5 +33,5 @@ public:
 };
 
 } /* namespace derivedquantities */
-} /* namespace isam */
+} /* namespace niwa */
 #endif /* MANAGER_H_ */

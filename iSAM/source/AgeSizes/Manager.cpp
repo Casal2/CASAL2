@@ -14,7 +14,7 @@
 #include "Categories/Categories.h"
 
 // namespaces
-namespace isam {
+namespace niwa {
 namespace agesizes {
 
 /**
@@ -30,4 +30,4 @@ AgeSizePtr Manager::GetAgeSize(const string& label) {
 }
 
 } /* namespace agesizes */
-} /* namespace isam */
+} /* namespace niwa */

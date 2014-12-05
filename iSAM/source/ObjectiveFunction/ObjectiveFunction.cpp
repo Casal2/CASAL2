@@ -20,7 +20,7 @@
 #include "Utilities/To.h"
 
 // Namespaces
-namespace isam {
+namespace niwa {
 
 /**
  * Default constructor
@@ -128,4 +128,4 @@ void ObjectiveFunction::CalculateScore() {
   }
 }
 
-} /* namespace isam */
+} /* namespace niwa */

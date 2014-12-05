@@ -21,7 +21,7 @@
 #include "TestResources/MockClasses/Model.h"
 
 // Namespaces
-namespace isam {
+namespace niwa {
 
 using ::testing::Return;
 
@@ -33,7 +33,7 @@ TEST(Selectivities, Increasing) {
   EXPECT_CALL(*model.get(), min_age()).WillRepeatedly(Return(10));
   EXPECT_CALL(*model.get(), max_age()).WillRepeatedly(Return(20));
 
-  isam::selectivities::Increasing increasing(model);
+  niwa::selectivities::Increasing increasing(model);
 
   vector<string> v;
   for (unsigned i = 12; i <= 18; ++i)

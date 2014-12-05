@@ -19,14 +19,14 @@
 #include "BaseClasses/Manager.h"
 
 // namespaces
-namespace isam {
+namespace niwa {
 namespace additionalpriors {
 
 /**
  * Class definition
  */
-class Manager : public isam::oldbase::Manager<isam::additionalpriors::Manager, isam::AdditionalPrior> {
-  friend class isam::oldbase::Manager<isam::additionalpriors::Manager, isam::AdditionalPrior>;
+class Manager : public niwa::oldbase::Manager<niwa::additionalpriors::Manager, niwa::AdditionalPrior> {
+  friend class niwa::oldbase::Manager<niwa::additionalpriors::Manager, niwa::AdditionalPrior>;
 public:
   // methods
   virtual                     ~Manager() = default;
@@ -38,6 +38,6 @@ protected:
 };
 
 } /* namespace additionalpriors */
-} /* namespace isam */
+} /* namespace niwa */
 
 #endif /* ADDITIONAL_PRIORS_MANAGER_H_ */

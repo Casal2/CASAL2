@@ -17,7 +17,7 @@
 #include "ObjectiveFunction/ObjectiveFunction.h"
 
 // namespaces
-namespace isam {
+namespace niwa {
 namespace minimisers {
 namespace gammadiff {
 
@@ -54,5 +54,5 @@ double CallBack::operator()(const vector<double>& Parameters) {
 
 } /* namespace gammadiff */
 } /* namespace minimiser */
-} /* namespace isam */
+} /* namespace niwa */
 #endif

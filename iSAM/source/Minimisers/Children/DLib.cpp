@@ -19,7 +19,7 @@
 #include "Utilities/Math.h"
 
 // namespaces
-namespace isam {
+namespace niwa {
 namespace minimisers {
 
 using namespace dlib;
@@ -97,6 +97,6 @@ void DLib::Execute() {
 
 
 } /* namespace minimisers */
-} /* namespace isam */
+} /* namespace niwa */
 
 #endif /* NOT USE_AUTODIFF */

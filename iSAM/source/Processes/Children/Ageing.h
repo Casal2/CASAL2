@@ -22,15 +22,15 @@
 #include "Processes/Process.h"
 
 // Namespaces
-namespace isam {
+namespace niwa {
 namespace processes {
 
-namespace accessor = isam::partition::accessors;
+namespace accessor = niwa::partition::accessors;
 
 /**
  * Class Definition
  */
-class Ageing : public isam::Process {
+class Ageing : public niwa::Process {
 public:
   // Methods
   Ageing();
@@ -50,5 +50,5 @@ private:
 };
 
 } /* namespace processes */
-} /* namespace isam */
+} /* namespace niwa */
 #endif /* AGEING_H_ */

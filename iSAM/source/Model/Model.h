@@ -25,10 +25,10 @@
 #include "Utilities/RunMode.h"
 
 // Namespaces
-namespace isam {
+namespace niwa {
 
 using boost::shared_ptr;
-using isam::catchabilities::CatchabilityManagerPtr;
+using niwa::catchabilities::CatchabilityManagerPtr;
 
 namespace State {
 enum Type {
@@ -112,7 +112,7 @@ protected:
  */
 typedef boost::shared_ptr<Model> ModelPtr;
 
-} /* namespace isam */
+} /* namespace niwa */
 #endif /* MODEL_H_ */
 
 

@@ -18,10 +18,10 @@
 #include "Utilities/Logging/Logging.h"
 
 // Namespaces
-namespace isam {
+namespace niwa {
 namespace processes {
 
-using isam::partition::accessors::CategoriesWithAge;
+using niwa::partition::accessors::CategoriesWithAge;
 
 /**
  * Default Constructor
@@ -124,4 +124,4 @@ void RecruitmentConstant::DoExecute() {
 }
 
 } /* namespace processes */
-} /* namespace isam */
+} /* namespace niwa */

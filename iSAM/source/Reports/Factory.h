@@ -18,7 +18,7 @@
 #include "Reports/Report.h"
 
 // Namespaces
-namespace isam {
+namespace niwa {
 namespace reports {
 
 using std::string;
@@ -38,5 +38,5 @@ private:
 };
 
 } /* namespace reports */
-} /* namespace isam */
+} /* namespace niwa */
 #endif /* REPORTS_FACTORY_H_ */

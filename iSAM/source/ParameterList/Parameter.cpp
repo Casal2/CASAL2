@@ -17,7 +17,7 @@
 #include "Utilities/To.h"
 
 // Namespaces
-namespace isam {
+namespace niwa {
 namespace parameterlist {
 
 /**
@@ -39,7 +39,7 @@ Parameter::Parameter(const string& label, const string& description)
  */
 string Parameter::location() const {
   string line_number;
-  isam::utilities::To<unsigned, string>(line_number_, line_number);
+  niwa::utilities::To<unsigned, string>(line_number_, line_number);
   return string("At line " + line_number + " of file " + file_name_);
 
 }
@@ -52,4 +52,4 @@ void Parameter::AddValue(const string& value) {
 }
 
 } /* namespace parameterlist */
-} /* namespace isam */
+} /* namespace niwa */

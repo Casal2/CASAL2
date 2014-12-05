@@ -18,7 +18,7 @@
 #include "InitialisationPhases/Manager.h"
 
 // Namespaces
-namespace isam {
+namespace niwa {
 namespace initialisationphases {
 
 /**
@@ -36,7 +36,7 @@ private:
 };
 
 } /* namespace initialisationphases */
-} /* namespace isam */
+} /* namespace niwa */
 
 
 

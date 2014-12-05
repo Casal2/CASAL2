@@ -12,13 +12,13 @@
 #include "DerivedQuantities/DerivedQuantity.h"
 
 // namespaces
-namespace isam {
+namespace niwa {
 namespace derivedquantities {
 
 /**
  * class definition
  */
-class Abundance : public isam::DerivedQuantity {
+class Abundance : public niwa::DerivedQuantity {
 public:
   // methods
   Abundance() = default;
@@ -27,5 +27,5 @@ public:
 };
 
 } /* namespace derivedquantities */
-} /* namespace isam */
+} /* namespace niwa */
 #endif /* ABUNDANCE_H_ */

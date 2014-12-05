@@ -20,12 +20,12 @@
 #include "TestResources/TestFixtures/InternalEmptyModel.h"
 
 // Namespaces
-namespace isam {
+namespace niwa {
 namespace observations {
 
 using std::cout;
 using std::endl;
-using isam::testfixtures::InternalEmptyModel;
+using niwa::testfixtures::InternalEmptyModel;
 
 const std::string test_cases_observation_proportions_at_age_single =
 R"(
@@ -358,7 +358,7 @@ TEST_F(InternalEmptyModel, Observation_Process_Proportions_At_Age_Double) {
 }
 
 } /* namespace processes */
-} /* namespace isam */
+} /* namespace niwa */
 
 
 #endif /* TESTMODE */

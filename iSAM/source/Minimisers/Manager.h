@@ -21,14 +21,14 @@
 #include "Minimisers/Minimiser.h"
 
 // Namespaces
-namespace isam {
+namespace niwa {
 namespace minimisers {
 
 /**
  * Class Definition
  */
-class Manager : public isam::oldbase::Manager<minimisers::Manager, isam::Minimiser> {
-  friend class isam::oldbase::Manager<minimisers::Manager, isam::Minimiser>;
+class Manager : public niwa::oldbase::Manager<minimisers::Manager, niwa::Minimiser> {
+  friend class niwa::oldbase::Manager<minimisers::Manager, niwa::Minimiser>;
 public:
   // Methods
   virtual                     ~Manager() noexcept(true);
@@ -47,5 +47,5 @@ private:
 };
 
 } /* namespace minimisers */
-} /* namespace isam */
+} /* namespace niwa */
 #endif /* MANAGER_H_ */

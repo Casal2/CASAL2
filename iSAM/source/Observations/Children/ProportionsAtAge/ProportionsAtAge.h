@@ -23,7 +23,7 @@
 #include "Partition/Accessors/Cached/CombinedCategories.h"
 
 // Namespace
-namespace isam {
+namespace niwa {
 namespace observations {
 
 using partition::accessors::CombinedCategoriesPtr;
@@ -32,7 +32,7 @@ using partition::accessors::cached::CachedCombinedCategoriesPtr;
 /**
  * Class Definition
  */
-class ProportionsAtAge : public isam::Observation {
+class ProportionsAtAge : public niwa::Observation {
 public:
   // Methods
   ProportionsAtAge() = default;
@@ -66,5 +66,5 @@ protected:
 };
 
 } /* namespace observations */
-} /* namespace isam */
+} /* namespace niwa */
 #endif /* PROPORTIONSATAGE_H_ */

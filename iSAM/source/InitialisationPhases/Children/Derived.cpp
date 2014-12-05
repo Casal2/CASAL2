@@ -7,11 +7,11 @@
 
 #include "Derived.h"
 
-namespace isam {
+namespace niwa {
 namespace initialisationphases {
 
 Derived::Derived() {
 }
 
 } /* namespace initialisationphases */
-} /* namespace isam */
+} /* namespace niwa */

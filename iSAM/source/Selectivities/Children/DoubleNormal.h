@@ -20,13 +20,13 @@
 #include "Selectivities/Selectivity.h"
 
 // Namespaces
-namespace isam {
+namespace niwa {
 namespace selectivities {
 
 /**
  * Class definition
  */
-class DoubleNormal : public isam::Selectivity {
+class DoubleNormal : public niwa::Selectivity {
 public:
   // Methods
   DoubleNormal();
@@ -44,5 +44,5 @@ private:
 };
 
 } /* namespace selectivities */
-} /* namespace isam */
+} /* namespace niwa */
 #endif /* DOUBLENORMAL_H_ */

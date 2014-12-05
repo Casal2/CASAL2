@@ -23,14 +23,14 @@
 #include "Utilities/Types.h"
 
 // Namespaces
-namespace isam {
+namespace niwa {
 namespace minimisers {
 namespace desolver {
 
 /**
  * Class Definition
  */
-class CallBack : public isam::minimisers::desolver::Engine {
+class CallBack : public niwa::minimisers::desolver::Engine {
 public:
   // Methods
   CallBack(unsigned vector_size, unsigned population_size, double tolerance);
@@ -44,6 +44,6 @@ private:
 
 } /* namespace desolver */
 } /* namespace minimisers */
-} /* namespace isam */
+} /* namespace niwa */
 #endif /* MINIMISERS_DESOLVER_CALLBACK_H_ */
 #endif /* USE_AUTODIFF */

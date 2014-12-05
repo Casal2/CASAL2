@@ -21,14 +21,14 @@
 #include "Utilities/Types.h"
 
 // Namespaces
-namespace isam {
+namespace niwa {
 
-using isam::utilities::Double;
+using niwa::utilities::Double;
 
 /**
  * Class definitiom
  */
-class Catchability : public isam::base::Object {
+class Catchability : public niwa::base::Object {
 public:
   // Methods
   Catchability();
@@ -43,7 +43,7 @@ public:
 };
 
 // Typdef
-typedef boost::shared_ptr<isam::Catchability> CatchabilityPtr;
+typedef boost::shared_ptr<niwa::Catchability> CatchabilityPtr;
 
-} /* namespace isam */
+} /* namespace niwa */
 #endif /* CATCHABILITY_H_ */

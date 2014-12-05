@@ -16,7 +16,7 @@
 #include "Observations/Observation.h"
 
 // Namespaces
-namespace isam {
+namespace niwa {
 namespace observations {
 
 /**
@@ -34,5 +34,5 @@ private:
 };
 
 } /* namespace observations */
-} /* namespace isam */
+} /* namespace niwa */
 #endif /* OBSERVATIONS_FACTORY_H_ */

@@ -23,13 +23,13 @@
 #include "Penalties/Penalty.h"
 
 // namespaces
-namespace isam {
+namespace niwa {
 namespace penalties {
 
 /**
  * Class definition
  */
-class VectorSmoothing : public isam::Penalty {
+class VectorSmoothing : public niwa::Penalty {
 public:
   // methods
   VectorSmoothing();
@@ -52,6 +52,6 @@ private:
 };
 
 } /* namespace penalties */
-} /* namespace isam */
+} /* namespace niwa */
 
 #endif /* VECTORSMOOTHING_H_ */

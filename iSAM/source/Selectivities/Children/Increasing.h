@@ -20,13 +20,13 @@
 #include "Selectivities/Selectivity.h"
 
 // Namespaces
-namespace isam {
+namespace niwa {
 namespace selectivities {
 
 /**
  * Class definition
  */
-class Increasing : public isam::Selectivity {
+class Increasing : public niwa::Selectivity {
 public:
   // Methods
   Increasing();
@@ -44,5 +44,5 @@ private:
 };
 
 } /* namespace selectivities */
-} /* namespace isam */
+} /* namespace niwa */
 #endif /* INCREASING_H_ */

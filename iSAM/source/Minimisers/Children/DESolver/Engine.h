@@ -31,7 +31,7 @@
 #include "Utilities/Types.h"
 
 // Namespaces
-namespace isam {
+namespace niwa {
 namespace minimisers {
 namespace desolver {
 
@@ -117,6 +117,6 @@ private:
 
 } /* namespace desolver */
 } /* namespace minimisers */
-} /* namespace isam */
+} /* namespace niwa */
 #endif /* MINIMISERS_DESOLVER_ENGINE_H_ */
 #endif /* USE_AUTODIFF */

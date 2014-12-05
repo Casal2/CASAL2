@@ -22,7 +22,7 @@
 #include <vector>
 
 // namespaces
-namespace isam {
+namespace niwa {
 namespace minimisers {
 namespace adolc {
 

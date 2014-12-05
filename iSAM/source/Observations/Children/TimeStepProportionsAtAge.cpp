@@ -16,7 +16,7 @@
 #include "Utilities/DoubleCompare.h"
 
 // namespaces
-namespace isam {
+namespace niwa {
 namespace observations {
 
 /**
@@ -56,4 +56,4 @@ void TimeStepProportionsAtAge::DoBuild() {
 }
 
 } /* namespace observations */
-} /* namespace isam */
+} /* namespace niwa */

@@ -18,13 +18,13 @@
 #include "Observations/Observation.h"
 
 // namespaces
-namespace isam {
+namespace niwa {
 namespace reports {
 
 /**
  *
  */
-class Observation : public isam::Report {
+class Observation : public niwa::Report {
 public:
   // methods
   Observation();
@@ -40,5 +40,5 @@ private:
 };
 
 } /* namespace reports */
-} /* namespace isam */
+} /* namespace niwa */
 #endif /* REPORTS_OBSERVATION_H_ */

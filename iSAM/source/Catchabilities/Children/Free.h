@@ -18,7 +18,7 @@
 #include "Catchabilities/Catchability.h"
 
 // namespaces
-namespace isam {
+namespace niwa {
 namespace catchabilities {
 
 /**
@@ -37,6 +37,6 @@ private:
 };
 
 } /* namespace catchabilities */
-} /* namespace isam */
+} /* namespace niwa */
 
 #endif /* FREE_H_ */

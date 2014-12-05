@@ -21,12 +21,12 @@
 #include "TestResources/Models/TwoSexHalfAges.h"
 
 // Namespaces
-namespace isam {
+namespace niwa {
 namespace estimates {
 
 using std::cout;
 using std::endl;
-using isam::testfixtures::InternalEmptyModel;
+using niwa::testfixtures::InternalEmptyModel;
 
 const string age_size_data_external_mean_internal_mean =
 R"(
@@ -224,5 +224,5 @@ TEST_F(InternalEmptyModel, AgeSizes_Data_Mean_Interpolate) {
 
 
 } /* namespace estimates */
-} /* namespace isam */
+} /* namespace niwa */
 #endif

@@ -18,14 +18,14 @@
 #include "BaseClasses/Manager.h"
 
 // namespaces
-namespace isam {
+namespace niwa {
 namespace agesizes {
 
 /**
  * class definition
  */
-class Manager : public isam::oldbase::Manager<isam::agesizes::Manager, isam::AgeSize> {
-  friend class isam::oldbase::Manager<isam::agesizes::Manager, isam::AgeSize>;
+class Manager : public niwa::oldbase::Manager<niwa::agesizes::Manager, niwa::AgeSize> {
+  friend class niwa::oldbase::Manager<niwa::agesizes::Manager, niwa::AgeSize>;
 public:
   // methods
   virtual                     ~Manager() noexcept(true) { };
@@ -37,5 +37,5 @@ protected:
 };
 
 } /* namespace agesizes */
-} /* namespace isam */
+} /* namespace niwa */
 #endif /* AGESIZES_MANAGER_H_ */

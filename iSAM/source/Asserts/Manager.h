@@ -18,14 +18,14 @@
 #include "Asserts/Assert.h"
 
 // Namespaces
-namespace isam {
+namespace niwa {
 namespace asserts {
 
 /**
  * Class Definition
  */
-class Manager : public isam::oldbase::Manager<isam::asserts::Manager, isam::Assert> {
-  friend class isam::oldbase::Manager<isam::asserts::Manager, isam::Assert>;
+class Manager : public niwa::oldbase::Manager<niwa::asserts::Manager, niwa::Assert> {
+  friend class niwa::oldbase::Manager<niwa::asserts::Manager, niwa::Assert>;
 public:
   virtual                     ~Manager() = default;
 
@@ -35,5 +35,5 @@ protected:
 };
 
 } /* namespace asserts */
-} /* namespace isam */
+} /* namespace niwa */
 #endif /* ASSERTS_MANAGER_H_ */

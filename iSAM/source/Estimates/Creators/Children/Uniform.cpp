@@ -12,7 +12,7 @@
 #include "Uniform.h"
 
 // namespaces
-namespace isam {
+namespace niwa {
 namespace estimates {
 namespace creators {
 
@@ -24,4 +24,4 @@ Uniform::Uniform() {
 
 } /* namespace creators */
 } /* namespace estimates */
-} /* namespace isam */
+} /* namespace niwa */

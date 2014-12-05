@@ -16,7 +16,7 @@
 #include "Utilities/Map.h"
 
 // namespaces
-namespace isam {
+namespace niwa {
 
 /**
  *
@@ -56,4 +56,4 @@ void AgeSize::Build() {
   DoBuild();
 }
 
-} /* namespace isam */
+} /* namespace niwa */

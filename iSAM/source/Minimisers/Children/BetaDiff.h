@@ -21,15 +21,15 @@
 #include "Utilities/Types.h"
 
 // namespaces
-namespace isam {
+namespace niwa {
 namespace minimisers {
 
-using isam::utilities::Double;
+using niwa::utilities::Double;
 
 /**
  * class definition
  */
-class BetaDiff : public isam::Minimiser {
+class BetaDiff : public niwa::Minimiser {
 public:
   // Methods
   BetaDiff();
@@ -46,7 +46,7 @@ private:
 };
 
 } /* namespace reports */
-} /* namespace isam */
+} /* namespace niwa */
 #endif /* BETADIFF_H_ */
 #endif /* USE_BETADIFF */
 #endif /* USE_AUTODIFF */

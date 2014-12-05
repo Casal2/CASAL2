@@ -20,7 +20,7 @@
 #include <string>
 
 // namespaces
-namespace isam {
+namespace niwa {
 namespace testresources {
 namespace models {
 

@@ -18,11 +18,11 @@
 #include "TimeSteps/Manager.h"
 #include "TimeSteps/TimeStep.h"
 
-namespace isam {
+namespace niwa {
 namespace timesteps {
 
-class Factory : public base::Factory<isam::TimeStep, isam::timesteps::Manager> { };
+class Factory : public base::Factory<niwa::TimeStep, niwa::timesteps::Manager> { };
 
 } /* namespace timesteps */
-} /* namespace isam */
+} /* namespace niwa */
 #endif /* TIMESTEPS_FACTORY_H_ */

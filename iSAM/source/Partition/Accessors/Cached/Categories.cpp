@@ -17,7 +17,7 @@
 #include "Partition/Partition.h"
 
 // Namespaces
-namespace isam {
+namespace niwa {
 namespace partition {
 namespace accessors {
 namespace cached {
@@ -87,4 +87,4 @@ unsigned Categories::Size() {
 } /* namespace cached */
 } /* namespace accessors */
 } /* namespace partition */
-} /* namespace isam */
+} /* namespace niwa */

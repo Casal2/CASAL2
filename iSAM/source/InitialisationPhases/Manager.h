@@ -13,14 +13,14 @@
 #include "InitialisationPhases/InitialisationPhase.h"
 
 // Namespaces
-namespace isam {
+namespace niwa {
 namespace initialisationphases {
 
 /**
  * Class Definition
  */
-class Manager : public oldbase::Manager<isam::initialisationphases::Manager, isam::InitialisationPhase> {
-  friend class oldbase::Manager<isam::initialisationphases::Manager, isam::InitialisationPhase>;
+class Manager : public oldbase::Manager<niwa::initialisationphases::Manager, niwa::InitialisationPhase> {
+  friend class oldbase::Manager<niwa::initialisationphases::Manager, niwa::InitialisationPhase>;
 public:
   // methods
   virtual                     ~Manager() noexcept(true);
@@ -46,5 +46,5 @@ private:
 };
 
 } /* namespace initialisationphases */
-} /* namespace isam */
+} /* namespace niwa */
 #endif /* INITIALISATIONPHASES_MANAGER_H_ */

@@ -14,7 +14,7 @@
 #include "InitialisationPhases/Manager.h"
 
 // namespaces
-namespace isam {
+namespace niwa {
 namespace derivedquantities {
 
 /**
@@ -60,4 +60,4 @@ void Biomass::Execute() {
 }
 
 } /* namespace derivedquantities */
-} /* namespace isam */
+} /* namespace niwa */

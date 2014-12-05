@@ -26,7 +26,7 @@
 #include "Estimates/Children/UniformLog.h"
 
 // Namespaces
-namespace isam {
+namespace niwa {
 namespace estimates {
 
 /**
@@ -57,11 +57,11 @@ EstimatePtr Factory::Create(const string& object_type, const string& sub_type) {
       result = EstimatePtr(new UniformLog());
 
     if (result)
-      isam::estimates::Manager::Instance().AddObject(result);
+      niwa::estimates::Manager::Instance().AddObject(result);
   }
 
   return result;
 }
 
 } /* namespace estimates */
-} /* namespace isam */
+} /* namespace niwa */

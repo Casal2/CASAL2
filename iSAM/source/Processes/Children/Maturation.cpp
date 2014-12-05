@@ -15,7 +15,7 @@
 #include "Selectivities/Manager.h"
 
 // namespaces
-namespace isam {
+namespace niwa {
 namespace processes {
 
 /**
@@ -41,7 +41,7 @@ void Maturation::DoValidate() {
     selectivity_names_.assign(from_category_names_.size(), selectivity_names_[0]);
 
   // Validate Categories
-  isam::CategoriesPtr categories = isam::Categories::Instance();
+  niwa::CategoriesPtr categories = niwa::Categories::Instance();
   for (const string& label : from_category_names_) {
     if (!categories->IsValid(label))
       LOG_ERROR(parameters_.location(PARAM_FROM) << ": category " << label << " does not exist. Have you defined it?");
@@ -125,4 +125,4 @@ void Maturation::DoExecute() {
 }
 
 } /* namespace processes */
-} /* namespace isam */
+} /* namespace niwa */

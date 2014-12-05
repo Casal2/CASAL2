@@ -16,7 +16,7 @@
 
 #include <gtest/gtest.h>
 
-namespace isam {
+namespace niwa {
 
 /**
  * Test the return override for the Constant selectivity is
@@ -24,7 +24,7 @@ namespace isam {
  */
 TEST(Selectivities, Constant) {
 
-  isam::selectivities::Constant constant;
+  niwa::selectivities::Constant constant;
   constant.parameters().Add(PARAM_LABEL, "unit_test_constant", __FILE__, __LINE__);
   constant.parameters().Add(PARAM_TYPE, "not needed in test", __FILE__, __LINE__);
   constant.parameters().Add(PARAM_C, "83", __FILE__, __LINE__);
@@ -38,5 +38,5 @@ TEST(Selectivities, Constant) {
   EXPECT_DOUBLE_EQ(83.0, constant.GetResult(4));
 }
 
-} /* namespace isam */
+} /* namespace niwa */
 #endif

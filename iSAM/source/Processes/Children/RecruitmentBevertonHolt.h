@@ -19,15 +19,15 @@
 #include "Processes/Process.h"
 
 // namespaces
-namespace isam {
+namespace niwa {
 namespace processes {
 
-namespace accessor = isam::partition::accessors;
+namespace accessor = niwa::partition::accessors;
 
 /**
  * class definition
  */
-class RecruitmentBevertonHolt : public isam::Process {
+class RecruitmentBevertonHolt : public niwa::Process {
 public:
   // methods
   RecruitmentBevertonHolt();
@@ -62,6 +62,6 @@ private:
 };
 
 } /* namespace processes */
-} /* namespace isam */
+} /* namespace niwa */
 
 #endif /* PROCESSES_RECRUITMENTBEVERTONHOLT_H_ */

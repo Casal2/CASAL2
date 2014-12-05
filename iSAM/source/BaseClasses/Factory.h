@@ -24,7 +24,7 @@
 #include "Model/Model.h"
 
 // namespaces
-namespace isam {
+namespace niwa {
 namespace base {
 
 using boost::shared_ptr;
@@ -50,5 +50,5 @@ private:
 };
 
 } /* namespace base */
-} /* namespace isam */
+} /* namespace niwa */
 #endif /* BASE_FACTORY_H_ */

@@ -15,7 +15,7 @@
  * (excluding when the 'same' keyword is used).
  *
  * This object is not constructed directly from a configuration file
- * block, instead the isam::estimates::Info is used to create this.
+ * block, instead the niwa::estimates::Info is used to create this.
  *
  * $Date: 2008-03-04 16:33:32 +1300 (Tue, 04 Mar 2008) $
  */
@@ -29,14 +29,14 @@
 #include "Utilities/Types.h"
 
 // Namespaces
-namespace isam {
+namespace niwa {
 
-using isam::utilities::Double;
+using niwa::utilities::Double;
 
 /**
  * Class Definition
  */
-class Estimate : public isam::base::Object {
+class Estimate : public niwa::base::Object {
 public:
   // Methods
   Estimate();
@@ -81,7 +81,7 @@ protected:
   estimates::TransformationPtr  transformation_;
 };
 
-typedef boost::shared_ptr<isam::Estimate> EstimatePtr;
+typedef boost::shared_ptr<niwa::Estimate> EstimatePtr;
 
-} /* namespace isam */
+} /* namespace niwa */
 #endif /* ESTIMATE_H_ */

@@ -18,10 +18,10 @@
 #include "Reports/Report.h"
 
 // namespaces
-namespace isam {
+namespace niwa {
 namespace reports {
 
-class MCMCChain : public isam::Report {
+class MCMCChain : public niwa::Report {
 public:
   MCMCChain();
   virtual                     ~MCMCChain() noexcept(true);
@@ -31,5 +31,5 @@ public:
 };
 
 } /* namespace reports */
-} /* namespace isam */
+} /* namespace niwa */
 #endif /* MCMCCHAIN_H_ */

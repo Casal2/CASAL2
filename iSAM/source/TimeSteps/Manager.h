@@ -14,14 +14,14 @@
 #include "TimeSteps/TimeStep.h"
 
 // Namespaces
-namespace isam {
+namespace niwa {
 namespace timesteps {
 
 /**
  * Class Definition
  */
-class Manager : public isam::oldbase::Manager<isam::timesteps::Manager, isam::TimeStep> {
-  friend class isam::oldbase::Manager<isam::timesteps::Manager, isam::TimeStep>;
+class Manager : public niwa::oldbase::Manager<niwa::timesteps::Manager, niwa::TimeStep> {
+  friend class niwa::oldbase::Manager<niwa::timesteps::Manager, niwa::TimeStep>;
 public:
   // Methods
   virtual                     ~Manager() noexcept(true);
@@ -52,5 +52,5 @@ private:
 };
 
 } /* namespace timesteps */
-} /* namespace isam */
+} /* namespace niwa */
 #endif /* TIMESTEPS_MANAGER_H_ */

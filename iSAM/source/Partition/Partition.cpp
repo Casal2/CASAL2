@@ -19,7 +19,7 @@
 #include "Utilities/Logging/Logging.h"
 
 // Namespaces
-namespace isam {
+namespace niwa {
 
 /**
  *
@@ -138,4 +138,4 @@ void Partition::Debug() {
   cout << "-- End Partition Debug -- " << endl;
 }
 
-} /* namespace isam */
+} /* namespace niwa */

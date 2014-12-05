@@ -18,7 +18,7 @@
 #include "Reports/Manager.h"
 
 // Namespaces
-namespace isam {
+namespace niwa {
 namespace timesteps {
 
 /**
@@ -164,4 +164,4 @@ void Manager::ExecuteInitialisation(const string& phase_label, unsigned years) {
 }
 
 } /* namespace timesteps */
-} /* namespace isam */
+} /* namespace niwa */

@@ -16,7 +16,7 @@
 #include "SizeWeights/Children/None.h"
 
 // namespaces
-namespace isam {
+namespace niwa {
 namespace sizeweights {
 
 /**
@@ -44,4 +44,4 @@ SizeWeightPtr Factory::Create(const string& object_type, const string& sub_type)
 }
 
 } /* namespace sizeweights */
-} /* namespace isam */
+} /* namespace niwa */

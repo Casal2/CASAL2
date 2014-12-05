@@ -22,7 +22,7 @@
 #include "Utilities/To.h"
 
 // Namespaces
-namespace isam {
+namespace niwa {
 namespace observations {
 
 /**
@@ -118,8 +118,8 @@ void ProportionsAtAge::DoValidate() {
  * the labels for other objects are valid.
  */
 void ProportionsAtAge::DoBuild() {
-  partition_ = CombinedCategoriesPtr(new isam::partition::accessors::CombinedCategories(category_labels_));
-  cached_partition_ = CachedCombinedCategoriesPtr(new isam::partition::accessors::cached::CombinedCategories(category_labels_));
+  partition_ = CombinedCategoriesPtr(new niwa::partition::accessors::CombinedCategories(category_labels_));
+  cached_partition_ = CachedCombinedCategoriesPtr(new niwa::partition::accessors::cached::CombinedCategories(category_labels_));
 
   if (ageing_error_label_ != "")
     LOG_CODE_ERROR("ageing error has not been implemented for the proportions at age observation");
@@ -249,4 +249,4 @@ void ProportionsAtAge::CalculateScore() {
 }
 
 } /* namespace observations */
-} /* namespace isam */
+} /* namespace niwa */

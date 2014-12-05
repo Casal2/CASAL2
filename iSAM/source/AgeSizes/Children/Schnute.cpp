@@ -12,7 +12,7 @@
 #include "SizeWeights/Manager.h"
 #include "TimeSteps/Manager.h"
 
-namespace isam {
+namespace niwa {
 namespace agesizes {
 
 using std::pow;
@@ -101,4 +101,4 @@ Double Schnute::mean_weight(unsigned year, unsigned age) {
 }
 
 } /* namespace agesizes */
-} /* namespace isam */
+} /* namespace niwa */

@@ -26,7 +26,7 @@
 #include "Utilities/Types.h"
 
 // namespaces
-namespace isam {
+namespace niwa {
 namespace partition {
 namespace accessors {
 namespace cached {
@@ -35,7 +35,7 @@ using std::map;
 using std::vector;
 using std::pair;
 using std::string;
-using isam::utilities::Double;
+using niwa::utilities::Double;
 
 /**
  *
@@ -61,10 +61,10 @@ private:
 };
 
 // Typedef
-typedef boost::shared_ptr<isam::partition::accessors::cached::CombinedCategories> CachedCombinedCategoriesPtr;
+typedef boost::shared_ptr<niwa::partition::accessors::cached::CombinedCategories> CachedCombinedCategoriesPtr;
 
 } /* namespace cached */
 } /* namespace accessors */
 } /* namespace partition */
-} /* namespace isam */
+} /* namespace niwa */
 #endif /* COMBINEDCATEGORIES_H_ */

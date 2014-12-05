@@ -14,7 +14,7 @@
 #include "InitialisationPhase.h"
 
 // Namespaces
-namespace isam {
+namespace niwa {
 
 /**
  * Default constructor
@@ -37,4 +37,4 @@ void InitialisationPhase::Validate() {
   DoValidate();
 }
 
-} /* namespace isam */
+} /* namespace niwa */

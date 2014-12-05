@@ -23,7 +23,7 @@
 #include "Selectivities/Manager.h"
 
 // Namespaces
-namespace isam {
+namespace niwa {
 
 /**
  * Default Constructor
@@ -171,4 +171,4 @@ void Observation::SaveComparison(string category, Double expected, Double observ
   SaveComparison(category, 0, expected, observed, process_error, error_value, delta, score);
 }
 
-} /* namespace isam */
+} /* namespace niwa */

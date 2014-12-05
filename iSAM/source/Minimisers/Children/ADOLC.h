@@ -20,13 +20,13 @@
 #include "Minimisers/Minimiser.h"
 
 // namespaces
-namespace isam {
+namespace niwa {
 namespace minimisers {
 
 /**
  * Class definition
  */
-class ADOLC  :  public isam::Minimiser  {
+class ADOLC  :  public niwa::Minimiser  {
 public:
   // methods
   ADOLC();
@@ -45,7 +45,7 @@ private:
 };
 
 } /* namespace minimisers */
-} /* namespace isam */
+} /* namespace niwa */
 
 #endif /* MINIMISERS_ADOLC_H_ */
 #endif /* USE_ADOLC */

@@ -17,7 +17,7 @@
 #include "Partition/Partition.h"
 
 // Namespaces
-namespace isam {
+namespace niwa {
 namespace partition {
 namespace accessors {
 
@@ -73,4 +73,4 @@ CategoriesWithAge::DataType::iterator CategoriesWithAge::end() {
 
 } /* namespace accessors */
 } /* namespace partition */
-} /* namespace isam */
+} /* namespace niwa */

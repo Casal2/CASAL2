@@ -21,7 +21,7 @@
 #include "TestResources/MockClasses/Model.h"
 
 // Namespaces
-namespace isam {
+namespace niwa {
 
 using ::testing::Return;
 
@@ -34,7 +34,7 @@ TEST(Selectivities, AllValues) {
   EXPECT_CALL(*model.get(), max_age()).WillRepeatedly(Return(20));
   EXPECT_CALL(*model.get(), age_spread()).WillRepeatedly(Return(11));
 
-  isam::selectivities::AllValues all_values(model);
+  niwa::selectivities::AllValues all_values(model);
 
   vector<string> v;
   for (unsigned i = 0; i < 11; ++i)

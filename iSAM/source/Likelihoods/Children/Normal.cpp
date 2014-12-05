@@ -17,10 +17,10 @@
 #include "Utilities/RandomNumberGenerator.h"
 
 // Namespaces
-namespace isam {
+namespace niwa {
 namespace likelihoods {
 
-namespace dc = isam::utilities::doublecompare;
+namespace dc = niwa::utilities::doublecompare;
 
 /**
  * Adjust the error value based on the process error
@@ -138,4 +138,4 @@ void Normal::SimulateObserved(map<unsigned, vector<observations::Comparison> >& 
 
 
 } /* namespace likelihoods */
-} /* namespace isam */
+} /* namespace niwa */

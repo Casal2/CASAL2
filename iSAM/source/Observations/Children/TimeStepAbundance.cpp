@@ -15,7 +15,7 @@
 #include "TimeSteps/Manager.h"
 
 // namespaces
-namespace isam {
+namespace niwa {
 namespace observations {
 
 /**
@@ -52,4 +52,4 @@ void TimeStepAbundance::DoBuild() {
 }
 
 } /* namespace observations */
-} /* namespace isam */
+} /* namespace niwa */

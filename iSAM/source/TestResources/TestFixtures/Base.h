@@ -20,7 +20,7 @@
 #include <string>
 
 // namespaces
-namespace isam {
+namespace niwa {
 namespace testfixtures {
 
 /**
@@ -35,6 +35,6 @@ public:
 };
 
 } /* namespace testfixtures */
-} /* namespace isam */
+} /* namespace niwa */
 #endif /* TESTMODE */
 #endif /* BASE_H_ */

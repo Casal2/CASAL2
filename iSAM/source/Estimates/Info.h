@@ -29,13 +29,13 @@
 #include "BaseClasses/Object.h"
 
 // Namespaces
-namespace isam {
+namespace niwa {
 namespace estimates {
 
 /**
  * Class definition
  */
-class Info : public isam::base::Object, public boost::enable_shared_from_this<Info> {
+class Info : public niwa::base::Object, public boost::enable_shared_from_this<Info> {
 public:
   // Methods
   Info();
@@ -54,8 +54,8 @@ private:
   string                      mcmc_;
 };
 
-typedef boost::shared_ptr<isam::estimates::Info> EstimateInfoPtr;
+typedef boost::shared_ptr<niwa::estimates::Info> EstimateInfoPtr;
 
 } /* namespace estimates */
-} /* namespace isam */
+} /* namespace niwa */
 #endif /* ESTIMATES_INFO_H_ */

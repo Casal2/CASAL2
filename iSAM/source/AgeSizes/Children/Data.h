@@ -19,7 +19,7 @@
 #include "SizeWeights/SizeWeight.h"
 
 // namespaces
-namespace isam {
+namespace niwa {
 namespace agesizes {
 
 /**
@@ -54,6 +54,6 @@ private:
 };
 
 } /* namespace agesizes */
-} /* namespace isam */
+} /* namespace niwa */
 
 #endif /* AGESIZES_DATA_H_ */

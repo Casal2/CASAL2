@@ -15,7 +15,7 @@
 #include "Projects/Manager.h"
 
 // namespaces
-namespace isam {
+namespace niwa {
 namespace projects {
 
 /**
@@ -41,4 +41,4 @@ ProjectPtr Factory::Create(const string& object_type, const string& sub_type) {
 }
 
 } /* namespace projects */
-} /* namespace isam */
+} /* namespace niwa */

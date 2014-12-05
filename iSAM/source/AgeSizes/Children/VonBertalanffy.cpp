@@ -15,7 +15,7 @@
 #include "TimeSteps/Manager.h"
 
 // namespaces
-namespace isam {
+namespace niwa {
 namespace agesizes {
 
 /**
@@ -96,4 +96,4 @@ Double VonBertalanffy::mean_weight(unsigned year, unsigned age) {
 }
 
 } /* namespace agesizes */
-} /* namespace isam */
+} /* namespace niwa */

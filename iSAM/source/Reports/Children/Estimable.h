@@ -19,13 +19,13 @@
 #include "Reports/Report.h"
 
 // namespaces
-namespace isam {
+namespace niwa {
 namespace reports {
 
 /**
  * class definition
  */
-class Estimable : public isam::Report {
+class Estimable : public niwa::Report {
 public:
   // methods
   Estimable();
@@ -43,6 +43,6 @@ private:
 };
 
 } /* namespace reports */
-} /* namespace isam */
+} /* namespace niwa */
 
 #endif /* ESTIMABLE_H_ */

@@ -19,12 +19,12 @@
 #include "TestResources/TestFixtures/InternalEmptyModel.h"
 
 // Namespaces
-namespace isam {
+namespace niwa {
 namespace observations {
 
 using std::cout;
 using std::endl;
-using isam::testfixtures::InternalEmptyModel;
+using niwa::testfixtures::InternalEmptyModel;
 
 
 const std::string test_cases_observation_process_abundance =
@@ -204,7 +204,7 @@ TEST_F(InternalEmptyModel, Observation_Process_Abundance) {
 }
 
 } /* namespace observations */
-} /* namespace isam */
+} /* namespace niwa */
 
 
 #endif /* TESTMODE */

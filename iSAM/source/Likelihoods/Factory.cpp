@@ -22,7 +22,7 @@
 #include "Likelihoods/Children/Pseudo.h"
 
 // Namespaces
-namespace isam {
+namespace niwa {
 namespace likelihoods {
 
 /**
@@ -54,4 +54,4 @@ LikelihoodPtr Factory::Create(const string& likelihood_type) {
 
 
 } /* namespace likelihoods */
-} /* namespace isam */
+} /* namespace niwa */

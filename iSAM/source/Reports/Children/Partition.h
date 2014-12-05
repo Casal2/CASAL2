@@ -21,13 +21,13 @@
 #include "Reports/Report.h"
 
 // Namespaces
-namespace isam {
+namespace niwa {
 namespace reports {
 
 /**
  *
  */
-class Partition : public isam::Report {
+class Partition : public niwa::Report {
 public:
   Partition();
   virtual                     ~Partition() = default;
@@ -37,5 +37,5 @@ public:
 };
 
 } /* namespace reports */
-} /* namespace isam */
+} /* namespace niwa */
 #endif /* REPORTS_PARTITION_H_ */

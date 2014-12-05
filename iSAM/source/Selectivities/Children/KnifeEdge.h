@@ -20,13 +20,13 @@
 #include "Selectivities/Selectivity.h"
 
 // Namespaces
-namespace isam {
+namespace niwa {
 namespace selectivities {
 
 /**
  * Class Definition
  */
-class KnifeEdge : public isam::Selectivity {
+class KnifeEdge : public niwa::Selectivity {
 public:
   // Methods
   KnifeEdge();
@@ -43,5 +43,5 @@ private:
 };
 
 } /* namespace selectivities */
-} /* namespace isam */
+} /* namespace niwa */
 #endif /* KNIFEEDGE_H_ */

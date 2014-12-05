@@ -16,7 +16,7 @@
 #include "GlobalConfiguration/GlobalConfiguration.h"
 
 // Namespaces
-namespace isam {
+namespace niwa {
 namespace utilities {
 
 /**
@@ -128,4 +128,4 @@ double RandomNumberGenerator::chi_square(unsigned df) {
 }
 
 } /* namespace utilities */
-} /* namespace isam */
+} /* namespace niwa */

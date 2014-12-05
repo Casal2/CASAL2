@@ -12,7 +12,7 @@
 #include "Manager.h"
 
 // namespaces
-namespace isam {
+namespace niwa {
 namespace minimisers {
 
 /**
@@ -56,4 +56,4 @@ void Manager::Validate() {
 }
 
 } /* namespace minimisers */
-} /* namespace isam */
+} /* namespace niwa */

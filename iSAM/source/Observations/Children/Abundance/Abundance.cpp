@@ -18,10 +18,10 @@
 #include "Utilities/To.h"
 
 // Namespaces
-namespace isam {
+namespace niwa {
 namespace observations {
 
-namespace utils = isam::utilities;
+namespace utils = niwa::utilities;
 
 /**
  * Validate configuration file parameters
@@ -80,8 +80,8 @@ void Abundance::DoBuild() {
   if (!catchability_)
     LOG_ERROR(parameters_.location(PARAM_CATCHABILITY) << ": catchability " << catchability_label_ << " could not be found. Have you defined it?");
 
-  partition_ = CombinedCategoriesPtr(new isam::partition::accessors::CombinedCategories(category_labels_));
-  cached_partition_ = CachedCombinedCategoriesPtr(new isam::partition::accessors::cached::CombinedCategories(category_labels_));
+  partition_ = CombinedCategoriesPtr(new niwa::partition::accessors::CombinedCategories(category_labels_));
+  cached_partition_ = CachedCombinedCategoriesPtr(new niwa::partition::accessors::cached::CombinedCategories(category_labels_));
 
   if (partition_->category_count() != selectivities_.size())
     LOG_ERROR(parameters_.location(PARAM_SELECTIVITIES) << ": number of selectivities provided (" << selectivities_.size() << ") does not match the number "
@@ -206,4 +206,4 @@ void Abundance::CalculateScore() {
 }
 
 } /* namespace priors */
-} /* namespace isam */
+} /* namespace niwa */

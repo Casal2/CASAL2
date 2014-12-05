@@ -17,13 +17,13 @@
 #include "SizeWeights/SizeWeight.h"
 
 // namespaces
-namespace isam {
+namespace niwa {
 namespace sizeweights {
 
 /**
  * class definition
  */
-class Basic : public isam::SizeWeight {
+class Basic : public niwa::SizeWeight {
 public:
   // methods
   Basic();
@@ -44,5 +44,5 @@ private:
 };
 
 } /* namespace sizeweights */
-} /* namespace isam */
+} /* namespace niwa */
 #endif /* SIZEWEIGHTS_BASIC_H_ */

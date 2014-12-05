@@ -18,7 +18,7 @@
 #include "BaseClasses/Executor.h"
 
 // namespaces
-namespace isam {
+namespace niwa {
 
 class AdditionalPrior;
 typedef Double (AdditionalPrior::*ScoreFunction)();
@@ -51,8 +51,8 @@ protected:
 };
 
 // typedef
-typedef boost::shared_ptr<isam::AdditionalPrior> AdditionalPriorPtr;
+typedef boost::shared_ptr<niwa::AdditionalPrior> AdditionalPriorPtr;
 
-} /* namespace isam */
+} /* namespace niwa */
 
 #endif /* ADDITIONALPRIOR_H_ */

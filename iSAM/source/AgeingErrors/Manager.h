@@ -21,14 +21,14 @@
 #include "BaseClasses/Manager.h"
 
 // Namespaces
-namespace isam {
+namespace niwa {
 namespace ageingerrors {
 
 /**
  * Class Definition
  */
-class Manager : public isam::oldbase::Manager<isam::ageingerrors::Manager, isam::AgeingError> {
-  friend class isam::oldbase::Manager<isam::ageingerrors::Manager, isam::AgeingError>;
+class Manager : public niwa::oldbase::Manager<niwa::ageingerrors::Manager, niwa::AgeingError> {
+  friend class niwa::oldbase::Manager<niwa::ageingerrors::Manager, niwa::AgeingError>;
 private:
   // Methods
   Manager();
@@ -36,5 +36,5 @@ private:
 };
 
 } /* namespace ageingerrors */
-} /* namespace isam */
+} /* namespace niwa */
 #endif /* AGEINGERRORS_MANAGER_H_ */

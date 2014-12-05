@@ -17,7 +17,7 @@
 #include "Estimates/Creators/Creator.h"
 
 // namespaces
-namespace isam {
+namespace niwa {
 namespace estimates {
 namespace creators {
 
@@ -37,6 +37,6 @@ private:
 
 } /* namespace creators */
 } /* namespace estimates */
-} /* namespace isam */
+} /* namespace niwa */
 
 #endif /* ESTIMATES_CREATORS_FACTORY_H_ */

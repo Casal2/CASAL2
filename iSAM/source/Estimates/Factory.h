@@ -21,7 +21,7 @@
 #include "BaseClasses/Factory.h"
 #include "Estimates/Manager.h"
 
-namespace isam {
+namespace niwa {
 namespace estimates {
 
 class Factory {
@@ -36,6 +36,6 @@ private:
 };
 
 } /* namespace estimates */
-} /* namespace isam */
+} /* namespace niwa */
 
 #endif /* ESTIMATE_FACTORY_H_ */

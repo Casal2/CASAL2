@@ -22,7 +22,7 @@
 #include "BaseClasses/Object.h"
 
 // namespaces
-namespace isam {
+namespace niwa {
 namespace factory {
 
 using std::string;
@@ -42,5 +42,5 @@ private:
 };
 
 } /* namespace factory */
-} /* namespace isam */
+} /* namespace niwa */
 #endif /* OBJECT_H_ */

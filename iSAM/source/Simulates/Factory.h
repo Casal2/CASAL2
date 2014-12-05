@@ -17,7 +17,7 @@
 #include "Simulates/Simulate.h"
 
 // namespaces
-namespace isam {
+namespace niwa {
 namespace simulates {
 
 /**
@@ -35,6 +35,6 @@ private:
 };
 
 } /* namespace simulates */
-} /* namespace isam */
+} /* namespace niwa */
 
 #endif /* FACTORY_H_ */

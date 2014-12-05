@@ -17,13 +17,13 @@
 #include "SizeWeights/SizeWeight.h"
 
 // namespaces
-namespace isam {
+namespace niwa {
 namespace sizeweights {
 
 /**
  * class definition
  */
-class None : public isam::SizeWeight {
+class None : public niwa::SizeWeight {
 public:
   // methods
   None();
@@ -37,5 +37,5 @@ public:
 };
 
 } /* namespace sizeweights */
-} /* namespace isam */
+} /* namespace niwa */
 #endif /* SIZEWEIGHTS_NONE_H_ */

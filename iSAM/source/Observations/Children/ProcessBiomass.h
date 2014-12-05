@@ -18,7 +18,7 @@
 #include "Observations/Children/Biomass/Biomass.h"
 
 // namespaces
-namespace isam {
+namespace niwa {
 namespace observations {
 
 /**
@@ -37,6 +37,6 @@ private:
 };
 
 } /* namespace observations */
-} /* namespace isam */
+} /* namespace niwa */
 
 #endif /* PROCESSBIOMASS_H_ */

@@ -21,7 +21,7 @@
 #include "Partition/Accessors/Cached/CombinedCategories.h"
 
 // namespaces
-namespace isam {
+namespace niwa {
 namespace observations {
 
 using partition::accessors::CombinedCategoriesPtr;
@@ -30,7 +30,7 @@ using partition::accessors::cached::CachedCombinedCategoriesPtr;
 /**
  * class definition
  */
-class Biomass : public isam::Observation {
+class Biomass : public niwa::Observation {
 public:
   // methods
   Biomass();
@@ -59,5 +59,5 @@ protected:
 };
 
 } /* namespace observations */
-} /* namespace isam */
+} /* namespace niwa */
 #endif /* OBSERVATIONS_BIOMASS_H_ */

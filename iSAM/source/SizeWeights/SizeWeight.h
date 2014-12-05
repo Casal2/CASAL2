@@ -17,12 +17,12 @@
 #include "BaseClasses/Object.h"
 
 // namespaces
-namespace isam {
+namespace niwa {
 
 /**
  * class definition
  */
-class SizeWeight : public isam::base::Object {
+class SizeWeight : public niwa::base::Object {
 public:
   // methods
   SizeWeight();
@@ -42,5 +42,5 @@ public:
 // typedef
 typedef boost::shared_ptr<SizeWeight> SizeWeightPtr;
 
-} /* namespace isam */
+} /* namespace niwa */
 #endif /* SIZEWEIGHT_H_ */

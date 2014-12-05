@@ -16,7 +16,7 @@
 #include "Utilities/Logging/Logging.h"
 #include "Utilities/To.h"
 
-namespace isam {
+namespace niwa {
 
 /**
  * Default Constructor
@@ -104,4 +104,4 @@ unsigned GlobalConfiguration::random_seed() {
   return util::ToInline<string, unsigned>(global_parameters_[PARAM_RANDOM_NUMBER_SEED]);
 }
 
-} /* namespace isam */
+} /* namespace niwa */

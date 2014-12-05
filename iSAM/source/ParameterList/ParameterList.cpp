@@ -25,14 +25,14 @@
 #include "Utilities/To.h"
 
 // Using
-namespace util = isam::utilities;
+namespace util = niwa::utilities;
 using std::map;
 using std::vector;
 using std::string;
 using std::cout;
 using std::endl;
 
-namespace isam {
+namespace niwa {
 
 /**
  * Add a single value to our parameter list
@@ -95,7 +95,7 @@ bool ParameterList::AddTable(const string& label, const vector<string>& columns,
   return true;
 
 //
-//  TablePtr table = TablePtr(new isam::parameterlist::Table(label));
+//  TablePtr table = TablePtr(new niwa::parameterlist::Table(label));
 //  table->AddColumns(columns);
 //  for (vector<string> row : data)
 //    table->AddRow(row);
@@ -272,4 +272,4 @@ void ParameterList::BindTable(const string& label, parameters::TablePtr table, c
 }
 
 
-} /* namespace isam */
+} /* namespace niwa */

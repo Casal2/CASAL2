@@ -17,14 +17,14 @@
 #include "Observations/Observation.h"
 
 // Namespaces
-namespace isam {
+namespace niwa {
 namespace observations {
 
 /**
  * Class Definition
  */
-class Manager : public isam::oldbase::Manager<observations::Manager, isam::Observation> {
-  friend class isam::oldbase::Manager<observations::Manager, isam::Observation>;
+class Manager : public niwa::oldbase::Manager<observations::Manager, niwa::Observation> {
+  friend class niwa::oldbase::Manager<observations::Manager, niwa::Observation>;
 public:
   // methods
   virtual                     ~Manager() noexcept(true);
@@ -39,5 +39,5 @@ protected:
 };
 
 } /* namespace observations */
-} /* namespace isam */
+} /* namespace niwa */
 #endif /* OBSERVATIONS_MANAGER_H_ */

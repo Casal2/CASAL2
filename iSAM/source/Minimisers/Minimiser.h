@@ -24,14 +24,14 @@
 #include "BaseClasses/Object.h"
 
 // Namespaces
-namespace isam {
+namespace niwa {
 
 namespace ublas = boost::numeric::ublas;
 
 /**
  * Class Definition
  */
-class Minimiser : public isam::base::Object {
+class Minimiser : public niwa::base::Object {
 public:
   // Methods
   Minimiser();
@@ -65,7 +65,7 @@ protected:
 };
 
 // Typdef
-typedef boost::shared_ptr<isam::Minimiser> MinimiserPtr;
+typedef boost::shared_ptr<niwa::Minimiser> MinimiserPtr;
 
-} /* namespace isam */
+} /* namespace niwa */
 #endif /* MINIMISER_H_ */

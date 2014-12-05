@@ -7,8 +7,8 @@
 
 #include <AdditionalPriors/Manager.h>
 
-namespace isam {
+namespace niwa {
 namespace additionalpriors {
 
 } /* namespace additionalpriors */
-} /* namespace isam */
+} /* namespace niwa */

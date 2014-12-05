@@ -20,12 +20,12 @@
 #include "BaseClasses/Object.h"
 #include "TimeSteps/TimeStep.h"
 
-namespace isam {
+namespace niwa {
 
 /**
  * Class Defintiion
  */
-class InitialisationPhase : public isam::base::Object {
+class InitialisationPhase : public niwa::base::Object {
 public:
   // Methods
   InitialisationPhase();
@@ -44,7 +44,7 @@ protected:
 /*
  * Typedef
  */
-typedef boost::shared_ptr<isam::InitialisationPhase> InitialisationPhasePtr;
+typedef boost::shared_ptr<niwa::InitialisationPhase> InitialisationPhasePtr;
 
-} /* namespace isam */
+} /* namespace niwa */
 #endif /* INITIALISATIONPHASE_H_ */
