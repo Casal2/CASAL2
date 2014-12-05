@@ -50,8 +50,7 @@ private:
   unsigned                    age_;
   Double                      steepness_;
   string                      ssb_;
-  unsigned                    ssb_offset_;
-  unsigned                    actual_ssb_offset_;
+  int                         ssb_offset_;
   vector<Double>              ssb_values_;
   vector<Double>              ycs_years_;
   vector<Double>              ycs_values_;

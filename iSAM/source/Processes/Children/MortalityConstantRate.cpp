@@ -32,7 +32,7 @@ MortalityConstantRate::MortalityConstantRate()
   LOG_TRACE();
 
   model_ = Model::Instance();
-  is_mortality_process = true;
+  process_type_ = ProcessType::kMortality;
 
   parameters_.Bind<string>(PARAM_CATEGORIES, &category_names_, "List of categories", "");
   parameters_.Bind<Double>(PARAM_M, &m_, "Mortality rates", "");

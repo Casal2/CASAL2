@@ -94,6 +94,23 @@ vector<unsigned> Manager::GetTimeStepIndexesForProcess(const string& process_lab
 }
 
 /**
+ * Return a vector that contains the different types or processes and wthe order
+ * they are executed in. This is primarily used by the BH Recruitment to determine the SSB Offset
+ *
+ * @return Vector of ProcessType::Types for all processes executed.
+ */
+vector<ProcessType::Type> Manager::GetOrderedProcessTypes() {
+  vector<ProcessType::Type> types;
+  for (TimeStepPtr time_step : ordered_time_steps_) {
+    for (ProcessPtr process : time_step->processes()) {
+      types.push_back(process->process_type());
+    }
+  }
+
+  return types;
+}
+
+/**
  * Validate our Time Steps
  */
 void Manager::Validate() {

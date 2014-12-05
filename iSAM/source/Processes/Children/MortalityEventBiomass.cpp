@@ -24,8 +24,6 @@ namespace processes {
  * default constructor
  */
 MortalityEventBiomass::MortalityEventBiomass() {
-  is_mortality_process = true;
-
   parameters_.Bind<string>(PARAM_CATEGORIES, &category_labels_, "Category labels", "");
   parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_labels_, "Selectivity labels", "");
   parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "Years to apply mortality", "");
@@ -37,6 +35,7 @@ MortalityEventBiomass::MortalityEventBiomass() {
   RegisterAsEstimable(PARAM_CATCHES, &catch_years_);
 
   model_ = Model::Instance();
+  process_type_ = ProcessType::kMortality;
 }
 
 /**

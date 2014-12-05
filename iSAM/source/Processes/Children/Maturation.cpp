@@ -28,9 +28,10 @@ Maturation::Maturation() {
   parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "The years to be associated with rates", "");
   parameters_.Bind<Double>(PARAM_RATES, &rates_, "The rates to mature for each year", "");
 
-  model_ = Model::Instance();
-
   RegisterAsEstimable(PARAM_RATES, &rates_by_years_);
+
+  model_ = Model::Instance();
+  process_type_ = ProcessType::kMaturation;
 }
 
 /**

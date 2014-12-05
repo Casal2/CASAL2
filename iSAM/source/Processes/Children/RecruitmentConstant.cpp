@@ -34,6 +34,8 @@ RecruitmentConstant::RecruitmentConstant() {
 
   RegisterAsEstimable(PARAM_R0, &r0_);
   RegisterAsEstimable(PARAM_PROPORTIONS, &proportions_categories_);
+
+  process_type_ = ProcessType::kRecruitment;
 }
 
 /**
