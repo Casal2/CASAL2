@@ -22,7 +22,7 @@
 #include "Observations/Children/TimeStepProportionsAtAge.h"
 
 // Namespaces
-namespace isam {
+namespace niwa {
 namespace observations {
 
 /**
@@ -52,10 +52,10 @@ ObservationPtr Factory::Create(const string& object_type, const string& sub_type
   }
 
   if (result)
-    isam::observations::Manager::Instance().AddObject(result);
+    niwa::observations::Manager::Instance().AddObject(result);
 
   return result;
 }
 
 } /* namespace observations */
-} /* namespace isam */
+} /* namespace niwa */

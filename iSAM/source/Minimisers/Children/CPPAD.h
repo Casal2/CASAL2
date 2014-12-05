@@ -21,10 +21,10 @@
 #include "Utilities/Types.h"
 
 // namespaces
-namespace isam {
+namespace niwa {
 namespace minimisers {
 
-using isam::utilities::Double;
+using niwa::utilities::Double;
 
 /**
  * class definition
@@ -40,7 +40,7 @@ public:
 };
 
 } /* namespace minimisers */
-} /* namespace isam */
+} /* namespace niwa */
 
 #endif /* MNINIMISERS_CPPAD_H_ */
 #endif /* USE_CPPAD */

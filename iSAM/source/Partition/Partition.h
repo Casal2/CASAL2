@@ -26,12 +26,12 @@
 #include "Utilities/Types.h"
 
 // Namespaces
-namespace isam {
+namespace niwa {
 
 using std::string;
 using std::map;
 using std::vector;
-using isam::utilities::Double;
+using niwa::utilities::Double;
 
 enum ModelType {
   kLengthModel,
@@ -79,5 +79,5 @@ private:
   map<string, partition::Category> partition_; // map<Category Name, partition::Category Struct>
 };
 
-} /* namespace isam */
+} /* namespace niwa */
 #endif /* WORLD_H_ */

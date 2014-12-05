@@ -17,7 +17,7 @@
 #include "SizeWeights/SizeWeight.h"
 
 // namespaces
-namespace isam {
+namespace niwa {
 namespace sizeweights {
 
 /**
@@ -35,5 +35,5 @@ private:
 };
 
 } /* namespace sizeweights */
-} /* namespace isam */
+} /* namespace niwa */
 #endif /* SIZEWEIGHTS_FACTORY_H_ */

@@ -30,7 +30,7 @@
 #include "Utilities/Types.h"
 
 // Namespaces
-namespace isam {
+namespace niwa {
 namespace partition {
 namespace accessors {
 
@@ -38,7 +38,7 @@ using std::map;
 using std::vector;
 using std::pair;
 using std::string;
-using isam::utilities::Double;
+using niwa::utilities::Double;
 
 /**
  * Class Definition
@@ -60,9 +60,9 @@ private:
   All::DataType               data_;
 };
 
-typedef boost::shared_ptr<isam::partition::accessors::All> AllPtr;
+typedef boost::shared_ptr<niwa::partition::accessors::All> AllPtr;
 
 } /* namespace accessors */
 } /* namespace partition */
-} /* namespace isam */
+} /* namespace niwa */
 #endif /* PARTITION_ACCESSORS_ALL_H_ */

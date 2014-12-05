@@ -27,7 +27,7 @@
 #include "Utilities/Logging/Logging.h"
 
 // Namespaces
-namespace isam {
+namespace niwa {
 namespace utilities {
 
 using boost::program_options::options_description;
@@ -171,7 +171,7 @@ void CommandLineParser::Parse(int argc, const char* argv[]) {
 }
 
 } /* namespace utilities */
-} /* namespace isam */
+} /* namespace niwa */
 
 
 

@@ -20,15 +20,15 @@
 #include "Selectivities/Selectivity.h"
 
 // namespaces
-namespace isam {
+namespace niwa {
 namespace processes {
 
-namespace accessor = isam::partition::accessors;
+namespace accessor = niwa::partition::accessors;
 
 /**
  *
  */
-class Maturation : public isam::Process {
+class Maturation : public niwa::Process {
 public:
   // methods
   Maturation();
@@ -53,5 +53,5 @@ protected:
 };
 
 } /* namespace processes */
-} /* namespace isam */
+} /* namespace niwa */
 #endif /* MATURATION_H_ */

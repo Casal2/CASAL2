@@ -17,12 +17,12 @@
 #include "TestResources/TestFixtures/InternalEmptyModel.h"
 
 // Namespaces
-namespace isam {
+namespace niwa {
 namespace categories {
 
 using std::cout;
 using std::endl;
-using isam::testfixtures::InternalEmptyModel;
+using niwa::testfixtures::InternalEmptyModel;
 
 /**
  *
@@ -204,6 +204,6 @@ TEST_F(InternalEmptyModel, Categories_GetCategoryLabels) {
 }
 
 } /* namespace derivedquantities */
-} /* namespace isam */
+} /* namespace niwa */
 
 #endif

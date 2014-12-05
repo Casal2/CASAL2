@@ -24,7 +24,7 @@
 #include <boost/shared_ptr.hpp>
 
 // Namespaces
-namespace isam {
+namespace niwa {
 namespace parameterlist {
 
 using std::string;
@@ -76,7 +76,7 @@ protected:
 typedef boost::shared_ptr<Parameter> ParameterPtr;
 
 } /* namespace parameterlist */
-} /* namespace isam */
+} /* namespace niwa */
 
 #include "Parameter-inl.h"
 

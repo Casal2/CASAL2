@@ -28,12 +28,12 @@
 #include "Utilities/Types.h"
 
 // Namespaces
-namespace isam {
+namespace niwa {
 
 using std::string;
 using std::pair;
 using std::vector;
-using isam::utilities::Double;
+using niwa::utilities::Double;
 
 /**
  * Struct definition
@@ -75,5 +75,5 @@ private:
   vector<objective::Score>    score_list_;
 };
 
-} /* namespace isam */
+} /* namespace niwa */
 #endif /* OBJECTIVEFUNCTION_H_ */

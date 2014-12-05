@@ -18,7 +18,7 @@
 #include "Penalties/Children/VectorSmoothing.h"
 
 // Namespaces
-namespace isam {
+namespace niwa {
 namespace penalties {
 
 /**
@@ -48,4 +48,4 @@ PenaltyPtr Factory::Create(string object_type, string sub_type) {
 }
 
 } /* namespace penalties */
-} /* namespace isam */
+} /* namespace niwa */

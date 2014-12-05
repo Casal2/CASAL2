@@ -19,7 +19,7 @@
 #include "Estimates/Estimate.h"
 
 // namespaces
-namespace isam {
+namespace niwa {
 namespace estimates {
 
 class Manager;
@@ -27,7 +27,7 @@ class Manager;
 /**
  *
  */
-class Creator : public isam::base::Object {
+class Creator : public niwa::base::Object {
 public:
   // methods
   Creator();
@@ -36,9 +36,9 @@ public:
 
 protected:
   // methods
-  isam::EstimatePtr           CreateEstimate(string label, unsigned index, Double* target);
-  void                        CopyParameters(isam::EstimatePtr estimate, unsigned index);
-  virtual void                DoCopyParameters(isam::EstimatePtr estimate, unsigned index) = 0;
+  niwa::EstimatePtr           CreateEstimate(string label, unsigned index, Double* target);
+  void                        CopyParameters(niwa::EstimatePtr estimate, unsigned index);
+  virtual void                DoCopyParameters(niwa::EstimatePtr estimate, unsigned index) = 0;
 
   // members
   string                      parameter_;
@@ -57,6 +57,6 @@ protected:
 typedef boost::shared_ptr<Creator> CreatorPtr;
 
 } /* namespace estimates */
-} /* namespace isam */
+} /* namespace niwa */
 
 #endif /* ESTIMATES_CREATOR_H_ */

@@ -21,14 +21,14 @@
 #include "Catchabilities/Catchability.h"
 
 // Namespaces
-namespace isam {
+namespace niwa {
 namespace catchabilities {
 
 /**
  *
  */
-class Manager : public isam::oldbase::Manager<isam::catchabilities::Manager, isam::Catchability> {
-  friend class isam::oldbase::Manager<isam::catchabilities::Manager, isam::Catchability>;
+class Manager : public niwa::oldbase::Manager<niwa::catchabilities::Manager, niwa::Catchability> {
+  friend class niwa::oldbase::Manager<niwa::catchabilities::Manager, niwa::Catchability>;
 public:
   // Methods
   virtual                     ~Manager() noexcept(true);
@@ -40,8 +40,8 @@ protected:
 };
 
 // Typedef
-typedef boost::shared_ptr<isam::catchabilities::Manager> CatchabilityManagerPtr;
+typedef boost::shared_ptr<niwa::catchabilities::Manager> CatchabilityManagerPtr;
 
 } /* namespace catchabilities */
-} /* namespace isam */
+} /* namespace niwa */
 #endif /* CATCHABILITIES_MANAGER_H_ */

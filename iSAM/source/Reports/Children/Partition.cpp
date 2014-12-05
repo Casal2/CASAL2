@@ -20,7 +20,7 @@
 #include "Partition/Accessors/All.h"
 
 // Namespaces
-namespace isam {
+namespace niwa {
 namespace reports {
 
 /**
@@ -40,7 +40,7 @@ void Partition::DoExecute() {
   unsigned highest        = 0;
   unsigned longest_length = 0;
 
-  isam::partition::accessors::All all_view;
+  niwa::partition::accessors::All all_view;
   for (auto iterator = all_view.Begin(); iterator != all_view.End(); ++iterator) {
     if (lowest > (*iterator)->min_age_)
       lowest = (*iterator)->min_age_;
@@ -79,4 +79,4 @@ void Partition::DoExecute() {
 
 
 } /* namespace reports */
-} /* namespace isam */
+} /* namespace niwa */

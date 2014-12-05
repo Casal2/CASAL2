@@ -35,7 +35,7 @@
 #include "Utilities/To.h"
 
 // namespaces
-namespace isam {
+namespace niwa {
 namespace factory {
 
 using base::ObjectPtr;
@@ -109,4 +109,4 @@ base::ObjectPtr Object::Create(string& object_type, string& sub_type) {
 }
 
 } /* namespace factory */
-} /* namespace isam */
+} /* namespace niwa */

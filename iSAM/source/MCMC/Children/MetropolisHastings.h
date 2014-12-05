@@ -8,7 +8,7 @@
 #ifndef METROPOLISHASTINGS_H_
 #define METROPOLISHASTINGS_H_
 
-namespace isam {
+namespace niwa {
 namespace mcmc {
 
 class MetropolisHastings {
@@ -18,6 +18,6 @@ public:
 };
 
 } /* namespace mcmc */
-} /* namespace isam */
+} /* namespace niwa */
 
 #endif /* METROPOLISHASTINGS_H_ */

@@ -16,7 +16,7 @@
 #include "Utilities/DoubleCompare.h"
 
 // namespaces
-namespace isam {
+namespace niwa {
 namespace penalties {
 
 /**
@@ -51,4 +51,4 @@ void Process::Trigger(const string& source_label, Double value_1, Double value_2
 }
 
 } /* namespace penalties */
-} /* namespace isam */
+} /* namespace niwa */

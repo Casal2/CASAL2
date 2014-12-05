@@ -21,14 +21,14 @@
 #include "Minimisers/Minimiser.h"
 
 // namespaces
-namespace isam {
+namespace niwa {
 namespace minimisers {
 
 //**********************************************************************
 //
 //
 //**********************************************************************
-class GammaDiff :  public isam::Minimiser  {
+class GammaDiff :  public niwa::Minimiser  {
 public:
   // Methods
   GammaDiff();
@@ -47,7 +47,7 @@ private:
 };
 
 } /* namespace minimisers */
-} /* namespace isam */
+} /* namespace niwa */
 
 #endif /* MINIMISERS_GAMMADIFF_H_ */
 #endif /* USE_AUTODIFF */

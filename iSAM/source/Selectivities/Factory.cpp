@@ -30,7 +30,7 @@
 #include "Selectivities/Children/LogisticProducing.h"
 
 // Namespaces
-namespace isam {
+namespace niwa {
 namespace selectivities {
 
 /**
@@ -67,11 +67,11 @@ SelectivityPtr Factory::Create(const string& object_type, const string& sub_type
       result = SelectivityPtr(new LogisticProducing());
 
     if (result)
-      isam::selectivities::Manager::Instance().AddObject(result);
+      niwa::selectivities::Manager::Instance().AddObject(result);
   }
 
   return result;
 }
 
 } /* namespace selectivities */
-} /* namespace isam */
+} /* namespace niwa */

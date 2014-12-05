@@ -18,13 +18,13 @@
 #include "InitialisationPhases/InitialisationPhase.h"
 
 // namespaces
-namespace isam {
+namespace niwa {
 namespace initialisationphases {
 
 /**
  *
  */
-class Iterative : public isam::InitialisationPhase {
+class Iterative : public niwa::InitialisationPhase {
 public:
   // methods
   Iterative();
@@ -44,6 +44,6 @@ protected:
 };
 
 } /* namespace base */
-} /* namespace isam */
+} /* namespace niwa */
 
 #endif /* ITERATIVE_H_ */

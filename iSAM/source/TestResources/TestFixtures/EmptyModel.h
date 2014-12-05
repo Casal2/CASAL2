@@ -21,7 +21,7 @@
 #include "TestResources/TestFixtures/Base.h"
 
 // Namespaces
-namespace isam {
+namespace niwa {
 namespace testfixtures {
 
 using std::string;
@@ -38,6 +38,6 @@ public:
 };
 
 } /* namespace testfixtures */
-} /* namespace isam */
+} /* namespace niwa */
 #endif /* TESTMODE */
 #endif /* TESTFIXTURES_EMPTYMODEL_H_ */

@@ -15,7 +15,7 @@
 #include "AdditionalPriors/AdditionalPrior.h"
 
 // namespaces
-namespace isam {
+namespace niwa {
 namespace additionalpriors {
 
 /**
@@ -31,6 +31,6 @@ private:
 };
 
 } /* namespace additionalpriors */
-} /* namespace isam */
+} /* namespace niwa */
 
 #endif /* FACTORY_H_ */

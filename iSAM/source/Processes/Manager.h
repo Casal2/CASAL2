@@ -21,14 +21,14 @@
 #include "Processes/Process.h"
 
 // Namespaces
-namespace isam {
+namespace niwa {
 namespace processes {
 
 /**
  * Class Definition
  */
-class Manager : public isam::oldbase::Manager<isam::processes::Manager, isam::Process> {
-  friend class isam::oldbase::Manager<isam::processes::Manager, isam::Process>;
+class Manager : public niwa::oldbase::Manager<niwa::processes::Manager, niwa::Process> {
+  friend class niwa::oldbase::Manager<niwa::processes::Manager, niwa::Process>;
 public:
   // methods
   virtual                     ~Manager() noexcept(true);
@@ -41,5 +41,5 @@ protected:
 };
 
 } /* namespace processes */
-} /* namespace isam */
+} /* namespace niwa */
 #endif /* PROCESSES_MANAGER_H_ */

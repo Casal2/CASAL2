@@ -18,7 +18,7 @@
 #include "Utilities/To.h"
 
 // namespaces
-namespace isam {
+namespace niwa {
 namespace reports {
 
 /**
@@ -100,4 +100,4 @@ void Estimable::DoFinalise() {
 }
 
 } /* namespace reports */
-} /* namespace isam */
+} /* namespace niwa */

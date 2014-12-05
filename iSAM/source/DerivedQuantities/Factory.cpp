@@ -16,7 +16,7 @@
 #include "DerivedQuantities/Children/Biomass.h"
 
 // namespaces
-namespace isam {
+namespace niwa {
 namespace derivedquantities {
 
 /**
@@ -45,4 +45,4 @@ DerivedQuantityPtr Factory::Create(const string& object_type, const string& sub_
 
 
 } /* namespace derivedquantities */
-} /* namespace isam */
+} /* namespace niwa */

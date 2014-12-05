@@ -9,7 +9,7 @@
  */
 #include "Assert.h"
 
-namespace isam {
+namespace niwa {
 
 /**
  *
@@ -27,4 +27,4 @@ void Assert::Validate() {
   DoValidate();
 }
 
-} /* namespace isam */
+} /* namespace niwa */

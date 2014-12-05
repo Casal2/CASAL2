@@ -19,14 +19,14 @@
 #include "Utilities/Types.h"
 
 // namespaces
-namespace isam {
+namespace niwa {
 
-using isam::utilities::Double;
+using niwa::utilities::Double;
 
 /**
  * Default Constructor
  */
-class AgeingError : public isam::base::Object {
+class AgeingError : public niwa::base::Object {
 public:
   // Methods
   AgeingError();
@@ -58,5 +58,5 @@ protected:
 // Typedef
 typedef boost::shared_ptr<AgeingError> AgeingErrorPtr;
 
-} /* namespace isam */
+} /* namespace niwa */
 #endif /* AGEINGERROR_H_ */

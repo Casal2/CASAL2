@@ -12,7 +12,7 @@
 #include "Basic.h"
 
 // namespaces
-namespace isam {
+namespace niwa {
 namespace sizeweights {
 
 /**
@@ -59,4 +59,4 @@ Double Basic::mean_weight(Double size, const string &distribution, Double cv) co
 }
 
 } /* namespace sizeweights */
-} /* namespace isam */
+} /* namespace niwa */

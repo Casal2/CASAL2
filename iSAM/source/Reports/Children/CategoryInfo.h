@@ -22,13 +22,13 @@
 #include "Reports/Report.h"
 
 // Namespaces
-namespace isam {
+namespace niwa {
 namespace reports {
 
 /**
  * Class Definition
  */
-class CategoryInfo : public isam::Report {
+class CategoryInfo : public niwa::Report {
 public:
   // Methods
   CategoryInfo();
@@ -39,5 +39,5 @@ public:
 };
 
 } /* namespace reports */
-} /* namespace isam */
+} /* namespace niwa */
 #endif /* REPORTS_CATEGORYINFO_H_ */

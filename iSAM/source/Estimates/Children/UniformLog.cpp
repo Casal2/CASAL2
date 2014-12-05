@@ -14,7 +14,7 @@
 #include "UniformLog.h"
 
 // Namespaces
-namespace isam {
+namespace niwa {
 namespace estimates {
 
 /**
@@ -34,4 +34,4 @@ Double UniformLog::GetScore() {
 }
 
 } /* namespace estimates */
-} /* namespace isam */
+} /* namespace niwa */

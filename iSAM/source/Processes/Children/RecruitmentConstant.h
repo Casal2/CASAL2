@@ -24,17 +24,17 @@
 #include "Utilities/Types.h"
 
 // Namespaces
-namespace isam {
+namespace niwa {
 namespace processes {
 
-using isam::utilities::Double;
-using isam::partition::accessors::CategoriesWithAgePtr;
-using isam::utilities::Map;
+using niwa::utilities::Double;
+using niwa::partition::accessors::CategoriesWithAgePtr;
+using niwa::utilities::Map;
 
 /**
  * Class definition
  */
-class RecruitmentConstant : public isam::Process {
+class RecruitmentConstant : public niwa::Process {
 public:
   // Methods
   RecruitmentConstant();
@@ -55,5 +55,5 @@ private:
 };
 
 } /* namespace processes */
-} /* namespace isam */
+} /* namespace niwa */
 #endif /* CONSTANTRECRUITMENT_H_ */

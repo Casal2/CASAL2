@@ -12,7 +12,7 @@
 #include "Manager.h"
 
 // namespaces
-namespace isam {
+namespace niwa {
 namespace projects {
 
 /**
@@ -37,4 +37,4 @@ void Manager::Update(unsigned current_year) {
 }
 
 } /* namespace projects */
-} /* namespace isam */
+} /* namespace niwa */

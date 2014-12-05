@@ -18,7 +18,7 @@
 #include "Utilities/To.h"
 
 // Namespaces
-namespace isam {
+namespace niwa {
 namespace estimates {
 
 /**
@@ -99,7 +99,7 @@ void Info::BuildEstimates() {
 
   if (index == "" || !target->IsEstimableAVector(parameter)) {
     // Create one estimate
-    isam::EstimatePtr estimate = isam::estimates::Factory::Create(PARAM_ESTIMATE, type_);
+    niwa::EstimatePtr estimate = niwa::estimates::Factory::Create(PARAM_ESTIMATE, type_);
     if (!estimate)
       LOG_CODE_ERROR("Failed to create estimate with type: " << type_);
 //    estimate->parameters().CopyFrom(parameters_);
@@ -122,7 +122,7 @@ void Info::BuildEstimates() {
       LOG_ERROR(parameters_.location(PARAM_UPPER_BOUND) << " must have the same number of elements as estimates that will be created (" << n << ")");
 
     for (unsigned i = 0; i < n; ++i) {
-      isam::EstimatePtr estimate = isam::estimates::Factory::Create(PARAM_ESTIMATE, type_);
+      niwa::EstimatePtr estimate = niwa::estimates::Factory::Create(PARAM_ESTIMATE, type_);
       if (!estimate)
         LOG_CODE_ERROR("Failed to create estimate with type: " << type_);
 
@@ -138,4 +138,4 @@ void Info::BuildEstimates() {
 }
 
 } /* namespace estimates */
-} /* namespace isam */
+} /* namespace niwa */

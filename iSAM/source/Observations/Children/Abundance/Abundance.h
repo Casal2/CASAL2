@@ -22,7 +22,7 @@
 #include "Partition/Accessors/Cached/CombinedCategories.h"
 
 // Namespaces
-namespace isam {
+namespace niwa {
 namespace observations {
 
 using partition::accessors::CombinedCategoriesPtr;
@@ -31,7 +31,7 @@ using partition::accessors::cached::CachedCombinedCategoriesPtr;
 /**
  * Class definition
  */
-class Abundance : public isam::Observation {
+class Abundance : public niwa::Observation {
 public:
   // Methods
   Abundance() = default;
@@ -61,5 +61,5 @@ protected:
 };
 
 } /* namespace observation */
-} /* namespace isam */
+} /* namespace niwa */
 #endif /* OBSERVATIONS_ABUNDANCE_H_ */

@@ -17,7 +17,7 @@
 #include "Estimates/Transformations/Transformation.h"
 
 // namespaces
-namespace isam {
+namespace niwa {
 namespace estimates {
 namespace transformations {
 
@@ -34,6 +34,6 @@ public:
 
 } /* namespace transformations */
 } /* namespace estimates */
-} /* namespace isam */
+} /* namespace niwa */
 
 #endif /* SQUAREROOT_H_ */

@@ -17,13 +17,13 @@
 #include "Asserts/Assert.h"
 
 // namespaces
-namespace isam {
+namespace niwa {
 namespace asserts {
 
 /**
  *
  */
-class Estimable : public isam::Assert {
+class Estimable : public niwa::Assert {
 public:
   // methods
   Estimable();
@@ -43,6 +43,6 @@ private:
 };
 
 } /* namespace asserts */
-} /* namespace isam */
+} /* namespace niwa */
 
 #endif /* ESTIMABLE_H_ */

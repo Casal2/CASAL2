@@ -15,7 +15,7 @@
 #include "Utilities/Logging/Logging.h"
 
 // namespaces
-namespace isam {
+namespace niwa {
 namespace parameters {
 
 /**
@@ -40,7 +40,7 @@ template<typename T>
 void BindableVector<T>::Bind() {
   T value;
   for (unsigned i = 0; i < values_.size(); ++i) {
-    if (!isam::utilities::To<T>(values_[i], value))
+    if (!niwa::utilities::To<T>(values_[i], value))
       LOG_ERROR(location() << " value " << values_[i] << " could not be converted to the proper type. Please check you have defined it properly");
 
     target_->push_back(value);
@@ -48,6 +48,6 @@ void BindableVector<T>::Bind() {
 }
 
 } /* namespace parameters */
-} /* namespace isam */
+} /* namespace niwa */
 
 #endif /* BINDABLEVECTOR_INL_H_ */

@@ -18,7 +18,7 @@
 #include "Utilities/Logging/Logging.h"
 #include "Utilities/To.h"
 
-namespace isam {
+namespace niwa {
 namespace base {
 
 using std::cout;
@@ -211,7 +211,7 @@ void Object::RegisterAsEstimable(const string& label, map<unsigned, Double>* var
  */
 string Object::location() {
   string line_number;
-  isam::utilities::To<unsigned, string>(parameters_.defined_line_number(), line_number);
+  niwa::utilities::To<unsigned, string>(parameters_.defined_line_number(), line_number);
 
   string location = "At line " + line_number + " in file " + parameters_.defined_file_name();
   if (label_ != "")
@@ -236,4 +236,4 @@ void Object::PrintParameterQueryInfo() {
 }
 
 } /* namespace base */
-} /* namespace isam */
+} /* namespace niwa */

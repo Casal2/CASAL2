@@ -17,13 +17,13 @@
 #include "Simulates/Simulate.h"
 
 // namespaces
-namespace isam {
+namespace niwa {
 namespace simulates {
 
 /**
  * Class definition
  */
-class Constant : public isam::Simulate {
+class Constant : public niwa::Simulate {
 public:
   Constant();
   virtual                     ~Constant() = default;
@@ -38,6 +38,6 @@ private:
 };
 
 } /* namespace simulates */
-} /* namespace isam */
+} /* namespace niwa */
 
 #endif /* CONSTANT_H_ */

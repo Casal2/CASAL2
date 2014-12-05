@@ -22,15 +22,15 @@
 #include "Utilities/Types.h"
 
 // Namespaces
-namespace isam {
+namespace niwa {
 
-using isam::utilities::Double;
+using niwa::utilities::Double;
 
 
 /**
  * Class definition
  */
-class Likelihood : public isam::base::Object {
+class Likelihood : public niwa::base::Object {
 public:
   // Methods
   Likelihood() = default;
@@ -51,7 +51,7 @@ public:
 };
 
 // Typedef
-typedef boost::shared_ptr<isam::Likelihood> LikelihoodPtr;
+typedef boost::shared_ptr<niwa::Likelihood> LikelihoodPtr;
 
-} /* namespace isam */
+} /* namespace niwa */
 #endif /* LIKELIHOOD_H_ */

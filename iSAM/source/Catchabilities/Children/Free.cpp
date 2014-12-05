@@ -13,7 +13,7 @@
 #include "Free.h"
 
 // namespaces
-namespace isam {
+namespace niwa {
 namespace catchabilities {
 
 /**
@@ -32,4 +32,4 @@ void Free::DoValidate() { }
 
 
 } /* namespace catchabilities */
-} /* namespace isam */
+} /* namespace niwa */

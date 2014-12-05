@@ -17,7 +17,7 @@
 #include "Utilities/Math.h"
 
 // namespaces
-namespace isam {
+namespace niwa {
 namespace minimisers {
 namespace dlib {
 
@@ -55,5 +55,5 @@ Double Callback::operator()(const ::dlib::matrix<double, 0, 1>& Parameters) cons
 
 } /* namespace dlib */
 } /* namespace minimisers */
-} /* namespace isam */
+} /* namespace niwa */
 #endif /* USE_AUTODIFF */

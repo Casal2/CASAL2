@@ -12,7 +12,7 @@
 #include "Normal.h"
 
 // namespaces
-namespace isam {
+namespace niwa {
 namespace estimates {
 namespace creators {
 
@@ -27,11 +27,11 @@ Normal::Normal() {
 /**
  *
  */
-void Normal::DoCopyParameters(isam::EstimatePtr estimate, unsigned index) {
+void Normal::DoCopyParameters(niwa::EstimatePtr estimate, unsigned index) {
   estimate->parameters().CopyFrom(parameters_, PARAM_MU, index);
   estimate->parameters().CopyFrom(parameters_, PARAM_CV, index);
 }
 
 } /* namespace creators */
 } /* namespace estimates */
-} /* namespace isam */
+} /* namespace niwa */

@@ -21,14 +21,14 @@
 #include "Selectivities/Selectivity.h"
 
 // Namespaces
-namespace isam {
+namespace niwa {
 namespace selectivities {
 
 /**
  * Class defintiion
  */
-class Manager : public isam::oldbase::Manager<isam::selectivities::Manager, isam::Selectivity> {
-  friend class isam::oldbase::Manager<isam::selectivities::Manager, isam::Selectivity>;
+class Manager : public niwa::oldbase::Manager<niwa::selectivities::Manager, niwa::Selectivity> {
+  friend class niwa::oldbase::Manager<niwa::selectivities::Manager, niwa::Selectivity>;
 public:
   // methods
   virtual                     ~Manager() noexcept(true) {};
@@ -40,5 +40,5 @@ protected:
 };
 
 } /* namespace selectivities */
-} /* namespace isam */
+} /* namespace niwa */
 #endif /* SELECTIVITIES_MANAGER_H_ */

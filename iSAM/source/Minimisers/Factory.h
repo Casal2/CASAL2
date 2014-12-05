@@ -20,7 +20,7 @@
 #include "Minimisers/Minimiser.h"
 
 // Namespaces
-namespace isam {
+namespace niwa {
 namespace minimisers {
 
 /**
@@ -38,5 +38,5 @@ private:
 };
 
 } /* namespace minimisers */
-} /* namespace isam */
+} /* namespace niwa */
 #endif /* FACTORY_H_ */

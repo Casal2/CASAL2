@@ -14,7 +14,7 @@
 #include "KnifeEdge.h"
 
 // namespaces
-namespace isam {
+namespace niwa {
 namespace selectivities {
 
 /**
@@ -55,4 +55,4 @@ void KnifeEdge::Reset() {
 }
 
 } /* namespace selectivities */
-} /* namespace isam */
+} /* namespace niwa */

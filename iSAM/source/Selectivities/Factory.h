@@ -18,7 +18,7 @@
 #include "Selectivities/Manager.h"
 
 // Namespaces
-namespace isam {
+namespace niwa {
 namespace selectivities {
 
 /**
@@ -36,5 +36,5 @@ private:
 };
 
 } /* namespace selectivities */
-} /* namespace isam */
+} /* namespace niwa */
 #endif /* SELECTIVITIES_FACTORY_H_ */

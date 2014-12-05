@@ -22,10 +22,10 @@
 #include "Utilities/To.h"
 
 // Namespaces
-namespace isam {
+namespace niwa {
 namespace objects {
 
-namespace util = isam::utilities;
+namespace util = niwa::utilities;
 
 /**
  * See Header file for definition.
@@ -86,7 +86,7 @@ void ImplodeString(const string& type, const string& label, const string& parame
 /**
  * See header file for description
  */
-isam::base::ObjectPtr FindObject(const string& parameter_absolute_name) {
+niwa::base::ObjectPtr FindObject(const string& parameter_absolute_name) {
   base::ObjectPtr result;
 
   string type         = "";
@@ -114,7 +114,7 @@ isam::base::ObjectPtr FindObject(const string& parameter_absolute_name) {
  * See header for dexcription
  */
 Double* FindEstimable(const string& estimable_absolute_name) {
-  isam::base::ObjectPtr object = FindObject(estimable_absolute_name);
+  niwa::base::ObjectPtr object = FindObject(estimable_absolute_name);
   if (!object)
     return 0;
 
@@ -135,4 +135,4 @@ Double* FindEstimable(const string& estimable_absolute_name) {
 }
 
 } /* namespace objects */
-} /* namespace isam */
+} /* namespace niwa */

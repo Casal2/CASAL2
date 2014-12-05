@@ -20,7 +20,7 @@
 #include "Utilities/Types.h"
 
 // namespaces
-namespace isam {
+namespace niwa {
 namespace parameters {
 
 using std::vector;
@@ -29,7 +29,7 @@ using std::vector;
  * class definition
  */
 template<typename T>
-class BindableVector : public isam::parameterlist::Parameter {
+class BindableVector : public niwa::parameterlist::Parameter {
 public:
   // methods
   BindableVector(const string& label, vector<T>* target, const string& description);
@@ -43,7 +43,7 @@ private:
 };
 
 } /* namespace parameters */
-} /* namespace isam */
+} /* namespace niwa */
 
 // headers
 #include "BindableVector-inl.h"

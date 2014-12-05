@@ -21,12 +21,12 @@
 #include "BaseClasses/Executor.h"
 
 // namespaces
-namespace isam {
+namespace niwa {
 
 /**
  * Class definition
  */
-class Assert : public isam::base::Executor {
+class Assert : public niwa::base::Executor {
 public:
   // methods
   Assert();
@@ -45,6 +45,6 @@ protected:
 
 typedef boost::shared_ptr<Assert> AssertPtr;
 
-} /* namespace isam */
+} /* namespace niwa */
 
 #endif /* ASSERT_H_ */

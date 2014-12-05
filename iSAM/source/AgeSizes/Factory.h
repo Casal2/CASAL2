@@ -14,7 +14,7 @@
 #include "AgeSizes/AgeSize.h"
 
 // namespaces
-namespace isam {
+namespace niwa {
 namespace agesizes {
 
 /**
@@ -30,5 +30,5 @@ private:
 };
 
 } /* namespace agesizes */
-} /* namespace isam */
+} /* namespace niwa */
 #endif /* FACTORY_H_ */

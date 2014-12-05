@@ -16,7 +16,7 @@
 #include "ObjectiveFunction/ObjectiveFunction.h"
 
 // Namespaces
-namespace isam {
+namespace niwa {
 namespace reports {
 
 /**
@@ -35,7 +35,7 @@ void ObjectiveFunction::DoExecute() {
   cache_ << CONFIG_ARRAY_START << label_ << CONFIG_ARRAY_END << "\n";
 //  cout << PARAM_REPORT << "." << PARAM_TYPE << CONFIG_RATIO_SEPARATOR << " " << parameters_.Get(PARAM_TYPE).GetValue<string>() << "\n";
 
-  ::isam::ObjectiveFunction obj_function = isam::ObjectiveFunction::Instance();
+  ::niwa::ObjectiveFunction obj_function = niwa::ObjectiveFunction::Instance();
 
   const vector<objective::Score>& score_list = obj_function.score_list();
   for (objective::Score score : score_list) {
@@ -48,4 +48,4 @@ void ObjectiveFunction::DoExecute() {
 }
 
 } /* namespace reports */
-} /* namespace isam */
+} /* namespace niwa */

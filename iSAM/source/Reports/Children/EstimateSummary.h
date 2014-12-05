@@ -21,13 +21,13 @@
 #include "Reports/Report.h"
 
 // Namespaces
-namespace isam {
+namespace niwa {
 namespace reports {
 
 /**
  * Class definition
  */
-class EstimateSummary : public isam::Report {
+class EstimateSummary : public niwa::Report {
 public:
   // Methods
   EstimateSummary();
@@ -38,5 +38,5 @@ public:
 };
 
 } /* namespace reports */
-} /* namespace isam */
+} /* namespace niwa */
 #endif /* ESTIMATESUMMARY_H_ */

@@ -18,7 +18,7 @@
 #include "TimeSteps/Manager.h"
 
 // namespaces
-namespace isam {
+namespace niwa {
 namespace asserts {
 
 /**
@@ -79,4 +79,4 @@ void Estimable::Execute() {
 }
 
 } /* namespace asserts */
-} /* namespace isam */
+} /* namespace niwa */

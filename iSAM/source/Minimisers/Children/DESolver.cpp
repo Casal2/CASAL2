@@ -17,7 +17,7 @@
 #include "Minimisers/Children/DESolver/CallBack.h"
 
 // Namespaces
-namespace isam {
+namespace niwa {
 namespace minimisers {
 
 /**
@@ -83,5 +83,5 @@ void DESolver::Execute() {
 }
 
 } /* namespace minimisers */
-} /* namespace isam */
+} /* namespace niwa */
 #endif

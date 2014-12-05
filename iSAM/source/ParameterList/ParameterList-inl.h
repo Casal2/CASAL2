@@ -24,10 +24,10 @@
 // Using
 using std::cout;
 using std::endl;
-using isam::parameters::Bindable;
-using isam::parameters::BindableVector;
+using niwa::parameters::Bindable;
+using niwa::parameters::BindableVector;
 
-namespace isam {
+namespace niwa {
 
 /**
  *
@@ -59,5 +59,5 @@ void ParameterList::Bind(const string& label, vector<T>* target, const string& d
   parameters_[label] = parameter;
 }
 
-} /* namespace isam */
+} /* namespace niwa */
 #endif /* PARAMETERLIST_INL_H_ */

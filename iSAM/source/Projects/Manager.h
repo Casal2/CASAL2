@@ -18,14 +18,14 @@
 #include "Projects/Project.h"
 
 // namespaces
-namespace isam {
+namespace niwa {
 namespace projects {
 
 /**
  * Class definition
  */
-class Manager : public isam::oldbase::Manager<isam::projects::Manager, isam::Project> {
-  friend class isam::oldbase::Manager<isam::projects::Manager, isam::Project>;
+class Manager : public niwa::oldbase::Manager<niwa::projects::Manager, niwa::Project> {
+  friend class niwa::oldbase::Manager<niwa::projects::Manager, niwa::Project>;
 public:
   // methods
   virtual                     ~Manager() noexcept(true);
@@ -37,6 +37,6 @@ protected:
 };
 
 } /* namespace projects */
-} /* namespace isam */
+} /* namespace niwa */
 
 #endif /* MANAGER_H_ */

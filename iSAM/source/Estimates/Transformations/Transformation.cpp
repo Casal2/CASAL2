@@ -7,9 +7,9 @@
 
 #include <Estimates/Transformations/Transformation.h>
 
-namespace isam {
+namespace niwa {
 namespace estimates {
 
 
 } /* namespace estimates */
-} /* namespace isam */
+} /* namespace niwa */

@@ -22,7 +22,7 @@
 #include "Types.h"
 
 // namespaces
-namespace isam {
+namespace niwa {
 namespace utilities {
 
 using std::vector;
@@ -85,6 +85,6 @@ inline map<unsigned, Double> MapCreate(const vector<unsigned>& key, const vector
 }
 
 } /* namespace utilities */
-} /* namespace isam */
+} /* namespace niwa */
 
 #endif /* MAP_H_ */

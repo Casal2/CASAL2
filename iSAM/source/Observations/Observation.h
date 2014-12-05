@@ -24,14 +24,14 @@
 #include "Utilities/Types.h"
 
 // Namespaces
-namespace isam {
-using isam::utilities::Double;
-namespace obs = isam::observations;
+namespace niwa {
+using niwa::utilities::Double;
+namespace obs = niwa::observations;
 
 /**
  * Class Definition
  */
-class Observation : public isam::base::Executor {
+class Observation : public niwa::base::Executor {
 public:
   // methods
   Observation();
@@ -78,7 +78,7 @@ protected:
 };
 
 // Typedef
-typedef boost::shared_ptr<isam::Observation> ObservationPtr;
+typedef boost::shared_ptr<niwa::Observation> ObservationPtr;
 
-} /* namespace isam */
+} /* namespace niwa */
 #endif /* OBSERVATION_H_ */

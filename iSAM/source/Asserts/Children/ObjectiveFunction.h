@@ -17,13 +17,13 @@
 #include "Asserts/Assert.h"
 
 // namespaces
-namespace isam {
+namespace niwa {
 namespace asserts {
 
 /**
  * class definition
  */
-class ObjectiveFunction : public isam::Assert {
+class ObjectiveFunction : public niwa::Assert {
 public:
   // methods
   ObjectiveFunction();
@@ -38,6 +38,6 @@ private:
 };
 
 } /* namespace asserts */
-} /* namespace isam */
+} /* namespace niwa */
 
 #endif /* ASSERTS_OBJECTIVEFUNCTION_H_ */

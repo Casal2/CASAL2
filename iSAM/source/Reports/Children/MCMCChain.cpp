@@ -14,7 +14,7 @@
 #include "MCMC/MCMC.h"
 
 // namespaces
-namespace isam {
+namespace niwa {
 namespace reports {
 
 /**
@@ -56,4 +56,4 @@ void MCMCChain::DoExecute() {
 }
 
 } /* namespace reports */
-} /* namespace isam */
+} /* namespace niwa */

@@ -12,7 +12,7 @@
 #include "Manager.h"
 
 // namespaces
-namespace isam {
+namespace niwa {
 namespace derivedquantities {
 
 /**
@@ -32,4 +32,4 @@ DerivedQuantityPtr Manager::GetDerivedQuantity(const string& label) {
 }
 
 } /* namespace derivedquantities */
-} /* namespace isam */
+} /* namespace niwa */

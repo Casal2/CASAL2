@@ -17,7 +17,7 @@
 #include "Utilities/DoubleCompare.h"
 
 // Namespaces
-namespace isam {
+namespace niwa {
 
 /**
  * Default Constructor
@@ -35,4 +35,4 @@ void Penalty::Validate() {
   DoValidate();
 }
 
-} /* namespace isam */
+} /* namespace niwa */

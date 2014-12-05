@@ -24,16 +24,16 @@
 #include "Selectivities/Selectivity.h"
 
 // Namespaces
-namespace isam {
+namespace niwa {
 namespace processes {
 
-namespace accessor = isam::partition::accessors;
-using isam::utilities::Map;
+namespace accessor = niwa::partition::accessors;
+using niwa::utilities::Map;
 
 /**
  * Class defintiion
  */
-class MaturationRate : public isam::Process {
+class MaturationRate : public niwa::Process {
 public:
   // Methods
   MaturationRate();
@@ -58,5 +58,5 @@ private:
 };
 
 } /* namespace processes */
-} /* namespace isam */
+} /* namespace niwa */
 #endif /* MATURATIONRATE_H_ */

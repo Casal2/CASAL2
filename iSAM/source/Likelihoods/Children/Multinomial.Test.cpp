@@ -21,7 +21,7 @@
 #include "Utilities/RandomNumberGenerator.h"
 
 // Namespaces
-namespace isam {
+namespace niwa {
 namespace likelihoods {
 
 using std::cout;

@@ -21,14 +21,14 @@
 #include "Reports/Report.h"
 
 // Namespaces
-namespace isam {
+namespace niwa {
 namespace reports {
 
 /**
  * Class Definition
  */
-class Manager : public isam::oldbase::Manager<reports::Manager, isam::Report> {
-  friend class isam::oldbase::Manager<reports::Manager, isam::Report>;
+class Manager : public niwa::oldbase::Manager<reports::Manager, niwa::Report> {
+  friend class niwa::oldbase::Manager<reports::Manager, niwa::Report>;
 public:
   // methods
   virtual                     ~Manager() noexcept(true);
@@ -57,5 +57,5 @@ private:
 };
 
 } /* namespace reports */
-} /* namespace isam */
+} /* namespace niwa */
 #endif /* REPORTS_MANAGER_H_ */

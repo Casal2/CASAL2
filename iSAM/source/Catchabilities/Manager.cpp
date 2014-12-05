@@ -14,7 +14,7 @@
 #include "Manager.h"
 
 // Namespaces
-namespace isam {
+namespace niwa {
 namespace catchabilities {
 
 /**
@@ -49,4 +49,4 @@ CatchabilityPtr Manager::GetCatchability(const string& label) {
 }
 
 } /* namespace catchabilities */
-} /* namespace isam */
+} /* namespace niwa */

@@ -23,11 +23,11 @@
 #include "Utilities/To.h"
 
 // namespaces
-namespace isam {
+namespace niwa {
 namespace estimates {
 
-namespace utils = isam::utilities;
-using isam::utilities::Map;
+namespace utils = niwa::utilities;
+using niwa::utilities::Map;
 
 /**
  *
@@ -227,8 +227,8 @@ void Creator::CreateEstimates() {
 /**
  * Create an instance of an estimate
  */
-isam::EstimatePtr Creator::CreateEstimate(string label, unsigned index, Double* target) {
-  isam::EstimatePtr estimate = estimates::Factory::Create(block_type_, type_);
+niwa::EstimatePtr Creator::CreateEstimate(string label, unsigned index, Double* target) {
+  niwa::EstimatePtr estimate = estimates::Factory::Create(block_type_, type_);
   if (!estimate)
     LOG_ERROR(parameters_.location(PARAM_TYPE) << " " << type_ << " is invalid when creating an estimate.");
 
@@ -244,7 +244,7 @@ isam::EstimatePtr Creator::CreateEstimate(string label, unsigned index, Double* 
 /**
  *
  */
-void Creator::CopyParameters(isam::EstimatePtr estimate, unsigned index) {
+void Creator::CopyParameters(niwa::EstimatePtr estimate, unsigned index) {
   estimate->parameters().CopyFrom(parameters_, PARAM_LABEL);
   estimate->parameters().CopyFrom(parameters_, PARAM_TYPE);
   estimate->parameters().CopyFrom(parameters_, PARAM_PARAMETER);
@@ -260,5 +260,5 @@ void Creator::CopyParameters(isam::EstimatePtr estimate, unsigned index) {
   DoCopyParameters(estimate, index);
 }
 } /* namespace estimates */
-} /* namespace isam */
+} /* namespace niwa */
 

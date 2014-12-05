@@ -12,7 +12,7 @@
 #include "Constant.h"
 
 // namespaces
-namespace isam {
+namespace niwa {
 namespace projects {
 
 /**
@@ -46,4 +46,4 @@ void Constant::DoUpdate() {
 }
 
 } /* namespace projects */
-} /* namespace isam */
+} /* namespace niwa */

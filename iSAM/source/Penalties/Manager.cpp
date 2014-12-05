@@ -14,7 +14,7 @@
 #include "Manager.h"
 
 // Namespaces
-namespace isam {
+namespace niwa {
 namespace penalties {
 
 /**
@@ -71,4 +71,4 @@ void Manager::FlagPenalty(const string& label, Double value) {
 }
 
 } /* namespace penalties */
-} /* namespace isam */
+} /* namespace niwa */

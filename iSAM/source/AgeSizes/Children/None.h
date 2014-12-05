@@ -17,13 +17,13 @@
 #include "AgeSizes/AgeSize.h"
 
 // namespaces
-namespace isam {
+namespace niwa {
 namespace agesizes {
 
 /**
  * class definition
  */
-class None : public isam::AgeSize {
+class None : public niwa::AgeSize {
 public:
   // methods
   None();
@@ -38,5 +38,5 @@ public:
 };
 
 } /* namespace agesizes */
-} /* namespace isam */
+} /* namespace niwa */
 #endif /* AGESIZES_NONE_H_ */

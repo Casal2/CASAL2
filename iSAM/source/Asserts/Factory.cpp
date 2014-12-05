@@ -18,7 +18,7 @@
 #include "Asserts/Children/ObjectiveFunction.h"
 
 // Namespaces
-namespace isam {
+namespace niwa {
 namespace asserts {
 
 /**
@@ -46,4 +46,4 @@ AssertPtr Factory::Create(string object_type, string sub_type) {
 }
 
 } /* namespace processes */
-} /* namespace isam */
+} /* namespace niwa */

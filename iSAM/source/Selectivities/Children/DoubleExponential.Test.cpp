@@ -21,7 +21,7 @@
 #include "TestResources/MockClasses/Model.h"
 
 // Namespaces
-namespace isam {
+namespace niwa {
 
 using ::testing::Return;
 
@@ -33,7 +33,7 @@ TEST(Selectivities, DoubleExponential) {
   EXPECT_CALL(*model.get(), min_age()).WillRepeatedly(Return(10));
   EXPECT_CALL(*model.get(), max_age()).WillRepeatedly(Return(20));
 
-  isam::selectivities::DoubleExponential double_exponential(model);
+  niwa::selectivities::DoubleExponential double_exponential(model);
 
   double_exponential.parameters().Add(PARAM_LABEL, "unit_test_double_exponential", __FILE__, __LINE__);
   double_exponential.parameters().Add(PARAM_TYPE, "not needed in test", __FILE__, __LINE__);

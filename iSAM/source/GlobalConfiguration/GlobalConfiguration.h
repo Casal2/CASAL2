@@ -33,14 +33,14 @@ using std::vector;
 using std::string;
 using boost::shared_ptr;
 
-namespace util = isam::utilities;
+namespace util = niwa::utilities;
 
-namespace isam {
+namespace niwa {
 
 /**
  * Class Definitiion
  */
-class GlobalConfiguration : public isam::base::Object {
+class GlobalConfiguration : public niwa::base::Object {
 public:
   // Methods
   static shared_ptr<GlobalConfiguration> Instance();
@@ -77,5 +77,5 @@ private:
 // Typedef
 typedef boost::shared_ptr<GlobalConfiguration> GlobalConfigurationPtr;
 
-} /* namespace isam */
+} /* namespace niwa */
 #endif /* GLOBALCONFIGURATION_H_ */

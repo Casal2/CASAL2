@@ -50,7 +50,7 @@
 
 
 // Namespaces
-namespace isam {
+namespace niwa {
 
 using std::cout;
 using std::endl;
@@ -539,4 +539,4 @@ void Model::FullIteration() {
   LOG_INFO("Model: State change to PostExecute");
   reports::Manager::Instance().Execute(State::kPostExecute);
 }
-} /* namespace isam */
+} /* namespace niwa */

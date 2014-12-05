@@ -19,7 +19,7 @@
 #include "SizeWeights/Manager.h"
 
 // namespaces
-namespace isam {
+namespace niwa {
 namespace reports {
 
 /**
@@ -37,7 +37,7 @@ void PartitionMeanWeight::DoExecute() {
   cache_ << "*" << this->label() << "\n";
 
   CategoriesPtr categories = Categories::Instance();
-  isam::partition::accessors::All all_view;
+  niwa::partition::accessors::All all_view;
 
   for (auto iterator = all_view.Begin(); iterator != all_view.End(); ++iterator) {
     string category = (*iterator)->name_;
@@ -71,4 +71,4 @@ void PartitionMeanWeight::DoExecute() {
 }
 
 } /* namespace reports */
-} /* namespace isam */
+} /* namespace niwa */

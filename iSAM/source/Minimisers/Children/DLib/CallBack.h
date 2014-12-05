@@ -20,7 +20,7 @@
 #include "Model/Model.h"
 
 // namespaces
-namespace isam {
+namespace niwa {
 namespace minimisers {
 namespace dlib {
 
@@ -41,6 +41,6 @@ private:
 
 } /* namespace dlib */
 } /* namespace minimisers */
-} /* namespace isam */
+} /* namespace niwa */
 #endif /* CALLBACK_H_ */
 #endif /* USE_AUTODIFF */

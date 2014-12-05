@@ -18,14 +18,14 @@
 #include "SizeWeights/SizeWeight.h"
 
 // namespaces
-namespace isam {
+namespace niwa {
 namespace sizeweights {
 
 /**
  * class definition
  */
-class Manager : public isam::oldbase::Manager<isam::sizeweights::Manager, isam::SizeWeight> {
-  friend class isam::oldbase::Manager<isam::sizeweights::Manager, isam::SizeWeight>;
+class Manager : public niwa::oldbase::Manager<niwa::sizeweights::Manager, niwa::SizeWeight> {
+  friend class niwa::oldbase::Manager<niwa::sizeweights::Manager, niwa::SizeWeight>;
 public:
   // methods
   virtual                     ~Manager() noexcept(true) { };
@@ -37,5 +37,5 @@ protected:
 };
 
 } /* namespace sizeweights */
-} /* namespace isam */
+} /* namespace niwa */
 #endif /* SIZEWEIGHTS_MANAGER_H_ */

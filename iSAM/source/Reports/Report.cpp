@@ -20,7 +20,7 @@
 #include "Reports/Manager.h"
 
 // Namespaces
-namespace isam {
+namespace niwa {
 
 using std::streambuf;
 using std::ofstream;
@@ -129,5 +129,5 @@ void Report::FlushCache() {
   ready_for_writing_ = false;
 }
 
-} /* namespace isam */
+} /* namespace niwa */
 

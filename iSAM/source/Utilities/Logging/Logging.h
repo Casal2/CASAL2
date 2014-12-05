@@ -31,7 +31,7 @@ using std::cout;
 using std::cerr;
 using std::endl;
 
-namespace isam {
+namespace niwa {
 namespace utilities {
 
 /**
@@ -68,19 +68,19 @@ namespace utilities {
 #define LOG_TRACE() {\
   ostringstream o;\
   o << "--> Trace: " << __FILE__ << ":" << __FUNCTION__ << ":" << __LINE__;\
-  isam::utilities::Logging::Instance().Log(o.str()); }
+  niwa::utilities::Logging::Instance().Log(o.str()); }
 
 #define LOG_INFO(value) {\
   ostringstream o;\
   o << "[I] " << __FILE__ << ":" << __FUNCTION__ << ":" << __LINE__ << " = " << value;\
-  isam::utilities::Logging::Instance().Log(o.str()); }
+  niwa::utilities::Logging::Instance().Log(o.str()); }
 
 #define LOG_WARNING(value) {\
   ostringstream o;\
   o << "[WARNING]\n"\
   << "Source: " << __FILE__ << ":" << __FUNCTION__ << " (Line: " << __LINE__ << ")\n"\
   << "Warning: " << value;\
-  isam::utilities::Logging::Instance().ForceLog(o.str()); }
+  niwa::utilities::Logging::Instance().ForceLog(o.str()); }
 
 #define LOG_ERROR(value) {\
   ostringstream o;\
@@ -88,7 +88,7 @@ namespace utilities {
   o << "[ERROR] - An error has been encountered that prevents the program from continuing\n"\
     << "Source: " << __FILE__ << ":" << __FUNCTION__ << " (Line: " << __LINE__ << ")\n"\
     << "Error: " << value;\
-  isam::utilities::Logging::Instance().ForceLog(o.str()); \
+  niwa::utilities::Logging::Instance().ForceLog(o.str()); \
   exit(-1); }
 
 #define LOG_CODE_ERROR(value) {\
@@ -98,7 +98,7 @@ namespace utilities {
       << "[ERROR] - This error requires developer intervention to correct. Please contact a developer\n"\
       << "Source: " << __FILE__ << ":" << __FUNCTION__ << " (Line: " << __LINE__ << ")\n"\
       << "Error: " << value;\
-    isam::utilities::Logging::Instance().ForceLog(o.str()); \
+    niwa::utilities::Logging::Instance().ForceLog(o.str()); \
     exit(-1); }
 
 #endif
@@ -119,5 +119,5 @@ private:
 };
 
 } /* namespace utilities */
-} /* namespace isam */
+} /* namespace niwa */
 #endif /* LOGGING_H_ */

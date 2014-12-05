@@ -16,7 +16,7 @@
 #include <boost/math/distributions/normal.hpp>
 
 // Namespaces
-namespace isam {
+namespace niwa {
 namespace ageingerrors {
 
 /**
@@ -97,4 +97,4 @@ void Normal::DoReset() {
 }
 
 } /* namespace ageingerrors */
-} /* namespace isam */
+} /* namespace niwa */

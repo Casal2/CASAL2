@@ -38,7 +38,7 @@
 #include "Utilities/To.h"
 
 // namespaces
-namespace isam {
+namespace niwa {
 namespace testfixtures {
 
 /**
@@ -86,5 +86,5 @@ void Base::TearDown() {
 }
 
 } /* namespace testfixtures */
-} /* namespace isam */
+} /* namespace niwa */
 #endif /* TESTMODE */

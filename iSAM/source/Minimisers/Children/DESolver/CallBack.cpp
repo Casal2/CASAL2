@@ -18,7 +18,7 @@
 #include "Utilities/Logging/Logging.h"
 
 // Namespaces
-namespace isam {
+namespace niwa {
 namespace minimisers {
 namespace desolver {
 
@@ -26,7 +26,7 @@ namespace desolver {
  * Default constructor
  */
 CallBack::CallBack(unsigned vector_size, unsigned population_size, double tolerance)
-: isam::minimisers::desolver::Engine(vector_size, population_size, tolerance) {
+: niwa::minimisers::desolver::Engine(vector_size, population_size, tolerance) {
 
   model_ = Model::Instance();
 }
@@ -64,5 +64,5 @@ double CallBack::EnergyFunction(vector<double> test_solution) {
 
 } /* namespace desolver */
 } /* namespace minimisers */
-} /* namespace isam */
+} /* namespace niwa */
 #endif

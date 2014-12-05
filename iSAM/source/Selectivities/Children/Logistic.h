@@ -20,13 +20,13 @@
 #include "Selectivities/Selectivity.h"
 
 // Namespaces
-namespace isam {
+namespace niwa {
 namespace selectivities {
 
 /**
  * Class Definition
  */
-class Logistic : public isam::Selectivity {
+class Logistic : public niwa::Selectivity {
 public:
   // Methods
   Logistic();
@@ -43,5 +43,5 @@ private:
 };
 
 } /* namespace selectivities */
-} /* namespace isam */
+} /* namespace niwa */
 #endif /* LOGISTIC_H_ */

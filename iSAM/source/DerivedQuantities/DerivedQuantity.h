@@ -20,14 +20,14 @@
 #include "Selectivities/Selectivity.h"
 
 // namespaces
-namespace isam {
+namespace niwa {
 
-namespace accessor = isam::partition::accessors;
+namespace accessor = niwa::partition::accessors;
 
 /**
  * class definition
  */
-class DerivedQuantity : public isam::base::Executor {
+class DerivedQuantity : public niwa::base::Executor {
 public:
   // methods
   DerivedQuantity();
@@ -63,5 +63,5 @@ protected:
 // typedef
 typedef boost::shared_ptr<DerivedQuantity> DerivedQuantityPtr;
 
-} /* namespace isam */
+} /* namespace niwa */
 #endif /* DERIVEDQUANTITY_H_ */

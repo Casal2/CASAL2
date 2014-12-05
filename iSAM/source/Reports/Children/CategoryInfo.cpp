@@ -16,7 +16,7 @@
 #include "Categories/Categories.h"
 
 // Namespaces
-namespace isam {
+namespace niwa {
 namespace reports {
 
 /**
@@ -54,4 +54,4 @@ void CategoryInfo::DoExecute() {
 }
 
 } /* namespace reports */
-} /* namespace isam */
+} /* namespace niwa */

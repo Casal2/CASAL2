@@ -14,7 +14,7 @@
 #include "Catchability.h"
 
 // Namespaces
-namespace isam {
+namespace niwa {
 
 /**
  * Default constructor
@@ -30,4 +30,4 @@ void Catchability::Validate() {
   parameters_.Populate();
 }
 
-} /* namespace isam */
+} /* namespace niwa */

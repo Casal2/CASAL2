@@ -11,10 +11,10 @@
 #include "Reports/Report.h"
 #include "Selectivities/Manager.h"
 
-namespace isam {
+namespace niwa {
 namespace reports {
 
-class Selectivity : public isam::Report {
+class Selectivity : public niwa::Report {
 public:
   Selectivity();
   virtual ~Selectivity() = default;
@@ -30,6 +30,6 @@ private:
 };
 
 } /* namespace reports */
-} /* namespace isam */
+} /* namespace niwa */
 
 #endif /* SELECTIVITY_H_ */

@@ -7,7 +7,7 @@
 
 #include "Manager.h"
 
-namespace isam {
+namespace niwa {
 namespace selectivities {
 
 Manager::Manager() {
@@ -32,4 +32,4 @@ SelectivityPtr Manager::GetSelectivity(const string& label) {
 }
 
 } /* namespace selectivities */
-} /* namespace isam */
+} /* namespace niwa */

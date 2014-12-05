@@ -9,7 +9,7 @@
 
 #include "Model/Model.h"
 
-namespace isam {
+namespace niwa {
 namespace reports {
 
 Selectivity::Selectivity() {
@@ -55,4 +55,4 @@ void Selectivity::DoExecute() {
 
 
 } /* namespace reports */
-} /* namespace isam */
+} /* namespace niwa */

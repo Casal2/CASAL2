@@ -17,7 +17,7 @@
 #include "Selectivities/Manager.h"
 
 // Namespaces
-namespace isam {
+namespace niwa {
 namespace processes {
 
 /**
@@ -53,7 +53,7 @@ void MaturationRate::DoValidate() {
     selectivity_names_.assign(from_category_names_.size(), selectivity_names_[0]);
 
   // Validate Categories
-  isam::CategoriesPtr categories = isam::Categories::Instance();
+  niwa::CategoriesPtr categories = niwa::Categories::Instance();
   from_category_names_ = categories->ExpandLabels(from_category_names_, parameters_.Get(PARAM_FROM));
   to_category_names_   = categories->ExpandLabels(to_category_names_, parameters_.Get(PARAM_TO));
 
@@ -166,4 +166,4 @@ void MaturationRate::DoReset() {
 }
 
 } /* namespace processes */
-} /* namespace isam */
+} /* namespace niwa */

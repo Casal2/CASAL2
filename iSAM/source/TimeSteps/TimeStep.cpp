@@ -17,7 +17,7 @@
 #include "Observations/Manager.h"
 #include "Processes/Manager.h"
 
-namespace isam {
+namespace niwa {
 
 /**
  * Default Constructor
@@ -144,4 +144,4 @@ void TimeStep::BuildInitialisationProcesses() {
     }
   }
 }
-} /* namespace isam */
+} /* namespace niwa */

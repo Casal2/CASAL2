@@ -20,13 +20,13 @@
 #include "Selectivities/Selectivity.h"
 
 // Namespaces
-namespace isam {
+namespace niwa {
 namespace selectivities {
 
 /**
  * Class Definition
  */
-class AllValuesBounded : public isam::Selectivity {
+class AllValuesBounded : public niwa::Selectivity {
 public:
   // Methods
   AllValuesBounded();
@@ -43,5 +43,5 @@ private:
 };
 
 } /* namespace selectivities */
-} /* namespace isam */
+} /* namespace niwa */
 #endif /* ALLVALUESBOUNDED_H_ */

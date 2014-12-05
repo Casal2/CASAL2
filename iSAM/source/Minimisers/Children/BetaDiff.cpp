@@ -14,7 +14,7 @@
 #include "Model/Model.h"
 #include "ObjectiveFunction/ObjectiveFunction.h"
 
-namespace isam {
+namespace niwa {
 namespace minimisers {
 
 /**
@@ -92,6 +92,6 @@ void BetaDiff::Execute() {
 }
 
 } /* namespace reports */
-} /* namespace isam */
+} /* namespace niwa */
 #endif /* USE_BETADIFF */
 #endif /* USE_AUTODIFF */

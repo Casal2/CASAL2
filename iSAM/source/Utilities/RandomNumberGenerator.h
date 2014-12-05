@@ -23,7 +23,7 @@
 #include "Utilities/Types.h"
 
 // Namespaces
-namespace isam {
+namespace niwa {
 namespace utilities {
 
 /**
@@ -51,5 +51,5 @@ private:
 };
 
 } /* namespace utilities */
-} /* namespace isam */
+} /* namespace niwa */
 #endif /* UTILITIES_RANDOMNUMBERGENERATOR_H_ */

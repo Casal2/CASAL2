@@ -17,7 +17,7 @@
 #include "Translations/Translations.h"
 
 // namespaces
-namespace isam {
+namespace niwa {
 namespace estimates {
 namespace transformations {
 
@@ -42,4 +42,4 @@ TransformationPtr Factory::Create(const string& sub_type) {
 
 } /* namespace transformations */
 } /* namespace estimates */
-} /* namespace isam */
+} /* namespace niwa */

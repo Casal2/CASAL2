@@ -15,7 +15,7 @@
 #include "Utilities/To.h"
 
 // namespaces
-namespace isam {
+namespace niwa {
 
 /**
  * Default constructor
@@ -136,4 +136,4 @@ void Simulate::SetMapValue(Double value) {
   (*estimable_map_)[model_->current_year()] = value;
 }
 
-} /* namespace isam */
+} /* namespace niwa */

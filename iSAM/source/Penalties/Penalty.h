@@ -24,14 +24,14 @@
 #include "Utilities/Types.h"
 
 // Namespaces
-namespace isam {
+namespace niwa {
 
-using isam::utilities::Double;
+using niwa::utilities::Double;
 
 /**
  * Class definition
  */
-class Penalty : public isam::base::Object {
+class Penalty : public niwa::base::Object {
 public:
   // Methods
   Penalty();
@@ -55,7 +55,7 @@ protected:
 };
 
 // Typedef
-typedef boost::shared_ptr<isam::Penalty> PenaltyPtr;
+typedef boost::shared_ptr<niwa::Penalty> PenaltyPtr;
 
-} /* namespace isam */
+} /* namespace niwa */
 #endif /* PENALTY_H_ */

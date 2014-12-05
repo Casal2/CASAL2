@@ -37,7 +37,7 @@
 #include "Utilities/RandomNumberGenerator.h"
 #include "Utilities/To.h"
 
-namespace isam {
+namespace niwa {
 namespace testfixtures {
 
 
@@ -95,5 +95,5 @@ void InternalEmptyModel::LoadConfiguration() {
 }
 
 } /* namespace sizeweights */
-} /* namespace isam */
+} /* namespace niwa */
 #endif /* TESTMODE */

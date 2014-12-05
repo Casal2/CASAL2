@@ -18,13 +18,13 @@
 #include "SizeWeights/SizeWeight.h"
 
 // namespaces
-namespace isam {
+namespace niwa {
 namespace agesizes {
 
 /**
  * class definitions
  */
-class Schnute : public isam::AgeSize {
+class Schnute : public niwa::AgeSize {
 public:
   // methods
   Schnute();
@@ -53,5 +53,5 @@ private:
 };
 
 } /* namespace agesizes */
-} /* namespace isam */
+} /* namespace niwa */
 #endif /* SCHNUTE_H_ */

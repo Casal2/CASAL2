@@ -21,7 +21,7 @@
 #include "Utilities/RandomNumberGenerator.h"
 
 // namespaces
-namespace isam {
+namespace niwa {
 namespace likelihoods {
 
 using std::cout;
@@ -89,6 +89,6 @@ TEST(Likelihood, Normal) {
 }
 
 } /* namespace likelihoods */
-} /* namespace isam */
+} /* namespace niwa */
 
 #endif /* TESTMODE */

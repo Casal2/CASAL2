@@ -20,13 +20,13 @@
 #include "Estimates/Estimate.h"
 
 // Namespaces
-namespace isam {
+namespace niwa {
 namespace estimates {
 
 /**
  * Class definition
  */
-class UniformLog : public isam::Estimate {
+class UniformLog : public niwa::Estimate {
 public:
   // Methods
   UniformLog();
@@ -36,5 +36,5 @@ public:
 };
 
 } /* namespace estimates */
-} /* namespace isam */
+} /* namespace niwa */
 #endif /* ESTIMATES_UNIFORMLOG_H_ */

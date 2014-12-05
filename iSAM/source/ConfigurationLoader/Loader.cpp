@@ -34,9 +34,9 @@ using std::ifstream;
 using std::cout;
 using std::endl;
 
-namespace util = isam::utilities;
+namespace util = niwa::utilities;
 
-namespace isam {
+namespace niwa {
 namespace configuration {
 
 /**
@@ -569,7 +569,7 @@ void Loader::HandleInlineDefinitions(FileLine& file_line, const string& parent_l
 }
 
 } /* namespace configuration */
-} /* namespace isam */
+} /* namespace niwa */
 
 
 

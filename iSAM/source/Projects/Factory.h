@@ -17,7 +17,7 @@
 #include "Projects/Project.h"
 
 // namespaces
-namespace isam {
+namespace niwa {
 namespace projects {
 
 /**
@@ -35,6 +35,6 @@ private:
 };
 
 } /* namespace projects */
-} /* namespace isam */
+} /* namespace niwa */
 
 #endif /* FACTORY_H_ */

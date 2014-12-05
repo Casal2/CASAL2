@@ -23,12 +23,12 @@
 #include "Utilities/Types.h"
 
 // Namespaces
-namespace isam {
+namespace niwa {
 namespace utilities {
 namespace math {
 
-namespace dc = isam::utilities::doublecompare;
-using isam::utilities::Double;
+namespace dc = niwa::utilities::doublecompare;
+using niwa::utilities::Double;
 
 /**
  * LnGamma
@@ -50,7 +50,7 @@ inline Double LnGamma(Double t) {
  * LnFactorial
  */
 inline Double LnFactorial(Double t) {
-  return isam::utilities::math::LnGamma(t + 1.0);
+  return niwa::utilities::math::LnGamma(t + 1.0);
 }
 
 
@@ -108,5 +108,5 @@ inline Double unscale_value(const Double& value, Double& penalty, Double min, Do
 
 } /* namespace math */
 } /* namespace utilities */
-} /* namespace isam */
+} /* namespace niwa */
 #endif /* UTILITIES_MATH_H_ */

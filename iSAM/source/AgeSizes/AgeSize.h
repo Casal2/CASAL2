@@ -17,12 +17,12 @@
 #include "BaseClasses/Object.h"
 
 // namespaces
-namespace isam {
+namespace niwa {
 
 /**
  * class definition
  */
-class AgeSize : public isam::base::Object {
+class AgeSize : public niwa::base::Object {
 public:
   AgeSize();
   virtual                     ~AgeSize() { };
@@ -46,5 +46,5 @@ protected:
 // typedef
 typedef boost::shared_ptr<AgeSize> AgeSizePtr;
 
-} /* namespace isam */
+} /* namespace niwa */
 #endif /* AGESIZE_H_ */

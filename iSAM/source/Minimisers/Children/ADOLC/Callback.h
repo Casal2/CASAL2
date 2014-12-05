@@ -24,7 +24,7 @@
 #include "Model/Model.h"
 
 // namespaces
-namespace isam {
+namespace niwa {
 namespace minimisers {
 namespace adolc {
 
@@ -45,7 +45,7 @@ private:
 
 } /* namespace gammadiff */
 } /* namespace minimiser */
-} /* namespace isam */
+} /* namespace niwa */
 
 #endif /* MINIMISERS_ADOLC_CALLBACK_H_ */
 #endif /* USE_ADOLC */

@@ -17,7 +17,7 @@
 #include <iostream>
 
 // Namespaces
-namespace isam {
+namespace niwa {
 namespace utilities {
 
 using std::cout;
@@ -48,4 +48,4 @@ void Logging::ForceLog(const string &value) {
 }
 
 } /* namespace utilities */
-} /* namespace isam */
+} /* namespace niwa */

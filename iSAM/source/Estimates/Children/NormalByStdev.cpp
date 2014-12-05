@@ -14,7 +14,7 @@
 #include "NormalByStdev.h"
 
 // Namespaces
-namespace isam {
+namespace niwa {
 namespace estimates {
 
 /**
@@ -44,4 +44,4 @@ Double NormalByStdev::GetScore() {
 }
 
 } /* namespace estimates */
-} /* namespace isam */
+} /* namespace niwa */

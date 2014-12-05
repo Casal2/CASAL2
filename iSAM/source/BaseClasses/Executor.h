@@ -21,13 +21,13 @@
 #include "BaseClasses/Object.h"
 
 // namespaces
-namespace isam {
+namespace niwa {
 namespace base {
 
 /**
  * Class definition
  */
-class Executor : public isam::base::Object, public boost::enable_shared_from_this<Executor> {
+class Executor : public niwa::base::Object, public boost::enable_shared_from_this<Executor> {
 public:
   // methods
   Executor() = default;
@@ -41,8 +41,8 @@ public:
 };
 
 } /* namespace base */
-} /* namespace isam */
+} /* namespace niwa */
 
-typedef boost::shared_ptr<isam::base::Executor> ExecutorPtr;
+typedef boost::shared_ptr<niwa::base::Executor> ExecutorPtr;
 
 #endif /* BASE_EXECUTOR_H_ */

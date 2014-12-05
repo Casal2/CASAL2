@@ -18,14 +18,14 @@
 #include "Simulates/Simulate.h"
 
 // namespaces
-namespace isam {
+namespace niwa {
 namespace simulates {
 
 /**
  * Class definition
  */
-class Manager : public isam::oldbase::Manager<isam::simulates::Manager, isam::Simulate> {
-  friend class isam::oldbase::Manager<isam::simulates::Manager, isam::Simulate>;
+class Manager : public niwa::oldbase::Manager<niwa::simulates::Manager, niwa::Simulate> {
+  friend class niwa::oldbase::Manager<niwa::simulates::Manager, niwa::Simulate>;
 public:
   // methods
   virtual                     ~Manager() noexcept(true);
@@ -37,6 +37,6 @@ protected:
 };
 
 } /* namespace simulates */
-} /* namespace isam */
+} /* namespace niwa */
 
 #endif /* MANAGER_H_ */

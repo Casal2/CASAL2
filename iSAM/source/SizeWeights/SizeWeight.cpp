@@ -15,7 +15,7 @@
 #include "SizeWeight.h"
 
 // namespaces
-namespace isam {
+namespace niwa {
 
 /**
  * default constructor
@@ -33,4 +33,4 @@ void SizeWeight::Validate() {
   DoValidate();
 }
 
-} /* namespace isam */
+} /* namespace niwa */

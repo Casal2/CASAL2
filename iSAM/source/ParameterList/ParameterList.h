@@ -68,12 +68,12 @@
 using std::map;
 using std::vector;
 using std::string;
-using isam::parameters::TablePtr;
-using isam::parameterlist::Parameter;
-using isam::parameterlist::ParameterPtr;
+using niwa::parameters::TablePtr;
+using niwa::parameterlist::Parameter;
+using niwa::parameterlist::ParameterPtr;
 
 
-namespace isam {
+namespace niwa {
 
 /**
  * Class Definition ParameterList
@@ -118,7 +118,7 @@ private:
   map<string, TablePtr>       tables_;
 };
 
-} /* namespace isam */
+} /* namespace niwa */
 
 // Inline include for template methods
 #include "ParameterList-inl.h"

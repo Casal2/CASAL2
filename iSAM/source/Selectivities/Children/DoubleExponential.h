@@ -20,13 +20,13 @@
 #include "Selectivities/Selectivity.h"
 
 // Namespaces
-namespace isam {
+namespace niwa {
 namespace selectivities {
 
 /**
  * Class Definition
  */
-class DoubleExponential : public isam::Selectivity {
+class DoubleExponential : public niwa::Selectivity {
 public:
   // Methods
   DoubleExponential();
@@ -47,5 +47,5 @@ private:
 };
 
 } /* namespace selectivities */
-} /* namespace isam */
+} /* namespace niwa */
 #endif /* DOUBLEEXPONENTIAL_H_ */

@@ -20,12 +20,12 @@
 #include "Model/Model.h"
 
 // namespaces
-namespace isam {
+namespace niwa {
 
 /**
  * Class definition
  */
-class Simulate : public isam::base::Object {
+class Simulate : public niwa::base::Object {
 public:
   typedef void (Simulate::*UpdateFunction)(Double);
 
@@ -70,6 +70,6 @@ protected:
  */
 typedef boost::shared_ptr<Simulate> SimulatePtr;
 
-} /* namespace isam */
+} /* namespace niwa */
 
 #endif /* PROJECT_H_ */

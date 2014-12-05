@@ -22,11 +22,11 @@
 #include "Utilities/Logging/Logging.h"
 
 // Namespaces
-namespace isam {
+namespace niwa {
 namespace minimisers {
 namespace desolver {
 
-namespace compare = isam::utilities::doublecompare;
+namespace compare = niwa::utilities::doublecompare;
 
 /**
  * Default constructor
@@ -617,5 +617,5 @@ void Engine::Rand2Bin(unsigned candidate) {
 
 } /* namespace desolver */
 } /* namespace minimisers */
-} /* namespace isam */
+} /* namespace niwa */
 #endif

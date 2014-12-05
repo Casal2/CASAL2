@@ -30,12 +30,12 @@
 #include "TestResources/ConfigurationFiles/Selectivities/Constant.h"
 
 // Namespaces
-namespace isam {
+namespace niwa {
 namespace derivedquantities {
 
 using std::cout;
 using std::endl;
-using isam::testfixtures::InternalEmptyModel;
+using niwa::testfixtures::InternalEmptyModel;
 
 /**
  *
@@ -80,6 +80,6 @@ TEST_F(InternalEmptyModel, DerivedQuantities_Abundance) {
 }
 
 } /* namespace derivedquantities */
-} /* namespace isam */
+} /* namespace niwa */
 
 #endif

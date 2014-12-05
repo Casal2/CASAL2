@@ -21,13 +21,13 @@
 #include "Reports/Report.h"
 
 // Namespaces
-namespace isam {
+namespace niwa {
 namespace reports {
 
 /**
  * Class definition
  */
-class ObjectiveFunction : public isam::Report {
+class ObjectiveFunction : public niwa::Report {
 public:
   // Methods
   ObjectiveFunction();
@@ -38,5 +38,5 @@ public:
 };
 
 } /* namespace reports */
-} /* namespace isam */
+} /* namespace niwa */
 #endif /* REPORTS_OBJECTIVEFUNCTION_H_ */

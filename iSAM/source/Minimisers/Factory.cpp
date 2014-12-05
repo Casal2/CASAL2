@@ -32,7 +32,7 @@
 #endif
 
 // Namespaces
-namespace isam {
+namespace niwa {
 namespace minimisers {
 
 /**
@@ -80,4 +80,4 @@ MinimiserPtr Factory::Create(const string& object_type, const string& sub_type) 
 }
 
 } /* namespace minimisers */
-} /* namespace isam */
+} /* namespace niwa */

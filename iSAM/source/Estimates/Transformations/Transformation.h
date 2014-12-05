@@ -22,10 +22,10 @@
 #include "Utilities/Types.h"
 
 // namespaces
-namespace isam {
+namespace niwa {
 namespace estimates {
 
-using isam::utilities::Double;
+using niwa::utilities::Double;
 using std::string;
 
 /**
@@ -46,9 +46,9 @@ protected:
   vector<string>              parameters_;
 };
 
-typedef boost::shared_ptr<isam::estimates::Transformation> TransformationPtr;
+typedef boost::shared_ptr<niwa::estimates::Transformation> TransformationPtr;
 
 } /* namespace estimates */
-} /* namespace isam */
+} /* namespace niwa */
 
 #endif /* ESTIMATES_TRANSFORMATION_H_ */

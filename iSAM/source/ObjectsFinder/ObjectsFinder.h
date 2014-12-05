@@ -24,7 +24,7 @@
 #include "BaseClasses/Object.h"
 
 // Namespaces
-namespace isam {
+namespace niwa {
 namespace objects {
 
 using std::string;
@@ -49,7 +49,7 @@ void ImplodeString(const string& type, const string& label, const string& parame
  *
  * @param object_absolute_name The absolute name for the parameter. This includes the object details (e.g process[mortality].m
  */
-isam::base::ObjectPtr FindObject(const string& parameter_absolute_name);
+niwa::base::ObjectPtr FindObject(const string& parameter_absolute_name);
 
 /**
  * Find an estimable in the system using an absolute name
@@ -57,5 +57,5 @@ isam::base::ObjectPtr FindObject(const string& parameter_absolute_name);
 Double* FindEstimable(const string& estimable_absolute_name);
 
 } /* namespace objects */
-} /* namespace isam */
+} /* namespace niwa */
 #endif /* OBJECTS_FINDER_H_ */

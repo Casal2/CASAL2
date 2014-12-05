@@ -19,12 +19,12 @@
 #include "TestResources/Models/TwoSexNoEstimates.h"
 
 // Namespaces
-namespace isam {
+namespace niwa {
 namespace estimates {
 
 using std::cout;
 using std::endl;
-using isam::testfixtures::InternalEmptyModel;
+using niwa::testfixtures::InternalEmptyModel;
 
 const string estimate_uniform =
 R"(
@@ -68,5 +68,5 @@ TEST_F(InternalEmptyModel, Estimates_Uniform) {
 }
 
 } /* namespace estimates */
-} /* namespace isam */
+} /* namespace niwa */
 #endif

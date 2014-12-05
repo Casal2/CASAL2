@@ -11,7 +11,7 @@
 #include <gtest/gtest.h>
 
 // namespaces
-namespace isam {
+namespace niwa {
 namespace utilities {
 
 using std::cout;
@@ -41,7 +41,7 @@ TEST(RandomNumberGenerator, Reset) {
 
 
 } /* namespace utilities */
-} /* namespace isam */
+} /* namespace niwa */
 
 
 #endif

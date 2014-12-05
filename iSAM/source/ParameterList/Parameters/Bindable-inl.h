@@ -17,7 +17,7 @@
 #include "Utilities/Logging/Logging.h"
 
 // namespaces
-namespace isam {
+namespace niwa {
 namespace parameters {
 
 /**
@@ -45,7 +45,7 @@ void Bindable<T>::Bind() {
         << "The values defined are: " << boost::algorithm::join(values_, " | "));
 
   if (values_.size() > 0) {
-    if (!isam::utilities::To<T>(values_[0], *target_))
+    if (!niwa::utilities::To<T>(values_[0], *target_))
       LOG_ERROR(location() << ": " << label_ << " could not be converted to the proper type. Please check you have defined it properly");
   } else if (is_optional_) {
     *target_ = default_value_;
@@ -54,6 +54,6 @@ void Bindable<T>::Bind() {
 }
 
 } /* namespace parameters */
-} /* namespace isam */
+} /* namespace niwa */
 
 #endif /* BINDABLE_INL_H_ */

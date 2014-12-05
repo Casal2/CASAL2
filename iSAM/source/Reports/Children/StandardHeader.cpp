@@ -27,7 +27,7 @@ using std::cout;
 using std::cerr;
 using std::ostringstream;
 
-namespace isam {
+namespace niwa {
 namespace reports {
 
 /**
@@ -144,4 +144,4 @@ void StandardHeader::DoFinalise() {
 }
 
 } /* namespace report */
-} /* namespace isam */
+} /* namespace niwa */

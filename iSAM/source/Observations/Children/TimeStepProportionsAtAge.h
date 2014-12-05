@@ -18,7 +18,7 @@
 #include "Observations/Children/ProportionsAtAge/ProportionsAtAge.h"
 
 // namespaces
-namespace isam {
+namespace niwa {
 namespace observations {
 
 /**
@@ -36,6 +36,6 @@ private:
 };
 
 } /* namespace observations */
-} /* namespace isam */
+} /* namespace niwa */
 
 #endif /* TIMESTEPPROPORTIONSATAGE_H_ */

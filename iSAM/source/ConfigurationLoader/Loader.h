@@ -31,10 +31,10 @@
 // Namespaces
 using std::vector;
 using std::string;
-using isam::base::Object;
-using isam::base::ObjectPtr;
+using niwa::base::Object;
+using niwa::base::ObjectPtr;
 
-namespace isam {
+namespace niwa {
 namespace configuration {
 
 /**
@@ -73,5 +73,5 @@ private:
 };
 
 } /* namespace configuration */
-} /* namespace isam */
+} /* namespace niwa */
 #endif /* LOADER_H_ */

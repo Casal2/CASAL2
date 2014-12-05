@@ -12,7 +12,7 @@
 #include "Selectivities/Manager.h"
 #include "TimeSteps/Manager.h"
 
-namespace isam {
+namespace niwa {
 
 /**
  * default constructor
@@ -173,4 +173,4 @@ Double DerivedQuantity::GetInitialisationValue(unsigned phase, unsigned index) {
   return initialisation_values_[phase][index];
 }
 
-} /* namespace isam */
+} /* namespace niwa */

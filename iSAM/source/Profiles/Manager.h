@@ -15,14 +15,14 @@
 #include "Profiles/Profile.h"
 
 // namespaces
-namespace isam {
+namespace niwa {
 namespace profiles {
 
 /**
  * Class definition
  */
-class Manager : public isam::oldbase::Manager<isam::profiles::Manager, isam::Profile> {
-  friend class isam::oldbase::Manager<isam::profiles::Manager, isam::Profile>;
+class Manager : public niwa::oldbase::Manager<niwa::profiles::Manager, niwa::Profile> {
+  friend class niwa::oldbase::Manager<niwa::profiles::Manager, niwa::Profile>;
 public:
   // methods
   virtual                     ~Manager() noexcept(true) { };
@@ -33,5 +33,5 @@ protected:
 };
 
 } /* namespace profiles */
-} /* namespace isam */
+} /* namespace niwa */
 #endif /* PROFILES_MANAGER_H_ */

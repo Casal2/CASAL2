@@ -14,7 +14,7 @@
 #include "Pseudo.h"
 
 // Namespaces
-namespace isam {
+namespace niwa {
 namespace likelihoods {
 
 /**
@@ -75,4 +75,4 @@ void Pseudo::SimulateObserved(map<unsigned, vector<observations::Comparison> >& 
 
 
 } /* namespace likelihoods */
-} /* namespace isam */
+} /* namespace niwa */

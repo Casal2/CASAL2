@@ -17,7 +17,7 @@
 #include <gtest/gtest.h>
 
 // namespaces
-namespace isam {
+namespace niwa {
 namespace utilities {
 namespace strings {
 
@@ -34,6 +34,6 @@ TEST(Utilities, String) {
 
 } /* namespace string */
 } /* namespace utilities */
-} /* namespace isam */
+} /* namespace niwa */
 
 #endif

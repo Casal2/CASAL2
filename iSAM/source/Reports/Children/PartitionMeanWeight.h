@@ -18,13 +18,13 @@
 #include "Reports/Report.h"
 
 // namespaces
-namespace isam {
+namespace niwa {
 namespace reports {
 
 /**
  * class definition
  */
-class PartitionMeanWeight : public isam::Report {
+class PartitionMeanWeight : public niwa::Report {
 public:
   // methods
   PartitionMeanWeight();
@@ -35,5 +35,5 @@ public:
 };
 
 } /* namespace reports */
-} /* namespace isam */
+} /* namespace niwa */
 #endif /* REPORTS_PARTITIONMEANWEIGHT_H_ */

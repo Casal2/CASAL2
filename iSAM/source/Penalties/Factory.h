@@ -17,7 +17,7 @@
 #include "Penalties/Penalty.h"
 
 // Namespaces
-namespace isam {
+namespace niwa {
 namespace penalties {
 
 /**
@@ -35,5 +35,5 @@ private:
 };
 
 } /* namespace penalties */
-} /* namespace isam */
+} /* namespace niwa */
 #endif /* FACTORY_H_ */

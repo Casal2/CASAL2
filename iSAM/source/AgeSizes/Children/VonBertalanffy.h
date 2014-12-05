@@ -18,13 +18,13 @@
 #include "SizeWeights/SizeWeight.h"
 
 // namespaces
-namespace isam {
+namespace niwa {
 namespace agesizes {
 
 /**
  * class definition
  */
-class VonBertalanffy : public isam::AgeSize {
+class VonBertalanffy : public niwa::AgeSize {
 public:
   // methods
   VonBertalanffy();
@@ -50,5 +50,5 @@ private:
 };
 
 } /* namespace agesizes */
-} /* namespace isam */
+} /* namespace niwa */
 #endif /* VONBERTALANFFY_H_ */

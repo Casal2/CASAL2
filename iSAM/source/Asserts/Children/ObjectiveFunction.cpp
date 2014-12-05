@@ -15,7 +15,7 @@
 #include "ObjectiveFunction/ObjectiveFunction.h"
 
 // namespaces
-namespace isam {
+namespace niwa {
 namespace asserts {
 
 /**
@@ -36,10 +36,10 @@ void ObjectiveFunction::DoBuild() {
  *
  */
 void ObjectiveFunction::Execute() {
-  isam::ObjectiveFunction& obj = isam::ObjectiveFunction::Instance();
+  niwa::ObjectiveFunction& obj = niwa::ObjectiveFunction::Instance();
   if (value_ != obj.score())
     LOG_ERROR("Assert Failure: Objective Function had actual value " << obj.score() << " when we expected " << value_);
 }
 
 } /* namespace asserts */
-} /* namespace isam */
+} /* namespace niwa */

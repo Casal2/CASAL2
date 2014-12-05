@@ -11,11 +11,11 @@
 #include "Utilities/Types.h"
 
 // Namespaces
-namespace isam {
+namespace niwa {
 namespace utilities {
 namespace doublecompare {
 
-using isam::utilities::Double;
+using niwa::utilities::Double;
 
 // Defines
 #define ONE  1.0
@@ -28,14 +28,14 @@ inline bool IsTrueZero(const Double &value) { return (value < TRUE_ZERO && value
 inline bool IsOne(const Double &value) { return ( ((value-ONE) < ZERO) && ((value-ONE) > -ZERO) ); }
 inline bool IsEqual(Double A, Double B) { return ( ((A-B) < ZERO) && ((A-B) > -ZERO) ); }
 
-inline isam::utilities::Double ZeroFun(Double x) {
+inline niwa::utilities::Double ZeroFun(Double x) {
   if (x >= ZERO)
     return x;
 
   return ZERO / (2.0 - (x / ZERO));
 }
 
-inline isam::utilities::Double ZeroFun(Double x, Double delta) {
+inline niwa::utilities::Double ZeroFun(Double x, Double delta) {
   if (x >= delta)
     return x;
 
@@ -53,7 +53,7 @@ inline double ZeroFun(double x) {
 
 } /* namespace doublecompare */
 } /* namespace utilities */
-} /* namespace isam */
+} /* namespace niwa */
 
 
 

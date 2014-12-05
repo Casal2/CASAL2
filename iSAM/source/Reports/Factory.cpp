@@ -28,7 +28,7 @@
 #include "Reports/Children/Selectivity.h"
 
 // Namespaces
-namespace isam {
+namespace niwa {
 namespace reports {
 
 /**
@@ -69,11 +69,11 @@ ReportPtr Factory::Create(const string& object_type, const string& sub_type) {
       result = ReportPtr(new Selectivity());
 
     if (result)
-      isam::reports::Manager::Instance().AddObject(result);
+      niwa::reports::Manager::Instance().AddObject(result);
   }
 
   return result;
 }
 
 } /* namespace reports */
-} /* namespace isam */
+} /* namespace niwa */

@@ -22,7 +22,7 @@
 #include "Utilities/To.h"
 
 // Namespaces
-namespace isam {
+namespace niwa {
 namespace utilities {
 namespace strings {
 
@@ -78,4 +78,4 @@ vector<std::string> explode(const std::string& source) {
 
 }
 } /* namespace utilities */
-} /* namespace isam */
+} /* namespace niwa */

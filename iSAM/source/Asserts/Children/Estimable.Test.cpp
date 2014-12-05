@@ -20,10 +20,10 @@
 #include "TestResources/TestFixtures/InternalEmptyModel.h"
 
 // namespaces
-namespace isam {
+namespace niwa {
 namespace asserts {
 
-using isam::testfixtures::InternalEmptyModel;
+using niwa::testfixtures::InternalEmptyModel;
 
 const std::string simple_model =
 R"(

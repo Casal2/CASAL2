@@ -37,7 +37,7 @@
 #include "Utilities/To.h"
 
 // Namespaces
-namespace isam {
+namespace niwa {
 namespace testfixtures {
 
 /**
@@ -49,7 +49,7 @@ void BasicModel::SetUp() {
   utilities::RandomNumberGenerator& rng = utilities::RandomNumberGenerator::Instance();
   rng.Reset(2468);
 
-  isam::base::ObjectPtr object;
+  niwa::base::ObjectPtr object;
 
   /**
    * Add Model Parameters
@@ -76,6 +76,6 @@ void BasicModel::SetUp() {
 }
 
 } /* namespace testfixtures */
-} /* namespace isam */
+} /* namespace niwa */
 
 #endif /* TESTMODE */

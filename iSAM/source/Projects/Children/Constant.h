@@ -17,13 +17,13 @@
 #include "Projects/Project.h"
 
 // namespaces
-namespace isam {
+namespace niwa {
 namespace projects {
 
 /**
  * Class definition
  */
-class Constant : public isam::Project {
+class Constant : public niwa::Project {
 public:
   Constant();
   virtual                     ~Constant() = default;
@@ -38,6 +38,6 @@ private:
 };
 
 } /* namespace projects */
-} /* namespace isam */
+} /* namespace niwa */
 
 #endif /* CONSTANT_H_ */

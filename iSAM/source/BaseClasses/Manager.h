@@ -26,7 +26,7 @@
 #include "Utilities/NoCopy.h"
 
 // Namespaces
-namespace isam {
+namespace niwa {
 namespace oldbase {
 
 using boost::shared_ptr;
@@ -63,7 +63,7 @@ protected:
 };
 
 } /* namespace base */
-} /* namespace isam */
+} /* namespace niwa */
 
 #include "Manager-inl.h"
 

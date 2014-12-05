@@ -7,7 +7,7 @@
 
 #include "OffByOne.h"
 
-namespace isam {
+namespace niwa {
 namespace ageingerrors {
 
 OffByOne::OffByOne() {
@@ -20,4 +20,4 @@ OffByOne::~OffByOne() {
 }
 
 } /* namespace ageingerrors */
-} /* namespace isam */
+} /* namespace niwa */

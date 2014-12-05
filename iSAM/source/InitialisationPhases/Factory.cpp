@@ -15,7 +15,7 @@
 #include "InitialisationPhases/Children/Iterative.h"
 
 // Namespaces
-namespace isam {
+namespace niwa {
 namespace initialisationphases {
 
 /**
@@ -36,7 +36,7 @@ InitialisationPhasePtr Factory::Create(const string& object_type, const string& 
       result = InitialisationPhasePtr(new Iterative());
 
     if (result)
-      isam::initialisationphases::Manager::Instance().AddObject(result);
+      niwa::initialisationphases::Manager::Instance().AddObject(result);
   }
 
   return result;

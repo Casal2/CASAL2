@@ -19,7 +19,7 @@
 #include "Utilities/Types.h"
 
 // namespaces
-namespace isam {
+namespace niwa {
 namespace observations {
 
 using std::string;
@@ -37,5 +37,5 @@ struct Comparison {
 };
 
 } /* namespace observations */
-} /* namespace isam */
+} /* namespace niwa */
 #endif /* OBSERVATIONS_COMPARISON_H_ */

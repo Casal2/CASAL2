@@ -20,13 +20,13 @@
 #include "AgeingErrors/AgeingError.h"
 
 // Namespaces
-namespace isam {
+namespace niwa {
 namespace ageingerrors {
 
 /**
  * Class Definition
  */
-class Normal : public isam::AgeingError {
+class Normal : public niwa::AgeingError {
 public:
   // Methods
   Normal();
@@ -42,5 +42,5 @@ private:
 };
 
 } /* namespace ageingerrors */
-} /* namespace isam */
+} /* namespace niwa */
 #endif /* NORMAL_H_ */

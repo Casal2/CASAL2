@@ -23,10 +23,10 @@
 #include "Utilities/Types.h"
 
 // Namespaces
-namespace isam {
+namespace niwa {
 namespace penalties {
 
-using isam::utilities::Double;
+using niwa::utilities::Double;
 
 /**
  * Struct Definition
@@ -39,8 +39,8 @@ struct Info {
 /**
  * Class Definition
  */
-class Manager : public isam::oldbase::Manager<penalties::Manager, isam::Penalty> {
-  friend class isam::oldbase::Manager<penalties::Manager, isam::Penalty>;
+class Manager : public niwa::oldbase::Manager<penalties::Manager, niwa::Penalty> {
+  friend class niwa::oldbase::Manager<penalties::Manager, niwa::Penalty>;
 public:
   // Methods
   virtual                     ~Manager() noexcept(true) {};
@@ -62,5 +62,5 @@ private:
 };
 
 } /* namespace penalties */
-} /* namespace isam */
+} /* namespace niwa */
 #endif /* PENALTIES_MANAGER_H_ */

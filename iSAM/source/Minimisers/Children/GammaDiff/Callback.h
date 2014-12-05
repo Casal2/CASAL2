@@ -23,7 +23,7 @@
 #include "Model/Model.h"
 
 // namespaces
-namespace isam {
+namespace niwa {
 namespace minimisers {
 namespace gammadiff {
 
@@ -44,7 +44,7 @@ private:
 
 } /* namespace gammadiff */
 } /* namespace minimiser */
-} /* namespace isam */
+} /* namespace niwa */
 
 #endif /* MINIMISERS_GAMMADIFF_CALLBACK_H_ */
 #endif

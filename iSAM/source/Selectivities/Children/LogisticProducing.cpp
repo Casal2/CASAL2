@@ -18,7 +18,7 @@
 #include "Model/Model.h"
 
 // namespaces
-namespace isam {
+namespace niwa {
 namespace selectivities {
 
 /**
@@ -88,4 +88,4 @@ void LogisticProducing::Reset() {
 }
 
 } /* namespace selectivities */
-} /* namespace isam */
+} /* namespace niwa */

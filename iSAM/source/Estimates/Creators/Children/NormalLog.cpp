@@ -12,7 +12,7 @@
 #include "NormalLog.h"
 
 // namespaces
-namespace isam {
+namespace niwa {
 namespace estimates {
 namespace creators {
 
@@ -27,11 +27,11 @@ NormalLog::NormalLog() {
 /**
  *
  */
-void NormalLog::DoCopyParameters(isam::EstimatePtr estimate, unsigned index) {
+void NormalLog::DoCopyParameters(niwa::EstimatePtr estimate, unsigned index) {
   estimate->parameters().CopyFrom(parameters_, PARAM_MU, index);
   estimate->parameters().CopyFrom(parameters_, PARAM_SIGMA, index);
 }
 
 } /* namespace creators */
 } /* namespace estimates */
-} /* namespace isam */
+} /* namespace niwa */

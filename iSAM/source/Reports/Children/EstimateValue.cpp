@@ -16,7 +16,7 @@
 #include "Profiles/Manager.h"
 
 // namespaces
-namespace isam {
+namespace niwa {
 namespace reports {
 
 /**
@@ -71,4 +71,4 @@ void EstimateValue::DoExecute() {
 }
 
 } /* namespace reports */
-} /* namespace isam */
+} /* namespace niwa */

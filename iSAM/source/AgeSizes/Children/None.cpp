@@ -12,7 +12,7 @@
 #include "None.h"
 
 // namespaces
-namespace isam {
+namespace niwa {
 namespace agesizes {
 
 /**
@@ -22,4 +22,4 @@ None::None() {
 }
 
 } /* namespace agesizes */
-} /* namespace isam */
+} /* namespace niwa */

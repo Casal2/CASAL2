@@ -12,7 +12,7 @@
 #include "None.h"
 
 // namespaces
-namespace isam {
+namespace niwa {
 namespace sizeweights {
 
 /**
@@ -22,4 +22,4 @@ None::None() {
 }
 
 } /* namespace sizeweights */
-} /* namespace isam */
+} /* namespace niwa */

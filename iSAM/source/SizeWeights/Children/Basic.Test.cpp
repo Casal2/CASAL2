@@ -19,7 +19,7 @@
 #include "TestResources/MockClasses/Model.h"
 
 // Namespaces
-namespace isam {
+namespace niwa {
 
 using ::testing::Return;
 
@@ -28,7 +28,7 @@ using ::testing::Return;
  */
 TEST(SizeWeights, Basic) {
   // TODO: Add more unit tests
-  isam::sizeweights::Basic basic;
+  niwa::sizeweights::Basic basic;
 
   basic.parameters().Add(PARAM_LABEL, "unit_test_basic", __FILE__, __LINE__);
   basic.parameters().Add(PARAM_TYPE, "any value is fine", __FILE__, __LINE__);

@@ -16,7 +16,7 @@
 
 #include <string>
 
-namespace isam {
+namespace niwa {
 namespace testresources {
 namespace models {
 
@@ -299,7 +299,7 @@ initialisation_time_steps step_one
 
 } /* namespace models */
 } /* namespace testresources */
-} /* namespace isam */
+} /* namespace niwa */
 
 #endif /* TESTMODE */
 #endif /* TESTCASES_MODELS_TWO_SEX_NO_ESTIMATES_H_ */

@@ -26,7 +26,7 @@ int main(int argc, char **argv) {
 #include "Utilities/Logging/Logging.h"
 
 // Namespaces
-using namespace isam;
+using namespace niwa;
 using std::cout;
 using std::endl;
 
@@ -70,7 +70,7 @@ int main(int argc, char * argv[]) {
     /**
      * Ask the runtime controller to parse the parameters.
      */
-    isam::utilities::CommandLineParser parser;
+    niwa::utilities::CommandLineParser parser;
     parser.Parse(argc, (const char **)argv);
 
     run_mode = parser.run_mode();

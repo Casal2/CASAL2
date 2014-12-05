@@ -18,7 +18,7 @@
 #include "Profiles/Profile.h"
 
 // namespaces
-namespace isam {
+namespace niwa {
 namespace profiles {
 
 using std::string;
@@ -26,8 +26,8 @@ using std::string;
 /**
  * class definition
  */
-class Factory: public isam::base::Factory<isam::Profile, isam::profiles::Manager> { };
+class Factory: public niwa::base::Factory<niwa::Profile, niwa::profiles::Manager> { };
 
 } /* namespace profiles */
-} /* namespace isam */
+} /* namespace niwa */
 #endif /* PROFILES_FACTORY_H_ */

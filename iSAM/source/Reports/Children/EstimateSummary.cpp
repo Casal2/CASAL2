@@ -16,7 +16,7 @@
 #include "Estimates/Manager.h"
 
 // Namespaces
-namespace isam {
+namespace niwa {
 namespace reports {
 
 /**
@@ -43,7 +43,7 @@ void EstimateSummary::DoExecute() {
 
 
   // Print the estimates
-  isam::estimates::Manager& estimate_manager = isam::estimates::Manager::Instance();
+  niwa::estimates::Manager& estimate_manager = niwa::estimates::Manager::Instance();
   vector<EstimatePtr> estimates = estimate_manager.GetObjects();
 
   for (EstimatePtr estimate : estimates) {
@@ -67,4 +67,4 @@ void EstimateSummary::DoExecute() {
 }
 
 } /* namespace reports */
-} /* namespace isam */
+} /* namespace niwa */

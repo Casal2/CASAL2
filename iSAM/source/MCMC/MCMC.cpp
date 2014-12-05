@@ -21,9 +21,9 @@
 
 
 // namespaces
-namespace isam {
+namespace niwa {
 
-namespace dc = isam::utilities::doublecompare;
+namespace dc = niwa::utilities::doublecompare;
 
 /**
  * Constructor
@@ -469,7 +469,7 @@ void MCMC::GenerateNewCandidates() {
   } while (!candidates_ok);
 }
 
-} /* namespace isam */
+} /* namespace niwa */
 
 
 

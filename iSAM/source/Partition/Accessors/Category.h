@@ -26,7 +26,7 @@
 #include "Utilities/Types.h"
 
 // Namespaces
-namespace isam {
+namespace niwa {
 namespace partition {
 namespace accessors {
 
@@ -34,7 +34,7 @@ using std::map;
 using std::vector;
 using std::pair;
 using std::string;
-using isam::utilities::Double;
+using niwa::utilities::Double;
 
 /**
  *
@@ -58,5 +58,5 @@ private:
 
 }/* namespace accessors */
 }/* namespace partition */
-} /* namespace isam */
+} /* namespace niwa */
 #endif /* PARTITION_ACCESSORS_CATEGORY_H_ */

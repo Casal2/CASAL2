@@ -21,7 +21,7 @@
 #include "TestResources/MockClasses/Model.h"
 
 // Namespaces
-namespace isam {
+namespace niwa {
 
 using ::testing::Return;
 
@@ -43,7 +43,7 @@ TEST(PartitionAccessors, Category) {
 //  Partition& partition = Partition::Instance();
 //  partition.Build();
 
-//  isam::partition::accessors::Category accessor;
+//  niwa::partition::accessors::Category accessor;
 //  accessor.begin();
 
 }

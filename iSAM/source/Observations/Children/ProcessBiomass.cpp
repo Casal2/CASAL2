@@ -14,7 +14,7 @@
 #include "Processes/Manager.h"
 
 // namespaces
-namespace isam {
+namespace niwa {
 namespace observations {
 
 /**
@@ -51,4 +51,4 @@ void ProcessBiomass::DoBuild() {
     process->Subscribe(year, time_step_label_, shared_ptr());
 }
 } /* namespace observations */
-} /* namespace isam */
+} /* namespace niwa */

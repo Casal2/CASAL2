@@ -31,7 +31,7 @@
 #include "Model/Model.h"
 
 // Namespaces
-namespace isam {
+namespace niwa {
 
 using std::streambuf;
 using std::ofstream;
@@ -89,7 +89,7 @@ protected:
 };
 
 // Typedef
-typedef boost::shared_ptr<isam::Report> ReportPtr;
+typedef boost::shared_ptr<niwa::Report> ReportPtr;
 
-} /* namespace isam */
+} /* namespace niwa */
 #endif /* REPORT_H_ */

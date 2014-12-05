@@ -16,7 +16,7 @@
 #include "Model/Model.h"
 
 // Namespaces
-namespace isam {
+namespace niwa {
 namespace selectivities {
 
 /**
@@ -90,4 +90,4 @@ void DoubleExponential::Reset() {
 }
 
 } /* namespace selectivities */
-} /* namespace isam */
+} /* namespace niwa */

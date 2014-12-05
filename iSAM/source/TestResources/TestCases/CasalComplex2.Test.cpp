@@ -16,12 +16,12 @@
 #include "TestResources/TestFixtures/InternalEmptyModel.h"
 
 // Namespaces
-namespace isam {
+namespace niwa {
 namespace testcases {
 
 using std::cout;
 using std::endl;
-using isam::testfixtures::InternalEmptyModel;
+using niwa::testfixtures::InternalEmptyModel;
 
 /**
  *
@@ -52,7 +52,7 @@ TEST_F(InternalEmptyModel, Model_CasalComplex2_Estimation) {
 }
 
 } /* namespace testcases */
-} /* namespace isam */
+} /* namespace niwa */
 
 
 #endif

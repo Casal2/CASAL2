@@ -18,7 +18,7 @@
 #include <boost/algorithm/string/split.hpp>
 
 // namespaces
-namespace isam {
+namespace niwa {
 namespace partition {
 namespace accessors {
 namespace cached {
@@ -83,4 +83,4 @@ unsigned CombinedCategories::Size() {
 } /* namespace cached */
 } /* namespace accessors */
 } /* namespace partition */
-} /* namespace isam */
+} /* namespace niwa */

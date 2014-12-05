@@ -27,7 +27,7 @@
 
 
 // Namespaces
-namespace isam {
+namespace niwa {
 namespace utilities {
 
 using std::vector;
@@ -56,7 +56,7 @@ inline string ToLowercase(const ::std::string arg) {
 inline void ToLowercase(vector<string> &values) {
 
   for (unsigned i = 0; i < values.size(); ++i) {
-    values[i] = isam::utilities::ToLowercase(values[i]);
+    values[i] = niwa::utilities::ToLowercase(values[i]);
   }
 }
 
@@ -140,7 +140,7 @@ Target ToInline(const Source arg) {
 }
 
 } /* namespace utilities */
-} /* namespace isam */
+} /* namespace niwa */
 
 
 #endif /* TO_H_ */

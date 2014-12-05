@@ -18,7 +18,7 @@
 #include "Utilities/RandomNumberGenerator.h"
 
 // namespaces
-namespace isam {
+namespace niwa {
 namespace testfixtures {
 
 
@@ -37,5 +37,5 @@ void EmptyModel::SetUp() {
 
 
 } /* namespace testfixtures */
-} /* namespace isam */
+} /* namespace niwa */
 #endif

@@ -20,7 +20,7 @@
 #include "Processes/Manager.h"
 
 // namespaces
-namespace isam {
+namespace niwa {
 namespace initialisationphases {
 
 /**
@@ -105,4 +105,4 @@ void Iterative::Execute() {
 
 
 } /* namespace initialisationphases */
-} /* namespace isam */
+} /* namespace niwa */

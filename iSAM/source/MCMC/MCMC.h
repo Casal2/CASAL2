@@ -22,7 +22,7 @@
 #include "Minimisers/Minimiser.h"
 
 // namespaces
-namespace isam {
+namespace niwa {
 
 namespace ublas = boost::numeric::ublas;
 using boost::shared_ptr;
@@ -48,7 +48,7 @@ struct ChainLink {
 /**
  * Class definition
  */
-class MCMC : public isam::base::Object {
+class MCMC : public niwa::base::Object {
 public:
   // Methods
   static shared_ptr<MCMC>     Instance();
@@ -101,5 +101,5 @@ private:
 // Typdef
 typedef boost::shared_ptr<MCMC> MCMCPtr;
 
-} /* namespace isam */
+} /* namespace niwa */
 #endif /* MCMC_H_ */

@@ -12,7 +12,7 @@
 
 #include <string>
 
-namespace isam {
+namespace niwa {
 namespace testresources {
 namespace models {
 

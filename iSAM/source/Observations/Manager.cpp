@@ -14,7 +14,7 @@
 #include "Manager.h"
 
 // Namespaces
-namespace isam {
+namespace niwa {
 namespace observations {
 
 /**
@@ -80,4 +80,4 @@ void Manager::CalculateScores() {
 }
 
 } /* namespace observations */
-} /* namespace isam */
+} /* namespace niwa */

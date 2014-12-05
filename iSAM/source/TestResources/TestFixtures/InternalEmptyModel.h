@@ -24,12 +24,12 @@
 #include "TestResources/TestFixtures/Base.h"
 
 // Namespaces
-namespace isam {
+namespace niwa {
 namespace testfixtures {
 
 using std::string;
 using std::vector;
-namespace config = isam::configuration;
+namespace config = niwa::configuration;
 
 /**
  * class definition
@@ -49,6 +49,6 @@ protected:
 };
 
 } /* namespace testfixtures */
-} /* namespace isam */
+} /* namespace niwa */
 #endif /* INTERNALEMPTYMODEL_H_ */
 #endif /* TESTMODE */

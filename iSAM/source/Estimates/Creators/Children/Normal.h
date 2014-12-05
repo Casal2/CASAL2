@@ -17,7 +17,7 @@
 #include "Estimates/Creators/Creator.h"
 
 // namespaces
-namespace isam {
+namespace niwa {
 namespace estimates {
 namespace creators {
 
@@ -28,7 +28,7 @@ class Normal : public estimates::Creator {
 public:
   Normal();
   virtual                     ~Normal() = default;
-  void                        DoCopyParameters(isam::EstimatePtr estimate, unsigned index) override final;
+  void                        DoCopyParameters(niwa::EstimatePtr estimate, unsigned index) override final;
 
 private:
   // members
@@ -38,6 +38,6 @@ private:
 
 } /* namespace creators */
 } /* namespace estimates */
-} /* namespace isam */
+} /* namespace niwa */
 
 #endif /* NORMAL_H_ */

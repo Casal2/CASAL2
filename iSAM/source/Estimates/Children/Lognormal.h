@@ -20,13 +20,13 @@
 #include "Estimates/Estimate.h"
 
 // Namespaces
-namespace isam {
+namespace niwa {
 namespace estimates {
 
 /**
  * Class definition
  */
-class Lognormal : public isam::Estimate {
+class Lognormal : public niwa::Estimate {
 public:
   // Methods
   Lognormal();
@@ -41,5 +41,5 @@ private:
 };
 
 } /* namespace estimates */
-} /* namespace isam */
+} /* namespace niwa */
 #endif /* PRIORS_LOGNORMAL_H_ */

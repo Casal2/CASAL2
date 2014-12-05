@@ -24,12 +24,12 @@
 #include "Estimates/Estimate.h"
 
 // namespaces
-namespace isam {
+namespace niwa {
 
 /**
  * class definition
  */
-class Profile : public isam::base::Object {
+class Profile : public niwa::base::Object {
 public:
   // methods
   Profile();
@@ -62,5 +62,5 @@ private:
  */
 typedef boost::shared_ptr<Profile> ProfilePtr;
 
-} /* namespace isam */
+} /* namespace niwa */
 #endif /* PROFILE_H_ */

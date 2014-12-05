@@ -16,7 +16,7 @@
 #include "Estimates/Transformations/Factory.h"
 
 // Namespaces
-namespace isam {
+namespace niwa {
 
 /**
  * Default constructor
@@ -81,4 +81,4 @@ void Estimate::SetTransformedValue(Double minimiser_value) {
     *target_ = minimiser_value;
 }
 
-} /* namespace isam */
+} /* namespace niwa */

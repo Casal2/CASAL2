@@ -20,13 +20,13 @@
 #include "Likelihoods/Likelihood.h"
 
 // Namespaces
-namespace isam {
+namespace niwa {
 namespace likelihoods {
 
 /**
  * Class definition
  */
-class LogNormal : public isam::Likelihood {
+class LogNormal : public niwa::Likelihood {
 public:
   // Methods
   LogNormal() = default;
@@ -42,5 +42,5 @@ public:
 };
 
 } /* namespace likelihoods */
-} /* namespace isam */
+} /* namespace niwa */
 #endif /* LIKELIHOODS_LOGNORMAL_H_ */
