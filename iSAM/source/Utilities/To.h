@@ -75,6 +75,24 @@ bool To(const ::std::string arg, Target &result) {
 };
 
 /**
+ * This is a specialisation for handling unsigned ints that are put in as negative
+ */
+template <>
+inline bool To(const ::std::string arg, unsigned &result) {
+  try {
+    int temp = boost::lexical_cast<int>(arg);
+    if (temp < 0)
+      return false;
+
+    result = (unsigned)temp;
+  } catch (...) {
+    return false;
+  }
+
+  return true;
+}
+
+/**
  * This is one of our specializations that handles
  * boolean types
  *
