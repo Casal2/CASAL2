@@ -41,7 +41,7 @@ void BindableVector<T>::Bind() {
   T value;
   for (unsigned i = 0; i < values_.size(); ++i) {
     if (!niwa::utilities::To<T>(values_[i], value))
-      LOG_ERROR(location() << " value " << values_[i] << " could not be converted to the proper type. Please check you have defined it properly");
+      LOG_ERROR(location() << ": " << label_ << " value " << values_[i] << " could not be converted to type " << utilities::demangle(typeid(value).name()) << ". Please check you have defined it properly.");
 
     target_->push_back(value);
   }

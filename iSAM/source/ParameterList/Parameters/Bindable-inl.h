@@ -15,6 +15,7 @@
 
 #include "Utilities/To.h"
 #include "Utilities/Logging/Logging.h"
+#include "Utilities/Types.h"
 
 // namespaces
 namespace niwa {
@@ -46,7 +47,7 @@ void Bindable<T>::Bind() {
 
   if (values_.size() > 0) {
     if (!niwa::utilities::To<T>(values_[0], *target_))
-      LOG_ERROR(location() << ": " << label_ << " could not be converted to the proper type. Please check you have defined it properly");
+      LOG_ERROR(location() << ": " << label_ << " value " << values_[0] << " could not be converted to type " << utilities::demangle(typeid(*target_).name()) << ". Please check you have defined it properly.");
   } else if (is_optional_) {
     *target_ = default_value_;
   } else
