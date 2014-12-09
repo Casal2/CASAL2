@@ -47,6 +47,7 @@ private:
   vector<string>              category_names_;
   vector<Double>              m_;
   vector<Double>              ratios_;
+  map<unsigned, Double>       time_step_ratios_;
   vector<vector<Double> >     mortality_rates_;
   vector<string>              selectivity_names_;
   accessor::Categories        partition_;

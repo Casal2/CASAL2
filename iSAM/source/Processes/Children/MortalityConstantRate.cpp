@@ -107,24 +107,29 @@ void MortalityConstantRate::DoBuild() {
    */
   vector<TimeStepPtr> time_steps = time_steps_manager_.time_steps();
   LOG_INFO("time_steps.size(): " << time_steps.size());
-  unsigned time_step_count = 0;
-  for(TimeStepPtr time_step : time_steps) {
-    if (time_step->HasProcess(label_))
-      ++time_step_count;
+  map<unsigned, bool> active_time_steps;
+  for (unsigned i = 0; i < time_steps.size(); ++i) {
+    if (time_steps[i]->HasProcess(label_))
+      active_time_steps[i] = true;
   }
-  LOG_INFO("ratios_.size(): " << ratios_.size() << " | time_step_count: " << time_step_count);
-  if (ratios_.size() == 0)
-    ratios_.assign(time_step_count, 1.0);
-  else {
-    if (ratios_.size() != time_step_count)
-      LOG_ERROR(parameters_.location(PARAM_TIME_STEP_RATIO) << " length (" << ratios_.size()
-          << ") does not match the number of time steps this process has been assigned too (" << time_step_count << ")");
+
+  if (time_step_ratios_.size() == 0) {
+    for (auto active_iter : active_time_steps)
+      time_step_ratios_[active_iter.first] = 1.0;
+  } else {
+    if (time_step_ratios_.size() != active_time_steps.size())
+      LOG_ERROR(parameters_.location(PARAM_TIME_STEP_RATIO) << " length (" << time_step_ratios_.size()
+          << ") does not match the number of time steps this process has been assigned too (" << active_time_steps.size() << ")");
 
     Double sum = 0.0;
     for (Double value : ratios_) // Blah. Cannot use std::accum because of ADOLC
       sum += value;
-    for (Double &value : ratios_)
-      value = value / sum;
+
+    unsigned i = 0;
+    for (auto &value : time_step_ratios_) {
+      value.second = ratios_[i] / sum;
+      i++;
+    }
   }
 }
 
@@ -132,19 +137,20 @@ void MortalityConstantRate::DoBuild() {
  * Execute the process
  */
 void MortalityConstantRate::DoExecute() {
-  LOG_TRACE();
+  LOG_INFO("year: " << model_->current_year());
 
   // get the ratio to apply first
   unsigned time_step = time_steps_manager_.current_time_step();
 
-  LOG_INFO("Ratios.size() " << ratios_.size() << " : time_step: " << time_step);
-  Double ratio = model_->state() == State::kInitialise ? 1.0 : ratios_[time_step];
+  LOG_INFO("Ratios.size() " << time_step_ratios_.size() << " : time_step: " << time_step << "; ratio: " << time_step_ratios_[time_step]);
+  Double ratio = time_step_ratios_[time_step];
 
   unsigned i = 0;
   for (auto category : partition_) {
     Double m = m_.size() > 1 ? m_[i] : m_[0];
 
     unsigned j = 0;
+    LOG_INFO("category " << category->name_ << "; min_age: " << category->min_age_ << "; ratio: " << ratio);
     for (Double& data : category->data_) {
       data -= data * (1-exp(-selectivities_[i]->GetResult(category->min_age_ + j)  * (m * ratio)));
       ++j;
