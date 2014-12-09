@@ -1,0 +1,164 @@
+@minimiser gammadiff
+type numerical_differences
+tolerance 0.0002
+iterations 1000
+step_size 1e-7
+covariance f
+active f
+
+@penalty event_mortality_penalty
+type process
+log_scale True
+multiplier 10
+
+@estimate process[Recruitment].r0
+parameter process[Recruitment].r0
+lower_bound 1e3
+upper_bound 1e8
+type uniform_log
+
+@estimate selectivity[ShelfselMale].mu
+parameter selectivity[ShelfselMale].mu
+lower_bound 1
+upper_bound 50
+type uniform
+
+@estimate selectivity[ShelfselMale].sigma_l
+parameter selectivity[ShelfselMale].sigma_l
+lower_bound 1
+upper_bound 50
+type uniform
+
+@estimate selectivity[ShelfselMale].sigma_r
+parameter selectivity[ShelfselMale].sigma_r
+lower_bound 1
+upper_bound 500
+type uniform
+
+@estimate selectivity[ShelfselMale].alpha
+parameter selectivity[ShelfselMale].alpha
+lower_bound 1
+upper_bound 1
+type uniform
+
+@estimate selectivity[ShelfselFemale].mu
+parameter selectivity[ShelfselFemale].mu
+lower_bound 1
+upper_bound 50
+type uniform
+
+@estimate selectivity[ShelfselFemale].sigma_l
+parameter selectivity[ShelfselFemale].sigma_l
+lower_bound 1
+upper_bound 50
+type uniform
+
+@estimate selectivity[ShelfselFemale].sigma_r
+parameter selectivity[ShelfselFemale].sigma_r
+lower_bound 1
+upper_bound 500
+type uniform
+
+@estimate selectivity[ShelfselFemale].alpha
+parameter selectivity[ShelfselFemale].alpha
+lower_bound 0.01
+upper_bound   10
+type uniform
+
+@estimate selectivity[SlopeselMale].mu
+parameter selectivity[SlopeselMale].mu
+lower_bound 1
+upper_bound 50
+type uniform
+
+@estimate selectivity[SlopeselMale].sigma_l
+parameter selectivity[SlopeselMale].sigma_l
+lower_bound 1
+upper_bound 50
+type uniform
+
+@estimate selectivity[SlopeselMale].sigma_r
+parameter selectivity[SlopeselMale].sigma_r
+lower_bound 1
+upper_bound 500
+type uniform
+
+@estimate selectivity[SlopeselMale].alpha
+parameter selectivity[SlopeselMale].alpha
+lower_bound 1
+upper_bound 1
+type uniform
+
+@estimate selectivity[SlopeselFemale].mu
+parameter selectivity[SlopeselFemale].mu
+lower_bound 1
+upper_bound 50
+type uniform
+
+@estimate selectivity[SlopeselFemale].sigma_l
+parameter selectivity[SlopeselFemale].sigma_l
+lower_bound 1
+upper_bound 50
+type uniform
+
+@estimate selectivity[SlopeselFemale].sigma_r
+parameter selectivity[SlopeselFemale].sigma_r
+lower_bound 1
+upper_bound 500
+type uniform
+
+@estimate selectivity[SlopeselFemale].alpha
+parameter selectivity[SlopeselFemale].alpha
+lower_bound 0.01
+upper_bound   10
+type uniform
+
+@estimate selectivity[NorthselMale].mu
+parameter selectivity[NorthselMale].mu
+lower_bound 1
+upper_bound 50
+type uniform
+
+@estimate selectivity[NorthselMale].sigma_l
+parameter selectivity[NorthselMale].sigma_l
+lower_bound 1
+upper_bound 50
+type uniform
+
+@estimate selectivity[NorthselMale].sigma_r
+parameter selectivity[NorthselMale].sigma_r
+lower_bound 1
+upper_bound 500
+type uniform
+
+@estimate selectivity[NorthselMale].alpha
+parameter selectivity[NorthselMale].alpha
+lower_bound 1
+upper_bound 1
+type uniform
+
+@estimate selectivity[NorthselFemale].mu
+parameter selectivity[NorthselFemale].mu
+lower_bound 1
+upper_bound 50
+type uniform
+
+@estimate selectivity[NorthselFemale].sigma_l
+parameter selectivity[NorthselFemale].sigma_l
+lower_bound 1
+upper_bound 50
+type uniform
+
+@estimate selectivity[NorthselFemale].sigma_r
+parameter selectivity[NorthselFemale].sigma_r
+lower_bound 1
+upper_bound 500
+type uniform
+
+@estimate selectivity[NorthselFemale].alpha
+parameter selectivity[NorthselFemale].alpha
+lower_bound 0.01
+upper_bound   10
+type uniform
+
+

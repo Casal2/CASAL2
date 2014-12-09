@@ -1,0 +1,57 @@
+@report estimate-summary
+type estimate_summary
+
+@report objective
+type objective_function
+
+@report 
+type derived_quantity
+label SSB
+time_step two
+years 1995:2013
+
+@report N_age
+type partition
+time_step two
+years 1995 1996 1997 1998 1999 2000 2005 2010 2013
+
+@report ShelfselMale
+type selectivity
+selectivity ShelfselMale
+
+@report ShelfselFemale
+type selectivity
+selectivity ShelfselFemale
+
+@report SlopeselMale
+type selectivity
+selectivity SlopeselMale
+
+@report SlopeselFemale
+type selectivity
+selectivity SlopeselFemale
+
+@report NorthselMale
+type selectivity
+selectivity NorthselMale
+
+@report NorthselFemale
+type selectivity
+selectivity NorthselFemale
+
+@report MaturityMale
+type selectivity
+selectivity MaturityMale
+
+@report MaturityFemale
+type selectivity
+selectivity MaturityFemale
+
+@report mean_weight
+type partition_mean_weight
+time_step two
+years 1995
+
+
+
+
