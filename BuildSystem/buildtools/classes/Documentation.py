@@ -266,7 +266,7 @@ class Documentation:
             index += 1
             value += ',' + pieces[index]
         value = value.replace(')', '')
-        self.variable_value_[name] = value.replace('"', '').replace(')', '').rstrip().lstrip()
+        self.variable_value_[name] = value.replace('R"(', '').replace(')"', '').replace('"', '').replace(')', '').rstrip().lstrip()
         print '-- Value: ' + self.variable_value_[name]            
         
         # Set the default value
