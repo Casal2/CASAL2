@@ -48,11 +48,10 @@ void Basic::DoValidate() {
  */
 Double Basic::mean_weight(Double size, const string &distribution, Double cv) const {
   Double weight = a_ * pow(size, b_);
- // if (units_ == PARAM_TONNES || units_ == PARAM_TONS)
-  if (units_ == PARAM_KGS)
-    weight /= 1000.0;
+  if (units_ == PARAM_TONNES || units_ == PARAM_TONS)
+    weight *= 1000;
   if (units_ == PARAM_GRAMS)
-    weight /= 100000.0;
+    weight /= 1000;
   if (distribution == PARAM_NORMAL || distribution == PARAM_LOGNORMAL)
     weight = weight * pow(1.0 + cv * cv, b_ * (b_ - 1.0) / 2.0);
 
