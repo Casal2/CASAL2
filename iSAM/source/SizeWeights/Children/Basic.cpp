@@ -21,7 +21,7 @@ namespace sizeweights {
 Basic::Basic() {
   parameters_.Bind<Double>(PARAM_A, &a_, "A", "");
   parameters_.Bind<Double>(PARAM_B, &b_, "B", "");
-  parameters_.Bind<string>(PARAM_UNITS, &units_, "Units of measure (grams, tonnes, tons, kgs)", "");
+  parameters_.Bind<string>(PARAM_UNITS, &units_, "Units of measure (tonnes, kgs, grams)", "");
 }
 
 /**
@@ -35,8 +35,8 @@ void Basic::DoValidate() {
   if (b_ <= 0.0)
     LOG_ERROR(parameters_.location(PARAM_B) << " (" << AS_DOUBLE(b_) << ") cannot be less than or equal to 0.0");
 
-  if (units_ != PARAM_TONNES && units_ != PARAM_TONS && units_ != PARAM_GRAMS && units_ != PARAM_KGS)
-    LOG_ERROR(parameters_.location(PARAM_UNITS) << " (" << units_ << ") is not supported. Supported units are: tonnes, tons, grams, kgs");
+  if (units_ != PARAM_TONNES && units_ != PARAM_KGS && units_ != PARAM_GRAMS)
+    LOG_ERROR(parameters_.location(PARAM_UNITS) << " (" << units_ << ") is not supported. Supported units are: tonnes, kgs, grams");
 
 }
 

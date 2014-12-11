@@ -378,7 +378,6 @@
 #define PARAM_TO                                  "to"
 #define PARAM_TOLERANCE                           "tolerance"
 #define PARAM_TONNES                              "tonnes"
-#define PARAM_TONS                                "tons"
 #define PARAM_TOTAL_SCORE                         "total_score"
 #define PARAM_TRANSFORMATION                      "transformation"
 #define PARAM_TRUE_YCS_VALUES                     "true_ycs_values"
