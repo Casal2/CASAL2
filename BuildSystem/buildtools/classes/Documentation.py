@@ -256,7 +256,7 @@ class Documentation:
         while description.count('"') != 2:
             index += 1
             description += ',' + pieces[index]
-        self.variable_description_[name] = description.replace('"', '').rstrip().lstrip()
+        self.variable_description_[name] = description.replace('R"(', '').replace(')"', '').replace('"', '').rstrip().lstrip()
         print '-- Description: ' + self.variable_description_[name]            
 
         # Set the value
