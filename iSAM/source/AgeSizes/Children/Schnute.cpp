@@ -97,7 +97,16 @@ Double Schnute::mean_size(unsigned year, unsigned age) {
  */
 Double Schnute::mean_weight(unsigned year, unsigned age) {
   Double size   = this->mean_size(year, age);
-  return size_weight_->mean_weight(size, distribution_, cv_);
+
+  Double weight = 0.0;
+  if (by_length_) {
+    weight = size_weight_->mean_weight(size, distribution_, cv_);
+  } else {
+    Double cv = (age * cv_) / size;
+    weight = size_weight_->mean_weight(size, distribution_, cv);
+  }
+
+  return weight;
 }
 
 } /* namespace agesizes */
