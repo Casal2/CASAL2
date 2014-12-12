@@ -27,7 +27,7 @@ namespace reports {
  */
 PartitionMeanWeight::PartitionMeanWeight() {
   run_mode_    = RunMode::kBasic;
-  model_state_ = State::kFinalise;
+  model_state_ = State::kExecute;
 }
 
 /**
@@ -44,26 +44,22 @@ void PartitionMeanWeight::DoExecute() {
     cache_ << "category: " << category << "\n";
 
     cache_ << "mean_weights:\n";
-    vector<unsigned> years = Model::Instance()->years();
-    for (unsigned year : years) {
-      cache_ << year << ": ";
+    unsigned year = Model::Instance()->current_year();
+    cache_ << year << ": ";
 
-      for (unsigned age = (*iterator)->min_age_; age <= (*iterator)->max_age_; ++age)
-        cache_ << (*iterator)->age_size_weight_->mean_weight(year, age) << " ";
+    for (unsigned age = (*iterator)->min_age_; age <= (*iterator)->max_age_; ++age)
+      cache_ << (*iterator)->age_size_weight_->mean_weight(year, age) << " ";
 
-      cache_ << "\n";
-    }
+    cache_ << "\n";
+
 
     cache_ << "age_sizes:\n";
-    years = Model::Instance()->years();
-    for (unsigned year : years) {
-      cache_ << year << ": ";
+    cache_ << year << ": ";
 
-      for (unsigned age = (*iterator)->min_age_; age <= (*iterator)->max_age_; ++age)
-        cache_ << (*iterator)->age_size_weight_->mean_size(year, age) << " ";
+    for (unsigned age = (*iterator)->min_age_; age <= (*iterator)->max_age_; ++age)
+      cache_ << (*iterator)->age_size_weight_->mean_size(year, age) << " ";
 
-      cache_ << "\n";
-    }
+    cache_ << "\n";
   }
 
   cache_ << "*end" << endl;
