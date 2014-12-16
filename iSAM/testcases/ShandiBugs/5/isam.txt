@@ -1,0 +1,40 @@
+@model
+start_year 1994
+final_year 2008
+min_age 1
+max_age 20
+age_plus t
+#initialisation_phases iphase1 iphase2
+time_steps step_one #step_two
+
+@categories
+format sex
+names male female unsexed
+
+@time_step step_one
+processes ageing recruitment mortality
+
+@ageing ageing
+categories *
+
+@recruitment recruitment
+type constant
+r0 20000000028258369258214728558396
+categories male female unsexed
+proportions 0.5 0.3 0.2
+age 1
+
+@mortality mortality
+type constant_rate
+categories male female unsexed
+m 0.10 0.09 0.10
+selectivities one one one
+
+@selectivity one
+type constant
+c 1
+
+@report partition
+type partition
+years 2008
+time_step step_one
