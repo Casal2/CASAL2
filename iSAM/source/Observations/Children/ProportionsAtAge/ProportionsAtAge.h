@@ -35,7 +35,7 @@ using partition::accessors::cached::CachedCombinedCategoriesPtr;
 class ProportionsAtAge : public niwa::Observation {
 public:
   // Methods
-  ProportionsAtAge() = default;
+  ProportionsAtAge();
   virtual                     ~ProportionsAtAge() = default;
   void                        DoValidate() override final;
   virtual void                DoBuild() override;
@@ -43,26 +43,29 @@ public:
   void                        PreExecute() override final;
   void                        Execute() override final;
   void                        CalculateScore() override final;
-  bool                        HasYear(unsigned year) const override final { return year == year_; }
+  bool                        HasYear(unsigned year) const override final { return std::find(years_.begin(), years_.end(), year) != years_.end(); }
 
 protected:
   // Members
-  unsigned                    year_;
-  unsigned                    min_age_;
-  unsigned                    max_age_;
-  bool                        age_plus_;
-  unsigned                    age_spread_;
-  Double                      delta_;
-  vector<string>              obs_;
-  Double                      tolerance_;
-  Double                      process_error_;
-  string                      ageing_error_label_;
-  vector<vector<Double> >     proportions_;
-  vector<Double>              error_values_;
-  vector<vector<Double> >     error_values_by_category_;
-  CachedCombinedCategoriesPtr cached_partition_;
-  CombinedCategoriesPtr       partition_;
-  vector<Double>              age_results_;
+  vector<unsigned>              years_;
+  unsigned                      min_age_;
+  unsigned                      max_age_;
+  bool                          age_plus_;
+  unsigned                      age_spread_;
+  Double                        delta_;
+  parameters::TablePtr          obs_table_;
+  map<unsigned, vector<Double>> obs_by_year_;
+  Double                        tolerance_;
+  vector<Double>                process_errors_;
+  map<unsigned, Double>         process_errors_by_year_;
+  string                        ageing_error_label_;
+  vector<Double>                error_values_;
+  map<unsigned, Double>         error_values_by_year_;
+  CachedCombinedCategoriesPtr   cached_partition_;
+  CombinedCategoriesPtr         partition_;
+  vector<Double>                age_results_;
+
+  map<unsigned, map<string, vector<Double>>> proportions_;
 };
 
 } /* namespace observations */

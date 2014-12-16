@@ -40,7 +40,7 @@ public:
                                 const vector<Double> &error_values) override final;
 
   void                        SimulateObserved(map<unsigned, vector<observations::Comparison> >& comparisons) override final;
-  Double                      GetInitialScore(map<unsigned, vector<observations::Comparison> >& comparisons) override final;
+  Double                      GetInitialScore(map<unsigned, vector<observations::Comparison> >& comparisons, unsigned year) override final;
   void                        GetScores(map<unsigned, vector<observations::Comparison> >& comparisons) override final;
 };
 

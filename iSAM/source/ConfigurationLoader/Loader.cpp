@@ -288,12 +288,15 @@ void Loader::ParseBlock(vector<FileLine> &block) {
       if (!current_table_)
         LOG_CODE_ERROR("!current_table");
 
-      current_table_->AddColumns(line_parts);
+      if (current_table_->requires_comlums())
+        current_table_->AddColumns(line_parts);
+      else
+        current_table_->AddRow(line_parts);
       loading_columns = false;
 
     } else if (loading_table && parameter_type != PARAM_END_TABLE) {
       // We're loading a standard row of data for the table
-      if (line_parts.size() != current_table_->GetColumnCount())
+      if (current_table_->requires_comlums() && line_parts.size() != current_table_->GetColumnCount())
         LOG_ERROR("At line " << file_line.line_number_ << " of " << file_line.file_name_
             << ": Table data does not contain the correct number of columns. Expected (" << current_table_->GetColumnCount() << ") : Actual (" << line_parts.size() << ")");
 

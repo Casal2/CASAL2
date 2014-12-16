@@ -46,7 +46,7 @@ public:
                                 const vector<Double> &error_values);
 
   virtual void                SimulateObserved(map<unsigned, vector<observations::Comparison> >& comparisons) { };
-  virtual Double              GetInitialScore(map<unsigned, vector<observations::Comparison> >& comparisons) { return 0.0; };
+  virtual Double              GetInitialScore(map<unsigned, vector<observations::Comparison> >& comparisons, unsigned year) { return 0.0; };
   virtual void                GetScores(map<unsigned, vector<observations::Comparison> >& comparisons) { };
 };
 

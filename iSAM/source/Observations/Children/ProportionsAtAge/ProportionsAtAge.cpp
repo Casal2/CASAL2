@@ -18,6 +18,7 @@
 #include "Model/Model.h"
 #include "Partition/Accessors/All.h"
 #include "Utilities/DoubleCompare.h"
+#include "Utilities/Map.h"
 #include "Utilities/Math.h"
 #include "Utilities/To.h"
 
@@ -25,6 +26,23 @@
 namespace niwa {
 namespace observations {
 
+/**
+ * Default constructor
+ */
+ProportionsAtAge::ProportionsAtAge() {
+  parameters_.Bind<unsigned>(PARAM_MIN_AGE, &min_age_, "Minimum age", "");
+  parameters_.Bind<unsigned>(PARAM_MAX_AGE, &max_age_, "Maximum age", "");
+  parameters_.Bind<bool>(PARAM_AGE_PLUS, &age_plus_, "Use age plus group", "", true);
+  parameters_.Bind<Double>(PARAM_TOLERANCE, &tolerance_, "Tolerance", "", Double(0.001));
+  parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "Year to execute in", "");
+  parameters_.Bind<Double>(PARAM_ERROR_VALUES, &error_values_, "Error values", "");
+  parameters_.Bind<Double>(PARAM_DELTA, &delta_, "Delta", "", DELTA);
+  parameters_.Bind<Double>(PARAM_PROCESS_ERRORS, &process_errors_, "Process error", "", true);
+  parameters_.Bind<string>(PARAM_AGEING_ERROR, &ageing_error_label_, "Label of ageing error to use", "", "");
+
+  obs_table_ = TablePtr(new parameters::Table(PARAM_OBS));
+  parameters_.BindTable(PARAM_OBS, obs_table_, "Table of Observatons", "", false);
+}
 /**
  * Validate configuration file parameters
  */
@@ -39,16 +57,64 @@ void ProportionsAtAge::DoValidate() {
     LOG_ERROR(parameters_.location(PARAM_MIN_AGE) << ": min_age (" << min_age_ << ") is less than the model's min_age (" << model->min_age() << ")");
   if (max_age_ > model->max_age())
     LOG_ERROR(parameters_.location(PARAM_MAX_AGE) << ": max_age (" << max_age_ << ") is greater than the model's max_age (" << model->max_age() << ")");
-  if (process_error_ < 0.0)
-    LOG_ERROR(parameters_.location(PARAM_PROCESS_ERROR) << ": process_error (" << AS_DOUBLE(process_error_) << ") cannot be less than 0.0");
+  if (process_errors_.size() != 0 && process_errors_.size() != years_.size()) {
+    LOG_ERROR(parameters_.location(PARAM_PROCESS_ERRORS) << " number of values provied (" << process_errors_.size() << ") does not match the number of years provided ("
+        << years_.size() << ")");
+  }
+  for (Double process_error : process_errors_) {
+    if (process_error < 0.0)
+      LOG_ERROR(parameters_.location(PARAM_PROCESS_ERRORS) << ": process_error (" << AS_DOUBLE(process_error) << ") cannot be less than 0.0");
+  }
+  if (process_errors_.size() != 0)
+    process_errors_by_year_ = utilities::MapCreate(years_, process_errors_);
   if (delta_ < 0.0)
     LOG_ERROR(parameters_.location(PARAM_DELTA) << ": delta (" << AS_DOUBLE(delta_) << ") cannot be less than 0.0");
 
+  /**
+   * Validate the number of obs provided matches age spread * category_labels * years
+   * This is because we'll have 1 set of obs per category collection provided.
+   * categories male+female male = 2 collections
+   */
+  unsigned obs_expected = age_spread_ * category_labels_.size() + 1;
+  vector<vector<string>>& obs_data = obs_table_->data();
+  if (obs_data.size() != years_.size()) {
+    LOG_ERROR(parameters_.location(PARAM_OBS) << " has " << obs_data.size() << " rows defined, but we expected " << years_.size()
+        << " to match the number of years provided");
+  }
+
+  for (vector<string>& obs_data_line : obs_data) {
+    if (obs_data_line.size() != obs_expected) {
+      LOG_ERROR(parameters_.location(PARAM_OBS) << " has " << obs_data_line.size() << " values defined, but we expected " << obs_expected
+          << " to match the age speard * categories + 1 (for year)");
+    }
+
+    unsigned year = 0;
+    if (!utilities::To<unsigned>(obs_data_line[0], year))
+      LOG_ERROR(parameters_.location(PARAM_OBS) << " value " << obs_data_line[0] << " could not be converted in to an unsigned integer. It should be the year for this line");
+    if (std::find(years_.begin(), years_.end(), year) == years_.end())
+      LOG_ERROR(parameters_.location(PARAM_OBS) << " value " << year << " is not a valid year for this observation");
+
+    vector<Double> obs_data_numeric;
+    for (unsigned i = 1; i < obs_data_line.size(); ++i) {
+      Double value = 0;
+      if (!utilities::To<Double>(obs_data_line[i], value))
+        LOG_ERROR(parameters_.location(PARAM_OBS) << " value (" << obs_data_line[i] << ") could not be converted to a double");
+      obs_by_year_[year].push_back(value);
+    }
+    if (obs_by_year_[year].size() != obs_expected - 1)
+      LOG_CODE_ERROR("obs_by_year_[year].size() (" << obs_by_year_[year].size() << ") != obs_expected - 1 (" << obs_expected -1 << ")");
+  }
+
+
+  /**
+   * Build our error value map
+   */
   if (error_values_.size() == 1)
-    error_values_.resize(obs_.size(), error_values_[0]);
-  if (error_values_.size() != obs_.size())
+    error_values_.resize(years_.size(), error_values_[0]);
+  if (error_values_.size() != years_.size())
     LOG_ERROR(parameters_.location(PARAM_ERROR_VALUE) << ": number error_values provided (" << error_values_.size() << ") does not match the number of "
-        << "observations provided (" << obs_.size() << ")");
+        << "years provided (" << years_.size() << ")");
+  error_values_by_year_ = utilities::MapCreate(years_, error_values_);
 
   /**
    * Ensure error values are consistent for different likelihood types
@@ -71,46 +137,54 @@ void ProportionsAtAge::DoValidate() {
         << "Supported types are " << PARAM_LOGNORMAL << " and " << PARAM_MULTINOMIAL);
 
   /**
-   * Validate the number of obs provided matches age spread * category_labels.
-   * This is because we'll have 1 set of obs per category collection provided.
-   * categories male+female male = 2 collections
-   */
-  unsigned obs_expected = age_spread_ * category_labels_.size();
-  if (obs_.size() != obs_expected)
-    LOG_ERROR(parameters_.location(PARAM_OBS) << ": number of obs_ provided (" << obs_.size() << ") does not match the number expected (" << obs_expected
-        << "). Number expected is the age spread (" << age_spread_ << ") * category collections (" << category_labels_.size() << ")");
-
-  /**
-   * Populate our proportions matrix.
    *
    * If the proportions for a given observation do not sum to 1.0
    * and is off by more than the tolerance rescale them.
    */
-  proportions_.resize(category_labels_.size());
-  error_values_by_category_.resize(category_labels_.size());
   Double value = 0.0;
-  Double total = 0.0;
-  for (unsigned i = 0; i < category_labels_.size(); ++i) {
-    for (unsigned j = 0; j < age_spread_; ++j) {
-      unsigned obs_index = i * age_spread_ + j;
-      if (!utilities::To<Double>(obs_[obs_index], value))
-        LOG_ERROR(parameters_.location(PARAM_OBS) << ": obs_ value (" << obs_[obs_index] << ") at index " << obs_index + 1
-            << " in the definition could not be converted to a numeric double");
+  for (auto iter = obs_by_year_.begin(); iter != obs_by_year_.end(); ++iter) {
+    Double total = 0.0;
 
-      proportions_[i].push_back(value);
-      error_values_by_category_[i].push_back( error_values_[i*age_spread_ + j]);
-      total += value;
+    for (unsigned i = 0; i < category_labels_.size(); ++i) {
+      for (unsigned j = 0; j < age_spread_; ++j) {
+        unsigned obs_index = i * age_spread_ + j;
+        if (!utilities::To<Double>(iter->second[obs_index], value))
+          LOG_ERROR(parameters_.location(PARAM_OBS) << ": obs_ value (" << iter->second[obs_index] << ") at index " << obs_index + 1
+              << " in the definition could not be converted to a numeric double");
+
+        proportions_[iter->first][category_labels_[i]].push_back(value);
+        total += value;
+      }
+    }
+
+    if (fabs(1.0 - total) > tolerance_) {
+      LOG_ERROR(parameters_.location(PARAM_OBS) << ": obs sum total (" << total << ") for year (" << iter->first << ") exceeds tolerance (" << tolerance_ << ") from 1.0");
     }
   }
 
-  // TODO: THIS MUST BE RE_PROPORTIONED SO THE TOTAL OBS SUM TO 1. NOT DISTINCT BY CATEGORY
-  if (fabs(1.0 - total) > tolerance_) {
-    LOG_WARNING(parameters_.location(PARAM_OBS) << ": obs total (" << total << ") exceeds tolerance. Auto-scaling proportions to 1.0");
+//  proportions_.resize(category_labels_.size());
+//
+////  Double total = 0.0;
+//  for (unsigned i = 0; i < category_labels_.size(); ++i) {
+//    for (unsigned j = 0; j < age_spread_; ++j) {
+//      unsigned obs_index = i * age_spread_ + j;
+//      if (!utilities::To<Double>(obs_[obs_index], value))
+//        LOG_ERROR(parameters_.location(PARAM_OBS) << ": obs_ value (" << obs_[obs_index] << ") at index " << obs_index + 1
+//            << " in the definition could not be converted to a numeric double");
+//
+//      proportions_[i].push_back(value);
+//      total += value;
+//    }
+//  }
 
-    for (unsigned i = 0; i < category_labels_.size(); ++i)
-      for (unsigned j = 0; j < proportions_[i].size(); ++j)
-        proportions_[i][j] /= total;
-  }
+  // TODO: THIS MUST BE RE_PROPORTIONED SO THE TOTAL OBS SUM TO 1. NOT DISTINCT BY CATEGORY
+//  if (fabs(1.0 - total) > tolerance_) {
+//    LOG_WARNING(parameters_.location(PARAM_OBS) << ": obs total (" << total << ") exceeds tolerance. Auto-scaling proportions to 1.0");
+//
+//    for (unsigned i = 0; i < category_labels_.size(); ++i)
+//      for (unsigned j = 0; j < proportions_[i].size(); ++j)
+//        proportions_[i][j] /= total;
+//  }
 }
 
 /**
@@ -135,12 +209,14 @@ void ProportionsAtAge::DoBuild() {
  * structure to use with any interpolation
  */
 void ProportionsAtAge::PreExecute() {
+  ModelPtr model = Model::Instance();
+
   cached_partition_->BuildCache();
 
-  if (cached_partition_->Size() != proportions_.size())
-    LOG_CODE_ERROR("cached_partition_->Size() != proportions_.size()");
-  if (partition_->Size() != proportions_.size())
-    LOG_CODE_ERROR("partition_->Size() != proportions_.size()");
+  if (cached_partition_->Size() != proportions_[model->current_year()].size())
+    LOG_CODE_ERROR("cached_partition_->Size() != proportions_[model->current_year()].size()");
+  if (partition_->Size() != proportions_[model->current_year()].size())
+    LOG_CODE_ERROR("partition_->Size() != proportions_[model->current_year()].size()");
 }
 
 /**
@@ -152,6 +228,7 @@ void ProportionsAtAge::Execute() {
   /**
    * Verify our cached partition and partition sizes are correct
    */
+  ModelPtr model = Model::Instance();
   auto cached_partition_iter  = cached_partition_->Begin();
   auto partition_iter         = partition_->Begin(); // vector<vector<partition::Category> >
 
@@ -201,15 +278,16 @@ void ProportionsAtAge::Execute() {
       }
     }
 
-    if (expected_values.size() != proportions_[category_offset].size())
-      LOG_CODE_ERROR("expected_values.size(" << expected_values.size() << ") != proportions_[category_offset].size(" << proportions_[category_offset].size() << ")");
+    if (expected_values.size() != proportions_[model->current_year()][category_labels_[category_offset]].size())
+      LOG_CODE_ERROR("expected_values.size(" << expected_values.size() << ") != proportions_[category_offset].size(" << proportions_[model->current_year()][category_labels_[category_offset]].size() << ")");
 
     /**
      * save our comparisons so we can use them to generate the score from the likelihoods later
      */
+
     for (unsigned i = 0; i < expected_values.size(); ++i) {
-      SaveComparison(category_labels_[category_offset], min_age_ + i, expected_values[i], proportions_[category_offset][i],
-          process_error_, error_values_by_category_[category_offset][i], delta_, 0.0);
+      SaveComparison(category_labels_[category_offset], min_age_ + i, expected_values[i], proportions_[model->current_year()][category_labels_[category_offset]][i],
+          process_errors_by_year_[model->current_year()], error_values_by_year_[model->current_year()], delta_, 0.0);
     }
   }
 }
@@ -229,21 +307,23 @@ void ProportionsAtAge::CalculateScore() {
     /**
      * Convert the expected_values in to a proportion
      */
-    Double running_total = 0.0;
-    for (obs::Comparison comparison : comparisons_[year_]) {
-      running_total += comparison.expected_;
-    }
-    for (obs::Comparison& comparison : comparisons_[year_]) {
-      if (running_total != 0.0)
-        comparison.expected_  = comparison.expected_ / running_total;
-      else
-        comparison.expected_  = 0.0;
-    }
+    for (unsigned year : years_) {
+      Double running_total = 0.0;
+      for (obs::Comparison comparison : comparisons_[year]) {
+        running_total += comparison.expected_;
+      }
+      for (obs::Comparison& comparison : comparisons_[year]) {
+        if (running_total != 0.0)
+          comparison.expected_  = comparison.expected_ / running_total;
+        else
+          comparison.expected_  = 0.0;
+      }
 
-    scores_[year_] = likelihood_->GetInitialScore(comparisons_);
-    likelihood_->GetScores(comparisons_);
-    for (obs::Comparison comparison : comparisons_[year_]) {
-      scores_[year_] += comparison.score_;
+      scores_[year] = likelihood_->GetInitialScore(comparisons_, year);
+      likelihood_->GetScores(comparisons_);
+      for (obs::Comparison comparison : comparisons_[year]) {
+        scores_[year] += comparison.score_;
+      }
     }
   }
 }

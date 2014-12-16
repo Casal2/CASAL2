@@ -49,6 +49,10 @@ public:
   const vector<string>&       columns() { return columns_; }
   vector<vector<string>>&     data() { return data_; }
   string                      location() const;
+  void                        set_is_optional(bool is_optional) { is_optional_ = is_optional; }
+  bool                        is_optional() const { return is_optional_; }
+  void                        set_requires_columns(bool requires_columns) { requires_columns_ = requires_columns; }
+  bool                        requires_comlums() const { return requires_columns_; }
 
 private:
   string                      label_ = "";
@@ -56,6 +60,8 @@ private:
   unsigned                    line_number_ = 0;
   vector<string>              columns_;
   vector<vector<string> >     data_;
+  bool                        is_optional_ = false;
+  bool                        requires_columns_ = true;
 };
 
 /**
