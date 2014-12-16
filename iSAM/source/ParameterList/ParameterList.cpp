@@ -81,45 +81,38 @@ bool ParameterList::Add(const string& label, const string& value, const string& 
  * @param line_number Line number where table definition finished
  * @return true on success, false on failure
  */
-bool ParameterList::AddTable(const string& label, const vector<string>& columns, const vector<vector<string> >& data, const string& file_name, const unsigned& line_number) {
-  if (tables_.find(label) == tables_.end())
-    return false;
-
-  parameters::TablePtr table = tables_.find(label)->second;
-  table->AddColumns(columns);
-  for (vector<string> row : data)
-    table->AddRow(row);
-  table->set_file_name(file_name);
-  table->set_line_number(line_number);
-
-  return true;
-
+//bool ParameterList::AddTable(const string& label, const vector<string>& columns, const vector<vector<string> >& data, const string& file_name, const unsigned& line_number) {
+//  if (tables_.find(label) == tables_.end())
+//    return false;
 //
-//  TablePtr table = TablePtr(new niwa::parameterlist::Table(label));
-//  table->AddColumns(columns);
+//  parameters::TablePtr table = tables_.find(label)->second;
+//  if (table->requires_comlums())
+//    table->AddColumns(columns);
+//  else
+//    table->AddRow(columns);
 //  for (vector<string> row : data)
 //    table->AddRow(row);
+//  table->set_file_name(file_name);
+//  table->set_line_number(line_number);
 //
-//  ParameterTable parameter_table;
-//  parameter_table.file_name_    = file_name;
-//  parameter_table.line_number_  = line_number;
-//  parameter_table.table_        = table;
-  return true;
-}
+//  return true;
+//}
 
 /**
  *
  */
 void ParameterList::Populate() {
-  auto iter = parameters_.begin();
-
   /**
    * go through and look for missing required parameters
    */
   string missing_parameters = "";
-  for (; iter != parameters_.end(); ++iter) {
+  for (auto iter = parameters_.begin(); iter != parameters_.end(); ++iter) {
     if (iter->second->values().size() == 0 && !iter->second->is_optional())
       missing_parameters += iter->first + " ";
+  }
+  for (auto iter = tables_.begin(); iter != tables_.end(); ++iter) {
+    if (iter->second->data().size() == 0 && !iter->second->is_optional())
+      missing_parameters += iter->first + "(Table) ";
   }
 
   if (missing_parameters != "") {
@@ -150,7 +143,7 @@ void ParameterList::Populate() {
 
   // NOTE: This has to be last
   // bind parameters
-  for (iter = parameters_.begin(); iter != parameters_.end(); ++iter)
+  for (auto iter = parameters_.begin(); iter != parameters_.end(); ++iter)
     iter->second->Bind();
 }
 
@@ -267,7 +260,9 @@ string ParameterList::location(const string& label) {
  * @param description used for documentation, ignored
  * @param values used for documentation, ignored
  */
-void ParameterList::BindTable(const string& label, parameters::TablePtr table, const string& description, const string& values) {
+void ParameterList::BindTable(const string& label, parameters::TablePtr table, const string& description, const string& values, bool requires_columns, bool optional) {
+  table->set_requires_columns(requires_columns);
+  table->set_is_optional(optional);
   tables_[label] = table;
 }
 

@@ -85,7 +85,7 @@ public:
   virtual                     ~ParameterList() = default;
   bool                        Add(const string& label, const string& value, const string& file_name, const unsigned& line_number);
   bool                        Add(const string& label, const vector<string>& values, const string& file_name, const unsigned& line_number);
-  bool                        AddTable(const string& label, const vector<string>& columns, const vector<vector<string> >& data, const string& file_name, const unsigned& line_number);
+//  bool                        AddTable(const string& label, const vector<string>& columns, const vector<vector<string> >& data, const string& file_name, const unsigned& line_number);
   const ParameterPtr          Get(const string& label);
   const parameters::TablePtr  GetTable(const string& label);
   void                        CopyFrom(const ParameterList& source, string parameter_label);
@@ -97,7 +97,8 @@ public:
   void                        Bind(const string& label, T* target, const string& description, const string& values, T default_value);
   template<typename T>
   void                        Bind(const string& label, vector<T>* target, const string& description, const string& values, bool optional = false);
-  void                        BindTable(const string& label, parameters::TablePtr table, const string& description, const string& values);
+  void                        BindTable(const string& label, parameters::TablePtr table, const string& description,
+                                const string& values, bool requires_columns = true, bool optional = false);
   void                        Populate();
 
   // accessors

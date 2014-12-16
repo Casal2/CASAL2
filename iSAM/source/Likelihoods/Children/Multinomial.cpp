@@ -111,21 +111,16 @@ Double Multinomial::GetInitialScore(const vector<string> &keys, const vector<Dou
  *
  * @param comparisons A collection of comparisons passed by the observation
  */
-Double Multinomial::GetInitialScore(map<unsigned, vector<observations::Comparison> >& comparisons) {
-  if (comparisons.size() > 1)
-    LOG_CODE_ERROR("comparisons.size() == " << comparisons.size() << "; when it must be 1");
-
+Double Multinomial::GetInitialScore(map<unsigned, vector<observations::Comparison> >& comparisons, unsigned year) {
   Double score = 0.0;
 
-  for (auto iterator = comparisons.begin(); iterator != comparisons.end(); ++iterator) {
-    string last_category = "";
-    for (observations::Comparison& comparison : iterator->second) {
-      if (last_category == comparison.category_)
-        continue;
+  string last_category = "";
+  for (observations::Comparison& comparison : comparisons[year]) {
+    if (last_category == comparison.category_)
+      continue;
 
-      last_category = comparison.category_;
-      score += -math::LnFactorial(AdjustErrorValue(comparison.process_error_, comparison.error_value_));
-    }
+    last_category = comparison.category_;
+    score += -math::LnFactorial(AdjustErrorValue(comparison.process_error_, comparison.error_value_));
   }
 
   return score;
