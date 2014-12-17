@@ -61,7 +61,7 @@ TEST(Likelihood, LogNormal) {
   }
 
   // Check initial score
-  EXPECT_DOUBLE_EQ(0.0, likelihood->GetInitialScore(comparison_list));
+  EXPECT_DOUBLE_EQ(0.0, likelihood->GetInitialScore(comparison_list, 0));
 
   // Check scores
   likelihood->GetScores(comparison_list);

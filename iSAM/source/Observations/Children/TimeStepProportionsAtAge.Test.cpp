@@ -133,9 +133,13 @@ categories male+female
 min_age 3
 max_age 15
 selectivities male=[type=logistic; a50=9; ato95=4] female=[type=logistic; a50=9; ato95=4; alpha=0.7]
-year 1992
-obs 0.0241 0.0473 0.0448 0.071 0.078 0.104 0.0672 0.1213 0.0869 0.111 0.0788 0.0436 0.122   
-error_value 1.399 0.795 0.764 0.663 0.724 0.735 0.709 0.684 0.673 0.59 0.669 0.878 0.53
+years 1992
+table obs
+1992 0.0241 0.0473 0.0448 0.071 0.078 0.104 0.0672 0.1213 0.0869 0.111 0.0788 0.0436 0.122
+end_table
+table error_values   
+1992 1.399 0.795 0.764 0.663 0.724 0.735 0.709 0.684 0.673 0.59 0.669 0.878 0.53
+end_table
 time_step_proportion 1.0            
 )";
 
@@ -274,6 +278,7 @@ c 1
 @age_size age_size_male
 type von_bertalanffy
 size_weight [type=none]
+by_length true
 k 0.277
 t0 0.11
 linf 90.3
@@ -281,6 +286,7 @@ linf 90.3
 @age_size age_size_female
 type von_bertalanffy
 size_weight [type=none]
+by_length true
 k 0.202
 t0 -0.20
 linf 113.4
@@ -298,9 +304,13 @@ categories male female
 min_age 3
 max_age 15
 selectivities male=[type=logistic; a50=9; ato95=4] female=[type=logistic; a50=9; ato95=4; alpha=0.7]
-year 1992
-obs 0.0173 0.0193 0.0241 0.0346 0.0365 0.0657 0.0427 0.0667 0.0326 0.0307 0.0272 0.0141 0.0319 0.0353 0.0249 0.0146 0.0133 0.0547 0.0488 0.0745 0.0660 0.0750 0.0646 0.0304 0.0147 0.0399
-error_value 1.091 0.770 0.539 0.421 0.412 0.297 0.367 0.322 0.391 0.510 0.523 0.734 0.481 0.612 0.643 0.756 0.772 0.399 0.369 0.331 0.306 0.304 0.309 0.461 0.752 0.423
+years 1992
+table obs
+1992 0.0173 0.0193 0.0241 0.0346 0.0365 0.0657 0.0427 0.0667 0.0326 0.0307 0.0272 0.0141 0.0319 0.0353 0.0249 0.0146 0.0133 0.0547 0.0488 0.0745 0.0660 0.0750 0.0646 0.0304 0.0147 0.0399
+end_table
+table error_values
+1992 1.091 0.770 0.539 0.421 0.412 0.297 0.367 0.322 0.391 0.510 0.523 0.734 0.481 0.612 0.643 0.756 0.772 0.399 0.369 0.331 0.306 0.304 0.309 0.461 0.752 0.423
+end_table
 time_step_proportion 1.0         
 )";
 
@@ -313,9 +323,6 @@ TEST_F(InternalEmptyModel, Observation_Proportions_At_Age_Double) {
 
   ModelPtr model = Model::Instance();
   model->Start(RunMode::kBasic);
-
-  ObjectiveFunction& obj_function = ObjectiveFunction::Instance();
-  EXPECT_DOUBLE_EQ(30.122778748284137, obj_function.score());
 
   ObservationPtr observation = observations::Manager::Instance().GetObservation("observation");
 
@@ -354,6 +361,9 @@ TEST_F(InternalEmptyModel, Observation_Proportions_At_Age_Double) {
   EXPECT_DOUBLE_EQ(0.029222930328445654,  comparisons[year][4].expected_);
   EXPECT_DOUBLE_EQ(0.0365,                comparisons[year][4].observed_);
   EXPECT_DOUBLE_EQ(-0.63798390702860996,  comparisons[year][4].score_);
+
+  ObjectiveFunction& obj_function = ObjectiveFunction::Instance();
+  EXPECT_DOUBLE_EQ(30.122778748284137, obj_function.score());
 }
 
 } /* namespace processes */

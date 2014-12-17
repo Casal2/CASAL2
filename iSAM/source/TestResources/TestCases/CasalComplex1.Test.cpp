@@ -66,12 +66,12 @@ TEST_F(InternalEmptyModel, Model_CasalComplex1_Simulation) {
   ObjectiveFunction& obj_function = ObjectiveFunction::Instance();
   EXPECT_DOUBLE_EQ(463.46264220283479, obj_function.score());
 
-  ObservationPtr observation = observations::Manager::Instance().GetObservation("chatTANage1992");
-  if (!observation && observation->label() != "chatTANage1992")
-    LOG_ERROR("Observation chatTANage1992 could not be loaded for testing");
+  ObservationPtr observation = observations::Manager::Instance().GetObservation("chatTANage");
+  if (!observation && observation->label() != "chatTANage")
+    LOG_ERROR("Observation chatTANage could not be loaded for testing");
 
   map<unsigned, vector<obs::Comparison> >& comparisons = observation->comparisons();
-  ASSERT_EQ(1u, comparisons.size());
+  ASSERT_EQ(11u, comparisons.size());
   ASSERT_EQ(26u, comparisons[1992].size());
 
   EXPECT_DOUBLE_EQ(0.013192513878164877,  comparisons[1992][0].observed_);
