@@ -36,8 +36,6 @@ boost::mutex Report::lock_;
 Report::Report() {
   parameters_.Bind<string>(PARAM_LABEL, &label_, "Label", "");
   parameters_.Bind<string>(PARAM_TYPE, &type_, "Type", "");
-  parameters_.Bind<string>(PARAM_TIME_STEP, &time_step_, "Time Step label", "", "");
-  parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "Years", "", true);
   parameters_.Bind<string>(PARAM_FILE_NAME, &file_name_, "File Name", "", "");
   parameters_.Bind<bool>(PARAM_OVERWRITE, &overwrite_, "Overwrite file", "", true);
 }

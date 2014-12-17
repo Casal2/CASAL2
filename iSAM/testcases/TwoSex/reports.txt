@@ -1,19 +1,5 @@
-{
-@report state-1
-type partition 
-time_step step_one
-years 1994 1998 2004 2008
-
-}
-
 @report my-objective-function
 type objective_function
-{
-@report mcmc_chain
-type mcmc_chain
 
-@report ev
-type estimate_value
-}
 @report summary
 type estimate_value
