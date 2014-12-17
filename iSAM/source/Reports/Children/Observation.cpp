@@ -36,8 +36,12 @@ void Observation::DoBuild() {
   LOG_TRACE();
 
   observation_ = observations::Manager::Instance().GetObservation(observation_label_);
-  if (!observation_)
+  if (!observation_) {
+    vector<ObservationPtr> obs = observations::Manager::Instance().GetObjects();
+    for (ObservationPtr ob_ptr : obs)
+      cout << ob_ptr->label() << endl;
     LOG_ERROR(parameters_.location(PARAM_OBSERVATION) << " (" << observation_label_ << ") could not be found. Have you defined it?");
+  }
 }
 
 /**

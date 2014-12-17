@@ -91,7 +91,7 @@ TEST(Likelihood, Multinomial) {
   comparison_list[0].push_back(comparison);
 
   // Check initial score
-  EXPECT_DOUBLE_EQ(-315.78552739959304, likelihood->GetInitialScore(comparison_list));
+  EXPECT_DOUBLE_EQ(-315.78552739959304, likelihood->GetInitialScore(comparison_list, 0));
 
   // Check scores
   likelihood->GetScores(comparison_list);

@@ -35,19 +35,22 @@ ProportionsAtAge::ProportionsAtAge() {
   parameters_.Bind<bool>(PARAM_AGE_PLUS, &age_plus_, "Use age plus group", "", true);
   parameters_.Bind<Double>(PARAM_TOLERANCE, &tolerance_, "Tolerance", "", Double(0.001));
   parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "Year to execute in", "");
-  parameters_.Bind<Double>(PARAM_ERROR_VALUES, &error_values_, "Error values", "");
   parameters_.Bind<Double>(PARAM_DELTA, &delta_, "Delta", "", DELTA);
   parameters_.Bind<Double>(PARAM_PROCESS_ERRORS, &process_errors_, "Process error", "", true);
   parameters_.Bind<string>(PARAM_AGEING_ERROR, &ageing_error_label_, "Label of ageing error to use", "", "");
 
   obs_table_ = TablePtr(new parameters::Table(PARAM_OBS));
+  error_values_table_ = TablePtr(new parameters::Table(PARAM_ERROR_VALUES));
   parameters_.BindTable(PARAM_OBS, obs_table_, "Table of Observatons", "", false);
+  parameters_.BindTable(PARAM_ERROR_VALUES, error_values_table_, "", "", false);
 }
 /**
  * Validate configuration file parameters
  */
 void ProportionsAtAge::DoValidate() {
   age_spread_ = (max_age_ - min_age_) + 1;
+  map<unsigned, vector<Double>> error_values_by_year;
+  map<unsigned, vector<Double>> obs_by_year;
 
   /**
    * Do some simple checks
@@ -94,55 +97,71 @@ void ProportionsAtAge::DoValidate() {
     if (std::find(years_.begin(), years_.end(), year) == years_.end())
       LOG_ERROR(parameters_.location(PARAM_OBS) << " value " << year << " is not a valid year for this observation");
 
-    vector<Double> obs_data_numeric;
     for (unsigned i = 1; i < obs_data_line.size(); ++i) {
       Double value = 0;
       if (!utilities::To<Double>(obs_data_line[i], value))
         LOG_ERROR(parameters_.location(PARAM_OBS) << " value (" << obs_data_line[i] << ") could not be converted to a double");
-      obs_by_year_[year].push_back(value);
+      obs_by_year[year].push_back(value);
     }
-    if (obs_by_year_[year].size() != obs_expected - 1)
-      LOG_CODE_ERROR("obs_by_year_[year].size() (" << obs_by_year_[year].size() << ") != obs_expected - 1 (" << obs_expected -1 << ")");
+    if (obs_by_year[year].size() != obs_expected - 1)
+      LOG_CODE_ERROR("obs_by_year_[year].size() (" << obs_by_year[year].size() << ") != obs_expected - 1 (" << obs_expected -1 << ")");
   }
 
 
   /**
    * Build our error value map
    */
-  if (error_values_.size() == 1)
-    error_values_.resize(years_.size(), error_values_[0]);
-  if (error_values_.size() != years_.size())
-    LOG_ERROR(parameters_.location(PARAM_ERROR_VALUE) << ": number error_values provided (" << error_values_.size() << ") does not match the number of "
-        << "years provided (" << years_.size() << ")");
-  error_values_by_year_ = utilities::MapCreate(years_, error_values_);
+  vector<vector<string>>& error_values_data = error_values_table_->data();
+  if (error_values_data.size() != years_.size()) {
+    LOG_ERROR(parameters_.location(PARAM_ERROR_VALUES) << " has " << error_values_data.size() << " rows defined, but we expected " << years_.size()
+        << " to match the number of years provided");
+  }
+
+  for (vector<string>& error_values_data_line : error_values_data) {
+    if (error_values_data_line.size() != 2 && error_values_data_line.size() != obs_expected) {
+      LOG_ERROR(parameters_.location(PARAM_ERROR_VALUES) << " has " << error_values_data_line.size() << " values defined, but we expected " << obs_expected
+          << " to match the age speard * categories + 1 (for year)");
+    }
+
+    unsigned year = 0;
+    if (!utilities::To<unsigned>(error_values_data_line[0], year))
+      LOG_ERROR(parameters_.location(PARAM_ERROR_VALUES) << " value " << error_values_data_line[0] << " could not be converted in to an unsigned integer. It should be the year for this line");
+    if (std::find(years_.begin(), years_.end(), year) == years_.end())
+      LOG_ERROR(parameters_.location(PARAM_ERROR_VALUES) << " value " << year << " is not a valid year for this observation");
+    for (unsigned i = 1; i < error_values_data_line.size(); ++i) {
+      Double value = 0;
+
+      if (!utilities::To<Double>(error_values_data_line[i], value))
+        LOG_ERROR(parameters_.location(PARAM_ERROR_VALUES) << " value (" << error_values_data_line[i] << ") could not be converted to a double");
+      if (likelihood_type_ == PARAM_LOGNORMAL && value <= 0.0) {
+        LOG_ERROR(parameters_.location(PARAM_ERROR_VALUES) << ": error_value (" << AS_DOUBLE(value) << ") cannot be equal to or less than 0.0");
+      } else if (likelihood_type_ == PARAM_MULTINOMIAL && value < 0.0) {
+        LOG_ERROR(parameters_.location(PARAM_ERROR_VALUES) << ": error_value (" << AS_DOUBLE(value) << ") cannot be less than 0.0");
+      }
+
+      error_values_by_year[year].push_back(value);
+    }
+    if (error_values_by_year[year].size() == 1) {
+      error_values_by_year[year].assign(obs_expected - 1, error_values_by_year[year][0]);
+    }
+    if (error_values_by_year[year].size() != obs_expected - 1)
+      LOG_CODE_ERROR("error_values_by_year_[year].size() (" << error_values_by_year[year].size() << ") != obs_expected - 1 (" << obs_expected -1 << ")");
+  }
 
   /**
-   * Ensure error values are consistent for different likelihood types
-   * Note: use of C++ lamba functions
+   * Validate likelihood type
    */
-  if (likelihood_type_ == PARAM_LOGNORMAL) {
-    std::for_each(std::begin(error_values_), std::end(error_values_), [&](Double n) {
-      if (n <= 0.0)
-        LOG_ERROR(parameters_.location(PARAM_ERROR_VALUE) << ": error_value (" << AS_DOUBLE(n) << ") cannot be equal to or less than 0.0");
-    });
-
-  } else if (likelihood_type_ == PARAM_MULTINOMIAL) {
-    std::for_each(std::begin(error_values_), std::end(error_values_), [&](Double n) {
-      if (n < 0.0)
-        LOG_ERROR(parameters_.location(PARAM_ERROR_VALUE) << ": error_value (" << AS_DOUBLE(n) << ") cannot be less than 0.0");
-    });
-
-  } else
+  if (likelihood_type_ != PARAM_LOGNORMAL && likelihood_type_ != PARAM_MULTINOMIAL)
     LOG_ERROR(parameters_.location(PARAM_LIKELIHOOD) << ": likelihood " << likelihood_type_ << " is not supported by the proportions at age observation. "
         << "Supported types are " << PARAM_LOGNORMAL << " and " << PARAM_MULTINOMIAL);
 
   /**
-   *
+   * Build our proportions and error values for use in the observation
    * If the proportions for a given observation do not sum to 1.0
    * and is off by more than the tolerance rescale them.
    */
   Double value = 0.0;
-  for (auto iter = obs_by_year_.begin(); iter != obs_by_year_.end(); ++iter) {
+  for (auto iter = obs_by_year.begin(); iter != obs_by_year.end(); ++iter) {
     Double total = 0.0;
 
     for (unsigned i = 0; i < category_labels_.size(); ++i) {
@@ -152,6 +171,8 @@ void ProportionsAtAge::DoValidate() {
           LOG_ERROR(parameters_.location(PARAM_OBS) << ": obs_ value (" << iter->second[obs_index] << ") at index " << obs_index + 1
               << " in the definition could not be converted to a numeric double");
 
+        Double error_value = error_values_by_year[iter->first][obs_index];
+        error_values_[iter->first][category_labels_[i]].push_back(error_value);
         proportions_[iter->first][category_labels_[i]].push_back(value);
         total += value;
       }
@@ -161,30 +182,6 @@ void ProportionsAtAge::DoValidate() {
       LOG_ERROR(parameters_.location(PARAM_OBS) << ": obs sum total (" << total << ") for year (" << iter->first << ") exceeds tolerance (" << tolerance_ << ") from 1.0");
     }
   }
-
-//  proportions_.resize(category_labels_.size());
-//
-////  Double total = 0.0;
-//  for (unsigned i = 0; i < category_labels_.size(); ++i) {
-//    for (unsigned j = 0; j < age_spread_; ++j) {
-//      unsigned obs_index = i * age_spread_ + j;
-//      if (!utilities::To<Double>(obs_[obs_index], value))
-//        LOG_ERROR(parameters_.location(PARAM_OBS) << ": obs_ value (" << obs_[obs_index] << ") at index " << obs_index + 1
-//            << " in the definition could not be converted to a numeric double");
-//
-//      proportions_[i].push_back(value);
-//      total += value;
-//    }
-//  }
-
-  // TODO: THIS MUST BE RE_PROPORTIONED SO THE TOTAL OBS SUM TO 1. NOT DISTINCT BY CATEGORY
-//  if (fabs(1.0 - total) > tolerance_) {
-//    LOG_WARNING(parameters_.location(PARAM_OBS) << ": obs total (" << total << ") exceeds tolerance. Auto-scaling proportions to 1.0");
-//
-//    for (unsigned i = 0; i < category_labels_.size(); ++i)
-//      for (unsigned j = 0; j < proportions_[i].size(); ++j)
-//        proportions_[i][j] /= total;
-//  }
 }
 
 /**
@@ -287,7 +284,7 @@ void ProportionsAtAge::Execute() {
 
     for (unsigned i = 0; i < expected_values.size(); ++i) {
       SaveComparison(category_labels_[category_offset], min_age_ + i, expected_values[i], proportions_[model->current_year()][category_labels_[category_offset]][i],
-          process_errors_by_year_[model->current_year()], error_values_by_year_[model->current_year()], delta_, 0.0);
+          process_errors_by_year_[model->current_year()], error_values_[model->current_year()][category_labels_[category_offset]][i], delta_, 0.0);
     }
   }
 }

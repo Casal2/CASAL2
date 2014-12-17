@@ -89,7 +89,7 @@ Double VonBertalanffy::mean_weight(unsigned year, unsigned age) {
  if (by_length_) {
    mean_weight = size_weight_->mean_weight(size, distribution_, cv_);
  } else {
-   Double cv = (size * cv_) / age;
+   Double cv = (age * cv_) / size;
    mean_weight = size_weight_->mean_weight(size, distribution_, cv);
  }
 

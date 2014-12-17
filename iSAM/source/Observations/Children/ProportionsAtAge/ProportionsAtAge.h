@@ -54,18 +54,17 @@ protected:
   unsigned                      age_spread_;
   Double                        delta_;
   parameters::TablePtr          obs_table_;
-  map<unsigned, vector<Double>> obs_by_year_;
   Double                        tolerance_;
   vector<Double>                process_errors_;
   map<unsigned, Double>         process_errors_by_year_;
   string                        ageing_error_label_;
-  vector<Double>                error_values_;
-  map<unsigned, Double>         error_values_by_year_;
+  parameters::TablePtr          error_values_table_;
   CachedCombinedCategoriesPtr   cached_partition_;
   CombinedCategoriesPtr         partition_;
   vector<Double>                age_results_;
 
   map<unsigned, map<string, vector<Double>>> proportions_;
+  map<unsigned, map<string, vector<Double>>> error_values_;
 };
 
 } /* namespace observations */
