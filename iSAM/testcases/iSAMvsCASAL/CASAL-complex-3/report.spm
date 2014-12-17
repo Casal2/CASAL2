@@ -1,27 +1,13 @@
 # The reports/outputs
-@report sim
-type simulated_observation
-observation chatTANage1992
-
 {
 @report initialisation-phase1
 type initialisation
 initialisation_phase phase1
 
-@report state-1
-type partition
-time_step one
-years 1977
-
-@report state-2
-type partition
-time_step two
-years 1977
-
 @report state-3
 type partition
 time_step three
-years 1977 2002
+years 1975 2002
 
 @report SSB
 type process
@@ -79,7 +65,7 @@ type covariance
 
 @report TAN1992
 type observation
-observation chatTANage1992
+observation chatTANbiomass1992
 
 @report TAN1993
 type observation
@@ -100,6 +86,14 @@ observation chatTANbiomass2001
 @report TAN2002
 type observation
 observation chatTANbiomass2002
+
+@report male
+type age_size
+age_size male
+
+@report female
+type age_size
+age_size female
 
 @report male
 type age_weight
