@@ -28,6 +28,9 @@ namespace reports {
 PartitionMeanWeight::PartitionMeanWeight() {
   run_mode_    = RunMode::kBasic;
   model_state_ = State::kExecute;
+
+  parameters_.Bind<string>(PARAM_TIME_STEP, &time_step_, "Time Step label", "", "");
+  parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "Years", "", true);
 }
 
 /**

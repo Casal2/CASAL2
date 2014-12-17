@@ -23,6 +23,7 @@
 #include "Reports/Children/ObjectiveFunction.h"
 #include "Reports/Children/Observation.h"
 #include "Reports/Children/Partition.h"
+#include "Reports/Children/PartitionBiomass.h"
 #include "Reports/Children/PartitionMeanWeight.h"
 #include "Reports/Children/SimulatedObservation.h"
 #include "Reports/Children/Selectivity.h"
@@ -57,6 +58,8 @@ ReportPtr Factory::Create(const string& object_type, const string& sub_type) {
       result = ReportPtr(new MCMCChain());
     else if (sub_type == PARAM_PARTITION)
       result = ReportPtr(new Partition());
+    else if (sub_type == PARAM_PARTITION_BIOMASS)
+      result = ReportPtr(new PartitionBiomass());
     else if (sub_type == PARAM_PARTITION_MEAN_WEIGHT)
       result = ReportPtr(new PartitionMeanWeight());
     else if (sub_type == PARAM_OBJECTIVE_FUNCTION)

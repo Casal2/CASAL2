@@ -1,17 +1,11 @@
-/**
- * @file Partition.cpp
- * @author  Scott Rasmussen (scott.rasmussen@zaita.com)
- * @version 1.0
- * @date 13/02/2013
- * @section LICENSE
+/*
+ * PartitionBiomass.cpp
  *
- * Copyright NIWA Science ©2013 - www.niwa.co.nz
- *
- * $Date: 2008-03-04 16:33:32 +1300 (Tue, 04 Mar 2008) $
+ *  Created on: 18/12/2014
+ *      Author: Admin
  */
 
-// Headers
-#include "Partition.h"
+#include "PartitionBiomass.h"
 
 #include <iostream>
 #include <iomanip>
@@ -19,25 +13,37 @@
 #include "Model/Model.h"
 #include "Partition/Accessors/All.h"
 
-// Namespaces
 namespace niwa {
 namespace reports {
 
-/**
- * Default constructor
- */
-Partition::Partition() {
+PartitionBiomass::PartitionBiomass() {
   run_mode_    = (RunMode::Type)(RunMode::kBasic | RunMode::kProjection);
   model_state_ = State::kExecute;
 
   parameters_.Bind<string>(PARAM_TIME_STEP, &time_step_, "Time Step label", "", "");
   parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "Years", "", true);
+  parameters_.Bind<string>(PARAM_UNITS, &units_, "Units (Default Kgs)", "", PARAM_KGS);
 }
 
 /**
  *
  */
-void Partition::DoExecute() {
+void PartitionBiomass::DoValidate() {
+  ModelPtr model = Model::Instance();
+  vector<unsigned> model_years = model->years();
+  for (unsigned year : years_) {
+    if (std::find(model_years.begin(), model_years.end(), year) == model_years.end())
+      LOG_ERROR(parameters_.location(PARAM_YEARS) << " value " << year << " is not a valid year in the model");
+  }
+
+  if (units_ != PARAM_TONNES && units_ != PARAM_KGS && units_ != PARAM_GRAMS)
+    LOG_ERROR(parameters_.location(PARAM_UNITS) << " value " << units_ << " is not valid. Valid units are tonnes, kgs and grams");
+}
+
+/**
+ *
+ */
+void PartitionBiomass::DoExecute() {
   // First, figure out the lowest and highest ages/length
   unsigned lowest         = 9999;
   unsigned highest        = 0;
@@ -55,7 +61,7 @@ void Partition::DoExecute() {
 
   // Print the header
   cache_ << "*" << this->label() << "\n";
-  cache_ << "report.type: partition\n";
+  cache_ << "report.type: partition_biomass\n";
   cache_ << "year: " << Model::Instance()->current_year() << "\n";
   cache_ << "time_step: " << time_step_ << "\n";
   cache_ << "category";
@@ -66,12 +72,14 @@ void Partition::DoExecute() {
   cache_.precision(1);
   cache_ << std::fixed;
 
+  unsigned year = Model::Instance()->current_year();
+
   for (auto iterator = all_view.Begin(); iterator != all_view.End(); ++iterator) {
     cache_ << (*iterator)->name_;
-    unsigned age = (*iterator)->min_age_;
-    for (auto values = (*iterator)->data_.begin(); values != (*iterator)->data_.end(); ++values, age++) {
+    for (unsigned i = 0; i < (*iterator)->data_.size(); ++i) {
+      unsigned age = (*iterator)->min_age_ + i;
       if (age >= lowest && age <= highest)
-        cache_ << " " << std::fixed << std::setprecision(6) << *values;
+        cache_ << " " << std::fixed << std::setprecision(6) << (*iterator)->data_[i] * (*iterator)->age_size_weight_->mean_weight(year, age);
       else
         cache_ << " " << "null";
     }
@@ -79,7 +87,6 @@ void Partition::DoExecute() {
   }
   ready_for_writing_ = true;
 }
-
 
 } /* namespace reports */
 } /* namespace niwa */

@@ -4,5 +4,6 @@
 
 # PENALTIES
 @penalty event_mortality_penalty
+type process
 log_scale False
 multiplier 10

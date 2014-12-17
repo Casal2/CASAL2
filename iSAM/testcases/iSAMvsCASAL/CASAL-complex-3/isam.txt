@@ -270,3 +270,8 @@ alpha 0.7
 
 @report obj
 type objective_function
+
+@report partition_biomass
+type partition_biomass
+years 2002
+time_step one
