@@ -41,6 +41,7 @@ public:
   virtual void                Bind() = 0;
   void                        AddValue(const string& value);
   void                        Clear() { values_.clear(); }
+  virtual vector<string>      GetCurrentValues() = 0;
 
   // Accessors
   void                        set_label(const string& label) { label_ = label; }

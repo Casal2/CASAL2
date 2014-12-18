@@ -40,7 +40,7 @@ void Selectivity::DoExecute() {
     ParameterPtr x = iter.second;
     cache_ << "selectivity." << iter.first << " ";
 
-    vector<string> values = x->values();
+    vector<string> values = x->GetCurrentValues();
     for (string value : values)
       cache_ << value << " ";
     cache_ << "\n";

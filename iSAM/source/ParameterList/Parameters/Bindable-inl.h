@@ -12,6 +12,7 @@
 
 // headers
 #include <boost/algorithm/string/join.hpp>
+#include <vector>
 
 #include "Utilities/To.h"
 #include "Utilities/Logging/Logging.h"
@@ -20,6 +21,8 @@
 // namespaces
 namespace niwa {
 namespace parameters {
+
+using std::vector;
 
 /**
  * default constructor
@@ -52,6 +55,16 @@ void Bindable<T>::Bind() {
     *target_ = default_value_;
   } else
     LOG_CODE_ERROR(location() << ": " << label_ << "Parameter not defined or missing");
+}
+
+/**
+ * Build a vector of values for this parameter
+ */
+template<typename T>
+vector<string> Bindable<T>::GetCurrentValues() {
+  vector<string> result;
+  result.push_back(utilities::ToInline<T, string>(*target_));
+  return result;
 }
 
 } /* namespace parameters */

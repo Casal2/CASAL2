@@ -11,12 +11,16 @@
 #define PARAMETERS_BINDABLEVECTOR_INL_H_
 
 // headers
+#include <vector>
+
 #include "Utilities/To.h"
 #include "Utilities/Logging/Logging.h"
 
 // namespaces
 namespace niwa {
 namespace parameters {
+
+using std::vector;
 
 /**
  * default constructor
@@ -45,6 +49,19 @@ void BindableVector<T>::Bind() {
 
     target_->push_back(value);
   }
+}
+
+/**
+ * Build a vector of values for this parameter
+ */
+template<typename T>
+vector<string> BindableVector<T>::GetCurrentValues() {
+  vector<string> result;
+
+  for (T value : (*target_))
+    result.push_back(utilities::ToInline<T, string>(value));
+
+  return result;
 }
 
 } /* namespace parameters */
