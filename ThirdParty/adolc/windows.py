@@ -37,7 +37,7 @@ class Builder:
     os.system("msys.bat --norxvt")
 
     count = 0
-    while not os.path.exists('home/Admin/ADOL-C-2.5.2/ADOL-C/.libs/libadolc.a'):
+    while not os.path.exists('adolc/ADOL-C-2.5.2/ADOL-C/.libs/libadolc.a'):
       count += 1
       if count > 600:
         print '-- Timeout exceeded while waiting for msys to compile ADOL-C'
@@ -48,7 +48,7 @@ class Builder:
    
     # Move our headers and libraries
     print '-- Moving headers and libraries'
-    os.chdir('home/Admin/ADOL-C-2.5.2/ADOL-C/')
+    os.chdir('adolc/ADOL-C-2.5.2/ADOL-C/')
     dir_util.copy_tree('include/' + headers, Globals.target_include_path_ + '/adolc/')
     shutil.copy('.libs/' + library, Globals.target_special_lib_path_)    
      
