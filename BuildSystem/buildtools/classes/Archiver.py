@@ -48,7 +48,6 @@ class Archiver:
     os.system('rm -rf release_build.log')
 
     print '--> Building release version of ADOLC iSAM'    
-    print '-- No iSAM binary was found'
     print '-- Re-Entering the build system to build an adolc release binary'
     print '-- All output is being diverted to release_adolc_build.log'
     if os.system(self.do_build_ + ' release adolc > release_adolc_build.log 2>&1') != EX_OK:
@@ -56,7 +55,6 @@ class Archiver:
     os.system('rm -rf release_adolc_build.log')    
 
     print '--> Building release version of BetaDiff iSAM'
-    print '-- No iSAM binary was found'
     print '-- Re-Entering the build system to build a betadiff release binary'
     print '-- All output is being diverted to release_betadiff_build.log'
     if os.system(self.do_build_ + ' release betadiff > release_betadiff_build.log 2>&1') != EX_OK:
@@ -64,7 +62,6 @@ class Archiver:
     os.system('rm -rf release_betadiff_build.log')
 
     print '--> Building release version of CppAD iSAM'    
-    print '-- No iSAM binary was found'
     print '-- Re-Entering the build system to build a cppad release binary'
     print '-- All output is being diverted to release_cppad_build.log'
     if os.system(self.do_build_ + ' release cppad > release_cppad_build.log 2>&1') != EX_OK:
