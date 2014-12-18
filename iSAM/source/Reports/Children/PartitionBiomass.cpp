@@ -79,7 +79,7 @@ void PartitionBiomass::DoExecute() {
     for (unsigned i = 0; i < (*iterator)->data_.size(); ++i) {
       unsigned age = (*iterator)->min_age_ + i;
       if (age >= lowest && age <= highest)
-        cache_ << " " << std::fixed << std::setprecision(6) << (*iterator)->data_[i] * (*iterator)->age_size_weight_->mean_weight(year, age);
+        cache_ << " " << std::fixed << std::setprecision(6) << AS_DOUBLE(((*iterator)->data_[i] * (*iterator)->age_size_weight_->mean_weight(year, age)));
       else
         cache_ << " " << "null";
     }
