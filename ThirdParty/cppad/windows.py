@@ -41,7 +41,7 @@ class Builder:
       if count > 3600:
         print '-- Timeout exceeded while waiting for msys to compile IPOPT + CPPAD'
         return False
-      if count % 30 == 0:
+      if count % 120 == 0:
         print '-- Waiting for msys compilation to finish'
       time.sleep(1);
 
