@@ -36,6 +36,7 @@ public:
   virtual                     ~BindableVector() = default;
   void                        Bind() override final;
   string                      stored_type() const override final { return utilities::demangle(typeid(*target_).name()); }
+  vector<string>              GetCurrentValues() override final;
 
 private:
   // members

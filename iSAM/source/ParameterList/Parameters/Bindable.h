@@ -16,6 +16,7 @@
 
 // headers
 #include <typeinfo>
+#include <vector>
 
 #include "ParameterList/Parameter.h"
 #include "Utilities/Types.h"
@@ -23,6 +24,8 @@
 // namespaces
 namespace niwa {
 namespace parameters {
+
+using std::vector;
 
 /**
  * class definition
@@ -36,6 +39,7 @@ public:
   void                        Bind() override final;
   void                        set_default_value(T value) { default_value_ = value; }
   string                      stored_type() const override final { return utilities::demangle(typeid(*target_).name()); }
+  vector<string>              GetCurrentValues() override final;
 
 private:
   // members
