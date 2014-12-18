@@ -36,7 +36,7 @@ class Builder:
     os.system("msys.bat --norxvt")
 
     count = 0
-    while not os.path.exists('home/Admin/include/'):
+    while not os.path.exists('cppad/include/'):
       count += 1
       if count > 3600:
         print '-- Timeout exceeded while waiting for msys to compile IPOPT + CPPAD'
@@ -49,9 +49,9 @@ class Builder:
     
     # Move our headers and libraries
     print '-- Moving headers and libraries'
-    dir_util.copy_tree('home/Admin/include/cppad', Globals.target_include_path_ + '/cppad/')
-    dir_util.copy_tree('home/Admin/Ipopt-3.11.9/include/coin', Globals.target_include_path_ + '/coin/')
+    dir_util.copy_tree('cppad/include/cppad', Globals.target_include_path_ + '/cppad/')
+    dir_util.copy_tree('cppad/Ipopt-3.11.9/include/coin', Globals.target_include_path_ + '/coin/')
     for library in libraries:
-      shutil.copy('home/Admin/Ipopt-3.11.9/lib/' + library, Globals.target_special_lib_path_)    
+      shutil.copy('cppad/Ipopt-3.11.9/lib/' + library, Globals.target_special_lib_path_)    
      
     return True
