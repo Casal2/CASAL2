@@ -68,6 +68,8 @@ void EstimateValue::DoExecute() {
       cache_ << profile->value() << " ";
   }
   cache_ << "\n";
+
+  ready_for_writing_ = true;
 }
 
 } /* namespace reports */
