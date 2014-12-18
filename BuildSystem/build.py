@@ -34,6 +34,7 @@ def print_usage():
   print '  clean - Remove any previous debug/release build information'
   print '  cleanall - Remove all previous build information'
   print '  archive - Build a zipped archive of the application'
+  print '  check - Do a check of the build system'
   print ''
   print 'Valid Build Parameters: (thirdparty only)'
   print '  <libary name> - Target third party library to build or rebuild'
@@ -51,29 +52,27 @@ test that executables are in the path that we need
 def start_build_system():
   if Globals.operating_system_ == "win32":
     Globals.cmd_path_      = system_info.find_exe_path('cmd.exe')
-    Globals.compiler_path_ = system_info.find_exe_path('g++.exe')  
+    Globals.compiler_path_ = system_info.find_exe_path('g++.exe')
+    Globals.gfortran_path_ = system_info.find_exe_path('gfortran.exe')
     Globals.latex_path_    = system_info.find_exe_path('bibtex.exe')
     Globals.git_path_      = system_info.find_exe_path('git.exe')
   else:
-    Globals.compiler_path_ = system_info.find_exe_path('g++')  
+    Globals.compiler_path_ = system_info.find_exe_path('g++')
+    Globals.gfortran_path_ = system_info.find_exe_path('gfortran')
     Globals.latex_path_    = system_info.find_exe_path('bibtex')
     Globals.git_path_      = system_info.find_exe_path('git')    
   system_info.set_new_path()
 
   if Globals.compiler_path_ == "":
-    return Globals.PrintError("G++ is not in the current path")
+    return Globals.PrintError("g++ is not in the current path")
+  if Globals.gfortran_path_ == "":
+    return Globals.PrintError("gfortran for g++ is not installed. Please install the GCC Fortran compiler")
+  if Globals.git_path_ == "":
+    return Globals.PrintError("git is not in the current path. Please install a git command line client (e.g http://git-scm.com/downloads)")  
   
   if not system_info.find_gcc_version():
     return False
   return True  
-
-"""
-Start The main execution here:
-"""
-system_info = SystemInfo()
-if not start_build_system():
-  system_info.reset_original_path()
-  exit(1)
 
 """
 Get the build information from the user
@@ -97,9 +96,6 @@ def start():
       build_target = raw_input("Please enter a valid build type [debug]: ").lower()
     if build_target == "":
       build_target = "debug" 
-    if build_target == "help":
-      print_usage()
-      return True
   
     # Find our build parameters to use, this will enable admb etc
     if build_target in Globals.allowed_build_types_:    
@@ -126,6 +122,8 @@ def start():
   if build_target == "help":
     print_usage()
     return True
+  if build_target == "check":
+    return True 
 
   if build_parameters != "": 
     build_parameters = build_parameters.lower()
@@ -209,10 +207,15 @@ def start():
       return False    
   
   return True
-    
+  
 """
 This is the entry point in to our build system
 """
+system_info = SystemInfo()
+if not start_build_system():
+  system_info.reset_original_path()
+  exit(1)
+  
 exit_code = 0
 if not start():
   exit_code = 1
