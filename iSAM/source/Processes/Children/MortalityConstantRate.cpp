@@ -113,7 +113,7 @@ void MortalityConstantRate::DoBuild() {
       active_time_steps[i] = true;
   }
 
-  if (time_step_ratios_.size() == 0) {
+  if (ratios_.size() == 0) {
     for (auto active_iter : active_time_steps)
       time_step_ratios_[active_iter.first] = 1.0;
   } else {
