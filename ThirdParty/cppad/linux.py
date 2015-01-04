@@ -68,6 +68,7 @@ class Builder:
 
     print '-- Building CppAD Library'
     os.chdir(cppadFileName)
+    os.system('chmod +x configure')
     if os.system('./configure --prefix=$PWD 1> isam_configure.log 2>&1') != EX_OK:
       return Globals.PrintError("Failed to configure code base. Please see above for build error")                      
     if os.system('make install 1> make_install.log 2>&1') != EX_OK:
