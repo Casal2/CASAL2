@@ -45,17 +45,31 @@ ELSEIF(BETADIFF)
  SET(specialLibraries "-l:libbetadiff.a") 
 ELSEIF(CPPAD)
  SET(COMPILE_OPTIONS "${COMPILE_OPTIONS} -DUSE_AUTODIFF -DUSE_CPPAD")
- SET(specialLibraries
- "m"
- "quadmath"
- "msvcrt"
- "ipopt"
- "coinmumps"
- "coinlapack"
- "coinblas"
- "gfortran"
- "coinmetis"
- )
+ IF (WIN32)
+  SET(specialLibraries
+   "m"
+   "quadmath"
+   "msvcrt"
+   "ipopt"
+   "coinmumps"
+   "coinlapack"
+   "coinblas"
+   "gfortran"
+   "coinmetis"
+  )
+ ELSE (WIN32)
+  SET(specialLibraries
+   "m"
+   "quadmath"
+   "dl"
+   "ipopt"
+   "coinmumps"
+   "coinlapack"
+   "coinblas"
+   "gfortran"
+   "coinmetis"
+  ) 
+ ENDIF ()
 ENDIF ()
 
 MESSAGE("COMPILE_OPTIONS: ${COMPILE_OPTIONS}")
