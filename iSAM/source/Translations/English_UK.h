@@ -180,6 +180,7 @@
 #define PARAM_ESTIMATE_TRANSFORMATION             "estimate_transformation"
 #define PARAM_ESTIMATES                           "estimates"
 #define PARAM_ESTIMATE_VALUE                      "estimate_value"
+#define PARAM_ESTIMATE_VALUE_FILE                 "estimate_value_file"
 #define PARAM_ESTIMATION                          "estimation"
 #define PARAM_ESTIMATION_PHASE                    "estimation_phase"
 #define PARAM_EVENT                               "event"

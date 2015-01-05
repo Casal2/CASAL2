@@ -107,28 +107,26 @@ void MortalityConstantRate::DoBuild() {
    */
   vector<TimeStepPtr> time_steps = time_steps_manager_.time_steps();
   LOG_INFO("time_steps.size(): " << time_steps.size());
-  map<unsigned, bool> active_time_steps;
+  vector<unsigned> active_time_steps;
   for (unsigned i = 0; i < time_steps.size(); ++i) {
     if (time_steps[i]->HasProcess(label_))
-      active_time_steps[i] = true;
+      active_time_steps.push_back(i);
   }
 
   if (ratios_.size() == 0) {
-    for (auto active_iter : active_time_steps)
-      time_step_ratios_[active_iter.first] = 1.0;
+    for (unsigned i : active_time_steps)
+      time_step_ratios_[i] = 1.0;
   } else {
-    if (time_step_ratios_.size() != active_time_steps.size())
-      LOG_ERROR(parameters_.location(PARAM_TIME_STEP_RATIO) << " length (" << time_step_ratios_.size()
+    if (ratios_.size() != active_time_steps.size())
+      LOG_ERROR(parameters_.location(PARAM_TIME_STEP_RATIO) << " length (" << ratios_.size()
           << ") does not match the number of time steps this process has been assigned too (" << active_time_steps.size() << ")");
 
     Double sum = 0.0;
     for (Double value : ratios_) // Blah. Cannot use std::accum because of ADOLC
       sum += value;
 
-    unsigned i = 0;
-    for (auto &value : time_step_ratios_) {
-      value.second = ratios_[i] / sum;
-      i++;
+    for (unsigned i = 0; i < ratios_.size(); ++i) {
+      time_step_ratios_[active_time_steps[i]] = ratios_[i] / sum;
     }
   }
 }
