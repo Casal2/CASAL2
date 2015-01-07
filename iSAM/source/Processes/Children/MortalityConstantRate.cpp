@@ -119,15 +119,15 @@ void MortalityConstantRate::DoBuild() {
   } else {
     if (ratios_.size() != active_time_steps.size())
       LOG_ERROR(parameters_.location(PARAM_TIME_STEP_RATIO) << " length (" << ratios_.size()
-          << ") does not match the number of time steps this process has been assigned too (" << active_time_steps.size() << ")");
+          << ") does not match the number of time steps this process has been assigned to (" << active_time_steps.size() << ")");
 
-    Double sum = 0.0;
-    for (Double value : ratios_) // Blah. Cannot use std::accum because of ADOLC
-      sum += value;
-
-    for (unsigned i = 0; i < ratios_.size(); ++i) {
-      time_step_ratios_[active_time_steps[i]] = ratios_[i] / sum;
+    for (Double value : ratios_) {
+      if (value <= 0.0 || value > 1.0)
+        LOG_ERROR(parameters_.location(PARAM_TIME_STEP_RATIO) << " value (" << value << ") must be between 0.0 (exclusive) and 1.0 (inclusive)");
     }
+
+    for (unsigned i = 0; i < ratios_.size(); ++i)
+      time_step_ratios_[active_time_steps[i]] = ratios_[i];
   }
 }
 
