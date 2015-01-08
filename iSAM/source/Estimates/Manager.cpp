@@ -13,6 +13,8 @@
 // Headers
 #include "Manager.h"
 
+#include "ConfigurationLoader/EstimateValuesLoader.h"
+#include "GlobalConfiguration/GlobalConfiguration.h"
 
 // Namespaces
 namespace niwa {
@@ -36,6 +38,34 @@ void Manager::Validate() {
    */
   for (EstimatePtr estimate : objects_)
     estimate->Validate();
+
+  /**
+   * Load any estimate values that have been supplied
+   */
+  GlobalConfigurationPtr global_config = GlobalConfiguration::Instance();
+  if (global_config->estimate_value_file() != "") {
+    configuration::EstimateValuesLoader loader;
+    loader.LoadValues(global_config->estimate_value_file());
+
+    unsigned values = 0;
+    for (auto iter : estimate_values_) {
+      if (values == 0)
+        values = iter.second.size();
+      if (values != iter.second.size())
+        LOG_ERROR("Estimate values loaded for estimate " << iter.first << " count is " << iter.second.size() << " when we expected " << values);
+
+      EstimatePtr current_estimate;
+      for (EstimatePtr estimate : objects_) {
+        if (estimate->label() == iter.first) {
+          current_estimate = estimate;
+          break;
+        }
+      }
+
+      if (!current_estimate)
+        LOG_ERROR("Could not find the estimate " << iter.first << " when loading estimate values from file");
+    }
+  }
 }
 
 
@@ -154,6 +184,13 @@ EstimatePtr Manager::GetEstimate(const string& parameter) {
 
 
   return EstimatePtr();
+}
+
+/**
+ *
+ */
+void Manager::AddEstimateValue(const string& estimate_label, Double value) {
+  estimate_values_[estimate_label].push_back(value);
 }
 
 } /* namespace estimates */
