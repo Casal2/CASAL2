@@ -21,10 +21,13 @@
 #include "Estimates/Estimate.h"
 #include "Estimates/Info.h"
 #include "Estimates/Creators/Creator.h"
+#include "Utilities/Map.h"
 
 // namespaces
 namespace niwa {
 namespace estimates {
+
+using utilities::Map;
 
 /**
  * Class definition
@@ -43,6 +46,10 @@ public:
   void                            DisableEstimate(const string& parameter);
   void                            AddCreator(CreatorPtr creator) { creators_.push_back(creator); }
   EstimatePtr                     GetEstimate(const string& parameter);
+  void                            AddEstimateValue(const string& estimate_label, Double value);
+
+  // accessors
+  unsigned                        estimate_value_count() { if (estimate_values_.size() == 0) return 0; return estimate_values_.begin()->second.size(); }
 
 private:
   // methods
@@ -50,6 +57,7 @@ private:
 
   // members
   vector<CreatorPtr>              creators_;
+  Map<string, vector<Double>>     estimate_values_;
 };
 
 } /* namespace estimates */

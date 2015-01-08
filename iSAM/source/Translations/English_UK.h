@@ -384,6 +384,8 @@
 #define PARAM_TONNES                              "tonnes"
 #define PARAM_TOTAL_SCORE                         "total_score"
 #define PARAM_TRANSFORMATION                      "transformation"
+#define PARAM_TRANSITION                          "transition"
+#define PARAM_TRANSITION_CATEGORY_BY_AGE          "transition_category_by_age"
 #define PARAM_TRUE_YCS_VALUES                     "true_ycs_values"
 #define PARAM_TYPE                                "type"
 #define PARAM_U_MAX                               "u_max"

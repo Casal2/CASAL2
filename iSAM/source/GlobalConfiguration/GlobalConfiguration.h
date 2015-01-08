@@ -62,6 +62,8 @@ public:
   bool                        skip_config_file();
   void                        set_simulation_candidates(unsigned value) { simulation_candidates_ = value; }
   unsigned                    simulation_candidates() const { return simulation_candidates_; }
+  void                        set_estimate_value_file(string value) { global_parameters_[PARAM_ESTIMATE_VALUE_FILE] = value; }
+  string                      estimate_value_file() { return global_parameters_[PARAM_ESTIMATE_VALUE_FILE]; }
 
 private:
   // Methods
@@ -71,7 +73,6 @@ private:
   map<string, string>         global_parameters_;
   vector<string>              command_line_parameters_;
   unsigned                    simulation_candidates_ = 1;
-
 };
 
 // Typedef

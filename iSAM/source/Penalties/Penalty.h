@@ -40,6 +40,7 @@ public:
   void                        Build() { DoBuild(); };
   void                        Reset() {};
   virtual Double              GetScore() = 0;
+  virtual void                Trigger(const string& source_label, Double value_1, Double value_2) { };
 
   // accessors
   bool                        has_score() const { return has_score_; }
