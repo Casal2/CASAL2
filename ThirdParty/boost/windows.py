@@ -21,13 +21,10 @@ class Builder:
     print '-- GCC Version for Boost: ' + gcc_version
   
     # organise the libraries we want to copy over
-    debug_libraries = [ 'libboost_program_options-mgw'+gcc_version+'-mt-sd-'+self.version_+'.a',
-                'libboost_system-mgw'+gcc_version+'-mt-sd-'+self.version_+'.a',
-                'libboost_thread-mgw'+gcc_version+'-mt-sd-'+self.version_+'.a' ]
-    release_libraries = [ 'libboost_program_options-mgw'+gcc_version+'-mt-s-'+self.version_+'.a',
-                'libboost_system-mgw'+gcc_version+'-mt-s-'+self.version_+'.a',
-                'libboost_thread-mgw'+gcc_version+'-mt-s-'+self.version_+'.a' ]  
-  
+    libraries = [ 'libboost_program_options-mgw',
+                'libboost_system-mgw',
+                'libboost_thread-mgw' ]
+    
     # Clean our any existing files if they already exist
     print '-- Cleaning Boost files'
     if os.path.exists(boostFileName):
@@ -35,9 +32,9 @@ class Builder:
     if os.path.exists(Globals.target_include_path_ + 'boost'):
         shutil.rmtree(Globals.target_include_path_ + 'boost')
     for library in debug_libraries:
-        os.system('rm -rf ' + Globals.target_debug_lib_path_ + library)
+        os.system('rm -rf ' + Globals.target_debug_lib_path_ + library + '*')
     for library in release_libraries:
-        os.system('rm -rf ' + Globals.target_release_lib_path_ + library)
+        os.system('rm -rf ' + Globals.target_release_lib_path_ + library + '*')
     
     # Decompress the boost archive if it hasn't already been done
     if not os.path.exists(boostFileName):       
@@ -55,9 +52,8 @@ class Builder:
     # Move our headers and libraries
     print '-- Moving headers and libraries'
     dir_util.copy_tree('boost', Globals.target_include_path_ + '/boost/')
-    for library in debug_libraries:
-      shutil.copy('stage/lib/' + library, Globals.target_debug_lib_path_)
-    for library in release_libraries:
-      shutil.copy('stage/lib/' + library, Globals.target_release_lib_path_)
+    for library in libraries:
+      shutil.copy('stage/lib/' + library+gcc_version+'-mt-sd-'+self.version_+'.a', Globals.target_debug_lib_path_)
+      shutil.copy('stage/lib/' + library+gcc_version+'-mt-s-'+self.version_+'.a', Globals.target_release_lib_path_)
     
     return True
