@@ -13,7 +13,6 @@
 // Headers
 #include "Manager.h"
 
-#include "ConfigurationLoader/EstimateValuesLoader.h"
 #include "GlobalConfiguration/GlobalConfiguration.h"
 
 // Namespaces
@@ -43,27 +42,20 @@ void Manager::Validate() {
    * Load any estimate values that have been supplied
    */
   GlobalConfigurationPtr global_config = GlobalConfiguration::Instance();
-  if (global_config->estimate_value_file() != "") {
-    configuration::EstimateValuesLoader loader;
-    loader.LoadValues(global_config->estimate_value_file());
+  if (global_config->estimable_value_file() != "") {
+    EstimablesPtr estimables = Estimables::Instance();
+    vector<string> estimable_labels = estimables->GetEstimables();
 
-    unsigned values = 0;
-    for (auto iter : estimate_values_) {
-      if (values == 0)
-        values = iter.second.size();
-      if (values != iter.second.size())
-        LOG_ERROR("Estimate values loaded for estimate " << iter.first << " count is " << iter.second.size() << " when we expected " << values);
-
-      EstimatePtr current_estimate;
-      for (EstimatePtr estimate : objects_) {
-        if (estimate->label() == iter.first) {
-          current_estimate = estimate;
-          break;
+    for (string label : estimable_labels) {
+      auto match = [](string label, vector<EstimatePtr> objects) {
+        for (EstimatePtr estimate : objects) {
+          if (estimate->label() == label)
+            return true;
         }
-      }
-
-      if (!current_estimate)
-        LOG_ERROR("Could not find the estimate " << iter.first << " when loading estimate values from file");
+        return false;
+      };
+      if (!match)
+        LOG_ERROR("The estimable " << label << " was defined in the estimable value file, but has not been defined as an @estimate");
     }
   }
 }
@@ -182,16 +174,7 @@ EstimatePtr Manager::GetEstimate(const string& parameter) {
   for (EstimatePtr estimate : objects_)
     cout << "Estimate: " << estimate->label() << " | " << estimate->parameter() << endl;
 
-
   return EstimatePtr();
 }
-
-/**
- *
- */
-void Manager::AddEstimateValue(const string& estimate_label, Double value) {
-  estimate_values_[estimate_label].push_back(value);
-}
-
 } /* namespace estimates */
 } /* namespace niwa */

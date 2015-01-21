@@ -91,7 +91,7 @@ void CommandLineParser::Parse(int argc, const char* argv[]) {
   if (parameters.count("config"))
     global_config->set_config_file(parameters["config"].as<string>());
   if (parameters.count("input"))
-    global_config->set_estimate_value_file(parameters["input"].as<string>());
+    global_config->set_estimable_value_file(parameters["input"].as<string>());
 
   /**
    * Determine what run mode we should be in. If we're

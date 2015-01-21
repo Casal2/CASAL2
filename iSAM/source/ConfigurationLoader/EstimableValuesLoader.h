@@ -2,7 +2,7 @@
  * @file EstimateValuesLoader.h
  * @author Scott Rasmussen (scott.rasmussen@zaita.com)
  * @github https://github.com/Zaita
- * @date 19/12/2014
+ * @date 20/01/2015
  * @section LICENSE
  *
  * Copyright NIWA Science ©2014 - www.niwa.co.nz
@@ -11,8 +11,8 @@
  *
  * << Add Description >>
  */
-#ifndef CONFIGURATION_ESTIMATEVALUESLOADER_H_
-#define CONFIGURATION_ESTIMATEVALUESLOADER_H_
+#ifndef CONFIGURATION_ESTIMABLEVALUESLOADER_H_
+#define CONFIGURATION_ESTIMABLEVALUESLOADER_H_
 
 // headers
 #include <string>
@@ -26,10 +26,10 @@ using std::string;
 /**
  * Class Definition
  */
-class EstimateValuesLoader {
+class EstimableValuesLoader {
 public:
-  EstimateValuesLoader() = default;
-  virtual                     ~EstimateValuesLoader() = default;
+  EstimableValuesLoader() = default;
+  virtual                     ~EstimableValuesLoader() = default;
   void                        LoadValues(const string& file_name);
 };
 

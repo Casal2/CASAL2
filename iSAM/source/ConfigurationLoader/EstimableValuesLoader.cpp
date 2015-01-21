@@ -10,7 +10,7 @@
  */
 
 // headers
-#include "EstimateValuesLoader.h"
+#include "EstimableValuesLoader.h"
 
 #include <fstream>
 #include <iostream>
@@ -20,7 +20,7 @@
 #include <boost/algorithm/string/split.hpp>
 #include <boost/algorithm/string/join.hpp>
 
-#include "Estimates/Manager.h"
+#include "Estimables/Estimables.h"
 #include "Utilities/Logging/Logging.h"
 #include "Utilities/To.h"
 #include "Utilities/Types.h"
@@ -40,7 +40,7 @@ using niwa::utilities::Double;
  *
  * @param file_name The name of the file containing the values
  */
-void EstimateValuesLoader::LoadValues(const string& file_name) {
+void EstimableValuesLoader::LoadValues(const string& file_name) {
   ifstream file_;
   file_.open(file_name.c_str());
   if (file_.fail() || !file_.is_open())
@@ -52,7 +52,7 @@ void EstimateValuesLoader::LoadValues(const string& file_name) {
   string    current_line        = "";
   vector<string> parameters;
   if (!getline(file_, current_line) || current_line == "")
-    LOG_ERROR("estimate value file appears to be empty, or the first line is blank. File: " << file_name);
+    LOG_ERROR("estimable value file appears to be empty, or the first line is blank. File: " << file_name);
 
   boost::replace_all(current_line, "\t", " ");
   boost::trim_all(current_line);
@@ -63,7 +63,7 @@ void EstimateValuesLoader::LoadValues(const string& file_name) {
    */
   unsigned line_number = 1;
   vector<string> values;
-  estimates::Manager& estimate_manager = estimates::Manager::Instance();
+  EstimablesPtr estimables = Estimables::Instance();
 
   while (getline(file_, current_line)) {
     ++line_number;
@@ -76,11 +76,14 @@ void EstimateValuesLoader::LoadValues(const string& file_name) {
     if (values.size() != parameters.size())
       LOG_ERROR("In estimate_value file, line " << line_number << " has " << values.size() << " values when we expected " << parameters.size());
     for (unsigned i = 0; i < values.size(); ++i) {
+      boost::trim_all(parameters[i]);
+      boost::trim_all(values[i]);
+
       Double numeric = 0.0;
       if (!utilities::To<Double>(values[i], numeric))
         LOG_ERROR("In estimate_value file could not convert the value " << values[i] << " to a double");
 
-      estimate_manager.AddEstimateValue(parameters[i], numeric);
+      estimables->AddValue(parameters[i], numeric);
     }
   }
 

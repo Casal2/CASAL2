@@ -23,7 +23,7 @@ namespace reports {
  * Default constructor
  */
 ObjectiveFunction::ObjectiveFunction() {
-  model_state_ = State::kFinalise;
+  model_state_ = State::kIterationComplete;
   run_mode_    = (RunMode::Type)(RunMode::kEstimation | RunMode::kBasic | RunMode::kProjection);
 }
 
