@@ -20,7 +20,9 @@
 #include "Asserts/Manager.h"
 #include "Catchabilities/Manager.h"
 #include "Categories/Categories.h"
+#include "ConfigurationLoader/EstimableValuesLoader.h"
 #include "DerivedQuantities/Manager.h"
+#include "Estimables/Estimables.h"
 #include "Estimates/Manager.h"
 #include "GlobalConfiguration/GlobalConfiguration.h"
 #include "InitialisationPhases/Manager.h"
@@ -122,6 +124,12 @@ void Model::Start(RunMode::Type run_mode) {
 
   if (state_ != State::kStartUp)
     LOG_CODE_ERROR("Model state should always be startup when entering the start method");
+  GlobalConfigurationPtr global_config = GlobalConfiguration::Instance();
+  if (global_config->estimable_value_file() != "") {
+    configuration::EstimableValuesLoader loader;
+    loader.LoadValues(global_config->estimable_value_file());
+  }
+
   reports::Manager::Instance().Execute(State::kStartUp);
 
   LOG_INFO("Model: State Change to Validate");
@@ -344,6 +352,9 @@ void Model::RunBasic() {
   // Model has finished so we can run finalise.
   LOG_INFO("Model: State change to PostExecute");
   reports::Manager::Instance().Execute(State::kPostExecute);
+
+  LOG_INFO("Model: State change to Iteration Complete")
+  reports::Manager::Instance().Execute(State::kIterationComplete);
 }
 
 /**
@@ -357,12 +368,38 @@ void Model::RunEstimation() {
   LOG_INFO("Doing pre-estimation iteration of the model");
   Iterate();
 
-  LOG_INFO("Calling minimiser to begin the estimation");
+  EstimablesPtr estimables = Estimables::Instance();
+  unsigned value_count = 1;
+  bool use_values = estimables->GetValueCount() > 0;
+  if (use_values)
+    value_count = estimables->GetValueCount();
+
+  map<string, Double> estimable_values;
+  for (unsigned i = 0; i < value_count; ++i) {
+  LOG_INFO("Calling minimiser to begin the estimation with the " << i + 1 << "st/nd/nth set of values");
+  run_mode_ = RunMode::kEstimation;
+
+  if (use_values) {
+    estimable_values = estimables->GetValues(i);
+    if (estimable_values.size() == 0)
+      LOG_CODE_ERROR("estimable_values.size() == 0");
+
+    vector<EstimatePtr> estimates = estimates::Manager::Instance().GetEnabled();
+    for (EstimatePtr estimate : estimates) {
+      estimate->set_value(estimable_values[estimate->label()]);
+      cout << "** setting new estimate value: " << estimate->label() << " = " << estimate->value() << endl;
+    }
+  }
+
   MinimiserPtr minimiser = minimisers::Manager::Instance().active_minimiser();
   minimiser->Execute();
 
+  LOG_INFO("Model: State change to Iteration Complete")
+  reports::Manager::Instance().Execute(State::kIterationComplete);
+
   run_mode_ = RunMode::kBasic;
   FullIteration();
+  }
 }
 
 /**
@@ -407,7 +444,7 @@ void Model::RunProfiling() {
       minimiser->Execute();
 
       LOG_INFO("Model: State change to Iteration Complete")
-      reports::Manager::Instance().Execute(State::kIterationComplete); // Change to KIterationComplete
+      reports::Manager::Instance().Execute(State::kIterationComplete);
 
       profile->NextStep();
     }
