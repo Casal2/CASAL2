@@ -13,6 +13,7 @@
 // Headers
 #include "Manager.h"
 
+#include "Estimables/Estimables.h"
 #include "GlobalConfiguration/GlobalConfiguration.h"
 
 // Namespaces
