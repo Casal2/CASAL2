@@ -338,23 +338,35 @@ void Model::Reset() {
  */
 void Model::RunBasic() {
   LOG_TRACE();
+
+  EstimablesPtr estimables = Estimables::Instance();
+  unsigned value_count = 1;
+  bool use_values = estimables->GetValueCount() > 0;
+  if (use_values)
+    value_count = estimables->GetValueCount();
+
   // Model is about to run
-  LOG_INFO("Model: State change to PreExecute");
-  reports::Manager::Instance().Execute(State::kPreExecute);
+  for (unsigned i = 0; i < value_count; ++i) {
+    if (use_values)
+      estimables->LoadValues(i);
 
-  /**
-   * Running the model now
-   */
-  LOG_INFO("Model: State change to Execute");
-  Iterate();
-  ObjectiveFunction::Instance().CalculateScore();
+    LOG_INFO("Model: State change to PreExecute");
+    reports::Manager::Instance().Execute(State::kPreExecute);
 
-  // Model has finished so we can run finalise.
-  LOG_INFO("Model: State change to PostExecute");
-  reports::Manager::Instance().Execute(State::kPostExecute);
+    /**
+     * Running the model now
+     */
+    LOG_INFO("Model: State change to Execute");
+    Iterate();
+    ObjectiveFunction::Instance().CalculateScore();
 
-  LOG_INFO("Model: State change to Iteration Complete")
-  reports::Manager::Instance().Execute(State::kIterationComplete);
+    // Model has finished so we can run finalise.
+    LOG_INFO("Model: State change to PostExecute");
+    reports::Manager::Instance().Execute(State::kPostExecute);
+
+    LOG_INFO("Model: State change to Iteration Complete")
+    reports::Manager::Instance().Execute(State::kIterationComplete);
+  }
 }
 
 /**
@@ -376,29 +388,29 @@ void Model::RunEstimation() {
 
   map<string, Double> estimable_values;
   for (unsigned i = 0; i < value_count; ++i) {
-  LOG_INFO("Calling minimiser to begin the estimation with the " << i + 1 << "st/nd/nth set of values");
-  run_mode_ = RunMode::kEstimation;
+    LOG_INFO("Calling minimiser to begin the estimation with the " << i + 1 << "st/nd/nth set of values");
+    run_mode_ = RunMode::kEstimation;
 
-  if (use_values) {
-    estimable_values = estimables->GetValues(i);
-    if (estimable_values.size() == 0)
-      LOG_CODE_ERROR("estimable_values.size() == 0");
+    if (use_values) {
+      estimable_values = estimables->GetValues(i);
+      if (estimable_values.size() == 0)
+        LOG_CODE_ERROR("estimable_values.size() == 0");
 
-    vector<EstimatePtr> estimates = estimates::Manager::Instance().GetEnabled();
-    for (EstimatePtr estimate : estimates) {
-      estimate->set_value(estimable_values[estimate->label()]);
-      cout << "** setting new estimate value: " << estimate->label() << " = " << estimate->value() << endl;
+      vector<EstimatePtr> estimates = estimates::Manager::Instance().GetEnabled();
+      for (EstimatePtr estimate : estimates) {
+        estimate->set_value(estimable_values[estimate->label()]);
+        cout << "** setting new estimate value: " << estimate->label() << " = " << estimate->value() << endl;
+      }
     }
-  }
 
-  MinimiserPtr minimiser = minimisers::Manager::Instance().active_minimiser();
-  minimiser->Execute();
+    MinimiserPtr minimiser = minimisers::Manager::Instance().active_minimiser();
+    minimiser->Execute();
 
-  LOG_INFO("Model: State change to Iteration Complete")
-  reports::Manager::Instance().Execute(State::kIterationComplete);
+    run_mode_ = RunMode::kBasic;
+    FullIteration();
 
-  run_mode_ = RunMode::kBasic;
-  FullIteration();
+    LOG_INFO("Model: State change to Iteration Complete")
+    reports::Manager::Instance().Execute(State::kIterationComplete);
   }
 }
 

@@ -61,6 +61,7 @@ void CommandLineParser::Parse(int argc, const char* argv[]) {
     ("simulation,s", value<unsigned>(), "Simulation mode (arg = number of candidates)")
     ("projection,f", "Projection mode")
     ("input,i", value<string>(), "Load free parameter values from file")
+    ("fi", "Force the input file to only allow @estimate parameters (basic run mode only)")
     ("seed,g", value<int>(), "Random number seed")
     ("query,q", value<string>(), "Query an object type to see it's description and parameters")
     ("debug,d", "Run in debug mode (with debug output");
@@ -92,6 +93,8 @@ void CommandLineParser::Parse(int argc, const char* argv[]) {
     global_config->set_config_file(parameters["config"].as<string>());
   if (parameters.count("input"))
     global_config->set_estimable_value_file(parameters["input"].as<string>());
+  if (parameters.count("fi"))
+    global_config->set_force_estimable_values_file();
 
   /**
    * Determine what run mode we should be in. If we're

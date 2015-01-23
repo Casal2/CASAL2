@@ -54,6 +54,7 @@ public:
   vector<string>                GetEstimables() const;
   unsigned                      GetValueCount() const;
   map<string, Double>           GetValues(unsigned index) const;
+  void                          LoadValues(unsigned index);
 
 private:
   // methods
@@ -61,6 +62,7 @@ private:
 
   // members
   map<string, vector<Double>>   estimable_values_;
+  map<string, Double*>          estimables_;
 
 };
 

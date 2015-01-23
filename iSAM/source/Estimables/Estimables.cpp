@@ -12,6 +12,10 @@
 // headers
 #include "Estimables.h"
 
+#include "Estimates/Manager.h"
+#include "GlobalConfiguration/GlobalConfiguration.h"
+#include "Model/Model.h"
+#include "ObjectsFinder/ObjectsFinder.h"
 #include "Utilities/Logging/Logging.h"
 
 // namespaces
@@ -69,5 +73,45 @@ map<string, Double> Estimables::GetValues(unsigned index) const {
 
   return result;
 }
+
+/**
+ *
+ */
+void Estimables::LoadValues(unsigned index) {
+  /**
+   * load our estimables if they haven't been loaded already
+   */
+  if (estimables_.size() == 0) {
+    for (auto iter : estimable_values_) {
+      Double* ptr = objects::FindEstimable(iter.first);
+      if (ptr == 0)
+        LOG_ERROR("The estimable " << iter.first << " was defined in the estimable's input value file but was not registered in the model");
+      estimables_[iter.first] = ptr;
+    }
+
+    /**
+     * Verify that we're only using @estimate parameters if this has been defined
+     */
+    if (Model::Instance()->run_mode() == RunMode::kBasic && GlobalConfiguration::Instance()->get_force_estimable_values_file()) {
+      vector<EstimatePtr> estimates = estimates::Manager::Instance().GetEnabled();
+      for (EstimatePtr estimate : estimates) {
+        if (estimable_values_.find(estimate->label()) == estimable_values_.end())
+          LOG_ERROR("The estimate " << estimate->label() << " has not been defined in the input file, even though force-estimates has been enabled");
+      }
+
+      if (estimates.size() != estimable_values_.size())
+        LOG_ERROR("The estimate value file does not have the correct number of estimables defined. Expected " << estimates.size() << " but got " << estimable_values_.size());
+    }
+  }
+
+  for (auto iter : estimables_) {
+    if (index >= estimable_values_[iter.first].size())
+      LOG_CODE_ERROR("index >= estimable_values_[iter.first].size()");
+    (*estimables_[iter.first]) = estimable_values_[iter.first][index];
+  }
+}
+
+
+
 
 } /* namespace niwa */
