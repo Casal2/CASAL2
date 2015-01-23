@@ -50,20 +50,22 @@ public:
   void                        OverrideGlobalValues(const map<string, string>& override_values);
 
   // Accessors and Mutators
-  void                        set_command_line_parameters(vector<string> &parameters) { command_line_parameters_ = parameters; }
-  vector<string>&             command_line_parameters() { return command_line_parameters_; }
-  void                        set_debug_mode(string value) { global_parameters_[PARAM_DEBUG] = value; }
-  bool                        debug_mode();
-  void                        set_random_seed(string value) { global_parameters_[PARAM_RANDOM_NUMBER_SEED] = value; }
-  unsigned                    random_seed();
-  void                        set_config_file(string value) { global_parameters_[PARAM_CONFIG_FILE] = value; }
-  string                      config_file() { return global_parameters_[PARAM_CONFIG_FILE]; }
-  void                        set_skip_config_file(string value) { global_parameters_[PARAM_SKIP_CONFIG_FILE] = value; }
-  bool                        skip_config_file();
-  void                        set_simulation_candidates(unsigned value) { simulation_candidates_ = value; }
-  unsigned                    simulation_candidates() const { return simulation_candidates_; }
-  void                        set_estimable_value_file(string value) { global_parameters_[PARAM_ESTIMABLE_VALUE_FILE] = value; }
-  string                      estimable_value_file() { return global_parameters_[PARAM_ESTIMABLE_VALUE_FILE]; }
+  void                  set_command_line_parameters(vector<string> &parameters) { command_line_parameters_ = parameters; }
+  vector<string>&       command_line_parameters() { return command_line_parameters_; }
+  void                  set_debug_mode(string value) { global_parameters_[PARAM_DEBUG] = value; }
+  bool                  debug_mode();
+  void                  set_random_seed(string value) { global_parameters_[PARAM_RANDOM_NUMBER_SEED] = value; }
+  unsigned              random_seed();
+  void                  set_config_file(string value) { global_parameters_[PARAM_CONFIG_FILE] = value; }
+  string                config_file() { return global_parameters_[PARAM_CONFIG_FILE]; }
+  void                  set_skip_config_file(string value) { global_parameters_[PARAM_SKIP_CONFIG_FILE] = value; }
+  bool                  skip_config_file();
+  void                  set_simulation_candidates(unsigned value) { simulation_candidates_ = value; }
+  unsigned              simulation_candidates() const { return simulation_candidates_; }
+  void                  set_estimable_value_file(string value) { global_parameters_[PARAM_ESTIMABLE_VALUE_FILE] = value; }
+  string                estimable_value_file() { return global_parameters_[PARAM_ESTIMABLE_VALUE_FILE]; }
+  void                  set_force_estimable_values_file() { global_parameters_[PARAM_FORCE_ESTIMABLE_VALUES_FILE] = "t"; }
+  bool                  get_force_estimable_values_file();
 
 private:
   // Methods

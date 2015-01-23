@@ -23,10 +23,11 @@ namespace niwa {
  */
 GlobalConfiguration::GlobalConfiguration() {
 
-  global_parameters_[PARAM_DEBUG]                = "f";
-  global_parameters_[PARAM_SKIP_CONFIG_FILE]     = "f";
-  global_parameters_[PARAM_CONFIG_FILE]          = "isam.txt";
-  global_parameters_[PARAM_RANDOM_NUMBER_SEED]   = "123";
+  global_parameters_[PARAM_DEBUG]                       = "f";
+  global_parameters_[PARAM_SKIP_CONFIG_FILE]            = "f";
+  global_parameters_[PARAM_CONFIG_FILE]                 = "isam.txt";
+  global_parameters_[PARAM_RANDOM_NUMBER_SEED]          = "123";
+  global_parameters_[PARAM_FORCE_ESTIMABLE_VALUES_FILE] = "f";
 }
 
 /**
@@ -99,9 +100,23 @@ void GlobalConfiguration::OverrideGlobalValues(const map<string, string>& overri
 
 /**
  * Get the random number seed from our global configuration
+ *
+ * @return The random number seed for the system
  */
 unsigned GlobalConfiguration::random_seed() {
   return util::ToInline<string, unsigned>(global_parameters_[PARAM_RANDOM_NUMBER_SEED]);
+}
+
+/**
+ * Return if we are forcing the estimable values file to only allow @estimate
+ * defined objects or not.
+ */
+bool GlobalConfiguration::get_force_estimable_values_file() {
+  bool result;
+  if (!util::To<bool>(global_parameters_[PARAM_FORCE_ESTIMABLE_VALUES_FILE], result))
+    LOG_CODE_ERROR("!util::To<string, bool>(global_parameters_[PARAM_FORCE_ESTIMABLE_VALUES_FILE], result): '" << global_parameters_[PARAM_FORCE_ESTIMABLE_VALUES_FILE] << "'");
+
+  return result;
 }
 
 } /* namespace niwa */

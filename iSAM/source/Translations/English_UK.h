@@ -194,6 +194,7 @@
 #define PARAM_FILE_NAME                           "file_name"
 #define PARAM_FINAL_YEAR                          "final_year"
 #define PARAM_FLAGGED_PENALTIES                   "flagged_penalties"
+#define PARAM_FORCE_ESTIMABLE_VALUES_FILE         "force_estimable_values_file"
 #define PARAM_FREE                                "free"
 #define PARAM_FROM                                "from"
 #define PARAM_FUNCTION                            "function"

@@ -124,7 +124,7 @@ inline bool To(const ::std::string arg, bool &result) {
   }
 
   return false;
-};
+}
 
 /**
  * This is a method of converting from a known type to another
@@ -141,10 +141,6 @@ bool To(const Source& arg, Target& result) {
   return true;
 }
 
-/**
- * This method will do an inline conversion and return
- * the result instead of loading a parameter with it.
- */
 template<typename Source, typename Target>
 Target ToInline(const Source arg) {
   Target result;
@@ -156,6 +152,8 @@ Target ToInline(const Source arg) {
   }
   return result;
 }
+
+
 
 } /* namespace utilities */
 } /* namespace niwa */
