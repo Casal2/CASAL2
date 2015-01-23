@@ -103,6 +103,8 @@ protected:
   vector<string>              initialisation_phases_;
   vector<string>              time_steps_;
   CatchabilityManagerPtr      catchability_manager_;
+  bool                        estimable_values_file_ = false;
+  unsigned                    estimable_values_count_ = 1;
 
   map<State::Type, vector<ExecutorPtr>> executors_;
 };

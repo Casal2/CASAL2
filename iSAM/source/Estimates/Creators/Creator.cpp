@@ -238,6 +238,8 @@ niwa::EstimatePtr Creator::CreateEstimate(string label, unsigned index, Double* 
     estimate->parameters().Get(PARAM_LABEL)->set_value(label);
   if (update_parameter_)
     estimate->parameters().Get(PARAM_PARAMETER)->set_value(label);
+  estimate->set_creator_parameter(parameter_);
+
   return estimate;
 }
 

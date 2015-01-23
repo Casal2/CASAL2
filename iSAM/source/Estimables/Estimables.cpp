@@ -92,7 +92,7 @@ void Estimables::LoadValues(unsigned index) {
     /**
      * Verify that we're only using @estimate parameters if this has been defined
      */
-    if (Model::Instance()->run_mode() == RunMode::kBasic && GlobalConfiguration::Instance()->get_force_estimable_values_file()) {
+    if (GlobalConfiguration::Instance()->get_force_estimable_values_file()) {
       vector<EstimatePtr> estimates = estimates::Manager::Instance().GetEnabled();
       for (EstimatePtr estimate : estimates) {
         if (estimable_values_.find(estimate->label()) == estimable_values_.end())

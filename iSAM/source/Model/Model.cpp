@@ -291,7 +291,11 @@ void Model::Build() {
   simulates::Manager::Instance().Build();
   sizeweights::Manager::Instance().Build();
 
-//  Partition::Instance().CalculateMeanWeights();
+  EstimablesPtr estimables = Estimables::Instance();
+  if (estimables->GetValueCount() > 0) {
+    estimable_values_file_ = true;
+    estimable_values_count_ = estimables->GetValueCount();
+  }
 }
 
 /**
@@ -338,16 +342,11 @@ void Model::Reset() {
  */
 void Model::RunBasic() {
   LOG_TRACE();
-
   EstimablesPtr estimables = Estimables::Instance();
-  unsigned value_count = 1;
-  bool use_values = estimables->GetValueCount() > 0;
-  if (use_values)
-    value_count = estimables->GetValueCount();
 
   // Model is about to run
-  for (unsigned i = 0; i < value_count; ++i) {
-    if (use_values)
+  for (unsigned i = 0; i < estimable_values_count_; ++i) {
+    if (estimable_values_file_)
       estimables->LoadValues(i);
 
     LOG_INFO("Model: State change to PreExecute");
@@ -373,6 +372,8 @@ void Model::RunBasic() {
  * Run the model in estimation mode.
  */
 void Model::RunEstimation() {
+  GlobalConfiguration::Instance()->set_force_estimable_values_file();
+
   /*
    * Before running the model in estimation mode we'll do an iteration
    * as a basic model. We don't call any reports though.
@@ -381,27 +382,13 @@ void Model::RunEstimation() {
   Iterate();
 
   EstimablesPtr estimables = Estimables::Instance();
-  unsigned value_count = 1;
-  bool use_values = estimables->GetValueCount() > 0;
-  if (use_values)
-    value_count = estimables->GetValueCount();
-
   map<string, Double> estimable_values;
-  for (unsigned i = 0; i < value_count; ++i) {
+  for (unsigned i = 0; i < estimable_values_count_; ++i) {
+    if (estimable_values_file_)
+      estimables->LoadValues(i);
+
     LOG_INFO("Calling minimiser to begin the estimation with the " << i + 1 << "st/nd/nth set of values");
     run_mode_ = RunMode::kEstimation;
-
-    if (use_values) {
-      estimable_values = estimables->GetValues(i);
-      if (estimable_values.size() == 0)
-        LOG_CODE_ERROR("estimable_values.size() == 0");
-
-      vector<EstimatePtr> estimates = estimates::Manager::Instance().GetEnabled();
-      for (EstimatePtr estimate : estimates) {
-        estimate->set_value(estimable_values[estimate->label()]);
-        cout << "** setting new estimate value: " << estimate->label() << " = " << estimate->value() << endl;
-      }
-    }
 
     MinimiserPtr minimiser = minimisers::Manager::Instance().active_minimiser();
     minimiser->Execute();
@@ -436,33 +423,47 @@ void Model::RunMCMC() {
  *
  */
 void Model::RunProfiling() {
-  LOG_INFO("Doing pre-profile iteration of the model");
-  Iterate();
+  GlobalConfiguration::Instance()->set_force_estimable_values_file();
 
-  LOG_INFO("Entering the Profiling Sub-System");
-  estimates::Manager& estimate_manager = estimates::Manager::Instance();
-  MinimiserPtr minimiser = minimisers::Manager::Instance().active_minimiser();
+  EstimablesPtr estimables = Estimables::Instance();
 
-  vector<ProfilePtr> profiles = profiles::Manager::Instance().GetObjects();
-  LOG_INFO("Working with " << profiles.size() << " profiles");
-  for (ProfilePtr profile : profiles) {
-    LOG_INFO("Disabling estiSmate: " << profile->parameter());
-    estimate_manager.DisableEstimate(profile->parameter());
+  map<string, Double> estimable_values;
+  for (unsigned i = 0; i < estimable_values_count_; ++i) {
+    if (estimable_values_file_)
+      estimables->LoadValues(i);
 
-    LOG_INFO("First-Stepping profile");
-    profile->FirstStep();
-    for (unsigned i = 0; i < profile->steps() + 2; ++i) {
-      LOG_INFO("Calling minimiser to begin the estimation (profling)");
-      minimiser->Execute();
+    LOG_INFO("Doing pre-profile iteration of the model");
+    Iterate();
 
-      LOG_INFO("Model: State change to Iteration Complete")
-      reports::Manager::Instance().Execute(State::kIterationComplete);
+    LOG_INFO("Entering the Profiling Sub-System");
+    estimates::Manager& estimate_manager = estimates::Manager::Instance();
+    MinimiserPtr minimiser = minimisers::Manager::Instance().active_minimiser();
 
-      profile->NextStep();
+    vector<ProfilePtr> profiles = profiles::Manager::Instance().GetObjects();
+    LOG_INFO("Working with " << profiles.size() << " profiles");
+    for (ProfilePtr profile : profiles) {
+      LOG_INFO("Disabling estiSmate: " << profile->parameter());
+      estimate_manager.DisableEstimate(profile->parameter());
+
+      LOG_INFO("First-Stepping profile");
+      profile->FirstStep();
+      for (unsigned i = 0; i < profile->steps() + 2; ++i) {
+        LOG_INFO("Calling minimiser to begin the estimation (profling)");
+        minimiser->Execute();
+
+        run_mode_ = RunMode::kBasic;
+        FullIteration();
+
+        LOG_INFO("Model: State change to Iteration Complete")
+        reports::Manager::Instance().Execute(State::kIterationComplete);
+
+        run_mode_ = RunMode::kProfiling;
+        profile->NextStep();
+      }
+      profile->RestoreOriginalValue();
+
+      estimate_manager.EnableEstimate(profile->parameter());
     }
-    profile->RestoreOriginalValue();
-
-    estimate_manager.EnableEstimate(profile->parameter());
   }
 }
 
