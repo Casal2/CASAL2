@@ -24,7 +24,6 @@
 
 // Headers
 #include "BaseClasses/Object.h"
-#include "Estimates/Info.h"
 #include "Estimates/Transformations/Transformation.h"
 #include "Utilities/Types.h"
 
@@ -52,9 +51,9 @@ public:
   virtual Double              GetScore() = 0;
 
   // Accessors
-  void                        set_parent_info(estimates::EstimateInfoPtr parent_info) { parent_info_ = parent_info; }
-  estimates::EstimateInfoPtr  parent_info() const { return parent_info_; }
   void                        set_target(Double* new_target) { target_ = new_target; };
+  void                        set_creator_parameter(const string& parameter) { creator_parameter_ = parameter; }
+  string                      creator_parameter() const { return creator_parameter_; }
   string                      parameter() const { return parameter_; }
   Double                      lower_bound() const { return lower_bound_; }
   Double                      upper_bound() const { return upper_bound_; }
@@ -68,6 +67,7 @@ protected:
   // Members
   Double*                     target_ = 0;
   string                      parameter_;
+  string                      creator_parameter_;
   Double                      lower_bound_;
   Double                      upper_bound_;
   bool                        mcmc_fixed_;
@@ -76,7 +76,6 @@ protected:
   vector<string>              same_labels;
   vector<Double*>             sames_;
   bool                        enabled_ = true;
-  estimates::EstimateInfoPtr  parent_info_;
   vector<string>              transformation_details_;
   estimates::TransformationPtr  transformation_;
 };

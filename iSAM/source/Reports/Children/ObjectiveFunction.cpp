@@ -43,7 +43,6 @@ void ObjectiveFunction::DoExecute() {
   }
 
   cache_ << PARAM_TOTAL_SCORE << ": " << AS_DOUBLE(obj_function.score()) << "\n";
-  cache_ << CONFIG_END_REPORT << "\n" << endl;
   ready_for_writing_ = true;
 }
 

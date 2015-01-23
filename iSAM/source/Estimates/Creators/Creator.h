@@ -15,6 +15,8 @@
 #define ESTIMATES_CREATOR_H_
 
 // headers
+#include <boost/enable_shared_from_this.hpp>
+
 #include "BaseClasses/Object.h"
 #include "Estimates/Estimate.h"
 
@@ -27,12 +29,15 @@ class Manager;
 /**
  *
  */
-class Creator : public niwa::base::Object {
+class Creator : public niwa::base::Object, public boost::enable_shared_from_this<Creator> {
 public:
   // methods
   Creator();
   virtual                     ~Creator() = default;
   void                        CreateEstimates();
+
+  // accessors
+  string                      parameter() const { return parameter_; }
 
 protected:
   // methods

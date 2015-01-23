@@ -119,14 +119,13 @@ void Manager::RemoveAllObjects() {
  * @return True if found, false otherwise
  */
 bool Manager::HasEstimate(const string& parameter) {
-
   for (EstimatePtr estimate : objects_) {
-    if (estimate->parent_info()->parameters().Get(PARAM_PARAMETER)->values()[0] == parameter)
+    if (estimate->parameter() == parameter)
       return true;
   }
 
   for (EstimatePtr estimate : objects_) {
-    if (estimate->parameter() == parameter)
+    if (estimate->creator_parameter() == parameter)
       return true;
   }
 
@@ -141,7 +140,7 @@ bool Manager::HasEstimate(const string& parameter) {
  */
 void Manager::EnableEstimate(const string& parameter) {
   for (EstimatePtr estimate : objects_) {
-    if (estimate->parent_info()->parameters().Get(PARAM_PARAMETER)->values()[0] == parameter)
+    if (estimate->creator_parameter() == parameter)
       estimate->set_enabled(true);
     else if (estimate->parameter() == parameter)
       estimate->set_enabled(true);
@@ -156,7 +155,7 @@ void Manager::EnableEstimate(const string& parameter) {
  */
 void Manager::DisableEstimate(const string& parameter) {
   for (EstimatePtr estimate : objects_) {
-    if (estimate->parent_info()->parameters().Get(PARAM_PARAMETER)->values()[0] == parameter)
+    if (estimate->creator_parameter() == parameter)
       estimate->set_enabled(false);
     else if (estimate->parameter() == parameter)
       estimate->set_enabled(false);
