@@ -29,6 +29,7 @@ namespace processes {
  * Default constructor
  */
 TransitionCategoryByAge::TransitionCategoryByAge() {
+  process_type_ = ProcessType::kTransition;
   n_table_ = TablePtr(new parameters::Table(PARAM_N));
 
   parameters_.Bind<string>(PARAM_FROM, &from_category_labels_, "Categories to transition from", "");

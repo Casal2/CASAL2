@@ -86,7 +86,7 @@ void RecruitmentBevertonHolt::DoValidate() {
    * Calculate out SSB offset
    */
   if (!parameters_.Get(PARAM_SSB_OFFSET)->has_been_defined()) {
-    vector<ProcessType::Type> process_types = timesteps::Manager::Instance().GetOrderedProcessTypes();
+    vector<ProcessType> process_types = timesteps::Manager::Instance().GetOrderedProcessTypes();
     unsigned ageing_index = std::numeric_limits<unsigned>::max();
     unsigned recruitment_index = std::numeric_limits<unsigned>::max();
     unsigned derived_quantity_index = timesteps::Manager::Instance().GetTimeStepIndex(derived_quantity_->time_step());
