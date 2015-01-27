@@ -35,7 +35,7 @@ public:
   unsigned                    GetTimeStepIndexForProcess(const string& process_label) const;
   unsigned                    GetTimeStepCountForProcess(const string& process_label) const;
   vector<unsigned>            GetTimeStepIndexesForProcess(const string& process_label) const;
-  vector<ProcessType::Type>   GetOrderedProcessTypes();
+  vector<ProcessType>         GetOrderedProcessTypes();
 
   // accessors
   const vector<TimeStepPtr>&  time_steps() const { return ordered_time_steps_; }

@@ -99,8 +99,8 @@ vector<unsigned> Manager::GetTimeStepIndexesForProcess(const string& process_lab
  *
  * @return Vector of ProcessType::Types for all processes executed.
  */
-vector<ProcessType::Type> Manager::GetOrderedProcessTypes() {
-  vector<ProcessType::Type> types;
+vector<ProcessType> Manager::GetOrderedProcessTypes() {
+  vector<ProcessType> types;
   for (TimeStepPtr time_step : ordered_time_steps_) {
     for (ProcessPtr process : time_step->processes()) {
       types.push_back(process->process_type());
