@@ -1,23 +1,18 @@
 /**
- * @file Project.h
- * @author  Scott Rasmussen (scott.rasmussen@zaita.com)
- * @date 28/05/2014
+ * @file TimeVarying.h
+ * @author Scott Rasmussen (scott.rasmussen@zaita.com)
+ * @github https://github.com/Zaita
+ * @date 27/01/2015
  * @section LICENSE
  *
  * Copyright NIWA Science ©2014 - www.niwa.co.nz
  *
  * @section DESCRIPTION
  *
- * A project(ion) value is an estimable in the system that has it's value changed
- * dynamically through future models of the year.
- *
- * This object supports 3 different types of Estimables
- * 1. A single double
- * 2. A vector of doubles (where it will add a value to the end)
- * 3. A map indexed by unsigned (years)
+ * << Add Description >>
  */
-#ifndef PROJECT_H_
-#define PROJECT_H_
+#ifndef TIMEVARYING_H_
+#define TIMEVARYING_H_
 
 // headers
 #include <boost/shared_ptr.hpp>
@@ -25,21 +20,22 @@
 #include "BaseClasses/Object.h"
 #include "Model/Model.h"
 
+
 // namespaces
 namespace niwa {
 
 /**
- * Class definition
+ *
  */
-class Project : public niwa::base::Object {
-  typedef void (Project::*UpdateFunction)(Double);
+class TimeVarying : public niwa::base::Object {
+  typedef void (TimeVarying::*UpdateFunction)(Double);
 public:
   // methods
-  Project();
-  virtual                     ~Project() = default;
+  TimeVarying();
+  virtual                     ~TimeVarying() = default;
   void                        Validate();
   void                        Build();
-  void                        Reset() { DoReset(); };
+  void                        Reset() { };
   void                        Update(unsigned current_year);
 
 protected:
@@ -69,11 +65,8 @@ protected:
   Double*                     estimable_ = 0;
 };
 
-/**
- * Typedef
- */
-typedef boost::shared_ptr<Project> ProjectPtr;
+typedef boost::shared_ptr<TimeVarying> TimeVaryingPtr;
 
 } /* namespace niwa */
 
-#endif /* PROJECT_H_ */
+#endif /* TIMEVARYING_H_ */

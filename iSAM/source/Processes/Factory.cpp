@@ -22,6 +22,7 @@
 #include "Processes/Children/MortalityEventBiomass.h"
 #include "Processes/Children/RecruitmentBevertonHolt.h"
 #include "Processes/Children/RecruitmentConstant.h"
+#include "Processes/Children/TagByAge.h"
 #include "Processes/Children/TransitionCategoryByAge.h"
 
 // Namespaces
@@ -73,6 +74,8 @@ ProcessPtr Factory::Create(string object_type, string sub_type) {
       result = ProcessPtr(new MortalityEvent());
     else if (sub_type == PARAM_MORTALITY_EVENT_BIOMASS)
       result = ProcessPtr(new MortalityEventBiomass());
+    else if (sub_type == PARAM_TAG_BY_AGE)
+      result = ProcessPtr(new TagByAge());
     else if (sub_type == PARAM_TRANSITION_CATEGORY_BY_AGE)
       result = ProcessPtr(new TransitionCategoryByAge());
 
