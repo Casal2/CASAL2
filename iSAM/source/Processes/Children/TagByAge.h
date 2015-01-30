@@ -41,26 +41,30 @@ public:
 
 private:
   // members
-  vector<unsigned>              years_;
+  ModelPtr                      model_;
   vector<string>                from_category_labels_;
   vector<string>                to_category_labels_;
-  vector<string>                selectivity_labels_;
-  vector<SelectivityPtr>        selectivities_;
-  string                        penalty_label_;
-  PenaltyPtr                    penalty_;
-  unsigned                      min_age_;
-  unsigned                      max_age_;
-  bool                          age_plus_;
-  Double                        u_max_;
-  Double                        initial_mortality_;
-  Double                        constant_loss_rate_;
-  vector<unsigned>              tag_loss_years_;
-  vector<Double>                tag_loss_rate_;
-  parameters::TablePtr          n_table_;
-  map<unsigned, vector<Double>> n_;
   accessor::Categories          to_partition_;
   accessor::Categories          from_partition_;
-  ModelPtr                      model_;
+  vector<unsigned>              years_;
+  unsigned                      min_age_;
+  unsigned                      max_age_;
+  vector<string>                selectivity_labels_;
+  map<string, SelectivityPtr>   selectivities_;
+  string                        penalty_label_;
+  PenaltyPtr                    penalty_;
+  Double                        u_max_;
+  Double                        initial_mortality_;
+  string                        initial_mortality_selectivity_label_;
+  SelectivityPtr                initial_mortality_selectivity_;
+  vector<Double>                loss_rate_;
+  vector<unsigned>              loss_rate_years_;
+  map<unsigned, Double>         loss_rate_by_year_;
+  Double                        n_;
+  parameters::TablePtr          numbers_table_;
+  parameters::TablePtr          proportions_table_;
+  unsigned                      first_year_;
+  map<unsigned, vector<Double>> numbers_;
 };
 
 } /* namespace processes */

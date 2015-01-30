@@ -32,6 +32,7 @@
 #include "Selectivities/Factory.h"
 #include "SizeWeights/Factory.h"
 #include "TimeSteps/Factory.h"
+#include "TimeVarying/Factory.h"
 #include "Utilities/To.h"
 
 // namespaces
@@ -106,6 +107,8 @@ base::ObjectPtr Object::Create(string& object_type, string& sub_type) {
     result = sizeweights::Factory::Create(object_type, sub_type);
   else if (object_type == PARAM_TIME_STEP || object_type == PARAM_TIME_STEPS)
     result = timesteps::Factory::Create();
+  else if (object_type == PARAM_TIME_VARYING)
+    result = timevarying::Factory::Create(object_type, sub_type);
 
   return result;
 }

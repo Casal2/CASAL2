@@ -46,6 +46,7 @@ public:
   string                      file_name() const { return file_name_; }
   void                        set_line_number(const unsigned& line_number) { line_number_ = line_number; }
   unsigned                    line_number() const { return line_number_; }
+  unsigned                    row_count() const { return data_.size(); }
   const vector<string>&       columns() { return columns_; }
   vector<vector<string>>&     data() { return data_; }
   string                      location() const;

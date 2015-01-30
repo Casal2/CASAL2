@@ -38,6 +38,7 @@
 #include "Simulates/Manager.h"
 #include "SizeWeights/Manager.h"
 #include "TimeSteps/Manager.h"
+#include "TimeVarying/Manager.h"
 #include "ObjectiveFunction/ObjectiveFunction.h"
 
 #include "Partition/Accessors/Category.h"
@@ -243,6 +244,7 @@ void Model::Validate() {
   simulates::Manager::Instance().Validate();
   sizeweights::Manager::Instance().Validate();
   timesteps::Manager::Instance().Validate();
+  timevarying::Manager::Instance().Validate();
 
   // Final Objects to validate as they have dependencies
   estimates::Manager::Instance().Validate();
@@ -290,6 +292,7 @@ void Model::Build() {
   selectivities::Manager::Instance().Build();
   simulates::Manager::Instance().Build();
   sizeweights::Manager::Instance().Build();
+  timevarying::Manager::Instance().Build();
 
   EstimablesPtr estimables = Estimables::Instance();
   if (estimables->GetValueCount() > 0) {
@@ -335,6 +338,7 @@ void Model::Reset() {
   simulates::Manager::Instance().Reset();
   sizeweights::Manager::Instance().Reset();
   timesteps::Manager::Instance().Reset();
+  timevarying::Manager::Instance().Reset();
 }
 
 /**
@@ -495,10 +499,12 @@ void Model::RunSimulation() {
 
     state_ = State::kExecute;
     timesteps::Manager& time_step_manager = timesteps::Manager::Instance();
+    timevarying::Manager& time_varying_manager = timevarying::Manager::Instance();
     for (current_year_ = start_year_; current_year_ <= final_year_; ++current_year_, current_year_index_ = current_year_ - start_year_) {
       LOG_INFO("Iteration year: " << current_year_);
-      time_step_manager.Execute(current_year_);
+      time_varying_manager.Update(current_year_);
       simulates::Manager::Instance().Update(current_year_);
+      time_step_manager.Execute(current_year_);
     }
 
     observations::Manager::Instance().CalculateScores();
@@ -523,8 +529,10 @@ void Model::RunProjection() {
 
   state_ = State::kExecute;
   timesteps::Manager& time_step_manager = timesteps::Manager::Instance();
+  timevarying::Manager& time_varying_manager = timevarying::Manager::Instance();
   for (current_year_ = start_year_; current_year_ <= final_year_; ++current_year_) {
     LOG_INFO("Iteration year: " << current_year_);
+    time_varying_manager.Update(current_year_);
     time_step_manager.Execute(current_year_);
   }
 
@@ -532,6 +540,7 @@ void Model::RunProjection() {
   projects::Manager& project_manager = projects::Manager::Instance();
   for (; current_year_ <= projection_final_year_; ++current_year_) {
     LOG_INFO("Iteration year: " << current_year_);
+    time_varying_manager.Update(current_year_);
     project_manager.Update(current_year_);
     time_step_manager.Execute(current_year_);
   }
@@ -558,8 +567,10 @@ void Model::Iterate() {
 
   state_ = State::kExecute;
   timesteps::Manager& time_step_manager = timesteps::Manager::Instance();
+  timevarying::Manager& time_varying_manager = timevarying::Manager::Instance();
   for (current_year_ = start_year_; current_year_ <= final_year_; ++current_year_, current_year_index_ = current_year_ - start_year_) {
     LOG_INFO("Iteration year: " << current_year_);
+    time_varying_manager.Update(current_year_);
     time_step_manager.Execute(current_year_);
   }
 
