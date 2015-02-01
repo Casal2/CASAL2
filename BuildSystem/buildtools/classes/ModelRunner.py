@@ -49,4 +49,5 @@ class ModelRunner:
     print 'Failed Models: ' + str(fail_count)
     if fail_count > 0:
       print 'Please check the run.log file in each of the failed model directories'
+      return False
     return True
