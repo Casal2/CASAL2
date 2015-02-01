@@ -36,7 +36,7 @@ void ObjectiveFunction::DoBuild() {
  */
 void ObjectiveFunction::Execute() {
   niwa::ObjectiveFunction& obj = niwa::ObjectiveFunction::Instance();
-  if (abs(value_ - obj.score()) > 1e-9)
+  if (abs(AS_DOUBLE(value_) - AS_DOUBLE(obj.score())) > 1e-9)
     LOG_ERROR("Assert Failure: Objective Function had actual value " << obj.score() << " when we expected " << value_
         << " with difference: " << abs(AS_DOUBLE(value_) - AS_DOUBLE(obj.score())));
 }
