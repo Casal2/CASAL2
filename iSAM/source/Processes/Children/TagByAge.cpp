@@ -12,6 +12,7 @@
 // headers
 #include "TagByAge.h"
 
+#include "Categories/Categories.h"
 #include "Selectivities/Manager.h"
 #include "Penalties/Manager.h"
 #include "Utilities/DoubleCompare.h"
@@ -40,9 +41,10 @@ TagByAge::TagByAge() {
   parameters_.Bind<string>(PARAM_INITIAL_MORTALITY_SELECTIVITY, &initial_mortality_selectivity_label_, "", "", "");
   parameters_.Bind<Double>(PARAM_LOSS_RATE, &loss_rate_, "", "");
   parameters_.Bind<unsigned>(PARAM_LOSS_RATE_YEARS, &loss_rate_years_, "", "", true);
+//  parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_labels_, "", "");
   parameters_.Bind<Double>(PARAM_N, &n_, "", "", Double(0));
-  parameters_.BindTable(PARAM_NUMBERS, numbers_table_, "Table of N data", "", true);
-  parameters_.BindTable(PARAM_PROPORTIONS, proportions_table_, "Table of proportions to move", "" , true);
+  parameters_.BindTable(PARAM_NUMBERS, numbers_table_, "Table of N data", "", true, true);
+  parameters_.BindTable(PARAM_PROPORTIONS, proportions_table_, "Table of proportions to move", "" , true, true);
 
   model_ = Model::Instance();
 }
@@ -63,6 +65,10 @@ void TagByAge::DoValidate() {
     LOG_ERROR(parameters_.location(PARAM_MAX_AGE) << " (" << max_age_ << ") is greater than the model's maximum age (" << model_->max_age() << ")");
 
   unsigned age_spread = (max_age_ - min_age_) + 1;
+
+  niwa::CategoriesPtr categories = niwa::Categories::Instance();
+  from_category_labels_ = categories->ExpandLabels(from_category_labels_, parameters_.Get(PARAM_FROM));
+  to_category_labels_   = categories->ExpandLabels(to_category_labels_, parameters_.Get(PARAM_TO));
 
   /**
    * Get our first year
@@ -261,7 +267,7 @@ void TagByAge::DoExecute() {
       if (current <= 0.0)
         continue;
 
-      Double current_with_mortality = current * initial_mortality_;
+      Double current_with_mortality = current - (current * initial_mortality_);
       LOG_INFO("current_with_mortality: " << current_with_mortality);
       if (initial_mortality_selectivity_)
         current_with_mortality *= initial_mortality_selectivity_->GetResult(min_age_ + i);

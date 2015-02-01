@@ -1,0 +1,6 @@
+@report objective
+type objective_function
+
+@assert objective
+type objective_function
+value 15045.1

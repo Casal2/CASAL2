@@ -26,7 +26,9 @@ class SystemInfo:
     if (Globals.operating_system_ == "win32"):
       Globals.path_ += cwd + '\\buildtools\\windows\\unixutils;'
       Globals.path_ += cwd + '\\buildtools\\windows\\cmake\\bin;'   
-      Globals.path_ += cwd + '\\buildtools\\windows\\Python27\\;'   
+      Globals.path_ += cwd + '\\buildtools\\windows\\Python27\\;'
+    print '-- Adding Debug iSAM.exe to path'
+    Globals.path_ += cwd + '\\bin\\' + Globals.operating_system_ + '\\debug;'
     
   def set_new_path(self):
     print "-- Overriding the system path with new values"
