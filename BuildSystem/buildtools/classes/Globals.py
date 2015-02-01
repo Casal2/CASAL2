@@ -18,7 +18,7 @@ target_debug_lib_path_   = ""
 target_release_lib_path_ = ""
 target_special_lig_path_ = ""
 
-allowed_build_targets_ = [ "debug", "release", "documentation", "thirdparty", "test", "archive", "all", "clean", "cleanall", "help", "check" ]
+allowed_build_targets_ = [ "debug", "release", "documentation", "thirdparty", "test", "archive", "all", "clean", "cleanall", "help", "check", "modelrunner" ]
 allowed_build_types_ = [ "debug", "release", "test" ]
 allowed_build_parameters_ = [ "", "adolc", "betadiff", "cppad" ]
 

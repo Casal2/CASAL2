@@ -12,6 +12,7 @@ from Globals import *
 from Builder import *
 from Documentation import *
 from Archiver import *
+from ModelRunner import *
 
 """
 Print the usage for this build system
@@ -35,12 +36,15 @@ def print_usage():
   print '  cleanall - Remove all previous build information'
   print '  archive - Build a zipped archive of the application'
   print '  check - Do a check of the build system'
+  print '  modelrunner - Run the test suite of models'
   print ''
   print 'Valid Build Parameters: (thirdparty only)'
   print '  <libary name> - Target third party library to build or rebuild'
   print ''
   print 'Valid Build parameters: (debug/release only)'
   print '  adolc - Use ADOLC auto-differentiation in compiled executable'
+  print '  betadiff - Use BetaDiff auto-differentiation (from CASAL)'
+  print '  cppad - Use CppAD auto-differentiation'
   return True
 
 
@@ -191,6 +195,12 @@ def start():
     print "--> Starting " + Globals.build_target_ + " Build"
     documentation_builder = Documentation()
     documentation_builder.start()
+  elif build_target == "modelrunner":
+    print "*************************************************************************"
+    print "*************************************************************************"
+    print "--> Starting " + Globals.build_target_ + " Build"
+    model_runner = ModelRunner()
+    model_runner.start()
   elif build_target == "clean":
     print "*************************************************************************"
     print "*************************************************************************"
