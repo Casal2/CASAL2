@@ -15,7 +15,7 @@ class ModelRunner:
   Start the documentation builder
   """
   def start(self):
-    binary_name = 'isam'
+    binary_name = 'iSAM'
     if Globals.operating_system_ == 'win32':
       binary_name += '.exe'
     if not os.path.exists('bin/' + Globals.operating_system_ + '/debug/' + binary_name):
