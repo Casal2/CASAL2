@@ -29,7 +29,7 @@ class SystemInfo:
       Globals.path_ += cwd + '\\buildtools\\windows\\Python27\\;'
       Globals.path_ += cwd + '\\bin\\' + Globals.operating_system_ + '\\debug;'
     else:
-      Globals.path_ += cwd + '/bin/' + Globals.operating_system_ + '/debug;'
+      Globals.path_ += cwd + '/bin/' + Globals.operating_system_ + '/debug'
     
   def set_new_path(self):
     print "-- Overriding the system path with new values"
