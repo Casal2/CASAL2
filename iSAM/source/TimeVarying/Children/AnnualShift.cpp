@@ -60,7 +60,7 @@ void AnnualShift::DoBuild() {
 
   for (unsigned year : years_) {
     Double scaled_value = values[year] - (total / scaling_years_.size());
-    values_by_year_[year] = a_ + b_*scaled_value + c_*pow(scaled_value, 2) + d_ * pow(scaled_value, 3);
+    values_by_year_[year] = a_ + b_ * scaled_value + c_ * pow(scaled_value, 2) + d_ * pow(scaled_value, 3);
   }
 }
 
