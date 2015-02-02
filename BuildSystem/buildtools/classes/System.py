@@ -37,8 +37,8 @@ class SystemInfo:
       os.environ['PATH'] = Globals.path_
       print '-- New Path: ' + Globals.path_
     else:
-      os.environ['PATH'] = Globals.path_ + ";" + self.original_path_
-      print '-- New Path: ' + Globals.path_ + ";" + self.original_path_    
+      os.environ['PATH'] = Globals.path_ + ":" + self.original_path_
+      print '-- New Path: ' + Globals.path_ + ":" + self.original_path_    
     
   def reset_original_path(self):
     os.environ['PATH'] = self.original_path_
