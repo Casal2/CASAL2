@@ -34,7 +34,8 @@ class ModelRunner:
         continue
       os.chdir("../TestModels/" + folder)
       start = time.time()
-      if os.system("isam -r > run.log 2>&1") != EX_OK:
+      result = False;
+      if os.system("iSAM -r > run.log 2>&1") != EX_OK:
         elapsed = time.time() - start
         print '[FAILED] - ' + folder + ' in ' + str(round(elapsed, 2)) + ' seconds'
         fail_count += 1
