@@ -12,6 +12,7 @@
 // headers
 #include "Factory.h"
 
+#include "TimeVarying/Children/AnnualShift.h"
 #include "TimeVarying/Children/Constant.h"
 #include "TimeVarying/Manager.h"
 
@@ -31,7 +32,9 @@ TimeVaryingPtr Factory::Create(const string& object_type, const string& sub_type
   TimeVaryingPtr result;
 
   if (object_type == PARAM_TIME_VARYING) {
-    if (sub_type == PARAM_CONSTANT)
+    if (sub_type == PARAM_ANNUAL_SHIFT)
+      result = TimeVaryingPtr(new AnnualShift());
+    else if (sub_type == PARAM_CONSTANT)
       result = TimeVaryingPtr(new Constant());
 
     if (result)
