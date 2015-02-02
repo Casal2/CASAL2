@@ -200,7 +200,8 @@ def start():
     print "*************************************************************************"
     print "--> Starting " + Globals.build_target_ + " Build"
     model_runner = ModelRunner()
-    model_runner.start()
+    if not model_runner.start():
+      return False
   elif build_target == "clean":
     print "*************************************************************************"
     print "*************************************************************************"
