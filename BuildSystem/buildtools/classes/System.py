@@ -62,8 +62,10 @@ class SystemInfo:
     path = path.replace(exe + '\n', '').rstrip()
     print '-- ' + exe + ' found @ ' + path
 
-    if path != "":
+    if path != "" and Globals.operating_system_ == "win32":
       Globals.path_ = path + ";" + Globals.path_
+    elif path != "":
+      Globals.path_ = path + ":" + Globals.path_
 
     os.system('rm -rf err.tmp')      
     if os.system('rm -rf which.tmp') != EX_OK:
