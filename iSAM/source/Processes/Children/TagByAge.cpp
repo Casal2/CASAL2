@@ -40,9 +40,9 @@ TagByAge::TagByAge() {
   parameters_.Bind<Double>(PARAM_INITIAL_MORTALITY, &initial_mortality_, "", "", Double(0));
   parameters_.Bind<string>(PARAM_INITIAL_MORTALITY_SELECTIVITY, &initial_mortality_selectivity_label_, "", "", "");
   parameters_.Bind<Double>(PARAM_LOSS_RATE, &loss_rate_, "", "");
-  parameters_.Bind<unsigned>(PARAM_LOSS_RATE_YEARS, &loss_rate_years_, "", "", true);
-//  parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_labels_, "", "");
-  parameters_.Bind<Double>(PARAM_N, &n_, "", "", Double(0));
+  parameters_.Bind<string>(PARAM_LOSS_RATE_SELECTIVITIES, &loss_rate_selectivity_labels_, "", "", true);
+  parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_labels_, "", "", true);
+  parameters_.Bind<Double>(PARAM_N, &n_, "", "", true);
   parameters_.BindTable(PARAM_NUMBERS, numbers_table_, "Table of N data", "", true, true);
   parameters_.BindTable(PARAM_PROPORTIONS, proportions_table_, "Table of proportions to move", "" , true, true);
 
@@ -79,23 +79,16 @@ void TagByAge::DoValidate() {
   /**
    * Build our loss rate map
    */
-  if (loss_rate_.size() == 1 && loss_rate_years_.size() == 0) {
-    vector<unsigned> years = model_->years();
-    loss_rate_.assign(years.size(), loss_rate_[0]);
-    loss_rate_by_year_ = utilities::MapCreate(years, loss_rate_);
+  if (loss_rate_.size() == 1) {
+    loss_rate_.assign(from_category_labels_.size(), loss_rate_[0]);
+    loss_rate_by_category_ = utilities::MapCreate(from_category_labels_, loss_rate_);
 
-  } else if (loss_rate_.size() > 1 && loss_rate_years_.size() > 1) {
-    if (loss_rate_.size() != loss_rate_years_.size())
-      LOG_ERROR(parameters_.location(PARAM_LOSS_RATE) << " number provided (" << loss_rate_.size() << " does not match the number of " << PARAM_LOSS_RATE_YEARS << " ("
-          << loss_rate_years_.size() << ")");
-    loss_rate_by_year_ = utilities::MapCreate(loss_rate_years_, loss_rate_);
-
-  } else if (loss_rate_.size() == 1 && loss_rate_years_.size() == 1) {
-    loss_rate_by_year_[loss_rate_years_[0]] = loss_rate_[0];
+  } else if (loss_rate_.size() == from_category_labels_.size()) {
+    loss_rate_by_category_ = utilities::MapCreate(from_category_labels_, loss_rate_);
 
   } else {
-    LOG_ERROR(parameters_.location(PARAM_LOSS_RATE) << " number provided (" << loss_rate_.size() << " does not match the number of " << PARAM_LOSS_RATE_YEARS << " ("
-        << loss_rate_years_.size() << ")");
+    LOG_ERROR(parameters_.location(PARAM_LOSS_RATE) << " number provided (" << loss_rate_.size() << " does not match the number of " << PARAM_FROM << " categories ("
+        << from_category_labels_.size() << ")");
   }
 
   /**
@@ -149,6 +142,9 @@ void TagByAge::DoValidate() {
     }
 
   } else if (proportions_table_->row_count() != 0) {
+    /**
+     * Load data from proportions table using n parameter
+     */
     vector<string> columns = proportions_table_->columns();
     if (columns.size() != age_spread + 1)
       LOG_ERROR(parameters_.location(PARAM_PROPORTIONS) << " number of columns provided (" << columns.size() << ") does not match the model's age spread + 1 ("
@@ -164,6 +160,13 @@ void TagByAge::DoValidate() {
       age_index[age] = i;
     }
 
+    // build a map of n data by year
+    if (n_.size() == 1)
+      n_.assign(years_.size(), n_[0]);
+    else if (n_.size() != years_.size())
+      LOG_ERROR(parameters_.location(PARAM_N) << " values provied (" << n_.size() << ") does not match the number of years (" << years_.size() << ")");
+    map<unsigned, Double> n_by_year = utilities::MapCreate(years_, n_);
+
     // load our table data in to our map
     vector<vector<string>> data = proportions_table_->data();
     unsigned year = 0;
@@ -176,7 +179,7 @@ void TagByAge::DoValidate() {
           LOG_ERROR(parameters_.location(PARAM_NUMBERS) << " value (" << iter[i] << ") could not be converted to a double. Please ensure it's a numeric value");
         if (numbers_[year].size() == 0)
           numbers_[year].resize(age_spread, 0.0);
-        numbers_[year][i - 1] = n_ * proportion;
+        numbers_[year][i - 1] = n_by_year[year] * proportion;
       }
     }
 
@@ -196,10 +199,14 @@ void TagByAge::DoBuild() {
 
   if (penalty_label_ != "")
     penalty_ = penalties::Manager::Instance().GetPenalty(penalty_label_);
+
+  selectivities::Manager& selectivity_manager = selectivities::Manager::Instance();
   for (unsigned i = 0; i < selectivity_labels_.size(); ++i)
-    selectivities_[from_category_labels_[i]] = selectivities::Manager::Instance().GetSelectivity(selectivity_labels_[i]);
+    selectivities_[from_category_labels_[i]] = selectivity_manager.GetSelectivity(selectivity_labels_[i]);
+  for (unsigned i = 0 ; i < loss_rate_selectivity_labels_.size(); ++i)
+    loss_rate_selectivity_by_category_[from_category_labels_[i]] = selectivity_manager.GetSelectivity(loss_rate_selectivity_labels_[i]);
   if (initial_mortality_selectivity_label_ != "")
-    initial_mortality_selectivity_ = selectivities::Manager::Instance().GetSelectivity(initial_mortality_selectivity_label_);
+    initial_mortality_selectivity_ = selectivity_manager.GetSelectivity(initial_mortality_selectivity_label_);
 }
 
 /**
@@ -214,11 +221,15 @@ void TagByAge::DoExecute() {
    */
   auto from_iter = from_partition_.begin();
   auto to_iter   = to_partition_.begin();
-  Double loss_rate = loss_rate_by_year_[model_->current_year()];
-  LOG_INFO("Applying loss rate: " << loss_rate);
   for (; from_iter != from_partition_.end(); from_iter++, to_iter++) {
+    string category_label = (*from_iter)->name_;
+    Double loss_rate = loss_rate_by_category_[category_label];
+    LOG_INFO("Applying loss rate: " << loss_rate << " for category " << category_label);
+
     for (unsigned i = 0; i < (*to_iter)->data_.size(); ++i) {
       Double amount = (*to_iter)->data_[i] * loss_rate;
+      if (loss_rate_selectivity_by_category_[category_label])
+        amount *= loss_rate_selectivity_by_category_[category_label]->GetResult((*from_iter)->min_age_ + i);
       (*to_iter)->data_[i] -= amount;
       (*from_iter)->data_[i] += amount;
     }
@@ -271,11 +282,17 @@ void TagByAge::DoExecute() {
     to_iter   = to_partition_.begin();
     for (; from_iter != from_partition_.end(); from_iter++, to_iter++) {
       unsigned offset = (min_age_ - (*from_iter)->min_age_) + i;
+      string category_label = (*from_iter)->name_;
 
       Double current = (*from_iter)->data_[offset] * exploitation;
       LOG_INFO("current: " << current << "; exploitation: " << exploitation);
       if (current <= 0.0)
         continue;
+
+      if (selectivities_[category_label]) {
+        current *= selectivities_[category_label]->GetResult(min_age_ + i);
+        LOG_INFO("current: " << current << "; selectivity amount: " << selectivities_[category_label]->GetResult(min_age_ + i));
+      }
 
       Double current_with_mortality = current - (current * initial_mortality_);
       LOG_INFO("current_with_mortality: " << current_with_mortality);

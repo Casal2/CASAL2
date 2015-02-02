@@ -84,6 +84,23 @@ inline map<unsigned, Double> MapCreate(const vector<unsigned>& key, const vector
   return result;
 }
 
+/**
+ * Build a map from 2 vectors where the first vector
+ * is the key and the second vector is the value
+ *
+ * @param key The keys to use
+ * @param value The values to use
+ * @return a Map of keys and values
+ */
+inline map<string, Double> MapCreate(const vector<string>& key, const vector<Double>& value) {
+  map<string, Double> result;
+
+  for (unsigned i = 0; i < key.size(); ++i)
+    result[key[i]] = value[i];
+
+  return result;
+}
+
 } /* namespace utilities */
 } /* namespace niwa */
 

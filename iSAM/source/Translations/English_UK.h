@@ -244,7 +244,7 @@
 #define PARAM_LOGNORMAL                           "lognormal"
 #define PARAM_LOGNORMAL_WITH_Q                    "lognormal_with_q"
 #define PARAM_LOSS_RATE                           "loss_rate"
-#define PARAM_LOSS_RATE_YEARS                     "loss_rate_years"
+#define PARAM_LOSS_RATE_SELECTIVITIES             "loss_rate_selectivities"
 #define PARAM_LOWER_BOUND                         "lower_bound"
 #define PARAM_M                                   "m"
 #define PARAM_MATURATION                          "maturation"

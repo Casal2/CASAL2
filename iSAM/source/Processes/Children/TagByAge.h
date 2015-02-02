@@ -58,9 +58,10 @@ private:
   string                        initial_mortality_selectivity_label_;
   SelectivityPtr                initial_mortality_selectivity_;
   vector<Double>                loss_rate_;
-  vector<unsigned>              loss_rate_years_;
-  map<unsigned, Double>         loss_rate_by_year_;
-  Double                        n_;
+  map<string, Double>           loss_rate_by_category_;
+  vector<string>                loss_rate_selectivity_labels_;
+  map<string, SelectivityPtr>   loss_rate_selectivity_by_category_;
+  vector<Double>                n_;
   parameters::TablePtr          numbers_table_;
   parameters::TablePtr          proportions_table_;
   unsigned                      first_year_;
