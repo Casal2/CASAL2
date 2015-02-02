@@ -143,6 +143,11 @@ void TagByAge::DoValidate() {
       }
     }
 
+    for (auto iter : numbers_) {
+      if (std::find(years_.begin(), years_.end(), iter.first) == years_.end())
+        LOG_ERROR(parameters_.location(PARAM_NUMBERS) << " table contains year " << iter.first << " that is not a valid year defined in this process");
+    }
+
   } else if (proportions_table_->row_count() != 0) {
     vector<string> columns = proportions_table_->columns();
     if (columns.size() != age_spread + 1)
@@ -173,6 +178,11 @@ void TagByAge::DoValidate() {
           numbers_[year].resize(age_spread, 0.0);
         numbers_[year][i - 1] = n_ * proportion;
       }
+    }
+
+    for (auto iter : numbers_) {
+      if (std::find(years_.begin(), years_.end(), iter.first) == years_.end())
+        LOG_ERROR(parameters_.location(PARAM_PROPORTIONS) << " table contains year " << iter.first << " that is not a valid year defined in this process");
     }
   }
 }
@@ -222,7 +232,7 @@ void TagByAge::DoExecute() {
     return;
 
   LOG_INFO("numbers__.size(): " << numbers_.size());
-  LOG_INFO("numbers__[current_year].size()" << numbers_[current_year].size());
+  LOG_INFO("numbers__[current_year].size(): " << numbers_[current_year].size());
   for (unsigned i = 0; i < numbers_[current_year].size(); ++i)
     LOG_INFO("numbers__[current_year][" << i << "]: " << numbers_[current_year][i]);
 
@@ -243,7 +253,7 @@ void TagByAge::DoExecute() {
       LOG_INFO("total_stock_offset: " << total_stock_offset << " (" << (*from_iter)->min_age_ << " - " << min_age_ << ") + " << i);
       total_stock += (*from_iter)->data_[total_stock_offset];
     }
-    LOG_INFO("total_stock: " << total_stock << " at age " << min_age_ + i);
+    LOG_INFO("total_stock: " << total_stock << " at age " << min_age_ + i << " (" << min_age_ << " + " << i << ")");
 
     Double exploitation = numbers_[current_year][i] / utilities::doublecompare::ZeroFun(total_stock);
     LOG_INFO("exploitation: " << exploitation << "; numbers: " << numbers_[current_year][i]);
@@ -274,6 +284,11 @@ void TagByAge::DoExecute() {
       (*from_iter)->data_[offset] -= current;
       (*to_iter)->data_[offset] += current_with_mortality;
     }
+  }
+
+  for (unsigned year : years_) {
+    if (numbers_.find(year) == numbers_.end())
+      LOG_ERROR(parameters_.location(PARAM_YEARS) << " value (" << year << ") does not have a corresponding entry in the numbers or proportions table");
   }
 }
 
