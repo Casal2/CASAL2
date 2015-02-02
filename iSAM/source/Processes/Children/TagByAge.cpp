@@ -41,7 +41,7 @@ TagByAge::TagByAge() {
   parameters_.Bind<string>(PARAM_INITIAL_MORTALITY_SELECTIVITY, &initial_mortality_selectivity_label_, "", "", "");
   parameters_.Bind<Double>(PARAM_LOSS_RATE, &loss_rate_, "", "");
   parameters_.Bind<string>(PARAM_LOSS_RATE_SELECTIVITIES, &loss_rate_selectivity_labels_, "", "", true);
-  parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_labels_, "", "", true);
+  parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_labels_, "", "");
   parameters_.Bind<Double>(PARAM_N, &n_, "", "", true);
   parameters_.BindTable(PARAM_NUMBERS, numbers_table_, "Table of N data", "", true, true);
   parameters_.BindTable(PARAM_PROPORTIONS, proportions_table_, "Table of proportions to move", "" , true, true);
@@ -201,8 +201,12 @@ void TagByAge::DoBuild() {
     penalty_ = penalties::Manager::Instance().GetPenalty(penalty_label_);
 
   selectivities::Manager& selectivity_manager = selectivities::Manager::Instance();
-  for (unsigned i = 0; i < selectivity_labels_.size(); ++i)
-    selectivities_[from_category_labels_[i]] = selectivity_manager.GetSelectivity(selectivity_labels_[i]);
+  for (unsigned i = 0; i < selectivity_labels_.size(); ++i) {
+    SelectivityPtr selectivity = selectivity_manager.GetSelectivity(selectivity_labels_[i]);
+    if (!selectivity)
+      LOG_ERROR("Selectivity: " << selectivity_labels_[i] << " not found");
+    selectivities_[from_category_labels_[i]] = selectivity;
+  }
   for (unsigned i = 0 ; i < loss_rate_selectivity_labels_.size(); ++i)
     loss_rate_selectivity_by_category_[from_category_labels_[i]] = selectivity_manager.GetSelectivity(loss_rate_selectivity_labels_[i]);
   if (initial_mortality_selectivity_label_ != "")
@@ -248,7 +252,8 @@ void TagByAge::DoExecute() {
     LOG_INFO("numbers__[current_year][" << i << "]: " << numbers_[current_year][i]);
 
   Double total_stock;
-  unsigned age_spread = (max_age_ = min_age_) + 1;
+  Double total_stock_with_selectivities;
+  unsigned age_spread = (max_age_ - min_age_) + 1;
   LOG_INFO("age_spread: " << age_spread << " in year " << current_year);
 
   for (unsigned i = 0; i < age_spread; ++i) {
@@ -258,13 +263,22 @@ void TagByAge::DoExecute() {
     from_iter = from_partition_.begin();
     to_iter   = to_partition_.begin();
 
+    LOG_INFO("selectivity.size(): " << selectivities_.size());
+    for (auto iter : selectivities_)
+      LOG_INFO("selectivity: " << iter.first);
+
     total_stock = 0.0;
     for (; from_iter != from_partition_.end(); from_iter++, to_iter++) {
       unsigned total_stock_offset = (min_age_ - (*from_iter)->min_age_) + i;
       LOG_INFO("total_stock_offset: " << total_stock_offset << " (" << (*from_iter)->min_age_ << " - " << min_age_ << ") + " << i);
+
+      LOG_INFO("name: " << (*from_iter)->name_);
+      LOG_INFO("selectivity value: " << selectivities_[(*from_iter)->name_]->GetResult(min_age_ + total_stock_offset));
       total_stock += (*from_iter)->data_[total_stock_offset];
+      total_stock_with_selectivities += (*from_iter)->data_[total_stock_offset] * selectivities_[(*from_iter)->name_]->GetResult(min_age_ + total_stock_offset);
     }
     LOG_INFO("total_stock: " << total_stock << " at age " << min_age_ + i << " (" << min_age_ << " + " << i << ")");
+    LOG_INFO("total_stock_with_selectivities: " << total_stock_with_selectivities);
 
     Double exploitation = numbers_[current_year][i] / utilities::doublecompare::ZeroFun(total_stock);
     LOG_INFO("exploitation: " << exploitation << "; numbers: " << numbers_[current_year][i]);
@@ -281,18 +295,21 @@ void TagByAge::DoExecute() {
     from_iter = from_partition_.begin();
     to_iter   = to_partition_.begin();
     for (; from_iter != from_partition_.end(); from_iter++, to_iter++) {
+      LOG_INFO("Working with categories: from " << (*from_iter)->name_ << "; to " << (*to_iter)->name_);
       unsigned offset = (min_age_ - (*from_iter)->min_age_) + i;
       string category_label = (*from_iter)->name_;
 
-      Double current = (*from_iter)->data_[offset] * exploitation;
+      Double current = numbers_[current_year][i] *
+          ((*from_iter)->data_[offset] * selectivities_[category_label]->GetResult(min_age_ + i)
+          / total_stock_with_selectivities) * exploitation;
+
+      LOG_INFO("numbers: " << numbers_[current_year][i]);
+      LOG_INFO("population: " << (*from_iter)->data_[offset]);
+      LOG_INFO("population with selectivity: " << (*from_iter)->data_[offset] * selectivities_[category_label]->GetResult(min_age_ + i));
       LOG_INFO("current: " << current << "; exploitation: " << exploitation);
+
       if (current <= 0.0)
         continue;
-
-      if (selectivities_[category_label]) {
-        current *= selectivities_[category_label]->GetResult(min_age_ + i);
-        LOG_INFO("current: " << current << "; selectivity amount: " << selectivities_[category_label]->GetResult(min_age_ + i));
-      }
 
       Double current_with_mortality = current - (current * initial_mortality_);
       LOG_INFO("current_with_mortality: " << current_with_mortality);
