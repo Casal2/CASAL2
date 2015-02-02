@@ -27,7 +27,7 @@ AnnualShift::AnnualShift() {
   parameters_.Bind<Double>(PARAM_B, &b_, "", "");
   parameters_.Bind<Double>(PARAM_C, &c_, "", "");
   parameters_.Bind<Double>(PARAM_D, &d_, "", "");
-  parameters_.Bind<unsigned>(PARAM_SCALING_YEARS, &scaling_years_, "" ,"");
+  parameters_.Bind<unsigned>(PARAM_SCALING_YEARS, &scaling_years_, "" ,"", true);
 
 }
 
@@ -37,6 +37,9 @@ AnnualShift::AnnualShift() {
 void AnnualShift::DoValidate() {
   if (years_.size() != values_.size())
     LOG_ERROR(parameters_.location(PARAM_YEARS) << " provided (" << years_.size() << ") does not match the number of values provided (" << values_.size() << ")");
+
+  if (scaling_years_.size() == 0)
+    scaling_years_ = years_;
 
   for (unsigned year : scaling_years_) {
     if (std::find(years_.begin(), years_.end(), year) == years_.end())
