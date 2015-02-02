@@ -50,14 +50,13 @@ void AnnualShift::DoValidate() {
 void AnnualShift::DoBuild() {
   map<unsigned, Double> values = utilities::MapCreate(years_, values_);
 
-  for (unsigned year : years_) {
-    Double scaled_value = values[year];
-    Double total = 0.0;
-    for (unsigned scaling_year : scaling_years_) {
-      total += values[scaling_year];
-    }
-    scaled_value -= (total / scaling_years_);
+  Double total = 0.0;
+  for (unsigned scaling_year : scaling_years_) {
+    total += values[scaling_year];
+  }
 
+  for (unsigned year : years_) {
+    Double scaled_value = values[year] - (total / scaling_years_.size());
     values_by_year_[year] = scaled_value * (a_ + b_*values[year] + c_*pow(values[year], 2) + d_ * pow(values[year], 3));
   }
 }
