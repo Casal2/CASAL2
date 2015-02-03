@@ -267,27 +267,16 @@ void TagByAge::DoExecute() {
     for (auto iter : selectivities_)
       LOG_INFO("selectivity: " << iter.first);
 
-    total_stock = 0.0;
+    total_stock_with_selectivities = 0.0;
     for (; from_iter != from_partition_.end(); from_iter++, to_iter++) {
       unsigned total_stock_offset = (min_age_ - (*from_iter)->min_age_) + i;
       LOG_INFO("total_stock_offset: " << total_stock_offset << " (" << (*from_iter)->min_age_ << " - " << min_age_ << ") + " << i);
 
       LOG_INFO("name: " << (*from_iter)->name_);
       LOG_INFO("selectivity value: " << selectivities_[(*from_iter)->name_]->GetResult(min_age_ + total_stock_offset));
-      total_stock += (*from_iter)->data_[total_stock_offset];
       total_stock_with_selectivities += (*from_iter)->data_[total_stock_offset] * selectivities_[(*from_iter)->name_]->GetResult(min_age_ + total_stock_offset);
     }
-    LOG_INFO("total_stock: " << total_stock << " at age " << min_age_ + i << " (" << min_age_ << " + " << i << ")");
-    LOG_INFO("total_stock_with_selectivities: " << total_stock_with_selectivities);
-
-    Double exploitation = numbers_[current_year][i] / utilities::doublecompare::ZeroFun(total_stock);
-    LOG_INFO("exploitation: " << exploitation << "; numbers: " << numbers_[current_year][i]);
-    if (exploitation > u_max_) {
-      exploitation = u_max_;
-      if (penalty_)
-        penalty_->Trigger(label_, numbers_[current_year][i], total_stock * u_max_);
-    } else if (exploitation < 0.0)
-      exploitation = 0.0;
+    LOG_INFO("total_stock_with_selectivities: " << total_stock_with_selectivities << " at age " << min_age_ + i << " (" << min_age_ << " + " << i << ")");
 
     /**
      * Migrate the exploited amount
@@ -300,8 +289,12 @@ void TagByAge::DoExecute() {
       string category_label = (*from_iter)->name_;
 
       Double current = numbers_[current_year][i] *
-          ((*from_iter)->data_[offset] * selectivities_[category_label]->GetResult(min_age_ + i)
-          / total_stock_with_selectivities); // * exploitation;
+          ((*from_iter)->data_[offset] * selectivities_[category_label]->GetResult(min_age_ + i) / total_stock_with_selectivities); // * exploitation;
+
+      Double exploitation = current / utilities::doublecompare::ZeroFun((*from_iter)->data_[offset]);
+      if ( exploitation > u_max ) {
+		  current = total_stock * u_max;
+      }
 
       LOG_INFO("numbers: " << numbers_[current_year][i]);
       LOG_INFO("population: " << (*from_iter)->data_[offset]);
@@ -318,6 +311,15 @@ void TagByAge::DoExecute() {
       (*from_iter)->data_[offset] -= current;
       (*to_iter)->data_[offset] += current_with_mortality;
     }
+
+    LOG_INFO("exploitation: " << exploitation << "; numbers: " << numbers_[current_year][i]);
+    if (exploitation > u_max_) {
+      exploitation = u_max_;
+      if (penalty_)
+        penalty_->Trigger(label_, numbers_[current_year][i], (*from_iter)->data_[offset] * u_max_);
+    } else if (exploitation < 0.0)
+      exploitation = 0.0;
+
   }
 
   for (unsigned year : years_) {
@@ -325,6 +327,5 @@ void TagByAge::DoExecute() {
       LOG_ERROR(parameters_.location(PARAM_YEARS) << " value (" << year << ") does not have a corresponding entry in the numbers or proportions table");
   }
 }
-
 } /* namespace processes */
 } /* namespace niwa */
