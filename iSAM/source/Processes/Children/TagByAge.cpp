@@ -301,7 +301,7 @@ void TagByAge::DoExecute() {
 
       Double current = numbers_[current_year][i] *
           ((*from_iter)->data_[offset] * selectivities_[category_label]->GetResult(min_age_ + i)
-          / total_stock_with_selectivities) * exploitation;
+          / total_stock_with_selectivities); // * exploitation;
 
       LOG_INFO("numbers: " << numbers_[current_year][i]);
       LOG_INFO("population: " << (*from_iter)->data_[offset]);
