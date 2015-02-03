@@ -257,9 +257,9 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/BuildSystem/bin/win32/thirdparty/lib/debug}&quot;"/>
 								</option>
 								<option id="gnu.cpp.link.option.libs.145212321" name="Libraries (-l)" superClass="gnu.cpp.link.option.libs" valueType="libs">
-									<listOptionValue builtIn="false" value="boost_program_options-mgw48-mt-sd-1_55"/>
-									<listOptionValue builtIn="false" value="boost_system-mgw48-mt-sd-1_55"/>
-									<listOptionValue builtIn="false" value="boost_thread-mgw48-mt-sd-1_55"/>
+									<listOptionValue builtIn="false" value="boost_program_options-mgw49-mt-sd-1_55"/>
+									<listOptionValue builtIn="false" value="boost_system-mgw49-mt-sd-1_55"/>
+									<listOptionValue builtIn="false" value="boost_thread-mgw49-mt-sd-1_55"/>
 									<listOptionValue builtIn="false" value=":gmock_main.a"/>
 								</option>
 								<option id="gnu.cpp.link.option.userobjs.352775305" name="Other objects" superClass="gnu.cpp.link.option.userobjs"/>
