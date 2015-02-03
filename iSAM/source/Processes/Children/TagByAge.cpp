@@ -300,7 +300,7 @@ void TagByAge::DoExecute() {
 
       LOG_INFO("numbers: " << numbers_[current_year][i]);
       LOG_INFO("population: " << (*from_iter)->data_[offset]);
-      LOG_INFO("population with selectivity: " << (*from_iter)->data_[offset] * selectivities_[category_label]->GetResult(min_age_ + i));
+      LOG_INFO("selectivity: " << selectivities_[category_label]->GetResult(min_age_ + i));
       LOG_INFO("current: " << current << "; exploitation: " << exploitation);
 
       if (current <= 0.0)
