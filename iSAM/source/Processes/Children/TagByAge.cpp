@@ -251,8 +251,8 @@ void TagByAge::DoExecute() {
   for (unsigned i = 0; i < numbers_[current_year].size(); ++i)
     LOG_INFO("numbers__[current_year][" << i << "]: " << numbers_[current_year][i]);
 
-  Double total_stock;
-  Double total_stock_with_selectivities;
+  Double total_stock = 0.0;
+  Double total_stock_with_selectivities = 0.0;
   unsigned age_spread = (max_age_ - min_age_) + 1;
   LOG_INFO("age_spread: " << age_spread << " in year " << current_year);
 
@@ -292,8 +292,10 @@ void TagByAge::DoExecute() {
           ((*from_iter)->data_[offset] * selectivities_[category_label]->GetResult(min_age_ + i) / total_stock_with_selectivities); // * exploitation;
 
       Double exploitation = current / utilities::doublecompare::ZeroFun((*from_iter)->data_[offset]);
-      if ( exploitation > u_max ) {
-		  current = total_stock * u_max;
+      if ( exploitation > u_max_ ) {
+        current = total_stock * u_max_;
+        if (penalty_)
+          penalty_->Trigger(label_, numbers_[current_year][i], (*from_iter)->data_[offset] * u_max_);
       }
 
       LOG_INFO("numbers: " << numbers_[current_year][i]);
@@ -311,15 +313,6 @@ void TagByAge::DoExecute() {
       (*from_iter)->data_[offset] -= current;
       (*to_iter)->data_[offset] += current_with_mortality;
     }
-
-    LOG_INFO("exploitation: " << exploitation << "; numbers: " << numbers_[current_year][i]);
-    if (exploitation > u_max_) {
-      exploitation = u_max_;
-      if (penalty_)
-        penalty_->Trigger(label_, numbers_[current_year][i], (*from_iter)->data_[offset] * u_max_);
-    } else if (exploitation < 0.0)
-      exploitation = 0.0;
-
   }
 
   for (unsigned year : years_) {
