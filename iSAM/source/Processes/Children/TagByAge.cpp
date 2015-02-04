@@ -269,12 +269,12 @@ void TagByAge::DoExecute() {
 
     total_stock_with_selectivities = 0.0;
     for (; from_iter != from_partition_.end(); from_iter++, to_iter++) {
-      unsigned total_stock_offset = (min_age_ - (*from_iter)->min_age_) + i;
-      LOG_INFO("total_stock_offset: " << total_stock_offset << " (" << (*from_iter)->min_age_ << " - " << min_age_ << ") + " << i);
+      unsigned offset = (min_age_ - (*from_iter)->min_age_) + i;
+      LOG_INFO("total_stock_offset: " << offset << " (" << (*from_iter)->min_age_ << " - " << min_age_ << ") + " << i);
 
       LOG_INFO("name: " << (*from_iter)->name_);
-      LOG_INFO("selectivity value: " << selectivities_[(*from_iter)->name_]->GetResult(min_age_ + total_stock_offset));
-      total_stock_with_selectivities += (*from_iter)->data_[total_stock_offset] * selectivities_[(*from_iter)->name_]->GetResult(min_age_ + total_stock_offset);
+      LOG_INFO("selectivity value: " << selectivities_[(*from_iter)->name_]->GetResult(min_age_ + offset));
+      total_stock_with_selectivities += (*from_iter)->data_[offset] * selectivities_[(*from_iter)->name_]->GetResult(min_age_ + offset);
     }
     LOG_INFO("total_stock_with_selectivities: " << total_stock_with_selectivities << " at age " << min_age_ + i << " (" << min_age_ << " + " << i << ")");
 
@@ -289,7 +289,7 @@ void TagByAge::DoExecute() {
       string category_label = (*from_iter)->name_;
 
       Double current = numbers_[current_year][i] *
-          ((*from_iter)->data_[offset] * selectivities_[category_label]->GetResult(min_age_ + i) / total_stock_with_selectivities); // * exploitation;
+          ((*from_iter)->data_[offset] * selectivities_[category_label]->GetResult(min_age_ + offset) / total_stock_with_selectivities);
 
       Double exploitation = current / utilities::doublecompare::ZeroFun((*from_iter)->data_[offset]);
       if ( exploitation > u_max_ ) {
@@ -300,8 +300,12 @@ void TagByAge::DoExecute() {
 
       LOG_INFO("numbers: " << numbers_[current_year][i]);
       LOG_INFO("population: " << (*from_iter)->data_[offset]);
-      LOG_INFO("selectivity: " << selectivities_[category_label]->GetResult(min_age_ + i));
+      LOG_INFO("selectivity: " << selectivities_[category_label]->GetResult(min_age_ + offset));
       LOG_INFO("current: " << current << "; exploitation: " << exploitation);
+      LOG_INFO("current calculated as current = " << numbers_[current_year][i] << " * "
+          << (*from_iter)->data_[offset] << " * " << selectivities_[category_label]->GetResult(min_age_ + offset)
+          << " / " << total_stock_with_selectivities
+      );
 
       if (current <= 0.0)
         continue;
