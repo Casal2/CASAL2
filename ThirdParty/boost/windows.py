@@ -31,9 +31,8 @@ class Builder:
         shutil.rmtree(boostFileName)
     if os.path.exists(Globals.target_include_path_ + 'boost'):
         shutil.rmtree(Globals.target_include_path_ + 'boost')
-    for library in debug_libraries:
+    for library in libraries:
         os.system('rm -rf ' + Globals.target_debug_lib_path_ + library + '*')
-    for library in release_libraries:
         os.system('rm -rf ' + Globals.target_release_lib_path_ + library + '*')
     
     # Decompress the boost archive if it hasn't already been done
