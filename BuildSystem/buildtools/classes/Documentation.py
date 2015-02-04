@@ -34,10 +34,13 @@ class Documentation:
     def __init__(self):
         print '--> Starting Documentation Builder'
         self.type_translations_['double']           = 'constant'
+        self.type_translations_['Double']           = 'constant'
         self.type_translations_['vector<double>']   = 'constant vector'
+        self.type_translations_['vector<Double>']   = 'constant vector'
         self.type_translations_['unsigned']         = 'non-negative integer'
         self.type_translations_['vector<unsigned>'] = 'non-negative integer vector'
         self.type_translations_['vector<string>']   = 'string vector'
+        self.type_translations_['bool']             = 'boolean'
         self.type_translations_['vector<bool>']     = 'boolean vector'
 
     """
@@ -100,6 +103,8 @@ class Documentation:
                             return False
                         self.clean_variables()
 
+        self.variable_type_ = {}
+        self.variables_ = {}    
         if self.build_latex_:
             self.build_latex()
         
@@ -108,14 +113,13 @@ class Documentation:
     """
     Clear all of our variables
     """
-    def clean_variables(self):
-        self.variable_type_ = {}
+    def clean_variables(self):        
         self.variable_label_ = {}
         self.variable_description_ = {}
         self.variable_value_ = {}
         self.variable_default_ = {}
         self.estimables_ = {}
-        self.variables_ = {}    
+        
 
     """
     Load the translations from our translation file. This informaiton gets stored in a map
