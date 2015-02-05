@@ -42,7 +42,7 @@ TEST(Selectivities, AllValuesBounded) {
   all_values_bounded.parameters().Add(PARAM_LABEL, "unit_test_all_values_bounded", __FILE__, __LINE__);
   all_values_bounded.parameters().Add(PARAM_TYPE, "not needed in test", __FILE__, __LINE__);
   all_values_bounded.parameters().Add(PARAM_L, "12",  __FILE__, __LINE__);
-  all_values_bounded.parameters().Add(PARAM_H, "18", __FILE__, __LINE__);
+  all_values_bounded.parameters().Add(PARAM_H, "17", __FILE__, __LINE__);
   all_values_bounded.parameters().Add(PARAM_V, v, __FILE__, __LINE__);
   all_values_bounded.Validate();
   all_values_bounded.Build();
@@ -55,7 +55,7 @@ TEST(Selectivities, AllValuesBounded) {
   EXPECT_DOUBLE_EQ(10.0, all_values_bounded.GetResult(14));
   EXPECT_DOUBLE_EQ(12.0, all_values_bounded.GetResult(15));
   EXPECT_DOUBLE_EQ(12.0, all_values_bounded.GetResult(16));
-  EXPECT_DOUBLE_EQ(12.0, all_values_bounded.GetResult(17));
+  EXPECT_DOUBLE_EQ(0.0,  all_values_bounded.GetResult(17));
   EXPECT_DOUBLE_EQ(0.0,  all_values_bounded.GetResult(18));
   EXPECT_DOUBLE_EQ(0.0,  all_values_bounded.GetResult(19));
   EXPECT_DOUBLE_EQ(0.0,  all_values_bounded.GetResult(20)); // At model->max_age()
