@@ -70,9 +70,9 @@ void AllValuesBounded::DoValidate() {
   }
 
   // Param: V
-  if (v_.size() != (high_ - low_)) {
+  if (v_.size() != (high_ - low_)+1) {
     LOG_ERROR(parameters_.location(PARAM_V) << ": Parameter 'v' does not have the right amount of elements n = h - l\n"
-        << "Expected " << high_ - low_ << " but got " << v_.size());
+        << "Expected " << (high_ - low_) + 1 << " but got " << v_.size());
   }
 }
 
