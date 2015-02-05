@@ -60,7 +60,7 @@ class Documentation:
                         'Catchabilities', 'Categories', 'DerivedQuantities',
                         'Estimates', 'InitialisationPhases', 'Likelihoods', 'MCMC', 'Minimisers',
                         'Model', 'Observations', 'Penalties', 'Processes', 'Profiles', 'Projects',
-                        'Reports', 'Selectivities', 'Simulates', 'SizeWeights', 'TimeSteps']
+                        'Reports', 'Selectivities', 'Simulates', 'SizeWeights', 'TimeSteps', 'TimeVarying']
         for folder in folder_list:
             self.clean_variables()            
             file_list = os.listdir('../iSAM/source/' + folder + '/')
