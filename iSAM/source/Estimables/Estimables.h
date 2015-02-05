@@ -9,7 +9,9 @@
  *
  * @section DESCRIPTION
  *
- * << Add Description >>
+ * Because we handle the values loaded by an input file differently depending on what
+ * run mode we are in this class is responsible for loading the values from the input
+ * file and making them available to the sub-systems that require them.
  */
 #ifndef ESTIMABLES_H_
 #define ESTIMABLES_H_

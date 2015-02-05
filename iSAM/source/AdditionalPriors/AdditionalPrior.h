@@ -9,7 +9,9 @@
  *
  * @section DESCRIPTION
  *
- * << Add Description >>
+ * Additional priors are stand alone priors that don't need
+ * an estimate/estimable; but still contribute to the
+ * objective function
  */
 #ifndef ADDITIONALPRIOR_H_
 #define ADDITIONALPRIOR_H_
