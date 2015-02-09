@@ -85,6 +85,7 @@ void AllValuesBounded::DoValidate() {
  */
 void AllValuesBounded::Reset() {
   unsigned min_age = model_->min_age();
+  unsigned max_age = model_->max_age();
 
   /**
    * Resulting age map should look like
@@ -96,7 +97,7 @@ void AllValuesBounded::Reset() {
     values_[age] = 0.0;
   for (unsigned i = 0; i < v_.size(); ++i)
     values_[i + min_age] = v_[i];
-  for (unsigned age = min_age + v_.size(); age < high_; ++age)
+  for (unsigned age = min_age + v_.size(); age <= max_age; ++age)
     values_[age] = *v_.rbegin();
 }
 
