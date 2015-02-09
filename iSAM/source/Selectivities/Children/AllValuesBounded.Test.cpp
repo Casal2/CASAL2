@@ -48,13 +48,13 @@ TEST(Selectivities, AllValuesBounded) {
   all_values_bounded.Build();
 
   EXPECT_DOUBLE_EQ(0.0,  all_values_bounded.GetResult(9)); // Below model->min_age()
-  EXPECT_DOUBLE_EQ(2.0,  all_values_bounded.GetResult(10)); // At model->min_age()
-  EXPECT_DOUBLE_EQ(4.0,  all_values_bounded.GetResult(11));
-  EXPECT_DOUBLE_EQ(6.0,  all_values_bounded.GetResult(12));
-  EXPECT_DOUBLE_EQ(8.0,  all_values_bounded.GetResult(13));
-  EXPECT_DOUBLE_EQ(10.0, all_values_bounded.GetResult(14));
-  EXPECT_DOUBLE_EQ(12.0, all_values_bounded.GetResult(15));
-  EXPECT_DOUBLE_EQ(12.0, all_values_bounded.GetResult(16));
+  EXPECT_DOUBLE_EQ(0.0,  all_values_bounded.GetResult(10)); // At model->min_age()
+  EXPECT_DOUBLE_EQ(0.0,  all_values_bounded.GetResult(11));
+  EXPECT_DOUBLE_EQ(2.0,  all_values_bounded.GetResult(12));
+  EXPECT_DOUBLE_EQ(4.0,  all_values_bounded.GetResult(13));
+  EXPECT_DOUBLE_EQ(6.0, all_values_bounded.GetResult(14));
+  EXPECT_DOUBLE_EQ(8.0, all_values_bounded.GetResult(15));
+  EXPECT_DOUBLE_EQ(10.0, all_values_bounded.GetResult(16));
   EXPECT_DOUBLE_EQ(12.0,  all_values_bounded.GetResult(17));
   EXPECT_DOUBLE_EQ(12.0,  all_values_bounded.GetResult(18));
   EXPECT_DOUBLE_EQ(12.0,  all_values_bounded.GetResult(19));

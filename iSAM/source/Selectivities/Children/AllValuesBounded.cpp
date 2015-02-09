@@ -93,11 +93,12 @@ void AllValuesBounded::Reset() {
    * While Age > Low && Age < High :: Value = v_
    * While age > High :: Value = Last element if v_
    */
-  for (unsigned age = min_age; age < low_; ++age)
+  unsigned age = min_age;
+  for (; age < low_; ++age)
     values_[age] = 0.0;
-  for (unsigned i = 0; i < v_.size(); ++i)
-    values_[i + min_age] = v_[i];
-  for (unsigned age = min_age + v_.size(); age <= max_age; ++age)
+  for (unsigned i = 0; i < v_.size(); ++i, ++age)
+    values_[age] = v_[i];
+  for (; age <= max_age; ++age)
     values_[age] = *v_.rbegin();
 }
 
