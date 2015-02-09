@@ -55,10 +55,10 @@ TEST(Selectivities, AllValuesBounded) {
   EXPECT_DOUBLE_EQ(10.0, all_values_bounded.GetResult(14));
   EXPECT_DOUBLE_EQ(12.0, all_values_bounded.GetResult(15));
   EXPECT_DOUBLE_EQ(12.0, all_values_bounded.GetResult(16));
-  EXPECT_DOUBLE_EQ(0.0,  all_values_bounded.GetResult(17));
-  EXPECT_DOUBLE_EQ(0.0,  all_values_bounded.GetResult(18));
-  EXPECT_DOUBLE_EQ(0.0,  all_values_bounded.GetResult(19));
-  EXPECT_DOUBLE_EQ(0.0,  all_values_bounded.GetResult(20)); // At model->max_age()
+  EXPECT_DOUBLE_EQ(12.0,  all_values_bounded.GetResult(17));
+  EXPECT_DOUBLE_EQ(12.0,  all_values_bounded.GetResult(18));
+  EXPECT_DOUBLE_EQ(12.0,  all_values_bounded.GetResult(19));
+  EXPECT_DOUBLE_EQ(12.0,  all_values_bounded.GetResult(20)); // At model->max_age()
   EXPECT_DOUBLE_EQ(0.0,  all_values_bounded.GetResult(21)); // This is above model->max_age()
   EXPECT_DOUBLE_EQ(0.0,  all_values_bounded.GetResult(22));
   EXPECT_DOUBLE_EQ(0.0,  all_values_bounded.GetResult(23));
