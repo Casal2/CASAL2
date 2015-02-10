@@ -18,6 +18,7 @@
 #include <fstream>
 
 #include "Reports/Manager.h"
+#include "TimeSteps/Manager.h"
 
 // Namespaces
 namespace niwa {
@@ -48,6 +49,16 @@ Report::Report() {
 void Report::Validate() {
   parameters_.Populate();
   DoValidate();
+}
+
+/**
+ *
+ */
+void Report::Build() {
+  if (time_step_ != "" && !timesteps::Manager::Instance().GetTimeStep(time_step_))
+    LOG_ERROR(parameters_.location(PARAM_TIME_STEP) << ": " << time_step_ << " could not be found. Have you defined it?");
+
+  DoBuild();
 }
 
 /**
