@@ -35,7 +35,6 @@ public:
   void                        Validate();
   void                        Build();
   void                        Reset() { };
-  bool                        IsAssignedToInitialisationPhase(const string& label);
   void                        PreExecute() override final { };
   Double                      GetValue(unsigned year);
   Double                      GetInitialisationValue(unsigned phase = 0, unsigned index = 0);
@@ -49,7 +48,6 @@ public:
 protected:
   // Members
   string                      time_step_label_;
-  vector<string>              initialisation_time_step_labels_;
   unsigned                    current_initialisation_phase_;
   vector<vector<Double> >     initialisation_values_;
   map<unsigned, Double>       values_;

@@ -486,6 +486,11 @@ void Loader::HandleInlineDefinitions(FileLine& file_line, const string& parent_l
             << ": This line contains no space characters so we cannot determine the label for the inline definition");
 
       string block_type = file_line.line_.substr(0, space_loc);
+      // do some quick changes to handle weird parameter names
+      LOG_INFO("block_type: " << block_type);
+      if (block_type.find(PARAM_SELECTIVITIES) != string::npos)
+        block_type = PARAM_SELECTIVITY;
+      LOG_INFO("block_type: " << block_type);
 
       /**
        * Get the label. Either it's going to be the first part of the line

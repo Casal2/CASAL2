@@ -23,7 +23,6 @@ DerivedQuantity::DerivedQuantity() {
   parameters_.Bind<string>(PARAM_LABEL, &label_, "Label", "");
   parameters_.Bind<string>(PARAM_TYPE, &type_, "Type", "");
   parameters_.Bind<string>(PARAM_TIME_STEP, &time_step_label_, "The time step to calculate the derived quantity after", "");
-  parameters_.Bind<string>(PARAM_INITIALISATION_TIME_STEPS, &initialisation_time_step_labels_, "The initialisation time steps to calculate the derived quantity after", "", true);
   parameters_.Bind<string>(PARAM_CATEGORIES, &category_labels_, "The list of categories to use when calculating the derived quantity", "");
   parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_labels_, "The list of selectivities to use when calculating the derived quantity. 1 per category", "");
 
@@ -67,27 +66,7 @@ void DerivedQuantity::Build() {
   if (!time_step)
     LOG_ERROR(parameters_.location(PARAM_TIME_STEP) << " (" << time_step_label_ << ") could not be found. Have you defined it?");
   time_step->SubscribeToBlock(shared_ptr());
-
-  for (const string label : initialisation_time_step_labels_) {
-    TimeStepPtr init_time_step = timesteps::Manager::Instance().GetTimeStep(label);
-    if (!init_time_step)
-      LOG_ERROR(parameters_.location(PARAM_INITIALISATION_TIME_STEPS) << " (" << label << ") could not be found. Have you defined it?");
-    init_time_step->SubscribeToInitialisationBlock(shared_ptr());
-  }
-}
-
-/**
- * Check if this derived quantity has the initialisation phase label
- * assigned too it. This is used to determine if we need to
- * bind this derived quantity to an initialisation phase
- * for calculation
- *
- * @param label The label of the initialisation time step to check
- * @return True if assigned to parameter initialisation time step, false otherwise
- */
-bool DerivedQuantity::IsAssignedToInitialisationPhase(const string& label) {
-  return std::find(initialisation_time_step_labels_.begin(), initialisation_time_step_labels_.end(), label)
-    != initialisation_time_step_labels_.end();
+  time_step->SubscribeToInitialisationBlock(shared_ptr());
 }
 
 /**
