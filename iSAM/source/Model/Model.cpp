@@ -226,6 +226,7 @@ void Model::Validate() {
   // Call validation for the other objects required by the model
   Categories::Instance()->Validate();
   Partition::Instance().Validate();
+  timesteps::Manager::Instance().Validate();
 
   additionalpriors::Manager::Instance().Validate();
   agesizes::Manager::Instance().Validate();
@@ -243,7 +244,6 @@ void Model::Validate() {
   selectivities::Manager::Instance().Validate();
   simulates::Manager::Instance().Validate();
   sizeweights::Manager::Instance().Validate();
-  timesteps::Manager::Instance().Validate();
   timevarying::Manager::Instance().Validate();
 
   // Final Objects to validate as they have dependencies

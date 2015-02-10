@@ -81,6 +81,22 @@ void RecruitmentBevertonHolt::DoValidate() {
     running_total += value;
   if (!dc::IsOne(running_total))
     LOG_ERROR(parameters_.location(PARAM_PROPORTIONS) << " sum total is " << running_total << " when it should be 1.0");
+}
+
+/**
+ * Build the runtime relationships between this object and it's
+ */
+void RecruitmentBevertonHolt::DoBuild() {
+  partition_.Init(category_labels_);
+
+  if (phase_b0_label_ != "")
+    phase_b0_         = initialisationphases::Manager::Instance().GetPhaseIndex(phase_b0_label_);
+
+  print_values_["b0_value"].resize(1);
+
+  derived_quantity_ = derivedquantities::Manager::Instance().GetDerivedQuantity(ssb_);
+  if (!derived_quantity_)
+    LOG_ERROR(parameters_.location(PARAM_SSB) << "(" << ssb_ << ") could not be found. Have you defined it?");
 
   /**
    * Calculate out SSB offset
@@ -143,35 +159,6 @@ void RecruitmentBevertonHolt::DoValidate() {
     if (value < 0.0)
       LOG_ERROR(parameters_.location(PARAM_YCS_VALUES) << " value " << value << " cannot be less than 0.0");
   }
-}
-
-/**
- * Build the runtime relationships between this object and it's
- */
-void RecruitmentBevertonHolt::DoBuild() {
-  partition_.Init(category_labels_);
-
-  if (phase_b0_label_ != "")
-    phase_b0_         = initialisationphases::Manager::Instance().GetPhaseIndex(phase_b0_label_);
-
-  derived_quantity_ = derivedquantities::Manager::Instance().GetDerivedQuantity(ssb_);
-  if (!derived_quantity_)
-    LOG_ERROR(parameters_.location(PARAM_SSB) << "(" << ssb_ << ") could not be found. Have you defined it?");
-
-
-  print_values_["b0_value"].resize(1);
-
-
-  /**
-   * figure out if we have to modify the SSB offset based on the location of recruitment
-   * compared to the derived quantity
-   */
-//  timesteps::Manager& time_step_manager = timesteps::Manager::Instance();
-//  string dq_time_step = derived_quantity_->time_step();
-//  if (time_step_manager.GetTimeStepIndexForProcess(label_) <= time_step_manager.GetTimeStepIndex(dq_time_step))
-//    actual_ssb_offset_ = ssb_offset_ - 1;
-//  else
-//    actual_ssb_offset_ = ssb_offset_;
 
   DoReset();
 }
@@ -222,7 +209,6 @@ void RecruitmentBevertonHolt::DoExecute() {
     initialisationphases::Manager& init_phase_manager = initialisationphases::Manager::Instance();
     if (init_phase_manager.last_executed_phase() <= phase_b0_) {
       amount_per = r0_;
-//      cout << "amount_per: " << amount_per << endl;
 
     } else {
       b0_ = derived_quantity_->GetLastValueFromInitialisation(phase_b0_);
@@ -230,7 +216,6 @@ void RecruitmentBevertonHolt::DoExecute() {
       Double true_ycs  = 1.0 * ssb_ratio / (1 - ((5 * steepness_ - 1) / (4 * steepness_) ) * (1 - ssb_ratio));
       amount_per = r0_ * true_ycs;
 
-//      cout << "init: b0_: " << b0_ << "; ssb_ratio: " << ssb_ratio << "; true_ycs: " << true_ycs << "; amount_per: " << amount_per << endl;
       LOG_INFO("b0_: " << b0_ << "; ssb_ratio: " << ssb_ratio << "; true_ycs: " << true_ycs << "; amount_per: " << amount_per);
     }
 

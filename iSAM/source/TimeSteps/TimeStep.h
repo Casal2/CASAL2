@@ -52,10 +52,6 @@ public:
   vector<string>              initialisation_process_labels(const string& initialisation_phase) { return initialisation_process_labels_[initialisation_phase]; }
 
 private:
-  // methods
-//  void                        ExecuteDerivedQuantities();
-//  void                        ExecuteInitialisationDerivedQuantities(unsigned phase);
-
   // Members
   vector<string>                      process_names_;
   vector<ProcessPtr>                  processes_;
