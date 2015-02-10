@@ -117,6 +117,7 @@ void Manager::Validate() {
   LOG_TRACE();
 
   for (TimeStepPtr time_step : objects_) {
+    LOG_INFO("Validating time step: " << time_step->label());
     time_step->Validate();
   }
 

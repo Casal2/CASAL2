@@ -52,7 +52,7 @@ public:
   Report();
   virtual                     ~Report() = default;
   void                        Validate();
-  void                        Build() { DoBuild(); };
+  void                        Build();
   void                        Prepare();
   void                        Reset() {};
   void                        Execute();
