@@ -173,14 +173,18 @@ void TagByAge::DoValidate() {
     Double proportion = 0.0;
     for (auto iter : data) {
       if (!utilities::To<unsigned>(iter[0], year))
-        LOG_ERROR(parameters_.location(PARAM_NUMBERS) << " value (" << iter[0] << ") is not a valid unsigned value that could be converted to a model year");
+        LOG_ERROR(parameters_.location(PARAM_PROPORTIONS) << " value (" << iter[0] << ") is not a valid unsigned value that could be converted to a model year");
+      Double total_proportion = 0.0;
       for (unsigned i = 1; i < iter.size(); ++i) {
         if (!utilities::To<Double>(iter[i], proportion))
-          LOG_ERROR(parameters_.location(PARAM_NUMBERS) << " value (" << iter[i] << ") could not be converted to a double. Please ensure it's a numeric value");
+          LOG_ERROR(parameters_.location(PARAM_PROPORTIONS) << " value (" << iter[i] << ") could not be converted to a double. Please ensure it's a numeric value");
         if (numbers_[year].size() == 0)
           numbers_[year].resize(age_spread, 0.0);
         numbers_[year][i - 1] = n_by_year[year] * proportion;
+        total_proportion += proportion;
       }
+      if (!utilities::doublecompare::IsOne(total_proportion))
+        LOG_ERROR(parameters_.location(PARAM_PROPORTIONS) << " total (" << total_proportion << ") is not 1.0 for year " << year);
     }
 
     for (auto iter : numbers_) {
