@@ -371,6 +371,94 @@ TEST_F(InternalEmptyModel, Processes_Tag_By_Age_With_Selectivities) {
   EXPECT_DOUBLE_EQ(0.0,         female.data_[9]);
 }
 
+/**
+ * Selectivities
+ */
+const std::string test_cases_process_tag_by_age_with_proportions_table =
+R"(
+@model
+start_year 1994
+final_year 2010
+min_age 1
+max_age 12
+age_plus t
+initialisation_phases iphase1 iphase2
+time_steps step_one=[processes=Recruitment] step_two=[processes=Tagging] step_three=[processes=Ageing]
+
+@categories
+format stage.sex
+names immature.male mature.male immature.female mature.female
+
+@initialisation_phase iphase1
+years 200
+
+@initialisation_phase iphase2
+years 1
+
+@ageing Ageing
+categories *
+
+@Recruitment Recruitment
+type constant
+categories immature.male immature.female
+proportions 0.5 0.5
+R0 997386
+age 1
+
+@tag Tagging
+type by_age
+years 2008
+from immature.male immature.female
+to mature.male mature.female
+selectivities [type=constant; c=0.25] [type=constant; c=0.4]
+min_age 3
+max_age 6
+loss_rate 0.02
+loss_rate_selectivities [type=logistic; a50=11.9; ato95=5.25] [type=constant; c=0.5]
+n 10000
+table proportions
+year 3 4 5 6
+2008 0.1 0.2 0.3 0.4
+end_table
+)";
+
+/**
+ *
+ */
+TEST_F(InternalEmptyModel, Processes_Tag_By_Age_With_Proportions_Table) {
+  AddConfigurationLine(test_cases_process_tag_by_age_with_proportions_table, __FILE__, 379);
+  LoadConfiguration();
+
+  ModelPtr model = Model::Instance();
+  model->Start(RunMode::kBasic);
+
+  // 0.000000 0.000000 0.000000 0.000000 0.000000 380.778846 761.557692 1142.336538 1523.115385 0.000000 0.000000 0.000000
+  partition::Category& male   = Partition::Instance().category("mature.male");
+  EXPECT_DOUBLE_EQ(0.0,         male.data_[0]);
+  EXPECT_DOUBLE_EQ(0.0,         male.data_[1]);
+  EXPECT_DOUBLE_EQ(0.0,         male.data_[2]);
+  EXPECT_DOUBLE_EQ(0.0,         male.data_[3]);
+  EXPECT_DOUBLE_EQ(0.0,         male.data_[4]);
+  EXPECT_DOUBLE_EQ(380.77884615384613, male.data_[5]);
+  EXPECT_DOUBLE_EQ(761.55769230769226, male.data_[6]);
+  EXPECT_DOUBLE_EQ(1142.3365384615386, male.data_[7]);
+  EXPECT_DOUBLE_EQ(1523.1153846153845, male.data_[8]);
+  EXPECT_DOUBLE_EQ(0.0,         male.data_[9]);
+
+  // 0.000000 0.000000 0.000000 0.000000 0.000000 605.577846 1211.155692 1816.733538 2422.311385 0.000000 0.000000 0.000000
+  partition::Category& female = Partition::Instance().category("mature.female");
+  EXPECT_DOUBLE_EQ(0.0,         female.data_[0]);
+  EXPECT_DOUBLE_EQ(0.0,         female.data_[1]);
+  EXPECT_DOUBLE_EQ(0.0,         female.data_[2]);
+  EXPECT_DOUBLE_EQ(0.0,         female.data_[3]);
+  EXPECT_DOUBLE_EQ(0.0,         female.data_[4]);
+  EXPECT_DOUBLE_EQ(605.57784615384628, female.data_[5]);
+  EXPECT_DOUBLE_EQ(1211.1556923076926, female.data_[6]);
+  EXPECT_DOUBLE_EQ(1816.7335384615385, female.data_[7]);
+  EXPECT_DOUBLE_EQ(2422.3113846153851, female.data_[8]);
+  EXPECT_DOUBLE_EQ(0.0,         female.data_[9]);
+}
+
 } /* namespace processes */
 } /* namespace niwa */
 
