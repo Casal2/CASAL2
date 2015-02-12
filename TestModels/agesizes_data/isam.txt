@@ -36,15 +36,6 @@ k 0.202
 t0 -0.20
 linf 113.4
 
-
-
-
-
-
-
-
-
-
 @initialisation_phase phase1
 years 20000
 exclude_processes fishing
@@ -63,7 +54,6 @@ type biomass
 categories male female
 selectivities male_maturity female_maturity
 time_step one
-initialisation_time_steps one
 
 @ageing ageing
 categories male female
