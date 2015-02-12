@@ -74,7 +74,6 @@ type biomass
 categories male female
 selectivities male_maturity female_maturity
 time_step one
-initialisation_time_steps one
 
 @ageing ageing
 categories male female

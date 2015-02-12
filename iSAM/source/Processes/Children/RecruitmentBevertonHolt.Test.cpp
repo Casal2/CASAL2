@@ -64,6 +64,56 @@ TEST_F(InternalEmptyModel, Processes_BevertonHolt_Recruitment) {
   EXPECT_DOUBLE_EQ(168519.01800652978, female.data_[23]);
 }
 
+/**
+ *
+ */
+const std::string test_cases_process_recruitment_bh =
+R"(
+@model
+start_year 1994
+final_year 2008
+min_age 1
+max_age 12
+age_plus t
+initialisation_phases iphase1 iphase2
+time_steps step_one=[processes=Recruitment] step_two=[processes=Tagging] step_three=[processes=Ageing]
+
+@categories
+format stage.sex
+names immature.male mature.male immature.female mature.female
+
+@initialisation_phase iphase1
+years 200
+
+@initialisation_phase iphase2
+years 1
+
+@ageing Ageing
+categories *
+
+@Recruitment Recruitment
+type constant
+categories immature.male immature.female
+proportions 0.5 0.5
+R0 997386
+age 1
+
+@tag Tagging
+type by_age
+years 2008
+from immature.male immature.female
+to mature.male mature.female
+selectivities [type=constant; c=0.25] [type=constant; c=0.4]
+min_age 3
+max_age 6
+loss_rate 0
+loss_rate_selectivities [type=constant; c=1] [type=constant; c=1]
+table numbers
+year 3 4 5 6
+2008 1000 2000 3000 4000
+end_table
+)";
+
 } /* namespace processes */
 } /* namespace niwa */
 
