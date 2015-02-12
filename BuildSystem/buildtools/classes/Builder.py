@@ -5,6 +5,7 @@ import os.path
 import shutil
 import fileinput
 import re
+import time
 from datetime import datetime, date
 from dateutil import tz
 
@@ -20,6 +21,7 @@ class MainCode:
   output_directory_ = "";
   
   def start(self):
+    start = time.time()
     print "--> Starting build of the main code base"
     print "--> Build configuration " + Globals.build_target_ + " : " + Globals.build_parameters_
     print "--> Operating System: " + Globals.operating_system_
@@ -89,6 +91,9 @@ class MainCode:
     else:
       if os.system("make") != EX_OK:
         return Globals.PrintError("Failed to build code base. Please see above for build error")
+
+    elapsed = time.time() - start
+    print 'Compile finished in ' + str(round(elapsed, 2)) + ' seconds'
     
     return True    
 

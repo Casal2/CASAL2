@@ -103,9 +103,10 @@ Double DerivedQuantity::GetValue(unsigned year) {
     result = (*initialisation_values_.rbegin()->rbegin());
   } else if (initialisation_values_.rbegin()->size() > years_to_go_back) {
     result = initialisation_values_.rbegin()->at(initialisation_values_.rbegin()->size() - years_to_go_back);
-  } else {
-    LOG_CODE_ERROR("this should be going back in to another init phase if possible (" << label_ << ")");
+  } else if (initialisation_values_.size() == 1) {
     result = (*initialisation_values_.rbegin()->begin()); // first value of last init phase
+  } else {
+    result = (*(initialisation_values_.rbegin() + 1)->begin()); // first value of last init phase
   }
 
   LOG_INFO("years_to_go_back: " << years_to_go_back
