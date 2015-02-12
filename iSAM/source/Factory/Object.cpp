@@ -12,6 +12,7 @@
 #include "Object.h"
 
 #include "AdditionalPriors/Factory.h"
+#include "AgeLengths/Factory.h"
 #include "AgeSizes/Factory.h"
 #include "Asserts/Factory.h"
 #include "Catchabilities/Factory.h"
@@ -63,6 +64,8 @@ base::ObjectPtr Object::Create(string& object_type, string& sub_type) {
 
   if (object_type == PARAM_ADDITIONAL_PRIOR)
     result = additionalpriors::Factory::Create(object_type, sub_type);
+  else if (object_type == PARAM_AGE_LENGTH || object_type == PARAM_AGE_LENGTHS)
+    result = agelengths::Factory::Create(object_type, sub_type);
   else if (object_type == PARAM_AGE_SIZE || object_type == PARAM_AGE_SIZES)
     result = agesizes::Factory::Create(object_type, sub_type);
   else if (object_type == PARAM_ASSERT)
@@ -97,7 +100,7 @@ base::ObjectPtr Object::Create(string& object_type, string& sub_type) {
     result = projects::Factory::Create(object_type, sub_type);
   else if (object_type == PARAM_AGEING || object_type == PARAM_MATURATION || object_type == PARAM_MORTALITY || object_type == PARAM_RECRUITMENT)
     result = processes::Factory::Create(object_type, sub_type);
-  else if (object_type == PARAM_TRANSITION) // @process specialisation
+  else if (object_type == PARAM_TAG || object_type == PARAM_TRANSITION) // @process specialisation
     result = processes::Factory::Create(object_type, sub_type);
   else if (object_type == PARAM_REPORT)
     result = reports::Factory::Create(object_type, sub_type);
