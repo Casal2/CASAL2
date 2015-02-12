@@ -185,7 +185,6 @@ type abundance
 categories *
 selectivities Maturation Maturation Maturation Maturation
 time_step step_one
-initialisation_time_steps step_one
 )";
 
 } /* namespace models */
