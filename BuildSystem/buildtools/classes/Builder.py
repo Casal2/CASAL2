@@ -156,8 +156,7 @@ class ThirdPartyLibraries:
     cwd = os.path.normpath(os.getcwd())    
     build_module_name = "build"    
     
-    found_build = False
-    
+    found_build = False    
     for folder in third_party_list:
       # Do some simple checks to see if we want to process this folder
       if folder.startswith("."):
@@ -192,18 +191,28 @@ class ThirdPartyLibraries:
         import windows as third_party_builder
         builder = third_party_builder.Builder()        
         if os.path.exists(success_file) and Globals.build_parameters_ == "":
-          if str(library_version) == str(builder.version_) and str(library_version) != str(-1.0):
+          if hasattr(builder, 'version_') and str(library_version) == str(builder.version_) and str(library_version) != str(-1.0):
             print '--> Skipping library ' + folder + ' (version already installed)'
             success = True
         else:
           print ""
-          print "--> Building Library: " + folder
-          success = builder.start()
-          if success:
-            os.system('echo ' + str(builder.version_) + ' > ' + Globals.target_success_path_ + folder + '.success')
-            print ""
-          else:
-            return Globals.PrintError('Third party library ' + folder + ' had an error during the build. Check log files for more information')
+          do_build = False
+          if Globals.build_target_ == "thirdpartylean" and hasattr(builder, 'is_lean') and builder.is_lean():
+            do_build = True
+          elif Globals.build_target_ == "thirdparty":
+            do_build = True
+
+          if do_build:
+            print "--> Building Library: " + folder
+            if not hasattr(builder, 'start'):
+              return Globals.PrintError('Third party library ' + folder + ' does not have a valid start() method in windows.py')
+                        
+            success = builder.start()
+            if success:
+              os.system('echo ' + str(builder.version_) + ' > ' + Globals.target_success_path_ + folder + '.success')
+              print ""
+            else:
+              return Globals.PrintError('Third party library ' + folder + ' had an error during the build. Check log files for more information')
         del sys.modules["windows"]
         
       else:
