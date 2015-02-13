@@ -91,7 +91,10 @@ def start():
     return Globals.PrintError("Python requires the module datetime for the build system to work")
   print '-- Checking for re Python module'
   if 're' not in sys.modules:
-    return Globals.PrintError("Python requires the module datetime for the build system to work")
+    return Globals.PrintError("Python requires the module re for the build system to work")
+  print '-- Checking for dir_util Python module'
+  if 'dir_util' not in sys.modules:
+    return Globals.PrintError("Python requires the module dir_util for the build system to work")
   
   build_target = ""
   build_parameters = ""
