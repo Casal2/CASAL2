@@ -32,10 +32,12 @@ type partition
 time_step one
 years 2008:2011
 
+{
 @report N1
 type partition
-time_step oneb
+time_step one
 years 2008:2011
+}
 
 @report N2
 type partition
