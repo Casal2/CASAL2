@@ -9,6 +9,9 @@ import Globals
 
 class Builder:
   version_ = '18.6'
+
+  def is_lean(self):
+    return True
   
   def start(self):    
     # Variables

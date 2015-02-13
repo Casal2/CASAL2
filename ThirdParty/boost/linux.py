@@ -7,6 +7,9 @@ import Globals
 
 class Builder:
   version_ = '1_55'
+
+  def is_lean(self):
+    return True
   
   def start(self):
       # Variables

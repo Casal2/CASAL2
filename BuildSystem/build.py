@@ -31,6 +31,7 @@ def print_usage():
   print '  test - Build unit tests'
   print '  documentation - Build the user manual'
   print '  thirdparty - Build all required third party libraries'
+  print '  thirdpartylean - Build minimal third party libraries'
   print '  all - Does clean, thirdparty, debug, release builds in order'
   print '  clean - Remove any previous debug/release build information'
   print '  cleanall - Remove all previous build information'
@@ -182,7 +183,7 @@ def start():
     archive_builder = Archiver()
     if not archive_builder.start():
       return False
-  elif build_target == "thirdparty":    
+  elif build_target == "thirdparty" or build_target == "thirdpartylean":
     print "*************************************************************************"
     print "*************************************************************************"
     print "--> Starting " + Globals.build_target_ + " Build"
