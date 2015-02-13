@@ -39,15 +39,6 @@ processes  Ageing
 type ageing
 categories *
 
-{
-@Recruitment Recruitment
-type constant
-categories tag=untagged
-proportions 0.5 0.5
-r0 1.6059e+006 #1021124
-age 1
-}
-
 @recruitment Recruitment
 type beverton_holt
 categories tag=untagged
@@ -55,11 +46,16 @@ proportions 0.5 0.5
 r0 1.6059e+006
 age 1
 ssb SSB
-ssb_offset 1 
+#ssb_offset 1 
 standardise_ycs_years 1995:2006 #need this?
 ycs_values 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
 steepness 0.75
 
+@derived_quantity SSB
+type biomass
+time_step two
+categories *
+selectivities MaturityMale MaturityFemale 
 
 @mortality Mortality
 type constant_rate
@@ -68,49 +64,8 @@ M 0.13 0.13
 selectivities One One 
 time_step_ratio 0.5 0.5
 
-{
-@process Tag2008
-type tag_by_age
-years 2008
-from tag=untagged
-to format=*.tagged.2008
-selectivities One Half
-#penalty tagging_penalty
-min_age 11
-max_age 15
-#plus_group False
-#minus_group False
-n 50
-table proportions
-year 11 12 13 14 15
-2008 0.2 0.2 0.2 0.2 0.2
-end_table
-U_max 0.999
-initial_mortality 0.1
-loss_rate 0.1
-
-@process Tag2010
-type tag_by_age
-years 2010
-from tag=untagged
-to format=*.tagged.2010
-selectivities ShelfSelMale ShelfSelFemale
-#penalty tagging_penalty
-min_age 11
-max_age 15
-#plus_group False
-#minus_group False
-n 50
-table proportions
-year 11 12 13 14 15
-2010 0.6 0.1 0.1 0.1 0.1
-end_table
-U_max 0.999
-initial_mortality 0.2
-loss_rate 0.01
-}
-
 # FISHING -  #Updated 2013 + insung 1 37 tonnes added to north catch in 2011
+
 @process FishingShelf
 type mortality_event_biomass
 categories *
@@ -139,27 +94,6 @@ U_max 0.999
 selectivities NorthselMale NorthselFemale 
 penalty event_mortality_penalty
 #future_constant_catches 465.49 # Current TACC = % last 3 years * total TACC
-
-@derived_quantity SSB
-type biomass
-time_step two
-categories *
-selectivities MaturityMale MaturityFemale 
-
-
-{# this is if we have maturity in the partition
-@maturation MaturationMales
-from immature.male
-to mature.male
-proportions 1.0
-selectivities logisticMale
-
-@maturation MaturationFemales
-from immature.female
-to mature.female
-proportions 1.0
-selectivities logisticFemale
-}
 
 # Definition of selecivities
 @selectivity One

@@ -222,3 +222,7 @@ units tonnes
 a 7.154e-009
 b 3.108
 
+@penalty event_mortality_penalty
+type process
+log_scale True
+multiplier 10
