@@ -3,6 +3,7 @@ import sys
 import os.path
 import subprocess
 import fileinput
+import distutils
 
 sys.path.insert(0, "buildtools/classes")
 
@@ -83,6 +84,8 @@ def start_build_system():
 Get the build information from the user
 """
 def start():
+  for x in sys.modules:
+    print x
   print '-- Checking for dateutil Python module'
   if 'dateutil' not in sys.modules:
     return Globals.PrintError("Python requires the module dateutil for the build system to work")
@@ -92,9 +95,10 @@ def start():
   print '-- Checking for re Python module'
   if 're' not in sys.modules:
     return Globals.PrintError("Python requires the module re for the build system to work")
-  print '-- Checking for dir_util Python module'
-  if 'dir_util' not in sys.modules:
-    return Globals.PrintError("Python requires the module dir_util for the build system to work")
+  print '-- Checking for distutils Python module'
+  if 'distutils' not in sys.modules:
+    return Globals.PrintError("Python requires the module distutils for the build system to work")
+
   
   build_target = ""
   build_parameters = ""
