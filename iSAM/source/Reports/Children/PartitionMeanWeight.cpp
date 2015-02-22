@@ -43,6 +43,9 @@ void PartitionMeanWeight::DoExecute() {
   niwa::partition::accessors::All all_view;
 
   for (auto iterator = all_view.Begin(); iterator != all_view.End(); ++iterator) {
+    (*iterator)->UpdateWeightData();
+    (*iterator)->UpdateSizeData();
+
     string category = (*iterator)->name_;
     cache_ << "category: " << category << "\n";
 
@@ -51,7 +54,7 @@ void PartitionMeanWeight::DoExecute() {
     cache_ << year << ": ";
 
     for (unsigned age = (*iterator)->min_age_; age <= (*iterator)->max_age_; ++age)
-      cache_ << (*iterator)->age_size_weight_->mean_weight(year, age) << " ";
+      cache_ << (*iterator)->weight_data_[age] << " ";
 
     cache_ << "\n";
 
@@ -60,7 +63,7 @@ void PartitionMeanWeight::DoExecute() {
     cache_ << year << ": ";
 
     for (unsigned age = (*iterator)->min_age_; age <= (*iterator)->max_age_; ++age)
-      cache_ << (*iterator)->age_size_weight_->mean_size(year, age) << " ";
+      cache_ << (*iterator)->size_data_[age] << " ";
 
     cache_ << "\n";
   }

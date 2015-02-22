@@ -1,20 +1,18 @@
 /**
- * @file ProportionsAtAge.h
- * @author  Scott Rasmussen (scott.rasmussen@zaita.com)
- * @version 1.0
- * @date 8/04/2013
+ * @file ProportionsByCategory.h
+ * @author Scott Rasmussen (scott.rasmussen@zaita.com)
+ * @github https://github.com/Zaita
+ * @date 17/02/2015
  * @section LICENSE
  *
- * Copyright NIWA Science ©2013 - www.niwa.co.nz
+ * Copyright NIWA Science ©2015 - www.niwa.co.nz
  *
  * @section DESCRIPTION
  *
- * The time class represents a moment of time.
- *
- * $Date: 2008-03-04 16:33:32 +1300 (Tue, 04 Mar 2008) $
+ * << Add Description >>
  */
-#ifndef OBSERVATIONS_PROPORTIONSATAGE_H_
-#define OBSERVATIONS_PROPORTIONSATAGE_H_
+#ifndef OBSERVATIONS_PROPORTIONSBYCATEGORY_H_
+#define OBSERVATIONS_PROPORTIONSBYCATEGORY_H_
 
 // Headers
 #include "Observations/Observation.h"
@@ -30,13 +28,13 @@ using partition::accessors::CombinedCategoriesPtr;
 using partition::accessors::cached::CachedCombinedCategoriesPtr;
 
 /**
- * Class Definition
+ * Class definition
  */
-class ProportionsAtAge : public niwa::Observation {
+class ProportionsByCategory : public niwa::Observation {
 public:
-  // Methods
-  ProportionsAtAge();
-  virtual                     ~ProportionsAtAge() = default;
+  // methods
+  ProportionsByCategory();
+  virtual                     ~ProportionsByCategory() = default;
   void                        DoValidate() override final;
   virtual void                DoBuild() override;
   void                        DoReset() override final { };
@@ -69,4 +67,5 @@ protected:
 
 } /* namespace observations */
 } /* namespace niwa */
-#endif /* PROPORTIONSATAGE_H_ */
+
+#endif /* PROPORTIONSBYCATEGORY_H_ */

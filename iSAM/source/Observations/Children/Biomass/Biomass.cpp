@@ -145,12 +145,14 @@ void Biomass::Execute() {
     auto category_iter = partition_iter->begin();
     auto cached_category_iter = cached_partition_iter->begin();
     for (unsigned category_offset = 0; category_iter != partition_iter->end(); ++category_offset, ++cached_category_iter, ++category_iter) {
-      for (unsigned data_offset = 0; data_offset < (*category_iter)->data_.size(); ++data_offset) {
+      (*category_iter)->UpdateWeightData();
+
+      for (unsigned data_offset = 0; data_offset < (*category_iter)->age_data_.size(); ++data_offset) {
         age = (*category_iter)->min_age_ + data_offset;
 
         selectivity_result = selectivities_[category_offset]->GetResult(age);
-        start_value = (*cached_category_iter).data_[data_offset];
-        end_value = (*category_iter)->data_[data_offset];
+        start_value = (*cached_category_iter).age_data_[data_offset];
+        end_value = (*category_iter)->age_data_[data_offset];
         final_value = 0.0;
 
         if (mean_proportion_method_)
@@ -162,7 +164,7 @@ void Biomass::Execute() {
           final_value = temp * proportion_of_time_;
         }
 
-        expected_total += selectivity_result * final_value * (*category_iter)->age_size_weight_->mean_weight(current_year, age);
+        expected_total += selectivity_result * final_value * (*category_iter)->weight_data_[age];
       }
     }
 
