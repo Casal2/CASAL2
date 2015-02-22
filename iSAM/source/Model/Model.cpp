@@ -71,6 +71,7 @@ Model::Model() {
   parameters_.Bind<string>(PARAM_INITIALISATION_PHASES, &initialisation_phases_, "Define the labels of the phases of the initialisation", R"(A list of valid labels defined by \texttt{@initialisation_phase})", true);
   parameters_.Bind<string>(PARAM_TIME_STEPS, &time_steps_, "Define the labels of the time steps, in the order that they are applied, to form the annual cycle", R"(A list of valid labels defined by \texttt{@time_step})");
   parameters_.Bind<unsigned>(PARAM_PROJECTION_FINAL_YEAR, &projection_final_year_, "Define the final year of the model in projection mode", R"(Defines the last year of the projection period, i.e., the projection period runs from \texttt{final_year}$+1$ to \texttt{projection_final_year}. For the default, $0$, no projections are run.)", 0);
+  parameters_.Bind<string>(PARAM_TYPE, &type_, "Type of model (the partition structure). Either age, length or hybrid", "", PARAM_AGE);
 }
 
 /**
@@ -214,6 +215,16 @@ void Model::Validate() {
     LOG_ERROR(parameters_.location(PARAM_FINAL_YEAR) << " (" << final_year_ << ") cannot be less than start_year (" << start_year_ << ")");
   if (min_age_ > max_age_)
     LOG_ERROR(parameters_.location(PARAM_MIN_AGE) << " (" << min_age_ << ") has been defined as greater than max_age (" << max_age_ << ")");
+
+  if (type_ == PARAM_AGE)
+    partition_structure_ = PartitionStructure::kAge;
+  else if (type_ == PARAM_LENGTH)
+    partition_structure_ = PartitionStructure::kLength;
+  else if (type == PARAM_HYBRID)
+    partition_structure_ = PartitionStructure::kHybrid;
+  else
+    LOG_ERROR(parameters_.location(PARAM_TYPE) << " (" << type_ << ") is not valid. Please use either " << PARAM_AGE
+        << ", " << PARAM_LENGTH << " or " << PARAM_HYBRID);
 
   if (run_mode_ == RunMode::kProjection) {
     if (projection_final_year_ <= start_year_ || projection_final_year_ <= final_year_) {

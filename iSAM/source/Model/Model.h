@@ -46,6 +46,12 @@ enum Type {
 };
 }
 
+enum class PartitionStructure {
+  kAge,
+  kLength,
+  kHybrid
+};
+
 /**
  * Class definition
  */
@@ -73,6 +79,7 @@ public:
   bool                        age_plus() const { return age_plus_; }
   const vector<string>&       time_steps() const { return time_steps_; }
   const vector<string>&       initialisation_phases() const { return initialisation_phases_; }
+  PartitionStructure          partition_structure() const { return partition_structure_; }
 
 protected:
   // Methods
@@ -105,6 +112,7 @@ protected:
   CatchabilityManagerPtr      catchability_manager_;
   bool                        estimable_values_file_ = false;
   unsigned                    estimable_values_count_ = 1;
+  PartitionStructure          partition_structure_;
 
   map<State::Type, vector<ExecutorPtr>> executors_;
 };

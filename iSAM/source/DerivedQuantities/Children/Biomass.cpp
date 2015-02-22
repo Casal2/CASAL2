@@ -34,9 +34,10 @@ void Biomass::Execute() {
     auto iterator = partition_.begin();
     // iterate over each category
     for (unsigned i = 0; i < partition_.size() && iterator != partition_.end(); ++i, ++iterator) {
+      (*iterator)->UpdateWeightData();
       for (unsigned j = 0; j < (*iterator)->data_.size(); ++j) {
         unsigned age = (*iterator)->min_age_ + j;
-        value += (*iterator)->data_[j] * selectivities_[i]->GetResult(age) * (*iterator)->age_size_weight_->mean_weight(model_->current_year(), age);
+        value += (*iterator)->data_[j] * selectivities_[i]->GetResult(age) * (*iterator)->weight_data_[age];
       }
     }
 
@@ -49,9 +50,11 @@ void Biomass::Execute() {
     auto iterator = partition_.begin();
     // iterate over each category
     for (unsigned i = 0; i < partition_.size() && iterator != partition_.end(); ++i, ++iterator) {
+      (*iterator)->UpdateWeightData();
+
       for (unsigned j = 0; j < (*iterator)->data_.size(); ++j) {
         unsigned age = (*iterator)->min_age_ + j;
-        value += (*iterator)->data_[j] * selectivities_[i]->GetResult(age) * (*iterator)->age_size_weight_->mean_weight(model_->current_year(), age);
+        value += (*iterator)->data_[j] * selectivities_[i]->GetResult(age) * (*iterator)->weight_data_[age];
       }
     }
 

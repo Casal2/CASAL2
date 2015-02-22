@@ -72,14 +72,14 @@ void PartitionBiomass::DoExecute() {
   cache_.precision(1);
   cache_ << std::fixed;
 
-  unsigned year = Model::Instance()->current_year();
-
   for (auto iterator = all_view.Begin(); iterator != all_view.End(); ++iterator) {
+    (*iterator)->UpdateWeightData();
+
     cache_ << (*iterator)->name_;
     for (unsigned i = 0; i < (*iterator)->data_.size(); ++i) {
       unsigned age = (*iterator)->min_age_ + i;
       if (age >= lowest && age <= highest)
-        cache_ << " " << std::fixed << std::setprecision(6) << AS_DOUBLE(((*iterator)->data_[i] * (*iterator)->age_size_weight_->mean_weight(year, age)));
+        cache_ << " " << std::fixed << std::setprecision(6) << AS_DOUBLE(((*iterator)->data_[i] * (*iterator)->weight_data_[age]));
       else
         cache_ << " " << "null";
     }

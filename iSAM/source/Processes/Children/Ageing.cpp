@@ -90,7 +90,7 @@ void Ageing::DoExecute() {
 
   for (auto category : partition_) {
     moved_fish = 0.0;
-    for (Double& data : (*category).data_) {
+    for (Double& data : category->data_) {
       amount_to_move = data * proportion;
       data -= amount_to_move;
       data += moved_fish;
@@ -99,7 +99,7 @@ void Ageing::DoExecute() {
     }
 
     if (model_->age_plus())
-      (* (*category).data_.rbegin() ) += moved_fish;
+      (* category->data_.rbegin() ) += moved_fish;
   }
 }
 

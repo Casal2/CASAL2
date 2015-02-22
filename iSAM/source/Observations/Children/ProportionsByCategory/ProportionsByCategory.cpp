@@ -1,17 +1,16 @@
 /**
- * @file ProportionsAtAge.cpp
- * @author  Scott Rasmussen (scott.rasmussen@zaita.com)
- * @version 1.0
- * @date 8/04/2013
+ * @file ProportionsByCategory.cpp
+ * @author Scott Rasmussen (scott.rasmussen@zaita.com)
+ * @github https://github.com/Zaita
+ * @date 17/02/2015
  * @section LICENSE
  *
- * Copyright NIWA Science ©2013 - www.niwa.co.nz
+ * Copyright NIWA Science ©2015 - www.niwa.co.nz
  *
- * $Date: 2008-03-04 16:33:32 +1300 (Tue, 04 Mar 2008) $
  */
 
-// Headers
-#include "ProportionsAtAge.h"
+// headers
+#include "ProportionsByCategory.h"
 
 #include <algorithm>
 
@@ -22,22 +21,20 @@
 #include "Utilities/Math.h"
 #include "Utilities/To.h"
 
-// Namespaces
+// namespaces
 namespace niwa {
 namespace observations {
 
 /**
  * Default constructor
  */
-ProportionsAtAge::ProportionsAtAge() {
+ProportionsByCategory::ProportionsByCategory() {
   parameters_.Bind<unsigned>(PARAM_MIN_AGE, &min_age_, "Minimum age", "");
   parameters_.Bind<unsigned>(PARAM_MAX_AGE, &max_age_, "Maximum age", "");
   parameters_.Bind<bool>(PARAM_AGE_PLUS, &age_plus_, "Use age plus group", "", true);
-  parameters_.Bind<Double>(PARAM_TOLERANCE, &tolerance_, "Tolerance", "", Double(0.001));
   parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "Year to execute in", "");
   parameters_.Bind<Double>(PARAM_DELTA, &delta_, "Delta", "", DELTA);
   parameters_.Bind<Double>(PARAM_PROCESS_ERRORS, &process_errors_, "Process error", "", true);
-  parameters_.Bind<string>(PARAM_AGEING_ERROR, &ageing_error_label_, "Label of ageing error to use", "", "");
 
   obs_table_ = TablePtr(new parameters::Table(PARAM_OBS));
   error_values_table_ = TablePtr(new parameters::Table(PARAM_ERROR_VALUES));
@@ -48,7 +45,7 @@ ProportionsAtAge::ProportionsAtAge() {
 /**
  * Validate configuration file parameters
  */
-void ProportionsAtAge::DoValidate() {
+void ProportionsByCategory::DoValidate() {
   age_spread_ = (max_age_ - min_age_) + 1;
   map<unsigned, vector<Double>> error_values_by_year;
   map<unsigned, vector<Double>> obs_by_year;
@@ -189,7 +186,7 @@ void ProportionsAtAge::DoValidate() {
  * Build any runtime relationships we may have and ensure
  * the labels for other objects are valid.
  */
-void ProportionsAtAge::DoBuild() {
+void ProportionsByCategory::DoBuild() {
   partition_ = CombinedCategoriesPtr(new niwa::partition::accessors::CombinedCategories(category_labels_));
   cached_partition_ = CachedCombinedCategoriesPtr(new niwa::partition::accessors::cached::CombinedCategories(category_labels_));
 
@@ -206,7 +203,7 @@ void ProportionsAtAge::DoBuild() {
  * At this point we need to build our cache for the partition
  * structure to use with any interpolation
  */
-void ProportionsAtAge::PreExecute() {
+void ProportionsByCategory::PreExecute() {
   ModelPtr model = Model::Instance();
 
   cached_partition_->BuildCache();
@@ -220,7 +217,7 @@ void ProportionsAtAge::PreExecute() {
 /**
  *
  */
-void ProportionsAtAge::Execute() {
+void ProportionsByCategory::Execute() {
   LOG_TRACE();
 
   /**
@@ -294,7 +291,7 @@ void ProportionsAtAge::Execute() {
  * This method is called at the end of a model iteration
  * to calculate the score for the observation.
  */
-void ProportionsAtAge::CalculateScore() {
+void ProportionsByCategory::CalculateScore() {
   /**
    * Simulate or generate results
    * During simulation mode we'll simulate results for this observation

@@ -14,15 +14,15 @@
  *
  * $Date: 2008-03-04 16:33:32 +1300 (Tue, 04 Mar 2008) $
  */
-#ifndef WORLD_H_
-#define WORLD_H_
+#ifndef PARTITION_H_
+#define PARTITION_H_
 
 // Headers
 #include <map>
 #include <vector>
 #include <string>
 
-#include "AgeSizes/AgeSize.h"
+#include "Partition/Category.h"
 #include "Utilities/Types.h"
 
 // Namespaces
@@ -31,26 +31,6 @@ namespace niwa {
 using std::string;
 using std::map;
 using std::vector;
-using niwa::utilities::Double;
-
-enum ModelType {
-  kLengthModel,
-  kAgeModel,
-  kCustomModel
-};
-
-namespace partition {
-struct Category {
-  string    name_;
-  unsigned  min_age_;
-  unsigned  max_age_;
-  vector<unsigned>  years_;
-  vector<Double>  data_;
-  AgeSizePtr age_size_weight_ = AgeSizePtr();
-
-//  map<unsigned, vector<Double>>  mean_weights_by_year_;
-};
-} /* namespace partition */
 
 /**
  * Class Definition
@@ -63,10 +43,8 @@ public:
   void                        Validate();
   void                        Build();
   void                        Reset();
-//  void                        CalculateMeanWeights();
   void                        Clear() { partition_.clear(); }
   void                        Debug();
-
 
   // Accessors
   partition::Category&        category(const string& category_label);
@@ -80,4 +58,4 @@ private:
 };
 
 } /* namespace niwa */
-#endif /* WORLD_H_ */
+#endif /* PARTITION_H_ */
