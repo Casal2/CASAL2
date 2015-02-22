@@ -16,7 +16,7 @@
 #include <iostream>
 
 #include "AdditionalPriors/Manager.h"
-#include "AgeSizes/Manager.h"
+#include "AgeLengths/Manager.h"
 #include "Asserts/Manager.h"
 #include "Catchabilities/Manager.h"
 #include "Categories/Categories.h"
@@ -41,7 +41,7 @@
 #include "TimeVarying/Manager.h"
 #include "ObjectiveFunction/ObjectiveFunction.h"
 
-#include "Partition/Accessors/Category.h"
+#include "Partition/Accessors/Age/Category.h"
 #include "Partition/Partition.h"
 
 #include "Utilities/Logging/Logging.h"
@@ -220,7 +220,7 @@ void Model::Validate() {
     partition_structure_ = PartitionStructure::kAge;
   else if (type_ == PARAM_LENGTH)
     partition_structure_ = PartitionStructure::kLength;
-  else if (type == PARAM_HYBRID)
+  else if (type_ == PARAM_HYBRID)
     partition_structure_ = PartitionStructure::kHybrid;
   else
     LOG_ERROR(parameters_.location(PARAM_TYPE) << " (" << type_ << ") is not valid. Please use either " << PARAM_AGE
@@ -240,7 +240,7 @@ void Model::Validate() {
   timesteps::Manager::Instance().Validate();
 
   additionalpriors::Manager::Instance().Validate();
-  agesizes::Manager::Instance().Validate();
+  agelengths::Manager::Instance().Validate();
   asserts::Manager::Instance().Validate();
   catchabilities::Manager::Instance().Validate();
   derivedquantities::Manager::Instance().Validate();
@@ -288,7 +288,7 @@ void Model::Build() {
   // build managers
   additionalpriors::Manager::Instance().Build();
   estimates::Manager::Instance().Build();
-  agesizes::Manager::Instance().Build();
+  agelengths::Manager::Instance().Build();
   asserts::Manager::Instance().Build();
   catchabilities::Manager::Instance().Build();
   derivedquantities::Manager::Instance().Build();
@@ -332,7 +332,7 @@ void Model::Reset() {
   estimates::Manager::Instance().Reset();
 
   additionalpriors::Manager::Instance().Reset();
-  agesizes::Manager::Instance().Reset();
+  agelengths::Manager::Instance().Reset();
   asserts::Manager::Instance().Reset();
   Categories::Instance()->Reset();
   catchabilities::Manager::Instance().Reset();

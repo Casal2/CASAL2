@@ -15,7 +15,7 @@
 #include <boost/algorithm/string/trim_all.hpp>
 #include <boost/algorithm/string/split.hpp>
 
-#include "AgeSizes/Manager.h"
+#include "AgeLengths/Manager.h"
 #include "Catchabilities/Manager.h"
 #include "Categories/Categories.h"
 #include "DerivedQuantities/Manager.h"
@@ -25,7 +25,7 @@
 #include "Minimisers/Manager.h"
 #include "ObjectiveFunction/ObjectiveFunction.h"
 #include "Observations/Manager.h"
-#include "Partition/Accessors/Category.h"
+#include "Partition/Accessors/Age/Category.h"
 #include "Partition/Partition.h"
 #include "Penalties/Manager.h"
 #include "Processes/Manager.h"

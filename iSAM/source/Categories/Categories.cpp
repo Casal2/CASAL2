@@ -17,7 +17,7 @@
 #include <boost/algorithm/string/trim_all.hpp>
 #include <boost/algorithm/string/split.hpp>
 
-#include "AgeSizes/Manager.h"
+#include "AgeLengths/Manager.h"
 #include "Model/Model.h"
 #include "Utilities/Logging/Logging.h"
 #include "Utilities/String.h"
@@ -104,15 +104,15 @@ void Categories::Validate() {
  * and other objects in the system
  */
 void Categories::Build() {
-  agesizes::Manager& age_sizes_manager = agesizes::Manager::Instance();
+  agelengths::Manager& age_sizes_manager = agelengths::Manager::Instance();
 
   auto iter = category_age_size_labels_.begin();
   for (; iter != category_age_size_labels_.end(); ++iter) {
-    AgeSizePtr age_size = age_sizes_manager.GetAgeSize(iter->second);
+    AgeLengthPtr age_size = age_sizes_manager.GetAgeLength(iter->second);
     if (!age_size)
       LOG_ERROR(parameters_.location(PARAM_AGE_SIZES) << "(" << iter->second << ") could not be found. Have you defined it?");
 
-    categories_[iter->first].age_size_ = age_size;
+    categories_[iter->first].age_length_ = age_size;
   }
 }
 
@@ -388,13 +388,13 @@ vector<unsigned> Categories::years(const string& category_name) {
 /**
  *
  */
-AgeSizePtr Categories::age_size(const string& category_name) {
+AgeLengthPtr Categories::age_length(const string& category_name) {
   if (categories_.find(category_name) == categories_.end())
     LOG_CODE_ERROR("Could not find category_name: " << category_name << " in the list of loaded categories");
-  if (!categories_[category_name].age_size_)
+  if (!categories_[category_name].age_length_)
     LOG_CODE_ERROR("The age size pointer was null for category " << category_name);
 
-  return categories_[category_name].age_size_;
+  return categories_[category_name].age_length_;
 }
 
 /**

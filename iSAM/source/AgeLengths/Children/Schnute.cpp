@@ -13,7 +13,7 @@
 #include "TimeSteps/Manager.h"
 
 namespace niwa {
-namespace agesizes {
+namespace agelengths {
 
 using std::pow;
 
@@ -67,7 +67,7 @@ void Schnute::DoBuild() {
  * @param age The age of the fish to return mean size for
  * @return the mean size for a single fish
  */
-Double Schnute::mean_size(unsigned year, unsigned age) {
+Double Schnute::mean_length(unsigned year, unsigned age) {
   Double temp = 0.0;
   Double size = 0.0;
 
@@ -96,7 +96,7 @@ Double Schnute::mean_size(unsigned year, unsigned age) {
  * @return The mean weight of a single fish
  */
 Double Schnute::mean_weight(unsigned year, unsigned age) {
-  Double size   = this->mean_size(year, age);
+  Double size   = this->mean_length(year, age);
 
   Double weight = 0.0;
   if (by_length_) {
@@ -109,5 +109,5 @@ Double Schnute::mean_weight(unsigned year, unsigned age) {
   return weight;
 }
 
-} /* namespace agesizes */
+} /* namespace agelengths */
 } /* namespace niwa */

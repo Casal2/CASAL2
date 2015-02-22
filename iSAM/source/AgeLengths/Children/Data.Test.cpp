@@ -13,7 +13,7 @@
 // Headers
 #include <iostream>
 
-#include "AgeSizes/Manager.h"
+#include "AgeLengths/Manager.h"
 #include "ObjectiveFunction/ObjectiveFunction.h"
 #include "Estimates/Manager.h"
 #include "Model/Model.h"
@@ -57,19 +57,19 @@ TEST_F(InternalEmptyModel, AgeSizes_Data_Mean_Mean) {
   ObjectiveFunction& obj_function = ObjectiveFunction::Instance();
   EXPECT_DOUBLE_EQ(16884.277966840153, obj_function.score());
 
-  AgeSizePtr age_size = agesizes::Manager::Instance().GetAgeSize("test_age_size");
+  AgeLengthPtr age_size = agelengths::Manager::Instance().GetAgeLength("test_age_size");
   if (!age_size)
     LOG_ERROR("!age_size");
 
   // Check results
   EXPECT_DOUBLE_EQ(1.0, age_size->mean_weight(2000, 2));
-  EXPECT_DOUBLE_EQ(35.31, age_size->mean_size(2000, 2));
+  EXPECT_DOUBLE_EQ(35.31, age_size->mean_length(2000, 2));
 
   EXPECT_DOUBLE_EQ(1.0, age_size->mean_weight(2001, 2));
-  EXPECT_DOUBLE_EQ(30.31, age_size->mean_size(2001, 2));
+  EXPECT_DOUBLE_EQ(30.31, age_size->mean_length(2001, 2));
 
   EXPECT_DOUBLE_EQ(1.0, age_size->mean_weight(1996, 2));
-  EXPECT_DOUBLE_EQ(30.31, age_size->mean_size(1996, 2));
+  EXPECT_DOUBLE_EQ(30.31, age_size->mean_length(1996, 2));
 }
 
 /**
@@ -104,22 +104,22 @@ TEST_F(InternalEmptyModel, AgeSizes_Data_NearestNeighbour_Mean) {
   ObjectiveFunction& obj_function = ObjectiveFunction::Instance();
   EXPECT_DOUBLE_EQ(16884.277966840153, obj_function.score());
 
-  AgeSizePtr age_size = agesizes::Manager::Instance().GetAgeSize("test_age_size");
+  AgeLengthPtr age_size = agelengths::Manager::Instance().GetAgeLength("test_age_size");
   if (!age_size)
     LOG_ERROR("!age_size");
 
   // Check results
   EXPECT_DOUBLE_EQ(1.0, age_size->mean_weight(1976, 2));
-  EXPECT_DOUBLE_EQ(25.31, age_size->mean_size(1976, 2));
+  EXPECT_DOUBLE_EQ(25.31, age_size->mean_length(1976, 2));
 
   EXPECT_DOUBLE_EQ(1.0, age_size->mean_weight(1996, 2));
-  EXPECT_DOUBLE_EQ(30.31, age_size->mean_size(1996, 2));
+  EXPECT_DOUBLE_EQ(30.31, age_size->mean_length(1996, 2));
 
   EXPECT_DOUBLE_EQ(1.0, age_size->mean_weight(2000, 2));
-  EXPECT_DOUBLE_EQ(35.31, age_size->mean_size(2000, 2));
+  EXPECT_DOUBLE_EQ(35.31, age_size->mean_length(2000, 2));
 
   EXPECT_DOUBLE_EQ(1.0, age_size->mean_weight(2001, 2));
-  EXPECT_DOUBLE_EQ(35.31, age_size->mean_size(2001, 2));
+  EXPECT_DOUBLE_EQ(35.31, age_size->mean_length(2001, 2));
 }
 
 /**
@@ -154,22 +154,22 @@ TEST_F(InternalEmptyModel, AgeSizes_Data_Mean_NearestNeighbour) {
   ObjectiveFunction& obj_function = ObjectiveFunction::Instance();
   EXPECT_DOUBLE_EQ(16884.277966840153, obj_function.score());
 
-  AgeSizePtr age_size = agesizes::Manager::Instance().GetAgeSize("test_age_size");
+  AgeLengthPtr age_size = agelengths::Manager::Instance().GetAgeLength("test_age_size");
   if (!age_size)
     LOG_ERROR("!age_size");
 
   // Check results
   EXPECT_DOUBLE_EQ(1.0, age_size->mean_weight(1976, 2));
-  EXPECT_DOUBLE_EQ(30.31, age_size->mean_size(1976, 2));
+  EXPECT_DOUBLE_EQ(30.31, age_size->mean_length(1976, 2));
 
   EXPECT_DOUBLE_EQ(1.0, age_size->mean_weight(1991, 2));
-  EXPECT_DOUBLE_EQ(30.31, age_size->mean_size(1991, 2));
+  EXPECT_DOUBLE_EQ(30.31, age_size->mean_length(1991, 2));
 
   EXPECT_DOUBLE_EQ(1.0, age_size->mean_weight(1996, 2));
-  EXPECT_DOUBLE_EQ(35.31, age_size->mean_size(1996, 2));
+  EXPECT_DOUBLE_EQ(35.31, age_size->mean_length(1996, 2));
 
   EXPECT_DOUBLE_EQ(1.0, age_size->mean_weight(2001, 2));
-  EXPECT_DOUBLE_EQ(30.31, age_size->mean_size(2001, 2));
+  EXPECT_DOUBLE_EQ(30.31, age_size->mean_length(2001, 2));
 }
 
 /**
@@ -204,22 +204,22 @@ TEST_F(InternalEmptyModel, AgeSizes_Data_Mean_Interpolate) {
   ObjectiveFunction& obj_function = ObjectiveFunction::Instance();
   EXPECT_DOUBLE_EQ(16884.277966840153, obj_function.score());
 
-  AgeSizePtr age_size = agesizes::Manager::Instance().GetAgeSize("test_age_size");
+  AgeLengthPtr age_size = agelengths::Manager::Instance().GetAgeLength("test_age_size");
   if (!age_size)
     LOG_ERROR("!age_size");
 
   // Check results
   EXPECT_DOUBLE_EQ(1.0, age_size->mean_weight(1976, 2));
-  EXPECT_DOUBLE_EQ(30.31, age_size->mean_size(1976, 2));
+  EXPECT_DOUBLE_EQ(30.31, age_size->mean_length(1976, 2));
 
   EXPECT_DOUBLE_EQ(1.0, age_size->mean_weight(1991, 2));
-  EXPECT_DOUBLE_EQ(30.865555555555556, age_size->mean_size(1991, 2));
+  EXPECT_DOUBLE_EQ(30.865555555555556, age_size->mean_length(1991, 2));
 
   EXPECT_DOUBLE_EQ(1.0, age_size->mean_weight(1996, 2));
-  EXPECT_DOUBLE_EQ(33.643333333333331, age_size->mean_size(1996, 2));
+  EXPECT_DOUBLE_EQ(33.643333333333331, age_size->mean_length(1996, 2));
 
   EXPECT_DOUBLE_EQ(1.0, age_size->mean_weight(2001, 2));
-  EXPECT_DOUBLE_EQ(30.31, age_size->mean_size(2001, 2));
+  EXPECT_DOUBLE_EQ(30.31, age_size->mean_length(2001, 2));
 }
 
 

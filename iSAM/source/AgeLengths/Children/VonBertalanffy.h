@@ -10,21 +10,21 @@
  *
  * << Add Description >>
  */
-#ifndef VONBERTALANFFY_H_
-#define VONBERTALANFFY_H_
+#ifndef AGELENGTHS_VONBERTALANFFY_H_
+#define AGELENGTHS_VONBERTALANFFY_H_
 
 // headers
-#include "AgeSizes/AgeSize.h"
+#include "AgeLengths/AgeLength.h"
 #include "SizeWeights/SizeWeight.h"
 
 // namespaces
 namespace niwa {
-namespace agesizes {
+namespace agelengths {
 
 /**
  * class definition
  */
-class VonBertalanffy : public niwa::AgeSize {
+class VonBertalanffy : public niwa::AgeLength {
 public:
   // methods
   VonBertalanffy();
@@ -34,7 +34,7 @@ public:
   void                        DoReset() override final { };
 
   // accessors
-  Double                      mean_size(unsigned year, unsigned age) override final;
+  Double                      mean_length(unsigned year, unsigned age) override final;
   Double                      mean_weight(unsigned year, unsigned age) override final;
 
 private:
@@ -49,6 +49,6 @@ private:
   SizeWeightPtr               size_weight_;
 };
 
-} /* namespace agesizes */
+} /* namespace agelengths */
 } /* namespace niwa */
-#endif /* VONBERTALANFFY_H_ */
+#endif /* AGELENGTHS_VONBERTALANFFY_H_ */

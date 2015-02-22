@@ -10,32 +10,32 @@
  *
  * << Add Description >>
  */
-#ifndef AGESIZES_MANAGER_H_
-#define AGESIZES_MANAGER_H_
+#ifndef AGELENGTHS_MANAGER_H_
+#define AGELENGTHS_MANAGER_H_
 
 // headers
-#include "AgeSizes/AgeSize.h"
+#include "AgeLengths/AgeLength.h"
 #include "BaseClasses/Manager.h"
 
 // namespaces
 namespace niwa {
-namespace agesizes {
+namespace agelengths {
 
 /**
  * class definition
  */
-class Manager : public niwa::oldbase::Manager<niwa::agesizes::Manager, niwa::AgeSize> {
-  friend class niwa::oldbase::Manager<niwa::agesizes::Manager, niwa::AgeSize>;
+class Manager : public niwa::oldbase::Manager<niwa::agelengths::Manager, niwa::AgeLength> {
+  friend class niwa::oldbase::Manager<niwa::agelengths::Manager, niwa::AgeLength>;
 public:
   // methods
   virtual                     ~Manager() noexcept(true) { };
-  AgeSizePtr                  GetAgeSize(const string& label);
+  AgeLengthPtr                 GetAgeLength(const string& label);
 
 protected:
   // methods
   Manager() { };
 };
 
-} /* namespace agesizes */
+} /* namespace agelengths */
 } /* namespace niwa */
-#endif /* AGESIZES_MANAGER_H_ */
+#endif /* AGELENGTHS_MANAGER_H_ */

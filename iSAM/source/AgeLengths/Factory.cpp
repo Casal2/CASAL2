@@ -11,16 +11,16 @@
 // headers
 #include "Factory.h"
 
-#include "AgeSizes/Manager.h"
-#include "AgeSizes/AgeSize.h"
-#include "AgeSizes/Children/Data.h"
-#include "AgeSizes/Children/None.h"
-#include "AgeSizes/Children/Schnute.h"
-#include "AgeSizes/Children/VonBertalanffy.h"
+#include "AgeLengths/Manager.h"
+#include "AgeLengths/AgeLength.h"
+#include "AgeLengths/Children/Data.h"
+#include "AgeLengths/Children/None.h"
+#include "AgeLengths/Children/Schnute.h"
+#include "AgeLengths/Children/VonBertalanffy.h"
 
 // namespaces
 namespace niwa {
-namespace agesizes {
+namespace agelengths {
 
 /**
  * Create the instance of our object as defined by the two parameters
@@ -30,25 +30,25 @@ namespace agesizes {
  * @param sub_type The child type of the object to create (e.g ageing, schnute)
  * @return shared_ptr to the object we've created
  */
-AgeSizePtr Factory::Create(const string& object_type, const string& sub_type) {
-  AgeSizePtr result;
+AgeLengthPtr Factory::Create(const string& object_type, const string& sub_type) {
+  AgeLengthPtr result;
 
   if (object_type == PARAM_AGE_SIZE || object_type == PARAM_AGE_SIZES) {
     if (sub_type == PARAM_DATA)
-      result = AgeSizePtr(new Data());
+      result = AgeLengthPtr(new Data());
     else if (sub_type == PARAM_NONE)
-      result = AgeSizePtr(new None());
+      result = AgeLengthPtr(new None());
     else if (sub_type == PARAM_SCHNUTE)
-      result = AgeSizePtr(new Schnute());
+      result = AgeLengthPtr(new Schnute());
     else if (sub_type == PARAM_VON_BERTALANFFY)
-      result = AgeSizePtr(new VonBertalanffy());
+      result = AgeLengthPtr(new VonBertalanffy());
 
     if (result)
-      agesizes::Manager::Instance().AddObject(result);
+      agelengths::Manager::Instance().AddObject(result);
   }
 
   return result;
 }
 
-} /* namespace agesizes */
+} /* namespace agelengths */
 } /* namespace niwa */

@@ -15,19 +15,19 @@
 
 // namespaces
 namespace niwa {
-namespace agesizes {
+namespace agelengths {
 
 /**
  *
  */
-AgeSizePtr Manager::GetAgeSize(const string& label) {
-  for (AgeSizePtr age_size : objects_) {
-    if (age_size->label() == label)
-      return age_size;
+AgeLengthPtr Manager::GetAgeLength(const string& label) {
+  for (AgeLengthPtr length : objects_) {
+    if (length->label() == label)
+      return length;
   }
 
-  return AgeSizePtr();
+  return AgeLengthPtr();
 }
 
-} /* namespace agesizes */
+} /* namespace agelengths */
 } /* namespace niwa */

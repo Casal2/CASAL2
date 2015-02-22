@@ -11,11 +11,11 @@
 // headers
 #include "PartitionMeanWeight.h"
 
-#include "AgeSizes/Manager.h"
+#include "AgeLengths/Manager.h"
 #include "Categories/Categories.h"
 #include "Model/Model.h"
 #include "Partition/Partition.h"
-#include "Partition/Accessors/All.h"
+#include "Partition/Accessors/Age/All.h"
 #include "SizeWeights/Manager.h"
 
 // namespaces
@@ -44,7 +44,7 @@ void PartitionMeanWeight::DoExecute() {
 
   for (auto iterator = all_view.Begin(); iterator != all_view.End(); ++iterator) {
     (*iterator)->UpdateWeightData();
-    (*iterator)->UpdateSizeData();
+    (*iterator)->UpdateLengthData();
 
     string category = (*iterator)->name_;
     cache_ << "category: " << category << "\n";
@@ -54,16 +54,16 @@ void PartitionMeanWeight::DoExecute() {
     cache_ << year << ": ";
 
     for (unsigned age = (*iterator)->min_age_; age <= (*iterator)->max_age_; ++age)
-      cache_ << (*iterator)->weight_data_[age] << " ";
+      cache_ << (*iterator)->weight_per_[age] << " ";
 
     cache_ << "\n";
 
 
-    cache_ << "age_sizes:\n";
+    cache_ << "age_lengths:\n";
     cache_ << year << ": ";
 
     for (unsigned age = (*iterator)->min_age_; age <= (*iterator)->max_age_; ++age)
-      cache_ << (*iterator)->size_data_[age] << " ";
+      cache_ << (*iterator)->length_per_[age] << " ";
 
     cache_ << "\n";
   }

@@ -1,17 +1,18 @@
 /**
- * @file AgeSize.h
- * @author  Scott Rasmussen (scott.rasmussen@zaita.com)
- * @date 24/07/2013
+ * @file AgeLength.h
+ * @author Scott Rasmussen (scott.rasmussen@zaita.com)
+ * @github https://github.com/Zaita
+ * @date 23/02/2015
  * @section LICENSE
  *
- * Copyright NIWA Science ©2013 - www.niwa.co.nz
+ * Copyright NIWA Science ©2015 - www.niwa.co.nz
  *
  * @section DESCRIPTION
  *
  * << Add Description >>
  */
-#ifndef AGESIZE_H_
-#define AGESIZE_H_
+#ifndef AGELENGTH_H_
+#define AGELENGTH_H_
 
 // headers
 #include "BaseClasses/Object.h"
@@ -22,10 +23,10 @@ namespace niwa {
 /**
  * class definition
  */
-class AgeSize : public niwa::base::Object {
+class AgeLength : public niwa::base::Object {
 public:
-  AgeSize();
-  virtual                     ~AgeSize() { };
+  AgeLength();
+  virtual                     ~AgeLength() { };
   void                        Validate();
   void                        Build();
   void                        Reset() { DoReset(); };
@@ -35,7 +36,7 @@ public:
   virtual void                DoReset() = 0;
 
   // accessors
-  virtual Double              mean_size(unsigned year, unsigned age) = 0;
+  virtual Double              mean_length(unsigned year, unsigned age) = 0;
   virtual Double              mean_weight(unsigned year, unsigned age) = 0;
 
 protected:
@@ -44,7 +45,7 @@ protected:
 };
 
 // typedef
-typedef boost::shared_ptr<AgeSize> AgeSizePtr;
+typedef boost::shared_ptr<AgeLength> AgeLengthPtr;
 
 } /* namespace niwa */
-#endif /* AGESIZE_H_ */
+#endif /* AGELENGTH_H_ */

@@ -13,7 +13,7 @@
 
 // namespaces
 namespace niwa {
-namespace agesizes {
+namespace agelengths {
 
 /**
  * default constructor
@@ -21,5 +21,5 @@ namespace agesizes {
 None::None() {
 }
 
-} /* namespace agesizes */
+} /* namespace agelengths */
 } /* namespace niwa */

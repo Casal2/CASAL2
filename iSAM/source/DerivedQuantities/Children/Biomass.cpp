@@ -37,7 +37,7 @@ void Biomass::Execute() {
       (*iterator)->UpdateWeightData();
       for (unsigned j = 0; j < (*iterator)->data_.size(); ++j) {
         unsigned age = (*iterator)->min_age_ + j;
-        value += (*iterator)->data_[j] * selectivities_[i]->GetResult(age) * (*iterator)->weight_data_[age];
+        value += (*iterator)->data_[j] * selectivities_[i]->GetResult(age) * (*iterator)->weight_per_[age];
       }
     }
 
@@ -54,7 +54,7 @@ void Biomass::Execute() {
 
       for (unsigned j = 0; j < (*iterator)->data_.size(); ++j) {
         unsigned age = (*iterator)->min_age_ + j;
-        value += (*iterator)->data_[j] * selectivities_[i]->GetResult(age) * (*iterator)->weight_data_[age];
+        value += (*iterator)->data_[j] * selectivities_[i]->GetResult(age) * (*iterator)->weight_per_[age];
       }
     }
 
