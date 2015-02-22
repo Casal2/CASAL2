@@ -13,7 +13,7 @@
 // Headers
 #include "Partition.h"
 
-#include "AgeSizes/Factory.h"
+#include "AgeLengths/Factory.h"
 #include "Categories/Categories.h"
 #include "Model/Model.h"
 #include "Utilities/Logging/Logging.h"
@@ -61,9 +61,9 @@ void Partition::Build() {
     new_category.data_.resize(age_spread, 0.0);
 
     if (categories->HasAgeSizes())
-      new_category.set_age_size(categories->age_size(category));
+      new_category.set_age_length(categories->age_length(category));
     else
-      new_category.set_age_size(agesizes::Factory::Create(PARAM_AGE_SIZE, PARAM_NONE));
+      new_category.set_age_length(agelengths::Factory::Create(PARAM_AGE_SIZE, PARAM_NONE));
 
     partition_[category] = new_category;
   }

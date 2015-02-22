@@ -1,16 +1,16 @@
 /**
- * @file AgeSize.cpp
+ * @file AgeLength.cpp
  * @author Scott Rasmussen (scott.rasmussen@zaita.com)
  * @github https://github.com/Zaita
- * @date 12/11/2014
+ * @date 23/02/2015
  * @section LICENSE
  *
- * Copyright NIWA Science ©2014 - www.niwa.co.nz
+ * Copyright NIWA Science ©2015 - www.niwa.co.nz
  *
  */
 
 // headers
-#include "AgeSize.h"
+#include "AgeLength.h"
 
 #include "TimeSteps/Manager.h"
 #include "Utilities/Map.h"
@@ -21,7 +21,7 @@ namespace niwa {
 /**
  *
  */
-AgeSize::AgeSize() {
+AgeLength::AgeLength() {
   parameters_.Bind<string>(PARAM_LABEL, &label_, "Label", "");
   parameters_.Bind<string>(PARAM_TYPE, &type_, "Type", "");
   parameters_.Bind<Double>(PARAM_TIME_STEP_PROPORTIONS, &time_step_proportions_, "", "", true);
@@ -30,7 +30,7 @@ AgeSize::AgeSize() {
 /**
  *
  */
-void AgeSize::Validate() {
+void AgeLength::Validate() {
   parameters_.Populate();
 
   DoValidate();
@@ -39,7 +39,7 @@ void AgeSize::Validate() {
 /**
  *
  */
-void AgeSize::Build() {
+void AgeLength::Build() {
   unsigned time_step_count = timesteps::Manager::Instance().time_steps().size();
   if (time_step_proportions_.size() == 0) {
     time_step_proportions_.assign(time_step_count, 0.0);

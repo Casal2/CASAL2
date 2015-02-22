@@ -22,7 +22,6 @@
 #include <string>
 
 #include "AgeLengths/AgeLength.h"
-#include "AgeSizes/AgeSize.h"
 #include "Utilities/Types.h"
 
 
@@ -47,7 +46,6 @@ public:
   void                        UpdateLengthData();
   void                        UpdateAgeData();
   void                        UpdateWeightData();
-  void                        UpdateSizeData();
 
   // members
   string                      name_ = "";
@@ -59,11 +57,11 @@ public:
   map<unsigned, Double>       weight_per_; // map<age, weight per>
 
   // accessors
-  void                        set_age_size(AgeSizePtr age_size) { age_size_weight_ = age_size; }
+  void                        set_age_length(AgeLengthPtr age_length) { age_length_ = age_length; }
 
 private:
   // members
-  AgeSizePtr                  age_size_weight_ = AgeSizePtr();
+  AgeLengthPtr                age_length_ = AgeLengthPtr();
 };
 
 } /* namespace partitions */

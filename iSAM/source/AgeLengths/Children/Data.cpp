@@ -22,7 +22,7 @@
 
 // namespaces
 namespace niwa {
-namespace agesizes {
+namespace agelengths {
 
 using std::cout;
 using std::endl;
@@ -242,7 +242,7 @@ void Data::FillInternalGaps() {
 /**
  *
  */
-Double Data::mean_size(unsigned year, unsigned age) {
+Double Data::mean_length(unsigned year, unsigned age) {
   ModelPtr model = Model::Instance();
   Double current_value = data_by_year_.find(year)->second[age - model->min_age()];
 
@@ -259,9 +259,9 @@ Double Data::mean_size(unsigned year, unsigned age) {
  *
  */
 Double Data::mean_weight(unsigned year, unsigned age) {
-  Double size   = this->mean_size(year, age);
+  Double size   = this->mean_length(year, age);
   return size_weight_->mean_weight(size, distribution_, cv_);
 }
 
-} /* namespace agesizes */
+} /* namespace agelengths */
 } /* namespace niwa */

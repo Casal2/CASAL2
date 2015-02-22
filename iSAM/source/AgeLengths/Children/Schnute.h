@@ -10,21 +10,21 @@
  *
  * << Add Description >>
  */
-#ifndef SCHNUTE_H_
-#define SCHNUTE_H_
+#ifndef AGELENGTHS_SCHNUTE_H_
+#define AGELENGTHS_SCHNUTE_H_
 
 // headers
-#include "AgeSizes/AgeSize.h"
+#include "AgeLengths/AgeLength.h"
 #include "SizeWeights/SizeWeight.h"
 
 // namespaces
 namespace niwa {
-namespace agesizes {
+namespace agelengths {
 
 /**
  * class definitions
  */
-class Schnute : public niwa::AgeSize {
+class Schnute : public niwa::AgeLength {
 public:
   // methods
   Schnute();
@@ -34,7 +34,7 @@ public:
   void                        DoReset() override final { };
 
   // accessors
-  Double                      mean_size(unsigned year, unsigned age) override final;
+  Double                      mean_length(unsigned year, unsigned age) override final;
   Double                      mean_weight(unsigned year, unsigned age) override final;
 
 private:
@@ -52,6 +52,6 @@ private:
   SizeWeightPtr               size_weight_;
 };
 
-} /* namespace agesizes */
+} /* namespace agelengths */
 } /* namespace niwa */
-#endif /* SCHNUTE_H_ */
+#endif /* AGELENGTHS_SCHNUTE_H_ */

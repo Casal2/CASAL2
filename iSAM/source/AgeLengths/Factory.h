@@ -7,22 +7,22 @@
  * Copyright NIWA Science ©2013 - www.niwa.co.nz
  *
  */
-#ifndef AGESIZES_FACTORY_H_
-#define AGESIZES_FACTORY_H_
+#ifndef AGELENGTHS_FACTORY_H_
+#define AGELENGTHS_FACTORY_H_
 
 // headers
-#include "AgeSizes/AgeSize.h"
+#include "AgeLengths/AgeLength.h"
 
 // namespaces
 namespace niwa {
-namespace agesizes {
+namespace agelengths {
 
 /**
  * class definition
  */
 class Factory {
 public:
-  static AgeSizePtr           Create(const string& object_type, const string& sub_type);
+  static AgeLengthPtr           Create(const string& object_type, const string& sub_type);
 
 private:
   Factory() = delete;
@@ -31,4 +31,4 @@ private:
 
 } /* namespace agesizes */
 } /* namespace niwa */
-#endif /* FACTORY_H_ */
+#endif /* AGELENGTHS_FACTORY_H_ */

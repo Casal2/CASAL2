@@ -11,21 +11,21 @@
  *
  * << Add Description >>
  */
-#ifndef AGESIZES_DATA_H_
-#define AGESIZES_DATA_H_
+#ifndef AGELENGTHS_DATA_H_
+#define AGELENGTHS_DATA_H_
 
 // headers
-#include "AgeSizes/AgeSize.h"
+#include "AgeLengths/AgeLength.h"
 #include "SizeWeights/SizeWeight.h"
 
 // namespaces
 namespace niwa {
-namespace agesizes {
+namespace agelengths {
 
 /**
  * Class definition
  */
-class Data : public AgeSize {
+class Data : public AgeLength {
 public:
   // methods
   Data();
@@ -33,7 +33,7 @@ public:
   void                        DoValidate() override final;
   void                        DoBuild() override final;
   void                        DoReset() override final {};
-  Double                      mean_size(unsigned year, unsigned age) override final;
+  Double                      mean_length(unsigned year, unsigned age) override final;
   Double                      mean_weight(unsigned year, unsigned age) override final;
 
 private:
@@ -53,7 +53,7 @@ private:
   SizeWeightPtr                 size_weight_;
 };
 
-} /* namespace agesizes */
+} /* namespace agelengths */
 } /* namespace niwa */
 
-#endif /* AGESIZES_DATA_H_ */
+#endif /* AGELENGTHS_DATA_H_ */

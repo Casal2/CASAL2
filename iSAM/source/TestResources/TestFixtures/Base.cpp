@@ -13,7 +13,7 @@
 #include "Base.h"
 
 #include "AgeingErrors/Manager.h"
-#include "AgeSizes/Manager.h"
+#include "AgeLengths/Manager.h"
 #include "Asserts/Manager.h"
 #include "Catchabilities/Manager.h"
 #include "Categories/Categories.h"
@@ -24,7 +24,7 @@
 #include "Minimisers/Manager.h"
 #include "ObjectiveFunction/ObjectiveFunction.h"
 #include "Observations/Manager.h"
-#include "Partition/Accessors/Category.h"
+#include "Partition/Accessors/Age/Category.h"
 #include "Partition/Partition.h"
 #include "Penalties/Manager.h"
 #include "Processes/Manager.h"
@@ -66,7 +66,7 @@ void Base::TearDown() {
   Partition::Instance().Clear();
 
   ageingerrors::Manager::Instance().RemoveAllObjects();
-  agesizes::Manager::Instance().RemoveAllObjects();
+  agelengths::Manager::Instance().RemoveAllObjects();
   asserts::Manager::Instance().RemoveAllObjects();
   catchabilities::Manager::Instance().RemoveAllObjects();
   derivedquantities::Manager::Instance().RemoveAllObjects();

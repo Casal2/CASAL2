@@ -10,20 +10,20 @@
  *
  * << Add Description >>
  */
-#ifndef AGESIZES_NONE_H_
-#define AGESIZES_NONE_H_
+#ifndef AGELENGTHS_NONE_H_
+#define AGELENGTHS_NONE_H_
 
 // headers
-#include "AgeSizes/AgeSize.h"
+#include "AgeLengths/AgeLength.h"
 
 // namespaces
 namespace niwa {
-namespace agesizes {
+namespace agelengths {
 
 /**
  * class definition
  */
-class None : public niwa::AgeSize {
+class None : public niwa::AgeLength {
 public:
   // methods
   None();
@@ -33,10 +33,10 @@ public:
   void                        DoReset() override final { };
 
   // accessors
-  Double                      mean_size(unsigned year, unsigned age) override final { return 1.0; }
+  Double                      mean_length(unsigned year, unsigned age) override final { return 1.0; }
   Double                      mean_weight(unsigned year, unsigned age) override final { return 1.0; }
 };
 
-} /* namespace agesizes */
+} /* namespace agelengths */
 } /* namespace niwa */
-#endif /* AGESIZES_NONE_H_ */
+#endif /* AGELENGTHS_NONE_H_ */

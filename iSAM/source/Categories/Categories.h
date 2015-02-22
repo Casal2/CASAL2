@@ -20,7 +20,7 @@
 #include <boost/shared_ptr.hpp>
 
 #include "BaseClasses/Object.h"
-#include "AgeSizes/AgeSize.h"
+#include "AgeLengths/AgeLength.h"
 
 // Namespaces
 namespace niwa {
@@ -35,7 +35,7 @@ struct CategoryInfo {
   vector<unsigned>  years_;
   unsigned          min_age_ = 0;
   unsigned          max_age_ = 0;
-  AgeSizePtr        age_size_;
+  AgeLengthPtr      age_length_;
 };
 
 /**
@@ -65,7 +65,7 @@ public:
   unsigned                      min_age(const string& category_name);
   unsigned                      max_age(const string& category_name);
   vector<unsigned>              years(const string& category_name);
-  AgeSizePtr                    age_size(const string& category_name);
+  AgeLengthPtr                  age_length(const string& category_name);
 
 private:
   // Methods

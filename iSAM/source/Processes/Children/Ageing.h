@@ -18,7 +18,7 @@
 #define AGEING_H_
 
 // Headers
-#include "Partition/Accessors/Categories.h"
+#include "Partition/Accessors/Age/Categories.h"
 #include "Processes/Process.h"
 
 // Namespaces

@@ -18,8 +18,8 @@
 #include "Observations/Observation.h"
 
 #include "Catchabilities/Catchability.h"
-#include "Partition/Accessors/CombinedCategories.h"
-#include "Partition/Accessors/Cached/CombinedCategories.h"
+#include "Partition/Accessors/Age/CombinedCategories.h"
+#include "Partition/Accessors/Age/Cached/CombinedCategories.h"
 
 // Namespaces
 namespace niwa {

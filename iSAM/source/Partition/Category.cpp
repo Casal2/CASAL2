@@ -11,6 +11,8 @@
 // headers
 #include "Category.h"
 
+#include "Model/Model.h"
+
 // namespaces
 namespace niwa {
 namespace partition {
@@ -21,7 +23,13 @@ namespace partition {
  * data from the age data.
  */
 void Category::UpdateLengthData() {
+  if (!age_length_)
+    return;
 
+  unsigned year = Model::Instance()->current_year();
+
+  for (unsigned age = min_age_; age <= max_age_; ++age)
+    weight_per_[age] = age_length_->mean_length(year, age);
 }
 
 /**
@@ -37,14 +45,13 @@ void Category::UpdateAgeData() {
  * per fish for use.
  */
 void Category::UpdateWeightData() {
+  if (!age_length_)
+    return;
 
-}
+  unsigned year = Model::Instance()->current_year();
 
-/**
- *
- */
-void Category::UpdateSizeData() {
-
+  for (unsigned age = min_age_; age <= max_age_; ++age)
+    weight_per_[age] = age_length_->mean_weight(year, age);
 }
 
 } /* namespace partitions */
