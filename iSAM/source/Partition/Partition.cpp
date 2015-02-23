@@ -60,10 +60,10 @@ void Partition::Build() {
     unsigned age_spread = (categories->max_age(category) - categories->min_age(category)) + 1;
     new_category.data_.resize(age_spread, 0.0);
 
-    if (categories->HasAgeSizes())
+    if (categories->HasAgeLengths())
       new_category.set_age_length(categories->age_length(category));
     else
-      new_category.set_age_length(agelengths::Factory::Create(PARAM_AGE_SIZE, PARAM_NONE));
+      new_category.set_age_length(agelengths::Factory::Create(PARAM_AGE_LENGTH, PARAM_NONE));
 
     partition_[category] = new_category;
   }

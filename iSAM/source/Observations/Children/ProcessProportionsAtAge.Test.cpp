@@ -41,7 +41,7 @@ time_steps one two three
 @categories
 format sex
 names male female
-age_sizes age_size_male age_size_female
+age_lengths age_size_male age_size_female
 
 @initialisation_phase phase1
 years 200
@@ -106,14 +106,14 @@ ato95 2
 type constant
 c 1
 
-@age_size age_size_male
+@age_length age_size_male
 type von_bertalanffy
 size_weight [type=none]
 k 0.277
 t0 0.11
 linf 90.3
 
-@age_size age_size_female
+@age_length age_size_female
 type von_bertalanffy
 size_weight [type=none]
 k 0.202
@@ -209,7 +209,7 @@ time_steps one two three
 @categories
 format sex
 names male female
-age_sizes age_size_male age_size_female
+age_lengths age_size_male age_size_female
 
 @initialisation_phase phase1
 years 200
@@ -274,14 +274,14 @@ ato95 2
 type constant
 c 1
 
-@age_size age_size_male
+@age_length age_size_male
 type von_bertalanffy
 size_weight [type=none]
 k 0.277
 t0 0.11
 linf 90.3
 
-@age_size age_size_female
+@age_length age_size_female
 type von_bertalanffy
 size_weight [type=none]
 k 0.202

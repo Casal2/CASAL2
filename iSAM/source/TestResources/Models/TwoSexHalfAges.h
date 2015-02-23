@@ -33,16 +33,16 @@ time_steps one two three
 @categories
 format sex
 names male female
-age_sizes age_size_male age_size_female
+age_lengths age_size_male age_size_female
 
-@age_size age_size_male
+@age_length age_size_male
 type von_bertalanffy
 size_weight [type=none]
 k 0.202
 t0 -0.20
 linf 113.4
 
-@age_size age_size_female
+@age_length age_size_female
 type von_bertalanffy
 size_weight [type=none]
 k 0.202

@@ -53,7 +53,7 @@ public:
   bool                          IsCombinedLabels(const string& label) const;
   unsigned                      GetNumberOfCategoriesDefined(const string& label) const;
   void                          RemoveAllObjects();
-  bool                          HasAgeSizes() { return age_size_labels_.size() > 0; }
+  bool                          HasAgeLengths() { return age_length_labels_.size() > 0; }
 
   vector<string>                ExpandLabels(const vector<string> &category_labels, const ParameterPtr source_parameter);
   string                        GetCategoryLabels(const string& lookup_string, const ParameterPtr source_parameter);
@@ -77,8 +77,8 @@ private:
   vector<string>              years_;
   vector<string>              ages_;
   vector<string>              category_names_;
-  vector<string>              age_size_labels_;
-  map<string, string>         category_age_size_labels_;
+  vector<string>              age_length_labels_;
+  map<string, string>         category_age_length_labels_;
   map<string, CategoryInfo>   categories_;
 };
 

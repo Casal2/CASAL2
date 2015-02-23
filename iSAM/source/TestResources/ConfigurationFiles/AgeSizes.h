@@ -13,7 +13,7 @@
 #include <string>
 
 const std::string age_sizes_von_bert = R"(
-@age_size von_bert
+@age_length von_bert
 type von_bertalanffy
 size_weight basic
 k      0.091
@@ -22,7 +22,7 @@ linf   174.545
 )";
 
 const std::string age_sizes_von_bert_no_age_size = R"(
-@age_size von_bert
+@age_length von_bert
 type von_bertalanffy
 size_weight none
 k      0.2
