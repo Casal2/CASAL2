@@ -114,6 +114,7 @@ protected:
   bool                        age_plus_ = true;
   vector<string>              initialisation_phases_;
   vector<string>              time_steps_;
+  vector<Double>              length_bins_;
   CatchabilityManagerPtr      catchability_manager_;
   bool                        estimable_values_file_ = false;
   unsigned                    estimable_values_count_ = 1;

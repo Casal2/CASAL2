@@ -235,6 +235,7 @@
 #define PARAM_LAYER_WIDTH                         "layer_width"
 #define PARAM_LAYERS                              "layers"
 #define PARAM_LENGTH                              "length"
+#define PARAM_LENGTH_BINS                         "length_bins"
 #define PARAM_LIKELIHOOD                          "likelihood"
 #define PARAM_LINF                                "linf"
 #define PARAM_LOCAL_BH_RECRUITMENT                "local_bh_recruitment"
