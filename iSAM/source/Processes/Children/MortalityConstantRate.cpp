@@ -33,6 +33,7 @@ MortalityConstantRate::MortalityConstantRate()
 
   model_ = Model::Instance();
   process_type_ = ProcessType::kMortality;
+  partition_structure_ = PartitionStructure::kAge;
 
   parameters_.Bind<string>(PARAM_CATEGORIES, &category_names_, "List of categories", "");
   parameters_.Bind<Double>(PARAM_M, &m_, "Mortality rates", "");

@@ -36,6 +36,7 @@ MortalityEventBiomass::MortalityEventBiomass() {
 
   model_ = Model::Instance();
   process_type_ = ProcessType::kMortality;
+  partition_structure_ = PartitionStructure::kAge;
 }
 
 /**

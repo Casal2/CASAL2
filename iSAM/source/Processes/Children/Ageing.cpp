@@ -32,6 +32,7 @@ Ageing::Ageing() {
   parameters_.Bind<Double>(PARAM_TIME_STEP_PROPORTIONS, &time_step_proportions_, "Proportion to age per time step", "", true);
 
   process_type_ = ProcessType::kAgeing;
+  partition_structure_ = PartitionStructure::kAge;
 }
 
 /**

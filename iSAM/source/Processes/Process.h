@@ -23,6 +23,7 @@
 
 #include "BaseClasses/Object.h"
 #include "BaseClasses/Executor.h"
+#include "Model/Model.h"
 
 namespace niwa {
 
@@ -58,15 +59,18 @@ public:
 
   // accessors
   bool                        print_report() const { return print_report_; }
+  PartitionStructure          partition_structure() const { return partition_structure_; }
   ProcessType                 process_type() const { return process_type_; }
 
 protected:
   // members
   string                      type_ = "";
   ProcessType                 process_type_ = ProcessType::kUnknown;
+  PartitionStructure          partition_structure_ = PartitionStructure::kInvalid;
   bool                        print_report_ = false;
   map<string, vector<string>> print_values_;
   map<unsigned, map<string, vector<ExecutorPtr>>> executors_;
+
 };
 
 /**

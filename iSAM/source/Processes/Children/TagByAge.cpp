@@ -26,6 +26,7 @@ namespace processes {
  */
 TagByAge::TagByAge() {
   process_type_ = ProcessType::kTransition;
+  partition_structure_ = PartitionStructure::kAge;
 
   numbers_table_ = TablePtr(new parameters::Table(PARAM_NUMBERS));
   proportions_table_ = TablePtr(new parameters::Table(PARAM_PROPORTIONS));
