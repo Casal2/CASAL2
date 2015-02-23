@@ -117,7 +117,7 @@ protected:
   CatchabilityManagerPtr      catchability_manager_;
   bool                        estimable_values_file_ = false;
   unsigned                    estimable_values_count_ = 1;
-  PartitionStructure          partition_structure_;
+  PartitionStructure          partition_structure_ = PartitionStructure::kInvalid;
 
   map<State::Type, vector<ExecutorPtr>> executors_;
 };

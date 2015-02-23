@@ -16,14 +16,14 @@ const std::string categories_no_sex_with_age_size = R"(
 @categories
 format stage.sex
 names immature mature spawning
-age_sizes von_bert von_bert von_bert
+age_lengths von_bert von_bert von_bert
 )";
 
 const std::string categories_two_sex_with_age_size = R"(
 @categories
 format stage.sex
 names immature.male immature.female mature.male mature.female
-age_sizes von_bert von_bert von_bert von_bert
+age_lengths von_bert von_bert von_bert von_bert
 )";
 
 #endif /* MODEL_H_ */

@@ -33,7 +33,7 @@ namespace agelengths {
 AgeLengthPtr Factory::Create(const string& object_type, const string& sub_type) {
   AgeLengthPtr result;
 
-  if (object_type == PARAM_AGE_SIZE || object_type == PARAM_AGE_SIZES) {
+  if (object_type == PARAM_AGE_LENGTH || object_type == PARAM_AGE_LENGTHS) {
     if (sub_type == PARAM_DATA)
       result = AgeLengthPtr(new Data());
     else if (sub_type == PARAM_NONE)

@@ -40,9 +40,9 @@ time_steps one two three
 @categories
 format sex
 names male female
-age_sizes age_size_male age_size_female
+age_lengths age_size_male age_size_female
 
-@age_size age_size_male
+@age_length age_size_male
 type von_bertalanffy
 size_weight [type=basic; units=tonnes; a=2.49e-12; b=3.234]
 k 0.277
@@ -52,7 +52,7 @@ distribution normal
 cv 0.2
 by_length t
 
-@age_size age_size_female
+@age_length age_size_female
 type von_bertalanffy
 size_weight [type=basic; units=tonnes; a=1.70e-12; b=3.328]
 k 0.202

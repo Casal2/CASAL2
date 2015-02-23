@@ -35,7 +35,7 @@ Categories::Categories() {
   parameters_.Bind<string>(PARAM_NAMES, &names_, "The names of the categories to be used in the model", "");
   parameters_.Bind<string>(PARAM_YEARS, &years_, "The years that individual categories will be active for. This overrides the model values", "", true);
   parameters_.Bind<string>(PARAM_AGES, &ages_, "The ages that individual categories support. This overrides the model values", "", true);
-  parameters_.Bind<string>(PARAM_AGE_SIZES, &age_size_labels_, R"(The labels of age\_size objects that are assigned to categories)", "", true);
+  parameters_.Bind<string>(PARAM_AGE_LENGTHS, &age_length_labels_, R"(The labels of age\_length objects that are assigned to categories)", "", true);
 }
 
 /**
@@ -75,14 +75,14 @@ void Categories::Validate() {
     default_years.push_back(i);
 
   // get the age sizes
-  if (age_size_labels_.size() > 0 && age_size_labels_.size() != names_.size())
-    LOG_ERROR(parameters_.location(PARAM_AGE_SIZES) << " number defined (" << age_size_labels_.size() << ") must be the same as the number " <<
+  if (age_length_labels_.size() > 0 && age_length_labels_.size() != names_.size())
+    LOG_ERROR(parameters_.location(PARAM_AGE_LENGTHS) << " number defined (" << age_length_labels_.size() << ") must be the same as the number " <<
         " of categories defined (" << names_.size() << ")");
 
   // build our categories vector
   for (unsigned i = 0; i < names_.size(); ++i) {
-    if (age_size_labels_.size() > i)
-      category_age_size_labels_[names_[i]] = age_size_labels_[i];
+    if (age_length_labels_.size() > i)
+      category_age_length_labels_[names_[i]] = age_length_labels_[i];
 
     // TODO: Verify the name matches the format string properly
     // TODO: Expand the names
@@ -106,11 +106,11 @@ void Categories::Validate() {
 void Categories::Build() {
   agelengths::Manager& age_sizes_manager = agelengths::Manager::Instance();
 
-  auto iter = category_age_size_labels_.begin();
-  for (; iter != category_age_size_labels_.end(); ++iter) {
+  auto iter = category_age_length_labels_.begin();
+  for (; iter != category_age_length_labels_.end(); ++iter) {
     AgeLengthPtr age_size = age_sizes_manager.GetAgeLength(iter->second);
     if (!age_size)
-      LOG_ERROR(parameters_.location(PARAM_AGE_SIZES) << "(" << iter->second << ") could not be found. Have you defined it?");
+      LOG_ERROR(parameters_.location(PARAM_AGE_LENGTHS) << "(" << iter->second << ") could not be found. Have you defined it?");
 
     categories_[iter->first].age_length_ = age_size;
   }
@@ -406,8 +406,8 @@ void Categories::RemoveAllObjects() {
   names_.clear();
   category_names_.clear();
   categories_.clear();
-  age_size_labels_.clear();
-  category_age_size_labels_.clear();
+  age_length_labels_.clear();
+  category_age_length_labels_.clear();
 }
 
 

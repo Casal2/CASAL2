@@ -28,9 +28,9 @@ using std::cout;
 using std::endl;
 using niwa::testfixtures::InternalEmptyModel;
 
-const string age_size_data_external_mean_internal_mean =
+const string age_length_data_external_mean_internal_mean =
 R"(
-@age_size test_age_size
+@age_length test_age_size
 type data
 size_weight [type=none]
 external_gaps mean
@@ -46,9 +46,9 @@ end_table
 /**
  *
  */
-TEST_F(InternalEmptyModel, AgeSizes_Data_Mean_Mean) {
+TEST_F(InternalEmptyModel, AgeLengths_Data_Mean_Mean) {
   AddConfigurationLine(testresources::models::two_sex_half_ages, "TestResources/Models/TwoSexHalfAges.h", 24);
-  AddConfigurationLine(age_size_data_external_mean_internal_mean, __FILE__, 33);
+  AddConfigurationLine(age_length_data_external_mean_internal_mean, __FILE__, 33);
   LoadConfiguration();
 
   ModelPtr model = Model::Instance();
@@ -75,9 +75,9 @@ TEST_F(InternalEmptyModel, AgeSizes_Data_Mean_Mean) {
 /**
  *
  */
-const string age_size_data_external_nearest_neighbour_internal_mean =
+const string age_length_data_external_nearest_neighbour_internal_mean =
 R"(
-@age_size test_age_size
+@age_length test_age_size
 type data
 size_weight [type=none]
 external_gaps nearest_neighbour
@@ -93,9 +93,9 @@ end_table
 /**
  *
  */
-TEST_F(InternalEmptyModel, AgeSizes_Data_NearestNeighbour_Mean) {
+TEST_F(InternalEmptyModel, AgeLengths_Data_NearestNeighbour_Mean) {
   AddConfigurationLine(testresources::models::two_sex_half_ages, "TestResources/Models/TwoSexHalfAges.h", 24);
-  AddConfigurationLine(age_size_data_external_nearest_neighbour_internal_mean, __FILE__, 80);
+  AddConfigurationLine(age_length_data_external_nearest_neighbour_internal_mean, __FILE__, 80);
   LoadConfiguration();
 
   ModelPtr model = Model::Instance();
@@ -125,9 +125,9 @@ TEST_F(InternalEmptyModel, AgeSizes_Data_NearestNeighbour_Mean) {
 /**
  *
  */
-const string age_size_data_external_mean_internal_nearest_neighbour =
+const string age_length_data_external_mean_internal_nearest_neighbour =
 R"(
-@age_size test_age_size
+@age_length test_age_size
 type data
 size_weight [type=none]
 external_gaps mean
@@ -143,9 +143,9 @@ end_table
 /**
  *
  */
-TEST_F(InternalEmptyModel, AgeSizes_Data_Mean_NearestNeighbour) {
+TEST_F(InternalEmptyModel, AgeLengths_Data_Mean_NearestNeighbour) {
   AddConfigurationLine(testresources::models::two_sex_half_ages, "TestResources/Models/TwoSexHalfAges.h", 24);
-  AddConfigurationLine(age_size_data_external_mean_internal_nearest_neighbour, __FILE__, 130);
+  AddConfigurationLine(age_length_data_external_mean_internal_nearest_neighbour, __FILE__, 130);
   LoadConfiguration();
 
   ModelPtr model = Model::Instance();
@@ -175,9 +175,9 @@ TEST_F(InternalEmptyModel, AgeSizes_Data_Mean_NearestNeighbour) {
 /**
  *
  */
-const string age_size_data_external_mean_internal_interpolate =
+const string age_length_data_external_mean_internal_interpolate =
 R"(
-@age_size test_age_size
+@age_length test_age_size
 type data
 size_weight [type=none]
 external_gaps mean
@@ -193,9 +193,9 @@ end_table
 /**
  *
  */
-TEST_F(InternalEmptyModel, AgeSizes_Data_Mean_Interpolate) {
+TEST_F(InternalEmptyModel, AgeLengths_Data_Mean_Interpolate) {
   AddConfigurationLine(testresources::models::two_sex_half_ages, "TestResources/Models/TwoSexHalfAges.h", 24);
-  AddConfigurationLine(age_size_data_external_mean_internal_interpolate, __FILE__, 180);
+  AddConfigurationLine(age_length_data_external_mean_internal_interpolate, __FILE__, 180);
   LoadConfiguration();
 
   ModelPtr model = Model::Instance();
