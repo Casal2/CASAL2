@@ -47,10 +47,15 @@ enum Type {
 }
 
 enum class PartitionStructure {
-  kAge,
-  kLength,
-  kHybrid
+  kAge = 1,
+  kLength = 2,
+  kHybrid = 4,
+  kInvalid = 4096
 };
+
+inline PartitionStructure operator&(PartitionStructure a, PartitionStructure b) {
+  return static_cast<PartitionStructure>(static_cast<int>(a) & static_cast<int>(b));
+}
 
 /**
  * Class definition

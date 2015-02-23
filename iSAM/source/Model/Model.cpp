@@ -218,11 +218,13 @@ void Model::Validate() {
 
   if (type_ == PARAM_AGE)
     partition_structure_ = PartitionStructure::kAge;
-  else if (type_ == PARAM_LENGTH)
+  else if (type_ == PARAM_LENGTH) {
+    LOG_ERROR("length model types not implemented");
     partition_structure_ = PartitionStructure::kLength;
-  else if (type_ == PARAM_HYBRID)
+  } else if (type_ == PARAM_HYBRID) {
+    LOG_ERROR("hybrid model types not implemented");
     partition_structure_ = PartitionStructure::kHybrid;
-  else
+  } else
     LOG_ERROR(parameters_.location(PARAM_TYPE) << " (" << type_ << ") is not valid. Please use either " << PARAM_AGE
         << ", " << PARAM_LENGTH << " or " << PARAM_HYBRID);
 

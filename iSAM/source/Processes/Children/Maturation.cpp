@@ -32,6 +32,7 @@ Maturation::Maturation() {
 
   model_ = Model::Instance();
   process_type_ = ProcessType::kMaturation;
+  partition_structure_ = PartitionStructure::kAge;
 }
 
 /**

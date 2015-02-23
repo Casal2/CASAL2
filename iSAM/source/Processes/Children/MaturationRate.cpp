@@ -34,6 +34,7 @@ MaturationRate::MaturationRate() {
   RegisterAsEstimable(PARAM_PROPORTIONS, &proportions_by_category_);
 
   process_type_ = ProcessType::kMaturation;
+  partition_structure_ = PartitionStructure::kAge;
 }
 
 /**
