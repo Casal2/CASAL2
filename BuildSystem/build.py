@@ -84,8 +84,6 @@ def start_build_system():
 Get the build information from the user
 """
 def start():
-  for x in sys.modules:
-    print x
   print '-- Checking for dateutil Python module'
   if 'dateutil' not in sys.modules:
     return Globals.PrintError("Python requires the module dateutil for the build system to work")
