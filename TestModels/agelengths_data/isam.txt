@@ -10,9 +10,9 @@ time_steps one two three
 @categories
 format sex
 names male female
-age_sizes age_size_male age_size_female
+age_lengths age_size_male age_size_female
 
-@age_size age_size_male
+@age_length age_size_male
 type data
 size_weight [type=none]
 external_gaps mean
@@ -29,7 +29,7 @@ type partition_mean_weight
 #@report obj
 #type objective_function
 
-@age_size age_size_female
+@age_length age_size_female
 type von_bertalanffy
 size_weight [type=none]
 k 0.202
