@@ -15,6 +15,7 @@
 
 #include "Processes/Manager.h"
 #include "Processes/Children/Ageing.h"
+#include "Processes/Children/Growth.h"
 #include "Processes/Children/Maturation.h"
 #include "Processes/Children/MaturationRate.h"
 #include "Processes/Children/MortalityConstantRate.h"
@@ -60,6 +61,8 @@ ProcessPtr Factory::Create(string object_type, string sub_type) {
   if (object_type == PARAM_PROCESS || object_type == PARAM_PROCESSES) {
     if (sub_type == PARAM_AGEING)
       result = ProcessPtr(new Ageing());
+    else if (sub_type == PARAM_GROWTH)
+      result = ProcessPtr(new Growth());
     else if (sub_type == PARAM_RECRUITMENT_BEVERTON_HOLT)
       result = ProcessPtr(new RecruitmentBevertonHolt());
     else if (sub_type == PARAM_RECRUITMENT_CONSTANT)

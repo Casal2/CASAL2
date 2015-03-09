@@ -14,8 +14,10 @@
 
 #include <algorithm>
 
+#include "Categories/Categories.h"
 #include "Model/Model.h"
 #include "Partition/Accessors/Age/All.h"
+#include "Selectivities/Manager.h"
 #include "Utilities/DoubleCompare.h"
 #include "Utilities/Map.h"
 #include "Utilities/Math.h"
@@ -33,6 +35,8 @@ ProportionsByCategory::ProportionsByCategory() {
   parameters_.Bind<unsigned>(PARAM_MAX_AGE, &max_age_, "Maximum age", "");
   parameters_.Bind<bool>(PARAM_AGE_PLUS, &age_plus_, "Use age plus group", "", true);
   parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "Year to execute in", "");
+  parameters_.Bind<string>(PARAM_TARGET_CATEGORIES, &target_category_labels_, "Target Categories", "");
+  parameters_.Bind<string>(PARAM_TARGET_SELECTIVITIES, &target_selectivity_labels_, "Target Selectivities", "");
   parameters_.Bind<Double>(PARAM_DELTA, &delta_, "Delta", "", DELTA);
   parameters_.Bind<Double>(PARAM_PROCESS_ERRORS, &process_errors_, "Process error", "", true);
 
@@ -46,6 +50,16 @@ ProportionsByCategory::ProportionsByCategory() {
  * Validate configuration file parameters
  */
 void ProportionsByCategory::DoValidate() {
+  unsigned expected_selectivity_count = 0;
+  CategoriesPtr categories = Categories::Instance();
+  for (const string& category_label : category_labels_)
+    expected_selectivity_count += categories->GetNumberOfCategoriesDefined(category_label);
+
+  if (target_category_labels_.size() != target_selectivity_labels_.size() && expected_selectivity_count != target_selectivity_labels_.size())
+    LOG_ERROR(parameters_.location(PARAM_TARGET_SELECTIVITIES) << ": Number of selectivities provided (" << target_selectivity_labels_.size()
+        << ") is not valid. You can specify either the number of category collections (" << target_category_labels_.size() << ") or "
+        << "the number of total categories (" << expected_selectivity_count << ")");
+
   age_spread_ = (max_age_ - min_age_) + 1;
   map<unsigned, vector<Double>> error_values_by_year;
   map<unsigned, vector<Double>> obs_by_year;
@@ -149,9 +163,9 @@ void ProportionsByCategory::DoValidate() {
   /**
    * Validate likelihood type
    */
-  if (likelihood_type_ != PARAM_LOGNORMAL && likelihood_type_ != PARAM_MULTINOMIAL)
-    LOG_ERROR(parameters_.location(PARAM_LIKELIHOOD) << ": likelihood " << likelihood_type_ << " is not supported by the proportions at age observation. "
-        << "Supported types are " << PARAM_LOGNORMAL << " and " << PARAM_MULTINOMIAL);
+//  if (likelihood_type_ != PARAM_LOGNORMAL && likelihood_type_ != PARAM_MULTINOMIAL)
+//    LOG_ERROR(parameters_.location(PARAM_LIKELIHOOD) << ": likelihood " << likelihood_type_ << " is not supported by the proportions at age observation. "
+//        << "Supported types are " << PARAM_LOGNORMAL << " and " << PARAM_MULTINOMIAL);
 
   /**
    * Build our proportions and error values for use in the observation
@@ -189,11 +203,24 @@ void ProportionsByCategory::DoValidate() {
 void ProportionsByCategory::DoBuild() {
   partition_ = CombinedCategoriesPtr(new niwa::partition::accessors::CombinedCategories(category_labels_));
   cached_partition_ = CachedCombinedCategoriesPtr(new niwa::partition::accessors::cached::CombinedCategories(category_labels_));
+  target_partition_ = CombinedCategoriesPtr(new niwa::partition::accessors::CombinedCategories(target_category_labels_));
+  target_cached_partition_ = CachedCombinedCategoriesPtr(new niwa::partition::accessors::cached::CombinedCategories(target_category_labels_));
+
 
   if (ageing_error_label_ != "")
     LOG_CODE_ERROR("ageing error has not been implemented for the proportions at age observation");
 
   age_results_.resize(age_spread_ * category_labels_.size(), 0.0);
+
+  for(string label : target_selectivity_labels_) {
+    SelectivityPtr selectivity = selectivities::Manager::Instance().GetSelectivity(label);
+    if (!selectivity)
+      LOG_ERROR(parameters_.location(PARAM_TARGET_SELECTIVITIES) << ": Selectivity " << label << " does not exist. Have you defined it?");
+    target_selectivities_.push_back(selectivity);
+  }
+
+  if (target_selectivities_.size() == 1 && category_labels_.size() != 1)
+    target_selectivities_.assign(category_labels_.size(), target_selectivities_[0]);
 }
 
 /**
@@ -207,6 +234,7 @@ void ProportionsByCategory::PreExecute() {
   ModelPtr model = Model::Instance();
 
   cached_partition_->BuildCache();
+  target_cached_partition_->BuildCache();
 
   if (cached_partition_->Size() != proportions_[model->current_year()].size())
     LOG_CODE_ERROR("cached_partition_->Size() != proportions_[model->current_year()].size()");
@@ -226,6 +254,8 @@ void ProportionsByCategory::Execute() {
   ModelPtr model = Model::Instance();
   auto cached_partition_iter  = cached_partition_->Begin();
   auto partition_iter         = partition_->Begin(); // vector<vector<partition::Category> >
+  auto target_cached_partition_iter  = target_cached_partition_->Begin();
+  auto target_partition_iter         = target_partition_->Begin(); // vector<vector<partition::Category> >
 
   /**
    * Loop through the provided categories. Each provided category (combination) will have a list of observations
@@ -238,11 +268,12 @@ void ProportionsByCategory::Execute() {
     Double      end_value          = 0.0;
     Double      final_value        = 0.0;
 
-    vector<Double> expected_values(age_spread_, 0.0);
+    vector<Double> age_results(age_spread_, 0.0);
+    vector<Double> target_age_results(age_spread_, 0.0);
 
     /**
      * Loop through the 2 combined categories building up the
-     * expected proportions values.
+     * age results proportions values.
      */
     auto category_iter = partition_iter->begin();
     auto cached_category_iter = cached_partition_iter->begin();
@@ -269,19 +300,56 @@ void ProportionsByCategory::Execute() {
         else
           final_value = fabs(start_value - end_value) * proportion_of_time_;
 
-        expected_values[age_offset] += final_value * selectivity_result;
+        age_results[age_offset] += final_value * selectivity_result;
       }
     }
 
-    if (expected_values.size() != proportions_[model->current_year()][category_labels_[category_offset]].size())
-      LOG_CODE_ERROR("expected_values.size(" << expected_values.size() << ") != proportions_[category_offset].size(" << proportions_[model->current_year()][category_labels_[category_offset]].size() << ")");
+    /**
+     * Loop through the target combined categories building up the
+     * target age results
+     */
+    auto target_category_iter = target_partition_iter->begin();
+    auto target_cached_category_iter = target_cached_partition_iter->begin();
+    for (; target_category_iter != target_partition_iter->end(); ++target_cached_category_iter, ++target_category_iter) {
+      for (unsigned data_offset = 0; data_offset < (*target_category_iter)->data_.size(); ++data_offset) {
+        // Check and skip ages we don't care about.
+        if ((*target_category_iter)->min_age_ + data_offset < min_age_)
+          continue;
+        if ((*target_category_iter)->min_age_ + data_offset > max_age_ && !age_plus_)
+          break;
+
+        unsigned age_offset = ( (*target_category_iter)->min_age_ + data_offset) - min_age_;
+        unsigned age        = ( (*target_category_iter)->min_age_ + data_offset);
+        if (min_age_ + age_offset > max_age_)
+          age_offset = age_spread_ - 1;
+
+        selectivity_result = target_selectivities_[category_offset]->GetResult(age);
+        start_value   = (*target_cached_category_iter).data_[data_offset];
+        end_value     = (*target_category_iter)->data_[data_offset];
+        final_value   = 0.0;
+
+        if (mean_proportion_method_)
+          final_value = start_value + ((end_value - start_value) * proportion_of_time_);
+        else
+          final_value = fabs(start_value - end_value) * proportion_of_time_;
+
+        target_age_results[age_offset] += final_value * selectivity_result;
+      }
+    }
+
+    if (age_results.size() != proportions_[model->current_year()][category_labels_[category_offset]].size())
+      LOG_CODE_ERROR("expected_values.size(" << age_results.size() << ") != proportions_[category_offset].size(" << proportions_[model->current_year()][category_labels_[category_offset]].size() << ")");
 
     /**
      * save our comparisons so we can use them to generate the score from the likelihoods later
      */
 
-    for (unsigned i = 0; i < expected_values.size(); ++i) {
-      SaveComparison(category_labels_[category_offset], min_age_ + i, expected_values[i], proportions_[model->current_year()][category_labels_[category_offset]][i],
+    for (unsigned i = 0; i < age_results.size(); ++i) {
+      Double expected = 0.0;
+      if (target_age_results[i] != 0.0)
+        expected = age_results[i] / target_age_results[i];
+
+      SaveComparison(category_labels_[category_offset], min_age_ + i, expected, proportions_[model->current_year()][category_labels_[category_offset]][i],
           process_errors_by_year_[model->current_year()], error_values_[model->current_year()][category_labels_[category_offset]][i], delta_, 0.0);
     }
   }

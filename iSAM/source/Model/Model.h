@@ -49,7 +49,6 @@ enum Type {
 enum class PartitionStructure {
   kAge = 1,
   kLength = 2,
-  kHybrid = 4,
   kInvalid = 4096
 };
 

@@ -212,15 +212,11 @@ void Model::Validate() {
   parameters_.Populate();
   if (type_ == PARAM_AGE)
     partition_structure_ = PartitionStructure::kAge;
-  else if (type_ == PARAM_LENGTH) {
-    LOG_ERROR("length model types not implemented");
+  else if (type_ == PARAM_LENGTH)
     partition_structure_ = PartitionStructure::kLength;
-  } else if (type_ == PARAM_HYBRID) {
-    LOG_ERROR("hybrid model types not implemented");
-    partition_structure_ = PartitionStructure::kHybrid;
-  } else
+  else
     LOG_ERROR(parameters_.location(PARAM_TYPE) << " (" << type_ << ") is not valid. Please use either " << PARAM_AGE
-        << ", " << PARAM_LENGTH << " or " << PARAM_HYBRID);
+        << " or " << PARAM_LENGTH);
 
   if (partition_structure_ == PartitionStructure::kAge) {
     if (start_year_ < 1000)
@@ -240,20 +236,16 @@ void Model::Validate() {
 
   } else if (partition_structure_ == PartitionStructure::kLength) {
     if (parameters_.Get(PARAM_MIN_AGE)->has_been_defined())
-      LOG_ERROR(parameters_.Get(PARAM_MIN_AGE) << " cannot be defined in a length model");
+      LOG_ERROR(parameters_.location(PARAM_MIN_AGE) << " cannot be defined in a length model");
     if (parameters_.Get(PARAM_MAX_AGE)->has_been_defined())
-      LOG_ERROR(parameters_.Get(PARAM_MAX_AGE) << " cannot be defined in a length model");
+      LOG_ERROR(parameters_.location(PARAM_MAX_AGE) << " cannot be defined in a length model");
     if (parameters_.Get(PARAM_AGE_PLUS)->has_been_defined())
-      LOG_ERROR(parameters_.Get(PARAM_AGE_PLUS) << " cannot be defined in a length model");
+      LOG_ERROR(parameters_.location(PARAM_AGE_PLUS) << " cannot be defined in a length model");
     if (!parameters_.Get(PARAM_LENGTH_BINS)->has_been_defined())
       LOG_ERROR(location() << " is missing required parameter " << PARAM_LENGTH_BINS);
 
   } else
     LOG_ERROR("Partition structure " << (unsigned)partition_structure_ << " not supported");
-
-
-
-
 
   // Call validation for the other objects required by the model
   Categories::Instance()->Validate();

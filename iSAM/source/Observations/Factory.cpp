@@ -21,6 +21,7 @@
 #include "Observations/Children/TimeStepAbundance.h"
 #include "Observations/Children/TimeStepBiomass.h"
 #include "Observations/Children/TimeStepProportionsAtAge.h"
+#include "Observations/Children/TimeStepProportionsByCategory.h"
 
 // Namespaces
 namespace niwa {
@@ -52,6 +53,8 @@ ObservationPtr Factory::Create(const string& object_type, const string& sub_type
       result = ObservationPtr(new ProcessProportionsAtAge());
     else if (sub_type == PARAM_PROCESS_PROPORTIONS_BY_CATEGORY)
       result = ObservationPtr(new ProcessProportionsByCategory());
+    else if (sub_type == PARAM_PROPORTIONS_BY_CATEGORY)
+      result = ObservationPtr(new TimeStepProportionsByCategory());
   }
 
   if (result)
