@@ -50,6 +50,8 @@ protected:
   unsigned                      max_age_ = 0;
   bool                          age_plus_ = false;
   unsigned                      age_spread_ = 0;
+  vector<string>                target_category_labels_;
+  vector<string>                target_selectivity_labels_;
   Double                        delta_ = 0.0;
   parameters::TablePtr          obs_table_;
   Double                        tolerance_ = 0.0;
@@ -59,7 +61,10 @@ protected:
   parameters::TablePtr          error_values_table_;
   CachedCombinedCategoriesPtr   cached_partition_;
   CombinedCategoriesPtr         partition_;
+  CachedCombinedCategoriesPtr   target_cached_partition_;
+  CombinedCategoriesPtr         target_partition_;
   vector<Double>                age_results_;
+  vector<SelectivityPtr>        target_selectivities_;
 
   map<unsigned, map<string, vector<Double>>> proportions_;
   map<unsigned, map<string, vector<Double>>> error_values_;

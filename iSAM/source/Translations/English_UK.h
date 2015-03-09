@@ -203,6 +203,7 @@
 #define PARAM_FUNCTION                            "function"
 #define PARAM_GAMMADIFF                           "numerical_differences"
 #define PARAM_GRAMS                               "grams"
+#define PARAM_GROWTH                              "growth"
 #define PARAM_H                                   "h"
 #define PARAM_HEADER                              "header"
 #define PARAM_HEIGHT                              "height"
