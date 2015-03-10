@@ -62,16 +62,16 @@ protected:
       Double process_error, Double error_value, Double delta, Double score);
 
   // members
-  string                      type_;
+  string                      type_ = "";
   map<unsigned, Double>       scores_;
-  string                      time_step_label_;
-  Double                      proportion_of_time_;
-  bool                        mean_proportion_method_;
+  string                      time_step_label_ = "";
+  Double                      proportion_of_time_ = 0;
+  bool                        mean_proportion_method_ = false;
   vector<string>              category_labels_;
   vector<string>              selectivity_labels_;
-  string                      likelihood_type_;
-  string                      simulation_likelihood_label_;
-  bool                        run_in_simulation_mode_;
+  string                      likelihood_type_ = "";
+  string                      simulation_likelihood_label_ = "";
+  bool                        run_in_simulation_mode_ = false;
   vector<SelectivityPtr>      selectivities_;
   LikelihoodPtr               likelihood_;
   map<unsigned, vector<obs::Comparison> > comparisons_;

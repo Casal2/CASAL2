@@ -46,13 +46,13 @@ private:
   vector<string>              category_labels_;
   vector<string>              selectivity_labels_;
   vector<SelectivityPtr>      selectivities_;
-  Double                      u_max_;
-  Double                      catch_;
+  Double                      u_max_ = 0;
+  Double                      catch_ = 0;
   vector<Double>              catches_;
   map<unsigned, Double>       catch_years_;
-  Double                      exploitation_;
+  Double                      exploitation_ = 0;
   vector<unsigned>            years_;
-  string                      penalty_label_;
+  string                      penalty_label_ = "";
   penalties::ProcessPtr       penalty_;
 };
 

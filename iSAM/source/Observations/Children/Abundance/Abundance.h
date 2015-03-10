@@ -50,14 +50,14 @@ protected:
   map<unsigned, vector<Double> >  proportions_by_year_;
   map<unsigned, Double>           error_values_by_year_;
   vector<Double>                  error_values_;
-  string                          catchability_label_;
+  string                          catchability_label_ = "";
   CatchabilityPtr                 catchability_;
-  Double                          delta_;
-  Double                          process_error_;
+  Double                          delta_ = 0;
+  Double                          process_error_ = 0;
   CachedCombinedCategoriesPtr     cached_partition_;
   CombinedCategoriesPtr           partition_;
   vector<string>                  obs_;
-  Double                          proportion_of_time_;
+  Double                          proportion_of_time_ = 0;
 };
 
 } /* namespace observation */

@@ -48,10 +48,10 @@ protected:
   virtual void                DoReset() = 0;
 
   // Members
-  unsigned                    min_age_;
-  unsigned                    max_age_;
-  bool                        age_plus_;
-  unsigned                    age_spread_;
+  unsigned                    min_age_ = 0;
+  unsigned                    max_age_ = 0;
+  bool                        age_plus_ = false;
+  unsigned                    age_spread_ = 0;
   vector<vector<Double> >     mis_matrix_;
 };
 

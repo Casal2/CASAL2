@@ -38,8 +38,8 @@ public:
 
 private:
   // members
-  string                      parameter_;
-  Double*                     target_;
+  string                      parameter_ = "";
+  Double*                     target_ = 0;
 };
 
 } /* namespace reports */

@@ -47,15 +47,15 @@ private:
   accessor::Categories          to_partition_;
   accessor::Categories          from_partition_;
   vector<unsigned>              years_;
-  unsigned                      min_age_;
-  unsigned                      max_age_;
+  unsigned                      min_age_ = 0;
+  unsigned                      max_age_ = 0;
   vector<string>                selectivity_labels_;
   map<string, SelectivityPtr>   selectivities_;
-  string                        penalty_label_;
+  string                        penalty_label_ = "";
   PenaltyPtr                    penalty_;
-  Double                        u_max_;
-  Double                        initial_mortality_;
-  string                        initial_mortality_selectivity_label_;
+  Double                        u_max_ = 0;
+  Double                        initial_mortality_ = 0;
+  string                        initial_mortality_selectivity_label_ = "";
   SelectivityPtr                initial_mortality_selectivity_;
   vector<Double>                loss_rate_;
   map<string, Double>           loss_rate_by_category_;
@@ -64,7 +64,7 @@ private:
   vector<Double>                n_;
   parameters::TablePtr          numbers_table_;
   parameters::TablePtr          proportions_table_;
-  unsigned                      first_year_;
+  unsigned                      first_year_ = 0;
   map<unsigned, vector<Double>> numbers_;
 };
 

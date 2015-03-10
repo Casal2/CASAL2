@@ -62,6 +62,7 @@ unsigned Manager::GetTimeStepIndex(const string& time_step_label) const {
   }
 
   LOG_ERROR("The time step " << time_step_label << " could not be found");
+  return 0;
 }
 
 /**
@@ -77,6 +78,7 @@ unsigned Manager::GetTimeStepIndexForProcess(const string& process_label) const 
   }
 
   LOG_ERROR("The process " << process_label << " could not be found in any of the time steps");
+  return 0;
 }
 
 /**
