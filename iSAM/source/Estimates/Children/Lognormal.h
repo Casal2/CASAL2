@@ -35,9 +35,9 @@ public:
   Double                      GetScore() override final;
 
 private:
-  Double                      mu_;
-  Double                      cv_;
-  Double                      sigma_;
+  Double                      mu_ = 0;
+  Double                      cv_ = 0;
+  Double                      sigma_ = 0;
 };
 
 } /* namespace estimates */

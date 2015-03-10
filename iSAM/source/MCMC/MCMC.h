@@ -72,22 +72,21 @@ private:
   void                        GenerateNewCandidates();
 
   // members
-  Double                      start_;
-  unsigned                    length_;
-  unsigned                    keep_;
-  unsigned                    estimate_count_;
-  unsigned                    jumps_;
-  unsigned                    successful_jumps_;
-  unsigned                    jumps_since_adapt_;
-  bool                        last_item_;
-  unsigned                    successful_jumps_since_adapt_;
-  Double                      max_correlation_;
-  string                      correlation_method_;
-  Double                      correlation_diff_;
-  Double                      step_size_;
-  string                      proposal_distribution_;
-  unsigned                    df_;
-//  ublas::matrix<double>       original_covariance_;
+  Double                      start_ = 0;
+  unsigned                    length_ = 0;
+  unsigned                    keep_ = 0;
+  unsigned                    estimate_count_ = 0;
+  unsigned                    jumps_ = 0;
+  unsigned                    successful_jumps_ = 0;
+  unsigned                    jumps_since_adapt_ = 0;
+  bool                        last_item_ = false;
+  unsigned                    successful_jumps_since_adapt_ = 0;
+  Double                      max_correlation_ = 0;
+  string                      correlation_method_ = "";
+  Double                      correlation_diff_ = 0;
+  Double                      step_size_ = 0;
+  string                      proposal_distribution_ = "";
+  unsigned                    df_ = 0;
   ublas::matrix<Double>       covariance_matrix_;
   ublas::matrix<Double>       covariance_matrix_lt;
   vector<Double>              candidates_;

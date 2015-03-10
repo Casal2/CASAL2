@@ -58,8 +58,8 @@ private:
   map<unsigned, vector<ExecutorPtr> > executors_;
   map<unsigned, vector<ExecutorPtr> > block_executors_;
   vector<ExecutorPtr>                 initialisation_block_executors_;
-  unsigned                            block_start_process_index_;
-  unsigned                            block_end_process_Index_;
+  unsigned                            block_start_process_index_ = 0;
+  unsigned                            block_end_process_Index_ = 0;
   map<string, vector<string>>         initialisation_process_labels_;
   map<string, vector<ProcessPtr>>     initialisation_processes_;
   map<string, unsigned>               initialisation_block_end_process_index_;

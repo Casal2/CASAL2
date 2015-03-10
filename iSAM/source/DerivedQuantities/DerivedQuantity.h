@@ -47,8 +47,8 @@ public:
 
 protected:
   // Members
-  string                      time_step_label_;
-  unsigned                    current_initialisation_phase_;
+  string                      time_step_label_ = "";
+  unsigned                    current_initialisation_phase_ = 0;
   vector<vector<Double> >     initialisation_values_;
   map<unsigned, Double>       values_;
   vector<string>              selectivity_labels_;

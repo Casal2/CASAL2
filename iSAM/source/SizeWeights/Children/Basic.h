@@ -37,10 +37,10 @@ public:
 
 private:
   // members
-  Double                      a_;
-  Double                      b_;
-  Double                      cv_;
-  string                      units_;
+  Double                      a_ = 0;
+  Double                      b_ = 0;
+  Double                      cv_ = 0;
+  string                      units_ = "";
 };
 
 } /* namespace sizeweights */

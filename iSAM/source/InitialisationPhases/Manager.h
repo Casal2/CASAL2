@@ -39,7 +39,7 @@ protected:
 
 private:
   // members
-  unsigned                        current_initialisation_phase_;
+  unsigned                        current_initialisation_phase_ = 0;
   unsigned                        last_executed_phase_ = 0;
   vector<InitialisationPhasePtr>  ordered_initialisation_phases_;
 
