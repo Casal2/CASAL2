@@ -126,7 +126,7 @@ length 100
 @catchability CPUEq
 q 0.000153139
 
-@observation CAA-year
+@observation CAA_year
 type proportions_at_age
 years 1998:2007
 time_step step_one
