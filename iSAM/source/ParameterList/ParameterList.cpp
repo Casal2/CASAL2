@@ -22,6 +22,7 @@
 #include "Categories/Categories.h"
 #include "Translations/Translations.h"
 #include "Utilities/Logging/Logging.h"
+#include "Utilities/String.h"
 #include "Utilities/To.h"
 
 // Using
@@ -145,6 +146,12 @@ void ParameterList::Populate() {
   // bind parameters
   for (auto iter = parameters_.begin(); iter != parameters_.end(); ++iter)
     iter->second->Bind();
+
+  if (parameters_.find(PARAM_LABEL) != parameters_.end()) {
+    ParameterPtr param = parameters_[PARAM_LABEL];
+    if (param->values().size() != 0 && !utilities::strings::is_valid(param->values()[0]))
+      LOG_ERROR("At line " << defined_line_number_ << " of file " << defined_file_name_ << " the label provided contains invalid characters: " << param->values()[0]);
+  }
 }
 
 /**

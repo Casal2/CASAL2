@@ -26,16 +26,15 @@ namespace niwa {
 namespace utilities {
 namespace strings {
 
-
 bool is_valid(const std::string& test_string) {
  if (test_string.length() == 0)
-   return false;
+   return true;
 
  std::string special_chars = "[]()._-:";
 
  bool invalid
  = std::find_if(test_string.begin(), test_string.end(),
-                    [&special_chars](char c) { return (!std::isalpha(c) && special_chars.find(c) == string::npos); }) != test_string.end();
+                    [&special_chars](char c) { return (!std::isalpha(c) && !std::isdigit(c) && special_chars.find(c) == string::npos); }) != test_string.end();
 
  return !invalid;
 }
