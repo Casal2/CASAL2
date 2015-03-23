@@ -31,7 +31,7 @@ namespace strings {
 using std::string;
 using std::vector;
 
-bool is_valid(const std::string& test_string);
+std::string find_invalid_characters(const std::string& test_string);
 
 vector<std::string> explode(const std::string& source);
 
