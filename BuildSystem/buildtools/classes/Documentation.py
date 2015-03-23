@@ -59,12 +59,11 @@ class Documentation:
         # PARAM_X in to actual English
         if not self.load_translations():
             return False
-        folder_list = [ 'AgeLengths' ]
-#        folder_list = [ 'AdditionalPriors', 'AgeingErrors', 'AgeLengths', 'Asserts',
-                        #'Catchabilities', 'Categories', 'DerivedQuantities',
-                        #'Estimates', 'InitialisationPhases', 'Likelihoods', 'MCMC', 'Minimisers',
-                        #'Model', 'Observations', 'Penalties', 'Processes', 'Profiles', 'Projects',
-                        #'Reports', 'Selectivities', 'Simulates', 'SizeWeights', 'TimeSteps', 'TimeVarying']
+        folder_list = [ 'AdditionalPriors', 'AgeingErrors', 'AgeLengths', 'Asserts',
+                        'Catchabilities', 'Categories', 'DerivedQuantities',
+                        'Estimates', 'InitialisationPhases', 'Likelihoods', 'MCMC', 'Minimisers',
+                        'Model', 'Observations', 'Penalties', 'Processes', 'Profiles', 'Projects',
+                        'Reports', 'Selectivities', 'Simulates', 'SizeWeights', 'TimeSteps', 'TimeVarying']
         for folder in folder_list:
             self.clean_variables()            
             file_list = os.listdir('../iSAM/source/' + folder + '/')
