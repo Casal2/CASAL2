@@ -21,7 +21,8 @@ namespace niwa {
 AdditionalPrior::AdditionalPrior() {
   parameters_.Bind<string>(PARAM_LABEL, &label_, "Label", "");
   parameters_.Bind<string>(PARAM_TYPE, &type_, "Type", "");
-  parameters_.Bind<string>(PARAM_METHOD, &method_, "Method", "");
+  parameters_.Bind<string>(PARAM_METHOD, &method_, "Method", "")
+    ->set_allowed_values({PARAM_RATIO, PARAM_DIFFERENCE, PARAM_MEAN});
 }
 
 /**

@@ -35,12 +35,30 @@ public:
   BindableVector(const string& label, vector<T>* target, const string& description);
   virtual                     ~BindableVector() = default;
   void                        Bind() override final;
+
+  // accessors
   string                      stored_type() const override final { return utilities::demangle(typeid(*target_).name()); }
-  vector<string>              GetCurrentValues() override final;
+  vector<string>              current_values() override final;
+  void                        set_allowed_values(std::initializer_list<T> list);
+  void                        set_range(T lower_bound, T upper_bound, bool lower_inclusive = true, bool upper_inclusive = true);
+  void                        set_lower_bound(T lower_bound, bool inclusive = true);
+  void                        set_upper_bound(T upper_bound, bool inclusive = true);
 
 private:
+  // class
+  struct Range {
+    bool lower_flagged_ = false;
+    bool upper_flagged_ = false;
+    T lower_bound_;
+    T upper_bound_;
+    bool lower_inclusive_;
+    bool upper_inclusive_;
+  };
+
   // members
   vector<T>*                  target_;
+  vector<T>                   allowed_values_;
+  BindableVector::Range       range_;
 };
 
 } /* namespace parameters */
