@@ -20,6 +20,8 @@
 // Headers
 #include <string>
 #include <vector>
+#include <sstream>
+
 
 #include "Translations/Translations.h"
 
@@ -35,7 +37,18 @@ std::string find_invalid_characters(const std::string& test_string);
 
 vector<std::string> explode(const std::string& source);
 
+template<typename T>
+std::string join(const std::vector<T>& source, const string separator = "") {
+
+  std::ostringstream result;
+  for (unsigned i = 0; i < source.size() - 1; ++i)
+    result  << source[i] << separator;
+  result << source[source.size() - 1];
+
+  return result.str();
 }
+
+} /* namespace strings */
 } /* namespace utilities */
 } /* namespace niwa */
 

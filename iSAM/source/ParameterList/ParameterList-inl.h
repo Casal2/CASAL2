@@ -33,30 +33,33 @@ namespace niwa {
  *
  */
 template<typename T>
-void ParameterList::Bind(const string& label, T* target, const string& description, const string& values) {
-  boost::shared_ptr<Bindable<T> > parameter = boost::shared_ptr<Bindable<T> >(new Bindable<T>(label, target, description));
+shared_ptr<Bindable<T> > ParameterList::Bind(const string& label, T* target, const string& description, const string& values) {
+  shared_ptr<Bindable<T> > parameter = boost::shared_ptr<Bindable<T> >(new Bindable<T>(label, target, description));
   parameters_[label] = parameter;
+  return parameter;
 }
 
 /**
  *
  */
 template<typename T>
-void ParameterList::Bind(const string& label, T* target, const string& description, const string& values, T default_value) {
-  boost::shared_ptr<Bindable<T> > parameter = boost::shared_ptr<Bindable<T> >(new Bindable<T>(label, target, description));
+shared_ptr<Bindable<T> > ParameterList::Bind(const string& label, T* target, const string& description, const string& values, T default_value) {
+  shared_ptr<Bindable<T> > parameter = boost::shared_ptr<Bindable<T> >(new Bindable<T>(label, target, description));
   parameter->set_is_optional(true);
   parameter->set_default_value(default_value);
   parameters_[label] = parameter;
+  return parameter;
 }
 
 /**
  *
  */
 template<typename T>
-void ParameterList::Bind(const string& label, vector<T>* target, const string& description, const string& values, bool optional) {
-  boost::shared_ptr<BindableVector<T> > parameter = boost::shared_ptr<BindableVector<T> >(new BindableVector<T>(label, target, description));
+shared_ptr<BindableVector<T> > ParameterList::Bind(const string& label, vector<T>* target, const string& description, const string& values, bool optional) {
+  shared_ptr<BindableVector<T> > parameter = boost::shared_ptr<BindableVector<T> >(new BindableVector<T>(label, target, description));
   parameter->set_is_optional(optional);
   parameters_[label] = parameter;
+  return parameter;
 }
 
 } /* namespace niwa */

@@ -34,8 +34,10 @@ Data::Data() {
   data_table_ = TablePtr(new parameters::Table(PARAM_DATA));
 
   parameters_.BindTable(PARAM_DATA, data_table_, "", "");
-  parameters_.Bind<string>(PARAM_EXTERNAL_GAPS, &external_gaps_, "", "", PARAM_MEAN);
-  parameters_.Bind<string>(PARAM_INTERNAL_GAPS, &internal_gaps_, "", "", PARAM_MEAN);
+  parameters_.Bind<string>(PARAM_EXTERNAL_GAPS, &external_gaps_, "", "", PARAM_MEAN)
+    ->set_allowed_values({PARAM_MEAN, PARAM_NEAREST_NEIGHBOUR});
+  parameters_.Bind<string>(PARAM_INTERNAL_GAPS, &internal_gaps_, "", "", PARAM_MEAN)
+    ->set_allowed_values({PARAM_MEAN, PARAM_NEAREST_NEIGHBOUR, PARAM_INTERPOLATE});
   parameters_.Bind<string>(PARAM_SIZE_WEIGHT, &size_weight_label_, "TBA", "");
   parameters_.Bind<Double>(PARAM_CV, &cv_, "TBA", "", 0.0);
   parameters_.Bind<string>(PARAM_DISTRIBUTION, &distribution_, "TBA", "", PARAM_NORMAL);

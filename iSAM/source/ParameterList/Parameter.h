@@ -21,6 +21,7 @@
 // Headers
 #include <string>
 #include <vector>
+#include <initializer_list>
 #include <boost/shared_ptr.hpp>
 
 // Namespaces
@@ -41,9 +42,9 @@ public:
   virtual void                Bind() = 0;
   void                        AddValue(const string& value);
   void                        Clear() { values_.clear(); }
-  virtual vector<string>      GetCurrentValues() = 0;
 
   // Accessors
+  virtual vector<string>      current_values() = 0;
   void                        set_label(const string& label) { label_ = label; }
   void                        set_values(const vector<string>& values) { values_.assign(values.begin(), values.end()); }
   void                        set_value(const string& value) { values_.clear(); values_.push_back(value); }
@@ -57,7 +58,7 @@ public:
   bool                        is_optional() const { return is_optional_; }
   string                      location() const;
   virtual string              stored_type() const = 0;
-  string                      description() const { return description_; }
+  string                      description() const { return description_; };
 
 protected:
   // Methods

@@ -63,14 +63,19 @@
 
 #include "Parameter.h"
 #include "Table.h"
+#include "Parameters/Bindable.h"
+#include "Parameters/BindableVector.h"
 
 // Namespaces
 using std::map;
 using std::vector;
 using std::string;
 using niwa::parameters::TablePtr;
+using niwa::parameters::Bindable;
+using niwa::parameters::BindableVector;
 using niwa::parameterlist::Parameter;
 using niwa::parameterlist::ParameterPtr;
+using boost::shared_ptr;
 
 
 namespace niwa {
@@ -92,11 +97,11 @@ public:
   void                        CopyFrom(const ParameterList& source, string parameter_label, const unsigned &value_index);
   void                        Clear();
   template<typename T>
-  void                        Bind(const string& label, T* target, const string& description, const string& values);
+  shared_ptr<Bindable<T> >    Bind(const string& label, T* target, const string& description, const string& values);
   template<typename T>
-  void                        Bind(const string& label, T* target, const string& description, const string& values, T default_value);
+  shared_ptr<Bindable<T> >    Bind(const string& label, T* target, const string& description, const string& values, T default_value);
   template<typename T>
-  void                        Bind(const string& label, vector<T>* target, const string& description, const string& values, bool optional = false);
+  shared_ptr<BindableVector<T> > Bind(const string& label, vector<T>* target, const string& description, const string& values, bool optional = false);
   void                        BindTable(const string& label, parameters::TablePtr table, const string& description,
                                 const string& values, bool requires_columns = true, bool optional = false);
   void                        Populate();
