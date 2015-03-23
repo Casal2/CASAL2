@@ -26,17 +26,18 @@ namespace niwa {
 namespace utilities {
 namespace strings {
 
-bool is_valid(const std::string& test_string) {
+std::string find_invalid_characters(const std::string& test_string) {
  if (test_string.length() == 0)
-   return true;
+   return "";
 
  std::string special_chars = "[]()._-:";
 
- bool invalid
- = std::find_if(test_string.begin(), test_string.end(),
-                    [&special_chars](char c) { return (!std::isalpha(c) && !std::isdigit(c) && special_chars.find(c) == string::npos); }) != test_string.end();
+ std::string invalid = "";
+ std::for_each(test_string.begin(), test_string.end(),
+                    [&special_chars, &invalid](char c) { if (!std::isalpha(c) && !std::isdigit(c) && special_chars.find(c) == string::npos) invalid += c; }
+ );
 
- return !invalid;
+ return invalid;
 }
 
 vector<std::string> explode(const std::string& source) {

@@ -16,6 +16,8 @@
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
 
+#include "String.h"
+
 // namespaces
 namespace niwa {
 namespace utilities {
@@ -28,7 +30,17 @@ using ::testing::Return;
  */
 TEST(Utilities, String) {
 
+  string test = "good_label";
+  EXPECT_EQ("", find_invalid_characters(test));
 
+  test = "bad!!label";
+  EXPECT_EQ("!!", find_invalid_characters(test));
+
+  test = "good[]()._-:";
+  EXPECT_EQ("", find_invalid_characters(test));
+
+  test = "bad%la^bel!";
+  EXPECT_EQ("%^!", find_invalid_characters(test));
 }
 
 
