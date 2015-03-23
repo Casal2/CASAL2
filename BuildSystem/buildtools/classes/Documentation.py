@@ -26,6 +26,9 @@ class Documentation:
     variable_description_ = {}
     variable_value_ = {}
     variable_default_ = {}
+    variable_lower_bound_ = {}
+    variable_upper_bound_ = {}
+    variable_allowed_values_ = {}
 
     type_translations_ = {}
     translations_ = {}
@@ -56,11 +59,12 @@ class Documentation:
         # PARAM_X in to actual English
         if not self.load_translations():
             return False
-        folder_list = [ 'AdditionalPriors', 'AgeingErrors', 'AgeLengths', 'Asserts',
-                        'Catchabilities', 'Categories', 'DerivedQuantities',
-                        'Estimates', 'InitialisationPhases', 'Likelihoods', 'MCMC', 'Minimisers',
-                        'Model', 'Observations', 'Penalties', 'Processes', 'Profiles', 'Projects',
-                        'Reports', 'Selectivities', 'Simulates', 'SizeWeights', 'TimeSteps', 'TimeVarying']
+        folder_list = [ 'AgeLengths' ]
+#        folder_list = [ 'AdditionalPriors', 'AgeingErrors', 'AgeLengths', 'Asserts',
+                        #'Catchabilities', 'Categories', 'DerivedQuantities',
+                        #'Estimates', 'InitialisationPhases', 'Likelihoods', 'MCMC', 'Minimisers',
+                        #'Model', 'Observations', 'Penalties', 'Processes', 'Profiles', 'Projects',
+                        #'Reports', 'Selectivities', 'Simulates', 'SizeWeights', 'TimeSteps', 'TimeVarying']
         for folder in folder_list:
             self.clean_variables()            
             file_list = os.listdir('../iSAM/source/' + folder + '/')
@@ -119,6 +123,8 @@ class Documentation:
         self.variable_value_ = {}
         self.variable_default_ = {}
         self.estimables_ = {}
+        self.variable_lower_bound_ = {}
+        self.variable_upper_bound_ = {}
         
 
     """
@@ -139,18 +145,9 @@ class Documentation:
             if len(pieces) < 3 or not pieces[1].startswith('PARAM'):
                 continue
 
-            pieces = re.split('"', line)
-            if len(pieces) != 3:
-                return Globals.PrintError('--> Error parsing translation line: ' + line)
-                
-
-            temp = pieces[0].split()
-            if len(temp) != 2:
-                return Globals.PrintError('--> Error parsing translation line piece: ' + pieces[0])
-
-            lookup = temp[1]
-            value = pieces[1]
-            self.translations_[lookup] = value.replace('_', '\_')
+            lookup = pieces[1];
+            value = pieces[2].lstrip().rstrip().replace('"', '').replace('_', '\_')
+            self.translations_[lookup] = value            
         return True
 
     """
@@ -210,6 +207,8 @@ class Documentation:
         source_file = header_file.replace('.h', '.cpp')
         print '--> Loading from .cpp - ' + source_file
         start_processing = False
+        continue_line = False
+        last_line = ''
         fi = fileinput.FileInput(source_file)
         for line in fi:
             line = line.rstrip().lstrip()
@@ -223,19 +222,31 @@ class Documentation:
                 continue
             # Stop processing after a single line with } as this is the end of the method
             if line == '}' or line == '}\n':
-                start_processing = False
-                continue
-            # Only process lines witht the parameters_.Bind< or RegisterEstimable( 
-            if line.startswith('parameters_.Bind<'):
+                break
+
+            # Only process lines with the parameters_.Bind< or RegisterEstimable(
+            if continue_line:
+                line = last_line + line
+                last_line = line
+            if line.endswith(';'):
+                continue_line = False                
+                last_line = ''
+                
+            if line.startswith('parameters_.Bind<') and line.endswith(';'):                
                 if not self.load_parameter_bind(line):
                     return False
-            if line.startswith('RegisterAsEstimable('):
+            elif line.startswith('RegisterAsEstimable(') and line.endswith(';'):
                 if not self.load_register_estimable(line):
                     return False
+            elif not line.endswith(';'):                
+                last_line = last_line + line
+                continue_line = True
+                
         return True
             
     def load_parameter_bind(self, line):
-        short_line = line.replace('parameters_.Bind<', '')
+        lines  = re.split('->', line)
+        short_line = lines[0].replace('parameters_.Bind<', '')        
         pieces = re.split(',|<|>|;|(|)', short_line)
         pieces = filter(None, pieces)
         # Check for Name            
@@ -279,7 +290,57 @@ class Documentation:
             self.variable_default_[name] = pieces[index].replace(')', '').rstrip().lstrip()
         else:
             self.variable_default_[name] = 'No default'
-        print '-- Default: ' + self.variable_default_[name]            
+        print '-- Default: ' + self.variable_default_[name]
+
+        if len(lines) == 2:
+            short_line = lines[1]
+            if short_line.startswith('set_lower_bound'):
+                lower_bound_info = short_line.replace('set_lower_bound(', '').replace(');', '').split(',')                
+                lower_bound = lower_bound_info[0]
+                if len(lower_bound_info) == 2 and lower_bound_info[1].lstrip().rstrip().lower() == 'false':
+                    lower_bound += ' (exclusive)'                        
+                else:
+                    lower_bound += ' (inclusive)'                        
+                self.variable_lower_bound_[name] = lower_bound
+                print '-- Lower Bound: ' + lower_bound
+            elif short_line.startswith('set_upper_bound'):
+                upper_bound_info = short_line.replace('set_upper_bound(', '').replace(');', '').split(',')                
+                upper_bound = upper_bound_info[0]
+                if len(upper_bound_info) == 2 and upper_bound_info[1].lstrip().rstrip().lower() == 'false':
+                    upper_bound += ' (exclusive)'                        
+                else:
+                    upper_bound += ' (inclusive)'                        
+                self.variable_upper_bound_[name] = upper_bound
+                print '-- Upper Bound: ' + upper_bound
+            elif short_line.startswith('set_range('):
+                info = short_line.replace('set_range(', '').replace(');', '').split(',')
+                lower_bound = info[0].rstrip().lstrip()
+                upper_bound = info[1].rstrip().lstrip()
+                if len(info) > 2 and info[2].lstrip().rstrip().lower() == 'false':
+                    lower_bound += ' (exclusive)'
+                else:
+                    lower_bound += ' (inclusive)'
+                if len(info) > 3 and info[3].lstrip().rstrip().lower() == 'false':
+                    upper_bound += ' (exclusive)'
+                else:
+                    upper_bound += ' (inclusive)'
+                self.variable_lower_bound_[name] = lower_bound
+                print '-- Lower Bound: ' + lower_bound
+                self.variable_upper_bound_[name] = upper_bound
+                print '-- Upper Bound: ' + upper_bound
+            elif short_line.startswith('set_allowed_values('):
+                info = short_line.replace('set_allowed_values({', '').replace('});', '').replace('"', '').split(',')
+                allowed_values = []
+                for value in info:
+                    value = value.strip().lstrip()
+                    if value.startswith('PARAM'):
+                        allowed_values.append(self.translations_[value])
+                    else:
+                        allowed_values.append(value)
+                short_line = ', '.join(allowed_values)
+                self.variable_allowed_values_[name] = short_line
+                print '-- Allowed Values: ' + short_line                
+        
         return True
     
     """
@@ -338,6 +399,12 @@ class Documentation:
                 file.write('\\defDefault{' + self.variable_default_[name] + '}\n')
             if name in self.variable_value_ and self.variable_value_[name] != '':
                 file.write('\\defValue{' + self.variable_value_[name].replace('_', '\_') + '}\n')
+            if name in self.variable_lower_bound_:
+                file.write('\\defLowerBound{' + self.variable_lower_bound_[name] + '}\n')
+            if name in self.variable_upper_bound_:
+                file.write('\\defUpperBound{' + self.variable_upper_bound_[name] + '}\n')
+            if name in self.variable_allowed_values_:
+                file.write('\\defAllowedValues{' + self.variable_allowed_values_[name] + '}\n')        
             file.write('\n')
         
         file.close()
@@ -375,6 +442,12 @@ class Documentation:
                 file.write('\\defDefault{' + self.variable_default_[name] + '}\n')
             if name in self.variable_value_ and self.variable_value_[name] != '':
                 file.write('\\defValue{' + self.variable_value_[name].replace('_', '\_') + '}\n')
+            if name in self.variable_lower_bound_:
+                file.write('\\defLowerBound{' + self.variable_lower_bound_[name] + '}\n')
+            if name in self.variable_upper_bound_:
+                file.write('\\defUpperBound{' + self.variable_upper_bound_[name] + '}\n')
+            if name in self.variable_allowed_values_:
+                file.write('\\defAllowedValues{' + self.variable_allowed_values_[name] + '}\n')
             file.write('\n')
         
         file.close()
