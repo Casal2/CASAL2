@@ -20,7 +20,10 @@
 // Headers
 #include <string>
 #include <vector>
+#include <map>
 #include <boost/shared_ptr.hpp>
+
+#include "Utilities/Types.h"
 
 // Namespaces
 namespace niwa {
@@ -28,6 +31,8 @@ namespace parameters {
 
 using std::string;
 using std::vector;
+using std::map;
+using niwa::utilities::Double;
 
 /**
  * Class definition
@@ -40,6 +45,7 @@ public:
   void                        AddRow(vector<string> &row);
   bool                        HasColumns() { return columns_.size() != 0; }
   unsigned                    GetColumnCount() { return columns_.size(); }
+  void                        FillMapOfCategoryAges(map<string, vector<Double>>& result);
 
   // accessors
   void                        set_file_name(const string& file_name) { file_name_ = file_name; }

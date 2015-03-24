@@ -24,9 +24,8 @@
 // Namespaces
 namespace niwa {
 namespace utilities {
-namespace strings {
 
-std::string find_invalid_characters(const std::string& test_string) {
+std::string String::find_invalid_characters(const std::string& test_string) {
  if (test_string.length() == 0)
    return "";
 
@@ -40,7 +39,7 @@ std::string find_invalid_characters(const std::string& test_string) {
  return invalid;
 }
 
-vector<std::string> explode(const std::string& source) {
+vector<std::string> String::explode(const std::string& source) {
   vector<std::string> result;
 
   vector<std::string> chunks;
@@ -76,6 +75,5 @@ vector<std::string> explode(const std::string& source) {
   return result;
 }
 
-}
 } /* namespace utilities */
 } /* namespace niwa */

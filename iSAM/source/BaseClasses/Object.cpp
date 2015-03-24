@@ -129,7 +129,7 @@ map<unsigned, Double>* Object::GetEstimableUMap(const string& label) {
 /**
  *
  */
-Map<string, Double>* Object::GetEstimableSMap(const string& label) {
+OrderedMap<string, Double>* Object::GetEstimableSMap(const string& label) {
   if (estimable_types_.find(label) == estimable_types_.end())
     LOG_CODE_ERROR("estimable_types_.find(" << label << ") == estimable_types_.end()");
   if (estimable_types_[label] != Estimable::kStringMap)
@@ -196,7 +196,7 @@ void Object::RegisterAsEstimable(const string& label, vector<Double>* variables)
  * @param label The label for the process
  * @param variables Map containing index and double values to store
  */
-void Object::RegisterAsEstimable(const string& label, Map<string, Double>* variables) {
+void Object::RegisterAsEstimable(const string& label, OrderedMap<string, Double>* variables) {
   estimable_s_maps_[label]  = variables;
   estimable_types_[label]   = Estimable::kStringMap;
 }

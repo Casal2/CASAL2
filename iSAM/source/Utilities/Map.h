@@ -25,10 +25,6 @@
 namespace niwa {
 namespace utilities {
 
-using std::vector;
-using std::map;
-using std::string;
-
 /**
  * This class is responsible for providing us with a specialised container that allows
  * the storage and retrieval of data in an "order by insertion" method.
@@ -38,9 +34,9 @@ using std::string;
  *
  */
 struct cmp_by_insertion {
-  vector<string> current_keys_;
+  std::vector<std::string> current_keys_;
 
-  bool operator() (string const &a, string const &b) {
+  bool operator() (std::string const &a, std::string const &b) {
     if (a == b)
       return false;
 
@@ -64,42 +60,48 @@ struct cmp_by_insertion {
 };
 
 template<typename _Key, typename _Tp>
-class Map : public std::map<_Key, _Tp, cmp_by_insertion> { };
-
-
-/**
- * Build a map from 2 vectors where the first vector
- * is the key and the second vector is the value
- *
- * @param key The keys to use
- * @param value The values to use
- * @return a Map of keys and values
- */
-inline map<unsigned, Double> MapCreate(const vector<unsigned>& key, const vector<Double>& value) {
-  map<unsigned, Double> result;
-
-  for (unsigned i = 0; i < key.size(); ++i)
-    result[key[i]] = value[i];
-
-  return result;
-}
+class OrderedMap : public ::std::map<_Key, _Tp, cmp_by_insertion> { };
 
 /**
- * Build a map from 2 vectors where the first vector
- * is the key and the second vector is the value
- *
- * @param key The keys to use
- * @param value The values to use
- * @return a Map of keys and values
+ * Namespace for our map methods
  */
-inline map<string, Double> MapCreate(const vector<string>& key, const vector<Double>& value) {
-  map<string, Double> result;
+class Map {
+public:
+  /**
+   * Build a map from 2 vectors where the first vector
+   * is the key and the second vector is the value
+   *
+   * @param key The keys to use
+   * @param value The values to use
+   * @return a Map of keys and values
+   */
+  static std::map<unsigned, Double> create(const std::vector<unsigned>& key, const std::vector<Double>& value) {
+    std::map<unsigned, Double> result;
 
-  for (unsigned i = 0; i < key.size(); ++i)
-    result[key[i]] = value[i];
+    for (unsigned i = 0; i < key.size(); ++i)
+      result[key[i]] = value[i];
 
-  return result;
-}
+    return result;
+  }
+
+  /**
+   * Build a map from 2 vectors where the first vector
+   * is the key and the second vector is the value
+   *
+   * @param key The keys to use
+   * @param value The values to use
+   * @return a Map of keys and values
+   */
+  static std::map<std::string, Double> create(const std::vector<std::string>& key, const std::vector<Double>& value) {
+    std::map<std::string, Double> result;
+
+    for (unsigned i = 0; i < key.size(); ++i)
+      result[key[i]] = value[i];
+
+    return result;
+  }
+
+}; // class
 
 } /* namespace utilities */
 } /* namespace niwa */

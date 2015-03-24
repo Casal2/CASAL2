@@ -28,7 +28,6 @@ namespace niwa {
 namespace utilities {
 
 using std::string;
-using std::map;
 
 /**
  * Class definition
@@ -43,13 +42,13 @@ public:
   // Accessors
   string                      command_line_usage() { return command_line_usage_; }
   RunMode::Type               run_mode() const { return run_mode_; }
-  map<string, string>         override_values() const { return override_values_; }
+  std::map<string, string>    override_values() const { return override_values_; }
 
 private:
   // Members
   RunMode::Type               run_mode_ = RunMode::kInvalid;
   string                      command_line_usage_   = "";
-  map<string, string>         override_values_;
+  std::map<string, string>    override_values_;
 };
 
 } /* namespace utilities */

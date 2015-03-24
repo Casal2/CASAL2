@@ -29,7 +29,6 @@ namespace niwa {
 
 using boost::shared_ptr;
 using utilities::Double;
-using utilities::Map;
 using std::string;
 using std::vector;
 using std::map;

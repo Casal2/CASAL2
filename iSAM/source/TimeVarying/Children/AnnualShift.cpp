@@ -51,7 +51,7 @@ void AnnualShift::DoValidate() {
  *
  */
 void AnnualShift::DoBuild() {
-  map<unsigned, Double> values = utilities::MapCreate(years_, values_);
+  map<unsigned, Double> values = utilities::Map::create(years_, values_);
 
   Double total = 0.0;
   for (unsigned scaling_year : scaling_years_) {

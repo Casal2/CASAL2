@@ -28,7 +28,7 @@ namespace niwa {
 namespace processes {
 
 namespace accessor = niwa::partition::accessors;
-using niwa::utilities::Map;
+using utilities::OrderedMap;
 
 /**
  * Class defintiion
@@ -48,7 +48,7 @@ private:
   vector<string>              from_category_names_;
   vector<string>              to_category_names_;
   vector<Double>              proportions_;
-  Map<string, Double>         proportions_by_category_;
+  OrderedMap<string, Double>  proportions_by_category_;
   vector<string>              selectivity_names_;
   accessor::Categories        from_partition_;
   accessor::Categories        to_partition_;

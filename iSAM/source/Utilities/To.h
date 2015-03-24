@@ -75,6 +75,26 @@ bool To(const ::std::string arg, Target &result) {
 };
 
 /**
+ * This method will iterate through a vector and attempt to convert every
+ * element in to the target type. Any invalid conversions will be returned
+ * in a vector
+ */
+template<typename Target>
+vector<string> To(const vector<string>& source, vector<Target>& result) {
+  vector<string> invalids;
+
+  for (string value : source) {
+    try {
+      result.push_back(boost::lexical_cast<Target>(value));
+    } catch (...) {
+      invalids.push_back(value);
+    }
+  }
+
+  return invalids;
+}
+
+/**
  * This is a specialisation for handling unsigned ints that are put in as negative
  */
 template <>

@@ -70,7 +70,7 @@ void Ageing::DoBuild() {
     LOG_ERROR(parameters_.location(PARAM_TIME_STEP_PROPORTIONS) << " size (" << time_step_proportions_.size() << "( must match the number "
         "of defined time steps for this process (" << time_step_indexes.size() << ")");
 
-  time_step_proportions_by_index_ = utilities::MapCreate(time_step_indexes, time_step_proportions_);
+  time_step_proportions_by_index_ = utilities::Map::create(time_step_indexes, time_step_proportions_);
   for (auto iter : time_step_proportions_by_index_) {
     if (iter.second < 0.0 || iter.second > 1.0)
       LOG_ERROR(parameters_.location(PARAM_TIME_STEP_PROPORTIONS) << " value (" << iter.second << ") must be in the range 0.0-1.0");

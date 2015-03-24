@@ -27,8 +27,6 @@
 namespace niwa {
 namespace estimates {
 
-using utilities::Map;
-
 /**
  * Class definition
  */
