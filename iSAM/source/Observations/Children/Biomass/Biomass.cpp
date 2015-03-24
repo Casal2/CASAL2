@@ -60,7 +60,7 @@ void Biomass::DoValidate() {
     LOG_ERROR(parameters_.location(PARAM_ERROR_VALUE) << ": error_value length (" << error_values_.size()
         << ") must be same length as obs (" << obs.size() << ")");
 
-  error_values_by_year_ = utils::MapCreate(years_, error_values_);
+  error_values_by_year_ = utils::Map::create(years_, error_values_);
 
   Double value = 0.0;
   for (unsigned i = 0; i < years_.size(); ++i) {

@@ -50,7 +50,7 @@ enum Type {
 namespace base {
 
 using std::string;
-using niwa::utilities::Map;
+using utilities::OrderedMap;
 
 /**
  * Class Definition
@@ -59,16 +59,16 @@ class Object {
 public:
   // Methods
   Object() = default;
-  virtual                     ~Object() {};
-  bool                        IsEstimableAVector(const string& label) const;
-  unsigned                    GetEstimableSize(const string& label) const;
-  Double*                     GetEstimable(const string& label);
-  Double*                     GetEstimable(const string& label, const string& index);
-  map<unsigned, Double>*      GetEstimableUMap(const string& label);
-  Map<string, Double>*        GetEstimableSMap(const string& label);
-  vector<Double>*             GetEstimableVector(const string& label);
-  Estimable::Type             GetEstimableType(const string& label) const;
-  void                        PrintParameterQueryInfo();
+  virtual                         ~Object() {};
+  bool                            IsEstimableAVector(const string& label) const;
+  unsigned                        GetEstimableSize(const string& label) const;
+  Double*                         GetEstimable(const string& label);
+  Double*                         GetEstimable(const string& label, const string& index);
+  map<unsigned, Double>*          GetEstimableUMap(const string& label);
+  OrderedMap<string, Double>*     GetEstimableSMap(const string& label);
+  vector<Double>*                 GetEstimableVector(const string& label);
+  Estimable::Type                 GetEstimableType(const string& label) const;
+  void                            PrintParameterQueryInfo();
 
   // Accessors and Mutators
   string                      label() const { return label_; }
@@ -82,7 +82,7 @@ protected:
   // Methods
   void                        RegisterAsEstimable(const string& label, Double* variable);
   void                        RegisterAsEstimable(const string& label, vector<Double>* variables);
-  void                        RegisterAsEstimable(const string& label, Map<string, Double>* variables);
+  void                        RegisterAsEstimable(const string& label, OrderedMap<string, Double>* variables);
   void                        RegisterAsEstimable(const string& label, map<unsigned, Double>* variables);
 
   // Accessors
@@ -93,11 +93,12 @@ protected:
   string                        label_                = "";
   string                        type_                 = "";
   ParameterList                 parameters_;
-  map<string, Double*>                  estimables_;
-  map<string, vector<Double>* >         estimable_vectors_;
-  map<string, Map<string, Double>* >    estimable_s_maps_;
-  map<string, map<unsigned, Double>* >  estimable_u_maps_;
-  map<string, Estimable::Type>          estimable_types_;
+  map<string, Double*>          estimables_;
+  map<string, vector<Double>* > estimable_vectors_;
+  map<string, Estimable::Type>  estimable_types_;
+
+  map<string, map<unsigned, Double>* >      estimable_u_maps_;
+  map<string, OrderedMap<string, Double>* > estimable_s_maps_;
 
   DISALLOW_COPY_AND_ASSIGN(Object);
 };

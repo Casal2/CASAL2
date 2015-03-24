@@ -13,7 +13,11 @@
 // Headers
 #include "Table.h"
 
+#include <algorithm>
+
+#include "Utilities/String.h"
 #include "Utilities/To.h"
+#include "Translations/Translations.h"
 
 // Namespaces
 namespace niwa {
@@ -53,6 +57,26 @@ string Table::location() const {
   string line_number;
   niwa::utilities::To<unsigned, string>(line_number_, line_number);
   return string("At line " + line_number + " of file " + file_name_);
+}
+
+/**
+ * This method will build a map containing the Category by ages
+ */
+void Table::FillMapOfCategoryAges(map<string, vector<Double>>& result) {
+  if (columns_.size() < 2)
+    LOG_CODE_ERROR("(columns_.size() < 2)");
+  if (columns_[0] != PARAM_CATEGORY)
+    LOG_ERROR(location() << " must have " << PARAM_CATEGORY << " as the first column");
+
+  vector<string> temp(columns_.begin()+1, columns_.end());
+  vector<unsigned> age_list;
+  vector<string> invalids = utilities::To<unsigned>(temp, age_list);
+  if (invalids.size() != 0)
+    LOG_ERROR(location() << ". The following values could not be converted in to unsigned integers for ages: " << utilities::String::join<string>(invalids));
+
+//  unsigned min_age = std::min_element(age_list.begin(), age_list.end());
+//  unsigned max_age = std::max_element(age_list.begin(), age_list.end());
+
 }
 
 } /* namespace parameters */

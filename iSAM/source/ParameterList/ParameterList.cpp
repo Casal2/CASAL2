@@ -150,7 +150,7 @@ void ParameterList::Populate() {
   if (parameters_.find(PARAM_LABEL) != parameters_.end()) {
     ParameterPtr param = parameters_[PARAM_LABEL];
     if (param->values().size() != 0) {
-      string invalid = utilities::strings::find_invalid_characters(param->values()[0]);
+      string invalid = utilities::String::find_invalid_characters(param->values()[0]);
       if (invalid != "")
         LOG_ERROR("At line " << defined_line_number_ << " of file " << defined_file_name_ << " the label '" << param->values()[0] << "' contains invalid characters: " << invalid);
     }

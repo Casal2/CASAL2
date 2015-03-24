@@ -27,7 +27,6 @@ namespace niwa {
 namespace estimates {
 
 namespace utils = niwa::utilities;
-using niwa::utilities::Map;
 
 /**
  *
@@ -83,7 +82,7 @@ void Creator::CreateEstimates() {
 
   vector<string> indexes;
   if (index != "") {
-    indexes = utilities::strings::explode(index);
+    indexes = utilities::String::explode(index);
     if (index != "" && indexes.size() == 0) {
       LOG_ERROR(parameters_.location(PARAM_PARAMETER) << " could be split up to search for indexes because the format was invalid. "
           << "Please ensure you are using correct indexes and only the operators , and : (range) are supported");
@@ -154,7 +153,7 @@ void Creator::CreateEstimates() {
 
     case Estimable::kStringMap:
     {
-      Map<string, Double>* targets = target->GetEstimableSMap(parameter);
+      utils::OrderedMap<string, Double>* targets = target->GetEstimableSMap(parameter);
       unsigned offset = 0;
       for (string index : indexes) {
         if (targets->find(index) == targets->end())
@@ -209,7 +208,7 @@ void Creator::CreateEstimates() {
     }
     case Estimable::kStringMap:
     {
-      Map<string, Double>* targets = target->GetEstimableSMap(parameter);
+      utils::OrderedMap<string, Double>* targets = target->GetEstimableSMap(parameter);
       unsigned offset = 0;
       for (auto iter : (*targets)) {
         CreateEstimate(new_label + "(" + iter.first + ")", offset, &(*targets)[iter.first]);

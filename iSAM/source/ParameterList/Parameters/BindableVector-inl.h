@@ -59,7 +59,7 @@ void BindableVector<T>::Bind() {
     for (T value : *target_) {
       if (std::find(allowed_values_.begin(), allowed_values_.end(), value) == allowed_values_.end())
         LOG_ERROR(location() << " value " << value << " is not in the allowed values list: "
-            << utilities::strings::join<T>(allowed_values_, ", "));
+            << utilities::String::join<T>(allowed_values_, ", "));
     }
   }
 
@@ -77,7 +77,7 @@ void BindableVector<T>::Bind() {
   if (allowed_values_.size() != 0) {
     for (T value : *target_) {
       if (std::find(allowed_values_.begin(), allowed_values_.end(), value) == allowed_values_.end())
-        LOG_ERROR(location() << " value " << value << " is no in the list of allowed values: " << utilities::strings::join(allowed_values_, ", "));
+        LOG_ERROR(location() << " value " << value << " is no in the list of allowed values: " << utilities::String::join(allowed_values_, ", "));
     }
   }
 }

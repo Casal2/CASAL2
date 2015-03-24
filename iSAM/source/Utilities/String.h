@@ -28,27 +28,31 @@
 // Namespaces
 namespace niwa {
 namespace utilities {
-namespace strings {
 
 using std::string;
 using std::vector;
 
-std::string find_invalid_characters(const std::string& test_string);
+/**
+ * Class
+ */
+class String {
+public:
+  static std::string find_invalid_characters(const std::string& test_string);
+  static vector<std::string> explode(const std::string& source);
 
-vector<std::string> explode(const std::string& source);
+  template<typename T>
+  static std::string join(const std::vector<T>& source, const string separator = ", ") {
 
-template<typename T>
-std::string join(const std::vector<T>& source, const string separator = "") {
+    std::ostringstream result;
+    for (unsigned i = 0; i < source.size() - 1; ++i)
+      result  << source[i] << separator;
+    result << source[source.size() - 1];
 
-  std::ostringstream result;
-  for (unsigned i = 0; i < source.size() - 1; ++i)
-    result  << source[i] << separator;
-  result << source[source.size() - 1];
+    return result.str();
+  }
 
-  return result.str();
-}
+}; /* class */
 
-} /* namespace strings */
 } /* namespace utilities */
 } /* namespace niwa */
 

@@ -29,7 +29,7 @@ namespace processes {
 
 using niwa::utilities::Double;
 using niwa::partition::accessors::CategoriesWithAgePtr;
-using niwa::utilities::Map;
+using utilities::OrderedMap;
 
 /**
  * Class definition
@@ -48,7 +48,7 @@ private:
   // Members
   vector<string>              category_names_;
   vector<Double>              proportions_;
-  Map<string, Double>         proportions_categories_;
+  OrderedMap<string, Double>  proportions_categories_;
   Double                      r0_;
   unsigned                    age_;
   CategoriesWithAgePtr        partition_;
