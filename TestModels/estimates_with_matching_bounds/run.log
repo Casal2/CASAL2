@@ -1,0 +1,57 @@
+iSAM
+Call: isam -r 
+Date: Thu Mar 26 12:21:15 2015
+Version: 2015-03-24 04:13:36 UTC (rev. 6a0a245)
+Copyright (c) 2012 - 2015, NIWA (www.niwa.co.nz)
+Environment: machine:ANUBIS, user:Admin, os:Windows_NT, pid:6500
+
+[WARNING]
+Source: ..\source\Estimates\Manager.cpp:Validate (Line: 57)
+Warning: Estimates were removed because of matching lower and upper bounds. Originally had 8 estimates, now have 5
+[obj]
+obs->chatCPUE-1992: 134.15
+obs->chatCPUE-1993: 149.562
+obs->chatCPUE-1994: 158.247
+obs->chatCPUE-1995: 140.005
+obs->chatCPUE-1996: 133.157
+obs->chatCPUE-1997: 159.942
+obs->chatCPUE-1998: 175.072
+obs->chatCPUE-1999: 169.697
+obs->chatCPUE-2000: 184.938
+obs->chatCPUE-2001: 143.853
+obs->chatTANbiomass-1992: 743.022
+obs->chatTANbiomass-1993: 651.855
+obs->chatTANbiomass-1994: 1796.97
+obs->chatTANbiomass-1995: 345.136
+obs->chatTANbiomass-1996: 1178.71
+obs->chatTANbiomass-1997: 662.068
+obs->chatTANbiomass-1998: 586.87
+obs->chatTANbiomass-1999: 1411.1
+obs->chatTANbiomass-2000: 2581.28
+obs->chatTANbiomass-2001: 1347.75
+obs->chatTANbiomass-2002: 1018.1
+obs->chatTANage-1992: 28.4541
+obs->chatTANage-1993: 104.831
+obs->chatTANage-1994: 281.302
+obs->chatTANage-1995: 246.76
+obs->chatTANage-1996: 291.092
+obs->chatTANage-1997: 286.64
+obs->chatTANage-1998: 137.63
+obs->chatTANage-1999: 104.499
+obs->chatTANage-2000: 70.8661
+obs->chatTANage-2001: 50.7967
+obs->chatTANage-2002: 30.0168
+obs->chatOBS-1998: 701.17
+obs->chatOBS-1999: 291.174
+obs->chatOBS-2000: 234.262
+obs->chatOBS-2001: 149.094
+prior->catchability[chatCPUE.1].q: -9.63712
+prior->catchability[chatTANbiomass.1].q: -1.58407
+prior->process[recruitment].r0: 15.4249
+prior->selectivity[chatTANselMale].a50: 0
+prior->selectivity[chatTANselMale].ato95: 0
+total_score: 16884.3
+*end
+
+Total elapsed time: 6 seconds
+Completed
