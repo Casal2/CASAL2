@@ -13,14 +13,18 @@
 // Headers
 #include "Manager.h"
 
+#include <algorithm>
+
 #include "Estimables/Estimables.h"
 #include "GlobalConfiguration/GlobalConfiguration.h"
+#include "Utilities/DoubleCompare.h"
 
 // Namespaces
 namespace niwa {
 namespace estimates {
 
 using std::set;
+namespace dc = utilities::doublecompare;
 
 /**
  *
@@ -38,6 +42,19 @@ void Manager::Validate() {
    */
   for (EstimatePtr estimate : objects_)
     estimate->Validate();
+
+  /**
+   * Remove any estimates where the bounds are the same.
+   */
+  unsigned count = objects_.size();
+  objects_.erase(
+      std::remove_if(objects_.begin(), objects_.end(),
+         [](EstimatePtr estimate) {return dc::IsEqual(estimate->lower_bound(), estimate->upper_bound()); }
+       ),
+       objects_.end()
+  );
+  if (count != objects_.size())
+    LOG_WARNING("Estimates were removed because of matching lower and upper bounds. Originally had " << count << " estimates, now have " << objects_.size());
 
   /**
    * Load any estimate values that have been supplied
