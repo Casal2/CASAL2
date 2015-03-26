@@ -97,6 +97,13 @@ void Categories::Validate() {
 
     category_names_.push_back(names_[i]);
   }
+
+  for (string label : category_names_) {
+    string invalid_characters = utilities::String::find_invalid_characters(label);
+    if (invalid_characters != "")
+      LOG_ERROR(parameters_.location(PARAM_NAMES) << " category label " << label << " contains the invalid characters: " << invalid_characters);
+  }
+
 }
 
 /**
