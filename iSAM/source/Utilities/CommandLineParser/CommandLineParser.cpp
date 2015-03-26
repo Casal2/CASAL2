@@ -64,7 +64,9 @@ void CommandLineParser::Parse(int argc, const char* argv[]) {
     ("fi", "Force the input file to only allow @estimate parameters (basic run mode only)")
     ("seed,g", value<int>(), "Random number seed")
     ("query,q", value<string>(), "Query an object type to see it's description and parameters")
-    ("debug,d", "Run in debug mode (with debug output");
+    ("debug,d", "Run in debug mode (with debug output")
+    ("nostd", "Do not print the standard header report");
+
 
   ostringstream o;
   o << oDesc;
@@ -95,6 +97,8 @@ void CommandLineParser::Parse(int argc, const char* argv[]) {
     global_config->set_estimable_value_file(parameters["input"].as<string>());
   if (parameters.count("fi"))
     global_config->set_force_estimable_values_file();
+  if (parameters.count("nostd"))
+    global_config->set_disable_standard_report();
 
   /**
    * Determine what run mode we should be in. If we're

@@ -99,7 +99,7 @@ int main(int argc, char * argv[]) {
       break;
 
     default:
-      if (!config->debug_mode())
+      if (!config->debug_mode() && !config->disable_standard_report())
         standard_report.Prepare();
 
       /**
@@ -122,7 +122,7 @@ int main(int argc, char * argv[]) {
       model_thread.join();
       report_thread.join();
 
-      if (!config->debug_mode())
+      if (!config->debug_mode() && !config->disable_standard_report())
         standard_report.Finalise();
       break;
     }

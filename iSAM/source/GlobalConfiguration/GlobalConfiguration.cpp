@@ -28,6 +28,7 @@ GlobalConfiguration::GlobalConfiguration() {
   global_parameters_[PARAM_CONFIG_FILE]                 = "isam.txt";
   global_parameters_[PARAM_RANDOM_NUMBER_SEED]          = "123";
   global_parameters_[PARAM_FORCE_ESTIMABLE_VALUES_FILE] = "f";
+  global_parameters_[PARAM_NO_STANDARD_HEADER_REPORT]   = "f";
 }
 
 /**
@@ -115,6 +116,17 @@ bool GlobalConfiguration::get_force_estimable_values_file() {
   bool result;
   if (!util::To<bool>(global_parameters_[PARAM_FORCE_ESTIMABLE_VALUES_FILE], result))
     LOG_CODE_ERROR("!util::To<string, bool>(global_parameters_[PARAM_FORCE_ESTIMABLE_VALUES_FILE], result): '" << global_parameters_[PARAM_FORCE_ESTIMABLE_VALUES_FILE] << "'");
+
+  return result;
+}
+
+/**
+ * Return if we want to print the standard header report or not.
+ */
+bool GlobalConfiguration::disable_standard_report() {
+  bool result;
+  if (!util::To<bool>(global_parameters_[PARAM_NO_STANDARD_HEADER_REPORT], result))
+    LOG_CODE_ERROR("!util::To<string, bool>(global_parameters_[PARAM_NO_STANDARD_HEADER_REPORT], result): '" << global_parameters_[PARAM_NO_STANDARD_HEADER_REPORT] << "'");
 
   return result;
 }

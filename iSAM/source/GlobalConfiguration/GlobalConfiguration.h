@@ -66,6 +66,8 @@ public:
   string                estimable_value_file() { return global_parameters_[PARAM_ESTIMABLE_VALUE_FILE]; }
   void                  set_force_estimable_values_file() { global_parameters_[PARAM_FORCE_ESTIMABLE_VALUES_FILE] = "t"; }
   bool                  get_force_estimable_values_file();
+  void                  set_disable_standard_report() { global_parameters_[PARAM_NO_STANDARD_HEADER_REPORT] = "t"; }
+  bool                  disable_standard_report();
 
 private:
   // Methods

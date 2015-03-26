@@ -283,6 +283,7 @@
 #define PARAM_NORMAL                              "normal"
 #define PARAM_NORMAL_BY_STDEV                     "normal_by_stdev"
 #define PARAM_NORMAL_LOG                          "normal_log"
+#define PARAM_NO_STANDARD_HEADER_REPORT           "no_standard_header_report"
 #define PARAM_NUMBERS                             "numbers"
 #define PARAM_NROWS                               "nrows"
 #define PARAM_OBJECTIVE                           "objective"
