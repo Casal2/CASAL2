@@ -151,6 +151,7 @@
 #define PARAM_CORRELATION_ADJUSTMENT_DIFF         "correlation_adjustment_diff"
 #define PARAM_COVARIANCE_ADJUSTMENT_METHOD        "covariance_adjustment_method"
 #define PARAM_COVARIANCE                          "covariance"
+#define PARAM_CONVERGENCE_YEARS                   "convergence_years"
 #define PARAM_CPPAD                               "cppad"
 #define PARAM_CROSSOVER_PROBABILITY               "crossover_probability"
 #define PARAM_CURRENT_YEAR                        "current_year"
