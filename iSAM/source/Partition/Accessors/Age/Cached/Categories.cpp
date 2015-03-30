@@ -25,9 +25,15 @@ namespace cached {
 /**
  * Default Constructor
  */
-Categories::Categories(const vector<string>& category_labels) {
+Categories::Categories() {
   LOG_TRACE();
   model_ = Model::Instance();
+}
+
+/**
+ * Init
+ */
+void Categories::Init(const vector<string>& category_labels) {
   LOG_INFO("Categories: " << category_labels.size());
   category_labels_ = category_labels;
 }
@@ -61,7 +67,7 @@ void Categories::BuildCache() {
  *
  * @return Iterator to first stored element
  */
-Categories::DataType::iterator Categories::Begin() {
+Categories::DataType::iterator Categories::begin() {
   return data_.begin();
 }
 
@@ -70,7 +76,7 @@ Categories::DataType::iterator Categories::Begin() {
  *
  * @return End iterator for the stored elements
  */
-Categories::DataType::iterator Categories::End() {
+Categories::DataType::iterator Categories::end() {
   return data_.end();
 }
 
@@ -80,7 +86,7 @@ Categories::DataType::iterator Categories::End() {
  *
  * @return The number of active categories
  */
-unsigned Categories::Size() {
+unsigned Categories::size() {
   return data_.size();
 }
 

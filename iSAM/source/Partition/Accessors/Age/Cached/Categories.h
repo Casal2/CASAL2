@@ -46,12 +46,13 @@ public:
   typedef vector<partition::Category> DataType;
 
   // Methods
-  Categories(const vector<string>& category_labels);
+  Categories();
   virtual                     ~Categories() = default;
+  void                        Init(const vector<string>& category_labels);
   void                        BuildCache();
-  DataType::iterator          Begin();
-  DataType::iterator          End();
-  unsigned                    Size();
+  DataType::iterator          begin();
+  DataType::iterator          end();
+  unsigned                    size();
 
 private:
   // Members

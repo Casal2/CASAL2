@@ -16,10 +16,14 @@
 
 // headers
 #include "InitialisationPhases/InitialisationPhase.h"
+#include "Partition/Accessors/Age/Cached/Categories.h"
 
 // namespaces
 namespace niwa {
 namespace initialisationphases {
+
+namespace cached   = partition::accessors::cached;
+namespace accessor = partition::accessors;
 
 /**
  *
@@ -35,12 +39,17 @@ protected:
   // methods
   void                        DoValidate() override final;
   void                        DoBuild() override final;
+  bool                        CheckConvergence();
 
   // members
   unsigned                    years_;
   vector<string>              insert_processes_;
   vector<string>              exclude_processes_;
   vector<TimeStepPtr>         time_steps_;
+  Double                      lambda_;
+  vector<unsigned>            convergence_years_;
+  cached::Categories          cached_partition_;
+  accessor::Categories        partition_;
 };
 
 } /* namespace base */

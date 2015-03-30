@@ -15,13 +15,18 @@
 #include <boost/algorithm/string/trim_all.hpp>
 #include <boost/algorithm/string/split.hpp>
 
+#include "Categories/Categories.h"
 #include "DerivedQuantities/Manager.h"
-#include "TimeSteps/Factory.h"
+#include "Partition/Accessors/Age/Categories.h"
 #include "Processes/Manager.h"
+#include "TimeSteps/Factory.h"
 
 // namespaces
 namespace niwa {
 namespace initialisationphases {
+
+namespace cached   = partition::accessors::cached;
+namespace accessor = partition::accessors;
 
 /**
  * Default constructor
@@ -30,6 +35,8 @@ Iterative::Iterative() {
   parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "The number of iterations to execute this phase for", "");
   parameters_.Bind<string>(PARAM_INSERT_PROCESSES, &insert_processes_, "The processes to insert in to target time steps", "", true);
   parameters_.Bind<string>(PARAM_EXCLUDE_PROCESSES, &exclude_processes_, "The processes to exclude from all time steps", "", true);
+  parameters_.Bind<unsigned>(PARAM_CONVERGENCE_YEARS, &convergence_years_, "The years to test for convergence", "", true);
+  parameters_.Bind<Double>(PARAM_LAMBDA, &lambda_, "Lambda", "", Double(0.0));
 }
 
 /**
@@ -93,14 +100,72 @@ void Iterative::DoBuild() {
     if (count == 0)
       LOG_ERROR(parameters_.location(PARAM_EXCLUDE_PROCESSES) << " process " << exclude << " does not exist in any time steps to be excluded. Please check your spelling");
   }
+
+  if (convergence_years_.size() == 0)
+    convergence_years_.push_back(years_);
+  else
+    std::sort(convergence_years_.begin(), convergence_years_.end());
+
+  // Build our partition
+  vector<string> categories = Categories::Instance()->category_names();
+  partition_.Init(categories);
+  cached_partition_.Init(categories);
+
+
 }
 
 /**
- *
+ * Execute our iterative initialisation phases.
  */
 void Iterative::Execute() {
-  timesteps::Manager& time_step_manager = timesteps::Manager::Instance();
-  time_step_manager.ExecuteInitialisation(label_, years_);
+
+  unsigned total_years = 0;
+  for (unsigned years : convergence_years_) {
+    timesteps::Manager& time_step_manager = timesteps::Manager::Instance();
+    time_step_manager.ExecuteInitialisation(label_, (years - total_years) - 1);
+    LOG_INFO("Exec: " << (years - total_years) << " years");
+
+    total_years += (years - total_years);
+    LOG_INFO("Total years: " << total_years);
+    if (total_years >= years_)
+      break;
+
+    cached_partition_.BuildCache();
+    time_step_manager.ExecuteInitialisation(label_, 1);
+    if (CheckConvergence())
+      break;
+  }
+}
+
+/**
+ * Check for convergence on our partition and return true if it exceeds the
+ * lambda threshold so we can quit early and save time.
+ *
+ * @return True if convergence, False otherwise
+ */
+bool Iterative::CheckConvergence() {
+  LOG_TRACE();
+
+  Double variance = 0.0;
+
+  auto cached_category = cached_partition_.begin();
+  auto category = partition_.begin();
+
+  for (; category != partition_.end(); ++cached_category, ++category) {
+    Double sum = 0.0;
+    for (Double value : (*category)->data_)
+      sum += value; // Can't use std::accum because of AutoDiff
+    if (sum == 0.0)
+      return false;
+
+    for (unsigned i = 0; i < (*category)->data_.size(); ++i)
+      variance += fabs(cached_category->data_[i] - (*category)->data_[i]) / sum;
+  }
+
+  if (variance < lambda_)
+    return true;
+
+  return false;
 }
 
 
