@@ -51,6 +51,7 @@ linf 113.4
 
 @initialisation_phase phase1
 years 20000
+convergence_years 20000
 exclude_processes fishing
 
 @time_step one

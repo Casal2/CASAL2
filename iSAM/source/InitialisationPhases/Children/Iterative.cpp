@@ -101,10 +101,11 @@ void Iterative::DoBuild() {
       LOG_ERROR(parameters_.location(PARAM_EXCLUDE_PROCESSES) << " process " << exclude << " does not exist in any time steps to be excluded. Please check your spelling");
   }
 
-  if (convergence_years_.size() == 0)
-    convergence_years_.push_back(years_);
-  else
+  if (convergence_years_.size() != 0) {
     std::sort(convergence_years_.begin(), convergence_years_.end());
+    if ((*convergence_years_.rbegin()) != years_)
+      convergence_years_.push_back(years_);
+  }
 
   // Build our partition
   vector<string> categories = Categories::Instance()->category_names();
@@ -118,22 +119,30 @@ void Iterative::DoBuild() {
  * Execute our iterative initialisation phases.
  */
 void Iterative::Execute() {
-
-  unsigned total_years = 0;
-  for (unsigned years : convergence_years_) {
+  if (convergence_years_.size() == 0) {
     timesteps::Manager& time_step_manager = timesteps::Manager::Instance();
-    time_step_manager.ExecuteInitialisation(label_, (years - total_years) - 1);
-    LOG_INFO("Exec: " << (years - total_years) << " years");
+    time_step_manager.ExecuteInitialisation(label_, years_);
 
-    total_years += (years - total_years);
-    LOG_INFO("Total years: " << total_years);
-    if (total_years >= years_)
-      break;
+  } else {
+    unsigned total_years = 0;
+    for (unsigned years : convergence_years_) {
+      timesteps::Manager& time_step_manager = timesteps::Manager::Instance();
+      time_step_manager.ExecuteInitialisation(label_, years - (total_years + 1));
 
-    cached_partition_.BuildCache();
-    time_step_manager.ExecuteInitialisation(label_, 1);
-    if (CheckConvergence())
-      break;
+
+      total_years += years - (total_years + 1);
+      if ((total_years + 1) >= years_) {
+        time_step_manager.ExecuteInitialisation(label_, 1);
+        break;
+      }
+
+      cached_partition_.BuildCache();
+      time_step_manager.ExecuteInitialisation(label_, 1);
+      ++total_years;
+
+      if (CheckConvergence())
+        break;
+    }
   }
 }
 

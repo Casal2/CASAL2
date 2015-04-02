@@ -41,6 +41,7 @@ names immature.male mature.male immature.female mature.female
 @initialisation_phase iphase1
 years 200
 exclude_processes Fishing
+convergence_years 200
 
 @initialisation_phase iphase2
 years 1
