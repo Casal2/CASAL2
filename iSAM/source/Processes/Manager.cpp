@@ -8,7 +8,7 @@
 #include "Manager.h"
 
 #include "Model/Model.h"
-#include "Utilities/Logging/Logging.h"
+#include "Logging/Logging.h"
 
 namespace niwa {
 namespace processes {
@@ -26,16 +26,16 @@ void Manager::Validate() {
   LOG_TRACE();
 
   if (objects_.size() == 0)
-    LOG_ERROR("The configuration file requires you specify at least one type of process. E.g @recruitment, @mortality, @ageing");
+    LOG_ERROR() << "The configuration file requires you specify at least one type of process. E.g @recruitment, @mortality, @ageing";
 
   PartitionStructure model_structure = Model::Instance()->partition_structure();
 
   for (ProcessPtr process : objects_) {
     if ((PartitionStructure)(process->partition_structure() & PartitionStructure::kInvalid) == PartitionStructure::kInvalid)
-      LOG_CODE_ERROR("Process: " << process->label() << " has not been properly configured to have a partition structure");
+      LOG_CODE_ERROR() << "Process: " << process->label() << " has not been properly configured to have a partition structure";
 
     if ((PartitionStructure)(process->partition_structure() & model_structure) != model_structure)
-      LOG_ERROR("The process " << process << " is not allowed to be created when the model type is set to " << Model::Instance()->type());
+      LOG_ERROR() << "The process " << process << " is not allowed to be created when the model type is set to " << Model::Instance()->type();
 
     process->Validate();
   }
@@ -50,7 +50,6 @@ void Manager::Validate() {
  * @return A pointer to the process or empty pointer
  */
 ProcessPtr Manager::GetProcess(const string& label) {
-
   for (ProcessPtr process : objects_) {
     if (process->label() == label)
       return process;

@@ -55,15 +55,15 @@ TagByAge::TagByAge() {
  */
 void TagByAge::DoValidate() {
   if (from_category_labels_.size() != to_category_labels_.size()) {
-    LOG_ERROR(parameters_.location(PARAM_TO) << " number of values supplied (" << to_category_labels_.size()
-        << ") does not match the number of from categories provided (" << from_category_labels_.size() << ")");
+    LOG_ERROR_P(PARAM_TO) << " number of values supplied (" << to_category_labels_.size()
+        << ") does not match the number of from categories provided (" << from_category_labels_.size() << ")";
   }
   if (u_max_ <= 0.0 || u_max_ > 1.0)
-    LOG_ERROR(parameters_.location(PARAM_U_MAX) << " (" << u_max_ << ") must be greater than 0.0 and less than 1.0");
+    LOG_ERROR_P(PARAM_U_MAX) << " (" << u_max_ << ") must be greater than 0.0 and less than 1.0";
   if (min_age_ < model_->min_age())
-    LOG_ERROR(parameters_.location(PARAM_MIN_AGE) << " (" << min_age_ << ") is less than the model's minimum age (" << model_->min_age() << ")");
+    LOG_ERROR_P(PARAM_MIN_AGE) << " (" << min_age_ << ") is less than the model's minimum age (" << model_->min_age() << ")";
   if (max_age_ > model_->max_age())
-    LOG_ERROR(parameters_.location(PARAM_MAX_AGE) << " (" << max_age_ << ") is greater than the model's maximum age (" << model_->max_age() << ")");
+    LOG_ERROR_P(PARAM_MAX_AGE) << " (" << max_age_ << ") is greater than the model's maximum age (" << model_->max_age() << ")";
 
   unsigned age_spread = (max_age_ - min_age_) + 1;
 
@@ -88,19 +88,19 @@ void TagByAge::DoValidate() {
     loss_rate_by_category_ = utilities::Map::create(from_category_labels_, loss_rate_);
 
   } else {
-    LOG_ERROR(parameters_.location(PARAM_LOSS_RATE) << " number provided (" << loss_rate_.size() << " does not match the number of " << PARAM_FROM << " categories ("
-        << from_category_labels_.size() << ")");
+    LOG_ERROR_P(PARAM_LOSS_RATE) << " number provided (" << loss_rate_.size() << " does not match the number of " << PARAM_FROM << " categories ("
+        << from_category_labels_.size() << ")";
   }
 
   /**
    * Build our tables
    */
   if (numbers_table_->row_count() == 0 && proportions_table_->row_count() == 0)
-    LOG_ERROR(location() << " must have either a " << PARAM_NUMBERS << " or " << PARAM_PROPORTIONS << " table defined with appropriate data");
+    LOG_ERROR() << location() << " must have either a " << PARAM_NUMBERS << " or " << PARAM_PROPORTIONS << " table defined with appropriate data";
   if (numbers_table_->row_count() != 0 && proportions_table_->row_count() != 0)
-    LOG_ERROR(location() << " cannot have both a " << PARAM_NUMBERS << " and " << PARAM_PROPORTIONS << " table defined. Please only use 1.");
+    LOG_ERROR() << location() << " cannot have both a " << PARAM_NUMBERS << " and " << PARAM_PROPORTIONS << " table defined. Please only use 1.";
   if (proportions_table_->row_count() != 0 && !parameters_.Get(PARAM_N)->has_been_defined())
-    LOG_ERROR(location() << " cannot have a " << PARAM_PROPORTIONS << " table without defining " << PARAM_N);
+    LOG_ERROR() << location() << " cannot have a " << PARAM_PROPORTIONS << " table without defining " << PARAM_N;
 
   /**
    * Load our N data in to the map
@@ -108,16 +108,16 @@ void TagByAge::DoValidate() {
   if (numbers_table_->row_count() != 0) {
     vector<string> columns = numbers_table_->columns();
     if (columns.size() != age_spread + 1)
-      LOG_ERROR(parameters_.location(PARAM_NUMBERS) << " number of columns provided (" << columns.size() << ") does not match the model's age spread + 1 ("
-          << (age_spread + 1) << ")");
+      LOG_ERROR_P(PARAM_NUMBERS) << " number of columns provided (" << columns.size() << ") does not match the model's age spread + 1 ("
+          << (age_spread + 1) << ")";
     if (columns[0] != PARAM_YEAR)
-      LOG_ERROR(parameters_.location(PARAM_NUMBERS) << " first column label (" << columns[0] << ") provided must be 'year'");
+      LOG_ERROR_P(PARAM_NUMBERS) << " first column label (" << columns[0] << ") provided must be 'year'";
 
     map<unsigned, unsigned> age_index;
     for (unsigned i = 1; i < columns.size(); ++i) {
       unsigned age = 0;
       if (!utilities::To<unsigned>(columns[i], age))
-        LOG_ERROR("");
+        LOG_ERROR() << "";
       age_index[age] = i;
     }
 
@@ -127,10 +127,10 @@ void TagByAge::DoValidate() {
     Double n_value = 0.0;
     for (auto iter : data) {
       if (!utilities::To<unsigned>(iter[0], year))
-        LOG_ERROR(parameters_.location(PARAM_NUMBERS) << " value (" << iter[0] << ") is not a valid unsigned value that could be converted to a model year");
+        LOG_ERROR_P(PARAM_NUMBERS) << " value (" << iter[0] << ") is not a valid unsigned value that could be converted to a model year";
       for (unsigned i = 1; i < iter.size(); ++i) {
         if (!utilities::To<Double>(iter[i], n_value))
-          LOG_ERROR(parameters_.location(PARAM_NUMBERS) << " value (" << iter[i] << ") could not be converted to a double. Please ensure it's a numeric value");
+          LOG_ERROR_P(PARAM_NUMBERS) << " value (" << iter[i] << ") could not be converted to a double. Please ensure it's a numeric value";
         if (numbers_[year].size() == 0)
           numbers_[year].resize(age_spread, 0.0);
         numbers_[year][i - 1] = n_value;
@@ -139,7 +139,7 @@ void TagByAge::DoValidate() {
 
     for (auto iter : numbers_) {
       if (std::find(years_.begin(), years_.end(), iter.first) == years_.end())
-        LOG_ERROR(parameters_.location(PARAM_NUMBERS) << " table contains year " << iter.first << " that is not a valid year defined in this process");
+        LOG_ERROR_P(PARAM_NUMBERS) << " table contains year " << iter.first << " that is not a valid year defined in this process";
     }
 
   } else if (proportions_table_->row_count() != 0) {
@@ -148,16 +148,16 @@ void TagByAge::DoValidate() {
      */
     vector<string> columns = proportions_table_->columns();
     if (columns.size() != age_spread + 1)
-      LOG_ERROR(parameters_.location(PARAM_PROPORTIONS) << " number of columns provided (" << columns.size() << ") does not match the model's age spread + 1 ("
-          << (age_spread + 1) << ")");
+      LOG_ERROR_P(PARAM_PROPORTIONS) << " number of columns provided (" << columns.size() << ") does not match the model's age spread + 1 ("
+          << (age_spread + 1) << ")";
     if (columns[0] != PARAM_YEAR)
-      LOG_ERROR(parameters_.location(PARAM_PROPORTIONS) << " first column label (" << columns[0] << ") provided must be 'year'");
+      LOG_ERROR_P(PARAM_PROPORTIONS) << " first column label (" << columns[0] << ") provided must be 'year'";
 
     map<unsigned, unsigned> age_index;
     for (unsigned i = 1; i < columns.size(); ++i) {
       unsigned age = 0;
       if (!utilities::To<unsigned>(columns[i], age))
-        LOG_ERROR("");
+        LOG_ERROR() << "";
       age_index[age] = i;
     }
 
@@ -165,7 +165,7 @@ void TagByAge::DoValidate() {
     if (n_.size() == 1)
       n_.assign(years_.size(), n_[0]);
     else if (n_.size() != years_.size())
-      LOG_ERROR(parameters_.location(PARAM_N) << " values provied (" << n_.size() << ") does not match the number of years (" << years_.size() << ")");
+      LOG_ERROR_P(PARAM_N) << " values provied (" << n_.size() << ") does not match the number of years (" << years_.size() << ")";
     map<unsigned, Double> n_by_year = utilities::Map::create(years_, n_);
 
     // load our table data in to our map
@@ -174,23 +174,23 @@ void TagByAge::DoValidate() {
     Double proportion = 0.0;
     for (auto iter : data) {
       if (!utilities::To<unsigned>(iter[0], year))
-        LOG_ERROR(parameters_.location(PARAM_PROPORTIONS) << " value (" << iter[0] << ") is not a valid unsigned value that could be converted to a model year");
+        LOG_ERROR_P(PARAM_PROPORTIONS) << " value (" << iter[0] << ") is not a valid unsigned value that could be converted to a model year";
       Double total_proportion = 0.0;
       for (unsigned i = 1; i < iter.size(); ++i) {
         if (!utilities::To<Double>(iter[i], proportion))
-          LOG_ERROR(parameters_.location(PARAM_PROPORTIONS) << " value (" << iter[i] << ") could not be converted to a double. Please ensure it's a numeric value");
+          LOG_ERROR_P(PARAM_PROPORTIONS) << " value (" << iter[i] << ") could not be converted to a double. Please ensure it's a numeric value";
         if (numbers_[year].size() == 0)
           numbers_[year].resize(age_spread, 0.0);
         numbers_[year][i - 1] = n_by_year[year] * proportion;
         total_proportion += proportion;
       }
       if (!utilities::doublecompare::IsOne(total_proportion))
-        LOG_ERROR(parameters_.location(PARAM_PROPORTIONS) << " total (" << total_proportion << ") is not 1.0 for year " << year);
+        LOG_ERROR_P(PARAM_PROPORTIONS) << " total (" << total_proportion << ") is not 1.0 for year " << year;
     }
 
     for (auto iter : numbers_) {
       if (std::find(years_.begin(), years_.end(), iter.first) == years_.end())
-        LOG_ERROR(parameters_.location(PARAM_PROPORTIONS) << " table contains year " << iter.first << " that is not a valid year defined in this process");
+        LOG_ERROR_P(PARAM_PROPORTIONS) << " table contains year " << iter.first << " that is not a valid year defined in this process";
     }
   }
 }
@@ -209,7 +209,7 @@ void TagByAge::DoBuild() {
   for (unsigned i = 0; i < selectivity_labels_.size(); ++i) {
     SelectivityPtr selectivity = selectivity_manager.GetSelectivity(selectivity_labels_[i]);
     if (!selectivity)
-      LOG_ERROR("Selectivity: " << selectivity_labels_[i] << " not found");
+      LOG_ERROR() << "Selectivity: " << selectivity_labels_[i] << " not found";
     selectivities_[from_category_labels_[i]] = selectivity;
   }
   for (unsigned i = 0 ; i < loss_rate_selectivity_labels_.size(); ++i)
@@ -233,7 +233,7 @@ void TagByAge::DoExecute() {
   for (; from_iter != from_partition_.end(); from_iter++, to_iter++) {
     string category_label = (*from_iter)->name_;
     Double loss_rate = loss_rate_by_category_[category_label];
-    LOG_INFO("Applying loss rate: " << loss_rate << " for category " << category_label);
+    LOG_FINE() << "Applying loss rate: " << loss_rate << " for category " << category_label;
 
     for (unsigned i = 0; i < (*to_iter)->data_.size(); ++i) {
       Double amount = (*to_iter)->data_[i] * loss_rate;
@@ -251,15 +251,15 @@ void TagByAge::DoExecute() {
   if (std::find(years_.begin(), years_.end(), current_year) == years_.end())
     return;
 
-  LOG_INFO("numbers__.size(): " << numbers_.size());
-  LOG_INFO("numbers__[current_year].size(): " << numbers_[current_year].size());
+  LOG_FINEST() << "numbers__.size(): " << numbers_.size();
+  LOG_FINEST() << "numbers__[current_year].size(): " << numbers_[current_year].size();
   for (unsigned i = 0; i < numbers_[current_year].size(); ++i)
-    LOG_INFO("numbers__[current_year][" << i << "]: " << numbers_[current_year][i]);
+    LOG_FINEST() << "numbers__[current_year][" << i << "]: " << numbers_[current_year][i];
 
   Double total_stock = 0.0;
   Double total_stock_with_selectivities = 0.0;
   unsigned age_spread = (max_age_ - min_age_) + 1;
-  LOG_INFO("age_spread: " << age_spread << " in year " << current_year);
+  LOG_FINE() << "age_spread: " << age_spread << " in year " << current_year;
 
   for (unsigned i = 0; i < age_spread; ++i) {
     /**
@@ -268,20 +268,20 @@ void TagByAge::DoExecute() {
     from_iter = from_partition_.begin();
     to_iter   = to_partition_.begin();
 
-    LOG_INFO("selectivity.size(): " << selectivities_.size());
+    LOG_FINEST() << "selectivity.size(): " << selectivities_.size();
     for (auto iter : selectivities_)
-      LOG_INFO("selectivity: " << iter.first);
+      LOG_FINE() << "selectivity: " << iter.first;
 
     total_stock_with_selectivities = 0.0;
     for (; from_iter != from_partition_.end(); from_iter++, to_iter++) {
       unsigned offset = (min_age_ - (*from_iter)->min_age_) + i;
-      LOG_INFO("total_stock_offset: " << offset << " (" << (*from_iter)->min_age_ << " - " << min_age_ << ") + " << i);
+      LOG_FINEST() << "total_stock_offset: " << offset << " (" << (*from_iter)->min_age_ << " - " << min_age_ << ") + " << i;
 
-      LOG_INFO("name: " << (*from_iter)->name_);
-      LOG_INFO("selectivity value: " << selectivities_[(*from_iter)->name_]->GetResult(min_age_ + offset));
+      LOG_FINEST() << "name: " << (*from_iter)->name_;
+      LOG_FINEST() << "selectivity value: " << selectivities_[(*from_iter)->name_]->GetResult(min_age_ + offset);
       total_stock_with_selectivities += (*from_iter)->data_[offset] * selectivities_[(*from_iter)->name_]->GetResult(min_age_ + offset);
     }
-    LOG_INFO("total_stock_with_selectivities: " << total_stock_with_selectivities << " at age " << min_age_ + i << " (" << min_age_ << " + " << i << ")");
+    LOG_FINEST() << "total_stock_with_selectivities: " << total_stock_with_selectivities << " at age " << min_age_ + i << " (" << min_age_ << " + " << i << ")";
 
     /**
      * Migrate the exploited amount
@@ -289,7 +289,7 @@ void TagByAge::DoExecute() {
     from_iter = from_partition_.begin();
     to_iter   = to_partition_.begin();
     for (; from_iter != from_partition_.end(); from_iter++, to_iter++) {
-      LOG_INFO("Working with categories: from " << (*from_iter)->name_ << "; to " << (*to_iter)->name_);
+      LOG_FINE() << "Working with categories: from " << (*from_iter)->name_ << "; to " << (*to_iter)->name_;
       unsigned offset = (min_age_ - (*from_iter)->min_age_) + i;
       string category_label = (*from_iter)->name_;
 
@@ -303,20 +303,19 @@ void TagByAge::DoExecute() {
           penalty_->Trigger(label_, numbers_[current_year][i], (*from_iter)->data_[offset] * u_max_);
       }
 
-      LOG_INFO("numbers: " << numbers_[current_year][i]);
-      LOG_INFO("population: " << (*from_iter)->data_[offset]);
-      LOG_INFO("selectivity: " << selectivities_[category_label]->GetResult(min_age_ + offset));
-      LOG_INFO("current: " << current << "; exploitation: " << exploitation);
-      LOG_INFO("current calculated as current = " << numbers_[current_year][i] << " * "
+      LOG_FINEST() << "numbers: " << numbers_[current_year][i];
+      LOG_FINEST() << "population: " << (*from_iter)->data_[offset];
+      LOG_FINEST() << "selectivity: " << selectivities_[category_label]->GetResult(min_age_ + offset);
+      LOG_FINEST() << "current: " << current << "; exploitation: " << exploitation;
+      LOG_FINEST() << "current calculated as current = " << numbers_[current_year][i] << " * "
           << (*from_iter)->data_[offset] << " * " << selectivities_[category_label]->GetResult(min_age_ + offset)
-          << " / " << total_stock_with_selectivities
-      );
+          << " / " << total_stock_with_selectivities;
 
       if (current <= 0.0)
         continue;
 
       Double current_with_mortality = current - (current * initial_mortality_);
-      LOG_INFO("current_with_mortality: " << current_with_mortality);
+      LOG_FINEST() << "current_with_mortality: " << current_with_mortality;
       if (initial_mortality_selectivity_)
         current_with_mortality *= initial_mortality_selectivity_->GetResult(min_age_ + i);
       (*from_iter)->data_[offset] -= current;
@@ -326,7 +325,7 @@ void TagByAge::DoExecute() {
 
   for (unsigned year : years_) {
     if (numbers_.find(year) == numbers_.end())
-      LOG_ERROR(parameters_.location(PARAM_YEARS) << " value (" << year << ") does not have a corresponding entry in the numbers or proportions table");
+      LOG_ERROR_P(PARAM_YEARS) << " value (" << year << ") does not have a corresponding entry in the numbers or proportions table";
   }
 }
 } /* namespace processes */

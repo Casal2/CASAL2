@@ -46,11 +46,11 @@ void TimeStep::Build() {
   for (string process_name : process_names_) {
     ProcessPtr process = process_manager.GetProcess(process_name);
     if (!process)
-      LOG_ERROR(parameters_.location(PARAM_PROCESSES) << ": process " << process_name << " does not exist. Have you defined it?");
+      LOG_ERROR_P(PARAM_PROCESSES) << ": process " << process_name << " does not exist. Have you defined it?";
 
     processes_.push_back(process);
   }
-  LOG_INFO("Time step " << label_ << " has " << processes_.size() << " processes");
+  LOG_FINE() << "Time step " << label_ << " has " << processes_.size() << " processes";
 
   /**
    * If we have a block build it
@@ -71,8 +71,8 @@ void TimeStep::Build() {
  * Execute the time step during the initialisation phases
  */
 void TimeStep::ExecuteForInitialisation(const string& phase_label) {
-  LOG_INFO("Executing for initialisation phase: " << phase_label << " with " << initialisation_block_executors_.size() << " executors");
-  LOG_INFO("initialisation_block_end_process_index_: " << initialisation_block_end_process_index_[phase_label]);
+  LOG_FINE() << "Executing for initialisation phase: " << phase_label << " with " << initialisation_block_executors_.size() << " executors";
+  LOG_FINE() << "initialisation_block_end_process_index_: " << initialisation_block_end_process_index_[phase_label];
 
   for (unsigned index = 0; index < initialisation_processes_[phase_label].size(); ++index) {
     initialisation_processes_[phase_label][index]->Execute(0u, "");

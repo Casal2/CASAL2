@@ -88,7 +88,7 @@ void Minimiser::Build() {
  */
 void Minimiser::BuildCovarianceMatrix() {
   if (hessian_ == 0)
-    LOG_CODE_ERROR("Cannot build the covariance matrix as the hessian has not been allocated");
+    LOG_CODE_ERROR() << "Cannot build the covariance matrix as the hessian has not been allocated";
 
   ublas::matrix<double> hessian_matrix(hessian_size_, hessian_size_);
   vector<bool> zero_row;

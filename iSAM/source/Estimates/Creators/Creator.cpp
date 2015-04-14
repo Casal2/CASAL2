@@ -61,7 +61,7 @@ void Creator::CreateEstimates() {
     label_ = parameter_;
     update_label_ = true;
   } else if (label_ == "" && parameter_ == "") {
-    LOG_ERROR(parameters_.location(PARAM_LABEL) << " or parameter have not been defined. Please ensure you define at least one to indicate the target estimable");
+    LOG_ERROR_P(PARAM_LABEL) << " or parameter have not been defined. Please ensure you define at least one to indicate the target estimable";
   } else {
     update_parameter_ = true;
   }
@@ -71,7 +71,7 @@ void Creator::CreateEstimates() {
    */
   base::ObjectPtr target = objects::FindObject(parameter_);
   if (!target)
-    LOG_ERROR(parameters_.location(PARAM_PARAMETER) << ": parameter " << parameter_ << " is not a valid estimable in the system");
+    LOG_ERROR_P(PARAM_PARAMETER) << ": parameter " << parameter_ << " is not a valid estimable in the system";
 
   string type       = "";
   string label      = "";
@@ -84,8 +84,8 @@ void Creator::CreateEstimates() {
   if (index != "") {
     indexes = utilities::String::explode(index);
     if (index != "" && indexes.size() == 0) {
-      LOG_ERROR(parameters_.location(PARAM_PARAMETER) << " could be split up to search for indexes because the format was invalid. "
-          << "Please ensure you are using correct indexes and only the operators , and : (range) are supported");
+      LOG_ERROR_P(PARAM_PARAMETER) << " could be split up to search for indexes because the format was invalid. "
+          << "Please ensure you are using correct indexes and only the operators , and : (range) are supported";
     }
   }
 
@@ -94,9 +94,9 @@ void Creator::CreateEstimates() {
      * This estimate is only for a single object. So we will validate based on that
      */
     if (lower_bounds_.size() != 1)
-      LOG_ERROR(parameters_.location(PARAM_LOWER_BOUND) << " values specified (" << lower_bounds_.size() << " must match number of target estimables (1)");
+      LOG_ERROR_P(PARAM_LOWER_BOUND) << " values specified (" << lower_bounds_.size() << " must match number of target estimables (1)";
     if (upper_bounds_.size() != 1)
-      LOG_ERROR(parameters_.location(PARAM_UPPER_BOUND) << " values specified (" << upper_bounds_.size() << " must match number of target estimables (1)");
+      LOG_ERROR_P(PARAM_UPPER_BOUND) << " values specified (" << upper_bounds_.size() << " must match number of target estimables (1)";
 
     update_parameter_ = false;
     EstimatePtr estimate = CreateEstimate(label_, 0, target->GetEstimable(parameter));
@@ -107,11 +107,11 @@ void Creator::CreateEstimates() {
      * and create new estimates for each of these.
      */
     if (lower_bounds_.size() != indexes.size())
-      LOG_ERROR(parameters_.location(PARAM_LOWER_BOUND) << " values specified (" << lower_bounds_.size() << " must match number of target estimables (" << indexes.size() << ")");
+      LOG_ERROR_P(PARAM_LOWER_BOUND) << " values specified (" << lower_bounds_.size() << " must match number of target estimables (" << indexes.size() << ")";
     if (upper_bounds_.size() != indexes.size())
-      LOG_ERROR(parameters_.location(PARAM_UPPER_BOUND) << " values specified (" << upper_bounds_.size() << " must match number of target estimables (" << indexes.size() << ")");
+      LOG_ERROR_P(PARAM_UPPER_BOUND) << " values specified (" << upper_bounds_.size() << " must match number of target estimables (" << indexes.size() << ")";
     if (same_labels_.size() != 0 && same_labels_.size() != indexes.size())
-      LOG_ERROR(parameters_.location(PARAM_SAME) << " values specified (" << same_labels_.size() << " must match number of target estimables (" << indexes.size() << ")");
+      LOG_ERROR_P(PARAM_SAME) << " values specified (" << same_labels_.size() << " must match number of target estimables (" << indexes.size() << ")";
 
     switch(target->GetEstimableType(parameter)) {
     case Estimable::kVector:
@@ -124,9 +124,9 @@ void Creator::CreateEstimates() {
       for (string string_index : indexes) {
         unsigned u_index = 0;
         if (!utils::To<string, unsigned>(string_index, u_index))
-          LOG_ERROR(parameters_.location(PARAM_PARAMETER) << " index " << string_index << " could not be converted to a numeric type");
+          LOG_ERROR_P(PARAM_PARAMETER) << " index " << string_index << " could not be converted to a numeric type";
         if (u_index <= 0 || u_index > targets->size())
-          LOG_ERROR(parameters_.location(PARAM_PARAMETER) << " index " << string_index << " is out of range 1-" << targets->size());
+          LOG_ERROR_P(PARAM_PARAMETER) << " index " << string_index << " is out of range 1-" << targets->size();
 
         CreateEstimate(new_label + "(" + string_index + ")", offset, &(*targets)[u_index-1]);
         offset++;
@@ -141,9 +141,9 @@ void Creator::CreateEstimates() {
       for (string string_index : indexes) {
         unsigned u_index = 0;
         if (!utils::To<string, unsigned>(string_index, u_index))
-          LOG_ERROR(parameters_.location(PARAM_PARAMETER) << " index " << string_index << " could not be converted to a numeric type");
+          LOG_ERROR_P(PARAM_PARAMETER) << " index " << string_index << " could not be converted to a numeric type";
         if (targets->find(u_index) == targets->end())
-          LOG_ERROR(parameters_.location(PARAM_PARAMETER) << " value " << string_index << " could not be found in the objects registered");
+          LOG_ERROR_P(PARAM_PARAMETER) << " value " << string_index << " could not be found in the objects registered";
 
         CreateEstimate(new_label + "(" + string_index + ")", offset, &(*targets)[u_index]);
         offset++;
@@ -157,7 +157,7 @@ void Creator::CreateEstimates() {
       unsigned offset = 0;
       for (string index : indexes) {
         if (targets->find(index) == targets->end())
-          LOG_ERROR(parameters_.location(PARAM_PARAMETER) << " value " << index << " could not be found in the objects registered");
+          LOG_ERROR_P(PARAM_PARAMETER) << " value " << index << " could not be found in the objects registered";
 
         CreateEstimate(new_label + "(" + index + ")", offset, &(*targets)[index]);
         offset++;
@@ -166,7 +166,7 @@ void Creator::CreateEstimates() {
     break;
 
     default:
-      LOG_CODE_ERROR("This type of estimable is not supported: " << (unsigned)target->GetEstimableType(parameter));
+      LOG_CODE_ERROR() << "This type of estimable is not supported: " << (unsigned)target->GetEstimableType(parameter);
       break;
     }
   } else {
@@ -179,9 +179,9 @@ void Creator::CreateEstimates() {
       n = target->GetEstimableSize(parameter);
 
     if (lower_bounds_.size() != n)
-      LOG_ERROR(parameters_.location(PARAM_LOWER_BOUND) << " values specified (" << lower_bounds_.size() << " must match number of target estimables (" << n << ")");
+      LOG_ERROR_P(PARAM_LOWER_BOUND) << " values specified (" << lower_bounds_.size() << " must match number of target estimables (" << n << ")";
     if (upper_bounds_.size() != n)
-      LOG_ERROR(parameters_.location(PARAM_UPPER_BOUND) << " values specified (" << upper_bounds_.size() << " must match number of target estimables (" << n << ")");
+      LOG_ERROR_P(PARAM_UPPER_BOUND) << " values specified (" << upper_bounds_.size() << " must match number of target estimables (" << n << ")";
 
     // force label change so we can actually print the indexes of each estimate
     // in the objective function
@@ -217,7 +217,7 @@ void Creator::CreateEstimates() {
       break;
     }
     default:
-      LOG_CODE_ERROR("This type of estimable is not supported: " << (unsigned)target->GetEstimableType(parameter));
+      LOG_CODE_ERROR() << "This type of estimable is not supported: " << (unsigned)target->GetEstimableType(parameter);
       break;
     }
   }
@@ -229,7 +229,7 @@ void Creator::CreateEstimates() {
 niwa::EstimatePtr Creator::CreateEstimate(string label, unsigned index, Double* target) {
   niwa::EstimatePtr estimate = estimates::Factory::Create(block_type_, type_);
   if (!estimate)
-    LOG_ERROR(parameters_.location(PARAM_TYPE) << " " << type_ << " is invalid when creating an estimate.");
+    LOG_ERROR_P(PARAM_TYPE) << " " << type_ << " is invalid when creating an estimate.";
 
   CopyParameters(estimate, index);
   estimate->set_target(target);

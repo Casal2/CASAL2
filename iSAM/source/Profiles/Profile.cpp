@@ -58,14 +58,14 @@ void Profile::Build() {
 
   objects::ExplodeString(parameter_, type, label, parameter, index);
   if (type == "" || label == "" || parameter == "") {
-    LOG_ERROR(parameters_.location(PARAM_PARAMETER) << ": parameter " << parameter_
-        << " is not in the correct format. Correct format is object_type[label].estimable(array index)");
+    LOG_ERROR_P(PARAM_PARAMETER) << ": parameter " << parameter_
+        << " is not in the correct format. Correct format is object_type[label].estimable(array index)";
   }
   objects::ImplodeString(type, label, parameter, index, parameter_);
 
   base::ObjectPtr target = objects::FindObject(parameter_);
   if (!target) {
-    LOG_ERROR(parameters_.location(PARAM_PARAMETER) << ": parameter " << parameter_ << " is not a valid estimable in the system");
+    LOG_ERROR_P(PARAM_PARAMETER) << ": parameter " << parameter_ << " is not a valid estimable in the system";
   }
 
   target_ = target->GetEstimable(parameter);

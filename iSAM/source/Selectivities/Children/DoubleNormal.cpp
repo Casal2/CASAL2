@@ -55,11 +55,11 @@ DoubleNormal::DoubleNormal(ModelPtr model)
  */
 void DoubleNormal::DoValidate() {
   if (alpha_ <= 0.0)
-    LOG_ERROR(parameters_.location(PARAM_MU) << ": alpha cannot be less than or equal to 0.0");
+    LOG_ERROR_P(PARAM_MU) << ": alpha cannot be less than or equal to 0.0";
   if (sigma_l_ <= 0.0)
-    LOG_ERROR(parameters_.location(PARAM_SIGMA_L) << ": sigma_l cannot be less than or equal to 0.0");
+    LOG_ERROR_P(PARAM_SIGMA_L) << ": sigma_l cannot be less than or equal to 0.0";
   if (sigma_r_ <= 0.0)
-    LOG_ERROR(parameters_.location(PARAM_SIGMA_R) << ": sigmal_r cannot be less than or equal to 0.0");
+    LOG_ERROR_P(PARAM_SIGMA_R) << ": sigmal_r cannot be less than or equal to 0.0";
 }
 
 /**

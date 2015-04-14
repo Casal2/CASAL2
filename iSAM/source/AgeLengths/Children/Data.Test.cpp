@@ -59,7 +59,7 @@ TEST_F(InternalEmptyModel, AgeLengths_Data_Mean_Mean) {
 
   AgeLengthPtr age_size = agelengths::Manager::Instance().GetAgeLength("test_age_size");
   if (!age_size)
-    LOG_ERROR("!age_size");
+    LOG_CODE_ERROR() << "!age_size";
 
   // Check results
   EXPECT_DOUBLE_EQ(1.0, age_size->mean_weight(2000, 2));
@@ -106,7 +106,7 @@ TEST_F(InternalEmptyModel, AgeLengths_Data_NearestNeighbour_Mean) {
 
   AgeLengthPtr age_size = agelengths::Manager::Instance().GetAgeLength("test_age_size");
   if (!age_size)
-    LOG_ERROR("!age_size");
+    LOG_CODE_ERROR() << "!age_size";
 
   // Check results
   EXPECT_DOUBLE_EQ(1.0, age_size->mean_weight(1976, 2));
@@ -156,7 +156,7 @@ TEST_F(InternalEmptyModel, AgeLengths_Data_Mean_NearestNeighbour) {
 
   AgeLengthPtr age_size = agelengths::Manager::Instance().GetAgeLength("test_age_size");
   if (!age_size)
-    LOG_ERROR("!age_size");
+    LOG_CODE_ERROR() << "!age_size";
 
   // Check results
   EXPECT_DOUBLE_EQ(1.0, age_size->mean_weight(1976, 2));
@@ -206,7 +206,7 @@ TEST_F(InternalEmptyModel, AgeLengths_Data_Mean_Interpolate) {
 
   AgeLengthPtr age_size = agelengths::Manager::Instance().GetAgeLength("test_age_size");
   if (!age_size)
-    LOG_ERROR("!age_size");
+    LOG_CODE_ERROR() << "!age_size";
 
   // Check results
   EXPECT_DOUBLE_EQ(1.0, age_size->mean_weight(1976, 2));

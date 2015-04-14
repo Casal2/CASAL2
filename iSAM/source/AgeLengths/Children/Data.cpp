@@ -46,33 +46,21 @@ Data::Data() {
 /**
  *
  */
-void Data::DoValidate() {
-  if (external_gaps_ != PARAM_MEAN && external_gaps_ != PARAM_NEAREST_NEIGHBOUR)
-    LOG_ERROR(parameters_.location(PARAM_EXTERNAL_GAPS) << " value (" << external_gaps_ << ") is not valid. Please use " << PARAM_MEAN << " or " << PARAM_NEAREST_NEIGHBOUR);
-
-  if (internal_gaps_ != PARAM_MEAN && internal_gaps_ != PARAM_NEAREST_NEIGHBOUR && internal_gaps_ != PARAM_INTERPOLATE)
-      LOG_ERROR(parameters_.location(PARAM_EXTERNAL_GAPS) << " value (" << external_gaps_ << ") is not valid. Please use " << PARAM_MEAN << " or " << PARAM_NEAREST_NEIGHBOUR);
-}
-
-/**
- *
- */
 void Data::DoBuild() {
   size_weight_ = sizeweights::Manager::Instance().GetSizeWeight(size_weight_label_);
   if (!size_weight_)
-    LOG_ERROR(parameters_.location(PARAM_SIZE_WEIGHT) << "(" << size_weight_label_ << ") could not be found. Have you defined it?");
+    LOG_ERROR_P(PARAM_SIZE_WEIGHT) << "(" << size_weight_label_ << ") could not be found. Have you defined it?";
 
   if (!data_table_)
-    LOG_CODE_ERROR("!data_table_");
+    LOG_CODE_ERROR() << "!data_table_";
 
   // basic validation
   const vector<string>& columns = data_table_->columns();
   if (columns.size() != Model::Instance()->age_spread() + 1)
-    LOG_ERROR(parameters_.location(PARAM_DATA) << " column count (" << columns.size() << ") must be <year> <ages> for a total of "
-        << Model::Instance()->age_spread() + 1 << " columns");
+    LOG_ERROR_P(PARAM_DATA) << "column count (" << columns.size() << ") must be <year> <ages> for a total of " << Model::Instance()->age_spread() + 1 << " columns";
 
   if (columns[0] != PARAM_YEAR)
-    LOG_ERROR(parameters_.location(PARAM_DATA) << " first column label must be 'year'. First column label was '" << columns[0] << "'");
+    LOG_ERROR_P(PARAM_DATA) << "first column label must be 'year'. First column label was '" << columns[0] << "'";
 
 
   /**
@@ -82,7 +70,7 @@ void Data::DoBuild() {
   vector<vector<string>>& data = data_table_->data();
   for (vector<string> row : data) {
     if (row.size() != columns.size())
-      LOG_CODE_ERROR("row.size() != columns.size()");
+      LOG_CODE_ERROR() << "row.size() != columns.size()";
 
     unsigned year = utilities::ToInline<string, unsigned>(row[0]);
     for (unsigned i = 1; i < row.size(); ++i)

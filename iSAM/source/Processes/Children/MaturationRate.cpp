@@ -62,51 +62,51 @@ void MaturationRate::DoValidate() {
 
   for (const string& label : from_category_names_) {
     if (!categories->IsValid(label))
-      LOG_ERROR(parameters_.location(PARAM_FROM) << ": category " << label << " does not exist. Have you defined it?");
+      LOG_ERROR_P(PARAM_FROM) << ": category " << label << " does not exist. Have you defined it?";
   }
   for(const string& label : to_category_names_) {
     if (!categories->IsValid(label))
-      LOG_ERROR(parameters_.location(PARAM_TO) << ": category " << label << " does not exist. Have you defined it?");
+      LOG_ERROR_P(PARAM_TO) << ": category " << label << " does not exist. Have you defined it?";
   }
 
   // Validate the from and to vectors are the same size
   if (from_category_names_.size() != to_category_names_.size()) {
-    LOG_ERROR(parameters_.location(PARAM_TO)
+    LOG_ERROR_P(PARAM_TO)
         << ": Number of 'to' categories provided does not match the number of 'from' categories provided."
-        << " Expected " << from_category_names_.size() << " but got " << to_category_names_.size());
+        << " Expected " << from_category_names_.size() << " but got " << to_category_names_.size();
   }
 
   // Validate the to category and proportions vectors are the same size
   if (to_category_names_.size() != proportions_.size()) {
-    LOG_ERROR(parameters_.location(PARAM_PROPORTIONS)
+    LOG_ERROR_P(PARAM_PROPORTIONS)
         << ": Number of proportions provided does not match the number of 'to' categories provided."
-        << " Expected " << to_category_names_.size() << " but got " << proportions_.size());
+        << " Expected " << to_category_names_.size() << " but got " << proportions_.size();
   }
 
   // Validate the number of selectivities matches the number of proportions
   if (proportions_.size() != selectivity_names_.size() && proportions_.size() != 1) {
-    LOG_ERROR(parameters_.location(PARAM_SELECTIVITIES)
+    LOG_ERROR_P(PARAM_SELECTIVITIES)
         << ": Number of selectivities provided does not match the number of proportions provided."
-        << " Expected " << proportions_.size() << " but got " << selectivity_names_.size());
+        << " Expected " << proportions_.size() << " but got " << selectivity_names_.size();
   }
 
   // Validate that each from and to category have the same age range.
   for (unsigned i = 0; i < from_category_names_.size(); ++i) {
     if (categories->min_age(from_category_names_[i]) != categories->min_age(to_category_names_[i])) {
-      LOG_ERROR(parameters_.location(PARAM_FROM) << ": Category " << from_category_names_[i] << " does not"
-          << " have the same age range as the 'to' category " << to_category_names_[i]);
+      LOG_ERROR_P(PARAM_FROM) << ": Category " << from_category_names_[i] << " does not"
+          << " have the same age range as the 'to' category " << to_category_names_[i];
     }
 
     if (categories->max_age(from_category_names_[i]) != categories->max_age(to_category_names_[i])) {
-      LOG_ERROR(parameters_.location(PARAM_FROM) << ": Category " << from_category_names_[i] << " does not"
-          << " have the same age range as the 'to' category " << to_category_names_[i]);
+      LOG_ERROR_P(PARAM_FROM) << ": Category " << from_category_names_[i] << " does not"
+          << " have the same age range as the 'to' category " << to_category_names_[i];
     }
   }
 
   // Validate the proportions are between 0.0 and 1.0
   for (Double proportion : proportions_) {
     if (proportion < 0.0 || proportion > 1.0)
-      LOG_ERROR(parameters_.location(PARAM_PROPORTIONS) << ": proportion " << AS_DOUBLE(proportion) << " must be between 0.0 and 1.0 (inclusive)");
+      LOG_ERROR_P(PARAM_PROPORTIONS) << ": proportion " << AS_DOUBLE(proportion) << " must be between 0.0 and 1.0 (inclusive)";
   }
 
   for (unsigned i = 0; i < from_category_names_.size(); ++i)
@@ -128,7 +128,7 @@ void MaturationRate::DoBuild() {
   for(string label : selectivity_names_) {
     SelectivityPtr selectivity = selectivities::Manager::Instance().GetSelectivity(label);
     if (!selectivity)
-      LOG_ERROR(parameters_.location(PARAM_SELECTIVITIES) << ": Selectivity " << label << " does not exist. Have you defined it?");
+      LOG_ERROR_P(PARAM_SELECTIVITIES) << ": Selectivity " << label << " does not exist. Have you defined it?";
     selectivities_.push_back(selectivity);
   }
 }

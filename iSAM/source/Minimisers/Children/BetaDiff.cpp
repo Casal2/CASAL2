@@ -75,10 +75,10 @@ void BetaDiff::Execute() {
     start_values[i] = AS_DOUBLE(estimate->GetTransformedValue());
 
 //    if (estimate->value() < estimate->lower_bound()) {
-//      LOG_ERROR("When starting the DESolver minimiser the starting value (" << estimate->value() << ") for estimate "
+//      LOG_ERROR_P("When starting the DESolver minimiser the starting value (" << estimate->value() << ") for estimate "
 //          << estimate->parameter() << " was less than the lower bound (" << estimate->lower_bound() << ")");
 //    } else if (estimate->value() > estimate->upper_bound()) {
-//      LOG_ERROR("When starting the DESolver minimiser the starting value (" << estimate->value() << ") for estimate "
+//      LOG_ERROR_P("When starting the DESolver minimiser the starting value (" << estimate->value() << ") for estimate "
 //          << estimate->parameter() << " was greater than the upper bound (" << estimate->upper_bound() << ")");
 //    }
   }

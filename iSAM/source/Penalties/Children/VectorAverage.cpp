@@ -53,19 +53,19 @@ void VectorAverage::DoBuild() {
 
   objects::ExplodeString(parameter_, type, label, parameter, index);
   if (type == "" || label == "" || parameter == "") {
-    LOG_ERROR(parameters_.location(PARAM_PARAMETER) << ": parameter " << parameter_
-        << " is not in the correct format. Correct format is object_type[label].estimable(array index)");
+    LOG_ERROR_P(PARAM_PARAMETER) << ": parameter " << parameter_
+        << " is not in the correct format. Correct format is object_type[label].estimable(array index)";
   }
 
   base::ObjectPtr target = objects::FindObject(parameter_);
   if (!target)
-    LOG_ERROR(parameters_.location(PARAM_PARAMETER) << " " << parameter_ << " is not a valid estimable in the system");
+    LOG_ERROR_P(PARAM_PARAMETER) << " " << parameter_ << " is not a valid estimable in the system";
 
 
   Estimable::Type estimable_type = target->GetEstimableType(parameter);
   switch(estimable_type) {
     case Estimable::kInvalid:
-      LOG_CODE_ERROR("Invalid estimable type: " << parameter_);
+      LOG_CODE_ERROR() << "Invalid estimable type: " << parameter_;
       break;
     case Estimable::kVector:
       estimable_vector_ = target->GetEstimableVector(parameter);
@@ -74,7 +74,7 @@ void VectorAverage::DoBuild() {
       estimable_map_ = target->GetEstimableUMap(parameter);
       break;
     default:
-      LOG_ERROR("The estimable you have provided for use in a projection: " << parameter_ << " is not a type that is supported for projection modification");
+      LOG_ERROR() << "The estimable you have provided for use in a projection: " << parameter_ << " is not a type that is supported for projection modification";
       break;
   }
 }
@@ -92,7 +92,7 @@ Double VectorAverage::GetScore() {
     for (auto iter : (*estimable_map_))
       values.push_back(iter.second);
   } else
-    LOG_CODE_ERROR("(estimable_map_ != 0) && (estimable_map_ != 0)");
+    LOG_CODE_ERROR() << "(estimable_map_ != 0) && (estimable_map_ != 0)";
 
   Double score = 0.0;
 
@@ -118,7 +118,7 @@ Double VectorAverage::GetScore() {
     score = (score - k_) * (score - k_);
 
   } else
-    LOG_CODE_ERROR("Unknown Method: " << method_);
+    LOG_CODE_ERROR() << "Unknown Method: " << method_;
 
   return score * multiplier_;
 }

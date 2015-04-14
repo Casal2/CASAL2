@@ -24,7 +24,7 @@
 #include "BaseClasses/Object.h"
 #include "Factory/Object.h"
 #include "GlobalConfiguration/GlobalConfiguration.h"
-#include "Utilities/Logging/Logging.h"
+#include "Logging/Logging.h"
 
 // Namespaces
 namespace niwa {
@@ -62,10 +62,12 @@ void CommandLineParser::Parse(int argc, const char* argv[]) {
     ("projection,f", "Projection mode")
     ("input,i", value<string>(), "Load free parameter values from file")
     ("fi", "Force the input file to only allow @estimate parameters (basic run mode only)")
-    ("seed,g", value<int>(), "Random number seed")
+    ("seed,g", value<string>(), "Random number seed")
     ("query,q", value<string>(), "Query an object type to see it's description and parameters")
     ("debug,d", "Run in debug mode (with debug output")
-    ("nostd", "Do not print the standard header report");
+    ("nostd", "Do not print the standard header report")
+    ("loglevel", "Set log level: finest, fine, none (default)");
+
 
 
   ostringstream o;
@@ -115,6 +117,7 @@ void CommandLineParser::Parse(int argc, const char* argv[]) {
   } else if (parameters.count("license")) {
     run_mode_ = RunMode::kLicense;
     return;
+
   } else if (parameters.count("query")) {
     string lookup = parameters["query"].as<string>();
     vector<string> parts;
@@ -151,9 +154,9 @@ void CommandLineParser::Parse(int argc, const char* argv[]) {
   run_mode_count += parameters.count("projection");
 
   if (run_mode_count == 0)
-    LOG_ERROR("No valid run mode has been specified on the command line. Please specify a valid run mode (e.g -r)");
+    LOG_ERROR() << "No valid run mode has been specified on the command line. Please specify a valid run mode (e.g -r)";
   if (run_mode_count > 1)
-    LOG_ERROR("Multiple run modes have been specified on the command line. Only 1 run mode is valid");
+    LOG_ERROR() << "Multiple run modes have been specified on the command line. Only 1 run mode is valid";
 
   if (parameters.count("run"))
     run_mode_ = RunMode::kBasic;
@@ -169,13 +172,17 @@ void CommandLineParser::Parse(int argc, const char* argv[]) {
   } else if (parameters.count("projection"))
     run_mode_ = RunMode::kProjection;
   else
-    LOG_ERROR("An invalid or unknown run mode has been specified on the command line.");
+    LOG_ERROR() << "An invalid or unknown run mode has been specified on the command line.";
 
   /**
    * Now we store any variables we want to use to override global defaults.
    */
-  if (parameters.count("genseed"))
-    override_values_["genseed"] = parameters["genseed"].as<string>();
+  if (parameters.count("seed")) {
+    override_values_[PARAM_RANDOM_NUMBER_SEED] = parameters["seed"].as<string>();
+    cout << override_values_[PARAM_RANDOM_NUMBER_SEED] << " : " << parameters["seed"].as<string>() << endl;
+  }
+  if (parameters.count("loglevel"))
+    override_values_[PARAM_LOG_LEVEL] = parameters["loglevel"].as<string>();
 }
 
 } /* namespace utilities */

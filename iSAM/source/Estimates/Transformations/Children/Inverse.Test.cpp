@@ -76,7 +76,7 @@ TEST_F(InternalEmptyModel, Estimates_Transformations_Inverse) {
 
   EstimatePtr estimate = estimates::Manager::Instance().GetEstimate("selectivity[FishingSel].a50");
   if (!estimate)
-    LOG_ERROR("!estimate");
+    LOG_ERROR_P("!estimate");
   EXPECT_NEAR(estimate->value(), 7.2720802736802668, 1e-7);
 
   // Check results

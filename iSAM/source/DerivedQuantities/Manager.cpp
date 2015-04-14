@@ -27,7 +27,7 @@ DerivedQuantityPtr Manager::GetDerivedQuantity(const string& label) {
       return quantity;
   }
 
-  LOG_WARNING("Returning an empty derived quantity because none was found");
+  LOG_WARNING() << "Returning an empty derived quantity because none was found";
   return DerivedQuantityPtr();
 }
 

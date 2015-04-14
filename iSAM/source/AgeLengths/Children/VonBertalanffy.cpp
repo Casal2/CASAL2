@@ -22,8 +22,8 @@ namespace agelengths {
  * default constructor
  */
 VonBertalanffy::VonBertalanffy() {
-  parameters_.Bind<Double>(PARAM_LINF, &linf_, "TBA", "");
-  parameters_.Bind<Double>(PARAM_K, &k_, "TBA", "");
+  parameters_.Bind<Double>(PARAM_LINF, &linf_, "TBA", "")->set_lower_bound(0.0);
+  parameters_.Bind<Double>(PARAM_K, &k_, "TBA", "")->set_lower_bound(0.0);
   parameters_.Bind<Double>(PARAM_T0, &t0_, "TBA", "");
   parameters_.Bind<string>(PARAM_SIZE_WEIGHT, &size_weight_label_, "TBA", "");
   parameters_.Bind<Double>(PARAM_CV, &cv_, "TBA", "", 0.0);
@@ -38,22 +38,12 @@ VonBertalanffy::VonBertalanffy() {
 }
 
 /**
- * validate the parameters passed in from the configuration file
- */
-void VonBertalanffy::DoValidate() {
-  if (linf_ <= 0.0)
-    LOG_ERROR(parameters_.location(PARAM_LINF) << "(" << linf_ << ") cannot be less than or equal to 0.0");
-  if (k_ <= 0.0)
-    LOG_ERROR(parameters_.location(PARAM_K) << "(" << k_ << ") cannot be less than or equal to 0.0");
-}
-
-/**
  * build runtime relationships between this object and other objects in the model
  */
 void VonBertalanffy::DoBuild() {
   size_weight_ = sizeweights::Manager::Instance().GetSizeWeight(size_weight_label_);
   if (!size_weight_)
-    LOG_ERROR(parameters_.location(PARAM_SIZE_WEIGHT) << "(" << size_weight_label_ << ") could not be found. Have you defined it?");
+    LOG_ERROR_P(PARAM_SIZE_WEIGHT) << "(" << size_weight_label_ << ") could not be found. Have you defined it?";
 }
 
 /**
@@ -67,7 +57,7 @@ Double VonBertalanffy::mean_length(unsigned year, unsigned age) {
   Double proportion = time_step_proportions_[timesteps::Manager::Instance().current_time_step()];
 
   if ((-k_ * ((age + proportion) - t0_)) > 10)
-    LOG_ERROR("Fatal error in age-size relationship: exp(-k*(age-t0)) is enormous. The k or t0 parameters are probably wrong.");
+    LOG_ERROR_P(PARAM_K) << "exp(-k*(age-t0)) is enormous. The k or t0 parameters are probably wrong.";
 
   Double size = linf_ * (1 - exp(-k_ * ((age + proportion) - t0_)));
   if (size < 0.0)

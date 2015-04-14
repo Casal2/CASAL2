@@ -37,8 +37,8 @@ void DerivedQuantity::Validate() {
   parameters_.Populate();
 
   if (category_labels_.size() != selectivity_labels_.size())
-    LOG_ERROR(parameters_.location(PARAM_SELECTIVITIES) << " count (" << selectivity_labels_.size() << ") "
-        << " is not the same as the categories count (" << category_labels_.size() << ")");
+    LOG_ERROR_P(PARAM_SELECTIVITIES) << " count (" << selectivity_labels_.size() << ") "
+        << " is not the same as the categories count (" << category_labels_.size() << ")";
 }
 
 /**
@@ -54,7 +54,7 @@ void DerivedQuantity::Build() {
   for (string label : selectivity_labels_) {
     SelectivityPtr selectivity = selectivity_manager.GetSelectivity(label);
     if (!selectivity)
-      LOG_ERROR(parameters_.location(PARAM_SELECTIVITIES) << " (" << label << ") could not be found. Have you defined it?");
+      LOG_ERROR_P(PARAM_SELECTIVITIES) << " (" << label << ") could not be found. Have you defined it?";
 
     selectivities_.push_back(selectivity);
   }
@@ -64,7 +64,7 @@ void DerivedQuantity::Build() {
    */
   TimeStepPtr time_step = timesteps::Manager::Instance().GetTimeStep(time_step_label_);
   if (!time_step)
-    LOG_ERROR(parameters_.location(PARAM_TIME_STEP) << " (" << time_step_label_ << ") could not be found. Have you defined it?");
+    LOG_ERROR_P(PARAM_TIME_STEP) << " (" << time_step_label_ << ") could not be found. Have you defined it?";
   time_step->SubscribeToBlock(shared_ptr());
   time_step->SubscribeToInitialisationBlock(shared_ptr());
 }
@@ -87,7 +87,7 @@ Double DerivedQuantity::GetValue(unsigned year) {
   }
 
 //  if (values_.size() > 0 && values_.rbegin()->first < year)
-//    LOG_ERROR("Trying to get a value from the derived quantity " << label_ << " for year " << year << " when the latest year calculated is "
+//    LOG_ERROR_P("Trying to get a value from the derived quantity " << label_ << " for year " << year << " when the latest year calculated is "
 //        << values_.rbegin()->first);
   if (initialisation_values_.size() == 0)
     return 0.0;
@@ -99,7 +99,7 @@ Double DerivedQuantity::GetValue(unsigned year) {
 
   Double result = 0.0;
   if (years_to_go_back == 0) {
-    LOG_WARNING("Years to go back is 0 in derived quantity " << label_ << " when it shouldn't be");
+    LOG_WARNING() << "Years to go back is 0 in derived quantity " << label_ << " when it shouldn't be";
     result = (*initialisation_values_.rbegin()->rbegin());
   } else if (initialisation_values_.rbegin()->size() > years_to_go_back) {
     result = initialisation_values_.rbegin()->at(initialisation_values_.rbegin()->size() - years_to_go_back);
@@ -109,11 +109,11 @@ Double DerivedQuantity::GetValue(unsigned year) {
     result = (*(initialisation_values_.rbegin() + 1)->begin()); // first value of last init phase
   }
 
-  LOG_INFO("years_to_go_back: " << years_to_go_back
+  LOG_FINEST() << "years_to_go_back: " << years_to_go_back
       << "; year: " << year
       << "; result: " << result
       << "; .begin(): " << (*initialisation_values_.rbegin()->rbegin())
-      << ": .size(): " << initialisation_values_.rbegin()->size());
+      << ": .size(): " << initialisation_values_.rbegin()->size();
 
   return result;
 }
@@ -123,9 +123,9 @@ Double DerivedQuantity::GetValue(unsigned year) {
  */
 Double DerivedQuantity::GetLastValueFromInitialisation(unsigned phase) {
   if (initialisation_values_.size() <= phase)
-    LOG_ERROR("No values have been calculated for the initialisation value in phase: " << phase);
+    LOG_ERROR() << "No values have been calculated for the initialisation value in phase: " << phase;
   if (initialisation_values_[phase].size() == 0)
-    LOG_ERROR("No values have been calculated for the initialisation value in phase: " << phase);
+    LOG_ERROR() << "No values have been calculated for the initialisation value in phase: " << phase;
 
   return *initialisation_values_[phase].rbegin();
 }
@@ -134,7 +134,7 @@ Double DerivedQuantity::GetLastValueFromInitialisation(unsigned phase) {
  *
  */
 Double DerivedQuantity::GetInitialisationValue(unsigned phase, unsigned index) {
-  LOG_INFO("phase = " << phase << "; index = " << index << "; initialisation_values_.size() = " << initialisation_values_.size());
+  LOG_FINEST() << "phase = " << phase << "; index = " << index << "; initialisation_values_.size() = " << initialisation_values_.size();
   if (initialisation_values_.size() <= phase) {
     if (initialisation_values_.size() == 0)
       return 0.0;
@@ -142,7 +142,7 @@ Double DerivedQuantity::GetInitialisationValue(unsigned phase, unsigned index) {
     return (*initialisation_values_.rbegin()->rbegin());
   }
 
-  LOG_INFO("initialisation_values_[" << phase << "].size() = " << initialisation_values_[phase].size());
+  LOG_FINEST() << "initialisation_values_[" << phase << "].size() = " << initialisation_values_[phase].size();
   if (initialisation_values_[phase].size() <= index) {
     if (initialisation_values_[phase].size() == 0)
       return 0.0;

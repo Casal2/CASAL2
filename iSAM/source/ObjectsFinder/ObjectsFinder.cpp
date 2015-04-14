@@ -95,7 +95,7 @@ niwa::base::ObjectPtr FindObject(const string& parameter_absolute_name) {
   string index        = "";
 
   ExplodeString(parameter_absolute_name, type, label, parameter, index);
-  LOG_INFO("FindObject; type: " << type << "; label: " << label << "; parameter: " << parameter << "; index: " << index);
+//  LOG_INFO("FindObject; type: " << type << "; label: " << label << "; parameter: " << parameter << "; index: " << index);
 
   if (type == PARAM_PROCESS) {
     result = processes::Manager::Instance().GetProcess(label);

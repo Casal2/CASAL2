@@ -15,7 +15,7 @@
 
 #include "Utilities/String.h"
 #include "Utilities/To.h"
-#include "Utilities/Logging/Logging.h"
+#include "Logging/Logging.h"
 
 // namespaces
 namespace niwa {
@@ -46,7 +46,8 @@ void BindableVector<T>::Bind() {
   T value;
   for (unsigned i = 0; i < values_.size(); ++i) {
     if (!niwa::utilities::To<T>(values_[i], value))
-      LOG_ERROR(location() << ": " << label_ << " value " << values_[i] << " could not be converted to type " << utilities::demangle(typeid(value).name()) << ". Please check you have defined it properly.");
+      LOG_ERROR() << location() << ": " << label_ << " value " << values_[i] << " could not be converted to type "
+        << utilities::demangle(typeid(value).name()) << ". Please check you have defined it properly.";
 
     target_->push_back(value);
   }
@@ -58,8 +59,8 @@ void BindableVector<T>::Bind() {
   if (allowed_values_.size() > 0) {
     for (T value : *target_) {
       if (std::find(allowed_values_.begin(), allowed_values_.end(), value) == allowed_values_.end())
-        LOG_ERROR(location() << " value " << value << " is not in the allowed values list: "
-            << utilities::String::join<T>(allowed_values_, ", "));
+        LOG_ERROR() << location() << " value " << value << " is not in the allowed values list: "
+            << utilities::String::join<T>(allowed_values_, ", ");
     }
   }
 
@@ -69,15 +70,15 @@ void BindableVector<T>::Bind() {
   if (range_.lower_flagged_ || range_.upper_flagged_) {
     for (T value : *target_) {
       if (range_.lower_flagged_ && (value < range_.lower_bound_ || (value == range_.lower_bound_ && !range_.lower_inclusive_)))
-        LOG_ERROR(location() << " value " << value << " exceeds the lower bound: " << range_.lower_bound_);
+        LOG_ERROR() << location() << " value " << value << " exceeds the lower bound: " << range_.lower_bound_;
       if (range_.upper_flagged_ && (value > range_.upper_bound_ || (value == range_.upper_bound_ && !range_.upper_inclusive_)))
-        LOG_ERROR(location() << " value " << value << " exceeds the upper bound: " << range_.upper_bound_);
+        LOG_ERROR() << location() << " value " << value << " exceeds the upper bound: " << range_.upper_bound_;
     }
   }
   if (allowed_values_.size() != 0) {
     for (T value : *target_) {
       if (std::find(allowed_values_.begin(), allowed_values_.end(), value) == allowed_values_.end())
-        LOG_ERROR(location() << " value " << value << " is no in the list of allowed values: " << utilities::String::join(allowed_values_, ", "));
+        LOG_ERROR() << location() << " value " << value << " is no in the list of allowed values: " << utilities::String::join(allowed_values_, ", ");
     }
   }
 }

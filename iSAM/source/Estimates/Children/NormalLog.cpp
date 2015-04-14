@@ -22,15 +22,7 @@ namespace estimates {
  */
 NormalLog::NormalLog() {
   parameters_.Bind<Double>(PARAM_MU, &mu_, "Mu", "");
-  parameters_.Bind<Double>(PARAM_SIGMA, &sigma_, "Sigma", "");
-}
-
-/**
- * Validate the parameters from the configuration file
- */
-void NormalLog::DoValidate() {
-  if (sigma_ <= 0.0)
-    LOG_ERROR(parameters_.location(PARAM_SIGMA) << ": sigma (" << AS_DOUBLE(sigma_) << ") cannot be less than or equal to 0.0");
+  parameters_.Bind<Double>(PARAM_SIGMA, &sigma_, "Sigma", "")->set_lower_bound(0.0, false);
 }
 
 /**

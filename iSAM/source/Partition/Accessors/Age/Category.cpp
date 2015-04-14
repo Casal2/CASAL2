@@ -19,7 +19,7 @@
 #include "Categories/Categories.h"
 #include "Partition/Partition.h"
 #include "Model/Model.h"
-#include "Utilities/Logging/Logging.h"
+#include "Logging/Logging.h"
 #include "Utilities/To.h"
 
 // Namespaces

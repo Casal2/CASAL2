@@ -25,7 +25,7 @@ void Selectivity::DoValidate() {
 void Selectivity::DoBuild() {
   selectivity_ = selectivities::Manager::Instance().GetSelectivity(selectivity_label_);
   if (!selectivity_)
-    LOG_ERROR(parameters_.location(PARAM_SELECTIVITY) << " " << selectivity_label_ << " does not exist. Have you defined it?");
+    LOG_ERROR_P(PARAM_SELECTIVITY) << " " << selectivity_label_ << " does not exist. Have you defined it?";
 }
 
 void Selectivity::DoExecute() {

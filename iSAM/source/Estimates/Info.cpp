@@ -52,7 +52,7 @@
 //  parameters_.Populate();
 //
 //  if (lower_bound_ >= upper_bound_) {
-//    LOG_ERROR(parameters_.location(PARAM_LOWER_BOUND) << ": lower_bound cannot be equal to or greater than upper_bound");
+//    LOG_ERROR_P(parameters_.location(PARAM_LOWER_BOUND) << ": lower_bound cannot be equal to or greater than upper_bound");
 //  }
 //}
 //
@@ -82,7 +82,7 @@
 //
 //  objects::ExplodeString(parameter_, type, label, parameter, index);
 //  if (type == "" || label == "" || parameter == "") {
-//    LOG_ERROR(parameters_.location(PARAM_PARAMETER) << ": parameter " << parameter_
+//    LOG_ERROR_P(parameters_.location(PARAM_PARAMETER) << ": parameter " << parameter_
 //        << " is not in the correct format. Correct format is object_type[label].estimable(array index)");
 //  }
 //
@@ -94,7 +94,7 @@
 //
 //  base::ObjectPtr target = objects::FindObject(parameter_);
 //  if (!target) {
-//    LOG_ERROR(parameters_.location(PARAM_PARAMETER) << ": parameter " << parameter_ << " is not a valid estimable in the system");
+//    LOG_ERROR_P(parameters_.location(PARAM_PARAMETER) << ": parameter " << parameter_ << " is not a valid estimable in the system");
 //  }
 //
 //  if (index == "" || !target->IsEstimableAVector(parameter)) {
@@ -117,9 +117,9 @@
 //    vector<string> upper_bounds = parameters_.Get(PARAM_UPPER_BOUND)->values();
 //
 //    if (lower_bounds.size() != n)
-//      LOG_ERROR(parameters_.location(PARAM_LOWER_BOUND) << " must have the same number of elements as estimates that will be created (" << n << ")");
+//      LOG_ERROR_P(parameters_.location(PARAM_LOWER_BOUND) << " must have the same number of elements as estimates that will be created (" << n << ")");
 //    if (upper_bounds.size() != n)
-//      LOG_ERROR(parameters_.location(PARAM_UPPER_BOUND) << " must have the same number of elements as estimates that will be created (" << n << ")");
+//      LOG_ERROR_P(parameters_.location(PARAM_UPPER_BOUND) << " must have the same number of elements as estimates that will be created (" << n << ")");
 //
 //    for (unsigned i = 0; i < n; ++i) {
 //      niwa::EstimatePtr estimate = niwa::estimates::Factory::Create(PARAM_ESTIMATE, type_);

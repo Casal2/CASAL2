@@ -15,7 +15,7 @@
 
 #include <iostream>
 
-#include "Utilities/Logging/Logging.h"
+#include "Logging/Logging.h"
 #include "Utilities/To.h"
 
 namespace niwa {
@@ -53,7 +53,7 @@ unsigned Object::GetEstimableSize(const string& label) const {
     return estimable_s_maps_.find(label)->second->size();
 
   if (estimables_.find(label) == estimables_.end())
-    LOG_CODE_ERROR("The estimable " << label << " has not been registered for the object " << block_type_ << ".type=" << type_);
+    LOG_CODE_ERROR() << "The estimable " << label << " has not been registered for the object " << block_type_ << ".type=" << type_;
 
   return 1u;
 }
@@ -67,17 +67,17 @@ unsigned Object::GetEstimableSize(const string& label) const {
  */
 Double* Object::GetEstimable(const string& label) {
   if (estimable_types_.find(label) == estimable_types_.end())
-    LOG_CODE_ERROR("estimable_types_.find(" << label << ") == estimable_types_.end()");
+    LOG_CODE_ERROR() << "estimable_types_.find(" << label << ") == estimable_types_.end()";
   return estimables_[label];
 }
 
 Double* Object::GetEstimable(const string& label, const string& index) {
   if (estimable_types_.find(label) == estimable_types_.end())
-    LOG_CODE_ERROR("estimable_types_.find(" << label << ") == estimable_types_.end()");
+    LOG_CODE_ERROR() << "estimable_types_.find(" << label << ") == estimable_types_.end()";
 
   if (estimable_types_[label] == Estimable::kStringMap) {
     if (estimable_s_maps_[label]->find(index) == estimable_s_maps_[label]->end())
-      LOG_CODE_ERROR("estimable_s_maps_[" << label << "].find(" << index << ") == estimable_s_maps_.end()");
+      LOG_CODE_ERROR() << "estimable_s_maps_[" << label << "].find(" << index << ") == estimable_s_maps_.end()";
 
     return &(*estimable_s_maps_[label])[index];
 
@@ -85,10 +85,10 @@ Double* Object::GetEstimable(const string& label, const string& index) {
     unsigned value = 0;
     bool success = utilities::To<unsigned>(index, value);
     if (!success)
-      LOG_CODE_ERROR("bool success = util::To<unsigned>(" << index << ", value);");
+      LOG_CODE_ERROR() << "bool success = util::To<unsigned>(" << index << ", value);";
 
     if (estimable_u_maps_[label]->find(value) == estimable_u_maps_[label]->end())
-      LOG_CODE_ERROR("estimable_u_maps[" << label << "].find(" << value << ") == estimable_u_maps_.end()");
+      LOG_CODE_ERROR() << "estimable_u_maps[" << label << "].find(" << value << ") == estimable_u_maps_.end()";
 
     return &(*estimable_u_maps_[label])[value];
 
@@ -96,15 +96,15 @@ Double* Object::GetEstimable(const string& label, const string& index) {
     unsigned value = 0;
     bool success = utilities::To<unsigned>(index, value);
     if (!success)
-      LOG_CODE_ERROR("bool success = util::To<unsigned>(" << index << ", value);");
+      LOG_CODE_ERROR() << "bool success = util::To<unsigned>(" << index << ", value);";
 
     if (estimable_vectors_[label]->size() >= value)
-      LOG_CODE_ERROR("estimable_vectors_[" << label << "]->size() >= " << value);
+      LOG_CODE_ERROR() << "estimable_vectors_[" << label << "]->size() >= " << value;
 
     return &(*estimable_vectors_[label])[value];
 
   } else if (estimable_types_[label] != Estimable::kSingle)
-    LOG_CODE_ERROR("estimable_types_[" << label << "] != Estimable::kSingle");
+    LOG_CODE_ERROR() << "estimable_types_[" << label << "] != Estimable::kSingle";
 
   return estimables_[label];
 }
@@ -119,9 +119,9 @@ Double* Object::GetEstimable(const string& label, const string& index) {
  */
 map<unsigned, Double>* Object::GetEstimableUMap(const string& label) {
   if (estimable_types_.find(label) == estimable_types_.end())
-    LOG_CODE_ERROR("estimable_types_.find(" << label << ") == estimable_types_.end()");
+    LOG_CODE_ERROR() << "estimable_types_.find(" << label << ") == estimable_types_.end()";
   if (estimable_types_[label] != Estimable::kUnsignedMap)
-    LOG_CODE_ERROR("estimable_types_[" << label << "] != Estimable::kUnsignedMap");
+    LOG_CODE_ERROR() << "estimable_types_[" << label << "] != Estimable::kUnsignedMap";
 
   return estimable_u_maps_[label];
 }
@@ -131,9 +131,9 @@ map<unsigned, Double>* Object::GetEstimableUMap(const string& label) {
  */
 OrderedMap<string, Double>* Object::GetEstimableSMap(const string& label) {
   if (estimable_types_.find(label) == estimable_types_.end())
-    LOG_CODE_ERROR("estimable_types_.find(" << label << ") == estimable_types_.end()");
+    LOG_CODE_ERROR() << "estimable_types_.find(" << label << ") == estimable_types_.end()";
   if (estimable_types_[label] != Estimable::kStringMap)
-    LOG_CODE_ERROR("estimable_types_[" << label << "] != Estimable::kStringMap");
+    LOG_CODE_ERROR() << "estimable_types_[" << label << "] != Estimable::kStringMap";
 
   return estimable_s_maps_[label];
 }
@@ -143,9 +143,9 @@ OrderedMap<string, Double>* Object::GetEstimableSMap(const string& label) {
  */
 vector<Double>* Object::GetEstimableVector(const string& label) {
   if (estimable_types_.find(label) == estimable_types_.end())
-    LOG_CODE_ERROR("estimable_types_.find(" << label << ") == estimable_types_.end()");
+    LOG_CODE_ERROR() << "estimable_types_.find(" << label << ") == estimable_types_.end()";
   if (estimable_types_[label] != Estimable::kVector)
-      LOG_CODE_ERROR("estimable_types_[" << label << "] != Estimable::kVector");
+    LOG_CODE_ERROR() << "estimable_types_[" << label << "] != Estimable::kVector";
 
   return estimable_vectors_[label];
 }
@@ -155,7 +155,7 @@ vector<Double>* Object::GetEstimableVector(const string& label) {
  */
 Estimable::Type Object::GetEstimableType(const string& label) const {
   if (estimable_types_.find(label) == estimable_types_.end()) {
-    LOG_CODE_ERROR("Unable to find the estimable type with the label: " << label);
+    LOG_CODE_ERROR() << "Unable to find the estimable type with the label: " << label;
   }
 
   return estimable_types_.find(label)->second;

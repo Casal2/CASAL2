@@ -42,22 +42,12 @@ Schnute::Schnute() {
 }
 
 /**
- * validate the parameters passed in from the configuration file
- */
-void Schnute::DoValidate() {
-  if (a_ <= 0.0)
-    LOG_ERROR(parameters_.location(PARAM_A) << "(" << a_ << ") cannot be less than or equal to 0.0");
-  if (b_ < 1.0)
-    LOG_ERROR(parameters_.location(PARAM_B) << "(" << b_ << ") cannot be less than 1.0");
-}
-
-/**
  * build runtime relationships between this object and other objects in the model
  */
 void Schnute::DoBuild() {
   size_weight_ = sizeweights::Manager::Instance().GetSizeWeight(size_weight_label_);
   if (!size_weight_)
-    LOG_ERROR(parameters_.location(PARAM_SIZE_WEIGHT) << "(" << size_weight_label_ << ") could not be found. Have you defined it?");
+    LOG_ERROR_P(PARAM_SIZE_WEIGHT) << "(" << size_weight_label_ << ") could not be found. Have you defined it?";
 }
 
 /**

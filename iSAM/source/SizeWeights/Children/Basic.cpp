@@ -31,12 +31,12 @@ Basic::Basic() {
  */
 void Basic::DoValidate() {
   if (a_ <= 0.0)
-    LOG_ERROR(parameters_.location(PARAM_A) << " (" << AS_DOUBLE(a_) << ") cannot be less than or equal to 0.0");
+    LOG_ERROR_P(PARAM_A) << " (" << AS_DOUBLE(a_) << ") cannot be less than or equal to 0.0";
   if (b_ <= 0.0)
-    LOG_ERROR(parameters_.location(PARAM_B) << " (" << AS_DOUBLE(b_) << ") cannot be less than or equal to 0.0");
+    LOG_ERROR_P(PARAM_B) << " (" << AS_DOUBLE(b_) << ") cannot be less than or equal to 0.0";
 
   if (units_ != PARAM_TONNES && units_ != PARAM_KGS && units_ != PARAM_GRAMS)
-    LOG_ERROR(parameters_.location(PARAM_UNITS) << " (" << units_ << ") is not supported. Supported units are: tonnes, kgs, grams");
+    LOG_ERROR_P(PARAM_UNITS) << " (" << units_ << ") is not supported. Supported units are: tonnes, kgs, grams";
 
 }
 

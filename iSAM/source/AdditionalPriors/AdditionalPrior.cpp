@@ -30,7 +30,7 @@ AdditionalPrior::AdditionalPrior() {
  */
 Double AdditionalPrior::GetScore() {
   if (DoScoreFunction_ == 0)
-    LOG_CODE_ERROR("DoScoreFunction_ == 0");
+    LOG_CODE_ERROR() << "DoScoreFunction_ == 0";
   return (this->*DoScoreFunction_)();
 }
 
@@ -42,7 +42,7 @@ void AdditionalPrior::Validate() {
   DoValidate();
 
   if (method_ != PARAM_RATIO && method_ != PARAM_DIFFERENCE && method_ != PARAM_MEAN)
-    LOG_ERROR(parameters_.location(PARAM_METHOD) << " must be either ratio, difference or mean." << method_ << " is not supported");
+    LOG_ERROR_P(PARAM_METHOD) << "must be either ratio, difference or mean." << method_ << " is not supported";
   // assign our function pointer
   if (method_ == PARAM_RATIO)
     DoScoreFunction_ = &AdditionalPrior::GetRatioScore;

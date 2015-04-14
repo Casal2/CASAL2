@@ -52,11 +52,11 @@ void GammaDiff::Execute() {
     start_values.push_back((double)estimate->GetTransformedValue());
 
     if (estimate->GetTransformedValue() < estimate->lower_bound()) {
-      LOG_ERROR("When starting the GammDiff numerical_differences minimiser the starting value (" << estimate->GetTransformedValue() << ") for estimate "
-          << estimate->parameter() << " was less than the lower bound (" << estimate->lower_bound() << ")");
+      LOG_ERROR() << "When starting the GammDiff numerical_differences minimiser the starting value (" << estimate->GetTransformedValue() << ") for estimate "
+          << estimate->parameter() << " was less than the lower bound (" << estimate->lower_bound() << ")";
     } else if (estimate->GetTransformedValue() > estimate->upper_bound()) {
-      LOG_ERROR("When starting the GammDiff numerical_differences minimiser the starting value (" << estimate->GetTransformedValue() << ") for estimate "
-          << estimate->parameter() << " was greater than the upper bound (" << estimate->upper_bound() << ")");
+      LOG_ERROR() << "When starting the GammDiff numerical_differences minimiser the starting value (" << estimate->GetTransformedValue() << ") for estimate "
+          << estimate->parameter() << " was greater than the upper bound (" << estimate->upper_bound() << ")";
     }
   }
 

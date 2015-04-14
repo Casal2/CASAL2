@@ -49,7 +49,7 @@ void Estimate::Validate() {
   for(string same : same_labels) {
     same_count[same]++;
     if (same_count[same] > 1) {
-      LOG_ERROR(parameters_.location(PARAM_SAME) << ": same parameter '" << same << "' is a duplicate. Please remove this from your configuration file");
+      LOG_ERROR_P(PARAM_SAME) << ": same parameter '" << same << "' is a duplicate. Please remove this from your configuration file";
     }
   }
 

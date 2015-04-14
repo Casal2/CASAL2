@@ -56,7 +56,7 @@ void Report::Validate() {
  */
 void Report::Build() {
   if (time_step_ != "" && !timesteps::Manager::Instance().GetTimeStep(time_step_))
-    LOG_ERROR(parameters_.location(PARAM_TIME_STEP) << ": " << time_step_ << " could not be found. Have you defined it?");
+    LOG_ERROR_P(PARAM_TIME_STEP) << ": " << time_step_ << " could not be found. Have you defined it?";
 
   DoBuild();
 }
@@ -120,7 +120,7 @@ void Report::FlushCache() {
     ofstream file;
     file.open(file_name.c_str(), mode);
     if (!file.is_open())
-      LOG_ERROR("Unable to open file: " << file_name);
+      LOG_ERROR() << "Unable to open file: " << file_name;
 
     file << cache_.str();
     file.close();

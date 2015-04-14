@@ -39,7 +39,7 @@ void Manager::Build() {
   // Order our time steps based on the parameter given to the model
   ordered_initialisation_phases_.clear();
 
-  LOG_INFO("Ordering initialisation phases");
+  LOG_FINE() << "Ordering initialisation phases";
   vector<string> phases = Model::Instance()->initialisation_phases();
   for(string label : phases) {
     for(InitialisationPhasePtr phase : objects_) {
@@ -87,7 +87,7 @@ unsigned Manager::GetPhaseIndex(const string& label) const {
       return i;
   }
 
-  LOG_ERROR("The initialisation phase " << label << " has not been defined in the active list of initialisation phases");
+  LOG_ERROR() << "The initialisation phase " << label << " has not been defined in the active list of initialisation phases";
   return 0;
 }
 

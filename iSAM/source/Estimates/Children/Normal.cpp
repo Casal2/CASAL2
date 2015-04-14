@@ -22,15 +22,7 @@ namespace estimates {
  */
 Normal::Normal() {
   parameters_.Bind<Double>(PARAM_MU, &mu_, "Mu", "");
-  parameters_.Bind<Double>(PARAM_CV, &cv_, "Cv", "");
-}
-
-/**
- * Validate the parameters passed in from the configuration file
- */
-void Normal::DoValidate() {
-  if (cv_ <= 0.0)
-    LOG_ERROR(parameters_.location(PARAM_CV) << ": cv (" << AS_DOUBLE(cv_) << ") cannot be less than or equal to 0.0");
+  parameters_.Bind<Double>(PARAM_CV, &cv_, "Cv", "")->set_lower_bound(0.0, false);
 }
 
 /**

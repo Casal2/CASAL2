@@ -242,6 +242,7 @@
 #define PARAM_LINF                                "linf"
 #define PARAM_LOCAL_BH_RECRUITMENT                "local_bh_recruitment"
 #define PARAM_LOG                                 "log"
+#define PARAM_LOG_LEVEL                           "log_level"
 #define PARAM_LOG_SCALE                           "log_scale"
 #define PARAM_LOGISTIC                            "logistic"
 #define PARAM_LOGISTIC_PRODUCING                  "logistic_producing"

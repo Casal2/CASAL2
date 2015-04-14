@@ -19,7 +19,7 @@
 
 #include "Utilities/RandomNumberGenerator.h"
 #include "Utilities/DoubleCompare.h"
-#include "Utilities/Logging/Logging.h"
+#include "Logging/Logging.h"
 
 // Namespaces
 namespace niwa {
@@ -27,6 +27,8 @@ namespace minimisers {
 namespace desolver {
 
 namespace compare = niwa::utilities::doublecompare;
+using std::cerr;
+using std::endl;
 
 /**
  * Default constructor
@@ -261,12 +263,12 @@ bool Engine::GenerateGradient() {
 
 
     if (convergence_check > tolerance_) {
-      cerr << "DESolver: (no convergence) convergence_check: " << convergence_check << "; tolerance: " << tolerance_ << endl;
+      LOG_ERROR() << "DESolver: (no convergence) convergence_check: " << convergence_check << "; tolerance: " << tolerance_;
       return false; // No Convergence
     }
   }
 
-  cerr << "DESolver: (convergence) convergence_check: " << convergence_check << "; tolerance: " << tolerance_ << endl;
+  LOG_ERROR() << "DESolver: (convergence) convergence_check: " << convergence_check << "; tolerance: " << tolerance_;
   return true; // Convergence
 }
 

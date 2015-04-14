@@ -23,7 +23,7 @@ int main(int argc, char **argv) {
 #include "Reports/Children/StandardHeader.h"
 #include "Reports/Manager.h"
 #include "Utilities/CommandLineParser/CommandLineParser.h"
-#include "Utilities/Logging/Logging.h"
+#include "Logging/Logging.h"
 
 // Namespaces
 using namespace niwa;
@@ -80,7 +80,7 @@ int main(int argc, char * argv[]) {
      */
     switch (run_mode) {
     case RunMode::kInvalid:
-      LOG_ERROR("Invalid run mode specified.");
+      LOG_ERROR() << "Invalid run mode specified.";
       break;
 
     case RunMode::kVersion:
@@ -153,7 +153,7 @@ int main(int argc, char * argv[]) {
     cout << "## ERROR - iSAM experienced a problem and has stopped execution" << endl;
   }
 
-  LOG_INFO("Done");
+  LOG_FINEST() << "Done";
 	return 0;
 }
 #endif

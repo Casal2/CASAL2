@@ -36,14 +36,14 @@ AnnualShift::AnnualShift() {
  */
 void AnnualShift::DoValidate() {
   if (years_.size() != values_.size())
-    LOG_ERROR(parameters_.location(PARAM_YEARS) << " provided (" << years_.size() << ") does not match the number of values provided (" << values_.size() << ")");
+    LOG_ERROR_P(PARAM_YEARS) << " provided (" << years_.size() << ") does not match the number of values provided (" << values_.size() << ")";
 
   if (scaling_years_.size() == 0)
     scaling_years_ = years_;
 
   for (unsigned year : scaling_years_) {
     if (std::find(years_.begin(), years_.end(), year) == years_.end())
-      LOG_ERROR(parameters_.location(PARAM_SCALING_YEARS) << " value (" << year << ") has not been defined as one of the years");
+      LOG_ERROR_P(PARAM_SCALING_YEARS) << " value (" << year << ") has not been defined as one of the years";
   }
 }
 
@@ -75,7 +75,7 @@ void AnnualShift::DoReset() {
  *
  */
 void AnnualShift::DoUpdate() {
-  LOG_INFO("Setting Value to: " << values_by_year_[Model::Instance()->current_year()]);
+  LOG_FINE() << "Setting Value to: " << values_by_year_[Model::Instance()->current_year()];
   (this->*DoUpdateFunc_)(values_by_year_[Model::Instance()->current_year()]);
 }
 

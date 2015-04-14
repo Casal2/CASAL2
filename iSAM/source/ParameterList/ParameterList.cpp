@@ -21,7 +21,7 @@
 
 #include "Categories/Categories.h"
 #include "Translations/Translations.h"
-#include "Utilities/Logging/Logging.h"
+#include "Logging/Logging.h"
 #include "Utilities/String.h"
 #include "Utilities/To.h"
 
@@ -118,15 +118,15 @@ void ParameterList::Populate() {
 
   if (missing_parameters != "") {
     if (parameters_.find(PARAM_LABEL) == parameters_.end()) {
-      LOG_ERROR("At line " << defined_line_number_ << " of file " << defined_file_name_ << " the following required parameters for the block "
-                  << parent_block_type_ << " are required but have not been defined: " << missing_parameters);
+      LOG_ERROR() << "At line " << defined_line_number_ << " of file " << defined_file_name_ << " the following required parameters for the block "
+                  << parent_block_type_ << " are required but have not been defined: " << missing_parameters;
     } else {
       auto parameter = parameters_.find(PARAM_LABEL);
       if (parameter->second->values().size() == 0) {
-        LOG_ERROR("At line " << defined_line_number_ << " of file " << defined_file_name_ << " the following required parameters for the block "
-            << parent_block_type_ << " are required but have not been defined: " << missing_parameters);
+        LOG_ERROR() << "At line " << defined_line_number_ << " of file " << defined_file_name_ << " the following required parameters for the block "
+            << parent_block_type_ << " are required but have not been defined: " << missing_parameters;
       } else {
-        LOG_ERROR(parameter->second->location() << " the following parameters are required but have not been defined: " << missing_parameters);
+        LOG_ERROR() << parameter->second->location() << " the following parameters are required but have not been defined: " << missing_parameters;
       }
     }
   }
@@ -152,7 +152,7 @@ void ParameterList::Populate() {
     if (param->values().size() != 0) {
       string invalid = utilities::String::find_invalid_characters(param->values()[0]);
       if (invalid != "")
-        LOG_ERROR("At line " << defined_line_number_ << " of file " << defined_file_name_ << " the label '" << param->values()[0] << "' contains invalid characters: " << invalid);
+        LOG_ERROR() << "At line " << defined_line_number_ << " of file " << defined_file_name_ << " the label '" << param->values()[0] << "' contains invalid characters: " << invalid;
     }
   }
 }
@@ -205,7 +205,7 @@ void ParameterList::CopyFrom(const ParameterList& source, string parameter_label
 
   auto iter = source.parameters_.find(parameter_label);
   if (iter == source.parameters_.end()) {
-    LOG_CODE_ERROR("iter == source.parameters_.end() for label: " << parameter_label);
+    LOG_CODE_ERROR() << "iter == source.parameters_.end() for label: " << parameter_label;
   }
 
   Add(parameter_label, iter->second->values(), iter->second->file_name(), iter->second->line_number());
@@ -218,13 +218,13 @@ void ParameterList::CopyFrom(const ParameterList& source, string parameter_label
   LOG_TRACE();
   auto iter = source.parameters_.find(parameter_label);
   if (iter == source.parameters_.end())
-    LOG_CODE_ERROR("iter == source.parameters_.end() for label: " << parameter_label);
+    LOG_CODE_ERROR() << "iter == source.parameters_.end() for label: " << parameter_label;
   if (iter->second->values().size() == 0)
     return;
 
   vector<string> values;
   if (iter->second->values().size() <= value_index)
-    LOG_CODE_ERROR("iter->second->values().size(" << iter->second->values().size() << ") <= value_index(" << value_index << "): " << parameter_label);
+    LOG_CODE_ERROR() << "iter->second->values().size(" << iter->second->values().size() << ") <= value_index(" << value_index << "): " << parameter_label;
 
   values.push_back(iter->second->values()[value_index]);
   Add(parameter_label, values, iter->second->file_name(), iter->second->line_number());
@@ -253,11 +253,11 @@ string ParameterList::location(const string& label) {
   map<string, ParameterPtr>::iterator iter = parameters_.find(label);
   auto table_iter = tables_.find(label);
   if (iter == parameters_.end() && table_iter == tables_.end()) {
-    LOG_CODE_ERROR("parameters_ object is missing the parameter: " << label);
+    LOG_CODE_ERROR() << "parameters_ object is missing the parameter: " << label;
   }
 
   if (iter != parameters_.end())
-    return iter->second->location() + ": " + label;
+    return "The parameter " + label + " " + iter->second->location() + " ";
 
   return table_iter->second->location() + ":"  + label;
 }

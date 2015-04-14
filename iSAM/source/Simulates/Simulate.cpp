@@ -58,19 +58,19 @@ void Simulate::Build() {
 
   objects::ExplodeString(parameter_, type, label, parameter, index);
   if (type == "" || label == "" || parameter == "") {
-    LOG_ERROR(parameters_.location(PARAM_PARAMETER) << ": parameter " << parameter_
-        << " is not in the correct format. Correct format is object_type[label].estimable(array index)");
+    LOG_ERROR_P(PARAM_PARAMETER) << ": parameter " << parameter_
+        << " is not in the correct format. Correct format is object_type[label].estimable(array index)";
   }
 
   base::ObjectPtr target = objects::FindObject(parameter_);
   if (!target)
-    LOG_ERROR(parameters_.location(PARAM_PARAMETER) << " " << parameter_ << " is not a valid estimable in the system");
+    LOG_ERROR_P(PARAM_PARAMETER) << " " << parameter_ << " is not a valid estimable in the system";
 
 
   Estimable::Type estimable_type = target->GetEstimableType(parameter);
   switch(estimable_type) {
     case Estimable::kInvalid:
-      LOG_CODE_ERROR("Invalid estimable type: " << parameter_);
+      LOG_CODE_ERROR() << "Invalid estimable type: " << parameter_;
       break;
     case Estimable::kSingle:
       DoUpdateFunc_ = &Simulate::SetSingleValue;
@@ -86,7 +86,7 @@ void Simulate::Build() {
       estimable_map_ = target->GetEstimableUMap(parameter);
       break;
     default:
-      LOG_ERROR("The estimable you have provided for use in a Simulateion: " << parameter_ << " is not a type that is supported for Simulateion modification");
+      LOG_ERROR() << "The estimable you have provided for use in a Simulateion: " << parameter_ << " is not a type that is supported for Simulateion modification";
       break;
   }
   DoBuild();
@@ -98,7 +98,7 @@ void Simulate::Build() {
 void Simulate::Update(unsigned current_year) {
   LOG_TRACE();
   if (DoUpdateFunc_ == 0)
-    LOG_CODE_ERROR("DoUpdateFunc_ == 0");
+    LOG_CODE_ERROR() << "DoUpdateFunc_ == 0";
 
   if (years_.size() > 0 && std::find(years_.begin(), years_.end(), current_year) == years_.end())
     RestoreOriginalValue();
@@ -111,7 +111,7 @@ void Simulate::Update(unsigned current_year) {
  */
 void Simulate::RestoreOriginalValue() {
   LOG_TRACE();
-  LOG_INFO("Setting original value to: " << AS_DOUBLE(original_value_));
+  LOG_FINE() << "Setting original value to: " << AS_DOUBLE(original_value_);
   (this->*DoUpdateFunc_)(original_value_);
 }
 

@@ -29,7 +29,7 @@ public:
   // methods
   Schnute();
   virtual                     ~Schnute() = default;
-  void                        DoValidate() override final;
+  void                        DoValidate() override final { };
   void                        DoBuild() override final;
   void                        DoReset() override final { };
 

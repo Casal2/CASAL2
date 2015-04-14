@@ -22,21 +22,21 @@ namespace estimates {
  */
 Beta::Beta() {
   parameters_.Bind<Double>(PARAM_MU, &mu_, "Mu", "");
-  parameters_.Bind<Double>(PARAM_SIGMA, &sigma_, "Sigma", "");
+  parameters_.Bind<Double>(PARAM_SIGMA, &sigma_, "Sigma", "")->set_lower_bound(0.0, false);
   parameters_.Bind<Double>(PARAM_A, &a_, "A", "");
   parameters_.Bind<Double>(PARAM_B, &b_, "B", "");
+
+  RegisterAsEstimable(PARAM_A, &a_);
 }
 
 /**
  * Validate the parameters from the configuration file
  */
 void Beta::DoValidate() {
-  if (sigma_ <= 0.0)
-    LOG_ERROR(parameters_.location(PARAM_SIGMA) << ": sigma (" << AS_DOUBLE(sigma_) << ") cannot be less than or equal to 0.0");
   if (a_ >= b_)
-    LOG_ERROR(parameters_.location(PARAM_B) << ": b (" << AS_DOUBLE(b_) << ") cannot be less than or equal to a (" << AS_DOUBLE(a_) << ")");
+    LOG_ERROR_P(PARAM_B) << "(" << AS_DOUBLE(b_) << ") cannot be less than or equal to a (" << AS_DOUBLE(a_) << ")";
   if ( ((((mu_ - a_) * (b_ - mu_)) / (sigma_ * sigma_)) - 1) <= 0.0)
-    LOG_ERROR(parameters_.location(PARAM_SIGMA) << " sigma (" << AS_DOUBLE(sigma_) << ") is too large");
+    LOG_ERROR_P(PARAM_SIGMA) << "(" << AS_DOUBLE(sigma_) << ") is too large";
 }
 
 /**

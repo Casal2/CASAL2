@@ -31,7 +31,7 @@ public:
   // Methods
   Normal();
   virtual                     ~Normal() = default;
-  void                        DoValidate() override final;
+  void                        DoValidate() override final { };
   Double                      GetScore() override final;
 
 private:

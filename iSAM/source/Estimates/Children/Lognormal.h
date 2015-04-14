@@ -31,7 +31,7 @@ public:
   // Methods
   Lognormal();
   virtual                     ~Lognormal() = default;
-  void                        DoValidate() override final;
+  void                        DoValidate() override final { };
   Double                      GetScore() override final;
 
 private:

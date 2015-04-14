@@ -22,7 +22,7 @@
 #include <vector>
 #include <boost/lexical_cast.hpp>
 
-#include "Utilities/Logging/Logging.h"
+#include "Logging/Logging.h"
 #include "Utilities/Exception.h"
 
 
@@ -32,7 +32,6 @@ namespace utilities {
 
 using std::vector;
 using std::string;
-
 
 /**
  * This method converts a string into a lowercase version of it
@@ -168,12 +167,10 @@ Target ToInline(const Source arg) {
     result = boost::lexical_cast<Target>(arg);
 
   } catch (...) {
-    LOG_CODE_ERROR("Failed to do an inline conversion from " << arg);
+    LOG_CODE_ERROR() << "Failed to do an inline conversion from " << arg;
   }
   return result;
 }
-
-
 
 } /* namespace utilities */
 } /* namespace niwa */

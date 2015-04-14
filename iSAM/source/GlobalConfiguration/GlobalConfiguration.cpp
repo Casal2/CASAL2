@@ -13,10 +13,12 @@
 // Headers
 #include "GlobalConfiguration.h"
 
-#include "Utilities/Logging/Logging.h"
+#include "Logging/Logging.h"
 #include "Utilities/To.h"
 
 namespace niwa {
+
+namespace util = niwa::utilities;
 
 /**
  * Default Constructor
@@ -29,6 +31,7 @@ GlobalConfiguration::GlobalConfiguration() {
   global_parameters_[PARAM_RANDOM_NUMBER_SEED]          = "123";
   global_parameters_[PARAM_FORCE_ESTIMABLE_VALUES_FILE] = "f";
   global_parameters_[PARAM_NO_STANDARD_HEADER_REPORT]   = "f";
+  global_parameters_[PARAM_LOG_LEVEL]                   = "none";
 }
 
 /**
@@ -51,7 +54,7 @@ bool GlobalConfiguration::debug_mode() {
 
   bool success = util::To<bool>(global_parameters_[PARAM_DEBUG], result);
   if (!success)
-    LOG_CODE_ERROR("Could not convert the debug_mode value stored in global configuration to a boolean. The value was " << global_parameters_[PARAM_DEBUG]);
+    LOG_CODE_ERROR() << "Could not convert the debug_mode value stored in global configuration to a boolean. The value was " << global_parameters_[PARAM_DEBUG];
 
   return result;
 }
@@ -70,7 +73,7 @@ bool GlobalConfiguration::skip_config_file() {
 
   bool success = util::To<bool>(global_parameters_[PARAM_SKIP_CONFIG_FILE], result);
   if (!success)
-    LOG_CODE_ERROR("Could not convert skip_config_file value stored in global configuration to a boolean. The value was " << global_parameters_[PARAM_SKIP_CONFIG_FILE]);
+    LOG_CODE_ERROR() << "Could not convert skip_config_file value stored in global configuration to a boolean. The value was " << global_parameters_[PARAM_SKIP_CONFIG_FILE];
 
   return result;
 }
@@ -93,9 +96,9 @@ void GlobalConfiguration::Clear() {
  * be modified by the command line.
  */
 void GlobalConfiguration::OverrideGlobalValues(const map<string, string>& override_values) {
-
-  for (auto i = override_values.begin(); i != override_values.end(); ++i) {
-    parameters_.Add(i->first, i->second, "", 0);
+  for (auto iter : override_values) {
+    cout << "X: " << iter.first << " : " << iter.second << endl;
+    global_parameters_[iter.first] = iter.second;
   }
 }
 
@@ -105,7 +108,11 @@ void GlobalConfiguration::OverrideGlobalValues(const map<string, string>& overri
  * @return The random number seed for the system
  */
 unsigned GlobalConfiguration::random_seed() {
-  return util::ToInline<string, unsigned>(global_parameters_[PARAM_RANDOM_NUMBER_SEED]);
+  unsigned result;
+  if (!util::To<unsigned>(global_parameters_[PARAM_RANDOM_NUMBER_SEED], result))
+    LOG_ERROR() << "The random number seed provided (" << global_parameters_[PARAM_RANDOM_NUMBER_SEED] << ") is not numeric";
+
+  return result;
 }
 
 /**
@@ -115,7 +122,7 @@ unsigned GlobalConfiguration::random_seed() {
 bool GlobalConfiguration::get_force_estimable_values_file() {
   bool result;
   if (!util::To<bool>(global_parameters_[PARAM_FORCE_ESTIMABLE_VALUES_FILE], result))
-    LOG_CODE_ERROR("!util::To<string, bool>(global_parameters_[PARAM_FORCE_ESTIMABLE_VALUES_FILE], result): '" << global_parameters_[PARAM_FORCE_ESTIMABLE_VALUES_FILE] << "'");
+    LOG_CODE_ERROR() << "!util::To<string, bool>(global_parameters_[PARAM_FORCE_ESTIMABLE_VALUES_FILE], result): '" << global_parameters_[PARAM_FORCE_ESTIMABLE_VALUES_FILE] << "'";
 
   return result;
 }
@@ -126,7 +133,7 @@ bool GlobalConfiguration::get_force_estimable_values_file() {
 bool GlobalConfiguration::disable_standard_report() {
   bool result;
   if (!util::To<bool>(global_parameters_[PARAM_NO_STANDARD_HEADER_REPORT], result))
-    LOG_CODE_ERROR("!util::To<string, bool>(global_parameters_[PARAM_NO_STANDARD_HEADER_REPORT], result): '" << global_parameters_[PARAM_NO_STANDARD_HEADER_REPORT] << "'");
+    LOG_CODE_ERROR() << "!util::To<string, bool>(global_parameters_[PARAM_NO_STANDARD_HEADER_REPORT], result): '" << global_parameters_[PARAM_NO_STANDARD_HEADER_REPORT] << "'";
 
   return result;
 }

@@ -14,18 +14,8 @@ namespace estimates {
  * Default constructor
  */
 Lognormal::Lognormal() {
-  parameters_.Bind<Double>(PARAM_MU, &mu_, "Mu", "");
-  parameters_.Bind<Double>(PARAM_CV, &cv_, "Cv", "");
-}
-
-/**
- * Validate the parameters from the configuration file
- */
-void Lognormal::DoValidate() {
-  if (mu_ <= 0.0)
-    LOG_ERROR(parameters_.location(PARAM_MU) << ": mu (" << AS_DOUBLE(mu_) << ") cannot be less than or equal to 0.0");
-  if (cv_ <= 0.0)
-    LOG_ERROR(parameters_.location(PARAM_CV) << ": cv (" << AS_DOUBLE(cv_) << ") cannot be less than or equal to 0.0");
+  parameters_.Bind<Double>(PARAM_MU, &mu_, "Mu", "")->set_lower_bound(0.0, false);
+  parameters_.Bind<Double>(PARAM_CV, &cv_, "Cv", "")->set_lower_bound(0.0, false);
 }
 
 /**

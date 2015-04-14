@@ -30,7 +30,7 @@ public:
   // methods
   Data();
   virtual                     ~Data() = default;
-  void                        DoValidate() override final;
+  void                        DoValidate() override final {};
   void                        DoBuild() override final;
   void                        DoReset() override final {};
   Double                      mean_length(unsigned year, unsigned age) override final;

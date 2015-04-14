@@ -68,7 +68,7 @@ TEST_F(InternalEmptyModel, Model_CasalComplex1_Simulation) {
 
   ObservationPtr observation = observations::Manager::Instance().GetObservation("chatTANage");
   if (!observation && observation->label() != "chatTANage")
-    LOG_ERROR("Observation chatTANage could not be loaded for testing");
+    LOG_ERROR() << "Observation chatTANage could not be loaded for testing";
 
   map<unsigned, vector<obs::Comparison> >& comparisons = observation->comparisons();
   ASSERT_EQ(11u, comparisons.size());

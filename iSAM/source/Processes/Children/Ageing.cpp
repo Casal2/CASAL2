@@ -46,7 +46,7 @@ void Ageing::DoValidate() {
   // Ensure defined categories were valid
   for(const string& category : category_names_) {
     if (!Categories::Instance()->IsValid(category))
-      LOG_ERROR(parameters_.location(PARAM_CATEGORIES) << ": category " << category << " is not a valid category");
+      LOG_ERROR_P(PARAM_CATEGORIES) << ": category " << category << " is not a valid category";
   }
 }
 
@@ -67,13 +67,13 @@ void Ageing::DoBuild() {
 
   vector<unsigned> time_step_indexes = timesteps::Manager::Instance().GetTimeStepIndexesForProcess(label_);
   if (time_step_indexes.size() != time_step_proportions_.size())
-    LOG_ERROR(parameters_.location(PARAM_TIME_STEP_PROPORTIONS) << " size (" << time_step_proportions_.size() << "( must match the number "
-        "of defined time steps for this process (" << time_step_indexes.size() << ")");
+    LOG_ERROR_P(PARAM_TIME_STEP_PROPORTIONS) << " size (" << time_step_proportions_.size() << "( must match the number "
+        "of defined time steps for this process (" << time_step_indexes.size() << ")";
 
   time_step_proportions_by_index_ = utilities::Map::create(time_step_indexes, time_step_proportions_);
   for (auto iter : time_step_proportions_by_index_) {
     if (iter.second < 0.0 || iter.second > 1.0)
-      LOG_ERROR(parameters_.location(PARAM_TIME_STEP_PROPORTIONS) << " value (" << iter.second << ") must be in the range 0.0-1.0");
+      LOG_ERROR_P(PARAM_TIME_STEP_PROPORTIONS) << " value (" << iter.second << ") must be in the range 0.0-1.0";
   }
 }
 
@@ -86,7 +86,7 @@ void Ageing::DoExecute() {
 
   unsigned time_step_index = timesteps::Manager::Instance().current_time_step();
   if (time_step_proportions_by_index_.find(time_step_index) == time_step_proportions_by_index_.end())
-    LOG_CODE_ERROR("time_step_proportions_by_index_.find(" << time_step_index << ") == time_step_proportions_by_index_.end()");
+    LOG_CODE_ERROR() << "time_step_proportions_by_index_.find(" << time_step_index << ") == time_step_proportions_by_index_.end()";
   Double proportion = time_step_proportions_by_index_[time_step_index];
 
   for (auto category : partition_) {

@@ -5,7 +5,7 @@
  *      Author: Admin
  */
 
-#include <Estimates/Transformations/Children/Log.h>
+#include "Log.h"
 
 namespace niwa {
 namespace estimates {
@@ -18,7 +18,7 @@ namespace transformations {
  * @return The transformed value
  */
 Double Log::Transform(Double initial_value) {
-  return log(initial_value);
+  return std::log(initial_value);
 }
 
 /**

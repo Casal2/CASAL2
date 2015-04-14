@@ -33,8 +33,8 @@ CombinedCategories::CombinedCategories(const vector<string>& category_labels) {
   model_ = Model::Instance();
   unsigned start_year = model_->start_year();
   unsigned final_year = model_->final_year();
-  LOG_INFO("Model details: start_year: " << start_year << "; final_year: " << final_year);
-  LOG_INFO("Categories: " << category_labels.size());
+  LOG_FINEST() << "Model details: start_year: " << start_year << "; final_year: " << final_year;
+  LOG_FINEST() << "Categories: " << category_labels.size();
 
 
   Partition& partition = Partition::Instance();

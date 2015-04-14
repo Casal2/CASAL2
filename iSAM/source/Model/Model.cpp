@@ -44,7 +44,7 @@
 #include "Partition/Accessors/Age/Category.h"
 #include "Partition/Partition.h"
 
-#include "Utilities/Logging/Logging.h"
+#include "Logging/Logging.h"
 #include "Utilities/To.h"
 
 
@@ -126,7 +126,7 @@ void Model::Start(RunMode::Type run_mode) {
   run_mode_ = run_mode;
 
   if (state_ != State::kStartUp)
-    LOG_CODE_ERROR("Model state should always be startup when entering the start method");
+    LOG_CODE_ERROR() << "Model state should always be startup when entering the start method";
   GlobalConfigurationPtr global_config = GlobalConfiguration::Instance();
   if (global_config->estimable_value_file() != "") {
     configuration::EstimableValuesLoader loader;
@@ -135,23 +135,23 @@ void Model::Start(RunMode::Type run_mode) {
 
   reports::Manager::Instance().Execute(State::kStartUp);
 
-  LOG_INFO("Model: State Change to Validate");
+  LOG_FINE() << "Model: State Change to Validate";
   state_ = State::kValidate;
   Validate();
   reports::Manager::Instance().Execute(state_);
 
-  LOG_INFO("Model: State Change to Build");
+  LOG_FINE() << "Model: State Change to Build";
   state_ = State::kBuild;
   Build();
   reports::Manager::Instance().Execute(state_);
 
-  LOG_INFO("Model: State Change to Verify");
+  LOG_FINE() << "Model: State Change to Verify";
   state_ = State::kVerify;
   Verify();
   reports::Manager::Instance().Execute(state_);
 
   // prepare all reports
-  LOG_INFO("Preparing Reports");
+  LOG_FINE() << "Preparing Reports";
   reports::Manager::Instance().Prepare();
 
   switch(run_mode_) {
@@ -183,12 +183,12 @@ void Model::Start(RunMode::Type run_mode) {
     break;
 
   default:
-    LOG_ERROR("Invalid run mode has been specified. This run mode is not supported: " << run_mode_);
+    LOG_ERROR() << "Invalid run mode has been specified. This run mode is not supported: " << run_mode_;
     break;
   }
 
   // finalise all reports
-  LOG_INFO("Finalising Reports");
+  LOG_FINE() << "Finalising Reports";
   state_ = State::kFinalise;
   for (ExecutorPtr executor : executors_[state_])
     executor->Execute();
@@ -204,7 +204,7 @@ void Model::Validate() {
 
   // Check that we've actually defined a @model block
   if (block_type_ == "")
-    LOG_ERROR("The @model block is missing from configuration file. This block is required.");
+    LOG_ERROR() << "The @model block is missing from configuration file. This block is required.";
 
   /**
    * Validate the parameters
@@ -215,37 +215,37 @@ void Model::Validate() {
   else if (type_ == PARAM_LENGTH)
     partition_structure_ = PartitionStructure::kLength;
   else
-    LOG_ERROR(parameters_.location(PARAM_TYPE) << " (" << type_ << ") is not valid. Please use either " << PARAM_AGE
-        << " or " << PARAM_LENGTH);
+    LOG_ERROR_P(PARAM_TYPE) << " (" << type_ << ") is not valid. Please use either " << PARAM_AGE
+        << " or " << PARAM_LENGTH;
 
   if (partition_structure_ == PartitionStructure::kAge) {
     if (start_year_ < 1000)
-      LOG_ERROR(parameters_.location(PARAM_START_YEAR) << " (" << start_year_ << ") cannot be less than 1000");
+      LOG_ERROR_P(PARAM_START_YEAR) << " (" << start_year_ << ") cannot be less than 1000";
     if (start_year_ > final_year_)
-      LOG_ERROR(parameters_.location(PARAM_FINAL_YEAR) << " (" << final_year_ << ") cannot be less than start_year (" << start_year_ << ")");
+      LOG_ERROR_P(PARAM_FINAL_YEAR) << " (" << final_year_ << ") cannot be less than start_year (" << start_year_ << ")";
     if (min_age_ > max_age_)
-      LOG_ERROR(parameters_.location(PARAM_MIN_AGE) << " (" << min_age_ << ") has been defined as greater than max_age (" << max_age_ << ")");
+      LOG_ERROR_P(PARAM_MIN_AGE) << " (" << min_age_ << ") has been defined as greater than max_age (" << max_age_ << ")";
 
     if (run_mode_ == RunMode::kProjection) {
       if (projection_final_year_ <= start_year_ || projection_final_year_ <= final_year_) {
-        LOG_ERROR(parameters_.location(PARAM_PROJECTION_FINAL_YEAR) << "("
+        LOG_ERROR_P(PARAM_PROJECTION_FINAL_YEAR) << "("
             << projection_final_year_ << ") cannot be less than or equal to start_year (" << start_year_
-            << ") or final_year (" << final_year_ << ")");
+            << ") or final_year (" << final_year_ << ")";
       }
     }
 
   } else if (partition_structure_ == PartitionStructure::kLength) {
     if (parameters_.Get(PARAM_MIN_AGE)->has_been_defined())
-      LOG_ERROR(parameters_.location(PARAM_MIN_AGE) << " cannot be defined in a length model");
+      LOG_ERROR_P(PARAM_MIN_AGE) << " cannot be defined in a length model";
     if (parameters_.Get(PARAM_MAX_AGE)->has_been_defined())
-      LOG_ERROR(parameters_.location(PARAM_MAX_AGE) << " cannot be defined in a length model");
+      LOG_ERROR_P(PARAM_MAX_AGE) << " cannot be defined in a length model";
     if (parameters_.Get(PARAM_AGE_PLUS)->has_been_defined())
-      LOG_ERROR(parameters_.location(PARAM_AGE_PLUS) << " cannot be defined in a length model");
+      LOG_ERROR_P(PARAM_AGE_PLUS) << " cannot be defined in a length model";
     if (!parameters_.Get(PARAM_LENGTH_BINS)->has_been_defined())
-      LOG_ERROR(location() << " is missing required parameter " << PARAM_LENGTH_BINS);
+      LOG_ERROR() << location() << " is missing required parameter " << PARAM_LENGTH_BINS;
 
   } else
-    LOG_ERROR("Partition structure " << (unsigned)partition_structure_ << " not supported");
+    LOG_ERROR() << "Partition structure " << (unsigned)partition_structure_ << " not supported";
 
   // Call validation for the other objects required by the model
   Categories::Instance()->Validate();
@@ -279,13 +279,13 @@ void Model::Validate() {
   initialisationphases::Manager& init_phase_mngr = initialisationphases::Manager::Instance();
   for (const string& phase : initialisation_phases_) {
     if (!init_phase_mngr.IsPhaseDefined(phase))
-      LOG_ERROR(parameters_.location(PARAM_INITIALISATION_PHASES) << "(" << phase << ") has not been defined. Please ensure you have defined it");
+      LOG_ERROR_P(PARAM_INITIALISATION_PHASES) << "(" << phase << ") has not been defined. Please ensure you have defined it";
   }
 
   timesteps::Manager& time_step_mngr = timesteps::Manager::Instance();
   for (const string time_step : time_steps_) {
     if (!time_step_mngr.GetTimeStep(time_step))
-      LOG_ERROR(parameters_.location(PARAM_TIME_STEPS) << "(" << time_step << ") has not been defined. Please ensure you have defined it");
+      LOG_ERROR_P(PARAM_TIME_STEPS) << "(" << time_step << ") has not been defined. Please ensure you have defined it";
   }
 }
 
@@ -377,21 +377,21 @@ void Model::RunBasic() {
     if (estimable_values_file_)
       estimables->LoadValues(i);
 
-    LOG_INFO("Model: State change to PreExecute");
+    LOG_FINE() << "Model: State change to PreExecute";
     reports::Manager::Instance().Execute(State::kPreExecute);
 
     /**
      * Running the model now
      */
-    LOG_INFO("Model: State change to Execute");
+    LOG_FINE() << "Model: State change to Execute";
     Iterate();
     ObjectiveFunction::Instance().CalculateScore();
 
     // Model has finished so we can run finalise.
-    LOG_INFO("Model: State change to PostExecute");
+    LOG_FINE() << "Model: State change to PostExecute";
     reports::Manager::Instance().Execute(State::kPostExecute);
 
-    LOG_INFO("Model: State change to Iteration Complete")
+    LOG_FINE() << "Model: State change to Iteration Complete";
     reports::Manager::Instance().Execute(State::kIterationComplete);
   }
 }
@@ -406,7 +406,7 @@ void Model::RunEstimation() {
    * Before running the model in estimation mode we'll do an iteration
    * as a basic model. We don't call any reports though.
    */
-  LOG_INFO("Doing pre-estimation iteration of the model");
+  LOG_FINE() << "Doing pre-estimation iteration of the model";
   Iterate();
 
   EstimablesPtr estimables = Estimables::Instance();
@@ -415,7 +415,7 @@ void Model::RunEstimation() {
     if (estimable_values_file_)
       estimables->LoadValues(i);
 
-    LOG_INFO("Calling minimiser to begin the estimation with the " << i + 1 << "st/nd/nth set of values");
+    LOG_FINE() << "Calling minimiser to begin the estimation with the " << i + 1 << "st/nd/nth set of values";
     run_mode_ = RunMode::kEstimation;
 
     MinimiserPtr minimiser = minimisers::Manager::Instance().active_minimiser();
@@ -424,7 +424,7 @@ void Model::RunEstimation() {
     run_mode_ = RunMode::kBasic;
     FullIteration();
 
-    LOG_INFO("Model: State change to Iteration Complete")
+    LOG_FINE() << "Model: State change to Iteration Complete";
     reports::Manager::Instance().Execute(State::kIterationComplete);
   }
 }
@@ -433,17 +433,17 @@ void Model::RunEstimation() {
  *
  */
 void Model::RunMCMC() {
-  LOG_INFO("Entering the MCMC Sub-System");
+  LOG_FINE() << "Entering the MCMC Sub-System";
   MCMCPtr mcmc = MCMC::Instance();
   mcmc->Validate();
   mcmc->Build();
 
-  LOG_INFO("Calling minimiser to find our minimum and covariance matrix");
+  LOG_FINE() << "Calling minimiser to find our minimum and covariance matrix";
   MinimiserPtr minimiser = minimisers::Manager::Instance().active_minimiser();
   minimiser->Execute();
   minimiser->BuildCovarianceMatrix();
 
-  LOG_INFO("Minimisation complete. Starting MCMC");
+  LOG_FINE() << "Minimisation complete. Starting MCMC";
   mcmc->Execute();
 }
 
@@ -460,29 +460,29 @@ void Model::RunProfiling() {
     if (estimable_values_file_)
       estimables->LoadValues(i);
 
-    LOG_INFO("Doing pre-profile iteration of the model");
+    LOG_FINE() << "Doing pre-profile iteration of the model";
     Iterate();
 
-    LOG_INFO("Entering the Profiling Sub-System");
+    LOG_FINE() << "Entering the Profiling Sub-System";
     estimates::Manager& estimate_manager = estimates::Manager::Instance();
     MinimiserPtr minimiser = minimisers::Manager::Instance().active_minimiser();
 
     vector<ProfilePtr> profiles = profiles::Manager::Instance().GetObjects();
-    LOG_INFO("Working with " << profiles.size() << " profiles");
+    LOG_FINE() << "Working with " << profiles.size() << " profiles";
     for (ProfilePtr profile : profiles) {
-      LOG_INFO("Disabling estiSmate: " << profile->parameter());
+      LOG_FINE() << "Disabling estiSmate: " << profile->parameter();
       estimate_manager.DisableEstimate(profile->parameter());
 
-      LOG_INFO("First-Stepping profile");
+      LOG_FINE() << "First-Stepping profile";
       profile->FirstStep();
       for (unsigned i = 0; i < profile->steps() + 2; ++i) {
-        LOG_INFO("Calling minimiser to begin the estimation (profling)");
+        LOG_FINE() << "Calling minimiser to begin the estimation (profling)";
         minimiser->Execute();
 
         run_mode_ = RunMode::kBasic;
         FullIteration();
 
-        LOG_INFO("Model: State change to Iteration Complete")
+        LOG_FINE() << "Model: State change to Iteration Complete";
         reports::Manager::Instance().Execute(State::kIterationComplete);
 
         run_mode_ = RunMode::kProfiling;
@@ -499,7 +499,7 @@ void Model::RunProfiling() {
  *
  */
 void Model::RunSimulation() {
-  LOG_INFO("Entering the Simulation Sub-System");
+  LOG_FINE() << "Entering the Simulation Sub-System";
 
   unsigned simulation_candidates = GlobalConfiguration::Instance()->simulation_candidates();
   unsigned suffix_width          = (unsigned)floor(log10((double) simulation_candidates + 1)) + 1;
@@ -513,7 +513,7 @@ void Model::RunSimulation() {
     Reset();
 
     // Model is about to run
-    LOG_INFO("Model: State change to PreExecute");
+    LOG_FINE() << "Model: State change to PreExecute";
     reports::Manager::Instance().Execute(State::kPreExecute);
 
     state_ = State::kInitialise;
@@ -525,7 +525,7 @@ void Model::RunSimulation() {
     timesteps::Manager& time_step_manager = timesteps::Manager::Instance();
     timevarying::Manager& time_varying_manager = timevarying::Manager::Instance();
     for (current_year_ = start_year_; current_year_ <= final_year_; ++current_year_, current_year_index_ = current_year_ - start_year_) {
-      LOG_INFO("Iteration year: " << current_year_);
+      LOG_FINE() << "Iteration year: " << current_year_;
       time_varying_manager.Update(current_year_);
       simulates::Manager::Instance().Update(current_year_);
       time_step_manager.Execute(current_year_);
@@ -534,7 +534,7 @@ void Model::RunSimulation() {
     observations::Manager::Instance().CalculateScores();
 
     // Model has finished so we can run finalise.
-    LOG_INFO("Model: State change to PostExecute");
+    LOG_FINE() << "Model: State change to PostExecute";
     reports::Manager::Instance().Execute(State::kPostExecute);
     reports::Manager::Instance().Execute(State::kIterationComplete);
   }
@@ -544,7 +544,7 @@ void Model::RunSimulation() {
  *
  */
 void Model::RunProjection() {
-  LOG_INFO("Entering the Projection Sub-System");
+  LOG_FINE() << "Entering the Projection Sub-System";
 
   state_ = State::kInitialise;
   current_year_ = start_year_;
@@ -555,22 +555,22 @@ void Model::RunProjection() {
   timesteps::Manager& time_step_manager = timesteps::Manager::Instance();
   timevarying::Manager& time_varying_manager = timevarying::Manager::Instance();
   for (current_year_ = start_year_; current_year_ <= final_year_; ++current_year_) {
-    LOG_INFO("Iteration year: " << current_year_);
+    LOG_FINE() << "Iteration year: " << current_year_;
     time_varying_manager.Update(current_year_);
     time_step_manager.Execute(current_year_);
   }
 
-  LOG_INFO("Starting projection years")
+  LOG_FINE() << "Starting projection years";
   projects::Manager& project_manager = projects::Manager::Instance();
   for (; current_year_ <= projection_final_year_; ++current_year_) {
-    LOG_INFO("Iteration year: " << current_year_);
+    LOG_FINE() << "Iteration year: " << current_year_;
     time_varying_manager.Update(current_year_);
     project_manager.Update(current_year_);
     time_step_manager.Execute(current_year_);
   }
 
   // Model has finished so we can run finalise.
-  LOG_INFO("Model: State change to PostExecute");
+  LOG_FINE() << "Model: State change to PostExecute";
   reports::Manager::Instance().Execute(State::kPostExecute);
 
   observations::Manager::Instance().CalculateScores();
@@ -593,7 +593,7 @@ void Model::Iterate() {
   timesteps::Manager& time_step_manager = timesteps::Manager::Instance();
   timevarying::Manager& time_varying_manager = timevarying::Manager::Instance();
   for (current_year_ = start_year_; current_year_ <= final_year_; ++current_year_, current_year_index_ = current_year_ - start_year_) {
-    LOG_INFO("Iteration year: " << current_year_);
+    LOG_FINE() << "Iteration year: " << current_year_;
     time_varying_manager.Update(current_year_);
     time_step_manager.Execute(current_year_);
   }
@@ -611,17 +611,17 @@ void Model::FullIteration() {
   Reset();
 
   // Model is about to run
-  LOG_INFO("Model: State change to PreExecute");
+  LOG_FINE() << "Model: State change to PreExecute";
   reports::Manager::Instance().Execute(State::kPreExecute);
 
   /**
    * Running the model now
    */
-  LOG_INFO("Model: State change to Execute");
+  LOG_FINE() << "Model: State change to Execute";
   Iterate();
 
   // Model has finished so we can run finalise.
-  LOG_INFO("Model: State change to PostExecute");
+  LOG_FINE() << "Model: State change to PostExecute";
   reports::Manager::Instance().Execute(State::kPostExecute);
 }
 } /* namespace niwa */

@@ -41,7 +41,7 @@ void Constant::DoReset() { }
  *
  */
 void Constant::DoUpdate() {
-  LOG_INFO("Setting Value to: " << value_);
+  LOG_FINE() << "Setting Value to: " << value_;
   (this->*DoUpdateFunc_)(value_);
 }
 

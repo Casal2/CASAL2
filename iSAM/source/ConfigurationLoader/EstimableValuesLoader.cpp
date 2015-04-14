@@ -21,7 +21,7 @@
 #include <boost/algorithm/string/join.hpp>
 
 #include "Estimables/Estimables.h"
-#include "Utilities/Logging/Logging.h"
+#include "Logging/Logging.h"
 #include "Utilities/To.h"
 #include "Utilities/Types.h"
 
@@ -44,7 +44,7 @@ void EstimableValuesLoader::LoadValues(const string& file_name) {
   ifstream file_;
   file_.open(file_name.c_str());
   if (file_.fail() || !file_.is_open())
-    LOG_ERROR("Unable to open the estimate_value file: " << file_name << ". Does this file exist?");
+    LOG_ERROR() << "Unable to open the estimate_value file: " << file_name << ". Does this file exist?";
 
   /**
    * Get the first line which should contain a list of parameters
@@ -52,7 +52,7 @@ void EstimableValuesLoader::LoadValues(const string& file_name) {
   string    current_line        = "";
   vector<string> parameters;
   if (!getline(file_, current_line) || current_line == "")
-    LOG_ERROR("estimable value file appears to be empty, or the first line is blank. File: " << file_name);
+    LOG_ERROR() << "estimable value file appears to be empty, or the first line is blank. File: " << file_name;
 
   boost::replace_all(current_line, "\t", " ");
   boost::trim_all(current_line);
@@ -70,18 +70,18 @@ void EstimableValuesLoader::LoadValues(const string& file_name) {
 
     boost::replace_all(current_line, "\t", " ");
     boost::trim_all(current_line);
-    LOG_INFO("current_line " << line_number << " in estimate_values: " << current_line);
+    LOG_FINEST() << "current_line " << line_number << " in estimate_values: " << current_line;
 
     boost::split(values, current_line, boost::is_any_of(","));
     if (values.size() != parameters.size())
-      LOG_ERROR("In estimate_value file, line " << line_number << " has " << values.size() << " values when we expected " << parameters.size());
+      LOG_ERROR() << "In estimate_value file, line " << line_number << " has " << values.size() << " values when we expected " << parameters.size();
     for (unsigned i = 0; i < values.size(); ++i) {
       boost::trim_all(parameters[i]);
       boost::trim_all(values[i]);
 
       Double numeric = 0.0;
       if (!utilities::To<Double>(values[i], numeric))
-        LOG_ERROR("In estimate_value file could not convert the value " << values[i] << " to a double");
+        LOG_ERROR() << "In estimate_value file could not convert the value " << values[i] << " to a double";
 
       estimables->AddValue(parameters[i], numeric);
     }

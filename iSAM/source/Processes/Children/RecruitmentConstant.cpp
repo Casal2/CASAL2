@@ -15,7 +15,7 @@
 
 #include "Categories/Categories.h"
 #include "Utilities/DoubleCompare.h"
-#include "Utilities/Logging/Logging.h"
+#include "Logging/Logging.h"
 
 // Namespaces
 namespace niwa {
@@ -50,7 +50,7 @@ RecruitmentConstant::RecruitmentConstant() {
 void RecruitmentConstant::DoValidate() {
   for(const string& label : category_names_) {
     if (!Categories::Instance()->IsValid(label))
-      LOG_ERROR(parameters_.location(PARAM_CATEGORIES) << ": category " << label << " does not exist. Have you defined it?");
+      LOG_ERROR_P(PARAM_CATEGORIES) << ": category " << label << " does not exist. Have you defined it?";
   }
 
   /**
@@ -58,9 +58,9 @@ void RecruitmentConstant::DoValidate() {
    */
   ModelPtr model = Model::Instance();
   if (age_ < model->min_age())
-    LOG_ERROR(parameters_.location(PARAM_AGE) << " (" << age_ << ") is less than the model's min_age (" << model->min_age() << ")");
+    LOG_ERROR_P(PARAM_AGE) << " (" << age_ << ") is less than the model's min_age (" << model->min_age() << ")";
   if (age_ > model->max_age())
-    LOG_ERROR(parameters_.location(PARAM_AGE) << " (" << age_ << ") is greater than the model's max_age (" << model->max_age() << ")");
+    LOG_ERROR_P(PARAM_AGE) << " (" << age_ << ") is greater than the model's max_age (" << model->max_age() << ")";
 
   /**
    * Check our parameter proportion is the correct length
@@ -69,9 +69,9 @@ void RecruitmentConstant::DoValidate() {
    */
   if (proportions_.size() > 0) {
     if (proportions_.size() != category_names_.size()) {
-      LOG_ERROR(parameters_.location(PARAM_PROPORTIONS)
+      LOG_ERROR_P(PARAM_PROPORTIONS)
           << ": Number of proportions provided is not the same as the number of categories provided. Expected: "
-          << category_names_.size()<< " but got " << proportions_.size());
+          << category_names_.size()<< " but got " << proportions_.size();
     }
 
     Double proportion_total = 0.0;
@@ -80,8 +80,8 @@ void RecruitmentConstant::DoValidate() {
       proportion_total += proportion;
 
     if (!utilities::doublecompare::IsOne(proportion_total)) {
-      LOG_WARNING(parameters_.location(PARAM_PROPORTIONS)
-          <<": proportion does not sum to 1.0. Proportion sums to " << AS_DOUBLE(proportion_total) << ". Auto-scaling proportions to sum to 1.0");
+      LOG_WARNING() << parameters_.location(PARAM_PROPORTIONS)
+          <<": proportion does not sum to 1.0. Proportion sums to " << AS_DOUBLE(proportion_total) << ". Auto-scaling proportions to sum to 1.0";
 
       for (Double& proportion : proportions_)
         proportion = proportion / proportion_total;

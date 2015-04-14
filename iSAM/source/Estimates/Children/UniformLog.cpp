@@ -29,7 +29,7 @@ UniformLog::UniformLog() {
  * @return Score as log(param)
  */
 Double UniformLog::GetScore() {
-  Double score_ = log(value());
+  Double score_ = std::log(value());
   return score_;
 }
 

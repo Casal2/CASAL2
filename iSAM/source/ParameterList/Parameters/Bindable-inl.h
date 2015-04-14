@@ -16,7 +16,7 @@
 
 #include "Utilities/String.h"
 #include "Utilities/To.h"
-#include "Utilities/Logging/Logging.h"
+#include "Logging/Logging.h"
 #include "Utilities/Types.h"
 
 // namespaces
@@ -46,24 +46,26 @@ Bindable<T>::Bindable(const string& label, T* target, const string& description)
 template<typename T>
 void Bindable<T>::Bind() {
   if (values_.size() > 1)
-    LOG_ERROR(location() << ": " << label_ << " only supports having a single value defined. There are  " << values_.size() << " values defined.\n"
-        << "The values defined are: " << boost::algorithm::join(values_, " | "));
+    LOG_ERROR() << location() << ": " << label_ << " only supports having a single value defined. There are  " << values_.size() << " values defined.\n"
+        << "The values defined are: " << boost::algorithm::join(values_, " | ");
 
   if (values_.size() > 0) {
-    if (!niwa::utilities::To<T>(values_[0], *target_))
-      LOG_ERROR(location() << ": " << label_ << " value " << values_[0] << " could not be converted to type " << utilities::demangle(typeid(*target_).name()) << ". Please check you have defined it properly.");
+    if (!niwa::utilities::To<T>(values_[0], *target_)) {
+      LOG_ERROR() << location() << ": " << label_ << " value " << values_[0] << " could not be converted to type "
+        << utilities::demangle(typeid(*target_).name()) << ". Please check you have defined it properly.";
+    }
   } else if (is_optional_) {
     *target_ = default_value_;
   } else
-    LOG_CODE_ERROR(location() << ": " << label_ << "Parameter not defined or missing");
+    LOG_CODE_ERROR() << location() << ": " << label_ << "Parameter not defined or missing";
 
   /**
    * Check if the value provided is within the allowed values (if they have been defined)
    */
   if (allowed_values_.size() > 0) {
     if (std::find(allowed_values_.begin(), allowed_values_.end(), *target_) == allowed_values_.end())
-      LOG_ERROR(location() << " value " << *target_ << " is not in the allowed values list: "
-          << utilities::String::join<T>(allowed_values_, ", "));
+      LOG_ERROR() << location() << " value " << *target_ << " is not in the allowed values list: "
+          << utilities::String::join<T>(allowed_values_, ", ");
   }
 
   /**
@@ -72,13 +74,13 @@ void Bindable<T>::Bind() {
    */
   if (range_.lower_flagged_ || range_.upper_flagged_) {
     if (range_.lower_flagged_ && (*target_ < range_.lower_bound_ || (*target_ == range_.lower_bound_ && !range_.lower_inclusive_)))
-      LOG_ERROR(location() << " value " << *target_ << " exceeds the lower bound: " << range_.lower_bound_);
+      LOG_ERROR() << location() << " value " << *target_ << " exceeds the lower bound: " << range_.lower_bound_;
     if (range_.upper_flagged_ && (*target_ > range_.upper_bound_ || (*target_ == range_.upper_bound_ && !range_.upper_inclusive_)))
-      LOG_ERROR(location() << " value " << *target_ << " exceeds the upper bound: " << range_.upper_bound_);
+      LOG_ERROR() << location() << " value " << *target_ << " exceeds the upper bound: " << range_.upper_bound_;
   }
   if (allowed_values_.size() != 0) {
     if (std::find(allowed_values_.begin(), allowed_values_.end(), *target_) == allowed_values_.end())
-      LOG_ERROR(location() << " value " << *target_ << " is no in the list of allowed values: " << utilities::String::join(allowed_values_, ", "));
+      LOG_ERROR() << location() << " value " << *target_ << " is no in the list of allowed values: " << utilities::String::join(allowed_values_, ", ");
   }
 }
 
@@ -114,7 +116,9 @@ void Bindable<T>::set_range(T lower_bound, T upper_bound, bool lower_inclusive, 
 }
 
 /**
- * This method will set an enforced lower bound only
+ * This method will set an enforced lower bound only.
+ * An inclusive lower bound is equal to <=
+ * An exclusive lower bound is equal to <
  *
  * @param lower_bound The lower bound to set
  * @param inclusive Is the lower bound inclusive or exclusive

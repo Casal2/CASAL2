@@ -124,7 +124,7 @@ void LogNormal::SimulateObserved(map<unsigned, vector<observations::Comparison> 
 
   auto iterator = comparisons.begin();
   for (; iterator != comparisons.end(); ++iterator) {
-    LOG_INFO("Simulating values for year: " << iterator->first);
+    LOG_FINE() << "Simulating values for year: " << iterator->first;
 
     map<string, Double> totals;
     for (observations::Comparison& comparison : iterator->second) {

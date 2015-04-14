@@ -44,20 +44,20 @@ MortalityEventBiomass::MortalityEventBiomass() {
  */
 void MortalityEventBiomass::DoValidate() {
   if (u_max_ <= 0.0 || u_max_ >= 1.0)
-    LOG_ERROR(parameters_.location(PARAM_U_MAX) << " (" << u_max_ << ") must be between 0.0 and 1.0 exclusive");
+    LOG_ERROR_P(PARAM_U_MAX) << " (" << u_max_ << ") must be between 0.0 and 1.0 exclusive";
 
   if (category_labels_.size() != selectivity_labels_.size())
-    LOG_ERROR(parameters_.location(PARAM_SELECTIVITIES) << " number provided (" << selectivity_labels_.size() << ") must match the number of "
-        "categories provided (" << category_labels_.size() << ")");
+    LOG_ERROR_P(PARAM_SELECTIVITIES) << " number provided (" << selectivity_labels_.size() << ") must match the number of "
+        "categories provided (" << category_labels_.size() << ")";
   if (years_.size() != catches_.size())
-    LOG_ERROR(parameters_.location(PARAM_CATCHES) << " number provided (" << catches_.size() << ") must match the number of "
-        "years provided (" << years_.size() << ")");
+    LOG_ERROR_P(PARAM_CATCHES) << " number provided (" << catches_.size() << ") must match the number of "
+        "years provided (" << years_.size() << ")";
 
 
   // Validate: catches_ and years_
   for(unsigned i = 0; i < years_.size(); ++i) {
     if (catch_years_.find(years_[i]) != catch_years_.end()) {
-      LOG_ERROR(parameters_.location(PARAM_YEARS) << " year " << years_[i] << " has already been specified, please remove the duplicate");
+      LOG_ERROR_P(PARAM_YEARS) << " year " << years_[i] << " has already been specified, please remove the duplicate";
     }
 
     catch_years_[years_[i]] = catches_[i];
@@ -80,7 +80,7 @@ void MortalityEventBiomass::DoBuild() {
   for (string label : selectivity_labels_) {
     SelectivityPtr selectivity = selectivities::Manager::Instance().GetSelectivity(label);
     if (!selectivity)
-      LOG_ERROR(parameters_.location(PARAM_SELECTIVITIES) << ": selectivity " << label << " does not exist. Have you defined it?");
+      LOG_ERROR_P(PARAM_SELECTIVITIES) << ": selectivity " << label << " does not exist. Have you defined it?";
 
     selectivities_.push_back(selectivity);
   }
@@ -88,7 +88,7 @@ void MortalityEventBiomass::DoBuild() {
   if (penalty_label_ != "") {
     penalty_ = penalties::Manager::Instance().GetProcessPenalty(penalty_label_);
     if (!penalty_) {
-      LOG_ERROR(parameters_.location(PARAM_PENALTY) << ": penalty " << penalty_label_ << " does not exist. Have you defined it?");
+      LOG_ERROR_P(PARAM_PENALTY) << ": penalty " << penalty_label_ << " does not exist. Have you defined it?";
     }
   }
 }
@@ -132,7 +132,7 @@ void MortalityEventBiomass::DoExecute() {
     exploitation = 0.0;
   }
 
-  LOG_INFO("year: " << model_->current_year() << "; exploitation: " << AS_DOUBLE(exploitation));
+  LOG_FINEST() << "year: " << model_->current_year() << "; exploitation: " << AS_DOUBLE(exploitation);
 
   /**
    * Remove the stock now. The amount to remove is

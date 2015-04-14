@@ -68,31 +68,31 @@ void MCMC::Validate() {
     adapt_step_size_.assign(1, 1u);
 
   if (length_ <= 0)
-    LOG_ERROR(parameters_.location(PARAM_LENGTH) << "(" << length_ << ") cannot be less than or equal to 0");
+    LOG_ERROR_P(PARAM_LENGTH) << "(" << length_ << ") cannot be less than or equal to 0";
 
   for (unsigned adapt : adapt_step_size_) {
     if (adapt < 1)
-      LOG_ERROR(parameters_.location(PARAM_ADAPT_STEPSIZE_AT) << "(" << adapt << ") cannot be less than 1");
+      LOG_ERROR_P(PARAM_ADAPT_STEPSIZE_AT) << "(" << adapt << ") cannot be less than 1";
     if (adapt > length_)
-      LOG_ERROR(parameters_.location(PARAM_ADAPT_STEPSIZE_AT) << "(" << adapt << ") cannot be greater than length(" << length_ << ")");
+      LOG_ERROR_P(PARAM_ADAPT_STEPSIZE_AT) << "(" << adapt << ") cannot be greater than length(" << length_ << ")";
   }
 
   if (correlation_method_ != PARAM_CORRELATION && correlation_method_ != PARAM_COVARIANCE && correlation_method_ != PARAM_NONE)
-    LOG_ERROR(parameters_.location(PARAM_COVARIANCE_ADJUSTMENT_METHOD) << "(" << correlation_method_ << ")"
-        << " is not supported. Currently supported values are " << PARAM_CORRELATION << ", " << PARAM_COVARIANCE << " and " << PARAM_NONE);
+    LOG_ERROR_P(PARAM_COVARIANCE_ADJUSTMENT_METHOD) << "(" << correlation_method_ << ")"
+        << " is not supported. Currently supported values are " << PARAM_CORRELATION << ", " << PARAM_COVARIANCE << " and " << PARAM_NONE;
 
   if (proposal_distribution_ != PARAM_T && proposal_distribution_ != PARAM_NORMAL)
-    LOG_ERROR(parameters_.location(PARAM_PROPOSAL_DISTRIBUTION) << "(" << proposal_distribution_ << ")"
-        << " is not supported. Currently supported values are " << PARAM_T << " and " << PARAM_NORMAL);
+    LOG_ERROR_P(PARAM_PROPOSAL_DISTRIBUTION) << "(" << proposal_distribution_ << ")"
+        << " is not supported. Currently supported values are " << PARAM_T << " and " << PARAM_NORMAL;
 
   if (max_correlation_ <= 0.0 || max_correlation_ > 1.0)
-    LOG_ERROR(parameters_.location(PARAM_MAX_CORRELATION) << "(" << max_correlation_ << ") must be between 0.0 (not inclusive) and 1.0 (inclusive)");
+    LOG_ERROR_P(PARAM_MAX_CORRELATION) << "(" << max_correlation_ << ") must be between 0.0 (not inclusive) and 1.0 (inclusive)";
   if (df_ <= 0)
-    LOG_ERROR(parameters_.location(PARAM_DF) << "(" << df_ << ") cannot be less or equal to 0");
+    LOG_ERROR_P(PARAM_DF) << "(" << df_ << ") cannot be less or equal to 0";
   if (start_ < 0.0)
-    LOG_ERROR(parameters_.location(PARAM_START) << "(" << start_ << ") cannot be less than 0");
+    LOG_ERROR_P(PARAM_START) << "(" << start_ << ") cannot be less than 0";
   if (step_size_ < 0.0)
-    LOG_ERROR(parameters_.location(PARAM_STEP_SIZE) << "(" << step_size_ << ") cannot be less than 0.0");
+    LOG_ERROR_P(PARAM_STEP_SIZE) << "(" << step_size_ << ") cannot be less than 0.0";
 }
 
 /**
@@ -116,7 +116,7 @@ void MCMC::Build() {
   }
 
   if (active_estimates == 0)
-    LOG_ERROR("While building the MCMC system the number of active estimates was 0. You need at least 1 non-fixed MCMC estimate");
+    LOG_ERROR() << "While building the MCMC system the number of active estimates was 0. You need at least 1 non-fixed MCMC estimate";
 
   if (step_size_ == 0.0)
     step_size_ = 2.4 * pow((Double)active_estimates, -0.5);
@@ -142,7 +142,7 @@ void MCMC::Execute() {
 
   BuildCovarianceMatrix();
   if (!DoCholeskyDecmposition())
-    LOG_ERROR("Cholesky decomposition failed. Cannot continue MCMC");
+    LOG_ERROR() << "Cholesky decomposition failed. Cannot continue MCMC";
 
   if (start_ > 0.0)
     GenerateRandomStart();
@@ -182,7 +182,7 @@ void MCMC::Execute() {
   utilities::RandomNumberGenerator& rng = utilities::RandomNumberGenerator::Instance();
 
   do {
-    LOG_INFO("MCMC Starting");
+    LOG_FINE() << "MCMC Starting";
 
     vector<Double> original_candidates = candidates_;
     UpdateStepSize();
@@ -210,7 +210,7 @@ void MCMC::Execute() {
 
       // See if we need to check this a link we keep
       if (successful_jumps_ % keep_ == 0) {
-        LOG_INFO("Keeping jump " << successful_jumps_);
+        LOG_FINE() << "Keeping jump " << successful_jumps_;
         mcmc::ChainLink new_link;
         new_link.iteration_                     = successful_jumps_;
         new_link.penalty_                       = obj_function.penalties();
@@ -290,7 +290,7 @@ void MCMC::BuildCovarianceMatrix() {
  */
 bool MCMC::DoCholeskyDecmposition() {
   if (covariance_matrix_.size1() != covariance_matrix_.size2() )
-      LOG_ERROR("Invalid covariance matrix (size1!=size2)");
+      LOG_ERROR() << "Invalid covariance matrix (size1!=size2)";
 
     unsigned matrix_size1 = covariance_matrix_.size1();
     covariance_matrix_lt = covariance_matrix_;
@@ -353,13 +353,13 @@ void MCMC::GenerateRandomStart() {
   bool candidates_pass = false;
 
   if (candidates_.size() != estimate_count_)
-    LOG_CODE_ERROR("candidates_.size() != estimate_count_");
+    LOG_CODE_ERROR() << "candidates_.size() != estimate_count_";
 
   do {
     candidates_pass = true;
     attempts++;
     if (attempts > 1000)
-      LOG_ERROR("Failed to generate random start after 1,000 attempts");
+      LOG_ERROR() << "Failed to generate random start after 1,000 attempts";
 
     candidates_ = original_candidates;
     FillMultivariateNormal(start_);
@@ -451,7 +451,7 @@ void MCMC::GenerateNewCandidates() {
     candidates_ok = true;
     attempts++;
     if (attempts >= 1000)
-      LOG_ERROR("Failed to generate new MCMC candidates after 1,000 attempts. Try a new random seed");
+      LOG_ERROR() << "Failed to generate new MCMC candidates after 1,000 attempts. Try a new random seed";
 
     if (proposal_distribution_ == PARAM_NORMAL)
       FillMultivariateNormal(step_size_);

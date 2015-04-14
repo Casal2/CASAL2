@@ -37,7 +37,7 @@ StateCategoryByAge::StateCategoryByAge() {
 void StateCategoryByAge::DoValidate() {
   vector<string> columns = n_table_->columns();
   if (columns[0] != PARAM_CATEGORY)
-    LOG_ERROR(parameters_.location(PARAM_N) << " must have " << PARAM_CATEGORY << " as the first column header");
+    LOG_ERROR_P(PARAM_N) << " must have " << PARAM_CATEGORY << " as the first column header";
 
 }
 
