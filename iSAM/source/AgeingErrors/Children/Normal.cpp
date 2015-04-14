@@ -48,9 +48,9 @@ Normal::Normal() {
  */
 void Normal::DoValidate() {
   if (cv_ <= 0.0)
-    LOG_ERROR(parameters_.location(PARAM_CV) << ": cv (" << AS_DOUBLE(cv_) << ") cannot be less than or equal to 0.0");
+    LOG_ERROR_P(PARAM_CV) << "value (" << AS_DOUBLE(cv_) << ") cannot be less than or equal to 0.0";
   if (k_ > max_age_)
-    LOG_ERROR(parameters_.location(PARAM_K) << ": k (" << k_ << ") cannot be greater than the model's max age (" << max_age_ << ")");
+    LOG_ERROR_P(PARAM_K) << "value (" << k_ << ") cannot be greater than the model's max age (" << max_age_ << ")";
 }
 
 /**

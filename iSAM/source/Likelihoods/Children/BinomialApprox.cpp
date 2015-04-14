@@ -105,7 +105,7 @@ void BinomialApprox::SimulateObserved(const vector<string> &keys, vector<Double>
   for (unsigned i = 0; i < expecteds.size(); ++i) {
    error_value = AdjustErrorValue(process_errors[i], error_values[i]);
    if (error_values[i] < 0.0)
-     LOG_ERROR(this->location() << ": error_value (" << AS_DOUBLE(error_values[i]) << ") was less than 0.0 when simulating an observed value (i = " << i << ")");
+     LOG_ERROR() << this->location() << ": error_value (" << AS_DOUBLE(error_values[i]) << ") was less than 0.0 when simulating an observed value (i = " << i << ")";
 
    if (expecteds[i] <= 0.0 || error_value <= 0.0) {
      observeds.push_back(0.0);
@@ -128,7 +128,7 @@ void BinomialApprox::SimulateObserved(map<unsigned, vector<observations::Compari
   Double error_value = 0.0;
   auto iterator = comparisons.begin();
   for (; iterator != comparisons.end(); ++iterator) {
-    LOG_INFO("Simulating values for year: " << iterator->first);
+    LOG_FINE() << "Simulating values for year: " << iterator->first;
     for (observations::Comparison& comparison : iterator->second) {
       error_value = ceil(AS_DOUBLE(AdjustErrorValue(comparison.process_error_, comparison.error_value_)));
 

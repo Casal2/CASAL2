@@ -48,7 +48,7 @@ ProcessPtr Factory::Create(string object_type, string sub_type) {
    * method so we only need 1 set of conditional statements.
    */
   if (object_type != PARAM_PROCESS && object_type != PARAM_PROCESSES) {
-    LOG_INFO("Changing object_type (" << object_type << ") and sub_type (" << ") to the standard declaration format");
+    LOG_FINE() << "Changing object_type (" << object_type << ") and sub_type (" << ") to the standard declaration format";
     if (sub_type != "")
       sub_type = object_type + "_" + sub_type;
     else
@@ -56,7 +56,7 @@ ProcessPtr Factory::Create(string object_type, string sub_type) {
 
     object_type = PARAM_PROCESS;
 
-    LOG_INFO("Finished modification of object_type (" << object_type << ") and sub_type (" << sub_type << ")");
+    LOG_FINE() << "Finished modification of object_type (" << object_type << ") and sub_type (" << sub_type << ")";
   }
 
   if (object_type == PARAM_PROCESS || object_type == PARAM_PROCESSES) {

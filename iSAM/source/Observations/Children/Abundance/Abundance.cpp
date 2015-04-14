@@ -31,22 +31,22 @@ void Abundance::DoValidate() {
 
   // Delta
   if (delta_ < 0.0)
-    LOG_ERROR(parameters_.location(PARAM_DELTA) << ": delta (" << AS_DOUBLE(delta_) << ") cannot be less than 0.0");
+    LOG_ERROR_P(PARAM_DELTA) << ": delta (" << AS_DOUBLE(delta_) << ") cannot be less than 0.0";
   if (process_error_ < 0.0)
-    LOG_ERROR(parameters_.location(PARAM_PROCESS_ERROR) << ": process_error (" << AS_DOUBLE(process_error_) << ") cannot be less than 0.0");
+    LOG_ERROR_P(PARAM_PROCESS_ERROR) << ": process_error (" << AS_DOUBLE(process_error_) << ") cannot be less than 0.0";
 
   // Obs
   vector<string> obs  = obs_;
   if (obs.size() != category_labels_.size() * years_.size())
-    LOG_ERROR(parameters_.location(PARAM_OBS) << ": obs values length (" << obs.size() << ") must match the number of category collections provided ("
-        << category_labels_.size() << ") * years (" << years_.size() << ")");
+    LOG_ERROR_P(PARAM_OBS) << ": obs values length (" << obs.size() << ") must match the number of category collections provided ("
+        << category_labels_.size() << ") * years (" << years_.size() << ")";
 
   // Error Value
   if (error_values_.size() == 1 && obs.size() > 1)
     error_values_.assign(obs.size(), error_values_[0]);
   if (error_values_.size() != obs.size())
-    LOG_ERROR(parameters_.location(PARAM_ERROR_VALUE) << ": error_value length (" << error_values_.size()
-        << ") must be same length as obs (" << obs.size() << ")");
+    LOG_ERROR_P(PARAM_ERROR_VALUE) << ": error_value length (" << error_values_.size()
+        << ") must be same length as obs (" << obs.size() << ")";
 
   error_values_by_year_ = utils::Map::create(years_, error_values_);
 
@@ -56,9 +56,9 @@ void Abundance::DoValidate() {
       unsigned index = (i * category_labels_.size()) + j;
 
       if (!utils::To<Double>(obs[index], value))
-            LOG_ERROR(parameters_.location(PARAM_OBS) << ": obs value " << obs[index] << " cannot be converted to a double");
+            LOG_ERROR_P(PARAM_OBS) << ": obs value " << obs[index] << " cannot be converted to a double";
           if (value <= 0.0)
-            LOG_ERROR(parameters_.location(PARAM_OBS) << ": obs value " << value << " cannot be less than or equal to 0.0");
+            LOG_ERROR_P(PARAM_OBS) << ": obs value " << value << " cannot be less than or equal to 0.0";
 
           proportions_by_year_[years_[i]].push_back(value);
     }
@@ -68,7 +68,7 @@ void Abundance::DoValidate() {
    * Verify that the likelihood is from the acceptable ones.
    */
   if (likelihood_type_ != PARAM_NORMAL && likelihood_type_ != PARAM_LOGNORMAL && likelihood_type_ != PARAM_PSEUDO)
-    LOG_ERROR(parameters_.location(PARAM_LIKELIHOOD) << ": likelihood " << likelihood_type_ << " is not supported by the Abundance observation");
+    LOG_ERROR_P(PARAM_LIKELIHOOD) << ": likelihood " << likelihood_type_ << " is not supported by the Abundance observation";
 }
 
 /**
@@ -78,14 +78,14 @@ void Abundance::DoValidate() {
 void Abundance::DoBuild() {
   catchability_ = catchabilities::Manager::Instance().GetCatchability(catchability_label_);
   if (!catchability_)
-    LOG_ERROR(parameters_.location(PARAM_CATCHABILITY) << ": catchability " << catchability_label_ << " could not be found. Have you defined it?");
+    LOG_ERROR_P(PARAM_CATCHABILITY) << ": catchability " << catchability_label_ << " could not be found. Have you defined it?";
 
   partition_ = CombinedCategoriesPtr(new niwa::partition::accessors::CombinedCategories(category_labels_));
   cached_partition_ = CachedCombinedCategoriesPtr(new niwa::partition::accessors::cached::CombinedCategories(category_labels_));
 
   if (partition_->category_count() != selectivities_.size())
-    LOG_ERROR(parameters_.location(PARAM_SELECTIVITIES) << ": number of selectivities provided (" << selectivities_.size() << ") does not match the number "
-        "of categories provided (" << partition_->category_count() << ")");
+    LOG_ERROR_P(PARAM_SELECTIVITIES) << ": number of selectivities provided (" << selectivities_.size() << ") does not match the number "
+        "of categories provided (" << partition_->category_count() << ")";
 }
 
 /**
@@ -128,9 +128,9 @@ void Abundance::Execute() {
   auto partition_iter = partition_->Begin(); // auto = map<map<string, vector<partition::category&> > >
 
   if (cached_partition_->Size() != proportions_by_year_[current_year].size())
-    LOG_CODE_ERROR("cached_partition_->Size() != proportions_.size()");
+    LOG_CODE_ERROR() << "cached_partition_->Size() != proportions_.size()";
   if (partition_->Size() != proportions_by_year_[current_year].size())
-    LOG_CODE_ERROR("partition_->Size() != proportions_.size()");
+    LOG_CODE_ERROR() << "partition_->Size() != proportions_.size()";
 
   for (unsigned proportions_index = 0; proportions_index < proportions_by_year_[current_year].size(); ++proportions_index, ++partition_iter, ++cached_partition_iter) {
     expected_total = 0.0;

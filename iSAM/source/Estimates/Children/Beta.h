@@ -9,7 +9,7 @@
  *
  * @section DESCRIPTION
  *
- * The time class represents a moment of time.
+ * In the beta, the a,b, are the bounds where the curve ends, mu is the "peak" and the sigma gives the rate of change
  *
  * $Date: 2008-03-04 16:33:32 +1300 (Tue, 04 Mar 2008) $
  */

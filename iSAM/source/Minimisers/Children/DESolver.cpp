@@ -38,7 +38,7 @@ DESolver::DESolver() {
  */
 void DESolver::DoValidate() {
   if (crossover_probability_ > 1.0 || crossover_probability_ < 0.0) {
-    LOG_ERROR(parameters_.location(PARAM_CROSSOVER_PROBABILITY) << ": crossover_probability must be between 0.0 and 1.0. You entered: " << crossover_probability_);
+    LOG_ERROR_P(PARAM_CROSSOVER_PROBABILITY) << ": crossover_probability must be between 0.0 and 1.0. You entered: " << crossover_probability_;
   }
 }
 
@@ -62,11 +62,11 @@ void DESolver::Execute() {
     start_values.push_back(estimate->GetTransformedValue());
 
     if (estimate->GetTransformedValue() < estimate->lower_bound()) {
-      LOG_ERROR("When starting the DESolver minimiser the starting value (" << estimate->GetTransformedValue() << ") for estimate "
-          << estimate->parameter() << " was less than the lower bound (" << estimate->lower_bound() << ")");
+      LOG_ERROR() << "When starting the DESolver minimiser the starting value (" << estimate->GetTransformedValue() << ") for estimate "
+          << estimate->parameter() << " was less than the lower bound (" << estimate->lower_bound() << ")";
     } else if (estimate->GetTransformedValue() > estimate->upper_bound()) {
-      LOG_ERROR("When starting the DESolver minimiser the starting value (" << estimate->GetTransformedValue() << ") for estimate "
-          << estimate->parameter() << " was greater than the upper bound (" << estimate->upper_bound() << ")");
+      LOG_ERROR() << "When starting the DESolver minimiser the starting value (" << estimate->GetTransformedValue() << ") for estimate "
+          << estimate->parameter() << " was greater than the upper bound (" << estimate->upper_bound() << ")";
     }
   }
 
@@ -76,9 +76,9 @@ void DESolver::Execute() {
 
   // Solver
   if (solver.Solve(max_generations_)) {
-    cerr << "DE Solver has successfully converged" << endl;
+    LOG_FINE() << "DE Solver has successfully converged";
   } else {
-    cerr << "DE Solver has failed to converge" << endl;
+    LOG_FINE() << "DE Solver has failed to converge";
   }
 }
 

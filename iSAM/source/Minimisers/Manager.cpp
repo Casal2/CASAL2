@@ -50,7 +50,7 @@ void Manager::Validate() {
     }
 
     if (active_count > 1) {
-      LOG_ERROR("More than one @minimiser block has active set to true. You can only have one active minimiser per run");
+      LOG_ERROR() << "More than one @minimiser block has active set to true. You can only have one active minimiser per run";
     }
   }
 }

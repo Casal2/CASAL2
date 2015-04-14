@@ -44,13 +44,13 @@ void AgeLength::Build() {
   if (time_step_proportions_.size() == 0) {
     time_step_proportions_.assign(time_step_count, 0.0);
   } else if (time_step_count != time_step_proportions_.size()) {
-    LOG_ERROR(parameters_.location(PARAM_TIME_STEP_PROPORTIONS) << " size (" << time_step_proportions_.size() << "( must match the number "
-        "of defined time steps for this process (" << time_step_count << ")");
+    LOG_ERROR_P(PARAM_TIME_STEP_PROPORTIONS) << "size (" << time_step_proportions_.size() << "( must match the number "
+        "of defined time steps for this process (" << time_step_count << ")";
   }
 
   for (auto iter : time_step_proportions_) {
     if (iter < 0.0 || iter > 1.0)
-      LOG_ERROR(parameters_.location(PARAM_TIME_STEP_PROPORTIONS) << " value (" << iter << ") must be in the range 0.0-1.0");
+      LOG_ERROR_P(PARAM_TIME_STEP_PROPORTIONS) << " value (" << iter << ") must be in the range 0.0-1.0";
   }
 
   DoBuild();

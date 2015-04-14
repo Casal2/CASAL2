@@ -29,7 +29,7 @@ namespace cached {
 CombinedCategories::CombinedCategories(const vector<string>& category_labels) {
   LOG_TRACE();
   model_ = Model::Instance();
-  LOG_INFO("Categories: " << category_labels.size());
+  LOG_FINEST() << "Categories: " << category_labels.size();
 
   vector<string> split_category_labels;
   category_labels_.resize(category_labels.size());
@@ -64,7 +64,7 @@ void CombinedCategories::BuildCache() {
     }
 
     if (data_[i].size() != category_labels_[i].size())
-      LOG_CODE_ERROR("data_[i].size() != category_labels_[i].size() | i = " << i);
+      LOG_CODE_ERROR() << "data_[i].size() != category_labels_[i].size() | i = " << i;
   }
 }
 

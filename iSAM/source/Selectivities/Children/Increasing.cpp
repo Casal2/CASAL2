@@ -50,20 +50,20 @@ Increasing::Increasing(ModelPtr model)
  */
 void Increasing::DoValidate() {
   if (alpha_ <= 0.0)
-    LOG_ERROR(parameters_.location(PARAM_ALPHA) << ": alpha (" << AS_DOUBLE(alpha_) << ") cannot be less than or equal to 0.0");
+    LOG_ERROR_P(PARAM_ALPHA) << ": alpha (" << AS_DOUBLE(alpha_) << ") cannot be less than or equal to 0.0";
   if (low_ < model_->min_age() || low_ > model_->max_age())
-    LOG_ERROR(parameters_.location(PARAM_L) << ": 'l' (" << low_ << ") must be between the model min_age (" << model_->min_age() << ") and max_age (" << model_->max_age() << ")");
+    LOG_ERROR_P(PARAM_L) << ": 'l' (" << low_ << ") must be between the model min_age (" << model_->min_age() << ") and max_age (" << model_->max_age() << ")";
   if (high_ <= low_)
-    LOG_ERROR(parameters_.location(PARAM_H) << ": 'h' (" << high_ << ") cannot be less than or the same as 'l' (" << low_ << ")");
+    LOG_ERROR_P(PARAM_H) << ": 'h' (" << high_ << ") cannot be less than or the same as 'l' (" << low_ << ")";
 
   if (v_.size() != (high_ - low_ + 1)) {
-    LOG_ERROR(parameters_.location(PARAM_V) << " 'v' has incorrect amount of elements\n"
-        << "Expected: " << (high_ - low_ + 1) << " but got " << v_.size());
+    LOG_ERROR_P(PARAM_V) << " 'v' has incorrect amount of elements\n"
+        << "Expected: " << (high_ - low_ + 1) << " but got " << v_.size();
   }
 
   for (unsigned i = 0; i < v_.size(); ++i) {
     if (v_[i] < 0.0 || v_[i] > 1.0) {
-      LOG_ERROR(parameters_.location(PARAM_V) << " 'v' element " << i + 1 << " (" << AS_DOUBLE(v_[i]) << ") is not between 0.0 and 1.0");
+      LOG_ERROR_P(PARAM_V) << " 'v' element " << i + 1 << " (" << AS_DOUBLE(v_[i]) << ") is not between 0.0 and 1.0";
     }
   }
 }

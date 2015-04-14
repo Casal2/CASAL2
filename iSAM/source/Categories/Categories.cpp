@@ -19,7 +19,7 @@
 
 #include "AgeLengths/Manager.h"
 #include "Model/Model.h"
-#include "Utilities/Logging/Logging.h"
+#include "Logging/Logging.h"
 #include "Utilities/String.h"
 #include "Utilities/To.h"
 
@@ -54,7 +54,7 @@ shared_ptr<Categories> Categories::Instance() {
 void Categories::Validate() {
   // Check that we actually had a categories block
   if (block_type_ == "")
-    LOG_ERROR("The @categories block is missing from the configuration file. This block is required");
+    LOG_ERROR() << "The @categories block is missing from the configuration file. This block is required";
 
   parameters_.Populate();
 
@@ -76,8 +76,8 @@ void Categories::Validate() {
 
   // get the age sizes
   if (age_length_labels_.size() > 0 && age_length_labels_.size() != names_.size())
-    LOG_ERROR(parameters_.location(PARAM_AGE_LENGTHS) << " number defined (" << age_length_labels_.size() << ") must be the same as the number " <<
-        " of categories defined (" << names_.size() << ")");
+    LOG_ERROR_P(PARAM_AGE_LENGTHS) << " number defined (" << age_length_labels_.size() << ") must be the same as the number " <<
+        " of categories defined (" << names_.size() << ")";
 
   // build our categories vector
   for (unsigned i = 0; i < names_.size(); ++i) {
@@ -101,7 +101,7 @@ void Categories::Validate() {
   for (string label : category_names_) {
     string invalid_characters = utilities::String::find_invalid_characters(label);
     if (invalid_characters != "")
-      LOG_ERROR(parameters_.location(PARAM_NAMES) << " category label " << label << " contains the invalid characters: " << invalid_characters);
+      LOG_ERROR_P(PARAM_NAMES) << " category label " << label << " contains the invalid characters: " << invalid_characters;
   }
 
 }
@@ -117,7 +117,7 @@ void Categories::Build() {
   for (; iter != category_age_length_labels_.end(); ++iter) {
     AgeLengthPtr age_size = age_sizes_manager.GetAgeLength(iter->second);
     if (!age_size)
-      LOG_ERROR(parameters_.location(PARAM_AGE_LENGTHS) << "(" << iter->second << ") could not be found. Have you defined it?");
+      LOG_ERROR_P(PARAM_AGE_LENGTHS) << "(" << iter->second << ") could not be found. Have you defined it?";
 
     categories_[iter->first].age_length_ = age_size;
   }
@@ -206,8 +206,8 @@ string Categories::GetCategoryLabels(const string& lookup_string, const Paramete
   boost::split(pieces, lookup_string, boost::is_any_of("="));
 
   if (pieces.size() != 2) {
-    LOG_ERROR(source_parameter->location() << " short-hand category string (" << lookup_string
-        << ") is not in the proper format (e.g <format_chunk>=<lookup_chunk>)");
+    LOG_ERROR() << source_parameter->location() << " short-hand category string (" << lookup_string
+        << ") is not in the proper format (e.g <format_chunk>=<lookup_chunk>)";
   }
 
   boost::replace_all(pieces[0], " ", "");
@@ -244,9 +244,9 @@ string Categories::GetCategoryLabels(const string& lookup_string, const Paramete
     boost::split(pieces, lookup, boost::is_any_of("."));
 
     if (pieces.size() != format_pieces) {
-      LOG_ERROR(source_parameter->location() << " short-hand category string ( " << lookup_string
+      LOG_ERROR() << source_parameter->location() << " short-hand category string ( " << lookup_string
           << ") does not have the correct number of sections. Expected " << format_pieces << " but got " << pieces.size() <<
-          ". Pieces are chunks of the string separated with a '.' character");
+          ". Pieces are chunks of the string separated with a '.' character";
     }
 
     for (unsigned i = 0; i < pieces.size(); ++i) {
@@ -268,7 +268,7 @@ string Categories::GetCategoryLabels(const string& lookup_string, const Paramete
       );
     }
 
-    LOG_INFO("Full format parse of categories returned " << matched_categories.size() << " results");
+    LOG_FINEST() << "Full format parse of categories returned " << matched_categories.size() << " results";
   } else {
     /**
      * Here we have the shorter form of syntax
@@ -277,9 +277,9 @@ string Categories::GetCategoryLabels(const string& lookup_string, const Paramete
      * sex=male
      */
     if (lookup.find(".") != string::npos) {
-      LOG_ERROR(source_parameter->location() << " short-hand category string (" << lookup_string
+      LOG_ERROR() << source_parameter->location() << " short-hand category string (" << lookup_string
           << ") is not in the correct format. The lookup component (" << lookup
-          << ") cannot contain any '.' characters");
+          << ") cannot contain any '.' characters";
     }
 
     // Verify we've actually got a good part of the format here.
@@ -292,9 +292,9 @@ string Categories::GetCategoryLabels(const string& lookup_string, const Paramete
       }
     }
     if (format_offset == pieces.size()) {
-      LOG_ERROR(source_parameter->location() << " short-hand category syntax (" << lookup_string
+      LOG_ERROR() << source_parameter->location() << " short-hand category syntax (" << lookup_string
           << ") is using an invalid format chunk (" << format << ") for it's lookup. "
-          << "Valid format chunks must be taken from the format (" << format_ << ")");
+          << "Valid format chunks must be taken from the format (" << format_ << ")";
     }
 
     matched_categories.erase(
@@ -303,8 +303,8 @@ string Categories::GetCategoryLabels(const string& lookup_string, const Paramete
           vector<string> chunks;
           boost::split(chunks, category, boost::is_any_of("."));
           if (chunks.size() <= format_offset) {
-            LOG_ERROR(source_parameter->location() << " short-hand category syntax (" << lookup_string
-                << ") could not be compared to category (" << category << ") because category was malformed");
+            LOG_ERROR() << source_parameter->location() << " short-hand category syntax (" << lookup_string
+                << ") could not be compared to category (" << category << ") because category was malformed";
           }
 
           vector<string> comma_separated_pieces;
@@ -317,13 +317,13 @@ string Categories::GetCategoryLabels(const string& lookup_string, const Paramete
         matched_categories.end()
     );
 
-    LOG_INFO("Short format parse of categories returned " << matched_categories.size() << " results");
+    LOG_FINEST() << "Short format parse of categories returned " << matched_categories.size() << " results";
   }
 
 
   if (matched_categories.size() == 0) {
-    LOG_ERROR(source_parameter->location() << " short-hand format string (" << lookup_string <<
-        ") did not match any of the categories. Please check your string to ensure it's accurate");
+    LOG_ERROR() << source_parameter->location() << " short-hand format string (" << lookup_string <<
+        ") did not match any of the categories. Please check your string to ensure it's accurate";
   }
 
   result = matched_categories[0];
@@ -367,7 +367,7 @@ unsigned Categories::GetNumberOfCategoriesDefined(const string& label) const {
  */
 unsigned Categories::min_age(const string& category_name) {
   if (categories_.find(category_name) == categories_.end())
-    LOG_CODE_ERROR("Could not find category_name: " << category_name << " in the list of loaded categories");
+    LOG_CODE_ERROR() << "Could not find category_name: " << category_name << " in the list of loaded categories";
 
   return categories_[category_name].min_age_;
 }
@@ -377,7 +377,7 @@ unsigned Categories::min_age(const string& category_name) {
  */
 unsigned Categories::max_age(const string& category_name) {
   if (categories_.find(category_name) == categories_.end())
-    LOG_CODE_ERROR("Could not find category_name: " << category_name << " in the list of loaded categories");
+    LOG_CODE_ERROR() << "Could not find category_name: " << category_name << " in the list of loaded categories";
 
   return categories_[category_name].max_age_;
 }
@@ -387,7 +387,7 @@ unsigned Categories::max_age(const string& category_name) {
  */
 vector<unsigned> Categories::years(const string& category_name) {
   if (categories_.find(category_name) == categories_.end())
-    LOG_CODE_ERROR("Could not find category_name: " << category_name << " in the list of loaded categories");
+    LOG_CODE_ERROR() << "Could not find category_name: " << category_name << " in the list of loaded categories";
 
   return categories_[category_name].years_;
 }
@@ -397,9 +397,9 @@ vector<unsigned> Categories::years(const string& category_name) {
  */
 AgeLengthPtr Categories::age_length(const string& category_name) {
   if (categories_.find(category_name) == categories_.end())
-    LOG_CODE_ERROR("Could not find category_name: " << category_name << " in the list of loaded categories");
+    LOG_CODE_ERROR() << "Could not find category_name: " << category_name << " in the list of loaded categories";
   if (!categories_[category_name].age_length_)
-    LOG_CODE_ERROR("The age size pointer was null for category " << category_name);
+    LOG_CODE_ERROR() << "The age size pointer was null for category " << category_name;
 
   return categories_[category_name].age_length_;
 }
@@ -419,19 +419,3 @@ void Categories::RemoveAllObjects() {
 
 
 } /* namespace niwa */
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -12,7 +12,7 @@
 // headers
 #include "Manager.h"
 
-#include "Utilities/Logging/Logging.h"
+#include "Logging/Logging.h"
 
 // namespaces
 namespace niwa {

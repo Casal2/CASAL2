@@ -123,7 +123,7 @@ void Normal::SimulateObserved(map<unsigned, vector<observations::Comparison> >& 
   Double error_value = 0.0;
   auto iterator = comparisons.begin();
   for (; iterator != comparisons.end(); ++iterator) {
-    LOG_INFO("Simulating values for year: " << iterator->first);
+    LOG_FINE() << "Simulating values for year: " << iterator->first;
     for (observations::Comparison& comparison : iterator->second) {
       error_value = AdjustErrorValue(comparison.process_error_, comparison.error_value_);
 

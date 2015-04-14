@@ -54,7 +54,7 @@ void Manager::Validate() {
        objects_.end()
   );
   if (count != objects_.size())
-    LOG_WARNING("Estimates were removed because of matching lower and upper bounds. Originally had " << count << " estimates, now have " << objects_.size());
+    LOG_WARNING() << "Estimates were removed because of matching lower and upper bounds. Originally had " << count << " estimates, now have " << objects_.size();
 
   /**
    * Load any estimate values that have been supplied
@@ -73,7 +73,7 @@ void Manager::Validate() {
         return false;
       };
       if (!match)
-        LOG_ERROR("The estimable " << label << " was defined in the estimable value file, but has not been defined as an @estimate");
+        LOG_ERROR() << "The estimable " << label << " was defined in the estimable value file, but has not been defined as an @estimate";
     }
   }
 }

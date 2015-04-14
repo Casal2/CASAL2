@@ -25,6 +25,7 @@
 #include "Reports/Children/Partition.h"
 #include "Reports/Children/PartitionBiomass.h"
 #include "Reports/Children/PartitionMeanWeight.h"
+#include "Reports/Children/RandomNumberSeed.h"
 #include "Reports/Children/SimulatedObservation.h"
 #include "Reports/Children/Selectivity.h"
 
@@ -66,6 +67,8 @@ ReportPtr Factory::Create(const string& object_type, const string& sub_type) {
       result = ReportPtr(new ObjectiveFunction());
     else if (sub_type == PARAM_OBSERVATION)
       result = ReportPtr(new Observation());
+    else if (sub_type == PARAM_RANDOM_NUMBER_SEED)
+      result = ReportPtr(new RandomNumberSeed());
     else if (sub_type == PARAM_SIMULATED_OBSERVATION)
       result = ReportPtr(new SimulatedObservation());
     else if (sub_type == PARAM_SELECTIVITY)

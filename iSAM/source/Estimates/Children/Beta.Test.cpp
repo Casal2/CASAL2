@@ -55,7 +55,7 @@ TEST_F(InternalEmptyModel, Estimates_Beta) {
 
   EstimatePtr estimate = estimates::Manager::Instance().GetEstimate("selectivity[FishingSel].a50");
   if (!estimate)
-    LOG_ERROR("!estimate");
+    LOG_ERROR_P("!estimate");
   EXPECT_DOUBLE_EQ(estimate->value(), 7.2724038656178385);
 
   // Check results

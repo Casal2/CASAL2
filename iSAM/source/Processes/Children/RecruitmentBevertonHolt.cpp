@@ -65,23 +65,23 @@ void RecruitmentBevertonHolt::DoValidate() {
   // Ensure defined categories were valid
   for(const string& category : category_labels_) {
     if (!Categories::Instance()->IsValid(category))
-      LOG_ERROR(parameters_.location(PARAM_CATEGORIES) << ": category " << category << " is not a valid category");
+      LOG_ERROR_P(PARAM_CATEGORIES) << ": category " << category << " is not a valid category";
   }
 
   if (age_ < model_->min_age())
-    LOG_ERROR(parameters_.location(PARAM_AGE) << " (" << age_ << ") cannot be less than the model's min_age (" << model_->min_age() << ")");
+    LOG_ERROR_P(PARAM_AGE) << " (" << age_ << ") cannot be less than the model's min_age (" << model_->min_age() << ")";
   if (age_ > model_->max_age())
-    LOG_ERROR(parameters_.location(PARAM_AGE) << " (" << age_ << ") cannot be greater than the model's max_age (" << model_->max_age() << ")");
+    LOG_ERROR_P(PARAM_AGE) << " (" << age_ << ") cannot be greater than the model's max_age (" << model_->max_age() << ")";
 
   if (category_labels_.size() != proportions_.size())
-    LOG_ERROR(parameters_.location(PARAM_CATEGORIES) << " defined need 1 proportion defined per category. There are " << category_labels_.size()
-        << " categories and " << proportions_.size() << " proportions defined.");
+    LOG_ERROR_P(PARAM_CATEGORIES) << " defined need 1 proportion defined per category. There are " << category_labels_.size()
+        << " categories and " << proportions_.size() << " proportions defined.";
 
   Double running_total = 0.0;
   for (Double value : proportions_) // Again, ADOLC prevents std::accum
     running_total += value;
   if (!dc::IsOne(running_total))
-    LOG_ERROR(parameters_.location(PARAM_PROPORTIONS) << " sum total is " << running_total << " when it should be 1.0");
+    LOG_ERROR_P(PARAM_PROPORTIONS) << " sum total is " << running_total << " when it should be 1.0";
 }
 
 /**
@@ -97,7 +97,7 @@ void RecruitmentBevertonHolt::DoBuild() {
 
   derived_quantity_ = derivedquantities::Manager::Instance().GetDerivedQuantity(ssb_);
   if (!derived_quantity_)
-    LOG_ERROR(parameters_.location(PARAM_SSB) << "(" << ssb_ << ") could not be found. Have you defined it?");
+    LOG_ERROR_P(PARAM_SSB) << "(" << ssb_ << ") could not be found. Have you defined it?";
 
   /**
    * Calculate out SSB offset
@@ -111,17 +111,17 @@ void RecruitmentBevertonHolt::DoBuild() {
     for (unsigned i = 0; i < process_types.size(); ++i) {
       if (process_types[i] == ProcessType::kAgeing) {
         if (ageing_index != std::numeric_limits<unsigned>::max())
-          LOG_ERROR(parameters_.location(PARAM_SSB_OFFSET) << " ");
+          LOG_ERROR_P(PARAM_SSB_OFFSET) << " ";
         ageing_index = i;
       } else if (process_types[i] == ProcessType::kRecruitment) {
         if (recruitment_index != std::numeric_limits<unsigned>::max())
-          LOG_ERROR(parameters_.location(PARAM_SSB_OFFSET) << " ");
+          LOG_ERROR_P(PARAM_SSB_OFFSET) << " ";
         recruitment_index = i;
       }
     }
 
     if (ageing_index == std::numeric_limits<unsigned>::max())
-      LOG_ERROR(location() << " could not calculate the ssb_offset because there is no ageing process");
+      LOG_ERROR() << location() << " could not calculate the ssb_offset because there is no ageing process";
 
     if (recruitment_index < ageing_index && ageing_index < derived_quantity_index)
       ssb_offset_ = model_->min_age() + 1;
@@ -139,26 +139,26 @@ void RecruitmentBevertonHolt::DoBuild() {
   } else if (standardise_ycs_.size() > 1) {
     for (unsigned i = 1; i < standardise_ycs_.size(); ++i) {
       if (standardise_ycs_[i - 1] >= standardise_ycs_[i])
-        LOG_ERROR(parameters_.location(PARAM_STANDARDISE_YCS_YEARS) << " values must be in numeric ascending order. Value "
-            << standardise_ycs_[i - 1] << " is not less than " << standardise_ycs_[i]);
+        LOG_ERROR_P(PARAM_STANDARDISE_YCS_YEARS) << " values must be in numeric ascending order. Value "
+            << standardise_ycs_[i - 1] << " is not less than " << standardise_ycs_[i];
 
     }
   }
 
   if (standardise_ycs_[0] < model_->start_year() - ssb_offset_)
-    LOG_ERROR(parameters_.location(PARAM_STANDARDISE_YCS_YEARS) << " first value is less than the model's start_year");
+    LOG_ERROR_P(PARAM_STANDARDISE_YCS_YEARS) << " first value is less than the model's start_year";
   if ((*standardise_ycs_.rbegin()) > model_->final_year() - ssb_offset_)
-    LOG_ERROR(parameters_.location(PARAM_STANDARDISE_YCS_YEARS) << " final value (" << (*standardise_ycs_.rbegin())
-        << ") is greater than the model's final year - ssb_offset (" << model_->final_year() - ssb_offset_ << ")");
+    LOG_ERROR_P(PARAM_STANDARDISE_YCS_YEARS) << " final value (" << (*standardise_ycs_.rbegin())
+        << ") is greater than the model's final year - ssb_offset (" << model_->final_year() - ssb_offset_ << ")";
 
   // check the number of ycs_values_ supplied matches number of years
   unsigned number_of_years = model_->final_year() - model_->start_year() + 1;
   if (ycs_values_.size() != number_of_years)
-    LOG_ERROR(parameters_.location(PARAM_YCS_VALUES) << " need to be defined for every year. Expected " << number_of_years << " but got " << ycs_values_.size());
+    LOG_ERROR_P(PARAM_YCS_VALUES) << " need to be defined for every year. Expected " << number_of_years << " but got " << ycs_values_.size();
 
   for (Double value : ycs_values_) {
     if (value < 0.0)
-      LOG_ERROR(parameters_.location(PARAM_YCS_VALUES) << " value " << value << " cannot be less than 0.0");
+      LOG_ERROR_P(PARAM_YCS_VALUES) << " value " << value << " cannot be less than 0.0";
   }
 
   DoReset();
@@ -217,14 +217,14 @@ void RecruitmentBevertonHolt::DoExecute() {
       Double true_ycs  = 1.0 * ssb_ratio / (1 - ((5 * steepness_ - 1) / (4 * steepness_) ) * (1 - ssb_ratio));
       amount_per = r0_ * true_ycs;
 
-      LOG_INFO("b0_: " << b0_ << "; ssb_ratio: " << ssb_ratio << "; true_ycs: " << true_ycs << "; amount_per: " << amount_per);
+      LOG_FINEST() << "b0_: " << b0_ << "; ssb_ratio: " << ssb_ratio << "; true_ycs: " << true_ycs << "; amount_per: " << amount_per;
     }
 
   } else {
     /**
      * The model is not in an initialisation phase
      */
-    LOG_INFO("standardise_ycs_.size(): " << standardise_ycs_.size() << "; model_->current_year(): " << model_->current_year() << "; model_->start_year(): " << model_->start_year());
+    LOG_FINEST() << "standardise_ycs_.size(): " << standardise_ycs_.size() << "; model_->current_year(): " << model_->current_year() << "; model_->start_year(): " << model_->start_year();
     Double ycs = ycs_values_[model_->current_year() - model_->start_year()];
     b0_ = derived_quantity_->GetLastValueFromInitialisation(phase_b0_);
     Double ssb_ratio = derived_quantity_->GetValue(model_->current_year() - ssb_offset_) / b0_;
@@ -238,7 +238,7 @@ void RecruitmentBevertonHolt::DoExecute() {
 //    cout << "year = " << model_->current_year() << "; ycs = " << ycs << "; b0_ = " << b0_ << "; ssb_ratio = " << ssb_ratio << "; true_ycs = " << true_ycs << "; amount_per = " << amount_per << endl;
 //    cout << "dq: " << derived_quantity_->GetValue(model_->current_year() - actual_ssb_offset_) << endl;
 
-    LOG_INFO("year = " << model_->current_year() << "; ycs = " << ycs << "; b0_ = " << b0_ << "; ssb_ratio = " << ssb_ratio << "; true_ycs = " << true_ycs << "; amount_per = " << amount_per);
+    LOG_FINEST() << "year = " << model_->current_year() << "; ycs = " << ycs << "; b0_ = " << b0_ << "; ssb_ratio = " << ssb_ratio << "; true_ycs = " << true_ycs << "; amount_per = " << amount_per;
   }
 
   unsigned i = 0;

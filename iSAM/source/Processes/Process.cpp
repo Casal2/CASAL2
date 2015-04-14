@@ -32,7 +32,7 @@ void Process::Validate() {
   parameters_.Populate();
 
   if (process_type_ == ProcessType::kUnknown)
-    LOG_CODE_ERROR("process_type_ == ProcessType::kUnknown for label: " << label());
+    LOG_CODE_ERROR() << "process_type_ == ProcessType::kUnknown for label: " << label();
 
   DoValidate();
 }

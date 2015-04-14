@@ -56,9 +56,9 @@ void ProportionsByCategory::DoValidate() {
     expected_selectivity_count += categories->GetNumberOfCategoriesDefined(category_label);
 
   if (target_category_labels_.size() != target_selectivity_labels_.size() && expected_selectivity_count != target_selectivity_labels_.size())
-    LOG_ERROR(parameters_.location(PARAM_TARGET_SELECTIVITIES) << ": Number of selectivities provided (" << target_selectivity_labels_.size()
+    LOG_ERROR_P(PARAM_TARGET_SELECTIVITIES) << ": Number of selectivities provided (" << target_selectivity_labels_.size()
         << ") is not valid. You can specify either the number of category collections (" << target_category_labels_.size() << ") or "
-        << "the number of total categories (" << expected_selectivity_count << ")");
+        << "the number of total categories (" << expected_selectivity_count << ")";
 
   age_spread_ = (max_age_ - min_age_) + 1;
   map<unsigned, vector<Double>> error_values_by_year;
@@ -69,21 +69,21 @@ void ProportionsByCategory::DoValidate() {
    */
   ModelPtr model = Model::Instance();
   if (min_age_ < model->min_age())
-    LOG_ERROR(parameters_.location(PARAM_MIN_AGE) << ": min_age (" << min_age_ << ") is less than the model's min_age (" << model->min_age() << ")");
+    LOG_ERROR_P(PARAM_MIN_AGE) << ": min_age (" << min_age_ << ") is less than the model's min_age (" << model->min_age() << ")";
   if (max_age_ > model->max_age())
-    LOG_ERROR(parameters_.location(PARAM_MAX_AGE) << ": max_age (" << max_age_ << ") is greater than the model's max_age (" << model->max_age() << ")");
+    LOG_ERROR_P(PARAM_MAX_AGE) << ": max_age (" << max_age_ << ") is greater than the model's max_age (" << model->max_age() << ")";
   if (process_errors_.size() != 0 && process_errors_.size() != years_.size()) {
-    LOG_ERROR(parameters_.location(PARAM_PROCESS_ERRORS) << " number of values provied (" << process_errors_.size() << ") does not match the number of years provided ("
-        << years_.size() << ")");
+    LOG_ERROR_P(PARAM_PROCESS_ERRORS) << " number of values provied (" << process_errors_.size() << ") does not match the number of years provided ("
+        << years_.size() << ")";
   }
   for (Double process_error : process_errors_) {
     if (process_error < 0.0)
-      LOG_ERROR(parameters_.location(PARAM_PROCESS_ERRORS) << ": process_error (" << AS_DOUBLE(process_error) << ") cannot be less than 0.0");
+      LOG_ERROR_P(PARAM_PROCESS_ERRORS) << ": process_error (" << AS_DOUBLE(process_error) << ") cannot be less than 0.0";
   }
   if (process_errors_.size() != 0)
     process_errors_by_year_ = utilities::Map::create(years_, process_errors_);
   if (delta_ < 0.0)
-    LOG_ERROR(parameters_.location(PARAM_DELTA) << ": delta (" << AS_DOUBLE(delta_) << ") cannot be less than 0.0");
+    LOG_ERROR_P(PARAM_DELTA) << ": delta (" << AS_DOUBLE(delta_) << ") cannot be less than 0.0";
 
   /**
    * Validate the number of obs provided matches age spread * category_labels * years
@@ -93,30 +93,30 @@ void ProportionsByCategory::DoValidate() {
   unsigned obs_expected = age_spread_ * category_labels_.size() + 1;
   vector<vector<string>>& obs_data = obs_table_->data();
   if (obs_data.size() != years_.size()) {
-    LOG_ERROR(parameters_.location(PARAM_OBS) << " has " << obs_data.size() << " rows defined, but we expected " << years_.size()
-        << " to match the number of years provided");
+    LOG_ERROR_P(PARAM_OBS) << " has " << obs_data.size() << " rows defined, but we expected " << years_.size()
+        << " to match the number of years provided";
   }
 
   for (vector<string>& obs_data_line : obs_data) {
     if (obs_data_line.size() != obs_expected) {
-      LOG_ERROR(parameters_.location(PARAM_OBS) << " has " << obs_data_line.size() << " values defined, but we expected " << obs_expected
-          << " to match the age speard * categories + 1 (for year)");
+      LOG_ERROR_P(PARAM_OBS) << " has " << obs_data_line.size() << " values defined, but we expected " << obs_expected
+          << " to match the age speard * categories + 1 (for year)";
     }
 
     unsigned year = 0;
     if (!utilities::To<unsigned>(obs_data_line[0], year))
-      LOG_ERROR(parameters_.location(PARAM_OBS) << " value " << obs_data_line[0] << " could not be converted in to an unsigned integer. It should be the year for this line");
+      LOG_ERROR_P(PARAM_OBS) << " value " << obs_data_line[0] << " could not be converted in to an unsigned integer. It should be the year for this line";
     if (std::find(years_.begin(), years_.end(), year) == years_.end())
-      LOG_ERROR(parameters_.location(PARAM_OBS) << " value " << year << " is not a valid year for this observation");
+      LOG_ERROR_P(PARAM_OBS) << " value " << year << " is not a valid year for this observation";
 
     for (unsigned i = 1; i < obs_data_line.size(); ++i) {
       Double value = 0;
       if (!utilities::To<Double>(obs_data_line[i], value))
-        LOG_ERROR(parameters_.location(PARAM_OBS) << " value (" << obs_data_line[i] << ") could not be converted to a double");
+        LOG_ERROR_P(PARAM_OBS) << " value (" << obs_data_line[i] << ") could not be converted to a double";
       obs_by_year[year].push_back(value);
     }
     if (obs_by_year[year].size() != obs_expected - 1)
-      LOG_CODE_ERROR("obs_by_year_[year].size() (" << obs_by_year[year].size() << ") != obs_expected - 1 (" << obs_expected -1 << ")");
+      LOG_CODE_ERROR() << "obs_by_year_[year].size() (" << obs_by_year[year].size() << ") != obs_expected - 1 (" << obs_expected -1 << ")";
   }
 
 
@@ -125,30 +125,30 @@ void ProportionsByCategory::DoValidate() {
    */
   vector<vector<string>>& error_values_data = error_values_table_->data();
   if (error_values_data.size() != years_.size()) {
-    LOG_ERROR(parameters_.location(PARAM_ERROR_VALUES) << " has " << error_values_data.size() << " rows defined, but we expected " << years_.size()
-        << " to match the number of years provided");
+    LOG_ERROR_P(PARAM_ERROR_VALUES) << " has " << error_values_data.size() << " rows defined, but we expected " << years_.size()
+        << " to match the number of years provided";
   }
 
   for (vector<string>& error_values_data_line : error_values_data) {
     if (error_values_data_line.size() != 2 && error_values_data_line.size() != obs_expected) {
-      LOG_ERROR(parameters_.location(PARAM_ERROR_VALUES) << " has " << error_values_data_line.size() << " values defined, but we expected " << obs_expected
-          << " to match the age speard * categories + 1 (for year)");
+      LOG_ERROR_P(PARAM_ERROR_VALUES) << " has " << error_values_data_line.size() << " values defined, but we expected " << obs_expected
+          << " to match the age speard * categories + 1 (for year)";
     }
 
     unsigned year = 0;
     if (!utilities::To<unsigned>(error_values_data_line[0], year))
-      LOG_ERROR(parameters_.location(PARAM_ERROR_VALUES) << " value " << error_values_data_line[0] << " could not be converted in to an unsigned integer. It should be the year for this line");
+      LOG_ERROR_P(PARAM_ERROR_VALUES) << " value " << error_values_data_line[0] << " could not be converted in to an unsigned integer. It should be the year for this line";
     if (std::find(years_.begin(), years_.end(), year) == years_.end())
-      LOG_ERROR(parameters_.location(PARAM_ERROR_VALUES) << " value " << year << " is not a valid year for this observation");
+      LOG_ERROR_P(PARAM_ERROR_VALUES) << " value " << year << " is not a valid year for this observation";
     for (unsigned i = 1; i < error_values_data_line.size(); ++i) {
       Double value = 0;
 
       if (!utilities::To<Double>(error_values_data_line[i], value))
-        LOG_ERROR(parameters_.location(PARAM_ERROR_VALUES) << " value (" << error_values_data_line[i] << ") could not be converted to a double");
+        LOG_ERROR_P(PARAM_ERROR_VALUES) << " value (" << error_values_data_line[i] << ") could not be converted to a double";
       if (likelihood_type_ == PARAM_LOGNORMAL && value <= 0.0) {
-        LOG_ERROR(parameters_.location(PARAM_ERROR_VALUES) << ": error_value (" << AS_DOUBLE(value) << ") cannot be equal to or less than 0.0");
+        LOG_ERROR_P(PARAM_ERROR_VALUES) << ": error_value (" << AS_DOUBLE(value) << ") cannot be equal to or less than 0.0";
       } else if (likelihood_type_ == PARAM_MULTINOMIAL && value < 0.0) {
-        LOG_ERROR(parameters_.location(PARAM_ERROR_VALUES) << ": error_value (" << AS_DOUBLE(value) << ") cannot be less than 0.0");
+        LOG_ERROR_P(PARAM_ERROR_VALUES) << ": error_value (" << AS_DOUBLE(value) << ") cannot be less than 0.0";
       }
 
       error_values_by_year[year].push_back(value);
@@ -157,14 +157,14 @@ void ProportionsByCategory::DoValidate() {
       error_values_by_year[year].assign(obs_expected - 1, error_values_by_year[year][0]);
     }
     if (error_values_by_year[year].size() != obs_expected - 1)
-      LOG_CODE_ERROR("error_values_by_year_[year].size() (" << error_values_by_year[year].size() << ") != obs_expected - 1 (" << obs_expected -1 << ")");
+      LOG_CODE_ERROR() << "error_values_by_year_[year].size() (" << error_values_by_year[year].size() << ") != obs_expected - 1 (" << obs_expected -1 << ")";
   }
 
   /**
    * Validate likelihood type
    */
 //  if (likelihood_type_ != PARAM_LOGNORMAL && likelihood_type_ != PARAM_MULTINOMIAL)
-//    LOG_ERROR(parameters_.location(PARAM_LIKELIHOOD) << ": likelihood " << likelihood_type_ << " is not supported by the proportions at age observation. "
+//    LOG_ERROR_P(parameters_.location(PARAM_LIKELIHOOD) << ": likelihood " << likelihood_type_ << " is not supported by the proportions at age observation. "
 //        << "Supported types are " << PARAM_LOGNORMAL << " and " << PARAM_MULTINOMIAL);
 
   /**
@@ -180,8 +180,8 @@ void ProportionsByCategory::DoValidate() {
       for (unsigned j = 0; j < age_spread_; ++j) {
         unsigned obs_index = i * age_spread_ + j;
         if (!utilities::To<Double>(iter->second[obs_index], value))
-          LOG_ERROR(parameters_.location(PARAM_OBS) << ": obs_ value (" << iter->second[obs_index] << ") at index " << obs_index + 1
-              << " in the definition could not be converted to a numeric double");
+          LOG_ERROR_P(PARAM_OBS) << ": obs_ value (" << iter->second[obs_index] << ") at index " << obs_index + 1
+              << " in the definition could not be converted to a numeric double";
 
         Double error_value = error_values_by_year[iter->first][obs_index];
         error_values_[iter->first][category_labels_[i]].push_back(error_value);
@@ -191,7 +191,7 @@ void ProportionsByCategory::DoValidate() {
     }
 
     if (fabs(1.0 - total) > tolerance_) {
-      LOG_ERROR(parameters_.location(PARAM_OBS) << ": obs sum total (" << total << ") for year (" << iter->first << ") exceeds tolerance (" << tolerance_ << ") from 1.0");
+      LOG_ERROR_P(PARAM_OBS) << ": obs sum total (" << total << ") for year (" << iter->first << ") exceeds tolerance (" << tolerance_ << ") from 1.0";
     }
   }
 }
@@ -208,14 +208,14 @@ void ProportionsByCategory::DoBuild() {
 
 
   if (ageing_error_label_ != "")
-    LOG_CODE_ERROR("ageing error has not been implemented for the proportions at age observation");
+    LOG_CODE_ERROR() << "ageing error has not been implemented for the proportions at age observation";
 
   age_results_.resize(age_spread_ * category_labels_.size(), 0.0);
 
   for(string label : target_selectivity_labels_) {
     SelectivityPtr selectivity = selectivities::Manager::Instance().GetSelectivity(label);
     if (!selectivity)
-      LOG_ERROR(parameters_.location(PARAM_TARGET_SELECTIVITIES) << ": Selectivity " << label << " does not exist. Have you defined it?");
+      LOG_ERROR_P(PARAM_TARGET_SELECTIVITIES) << ": Selectivity " << label << " does not exist. Have you defined it?";
     target_selectivities_.push_back(selectivity);
   }
 
@@ -237,9 +237,9 @@ void ProportionsByCategory::PreExecute() {
   target_cached_partition_->BuildCache();
 
   if (cached_partition_->Size() != proportions_[model->current_year()].size())
-    LOG_CODE_ERROR("cached_partition_->Size() != proportions_[model->current_year()].size()");
+    LOG_CODE_ERROR() << "cached_partition_->Size() != proportions_[model->current_year()].size()";
   if (partition_->Size() != proportions_[model->current_year()].size())
-    LOG_CODE_ERROR("partition_->Size() != proportions_[model->current_year()].size()");
+    LOG_CODE_ERROR() << "partition_->Size() != proportions_[model->current_year()].size()";
 }
 
 /**
@@ -338,7 +338,8 @@ void ProportionsByCategory::Execute() {
     }
 
     if (age_results.size() != proportions_[model->current_year()][category_labels_[category_offset]].size())
-      LOG_CODE_ERROR("expected_values.size(" << age_results.size() << ") != proportions_[category_offset].size(" << proportions_[model->current_year()][category_labels_[category_offset]].size() << ")");
+      LOG_CODE_ERROR() << "expected_values.size(" << age_results.size() << ") != proportions_[category_offset].size("
+        << proportions_[model->current_year()][category_labels_[category_offset]].size() << ")";
 
     /**
      * save our comparisons so we can use them to generate the score from the likelihoods later

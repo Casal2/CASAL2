@@ -46,36 +46,36 @@ void Maturation::DoValidate() {
   niwa::CategoriesPtr categories = niwa::Categories::Instance();
   for (const string& label : from_category_names_) {
     if (!categories->IsValid(label))
-      LOG_ERROR(parameters_.location(PARAM_FROM) << ": category " << label << " does not exist. Have you defined it?");
+      LOG_ERROR_P(PARAM_FROM) << ": category " << label << " does not exist. Have you defined it?";
   }
   for(const string& label : to_category_names_) {
     if (!categories->IsValid(label))
-      LOG_ERROR(parameters_.location(PARAM_TO) << ": category " << label << " does not exist. Have you defined it?");
+      LOG_ERROR_P(PARAM_TO) << ": category " << label << " does not exist. Have you defined it?";
   }
 
   // Validate the from and to vectors are the same size
   if (from_category_names_.size() != to_category_names_.size()) {
-    LOG_ERROR(parameters_.location(PARAM_TO)
+    LOG_ERROR_P(PARAM_TO)
         << ": Number of 'to' categories provided does not match the number of 'from' categories provided."
-        << " Expected " << from_category_names_.size() << " but got " << to_category_names_.size());
+        << " Expected " << from_category_names_.size() << " but got " << to_category_names_.size();
   }
 
   // Validate that each from and to category have the same age range.
   for (unsigned i = 0; i < from_category_names_.size(); ++i) {
     if (categories->min_age(from_category_names_[i]) != categories->min_age(to_category_names_[i])) {
-      LOG_ERROR(parameters_.location(PARAM_FROM) << ": Category " << from_category_names_[i] << " does not"
-          << " have the same age range as the 'to' category " << to_category_names_[i]);
+      LOG_ERROR_P(PARAM_FROM) << ": Category " << from_category_names_[i] << " does not"
+          << " have the same age range as the 'to' category " << to_category_names_[i];
     }
 
     if (categories->max_age(from_category_names_[i]) != categories->max_age(to_category_names_[i])) {
-      LOG_ERROR(parameters_.location(PARAM_FROM) << ": Category " << from_category_names_[i] << " does not"
-          << " have the same age range as the 'to' category " << to_category_names_[i]);
+      LOG_ERROR_P(PARAM_FROM) << ": Category " << from_category_names_[i] << " does not"
+          << " have the same age range as the 'to' category " << to_category_names_[i];
     }
   }
 
   // Validate rates and years are the same length
   if (rates_.size() != years_.size())
-    LOG_ERROR(parameters_.location(PARAM_RATES) << " number (" << rates_.size() << ") does not match the number of years (" << years_.size() << ") provided");
+    LOG_ERROR_P(PARAM_RATES) << " number (" << rates_.size() << ") does not match the number of years (" << years_.size() << ") provided";
   for (unsigned i = 0; i < years_.size(); ++i)
     rates_by_years_[years_[i]] = rates_[i];
 
@@ -96,7 +96,7 @@ void Maturation::DoBuild() {
   for(string label : selectivity_names_) {
     SelectivityPtr selectivity = selectivities::Manager::Instance().GetSelectivity(label);
     if (!selectivity)
-      LOG_ERROR(parameters_.location(PARAM_SELECTIVITIES) << ": Selectivity " << label << " does not exist. Have you defined it?");
+      LOG_ERROR_P(PARAM_SELECTIVITIES) << ": Selectivity " << label << " does not exist. Have you defined it?";
     selectivities_.push_back(selectivity);
   }
 }

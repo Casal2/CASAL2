@@ -34,7 +34,7 @@ Categories::Categories() {
  * Init
  */
 void Categories::Init(const vector<string>& category_labels) {
-  LOG_INFO("Categories: " << category_labels.size());
+  LOG_FINEST() << "Categories: " << category_labels.size();
   category_labels_ = category_labels;
 }
 
@@ -49,7 +49,7 @@ void Categories::BuildCache() {
   Partition& partition = Partition::Instance();
   for(string category_label : category_labels_) {
     partition::Category& category = partition.category(category_label);
-    LOG_INFO("Category: " << category_label << " has " << category.years_.size() << " years loaded");
+    LOG_FINEST() << "Category: " << category_label << " has " << category.years_.size() << " years loaded";
 
     if (std::find(category.years_.begin(), category.years_.end(), year) == category.years_.end())
       continue; // Not valid in this year
@@ -58,7 +58,7 @@ void Categories::BuildCache() {
   }
 
   if (data_.size() != category_labels_.size())
-    LOG_CODE_ERROR("Number of categories loaded is not the same as the number provided (" << data_.size() << " != " << category_labels_.size() << ")");
+    LOG_CODE_ERROR() << "Number of categories loaded is not the same as the number provided (" << data_.size() << " != " << category_labels_.size() << ")";
 
 }
 

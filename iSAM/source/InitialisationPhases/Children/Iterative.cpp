@@ -47,7 +47,7 @@ void Iterative::DoValidate() {
     vector<string> pieces;
     boost::split(pieces, insert, boost::is_any_of("()="), boost::token_compress_on);
     if (pieces.size() != 2 && pieces.size() != 3)
-      LOG_ERROR(parameters_.location(PARAM_INSERT_PROCESSES) << " value " << insert << " does not match the format time_step(process)=new_process = " << pieces.size());
+      LOG_ERROR_P(PARAM_INSERT_PROCESSES) << " value " << insert << " does not match the format time_step(process)=new_process = " << pieces.size();
   }
 }
 
@@ -77,7 +77,7 @@ void Iterative::DoBuild() {
     } else {
       vector<string>::iterator iter = std::find(process_labels.begin(), process_labels.end(), target_process);
       if (iter == process_labels.end())
-        LOG_ERROR(parameters_.location(PARAM_INSERT_PROCESSES) << " process " << target_process << " does not exist in time step " << time_step->label());
+        LOG_ERROR_P(PARAM_INSERT_PROCESSES) << " process " << target_process << " does not exist in time step " << time_step->label();
       process_labels.insert(iter, new_process);
     }
 
@@ -98,7 +98,7 @@ void Iterative::DoBuild() {
     }
 
     if (count == 0)
-      LOG_ERROR(parameters_.location(PARAM_EXCLUDE_PROCESSES) << " process " << exclude << " does not exist in any time steps to be excluded. Please check your spelling");
+      LOG_ERROR_P(PARAM_EXCLUDE_PROCESSES) << " process " << exclude << " does not exist in any time steps to be excluded. Please check your spelling";
   }
 
   if (convergence_years_.size() != 0) {

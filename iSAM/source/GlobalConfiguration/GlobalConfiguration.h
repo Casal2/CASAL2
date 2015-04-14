@@ -68,6 +68,8 @@ public:
   bool                  get_force_estimable_values_file();
   void                  set_disable_standard_report() { global_parameters_[PARAM_NO_STANDARD_HEADER_REPORT] = "t"; }
   bool                  disable_standard_report();
+  void                  set_log_level(string log_level) { global_parameters_[PARAM_LOG_LEVEL] = log_level; }
+  string                log_level() { return global_parameters_[PARAM_LOG_LEVEL]; }
 
 private:
   // Methods

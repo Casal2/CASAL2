@@ -15,7 +15,7 @@
 
 #include "Estimates/Manager.h"
 #include "ObjectiveFunction/ObjectiveFunction.h"
-#include "Utilities/Logging/Logging.h"
+#include "Logging/Logging.h"
 
 // Namespaces
 namespace niwa {
@@ -48,7 +48,7 @@ double CallBack::EnergyFunction(vector<double> test_solution) {
   vector<EstimatePtr> estimates = estimates::Manager::Instance().GetEnabled();
 
   if (test_solution.size() != estimates.size()) {
-    LOG_CODE_ERROR("The number of enabled estimates does not match the number of test solution values");
+    LOG_CODE_ERROR() << "The number of enabled estimates does not match the number of test solution values";
   }
 
   for (unsigned i = 0; i < test_solution.size(); ++i)

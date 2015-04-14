@@ -16,7 +16,7 @@
 #include "AgeLengths/Factory.h"
 #include "Categories/Categories.h"
 #include "Model/Model.h"
-#include "Utilities/Logging/Logging.h"
+#include "Logging/Logging.h"
 
 // Namespaces
 namespace niwa {
@@ -49,7 +49,7 @@ void Partition::Build() {
   vector<string> category_names             = categories->category_names();
 
   for(string category : category_names) {
-    LOG_INFO("Adding category " << category << " to the partition");
+    LOG_FINEST() << "Adding category " << category << " to the partition";
 
     partition::Category new_category;
     new_category.name_      = category;
@@ -86,7 +86,7 @@ void Partition::Reset() {
 partition::Category& Partition::category(const string& category_label) {
   auto find_iter = partition_.find(category_label);
   if (find_iter == partition_.end())
-    LOG_CODE_ERROR("The partition does not have a category " << category_label);
+    LOG_CODE_ERROR() << "The partition does not have a category " << category_label;
 
   return find_iter->second;
 }

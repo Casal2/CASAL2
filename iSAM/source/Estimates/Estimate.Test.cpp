@@ -59,7 +59,7 @@ TEST_F(InternalEmptyModel, Estimates_Single_Target) {
 
   EstimatePtr estimate = estimates::Manager::Instance().GetEstimate("selectivity[FishingSel].a50");
   if (!estimate)
-    LOG_ERROR("!estimate");
+    LOG_ERROR_P("!estimate");
   EXPECT_DOUBLE_EQ(estimate->value(), 7.2724038656178385);
 
   // Check results
@@ -105,13 +105,13 @@ TEST_F(InternalEmptyModel, Estimates_Multiple_Defined_Targets_Vector) {
 
   EstimatePtr estimate = estimates::Manager::Instance().GetEstimate("selectivity[av].v(21)");
   if (!estimate)
-    LOG_ERROR("!estimate");
+    LOG_ERROR_P("!estimate");
   EXPECT_DOUBLE_EQ(estimate->value(), 1.0000667295269956);
   EXPECT_DOUBLE_EQ(estimate->GetScore(), 0.017919754558039881);
 
   estimate = estimates::Manager::Instance().GetEstimate("selectivity[av].v(25)");
   if (!estimate)
-    LOG_ERROR("!estimate");
+    LOG_ERROR_P("!estimate");
   EXPECT_DOUBLE_EQ(estimate->value(), 1.000014483955731);
   EXPECT_DOUBLE_EQ(estimate->GetScore(), 0.017861646655730232);
 }
@@ -145,19 +145,19 @@ TEST_F(InternalEmptyModel, Estimates_Multiple_Defined_Targets_Unsigned_Map) {
 
   EstimatePtr estimate = estimates::Manager::Instance().GetEstimate("process[Fishing].catches(2000)");
   if (!estimate)
-    LOG_ERROR("!estimate");
+    LOG_ERROR_P("!estimate");
   EXPECT_DOUBLE_EQ(estimate->value(), 28323.203463000002);
   EXPECT_DOUBLE_EQ(estimate->GetScore(), 29.966307896614428);
 
   estimate = estimates::Manager::Instance().GetEstimate("process[Fishing].catches(2001)");
   if (!estimate)
-    LOG_ERROR("!estimate");
+    LOG_ERROR_P("!estimate");
   EXPECT_DOUBLE_EQ(estimate->value(), 24207.464203);
   EXPECT_DOUBLE_EQ(estimate->GetScore(), 24.757322431641612);
 
   estimate = estimates::Manager::Instance().GetEstimate("process[Fishing].catches(2002)");
   if (!estimate)
-    LOG_ERROR("!estimate");
+    LOG_ERROR_P("!estimate");
   EXPECT_DOUBLE_EQ(estimate->value(), 47279);
   EXPECT_DOUBLE_EQ(estimate->GetScore(), 25.007985625485446);
 
@@ -193,13 +193,13 @@ TEST_F(InternalEmptyModel, Estimates_Multiple_Defined_Targets_String_Map) {
 
   EstimatePtr estimate = estimates::Manager::Instance().GetEstimate("process[Recruitment].proportions(immature.male)");
   if (!estimate)
-    LOG_ERROR("!estimate");
+    LOG_ERROR_P("!estimate");
   EXPECT_DOUBLE_EQ(estimate->value(), 0.5);
   EXPECT_DOUBLE_EQ(estimate->GetScore(), -0.64756858783643167);
 
   estimate = estimates::Manager::Instance().GetEstimate("process[Recruitment].proportions(immature.female)");
   if (!estimate)
-    LOG_ERROR("!estimate");
+    LOG_ERROR_P("!estimate");
   EXPECT_DOUBLE_EQ(estimate->value(), 0.5);
   EXPECT_DOUBLE_EQ(estimate->GetScore(), -0.69298502612944257);
 }
@@ -234,13 +234,13 @@ TEST_F(InternalEmptyModel, Estimates_All_Targets_Vector) {
 
   EstimatePtr estimate = estimates::Manager::Instance().GetEstimate("selectivity[av].v(10)");
   if (!estimate)
-    LOG_ERROR("!estimate");
+    LOG_ERROR_P("!estimate");
   EXPECT_DOUBLE_EQ(estimate->value(), 5.0);
   EXPECT_DOUBLE_EQ(estimate->GetScore(), 2.2650530751015676);
 
   estimate = estimates::Manager::Instance().GetEstimate("selectivity[av].v(40)");
   if (!estimate)
-    LOG_ERROR("!estimate");
+    LOG_ERROR_P("!estimate");
   EXPECT_DOUBLE_EQ(estimate->value(), 20.0);
   EXPECT_DOUBLE_EQ(estimate->GetScore(), 4.9335998153292859);
 }
@@ -274,13 +274,13 @@ TEST_F(InternalEmptyModel, Estimates_All_Targets_Unsigned_Map) {
 
   EstimatePtr estimate = estimates::Manager::Instance().GetEstimate("process[Fishing].catches(1998)");
   if (!estimate)
-    LOG_ERROR("!estimate");
+    LOG_ERROR_P("!estimate");
   EXPECT_DOUBLE_EQ(estimate->value(), 1849.153714);
   EXPECT_DOUBLE_EQ(estimate->GetScore(), 18.371135369472036);
 
   estimate = estimates::Manager::Instance().GetEstimate("process[Fishing].catches(2006)");
   if (!estimate)
-    LOG_ERROR("!estimate");
+    LOG_ERROR_P("!estimate");
   EXPECT_DOUBLE_EQ(estimate->value(), 113852.472257);
   EXPECT_DOUBLE_EQ(estimate->GetScore(), 29.892453993650498);
 }
@@ -315,13 +315,13 @@ TEST_F(InternalEmptyModel, Estimates_All_Targets_String_Map) {
 
   EstimatePtr estimate = estimates::Manager::Instance().GetEstimate("process[Recruitment].proportions(immature.male)");
   if (!estimate)
-    LOG_ERROR("!estimate");
+    LOG_ERROR_P("!estimate");
   EXPECT_DOUBLE_EQ(estimate->value(), 0.5);
   EXPECT_DOUBLE_EQ(estimate->GetScore(), -0.64756858783643167);
 
   estimate = estimates::Manager::Instance().GetEstimate("process[Recruitment].proportions(immature.female)");
   if (!estimate)
-    LOG_ERROR("!estimate");
+    LOG_ERROR_P("!estimate");
   EXPECT_DOUBLE_EQ(estimate->value(), 0.5);
   EXPECT_DOUBLE_EQ(estimate->GetScore(), -0.69298502612944257);
 }

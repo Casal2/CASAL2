@@ -48,8 +48,8 @@ AllValues::AllValues()
  */
 void AllValues::DoValidate() {
   if (v_.size() != model_->age_spread()) {
-    LOG_ERROR(parameters_.location(PARAM_V) << ": Number of 'v' values supplied is not the same as the model age spread.\n"
-        << "Expected: " << model_->age_spread() << " but got " << v_.size());
+    LOG_ERROR_P(PARAM_V) << ": Number of 'v' values supplied is not the same as the model age spread.\n"
+        << "Expected: " << model_->age_spread() << " but got " << v_.size();
   }
 }
 

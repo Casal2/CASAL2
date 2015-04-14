@@ -27,7 +27,7 @@
 #include "Translations/Translations.h"
 #include "Utilities/String.h"
 #include "Utilities/To.h"
-#include "Utilities/Logging/Logging.h"
+#include "Logging/Logging.h"
 
 // Namespaces
 using std::ifstream;
@@ -64,13 +64,13 @@ void Loader::LoadConfigFile(const string& override_file_name) {
 
     FilePtr file = FilePtr(new File(this));
     if (!file->OpenFile(config_file))
-      LOG_ERROR("Failed to open the first configuration file: " << config_file << ". Does this file exist? Is it in the right path?");
+      LOG_ERROR() << "Failed to open the first configuration file: " << config_file << ". Does this file exist? Is it in the right path?";
 
     file->Parse();
 
-    LOG_INFO("file_lines_.size() == " << file_lines_.size());
+    LOG_FINEST() << "file_lines_.size() == " << file_lines_.size();
     if (file_lines_.size() == 0)
-      LOG_ERROR("The configuration file " << config_file << " is empty. Please specify a valid configuration file");
+      LOG_ERROR() << "The configuration file " << config_file << " is empty. Please specify a valid configuration file";
   }
 
   ParseFileLines();
@@ -159,7 +159,7 @@ void Loader::ParseFileLines() {
 void Loader::ParseBlock(vector<FileLine> &block) {
   LOG_TRACE();
   if (block.size() == 0)
-    LOG_CODE_ERROR("block.size() == 0");
+    LOG_CODE_ERROR() << "block.size() == 0";
 
   /**
    * Get the block type
@@ -172,11 +172,11 @@ void Loader::ParseBlock(vector<FileLine> &block) {
 
   boost::split(line_parts, block[0].line_, boost::is_any_of(" "));
   if (line_parts.size() == 0)
-    LOG_ERROR("At line " << block[0].line_number_ << " of " << block[0].file_name_
-        << ": Could not successfully split the line into an array. Line is incorrectly formatted");
+    LOG_ERROR() << "At line " << block[0].line_number_ << " of " << block[0].file_name_
+        << ": Could not successfully split the line into an array. Line is incorrectly formatted";
   if (line_parts.size() > 2)
-    LOG_ERROR("At line " << block[0].line_number_ << " of " << block[0].file_name_
-        << ": The block's label cannot have a space or tab in it. Please use alphanumeric characters and underscores only");
+    LOG_ERROR() << "At line " << block[0].line_number_ << " of " << block[0].file_name_
+        << ": The block's label cannot have a space or tab in it. Please use alphanumeric characters and underscores only";
 
   block_type = line_parts[0].substr(1); // Skip the first char '@'
   block_label = line_parts.size() == 2 ? line_parts[1] : "";
@@ -195,12 +195,12 @@ void Loader::ParseBlock(vector<FileLine> &block) {
       // Split the line into a vector
       boost::split(line_parts, file_line.line_, boost::is_any_of(" "));
       if (line_parts.size() == 0)
-        LOG_ERROR("At line " << file_line.line_number_ << " of " << file_line.file_name_
-            << ": Could not successfully split the line into an array. Line is incorrectly formatted");
+        LOG_ERROR() << "At line " << file_line.line_number_ << " of " << file_line.file_name_
+            << ": Could not successfully split the line into an array. Line is incorrectly formatted";
 
       if (line_parts.size() != 2)
-        LOG_ERROR("At line " << file_line.line_number_ << " of " << file_line.file_name_
-            << ": No valid value was specified as the type");
+        LOG_ERROR() << "At line " << file_line.line_number_ << " of " << file_line.file_name_
+            << ": No valid value was specified as the type";
 
       sub_type = line_parts[1];
       continue;
@@ -215,14 +215,14 @@ void Loader::ParseBlock(vector<FileLine> &block) {
 
   ObjectPtr object = factory::Object::Create(block_type, sub_type);
   if (!object)
-    LOG_ERROR("At line " << block[0].line_number_ << " of " << block[0].file_name_
+    LOG_ERROR() << "At line " << block[0].line_number_ << " of " << block[0].file_name_
         << ": Block object type or sub-type is invalid.\n"
         << "Object Type: " << block_type << "\n"
-        << "Sub-Type: " << sub_type);
+        << "Sub-Type: " << sub_type;
 
   if (block_label != "" && !object->parameters().Add(PARAM_LABEL, block_label, block[0].file_name_, block[0].line_number_))
-    LOG_ERROR("At line " << block[0].line_number_ << " of " << block[0].file_name_
-        << ": The block @" << block_type << " does not support having a label");
+    LOG_ERROR() << "At line " << block[0].line_number_ << " of " << block[0].file_name_
+        << ": The block @" << block_type << " does not support having a label";
 
   // Store where this object was defined for use in printing errors later
   object->set_block_type(block_type);
@@ -252,8 +252,8 @@ void Loader::ParseBlock(vector<FileLine> &block) {
     // Split the line
     boost::split(line_parts, current_line, boost::is_any_of(" "));
     if (line_parts.size() == 0)
-      LOG_ERROR("At line " << file_line.line_number_ << " of " << file_line.file_name_
-          << ": Could not successfully split the line into an array. Line is incorrectly formatted");
+      LOG_ERROR() << "At line " << file_line.line_number_ << " of " << file_line.file_name_
+          << ": Could not successfully split the line into an array. Line is incorrectly formatted";
 
     // Load the parameters
     string parameter_type = util::ToLowercase(line_parts[0]);
@@ -263,8 +263,8 @@ void Loader::ParseBlock(vector<FileLine> &block) {
      * Re-process the values based on the symbols we support
      */
     if (parameter_type != PARAM_PARAMETER && !HandleOperators(values))
-      LOG_ERROR("At line " << file_line.line_number_ << " of " << file_line.file_name_
-          << ": Line could not be processed properly for operators(+ , -). Please check the format of your line");
+      LOG_ERROR() << "At line " << file_line.line_number_ << " of " << file_line.file_name_
+          << ": Line could not be processed properly for operators(+ , -). Please check the format of your line";
 
     /**
      *
@@ -275,21 +275,21 @@ void Loader::ParseBlock(vector<FileLine> &block) {
       loading_columns = true;
 
       if (line_parts.size() != 2)
-        LOG_ERROR("At line " << file_line.line_number_ << " of " << file_line.file_name_
-            << ": table parameter requires a valid label. Please use alphanumeric characters and underscores only");
+        LOG_ERROR() << "At line " << file_line.line_number_ << " of " << file_line.file_name_
+            << ": table parameter requires a valid label. Please use alphanumeric characters and underscores only";
 
       table_label = util::ToLowercase(line_parts[1]);
       current_table_ = object->parameters().GetTable(table_label);
       if (!current_table_)
-        LOG_ERROR("At line " << file_line.line_number_ << " of " << file_line.file_name_
-            << ": table " << table_label << " is not a supported table label.");
+        LOG_ERROR() << "At line " << file_line.line_number_ << " of " << file_line.file_name_
+            << ": table " << table_label << " is not a supported table label.";
       current_table_->set_file_name(file_line.file_name_);
       current_table_->set_line_number(file_line.line_number_);
 
     } else if (loading_table && loading_columns) {
       // We're on the line after the table <label> definition where the columns will be
       if (!current_table_)
-        LOG_CODE_ERROR("!current_table");
+        LOG_CODE_ERROR() << "!current_table";
 
       if (current_table_->requires_comlums())
         current_table_->AddColumns(line_parts);
@@ -300,16 +300,16 @@ void Loader::ParseBlock(vector<FileLine> &block) {
     } else if (loading_table && parameter_type != PARAM_END_TABLE) {
       // We're loading a standard row of data for the table
       if (current_table_->requires_comlums() && line_parts.size() != current_table_->GetColumnCount())
-        LOG_ERROR("At line " << file_line.line_number_ << " of " << file_line.file_name_
-            << ": Table data does not contain the correct number of columns. Expected (" << current_table_->GetColumnCount() << ") : Actual (" << line_parts.size() << ")");
+        LOG_ERROR() << "At line " << file_line.line_number_ << " of " << file_line.file_name_
+            << ": Table data does not contain the correct number of columns. Expected (" << current_table_->GetColumnCount() << ") : Actual (" << line_parts.size() << ")";
 
       current_table_->AddRow(line_parts);
 
     } else if (loading_table && parameter_type == PARAM_END_TABLE) {
       // We've found the end of our table.
       if (line_parts.size() != 1)
-        LOG_ERROR("At line " << file_line.line_number_ << " of " << file_line.file_name_
-            << ": end_table cannot contain any extra values");
+        LOG_ERROR() << "At line " << file_line.line_number_ << " of " << file_line.file_name_
+            << ": end_table cannot contain any extra values";
 
       loading_table   = false;
       loading_columns = false;
@@ -319,17 +319,17 @@ void Loader::ParseBlock(vector<FileLine> &block) {
       // loading a normal parameter
       const ParameterPtr parameter = object->parameters().Get(parameter_type);
       if (!parameter)
-        LOG_ERROR("At line " << file_line.line_number_ << " of " << file_line.file_name_
-            << ": Parameter '" << parameter_type << "' is not supported");
+        LOG_ERROR() << "At line " << file_line.line_number_ << " of " << file_line.file_name_
+            << ": Parameter '" << parameter_type << "' is not supported";
       if (parameter->has_been_defined()) {
-        LOG_ERROR("At line " << file_line.line_number_ << " of " << file_line.file_name_
+        LOG_ERROR() << "At line " << file_line.line_number_ << " of " << file_line.file_name_
             << ": Parameter '" << parameter_type << "' for object " << block_type
-            << " was already specified at line " << parameter->line_number() << " of " << parameter->file_name());
+            << " was already specified at line " << parameter->line_number() << " of " << parameter->file_name();
       }
 
       if (!object->parameters().Add(parameter_type, values, file_line.file_name_, file_line.line_number_))
-        LOG_ERROR("At line " << file_line.line_number_ << " of " << file_line.file_name_
-            << ": Could not add parameter '" << parameter_type << "' to block '" << block_type << "'. Parameter is not supported");
+        LOG_ERROR() << "At line " << file_line.line_number_ << " of " << file_line.file_name_
+            << ": Could not add parameter '" << parameter_type << "' to block '" << block_type << "'. Parameter is not supported";
     }
   }
 }
@@ -433,7 +433,7 @@ bool Loader::HandleOperators(vector<string>& line_values) {
       }
 
       for (string list_item : expanded_list) {
-        LOG_INFO("Adding: " << list_item << " as a list item when splitting up a category list");
+        LOG_FINEST() << "Adding: " << list_item << " as a list item when splitting up a category list";
         outputs.push_back(list_item);
       }
 
@@ -472,25 +472,25 @@ void Loader::HandleInlineDefinitions(FileLine& file_line, const string& parent_l
      */
     while (first_inline_bracket != string::npos) {
       if (first_inline_bracket >= second_inline_bracket)
-        LOG_CODE_ERROR("first_inline_bracket (" << first_inline_bracket << ") <= second_inline_bracket (" << second_inline_bracket << ")");
+        LOG_CODE_ERROR() << "first_inline_bracket (" << first_inline_bracket << ") <= second_inline_bracket (" << second_inline_bracket << ")";
       if (first_inline_bracket <= 1)
-        LOG_ERROR("At line " << file_line.line_number_ << " of " << file_line.file_name_
-            << ": You cannot start the line with an inline definition [ operator");
+        LOG_ERROR() << "At line " << file_line.line_number_ << " of " << file_line.file_name_
+            << ": You cannot start the line with an inline definition [ operator";
 
       /**
        * Work out the block type for use when defining it
        */
       size_t space_loc = file_line.line_.find(' ');
       if (space_loc == string::npos)
-        LOG_ERROR("At line " << file_line.line_number_ << " of " << file_line.file_name_
-            << ": This line contains no space characters so we cannot determine the label for the inline definition");
+        LOG_ERROR() << "At line " << file_line.line_number_ << " of " << file_line.file_name_
+            << ": This line contains no space characters so we cannot determine the label for the inline definition";
 
       string block_type = file_line.line_.substr(0, space_loc);
       // do some quick changes to handle weird parameter names
-      LOG_INFO("block_type: " << block_type);
+      LOG_FINEST() << "block_type: " << block_type;
       if (block_type.find(PARAM_SELECTIVITIES) != string::npos)
         block_type = PARAM_SELECTIVITY;
-      LOG_INFO("block_type: " << block_type);
+      LOG_FINEST() << "block_type: " << block_type;
 
       /**
        * Get the label. Either it's going to be the first part of the line
@@ -505,7 +505,7 @@ void Loader::HandleInlineDefinitions(FileLine& file_line, const string& parent_l
         string start_string = file_line.line_.substr(0, first_inline_bracket - 1);
         size_t space_loc = start_string.find_last_of(' ');
         if (space_loc == string::npos)
-          LOG_CODE_ERROR("space_loc == string::npos for line: " << start_string);
+          LOG_CODE_ERROR() << "space_loc == string::npos for line: " << start_string;
 
         label = parent_label + string(".") + start_string.substr(space_loc + 1);
         full_definition = file_line.line_.substr(space_loc + 1, second_inline_bracket - space_loc);
@@ -515,7 +515,7 @@ void Loader::HandleInlineDefinitions(FileLine& file_line, const string& parent_l
         full_definition = file_line.line_.substr(first_inline_bracket, second_inline_bracket - first_inline_bracket + 1);
       }
 
-      LOG_INFO("Inline definition label: " << label << " | full definition: " << full_definition);
+      LOG_FINEST() << "Inline definition label: " << label << " | full definition: " << full_definition;
       if (full_definition.find('=') != string::npos) {
         replacement_strings.push_back(std::pair<string, string>(full_definition, label));
 
@@ -523,7 +523,7 @@ void Loader::HandleInlineDefinitions(FileLine& file_line, const string& parent_l
          * Now we have to split the string up between the definition block
          */
         string definition = file_line.line_.substr(first_inline_bracket+1, second_inline_bracket - first_inline_bracket - 1);
-        LOG_INFO("Absolute definition: " << definition);
+        LOG_FINEST() << "Absolute definition: " << definition;
 
         vector<string> definition_parts;
         boost::split(definition_parts, definition, boost::is_any_of(";"));
@@ -548,17 +548,17 @@ void Loader::HandleInlineDefinitions(FileLine& file_line, const string& parent_l
 
         ParseBlock(inline_block);
       }
-      LOG_INFO("first_inline_bracket: " << first_inline_bracket << "; second_inline_bracket: " << second_inline_bracket);
+      LOG_FINEST() << "first_inline_bracket: " << first_inline_bracket << "; second_inline_bracket: " << second_inline_bracket;
 
       first_inline_bracket  = file_line.line_.find("[", second_inline_bracket);
       second_inline_bracket = file_line.line_.find("]", second_inline_bracket+1);
 
-      LOG_INFO("first_inline_bracket: " << first_inline_bracket << "; second_inline_bracket: " << second_inline_bracket);
+      LOG_FINEST() << "first_inline_bracket: " << first_inline_bracket << "; second_inline_bracket: " << second_inline_bracket;
       // Check to ensure rest of the line has been defined properly.
       if ( (first_inline_bracket != string::npos && second_inline_bracket == string::npos) ||
            (first_inline_bracket == string::npos && second_inline_bracket != string::npos)) {
-        LOG_ERROR("At line " << file_line.line_number_ << " of " << file_line.file_name_
-            << ": This line contains either a [ or a ] but not both. This line is not in a valid format");
+        LOG_ERROR() << "At line " << file_line.line_number_ << " of " << file_line.file_name_
+            << ": This line contains either a [ or a ] but not both. This line is not in a valid format";
       }
     } // while (first_inline_bracket != string::npos)
 
@@ -568,12 +568,12 @@ void Loader::HandleInlineDefinitions(FileLine& file_line, const string& parent_l
      */
     for(std::pair<string, string> replacement : replacement_strings)
       boost::replace_first(file_line.line_, replacement.first, replacement.second);
-    LOG_INFO("Finished line replacement for inline definitions. New line: " << file_line.line_);
+    LOG_FINEST() << "Finished line replacement for inline definitions. New line: " << file_line.line_;
 
   } else if (first_inline_bracket != string::npos || second_inline_bracket != string::npos) {
     // Only one brace was present.
-    LOG_ERROR("At line " << file_line.line_number_ << " of " << file_line.file_name_
-        << ": This line contains either a [ or a ] but not both. This line is not in a valid format");
+    LOG_ERROR() << "At line " << file_line.line_number_ << " of " << file_line.file_name_
+        << ": This line contains either a [ or a ] but not both. This line is not in a valid format";
   }
 
   return; // no braces so no inline

@@ -18,7 +18,7 @@
 #include <boost/algorithm/string/split.hpp>
 
 #include "Loader.h"
-#include "Utilities/Logging/Logging.h"
+#include "Logging/Logging.h"
 #include "Utilities/String.h"
 #include "Utilities/To.h"
 
@@ -69,7 +69,7 @@ void File::Parse() {
   LOG_TRACE();
 
   if (file_.fail() || !file_.is_open())
-    LOG_CODE_ERROR("Unable to parse the configuration file because a previous error has not been reported.\nFile: " << file_name_);
+    LOG_CODE_ERROR() << "Unable to parse the configuration file because a previous error has not been reported.\nFile: " << file_name_;
 
   /**
    * Iterate through our file parsing the contents
@@ -93,7 +93,7 @@ void File::Parse() {
      */
     boost::replace_all(current_line, "\t", " ");
     boost::trim_all(current_line);
-    LOG_INFO("current_line == '" << current_line << "'");
+    LOG_FINEST() << "current_line == '" << current_line << "'";
 
     /**
      * Now we need to check if this line is an include line for a new
@@ -103,14 +103,14 @@ void File::Parse() {
       string lower_line = util::ToLowercase(current_line);
       if (current_line.substr(0, strlen(CONFIG_INCLUDE)) == CONFIG_INCLUDE) {
         string include_name = current_line.substr(strlen(CONFIG_INCLUDE));
-        LOG_INFO("Loading new configuration file via include " << include_name);
+        LOG_FINEST() << "Loading new configuration file via include " << include_name;
 
         boost::replace_all(include_name, "\"", "");
         boost::trim_all(include_name);
         FilePtr include_file = FilePtr(new File(loader_));
         if (!include_file->OpenFile(include_name))
-          LOG_ERROR("At line: " << line_number_ << " of " << file_name_
-              << ": Include file '" << include_name << "' could not be opened. Does this file exist?");
+          LOG_ERROR() << "At line: " << line_number_ << " of " << file_name_
+              << ": Include file '" << include_name << "' could not be opened. Does this file exist?";
 
         include_file->Parse();
         continue;

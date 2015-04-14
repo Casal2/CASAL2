@@ -25,7 +25,7 @@ namespace timesteps {
  * Default Constructor
  */
 Manager::Manager() {
-  LOG_INFO("TimeStep Manager Constructor");
+  LOG_FINE() << "TimeStep Manager Constructor";
 }
 
 /**
@@ -38,7 +38,7 @@ Manager::~Manager() noexcept(true) {
  *
  */
 TimeStepPtr Manager::GetTimeStep(const string& label) const {
-  LOG_INFO("label: " << label);
+  LOG_FINE() << "label: " << label;
   TimeStepPtr result;
   for (TimeStepPtr time_step : objects_) {
     if (time_step->label() == label) {
@@ -61,7 +61,7 @@ unsigned Manager::GetTimeStepIndex(const string& time_step_label) const {
       return index;
   }
 
-  LOG_ERROR("The time step " << time_step_label << " could not be found");
+  LOG_ERROR() << "The time step " << time_step_label << " could not be found";
   return 0;
 }
 
@@ -77,7 +77,7 @@ unsigned Manager::GetTimeStepIndexForProcess(const string& process_label) const 
       return index;
   }
 
-  LOG_ERROR("The process " << process_label << " could not be found in any of the time steps");
+  LOG_ERROR() << "The process " << process_label << " could not be found in any of the time steps";
   return 0;
 }
 
@@ -119,7 +119,7 @@ void Manager::Validate() {
   LOG_TRACE();
 
   for (TimeStepPtr time_step : objects_) {
-    LOG_INFO("Validating time step: " << time_step->label());
+    LOG_FINE() << "Validating time step: " << time_step->label();
     time_step->Validate();
   }
 
@@ -134,7 +134,7 @@ void Manager::Validate() {
     }
   }
 
-  LOG_INFO("ordered_time_steps_.size(): " << ordered_time_steps_.size());
+  LOG_FINEST() << "ordered_time_steps_.size(): " << ordered_time_steps_.size();
 }
 
 /**
@@ -157,7 +157,7 @@ void Manager::Execute(unsigned year) {
 
   reports::Manager& report_manager = reports::Manager::Instance();
   for (current_time_step_ = 0; current_time_step_ < ordered_time_steps_.size(); ++current_time_step_) {
-    LOG_INFO("Current Time Step: " <<  current_time_step_);
+    LOG_FINE() << "Current Time Step: " <<  current_time_step_;
     ordered_time_steps_[current_time_step_]->Execute(year);
     report_manager.Execute(year, ordered_time_steps_[current_time_step_]->label());
   }

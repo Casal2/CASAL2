@@ -52,15 +52,15 @@ TransitionCategoryByAge::TransitionCategoryByAge() {
  */
 void TransitionCategoryByAge::DoValidate() {
   if (from_category_labels_.size() != to_category_labels_.size()) {
-    LOG_ERROR(parameters_.location(PARAM_TO) << " number of values supplied (" << to_category_labels_.size()
-        << ") does not match the number of from categories provided (" << from_category_labels_.size() << ")");
+    LOG_ERROR_P(PARAM_TO) << " number of values supplied (" << to_category_labels_.size()
+        << ") does not match the number of from categories provided (" << from_category_labels_.size() << ")";
   }
   if (u_max_ <= 0.0 || u_max_ > 1.0)
-    LOG_ERROR(parameters_.location(PARAM_U_MAX) << " (" << u_max_ << ") must be greater than 0.0 and less than 1.0");
+    LOG_ERROR_P(PARAM_U_MAX) << " (" << u_max_ << ") must be greater than 0.0 and less than 1.0";
   if (min_age_ < model_->min_age())
-    LOG_ERROR(parameters_.location(PARAM_MIN_AGE) << " (" << min_age_ << ") is less than the model's minimum age (" << model_->min_age() << ")");
+    LOG_ERROR_P(PARAM_MIN_AGE) << " (" << min_age_ << ") is less than the model's minimum age (" << model_->min_age() << ")";
   if (max_age_ > model_->max_age())
-    LOG_ERROR(parameters_.location(PARAM_MAX_AGE) << " (" << max_age_ << ") is greater than the model's maximum age (" << model_->max_age() << ")");
+    LOG_ERROR_P(PARAM_MAX_AGE) << " (" << max_age_ << ") is greater than the model's maximum age (" << model_->max_age() << ")";
 
   unsigned age_spread = (max_age_ - min_age_) + 1;
 
@@ -69,16 +69,16 @@ void TransitionCategoryByAge::DoValidate() {
    */
   vector<string> columns = n_table_->columns();
   if (columns.size() != age_spread + 1)
-    LOG_ERROR(parameters_.location(PARAM_N) << " number of columns provided (" << columns.size() << ") does not match the model's age spread + 1 ("
-        << (age_spread + 1) << ")");
+    LOG_ERROR_P(PARAM_N) << " number of columns provided (" << columns.size() << ") does not match the model's age spread + 1 ("
+        << (age_spread + 1) << ")";
   if (columns[0] != PARAM_YEAR)
-    LOG_ERROR(parameters_.location(PARAM_N) << " first column label (" << columns[0] << ") provided must be 'year'");
+    LOG_ERROR_P(PARAM_N) << " first column label (" << columns[0] << ") provided must be 'year'";
 
   map<unsigned, unsigned> age_index;
   for (unsigned i = 1; i < columns.size(); ++i) {
     unsigned age = 0;
     if (!utilities::To<unsigned>(columns[i], age))
-      LOG_ERROR("");
+      LOG_ERROR() << "";
     age_index[age] = i;
   }
 
@@ -88,10 +88,10 @@ void TransitionCategoryByAge::DoValidate() {
   Double n_value = 0.0;
   for (auto iter : data) {
     if (!utilities::To<unsigned>(iter[0], year))
-      LOG_ERROR(parameters_.location(PARAM_N) << " value (" << iter[0] << ") is not a valid unsigned value that could be converted to a model year");
+      LOG_ERROR_P(PARAM_N) << " value (" << iter[0] << ") is not a valid unsigned value that could be converted to a model year";
     for (unsigned i = 1; i < iter.size(); ++i) {
       if (!utilities::To<Double>(iter[i], n_value))
-        LOG_ERROR(parameters_.location(PARAM_N) << " value (" << iter[i] << ") could not be converted to a double. Please ensure it's a numeric value");
+        LOG_ERROR_P(PARAM_N) << " value (" << iter[i] << ") could not be converted to a double. Please ensure it's a numeric value";
       if (n_[year].size() == 0)
         n_[year].resize(age_spread, 0.0);
       n_[year][i - 1] = n_value;
@@ -120,14 +120,14 @@ void TransitionCategoryByAge::DoExecute() {
   if (std::find(years_.begin(), years_.end(), current_year) == years_.end())
     return;
 
-  LOG_INFO("n_.size(): " << n_.size());
-  LOG_INFO("n_[current_year].size()" << n_[current_year].size());
+  LOG_FINEST() << "n_.size(): " << n_.size();
+  LOG_FINEST() << "n_[current_year].size()" << n_[current_year].size();
   for (unsigned i = 0; i < n_[current_year].size(); ++i)
-    LOG_INFO("n_[current_year][" << i << "]: " << n_[current_year][i]);
+    LOG_FINEST() << "n_[current_year][" << i << "]: " << n_[current_year][i];
 
   Double total_stock;
   unsigned age_spread = (max_age_ = min_age_) + 1;
-  LOG_INFO("age_spread: " << age_spread << " in year " << current_year);
+  LOG_FINEST() << "age_spread: " << age_spread << " in year " << current_year;
 
   for (unsigned i = 0; i < age_spread; ++i) {
     /**
@@ -139,13 +139,13 @@ void TransitionCategoryByAge::DoExecute() {
     total_stock = 0.0;
     for (; from_iter != from_partition_.end(); from_iter++, to_iter++) {
       unsigned total_stock_offset = (min_age_ - (*from_iter)->min_age_) + i;
-      LOG_INFO("total_stock_offset: " << total_stock_offset << " (" << (*from_iter)->min_age_ << " - " << min_age_ << ") + " << i);
+      LOG_FINE() << "total_stock_offset: " << total_stock_offset << " (" << (*from_iter)->min_age_ << " - " << min_age_ << ") + " << i;
       total_stock += (*from_iter)->data_[total_stock_offset];
     }
-    LOG_INFO("total_stock: " << total_stock << " at age " << min_age_ + i);
+    LOG_FINE() << "total_stock: " << total_stock << " at age " << min_age_ + i;
 
     Double exploitation = n_[current_year][i] / utilities::doublecompare::ZeroFun(total_stock);
-    LOG_INFO("exploitation: " << exploitation << "; n: " << n_[current_year][i]);
+    LOG_FINE() << "exploitation: " << exploitation << "; n: " << n_[current_year][i];
     if (exploitation > u_max_) {
       exploitation = u_max_;
       if (penalty_)
@@ -161,7 +161,7 @@ void TransitionCategoryByAge::DoExecute() {
     for (; from_iter != from_partition_.end(); from_iter++, to_iter++) {
       unsigned offset = (min_age_ - (*from_iter)->min_age_) + i;
       Double current = (*from_iter)->data_[offset] * exploitation;
-      LOG_INFO("current: " << current << "; exploitation: " << exploitation);
+      LOG_FINE() << "current: " << current << "; exploitation: " << exploitation;
       if (current <= 0.0)
         continue;
 
@@ -170,8 +170,6 @@ void TransitionCategoryByAge::DoExecute() {
     }
   }
 }
-
-
 
 } /* namespace processes */
 } /* namespace niwa */

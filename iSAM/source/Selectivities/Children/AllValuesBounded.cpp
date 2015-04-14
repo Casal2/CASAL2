@@ -54,25 +54,25 @@ void AllValuesBounded::DoValidate() {
 
   // Param: L
   if (low_ < min_age) {
-    LOG_ERROR(parameters_.location(PARAM_L) << ": Parameter 'l' is less than the 'min_age' for the model\n"
-        << "Model 'min_age' is " << min_age << " and 'l' is " << low_);
+    LOG_ERROR_P(PARAM_L) << ": Parameter 'l' is less than the 'min_age' for the model\n"
+        << "Model 'min_age' is " << min_age << " and 'l' is " << low_;
   }
 
   // Param: H
   if (high_ > max_age) {
-    LOG_ERROR(parameters_.location(PARAM_H) << ": Parameter 'h' is greater than the 'max_age' for the model\n"
-        << "Model 'max_age' is " << max_age << " and 'h' is " << high_);
+    LOG_ERROR_P(PARAM_H) << ": Parameter 'h' is greater than the 'max_age' for the model\n"
+        << "Model 'max_age' is " << max_age << " and 'h' is " << high_;
   }
 
   if (low_ >= high_) {
-    LOG_ERROR(parameters_.location(PARAM_L) << ": Parameter 'l' is greater than or equal to parameter 'h'\n"
-        << "'l' = " << low_ << " and 'h' = " << high_);
+    LOG_ERROR_P(PARAM_L) << ": Parameter 'l' is greater than or equal to parameter 'h'\n"
+        << "'l' = " << low_ << " and 'h' = " << high_;
   }
 
   // Param: V
   if (v_.size() != (high_ - low_)+1) {
-    LOG_ERROR(parameters_.location(PARAM_V) << ": Parameter 'v' does not have the right amount of elements n = h - l\n"
-        << "Expected " << (high_ - low_) + 1 << " but got " << v_.size());
+    LOG_ERROR_P(PARAM_V) << ": Parameter 'v' does not have the right amount of elements n = h - l\n"
+        << "Expected " << (high_ - low_) + 1 << " but got " << v_.size();
   }
 }
 

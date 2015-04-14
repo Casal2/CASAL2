@@ -33,11 +33,11 @@ void PartitionBiomass::DoValidate() {
   vector<unsigned> model_years = model->years();
   for (unsigned year : years_) {
     if (std::find(model_years.begin(), model_years.end(), year) == model_years.end())
-      LOG_ERROR(parameters_.location(PARAM_YEARS) << " value " << year << " is not a valid year in the model");
+      LOG_ERROR_P(PARAM_YEARS) << " value " << year << " is not a valid year in the model";
   }
 
   if (units_ != PARAM_TONNES && units_ != PARAM_KGS && units_ != PARAM_GRAMS)
-    LOG_ERROR(parameters_.location(PARAM_UNITS) << " value " << units_ << " is not valid. Valid units are tonnes, kgs and grams");
+    LOG_ERROR_P(PARAM_UNITS) << " value " << units_ << " is not valid. Valid units are tonnes, kgs and grams";
 }
 
 /**

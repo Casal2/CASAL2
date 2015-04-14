@@ -71,7 +71,7 @@ MinimiserPtr Factory::Create(const string& object_type, const string& sub_type) 
 #endif
 
     if (!result)
-      LOG_ERROR("The minimiser " << object_type << "." << sub_type << " is not supported in the current configuration");
+      LOG_ERROR() << "The minimiser " << object_type << "." << sub_type << " is not supported in the current configuration";
     if (result)
       minimisers::Manager::Instance().AddObject(result);
   }

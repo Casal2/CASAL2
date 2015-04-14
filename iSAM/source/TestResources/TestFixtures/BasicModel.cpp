@@ -32,7 +32,7 @@
 #include "Selectivities/Manager.h"
 #include "SizeWeights/Manager.h"
 #include "TimeSteps/Manager.h"
-#include "Utilities/Logging/Logging.h"
+#include "Logging/Logging.h"
 #include "Utilities/RandomNumberGenerator.h"
 #include "Utilities/To.h"
 
