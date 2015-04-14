@@ -107,6 +107,10 @@ int main(int argc, char * argv[]) {
        */
       configuration::Loader config_loader;
       config_loader.LoadConfigFile();
+      if (Logging::Instance().errors().size() > 0) {
+        Logging::Instance().FlushErrors();
+        return -1;
+      }
 
       /**
        * Override any config values

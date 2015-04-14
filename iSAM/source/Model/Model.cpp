@@ -135,19 +135,34 @@ void Model::Start(RunMode::Type run_mode) {
 
   reports::Manager::Instance().Execute(State::kStartUp);
 
+  Logging& logging = Logging::Instance();
+
   LOG_FINE() << "Model: State Change to Validate";
   state_ = State::kValidate;
   Validate();
+  if (logging.errors().size() > 0) {
+    logging.FlushErrors();
+    return;
+  }
+
   reports::Manager::Instance().Execute(state_);
 
   LOG_FINE() << "Model: State Change to Build";
   state_ = State::kBuild;
   Build();
+  if (logging.errors().size() > 0) {
+    logging.FlushErrors();
+    return;
+  }
   reports::Manager::Instance().Execute(state_);
 
   LOG_FINE() << "Model: State Change to Verify";
   state_ = State::kVerify;
   Verify();
+  if (logging.errors().size() > 0) {
+    logging.FlushErrors();
+    return;
+  }
   reports::Manager::Instance().Execute(state_);
 
   // prepare all reports
@@ -235,14 +250,14 @@ void Model::Validate() {
     }
 
   } else if (partition_structure_ == PartitionStructure::kLength) {
-    if (parameters_.Get(PARAM_MIN_AGE)->has_been_defined())
-      LOG_ERROR_P(PARAM_MIN_AGE) << " cannot be defined in a length model";
-    if (parameters_.Get(PARAM_MAX_AGE)->has_been_defined())
-      LOG_ERROR_P(PARAM_MAX_AGE) << " cannot be defined in a length model";
-    if (parameters_.Get(PARAM_AGE_PLUS)->has_been_defined())
-      LOG_ERROR_P(PARAM_AGE_PLUS) << " cannot be defined in a length model";
     if (!parameters_.Get(PARAM_LENGTH_BINS)->has_been_defined())
-      LOG_ERROR() << location() << " is missing required parameter " << PARAM_LENGTH_BINS;
+      LOG_ERROR() << location() << "@model is missing required parameter " << PARAM_LENGTH_BINS;
+    if (parameters_.Get(PARAM_MIN_AGE)->has_been_defined())
+      LOG_ERROR_P(PARAM_MIN_AGE) << "cannot be defined in a length model";
+    if (parameters_.Get(PARAM_MAX_AGE)->has_been_defined())
+      LOG_ERROR_P(PARAM_MAX_AGE) << "cannot be defined in a length model";
+    if (parameters_.Get(PARAM_AGE_PLUS)->has_been_defined())
+      LOG_ERROR_P(PARAM_AGE_PLUS) << "cannot be defined in a length model";
 
   } else
     LOG_ERROR() << "Partition structure " << (unsigned)partition_structure_ << " not supported";

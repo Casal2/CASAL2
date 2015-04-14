@@ -24,14 +24,13 @@ namespace util = niwa::utilities;
  * Default Constructor
  */
 GlobalConfiguration::GlobalConfiguration() {
-
   global_parameters_[PARAM_DEBUG]                       = "f";
   global_parameters_[PARAM_SKIP_CONFIG_FILE]            = "f";
   global_parameters_[PARAM_CONFIG_FILE]                 = "isam.txt";
   global_parameters_[PARAM_RANDOM_NUMBER_SEED]          = "123";
   global_parameters_[PARAM_FORCE_ESTIMABLE_VALUES_FILE] = "f";
   global_parameters_[PARAM_NO_STANDARD_HEADER_REPORT]   = "f";
-  global_parameters_[PARAM_LOG_LEVEL]                   = "none";
+  global_parameters_[PARAM_LOG_LEVEL]                   = PARAM_NONE;
 }
 
 /**
@@ -97,7 +96,6 @@ void GlobalConfiguration::Clear() {
  */
 void GlobalConfiguration::OverrideGlobalValues(const map<string, string>& override_values) {
   for (auto iter : override_values) {
-    cout << "X: " << iter.first << " : " << iter.second << endl;
     global_parameters_[iter.first] = iter.second;
   }
 }

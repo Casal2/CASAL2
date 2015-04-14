@@ -47,12 +47,16 @@ public:
   Record(Severity s, string file, string func, unsigned line)
     : log_severity_(s), file_name_(file), function_(func), line_number_(line) { };
   virtual                     ~Record() = default;
-  bool                        Flush() { return true; }
+  void                        BuildMessage();
+  bool                        Flush();
 
   // accessors
   std::ostringstream&         stream() { return stream_; }
+  const std::string&          message() const { return message_; }
+  Severity                    severity() const { return log_severity_; }
 
 private:
+  bool                        flush_ = false;
   string                      message_;
   Severity                    log_severity_;
   string                      file_name_;

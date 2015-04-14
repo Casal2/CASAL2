@@ -213,7 +213,7 @@ string Object::location() {
   string line_number;
   niwa::utilities::To<unsigned, string>(parameters_.defined_line_number(), line_number);
 
-  string location = "At line " + line_number + " in file " + parameters_.defined_file_name();
+  string location = "At line " + line_number + " in " + parameters_.defined_file_name() + " ";
   if (label_ != "")
     location += ": " + label_;
 
