@@ -257,9 +257,9 @@ string ParameterList::location(const string& label) {
   }
 
   if (iter != parameters_.end())
-    return "The parameter " + label + " " + iter->second->location() + " ";
+    return iter->second->location() + " the parameter " + label + " ";
 
-  return table_iter->second->location() + ":"  + label;
+  return table_iter->second->location() + " the table "  + label + " ";
 }
 
 /**

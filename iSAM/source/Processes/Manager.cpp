@@ -34,8 +34,14 @@ void Manager::Validate() {
     if ((PartitionStructure)(process->partition_structure() & PartitionStructure::kInvalid) == PartitionStructure::kInvalid)
       LOG_CODE_ERROR() << "Process: " << process->label() << " has not been properly configured to have a partition structure";
 
-    if ((PartitionStructure)(process->partition_structure() & model_structure) != model_structure)
-      LOG_ERROR() << "The process " << process << " is not allowed to be created when the model type is set to " << Model::Instance()->type();
+    if ((PartitionStructure)(process->partition_structure() & model_structure) != model_structure) {
+      string label = "unknown";
+      ParameterPtr param = process->parameters().Get(PARAM_LABEL);
+      if (param)
+        label = param->values()[0];
+
+      LOG_ERROR() << process->location() << "the process " << label << " is not allowed to be created when the model type is set to " << Model::Instance()->type();
+    }
 
     process->Validate();
   }

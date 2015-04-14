@@ -74,6 +74,7 @@ public:
   string                      label() const { return label_; }
   string                      type() const { return type_; }
   ParameterList&              parameters() { return parameters_; }
+  string                      location();
   void                        set_block_type(string value) { block_type_ = value; parameters_.set_parent_block_type(value); }
   void                        set_defined_file_name(string value) { parameters_.set_defined_file_name(value); }
   void                        set_defined_line_number(unsigned value) { parameters_.set_defined_line_number(value); }
@@ -84,9 +85,6 @@ protected:
   void                        RegisterAsEstimable(const string& label, vector<Double>* variables);
   void                        RegisterAsEstimable(const string& label, OrderedMap<string, Double>* variables);
   void                        RegisterAsEstimable(const string& label, map<unsigned, Double>* variables);
-
-  // Accessors
-  string                      location();
 
   // Members
   string                        block_type_           = "";

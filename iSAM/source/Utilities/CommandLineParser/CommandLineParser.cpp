@@ -45,8 +45,6 @@ using std::ostringstream;
  * @param argv Pointer to an array containing the arguments
  */
 void CommandLineParser::Parse(int argc, const char* argv[]) {
-  LOG_TRACE();
-
   // Build Options menu
   options_description oDesc("Usage");
   oDesc.add_options()
@@ -66,9 +64,7 @@ void CommandLineParser::Parse(int argc, const char* argv[]) {
     ("query,q", value<string>(), "Query an object type to see it's description and parameters")
     ("debug,d", "Run in debug mode (with debug output")
     ("nostd", "Do not print the standard header report")
-    ("loglevel", "Set log level: finest, fine, none (default)");
-
-
+    ("loglevel", value<string>(), "Set log level: finest, fine, trace, none(default)");
 
   ostringstream o;
   o << oDesc;
@@ -101,6 +97,8 @@ void CommandLineParser::Parse(int argc, const char* argv[]) {
     global_config->set_force_estimable_values_file();
   if (parameters.count("nostd"))
     global_config->set_disable_standard_report();
+  if (parameters.count("loglevel"))
+    global_config->set_log_level(parameters["loglevel"].as<string>());
 
   /**
    * Determine what run mode we should be in. If we're
@@ -181,8 +179,6 @@ void CommandLineParser::Parse(int argc, const char* argv[]) {
     override_values_[PARAM_RANDOM_NUMBER_SEED] = parameters["seed"].as<string>();
     cout << override_values_[PARAM_RANDOM_NUMBER_SEED] << " : " << parameters["seed"].as<string>() << endl;
   }
-  if (parameters.count("loglevel"))
-    override_values_[PARAM_LOG_LEVEL] = parameters["loglevel"].as<string>();
 }
 
 } /* namespace utilities */

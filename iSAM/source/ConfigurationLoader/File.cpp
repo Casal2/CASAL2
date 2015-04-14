@@ -109,7 +109,7 @@ void File::Parse() {
         boost::trim_all(include_name);
         FilePtr include_file = FilePtr(new File(loader_));
         if (!include_file->OpenFile(include_name))
-          LOG_ERROR() << "At line: " << line_number_ << " of " << file_name_
+          LOG_FATAL() << "At line: " << line_number_ << " of " << file_name_
               << ": Include file '" << include_name << "' could not be opened. Does this file exist?";
 
         include_file->Parse();
