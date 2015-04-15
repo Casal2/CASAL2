@@ -162,7 +162,7 @@ bool To(const Source& arg, Target& result) {
 
 template<typename Source, typename Target>
 Target ToInline(const Source arg) {
-  Target result;
+  Target result = Target();
   try {
     result = boost::lexical_cast<Target>(arg);
 
