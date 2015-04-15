@@ -61,26 +61,16 @@ private:
  * will throw an exception
  */
 #ifdef TESTMODE
-#define LOG_TRACE() { };
-#define LOG_INFO(value) { };
-#define LOG_WARNING(value) { };
-#define LOG_ERROR_P(value) {\
-  ostringstream o;\
-  o << "[ERROR] - An error has been encountered that prevents the program from continuing\n"\
-    << "Source: " << __FILE__ << ":" << __FUNCTION__ << " (Line: " << __LINE__ << ")\n"\
-    << "Error: " << value;\
-  cout << o.str() << endl;\
-  throw std::string(o.str()); }
 
-#define LOG_CODE_ERROR(value) {\
-    ostringstream o;\
-    o << "\n\n\n";\
-    o << "[ERROR] - A coding error has been encountered that prevents the program from continuing\n"\
-      << "[ERROR] - This error requires developer intervention to correct. Please contact a developer\n"\
-      << "Source: " << __FILE__ << ":" << __FUNCTION__ << " (Line: " << __LINE__ << ")\n"\
-      << "Error: " << value;\
-    cout << o.str() << endl;\
-    throw std::string(o.str()); }
+#define LOG_TRACE() for(logger::Record r(logger::Severity::kTrace, __FILE__, __FUNCTION__, __LINE__); !r.Flush(); Logging::Instance().Flush(r));
+#define LOG_FINEST() for(logger::Record r(logger::Severity::kFinest, __FILE__, __FUNCTION__, __LINE__); !r.Flush(); Logging::Instance().Flush(r)) r.stream()
+#define LOG_FINE() for(logger::Record r(logger::Severity::kFine, __FILE__, __FUNCTION__, __LINE__); !r.Flush(); Logging::Instance().Flush(r)) r.stream()
+#define LOG_WARNING() for(logger::Record r(logger::Severity::kWarning, __FILE__, __FUNCTION__, __LINE__); !r.Flush(); Logging::Instance().Flush(r)) r.stream()
+#define LOG_ERROR() for(logger::Record r(logger::Severity::kError, __FILE__, __FUNCTION__, __LINE__); !r.Flush(); throw std::string(r.stream().str())) r.stream()
+#define LOG_ERROR_P(parameter) for(logger::Record r(logger::Severity::kError, __FILE__, __FUNCTION__, __LINE__); !r.Flush(); throw std::string(r.stream().str())) r.stream() << this->parameters_.location(parameter)
+#define LOG_FATAL() for(logger::Record r(logger::Severity::kFatal, __FILE__, __FUNCTION__, __LINE__); !r.Flush(); throw std::string(r.stream().str())) r.stream()
+#define LOG_FATAL_P(parameter) for(logger::Record r(logger::Severity::kFatal, __FILE__, __FUNCTION__, __LINE__); !r.Flush(); throw std::string(r.stream().str())) r.stream() << this->parameters_.location(parameter)
+#define LOG_CODE_ERROR() for(logger::Record r(logger::Severity::kCodeError, __FILE__, __FUNCTION__, __LINE__); !r.Flush(); throw std::string(r.stream().str())) r.stream()
 
 #else
 

@@ -96,6 +96,9 @@ void Logging::FlushErrors() {
 
   cout << "\n";
   cout.flush();
+
+  errors_.clear();
+  warnings_.clear();
 }
 
 } /* namespace niwa */
