@@ -56,7 +56,7 @@ void Table::AddRow(vector<string> &row) {
 string Table::location() const {
   string line_number;
   niwa::utilities::To<unsigned, string>(line_number_, line_number);
-  return string("At line " + line_number + " of file " + file_name_);
+  return string("At line " + line_number + " of file " + file_name_ + " in the table " + label_ + " ");
 }
 
 /**

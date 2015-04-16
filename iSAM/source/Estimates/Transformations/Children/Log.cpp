@@ -18,7 +18,7 @@ namespace transformations {
  * @return The transformed value
  */
 Double Log::Transform(Double initial_value) {
-  return std::log(initial_value);
+  return log(initial_value);
 }
 
 /**
