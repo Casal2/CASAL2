@@ -2,23 +2,18 @@
  * @file StateCategoryByAge.cpp
  * @author Scott Rasmussen (scott.rasmussen@zaita.com)
  * @github https://github.com/Zaita
- * @date 24/03/2015
+ * @date 16/04/2015
  * @section LICENSE
  *
  * Copyright NIWA Science ©2015 - www.niwa.co.nz
  *
  */
 
-// headers
 #include "StateCategoryByAge.h"
 
-// namespaces
 namespace niwa {
-namespace processes {
+namespace initialisationphases {
 
-/**
- * Default constructor
- */
 StateCategoryByAge::StateCategoryByAge() {
   process_type_ = ProcessType::kRecruitment;
   partition_structure_ = PartitionStructure::kAge;
@@ -52,9 +47,9 @@ void StateCategoryByAge::DoBuild() {
 /**
  * Execute this process
  */
-void StateCategoryByAge::DoExecute() {
+void StateCategoryByAge::Execute() {
 
 }
 
-} /* namespace processes */
+} /* namespace initialisationphases */
 } /* namespace niwa */
