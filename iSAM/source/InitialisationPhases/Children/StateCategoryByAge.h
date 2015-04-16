@@ -2,40 +2,43 @@
  * @file StateCategoryByAge.h
  * @author Scott Rasmussen (scott.rasmussen@zaita.com)
  * @github https://github.com/Zaita
- * @date 24/03/2015
+ * @date 16/04/2015
  * @section LICENSE
  *
  * Copyright NIWA Science ©2015 - www.niwa.co.nz
  *
  * @section DESCRIPTION
  *
- * This process will input it's own values in to the partition
- * at a given state
+ * This initialisation phase will overwrite the partition with the data provided.
+ * This will remove any previous values.
  */
-#ifndef SOURCE_PROCESSES_CHILDREN_STATECATEGORYBYAGE_H_
-#define SOURCE_PROCESSES_CHILDREN_STATECATEGORYBYAGE_H_
+#ifndef SOURCE_INITIALISATIONPHASES_CHILDREN_STATECATEGORYBYAGE_H_
+#define SOURCE_INITIALISATIONPHASES_CHILDREN_STATECATEGORYBYAGE_H_
 
 // headers
+#include "InitialisationPhases/InitialisationPhase.h"
 #include "Partition/Accessors/Age/Categories.h"
-#include "Processes/Process.h"
 
 // namespaces
 namespace niwa {
-namespace processes {
+namespace initialisationphases {
 
 namespace accessor = niwa::partition::accessors;
 
 /**
  * Class definition
  */
-class StateCategoryByAge : public niwa::Process {
+class StateCategoryByAge : public niwa::InitialisationPhase {
 public:
+  // methods
   StateCategoryByAge();
   virtual                     ~StateCategoryByAge() = default;
-  void                        DoValidate() override final;
-  void                        DoBuild() override final;
-  void                        DoReset() override final { };
-  void                        DoExecute() override final;
+  virtual void                Execute() override final;
+
+protected:
+  // methods
+  virtual void                DoValidate() override final;
+  virtual void                DoBuild() override final;
 
 private:
   // members
@@ -47,7 +50,7 @@ private:
   map<string, vector<Double>> n_;
 };
 
-} /* namespace processes */
+} /* namespace initialisationphases */
 } /* namespace niwa */
 
-#endif /* SOURCE_PROCESSES_CHILDREN_STATECATEGORYBYAGE_H_ */
+#endif /* SOURCE_INITIALISATIONPHASES_CHILDREN_STATECATEGORYBYAGE_H_ */
