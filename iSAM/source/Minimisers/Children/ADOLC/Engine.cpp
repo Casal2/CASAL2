@@ -73,9 +73,9 @@ Double Engine::optimise(adolc::CallBack& objective,
    * Validate our values, bounds etc
    */
   if (lower_bounds.size() != parameter_count)
-    LOG_CODE_ERROR("lower_bounds.size() != parameter_count")
+    LOG_CODE_ERROR() << "lower_bounds.size() != parameter_count";
   if (upper_bounds.size() != parameter_count)
-    LOG_CODE_ERROR("upper_bounds.size() != parameter_count")
+    LOG_CODE_ERROR() << "upper_bounds.size() != parameter_count";
 
   // Create our Minimiser
   FMM fmm(parameter_count, max_evaluations, max_iterations, gradient_tolerance.value());
@@ -89,9 +89,9 @@ Double Engine::optimise(adolc::CallBack& objective,
   cout << "Start Values (scaled): ";
   for (unsigned i = 0; i < start_values.size(); ++i) {
     if (start_values[i] < lower_bounds[i])
-      LOG_CODE_ERROR("start_values[i] < lower_bounds[i]");
+      LOG_CODE_ERROR() << "start_values[i] < lower_bounds[i]";
     if (start_values[i] > upper_bounds[i])
-      LOG_CODE_ERROR("start_values[i] > upper_bounds[i]");
+      LOG_CODE_ERROR() << "start_values[i] > upper_bounds[i]";
 
 
     if (dc::IsEqual(lower_bounds[i], upper_bounds[i]))
