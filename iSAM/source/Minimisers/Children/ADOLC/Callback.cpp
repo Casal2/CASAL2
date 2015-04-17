@@ -39,7 +39,7 @@ adouble CallBack::operator()(const vector<adouble>& Parameters) {
   vector<EstimatePtr> estimates = estimates::Manager::Instance().GetEnabled();
 
   if (Parameters.size() != estimates.size()) {
-    LOG_CODE_ERROR("The number of enabled estimates does not match the number of test solution values");
+    LOG_CODE_ERROR() << "The number of enabled estimates does not match the number of test solution values";
   }
 
   for (unsigned i = 0; i < Parameters.size(); ++i)
