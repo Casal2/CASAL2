@@ -11,6 +11,8 @@
 
 #include "StateCategoryByAge.h"
 
+#include "Categories/Categories.h"
+
 namespace niwa {
 namespace initialisationphases {
 
@@ -31,6 +33,14 @@ void StateCategoryByAge::DoValidate() {
     LOG_ERROR_P(PARAM_MIN_AGE) << "(" << min_age_ << ") cannot be less than the max age(" << max_age_ << ")";
 
   column_count_ = (max_age_ - min_age_) + 2;
+
+  /**
+   * Validate our categories
+   */
+  for (string label : category_labels_) {
+    if (!Categories::Instance()->IsValid(label))
+      LOG_ERROR_P(PARAM_CATEGORIES) << " label " << label << " is not a valid category";
+  }
 
   /**
    * Convert the string values to doubles and load them in to a table.
@@ -69,7 +79,7 @@ void StateCategoryByAge::DoBuild() {
 void StateCategoryByAge::Execute() {
   for (auto iter : partition_) {
     unsigned i = 0;
-    for (unsigned index = min_age_ - iter->min_age_; index < max_age_ - iter->min_age_; ++index, ++i)
+    for (unsigned index = min_age_ - iter->min_age_; index <= max_age_ - iter->min_age_; ++index, ++i)
       iter->data_[index] = n_[iter->name_][i];
   }
 }

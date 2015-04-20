@@ -13,6 +13,7 @@
 
 #include "InitialisationPhases/Children/Derived.h"
 #include "InitialisationPhases/Children/Iterative.h"
+#include "InitialisationPhases/Children/StateCategoryByAge.h"
 
 // Namespaces
 namespace niwa {
@@ -34,6 +35,8 @@ InitialisationPhasePtr Factory::Create(const string& object_type, const string& 
       result = InitialisationPhasePtr(new Derived());
     else if (sub_type == "" || sub_type == PARAM_ITERATIVE)
       result = InitialisationPhasePtr(new Iterative());
+    else if (sub_type == PARAM_STATE_CATEGORY_BY_AGE)
+      result = InitialisationPhasePtr(new StateCategoryByAge());
 
     if (result)
       niwa::initialisationphases::Manager::Instance().AddObject(result);
