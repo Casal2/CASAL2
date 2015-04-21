@@ -23,6 +23,9 @@ namespace estimates {
 NormalLog::NormalLog() {
   parameters_.Bind<Double>(PARAM_MU, &mu_, "Mu", "");
   parameters_.Bind<Double>(PARAM_SIGMA, &sigma_, "Sigma", "")->set_lower_bound(0.0, false);
+
+  RegisterAsEstimable(PARAM_MU, &mu_);
+  RegisterAsEstimable(PARAM_SIGMA, &sigma_);
 }
 
 /**

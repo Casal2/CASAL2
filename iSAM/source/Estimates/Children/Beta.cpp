@@ -26,7 +26,8 @@ Beta::Beta() {
   parameters_.Bind<Double>(PARAM_A, &a_, "A", "");
   parameters_.Bind<Double>(PARAM_B, &b_, "B", "");
 
-  RegisterAsEstimable(PARAM_A, &a_);
+  RegisterAsEstimable(PARAM_MU, &mu_);
+  RegisterAsEstimable(PARAM_SIGMA, &sigma_);
 }
 
 /**
