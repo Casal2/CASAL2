@@ -223,7 +223,7 @@ string Object::location() {
 
   string location = "At line " + line_number + " in " + parameters_.defined_file_name() + " ";
   if (label_ != "")
-    location += ": " + label_ + " ";
+    location += "for @" + block_type_ + "." + label_ + " ";
 
   return location;
 }

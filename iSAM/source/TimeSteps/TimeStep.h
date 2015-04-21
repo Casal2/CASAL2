@@ -43,6 +43,7 @@ public:
   void                        SubscribeToInitialisationBlock(ExecutorPtr executor) { initialisation_block_executors_.push_back(executor); }
   void                        SubscribeToBlock(ExecutorPtr executor);
   void                        SubscribeToBlock(ExecutorPtr executor, unsigned year) { block_executors_[year].push_back(executor); }
+  void                        SubscribeToProcess(ExecutorPtr executor, unsigned year, string process_label);
   void                        SetInitialisationProcessLabels(const string& initialisation_phase_label, vector<string> process_labels_);
   void                        BuildInitialisationProcesses();
 
@@ -63,6 +64,8 @@ private:
   map<string, vector<string>>         initialisation_process_labels_;
   map<string, vector<ProcessPtr>>     initialisation_processes_;
   map<string, unsigned>               initialisation_block_end_process_index_;
+
+  map<unsigned, map<unsigned, vector<ExecutorPtr>>> process_executors_;
 };
 
 /**
