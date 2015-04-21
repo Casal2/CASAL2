@@ -59,10 +59,10 @@ void Estimate::Validate() {
   }
 
   if (*target_ < lower_bound_)
-    LOG_ERROR() << location() <<  "the initial value(" << AS_DOUBLE(*target_) << ") on the estimate " << parameter_
+    LOG_ERROR() << location() <<  "the initial value(" << AS_DOUBLE((*target_)) << ") on the estimate " << parameter_
         << " is lower than the lower_bound(" << lower_bound_ << ")";
   if (*target_ > upper_bound_)
-    LOG_ERROR() << location() << "the initial value(" << AS_DOUBLE(*target_) << ") on the estimate " << parameter_
+    LOG_ERROR() << location() << "the initial value(" << AS_DOUBLE((*target_)) << ") on the estimate " << parameter_
         << " is greater than the upper_bound(" << upper_bound_ << ")";
 
   DoValidate();
