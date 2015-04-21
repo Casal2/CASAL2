@@ -23,6 +23,9 @@ namespace estimates {
 Normal::Normal() {
   parameters_.Bind<Double>(PARAM_MU, &mu_, "Mu", "");
   parameters_.Bind<Double>(PARAM_CV, &cv_, "Cv", "")->set_lower_bound(0.0, false);
+
+  RegisterAsEstimable(PARAM_MU, &mu_);
+  RegisterAsEstimable(PARAM_CV, &cv_);
 }
 
 /**
