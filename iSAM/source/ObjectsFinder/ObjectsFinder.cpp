@@ -32,6 +32,7 @@ namespace util = niwa::utilities;
  * See Header file for definition.
  */
 void ExplodeString(const string& source_parameter, string &type, string& label, string& parameter, string& index) {
+  LOG_TRACE();
 
   type       = "";
   label      = "";
@@ -119,6 +120,8 @@ niwa::base::ObjectPtr FindObject(const string& parameter_absolute_name) {
  * See header for dexcription
  */
 Double* FindEstimable(const string& estimable_absolute_name) {
+  LOG_TRACE();
+
   niwa::base::ObjectPtr object = FindObject(estimable_absolute_name);
   if (!object)
     return 0;

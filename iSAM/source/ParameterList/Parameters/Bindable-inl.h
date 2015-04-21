@@ -57,7 +57,7 @@ void Bindable<T>::Bind() {
   } else if (is_optional_) {
     *target_ = default_value_;
   } else
-    LOG_CODE_ERROR() << location() << ": " << label_ << "Parameter not defined or missing";
+    LOG_CODE_ERROR() << location() << " The parameter " << label_ << " has not been defined or is missing";
 
   /**
    * Check if the value provided is within the allowed values (if they have been defined)

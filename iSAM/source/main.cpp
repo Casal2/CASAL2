@@ -32,11 +32,12 @@ using std::endl;
 
 // local variables
 RunMode::Type run_mode = RunMode::kInvalid;
+bool model_start_return_success = true;
 
 void ModelThread() {
   // Run the model
   ModelPtr model = Model::Instance();
-  model->Start(run_mode);
+  model_start_return_success = model->Start(run_mode);
 
   reports::Manager::Instance().set_continue(false);
 }
@@ -155,6 +156,11 @@ int main(int argc, char * argv[]) {
 
   } catch(...) {
     cout << "## ERROR - iSAM experienced a problem and has stopped execution" << endl;
+  }
+
+  if (!model_start_return_success) {
+    LOG_FINEST() << "Done with errors";
+    return -1;
   }
 
   LOG_FINEST() << "Done";

@@ -60,6 +60,7 @@ public:
   // Methods
   Object() = default;
   virtual                         ~Object() {};
+  bool                            HasEstimable(const string& label) const;
   bool                            IsEstimableAVector(const string& label) const;
   unsigned                        GetEstimableSize(const string& label) const;
   Double*                         GetEstimable(const string& label);

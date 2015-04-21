@@ -47,7 +47,6 @@ void Beta::DoValidate() {
  */
 Double Beta::GetScore() {
   Double score_ = 0.0;
-
   v_ = (mu_ - a_) / (b_ - a_);
   t_ = (((mu_ - a_) * (b_ - mu_)) / (sigma_ * sigma_)) - 1.0;
   m_ = t_ * v_;

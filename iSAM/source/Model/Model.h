@@ -64,7 +64,7 @@ public:
   // Methods
   static shared_ptr<Model>    Instance(bool force_new = false);
   virtual                     ~Model() = default;
-  void                        Start(RunMode::Type run_mode);
+  bool                        Start(RunMode::Type run_mode);
   void                        FullIteration();
   void                        Subscribe(State::Type state, ExecutorPtr executor) { executors_[state].push_back(executor); }
 

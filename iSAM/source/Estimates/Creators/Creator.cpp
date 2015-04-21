@@ -48,14 +48,17 @@ Creator::Creator() {
  * Create the estimates that were defined by the @estimate block that makes up this creator
  */
 void Creator::CreateEstimates() {
+  LOG_TRACE();
   type_ = utilities::ToLowercase(type_);
 
   /**
    * At this point we need to determine if we need to split this estimate in to multiple estimates.
    */
   base::ObjectPtr target = objects::FindObject(parameter_);
-  if (!target)
-    LOG_FATAL_P(PARAM_PARAMETER) << parameter_ << " is not a valid estimable in the system";
+  if (!target) {
+    LOG_ERROR_P(PARAM_PARAMETER) << parameter_ << " is not a valid object in the system";
+    return;
+  }
 
   string type       = "";
   string label      = "";
@@ -63,6 +66,13 @@ void Creator::CreateEstimates() {
   string index      = "";
   objects::ExplodeString(parameter_, type, label, parameter, index);
   string new_parameter = type + "[" + label + "]." + parameter;
+  LOG_FINEST() << "parameter: " << parameter_ << "; new_parameter: " << new_parameter;
+
+  if (!target->HasEstimable(parameter)) {
+    LOG_ERROR_P(PARAM_PARAMETER) << "value " << parameter_ << " is invalid. '" << parameter << "' is not an estimable on a "
+        << target->type() << " " << type;
+    return;
+  }
 
   vector<string> indexes;
   if (index != "") {
@@ -78,9 +88,9 @@ void Creator::CreateEstimates() {
      * This estimate is only for a single object. So we will validate based on that
      */
     if (lower_bounds_.size() != 1)
-      LOG_FATAL_P(PARAM_LOWER_BOUND) << " values specified (" << lower_bounds_.size() << " must match number of target estimables (1)";
+      LOG_FATAL_P(PARAM_LOWER_BOUND) << "values specified (" << lower_bounds_.size() << " must match number of target estimables (1)";
     if (upper_bounds_.size() != 1)
-      LOG_FATAL_P(PARAM_UPPER_BOUND) << " values specified (" << upper_bounds_.size() << " must match number of target estimables (1)";
+      LOG_FATAL_P(PARAM_UPPER_BOUND) << "values specified (" << upper_bounds_.size() << " must match number of target estimables (1)";
 
     EstimatePtr estimate = CreateEstimate(parameter_, 0, target->GetEstimable(parameter));
 
@@ -90,11 +100,11 @@ void Creator::CreateEstimates() {
      * and create new estimates for each of these.
      */
     if (lower_bounds_.size() != indexes.size())
-      LOG_FATAL_P(PARAM_LOWER_BOUND) << " values specified (" << lower_bounds_.size() << " must match number of target estimables (" << indexes.size() << ")";
+      LOG_FATAL_P(PARAM_LOWER_BOUND) << "values specified (" << lower_bounds_.size() << " must match number of target estimables (" << indexes.size() << ")";
     if (upper_bounds_.size() != indexes.size())
-      LOG_FATAL_P(PARAM_UPPER_BOUND) << " values specified (" << upper_bounds_.size() << " must match number of target estimables (" << indexes.size() << ")";
+      LOG_FATAL_P(PARAM_UPPER_BOUND) << "values specified (" << upper_bounds_.size() << " must match number of target estimables (" << indexes.size() << ")";
     if (same_labels_.size() != 0 && same_labels_.size() != indexes.size())
-      LOG_FATAL_P(PARAM_SAME) << " values specified (" << same_labels_.size() << " must match number of target estimables (" << indexes.size() << ")";
+      LOG_FATAL_P(PARAM_SAME) << "values specified (" << same_labels_.size() << " must match number of target estimables (" << indexes.size() << ")";
 
     switch(target->GetEstimableType(parameter)) {
     case Estimable::kVector:
@@ -105,9 +115,9 @@ void Creator::CreateEstimates() {
       for (string string_index : indexes) {
         unsigned u_index = 0;
         if (!utils::To<string, unsigned>(string_index, u_index))
-          LOG_FATAL_P(PARAM_PARAMETER) << " index " << string_index << " could not be converted to a numeric type";
+          LOG_FATAL_P(PARAM_PARAMETER) << "index " << string_index << " could not be converted to a numeric type";
         if (u_index <= 0 || u_index > targets->size())
-          LOG_FATAL_P(PARAM_PARAMETER) << " index " << string_index << " is out of range 1-" << targets->size();
+          LOG_FATAL_P(PARAM_PARAMETER) << "index " << string_index << " is out of range 1-" << targets->size();
 
         CreateEstimate(new_parameter + "(" + string_index + ")", offset, &(*targets)[u_index-1]);
         offset++;
@@ -121,9 +131,9 @@ void Creator::CreateEstimates() {
       for (string string_index : indexes) {
         unsigned u_index = 0;
         if (!utils::To<string, unsigned>(string_index, u_index))
-          LOG_FATAL_P(PARAM_PARAMETER) << " index " << string_index << " could not be converted to a numeric type";
+          LOG_FATAL_P(PARAM_PARAMETER) << "index " << string_index << " could not be converted to a numeric type";
         if (targets->find(u_index) == targets->end())
-          LOG_FATAL_P(PARAM_PARAMETER) << " value " << string_index << " could not be found in the objects registered";
+          LOG_FATAL_P(PARAM_PARAMETER) << "value " << string_index << " could not be found in the objects registered";
 
         CreateEstimate(new_parameter + "(" + string_index + ")", offset, &(*targets)[u_index]);
         offset++;
@@ -136,7 +146,7 @@ void Creator::CreateEstimates() {
       unsigned offset = 0;
       for (string index : indexes) {
         if (targets->find(index) == targets->end())
-          LOG_FATAL_P(PARAM_PARAMETER) << " value " << index << " could not be found in the objects registered";
+          LOG_FATAL_P(PARAM_PARAMETER) << "value " << index << " could not be found in the objects registered";
 
         CreateEstimate(new_parameter + "(" + index + ")", offset, &(*targets)[index]);
         offset++;
@@ -157,9 +167,9 @@ void Creator::CreateEstimates() {
       n = target->GetEstimableSize(parameter);
 
     if (lower_bounds_.size() != n)
-      LOG_FATAL_P(PARAM_LOWER_BOUND) << " values specified (" << lower_bounds_.size() << " must match number of target estimables (" << n << ")";
+      LOG_FATAL_P(PARAM_LOWER_BOUND) << "values specified (" << lower_bounds_.size() << " must match number of target estimables (" << n << ")";
     if (upper_bounds_.size() != n)
-      LOG_FATAL_P(PARAM_UPPER_BOUND) << " values specified (" << upper_bounds_.size() << " must match number of target estimables (" << n << ")";
+      LOG_FATAL_P(PARAM_UPPER_BOUND) << "values specified (" << upper_bounds_.size() << " must match number of target estimables (" << n << ")";
 
     switch(target->GetEstimableType(parameter)) {
     case Estimable::kVector:

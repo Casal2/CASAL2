@@ -25,6 +25,14 @@ using std::cout;
 using std::endl;
 
 /**
+ * This method will check to see if the estimable has been registered
+ * or not
+ */
+bool Object::HasEstimable(const string& label) const {
+  return !(estimable_types_.find(label) == estimable_types_.end());
+}
+
+/**
  * This method will check to see if the estimable label passed
  * in is registered as part of a vector or not.
  *
@@ -215,7 +223,7 @@ string Object::location() {
 
   string location = "At line " + line_number + " in " + parameters_.defined_file_name() + " ";
   if (label_ != "")
-    location += ": " + label_;
+    location += ": " + label_ + " ";
 
   return location;
 }

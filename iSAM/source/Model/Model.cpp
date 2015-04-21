@@ -121,8 +121,14 @@ unsigned Model::year_spread() const {
  * This method will start stepping through the states and verifying
  * each step.
  */
-void Model::Start(RunMode::Type run_mode) {
+bool Model::Start(RunMode::Type run_mode) {
   LOG_TRACE();
+  Logging& logging = Logging::Instance();
+  if (logging.errors().size() > 0) {
+    logging.FlushErrors();
+    return false;
+  }
+
   run_mode_ = run_mode;
 
   if (state_ != State::kStartUp)
@@ -132,17 +138,14 @@ void Model::Start(RunMode::Type run_mode) {
     configuration::EstimableValuesLoader loader;
     loader.LoadValues(global_config->estimable_value_file());
   }
-
   reports::Manager::Instance().Execute(State::kStartUp);
-
-  Logging& logging = Logging::Instance();
 
   LOG_FINE() << "Model: State Change to Validate";
   state_ = State::kValidate;
   Validate();
   if (logging.errors().size() > 0) {
     logging.FlushErrors();
-    return;
+    return false;
   }
 
   reports::Manager::Instance().Execute(state_);
@@ -152,7 +155,7 @@ void Model::Start(RunMode::Type run_mode) {
   Build();
   if (logging.errors().size() > 0) {
     logging.FlushErrors();
-    return;
+    return false;
   }
   reports::Manager::Instance().Execute(state_);
 
@@ -161,7 +164,7 @@ void Model::Start(RunMode::Type run_mode) {
   Verify();
   if (logging.errors().size() > 0) {
     logging.FlushErrors();
-    return;
+    return false;
   }
   reports::Manager::Instance().Execute(state_);
 
@@ -209,6 +212,10 @@ void Model::Start(RunMode::Type run_mode) {
     executor->Execute();
   reports::Manager::Instance().Execute(state_);
   reports::Manager::Instance().Finalise();
+
+  logging.FlushWarnings();
+
+  return true;
 }
 
 /**

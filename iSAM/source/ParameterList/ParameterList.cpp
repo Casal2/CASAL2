@@ -144,6 +144,7 @@ void ParameterList::Populate() {
 
   // NOTE: This has to be last
   // bind parameters
+  LOG_FINEST() << "Binding parameters for @" << parent_block_type_ << " defined at line " << defined_line_number_ << " in " << defined_file_name_;
   for (auto iter = parameters_.begin(); iter != parameters_.end(); ++iter)
     iter->second->Bind();
 
@@ -257,9 +258,9 @@ string ParameterList::location(const string& label) {
   }
 
   if (iter != parameters_.end())
-    return iter->second->location() + " the parameter " + label + " ";
+    return iter->second->location() + " the parameter '" + label + "' ";
 
-  return table_iter->second->location() + " the table "  + label + " ";
+  return table_iter->second->location() + " the table '"  + label + "' ";
 }
 
 /**

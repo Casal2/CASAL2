@@ -29,7 +29,7 @@ std::string String::find_invalid_characters(const std::string& test_string) {
  if (test_string.length() == 0)
    return "";
 
- std::string special_chars = "[]()._-:";
+ std::string special_chars = ".-_";
 
  std::string invalid = "";
  std::for_each(test_string.begin(), test_string.end(),

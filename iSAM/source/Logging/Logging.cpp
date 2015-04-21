@@ -91,13 +91,38 @@ void Logging::FlushErrors() {
   cout << "\n";
 
   for (unsigned i = 0; i < to_print; ++i) {
-    cout << "#" << i << ": " << errors_[i] << "\n";
+    cout << "#" << i+1 << ": " << errors_[i] << "\n";
   }
 
   cout << "\n";
   cout.flush();
 
   errors_.clear();
+}
+
+/**
+ *
+ */
+void Logging::FlushWarnings() {
+  if (warnings_.size() == 0)
+    return;
+
+  unsigned to_print = warnings_.size() > 10 ? 10 : warnings_.size();
+
+  cout << "\n";
+  cout << "********************************************************************************\n";
+  cout << "********                     SUMMARY OF WARNINGS                        ********\n";
+  cout << "********************************************************************************\n";
+  cout << "Printing " << to_print << " of " << warnings_.size() << " warnings\n";
+  cout << "\n";
+
+  for (unsigned i = 0; i < to_print; ++i) {
+    cout << "#" << i+1 << ": " << warnings_[i] << "\n";
+  }
+
+  cout << "\n";
+  cout.flush();
+
   warnings_.clear();
 }
 
