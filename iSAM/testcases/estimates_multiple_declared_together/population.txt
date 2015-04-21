@@ -1,0 +1,105 @@
+@model
+start_year 1994
+final_year 2008
+min_age 1
+max_age 50
+age_plus t
+initialisation_phases iphase1 iphase2
+time_steps step_one step_two
+
+@categories
+format stage.sex
+names immature.male mature.male immature.female mature.female
+
+@initialisation_phase iphase1
+years 200
+exclude_processes Fishing
+
+@initialisation_phase iphase2
+years 1
+exclude_processes Fishing
+
+@time_step step_one
+processes Recruitment maturation halfM Fishing halfM
+
+@time_step step_two
+processes my_ageing
+
+# Population processes
+@ageing my_ageing
+categories immature.male mature.male immature.female mature.female
+
+@Recruitment Recruitment
+type constant
+categories immature.male immature.female
+proportions 0.5 0.5
+R0 997386
+age 1
+
+@estimate recruitment.proportions
+type lognormal
+parameter process[Recruitment].proportions
+lower_bound 0.4 0.4
+upper_bound 0.6 0.6
+mu 3 2
+cv 3 4
+
+@mortality halfM
+type constant_rate
+categories immature.male mature.male immature.female mature.female
+M 0.065 0.065 0.065 0.065
+selectivities av av av av
+
+@estimate e3
+parameter selectivity[av].v
+lower_bound 1 1 2 2 3 3 4 4 5 5 6 6 7 7 8 8 9 9 10 10 11 11 12 12 13 13 14 14 15 15 16 16 17 17 18 18 19 19 20 20 21 21 22 22 23 23 24 24 25 25
+upper_bound 2 2 3 3 4 4 5 5 6 6 7 7 8 8 9 9 10 10 11 11 12 12 13 13 14 14 15 15 16 16 17 17 18 18 19 19 20 20 21 21 22 22 23 23 24 24 25 25 26 26
+type lognormal
+mu 3 5 3 5 3 3 5 3 5 3 3 5 3 5 3 3 5 3 5 3 3 5 3 5 3 3 5 3 5 3 3 5 3 5 3 3 5 3 5 3 3 5 3 5 3 3 5 3 5 3
+cv 4 5 4 6 4 4 5 4 6 4 4 5 4 6 4 4 5 4 6 4 4 5 4 6 4 4 5 4 6 4 4 5 4 6 4 4 5 4 6 4 4 5 4 6 4 4 5 4 6 4
+
+@mortality Fishing
+type event
+categories immature.male mature.male immature.female mature.female
+years           1998         1999         2000         2001         2002         2003         2004          2005          2006          2007
+catches  1849.153714 14442.000000 28323.203463 24207.464203 47279.000000 58350.943094 82875.872790 115974.547730 113852.472257 119739.517172
+U_max 0.99
+selectivities FishingSel FishingSel FishingSel FishingSel
+penalty event_mortality_penalty
+
+@estimate 
+parameter process[Fishing].catches
+type lognormal
+lower_bound 1800 14000 28000 24000 47000 58000 82000 115000 113000 119000
+upper_bound 1900 15000 29000 25000 48000 59000 83000 116000 114000 120000
+mu 3 5 3 5 7 1 2 3 4 5
+cv 4 6 4 6 8 5 6 7 8 9
+
+
+@maturation maturation
+type rate
+from immature.male immature.female
+to mature.male mature.female
+proportions 1.0 1.0
+selectivities Maturation Maturation
+
+# Definition of selecivities
+@selectivity One
+type constant
+c 1
+
+@selectivity Maturation
+type logistic_producing
+L 5
+H 30
+a50 8
+ato95 3
+
+@selectivity FishingSel
+type logistic
+a50 8
+ato95 3
+
+@selectivity av
+type all_values
+v 1 1 2 2 3 3 4 4 5 5 6 6 7 7 8 8 9 9 10 10 11 11 12 12 13 13 14 14 15 15 16 16 17 17 18 18 19 19 20 20 21 21 22 22 23 23 24 24 25 25

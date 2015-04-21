@@ -1,0 +1,5 @@
+@report my-objective-function
+type objective_function
+
+@report summary
+type estimate_value
