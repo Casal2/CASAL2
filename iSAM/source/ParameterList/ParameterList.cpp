@@ -118,12 +118,12 @@ void ParameterList::Populate() {
 
   if (missing_parameters != "") {
     if (parameters_.find(PARAM_LABEL) == parameters_.end()) {
-      LOG_ERROR() << "At line " << defined_line_number_ << " of file " << defined_file_name_ << " the following required parameters for the block "
+      LOG_ERROR() << "At line " << defined_line_number_ << " in " << defined_file_name_ << " the following required parameters for the block "
                   << parent_block_type_ << " are required but have not been defined: " << missing_parameters;
     } else {
       auto parameter = parameters_.find(PARAM_LABEL);
       if (parameter->second->values().size() == 0) {
-        LOG_ERROR() << "At line " << defined_line_number_ << " of file " << defined_file_name_ << " the following required parameters for the block "
+        LOG_ERROR() << "At line " << defined_line_number_ << " in " << defined_file_name_ << " the following required parameters for the block "
             << parent_block_type_ << " are required but have not been defined: " << missing_parameters;
       } else {
         LOG_ERROR() << parameter->second->location() << " the following parameters are required but have not been defined: " << missing_parameters;
@@ -145,15 +145,18 @@ void ParameterList::Populate() {
   // NOTE: This has to be last
   // bind parameters
   LOG_FINEST() << "Binding parameters for @" << parent_block_type_ << " defined at line " << defined_line_number_ << " in " << defined_file_name_;
-  for (auto iter = parameters_.begin(); iter != parameters_.end(); ++iter)
+  for (auto iter = parameters_.begin(); iter != parameters_.end(); ++iter) {
+    if (iter->second->values().size() == 0 && !iter->second->is_optional())
+      continue;
     iter->second->Bind();
+  }
 
   if (parameters_.find(PARAM_LABEL) != parameters_.end()) {
     ParameterPtr param = parameters_[PARAM_LABEL];
     if (param->values().size() != 0) {
       string invalid = utilities::String::find_invalid_characters(param->values()[0]);
       if (invalid != "")
-        LOG_ERROR() << "At line " << defined_line_number_ << " of file " << defined_file_name_ << " the label '" << param->values()[0] << "' contains invalid characters: " << invalid;
+        LOG_ERROR() << param->location() << " the label '" << param->values()[0] << "' contains the following invalid characters: " << invalid;
     }
   }
 }

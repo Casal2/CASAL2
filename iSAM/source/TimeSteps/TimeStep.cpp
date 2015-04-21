@@ -12,6 +12,9 @@
 
 #include "TimeStep.h"
 
+#include <boost/algorithm/string.hpp>
+#include <boost/algorithm/string/split.hpp>
+
 #include "InitialisationPhases/Manager.h"
 #include "Model/Model.h"
 #include "Observations/Manager.h"
@@ -99,7 +102,13 @@ void TimeStep::Execute(unsigned year) {
         executor->PreExecute();
     }
 
+    for(ExecutorPtr executor : process_executors_[year][index])
+      executor->PreExecute();
+
     processes_[index]->Execute(year, label_);
+
+    for(ExecutorPtr executor : process_executors_[year][index])
+      executor->Execute();
 
     if (index == block_end_process_Index_) {
       for (ExecutorPtr executor : block_executors_[year])
@@ -118,6 +127,45 @@ void TimeStep::SubscribeToBlock(ExecutorPtr executor) {
   vector<unsigned> years = Model::Instance()->years();
   for (unsigned year : years)
     block_executors_[year].push_back(executor);
+}
+
+/**
+ *
+ */
+void TimeStep::SubscribeToProcess(ExecutorPtr executor, unsigned year, string process_label) {
+  LOG_TRACE();
+
+  unsigned index = 1;
+  bool index_defined = false;
+  if (process_label.find("(") != string::npos) {
+    vector<string> temp;
+    boost::split(temp, process_label, boost::is_any_of("()"));
+    if (temp.size() <= 1 )
+      LOG_CODE_ERROR() << "temp.size() == 1: " << process_label;
+
+    if (!utilities::To<unsigned>(temp[1], index))
+      LOG_FATAL() << executor->location() << "the process index " << temp[1] << " could not be converted to an unsigned integer";
+    process_label = temp[0];
+    index_defined = true;
+    LOG_FINEST() << "process_label: " << process_label << " | " << temp[0];
+  }
+
+  vector<ProcessPtr> matching;
+  std::for_each(processes_.begin(), processes_.end(), [&matching, process_label](ProcessPtr p){ if (p->label() == process_label) matching.push_back(p); });
+  if (matching.size() > 1 && !index_defined)
+    LOG_FATAL() << executor->location() << "the process " << process_label << " was defined multiple times in the time step " << label_
+        << " but the observation on it did not have an index (e.g" << process_label << "(1)";
+
+  if (index == 0)
+    LOG_FATAL() << executor->location() << "the process " << process_label << " index was 0. It should be a 1 based array, not 0 based";
+  --index;
+
+  if (matching.size() == 0)
+    LOG_FATAL() << executor->location() << "the process " << process_label << " was not defined in the time_step " << label_;
+  if (index >= matching.size())
+    LOG_FATAL() << executor->location() << "the process index of " << index << " is too high. Index range is 1-" << matching.size();
+
+  process_executors_[year][index].push_back(executor);
 }
 
 /**

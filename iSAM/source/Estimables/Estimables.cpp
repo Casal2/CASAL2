@@ -85,7 +85,7 @@ void Estimables::LoadValues(unsigned index) {
     for (auto iter : estimable_values_) {
       Double* ptr = objects::FindEstimable(iter.first);
       if (ptr == 0)
-        LOG_ERROR() << "The estimable " << iter.first << " was defined in the estimable's input value file but was not registered in the model";
+        LOG_FATAL() << "The estimable " << iter.first << " was defined in the estimable's input value file but was not registered in the model";
       estimables_[iter.first] = ptr;
     }
 
@@ -95,12 +95,12 @@ void Estimables::LoadValues(unsigned index) {
     if (GlobalConfiguration::Instance()->get_force_estimable_values_file()) {
       vector<EstimatePtr> estimates = estimates::Manager::Instance().GetEnabled();
       for (EstimatePtr estimate : estimates) {
-        if (estimable_values_.find(estimate->label()) == estimable_values_.end())
-          LOG_ERROR() << "The estimate " << estimate->label() << " has not been defined in the input file, even though force-estimates has been enabled";
+        if (estimable_values_.find(estimate->parameter()) == estimable_values_.end())
+          LOG_FATAL() << "The estimate " << estimate->parameter() << " has not been defined in the input file, even though force-estimates has been enabled";
       }
 
       if (estimates.size() != estimable_values_.size())
-        LOG_ERROR() << "The estimate value file does not have the correct number of estimables defined. Expected " << estimates.size() << " but got " << estimable_values_.size();
+        LOG_FATAL() << "The estimate value file does not have the correct number of estimables defined. Expected " << estimates.size() << " but got " << estimable_values_.size();
     }
   }
 
