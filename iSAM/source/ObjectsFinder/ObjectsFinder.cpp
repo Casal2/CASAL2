@@ -17,6 +17,7 @@
 #include <boost/lexical_cast.hpp>
 
 #include "Catchabilities/Manager.h"
+#include "Estimates/Manager.h"
 #include "Processes/Manager.h"
 #include "Selectivities/Manager.h"
 #include "Utilities/To.h"
@@ -87,6 +88,7 @@ void ImplodeString(const string& type, const string& label, const string& parame
  * See header file for description
  */
 niwa::base::ObjectPtr FindObject(const string& parameter_absolute_name) {
+  LOG_FINE() << "Looking for object: " << parameter_absolute_name;
   base::ObjectPtr result;
 
   string type         = "";
@@ -95,10 +97,13 @@ niwa::base::ObjectPtr FindObject(const string& parameter_absolute_name) {
   string index        = "";
 
   ExplodeString(parameter_absolute_name, type, label, parameter, index);
-//  LOG_INFO("FindObject; type: " << type << "; label: " << label << "; parameter: " << parameter << "; index: " << index);
+  LOG_FINEST() << "FindObject; type: " << type << "; label: " << label << "; parameter: " << parameter << "; index: " << index;
 
   if (type == PARAM_PROCESS) {
     result = processes::Manager::Instance().GetProcess(label);
+
+  } else if (type == PARAM_ESTIMATE) {
+    result = estimates::Manager::Instance().GetEstimateByLabel(label);
 
   } else if (type == PARAM_CATCHABILITY) {
     result = catchabilities::Manager::Instance().GetCatchability(label);

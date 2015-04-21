@@ -41,7 +41,7 @@ public:
 
 protected:
   // methods
-  niwa::EstimatePtr           CreateEstimate(string label, unsigned index, Double* target);
+  niwa::EstimatePtr           CreateEstimate(string parameter, unsigned index, Double* target);
   void                        CopyParameters(niwa::EstimatePtr estimate, unsigned index);
   virtual void                DoCopyParameters(niwa::EstimatePtr estimate, unsigned index) = 0;
 
@@ -53,8 +53,6 @@ protected:
   vector<string>              same_labels_;
   string                      estimation_phase_;
   string                      mcmc_;
-  bool                        update_label_;
-  bool                        update_parameter_;
   vector<string>              transformation_details_;
 };
 

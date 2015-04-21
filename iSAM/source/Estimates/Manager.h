@@ -44,6 +44,7 @@ public:
   void                            DisableEstimate(const string& parameter);
   void                            AddCreator(CreatorPtr creator) { creators_.push_back(creator); }
   EstimatePtr                     GetEstimate(const string& parameter);
+  EstimatePtr                     GetEstimateByLabel(const string& label);
 
 private:
   // methods

@@ -34,7 +34,7 @@ namespace utils = niwa::utilities;
 Creator::Creator() {
   parameters_.Bind<string>(PARAM_LABEL, &label_, "", "", "");
   parameters_.Bind<string>(PARAM_TYPE, &type_, "", "");
-  parameters_.Bind<string>(PARAM_PARAMETER, &parameter_, "", "", "");
+  parameters_.Bind<string>(PARAM_PARAMETER, &parameter_, "", "");
   parameters_.Bind<Double>(PARAM_LOWER_BOUND, &lower_bounds_, "", "");
   parameters_.Bind<Double>(PARAM_UPPER_BOUND, &upper_bounds_, "", "");
   parameters_.Bind<string>(PARAM_PRIOR, &prior_label_, "", "", "");
@@ -42,49 +42,33 @@ Creator::Creator() {
   parameters_.Bind<string>(PARAM_ESTIMATION_PHASE, &estimation_phase_, "", "", "");
   parameters_.Bind<string>(PARAM_MCMC, &mcmc_, "", "", "");
   parameters_.Bind<string>(PARAM_TRANSFORMATION, &transformation_details_, "", "", "");
-
-  update_label_ = false;
-  update_parameter_ = false;
 }
 
 /**
  * Create the estimates that were defined by the @estimate block that makes up this creator
  */
 void Creator::CreateEstimates() {
-  parameters_.Populate();
   type_ = utilities::ToLowercase(type_);
-
-  if (label_ != "" && parameter_ == "") {
-    parameter_ = label_;
-    update_parameter_ = true;
-  } else if (label_ == "" && parameter_ != "") {
-    label_ = parameter_;
-    update_label_ = true;
-  } else if (label_ == "" && parameter_ == "") {
-    LOG_ERROR_P(PARAM_LABEL) << " or parameter have not been defined. Please ensure you define at least one to indicate the target estimable";
-  } else {
-    update_parameter_ = true;
-  }
 
   /**
    * At this point we need to determine if we need to split this estimate in to multiple estimates.
    */
   base::ObjectPtr target = objects::FindObject(parameter_);
   if (!target)
-    LOG_ERROR_P(PARAM_PARAMETER) << ": parameter " << parameter_ << " is not a valid estimable in the system";
+    LOG_FATAL_P(PARAM_PARAMETER) << parameter_ << " is not a valid estimable in the system";
 
   string type       = "";
   string label      = "";
   string parameter  = "";
   string index      = "";
   objects::ExplodeString(parameter_, type, label, parameter, index);
-  string new_label = type + "[" + label + "]." + parameter;
+  string new_parameter = type + "[" + label + "]." + parameter;
 
   vector<string> indexes;
   if (index != "") {
     indexes = utilities::String::explode(index);
     if (index != "" && indexes.size() == 0) {
-      LOG_ERROR_P(PARAM_PARAMETER) << " could be split up to search for indexes because the format was invalid. "
+      LOG_FATAL_P(PARAM_PARAMETER) << " could be split up to search for indexes because the format was invalid. "
           << "Please ensure you are using correct indexes and only the operators , and : (range) are supported";
     }
   }
@@ -94,12 +78,11 @@ void Creator::CreateEstimates() {
      * This estimate is only for a single object. So we will validate based on that
      */
     if (lower_bounds_.size() != 1)
-      LOG_ERROR_P(PARAM_LOWER_BOUND) << " values specified (" << lower_bounds_.size() << " must match number of target estimables (1)";
+      LOG_FATAL_P(PARAM_LOWER_BOUND) << " values specified (" << lower_bounds_.size() << " must match number of target estimables (1)";
     if (upper_bounds_.size() != 1)
-      LOG_ERROR_P(PARAM_UPPER_BOUND) << " values specified (" << upper_bounds_.size() << " must match number of target estimables (1)";
+      LOG_FATAL_P(PARAM_UPPER_BOUND) << " values specified (" << upper_bounds_.size() << " must match number of target estimables (1)";
 
-    update_parameter_ = false;
-    EstimatePtr estimate = CreateEstimate(label_, 0, target->GetEstimable(parameter));
+    EstimatePtr estimate = CreateEstimate(parameter_, 0, target->GetEstimable(parameter));
 
   } else if (indexes.size() != 0) {
     /**
@@ -107,33 +90,30 @@ void Creator::CreateEstimates() {
      * and create new estimates for each of these.
      */
     if (lower_bounds_.size() != indexes.size())
-      LOG_ERROR_P(PARAM_LOWER_BOUND) << " values specified (" << lower_bounds_.size() << " must match number of target estimables (" << indexes.size() << ")";
+      LOG_FATAL_P(PARAM_LOWER_BOUND) << " values specified (" << lower_bounds_.size() << " must match number of target estimables (" << indexes.size() << ")";
     if (upper_bounds_.size() != indexes.size())
-      LOG_ERROR_P(PARAM_UPPER_BOUND) << " values specified (" << upper_bounds_.size() << " must match number of target estimables (" << indexes.size() << ")";
+      LOG_FATAL_P(PARAM_UPPER_BOUND) << " values specified (" << upper_bounds_.size() << " must match number of target estimables (" << indexes.size() << ")";
     if (same_labels_.size() != 0 && same_labels_.size() != indexes.size())
-      LOG_ERROR_P(PARAM_SAME) << " values specified (" << same_labels_.size() << " must match number of target estimables (" << indexes.size() << ")";
+      LOG_FATAL_P(PARAM_SAME) << " values specified (" << same_labels_.size() << " must match number of target estimables (" << indexes.size() << ")";
 
     switch(target->GetEstimableType(parameter)) {
     case Estimable::kVector:
     {
-      update_label_ = true;
-
       vector<Double>* targets = target->GetEstimableVector(parameter);
 
       unsigned offset = 0;
       for (string string_index : indexes) {
         unsigned u_index = 0;
         if (!utils::To<string, unsigned>(string_index, u_index))
-          LOG_ERROR_P(PARAM_PARAMETER) << " index " << string_index << " could not be converted to a numeric type";
+          LOG_FATAL_P(PARAM_PARAMETER) << " index " << string_index << " could not be converted to a numeric type";
         if (u_index <= 0 || u_index > targets->size())
-          LOG_ERROR_P(PARAM_PARAMETER) << " index " << string_index << " is out of range 1-" << targets->size();
+          LOG_FATAL_P(PARAM_PARAMETER) << " index " << string_index << " is out of range 1-" << targets->size();
 
-        CreateEstimate(new_label + "(" + string_index + ")", offset, &(*targets)[u_index-1]);
+        CreateEstimate(new_parameter + "(" + string_index + ")", offset, &(*targets)[u_index-1]);
         offset++;
       }
     }
     break;
-
     case Estimable::kUnsignedMap:
     {
       map<unsigned, Double>* targets = target->GetEstimableUMap(parameter);
@@ -141,30 +121,28 @@ void Creator::CreateEstimates() {
       for (string string_index : indexes) {
         unsigned u_index = 0;
         if (!utils::To<string, unsigned>(string_index, u_index))
-          LOG_ERROR_P(PARAM_PARAMETER) << " index " << string_index << " could not be converted to a numeric type";
+          LOG_FATAL_P(PARAM_PARAMETER) << " index " << string_index << " could not be converted to a numeric type";
         if (targets->find(u_index) == targets->end())
-          LOG_ERROR_P(PARAM_PARAMETER) << " value " << string_index << " could not be found in the objects registered";
+          LOG_FATAL_P(PARAM_PARAMETER) << " value " << string_index << " could not be found in the objects registered";
 
-        CreateEstimate(new_label + "(" + string_index + ")", offset, &(*targets)[u_index]);
+        CreateEstimate(new_parameter + "(" + string_index + ")", offset, &(*targets)[u_index]);
         offset++;
       }
     }
     break;
-
     case Estimable::kStringMap:
     {
       utils::OrderedMap<string, Double>* targets = target->GetEstimableSMap(parameter);
       unsigned offset = 0;
       for (string index : indexes) {
         if (targets->find(index) == targets->end())
-          LOG_ERROR_P(PARAM_PARAMETER) << " value " << index << " could not be found in the objects registered";
+          LOG_FATAL_P(PARAM_PARAMETER) << " value " << index << " could not be found in the objects registered";
 
-        CreateEstimate(new_label + "(" + index + ")", offset, &(*targets)[index]);
+        CreateEstimate(new_parameter + "(" + index + ")", offset, &(*targets)[index]);
         offset++;
       }
     }
     break;
-
     default:
       LOG_CODE_ERROR() << "This type of estimable is not supported: " << (unsigned)target->GetEstimableType(parameter);
       break;
@@ -179,20 +157,16 @@ void Creator::CreateEstimates() {
       n = target->GetEstimableSize(parameter);
 
     if (lower_bounds_.size() != n)
-      LOG_ERROR_P(PARAM_LOWER_BOUND) << " values specified (" << lower_bounds_.size() << " must match number of target estimables (" << n << ")";
+      LOG_FATAL_P(PARAM_LOWER_BOUND) << " values specified (" << lower_bounds_.size() << " must match number of target estimables (" << n << ")";
     if (upper_bounds_.size() != n)
-      LOG_ERROR_P(PARAM_UPPER_BOUND) << " values specified (" << upper_bounds_.size() << " must match number of target estimables (" << n << ")";
-
-    // force label change so we can actually print the indexes of each estimate
-    // in the objective function
-    update_label_ = true;
+      LOG_FATAL_P(PARAM_UPPER_BOUND) << " values specified (" << upper_bounds_.size() << " must match number of target estimables (" << n << ")";
 
     switch(target->GetEstimableType(parameter)) {
     case Estimable::kVector:
     {
       vector<Double>* targets = target->GetEstimableVector(parameter);
       for (unsigned i = 0; i < targets->size(); ++i)
-        CreateEstimate(new_label + "(" + utilities::ToInline<unsigned, string>(i + 1) + ")", i, &(*targets)[i]);
+        CreateEstimate(new_parameter + "(" + utilities::ToInline<unsigned, string>(i + 1) + ")", i, &(*targets)[i]);
 
       break;
     }
@@ -201,7 +175,7 @@ void Creator::CreateEstimates() {
       map<unsigned, Double>* targets = target->GetEstimableUMap(parameter);
       unsigned offset = 0;
       for (auto iter : (*targets)) {
-        CreateEstimate(new_label + "(" + utilities::ToInline<unsigned, string>(iter.first) + ")", offset, &(*targets)[iter.first]);
+        CreateEstimate(new_parameter + "(" + utilities::ToInline<unsigned, string>(iter.first) + ")", offset, &(*targets)[iter.first]);
         offset++;
       }
       break;
@@ -211,7 +185,7 @@ void Creator::CreateEstimates() {
       utils::OrderedMap<string, Double>* targets = target->GetEstimableSMap(parameter);
       unsigned offset = 0;
       for (auto iter : (*targets)) {
-        CreateEstimate(new_label + "(" + iter.first + ")", offset, &(*targets)[iter.first]);
+        CreateEstimate(new_parameter + "(" + iter.first + ")", offset, &(*targets)[iter.first]);
         offset++;
       }
       break;
@@ -226,19 +200,17 @@ void Creator::CreateEstimates() {
 /**
  * Create an instance of an estimate
  */
-niwa::EstimatePtr Creator::CreateEstimate(string label, unsigned index, Double* target) {
+niwa::EstimatePtr Creator::CreateEstimate(string parameter, unsigned index, Double* target) {
   niwa::EstimatePtr estimate = estimates::Factory::Create(block_type_, type_);
   if (!estimate)
-    LOG_ERROR_P(PARAM_TYPE) << " " << type_ << " is invalid when creating an estimate.";
+    LOG_FATAL_P(PARAM_TYPE) << " " << type_ << " is invalid when creating an estimate.";
 
   CopyParameters(estimate, index);
   estimate->set_target(target);
-  if (update_label_)
-    estimate->parameters().Get(PARAM_LABEL)->set_value(label);
-  if (update_parameter_)
-    estimate->parameters().Get(PARAM_PARAMETER)->set_value(label);
+  estimate->parameters().Get(PARAM_PARAMETER)->set_value(parameter);
   estimate->set_creator_parameter(parameter_);
 
+  estimate->parameters().Populate();
   return estimate;
 }
 
