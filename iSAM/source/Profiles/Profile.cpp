@@ -24,11 +24,11 @@ namespace util = niwa::utilities;
  * default constructor
  */
 Profile::Profile() {
-  parameters_.Bind<string>(PARAM_LABEL, &label_, "Label", "");
+  parameters_.Bind<string>(PARAM_LABEL, &label_, "Label", "", "");
   parameters_.Bind<unsigned>(PARAM_STEPS, &steps_, "The number of steps to take between the lower and upper bound", "");
   parameters_.Bind<Double>(PARAM_LOWER_BOUND, &lower_bound_, "The lower bounds", "");
   parameters_.Bind<Double>(PARAM_UPPER_BOUND, &upper_bound_, "The upper bounds", "");
-  parameters_.Bind<string>(PARAM_PARAMETER, &parameter_, "The system parameter to profile", "", "");
+  parameters_.Bind<string>(PARAM_PARAMETER, &parameter_, "The system parameter to profile", "");
 }
 
 /**
@@ -51,11 +51,6 @@ void Profile::Build() {
    * Explode the parameter string so we can get the estimable
    * name (parameter) and the index
    */
-  if (parameter_ == "") {
-    parameters().Add(PARAM_PARAMETER, label_, parameters_.Get(PARAM_LABEL)->file_name(), parameters_.Get(PARAM_LABEL)->line_number());
-    parameter_ = label_;
-  }
-
   objects::ExplodeString(parameter_, type, label, parameter, index);
   if (type == "" || label == "" || parameter == "") {
     LOG_ERROR_P(PARAM_PARAMETER) << ": parameter " << parameter_

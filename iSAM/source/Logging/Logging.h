@@ -35,6 +35,7 @@ public:
   static Logging&             Instance();
   void                        Flush(niwa::logger::Record& record);
   void                        FlushErrors();
+  void                        FlushWarnings();
 
   // accessors
   std::vector<std::string>&  warnings() { return warnings_; }

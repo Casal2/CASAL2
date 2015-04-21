@@ -40,6 +40,8 @@ Parameter::Parameter(const string& label, const string& description)
 string Parameter::location() const {
   string line_number;
   niwa::utilities::To<unsigned, string>(line_number_, line_number);
+  if (file_name_ == "")
+    return string("<<UNKNOWN LOCATION>>");
   return string("At line " + line_number + " in " + file_name_);
 
 }

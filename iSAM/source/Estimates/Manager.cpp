@@ -50,6 +50,7 @@ void Manager::Validate() {
   }
 
   // nothing fancy here, we don't support chain estimates past 1 level
+  LOG_FINE() << delayed_creators.size() << " estimates were delayed because they reference other estimates";
   for (CreatorPtr creators : delayed_creators) {
     creators->CreateEstimates();
   }
