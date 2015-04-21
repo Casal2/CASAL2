@@ -48,7 +48,11 @@ void EstimateSummary::DoExecute() {
 
   for (EstimatePtr estimate : estimates) {
     cache_ << "\n";
-    cache_ << "Estimate: " << estimate->label() << "\n";
+    if (estimate->label() != "") {
+      cache_ << "Estimate: " << estimate->label() << " (" << estimate->parameter() << ")\n";
+      cache_ << "Parameter: " << estimate->parameter() << "\n";
+    } else
+      cache_ << "Estimate: " << estimate->parameter() << "\n";
     cache_ << "Lower Bound: " << estimate->lower_bound() << "\n";
     cache_ << "Upper Bound: " << estimate->upper_bound() << "\n";
     cache_ << "Value: " << AS_DOUBLE(estimate->value()) << "\n";

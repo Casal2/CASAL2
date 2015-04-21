@@ -33,9 +33,26 @@ void Manager::Validate() {
   /**
    * Run over our creators and get them to build the actual
    * estimates the system is going to build.
+   *
+   * Firstly we need to isolate any estimates that will reference
+   * another estimate as these will need to be created after the others
    */
-  for (CreatorPtr creator : creators_)
+  vector<CreatorPtr> delayed_creators;
+  for (CreatorPtr creator : creators_) {
+    creator->parameters().Populate();
+
+    if (creator->parameter().substr(0, 8) == PARAM_ESTIMATE) {
+      delayed_creators.push_back(creator);
+      continue;
+    }
+
     creator->CreateEstimates();
+  }
+
+  // nothing fancy here, we don't support chain estimates past 1 level
+  for (CreatorPtr creators : delayed_creators) {
+    creators->CreateEstimates();
+  }
 
   /**
    * Validate the actual estimates now
@@ -187,11 +204,25 @@ EstimatePtr Manager::GetEstimate(const string& parameter) {
     if (estimate->parameter() == parameter)
       return estimate;
   }
+  return EstimatePtr();
+}
+
+/**
+ *
+ */
+EstimatePtr Manager::GetEstimateByLabel(const string& label) {
+  LOG_FINEST() << "Checking for estimate by label " << label;
+
+  for (EstimatePtr estimate : objects_) {
+    if (estimate->label() == label)
+      return estimate;
+  }
 
   for (EstimatePtr estimate : objects_)
-    cout << "Estimate: " << estimate->label() << " | " << estimate->parameter() << endl;
+    LOG_FINEST() << "Estimate: " << estimate->label() << " (" << estimate->parameter() << ")";
 
   return EstimatePtr();
 }
+
 } /* namespace estimates */
 } /* namespace niwa */

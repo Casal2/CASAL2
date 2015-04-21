@@ -98,13 +98,16 @@ void ObjectiveFunction::CalculateScore() {
   }
 
   /**
-   * Get the scores from each of the priors
+   * Get the scores from each of the estimate priors
    */
   vector<EstimatePtr> estimates = estimates::Manager::Instance().GetObjects();
   priors_ = 0.0;
   for (EstimatePtr estimate : estimates) {
     objective::Score new_score;
-    new_score.label_ = PARAM_PRIOR + string("->") + estimate->label();
+    if (estimate->label() != "")
+      new_score.label_ = PARAM_PRIOR + string("->") + estimate->label() + "->" + estimate->parameter();
+    else
+      new_score.label_ = PARAM_PRIOR + string("->") + estimate->parameter();
     new_score.score_ = estimate->GetScore();
 
     score_list_.push_back(new_score);
