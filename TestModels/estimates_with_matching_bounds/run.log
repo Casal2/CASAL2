@@ -1,9 +1,9 @@
 iSAM
 Call: iSAM -r 
-Date: Tue Apr 28 13:32:21 2015
-Version: 2015-04-21 23:01:09 UTC (rev. ad6f74a)
+Date: Wed Apr 29 13:20:28 2015
+Version: 2015-04-28 01:32:45 UTC (rev. 35fdb97)
 Copyright (c) 2012 - 2015, NIWA (www.niwa.co.nz)
-Environment: machine:ANUBIS, user:Admin, os:Windows_NT, pid:5136
+Environment: machine:ANUBIS, user:Admin, os:Windows_NT, pid:6416
 
 [obj]
 obs->chatCPUE-1992: 134.15
@@ -53,5 +53,5 @@ prior->selectivity[chatTANselFemale].alpha: 0
 total_score: 16884.3
 *end
 
-Total elapsed time: 2 seconds
+Total elapsed time: 3 seconds
 Completed
