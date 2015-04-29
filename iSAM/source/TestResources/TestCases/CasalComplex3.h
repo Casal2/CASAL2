@@ -229,47 +229,49 @@ table error_values
 end_table
 time_step_proportion 1.0
 
-@estimate catchability[chatCPUE.1].q
+@estimate
+parameter catchability[chatCPUE.1].q
 type uniform_log
 lower_bound 1e-8
 upper_bound 10
 
-@estimate catchability[chatTANbiomass.1].q
+@estimate 
+parameter catchability[chatTANbiomass.1].q
 type uniform_log
 lower_bound 1e-2
 upper_bound 1
 
-@estimate process[recruitment].r0
+@estimate
 parameter process[recruitment].r0
 lower_bound 1e3
 upper_bound 1e7
 type uniform_log
 
-@estimate selectivity[chatTANselMale].a50
+@estimate
 parameter selectivity[chatTANselMale].a50
 lower_bound 0
 upper_bound 30
 type uniform
 
-@estimate selectivity[chatTANselMale].ato95
+@estimate
 parameter selectivity[chatTANselMale].ato95
 lower_bound 0
 upper_bound 30
 type uniform
 
-@estimate selectivity[chatTANselFemale].a50
+@estimate
 parameter selectivity[chatTANselFemale].a50
 lower_bound 0
 upper_bound 30
 type uniform
 
-@estimate selectivity[chatTANselFemale].ato95
+@estimate
 parameter selectivity[chatTANselFemale].ato95
 lower_bound 0
 upper_bound 30
 type uniform
 
-@estimate selectivity[chatTANselFemale].alpha
+@estimate
 parameter selectivity[chatTANselFemale].alpha
 lower_bound 0.2
 upper_bound 5

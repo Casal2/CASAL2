@@ -96,7 +96,7 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry excluding="build|how to build iSAM.txt|testresources|buildtools|build.py|doc|CMakeLists.txt|thirdparty|doBuild.bat" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
+						<entry excluding="CMakeLists.txt|doBuild.bat|doc|build|thirdparty|build.py|how to build iSAM.txt|testresources|buildtools" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
@@ -179,7 +179,7 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry excluding="how to build iSAM.txt|build|buildtools|testresources|build.py|CMakeLists.txt|doc|thirdparty|doBuild.bat" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
+						<entry excluding="CMakeLists.txt|doBuild.bat|doc|build|thirdparty|build.py|how to build iSAM.txt|testresources|buildtools" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
@@ -288,7 +288,7 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry excluding="build|how to build iSAM.txt|testresources|buildtools|build.py|doc|CMakeLists.txt|thirdparty|doBuild.bat" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
+						<entry excluding="CMakeLists.txt|doBuild.bat|doc|build|thirdparty|build.py|how to build iSAM.txt|testresources|buildtools" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
@@ -483,7 +483,7 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry excluding="build|how to build iSAM.txt|testresources|buildtools|build.py|doc|CMakeLists.txt|thirdparty|doBuild.bat" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
+						<entry excluding="CMakeLists.txt|doBuild.bat|doc|build|thirdparty|build.py|how to build iSAM.txt|testresources|buildtools" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>

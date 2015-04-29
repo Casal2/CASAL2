@@ -223,47 +223,49 @@ table error_values
 2002 1.091 0.770 0.539 0.421 0.412 0.297 0.367 0.322 0.391 0.510 0.523 0.734 0.481 0.612 0.643 0.756 0.772 0.399 0.369 0.331 0.306 0.304 0.309 0.461 0.752 0.423
 end_table
 
-@estimate catchability[chatCPUE.1].q
+@estimate
+parameter catchability[chatCPUE.1].q
 type uniform_log
 lower_bound 1e-8
 upper_bound 10
 
-@estimate catchability[chatTANbiomass.1].q
+@estimate
+parameter catchability[chatTANbiomass.1].q
 type uniform_log
 lower_bound 1e-2
 upper_bound 1
 
-@estimate process[recruitment].r0
+@estimate
 parameter process[recruitment].r0
 lower_bound 1e3
 upper_bound 1e7
 type uniform_log
 
-@estimate selectivity[chatTANselMale].a50
+@estimate
 parameter selectivity[chatTANselMale].a50
 lower_bound 0
 upper_bound 30
 type uniform
 
-@estimate selectivity[chatTANselMale].ato95
+@estimate
 parameter selectivity[chatTANselMale].ato95
 lower_bound 0
 upper_bound 30
 type uniform
 
-@estimate selectivity[chatTANselFemale].a50
+@estimate
 parameter selectivity[chatTANselFemale].a50
 lower_bound 0
 upper_bound 30
 type uniform
 
-@estimate selectivity[chatTANselFemale].ato95
+@estimate
 parameter selectivity[chatTANselFemale].ato95
 lower_bound 0
 upper_bound 30
 type uniform
 
-@estimate selectivity[chatTANselFemale].alpha
+@estimate
 parameter selectivity[chatTANselFemale].alpha
 lower_bound 0.2
 upper_bound 5

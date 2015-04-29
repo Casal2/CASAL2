@@ -16,7 +16,7 @@ const std::string recruitment_constant_no_sex = R"(
 @recruitment recruitment_constant
 type constant
 categories immature
-proportions 0.5
+proportions 1.0
 R0 997386
 age 1
 )";
