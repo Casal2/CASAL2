@@ -49,9 +49,22 @@ Logging& Logging::Instance() {
   return logging;
 }
 
+#ifdef TESTMODE
 /**
  *
  */
+void Logging::Flush(niwa::logger::Record& record) {
+  record.BuildMessage();
+
+  if (record.severity() == logger::Severity::kWarning || record.severity() == logger::Severity::kError ||
+      record.severity() == logger::Severity::kFatal || record.severity() == logger::Severity::kCodeError) {
+    cout << record.message();
+
+    cout.flush();
+    throw std::string(record.message());
+  }
+}
+#else
 void Logging::Flush(niwa::logger::Record& record) {
   record.BuildMessage();
 
@@ -73,6 +86,7 @@ void Logging::Flush(niwa::logger::Record& record) {
     cout.flush();
   }
 }
+#endif
 
 /**
  *

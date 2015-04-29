@@ -25,6 +25,9 @@
 // namespaces
 namespace niwa {
 
+using std::cout;
+using std::endl;
+
 /**
  * Class definition
  */
@@ -61,20 +64,6 @@ private:
  * If we're building with TEST defined then we'll blank all of them except LOG_ERROR which
  * will throw an exception
  */
-#ifdef TESTMODE
-
-#define LOG_TRACE() for(logger::Record r(logger::Severity::kTrace, __FILE__, __FUNCTION__, __LINE__); !r.Flush(); Logging::Instance().Flush(r));
-#define LOG_FINEST() for(logger::Record r(logger::Severity::kFinest, __FILE__, __FUNCTION__, __LINE__); !r.Flush(); Logging::Instance().Flush(r)) r.stream()
-#define LOG_FINE() for(logger::Record r(logger::Severity::kFine, __FILE__, __FUNCTION__, __LINE__); !r.Flush(); Logging::Instance().Flush(r)) r.stream()
-#define LOG_WARNING() for(logger::Record r(logger::Severity::kWarning, __FILE__, __FUNCTION__, __LINE__); !r.Flush(); Logging::Instance().Flush(r)) r.stream()
-#define LOG_ERROR() for(logger::Record r(logger::Severity::kError, __FILE__, __FUNCTION__, __LINE__); !r.Flush(); throw std::string(r.stream().str())) r.stream()
-#define LOG_ERROR_P(parameter) for(logger::Record r(logger::Severity::kError, __FILE__, __FUNCTION__, __LINE__); !r.Flush(); throw std::string(r.stream().str())) r.stream() << this->parameters_.location(parameter)
-#define LOG_FATAL() for(logger::Record r(logger::Severity::kFatal, __FILE__, __FUNCTION__, __LINE__); !r.Flush(); throw std::string(r.stream().str())) r.stream()
-#define LOG_FATAL_P(parameter) for(logger::Record r(logger::Severity::kFatal, __FILE__, __FUNCTION__, __LINE__); !r.Flush(); throw std::string(r.stream().str())) r.stream() << this->parameters_.location(parameter)
-#define LOG_CODE_ERROR() for(logger::Record r(logger::Severity::kCodeError, __FILE__, __FUNCTION__, __LINE__); !r.Flush(); throw std::string(r.stream().str())) r.stream()
-
-#else
-
 #define LOG_TRACE() for(logger::Record r(logger::Severity::kTrace, __FILE__, __FUNCTION__, __LINE__); !r.Flush(); Logging::Instance().Flush(r));
 #define LOG_FINEST() for(logger::Record r(logger::Severity::kFinest, __FILE__, __FUNCTION__, __LINE__); !r.Flush(); Logging::Instance().Flush(r)) r.stream()
 #define LOG_FINE() for(logger::Record r(logger::Severity::kFine, __FILE__, __FUNCTION__, __LINE__); !r.Flush(); Logging::Instance().Flush(r)) r.stream()
@@ -84,7 +73,5 @@ private:
 #define LOG_FATAL() for(logger::Record r(logger::Severity::kFatal, __FILE__, __FUNCTION__, __LINE__); !r.Flush(); Logging::Instance().Flush(r)) r.stream()
 #define LOG_FATAL_P(parameter) for(logger::Record r(logger::Severity::kFatal, __FILE__, __FUNCTION__, __LINE__); !r.Flush(); Logging::Instance().Flush(r)) r.stream() << this->parameters_.location(parameter)
 #define LOG_CODE_ERROR() for(logger::Record r(logger::Severity::kCodeError, __FILE__, __FUNCTION__, __LINE__); !r.Flush(); Logging::Instance().Flush(r)) r.stream()
-
-#endif
 
 #endif /* SOURCE_LOGGING_LOGGING_H_ */

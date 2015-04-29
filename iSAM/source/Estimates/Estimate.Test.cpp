@@ -121,7 +121,8 @@ TEST_F(InternalEmptyModel, Estimates_Multiple_Defined_Targets_Vector) {
  */
 const string estimate_multiple_defined_targets_unsigned_map =
 R"(
-@estimate process[Fishing].catches(2000:2002)
+@estimate
+parameter process[Fishing].catches(2000:2002)
 type lognormal
 lower_bound 28000 24000 47000
 upper_bound 29000 25000 48000
@@ -250,7 +251,8 @@ TEST_F(InternalEmptyModel, Estimates_All_Targets_Vector) {
  */
 const string estimate_all_targets_unsigned_map =
 R"(
-@estimate process[Fishing].catches
+@estimate 
+parameter process[Fishing].catches
 type lognormal
 lower_bound 1800 14000 28000 24000 47000 58000 82000 115000 113000 119000
 upper_bound 1900 15000 29000 25000 48000 59000 83000 116000 114000 120000

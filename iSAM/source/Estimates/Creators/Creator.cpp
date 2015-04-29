@@ -219,6 +219,7 @@ niwa::EstimatePtr Creator::CreateEstimate(string parameter, unsigned index, Doub
   estimate->set_target(target);
   estimate->parameters().Get(PARAM_PARAMETER)->set_value(parameter);
   estimate->set_creator_parameter(parameter_);
+  estimate->set_block_type(PARAM_ESTIMATE);
 
   estimate->parameters().Populate();
   return estimate;

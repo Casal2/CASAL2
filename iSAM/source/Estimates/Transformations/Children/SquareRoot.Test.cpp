@@ -12,6 +12,7 @@
 // Headers
 #include "SquareRoot.h"
 
+#include <iostream>
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
 #include <boost/lexical_cast.hpp>
@@ -28,13 +29,15 @@ namespace estimates {
 namespace transformations {
 
 using niwa::testfixtures::InternalEmptyModel;
+using std::cout;
+using std::endl;
 
 const string estimate_transformations_squareroot =
 R"(
 @estimate e1
 parameter selectivity[FishingSel].a50
 lower_bound 0
-upper_bound 4.5
+upper_bound 10
 type beta
 mu 0.3
 sigma 0.05
@@ -71,12 +74,12 @@ TEST_F(InternalEmptyModel, Estimates_Transformations_SquareRoot) {
   model->Start(RunMode::kEstimation);
 
   ObjectiveFunction& obj_function = ObjectiveFunction::Instance();
-  EXPECT_DOUBLE_EQ(1726.6294925123473, obj_function.score());
+  EXPECT_DOUBLE_EQ(1726.6294932473347, obj_function.score());
 
   EstimatePtr estimate = estimates::Manager::Instance().GetEstimate("selectivity[FishingSel].a50");
   if (!estimate)
     LOG_FATAL() << "!estimate";
-  EXPECT_DOUBLE_EQ(7.2721721659220941, estimate->value());
+  EXPECT_DOUBLE_EQ(7.2721039674314634, estimate->value());
 
   // Check results
   estimate->set_value(1.0);

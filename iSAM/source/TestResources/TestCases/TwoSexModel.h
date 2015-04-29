@@ -171,25 +171,25 @@ error_value 0.2
 likelihood lognormal
 time_step_proportion 1.0
 
-@estimate catchability[CPUEq].q
+@estimate
 parameter catchability[CPUEq].q
 lower_bound 1e-10
 upper_bound 1e-1
 type uniform
 
-@estimate process[Recruitment].R0
+@estimate
 parameter process[Recruitment].R0
 lower_bound 1e5
 upper_bound 1e10
 type uniform_log
 
-@estimate selectivity[FishingSel].a50
+@estimate
 parameter selectivity[FishingSel].a50
 lower_bound 1
 upper_bound 20
 type uniform
 
-@estimate selectivity[FishingSel].ato95
+@estimate
 parameter selectivity[FishingSel].ato95
 lower_bound 0.01
 upper_bound 50

@@ -35,7 +35,7 @@ TEST(Utilities, String) {
   test = "bad!!label";
   EXPECT_EQ("!!", String::find_invalid_characters(test));
 
-  test = "good[]()._-:";
+  test = "good.-_";
   EXPECT_EQ("", String::find_invalid_characters(test));
 
   test = "bad%la^bel!";
