@@ -182,7 +182,8 @@ bool Model::Start(RunMode::Type run_mode) {
     break;
 
   case RunMode::kMCMC:
-    RunMCMC();
+    if (!RunMCMC());
+      return false;
     break;
 
   case RunMode::kProfiling:
@@ -458,11 +459,17 @@ void Model::RunEstimation() {
 /**
  *
  */
-void Model::RunMCMC() {
+bool Model::RunMCMC() {
   LOG_FINE() << "Entering the MCMC Sub-System";
   MCMCPtr mcmc = MCMC::Instance();
   mcmc->Validate();
   mcmc->Build();
+
+  Logging& logging = Logging::Instance();
+  if (logging.errors().size() > 0) {
+    logging.FlushErrors();
+    return false;
+  }
 
   LOG_FINE() << "Calling minimiser to find our minimum and covariance matrix";
   MinimiserPtr minimiser = minimisers::Manager::Instance().active_minimiser();
@@ -471,6 +478,7 @@ void Model::RunMCMC() {
 
   LOG_FINE() << "Minimisation complete. Starting MCMC";
   mcmc->Execute();
+  return true;
 }
 
 /**
