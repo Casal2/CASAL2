@@ -95,7 +95,7 @@ protected:
   void                        Reset();
   void                        RunBasic();
   void                        RunEstimation();
-  void                        RunMCMC();
+  bool                        RunMCMC();
   void                        RunProfiling();
   void                        RunSimulation();
   void                        RunProjection();
