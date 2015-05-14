@@ -231,7 +231,7 @@ void MCMC::Execute() {
         candidates_ = original_candidates;
       }
     }
-
+    LOG_FINEST() << successful_jumps_ << " successful jumps have been completed";
   } while (successful_jumps_ < length_);
 }
 
