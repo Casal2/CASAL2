@@ -187,13 +187,16 @@ escapeinside={\%*}{*)}          % if you want to add a comment within your code
 
 % Generic definition for subcommand syntax: copied from SPM, setup needs defining
 \newcommand{\defText}[2]{\hangindent=0.3cm \small{#1\ #2}\normalsize \\*}
-% Define subcommand syntax for Type / Default / Condition / Value / Note / Example
+% Define subcommand syntax for Type / Default / Condition / Value / Note / Example / Lower Bound / Upper Bound
 \newcommand{\defType}[1]{\defText{Type:}{#1}}
 \newcommand{\defDefault}[1]{\defText{Default:}{#1}}
 \newcommand{\defCondition}[1]{\defText{Condition:}{#1}}
 \newcommand{\defValue}[1]{\defText{Value:}{#1}}
 \newcommand{\defNote}[1]{\defText{Note:}{#1}}
 \newcommand{\defExample}[1]{\defText{Example:}{#1}}
+\newcommand{\defLowerBound}[1]{\defText{Lower Bound:}{#1}}
+\newcommand{\defUpperBound}[1]{\defText{Upper Bound:}{#1}}
+\newcommand{\defAllowedValues}[1]{\defText{Allowed Values:}{#1}}
 
 % Input iSAM version definitions
 \input{Version.tex}
