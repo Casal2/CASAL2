@@ -55,7 +55,7 @@ protected:
   Double                        delta_ = 0.0;
   parameters::TablePtr          obs_table_;
   Double                        tolerance_ = 0.0;
-  vector<Double>                process_errors_;
+  vector<Double>                process_error_values_;
   map<unsigned, Double>         process_errors_by_year_;
   string                        ageing_error_label_;
   parameters::TablePtr          error_values_table_;

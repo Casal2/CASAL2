@@ -20,6 +20,7 @@
 #include "Categories/Categories.h"
 #include "Likelihoods/Factory.h"
 #include "Model/Model.h"
+#include "Observations/ProcessErrors/Factory.h"
 #include "Selectivities/Manager.h"
 
 // Namespaces
@@ -36,6 +37,8 @@ Observation::Observation() {
   parameters_.Bind<string>(PARAM_CATEGORIES, &category_labels_, "Category labels to use", "", true);
   parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_labels_, "Selectivity labels to use", "", true);
   parameters_.Bind<string>(PARAM_SIMULATION_LIKELIHOOD, &simulation_likelihood_label_, "Simulation likelihood to use", "", "");
+  parameters_.Bind<string>(PARAM_PROCESS_ERROR_TYPE, &process_error_type_, "Process error type", "", PARAM_NONE)
+      ->set_allowed_values({ PARAM_NONE, PARAM_ADDITIVE, PARAM_MULTIPLICATIVE, PARAM_DISPERSION, PARAM_FRANCIS });
 
   mean_proportion_method_ = true;
 }
@@ -115,7 +118,11 @@ void Observation::Build() {
 
   likelihood_ = likelihoods::Factory::Create(likelihood_type_);
   if (!likelihood_)
-    LOG_ERROR_P(PARAM_LIKELIHOOD) << ": Likelihood " << likelihood_type_ << " does not exist. Have you defined it?";
+    LOG_ERROR_P(PARAM_LIKELIHOOD) << "(" << likelihood_type_ << ") could not be created.";
+
+  process_error_ = observations::processerrors::Factory::Create(process_error_type_);
+  if (!process_error_)
+    LOG_ERROR_P(PARAM_PROCESS_ERROR_TYPE) << "(" << process_error_type_ << ") could not be created.";
 
   DoBuild();
 }

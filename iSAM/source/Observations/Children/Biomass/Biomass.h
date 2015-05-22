@@ -52,7 +52,7 @@ protected:
   string                          catchability_label_;
   CatchabilityPtr                 catchability_;
   Double                          delta_;
-  Double                          process_error_;
+  Double                          process_error_value_;
   CachedCombinedCategoriesPtr     cached_partition_;
   CombinedCategoriesPtr           partition_;
   vector<string>                  obs_;

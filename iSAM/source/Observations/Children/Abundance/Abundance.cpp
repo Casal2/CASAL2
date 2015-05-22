@@ -32,8 +32,8 @@ void Abundance::DoValidate() {
   // Delta
   if (delta_ < 0.0)
     LOG_ERROR_P(PARAM_DELTA) << ": delta (" << AS_DOUBLE(delta_) << ") cannot be less than 0.0";
-  if (process_error_ < 0.0)
-    LOG_ERROR_P(PARAM_PROCESS_ERROR) << ": process_error (" << AS_DOUBLE(process_error_) << ") cannot be less than 0.0";
+  if (process_error_value_ < 0.0)
+    LOG_ERROR_P(PARAM_PROCESS_ERROR) << ": process_error (" << AS_DOUBLE(process_error_value_) << ") cannot be less than 0.0";
 
   // Obs
   vector<string> obs  = obs_;
@@ -170,7 +170,7 @@ void Abundance::Execute() {
     expecteds.push_back(expected_total);
     observeds.push_back(proportions_by_year_[current_year][proportions_index]);
     error_values.push_back(error_value);
-    process_errors.push_back(process_error_);
+    process_errors.push_back(process_error_value_);
   }
 
   /**
