@@ -1,9 +1,9 @@
 iSAM
 Call: iSAM -r 
-Date: Wed Apr 29 13:20:26 2015
+Date: Wed Apr 29 13:47:17 2015
 Version: 2015-04-28 01:32:45 UTC (rev. 35fdb97)
 Copyright (c) 2012 - 2015, NIWA (www.niwa.co.nz)
-Environment: machine:ANUBIS, user:Admin, os:Windows_NT, pid:2520
+Environment: machine:ANUBIS, user:Admin, os:Windows_NT, pid:4872
 
 [obj]
 prior->catchability[CPUEq].q: 0
