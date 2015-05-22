@@ -29,6 +29,8 @@ namespace dc = niwa::utilities::doublecompare;
  * Constructor
  */
 MCMC::MCMC() {
+  parameters_.Bind<string>(PARAM_LABEL, &label_, "Label", "");
+  parameters_.Bind<string>(PARAM_TYPE, &type_, "Type", "", "");
   parameters_.Bind<Double>(PARAM_START, &start_, "TBA", "", 0.0);
   parameters_.Bind<unsigned>(PARAM_LENGTH, &length_, "The number of chain links to create", "");
   parameters_.Bind<unsigned>(PARAM_KEEP, &keep_, "TBA", "", 1u);
@@ -39,6 +41,7 @@ MCMC::MCMC() {
   parameters_.Bind<string>(PARAM_PROPOSAL_DISTRIBUTION, &proposal_distribution_, "TBA", "", PARAM_T);
   parameters_.Bind<unsigned>(PARAM_DF, &df_, "TBA", "", 4);
   parameters_.Bind<unsigned>(PARAM_ADAPT_STEPSIZE_AT, &adapt_step_size_, "TBA", "", true);
+  parameters_.Bind<bool>(PARAM_ACTIVE, &active_, "Is this the active MCMC algorithm", "", true);
 
   jumps_                          = 0;
   successful_jumps_               = 0;
@@ -46,16 +49,6 @@ MCMC::MCMC() {
   successful_jumps_since_adapt_   = 0;
   step_size_                      = 0.0;
   last_item_                      = false;
-}
-
-/**
- * Our singleton accessor method
- *
- * @return singleton shared ptr
- */
-shared_ptr<MCMC> MCMC::Instance() {
-  static MCMCPtr mcmc = MCMCPtr(new MCMC());
-  return mcmc;
 }
 
 /**
@@ -93,6 +86,8 @@ void MCMC::Validate() {
     LOG_ERROR_P(PARAM_START) << "(" << start_ << ") cannot be less than 0";
   if (step_size_ < 0.0)
     LOG_ERROR_P(PARAM_STEP_SIZE) << "(" << step_size_ << ") cannot be less than 0.0";
+
+  DoValidate();
 }
 
 /**
@@ -121,119 +116,9 @@ void MCMC::Build() {
   if (step_size_ == 0.0)
     step_size_ = 2.4 * pow((Double)active_estimates, -0.5);
 
+  DoBuild();
 }
 
-/**
- * Execute the MCMC system and build our MCMC chain
- */
-void MCMC::Execute() {
-  candidates_.resize(estimate_count_);
-  is_enabled_estimate_.resize(estimate_count_);
-
-  vector<EstimatePtr> estimates = estimates::Manager::Instance().GetEnabled();
-  for (unsigned i = 0; i < estimate_count_; ++i) {
-    candidates_[i] = AS_DOUBLE(estimates[i]->value());
-
-    if (estimates[i]->lower_bound() == estimates[i]->upper_bound() || estimates[i]->mcmc_fixed())
-      is_enabled_estimate_[i] = false;
-    else
-      is_enabled_estimate_[i] = true;
-  }
-
-  BuildCovarianceMatrix();
-  if (!DoCholeskyDecmposition())
-    LOG_ERROR() << "Cholesky decomposition failed. Cannot continue MCMC";
-
-  if (start_ > 0.0)
-    GenerateRandomStart();
-
-  for(unsigned i = 0; i < estimate_count_; ++i)
-    estimates[i]->set_value(candidates_[i]);
-
-  /**
-   * Get the objective score
-   */
-  Model::Instance()->FullIteration();
-  ObjectiveFunction obj_function = ObjectiveFunction::Instance();
-  obj_function.CalculateScore();
-  Double score = AS_DOUBLE(obj_function.score());
-
-  /**
-   * Store first location
-   */
-  {
-    mcmc::ChainLink new_link;
-    new_link.iteration_                     = 0;
-    new_link.penalty_                       = AS_DOUBLE(obj_function.penalties());
-    new_link.score_                         = AS_DOUBLE(obj_function.score());
-    new_link.prior_                         = AS_DOUBLE(obj_function.priors());
-    new_link.likelihood_                    = AS_DOUBLE(obj_function.likelihoods());
-    new_link.additional_priors_             = AS_DOUBLE(obj_function.additional_priors());
-    new_link.acceptance_rate_               = 0;
-    new_link.acceptance_rate_since_adapt_   = 0;
-    new_link.step_size_                     = step_size_;
-    new_link.values_                        = candidates_;
-    chain_.push_back(new_link);
-  }
-
-  /**
-   * Now we start the MCMC process
-   */
-  utilities::RandomNumberGenerator& rng = utilities::RandomNumberGenerator::Instance();
-
-  do {
-    LOG_FINE() << "MCMC Starting";
-
-    vector<Double> original_candidates = candidates_;
-    UpdateStepSize();
-    GenerateNewCandidates();
-    for (unsigned i = 0; i < candidates_.size(); ++i)
-      estimates[i]->set_value(candidates_[i]);
-
-    Model::Instance()->FullIteration();
-    obj_function.CalculateScore();
-
-    Double previous_score = score;
-    score = AS_DOUBLE(obj_function.score());
-    Double ratio = 1.0;
-
-    if (score > previous_score)
-      ratio = exp(-score + previous_score);
-
-    jumps_++;
-    jumps_since_adapt_++;
-
-    if (dc::IsEqual(ratio, 1.0) || rng.uniform() < ratio) {
-      // Accept this jump
-      successful_jumps_++;
-      successful_jumps_since_adapt_++;
-
-      // See if we need to check this a link we keep
-      if (successful_jumps_ % keep_ == 0) {
-        LOG_FINE() << "Keeping jump " << successful_jumps_;
-        mcmc::ChainLink new_link;
-        new_link.iteration_                     = successful_jumps_;
-        new_link.penalty_                       = obj_function.penalties();
-        new_link.score_                         = AS_DOUBLE(obj_function.score());
-        new_link.prior_                         = obj_function.priors();
-        new_link.likelihood_                    = obj_function.likelihoods();
-        new_link.additional_priors_             = obj_function.additional_priors();
-        new_link.acceptance_rate_               = successful_jumps_since_adapt_ / jumps_since_adapt_;
-        new_link.acceptance_rate_since_adapt_   = successful_jumps_ / jumps_;
-        new_link.step_size_                     = step_size_;
-        new_link.values_                        = candidates_;
-        chain_.push_back(new_link);
-
-        reports::Manager::Instance().Execute(State::kIterationComplete);
-      } else {
-        // Reject this attempt
-        score = previous_score;
-        candidates_ = original_candidates;
-      }
-    }
-    LOG_FINEST() << successful_jumps_ << " successful jumps have been completed";
-  } while (successful_jumps_ < length_);
-}
 
 /**
  * Get the covariance matrix from the minimiser and then

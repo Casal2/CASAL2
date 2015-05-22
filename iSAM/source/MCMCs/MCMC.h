@@ -51,18 +51,23 @@ struct ChainLink {
 class MCMC : public niwa::base::Object {
 public:
   // Methods
-  static shared_ptr<MCMC>     Instance();
+  MCMC();
   virtual                     ~MCMC() = default;
   void                        Validate();
   void                        Build();
-  void                        Execute();
+  void                        Reset() { };
+  virtual void                Execute() = 0;
 
   // Getters/Setters
   const vector<mcmc::ChainLink>&  chain() const { return chain_; }
+  bool                        active() const { return active_; }
 
-private:
+protected:
+  // pure virtual methods
+  virtual void                DoValidate() = 0;
+  virtual void                DoBuild() = 0;
+
   // methods
-  MCMC();
   void                        BuildCovarianceMatrix();
   bool                        DoCholeskyDecmposition();
   void                        GenerateRandomStart();
@@ -95,6 +100,7 @@ private:
   vector<unsigned>            adapt_step_size_;
   MinimiserPtr                minimiser_;
   vector<string>              estimate_labels_;
+  bool                        active_;
 };
 
 // Typdef

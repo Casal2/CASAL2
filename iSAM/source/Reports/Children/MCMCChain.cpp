@@ -11,7 +11,7 @@
 // headers
 #include "MCMCChain.h"
 
-#include "MCMC/MCMC.h"
+#include "MCMCs/MCMC.h"
 
 // namespaces
 namespace niwa {
@@ -36,20 +36,20 @@ MCMCChain::~MCMCChain() noexcept(true) {
  *
  */
 void MCMCChain::DoExecute() {
-  const vector<mcmc::ChainLink>& chain = MCMC::Instance()->chain();
+//  const vector<mcmc::ChainLink>& chain = MCMC::Instance()->chain();
 
   cache_ << CONFIG_ARRAY_START << label_ << CONFIG_ARRAY_END << "\n";
 //  cout << PARAM_REPORT << "." << PARAM_TYPE << CONFIG_RATIO_SEPARATOR << " " << parameters_.Get(PARAM_TYPE).GetValue<string>() << "\n";
 
-  for (unsigned i = 0; i < chain.size(); ++i) {
-    cache_ << i << ": ";
-    cache_ << chain[i].score_ << ": ";
-
-    for (Double value : chain[i].values_)
-      cache_ << value << " ";
-
-    cache_ << "\n";
-  }
+//  for (unsigned i = 0; i < chain.size(); ++i) {
+//    cache_ << i << ": ";
+//    cache_ << chain[i].score_ << ": ";
+//
+//    for (Double value : chain[i].values_)
+//      cache_ << value << " ";
+//
+//    cache_ << "\n";
+//  }
 
   cache_ << CONFIG_END_REPORT << "\n" << endl;
   ready_for_writing_ = true;

@@ -21,7 +21,7 @@
 #include "Estimates/Creators/Factory.h"
 #include "InitialisationPhases/Factory.h"
 #include "Likelihoods/Factory.h"
-#include "MCMC/MCMC.h"
+#include "MCMCs/Factory.h"
 #include "Minimisers/Factory.h"
 #include "Model/Model.h"
 #include "Observations/Factory.h"
@@ -85,7 +85,7 @@ base::ObjectPtr Object::Create(string& object_type, string& sub_type) {
   else if (object_type == PARAM_MINIMIZER)
     result = minimisers::Factory::Create(object_type, sub_type);
   else if (object_type == PARAM_MCMC)
-    result = MCMC::Instance();
+    result = mcmcs::Factory::Create(object_type, sub_type);
   else if (object_type == PARAM_MODEL)
     result = Model::Instance();
   else if (object_type == PARAM_OBSERVATION)
