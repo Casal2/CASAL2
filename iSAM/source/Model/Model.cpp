@@ -26,7 +26,7 @@
 #include "Estimates/Manager.h"
 #include "GlobalConfiguration/GlobalConfiguration.h"
 #include "InitialisationPhases/Manager.h"
-#include "MCMC/MCMC.h"
+#include "MCMCs/Manager.h"
 #include "Minimisers/Manager.h"
 #include "Observations/Manager.h"
 #include "Penalties/Manager.h"
@@ -285,6 +285,7 @@ void Model::Validate() {
   catchabilities::Manager::Instance().Validate();
   derivedquantities::Manager::Instance().Validate();
   initialisationphases::Manager::Instance().Validate();
+  mcmcs::Manager::Instance().Validate();
   minimisers::Manager::Instance().Validate();
   observations::Manager::Instance().Validate();
   penalties::Manager::Instance().Validate();
@@ -333,6 +334,7 @@ void Model::Build() {
   catchabilities::Manager::Instance().Build();
   derivedquantities::Manager::Instance().Build();
   initialisationphases::Manager::Instance().Build();
+  mcmcs::Manager::Instance().Build();
   minimisers::Manager::Instance().Build();
   observations::Manager::Instance().Build();
   penalties::Manager::Instance().Build();
@@ -378,6 +380,7 @@ void Model::Reset() {
   catchabilities::Manager::Instance().Reset();
   derivedquantities::Manager::Instance().Reset();
   initialisationphases::Manager::Instance().Reset();
+  mcmcs::Manager::Instance().Reset();
   minimisers::Manager::Instance().Reset();
   observations::Manager::Instance().Reset();
   penalties::Manager::Instance().Reset();
@@ -461,9 +464,7 @@ void Model::RunEstimation() {
  */
 bool Model::RunMCMC() {
   LOG_FINE() << "Entering the MCMC Sub-System";
-  MCMCPtr mcmc = MCMC::Instance();
-  mcmc->Validate();
-  mcmc->Build();
+  MCMCPtr mcmc = mcmcs::Manager::Instance().active_mcmc();
 
   Logging& logging = Logging::Instance();
   if (logging.errors().size() > 0) {

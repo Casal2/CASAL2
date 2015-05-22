@@ -20,7 +20,7 @@
 #include "DerivedQuantities/Manager.h"
 #include "Estimates/Manager.h"
 #include "InitialisationPhases/Manager.h"
-#include "MCMC/MCMC.h"
+#include "MCMCs/Manager.h"
 #include "Minimisers/Manager.h"
 #include "ObjectiveFunction/ObjectiveFunction.h"
 #include "Observations/Manager.h"
@@ -82,7 +82,7 @@ void Base::TearDown() {
   sizeweights::Manager::Instance().RemoveAllObjects();
   timesteps::Manager::Instance().RemoveAllObjects();
 
-  MCMC::Instance()->parameters().Clear();
+  mcmcs::Manager::Instance().RemoveAllObjects();
 }
 
 } /* namespace testfixtures */

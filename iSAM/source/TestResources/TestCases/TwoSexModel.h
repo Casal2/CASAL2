@@ -116,7 +116,7 @@ step_size 1e-7
 tolerance 0.002
 covariance true
 
-@mcmc
+@mcmc x
 length 100
 
 @catchability CPUEq
