@@ -30,7 +30,7 @@ Biomass::Biomass() {
   parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "Years to execute in", "");
   parameters_.Bind<Double>(PARAM_ERROR_VALUE, &error_values_, "The error values to use against the observation values", "");
   parameters_.Bind<Double>(PARAM_DELTA, &delta_, "Delta value for error values", "", Double(1e-10));
-  parameters_.Bind<Double>(PARAM_PROCESS_ERROR, &process_error_, "Process error", "", Double(0.0));
+  parameters_.Bind<Double>(PARAM_PROCESS_ERROR, &process_error_value_, "Process error", "", Double(0.0));
 
 }
 
@@ -43,8 +43,8 @@ void Biomass::DoValidate() {
   // Delta
   if (delta_ < 0.0)
     LOG_ERROR_P(PARAM_DELTA) << ": delta (" << AS_DOUBLE(delta_) << ") cannot be less than 0.0";
-  if (process_error_ < 0.0)
-    LOG_ERROR_P(PARAM_PROCESS_ERROR) << ": process_error (" << AS_DOUBLE(process_error_) << ") cannot be less than 0.0";
+  if (process_error_value_ < 0.0)
+    LOG_ERROR_P(PARAM_PROCESS_ERROR) << ": process_error (" << AS_DOUBLE(process_error_value_) << ") cannot be less than 0.0";
 
   // Obs
   vector<string> obs  = obs_;
@@ -179,7 +179,7 @@ void Biomass::Execute() {
     expecteds.push_back(expected_total);
     observeds.push_back(proportions_by_year_[current_year][proportions_index]);
     error_values.push_back(error_value);
-    process_errors.push_back(process_error_);
+    process_errors.push_back(process_error_value_);
   }
 
   /**

@@ -53,7 +53,7 @@ protected:
   string                          catchability_label_ = "";
   CatchabilityPtr                 catchability_;
   Double                          delta_ = 0;
-  Double                          process_error_ = 0;
+  Double                          process_error_value_ = 0;
   CachedCombinedCategoriesPtr     cached_partition_;
   CombinedCategoriesPtr           partition_;
   vector<string>                  obs_;

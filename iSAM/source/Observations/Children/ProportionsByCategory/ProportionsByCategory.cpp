@@ -38,7 +38,7 @@ ProportionsByCategory::ProportionsByCategory() {
   parameters_.Bind<string>(PARAM_TARGET_CATEGORIES, &target_category_labels_, "Target Categories", "");
   parameters_.Bind<string>(PARAM_TARGET_SELECTIVITIES, &target_selectivity_labels_, "Target Selectivities", "");
   parameters_.Bind<Double>(PARAM_DELTA, &delta_, "Delta", "", DELTA);
-  parameters_.Bind<Double>(PARAM_PROCESS_ERRORS, &process_errors_, "Process error", "", true);
+  parameters_.Bind<Double>(PARAM_PROCESS_ERRORS, &process_error_values_, "Process error", "", true);
 
   obs_table_ = TablePtr(new parameters::Table(PARAM_OBS));
   error_values_table_ = TablePtr(new parameters::Table(PARAM_ERROR_VALUES));
@@ -72,16 +72,16 @@ void ProportionsByCategory::DoValidate() {
     LOG_ERROR_P(PARAM_MIN_AGE) << ": min_age (" << min_age_ << ") is less than the model's min_age (" << model->min_age() << ")";
   if (max_age_ > model->max_age())
     LOG_ERROR_P(PARAM_MAX_AGE) << ": max_age (" << max_age_ << ") is greater than the model's max_age (" << model->max_age() << ")";
-  if (process_errors_.size() != 0 && process_errors_.size() != years_.size()) {
-    LOG_ERROR_P(PARAM_PROCESS_ERRORS) << " number of values provied (" << process_errors_.size() << ") does not match the number of years provided ("
+  if (process_error_values_.size() != 0 && process_error_values_.size() != years_.size()) {
+    LOG_ERROR_P(PARAM_PROCESS_ERRORS) << " number of values provied (" << process_error_values_.size() << ") does not match the number of years provided ("
         << years_.size() << ")";
   }
-  for (Double process_error : process_errors_) {
+  for (Double process_error : process_error_values_) {
     if (process_error < 0.0)
       LOG_ERROR_P(PARAM_PROCESS_ERRORS) << ": process_error (" << AS_DOUBLE(process_error) << ") cannot be less than 0.0";
   }
-  if (process_errors_.size() != 0)
-    process_errors_by_year_ = utilities::Map::create(years_, process_errors_);
+  if (process_error_values_.size() != 0)
+    process_errors_by_year_ = utilities::Map::create(years_, process_error_values_);
   if (delta_ < 0.0)
     LOG_ERROR_P(PARAM_DELTA) << ": delta (" << AS_DOUBLE(delta_) << ") cannot be less than 0.0";
 
