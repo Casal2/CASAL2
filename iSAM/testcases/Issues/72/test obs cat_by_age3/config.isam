@@ -1,0 +1,306 @@
+# toothfish model, 2 sex, 3 fisheries, no tag data for now
+
+@model  
+min_age    1 
+max_age   50
+age_plus T  #plus_group   
+start_year   1995
+final_year   2013
+projection_final_year 2048
+initialisation_phases phase1
+time_steps zero one oneb two three 
+
+@categories
+format sex.tag.year #sex.stage
+names male.untagged.0 female.untagged.0 male.tagged.2008 female.tagged.2008  male.tagged.2010 female.tagged.2010
+age_lengths age_length_male_untagged age_length_female_untagged age_length_male_tagged age_length_female_tagged age_length_male_tagged age_length_female_tagged
+
+@initialisation_phase phase1
+exclude_processes FishingShelf FishingSlope FishingNorth
+years 200
+
+@time_step zero # Summer
+processes Recruitment Mortality #MaturationMales MaturationFemales
+
+@time_step one # End summer and fishing
+processes FishingShelf FishingSlope FishingNorth 
+
+@time_step oneb #tagging
+processes  Tag2008 Tag2010
+
+@time_step two # Winter
+processes  Mortality 
+
+@time_step three # End winter and Ageing
+processes  Ageing
+
+# Population processes
+@process Ageing
+type ageing
+categories *
+
+{
+@Recruitment Recruitment
+type constant
+categories tag=untagged
+proportions 0.75 0.25
+r0 1.6059e+006 #1021124
+age 1
+}
+
+@recruitment Recruitment
+type beverton_holt
+categories tag=untagged
+proportions 0.5 0.5
+r0 1.6059e+006
+age 1
+ssb SSB
+ssb_offset 1 
+standardise_ycs_years 1995:2006 #need this?
+ycs_values 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+steepness 0.75
+
+
+@mortality Mortality
+type constant_rate
+categories *
+M 0.13 0.13 0.13 0.13 0.13 0.13 # 0.065 0.065
+selectivities One One One One One One
+time_step_ratio 0.5 0.5
+
+
+@process Tag2008
+type tag_by_age
+years 2008
+from tag=untagged
+to format=*.tagged.2008
+selectivities One Half
+#penalty tagging_penalty
+min_age 11
+max_age 15
+#plus_group False
+#minus_group False
+n 50
+table proportions
+year 11 12 13 14 15
+2008 0.6 0.1 0.1 0.1 0.1
+end_table
+U_max 0.999
+initial_mortality 0.1
+loss_rate 0.1
+
+
+@process Tag2010
+type tag_by_age
+years 2010
+from tag=untagged
+to format=*.tagged.2010
+selectivities ShelfselMale ShelfselFemale
+#penalty tagging_penalty
+min_age 11
+max_age 15
+#plus_group False
+#minus_group False
+n 50
+table proportions
+year 11 12 13 14 15
+2010 0.2 0.2 0.2 0.2 0.2
+end_table
+U_max 0.999
+initial_mortality 0.2
+loss_rate 0.01
+
+
+{
+@process Tag2010Shelf
+type tag_by_age 
+years 2010
+from tag=untagged 
+to format=*.tagged.2010
+selectivities ShelfselMale ShelfselFemale 
+min_age 3
+max_age 50 
+n 170
+table proportions 
+year 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 
+2010	0.0000	0.0001	0.0153	0.1750	0.2691	0.3114	0.1745	0.0458	0.0083	0.0003	0.0002	0.0000	0.0000	0.0000	0.0000	0.0000	0.0000	0.0000	0.0000	0.0000	0.0000	0.0000	0.0000	0.0000	0.0000	0.0000	0.0000	0.0000	0.0000	0.0000	0.0000	0.0000	0.0000	0.0000	0.0000	0.0000	0.0000	0.0000	0.0000	0.0000	0.0000	0.0000	0.0000	0.0000	0.0000	0.0000	0.0000	0.0000
+end_table
+U_max 0.9 
+initial_mortality 0.135
+loss_rate 0.039 
+}
+
+# FISHING -  #Updated 2013 + insung 1 37 tonnes added to north catch in 2011
+@process FishingShelf
+type mortality_event_biomass
+categories *
+years    1998:2013
+catches  8030	14310	64370	112540	10100	2290	140560	397320	250840	67530	60550	134500	327910	483230	276810	259760
+U_max 0.999
+selectivities ShelfselMale ShelfselFemale ShelfselMale ShelfselFemale ShelfselMale ShelfselFemale 
+penalty event_mortality_penalty
+
+@process FishingSlope
+type mortality_event_biomass
+categories *
+years    1998:2013
+catches 28970	281500	687540	347070	933220	608650	1667390	2262320	2372830	2438330	1938910	1904160	2170510	2053800	2375400	2450380
+U_max 0.999
+selectivities SlopeselMale SlopeselFemale SlopeselMale SlopeselFemale SlopeselMale SlopeselFemale 
+penalty event_mortality_penalty
+#future_constant_catches 2452.91 # Current TACC = % last 3 years * total TACC
+
+@process FishingNorth
+type mortality_event_biomass
+categories *
+years   1998:2013
+catches 3970  0430  0000 132500  411960  1157940  369770  550090  343300  573010  250950  392850  370000  347360  546840  411340
+U_max 0.999
+selectivities NorthselMale NorthselFemale NorthselMale NorthselFemale NorthselMale NorthselFemale 
+penalty event_mortality_penalty
+#future_constant_catches 465.49 # Current TACC = % last 3 years * total TACC
+
+@derived_quantity SSB
+type biomass
+time_step two
+categories *
+selectivities MaturityMale MaturityFemale MaturityMale MaturityFemale MaturityMale MaturityFemale 
+
+
+{# this is if we have maturity in the partition
+@maturation MaturationMales
+from immature.male
+to mature.male
+proportions 1.0
+selectivities logisticMale
+
+@maturation MaturationFemales
+from immature.female
+to mature.female
+proportions 1.0
+selectivities logisticFemale
+}
+
+# Definition of selecivities
+@selectivity One
+type constant
+c 1
+
+@selectivity Half
+type constant
+c 0.5
+
+@selectivity MaturityMale
+type logistic 
+a50 11.99
+ato95 5.25
+
+@selectivity MaturityFemale
+type logistic 
+a50 16.92
+ato95 7.68
+
+@selectivity ShelfselMale
+type double_normal
+mu        8
+sigma_l   4
+sigma_r  10
+alpha   1.0
+#shift_years 1998 1999 2000 2001 2002 2003 2004 2005 2006 2007 2008 2009 2010 2011 2012 2013
+#shift_E     0.70 0.67 0.72 0.65 0.74 0.69 0.66 0.64 0.65 0.66 0.72 0.72 0.70 0.72 0.69 0.71
+#shift_a 1.0
+
+@selectivity ShelfselFemale
+type double_normal
+mu        8
+sigma_l   4
+sigma_r  10
+alpha   1.0
+#shift_years 1998 1999 2000 2001 2002 2003 2004 2005 2006 2007 2008 2009 2010 2011 2012 2013
+#shift_E     0.70 0.67 0.72 0.65 0.74 0.69 0.66 0.64 0.65 0.66 0.72 0.72 0.70 0.72 0.69 0.71
+#shift_a 1.0
+
+@selectivity SlopeselMale
+type double_normal
+mu        8
+sigma_l   4
+sigma_r  10
+alpha   1.0
+#shift_years 1998 1999 2000 2001 2002 2003 2004 2005 2006 2007 2008 2009 2010 2011 2012 2013
+#shift_E     0.98 0.92 0.97 1.24 1.12 1.37 1.23 1.20 1.21 1.19 1.21 1.16 1.16 1.10 1.18 1.14
+#shift_a 1.0
+
+@selectivity SlopeselFemale
+type double_normal
+mu        8
+sigma_l   4
+sigma_r  10
+alpha   1.0
+#shift_years 1998 1999 2000 2001 2002 2003 2004 2005 2006 2007 2008 2009 2010 2011 2012 2013
+#shift_E     0.98 0.92 0.97 1.24 1.12 1.37 1.23 1.20 1.21 1.19 1.21 1.16 1.16 1.10 1.18 1.14
+#shift_a 1.0
+
+@selectivity NorthselMale
+type double_normal
+mu        8
+sigma_l   4
+sigma_r  10
+alpha   1.0
+#shift_years 1998 1999 2000 2001 2002 2003 2004 2005 2006 2007 2008 2009 2010 2011 2012 2013
+#shift_E     0.77 0.57 1.00 1.18 1.40 1.48 1.35 1.46 1.38 1.48 1.53 1.62 1.46 1.66 1.43 1.59
+#shift_a 1.0
+
+@selectivity NorthselFemale
+type double_normal
+mu        8
+sigma_l   4
+sigma_r  10
+alpha   1.0
+#shift_years 1998 1999 2000 2001 2002 2003 2004 2005 2006 2007 2008 2009 2010 2011 2012 2013
+#shift_E     0.77 0.57 1.00 1.18 1.40 1.48 1.35 1.46 1.38 1.48 1.53 1.62 1.46 1.66 1.43 1.59
+#shift_a 1.0
+
+@age_length age_length_male_untagged
+type von_bertalanffy
+size_weight size_weight_male
+k     0.093
+t0   -0.256
+linf 169.07
+#cv    0.102
+
+@age_length age_length_female_untagged
+type von_bertalanffy
+size_weight size_weight_female
+k     0.090
+t0    0.021
+linf 180.20
+cv    0.102
+
+@age_length age_length_male_tagged
+type von_bertalanffy
+size_weight size_weight_male
+k     0.093
+t0   -0.756
+linf 169.07
+#cv    0.102
+
+@age_length age_length_female_tagged
+type von_bertalanffy
+size_weight size_weight_female
+k     0.090
+t0    -0.479
+linf 180.20
+cv    0.102
+
+@size_weight size_weight_male
+type basic
+units tonnes
+a 1.387e-008
+b 2.965
+
+@size_weight size_weight_female
+type basic
+units tonnes
+a 7.154e-009
+b 3.108
+
