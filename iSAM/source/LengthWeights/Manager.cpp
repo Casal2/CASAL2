@@ -13,7 +13,7 @@
 
 // namespaces
 namespace niwa {
-namespace sizeweights {
+namespace lengthweights {
 
 /**
  * class definition
@@ -24,14 +24,14 @@ Manager::Manager() {
 /**
  *
  */
-SizeWeightPtr Manager::GetSizeWeight(const string& label) const {
-  for (SizeWeightPtr size_weight : objects_) {
-    if (size_weight->label() == label)
-      return size_weight;
+LengthWeightPtr Manager::GetLengthWeight(const string& label) const {
+  for (LengthWeightPtr length_weight : objects_) {
+    if (length_weight->label() == label)
+      return length_weight;
   }
 
-  return SizeWeightPtr();
+  return LengthWeightPtr();
 }
 
-} /* namespace sizeweights */
+} /* namespace lengthweights */
 } /* namespace niwa */

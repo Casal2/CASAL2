@@ -31,7 +31,7 @@
 #include "Projects/Factory.h"
 #include "Reports/Factory.h"
 #include "Selectivities/Factory.h"
-#include "SizeWeights/Factory.h"
+#include "LengthWeights/Factory.h"
 #include "TimeSteps/Factory.h"
 #include "TimeVarying/Factory.h"
 #include "Utilities/To.h"
@@ -80,6 +80,8 @@ base::ObjectPtr Object::Create(string& object_type, string& sub_type) {
     result = estimates::creators::Factory::Create(object_type, sub_type);
   else if (object_type == PARAM_INITIALISATION_PHASE || object_type == PARAM_INITIALISATION_PHASES)
     result = initialisationphases::Factory::Create(object_type, sub_type);
+  else if (object_type == PARAM_LENGTH_WEIGHT || object_type == PARAM_LENGTH_WEIGHTS)
+      result = lengthweights::Factory::Create(object_type, sub_type);
   else if (object_type == PARAM_LIKELIHOOD)
     result = likelihoods::Factory::Create(sub_type);
   else if (object_type == PARAM_MINIMIZER)
@@ -106,8 +108,6 @@ base::ObjectPtr Object::Create(string& object_type, string& sub_type) {
     result = reports::Factory::Create(object_type, sub_type);
   else if (object_type == PARAM_SELECTIVITY || object_type == PARAM_SELECTIVITIES)
     result = selectivities::Factory::Create(object_type, sub_type);
-  else if (object_type == PARAM_SIZE_WEIGHT || object_type == PARAM_SIZE_WEIGHTS)
-    result = sizeweights::Factory::Create(object_type, sub_type);
   else if (object_type == PARAM_TIME_STEP || object_type == PARAM_TIME_STEPS)
     result = timesteps::Factory::Create();
   else if (object_type == PARAM_TIME_VARYING)

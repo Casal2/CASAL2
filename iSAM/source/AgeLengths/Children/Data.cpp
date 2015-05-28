@@ -16,7 +16,7 @@
 #include <iomanip>
 
 #include "Model/Model.h"
-#include "SizeWeights/Manager.h"
+#include "LengthWeights/Manager.h"
 #include "TimeSteps/Manager.h"
 #include "Utilities/To.h"
 
@@ -38,7 +38,7 @@ Data::Data() {
     ->set_allowed_values({PARAM_MEAN, PARAM_NEAREST_NEIGHBOUR});
   parameters_.Bind<string>(PARAM_INTERNAL_GAPS, &internal_gaps_, "", "", PARAM_MEAN)
     ->set_allowed_values({PARAM_MEAN, PARAM_NEAREST_NEIGHBOUR, PARAM_INTERPOLATE});
-  parameters_.Bind<string>(PARAM_SIZE_WEIGHT, &size_weight_label_, "TBA", "");
+  parameters_.Bind<string>(PARAM_LENGTH_WEIGHT, &length_weight_label_, "TBA", "");
   parameters_.Bind<Double>(PARAM_CV, &cv_, "TBA", "", 0.0);
   parameters_.Bind<string>(PARAM_DISTRIBUTION, &distribution_, "TBA", "", PARAM_NORMAL);
 }
@@ -47,9 +47,9 @@ Data::Data() {
  *
  */
 void Data::DoBuild() {
-  size_weight_ = sizeweights::Manager::Instance().GetSizeWeight(size_weight_label_);
-  if (!size_weight_)
-    LOG_ERROR_P(PARAM_SIZE_WEIGHT) << "(" << size_weight_label_ << ") could not be found. Have you defined it?";
+  length_weight_ = lengthweights::Manager::Instance().GetLengthWeight(length_weight_label_);
+  if (!length_weight_)
+    LOG_ERROR_P(PARAM_LENGTH_WEIGHT) << "(" << length_weight_label_ << ") could not be found. Have you defined it?";
 
   if (!data_table_)
     LOG_CODE_ERROR() << "!data_table_";
@@ -250,7 +250,7 @@ Double Data::mean_length(unsigned year, unsigned age) {
  */
 Double Data::mean_weight(unsigned year, unsigned age) {
   Double size   = this->mean_length(year, age);
-  return size_weight_->mean_weight(size, distribution_, cv_);
+  return length_weight_->mean_weight(size, distribution_, cv_);
 }
 
 } /* namespace agelengths */

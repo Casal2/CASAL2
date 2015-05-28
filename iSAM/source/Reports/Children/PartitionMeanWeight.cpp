@@ -16,7 +16,7 @@
 #include "Model/Model.h"
 #include "Partition/Partition.h"
 #include "Partition/Accessors/Age/All.h"
-#include "SizeWeights/Manager.h"
+#include "LengthWeights/Manager.h"
 
 // namespaces
 namespace niwa {

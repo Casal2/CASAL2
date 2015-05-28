@@ -11,13 +11,13 @@
 // headers
 #include "Factory.h"
 
-#include "SizeWeights/Manager.h"
-#include "SizeWeights/Children/Basic.h"
-#include "SizeWeights/Children/None.h"
+#include "LengthWeights/Manager.h"
+#include "LengthWeights/Children/Basic.h"
+#include "LengthWeights/Children/None.h"
 
 // namespaces
 namespace niwa {
-namespace sizeweights {
+namespace lengthweights {
 
 /**
  * Create the instance of our object as defined by the two parameters
@@ -27,21 +27,21 @@ namespace sizeweights {
  * @param sub_type The child type of the object to create (e.g ageing, schnute)
  * @return shared_ptr to the object we've created
  */
-SizeWeightPtr Factory::Create(const string& object_type, const string& sub_type) {
-  SizeWeightPtr result;
+LengthWeightPtr Factory::Create(const string& object_type, const string& sub_type) {
+  LengthWeightPtr result;
 
-  if (object_type == PARAM_SIZE_WEIGHT || object_type == PARAM_SIZE_WEIGHTS) {
+  if (object_type == PARAM_LENGTH_WEIGHT || object_type == PARAM_LENGTH_WEIGHTS) {
     if (sub_type == PARAM_NONE)
-      result = SizeWeightPtr(new None());
+      result = LengthWeightPtr(new None());
     else if (sub_type == PARAM_BASIC)
-      result = SizeWeightPtr(new Basic());
+      result = LengthWeightPtr(new Basic());
 
     if (result)
-      sizeweights::Manager::Instance().AddObject(result);
+      lengthweights::Manager::Instance().AddObject(result);
   }
 
   return result;
 }
 
-} /* namespace sizeweights */
+} /* namespace lengthweights */
 } /* namespace niwa */

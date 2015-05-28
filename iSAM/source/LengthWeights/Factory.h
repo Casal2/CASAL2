@@ -10,15 +10,15 @@
  *
  * << Add Description >>
  */
-#ifndef SIZEWEIGHTS_FACTORY_H_
-#define SIZEWEIGHTS_FACTORY_H_
+#ifndef LENGTHWEIGHTS_FACTORY_H_
+#define LENGTHWEIGHTS_FACTORY_H_
 
 // headers
-#include "SizeWeights/SizeWeight.h"
+#include "LengthWeights/LengthWeight.h"
 
 // namespaces
 namespace niwa {
-namespace sizeweights {
+namespace lengthweights {
 
 /**
  * class definition
@@ -26,7 +26,7 @@ namespace sizeweights {
 class Factory {
 public:
   // methods
-  static SizeWeightPtr        Create(const string& object_type, const string& sub_type);
+  static LengthWeightPtr        Create(const string& object_type, const string& sub_type);
 
 private:
   // methods
@@ -34,6 +34,6 @@ private:
   virtual ~Factory() = delete;
 };
 
-} /* namespace sizeweights */
+} /* namespace lengthweights */
 } /* namespace niwa */
-#endif /* SIZEWEIGHTS_FACTORY_H_ */
+#endif /* LENGTHWEIGHTS_FACTORY_H_ */

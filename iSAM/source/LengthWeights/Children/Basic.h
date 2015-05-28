@@ -10,20 +10,20 @@
  *
  * << Add Description >>
  */
-#ifndef SIZEWEIGHTS_BASIC_H_
-#define SIZEWEIGHTS_BASIC_H_
+#ifndef LENGTHWEIGHTS_BASIC_H_
+#define LENGTHWEIGHTS_BASIC_H_
 
 // headers
-#include "SizeWeights/SizeWeight.h"
+#include "LengthWeights/LengthWeight.h"
 
 // namespaces
 namespace niwa {
-namespace sizeweights {
+namespace lengthweights {
 
 /**
  * class definition
  */
-class Basic : public niwa::SizeWeight {
+class Basic : public niwa::LengthWeight {
 public:
   // methods
   Basic();
@@ -43,6 +43,6 @@ private:
   string                      units_ = "";
 };
 
-} /* namespace sizeweights */
+} /* namespace lengthweights */
 } /* namespace niwa */
-#endif /* SIZEWEIGHTS_BASIC_H_ */
+#endif /* LENGTHWEIGHTS_BASIC_H_ */

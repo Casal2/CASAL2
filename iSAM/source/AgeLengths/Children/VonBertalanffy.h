@@ -15,7 +15,7 @@
 
 // headers
 #include "AgeLengths/AgeLength.h"
-#include "SizeWeights/SizeWeight.h"
+#include "LengthWeights/LengthWeight.h"
 
 // namespaces
 namespace niwa {
@@ -45,8 +45,8 @@ private:
   Double                      cv_;
   string                      distribution_;
   bool                        by_length_;
-  string                      size_weight_label_;
-  SizeWeightPtr               size_weight_;
+  string                      length_weight_label_;
+  LengthWeightPtr             length_weight_;
 };
 
 } /* namespace agelengths */

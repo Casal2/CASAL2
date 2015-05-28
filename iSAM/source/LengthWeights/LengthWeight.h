@@ -1,5 +1,5 @@
 /**
- * @file SizeWeight.h
+ * @file LengthWeight.h
  * @author  Scott Rasmussen (scott.rasmussen@zaita.com)
  * @date 24/07/2013
  * @section LICENSE
@@ -10,8 +10,8 @@
  *
  * << Add Description >>
  */
-#ifndef SIZEWEIGHT_H_
-#define SIZEWEIGHT_H_
+#ifndef LENGTHWEIGHT_H_
+#define LENGTHWEIGHT_H_
 
 // headers
 #include "BaseClasses/Object.h"
@@ -22,11 +22,11 @@ namespace niwa {
 /**
  * class definition
  */
-class SizeWeight : public niwa::base::Object {
+class LengthWeight : public niwa::base::Object {
 public:
   // methods
-  SizeWeight();
-  virtual                     ~SizeWeight() = default;
+  LengthWeight();
+  virtual                     ~LengthWeight() = default;
   void                        Validate();
   void                        Build() { DoBuild(); };
   void                        Reset() { DoReset(); };
@@ -40,7 +40,7 @@ public:
 };
 
 // typedef
-typedef boost::shared_ptr<SizeWeight> SizeWeightPtr;
+typedef boost::shared_ptr<LengthWeight> LengthWeightPtr;
 
 } /* namespace niwa */
-#endif /* SIZEWEIGHT_H_ */
+#endif /* LENGTHWEIGHT_H_ */

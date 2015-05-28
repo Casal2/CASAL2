@@ -13,7 +13,7 @@
 
 // namespaces
 namespace niwa {
-namespace sizeweights {
+namespace lengthweights {
 
 /**
  * default constructor
@@ -21,5 +21,5 @@ namespace sizeweights {
 None::None() {
 }
 
-} /* namespace sizeweights */
+} /* namespace lengthweights */
 } /* namespace niwa */
