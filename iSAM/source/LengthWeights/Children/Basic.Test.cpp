@@ -26,9 +26,9 @@ using ::testing::Return;
 /**
  * Test the results of our KnifeEdge are correct
  */
-TEST(SizeWeights, Basic) {
+TEST(LengthWeights, Basic) {
   // TODO: Add more unit tests
-  niwa::sizeweights::Basic basic;
+  niwa::lengthweights::Basic basic;
 
   basic.parameters().Add(PARAM_LABEL, "unit_test_basic", __FILE__, __LINE__);
   basic.parameters().Add(PARAM_TYPE, "any value is fine", __FILE__, __LINE__);

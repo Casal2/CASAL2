@@ -36,7 +36,7 @@
 #include "Reports/Manager.h"
 #include "Selectivities/Manager.h"
 #include "Simulates/Manager.h"
-#include "SizeWeights/Manager.h"
+#include "LengthWeights/Manager.h"
 #include "TimeSteps/Manager.h"
 #include "TimeVarying/Manager.h"
 #include "ObjectiveFunction/ObjectiveFunction.h"
@@ -285,6 +285,7 @@ void Model::Validate() {
   catchabilities::Manager::Instance().Validate();
   derivedquantities::Manager::Instance().Validate();
   initialisationphases::Manager::Instance().Validate();
+  lengthweights::Manager::Instance().Validate();
   mcmcs::Manager::Instance().Validate();
   minimisers::Manager::Instance().Validate();
   observations::Manager::Instance().Validate();
@@ -295,7 +296,6 @@ void Model::Validate() {
   reports::Manager::Instance().Validate();
   selectivities::Manager::Instance().Validate();
   simulates::Manager::Instance().Validate();
-  sizeweights::Manager::Instance().Validate();
   timevarying::Manager::Instance().Validate();
 
   // Final Objects to validate as they have dependencies
@@ -334,6 +334,7 @@ void Model::Build() {
   catchabilities::Manager::Instance().Build();
   derivedquantities::Manager::Instance().Build();
   initialisationphases::Manager::Instance().Build();
+  lengthweights::Manager::Instance().Build();
   mcmcs::Manager::Instance().Build();
   minimisers::Manager::Instance().Build();
   observations::Manager::Instance().Build();
@@ -344,7 +345,6 @@ void Model::Build() {
   reports::Manager::Instance().Build();
   selectivities::Manager::Instance().Build();
   simulates::Manager::Instance().Build();
-  sizeweights::Manager::Instance().Build();
   timevarying::Manager::Instance().Build();
 
   EstimablesPtr estimables = Estimables::Instance();
@@ -380,6 +380,7 @@ void Model::Reset() {
   catchabilities::Manager::Instance().Reset();
   derivedquantities::Manager::Instance().Reset();
   initialisationphases::Manager::Instance().Reset();
+  lengthweights::Manager::Instance().Build();
   mcmcs::Manager::Instance().Reset();
   minimisers::Manager::Instance().Reset();
   observations::Manager::Instance().Reset();
@@ -390,7 +391,6 @@ void Model::Reset() {
   reports::Manager::Instance().Reset();
   selectivities::Manager::Instance().Reset();
   simulates::Manager::Instance().Reset();
-  sizeweights::Manager::Instance().Reset();
   timesteps::Manager::Instance().Reset();
   timevarying::Manager::Instance().Reset();
 }

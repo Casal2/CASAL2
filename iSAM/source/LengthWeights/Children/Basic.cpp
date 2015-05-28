@@ -13,7 +13,7 @@
 
 // namespaces
 namespace niwa {
-namespace sizeweights {
+namespace lengthweights {
 
 /**
  * default constructor
@@ -58,5 +58,5 @@ Double Basic::mean_weight(Double size, const string &distribution, Double cv) co
   return weight;
 }
 
-} /* namespace sizeweights */
+} /* namespace lengthweights */
 } /* namespace niwa */

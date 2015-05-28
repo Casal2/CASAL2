@@ -9,7 +9,7 @@
 
 #include <cmath>
 
-#include "SizeWeights/Manager.h"
+#include "LengthWeights/Manager.h"
 #include "TimeSteps/Manager.h"
 
 namespace niwa {
@@ -27,7 +27,7 @@ Schnute::Schnute() {
   parameters_.Bind<Double>(PARAM_TAU2, &tau2_, "TBA", "");
   parameters_.Bind<Double>(PARAM_A, &a_, "TBA", "")->set_lower_bound(0.0);
   parameters_.Bind<Double>(PARAM_B, &b_, "TBA", "")->set_lower_bound(0.0, false);
-  parameters_.Bind<string>(PARAM_SIZE_WEIGHT, &size_weight_label_, "TBA", "");
+  parameters_.Bind<string>(PARAM_LENGTH_WEIGHT, &length_weight_label_, "TBA", "");
   parameters_.Bind<Double>(PARAM_CV, &cv_, "TBA", "", 0.0);
   parameters_.Bind<string>(PARAM_DISTRIBUTION, &distribution_, "TBA", "", PARAM_NORMAL);
   parameters_.Bind<bool>(PARAM_BY_LENGTH, &by_length_, "TBA", "", true);
@@ -45,9 +45,9 @@ Schnute::Schnute() {
  * build runtime relationships between this object and other objects in the model
  */
 void Schnute::DoBuild() {
-  size_weight_ = sizeweights::Manager::Instance().GetSizeWeight(size_weight_label_);
-  if (!size_weight_)
-    LOG_ERROR_P(PARAM_SIZE_WEIGHT) << "(" << size_weight_label_ << ") could not be found. Have you defined it?";
+  length_weight_ = lengthweights::Manager::Instance().GetLengthWeight(length_weight_label_);
+  if (!length_weight_)
+    LOG_ERROR_P(PARAM_LENGTH_WEIGHT) << "(" << length_weight_label_ << ") could not be found. Have you defined it?";
 }
 
 /**
@@ -90,10 +90,10 @@ Double Schnute::mean_weight(unsigned year, unsigned age) {
 
   Double weight = 0.0;
   if (by_length_) {
-    weight = size_weight_->mean_weight(size, distribution_, cv_);
+    weight = length_weight_->mean_weight(size, distribution_, cv_);
   } else {
     Double cv = (age * cv_) / size;
-    weight = size_weight_->mean_weight(size, distribution_, cv);
+    weight = length_weight_->mean_weight(size, distribution_, cv);
   }
 
   return weight;

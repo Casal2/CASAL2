@@ -1,5 +1,5 @@
 /**
- * @file SizeWeight.cpp
+ * @file LengthWeight.cpp
  * @author  Scott Rasmussen (scott.rasmussen@zaita.com)
  * @date 24/07/2013
  * @section LICENSE
@@ -12,7 +12,7 @@
  */
 
 // headers
-#include "SizeWeight.h"
+#include "LengthWeight.h"
 
 // namespaces
 namespace niwa {
@@ -20,7 +20,7 @@ namespace niwa {
 /**
  * default constructor
  */
-SizeWeight::SizeWeight() {
+LengthWeight::LengthWeight() {
   parameters_.Bind<string>(PARAM_LABEL, &label_, "Label", "");
   parameters_.Bind<string>(PARAM_TYPE, &type_, "Type", "");
 }
@@ -28,7 +28,7 @@ SizeWeight::SizeWeight() {
 /**
  *
  */
-void SizeWeight::Validate() {
+void LengthWeight::Validate() {
   parameters_.Populate();
   DoValidate();
 }

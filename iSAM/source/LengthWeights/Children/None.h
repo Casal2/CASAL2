@@ -10,20 +10,20 @@
  *
  * << Add Description >>
  */
-#ifndef SIZEWEIGHTS_NONE_H_
-#define SIZEWEIGHTS_NONE_H_
+#ifndef LENGTHWEIGHTS_NONE_H_
+#define LENGTHWEIGHTS_NONE_H_
 
 // headers
-#include "SizeWeights/SizeWeight.h"
+#include "LengthWeights/LengthWeight.h"
 
 // namespaces
 namespace niwa {
-namespace sizeweights {
+namespace lengthweights {
 
 /**
  * class definition
  */
-class None : public niwa::SizeWeight {
+class None : public niwa::LengthWeight {
 public:
   // methods
   None();
@@ -36,6 +36,6 @@ public:
   Double                      mean_weight(Double size, const string &distribution, Double cv) const override final { return 1.0; }
 };
 
-} /* namespace sizeweights */
+} /* namespace lengthweights */
 } /* namespace niwa */
-#endif /* SIZEWEIGHTS_NONE_H_ */
+#endif /* LENGTHWEIGHTS_NONE_H_ */

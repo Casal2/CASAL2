@@ -10,32 +10,32 @@
  *
  * << Add Description >>
  */
-#ifndef SIZEWEIGHTS_MANAGER_H_
-#define SIZEWEIGHTS_MANAGER_H_
+#ifndef LENGTHWEIGHTS_MANAGER_H_
+#define LENGTHWEIGHTS_MANAGER_H_
 
 // headers
 #include "BaseClasses/Manager.h"
-#include "SizeWeights/SizeWeight.h"
+#include "LengthWeights/LengthWeight.h"
 
 // namespaces
 namespace niwa {
-namespace sizeweights {
+namespace lengthweights {
 
 /**
  * class definition
  */
-class Manager : public niwa::oldbase::Manager<niwa::sizeweights::Manager, niwa::SizeWeight> {
-  friend class niwa::oldbase::Manager<niwa::sizeweights::Manager, niwa::SizeWeight>;
+class Manager : public niwa::oldbase::Manager<niwa::lengthweights::Manager, niwa::LengthWeight> {
+  friend class niwa::oldbase::Manager<niwa::lengthweights::Manager, niwa::LengthWeight>;
 public:
   // methods
   virtual                     ~Manager() noexcept(true) { };
-  SizeWeightPtr               GetSizeWeight(const string& label) const;
+  LengthWeightPtr             GetLengthWeight(const string& label) const;
 
 protected:
   // methods
   Manager();
 };
 
-} /* namespace sizeweights */
+} /* namespace lengthweights */
 } /* namespace niwa */
-#endif /* SIZEWEIGHTS_MANAGER_H_ */
+#endif /* LENGTHWEIGHTS_MANAGER_H_ */
