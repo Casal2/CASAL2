@@ -14,7 +14,7 @@ age_lengths age_size_male age_size_female
 
 @age_length age_size_male
 type data
-size_weight [type=none]
+length_weight [type=none]
 external_gaps mean
 internal_gaps mean
 table data
@@ -31,7 +31,7 @@ type partition_mean_weight
 
 @age_length age_size_female
 type von_bertalanffy
-size_weight [type=none]
+length_weight [type=none]
 k 0.202
 t0 -0.20
 linf 113.4
