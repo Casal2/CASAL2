@@ -30,7 +30,7 @@
 #include "Reports/Manager.h"
 #include "Selectivities/Factory.h"
 #include "Selectivities/Manager.h"
-#include "SizeWeights/Manager.h"
+#include "LengthWeights/Manager.h"
 #include "TimeSteps/Manager.h"
 #include "Logging/Logging.h"
 #include "Utilities/RandomNumberGenerator.h"
