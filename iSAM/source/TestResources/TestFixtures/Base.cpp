@@ -32,7 +32,7 @@
 #include "Reports/Manager.h"
 #include "Selectivities/Factory.h"
 #include "Selectivities/Manager.h"
-#include "SizeWeights/Manager.h"
+#include "LengthWeights/Manager.h"
 #include "TimeSteps/Manager.h"
 #include "Logging/Logging.h"
 #include "Utilities/To.h"
@@ -79,7 +79,7 @@ void Base::TearDown() {
   projects::Manager::Instance().RemoveAllObjects();
   reports::Manager::Instance().RemoveAllObjects();
   selectivities::Manager::Instance().RemoveAllObjects();
-  sizeweights::Manager::Instance().RemoveAllObjects();
+  lengthweights::Manager::Instance().RemoveAllObjects();
   timesteps::Manager::Instance().RemoveAllObjects();
 
   mcmcs::Manager::Instance().RemoveAllObjects();
