@@ -50,8 +50,8 @@ void TimeStep::Build() {
     ProcessPtr process = process_manager.GetProcess(process_name);
     if (!process)
       LOG_ERROR_P(PARAM_PROCESSES) << ": process " << process_name << " does not exist. Have you defined it?";
-
-    processes_.push_back(process);
+    else
+      processes_.push_back(process);
   }
   LOG_FINE() << "Time step " << label_ << " has " << processes_.size() << " processes";
 
@@ -179,9 +179,13 @@ void TimeStep::SetInitialisationProcessLabels(const string& initialisation_phase
  *
  */
 void TimeStep::BuildInitialisationProcesses() {
+  LOG_TRACE();
   for (auto iter : initialisation_process_labels_) {
     for (string process_label : iter.second) {
-      initialisation_processes_[iter.first].push_back(processes::Manager::Instance().GetProcess(process_label));
+      ProcessPtr process = processes::Manager::Instance().GetProcess(process_label);
+      if (!process)
+        return;
+      initialisation_processes_[iter.first].push_back(process);
     }
 
     initialisation_block_end_process_index_[iter.first]   = iter.second.size() - 1;
