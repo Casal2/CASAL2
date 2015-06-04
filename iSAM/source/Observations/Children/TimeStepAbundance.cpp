@@ -46,9 +46,10 @@ void TimeStepAbundance::DoBuild() {
   TimeStepPtr time_step = timesteps::Manager::Instance().GetTimeStep(time_step_label_);
   if (!time_step)
     LOG_ERROR_P(PARAM_TIME_STEP) << time_step_label_ << " could not be found. Have you defined it?";
-
-  for (unsigned year : years_)
-    time_step->SubscribeToBlock(shared_ptr(), year);
+  else {
+    for (unsigned year : years_)
+      time_step->SubscribeToBlock(shared_ptr(), year);
+  }
 }
 
 } /* namespace observations */
