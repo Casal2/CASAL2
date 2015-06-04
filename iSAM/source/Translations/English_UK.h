@@ -292,6 +292,7 @@
 #define PARAM_NCOLS                               "ncols"
 #define PARAM_NEAREST_NEIGHBOUR                   "nearest_neighbour"
 #define PARAM_NONE                                "none"
+#define PARAM_NOP                                 "nop"
 #define PARAM_NORMAL                              "normal"
 #define PARAM_NORMAL_BY_STDEV                     "normal_by_stdev"
 #define PARAM_NORMAL_LOG                          "normal_log"
