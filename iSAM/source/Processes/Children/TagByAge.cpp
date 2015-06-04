@@ -293,21 +293,28 @@ void TagByAge::DoExecute() {
       unsigned offset = (min_age_ - (*from_iter)->min_age_) + i;
       string category_label = (*from_iter)->name_;
 
+      if (numbers_[current_year][i] == 0)
+        continue;
+
       Double current = numbers_[current_year][i] *
           ((*from_iter)->data_[offset] * selectivities_[category_label]->GetResult(min_age_ + offset) / total_stock_with_selectivities);
 
       Double exploitation = current / utilities::doublecompare::ZeroFun((*from_iter)->data_[offset]);
-      if ( exploitation > u_max_ ) {
+      if (exploitation > u_max_) {
+        LOG_FINE() << "Exploitation(" << exploitation << ") triggered u_max(" << u_max_ << ") with current(" << current << ")";
+
         current = total_stock * u_max_;
         if (penalty_)
           penalty_->Trigger(label_, numbers_[current_year][i], (*from_iter)->data_[offset] * u_max_);
       }
 
-      LOG_FINEST() << "numbers: " << numbers_[current_year][i];
-      LOG_FINEST() << "population: " << (*from_iter)->data_[offset];
-      LOG_FINEST() << "selectivity: " << selectivities_[category_label]->GetResult(min_age_ + offset);
-      LOG_FINEST() << "current: " << current << "; exploitation: " << exploitation;
-      LOG_FINEST() << "current calculated as current = " << numbers_[current_year][i] << " * "
+      LOG_FINE() << "--";
+      LOG_FINE() << "total_stock_with_selectivities: " << total_stock_with_selectivities;
+      LOG_FINE() << "numbers: " << numbers_[current_year][i];
+      LOG_FINE() << "population: " << (*from_iter)->data_[offset];
+      LOG_FINE() << "selectivity: " << selectivities_[category_label]->GetResult(min_age_ + offset);
+      LOG_FINE() << "current: " << current << "; exploitation: " << exploitation;
+      LOG_FINE() << "current calculated as current = " << numbers_[current_year][i] << " * "
           << (*from_iter)->data_[offset] << " * " << selectivities_[category_label]->GetResult(min_age_ + offset)
           << " / " << total_stock_with_selectivities;
 
