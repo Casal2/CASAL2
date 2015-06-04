@@ -107,14 +107,14 @@ c 1
 
 @age_length age_size_male
 type von_bertalanffy
-size_weight [type=none]
+length_weight [type=none]
 k 0.277
 t0 0.11
 linf 90.3
 
 @age_length age_size_female
 type von_bertalanffy
-size_weight [type=none]
+length_weight [type=none]
 k 0.202
 t0 -0.20
 linf 113.4
@@ -275,7 +275,7 @@ c 1
 
 @age_length age_size_male
 type von_bertalanffy
-size_weight [type=none]
+length_weight [type=none]
 by_length true
 k 0.277
 t0 0.11
@@ -283,7 +283,7 @@ linf 90.3
 
 @age_length age_size_female
 type von_bertalanffy
-size_weight [type=none]
+length_weight [type=none]
 by_length true
 k 0.202
 t0 -0.20

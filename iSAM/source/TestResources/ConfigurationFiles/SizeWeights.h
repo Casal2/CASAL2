@@ -13,7 +13,7 @@
 #include <string>
 
 const std::string size_weights_basic = R"(
-@size_weight basic
+@length_weight basic
 type basic
 a 1.051e-008
 b 3.036
@@ -21,7 +21,7 @@ units tonnes
 )";
 
 const std::string size_weights_none = R"(
-@size_weight none
+@length_weight none
 type none
 )";
 

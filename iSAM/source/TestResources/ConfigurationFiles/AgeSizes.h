@@ -15,7 +15,7 @@
 const std::string age_sizes_von_bert = R"(
 @age_length von_bert
 type von_bertalanffy
-size_weight basic
+length_weight basic
 k      0.091
 t0    -0.117
 linf   174.545
@@ -24,7 +24,7 @@ linf   174.545
 const std::string age_sizes_von_bert_no_age_size = R"(
 @age_length von_bert
 type von_bertalanffy
-size_weight none
+length_weight none
 k      0.2
 t0     0.0
 linf   100
