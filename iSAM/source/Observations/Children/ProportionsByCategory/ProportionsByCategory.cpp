@@ -37,7 +37,7 @@ ProportionsByCategory::ProportionsByCategory() {
   parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "Year to execute in", "");
   parameters_.Bind<string>(PARAM_TARGET_CATEGORIES, &target_category_labels_, "Target Categories", "");
   parameters_.Bind<string>(PARAM_TARGET_SELECTIVITIES, &target_selectivity_labels_, "Target Selectivities", "");
-  parameters_.Bind<Double>(PARAM_DELTA, &delta_, "Delta", "", DELTA);
+  parameters_.Bind<Double>(PARAM_DELTA, &delta_, "Delta", "", DELTA)->set_lower_bound(0.0, false);
   parameters_.Bind<Double>(PARAM_PROCESS_ERRORS, &process_error_values_, "Process error", "", true);
 
   obs_table_ = TablePtr(new parameters::Table(PARAM_OBS));
@@ -190,9 +190,9 @@ void ProportionsByCategory::DoValidate() {
       }
     }
 
-    if (fabs(1.0 - total) > tolerance_) {
-      LOG_ERROR_P(PARAM_OBS) << ": obs sum total (" << total << ") for year (" << iter->first << ") exceeds tolerance (" << tolerance_ << ") from 1.0";
-    }
+//    if (fabs(1.0 - total) > tolerance_) {
+//      LOG_ERROR_P(PARAM_OBS) << ": obs sum total (" << total << ") for year (" << iter->first << ") exceeds tolerance (" << tolerance_ << ") from 1.0";
+//    }
   }
 }
 
@@ -215,8 +215,9 @@ void ProportionsByCategory::DoBuild() {
   for(string label : target_selectivity_labels_) {
     SelectivityPtr selectivity = selectivities::Manager::Instance().GetSelectivity(label);
     if (!selectivity)
-      LOG_ERROR_P(PARAM_TARGET_SELECTIVITIES) << ": Selectivity " << label << " does not exist. Have you defined it?";
-    target_selectivities_.push_back(selectivity);
+      LOG_ERROR_P(PARAM_TARGET_SELECTIVITIES) << ": " << label << " does not exist. Have you defined it?";
+    else
+      target_selectivities_.push_back(selectivity);
   }
 
   if (target_selectivities_.size() == 1 && category_labels_.size() != 1)

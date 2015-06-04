@@ -70,7 +70,9 @@ void Bindable<T>::Bind() {
 
   /**
    * Check if the value provided is within the ranges provided (if defined)
-   * or the allowed values
+   * or the allowed values.
+   * An inclusive lower bound is equal to <=
+   * An exclusive lower bound is equal to <
    */
   if (range_.lower_flagged_ || range_.upper_flagged_) {
     if (range_.lower_flagged_ && (*target_ < range_.lower_bound_ || (*target_ == range_.lower_bound_ && !range_.lower_inclusive_)))
@@ -99,6 +101,8 @@ void Bindable<T>::set_allowed_values(std::initializer_list<T> list) {
  * This method sets an enforced value range on the objects stored within this parameter.
  * This will be checked during the bind method and an error will be thrown if it's not
  * acceptable.
+ * An inclusive lower bound is equal to <=
+ * An exclusive lower bound is equal to <
  *
  * @param lower_bound The lowest the value can be (default inclusive)
  * @param upper_bound The highest the value can be (default inclusive)
@@ -132,6 +136,8 @@ void Bindable<T>::set_lower_bound(T lower_bound, bool inclusive) {
 
 /**
  * This method sets an enforced upper bound and inclusive flag
+ * An inclusive lower bound is equal to <=
+ * An exclusive lower bound is equal to <
  *
  * @param upper_bound the Upper bound to set for the parameter
  * @param inclusive is the upper bound inclusive or exclusive
