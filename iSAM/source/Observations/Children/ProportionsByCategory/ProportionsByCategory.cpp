@@ -103,20 +103,28 @@ void ProportionsByCategory::DoValidate() {
     if (obs_data_line.size() != obs_expected) {
       LOG_ERROR_P(PARAM_OBS) << " has " << obs_data_line.size() << " values defined, but we expected " << obs_expected
           << " to match the age speard * categories + 1 (for year)";
-    } else if (!utilities::To<unsigned>(obs_data_line[0], year))
-      LOG_ERROR_P(PARAM_OBS) << " value " << obs_data_line[0] << " could not be converted in to an unsigned integer. It should be the year for this line";
-    else if (std::find(years_.begin(), years_.end(), year) == years_.end())
-      LOG_ERROR_P(PARAM_OBS) << " value " << year << " is not a valid year for this observation";
-    else {
-      for (unsigned i = 1; i < obs_data_line.size(); ++i) {
-        Double value = 0;
-        if (!utilities::To<Double>(obs_data_line[i], value))
-          LOG_ERROR_P(PARAM_OBS) << " value (" << obs_data_line[i] << ") could not be converted to a double";
-        obs_by_year[year].push_back(value);
-      }
-      if (obs_by_year[year].size() != obs_expected - 1)
-        LOG_CODE_ERROR() << "obs_by_year_[year].size() (" << obs_by_year[year].size() << ") != obs_expected - 1 (" << obs_expected -1 << ")";
+      return;
     }
+
+    if (!utilities::To<unsigned>(obs_data_line[0], year)) {
+      LOG_ERROR_P(PARAM_OBS) << " value " << obs_data_line[0] << " could not be converted in to an unsigned integer. It should be the year for this line";
+      return;
+    }
+
+    if (std::find(years_.begin(), years_.end(), year) == years_.end()) {
+      LOG_ERROR_P(PARAM_OBS) << " value " << year << " is not a valid year for this observation";
+      return;
+    }
+
+    for (unsigned i = 1; i < obs_data_line.size(); ++i) {
+      Double value = 0;
+      if (!utilities::To<Double>(obs_data_line[i], value))
+        LOG_ERROR_P(PARAM_OBS) << " value (" << obs_data_line[i] << ") could not be converted to a double";
+      obs_by_year[year].push_back(value);
+    }
+    if (obs_by_year[year].size() != obs_expected - 1)
+      LOG_CODE_ERROR() << "obs_by_year_[year].size() (" << obs_by_year[year].size() << ") != obs_expected - 1 (" << obs_expected -1 << ")";
+
   }
 
 
