@@ -262,7 +262,7 @@ alpha   1.0
 
 @age_length age_length_male_untagged
 type von_bertalanffy
-size_weight size_weight_male
+length_weight size_weight_male
 k     0.093
 t0   -0.256
 linf 169.07
@@ -270,7 +270,7 @@ linf 169.07
 
 @age_length age_length_female_untagged
 type von_bertalanffy
-size_weight size_weight_female
+length_weight size_weight_female
 k     0.090
 t0    0.021
 linf 180.20
@@ -278,7 +278,7 @@ cv    0.102
 
 @age_length age_length_male_tagged
 type von_bertalanffy
-size_weight size_weight_male
+length_weight size_weight_male
 k     0.093
 t0   -0.756
 linf 169.07
@@ -286,19 +286,19 @@ linf 169.07
 
 @age_length age_length_female_tagged
 type von_bertalanffy
-size_weight size_weight_female
+length_weight size_weight_female
 k     0.090
 t0    -0.479
 linf 180.20
 cv    0.102
 
-@size_weight size_weight_male
+@length_weight size_weight_male
 type basic
 units tonnes
 a 1.387e-008
 b 2.965
 
-@size_weight size_weight_female
+@length_weight size_weight_female
 type basic
 units tonnes
 a 7.154e-009
