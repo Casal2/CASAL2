@@ -23,11 +23,11 @@ delta 1e-11
 @observation Tag2010Recap
 type proportions_by_category
 years 2011 2012
-time_step model.step_oneb
+time_step oneb
 categories male.untagged.0+female.untagged.0
 categories2 male.tagged.2010+female.tagged.2010
-selectivities ShelfselMale+ShelfselFemale
-selectivities2 ShelfselMale+ShelfselFemale
+selectivities ShelfselMale ShelfselFemale
+selectivities2 ShelfselMale ShelfselFemale
 min_age 11
 max_age 20
 age_plus t
