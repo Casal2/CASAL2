@@ -32,7 +32,7 @@ const string age_length_data_external_mean_internal_mean =
 R"(
 @age_length test_age_size
 type data
-size_weight [type=none]
+length_weight [type=none]
 external_gaps mean
 internal_gaps mean
 table data
@@ -79,7 +79,7 @@ const string age_length_data_external_nearest_neighbour_internal_mean =
 R"(
 @age_length test_age_size
 type data
-size_weight [type=none]
+length_weight [type=none]
 external_gaps nearest_neighbour
 internal_gaps mean
 table data
@@ -129,7 +129,7 @@ const string age_length_data_external_mean_internal_nearest_neighbour =
 R"(
 @age_length test_age_size
 type data
-size_weight [type=none]
+length_weight [type=none]
 external_gaps mean
 internal_gaps nearest_neighbour
 table data
@@ -179,7 +179,7 @@ const string age_length_data_external_mean_internal_interpolate =
 R"(
 @age_length test_age_size
 type data
-size_weight [type=none]
+length_weight [type=none]
 external_gaps mean
 internal_gaps interpolate
 table data
