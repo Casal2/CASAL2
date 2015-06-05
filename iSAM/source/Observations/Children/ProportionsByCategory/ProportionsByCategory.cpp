@@ -102,7 +102,7 @@ void ProportionsByCategory::DoValidate() {
 
     if (obs_data_line.size() != obs_expected) {
       LOG_ERROR_P(PARAM_OBS) << " has " << obs_data_line.size() << " values defined, but we expected " << obs_expected
-          << " to match the age speard * categories + 1 (for year)";
+          << " to match the age_spread * categories + 1 (for year)";
       return;
     }
 
