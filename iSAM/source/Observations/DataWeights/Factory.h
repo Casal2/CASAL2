@@ -8,18 +8,18 @@
  * Copyright NIWA Science ©2015 - www.niwa.co.nz
  *
  */
-#ifndef SOURCE_OBSERVATIONS_PROCESSERRORS_FACTORY_H_
-#define SOURCE_OBSERVATIONS_PROCESSERRORS_FACTORY_H_
+#ifndef SOURCE_OBSERVATIONS_DATAWEIGHTS_FACTORY_H_
+#define SOURCE_OBSERVATIONS_DATAWEIGHTS_FACTORY_H_
 
 // headers
 #include <string>
 
-#include "Observations/ProcessErrors/ProcessError.h"
+#include "Observations/DataWeights/DataWeight.h"
 
 // namespaces
 namespace niwa {
 namespace observations {
-namespace processerrors {
+namespace dataweights {
 
 using std::cout;
 
@@ -29,7 +29,7 @@ using std::cout;
 class Factory {
 public:
   // methods
-  static ProcessErrorPtr Create(const std::string& type);
+  static DataWeightPtr Create(const std::string& type);
 
 private:
   // methods
@@ -37,8 +37,8 @@ private:
   virtual ~Factory() = delete;
 };
 
-} /* namespace processerrors */
+} /* namespace dataweights */
 } /* namespace observations */
 } /* namespace niwa */
 
-#endif /* SOURCE_OBSERVATIONS_PROCESSERRORS_FACTORY_H_ */
+#endif /* SOURCE_OBSERVATIONS_DATAWEIGHTS_FACTORY_H_ */

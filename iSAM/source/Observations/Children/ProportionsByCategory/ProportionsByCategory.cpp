@@ -55,6 +55,10 @@ void ProportionsByCategory::DoValidate() {
   for (const string& category_label : category_labels_)
     expected_selectivity_count += categories->GetNumberOfCategoriesDefined(category_label);
 
+  if (category_labels_.size() != target_category_labels_.size())
+    LOG_ERROR_P(PARAM_CATEGORIES) << ": Number of categories(" << category_labels_.size() << ") does not match the number of "
+    PARAM_TARGET_CATEGORIES << "(" << target_category_labels_.size() << ")";
+
   if (target_category_labels_.size() != target_selectivity_labels_.size() && expected_selectivity_count != target_selectivity_labels_.size())
     LOG_ERROR_P(PARAM_TARGET_SELECTIVITIES) << ": Number of selectivities provided (" << target_selectivity_labels_.size()
         << ") is not valid. You can specify either the number of category collections (" << target_category_labels_.size() << ") or "
@@ -73,7 +77,7 @@ void ProportionsByCategory::DoValidate() {
   if (max_age_ > model->max_age())
     LOG_ERROR_P(PARAM_MAX_AGE) << ": max_age (" << max_age_ << ") is greater than the model's max_age (" << model->max_age() << ")";
   if (process_error_values_.size() != 0 && process_error_values_.size() != years_.size()) {
-    LOG_ERROR_P(PARAM_PROCESS_ERRORS) << " number of values provied (" << process_error_values_.size() << ") does not match the number of years provided ("
+    LOG_ERROR_P(PARAM_PROCESS_ERRORS) << " number of values provided (" << process_error_values_.size() << ") does not match the number of years provided ("
         << years_.size() << ")";
   }
   for (Double process_error : process_error_values_) {

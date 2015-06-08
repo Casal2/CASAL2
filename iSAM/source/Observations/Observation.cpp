@@ -20,7 +20,6 @@
 #include "Categories/Categories.h"
 #include "Likelihoods/Factory.h"
 #include "Model/Model.h"
-#include "Observations/ProcessErrors/Factory.h"
 #include "Selectivities/Manager.h"
 
 // Namespaces
@@ -37,8 +36,9 @@ Observation::Observation() {
   parameters_.Bind<string>(PARAM_CATEGORIES, &category_labels_, "Category labels to use", "", true);
   parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_labels_, "Selectivity labels to use", "", true);
   parameters_.Bind<string>(PARAM_SIMULATION_LIKELIHOOD, &simulation_likelihood_label_, "Simulation likelihood to use", "", "");
-  parameters_.Bind<string>(PARAM_PROCESS_ERROR_TYPE, &process_error_type_, "Process error type", "", PARAM_NONE)
+  parameters_.Bind<string>(PARAM_DATA_WEIGHT_TYPE, &data_weight_type_, "Data weight type", "", PARAM_NONE)
       ->set_allowed_values({ PARAM_NONE, PARAM_ADDITIVE, PARAM_MULTIPLICATIVE, PARAM_DISPERSION, PARAM_FRANCIS });
+  parameters_.Bind<Double>(PARAM_DATA_WEIGHT_VALUE, &data_weight_value_, "Value for data weight", "", Double(0.0));
 
   mean_proportion_method_ = true;
 }
@@ -117,12 +117,14 @@ void Observation::Build() {
     selectivities_.assign(category_labels_.size(), selectivities_[0]);
 
   likelihood_ = likelihoods::Factory::Create(likelihood_type_);
-  if (!likelihood_)
+  if (!likelihood_) {
     LOG_ERROR_P(PARAM_LIKELIHOOD) << "(" << likelihood_type_ << ") could not be created.";
-
-  process_error_ = observations::processerrors::Factory::Create(process_error_type_);
-  if (!process_error_)
-    LOG_ERROR_P(PARAM_PROCESS_ERROR_TYPE) << "(" << process_error_type_ << ") could not be created.";
+    return;
+  }
+  likelihood_->Validate();
+  likelihood_->Build();
+  if (!likelihood_->set_data_weight(data_weight_type_, data_weight_value_))
+    LOG_ERROR_P(PARAM_DATA_WEIGHT_TYPE) << "(" << data_weight_type_ << ") is not supported for this observation";
 
   DoBuild();
 }

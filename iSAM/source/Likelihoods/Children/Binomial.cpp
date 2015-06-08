@@ -25,6 +25,15 @@ namespace math = niwa::utilities::math;
 namespace dc = niwa::utilities::doublecompare;
 
 /**
+ *
+ */
+Binomial::Binomial() {
+  allowed_data_weight_types_.push_back(PARAM_NONE);
+  allowed_data_weight_types_.push_back(PARAM_MULTIPLICATIVE);
+  allowed_data_weight_types_.push_back(PARAM_FRANCIS);
+}
+
+/**
  * Adjust the error value based on the process error
  *
  * @param process_error The observations process_error
@@ -36,33 +45,6 @@ Double Binomial::AdjustErrorValue(const Double process_error, const Double error
     return (1.0 /  (1.0 / error_value + 1.0 / process_error));
 
   return error_value;
-}
-
-/**
- * Get the result from our likelihood
- *
- * @param scores (out) The list of scores to populate
- * @param expecteds The list of expected values (values calculated by the model)
- * @param observeds The list of observed values supplied in the configuration file
- * @param error_values error values calculated during the observation
- * @param process_errors Process error provided to the observation
- * @param delta Delta for use int he zeroFund() utilities method
- */
-void Binomial::GetResult(vector<Double> &scores, const vector<Double> &expecteds, const vector<Double> &observeds,
-                        const vector<Double> &error_values, const vector<Double> &process_errors, const Double delta) {
-
-  Double error_value = 0;
-  Double score       = 0;
-
-  for (unsigned i = 0; i < expecteds.size(); ++i) {
-    error_value = AdjustErrorValue(process_errors[i], error_values[i]);
-    score       = math::LnFactorial(error_value)
-                  - math::LnFactorial(error_value * (1.0 - observeds[i]))
-                  - math::LnFactorial(error_value * observeds[i])
-                  + error_value * observeds[i] * log(dc::ZeroFun(expecteds[i], delta))
-                  + error_value * (1.0 - observeds[i]) * log(dc::ZeroFun(1.0 - expecteds[i], delta));
-    scores.push_back(-score);
-  }
 }
 
 /**
@@ -84,40 +66,6 @@ void Binomial::GetScores(map<unsigned, vector<observations::Comparison> >& compa
 
       comparison.score_ = -score;
     }
-  }
-}
-
-/**
- * Simulate some observed values based on what the model calculated
- *
- * @param keys Unused in this method (contains categories for simulating)
- * @param observeds (out) The observed values to simulate
- * @param expecteds The list of values calculated by the model
- * @param error_values Error values calculated in the observation
- * @param process_errors Process errors passed to observation from the configuration file
- * @param delta Delta for use in the zeroFun() utilities method
- */
-void Binomial::SimulateObserved(const vector<string> &keys, vector<Double> &observeds, const vector<Double> &expecteds,
-                              const vector<Double> &error_values, const vector<Double> &process_errors, const Double delta) {
-
-  utilities::RandomNumberGenerator& rng = utilities::RandomNumberGenerator::Instance();
-  observeds.clear();
-
-  Double error_value = 0.0;
-  Double observed    = 0.0;
-
-  for (unsigned i = 0; i < expecteds.size(); ++i) {
-    error_value = AdjustErrorValue(process_errors[i], error_values[i]);
-    if (error_values[i] < 0.0)
-      LOG_ERROR() << this->location() << ": error_value (" << AS_DOUBLE(error_values[i]) << ") was less than 0.0 when simulating an observed value (i = " << i << ")";
-
-    if (expecteds[i] <= 0.0 || error_value <= 0.0) {
-      observeds.push_back(0.0);
-      continue;
-    }
-
-    observed = rng.binomial(AS_DOUBLE(expecteds[i]), AS_DOUBLE(error_value));
-    observeds.push_back(observed);
   }
 }
 

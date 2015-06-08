@@ -56,6 +56,7 @@ public:
   virtual                     ~ObjectiveFunction() = default;
   static ObjectiveFunction&   Instance();
   void                        CalculateScore();
+  void                        Clear();
 
   // Accessors
   const vector<objective::Score>& score_list() const { return score_list_; }

@@ -23,7 +23,7 @@ namespace reports {
  */
 RandomNumberSeed::RandomNumberSeed() {
   model_state_ = State::kFinalise;
-  run_mode_    = (RunMode::Type)(RunMode::kEstimation | RunMode::kBasic | RunMode::kProjection);
+  run_mode_    = (RunMode::Type)(RunMode::kEstimation | RunMode::kBasic | RunMode::kProjection | RunMode::kSimulation);
 }
 
 /**

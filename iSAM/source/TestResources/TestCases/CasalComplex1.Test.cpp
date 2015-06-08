@@ -64,7 +64,7 @@ TEST_F(InternalEmptyModel, Model_CasalComplex1_Simulation) {
   model->Start(RunMode::kSimulation);
 
   ObjectiveFunction& obj_function = ObjectiveFunction::Instance();
-  EXPECT_DOUBLE_EQ(463.46264220283479, obj_function.score());
+  EXPECT_DOUBLE_EQ(0.0, obj_function.score());
 
   ObservationPtr observation = observations::Manager::Instance().GetObservation("chatTANage");
   if (!observation && observation->label() != "chatTANage")
@@ -74,16 +74,23 @@ TEST_F(InternalEmptyModel, Model_CasalComplex1_Simulation) {
   ASSERT_EQ(11u, comparisons.size());
   ASSERT_EQ(26u, comparisons[1992].size());
 
-  EXPECT_DOUBLE_EQ(0.013192513878164877,  comparisons[1992][0].observed_);
-  EXPECT_DOUBLE_EQ(0.0091956675691299439, comparisons[1992][1].observed_);
-  EXPECT_DOUBLE_EQ(0.020658929991218142,  comparisons[1992][2].observed_);
-  EXPECT_DOUBLE_EQ(0.034217049844055804,  comparisons[1992][3].observed_);
-  EXPECT_DOUBLE_EQ(0.06802639298470356,   comparisons[1992][4].observed_);
-  EXPECT_DOUBLE_EQ(0.052881902589791828,  comparisons[1992][5].observed_);
-  EXPECT_DOUBLE_EQ(0.11773976022196143,   comparisons[1992][6].observed_);
-  EXPECT_DOUBLE_EQ(0.11067034483762085,   comparisons[1992][7].observed_);
-  EXPECT_DOUBLE_EQ(0.11310574005605549,   comparisons[1992][8].observed_);
-  EXPECT_DOUBLE_EQ(0.094116674278681256,  comparisons[1992][9].observed_);
+  for (auto iterator : comparisons) {
+    double sum = 0.0;
+    for (auto comparison : iterator.second)
+      sum += comparison.observed_;
+    EXPECT_DOUBLE_EQ(1.0, sum) << " for year " << iterator.first;
+  }
+
+  EXPECT_DOUBLE_EQ(0.0020837652745951288,  comparisons[1992][0].observed_);
+  EXPECT_DOUBLE_EQ(0.0038816251199316511, comparisons[1992][1].observed_);
+  EXPECT_DOUBLE_EQ(0.0056114355366576286,  comparisons[1992][2].observed_);
+  EXPECT_DOUBLE_EQ(0.01123645757806571,  comparisons[1992][3].observed_);
+  EXPECT_DOUBLE_EQ(0.039003741630177384,   comparisons[1992][4].observed_);
+  EXPECT_DOUBLE_EQ(0.052801741281606113,  comparisons[1992][5].observed_);
+  EXPECT_DOUBLE_EQ(0.062035351235934608,   comparisons[1992][6].observed_);
+  EXPECT_DOUBLE_EQ(0.034373558116406064,   comparisons[1992][7].observed_);
+  EXPECT_DOUBLE_EQ(0.13554824662449863,   comparisons[1992][8].observed_);
+  EXPECT_DOUBLE_EQ(0.056130916804061744,  comparisons[1992][9].observed_);
 }
 
 } /* namespace testcases */

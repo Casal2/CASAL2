@@ -29,36 +29,6 @@ Double Pseudo::AdjustErrorValue(const Double process_error, const Double error_v
 }
 
 /**
- * Get the result from our likelihood
- *
- * @param scores (out) The list of scores to populate
- * @param expecteds The list of expected values (values calculated by the model)
- * @param observeds The list of observed values supplied in the configuration file
- * @param error_values error values calculated during the observation
- * @param process_errors Process error provided to the observation
- * @param delta Delta for use int he zeroFund() utilities method
- */
-void Pseudo::GetResult(vector<Double> &scores, const vector<Double> &expecteds, const vector<Double> &observeds,
-                              const vector<Double> &error_values, const vector<Double> &process_errors, const Double delta) {
-  scores.assign(expecteds.size(), 0.0);
-}
-
-/**
- * Simulate some observed values based on what the model calculated
- *
- * @param keys Unused in this method (contains categories for simulating)
- * @param observeds (out) The observed values to simulate
- * @param expecteds The list of values calculated by the model
- * @param error_values Error values calculated in the observation
- * @param process_errors Process errors passed to observation from the configuration file
- * @param delta Delta for use in the zeroFun() utilities method
- */
-void Pseudo::SimulateObserved(const vector<string> &keys, vector<Double> &observeds, const vector<Double> &expecteds,
-                              const vector<Double> &error_values, const vector<Double> &process_errors, const Double delta) {
-
-}
-
-/**
  * Simulate observed values
  *
  * @param comparisons A collection of comparisons passed by the observation

@@ -76,14 +76,14 @@ TEST(Likelihood, LogNormal) {
 
   // check simulations
   likelihood->SimulateObserved(comparison_list);
-  EXPECT_DOUBLE_EQ(0.25001425607411909, comparison_list[0][0].observed_);
-  EXPECT_DOUBLE_EQ(0.2500028540353656,  comparison_list[0][1].observed_);
-  EXPECT_DOUBLE_EQ(0.24998304181077338, comparison_list[0][2].observed_);
-  EXPECT_DOUBLE_EQ(0.24999984807974196, comparison_list[0][3].observed_);
-  EXPECT_DOUBLE_EQ(0.32993903406685038, comparison_list[0][4].observed_);
-  EXPECT_DOUBLE_EQ(0.14708804198606557, comparison_list[0][5].observed_);
-  EXPECT_DOUBLE_EQ(0.33929924175930265, comparison_list[0][6].observed_);
-  EXPECT_DOUBLE_EQ(0.18367368218778146, comparison_list[0][7].observed_);
+  EXPECT_DOUBLE_EQ(0.25002974504681763, comparison_list[0][0].observed_);
+  EXPECT_DOUBLE_EQ(0.25001834230168096, comparison_list[0][1].observed_);
+  EXPECT_DOUBLE_EQ(0.24999852884967472, comparison_list[0][2].observed_);
+  EXPECT_DOUBLE_EQ(0.25001533615983129, comparison_list[0][3].observed_);
+  EXPECT_DOUBLE_EQ(0.4671050117956298,  comparison_list[0][4].observed_);
+  EXPECT_DOUBLE_EQ(0.20823714229876938, comparison_list[0][5].observed_);
+  EXPECT_DOUBLE_EQ(0.48035655063509486, comparison_list[0][6].observed_);
+  EXPECT_DOUBLE_EQ(0.26003257761701254, comparison_list[0][7].observed_);
 }
 
 } /* namespace likelihoods */

@@ -105,13 +105,13 @@ TEST(Likelihood, Multinomial) {
 
   // check simulations
   likelihood->SimulateObserved(comparison_list);
-  EXPECT_DOUBLE_EQ(0.11864406779661017,  comparison_list[0][0].observed_);
-  EXPECT_DOUBLE_EQ(0.23728813559322035,  comparison_list[0][1].observed_);
-  EXPECT_DOUBLE_EQ(0.22033898305084745,  comparison_list[0][2].observed_);
-  EXPECT_DOUBLE_EQ(0.42372881355932202,  comparison_list[0][3].observed_);
-  EXPECT_DOUBLE_EQ(0.95999999999999996,  comparison_list[0][4].observed_);
-  EXPECT_DOUBLE_EQ(0.040000000000000001, comparison_list[0][5].observed_);
-  EXPECT_DOUBLE_EQ(1.0000000000000000,   comparison_list[0][6].observed_);
+  EXPECT_DOUBLE_EQ(7.0,   comparison_list[0][0].observed_);
+  EXPECT_DOUBLE_EQ(14.0,  comparison_list[0][1].observed_);
+  EXPECT_DOUBLE_EQ(13.0,  comparison_list[0][2].observed_);
+  EXPECT_DOUBLE_EQ(25.0,  comparison_list[0][3].observed_);
+  EXPECT_DOUBLE_EQ(24.0,  comparison_list[0][4].observed_);
+  EXPECT_DOUBLE_EQ(1.0,   comparison_list[0][5].observed_);
+  EXPECT_DOUBLE_EQ(5.0,   comparison_list[0][6].observed_);
 }
 
 }

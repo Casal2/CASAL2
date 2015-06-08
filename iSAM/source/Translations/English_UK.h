@@ -160,6 +160,8 @@
 #define PARAM_CV                                  "cv"
 #define PARAM_D                                   "d"
 #define PARAM_DATA                                "data"
+#define PARAM_DATA_WEIGHT_TYPE                    "data_weight_type"
+#define PARAM_DATA_WEIGHT_VALUE                   "data_weight_value"
 #define PARAM_DE_SOLVER                           "de_solver"
 #define PARAM_DEBUG                               "debug"
 #define PARAM_DELTA                               "delta"
