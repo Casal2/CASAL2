@@ -37,11 +37,23 @@ ObjectiveFunction& ObjectiveFunction::Instance() {
 }
 
 /**
+ * Clear our objective function so it's values are not carried
+ * over accidentally
+ */
+void ObjectiveFunction::Clear() {
+  score_        = 0.0;
+  penalties_    = 0.0;
+  priors_       = 0.0;
+  likelihoods_  = 0.0;
+  additional_priors_ = 0.0;
+  score_list_.clear();
+}
+
+/**
  * Calculate our score for the current run
  */
 void ObjectiveFunction::CalculateScore() {
-  score_list_.clear();
-  score_ = 0.0;
+  Clear();
 
   /**
    * Get the scores from each of the observations/likelihoods

@@ -20,7 +20,6 @@
 #include "BaseClasses/Executor.h"
 #include "Likelihoods/Likelihood.h"
 #include "Observations/Comparison.h"
-#include "Observations/ProcessErrors/ProcessError.h"
 #include "Selectivities/Selectivity.h"
 #include "Utilities/Types.h"
 
@@ -75,9 +74,10 @@ protected:
   bool                        run_in_simulation_mode_ = false;
   vector<SelectivityPtr>      selectivities_;
   LikelihoodPtr               likelihood_;
-  string                      process_error_type_;
-  observations::ProcessErrorPtr           process_error_;
+  string                      data_weight_type_;
+  Double                      data_weight_value_ = 0.0;
   map<unsigned, vector<obs::Comparison> > comparisons_;
+
 };
 
 // Typedef

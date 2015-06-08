@@ -66,7 +66,7 @@ TEST_F(InternalEmptyModel, Model_TwoSex_Foward_Projection) {
   model->Start(RunMode::kProjection);
 
   ObjectiveFunction& obj_function = ObjectiveFunction::Instance();
-  EXPECT_DOUBLE_EQ(1993.8041772616596, obj_function.score());
+  EXPECT_DOUBLE_EQ(0.0, obj_function.score());
 
   DerivedQuantityPtr dq = derivedquantities::Manager::Instance().GetDerivedQuantity("abundance");
   EXPECT_DOUBLE_EQ(0.0, dq->GetValue(2010));

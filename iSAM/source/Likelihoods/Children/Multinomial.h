@@ -29,15 +29,15 @@ namespace likelihoods {
 class Multinomial : public niwa::Likelihood {
 public:
   // Methods
-  Multinomial() = default;
+  Multinomial();
   virtual                     ~Multinomial() = default;
   Double                      AdjustErrorValue(const Double process_error, const Double error_value) override final;
-  void                        GetResult(vector<Double> &scores, const vector<Double> &expecteds, const vector<Double> &observeds,
-                                const vector<Double> &error_values, const vector<Double> &process_errors, const Double delta) override final;
-  void                        SimulateObserved(const vector<string> &keys, vector<Double> &observeds, const vector<Double> &expecteds,
-                                const vector<Double> &error_values, const vector<Double> &process_errors, const Double delta) override final;
-  Double                      GetInitialScore(const vector<string> &keys, const vector<Double> &process_errors,
-                                const vector<Double> &error_values) override final;
+//  void                        GetResult(vector<Double> &scores, const vector<Double> &expecteds, const vector<Double> &observeds,
+//                                const vector<Double> &error_values, const vector<Double> &process_errors, const Double delta) override final;
+//  void                        SimulateObserved(const vector<string> &keys, vector<Double> &observeds, const vector<Double> &expecteds,
+//                                const vector<Double> &error_values, const vector<Double> &process_errors, const Double delta) override final;
+//  Double                      GetInitialScore(const vector<string> &keys, const vector<Double> &process_errors,
+//                                const vector<Double> &error_values) override final;
 
   void                        SimulateObserved(map<unsigned, vector<observations::Comparison> >& comparisons) override final;
   Double                      GetInitialScore(map<unsigned, vector<observations::Comparison> >& comparisons, unsigned year) override final;

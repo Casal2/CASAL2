@@ -182,24 +182,37 @@ void Biomass::Execute() {
     process_errors.push_back(process_error_value_);
   }
 
+  for (unsigned index = 0; index < observeds.size(); ++index)
+    SaveComparison(keys[index], expecteds[index], observeds[index], process_errors[index], error_values[index], delta_, 0.0);
+}
+
+/**
+ *
+ */
+void Biomass::CalculateScore() {
   /**
    * Simulate or generate results
    * During simulation mode we'll simulate results for this observation
    */
   if (Model::Instance()->run_mode() == RunMode::kSimulation) {
-    likelihood_->SimulateObserved(keys, observeds, expecteds, error_values,
-        process_errors, delta_);
-    for (unsigned index = 0; index < observeds.size(); ++index)
-      SaveComparison(keys[index], expecteds[index], observeds[index], process_errors[index],
-          error_values[index], delta_, 0.0);
-
+    likelihood_->SimulateObserved(comparisons_);
+    for (auto& iter :  comparisons_) {
+      Double total = 0.0;
+      for (auto& comparison : iter.second)
+        total += comparison.observed_;
+      for (auto& comparison : iter.second)
+        comparison.observed_ /= total;
+    }
   } else {
-    likelihood_->GetResult(scores, expecteds, observeds, error_values,
-        process_errors, delta_);
-    for (unsigned index = 0; index < scores.size(); ++index) {
-      scores_[current_year] += scores[index];
-      SaveComparison(keys[index], expecteds[index], observeds[index],
-          process_errors[index], error_values[index], delta_, scores[index]);
+    /**
+     * Convert the expected_values in to a proportion
+     */
+    for (unsigned year : years_) {
+      scores_[year] = likelihood_->GetInitialScore(comparisons_, year);
+      likelihood_->GetScores(comparisons_);
+      for (obs::Comparison comparison : comparisons_[year]) {
+        scores_[year] += comparison.score_;
+      }
     }
   }
 }

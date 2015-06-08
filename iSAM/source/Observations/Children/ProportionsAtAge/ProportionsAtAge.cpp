@@ -302,6 +302,15 @@ void ProportionsAtAge::CalculateScore() {
    */
   if (Model::Instance()->run_mode() == RunMode::kSimulation) {
     likelihood_->SimulateObserved(comparisons_);
+    for (auto& iter :  comparisons_) {
+      Double total = 0.0;
+      for (auto& comparison : iter.second)
+        total += comparison.observed_;
+      for (auto& comparison : iter.second) {
+        LOG_FINEST() << "Rescaling simulation: " << comparison.observed_ << " /= " << total << " == " << (comparison.observed_ / total);
+        comparison.observed_ /= total;
+      }
+    }
   } else {
     /**
      * Convert the expected_values in to a proportion

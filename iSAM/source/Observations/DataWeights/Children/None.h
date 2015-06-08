@@ -11,30 +11,30 @@
  *
  * << Add Description >>
  */
-#ifndef SOURCE_OBSERVATIONS_PROCESSERRORS_CHILDREN_NONE_H_
-#define SOURCE_OBSERVATIONS_PROCESSERRORS_CHILDREN_NONE_H_
+#ifndef SOURCE_OBSERVATIONS_DATAWEIGHTS_CHILDREN_NONE_H_
+#define SOURCE_OBSERVATIONS_DATAWEIGHTS_CHILDREN_NONE_H_
 
 // headers
-#include "Observations/ProcessErrors/ProcessError.h"
+#include "Observations/DataWeights/DataWeight.h"
 
 // namespaces
 namespace niwa {
 namespace observations {
-namespace processerrors {
+namespace dataweights {
 
 /**
  * Class definition
  */
-class None : public observations::ProcessError {
+class None : public observations::DataWeight {
 public:
   // methods
   None() = default;
   virtual                     ~None() = default;
-  Double                      CalculateScore(Double process_error, Double error_value, Double likelihood) override final { return 0.0; }
+  Double                      AdjustLikelihood(Double likelihood) override final { return likelihood; }
 };
 
-} /* namespace processerrors */
+} /* namespace dataweights */
 } /* namespace observations */
 } /* namespace niwa */
 
-#endif /* SOURCE_OBSERVATIONS_PROCESSERRORS_CHILDREN_NONE_H_ */
+#endif /* SOURCE_OBSERVATIONS_DATAWEIGHTS_CHILDREN_NONE_H_ */

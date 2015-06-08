@@ -33,6 +33,8 @@ SimulatedObservation::SimulatedObservation() {
  */
 void SimulatedObservation::DoBuild() {
   observation_ = observations::Manager::Instance().GetObservation(observation_label_);
+  if (!observation_)
+    LOG_ERROR_P(PARAM_OBSERVATION) << "(" << observation_label_ << ") could not be found. Have you defined it?";
 }
 
 /**
@@ -72,24 +74,27 @@ void SimulatedObservation::DoExecute() {
 
   map<unsigned, vector<obs::Comparison> >& comparison = observation_->comparisons();
   // obs
-  cache_ << PARAM_OBS << " ";
+  cache_ << PARAM_TABLE << " " << PARAM_OBS << "\n";
   for (auto iter = comparison.begin(); iter != comparison.end(); ++iter) {
+    cache_ << iter->first << " ";
     for (obs::Comparison comparison : iter->second) {
       cache_ << comparison.observed_ << " ";
     }
+    cache_ << "\n";
   }
-  cache_ << "\n";
+  cache_ << PARAM_END_TABLE << "\n";
 
   // error values
-  // obs
-    cache_ << PARAM_ERROR_VALUE << " ";
-    for (auto iter = comparison.begin(); iter != comparison.end(); ++iter) {
-      for (obs::Comparison comparison : iter->second) {
-        cache_ << comparison.error_value_ << " ";
-      }
+  cache_ << PARAM_TABLE << " " << PARAM_ERROR_VALUES << "\n";
+  for (auto iter = comparison.begin(); iter != comparison.end(); ++iter) {
+    cache_ << iter->first << " ";
+    for (obs::Comparison comparison : iter->second) {
+      cache_ << comparison.error_value_ << " ";
     }
-
     cache_ << "\n";
+  }
+
+    cache_ << PARAM_END_TABLE << "\n";
     cache_ << "#end" << endl;
 
   ready_for_writing_ = true;

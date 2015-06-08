@@ -182,7 +182,7 @@ bool Model::Start(RunMode::Type run_mode) {
     break;
 
   case RunMode::kMCMC:
-    if (!RunMCMC());
+    if (!RunMCMC())
       return false;
     break;
 

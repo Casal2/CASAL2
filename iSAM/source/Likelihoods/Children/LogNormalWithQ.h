@@ -29,14 +29,9 @@ namespace likelihoods {
 class LogNormalWithQ : public niwa::Likelihood {
 public:
   // Methods
-  LogNormalWithQ() = default;
+  LogNormalWithQ();
   virtual                     ~LogNormalWithQ() = default;
   Double                      AdjustErrorValue(const Double process_error, const Double error_value) override final;
-  void                        GetResult(vector<Double> &scores, const vector<Double> &expecteds, const vector<Double> &observeds,
-                                const vector<Double> &error_values, const vector<Double> &process_errors, const Double delta) override final;
-  void                        SimulateObserved(const vector<string> &keys, vector<Double> &observeds, const vector<Double> &expecteds,
-                                const vector<Double> &error_values, const vector<Double> &process_errors, const Double delta) override final;
-
   void                        GetScores(map<unsigned, vector<observations::Comparison> >& comparisons) override final;
   void                        SimulateObserved(map<unsigned, vector<observations::Comparison> >& comparisons) override final;
 };

@@ -83,6 +83,8 @@ void Base::TearDown() {
   timesteps::Manager::Instance().RemoveAllObjects();
 
   mcmcs::Manager::Instance().RemoveAllObjects();
+
+  niwa::ObjectiveFunction::Instance().Clear();
 }
 
 } /* namespace testfixtures */

@@ -23,6 +23,14 @@ namespace likelihoods {
 namespace dc = niwa::utilities::doublecompare;
 
 /**
+ *
+ */
+Normal::Normal() {
+  allowed_data_weight_types_.push_back(PARAM_NONE);
+  allowed_data_weight_types_.push_back(PARAM_MULTIPLICATIVE);
+}
+
+/**
  * Adjust the error value based on the process error
  *
  * @param process_error The observations process_error
@@ -34,33 +42,6 @@ Double Normal::AdjustErrorValue(const Double process_error, const Double error_v
     return sqrt(error_value * error_value + process_error * process_error);
 
   return error_value;
-}
-
-/**
- * Get the result from our likelihood
- *
- * @param scores (out) The list of scores to populate
- * @param expecteds The list of expected values (values calculated by the model)
- * @param observeds The list of observed values supplied in the configuration file
- * @param error_values error values calculated during the observation
- * @param process_errors Process error provided to the observation
- * @param delta Delta for use int he zeroFund() utilities method
- */
-void Normal::GetResult(vector<Double> &scores, const vector<Double> &expecteds, const vector<Double> &observeds,
-                              const vector<Double> &error_values, const vector<Double> &process_errors, const Double delta) {
-
-  Double error_value  = 0.0;
-  Double sigma        = 0.0;
-  Double score        = 0.0;
-
-  for (unsigned i = 0; i < expecteds.size(); ++i) {
-    error_value = AdjustErrorValue(process_errors[i], error_values[i]);
-    sigma       = error_value * expecteds[i];
-    score       = (observeds[i] - expecteds[i]) / dc::ZeroFun(error_value * expecteds[i], delta);
-    score       = log(sigma) + 0.5 * (score * score);
-
-    scores.push_back(score);
-  }
 }
 
 /**
@@ -78,37 +59,6 @@ void Normal::GetScores(map<unsigned, vector<observations::Comparison> >& compari
       score = log(sigma) + 0.5 * (score * score);
       comparison.score_ = score;
     }
-  }
-}
-
-/**
- * Simulate some observed values based on what the model calculated
- *
- * @param keys Unused in this method (contains categories for simulating)
- * @param observeds (out) The observed values to simulate
- * @param expecteds The list of values calculated by the model
- * @param error_values Error values calculated in the observation
- * @param process_errors Process errors passed to observation from the configuration file
- * @param delta Delta for use in the zeroFun() utilities method
- */
-void Normal::SimulateObserved(const vector<string> &keys, vector<Double> &observeds, const vector<Double> &expecteds,
-                              const vector<Double> &error_values, const vector<Double> &process_errors, const Double delta) {
-
-  utilities::RandomNumberGenerator& rng = utilities::RandomNumberGenerator::Instance();
-  observeds.clear();
-
-  Double error_value = 0.0;
-  Double observed    = 0.0;
-  for (unsigned i = 0; i < expecteds.size(); ++i) {
-    error_value = AdjustErrorValue(process_errors[i], error_values[i]);
-
-    if (expecteds[i] <= 0.0 || error_value <= 0.0) {
-      observeds.push_back(0.0);
-      continue;
-    }
-
-    observed = rng.normal(AS_DOUBLE(expecteds[i]), AS_DOUBLE((expecteds[i] * error_value)));
-    observeds.push_back(observed);
   }
 }
 
@@ -134,8 +84,6 @@ void Normal::SimulateObserved(map<unsigned, vector<observations::Comparison> >& 
     }
   }
 }
-
-
 
 } /* namespace likelihoods */
 } /* namespace niwa */
