@@ -36,8 +36,8 @@ Observation::Observation() {
   parameters_.Bind<string>(PARAM_CATEGORIES, &category_labels_, "Category labels to use", "", true);
   parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_labels_, "Selectivity labels to use", "", true);
   parameters_.Bind<string>(PARAM_SIMULATION_LIKELIHOOD, &simulation_likelihood_label_, "Simulation likelihood to use", "", "");
-  parameters_.Bind<string>(PARAM_DATA_WEIGHT_TYPE, &data_weight_type_, "Data weight type", "", PARAM_NONE)
-      ->set_allowed_values({ PARAM_NONE, PARAM_ADDITIVE, PARAM_MULTIPLICATIVE, PARAM_DISPERSION, PARAM_FRANCIS });
+//  parameters_.Bind<string>(PARAM_DATA_WEIGHT_TYPE, &data_weight_type_, "Data weight type", "", PARAM_NONE)
+//      ->set_allowed_values({ PARAM_NONE, PARAM_ADDITIVE, PARAM_MULTIPLICATIVE, PARAM_DISPERSION, PARAM_FRANCIS });
   parameters_.Bind<Double>(PARAM_DATA_WEIGHT_VALUE, &data_weight_value_, "Value for data weight", "", Double(0.0));
 
   mean_proportion_method_ = true;
@@ -123,8 +123,8 @@ void Observation::Build() {
   }
   likelihood_->Validate();
   likelihood_->Build();
-  if (!likelihood_->set_data_weight(data_weight_type_, data_weight_value_))
-    LOG_ERROR_P(PARAM_DATA_WEIGHT_TYPE) << "(" << data_weight_type_ << ") is not supported for this observation";
+//  if (!likelihood_->set_data_weight(data_weight_type_, data_weight_value_))
+//    LOG_ERROR_P(PARAM_DATA_WEIGHT_TYPE) << "(" << data_weight_type_ << ") is not supported for this observation";
 
   DoBuild();
 }

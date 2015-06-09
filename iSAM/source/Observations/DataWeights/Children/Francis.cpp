@@ -21,10 +21,7 @@ namespace dataweights {
  *
  */
 Double Francis::AdjustErrorValue(Double error_value, Double process_error) {
-  if (error_value == 0.0 || process_error == 0.0)
-    return 0.0;
-
-  return  ((1.0 /  (1.0 / error_value + 1.0 / process_error)) * weight_value_);
+  return  error_value * weight_value_;
 }
 
 /**

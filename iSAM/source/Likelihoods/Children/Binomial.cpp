@@ -28,9 +28,9 @@ namespace dc = niwa::utilities::doublecompare;
  *
  */
 Binomial::Binomial() {
-  allowed_data_weight_types_.push_back(PARAM_NONE);
-  allowed_data_weight_types_.push_back(PARAM_MULTIPLICATIVE);
-  allowed_data_weight_types_.push_back(PARAM_FRANCIS);
+//  allowed_data_weight_types_.push_back(PARAM_NONE);
+//  allowed_data_weight_types_.push_back(PARAM_MULTIPLICATIVE);
+//  allowed_data_weight_types_.push_back(PARAM_FRANCIS);
 }
 
 /**
