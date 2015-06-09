@@ -117,7 +117,7 @@ void TagByAge::DoValidate() {
     for (unsigned i = 1; i < columns.size(); ++i) {
       unsigned age = 0;
       if (!utilities::To<unsigned>(columns[i], age))
-        LOG_ERROR() << "";
+        LOG_ERROR() << "Could not convert value " << columns[i] << " to an unsigned integer";
       age_index[age] = i;
     }
 
@@ -157,7 +157,7 @@ void TagByAge::DoValidate() {
     for (unsigned i = 1; i < columns.size(); ++i) {
       unsigned age = 0;
       if (!utilities::To<unsigned>(columns[i], age))
-        LOG_ERROR() << "";
+        LOG_ERROR() << "Could not convert value " << columns[i] << " to an unsigned integer";
       age_index[age] = i;
     }
 
@@ -204,6 +204,8 @@ void TagByAge::DoBuild() {
 
   if (penalty_label_ != "")
     penalty_ = penalties::Manager::Instance().GetPenalty(penalty_label_);
+  else
+    LOG_WARNING() << location() << " no penalty has been specified. Exploitation above u_max will not affect the objective function";
 
   selectivities::Manager& selectivity_manager = selectivities::Manager::Instance();
   for (unsigned i = 0; i < selectivity_labels_.size(); ++i) {
@@ -256,7 +258,6 @@ void TagByAge::DoExecute() {
   for (unsigned i = 0; i < numbers_[current_year].size(); ++i)
     LOG_FINEST() << "numbers__[current_year][" << i << "]: " << numbers_[current_year][i];
 
-  Double total_stock = 0.0;
   Double total_stock_with_selectivities = 0.0;
   unsigned age_spread = (max_age_ - min_age_) + 1;
   LOG_FINE() << "age_spread: " << age_spread << " in year " << current_year;
@@ -277,9 +278,14 @@ void TagByAge::DoExecute() {
       unsigned offset = (min_age_ - (*from_iter)->min_age_) + i;
       LOG_FINEST() << "total_stock_offset: " << offset << " (" << (*from_iter)->min_age_ << " - " << min_age_ << ") + " << i;
 
-      LOG_FINEST() << "name: " << (*from_iter)->name_;
+      Double stock_amount = (*from_iter)->data_[offset] * selectivities_[(*from_iter)->name_]->GetResult(min_age_ + offset);
+      total_stock_with_selectivities += stock_amount;
+
+      LOG_FINEST() << "name: " << (*from_iter)->name_ << " at age " << min_age_ + i;
       LOG_FINEST() << "selectivity value: " << selectivities_[(*from_iter)->name_]->GetResult(min_age_ + offset);
-      total_stock_with_selectivities += (*from_iter)->data_[offset] * selectivities_[(*from_iter)->name_]->GetResult(min_age_ + offset);
+      LOG_FINEST() << "population: " << (*from_iter)->data_[offset];
+      LOG_FINEST() << "amount added to total_stock_with_selecitivites: " << stock_amount;
+      LOG_FINEST() << "**";
     }
     LOG_FINEST() << "total_stock_with_selectivities: " << total_stock_with_selectivities << " at age " << min_age_ + i << " (" << min_age_ << " + " << i << ")";
 
@@ -289,6 +295,7 @@ void TagByAge::DoExecute() {
     from_iter = from_partition_.begin();
     to_iter   = to_partition_.begin();
     for (; from_iter != from_partition_.end(); from_iter++, to_iter++) {
+      LOG_FINE() << "--";
       LOG_FINE() << "Working with categories: from " << (*from_iter)->name_ << "; to " << (*to_iter)->name_;
       unsigned offset = (min_age_ - (*from_iter)->min_age_) + i;
       string category_label = (*from_iter)->name_;
@@ -299,32 +306,45 @@ void TagByAge::DoExecute() {
       Double current = numbers_[current_year][i] *
           ((*from_iter)->data_[offset] * selectivities_[category_label]->GetResult(min_age_ + offset) / total_stock_with_selectivities);
 
-      Double exploitation = current / utilities::doublecompare::ZeroFun((*from_iter)->data_[offset]);
+      Double exploitation = current / utilities::doublecompare::ZeroFun((*from_iter)->data_[offset] * selectivities_[category_label]->GetResult(min_age_ + offset));
       if (exploitation > u_max_) {
         LOG_FINE() << "Exploitation(" << exploitation << ") triggered u_max(" << u_max_ << ") with current(" << current << ")";
 
-        current = total_stock * u_max_;
+        current = (*from_iter)->data_[offset] * selectivities_[category_label]->GetResult(min_age_ + offset) *  u_max_;
+        LOG_FINE() << "tagging amount overridden with " << current << " = " << (*from_iter)->data_[offset] << " * "
+            << selectivities_[category_label]->GetResult(min_age_ + offset) << " * " << u_max_;
+
         if (penalty_)
           penalty_->Trigger(label_, numbers_[current_year][i], (*from_iter)->data_[offset] * u_max_);
       }
 
-      LOG_FINE() << "--";
       LOG_FINE() << "total_stock_with_selectivities: " << total_stock_with_selectivities;
-      LOG_FINE() << "numbers: " << numbers_[current_year][i];
-      LOG_FINE() << "population: " << (*from_iter)->data_[offset];
+      LOG_FINE() << "numbers/n: " << numbers_[current_year][i];
+      LOG_FINE() << (*from_iter)->name_ << " population at age " << min_age_ + i << ": " << (*from_iter)->data_[offset];
       LOG_FINE() << "selectivity: " << selectivities_[category_label]->GetResult(min_age_ + offset);
-      LOG_FINE() << "current: " << current << "; exploitation: " << exploitation;
-      LOG_FINE() << "current calculated as current = " << numbers_[current_year][i] << " * "
-          << (*from_iter)->data_[offset] << " * " << selectivities_[category_label]->GetResult(min_age_ + offset)
-          << " / " << total_stock_with_selectivities;
+      if (exploitation > u_max_) {
+        LOG_FINE() << "exploitation: " << u_max_ << " (u_max)";
+        LOG_FINE() << "tagging amount: " << current << " = " << (*from_iter)->data_[offset] << " * "
+            << selectivities_[category_label]->GetResult(min_age_ + offset) << " * " << u_max_;
+      } else {
+        LOG_FINE() << "exploitation: " << exploitation << "; calculated as " << current << " / ("
+                        << (*from_iter)->data_[offset] << " * " << selectivities_[category_label]->GetResult(min_age_ + offset) << ")";
+        LOG_FINE() << "tagging amount: " << current << " = " << numbers_[current_year][i] << " * "
+            << (*from_iter)->data_[offset] << " * " << selectivities_[category_label]->GetResult(min_age_ + offset)
+            << " / " << total_stock_with_selectivities;
+      }
 
       if (current <= 0.0)
         continue;
 
       Double current_with_mortality = current - (current * initial_mortality_);
-      LOG_FINEST() << "current_with_mortality: " << current_with_mortality;
-      if (initial_mortality_selectivity_)
+      LOG_FINEST() << "tagging_amount_with_mortality: " << current_with_mortality << "; initial mortality: " << initial_mortality_;
+      if (initial_mortality_selectivity_) {
         current_with_mortality *= initial_mortality_selectivity_->GetResult(min_age_ + i);
+        LOG_FINEST() << "tagging_amount_with_mortality: " << current_with_mortality << "; initial_mortality_selectivity : " << initial_mortality_selectivity_->GetResult(min_age_ + i);
+      }
+      LOG_FINEST() << "Removing " << current << " from " << (*from_iter)->name_;
+      LOG_FINEST() << "Adding " << current_with_mortality << " to " << (*to_iter)->name_;
       (*from_iter)->data_[offset] -= current;
       (*to_iter)->data_[offset] += current_with_mortality;
     }

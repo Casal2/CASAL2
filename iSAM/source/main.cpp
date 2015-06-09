@@ -53,7 +53,7 @@ void ReportThread() {
  * Application entry point
  */
 int main(int argc, char * argv[]) {
-
+  int return_code = 0;
   // Create instance now so it can record the time.
   reports::StandardHeader standard_report;
 
@@ -110,7 +110,8 @@ int main(int argc, char * argv[]) {
       config_loader.LoadConfigFile();
       if (Logging::Instance().errors().size() > 0) {
         Logging::Instance().FlushErrors();
-        return -1;
+        return_code = -1;
+        break;
       }
 
       /**
@@ -126,6 +127,14 @@ int main(int argc, char * argv[]) {
 
       model_thread.join();
       report_thread.join();
+
+      Logging& logging = Logging::Instance();
+      if (logging.errors().size() > 0) {
+        logging.FlushErrors();
+        return_code = -1;
+      }
+
+      logging.FlushWarnings();
 
       if (!config->debug_mode() && !config->disable_standard_report())
         standard_report.Finalise();
@@ -164,7 +173,7 @@ int main(int argc, char * argv[]) {
   }
 
   LOG_FINEST() << "Done";
-	return 0;
+	return return_code;
 }
 #endif
 
