@@ -32,7 +32,7 @@ class DataWeight {
 public:
   DataWeight() = default;
   virtual                     ~DataWeight() = default;
-  virtual Double              AdjustErrorValue(Double error_value, Double process_error);
+  virtual Double              AdjustErrorValue(Double error_value, Double process_error) { return error_value; }
   virtual Double              AdjustLikelihood(Double likelihood) = 0;
 
   // accessors

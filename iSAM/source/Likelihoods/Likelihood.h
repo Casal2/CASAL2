@@ -52,15 +52,15 @@ public:
   virtual void                GetScores(map<unsigned, vector<observations::Comparison> >& comparisons) { };
 
   // accessors
-  bool                        set_data_weight(string data_weight_type, Double data_weight_value);
+//  bool                        set_data_weight(string data_weight_type, Double data_weight_value);
 
 
 protected:
   // members
-  DataWeightPtr               data_weight_;
-  string                      data_weight_type_;
-  Double                      data_weight_value_ = 0.0;
-  vector<string>              allowed_data_weight_types_;
+//  DataWeightPtr               data_weight_;
+//  string                      data_weight_type_;
+//  Double                      data_weight_value_ = 0.0;
+//  vector<string>              allowed_data_weight_types_;
 };
 
 // Typedef

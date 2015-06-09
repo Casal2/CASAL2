@@ -306,10 +306,8 @@ void ProportionsAtAge::CalculateScore() {
       Double total = 0.0;
       for (auto& comparison : iter.second)
         total += comparison.observed_;
-      for (auto& comparison : iter.second) {
-        LOG_FINEST() << "Rescaling simulation: " << comparison.observed_ << " /= " << total << " == " << (comparison.observed_ / total);
+      for (auto& comparison : iter.second)
         comparison.observed_ /= total;
-      }
     }
   } else {
     /**
