@@ -213,13 +213,6 @@ bool Model::Start(RunMode::Type run_mode) {
     executor->Execute();
   reports::Manager::Instance().Execute(state_);
   reports::Manager::Instance().Finalise();
-
-  if (logging.errors().size() > 0) {
-    logging.FlushErrors();
-    return false;
-  }
-
-  logging.FlushWarnings();
   return true;
 }
 
