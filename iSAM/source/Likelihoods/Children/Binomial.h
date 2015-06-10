@@ -29,7 +29,7 @@ namespace likelihoods {
 class Binomial : public niwa::Likelihood {
 public:
   // Methods
-  Binomial();
+  Binomial() = default;
   virtual                     ~Binomial() = default;
   Double                      AdjustErrorValue(const Double process_error, const Double error_value) override final;
   void                        SimulateObserved(map<unsigned, vector<observations::Comparison> >& comparisons) override final;

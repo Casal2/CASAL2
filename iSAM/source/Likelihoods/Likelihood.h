@@ -19,15 +19,12 @@
 // Headers
 #include "BaseClasses/Object.h"
 #include "Observations/Comparison.h"
-#include "Observations/DataWeights/DataWeight.h"
 #include "Utilities/Types.h"
 
 // Namespaces
 namespace niwa {
 
 using niwa::utilities::Double;
-using niwa::observations::DataWeightPtr;
-
 
 /**
  * Class definition
@@ -40,27 +37,18 @@ public:
   void                        Validate() { };
   void                        Build() { };
   virtual Double              AdjustErrorValue(const Double process_error, const Double error_value) = 0;
-//  virtual void                GetResult(vector<Double> &scores, const vector<Double> &expecteds, const vector<Double> &observeds,
-//                                const vector<Double> &error_values, const vector<Double> &process_errors, const Double delta) = 0;
-//  virtual void                SimulateObserved(const vector<string> &keys, vector<Double> &observeds, const vector<Double> &expecteds,
-//                                const vector<Double> &error_values, const vector<Double> &process_errors, const Double delta) = 0;
-//  virtual Double              GetInitialScore(const vector<string> &keys, const vector<Double> &process_errors,
-//                                const vector<Double> &error_values);
-
   virtual void                SimulateObserved(map<unsigned, vector<observations::Comparison> >& comparisons) { };
   virtual Double              GetInitialScore(map<unsigned, vector<observations::Comparison> >& comparisons, unsigned year) { return 0.0; };
   virtual void                GetScores(map<unsigned, vector<observations::Comparison> >& comparisons) { };
 
   // accessors
-//  bool                        set_data_weight(string data_weight_type, Double data_weight_value);
-
+  void                        set_multiplier(Double new_value) { multiplier_ = new_value; }
+  void                        set_error_value_multiplier(Double new_value) { error_value_multiplier_ = new_value; }
 
 protected:
   // members
-//  DataWeightPtr               data_weight_;
-//  string                      data_weight_type_;
-//  Double                      data_weight_value_ = 0.0;
-//  vector<string>              allowed_data_weight_types_;
+  Double                      multiplier_ = 1.0;
+  Double                      error_value_multiplier_ = 1.0;
 };
 
 // Typedef

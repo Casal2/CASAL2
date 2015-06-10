@@ -74,8 +74,8 @@ protected:
   bool                        run_in_simulation_mode_ = false;
   vector<SelectivityPtr>      selectivities_;
   LikelihoodPtr               likelihood_;
-  string                      data_weight_type_;
-  Double                      data_weight_value_ = 0.0;
+  Double                      error_value_multiplier_ = 1.0;
+  Double                      likelihood_multiplier_ = 1.0;
   map<unsigned, vector<obs::Comparison> > comparisons_;
 
 };
