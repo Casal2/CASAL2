@@ -119,6 +119,8 @@ void Observation::Build() {
     LOG_ERROR_P(PARAM_LIKELIHOOD) << "(" << likelihood_type_ << ") could not be created.";
     return;
   }
+  likelihood_->set_multiplier(likelihood_multiplier_);
+  likelihood_->set_error_value_multiplier(error_value_multiplier_);
   likelihood_->Validate();
   likelihood_->Build();
 
