@@ -25,15 +25,6 @@ namespace math = niwa::utilities::math;
 namespace dc = niwa::utilities::doublecompare;
 
 /**
- *
- */
-Binomial::Binomial() {
-//  allowed_data_weight_types_.push_back(PARAM_NONE);
-//  allowed_data_weight_types_.push_back(PARAM_MULTIPLICATIVE);
-//  allowed_data_weight_types_.push_back(PARAM_FRANCIS);
-}
-
-/**
  * Adjust the error value based on the process error
  *
  * @param process_error The observations process_error
@@ -56,7 +47,7 @@ Double Binomial::AdjustErrorValue(const Double process_error, const Double error
 void Binomial::GetScores(map<unsigned, vector<observations::Comparison> >& comparisons) {
   for (auto year_iterator = comparisons.begin(); year_iterator != comparisons.end(); ++year_iterator) {
     for (observations::Comparison& comparison : year_iterator->second) {
-      Double error_value = AdjustErrorValue(comparison.process_error_, comparison.error_value_);
+      Double error_value = AdjustErrorValue(comparison.process_error_, comparison.error_value_) * error_value_multiplier_;
 
       Double score = math::LnFactorial(error_value)
                       - math::LnFactorial(error_value * (1.0 - comparison.observed_))
@@ -64,7 +55,7 @@ void Binomial::GetScores(map<unsigned, vector<observations::Comparison> >& compa
                       + error_value * comparison.observed_ * log(dc::ZeroFun(comparison.expected_, comparison.delta_))
                       + error_value * (1.0 - comparison.observed_) * log(dc::ZeroFun(1.0 - comparison.expected_, comparison.delta_));
 
-      comparison.score_ = -score;
+      comparison.score_ = -score * multiplier_;
     }
   }
 }

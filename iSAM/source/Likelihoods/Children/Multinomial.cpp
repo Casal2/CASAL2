@@ -29,16 +29,6 @@ namespace dc = niwa::utilities::doublecompare;
 namespace math = niwa::utilities::math;
 
 /**
- *
- */
-Multinomial::Multinomial() {
-//  allowed_data_weight_types_.push_back(PARAM_NONE);
-//  allowed_data_weight_types_.push_back(PARAM_MULTIPLICATIVE);
-//  allowed_data_weight_types_.push_back(PARAM_FRANCIS);
-}
-
-
-/**
  * Adjust the error value based on the process error
  *
  * @param process_error The observations process_error
@@ -58,11 +48,11 @@ Double Multinomial::AdjustErrorValue(const Double process_error, const Double er
 void Multinomial::GetScores(map<unsigned, vector<observations::Comparison> >& comparisons) {
   for (auto year_iterator = comparisons.begin(); year_iterator != comparisons.end(); ++year_iterator) {
     for (observations::Comparison& comparison : year_iterator->second) {
-      Double error_value = AdjustErrorValue(comparison.process_error_, comparison.error_value_);
+      Double error_value = AdjustErrorValue(comparison.process_error_, comparison.error_value_) * error_value_multiplier_;
 
       Double score = math::LnFactorial(error_value * comparison.observed_)
                       - error_value * comparison.observed_ * log(dc::ZeroFun(comparison.expected_, comparison.delta_));
-      comparison.score_ = score;
+      comparison.score_ = score * multiplier_;
     }
   }
 }

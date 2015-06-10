@@ -26,7 +26,6 @@
 namespace niwa {
 namespace processes {
 
-
 using std::cout;
 using std::endl;
 using niwa::testfixtures::InternalEmptyModel;
@@ -72,6 +71,7 @@ min_age 3
 max_age 6
 loss_rate 0
 loss_rate_selectivities [type=constant; c=1] [type=constant; c=1]
+penalty [type=process]
 table numbers
 year 3 4 5 6
 2008 1000 2000 3000 4000
@@ -155,6 +155,7 @@ min_age 3
 max_age 6
 loss_rate 0.02
 loss_rate_selectivities [type=constant; c=1] [type=constant; c=1]
+penalty [type=process]
 table numbers
 year 3 4 5 6
 2008 500 750 1000 2000
@@ -236,6 +237,7 @@ min_age 3
 max_age 6
 loss_rate 0.02
 loss_rate_selectivities [type=logistic; a50=11.9; ato95=5.25] [type=constant; c=0.5]
+penalty [type=process]
 table numbers
 year 3 4 5 6
 2008 500 750 1000 2000
@@ -328,6 +330,7 @@ min_age 3
 max_age 6
 loss_rate 0.02
 loss_rate_selectivities [type=logistic; a50=11.9; ato95=5.25] [type=constant; c=0.5]
+penalty [type=process]
 table numbers
 year 3 4 5 6
 2008 500 750 1000 2000
@@ -415,6 +418,7 @@ min_age 3
 max_age 6
 loss_rate 0.02
 loss_rate_selectivities [type=logistic; a50=11.9; ato95=5.25] [type=constant; c=0.5]
+penalty [type=process]
 n 10000
 table proportions
 year 3 4 5 6

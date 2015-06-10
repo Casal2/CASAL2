@@ -25,14 +25,6 @@ namespace likelihoods {
 namespace dc = niwa::utilities::doublecompare;
 
 /**
- *
- */
-LogNormal::LogNormal() {
-//  allowed_data_weight_types_.push_back(PARAM_NONE);
-//  allowed_data_weight_types_.push_back(PARAM_MULTIPLICATIVE);
-}
-
-/**
  * Adjust the error value based on the process error
  *
  * @param process_error The observations process_error
@@ -55,11 +47,11 @@ void LogNormal::GetScores(map<unsigned, vector<observations::Comparison> >& comp
   for (auto year_iterator = comparisons.begin(); year_iterator != comparisons.end(); ++year_iterator) {
     for (observations::Comparison& comparison : year_iterator->second) {
 
-      Double error_value = AdjustErrorValue(comparison.process_error_, comparison.error_value_);
+      Double error_value = AdjustErrorValue(comparison.process_error_, comparison.error_value_) * error_value_multiplier_;
       Double sigma = sqrt(log(1 + error_value * error_value));
       Double score = log(comparison.observed_ / dc::ZeroFun(comparison.expected_, comparison.delta_)) / sigma + 0.5 * sigma;
       Double final_score = log(sigma) + 0.5 * (score * score);
-      comparison.score_ = final_score;
+      comparison.score_ = final_score * multiplier_;
     }
   }
 }
