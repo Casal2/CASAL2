@@ -31,8 +31,8 @@ class Manager : public niwa::oldbase::Manager<niwa::ageingerrors::Manager, niwa:
   friend class niwa::oldbase::Manager<niwa::ageingerrors::Manager, niwa::AgeingError>;
 private:
   // Methods
-  Manager();
-  virtual                     ~Manager() noexcept(true);
+  Manager() = default;
+  virtual                     ~Manager() = default;
 };
 
 } /* namespace ageingerrors */

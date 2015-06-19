@@ -22,12 +22,11 @@
 // namespaces
 namespace niwa {
 
+// forward decs
 class AdditionalPrior;
 typedef Double (AdditionalPrior::*ScoreFunction)();
 
-/**
- *
- */
+// classes
 class AdditionalPrior : public base::Object {
 public:
   // methods
@@ -38,11 +37,9 @@ public:
   void                        Build() { };
   void                        Reset() { };
 
+protected:
   // pure virtual methods
   virtual void                DoValidate() = 0;
-
-protected:
-  // methods
   virtual Double              GetRatioScore() = 0;
   virtual Double              GetDifferenceScore() = 0;
   virtual Double              GetMeanScore() = 0;

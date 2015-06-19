@@ -7,9 +7,6 @@
  *
  * Copyright NIWA Science ©2014 - www.niwa.co.nz
  *
- * @section DESCRIPTION
- *
- * << Add Description >>
  */
 #ifndef ADDITIONAL_PRIORS_MANAGER_H_
 #define ADDITIONAL_PRIORS_MANAGER_H_
@@ -22,9 +19,7 @@
 namespace niwa {
 namespace additionalpriors {
 
-/**
- * Class definition
- */
+// classes
 class Manager : public niwa::oldbase::Manager<niwa::additionalpriors::Manager, niwa::AdditionalPrior> {
   friend class niwa::oldbase::Manager<niwa::additionalpriors::Manager, niwa::AdditionalPrior>;
 public:
@@ -34,7 +29,6 @@ public:
 protected:
   // methods
   Manager() {};
-
 };
 
 } /* namespace additionalpriors */

@@ -19,7 +19,14 @@ namespace niwa {
 namespace agelengths {
 
 /**
- * default constructor
+ * Default constructor
+ *
+ * Bind any parameters that are allowed to be loaded from the configuration files.
+ * Set bounds on registered parameters
+ * Register any parameters that can be an estimated or utilised in other run modes (e.g profiling, yields, projections etc)
+ * Set some initial values
+ *
+ * Note: The constructor is parsed to generate Latex for the documentation.
  */
 VonBertalanffy::VonBertalanffy() {
   parameters_.Bind<Double>(PARAM_LINF, &linf_, "TBA", "")->set_lower_bound(0.0);
@@ -38,7 +45,8 @@ VonBertalanffy::VonBertalanffy() {
 }
 
 /**
- * build runtime relationships between this object and other objects in the model
+ * Build any objects that will need to be utilised by this object.
+ * Obtain smart_pointers to any objects that will be used by this object.
  */
 void VonBertalanffy::DoBuild() {
   length_weight_ = lengthweights::Manager::Instance().GetLengthWeight(length_weight_label_);
@@ -47,11 +55,11 @@ void VonBertalanffy::DoBuild() {
 }
 
 /**
- * Return the mean size for a given age. Mean size returned
- * is for a single fish.
+ * Get the mean length of a single population
  *
- * @param age The age of the fish to return mean size for
- * @return the mean size for a single fish
+ * @param year The year we want mean length for
+ * @param age The age of the population we want mean length for
+ * @return The mean length for 1 member
  */
 Double VonBertalanffy::mean_length(unsigned year, unsigned age) {
   Double proportion = time_step_proportions_[timesteps::Manager::Instance().current_time_step()];
@@ -67,10 +75,11 @@ Double VonBertalanffy::mean_length(unsigned year, unsigned age) {
 }
 
 /**
- * return the mean weight for a single fish at the given age
+ * Get the mean weight of a single population
  *
- * @param age The age of the fish to return the mean weight for
- * @return The mean weight of a single fish
+ * @param year The year we want mean weight for
+ * @param age The age of the population we want mean weight for
+ * @return mean weight for 1 member
  */
 Double VonBertalanffy::mean_weight(unsigned year, unsigned age) {
   Double size = this->mean_length(year, age);

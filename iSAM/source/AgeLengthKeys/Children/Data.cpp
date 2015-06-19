@@ -26,6 +26,13 @@ namespace agelengthkeys {
 
 /**
  * Default constructor
+ *
+ * Bind any parameters that are allowed to be loaded from the configuration files.
+ * Set bounds on registered parameters
+ * Register any parameters that can be an estimated or utilised in other run modes (e.g profiling, yields, projections etc)
+ * Set some initial values
+ *
+ * Note: The constructor is parsed to generate Latex for the documentation.
  */
 Data::Data() {
   data_table_ = TablePtr(new parameters::Table(PARAM_DATA));
@@ -33,7 +40,8 @@ Data::Data() {
 }
 
 /**
- *
+ * Build any objects that will need to be utilised by this object.
+ * Obtain smart_pointers to any objects that will be used by this object.
  */
 void Data::DoBuild() {
   if (!data_table_)

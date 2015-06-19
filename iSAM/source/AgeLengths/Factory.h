@@ -17,9 +17,7 @@
 namespace niwa {
 namespace agelengths {
 
-/**
- * class definition
- */
+// classes
 class Factory {
 public:
   static AgeLengthPtr           Create(const string& object_type, const string& sub_type);

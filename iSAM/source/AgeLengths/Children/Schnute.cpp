@@ -1,10 +1,15 @@
-/*
- * Schnute.cpp
+/**
+ * @file Schnute.cpp
+ * @author Scott Rasmussen (scott.rasmussen@zaita.com)
+ * @github https://github.com/Zaita
+ * @date 19/06/2015
+ * @section LICENSE
  *
- *  Created on: 24/07/2013
- *      Author: Admin
+ * Copyright NIWA Science ©2015 - www.niwa.co.nz
+ *
  */
 
+// headers
 #include "Schnute.h"
 
 #include <cmath>
@@ -12,13 +17,21 @@
 #include "LengthWeights/Manager.h"
 #include "TimeSteps/Manager.h"
 
+// namespaces
 namespace niwa {
 namespace agelengths {
 
 using std::pow;
 
 /**
+ * Default constructor
  *
+ * Bind any parameters that are allowed to be loaded from the configuration files.
+ * Set bounds on registered parameters
+ * Register any parameters that can be an estimated or utilised in other run modes (e.g profiling, yields, projections etc)
+ * Set some initial values
+ *
+ * Note: The constructor is parsed to generate Latex for the documentation.
  */
 Schnute::Schnute() {
   parameters_.Bind<Double>(PARAM_Y1, &y1_, "TBA", "");
@@ -42,7 +55,8 @@ Schnute::Schnute() {
 }
 
 /**
- * build runtime relationships between this object and other objects in the model
+ * Build any objects that will need to be utilised by this object.
+ * Obtain smart_pointers to any objects that will be used by this object.
  */
 void Schnute::DoBuild() {
   length_weight_ = lengthweights::Manager::Instance().GetLengthWeight(length_weight_label_);
@@ -51,11 +65,11 @@ void Schnute::DoBuild() {
 }
 
 /**
- * Return the mean size for a given age. Mean size returned
- * is for a single fish.
+ * Get the mean length of a single population
  *
- * @param age The age of the fish to return mean size for
- * @return the mean size for a single fish
+ * @param year The year we want mean length for
+ * @param age The age of the population we want mean length for
+ * @return The mean length for 1 member
  */
 Double Schnute::mean_length(unsigned year, unsigned age) {
   Double temp = 0.0;
@@ -80,10 +94,11 @@ Double Schnute::mean_length(unsigned year, unsigned age) {
 }
 
 /**
- * return the mean weight for a single fish at the given age
+ * Get the mean weight of a single population
  *
- * @param age The age of the fish to return the mean weight for
- * @return The mean weight of a single fish
+ * @param year The year we want mean weight for
+ * @param age The age of the population we want mean weight for
+ * @return mean weight for 1 member
  */
 Double Schnute::mean_weight(unsigned year, unsigned age) {
   Double size   = this->mean_length(year, age);

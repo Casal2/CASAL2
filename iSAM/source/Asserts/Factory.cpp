@@ -7,17 +7,16 @@
  *
  * Copyright NIWA Science ©2012 - www.niwa.co.nz
  *
- * $Date: 2008-03-04 16:33:32 +1300 (Tue, 04 Mar 2008) $
  */
 
-// Headers
+// headers
 #include "Factory.h"
 
 #include "Asserts/Manager.h"
 #include "Asserts/Children/Estimable.h"
 #include "Asserts/Children/ObjectiveFunction.h"
 
-// Namespaces
+// namespaces
 namespace niwa {
 namespace asserts {
 
@@ -45,5 +44,5 @@ AssertPtr Factory::Create(string object_type, string sub_type) {
   return result;
 }
 
-} /* namespace processes */
+} /* namespace asserts */
 } /* namespace niwa */

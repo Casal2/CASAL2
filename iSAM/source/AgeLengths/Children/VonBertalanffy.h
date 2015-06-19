@@ -8,7 +8,7 @@
  *
  * @section DESCRIPTION
  *
- * << Add Description >>
+ * TODO: Add documentation
  */
 #ifndef AGELENGTHS_VONBERTALANFFY_H_
 #define AGELENGTHS_VONBERTALANFFY_H_
@@ -21,9 +21,7 @@
 namespace niwa {
 namespace agelengths {
 
-/**
- * class definition
- */
+// classes
 class VonBertalanffy : public niwa::AgeLength {
 public:
   // methods

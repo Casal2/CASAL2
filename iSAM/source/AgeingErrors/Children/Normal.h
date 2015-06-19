@@ -11,36 +11,36 @@
  *
  * The time class represents a moment of time.
  *
- * $Date: 2008-03-04 16:33:32 +1300 (Tue, 04 Mar 2008) $
  */
-#ifndef NORMAL_H_
-#define NORMAL_H_
+#ifndef AGEINGERRORS_NORMAL_H_
+#define AGEINGERRORS_NORMAL_H_
 
-// Headers
+// headers
 #include "AgeingErrors/AgeingError.h"
 
-// Namespaces
+// mamespaces
 namespace niwa {
 namespace ageingerrors {
 
-/**
- * Class Definition
- */
+// classes
 class Normal : public niwa::AgeingError {
 public:
-  // Methods
+  // methods
   Normal();
   virtual                     ~Normal() = default;
+
+protected:
+  // methods
   void                        DoValidate() override final;
   void                        DoBuild() override final;
   void                        DoReset() override final;
 
 private:
-  // Members
-  Double                      cv_;
+  // members
+  Double                      cv_ = 0.0;
   unsigned                    k_;
 };
 
 } /* namespace ageingerrors */
 } /* namespace niwa */
-#endif /* NORMAL_H_ */
+#endif /* AGEINGERRORS_NORMAL_H_ */

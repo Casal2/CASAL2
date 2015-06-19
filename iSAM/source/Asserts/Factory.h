@@ -10,20 +10,18 @@
 #ifndef ASSERTS_FACTORY_H_
 #define ASSERTS_FACTORY_H_
 
-// Headers
+// headers
 #include <string>
 
 #include "Asserts/Assert.h"
 
-// Namespaces
+// namespaces
 namespace niwa {
 namespace asserts {
 
 using std::string;
 
-/**
- * Class definition
- */
+// classes
 class Factory {
 public:
   // methods
@@ -37,4 +35,4 @@ private:
 
 } /* namespace asserts */
 } /* namespace niwa */
-#endif /* PROCESSES_FACTORY_H_ */
+#endif /* ASSERTS_FACTORY_H_ */

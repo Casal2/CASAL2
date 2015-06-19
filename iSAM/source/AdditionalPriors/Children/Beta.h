@@ -9,7 +9,7 @@
  *
  * @section DESCRIPTION
  *
- * << Add Description >>
+ * TODO: Add documentation
  */
 #ifndef ADDITIONALPRIORS_BETA_H_
 #define ADDITIONALPRIORS_BETA_H_
@@ -21,9 +21,7 @@
 namespace niwa {
 namespace additionalpriors {
 
-/**
- *
- */
+// classes
 class Beta : public AdditionalPrior {
 public:
   // methods
@@ -37,7 +35,7 @@ protected:
   Double                      GetDifferenceScore() override final;
   Double                      GetMeanScore() override final;
 
-  // Members
+  // members
   Double                      mu_ = 0.0;
   Double                      sigma_ = 0.0;
   Double                      a_ = 0.0;

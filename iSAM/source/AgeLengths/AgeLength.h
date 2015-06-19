@@ -9,7 +9,7 @@
  *
  * @section DESCRIPTION
  *
- * << Add Description >>
+ * TODO: Add documentation
  */
 #ifndef AGELENGTH_H_
 #define AGELENGTH_H_
@@ -20,9 +20,7 @@
 // namespaces
 namespace niwa {
 
-/**
- * class definition
- */
+// classes
 class AgeLength : public niwa::base::Object {
 public:
   AgeLength();
@@ -31,15 +29,16 @@ public:
   void                        Build();
   void                        Reset() { DoReset(); };
 
-  virtual void                DoValidate() = 0;
-  virtual void                DoBuild() = 0;
-  virtual void                DoReset() = 0;
-
   // accessors
   virtual Double              mean_length(unsigned year, unsigned age) = 0;
   virtual Double              mean_weight(unsigned year, unsigned age) = 0;
 
 protected:
+  // methods
+  virtual void                DoValidate() = 0;
+  virtual void                DoBuild() = 0;
+  virtual void                DoReset() = 0;
+
   // members
   vector<Double>              time_step_proportions_;
 };

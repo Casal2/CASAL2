@@ -7,12 +7,22 @@
  * Copyright NIWA Science ©2014 - www.niwa.co.nz
  *
  */
+
+// headers
 #include "Assert.h"
 
+// namespaces
 namespace niwa {
 
 /**
+ * Default constructor
  *
+ * Bind any parameters that are allowed to be loaded from the configuration files.
+ * Set bounds on registered parameters
+ * Register any parameters that can be an estimated or utilised in other run modes (e.g profiling, yields, projections etc)
+ * Set some initial values
+ *
+ * Note: The constructor is parsed to generate Latex for the documentation.
  */
 Assert::Assert() {
   parameters_.Bind<string>(PARAM_LABEL, &label_, "Label for the assert", "");
@@ -20,7 +30,10 @@ Assert::Assert() {
 }
 
 /**
+ * Populate any parameters,
+ * Validate values are within expected ranges when we cannot use bind<>() overloads
  *
+ * Note: all parameters are populated from configuration files
  */
 void Assert::Validate() {
   parameters_.Populate();

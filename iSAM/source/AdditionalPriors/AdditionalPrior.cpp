@@ -17,6 +17,13 @@ namespace niwa {
 
 /**
  * Default constructor
+ *
+ * Bind any parameters that are allowed to be loaded from the configuration files.
+ * Set bounds on registered parameters
+ * Register any parameters that can be an estimated or utilised in other run modes (e.g profiling, yields, projections etc)
+ * Set some initial values
+ *
+ * Note: The constructor is parsed to generate Latex for the documentation.
  */
 AdditionalPrior::AdditionalPrior() {
   parameters_.Bind<string>(PARAM_LABEL, &label_, "Label", "");
@@ -26,7 +33,9 @@ AdditionalPrior::AdditionalPrior() {
 }
 
 /**
+ * Return the score from the additional prior
  *
+ * @return Score from additional prior
  */
 Double AdditionalPrior::GetScore() {
   if (DoScoreFunction_ == 0)
@@ -35,14 +44,15 @@ Double AdditionalPrior::GetScore() {
 }
 
 /**
+ * Populate any parameters,
+ * Validate values are within expected ranges when we cannot use bind<>() overloads
  *
+ * Note: all parameters are populated from configuration files
  */
 void AdditionalPrior::Validate() {
   parameters_.Populate();
   DoValidate();
 
-  if (method_ != PARAM_RATIO && method_ != PARAM_DIFFERENCE && method_ != PARAM_MEAN)
-    LOG_ERROR_P(PARAM_METHOD) << "must be either ratio, difference or mean." << method_ << " is not supported";
   // assign our function pointer
   if (method_ == PARAM_RATIO)
     DoScoreFunction_ = &AdditionalPrior::GetRatioScore;

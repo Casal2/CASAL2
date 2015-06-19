@@ -1,26 +1,30 @@
 /**
  * @file Normal.cpp
- * @author  Scott Rasmussen (scott.rasmussen@zaita.com)
- * @version 1.0
- * @date 16/04/2013
+ * @author Scott Rasmussen (scott.rasmussen@zaita.com)
+ * @github https://github.com/Zaita
+ * @date 19/06/2015
  * @section LICENSE
  *
- * Copyright NIWA Science ©2013 - www.niwa.co.nz
+ * Copyright NIWA Science ©2015 - www.niwa.co.nz
  *
- * $Date: 2008-03-04 16:33:32 +1300 (Tue, 04 Mar 2008) $
  */
 
-// Headers
+// headers
 #include "Normal.h"
 
 #include <boost/math/distributions/normal.hpp>
 
-// Namespaces
+// mamespaces
 namespace niwa {
 namespace ageingerrors {
 
 /**
  * Normal Distribution CDF Method
+ *
+ * @param x X value
+ * @param mu Mu value
+ * @param sigma Sigma value
+ * @return Normal CDF
  */
 Double NormalCDF(Double x, Double mu, Double sigma) {
   if (sigma <= 0.0 && x < mu)
@@ -34,7 +38,14 @@ Double NormalCDF(Double x, Double mu, Double sigma) {
 
 
 /**
- * Default Constructor
+ * Default constructor
+ *
+ * Bind any parameters that are allowed to be loaded from the configuration files.
+ * Set bounds on registered parameters
+ * Register any parameters that can be an estimated or utilised in other run modes (e.g profiling, yields, projections etc)
+ * Set some initial values
+ *
+ * Note: The constructor is parsed to generate Latex for the documentation.
  */
 Normal::Normal() {
   parameters_.Bind<Double>(PARAM_CV, &cv_, "TBA", "")->set_lower_bound(0.0);
@@ -44,7 +55,10 @@ Normal::Normal() {
 }
 
 /**
- * Validate the parameters from our configuration file
+ * Populate any parameters,
+ * Validate values are within expected ranges when we cannot use bind<>() overloards
+ *
+ * Note: all parameters are populated from configuration files
  */
 void Normal::DoValidate() {
   if (cv_ <= 0.0)
@@ -54,9 +68,7 @@ void Normal::DoValidate() {
 }
 
 /**
- * Build runtime objects for the normal
- * ageing error. In this case we'll just
- * call the parent build then do a reset
+ * Reset this object for use
  */
 void Normal::DoBuild() {
   DoReset();

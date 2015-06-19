@@ -30,7 +30,7 @@ class AgeingError : public niwa::base::Object {
 public:
   // Methods
   AgeingError();
-  virtual                     ~AgeingError();
+  virtual                     ~AgeingError() = default;
   void                        Validate();
   void                        Build();
   void                        Reset() { DoReset(); }
