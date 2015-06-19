@@ -15,7 +15,7 @@
 #include "Categories/Categories.h"
 #include "Model/Model.h"
 #include "Partition/Partition.h"
-#include "Partition/Accessors/Age/All.h"
+#include "Partition/Accessors/All.h"
 #include "LengthWeights/Manager.h"
 
 // namespaces

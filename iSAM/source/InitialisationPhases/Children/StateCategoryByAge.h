@@ -17,7 +17,7 @@
 
 // headers
 #include "InitialisationPhases/InitialisationPhase.h"
-#include "Partition/Accessors/Age/Categories.h"
+#include "Partition/Accessors/Categories.h"
 
 // namespaces
 namespace niwa {

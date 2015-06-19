@@ -20,7 +20,7 @@
 
 // Headers
 #include "Model/Model.h"
-#include "Partition/Accessors/Age/Categories.h"
+#include "Partition/Accessors/Categories.h"
 #include "Penalties/Children/Process.h"
 #include "Processes/Process.h"
 #include "Selectivities/Selectivity.h"

@@ -18,7 +18,7 @@
 #define MORTALITYCONSTANTRATE_H_
 
 // Headers
-#include "Partition/Accessors/Age/Categories.h"
+#include "Partition/Accessors/Categories.h"
 #include "Processes/Process.h"
 #include "Selectivities/Selectivity.h"
 #include "TimeSteps/Manager.h"
