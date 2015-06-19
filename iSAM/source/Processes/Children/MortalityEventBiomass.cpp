@@ -108,7 +108,7 @@ void MortalityEventBiomass::DoExecute() {
   Double vulnerable = 0.0;
   unsigned i = 0;
   for (auto categories : partition_) {
-    categories->UpdateWeightData();
+    categories->UpdateMeanWeightData();
     unsigned offset = 0;
     for (Double& data : categories->data_) {
       Double temp = data * selectivities_[i]->GetResult(categories->min_age_ + offset);

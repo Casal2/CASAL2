@@ -17,6 +17,7 @@
 
 #include "AdditionalPriors/Manager.h"
 #include "AgeLengths/Manager.h"
+#include "AgeLengthKeys/Manager.h"
 #include "Asserts/Manager.h"
 #include "Catchabilities/Manager.h"
 #include "Categories/Categories.h"
@@ -274,6 +275,7 @@ void Model::Validate() {
 
   additionalpriors::Manager::Instance().Validate();
   agelengths::Manager::Instance().Validate();
+  agelengthkeys::Manager::Instance().Validate();
   asserts::Manager::Instance().Validate();
   catchabilities::Manager::Instance().Validate();
   derivedquantities::Manager::Instance().Validate();
@@ -323,6 +325,7 @@ void Model::Build() {
   additionalpriors::Manager::Instance().Build();
   estimates::Manager::Instance().Build();
   agelengths::Manager::Instance().Build();
+  agelengthkeys::Manager::Instance().Build();
   asserts::Manager::Instance().Build();
   catchabilities::Manager::Instance().Build();
   derivedquantities::Manager::Instance().Build();
@@ -368,6 +371,7 @@ void Model::Reset() {
 
   additionalpriors::Manager::Instance().Reset();
   agelengths::Manager::Instance().Reset();
+  agelengthkeys::Manager::Instance().Reset();
   asserts::Manager::Instance().Reset();
   Categories::Instance()->Reset();
   catchabilities::Manager::Instance().Reset();

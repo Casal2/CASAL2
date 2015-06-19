@@ -18,6 +18,7 @@
 #include <boost/algorithm/string/split.hpp>
 
 #include "AgeLengths/Manager.h"
+#include "AgeLengthKeys/Manager.h"
 #include "Model/Model.h"
 #include "Logging/Logging.h"
 #include "Utilities/String.h"
@@ -36,6 +37,7 @@ Categories::Categories() {
   parameters_.Bind<string>(PARAM_YEARS, &years_, "The years that individual categories will be active for. This overrides the model values", "", true);
   parameters_.Bind<string>(PARAM_AGES, &ages_, "The ages that individual categories support. This overrides the model values", "", true);
   parameters_.Bind<string>(PARAM_AGE_LENGTHS, &age_length_labels_, R"(The labels of age\_length objects that are assigned to categories)", "", true);
+  parameters_.Bind<string>(PARAM_AGE_LENGTH_KEYS, &age_length_key_labels_, R"(The labels of age\_length\_key objects that are assigned to categories)", "", true);
 }
 
 /**
@@ -78,11 +80,16 @@ void Categories::Validate() {
   if (age_length_labels_.size() > 0 && age_length_labels_.size() != names_.size())
     LOG_ERROR_P(PARAM_AGE_LENGTHS) << " number defined (" << age_length_labels_.size() << ") must be the same as the number " <<
         " of categories defined (" << names_.size() << ")";
+  if (age_length_key_labels_.size() > 0 && age_length_key_labels_.size() != names_.size())
+    LOG_ERROR_P(PARAM_AGE_LENGTH_KEYS) << " number defined (" << age_length_key_labels_.size() << ") must be the same as the number " <<
+        " of categories defined (" << names_.size() << ")";
 
   // build our categories vector
   for (unsigned i = 0; i < names_.size(); ++i) {
     if (age_length_labels_.size() > i)
       category_age_length_labels_[names_[i]] = age_length_labels_[i];
+    if (age_length_key_labels_.size() > i)
+      category_age_length_key_labels_[names_[i]] = age_length_key_labels_[i];
 
     // TODO: Verify the name matches the format string properly
     // TODO: Expand the names
@@ -111,6 +118,9 @@ void Categories::Validate() {
  * and other objects in the system
  */
 void Categories::Build() {
+  /**
+   * Get our age length objects
+   */
   agelengths::Manager& age_sizes_manager = agelengths::Manager::Instance();
 
   auto iter = category_age_length_labels_.begin();
@@ -120,6 +130,20 @@ void Categories::Build() {
       LOG_ERROR_P(PARAM_AGE_LENGTHS) << "(" << iter->second << ") could not be found. Have you defined it?";
 
     categories_[iter->first].age_length_ = age_size;
+  }
+
+  /**
+   * Get our age length keys
+   */
+  agelengthkeys::Manager& alk_manager = agelengthkeys::Manager::Instance();
+
+  auto alk_iter = category_age_length_key_labels_.begin();
+  for (; alk_iter != category_age_length_key_labels_.end(); ++alk_iter) {
+    AgeLengthKeyPtr alk = alk_manager.GetAgeLengthKey(alk_iter->second);
+    if (!alk)
+      LOG_ERROR_P(PARAM_AGE_LENGTH_KEYS) << "(" << alk_iter->second << ") could not be found. Have you defined it?";
+
+    categories_[alk_iter->first].age_length_key_ = alk;
   }
 }
 
@@ -399,9 +423,18 @@ AgeLengthPtr Categories::age_length(const string& category_name) {
   if (categories_.find(category_name) == categories_.end())
     LOG_CODE_ERROR() << "Could not find category_name: " << category_name << " in the list of loaded categories";
   if (!categories_[category_name].age_length_)
-    LOG_CODE_ERROR() << "The age size pointer was null for category " << category_name;
+    LOG_CODE_ERROR() << "The age_length_ pointer was null for category " << category_name;
 
   return categories_[category_name].age_length_;
+}
+
+AgeLengthKeyPtr Categories::age_length_key(const string& category_name) {
+  if (categories_.find(category_name) == categories_.end())
+    LOG_CODE_ERROR() << "Could not find category_name: " << category_name << " in the list of loaded categories";
+  if (!categories_[category_name].age_length_key_)
+    LOG_CODE_ERROR() << "The age_length_key_ pointer was null for category " << category_name;
+
+  return categories_[category_name].age_length_key_;
 }
 
 /**

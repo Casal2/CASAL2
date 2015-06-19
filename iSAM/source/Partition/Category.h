@@ -21,6 +21,7 @@
 #include <vector>
 #include <string>
 
+#include "AgeLengthKeys/AgeLengthKey.h"
 #include "AgeLengths/AgeLength.h"
 #include "Utilities/Types.h"
 
@@ -43,9 +44,10 @@ public:
   // methods
   Category() = default;
   virtual                     ~Category() = default;
-  void                        UpdateLengthData();
-  void                        UpdateAgeData();
-  void                        UpdateWeightData();
+  void                        UpdateMeanLengthData();
+  void                        UpdateMeanWeightData();
+  void                        ConvertAgeDataToLength();
+  void                        ConvertLengthDataToAge();
 
   // members
   string                      name_ = "";
@@ -53,15 +55,19 @@ public:
   unsigned                    max_age_ = 0;
   vector<unsigned>            years_;
   vector<Double>              data_;
+  map<unsigned,map<unsigned, Double>> length_data_; // map<age, map<length, amount>>
   map<unsigned, Double>       length_per_; // map<bin, number per>
   map<unsigned, Double>       weight_per_; // map<age, weight per>
 
+
   // accessors
-  void                        set_age_length(AgeLengthPtr age_length) { age_length_ = age_length; }
+  void                        set_age_length(AgeLengthPtr value) { age_length_ = value; }
+  void                        set_age_length_key(AgeLengthKeyPtr value) { age_length_key_ = value; }
 
 private:
   // members
   AgeLengthPtr                age_length_ = AgeLengthPtr();
+  AgeLengthKeyPtr             age_length_key_ = AgeLengthKeyPtr();
 };
 
 } /* namespace partitions */

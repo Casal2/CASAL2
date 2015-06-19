@@ -73,7 +73,7 @@ void PartitionBiomass::DoExecute() {
   cache_ << std::fixed;
 
   for (auto iterator = all_view.Begin(); iterator != all_view.End(); ++iterator) {
-    (*iterator)->UpdateWeightData();
+    (*iterator)->UpdateMeanWeightData();
 
     cache_ << (*iterator)->name_;
     for (unsigned i = 0; i < (*iterator)->data_.size(); ++i) {
