@@ -13,7 +13,7 @@
 
 #include "AdditionalPriors/Factory.h"
 #include "AgeLengths/Factory.h"
-#include "AgeLengths/Factory.h"
+#include "AgeLengthKeys/Factory.h"
 #include "Asserts/Factory.h"
 #include "Catchabilities/Factory.h"
 #include "Categories/Categories.h"
@@ -68,6 +68,8 @@ base::ObjectPtr Object::Create(string& object_type, string& sub_type) {
     result = agelengths::Factory::Create(object_type, sub_type);
   else if (object_type == PARAM_AGE_LENGTH || object_type == PARAM_AGE_LENGTHS)
     result = agelengths::Factory::Create(object_type, sub_type);
+  else if (object_type == PARAM_AGE_LENGTH_KEY)
+    result = agelengthkeys::Factory::Create(object_type, sub_type);
   else if (object_type == PARAM_ASSERT)
     result = asserts::Factory::Create(object_type, sub_type);
   else if (object_type == PARAM_CATCHABILITY)

@@ -84,6 +84,7 @@ public:
   const vector<string>&       time_steps() const { return time_steps_; }
   const vector<string>&       initialisation_phases() const { return initialisation_phases_; }
   PartitionStructure          partition_structure() const { return partition_structure_; }
+  const vector<Double>        length_bins() const { return length_bins_; }
 
 protected:
   // Methods

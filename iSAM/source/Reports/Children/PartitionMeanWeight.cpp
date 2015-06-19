@@ -43,8 +43,8 @@ void PartitionMeanWeight::DoExecute() {
   niwa::partition::accessors::All all_view;
 
   for (auto iterator = all_view.Begin(); iterator != all_view.End(); ++iterator) {
-    (*iterator)->UpdateWeightData();
-    (*iterator)->UpdateLengthData();
+    (*iterator)->UpdateMeanWeightData();
+    (*iterator)->UpdateMeanLengthData();
 
     string category = (*iterator)->name_;
     cache_ << "category: " << category << "\n";

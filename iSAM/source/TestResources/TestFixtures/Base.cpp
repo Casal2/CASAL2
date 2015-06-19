@@ -14,6 +14,7 @@
 
 #include "AgeingErrors/Manager.h"
 #include "AgeLengths/Manager.h"
+#include "AgeLengthKeys/Manager.h"
 #include "Asserts/Manager.h"
 #include "Catchabilities/Manager.h"
 #include "Categories/Categories.h"
@@ -67,6 +68,7 @@ void Base::TearDown() {
 
   ageingerrors::Manager::Instance().RemoveAllObjects();
   agelengths::Manager::Instance().RemoveAllObjects();
+  agelengthkeys::Manager::Instance().RemoveAllObjects();
   asserts::Manager::Instance().RemoveAllObjects();
   catchabilities::Manager::Instance().RemoveAllObjects();
   derivedquantities::Manager::Instance().RemoveAllObjects();

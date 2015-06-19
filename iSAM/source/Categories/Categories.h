@@ -20,6 +20,7 @@
 #include <boost/shared_ptr.hpp>
 
 #include "BaseClasses/Object.h"
+#include "AgeLengthKeys/AgeLengthKey.h"
 #include "AgeLengths/AgeLength.h"
 
 // Namespaces
@@ -36,6 +37,7 @@ struct CategoryInfo {
   unsigned          min_age_ = 0;
   unsigned          max_age_ = 0;
   AgeLengthPtr      age_length_;
+  AgeLengthKeyPtr   age_length_key_;
 };
 
 /**
@@ -66,6 +68,7 @@ public:
   unsigned                      max_age(const string& category_name);
   vector<unsigned>              years(const string& category_name);
   AgeLengthPtr                  age_length(const string& category_name);
+  AgeLengthKeyPtr               age_length_key(const string& category_name);
 
 private:
   // Methods
@@ -78,7 +81,9 @@ private:
   vector<string>              ages_;
   vector<string>              category_names_;
   vector<string>              age_length_labels_;
+  vector<string>              age_length_key_labels_;
   map<string, string>         category_age_length_labels_;
+  map<string, string>         category_age_length_key_labels_;
   map<string, CategoryInfo>   categories_;
 };
 
