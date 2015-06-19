@@ -21,14 +21,14 @@
 namespace niwa {
 namespace agelengthkeys {
 
-/**
- * class definition
- */
+// classes
 class Factory {
 public:
+  // methods
   static AgeLengthKeyPtr      Create(const string& object_type, const string& sub_type);
 
 private:
+  // methods
   Factory() = delete;
   virtual ~Factory() = delete;
 };

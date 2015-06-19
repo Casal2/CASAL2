@@ -8,7 +8,7 @@
  *
  * @section DESCRIPTION
  *
- * << Add Description >>
+ * TODO: Add documentation
  */
 #ifndef AGELENGTHS_SCHNUTE_H_
 #define AGELENGTHS_SCHNUTE_H_
@@ -21,9 +21,7 @@
 namespace niwa {
 namespace agelengths {
 
-/**
- * class definitions
- */
+// classes
 class Schnute : public niwa::AgeLength {
 public:
   // methods

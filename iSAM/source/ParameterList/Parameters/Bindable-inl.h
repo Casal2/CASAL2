@@ -125,7 +125,7 @@ void Bindable<T>::set_range(T lower_bound, T upper_bound, bool lower_inclusive, 
  * An exclusive lower bound is equal to <
  *
  * @param lower_bound The lower bound to set
- * @param inclusive Is the lower bound inclusive or exclusive
+ * @param inclusive inclusive or exclusive (default true)
  */
 template<typename T>
 void Bindable<T>::set_lower_bound(T lower_bound, bool inclusive) {
@@ -140,7 +140,7 @@ void Bindable<T>::set_lower_bound(T lower_bound, bool inclusive) {
  * An exclusive lower bound is equal to <
  *
  * @param upper_bound the Upper bound to set for the parameter
- * @param inclusive is the upper bound inclusive or exclusive
+ * @param inclusive inclusive or exclusive (default true)
  */
 template<typename T>
 void Bindable<T>::set_upper_bound(T upper_bound, bool inclusive) {

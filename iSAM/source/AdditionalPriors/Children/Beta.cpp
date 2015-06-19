@@ -18,6 +18,13 @@ namespace additionalpriors {
 
 /**
  * Default constructor
+ *
+ * Bind any parameters that are allowed to be loaded from the configuration files.
+ * Set bounds on registered parameters
+ * Register any parameters that can be an estimated or utilised in other run modes (e.g profiling, yields, projections etc)
+ * Set some initial values
+ *
+ * Note: The constructor is parsed to generate Latex for the documentation.
  */
 Beta::Beta() {
   parameters_.Bind<Double>(PARAM_MU, &mu_, "Mu", "");
@@ -28,11 +35,12 @@ Beta::Beta() {
 }
 
 /**
+ * Populate any parameters,
+ * Validate values are within expected ranges when we cannot use bind<>() overloads
  *
+ * Note: all parameters are populated from configuration files
  */
 void Beta::DoValidate() {
-  if (sigma_ <= 0.0)
-    LOG_ERROR_P(PARAM_SIGMA) << "value (" << AS_DOUBLE(sigma_) << ") cannot be less than or equal to 0.0";
   if (a_ >= b_)
     LOG_ERROR_P(PARAM_B) << "value (" << AS_DOUBLE(b_) << ") cannot be less than or equal to a (" << AS_DOUBLE(a_) << ")";
   if ( ((((mu_ - a_) * (b_ - mu_)) / (sigma_ * sigma_)) - 1) <= 0.0)
@@ -40,21 +48,21 @@ void Beta::DoValidate() {
 }
 
 /**
- *
+ * TODO: Add documentation
  */
 Double Beta::GetRatioScore() {
   return 0.0f;
 }
 
 /**
- *
+ * TODO: Add documentation
  */
 Double Beta::GetDifferenceScore() {
   return 0.0;
 }
 
 /**
- *
+ * TODO: Add documentation
  */
 Double Beta::GetMeanScore() {
   return 0.0;

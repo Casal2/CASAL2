@@ -9,7 +9,7 @@
  *
  * @section DESCRIPTION
  *
- *  Manager for the age length key objects
+ * Manager for the age length key objects
  */
 #ifndef SOURCE_AGELENGTHKEYS_MANAGER_H_
 #define SOURCE_AGELENGTHKEYS_MANAGER_H_

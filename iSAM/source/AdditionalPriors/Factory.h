@@ -18,14 +18,14 @@
 namespace niwa {
 namespace additionalpriors {
 
-/**
- * Class definition
- */
+// classes
 class Factory {
 public:
+  // methods
   static AdditionalPriorPtr Create(string object_type, string sub_type);
 
 private:
+  // methods
   Factory() = delete;
   virtual ~Factory() = delete;
 };
@@ -33,4 +33,4 @@ private:
 } /* namespace additionalpriors */
 } /* namespace niwa */
 
-#endif /* FACTORY_H_ */
+#endif /* ADDITIONAL_PRIORS_FACTORY_H_ */

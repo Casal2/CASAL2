@@ -9,7 +9,7 @@
  *
  * @section DESCRIPTION
  *
- * << Add Description >>
+ * TODO: Add documentation
  */
 #ifndef SOURCE_AGELENGTHKEYS_CHILDREN_DATA_H_
 #define SOURCE_AGELENGTHKEYS_CHILDREN_DATA_H_
@@ -21,9 +21,7 @@
 namespace niwa {
 namespace agelengthkeys {
 
-/**
- * Class definition
- */
+// classes
 class Data : public AgeLengthKey {
 public:
   // methods

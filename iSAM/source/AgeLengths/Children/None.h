@@ -8,7 +8,7 @@
  *
  * @section DESCRIPTION
  *
- * << Add Description >>
+ * TODO: Add documentation
  */
 #ifndef AGELENGTHS_NONE_H_
 #define AGELENGTHS_NONE_H_

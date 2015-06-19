@@ -17,17 +17,5 @@
 namespace niwa {
 namespace ageingerrors {
 
-/**
- * Default constructor
- */
-Manager::Manager() {
-}
-
-/**
- * Destructor
- */
-Manager::~Manager() noexcept(true) {
-}
-
 } /* namespace ageingerrors */
 } /* namespace niwa */

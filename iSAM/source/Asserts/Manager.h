@@ -31,7 +31,7 @@ public:
 
 protected:
   // methods
-  Manager();
+  Manager() = default;
 };
 
 } /* namespace asserts */

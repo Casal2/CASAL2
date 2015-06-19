@@ -8,7 +8,7 @@
  *
  * @section DESCRIPTION
  *
- * << Add Description >>
+ * TODO: Add documentation
  */
 #ifndef ASSERTS_OBJECTIVEFUNCTION_H_
 #define ASSERTS_OBJECTIVEFUNCTION_H_
@@ -20,17 +20,18 @@
 namespace niwa {
 namespace asserts {
 
-/**
- * class definition
- */
+// classes
 class ObjectiveFunction : public niwa::Assert {
 public:
   // methods
   ObjectiveFunction();
   virtual                     ~ObjectiveFunction() = default;
+  void                        Execute() override final;
+
+protected:
+  // methods
   void                        DoValidate() { };
   void                        DoBuild() override final;
-  void                        Execute() override final;
 
 private:
   // members

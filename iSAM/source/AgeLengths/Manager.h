@@ -6,9 +6,6 @@
  *
  * Copyright NIWA Science ©2013 - www.niwa.co.nz
  *
- * @section DESCRIPTION
- *
- * << Add Description >>
  */
 #ifndef AGELENGTHS_MANAGER_H_
 #define AGELENGTHS_MANAGER_H_
@@ -21,9 +18,7 @@
 namespace niwa {
 namespace agelengths {
 
-/**
- * class definition
- */
+// classes
 class Manager : public niwa::oldbase::Manager<niwa::agelengths::Manager, niwa::AgeLength> {
   friend class niwa::oldbase::Manager<niwa::agelengths::Manager, niwa::AgeLength>;
 public:

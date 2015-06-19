@@ -8,7 +8,7 @@
  *
  * @section DESCRIPTION
  *
- * << Add Description >>
+ * TODO: Add documentation
  */
 #ifndef ASSERT_ESTIMABLE_H_
 #define ASSERT_ESTIMABLE_H_
@@ -20,17 +20,18 @@
 namespace niwa {
 namespace asserts {
 
-/**
- *
- */
+// classes
 class Estimable : public niwa::Assert {
 public:
   // methods
   Estimable();
   virtual                     ~Estimable() = default;
+  void                        Execute() override final;
+
+protected:
+  // methods
   void                        DoValidate() override final;
   void                        DoBuild() override final;
-  void                        Execute() override final;
 
 private:
   // members

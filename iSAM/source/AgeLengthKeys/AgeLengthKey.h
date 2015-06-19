@@ -20,9 +20,7 @@
 // namespaces
 namespace niwa {
 
-/**
- * Class definition
- */
+// classes
 class AgeLengthKey : public base::Object {
 public:
   // methods
@@ -32,6 +30,7 @@ public:
   void                        Build();
   void                        Reset() { DoReset(); };
   map<unsigned,map<unsigned, Double>>& lookup_table() { return lookup_table_; }
+
 protected:
   // methods
   virtual void                DoValidate() = 0;

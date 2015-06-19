@@ -23,9 +23,7 @@
 // namespaces
 namespace niwa {
 
-/**
- * Class definition
- */
+// classes
 class Assert : public niwa::base::Executor {
 public:
   // methods
@@ -40,7 +38,6 @@ protected:
   // methods
   virtual void                DoValidate() = 0;
   virtual void                DoBuild() = 0;
-
 };
 
 typedef boost::shared_ptr<Assert> AssertPtr;

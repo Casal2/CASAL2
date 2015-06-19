@@ -9,7 +9,7 @@
  *
  * @section DESCRIPTION
  *
- * << Add Description >>
+ * TODO: Add documentation
  */
 #ifndef AGELENGTHS_DATA_H_
 #define AGELENGTHS_DATA_H_
@@ -22,9 +22,7 @@
 namespace niwa {
 namespace agelengths {
 
-/**
- * Class definition
- */
+// classes
 class Data : public AgeLength {
 public:
   // methods
