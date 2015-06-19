@@ -42,7 +42,7 @@
 #include "TimeVarying/Manager.h"
 #include "ObjectiveFunction/ObjectiveFunction.h"
 
-#include "Partition/Accessors/Age/Category.h"
+#include "Partition/Accessors/Category.h"
 #include "Partition/Partition.h"
 
 #include "Logging/Logging.h"

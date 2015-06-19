@@ -17,7 +17,7 @@
 
 #include "Categories/Categories.h"
 #include "DerivedQuantities/Manager.h"
-#include "Partition/Accessors/Age/Categories.h"
+#include "Partition/Accessors/Categories.h"
 #include "Processes/Manager.h"
 #include "TimeSteps/Factory.h"
 

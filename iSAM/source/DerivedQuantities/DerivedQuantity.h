@@ -16,7 +16,7 @@
 // headers
 #include "BaseClasses/Executor.h"
 #include "Model/Model.h"
-#include "Partition/Accessors/Age/Categories.h"
+#include "Partition/Accessors/Categories.h"
 #include "Selectivities/Selectivity.h"
 
 // namespaces

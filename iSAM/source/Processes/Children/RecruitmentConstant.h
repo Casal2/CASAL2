@@ -19,7 +19,7 @@
 #define CONSTANTRECRUITMENT_H_
 
 // Headers
-#include "Partition/Accessors/Age/CategoriesWithAge.h"
+#include "Partition/Accessors/CategoriesWithAge.h"
 #include "Processes/Process.h"
 #include "Utilities/Types.h"
 

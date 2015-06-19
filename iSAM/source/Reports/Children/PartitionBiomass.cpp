@@ -11,7 +11,7 @@
 #include <iomanip>
 
 #include "Model/Model.h"
-#include "Partition/Accessors/Age/All.h"
+#include "Partition/Accessors/All.h"
 
 namespace niwa {
 namespace reports {
