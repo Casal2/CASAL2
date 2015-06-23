@@ -18,18 +18,19 @@ namespace catchabilities {
 
 /**
  * Default constructor
+ *
+ * Bind any parameters that are allowed to be loaded from the configuration files.
+ * Set bounds on registered parameters
+ * Register any parameters that can be an estimated or utilised in other run modes (e.g profiling, yields, projections etc)
+ * Set some initial values
+ *
+ * Note: The constructor is parsed to generate Latex for the documentation.
  */
 Free::Free() {
   parameters_.Bind<Double>(PARAM_Q, &q_, "The catchability amount", "");
 
   RegisterAsEstimable(PARAM_Q, &q_);
 }
-
-/**
- *
- */
-void Free::DoValidate() { }
-
 
 } /* namespace catchabilities */
 } /* namespace niwa */

@@ -13,7 +13,6 @@
  * the easy creation of new objects based on their parent type
  * and a string-type parameter
  *
- * $Date: 2008-03-04 16:33:32 +1300 (Tue, 04 Mar 2008) $
  */
 #ifndef BASE_FACTORY_H_
 #define BASE_FACTORY_H_
@@ -29,13 +28,11 @@ namespace base {
 
 using boost::shared_ptr;
 
-/**
- * Class definition
- */
+// classes
 template<class ObjectType, class ManagerType>
 class Factory {
 public:
-  // Methods
+  // methods
   static shared_ptr<ObjectType> Create() {
     shared_ptr<ObjectType> return_value = shared_ptr<ObjectType>(new ObjectType());
 

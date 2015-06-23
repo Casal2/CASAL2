@@ -7,14 +7,9 @@
  *
  * Copyright NIWA Science ©2013 - www.niwa.co.nz
  *
- * @section DESCRIPTION
- *
- * The time class represents a moment of time.
- *
- * $Date: 2008-03-04 16:33:32 +1300 (Tue, 04 Mar 2008) $
  */
-#ifndef FACTORY_H_
-#define FACTORY_H_
+#ifndef CATCHABILITIES_FACTORY_H_
+#define CATCHABILITIES_FACTORY_H_
 
 // Headers
 #include "BaseClasses/Factory.h"
@@ -24,9 +19,7 @@
 namespace niwa {
 namespace catchabilities {
 
-/**
- * Class definition
- */
+// classes
 class Factory {
 public:
   // methods
@@ -39,4 +32,4 @@ private:
 
 } /* namespace catchabilities */
 } /* namespace niwa */
-#endif /* FACTORY_H_ */
+#endif /* CATCHABILITIES_FACTORY_H_ */

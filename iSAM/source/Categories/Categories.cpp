@@ -7,7 +7,6 @@
  *
  * Copyright NIWA Science ©2012 - www.niwa.co.nz
  *
- * $Date: 2008-03-04 16:33:32 +1300 (Tue, 04 Mar 2008) $
  */
 
 // Headers
@@ -29,6 +28,13 @@ namespace niwa {
 
 /**
  * Default constructor
+ *
+ * Bind any parameters that are allowed to be loaded from the configuration files.
+ * Set bounds on registered parameters
+ * Register any parameters that can be an estimated or utilised in other run modes (e.g profiling, yields, projections etc)
+ * Set some initial values
+ *
+ * Note: The constructor is parsed to generate Latex for the documentation.
  */
 Categories::Categories() {
   LOG_TRACE();
@@ -51,7 +57,10 @@ shared_ptr<Categories> Categories::Instance() {
 }
 
 /**
- * Validate our Categories
+ * Populate any parameters,
+ * Validate values are within expected ranges when we cannot use bind<>() overloads
+ *
+ * Note: all parameters are populated from configuration files
  */
 void Categories::Validate() {
   // Check that we actually had a categories block
@@ -114,8 +123,8 @@ void Categories::Validate() {
 }
 
 /**
- * Build runtime relationships between the categories
- * and other objects in the system
+ * Build any objects that will need to be utilised by this object.
+ * Obtain smart_pointers to any objects that will be used by this object.
  */
 void Categories::Build() {
   /**
@@ -171,6 +180,7 @@ vector<string> Categories::ExpandLabels(const vector<string> &category_labels, c
 
 /**
  *
+ * @param lookup_string The
  */
 vector<string> Categories::GetCategoryLabelsV(const string& lookup_string, const ParameterPtr source_parameter) {
   string temp = GetCategoryLabels(lookup_string, source_parameter);

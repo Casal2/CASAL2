@@ -9,9 +9,8 @@
  *
  * @section DESCRIPTION
  *
- * The time class represents a moment of time.
+ * TODO: Add documentation
  *
- * $Date: 2008-03-04 16:33:32 +1300 (Tue, 04 Mar 2008) $
  */
 #ifndef CATCHABILITY_H_
 #define CATCHABILITY_H_
@@ -25,9 +24,7 @@ namespace niwa {
 
 using niwa::utilities::Double;
 
-/**
- * Class definitiom
- */
+// classes
 class Catchability : public niwa::base::Object {
 public:
   // Methods

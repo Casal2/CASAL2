@@ -20,9 +20,7 @@
 namespace niwa {
 namespace derivedquantities {
 
-/**
- * class definition
- */
+// classes
 class Factory {
 public:
   // methods

@@ -32,9 +32,7 @@ namespace oldbase {
 using boost::shared_ptr;
 using std::vector;
 
-/**
- * Class definition
- */
+// classes
 template <class ClassType, class StoredType>
 class Manager {
 public:

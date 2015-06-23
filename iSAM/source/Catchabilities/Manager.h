@@ -16,30 +16,28 @@
 #ifndef CATCHABILITIES_MANAGER_H_
 #define CATCHABILITIES_MANAGER_H_
 
-// Headers
+// headers
 #include "BaseClasses/Manager.h"
 #include "Catchabilities/Catchability.h"
 
-// Namespaces
+// namespaces
 namespace niwa {
 namespace catchabilities {
 
-/**
- *
- */
+// classes
 class Manager : public niwa::oldbase::Manager<niwa::catchabilities::Manager, niwa::Catchability> {
   friend class niwa::oldbase::Manager<niwa::catchabilities::Manager, niwa::Catchability>;
 public:
   // Methods
-  virtual                     ~Manager() noexcept(true);
+  virtual                     ~Manager() = default;
   CatchabilityPtr             GetCatchability(const string& label);
 
 protected:
   // methods
-  Manager();
+  Manager() = default;
 };
 
-// Typedef
+// typedef
 typedef boost::shared_ptr<niwa::catchabilities::Manager> CatchabilityManagerPtr;
 
 } /* namespace catchabilities */

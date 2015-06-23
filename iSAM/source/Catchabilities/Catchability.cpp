@@ -7,24 +7,33 @@
  *
  * Copyright NIWA Science ©2013 - www.niwa.co.nz
  *
- * $Date: 2008-03-04 16:33:32 +1300 (Tue, 04 Mar 2008) $
  */
 
-// Headers
+// headers
 #include "Catchability.h"
 
-// Namespaces
+// namespaces
 namespace niwa {
 
 /**
  * Default constructor
+ *
+ * Bind any parameters that are allowed to be loaded from the configuration files.
+ * Set bounds on registered parameters
+ * Register any parameters that can be an estimated or utilised in other run modes (e.g profiling, yields, projections etc)
+ * Set some initial values
+ *
+ * Note: The constructor is parsed to generate Latex for the documentation.
  */
 Catchability::Catchability() {
   parameters_.Bind<string>(PARAM_LABEL, &label_, "Label", "");
 }
 
 /**
- * Validate our configuration file parameters
+ * Populate any parameters,
+ * Validate values are within expected ranges when we cannot use bind<>() overloads
+ *
+ * Note: all parameters are populated from configuration files
  */
 void Catchability::Validate() {
   parameters_.Populate();

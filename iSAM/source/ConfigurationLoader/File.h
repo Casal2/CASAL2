@@ -11,11 +11,9 @@
  *
  * This class represents an instance of an open configuration file. It's controlled by the
  * configuration::Loader class.
- *
- * $Date: 2008-03-04 16:33:32 +1300 (Tue, 04 Mar 2008) $
  */
-#ifndef FILE_H_
-#define FILE_H_
+#ifndef CONFIGURATION_FILE_H_
+#define CONFIGURATION_FILE_H_
 
 // Headers
 #include <string>
@@ -35,9 +33,7 @@ namespace configuration {
 // Declarations
 class Loader;
 
-/**
- * Class definition
- */
+// classes
 class File {
 public:
   // Methods
@@ -59,11 +55,9 @@ private:
   bool                        single_line_comment_  = false;
 };
 
-/**
- * Typedefs
- */
+// typedefs
 typedef boost::shared_ptr<File> FilePtr;
 
 } /* namespace configuration */
 } /* namespace niwa */
-#endif /* FILE_H_ */
+#endif /* CONFIGURATION_FILE_H_ */

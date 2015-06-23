@@ -8,7 +8,8 @@
  *
  * @section DESCRIPTION
  *
- * << Add Description >>
+ * This derived quantity will calculate the amount of biomass
+ * in the partition with a selectivity
  */
 #ifndef DERIVEDQUANTITIES_BIOMASS_H_
 #define DERIVEDQUANTITIES_BIOMASS_H_
@@ -20,17 +21,13 @@
 namespace niwa {
 namespace derivedquantities {
 
-/**
- * class definition
- */
+// classes
 class Biomass : public niwa::DerivedQuantity {
 public:
   // methods
   Biomass() = default;
   virtual                     ~Biomass() = default;
   void                        Execute() override final;
-//  void                        Calculate() override final;
-//  void                        Calculate(unsigned initialisation_phase) override final;
 };
 
 } /* namespace derivedquantities */

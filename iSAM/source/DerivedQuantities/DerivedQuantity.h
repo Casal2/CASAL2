@@ -8,7 +8,10 @@
  *
  * @section DESCRIPTION
  *
- * << Add Description >>
+ * A derived quantity is a value that is derived from the model
+ * at some point during execution. This can be anything
+ * from the amount of objects in the partition, to the weight
+ * of objects in the partition etc.
  */
 #ifndef DERIVEDQUANTITY_H_
 #define DERIVEDQUANTITY_H_
@@ -24,9 +27,7 @@ namespace niwa {
 
 namespace accessor = niwa::partition::accessors;
 
-/**
- * class definition
- */
+// classes
 class DerivedQuantity : public niwa::base::Executor {
 public:
   // methods

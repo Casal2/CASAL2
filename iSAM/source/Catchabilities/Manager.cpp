@@ -7,27 +7,14 @@
  *
  * Copyright NIWA Science ©2013 - www.niwa.co.nz
  *
- * $Date: 2008-03-04 16:33:32 +1300 (Tue, 04 Mar 2008) $
  */
 
-// Headers
+// headers
 #include "Manager.h"
 
-// Namespaces
+// namespaces
 namespace niwa {
 namespace catchabilities {
-
-/**
- * Default constructor
- */
-Manager::Manager() {
-}
-
-/**
- * Destructor
- */
-Manager::~Manager() noexcept(true) {
-}
 
 /**
  * Find and return pointer to catchability
