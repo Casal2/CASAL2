@@ -7,15 +7,25 @@
  * Copyright NIWA Science ©2013 - www.niwa.co.nz
  *
  */
+
+// headers
 #include "DerivedQuantity.h"
 
 #include "Selectivities/Manager.h"
 #include "TimeSteps/Manager.h"
 
+// namespaces
 namespace niwa {
 
 /**
- * default constructor
+ * Default constructor
+ *
+ * Bind any parameters that are allowed to be loaded from the configuration files.
+ * Set bounds on registered parameters
+ * Register any parameters that can be an estimated or utilised in other run modes (e.g profiling, yields, projections etc)
+ * Set some initial values
+ *
+ * Note: The constructor is parsed to generate Latex for the documentation.
  */
 DerivedQuantity::DerivedQuantity() {
   LOG_TRACE();
@@ -30,8 +40,10 @@ DerivedQuantity::DerivedQuantity() {
 }
 
 /**
- * Validate the parameters defined in the configuration
- * file for this derived quantity.
+ * Populate any parameters,
+ * Validate values are within expected ranges when we cannot use bind<>() overloads
+ *
+ * Note: all parameters are populated from configuration files
  */
 void DerivedQuantity::Validate() {
   parameters_.Populate();
@@ -42,8 +54,8 @@ void DerivedQuantity::Validate() {
 }
 
 /**
- * Build the run time relationships between the derived
- * quantity and other components in the model
+ * Build any objects that will need to be utilised by this object.
+ * Obtain smart_pointers to any objects that will be used by this object.
  */
 void DerivedQuantity::Build() {
   LOG_TRACE();
@@ -80,15 +92,13 @@ void DerivedQuantity::Build() {
  * of going back.
  *
  * @param year The year to get the derived quantity value for.
+ * @return The derived quantity value
  */
 Double DerivedQuantity::GetValue(unsigned year) {
   if (values_.find(year) != values_.end()) {
     return values_[year];
   }
 
-//  if (values_.size() > 0 && values_.rbegin()->first < year)
-//    LOG_ERROR_P("Trying to get a value from the derived quantity " << label_ << " for year " << year << " when the latest year calculated is "
-//        << values_.rbegin()->first);
   if (initialisation_values_.size() == 0)
     return 0.0;
 
@@ -119,7 +129,10 @@ Double DerivedQuantity::GetValue(unsigned year) {
 }
 
 /**
+ * Return the last value stored for the target initialisation phase
  *
+ * @param phase The index of the phase
+ * @return The derived quantity value
  */
 Double DerivedQuantity::GetLastValueFromInitialisation(unsigned phase) {
   if (initialisation_values_.size() <= phase)
@@ -131,7 +144,14 @@ Double DerivedQuantity::GetLastValueFromInitialisation(unsigned phase) {
 }
 
 /**
+ * Return an initialisation value from a target phase with an index.
+ * If no phases exist we return 0.0
+ * If the phase contains no values return 0.0
+ * If the phase doesn't have enough values for the index return the last value
  *
+ * @param phase The index of the phase
+ * @param index The index of the value in the phase
+ * @return derived quantity value
  */
 Double DerivedQuantity::GetInitialisationValue(unsigned phase, unsigned index) {
   LOG_FINEST() << "phase = " << phase << "; index = " << index << "; initialisation_values_.size() = " << initialisation_values_.size();

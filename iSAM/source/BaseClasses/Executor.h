@@ -8,8 +8,9 @@
  *
  * @section DESCRIPTION
  *
- * This is an ADT that has only 3 methods. It's used to bind
- * objects to time steps or processes for executing afterwards.
+ * Executors are used as part of a publish/subscribe architecture.
+ * Executors can subscribe to timesteps, processes etc.
+ *
  */
 #ifndef BASE_EXECUTOR_H_
 #define BASE_EXECUTOR_H_
@@ -24,9 +25,7 @@
 namespace niwa {
 namespace base {
 
-/**
- * Class definition
- */
+// classes
 class Executor : public niwa::base::Object, public boost::enable_shared_from_this<Executor> {
 public:
   // methods

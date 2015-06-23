@@ -6,8 +6,6 @@
  * @section LICENSE
  *
  * Copyright NIWA Science ©2012 - www.niwa.co.nz
- *
- * $Date: 2008-03-04 16:33:32 +1300 (Tue, 04 Mar 2008) $
  */
 
 // Headers
@@ -30,14 +28,14 @@
 #include "Logging/Logging.h"
 
 // Namespaces
+namespace niwa {
+namespace configuration {
+
 using std::ifstream;
 using std::cout;
 using std::endl;
 
 namespace util = niwa::utilities;
-
-namespace niwa {
-namespace configuration {
 
 /**
  * Load the configuration file into our system. This method will

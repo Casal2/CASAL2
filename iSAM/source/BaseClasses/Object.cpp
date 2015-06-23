@@ -27,6 +27,9 @@ using std::endl;
 /**
  * This method will check to see if the estimable has been registered
  * or not
+ *
+ * @param label of the estimate we are looking for
+ * @return True if found, false if not
  */
 bool Object::HasEstimable(const string& label) const {
   return !(estimable_types_.find(label) == estimable_types_.end());
@@ -37,6 +40,7 @@ bool Object::HasEstimable(const string& label) const {
  * in is registered as part of a vector or not.
  *
  * @param label The label of the estimable to check
+ * @return True if estimable is a vector, false if not
  */
 bool Object::IsEstimableAVector(const string& label) const {
   if (estimable_vectors_.find(label) == estimable_vectors_.end())
@@ -135,7 +139,10 @@ map<unsigned, Double>* Object::GetEstimableUMap(const string& label) {
 }
 
 /**
+ * Get the estimable as that is a string/double map
  *
+ * @param label of the estimable
+ * @return An ordered map of estimables
  */
 OrderedMap<string, Double>* Object::GetEstimableSMap(const string& label) {
   if (estimable_types_.find(label) == estimable_types_.end())
@@ -148,6 +155,9 @@ OrderedMap<string, Double>* Object::GetEstimableSMap(const string& label) {
 
 /**
  * This method will return a pointer to a vector of estimables
+ *
+ * @param label The label of the estimable we want
+ * @return vector pointer of estimables
  */
 vector<Double>* Object::GetEstimableVector(const string& label) {
   if (estimable_types_.find(label) == estimable_types_.end())
@@ -216,6 +226,8 @@ void Object::RegisterAsEstimable(const string& label, map<unsigned, Double>* var
 /**
  * This method will print the same value as the locations() method on the ParameterList for a given
  * parameter except it'll doing it for the whole base object
+ *
+ * @return a string containing the configuration file location data for debugging/logging
  */
 string Object::location() {
   string line_number;

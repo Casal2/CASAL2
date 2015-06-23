@@ -21,9 +21,7 @@
 namespace niwa {
 namespace derivedquantities {
 
-/**
- * class definition
- */
+// classes
 class Manager : public niwa::oldbase::Manager<derivedquantities::Manager, niwa::DerivedQuantity> {
   friend class niwa::oldbase::Manager<derivedquantities::Manager, niwa::DerivedQuantity>;
 public:

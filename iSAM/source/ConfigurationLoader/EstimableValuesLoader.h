@@ -9,7 +9,12 @@
  *
  * @section DESCRIPTION
  *
- * << Add Description >>
+ * The estimable values loader is responsible for loading a text file (csv)
+ * of estimable values to do multiple iterations.
+ *
+ * Depending on the run mode the estimable values will be used different.
+ * For a standard run the model will do N iterations where N is the amount
+ * of values specified for the estimables.
  */
 #ifndef CONFIGURATION_ESTIMABLEVALUESLOADER_H_
 #define CONFIGURATION_ESTIMABLEVALUESLOADER_H_
@@ -23,11 +28,10 @@ namespace configuration {
 
 using std::string;
 
-/**
- * Class Definition
- */
+// classes
 class EstimableValuesLoader {
 public:
+  // methods
   EstimableValuesLoader() = default;
   virtual                     ~EstimableValuesLoader() = default;
   void                        LoadValues(const string& file_name);

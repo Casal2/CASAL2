@@ -15,8 +15,6 @@
  * This class creates access to some central global objects within the system
  * including: GlobalConfiguration, TheModel, ParameterList etc
  *
- *
- * $Date: 2008-03-04 16:33:32 +1300 (Tue, 04 Mar 2008) $
  */
 #ifndef BASE_OBJECT_H_
 #define BASE_OBJECT_H_
@@ -52,9 +50,7 @@ namespace base {
 using std::string;
 using utilities::OrderedMap;
 
-/**
- * Class Definition
- */
+// classes
 class Object {
 public:
   // Methods

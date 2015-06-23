@@ -19,6 +19,13 @@
 namespace niwa {
 namespace catchabilities {
 
+/**
+ * Create a catchability
+ *
+ * @param object_type The type of object
+ * @param sub_type The sub type (e.g beta)
+ * @return smart_ptr of an catchability
+ */
 CatchabilityPtr Factory::Create(const string& object_type, const string& sub_type) {
   CatchabilityPtr result;
 

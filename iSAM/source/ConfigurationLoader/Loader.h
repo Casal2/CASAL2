@@ -15,11 +15,9 @@
  *
  * This class really creates a bunch of Base::Object objects and then assigns
  * parameters to them for verification and validation.
- *
- * $Date: 2008-03-04 16:33:32 +1300 (Tue, 04 Mar 2008) $
  */
-#ifndef LOADER_H_
-#define LOADER_H_
+#ifndef CONFIGURATION_LOADER_H_
+#define CONFIGURATION_LOADER_H_
 
 // Headers
 #include <vector>
@@ -29,17 +27,15 @@
 #include "ParameterList/Table.h"
 
 // Namespaces
+namespace niwa {
+namespace configuration {
+
 using std::vector;
 using std::string;
 using niwa::base::Object;
 using niwa::base::ObjectPtr;
 
-namespace niwa {
-namespace configuration {
-
-/**
- * FileLine Structure
- */
+// structs
 struct FileLine {
 public:
   string    file_name_      = "";
@@ -47,9 +43,7 @@ public:
   string    line_           = "";
 };
 
-/**
- * Class Definition
- */
+// classes
 class Loader {
 public:
   // Methods
@@ -74,4 +68,4 @@ private:
 
 } /* namespace configuration */
 } /* namespace niwa */
-#endif /* LOADER_H_ */
+#endif /* CONFIGURATION_LOADER_H_ */

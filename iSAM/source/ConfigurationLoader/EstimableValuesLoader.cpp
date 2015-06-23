@@ -6,7 +6,6 @@
  * @section LICENSE
  *
  * Copyright NIWA Science ©2014 - www.niwa.co.nz
- *
  */
 
 // headers

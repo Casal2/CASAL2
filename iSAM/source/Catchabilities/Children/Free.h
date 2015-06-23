@@ -21,15 +21,13 @@
 namespace niwa {
 namespace catchabilities {
 
-/**
- * Class definition
- */
+// classes
 class Free : public Catchability {
 public:
   Free();
   virtual                     ~Free() = default;
   Double                      q() const override final { return q_; }
-  void                        DoValidate() override final;
+  void                        DoValidate() override final { };
 
 private:
   // members
