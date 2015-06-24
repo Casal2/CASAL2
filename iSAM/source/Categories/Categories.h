@@ -56,6 +56,7 @@ public:
   unsigned                      GetNumberOfCategoriesDefined(const string& label) const;
   void                          RemoveAllObjects();
   bool                          HasAgeLengths() { return age_length_labels_.size() > 0; }
+  bool                          HasAgeLengthKeys() const { return age_length_key_labels_.size() > 0; }
 
   vector<string>                ExpandLabels(const vector<string> &category_labels, const ParameterPtr source_parameter);
   string                        GetCategoryLabels(const string& lookup_string, const ParameterPtr source_parameter);

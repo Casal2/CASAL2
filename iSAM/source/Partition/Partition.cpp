@@ -65,7 +65,8 @@ void Partition::Build() {
     else
       new_category.set_age_length(agelengths::Factory::Create(PARAM_AGE_LENGTH, PARAM_NONE));
 
-    new_category.set_age_length_key(categories->age_length_key(category));
+    if (categories->HasAgeLengthKeys())
+      new_category.set_age_length_key(categories->age_length_key(category));
 
     partition_[category] = new_category;
   }
