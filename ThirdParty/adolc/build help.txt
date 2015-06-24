@@ -1,0 +1,8 @@
+https://hg.mozilla.org/mozilla-central/file/be81b8d6fae9/configure.in
+   373     case "$target" in
+   374     *-mingw*)
+   375       # Work around the conftest.exe access problem on Windows
+   376       sleep 2
+   377     esac
+
+conftest.exe permission denied is a Windows issue. Adding this to configure.in may help solve it
