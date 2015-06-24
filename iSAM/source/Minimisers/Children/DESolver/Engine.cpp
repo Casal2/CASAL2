@@ -263,12 +263,12 @@ bool Engine::GenerateGradient() {
 
 
     if (convergence_check > tolerance_) {
-      LOG_ERROR() << "DESolver: (no convergence) convergence_check: " << convergence_check << "; tolerance: " << tolerance_;
+      cerr << "DESolver: (no convergence) convergence_check: " << convergence_check << "; tolerance: " << tolerance_;
       return false; // No Convergence
     }
   }
 
-  LOG_ERROR() << "DESolver: (convergence) convergence_check: " << convergence_check << "; tolerance: " << tolerance_;
+  cerr << "DESolver: (convergence) convergence_check: " << convergence_check << "; tolerance: " << tolerance_;
   return true; // Convergence
 }
 
