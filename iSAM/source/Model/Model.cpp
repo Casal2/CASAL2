@@ -401,8 +401,10 @@ void Model::RunBasic() {
 
   // Model is about to run
   for (unsigned i = 0; i < estimable_values_count_; ++i) {
-    if (estimable_values_file_)
+    if (estimable_values_file_) {
       estimables->LoadValues(i);
+      Reset();
+    }
 
     LOG_FINE() << "Model: State change to PreExecute";
     reports::Manager::Instance().Execute(State::kPreExecute);
@@ -439,8 +441,10 @@ void Model::RunEstimation() {
   EstimablesPtr estimables = Estimables::Instance();
   map<string, Double> estimable_values;
   for (unsigned i = 0; i < estimable_values_count_; ++i) {
-    if (estimable_values_file_)
+    if (estimable_values_file_) {
       estimables->LoadValues(i);
+      Reset();
+    }
 
     LOG_FINE() << "Calling minimiser to begin the estimation with the " << i + 1 << "st/nd/nth set of values";
     run_mode_ = RunMode::kEstimation;
@@ -489,8 +493,10 @@ void Model::RunProfiling() {
 
   map<string, Double> estimable_values;
   for (unsigned i = 0; i < estimable_values_count_; ++i) {
-    if (estimable_values_file_)
+    if (estimable_values_file_) {
       estimables->LoadValues(i);
+      Reset();
+    }
 
     LOG_FINE() << "Doing pre-profile iteration of the model";
     Iterate();
