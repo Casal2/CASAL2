@@ -34,7 +34,8 @@ void Manager::Validate() {
     if ((PartitionStructure)(process->partition_structure() & PartitionStructure::kInvalid) == PartitionStructure::kInvalid)
       LOG_CODE_ERROR() << "Process: " << process->label() << " has not been properly configured to have a partition structure";
 
-    if ((PartitionStructure)(process->partition_structure() & model_structure) != model_structure) {
+    if ((PartitionStructure)(process->partition_structure() & model_structure) != model_structure
+        && process->partition_structure() != PartitionStructure::kAny) {
       string label = "unknown";
       ParameterPtr param = process->parameters().Get(PARAM_LABEL);
       if (param)

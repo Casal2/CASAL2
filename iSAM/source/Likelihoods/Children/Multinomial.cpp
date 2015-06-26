@@ -71,7 +71,9 @@ Double Multinomial::GetInitialScore(map<unsigned, vector<observations::Compariso
       continue;
 
     last_category = comparison.category_;
-    score += -math::LnFactorial(AdjustErrorValue(comparison.process_error_, comparison.error_value_));
+    Double temp_score = -math::LnFactorial(AdjustErrorValue(comparison.process_error_, comparison.error_value_));
+    LOG_FINEST() << "Adding: " << temp_score << " = LnFactorial(AdjustErrorValue(" << comparison.process_error_ << ", " << comparison.error_value_ << ")";
+    score += temp_score;
   }
 
   return score;

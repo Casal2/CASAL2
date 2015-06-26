@@ -125,13 +125,17 @@ void Manager::Finalise() {
  */
 void Manager::FlushReports() {
   // WARNING: DO NOT CALL THIS ANYWHERE. IT'S THREADED
+ bool do_break = false;
   while(true) {
+    if (!continue_)
+      do_break = true;
+
     for (ReportPtr report : objects_) {
       if (report->ready_for_writing())
         report->FlushCache();
     }
 
-    if (!continue_)
+    if (do_break)
       break;
   }
 }

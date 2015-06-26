@@ -315,7 +315,7 @@ void TagByAge::DoExecute() {
             << selectivities_[category_label]->GetResult(min_age_ + offset) << " * " << u_max_;
 
         if (penalty_)
-          penalty_->Trigger(label_, numbers_[current_year][i], (*from_iter)->data_[offset] * u_max_);
+          penalty_->Trigger(label_, numbers_[current_year][i], current);
       }
 
       LOG_FINE() << "total_stock_with_selectivities: " << total_stock_with_selectivities;
