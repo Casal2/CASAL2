@@ -25,7 +25,7 @@
 #include "Minimisers/Manager.h"
 #include "ObjectiveFunction/ObjectiveFunction.h"
 #include "Observations/Manager.h"
-#include "Partition/Accessors/Age/Category.h"
+#include "Partition/Accessors/Category.h"
 #include "Partition/Partition.h"
 #include "Penalties/Manager.h"
 #include "Processes/Manager.h"
