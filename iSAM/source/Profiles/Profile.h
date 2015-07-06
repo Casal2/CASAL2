@@ -18,8 +18,6 @@
 #define PROFILE_H_
 
 // headers
-#include <boost/shared_ptr.hpp>
-
 #include "BaseClasses/Object.h"
 #include "Estimates/Estimate.h"
 
@@ -60,7 +58,7 @@ private:
 /**
  * Typedef
  */
-typedef boost::shared_ptr<Profile> ProfilePtr;
+typedef std::shared_ptr<Profile> ProfilePtr;
 
 } /* namespace niwa */
 #endif /* PROFILE_H_ */

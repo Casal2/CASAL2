@@ -81,7 +81,7 @@ protected:
 };
 
 // Typedef
-typedef boost::shared_ptr<niwa::Observation> ObservationPtr;
+typedef std::shared_ptr<niwa::Observation> ObservationPtr;
 
 } /* namespace niwa */
 #endif /* OBSERVATION_H_ */

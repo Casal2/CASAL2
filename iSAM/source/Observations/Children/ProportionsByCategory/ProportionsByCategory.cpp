@@ -300,9 +300,17 @@ void ProportionsByCategory::Execute() {
 
         unsigned age_offset = ( (*category_iter)->min_age_ + data_offset) - min_age_;
         unsigned age        = ( (*category_iter)->min_age_ + data_offset);
+
+        if (age < min_age_)
+          continue;
+        if (age > max_age_)
+          break;
+
         if (min_age_ + age_offset > max_age_)
           age_offset = age_spread_ - 1;
 
+        LOG_FINE() << "---------------";
+        LOG_FINE() << "age: " << age;
         selectivity_result = selectivities_[category_offset]->GetResult(age);
         start_value   = (*cached_category_iter).data_[data_offset];
         end_value     = (*category_iter)->data_[data_offset];
@@ -313,7 +321,14 @@ void ProportionsByCategory::Execute() {
         else
           final_value = fabs(start_value - end_value) * proportion_of_time_;
 
+        LOG_FINE() << "Category1:" << (*category_iter)->name_;
+        LOG_FINE() << "selectivity_result: " << selectivity_result;
+        LOG_FINE() << "start_value: " << start_value << " / end_value: " << end_value;
+        LOG_FINE() << "final_value: " << final_value;
+        LOG_FINE() << "final_value * selectivity: " << (Double)(final_value * selectivity_result);
+
         age_results[age_offset] += final_value * selectivity_result;
+        LOG_FINE() << "category1 becomes: " << age_results[age_offset];
       }
     }
 
@@ -335,6 +350,10 @@ void ProportionsByCategory::Execute() {
         unsigned age        = ( (*target_category_iter)->min_age_ + data_offset);
         if (min_age_ + age_offset > max_age_)
           age_offset = age_spread_ - 1;
+        if (age < min_age_)
+          continue;
+        if (age > max_age_)
+          break;
 
         selectivity_result = target_selectivities_[category_offset]->GetResult(age);
         start_value   = (*target_cached_category_iter).data_[data_offset];
@@ -345,8 +364,15 @@ void ProportionsByCategory::Execute() {
           final_value = start_value + ((end_value - start_value) * proportion_of_time_);
         else
           final_value = fabs(start_value - end_value) * proportion_of_time_;
-
+        LOG_FINE() << "----------";
+        LOG_FINE() << "Category2:" << (*target_category_iter)->name_;
+        LOG_FINE() << "age: " << age;
+        LOG_FINE() << "selectivity_result: " << selectivity_result;
+        LOG_FINE() << "start_value: " << start_value << " / end_value: " << end_value;
+        LOG_FINE() << "final_value: " << final_value;
+        LOG_FINE() << "final_value * selectivity: " << (Double)(final_value * selectivity_result);
         target_age_results[age_offset] += final_value * selectivity_result;
+        LOG_FINE() << "category2 becomes: " << target_age_results[age_offset];
       }
     }
 
@@ -360,8 +386,8 @@ void ProportionsByCategory::Execute() {
 
     for (unsigned i = 0; i < age_results.size(); ++i) {
       Double expected = 0.0;
-      if (target_age_results[i] != 0.0)
-        expected = age_results[i] / target_age_results[i];
+      if (age_results[i] != 0.0)
+        expected = target_age_results[i] / age_results[i];
 
       SaveComparison(category_labels_[category_offset], min_age_ + i, expected, proportions_[model->current_year()][category_labels_[category_offset]][i],
           process_errors_by_year_[model->current_year()], error_values_[model->current_year()][category_labels_[category_offset]][i], delta_, 0.0);
@@ -385,16 +411,16 @@ void ProportionsByCategory::CalculateScore() {
      * Convert the expected_values in to a proportion
      */
     for (unsigned year : years_) {
-      Double running_total = 0.0;
-      for (obs::Comparison comparison : comparisons_[year]) {
-        running_total += comparison.expected_;
-      }
-      for (obs::Comparison& comparison : comparisons_[year]) {
-        if (running_total != 0.0)
-          comparison.expected_  = comparison.expected_ / running_total;
-        else
-          comparison.expected_  = 0.0;
-      }
+//      Double running_total = 0.0;
+//      for (obs::Comparison comparison : comparisons_[year]) {
+//        running_total += comparison.expected_;
+//      }
+//      for (obs::Comparison& comparison : comparisons_[year]) {
+//        if (running_total != 0.0)
+//          comparison.expected_  = comparison.expected_ / running_total;
+//        else
+//          comparison.expected_  = 0.0;
+//      }
 
       scores_[year] = likelihood_->GetInitialScore(comparisons_, year);
       likelihood_->GetScores(comparisons_);

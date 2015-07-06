@@ -56,7 +56,7 @@ protected:
 };
 
 // Typedef
-typedef boost::shared_ptr<niwa::Penalty> PenaltyPtr;
+typedef std::shared_ptr<niwa::Penalty> PenaltyPtr;
 
 } /* namespace niwa */
 #endif /* PENALTY_H_ */

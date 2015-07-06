@@ -52,7 +52,7 @@ protected:
 };
 
 // Typedef
-typedef boost::shared_ptr<niwa::Likelihood> LikelihoodPtr;
+typedef std::shared_ptr<niwa::Likelihood> LikelihoodPtr;
 
 } /* namespace niwa */
 #endif /* LIKELIHOOD_H_ */

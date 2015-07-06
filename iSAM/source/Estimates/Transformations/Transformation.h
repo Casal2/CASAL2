@@ -15,7 +15,6 @@
 #define ESTIMATES_TRANSFORMATION_H_
 
 // headers
-#include <boost/shared_ptr.hpp>
 #include <string>
 
 #include "BaseClasses/Object.h"
@@ -46,7 +45,7 @@ protected:
   vector<string>              parameters_;
 };
 
-typedef boost::shared_ptr<niwa::estimates::Transformation> TransformationPtr;
+typedef std::shared_ptr<niwa::estimates::Transformation> TransformationPtr;
 
 } /* namespace estimates */
 } /* namespace niwa */

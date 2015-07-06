@@ -62,7 +62,7 @@ private:
 };
 
 // Typedef
-typedef boost::shared_ptr<CombinedCategories> CombinedCategoriesPtr;
+typedef std::shared_ptr<CombinedCategories> CombinedCategoriesPtr;
 
 } /* namespace accessors */
 } /* namespace partition */

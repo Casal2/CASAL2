@@ -22,7 +22,7 @@
 #include <string>
 #include <vector>
 #include <initializer_list>
-#include <boost/shared_ptr.hpp>
+#include <memory>
 
 // Namespaces
 namespace niwa {
@@ -75,7 +75,7 @@ protected:
 };
 
 // typedef
-typedef boost::shared_ptr<Parameter> ParameterPtr;
+typedef std::shared_ptr<Parameter> ParameterPtr;
 
 } /* namespace parameterlist */
 } /* namespace niwa */

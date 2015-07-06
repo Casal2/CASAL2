@@ -40,7 +40,7 @@ public:
 };
 
 // Typdef
-typedef boost::shared_ptr<niwa::Catchability> CatchabilityPtr;
+typedef std::shared_ptr<niwa::Catchability> CatchabilityPtr;
 
 } /* namespace niwa */
 #endif /* CATCHABILITY_H_ */

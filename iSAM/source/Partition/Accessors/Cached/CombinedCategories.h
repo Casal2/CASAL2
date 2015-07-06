@@ -61,7 +61,7 @@ private:
 };
 
 // Typedef
-typedef boost::shared_ptr<niwa::partition::accessors::cached::CombinedCategories> CachedCombinedCategoriesPtr;
+typedef std::shared_ptr<niwa::partition::accessors::cached::CombinedCategories> CachedCombinedCategoriesPtr;
 
 } /* namespace cached */
 } /* namespace accessors */

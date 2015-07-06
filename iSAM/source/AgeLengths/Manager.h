@@ -24,7 +24,7 @@ class Manager : public niwa::oldbase::Manager<niwa::agelengths::Manager, niwa::A
 public:
   // methods
   virtual                     ~Manager() noexcept(true) { };
-  AgeLengthPtr                 GetAgeLength(const string& label);
+  AgeLengthPtr                FindAgeLength(const string& label);
 
 protected:
   // methods

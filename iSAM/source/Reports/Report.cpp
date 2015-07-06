@@ -29,7 +29,7 @@ using std::cout;
 using std::endl;
 using std::ios_base;
 
-boost::mutex Report::lock_;
+std::mutex Report::lock_;
 
 /**
  * Default constructor
@@ -77,31 +77,34 @@ bool Report::HasYear(unsigned year) {
  *
  */
 void Report::Prepare() {
-  lock lk(Report::lock_);
+  Report::lock_.lock();
   DoPrepare();
+  Report::lock_.unlock();
 };
 
 /**
  *
  */
 void Report::Execute() {
-  lock lk(Report::lock_);
+  Report::lock_.lock();
   DoExecute();
+  Report::lock_.unlock();
 }
 
 /**
  *
  */
 void Report::Finalise() {
-  lock lk(Report::lock_);
+  Report::lock_.lock();
   DoFinalise();
+  Report::lock_.unlock();
 };
 
 /**
  * Flush the contents of the cache to the file or fisk.
  */
 void Report::FlushCache() {
-  lock lk(Report::lock_);
+  Report::lock_.lock();
   if (file_name_ != "") {
     string suffix = reports::Manager::Instance().report_suffix();
 
@@ -136,6 +139,7 @@ void Report::FlushCache() {
   cache_.clear();
   cache_.str("");
   ready_for_writing_ = false;
+  Report::lock_.unlock();
 }
 
 } /* namespace niwa */

@@ -37,7 +37,7 @@ void Observation::DoBuild() {
 
   observation_ = observations::Manager::Instance().GetObservation(observation_label_);
   if (!observation_) {
-    vector<ObservationPtr> obs = observations::Manager::Instance().GetObjects();
+    vector<ObservationPtr> obs = observations::Manager::Instance().objects();
     for (ObservationPtr ob_ptr : obs)
       cout << ob_ptr->label() << endl;
     LOG_ERROR_P(PARAM_OBSERVATION) << " (" << observation_label_ << ") could not be found. Have you defined it?";

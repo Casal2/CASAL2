@@ -131,7 +131,7 @@ vector<EstimatePtr> Manager::GetEnabled() {
 /**
  *
  */
-void Manager::RemoveAllObjects() {
+void Manager::Clear() {
   objects_.clear();
   creators_.clear();
 }

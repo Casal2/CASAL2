@@ -19,7 +19,7 @@
 #include <string>
 #include <fstream>
 #include <iostream>
-#include <boost/shared_ptr.hpp>
+#include <memory>
 
 // Namespaces
 using std::ifstream;
@@ -56,7 +56,7 @@ private:
 };
 
 // typedefs
-typedef boost::shared_ptr<File> FilePtr;
+typedef std::shared_ptr<File> FilePtr;
 
 } /* namespace configuration */
 } /* namespace niwa */

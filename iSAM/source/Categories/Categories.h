@@ -17,8 +17,6 @@
 #define CATEGORIES_H_
 
 // Headers
-#include <boost/shared_ptr.hpp>
-
 #include "BaseClasses/Object.h"
 #include "AgeLengthKeys/AgeLengthKey.h"
 #include "AgeLengths/AgeLength.h"
@@ -26,7 +24,7 @@
 // Namespaces
 namespace niwa {
 
-using boost::shared_ptr;
+using std::shared_ptr;
 
 /**
  * Struct Definition
@@ -89,7 +87,7 @@ private:
 };
 
 // Typedef
-typedef boost::shared_ptr<niwa::Categories> CategoriesPtr;
+typedef std::shared_ptr<niwa::Categories> CategoriesPtr;
 
 } /* namespace niwa */
 

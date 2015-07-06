@@ -65,7 +65,7 @@ protected:
 };
 
 // Typdef
-typedef boost::shared_ptr<niwa::Minimiser> MinimiserPtr;
+typedef std::shared_ptr<niwa::Minimiser> MinimiserPtr;
 
 } /* namespace niwa */
 #endif /* MINIMISER_H_ */

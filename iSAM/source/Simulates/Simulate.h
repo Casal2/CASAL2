@@ -14,8 +14,6 @@
 #define SIMULATE_H_
 
 // headers
-#include <boost/shared_ptr.hpp>
-
 #include "BaseClasses/Object.h"
 #include "Model/Model.h"
 
@@ -68,7 +66,7 @@ protected:
 /**
  * Typedef
  */
-typedef boost::shared_ptr<Simulate> SimulatePtr;
+typedef std::shared_ptr<Simulate> SimulatePtr;
 
 } /* namespace niwa */
 
