@@ -50,10 +50,6 @@ protected:
   // methods
   Manager();
 
-protected:
-  // methods
-  Manager();
-
 private:
   // Members
   map<State::Type, vector<ReportPtr> >  state_reports_;
