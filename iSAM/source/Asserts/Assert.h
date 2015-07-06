@@ -40,7 +40,7 @@ protected:
   virtual void                DoBuild() = 0;
 };
 
-typedef boost::shared_ptr<Assert> AssertPtr;
+typedef std::shared_ptr<Assert> AssertPtr;
 
 } /* namespace niwa */
 

@@ -25,7 +25,8 @@
 #include <iostream>
 #include <fstream>
 #include <ostream>
-#include <boost/thread.hpp>
+#include <thread>
+#include <mutex>
 
 #include "BaseClasses/Object.h"
 #include "Model/Model.h"
@@ -41,7 +42,6 @@ using std::ios_base;
 using std::iostream;
 using std::ostringstream;
 
-typedef boost::mutex::scoped_lock lock;
 
 /**
  * Class definition
@@ -77,7 +77,7 @@ protected:
   // Members
   RunMode::Type               run_mode_    = RunMode::kInvalid;
   State::Type                 model_state_ = State::kInitialise;
-  static boost::mutex         lock_;
+  static std::mutex           lock_;
   string                      time_step_   = "";
   string                      file_name_   = "";
   bool                        overwrite_   = true;
@@ -89,7 +89,7 @@ protected:
 };
 
 // Typedef
-typedef boost::shared_ptr<niwa::Report> ReportPtr;
+typedef std::shared_ptr<niwa::Report> ReportPtr;
 
 } /* namespace niwa */
 #endif /* REPORT_H_ */

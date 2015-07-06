@@ -17,6 +17,8 @@
 #define REPORTS_MANAGER_H_
 
 // Headers
+#include <atomic>
+
 #include "BaseClasses/Manager.h"
 #include "Reports/Report.h"
 
@@ -38,11 +40,15 @@ public:
   void                        Prepare();
   void                        Finalise();
   void                        FlushReports();
+  void                        StopThread() { continue_.clear(); }
 
   // accessors
   void                        set_report_suffix(const string& suffix) { report_suffix_ = suffix; }
   const string&               report_suffix() const { return report_suffix_; }
-  void                        set_continue(bool new_continue) { continue_ = new_continue; }
+
+protected:
+  // methods
+  Manager();
 
 protected:
   // methods
@@ -53,7 +59,7 @@ private:
   map<State::Type, vector<ReportPtr> >  state_reports_;
   map<string, vector<ReportPtr> >       time_step_reports_;
   string                                report_suffix_ = "";
-  bool                                  continue_ = true;
+  std::atomic_flag                      continue_;
 };
 
 } /* namespace reports */

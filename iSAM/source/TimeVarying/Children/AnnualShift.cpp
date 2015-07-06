@@ -76,7 +76,7 @@ void AnnualShift::DoReset() {
  */
 void AnnualShift::DoUpdate() {
   LOG_FINE() << "Setting Value to: " << values_by_year_[Model::Instance()->current_year()];
-  (this->*DoUpdateFunc_)(values_by_year_[Model::Instance()->current_year()]);
+  (this->*update_function_)(values_by_year_[Model::Instance()->current_year()]);
 }
 
 } /* namespace timevarying */

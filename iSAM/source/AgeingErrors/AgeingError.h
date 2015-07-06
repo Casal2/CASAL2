@@ -56,7 +56,7 @@ protected:
 };
 
 // Typedef
-typedef boost::shared_ptr<AgeingError> AgeingErrorPtr;
+typedef std::shared_ptr<AgeingError> AgeingErrorPtr;
 
 } /* namespace niwa */
 #endif /* AGEINGERROR_H_ */

@@ -44,7 +44,7 @@ protected:
 /*
  * Typedef
  */
-typedef boost::shared_ptr<niwa::InitialisationPhase> InitialisationPhasePtr;
+typedef std::shared_ptr<niwa::InitialisationPhase> InitialisationPhasePtr;
 
 } /* namespace niwa */
 #endif /* INITIALISATIONPHASE_H_ */

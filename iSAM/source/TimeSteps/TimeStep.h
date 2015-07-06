@@ -71,7 +71,7 @@ private:
 /**
  * Typedef
  */
-typedef boost::shared_ptr<TimeStep> TimeStepPtr;
+typedef std::shared_ptr<TimeStep> TimeStepPtr;
 
 } /* namespace niwa */
 #endif /* TIMESTEP_H_ */

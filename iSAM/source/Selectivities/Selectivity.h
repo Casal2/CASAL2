@@ -50,7 +50,7 @@ protected:
 /**
  * Typedef
  */
-typedef boost::shared_ptr<Selectivity> SelectivityPtr;
+typedef std::shared_ptr<Selectivity> SelectivityPtr;
 
 } /* namespace niwa */
 #endif /* SELECTIVITY_H_ */

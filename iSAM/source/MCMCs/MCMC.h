@@ -16,7 +16,6 @@
 
 // headers
 #include <boost/numeric/ublas/matrix.hpp>
-#include <boost/shared_ptr.hpp>
 
 #include "BaseClasses/Object.h"
 #include "Minimisers/Minimiser.h"
@@ -25,7 +24,7 @@
 namespace niwa {
 
 namespace ublas = boost::numeric::ublas;
-using boost::shared_ptr;
+using std::shared_ptr;
 
 /**
  * Struct definition for a chain link
@@ -104,7 +103,7 @@ protected:
 };
 
 // Typdef
-typedef boost::shared_ptr<MCMC> MCMCPtr;
+typedef std::shared_ptr<MCMC> MCMCPtr;
 
 } /* namespace niwa */
 #endif /* MCMC_H_ */

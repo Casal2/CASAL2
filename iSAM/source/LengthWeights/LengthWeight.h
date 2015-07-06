@@ -40,7 +40,7 @@ public:
 };
 
 // typedef
-typedef boost::shared_ptr<LengthWeight> LengthWeightPtr;
+typedef std::shared_ptr<LengthWeight> LengthWeightPtr;
 
 } /* namespace niwa */
 #endif /* LENGTHWEIGHT_H_ */

@@ -505,7 +505,7 @@ void Model::RunProfiling() {
     estimates::Manager& estimate_manager = estimates::Manager::Instance();
     MinimiserPtr minimiser = minimisers::Manager::Instance().active_minimiser();
 
-    vector<ProfilePtr> profiles = profiles::Manager::Instance().GetObjects();
+    vector<ProfilePtr> profiles = profiles::Manager::Instance().objects();
     LOG_FINE() << "Working with " << profiles.size() << " profiles";
     for (ProfilePtr profile : profiles) {
       LOG_FINE() << "Disabling estiSmate: " << profile->parameter();

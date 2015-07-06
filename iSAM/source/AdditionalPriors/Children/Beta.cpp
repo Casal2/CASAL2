@@ -50,21 +50,21 @@ void Beta::DoValidate() {
 /**
  * TODO: Add documentation
  */
-Double Beta::GetRatioScore() {
+Double Beta::ratio_score() {
   return 0.0f;
 }
 
 /**
  * TODO: Add documentation
  */
-Double Beta::GetDifferenceScore() {
+Double Beta::difference_score() {
   return 0.0;
 }
 
 /**
  * TODO: Add documentation
  */
-Double Beta::GetMeanScore() {
+Double Beta::mean_score() {
   return 0.0;
 }
 

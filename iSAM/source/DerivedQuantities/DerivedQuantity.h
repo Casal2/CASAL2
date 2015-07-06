@@ -60,7 +60,7 @@ protected:
 };
 
 // typedef
-typedef boost::shared_ptr<DerivedQuantity> DerivedQuantityPtr;
+typedef std::shared_ptr<DerivedQuantity> DerivedQuantityPtr;
 
 } /* namespace niwa */
 #endif /* DERIVEDQUANTITY_H_ */

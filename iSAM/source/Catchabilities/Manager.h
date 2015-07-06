@@ -37,9 +37,10 @@ protected:
   Manager() = default;
 };
 
-// typedef
-typedef boost::shared_ptr<niwa::catchabilities::Manager> CatchabilityManagerPtr;
-
 } /* namespace catchabilities */
 } /* namespace niwa */
+
+// typedef
+//typedef std::shared_ptr<niwa::catchabilities::Manager> CatchabilityManagerPtr;
+
 #endif /* CATCHABILITIES_MANAGER_H_ */

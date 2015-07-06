@@ -43,7 +43,7 @@ private:
   bool                        log_scale_;
 };
 
-typedef boost::shared_ptr<penalties::Process> ProcessPtr;
+typedef std::shared_ptr<penalties::Process> ProcessPtr;
 
 } /* namespace penalties */
 } /* namespace niwa */

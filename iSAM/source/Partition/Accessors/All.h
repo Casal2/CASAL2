@@ -24,7 +24,6 @@
 #include <map>
 #include <vector>
 #include <string>
-#include <boost/shared_ptr.hpp>
 
 #include "Partition/Partition.h"
 #include "Utilities/Types.h"
@@ -60,7 +59,7 @@ private:
   All::DataType               data_;
 };
 
-typedef boost::shared_ptr<niwa::partition::accessors::All> AllPtr;
+typedef std::shared_ptr<niwa::partition::accessors::All> AllPtr;
 
 } /* namespace accessors */
 } /* namespace partition */

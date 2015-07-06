@@ -15,8 +15,6 @@
 #define ESTIMATES_CREATOR_H_
 
 // headers
-#include <boost/enable_shared_from_this.hpp>
-
 #include "BaseClasses/Object.h"
 #include "Estimates/Estimate.h"
 
@@ -29,7 +27,7 @@ class Manager;
 /**
  *
  */
-class Creator : public niwa::base::Object, public boost::enable_shared_from_this<Creator> {
+class Creator : public niwa::base::Object, public std::enable_shared_from_this<Creator> {
 public:
   // methods
   Creator();
@@ -57,7 +55,7 @@ protected:
 };
 
 // typedef
-typedef boost::shared_ptr<Creator> CreatorPtr;
+typedef std::shared_ptr<Creator> CreatorPtr;
 
 } /* namespace estimates */
 } /* namespace niwa */

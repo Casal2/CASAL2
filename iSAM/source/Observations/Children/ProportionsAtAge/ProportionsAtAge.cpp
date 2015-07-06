@@ -273,6 +273,12 @@ void ProportionsAtAge::Execute() {
           final_value = fabs(start_value - end_value) * proportion_of_time_;
 
         expected_values[age_offset] += final_value * selectivity_result;
+
+        LOG_FINE() << "----------";
+        LOG_FINE() << "Category: " << (*category_iter)->name_ << " at age " << age;
+        LOG_FINE() << "Selectivity: " << selectivities_[category_offset]->label() << ": " << selectivity_result;
+        LOG_FINE() << "start_value: " << start_value << "; end_value: " << end_value << "; final_value: " << final_value;
+        LOG_FINE() << "expected_value becomes: " << expected_values[age_offset];
       }
     }
 

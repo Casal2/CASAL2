@@ -14,7 +14,7 @@ int main(int argc, char **argv) {
 
 // Headers
 #include <iostream>
-#include <boost/thread.hpp>
+#include <thread>
 
 #include "Version.h"
 #include "ConfigurationLoader/Loader.h"
@@ -39,7 +39,7 @@ void ModelThread() {
   ModelPtr model = Model::Instance();
   model_start_return_success = model->Start(run_mode);
 
-  reports::Manager::Instance().set_continue(false);
+  reports::Manager::Instance().StopThread();
 }
 
 /**
@@ -122,8 +122,8 @@ int main(int argc, char * argv[]) {
       /**
        * build our threads
        */
-      boost::thread model_thread(ModelThread);
-      boost::thread report_thread(ReportThread);
+      std::thread model_thread(ModelThread);
+      std::thread report_thread(ReportThread);
 
       model_thread.join();
       report_thread.join();

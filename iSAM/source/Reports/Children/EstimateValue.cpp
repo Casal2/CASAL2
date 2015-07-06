@@ -39,8 +39,8 @@ EstimateValue::~EstimateValue() noexcept(true) {
 void EstimateValue::DoExecute() {
   ModelPtr model = Model::Instance();
 
-  vector<EstimatePtr> estimates = estimates::Manager::Instance().GetObjects();
-  vector<ProfilePtr>  profiles  = profiles::Manager::Instance().GetObjects();
+  vector<EstimatePtr> estimates = estimates::Manager::Instance().objects();
+  vector<ProfilePtr>  profiles  = profiles::Manager::Instance().objects();
 
   /**
    * if this is the first run we print the report header etc

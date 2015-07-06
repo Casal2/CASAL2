@@ -73,16 +73,16 @@ void TimeVarying::Build() {
       LOG_CODE_ERROR() << "Invalid estimable type: " << parameter_;
       break;
     case Estimable::kSingle:
-      DoUpdateFunc_ = &TimeVarying::SetSingleValue;
+      update_function_ = &TimeVarying::set_single_value;
       estimable_    = target->GetEstimable(parameter);
       original_value_ = *estimable_;
       break;
     case Estimable::kVector:
-      DoUpdateFunc_ = &TimeVarying::SetVectorValue;
+      update_function_ = &TimeVarying::set_vector_value;
       estimable_vector_ = target->GetEstimableVector(parameter);
       break;
     case Estimable::kUnsignedMap:
-      DoUpdateFunc_ = &TimeVarying::SetMapValue;
+      update_function_ = &TimeVarying::set_map_value;
       estimable_map_ = target->GetEstimableUMap(parameter);
       break;
     default:
@@ -97,7 +97,7 @@ void TimeVarying::Build() {
  */
 void TimeVarying::Update(unsigned current_year) {
   LOG_TRACE();
-  if (DoUpdateFunc_ == 0)
+  if (update_function_ == 0)
     LOG_CODE_ERROR() << "DoUpdateFunc_ == 0";
 
   if (years_.size() > 0 && std::find(years_.begin(), years_.end(), current_year) == years_.end())
@@ -112,27 +112,27 @@ void TimeVarying::Update(unsigned current_year) {
 void TimeVarying::RestoreOriginalValue() {
   LOG_TRACE();
   LOG_FINE() << "Setting original value to: " << original_value_;
-  (this->*DoUpdateFunc_)(original_value_);
+  (this->*update_function_)(original_value_);
 }
 
 /**
  *
  */
-void TimeVarying::SetSingleValue(Double value) {
+void TimeVarying::set_single_value(Double value) {
   *estimable_ = value;
 }
 
 /**
  *
  */
-void TimeVarying::SetVectorValue(Double value) {
+void TimeVarying::set_vector_value(Double value) {
   estimable_vector_->push_back(value);
 }
 
 /**
  *
  */
-void TimeVarying::SetMapValue(Double value) {
+void TimeVarying::set_map_value(Double value) {
   (*estimable_map_)[model_->current_year()] = value;
 }
 
