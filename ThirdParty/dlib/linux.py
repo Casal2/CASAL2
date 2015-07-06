@@ -8,14 +8,14 @@ from distutils import dir_util
 import Globals
 
 class Builder:
-  version_ = '18.6'
+  version_ = '18.16'
 
   def is_lean(self):
     return True
   
   def start(self):    
     # Variables
-    fileName        = 'dlib-18.6'
+    fileName        = 'dlib-18.16'
   
     # Clean our any existing files if they already exist
     print '-- Cleaning DLib files'
