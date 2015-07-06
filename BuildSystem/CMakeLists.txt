@@ -11,23 +11,23 @@ STRING(REPLACE "BuildSystem" "iSAM" ISAM_HOME_DIRECTORY ${CMAKE_HOME_DIRECTORY})
 
 # GLOBAL BUILD VARIABLES AND LIBRARIES
 IF (DEBUG)
- SET(COMPILE_OPTIONS "-O0 -g3 -Wall -Werror -fmessage-length=0 -DBOOST_THREAD_USE_LIB=1 -Wno-unused-local-typedefs")
+ SET(COMPILE_OPTIONS "-O0 -g3 -Wall -Werror -fmessage-length=0 -Wno-unused-local-typedefs")
 ELSEIF (RELEASE)
- SET(COMPILE_OPTIONS "-O2 -g0 -Wall -Werror -fmessage-length=0 -DBOOST_THREAD_USE_LIB=1 -DBOOST_THREAD_PROVIDES_GENERIC_SHARED_MUTEX_ON_WIN -Wno-unused-local-typedefs")
+ SET(COMPILE_OPTIONS "-O2 -g0 -Wall -Werror -fmessage-length=0 -Wno-unused-local-typedefs")
 ELSEIF (TEST)
- SET(COMPILE_OPTIONS "-DTESTMODE -O0 -g3 -Wall -Werror -fmessage-length=0 -DBOOST_THREAD_USE_LIB=1 -Wno-unused-local-typedefs")
+ SET(COMPILE_OPTIONS "-DTESTMODE -O0 -g3 -Wall -Werror -fmessage-length=0 -Wno-unused-local-typedefs")
 ENDIF ()
 
 # Set variables based on OS
 IF (WIN32)
  ## WINDOWS BUILD VARIABLES AND LIBRARIES
  SET(buildOS win32) 
- SET(COMPILE_OPTIONS "${COMPILE_OPTIONS} -D__GNUDOS__ -std=c++11")
+ SET(COMPILE_OPTIONS "${COMPILE_OPTIONS} -D__GNUDOS__ -std=c++14")
  
 ELSE (WIN32)
  ## LINUX BUILD VARIABLES AND LIBRARIES
  SET(buildOS linux)
- SET(COMPILE_OPTIONS "${COMPILE_OPTIONS} -std=c++11")
+ SET(COMPILE_OPTIONS "${COMPILE_OPTIONS} -std=c++14")
  SET(thirdPartyLibraries ${thirdPartyLibraries} pthread rt)
 ENDIF ()
 
@@ -75,8 +75,8 @@ ENDIF ()
 MESSAGE("COMPILE_OPTIONS: ${COMPILE_OPTIONS}")
 MESSAGE("SPECIAL_LIBRARIES: ${specialLibraries}")
 
+INCLUDE_DIRECTORIES(SYSTEM "${CMAKE_HOME_DIRECTORY}/bin/${buildOS}/thirdparty/include")
 INCLUDE_DIRECTORIES("${ISAM_HOME_DIRECTORY}/source")
-INCLUDE_DIRECTORIES("${CMAKE_HOME_DIRECTORY}/bin/${buildOS}/thirdparty/include")
 
 # This snippet of code will find all of our source and test files
 # and auto-populate variables with them for the build
