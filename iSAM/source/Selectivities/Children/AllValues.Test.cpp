@@ -29,7 +29,7 @@ using ::testing::Return;
  * Test the results of our KnifeEdge are correct
  */
 TEST(Selectivities, AllValues) {
-  boost::shared_ptr<MockModel> model = boost::shared_ptr<MockModel>(new MockModel);
+  std::shared_ptr<MockModel> model = std::shared_ptr<MockModel>(new MockModel);
   EXPECT_CALL(*model.get(), min_age()).WillRepeatedly(Return(10));
   EXPECT_CALL(*model.get(), max_age()).WillRepeatedly(Return(20));
   EXPECT_CALL(*model.get(), age_spread()).WillRepeatedly(Return(11));
