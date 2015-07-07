@@ -82,10 +82,10 @@ TEST(Likelihood, Normal) {
 
   // check simulations
   likelihood->SimulateObserved(comparison_list);
-  EXPECT_DOUBLE_EQ(648.72263793541288, comparison_list[0][0].observed_);
-  EXPECT_DOUBLE_EQ(617.45173269550855, comparison_list[0][1].observed_);
-  EXPECT_DOUBLE_EQ(492.65047668996476, comparison_list[0][2].observed_);
-  EXPECT_DOUBLE_EQ(598.20432929575531, comparison_list[0][3].observed_);
+  EXPECT_DOUBLE_EQ(557.59511915082294, comparison_list[0][0].observed_);
+  EXPECT_DOUBLE_EQ(976.98119489450221, comparison_list[0][1].observed_);
+  EXPECT_DOUBLE_EQ(431.07888765290096, comparison_list[0][2].observed_);
+  EXPECT_DOUBLE_EQ(392.17240873606607, comparison_list[0][3].observed_);
 }
 
 } /* namespace likelihoods */

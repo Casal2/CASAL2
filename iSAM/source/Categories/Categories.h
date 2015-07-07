@@ -52,7 +52,7 @@ public:
   bool                          IsValid(const string& label) const;
   bool                          IsCombinedLabels(const string& label) const;
   unsigned                      GetNumberOfCategoriesDefined(const string& label) const;
-  void                          RemoveAllObjects();
+  void                          Clear();
   bool                          HasAgeLengths() { return age_length_labels_.size() > 0; }
   bool                          HasAgeLengthKeys() const { return age_length_key_labels_.size() > 0; }
 

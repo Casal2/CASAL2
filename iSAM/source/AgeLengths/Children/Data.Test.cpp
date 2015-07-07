@@ -57,7 +57,7 @@ TEST_F(InternalEmptyModel, AgeLengths_Data_Mean_Mean) {
   ObjectiveFunction& obj_function = ObjectiveFunction::Instance();
   EXPECT_DOUBLE_EQ(16884.277966840153, obj_function.score());
 
-  AgeLengthPtr age_size = agelengths::Manager::Instance().GetAgeLength("test_age_size");
+  AgeLengthPtr age_size = agelengths::Manager::Instance().FindAgeLength("test_age_size");
   if (!age_size)
     LOG_CODE_ERROR() << "!age_size";
 
@@ -104,7 +104,7 @@ TEST_F(InternalEmptyModel, AgeLengths_Data_NearestNeighbour_Mean) {
   ObjectiveFunction& obj_function = ObjectiveFunction::Instance();
   EXPECT_DOUBLE_EQ(16884.277966840153, obj_function.score());
 
-  AgeLengthPtr age_size = agelengths::Manager::Instance().GetAgeLength("test_age_size");
+  AgeLengthPtr age_size = agelengths::Manager::Instance().FindAgeLength("test_age_size");
   if (!age_size)
     LOG_CODE_ERROR() << "!age_size";
 
@@ -154,7 +154,7 @@ TEST_F(InternalEmptyModel, AgeLengths_Data_Mean_NearestNeighbour) {
   ObjectiveFunction& obj_function = ObjectiveFunction::Instance();
   EXPECT_DOUBLE_EQ(16884.277966840153, obj_function.score());
 
-  AgeLengthPtr age_size = agelengths::Manager::Instance().GetAgeLength("test_age_size");
+  AgeLengthPtr age_size = agelengths::Manager::Instance().FindAgeLength("test_age_size");
   if (!age_size)
     LOG_CODE_ERROR() << "!age_size";
 
@@ -204,7 +204,7 @@ TEST_F(InternalEmptyModel, AgeLengths_Data_Mean_Interpolate) {
   ObjectiveFunction& obj_function = ObjectiveFunction::Instance();
   EXPECT_DOUBLE_EQ(16884.277966840153, obj_function.score());
 
-  AgeLengthPtr age_size = agelengths::Manager::Instance().GetAgeLength("test_age_size");
+  AgeLengthPtr age_size = agelengths::Manager::Instance().FindAgeLength("test_age_size");
   if (!age_size)
     LOG_CODE_ERROR() << "!age_size";
 

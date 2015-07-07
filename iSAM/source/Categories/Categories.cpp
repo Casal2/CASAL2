@@ -450,7 +450,7 @@ AgeLengthKeyPtr Categories::age_length_key(const string& category_name) {
 /**
  * This method will remove all of the information from our categories
  */
-void Categories::RemoveAllObjects() {
+void Categories::Clear() {
   parameters_.Clear();
   format_ = "";
   names_.clear();

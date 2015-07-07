@@ -49,7 +49,6 @@ void CategoryInfo::DoExecute() {
     cache_ << "\n\n";
   }
 
-  cache_ << "*end" << endl;
   ready_for_writing_ = true;
 }
 
