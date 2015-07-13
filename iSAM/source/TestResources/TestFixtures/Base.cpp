@@ -63,28 +63,28 @@ void Base::SetUp() { }
 void Base::TearDown() {
   Model::Instance(true);
 
-  Categories::Instance()->RemoveAllObjects();
+  Categories::Instance()->Clear();
   Partition::Instance().Clear();
 
-  ageingerrors::Manager::Instance().RemoveAllObjects();
-  agelengths::Manager::Instance().RemoveAllObjects();
-  agelengthkeys::Manager::Instance().RemoveAllObjects();
-  asserts::Manager::Instance().RemoveAllObjects();
-  catchabilities::Manager::Instance().RemoveAllObjects();
-  derivedquantities::Manager::Instance().RemoveAllObjects();
-  estimates::Manager::Instance().RemoveAllObjects();
-  initialisationphases::Manager::Instance().RemoveAllObjects();
-  minimisers::Manager::Instance().RemoveAllObjects();
-  observations::Manager::Instance().RemoveAllObjects();
-  penalties::Manager::Instance().RemoveAllObjects();
-  processes::Manager::Instance().RemoveAllObjects();
-  projects::Manager::Instance().RemoveAllObjects();
-  reports::Manager::Instance().RemoveAllObjects();
-  selectivities::Manager::Instance().RemoveAllObjects();
-  lengthweights::Manager::Instance().RemoveAllObjects();
-  timesteps::Manager::Instance().RemoveAllObjects();
+  ageingerrors::Manager::Instance().Clear();
+  agelengths::Manager::Instance().Clear();
+  agelengthkeys::Manager::Instance().Clear();
+  asserts::Manager::Instance().Clear();
+  catchabilities::Manager::Instance().Clear();
+  derivedquantities::Manager::Instance().Clear();
+  estimates::Manager::Instance().Clear();
+  initialisationphases::Manager::Instance().Clear();
+  minimisers::Manager::Instance().Clear();
+  observations::Manager::Instance().Clear();
+  penalties::Manager::Instance().Clear();
+  processes::Manager::Instance().Clear();
+  projects::Manager::Instance().Clear();
+  reports::Manager::Instance().Clear();
+  selectivities::Manager::Instance().Clear();
+  lengthweights::Manager::Instance().Clear();
+  timesteps::Manager::Instance().Clear();
 
-  mcmcs::Manager::Instance().RemoveAllObjects();
+  mcmcs::Manager::Instance().Clear();
 
   niwa::ObjectiveFunction::Instance().Clear();
 }

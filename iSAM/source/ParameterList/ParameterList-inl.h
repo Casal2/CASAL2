@@ -13,7 +13,7 @@
 #define PARAMETERLIST_INL_H_
 
 // Headers
-#include <boost/lexical_cast.hpp>
+#include <memory>
 #include <iostream>
 #include <exception>
 
@@ -34,7 +34,7 @@ namespace niwa {
  */
 template<typename T>
 shared_ptr<Bindable<T> > ParameterList::Bind(const string& label, T* target, const string& description, const string& values) {
-  shared_ptr<Bindable<T> > parameter = boost::shared_ptr<Bindable<T> >(new Bindable<T>(label, target, description));
+  shared_ptr<Bindable<T> > parameter = std::shared_ptr<Bindable<T> >(new Bindable<T>(label, target, description));
   parameters_[label] = parameter;
   return parameter;
 }
@@ -44,7 +44,7 @@ shared_ptr<Bindable<T> > ParameterList::Bind(const string& label, T* target, con
  */
 template<typename T>
 shared_ptr<Bindable<T> > ParameterList::Bind(const string& label, T* target, const string& description, const string& values, T default_value) {
-  shared_ptr<Bindable<T> > parameter = boost::shared_ptr<Bindable<T> >(new Bindable<T>(label, target, description));
+  shared_ptr<Bindable<T> > parameter = std::shared_ptr<Bindable<T> >(new Bindable<T>(label, target, description));
   parameter->set_is_optional(true);
   parameter->set_default_value(default_value);
   parameters_[label] = parameter;
@@ -56,7 +56,7 @@ shared_ptr<Bindable<T> > ParameterList::Bind(const string& label, T* target, con
  */
 template<typename T>
 shared_ptr<BindableVector<T> > ParameterList::Bind(const string& label, vector<T>* target, const string& description, const string& values, bool optional) {
-  shared_ptr<BindableVector<T> > parameter = boost::shared_ptr<BindableVector<T> >(new BindableVector<T>(label, target, description));
+  shared_ptr<BindableVector<T> > parameter = std::shared_ptr<BindableVector<T> >(new BindableVector<T>(label, target, description));
   parameter->set_is_optional(optional);
   parameters_[label] = parameter;
   return parameter;

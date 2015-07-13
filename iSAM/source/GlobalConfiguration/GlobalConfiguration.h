@@ -21,7 +21,6 @@
 #include <map>
 #include <vector>
 #include <string>
-#include <boost/shared_ptr.hpp>
 
 #include "BaseClasses/Object.h"
 #include "Translations/Translations.h"
@@ -31,7 +30,7 @@
 using std::map;
 using std::vector;
 using std::string;
-using boost::shared_ptr;
+using std::shared_ptr;
 
 namespace util = niwa::utilities;
 
@@ -82,7 +81,7 @@ private:
 };
 
 // Typedef
-typedef boost::shared_ptr<GlobalConfiguration> GlobalConfigurationPtr;
+typedef std::shared_ptr<GlobalConfiguration> GlobalConfigurationPtr;
 
 } /* namespace niwa */
 #endif /* GLOBALCONFIGURATION_H_ */

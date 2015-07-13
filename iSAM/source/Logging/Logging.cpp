@@ -73,17 +73,17 @@ void Logging::Flush(niwa::logger::Record& record) {
   else if (record.severity() == logger::Severity::kError)
     errors_.push_back(record.stream().str());
   else if (record.severity() == logger::Severity::kFatal || record.severity() == logger::Severity::kCodeError) {
-    cout << record.message();
+    cerr << record.message();
     if (errors_.size() > 0)
-      cout << "NOTE: " << errors_.size() << " other errors have been logged above\n";
+      cerr << "NOTE: " << errors_.size() << " other errors have been logged above\n";
 
-    cout.flush();
+    cerr.flush();
     exit(-1);
   }
 
   if (static_cast<int>(record.severity()) >= static_cast<int>(current_log_level_)) {
-    cout << record.message();
-    cout.flush();
+    cerr << record.message();
+    cerr.flush();
   }
 }
 #endif

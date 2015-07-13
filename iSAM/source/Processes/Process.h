@@ -19,8 +19,6 @@
 #define PROCESS_H_
 
 // Headers
-#include <boost/shared_ptr.hpp>
-
 #include "BaseClasses/Object.h"
 #include "BaseClasses/Executor.h"
 #include "Model/Model.h"
@@ -76,7 +74,7 @@ protected:
 /**
  * Typedef
  */
-typedef boost::shared_ptr<Process> ProcessPtr;
+typedef std::shared_ptr<Process> ProcessPtr;
 
 } /* namespace niwa */
 #endif /* PROCESS_H_ */

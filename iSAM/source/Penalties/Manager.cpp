@@ -48,7 +48,7 @@ PenaltyPtr Manager::GetPenalty(const string& label) const {
 penalties::ProcessPtr Manager::GetProcessPenalty(const string& label) {
   for (PenaltyPtr penalty : objects_) {
     if (penalty->type() == PARAM_PROCESS && penalty->label() == label)
-      return boost::dynamic_pointer_cast<penalties::Process>(penalty);
+      return std::dynamic_pointer_cast<penalties::Process>(penalty);
   }
 
   return penalties::ProcessPtr();

@@ -30,7 +30,7 @@ void DerivedQuantity::DoExecute() {
 
   derivedquantities::Manager& manager = derivedquantities::Manager::Instance();
 
-  vector<DerivedQuantityPtr> derived_quantities = manager.GetObjects();
+  vector<DerivedQuantityPtr> derived_quantities = manager.objects();
 
   unsigned count = 1;
   for (DerivedQuantityPtr dq : derived_quantities) {

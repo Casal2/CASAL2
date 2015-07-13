@@ -67,7 +67,7 @@ void CPPAD::Execute() {
 
   estimates::Manager& estimate_manager = estimates::Manager::Instance();
 
-  vector<EstimatePtr> estimates = estimate_manager.GetObjects();
+  vector<EstimatePtr> estimates = estimate_manager.objects();
 
   Dvector lower_bounds(estimates.size());
   Dvector upper_bounds(estimates.size());

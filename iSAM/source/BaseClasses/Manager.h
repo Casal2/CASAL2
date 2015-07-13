@@ -21,7 +21,7 @@
 // Headers
 #include <string>
 #include <vector>
-#include <boost/shared_ptr.hpp>
+#include <memory>
 
 #include "Utilities/NoCopy.h"
 
@@ -29,7 +29,7 @@
 namespace niwa {
 namespace oldbase {
 
-using boost::shared_ptr;
+using std::shared_ptr;
 using std::vector;
 
 // classes
@@ -37,24 +37,24 @@ template <class ClassType, class StoredType>
 class Manager {
 public:
   // Methods
-  virtual                         ~Manager() = default;
-  static ClassType&               Instance();
-  virtual void                    AddObject(shared_ptr<StoredType> object) { objects_.push_back(object); }
-  vector<shared_ptr<StoredType> > GetObjects() { return objects_; }
-  virtual void                    RemoveAllObjects() { objects_.clear(); }
-  virtual void                    Validate();
-  virtual void                    Build();
-  virtual void                    Reset();
+  virtual                     ~Manager() = default;
+  static ClassType&           Instance();
+  virtual void                Validate();
+  virtual void                Build();
+  virtual void                Reset();
+  void                        AddObject(shared_ptr<StoredType> object) { objects_.push_back(object); }
+  virtual void                Clear() { objects_.clear(); }
 
-  // Accessors
-  unsigned                        count() { return objects_.size(); }
+  // Accessors/mutators
+  vector<shared_ptr<StoredType> > objects() { return objects_; }
+  unsigned                        size() { return objects_.size(); }
 
 protected:
   // Methods
   Manager() = default;
 
   // Members
-  vector<shared_ptr<StoredType> >     objects_;
+  vector<shared_ptr<StoredType> > objects_;
 
   // Macros
   DISALLOW_COPY_AND_ASSIGN(Manager);

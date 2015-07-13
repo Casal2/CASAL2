@@ -60,6 +60,7 @@
 #include <vector>
 #include <string>
 #include <set>
+#include <memory>
 
 #include "Parameter.h"
 #include "Table.h"
@@ -75,7 +76,7 @@ using niwa::parameters::Bindable;
 using niwa::parameters::BindableVector;
 using niwa::parameterlist::Parameter;
 using niwa::parameterlist::ParameterPtr;
-using boost::shared_ptr;
+using std::shared_ptr;
 
 
 namespace niwa {

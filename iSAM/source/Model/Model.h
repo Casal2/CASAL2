@@ -17,8 +17,6 @@
 #define MODEL_H_
 
 // Headers
-#include <boost/shared_ptr.hpp>
-
 #include "BaseClasses/Executor.h"
 #include "BaseClasses/Object.h"
 #include "Catchabilities/Manager.h"
@@ -27,8 +25,7 @@
 // Namespaces
 namespace niwa {
 
-using boost::shared_ptr;
-using niwa::catchabilities::CatchabilityManagerPtr;
+using std::shared_ptr;
 
 namespace State {
 enum Type {
@@ -116,7 +113,6 @@ protected:
   vector<string>              initialisation_phases_;
   vector<string>              time_steps_;
   vector<Double>              length_bins_;
-  CatchabilityManagerPtr      catchability_manager_;
   bool                        estimable_values_file_ = false;
   unsigned                    estimable_values_count_ = 1;
   PartitionStructure          partition_structure_ = PartitionStructure::kInvalid;
@@ -127,7 +123,7 @@ protected:
 /**
  * Typedef
  */
-typedef boost::shared_ptr<Model> ModelPtr;
+typedef std::shared_ptr<Model> ModelPtr;
 
 } /* namespace niwa */
 #endif /* MODEL_H_ */

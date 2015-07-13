@@ -37,10 +37,10 @@ AdditionalPrior::AdditionalPrior() {
  *
  * @return Score from additional prior
  */
-Double AdditionalPrior::GetScore() {
-  if (DoScoreFunction_ == 0)
-    LOG_CODE_ERROR() << "DoScoreFunction_ == 0";
-  return (this->*DoScoreFunction_)();
+Double AdditionalPrior::score() {
+  if (score_function_ == 0)
+    LOG_CODE_ERROR() << "score_function_ == 0";
+  return (this->*score_function_)();
 }
 
 /**
@@ -55,11 +55,11 @@ void AdditionalPrior::Validate() {
 
   // assign our function pointer
   if (method_ == PARAM_RATIO)
-    DoScoreFunction_ = &AdditionalPrior::GetRatioScore;
+    score_function_ = &AdditionalPrior::ratio_score;
   else if (method_ == PARAM_DIFFERENCE)
-    DoScoreFunction_ = &AdditionalPrior::GetDifferenceScore;
+    score_function_ = &AdditionalPrior::difference_score;
   else
-    DoScoreFunction_ = &AdditionalPrior::GetMeanScore;
+    score_function_ = &AdditionalPrior::mean_score;
 }
 
 } /* namespace niwa */

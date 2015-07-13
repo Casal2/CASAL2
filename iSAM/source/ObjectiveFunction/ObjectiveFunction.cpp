@@ -58,7 +58,7 @@ void ObjectiveFunction::CalculateScore() {
   /**
    * Get the scores from each of the observations/likelihoods
    */
-  vector<ObservationPtr> observations = observations::Manager::Instance().GetObjects();
+  vector<ObservationPtr> observations = observations::Manager::Instance().objects();
   likelihoods_ = 0.0;
   for(ObservationPtr observation : observations) {
     const map<unsigned, Double>& scores = observation->scores();
@@ -81,7 +81,7 @@ void ObjectiveFunction::CalculateScore() {
    */
   penalties_ = 0.0;
 
-  for (PenaltyPtr penalty : penalties::Manager::Instance().GetObjects()) {
+  for (PenaltyPtr penalty : penalties::Manager::Instance().objects()) {
     if (penalty->has_score()) {
       objective::Score new_score;
 
@@ -112,7 +112,7 @@ void ObjectiveFunction::CalculateScore() {
   /**
    * Get the scores from each of the estimate priors
    */
-  vector<EstimatePtr> estimates = estimates::Manager::Instance().GetObjects();
+  vector<EstimatePtr> estimates = estimates::Manager::Instance().objects();
   priors_ = 0.0;
   for (EstimatePtr estimate : estimates) {
     objective::Score new_score;
@@ -130,12 +130,12 @@ void ObjectiveFunction::CalculateScore() {
   /**
    * Get the score from each additional prior
    */
-  vector<AdditionalPriorPtr> additional_priors = additionalpriors::Manager::Instance().GetObjects();
+  vector<AdditionalPriorPtr> additional_priors = additionalpriors::Manager::Instance().objects();
   additional_priors_ = 0.0;
   for (AdditionalPriorPtr prior : additional_priors) {
     objective::Score new_score;
     new_score.label_ = PARAM_ADDITIONAL_PRIOR + string("->") + prior->label();
-    new_score.score_ = prior->GetScore();
+    new_score.score_ = prior->score();
 
     score_list_.push_back(new_score);
     score_ += new_score.score_;

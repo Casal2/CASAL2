@@ -37,7 +37,7 @@ void Constant::DoReset() { }
  */
 void Constant::DoUpdate() {
   LOG_FINE() << "Setting Value to: " << value_;
-  (this->*DoUpdateFunc_)(value_);
+  (this->*update_function_)(value_);
 }
 
 } /* namespace timevarying */

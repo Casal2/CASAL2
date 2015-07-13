@@ -18,6 +18,7 @@ namespace reports {
  * Default Constructor
  */
 Manager::Manager() {
+  continue_.test_and_set();
 }
 
 /**
@@ -125,10 +126,10 @@ void Manager::Finalise() {
  */
 void Manager::FlushReports() {
   // WARNING: DO NOT CALL THIS ANYWHERE. IT'S THREADED
- bool do_break = false;
+ bool do_break = continue_.test_and_set();
+
   while(true) {
-    if (!continue_)
-      do_break = true;
+    do_break = !continue_.test_and_set();
 
     for (ReportPtr report : objects_) {
       if (report->ready_for_writing())

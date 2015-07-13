@@ -80,7 +80,7 @@ protected:
   estimates::TransformationPtr  transformation_;
 };
 
-typedef boost::shared_ptr<niwa::Estimate> EstimatePtr;
+typedef std::shared_ptr<niwa::Estimate> EstimatePtr;
 
 } /* namespace niwa */
 #endif /* ESTIMATE_H_ */

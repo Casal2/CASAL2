@@ -16,8 +16,7 @@
 #define BASE_EXECUTOR_H_
 
 // headers
-#include <boost/enable_shared_from_this.hpp>
-#include <boost/shared_ptr.hpp>
+#include <memory>
 
 #include "BaseClasses/Object.h"
 
@@ -26,7 +25,7 @@ namespace niwa {
 namespace base {
 
 // classes
-class Executor : public niwa::base::Object, public boost::enable_shared_from_this<Executor> {
+class Executor : public niwa::base::Object, public std::enable_shared_from_this<Executor> {
 public:
   // methods
   Executor() = default;
@@ -36,12 +35,12 @@ public:
   virtual void                Execute()     = 0;
 
   // accessors
-  boost::shared_ptr<Executor> shared_ptr() { return shared_from_this(); }
+  std::shared_ptr<Executor> shared_ptr() { return shared_from_this(); }
 };
 
 } /* namespace base */
 } /* namespace niwa */
 
-typedef boost::shared_ptr<niwa::base::Executor> ExecutorPtr;
+typedef std::shared_ptr<niwa::base::Executor> ExecutorPtr;
 
 #endif /* BASE_EXECUTOR_H_ */

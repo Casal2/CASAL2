@@ -60,7 +60,7 @@ private:
 };
 
 // Typedef
-typedef boost::shared_ptr<niwa::partition::accessors::Categories> CategoriesPtr;
+typedef std::shared_ptr<niwa::partition::accessors::Categories> CategoriesPtr;
 
 } /* namespace accessors */
 } /* namespace partition */

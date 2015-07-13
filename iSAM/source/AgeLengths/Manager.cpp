@@ -18,12 +18,12 @@ namespace niwa {
 namespace agelengths {
 
 /**
- * Return an add length smart_ptr based on label
+ * Return an age length smart_ptr based on label
  *
  * @param label The label of the age length object
  * @return age length smart_ptr
  */
-AgeLengthPtr Manager::GetAgeLength(const string& label) {
+AgeLengthPtr Manager::FindAgeLength(const string& label) {
   for (AgeLengthPtr length : objects_) {
     if (length->label() == label)
       return length;
