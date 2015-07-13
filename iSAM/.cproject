@@ -64,9 +64,9 @@
 							<tool id="cdt.managedbuild.tool.gnu.cross.c.linker.1397315116" name="Cross GCC Linker" superClass="cdt.managedbuild.tool.gnu.cross.c.linker"/>
 							<tool id="cdt.managedbuild.tool.gnu.cross.cpp.linker.1789246834" name="Cross G++ Linker" superClass="cdt.managedbuild.tool.gnu.cross.cpp.linker">
 								<option id="gnu.cpp.link.option.libs.745937941" name="Libraries (-l)" superClass="gnu.cpp.link.option.libs" valueType="libs">
-									<listOptionValue builtIn="false" value="boost_thread-mgw49-mt-sd-1_55"/>
-									<listOptionValue builtIn="false" value="boost_program_options-mgw49-mt-sd-1_55"/>
-									<listOptionValue builtIn="false" value="boost_system-mgw49-mt-sd-1_55"/>
+									<listOptionValue builtIn="false" value="boost_thread-mgw51-mt-sd-1_58"/>
+									<listOptionValue builtIn="false" value="boost_program_options-mgw51-mt-sd-1_58"/>
+									<listOptionValue builtIn="false" value="boost_system-mgw51-mt-sd-1_58"/>
 								</option>
 								<option id="gnu.cpp.link.option.paths.1339242663" name="Library search path (-L)" superClass="gnu.cpp.link.option.paths" valueType="libPaths">
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/BuildSystem/bin/win32/thirdparty/lib/debug}&quot;"/>

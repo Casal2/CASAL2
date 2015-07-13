@@ -32,7 +32,7 @@ public:
   // methods
   AdditionalPrior();
   virtual                     ~AdditionalPrior() = default;
-  Double                      GetScore();
+  Double                      score();
   void                        Validate();
   void                        Build() { };
   void                        Reset() { };
@@ -40,17 +40,17 @@ public:
 protected:
   // pure virtual methods
   virtual void                DoValidate() = 0;
-  virtual Double              GetRatioScore() = 0;
-  virtual Double              GetDifferenceScore() = 0;
-  virtual Double              GetMeanScore() = 0;
+  virtual Double              ratio_score() = 0;
+  virtual Double              difference_score() = 0;
+  virtual Double              mean_score() = 0;
 
   // members
-  ScoreFunction               DoScoreFunction_ = 0;
+  ScoreFunction               score_function_ = 0;
   string                      method_;
 };
 
 // typedef
-typedef boost::shared_ptr<niwa::AdditionalPrior> AdditionalPriorPtr;
+typedef std::shared_ptr<niwa::AdditionalPrior> AdditionalPriorPtr;
 
 } /* namespace niwa */
 

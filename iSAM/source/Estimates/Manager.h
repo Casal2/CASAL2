@@ -38,7 +38,7 @@ public:
   void                            Validate() override final;
   unsigned                        GetEnabledCount();
   vector<EstimatePtr>             GetEnabled();
-  void                            RemoveAllObjects() override final;
+  void                            Clear() override final;
   bool                            HasEstimate(const string& parameter);
   void                            EnableEstimate(const string& parameter);
   void                            DisableEstimate(const string& parameter);

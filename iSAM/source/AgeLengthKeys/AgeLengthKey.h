@@ -29,6 +29,7 @@ public:
   void                        Validate();
   void                        Build();
   void                        Reset() { DoReset(); };
+
   map<unsigned,map<unsigned, Double>>& lookup_table() { return lookup_table_; }
 
 protected:
@@ -42,7 +43,7 @@ protected:
 };
 
 // typedef
-typedef boost::shared_ptr<AgeLengthKey> AgeLengthKeyPtr;
+typedef std::shared_ptr<AgeLengthKey> AgeLengthKeyPtr;
 
 } /* namespace niwa */
 

@@ -44,7 +44,7 @@ void EstimateSummary::DoExecute() {
 
   // Print the estimates
   niwa::estimates::Manager& estimate_manager = niwa::estimates::Manager::Instance();
-  vector<EstimatePtr> estimates = estimate_manager.GetObjects();
+  vector<EstimatePtr> estimates = estimate_manager.objects();
 
   for (EstimatePtr estimate : estimates) {
     cache_ << "\n";

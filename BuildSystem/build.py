@@ -75,9 +75,18 @@ def start_build_system():
     return Globals.PrintError("gfortran for g++ is not installed. Please install the GCC Fortran compiler")
   if Globals.git_path_ == "":
     return Globals.PrintError("git is not in the current path. Please install a git command line client (e.g http://git-scm.com/downloads)")  
+  if Globals.operating_system_ == 'win32' and os.path.exists(Globals.git_path_ + '\\sh.exe'):
+  	return Globals.PrintError("git version has sh.exe in the same location. This will conflict with cmake. Please upgrade to a 64bit version of Git")
   
   if not system_info.find_gcc_version():
     return False
+
+  # Check the compiler version to see if it's compatible
+  pieces = Globals.compiler_version_.split('.')
+  gcc_version = str(pieces[0]) + str(pieces[1])
+  if gcc_version >= '50':
+  	return Globals.PrintError("G++ version " + Globals.compiler_version_ + " is not supported due to incompatible libraries")
+
   return True  
 
 """
@@ -96,7 +105,6 @@ def start():
   print '-- Checking for distutils Python module'
   if 'distutils' not in sys.modules:
     return Globals.PrintError("Python requires the module distutils for the build system to work")
-
   
   build_target = ""
   build_parameters = ""
@@ -143,7 +151,8 @@ def start():
     print_usage()
     return True
   if build_target == "check":
-    return True 
+	print "--> All checks completed successfully"
+	return True 
 
   if build_parameters != "": 
     build_parameters = build_parameters.lower()

@@ -6,14 +6,14 @@ from distutils import dir_util
 import Globals
 
 class Builder:
-  version_ = '1_55'
+  version_ = '1_58'
 
   def is_lean(self):
     return True
   
   def start(self):
       # Variables
-      boostFileName = 'boost_1_55_0'
+      boostFileName = 'boost_1_58_0'
       
       libraries = [ 'libboost_program_options.a',
                    'libboost_system.a', 

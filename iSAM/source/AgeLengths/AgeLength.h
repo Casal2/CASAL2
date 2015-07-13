@@ -44,7 +44,7 @@ protected:
 };
 
 // typedef
-typedef boost::shared_ptr<AgeLength> AgeLengthPtr;
+typedef std::shared_ptr<AgeLength> AgeLengthPtr;
 
 } /* namespace niwa */
 #endif /* AGELENGTH_H_ */

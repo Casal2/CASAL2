@@ -18,7 +18,7 @@
 #define BASE_FACTORY_H_
 
 // Headers
-#include <boost/shared_ptr.hpp>
+#include <memory>
 
 #include "Model/Model.h"
 
@@ -26,7 +26,7 @@
 namespace niwa {
 namespace base {
 
-using boost::shared_ptr;
+using std::shared_ptr;
 
 // classes
 template<class ObjectType, class ManagerType>

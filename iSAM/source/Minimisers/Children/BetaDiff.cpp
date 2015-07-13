@@ -56,7 +56,7 @@ BetaDiff::BetaDiff() {
 void BetaDiff::Execute() {
   estimates::Manager& estimate_manager = estimates::Manager::Instance();
 
-  vector<EstimatePtr> estimates = estimate_manager.GetObjects();
+  vector<EstimatePtr> estimates = estimate_manager.objects();
 
 
   dvector lower_bounds((int)estimates.size());

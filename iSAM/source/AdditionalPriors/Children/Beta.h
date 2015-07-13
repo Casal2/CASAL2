@@ -31,9 +31,9 @@ public:
 
 protected:
   // methods
-  Double                      GetRatioScore() override final;
-  Double                      GetDifferenceScore() override final;
-  Double                      GetMeanScore() override final;
+  Double                      ratio_score() override final;
+  Double                      difference_score() override final;
+  Double                      mean_score() override final;
 
   // members
   Double                      mu_ = 0.0;

@@ -16,6 +16,7 @@
 #include "Reports/Manager.h"
 #include "Reports/Children/AgeLengthKey.h"
 #include "Reports/Children/CategoryInfo.h"
+#include "Reports/Children/CategoryList.h"
 #include "Reports/Children/DerivedQuantity.h"
 #include "Reports/Children/Estimable.h"
 #include "Reports/Children/EstimateSummary.h"
@@ -50,6 +51,8 @@ ReportPtr Factory::Create(const string& object_type, const string& sub_type) {
       result = ReportPtr(new AgeLengthKey());
     else if (sub_type == PARAM_CATEGORY_INFO)
       result = ReportPtr(new CategoryInfo());
+    else if (sub_type == PARAM_CATEGORY_LIST)
+      result = ReportPtr(new CategoryList());
     else if (sub_type == PARAM_DERIVED_QUANTITY)
       result = ReportPtr(new DerivedQuantity());
     else if (sub_type == PARAM_ESTIMABLE)

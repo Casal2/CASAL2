@@ -347,6 +347,8 @@ bool Loader::HandleOperators(vector<string>& line_values) {
   string line = boost::algorithm::join(line_values, " ");
   line_values.clear();
 
+  LOG_FINEST() << "HandleOperators: " << line;
+
   /**
    * Join operator + is used to join multiple categories together
    * so a process/observation can work on them as one
@@ -371,6 +373,13 @@ bool Loader::HandleOperators(vector<string>& line_values) {
    */
   boost::replace_all(line, " :", ":");
   boost::replace_all(line, ": ", ":");
+
+  /**
+   * The multiply operator is used to define something once
+   * then have multiple copies of it in the configuration file
+   */
+  boost::replace_all(line, " *", "*");
+  boost::replace_all(line, "* ", "*");
 
   vector<string> values;
   boost::split(values, line, boost::is_any_of(" "));

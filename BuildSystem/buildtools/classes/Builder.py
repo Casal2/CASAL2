@@ -190,8 +190,7 @@ class ThirdPartyLibraries:
           return Globals.PrintError('Third party library ' + folder + ' does not have a windows.py file.\nThis file is required to build this library on Windows')
         import windows as third_party_builder
         builder = third_party_builder.Builder()        
-        if os.path.exists(success_file) and Globals.build_parameters_ == "":
-          if hasattr(builder, 'version_') and str(library_version) == str(builder.version_) and str(library_version) != str(-1.0):
+        if os.path.exists(success_file) and Globals.build_parameters_ == "" and hasattr(builder, 'version_') and str(library_version) == str(builder.version_) and str(library_version) != str(-1.0):
             print '--> Skipping library ' + folder + ' (version already installed)'
             success = True
         else:
@@ -220,8 +219,7 @@ class ThirdPartyLibraries:
           return Globals.PrintError('Third party library ' + folder + ' does not have a linux.py file.\nThis file is required to build this library on Linux')
         import linux as third_party_builder
         builder = third_party_builder.Builder()        
-        if os.path.exists(success_file) and Globals.build_parameters_ == "":
-          if str(library_version) == str(builder.version_) and str(library_version) != str(-1.0):
+        if os.path.exists(success_file) and Globals.build_parameters_ == "" and hasattr(builder, 'version_') and str(library_version) == str(builder.version_) and str(library_version) != str(-1.0):
             print '--> Skipping library ' + folder + ' (version already installed)'
             success = True
         else:

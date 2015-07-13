@@ -21,7 +21,7 @@
 #include <string>
 #include <vector>
 #include <map>
-#include <boost/shared_ptr.hpp>
+#include <memory>
 
 #include "Utilities/Types.h"
 
@@ -74,7 +74,7 @@ private:
 /**
  * Typedefs
  */
-typedef boost::shared_ptr<niwa::parameters::Table> TablePtr;
+typedef std::shared_ptr<niwa::parameters::Table> TablePtr;
 
 } /* namespace parameters */
 } /* namespace niwa */

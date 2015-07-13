@@ -134,7 +134,7 @@ void Categories::Build() {
 
   auto iter = category_age_length_labels_.begin();
   for (; iter != category_age_length_labels_.end(); ++iter) {
-    AgeLengthPtr age_size = age_sizes_manager.GetAgeLength(iter->second);
+    AgeLengthPtr age_size = age_sizes_manager.FindAgeLength(iter->second);
     if (!age_size)
       LOG_ERROR_P(PARAM_AGE_LENGTHS) << "(" << iter->second << ") could not be found. Have you defined it?";
 
@@ -450,7 +450,7 @@ AgeLengthKeyPtr Categories::age_length_key(const string& category_name) {
 /**
  * This method will remove all of the information from our categories
  */
-void Categories::RemoveAllObjects() {
+void Categories::Clear() {
   parameters_.Clear();
   format_ = "";
   names_.clear();

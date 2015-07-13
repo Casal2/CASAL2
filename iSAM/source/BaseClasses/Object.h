@@ -21,7 +21,7 @@
 
 // Headers
 #include <string>
-#include <boost/shared_ptr.hpp>
+#include <memory>
 
 #include "ParameterList/ParameterList.h"
 #include "Translations/Translations.h"
@@ -101,7 +101,7 @@ protected:
 /**
  * Typedef
  */
-typedef boost::shared_ptr<niwa::base::Object> ObjectPtr;
+typedef std::shared_ptr<niwa::base::Object> ObjectPtr;
 
 
 } /* namespace base */

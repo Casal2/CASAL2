@@ -19,7 +19,7 @@
 // headers
 #include <map>
 #include <string>
-#include <boost/shared_ptr.hpp>
+#include <memory>
 
 #include "Utilities/Map.h"
 #include "Utilities/Types.h"
@@ -27,7 +27,7 @@
 // namespaces
 namespace niwa {
 
-using boost::shared_ptr;
+using std::shared_ptr;
 using utilities::Double;
 using std::string;
 using std::vector;
@@ -67,7 +67,7 @@ private:
 
 };
 
-typedef boost::shared_ptr<Estimables> EstimablesPtr;
+typedef std::shared_ptr<Estimables> EstimablesPtr;
 
 } /* namespace niwa */
 

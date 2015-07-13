@@ -57,7 +57,7 @@ private:
 };
 
 // Typedef
-typedef boost::shared_ptr<CategoriesWithAge> CategoriesWithAgePtr;
+typedef std::shared_ptr<CategoriesWithAge> CategoriesWithAgePtr;
 
 } /* namespace accessors */
 } /* namespace partition */
