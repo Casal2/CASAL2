@@ -276,6 +276,45 @@ TEST(ConfigurationLoader, HandleOperators_16) {
   }
 }
 
+TEST(ConfigurationLoader, HandleOperators_17) {
+  vector<string> line_values { "sex:male=age_length_male" };
+  vector<string> expected { "sex:male=age_length_male" };
+
+  LoaderTest loader;
+  loader.HandleOperators(line_values);
+
+  ASSERT_EQ(expected.size(), line_values.size());
+  for (unsigned i = 0; i < expected.size(); ++i) {
+    EXPECT_EQ(expected[i], line_values[i]) << " with i = " << i;
+  }
+}
+
+TEST(ConfigurationLoader, HandleOperators_18) {
+  vector<string> line_values { "sex:male=male.age_length" };
+  vector<string> expected { "sex:male=male.age_length" };
+
+  LoaderTest loader;
+  loader.HandleOperators(line_values);
+
+  ASSERT_EQ(expected.size(), line_values.size());
+  for (unsigned i = 0; i < expected.size(); ++i) {
+    EXPECT_EQ(expected[i], line_values[i]) << " with i = " << i;
+  }
+}
+
+TEST(ConfigurationLoader, HandleOperators_19) {
+  vector<string> line_values { "format:*.mature=male.age_length" };
+  vector<string> expected { "format:*.mature=male.age_length" };
+
+  LoaderTest loader;
+  loader.HandleOperators(line_values);
+
+  ASSERT_EQ(expected.size(), line_values.size());
+  for (unsigned i = 0; i < expected.size(); ++i) {
+    EXPECT_EQ(expected[i], line_values[i]) << " with i = " << i;
+  }
+}
+
 } /* namespace configuration */
 } /* namespace niwa */
 
