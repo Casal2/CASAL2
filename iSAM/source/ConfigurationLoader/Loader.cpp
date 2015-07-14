@@ -421,24 +421,18 @@ bool Loader::HandleOperators(vector<string>& line_values, string &error) {
           }
 
           int start_value;
-          if (!util::To<int>(numerics[0], start_value)) {
-            error = "Could not convert " + numerics[0] + " to an int";
-            return false;
-          }
-
           int end_value;
-          if (!util::To<int>(numerics[1], end_value)) {
-            error = "Could not convert " + numerics[1] + " to an int";
-            return false;
-          }
+          if (util::To<int>(numerics[0], start_value) && util::To<int>(numerics[1], end_value)) {
+            if (start_value < end_value) {
+              for (int value = start_value; value <= end_value; ++value)
+                chunks[i].push_back(util::ToInline<int, string>(value));
+            } else {
+              for (int value = start_value; value >= end_value; --value)
+                chunks[i].push_back(util::ToInline<int, string>(value));
+            }
+          }  else
+            chunks[i].push_back(chunk);
 
-          if (start_value < end_value) {
-            for (int value = start_value; value <= end_value; ++value)
-              chunks[i].push_back(util::ToInline<int, string>(value));
-          } else {
-            for (int value = start_value; value >= end_value; --value)
-              chunks[i].push_back(util::ToInline<int, string>(value));
-          }
         } else if (chunk.find("*") != string::npos && chunk != "*" && chunk != "*+") {
           /**
            * Handle the * multiplier operator. We split it on the *
