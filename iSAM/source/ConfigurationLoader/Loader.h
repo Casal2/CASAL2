@@ -45,6 +45,7 @@ public:
 
 // classes
 class Loader {
+  friend class LoaderTest;
 public:
   // Methods
   Loader() = default;
@@ -58,7 +59,7 @@ private:
   // Methods
   void                        ParseBlock(vector<FileLine> &block);
   ObjectPtr                   CreateObject(const string &block_type, const string &object_type);
-  bool                        HandleOperators(vector<string> &line_values);
+  bool                        HandleOperators(vector<string> &line_values, string &error);
   void                        HandleInlineDefinitions(FileLine& file_line, const string& parent_label);
 
   // Members

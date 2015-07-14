@@ -68,6 +68,7 @@ private:
 #define LOG_TRACE() for(logger::Record r(logger::Severity::kTrace, __FILE__, __FUNCTION__, __LINE__); !r.Flush(); Logging::Instance().Flush(r));
 #define LOG_FINEST() for(logger::Record r(logger::Severity::kFinest, __FILE__, __FUNCTION__, __LINE__); !r.Flush(); Logging::Instance().Flush(r)) r.stream()
 #define LOG_FINE() for(logger::Record r(logger::Severity::kFine, __FILE__, __FUNCTION__, __LINE__); !r.Flush(); Logging::Instance().Flush(r)) r.stream()
+#define LOG_MEDIUM() for(logger::Record r(logger::Severity::kMedium, __FILE__, __FUNCTION__, __LINE__); !r.Flush(); Logging::Instance().Flush(r)) r.stream()
 #define LOG_WARNING() for(logger::Record r(logger::Severity::kWarning, __FILE__, __FUNCTION__, __LINE__); !r.Flush(); Logging::Instance().Flush(r)) r.stream()
 #define LOG_ERROR() for(logger::Record r(logger::Severity::kError, __FILE__, __FUNCTION__, __LINE__); !r.Flush(); Logging::Instance().Flush(r)) r.stream()
 #define LOG_ERROR_P(parameter) for(logger::Record r(logger::Severity::kError, __FILE__, __FUNCTION__, __LINE__); !r.Flush(); Logging::Instance().Flush(r)) r.stream() << this->parameters_.location(parameter)

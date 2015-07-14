@@ -33,6 +33,8 @@ Logging::Logging() {
     current_log_level_ = logger::Severity::kFinest;
   else if (log_level == PARAM_FINE)
     current_log_level_ = logger::Severity::kFine;
+  else if (log_level == PARAM_MEDIUM)
+    current_log_level_ = logger::Severity::kMedium;
   else if (log_level != PARAM_NONE) {
     cout << "The log level provided is an invalid log level. " << log_level << " is not supported" << endl;
     exit(-1);
