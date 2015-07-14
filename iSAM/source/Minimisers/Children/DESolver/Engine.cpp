@@ -27,8 +27,6 @@ namespace minimisers {
 namespace desolver {
 
 namespace compare = niwa::utilities::doublecompare;
-using std::cerr;
-using std::endl;
 
 /**
  * Default constructor
@@ -164,7 +162,7 @@ bool Engine::Solve(unsigned max_generations) {
   bool new_best_energy  = false;
 
   trial_energy_ = EnergyFunction(current_values_);
-  cerr << "First Trial Energy: " << trial_energy_ << endl;
+  LOG_MEDIUM() << "First Trial Energy: " << trial_energy_;
   if (trial_energy_ < best_energy_) {
     new_best_energy = true;
 
@@ -172,15 +170,15 @@ bool Engine::Solve(unsigned max_generations) {
     best_energy_    = trial_energy_;
     best_solution_  = current_values_;
 
-    cerr << "Current estimates: ";
+    LOG_MEDIUM() << "Current estimates: ";
     for (unsigned i = 0; i < best_solution_.size(); ++i)
-      cerr << best_solution_[i] << " ";
-    cerr << endl;
-    cerr << "Objective function value: " << trial_energy_ << endl << endl;
+      LOG_MEDIUM() << best_solution_[i] << " ";
+    LOG_MEDIUM();
+    LOG_MEDIUM() << "Objective function value: " << trial_energy_;
   }
 
   for (unsigned i = 0; i < max_generations; ++i) {
-    cerr << "DESolver: current generation: " << (i+1) << "\n";
+    LOG_MEDIUM() << "DESolver: current generation: " << (i+1) << "\n";
     for (unsigned j = 0; j < population_size_; ++j) {
       // Build our Trial Solution
       (this->*calculate_solution_)(j);
@@ -199,14 +197,14 @@ bool Engine::Solve(unsigned max_generations) {
           best_solution_.assign(current_values_.begin(), current_values_.end());
 
 
-          cerr << "Objective function value: " << trial_energy_ << endl;
+          LOG_MEDIUM() << "Objective function value: " << trial_energy_;
 
 //          if(!(pConfig->getQuietMode())) {
-//            cerr << "Current estimates: ";
+//            LOG_MEDIUM() << "Current estimates: ";
 //            for (int k = 0; k < (int)vBestSolution.size(); ++k)
-//              cerr << vBestSolution[k] << " ";
-//            cerr << endl;
-//            cerr << "Objective function value: " << dTrialEnergy << "\n";
+//              LOG_MEDIUM() << vBestSolution[k] << " ";
+//            LOG_MEDIUM();
+//            LOG_MEDIUM() << "Objective function value: " << dTrialEnergy << "\n";
 //          }
         }
       }
@@ -222,18 +220,18 @@ bool Engine::Solve(unsigned max_generations) {
     new_best_energy = false;
   }
 
-  cerr << "Best Solution: ";
+  LOG_MEDIUM() << "Best Solution: ";
   for (unsigned i = 0; i < best_solution_.size(); ++i)
-    cerr << best_solution_[i] << " ";
-  cerr << "= " << best_energy_ << endl;
+    LOG_MEDIUM() << best_solution_[i] << " ";
+  LOG_MEDIUM() << "= " << best_energy_;
 
-  cerr << "Population:" << endl;
+  LOG_MEDIUM() << "Population:";
   for (unsigned i = 0; i < population_size_; ++i) {
-    cerr << i << "] ";
+    LOG_MEDIUM() << i << "] ";
     for (unsigned j = 0; j < vector_size_; ++j) {
-      cerr << population_[i][j] << " ";
+      LOG_MEDIUM() << population_[i][j] << " ";
     }
-    cerr << "= " << population_energy_[i] << endl;
+    LOG_MEDIUM() << "= " << population_energy_[i];
   }
 
   return false;
@@ -263,12 +261,12 @@ bool Engine::GenerateGradient() {
 
 
     if (convergence_check > tolerance_) {
-      cerr << "DESolver: (no convergence) convergence_check: " << convergence_check << "; tolerance: " << tolerance_;
+      LOG_MEDIUM() << "DESolver: (no convergence) convergence_check: " << convergence_check << "; tolerance: " << tolerance_;
       return false; // No Convergence
     }
   }
 
-  cerr << "DESolver: (convergence) convergence_check: " << convergence_check << "; tolerance: " << tolerance_;
+  LOG_MEDIUM() << "DESolver: (convergence) convergence_check: " << convergence_check << "; tolerance: " << tolerance_;
   return true; // Convergence
 }
 

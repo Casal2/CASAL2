@@ -17,13 +17,12 @@
 #include <iostream>
 #include <cmath>
 
+#include "Logging/Logging.h"
+
 // namespaces
 namespace niwa {
 namespace minimisers {
 namespace adolc {
-
-using std::cerr;
-using std::endl;
 
 //**********************************************************************
 // FMM::FMM(int n)
@@ -273,7 +272,7 @@ void FMM::fMin(vector<double>& Candidates, double& Score, vector<double>& Gradie
     // have exceeded maximum no. of function evaluations
     if (iEvals > iMaxFunc) {
       iRet = -2;
-      cerr << "FMM: Too many function evaluations (" << iEvals << ")" << endl;
+      LOG_MEDIUM() << "FMM: Too many function evaluations (" << iEvals << ")";
 
       for (int i = 0; i < iVectorSize; ++i)
         Candidates[i] = pPreviousCandidates[i];
@@ -284,7 +283,7 @@ void FMM::fMin(vector<double>& Candidates, double& Score, vector<double>& Gradie
     iLinearSearchIters++;
     if (iLinearSearchIters > iMaxSteps) {
       iRet = -3;
-      cerr << "FMM: Too many loops in linear search (" << iLinearSearchIters << ")" << endl;
+      LOG_MEDIUM() << "FMM: Too many loops in linear search (" << iLinearSearchIters << ")";
 
       // Go back to last accepted candidates
       for (int i = 0; i < iVectorSize; ++i)
@@ -313,7 +312,7 @@ void FMM::fMin(vector<double>& Candidates, double& Score, vector<double>& Gradie
     // Is StepSize too Small?
     if (dLambda < dLambdaMin) {
       iRet = -3;
-      cerr << "FMM Linear step size too small (" << (double)dLambda << ")" << endl;
+      LOG_MEDIUM() << "FMM Linear step size too small (" << (double)dLambda << ")";
       return;
     }
 
@@ -369,7 +368,7 @@ void FMM::fMin(vector<double>& Candidates, double& Score, vector<double>& Gradie
 
     if (iIters > iMaxQuasiSteps) { // have exceeded maximum no. of iterations
       iRet = -2;
-      cerr << "FMM: Too many quasi newton iterations  (" << iIters << ")" << endl;
+      LOG_MEDIUM() << "FMM: Too many quasi newton iterations  (" << iIters << ")";
       return;
     }
 
@@ -387,7 +386,7 @@ void FMM::fMin(vector<double>& Candidates, double& Score, vector<double>& Gradie
       iConsecutiveMaxSteps++;
 
       if (iConsecutiveMaxSteps == 5) {
-        cerr << "FMM: Max newton steps (5)" << endl;
+        LOG_MEDIUM() << "FMM: Max newton steps (5)";
         iRet = -3;
         return;
       }
@@ -402,24 +401,24 @@ void FMM::fMin(vector<double>& Candidates, double& Score, vector<double>& Gradie
     }
 
 //    if(!(pConfig->getQuietMode())) {
-//      cerr << FMM_CONVERGENCE_CHECK << (double)dCurrentTolerance << "\n";
-//      cerr << FMM_CONVERGENCE_THRESHOLD << (double)dGradTol << "\n" << endl;
+//      LOG_MEDIUM() << FMM_CONVERGENCE_CHECK << (double)dCurrentTolerance << "\n";
+//      LOG_MEDIUM() << FMM_CONVERGENCE_THRESHOLD << (double)dGradTol << "\n";
 //    }
 
     if (dCurrentTolerance <= dGradTol) {
       iRet = -1; // convergence!
-      //cerr << FMM_CONVERGENCE << dCurrentTolerance << endl;
-      //cerr << FMM_FUNCTION_SCORE << dPreviousScore2 << endl;
+      //LOG_MEDIUM() << FMM_CONVERGENCE << dCurrentTolerance;
+      //LOG_MEDIUM() << FMM_FUNCTION_SCORE << dPreviousScore2;
 
-      //cerr << FMM_CURRENT_PARAMETER_ESTIMATES;
+      //LOG_MEDIUM() << FMM_CURRENT_PARAMETER_ESTIMATES;
       //for (int i = 0; i < iVectorSize; i++)
-      //  cerr << pPreviousCandidates[i] << " ";
-      //cerr << endl;
+      //  LOG_MEDIUM() << pPreviousCandidates[i] << " ";
+      //LOG_MEDIUM();
 
-      //cerr << FMM_GRADIENT_VALUE;
+      //LOG_MEDIUM() << FMM_GRADIENT_VALUE;
       //for (int i = 0; i < iVectorSize; i++)
-      //  cerr << pGradient[i] << " ";
-      //cerr << endl;
+      //  LOG_MEDIUM() << pGradient[i] << " ";
+      //LOG_MEDIUM();
 
       return;
     }
@@ -432,7 +431,7 @@ void FMM::fMin(vector<double>& Candidates, double& Score, vector<double>& Gradie
       }
 
       if (dCurrentTolerance <= dStepTol) {
-        cerr << "FMM: Small step size convergence" << endl;
+        LOG_MEDIUM() << "FMM: Small step size convergence";
         iRet = -1;
         return;
       }

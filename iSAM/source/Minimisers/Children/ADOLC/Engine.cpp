@@ -86,7 +86,7 @@ Double Engine::optimise(adolc::CallBack& objective,
   /**
    * Scale our start values
    */
-  cout << "Start Values (scaled): ";
+  LOG_MEDIUM() << "Start Values (scaled): ";
   for (unsigned i = 0; i < start_values.size(); ++i) {
     if (start_values[i] < lower_bounds[i])
       LOG_CODE_ERROR() << "start_values[i] < lower_bounds[i]";
@@ -98,15 +98,15 @@ Double Engine::optimise(adolc::CallBack& objective,
       scaled_candidates[i] = 0.0;
     else
       scaled_candidates[i] = math::scale_value(start_values[i], lower_bounds[i], upper_bounds[i]);
-    cout << scaled_candidates[i] << ", ";
+    LOG_MEDIUM() << scaled_candidates[i] << ", ";
   }
-  cout << endl;
+  LOG_MEDIUM() << endl;
 
   // Loop through our Minimiser now
   while (fmm.getResult() >= 0) {
     // Do we need to evaluate objective function again?
     if ((fmm.getResult() == 0) || (fmm.getResult() == 2)) {
-      cout << "About to trace the objective (model)" << endl;
+      LOG_MEDIUM() << "About to trace the objective (model)" << endl;
 //      if (first_iteration) // only run once
         trace_on(0);
 
@@ -118,26 +118,26 @@ Double Engine::optimise(adolc::CallBack& objective,
       penalty = 0.0;
 
       // unscale candidates
-      cout << "candidates (unscaled): ";
+      LOG_MEDIUM() << "candidates (unscaled): ";
       for (unsigned i = 0; i < parameter_count; ++i) {
         if (dc::IsEqual(lower_bounds[i], upper_bounds[i]))
           candidates[i] = lower_bounds[i];
         else
           candidates[i] = math::unscale_value(scaled_candidates[i], penalty, lower_bounds[i], upper_bounds[i]);
-        cout << candidates[i] << ", ";
+        LOG_MEDIUM() << candidates[i] << ", ";
       }
-      cout << endl;
+      LOG_MEDIUM() << endl;
 
-      cout << "Running Model: Start -->";
+      LOG_MEDIUM() << "Running Model: Start -->";
       aobj_score = objective(candidates);
-      cout << " End" << endl;
+      LOG_MEDIUM() << " End" << endl;
       aobj_score += penalty; // penalty for breaking bounds
       aobj_score >>= obj_score;
 //      if (first_iteration) { // only run once
         trace_off();
 //        first_iteration = false;
 //      }
-      cout << "Finished objective function call with score = " << obj_score << " (inc Penalty: " << penalty << ")" << endl;
+      LOG_MEDIUM() << "Finished objective function call with score = " << obj_score << " (inc Penalty: " << penalty << ")" << endl;
     }
 
     // Gradient Required
@@ -145,29 +145,29 @@ Double Engine::optimise(adolc::CallBack& objective,
     // to see how the other variables change.
     // There-by generating our co-variance
     if (fmm.getResult() >= 1) { // 1 = Gradient Required
-      cout << "About to eval gradient" << endl;
+      LOG_MEDIUM() << "About to eval gradient" << endl;
 
       double* adolc_x = new double[parameter_count];
       double* adolc_g = new double[parameter_count];
 
-      cout << "adolc_x: ";
+      LOG_MEDIUM() << "adolc_x: ";
       for (unsigned i = 0; i < parameter_count; ++i) {
         adolc_x[i] = scaled_candidates[i].value();
-        cout << adolc_x[i] << ", ";
+        LOG_MEDIUM() << adolc_x[i] << ", ";
       }
-      cout << endl;
+      LOG_MEDIUM() << endl;
 
       int g_status = gradient(0, parameter_count, adolc_x, adolc_g);
 //      double one = 1.0;
 //      int g_status = fos_reverse(0, 1, parameter_count, &one, adolc_g);
-      cout << "Finished gradient call with status: " << g_status << endl;
+      LOG_MEDIUM() << "Finished gradient call with status: " << g_status << endl;
 
-      cout << "gradient: ";
+      LOG_MEDIUM() << "gradient: ";
       for (unsigned i = 0; i < parameter_count; ++i) {
         gradient_values[i] = adolc_g[i];
-        cout << gradient_values[i] << ", ";
+        LOG_MEDIUM() << gradient_values[i] << ", ";
       }
-      cout << endl;
+      LOG_MEDIUM() << endl;
 
       delete [] adolc_x;
       delete [] adolc_g;
@@ -181,33 +181,33 @@ Double Engine::optimise(adolc::CallBack& objective,
      * Then we assign them back so they can be unscaled during
      * the trace
      */
-    cout << "before: ";
+    LOG_MEDIUM() << "before: ";
     for (unsigned i = 0; i < candidates.size(); ++i) {
       scaled_candidate_values[i] = scaled_candidates[i].value();
-      cout << scaled_candidate_values[i] << ",";
+      LOG_MEDIUM() << scaled_candidate_values[i] << ",";
     }
-    cout << endl;
+    LOG_MEDIUM() << endl;
 
     fmm.fMin(scaled_candidate_values, obj_score, gradient_values);
 
-    cout << "after: ";
+    LOG_MEDIUM() << "after: ";
     for (unsigned i = 0; i < candidates.size(); ++i) {
       scaled_candidates[i] = scaled_candidate_values[i];
-      cout << scaled_candidates[i] << ", ";
+      LOG_MEDIUM() << scaled_candidates[i] << ", ";
     }
-    cout << endl;
-    cout << "FMM score: " << obj_score << endl;
-    cout << "FMM Result: " << fmm.getResult() << endl;
+    LOG_MEDIUM() << endl;
+    LOG_MEDIUM() << "FMM score: " << obj_score << endl;
+    LOG_MEDIUM() << "FMM Result: " << fmm.getResult() << endl;
   }
 
   if (fmm.getResult() == -3)
-    cout << "Convergence Unclear" << endl;
+    LOG_MEDIUM() << "Convergence Unclear" << endl;
   else if (fmm.getResult() == -2)
-    cout << "Max Evaluations" << endl;
+    LOG_MEDIUM() << "Max Evaluations" << endl;
   else if (fmm.getResult() == -1)
-    cout << "BAM CONVERGENCE" << endl;
+    LOG_MEDIUM() << "BAM CONVERGENCE" << endl;
   else
-    cout << "UNKNOWN RETURN VALUE: " << fmm.getResult() << endl;
+    LOG_MEDIUM() << "UNKNOWN RETURN VALUE: " << fmm.getResult() << endl;
 
   /**
    * Unscale our values
@@ -289,11 +289,11 @@ Double Engine::optimise(adolc::CallBack& objective,
     delete[] LT;
   }
 
-  cout << "final: ";
+  LOG_MEDIUM() << "final: ";
   for (unsigned i = 0; i < candidates.size(); ++i) {
-    cout << candidates[i] << ", ";
+    LOG_MEDIUM() << candidates[i] << ", ";
   }
-  cout << endl;
+  LOG_MEDIUM() << endl;
   for (adouble value : candidates)
     final_candidates_.push_back(value);
 

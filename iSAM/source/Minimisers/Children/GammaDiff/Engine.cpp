@@ -166,11 +166,11 @@ double Engine::optimise_finite_differences(gammadiff::CallBack& objective, vecto
 
       buildCurrentValues();
       dScore = objective(vCurrentValues);
-      cerr << "Current estimates: ";
+      LOG_MEDIUM() << "Current estimates: ";
       for (int i = 0; i < iVectorSize; ++i) {
-        cerr << vCurrentValues[i] << " ";
+        LOG_MEDIUM() << vCurrentValues[i] << " ";
       }
-      cerr << "\nObjective function value: " << dScore << "\n";
+      LOG_MEDIUM() << "\nObjective function value: " << dScore << "\n";
       dScore += dPenalty; // Bound penalty
     }
 
@@ -214,13 +214,13 @@ double Engine::optimise_finite_differences(gammadiff::CallBack& objective, vecto
   }
 
   if (clMinimiser.getResult() == -3)
-    cerr << GAMMADIFF_CONVERGENCE_UNCLEAR << endl;
+    LOG_MEDIUM() << GAMMADIFF_CONVERGENCE_UNCLEAR;
   else if (clMinimiser.getResult() == -2)
-    cerr << GAMMADIFF_EVALUATIONS_MAX << endl;
+    LOG_MEDIUM() << GAMMADIFF_EVALUATIONS_MAX;
   else if (clMinimiser.getResult() == -1)
-    cerr << GAMMADIFF_CONVERGENCE_SUCCESSFUL << endl;
+    LOG_MEDIUM() << GAMMADIFF_CONVERGENCE_SUCCESSFUL;
   else
-    cerr << GAMMADIFF_RETURN_VALUE_UNKNOWN << clMinimiser.getResult() << endl;
+    LOG_MEDIUM() << GAMMADIFF_RETURN_VALUE_UNKNOWN << clMinimiser.getResult();
 
   for (int i = 0; i < iVectorSize; ++i) {
     vCurrentValues[i] = unScaleValue(vScaledValues[i], vLowerBounds[i], vUpperBounds[i]);
