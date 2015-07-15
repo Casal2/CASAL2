@@ -260,9 +260,10 @@ void Loader::ParseBlock(vector<FileLine> &block) {
     /**
      * Re-process the values based on the symbols we support
      */
-    if (parameter_type != PARAM_PARAMETER && !HandleOperators(values))
+    string error = "";
+    if (parameter_type != PARAM_PARAMETER && !HandleOperators(values, error))
       LOG_FATAL() << "At line " << file_line.line_number_ << " in " << file_line.file_name_
-          << ": Line could not be processed properly for operators(+ , :). Please check the format of your line";
+          << ": " << error;
 
     /**
      *
@@ -343,7 +344,7 @@ void Loader::ParseBlock(vector<FileLine> &block) {
  * @param line_values The vector containing the split parts we want to modify
  * @return true on success, false on failure
  */
-bool Loader::HandleOperators(vector<string>& line_values) {
+bool Loader::HandleOperators(vector<string>& line_values, string &error) {
   string line = boost::algorithm::join(line_values, " ");
   line_values.clear();
 
@@ -351,7 +352,10 @@ bool Loader::HandleOperators(vector<string>& line_values) {
 
   /**
    * Join operator + is used to join multiple categories together
-   * so a process/observation can work on them as one
+   * so a process/observation can work on them as one.
+   *
+   * We don't actually need to do anything about this as removing
+   * the spaces is sufficient
    */
   boost::replace_all(line, " +", "+");
   boost::replace_all(line, "+ ", "+");
@@ -381,73 +385,99 @@ bool Loader::HandleOperators(vector<string>& line_values) {
   boost::replace_all(line, " *", "*");
   boost::replace_all(line, "* ", "*");
 
-  vector<string> values;
-  boost::split(values, line, boost::is_any_of(" "));
+  /**
+   * Branch the line back in to values now that we've removed
+   * any weird spaces or tabs.
+   */
+  vector<string> temp_line_values;
+  boost::split(temp_line_values, line, boost::is_any_of(" "));
 
-  vector<string> outputs;
-  for (string value : values) {
-    vector<string> components;
-    /**
-     * handle the range operator :
-     */
-    if (value.find(CONFIG_RANGE_OPERATOR) != string::npos) {
-      boost::split(components, value, boost::is_any_of(CONFIG_RANGE_OPERATOR));
-      if (components.size() == 2 && value.find('e') == string::npos) {
-        int start = 0;
-        int end = 0;
+  for (string line_value : temp_line_values) {
+    // the chunks is a 2D vector we're going to build then
+    // put back together into the output
+    vector<vector<string>> chunks;
 
-        if (!util::To<int>(components[0], start))
-          return false;
-        if (!util::To<int>(components[1], end))
-          return false;
+    // break each line value in to segments (with . character)
+    vector<string> line_value_segments;
+    boost::split(line_value_segments, line_value, boost::is_any_of("."));
 
-        if (start <= end) {
-          for (int i = start; i <= end; ++i)
-            outputs.push_back(util::ToInline<int, string>(i));
-        } else {
-          for (int i = start; i >= end; --i)
-            outputs.push_back(util::ToInline<int, string>(i));
-        }
-      } else
-        outputs.push_back(value);
+    for (unsigned i = 0; i < line_value_segments.size(); ++i) {
+      chunks.push_back(vector<string>());
 
-    } else if (value.find(CONFIG_LIST_OPERATOR) != string::npos && value.find(CONFIG_CATEGORY_SEPARATOR) != string::npos) {
-      /**
-       * Handle the list join operator ,
-       */
-      boost::split(components, value, boost::is_any_of(CONFIG_CATEGORY_SEPARATOR));
-
-      vector<string> list[components.size()];
-
-      for (unsigned i = 0; i < components.size(); ++i) {
-        vector<string> list_chunks;
-        boost::split(list_chunks, components[i], boost::is_any_of(CONFIG_LIST_OPERATOR));
-        for (string chunk : list_chunks)
-          list[i].push_back(chunk);
-      }
-
-      vector<string> expanded_list = list[0];
-      for (unsigned i = 1; i < components.size(); ++i) {
-        vector<string> new_elements;
-        for (string value : list[i]) {
-          for (string temp : expanded_list) {
-            temp = temp + "." + value;
-            new_elements.push_back(temp);
+      vector<string> segment_chunks;
+      boost::split(segment_chunks, line_value_segments[i], boost::is_any_of(","));
+      for (string chunk : segment_chunks) {
+        if (chunk.find(":") != string::npos) {
+          /**
+           * Handle the : range operator. We split the chunk
+           * in to 2 pieces and iterate between the two filling
+           * in the range
+           */
+          vector<string> numerics;
+          boost::split(numerics, chunk, boost::is_any_of(":"));
+          if (numerics.size() != 2) {
+            error = "Could not split line with : properly";
+            return false;
           }
+
+          int start_value;
+          int end_value;
+          if (util::To<int>(numerics[0], start_value) && util::To<int>(numerics[1], end_value)) {
+            if (start_value < end_value) {
+              for (int value = start_value; value <= end_value; ++value)
+                chunks[i].push_back(util::ToInline<int, string>(value));
+            } else {
+              for (int value = start_value; value >= end_value; --value)
+                chunks[i].push_back(util::ToInline<int, string>(value));
+            }
+          }  else
+            chunks[i].push_back(chunk);
+
+        } else if (chunk.find("*") != string::npos && chunk != "*" && chunk != "*+") {
+          /**
+           * Handle the * multiplier operator. We split it on the *
+           * character and then multiple the first segment by the
+           * amount specified in the second segment
+           */
+          vector<string> temp;
+          boost::split(temp, chunk, boost::is_any_of("*"));
+          if (temp.size() != 2) {
+            error = "Could not split line with * multiplier";
+            return false;
+          }
+
+          unsigned multiplier = 0;
+          if (!util::To<unsigned>(temp[1], multiplier)) {
+            error = "Could not convert " + temp[1] + " to an unsigned int";
+            return false;
+          }
+
+          for (unsigned index = 0; index < multiplier; ++index)
+            chunks[i].push_back(temp[0]);
+        } else
+          chunks[i].push_back(chunk);
+          // default is to do nothing
+      }
+    }
+
+    /**
+     * Build our outputs up
+     */
+    vector<string> combinations = (*chunks.rbegin());
+    for (auto iter = chunks.rbegin() + 1; iter != chunks.rend(); ++iter) {
+      vector<string> temp = combinations;
+      combinations.clear();
+      for (unsigned j = 0; j < (*iter).size(); ++j) {
+        for (string value : temp) {
+          value = (*iter)[j] + "." + value;
+          combinations.push_back(value);
         }
-        expanded_list = new_elements;
       }
+    }
 
-      for (string list_item : expanded_list) {
-        LOG_FINEST() << "Adding: " << list_item << " as a list item when splitting up a category list";
-        outputs.push_back(list_item);
-      }
-
-    } else
-      outputs.push_back(value);
+    for (string combination : combinations)
+      line_values.push_back(combination);
   }
-
-  line_values = outputs;
 
   return true;
 }

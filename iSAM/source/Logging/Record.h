@@ -33,6 +33,7 @@ enum class Severity {
   kTrace,
   kFinest,
   kFine,
+  kMedium,
   kWarning,
   kError,
   kFatal,
