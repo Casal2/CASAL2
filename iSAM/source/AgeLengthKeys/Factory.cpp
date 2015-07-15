@@ -14,8 +14,10 @@
 
 #include "AgeLengthKeys/Manager.h"
 #include "AgeLengthKeys/Children/Data.h"
+#include "AgeLengthKeys/Children/GrowthBased.h"
 
 // namespaces
+
 namespace niwa {
 namespace agelengthkeys {
 
@@ -32,6 +34,8 @@ AgeLengthKeyPtr Factory::Create(const string& object_type, const string& sub_typ
   if (object_type == PARAM_AGE_LENGTH_KEY) {
     if (sub_type == PARAM_DATA)
       object = AgeLengthKeyPtr(new Data());
+    else if (sub_type == PARAM_GROWTH_BASED)
+      object = AgeLengthKeyPtr(new GrowthBased());
   }
 
   if (object)
