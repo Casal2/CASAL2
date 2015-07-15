@@ -66,6 +66,9 @@ void Record::BuildMessage() {
   case Severity::kFine:
     o << "[FINE] " << file_name_ << "(line: " << line_number_ << "): " << stream_.str() << "\n";
     break;
+  case Severity::kMedium:
+    o << "[MEDIUM] " << file_name_ << "(line: " << line_number_ << "): " << stream_.str() << "\n";
+    break;
   case Severity::kWarning:
     o << "[WARNING] " << file_name_ << "(line: " << line_number_ << "): " << stream_.str() << "\n";
     break;

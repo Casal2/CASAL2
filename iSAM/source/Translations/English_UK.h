@@ -279,6 +279,7 @@
 #define PARAM_MCMC_CHAIN                          "mcmc_chain"
 #define PARAM_MCMC_FIXED                          "mcmc_fixed"
 #define PARAM_MEAN                                "mean"
+#define PARAM_MEDIUM                              "medium"
 #define PARAM_META                                "meta"
 #define PARAM_METHOD                              "method"
 #define PARAM_METROPOLIS_HASTINGS                 "metropolis_hastings"
