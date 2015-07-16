@@ -40,7 +40,6 @@ private:
   Double                      linf_;
   Double                      k_;
   Double                      t0_;
-  Double                      cv_;
   string                      distribution_;
   bool                        by_length_;
   string                      length_weight_label_;

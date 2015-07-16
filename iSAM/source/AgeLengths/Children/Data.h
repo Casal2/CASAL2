@@ -45,7 +45,6 @@ private:
   string                        internal_gaps_;
   map<unsigned, vector<Double>> data_by_year_;
   vector<Double>                means_;
-  Double                        cv_;
   string                        distribution_;
   string                        length_weight_label_;
   LengthWeightPtr               length_weight_;
