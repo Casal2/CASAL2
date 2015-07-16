@@ -115,6 +115,7 @@ public:
   void                        set_defined_line_number(unsigned value) { defined_line_number_ = value; }
   unsigned                    defined_line_number() const { return defined_line_number_; }
   map<string, ParameterPtr>&  parameters() { return parameters_; }
+  void                        set_allow_any_parameter() { allow_any_parameter_ = true; }
 
 private:
   // members
@@ -123,6 +124,7 @@ private:
   unsigned                    defined_line_number_  = 0;
   map<string, ParameterPtr>   parameters_;
   map<string, TablePtr>       tables_;
+  bool                        allow_any_parameter_  = false;
 };
 
 } /* namespace niwa */

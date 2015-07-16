@@ -27,6 +27,7 @@ public:
   // methods
   Data();
   virtual                     ~Data() = default;
+  void                        DoAgeToLengthConversion(std::shared_ptr<partition::Category> category) override final { };
 
 private:
   // methods

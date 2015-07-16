@@ -65,9 +65,6 @@ void Partition::Build() {
     else
       new_category.set_age_length(agelengths::Factory::Create(PARAM_AGE_LENGTH, PARAM_NONE));
 
-    if (categories->HasAgeLengthKeys())
-      new_category.set_age_length_key(categories->age_length_key(category));
-
     partition_[category] = new_category;
   }
 }
@@ -85,6 +82,7 @@ void Partition::Reset() {
  *  This method will return a reference to one of our partition categories.
  *
  *  @param category_label The name of the category
+ *  @return reference tot he category
  */
 partition::Category& Partition::category(const string& category_label) {
   auto find_iter = partition_.find(category_label);

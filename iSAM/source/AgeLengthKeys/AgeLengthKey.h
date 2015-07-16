@@ -15,7 +15,10 @@
 #define SOURCE_AGELENGTHKEYS_AGELENGTHKEY_H_
 
 // headers
+#include <memory>
+
 #include "BaseClasses/Object.h"
+#include "Partition/Category.h"
 
 // namespaces
 namespace niwa {
@@ -30,7 +33,7 @@ public:
   void                        Build();
   void                        Reset() { DoReset(); };
 
-  map<unsigned,map<unsigned, Double>>& lookup_table() { return lookup_table_; }
+  virtual void                DoAgeToLengthConversion(std::shared_ptr<partition::Category> category) = 0;
 
 protected:
   // methods

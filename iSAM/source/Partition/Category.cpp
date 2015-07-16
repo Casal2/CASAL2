@@ -11,6 +11,7 @@
 // headers
 #include "Category.h"
 
+#include "Categories/Categories.h"
 #include "Model/Model.h"
 
 // namespaces
@@ -51,22 +52,12 @@ void Category::ConvertLengthDataToAge() {
  *
  */
 void Category::ConvertAgeDataToLength() {
-  if (!age_length_key_)
+  CategoriesPtr categories = Categories::Instance();
+  if (!categories->HasAgeLengthKeys())
     return;
 
   length_data_.clear();
-
-  map<unsigned,map<unsigned, Double>>& lookup_table = age_length_key_->lookup_table();
-  for (unsigned i = 0; i < data_.size(); ++i) {
-    unsigned age = min_age_ + i;
-    Double amount = data_[i];
-    unsigned bin = 0;
-    for (auto iter : lookup_table[age]) {
-      length_data_[age][bin] = iter.second * amount;
-      ++bin;
-    }
-  }
-
+  categories->age_length_key(name_)->DoAgeToLengthConversion(shared_from_this());
 }
 
 

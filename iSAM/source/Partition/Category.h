@@ -21,7 +21,6 @@
 #include <vector>
 #include <string>
 
-#include "AgeLengthKeys/AgeLengthKey.h"
 #include "AgeLengths/AgeLength.h"
 #include "Utilities/Types.h"
 
@@ -39,7 +38,7 @@ using niwa::utilities::Double;
 /**
  * Class definition
  */
-class Category {
+class Category : public std::enable_shared_from_this<Category> {
 public:
   // methods
   Category() = default;
@@ -62,12 +61,11 @@ public:
 
   // accessors
   void                        set_age_length(AgeLengthPtr value) { age_length_ = value; }
-  void                        set_age_length_key(AgeLengthKeyPtr value) { age_length_key_ = value; }
+  AgeLengthPtr                age_length() const { return age_length_; }
 
 private:
   // members
   AgeLengthPtr                age_length_ = AgeLengthPtr();
-  AgeLengthKeyPtr             age_length_key_ = AgeLengthKeyPtr();
 };
 
 } /* namespace partitions */
