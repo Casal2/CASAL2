@@ -43,7 +43,6 @@ private:
   Double                      tau2_;
   Double                      a_;
   Double                      b_;
-  Double                      cv_;
   string                      distribution_;
   bool                        by_length_;
   string                      length_weight_label_;
