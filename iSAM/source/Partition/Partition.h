@@ -22,6 +22,7 @@
 #include <vector>
 #include <string>
 
+#include "AgeLengthKeys/AgeLengthKey.h"
 #include "Partition/Category.h"
 #include "Utilities/Types.h"
 
@@ -54,7 +55,7 @@ private:
   Partition() = default;
 
   // Members
-  map<string, partition::Category> partition_; // map<Category Name, partition::Category Struct>
+  map<string, partition::Category> partition_; // map<category label, partition::Category Struct>
 };
 
 } /* namespace niwa */
