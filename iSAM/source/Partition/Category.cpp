@@ -30,7 +30,7 @@ void Category::UpdateMeanLengthData() {
   unsigned year = Model::Instance()->current_year();
 
   for (unsigned age = min_age_; age <= max_age_; ++age)
-    weight_per_[age] = age_length_->mean_length(year, age);
+    length_per_[age] = age_length_->mean_length(year, age);
 }
 
 /**
