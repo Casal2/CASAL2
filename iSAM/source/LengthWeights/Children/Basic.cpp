@@ -53,7 +53,7 @@ Double Basic::mean_weight(Double size, const string &distribution, Double cv) co
   if (units_ == PARAM_GRAMS)
     weight /= 1000;
   if (distribution == PARAM_NORMAL || distribution == PARAM_LOGNORMAL)
-    weight = weight * pow(1.0 + cv * cv, b_ * (b_ - 1.0) / 2.0);
+    weight = weight * pow(1.0 + cv * cv, b_ * (b_ - 1.0) / 2.0);  // Give an R example/proof
 
   return weight;
 }

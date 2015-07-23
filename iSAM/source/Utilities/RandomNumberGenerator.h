@@ -41,6 +41,7 @@ public:
   double                        lognormal(double mean, double cv);
   double                        binomial(double p, double n);
   double                        chi_square(unsigned df);
+  double                        gamma(double shape);
 
 private:
   // Methods

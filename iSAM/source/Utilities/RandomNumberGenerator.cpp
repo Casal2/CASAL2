@@ -126,6 +126,17 @@ double RandomNumberGenerator::chi_square(unsigned df) {
 
   return sum;
 }
+/*
+* Generate a
+*
+*/
+double RandomNumberGenerator::gamma(double shape) {
+
+  // Build our Gamma Distribution Generator
+  boost::gamma_distribution<> distGamma( shape );
+  boost::variate_generator<boost::mt19937&,boost::gamma_distribution<> > generator(generator_, distGamma);
+  return generator();
+}
 
 } /* namespace utilities */
 } /* namespace niwa */
