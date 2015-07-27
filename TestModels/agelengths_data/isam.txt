@@ -24,10 +24,6 @@ year 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25
 2000 35.31 40.70 44.36 46.92 47.76 48.85 48.51 48.07 47.57 48.06 47.91 47.71 47.85 48.02 49 45 51 47 53 54 55 56 56 57
 end_table
 
-@report pmw
-type partition_mean_weight
-#@report obj
-#type objective_function
 
 @age_length age_size_female
 type von_bertalanffy
@@ -37,7 +33,7 @@ t0 -0.20
 linf 113.4
 
 @initialisation_phase phase1
-years 200
+years 5
 exclude_processes fishing
 
 @time_step one

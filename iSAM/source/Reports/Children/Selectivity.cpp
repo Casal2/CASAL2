@@ -30,6 +30,8 @@ void Selectivity::DoBuild() {
 
 void Selectivity::DoExecute() {
   ModelPtr model = Model::Instance();
+
+  /*
   cache_ << "[" << label_ << "]\n";
   cache_ << "report.type: " << PARAM_SELECTIVITY << "\n";
   cache_ << "selectivity.label: " << selectivity_->label() << "\n";
@@ -49,7 +51,25 @@ void Selectivity::DoExecute() {
   cache_ << "Age Value\n";
   for (unsigned i = model->min_age(); i <= model->max_age(); ++i)
     cache_ << i << " " << selectivity_->GetResult(i) << "\n";
+ */
+  cache_ << "*" << label_ << " " << "("<< type_ << ")"<<"\n";
+  // cache_ << ".label: " << selectivity_->label() << "\n";
 
+  const map<string, ParameterPtr> parameters = selectivity_->parameters().parameters();
+
+  for (auto iter : parameters) {
+    ParameterPtr x = iter.second;
+    cache_  << iter.first << ": ";
+
+    vector<string> values = x->current_values();
+    for (string value : values)
+      cache_ << value << " ";
+    cache_ << "\n";
+  }
+
+  cache_ << "Values " << REPORT_R_VECTOR << "\n";
+  for (unsigned i = model->min_age(); i <= model->max_age(); ++i)
+    cache_ << i << " " << selectivity_->GetResult(i) << "\n";
   ready_for_writing_ = true;
 }
 

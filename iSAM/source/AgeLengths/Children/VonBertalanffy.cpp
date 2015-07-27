@@ -35,7 +35,7 @@ VonBertalanffy::VonBertalanffy() {
   parameters_.Bind<string>(PARAM_LENGTH_WEIGHT, &length_weight_label_, "TBA", "");
   parameters_.Bind<Double>(PARAM_CV, &cv_, "TBA", "", 0.0);
   parameters_.Bind<string>(PARAM_DISTRIBUTION, &distribution_, "TBA", "", PARAM_NORMAL);
-  parameters_.Bind<bool>(PARAM_BY_LENGTH, &by_length_, "TBA", "", true);
+  parameters_.Bind<bool>(PARAM_BY_LENGTH, &by_length_, "CV by Length", "", true); // Change for others and add description
 
   RegisterAsEstimable(PARAM_LINF, &linf_);
   RegisterAsEstimable(PARAM_K, &k_);
@@ -84,7 +84,7 @@ Double VonBertalanffy::mean_length(unsigned year, unsigned age) {
 Double VonBertalanffy::mean_weight(unsigned year, unsigned age) {
   Double size = this->mean_length(year, age);
 
-  Double mean_weight = 0.0;
+  Double mean_weight = 0.0; //
  if (by_length_) {
    mean_weight = length_weight_->mean_weight(size, distribution_, cv_);
  } else {

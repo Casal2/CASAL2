@@ -28,10 +28,11 @@ processes my_event_mortality
 
 @initialisation_phase iphase1
 years 10
-time_steps step_one
+convergence_years 5
+exclude_processes my_event_mortality 
 
 @Recruitment my_recruitment
-type constant
+type beverton_holt
 categories immature.male immature.female
 proportions 0.5 0.5
 R0 20000
@@ -56,7 +57,7 @@ selectivities one
 @mortality my_event_mortality
 type event
 categories immature.male mature.male immature.female mature.female
-years           1995         1999-2007
+years           1995         1999:2007
 catches  1849.153714 14442.000000 28323.203463 24207.464203 47279.000000 58350.943094 82875.872790 115974.547730 113852.472257 119739.517172
 U_max 0.99
 selectivities FishingSel FishingSel FishingSel FishingSel
@@ -76,6 +77,14 @@ ato95 3
 type logistic
 a50 8
 ato95 3
+
+@estimate 
+parameter selectivity[FishingSel].a50
+lower_bound 5
+upper_bound 10
+type normal
+mu 100
+cv 600
 
 @report partition
 type partition 

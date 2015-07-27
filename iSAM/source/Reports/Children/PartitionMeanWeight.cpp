@@ -37,10 +37,12 @@ PartitionMeanWeight::PartitionMeanWeight() {
  * Execute method
  */
 void PartitionMeanWeight::DoExecute() {
-  cache_ << "*" << this->label() << "\n";
 
   CategoriesPtr categories = Categories::Instance();
   niwa::partition::accessors::All all_view;
+
+  /*
+  cache_ << "*" << this->label() << "\n";
 
   for (auto iterator = all_view.Begin(); iterator != all_view.End(); ++iterator) {
     (*iterator)->UpdateMeanWeightData();
@@ -69,6 +71,41 @@ void PartitionMeanWeight::DoExecute() {
   }
 
   cache_ << "*end" << endl;
+  */
+
+  cache_ << "*" << label_ << " " << "("<< type_ << ")"<<"\n";
+
+  for (auto iterator = all_view.Begin(); iterator != all_view.End(); ++iterator) {
+    (*iterator)->UpdateMeanWeightData();
+    (*iterator)->UpdateMeanLengthData();
+
+    string category = (*iterator)->name_;
+    cache_ << category << " " << REPORT_R_LIST << "\n";
+
+    cache_ << "mean_weights " << REPORT_R_LIST << "\n";
+    unsigned year = Model::Instance()->current_year();
+    cache_ << year << ": ";
+
+    for (unsigned age = (*iterator)->min_age_; age <= (*iterator)->max_age_; ++age)
+      cache_ << (*iterator)->weight_per_[age] << " ";
+    cache_<<"\n";
+
+    cache_ << REPORT_R_LIST_END <<"\n";
+
+
+    cache_ << "age_lengths " << REPORT_R_LIST << "\n";
+    cache_ << year << ": ";
+
+    for (unsigned age = (*iterator)->min_age_; age <= (*iterator)->max_age_; ++age)
+      cache_ << (*iterator)->length_per_[age] << " ";
+    cache_<<"\n";
+
+    cache_ << REPORT_R_LIST_END <<"\n";
+
+    cache_ << REPORT_R_LIST_END <<"\n";
+  }
+
+
   ready_for_writing_ = true;
 }
 
