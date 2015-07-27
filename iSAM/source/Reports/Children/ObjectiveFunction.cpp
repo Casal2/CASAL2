@@ -32,6 +32,7 @@ ObjectiveFunction::ObjectiveFunction() {
  */
 void ObjectiveFunction::DoExecute() {
   // Header
+/*
   cache_ << CONFIG_ARRAY_START << label_ << CONFIG_ARRAY_END << "\n";
 //  cout << PARAM_REPORT << "." << PARAM_TYPE << CONFIG_RATIO_SEPARATOR << " " << parameters_.Get(PARAM_TYPE).GetValue<string>() << "\n";
 
@@ -45,6 +46,22 @@ void ObjectiveFunction::DoExecute() {
   cache_ << PARAM_TOTAL_SCORE << ": " << AS_DOUBLE(obj_function.score()) << "\n";
   ready_for_writing_ = true;
 }
+*/
+
+	  cache_ << "*" << label_ << " " << "("<< type_ << ")"<<"\n";
+	  cache_ <<"values " << REPORT_R_VECTOR <<"\n";
+
+	  ::niwa::ObjectiveFunction obj_function = niwa::ObjectiveFunction::Instance();
+
+	  const vector<objective::Score>& score_list = obj_function.score_list();
+	  for (objective::Score score : score_list) {
+	    cache_ << score.label_ << " " << AS_DOUBLE(score.score_) << "\n";
+	  }
+
+	  cache_ << PARAM_TOTAL_SCORE << " " << AS_DOUBLE(obj_function.score()) << "\n";
+	  ready_for_writing_ = true;
+	}
+
 
 } /* namespace reports */
 } /* namespace niwa */

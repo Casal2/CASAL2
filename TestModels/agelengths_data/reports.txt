@@ -1,6 +1,63 @@
 @report objective
 type objective_function
 
-@assert objective
-type objective_function
-value 15045.1
+@report pmw
+type partition_mean_weight
+years 1977 1990 2000
+time_step one
+
+@report category_info
+type category_info
+
+@report partition
+type partition
+years 1977 1990 2000
+time_step one
+
+@report partition_biomass
+type partition_biomass
+years 1977 1990 2000
+time_step one
+
+@report chatTANbiomass
+type observation
+observation chatTANbiomass
+
+@report chatTANage
+type observation
+observation chatTANage
+
+@report ssb
+type derived_quantity
+
+@report estimable 
+type estimable
+parameter process[recruitment].r0
+years 1977 1990 2000
+time_step one
+ 
+
+@report estimate_summary
+type estimate_summary
+
+@report age_length_key
+type age_length_key
+years 1977 1990 2000
+time_step one
+
+@report male_maturity
+type selectivity
+selectivity male_maturity
+
+@report one
+type selectivity
+selectivity one
+
+@report chatTANbiomass
+type simulated_observation
+observation chatTANbiomass
+
+
+@report  chatTANage
+type simulated_observation
+observation chatTANage

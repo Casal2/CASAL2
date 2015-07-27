@@ -5,71 +5,72 @@
 			<storageModule buildSystemId="org.eclipse.cdt.managedbuilder.core.configurationDataProvider" id="cdt.managedbuild.config.gnu.cross.exe.debug.1400463574" moduleId="org.eclipse.cdt.core.settings" name="Debug">
 				<externalSettings/>
 				<extensions>
-					<extension id="org.eclipse.cdt.core.ELF" point="org.eclipse.cdt.core.BinaryParser"/>
 					<extension id="org.eclipse.cdt.core.GCCErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
 					<extension id="org.eclipse.cdt.core.GASErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
 					<extension id="org.eclipse.cdt.core.GLDErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+					<extension id="org.eclipse.cdt.core.ELF" point="org.eclipse.cdt.core.BinaryParser"/>
 				</extensions>
 			</storageModule>
 			<storageModule moduleId="cdtBuildSystem" version="4.0.0">
-				<configuration artifactName="isam" buildArtefactType="org.eclipse.cdt.build.core.buildArtefactType.exe" buildProperties="org.eclipse.cdt.build.core.buildArtefactType=org.eclipse.cdt.build.core.buildArtefactType.exe,org.eclipse.cdt.build.core.buildType=org.eclipse.cdt.build.core.buildType.debug" cleanCommand="rm -rf" description="" id="cdt.managedbuild.config.gnu.cross.exe.debug.1400463574" name="Debug" parent="cdt.managedbuild.config.gnu.cross.exe.debug" prebuildStep="">
+				<configuration artifactName="isam" buildArtefactType="org.eclipse.cdt.build.core.buildArtefactType.exe" buildProperties="org.eclipse.cdt.build.core.buildType=org.eclipse.cdt.build.core.buildType.debug,org.eclipse.cdt.build.core.buildArtefactType=org.eclipse.cdt.build.core.buildArtefactType.exe" cleanCommand="rm -rf" description="" id="cdt.managedbuild.config.gnu.cross.exe.debug.1400463574" name="Debug" parent="cdt.managedbuild.config.gnu.cross.exe.debug" prebuildStep="">
 					<folderInfo id="cdt.managedbuild.config.gnu.cross.exe.debug.1400463574." name="/" resourcePath="">
 						<toolChain id="cdt.managedbuild.toolchain.gnu.cross.base.482685499" name="Cross GCC" superClass="cdt.managedbuild.toolchain.gnu.cross.base">
 							<option id="cdt.managedbuild.option.gnu.cross.prefix.1831361307" name="Prefix" superClass="cdt.managedbuild.option.gnu.cross.prefix"/>
 							<option id="cdt.managedbuild.option.gnu.cross.path.659771067" name="Path" superClass="cdt.managedbuild.option.gnu.cross.path"/>
 							<targetPlatform archList="all" binaryParser="org.eclipse.cdt.core.ELF" id="cdt.managedbuild.targetPlatform.gnu.cross.1894614475" isAbstract="false" osList="all" superClass="cdt.managedbuild.targetPlatform.gnu.cross"/>
-							<builder buildPath="${workspace_loc:/iSAM}/Debug" id="org.eclipse.cdt.build.core.internal.builder.2132053514" keepEnvironmentInBuildfile="false" name="CDT Internal Builder" parallelBuildOn="true" parallelizationNumber="4" superClass="org.eclipse.cdt.build.core.internal.builder"/>
+							<builder buildPath="${workspace_loc:/iSAM}/Debug" id="org.eclipse.cdt.build.core.internal.builder.1544951761" keepEnvironmentInBuildfile="false" name="CDT Internal Builder" parallelBuildOn="true" parallelizationNumber="4" superClass="org.eclipse.cdt.build.core.internal.builder"/>
 							<tool id="cdt.managedbuild.tool.gnu.cross.c.compiler.74033120" name="Cross GCC Compiler" superClass="cdt.managedbuild.tool.gnu.cross.c.compiler">
-								<option id="gnu.c.compiler.option.include.paths.982289239" name="Include paths (-I)" superClass="gnu.c.compiler.option.include.paths" valueType="includePath">
-									<listOptionValue builtIn="false" value="D:/Programming/MinGW64/lib/gcc/x86_64-w64-mingw32/4.8.1/include"/>
-									<listOptionValue builtIn="false" value="D:/Programming/MinGW64/include"/>
-									<listOptionValue builtIn="false" value="D:/Programming/MinGW64/lib/gcc/x86_64-w64-mingw32/4.8.1/include-fixed"/>
-									<listOptionValue builtIn="false" value="D:/Programming/MinGW64/x86_64-w64-mingw32/include"/>
-									<listOptionValue builtIn="false" value="D:/Programming/MinGW64/lib/gcc/x86_64-w64-mingw32/4.8.1/include/c++"/>
-									<listOptionValue builtIn="false" value="D:/Programming/MinGW64/lib/gcc/x86_64-w64-mingw32/4.8.1/include/c++/x86_64-w64-mingw32"/>
-									<listOptionValue builtIn="false" value="D:/Programming/MinGW64/lib/gcc/x86_64-w64-mingw32/4.8.1/include/c++/backward"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/iSAM/source}&quot;"/>
-									<listOptionValue builtIn="false" value="D:/Programming/MinGW64/lib/gcc/x86_64-w64-mingw32/4.8.1/include/"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/BuildSystem/bin/win32/thirdparty/include}&quot;"/>
+								<option id="gnu.c.compiler.option.include.paths.982289239" name="Include paths (-I)" superClass="gnu.c.compiler.option.include.paths" useByScannerDiscovery="false" valueType="includePath">
+									<listOptionValue builtIn="false" value="&quot;C:\workspace\GitHub\Zaita\iSAM\BuildSystem\bin\win32\thirdparty\include&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;C:\workspace\GitHub\Zaita\iSAM\iSAM\source&quot;"/>
+									<listOptionValue builtIn="false" value="C:/TDM-GCC-64/lib/gcc/x86_64-w64-mingw32/4.9.2/include"/>
+									<listOptionValue builtIn="false" value="C:/TDM-GCC-64/include"/>
+									<listOptionValue builtIn="false" value="C:/TDM-GCC-64/lib/gcc/x86_64-w64-mingw32/4.9.2/include-fixed"/>
+									<listOptionValue builtIn="false" value="C:/TDM-GCC-64/x86_64-w64-mingw32/include"/>
+									<listOptionValue builtIn="false" value="C:/TDM-GCC-64/lib/gcc/x86_64-w64-mingw32/4.9.2/include/c++"/>
+									<listOptionValue builtIn="false" value="C:/TDM-GCC-64/lib/gcc/x86_64-w64-mingw32/4.9.2/include/c++/x86_64-w64-mingw32"/>
+									<listOptionValue builtIn="false" value="C:/TDM-GCC-64/lib/gcc/x86_64-w64-mingw32/4.9.2/include/c++/backward"/>
+									<listOptionValue builtIn="false" value="C:/TDM-GCC-64/lib/gcc/x86_64-w64-mingw32/4.9.2/include/"/>
 								</option>
-								<option defaultValue="gnu.c.optimization.level.none" id="gnu.c.compiler.option.optimization.level.1445631627" name="Optimization Level" superClass="gnu.c.compiler.option.optimization.level" valueType="enumerated"/>
-								<option id="gnu.c.compiler.option.debugging.level.2070879836" name="Debug Level" superClass="gnu.c.compiler.option.debugging.level" value="gnu.c.debugging.level.max" valueType="enumerated"/>
-								<option id="gnu.c.compiler.option.dialect.std.926571051" name="Language standard" superClass="gnu.c.compiler.option.dialect.std" value="gnu.c.compiler.dialect.default" valueType="enumerated"/>
+								<option defaultValue="gnu.c.optimization.level.none" id="gnu.c.compiler.option.optimization.level.1445631627" name="Optimization Level" superClass="gnu.c.compiler.option.optimization.level" useByScannerDiscovery="false" valueType="enumerated"/>
+								<option id="gnu.c.compiler.option.debugging.level.2070879836" name="Debug Level" superClass="gnu.c.compiler.option.debugging.level" useByScannerDiscovery="false" value="gnu.c.debugging.level.max" valueType="enumerated"/>
+								<option id="gnu.c.compiler.option.dialect.std.926571051" name="Language standard" superClass="gnu.c.compiler.option.dialect.std" useByScannerDiscovery="true" value="gnu.c.compiler.dialect.default" valueType="enumerated"/>
 								<inputType id="cdt.managedbuild.tool.gnu.c.compiler.input.1994220404" superClass="cdt.managedbuild.tool.gnu.c.compiler.input"/>
 							</tool>
 							<tool id="cdt.managedbuild.tool.gnu.cross.cpp.compiler.1887812426" name="Cross G++ Compiler" superClass="cdt.managedbuild.tool.gnu.cross.cpp.compiler">
-								<option id="gnu.cpp.compiler.option.include.paths.1419472774" name="Include paths (-I)" superClass="gnu.cpp.compiler.option.include.paths" valueType="includePath">
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/source}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/BuildSystem/bin/win32/thirdparty/include}&quot;"/>
-									<listOptionValue builtIn="false" value="D:/Programming/MinGW64/lib/gcc/x86_64-w64-mingw32/4.8.1/include"/>
-									<listOptionValue builtIn="false" value="D:/Programming/MinGW64/include"/>
-									<listOptionValue builtIn="false" value="D:/Programming/MinGW64/lib/gcc/x86_64-w64-mingw32/4.8.1/include-fixed"/>
-									<listOptionValue builtIn="false" value="D:/Programming/MinGW64/x86_64-w64-mingw32/include"/>
-									<listOptionValue builtIn="false" value="D:/Programming/MinGW64/lib/gcc/x86_64-w64-mingw32/4.8.1/include/c++"/>
-									<listOptionValue builtIn="false" value="D:/Programming/MinGW64/lib/gcc/x86_64-w64-mingw32/4.8.1/include/c++/x86_64-w64-mingw32"/>
-									<listOptionValue builtIn="false" value="D:/Programming/MinGW64/lib/gcc/x86_64-w64-mingw32/4.8.1/include/c++/backward"/>
-									<listOptionValue builtIn="false" value="D:/Programming/MinGW64/lib/gcc/x86_64-w64-mingw32/4.8.1/include/"/>
+								<option id="gnu.cpp.compiler.option.include.paths.1419472774" name="Include paths (-I)" superClass="gnu.cpp.compiler.option.include.paths" useByScannerDiscovery="false" valueType="includePath">
+									<listOptionValue builtIn="false" value="C:/TDM-GCC-64/lib/gcc/x86_64-w64-mingw32/4.9.2/include"/>
+									<listOptionValue builtIn="false" value="C:/TDM-GCC-64/include"/>
+									<listOptionValue builtIn="false" value="C:/TDM-GCC-64/lib/gcc/x86_64-w64-mingw32/4.9.2/include-fixed"/>
+									<listOptionValue builtIn="false" value="C:/TDM-GCC-64/x86_64-w64-mingw32/include"/>
+									<listOptionValue builtIn="false" value="C:/TDM-GCC-64/lib/gcc/x86_64-w64-mingw32/4.9.2/include/c++"/>
+									<listOptionValue builtIn="false" value="C:/TDM-GCC-64/lib/gcc/x86_64-w64-mingw32/4.9.2/include/c++/x86_64-w64-mingw32"/>
+									<listOptionValue builtIn="false" value="C:/TDM-GCC-64/lib/gcc/x86_64-w64-mingw32/4.9.2/include/c++/backward"/>
+									<listOptionValue builtIn="false" value="C:/TDM-GCC-64/lib/gcc/x86_64-w64-mingw32/4.9.2/include/"/>
+									<listOptionValue builtIn="false" value="&quot;C:\workspace\GitHub\Zaita\iSAM\BuildSystem\bin\win32\thirdparty\include&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;C:\workspace\GitHub\Zaita\iSAM\iSAM\source&quot;"/>
 								</option>
-								<option id="gnu.cpp.compiler.option.preprocessor.def.402359020" name="Defined symbols (-D)" superClass="gnu.cpp.compiler.option.preprocessor.def" valueType="definedSymbols">
+								<option id="gnu.cpp.compiler.option.preprocessor.def.402359020" name="Defined symbols (-D)" superClass="gnu.cpp.compiler.option.preprocessor.def" useByScannerDiscovery="false" valueType="definedSymbols">
 									<listOptionValue builtIn="false" value="__GNUDOS__"/>
 									<listOptionValue builtIn="false" value="BOOST_THREAD_USE_LIB=1 "/>
 									<listOptionValue builtIn="false" value="BOOST_THREAD_PROVIDES_GENERIC_SHARED_MUTEX_ON_WIN"/>
 								</option>
-								<option id="gnu.cpp.compiler.option.optimization.level.867169256" name="Optimization Level" superClass="gnu.cpp.compiler.option.optimization.level" value="gnu.cpp.compiler.optimization.level.none" valueType="enumerated"/>
-								<option id="gnu.cpp.compiler.option.debugging.level.2139635573" name="Debug Level" superClass="gnu.cpp.compiler.option.debugging.level" value="gnu.cpp.compiler.debugging.level.max" valueType="enumerated"/>
-								<option id="gnu.cpp.compiler.option.warnings.toerrors.1910238646" name="Warnings as errors (-Werror)" superClass="gnu.cpp.compiler.option.warnings.toerrors" value="true" valueType="boolean"/>
-								<option id="gnu.cpp.compiler.option.other.other.512228012" name="Other flags" superClass="gnu.cpp.compiler.option.other.other" value="-c -fmessage-length=0 -Wno-unused-local-typedefs -std=c++11" valueType="string"/>
+								<option id="gnu.cpp.compiler.option.optimization.level.867169256" name="Optimization Level" superClass="gnu.cpp.compiler.option.optimization.level" useByScannerDiscovery="false" value="gnu.cpp.compiler.optimization.level.none" valueType="enumerated"/>
+								<option id="gnu.cpp.compiler.option.debugging.level.2139635573" name="Debug Level" superClass="gnu.cpp.compiler.option.debugging.level" useByScannerDiscovery="false" value="gnu.cpp.compiler.debugging.level.max" valueType="enumerated"/>
+								<option id="gnu.cpp.compiler.option.warnings.toerrors.1910238646" name="Warnings as errors (-Werror)" superClass="gnu.cpp.compiler.option.warnings.toerrors" useByScannerDiscovery="false" value="true" valueType="boolean"/>
+								<option id="gnu.cpp.compiler.option.other.other.512228012" name="Other flags" superClass="gnu.cpp.compiler.option.other.other" useByScannerDiscovery="false" value="-c -fmessage-length=0 -Wno-unused-local-typedefs -std=c++11" valueType="string"/>
+								<option id="gnu.cpp.compiler.option.dialect.std.326323426" name="Language standard" superClass="gnu.cpp.compiler.option.dialect.std" useByScannerDiscovery="true" value="gnu.cpp.compiler.dialect.default" valueType="enumerated"/>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.compiler.input.265673279" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.input"/>
 							</tool>
 							<tool id="cdt.managedbuild.tool.gnu.cross.c.linker.1397315116" name="Cross GCC Linker" superClass="cdt.managedbuild.tool.gnu.cross.c.linker"/>
 							<tool id="cdt.managedbuild.tool.gnu.cross.cpp.linker.1789246834" name="Cross G++ Linker" superClass="cdt.managedbuild.tool.gnu.cross.cpp.linker">
 								<option id="gnu.cpp.link.option.libs.745937941" name="Libraries (-l)" superClass="gnu.cpp.link.option.libs" valueType="libs">
-									<listOptionValue builtIn="false" value="boost_thread-mgw51-mt-sd-1_58"/>
-									<listOptionValue builtIn="false" value="boost_program_options-mgw51-mt-sd-1_58"/>
-									<listOptionValue builtIn="false" value="boost_system-mgw51-mt-sd-1_58"/>
+									<listOptionValue builtIn="false" value="boost_thread-mgw49-mt-sd-1_58"/>
+									<listOptionValue builtIn="false" value="boost_program_options-mgw49-mt-sd-1_58"/>
+									<listOptionValue builtIn="false" value="boost_system-mgw49-mt-sd-1_58"/>
 								</option>
 								<option id="gnu.cpp.link.option.paths.1339242663" name="Library search path (-L)" superClass="gnu.cpp.link.option.paths" valueType="libPaths">
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/BuildSystem/bin/win32/thirdparty/lib/debug}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;C:\workspace\GitHub\Zaita\iSAM\BuildSystem\bin\win32\thirdparty\lib\debug&quot;"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.linker.input.1967166941" superClass="cdt.managedbuild.tool.gnu.cpp.linker.input">
 									<additionalInput kind="additionalinputdependency" paths="$(USER_OBJS)"/>
@@ -79,16 +80,15 @@
 							<tool id="cdt.managedbuild.tool.gnu.cross.archiver.2123138599" name="Cross GCC Archiver" superClass="cdt.managedbuild.tool.gnu.cross.archiver"/>
 							<tool id="cdt.managedbuild.tool.gnu.cross.assembler.72919917" name="Cross GCC Assembler" superClass="cdt.managedbuild.tool.gnu.cross.assembler">
 								<option id="gnu.both.asm.option.include.paths.937396475" name="Include paths (-I)" superClass="gnu.both.asm.option.include.paths" valueType="includePath">
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/trunk/build/win32/thirdparty/include}&quot;"/>
-									<listOptionValue builtIn="false" value="D:/Programming/MinGW64/lib/gcc/x86_64-w64-mingw32/4.8.1/include"/>
-									<listOptionValue builtIn="false" value="D:/Programming/MinGW64/include"/>
-									<listOptionValue builtIn="false" value="D:/Programming/MinGW64/lib/gcc/x86_64-w64-mingw32/4.8.1/include-fixed"/>
-									<listOptionValue builtIn="false" value="D:/Programming/MinGW64/x86_64-w64-mingw32/include"/>
-									<listOptionValue builtIn="false" value="D:/Programming/MinGW64/lib/gcc/x86_64-w64-mingw32/4.8.1/include/c++"/>
-									<listOptionValue builtIn="false" value="D:/Programming/MinGW64/lib/gcc/x86_64-w64-mingw32/4.8.1/include/c++/x86_64-w64-mingw32"/>
-									<listOptionValue builtIn="false" value="D:/Programming/MinGW64/lib/gcc/x86_64-w64-mingw32/4.8.1/include/c++/backward"/>
+									<listOptionValue builtIn="false" value="C:/TDM-GCC-64/lib/gcc/x86_64-w64-mingw32/4.9.2/include"/>
+									<listOptionValue builtIn="false" value="C:/TDM-GCC-64/include"/>
+									<listOptionValue builtIn="false" value="C:/TDM-GCC-64/lib/gcc/x86_64-w64-mingw32/4.9.2/include-fixed"/>
+									<listOptionValue builtIn="false" value="C:/TDM-GCC-64/x86_64-w64-mingw32/include"/>
+									<listOptionValue builtIn="false" value="C:/TDM-GCC-64/lib/gcc/x86_64-w64-mingw32/4.9.2/include/c++"/>
+									<listOptionValue builtIn="false" value="C:/TDM-GCC-64/lib/gcc/x86_64-w64-mingw32/4.9.2/include/c++/x86_64-w64-mingw32"/>
+									<listOptionValue builtIn="false" value="C:/TDM-GCC-64/lib/gcc/x86_64-w64-mingw32/4.9.2/include/c++/backward"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/iSAM/source}&quot;"/>
-									<listOptionValue builtIn="false" value="D:/Programming/MinGW64/lib/gcc/x86_64-w64-mingw32/4.8.1/include/"/>
+									<listOptionValue builtIn="false" value="C:/TDM-GCC-64/lib/gcc/x86_64-w64-mingw32/4.9.2/include/"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/BuildSystem/bin/win32/thirdparty/include}&quot;"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.assembler.input.948981907" superClass="cdt.managedbuild.tool.gnu.assembler.input"/>
@@ -106,16 +106,16 @@
 			<storageModule buildSystemId="org.eclipse.cdt.managedbuilder.core.configurationDataProvider" id="cdt.managedbuild.config.gnu.cross.exe.release.1741211933" moduleId="org.eclipse.cdt.core.settings" name="Release">
 				<externalSettings/>
 				<extensions>
-					<extension id="org.eclipse.cdt.core.PE" point="org.eclipse.cdt.core.BinaryParser"/>
 					<extension id="org.eclipse.cdt.core.GmakeErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
 					<extension id="org.eclipse.cdt.core.CWDLocator" point="org.eclipse.cdt.core.ErrorParser"/>
 					<extension id="org.eclipse.cdt.core.GCCErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
 					<extension id="org.eclipse.cdt.core.GASErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
 					<extension id="org.eclipse.cdt.core.GLDErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+					<extension id="org.eclipse.cdt.core.PE" point="org.eclipse.cdt.core.BinaryParser"/>
 				</extensions>
 			</storageModule>
 			<storageModule moduleId="cdtBuildSystem" version="4.0.0">
-				<configuration artifactName="${ProjName}" buildArtefactType="org.eclipse.cdt.build.core.buildArtefactType.exe" buildProperties="org.eclipse.cdt.build.core.buildArtefactType=org.eclipse.cdt.build.core.buildArtefactType.exe,org.eclipse.cdt.build.core.buildType=org.eclipse.cdt.build.core.buildType.release" cleanCommand="rm -rf" description="" id="cdt.managedbuild.config.gnu.cross.exe.release.1741211933" name="Release" parent="cdt.managedbuild.config.gnu.cross.exe.release">
+				<configuration artifactName="${ProjName}" buildArtefactType="org.eclipse.cdt.build.core.buildArtefactType.exe" buildProperties="org.eclipse.cdt.build.core.buildType=org.eclipse.cdt.build.core.buildType.release,org.eclipse.cdt.build.core.buildArtefactType=org.eclipse.cdt.build.core.buildArtefactType.exe" cleanCommand="rm -rf" description="" id="cdt.managedbuild.config.gnu.cross.exe.release.1741211933" name="Release" parent="cdt.managedbuild.config.gnu.cross.exe.release">
 					<folderInfo id="cdt.managedbuild.config.gnu.cross.exe.release.1741211933." name="/" resourcePath="">
 						<toolChain id="cdt.managedbuild.toolchain.gnu.cross.exe.release.395648561" name="Cross GCC" superClass="cdt.managedbuild.toolchain.gnu.cross.exe.release">
 							<targetPlatform archList="all" binaryParser="org.eclipse.cdt.core.PE" id="cdt.managedbuild.targetPlatform.gnu.cross.1180518544" isAbstract="false" osList="all" superClass="cdt.managedbuild.targetPlatform.gnu.cross"/>
@@ -124,15 +124,15 @@
 								<option defaultValue="gnu.c.optimization.level.most" id="gnu.c.compiler.option.optimization.level.886401063" name="Optimization Level" superClass="gnu.c.compiler.option.optimization.level" useByScannerDiscovery="false" valueType="enumerated"/>
 								<option id="gnu.c.compiler.option.debugging.level.1378889542" name="Debug Level" superClass="gnu.c.compiler.option.debugging.level" useByScannerDiscovery="false" value="gnu.c.debugging.level.none" valueType="enumerated"/>
 								<option id="gnu.c.compiler.option.include.paths.29209935" name="Include paths (-I)" superClass="gnu.c.compiler.option.include.paths" useByScannerDiscovery="false" valueType="includePath">
-									<listOptionValue builtIn="false" value="D:/Programming/MinGW64/lib/gcc/x86_64-w64-mingw32/4.8.1/include"/>
-									<listOptionValue builtIn="false" value="D:/Programming/MinGW64/include"/>
-									<listOptionValue builtIn="false" value="D:/Programming/MinGW64/lib/gcc/x86_64-w64-mingw32/4.8.1/include-fixed"/>
-									<listOptionValue builtIn="false" value="D:/Programming/MinGW64/x86_64-w64-mingw32/include"/>
-									<listOptionValue builtIn="false" value="D:/Programming/MinGW64/lib/gcc/x86_64-w64-mingw32/4.8.1/include/c++"/>
-									<listOptionValue builtIn="false" value="D:/Programming/MinGW64/lib/gcc/x86_64-w64-mingw32/4.8.1/include/c++/x86_64-w64-mingw32"/>
-									<listOptionValue builtIn="false" value="D:/Programming/MinGW64/lib/gcc/x86_64-w64-mingw32/4.8.1/include/c++/backward"/>
+									<listOptionValue builtIn="false" value="C:/TDM-GCC-64/lib/gcc/x86_64-w64-mingw32/4.9.2/include"/>
+									<listOptionValue builtIn="false" value="C:/TDM-GCC-64/include"/>
+									<listOptionValue builtIn="false" value="C:/TDM-GCC-64/lib/gcc/x86_64-w64-mingw32/4.9.2/include-fixed"/>
+									<listOptionValue builtIn="false" value="C:/TDM-GCC-64/x86_64-w64-mingw32/include"/>
+									<listOptionValue builtIn="false" value="C:/TDM-GCC-64/lib/gcc/x86_64-w64-mingw32/4.9.2/include/c++"/>
+									<listOptionValue builtIn="false" value="C:/TDM-GCC-64/lib/gcc/x86_64-w64-mingw32/4.9.2/include/c++/x86_64-w64-mingw32"/>
+									<listOptionValue builtIn="false" value="C:/TDM-GCC-64/lib/gcc/x86_64-w64-mingw32/4.9.2/include/c++/backward"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/iSAM/source}&quot;"/>
-									<listOptionValue builtIn="false" value="D:/Programming/MinGW64/lib/gcc/x86_64-w64-mingw32/4.8.1/include/"/>
+									<listOptionValue builtIn="false" value="C:/TDM-GCC-64/lib/gcc/x86_64-w64-mingw32/4.9.2/include/"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/BuildSystem/bin/win32/thirdparty/include}&quot;"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.c.compiler.input.189493850" superClass="cdt.managedbuild.tool.gnu.c.compiler.input"/>
@@ -141,13 +141,13 @@
 								<option id="gnu.cpp.compiler.option.optimization.level.1828730976" name="Optimization Level" superClass="gnu.cpp.compiler.option.optimization.level" useByScannerDiscovery="false" value="gnu.cpp.compiler.optimization.level.most" valueType="enumerated"/>
 								<option id="gnu.cpp.compiler.option.debugging.level.1809429543" name="Debug Level" superClass="gnu.cpp.compiler.option.debugging.level" useByScannerDiscovery="false" value="gnu.cpp.compiler.debugging.level.none" valueType="enumerated"/>
 								<option id="gnu.cpp.compiler.option.include.paths.640922212" name="Include paths (-I)" superClass="gnu.cpp.compiler.option.include.paths" useByScannerDiscovery="false" valueType="includePath">
-									<listOptionValue builtIn="false" value="D:/Programming/MinGW64/lib/gcc/x86_64-w64-mingw32/4.8.1/include"/>
-									<listOptionValue builtIn="false" value="D:/Programming/MinGW64/lib/gcc/x86_64-w64-mingw32/4.8.1/include/c++/x86_64-w64-mingw32"/>
-									<listOptionValue builtIn="false" value="D:/Programming/MinGW64/lib/gcc/x86_64-w64-mingw32/4.8.1/include/c++/backward"/>
-									<listOptionValue builtIn="false" value="D:/Programming/MinGW64/lib/gcc/x86_64-w64-mingw32/4.8.1/include/"/>
-									<listOptionValue builtIn="false" value="D:/Programming/MinGW64/include"/>
-									<listOptionValue builtIn="false" value="D:/Programming/MinGW64/lib/gcc/x86_64-w64-mingw32/4.8.1/include-fixed"/>
-									<listOptionValue builtIn="false" value="D:/Programming/MinGW64/x86_64-w64-mingw32/include"/>
+									<listOptionValue builtIn="false" value="C:/TDM-GCC-64/lib/gcc/x86_64-w64-mingw32/4.9.2/include"/>
+									<listOptionValue builtIn="false" value="C:/TDM-GCC-64/lib/gcc/x86_64-w64-mingw32/4.9.2/include/c++/x86_64-w64-mingw32"/>
+									<listOptionValue builtIn="false" value="C:/TDM-GCC-64/lib/gcc/x86_64-w64-mingw32/4.9.2/include/c++/backward"/>
+									<listOptionValue builtIn="false" value="C:/TDM-GCC-64/lib/gcc/x86_64-w64-mingw32/4.9.2/include/"/>
+									<listOptionValue builtIn="false" value="C:/TDM-GCC-64/include"/>
+									<listOptionValue builtIn="false" value="C:/TDM-GCC-64/lib/gcc/x86_64-w64-mingw32/4.9.2/include-fixed"/>
+									<listOptionValue builtIn="false" value="C:/TDM-GCC-64/x86_64-w64-mingw32/include"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/iSAM/source}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/BuildSystem/bin/win32/thirdparty/include}&quot;"/>
 								</option>
@@ -163,15 +163,15 @@
 							<tool id="cdt.managedbuild.tool.gnu.cross.archiver.179235397" name="Cross GCC Archiver" superClass="cdt.managedbuild.tool.gnu.cross.archiver"/>
 							<tool id="cdt.managedbuild.tool.gnu.cross.assembler.185386230" name="Cross GCC Assembler" superClass="cdt.managedbuild.tool.gnu.cross.assembler">
 								<option id="gnu.both.asm.option.include.paths.128672789" name="Include paths (-I)" superClass="gnu.both.asm.option.include.paths" valueType="includePath">
-									<listOptionValue builtIn="false" value="D:/Programming/MinGW64/lib/gcc/x86_64-w64-mingw32/4.8.1/include"/>
-									<listOptionValue builtIn="false" value="D:/Programming/MinGW64/include"/>
-									<listOptionValue builtIn="false" value="D:/Programming/MinGW64/lib/gcc/x86_64-w64-mingw32/4.8.1/include-fixed"/>
-									<listOptionValue builtIn="false" value="D:/Programming/MinGW64/x86_64-w64-mingw32/include"/>
-									<listOptionValue builtIn="false" value="D:/Programming/MinGW64/lib/gcc/x86_64-w64-mingw32/4.8.1/include/c++"/>
-									<listOptionValue builtIn="false" value="D:/Programming/MinGW64/lib/gcc/x86_64-w64-mingw32/4.8.1/include/c++/x86_64-w64-mingw32"/>
-									<listOptionValue builtIn="false" value="D:/Programming/MinGW64/lib/gcc/x86_64-w64-mingw32/4.8.1/include/c++/backward"/>
+									<listOptionValue builtIn="false" value="C:/TDM-GCC-64/lib/gcc/x86_64-w64-mingw32/4.9.2/include"/>
+									<listOptionValue builtIn="false" value="C:/TDM-GCC-64/include"/>
+									<listOptionValue builtIn="false" value="C:/TDM-GCC-64/lib/gcc/x86_64-w64-mingw32/4.9.2/include-fixed"/>
+									<listOptionValue builtIn="false" value="C:/TDM-GCC-64/x86_64-w64-mingw32/include"/>
+									<listOptionValue builtIn="false" value="C:/TDM-GCC-64/lib/gcc/x86_64-w64-mingw32/4.9.2/include/c++"/>
+									<listOptionValue builtIn="false" value="C:/TDM-GCC-64/lib/gcc/x86_64-w64-mingw32/4.9.2/include/c++/x86_64-w64-mingw32"/>
+									<listOptionValue builtIn="false" value="C:/TDM-GCC-64/lib/gcc/x86_64-w64-mingw32/4.9.2/include/c++/backward"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/iSAM/source}&quot;"/>
-									<listOptionValue builtIn="false" value="D:/Programming/MinGW64/lib/gcc/x86_64-w64-mingw32/4.8.1/include/"/>
+									<listOptionValue builtIn="false" value="C:/TDM-GCC-64/lib/gcc/x86_64-w64-mingw32/4.9.2/include/"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/BuildSystem/bin/win32/thirdparty/include}&quot;"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.assembler.input.1081367699" superClass="cdt.managedbuild.tool.gnu.assembler.input"/>
@@ -189,16 +189,16 @@
 			<storageModule buildSystemId="org.eclipse.cdt.managedbuilder.core.configurationDataProvider" id="cdt.managedbuild.config.gnu.cross.exe.debug.1400463574.708036977" moduleId="org.eclipse.cdt.core.settings" name="TestMode">
 				<externalSettings/>
 				<extensions>
-					<extension id="org.eclipse.cdt.core.PE" point="org.eclipse.cdt.core.BinaryParser"/>
 					<extension id="org.eclipse.cdt.core.GmakeErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
 					<extension id="org.eclipse.cdt.core.CWDLocator" point="org.eclipse.cdt.core.ErrorParser"/>
 					<extension id="org.eclipse.cdt.core.GCCErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
 					<extension id="org.eclipse.cdt.core.GASErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
 					<extension id="org.eclipse.cdt.core.GLDErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+					<extension id="org.eclipse.cdt.core.PE" point="org.eclipse.cdt.core.BinaryParser"/>
 				</extensions>
 			</storageModule>
 			<storageModule moduleId="cdtBuildSystem" version="4.0.0">
-				<configuration artifactName="isam" buildArtefactType="org.eclipse.cdt.build.core.buildArtefactType.exe" buildProperties="org.eclipse.cdt.build.core.buildArtefactType=org.eclipse.cdt.build.core.buildArtefactType.exe,org.eclipse.cdt.build.core.buildType=org.eclipse.cdt.build.core.buildType.debug" cleanCommand="rm -rf" description="Unit Test Mode" errorParsers="org.eclipse.cdt.core.GmakeErrorParser;org.eclipse.cdt.core.CWDLocator;org.eclipse.cdt.core.GCCErrorParser;org.eclipse.cdt.core.GASErrorParser;org.eclipse.cdt.core.GLDErrorParser" id="cdt.managedbuild.config.gnu.cross.exe.debug.1400463574.708036977" name="TestMode" parent="cdt.managedbuild.config.gnu.cross.exe.debug" postannouncebuildStep="" postbuildStep="" preannouncebuildStep="" prebuildStep="">
+				<configuration artifactName="isam" buildArtefactType="org.eclipse.cdt.build.core.buildArtefactType.exe" buildProperties="org.eclipse.cdt.build.core.buildType=org.eclipse.cdt.build.core.buildType.debug,org.eclipse.cdt.build.core.buildArtefactType=org.eclipse.cdt.build.core.buildArtefactType.exe" cleanCommand="rm -rf" description="Unit Test Mode" errorParsers="org.eclipse.cdt.core.GmakeErrorParser;org.eclipse.cdt.core.CWDLocator;org.eclipse.cdt.core.GCCErrorParser;org.eclipse.cdt.core.GASErrorParser;org.eclipse.cdt.core.GLDErrorParser" id="cdt.managedbuild.config.gnu.cross.exe.debug.1400463574.708036977" name="TestMode" parent="cdt.managedbuild.config.gnu.cross.exe.debug" postannouncebuildStep="" postbuildStep="" preannouncebuildStep="" prebuildStep="">
 					<folderInfo id="cdt.managedbuild.config.gnu.cross.exe.debug.1400463574.708036977." name="/" resourcePath="">
 						<toolChain errorParsers="" id="cdt.managedbuild.toolchain.gnu.cross.exe.debug.652063288" name="Cross GCC" superClass="cdt.managedbuild.toolchain.gnu.cross.exe.debug">
 							<targetPlatform archList="all" binaryParser="org.eclipse.cdt.core.PE" id="cdt.managedbuild.targetPlatform.gnu.cross.1019371646" isAbstract="false" osList="all" superClass="cdt.managedbuild.targetPlatform.gnu.cross"/>
@@ -208,15 +208,15 @@
 								<option id="gnu.c.compiler.option.debugging.level.46102231" name="Debug Level" superClass="gnu.c.compiler.option.debugging.level" useByScannerDiscovery="false" value="gnu.c.debugging.level.max" valueType="enumerated"/>
 								<option id="gnu.c.compiler.option.include.paths.1246902522" name="Include paths (-I)" superClass="gnu.c.compiler.option.include.paths" useByScannerDiscovery="false" valueType="includePath">
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/trunk/trunk/build/win32/thirdparty/include}&quot;"/>
-									<listOptionValue builtIn="false" value="D:/Programming/MinGW64/lib/gcc/x86_64-w64-mingw32/4.8.1/include"/>
-									<listOptionValue builtIn="false" value="D:/Programming/MinGW64/include"/>
-									<listOptionValue builtIn="false" value="D:/Programming/MinGW64/lib/gcc/x86_64-w64-mingw32/4.8.1/include-fixed"/>
-									<listOptionValue builtIn="false" value="D:/Programming/MinGW64/x86_64-w64-mingw32/include"/>
-									<listOptionValue builtIn="false" value="D:/Programming/MinGW64/lib/gcc/x86_64-w64-mingw32/4.8.1/include/c++"/>
-									<listOptionValue builtIn="false" value="D:/Programming/MinGW64/lib/gcc/x86_64-w64-mingw32/4.8.1/include/c++/x86_64-w64-mingw32"/>
-									<listOptionValue builtIn="false" value="D:/Programming/MinGW64/lib/gcc/x86_64-w64-mingw32/4.8.1/include/c++/backward"/>
+									<listOptionValue builtIn="false" value="C:/TDM-GCC-64/lib/gcc/x86_64-w64-mingw32/4.9.2/include"/>
+									<listOptionValue builtIn="false" value="C:/TDM-GCC-64/include"/>
+									<listOptionValue builtIn="false" value="C:/TDM-GCC-64/lib/gcc/x86_64-w64-mingw32/4.9.2/include-fixed"/>
+									<listOptionValue builtIn="false" value="C:/TDM-GCC-64/x86_64-w64-mingw32/include"/>
+									<listOptionValue builtIn="false" value="C:/TDM-GCC-64/lib/gcc/x86_64-w64-mingw32/4.9.2/include/c++"/>
+									<listOptionValue builtIn="false" value="C:/TDM-GCC-64/lib/gcc/x86_64-w64-mingw32/4.9.2/include/c++/x86_64-w64-mingw32"/>
+									<listOptionValue builtIn="false" value="C:/TDM-GCC-64/lib/gcc/x86_64-w64-mingw32/4.9.2/include/c++/backward"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/iSAM/source}&quot;"/>
-									<listOptionValue builtIn="false" value="D:/Programming/MinGW64/lib/gcc/x86_64-w64-mingw32/4.8.1/include/"/>
+									<listOptionValue builtIn="false" value="C:/TDM-GCC-64/lib/gcc/x86_64-w64-mingw32/4.9.2/include/"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/BuildSystem/bin/win32/thirdparty/include}&quot;"/>
 								</option>
 								<option id="gnu.c.compiler.option.preprocessor.def.symbols.1023381208" name="Defined symbols (-D)" superClass="gnu.c.compiler.option.preprocessor.def.symbols" useByScannerDiscovery="false" valueType="definedSymbols">
@@ -233,14 +233,14 @@
 								<option id="gnu.cpp.compiler.option.include.paths.2056003697" name="Include paths (-I)" superClass="gnu.cpp.compiler.option.include.paths" useByScannerDiscovery="false" valueType="includePath">
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/source}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/BuildSystem/bin/win32/thirdparty/include}&quot;"/>
-									<listOptionValue builtIn="false" value="D:/Programming/MinGW64/lib/gcc/x86_64-w64-mingw32/4.8.1/include"/>
-									<listOptionValue builtIn="false" value="D:/Programming/MinGW64/include"/>
-									<listOptionValue builtIn="false" value="D:/Programming/MinGW64/lib/gcc/x86_64-w64-mingw32/4.8.1/include-fixed"/>
-									<listOptionValue builtIn="false" value="D:/Programming/MinGW64/x86_64-w64-mingw32/include"/>
-									<listOptionValue builtIn="false" value="D:/Programming/MinGW64/lib/gcc/x86_64-w64-mingw32/4.8.1/include/c++"/>
-									<listOptionValue builtIn="false" value="D:/Programming/MinGW64/lib/gcc/x86_64-w64-mingw32/4.8.1/include/c++/x86_64-w64-mingw32"/>
-									<listOptionValue builtIn="false" value="D:/Programming/MinGW64/lib/gcc/x86_64-w64-mingw32/4.8.1/include/c++/backward"/>
-									<listOptionValue builtIn="false" value="D:/Programming/MinGW64/lib/gcc/x86_64-w64-mingw32/4.8.1/include/"/>
+									<listOptionValue builtIn="false" value="C:/TDM-GCC-64/lib/gcc/x86_64-w64-mingw32/4.9.2/include"/>
+									<listOptionValue builtIn="false" value="C:/TDM-GCC-64/include"/>
+									<listOptionValue builtIn="false" value="C:/TDM-GCC-64/lib/gcc/x86_64-w64-mingw32/4.9.2/include-fixed"/>
+									<listOptionValue builtIn="false" value="C:/TDM-GCC-64/x86_64-w64-mingw32/include"/>
+									<listOptionValue builtIn="false" value="C:/TDM-GCC-64/lib/gcc/x86_64-w64-mingw32/4.9.2/include/c++"/>
+									<listOptionValue builtIn="false" value="C:/TDM-GCC-64/lib/gcc/x86_64-w64-mingw32/4.9.2/include/c++/x86_64-w64-mingw32"/>
+									<listOptionValue builtIn="false" value="C:/TDM-GCC-64/lib/gcc/x86_64-w64-mingw32/4.9.2/include/c++/backward"/>
+									<listOptionValue builtIn="false" value="C:/TDM-GCC-64/lib/gcc/x86_64-w64-mingw32/4.9.2/include/"/>
 								</option>
 								<option id="gnu.cpp.compiler.option.preprocessor.def.693643310" name="Defined symbols (-D)" superClass="gnu.cpp.compiler.option.preprocessor.def" useByScannerDiscovery="false" valueType="definedSymbols">
 									<listOptionValue builtIn="false" value="TESTMODE"/>
@@ -272,15 +272,15 @@
 							<tool command="as" commandLinePattern="${COMMAND} ${FLAGS} ${OUTPUT_FLAG} ${OUTPUT_PREFIX}${OUTPUT} ${INPUTS}" errorParsers="org.eclipse.cdt.core.GASErrorParser" id="cdt.managedbuild.tool.gnu.cross.assembler.1146240958" name="Cross GCC Assembler" superClass="cdt.managedbuild.tool.gnu.cross.assembler">
 								<option id="gnu.both.asm.option.include.paths.768048041" name="Include paths (-I)" superClass="gnu.both.asm.option.include.paths" valueType="includePath">
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/trunk/trunk/build/win32/thirdparty/include}&quot;"/>
-									<listOptionValue builtIn="false" value="D:/Programming/MinGW64/lib/gcc/x86_64-w64-mingw32/4.8.1/include"/>
-									<listOptionValue builtIn="false" value="D:/Programming/MinGW64/include"/>
-									<listOptionValue builtIn="false" value="D:/Programming/MinGW64/lib/gcc/x86_64-w64-mingw32/4.8.1/include-fixed"/>
-									<listOptionValue builtIn="false" value="D:/Programming/MinGW64/x86_64-w64-mingw32/include"/>
-									<listOptionValue builtIn="false" value="D:/Programming/MinGW64/lib/gcc/x86_64-w64-mingw32/4.8.1/include/c++"/>
-									<listOptionValue builtIn="false" value="D:/Programming/MinGW64/lib/gcc/x86_64-w64-mingw32/4.8.1/include/c++/x86_64-w64-mingw32"/>
-									<listOptionValue builtIn="false" value="D:/Programming/MinGW64/lib/gcc/x86_64-w64-mingw32/4.8.1/include/c++/backward"/>
+									<listOptionValue builtIn="false" value="C:/TDM-GCC-64/lib/gcc/x86_64-w64-mingw32/4.9.2/include"/>
+									<listOptionValue builtIn="false" value="C:/TDM-GCC-64/include"/>
+									<listOptionValue builtIn="false" value="C:/TDM-GCC-64/lib/gcc/x86_64-w64-mingw32/4.9.2/include-fixed"/>
+									<listOptionValue builtIn="false" value="C:/TDM-GCC-64/x86_64-w64-mingw32/include"/>
+									<listOptionValue builtIn="false" value="C:/TDM-GCC-64/lib/gcc/x86_64-w64-mingw32/4.9.2/include/c++"/>
+									<listOptionValue builtIn="false" value="C:/TDM-GCC-64/lib/gcc/x86_64-w64-mingw32/4.9.2/include/c++/x86_64-w64-mingw32"/>
+									<listOptionValue builtIn="false" value="C:/TDM-GCC-64/lib/gcc/x86_64-w64-mingw32/4.9.2/include/c++/backward"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/iSAM/source}&quot;"/>
-									<listOptionValue builtIn="false" value="D:/Programming/MinGW64/lib/gcc/x86_64-w64-mingw32/4.8.1/include/"/>
+									<listOptionValue builtIn="false" value="C:/TDM-GCC-64/lib/gcc/x86_64-w64-mingw32/4.9.2/include/"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/BuildSystem/bin/win32/thirdparty/include}&quot;"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.assembler.input.81432992" superClass="cdt.managedbuild.tool.gnu.assembler.input"/>
@@ -298,14 +298,14 @@
 			<storageModule buildSystemId="org.eclipse.cdt.managedbuilder.core.configurationDataProvider" id="cdt.managedbuild.config.gnu.cross.exe.debug.1400463574.1382834397.899417647" moduleId="org.eclipse.cdt.core.settings" name="ADOLC">
 				<externalSettings/>
 				<extensions>
-					<extension id="org.eclipse.cdt.core.ELF" point="org.eclipse.cdt.core.BinaryParser"/>
 					<extension id="org.eclipse.cdt.core.GCCErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
 					<extension id="org.eclipse.cdt.core.GASErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
 					<extension id="org.eclipse.cdt.core.GLDErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+					<extension id="org.eclipse.cdt.core.ELF" point="org.eclipse.cdt.core.BinaryParser"/>
 				</extensions>
 			</storageModule>
 			<storageModule moduleId="cdtBuildSystem" version="4.0.0">
-				<configuration artifactName="isam" buildArtefactType="org.eclipse.cdt.build.core.buildArtefactType.exe" buildProperties="org.eclipse.cdt.build.core.buildArtefactType=org.eclipse.cdt.build.core.buildArtefactType.exe,org.eclipse.cdt.build.core.buildType=org.eclipse.cdt.build.core.buildType.debug" cleanCommand="rm -rf" description="AutoDifferentiation ADOLC FMM" id="cdt.managedbuild.config.gnu.cross.exe.debug.1400463574.1382834397.899417647" name="ADOLC" parent="cdt.managedbuild.config.gnu.cross.exe.debug" prebuildStep="">
+				<configuration artifactName="isam" buildArtefactType="org.eclipse.cdt.build.core.buildArtefactType.exe" buildProperties="org.eclipse.cdt.build.core.buildType=org.eclipse.cdt.build.core.buildType.debug,org.eclipse.cdt.build.core.buildArtefactType=org.eclipse.cdt.build.core.buildArtefactType.exe" cleanCommand="rm -rf" description="AutoDifferentiation ADOLC FMM" id="cdt.managedbuild.config.gnu.cross.exe.debug.1400463574.1382834397.899417647" name="ADOLC" parent="cdt.managedbuild.config.gnu.cross.exe.debug" prebuildStep="">
 					<folderInfo id="cdt.managedbuild.config.gnu.cross.exe.debug.1400463574.1382834397.899417647." name="/" resourcePath="">
 						<toolChain id="cdt.managedbuild.toolchain.gnu.cross.base.639724764" name="Cross GCC" superClass="cdt.managedbuild.toolchain.gnu.cross.base">
 							<option id="cdt.managedbuild.option.gnu.cross.prefix.145753511" name="Prefix" superClass="cdt.managedbuild.option.gnu.cross.prefix"/>
@@ -359,15 +359,15 @@
 							<tool id="cdt.managedbuild.tool.gnu.cross.archiver.2001477731" name="Cross GCC Archiver" superClass="cdt.managedbuild.tool.gnu.cross.archiver"/>
 							<tool id="cdt.managedbuild.tool.gnu.cross.assembler.1039460281" name="Cross GCC Assembler" superClass="cdt.managedbuild.tool.gnu.cross.assembler">
 								<option id="gnu.both.asm.option.include.paths.1963549136" name="Include paths (-I)" superClass="gnu.both.asm.option.include.paths" valueType="includePath">
-									<listOptionValue builtIn="false" value="D:/Programming/MinGW64/lib/gcc/x86_64-w64-mingw32/4.8.1/include"/>
-									<listOptionValue builtIn="false" value="D:/Programming/MinGW64/include"/>
-									<listOptionValue builtIn="false" value="D:/Programming/MinGW64/lib/gcc/x86_64-w64-mingw32/4.8.1/include-fixed"/>
-									<listOptionValue builtIn="false" value="D:/Programming/MinGW64/x86_64-w64-mingw32/include"/>
-									<listOptionValue builtIn="false" value="D:/Programming/MinGW64/lib/gcc/x86_64-w64-mingw32/4.8.1/include/c++"/>
-									<listOptionValue builtIn="false" value="D:/Programming/MinGW64/lib/gcc/x86_64-w64-mingw32/4.8.1/include/c++/x86_64-w64-mingw32"/>
-									<listOptionValue builtIn="false" value="D:/Programming/MinGW64/lib/gcc/x86_64-w64-mingw32/4.8.1/include/c++/backward"/>
+									<listOptionValue builtIn="false" value="C:/TDM-GCC-64/lib/gcc/x86_64-w64-mingw32/4.9.2/include"/>
+									<listOptionValue builtIn="false" value="C:/TDM-GCC-64/include"/>
+									<listOptionValue builtIn="false" value="C:/TDM-GCC-64/lib/gcc/x86_64-w64-mingw32/4.9.2/include-fixed"/>
+									<listOptionValue builtIn="false" value="C:/TDM-GCC-64/x86_64-w64-mingw32/include"/>
+									<listOptionValue builtIn="false" value="C:/TDM-GCC-64/lib/gcc/x86_64-w64-mingw32/4.9.2/include/c++"/>
+									<listOptionValue builtIn="false" value="C:/TDM-GCC-64/lib/gcc/x86_64-w64-mingw32/4.9.2/include/c++/x86_64-w64-mingw32"/>
+									<listOptionValue builtIn="false" value="C:/TDM-GCC-64/lib/gcc/x86_64-w64-mingw32/4.9.2/include/c++/backward"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/iSAM/source}&quot;"/>
-									<listOptionValue builtIn="false" value="D:/Programming/MinGW64/lib/gcc/x86_64-w64-mingw32/4.8.1/include/"/>
+									<listOptionValue builtIn="false" value="C:/TDM-GCC-64/lib/gcc/x86_64-w64-mingw32/4.9.2/include/"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/BuildSystem/bin/win32/thirdparty/include}&quot;"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.assembler.input.1813182433" superClass="cdt.managedbuild.tool.gnu.assembler.input"/>
@@ -385,14 +385,14 @@
 			<storageModule buildSystemId="org.eclipse.cdt.managedbuilder.core.configurationDataProvider" id="cdt.managedbuild.config.gnu.cross.exe.debug.1400463574.856523603" moduleId="org.eclipse.cdt.core.settings" name="AutoDiff - CPPAD">
 				<externalSettings/>
 				<extensions>
-					<extension id="org.eclipse.cdt.core.PE" point="org.eclipse.cdt.core.BinaryParser"/>
 					<extension id="org.eclipse.cdt.core.GCCErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
 					<extension id="org.eclipse.cdt.core.GASErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
 					<extension id="org.eclipse.cdt.core.GLDErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+					<extension id="org.eclipse.cdt.core.PE" point="org.eclipse.cdt.core.BinaryParser"/>
 				</extensions>
 			</storageModule>
 			<storageModule moduleId="cdtBuildSystem" version="4.0.0">
-				<configuration artifactName="isam" buildArtefactType="org.eclipse.cdt.build.core.buildArtefactType.exe" buildProperties="org.eclipse.cdt.build.core.buildArtefactType=org.eclipse.cdt.build.core.buildArtefactType.exe,org.eclipse.cdt.build.core.buildType=org.eclipse.cdt.build.core.buildType.debug" cleanCommand="rm -rf" description="CppAD Auto Differentiation" id="cdt.managedbuild.config.gnu.cross.exe.debug.1400463574.856523603" name="AutoDiff - CPPAD" parent="cdt.managedbuild.config.gnu.cross.exe.debug" prebuildStep="">
+				<configuration artifactName="isam" buildArtefactType="org.eclipse.cdt.build.core.buildArtefactType.exe" buildProperties="org.eclipse.cdt.build.core.buildType=org.eclipse.cdt.build.core.buildType.debug,org.eclipse.cdt.build.core.buildArtefactType=org.eclipse.cdt.build.core.buildArtefactType.exe" cleanCommand="rm -rf" description="CppAD Auto Differentiation" id="cdt.managedbuild.config.gnu.cross.exe.debug.1400463574.856523603" name="AutoDiff - CPPAD" parent="cdt.managedbuild.config.gnu.cross.exe.debug" prebuildStep="">
 					<folderInfo id="cdt.managedbuild.config.gnu.cross.exe.debug.1400463574.856523603." name="/" resourcePath="">
 						<toolChain id="cdt.managedbuild.toolchain.gnu.mingw.base.42616066" name="MinGW GCC" superClass="cdt.managedbuild.toolchain.gnu.mingw.base">
 							<targetPlatform archList="all" binaryParser="org.eclipse.cdt.core.PE" id="cdt.managedbuild.target.gnu.platform.mingw.base.1886852780" name="Debug Platform" osList="win32" superClass="cdt.managedbuild.target.gnu.platform.mingw.base"/>
@@ -400,15 +400,15 @@
 							<tool id="cdt.managedbuild.tool.gnu.assembler.mingw.base.1307261138" name="GCC Assembler" superClass="cdt.managedbuild.tool.gnu.assembler.mingw.base">
 								<option id="gnu.both.asm.option.include.paths.1118587688" name="Include paths (-I)" superClass="gnu.both.asm.option.include.paths" valueType="includePath">
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/trunk/build/win32/thirdparty/include}&quot;"/>
-									<listOptionValue builtIn="false" value="D:/Programming/MinGW64/lib/gcc/x86_64-w64-mingw32/4.8.1/include"/>
-									<listOptionValue builtIn="false" value="D:/Programming/MinGW64/include"/>
-									<listOptionValue builtIn="false" value="D:/Programming/MinGW64/lib/gcc/x86_64-w64-mingw32/4.8.1/include-fixed"/>
-									<listOptionValue builtIn="false" value="D:/Programming/MinGW64/x86_64-w64-mingw32/include"/>
-									<listOptionValue builtIn="false" value="D:/Programming/MinGW64/lib/gcc/x86_64-w64-mingw32/4.8.1/include/c++"/>
-									<listOptionValue builtIn="false" value="D:/Programming/MinGW64/lib/gcc/x86_64-w64-mingw32/4.8.1/include/c++/x86_64-w64-mingw32"/>
-									<listOptionValue builtIn="false" value="D:/Programming/MinGW64/lib/gcc/x86_64-w64-mingw32/4.8.1/include/c++/backward"/>
+									<listOptionValue builtIn="false" value="C:/TDM-GCC-64/lib/gcc/x86_64-w64-mingw32/4.9.2/include"/>
+									<listOptionValue builtIn="false" value="C:/TDM-GCC-64/include"/>
+									<listOptionValue builtIn="false" value="C:/TDM-GCC-64/lib/gcc/x86_64-w64-mingw32/4.9.2/include-fixed"/>
+									<listOptionValue builtIn="false" value="C:/TDM-GCC-64/x86_64-w64-mingw32/include"/>
+									<listOptionValue builtIn="false" value="C:/TDM-GCC-64/lib/gcc/x86_64-w64-mingw32/4.9.2/include/c++"/>
+									<listOptionValue builtIn="false" value="C:/TDM-GCC-64/lib/gcc/x86_64-w64-mingw32/4.9.2/include/c++/x86_64-w64-mingw32"/>
+									<listOptionValue builtIn="false" value="C:/TDM-GCC-64/lib/gcc/x86_64-w64-mingw32/4.9.2/include/c++/backward"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/iSAM/source}&quot;"/>
-									<listOptionValue builtIn="false" value="D:/Programming/MinGW64/lib/gcc/x86_64-w64-mingw32/4.8.1/include/"/>
+									<listOptionValue builtIn="false" value="C:/TDM-GCC-64/lib/gcc/x86_64-w64-mingw32/4.9.2/include/"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/BuildSystem/bin/win32/thirdparty/include}&quot;"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.assembler.input.1522938771" superClass="cdt.managedbuild.tool.gnu.assembler.input"/>
@@ -419,15 +419,15 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/source}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/BuildSystem/bin/win32/thirdparty/include/admb}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/BuildSystem/bin/win32/thirdparty/include}&quot;"/>
-									<listOptionValue builtIn="false" value="D:/Programming/MinGW64/lib/gcc/x86_64-w64-mingw32/4.8.1/include"/>
-									<listOptionValue builtIn="false" value="D:/Programming/MinGW64/include"/>
-									<listOptionValue builtIn="false" value="D:/Programming/MinGW64/lib/gcc/x86_64-w64-mingw32/4.8.1/include-fixed"/>
-									<listOptionValue builtIn="false" value="D:/Programming/MinGW64/x86_64-w64-mingw32/include"/>
-									<listOptionValue builtIn="false" value="D:/Programming/MinGW64/lib/gcc/x86_64-w64-mingw32/4.8.1/include/c++"/>
-									<listOptionValue builtIn="false" value="D:/Programming/MinGW64/lib/gcc/x86_64-w64-mingw32/4.8.1/include/c++/x86_64-w64-mingw32"/>
-									<listOptionValue builtIn="false" value="D:/Programming/MinGW64/lib/gcc/x86_64-w64-mingw32/4.8.1/include/c++/backward"/>
+									<listOptionValue builtIn="false" value="C:/TDM-GCC-64/lib/gcc/x86_64-w64-mingw32/4.9.2/include"/>
+									<listOptionValue builtIn="false" value="C:/TDM-GCC-64/include"/>
+									<listOptionValue builtIn="false" value="C:/TDM-GCC-64/lib/gcc/x86_64-w64-mingw32/4.9.2/include-fixed"/>
+									<listOptionValue builtIn="false" value="C:/TDM-GCC-64/x86_64-w64-mingw32/include"/>
+									<listOptionValue builtIn="false" value="C:/TDM-GCC-64/lib/gcc/x86_64-w64-mingw32/4.9.2/include/c++"/>
+									<listOptionValue builtIn="false" value="C:/TDM-GCC-64/lib/gcc/x86_64-w64-mingw32/4.9.2/include/c++/x86_64-w64-mingw32"/>
+									<listOptionValue builtIn="false" value="C:/TDM-GCC-64/lib/gcc/x86_64-w64-mingw32/4.9.2/include/c++/backward"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/iSAM/source}&quot;"/>
-									<listOptionValue builtIn="false" value="D:/Programming/MinGW64/lib/gcc/x86_64-w64-mingw32/4.8.1/include/"/>
+									<listOptionValue builtIn="false" value="C:/TDM-GCC-64/lib/gcc/x86_64-w64-mingw32/4.9.2/include/"/>
 								</option>
 								<option id="gnu.cpp.compiler.option.preprocessor.def.808036406" name="Defined symbols (-D)" superClass="gnu.cpp.compiler.option.preprocessor.def" valueType="definedSymbols">
 									<listOptionValue builtIn="false" value="USE_AUTODIFF"/>
@@ -447,15 +447,15 @@
 							</tool>
 							<tool id="cdt.managedbuild.tool.gnu.c.compiler.mingw.base.990970973" name="GCC C Compiler" superClass="cdt.managedbuild.tool.gnu.c.compiler.mingw.base">
 								<option id="gnu.c.compiler.option.include.paths.1546536311" name="Include paths (-I)" superClass="gnu.c.compiler.option.include.paths" valueType="includePath">
-									<listOptionValue builtIn="false" value="D:/Programming/MinGW64/lib/gcc/x86_64-w64-mingw32/4.8.1/include"/>
-									<listOptionValue builtIn="false" value="D:/Programming/MinGW64/include"/>
-									<listOptionValue builtIn="false" value="D:/Programming/MinGW64/lib/gcc/x86_64-w64-mingw32/4.8.1/include-fixed"/>
-									<listOptionValue builtIn="false" value="D:/Programming/MinGW64/x86_64-w64-mingw32/include"/>
-									<listOptionValue builtIn="false" value="D:/Programming/MinGW64/lib/gcc/x86_64-w64-mingw32/4.8.1/include/c++"/>
-									<listOptionValue builtIn="false" value="D:/Programming/MinGW64/lib/gcc/x86_64-w64-mingw32/4.8.1/include/c++/x86_64-w64-mingw32"/>
-									<listOptionValue builtIn="false" value="D:/Programming/MinGW64/lib/gcc/x86_64-w64-mingw32/4.8.1/include/c++/backward"/>
+									<listOptionValue builtIn="false" value="C:/TDM-GCC-64/lib/gcc/x86_64-w64-mingw32/4.9.2/include"/>
+									<listOptionValue builtIn="false" value="C:/TDM-GCC-64/include"/>
+									<listOptionValue builtIn="false" value="C:/TDM-GCC-64/lib/gcc/x86_64-w64-mingw32/4.9.2/include-fixed"/>
+									<listOptionValue builtIn="false" value="C:/TDM-GCC-64/x86_64-w64-mingw32/include"/>
+									<listOptionValue builtIn="false" value="C:/TDM-GCC-64/lib/gcc/x86_64-w64-mingw32/4.9.2/include/c++"/>
+									<listOptionValue builtIn="false" value="C:/TDM-GCC-64/lib/gcc/x86_64-w64-mingw32/4.9.2/include/c++/x86_64-w64-mingw32"/>
+									<listOptionValue builtIn="false" value="C:/TDM-GCC-64/lib/gcc/x86_64-w64-mingw32/4.9.2/include/c++/backward"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/iSAM/source}&quot;"/>
-									<listOptionValue builtIn="false" value="D:/Programming/MinGW64/lib/gcc/x86_64-w64-mingw32/4.8.1/include/"/>
+									<listOptionValue builtIn="false" value="C:/TDM-GCC-64/lib/gcc/x86_64-w64-mingw32/4.9.2/include/"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/BuildSystem/bin/win32/thirdparty/include}&quot;"/>
 								</option>
 								<option id="gnu.c.compiler.option.preprocessor.def.symbols.765593628" name="Defined symbols (-D)" superClass="gnu.c.compiler.option.preprocessor.def.symbols"/>
@@ -493,14 +493,14 @@
 			<storageModule buildSystemId="org.eclipse.cdt.managedbuilder.core.configurationDataProvider" id="cdt.managedbuild.config.gnu.cross.exe.debug.1400463574.1382834397.899417647.137292290" moduleId="org.eclipse.cdt.core.settings" name="BetaDiff">
 				<externalSettings/>
 				<extensions>
-					<extension id="org.eclipse.cdt.core.ELF" point="org.eclipse.cdt.core.BinaryParser"/>
 					<extension id="org.eclipse.cdt.core.GCCErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
 					<extension id="org.eclipse.cdt.core.GASErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
 					<extension id="org.eclipse.cdt.core.GLDErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+					<extension id="org.eclipse.cdt.core.ELF" point="org.eclipse.cdt.core.BinaryParser"/>
 				</extensions>
 			</storageModule>
 			<storageModule moduleId="cdtBuildSystem" version="4.0.0">
-				<configuration artifactName="isam" buildArtefactType="org.eclipse.cdt.build.core.buildArtefactType.exe" buildProperties="org.eclipse.cdt.build.core.buildArtefactType=org.eclipse.cdt.build.core.buildArtefactType.exe,org.eclipse.cdt.build.core.buildType=org.eclipse.cdt.build.core.buildType.debug" cleanCommand="rm -rf" description="AutoDifferentiation BetaDiff FMM" id="cdt.managedbuild.config.gnu.cross.exe.debug.1400463574.1382834397.899417647.137292290" name="BetaDiff" parent="cdt.managedbuild.config.gnu.cross.exe.debug" prebuildStep="">
+				<configuration artifactName="isam" buildArtefactType="org.eclipse.cdt.build.core.buildArtefactType.exe" buildProperties="org.eclipse.cdt.build.core.buildType=org.eclipse.cdt.build.core.buildType.debug,org.eclipse.cdt.build.core.buildArtefactType=org.eclipse.cdt.build.core.buildArtefactType.exe" cleanCommand="rm -rf" description="AutoDifferentiation BetaDiff FMM" id="cdt.managedbuild.config.gnu.cross.exe.debug.1400463574.1382834397.899417647.137292290" name="BetaDiff" parent="cdt.managedbuild.config.gnu.cross.exe.debug" prebuildStep="">
 					<folderInfo id="cdt.managedbuild.config.gnu.cross.exe.debug.1400463574.1382834397.899417647.137292290." name="/" resourcePath="">
 						<toolChain id="cdt.managedbuild.toolchain.gnu.cross.base.379973493" name="Cross GCC" superClass="cdt.managedbuild.toolchain.gnu.cross.base">
 							<option id="cdt.managedbuild.option.gnu.cross.prefix.339360941" name="Prefix" superClass="cdt.managedbuild.option.gnu.cross.prefix"/>
@@ -558,15 +558,15 @@
 							<tool id="cdt.managedbuild.tool.gnu.cross.archiver.98098662" name="Cross GCC Archiver" superClass="cdt.managedbuild.tool.gnu.cross.archiver"/>
 							<tool id="cdt.managedbuild.tool.gnu.cross.assembler.253260089" name="Cross GCC Assembler" superClass="cdt.managedbuild.tool.gnu.cross.assembler">
 								<option id="gnu.both.asm.option.include.paths.322194106" name="Include paths (-I)" superClass="gnu.both.asm.option.include.paths" valueType="includePath">
-									<listOptionValue builtIn="false" value="D:/Programming/MinGW64/lib/gcc/x86_64-w64-mingw32/4.8.1/include"/>
-									<listOptionValue builtIn="false" value="D:/Programming/MinGW64/include"/>
-									<listOptionValue builtIn="false" value="D:/Programming/MinGW64/lib/gcc/x86_64-w64-mingw32/4.8.1/include-fixed"/>
-									<listOptionValue builtIn="false" value="D:/Programming/MinGW64/x86_64-w64-mingw32/include"/>
-									<listOptionValue builtIn="false" value="D:/Programming/MinGW64/lib/gcc/x86_64-w64-mingw32/4.8.1/include/c++"/>
-									<listOptionValue builtIn="false" value="D:/Programming/MinGW64/lib/gcc/x86_64-w64-mingw32/4.8.1/include/c++/x86_64-w64-mingw32"/>
-									<listOptionValue builtIn="false" value="D:/Programming/MinGW64/lib/gcc/x86_64-w64-mingw32/4.8.1/include/c++/backward"/>
+									<listOptionValue builtIn="false" value="C:/TDM-GCC-64/lib/gcc/x86_64-w64-mingw32/4.9.2/include"/>
+									<listOptionValue builtIn="false" value="C:/TDM-GCC-64/include"/>
+									<listOptionValue builtIn="false" value="C:/TDM-GCC-64/lib/gcc/x86_64-w64-mingw32/4.9.2/include-fixed"/>
+									<listOptionValue builtIn="false" value="C:/TDM-GCC-64/x86_64-w64-mingw32/include"/>
+									<listOptionValue builtIn="false" value="C:/TDM-GCC-64/lib/gcc/x86_64-w64-mingw32/4.9.2/include/c++"/>
+									<listOptionValue builtIn="false" value="C:/TDM-GCC-64/lib/gcc/x86_64-w64-mingw32/4.9.2/include/c++/x86_64-w64-mingw32"/>
+									<listOptionValue builtIn="false" value="C:/TDM-GCC-64/lib/gcc/x86_64-w64-mingw32/4.9.2/include/c++/backward"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/iSAM/source}&quot;"/>
-									<listOptionValue builtIn="false" value="D:/Programming/MinGW64/lib/gcc/x86_64-w64-mingw32/4.8.1/include/"/>
+									<listOptionValue builtIn="false" value="C:/TDM-GCC-64/lib/gcc/x86_64-w64-mingw32/4.9.2/include/"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/BuildSystem/bin/win32/thirdparty/include}&quot;"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.assembler.input.1112209440" superClass="cdt.managedbuild.tool.gnu.assembler.input"/>
@@ -584,14 +584,14 @@
 			<storageModule buildSystemId="org.eclipse.cdt.managedbuilder.core.configurationDataProvider" id="cdt.managedbuild.config.gnu.cross.exe.debug.1400463574.1382834397.899417647.462149496" moduleId="org.eclipse.cdt.core.settings" name="CPPAD">
 				<externalSettings/>
 				<extensions>
-					<extension id="org.eclipse.cdt.core.ELF" point="org.eclipse.cdt.core.BinaryParser"/>
 					<extension id="org.eclipse.cdt.core.GCCErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
 					<extension id="org.eclipse.cdt.core.GASErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
 					<extension id="org.eclipse.cdt.core.GLDErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+					<extension id="org.eclipse.cdt.core.ELF" point="org.eclipse.cdt.core.BinaryParser"/>
 				</extensions>
 			</storageModule>
 			<storageModule moduleId="cdtBuildSystem" version="4.0.0">
-				<configuration artifactName="isam" buildArtefactType="org.eclipse.cdt.build.core.buildArtefactType.exe" buildProperties="org.eclipse.cdt.build.core.buildArtefactType=org.eclipse.cdt.build.core.buildArtefactType.exe,org.eclipse.cdt.build.core.buildType=org.eclipse.cdt.build.core.buildType.debug" cleanCommand="rm -rf" description="AutoDifferentiation CPPAD IPOPT" id="cdt.managedbuild.config.gnu.cross.exe.debug.1400463574.1382834397.899417647.462149496" name="CPPAD" parent="cdt.managedbuild.config.gnu.cross.exe.debug" prebuildStep="">
+				<configuration artifactName="isam" buildArtefactType="org.eclipse.cdt.build.core.buildArtefactType.exe" buildProperties="org.eclipse.cdt.build.core.buildType=org.eclipse.cdt.build.core.buildType.debug,org.eclipse.cdt.build.core.buildArtefactType=org.eclipse.cdt.build.core.buildArtefactType.exe" cleanCommand="rm -rf" description="AutoDifferentiation CPPAD IPOPT" id="cdt.managedbuild.config.gnu.cross.exe.debug.1400463574.1382834397.899417647.462149496" name="CPPAD" parent="cdt.managedbuild.config.gnu.cross.exe.debug" prebuildStep="">
 					<folderInfo id="cdt.managedbuild.config.gnu.cross.exe.debug.1400463574.1382834397.899417647.462149496." name="/" resourcePath="">
 						<toolChain id="cdt.managedbuild.toolchain.gnu.cross.base.736932880" name="Cross GCC" superClass="cdt.managedbuild.toolchain.gnu.cross.base">
 							<option id="cdt.managedbuild.option.gnu.cross.prefix.842291877" name="Prefix" superClass="cdt.managedbuild.option.gnu.cross.prefix"/>
@@ -653,15 +653,15 @@
 							<tool id="cdt.managedbuild.tool.gnu.cross.archiver.1574400256" name="Cross GCC Archiver" superClass="cdt.managedbuild.tool.gnu.cross.archiver"/>
 							<tool id="cdt.managedbuild.tool.gnu.cross.assembler.814775405" name="Cross GCC Assembler" superClass="cdt.managedbuild.tool.gnu.cross.assembler">
 								<option id="gnu.both.asm.option.include.paths.1077124080" name="Include paths (-I)" superClass="gnu.both.asm.option.include.paths" valueType="includePath">
-									<listOptionValue builtIn="false" value="D:/Programming/MinGW64/lib/gcc/x86_64-w64-mingw32/4.8.1/include"/>
-									<listOptionValue builtIn="false" value="D:/Programming/MinGW64/include"/>
-									<listOptionValue builtIn="false" value="D:/Programming/MinGW64/lib/gcc/x86_64-w64-mingw32/4.8.1/include-fixed"/>
-									<listOptionValue builtIn="false" value="D:/Programming/MinGW64/x86_64-w64-mingw32/include"/>
-									<listOptionValue builtIn="false" value="D:/Programming/MinGW64/lib/gcc/x86_64-w64-mingw32/4.8.1/include/c++"/>
-									<listOptionValue builtIn="false" value="D:/Programming/MinGW64/lib/gcc/x86_64-w64-mingw32/4.8.1/include/c++/x86_64-w64-mingw32"/>
-									<listOptionValue builtIn="false" value="D:/Programming/MinGW64/lib/gcc/x86_64-w64-mingw32/4.8.1/include/c++/backward"/>
+									<listOptionValue builtIn="false" value="C:/TDM-GCC-64/lib/gcc/x86_64-w64-mingw32/4.9.2/include"/>
+									<listOptionValue builtIn="false" value="C:/TDM-GCC-64/include"/>
+									<listOptionValue builtIn="false" value="C:/TDM-GCC-64/lib/gcc/x86_64-w64-mingw32/4.9.2/include-fixed"/>
+									<listOptionValue builtIn="false" value="C:/TDM-GCC-64/x86_64-w64-mingw32/include"/>
+									<listOptionValue builtIn="false" value="C:/TDM-GCC-64/lib/gcc/x86_64-w64-mingw32/4.9.2/include/c++"/>
+									<listOptionValue builtIn="false" value="C:/TDM-GCC-64/lib/gcc/x86_64-w64-mingw32/4.9.2/include/c++/x86_64-w64-mingw32"/>
+									<listOptionValue builtIn="false" value="C:/TDM-GCC-64/lib/gcc/x86_64-w64-mingw32/4.9.2/include/c++/backward"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/iSAM/source}&quot;"/>
-									<listOptionValue builtIn="false" value="D:/Programming/MinGW64/lib/gcc/x86_64-w64-mingw32/4.8.1/include/"/>
+									<listOptionValue builtIn="false" value="C:/TDM-GCC-64/lib/gcc/x86_64-w64-mingw32/4.9.2/include/"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/BuildSystem/bin/win32/thirdparty/include}&quot;"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.assembler.input.1323374980" superClass="cdt.managedbuild.tool.gnu.assembler.input"/>
@@ -681,22 +681,22 @@
 	</storageModule>
 	<storageModule moduleId="org.eclipse.cdt.core.LanguageSettingsProviders"/>
 	<storageModule moduleId="refreshScope" versionNumber="2">
-		<configuration configurationName="CPPAD"/>
-		<configuration configurationName="AutoDiff - CPPAD"/>
-		<configuration configurationName="ADMB"/>
-		<configuration configurationName="ADOLC"/>
-		<configuration configurationName="TestMode"/>
-		<configuration configurationName="BetaDiff"/>
-		<configuration configurationName="Debug - clang">
-			<resource resourceType="PROJECT" workspacePath="/trunk"/>
-		</configuration>
-		<configuration configurationName="DebugClang"/>
-		<configuration configurationName="Debug">
-			<resource resourceType="PROJECT" workspacePath="/trunk"/>
-		</configuration>
 		<configuration configurationName="Release">
 			<resource resourceType="PROJECT" workspacePath="/trunk"/>
 		</configuration>
+		<configuration configurationName="CPPAD"/>
+		<configuration configurationName="Debug - clang">
+			<resource resourceType="PROJECT" workspacePath="/trunk"/>
+		</configuration>
+		<configuration configurationName="BetaDiff"/>
+		<configuration configurationName="AutoDiff - CPPAD"/>
+		<configuration configurationName="ADMB"/>
+		<configuration configurationName="Debug">
+			<resource resourceType="PROJECT" workspacePath="/trunk"/>
+		</configuration>
+		<configuration configurationName="ADOLC"/>
+		<configuration configurationName="DebugClang"/>
+		<configuration configurationName="TestMode"/>
 	</storageModule>
 	<storageModule moduleId="org.eclipse.cdt.internal.ui.text.commentOwnerProjectMappings"/>
 	<storageModule moduleId="org.eclipse.cdt.make.core.buildtargets"/>

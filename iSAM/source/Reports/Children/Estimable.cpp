@@ -83,7 +83,8 @@ void Estimable::DoBuild() {
  *
  */
 void Estimable::DoPrepare() {
-  cache_ << "*" << this->label() << "\n";
+  cache_ << "*" << label_ << " " << "("<< type_ << ")"<<"\n";
+
   cache_ << "years: ";
   for (unsigned year : years_)
     cache_ << std::left << std::setw(10) << year;
