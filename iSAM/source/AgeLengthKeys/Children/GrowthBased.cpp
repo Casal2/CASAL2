@@ -39,191 +39,116 @@ GrowthBased::GrowthBased() {
   parameters_.Bind<string>(PARAM_DISTRIBUTION, &distribution_, "Distribution around each Age length mean","")->set_allowed_values({ PARAM_NORMAL, PARAM_LOGNORMAL });
 }
 
-/**
- * Do the conversion of the partition structure from age to length
- *
- * @param category The current category to convert
- */
-void GrowthBased::DoAgeToLengthConversion(std::shared_ptr<partition::Category> category) {
 
-  /**
-   * Age Partition structure is in:
-   */
-//  category->data_;
-
-  // Age length object is in
-//  category->age_length_;
-
-  // Length/Age Matrix
-//  category->length_data_;
-
-  /**
-   * Goal of this method is to take data from category->data_ and load category->length_data_;
-   */
- }
-
-/**
+/** Calculate a vector of length frequencies based on a distribution
+ * @parm mu , cv = from @age_length
+ * @parm *vprop_in_length   = is the output vector that is changed by reference
+ * @parm class_mins  is a vector of length minimums feed in from the config file
+ * @parm distribution is the distribution around each length at age
+ * @parm Class_min_temp is the temporary vector used if transformations are needed e.g log class_mins
  *
  */
-//Double GrowthBased::CummulativeNormal(
-//	Double          mu, 		    //mean of length distribution
-//	Double          sigma, 		    // standard deviation of length distribution
-//	vector<Double>  *vprop_in_length  // fraction of fish in each length class return
-//
-//	)
-//	{
-//
+void GrowthBased::CummulativeNormal(
+	Double          mu, 		    //mean of length distribution
+	Double          cv, 		    // cv from @age_length
+	vector<Double>  *vprop_in_length,  // fraction of fish in each length class return
+	vector<Double>  class_mins,
+	string          distribution,
+	vector<Double>  Class_min_temp,
+	bool 			plus_grp
+	)
+	{
+
 // // est proportion of age class that are in each length interval
-//  vector <Double> *class_length = &class_mins->vlow_length_boundary; //points to correct boundaries log or untransformed version
+//  Class_min_temp = class_mins; 	// Temp vec is a vector that all the work gets done on.
+//  Double sigma = cv * mu;
 //  if(distribution == "lognormal"){ // if lognormal, convert growth parameters to log space; use class_mins->is_log
 //  Double cv     = sigma / mu;
 //  Double  Lvar  = log(cv*cv + 1.0) ;      //variance in log space
 //  mu    		= log(mu) - Lvar / 2.0 ; //mean in log space
 //  sigma 		= sqrt(Lvar);
 //
-//    class_length = &class_mins->vlog_low_length_boundary; // point to lognormal version opf boundaries
+//  if(class_mins[0] < 0.0001) Class_min_temp[0] = log(0.0001) ; else Class_min_temp[0] = log(class_mins[0]);
+//    if(class_mins.size() > 1) for (unsigned h =1; h < class_mins.size() ; h++)   Class_min_temp[h] = log(class_mins[h]);
+//
 //  }
 //
 //
-// // z = abs( ( class_mins - mu)/sigma)    //normal unit var for values greater then the mean
-// vector <Double> z    = (*class_length);  //not really needed since it can inside loop below
-//  std::vector<Double>::iterator j;
-// // cout<<"mu sigma is "<<mu<<" "<<sigma<<endl;
-// for(j=z.begin(); j!=z.end(); ++j){
-//
-// 		*j = abs(*j - mu)/sigma;
-//
-// }
-//
-//  std::vector<int>::size_type sz = z.size(); //array length
-//  const Double pi = 3.141592653589793;  // This will be defined somewhere surely
-//
-//  vector <Double> tt  (sz);
-//  for (unsigned k=0; k<sz; k++) tt[k] = 1.0/(1.0 + 0.2316419 * z[k]);
-//
-//
-// vector <Double> norm  (sz);
-//  for (unsigned k=0; k<sz; k++) norm[k] = 1.0/sqrt(2 * pi)  * exp( -0.5*z[k] * z[k]);
-//
-//
-// Double tmp, ttt;			// tmp acculate total expr., xxx accumulate powers if tt, which is used up to 5th power
-// vector <Double> cumN (sz);// hold cummulative normal values
-//
-// for (unsigned k=0; k<sz; k++){
-//
-// 	ttt  = tt[k];
-// 	tmp  = 0.319381530 * ttt ;
-//
-// 	ttt  = ttt * tt[k];
-// 	tmp  = tmp - 0.356563782 * ttt;          // tt^2
-// 	ttt  = ttt * tt[k];
-// 	tmp  = tmp + 1.781477937 * ttt ;       // tt^3
-// 	ttt  = ttt * tt[k];
-// 	tmp  = tmp - 1.821255978 * ttt;        // tt^4
-// 	ttt  = ttt * tt[k];
-// 	tmp  = tmp + 1.330274429 * ttt ;      // tt^5
-//
-// 	cumN[k] = 1.0 - norm[k]*tmp;
-//
-//	//get values for lengths below the mean could save a subtraction here
-//	if( (*class_length)[k] < mu)	cumN[k] = 1.0 - cumN[k];
-//}
-//
-//
-// // proportion in length interval
-//
+// Double z, tt, norm, ttt, tmp,CumN_0,  CumN, CumN_prev, sumN ;
+// const Double pi = 3.141592653589793;
+// std::vector<int>::size_type sz = class_mins.size();
 // vprop_in_length->resize(sz);
-// Double sumN = 0.0;  //sum the propbabilities
-// for (unsigned k=1; k<sz; k++) {   					// note index starts at 1 not 0
-// 	(*vprop_in_length)[k-1] = cumN[k] - cumN[k-1];  //get proportions for interval
-// 	sumN += (*vprop_in_length)[k - 1];
+//
+// for(unsigned j = 0; j < sz; ++j)
+// {
+//  z = (Class_min_temp[j] - mu) / sigma;
+//  tt = 1.0/(1.0 + 0.2316419 * z);
+//  norm = 1.0/sqrt(2 * pi)  * exp( -0.5*z * z);
+//  ttt  = tt;
+//  tmp  = 0.319381530 * ttt ;
+//  ttt  = ttt * tt;
+//  tmp  = tmp - 0.356563782 * ttt;          // tt^2
+//  ttt  = ttt * tt;
+//  tmp  = tmp + 1.781477937 * ttt ;       // tt^3
+//  ttt  = ttt * tt;
+//  tmp  = tmp - 1.821255978 * ttt;        // tt^4
+//  ttt  = ttt * tt;
+//  tmp  = tmp + 1.330274429 * ttt ;      // tt^5
+//
+//  CumN = 1.0 - norm*tmp;
+//  if (Class_min_temp[j] < mu)	CumN = 1.0 - CumN;
+//
+//
+//  if( (j = 0) ){
+//  CumN_0 = CumN;
+//  CumN_prev = CumN;
+//  } else {
+//
+//  (*vprop_in_length)[j-1] = CumN - CumN_prev;
+//  sumN += (*vprop_in_length)[j - 1];
 // }
-//
-//
-// if(class_mins->plus_gp){
-//     (*vprop_in_length)[sz - 1] = 1.0 - sumN - cumN[0] ;//plus_gp is what is left on the RHS; also need to account for lengths below the first boundary
-//     } else vprop_in_length->resize(sz - 1);			// remove last array member as it is not needed
-//
-// //cout<<mu<<"  "<<sigma<<" "<<sumN<<endl;
-// return ;
-// }
-//
-//
-//// Now I need to obtain the ages that the exist for the category/partition
-//// I need to call in @age_length which will output mean and cv of length for that age
-//// This would be how you evaluate minimum age
-//
-//for(unsigned k = Model::Instance()->min_age(); k < Model::Instance()->max_age() + 1 ; ++k){
-//	@age_lenth(k)		// We need a mean and standard deviation out of this for each age class
-//}
-//
-//// ALK
-//// Set up a matrix that is length(age) by length(length) .... note there could be a plus group account for that
-//// Then we populate the matrix by iterating through the age classes applying the Cum normal function
-//// For that given mu and cv from @age_length
-//
-//if(Plus_grp_)
-//	Im2_ = Im2_ + 1;
-//
-//	// Build a matrix of age_ (rows) by Im2_(cols)
-//	for(unsigned i=0; i < max_age ; ++i){
-//		mat[iage,] = Cum_Normal(mu, sigma, distribution, class_mins, plus_grp) // This should in theory return a vector of proportionat length
 //	}
+// if(plus_grp){
+//     (*vprop_in_length)[sz - 1] = 1.0 - sumN - CumN_0 ;    //plus_gp is what is left on the RHS; also need to account for lengths below the first boundary
+//     } else vprop_in_length->resize(sz - 1);			   // remove last array member as it is not needed
+
+ return ;
+ }
+
+
+
+/**
+ * Do the conversion of the partition structure from age to length
+ *
+ * @param category The current category to convert
+ */
+
+void GrowthBased::DoAgeToLengthConversion(std::shared_ptr<partition::Category> category ) {
+
+//  unsigned min_a = Model::Instance()->min_age();
+//  unsigned max_a = Model::Instance()->max_age();
 //
 //
+//  for(unsigned age = min_a; age < max_a ; ++age){
+//
+//  category->UpdateMeanLengthData();
 //
 //
+//  Double cv = category->age_length()->cv();
+//
+//  //
+//  bool plus_grp = Model::Instance()->age_plus();
+//  CummulativeNormal(category->length_per_[age], cv, &Age_freq_ , class_mins_ , distribution_, Temp_vec, plus_grp);
+//
+//  // Loop through the length bins and multiple the partition of the current age to go from
+//  // length frequencies to age length numbers
+//  for(unsigned i = 0; i < class_mins_.size(); ++i){
+//  category->length_data_[age][i] =  category->data_[age] * Age_freq_[i];
 //
 //
-//
-//
-//
-//
-//
-//
-//// - ------------------------- Same as Data.cpp from here on
-///**
-// * Build any objects that will need to be utilised by this object.
-// * Obtain smart_pointers to any objects that will be used by this object.
-//
-//void Data::DoBuild() {
-//  if (!data_table_)
-//    LOG_CODE_ERROR() << "!data_table_";
-//
-//  unsigned length_bins_count = Model::Instance()->length_bins().size();
-//
-//
-//   * Build our data_by_year map so we can fill the gaps
-//   * and use it in the model
-//   */
-//  vector<vector<string>>& data = data_table_->data();
-//  for (vector<string> row : data) {
-//    if (row.size() != length_bins_count + 1) {
-//      LOG_ERROR_P(PARAM_DATA) << "row data count (" << row.size() << ") must be <age> <length> <length n> for a total of " << length_bins_count + 1 << " columns";
-//      return;
-//    }
-//
-//    unsigned age = utilities::ToInline<string, unsigned>(row[0]);
-//    for (unsigned i = 1; i < row.size(); ++i) {
-//      lookup_table_[age][i - 1] = utilities::ToInline<string, Double>(row[i]);
-//    }
 //  }
-//
-//  // rescale the data to ensure it's a proportion
-//  unsigned row_index = 0;
-//  for (auto row : lookup_table_) {
-//    ++row_index;
-//    Double total = 0.0;
-//    for (auto iter : row.second)
-//      total += iter.second;
-//
-//    if (!utilities::doublecompare::IsOne(total)) {
-//      LOG_WARNING() << location() << "row " << row_index << " in data table sums to " << total << ". This should sum to 1.0. Auto re-scaling";
-//      for (auto& iter : row.second)
-//        iter.second /= total;
-//    }
-//  }
-//}
+// }
+}
 
 } /* namespace agelengthkeys */
 } /* namespace niwa */

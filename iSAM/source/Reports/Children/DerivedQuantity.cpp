@@ -26,6 +26,7 @@ DerivedQuantity::DerivedQuantity() {
 void DerivedQuantity::DoExecute() {
   LOG_TRACE();
 
+  /*
   cache_ << "derived_quantity: " << label_ << "\n";
 
   derivedquantities::Manager& manager = derivedquantities::Manager::Instance();
@@ -49,6 +50,35 @@ void DerivedQuantity::DoExecute() {
     for (auto iter = values.begin(); iter != values.end(); ++iter) {
       cache_ << iter->first << " = " << AS_DOUBLE(iter->second) << "\n";
     }
+
+    count++;
+  }
+  */
+
+  derivedquantities::Manager& manager = derivedquantities::Manager::Instance();
+
+  vector<DerivedQuantityPtr> derived_quantities = manager.objects();
+
+  cache_ << "*" << label_ << " " << "("<< type_ << ")"<<"\n";
+
+  unsigned count = 1;
+  for (DerivedQuantityPtr dq : derived_quantities) {
+    cache_ << dq->label() << " " << REPORT_R_LIST << "\n";
+
+    const vector<vector<Double> > init_values = dq->initialisation_values();
+    for (unsigned i = 0; i < init_values.size(); ++i) {
+      cache_ << "Initial_phase_"<< i << ": ";
+      for (unsigned j = 0; j < init_values[i].size(); ++j)
+        cache_ << AS_DOUBLE(init_values[i][j]) << " ";
+      cache_ << "\n";
+    }
+
+    const map<unsigned, Double> values = dq->values();
+    cache_ << "values " << REPORT_R_VECTOR <<"\n";
+    for (auto iter = values.begin(); iter != values.end(); ++iter) {
+      cache_ << iter->first << " " << AS_DOUBLE(iter->second) << "\n";
+    }
+    cache_ << REPORT_R_LIST_END << "\n";
 
     count++;
   }

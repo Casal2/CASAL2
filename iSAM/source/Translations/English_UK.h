@@ -39,6 +39,22 @@
 #define CONFIG_WILDCARD_SINGLE              "?"
 
 //**********************************************************************
+// REPORT
+//
+//**********************************************************************
+// Report output Syntax Strings
+#define REPORT_END                           "*end"
+#define REPORT_R_COMPLETE_VECTOR             "{c}"
+#define REPORT_R_DATAFRAME                   "{d}"
+#define REPORT_R_MATRIX                      "{m}"
+#define REPORT_R_NAMED_COMPLETE_VECTOR       "{C}"
+#define REPORT_R_LIST                        "{L}"
+#define REPORT_R_LIST_END                    "end {L}"
+#define REPORT_R_LIST_ELEMENT_SEPERATOR      ":"
+#define REPORT_R_VECTOR                      "{v}"
+
+
+//**********************************************************************
 // FMM
 //
 //**********************************************************************
@@ -178,6 +194,7 @@
 #define PARAM_DISPERSION                          "dispersion"
 #define PARAM_DISTANCE                            "distance"
 #define PARAM_DISTRIBUTION                        "distribution"
+#define PARAM_DIRICHLET							  "dirichlet"
 #define PARAM_DLIB                                "dlib"
 #define PARAM_DOUBLE                              "numeric"
 #define PARAM_DOUBLE_EXPONENTIAL                  "double_exponential"
