@@ -31,12 +31,11 @@ public:
   void                        DoValidate() override final {};
   void                        DoBuild() override final {};
   void                        DoReset() override final {};
-
   void                        DoAgeToLengthConversion(std::shared_ptr<partition::Category> category) override final;
 
 private:
   // methods
-void                          CummulativeNormal(Double mu, Double cv, vector<Double> *vprop_in_length, vector<Double> class_mins, string distribution, vector<Double>  Class_min_temp, bool plus_grp);
+  void                        CummulativeNormal(Double mu, Double cv, vector<Double> *vprop_in_length, vector<Double> class_mins, string distribution, vector<Double>  Class_min_temp, bool plus_grp);
 
   // members
   vector<Double>              class_mins_;		  // Class min lengths
