@@ -53,7 +53,7 @@ void Dirichlet::GetScores(map<unsigned, vector<observations::Comparison> >& comp
 	    for (observations::Comparison& comparison : year_iterator->second) {
 	      Double error_value = AdjustErrorValue(comparison.process_error_, comparison.error_value_) * error_value_multiplier_;
 	      Double Alpha = dc::ZeroFun(comparison.expected_,comparison.delta_) * error_value;
-	      Double A2_A3 = math::LnGamma(Alpha) - ((Alpha - 1.0) * log(dc::ZeroFun(comparison.expected_,comparison.delta_)));
+	      Double A2_A3 = math::LnGamma(Alpha) - ((Alpha - 1.0) * log(dc::ZeroFun(comparison.observed_,comparison.delta_)));
 	      comparison.score_ = A2_A3 * multiplier_;
             }
 	  }
@@ -70,20 +70,26 @@ void Dirichlet::SimulateObserved(map<unsigned, vector<observations::Comparison> 
 
   // instance the random number generator
   utilities::RandomNumberGenerator& rng = utilities::RandomNumberGenerator::Instance();
+  map<string, double> mTotals;
 
   auto iterator = comparisons.begin();
   for (; iterator != comparisons.end(); ++iterator) {
     LOG_FINE() << "Simulating values for year: " << iterator->first;
 
     for (observations::Comparison& comparison : iterator->second) {
-      Double error_value = ceil(AdjustErrorValue(comparison.process_error_, comparison.error_value_));
+      Double error_value = AdjustErrorValue(comparison.process_error_, comparison.error_value_);
 
 
      if (comparison.expected_ <= 0.0 || error_value <= 0.0)
         comparison.observed_ = 0.0;
 
     else
-        comparison.observed_ = rng.gamma(AS_DOUBLE(comparison.expected_) * AS_DOUBLE(error_value));
+        comparison.observed_ = rng.gamma(comparison.expected_ * error_value);
+
+     mTotals[comparison.category_] += comparison.observed_;
+  }
+  for (observations::Comparison& comparison : iterator->second) {
+	  comparison.observed_ /=mTotals[comparison.category_];
   }
  }
 }
@@ -98,18 +104,20 @@ Double Dirichlet::GetInitialScore(map<unsigned, vector<observations::Comparison>
   Double score = 0.0;
   Double A1 = 0.0;
 
-  string last_category = "";
+//  string last_category = "";
   for (observations::Comparison& comparison : comparisons[year]) {
-    if (last_category == comparison.category_)
-      continue;
+//    if (last_category == comparison.category_)
+ //     continue;
 
-      last_category = comparison.category_;
+ //     last_category = comparison.category_;
       // Calculate score
       Double temp_score = AdjustErrorValue(comparison.process_error_, comparison.error_value_) * error_value_multiplier_;
       LOG_FINEST() << "Adding: " << temp_score << " = AdjustErrorValue(" << comparison.process_error_ << ", " << comparison.error_value_ << ")  * " << error_value_multiplier_ << ")";
       A1 += dc::ZeroFun(comparison.expected_, comparison.delta_) * temp_score;
     }
-    score  = math::LnGamma(A1);
+
+
+    score  = -math::LnGamma(A1);
     return score * multiplier_;
   }
 
