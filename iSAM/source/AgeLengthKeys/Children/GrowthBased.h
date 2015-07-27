@@ -23,6 +23,7 @@ namespace agelengthkeys {
 
 // classes
 class GrowthBased : public AgeLengthKey {
+friend class  GrowthBasedTest;
 public:
   // methods
   GrowthBased();
@@ -36,6 +37,7 @@ public:
 private:
   // methods
 void                          CummulativeNormal(Double mu, Double cv, vector<Double> *vprop_in_length, vector<Double> class_mins, string distribution, vector<Double>  Class_min_temp, bool plus_grp);
+
   // members
   vector<Double>              class_mins_;		  // Class min lengths
   vector<Double>              Age_freq_;
