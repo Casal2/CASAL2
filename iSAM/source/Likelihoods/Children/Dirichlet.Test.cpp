@@ -113,7 +113,7 @@ TEST(Likelihood, Dirichlet) {
   // check simulations
   likelihood->SimulateObserved(comparison_list);
   EXPECT_DOUBLE_EQ(0.06310697719429153,   comparison_list[0][0].observed_);
-  EXPECT_DOUBLE_EQ(0.06310697719429153,   comparison_list[0][1].observed_);
+  EXPECT_DOUBLE_EQ(0.15200180984615036,   comparison_list[0][1].observed_);
   EXPECT_DOUBLE_EQ(0.47011274483757398,   comparison_list[0][2].observed_);
   EXPECT_DOUBLE_EQ(0.31477846812198418,   comparison_list[0][3].observed_);
   EXPECT_DOUBLE_EQ(0.41445498365152816,   comparison_list[0][4].observed_);
