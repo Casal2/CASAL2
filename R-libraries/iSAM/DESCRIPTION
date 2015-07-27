@@ -1,0 +1,10 @@
+Package: iSAM
+Title: iSAM extract package
+Version: 1.0
+Date: 2015-06-10
+Author: D. Fu
+Description: A set of R functions for extracting from iSAM output files.
+Maintainer: D Fu <D.Fu@niwa.co.nz>
+License: CPL v1.0. See the iSAM User Manual for license details.
+URL: http://www.niwa.co.nz
+Copyright: National Institute of Water & Atmospheric Research (NIWA), New Zealand Ministry for Primary Industries.

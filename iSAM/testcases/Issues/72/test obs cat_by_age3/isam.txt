@@ -1,6 +1,0 @@
-!include "config.isam"
-!include "report.isam"
-!include "estimation.isam"
-!include "observations.isam"
-
-

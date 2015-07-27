@@ -32,11 +32,11 @@ CategoryInfo::CategoryInfo() {
  */
 void CategoryInfo::DoExecute() {
 
-  cache_ << "*category_info: " << label_ << "\n";
 
   CategoriesPtr categories = Categories::Instance();
-
   vector<string> names = categories->category_names();
+  /*
+  cache_ << "*category_info: " << label_ << "\n";
   for(string name : names) {
     cache_ << "Category: " << name << "\n";
     cache_ << "min_age: " << categories->min_age(name) << "\n";
@@ -48,6 +48,21 @@ void CategoryInfo::DoExecute() {
       cache_ << year << " ";
     cache_ << "\n\n";
   }
+  */
+  cache_ << "*" << label_ << " " << "("<< type_ << ")"<<"\n";
+  for(string name : names) {
+    cache_ << name << " " << REPORT_R_LIST<<"\n";
+    cache_ << "min_age: " << categories->min_age(name) << "\n";
+    cache_ << "max_age: " << categories->max_age(name) << "\n";
+
+    vector<unsigned> years = categories->years(name);
+    cache_ << "years: ";
+    for (unsigned year : years)
+      cache_ << year << " ";
+    cache_ << "\n";
+    cache_ << REPORT_R_LIST_END << "\n";
+  }
+
 
   ready_for_writing_ = true;
 }

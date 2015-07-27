@@ -37,14 +37,16 @@ EstimateSummary::~EstimateSummary() noexcept(true) {
  * This method will execute our estimate summary report
  */
 void EstimateSummary::DoExecute() {
-  // Header
-  cache_ << CONFIG_ARRAY_START << label_ << CONFIG_ARRAY_END << "\n";
-//  cout << PARAM_REPORT << "." << PARAM_TYPE << CONFIG_RATIO_SEPARATOR << " " << parameters_.Get(PARAM_TYPE)->GetValue<string>() << "\n";
 
 
   // Print the estimates
   niwa::estimates::Manager& estimate_manager = niwa::estimates::Manager::Instance();
   vector<EstimatePtr> estimates = estimate_manager.objects();
+
+  /*
+  // Header
+  cache_ << CONFIG_ARRAY_START << label_ << CONFIG_ARRAY_END << "\n";
+  //  cout << PARAM_REPORT << "." << PARAM_TYPE << CONFIG_RATIO_SEPARATOR << " " << parameters_.Get(PARAM_TYPE)->GetValue<string>() << "\n";
 
   for (EstimatePtr estimate : estimates) {
     cache_ << "\n";
@@ -65,8 +67,27 @@ void EstimateSummary::DoExecute() {
       cache_ << "\n";
     }
   }
-
   cache_ << CONFIG_END_REPORT << "\n" << endl;
+  */
+
+  cache_ << "*" << label_ << " " << "("<< type_ << ")"<<"\n";
+  for (EstimatePtr estimate : estimates) {
+	cache_ << estimate->parameter() << " " << REPORT_R_LIST << "\n";
+ //   cache_ << "label: " << estimate->label() << "\n";
+    cache_ << "lower_bound: " << estimate->lower_bound() << "\n";
+    cache_ << "upper_bound: " << estimate->upper_bound() << "\n";
+    cache_ << "value: " << AS_DOUBLE(estimate->value()) << "\n";
+    map<string, ParameterPtr> parameters = estimate->parameters().parameters();
+    for (auto iter = parameters.begin(); iter != parameters.end(); ++iter) {
+      cache_ << iter->first << ": ";
+      for (string parameter_value : iter->second->values())
+        cache_ << parameter_value << " ";
+      cache_ << "\n";
+    }
+    cache_ << REPORT_R_LIST_END << "\n\n";
+  }
+
+
   ready_for_writing_ = true;
 }
 

@@ -42,9 +42,7 @@ void EstimateValue::DoExecute() {
   vector<EstimatePtr> estimates = estimates::Manager::Instance().objects();
   vector<ProfilePtr>  profiles  = profiles::Manager::Instance().objects();
 
-  /**
-   * if this is the first run we print the report header etc
-   */
+  /*
   if (first_run_) {
     first_run_ = false;
     cache_ << CONFIG_ARRAY_START << label_ << CONFIG_ARRAY_END << "\n";
@@ -68,6 +66,34 @@ void EstimateValue::DoExecute() {
       cache_ << profile->value() << " ";
   }
   cache_ << "\n";
+  */
+
+  /**
+   * if this is the first run we print the report header etc
+   */
+  if (first_run_) {
+     first_run_ = false;
+     cache_ << "*" << label_ << " " << "("<< type_ << ")"<<"\n";
+     cache_ << "values "<< REPORT_R_MATRIX << "\n";
+     for (EstimatePtr estimate : estimates)
+         cache_ << estimate->parameter() << " ";
+
+     if (model->run_mode() == RunMode::kProfiling) {
+       for (ProfilePtr profile : profiles)
+         cache_ << profile->parameter() << " ";
+     }
+     cache_ << "\n";
+
+   }
+
+
+   for (EstimatePtr estimate : estimates)
+     cache_ << AS_DOUBLE(estimate->value()) << " ";
+   if (model->run_mode() == RunMode::kProfiling) {
+     for (ProfilePtr profile : profiles)
+       cache_ << profile->value() << " ";
+   }
+   cache_ << "\n";
 
   ready_for_writing_ = true;
 }
