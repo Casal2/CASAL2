@@ -32,7 +32,7 @@ public:
   // accessors
   virtual Double              mean_length(unsigned year, unsigned age) = 0;
   virtual Double              mean_weight(unsigned year, unsigned age) = 0;
-  Double                      cv() const { return cv_; }
+  vector<Double>              cv_vec_;
 
 protected:
   // methods
@@ -42,7 +42,8 @@ protected:
 
   // members
   vector<Double>              time_step_proportions_;
-  Double                      cv_ = 0.0;
+  Double                      cv_min_ = 0.0;
+  Double                      cv_max_ = 0.0;
 };
 
 // typedef
