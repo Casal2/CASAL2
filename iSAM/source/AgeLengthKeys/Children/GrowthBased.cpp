@@ -144,7 +144,7 @@ void GrowthBased::DoAgeToLengthConversion(
 //      category->length_data_[age][i] = category->data_[age] * Age_freq_[i];
 //    }
 //  }
-//}
+}
 
 } /* namespace agelengthkeys */
 } /* namespace niwa */
