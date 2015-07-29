@@ -17,6 +17,7 @@
 #include "AgeLengths/AgeLength.h"
 #include "LengthWeights/LengthWeight.h"
 
+
 // namespaces
 namespace niwa {
 namespace agelengths {
@@ -34,7 +35,7 @@ public:
   // accessors
   Double                      mean_length(unsigned year, unsigned age) override final;
   Double                      mean_weight(unsigned year, unsigned age) override final;
-
+  vector<Double>              cv_vec_;
 private:
   // members
   Double                      linf_;

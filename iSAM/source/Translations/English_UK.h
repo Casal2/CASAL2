@@ -178,6 +178,8 @@
 #define PARAM_CROSSOVER_PROBABILITY               "crossover_probability"
 #define PARAM_CURRENT_YEAR                        "current_year"
 #define PARAM_CV                                  "cv"
+#define PARAM_CV_FIRST                            "cv first age"
+#define PARAM_CV_LAST                             "cv last age"
 #define PARAM_D                                   "d"
 #define PARAM_DATA                                "data"
 #define PARAM_DATA_WEIGHT_TYPE                    "data_weight_type"
