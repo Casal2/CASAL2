@@ -35,8 +35,8 @@ namespace math = niwa::utilities::math;
  * @return An adjusted error value
  */
 Double Dirichlet::AdjustErrorValue(const Double process_error, const Double error_value) {
-	  if( (error_value > 0.0) && (process_error > 0.0) )
-	    return (error_value * process_error);
+  if ((error_value > 0.0) && (process_error > 0.0))
+    return (error_value * process_error);
 
   return error_value;
 }
@@ -49,14 +49,14 @@ Double Dirichlet::AdjustErrorValue(const Double process_error, const Double erro
 */
 
 void Dirichlet::GetScores(map<unsigned, vector<observations::Comparison> >& comparisons) {
-	  for (auto year_iterator = comparisons.begin(); year_iterator != comparisons.end(); ++year_iterator) {
-	    for (observations::Comparison& comparison : year_iterator->second) {
-	      Double error_value = AdjustErrorValue(comparison.process_error_, comparison.error_value_) * error_value_multiplier_;
-	      Double Alpha = dc::ZeroFun(comparison.expected_,comparison.delta_) * error_value;
-	      Double A2_A3 = math::LnGamma(Alpha) - ((Alpha - 1.0) * log(dc::ZeroFun(comparison.observed_,comparison.delta_)));
-	      comparison.score_ = A2_A3 * multiplier_;
-            }
-	  }
+  for (auto year_iterator = comparisons.begin(); year_iterator != comparisons.end(); ++year_iterator) {
+    for (observations::Comparison& comparison : year_iterator->second) {
+      Double error_value = AdjustErrorValue(comparison.process_error_, comparison.error_value_) * error_value_multiplier_;
+      Double alpha = dc::ZeroFun(comparison.expected_,comparison.delta_) * error_value;
+      Double a2_a3 = math::LnGamma(alpha) - ((alpha - 1.0) * log(dc::ZeroFun(comparison.observed_,comparison.delta_)));
+      comparison.score_ = a2_a3 * multiplier_;
+    }
+  }
 }
 
 
@@ -67,31 +67,26 @@ void Dirichlet::GetScores(map<unsigned, vector<observations::Comparison> >& comp
  */
 
 void Dirichlet::SimulateObserved(map<unsigned, vector<observations::Comparison> >& comparisons) {
-
   // instance the random number generator
   utilities::RandomNumberGenerator& rng = utilities::RandomNumberGenerator::Instance();
-  map<string, double> mTotals;
+  map<string, double> totals;
 
   auto iterator = comparisons.begin();
   for (; iterator != comparisons.end(); ++iterator) {
     LOG_FINE() << "Simulating values for year: " << iterator->first;
-
     for (observations::Comparison& comparison : iterator->second) {
       Double error_value = AdjustErrorValue(comparison.process_error_, comparison.error_value_);
-
-
-     if (comparison.expected_ <= 0.0 || error_value <= 0.0)
+      if (comparison.expected_ <= 0.0 || error_value <= 0.0)
         comparison.observed_ = 0.0;
-
-    else
+      else
         comparison.observed_ = rng.gamma(comparison.expected_ * error_value);
 
-     mTotals[comparison.category_] += comparison.observed_;
+      totals[comparison.category_] += comparison.observed_;
+    }
+
+    for (observations::Comparison& comparison : iterator->second)
+      comparison.observed_ /= totals[comparison.category_];
   }
-  for (observations::Comparison& comparison : iterator->second) {
-	  comparison.observed_ /=mTotals[comparison.category_];
-  }
- }
 }
 
 /**
@@ -102,24 +97,18 @@ void Dirichlet::SimulateObserved(map<unsigned, vector<observations::Comparison> 
 
 Double Dirichlet::GetInitialScore(map<unsigned, vector<observations::Comparison> >& comparisons,unsigned year) {
   Double score = 0.0;
-  Double A1 = 0.0;
+  Double a1 = 0.0;
 
-//  string last_category = "";
   for (observations::Comparison& comparison : comparisons[year]) {
-//    if (last_category == comparison.category_)
- //     continue;
-
- //     last_category = comparison.category_;
-      // Calculate score
-      Double temp_score = AdjustErrorValue(comparison.process_error_, comparison.error_value_) * error_value_multiplier_;
-      LOG_FINEST() << "Adding: " << temp_score << " = AdjustErrorValue(" << comparison.process_error_ << ", " << comparison.error_value_ << ")  * " << error_value_multiplier_ << ")";
-      A1 += dc::ZeroFun(comparison.expected_, comparison.delta_) * temp_score;
-    }
-
-
-    score  = -math::LnGamma(A1);
-    return score * multiplier_;
+    // Calculate score
+    Double temp_score = AdjustErrorValue(comparison.process_error_, comparison.error_value_) * error_value_multiplier_;
+    LOG_FINEST() << "Adding: " << temp_score << " = AdjustErrorValue(" << comparison.process_error_ << ", " << comparison.error_value_ << ")  * " << error_value_multiplier_ << ")";
+    a1 += dc::ZeroFun(comparison.expected_, comparison.delta_) * temp_score;
   }
+
+  score  = -math::LnGamma(A1);
+  return score * multiplier_;
+}
 
 } /* namespace likelihoods */
 } /* namespace niwa */
