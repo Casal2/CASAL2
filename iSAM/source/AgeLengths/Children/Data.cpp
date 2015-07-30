@@ -41,13 +41,13 @@ Data::Data() {
   data_table_ = TablePtr(new parameters::Table(PARAM_DATA));
 
   parameters_.BindTable(PARAM_DATA, data_table_, "", "");
-  parameters_.Bind<string>(PARAM_EXTERNAL_GAPS, &external_gaps_, "", "", PARAM_MEAN)
-    ->set_allowed_values({PARAM_MEAN, PARAM_NEAREST_NEIGHBOUR});
-  parameters_.Bind<string>(PARAM_INTERNAL_GAPS, &internal_gaps_, "", "", PARAM_MEAN)
-    ->set_allowed_values({PARAM_MEAN, PARAM_NEAREST_NEIGHBOUR, PARAM_INTERPOLATE});
+  parameters_.Bind<string>(PARAM_EXTERNAL_GAPS, &external_gaps_, "", "", PARAM_MEAN)->set_allowed_values({PARAM_MEAN, PARAM_NEAREST_NEIGHBOUR});
+  parameters_.Bind<string>(PARAM_INTERNAL_GAPS, &internal_gaps_, "", "", PARAM_MEAN)->set_allowed_values({PARAM_MEAN, PARAM_NEAREST_NEIGHBOUR, PARAM_INTERPOLATE});
   parameters_.Bind<string>(PARAM_LENGTH_WEIGHT, &length_weight_label_, "TBA", "");
-  parameters_.Bind<Double>(PARAM_CV, &cv_, "TBA", "", 0.0);
+  parameters_.Bind<Double>(PARAM_CV_FIRST, &cv_first_ , "CV for the first age class", "",Double(0.0))->set_lower_bound(0.0);
+  parameters_.Bind<Double>(PARAM_CV_LAST, &cv_last_ , "CV for maximum age", "",Double(0.0))->set_lower_bound(0.0);
   parameters_.Bind<string>(PARAM_DISTRIBUTION, &distribution_, "TBA", "", PARAM_NORMAL);
+
 }
 
 /**
@@ -258,15 +258,38 @@ Double Data::mean_length(unsigned year, unsigned age) {
 }
 
 /**
+ * Create look up vector of CV's that gets feed into mean_weight
+ * And Age Length Key.
+ * if cv_last_ and cv_first_ are time varying then this should be built every year
+ * also if by_length_ is called, it will be time varying because it calls mean_weight which has time_varying
+ * parameters. Otherwise it only needs to be built once a model run I believe
+ */
+void Data::BuildCv(unsigned year) {
+  unsigned min_age = Model::Instance()->min_age();
+  unsigned max_age = Model::Instance()->max_age();
+
+  if (cv_last_==0) { // A test that is robust... If cv_last_ is not in the input then assume cv_first_ represents the cv for all age classes i.e constant cv
+    for (unsigned i = min_age; i <= max_age; ++i)
+      cvs_[i]= (cv_first_);
+    } else {
+    // else Do linear interpolation between cv_first_ and cv_last_ based on age class
+    for (unsigned i = min_age; i <= max_age; ++i) {
+      cvs_[i]= (cv_first_ + (cv_last_ - cv_first_) * AS_DOUBLE(i - min_age) / AS_DOUBLE(max_age - min_age));
+    }
+  }
+
+}
+
+/**
  * Get the mean weight of a single population
  *
  * @param year The year we want mean weight for
  * @param age The age of the population we want mean weight for
- * @return mean weight for 1 member
+ * @return mean weight for 1 member cvs_[i]
  */
 Double Data::mean_weight(unsigned year, unsigned age) {
   Double size   = this->mean_length(year, age);
-  return length_weight_->mean_weight(size, distribution_, cv_);
+  return length_weight_->mean_weight(size, distribution_, cvs_[age]);
 }
 
 } /* namespace agelengths */

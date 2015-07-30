@@ -35,8 +35,11 @@ public:
   // accessors
   Double                      mean_length(unsigned year, unsigned age) override final;
   Double                      mean_weight(unsigned year, unsigned age) override final;
-  vector<Double>              cv_vec_;
+  void                        BuildCv(unsigned year) override final;
+
 private:
+  // methods
+
   // members
   Double                      linf_;
   Double                      k_;
@@ -45,6 +48,7 @@ private:
   bool                        by_length_;
   string                      length_weight_label_;
   LengthWeightPtr             length_weight_;
+
 };
 
 } /* namespace agelengths */

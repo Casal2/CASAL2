@@ -70,7 +70,7 @@ void Category::UpdateMeanWeightData() {
     return;
 
   unsigned year = Model::Instance()->current_year();
-
+  age_length_->BuildCv(year);
   for (unsigned age = min_age_; age <= max_age_; ++age)
     weight_per_[age] = age_length_->mean_weight(year, age);
 }

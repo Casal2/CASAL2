@@ -49,7 +49,7 @@ k 0.277
 t0 -0.11
 linf 90.3
 distribution normal
-cv 0.2
+cv_first 0.2
 by_length t
 
 @age_length age_size_female
@@ -59,7 +59,7 @@ k 0.202
 t0 -0.20
 linf 113.4
 distribution normal
-cv 0.2
+cv_first 0.2
 by_length t
 
 @initialisation_phase phase1

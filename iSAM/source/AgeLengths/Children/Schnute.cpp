@@ -41,7 +41,8 @@ Schnute::Schnute() {
   parameters_.Bind<Double>(PARAM_A, &a_, "TBA", "")->set_lower_bound(0.0);
   parameters_.Bind<Double>(PARAM_B, &b_, "TBA", "")->set_lower_bound(0.0, false);
   parameters_.Bind<string>(PARAM_LENGTH_WEIGHT, &length_weight_label_, "TBA", "");
-  parameters_.Bind<Double>(PARAM_CV, &cv_, "TBA", "", 0.0);
+  parameters_.Bind<Double>(PARAM_CV_FIRST, &cv_first_ , "CV for the first age class", "",Double(0.0))->set_lower_bound(0.0);
+  parameters_.Bind<Double>(PARAM_CV_LAST, &cv_last_ , "CV for maximum age", "",Double(0.0))->set_lower_bound(0.0);
   parameters_.Bind<string>(PARAM_DISTRIBUTION, &distribution_, "TBA", "", PARAM_NORMAL);
   parameters_.Bind<bool>(PARAM_BY_LENGTH, &by_length_, "TBA", "", true);
 
@@ -51,7 +52,8 @@ Schnute::Schnute() {
   RegisterAsEstimable(PARAM_TAU2, &tau2_);
   RegisterAsEstimable(PARAM_A, &a_);
   RegisterAsEstimable(PARAM_B, &b_);
-  RegisterAsEstimable(PARAM_CV, &cv_);
+  RegisterAsEstimable(PARAM_CV_FIRST, &cv_first_);
+  RegisterAsEstimable(PARAM_CV_LAST, &cv_last_);
 }
 
 /**
@@ -94,6 +96,36 @@ Double Schnute::mean_length(unsigned year, unsigned age) {
 }
 
 /**
+ * Create look up vector of CV's that gets feed into mean_weight
+ * And Age Length Key.
+ * if cv_last_ and cv_first_ are time varying then this should be built every year
+ * also if by_length_ is called, it will be time varying because it calls mean_weight which has time_varying
+ * parameters. Otherwise it only needs to be built once a model run I believe
+ */
+void Schnute::BuildCv(unsigned year) {
+  unsigned min_age = Model::Instance()->min_age();
+  unsigned max_age = Model::Instance()->max_age();
+
+  if (cv_last_==0) { // A test that is robust... If cv_last_ is not in the input then assume cv_first_ represents the cv for all age classes i.e constant cv
+    for (unsigned i = min_age; i <= max_age; ++i) {
+      cvs_[i]= (cv_first_);
+    }
+  } else if(by_length_) {  // if passed the first test we have a min and max CV. So ask if this is interpolated by length at age
+    for (unsigned i = min_age; i <= max_age; ++i) {
+      cvs_[i]= ((mean_length(year, i) - mean_length(year, min_age)) * (cv_last_ - cv_first_) / (mean_length(year, max_age) - mean_length(year, min_age)) + cv_first_);
+    }
+
+  } else {
+    // else Do linear interpolation between cv_first_ and cv_last_ based on age class
+    for (unsigned i = min_age; i <= max_age; ++i) {
+      cvs_[i]= (cv_first_ + (cv_last_ - cv_first_) * AS_DOUBLE(i - min_age) / AS_DOUBLE(max_age - min_age));
+    }
+  }
+
+}
+
+
+/**
  * Get the mean weight of a single population
  *
  * @param year The year we want mean weight for
@@ -101,17 +133,10 @@ Double Schnute::mean_length(unsigned year, unsigned age) {
  * @return mean weight for 1 member
  */
 Double Schnute::mean_weight(unsigned year, unsigned age) {
-  Double size   = this->mean_length(year, age);
-
-  Double weight = 0.0;
-  if (by_length_) {
-    weight = length_weight_->mean_weight(size, distribution_, cv_);
-  } else {
-    Double cv = (age * cv_) / size;
-    weight = length_weight_->mean_weight(size, distribution_, cv);
-  }
-
-  return weight;
+  Double size = this->mean_length(year, age);
+  Double mean_weight = 0.0; //
+   mean_weight = length_weight_->mean_weight(size, distribution_, cvs_[age]);
+  return mean_weight;
 }
 
 } /* namespace agelengths */
