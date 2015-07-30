@@ -35,7 +35,10 @@ public:
   // accessors
   Double                      mean_length(unsigned year, unsigned age) override final { return 1.0; }
   Double                      mean_weight(unsigned year, unsigned age) override final { return 1.0; }
+  void                        BuildCv(unsigned year) override final { };
+
 };
+
 
 } /* namespace agelengths */
 } /* namespace niwa */

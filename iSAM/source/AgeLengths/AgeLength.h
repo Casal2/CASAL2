@@ -32,7 +32,7 @@ public:
   // accessors
   virtual Double              mean_length(unsigned year, unsigned age) = 0;
   virtual Double              mean_weight(unsigned year, unsigned age) = 0;
-  vector<Double>              cv_vec_;
+  virtual void                BuildCv(unsigned year) = 0;
 
 protected:
   // methods
@@ -40,10 +40,12 @@ protected:
   virtual void                DoBuild() = 0;
   virtual void                DoReset() = 0;
 
+
   // members
   vector<Double>              time_step_proportions_;
-  Double                      cv_min_ = 0.0;
-  Double                      cv_max_ = 0.0;
+  map<unsigned, Double>       cvs_;
+  Double                      cv_first_ = 0.0;
+  Double                      cv_last_ = 0.0;
 };
 
 // typedef

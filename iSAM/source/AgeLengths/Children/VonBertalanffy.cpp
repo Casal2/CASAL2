@@ -11,7 +11,7 @@
 // headers
 #include "VonBertalanffy.h"
 
-#include "Partition/Category.h"
+#include "Model/Model.h"
 #include "LengthWeights/Manager.h"
 #include "TimeSteps/Manager.h"
 
@@ -34,16 +34,16 @@ VonBertalanffy::VonBertalanffy() {
   parameters_.Bind<Double>(PARAM_K, &k_, "TBA", "")->set_lower_bound(0.0);
   parameters_.Bind<Double>(PARAM_T0, &t0_, "TBA", "");
   parameters_.Bind<string>(PARAM_LENGTH_WEIGHT, &length_weight_label_, "TBA", "");
-  parameters_.Bind<Double>(PARAM_CV_FIRST, &cv_first_, "CV for minimum age class of if no CV2 supplied then this CV is assumed to be constant for all age classes", "", 0.0)->set_lower_bound(0.0);
-  parameters_.Bind<Double>(PARAM_CV_LAST, &cv_last_, "CV for maximum age class if supplied, then a CV is calculated for each age class based on linear interpolation between CV1 and CV2", "", 0.0)->set_lower_bound(0.0);
+  parameters_.Bind<Double>(PARAM_CV_FIRST, &cv_first_ , "CV for the first age class", "",Double(0.0))->set_lower_bound(0.0);
+  parameters_.Bind<Double>(PARAM_CV_LAST, &cv_last_ , "CV for maximum age", "",Double(0.0))->set_lower_bound(0.0);
   parameters_.Bind<string>(PARAM_DISTRIBUTION, &distribution_, "TBA", "", PARAM_NORMAL);
   parameters_.Bind<bool>(PARAM_BY_LENGTH, &by_length_, "Specifies if the linear interpolation of CV's is a linear function of mean length at age. Default is just by age", "", true);
 
   RegisterAsEstimable(PARAM_LINF, &linf_);
   RegisterAsEstimable(PARAM_K, &k_);
   RegisterAsEstimable(PARAM_T0, &t0_);
-  RegisterAsEstimable(PARAM_CV_MIN, &cv_first_);
-  RegisterAsEstimable(PARAM_CV_MAX, &cv_last_);
+  RegisterAsEstimable(PARAM_CV_FIRST, &cv_first_);
+  RegisterAsEstimable(PARAM_CV_LAST, &cv_last_);
 
 }
 
@@ -84,23 +84,23 @@ Double VonBertalanffy::mean_length(unsigned year, unsigned age) {
  * also if by_length_ is called, it will be time varying because it calls mean_weight which has time_varying
  * parameters. Otherwise it only needs to be built once a model run I believe
  */
-void VonBertalanffy::cv_lookup(unsigned year) {
-  unsigned min_age = category -> min_age_;
-  unsigned max_age = category -> max_age_;
+void VonBertalanffy::BuildCv(unsigned year) {
+  unsigned min_age = Model::Instance()->min_age();
+  unsigned max_age = Model::Instance()->max_age();
 
-  if (cv_last_==0) { // A test that is robust... If cv_last_ is not in the input then assume cv_first_ represents the cv for all age classes i.e constant cv
+  if (cv_last_==0.0) { // A test that is robust... If cv_last_ is not in the input then assume cv_first_ represents the cv for all age classes i.e constant cv
     for (unsigned i = min_age; i <= max_age; ++i) {
-      cv_vec_.pusback(cv_first_);
+      cvs_[i] = (cv_first_);
     }
   } else if(by_length_) {  // if passed the first test we have a min and max CV. So ask if this is interpolated by length at age
     for (unsigned i = min_age; i <= max_age; ++i) {
-      cv_vec_.pushback((mean_length(year, i) - mean_length(year, min_age)) * (cv_last_ - cv_first_) / (mean_length(year, max_age) - mean_length(year, min_age)) + cv_first_);
+      cvs_[i] = ((mean_length(year, i) - mean_length(year, min_age)) * (cv_last_ - cv_first_) / (mean_length(year, max_age) - mean_length(year, min_age)) + cv_first_);
     }
 
   } else {
     // else Do linear interpolation between cv_first_ and cv_last_ based on age class
     for (unsigned i = min_age; i <= max_age; ++i) {
-      cv_vec_.pushback(cv_first_ + (cv_last_ - cv_first_) * AS_DOUBLE(i - min_age) / AS_DOUBLE(max_age - min_age));
+      cvs_[i] = (cv_first_ + (cv_last_ - cv_first_) * AS_DOUBLE(i - min_age) / AS_DOUBLE(max_age - min_age));
     }
   }
 
@@ -117,7 +117,7 @@ void VonBertalanffy::cv_lookup(unsigned year) {
 Double VonBertalanffy::mean_weight(unsigned year, unsigned age) {
   Double size = this->mean_length(year, age);
   Double mean_weight = 0.0; //
-   mean_weight = length_weight_->mean_weight(size, distribution_, cv_vec_[age]);
+  mean_weight = length_weight_->mean_weight(size, distribution_, cvs_[age]);// make a map [key = age]
   return mean_weight;
 }
 

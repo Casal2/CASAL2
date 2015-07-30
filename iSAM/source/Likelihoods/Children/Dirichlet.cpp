@@ -106,7 +106,7 @@ Double Dirichlet::GetInitialScore(map<unsigned, vector<observations::Comparison>
     a1 += dc::ZeroFun(comparison.expected_, comparison.delta_) * temp_score;
   }
 
-  score  = -math::LnGamma(A1);
+  score  = -math::LnGamma(a1);
   return score * multiplier_;
 }
 
