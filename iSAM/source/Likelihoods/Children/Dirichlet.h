@@ -28,7 +28,7 @@ public:
   virtual                     ~Dirichlet() = default;
   Double                      AdjustErrorValue(const Double process_error, const Double error_value) override final;
   void                        SimulateObserved(map<unsigned, vector<observations::Comparison> >& comparisons) override final;
-  Double                      GetInitialScore(map<unsigned, vector<observations::Comparison> >& comparisons,unsigned year) override final;
+  Double                      GetInitialScore(map<unsigned, vector<observations::Comparison> >& comparisons, unsigned year) override final;
   void                        GetScores(map<unsigned, vector<observations::Comparison> >& comparisons) override final;
 };
 
