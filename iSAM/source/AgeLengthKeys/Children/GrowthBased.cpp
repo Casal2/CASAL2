@@ -77,8 +77,9 @@ void GrowthBased::CummulativeNormal(
 
   }
 
+  Double z, tt, norm, ttt, tmp;
+  Double sum = 0;
 
-  Double z, tt, norm, ttt, tmp, sum;
   vector<Double> cum;
   const Double kPi = 3.141592653589793;
   std::vector<int>::size_type sz = class_mins.size();
@@ -113,7 +114,6 @@ void GrowthBased::CummulativeNormal(
   } else
     vprop_in_length->resize(sz - 1);
 
-  return;
 }
 
 /**
@@ -124,24 +124,23 @@ void GrowthBased::CummulativeNormal(
 
 void GrowthBased::DoAgeToLengthConversion(
     std::shared_ptr<partition::Category> category) {
-//
+////
 //  unsigned min_a = category->min_age_;
 //  unsigned max_a = category->max_age_;
-//
+////  unsigned year = Model::Instance()->current_year();
+////  category->age_length()->BuildCv(year);
+////  category->UpdateMeanLengthData();
+////
 //  for (unsigned age = min_a; age < max_a; ++age) {
-//
-//    category->UpdateMeanLengthData();
-//
-//    Double cv = category->age_length()->cv();
-//
-//    //
+////
+//    Double cv = 0.1;// category->age_length()->cv(age);
 //    bool plus_grp = Model::Instance()->age_plus();
 //    CummulativeNormal(category->length_per_[age], cv, &Age_freq_, class_mins_, distribution_, Temp_vec, plus_grp);
-//
-//    // Loop through the length bins and multiple the partition of the current age to go from
-//    // length frequencies to age length numbers
-//    for (unsigned i = 0; i < class_mins_.size(); ++i) {
-//      category->length_data_[age][i] = category->data_[age] * Age_freq_[i];
+////
+////    // Loop through the length bins and multiple the partition of the current age to go from
+////    // length frequencies to age length numbers
+//      for (unsigned iter = 0; iter < class_mins_.size(); ++iter) {
+//      category->length_data_[age][iter] = category->data_[age] * Age_freq_[iter];
 //    }
 //  }
 }

@@ -65,6 +65,7 @@ void Category::ConvertAgeDataToLength() {
  * This method will update the weight data with the number of fish and weight
  * per fish for use.
  */
+
 void Category::UpdateMeanWeightData() {
   if (!age_length_)
     return;
@@ -72,7 +73,7 @@ void Category::UpdateMeanWeightData() {
   unsigned year = Model::Instance()->current_year();
   age_length_->BuildCv(year);
   for (unsigned age = min_age_; age <= max_age_; ++age)
-    weight_per_[age] = age_length_->mean_weight(year, age);
+  weight_per_[age] = age_length_->mean_weight(year, age);
 }
 
 } /* namespace partitions */
