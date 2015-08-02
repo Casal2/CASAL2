@@ -33,6 +33,7 @@ public:
   virtual Double              mean_length(unsigned year, unsigned age) = 0;
   virtual Double              mean_weight(unsigned year, unsigned age) = 0;
   virtual void                BuildCv(unsigned year) = 0;
+  Double                      cv(unsigned age){return cvs_[age];};
 
 protected:
   // methods
