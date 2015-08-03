@@ -25,13 +25,10 @@ namespace partition {
  */
 void Category::UpdateMeanLengthData() {
   CategoriesPtr categories = Categories::Instance();
-  if (!categories->HasAgeLengths())
-    return;
-
   unsigned year = Model::Instance()->current_year();
 
   AgeLengthPtr age_length = categories->age_length(name_);
-  age_length->BuildCV();
+  age_length->BuildCV(year);
   for (unsigned age = min_age_; age <= max_age_; ++age)
     mean_length_per_[age] = age_length->mean_length(year, age);
 }
@@ -44,13 +41,10 @@ void Category::UpdateMeanLengthData() {
 
 void Category::UpdateMeanWeightData() {
   CategoriesPtr categories = Categories::Instance();
-  if (!categories->HasAgeLengths())
-    return;
-
   unsigned year = Model::Instance()->current_year();
 
   AgeLengthPtr age_length = categories->age_length(name_);
-  age_length->BuildCV();
+  age_length->BuildCV(year);
   for (unsigned age = min_age_; age <= max_age_; ++age)
     mean_weight_per_[age] = age_length->mean_weight(year, age);
 }
@@ -76,8 +70,6 @@ void Category::CollapseAgeLengthData() {
  */
 void Category::UpdateAgeLengthData() {
   CategoriesPtr categories = Categories::Instance();
-  if (!categories->HasAgeLengths())
-    return;
 
   length_data_.clear();
   categories->age_length(name_)->DoAgeToLengthConversion(shared_from_this());
