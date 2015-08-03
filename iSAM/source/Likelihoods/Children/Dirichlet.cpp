@@ -79,7 +79,7 @@ void Dirichlet::SimulateObserved(map<unsigned, vector<observations::Comparison> 
       if (comparison.expected_ <= 0.0 || error_value <= 0.0)
         comparison.observed_ = 0.0;
       else
-        comparison.observed_ = rng.gamma(comparison.expected_ * error_value);
+        comparison.observed_ = rng.gamma(AS_DOUBLE(comparison.expected_) * AS_DOUBLE(error_value));
 
       totals[comparison.category_] += comparison.observed_;
     }

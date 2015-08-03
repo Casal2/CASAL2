@@ -118,7 +118,7 @@ void Schnute::BuildCV(unsigned year) {
   } else {
     // else Do linear interpolation between cv_first_ and cv_last_ based on age class
     for (unsigned i = min_age; i <= max_age; ++i) {
-      cvs_[i]= (cv_first_ + (cv_last_ - cv_first_) * AS_DOUBLE(i - min_age) / AS_DOUBLE(max_age - min_age));
+      cvs_[i]= (cv_first_ + (cv_last_ - cv_first_) * (i - min_age) / (max_age - min_age));
     }
   }
 
