@@ -264,7 +264,7 @@ Double Data::mean_length(unsigned year, unsigned age) {
  * also if by_length_ is called, it will be time varying because it calls mean_weight which has time_varying
  * parameters. Otherwise it only needs to be built once a model run I believe
  */
-void Data::BuildCv(unsigned year) {
+void Data::BuildCV(unsigned year) {
   unsigned min_age = Model::Instance()->min_age();
   unsigned max_age = Model::Instance()->max_age();
 

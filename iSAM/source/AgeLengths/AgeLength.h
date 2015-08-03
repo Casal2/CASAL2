@@ -17,30 +17,33 @@
 // headers
 #include "BaseClasses/Object.h"
 
+#include "Partition/Category.h"
+
 // namespaces
 namespace niwa {
 
 // classes
 class AgeLength : public niwa::base::Object {
 public:
+  // methods
   AgeLength();
   virtual                     ~AgeLength() { };
   void                        Validate();
   void                        Build();
   void                        Reset() { DoReset(); };
+  virtual void                DoAgeToLengthConversion(std::shared_ptr<partition::Category> category) = 0;
 
   // accessors
   virtual Double              mean_length(unsigned year, unsigned age) = 0;
   virtual Double              mean_weight(unsigned year, unsigned age) = 0;
-  virtual void                BuildCv(unsigned year) = 0;
-  Double                      cv(unsigned age){return cvs_[age];};
+  Double                      cv(unsigned age) { return cvs_[age]; };
 
 protected:
   // methods
   virtual void                DoValidate() = 0;
   virtual void                DoBuild() = 0;
   virtual void                DoReset() = 0;
-
+  virtual void                BuildCV(unsigned year) = 0;
 
   // members
   vector<Double>              time_step_proportions_;

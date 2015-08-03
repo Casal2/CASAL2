@@ -18,7 +18,6 @@
 
 // Headers
 #include "BaseClasses/Object.h"
-#include "AgeLengthKeys/AgeLengthKey.h"
 #include "AgeLengths/AgeLength.h"
 
 // Namespaces
@@ -35,7 +34,6 @@ struct CategoryInfo {
   unsigned          min_age_ = 0;
   unsigned          max_age_ = 0;
   AgeLengthPtr      age_length_;
-  AgeLengthKeyPtr   age_length_key_;
 };
 
 /**
@@ -54,7 +52,6 @@ public:
   unsigned                      GetNumberOfCategoriesDefined(const string& label) const;
   void                          Clear();
   bool                          HasAgeLengths() { return age_length_labels_.size() > 0; }
-  bool                          HasAgeLengthKeys() const { return age_length_key_labels_.size() > 0; }
 
   vector<string>                ExpandLabels(const vector<string> &category_labels, const ParameterPtr source_parameter);
   string                        GetCategoryLabels(const string& lookup_string, const ParameterPtr source_parameter);
@@ -67,7 +64,6 @@ public:
   unsigned                      max_age(const string& category_name);
   vector<unsigned>              years(const string& category_name);
   AgeLengthPtr                  age_length(const string& category_name);
-  AgeLengthKeyPtr               age_length_key(const string& category_name);
 
 private:
   // Methods
@@ -80,9 +76,7 @@ private:
   vector<string>              ages_;
   vector<string>              category_names_;
   vector<string>              age_length_labels_;
-  vector<string>              age_length_key_labels_;
   map<string, string>         category_age_length_labels_;
-  map<string, string>         category_age_length_key_labels_;
   map<string, CategoryInfo>   categories_;
 };
 

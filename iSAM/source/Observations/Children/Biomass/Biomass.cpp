@@ -164,7 +164,7 @@ void Biomass::Execute() {
           final_value = temp * proportion_of_time_;
         }
 
-        expected_total += selectivity_result * final_value * (*category_iter)->weight_per_[age];
+        expected_total += selectivity_result * final_value * (*category_iter)->mean_weight_per_[age];
       }
     }
 

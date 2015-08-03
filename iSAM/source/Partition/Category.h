@@ -21,9 +21,7 @@
 #include <vector>
 #include <string>
 
-#include "AgeLengths/AgeLength.h"
 #include "Utilities/Types.h"
-
 
 // namespaces
 namespace niwa {
@@ -45,8 +43,8 @@ public:
   virtual                     ~Category() = default;
   void                        UpdateMeanLengthData();
   void                        UpdateMeanWeightData();
-  void                        ConvertAgeDataToLength();
-  void                        ConvertLengthDataToAge();
+  void                        UpdateAgeLengthData();
+  void                        CollapseAgeLengthData();
 
   // members
   string                      name_ = "";
@@ -54,18 +52,10 @@ public:
   unsigned                    max_age_ = 0;
   vector<unsigned>            years_;
   vector<Double>              data_;
-  map<unsigned,map<unsigned, Double>> length_data_; // map<age, map<length, amount>>
-  map<unsigned, Double>       length_per_; // map<bin, number per>
-  map<unsigned, Double>       weight_per_; // map<age, weight per>
-
-
-  // accessors
-  void                        set_age_length(AgeLengthPtr value) { age_length_ = value; }
-  AgeLengthPtr                age_length() const { return age_length_; }
-
-private:
-  // members
-  AgeLengthPtr                age_length_ = AgeLengthPtr();
+  vector<Double>              length_data_;
+  map<unsigned,map<unsigned, Double>> age_length_matrix_; // map<age, map<length, amount>>
+  map<unsigned, Double>       mean_length_per_; // map<bin, number per>
+  map<unsigned, Double>       mean_weight_per_; // map<age, weight per>
 };
 
 } /* namespace partitions */

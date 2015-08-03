@@ -49,6 +49,20 @@ void Table::AddRow(vector<string> &row) {
 }
 
 /**
+ * Get the index for the specified column
+ *
+ * @param label The column label
+ * @return The index for the label
+ */
+unsigned Table::column_index(const string& label) const {
+  for (unsigned i = 0; i < columns_.size(); ++i) {
+    if (columns_[i] == label)
+      return i;
+  }
+
+  return columns_.size();
+}
+/**
  * Return a string that shows the location this parameter was defined.
  *
  * @return string containing the file and line details for this parameter

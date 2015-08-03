@@ -47,6 +47,15 @@ public:
   unsigned                    GetColumnCount() { return columns_.size(); }
   void                        FillMapOfCategoryAges(map<string, vector<Double>>& result);
 
+//  template<typename Values>
+//    bool                        Populate(const string& column, vector<Values> &data);
+//  template<typename Key, typename Values>
+//  bool                        Populate(const vector<Key>& columns, map<Key,vector<Values>> &data);
+  template<typename MasterKey, typename Key, typename Value>
+  bool                        Populate(const MasterKey& master_key, const vector<Key>& keys,
+      map<MasterKey, map<Key, Value>>& out_matrix);
+
+
   // accessors
   void                        set_file_name(const string& file_name) { file_name_ = file_name; }
   string                      file_name() const { return file_name_; }
@@ -54,6 +63,7 @@ public:
   unsigned                    line_number() const { return line_number_; }
   unsigned                    row_count() const { return data_.size(); }
   const vector<string>&       columns() { return columns_; }
+  unsigned                    column_index(const string& label) const;
   vector<vector<string>>&     data() { return data_; }
   string                      location() const;
   void                        set_is_optional(bool is_optional) { is_optional_ = is_optional; }
@@ -78,4 +88,8 @@ typedef std::shared_ptr<niwa::parameters::Table> TablePtr;
 
 } /* namespace parameters */
 } /* namespace niwa */
+
+// Inline include for template methods
+#include "Table-inl.h"
+
 #endif /* TABLE_H_ */
