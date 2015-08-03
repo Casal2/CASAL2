@@ -31,6 +31,7 @@ void Category::UpdateMeanLengthData() {
   unsigned year = Model::Instance()->current_year();
 
   AgeLengthPtr age_length = categories->age_length(name_);
+  age_length->BuildCV();
   for (unsigned age = min_age_; age <= max_age_; ++age)
     mean_length_per_[age] = age_length->mean_length(year, age);
 }
@@ -49,6 +50,7 @@ void Category::UpdateMeanWeightData() {
   unsigned year = Model::Instance()->current_year();
 
   AgeLengthPtr age_length = categories->age_length(name_);
+  age_length->BuildCV();
   for (unsigned age = min_age_; age <= max_age_; ++age)
     mean_weight_per_[age] = age_length->mean_weight(year, age);
 }

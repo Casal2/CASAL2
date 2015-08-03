@@ -17,6 +17,7 @@
 #include <boost/algorithm/string/split.hpp>
 
 #include "AgeLengths/Manager.h"
+#include "AgeLengths/Children/None.h"
 #include "Model/Model.h"
 #include "Logging/Logging.h"
 #include "Utilities/String.h"
@@ -411,8 +412,9 @@ vector<unsigned> Categories::years(const string& category_name) {
 AgeLengthPtr Categories::age_length(const string& category_name) {
   if (categories_.find(category_name) == categories_.end())
     LOG_CODE_ERROR() << "Could not find category_name: " << category_name << " in the list of loaded categories";
-  if (!categories_[category_name].age_length_)
-    LOG_CODE_ERROR() << "The age_length_ pointer was null for category " << category_name;
+  if (!categories_[category_name].age_length_) {
+    categories_[category_name].age_length_ = AgeLengthPtr(new agelengths::None());
+  }
 
   return categories_[category_name].age_length_;
 }

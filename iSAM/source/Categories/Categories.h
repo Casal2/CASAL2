@@ -51,7 +51,6 @@ public:
   bool                          IsCombinedLabels(const string& label) const;
   unsigned                      GetNumberOfCategoriesDefined(const string& label) const;
   void                          Clear();
-  bool                          HasAgeLengths() { return age_length_labels_.size() > 0; }
 
   vector<string>                ExpandLabels(const vector<string> &category_labels, const ParameterPtr source_parameter);
   string                        GetCategoryLabels(const string& lookup_string, const ParameterPtr source_parameter);
