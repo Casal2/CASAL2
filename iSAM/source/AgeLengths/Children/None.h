@@ -31,12 +31,15 @@ public:
   void                        DoValidate() override final { };
   void                        DoBuild() override final { };
   void                        DoReset() override final { };
+  void                        DoAgeToLengthConversion(std::shared_ptr<partition::Category> category) override final { };
 
   // accessors
   Double                      mean_length(unsigned year, unsigned age) override final { return 1.0; }
   Double                      mean_weight(unsigned year, unsigned age) override final { return 1.0; }
-  void                        BuildCv(unsigned year) override final { };
 
+protected:
+  // methods
+  void                        BuildCV(unsigned year) override final { };
 };
 
 

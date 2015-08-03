@@ -24,23 +24,44 @@ namespace partition {
  * data from the age data.
  */
 void Category::UpdateMeanLengthData() {
-  if (!age_length_)
+  CategoriesPtr categories = Categories::Instance();
+  if (!categories->HasAgeLengths())
     return;
 
   unsigned year = Model::Instance()->current_year();
 
+  AgeLengthPtr age_length = categories->age_length(name_);
   for (unsigned age = min_age_; age <= max_age_; ++age)
-    length_per_[age] = age_length_->mean_length(year, age);
+    mean_length_per_[age] = age_length->mean_length(year, age);
 }
+
+
+/**
+ * This method will update the weight data with the number of fish and weight
+ * per fish for use.
+ */
+
+void Category::UpdateMeanWeightData() {
+  CategoriesPtr categories = Categories::Instance();
+  if (!categories->HasAgeLengths())
+    return;
+
+  unsigned year = Model::Instance()->current_year();
+
+  AgeLengthPtr age_length = categories->age_length(name_);
+  for (unsigned age = min_age_; age <= max_age_; ++age)
+    mean_weight_per_[age] = age_length->mean_weight(year, age);
+}
+
 
 /**
  * This method will populate the age data from the length data. This is required
  * to transfer any changes in the length partition back to the age partition.
  */
-void Category::ConvertLengthDataToAge() {
+void Category::CollapseAgeLengthData() {
   data_.clear();
 
-  for (auto iter : length_data_) {
+  for (auto iter : age_length_matrix_) {
     Double total = 0;
     for (auto x : iter.second)
       total += x.second;
@@ -51,30 +72,15 @@ void Category::ConvertLengthDataToAge() {
 /**
  *
  */
-void Category::ConvertAgeDataToLength() {
+void Category::UpdateAgeLengthData() {
   CategoriesPtr categories = Categories::Instance();
-  if (!categories->HasAgeLengthKeys())
+  if (!categories->HasAgeLengths())
     return;
 
   length_data_.clear();
-  categories->age_length_key(name_)->DoAgeToLengthConversion(shared_from_this());
+  categories->age_length(name_)->DoAgeToLengthConversion(shared_from_this());
 }
 
-
-/**
- * This method will update the weight data with the number of fish and weight
- * per fish for use.
- */
-
-void Category::UpdateMeanWeightData() {
-  if (!age_length_)
-    return;
-
-  unsigned year = Model::Instance()->current_year();
-  age_length_->BuildCv(year);
-  for (unsigned age = min_age_; age <= max_age_; ++age)
-  weight_per_[age] = age_length_->mean_weight(year, age);
-}
 
 } /* namespace partitions */
 } /* namespace niwa */

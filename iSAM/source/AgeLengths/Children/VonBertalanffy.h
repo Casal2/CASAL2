@@ -17,13 +17,13 @@
 #include "AgeLengths/AgeLength.h"
 #include "LengthWeights/LengthWeight.h"
 
-
 // namespaces
 namespace niwa {
 namespace agelengths {
 
 // classes
 class VonBertalanffy : public niwa::AgeLength {
+  friend class VonBertalanffyTest;
 public:
   // methods
   VonBertalanffy();
@@ -31,14 +31,19 @@ public:
   void                        DoValidate() override final { };
   void                        DoBuild() override final;
   void                        DoReset() override final { };
+  void                        DoAgeToLengthConversion(std::shared_ptr<partition::Category> category) override final;
 
   // accessors
   Double                      mean_length(unsigned year, unsigned age) override final;
   Double                      mean_weight(unsigned year, unsigned age) override final;
-  void                        BuildCv(unsigned year) override final;
+
+protected:
+  // methods
+  void                        BuildCV(unsigned year) override final;
 
 private:
   // methods
+  void                        CummulativeNormal(Double mu, Double cv, vector<Double> *vprop_in_length, vector<Double> class_mins, string distribution, vector<Double>  Class_min_temp, bool plus_grp);
 
   // members
   Double                      linf_;
@@ -48,7 +53,6 @@ private:
   bool                        by_length_;
   string                      length_weight_label_;
   LengthWeightPtr             length_weight_;
-
 };
 
 } /* namespace agelengths */

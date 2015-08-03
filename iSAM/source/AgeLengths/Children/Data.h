@@ -34,7 +34,12 @@ public:
   void                        DoReset() override final {};
   Double                      mean_length(unsigned year, unsigned age) override final;
   Double                      mean_weight(unsigned year, unsigned age) override final;
-  void                        BuildCv(unsigned year) override final;
+  void                        DoAgeToLengthConversion(std::shared_ptr<partition::Category> category) override final { };
+
+protected:
+  // methods
+  void                        BuildCV(unsigned year) override final;
+
 private:
   // methods
   void                        FillExternalGaps();
