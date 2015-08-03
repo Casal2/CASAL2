@@ -31,6 +31,7 @@ public:
   void                        Validate();
   void                        Build();
   void                        Reset() { DoReset(); };
+  virtual void                BuildCV(unsigned year) = 0;
   virtual void                DoAgeToLengthConversion(std::shared_ptr<partition::Category> category) = 0;
 
   // accessors
@@ -43,7 +44,6 @@ protected:
   virtual void                DoValidate() = 0;
   virtual void                DoBuild() = 0;
   virtual void                DoReset() = 0;
-  virtual void                BuildCV(unsigned year) = 0;
 
   // members
   vector<Double>              time_step_proportions_;
