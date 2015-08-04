@@ -40,7 +40,7 @@ public:
 
 private:
   // methods
-  void                        CummulativeNormal(Double mu, Double cv, vector<Double> *vprop_in_length, vector<Double> class_mins, string distribution, vector<Double>  Class_min_temp, bool plus_grp);
+  void                        CummulativeNormal(Double mu, Double cv, vector<Double> *prop_in_length, vector<Double> length_bins, string distribution, bool plus_grp);
 
   // members
   Double                      linf_;
@@ -50,6 +50,7 @@ private:
   bool                        by_length_;
   string                      length_weight_label_;
   LengthWeightPtr             length_weight_;
+  vector<Double>              Age_freq_;
 };
 
 } /* namespace agelengths */
