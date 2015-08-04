@@ -1,5 +1,6 @@
 /**
  * @file VonBertalanffy.cpp
+
  * @author  Scott Rasmussen (scott.rasmussen@zaita.com)
  * @date 14/08/2013
  * @section LICENSE
@@ -8,12 +9,18 @@
  *
  */
 
+// defines
+#define _USE_MATH_DEFINES
+
 // headers
 #include "VonBertalanffy.h"
+
+#include <cmath>
 
 #include "Model/Model.h"
 #include "LengthWeights/Manager.h"
 #include "TimeSteps/Manager.h"
+
 
 // namespaces
 namespace niwa {
@@ -87,11 +94,12 @@ Double VonBertalanffy::mean_length(unsigned year, unsigned age) {
 Double VonBertalanffy::mean_weight(unsigned year, unsigned age) {
   Double size = this->mean_length(year, age);
   Double mean_weight = 0.0; //
+  BuildCV(year);
   mean_weight = length_weight_->mean_weight(size, distribution_, cvs_[age]);// make a map [key = age]
   return mean_weight;
 }
 
-/**
+/*
  * Create look up vector of CV's that gets feed into mean_weight
  * And Age Length Key.
  * if cv_last_ and cv_first_ are time varying then this should be built every year
@@ -102,14 +110,14 @@ void VonBertalanffy::BuildCV(unsigned year) {
   unsigned min_age = Model::Instance()->min_age();
   unsigned max_age = Model::Instance()->max_age();
 
-  if (cv_last_==0.0) { // A test that is robust... If cv_last_ is not in the input then assume cv_first_ represents the cv for all age classes i.e constant cv
-    for (unsigned i = min_age; i <= max_age; ++i) {
-      cvs_[i] = (cv_first_);
-    }
-  } else if(by_length_) {  // if passed the first test we have a min and max CV. So ask if this is interpolated by length at age
-    for (unsigned i = min_age; i <= max_age; ++i) {
+  // A test that is robust... If cv_last_ is not in the input then assume cv_first_ represents the cv for all age classes i.e constant cv
+  if (cv_last_ == 0.0) {
+    for (unsigned i = min_age; i <= max_age; ++i)
+      cvs_[i] = cv_first_;
+
+  } else if (by_length_) {  // if passed the first test we have a min and max CV. So ask if this is interpolated by length at age
+    for (unsigned i = min_age; i <= max_age; ++i)
       cvs_[i] = ((mean_length(year, i) - mean_length(year, min_age)) * (cv_last_ - cv_first_) / (mean_length(year, max_age) - mean_length(year, min_age)) + cv_first_);
-    }
 
   } else {
     // else Do linear interpolation between cv_first_ and cv_last_ based on age class
@@ -126,7 +134,7 @@ void VonBertalanffy::BuildCV(unsigned year) {
  */
 
 void VonBertalanffy::DoAgeToLengthConversion(std::shared_ptr<partition::Category> category) {
-////
+//
 //  unsigned min_a = category->min_age_;
 //  unsigned max_a = category->max_age_;
 ////  unsigned year = Model::Instance()->current_year();
@@ -137,49 +145,43 @@ void VonBertalanffy::DoAgeToLengthConversion(std::shared_ptr<partition::Category
 ////
 //    Double cv = 0.1;// category->age_length()->cv(age);
 //    bool plus_grp = Model::Instance()->age_plus();
-//    CummulativeNormal(category->length_per_[age], cv, &Age_freq_, class_mins_, distribution_, Temp_vec, plus_grp);
-////
-////    // Loop through the length bins and multiple the partition of the current age to go from
-////    // length frequencies to age length numbers
-//      for (unsigned iter = 0; iter < class_mins_.size(); ++iter) {
-//      category->length_data_[age][iter] = category->data_[age] * Age_freq_[iter];
+//    CummulativeNormal(category->mean_length_per_[age], cv, Age_freq_, class_bins, distribution_, plus_grp);
+//
+//    // Loop through the length bins and multiple the partition of the current age to go from
+//    // length frequencies to age length numbers
+//      for (unsigned iter = 0; iter < class_bins.size(); ++iter) {
+//      category->age_length_matrix_[age][iter] = category->data_[age] * Age_freq_[iter];
 //    }
 //  }
 }
 
-void VonBertalanffy::CummulativeNormal(Double mu, Double cv, vector<Double> *vprop_in_length, vector<Double> class_mins, string distribution, vector<Double>  Class_min_temp, bool plus_grp) {
+void VonBertalanffy::CummulativeNormal(Double mu, Double cv, vector<Double> *prop_in_length, vector<Double> length_bins, string distribution, bool plus_grp) {
   // est proportion of age class that are in each length interval
-  Class_min_temp = class_mins; // Temp vec is a vector that all the work gets done on.
-  Double sigma = cv; //* mu;
-  if (distribution == "lognormal") { // if lognormal, convert growth parameters to log space
-    // Put parameters in to log space
-    Double cv = sigma / mu;
-    Double Lvar = log(cv * cv + 1.0);
+
+  Double sigma = cv * mu;
+
+  if (distribution == "lognormal") {
+    // Transform parameters in to log space
+    Double cv_temp = sigma / mu;
+    Double Lvar = log(cv_temp * cv_temp + 1.0);
     mu = log(mu) - Lvar / 2.0;
     sigma = sqrt(Lvar);
 
-    if (class_mins[0] < 0.0001)
-      Class_min_temp[0] = log(0.0001);
-    else
-      Class_min_temp[0] = log(class_mins[0]);
-    if (class_mins.size() > 1)
-      for (unsigned h = 1; h < class_mins.size(); h++)
-        Class_min_temp[h] = log(class_mins[h]);
-
+    for (Double& value : length_bins)
+            value = value < 0.0001 ? log(0.0001) : log(value);
   }
 
   Double z, tt, norm, ttt, tmp;
   Double sum = 0;
-
   vector<Double> cum;
-  const Double kPi = 3.141592653589793;
-  std::vector<int>::size_type sz = class_mins.size();
-  vprop_in_length->resize(sz);
+
+  std::vector<int>::size_type sz = length_bins.size();
+  prop_in_length -> resize(sz);
 
   for (unsigned j = 0; j < sz; ++j) {
-    z = fabs((Class_min_temp[j] - mu)) / sigma;
+    z = fabs((length_bins[j] - mu)) / sigma;
     tt = 1.0 / (1.0 + 0.2316419 * z);
-    norm = 1.0 / sqrt(2.0 * kPi) * exp(-0.5 * z * z);
+    norm = 1.0 / sqrt(2.0 * M_PI) * exp(-0.5 * z * z);
     ttt = tt;
     tmp = 0.319381530 * ttt;
     ttt = ttt * tt;
@@ -191,19 +193,19 @@ void VonBertalanffy::CummulativeNormal(Double mu, Double cv, vector<Double> *vpr
     ttt = ttt * tt;
     tmp = tmp + 1.330274429 * ttt;      // tt^5
 
-    cum.push_back(1.0 - norm * tmp); //Crashing
-    if (Class_min_temp[j] < mu) {
+    cum.push_back(1.0 - norm * tmp);
+    if (length_bins[j] < mu) {
       cum[j] = 1.0 - cum[j];
     }
     if (j > 0) {
-      (*vprop_in_length)[j - 1] = cum[j] - cum[j - 1];
-      sum += (*vprop_in_length)[j - 1];
+      (*prop_in_length)[j - 1] = cum[j] - cum[j - 1];
+      sum += (*prop_in_length)[j - 1];
     }
   }
   if (plus_grp) {
-    (*vprop_in_length)[sz - 1] = 1.0 - sum - cum[0];
+    (*prop_in_length)[sz - 1] = 1.0 - sum - cum[0];
   } else
-    vprop_in_length->resize(sz - 1);
+    prop_in_length->resize(sz - 1);
 }
 
 } /* namespace agelengths */
