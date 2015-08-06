@@ -255,6 +255,7 @@
 #define PARAM_INITIALISATION_PHASE                "initialisation_phase"
 #define PARAM_INITIALISATION_PHASES               "initialisation_phases"
 #define PARAM_INSERT_PROCESSES                    "insert_processes"
+#define PARAM_MORTALITY_INSTANTANEOUS             "mortality_instantaneous"
 #define PARAM_INTERNAL_GAPS                       "internal_gaps"
 #define PARAM_INTERPOLATE                         "interpolate"
 #define PARAM_INVERSE                             "inverse"
