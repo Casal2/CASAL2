@@ -59,7 +59,7 @@ class Documentation:
         # PARAM_X in to actual English
         if not self.load_translations():
             return False
-        folder_list = [ 'AdditionalPriors', 'AgeingErrors', 'AgeLengths', 'AgeLengthKeys', 'Asserts',
+        folder_list = [ 'AdditionalPriors', 'AgeingErrors', 'AgeLengths', 'Asserts',
                         'Catchabilities', 'Categories', 'DerivedQuantities',
                         'Estimates', 'InitialisationPhases', 'LengthWeights',
                         'Likelihoods', 'MCMCs', 'Minimisers',
