@@ -33,7 +33,7 @@ t0 -0.20
 linf 113.4
 
 @initialisation_phase phase1
-years 5
+years 200
 exclude_processes fishing
 
 @time_step one
