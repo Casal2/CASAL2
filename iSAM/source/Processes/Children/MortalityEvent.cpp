@@ -24,7 +24,8 @@ namespace processes {
 /**
  * Default Constructor
  */
-MortalityEvent::MortalityEvent() {  parameters_.Bind<string>(PARAM_CATEGORIES, &category_names_, "Categories", "");
+MortalityEvent::MortalityEvent() {
+  parameters_.Bind<string>(PARAM_CATEGORIES, &category_names_, "Categories", "");
   parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "Years", "");
   parameters_.Bind<Double>(PARAM_CATCHES, &catches_, "Catches", "");
   parameters_.Bind<Double>(PARAM_U_MAX, &u_max_, "U Max", "", 0.99);
@@ -121,16 +122,6 @@ void MortalityEvent::DoExecute() {
 
     ++i;
   }
-//  for (auto iterator = partition_->begin(); iterator != partition_->end(); ++iterator, ++i) {
-//    unsigned min_age = (*iterator)->min_age_;
-//
-//    for (unsigned offset = 0; offset < (*iterator)->data_.size(); ++offset) {
-//      Double temp = (*iterator)->data_[offset] * selectivities_[i]->GetResult(min_age + offset);
-//
-//      vulnerable = vulnerable + temp;
-//      vulnerable_[(*iterator)->name_][min_age + offset] = temp;
-//    }
-//  }
 
   /**
    * Work out the exploitation rate to remove (catch/vulnerable)
@@ -157,18 +148,7 @@ void MortalityEvent::DoExecute() {
       offset++;
     }
   }
-
-//
-//  for (auto iterator = partition_->Begin(); iterator != partition_->End(); ++iterator) {
-//    unsigned min_age = (*iterator)->min_age_;
-//
-//    for (unsigned offset = 0; offset < (*iterator)->data_.size(); ++offset) {
-//      Double temp = vulnerable_[(*iterator)->name_][min_age + offset] * exploitation;
-//      (*iterator)->data_[offset] -= temp;
-//    }
-//  }
 }
-
 
 } /* namespace processes */
 } /* namespace niwa */

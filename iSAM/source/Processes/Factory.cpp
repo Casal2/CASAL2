@@ -21,6 +21,7 @@
 #include "Processes/Children/MortalityConstantRate.h"
 #include "Processes/Children/MortalityEvent.h"
 #include "Processes/Children/MortalityEventBiomass.h"
+#include "Processes/Children/MortalityInstantaneous.h"
 #include "Processes/Children/Nop.h"
 #include "Processes/Children/RecruitmentBevertonHolt.h"
 #include "Processes/Children/RecruitmentConstant.h"
@@ -79,6 +80,8 @@ ProcessPtr Factory::Create(string object_type, string sub_type) {
       result = ProcessPtr(new MortalityEvent());
     else if (sub_type == PARAM_MORTALITY_EVENT_BIOMASS)
       result = ProcessPtr(new MortalityEventBiomass());
+    else if (sub_type == PARAM_MORTALITY_INSTANTANEOUS)
+      result = ProcessPtr(new MortalityInstantaneous());
     else if (sub_type == PARAM_NOP)
       result = ProcessPtr(new Nop());
     else if (sub_type == PARAM_TAG_BY_AGE)
