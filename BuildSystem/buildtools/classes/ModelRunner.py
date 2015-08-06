@@ -32,6 +32,8 @@ class ModelRunner:
     for folder in dir_list:
       if folder.startswith("."):
         continue
+      if folder.startswith("DO NOT"):
+        continue
       os.chdir("../TestModels/" + folder)
       start = time.time()
       result = False;
