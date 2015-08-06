@@ -51,6 +51,7 @@ private:
   string                      length_weight_label_;
   LengthWeightPtr             length_weight_;
   vector<Double>              Age_freq_;
+  vector<Double>              length_bins_;
 };
 
 } /* namespace agelengths */

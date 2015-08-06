@@ -127,33 +127,7 @@ void VonBertalanffy::BuildCV(unsigned year) {
   }
 }
 
-/**
- * Do the conversion of the partition structure from age to length
- *
- * @param category The current category to convert
- */
 
-void VonBertalanffy::DoAgeToLengthConversion(std::shared_ptr<partition::Category> category) {
-//
-//  unsigned min_a = category->min_age_;
-//  unsigned max_a = category->max_age_;
-////  unsigned year = Model::Instance()->current_year();
-////  category->age_length()->BuildCv(year);
-////  category->UpdateMeanLengthData();
-////
-//  for (unsigned age = min_a; age < max_a; ++age) {
-////
-//    Double cv = 0.1;// category->age_length()->cv(age);
-//    bool plus_grp = Model::Instance()->age_plus();
-//    CummulativeNormal(category->mean_length_per_[age], cv, Age_freq_, class_bins, distribution_, plus_grp);
-//
-//    // Loop through the length bins and multiple the partition of the current age to go from
-//    // length frequencies to age length numbers
-//      for (unsigned iter = 0; iter < class_bins.size(); ++iter) {
-//      category->age_length_matrix_[age][iter] = category->data_[age] * Age_freq_[iter];
-//    }
-//  }
-}
 
 void VonBertalanffy::CummulativeNormal(Double mu, Double cv, vector<Double> *prop_in_length, vector<Double> length_bins, string distribution, bool plus_grp) {
   // est proportion of age class that are in each length interval
@@ -206,6 +180,35 @@ void VonBertalanffy::CummulativeNormal(Double mu, Double cv, vector<Double> *pro
     (*prop_in_length)[sz - 1] = 1.0 - sum - cum[0];
   } else
     prop_in_length->resize(sz - 1);
+}
+
+/**
+ * Do the conversion of the partition structure from age to length
+ *
+ * @param category The current category to convert
+ */
+
+void VonBertalanffy::DoAgeToLengthConversion(std::shared_ptr<partition::Category> category) {
+
+  unsigned min_a = category->min_age_;
+  unsigned max_a = category->max_age_;
+//  unsigned year = Model::Instance()->current_year();
+//  category->age_length()->BuildCv(year);
+//  category->UpdateMeanLengthData();
+//
+  for (unsigned age = min_a; age < max_a; ++age) {
+//
+    Double cv = 0.1;// category->age_length()->cv(age);
+    bool plus_grp = Model::Instance()->age_plus();
+    Double mu= category->mean_length_per_[age];
+    CummulativeNormal(mu, cv, &Age_freq_, length_bins_, distribution_, plus_grp);
+
+    // Loop through the length bins and multiple the partition of the current age to go from
+    // length frequencies to age length numbers
+      for (unsigned iter = 0; iter < length_bins_.size(); ++iter) {
+      category->age_length_matrix_[age][iter] = category->data_[age] * Age_freq_[iter];
+    }
+  }
 }
 
 } /* namespace agelengths */
