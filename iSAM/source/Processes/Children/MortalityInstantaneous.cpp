@@ -143,9 +143,6 @@ void MortalityInstantaneous::DoBuild() {
  * Execute this process
  */
 void MortalityInstantaneous::DoExecute() {
-  if (std::find(years_.begin(), years_.end(), model_->current_year()) == years_.end())
-    return;
-
   /*
   map<string, map<unsigned, Double>>        fishery_by_year_with_catch_;
   map<string, map<string, SelectivityPtr>>  fishery_by_category_with_selectivity_;
@@ -158,76 +155,39 @@ void MortalityInstantaneous::DoExecute() {
    * Loop for each category. Add the vulnerability from each
    * category in to the fisheries it belongs too
    */
-  map<string, Double> fishery_vulnerability;
+  map<string, map<unsigned, Double>> category_by_age_with_exploitation;
   unsigned m_offset = 0;
-  for (auto categories : partition_) {
-    categories->UpdateMeanWeightData();
 
-    for (auto fishery_iter : fishery_by_category_with_selectivity_) {
-      if (fishery_iter.second.find(categories->name_) != fishery_iter.second.end()) {
-        for (unsigned i = 0; i < categories->data_.size(); ++i) {
-          Double vulnerable = categories->data_[i] * categories->mean_weight_per_[categories->min_age_ + i]
-              * fishery_by_category_with_selectivity_[fishery_iter.first][categories->name_]->GetResult(categories->min_age_ + i)
-              * exp(-0.5 * /* ratio */ m_[m_offset]);
+  if (model_->state() != State::kInitialise && std::find(years_.begin(), years_.end(), model_->current_year()) != years_.end()) {
+    map<string, Double> fishery_vulnerability;
+    m_offset = 0;
+    for (auto categories : partition_) {
+      categories->UpdateMeanWeightData();
 
-//          category_vulnerable_[categories->name_][categories->min_age_ + i] = vulnerable;
-          fishery_vulnerability[fishery_iter.first] += vulnerable;
+      for (auto fishery_iter : fishery_by_category_with_selectivity_) {
+        if (fishery_iter.second.find(categories->name_) != fishery_iter.second.end()) {
+          for (unsigned i = 0; i < categories->data_.size(); ++i) {
+            Double vulnerable = categories->data_[i] * categories->mean_weight_per_[categories->min_age_ + i]
+                * fishery_by_category_with_selectivity_[fishery_iter.first][categories->name_]->GetResult(categories->min_age_ + i)
+                * exp(-0.5 * /* ratio */ m_[m_offset]);
+
+            fishery_vulnerability[fishery_iter.first] += vulnerable;
+          }
         }
       }
+      ++m_offset;
     }
 
-    ++m_offset;
-  }
+    /**
+     * Work out the exploitation rate to remove (catch/vulnerable)
+     */
+    map<string, Double> fishery_exploitation;
 
-  /**
-   * Work out the exploitation rate to remove (catch/vulnerable)
-   */
-  map<string, Double> fishery_exploitation;
-  map<string, map<unsigned, Double>> category_by_age_with_exploitation;
-
-  for (auto fishery_iter : fishery_by_year_with_catch_) {
-    Double exploitation = fishery_iter.second[model_->current_year()] / utilities::doublecompare::ZeroFun(fishery_vulnerability[fishery_iter.first]);
-    fishery_exploitation[fishery_iter.first] = exploitation;
-  }
-
-  for (auto categories : partition_)  {
-    for (auto fishery_iter : fishery_by_category_with_selectivity_) {
-      if (fishery_iter.second.find(categories->name_) == fishery_iter.second.end())
-        continue;
-
-      for (unsigned i = 0; i < categories->data_.size(); ++i) {
-        category_by_age_with_exploitation[categories->name_][categories->min_age_ + i] += fishery_exploitation[fishery_iter.first] *
-          fishery_by_category_with_selectivity_[fishery_iter.first][categories->name_]->GetResult(categories->min_age_ + i);
-      }
-    }
-  }
-
-
-  /**
-   * Rescaling exploitation and applying penalties
-   */
-  bool recalculate_age_exploitation = false;
-  for (auto fishery_iter : fishery_by_category_with_selectivity_) {
-    Double uobs_f = 0.0;
-    for (auto category_iter : fishery_iter.second) {
-      for (auto age_exploitation : category_by_age_with_exploitation[category_iter.first]) {
-        uobs_f = uobs_f > age_exploitation.second ? uobs_f : age_exploitation.second;
-      }
+    for (auto fishery_iter : fishery_by_year_with_catch_) {
+      Double exploitation = fishery_iter.second[model_->current_year()] / utilities::doublecompare::ZeroFun(fishery_vulnerability[fishery_iter.first]);
+      fishery_exploitation[fishery_iter.first] = exploitation;
     }
 
-    if (uobs_f > u_max_) {
-      fishery_exploitation[fishery_iter.first] *= u_max_ / fishery_exploitation[fishery_iter.first];
-      recalculate_age_exploitation = true;
-
-      if (penalty_)
-        penalty_->Trigger(label_, fishery_by_year_with_catch_[fishery_iter.first][model_->current_year()], fishery_vulnerability[fishery_iter.first] * u_max_);
-    }
-  }
-
-  /**
-   * recalculate age exploitation if we triggered penalty
-   */
-  if (recalculate_age_exploitation) {
     for (auto categories : partition_)  {
       for (auto fishery_iter : fishery_by_category_with_selectivity_) {
         if (fishery_iter.second.find(categories->name_) == fishery_iter.second.end())
@@ -239,7 +199,45 @@ void MortalityInstantaneous::DoExecute() {
         }
       }
     }
-  }
+
+    /**
+     * Rescaling exploitation and applying penalties
+     */
+    bool recalculate_age_exploitation = false;
+    for (auto fishery_iter : fishery_by_category_with_selectivity_) {
+      Double uobs_f = 0.0;
+      for (auto category_iter : fishery_iter.second) {
+        for (auto age_exploitation : category_by_age_with_exploitation[category_iter.first]) {
+          uobs_f = uobs_f > age_exploitation.second ? uobs_f : age_exploitation.second;
+        }
+      }
+
+      if (uobs_f > u_max_) {
+        fishery_exploitation[fishery_iter.first] *= u_max_ / fishery_exploitation[fishery_iter.first];
+        recalculate_age_exploitation = true;
+
+        if (penalty_)
+          penalty_->Trigger(label_, fishery_by_year_with_catch_[fishery_iter.first][model_->current_year()], fishery_vulnerability[fishery_iter.first] * u_max_);
+      }
+    }
+
+    /**
+     * recalculate age exploitation if we triggered penalty
+     */
+    if (recalculate_age_exploitation) {
+      for (auto categories : partition_)  {
+        for (auto fishery_iter : fishery_by_category_with_selectivity_) {
+          if (fishery_iter.second.find(categories->name_) == fishery_iter.second.end())
+            continue;
+
+          for (unsigned i = 0; i < categories->data_.size(); ++i) {
+            category_by_age_with_exploitation[categories->name_][categories->min_age_ + i] += fishery_exploitation[fishery_iter.first] *
+              fishery_by_category_with_selectivity_[fishery_iter.first][categories->name_]->GetResult(categories->min_age_ + i);
+          }
+        }
+      }
+    }
+  } // if (model_->state() != State::kInitialise && std::find(years_.begin(), years_.end(), model_->current_year()) != years_.end()) {
 
   /**
    * Remove the stock now

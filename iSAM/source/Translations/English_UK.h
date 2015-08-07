@@ -251,7 +251,6 @@
 #define PARAM_INITIAL_MORTALITY_SELECTIVITY       "initial_mortality_selectivity"
 #define PARAM_INITIAL_YEAR                        "initial_year"
 #define PARAM_INITIALISATION                      "initialisation"
-#define PARAM_INITIALISATION_TIME_STEP_RATIO      "initialisation_time_step_ratio"
 #define PARAM_INITIALISATION_TIME_STEPS           "initialisation_time_steps"
 #define PARAM_INITIALISATION_PHASE                "initialisation_phase"
 #define PARAM_INITIALISATION_PHASES               "initialisation_phases"
