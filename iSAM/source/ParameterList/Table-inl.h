@@ -50,12 +50,16 @@ bool Table::Populate(const MasterKey& master_key_column, const vector<Key>& keys
    */
   map<Key, unsigned> key_indexes;
   for (Key key_value : keys) {
-    key_indexes[key_value] = this->column_index(utilities::ToInline<Key, string>(key_value));
-
     if (key_indexes.find(key_value) != key_indexes.end()) {
       LOG_ERROR() << location() << "column " << key_value << " is defined twice in the table " << label_;
       return false;
     }
+    key_indexes[key_value] = this->column_index(utilities::ToInline<Key, string>(key_value));
+
+
+   /**
+   * columns_.size is the default value returned column_index as a missing column
+   */
 
     if (key_indexes[key_value] == columns_.size()) {
       LOG_ERROR() << location() << "column " << key_value << " could not be found in the table " << label_;
