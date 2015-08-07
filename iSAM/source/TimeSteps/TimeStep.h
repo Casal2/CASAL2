@@ -49,6 +49,7 @@ public:
 
   // accessors
   const vector<ProcessPtr>&   processes() const { return processes_; }
+  const vector<ProcessPtr>&   initialisation_processes() const { return initialisation_processes_; }
   vector<string>              process_labels() const { return process_names_; }
   vector<string>              initialisation_process_labels(const string& initialisation_phase) { return initialisation_process_labels_[initialisation_phase]; }
 
