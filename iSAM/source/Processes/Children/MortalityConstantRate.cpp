@@ -38,7 +38,6 @@ MortalityConstantRate::MortalityConstantRate()
   parameters_.Bind<string>(PARAM_CATEGORIES, &category_names_, "List of categories", "");
   parameters_.Bind<Double>(PARAM_M, &m_, "Mortality rates", "");
   parameters_.Bind<Double>(PARAM_TIME_STEP_RATIO, &ratios_, "Time step ratios for M", "", true);
-  parameters_.Bind<Double>(PARAM_INITIALISATION_TIME_STEP_RATIO, &initialisation_ratios_, "Time step ratios for M during initialisation phases", "", true);
   parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_names_, "Selectivities", "");
 
   RegisterAsEstimable(PARAM_M, &m_);
@@ -110,14 +109,9 @@ void MortalityConstantRate::DoBuild() {
   vector<TimeStepPtr> time_steps = time_steps_manager_.time_steps();
   LOG_FINEST() << "time_steps.size(): " << time_steps.size();
   vector<unsigned> active_time_steps;
-  vector<unsigned> active_initialisation_time_steps;
   for (unsigned i = 0; i < time_steps.size(); ++i) {
     if (time_steps[i]->HasProcess(label_))
       active_time_steps.push_back(i);
-
-    vector<ProcessPtr> initialisation_processes = time_steps[i]->initialisation_processes();
-    if (std::find(initialisation_processes.begin(), initialisation_processes.end(), label_) != initialisation_processes.end())
-      active_initialisation_time_steps.push_back(i);
   }
 
   if (ratios_.size() == 0) {
@@ -136,24 +130,6 @@ void MortalityConstantRate::DoBuild() {
     for (unsigned i = 0; i < ratios_.size(); ++i)
       time_step_ratios_[active_time_steps[i]] = ratios_[i];
   }
-
-  if (initialisation_ratios_.size() == 0) {
-    for (unsigned i : active_time_steps)
-      active_initialisation_time_steps[i] = 1.0;
-  } else {
-    if (initialisation_ratios_.size() != active_initialisation_time_steps.size())
-      LOG_ERROR_P(PARAM_INITIALISATION_TIME_STEP_RATIO) << " length (" << initialisation_ratios_.size()
-          << ") does not match the number of time steps this process has been assigned to in initialisation ("
-          << active_initialisation_time_steps.size() << ")";
-
-    for (Double value : initialisation_ratios_) {
-      if (value <= 0.0 || value > 1.0)
-        LOG_ERROR_P(PARAM_INITIALISATION_TIME_STEP_RATIO) << " value (" << value << ") must be between 0.0 (exclusive) and 1.0 (inclusive)";
-    }
-
-    for (unsigned i = 0; i < initialisation_ratios_.size(); ++i)
-      initialisation_time_step_ratios_[active_initialisation_time_steps[i]] = initialisation_ratios_[i];
-  }
 }
 
 /**
@@ -166,11 +142,7 @@ void MortalityConstantRate::DoExecute() {
   unsigned time_step = time_steps_manager_.current_time_step();
 
   LOG_FINEST() << "Ratios.size() " << time_step_ratios_.size() << " : time_step: " << time_step << "; ratio: " << time_step_ratios_[time_step];
-  Double ratio = 0.0;
-  if (model_->state() == State::kInitialise)
-    ratio = time_step_ratios_[time_step];
-  else
-    ratio = initialisation_time_step_ratios_[time_step];
+  Double ratio = time_step_ratios_[time_step];
 
   unsigned i = 0;
   for (auto category : partition_) {
