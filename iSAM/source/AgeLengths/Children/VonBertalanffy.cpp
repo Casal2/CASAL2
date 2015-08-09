@@ -141,8 +141,12 @@ void VonBertalanffy::CummulativeNormal(Double mu, Double cv, vector<Double> *pro
     mu = log(mu) - Lvar / 2.0;
     sigma = sqrt(Lvar);
 
-    for (Double& value : length_bins)
-            value = value < 0.0001 ? log(0.0001) : log(value);
+    for (Double& value : length_bins) {
+      if (value < 0.0001)
+        value = log(0.0001);
+      else
+        value = log(value);
+    }
   }
 
   Double z, tt, norm, ttt, tmp;
