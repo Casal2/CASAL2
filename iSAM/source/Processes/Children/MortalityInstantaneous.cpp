@@ -122,13 +122,11 @@ void MortalityInstantaneous::DoBuild() {
 
   selectivities::Manager& selectivity_manager = selectivities::Manager::Instance();
   for (auto fishery_iter : fishery_table_data_) {
-    for (auto category_iter : fishery_iter.second) {
-      SelectivityPtr selectivity = selectivity_manager.GetSelectivity(category_iter.second);
-      if (!selectivity)
-        LOG_ERROR() << "selectivity " << category_iter.second << " could not be found ";
+    SelectivityPtr selectivity = selectivity_manager.GetSelectivity(fishery_iter.second[PARAM_SELECTIVITY]);
+    if (!selectivity)
+      LOG_ERROR() << "selectivity " << fishery_iter.second[PARAM_SELECTIVITY] << " could not be found ";
 
-      fishery_by_category_with_selectivity_[fishery_iter.first][category_iter.first] = selectivity;
-    }
+      fishery_by_category_with_selectivity_[fishery_iter.first][fishery_iter.second[PARAM_CATEGORY]] = selectivity;
   }
 
   if (penalty_name_ != "") {
