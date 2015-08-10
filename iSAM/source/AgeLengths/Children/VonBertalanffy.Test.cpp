@@ -16,11 +16,18 @@
 #include <gtest/gtest.h>
 #include <boost/lexical_cast.hpp>
 
+#include "TimeSteps/Factory.h"
+#include "TimeSteps/Manager.h"
+#include "Partition/Partition.h"
+#include "Processes/Factory.h"
+#include "AgeLengths/Factory.h"
+#include "TestResources/TestFixtures/BasicModel.h"
 // Namespaces
 namespace niwa {
 namespace agelengths {
 
 using ::testing::Return;
+using niwa::testfixtures::BasicModel;
 
 class VonBertalanffyTest {
 public:
@@ -111,13 +118,8 @@ TEST(AgeLength, VonBertalanffy_CummulativeNormal_2) {
 //  agelength->parameters().Add(PARAM_K, "0.034" , __FILE__, __LINE__);
 //
 //
-//  niwa::AgeLengthKeyPtr agelengthkey = agelengthkeys::Factory::Create(PARAM_AGE_LENGTH_KEY, PARAM_GROWTH_BASED);
-//  agelengthkey->parameters().Add(PARAM_LABEL, "ALK", __FILE__, __LINE__);
-//  agelengthkey->parameters().Add(PARAM_CLASS_MINIMUMS, {"0","15","30","45","55","70"}, __FILE__, __LINE__);
-//  agelengthkey->parameters().Add(PARAM_DISTRIBUTION, "normal" , __FILE__, __LINE__);
-//
 //  niwa::base::ObjectPtr time_step = timesteps::Factory::Create();
-//  vector<string> processes    = { "recruitment", "VB", "ALK"};
+//  vector<string> processes    = { "recruitment", "VB"};
 //  time_step->parameters().Add(PARAM_LABEL, "step_one", __FILE__, __LINE__);
 //  time_step->parameters().Add(PARAM_PROCESSES, processes, __FILE__, __LINE__);
 //
@@ -135,14 +137,14 @@ TEST(AgeLength, VonBertalanffy_CummulativeNormal_2) {
 //  // Check i = 0
 //  EXPECT_DOUBLE_EQ(0, immature_male.data_[0]);
 //
-//  //Run through ages and length bins to see if conversion correct
-//  for (unsigned age = immature_male.min_age_; age < immature_male.max_age_; age++ )
-//  {
-//   unsigned bin = 2;
-//
-//      EXPECT_DOUBLE_EQ(60000.0 , immature_male.length_data_[age][bin]) << " where age = " << age << " where class_bin = " << bin;
-//
-//  }
+////  //Run through ages and length bins to see if conversion correct
+////  for (unsigned age = immature_male.min_age_; age < immature_male.max_age_; age++ )
+////  {
+////   unsigned bin = 2;
+////
+////      EXPECT_DOUBLE_EQ(60000.0 , immature_male.age_length_matrix_[age][bin]) << " where age = " << age << " where class_bin = " << bin;
+////
+////  }
 //
 //}
 

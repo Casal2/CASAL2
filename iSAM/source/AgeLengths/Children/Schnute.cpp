@@ -106,23 +106,23 @@ void Schnute::BuildCV(unsigned year) {
   unsigned min_age = Model::Instance()->min_age();
   unsigned max_age = Model::Instance()->max_age();
 
-  if (cv_last_==0) { // A test that is robust... If cv_last_ is not in the input then assume cv_first_ represents the cv for all age classes i.e constant cv
-    for (unsigned i = min_age; i <= max_age; ++i) {
-      cvs_[i]= (cv_first_);
-    }
-  } else if(by_length_) {  // if passed the first test we have a min and max CV. So ask if this is interpolated by length at age
-    for (unsigned i = min_age; i <= max_age; ++i) {
-      cvs_[i]= ((mean_length(year, i) - mean_length(year, min_age)) * (cv_last_ - cv_first_) / (mean_length(year, max_age) - mean_length(year, min_age)) + cv_first_);
-    }
+  // A test that is robust... If cv_last_ is not in the input then assume cv_first_ represents the cv for all age classes i.e constant cv
+  if (cv_last_ == 0.0) {
+    for (unsigned i = min_age; i <= max_age; ++i)
+      cvs_[i] = cv_first_;
+
+  } else if (by_length_) {  // if passed the first test we have a min and max CV. So ask if this is interpolated by length at age
+    for (unsigned i = min_age; i <= max_age; ++i)
+      cvs_[i] = ((mean_length(year, i) - mean_length(year, min_age)) * (cv_last_ - cv_first_) / (mean_length(year, max_age) - mean_length(year, min_age)) + cv_first_);
 
   } else {
     // else Do linear interpolation between cv_first_ and cv_last_ based on age class
     for (unsigned i = min_age; i <= max_age; ++i) {
-      cvs_[i]= (cv_first_ + (cv_last_ - cv_first_) * (i - min_age) / (max_age - min_age));
+      cvs_[i] = (cv_first_ + (cv_last_ - cv_first_) * (i - min_age) / (max_age - min_age));
     }
   }
-
 }
+
 
 
 /**
@@ -134,7 +134,8 @@ void Schnute::BuildCV(unsigned year) {
  */
 Double Schnute::mean_weight(unsigned year, unsigned age) {
   Double size = this->mean_length(year, age);
-  Double mean_weight = 0.0; //
+  Double mean_weight = 0.0;
+  BuildCV(year);
    mean_weight = length_weight_->mean_weight(size, distribution_, cvs_[age]);
   return mean_weight;
 }
