@@ -57,10 +57,10 @@ void Category::UpdateMeanWeightData() {
 void Category::CollapseAgeLengthData() {
   data_.clear();
 
-  for (auto iter : age_length_matrix_) {
+  for (auto age_row : age_length_matrix_) {
     Double total = 0;
-    for (auto x : iter.second)
-      total += x.second;
+    for (Double length_data : age_row)
+      total += length_data;
     data_.push_back(total);
   }
 }
@@ -68,11 +68,11 @@ void Category::CollapseAgeLengthData() {
 /**
  *
  */
-void Category::UpdateAgeLengthData() {
+void Category::UpdateAgeLengthData(const vector<Double>& length_bins) {
   CategoriesPtr categories = Categories::Instance();
 
   length_data_.clear();
-  categories->age_length(name_)->DoAgeToLengthConversion(shared_from_this());
+  categories->age_length(name_)->DoAgeToLengthConversion(shared_from_this(), length_bins);
 }
 
 
