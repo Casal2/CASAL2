@@ -43,7 +43,7 @@ public:
   virtual                     ~Category() = default;
   void                        UpdateMeanLengthData();
   void                        UpdateMeanWeightData();
-  void                        UpdateAgeLengthData();
+  void                        UpdateAgeLengthData(const vector<Double>& length_bins);
   void                        CollapseAgeLengthData();
 
   // members
@@ -53,7 +53,7 @@ public:
   vector<unsigned>            years_;
   vector<Double>              data_;
   vector<Double>              length_data_;
-  map<unsigned,map<unsigned, Double>> age_length_matrix_; // map<age, map<length, amount>>
+  vector<vector<Double>>      age_length_matrix_; // age_length_matrix_[age][length]
   map<unsigned, Double>       mean_length_per_; // map<bin, number per>
   map<unsigned, Double>       mean_weight_per_; // map<age, weight per>
 };

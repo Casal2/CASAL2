@@ -32,7 +32,7 @@ public:
   void                        DoBuild() override final;
   void                        DoReset() override final { };
   void                        BuildCV(unsigned year) override final;
-  void                        DoAgeToLengthConversion(std::shared_ptr<partition::Category> category) override final;
+  void                        DoAgeToLengthConversion(std::shared_ptr<partition::Category> category, const vector<Double>& length_bins) override final;
 
   // accessors
   Double                      mean_length(unsigned year, unsigned age) override final;
@@ -40,7 +40,7 @@ public:
 
 private:
   // methods
-  void                        CummulativeNormal(Double mu, Double cv, vector<Double> *prop_in_length, vector<Double> length_bins, string distribution, bool plus_grp);
+  void                        CummulativeNormal(Double mu, Double cv, vector<Double>& prop_in_length, vector<Double> length_bins, string distribution, bool plus_grp);
 
   // members
   Double                      linf_;
@@ -50,8 +50,6 @@ private:
   bool                        by_length_;
   string                      length_weight_label_;
   LengthWeightPtr             length_weight_;
-  vector<Double>              Age_freq_;
-  vector<Double>              length_bins_;
 };
 
 } /* namespace agelengths */
