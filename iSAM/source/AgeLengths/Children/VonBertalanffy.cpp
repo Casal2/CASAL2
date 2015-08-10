@@ -51,7 +51,6 @@ VonBertalanffy::VonBertalanffy() {
   RegisterAsEstimable(PARAM_T0, &t0_);
   RegisterAsEstimable(PARAM_CV_FIRST, &cv_first_);
   RegisterAsEstimable(PARAM_CV_LAST, &cv_last_);
-
 }
 
 /**
@@ -73,7 +72,6 @@ void VonBertalanffy::DoBuild() {
  */
 Double VonBertalanffy::mean_length(unsigned year, unsigned age) {
   Double proportion = time_step_proportions_[timesteps::Manager::Instance().current_time_step()];
-
   if ((-k_ * ((age + proportion) - t0_)) > 10)
     LOG_ERROR_P(PARAM_K) << "exp(-k*(age-t0)) is enormous. The k or t0 parameters are probably wrong.";
 
@@ -94,7 +92,6 @@ Double VonBertalanffy::mean_length(unsigned year, unsigned age) {
 Double VonBertalanffy::mean_weight(unsigned year, unsigned age) {
   Double size = this->mean_length(year, age);
   Double mean_weight = 0.0; //
-  BuildCV(year);
   mean_weight = length_weight_->mean_weight(size, distribution_, cvs_[age]);// make a map [key = age]
   return mean_weight;
 }
@@ -129,7 +126,7 @@ void VonBertalanffy::BuildCV(unsigned year) {
 
 
 
-void VonBertalanffy::CummulativeNormal(Double mu, Double cv, vector<Double> *prop_in_length, vector<Double> length_bins, string distribution, bool plus_grp) {
+void VonBertalanffy::CummulativeNormal(Double mu, Double cv, vector<Double>& prop_in_length, vector<Double> length_bins, string distribution, bool plus_grp) {
   // est proportion of age class that are in each length interval
 
   Double sigma = cv * mu;
@@ -154,7 +151,7 @@ void VonBertalanffy::CummulativeNormal(Double mu, Double cv, vector<Double> *pro
   vector<Double> cum;
 
   std::vector<int>::size_type sz = length_bins.size();
-  prop_in_length -> resize(sz);
+  prop_in_length.resize(sz);
 
   for (unsigned j = 0; j < sz; ++j) {
     z = fabs((length_bins[j] - mu)) / sigma;
@@ -176,41 +173,36 @@ void VonBertalanffy::CummulativeNormal(Double mu, Double cv, vector<Double> *pro
       cum[j] = 1.0 - cum[j];
     }
     if (j > 0) {
-      (*prop_in_length)[j - 1] = cum[j] - cum[j - 1];
-      sum += (*prop_in_length)[j - 1];
+      prop_in_length[j - 1] = cum[j] - cum[j - 1];
+      sum += prop_in_length[j - 1];
     }
   }
   if (plus_grp) {
-    (*prop_in_length)[sz - 1] = 1.0 - sum - cum[0];
+    prop_in_length[sz - 1] = 1.0 - sum - cum[0];
   } else
-    prop_in_length->resize(sz - 1);
+    prop_in_length.resize(sz - 1);
 }
 
 /**
  * Do the conversion of the partition structure from age to length
  *
  * @param category The current category to convert
+ * @param length_bins vector of the length bins to map too
  */
+void VonBertalanffy::DoAgeToLengthConversion(std::shared_ptr<partition::Category> category, const vector<Double>& length_bins) {
+  bool plus_grp = Model::Instance()->age_plus();
 
-void VonBertalanffy::DoAgeToLengthConversion(std::shared_ptr<partition::Category> category) {
+  for (unsigned i = 0; i < category->data_.size(); ++i) {
+    vector<Double> age_frequencies;
+    unsigned age = category->min_age_ + i;
 
-  unsigned min_a = category->min_age_;
-  unsigned max_a = category->max_age_;
-//  unsigned year = Model::Instance()->current_year();
-//  category->age_length()->BuildCv(year);
-//  category->UpdateMeanLengthData();
-//
-  for (unsigned age = min_a; age < max_a; ++age) {
-//
-    Double cv = 0.1;// category->age_length()->cv(age);
-    bool plus_grp = Model::Instance()->age_plus();
     Double mu= category->mean_length_per_[age];
-    CummulativeNormal(mu, cv, &Age_freq_, length_bins_, distribution_, plus_grp);
+    CummulativeNormal(mu, cvs_[age], age_frequencies, length_bins, distribution_, plus_grp);
 
     // Loop through the length bins and multiple the partition of the current age to go from
     // length frequencies to age length numbers
-      for (unsigned iter = 0; iter < length_bins_.size(); ++iter) {
-      category->age_length_matrix_[age][iter] = category->data_[age] * Age_freq_[iter];
+      for (unsigned j = 0; j < length_bins.size(); ++j) {
+      category->age_length_matrix_[i][j] = category->data_[i] * age_frequencies[j];
     }
   }
 }

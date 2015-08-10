@@ -32,7 +32,8 @@ public:
   void                        Build();
   void                        Reset() { DoReset(); };
   virtual void                BuildCV(unsigned year) = 0;
-  virtual void                DoAgeToLengthConversion(std::shared_ptr<partition::Category> category) = 0;
+  virtual void                DoAgeToLengthConversion(std::shared_ptr<partition::Category> category,
+                                const vector<Double>& length_bins) = 0;
 
   // accessors
   virtual Double              mean_length(unsigned year, unsigned age) = 0;

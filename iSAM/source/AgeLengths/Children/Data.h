@@ -35,7 +35,7 @@ public:
   Double                      mean_length(unsigned year, unsigned age) override final;
   Double                      mean_weight(unsigned year, unsigned age) override final;
   void                        BuildCV(unsigned year) override final;
-  void                        DoAgeToLengthConversion(std::shared_ptr<partition::Category> category) override final { };
+  void                        DoAgeToLengthConversion(std::shared_ptr<partition::Category> category, const vector<Double>& length_bins) override final { };
 
 private:
   // methods

@@ -32,7 +32,7 @@ public:
   void                        DoBuild() override final { };
   void                        DoReset() override final { };
   void                        BuildCV(unsigned year) override final { };
-  void                        DoAgeToLengthConversion(std::shared_ptr<partition::Category> category) override final { };
+  void                        DoAgeToLengthConversion(std::shared_ptr<partition::Category> category, const vector<Double>& length_bins) override final { };
 
   // accessors
   Double                      mean_length(unsigned year, unsigned age) override final { return 1.0; }
