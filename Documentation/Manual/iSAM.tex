@@ -14,13 +14,13 @@
 \usepackage{cmap} % allow searching in pdf documents
 \usepackage{tabulary} % better tables
 \usepackage{comment} % block comments
-%\usepackage{mdframed}
+\usepackage[usenames, dvipsnames]{color} % Highlighting text for editing
 
 % hyperref for HTML links within pdf 
 % EXAMPLE: \href{http://www.niwa.co.nz}{NIWA}
 \usepackage[bookmarks=true,bookmarksopen=false,bookmarksnumbered=true,
             pdfpagelayout=TwoPageRight,
-            pdftitle={Integrated Stock Assessment Modelling (iSAM) Users Manual}, %title to be confimed
+            pdftitle={C++ algorithmic stock assessment laboratory 2 (CASAL2) Users Manual}, %title to be confimed
             pdfauthor={Alistair Dunn, Ian Doonan, Scott Rasmussen, Kath Large} %author list required
             pdfsubject={Stock Assessment Model Users manual},
             pdftex]{hyperref}
@@ -165,10 +165,11 @@ escapeinside={\%*}{*)}          % if you want to add a comment within your code
 \newcommand{\COO}{\color{red}(\emph{was NYI, to be included?})\color{black}}
 \newcommand{\CA}{\color{red}(\emph{following from CASAL, to be included?})\color{black}}
 \newcommand{\CH}{\color{red}\emph{check and confirm text\\}\color{black}}
-\newcommand{\EX}{\\\color{red}\emph{need an example here...}}
+\newcommand{\EX}{\\\color{blue}\emph{need an example here...}}
 \newcommand{\EXend}{\color{black}}
 \newcommand{\KL}{\color{red}\emph{KL comment: }}
 \newcommand{\KLend}{\color{black}}
+\newcommand{\Done}{\textcolor{BurntOrange}{\emph{This section has been checked: \\}}\color{black}}
 
 
 %quick index:
@@ -210,9 +211,9 @@ escapeinside={\%*}{*)}          % if you want to add a comment within your code
 %for now \iSAM is {iSAM}, \iSAMName is {Stock Assessment Model}
 %\iSAM and \iSAMName will not change, but {} will.
 \newcommand{\VER}{\SourceControlShortVersionDoc} % SAM program version
-\newcommand{\iSAM}{\texttt{iSAM}} % SAM short name
-\newcommand{\isam}{\texttt{isam}} % sam prefix/suffix
-\newcommand{\iSAMName}{Integrated Stock Assessment Model} %SAM long name
+\newcommand{\iSAM}{\texttt{CASAL2}} % SAM short name
+\newcommand{\isam}{\texttt{casal2}} % sam prefix/suffix
+\newcommand{\iSAMName}{C++ Algorithmic Stock Assessment Laboratory} %SAM long name
 \newcommand{\authors}{\href{mailto:"Alistair Dunn"<alistair.dunn@niwa.co.nz>?subject=SAM:}{authors}} %check this
 %hyper ref for email
 \newcommand{\Organisation}{National Institute of Water \& Atmospheric Research Ltd.} %NIWA
