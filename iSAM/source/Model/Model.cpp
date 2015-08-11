@@ -15,6 +15,7 @@
 
 #include <iostream>
 
+#include "Managers.h"
 #include "AdditionalPriors/Manager.h"
 #include "AgeLengths/Manager.h"
 #include "Asserts/Manager.h"
@@ -61,7 +62,7 @@ using std::endl;
 /**
  * Default Constructor
  */
-Model::Model() {
+Model::Model() : managers_(new Managers()) {
   LOG_TRACE();
   parameters_.Bind<unsigned>(PARAM_START_YEAR, &start_year_, "Define the first year of the model, immediately following initialisation", R"(Defines the first year of the model, $\ge 1$, e.g. 1990)");
   parameters_.Bind<unsigned>(PARAM_FINAL_YEAR, &final_year_, "Define the final year of the model, excluding years in the projection period", "Defines the last year of the model, i.e., the model is run from start_year to final_year");
@@ -73,6 +74,10 @@ Model::Model() {
   parameters_.Bind<unsigned>(PARAM_PROJECTION_FINAL_YEAR, &projection_final_year_, "Define the final year of the model in projection mode", R"(Defines the last year of the projection period, i.e., the projection period runs from \texttt{final_year}$+1$ to \texttt{projection_final_year}. For the default, $0$, no projections are run.)", 0);
   parameters_.Bind<string>(PARAM_TYPE, &type_, "Type of model (the partition structure). Either age, length or hybrid", "", PARAM_AGE);
   parameters_.Bind<Double>(PARAM_LENGTH_BINS, &length_bins_, "", "", true);
+}
+
+Model::~Model() {
+  delete managers_;
 }
 
 /**
@@ -112,6 +117,13 @@ unsigned Model::year_spread() const {
     spread = (projection_final_year_ - start_year_) + 1;
 
   return spread;
+}
+
+/**
+ *
+ */
+Managers& Model::managers() {
+  return *managers_;
 }
 
 /**

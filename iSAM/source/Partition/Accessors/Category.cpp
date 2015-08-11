@@ -42,7 +42,6 @@ Category::Category(const string& category_name) {
   model_ = Model::Instance();
   vector<unsigned> years = model_->years();
 
-  CategoriesPtr categories = Categories::Instance();
   Partition& partition = Partition::Instance();
 
   partition::Category& category = partition.category(category_name);

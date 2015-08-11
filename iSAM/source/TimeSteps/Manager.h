@@ -38,7 +38,7 @@ public:
   vector<ProcessType>         GetOrderedProcessTypes();
 
   // accessors
-  const vector<TimeStepPtr>&  time_steps() const { return ordered_time_steps_; }
+  const vector<TimeStepPtr>&  ordered_time_steps() const { return ordered_time_steps_; }
   unsigned                    current_time_step() const { return current_time_step_; }
 
 protected:
