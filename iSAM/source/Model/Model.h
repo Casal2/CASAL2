@@ -86,7 +86,7 @@ public:
   const vector<Double>        length_bins() const { return length_bins_; }
 
   // manager accessors
-  Managers&                   managers();
+  virtual Managers&           managers();
 
 protected:
   // Methods
@@ -132,27 +132,3 @@ typedef std::shared_ptr<Model> ModelPtr;
 
 } /* namespace niwa */
 #endif /* MODEL_H_ */
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

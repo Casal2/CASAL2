@@ -31,7 +31,7 @@ public:
   virtual lengthweights::Manager& length_weight() { return lengthweights::Manager::Instance(); }
   virtual timesteps::Manager&     time_step() { return timesteps::Manager::Instance(); }
 
-private:
+protected:
   // methods
   Managers() = default;
   virtual                     ~Managers() = default;
