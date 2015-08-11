@@ -27,6 +27,7 @@ class VonBertalanffy : public niwa::AgeLength {
 public:
   // methods
   VonBertalanffy();
+  explicit VonBertalanffy(ModelPtr model);
   virtual                     ~VonBertalanffy() = default;
   void                        DoValidate() override final { };
   void                        DoBuild() override final;

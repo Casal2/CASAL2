@@ -28,6 +28,7 @@ class Data : public AgeLength {
 public:
   // methods
   Data();
+  explicit Data(ModelPtr model);
   virtual                     ~Data() = default;
   void                        DoValidate() override final {};
   void                        DoBuild() override final;

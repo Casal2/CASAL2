@@ -26,6 +26,7 @@
 namespace niwa {
 
 using std::shared_ptr;
+class Managers;
 
 namespace State {
 enum Type {
@@ -61,7 +62,7 @@ class Model : public base::Object {
 public:
   // Methods
   static shared_ptr<Model>    Instance(bool force_new = false);
-  virtual                     ~Model() = default;
+  virtual                     ~Model();
   bool                        Start(RunMode::Type run_mode);
   void                        FullIteration();
   void                        Subscribe(State::Type state, ExecutorPtr executor) { executors_[state].push_back(executor); }
@@ -83,6 +84,9 @@ public:
   const vector<string>&       initialisation_phases() const { return initialisation_phases_; }
   PartitionStructure          partition_structure() const { return partition_structure_; }
   const vector<Double>        length_bins() const { return length_bins_; }
+
+  // manager accessors
+  virtual Managers&           managers();
 
 protected:
   // Methods
@@ -118,6 +122,7 @@ protected:
   PartitionStructure          partition_structure_ = PartitionStructure::kInvalid;
 
   map<State::Type, vector<ExecutorPtr>> executors_;
+  Managers*                   managers_;
 };
 
 /**
@@ -127,27 +132,3 @@ typedef std::shared_ptr<Model> ModelPtr;
 
 } /* namespace niwa */
 #endif /* MODEL_H_ */
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

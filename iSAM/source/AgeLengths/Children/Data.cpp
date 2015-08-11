@@ -12,20 +12,12 @@
 // headers
 #include "Data.h"
 
-#include <iostream>
-#include <iomanip>
-
-#include "Model/Model.h"
-#include "LengthWeights/Manager.h"
-#include "TimeSteps/Manager.h"
+#include "Model/Managers.h"
 #include "Utilities/To.h"
 
 // namespaces
 namespace niwa {
 namespace agelengths {
-
-using std::cout;
-using std::endl;
 
 /**
  * Default constructor
@@ -37,7 +29,10 @@ using std::endl;
  *
  * Note: The constructor is parsed to generate Latex for the documentation.
  */
-Data::Data() {
+Data::Data() : Data(Model::Instance()) {
+}
+
+Data::Data(ModelPtr model) : AgeLength(model) {
   data_table_ = TablePtr(new parameters::Table(PARAM_DATA));
 
   parameters_.BindTable(PARAM_DATA, data_table_, "", "");
@@ -47,7 +42,6 @@ Data::Data() {
   parameters_.Bind<Double>(PARAM_CV_FIRST, &cv_first_ , "CV for the first age class", "",Double(0.0))->set_lower_bound(0.0);
   parameters_.Bind<Double>(PARAM_CV_LAST, &cv_last_ , "CV for maximum age", "",Double(0.0))->set_lower_bound(0.0);
   parameters_.Bind<string>(PARAM_DISTRIBUTION, &distribution_, "TBA", "", PARAM_NORMAL);
-
 }
 
 /**
@@ -55,21 +49,18 @@ Data::Data() {
  * Obtain smart_pointers to any objects that will be used by this object.
  */
 void Data::DoBuild() {
-  length_weight_ = lengthweights::Manager::Instance().GetLengthWeight(length_weight_label_);
+  length_weight_ = model_->managers().length_weight().GetLengthWeight(length_weight_label_);
   if (!length_weight_)
     LOG_ERROR_P(PARAM_LENGTH_WEIGHT) << "(" << length_weight_label_ << ") could not be found. Have you defined it?";
-
   if (!data_table_)
     LOG_CODE_ERROR() << "!data_table_";
 
   // basic validation
   const vector<string>& columns = data_table_->columns();
-  if (columns.size() != Model::Instance()->age_spread() + 1)
-    LOG_ERROR_P(PARAM_DATA) << "column count (" << columns.size() << ") must be <year> <ages> for a total of " << Model::Instance()->age_spread() + 1 << " columns";
-
+  if (columns.size() != model_->age_spread() + 1)
+    LOG_ERROR_P(PARAM_DATA) << "column count (" << columns.size() << ") must be <year> <ages> for a total of " << model_->age_spread() + 1 << " columns";
   if (columns[0] != PARAM_YEAR)
     LOG_ERROR_P(PARAM_DATA) << "first column label must be 'year'. First column label was '" << columns[0] << "'";
-
 
   /**
    * Build our data_by_year map so we can fill the gaps
@@ -91,11 +82,8 @@ void Data::DoBuild() {
    * gaps
    */
   if (external_gaps_ == PARAM_MEAN || internal_gaps_ == PARAM_MEAN) {
-    unsigned age_spread = Model::Instance()->age_spread();
-    Double total = 0.0;
-
-    for (unsigned i = 0; i < age_spread; ++i) {
-      total = 0.0;
+    for (unsigned i = 0; i < model_->age_spread(); ++i) {
+      Double total = 0.0;
       for (auto iter = data_by_year_.begin(); iter != data_by_year_.end(); ++iter)
         total += iter->second[i];
       means_.push_back(total / data_by_year_.size());
@@ -111,8 +99,7 @@ void Data::DoBuild() {
  * Fill our external gaps in the data
  */
 void Data::FillExternalGaps() {
-  ModelPtr model = Model::Instance();
-  vector<unsigned> model_years = model->years();
+  vector<unsigned> model_years = model_->years();
   vector<unsigned> missing_years;
 
   // do the filling
@@ -172,8 +159,7 @@ void Data::FillExternalGaps() {
  * methods (mean, nearest_neighbour or interpolate)
  */
 void Data::FillInternalGaps() {
-  ModelPtr model = Model::Instance();
-  vector<unsigned> model_years = model->years();
+  vector<unsigned> model_years = model_->years();
 
   // find the missing years
   vector<unsigned> missing_years;
@@ -245,14 +231,13 @@ void Data::FillInternalGaps() {
  * @return The mean length for 1 member
  */
 Double Data::mean_length(unsigned year, unsigned age) {
-  ModelPtr model = Model::Instance();
-  Double current_value = data_by_year_.find(year)->second[age - model->min_age()];
+  Double current_value = data_by_year_.find(year)->second[age - model_->min_age()];
 
   Double next_age      = current_value;
-  if ((age+1) - model->min_age() < data_by_year_.find(year)->second.size())
-    data_by_year_.find(year)->second[(age+1) - model->min_age()];
+  if ((age+1) - model_->min_age() < data_by_year_.find(year)->second.size())
+    data_by_year_.find(year)->second[(age+1) - model_->min_age()];
 
-  Double proportion = time_step_proportions_[timesteps::Manager::Instance().current_time_step()];
+  Double proportion = time_step_proportions_[model_->managers().time_step().current_time_step()];
   current_value += (next_age - current_value) * proportion;
   return current_value;
 }
@@ -265,8 +250,8 @@ Double Data::mean_length(unsigned year, unsigned age) {
  * parameters. Otherwise it only needs to be built once a model run I believe
  */
 void Data::BuildCV(unsigned year) {
-  unsigned min_age = Model::Instance()->min_age();
-  unsigned max_age = Model::Instance()->max_age();
+  unsigned min_age = model_->min_age();
+  unsigned max_age = model_->max_age();
 
   if (cv_last_==0) { // A test that is robust... If cv_last_ is not in the input then assume cv_first_ represents the cv for all age classes i.e constant cv
     for (unsigned i = min_age; i <= max_age; ++i)

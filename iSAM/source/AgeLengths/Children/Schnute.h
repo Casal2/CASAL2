@@ -16,7 +16,7 @@
 // headers
 #include "AgeLengths/AgeLength.h"
 #include "LengthWeights/LengthWeight.h"
-#include "Model/Model.h"
+
 // namespaces
 namespace niwa {
 namespace agelengths {
@@ -26,6 +26,7 @@ class Schnute : public niwa::AgeLength {
 public:
   // methods
   Schnute();
+  explicit Schnute(ModelPtr model);
   virtual                     ~Schnute() = default;
   void                        DoValidate() override final { };
   void                        DoBuild() override final;
@@ -37,7 +38,7 @@ public:
   Double                      mean_length(unsigned year, unsigned age) override final;
   Double                      mean_weight(unsigned year, unsigned age) override final;
 
-private:
+protected:
   // members
   Double                      y1_;
   Double                      y2_;

@@ -17,10 +17,7 @@
 
 #include <cmath>
 
-#include "Model/Model.h"
-#include "LengthWeights/Manager.h"
-#include "TimeSteps/Manager.h"
-
+#include "Model/Managers.h"
 
 // namespaces
 namespace niwa {
@@ -36,7 +33,10 @@ namespace agelengths {
  *
  * Note: The constructor is parsed to generate Latex for the documentation.
  */
-VonBertalanffy::VonBertalanffy() {
+VonBertalanffy::VonBertalanffy() : VonBertalanffy(Model::Instance()) {
+}
+
+VonBertalanffy::VonBertalanffy(ModelPtr model) : AgeLength(model) {
   parameters_.Bind<Double>(PARAM_LINF, &linf_, "TBA", "")->set_lower_bound(0.0);
   parameters_.Bind<Double>(PARAM_K, &k_, "TBA", "")->set_lower_bound(0.0);
   parameters_.Bind<Double>(PARAM_T0, &t0_, "TBA", "");
@@ -58,7 +58,7 @@ VonBertalanffy::VonBertalanffy() {
  * Obtain smart_pointers to any objects that will be used by this object.
  */
 void VonBertalanffy::DoBuild() {
-  length_weight_ = lengthweights::Manager::Instance().GetLengthWeight(length_weight_label_);
+  length_weight_ = model_->managers().length_weight().GetLengthWeight(length_weight_label_);
   if (!length_weight_)
     LOG_ERROR_P(PARAM_LENGTH_WEIGHT) << "(" << length_weight_label_ << ") could not be found. Have you defined it?";
 }
@@ -71,7 +71,7 @@ void VonBertalanffy::DoBuild() {
  * @return The mean length for 1 member
  */
 Double VonBertalanffy::mean_length(unsigned year, unsigned age) {
-  Double proportion = time_step_proportions_[timesteps::Manager::Instance().current_time_step()];
+  Double proportion = time_step_proportions_[model_->managers().time_step().current_time_step()];
   if ((-k_ * ((age + proportion) - t0_)) > 10)
     LOG_ERROR_P(PARAM_K) << "exp(-k*(age-t0)) is enormous. The k or t0 parameters are probably wrong.";
 
@@ -104,8 +104,8 @@ Double VonBertalanffy::mean_weight(unsigned year, unsigned age) {
  * parameters. Otherwise it only needs to be built once a model run I believe
  */
 void VonBertalanffy::BuildCV(unsigned year) {
-  unsigned min_age = Model::Instance()->min_age();
-  unsigned max_age = Model::Instance()->max_age();
+  unsigned min_age = model_->min_age();
+  unsigned max_age = model_->max_age();
 
   // A test that is robust... If cv_last_ is not in the input then assume cv_first_ represents the cv for all age classes i.e constant cv
   if (cv_last_ == 0.0) {
@@ -190,7 +190,7 @@ void VonBertalanffy::CummulativeNormal(Double mu, Double cv, vector<Double>& pro
  * @param length_bins vector of the length bins to map too
  */
 void VonBertalanffy::DoAgeToLengthConversion(std::shared_ptr<partition::Category> category, const vector<Double>& length_bins) {
-  bool plus_grp = Model::Instance()->age_plus();
+  bool plus_grp = model_->age_plus();
 
   for (unsigned i = 0; i < category->data_.size(); ++i) {
     vector<Double> age_frequencies;
