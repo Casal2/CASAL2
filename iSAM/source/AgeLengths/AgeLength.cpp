@@ -12,7 +12,7 @@
 // headers
 #include "AgeLength.h"
 
-#include "TimeSteps/Manager.h"
+#include "Model/Managers.h"
 #include "Utilities/Map.h"
 
 // namespaces
@@ -28,7 +28,7 @@ namespace niwa {
  *
  * Note: The constructor is parsed to generate Latex for the documentation.
  */
-AgeLength::AgeLength() {
+AgeLength::AgeLength(ModelPtr model) : model_(model) {
   parameters_.Bind<string>(PARAM_LABEL, &label_, "Label", "");
   parameters_.Bind<string>(PARAM_TYPE, &type_, "Type", "");
   parameters_.Bind<Double>(PARAM_TIME_STEP_PROPORTIONS, &time_step_proportions_, "", "", true);
@@ -51,7 +51,7 @@ void AgeLength::Validate() {
  * Obtain smart_pointers to any objects that will be used by this object.
  */
 void AgeLength::Build() {
-  unsigned time_step_count = timesteps::Manager::Instance().time_steps().size();
+  unsigned time_step_count = model_->managers().time_step().ordered_time_steps().size();
   if (time_step_proportions_.size() == 0) {
     time_step_proportions_.assign(time_step_count, 0.0);
   } else if (time_step_count != time_step_proportions_.size()) {

@@ -55,7 +55,7 @@ void Iterative::DoValidate() {
  *
  */
 void Iterative::DoBuild() {
-  time_steps_ = timesteps::Manager::Instance().time_steps();
+  time_steps_ = timesteps::Manager::Instance().ordered_time_steps();
 
   // Set the default process labels for the time step for this phase
   for (TimeStepPtr time_step : time_steps_)

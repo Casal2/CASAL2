@@ -26,7 +26,7 @@ namespace accessors {
  */
 All::All() {
 
-  vector<string> category_names = Categories::Instance()->category_names();
+  vector<string> category_names = niwa::Categories::Instance()->category_names();
   for (string category_name : category_names) {
     data_.push_back(&Partition::Instance().category(category_name));
   }

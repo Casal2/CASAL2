@@ -18,6 +18,7 @@
 
 // Headers
 #include "Model/Model.h"
+#include "Model/Managers.h"
 
 // Namespaces
 namespace niwa {
@@ -30,6 +31,7 @@ public:
   MOCK_CONST_METHOD0(min_age, unsigned());
   MOCK_CONST_METHOD0(max_age, unsigned());
   MOCK_CONST_METHOD0(age_spread, unsigned());
+  MOCK_METHOD0(managers, niwa::Managers&());
 };
 
 } /* namespace niwa */
