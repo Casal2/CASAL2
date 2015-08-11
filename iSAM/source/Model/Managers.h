@@ -18,7 +18,7 @@
 
 // headers
 #include "LengthWeights/Manager.h"
-#include "Timesteps/Manager.h"
+#include "TimeSteps/Manager.h"
 
 // namespaces
 namespace niwa {
