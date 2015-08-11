@@ -25,7 +25,7 @@ namespace agelengths {
  *
  * Note: The constructor is parsed to generate Latex for the documentation.
  */
-None::None() {
+None::None() : AgeLength(Model::Instance()) {
 }
 
 } /* namespace agelengths */

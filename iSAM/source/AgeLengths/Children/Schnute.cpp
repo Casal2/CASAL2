@@ -14,8 +14,7 @@
 
 #include <cmath>
 
-#include "LengthWeights/Manager.h"
-#include "TimeSteps/Manager.h"
+#include "Model/Managers.h"
 
 // namespaces
 namespace niwa {
@@ -33,7 +32,10 @@ using std::pow;
  *
  * Note: The constructor is parsed to generate Latex for the documentation.
  */
-Schnute::Schnute() {
+Schnute::Schnute() : Schnute(Model::Instance()) {
+}
+
+Schnute::Schnute(ModelPtr model) : AgeLength(model) {
   parameters_.Bind<Double>(PARAM_Y1, &y1_, "TBA", "");
   parameters_.Bind<Double>(PARAM_Y2, &y2_, "TBA", "");
   parameters_.Bind<Double>(PARAM_TAU1, &tau1_, "TBA", "");
@@ -61,7 +63,7 @@ Schnute::Schnute() {
  * Obtain smart_pointers to any objects that will be used by this object.
  */
 void Schnute::DoBuild() {
-  length_weight_ = lengthweights::Manager::Instance().GetLengthWeight(length_weight_label_);
+  length_weight_ = model_->managers().length_weight().GetLengthWeight(length_weight_label_);
   if (!length_weight_)
     LOG_ERROR_P(PARAM_LENGTH_WEIGHT) << "(" << length_weight_label_ << ") could not be found. Have you defined it?";
 }
@@ -77,7 +79,7 @@ Double Schnute::mean_length(unsigned year, unsigned age) {
   Double temp = 0.0;
   Double size = 0.0;
 
-  Double proportion = time_step_proportions_[timesteps::Manager::Instance().current_time_step()];
+  Double proportion = time_step_proportions_[model_->managers().time_step().current_time_step()];
 
   if (a_ != 0.0)
     temp = (1 - exp( -a_ * ((age + proportion) - tau1_))) / (1 - exp(-a_ * (tau2_ - tau1_)));
@@ -103,8 +105,8 @@ Double Schnute::mean_length(unsigned year, unsigned age) {
  * parameters. Otherwise it only needs to be built once a model run I believe
  */
 void Schnute::BuildCV(unsigned year) {
-  unsigned min_age = Model::Instance()->min_age();
-  unsigned max_age = Model::Instance()->max_age();
+  unsigned min_age = model_->min_age();
+  unsigned max_age = model_->max_age();
 
   if (cv_last_==0) { // A test that is robust... If cv_last_ is not in the input then assume cv_first_ represents the cv for all age classes i.e constant cv
     for (unsigned i = min_age; i <= max_age; ++i) {

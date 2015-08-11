@@ -16,7 +16,7 @@
 
 // headers
 #include "BaseClasses/Object.h"
-
+#include "Model/Model.h"
 #include "Partition/Category.h"
 
 // namespaces
@@ -26,7 +26,8 @@ namespace niwa {
 class AgeLength : public niwa::base::Object {
 public:
   // methods
-  AgeLength();
+  AgeLength() = delete;
+  explicit AgeLength(ModelPtr model);
   virtual                     ~AgeLength() { };
   void                        Validate();
   void                        Build();
@@ -47,6 +48,7 @@ protected:
   virtual void                DoReset() = 0;
 
   // members
+  ModelPtr                    model_;
   vector<Double>              time_step_proportions_;
   map<unsigned, Double>       cvs_;
   Double                      cv_first_ = 0.0;
