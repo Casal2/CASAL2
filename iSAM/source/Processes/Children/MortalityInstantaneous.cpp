@@ -207,11 +207,15 @@ void MortalityInstantaneous::DoExecute() {
       for (auto category_iter : fishery_iter.second) {
         for (auto age_exploitation : category_by_age_with_exploitation[category_iter.first]) {
           uobs_f = uobs_f > age_exploitation.second ? uobs_f : age_exploitation.second;
+
         }
       }
 
+      LOG_FINE() << fishery_iter.first << " Highest exploitation rate = " << uobs_f;
+
       if (uobs_f > u_max_) {
         fishery_exploitation[fishery_iter.first] *= u_max_ / fishery_exploitation[fishery_iter.first];
+        LOG_FINE() << fishery_iter.first  << " Rescaled exploitation rate = " << fishery_exploitation[fishery_iter.first];
         recalculate_age_exploitation = true;
 
         if (penalty_)
