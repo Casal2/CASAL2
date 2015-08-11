@@ -38,7 +38,7 @@ public:
   Double                      mean_length(unsigned year, unsigned age) override final;
   Double                      mean_weight(unsigned year, unsigned age) override final;
 
-private:
+protected:
   // members
   Double                      y1_;
   Double                      y2_;
