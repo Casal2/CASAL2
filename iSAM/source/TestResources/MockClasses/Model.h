@@ -31,6 +31,7 @@ public:
   MOCK_CONST_METHOD0(min_age, unsigned());
   MOCK_CONST_METHOD0(max_age, unsigned());
   MOCK_CONST_METHOD0(age_spread, unsigned());
+  MOCK_CONST_METHOD0(age_plus, bool());
   MOCK_METHOD0(managers, niwa::Managers&());
 };
 

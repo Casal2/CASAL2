@@ -79,7 +79,7 @@ public:
   virtual unsigned            min_age() const { return min_age_; }
   virtual unsigned            max_age() const { return max_age_; }
   virtual unsigned            age_spread() const { return (max_age_ - min_age_) + 1; }
-  bool                        age_plus() const { return age_plus_; }
+  virtual bool                age_plus() const { return age_plus_; }
   const vector<string>&       time_steps() const { return time_steps_; }
   const vector<string>&       initialisation_phases() const { return initialisation_phases_; }
   PartitionStructure          partition_structure() const { return partition_structure_; }

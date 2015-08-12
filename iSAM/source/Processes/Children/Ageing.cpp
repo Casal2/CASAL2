@@ -26,13 +26,10 @@ namespace processes {
  * Default constructor
  */
 Ageing::Ageing() {
-  LOG_TRACE();
-
-  parameters_.Bind<string>(PARAM_CATEGORIES, &category_names_, "Categories", "");
-  parameters_.Bind<Double>(PARAM_TIME_STEP_PROPORTIONS, &time_step_proportions_, "Proportion to age per time step", "", true);
-
   process_type_ = ProcessType::kAgeing;
   partition_structure_ = PartitionStructure::kAge;
+
+  parameters_.Bind<string>(PARAM_CATEGORIES, &category_names_, "Categories", "");
 }
 
 /**
@@ -61,20 +58,6 @@ void Ageing::DoValidate() {
 void Ageing::DoBuild() {
   partition_.Init(category_names_);
   model_      = Model::Instance();
-
-  if (time_step_proportions_.size() == 0)
-    time_step_proportions_.push_back(1.0);
-
-  vector<unsigned> time_step_indexes = timesteps::Manager::Instance().GetTimeStepIndexesForProcess(label_);
-  if (time_step_indexes.size() != time_step_proportions_.size())
-    LOG_ERROR_P(PARAM_TIME_STEP_PROPORTIONS) << " size (" << time_step_proportions_.size() << "( must match the number "
-        "of defined time steps for this process (" << time_step_indexes.size() << ")";
-
-  time_step_proportions_by_index_ = utilities::Map::create(time_step_indexes, time_step_proportions_);
-  for (auto iter : time_step_proportions_by_index_) {
-    if (iter.second < 0.0 || iter.second > 1.0)
-      LOG_ERROR_P(PARAM_TIME_STEP_PROPORTIONS) << " value (" << iter.second << ") must be in the range 0.0-1.0";
-  }
 }
 
 /**
@@ -84,15 +67,10 @@ void Ageing::DoExecute() {
   Double amount_to_move = 0.0;
   Double moved_fish = 0.0;
 
-  unsigned time_step_index = timesteps::Manager::Instance().current_time_step();
-  if (time_step_proportions_by_index_.find(time_step_index) == time_step_proportions_by_index_.end())
-    LOG_CODE_ERROR() << "time_step_proportions_by_index_.find(" << time_step_index << ") == time_step_proportions_by_index_.end()";
-  Double proportion = time_step_proportions_by_index_[time_step_index];
-
   for (auto category : partition_) {
     moved_fish = 0.0;
     for (Double& data : category->data_) {
-      amount_to_move = data * proportion;
+      amount_to_move = data;
       data -= amount_to_move;
       data += moved_fish;
 

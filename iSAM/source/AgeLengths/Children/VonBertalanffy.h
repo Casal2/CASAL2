@@ -23,7 +23,7 @@ namespace agelengths {
 
 // classes
 class VonBertalanffy : public niwa::AgeLength {
-  friend class VonBertalanffyTest;
+  friend class MockVonBertalanffy;
 public:
   // methods
   VonBertalanffy();
@@ -39,7 +39,7 @@ public:
   Double                      mean_length(unsigned year, unsigned age) override final;
   Double                      mean_weight(unsigned year, unsigned age) override final;
 
-private:
+protected:
   // methods
   void                        CummulativeNormal(Double mu, Double cv, vector<Double>& prop_in_length, vector<Double> length_bins, string distribution, bool plus_grp);
 

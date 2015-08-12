@@ -201,7 +201,7 @@ void VonBertalanffy::DoAgeToLengthConversion(std::shared_ptr<partition::Category
 
     // Loop through the length bins and multiple the partition of the current age to go from
     // length frequencies to age length numbers
-      for (unsigned j = 0; j < length_bins.size(); ++j) {
+    for (unsigned j = 0; j < length_bins.size(); ++j) {
       category->age_length_matrix_[i][j] = category->data_[i] * age_frequencies[j];
     }
   }
