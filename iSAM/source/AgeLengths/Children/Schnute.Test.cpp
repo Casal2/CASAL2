@@ -24,7 +24,7 @@ namespace agelengths {
 using ::testing::Return;
 using ::testing::ReturnRef;
 
-class TimeStepManager : public timesteps::Manager {
+class MockTimeStepManager : public timesteps::Manager {
 public:
   unsigned time_step_index_ = 0;
   unsigned current_time_step() const override final { return time_step_index_; }
@@ -51,7 +51,7 @@ public:
  * Test the results of our KnifeEdge are correct
  */
 TEST(AgeLengths, Schnute) {
-  TimeStepManager time_step_manager;
+  MockTimeStepManager time_step_manager;
 
   MockManagers mock_managers;
   EXPECT_CALL(mock_managers, time_step()).WillRepeatedly(ReturnRef(time_step_manager));
@@ -88,7 +88,7 @@ TEST(AgeLengths, Schnute) {
  *
  */
 TEST(AgeLengths, Schnute_BuildCV_ByLength) {
-  TimeStepManager time_step_manager;
+  MockTimeStepManager time_step_manager;
 
   MockManagers mock_managers;
   EXPECT_CALL(mock_managers, time_step()).WillRepeatedly(ReturnRef(time_step_manager));
@@ -115,7 +115,7 @@ TEST(AgeLengths, Schnute_BuildCV_ByLength) {
  *
  */
 TEST(AgeLengths, Schnute_BuildCV_LinearInterpolation) {
-  TimeStepManager time_step_manager;
+  MockTimeStepManager time_step_manager;
 
   MockManagers mock_managers;
   EXPECT_CALL(mock_managers, time_step()).WillRepeatedly(ReturnRef(time_step_manager));
@@ -142,7 +142,7 @@ TEST(AgeLengths, Schnute_BuildCV_LinearInterpolation) {
  *
  */
 TEST(AgeLengths, Schnute_BuildCV_LinearInterpolation_Proportion) {
-  TimeStepManager time_step_manager;
+  MockTimeStepManager time_step_manager;
 
   MockManagers mock_managers;
   EXPECT_CALL(mock_managers, time_step()).WillRepeatedly(ReturnRef(time_step_manager));
@@ -169,7 +169,7 @@ TEST(AgeLengths, Schnute_BuildCV_LinearInterpolation_Proportion) {
  *
  */
 TEST(AgeLengths, Schnute_BuildCV_LinearInterpolation_ProportionAndTimeStep) {
-  TimeStepManager time_step_manager;
+  MockTimeStepManager time_step_manager;
   time_step_manager.time_step_index_ = 1;
 
   MockManagers mock_managers;
