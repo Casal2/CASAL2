@@ -16,28 +16,39 @@
 #include <gtest/gtest.h>
 #include <boost/lexical_cast.hpp>
 
-#include "TimeSteps/Factory.h"
-#include "TimeSteps/Manager.h"
-#include "Partition/Partition.h"
-#include "Processes/Factory.h"
-#include "AgeLengths/Factory.h"
-#include "TestResources/TestFixtures/BasicModel.h"
-// Namespaces
+#include "TestResources/MockClasses/Managers.h"
+#include "TestResources/MockClasses/Model.h"
+
+// namespaces
 namespace niwa {
 namespace agelengths {
-
 using ::testing::Return;
-using niwa::testfixtures::BasicModel;
+using ::testing::ReturnRef;
 
-class VonBertalanffyTest {
+// classes
+class MockTimeStepManager : public timesteps::Manager {
 public:
-  void CummulativeNormal(Double mu, Double cv, vector<Double>& vprop_in_length, vector<Double> length_bins, string distribution, bool plus_grp) {
-    VonBertalanffy x;
-    x.CummulativeNormal(mu, cv, vprop_in_length, length_bins, distribution, plus_grp);
+  unsigned time_step_index_ = 0;
+  unsigned current_time_step() const override final { return time_step_index_; }
+};
+
+class MockVonBertalanffy : public VonBertalanffy {
+public:
+  MockVonBertalanffy() { };
+  MockVonBertalanffy(ModelPtr model, Double linf, Double k, Double t0, bool by_length,
+      Double cv_first, Double cv_last, vector<Double> time_step_proportions) : VonBertalanffy(model) {
+    linf_ = linf;
+    k_ = k;
+    t0_ = t0;
+    by_length_ = by_length;
+    cv_first_ = cv_first;
+    cv_last_ = cv_last;
+    time_step_proportions_ = time_step_proportions;
   }
-  void BuildCV(unsigned year) {
-    VonBertalanffy x;
-    x.BuildCV(year);
+
+  // mocking protected method
+  void MockCummulativeNormal(Double mu, Double cv, vector<Double>& vprop_in_length, vector<Double> length_bins, string distribution, bool plus_grp) {
+    this->CummulativeNormal(mu, cv, vprop_in_length, length_bins, distribution, plus_grp);
   }
 };
 
@@ -46,7 +57,7 @@ public:
  * Test the cumulative normal function that calculates probability of a being in a length bin at a known age
  * This test is for the normal distribution
  */
-TEST(AgeLength, VonBertalanffy_CummulativeNormal_1) {
+TEST(AgeLengths, VonBertalanffy_CummulativeNormal) {
   Double mu = 35.49858;
   Double cv = 0.1;
   vector<Double> vprop_in_length;
@@ -54,8 +65,8 @@ TEST(AgeLength, VonBertalanffy_CummulativeNormal_1) {
   string distribution = "normal";
   bool plus_grp = 1;
 
-  VonBertalanffyTest myTest;
-  myTest.CummulativeNormal(mu, cv, vprop_in_length, length_bins, distribution,  plus_grp);
+  MockVonBertalanffy von_bertalanffy;
+  von_bertalanffy.MockCummulativeNormal(mu, cv, vprop_in_length, length_bins, distribution,  plus_grp);
 
   vector<Double> expected = {3.8713535710499514e-009, 1.5960216925847703e-008, 7.422358561104403e-008, 3.1901955588331532e-007, 1.2672619864595447e-006, 4.6525401673491729e-006,
       1.5786604316003761e-005, 4.9506445653380027e-005,0.00014348551812060073, 0.00038434913282614502,0.00095150900849361175, 0.0021770396325317964, 0.0046034492460040877,
@@ -72,7 +83,7 @@ TEST(AgeLength, VonBertalanffy_CummulativeNormal_1) {
 /**
  * Test the Cumulative normal function when the distribution is specified as "lognormal" with no plus group
  */
-TEST(AgeLength, VonBertalanffy_CummulativeNormal_2) {
+TEST(AgeLengths, VonBertalanffy_CummulativeNormal_2) {
   Double mu = 35.49858;
   Double cv = 0.1;
   vector<Double> vprop_in_length;
@@ -80,8 +91,8 @@ TEST(AgeLength, VonBertalanffy_CummulativeNormal_2) {
   string distribution = "lognormal";
   bool plus_grp = 0;
 
-  VonBertalanffyTest myTest;
-  myTest.CummulativeNormal(mu, cv, vprop_in_length, length_bins, distribution,  plus_grp);
+  MockVonBertalanffy von_bertalanffy;
+  von_bertalanffy.MockCummulativeNormal(mu, cv, vprop_in_length, length_bins, distribution,  plus_grp);
 
   vector<Double> expected = {0, 9.9920072216264089e-016,1.1390888232654106e-013, 6.907807659217724e-012, 2.4863089365112501e-010, 5.6808661108576075e-009, 8.7191919018181352e-008,
       9.4269457673323842e-007, 7.4745056608538363e-006, 4.4982380957292456e-005, 0.00021163731992057677, 0.00079862796125962365, 0.0024715534075264722, 0.0063962867724943751,0.01408161729231916,
@@ -95,58 +106,39 @@ TEST(AgeLength, VonBertalanffy_CummulativeNormal_2) {
   }
 }
 
-///**
-// * Test the DoAgeLengthConversion() so that we know we are applying the right probabilities to the right part of the partition
-// */
-//TEST_F(BasicModel, ALK_DoAgeLengthConversion) {
-//
-//  vector<string> categories   = {"immature.male"};
-//
-//  niwa::ProcessPtr process = processes::Factory::Create(PARAM_RECRUITMENT, PARAM_CONSTANT);
-//  vector<string> proportions  = { "0.6"};
-//  process->parameters().Add(PARAM_LABEL, "recruitment", __FILE__, __LINE__);
-//  process->parameters().Add(PARAM_TYPE, "constant", __FILE__, __LINE__);
-//  process->parameters().Add(PARAM_CATEGORIES, categories, __FILE__, __LINE__);
-//  process->parameters().Add(PARAM_PROPORTIONS, proportions, __FILE__, __LINE__);
-//  process->parameters().Add(PARAM_R0, "100000", __FILE__, __LINE__);
-//  process->parameters().Add(PARAM_AGE, "1", __FILE__, __LINE__);
-//
-//  niwa::AgeLengthPtr agelength = agelengths::Factory::Create(PARAM_VON_BERTALANFFY, "");
-//  agelength->parameters().Add(PARAM_LABEL, "VB", __FILE__, __LINE__);
-//  agelength->parameters().Add(PARAM_LINF, "70", __FILE__, __LINE__);
-//  agelength->parameters().Add(PARAM_T0, "-6" , __FILE__, __LINE__);
-//  agelength->parameters().Add(PARAM_K, "0.034" , __FILE__, __LINE__);
-//
-//
-//  niwa::base::ObjectPtr time_step = timesteps::Factory::Create();
-//  vector<string> processes    = { "recruitment", "VB"};
-//  time_step->parameters().Add(PARAM_LABEL, "step_one", __FILE__, __LINE__);
-//  time_step->parameters().Add(PARAM_PROCESSES, processes, __FILE__, __LINE__);
-//
-//  Model::Instance()->Start(RunMode::kTesting);
-//
-//  partition::Category& immature_male   = Partition::Instance().category("immature.male");
-//
-//
-//  /**
-//   * Do 1 iteration of the model then check the categories to see if
-//   * the AGELength key was successful
-//   */
-//  Model::Instance()->FullIteration();
-//
-//  // Check i = 0
-//  EXPECT_DOUBLE_EQ(0, immature_male.data_[0]);
-//
-////  //Run through ages and length bins to see if conversion correct
-////  for (unsigned age = immature_male.min_age_; age < immature_male.max_age_; age++ )
-////  {
-////   unsigned bin = 2;
-////
-////      EXPECT_DOUBLE_EQ(60000.0 , immature_male.age_length_matrix_[age][bin]) << " where age = " << age << " where class_bin = " << bin;
-////
-////  }
-//
-//}
+/**
+ * Test the DoAgeLengthConversion() so that we know we are applying the right probabilities to the right part of the partition
+ */
+TEST(AgeLengths, VonBertalanffy_DoAgeLengthConversion) {
+  MockTimeStepManager time_step_manager;
+  time_step_manager.time_step_index_ = 1;
+
+  MockManagers mock_managers;
+  EXPECT_CALL(mock_managers, time_step()).WillRepeatedly(ReturnRef(time_step_manager));
+
+  std::shared_ptr<MockModel> model = std::shared_ptr<MockModel>(new MockModel);
+  EXPECT_CALL(*model.get(), min_age()).WillRepeatedly(Return(5));
+  EXPECT_CALL(*model.get(), max_age()).WillRepeatedly(Return(10));
+  EXPECT_CALL(*model.get(), age_spread()).WillRepeatedly(Return(6));
+  EXPECT_CALL(*model.get(), age_plus()).WillRepeatedly(Return(true));
+  EXPECT_CALL(*model.get(), managers()).WillRepeatedly(ReturnRef(mock_managers));
+
+  shared_ptr<partition::Category> male = shared_ptr<partition::Category>(new partition::Category());
+  male->min_age_ = 5;
+  male->max_age_ = 10;
+  male->data_.assign(0.0, (male->max_age_ - male->min_age_) + 1);
+
+  for (unsigned age = male->min_age_; age <= male->max_age_; ++age)
+    male->mean_length_per_[age] = age * 1.0;
+
+  MockVonBertalanffy von_bertalanffy(model, 70, 0.034, -6, true, 0.0, 0.0, {1.0});
+  von_bertalanffy.DoAgeToLengthConversion(male, {1.0, 3.0, 5.0, 7.0});
+
+  //Run through ages and length bins to see if conversion correct
+//      EXPECT_DOUBLE_EQ(60000.0 , male->.age_length_matrix_[age][bin]) << " where age = " << age << " where class_bin = " << bin;
+//      EXPECT_DOUBLE_EQ(60000.0 , male->.age_length_matrix_[age][bin]) << " where age = " << age << " where class_bin = " << bin;
+//      EXPECT_DOUBLE_EQ(60000.0 , male->.age_length_matrix_[age][bin]) << " where age = " << age << " where class_bin = " << bin;
+}
 
 } /* namespace agelength */
 } /* namespace niwa */

@@ -45,8 +45,6 @@ private:
   ModelPtr                    model_;
   accessor::Categories        partition_;
   vector<string>              category_names_;
-  vector<Double>              time_step_proportions_;
-  map<unsigned, Double>       time_step_proportions_by_index_;
 };
 
 } /* namespace processes */
