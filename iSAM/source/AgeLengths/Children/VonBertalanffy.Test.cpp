@@ -44,6 +44,7 @@ public:
     cv_first_ = cv_first;
     cv_last_ = cv_last;
     time_step_proportions_ = time_step_proportions;
+    distribution_ = "normal";
   }
 
   // mocking protected method
@@ -106,6 +107,27 @@ TEST(AgeLengths, VonBertalanffy_CummulativeNormal_2) {
   }
 }
 
+
+TEST(AgeLengths, VonBertalanffy_CummulativeNormal_3) {
+  Double mu = 21.84162;
+  Double cv = 0.1;
+  vector<Double> vprop_in_length;
+  vector<Double> length_bins = {10, 20, 25, 30};
+  string distribution = "normal";
+  bool plus_grp = 0;
+
+  MockVonBertalanffy von_bertalanffy;
+  von_bertalanffy.MockCummulativeNormal(mu, cv, vprop_in_length, length_bins, distribution,  plus_grp);
+
+  vector<Double> expected = {0.19956658777057745, 0.7263499887051611,0.073989599423212926};
+
+  ASSERT_EQ(expected.size(), vprop_in_length.size());
+  for (unsigned i = 0; i < expected.size(); ++i) {
+    EXPECT_DOUBLE_EQ(expected[i], vprop_in_length[i]) << " with i = " << i;
+  }
+}
+
+
 /**
  * Test the DoAgeLengthConversion() so that we know we are applying the right probabilities to the right part of the partition
  */
@@ -126,18 +148,38 @@ TEST(AgeLengths, VonBertalanffy_DoAgeLengthConversion) {
   shared_ptr<partition::Category> male = shared_ptr<partition::Category>(new partition::Category());
   male->min_age_ = 5;
   male->max_age_ = 10;
-  male->data_.assign(0.0, (male->max_age_ - male->min_age_) + 1);
+  male->data_.assign((male->max_age_ - male->min_age_) + 1, 100); // add 100 fish to each age class
 
-  for (unsigned age = male->min_age_; age <= male->max_age_; ++age)
-    male->mean_length_per_[age] = age * 1.0;
+  male->mean_length_per_[5] = 21.84162;
+  male->mean_length_per_[6] = 23.45148;
+  male->mean_length_per_[7] = 25.00753;
+  male->mean_length_per_[8] = 26.51156;
+  male->mean_length_per_[9] = 27.96531;
+  male->mean_length_per_[10] = 29.37047;
 
-  MockVonBertalanffy von_bertalanffy(model, 70, 0.034, -6, true, 0.0, 0.0, {1.0});
-  von_bertalanffy.DoAgeToLengthConversion(male, {1.0, 3.0, 5.0, 7.0});
+  MockVonBertalanffy von_bertalanffy(model, 70, 0.034, -6, false, 0.1, 0.1, {1.0});
+  ASSERT_NO_THROW(von_bertalanffy.BuildCV(1999));
+  von_bertalanffy.DoAgeToLengthConversion(male, {10, 20, 25, 30}, false);
 
-  //Run through ages and length bins to see if conversion correct
-//      EXPECT_DOUBLE_EQ(60000.0 , male->.age_length_matrix_[age][bin]) << " where age = " << age << " where class_bin = " << bin;
-//      EXPECT_DOUBLE_EQ(60000.0 , male->.age_length_matrix_[age][bin]) << " where age = " << age << " where class_bin = " << bin;
-//      EXPECT_DOUBLE_EQ(60000.0 , male->.age_length_matrix_[age][bin]) << " where age = " << age << " where class_bin = " << bin;
+  // Check that the CV is being built appropriately and that the mean is stored correctly
+  EXPECT_DOUBLE_EQ(0.1, von_bertalanffy.cv(5));
+  EXPECT_DOUBLE_EQ(0.1, von_bertalanffy.cv(10));
+
+  EXPECT_DOUBLE_EQ(21.84162, male->mean_length_per_[5]);
+  EXPECT_DOUBLE_EQ(29.37047, male->mean_length_per_[10]);
+
+  //Run through length for the min and max age
+  vector<Double> expec1 = {19.956658777057747, 72.634998870516114, 7.3989599423212926};
+  vector<Double> expec2 = {0.21978590711986268, 14.229418952457774, 62.207156455123013};
+
+  unsigned age_index = 0;
+  for(unsigned bin = 0; bin < 3; ++bin)
+  EXPECT_DOUBLE_EQ(expec1[bin], male->age_length_matrix_[age_index][bin]) << " where age = " << (male->min_age_ + age_index) << " where class_bin = " << bin;
+
+  age_index = 4;
+  for(unsigned bin = 0; bin < 3; ++bin)
+  EXPECT_DOUBLE_EQ(expec2[bin], male->age_length_matrix_[age_index][bin]) << " where age = " << (male->min_age_ + age_index) << " where class_bin = " << bin;
+
 }
 
 } /* namespace agelength */

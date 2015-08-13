@@ -275,6 +275,7 @@
 #define PARAM_LAYERS                              "layers"
 #define PARAM_LENGTH                              "length"
 #define PARAM_LENGTH_BINS                         "length_bins"
+#define PARAM_LENGTH_PLUS                         "length_plus_group"
 #define PARAM_LENGTH_WEIGHT                       "length_weight"
 #define PARAM_LENGTH_WEIGHTS                      "length_weights"
 #define PARAM_LIKELIHOOD                          "likelihood"

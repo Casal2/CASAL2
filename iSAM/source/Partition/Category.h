@@ -43,7 +43,7 @@ public:
   virtual                     ~Category() = default;
   void                        UpdateMeanLengthData();
   void                        UpdateMeanWeightData();
-  void                        UpdateAgeLengthData(const vector<Double>& length_bins);
+  void                        UpdateAgeLengthData(const vector<Double>& length_bins, bool plus_grp);
   void                        CollapseAgeLengthData();
 
   // members
