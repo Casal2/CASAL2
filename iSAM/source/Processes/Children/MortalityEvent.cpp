@@ -24,7 +24,7 @@ namespace processes {
 /**
  * Default Constructor
  */
-MortalityEvent::MortalityEvent() {
+MortalityEvent::MortalityEvent() : Process(Model::Instance()) {
   parameters_.Bind<string>(PARAM_CATEGORIES, &category_names_, "Categories", "");
   parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "Years", "");
   parameters_.Bind<Double>(PARAM_CATCHES, &catches_, "Catches", "");

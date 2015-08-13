@@ -41,7 +41,8 @@ enum class ProcessType {
 class Process : public niwa::base::Object {
 public:
   // methods
-  Process();
+  Process() = delete;
+  explicit Process(ModelPtr model);
   virtual                     ~Process() = default;
   void                        Validate();
   void                        Build();
@@ -68,7 +69,7 @@ protected:
   bool                        print_report_ = false;
   map<string, vector<string>> print_values_;
   map<unsigned, map<string, vector<ExecutorPtr>>> executors_;
-
+  ModelPtr                    model_;
 };
 
 /**

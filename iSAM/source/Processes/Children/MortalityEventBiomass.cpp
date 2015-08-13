@@ -23,7 +23,7 @@ namespace processes {
 /**
  * default constructor
  */
-MortalityEventBiomass::MortalityEventBiomass() {
+MortalityEventBiomass::MortalityEventBiomass() : Process(Model::Instance()) {
   parameters_.Bind<string>(PARAM_CATEGORIES, &category_labels_, "Category labels", "");
   parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_labels_, "Selectivity labels", "");
   parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "Years to apply mortality", "");

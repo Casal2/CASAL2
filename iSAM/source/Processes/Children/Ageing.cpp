@@ -25,7 +25,7 @@ namespace processes {
 /**
  * Default constructor
  */
-Ageing::Ageing() {
+Ageing::Ageing() : Process(Model::Instance()) {
   process_type_ = ProcessType::kAgeing;
   partition_structure_ = PartitionStructure::kAge;
 

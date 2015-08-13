@@ -24,7 +24,7 @@ namespace processes {
 /**
  *
  */
-TagByLength::TagByLength() {
+TagByLength::TagByLength() : Process(Model::Instance()) {
   process_type_ = ProcessType::kTransition;
   partition_structure_ = PartitionStructure::kAge;
 

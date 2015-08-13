@@ -27,7 +27,8 @@ namespace processes {
  * Default Constructor
  */
 MortalityConstantRate::MortalityConstantRate()
-: time_steps_manager_(timesteps::Manager::Instance()) {
+  : Process(Model::Instance()),
+    time_steps_manager_(timesteps::Manager::Instance()) {
 
   LOG_TRACE();
 

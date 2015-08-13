@@ -23,7 +23,7 @@ namespace processes {
 /**
  * Default Constructor
  */
-MaturationRate::MaturationRate() {
+MaturationRate::MaturationRate() : Process(Model::Instance()){
   LOG_TRACE();
 
   parameters_.Bind<string>(PARAM_FROM, &from_category_names_, "From", "");

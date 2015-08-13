@@ -29,7 +29,7 @@ namespace dc = niwa::utilities::doublecompare;
 /**
  * default constructor
  */
-RecruitmentBevertonHolt::RecruitmentBevertonHolt() {
+RecruitmentBevertonHolt::RecruitmentBevertonHolt() : Process(Model::Instance()) {
   LOG_TRACE();
 
   parameters_.Bind<string>(PARAM_CATEGORIES, &category_labels_, "Category labels", "");
