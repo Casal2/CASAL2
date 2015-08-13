@@ -68,11 +68,11 @@ void Category::CollapseAgeLengthData() {
 /**
  *
  */
-void Category::UpdateAgeLengthData(const vector<Double>& length_bins) {
+void Category::UpdateAgeLengthData(const vector<Double>& length_bins, bool plus_grp) {
   CategoriesPtr categories = Categories::Instance();
 
   length_data_.clear();
-  categories->age_length(name_)->DoAgeToLengthConversion(shared_from_this(), length_bins);
+  categories->age_length(name_)->DoAgeToLengthConversion(shared_from_this(), length_bins, plus_grp);
 }
 
 
