@@ -24,7 +24,7 @@ namespace processes {
 /**
  * Default constructor
  */
-TagByAge::TagByAge() {
+TagByAge::TagByAge() : Process(Model::Instance()) {
   process_type_ = ProcessType::kTransition;
   partition_structure_ = PartitionStructure::kAge;
 

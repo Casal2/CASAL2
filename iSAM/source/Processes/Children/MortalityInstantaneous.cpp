@@ -31,9 +31,7 @@ namespace processes {
  *
  * Note: The constructor is parsed to generate Latex for the documentation.
  */
-MortalityInstantaneous::MortalityInstantaneous() {
-//  : time_steps_manager_(timesteps::Manager::Instance()) {
-
+MortalityInstantaneous::MortalityInstantaneous() : Process(Model::Instance()) {
   process_type_ = ProcessType::kMortality;
   partition_structure_ = PartitionStructure::kAge;
 
@@ -50,8 +48,6 @@ MortalityInstantaneous::MortalityInstantaneous() {
 
   RegisterAsEstimable(PARAM_U_MAX, &u_max_);
   RegisterAsEstimable(PARAM_M, &m_);
-
-  model_ = Model::Instance();
 }
 
 /**

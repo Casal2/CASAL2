@@ -46,7 +46,6 @@ private:
   parameters::TablePtr        catches_table_;
   parameters::TablePtr        fisheries_table_;
   accessor::Categories        partition_;
-  ModelPtr                    model_;
   map<string, map<unsigned, Double>>        fishery_by_year_with_catch_;
   map<string, map<string, string>>          fishery_table_data_;
   map<string, map<string, SelectivityPtr>>  fishery_by_category_with_selectivity_;

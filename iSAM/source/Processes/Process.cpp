@@ -17,7 +17,7 @@ namespace niwa {
 /**
  * Default constructor
  */
-Process::Process() {
+Process::Process(ModelPtr model) : model_(model) {
   parameters_.Bind<string>(PARAM_LABEL, &label_, "Label", "");
   parameters_.Bind<string>(PARAM_TYPE, &type_, "Type", "", "");
   parameters_.Bind<bool>(PARAM_PRINT_REPORT, &print_report_, "Print parameter report", "", false);

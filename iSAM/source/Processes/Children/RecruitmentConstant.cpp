@@ -26,7 +26,7 @@ using niwa::partition::accessors::CategoriesWithAge;
 /**
  * Default Constructor
  */
-RecruitmentConstant::RecruitmentConstant() {
+RecruitmentConstant::RecruitmentConstant() : Process(Model::Instance()) {
   parameters_.Bind<string>(PARAM_CATEGORIES, &category_names_, "Categories", "");
   parameters_.Bind<Double>(PARAM_PROPORTIONS, &proportions_, "Proportions", "", true);
   parameters_.Bind<unsigned>(PARAM_AGE, &age_, "Age", "");
