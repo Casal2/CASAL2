@@ -52,8 +52,11 @@ public:
 //  template<typename Key, typename Values>
 //  bool                        Populate(const vector<Key>& columns, map<Key,vector<Values>> &data);
   template<typename MasterKey, typename Key, typename Value>
-  bool                        Populate(const MasterKey& master_key, const vector<Key>& keys,
+  bool                        Populate2D(const MasterKey& master_key, const vector<Key>& keys,
       map<MasterKey, map<Key, Value>>& out_matrix);
+  template<typename MasterKey, typename Key1, typename Key2, typename Value>
+  bool                        Populate3D(const MasterKey& master_key, const Key1& key1,
+      vector<Key2>& key2s, map<MasterKey, map<Key1, map<Key2, Value>>>& out_matrix);
 
 
   // accessors
