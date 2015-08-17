@@ -64,6 +64,8 @@ void ProportionsAtLength::DoValidate() {
     if(length_bins_[length] > length_bins_[length + 1])
       LOG_ERROR_P(PARAM_LENGTH_BINS) << ": Length bins must be strictly increasing " << length_bins_[length] << " is greater than " << length_bins_[length +1];
   }
+  if(!(length_bins_[0] == 0))
+    LOG_ERROR_P(PARAM_LENGTH_BINS) << ": First length element must be a zero";
 
   if (process_error_values_.size() != 0 && process_error_values_.size() != years_.size()) {
     LOG_ERROR_P(PARAM_PROCESS_ERRORS) << " number of values provied (" << process_error_values_.size() << ") does not match the number of years provided ("
@@ -225,94 +227,97 @@ void ProportionsAtLength::PreExecute() {
  *
  */
 void ProportionsAtLength::Execute() {
-//  LOG_TRACE();
-//
-//  /** I feel we need to call UpdateAgeLengthData to update our age_length_matrix before we cach the partition
-//   *  Ask Scott if he thinks that is corrector wheather it should go in the loop as it is category specific
-//   *  Something like the below
-//   */
-//
-//
-//   //UpdateAgeLengthData(category,length_bins_,length_plus_);
-//
-//
-//  /**
-//   * Verify our cached partition and partition sizes are correct
-//   */
-//  ModelPtr model = Model::Instance();
-//  auto cached_partition_iter  = cached_partition_->Begin();
-//  auto partition_iter         = partition_->Begin(); // vector<vector<partition::Category> >
-//
-//
-//
-//  /**
-//   * Loop through the provided categories. Each provided category (combination) will have a list of observations
-//   * with it. We need to build a vector of proportions for each age using that combination and then
-//   * compare it to the observations.
-//   */
-//  for (unsigned category_offset = 0; category_offset < category_labels_.size(); ++category_offset, ++partition_iter, ++cached_partition_iter) {
-//    //Double      selectivity_result = 0.0; // no length selectivity yet
-//    Double      start_value        = 0.0;
-//    Double      end_value          = 0.0;
-//    Double      final_value        = 0.0;
-//
-//    vector<Double> expected_values(number_bins_, 0.0);
-//
-//    // declare empty vectors that we are going to collapse age_length_matrix into numbers at length
-//    // For both cached and uncached partition
-//
-//    vector<Double> num_at_length;
-//
-//    /**
-//     * Loop through the 2 combined categories building up the
-//     * expected proportions values.
-//     */
-//    auto category_iter = partition_iter->begin();
-//    auto cached_category_iter = cached_partition_iter->begin();
-//    for (; category_iter != partition_iter->end(); ++cached_category_iter, ++category_iter) {
-//      for (unsigned length_offset = 0; length_offset < (*category_iter)->age_length_matrix_[0].size(); ++length_offset) {
-//        for (unsigned data_offset = 0; data_offset < (*category_iter)->data_.size(); ++data_offset) {
-//
-//        // now for each column (length bin) in age_length_matrix sum up all the rows (ages) for both cached and current matricies
-//        start_value += (*cached_category_iter).age_length_matrix_[data_offset][length_offset];
-//        end_value += (*category_iter).age_length_matrix_[data_offset][length_offset];
-//        final_value   = 0.0;
-//
-//        if (mean_proportion_method_)
-//          final_value = start_value + ((end_value - start_value) * proportion_of_time_);
-//        else
-//          final_value = fabs(start_value - end_value) * proportion_of_time_;
-//          num_at_length.push_back(final);
-//
-//
-//        expected_values[age_offset] += final_value;
-//
-//        LOG_FINE() << "----------";
-//        LOG_FINE() << "Category: " << (*category_iter)->name_ << " at age " << age;
-//        LOG_FINE() << "start_value: " << start_value << "; end_value: " << end_value << "; final_value: " << final_value;
-//        LOG_FINE() << "expected_value becomes: " << expected_values[age_offset];
-//      }
-//    }
-//  }
-//    if (expected_values.size() != proportions_[model->current_year()][category_labels_[category_offset]].size())
-//      LOG_CODE_ERROR() << "expected_values.size(" << expected_values.size() << ") != proportions_[category_offset].size("
-//        << proportions_[model->current_year()][category_labels_[category_offset]].size() << ")";
-//
-//    /**
-//     * save our comparisons so we can use them to generate the score from the likelihoods later
-//     */
-//
-//    for (unsigned i = 0; i < expected_values.size(); ++i) {
-//      SaveComparison(category_labels_[category_offset], min_age_ + i, expected_values[i], proportions_[model->current_year()][category_labels_[category_offset]][i],
-//          process_errors_by_year_[model->current_year()], error_values_[model->current_year()][category_labels_[category_offset]][i], delta_, 0.0);
-//    }
-//  }
+  LOG_TRACE();
+  LOG_FINEST() << "Start of Execute";
+  /**
+   * Verify our cached partition and partition sizes are correct
+   */
+  ModelPtr model = Model::Instance();
+  auto cached_partition_iter  = cached_partition_->Begin();
+  auto partition_iter         = partition_->Begin(); // vector<vector<partition::Category> >
+
+  LOG_FINEST() << "Range over Cached and non cached partition";
+
+  /**
+   * Loop through the provided categories. Each provided category (combination) will have a list of observations
+   * with it. We need to build a vector of proportions for each length using that combination and then
+   * compare it to the observations.
+   */
+  for (unsigned category_offset = 0; category_offset < category_labels_.size(); ++category_offset, ++partition_iter, ++cached_partition_iter) {
+    Double      start_value        = 0.0;
+    Double      end_value          = 0.0;
+    Double      final_value        = 0.0;
+
+    vector<Double> expected_values(number_bins_, 0.0);
+
+   LOG_FINEST() << "category: " << category_labels_[category_offset];
+
+    /**
+     * Loop through the 2 combined categories building up the
+     * expected proportions values.
+     */
+    auto category_iter = partition_iter->begin();
+    auto cached_category_iter = cached_partition_iter->begin();
+
+
+
+    for (; category_iter != partition_iter->end(); ++cached_category_iter, ++category_iter) {
+
+      LOG_FINEST() << "Selectivity for " << category_labels_[category_offset] << " " << selectivities_[category_offset]->label();
+
+      (*cached_category_iter).UpdateAgeLengthData(length_bins_, length_plus_, selectivities_[category_offset]);
+      (*category_iter)->UpdateAgeLengthData(length_bins_, length_plus_, selectivities_[category_offset]);
+      LOG_FINEST() << " The program is Crashing from the above code, if this isn't printed out ";
+
+      (*cached_category_iter).CollapseAgeLengthDataToLength();
+      (*category_iter)->CollapseAgeLengthDataToLength();
+
+      //LOG_FINEST() << " The program is Crashing from the above code, if this isn't printed out ";
+
+      for (unsigned length_offset = 0; length_offset < (*category_iter)->length_data_.size(); ++length_offset) {
+
+
+
+       // now for each column (length bin) in age_length_matrix sum up all the rows (ages) for both cached and current matricies
+        start_value += (*cached_category_iter).length_data_[length_offset];
+        end_value += (*category_iter)->length_data_[length_offset];
+        final_value   = 0.0;
+
+        if (mean_proportion_method_)
+          final_value = start_value + ((end_value - start_value) * proportion_of_time_);
+        else
+          final_value = fabs(start_value - end_value) * proportion_of_time_;
+
+
+        expected_values[length_offset] += final_value;
+
+        LOG_FINE() << "----------";
+        LOG_FINE() << "Category: " << (*category_iter)->name_ << " at length " << length_bins_[length_offset];
+        LOG_FINE() << "Selectivity: " << selectivities_[category_offset]->label();
+        LOG_FINE() << "start_value: " << start_value << "; end_value: " << end_value << "; final_value: " << final_value;
+        LOG_FINE() << "expected_value becomes: " << expected_values[length_offset];
+      }
+    }
+
+    if (expected_values.size() != proportions_[model->current_year()][category_labels_[category_offset]].size())
+      LOG_CODE_ERROR() << "expected_values.size(" << expected_values.size() << ") != proportions_[category_offset].size("
+        << proportions_[model->current_year()][category_labels_[category_offset]].size() << ")";
+
+    /**
+     * save our comparisons so we can use them to generate the score from the likelihoods later
+     */
+
+    for (unsigned i = 0; i < expected_values.size(); ++i) {
+      SaveComparison(category_labels_[category_offset], 0, length_bins_[i], expected_values[i], proportions_[model->current_year()][category_labels_[category_offset]][i],
+          process_errors_by_year_[model->current_year()], error_values_[model->current_year()][category_labels_[category_offset]][i], delta_, 0.0);
+    }
+  }
 }
-//
-///**
-// * This method is called at the end of a model iteration
-// * to calculate the score for the observation.
-// */
+
+/**
+ * This method is called at the end of a model iteration
+ * to calculate the score for the observation.
+ */
 void ProportionsAtLength::CalculateScore() {
   /**
    * Simulate or generate results

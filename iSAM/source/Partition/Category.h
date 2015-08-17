@@ -22,7 +22,7 @@
 #include <string>
 
 #include "Utilities/Types.h"
-
+#include "Selectivities/Selectivity.h"
 // namespaces
 namespace niwa {
 namespace partition {
@@ -43,9 +43,9 @@ public:
   virtual                     ~Category() = default;
   void                        UpdateMeanLengthData();
   void                        UpdateMeanWeightData();
-  void                        UpdateAgeLengthData(const vector<Double>& length_bins, bool plus_grp);
+  void                        UpdateAgeLengthData(const vector<Double>& length_bins, bool plus_grp, SelectivityPtr selectivity);
   void                        CollapseAgeLengthData();
-
+  void                        CollapseAgeLengthDataToLength();
   // members
   string                      name_ = "";
   unsigned                    min_age_ = 0;

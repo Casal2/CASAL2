@@ -68,11 +68,29 @@ void Category::CollapseAgeLengthData() {
 /**
  *
  */
-void Category::UpdateAgeLengthData(const vector<Double>& length_bins, bool plus_grp) {
+void Category::UpdateAgeLengthData(const vector<Double>& length_bins, bool plus_grp, SelectivityPtr selectivity) {
   CategoriesPtr categories = Categories::Instance();
+  unsigned year = Model::Instance()->current_year();
 
-  length_data_.clear();
-  categories->age_length(name_)->DoAgeToLengthConversion(shared_from_this(), length_bins, plus_grp);
+  categories->age_length(name_)->BuildCV(year);
+  categories->age_length(name_)->DoAgeToLengthConversion(shared_from_this(), length_bins, plus_grp, selectivity);
+}
+
+
+/**
+ * This method will populate the length data from the age length matrix. This is required
+ * to convert age data to length data for use in length observations and processes
+ */
+void Category::CollapseAgeLengthDataToLength() {
+  if (age_length_matrix_.size() == 0)
+    LOG_CODE_ERROR() << "if (age_length_matrix_.size() == 0)";
+
+  length_data_.assign(age_length_matrix_[0].size(), 0.0);
+  for (unsigned i = 0; i < age_length_matrix_.size(); ++i) {
+    for (unsigned j = 0; j < age_length_matrix_[i].size(); ++j) {
+      length_data_[j] += age_length_matrix_[i][j];
+    }
+  }
 }
 
 

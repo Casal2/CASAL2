@@ -148,11 +148,12 @@ void Observation::Reset() {
  * @param error_value The error value for this comparison
  * @param score The amount of score for this comparison
  */
-void Observation::SaveComparison(string category, unsigned age, Double expected, Double observed,
+void Observation::SaveComparison(string category, unsigned age, Double length, Double expected, Double observed,
     Double process_error, Double error_value, Double delta, Double score) {
   observations::Comparison new_comparison;
   new_comparison.category_ = category;
   new_comparison.age_ = age;
+  new_comparison.length_ = length;
   new_comparison.expected_ = expected;
   new_comparison.observed_ = observed;
   new_comparison.process_error_ = process_error;
@@ -175,7 +176,7 @@ void Observation::SaveComparison(string category, unsigned age, Double expected,
  */
 void Observation::SaveComparison(string category, Double expected, Double observed,
     Double process_error, Double error_value, Double delta, Double score) {
-  SaveComparison(category, 0, expected, observed, process_error, error_value, delta, score);
+  SaveComparison(category, 0, 0, expected, observed, process_error, error_value, delta, score);
 }
 
 } /* namespace niwa */

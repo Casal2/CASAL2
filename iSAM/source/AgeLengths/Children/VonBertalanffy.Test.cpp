@@ -18,6 +18,7 @@
 
 #include "TestResources/MockClasses/Managers.h"
 #include "TestResources/MockClasses/Model.h"
+#include "Selectivities/Children/Logistic.h"
 
 // namespaces
 namespace niwa {
@@ -139,11 +140,20 @@ TEST(AgeLengths, VonBertalanffy_DoAgeLengthConversion) {
   EXPECT_CALL(mock_managers, time_step()).WillRepeatedly(ReturnRef(time_step_manager));
 
   std::shared_ptr<MockModel> model = std::shared_ptr<MockModel>(new MockModel);
+
   EXPECT_CALL(*model.get(), min_age()).WillRepeatedly(Return(5));
   EXPECT_CALL(*model.get(), max_age()).WillRepeatedly(Return(10));
   EXPECT_CALL(*model.get(), age_spread()).WillRepeatedly(Return(6));
   EXPECT_CALL(*model.get(), age_plus()).WillRepeatedly(Return(true));
   EXPECT_CALL(*model.get(), managers()).WillRepeatedly(ReturnRef(mock_managers));
+
+  std::shared_ptr<selectivities::Logistic> logistic = std::shared_ptr<selectivities::Logistic>(new selectivities::Logistic(model));
+  logistic->parameters().Add(PARAM_LABEL, "unit_test_logistic", __FILE__, __LINE__);
+  logistic->parameters().Add(PARAM_TYPE, "not needed in test", __FILE__, __LINE__);
+  logistic->parameters().Add(PARAM_A50,   "6",  __FILE__, __LINE__);
+  logistic->parameters().Add(PARAM_ATO95, "3",  __FILE__, __LINE__);
+  logistic->Validate();
+  logistic->Build();
 
   shared_ptr<partition::Category> male = shared_ptr<partition::Category>(new partition::Category());
   male->min_age_ = 5;
@@ -159,7 +169,7 @@ TEST(AgeLengths, VonBertalanffy_DoAgeLengthConversion) {
 
   MockVonBertalanffy von_bertalanffy(model, 70, 0.034, -6, false, 0.1, 0.1, {1.0});
   ASSERT_NO_THROW(von_bertalanffy.BuildCV(1999));
-  von_bertalanffy.DoAgeToLengthConversion(male, {10, 20, 25, 30}, false);
+  von_bertalanffy.DoAgeToLengthConversion(male, {10, 20, 25, 30}, false, logistic);
 
   // Check that the CV is being built appropriately and that the mean is stored correctly
   EXPECT_DOUBLE_EQ(0.1, von_bertalanffy.cv(5));
@@ -169,17 +179,77 @@ TEST(AgeLengths, VonBertalanffy_DoAgeLengthConversion) {
   EXPECT_DOUBLE_EQ(29.37047, male->mean_length_per_[10]);
 
   //Run through length for the min and max age
-  vector<Double> expec1 = {19.956658777057747, 72.634998870516114, 7.3989599423212926};
-  vector<Double> expec2 = {0.21978590711986268, 14.229418952457774, 62.207156455123013};
+  vector<Double> expec1 = {5.4401509671141266, 19.80017616005102, 2.016943794826572};
+  vector<Double> expec2 = {0.20879661176386954, 13.517948004834885, 59.096798632366863};
 
+  // min age age =5
   unsigned age_index = 0;
   for(unsigned bin = 0; bin < 3; ++bin)
   EXPECT_DOUBLE_EQ(expec1[bin], male->age_length_matrix_[age_index][bin]) << " where age = " << (male->min_age_ + age_index) << " where class_bin = " << bin;
-
+  // age = 9
   age_index = 4;
   for(unsigned bin = 0; bin < 3; ++bin)
   EXPECT_DOUBLE_EQ(expec2[bin], male->age_length_matrix_[age_index][bin]) << " where age = " << (male->min_age_ + age_index) << " where class_bin = " << bin;
+}
 
+/*
+* Test if there is a plus group with different von bert parameters
+*
+*/
+
+TEST(AgeLengths, VonBertalanffy_DoAgeLengthConversion_plusGrp) {
+  MockTimeStepManager time_step_manager;
+  time_step_manager.time_step_index_ = 1;
+
+  MockManagers mock_managers;
+  EXPECT_CALL(mock_managers, time_step()).WillRepeatedly(ReturnRef(time_step_manager));
+
+  std::shared_ptr<MockModel> model = std::shared_ptr<MockModel>(new MockModel);
+  EXPECT_CALL(*model.get(), min_age()).WillRepeatedly(Return(5));
+  EXPECT_CALL(*model.get(), max_age()).WillRepeatedly(Return(10));
+  EXPECT_CALL(*model.get(), age_spread()).WillRepeatedly(Return(6));
+  EXPECT_CALL(*model.get(), age_plus()).WillRepeatedly(Return(true));
+  EXPECT_CALL(*model.get(), managers()).WillRepeatedly(ReturnRef(mock_managers));
+
+  std::shared_ptr<selectivities::Logistic> logistic = std::shared_ptr<selectivities::Logistic>(new selectivities::Logistic(model));
+  logistic->parameters().Add(PARAM_LABEL, "unit_test_logistic", __FILE__, __LINE__);
+  logistic->parameters().Add(PARAM_TYPE, "not needed in test", __FILE__, __LINE__);
+  logistic->parameters().Add(PARAM_A50,   "6",  __FILE__, __LINE__);
+  logistic->parameters().Add(PARAM_ATO95, "3",  __FILE__, __LINE__);
+  logistic->Validate();
+  logistic->Build();
+
+  shared_ptr<partition::Category> male = shared_ptr<partition::Category>(new partition::Category());
+  male->min_age_ = 5;
+  male->max_age_ = 10;
+  male->data_.assign((male->max_age_ - male->min_age_) + 1, 6000);
+
+  male->mean_length_per_[5] = 4.95960;
+  male->mean_length_per_[6] = 9.61173;
+  male->mean_length_per_[7] = 13.97545;
+  male->mean_length_per_[8] = 18.06864;
+  male->mean_length_per_[9] = 21.90808;
+  male->mean_length_per_[10] = 25.50949;
+
+  MockVonBertalanffy von_bertalanffy1(model, 80, 0.064, 4, false, 0.2, 0.2, {1.0});
+  ASSERT_NO_THROW(von_bertalanffy1.BuildCV(1999));
+  von_bertalanffy1.DoAgeToLengthConversion(male, {0, 10, 20, 25, 30}, true, logistic);
+
+  // Check that the CV is being built appropriately and that the mean is stored correctly
+   EXPECT_DOUBLE_EQ(0.2, von_bertalanffy1.cv(5));
+   EXPECT_DOUBLE_EQ(0.2, von_bertalanffy1.cv(10));
+
+   //Run through length for the min and max age
+   vector<Double> expec1 = {1635.5889366403298, 0.00030682770114173025, 0, 0, 0};
+   vector<Double> expec2 = {6.9600494045431862, 817.35282114104973, 1883.6331656223699, 2061.666165823669, 1114.3311224993274};
+
+   unsigned age_index = 0;
+   for(unsigned bin = 0; bin <= 4; ++bin)
+   EXPECT_DOUBLE_EQ(expec1[bin], male->age_length_matrix_[age_index][bin]) << " where age = " << (male->min_age_ + age_index) << " where class_bin = " << bin;
+
+   age_index = 5;
+   for(unsigned bin = 0; bin <= 4; ++bin)
+   EXPECT_DOUBLE_EQ(expec2[bin], male->age_length_matrix_[age_index][bin]) << " where age = " << (male->min_age_ + age_index) << " where class_bin = " << bin;
 }
 
 } /* namespace agelength */
