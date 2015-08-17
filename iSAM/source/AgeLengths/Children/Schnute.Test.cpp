@@ -62,52 +62,25 @@ TEST(AgeLengths, Schnute) {
   EXPECT_CALL(*model.get(), max_age()).WillRepeatedly(Return(10));
   EXPECT_CALL(*model.get(), managers()).WillRepeatedly(ReturnRef(mock_managers));
 
-  MockSchnute schnute(model, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, true, 1.5, 0.0, {1.0});
+  MockSchnute schnute(model, 24.5, 104.8, 1, 20, 0.131, 1.70, true, 1.5, 0.01, {0.0});
 
-  EXPECT_DOUBLE_EQ(2.002204803472166, schnute.mean_length(1999, 4));
-  EXPECT_DOUBLE_EQ(2.0022196182093586, schnute.mean_length(1999, 5));
-  EXPECT_DOUBLE_EQ(2.0022197180284138, schnute.mean_length(1999, 6));
-  EXPECT_DOUBLE_EQ(2.0022197187009891, schnute.mean_length(1999, 7));
-  EXPECT_DOUBLE_EQ(2.0022197187055211, schnute.mean_length(1999, 8));
-  EXPECT_DOUBLE_EQ(2.0022197187055517, schnute.mean_length(1999, 9));
-  EXPECT_DOUBLE_EQ(2.0022197187055517, schnute.mean_length(1999, 10));
-  EXPECT_DOUBLE_EQ(2.0022197187055517, schnute.mean_length(1999, 11));
+
+  EXPECT_DOUBLE_EQ(69.024873822523432, schnute.mean_length(1999, 5));
+  EXPECT_DOUBLE_EQ(74.848134092163818, schnute.mean_length(1999, 6));
+  EXPECT_DOUBLE_EQ(79.70651775663795, schnute.mean_length(1999, 7));
+  EXPECT_DOUBLE_EQ(83.803556291745934, schnute.mean_length(1999, 8));
+  EXPECT_DOUBLE_EQ(87.285326700186346, schnute.mean_length(1999, 9));
+  EXPECT_DOUBLE_EQ(90.261388412893822, schnute.mean_length(1999, 10));
+
 
   ASSERT_NO_THROW(schnute.BuildCV(1999));
-  EXPECT_DOUBLE_EQ(0.0, schnute.cv(4));
   EXPECT_DOUBLE_EQ(1.5, schnute.cv(5));
-  EXPECT_DOUBLE_EQ(1.5, schnute.cv(6));
-  EXPECT_DOUBLE_EQ(1.5, schnute.cv(7));
-  EXPECT_DOUBLE_EQ(1.5, schnute.cv(8));
-  EXPECT_DOUBLE_EQ(1.5, schnute.cv(9));
-  EXPECT_DOUBLE_EQ(1.5, schnute.cv(10));
-  EXPECT_DOUBLE_EQ(0.0, schnute.cv(11));
-}
+  EXPECT_DOUBLE_EQ(1.0914274084458957, schnute.cv(6));
+  EXPECT_DOUBLE_EQ(0.75055265570521079, schnute.cv(7));
+  EXPECT_DOUBLE_EQ(0.46309553126356651, schnute.cv(8));
+  EXPECT_DOUBLE_EQ(0.21880695525926219, schnute.cv(9));
+  EXPECT_DOUBLE_EQ(0.010000000000000009, schnute.cv(10));
 
-/**
- *
- */
-TEST(AgeLengths, Schnute_BuildCV_ByLength) {
-  MockTimeStepManager time_step_manager;
-
-  MockManagers mock_managers;
-  EXPECT_CALL(mock_managers, time_step()).WillRepeatedly(ReturnRef(time_step_manager));
-
-  std::shared_ptr<MockModel> model = std::shared_ptr<MockModel>(new MockModel);
-  EXPECT_CALL(*model.get(), min_age()).WillRepeatedly(Return(5));
-  EXPECT_CALL(*model.get(), max_age()).WillRepeatedly(Return(10));
-  EXPECT_CALL(*model.get(), managers()).WillRepeatedly(ReturnRef(mock_managers));
-
-  MockSchnute schnute(model, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, true, 1.5, 7.0, {0.0});
-  ASSERT_NO_THROW(schnute.BuildCV(1999));
-  EXPECT_DOUBLE_EQ(0.0, schnute.cv(4));
-  EXPECT_DOUBLE_EQ(1.5, schnute.cv(5));
-  EXPECT_DOUBLE_EQ(6.9629419769705168, schnute.cv(6));
-  EXPECT_DOUBLE_EQ(6.9997503050498189, schnute.cv(7));
-  EXPECT_DOUBLE_EQ(6.9999983175490232, schnute.cv(8));
-  EXPECT_DOUBLE_EQ(6.9999999887006892, schnute.cv(9));
-  EXPECT_DOUBLE_EQ(7.0, schnute.cv(10));
-  EXPECT_DOUBLE_EQ(0.0, schnute.cv(11));
 }
 
 /**
@@ -124,17 +97,27 @@ TEST(AgeLengths, Schnute_BuildCV_ByLength_Proportion) {
   EXPECT_CALL(*model.get(), max_age()).WillRepeatedly(Return(10));
   EXPECT_CALL(*model.get(), managers()).WillRepeatedly(ReturnRef(mock_managers));
 
-  MockSchnute schnute(model, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, true, 1.5, 12.5, {0.25});
+  MockSchnute schnute(model, 24.5, 104.8, 1, 20, 0.131, 1.70, true, 1.5, 7, {0.3});
+
   ASSERT_NO_THROW(schnute.BuildCV(1999));
   EXPECT_DOUBLE_EQ(0.0, schnute.cv(4));
   EXPECT_DOUBLE_EQ(1.5, schnute.cv(5));
-  EXPECT_DOUBLE_EQ(12.425882976579283, schnute.cv(6));
-  EXPECT_DOUBLE_EQ(12.499500604032709, schnute.cv(7));
-  EXPECT_DOUBLE_EQ(12.499996635682395, schnute.cv(8));
-  EXPECT_DOUBLE_EQ(12.499999977136815, schnute.cv(9));
-  EXPECT_DOUBLE_EQ(12.5, schnute.cv(10));
+  EXPECT_DOUBLE_EQ(3.0010905968278787, schnute.cv(6));
+  EXPECT_DOUBLE_EQ(4.2580033449542789, schnute.cv(7));
+  EXPECT_DOUBLE_EQ(5.3206754587332945, schnute.cv(8));
+  EXPECT_DOUBLE_EQ(6.2254832544081697, schnute.cv(9));
+  EXPECT_DOUBLE_EQ(7.0, schnute.cv(10));
   EXPECT_DOUBLE_EQ(0.0, schnute.cv(11));
+
+  EXPECT_DOUBLE_EQ(70.88858658180817, schnute.mean_length(1999, 5));
+  EXPECT_DOUBLE_EQ(76.396278285380305, schnute.mean_length(1999, 6));
+  EXPECT_DOUBLE_EQ(81.008050505923777, schnute.mean_length(1999, 7));
+  EXPECT_DOUBLE_EQ(84.907129213795571, schnute.mean_length(1999, 8));
+  EXPECT_DOUBLE_EQ(88.226983724973564, schnute.mean_length(1999, 9));
+  EXPECT_DOUBLE_EQ(91.068783855484241, schnute.mean_length(1999, 10));
 }
+
+
 
 /**
  *
@@ -151,15 +134,15 @@ TEST(AgeLengths, Schnute_BuildCV_ByLength_ProportionAndTimeStep) {
   EXPECT_CALL(*model.get(), max_age()).WillRepeatedly(Return(10));
   EXPECT_CALL(*model.get(), managers()).WillRepeatedly(ReturnRef(mock_managers));
 
-  MockSchnute schnute(model, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, true, 1.5, 12.5, {0.25, 0.5});
+  MockSchnute schnute(model, 24.5, 104.8, 1, 20, 0.131, 1.70, true, 0.2, 0.9, {0.25, 0.5});
   ASSERT_NO_THROW(schnute.BuildCV(1999));
   EXPECT_DOUBLE_EQ(0.0, schnute.cv(4));
-  EXPECT_DOUBLE_EQ(1.5, schnute.cv(5));
-  EXPECT_DOUBLE_EQ(12.425882696108761, schnute.cv(6));
-  EXPECT_DOUBLE_EQ(12.499500603486316, schnute.cv(7));
-  EXPECT_DOUBLE_EQ(12.499996636402226, schnute.cv(8));
-  EXPECT_DOUBLE_EQ(12.499999976059803, schnute.cv(9));
-  EXPECT_DOUBLE_EQ(12.5, schnute.cv(10));
+  EXPECT_DOUBLE_EQ(0.20000000000000001, schnute.cv(5));
+  EXPECT_DOUBLE_EQ(0.39049772657895609, schnute.cv(6));
+  EXPECT_DOUBLE_EQ(0.55035970221265917, schnute.cv(7));
+  EXPECT_DOUBLE_EQ(0.68573111126953545, schnute.cv(8));
+  EXPECT_DOUBLE_EQ(0.80112907312632387, schnute.cv(9));
+  EXPECT_DOUBLE_EQ(0.89999999999999991, schnute.cv(10));
   EXPECT_DOUBLE_EQ(0.0, schnute.cv(11));
 }
 
@@ -177,15 +160,15 @@ TEST(AgeLengths, Schnute_BuildCV_LinearInterpolation) {
   EXPECT_CALL(*model.get(), max_age()).WillRepeatedly(Return(10));
   EXPECT_CALL(*model.get(), managers()).WillRepeatedly(ReturnRef(mock_managers));
 
-  MockSchnute schnute(model, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, false, 1.5, 12.5, {1.0});
+  MockSchnute schnute(model, 24.5, 104.8, 1, 20, 0.131, 1.70, false, 0.1, 0.9, {1.0});
   ASSERT_NO_THROW(schnute.BuildCV(1999));
   EXPECT_DOUBLE_EQ(0.0, schnute.cv(4));
-  EXPECT_DOUBLE_EQ(1.5, schnute.cv(5));
-  EXPECT_DOUBLE_EQ(3.7000000000000002, schnute.cv(6));
-  EXPECT_DOUBLE_EQ(5.9000000000000004, schnute.cv(7));
-  EXPECT_DOUBLE_EQ(8.0999999999999996, schnute.cv(8));
-  EXPECT_DOUBLE_EQ(10.300000000000001, schnute.cv(9));
-  EXPECT_DOUBLE_EQ(12.5, schnute.cv(10));
+  EXPECT_DOUBLE_EQ(0.10000000000000001, schnute.cv(5));
+  EXPECT_DOUBLE_EQ(0.26000000000000001, schnute.cv(6));
+  EXPECT_DOUBLE_EQ(0.42000000000000004, schnute.cv(7));
+  EXPECT_DOUBLE_EQ(0.58000000000000007, schnute.cv(8));
+  EXPECT_DOUBLE_EQ(0.73999999999999999, schnute.cv(9));
+  EXPECT_DOUBLE_EQ(0.90000000000000002, schnute.cv(10));
   EXPECT_DOUBLE_EQ(0.0, schnute.cv(11));
 }
 

@@ -18,6 +18,7 @@
 #include "BaseClasses/Object.h"
 #include "Model/Model.h"
 #include "Partition/Category.h"
+#include "Selectivities/Selectivity.h"
 
 // namespaces
 namespace niwa {
@@ -34,7 +35,7 @@ public:
   void                        Reset() { DoReset(); };
   virtual void                BuildCV(unsigned year) = 0;
   virtual void                DoAgeToLengthConversion(std::shared_ptr<partition::Category> category,
-                                const vector<Double>& length_bins, bool plus_grp) = 0;
+                                const vector<Double>& length_bins, bool plus_grp, SelectivityPtr selectivity) = 0;
 
   // accessors
   virtual Double              mean_length(unsigned year, unsigned age) = 0;

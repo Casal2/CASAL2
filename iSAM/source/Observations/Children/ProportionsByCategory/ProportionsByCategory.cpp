@@ -389,7 +389,7 @@ void ProportionsByCategory::Execute() {
       if (age_results[i] != 0.0)
         expected = target_age_results[i] / age_results[i];
 
-      SaveComparison(category_labels_[category_offset], min_age_ + i, expected, proportions_[model->current_year()][category_labels_[category_offset]][i],
+      SaveComparison(category_labels_[category_offset], min_age_ + i, 0, expected, proportions_[model->current_year()][category_labels_[category_offset]][i],
           process_errors_by_year_[model->current_year()], error_values_[model->current_year()][category_labels_[category_offset]][i], delta_, 0.0);
     }
   }

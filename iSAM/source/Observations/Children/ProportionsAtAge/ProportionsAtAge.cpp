@@ -38,7 +38,6 @@ ProportionsAtAge::ProportionsAtAge() {
   parameters_.Bind<Double>(PARAM_DELTA, &delta_, "Delta", "", DELTA);
   parameters_.Bind<Double>(PARAM_PROCESS_ERRORS, &process_error_values_, "Process error", "", true);
   parameters_.Bind<string>(PARAM_AGEING_ERROR, &ageing_error_label_, "Label of ageing error to use", "", "");
-
   obs_table_ = TablePtr(new parameters::Table(PARAM_OBS));
   error_values_table_ = TablePtr(new parameters::Table(PARAM_ERROR_VALUES));
   parameters_.BindTable(PARAM_OBS, obs_table_, "Table of Observatons", "", false);
@@ -291,7 +290,7 @@ void ProportionsAtAge::Execute() {
      */
 
     for (unsigned i = 0; i < expected_values.size(); ++i) {
-      SaveComparison(category_labels_[category_offset], min_age_ + i, expected_values[i], proportions_[model->current_year()][category_labels_[category_offset]][i],
+      SaveComparison(category_labels_[category_offset], min_age_ + i ,0.0 ,expected_values[i], proportions_[model->current_year()][category_labels_[category_offset]][i],
           process_errors_by_year_[model->current_year()], error_values_[model->current_year()][category_labels_[category_offset]][i], delta_, 0.0);
     }
   }

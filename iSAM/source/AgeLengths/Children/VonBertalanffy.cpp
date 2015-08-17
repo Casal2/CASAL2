@@ -189,11 +189,12 @@ void VonBertalanffy::CummulativeNormal(Double mu, Double cv, vector<Double>& pro
  * @param category The current category to convert
  * @param length_bins vector of the length bins to map too
  */
-void VonBertalanffy::DoAgeToLengthConversion(std::shared_ptr<partition::Category> category, const vector<Double>& length_bins, bool plus_grp) {
+void VonBertalanffy::DoAgeToLengthConversion(std::shared_ptr<partition::Category> category, const vector<Double>& length_bins, bool plus_grp, SelectivityPtr selectivity) {
 
   unsigned size = length_bins.size();
-  if(!plus_grp)
+  if (!plus_grp)
     size = length_bins.size() - 1;
+
 
   category->age_length_matrix_.resize(category->data_.size());
 
@@ -209,7 +210,7 @@ void VonBertalanffy::DoAgeToLengthConversion(std::shared_ptr<partition::Category
     // Loop through the length bins and multiple the partition of the current age to go from
     // length frequencies to age length numbers
     for (unsigned j = 0; j < size; ++j) {
-      category->age_length_matrix_[i][j] = category->data_[i] * age_frequencies[j];
+      category->age_length_matrix_[i][j] = selectivity->GetResult(age) * category->data_[i] * age_frequencies[j];
     }
   }
 }
