@@ -103,6 +103,12 @@ public:
 
 }; // class
 
+template<class A, class B, class C>
+using map2D = std::map<A, std::map<B, C> >;
+
+template<class A, class B, class C, class D>
+using map3D = std::map<A, std::map<B, std::map<C, D> > >;
+
 } /* namespace utilities */
 } /* namespace niwa */
 
