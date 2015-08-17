@@ -228,7 +228,6 @@ void ProportionsAtLength::PreExecute() {
  */
 void ProportionsAtLength::Execute() {
   LOG_TRACE();
-  LOG_FINEST() << "Start of Execute";
   /**
    * Verify our cached partition and partition sizes are correct
    */
@@ -236,21 +235,17 @@ void ProportionsAtLength::Execute() {
   auto cached_partition_iter  = cached_partition_->Begin();
   auto partition_iter         = partition_->Begin(); // vector<vector<partition::Category> >
 
-  LOG_FINEST() << "Range over Cached and non cached partition";
-
   /**
    * Loop through the provided categories. Each provided category (combination) will have a list of observations
    * with it. We need to build a vector of proportions for each length using that combination and then
    * compare it to the observations.
    */
   for (unsigned category_offset = 0; category_offset < category_labels_.size(); ++category_offset, ++partition_iter, ++cached_partition_iter) {
+    LOG_FINEST() << "category: " << category_labels_[category_offset];
     Double      start_value        = 0.0;
     Double      end_value          = 0.0;
     Double      final_value        = 0.0;
-
     vector<Double> expected_values(number_bins_, 0.0);
-
-   LOG_FINEST() << "category: " << category_labels_[category_offset];
 
     /**
      * Loop through the 2 combined categories building up the
@@ -258,26 +253,15 @@ void ProportionsAtLength::Execute() {
      */
     auto category_iter = partition_iter->begin();
     auto cached_category_iter = cached_partition_iter->begin();
-
-
-
     for (; category_iter != partition_iter->end(); ++cached_category_iter, ++category_iter) {
-
       LOG_FINEST() << "Selectivity for " << category_labels_[category_offset] << " " << selectivities_[category_offset]->label();
 
       (*cached_category_iter).UpdateAgeLengthData(length_bins_, length_plus_, selectivities_[category_offset]);
       (*category_iter)->UpdateAgeLengthData(length_bins_, length_plus_, selectivities_[category_offset]);
-      LOG_FINEST() << " The program is Crashing from the above code, if this isn't printed out ";
-
       (*cached_category_iter).CollapseAgeLengthDataToLength();
       (*category_iter)->CollapseAgeLengthDataToLength();
 
-      //LOG_FINEST() << " The program is Crashing from the above code, if this isn't printed out ";
-
       for (unsigned length_offset = 0; length_offset < (*category_iter)->length_data_.size(); ++length_offset) {
-
-
-
        // now for each column (length bin) in age_length_matrix sum up all the rows (ages) for both cached and current matricies
         start_value += (*cached_category_iter).length_data_[length_offset];
         end_value += (*category_iter)->length_data_[length_offset];
@@ -288,9 +272,7 @@ void ProportionsAtLength::Execute() {
         else
           final_value = fabs(start_value - end_value) * proportion_of_time_;
 
-
         expected_values[length_offset] += final_value;
-
         LOG_FINE() << "----------";
         LOG_FINE() << "Category: " << (*category_iter)->name_ << " at length " << length_bins_[length_offset];
         LOG_FINE() << "Selectivity: " << selectivities_[category_offset]->label();
@@ -306,7 +288,6 @@ void ProportionsAtLength::Execute() {
     /**
      * save our comparisons so we can use them to generate the score from the likelihoods later
      */
-
     for (unsigned i = 0; i < expected_values.size(); ++i) {
       SaveComparison(category_labels_[category_offset], 0, length_bins_[i], expected_values[i], proportions_[model->current_year()][category_labels_[category_offset]][i],
           process_errors_by_year_[model->current_year()], error_values_[model->current_year()][category_labels_[category_offset]][i], delta_, 0.0);

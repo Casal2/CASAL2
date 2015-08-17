@@ -104,6 +104,7 @@ Double VonBertalanffy::mean_weight(unsigned year, unsigned age) {
  * parameters. Otherwise it only needs to be built once a model run I believe
  */
 void VonBertalanffy::BuildCV(unsigned year) {
+  LOG_TRACE();
   unsigned min_age = model_->min_age();
   unsigned max_age = model_->max_age();
 
@@ -189,15 +190,13 @@ void VonBertalanffy::CummulativeNormal(Double mu, Double cv, vector<Double>& pro
  * @param category The current category to convert
  * @param length_bins vector of the length bins to map too
  */
-void VonBertalanffy::DoAgeToLengthConversion(std::shared_ptr<partition::Category> category, const vector<Double>& length_bins, bool plus_grp, SelectivityPtr selectivity) {
-
+void VonBertalanffy::DoAgeToLengthConversion(partition::Category* category, const vector<Double>& length_bins, bool plus_grp, SelectivityPtr selectivity) {
+  LOG_TRACE();
   unsigned size = length_bins.size();
   if (!plus_grp)
     size = length_bins.size() - 1;
 
-
   category->age_length_matrix_.resize(category->data_.size());
-
   for (unsigned i = 0; i < category->data_.size(); ++i) {
     vector<Double> age_frequencies;
     unsigned age = category->min_age_ + i;
