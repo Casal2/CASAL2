@@ -21,6 +21,7 @@
 #include <map>
 #include <vector>
 #include <string>
+#include <memory>
 
 #include "Partition/Category.h"
 #include "Utilities/Types.h"
@@ -44,7 +45,6 @@ public:
   void                        Build();
   void                        Reset();
   void                        Clear() { partition_.clear(); }
-  void                        Debug();
 
   // Accessors
   partition::Category&        category(const string& category_label);
@@ -54,7 +54,7 @@ private:
   Partition() = default;
 
   // Members
-  map<string, partition::Category> partition_; // map<category label, partition::Category Struct>
+  map<string, std::shared_ptr<partition::Category>> partition_; // map<category label, partition::Category Struct>
 };
 
 } /* namespace niwa */

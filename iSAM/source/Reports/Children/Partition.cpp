@@ -91,15 +91,12 @@ void Partition::DoExecute() {
     cache_ << " " << i;
   cache_ << "\n";
 
-  cache_.precision(1);
-  cache_ << std::fixed;
-
   for (auto iterator = all_view.Begin(); iterator != all_view.End(); ++iterator) {
     cache_ << (*iterator)->name_;
     unsigned age = (*iterator)->min_age_;
     for (auto values = (*iterator)->data_.begin(); values != (*iterator)->data_.end(); ++values, age++) {
       if (age >= lowest && age <= highest)
-        cache_ << " " << std::fixed << std::setprecision(6) << *values;
+        cache_ << " " << std::fixed << *values;
       else
         cache_ << " " << "null";
     }

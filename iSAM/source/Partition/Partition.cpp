@@ -51,14 +51,14 @@ void Partition::Build() {
   for(string category : category_names) {
     LOG_FINEST() << "Adding category " << category << " to the partition";
 
-    partition::Category new_category;
-    new_category.name_      = category;
-    new_category.min_age_   = categories->min_age(category);
-    new_category.max_age_   = categories->max_age(category);
-    new_category.years_     = categories->years(category);
+    std::shared_ptr<partition::Category> new_category = std::shared_ptr<partition::Category>(new partition::Category());
+    new_category->name_      = category;
+    new_category->min_age_   = categories->min_age(category);
+    new_category->max_age_   = categories->max_age(category);
+    new_category->years_     = categories->years(category);
 
     unsigned age_spread = (categories->max_age(category) - categories->min_age(category)) + 1;
-    new_category.data_.resize(age_spread, 0.0);
+    new_category->data_.resize(age_spread, 0.0);
 
     partition_[category] = new_category;
   }
@@ -69,7 +69,7 @@ void Partition::Build() {
  */
 void Partition::Reset() {
   for (auto iter = partition_.begin(); iter != partition_.end(); ++iter) {
-    iter->second.data_.assign(iter->second.data_.size(), 0.0);
+    iter->second->data_.assign(iter->second->data_.size(), 0.0);
   }
 }
 
@@ -84,29 +84,6 @@ partition::Category& Partition::category(const string& category_label) {
   if (find_iter == partition_.end())
     LOG_CODE_ERROR() << "The partition does not have a category " << category_label;
 
-  return find_iter->second;
+  return (*find_iter->second);
 }
-
-/**
- * This method will print the contents of the partition out to stdout.
- * It's useful when trying to debug why the partition may not be working properly
- */
-void Partition::Debug() {
-  cout << "-- Partition Debug -- " << endl;
-  for (auto iter = partition_.begin(); iter != partition_.end(); ++iter) {
-    cout << "Category: " << iter->first << endl;
-    cout << "min_age: " << iter->second.min_age_ << endl;
-    cout << "max_age: " << iter->second.max_age_ << endl;
-    cout << "years: ";
-    for (unsigned i = 0; i < iter->second.years_.size(); ++i)
-      cout << iter->second.years_[i] << ", ";
-    cout << endl;
-    cout << "data: ";
-    for (unsigned i = 0; i < iter->second.data_.size(); ++i)
-      cout << AS_DOUBLE(iter->second.data_[i]) << ", ";
-    cout << endl;
-  }
-  cout << "-- End Partition Debug -- " << endl;
-}
-
 } /* namespace niwa */

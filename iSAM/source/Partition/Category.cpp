@@ -69,11 +69,16 @@ void Category::CollapseAgeLengthData() {
  *
  */
 void Category::UpdateAgeLengthData(const vector<Double>& length_bins, bool plus_grp, SelectivityPtr selectivity) {
+  LOG_TRACE();
+
   CategoriesPtr categories = Categories::Instance();
   unsigned year = Model::Instance()->current_year();
 
-  categories->age_length(name_)->BuildCV(year);
-  categories->age_length(name_)->DoAgeToLengthConversion(shared_from_this(), length_bins, plus_grp, selectivity);
+  AgeLengthPtr age_length = categories->age_length(name_);
+  if (!age_length)
+    LOG_CODE_ERROR() << "if (!age_length) for category " << name_;
+  age_length->BuildCV(year);
+  age_length->DoAgeToLengthConversion(this, length_bins, plus_grp, selectivity);
 }
 
 

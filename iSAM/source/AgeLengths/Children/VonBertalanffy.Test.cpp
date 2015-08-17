@@ -169,7 +169,7 @@ TEST(AgeLengths, VonBertalanffy_DoAgeLengthConversion) {
 
   MockVonBertalanffy von_bertalanffy(model, 70, 0.034, -6, false, 0.1, 0.1, {1.0});
   ASSERT_NO_THROW(von_bertalanffy.BuildCV(1999));
-  von_bertalanffy.DoAgeToLengthConversion(male, {10, 20, 25, 30}, false, logistic);
+  von_bertalanffy.DoAgeToLengthConversion(male.get(), {10, 20, 25, 30}, false, logistic);
 
   // Check that the CV is being built appropriately and that the mean is stored correctly
   EXPECT_DOUBLE_EQ(0.1, von_bertalanffy.cv(5));
@@ -233,7 +233,7 @@ TEST(AgeLengths, VonBertalanffy_DoAgeLengthConversion_plusGrp) {
 
   MockVonBertalanffy von_bertalanffy1(model, 80, 0.064, 4, false, 0.2, 0.2, {1.0});
   ASSERT_NO_THROW(von_bertalanffy1.BuildCV(1999));
-  von_bertalanffy1.DoAgeToLengthConversion(male, {0, 10, 20, 25, 30}, true, logistic);
+  von_bertalanffy1.DoAgeToLengthConversion(male.get(), {0, 10, 20, 25, 30}, true, logistic);
 
   // Check that the CV is being built appropriately and that the mean is stored correctly
    EXPECT_DOUBLE_EQ(0.2, von_bertalanffy1.cv(5));

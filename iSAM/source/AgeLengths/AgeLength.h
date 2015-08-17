@@ -34,7 +34,7 @@ public:
   void                        Build();
   void                        Reset() { DoReset(); };
   virtual void                BuildCV(unsigned year) = 0;
-  virtual void                DoAgeToLengthConversion(std::shared_ptr<partition::Category> category,
+  virtual void                DoAgeToLengthConversion(partition::Category* category,
                                 const vector<Double>& length_bins, bool plus_grp, SelectivityPtr selectivity) = 0;
 
   // accessors
