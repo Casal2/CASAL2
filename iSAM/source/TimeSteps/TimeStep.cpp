@@ -135,6 +135,7 @@ void TimeStep::SubscribeToBlock(ExecutorPtr executor) {
 void TimeStep::SubscribeToProcess(ExecutorPtr executor, unsigned year, string process_label) {
   LOG_TRACE();
 
+  // TODO: Rewrite this so it's cleaner
   unsigned index = 1;
   bool index_defined = false;
   if (process_label.find("(") != string::npos) {
@@ -162,10 +163,22 @@ void TimeStep::SubscribeToProcess(ExecutorPtr executor, unsigned year, string pr
 
   if (matching.size() == 0)
     LOG_FATAL() << executor->location() << "the process " << process_label << " was not defined in the time_step " << label_;
-  if (index >= matching.size())
-    LOG_FATAL() << executor->location() << "the process index of " << index << " is too high. Index range is 1-" << matching.size();
 
-  process_executors_[year][index].push_back(executor);
+  unsigned time_step_index = matching.size();
+  for (unsigned i = 0; i < matching.size(); ++i) {
+    if (matching[i]->label() == process_label) {
+      if (index == 0) {
+        time_step_index = i;
+        break;
+      } else
+        --index;
+    }
+  }
+
+  if (time_step_index == matching.size())
+    LOG_FATAL() << executor->location() << "the process index of " << time_step_index << " is too high. Number of matched processes was " << matching.size();
+
+  process_executors_[year][time_step_index].push_back(executor);
 }
 
 /**
