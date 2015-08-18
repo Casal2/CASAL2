@@ -135,50 +135,14 @@ void TimeStep::SubscribeToBlock(ExecutorPtr executor) {
 void TimeStep::SubscribeToProcess(ExecutorPtr executor, unsigned year, string process_label) {
   LOG_TRACE();
 
-  // TODO: Rewrite this so it's cleaner
-  unsigned index = 1;
-  bool index_defined = false;
-  if (process_label.find("(") != string::npos) {
-    vector<string> temp;
-    boost::split(temp, process_label, boost::is_any_of("()"));
-    if (temp.size() <= 1 )
-      LOG_CODE_ERROR() << "temp.size() == 1: " << process_label;
-
-    if (!utilities::To<unsigned>(temp[1], index))
-      LOG_FATAL() << executor->location() << "the process index " << temp[1] << " could not be converted to an unsigned integer";
-    process_label = temp[0];
-    index_defined = true;
-    LOG_FINEST() << "process_label: " << process_label << " | " << temp[0];
-  }
-
-  vector<ProcessPtr> matching;
-  std::for_each(processes_.begin(), processes_.end(), [&matching, process_label](ProcessPtr p){ if (p->label() == process_label) matching.push_back(p); });
-  if (matching.size() > 1 && !index_defined)
-    LOG_FATAL() << executor->location() << "the process " << process_label << " was defined multiple times in the time step " << label_
-        << " but the observation on it did not have an index (e.g" << process_label << "(1)";
-
-  if (index == 0)
-    LOG_FATAL() << executor->location() << "the process " << process_label << " index was 0. It should be a 1 based array, not 0 based";
-  --index;
-
-  if (matching.size() == 0)
-    LOG_FATAL() << executor->location() << "the process " << process_label << " was not defined in the time_step " << label_;
-
-  unsigned time_step_index = matching.size();
-  for (unsigned i = 0; i < matching.size(); ++i) {
-    if (matching[i]->label() == process_label) {
-      if (index == 0) {
-        time_step_index = i;
-        break;
-      } else
-        --index;
+  for (unsigned i = 0; i < processes_.size(); ++i) {
+    if (processes_[i]->label() == process_label) {
+      process_executors_[year][i].push_back(executor);
+      return;
     }
   }
 
-  if (time_step_index == matching.size())
-    LOG_FATAL() << executor->location() << "the process index of " << time_step_index << " is too high. Number of matched processes was " << matching.size();
-
-  process_executors_[year][time_step_index].push_back(executor);
+  LOG_FATAL() << executor->location() << "the process could not be found in the time step " << label_;
 }
 
 /**
