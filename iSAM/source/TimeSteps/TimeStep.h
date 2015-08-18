@@ -21,6 +21,7 @@
 #include "BaseClasses/Executor.h"
 #include "DerivedQuantities/Manager.h"
 #include "Processes/Process.h"
+#include "Utilities/Map.h"
 
 // Namespaces
 namespace niwa {
@@ -64,8 +65,7 @@ private:
   map<string, vector<string>>         initialisation_process_labels_;
   map<string, vector<ProcessPtr>>     initialisation_processes_;
   map<string, unsigned>               initialisation_block_end_process_index_;
-
-  map<unsigned, map<unsigned, vector<ExecutorPtr>>> process_executors_;
+  map<unsigned, map<unsigned, vector<ExecutorPtr>>> process_executors_; // year/process index
 };
 
 /**
