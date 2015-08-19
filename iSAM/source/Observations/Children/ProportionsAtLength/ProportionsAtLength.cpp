@@ -256,6 +256,8 @@ void ProportionsAtLength::Execute() {
     for (; category_iter != partition_iter->end(); ++cached_category_iter, ++category_iter) {
       LOG_FINEST() << "Selectivity for " << category_labels_[category_offset] << " " << selectivities_[category_offset]->label();
 
+      (*cached_category_iter).UpdateMeanLengthData();
+      (*category_iter)->UpdateMeanLengthData();
       (*cached_category_iter).UpdateAgeLengthData(length_bins_, length_plus_, selectivities_[category_offset]);
       (*category_iter)->UpdateAgeLengthData(length_bins_, length_plus_, selectivities_[category_offset]);
       (*cached_category_iter).CollapseAgeLengthDataToLength();
@@ -270,7 +272,7 @@ void ProportionsAtLength::Execute() {
         if (mean_proportion_method_)
           final_value = start_value + ((end_value - start_value) * proportion_of_time_);
         else
-          final_value = fabs(start_value - end_value) * proportion_of_time_;
+          final_value = (1-proportion_of_time_) * start_value + proportion_of_time_ * end_value;
 
         expected_values[length_offset] += final_value;
         LOG_FINE() << "----------";

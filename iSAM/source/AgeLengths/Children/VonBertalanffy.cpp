@@ -42,7 +42,7 @@ VonBertalanffy::VonBertalanffy(ModelPtr model) : AgeLength(model) {
   parameters_.Bind<Double>(PARAM_T0, &t0_, "TBA", "");
   parameters_.Bind<string>(PARAM_LENGTH_WEIGHT, &length_weight_label_, "TBA", "");
   parameters_.Bind<Double>(PARAM_CV_FIRST, &cv_first_ , "CV for the first age class", "",Double(0.0))->set_lower_bound(0.0);
-  parameters_.Bind<Double>(PARAM_CV_LAST, &cv_last_ , "CV for maximum age", "",Double(0.0))->set_lower_bound(0.0);
+  parameters_.Bind<Double>(PARAM_CV_LAST, &cv_last_ , "CV for last age class", "",Double(0.0))->set_lower_bound(0.0);
   parameters_.Bind<string>(PARAM_DISTRIBUTION, &distribution_, "TBA", "", PARAM_NORMAL);
   parameters_.Bind<bool>(PARAM_BY_LENGTH, &by_length_, "Specifies if the linear interpolation of CV's is a linear function of mean length at age. Default is just by age", "", true);
 
@@ -202,8 +202,18 @@ void VonBertalanffy::DoAgeToLengthConversion(partition::Category* category, cons
     unsigned age = category->min_age_ + i;
 
     Double mu= category->mean_length_per_[age];
+
+    //for( unsigned k = 0; k < cvs_.size(); ++k)
+    //LOG_FINEST() << "age: " << category->min_age_ + k << " cv :"<<  cvs_[category->min_age_  + k];
+
     CummulativeNormal(mu, cvs_[age], age_frequencies, length_bins, distribution_, plus_grp);
 
+    LOG_FINEST() << " mean = " << mu << " cv = " << cvs_[age] << " distribution " << distribution_ << "plus group " << plus_grp;
+
+    for (unsigned j = 0; j < size; ++j) {
+    LOG_FINEST() << "Result " <<  age_frequencies[j];
+    LOG_FINEST() << "Length Bins " <<length_bins[j];
+    }
     category->age_length_matrix_[i].resize(size);
 
     // Loop through the length bins and multiple the partition of the current age to go from
