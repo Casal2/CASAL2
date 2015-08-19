@@ -17,6 +17,21 @@
 namespace niwa {
 namespace derivedquantities {
 
+
+/**
+ * PreExecute version of Execute
+ */
+void Abundance::PreExecute() {
+  cache_value_ = 0.0;
+
+  auto iterator = partition_.begin();
+  // iterate over each category
+  for (unsigned i = 0; i < partition_.size() && iterator != partition_.end(); ++i, ++iterator) {
+    for (unsigned j = 0; j < (*iterator)->data_.size(); ++j) {
+      cache_value_ += (*iterator)->data_[j] * selectivities_[i]->GetResult((*iterator)->min_age_ + j);
+    }
+  }
+}
 /**
  * Calculate the derived quantity value for the
  * state of the model.
@@ -43,7 +58,11 @@ void Abundance::Execute() {
     if (initialisation_values_.size() <= initialisation_phase)
       initialisation_values_.resize(initialisation_phase + 1);
 
-    initialisation_values_[initialisation_phase].push_back(value);
+    if (mean_proportion_method_)
+      initialisation_values_[initialisation_phase].push_back(cache_value_ + ((value - cache_value_) * time_step_proportion_));
+    else
+      initialisation_values_[initialisation_phase].push_back((1 - time_step_proportion_) * cache_value_ + time_step_proportion_ * value);
+
   } else {
     // execution calculation
     auto iterator = partition_.begin();
@@ -54,7 +73,10 @@ void Abundance::Execute() {
       }
     }
 
-    values_[model_->current_year()] = value;
+    if (mean_proportion_method_)
+      values_[model_->current_year()] = cache_value_ + ((value - cache_value_) * time_step_proportion_);
+    else
+      values_[model_->current_year()] = (1 - time_step_proportion_) * cache_value_ + time_step_proportion_ * value;
   }
 }
 

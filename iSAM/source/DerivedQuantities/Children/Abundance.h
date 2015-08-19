@@ -28,6 +28,7 @@ public:
   // methods
   Abundance() = default;
   virtual                     ~Abundance() = default;
+  void                        PreExecute() override final;
   void                        Execute() override final;
 };
 
