@@ -36,7 +36,6 @@ public:
   void                        Validate();
   void                        Build();
   void                        Reset() { };
-  void                        PreExecute() override final { };
   Double                      GetValue(unsigned year);
   Double                      GetInitialisationValue(unsigned phase = 0, unsigned index = 0);
   Double                      GetLastValueFromInitialisation(unsigned phase);
@@ -52,11 +51,15 @@ protected:
   unsigned                    current_initialisation_phase_ = 0;
   vector<vector<Double> >     initialisation_values_;
   map<unsigned, Double>       values_;
+  Double                      cache_value_;
   vector<string>              selectivity_labels_;
   vector<SelectivityPtr>      selectivities_;
   vector<string>              category_labels_;
   ModelPtr                    model_;
   accessor::Categories        partition_;
+  string                      proportion_method_;
+  Double                      time_step_proportion_;
+  bool                        mean_proportion_method_;
 };
 
 // typedef

@@ -27,6 +27,7 @@ public:
   // methods
   Biomass() = default;
   virtual                     ~Biomass() = default;
+  void                        PreExecute() override final;
   void                        Execute() override final;
 };
 
