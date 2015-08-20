@@ -269,7 +269,7 @@ void ProportionsAtAge::Execute() {
         if (mean_proportion_method_)
           final_value = start_value + ((end_value - start_value) * proportion_of_time_);
         else
-          final_value = (1-proportion_of_time_) * start_value + proportion_of_time_ * end_value;
+          final_value = fabs(start_value - end_value) * proportion_of_time_;
 
         expected_values[age_offset] += final_value * selectivity_result;
 
