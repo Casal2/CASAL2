@@ -234,11 +234,12 @@ void MortalityInstantaneous::DoExecute() {
      * recalculate age exploitation if we triggered penalty
      */
     if (recalculate_age_exploitation) {
+      category_by_age_with_exploitation.clear();
+
       for (auto categories : partition_)  {
         for (auto fishery_iter : fishery_by_category_with_selectivity_) {
           if (fishery_iter.second.find(categories->name_) == fishery_iter.second.end())
             continue;
-
           for (unsigned i = 0; i < categories->data_.size(); ++i) {
             category_by_age_with_exploitation[categories->name_][categories->min_age_ + i] += fishery_exploitation[fishery_iter.first] *
               fishery_by_category_with_selectivity_[fishery_iter.first][categories->name_]->GetResult(categories->min_age_ + i);

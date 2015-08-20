@@ -77,11 +77,6 @@ void Category::UpdateAgeLengthData(const vector<Double>& length_bins, bool plus_
   if (!age_length)
     LOG_CODE_ERROR() << "if (!age_length) for category " << name_;
   age_length->BuildCV(year);
-
-  for( unsigned i = 0; i < length_bins.size(); ++i)
-  LOG_FINEST() << length_bins[i];
-
-  LOG_FINEST() << plus_grp << " With Selectivity " << selectivity->label();
   age_length->DoAgeToLengthConversion(this, length_bins, plus_grp, selectivity);
 }
 

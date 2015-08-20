@@ -202,18 +202,7 @@ void VonBertalanffy::DoAgeToLengthConversion(partition::Category* category, cons
     unsigned age = category->min_age_ + i;
 
     Double mu= category->mean_length_per_[age];
-
-    //for( unsigned k = 0; k < cvs_.size(); ++k)
-    //LOG_FINEST() << "age: " << category->min_age_ + k << " cv :"<<  cvs_[category->min_age_  + k];
-
     CummulativeNormal(mu, cvs_[age], age_frequencies, length_bins, distribution_, plus_grp);
-
-    LOG_FINEST() << " mean = " << mu << " cv = " << cvs_[age] << " distribution " << distribution_ << "plus group " << plus_grp;
-
-    for (unsigned j = 0; j < size; ++j) {
-    LOG_FINEST() << "Result " <<  age_frequencies[j];
-    LOG_FINEST() << "Length Bins " <<length_bins[j];
-    }
     category->age_length_matrix_[i].resize(size);
 
     // Loop through the length bins and multiple the partition of the current age to go from
