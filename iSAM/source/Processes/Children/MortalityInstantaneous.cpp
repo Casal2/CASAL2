@@ -40,7 +40,6 @@ MortalityInstantaneous::MortalityInstantaneous() : Process(Model::Instance()) {
   fisheries_table_  = TablePtr(new parameters::Table(PARAM_FISHERIES));
 
   parameters_.Bind<string>(PARAM_CATEGORIES, &category_labels_, "Categories", "");
-  parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "Years to run this process in", "");
   parameters_.BindTable(PARAM_CATCHES, catches_table_, "Table of catch data", "", true, false);
   parameters_.BindTable(PARAM_FISHERIES, fisheries_table_, "Table of fishery data", "", true, false);
   parameters_.Bind<Double>(PARAM_U_MAX, &u_max_, "U Max", "", 0.99)->set_range(0.0, 1.0);
@@ -58,6 +57,25 @@ MortalityInstantaneous::MortalityInstantaneous() : Process(Model::Instance()) {
  * Note: all parameters are populated from configuration files
  */
 void MortalityInstantaneous::DoValidate() {
+  /**
+   * Pull the years from our catches table so we can populate our data
+   */
+  vector<string> columns = catches_table_->columns();
+  unsigned year = 0;
+  for (string column : columns) {
+    if (column == PARAM_FISHERY || column == PARAM_TIME_STEP)
+      continue;
+    if (utilities::To<string, unsigned>(column, year))
+      years_.push_back(year);
+    else
+      LOG_ERROR_P(PARAM_CATCHES) << "column header " << column << " is not a valid numeric that could be converted to a year in the model";
+  }
+  vector<unsigned> model_years = model_->years();
+  for (unsigned year : years_) {
+    if (std::find(model_years.begin(), model_years.end(), year) == model_years.end())
+      LOG_ERROR_P(PARAM_CATCHES) << "year " << year << " was defined in the table, but is not a valid year in the model";
+  }
+
   if (!catches_table_->Populate3D<string, string, unsigned, Double>(PARAM_FISHERY, PARAM_TIME_STEP, years_, catch_table_data_))
     return;
 

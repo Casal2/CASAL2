@@ -184,9 +184,9 @@ TEST_F(InternalEmptyModel, Observation_Process_Proportions_At_Age_Single) {
 
   EXPECT_EQ("male+female",              comparisons[year][3].category_);
   EXPECT_DOUBLE_EQ(0.66300000000000003, comparisons[year][3].error_value_);
-  EXPECT_DOUBLE_EQ(0.019859167514238534,comparisons[year][3].expected_);
+  EXPECT_DOUBLE_EQ(0.019859167514238552,comparisons[year][3].expected_);
   EXPECT_DOUBLE_EQ(0.070999999999999994,comparisons[year][3].observed_);
-  EXPECT_DOUBLE_EQ(2.4051671826084862,  comparisons[year][3].score_);
+  EXPECT_DOUBLE_EQ(2.4051671826084839,  comparisons[year][3].score_);
 
   EXPECT_EQ("male+female",              comparisons[year][4].category_);
   EXPECT_DOUBLE_EQ(0.72399999999999998, comparisons[year][4].error_value_);
@@ -336,13 +336,13 @@ TEST_F(InternalEmptyModel, Observation_Process_Proportions_At_Age_Double) {
   EXPECT_DOUBLE_EQ(1.091,                 comparisons[year][0].error_value_);
   EXPECT_DOUBLE_EQ(0.0041574660970200381, comparisons[year][0].expected_);
   EXPECT_DOUBLE_EQ(0.0173,                comparisons[year][0].observed_);
-  EXPECT_DOUBLE_EQ(1.985697903915,    comparisons[year][0].score_);
+  EXPECT_DOUBLE_EQ(1.9856979039149982,    comparisons[year][0].score_);
 
   EXPECT_EQ("male",                       comparisons[year][1].category_);
   EXPECT_DOUBLE_EQ(0.770,                 comparisons[year][1].error_value_);
-  EXPECT_DOUBLE_EQ(0.0070154811244283631, comparisons[year][1].expected_);
+  EXPECT_DOUBLE_EQ(0.0070154811244283674, comparisons[year][1].expected_);
   EXPECT_DOUBLE_EQ(0.0193,                comparisons[year][1].observed_);
-  EXPECT_DOUBLE_EQ(1.2818097321427808,    comparisons[year][1].score_);
+  EXPECT_DOUBLE_EQ(1.2818097321427793,    comparisons[year][1].score_);
 
   EXPECT_EQ("male",                       comparisons[year][2].category_);
   EXPECT_DOUBLE_EQ(0.539,                 comparisons[year][2].error_value_);
@@ -354,7 +354,7 @@ TEST_F(InternalEmptyModel, Observation_Process_Proportions_At_Age_Double) {
   EXPECT_DOUBLE_EQ(0.421,                 comparisons[year][3].error_value_);
   EXPECT_DOUBLE_EQ(0.018934171455814545,  comparisons[year][3].expected_);
   EXPECT_DOUBLE_EQ(0.0346,                comparisons[year][3].observed_);
-  EXPECT_DOUBLE_EQ(0.52912406930999378,   comparisons[year][3].score_);
+  EXPECT_DOUBLE_EQ(0.52912406930999711,   comparisons[year][3].score_);
 
   EXPECT_EQ("male",                       comparisons[year][4].category_);
   EXPECT_DOUBLE_EQ(0.412,                 comparisons[year][4].error_value_);

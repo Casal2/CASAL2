@@ -255,15 +255,6 @@ void Loader::ParseBlock(vector<FileLine> &block) {
 
     // Load the parameters
     string parameter_type = util::ToLowercase(line_parts[0]);
-    vector<string> values(line_parts.begin() + 1, line_parts.end());
-
-    /**
-     * Re-process the values based on the symbols we support
-     */
-    string error = "";
-    if (parameter_type != PARAM_PARAMETER && !HandleOperators(values, error))
-      LOG_FATAL() << "At line " << file_line.line_number_ << " in " << file_line.file_name_
-          << ": " << error;
 
     /**
      *
@@ -286,23 +277,41 @@ void Loader::ParseBlock(vector<FileLine> &block) {
       current_table_->set_line_number(file_line.line_number_);
 
     } else if (loading_table && loading_columns) {
+            /**
+       * Re-process the values based on the symbols we support
+       */
+      vector<string> values(line_parts.begin(), line_parts.end());
+      string error = "";
+      if (parameter_type != PARAM_PARAMETER && !HandleOperators(values, error))
+        LOG_FATAL() << "At line " << file_line.line_number_ << " in " << file_line.file_name_
+            << ": " << error;
+
       // We're on the line after the table <label> definition where the columns will be
       if (!current_table_)
         LOG_CODE_ERROR() << "!current_table";
 
       if (current_table_->requires_comlums())
-        current_table_->AddColumns(line_parts);
+        current_table_->AddColumns(values);
       else
-        current_table_->AddRow(line_parts);
+        current_table_->AddRow(values);
       loading_columns = false;
 
     } else if (loading_table && parameter_type != PARAM_END_TABLE) {
-      // We're loading a standard row of data for the table
-      if (current_table_->requires_comlums() && line_parts.size() != current_table_->GetColumnCount())
+      /**
+       * Re-process the values based on the symbols we support
+       */
+      vector<string> values(line_parts.begin(), line_parts.end());
+      string error = "";
+      if (parameter_type != PARAM_PARAMETER && !HandleOperators(values, error))
         LOG_FATAL() << "At line " << file_line.line_number_ << " in " << file_line.file_name_
-            << ": Table data does not contain the correct number of columns. Expected (" << current_table_->GetColumnCount() << ") : Actual (" << line_parts.size() << ")";
+            << ": " << error;
 
-      current_table_->AddRow(line_parts);
+      // We're loading a standard row of data for the table
+      if (current_table_->requires_comlums() && values.size() != current_table_->GetColumnCount())
+        LOG_FATAL() << "At line " << file_line.line_number_ << " in " << file_line.file_name_
+            << ": Table data does not contain the correct number of columns. Expected (" << current_table_->GetColumnCount() << ") : Actual (" << values.size() << ")";
+
+      current_table_->AddRow(values);
 
     } else if (loading_table && parameter_type == PARAM_END_TABLE) {
       // We've found the end of our table.
@@ -315,6 +324,15 @@ void Loader::ParseBlock(vector<FileLine> &block) {
       current_table_ = parameters::TablePtr();
 
     } else {
+      /**
+       * Re-process the values based on the symbols we support
+       */
+      vector<string> values(line_parts.begin() + 1, line_parts.end());
+      string error = "";
+      if (parameter_type != PARAM_PARAMETER && !HandleOperators(values, error))
+        LOG_FATAL() << "At line " << file_line.line_number_ << " in " << file_line.file_name_
+            << ": " << error;
+
       // loading a normal parameter
       const ParameterPtr parameter = object->parameters().Get(parameter_type);
       if (!parameter) {
@@ -408,6 +426,7 @@ bool Loader::HandleOperators(vector<string>& line_values, string &error) {
       boost::split(segment_chunks, line_value_segments[i], boost::is_any_of(","));
       for (string chunk : segment_chunks) {
         if (chunk.find(":") != string::npos) {
+          LOG_FINEST() << "Chunk with range operator: " << chunk;
           /**
            * Handle the : range operator. We split the chunk
            * in to 2 pieces and iterate between the two filling
@@ -423,6 +442,7 @@ bool Loader::HandleOperators(vector<string>& line_values, string &error) {
           int start_value;
           int end_value;
           if (util::To<int>(numerics[0], start_value) && util::To<int>(numerics[1], end_value)) {
+            LOG_FINEST() << "Ranging values: " << start_value << " to " << end_value;
             if (start_value < end_value) {
               for (int value = start_value; value <= end_value; ++value)
                 chunks[i].push_back(util::ToInline<int, string>(value));
@@ -430,8 +450,10 @@ bool Loader::HandleOperators(vector<string>& line_values, string &error) {
               for (int value = start_value; value >= end_value; --value)
                 chunks[i].push_back(util::ToInline<int, string>(value));
             }
-          }  else
+          }  else {
+            LOG_FINEST() << "Could not convert either " << numerics[0] << " or " << numerics[1] << " to an int";
             chunks[i].push_back(chunk);
+          }
 
         } else if (chunk.find("*") != string::npos && chunk != "*" && chunk != "*+") {
           /**
