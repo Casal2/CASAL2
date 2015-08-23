@@ -42,6 +42,9 @@ public:
   void                        DoReset() override final { };
   void                        DoExecute() override final;
 
+  // accessors
+  Double                      m(const string& label);
+
 private:
   // members
   vector<string>              category_labels_;
@@ -53,6 +56,7 @@ private:
   map3D<string, unsigned, unsigned, Double> fishery_by_time_step_by_year_with_catch_;
   map2D<string, string, string>             fishery_table_data_;
   map2D<string, string, SelectivityPtr>     fishery_by_category_with_selectivity_;
+  Double                                    current_m_ = 0.0;
   // members from mortality event
   Double                                    u_max_;
   string                                    penalty_name_;

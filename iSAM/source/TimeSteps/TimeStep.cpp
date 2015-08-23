@@ -132,17 +132,36 @@ void TimeStep::SubscribeToBlock(ExecutorPtr executor) {
 /**
  *
  */
-void TimeStep::SubscribeToProcess(ExecutorPtr executor, unsigned year, string process_label) {
+ProcessPtr TimeStep::SubscribeToProcess(ExecutorPtr executor, unsigned year, string process_label) {
   LOG_TRACE();
 
   for (unsigned i = 0; i < processes_.size(); ++i) {
     if (processes_[i]->label() == process_label) {
       process_executors_[year][i].push_back(executor);
-      return;
+      return processes_[i];
     }
   }
 
   LOG_FATAL() << executor->location() << "the process could not be found in the time step " << label_;
+  return ProcessPtr();
+}
+
+/**
+ *
+ */
+ProcessPtr TimeStep::SubscribeToProcess(ExecutorPtr executor, const vector<unsigned>& years, string process_label) {
+  LOG_TRACE();
+
+  for (unsigned i = 0; i < processes_.size(); ++i) {
+    if (processes_[i]->label() == process_label) {
+      for (unsigned year : years)
+        process_executors_[year][i].push_back(executor);
+      return processes_[i];
+    }
+  }
+
+  LOG_FATAL() << executor->location() << "the process could not be found in the time step " << label_;
+  return ProcessPtr();
 }
 
 /**

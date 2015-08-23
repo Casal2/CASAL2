@@ -280,5 +280,19 @@ void MortalityInstantaneous::DoExecute() {
   }
 }
 
+/**
+ *
+ */
+Double MortalityInstantaneous::m(const string& label) {
+  unsigned i = 0;
+  for (auto categories : partition_) {
+    if (categories->name_ == label)
+      return m_[i];
+    ++i;
+  }
+
+  return 0.0;
+}
+
 } /* namespace processes */
 } /* namespace niwa */
