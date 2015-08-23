@@ -256,6 +256,13 @@ void ProportionsAtAge::Execute() {
         if ((*category_iter)->min_age_ + data_offset > max_age_ && !age_plus_)
           break;
 
+        /**
+         * Check if we're attached to a mortality instantaneous process and do stuff
+         */
+        if (mortality_instantaneous_) {
+          LOG_FATAL() << "Why not Zoidberg? of course m is " << mortality_instantaneous_->m((*category_iter)->name_);
+        }
+
         unsigned age_offset = ( (*category_iter)->min_age_ + data_offset) - min_age_;
         unsigned age        = ( (*category_iter)->min_age_ + data_offset);
         if (min_age_ + age_offset > max_age_)

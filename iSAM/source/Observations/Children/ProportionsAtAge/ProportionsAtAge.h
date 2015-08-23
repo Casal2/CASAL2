@@ -21,6 +21,7 @@
 
 #include "Partition/Accessors/CombinedCategories.h"
 #include "Partition/Accessors/Cached/CombinedCategories.h"
+#include "Processes/Children/MortalityInstantaneous.h"
 
 // Namespace
 namespace niwa {
@@ -28,6 +29,7 @@ namespace observations {
 
 using partition::accessors::CombinedCategoriesPtr;
 using partition::accessors::cached::CachedCombinedCategoriesPtr;
+using processes::MortalityInstantaneous;
 
 /**
  * Class Definition
@@ -63,8 +65,9 @@ protected:
   CombinedCategoriesPtr         partition_;
   vector<Double>                age_results_;
 
-  map<unsigned, map<string, vector<Double>>> proportions_;
-  map<unsigned, map<string, vector<Double>>> error_values_;
+  map<unsigned, map<string, vector<Double>>>  proportions_;
+  map<unsigned, map<string, vector<Double>>>  error_values_;
+  std::shared_ptr<MortalityInstantaneous>     mortality_instantaneous_;
 };
 
 } /* namespace observations */
