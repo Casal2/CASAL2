@@ -275,7 +275,7 @@ void MortalityInstantaneous::DoExecute() {
     for (unsigned i = 0; i < categories->data_.size(); ++i) {
       categories->data_[i] *= exp(-m_[m_offset] * ratio) * (1 - category_by_age_with_exploitation[categories->name_][categories->min_age_ + i]);
       if (categories->data_[i] < 0.0)
-        LOG_FATAL() " Fishing caused a negative partition : if (categories->data_[i] < 0.0)";
+        LOG_FATAL() << " Fishing caused a negative partition : if (categories->data_[i] < 0.0)";
     }
 
     ++m_offset;
@@ -295,6 +295,11 @@ Double MortalityInstantaneous::m(const string& label) {
 
   return 0.0;
 }
+
+Double MortalityInstantaneous::time_step_ratio() {
+    unsigned time_step = model_->managers().time_step().current_time_step();
+    return time_step_ratios_[time_step];
+  }
 
 } /* namespace processes */
 } /* namespace niwa */
