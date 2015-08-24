@@ -273,15 +273,20 @@ void ProportionsAtAge::Execute() {
         end_value     = (*category_iter)->data_[data_offset];
         final_value   = 0.0;
 
-        if (mean_proportion_method_)
+        if (mean_proportion_method_) {
           final_value = start_value + ((end_value - start_value) * proportion_of_time_);
-        else if (mortality_instantaneous_) {
+          expected_values[age_offset] += final_value * selectivity_result;
+        } else if (mortality_instantaneous_) {
           Double M = mortality_instantaneous_->m((*category_iter)->name_);
-          final_value = start_value * exp(- M * 0.5) - end_value * exp(M * 0.5);
-        } else
-          final_value = fabs(start_value - end_value) * proportion_of_time_;
-
+          Double t = mortality_instantaneous_->time_step_ratio();
+          final_value = fabs(start_value * exp(- M * t * 0.5) - end_value * exp(M * t * 0.5));
+          expected_values[age_offset] += final_value;
+          LOG_FINEST() << " m = " << M * t;
+        } else {
+          final_value = fabs(start_value - end_value);
         expected_values[age_offset] += final_value * selectivity_result;
+        }
+        //expected_values[age_offset] += final_value; //* selectivity_result;
 
         LOG_FINE() << "----------";
         LOG_FINE() << "Category: " << (*category_iter)->name_ << " at age " << age;
