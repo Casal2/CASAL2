@@ -239,7 +239,7 @@ void MortalityInstantaneous::DoExecute() {
       LOG_FINE() << fishery_iter.first << " Highest exploitation rate = " << uobs_f;
 
       if (uobs_f > u_max_) {
-        fishery_exploitation[fishery_iter.first] *= u_max_ / fishery_exploitation[fishery_iter.first];
+        fishery_exploitation[fishery_iter.first] *= u_max_ / uobs_f;
         LOG_FINE() << fishery_iter.first  << " Rescaled exploitation rate = " << fishery_exploitation[fishery_iter.first];
         recalculate_age_exploitation = true;
 
@@ -274,6 +274,8 @@ void MortalityInstantaneous::DoExecute() {
   for (auto categories : partition_) {
     for (unsigned i = 0; i < categories->data_.size(); ++i) {
       categories->data_[i] *= exp(-m_[m_offset] * ratio) * (1 - category_by_age_with_exploitation[categories->name_][categories->min_age_ + i]);
+      if (categories->data_[i] < 0.0)
+        LOG_FATAL() " Fishing caused a negative partition : if (categories->data_[i] < 0.0)";
     }
 
     ++m_offset;
