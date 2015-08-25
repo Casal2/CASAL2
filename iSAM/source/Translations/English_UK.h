@@ -252,6 +252,7 @@
 #define PARAM_INITIAL_YEAR                        "initial_year"
 #define PARAM_INITIALISATION                      "initialisation"
 #define PARAM_INITIALISATION_TIME_STEPS           "initialisation_time_steps"
+#define PARAM_INITIALISATION_PARTITION            "initialisation_partition"
 #define PARAM_INITIALISATION_PHASE                "initialisation_phase"
 #define PARAM_INITIALISATION_PHASES               "initialisation_phases"
 #define PARAM_INSERT_PROCESSES                    "insert_processes"

@@ -20,6 +20,7 @@
 #include "Reports/Children/Estimable.h"
 #include "Reports/Children/EstimateSummary.h"
 #include "Reports/Children/EstimateValue.h"
+#include "Reports/Children/InitialisationPartition.h"
 #include "Reports/Children/MCMCChain.h"
 #include "Reports/Children/ObjectiveFunction.h"
 #include "Reports/Children/Observation.h"
@@ -58,6 +59,8 @@ ReportPtr Factory::Create(const string& object_type, const string& sub_type) {
       result = ReportPtr(new EstimateSummary());
     else if (sub_type == PARAM_ESTIMATE_VALUE)
       result = ReportPtr(new EstimateValue());
+    else if (sub_type == PARAM_INITIALISATION_PARTITION)
+      result = ReportPtr(new InitialisationPartition());
     else if (sub_type == PARAM_MCMC_CHAIN)
       result = ReportPtr(new MCMCChain());
     else if (sub_type == PARAM_PARTITION)
