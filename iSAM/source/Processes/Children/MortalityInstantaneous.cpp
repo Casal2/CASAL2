@@ -203,7 +203,7 @@ void MortalityInstantaneous::DoExecute() {
     /**
      * Work out the exploitation rate to remove (catch/vulnerable)
      */
-    map<string, Double> fishery_exploitation;
+    fishery_exploitation.clear();
     for (auto fishery_iter : fishery_by_time_step_by_year_with_catch_) {
       if (fishery_iter.second.find(time_step) != fishery_iter.second.end()) {
         Double exploitation = fishery_iter.second[time_step][model_->current_year()] / utilities::doublecompare::ZeroFun(fishery_vulnerability[fishery_iter.first]);
@@ -300,6 +300,15 @@ Double MortalityInstantaneous::time_step_ratio() {
     unsigned time_step = model_->managers().time_step().current_time_step();
     return time_step_ratios_[time_step];
   }
+
+Double MortalityInstantaneous::fishery_exploitation_fraction(const string& fishery_label, const string& category_label, unsigned age) {
+  Double running_total = 0;
+    for (auto fishery_iter : fishery_by_category_with_selectivity_) {
+      if (fishery_iter.second.find(category_label) != fishery_iter.second.end())
+        running_total += fishery_exploitation[fishery_iter.first] * fishery_by_category_with_selectivity_[fishery_iter.first][category_label]->GetResult(age);
+  }
+    return (fishery_exploitation[fishery_label] * fishery_by_category_with_selectivity_[fishery_label][category_label]->GetResult(age) / running_total);
+}
 
 } /* namespace processes */
 } /* namespace niwa */

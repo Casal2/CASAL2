@@ -17,6 +17,7 @@
 #include "Observations/Children/ProcessAbundance.h"
 #include "Observations/Children/ProcessBiomass.h"
 #include "Observations/Children/ProcessProportionsAtAge.h"
+#include "Observations/Children/ProcessProportionsAtAgeForFishery.h"
 #include "Observations/Children/ProcessProportionsAtLength.h"
 #include "Observations/Children/ProcessProportionsByCategory.h"
 #include "Observations/Children/TimeStepAbundance.h"
@@ -55,6 +56,8 @@ ObservationPtr Factory::Create(const string& object_type, const string& sub_type
       result = ObservationPtr(new TimeStepProportionsAtLength());
     else if (sub_type == PARAM_PROCESS_PROPORTIONS_AT_AGE)
       result = ObservationPtr(new ProcessProportionsAtAge());
+    else if (sub_type == PARAM_PROCESS_PROPORTIONS_AT_AGE_FOR_FISHERY)
+      result = ObservationPtr(new ProcessProportionsAtAgeForFishery());
     else if (sub_type == PARAM_PROCESS_PROPORTIONS_AT_LENGTH)
       result = ObservationPtr(new ProcessProportionsAtLength());
     else if (sub_type == PARAM_PROCESS_PROPORTIONS_BY_CATEGORY)

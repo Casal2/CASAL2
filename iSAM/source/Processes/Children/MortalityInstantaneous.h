@@ -45,6 +45,7 @@ public:
   // accessors
   Double                      m(const string& label);
   Double                      time_step_ratio();
+  Double                      fishery_exploitation_fraction(const string& fishery_label, const string& category_label, unsigned age);
 
 private:
   // members
@@ -58,6 +59,7 @@ private:
   map2D<string, string, string>             fishery_table_data_;
   map2D<string, string, SelectivityPtr>     fishery_by_category_with_selectivity_;
   Double                                    current_m_ = 0.0;
+  map<string, Double>                       fishery_exploitation;
   // members from mortality event
   Double                                    u_max_;
   string                                    penalty_name_;
