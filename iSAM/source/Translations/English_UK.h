@@ -366,6 +366,7 @@
 #define PARAM_PROCESS_ABUNDANCE                   "process_abundance"
 #define PARAM_PROCESS_BIOMASS                     "process_biomass"
 #define PARAM_PROCESS_PROPORTIONS_AT_AGE          "process_proportions_at_age"
+#define PARAM_PROCESS_PROPORTIONS_AT_AGE_FOR_FISHERY "process_proportions_at_age_for_fishery"
 #define PARAM_PROCESS_PROPORTIONS_AT_LENGTH       "process_proportions_at_length"
 #define PARAM_PROCESS_PROPORTIONS_BY_CATEGORY     "process_proportions_by_category"
 #define PARAM_PROJECTION_FINAL_YEAR               "projection_final_year"
