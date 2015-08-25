@@ -566,6 +566,7 @@ void Model::RunSimulation() {
     current_year_ = start_year_;
     initialisationphases::Manager& init_phase_manager = initialisationphases::Manager::Instance();
     init_phase_manager.Execute();
+    reports::Manager::Instance().Execute(State::kInitialise);
 
     state_ = State::kExecute;
     timesteps::Manager& time_step_manager = timesteps::Manager::Instance();
@@ -596,6 +597,7 @@ void Model::RunProjection() {
   current_year_ = start_year_;
   initialisationphases::Manager& init_phase_manager = initialisationphases::Manager::Instance();
   init_phase_manager.Execute();
+  reports::Manager::Instance().Execute(State::kInitialise);
 
   state_ = State::kExecute;
   timesteps::Manager& time_step_manager = timesteps::Manager::Instance();
@@ -634,6 +636,7 @@ void Model::Iterate() {
   current_year_ = start_year_;
   initialisationphases::Manager& init_phase_manager = initialisationphases::Manager::Instance();
   init_phase_manager.Execute();
+  reports::Manager::Instance().Execute(State::kInitialise);
 
   state_ = State::kExecute;
   timesteps::Manager& time_step_manager = timesteps::Manager::Instance();
