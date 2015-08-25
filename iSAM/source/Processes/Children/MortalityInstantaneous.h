@@ -44,6 +44,7 @@ public:
 
   // accessors
   Double                      m(const string& label);
+  Double                      time_step_ratio();
 
 private:
   // members
