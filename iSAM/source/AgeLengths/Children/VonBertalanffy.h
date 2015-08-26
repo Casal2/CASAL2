@@ -33,21 +33,16 @@ public:
   void                        DoBuild() override final;
   void                        DoReset() override final { };
   void                        BuildCV(unsigned year) override final;
-  void                        DoAgeToLengthConversion(partition::Category* category, const vector<Double>& length_bins, bool plus_grp, SelectivityPtr selectivity) override final;
 
   // accessors
   Double                      mean_length(unsigned year, unsigned age) override final;
   Double                      mean_weight(unsigned year, unsigned age) override final;
 
 protected:
-  // methods
-  void                        CummulativeNormal(Double mu, Double cv, vector<Double>& prop_in_length, vector<Double> length_bins, string distribution, bool plus_grp);
-
   // members
   Double                      linf_;
   Double                      k_;
   Double                      t0_;
-  string                      distribution_;
   bool                        by_length_;
   string                      length_weight_label_;
   LengthWeightPtr             length_weight_;

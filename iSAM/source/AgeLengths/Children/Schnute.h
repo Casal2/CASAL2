@@ -32,7 +32,6 @@ public:
   void                        DoBuild() override final;
   void                        DoReset() override final { };
   void                        BuildCV(unsigned year) override final;
-  void                        DoAgeToLengthConversion(partition::Category* category, const vector<Double>& length_bins, bool plus_grp, SelectivityPtr selectivity) override final { };
 
   // accessors
   Double                      mean_length(unsigned year, unsigned age) override final;
@@ -46,7 +45,6 @@ protected:
   Double                      tau2_;
   Double                      a_;
   Double                      b_;
-  string                      distribution_;
   bool                        by_length_;
   string                      length_weight_label_;
   LengthWeightPtr             length_weight_;

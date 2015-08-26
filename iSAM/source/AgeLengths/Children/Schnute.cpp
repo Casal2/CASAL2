@@ -45,7 +45,6 @@ Schnute::Schnute(ModelPtr model) : AgeLength(model) {
   parameters_.Bind<string>(PARAM_LENGTH_WEIGHT, &length_weight_label_, "TBA", "");
   parameters_.Bind<Double>(PARAM_CV_FIRST, &cv_first_ , "CV for the first age class", "",Double(0.0))->set_lower_bound(0.0);
   parameters_.Bind<Double>(PARAM_CV_LAST, &cv_last_ , "CV for maximum age", "",Double(0.0))->set_lower_bound(0.0);
-  parameters_.Bind<string>(PARAM_DISTRIBUTION, &distribution_, "TBA", "", PARAM_NORMAL);
   parameters_.Bind<bool>(PARAM_BY_LENGTH, &by_length_, "TBA", "", true);
 
   RegisterAsEstimable(PARAM_Y1, &y1_);
