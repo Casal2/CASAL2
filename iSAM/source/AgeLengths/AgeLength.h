@@ -33,9 +33,9 @@ public:
   void                        Validate();
   void                        Build();
   void                        Reset() { DoReset(); };
-  virtual void                BuildCV(unsigned year) = 0;
-  virtual void                DoAgeToLengthConversion(partition::Category* category,
-                                const vector<Double>& length_bins, bool plus_grp, SelectivityPtr selectivity) = 0;
+  virtual void                BuildCV(unsigned year);
+  void                        DoAgeToLengthConversion(partition::Category* category,
+                                const vector<Double>& length_bins, bool plus_grp, SelectivityPtr selectivity);
 
   // accessors
   virtual Double              mean_length(unsigned year, unsigned age) = 0;
@@ -44,6 +44,9 @@ public:
 
 protected:
   // methods
+  void                        CummulativeNormal(Double mu, Double cv, vector<Double>& prop_in_length,
+                                vector<Double> length_bins, string distribution, bool plus_grp);
+
   virtual void                DoValidate() = 0;
   virtual void                DoBuild() = 0;
   virtual void                DoReset() = 0;
@@ -54,6 +57,7 @@ protected:
   map<unsigned, Double>       cvs_;
   Double                      cv_first_ = 0.0;
   Double                      cv_last_ = 0.0;
+  string                      distribution_;
 };
 
 // typedef

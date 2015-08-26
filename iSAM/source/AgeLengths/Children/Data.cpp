@@ -41,10 +41,9 @@ Data::Data(ModelPtr model) : AgeLength(model) {
   parameters_.Bind<string>(PARAM_LENGTH_WEIGHT, &length_weight_label_, "TBA", "");
   parameters_.Bind<Double>(PARAM_CV_FIRST, &cv_first_ , "CV for the first age class", "",Double(0.0))->set_lower_bound(0.0);
   parameters_.Bind<Double>(PARAM_CV_LAST, &cv_last_ , "CV for maximum age", "",Double(0.0))->set_lower_bound(0.0);
-  parameters_.Bind<string>(PARAM_DISTRIBUTION, &distribution_, "TBA", "", PARAM_NORMAL);
 }
 
-/**
+/**@jigg
  * Build any objects that will need to be utilised by this object.
  * Obtain smart_pointers to any objects that will be used by this object.
  */
@@ -240,29 +239,6 @@ Double Data::mean_length(unsigned year, unsigned age) {
   Double proportion = time_step_proportions_[model_->managers().time_step().current_time_step()];
   current_value += (next_age - current_value) * proportion;
   return current_value;
-}
-
-/**
- * Create look up vector of CV's that gets feed into mean_weight
- * And Age Length Key.
- * if cv_last_ and cv_first_ are time varying then this should be built every year
- * also if by_length_ is called, it will be time varying because it calls mean_weight which has time_varying
- * parameters. Otherwise it only needs to be built once a model run I believe
- */
-void Data::BuildCV(unsigned year) {
-  unsigned min_age = model_->min_age();
-  unsigned max_age = model_->max_age();
-
-  if (cv_last_==0) { // A test that is robust... If cv_last_ is not in the input then assume cv_first_ represents the cv for all age classes i.e constant cv
-    for (unsigned i = min_age; i <= max_age; ++i)
-      cvs_[i]= (cv_first_);
-    } else {
-    // else Do linear interpolation between cv_first_ and cv_last_ based on age class
-    for (unsigned i = min_age; i <= max_age; ++i) {
-      cvs_[i]= (cv_first_ + (cv_last_ - cv_first_) * (i - min_age) / (max_age - min_age));
-    }
-  }
-
 }
 
 /**

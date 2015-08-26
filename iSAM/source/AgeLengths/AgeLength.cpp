@@ -9,8 +9,13 @@
  *
  */
 
+// defines
+#define _USE_MATH_DEFINES
+
 // headers
 #include "AgeLength.h"
+
+#include <cmath>
 
 #include "Model/Managers.h"
 #include "Utilities/Map.h"
@@ -32,6 +37,7 @@ AgeLength::AgeLength(ModelPtr model) : model_(model) {
   parameters_.Bind<string>(PARAM_LABEL, &label_, "Label", "");
   parameters_.Bind<string>(PARAM_TYPE, &type_, "Type", "");
   parameters_.Bind<Double>(PARAM_TIME_STEP_PROPORTIONS, &time_step_proportions_, "", "", true);
+  parameters_.Bind<string>(PARAM_DISTRIBUTION, &distribution_, "TBA", "", PARAM_NORMAL);
 }
 
 /**
@@ -65,6 +71,118 @@ void AgeLength::Build() {
   }
 
   DoBuild();
+}
+
+/**
+ * Create look up vector of CV's that gets feed into mean_weight
+ * And Age Length Key.
+ * if cv_last_ and cv_first_ are time varying then this should be built every year
+ * also if by_length_ is called, it will be time varying because it calls mean_weight which has time_varying
+ * parameters. Otherwise it only needs to be built once a model run I believe
+ */
+void AgeLength::BuildCV(unsigned year) {
+  unsigned min_age = model_->min_age();
+  unsigned max_age = model_->max_age();
+
+  if (cv_last_==0) { // A test that is robust... If cv_last_ is not in the input then assume cv_first_ represents the cv for all age classes i.e constant cv
+    for (unsigned i = min_age; i <= max_age; ++i)
+      cvs_[i]= (cv_first_);
+    } else {
+    // else Do linear interpolation between cv_first_ and cv_last_ based on age class
+    for (unsigned i = min_age; i <= max_age; ++i) {
+      cvs_[i]= (cv_first_ + (cv_last_ - cv_first_) * (i - min_age) / (max_age - min_age));
+    }
+  }
+
+}
+
+/**
+ *
+ */
+void AgeLength::CummulativeNormal(Double mu, Double cv, vector<Double>& prop_in_length, vector<Double> length_bins, string distribution, bool plus_grp) {
+  // est proportion of age class that are in each length interval
+
+  Double sigma = cv * mu;
+
+  if (distribution == "lognormal") {
+    // Transform parameters in to log space
+    Double cv_temp = sigma / mu;
+    Double Lvar = log(cv_temp * cv_temp + 1.0);
+    mu = log(mu) - Lvar / 2.0;
+    sigma = sqrt(Lvar);
+
+    for (Double& value : length_bins) {
+      if (value < 0.0001)
+        value = log(0.0001);
+      else
+        value = log(value);
+    }
+  }
+
+  Double z, tt, norm, ttt, tmp;
+  Double sum = 0;
+  vector<Double> cum;
+
+  std::vector<int>::size_type sz = length_bins.size();
+  prop_in_length.resize(sz);
+
+  for (unsigned j = 0; j < sz; ++j) {
+    z = fabs((length_bins[j] - mu)) / sigma;
+    tt = 1.0 / (1.0 + 0.2316419 * z);
+    norm = 1.0 / sqrt(2.0 * M_PI) * exp(-0.5 * z * z);
+    ttt = tt;
+    tmp = 0.319381530 * ttt;
+    ttt = ttt * tt;
+    tmp = tmp - 0.356563782 * ttt;          // tt^2
+    ttt = ttt * tt;
+    tmp = tmp + 1.781477937 * ttt;       // tt^3
+    ttt = ttt * tt;
+    tmp = tmp - 1.821255978 * ttt;        // tt^4
+    ttt = ttt * tt;
+    tmp = tmp + 1.330274429 * ttt;      // tt^5
+
+    cum.push_back(1.0 - norm * tmp);
+    if (length_bins[j] < mu) {
+      cum[j] = 1.0 - cum[j];
+    }
+    if (j > 0) {
+      prop_in_length[j - 1] = cum[j] - cum[j - 1];
+      sum += prop_in_length[j - 1];
+    }
+  }
+  if (plus_grp) {
+    prop_in_length[sz - 1] = 1.0 - sum - cum[0];
+  } else
+    prop_in_length.resize(sz - 1);
+}
+
+/**
+ * Do the conversion of the partition structure from age to length
+ *
+ * @param category The current category to convert
+ * @param length_bins vector of the length bins to map too
+ */
+void AgeLength::DoAgeToLengthConversion(partition::Category* category, const vector<Double>& length_bins, bool plus_grp, SelectivityPtr selectivity) {
+  LOG_TRACE();
+  unsigned size = length_bins.size();
+  if (!plus_grp)
+    size = length_bins.size() - 1;
+
+  category->age_length_matrix_.resize(category->data_.size());
+  for (unsigned i = 0; i < category->data_.size(); ++i) {
+    vector<Double> age_frequencies;
+    unsigned age = category->min_age_ + i;
+
+    Double mu= category->mean_length_per_[age];
+    CummulativeNormal(mu, cvs_[age], age_frequencies, length_bins, distribution_, plus_grp);
+    category->age_length_matrix_[i].resize(size);
+
+    // Loop through the length bins and multiple the partition of the current age to go from
+    // length frequencies to age length numbers
+    for (unsigned j = 0; j < size; ++j) {
+      category->age_length_matrix_[i][j] = selectivity->GetResult(age) * category->data_[i] * age_frequencies[j];
+    }
+  }
 }
 
 } /* namespace niwa */

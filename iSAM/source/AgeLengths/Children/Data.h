@@ -35,8 +35,6 @@ public:
   void                        DoReset() override final {};
   Double                      mean_length(unsigned year, unsigned age) override final;
   Double                      mean_weight(unsigned year, unsigned age) override final;
-  void                        BuildCV(unsigned year) override final;
-  void                        DoAgeToLengthConversion(partition::Category* category, const vector<Double>& length_bins, bool plus_grp, SelectivityPtr selectivity) override final { };
 
 private:
   // methods
@@ -49,7 +47,6 @@ private:
   string                        internal_gaps_;
   map<unsigned, vector<Double>> data_by_year_;
   vector<Double>                means_;
-  string                        distribution_;
   string                        length_weight_label_;
   LengthWeightPtr               length_weight_;
 };
