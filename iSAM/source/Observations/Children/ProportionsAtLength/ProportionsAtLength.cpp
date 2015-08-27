@@ -262,11 +262,13 @@ void ProportionsAtLength::Execute() {
       (*category_iter)->UpdateAgeLengthData(length_bins_, length_plus_, selectivities_[category_offset]);
       (*cached_category_iter).CollapseAgeLengthDataToLength();
       (*category_iter)->CollapseAgeLengthDataToLength();
+      for (unsigned j = 0; j < (*category_iter)->length_data_.size(); ++j)
+      LOG_FINEST() << "Numbers at length for bin " << length_bins_[j] << " is " << (*category_iter)->length_data_[j];
 
       for (unsigned length_offset = 0; length_offset < (*category_iter)->length_data_.size(); ++length_offset) {
        // now for each column (length bin) in age_length_matrix sum up all the rows (ages) for both cached and current matricies
-        start_value += (*cached_category_iter).length_data_[length_offset];
-        end_value += (*category_iter)->length_data_[length_offset];
+        start_value = (*cached_category_iter).length_data_[length_offset];
+        end_value = (*category_iter)->length_data_[length_offset];
         final_value   = 0.0;
 
         if (mean_proportion_method_)
@@ -275,6 +277,7 @@ void ProportionsAtLength::Execute() {
           final_value = (1-proportion_of_time_) * start_value + proportion_of_time_ * end_value;
 
         expected_values[length_offset] += final_value;
+
         LOG_FINE() << "----------";
         LOG_FINE() << "Category: " << (*category_iter)->name_ << " at length " << length_bins_[length_offset];
         LOG_FINE() << "Selectivity: " << selectivities_[category_offset]->label();

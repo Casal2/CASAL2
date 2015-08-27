@@ -139,7 +139,7 @@ end_table
 table error_values   
 1992 1.399 0.795 0.764 0.663 0.724 0.735 0.709 0.684 0.673 0.59 0.669 0.878 0.53
 end_table
-time_step_proportion 1.0            
+time_step_proportion 1.0 
 )";
 
 /**

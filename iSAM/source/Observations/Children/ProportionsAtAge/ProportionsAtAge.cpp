@@ -256,12 +256,6 @@ void ProportionsAtAge::Execute() {
         if ((*category_iter)->min_age_ + data_offset > max_age_ && !age_plus_)
           break;
 
-        /**
-         * Check if we're attached to a mortality instantaneous process and do stuff
-         */
-        //if (mortality_instantaneous_) {
-        //  LOG_FATAL() << "Why not Zoidberg? of course m is " << mortality_instantaneous_->m((*category_iter)->name_);
-        //}
 
         unsigned age_offset = ( (*category_iter)->min_age_ + data_offset) - min_age_;
         unsigned age        = ( (*category_iter)->min_age_ + data_offset);
@@ -276,12 +270,6 @@ void ProportionsAtAge::Execute() {
         if (mean_proportion_method_) {
           final_value = start_value + ((end_value - start_value) * proportion_of_time_);
           expected_values[age_offset] += final_value * selectivity_result;
-        } else if (mortality_instantaneous_) {
-          Double M = mortality_instantaneous_->m((*category_iter)->name_);
-          Double t = mortality_instantaneous_->time_step_ratio();
-          final_value = fabs(start_value * exp(- M * t * 0.5) - end_value * exp(M * t * 0.5));
-          expected_values[age_offset] += final_value;
-          LOG_FINEST() << " m = " << M * t;
         } else {
           final_value = fabs(start_value - end_value);
         expected_values[age_offset] += final_value * selectivity_result;

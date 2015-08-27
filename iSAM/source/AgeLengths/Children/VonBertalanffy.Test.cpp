@@ -110,17 +110,17 @@ TEST(AgeLengths, VonBertalanffy_CummulativeNormal_2) {
 
 
 TEST(AgeLengths, VonBertalanffy_CummulativeNormal_3) {
-  Double mu = 21.84162;
+  Double mu = 40.081628;
   Double cv = 0.1;
   vector<Double> vprop_in_length;
-  vector<Double> length_bins = {10, 20, 25, 30};
+  vector<Double> length_bins = {0, 20, 40, 60 , 80, 110};
   string distribution = "normal";
   bool plus_grp = 0;
 
   MockVonBertalanffy von_bertalanffy;
   von_bertalanffy.MockCummulativeNormal(mu, cv, vprop_in_length, length_bins, distribution,  plus_grp);
 
-  vector<Double> expected = {0.19956658777057745, 0.7263499887051611,0.073989599423212926};
+  vector<Double> expected = {2.7232626398365767e-007, 0.49187561267029634, 0.50812377877585069, 3.3622758899287675e-007,0};
 
   ASSERT_EQ(expected.size(), vprop_in_length.size());
   for (unsigned i = 0; i < expected.size(); ++i) {
@@ -167,9 +167,9 @@ TEST(AgeLengths, VonBertalanffy_DoAgeLengthConversion) {
   male->mean_length_per_[9] = 27.96531;
   male->mean_length_per_[10] = 29.37047;
 
-  MockVonBertalanffy von_bertalanffy(model, 70, 0.034, -6, false, 0.1, 0.1, {1.0});
+  MockVonBertalanffy von_bertalanffy(model, 70, 0.034, -6, false, 0.1, 0.1, {0.0});
   ASSERT_NO_THROW(von_bertalanffy.BuildCV(1999));
-  von_bertalanffy.DoAgeToLengthConversion(male.get(), {10, 20, 25, 30}, false, logistic);
+  von_bertalanffy.DoAgeToLengthConversion(male.get(), {0, 10, 20, 25, 30}, false, logistic);
 
   // Check that the CV is being built appropriately and that the mean is stored correctly
   EXPECT_DOUBLE_EQ(0.1, von_bertalanffy.cv(5));
@@ -179,16 +179,16 @@ TEST(AgeLengths, VonBertalanffy_DoAgeLengthConversion) {
   EXPECT_DOUBLE_EQ(29.37047, male->mean_length_per_[10]);
 
   //Run through length for the min and max age
-  vector<Double> expec1 = {5.4401509671141266, 19.80017616005102, 2.016943794826572};
-  vector<Double> expec2 = {0.20879661176386954, 13.517948004834885, 59.096798632366863};
+  vector<Double> expec1 = {8.0702029084675753e-007, 5.4401509671141266, 19.80017616005102, 2.016943794826572};
+  vector<Double> expec2 = {6.3289251617248965e-009, 0.20879661176386954, 13.517948004834885, 59.096798632366863};
 
   // min age age =5
   unsigned age_index = 0;
-  for(unsigned bin = 0; bin < 3; ++bin)
+  for(unsigned bin = 0; bin < 4; ++bin)
   EXPECT_DOUBLE_EQ(expec1[bin], male->age_length_matrix_[age_index][bin]) << " where age = " << (male->min_age_ + age_index) << " where class_bin = " << bin;
   // age = 9
   age_index = 4;
-  for(unsigned bin = 0; bin < 3; ++bin)
+  for(unsigned bin = 0; bin < 4; ++bin)
   EXPECT_DOUBLE_EQ(expec2[bin], male->age_length_matrix_[age_index][bin]) << " where age = " << (male->min_age_ + age_index) << " where class_bin = " << bin;
 }
 
@@ -251,6 +251,7 @@ TEST(AgeLengths, VonBertalanffy_DoAgeLengthConversion_plusGrp) {
    for(unsigned bin = 0; bin <= 4; ++bin)
    EXPECT_DOUBLE_EQ(expec2[bin], male->age_length_matrix_[age_index][bin]) << " where age = " << (male->min_age_ + age_index) << " where class_bin = " << bin;
 }
+
 
 } /* namespace agelength */
 } /* namespace niwa */

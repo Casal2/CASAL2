@@ -48,6 +48,9 @@ void ProcessProportionsAtAgeForFishery::DoBuild() {
     ProcessPtr process = time_step->SubscribeToProcess(shared_ptr(), years_, process_label_);
     mortality_instantaneous_ = std::dynamic_pointer_cast<processes::MortalityInstantaneous>(process);
   }
+
+  if (!mortality_instantaneous_)
+    LOG_ERROR_P(PARAM_PROCESS) << "This observation can only be used for Process of type = " << PARAM_MORTALITY_INSTANTANEOUS;
 }
 
 } /* namespace observations */

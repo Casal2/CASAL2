@@ -128,6 +128,8 @@ void AgeLength::CummulativeNormal(Double mu, Double cv, vector<Double>& prop_in_
 
   for (unsigned j = 0; j < sz; ++j) {
     z = fabs((length_bins[j] - mu)) / sigma;
+    //cum.push_back(1.0 - 0.5 * pow((1.0 + 0.196854 * z + 0.115194 * z * z + 0.000344 * z * z * z + 0.019527 * z * z * z * z),-4));
+
     tt = 1.0 / (1.0 + 0.2316419 * z);
     norm = 1.0 / sqrt(2.0 * M_PI) * exp(-0.5 * z * z);
     ttt = tt;
@@ -181,6 +183,8 @@ void AgeLength::DoAgeToLengthConversion(partition::Category* category, const vec
     // length frequencies to age length numbers
     for (unsigned j = 0; j < size; ++j) {
       category->age_length_matrix_[i][j] = selectivity->GetResult(age) * category->data_[i] * age_frequencies[j];
+      LOG_FINEST() << " Selectivity for age: " << age << " = " << selectivity->GetResult(age) << " With numbers at age = " << category->data_[i] << " probability for bin " << length_bins[j] << " = " <<  age_frequencies[j];
+      LOG_FINEST() << " When all the above multiplied we get " << category->age_length_matrix_[i][j];
     }
   }
 }
