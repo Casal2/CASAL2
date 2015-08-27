@@ -46,6 +46,7 @@ public:
   Double                      m(const string& label);
   Double                      time_step_ratio();
   Double                      fishery_exploitation_fraction(const string& fishery_label, const string& category_label, unsigned age);
+  bool                        validate_fishery_category(const string& fishery_label, const string& category_label);
 
 private:
   // members

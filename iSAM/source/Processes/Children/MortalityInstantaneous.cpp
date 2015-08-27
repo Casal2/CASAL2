@@ -310,5 +310,16 @@ Double MortalityInstantaneous::fishery_exploitation_fraction(const string& fishe
     return (fishery_exploitation[fishery_label] * fishery_by_category_with_selectivity_[fishery_label][category_label]->GetResult(age) / running_total);
 }
 
+bool MortalityInstantaneous::validate_fishery_category(const string& fishery_label, const string& category_label) {
+  for (auto fishery_iter : fishery_by_category_with_selectivity_) {
+    if (fishery_iter.second.find(category_label) != fishery_iter.second.end()) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+  return false;
+}
+
 } /* namespace processes */
 } /* namespace niwa */

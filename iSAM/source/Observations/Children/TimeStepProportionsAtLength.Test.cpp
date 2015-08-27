@@ -1,8 +1,7 @@
 /**
- * @file ProcessProportionsAtLength.Test.cpp
- * @author C Marsh
- * @github https://github.com/Zaita
- * @date 14/08/2015
+ * @file ProportionsAtAge.Test.cpp
+ * @author  Scott Rasmussen (scott.rasmussen@zaita.com)
+ * @date 11/03/2014
  * @section LICENSE
  *
  * Copyright NIWA Science ©2014 - www.niwa.co.nz
@@ -11,7 +10,7 @@
 #ifdef TESTMODE
 
 // Headers
-#include "TimeStepProportionsAtLength.h"
+#include "TimeStepProportionsAtAge.h"
 
 #include <iostream>
 
@@ -78,7 +77,6 @@ ssb_offset 1
 
 @process Ageing
 type ageing
-#time_step_proportions 1
 categories stock
 
 
@@ -110,7 +108,7 @@ selectivities MaturationSel
 
 
 
-# SELECTIVITIES
+
 @selectivity One
 type constant
 c 1
@@ -166,7 +164,7 @@ a 2.0e-6
 b 3.288
 
 
-@observation chatOBSwst 
+@observation observation
 type proportions_at_length
 years 1990 1992 1993 1994 1995 
 likelihood multinomial
@@ -190,59 +188,59 @@ table error_values
 1993 31
 1994 34
 1995 22
-end_table         
+end_table    
 )";
 
 /**
  *
  */
-TEST_F(InternalEmptyModel, Observation_Process_Proportions_At_Length_Single) {
-//  AddConfigurationLine(test_cases_observation_proportions_at_length_single, __FILE__, 31);
-//  LoadConfiguration();
-//
-//  ModelPtr model = Model::Instance();
-//  model->Start(RunMode::kBasic);
-//
-//  ObjectiveFunction& obj_function = ObjectiveFunction::Instance();
-//  EXPECT_DOUBLE_EQ(312.922, obj_function.score());
-//
-//  ObservationPtr observation = observations::Manager::Instance().GetObservation("observation");
-//
-//  map<unsigned, vector<obs::Comparison> >& comparisons = observation->comparisons();
-//  ASSERT_EQ(1u, comparisons.size());
-//
-//  unsigned year = 1992;
-//  ASSERT_FALSE(comparisons.find(year) == comparisons.end());
-//  ASSERT_EQ(13u, comparisons[year].size());
-//  EXPECT_EQ("male+female",                comparisons[year][0].category_);
-//  EXPECT_DOUBLE_EQ(1.399,                 comparisons[year][0].error_value_);
-//  EXPECT_DOUBLE_EQ(0,                     comparisons[year][0].expected_);
-//  EXPECT_DOUBLE_EQ(0.0241,                comparisons[year][0].observed_);
-//  EXPECT_DOUBLE_EQ(240.56840045905705,    comparisons[year][0].score_);
-//
-//  EXPECT_EQ("male+female",                comparisons[year][1].category_);
-//  EXPECT_DOUBLE_EQ(0.79500000000000004,   comparisons[year][1].error_value_);
-//  EXPECT_DOUBLE_EQ(0.0070692498806404821, comparisons[year][1].expected_);
-//  EXPECT_DOUBLE_EQ(0.047300000000000002,  comparisons[year][1].observed_);
-//  EXPECT_DOUBLE_EQ(4.3426966868720482,    comparisons[year][1].score_);
-//
-//  EXPECT_EQ("male+female",                comparisons[year][2].category_);
-//  EXPECT_DOUBLE_EQ(0.76400000000000001,   comparisons[year][2].error_value_);
-//  EXPECT_DOUBLE_EQ(0.011928900863548361,  comparisons[year][2].expected_);
-//  EXPECT_DOUBLE_EQ(0.0448,                comparisons[year][2].observed_);
-//  EXPECT_DOUBLE_EQ(2.2347896916241421,    comparisons[year][2].score_);
-//
-//  EXPECT_EQ("male+female",              comparisons[year][3].category_);
-//  EXPECT_DOUBLE_EQ(0.66300000000000003, comparisons[year][3].error_value_);
-//  EXPECT_DOUBLE_EQ(0.019859167514238552,comparisons[year][3].expected_);
-//  EXPECT_DOUBLE_EQ(0.070999999999999994,comparisons[year][3].observed_);
-//  EXPECT_DOUBLE_EQ(2.4051671826084839,  comparisons[year][3].score_);
-//
-//  EXPECT_EQ("male+female",              comparisons[year][4].category_);
-//  EXPECT_DOUBLE_EQ(0.72399999999999998, comparisons[year][4].error_value_);
-//  EXPECT_DOUBLE_EQ(0.032194345844364598,comparisons[year][4].expected_);
-//  EXPECT_DOUBLE_EQ(0.078,               comparisons[year][4].observed_);
-//  EXPECT_DOUBLE_EQ(0.99214019756872429, comparisons[year][4].score_);
+TEST_F(InternalEmptyModel, Observation_Proportions_At_Length_Single) {
+  AddConfigurationLine(test_cases_observation_proportions_at_length_single, __FILE__, 31);
+  LoadConfiguration();
+
+  ModelPtr model = Model::Instance();
+  model->Start(RunMode::kBasic);
+
+  ObjectiveFunction& obj_function = ObjectiveFunction::Instance();
+  EXPECT_DOUBLE_EQ(312.92195125167586, obj_function.score());
+
+  ObservationPtr observation = observations::Manager::Instance().GetObservation("observation");
+
+  map<unsigned, vector<obs::Comparison> >& comparisons = observation->comparisons();
+  ASSERT_EQ(5u, comparisons.size());
+
+  unsigned year = 1992;
+  ASSERT_FALSE(comparisons.find(year) == comparisons.end());
+  ASSERT_EQ(5u, comparisons[year].size());
+  EXPECT_EQ("stock",                        comparisons[year][0].category_);
+  EXPECT_DOUBLE_EQ(37,                      comparisons[year][0].error_value_);
+  EXPECT_DOUBLE_EQ(1.3049322854316948e-008, comparisons[year][0].expected_);
+  EXPECT_DOUBLE_EQ(0.12,                    comparisons[year][0].observed_);
+  EXPECT_DOUBLE_EQ(58.053573280444361,      comparisons[year][0].score_);
+
+  EXPECT_EQ("stock",                        comparisons[year][1].category_);
+  EXPECT_DOUBLE_EQ(37,                      comparisons[year][1].error_value_);
+  EXPECT_DOUBLE_EQ(0.023617445143820383,    comparisons[year][1].expected_);
+  EXPECT_DOUBLE_EQ(0.25 ,                   comparisons[year][1].observed_);
+  EXPECT_DOUBLE_EQ(48.016392832372198,      comparisons[year][1].score_);
+
+  EXPECT_EQ("stock",                        comparisons[year][2].category_);
+  EXPECT_DOUBLE_EQ(37,                      comparisons[year][2].error_value_);
+  EXPECT_DOUBLE_EQ(0.085102989012712807,    comparisons[year][2].expected_);
+  EXPECT_DOUBLE_EQ(0.28,                    comparisons[year][2].observed_);
+  EXPECT_DOUBLE_EQ(41.483073819928485,      comparisons[year][2].score_);
+
+  EXPECT_EQ("stock",                        comparisons[year][3].category_);
+  EXPECT_DOUBLE_EQ(37,                      comparisons[year][3].error_value_);
+  EXPECT_DOUBLE_EQ(0.59473940098840894,     comparisons[year][3].expected_);
+  EXPECT_DOUBLE_EQ(0.25,                    comparisons[year][3].observed_);
+  EXPECT_DOUBLE_EQ(18.174619217398927,      comparisons[year][3].score_);
+
+  EXPECT_EQ("stock",                        comparisons[year][4].category_);
+  EXPECT_DOUBLE_EQ(37,                      comparisons[year][4].error_value_);
+  EXPECT_DOUBLE_EQ(0.29654015180573506,     comparisons[year][4].expected_);
+  EXPECT_DOUBLE_EQ(0.1,                     comparisons[year][4].observed_);
+  EXPECT_DOUBLE_EQ(7.2340239530511967,      comparisons[year][4].score_);
 }
 
 const std::string test_cases_observation_proportions_at_length_double =
@@ -266,13 +264,13 @@ years 200
 exclude_processes fishing
 
 @time_step one
-processes halfm fishing
+processes halfm fishing halfm
 
 @time_step two
-processes halfm
+processes recruitment
 
 @time_step three
-processes recruitment ageing
+processes ageing
 
 @derived_quantity ssb
 type biomass
@@ -327,6 +325,7 @@ c 1
 @age_length age_size_male
 type von_bertalanffy
 length_weight [type=none]
+by_length true
 k 0.277
 t0 0.11
 linf 90.3
@@ -334,6 +333,7 @@ linf 90.3
 @age_length age_size_female
 type von_bertalanffy
 length_weight [type=none]
+by_length true
 k 0.202
 t0 -0.20
 linf 113.4
@@ -344,10 +344,9 @@ log_scale True
 multiplier 10
 
 @observation observation
-type process_proportions_at_age
+type proportions_at_age
 likelihood lognormal
 time_step one
-process halfm
 categories male female
 min_age 3
 max_age 15
@@ -359,20 +358,18 @@ end_table
 table error_values
 1992 1.091 0.770 0.539 0.421 0.412 0.297 0.367 0.322 0.391 0.510 0.523 0.734 0.481 0.612 0.643 0.756 0.772 0.399 0.369 0.331 0.306 0.304 0.309 0.461 0.752 0.423
 end_table
+time_step_proportion 1.0         
 )";
 
 /**
  *
  */
-TEST_F(InternalEmptyModel, Observation_Process_Proportions_At_Length_Double) {
+TEST_F(InternalEmptyModel, Observation_Proportions_At_Length_Double) {
 //  AddConfigurationLine(test_cases_observation_proportions_at_length_double, __FILE__, 194);
 //  LoadConfiguration();
 //
 //  ModelPtr model = Model::Instance();
 //  model->Start(RunMode::kBasic);
-//
-//  ObjectiveFunction& obj_function = ObjectiveFunction::Instance();
-//  EXPECT_DOUBLE_EQ(30.135808744378249, obj_function.score());
 //
 //  ObservationPtr observation = observations::Manager::Instance().GetObservation("observation");
 //
@@ -384,33 +381,36 @@ TEST_F(InternalEmptyModel, Observation_Process_Proportions_At_Length_Double) {
 //  ASSERT_EQ(26u, comparisons[year].size());
 //  EXPECT_EQ("male",                       comparisons[year][0].category_);
 //  EXPECT_DOUBLE_EQ(1.091,                 comparisons[year][0].error_value_);
-//  EXPECT_DOUBLE_EQ(0.0041574660970200381, comparisons[year][0].expected_);
+//  EXPECT_DOUBLE_EQ(0.0041584607534975501, comparisons[year][0].expected_);
 //  EXPECT_DOUBLE_EQ(0.0173,                comparisons[year][0].observed_);
-//  EXPECT_DOUBLE_EQ(1.9856979039149982,    comparisons[year][0].score_);
+//  EXPECT_DOUBLE_EQ(1.9851433023156135,    comparisons[year][0].score_);
 //
 //  EXPECT_EQ("male",                       comparisons[year][1].category_);
 //  EXPECT_DOUBLE_EQ(0.770,                 comparisons[year][1].error_value_);
-//  EXPECT_DOUBLE_EQ(0.0070154811244283674, comparisons[year][1].expected_);
+//  EXPECT_DOUBLE_EQ(0.0070171259680794212, comparisons[year][1].expected_);
 //  EXPECT_DOUBLE_EQ(0.0193,                comparisons[year][1].observed_);
-//  EXPECT_DOUBLE_EQ(1.2818097321427793,    comparisons[year][1].score_);
+//  EXPECT_DOUBLE_EQ(1.2811829881419403,    comparisons[year][1].score_);
 //
 //  EXPECT_EQ("male",                       comparisons[year][2].category_);
 //  EXPECT_DOUBLE_EQ(0.539,                 comparisons[year][2].error_value_);
-//  EXPECT_DOUBLE_EQ(0.011679422618522223,  comparisons[year][2].expected_);
+//  EXPECT_DOUBLE_EQ(0.011682048742702372,  comparisons[year][2].expected_);
 //  EXPECT_DOUBLE_EQ(0.0241,                comparisons[year][2].observed_);
-//  EXPECT_DOUBLE_EQ(0.73961575691950443,   comparisons[year][2].score_);
+//  EXPECT_DOUBLE_EQ(0.73886489332777494,   comparisons[year][2].score_);
 //
 //  EXPECT_EQ("male",                       comparisons[year][3].category_);
 //  EXPECT_DOUBLE_EQ(0.421,                 comparisons[year][3].error_value_);
-//  EXPECT_DOUBLE_EQ(0.018934171455814545,  comparisons[year][3].expected_);
+//  EXPECT_DOUBLE_EQ(0.018938077956547807,  comparisons[year][3].expected_);
 //  EXPECT_DOUBLE_EQ(0.0346,                comparisons[year][3].observed_);
-//  EXPECT_DOUBLE_EQ(0.52912406930999711,   comparisons[year][3].score_);
+//  EXPECT_DOUBLE_EQ(0.52825882781144118,   comparisons[year][3].score_);
 //
 //  EXPECT_EQ("male",                       comparisons[year][4].category_);
 //  EXPECT_DOUBLE_EQ(0.412,                 comparisons[year][4].error_value_);
-//  EXPECT_DOUBLE_EQ(0.029217869923475314,  comparisons[year][4].expected_);
+//  EXPECT_DOUBLE_EQ(0.029222930328445654,  comparisons[year][4].expected_);
 //  EXPECT_DOUBLE_EQ(0.0365,                comparisons[year][4].observed_);
-//  EXPECT_DOUBLE_EQ(-0.637651609604165,    comparisons[year][4].score_);
+//  EXPECT_DOUBLE_EQ(-0.63798390702860996,  comparisons[year][4].score_);
+//
+//  ObjectiveFunction& obj_function = ObjectiveFunction::Instance();
+//  EXPECT_DOUBLE_EQ(30.122778748284137, obj_function.score());
 }
 
 } /* namespace processes */
