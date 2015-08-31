@@ -25,6 +25,7 @@
 #include "Factory/Object.h"
 #include "GlobalConfiguration/GlobalConfiguration.h"
 #include "Logging/Logging.h"
+#include "Reports/Factory.h"
 
 // Namespaces
 namespace niwa {
@@ -64,7 +65,8 @@ void CommandLineParser::Parse(int argc, const char* argv[]) {
     ("query,q", value<string>(), "Query an object type to see it's description and parameters")
     ("debug,d", "Run in debug mode (with debug output")
     ("nostd", "Do not print the standard header report")
-    ("loglevel", value<string>(), "Set log level: finest, fine, trace, none(default)");
+    ("loglevel", value<string>(), "Set log level: finest, fine, trace, none(default)")
+    ("output,o", value<string>(), "Create estimate value report directed to <file>");
 
   ostringstream o;
   o << oDesc;
@@ -99,6 +101,13 @@ void CommandLineParser::Parse(int argc, const char* argv[]) {
     global_config->set_disable_standard_report();
   if (parameters.count("loglevel"))
     global_config->set_log_level(parameters["loglevel"].as<string>());
+  if (parameters.count("output")) {
+    ReportPtr report = reports::Factory::Create(PARAM_REPORT, PARAM_ESTIMATE_VALUE);
+    report->parameters().Add(PARAM_LABEL, "estimate_value_output", __FILE__, __LINE__);
+    report->parameters().Add(PARAM_TYPE, PARAM_ESTIMATE_VALUE, __FILE__, __LINE__);
+    report->parameters().Add(PARAM_FILE_NAME, parameters["output"].as<string>(), __FILE__, __LINE__);
+    report->set_skip_tags(true);
+  }
 
   /**
    * Determine what run mode we should be in. If we're

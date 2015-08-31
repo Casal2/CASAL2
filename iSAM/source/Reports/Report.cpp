@@ -109,10 +109,10 @@ void Report::FlushCache() {
     string suffix = reports::Manager::Instance().report_suffix();
 
     bool overwrite = false;
-    if (suffix != last_suffix_)
+    if (first_write_ || suffix != last_suffix_)
       overwrite = overwrite_;
-    last_suffix_ = suffix;
 
+    last_suffix_ = suffix;
     string file_name = file_name_ + suffix;
 
     ios_base::openmode mode = ios_base::out;
@@ -128,9 +128,11 @@ void Report::FlushCache() {
     file << cache_.str();
     file.close();
 
+    first_write_ = false;
+
   } else {
     cout << cache_.str();
-    if (!skip_end_tag_)
+    if (!skip_tags_)
       cout << CONFIG_END_REPORT << "\n";
     cout << endl;
     cout.flush();

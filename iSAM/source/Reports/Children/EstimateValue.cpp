@@ -23,7 +23,7 @@ namespace reports {
  * Default constructor
  */
 EstimateValue::EstimateValue() {
-  run_mode_     = (RunMode::Type)(RunMode::kEstimation | RunMode::kProfiling);
+  run_mode_     = (RunMode::Type)(RunMode::kBasic | RunMode::kEstimation | RunMode::kProfiling);
   model_state_  = State::kFinalise;
 }
 
@@ -42,39 +42,15 @@ void EstimateValue::DoExecute() {
   vector<EstimatePtr> estimates = estimates::Manager::Instance().objects();
   vector<ProfilePtr>  profiles  = profiles::Manager::Instance().objects();
 
-  /*
-  if (first_run_) {
-    first_run_ = false;
-    cache_ << CONFIG_ARRAY_START << label_ << CONFIG_ARRAY_END << "\n";
-
-    for (EstimatePtr estimate : estimates)
-        cache_ << estimate->parameter() << " ";
-
-    if (model->run_mode() == RunMode::kProfiling) {
-      for (ProfilePtr profile : profiles)
-        cache_ << profile->parameter() << " ";
-    }
-    cache_ << "\n";
-
-  }
-
-
-  for (EstimatePtr estimate : estimates)
-    cache_ << AS_DOUBLE(estimate->value()) << " ";
-  if (model->run_mode() == RunMode::kProfiling) {
-    for (ProfilePtr profile : profiles)
-      cache_ << profile->value() << " ";
-  }
-  cache_ << "\n";
-  */
-
   /**
    * if this is the first run we print the report header etc
    */
   if (first_run_) {
      first_run_ = false;
-     cache_ << "*" << label_ << " " << "("<< type_ << ")"<<"\n";
-     cache_ << "values "<< REPORT_R_MATRIX << "\n";
+     if (!skip_tags_) {
+       cache_ << "*" << label_ << " " << "("<< type_ << ")"<<"\n";
+       cache_ << "values "<< REPORT_R_MATRIX << "\n";
+     }
      for (EstimatePtr estimate : estimates)
          cache_ << estimate->parameter() << " ";
 
