@@ -43,7 +43,7 @@ public:
   void                        DoExecute() override final;
 
   // accessors
-  Double                      m(const string& label);
+  Double                      m(const string& label, unsigned age);
   Double                      time_step_ratio();
   Double                      fishery_exploitation_fraction(const string& fishery_label, const string& category_label, unsigned age);
   bool                        validate_fishery_category(const string& fishery_label, const string& category_label);
@@ -69,6 +69,8 @@ private:
   vector<Double>                            m_;
   vector<Double>                            time_step_ratios_temp_;
   map<unsigned, Double>                     time_step_ratios_;
+  vector<string>                            selectivity_names_;
+  vector<SelectivityPtr>                    selectivities_;
 };
 
 } /* namespace processes */

@@ -1,7 +1,7 @@
 /**
- * @file ProportionsAtAge.Test.cpp
- * @author  Scott Rasmussen (scott.rasmussen@zaita.com)
- * @date 11/03/2014
+ * @file ProportionsAtLength.Test.cpp
+ * @author  C Marsh
+ * @date 21/08/2015
  * @section LICENSE
  *
  * Copyright NIWA Science ©2014 - www.niwa.co.nz
@@ -10,7 +10,7 @@
 #ifdef TESTMODE
 
 // Headers
-#include "TimeStepProportionsAtAge.h"
+#include "TimeStepProportionsAtLength.h"
 
 #include <iostream>
 
@@ -84,6 +84,7 @@ categories stock
 type mortality_instantaneous
 m 0.19
 time_step_ratio 0.42 0.25 0.33
+selectivities One
 u_max 0.7
 categories stock
 table catches

@@ -45,6 +45,7 @@ MortalityInstantaneous::MortalityInstantaneous() : Process(Model::Instance()) {
   parameters_.Bind<Double>(PARAM_U_MAX, &u_max_, "U Max", "", 0.99)->set_range(0.0, 1.0);
   parameters_.Bind<Double>(PARAM_M, &m_, "Mortality rates", "")->set_range(0.0, 1.0);
   parameters_.Bind<Double>(PARAM_TIME_STEP_RATIO, &time_step_ratios_temp_, "Time step ratios for M", "", true)->set_range(0.0, 1.0);
+  parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_names_, "Selectivities on Natural Mortality", "");
 
   RegisterAsEstimable(PARAM_U_MAX, &u_max_);
   RegisterAsEstimable(PARAM_M, &m_);
@@ -85,10 +86,18 @@ void MortalityInstantaneous::DoValidate() {
 
   if (m_.size() == 1)
     m_.assign(category_labels_.size(), m_[0]);
+  if (selectivity_names_.size() == 1)
+    selectivity_names_.assign(category_labels_.size(), selectivity_names_[0]);
   if (m_.size() != category_labels_.size()) {
     LOG_ERROR_P(PARAM_M)
         << ": Number of Ms provided is not the same as the number of categories provided. Expected: "
         << category_labels_.size()<< " but got " << m_.size();
+  }
+
+  if (selectivity_names_.size() != category_labels_.size()) {
+    LOG_ERROR_P(PARAM_SELECTIVITIES)
+        << ": Number of selectivities provided is not the same as the number of categories provided. Expected: "
+        << category_labels_.size()<< " but got " << selectivity_names_.size();
   }
 
   // Check categories are real
@@ -164,6 +173,14 @@ void MortalityInstantaneous::DoBuild() {
       LOG_ERROR_P(PARAM_PENALTY) << ": penalty " << penalty_name_ << " does not exist. Have you defined it?";
     }
   }
+
+  for (string label : selectivity_names_) {
+    SelectivityPtr selectivity = selectivities::Manager::Instance().GetSelectivity(label);
+    if (!selectivity)
+      LOG_ERROR_P(PARAM_SELECTIVITIES) << ": selectivity " << label << " does not exist. Have you defined it?";
+
+    selectivities_.push_back(selectivity);
+  }
 }
 
 /**
@@ -191,7 +208,7 @@ void MortalityInstantaneous::DoExecute() {
           for (unsigned i = 0; i < categories->data_.size(); ++i) {
             Double vulnerable = categories->data_[i] * categories->mean_weight_per_[categories->min_age_ + i]
                 * fishery_by_category_with_selectivity_[fishery_iter.first][categories->name_]->GetResult(categories->min_age_ + i)
-                * exp(-0.5 * ratio * m_[m_offset]);
+                * exp(-0.5 * ratio * m_[m_offset] * selectivities_[m_offset]->GetResult(categories->min_age_ + i));
 
             fishery_vulnerability[fishery_iter.first] += vulnerable;
           }
@@ -273,7 +290,7 @@ void MortalityInstantaneous::DoExecute() {
   m_offset = 0;
   for (auto categories : partition_) {
     for (unsigned i = 0; i < categories->data_.size(); ++i) {
-      categories->data_[i] *= exp(-m_[m_offset] * ratio) * (1 - category_by_age_with_exploitation[categories->name_][categories->min_age_ + i]);
+      categories->data_[i] *= exp(-m_[m_offset] * ratio * selectivities_[m_offset]->GetResult(categories->min_age_ + i)) * (1 - category_by_age_with_exploitation[categories->name_][categories->min_age_ + i]);
       if (categories->data_[i] < 0.0)
         LOG_FATAL() << " Fishing caused a negative partition : if (categories->data_[i] < 0.0)";
     }
@@ -285,11 +302,11 @@ void MortalityInstantaneous::DoExecute() {
 /**
  *
  */
-Double MortalityInstantaneous::m(const string& label) {
+Double MortalityInstantaneous::m(const string& label, unsigned age) {
   unsigned i = 0;
   for (auto categories : partition_) {
     if (categories->name_ == label)
-      return m_[i];
+      return m_[i] * selectivities_[i]->GetResult(age);
     ++i;
   }
 

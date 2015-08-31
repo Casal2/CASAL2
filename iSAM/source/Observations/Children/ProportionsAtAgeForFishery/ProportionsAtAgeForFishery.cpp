@@ -269,7 +269,7 @@ void ProportionsAtAgeForFishery::Execute() {
         final_value   = 0.0;
 
 
-          Double M = mortality_instantaneous_->m((*category_iter)->name_);
+          Double M = mortality_instantaneous_->m((*category_iter)->name_, age);
           Double t = mortality_instantaneous_->time_step_ratio();
           Double u_frac = mortality_instantaneous_->fishery_exploitation_fraction(fishery_, (*category_iter)->name_ , age);
 
