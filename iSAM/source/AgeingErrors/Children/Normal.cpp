@@ -26,6 +26,7 @@ namespace ageingerrors {
  * @param sigma Sigma value
  * @return Normal CDF
  */
+
 Double NormalCDF(Double x, Double mu, Double sigma) {
   if (sigma <= 0.0 && x < mu)
     return 0;
@@ -48,7 +49,7 @@ Double NormalCDF(Double x, Double mu, Double sigma) {
  * Note: The constructor is parsed to generate Latex for the documentation.
  */
 Normal::Normal() {
-  parameters_.Bind<Double>(PARAM_CV, &cv_, "TBA", "")->set_lower_bound(0.0);
+  parameters_.Bind<Double>(PARAM_CV, &cv_, "CV for Misclassification matrix", "")->set_lower_bound(0.0);
   parameters_.Bind<unsigned>(PARAM_K, &k_, "TBA", "", 0u);
 
   RegisterAsEstimable(PARAM_CV, &cv_);
