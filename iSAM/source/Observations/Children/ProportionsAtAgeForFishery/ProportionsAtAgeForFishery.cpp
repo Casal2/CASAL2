@@ -35,7 +35,7 @@ ProportionsAtAgeForFishery::ProportionsAtAgeForFishery() {
   parameters_.Bind<Double>(PARAM_DELTA, &delta_, "Delta", "", DELTA);
   parameters_.Bind<Double>(PARAM_PROCESS_ERRORS, &process_error_values_, "Process error", "", true);
   parameters_.Bind<string>(PARAM_AGEING_ERROR, &ageing_error_label_, "Label of ageing error to use", "", "");
-  parameters_.Bind<string>(PARAM_FISHERY, &fishery_, "Label of fishery the proportions are from", "", "");
+  parameters_.Bind<string>(PARAM_FISHERY, &fishery_, "Label of fishery the observation is from", "", "");
   obs_table_ = TablePtr(new parameters::Table(PARAM_OBS));
   error_values_table_ = TablePtr(new parameters::Table(PARAM_ERROR_VALUES));
   parameters_.BindTable(PARAM_OBS, obs_table_, "Table of Observatons", "", false);
@@ -238,7 +238,6 @@ void ProportionsAtAgeForFishery::Execute() {
    * compare it to the observations.
    */
   for (unsigned category_offset = 0; category_offset < category_labels_.size(); ++category_offset, ++partition_iter, ++cached_partition_iter) {
-//    Double      selectivity_result = 0.0;
     Double      start_value        = 0.0;
     Double      end_value          = 0.0;
     Double      final_value        = 0.0;
@@ -259,27 +258,16 @@ void ProportionsAtAgeForFishery::Execute() {
         if ((*category_iter)->min_age_ + data_offset > max_age_ && !age_plus_)
           break;
 
-        /**
-         * Check if we're attached to a mortality instantaneous process and do stuff
-         */
-        //if (mortality_instantaneous_) {
-        //  LOG_FATAL() << "Why not Zoidberg? of course m is " << mortality_instantaneous_->m((*category_iter)->name_);
-        //}
 
         unsigned age_offset = ( (*category_iter)->min_age_ + data_offset) - min_age_;
         unsigned age        = ( (*category_iter)->min_age_ + data_offset);
         if (min_age_ + age_offset > max_age_)
           age_offset = age_spread_ - 1;
 
-//        selectivity_result = selectivities_[category_offset]->GetResult(age);
         start_value   = (*cached_category_iter).data_[data_offset];
         end_value     = (*category_iter)->data_[data_offset];
         final_value   = 0.0;
 
-/*        if (mean_proportion_method_) {
-          final_value = start_value + ((end_value - start_value) * proportion_of_time_);
-          expected_values[age_offset] += final_value * selectivity_result;
-        } else if (mortality_instantaneous_) {*/
 
           Double M = mortality_instantaneous_->m((*category_iter)->name_);
           Double t = mortality_instantaneous_->time_step_ratio();
@@ -289,15 +277,9 @@ void ProportionsAtAgeForFishery::Execute() {
           expected_values[age_offset] += final_value;
           LOG_FINEST() << " m = " << AS_DOUBLE(Double(M * t)) << " U_frac = " << AS_DOUBLE(u_frac);
 
-/*        } else {
-          final_value = fabs(start_value - end_value);
-        expected_values[age_offset] += final_value * selectivity_result;
-        }*/
-        //expected_values[age_offset] += final_value; //* selectivity_result;
 
         LOG_FINE() << "----------";
         LOG_FINE() << "Category: " << (*category_iter)->name_ << " at age " << age;
-//        LOG_FINE() << "Selectivity: " << selectivities_[category_offset]->label() << ": " << selectivity_result;
         LOG_FINE() << "start_value: " << start_value << "; end_value: " << end_value << "; final_value: " << final_value;
         LOG_FINE() << "expected_value becomes: " << expected_values[age_offset];
       }

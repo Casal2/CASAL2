@@ -36,16 +36,16 @@ public:
   virtual void                BuildCV(unsigned year);
   void                        DoAgeToLengthConversion(partition::Category* category,
                                 const vector<Double>& length_bins, bool plus_grp, SelectivityPtr selectivity);
-
+  void                        CummulativeNormal(Double mu, Double cv, vector<Double>& prop_in_length,
+                                vector<Double> length_bins, string distribution, bool plus_grp);
   // accessors
   virtual Double              mean_length(unsigned year, unsigned age) = 0;
   virtual Double              mean_weight(unsigned year, unsigned age) = 0;
   Double                      cv(unsigned age) { return cvs_[age]; };
+  string                      distribution() { return distribution_; };
 
 protected:
   // methods
-  void                        CummulativeNormal(Double mu, Double cv, vector<Double>& prop_in_length,
-                                vector<Double> length_bins, string distribution, bool plus_grp);
 
   virtual void                DoValidate() = 0;
   virtual void                DoBuild() = 0;

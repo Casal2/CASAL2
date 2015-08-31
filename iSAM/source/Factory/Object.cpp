@@ -12,6 +12,7 @@
 #include "Object.h"
 
 #include "AdditionalPriors/Factory.h"
+#include "AgeingErrors/Factory.h"
 #include "AgeLengths/Factory.h"
 #include "Asserts/Factory.h"
 #include "Catchabilities/Factory.h"
@@ -63,8 +64,8 @@ base::ObjectPtr Object::Create(string& object_type, string& sub_type) {
 
   if (object_type == PARAM_ADDITIONAL_PRIOR)
     result = additionalpriors::Factory::Create(object_type, sub_type);
-  else if (object_type == PARAM_AGE_LENGTH || object_type == PARAM_AGE_LENGTHS)
-    result = agelengths::Factory::Create(object_type, sub_type);
+  else if (object_type == PARAM_AGEING_ERROR || object_type == PARAM_AGEING_ERRORS)
+    result = ageingerrors::Factory::Create(object_type, sub_type);
   else if (object_type == PARAM_AGE_LENGTH || object_type == PARAM_AGE_LENGTHS)
     result = agelengths::Factory::Create(object_type, sub_type);
   else if (object_type == PARAM_ASSERT)

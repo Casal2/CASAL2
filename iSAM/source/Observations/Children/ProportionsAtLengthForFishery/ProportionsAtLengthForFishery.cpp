@@ -1,21 +1,20 @@
 /**
- * @file ProportionsAtAge.cpp
- * @author  Scott Rasmussen (scott.rasmussen@zaita.com)
+ * @file ProportionsAtLengthForFishery.cpp
+ * @author  C Marsh
  * @version 1.0
- * @date 8/04/2013
+ * @date 12.8.15
  * @section LICENSE
  *
  * Copyright NIWA Science ©2013 - www.niwa.co.nz
- *
- * $Date: 2008-03-04 16:33:32 +1300 (Tue, 04 Mar 2008) $
  */
 
 // Headers
-#include "ProportionsAtAge.h"
-
+#include <Observations/Children/ProportionsAtLengthForFishery/ProportionsAtLengthForFishery.h>
 #include <algorithm>
 
 #include "Model/Model.h"
+#include "AgeLengths/AgeLength.h"
+#include "Categories/Categories.h"
 #include "Partition/Accessors/All.h"
 #include "Utilities/DoubleCompare.h"
 #include "Utilities/Map.h"
@@ -29,16 +28,15 @@ namespace observations {
 /**
  * Default constructor
  */
-ProportionsAtAge::ProportionsAtAge() {
-  parameters_.Bind<unsigned>(PARAM_MIN_AGE, &min_age_, "Minimum age", "");
-  parameters_.Bind<unsigned>(PARAM_MAX_AGE, &max_age_, "Maximum age", "");
-  parameters_.Bind<bool>(PARAM_AGE_PLUS, &age_plus_, "Use age plus group", "", true);
-  parameters_.Bind<Double>(PARAM_TOLERANCE, &tolerance_, "Tolerance", "", Double(0.001));
+ProportionsAtLengthForFishery::ProportionsAtLengthForFishery() {
+  parameters_.Bind<Double>(PARAM_LENGTH_BINS, &length_bins_, "Length bins", "");
+  parameters_.Bind<bool>(PARAM_LENGTH_PLUS, &length_plus_, "Is the last bin a plus group", "", true);
+  parameters_.Bind<Double>(PARAM_TOLERANCE, &tolerance_, "Tolerance for rescaling proportions", "", Double(0.001));
   parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "Year to execute in", "");
   parameters_.Bind<Double>(PARAM_DELTA, &delta_, "Delta", "", DELTA);
   parameters_.Bind<Double>(PARAM_PROCESS_ERRORS, &process_error_values_, "Process error", "", true);
-  parameters_.Bind<string>(PARAM_AGEING_ERROR, &ageing_error_label_, "Label of ageing error to use", "", "");
   obs_table_ = TablePtr(new parameters::Table(PARAM_OBS));
+  parameters_.Bind<string>(PARAM_FISHERY, &fishery_, "Label of fishery the observation is from", "", "");
   error_values_table_ = TablePtr(new parameters::Table(PARAM_ERROR_VALUES));
   parameters_.BindTable(PARAM_OBS, obs_table_, "Table of Observatons", "", false);
   parameters_.BindTable(PARAM_ERROR_VALUES, error_values_table_, "", "", false);
@@ -47,19 +45,31 @@ ProportionsAtAge::ProportionsAtAge() {
 /**
  * Validate configuration file parameters
  */
-void ProportionsAtAge::DoValidate() {
-  age_spread_ = (max_age_ - min_age_) + 1;
+void ProportionsAtLengthForFishery::DoValidate() {
+  // How many elements are expected in our observed table;
+  if(length_plus_) {
+    number_bins_ = length_bins_.size();
+  } else {
+      number_bins_ = length_bins_.size() - 1;
+  }
+
+
   map<unsigned, vector<Double>> error_values_by_year;
   map<unsigned, vector<Double>> obs_by_year;
 
   /**
    * Do some simple checks
+   * e.g Validate that the length_bins are strictly increasing
    */
   ModelPtr model = Model::Instance();
-  if (min_age_ < model->min_age())
-    LOG_ERROR_P(PARAM_MIN_AGE) << ": min_age (" << min_age_ << ") is less than the model's min_age (" << model->min_age() << ")";
-  if (max_age_ > model->max_age())
-    LOG_ERROR_P(PARAM_MAX_AGE) << ": max_age (" << max_age_ << ") is greater than the model's max_age (" << model->max_age() << ")";
+  for(unsigned length = 0; length < length_bins_.size(); ++length) {
+    if(length_bins_[length] < 0.0)
+    if(length_bins_[length] > length_bins_[length + 1])
+      LOG_ERROR_P(PARAM_LENGTH_BINS) << ": Length bins must be strictly increasing " << length_bins_[length] << " is greater than " << length_bins_[length +1];
+  }
+  if(!(length_bins_[0] == 0))
+    LOG_ERROR_P(PARAM_LENGTH_BINS) << ": First length element must be a zero";
+
   if (process_error_values_.size() != 0 && process_error_values_.size() != years_.size()) {
     LOG_ERROR_P(PARAM_PROCESS_ERRORS) << " number of values provied (" << process_error_values_.size() << ") does not match the number of years provided ("
         << years_.size() << ")";
@@ -78,7 +88,7 @@ void ProportionsAtAge::DoValidate() {
    * This is because we'll have 1 set of obs per category collection provided.
    * categories male+female male = 2 collections
    */
-  unsigned obs_expected = age_spread_ * category_labels_.size() + 1;
+  unsigned obs_expected = number_bins_ * category_labels_.size() + 1;
   vector<vector<string>>& obs_data = obs_table_->data();
   if (obs_data.size() != years_.size()) {
     LOG_ERROR_P(PARAM_OBS) << " has " << obs_data.size() << " rows defined, but we expected " << years_.size()
@@ -88,7 +98,7 @@ void ProportionsAtAge::DoValidate() {
   for (vector<string>& obs_data_line : obs_data) {
     if (obs_data_line.size() != obs_expected) {
       LOG_ERROR_P(PARAM_OBS) << " has " << obs_data_line.size() << " values defined, but we expected " << obs_expected
-          << " to match the age speard * categories + 1 (for year)";
+          << " to match the number bins * categories + 1 (for year)";
     }
 
     unsigned year = 0;
@@ -120,7 +130,7 @@ void ProportionsAtAge::DoValidate() {
   for (vector<string>& error_values_data_line : error_values_data) {
     if (error_values_data_line.size() != 2 && error_values_data_line.size() != obs_expected) {
       LOG_ERROR_P(PARAM_ERROR_VALUES) << " has " << error_values_data_line.size() << " values defined, but we expected " << obs_expected
-          << " to match the age speard * categories + 1 (for year)";
+          << " to match the number bins * categories + 1 (for year)";
     }
 
     unsigned year = 0;
@@ -152,7 +162,7 @@ void ProportionsAtAge::DoValidate() {
    * Validate likelihood type
    */
   if (likelihood_type_ != PARAM_LOGNORMAL && likelihood_type_ != PARAM_MULTINOMIAL)
-    LOG_ERROR_P(PARAM_LIKELIHOOD) << ": likelihood " << likelihood_type_ << " is not supported by the proportions at age observation. "
+    LOG_ERROR_P(PARAM_LIKELIHOOD) << ": likelihood " << likelihood_type_ << " is not supported by the Length Frequency observation. "
         << "Supported types are " << PARAM_LOGNORMAL << " and " << PARAM_MULTINOMIAL;
 
   /**
@@ -165,8 +175,8 @@ void ProportionsAtAge::DoValidate() {
     Double total = 0.0;
 
     for (unsigned i = 0; i < category_labels_.size(); ++i) {
-      for (unsigned j = 0; j < age_spread_; ++j) {
-        unsigned obs_index = i * age_spread_ + j;
+      for (unsigned j = 0; j < number_bins_; ++j) {
+        unsigned obs_index = i * number_bins_ + j;
         if (!utilities::To<Double>(iter->second[obs_index], value))
           LOG_ERROR_P(PARAM_OBS) << ": obs_ value (" << iter->second[obs_index] << ") at index " << obs_index + 1
               << " in the definition could not be converted to a numeric double";
@@ -188,16 +198,14 @@ void ProportionsAtAge::DoValidate() {
  * Build any runtime relationships we may have and ensure
  * the labels for other objects are valid.
  */
-void ProportionsAtAge::DoBuild() {
+void ProportionsAtLengthForFishery::DoBuild() {
   partition_ = CombinedCategoriesPtr(new niwa::partition::accessors::CombinedCategories(category_labels_));
   cached_partition_ = CachedCombinedCategoriesPtr(new niwa::partition::accessors::cached::CombinedCategories(category_labels_));
 
-/*
-  if (ageing_error_label_ != PARAM_NORMAL || ageing_error_label_ != PARAM_OFF_BY_ONE || ageing_error_label_ != "")
-    LOG_ERROR_P(PARAM_AGEING_ERROR) << "Wrong ageing error label choices are" << PARAM_NORMAL << "; " << PARAM_OFF_BY_ONE << " if you haven't specified this parameter no age misclassification is applied";
-*/
+//  if (ageing_error_label_ != "")
+//   LOG_CODE_ERROR() << "ageing error has not been implemented for the proportions at age observation";
 
-  age_results_.resize(age_spread_ * category_labels_.size(), 0.0);
+  length_results_.resize(number_bins_ * category_labels_.size(), 0.0);
 }
 
 /**
@@ -207,7 +215,7 @@ void ProportionsAtAge::DoBuild() {
  * At this point we need to build our cache for the partition
  * structure to use with any interpolation
  */
-void ProportionsAtAge::PreExecute() {
+void ProportionsAtLengthForFishery::PreExecute() {
   ModelPtr model = Model::Instance();
 
   cached_partition_->BuildCache();
@@ -221,28 +229,32 @@ void ProportionsAtAge::PreExecute() {
 /**
  *
  */
-void ProportionsAtAge::Execute() {
+void ProportionsAtLengthForFishery::Execute() {
   LOG_TRACE();
-
   /**
    * Verify our cached partition and partition sizes are correct
    */
   ModelPtr model = Model::Instance();
+  CategoriesPtr categories = Categories::Instance();
+  Double t = mortality_instantaneous_->time_step_ratio();
+  unsigned year = Model::Instance()->current_year();
+
   auto cached_partition_iter  = cached_partition_->Begin();
   auto partition_iter         = partition_->Begin(); // vector<vector<partition::Category> >
 
   /**
    * Loop through the provided categories. Each provided category (combination) will have a list of observations
-   * with it. We need to build a vector of proportions for each age using that combination and then
+   * with it. We need to build a vector of proportions for each length using that combination and then
    * compare it to the observations.
    */
   for (unsigned category_offset = 0; category_offset < category_labels_.size(); ++category_offset, ++partition_iter, ++cached_partition_iter) {
-    Double      selectivity_result = 0.0;
+    LOG_FINEST() << "category: " << category_labels_[category_offset];
     Double      start_value        = 0.0;
     Double      end_value          = 0.0;
-    Double      final_value        = 0.0;
-
-    vector<Double> expected_values(age_spread_, 0.0);
+    Double      number_at_age      = 0.0;
+    vector<Double>              expected_values(number_bins_, 0.0);
+    vector<Double>              numbers_at_length;
+    vector<vector<Double>>      age_length_matrix_;
 
     /**
      * Loop through the 2 combined categories building up the
@@ -251,40 +263,69 @@ void ProportionsAtAge::Execute() {
     auto category_iter = partition_iter->begin();
     auto cached_category_iter = cached_partition_iter->begin();
     for (; category_iter != partition_iter->end(); ++cached_category_iter, ++category_iter) {
+      AgeLengthPtr age_length = categories->age_length((*category_iter)->name_);
+      (*category_iter)->UpdateMeanLengthData();
+      age_length->BuildCV(year);
+      unsigned size = length_bins_.size();
+      if (!length_plus_)
+        size = length_bins_.size() - 1;
+
+      age_length_matrix_.resize((*category_iter)->data_.size());
+
       for (unsigned data_offset = 0; data_offset < (*category_iter)->data_.size(); ++data_offset) {
-        // Check and skip ages we don't care about.
-        if ((*category_iter)->min_age_ + data_offset < min_age_)
-          continue;
-        if ((*category_iter)->min_age_ + data_offset > max_age_ && !age_plus_)
-          break;
-
-
-        unsigned age_offset = ( (*category_iter)->min_age_ + data_offset) - min_age_;
         unsigned age        = ( (*category_iter)->min_age_ + data_offset);
-        if (min_age_ + age_offset > max_age_)
-          age_offset = age_spread_ - 1;
 
-        selectivity_result = selectivities_[category_offset]->GetResult(age);
+        // Calculate the age structure removed from the fishing process
+
         start_value   = (*cached_category_iter).data_[data_offset];
         end_value     = (*category_iter)->data_[data_offset];
-        final_value   = 0.0;
+        Double M      = mortality_instantaneous_->m((*category_iter)->name_);
+        Double u_frac = mortality_instantaneous_->fishery_exploitation_fraction(fishery_, (*category_iter)->name_ , age);
+        number_at_age = (fabs(start_value * exp(- M * t * 0.5) - end_value * exp(M * t * 0.5)) * u_frac);
 
-        if (mean_proportion_method_) {
-          final_value = start_value + ((end_value - start_value) * proportion_of_time_);
-          expected_values[age_offset] += final_value * selectivity_result;
-        } else {
-          final_value = fabs(start_value - end_value);
-        expected_values[age_offset] += final_value * selectivity_result;
-        }
-        //expected_values[age_offset] += final_value; //* selectivity_result;
+        LOG_FINEST() << "Numbers at age = " << age << " = " <<  number_at_age << " start value : "<< start_value << " end value : " << end_value;
+        // Implement an algorithm similar to DoAgeLengthConversion() to convert numbers at age to numbers at length
+        // This is different to DoAgeLengthConversion as this number is now not related to the partition
 
-        LOG_FINE() << "----------";
-        LOG_FINE() << "Category: " << (*category_iter)->name_ << " at age " << age;
-        LOG_FINE() << "Selectivity: " << selectivities_[category_offset]->label() << ": " << selectivity_result;
-        LOG_FINE() << "start_value: " << start_value << "; end_value: " << end_value << "; final_value: " << final_value;
-        LOG_FINE() << "expected_value becomes: " << expected_values[age_offset];
+        vector<Double> age_frequencies;
+
+        Double mu= (*category_iter)->mean_length_per_[age];
+
+        LOG_FINEST() << "mean = " << mu << " cv = " << age_length->cv(age) << " distribution = " << age_length->distribution() << " and length plus group = " << length_plus_;
+        age_length->CummulativeNormal(mu, age_length->cv(age), age_frequencies, length_bins_, age_length->distribution(), length_plus_);
+
+        age_length_matrix_[data_offset].resize(size);
+
+        // Loop through the length bins and multiple the partition of the current age to go from
+        // length frequencies to age length numbers
+          for (unsigned j = 0; j < size; ++j) {
+            age_length_matrix_[data_offset][j] = number_at_age * age_frequencies[j];
+            LOG_FINEST() << "The proportion of fish in length bin : " << length_bins_[j] << " = "<< age_frequencies[j];
+          }
       }
-    }
+
+         if (age_length_matrix_.size() == 0)
+            LOG_CODE_ERROR() << "if (age_length_matrix_.size() == 0)";
+
+          numbers_at_length.assign(age_length_matrix_[0].size(), 0.0);
+          for (unsigned i = 0; i < age_length_matrix_.size(); ++i) {
+            for (unsigned j = 0; j < age_length_matrix_[i].size(); ++j) {
+              numbers_at_length[j] += age_length_matrix_[i][j];
+            }
+          }
+
+
+
+            for (unsigned length_offset = 0; length_offset < size; ++length_offset) {
+              LOG_FINEST() << " numbers for length bin : " << length_bins_[length_offset] << " = " <<  numbers_at_length[length_offset];
+             expected_values[length_offset] += numbers_at_length[length_offset];
+
+              LOG_FINE() << "----------";
+              LOG_FINE() << "Category: " << (*category_iter)->name_ << " at length " << length_bins_[length_offset];
+              LOG_FINE() << "start_value: " << start_value << "; end_value: " << end_value << "; final_value: " << numbers_at_length[length_offset];
+              LOG_FINE() << "expected_value becomes: " << expected_values[length_offset];
+            }
+        }
 
     if (expected_values.size() != proportions_[model->current_year()][category_labels_[category_offset]].size())
       LOG_CODE_ERROR() << "expected_values.size(" << expected_values.size() << ") != proportions_[category_offset].size("
@@ -293,9 +334,8 @@ void ProportionsAtAge::Execute() {
     /**
      * save our comparisons so we can use them to generate the score from the likelihoods later
      */
-
     for (unsigned i = 0; i < expected_values.size(); ++i) {
-      SaveComparison(category_labels_[category_offset], min_age_ + i ,0.0 ,expected_values[i], proportions_[model->current_year()][category_labels_[category_offset]][i],
+      SaveComparison(category_labels_[category_offset], 0, length_bins_[i], expected_values[i], proportions_[model->current_year()][category_labels_[category_offset]][i],
           process_errors_by_year_[model->current_year()], error_values_[model->current_year()][category_labels_[category_offset]][i], delta_, 0.0);
     }
   }
@@ -305,7 +345,7 @@ void ProportionsAtAge::Execute() {
  * This method is called at the end of a model iteration
  * to calculate the score for the observation.
  */
-void ProportionsAtAge::CalculateScore() {
+void ProportionsAtLengthForFishery::CalculateScore() {
   /**
    * Simulate or generate results
    * During simulation mode we'll simulate results for this observation
