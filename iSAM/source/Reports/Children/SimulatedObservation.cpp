@@ -23,7 +23,7 @@ namespace reports {
 SimulatedObservation::SimulatedObservation() {
   run_mode_    = RunMode::kSimulation;
   model_state_ = State::kIterationComplete;
-  skip_end_tag_ = true;
+  skip_tags_   = true;
 
   parameters_.Bind<string>(PARAM_OBSERVATION, &observation_label_, "Observation label", "");
 }

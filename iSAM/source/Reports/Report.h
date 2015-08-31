@@ -65,6 +65,7 @@ public:
   State::Type                 model_state() const { return model_state_; }
   const string&               time_step() const { return time_step_; }
   bool                        ready_for_writing() const { return ready_for_writing_; }
+  void                        set_skip_tags(bool value) { skip_tags_ = value; }
 
 protected:
   // pure methods
@@ -80,12 +81,13 @@ protected:
   static std::mutex           lock_;
   string                      time_step_   = "";
   string                      file_name_   = "";
+  bool                        first_write_ = true;
   bool                        overwrite_   = true;
   string                      last_suffix_ = "";
   vector<unsigned>            years_;
   ostringstream               cache_;
   bool                        ready_for_writing_ = false;
-  bool                        skip_end_tag_ = false;
+  bool                        skip_tags_ = false;
 };
 
 // Typedef
