@@ -110,10 +110,12 @@ Double* Object::GetEstimable(const string& label, const string& index) {
     if (!success)
       LOG_CODE_ERROR() << "bool success = util::To<unsigned>(" << index << ", value);";
 
-    if (estimable_vectors_[label]->size() >= value)
-      LOG_CODE_ERROR() << "estimable_vectors_[" << label << "]->size() >= " << value;
+    if (value == 0)
+      LOG_FATAL() << "Estimable " << label << " is a vector and must be indexed from 1, not 0";
+    if (estimable_vectors_[label]->size() < value)
+      LOG_CODE_ERROR() << "estimable_vectors_[" << label << "]->size() " << estimable_vectors_[label]->size() << " < " << value;
 
-    return &(*estimable_vectors_[label])[value];
+    return &(*estimable_vectors_[label])[value - 1];
 
   } else if (estimable_types_[label] != Estimable::kSingle)
     LOG_CODE_ERROR() << "estimable_types_[" << label << "] != Estimable::kSingle";

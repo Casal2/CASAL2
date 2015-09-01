@@ -134,6 +134,7 @@ Double* FindEstimable(const string& estimable_absolute_name) {
   string index        = "";
 
   ExplodeString(estimable_absolute_name, type, label, parameter, index);
+  LOG_FINEST() << "type: " << type << "; label: " << label << "; parameter: " << parameter << "; index: " << index;
   if (index != "")
     result = object->GetEstimable(parameter, index);
   else
