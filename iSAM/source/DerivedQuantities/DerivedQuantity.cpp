@@ -36,8 +36,8 @@ DerivedQuantity::DerivedQuantity() {
   parameters_.Bind<string>(PARAM_CATEGORIES, &category_labels_, "The list of categories to use when calculating the derived quantity", "");
   parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_labels_, "The list of selectivities to use when calculating the derived quantity. 1 per category", "");
   parameters_.Bind<Double>(PARAM_TIME_STEP_PROPORTION, &time_step_proportion_, "", "", Double(1.0));
-  parameters_.Bind<string>(PARAM_TIME_STEP_PROPORTION_METHOD, &proportion_method_, "", "", PARAM_MEAN)
-      ->set_allowed_values({ PARAM_MEAN, PARAM_DIFFERENCE });
+  parameters_.Bind<string>(PARAM_TIME_STEP_PROPORTION_METHOD, &proportion_method_, "", "", PARAM_WEIGHTED_SUM)
+      ->set_allowed_values({ PARAM_WEIGHTED_SUM, PARAM_WEIGHTED_PRODUCT });
 
   model_ = Model::Instance();
 
@@ -53,7 +53,7 @@ DerivedQuantity::DerivedQuantity() {
 void DerivedQuantity::Validate() {
   parameters_.Populate();
 
-  if (proportion_method_ != PARAM_MEAN)
+  if (proportion_method_ == PARAM_WEIGHTED_PRODUCT)
     mean_proportion_method_ = false;
 
   if (category_labels_.size() != selectivity_labels_.size())
