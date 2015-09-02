@@ -32,6 +32,7 @@ void Biomass::PreExecute() {
     for (unsigned j = 0; j < (*iterator)->data_.size(); ++j) {
       unsigned age = (*iterator)->min_age_ + j;
       cache_value_ += (*iterator)->data_[j] * selectivities_[i]->GetResult(age) * (*iterator)->mean_weight_per_[age];
+      LOG_FINEST() << " Pre Exploitation value " <<  cache_value_;
     }
   }
 }
@@ -64,10 +65,14 @@ void Biomass::Execute() {
     if (initialisation_values_.size() <= initialisation_phase)
       initialisation_values_.resize(initialisation_phase + 1);
 
-    if (mean_proportion_method_)
+    if (time_step_proportion_ == 0.0)
+      initialisation_values_[initialisation_phase].push_back(cache_value_);
+    else if (time_step_proportion_ == 1.0)
+      initialisation_values_[initialisation_phase].push_back(value);
+    else if (mean_proportion_method_)
       initialisation_values_[initialisation_phase].push_back(cache_value_ + ((value - cache_value_) * time_step_proportion_));
     else
-      initialisation_values_[initialisation_phase].push_back((1 - time_step_proportion_) * cache_value_ + time_step_proportion_ * value);
+      initialisation_values_[initialisation_phase].push_back(pow(cache_value_, 1 - time_step_proportion_) * pow(value ,time_step_proportion_));
 
   } else {
     auto iterator = partition_.begin();
@@ -81,11 +86,16 @@ void Biomass::Execute() {
       }
     }
 
+    if (time_step_proportion_ == 0.0)
+      values_[model_->current_year()] = cache_value_;
+    else if (time_step_proportion_ == 1.0)
+      values_[model_->current_year()] = value;
     if (mean_proportion_method_)
       values_[model_->current_year()] = cache_value_ + ((value - cache_value_) * time_step_proportion_);
     else
-      values_[model_->current_year()] = (1 - time_step_proportion_) * cache_value_ + time_step_proportion_ * value;
+      values_[model_->current_year()] = pow(cache_value_, 1 - time_step_proportion_) * pow(value ,time_step_proportion_);
   }
+  LOG_FINEST() << " Pre Exploitation value " <<  cache_value_ << " Post exploitation " << value << " Final value " << values_[model_->current_year()];
 }
 
 } /* namespace derivedquantities */
