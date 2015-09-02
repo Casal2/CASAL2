@@ -477,6 +477,8 @@
 #define PARAM_VALUES                              "values"
 #define PARAM_WIDTH                               "width"
 #define PARAM_WEIGHTS                             "weights"
+#define PARAM_WEIGHTED_PRODUCT                    "weighted_product"
+#define PARAM_WEIGHTED_SUM                        "weighted_sum"
 #define PARAM_X0                                  "x0"
 #define PARAM_X1                                  "x1"
 #define PARAM_X2                                  "x2"

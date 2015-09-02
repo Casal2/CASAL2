@@ -55,6 +55,7 @@ private:
   vector<Double>              ycs_years_;
   vector<Double>              ycs_values_;
   vector<Double>              true_ycs_values_;
+  vector<Double>              stand_ycs_values_;
   vector<Double>              recruitment_values_;
   vector<unsigned>            standardise_ycs_;
   DerivedQuantityPtr          derived_quantity_;
