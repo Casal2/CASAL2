@@ -187,15 +187,12 @@ void RecruitmentBevertonHolt::DoReset() {
       }
     }
   }
-
+  stand_ycs_values_ = ycs_values_;
   mean_ycs /= standardise_ycs_.size();
-
   for (unsigned i = 0; i < ycs_years_.size(); ++i) {
     for (unsigned j = 0; j < standardise_ycs_.size(); ++j) {
-      if (ycs_years_[i] == standardise_ycs_[j]) {
-        ycs_values_[i] = ycs_values_[i] / mean_ycs;
-        break;
-      }
+      if (ycs_years_[i] == standardise_ycs_[j])
+        stand_ycs_values_[i] = ycs_values_[i] / mean_ycs;
     }
   }
 }
@@ -225,7 +222,7 @@ void RecruitmentBevertonHolt::DoExecute() {
      * The model is not in an initialisation phase
      */
     LOG_FINEST() << "standardise_ycs_.size(): " << standardise_ycs_.size() << "; model_->current_year(): " << model_->current_year() << "; model_->start_year(): " << model_->start_year();
-    Double ycs = ycs_values_[model_->current_year() - model_->start_year()];
+    Double ycs = stand_ycs_values_[model_->current_year() - model_->start_year()];
     b0_ = derived_quantity_->GetLastValueFromInitialisation(phase_b0_);
     Double ssb_ratio = derived_quantity_->GetValue(model_->current_year() - ssb_offset_) / b0_;
     Double true_ycs  = ycs * ssb_ratio / (1.0 - ((5.0 * steepness_ - 1.0) / (4.0 * steepness_) ) * (1.0 - ssb_ratio));
@@ -238,7 +235,7 @@ void RecruitmentBevertonHolt::DoExecute() {
 //    cout << "year = " << model_->current_year() << "; ycs = " << ycs << "; b0_ = " << b0_ << "; ssb_ratio = " << ssb_ratio << "; true_ycs = " << true_ycs << "; amount_per = " << amount_per << endl;
 //    cout << "dq: " << derived_quantity_->GetValue(model_->current_year() - actual_ssb_offset_) << endl;
 
-    LOG_FINEST() << "year = " << model_->current_year() << "; ycs = " << ycs << "; b0_ = " << b0_ << "; ssb_ratio = " << ssb_ratio << "; true_ycs = " << true_ycs << "; amount_per = " << amount_per;
+    LOG_FINEST() << "year = " << model_->current_year() << "; ycs = " << ycs_values_[model_->current_year() - model_->start_year()] << " Standardised year class = " << ycs << "; b0_ = " << b0_ << "; ssb_ratio = " << ssb_ratio << "; true_ycs = " << true_ycs << "; amount_per = " << amount_per;
   }
 
   unsigned i = 0;

@@ -39,6 +39,7 @@ private:
   // members
   Double                      p1_ = 0.0;
   Double                      p2_ = 0.0;
+  unsigned                    k_;
 };
 
 } /* namespace ageingerrors */
