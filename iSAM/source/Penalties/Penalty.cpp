@@ -25,6 +25,7 @@ namespace niwa {
 Penalty::Penalty() {
   parameters_.Bind<string>(PARAM_LABEL, &label_, "Label", "");
   parameters_.Bind<string>(PARAM_TYPE, &type_, "Type", "");
+
 }
 
 /**
