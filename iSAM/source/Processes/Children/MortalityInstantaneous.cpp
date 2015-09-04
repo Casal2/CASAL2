@@ -46,6 +46,7 @@ MortalityInstantaneous::MortalityInstantaneous() : Process(Model::Instance()) {
   parameters_.Bind<Double>(PARAM_M, &m_, "Mortality rates", "")->set_range(0.0, 1.0);
   parameters_.Bind<Double>(PARAM_TIME_STEP_RATIO, &time_step_ratios_temp_, "Time step ratios for M", "", true)->set_range(0.0, 1.0);
   parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_names_, "Selectivities on Natural Mortality", "");
+  parameters_.Bind<string>(PARAM_PENALTY, &  penalty_name_, "Label of penalty to be applied", "","");
 
   RegisterAsEstimable(PARAM_U_MAX, &u_max_);
   RegisterAsEstimable(PARAM_M, &m_);

@@ -51,7 +51,14 @@ void Beta::DoValidate() {
  * TODO: Add documentation
  */
 Double Beta::ratio_score() {
-  return 0.0f;
+  Double value = 1.0;
+  Double score_ = 0.0;
+  v_ = (mu_ - a_) / (b_ - a_);
+  t_ = (((mu_ - a_) * (b_ - mu_)) / (sigma_ * sigma_)) - 1.0;
+  m_ = t_ * v_;
+  n_ = t_ * (1.0 - v_);
+  score_ = ((1.0 - m_) * log(value - a_)) + ((1.0 - n_) * log(b_ - value));
+  return score_;
 }
 
 /**

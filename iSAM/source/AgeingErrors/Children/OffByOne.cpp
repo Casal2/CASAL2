@@ -34,6 +34,11 @@ OffByOne::OffByOne() {
 void OffByOne::DoValidate() {
   if (k_ > max_age_)
     LOG_ERROR_P(PARAM_K) << "value (" << k_ << ") cannot be greater than the model's max age (" << max_age_ << ")";
+  if (p1_ < 0.0)
+    LOG_ERROR_P(PARAM_P1) << PARAM_P1 << " Cannot be less than 0.0";
+  if (p2_ > 1.0)
+    LOG_ERROR_P(PARAM_P2) << PARAM_P2 << " Cannot be greater than 1.0";
+
 }
 
 void OffByOne::DoBuild() {
