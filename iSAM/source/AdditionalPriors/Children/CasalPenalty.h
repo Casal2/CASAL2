@@ -38,7 +38,7 @@ protected:
   // members
   Double                      multiplier_ = 0.0;
   bool                        log_scale_ = 0.0;
-z
+
 };
 
 } /* namespace additionalpriors */

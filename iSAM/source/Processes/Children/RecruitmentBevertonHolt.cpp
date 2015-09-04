@@ -41,6 +41,7 @@ RecruitmentBevertonHolt::RecruitmentBevertonHolt() : Process(Model::Instance()) 
   parameters_.Bind<int>(PARAM_SSB_OFFSET, &ssb_offset_, "SSB Offset (year offset)", "", 0);
   parameters_.Bind<string>(PARAM_B0, &phase_b0_label_, "B0 Label", "", "");
   parameters_.Bind<Double>(PARAM_YCS_VALUES, &ycs_values_, "YCS Values", "");
+  parameters_.Bind<bool>(PARAM_PRIOR_YCS_VALUES, &prior_ycs_values_, "Should the priors for year class strnegth be on ycs_values or standardised ycs_values", "",true);
   parameters_.Bind<unsigned>(PARAM_STANDARDISE_YCS_YEARS, &standardise_ycs_, "", "", true);
 
   RegisterAsEstimable(PARAM_R0, &r0_);
@@ -202,6 +203,8 @@ void RecruitmentBevertonHolt::DoReset() {
  */
 void RecruitmentBevertonHolt::DoExecute() {
   Double amount_per = 0.0;
+  if (prior_ycs_values_)
+    ycs_values_ = stand_ycs_values_;
 
   if (model_->state() == State::kInitialise) {
     initialisationphases::Manager& init_phase_manager = initialisationphases::Manager::Instance();
@@ -221,13 +224,7 @@ void RecruitmentBevertonHolt::DoExecute() {
     /**
      * The model is not in an initialisation phase
      */
-    LOG_FINEST() << "standardise_ycs_.size(): " << standardise_ycs_.size() << "; model_->current_year(): " << model_->current_year() << "; model_->start_year(): " << model_->start_year();
-    Double ycs = stand_ycs_values_[model_->current_year() - model_->start_year()];
-    b0_ = derived_quantity_->GetLastValueFromInitialisation(phase_b0_);
-    Double ssb_ratio = derived_quantity_->GetValue(model_->current_year() - ssb_offset_) / b0_;
-    Double true_ycs  = ycs * ssb_ratio / (1.0 - ((5.0 * steepness_ - 1.0) / (4.0 * steepness_) ) * (1.0 - ssb_ratio));
-    amount_per = r0_ * true_ycs;
-
+.
     true_ycs_values_.push_back(true_ycs);
     recruitment_values_.push_back(amount_per);
     ssb_values_.push_back(derived_quantity_->GetValue(model_->current_year() - ssb_offset_));

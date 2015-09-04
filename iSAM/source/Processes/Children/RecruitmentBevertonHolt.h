@@ -59,6 +59,7 @@ private:
   vector<Double>              recruitment_values_;
   vector<unsigned>            standardise_ycs_;
   DerivedQuantityPtr          derived_quantity_;
+  bool                        prior_ycs_values_ = true;
 };
 
 } /* namespace processes */
