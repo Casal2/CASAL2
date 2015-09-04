@@ -63,7 +63,7 @@ private:
   map<string, Double>                       fishery_exploitation;
   // members from mortality event
   Double                                    u_max_;
-  string                                    penalty_name_;
+  string                                    penalty_name_ = "";
   penalties::ProcessPtr                     penalty_;
   // members from natural mortality
   vector<Double>                            m_;

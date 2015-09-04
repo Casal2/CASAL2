@@ -22,6 +22,7 @@
 #include "Partition/Accessors/CombinedCategories.h"
 #include "Partition/Accessors/Cached/CombinedCategories.h"
 #include "Processes/Children/MortalityInstantaneous.h"
+#include "AgeingErrors/AgeingError.h"
 
 // Namespace
 namespace niwa {
@@ -63,6 +64,7 @@ protected:
   parameters::TablePtr          error_values_table_;
   CachedCombinedCategoriesPtr   cached_partition_;
   CombinedCategoriesPtr         partition_;
+ // AgeingErrorsPtr               ageing_error_;
   vector<Double>                age_results_;
 
   map<unsigned, map<string, vector<Double>>>  proportions_;

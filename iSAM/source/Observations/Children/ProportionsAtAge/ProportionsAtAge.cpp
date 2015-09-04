@@ -16,6 +16,7 @@
 #include <algorithm>
 
 #include "Model/Model.h"
+#include "AgeingErrors/AgeingError.h"
 #include "Partition/Accessors/All.h"
 #include "Utilities/DoubleCompare.h"
 #include "Utilities/Map.h"
@@ -107,7 +108,6 @@ void ProportionsAtAge::DoValidate() {
       LOG_CODE_ERROR() << "obs_by_year_[year].size() (" << obs_by_year[year].size() << ") != obs_expected - 1 (" << obs_expected -1 << ")";
   }
 
-
   /**
    * Build our error value map
    */
@@ -192,10 +192,13 @@ void ProportionsAtAge::DoBuild() {
   partition_ = CombinedCategoriesPtr(new niwa::partition::accessors::CombinedCategories(category_labels_));
   cached_partition_ = CachedCombinedCategoriesPtr(new niwa::partition::accessors::cached::CombinedCategories(category_labels_));
 
-/*
-  if (ageing_error_label_ != PARAM_NORMAL || ageing_error_label_ != PARAM_OFF_BY_ONE || ageing_error_label_ != "")
-    LOG_ERROR_P(PARAM_AGEING_ERROR) << "Wrong ageing error label choices are" << PARAM_NORMAL << "; " << PARAM_OFF_BY_ONE << " if you haven't specified this parameter no age misclassification is applied";
-*/
+  vector<vector<Double>>  misclass_matrix;
+//  // check ageing error label is correct
+//  if (ageing_error_label_ != "")
+//  AgeingErrorPtr  ageing_error_ = AgeingErrorPtr(new niwa::AgeingError());
+//    misclass_matrix = ageing_error_->mis_matrix();
+
+
 
   age_results_.resize(age_spread_ * category_labels_.size(), 0.0);
 }
@@ -282,9 +285,19 @@ void ProportionsAtAge::Execute() {
         LOG_FINE() << "Category: " << (*category_iter)->name_ << " at age " << age;
         LOG_FINE() << "Selectivity: " << selectivities_[category_offset]->label() << ": " << selectivity_result;
         LOG_FINE() << "start_value: " << start_value << "; end_value: " << end_value << "; final_value: " << final_value;
-        LOG_FINE() << "expected_value becomes: " << expected_values[age_offset];
+        LOG_FINE() << "expected_value before ageing error is applied: " << expected_values[age_offset];
       }
     }
+
+/*    vector<Double> temp_vector;
+    // Bring in ageing error matrix here
+    unsigned iter = 0;
+    for(unsigned value : expected_values) {
+      for (unsigned i = 0; i <= expected_values.size(); ++i) {
+        temp_vector[i] += value * mis_class[iter][i];
+      }
+      ++iter;
+    }*/
 
     if (expected_values.size() != proportions_[model->current_year()][category_labels_[category_offset]].size())
       LOG_CODE_ERROR() << "expected_values.size(" << expected_values.size() << ") != proportions_[category_offset].size("
