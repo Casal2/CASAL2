@@ -38,7 +38,8 @@ CasalPenalty::CasalPenalty() {
  * Note: all parameters are populated from configuration files
  */
 void CasalPenalty::DoValidate() {
-
+  if (multiplier_ < 0.0)
+    LOG_ERROR_P(PARAM_MULTIPLIER) << "Must be greater than 0.0";
 }
 
 /**
@@ -52,14 +53,14 @@ Double CasalPenalty::ratio_score() {
  * TODO: Add documentation
  */
 Double CasalPenalty::difference_score() {
-  return 0.0;
+  return 0.0f;
 }
 
 /**
  * TODO: Add documentation
  */
 Double CasalPenalty::mean_score() {
-  return 0.0;
+  return 0.0f;
 }
 
 } /* namespace additionalpriors */
