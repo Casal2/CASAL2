@@ -224,7 +224,13 @@ void RecruitmentBevertonHolt::DoExecute() {
     /**
      * The model is not in an initialisation phase
      */
-.
+    LOG_FINEST() << "standardise_ycs_.size(): " << standardise_ycs_.size() << "; model_->current_year(): " << model_->current_year() << "; model_->start_year(): " << model_->start_year();
+    Double ycs = ycs_values_[model_->current_year() - model_->start_year()];
+    b0_ = derived_quantity_->GetLastValueFromInitialisation(phase_b0_);
+    Double ssb_ratio = derived_quantity_->GetValue(model_->current_year() - ssb_offset_) / b0_;
+    Double true_ycs  = ycs * ssb_ratio / (1.0 - ((5.0 * steepness_ - 1.0) / (4.0 * steepness_) ) * (1.0 - ssb_ratio));
+    amount_per = r0_ * true_ycs;
+
     true_ycs_values_.push_back(true_ycs);
     recruitment_values_.push_back(amount_per);
     ssb_values_.push_back(derived_quantity_->GetValue(model_->current_year() - ssb_offset_));
