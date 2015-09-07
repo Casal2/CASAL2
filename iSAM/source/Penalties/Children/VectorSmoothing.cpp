@@ -26,7 +26,7 @@ VectorSmoothing::VectorSmoothing() {
   parameters_.Bind<string>(PARAM_PARAMETER, &parameter_, "Label of the estimate to generate penalty on", "");
   parameters_.Bind<bool>(PARAM_LOG_SCALE, &log_scale_, "Log scale", "", false);
   parameters_.Bind<Double>(PARAM_MULTIPLIER, &multiplier_, "Multiplier for the penalty amount", "", 1);
-  parameters_.Bind<unsigned>(PARAM_STEP_SIZE, &step_size_, "The element index to use", "", 3);
+  parameters_.Bind<unsigned>(PARAM_R, &r_, "Penalty applied to rth differences", "", 3);
 }
 
 /**
@@ -102,11 +102,16 @@ Double VectorSmoothing::GetScore() {
       value = log(value);
   }
 
-  Double first_value = values[0];
-  for (unsigned i = step_size_; i < values.size(); i += step_size_) {
-    score += fabs(values[i] - first_value) * fabs(values[i] - first_value);
-    first_value = values[i];
+  //Double first_value = values[0];
+  for (unsigned i = 1; i <= r_; ++i) {
+    for(unsigned j = 0; j <= values.size(); ++j) {
+      values[j] = values[j + 1] - values[j];
+    }
+    values[values.size() - i + 1] = 0;
   }
+
+  for (Double value : values)
+    score += value * value;
 
   return score * multiplier_;
 }

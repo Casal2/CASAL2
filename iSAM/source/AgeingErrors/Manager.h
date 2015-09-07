@@ -32,7 +32,9 @@ class Manager : public niwa::oldbase::Manager<niwa::ageingerrors::Manager, niwa:
 private:
   // Methods
   Manager() = default;
-  virtual                     ~Manager() = default;
+  virtual                     ~Manager() noexcept(true) { };
+  AgeingErrorPtr              GetAgeingError(const string& label);
+
 };
 
 } /* namespace ageingerrors */

@@ -384,6 +384,7 @@
 #define PARAM_PROPOSAL_DISTRIBUTION               "proposal_distribution"
 #define PARAM_PSEUDO                              "none"
 #define PARAM_Q                                   "q"
+#define PARAM_R                                   "r"
 #define PARAM_R0                                  "r0"
 #define PARAM_R0_LAYER                            "r0_layer"
 #define PARAM_RATE                                "rate"
