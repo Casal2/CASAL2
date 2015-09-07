@@ -17,6 +17,7 @@
 
 #include "Model/Model.h"
 #include "AgeingErrors/AgeingError.h"
+#include "AgeingErrors/Manager.h"
 #include "Partition/Accessors/All.h"
 #include "Utilities/DoubleCompare.h"
 #include "Utilities/Map.h"
@@ -192,12 +193,10 @@ void ProportionsAtAge::DoBuild() {
   partition_ = CombinedCategoriesPtr(new niwa::partition::accessors::CombinedCategories(category_labels_));
   cached_partition_ = CachedCombinedCategoriesPtr(new niwa::partition::accessors::cached::CombinedCategories(category_labels_));
 
-  vector<vector<Double>>  misclass_matrix;
-//  // check ageing error label is correct
-//  if (ageing_error_label_ != "")
-//  AgeingErrorPtr  ageing_error_ = AgeingErrorPtr(new niwa::AgeingError());
-//    misclass_matrix = ageing_error_->mis_matrix();
-
+// Create a pointer to misclassification matrix
+//  AgeingErrorsPtr ageing_error_ = ageingerrors::Manager::Instance().GetAgeingError(ageing_error_label_);
+//  if (!ageing_error_)
+//    LOG_ERROR_P(PARAM_AGEING_ERROR) << "(" << ageing_error_label_ << ") could not be found. Have you defined it?";
 
 
   age_results_.resize(age_spread_ * category_labels_.size(), 0.0);

@@ -17,5 +17,20 @@
 namespace niwa {
 namespace ageingerrors {
 
+/**
+ * Return an AgeingError smart_ptr based on label
+ *
+ * @param label The label of the age length object
+ * @return ageing error smart_ptr
+ */
+AgeingErrorPtr Manager::GetAgeingError(const string& label) {
+  for (AgeingErrorPtr age_error : objects_) {
+    if (age_error->label() == label)
+      return age_error;
+  }
+
+  return AgeingErrorPtr();
+}
+
 } /* namespace ageingerrors */
 } /* namespace niwa */
