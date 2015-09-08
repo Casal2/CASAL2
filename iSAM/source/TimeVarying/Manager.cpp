@@ -33,6 +33,5 @@ void Manager::Update(unsigned current_year) {
     time_varying->Update(current_year);
 }
 
-
 } /* namespace processes */
 } /* namespace niwa */

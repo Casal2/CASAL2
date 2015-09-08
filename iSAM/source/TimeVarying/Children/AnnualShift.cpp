@@ -21,7 +21,8 @@ namespace timevarying {
 /**
  * Default constructor
  */
-AnnualShift::AnnualShift() {
+AnnualShift::AnnualShift() : AnnualShift(Model::Instance()) { }
+AnnualShift::AnnualShift(ModelPtr model) : TimeVarying(model) {
   parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "", "");
   parameters_.Bind<Double>(PARAM_A, &a_, "", "");
   parameters_.Bind<Double>(PARAM_B, &b_, "", "");

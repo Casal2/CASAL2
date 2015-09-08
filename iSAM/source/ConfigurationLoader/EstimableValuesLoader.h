@@ -22,6 +22,8 @@
 // headers
 #include <string>
 
+#include "Model/Model.h"
+
 // namespaces
 namespace niwa {
 namespace configuration {
@@ -32,9 +34,13 @@ using std::string;
 class EstimableValuesLoader {
 public:
   // methods
-  EstimableValuesLoader() = default;
+  EstimableValuesLoader(ModelPtr model) : model_(model) { }
   virtual                     ~EstimableValuesLoader() = default;
   void                        LoadValues(const string& file_name);
+
+private:
+  // members
+  ModelPtr                    model_;
 };
 
 } /* namespace configuration */

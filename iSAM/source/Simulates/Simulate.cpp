@@ -11,7 +11,7 @@
 // headers
 #include "Simulate.h"
 
-#include "ObjectsFinder/ObjectsFinder.h"
+#include "Model/Objects.h"
 #include "Utilities/To.h"
 
 // namespaces
@@ -42,53 +42,37 @@ void Simulate::Validate() {
  *
  */
 void Simulate::Build() {
-  string type       = "";
-  string label      = "";
-  string parameter  = "";
-  string index      = "";
-
-  /**
-   * Explode the parameter string sive o we can get the estimable
-   * name (parameter) and the index
-   */
   if (parameter_ == "") {
     parameters().Add(PARAM_PARAMETER, label_, parameters_.Get(PARAM_LABEL)->file_name(), parameters_.Get(PARAM_LABEL)->line_number());
     parameter_ = label_;
   }
 
-  objects::ExplodeString(parameter_, type, label, parameter, index);
-  if (type == "" || label == "" || parameter == "") {
-    LOG_ERROR_P(PARAM_PARAMETER) << ": parameter " << parameter_
-        << " is not in the correct format. Correct format is object_type[label].estimable(array index)";
-  }
-
-  base::ObjectPtr target = objects::FindObject(parameter_);
-  if (!target)
-    LOG_ERROR_P(PARAM_PARAMETER) << " " << parameter_ << " is not a valid estimable in the system";
-
-
-  Estimable::Type estimable_type = target->GetEstimableType(parameter);
+  string error = "";
+  Estimable::Type estimable_type = model_->objects().GetEstimableType(parameter_, error);
   switch(estimable_type) {
     case Estimable::kInvalid:
-      LOG_CODE_ERROR() << "Invalid estimable type: " << parameter_;
+      LOG_ERROR_P(PARAM_PARAMETER) << error;
       break;
     case Estimable::kSingle:
-      DoUpdateFunc_ = &Simulate::SetSingleValue;
-      estimable_    = target->GetEstimable(parameter);
+      update_function_ = &Simulate::set_single_value;
+      estimable_    = model_->objects().GetEstimable(parameter_, error);
       original_value_ = *estimable_;
       break;
     case Estimable::kVector:
-      DoUpdateFunc_ = &Simulate::SetVectorValue;
-      estimable_vector_ = target->GetEstimableVector(parameter);
+      update_function_ = &Simulate::set_vector_value;
+      estimable_vector_ = model_->objects().GetEstimableVector(parameter_, error);
       break;
     case Estimable::kUnsignedMap:
-      DoUpdateFunc_ = &Simulate::SetMapValue;
-      estimable_map_ = target->GetEstimableUMap(parameter);
+      update_function_ = &Simulate::set_map_value;
+      estimable_map_ = model_->objects().GetEstimableUMap(parameter_, error);
       break;
     default:
-      LOG_ERROR() << "The estimable you have provided for use in a Simulateion: " << parameter_ << " is not a type that is supported for Simulateion modification";
+      LOG_ERROR() << "The estimable you have provided for use in a time varying: " << parameter_ << " is not a type that is supported";
       break;
   }
+  if (error != "")
+    LOG_ERROR_P(PARAM_PARAMETER) << error;
+
   DoBuild();
 }
 
@@ -97,8 +81,8 @@ void Simulate::Build() {
  */
 void Simulate::Update(unsigned current_year) {
   LOG_TRACE();
-  if (DoUpdateFunc_ == 0)
-    LOG_CODE_ERROR() << "DoUpdateFunc_ == 0";
+  if (update_function_ == 0)
+    LOG_CODE_ERROR() << "update_function_ == 0";
 
   if (years_.size() > 0 && std::find(years_.begin(), years_.end(), current_year) == years_.end())
     RestoreOriginalValue();
@@ -112,27 +96,27 @@ void Simulate::Update(unsigned current_year) {
 void Simulate::RestoreOriginalValue() {
   LOG_TRACE();
   LOG_FINE() << "Setting original value to: " << AS_DOUBLE(original_value_);
-  (this->*DoUpdateFunc_)(original_value_);
+  (this->*update_function_)(original_value_);
 }
 
 /**
  *
  */
-void Simulate::SetSingleValue(Double value) {
+void Simulate::set_single_value(Double value) {
   *estimable_ = value;
 }
 
 /**
  *
  */
-void Simulate::SetVectorValue(Double value) {
+void Simulate::set_vector_value(Double value) {
   estimable_vector_->push_back(value);
 }
 
 /**
  *
  */
-void Simulate::SetMapValue(Double value) {
+void Simulate::set_map_value(Double value) {
   (*estimable_map_)[model_->current_year()] = value;
 }
 

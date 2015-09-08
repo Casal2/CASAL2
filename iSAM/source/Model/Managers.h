@@ -17,6 +17,7 @@
 #define SOURCE_MODEL_MANAGERS_H_
 
 // headers
+#include "Estimables/Estimables.h"
 #include "LengthWeights/Manager.h"
 #include "Selectivities/Manager.h"
 #include "TimeSteps/Manager.h"
@@ -29,6 +30,7 @@ class Managers {
   friend class Model;
 public:
   // accessors
+  virtual Estimables&                   estimables() { return Estimables::Instance(); }
   virtual lengthweights::Manager&       length_weight() { return lengthweights::Manager::Instance(); }
   virtual selectivities::Manager&       selectivity() { return selectivities::Manager::Instance(); }
   virtual timesteps::Manager&           time_step() { return timesteps::Manager::Instance(); }

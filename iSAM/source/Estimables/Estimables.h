@@ -50,7 +50,7 @@ class Estimables {
 public:
   // methods
   virtual                       ~Estimables() = default;
-  static shared_ptr<Estimables> Instance();
+  static Estimables&            Instance();
   void                          AddValue(const string& estimable_label, Double value);
   vector<string>                GetEstimables() const;
   unsigned                      GetValueCount() const;

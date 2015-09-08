@@ -12,7 +12,7 @@
 // headers
 #include "TimeVarying.h"
 
-#include "ObjectsFinder/ObjectsFinder.h"
+#include "Model/Objects.h"
 #include "Utilities/To.h"
 
 // namespaces
@@ -21,13 +21,12 @@ namespace niwa {
 /**
  * Default constructor
  */
-TimeVarying::TimeVarying() {
+TimeVarying::TimeVarying(ModelPtr model) : model_(model) {
   parameters_.Bind<string>(PARAM_LABEL, &label_, "Label", "");
   parameters_.Bind<string>(PARAM_TYPE, &type_, "Type", "", "");
   parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "Years to recalculate the values", "");
   parameters_.Bind<string>(PARAM_PARAMETER, &parameter_, "Parameter to project", "");
 
-  model_ = Model::Instance();
   original_value_ = 0;
 }
 
@@ -43,52 +42,37 @@ void TimeVarying::Validate() {
  *
  */
 void TimeVarying::Build() {
-  string type       = "";
-  string label      = "";
-  string parameter  = "";
-  string index      = "";
-
-  /**
-   * Explode the parameter string sive o we can get the estimable
-   * name (parameter) and the index
-   */
   if (parameter_ == "") {
     parameters().Add(PARAM_PARAMETER, label_, parameters_.Get(PARAM_LABEL)->file_name(), parameters_.Get(PARAM_LABEL)->line_number());
     parameter_ = label_;
   }
 
-  objects::ExplodeString(parameter_, type, label, parameter, index);
-  if (type == "" || label == "" || parameter == "") {
-    LOG_ERROR_P(PARAM_PARAMETER) << ": parameter " << parameter_
-        << " is not in the correct format. Correct format is object_type[label].estimable(array index)";
-  }
-
-  base::ObjectPtr target = objects::FindObject(parameter_);
-  if (!target)
-    LOG_ERROR_P(PARAM_PARAMETER) << " " << parameter_ << " is not a valid estimable in the system";
-
-  Estimable::Type estimable_type = target->GetEstimableType(parameter);
+  string error = "";
+  Estimable::Type estimable_type = model_->objects().GetEstimableType(parameter_, error);
   switch(estimable_type) {
     case Estimable::kInvalid:
-      LOG_CODE_ERROR() << "Invalid estimable type: " << parameter_;
+      LOG_ERROR_P(PARAM_PARAMETER) << error;
       break;
     case Estimable::kSingle:
       update_function_ = &TimeVarying::set_single_value;
-      estimable_    = target->GetEstimable(parameter);
+      estimable_    = model_->objects().GetEstimable(parameter_, error);
       original_value_ = *estimable_;
       break;
     case Estimable::kVector:
       update_function_ = &TimeVarying::set_vector_value;
-      estimable_vector_ = target->GetEstimableVector(parameter);
+      estimable_vector_ = model_->objects().GetEstimableVector(parameter_, error);
       break;
     case Estimable::kUnsignedMap:
       update_function_ = &TimeVarying::set_map_value;
-      estimable_map_ = target->GetEstimableUMap(parameter);
+      estimable_map_ = model_->objects().GetEstimableUMap(parameter_, error);
       break;
     default:
-      LOG_ERROR() << "The estimable you have provided for use in a projection: " << parameter_ << " is not a type that is supported for projection modification";
+      LOG_ERROR() << "The estimable you have provided for use in a time varying: " << parameter_ << " is not a type that is supported";
       break;
   }
+  if (error != "")
+    LOG_ERROR_P(PARAM_PARAMETER) << error;
+
   DoBuild();
 }
 

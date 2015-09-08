@@ -16,7 +16,9 @@
 #include <iostream>
 
 #include "Managers.h"
+#include "Objects.h"
 #include "AdditionalPriors/Manager.h"
+#include "AgeingErrors/Manager.h"
 #include "AgeLengths/Manager.h"
 #include "Asserts/Manager.h"
 #include "Catchabilities/Manager.h"
@@ -62,7 +64,7 @@ using std::endl;
 /**
  * Default Constructor
  */
-Model::Model() : managers_(new Managers()) {
+Model::Model() : managers_(new Managers()), objects_(new Objects()) {
   LOG_TRACE();
   parameters_.Bind<unsigned>(PARAM_START_YEAR, &start_year_, "Define the first year of the model, immediately following initialisation", R"(Defines the first year of the model, $\ge 1$, e.g. 1990)");
   parameters_.Bind<unsigned>(PARAM_FINAL_YEAR, &final_year_, "Define the final year of the model, excluding years in the projection period", "Defines the last year of the model, i.e., the model is run from start_year to final_year");
@@ -78,6 +80,7 @@ Model::Model() : managers_(new Managers()) {
 
 Model::~Model() {
   delete managers_;
+  delete objects_;
 }
 
 /**
@@ -126,6 +129,10 @@ Managers& Model::managers() {
   return *managers_;
 }
 
+Objects& Model::objects() {
+  return *objects_;
+}
+
 /**
  * Start our model. This is the entry point method for the model
  * after being called from the main() method.
@@ -147,7 +154,7 @@ bool Model::Start(RunMode::Type run_mode) {
     LOG_CODE_ERROR() << "Model state should always be startup when entering the start method";
   GlobalConfigurationPtr global_config = GlobalConfiguration::Instance();
   if (global_config->estimable_value_file() != "") {
-    configuration::EstimableValuesLoader loader;
+    configuration::EstimableValuesLoader loader(shared_from_this());
     loader.LoadValues(global_config->estimable_value_file());
   }
   reports::Manager::Instance().Execute(State::kStartUp);
@@ -285,6 +292,7 @@ void Model::Validate() {
   timesteps::Manager::Instance().Validate();
 
   additionalpriors::Manager::Instance().Validate();
+  ageingerrors::Manager::Instance().Validate();
   agelengths::Manager::Instance().Validate();
   asserts::Manager::Instance().Validate();
   catchabilities::Manager::Instance().Validate();
@@ -335,6 +343,7 @@ void Model::Build() {
   additionalpriors::Manager::Instance().Build();
   estimates::Manager::Instance().Build();
   agelengths::Manager::Instance().Build();
+  ageingerrors::Manager::Instance().Build();
   asserts::Manager::Instance().Build();
   catchabilities::Manager::Instance().Build();
   derivedquantities::Manager::Instance().Build();
@@ -352,10 +361,10 @@ void Model::Build() {
   simulates::Manager::Instance().Build();
   timevarying::Manager::Instance().Build();
 
-  EstimablesPtr estimables = Estimables::Instance();
-  if (estimables->GetValueCount() > 0) {
+  Estimables& estimables = managers_->estimables();
+  if (estimables.GetValueCount() > 0) {
     estimable_values_file_ = true;
-    estimable_values_count_ = estimables->GetValueCount();
+    estimable_values_count_ = estimables.GetValueCount();
   }
 }
 
@@ -379,6 +388,7 @@ void Model::Reset() {
   estimates::Manager::Instance().Reset();
 
   additionalpriors::Manager::Instance().Reset();
+  ageingerrors::Manager::Instance().Reset();
   agelengths::Manager::Instance().Reset();
   asserts::Manager::Instance().Reset();
   Categories::Instance()->Reset();
@@ -405,12 +415,12 @@ void Model::Reset() {
  */
 void Model::RunBasic() {
   LOG_TRACE();
-  EstimablesPtr estimables = Estimables::Instance();
+  Estimables& estimables = managers_->estimables();
 
   // Model is about to run
   for (unsigned i = 0; i < estimable_values_count_; ++i) {
     if (estimable_values_file_) {
-      estimables->LoadValues(i);
+      estimables.LoadValues(i);
       Reset();
     }
 
@@ -446,11 +456,11 @@ void Model::RunEstimation() {
   LOG_FINE() << "Doing pre-estimation iteration of the model";
   Iterate();
 
-  EstimablesPtr estimables = Estimables::Instance();
+  Estimables& estimables = managers_->estimables();
   map<string, Double> estimable_values;
   for (unsigned i = 0; i < estimable_values_count_; ++i) {
     if (estimable_values_file_) {
-      estimables->LoadValues(i);
+      estimables.LoadValues(i);
       Reset();
     }
 
@@ -497,12 +507,12 @@ bool Model::RunMCMC() {
 void Model::RunProfiling() {
   GlobalConfiguration::Instance()->set_force_estimable_values_file();
 
-  EstimablesPtr estimables = Estimables::Instance();
+  Estimables& estimables = managers_->estimables();
 
   map<string, Double> estimable_values;
   for (unsigned i = 0; i < estimable_values_count_; ++i) {
     if (estimable_values_file_) {
-      estimables->LoadValues(i);
+      estimables.LoadValues(i);
       Reset();
     }
 
@@ -516,7 +526,7 @@ void Model::RunProfiling() {
     vector<ProfilePtr> profiles = profiles::Manager::Instance().objects();
     LOG_FINE() << "Working with " << profiles.size() << " profiles";
     for (ProfilePtr profile : profiles) {
-      LOG_FINE() << "Disabling estiSmate: " << profile->parameter();
+      LOG_FINE() << "Disabling estimate: " << profile->parameter();
       estimate_manager.DisableEstimate(profile->parameter());
 
       LOG_FINE() << "First-Stepping profile";
