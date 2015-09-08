@@ -27,6 +27,7 @@ namespace niwa {
 
 using std::shared_ptr;
 class Managers;
+class Objects;
 
 namespace State {
 enum Type {
@@ -58,7 +59,7 @@ inline PartitionStructure operator&(PartitionStructure a, PartitionStructure b) 
 /**
  * Class definition
  */
-class Model : public base::Object {
+class Model : public base::Object, public std::enable_shared_from_this<Model> {
 public:
   // Methods
   static shared_ptr<Model>    Instance(bool force_new = false);
@@ -87,6 +88,7 @@ public:
 
   // manager accessors
   virtual Managers&           managers();
+  virtual Objects&            objects();
 
 protected:
   // Methods
@@ -123,6 +125,7 @@ protected:
 
   map<State::Type, vector<ExecutorPtr>> executors_;
   Managers*                   managers_;
+  Objects*                    objects_;
 };
 
 /**

@@ -79,8 +79,8 @@ void Manager::Validate() {
    */
   GlobalConfigurationPtr global_config = GlobalConfiguration::Instance();
   if (global_config->estimable_value_file() != "") {
-    EstimablesPtr estimables = Estimables::Instance();
-    vector<string> estimable_labels = estimables->GetEstimables();
+    Estimables& estimables = Estimables::Instance();
+    vector<string> estimable_labels = estimables.GetEstimables();
 
     for (string label : estimable_labels) {
       auto match = [](string label, vector<EstimatePtr> objects) {

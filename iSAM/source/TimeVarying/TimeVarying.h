@@ -18,7 +18,6 @@
 #include "BaseClasses/Object.h"
 #include "Model/Model.h"
 
-
 // namespaces
 namespace niwa {
 
@@ -29,7 +28,8 @@ class TimeVarying : public niwa::base::Object {
   typedef void (TimeVarying::*UpdateFunction)(Double);
 public:
   // methods
-  TimeVarying();
+  TimeVarying() = delete;
+  explicit TimeVarying(ModelPtr model);
   virtual                     ~TimeVarying() = default;
   void                        Validate();
   void                        Build();

@@ -38,9 +38,9 @@ public:
 protected:
   // methods
   void                        RestoreOriginalValue();
-  void                        SetSingleValue(Double value);
-  void                        SetVectorValue(Double value);
-  void                        SetMapValue(Double value);
+  void                        set_single_value(Double value);
+  void                        set_vector_value(Double value);
+  void                        set_map_value(Double value);
 
   // pure virtual methods
   virtual void                DoValidate() = 0;
@@ -49,7 +49,7 @@ protected:
   virtual void                DoUpdate() = 0;
 
   // function pointers
-  UpdateFunction              DoUpdateFunc_ = 0;
+  UpdateFunction              update_function_ = 0;
 
   // members
   ModelPtr                    model_;

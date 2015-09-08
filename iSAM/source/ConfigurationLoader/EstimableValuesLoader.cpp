@@ -21,6 +21,7 @@
 
 #include "Estimables/Estimables.h"
 #include "Logging/Logging.h"
+#include "Model/Managers.h"
 #include "Utilities/To.h"
 #include "Utilities/Types.h"
 
@@ -62,7 +63,7 @@ void EstimableValuesLoader::LoadValues(const string& file_name) {
    */
   unsigned line_number = 1;
   vector<string> values;
-  EstimablesPtr estimables = Estimables::Instance();
+  Estimables& estimables = model_->managers().estimables();
 
   while (getline(file_, current_line)) {
     ++line_number;
@@ -82,7 +83,7 @@ void EstimableValuesLoader::LoadValues(const string& file_name) {
       if (!utilities::To<Double>(values[i], numeric))
         LOG_FATAL() << "In estimate_value file could not convert the value " << values[i] << " to a double";
 
-      estimables->AddValue(parameters[i], numeric);
+      estimables.AddValue(parameters[i], numeric);
     }
   }
 

@@ -30,8 +30,8 @@ Estimables::Estimables() {
 /**
  * Instance method
  */
-shared_ptr<Estimables> Estimables::Instance() {
-  static EstimablesPtr instance = EstimablesPtr(new Estimables());
+Estimables& Estimables::Instance() {
+  static Estimables instance;
   return instance;
 }
 

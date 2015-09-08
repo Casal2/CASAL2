@@ -27,6 +27,7 @@ namespace timevarying {
 class AnnualShift : public TimeVarying {
 public:
   AnnualShift();
+  explicit AnnualShift(ModelPtr model);
   virtual                     ~AnnualShift() = default;
   void                        DoValidate() override final;
   void                        DoBuild() override final;

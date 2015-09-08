@@ -65,6 +65,8 @@ void Profile::Build() {
   }
 
   target_ = target->GetEstimable(parameter);
+  if (target_ == 0)
+    LOG_ERROR_P(PARAM_PARAMETER) << ": parameter " << parameter_ << " is not a valid estimable in the system";
   original_value_ = *target_;
 
   step_size_ = (upper_bound_ - lower_bound_) / (steps_ + 1);

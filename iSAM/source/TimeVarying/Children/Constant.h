@@ -27,6 +27,7 @@ namespace timevarying {
 class Constant : public niwa::TimeVarying {
 public:
   Constant();
+  explicit Constant(ModelPtr model);
   virtual                     ~Constant() = default;
   void                        DoValidate() override final;
   void                        DoBuild() override final;
