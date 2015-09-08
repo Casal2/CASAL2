@@ -26,6 +26,8 @@
 // Namespaces
 namespace niwa {
 
+using std::pair;
+
 /**
  * Class Definition
  */
@@ -61,11 +63,10 @@ private:
   map<unsigned, vector<ExecutorPtr> > executors_;
   map<unsigned, vector<ExecutorPtr> > block_executors_;
   vector<ExecutorPtr>                 initialisation_block_executors_;
-  unsigned                            block_start_process_index_ = 0;
-  unsigned                            block_end_process_Index_ = 0;
+  pair<unsigned, unsigned>            mortality_block_ = pair<unsigned,unsigned>(0u, 0u);
   map<string, vector<string>>         initialisation_process_labels_;
   map<string, vector<ProcessPtr>>     initialisation_processes_;
-  map<string, unsigned>               initialisation_block_end_process_index_;
+  map<string, pair<unsigned, unsigned>> initialisation_mortality_blocks_;
   map<unsigned, map<unsigned, vector<ExecutorPtr>>> process_executors_; // year/process index
 };
 

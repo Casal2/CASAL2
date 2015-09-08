@@ -56,18 +56,21 @@ void TimeStep::Build() {
   LOG_FINE() << "Time step " << label_ << " has " << processes_.size() << " processes";
 
   /**
-   * If we have a block build it
+   * Find the range of our mortality block. This block encompasses the
+   * first continuous collection of mortality processes within the time
+   * step.
    */
-  block_start_process_index_ = processes_.size();
-  block_end_process_Index_ = processes_.size() - 1;
+  mortality_block_.first  = processes_.size();
+  mortality_block_.second = processes_.size() - 1;
   for (unsigned i = 0; i < processes_.size(); ++i) {
     if (processes_[i]->process_type() == ProcessType::kMortality) {
-      block_start_process_index_ = block_start_process_index_ == processes_.size() ? i : block_start_process_index_;
-      block_end_process_Index_ = i;
-    }
+      mortality_block_.first = mortality_block_.first == processes_.size() ? i : mortality_block_.first;
+      mortality_block_.second = i;
+    } else if (mortality_block_.first != processes_.size())
+      break;
   }
 
-  block_start_process_index_ = block_start_process_index_ == processes_.size() ? 0 : block_start_process_index_;
+  mortality_block_.first = mortality_block_.first == processes_.size() ? 0 : mortality_block_.first;
 }
 
 /**
@@ -75,11 +78,17 @@ void TimeStep::Build() {
  */
 void TimeStep::ExecuteForInitialisation(const string& phase_label) {
   LOG_FINEST() << "Executing for initialisation phase: " << phase_label << " with " << initialisation_block_executors_.size() << " executors";
-  LOG_FINEST() << "initialisation_block_end_process_index_: " << initialisation_block_end_process_index_[phase_label];
 
   for (unsigned index = 0; index < initialisation_processes_[phase_label].size(); ++index) {
+    if (initialisation_mortality_blocks_[phase_label].first == index) {
+      for (ExecutorPtr executor : initialisation_block_executors_) {
+        executor->PreExecute();
+      }
+    }
+
     initialisation_processes_[phase_label][index]->Execute(0u, "");
-    if (initialisation_block_end_process_index_[phase_label] == index) {
+
+    if (initialisation_mortality_blocks_[phase_label].second == index) {
       for (ExecutorPtr executor : initialisation_block_executors_) {
         executor->Execute();
       }
@@ -97,7 +106,7 @@ void TimeStep::Execute(unsigned year) {
       executor->PreExecute();
 
   for (unsigned index = 0; index < processes_.size(); ++index) {
-    if (index == block_start_process_index_) {
+    if (index == mortality_block_.first) {
       for (ExecutorPtr executor : block_executors_[year])
         executor->PreExecute();
     }
@@ -110,7 +119,7 @@ void TimeStep::Execute(unsigned year) {
     for(ExecutorPtr executor : process_executors_[year][index])
       executor->Execute();
 
-    if (index == block_end_process_Index_) {
+    if (index == mortality_block_.second) {
       for (ExecutorPtr executor : block_executors_[year])
         executor->Execute();
     }
@@ -184,12 +193,17 @@ void TimeStep::BuildInitialisationProcesses() {
       initialisation_processes_[iter.first].push_back(process);
     }
 
-    initialisation_block_end_process_index_[iter.first]   = iter.second.size() - 1;
+    initialisation_mortality_blocks_[iter.first].first  = processes_.size();
+    initialisation_mortality_blocks_[iter.first].second = processes_.size() - 1;
     for (unsigned i = 0; i < initialisation_processes_[iter.first].size(); ++i) {
       if (initialisation_processes_[iter.first][i]->process_type() == ProcessType::kMortality) {
-        initialisation_block_end_process_index_[iter.first] = i;
-      }
+        initialisation_mortality_blocks_[iter.first].first = initialisation_mortality_blocks_[iter.first].first == processes_.size() ? i : initialisation_mortality_blocks_[iter.first].first;
+        initialisation_mortality_blocks_[iter.first].second = i;
+      } else if (initialisation_mortality_blocks_[iter.first].first != processes_.size())
+        break;
     }
+
+    initialisation_mortality_blocks_[iter.first].first = initialisation_mortality_blocks_[iter.first].first == processes_.size() ? 0 : initialisation_mortality_blocks_[iter.first].first;
   }
 }
 } /* namespace niwa */
