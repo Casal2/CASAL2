@@ -295,7 +295,7 @@ void MortalityInstantaneous::DoExecute() {
           * (1 - category_by_age_with_exploitation[categories->name_][categories->min_age_ + i]);
 
       if (categories->data_[i] < 0.0) {
-        LOG_FINEST() << " M = "<< m_[m_offset] << " ratio " << ratio << " selectivity : " << selectivities_[m_offset]->GetResult(categories->min_age_ + i)
+        LOG_FINEST() << " Category : " << categories->name_ << " M = "<< m_[m_offset] << " ratio " << ratio << " selectivity : " << selectivities_[m_offset]->GetResult(categories->min_age_ + i)
             << " u_f = " << category_by_age_with_exploitation[categories->name_][categories->min_age_ + i] << " data = " << categories->data_[i] << " Exp " << AS_DOUBLE(exp(-m_[m_offset]));
         LOG_FATAL() << " Fishing caused a negative partition : if (categories->data_[i] < 0.0)";
       }

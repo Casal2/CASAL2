@@ -64,6 +64,7 @@ protected:
   parameters::TablePtr          error_values_table_;
   CachedCombinedCategoriesPtr   cached_partition_;
   CombinedCategoriesPtr         partition_;
+  AgeingErrorPtr                ageing_error_;
   vector<Double>                age_results_;
 
   map<unsigned, map<string, vector<Double>>>  proportions_;

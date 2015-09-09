@@ -32,7 +32,6 @@ void Biomass::PreExecute() {
     for (unsigned j = 0; j < (*iterator)->data_.size(); ++j) {
       unsigned age = (*iterator)->min_age_ + j;
       cache_value_ += (*iterator)->data_[j] * selectivities_[i]->GetResult(age) * (*iterator)->mean_weight_per_[age];
-      LOG_FINEST() << " Pre Exploitation value " <<  cache_value_;
     }
   }
 }
