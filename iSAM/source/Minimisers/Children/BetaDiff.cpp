@@ -48,6 +48,7 @@ public:
 BetaDiff::BetaDiff() {
   parameters_.Bind<int>(PARAM_MAX_ITERATIONS, &max_iterations_, "Maximum number of iterations", "", 1000);
   parameters_.Bind<int>(PARAM_MAX_EVALUATIONS, &max_evaluations_, "Maximum number of evaluations", "", 4000);
+  parameters_.Bind<double>(PARAM_TOLERANCE, &gradient_tolerance_, "Tolerance of the gradient for convergence", "", 2e-3);
 }
 
 /**
@@ -88,7 +89,7 @@ void BetaDiff::Execute() {
 
   int convergence = 0;
   double score = optimise<MyModel, MyObjective>(my_model, my_objective, start_values, lower_bounds, upper_bounds, convergence, 0,
-      max_iterations_, max_evaluations_);
+      max_iterations_, max_evaluations_, gradient_tolerance_);
 }
 
 } /* namespace reports */

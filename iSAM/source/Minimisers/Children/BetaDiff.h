@@ -43,6 +43,7 @@ private:
   // Members
   int                         max_iterations_;
   int                         max_evaluations_;
+  double                      gradient_tolerance_;
 };
 
 } /* namespace reports */
