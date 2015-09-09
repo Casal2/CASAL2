@@ -147,16 +147,22 @@ void MaturationRate::DoExecute() {
       Double proportion = proportions_.size() > 1 ? proportions_[i] : proportions_[0];
       unsigned min_age   = (*from_iter)->min_age_;
 
-      for (unsigned j = 0; j < (*from_iter)->data_.size(); ++j)
+      for (unsigned j = 0; j < (*from_iter)->data_.size(); ++j) {
         maturation_rates_[i].push_back(proportion * selectivities_[i]->GetResult(min_age + j));
+        if (selectivities_[i]->GetResult(min_age + j) > 1.0)
+          LOG_ERROR() << " Selectivity result is greater than 1.0, check selectivity";
+      }
     }
   }
 
   for (unsigned i = 0; from_iter != from_partition_.end() && to_iter != to_partition_.end(); ++from_iter, ++to_iter, ++i) {
     for (unsigned offset = 0; offset < (*from_iter)->data_.size(); ++offset) {
       amount = maturation_rates_[i][offset] * (*from_iter)->data_[offset];
+
       (*from_iter)->data_[offset] -= amount;
       (*to_iter)->data_[offset] += amount;
+      if ((*from_iter)->data_[offset] < 0.0)
+      LOG_FATAL() << "Maturation rate caused a negative partition if ((*from_iter)->data_[offset] < 0.0) ";
     }
   }
 }

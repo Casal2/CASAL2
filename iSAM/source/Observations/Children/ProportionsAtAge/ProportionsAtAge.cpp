@@ -194,10 +194,11 @@ void ProportionsAtAge::DoBuild() {
   cached_partition_ = CachedCombinedCategoriesPtr(new niwa::partition::accessors::cached::CombinedCategories(category_labels_));
 
 // Create a pointer to misclassification matrix
-//  AgeingErrorsPtr ageing_error_ = ageingerrors::Manager::Instance().GetAgeingError(ageing_error_label_);
-//  if (!ageing_error_)
-//    LOG_ERROR_P(PARAM_AGEING_ERROR) << "(" << ageing_error_label_ << ") could not be found. Have you defined it?";
-
+  if( ageing_error_label_ != "") {
+  ageing_error_ = ageingerrors::Manager::Instance().GetAgeingError(ageing_error_label_);
+  if (!ageing_error_)
+    LOG_ERROR_P(PARAM_AGEING_ERROR) << "(" << ageing_error_label_ << ") could not be found. Have you defined it?";
+  }
 
   age_results_.resize(age_spread_ * category_labels_.size(), 0.0);
 }
@@ -238,6 +239,7 @@ void ProportionsAtAge::Execute() {
    * with it. We need to build a vector of proportions for each age using that combination and then
    * compare it to the observations.
    */
+  LOG_FINEST() << "Number of categories " << category_labels_.size();
   for (unsigned category_offset = 0; category_offset < category_labels_.size(); ++category_offset, ++partition_iter, ++cached_partition_iter) {
     Double      selectivity_result = 0.0;
     Double      start_value        = 0.0;
@@ -288,15 +290,28 @@ void ProportionsAtAge::Execute() {
       }
     }
 
-/*    vector<Double> temp_vector;
-    // Bring in ageing error matrix here
-    unsigned iter = 0;
-    for(unsigned value : expected_values) {
-      for (unsigned i = 0; i <= expected_values.size(); ++i) {
-        temp_vector[i] += value * mis_class[iter][i];
+
+
+    if (ageing_error_label_ != "") {
+      vector<vector<Double>>& mis_matrix = ageing_error_->mis_matrix();
+      vector<Double> temp;
+
+      temp.assign(expected_values.size(), 0.0);
+      LOG_FINEST() << "Number of rows in matrix " << mis_matrix.size() <<  " Number of Columns "<< mis_matrix[0].size();
+      for (unsigned i = 0; i < mis_matrix.size(); ++i) {
+        for (unsigned j = 0; j < mis_matrix[i].size(); ++j) {
+          // Check and skip ages we don't care about.
+          if (i < min_age_)
+            continue;
+          if (i > max_age_ && !age_plus_)
+            break;
+          temp[j] += expected_values[i] * mis_matrix[i][j];
+          LOG_FINEST() << " Mis-Classification Matrix values " << mis_matrix[i][j];
+        }
       }
-      ++iter;
-    }*/
+      expected_values = temp;
+    }
+
 
     if (expected_values.size() != proportions_[model->current_year()][category_labels_[category_offset]].size())
       LOG_CODE_ERROR() << "expected_values.size(" << expected_values.size() << ") != proportions_[category_offset].size("
@@ -310,7 +325,9 @@ void ProportionsAtAge::Execute() {
       SaveComparison(category_labels_[category_offset], min_age_ + i ,0.0 ,expected_values[i], proportions_[model->current_year()][category_labels_[category_offset]][i],
           process_errors_by_year_[model->current_year()], error_values_[model->current_year()][category_labels_[category_offset]][i], delta_, 0.0);
     }
+    LOG_FINEST() << "1 Made it this far ";
   }
+  LOG_FINEST() << "2 Made it this far ";
 }
 
 /**
@@ -322,6 +339,7 @@ void ProportionsAtAge::CalculateScore() {
    * Simulate or generate results
    * During simulation mode we'll simulate results for this observation
    */
+  LOG_FINEST() << "3 Made it this far ";
   if (Model::Instance()->run_mode() == RunMode::kSimulation) {
     likelihood_->SimulateObserved(comparisons_);
     for (auto& iter :  comparisons_) {
