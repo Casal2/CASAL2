@@ -38,7 +38,7 @@ class Builder:
     count = 0
     while not os.path.exists('cppad/include/'):
       count += 1
-      if count > 3600:
+      if count > 4200:
         print '-- Timeout exceeded while waiting for msys to compile IPOPT + CPPAD'
         return False
       if count % 120 == 0:
