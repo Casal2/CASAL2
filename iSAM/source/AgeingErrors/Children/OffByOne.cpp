@@ -16,6 +16,7 @@
 namespace niwa {
 namespace ageingerrors {
 
+// Constructor
 OffByOne::OffByOne() {
   parameters_.Bind<Double>(PARAM_P1, &p1_, "proprtion of misclassification up by an age, i.e. how proportion of age 3 that are actually age 4", "");
   parameters_.Bind<Double>(PARAM_P2, &p2_, "proprtion of misclassification down by an age", "");
@@ -46,6 +47,7 @@ void OffByOne::DoBuild() {
 }
 
 void OffByOne::DoReset() {
+
   mis_matrix_[0][0] = 1.0 - p2_;
   mis_matrix_[0][1] = p2_;
   for (unsigned i = 0; i < age_spread_; ++i) {

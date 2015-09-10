@@ -247,6 +247,8 @@ void ProportionsAtAge::Execute() {
     Double      final_value        = 0.0;
 
     vector<Double> expected_values(age_spread_, 0.0);
+    unsigned spread = model->max_age() - model->min_age() + 1;
+    vector<Double> numbers_age(spread, 0.0);
 
     /**
      * Loop through the 2 combined categories building up the
@@ -256,17 +258,9 @@ void ProportionsAtAge::Execute() {
     auto cached_category_iter = cached_partition_iter->begin();
     for (; category_iter != partition_iter->end(); ++cached_category_iter, ++category_iter) {
       for (unsigned data_offset = 0; data_offset < (*category_iter)->data_.size(); ++data_offset) {
-        // Check and skip ages we don't care about.
-        if ((*category_iter)->min_age_ + data_offset < min_age_)
-          continue;
-        if ((*category_iter)->min_age_ + data_offset > max_age_ && !age_plus_)
-          break;
-
-
-        unsigned age_offset = ( (*category_iter)->min_age_ + data_offset) - min_age_;
-        unsigned age        = ( (*category_iter)->min_age_ + data_offset);
-        if (min_age_ + age_offset > max_age_)
-          age_offset = age_spread_ - 1;
+        // We now need to loop through all ages to apply ageing misclassification matrix to account
+        // for ages older than max_age_ that could be classified as an individual within the observation range
+        unsigned age = ( (*category_iter)->min_age_ + data_offset);
 
         selectivity_result = selectivities_[category_offset]->GetResult(age);
         start_value   = (*cached_category_iter).data_[data_offset];
@@ -275,41 +269,52 @@ void ProportionsAtAge::Execute() {
 
         if (mean_proportion_method_) {
           final_value = start_value + ((end_value - start_value) * proportion_of_time_);
-          expected_values[age_offset] += final_value * selectivity_result;
+          numbers_age[data_offset] += final_value * selectivity_result;
         } else {
           final_value = fabs(start_value - end_value);
-        expected_values[age_offset] += final_value * selectivity_result;
+          numbers_age[data_offset] += final_value * selectivity_result;
         }
-        //expected_values[age_offset] += final_value; //* selectivity_result;
 
         LOG_FINE() << "----------";
         LOG_FINE() << "Category: " << (*category_iter)->name_ << " at age " << age;
         LOG_FINE() << "Selectivity: " << selectivities_[category_offset]->label() << ": " << selectivity_result;
         LOG_FINE() << "start_value: " << start_value << "; end_value: " << end_value << "; final_value: " << final_value;
-        LOG_FINE() << "expected_value before ageing error is applied: " << expected_values[age_offset];
+        LOG_FINE() << "Numbers at age before ageing error is applied: " << numbers_age[data_offset];
       }
     }
 
-
-
+    /*
+    *  Apply Ageing error on numbers at age
+    */
     if (ageing_error_label_ != "") {
       vector<vector<Double>>& mis_matrix = ageing_error_->mis_matrix();
       vector<Double> temp;
 
-      temp.assign(expected_values.size(), 0.0);
-      LOG_FINEST() << "Number of rows in matrix " << mis_matrix.size() <<  " Number of Columns "<< mis_matrix[0].size();
+      temp.assign(numbers_age.size(), 0.0);
+      LOG_FINEST() << "Number of rows in matrix " << mis_matrix.size() <<  " Number of Columns "<< mis_matrix[17].size() << " size of numbers of age " << numbers_age.size()
+          << " Size of holding vector " << temp.size();
       for (unsigned i = 0; i < mis_matrix.size(); ++i) {
         for (unsigned j = 0; j < mis_matrix[i].size(); ++j) {
-          // Check and skip ages we don't care about.
-          if (i < min_age_)
-            continue;
-          if (i > max_age_ && !age_plus_)
-            break;
-          temp[j] += expected_values[i] * mis_matrix[i][j];
-          LOG_FINEST() << " Mis-Classification Matrix values " << mis_matrix[i][j];
+          temp[j] += numbers_age[i] * mis_matrix[i][j];
         }
       }
-      expected_values = temp;
+      numbers_age = temp;
+    }
+
+    /*
+     *  Now collapse the number_age into out expected values
+     */
+    LOG_FINEST()<< "number of bins " << numbers_age.size() << " and expected " << expected_values.size() << " Last element " << age_spread_ - 1;
+    for (unsigned k = 0; k < numbers_age.size(); ++k) {
+      // this is the difference between the
+      unsigned age_offset = min_age_ - model->min_age();
+      if (k >= age_offset && (k - age_offset + min_age_) <= max_age_) {
+        expected_values[k - age_offset] = numbers_age[k];
+      }
+      if (((k - age_offset + min_age_) > max_age_) && age_plus_) {
+        expected_values[age_spread_ - 1] += numbers_age[k];
+
+      }
     }
 
 
@@ -322,12 +327,11 @@ void ProportionsAtAge::Execute() {
      */
 
     for (unsigned i = 0; i < expected_values.size(); ++i) {
+      LOG_FINEST() << " Numbers at age " << min_age_ + i << " = " << expected_values[i];
       SaveComparison(category_labels_[category_offset], min_age_ + i ,0.0 ,expected_values[i], proportions_[model->current_year()][category_labels_[category_offset]][i],
           process_errors_by_year_[model->current_year()], error_values_[model->current_year()][category_labels_[category_offset]][i], delta_, 0.0);
     }
-    LOG_FINEST() << "1 Made it this far ";
   }
-  LOG_FINEST() << "2 Made it this far ";
 }
 
 /**
@@ -339,7 +343,6 @@ void ProportionsAtAge::CalculateScore() {
    * Simulate or generate results
    * During simulation mode we'll simulate results for this observation
    */
-  LOG_FINEST() << "3 Made it this far ";
   if (Model::Instance()->run_mode() == RunMode::kSimulation) {
     likelihood_->SimulateObserved(comparisons_);
     for (auto& iter :  comparisons_) {
