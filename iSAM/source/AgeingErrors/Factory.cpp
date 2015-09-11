@@ -13,6 +13,7 @@
 
 #include "AgeingErrors/Manager.h"
 #include "AgeingErrors/AgeingError.h"
+#include "AgeingErrors/Children/Data.h"
 #include "AgeingErrors/Children/Normal.h"
 #include "AgeingErrors/Children/OffByOne.h"
 
@@ -33,7 +34,9 @@ AgeingErrorPtr Factory::Create(const string& object_type, const string& sub_type
   AgeingErrorPtr result;
 
   if (object_type == PARAM_AGEING_ERROR || object_type == PARAM_AGEING_ERRORS) {
-    if (sub_type == PARAM_NORMAL)
+    if (sub_type == PARAM_DATA)
+      result = AgeingErrorPtr(new Data());
+    else if (sub_type == PARAM_NORMAL)
       result = AgeingErrorPtr(new Normal());
     else if (sub_type == PARAM_OFF_BY_ONE)
       result = AgeingErrorPtr(new OffByOne());
