@@ -36,14 +36,8 @@ protected:
   void                        DoReset() override final;
 
 private:
-  // methods
-  void                        FillExternalGaps();
-  void                        FillInternalGaps();
-
   // members
   parameters::TablePtr          data_table_;
-  string                        external_gaps_;
-  string                        internal_gaps_;
 };
 
 } /* namespace ageingerrors */

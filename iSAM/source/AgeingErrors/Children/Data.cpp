@@ -12,14 +12,26 @@
 // headers
 #include "Data.h"
 
+#include "Utilities/To.h"
+
 // namespaces
 namespace niwa {
 namespace ageingerrors {
 
+/**
+ * Default constructor
+ *
+ * Bind any parameters that are allowed to be loaded from the configuration files.
+ * Set bounds on registered parameters
+ * Register any parameters that can be an estimated or utilised in other run modes (e.g profiling, yields, projections etc)
+ * Set some initial values
+ *
+ * Note: The constructor is parsed to generate Latex for the documentation.
+ */
 Data::Data() {
-  parameters_.BindTable(PARAM_DATA, data_table_, "", "");
-  parameters_.Bind<string>(PARAM_EXTERNAL_GAPS, &external_gaps_, "", "", PARAM_MEAN)->set_allowed_values({PARAM_MEAN, PARAM_NEAREST_NEIGHBOUR});
-  parameters_.Bind<string>(PARAM_INTERNAL_GAPS, &internal_gaps_, "", "", PARAM_MEAN)->set_allowed_values({PARAM_MEAN, PARAM_NEAREST_NEIGHBOUR, PARAM_INTERPOLATE});
+  data_table_ = TablePtr(new parameters::Table(PARAM_DATA));
+
+  parameters_.BindTable(PARAM_DATA, data_table_, "", "", false, false);
 }
 
 /**
@@ -27,11 +39,28 @@ Data::Data() {
 */
 
 void Data::DoValidate() {
-
 }
 
 void Data::DoBuild() {
-  DoReset();
+  vector<vector<string>> data = data_table_->data();
+  if (data.size() != age_spread_) {
+    LOG_ERROR_P(PARAM_DATA) << "number of rows provided " << data.size() << " does not match the age spread for the model " << age_spread_;
+    return;
+  }
+  if (data[0].size() != age_spread_) {
+    LOG_ERROR_P(PARAM_DATA) << "number of columns provided " << data.size() << " does not match the age spread for the model " << age_spread_;
+    return;
+  }
+
+  for (unsigned i = 0; i < data.size(); ++i) {
+    for (unsigned j = 0; j < data[i].size(); ++j) {
+      Double value = 0.0;
+      if (!utilities::To<string, Double>(data[i][j], value))
+        LOG_ERROR_P(PARAM_DATA) << "Could not convert the value " << data[i][j] << " to a double for storage in mis matrix";
+
+      mis_matrix_[i][j] = value;
+    }
+  }
 }
 
 void Data::DoReset() {
