@@ -226,6 +226,7 @@ void MortalityInstantaneous::DoExecute() {
       if (fishery_iter.second.find(time_step) != fishery_iter.second.end()) {
         Double exploitation = fishery_iter.second[time_step][model_->current_year()] / utilities::doublecompare::ZeroFun(fishery_vulnerability[fishery_iter.first]);
         fishery_exploitation[fishery_iter.first] = exploitation;
+        LOG_FINEST() << " Vulnerable biomass for fishery : " << fishery_iter.first << " = " << fishery_vulnerability[fishery_iter.first] << " with Catch = " << fishery_iter.second[time_step][model_->current_year()];
       }
     }
 

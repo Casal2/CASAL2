@@ -247,8 +247,7 @@ void ProportionsAtAge::Execute() {
     Double      final_value        = 0.0;
 
     vector<Double> expected_values(age_spread_, 0.0);
-    unsigned spread = model->max_age() - model->min_age() + 1;
-    vector<Double> numbers_age(spread, 0.0);
+    vector<Double> numbers_age((model->age_spread() + 1), 0.0);
 
     /**
      * Loop through the 2 combined categories building up the
@@ -288,11 +287,8 @@ void ProportionsAtAge::Execute() {
     */
     if (ageing_error_label_ != "") {
       vector<vector<Double>>& mis_matrix = ageing_error_->mis_matrix();
-      vector<Double> temp;
+      vector<Double> temp(numbers_age.size(), 0.0);
 
-      temp.assign(numbers_age.size(), 0.0);
-      LOG_FINEST() << "Number of rows in matrix " << mis_matrix.size() <<  " Number of Columns "<< mis_matrix[17].size() << " size of numbers of age " << numbers_age.size()
-          << " Size of holding vector " << temp.size();
       for (unsigned i = 0; i < mis_matrix.size(); ++i) {
         for (unsigned j = 0; j < mis_matrix[i].size(); ++j) {
           temp[j] += numbers_age[i] * mis_matrix[i][j];

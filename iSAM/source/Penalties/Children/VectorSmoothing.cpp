@@ -95,24 +95,23 @@ Double VectorSmoothing::GetScore() {
   } else
     LOG_CODE_ERROR() << "(estimable_map_ != 0) && (estimable_map_ != 0)";
 
-  Double score = 0.0;
+  if (r_ >= (values.size() - 1))
+  LOG_FATAL_P(PARAM_R) << PARAM_R << " R cannot be greater than or equal to size of vector - 1";
 
+  Double score = 0.0;
   if (log_scale_) {
     for (Double& value : values)
       value = log(value);
   }
-
-  //Double first_value = values[0];
   for (unsigned i = 1; i <= r_; ++i) {
-    for(unsigned j = 0; j <= values.size(); ++j) {
+    for(unsigned j = 0; j < (values.size() - i); ++j) {
       values[j] = values[j + 1] - values[j];
     }
-    values[values.size() - i + 1] = 0;
+    values[(values.size() - 1) - i + 1] = 0;
   }
 
   for (Double value : values)
     score += value * value;
-
   return score * multiplier_;
 }
 

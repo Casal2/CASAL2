@@ -285,9 +285,8 @@ void ProportionsAtAgeForFishery::Execute() {
     */
     if (ageing_error_label_ != "") {
       vector<vector<Double>>& mis_matrix = ageing_error_->mis_matrix();
-      vector<Double> temp;
+      vector<Double> temp(numbers_age.size(), 0.0);
 
-      temp.assign(numbers_age.size(), 0.0);
       for (unsigned i = 0; i < mis_matrix.size(); ++i) {
         for (unsigned j = 0; j < mis_matrix[i].size(); ++j) {
           temp[j] += numbers_age[i] * mis_matrix[i][j];
