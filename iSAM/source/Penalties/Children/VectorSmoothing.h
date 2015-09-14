@@ -49,6 +49,8 @@ private:
   bool                        log_scale_ = false;
   Double                      multiplier_ = 0.0;
   unsigned                    r_ = 0;
+  unsigned                    upper_;
+  unsigned                    lower_;
 };
 
 } /* namespace penalties */

@@ -26,13 +26,16 @@ VectorSmoothing::VectorSmoothing() {
   parameters_.Bind<string>(PARAM_PARAMETER, &parameter_, "Label of the estimate to generate penalty on", "");
   parameters_.Bind<bool>(PARAM_LOG_SCALE, &log_scale_, "Log scale", "", false);
   parameters_.Bind<Double>(PARAM_MULTIPLIER, &multiplier_, "Multiplier for the penalty amount", "", 1);
-  parameters_.Bind<unsigned>(PARAM_R, &r_, "Penalty applied to rth differences", "", 3);
+  parameters_.Bind<unsigned>(PARAM_LOWER_BOUND, &lower_, "First element to apply the penalty to in the vector", "", 0u);
+  parameters_.Bind<unsigned>(PARAM_UPPER_BOUND, &upper_, "Last element to apply the penalty to in the vector", "", 0u);
+  parameters_.Bind<unsigned>(PARAM_R, &r_, "Penalty applied to rth differences", "", 2u);
 }
 
 /**
  * Validate our parameters
  */
-void VectorSmoothing::DoValidate() {}
+void VectorSmoothing::DoValidate() {
+}
 
 /**
  * Build our parameters
@@ -51,6 +54,7 @@ void VectorSmoothing::DoBuild() {
     parameters().Add(PARAM_PARAMETER, label_, parameters_.Get(PARAM_LABEL)->file_name(), parameters_.Get(PARAM_LABEL)->line_number());
     parameter_ = label_;
   }
+
 
   objects::ExplodeString(parameter_, type, label, parameter, index);
   if (type == "" || label == "" || parameter == "") {
@@ -95,7 +99,19 @@ Double VectorSmoothing::GetScore() {
   } else
     LOG_CODE_ERROR() << "(estimable_map_ != 0) && (estimable_map_ != 0)";
 
-  if (r_ >= (values.size() - 1))
+  if(upper_ == lower_ && upper_ == 0u) {
+    upper_ = values.size();
+    lower_ = 1;
+  }
+
+  if(upper_ == lower_)
+    LOG_FATAL_P(PARAM_UPPER_BOUND) << "Lower and upper bound cannot be equal";
+  if (upper_ > values.size())
+    LOG_FATAL_P(PARAM_UPPER_BOUND) << "The last element must not be greater than size of vector";
+  if (lower_ < 1)
+    LOG_FATAL_P(PARAM_LOWER_BOUND) << "The first element must not be less than 1";
+
+  if (r_ >= (upper_ - lower_))
   LOG_FATAL_P(PARAM_R) << PARAM_R << " R cannot be greater than or equal to size of vector - 1";
 
   Double score = 0.0;
@@ -104,14 +120,14 @@ Double VectorSmoothing::GetScore() {
       value = log(value);
   }
   for (unsigned i = 1; i <= r_; ++i) {
-    for(unsigned j = 0; j < (values.size() - i); ++j) {
+    for(unsigned j = (lower_ - 1); j <= ((upper_ - 1) - i); ++j) {
       values[j] = values[j + 1] - values[j];
     }
-    values[(values.size() - 1) - i + 1] = 0;
+    values[(upper_ - 1) - i + 1] = 0;
   }
 
-  for (Double value : values)
-    score += value * value;
+  for (unsigned k = (lower_ - 1); k <= (upper_ - 1); ++k)
+    score += values[k] * values[k];
   return score * multiplier_;
 }
 

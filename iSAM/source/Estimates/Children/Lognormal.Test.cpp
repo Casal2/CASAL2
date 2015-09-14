@@ -49,7 +49,7 @@ TEST_F(InternalEmptyModel, Estimates_Lognormal) {
   model->Start(RunMode::kEstimation);
 
   ObjectiveFunction& obj_function = ObjectiveFunction::Instance();
-  EXPECT_DOUBLE_EQ(2563.1357030902504, obj_function.score());
+  EXPECT_DOUBLE_EQ(2563.1357030902273, obj_function.score());
 
   EstimatePtr estimate = estimates::Manager::Instance().GetEstimate("selectivity[FishingSel].a50");
   if (!estimate)
