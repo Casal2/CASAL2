@@ -52,7 +52,7 @@ TEST_F(InternalEmptyModel, Model_TwoSex_Estimation) {
   model->Start(RunMode::kEstimation);
 
   ObjectiveFunction& obj_function = ObjectiveFunction::Instance();
-  EXPECT_DOUBLE_EQ(1993.8041772616596, obj_function.score());
+  EXPECT_DOUBLE_EQ(1993.8041770639679, obj_function.score());
 }
 
 /**

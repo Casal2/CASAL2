@@ -11,32 +11,32 @@ Simple command line arguments\index{Command line arguments} are used to determin
 
 \subsection{\I{Using \iSAM}}
 \CH
-To use \iSAM, open a console (i.e. the command prompt) window (Microsoft Windows) or a terminal window (Linux). Navigate to a directory of your choice, where your \config s are located. Then type \texttt{spm} with any arguments (see Section \ref{sec:command-line-arguments} for the the list of possible arguments). SPM will print output to the screen and return you to the command prompt when it completes its task. Note that the \iSAM\ executable (binary) must be either in the directory where you run it or somewhere in your \texttt{PATH}. Note that an automated installer is available for \iSAM\ on Microsoft Windows. If you use the installer, then it will give you the option of modifying your \texttt{PATH} for you (as well a a number of other options to make using the program a little easier). Otherwise, see your operating system documentation for help on identifying or modifying your \texttt{PATH}.
+To use \iSAM, open a console (i.e. the command prompt) window (Microsoft Windows) or a terminal window (Linux). Navigate to a directory of your choice, where your \config s are located. Then type \texttt{iSAM} with any arguments (see Section \ref{sec:command-line-arguments} for the the list of possible arguments). \iSAM will print output to the screen and return you to the command prompt when it completes its task. Note that the \iSAM\ executable (binary) must be either in the directory where you run it or somewhere in your \texttt{PATH}. Note that an automated installer is available for \iSAM\ on Microsoft Windows. If you use the installer, then it will give you the option of modifying your \texttt{PATH} for you (as well a a number of other options to make using the program a little easier). Otherwise, see your operating system documentation for help on identifying or modifying your \texttt{PATH}.
 \EX a small example of directory navigation and spm with arguments as would be typed in the command prompt window  \EXend
 
 \subsection{The \config\label{sec:config-files}}\index{Input configuration file}
 \CH
 The \config\ is made up of four broad sections; the description of the population structure and parameters (the population section), the estimation methods and variables (the estimation section), the observations and their associated likelihoods (the observation section), and the outputs and reports that \iSAM\ will return (the report section). The \config\ is made up of a number of commands (many with subcommands) which specify various options for each of these components.
 
-The command and subcommand definitions in the \config\ can be extensive (especially when you have a model that has many observations), and can result in a \config\ that is long and difficult to navigate. To aid readability and flexibility, we can use the \config\ command \command{include} \texttt{\emph{file}}. The command causes an external file, \argument{\emph{file}}, to be read and processed, exactly as if its contents had been inserted in the main \config\ at that point\index{Including external files}. The file name must be a complete file name with extension, but can use either a relative or absolute path as part of its name. Note that included files can also contain \command{include} commands --- but be careful that you do not set up a recursive state. See Section \ref{sec:general-syntax} for more detail.
+The command and subcommand definitions in the \config\ can be extensive (especially when you have a model that has many observations), and can result in a \config\ that is long and difficult to navigate. To aid readability and flexibility, we can use the \config\ command !\texttt{\emph{include}} \texttt{\emph{file}}. The command causes an external file, \argument{\emph{file}}, to be read and processed, exactly as if its contents had been inserted in the main \config\ at that point\index{Including external files}. The file name must be a complete file name with extension, but can use either a relative or absolute path as part of its name. Note that included files can also contain !\texttt{\emph{include}} commands --- but be careful that you do not set up a recursive state. See Section \ref{sec:general-syntax} for more detail.
 
 \subsection{\I{Redirecting standard output}\label{sec:redirecting-stdout}}
 \CH
 \iSAM\ uses the standard output stream \texttt{standard output}\index{standard output} to display run-time information. The \I{standard error} stream is used by \iSAM\ to output the program exit status and run-time errors. We suggest redirecting both the standard output and standard error into files\index{Redirecting standard out}\index{Redirecting standard error}. With the bash shell (on Linux systems), you can do this using the command structure,
 
-\begin{verbatim} (\isam [arguments] > out) >& err &\end{verbatim}
+\begin{verbatim} (isam [arguments] > out) >& err &\end{verbatim}
 
 It may be useful to redirect the standard input, especially is you're using \iSAM\ inside a batch job software, i.e. 
 
-\begin{verbatim} (\isam [arguments] > out < /dev/null) >& err &\end{verbatim}
+\begin{verbatim} (isam [arguments] > out < /dev/null) >& err &\end{verbatim}
 
 On Microsoft Windows systems, you can redirect to standard output using,
 
-\begin{verbatim} \isam [arguments] > out\end{verbatim}
+\begin{verbatim} isam [arguments] > out\end{verbatim}
 
 And, on some Microsoft Windows systems (e.g., Windows7), you can redirect to both standard output and standard error, using the syntax, 
 
-\begin{verbatim} \isam [arguments] > out 2> err\end{verbatim}
+\begin{verbatim} isam [arguments] > out 2> err\end{verbatim}
 
 Note that \iSAM\ outputs a few lines of header information to the output. The header\index{Output header information} consists of the program name and version, the arguments passed to \iSAM\ from the command line, the date and time that the program was called (derived from the system time), the user name, and the machine name (including the operating system and the process identification number). These can be used to track outputs as well as identifying the version of \iSAM\ used to run the model.
 
@@ -93,7 +93,7 @@ The model definition, parameters, observations, and reports are specified in an 
 \iSAM\ has a range of commands that define the model structure, processes, observations, and how tasks are carried out. There are three types of commands, 
 
 \begin{enumerate}
-\item Commands that have an argument and do not have subcommands (for example, \command{include}\ \argument{\emph{file}})
+\item Commands that have an argument and do not have subcommands (for example, !\texttt{\emph{include}}\ \argument{\emph{file}})
 \item Commands that have a label and subcommands (for example \command{process} must have a label, and has subcommands)
 \item Commands that do not have either a label or argument, but have subcommands (for example \command{model})
 \end{enumerate}
@@ -163,9 +163,9 @@ and then
 
 Blank lines are ignored, as is extra white space (i.e., tabs and spaces) between arguments. But don't put extra white space before a \command{} character (which must also be the first character on the line), and make sure the file ends with a carriage return. 
 
-There is no need to mark the end of a command block. This is automatically recognized by either the end of the file, section, or the start of the next command block (which is marked by the \command{} on the first character of a line). Note, however, that the \command{include} is the only exception to this rule. See Section \ref{sec:general-syntax})\index{Command ! Include files} for details of the use of \command{include}. 
+There is no need to mark the end of a command block. This is automatically recognized by either the end of the file, section, or the start of the next command block (which is marked by the \command{} on the first character of a line). Note, however, that the !\texttt{\emph{include}} is the only exception to this rule. See Section \ref{sec:general-syntax})\index{Command ! Include files} for details of the use of !\texttt{\emph{include}}. 
 
-Note that in the \config, commands, sub-commands, and arguments are not case sensitive. However, labels and variable values are case sensitive. Also note that if you are on a Linux system then external calls to files are case sensitive (i.e., when using \command{include} \subcommand{\emph{file}}, the argument \subcommand{\emph{file}} will be case sensitive). 
+Note that in the \config, commands, sub-commands, and arguments are not case sensitive. However, labels and variable values are case sensitive. Also note that if you are on a Linux system then external calls to files are case sensitive (i.e., when using !\texttt{\emph{include}} \subcommand{\emph{file}}, the argument \subcommand{\emph{file}} will be case sensitive). 
 
 Characters used in labels must be alphanumeric and can include underscores (\_). Other characters will result in an error.
 

@@ -24,7 +24,7 @@ namespace reports {
  */
 EstimateValue::EstimateValue() {
   run_mode_     = (RunMode::Type)(RunMode::kBasic | RunMode::kEstimation | RunMode::kProfiling);
-  model_state_  = State::kFinalise;
+  model_state_  = State::kIterationComplete;
 }
 
 /**
