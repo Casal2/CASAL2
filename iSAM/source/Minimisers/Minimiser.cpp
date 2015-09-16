@@ -23,6 +23,7 @@
 #include <boost/numeric/ublas/lu.hpp>
 
 #include "Estimates/Manager.h"
+#include "Logging/Logging.h"
 #include "Utilities/DoubleCompare.h"
 
 // Namespaces
@@ -87,8 +88,12 @@ void Minimiser::Build() {
  * Build the covariance matrix to be used by our MCMC
  */
 void Minimiser::BuildCovarianceMatrix() {
+  if (!build_covariance_)
+    return;
   if (hessian_ == 0)
     LOG_CODE_ERROR() << "Cannot build the covariance matrix as the hessian has not been allocated";
+
+  LOG_FINE() << "Building covariance matrix";
 
   ublas::matrix<double> hessian_matrix(hessian_size_, hessian_size_);
   vector<bool> zero_row;

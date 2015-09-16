@@ -469,6 +469,7 @@ void Model::RunEstimation() {
 
     MinimiserPtr minimiser = minimisers::Manager::Instance().active_minimiser();
     minimiser->Execute();
+    minimiser->BuildCovarianceMatrix();
 
     run_mode_ = RunMode::kBasic;
     FullIteration();
