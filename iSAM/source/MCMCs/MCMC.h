@@ -63,7 +63,7 @@ public:
 
   // accessors
   vector<string>              GetEstimateLabel() const {return estimate_labels_;}
-
+  ublas::matrix<Double>&      GetCovarianceMatrix() {return covariance_matrix_;}
 protected:
   // pure virtual methods
   virtual void                DoValidate() = 0;

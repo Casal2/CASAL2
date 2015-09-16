@@ -17,12 +17,14 @@
 #include "Reports/Children/AgeingErrorMatrix.h"
 #include "Reports/Children/CategoryInfo.h"
 #include "Reports/Children/CategoryList.h"
+#include "Reports/Children/CovarianceMatrix.h"
 #include "Reports/Children/DerivedQuantity.h"
 #include "Reports/Children/Estimable.h"
 #include "Reports/Children/EstimateSummary.h"
 #include "Reports/Children/EstimateValue.h"
 #include "Reports/Children/InitialisationPartition.h"
 #include "Reports/Children/MCMCChain.h"
+#include "Reports/Children/MCMCCovariance.h"
 #include "Reports/Children/ObjectiveFunction.h"
 #include "Reports/Children/Observation.h"
 #include "Reports/Children/Partition.h"
@@ -54,6 +56,8 @@ ReportPtr Factory::Create(const string& object_type, const string& sub_type) {
       result = ReportPtr(new AgeingErrorMatrix());
     else if (sub_type == PARAM_CATEGORY_LIST)
       result = ReportPtr(new CategoryList());
+    else if (sub_type == PARAM_COVARIANCE_MATRIX)
+      result = ReportPtr(new CovarianceMatrix());
     else if (sub_type == PARAM_DERIVED_QUANTITY)
       result = ReportPtr(new DerivedQuantity());
     else if (sub_type == PARAM_ESTIMABLE)
@@ -66,6 +70,8 @@ ReportPtr Factory::Create(const string& object_type, const string& sub_type) {
       result = ReportPtr(new InitialisationPartition());
     else if (sub_type == PARAM_MCMC_CHAIN)
       result = ReportPtr(new MCMCChain());
+    else if (sub_type == PARAM_MCMC_COVARIANCE)
+      result = ReportPtr(new MCMCCovariance());
     else if (sub_type == PARAM_PARTITION)
       result = ReportPtr(new Partition());
     else if (sub_type == PARAM_PARTITION_BIOMASS)
