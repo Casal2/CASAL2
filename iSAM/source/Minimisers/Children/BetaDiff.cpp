@@ -87,9 +87,16 @@ void BetaDiff::Execute() {
   MyModel my_model;
   MyObjective my_objective;
 
+  dmatrix optimise_hessian(estimates.size(), estimates.size());
   int convergence = 0;
   double score = optimise<MyModel, MyObjective>(my_model, my_objective, start_values, lower_bounds, upper_bounds, convergence, 0,
-      max_iterations_, max_evaluations_, gradient_tolerance_);
+      max_iterations_, max_evaluations_, gradient_tolerance_, 0, &optimise_hessian);
+
+  for (int row = 0; row < (int)estimates.size(); ++row) {
+    for (int col = 0; col < (int)estimates.size(); ++col) {
+      hessian_[row][col] = optimise_hessian[row+1][col+1];
+    }
+  }
 }
 
 } /* namespace reports */

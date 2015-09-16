@@ -14,7 +14,6 @@
 
 #include "AdditionalPriors/Manager.h"
 #include "AdditionalPriors/Children/Beta.h"
-#include "AdditionalPriors/Children/CasalPenalty.h"
 
 // namespaces
 namespace niwa {
@@ -33,8 +32,6 @@ AdditionalPriorPtr Factory::Create(string object_type, string sub_type) {
   if (object_type == PARAM_ADDITIONAL_PRIOR) {
     if (sub_type == PARAM_BETA)
       object = AdditionalPriorPtr(new Beta());
-    else if (sub_type == PARAM_CASAL_PENALTY)
-      object = AdditionalPriorPtr(new CasalPenalty());
   }
 
   if (object)
