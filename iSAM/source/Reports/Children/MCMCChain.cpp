@@ -44,14 +44,16 @@ void MCMCChain::DoExecute() {
   if (chain.size() == 2) {
     cache_ << "*" << label_ << " " << "("<< type_ << ")"<<"\n";
     cache_ << "MCMC_values" << REPORT_R_DATAFRAME <<"\n";
-    cache_ << "index Objective_score ";
+    cache_ << "index Objective_score prior likelihood penalties step_size acceptance_rate acceptance_rate_since_adapt ";
     for (string labels : mcmc->GetEstimateLabel())
       cache_ << labels << " ";
     cache_ << "\n";
   }
 
   cache_ << (chain.size() - 1) << " ";
-  cache_ << chain[chain.size() - 1].score_ << " ";
+  cache_ << chain[chain.size() - 1].score_ << " " << chain[chain.size() - 1].prior_ << " " << chain[chain.size() - 1].likelihood_ << " "
+      << chain[chain.size() - 1].penalty_ << " " << chain[chain.size() - 1].step_size_ << " " << chain[chain.size() - 1].acceptance_rate_ << " "
+      << chain[chain.size() - 1].acceptance_rate_since_adapt_;
 
   for (Double value : chain[chain.size() - 1].values_)
     cache_ << value << " ";

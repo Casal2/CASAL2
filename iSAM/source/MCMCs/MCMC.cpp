@@ -95,6 +95,7 @@ void MCMC::Validate() {
  * Build any relationships we need and objects that will hold data
  * so they can be used during the execution
  */
+
 void MCMC::Build() {
 
   minimiser_ = minimisers::Manager::Instance().active_minimiser();

@@ -64,8 +64,8 @@ void ProportionsAtLength::DoValidate() {
     if(length_bins_[length] > length_bins_[length + 1])
       LOG_ERROR_P(PARAM_LENGTH_BINS) << ": Length bins must be strictly increasing " << length_bins_[length] << " is greater than " << length_bins_[length +1];
   }
-  if(!(length_bins_[0] == 0))
-    LOG_ERROR_P(PARAM_LENGTH_BINS) << ": First length element must be a zero";
+//  if(!(length_bins_[0] == 0))
+//    LOG_ERROR_P(PARAM_LENGTH_BINS) << ": First length element must be a zero";
 
   if (process_error_values_.size() != 0 && process_error_values_.size() != years_.size()) {
     LOG_ERROR_P(PARAM_PROCESS_ERRORS) << " number of values provied (" << process_error_values_.size() << ") does not match the number of years provided ("

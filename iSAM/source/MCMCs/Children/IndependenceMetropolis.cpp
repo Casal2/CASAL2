@@ -107,13 +107,16 @@ void IndependenceMetropolis::Execute() {
     score = AS_DOUBLE(obj_function.score());
     Double ratio = 1.0;
 
-    if (score > previous_score)
+    if (score > previous_score) {
       ratio = exp(-score + previous_score);
+      LOG_MEDIUM() << " Current Objective score " << score << " Previous score " << previous_score;
+    }
 
     jumps_++;
     jumps_since_adapt_++;
 
     if (dc::IsEqual(ratio, 1.0) || rng.uniform() < ratio) {
+      LOG_MEDIUM() << "Ratio = " << ratio << " random_number = " << rng.uniform();
       // Accept this jump
       successful_jumps_++;
       successful_jumps_since_adapt_++;
