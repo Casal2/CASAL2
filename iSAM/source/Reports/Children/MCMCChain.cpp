@@ -12,7 +12,7 @@
 #include "MCMCChain.h"
 
 #include "MCMCs/MCMC.h"
-
+#include "MCMCs/Manager.h"
 // namespaces
 namespace niwa {
 namespace reports {
@@ -22,7 +22,8 @@ namespace reports {
  */
 MCMCChain::MCMCChain() {
   run_mode_ = RunMode::kMCMC;
-  model_state_ = State::kFinalise;
+  model_state_ = State::kIterationComplete;
+  skip_tags_ = true;
 }
 
 /**
@@ -34,24 +35,26 @@ MCMCChain::~MCMCChain() noexcept(true) {
 
 /**
  *
+ *
  */
 void MCMCChain::DoExecute() {
-//  const vector<mcmc::ChainLink>& chain = MCMC::Instance()->chain();
+  MCMCPtr mcmc = mcmcs::Manager::Instance().active_mcmc();
+  vector<mcmc::ChainLink> chain = mcmc->chain();
 
-  cache_ << CONFIG_ARRAY_START << label_ << CONFIG_ARRAY_END << "\n";
-//  cout << PARAM_REPORT << "." << PARAM_TYPE << CONFIG_RATIO_SEPARATOR << " " << parameters_.Get(PARAM_TYPE).GetValue<string>() << "\n";
+  if (chain.size() == 2) {
+    cache_ << "*" << label_ << " " << "("<< type_ << ")"<<"\n";
+    cache_ << "MCMC_values" << REPORT_R_DATAFRAME <<"\n";
+    cache_ << "index Objective_score ";
+    for (string labels : mcmc->GetEstimateLabel())
+      cache_ << labels << " ";
+    cache_ << "\n";
+  }
 
-//  for (unsigned i = 0; i < chain.size(); ++i) {
-//    cache_ << i << ": ";
-//    cache_ << chain[i].score_ << ": ";
-//
-//    for (Double value : chain[i].values_)
-//      cache_ << value << " ";
-//
-//    cache_ << "\n";
-//  }
+  cache_ << (chain.size() - 1) << " ";
+  cache_ << chain[chain.size() - 1].score_ << " ";
 
-  cache_ << CONFIG_END_REPORT << "\n" << endl;
+  for (Double value : chain[chain.size() - 1].values_)
+    cache_ << value << " ";
   ready_for_writing_ = true;
 }
 
