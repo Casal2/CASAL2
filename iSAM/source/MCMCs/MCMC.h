@@ -61,6 +61,9 @@ public:
   const vector<mcmc::ChainLink>&  chain() const { return chain_; }
   bool                        active() const { return active_; }
 
+  // accessors
+  vector<string>              GetEstimateLabel() const {return estimate_labels_;}
+
 protected:
   // pure virtual methods
   virtual void                DoValidate() = 0;
