@@ -33,6 +33,23 @@ using utilities::map2D;
 
 // classes
 class MortalityInstantaneous : public Process {
+  /**
+   * Fishery data is used to store 1 Fishery x Category x TimeStep
+   * All of the information to populate the FisheryData is taken
+   * from the fisheries and catches tables.
+   */
+  struct FisheryData {
+    string          name_;
+    string          time_step_label_;
+    unsigned        time_step_index_;
+    string          category_label_;
+    string          selectivity_label_;
+    SelectivityPtr  selectivity_;
+    Double          u_max_;
+    string          penalty_label_;
+    PenaltyPtr      penalty_;
+    map<unsigned, Double>  catches_;
+  };
 public:
   // methods
   MortalityInstantaneous();
@@ -51,26 +68,22 @@ public:
 private:
   // members
   vector<string>              category_labels_;
-  vector<unsigned>            years_;
+  vector<FisheryData>         fisheries_;
   parameters::TablePtr        catches_table_;
   parameters::TablePtr        fisheries_table_;
   accessor::Categories        partition_;
-  map3D<string, string, unsigned, Double>   catch_table_data_; // fishery - timestep - year - catch
-  map3D<string, unsigned, unsigned, Double> fishery_by_time_step_by_year_with_catch_;
-  map2D<string, string, string>             fishery_table_data_;
-  map2D<string, string, SelectivityPtr>     fishery_by_category_with_selectivity_;
-  Double                                    current_m_ = 0.0;
-  map<string, Double>                       fishery_exploitation;
+  Double                      current_m_ = 0.0;
+  map<string, Double>         fishery_exploitation;
   // members from mortality event
-  Double                                    u_max_;
-  string                                    penalty_name_ = "";
-  penalties::ProcessPtr                     penalty_;
+  Double                      u_max_;
+  string                      penalty_name_ = "";
+  penalties::ProcessPtr       penalty_;
   // members from natural mortality
-  vector<Double>                            m_;
-  vector<Double>                            time_step_ratios_temp_;
-  map<unsigned, Double>                     time_step_ratios_;
-  vector<string>                            selectivity_names_;
-  vector<SelectivityPtr>                    selectivities_;
+  vector<Double>              m_;
+  vector<Double>              time_step_ratios_temp_;
+  map<unsigned, Double>       time_step_ratios_;
+  vector<string>              selectivity_names_;
+  vector<SelectivityPtr>      selectivities_;
 };
 
 } /* namespace processes */
