@@ -194,6 +194,7 @@ void MortalityInstantaneous::DoBuild() {
       if (!fishery.penalty_)
         LOG_ERROR_P(PARAM_FISHERIES) << ": penalty " << fishery.penalty_label_ << " does not exist. Have you defined it?";
     }
+    fishery.time_step_index_ = model_->managers().time_step().GetTimeStepIndex(fishery.time_step_label_);
   }
 
   /**
@@ -258,7 +259,7 @@ void MortalityInstantaneous::DoExecute() {
         continue;
       Double exploitation = fishery.catches_[model_->current_year()] / utilities::doublecompare::ZeroFun(fishery_vulnerability[fishery.name_]);
       fishery_exploitation[fishery.name_] = exploitation;
-      LOG_FINEST() << " Vulnerable biomass for fishery : " << fishery.name_ << " = " << fishery_exploitation[fishery.name_] << " with Catch = " << fishery.catches_[model_->current_year()];
+      LOG_FINEST() << " Vulnerable biomass for fishery : " << fishery.name_ << " = " << fishery_vulnerability[fishery.name_] << " with Catch = " << fishery.catches_[model_->current_year()];
     }
 
     for (auto categories : partition_)  {
@@ -322,9 +323,10 @@ void MortalityInstantaneous::DoExecute() {
   m_offset = 0;
   for (auto categories : partition_) {
     for (unsigned i = 0; i < categories->data_.size(); ++i) {
+      LOG_FINEST() << "Numbers at age = " << categories->data_[i] << " M = " << -m_[m_offset] << " With Exploitation rate = " << category_by_age_with_exploitation[categories->name_][categories->min_age_ + i];
       categories->data_[i] *= exp(-m_[m_offset] * ratio * selectivities_[m_offset]->GetResult(categories->min_age_ + i))
           * (1 - category_by_age_with_exploitation[categories->name_][categories->min_age_ + i]);
-
+      LOG_FINEST() << "Numbers at age after Exploitation= " << categories->data_[i];
       if (categories->data_[i] < 0.0) {
         LOG_FINEST() << " Category : " << categories->name_ << " M = "<< m_[m_offset] << " ratio " << ratio << " selectivity : " << selectivities_[m_offset]->GetResult(categories->min_age_ + i)
             << " u_f = " << category_by_age_with_exploitation[categories->name_][categories->min_age_ + i] << " data = " << categories->data_[i] << " Exp " << AS_DOUBLE(exp(-m_[m_offset]));
