@@ -256,7 +256,6 @@ void MortalityInstantaneous::DoExecute() {
     for (auto fishery : fisheries_) {
       if (fishery.time_step_index_ != time_step_index)
         continue;
-
       Double exploitation = fishery.catches_[model_->current_year()] / utilities::doublecompare::ZeroFun(fishery_vulnerability[fishery.name_]);
       fishery_exploitation[fishery.name_] = exploitation;
       LOG_FINEST() << " Vulnerable biomass for fishery : " << fishery.name_ << " = " << fishery_exploitation[fishery.name_] << " with Catch = " << fishery.catches_[model_->current_year()];
@@ -278,20 +277,22 @@ void MortalityInstantaneous::DoExecute() {
      * Rescaling exploitation and applying penalties
      */
     bool recalculate_age_exploitation = false;
+    map<string, Double> uobs_fishery;
     for (auto fishery : fisheries_) {
-      Double uobs_f = 0.0;
       for (auto age_exploitation : category_by_age_with_exploitation[fishery.category_label_])
-        uobs_f = uobs_f > age_exploitation.second ? uobs_f : age_exploitation.second;
+        uobs_fishery[fishery.name_] = uobs_fishery[fishery.name_] > age_exploitation.second ? uobs_fishery[fishery.name_] : age_exploitation.second;
+    }
 
-      LOG_FINE() << fishery.name_ << " Highest exploitation rate = " << uobs_f;
-
+    for (auto uobs : uobs_fishery) {
+      LOG_FINE() << uobs.first << " Highest exploitation rate = " << uobs.second;
+      Double uobs_f = uobs.second;
       if (uobs_f > u_max_) {
-        fishery_exploitation[fishery.name_] *= u_max_ / uobs_f;
-        LOG_FINE() << fishery.name_ << " Rescaled exploitation rate = " << fishery_exploitation[fishery.name_];
+        fishery_exploitation[uobs.first] *= u_max_ / uobs_f;
+        LOG_FINE() << uobs.first << " Rescaled exploitation rate = " << fishery_exploitation[uobs.first];
         recalculate_age_exploitation = true;
 
-        if (fishery.penalty_)
-          fishery.penalty_->Trigger(label_, fishery.catches_[model_->current_year()], fishery_vulnerability[fishery.name_] * u_max_);
+//        if (fishery.penalty_)
+//          fishery.penalty_->Trigger(label_, fishery.catches_[model_->current_year()], fishery_vulnerability[fishery.name_] * u_max_);
       }
     }
 
