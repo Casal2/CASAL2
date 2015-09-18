@@ -51,8 +51,7 @@ void AgeingError::Validate() {
 }
 
 /**
- * Build any objects that will need to be utilised by this object.
- * Obtain smart_pointers to any objects that will be used by this object.
+ * Build an Empty misclassification matrix that will be populated by a child method
  */
 void AgeingError::Build() {
   mis_matrix_.resize(age_spread_);

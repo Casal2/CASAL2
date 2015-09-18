@@ -74,11 +74,10 @@ void AgeLength::Build() {
 }
 
 /**
- * Create look up vector of CV's that gets feed into mean_weight
- * And Age Length Key.
- * if cv_last_ and cv_first_ are time varying then this should be built every year
- * also if by_length_ is called, it will be time varying because it calls mean_weight which has time_varying
- * parameters. Otherwise it only needs to be built once a model run I believe
+ * BuildCV function
+ *
+ * @param year currentyear
+ * @return vector<Double> CV for each age
  */
 void AgeLength::BuildCV(unsigned year) {
   unsigned min_age = model_->min_age();
@@ -96,11 +95,19 @@ void AgeLength::BuildCV(unsigned year) {
 
 }
 
-/**
- *
+/*
+  * Calculates the proportion in each length_bins for a single age
+  *
+  *@param mu mean of length bin
+  *@param mu mean length for an age
+  *@param cv cv of the age
+  *@param prop_in_length reference parameter that proportions are stored in
+  *@param length_bins a vector of minimum values for each length bin
+  *@param distribution use the Normal or Lognormal distribution
+  *@param plus_grp whether the last length bin is a plus group
+  *
  */
 void AgeLength::CummulativeNormal(Double mu, Double cv, vector<Double>& prop_in_length, vector<Double> length_bins, string distribution, bool plus_grp) {
-  // est proportion of age class that are in each length interval
 
   Double sigma = cv * mu;
 
@@ -128,20 +135,19 @@ void AgeLength::CummulativeNormal(Double mu, Double cv, vector<Double>& prop_in_
 
   for (unsigned j = 0; j < sz; ++j) {
     z = fabs((length_bins[j] - mu)) / sigma;
-    //cum.push_back(1.0 - 0.5 * pow((1.0 + 0.196854 * z + 0.115194 * z * z + 0.000344 * z * z * z + 0.019527 * z * z * z * z),-4));
 
     tt = 1.0 / (1.0 + 0.2316419 * z);
     norm = 1.0 / sqrt(2.0 * M_PI) * exp(-0.5 * z * z);
     ttt = tt;
     tmp = 0.319381530 * ttt;
     ttt = ttt * tt;
-    tmp = tmp - 0.356563782 * ttt;          // tt^2
+    tmp = tmp - 0.356563782 * ttt;
     ttt = ttt * tt;
-    tmp = tmp + 1.781477937 * ttt;       // tt^3
+    tmp = tmp + 1.781477937 * ttt;
     ttt = ttt * tt;
-    tmp = tmp - 1.821255978 * ttt;        // tt^4
+    tmp = tmp - 1.821255978 * ttt;
     ttt = ttt * tt;
-    tmp = tmp + 1.330274429 * ttt;      // tt^5
+    tmp = tmp + 1.330274429 * ttt;
 
     cum.push_back(1.0 - norm * tmp);
     if (length_bins[j] < mu) {
@@ -163,6 +169,7 @@ void AgeLength::CummulativeNormal(Double mu, Double cv, vector<Double>& prop_in_
  *
  * @param category The current category to convert
  * @param length_bins vector of the length bins to map too
+ * @param selectivity SelectivityPointer to apply (age based selectivity)
  */
 void AgeLength::DoAgeToLengthConversion(partition::Category* category, const vector<Double>& length_bins, bool plus_grp, SelectivityPtr selectivity) {
   LOG_TRACE();
