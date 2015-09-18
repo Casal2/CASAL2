@@ -66,7 +66,11 @@ void Category::CollapseAgeLengthData() {
 }
 
 /**
+ * This method updates the numbers at age by length matrix for a category
  *
+ * @param length_bins  vector of the length bins to map too
+ * @param plus_grp whether the last length bin is a plus group
+ * @param selectivity Selectivity Pointer
  */
 void Category::UpdateAgeLengthData(const vector<Double>& length_bins, bool plus_grp, SelectivityPtr selectivity) {
   LOG_TRACE();
@@ -82,8 +86,7 @@ void Category::UpdateAgeLengthData(const vector<Double>& length_bins, bool plus_
 
 
 /**
- * This method will populate the length data from the age length matrix. This is required
- * to convert age data to length data for use in length observations and processes
+ * This method collapses the Numbers at length by age matrix to numbers at age for a category
  */
 void Category::CollapseAgeLengthDataToLength() {
   if (age_length_matrix_.size() == 0)

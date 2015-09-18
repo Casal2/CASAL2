@@ -34,7 +34,7 @@ OffByOne::OffByOne() {
  */
 void OffByOne::DoValidate() {
   if (k_ > max_age_)
-    LOG_ERROR_P(PARAM_K) << "value (" << k_ << ") cannot be greater than the model's max age (" << max_age_ << ")";
+    LOG_ERROR_P(PARAM_K)<< "value (" << k_ << ") cannot be greater than the model's max age (" << max_age_ << ")";
   if (p1_ < 0.0)
     LOG_ERROR_P(PARAM_P1) << PARAM_P1 << " Cannot be less than 0.0";
   if (p2_ > 1.0)
@@ -46,17 +46,21 @@ void OffByOne::DoBuild() {
   DoReset();
 }
 
+/**
+ * Reset our mis_matrix to ensure it has the latest
+ * changes from any estimable modifications
+ */
 void OffByOne::DoReset() {
 
   mis_matrix_[0][0] = 1.0 - p2_;
   mis_matrix_[0][1] = p2_;
   for (unsigned i = 0; i < age_spread_; ++i) {
-  if (k_ > min_age_) {
+    if (k_ > min_age_) {
       mis_matrix_[i][i - 1.0] = p1_;
       mis_matrix_[i][i] = 1.0 - p1_ - p2_;
       mis_matrix_[i][i + 1.0] = p1_;
     }
-  mis_matrix_[age_spread_][age_spread_ - 1.0] = p1_;
+    mis_matrix_[age_spread_][age_spread_ - 1.0] = p1_;
   }
 
   if (age_plus_) {
