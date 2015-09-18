@@ -52,6 +52,8 @@ public:
   void                        set_active(bool new_value) { active_ = new_value; }
   ublas::matrix<double>       covariance_matrix() const { return covariance_matrix_; }
   ublas::matrix<double>       correlation_matrix() const { return correlation_matrix_; }
+  double**                    hessian_matrix() const { return hessian_; }
+  unsigned                    hessian_size() const { return hessian_size_; }
 
 protected:
   // Members

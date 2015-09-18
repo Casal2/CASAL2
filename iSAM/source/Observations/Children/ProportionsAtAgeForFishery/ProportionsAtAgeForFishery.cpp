@@ -239,14 +239,20 @@ void ProportionsAtAgeForFishery::Execute() {
    * with it. We need to build a vector of proportions for each age using that combination and then
    * compare it to the observations.
    */
+
+  LOG_MEDIUM() << "Number of Categories = " << category_labels_.size();
+
   for (unsigned category_offset = 0; category_offset < category_labels_.size(); ++category_offset, ++partition_iter, ++cached_partition_iter) {
     Double      start_value        = 0.0;
     Double      end_value          = 0.0;
     Double      final_value        = 0.0;
 
+    LOG_MEDIUM() << "Category iterator = " << category_offset;
+
     vector<Double> expected_values(age_spread_, 0.0);
     unsigned spread = model->max_age() - model->min_age() + 1;
     vector<Double> numbers_age(spread, 0.0);
+
     /**
      * Loop through the 2 combined categories building up the
      * expected proportions values.
@@ -257,20 +263,22 @@ void ProportionsAtAgeForFishery::Execute() {
       for (unsigned data_offset = 0; data_offset < (*category_iter)->data_.size(); ++data_offset) {
         // We now need to loop through all ages to apply ageing misclassification matrix to account
         // for ages older than max_age_ that could be classified as an individual within the observation range
-        unsigned age        = ( (*category_iter)->min_age_ + data_offset);
+        unsigned age        = ((*category_iter)->min_age_ + data_offset);
 
-        start_value   = (*cached_category_iter).data_[data_offset];
-        end_value     = (*category_iter)->data_[data_offset];
-        final_value   = 0.0;
+        LOG_FINE() << " did we make it here1?";
+        start_value = (*cached_category_iter).data_[data_offset];
+        end_value = (*category_iter)->data_[data_offset];
+        final_value = 0.0;
 
-
-          Double M = mortality_instantaneous_->m((*category_iter)->name_, age);
-          Double t = mortality_instantaneous_->time_step_ratio();
-          Double u_frac = mortality_instantaneous_->fishery_exploitation_fraction(fishery_, (*category_iter)->name_ , age);
-
-          final_value = fabs(start_value * exp(- M * t * 0.5) - end_value * exp(M * t * 0.5)) * u_frac;
-          numbers_age[data_offset] += final_value;
-          LOG_FINEST() << " m = " << AS_DOUBLE(Double(M * t)) << " U_frac = " << AS_DOUBLE(u_frac);
+        LOG_FINE() << " Category Iter name " << (*category_iter)->name_ << " Fishery = " << fishery_<< " Age = " << age;
+        Double M = mortality_instantaneous_->m((*category_iter)->name_, age);
+        LOG_FINE() << " did we make it here2?";
+        Double t = mortality_instantaneous_->time_step_ratio();
+        LOG_FINE() << " did we make it here3?";
+        Double u_frac = mortality_instantaneous_->fishery_exploitation_fraction(fishery_, (*category_iter)->name_ , age);
+        final_value = fabs(start_value * exp(- M * t * 0.5) - end_value * exp(M * t * 0.5)) * u_frac;
+        numbers_age[data_offset] += final_value;
+        LOG_FINEST() << " m = " << AS_DOUBLE(Double(M * t)) << " U_frac = " << AS_DOUBLE(u_frac);
 
 
         LOG_FINE() << "----------";
@@ -279,6 +287,7 @@ void ProportionsAtAgeForFishery::Execute() {
         LOG_FINE() << "Numbers At Age before Ageing error: " << numbers_age[data_offset];
       }
     }
+
 
     /*
     *  Apply Ageing error on numbers at age
@@ -327,6 +336,7 @@ void ProportionsAtAgeForFishery::Execute() {
           process_errors_by_year_[model->current_year()], error_values_[model->current_year()][category_labels_[category_offset]][i], delta_, 0.0);
     }
   }
+
 }
 
 /**

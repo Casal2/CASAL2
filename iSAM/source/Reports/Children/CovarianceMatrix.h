@@ -30,6 +30,8 @@ public:
 private:
   MinimiserPtr                minimiser_;
   ublas::matrix<Double>       covariance_matrix_;
+  ublas::matrix<Double>       correlation_matrix_;
+  double**                    hessian_;
 };
 
 } /* namespace reports */
