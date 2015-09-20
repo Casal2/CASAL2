@@ -279,8 +279,8 @@ void ProportionsAtLengthForFishery::Execute() {
 
         start_value   = (*cached_category_iter).data_[data_offset];
         end_value     = (*category_iter)->data_[data_offset];
-        Double M      = mortality_instantaneous_->m((*category_iter)->name_, age);
-        Double u_frac = mortality_instantaneous_->fishery_exploitation_fraction(fishery_, (*category_iter)->name_ , age);
+        Double M      = mortality_instantaneous_->GetMBySelectivity((*category_iter)->name_, age);
+        Double u_frac = mortality_instantaneous_->GetFisheryExploitationFraction(fishery_, (*category_iter)->name_ , age);
         number_at_age = (fabs(start_value * exp(- M * t * 0.5) - end_value * exp(M * t * 0.5)) * u_frac);
 
         LOG_FINEST() << "Numbers at age = " << age << " = " <<  number_at_age << " start value : "<< start_value << " end value : " << end_value;

@@ -33,22 +33,28 @@ using utilities::map2D;
 
 // classes
 class MortalityInstantaneous : public Process {
-  /**
-   * Fishery data is used to store 1 Fishery x Category x TimeStep
-   * All of the information to populate the FisheryData is taken
-   * from the fisheries and catches tables.
-   */
+ /**
+ * FisheryData holds all the information related to a fishery
+ */
   struct FisheryData {
-    string          name_;
+    string          label_;
     string          time_step_label_;
     unsigned        time_step_index_;
-    string          category_label_;
-    string          selectivity_label_;
-    SelectivityPtr  selectivity_;
     Double          u_max_;
     string          penalty_label_;
     PenaltyPtr      penalty_;
     map<unsigned, Double>  catches_;
+  };
+  /**
+   * FisheryCategoryData is used to store 1 Fishery x Category x Selectivity
+   */
+  struct FisheryCategoryData {
+    FisheryCategoryData(FisheryData& x) : fishery_(x) { };
+    string          fishery_label_;
+    string          category_label_;
+    string          selectivity_label_;
+    SelectivityPtr  selectivity_;
+    FisheryData&    fishery_;
   };
 public:
   // methods
@@ -58,17 +64,18 @@ public:
   void                        DoBuild() override final;
   void                        DoReset() override final { };
   void                        DoExecute() override final;
+  Double                      GetMBySelectivity(const string& category_label, unsigned age);
+  Double                      GetFisheryExploitationFraction(const string& fishery_label, const string& category_label, unsigned age);
+  bool                        IsFisheryValid(const string& fishery_label);
 
   // accessors
-  Double                      m(const string& label, unsigned age);
   Double                      time_step_ratio();
-  Double                      fishery_exploitation_fraction(const string& fishery_label, const string& category_label, unsigned age);
-  bool                        validate_fishery_category(const string& fishery_label, const string& category_label);
 
 private:
   // members
   vector<string>              category_labels_;
-  vector<FisheryData>         fisheries_;
+  vector<FisheryCategoryData> fishery_categories_;
+  map<string, FisheryData>    fisheries_;
   parameters::TablePtr        catches_table_;
   parameters::TablePtr        fisheries_table_;
   accessor::Categories        partition_;
@@ -76,13 +83,13 @@ private:
   map<string, Double>         fishery_exploitation;
   // members from mortality event
   Double                      u_max_;
-  string                      penalty_name_ = "";
+  string                      penalty_label_ = "";
   penalties::ProcessPtr       penalty_;
   // members from natural mortality
   vector<Double>              m_;
   vector<Double>              time_step_ratios_temp_;
   map<unsigned, Double>       time_step_ratios_;
-  vector<string>              selectivity_names_;
+  vector<string>              selectivity_labels_;
   vector<SelectivityPtr>      selectivities_;
 };
 
