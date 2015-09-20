@@ -271,11 +271,11 @@ void ProportionsAtAgeForFishery::Execute() {
         final_value = 0.0;
 
         LOG_FINE() << " Category Iter name " << (*category_iter)->name_ << " Fishery = " << fishery_<< " Age = " << age;
-        Double M = mortality_instantaneous_->m((*category_iter)->name_, age);
+        Double M = mortality_instantaneous_->GetMBySelectivity((*category_iter)->name_, age);
         LOG_FINE() << " did we make it here2?";
         Double t = mortality_instantaneous_->time_step_ratio();
         LOG_FINE() << " did we make it here3?";
-        Double u_frac = mortality_instantaneous_->fishery_exploitation_fraction(fishery_, (*category_iter)->name_ , age);
+        Double u_frac = mortality_instantaneous_->GetFisheryExploitationFraction(fishery_, (*category_iter)->name_ , age);
         final_value = fabs(start_value * exp(- M * t * 0.5) - end_value * exp(M * t * 0.5)) * u_frac;
         numbers_age[data_offset] += final_value;
         LOG_FINEST() << " m = " << AS_DOUBLE(Double(M * t)) << " U_frac = " << AS_DOUBLE(u_frac);
