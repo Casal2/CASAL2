@@ -88,14 +88,14 @@ void BetaDiff::Execute() {
   MyObjective my_objective;
 
   dmatrix betadiff_hessian(estimates.size(), estimates.size());
-  dmatrix adolc_hessian(estimates.size(), estimates.size());
+//  dmatrix adolc_hessian(estimates.size(), estimates.size());
   int convergence = 0;
   double score = optimise<MyModel, MyObjective>(my_model, my_objective, start_values, lower_bounds, upper_bounds, convergence, 0,
-      max_iterations_, max_evaluations_, gradient_tolerance_, 0, &betadiff_hessian, &adolc_hessian);
+      max_iterations_, max_evaluations_, gradient_tolerance_, 0, &betadiff_hessian, 0, 1);
 
   for (int row = 0; row < (int)estimates.size(); ++row) {
     for (int col = 0; col < (int)estimates.size(); ++col) {
-      hessian_[row][col] = adolc_hessian[row+1][col+1];
+      hessian_[row][col] = betadiff_hessian[row+1][col+1];
     }
   }
 }
