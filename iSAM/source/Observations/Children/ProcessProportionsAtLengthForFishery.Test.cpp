@@ -85,21 +85,23 @@ type mortality_instantaneous
 m 0.19
 time_step_ratio 0.42 0.25 0.33
 selectivities One
-u_max 0.7
 categories stock
 table catches
-fishery     time_step     1991    1992    1993    1994    1995    1996    1997
-FishingWest step1         309000  409000  718000  656000  368000  597000  1353000 
-FishingEest step1         689000  503000  1087000 1996000 2912000 2903000 2483000                       
+year FishingWest FishingEest
+1991  309000  689000
+1992  409000  503000
+1993  718000  1087000
+1994  656000  1996000
+1995  368000  2912000
+1996  597000  2903000
+1997  1353000 2483000
 end_table
-
 
 table fisheries
-fishery         category  selectivity 
-FishingWest     stock     westFSel
-FishingEest     stock     eastFSel
+fishery       category  selectivity u_max   time_step penalty
+FishingWest   stock     westFSel    0.7     step1     none
+FishingEest   stock     eastFSel    0.7     step1     none
 end_table
-
 
 @derived_quantity biomass_t1
 type biomass
