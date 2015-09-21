@@ -240,14 +240,12 @@ void ProportionsAtAgeForFishery::Execute() {
    * compare it to the observations.
    */
 
-  LOG_MEDIUM() << "Number of Categories = " << category_labels_.size();
 
   for (unsigned category_offset = 0; category_offset < category_labels_.size(); ++category_offset, ++partition_iter, ++cached_partition_iter) {
     Double      start_value        = 0.0;
     Double      end_value          = 0.0;
     Double      final_value        = 0.0;
 
-    LOG_MEDIUM() << "Category iterator = " << category_offset;
 
     vector<Double> expected_values(age_spread_, 0.0);
     unsigned spread = model->max_age() - model->min_age() + 1;

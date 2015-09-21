@@ -128,6 +128,9 @@ void MCMC::Build() {
  */
 void MCMC::BuildCovarianceMatrix() {
   covariance_matrix_ = minimiser_->covariance_matrix();
+  LOG_MEDIUM() << " Covariance straight out of the minimiser";
+  LOG_MEDIUM() << covariance_matrix_(1,1) << " " << covariance_matrix_(1,2) << " " << covariance_matrix_(1,3) << " " << covariance_matrix_(1,4) << " " << covariance_matrix_(1,5);
+
   if (correlation_method_ == PARAM_NONE)
     return;
 
@@ -194,7 +197,6 @@ bool MCMC::DoCholeskyDecmposition() {
 
     if (covariance_matrix_(0,0) < 0)
       return false;
-
     Double sum = 0.0;
 
     covariance_matrix_lt(0,0) = sqrt(covariance_matrix_(0,0));
@@ -209,7 +211,6 @@ bool MCMC::DoCholeskyDecmposition() {
 
       if (covariance_matrix_(i,i) <= sum)
         return false;
-
       covariance_matrix_lt(i,i) = sqrt(covariance_matrix_(i,i)-sum);
       for (unsigned j = i+1; j < matrix_size1; ++j) {
         sum = 0.0;

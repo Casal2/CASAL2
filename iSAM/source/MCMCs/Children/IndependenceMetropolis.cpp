@@ -51,6 +51,9 @@ void IndependenceMetropolis::Execute() {
   }
 
   BuildCovarianceMatrix();
+  LOG_MEDIUM() << " Covariance should be spat out after this line";
+  LOG_MEDIUM() << covariance_matrix_(1,1) << " " << covariance_matrix_(1,2) << " " << covariance_matrix_(1,3) << " " << covariance_matrix_(1,4) << " " << covariance_matrix_(1,5);
+
   if (!DoCholeskyDecmposition())
     LOG_ERROR() << "Cholesky decomposition failed. Cannot continue MCMC";
 
