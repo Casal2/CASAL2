@@ -212,7 +212,7 @@ void MortalityInstantaneous::DoBuild() {
   for (auto& fishery_iter : fisheries_) {
     auto& fishery = fishery_iter.second;
     if (fishery.penalty_label_ != "none") {
-      fishery.penalty_ = penalties::Manager::Instance().GetProcessPenalty(penalty_label_);
+      fishery.penalty_ = penalties::Manager::Instance().GetProcessPenalty(fishery.penalty_label_);
       if (!fishery.penalty_)
         LOG_ERROR_P(PARAM_FISHERIES) << ": penalty " << fishery.penalty_label_ << " does not exist. Have you defined it?";
     }
@@ -349,7 +349,6 @@ void MortalityInstantaneous::DoExecute() {
   m_offset = 0;
   for (auto categories : partition_) {
     for (unsigned i = 0; i < categories->data_.size(); ++i) {
-      LOG_FINEST() << "Numbers at age = " << categories->data_[i] << " M = " << -m_[m_offset] << " With Exploitation rate = " << category_by_age_with_exploitation[categories->name_][categories->min_age_ + i];
       categories->data_[i] *= exp(-m_[m_offset] * ratio * selectivities_[m_offset]->GetResult(categories->min_age_ + i))
           * (1 - category_by_age_with_exploitation[categories->name_][categories->min_age_ + i]);
       LOG_FINEST() << "Numbers at age after Exploitation= " << categories->data_[i];
