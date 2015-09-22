@@ -163,15 +163,21 @@ class Documentation:
 
         # First we load the header file so we can find the declaratons
         # for the variables. This will give us a better view of the type of
-        # variable when we need to determine if the variable is a vector
+        # variable when we need to determine if the variable is a vector        
         # or just a standard variable
+        class_count = 0;
         fi = fileinput.FileInput(header_file)
         for line in fi:
             line = line.lower().rstrip().lstrip()
             # Try to find the start of the class definition so we can actually start processing
-            if line.startswith('class ' + class_name):
+            if line.startswith('class ' + class_name):      
+            	class_count += 1      	
                 start_processing = True
                 continue
+            if line.startswith('struct'):
+            	print 'Struct found: ' + line
+            	class_count += 1
+            	continue
             if not start_processing:
                 continue
             # skip any declarations that will be methods
@@ -180,7 +186,9 @@ class Documentation:
             if '(' in line:
                 continue
             if line == '};':
-                start_processing = False
+            	class_count -= 1
+            	if class_count == 0:
+                	start_processing = False
                 continue;
             if line == '' or line.startswith('//'):
                 continue

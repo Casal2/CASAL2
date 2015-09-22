@@ -170,7 +170,7 @@ double Engine::optimise_finite_differences(gammadiff::CallBack& objective, vecto
       for (int i = 0; i < iVectorSize; ++i) {
         LOG_MEDIUM() << vCurrentValues[i] << " ";
       }
-      LOG_MEDIUM() << "\nObjective function value: " << dScore << "\n";
+      LOG_MEDIUM() << "Objective function value: " << dScore;
       dScore += dPenalty; // Bound penalty
     }
 
