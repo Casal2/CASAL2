@@ -128,17 +128,16 @@ void MCMC::Build() {
  */
 void MCMC::BuildCovarianceMatrix() {
   covariance_matrix_ = minimiser_->covariance_matrix();
-  LOG_MEDIUM() << " Covariance straight out of the minimiser";
-  LOG_MEDIUM() << covariance_matrix_(1,1) << " " << covariance_matrix_(1,2) << " " << covariance_matrix_(1,3) << " " << covariance_matrix_(1,4) << " " << covariance_matrix_(1,5);
 
   if (correlation_method_ == PARAM_NONE)
     return;
+
 
   /**
    * Adjust the covariance matrix for the proposal distribution
    */
   for (unsigned i = 0; i < covariance_matrix_.size1(); ++i) {
-    for (unsigned j = 0; j < covariance_matrix_.size2(); ++j) {
+    for (unsigned j = i + 1; j < covariance_matrix_.size2(); ++j) {
       if (covariance_matrix_(i,j) / sqrt(covariance_matrix_(i,i) * covariance_matrix_(j,j)) > max_correlation_) {
         covariance_matrix_(i,j) = max_correlation_ * sqrt(covariance_matrix_(i,i) * covariance_matrix_(j,j));
       }
@@ -181,7 +180,6 @@ void MCMC::BuildCovarianceMatrix() {
 bool MCMC::DoCholeskyDecmposition() {
   if (covariance_matrix_.size1() != covariance_matrix_.size2() )
       LOG_ERROR() << "Invalid covariance matrix (size1!=size2)";
-
     unsigned matrix_size1 = covariance_matrix_.size1();
     covariance_matrix_lt = covariance_matrix_;
 
