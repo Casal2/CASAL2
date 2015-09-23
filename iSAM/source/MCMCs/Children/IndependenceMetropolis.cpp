@@ -93,7 +93,7 @@ void IndependenceMetropolis::Execute() {
   utilities::RandomNumberGenerator& rng = utilities::RandomNumberGenerator::Instance();
 
   do {
-    LOG_FINE() << "MCMC Starting";
+    LOG_FINE()<<"MCMC Starting";
 
     vector<Double> original_candidates = candidates_;
     UpdateStepSize();
@@ -113,38 +113,40 @@ void IndependenceMetropolis::Execute() {
       LOG_MEDIUM() << " Current Objective score " << score << " Previous score " << previous_score;
     }
 
-    jumps_++;
-    jumps_since_adapt_++;
-
     if (dc::IsEqual(ratio, 1.0) || rng.uniform() < ratio) {
       LOG_MEDIUM() << "Ratio = " << ratio << " random_number = " << rng.uniform();
       // Accept this jump
       successful_jumps_++;
       successful_jumps_since_adapt_++;
-
-      // See if we need to check this a link we keep
+      jumps_++;
+      jumps_since_adapt_++;
+      // keep the score, and its compontent parts if the following condition holds
       if (successful_jumps_ % keep_ == 0) {
         LOG_FINE() << "Keeping jump " << successful_jumps_;
         mcmc::ChainLink new_link;
-        new_link.iteration_                     = successful_jumps_;
-        new_link.penalty_                       = obj_function.penalties();
-        new_link.score_                         = AS_DOUBLE(obj_function.score());
-        new_link.prior_                         = obj_function.priors();
-        new_link.likelihood_                    = obj_function.likelihoods();
-        new_link.additional_priors_             = obj_function.additional_priors();
-        new_link.acceptance_rate_               = successful_jumps_since_adapt_ / jumps_since_adapt_;
-        new_link.acceptance_rate_since_adapt_   = successful_jumps_ / jumps_;
-        new_link.step_size_                     = step_size_;
-        new_link.values_                        = candidates_;
+        new_link.iteration_ = successful_jumps_;
+        new_link.penalty_ = obj_function.penalties();
+        new_link.score_ = AS_DOUBLE(obj_function.score());
+        new_link.prior_ = obj_function.priors();
+        new_link.likelihood_ = obj_function.likelihoods();
+        new_link.additional_priors_ = obj_function.additional_priors();
+        new_link.acceptance_rate_ = Double(successful_jumps_) / Double(jumps_);
+        new_link.acceptance_rate_since_adapt_ = Double(successful_jumps_since_adapt_) / Double(jumps_since_adapt_);
+        new_link.step_size_ = step_size_;
+        new_link.values_ = candidates_;
         chain_.push_back(new_link);
-
+        LOG_MEDIUM() << "Successful Jumps " << successful_jumps_ << " Jumps : " << jumps_ << " successful jumps since adapt " << successful_jumps_since_adapt_
+            << " jumps since adapt " << jumps_since_adapt_;
         reports::Manager::Instance().Execute(State::kIterationComplete);
-      } else {
-        // Reject this attempt
-        score = previous_score;
-        candidates_ = original_candidates;
       }
+    } else {
+      // Reject this attempt
+      score = previous_score;
+      candidates_ = original_candidates;
+      jumps_++;
+      jumps_since_adapt_++;
     }
+
     LOG_FINEST() << successful_jumps_ << " successful jumps have been completed";
   } while (successful_jumps_ < length_);
 }
