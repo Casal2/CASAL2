@@ -48,9 +48,9 @@ void MCMCChain::DoExecute() {
     cache_ << "\n";
   }
 
-  cache_ << (chain.size() - 1) << " ";
+  cache_ << chain[chain.size() - 1].iteration_ << " ";
   cache_ << chain[chain.size() - 1].score_ << " " << chain[chain.size() - 1].prior_ << " " << chain[chain.size() - 1].likelihood_ << " " << chain[chain.size() - 1].penalty_ << " "
-      << chain[chain.size() - 1].step_size_ << " " << chain[chain.size() - 1].acceptance_rate_ << " " << chain[chain.size() - 1].acceptance_rate_since_adapt_;
+      << chain[chain.size() - 1].step_size_ << " " << chain[chain.size() - 1].acceptance_rate_ << " " << chain[chain.size() - 1].acceptance_rate_since_adapt_ << " ";
 
   for (Double value : chain[chain.size() - 1].values_)
     cache_ << value << " ";
