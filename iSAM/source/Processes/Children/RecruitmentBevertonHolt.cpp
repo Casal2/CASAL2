@@ -41,7 +41,7 @@ RecruitmentBevertonHolt::RecruitmentBevertonHolt() : Process(Model::Instance()) 
   parameters_.Bind<int>(PARAM_SSB_OFFSET, &ssb_offset_, "SSB Offset (year offset)", "", 0);
   parameters_.Bind<string>(PARAM_B0, &phase_b0_label_, "B0 Label", "", "");
   parameters_.Bind<Double>(PARAM_YCS_VALUES, &ycs_values_, "YCS Values", "");
-  parameters_.Bind<bool>(PARAM_PRIOR_YCS_VALUES, &prior_ycs_values_, "Should the priors for year class strnegth be on ycs_values or standardised ycs_values", "",true);
+  parameters_.Bind<bool>(PARAM_PRIOR_YCS_VALUES, &prior_ycs_values_, "Priors for year class strength on ycs values (not standardised ycs values)", "",true);
   parameters_.Bind<unsigned>(PARAM_STANDARDISE_YCS_YEARS, &standardise_ycs_, "", "", true);
 
   RegisterAsEstimable(PARAM_R0, &r0_);
