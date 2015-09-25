@@ -29,7 +29,7 @@ void Selectivity::DoBuild() {
 }
 
 void Selectivity::DoExecute() {
-  ModelPtr model = Model::Instance();
+  Model* model = Model::Instance();
 
   /*
   cache_ << "[" << label_ << "]\n";
@@ -55,10 +55,10 @@ void Selectivity::DoExecute() {
   cache_ << "*" << label_ << " " << "("<< type_ << ")"<<"\n";
   // cache_ << ".label: " << selectivity_->label() << "\n";
 
-  const map<string, ParameterPtr> parameters = selectivity_->parameters().parameters();
+  const map<string, Parameter*> parameters = selectivity_->parameters().parameters();
 
   for (auto iter : parameters) {
-    ParameterPtr x = iter.second;
+    Parameter* x = iter.second;
     cache_  << iter.first << ": ";
 
     vector<string> values = x->current_values();

@@ -30,14 +30,14 @@ void Manager::Validate() {
 
   PartitionStructure model_structure = Model::Instance()->partition_structure();
 
-  for (ProcessPtr process : objects_) {
+  for (auto process : objects_) {
     if ((PartitionStructure)(process->partition_structure() & PartitionStructure::kInvalid) == PartitionStructure::kInvalid)
       LOG_CODE_ERROR() << "Process: " << process->label() << " has not been properly configured to have a partition structure";
 
     if ((PartitionStructure)(process->partition_structure() & model_structure) != model_structure
         && process->partition_structure() != PartitionStructure::kAny) {
       string label = "unknown";
-      ParameterPtr param = process->parameters().Get(PARAM_LABEL);
+      Parameter* param = process->parameters().Get(PARAM_LABEL);
       if (param)
         label = param->values()[0];
 
@@ -56,13 +56,13 @@ void Manager::Validate() {
  * @param label The name of the process to find
  * @return A pointer to the process or empty pointer
  */
-ProcessPtr Manager::GetProcess(const string& label) {
-  for (ProcessPtr process : objects_) {
+Process* Manager::GetProcess(const string& label) {
+  for (auto process : objects_) {
     if (process->label() == label)
       return process;
   }
 
-  return ProcessPtr();
+  return nullptr;
 }
 
 } /* namespace processes */

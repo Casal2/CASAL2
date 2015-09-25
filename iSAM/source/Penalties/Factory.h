@@ -26,7 +26,7 @@ namespace penalties {
 class Factory {
 public:
   // methods
-  static PenaltyPtr Create(string object_type, string sub_type);
+  static Penalty* Create(const string& object_type, const string& sub_type);
 
 private:
   // methods

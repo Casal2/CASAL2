@@ -51,8 +51,8 @@ private:
   vector<vector<Double> >     mortality_rates_;
   vector<string>              selectivity_names_;
   accessor::Categories        partition_;
-  vector<SelectivityPtr>      selectivities_;
-  ModelPtr                    model_;
+  vector<Selectivity*>        selectivities_;
+  Model*                    model_;
   timesteps::Manager&         time_steps_manager_;
 };
 

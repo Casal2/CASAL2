@@ -37,7 +37,7 @@ ObjectiveFunction::ObjectiveFunction() {
  * Obtain smart_pointers to any objects that will be used by this object.
  */
 void ObjectiveFunction::DoBuild() {
-  Model::Instance()->Subscribe(State::kFinalise, shared_ptr());
+  Model::Instance()->Subscribe(State::kFinalise, this);
 }
 
 /**

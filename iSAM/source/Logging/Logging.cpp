@@ -25,7 +25,7 @@ using std::string;
  */
 Logging::Logging() {
   // Set our logging level
-  GlobalConfigurationPtr config = GlobalConfiguration::Instance();
+  GlobalConfiguration* config = GlobalConfiguration::Instance();
   string log_level = config->log_level();
   if (log_level == PARAM_TRACE)
     current_log_level_ = logger::Severity::kTrace;

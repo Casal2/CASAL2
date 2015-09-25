@@ -14,6 +14,7 @@
 
 #ifdef __MINGW32__
   #include <process.h>
+#elif _MSC_VER
 #else
   #include <sys/utsname.h>
   #include <sys/times.h>
@@ -45,7 +46,7 @@ protected:
   time_t                      time_start_;
 
   // Linux Vars
-#ifndef __MINGW32__
+#if !defined(__MINGW32__) && !defined(_MSC_VER)
   tms                         cpu_start;
   tms                         cpu_stop;
 #endif

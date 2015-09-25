@@ -29,18 +29,12 @@ namespace ageingerrors {
  * Note: The constructor is parsed to generate Latex for the documentation.
  */
 Data::Data() {
-  data_table_ = TablePtr(new parameters::Table(PARAM_DATA));
-
   parameters_.BindTable(PARAM_DATA, data_table_, "", "", false, false);
 }
 
 /**
- *  Validate any paramters
-*/
-
-void Data::DoValidate() {
-}
-
+ *
+ */
 void Data::DoBuild() {
   vector<vector<string>> data = data_table_->data();
   if (data.size() != age_spread_) {
@@ -62,11 +56,6 @@ void Data::DoBuild() {
     }
   }
 }
-
-void Data::DoReset() {
-
-}
-
 
 } /* namespace ageingerrors */
 } /* namespace niwa */

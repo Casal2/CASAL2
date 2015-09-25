@@ -28,7 +28,7 @@ ClassType& Manager<ClassType, StoredType>::Instance() {
  */
 template <class ClassType, class StoredType>
 void Manager<ClassType, StoredType>::Validate() {
-  for(shared_ptr<StoredType> stored_object : objects_) {
+  for(auto stored_object : objects_) {
     stored_object->Validate();
   }
 }
@@ -38,7 +38,7 @@ void Manager<ClassType, StoredType>::Validate() {
  */
 template <class ClassType, class StoredType>
 void Manager<ClassType, StoredType>::Build() {
-  for(shared_ptr<StoredType> stored_object : objects_) {
+  for(auto stored_object : objects_) {
     stored_object->Build();
   }
 }
@@ -49,7 +49,7 @@ void Manager<ClassType, StoredType>::Build() {
  */
 template <class ClassType, class StoredType>
 void Manager<ClassType, StoredType>::Reset() {
-  for(shared_ptr<StoredType> stored_object : objects_) {
+  for(auto stored_object : objects_) {
     stored_object->Reset();
   }
 }

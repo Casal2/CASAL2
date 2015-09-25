@@ -88,7 +88,7 @@ void CommandLineParser::Parse(int argc, const char* argv[]) {
    * Load any variables into the global config that need to be available
    * immediately
    */
-  GlobalConfigurationPtr global_config = GlobalConfiguration::Instance();
+  GlobalConfiguration* global_config = GlobalConfiguration::Instance();
   if (parameters.count("debug"))
     global_config->set_debug_mode("true");
   if (parameters.count("config"))
@@ -102,7 +102,7 @@ void CommandLineParser::Parse(int argc, const char* argv[]) {
   if (parameters.count("loglevel"))
     global_config->set_log_level(parameters["loglevel"].as<string>());
   if (parameters.count("output")) {
-    ReportPtr report = reports::Factory::Create(PARAM_REPORT, PARAM_ESTIMATE_VALUE);
+    auto report = reports::Factory::Create(PARAM_REPORT, PARAM_ESTIMATE_VALUE);
     report->parameters().Add(PARAM_LABEL, "estimate_value_output", __FILE__, __LINE__);
     report->parameters().Add(PARAM_TYPE, PARAM_ESTIMATE_VALUE, __FILE__, __LINE__);
     report->parameters().Add(PARAM_FILE_NAME, parameters["output"].as<string>(), __FILE__, __LINE__);
@@ -132,7 +132,7 @@ void CommandLineParser::Parse(int argc, const char* argv[]) {
     if (parts.size() == 1)
       parts.push_back("");
     if (parts.size() == 2) {
-      base::ObjectPtr object = factory::Object::Create(parts[0], parts[1]);
+      base::Object* object = factory::Object::Create(parts[0], parts[1]);
       if (object) {
         cout << "Printing information for " << parts[0] << " with sub-type " << parts[1] << endl;
         object->PrintParameterQueryInfo();

@@ -41,7 +41,7 @@ AgeingError::AgeingError() {
 void AgeingError::Validate() {
   parameters_.Populate();
 
-  ModelPtr model = Model::Instance();
+  Model* model = Model::Instance();
   min_age_    = model->min_age();
   max_age_    = model->max_age();
   age_plus_   = model->age_plus();

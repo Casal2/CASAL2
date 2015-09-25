@@ -28,7 +28,7 @@ public:
   void                        DoExecute() override final;
 
 private:
-  MinimiserPtr                minimiser_;
+  Minimiser*                  minimiser_;
   ublas::matrix<Double>       covariance_matrix_;
   ublas::matrix<Double>       correlation_matrix_;
   double**                    hessian_;

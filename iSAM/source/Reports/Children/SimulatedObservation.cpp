@@ -101,7 +101,7 @@ void SimulatedObservation::DoExecute() {
   cache_ << "*" << label_ << " " << "("<< type_ << ")"<<"\n";
 
   ParameterList& parameter_list = observation_->parameters();
-  const map<string, ParameterPtr>& parameters = parameter_list.parameters();
+  const map<string, Parameter*>& parameters = parameter_list.parameters();
   for (auto iter = parameters.begin(); iter != parameters.end(); ++iter) {
     if (iter->first == PARAM_LIKELIHOOD) {
       if (iter->second->values()[0] == PARAM_PSEUDO)

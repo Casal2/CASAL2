@@ -83,7 +83,7 @@ void MortalityEvent::DoBuild() {
   partition_.Init(category_names_);
 
   for (string label : selectivity_names_) {
-    SelectivityPtr selectivity = selectivities::Manager::Instance().GetSelectivity(label);
+    Selectivity* selectivity = selectivities::Manager::Instance().GetSelectivity(label);
     if (!selectivity)
       LOG_ERROR_P(PARAM_SELECTIVITIES) << ": selectivity " << label << " does not exist. Have you defined it?";
 

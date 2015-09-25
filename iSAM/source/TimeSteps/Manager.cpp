@@ -37,10 +37,10 @@ Manager::~Manager() noexcept(true) {
 /**
  *
  */
-TimeStepPtr Manager::GetTimeStep(const string& label) const {
+TimeStep* Manager::GetTimeStep(const string& label) const {
   LOG_FINE() << "label: " << label;
-  TimeStepPtr result;
-  for (TimeStepPtr time_step : objects_) {
+  TimeStep* result;
+  for (auto time_step : objects_) {
     if (time_step->label() == label) {
       result = time_step;
       break;
@@ -103,8 +103,8 @@ vector<unsigned> Manager::GetTimeStepIndexesForProcess(const string& process_lab
  */
 vector<ProcessType> Manager::GetOrderedProcessTypes() {
   vector<ProcessType> types;
-  for (TimeStepPtr time_step : ordered_time_steps_) {
-    for (ProcessPtr process : time_step->processes()) {
+  for (auto time_step : ordered_time_steps_) {
+    for (auto process : time_step->processes()) {
       types.push_back(process->process_type());
     }
   }
@@ -118,7 +118,7 @@ vector<ProcessType> Manager::GetOrderedProcessTypes() {
 void Manager::Validate() {
   LOG_TRACE();
 
-  for (TimeStepPtr time_step : objects_) {
+  for (auto time_step : objects_) {
     LOG_FINE() << "Validating time step: " << time_step->label();
     time_step->Validate();
   }
@@ -126,7 +126,7 @@ void Manager::Validate() {
   // Order our time steps based on the parameter given to the model
   vector<string> time_steps = Model::Instance()->time_steps();
   for(string time_step_label : time_steps) {
-    for(TimeStepPtr time_step : objects_) {
+    for(auto time_step : objects_) {
       if (time_step->label() == time_step_label) {
         ordered_time_steps_.push_back(time_step);
         break;
@@ -144,7 +144,7 @@ void Manager::Validate() {
  */
 void Manager::Build() {
   // Build our objects
-  for(TimeStepPtr time_step : objects_)
+  for(auto time_step : objects_)
     time_step->Build();
 }
 

@@ -32,7 +32,7 @@ Logistic::Logistic()
 /**
  * Explicit Constructor
  */
-Logistic::Logistic(ModelPtr model)
+Logistic::Logistic(Model* model)
 : Selectivity(model) {
   parameters_.Bind<Double>(PARAM_A50, &a50_, "A50", "");
   parameters_.Bind<Double>(PARAM_ATO95, &aTo95_, "Ato95", "");

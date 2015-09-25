@@ -46,7 +46,7 @@ Estimable::Type Objects::GetEstimableType(const string& parameter_absolute_name,
     return Estimable::kInvalid;
   }
 
-  base::ObjectPtr target = FindObject(parameter_absolute_name, error);
+  base::Object* target = FindObject(parameter_absolute_name, error);
   if (!target)
     return Estimable::kInvalid;
 
@@ -78,7 +78,7 @@ Double* Objects::GetEstimable(const string& parameter_absolute_name, string& err
     return nullptr;;
   }
 
-  base::ObjectPtr target = FindObject(parameter_absolute_name, error);
+  base::Object* target = FindObject(parameter_absolute_name, error);
   if (!target)
     return nullptr;
 
@@ -108,7 +108,7 @@ map<unsigned, Double>* Objects::GetEstimableUMap(const string& parameter_absolut
     return nullptr;;
   }
 
-  base::ObjectPtr target = FindObject(parameter_absolute_name, error);
+  base::Object* target = FindObject(parameter_absolute_name, error);
   if (!target)
     return nullptr;
 
@@ -135,7 +135,7 @@ OrderedMap<string, Double>* Objects::GetEstimableSMap(const string& parameter_ab
     return nullptr;;
   }
 
-  base::ObjectPtr target = FindObject(parameter_absolute_name, error);
+  base::Object* target = FindObject(parameter_absolute_name, error);
   if (!target)
     return nullptr;
 
@@ -162,7 +162,7 @@ vector<Double>* Objects::GetEstimableVector(const string& parameter_absolute_nam
     return nullptr;;
   }
 
-  base::ObjectPtr target = FindObject(parameter_absolute_name, error);
+  base::Object* target = FindObject(parameter_absolute_name, error);
   if (!target)
     return nullptr;
 
@@ -176,9 +176,9 @@ vector<Double>* Objects::GetEstimableVector(const string& parameter_absolute_nam
  * @param error The string to populate the error if one occurs
  * @return Pointer to object or empty pointer if it's not found
  */
-base::ObjectPtr Objects::FindObject(const string& parameter_absolute_name, string& error) {
+base::Object* Objects::FindObject(const string& parameter_absolute_name, string& error) {
   LOG_FINE() << "Looking for object: " << parameter_absolute_name;
-  base::ObjectPtr result;
+  base::Object* result;
 
   string type         = "";
   string label        = "";

@@ -27,7 +27,7 @@ namespace estimates {
 class Factory {
 public:
   // methods
-  static EstimatePtr Create(const string& object_type, const string& sub_type);
+  static Estimate* Create(const string& object_type, const string& sub_type);
 
 private:
   // methods

@@ -26,7 +26,7 @@ class Schnute : public niwa::AgeLength {
 public:
   // methods
   Schnute();
-  explicit Schnute(ModelPtr model);
+  explicit Schnute(Model* model);
   virtual                     ~Schnute() = default;
   void                        DoValidate() override final { };
   void                        DoBuild() override final;
@@ -47,7 +47,7 @@ protected:
   Double                      b_;
   bool                        by_length_;
   string                      length_weight_label_;
-  LengthWeightPtr             length_weight_;
+  LengthWeight*               length_weight_;
 };
 
 } /* namespace agelengths */

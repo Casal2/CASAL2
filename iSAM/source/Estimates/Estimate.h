@@ -77,10 +77,7 @@ protected:
   vector<Double*>             sames_;
   bool                        enabled_ = true;
   vector<string>              transformation_details_;
-  estimates::TransformationPtr  transformation_;
+  estimates::Transformation*  transformation_;
 };
-
-typedef std::shared_ptr<niwa::Estimate> EstimatePtr;
-
 } /* namespace niwa */
 #endif /* ESTIMATE_H_ */

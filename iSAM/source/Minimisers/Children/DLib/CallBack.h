@@ -36,7 +36,7 @@ public:
 
 private:
   // members
-  ModelPtr                    model_;
+  Model*                    model_;
 };
 
 } /* namespace dlib */

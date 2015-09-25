@@ -40,8 +40,6 @@
 namespace niwa {
 namespace factory {
 
-using base::ObjectPtr;
-
 /**
  * Create an ObjectPtr for a specific class type in our system. This method
  * will check the object_type and find the appropriate child factory to call
@@ -56,64 +54,62 @@ using base::ObjectPtr;
  * @param sub_type The specialisation/sub_type of the object to create
  * @return A shared_ptr to the object we've created
  */
-base::ObjectPtr Object::Create(string& object_type, string& sub_type) {
-  ObjectPtr result;
-
+base::Object* Object::Create(string& object_type, string& sub_type) {
   object_type = utilities::ToLowercase(object_type);
   sub_type    = utilities::ToLowercase(sub_type);
 
   if (object_type == PARAM_ADDITIONAL_PRIOR)
-    result = additionalpriors::Factory::Create(object_type, sub_type);
+    return additionalpriors::Factory::Create(object_type, sub_type);
   else if (object_type == PARAM_AGEING_ERROR || object_type == PARAM_AGEING_ERRORS)
-    result = ageingerrors::Factory::Create(object_type, sub_type);
+    return ageingerrors::Factory::Create(object_type, sub_type);
   else if (object_type == PARAM_AGE_LENGTH || object_type == PARAM_AGE_LENGTHS)
-    result = agelengths::Factory::Create(object_type, sub_type);
+    return agelengths::Factory::Create(object_type, sub_type);
   else if (object_type == PARAM_ASSERT)
-    result = asserts::Factory::Create(object_type, sub_type);
+    return asserts::Factory::Create(object_type, sub_type);
   else if (object_type == PARAM_CATCHABILITY)
-    result = catchabilities::Factory::Create(object_type, sub_type);
+    return catchabilities::Factory::Create(object_type, sub_type);
   else if (object_type == PARAM_CATEGORIES)
-    result = Categories::Instance();
+    return Categories::Instance();
   else if (object_type == PARAM_DERIVED_QUANTITY || object_type == PARAM_DERIVED_QUANTITIES)
-    result = derivedquantities::Factory::Create(object_type, sub_type);
+    return derivedquantities::Factory::Create(object_type, sub_type);
   else if (object_type == PARAM_ESTIMATE)
-    result = estimates::creators::Factory::Create(object_type, sub_type);
+    return estimates::creators::Factory::Create(object_type, sub_type);
   else if (object_type == PARAM_INITIALISATION_PHASE || object_type == PARAM_INITIALISATION_PHASES)
-    result = initialisationphases::Factory::Create(object_type, sub_type);
+    return initialisationphases::Factory::Create(object_type, sub_type);
   else if (object_type == PARAM_LENGTH_WEIGHT || object_type == PARAM_LENGTH_WEIGHTS)
-      result = lengthweights::Factory::Create(object_type, sub_type);
+    return lengthweights::Factory::Create(object_type, sub_type);
   else if (object_type == PARAM_LIKELIHOOD)
-    result = likelihoods::Factory::Create(sub_type);
+    return likelihoods::Factory::Create(sub_type);
   else if (object_type == PARAM_MINIMIZER)
-    result = minimisers::Factory::Create(object_type, sub_type);
+    return minimisers::Factory::Create(object_type, sub_type);
   else if (object_type == PARAM_MCMC)
-    result = mcmcs::Factory::Create(object_type, sub_type);
+    return mcmcs::Factory::Create(object_type, sub_type);
   else if (object_type == PARAM_MODEL)
-    result = Model::Instance();
+    return Model::Instance();
   else if (object_type == PARAM_OBSERVATION)
-    result = observations::Factory::Create(object_type, sub_type);
+    return observations::Factory::Create(object_type, sub_type);
   else if (object_type == PARAM_PENALTY)
-    result = penalties::Factory::Create(object_type, sub_type);
+    return penalties::Factory::Create(object_type, sub_type);
   else if (object_type == PARAM_PROCESS || object_type == PARAM_PROCESSES)
-    result = processes::Factory::Create(object_type, sub_type);
+    return processes::Factory::Create(object_type, sub_type);
   else if (object_type == PARAM_PROFILE)
-    result = profiles::Factory::Create();
+    return profiles::Factory::Create();
   else if (object_type == PARAM_PROJECT || object_type == PARAM_PROJECTS)
-    result = projects::Factory::Create(object_type, sub_type);
+    return projects::Factory::Create(object_type, sub_type);
   else if (object_type == PARAM_AGEING || object_type == PARAM_MATURATION || object_type == PARAM_MORTALITY || object_type == PARAM_RECRUITMENT)
-    result = processes::Factory::Create(object_type, sub_type);
+    return processes::Factory::Create(object_type, sub_type);
   else if (object_type == PARAM_STATE || object_type == PARAM_TAG || object_type == PARAM_TRANSITION) // @process specialisation
-    result = processes::Factory::Create(object_type, sub_type);
+    return processes::Factory::Create(object_type, sub_type);
   else if (object_type == PARAM_REPORT)
-    result = reports::Factory::Create(object_type, sub_type);
+    return reports::Factory::Create(object_type, sub_type);
   else if (object_type == PARAM_SELECTIVITY || object_type == PARAM_SELECTIVITIES)
-    result = selectivities::Factory::Create(object_type, sub_type);
+    return selectivities::Factory::Create(object_type, sub_type);
   else if (object_type == PARAM_TIME_STEP || object_type == PARAM_TIME_STEPS)
-    result = timesteps::Factory::Create();
+    return timesteps::Factory::Create();
   else if (object_type == PARAM_TIME_VARYING)
-    result = timevarying::Factory::Create(object_type, sub_type);
+    return timevarying::Factory::Create(object_type, sub_type);
 
-  return result;
+  return nullptr;
 }
 
 } /* namespace factory */

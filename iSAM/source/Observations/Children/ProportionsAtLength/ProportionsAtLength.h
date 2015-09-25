@@ -52,11 +52,11 @@ protected:
   bool                          length_plus_ = false;
   unsigned                      number_bins_ = 0;
   Double                        delta_ = 0.0;
-  parameters::TablePtr          obs_table_;
+  parameters::Table*            obs_table_;
   Double                        tolerance_ = 0.0;
   vector<Double>                process_error_values_;
   map<unsigned, Double>         process_errors_by_year_;
-  parameters::TablePtr          error_values_table_;
+  parameters::Table*            error_values_table_;
   CachedCombinedCategoriesPtr   cached_partition_;
   CombinedCategoriesPtr         partition_;
   vector<Double>                length_results_;

@@ -31,13 +31,13 @@ public:
 
 protected:
   // methods
-  void                        DoValidate() override final;
+  void                        DoValidate() override final { };
   void                        DoBuild() override final;
-  void                        DoReset() override final;
+  void                        DoReset() override final { };
 
 private:
   // members
-  parameters::TablePtr          data_table_;
+  parameters::Table*          data_table_ = nullptr;
 };
 
 } /* namespace ageingerrors */

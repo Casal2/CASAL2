@@ -28,9 +28,6 @@ TagByAge::TagByAge() : Process(Model::Instance()) {
   process_type_ = ProcessType::kTransition;
   partition_structure_ = PartitionStructure::kAge;
 
-  numbers_table_ = TablePtr(new parameters::Table(PARAM_NUMBERS));
-  proportions_table_ = TablePtr(new parameters::Table(PARAM_PROPORTIONS));
-
   parameters_.Bind<string>(PARAM_FROM, &from_category_labels_, "Categories to transition from", "");
   parameters_.Bind<string>(PARAM_TO, &to_category_labels_, "Categories to transition to", "");
   parameters_.Bind<unsigned>(PARAM_MIN_AGE, &min_age_, "Minimum age to transition", "");
@@ -67,7 +64,7 @@ void TagByAge::DoValidate() {
 
   unsigned age_spread = (max_age_ - min_age_) + 1;
 
-  niwa::CategoriesPtr categories = niwa::Categories::Instance();
+  niwa::Categories* categories = niwa::Categories::Instance();
   from_category_labels_ = categories->ExpandLabels(from_category_labels_, parameters_.Get(PARAM_FROM));
   to_category_labels_   = categories->ExpandLabels(to_category_labels_, parameters_.Get(PARAM_TO));
 
@@ -209,7 +206,7 @@ void TagByAge::DoBuild() {
 
   selectivities::Manager& selectivity_manager = selectivities::Manager::Instance();
   for (unsigned i = 0; i < selectivity_labels_.size(); ++i) {
-    SelectivityPtr selectivity = selectivity_manager.GetSelectivity(selectivity_labels_[i]);
+    Selectivity* selectivity = selectivity_manager.GetSelectivity(selectivity_labels_[i]);
     if (!selectivity)
       LOG_ERROR() << "Selectivity: " << selectivity_labels_[i] << " not found";
     selectivities_[from_category_labels_[i]] = selectivity;

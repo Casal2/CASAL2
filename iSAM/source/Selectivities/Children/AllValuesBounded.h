@@ -30,7 +30,7 @@ class AllValuesBounded : public niwa::Selectivity {
 public:
   // Methods
   AllValuesBounded();
-  explicit AllValuesBounded(ModelPtr model);
+  explicit AllValuesBounded(Model* model);
   virtual                     ~AllValuesBounded() = default;
   void                        DoValidate() override final;
   void                        Reset() override final;

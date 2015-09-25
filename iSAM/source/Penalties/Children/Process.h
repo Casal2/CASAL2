@@ -42,9 +42,6 @@ private:
   Double                      multiplier_;
   bool                        log_scale_;
 };
-
-typedef std::shared_ptr<penalties::Process> ProcessPtr;
-
 } /* namespace penalties */
 } /* namespace niwa */
 

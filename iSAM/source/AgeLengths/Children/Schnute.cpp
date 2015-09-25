@@ -35,7 +35,7 @@ using std::pow;
 Schnute::Schnute() : Schnute(Model::Instance()) {
 }
 
-Schnute::Schnute(ModelPtr model) : AgeLength(model) {
+Schnute::Schnute(Model* model) : AgeLength(model) {
   parameters_.Bind<Double>(PARAM_Y1, &y1_, "TBA", "");
   parameters_.Bind<Double>(PARAM_Y2, &y2_, "TBA", "");
   parameters_.Bind<Double>(PARAM_TAU1, &tau1_, "TBA", "");

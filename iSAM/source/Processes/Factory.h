@@ -29,7 +29,7 @@ using std::string;
 class Factory {
 public:
   // methods
-  static ProcessPtr Create(string object_type, string sub_type);
+  static Process* Create(const string& object_type, const string& sub_type);
 
 private:
   // methods

@@ -32,13 +32,13 @@ Manager::~Manager() noexcept(true) {
 /**
  *
  */
-ObservationPtr Manager::GetObservation(const string& label) {
-  for (ObservationPtr observation : objects_) {
+Observation* Manager::GetObservation(const string& label) {
+  for (auto observation : objects_) {
     if (observation->label() == label)
       return observation;
   }
 
-  return ObservationPtr();
+  return nullptr;
 }
 
 /**
@@ -74,7 +74,7 @@ ObservationPtr Manager::GetObservation(const string& label) {
  *
  */
 void Manager::CalculateScores() {
-  for (ObservationPtr observation : objects_) {
+  for (auto observation : objects_) {
     observation->CalculateScore();
   }
 }

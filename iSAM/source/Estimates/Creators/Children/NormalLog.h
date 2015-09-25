@@ -25,7 +25,7 @@ class NormalLog : public estimates::Creator {
 public:
   NormalLog();
   virtual                     ~NormalLog() = default;
-  void                        DoCopyParameters(niwa::EstimatePtr estimate, unsigned index) override final;
+  void                        DoCopyParameters(niwa::Estimate* estimate, unsigned index) override final;
 
 private:
   // members

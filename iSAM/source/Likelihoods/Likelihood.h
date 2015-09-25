@@ -50,9 +50,5 @@ protected:
   Double                      multiplier_ = 1.0;
   Double                      error_value_multiplier_ = 1.0;
 };
-
-// Typedef
-typedef std::shared_ptr<niwa::Likelihood> LikelihoodPtr;
-
 } /* namespace niwa */
 #endif /* LIKELIHOOD_H_ */

@@ -28,14 +28,14 @@ namespace timevarying {
  * @param sub_type The child type of the object to create (e.g ageing, schnute)
  * @return shared_ptr to the object we've created
  */
-TimeVaryingPtr Factory::Create(const string& object_type, const string& sub_type) {
-  TimeVaryingPtr result;
+TimeVarying* Factory::Create(const string& object_type, const string& sub_type) {
+  TimeVarying* result = nullptr;
 
   if (object_type == PARAM_TIME_VARYING) {
     if (sub_type == PARAM_ANNUAL_SHIFT)
-      result = TimeVaryingPtr(new AnnualShift());
+      result = new AnnualShift();
     else if (sub_type == PARAM_CONSTANT)
-      result = TimeVaryingPtr(new Constant());
+      result = new Constant();
 
     if (result)
       timevarying::Manager::Instance().AddObject(result);

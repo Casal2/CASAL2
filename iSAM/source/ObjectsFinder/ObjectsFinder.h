@@ -49,7 +49,7 @@ void ImplodeString(const string& type, const string& label, const string& parame
  *
  * @param object_absolute_name The absolute name for the parameter. This includes the object details (e.g process[mortality].m
  */
-niwa::base::ObjectPtr FindObject(const string& parameter_absolute_name);
+niwa::base::Object* FindObject(const string& parameter_absolute_name);
 
 /**
  * Find an estimable in the system using an absolute name

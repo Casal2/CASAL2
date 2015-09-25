@@ -37,7 +37,7 @@ MCMCCovariance::~MCMCCovariance() noexcept(true) {
  *
  */
 void MCMCCovariance::DoExecute() {
-  MCMCPtr mcmc = mcmcs::Manager::Instance().active_mcmc();
+  MCMC* mcmc = mcmcs::Manager::Instance().active_mcmc();
   ublas::matrix<Double>& covariance_matrix = mcmc->GetCovarianceMatrix();
 
   cache_ << "*" << label_ << " " << "("<< type_ << ")"<<"\n";

@@ -41,30 +41,30 @@ namespace selectivities {
  * @param sub_type The child type of the object to create (e.g ageing, schnute)
  * @return shared_ptr to the object we've created
  */
-SelectivityPtr Factory::Create(const string& object_type, const string& sub_type) {
-  SelectivityPtr result;
+Selectivity* Factory::Create(const string& object_type, const string& sub_type) {
+  Selectivity* result = nullptr;
 
   if (object_type == PARAM_SELECTIVITY || object_type == PARAM_SELECTIVITIES) {
     if (sub_type == PARAM_ALL_VALUES)
-      result = SelectivityPtr(new AllValues());
+      result = new AllValues();
     else if (sub_type == PARAM_ALL_VALUES_BOUNDED)
-      result = SelectivityPtr(new AllValuesBounded());
+      result = new AllValuesBounded();
     else if (sub_type == PARAM_CONSTANT)
-      result = SelectivityPtr(new Constant());
+      result = new Constant();
     else if (sub_type == PARAM_DOUBLE_EXPONENTIAL)
-      result = SelectivityPtr(new DoubleExponential());
+      result = new DoubleExponential();
     else if (sub_type == PARAM_DOUBLE_NORMAL)
-      result = SelectivityPtr(new DoubleNormal());
+      result = new DoubleNormal();
     else if (sub_type == PARAM_INCREASING)
-      result = SelectivityPtr(new Increasing());
+      result = new Increasing();
     else if (sub_type == PARAM_INVERSE_LOGISTIC)
-      result = SelectivityPtr(new InverseLogistic());
+      result = new InverseLogistic();
     else if (sub_type == PARAM_KNIFE_EDGE)
-      result = SelectivityPtr(new KnifeEdge());
+      result = new KnifeEdge();
     else if (sub_type == PARAM_LOGISTIC)
-      result = SelectivityPtr(new Logistic());
+      result = new Logistic();
     else if (sub_type == PARAM_LOGISTIC_PRODUCING)
-      result = SelectivityPtr(new LogisticProducing());
+      result = new LogisticProducing();
 
     if (result)
       niwa::selectivities::Manager::Instance().AddObject(result);

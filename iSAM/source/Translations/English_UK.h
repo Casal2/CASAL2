@@ -412,6 +412,7 @@
 #define PARAM_SECTION                             "command"
 #define PARAM_SELECTIVITIES                       "selectivities"
 #define PARAM_SELECTIVITY                         "selectivity"
+#define PARAM_SEQUENTIALLY_ADD                    "sequentially_add"
 #define PARAM_SKIP_CONFIG_FILE                    "skip_config_file"
 #define PARAM_SIGMA                               "sigma"
 #define PARAM_SIGMA_L                             "sigma_l"

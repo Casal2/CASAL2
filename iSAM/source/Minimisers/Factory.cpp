@@ -43,31 +43,31 @@ namespace minimisers {
  * @param sub_type The child type of the object to create (e.g ageing, schnute)
  * @return shared_ptr to the object we've created
  */
-MinimiserPtr Factory::Create(const string& object_type, const string& sub_type) {
-  MinimiserPtr result;
+Minimiser* Factory::Create(const string& object_type, const string& sub_type) {
+  Minimiser* result = nullptr;
 
   if (object_type == PARAM_MINIMIZER) {
 #ifdef USE_BETADIFF
     if (sub_type == PARAM_BETADIFF) {
-      result = MinimiserPtr(new BetaDiff());
+      result = new BetaDiff();
     }
 #elif defined(USE_ADOLC)
     if (sub_type == PARAM_ADOLC) {
-      result = MinimiserPtr(new ADOLC());
+      result = new ADOLC();
     }
 #elif defined(USE_CPPAD)
     if (sub_type == PARAM_CPPAD) {
-      result = MinimiserPtr(new CPPAD());
+      result = new CPPAD();
     }
 #endif
 
 #ifndef USE_AUTODIFF
     if (sub_type == PARAM_DE_SOLVER)
-      result = MinimiserPtr(new DESolver());
+      result = new DESolver();
     else if (sub_type == PARAM_DLIB)
-      result = MinimiserPtr(new DLib());
+      result = new DLib();
     else if (sub_type == PARAM_GAMMADIFF)
-      result = MinimiserPtr(new GammaDiff());
+      result = new GammaDiff();
 #endif
 
     if (!result)

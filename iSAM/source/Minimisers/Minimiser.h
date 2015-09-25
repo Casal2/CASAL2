@@ -65,9 +65,5 @@ protected:
   ublas::matrix<double>       covariance_matrix_;
   ublas::matrix<double>       correlation_matrix_;
 };
-
-// Typdef
-typedef std::shared_ptr<niwa::Minimiser> MinimiserPtr;
-
 } /* namespace niwa */
 #endif /* MINIMISER_H_ */

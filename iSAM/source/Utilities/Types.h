@@ -19,7 +19,7 @@
 
 #include <cstdlib>
 #include <memory>
-#include <cxxabi.h>
+//#include <cxxabi.h>
 
 #ifdef USE_ADOLC
 #include <adolc/adouble.h>
@@ -70,7 +70,8 @@ typedef double Double;
  * This code is used to demangle the typeid(x).name information
  */
 inline std::string demangle(const char* name) {
-
+	return name;
+	/*
     int status = -4; // some arbitrary value to eliminate the compiler warning
 
     // enable c++11 by passing the flag -std=c++11 to g++
@@ -79,7 +80,7 @@ inline std::string demangle(const char* name) {
         std::free
     };
 
-    return (status==0) ? res.get() : name ;
+    return (status==0) ? res.get() : name ;*/
 }
 
 

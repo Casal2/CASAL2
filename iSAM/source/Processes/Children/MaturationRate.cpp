@@ -56,7 +56,7 @@ void MaturationRate::DoValidate() {
     selectivity_names_.assign(from_category_names_.size(), selectivity_names_[0]);
 
   // Validate Categories
-  niwa::CategoriesPtr categories = niwa::Categories::Instance();
+  niwa::Categories* categories = niwa::Categories::Instance();
   from_category_names_ = categories->ExpandLabels(from_category_names_, parameters_.Get(PARAM_FROM));
   to_category_names_   = categories->ExpandLabels(to_category_names_, parameters_.Get(PARAM_TO));
 
@@ -126,7 +126,7 @@ void MaturationRate::DoBuild() {
   to_partition_.Init(to_category_names_);
 
   for(string label : selectivity_names_) {
-    SelectivityPtr selectivity = selectivities::Manager::Instance().GetSelectivity(label);
+    Selectivity* selectivity = selectivities::Manager::Instance().GetSelectivity(label);
     if (!selectivity)
       LOG_ERROR_P(PARAM_SELECTIVITIES) << ": Selectivity " << label << " does not exist. Have you defined it?";
     selectivities_.push_back(selectivity);

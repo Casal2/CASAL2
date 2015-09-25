@@ -36,11 +36,11 @@ public:
   void                        Reset() { };
 
   // accessors
-  MCMCPtr                     active_mcmc() const { return mcmc_; }
+  MCMC*                       active_mcmc() const { return mcmc_; }
 
 private:
   // members
-  MCMCPtr                     mcmc_;
+  MCMC*                       mcmc_;
 };
 
 } /* namespace mcmcs */

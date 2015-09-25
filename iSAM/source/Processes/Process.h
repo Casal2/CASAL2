@@ -42,14 +42,14 @@ class Process : public niwa::base::Object {
 public:
   // methods
   Process() = delete;
-  explicit Process(ModelPtr model);
+  explicit Process(Model* model);
   virtual                     ~Process() = default;
   void                        Validate();
   void                        Build();
   void                        Reset() { DoReset(); };
   void                        Execute(unsigned year, const string& time_step_label);
   void                        Print();
-  void                        Subscribe(unsigned year, const string& time_step_label, ExecutorPtr executor);
+  void                        Subscribe(unsigned year, const string& time_step_label, Executor* executor);
 
   virtual void                DoValidate() = 0;
   virtual void                DoBuild() = 0;
@@ -68,14 +68,9 @@ protected:
   PartitionStructure          partition_structure_ = PartitionStructure::kInvalid;
   bool                        print_report_ = false;
   map<string, vector<string>> print_values_;
-  map<unsigned, map<string, vector<ExecutorPtr>>> executors_;
-  ModelPtr                    model_;
+  map<unsigned, map<string, vector<Executor*>>> executors_;
+  Model*                    model_;
 };
-
-/**
- * Typedef
- */
-typedef std::shared_ptr<Process> ProcessPtr;
 
 } /* namespace niwa */
 #endif /* PROCESS_H_ */

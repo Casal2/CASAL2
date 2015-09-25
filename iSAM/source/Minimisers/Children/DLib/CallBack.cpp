@@ -33,7 +33,7 @@ Callback::Callback() {
  */
 Double Callback::operator()(const ::dlib::matrix<double, 0, 1>& Parameters) const {
   // Update our Components with the New Parameters
-  vector<EstimatePtr> estimates = estimates::Manager::Instance().GetEnabled();
+  vector<Estimate*> estimates = estimates::Manager::Instance().GetEnabled();
 
   if (Parameters.size() != (int)estimates.size()) {
     LOG_CODE_ERROR() << "The number of enabled estimates does not match the number of test solution values";

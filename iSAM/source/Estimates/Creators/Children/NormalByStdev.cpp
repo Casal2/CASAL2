@@ -27,7 +27,7 @@ NormalByStdev::NormalByStdev() {
 /**
  *
  */
-void NormalByStdev::DoCopyParameters(niwa::EstimatePtr estimate, unsigned index) {
+void NormalByStdev::DoCopyParameters(niwa::Estimate* estimate, unsigned index) {
   estimate->parameters().CopyFrom(parameters_, PARAM_MU, index);
   estimate->parameters().CopyFrom(parameters_, PARAM_SIGMA, index);
 }

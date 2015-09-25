@@ -19,6 +19,7 @@
 // headers
 #include "Estimables/Estimables.h"
 #include "LengthWeights/Manager.h"
+#include "Reports/Manager.h"
 #include "Selectivities/Manager.h"
 #include "TimeSteps/Manager.h"
 
@@ -32,6 +33,7 @@ public:
   // accessors
   virtual Estimables&                   estimables() { return Estimables::Instance(); }
   virtual lengthweights::Manager&       length_weight() { return lengthweights::Manager::Instance(); }
+  virtual reports::Manager&             report() { return reports::Manager::Instance(); }
   virtual selectivities::Manager&       selectivity() { return selectivities::Manager::Instance(); }
   virtual timesteps::Manager&           time_step() { return timesteps::Manager::Instance(); }
 

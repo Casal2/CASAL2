@@ -42,7 +42,7 @@ public:
   explicit Table(const string &label);
   virtual                     ~Table() = default;
   void                        AddColumns(const vector<string> &columns);
-  void                        AddRow(vector<string> &row);
+  void                        AddRow(const vector<string> &row);
   bool                        HasColumns() { return columns_.size() != 0; }
   unsigned                    GetColumnCount() { return columns_.size(); }
   void                        FillMapOfCategoryAges(map<string, vector<Double>>& result);
@@ -83,12 +83,6 @@ private:
   bool                        is_optional_ = false;
   bool                        requires_columns_ = true;
 };
-
-/**
- * Typedefs
- */
-typedef std::shared_ptr<niwa::parameters::Table> TablePtr;
-
 } /* namespace parameters */
 } /* namespace niwa */
 

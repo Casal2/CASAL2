@@ -30,23 +30,23 @@ namespace creators {
  * @param object_type The major object type (@estimate)
  * @param sub_type The sub type of the object (e.g beta)
  */
-CreatorPtr Factory::Create(const string& object_type, const string& sub_type) {
-  CreatorPtr object;
+Creator* Factory::Create(const string& object_type, const string& sub_type) {
+  Creator* object = nullptr;
 
   if (sub_type == PARAM_BETA)
-    object = CreatorPtr(new Beta());
+    object = new Beta();
   else if (sub_type == PARAM_LOGNORMAL)
-    object = CreatorPtr(new Lognormal());
+    object = new Lognormal();
   else if (sub_type == PARAM_NORMAL)
-    object = CreatorPtr(new Normal());
+    object = new Normal();
   else if (sub_type == PARAM_NORMAL_BY_STDEV)
-    object = CreatorPtr(new NormalByStdev());
+    object = new NormalByStdev();
   else if (sub_type == PARAM_NORMAL_LOG)
-    object = CreatorPtr(new NormalLog());
+    object = new NormalLog();
   else if (sub_type == PARAM_UNIFORM)
-    object = CreatorPtr(new Uniform());
+    object = new Uniform();
   else if (sub_type == PARAM_UNIFORM_LOG)
-    object = CreatorPtr(new UniformLog());
+    object = new UniformLog();
 
   if (object)
     estimates::Manager::Instance().AddCreator(object);

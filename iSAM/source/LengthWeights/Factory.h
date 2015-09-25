@@ -26,7 +26,7 @@ namespace lengthweights {
 class Factory {
 public:
   // methods
-  static LengthWeightPtr        Create(const string& object_type, const string& sub_type);
+  static LengthWeight*        Create(const string& object_type, const string& sub_type);
 
 private:
   // methods

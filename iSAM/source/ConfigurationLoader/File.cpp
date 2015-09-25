@@ -27,15 +27,6 @@ namespace configuration {
 namespace util = niwa::utilities;
 
 /**
- * Default Constructor
- *
- * @param loader The configuration loader opening and parsing this file
- */
-File::File(Loader* loader)
-  : loader_(loader) {
-}
-
-/**
  * Destructor
  */
 File::~File() {
@@ -107,12 +98,12 @@ void File::Parse() {
 
         boost::replace_all(include_name, "\"", "");
         boost::trim_all(include_name);
-        FilePtr include_file = FilePtr(new File(loader_));
-        if (!include_file->OpenFile(include_name))
+        File include_file(loader_);
+        if (!include_file.OpenFile(include_name))
           LOG_FATAL() << "At line: " << line_number_ << " of " << file_name_
               << ": Include file '" << include_name << "' could not be opened. Does this file exist?";
 
-        include_file->Parse();
+        include_file.Parse();
         continue;
       }
     }
@@ -127,7 +118,7 @@ void File::Parse() {
     current_file_line.line_number_  = line_number_;
     current_file_line.line_         = current_line;
 
-    loader_->AddFileLine(current_file_line);
+    loader_.AddFileLine(current_file_line);
   } // while(get_line())
 }
 

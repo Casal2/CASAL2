@@ -44,7 +44,7 @@ public:
   OrderedMap<string, Double>* GetEstimableSMap(const string& label, string& error);
   vector<Double>*             GetEstimableVector(const string& label, string& error);
 
-  base::ObjectPtr             FindObject(const string& parameter_absolute_name, string& error);
+  base::Object*               FindObject(const string& parameter_absolute_name, string& error);
   Double*                     FindEstimable(const string& estimable_absolute_name, string& error);
 
 private:

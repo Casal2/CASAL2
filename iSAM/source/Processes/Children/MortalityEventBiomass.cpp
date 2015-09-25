@@ -78,7 +78,7 @@ void MortalityEventBiomass::DoBuild() {
   partition_.Init(category_labels_);
 
   for (string label : selectivity_labels_) {
-    SelectivityPtr selectivity = selectivities::Manager::Instance().GetSelectivity(label);
+    Selectivity* selectivity = selectivities::Manager::Instance().GetSelectivity(label);
     if (!selectivity)
       LOG_ERROR_P(PARAM_SELECTIVITIES) << ": selectivity " << label << " does not exist. Have you defined it?";
 

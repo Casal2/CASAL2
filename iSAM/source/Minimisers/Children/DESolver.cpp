@@ -52,8 +52,8 @@ void DESolver::Execute() {
   vector<double>  upper_bounds;
   vector<double>  start_values;
 
-  vector<EstimatePtr> estimates = estimate_manager.GetEnabled();
-  for (EstimatePtr estimate : estimates) {
+  vector<Estimate*> estimates = estimate_manager.GetEnabled();
+  for (Estimate* estimate : estimates) {
     if (!estimate->enabled())
       continue;
 

@@ -33,8 +33,16 @@ std::string String::find_invalid_characters(const std::string& test_string) {
 
  std::string invalid = "";
  std::for_each(test_string.begin(), test_string.end(),
-                    [&special_chars, &invalid](char c) { if (!std::isalpha(c) && !std::isdigit(c) && special_chars.find(c) == string::npos) invalid += c; }
+#ifdef _MSC_VER
+	 [&special_chars, &invalid](char c) { if (!isalpha(c) && !isdigit(c) && special_chars.find(c) == string::npos) invalid += c; }
+#else
+	 [&special_chars, &invalid](char c) { if (!std::isalpha(c) && !std::isdigit(c) && special_chars.find(c) == string::npos) invalid += c; }
+#endif
  );
+
+
+
+
 
  return invalid;
 }

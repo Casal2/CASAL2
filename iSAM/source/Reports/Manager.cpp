@@ -35,7 +35,7 @@ Manager::~Manager() noexcept(true) {
  */
 void Manager::Build() {
   LOG_FINEST() << "objects_.size(): " << objects_.size();
-  for (ReportPtr report : objects_) {
+  for (auto report : objects_) {
     report->Build();
 
     if ((RunMode::Type)(report->run_mode() & RunMode::kInvalid) == RunMode::kInvalid)
@@ -62,7 +62,7 @@ void Manager::Execute(State::Type model_state) {
 
   RunMode::Type run_mode = Model::Instance()->run_mode();
   LOG_FINE() << "Checking " << state_reports_[model_state].size() << " reports";
-  for(ReportPtr report : state_reports_[model_state]) {
+  for(auto report : state_reports_[model_state]) {
       if ( (RunMode::Type)(report->run_mode() & run_mode) == run_mode)
         report->Execute();
       else
@@ -83,7 +83,7 @@ void Manager::Execute(unsigned year, const string& time_step_label) {
   LOG_FINEST() << "year: " << year << "; time_step_label: " << time_step_label << "; reports: " << time_step_reports_[time_step_label].size();
 
   RunMode::Type run_mode = Model::Instance()->run_mode();
-  for(ReportPtr report : time_step_reports_[time_step_label]) {
+  for(auto report : time_step_reports_[time_step_label]) {
     if ( (RunMode::Type)(report->run_mode() & run_mode) != run_mode) {
       LOG_FINEST() << "Skipping report: " << report->label() << " because run mode is not right";
       continue;
@@ -102,7 +102,7 @@ void Manager::Execute(unsigned year, const string& time_step_label) {
  */
 void Manager::Prepare() {
   LOG_TRACE();
-  for (ReportPtr report : objects_) {
+  for (auto report : objects_) {
     report->Prepare();
   }
 }
@@ -112,7 +112,7 @@ void Manager::Prepare() {
  */
 void Manager::Finalise() {
   LOG_TRACE();
-  for (ReportPtr report : objects_) {
+  for (auto report : objects_) {
     report->Finalise();
   }
 }
@@ -131,7 +131,7 @@ void Manager::FlushReports() {
   while(true) {
     do_break = !continue_.test_and_set();
 
-    for (ReportPtr report : objects_) {
+    for (auto report : objects_) {
       if (report->ready_for_writing())
         report->FlushCache();
     }

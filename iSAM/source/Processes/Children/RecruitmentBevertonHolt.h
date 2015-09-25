@@ -39,7 +39,7 @@ public:
 
 private:
   // members
-  ModelPtr                    model_;
+  Model*                    model_;
   accessor::Categories        partition_;
   vector<string>              category_labels_;
   Double                      r0_ = 0.0;
@@ -58,7 +58,7 @@ private:
   vector<Double>              stand_ycs_values_;
   vector<Double>              recruitment_values_;
   vector<unsigned>            standardise_ycs_;
-  DerivedQuantityPtr          derived_quantity_;
+  DerivedQuantity*            derived_quantity_;
   bool                        prior_ycs_values_ = true;
 };
 

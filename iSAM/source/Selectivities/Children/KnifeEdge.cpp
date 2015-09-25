@@ -27,7 +27,7 @@ KnifeEdge::KnifeEdge()
 /**
  * Explicit Constructor
  */
-KnifeEdge::KnifeEdge(ModelPtr model)
+KnifeEdge::KnifeEdge(Model* model)
 : Selectivity(model) {
 
   parameters_.Bind<Double>(PARAM_E, &edge_, "Edge", "");

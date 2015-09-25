@@ -27,16 +27,16 @@ namespace initialisationphases {
  * @param sub_type The child type of the object to create (e.g ageing, schnute)
  * @return shared_ptr to the object we've created
  */
-InitialisationPhasePtr Factory::Create(const string& object_type, const string& sub_type) {
-  InitialisationPhasePtr result;
+InitialisationPhase* Factory::Create(const string& object_type, const string& sub_type) {
+  InitialisationPhase* result = nullptr;
 
   if (object_type == PARAM_INITIALISATION_PHASE) {
     if (sub_type == PARAM_DERIVED)
-      result = InitialisationPhasePtr(new Derived());
+      result = new Derived();
     else if (sub_type == "" || sub_type == PARAM_ITERATIVE)
-      result = InitialisationPhasePtr(new Iterative());
+      result = new Iterative();
     else if (sub_type == PARAM_STATE_CATEGORY_BY_AGE)
-      result = InitialisationPhasePtr(new StateCategoryByAge());
+      result = new StateCategoryByAge();
 
     if (result)
       niwa::initialisationphases::Manager::Instance().AddObject(result);

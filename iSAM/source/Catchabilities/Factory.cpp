@@ -24,14 +24,14 @@ namespace catchabilities {
  *
  * @param object_type The type of object
  * @param sub_type The sub type (e.g beta)
- * @return smart_ptr of an catchability
+ * @return ptr of an catchability
  */
-CatchabilityPtr Factory::Create(const string& object_type, const string& sub_type) {
-  CatchabilityPtr result;
+Catchability* Factory::Create(const string& object_type, const string& sub_type) {
+  Catchability* result = nullptr;
 
   if (object_type == PARAM_CATCHABILITY) {
     if (sub_type == PARAM_FREE || sub_type == "")
-      result = CatchabilityPtr(new Free());
+      result = new Free();
 
 
     if (result)

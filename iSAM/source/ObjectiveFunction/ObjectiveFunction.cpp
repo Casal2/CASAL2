@@ -58,9 +58,9 @@ void ObjectiveFunction::CalculateScore() {
   /**
    * Get the scores from each of the observations/likelihoods
    */
-  vector<ObservationPtr> observations = observations::Manager::Instance().objects();
+  vector<Observation*> observations = observations::Manager::Instance().objects();
   likelihoods_ = 0.0;
-  for(ObservationPtr observation : observations) {
+  for(auto observation : observations) {
     const map<unsigned, Double>& scores = observation->scores();
     bool append_age = scores.size() > 1 ? true : false;
     for(auto iter = scores.begin(); iter != scores.end(); ++iter) {
@@ -81,7 +81,7 @@ void ObjectiveFunction::CalculateScore() {
    */
   penalties_ = 0.0;
 
-  for (PenaltyPtr penalty : penalties::Manager::Instance().objects()) {
+  for (auto penalty : penalties::Manager::Instance().objects()) {
     if (penalty->has_score()) {
       objective::Score new_score;
 
@@ -112,9 +112,9 @@ void ObjectiveFunction::CalculateScore() {
   /**
    * Get the scores from each of the estimate priors
    */
-  vector<EstimatePtr> estimates = estimates::Manager::Instance().objects();
+  vector<Estimate*> estimates = estimates::Manager::Instance().objects();
   priors_ = 0.0;
-  for (EstimatePtr estimate : estimates) {
+  for (Estimate* estimate : estimates) {
     objective::Score new_score;
     if (estimate->label() != "")
       new_score.label_ = PARAM_PRIOR + string("->") + estimate->label() + "->" + estimate->parameter();
@@ -130,9 +130,9 @@ void ObjectiveFunction::CalculateScore() {
   /**
    * Get the score from each additional prior
    */
-  vector<AdditionalPriorPtr> additional_priors = additionalpriors::Manager::Instance().objects();
+  vector<AdditionalPrior*> additional_priors = additionalpriors::Manager::Instance().objects();
   additional_priors_ = 0.0;
-  for (AdditionalPriorPtr prior : additional_priors) {
+  for (auto prior : additional_priors) {
     objective::Score new_score;
     new_score.label_ = PARAM_ADDITIONAL_PRIOR + string("->") + prior->label();
     new_score.score_ = prior->score();

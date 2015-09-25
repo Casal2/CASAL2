@@ -27,7 +27,7 @@ class None : public niwa::AgeLength {
 public:
   // methods
   None();
-  explicit None(ModelPtr model) : AgeLength(Model::Instance()) { };
+  explicit None(Model* model) : AgeLength(model) { };
   virtual                     ~None() = default;
   void                        DoValidate() override final { };
   void                        DoBuild() override final { };

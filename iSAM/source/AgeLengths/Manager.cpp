@@ -23,13 +23,13 @@ namespace agelengths {
  * @param label The label of the age length object
  * @return age length smart_ptr
  */
-AgeLengthPtr Manager::FindAgeLength(const string& label) {
-  for (AgeLengthPtr length : objects_) {
+AgeLength* Manager::FindAgeLength(const string& label) {
+  for (auto length : objects_) {
     if (length->label() == label)
       return length;
   }
 
-  return AgeLengthPtr();
+  return nullptr;
 }
 
 } /* namespace agelengths */

@@ -35,9 +35,7 @@ ProportionsAtLengthForFishery::ProportionsAtLengthForFishery() {
   parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "Year to execute in", "");
   parameters_.Bind<Double>(PARAM_DELTA, &delta_, "Delta", "", DELTA);
   parameters_.Bind<Double>(PARAM_PROCESS_ERRORS, &process_error_values_, "Process error", "", true);
-  obs_table_ = TablePtr(new parameters::Table(PARAM_OBS));
   parameters_.Bind<string>(PARAM_FISHERY, &fishery_, "Label of fishery the observation is from", "", "");
-  error_values_table_ = TablePtr(new parameters::Table(PARAM_ERROR_VALUES));
   parameters_.BindTable(PARAM_OBS, obs_table_, "Table of Observatons", "", false);
   parameters_.BindTable(PARAM_ERROR_VALUES, error_values_table_, "", "", false);
 }
@@ -61,7 +59,7 @@ void ProportionsAtLengthForFishery::DoValidate() {
    * Do some simple checks
    * e.g Validate that the length_bins are strictly increasing
    */
-  ModelPtr model = Model::Instance();
+//  Model* model = Model::Instance();
   for(unsigned length = 0; length < length_bins_.size(); ++length) {
     if(length_bins_[length] < 0.0)
     if(length_bins_[length] > length_bins_[length + 1])
@@ -216,7 +214,7 @@ void ProportionsAtLengthForFishery::DoBuild() {
  * structure to use with any interpolation
  */
 void ProportionsAtLengthForFishery::PreExecute() {
-  ModelPtr model = Model::Instance();
+  Model* model = Model::Instance();
 
   cached_partition_->BuildCache();
 
@@ -234,8 +232,8 @@ void ProportionsAtLengthForFishery::Execute() {
   /**
    * Verify our cached partition and partition sizes are correct
    */
-  ModelPtr model = Model::Instance();
-  CategoriesPtr categories = Categories::Instance();
+  Model* model = Model::Instance();
+  auto categories = Categories::Instance();
   Double t = mortality_instantaneous_->time_step_ratio();
   unsigned year = Model::Instance()->current_year();
 
@@ -263,7 +261,7 @@ void ProportionsAtLengthForFishery::Execute() {
     auto category_iter = partition_iter->begin();
     auto cached_category_iter = cached_partition_iter->begin();
     for (; category_iter != partition_iter->end(); ++cached_category_iter, ++category_iter) {
-      AgeLengthPtr age_length = categories->age_length((*category_iter)->name_);
+      AgeLength* age_length = categories->age_length((*category_iter)->name_);
       (*category_iter)->UpdateMeanLengthData();
       age_length->BuildCV(year);
       unsigned size = length_bins_.size();

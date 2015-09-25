@@ -32,7 +32,7 @@ LogisticProducing::LogisticProducing()
 /**
  * Explicit constructor
  */
-LogisticProducing::LogisticProducing(ModelPtr model)
+LogisticProducing::LogisticProducing(Model* model)
 : Selectivity(model) {
   parameters_.Bind<unsigned>(PARAM_L, &low_, "Low", "");
   parameters_.Bind<unsigned>(PARAM_H, &high_, "High", "");

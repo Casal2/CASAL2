@@ -26,12 +26,12 @@ namespace additionalpriors {
  * @param sub_type The sub type (e.g beta)
  * @return smart_ptr of an additional prior
  */
-AdditionalPriorPtr Factory::Create(string object_type, string sub_type) {
-  AdditionalPriorPtr object;
+AdditionalPrior* Factory::Create(const string& object_type, const string& sub_type) {
+  AdditionalPrior* object = nullptr;
 
   if (object_type == PARAM_ADDITIONAL_PRIOR) {
     if (sub_type == PARAM_BETA)
-      object = AdditionalPriorPtr(new Beta());
+      object = new Beta();
   }
 
   if (object)

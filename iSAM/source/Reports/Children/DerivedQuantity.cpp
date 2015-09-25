@@ -57,12 +57,12 @@ void DerivedQuantity::DoExecute() {
 
   derivedquantities::Manager& manager = derivedquantities::Manager::Instance();
 
-  vector<DerivedQuantityPtr> derived_quantities = manager.objects();
+  auto derived_quantities = manager.objects();
 
   cache_ << "*" << label_ << " " << "("<< type_ << ")"<<"\n";
 
   unsigned count = 1;
-  for (DerivedQuantityPtr dq : derived_quantities) {
+  for (auto dq : derived_quantities) {
     cache_ << dq->label() << " " << REPORT_R_LIST << "\n";
 
     const vector<vector<Double> > init_values = dq->initialisation_values();

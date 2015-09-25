@@ -44,7 +44,7 @@ void Table::AddColumns(const vector<string> &columns) {
  *
  * @param row The row of data to add
  */
-void Table::AddRow(vector<string> &row) {
+void Table::AddRow(const vector<string> &row) {
   data_.push_back(row);
 }
 

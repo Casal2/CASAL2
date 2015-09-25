@@ -65,7 +65,7 @@ void Observation::Validate() {
    * or the number of defined collections
    */
   unsigned expected_selectivity_count = 0;
-  CategoriesPtr categories = Categories::Instance();
+  Categories* categories = Categories::Instance();
   for (const string& category_label : category_labels_)
     expected_selectivity_count += categories->GetNumberOfCategoriesDefined(category_label);
 
@@ -105,7 +105,7 @@ void Observation::Build() {
   LOG_TRACE();
 
   for(string label : selectivity_labels_) {
-    SelectivityPtr selectivity = selectivities::Manager::Instance().GetSelectivity(label);
+    Selectivity* selectivity = selectivities::Manager::Instance().GetSelectivity(label);
     if (!selectivity)
       LOG_ERROR_P(PARAM_SELECTIVITIES) << ": Selectivity " << label << " does not exist. Have you defined it?";
     selectivities_.push_back(selectivity);

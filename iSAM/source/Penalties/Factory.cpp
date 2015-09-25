@@ -29,16 +29,16 @@ namespace penalties {
  * @param sub_type The child type of the object to create (e.g ageing, schnute)
  * @return shared_ptr to the object we've created
  */
-PenaltyPtr Factory::Create(string object_type, string sub_type) {
-  PenaltyPtr object;
+Penalty* Factory::Create(const string& object_type, const string& sub_type) {
+  Penalty* object = nullptr;
 
   if (object_type == PARAM_PENALTY) {
     if (sub_type == PARAM_PROCESS)
-      object = PenaltyPtr(new Process());
+      object = new Process();
     else if (sub_type == PARAM_VECTOR_AVERAGE)
-      object = PenaltyPtr(new VectorAverage());
+      object = new VectorAverage();
     else if (sub_type == PARAM_VECTOR_SMOOTHING)
-      object = PenaltyPtr(new VectorSmoothing());
+      object = new VectorSmoothing();
 
     if (object)
       penalties::Manager::Instance().AddObject(object);

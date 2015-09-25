@@ -26,7 +26,7 @@ public:
 
 private:
   string                      selectivity_label_;
-  SelectivityPtr              selectivity_;
+  niwa::Selectivity*          selectivity_;
 };
 
 } /* namespace reports */

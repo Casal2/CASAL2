@@ -21,7 +21,7 @@ namespace niwa {
 /**
  * Default constructor
  */
-TimeVarying::TimeVarying(ModelPtr model) : model_(model) {
+TimeVarying::TimeVarying(Model* model) : model_(model) {
   parameters_.Bind<string>(PARAM_LABEL, &label_, "Label", "");
   parameters_.Bind<string>(PARAM_TYPE, &type_, "Type", "", "");
   parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "Years to recalculate the values", "");

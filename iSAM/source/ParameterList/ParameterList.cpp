@@ -133,7 +133,7 @@ void ParameterList::Populate() {
 
   // handle categories
   if (parameters_.find(PARAM_CATEGORIES) != parameters_.end() || parameters_.find(PARAM_CATEGORY) != parameters_.end()) {
-    ParameterPtr parameter;
+    Parameter* parameter;
     if (parameters_.find(PARAM_CATEGORIES) != parameters_.end())
       parameter = parameters_[PARAM_CATEGORIES];
     else
@@ -152,7 +152,7 @@ void ParameterList::Populate() {
   }
 
   if (parameters_.find(PARAM_LABEL) != parameters_.end()) {
-    ParameterPtr param = parameters_[PARAM_LABEL];
+    Parameter* param = parameters_[PARAM_LABEL];
     if (param->values().size() != 0) {
       string invalid = utilities::String::find_invalid_characters(param->values()[0]);
       if (invalid != "")
@@ -170,10 +170,10 @@ void ParameterList::Populate() {
  * @param label The parameter to return
  * @return The parameter reference
  */
-const ParameterPtr ParameterList::Get(const string& label) {
-  map<string, ParameterPtr>::iterator iter = parameters_.find(label);
+Parameter* ParameterList::Get(const string& label) {
+  auto iter = parameters_.find(label);
   if (iter == parameters_.end())
-    return ParameterPtr();
+    return nullptr;
 
   return iter->second;
 }
@@ -184,10 +184,10 @@ const ParameterPtr ParameterList::Get(const string& label) {
  * @param label of the table to return
  * @return
  */
-const parameters::TablePtr ParameterList::GetTable(const string& label) {
+parameters::Table* ParameterList::GetTable(const string& label) {
   auto iter = tables_.find(label);
   if (iter == tables_.end())
-    return parameters::TablePtr();
+    return nullptr;
 
   return iter->second;
 }
@@ -254,7 +254,7 @@ void ParameterList::Clear() {
  * @return The location string for an error message
  */
 string ParameterList::location(const string& label) {
-  map<string, ParameterPtr>::iterator iter = parameters_.find(label);
+  map<string, Parameter*>::iterator iter = parameters_.find(label);
   auto table_iter = tables_.find(label);
   if (iter == parameters_.end() && table_iter == tables_.end()) {
     LOG_CODE_ERROR() << "parameters_ object is missing the parameter: " << label;
@@ -274,7 +274,8 @@ string ParameterList::location(const string& label) {
  * @param description used for documentation, ignored
  * @param values used for documentation, ignored
  */
-void ParameterList::BindTable(const string& label, parameters::TablePtr table, const string& description, const string& values, bool requires_columns, bool optional) {
+void ParameterList::BindTable(const string& label, parameters::Table* table, const string& description, const string& values, bool requires_columns, bool optional) {
+  table = new parameters::Table(label);
   table->set_requires_columns(requires_columns);
   table->set_is_optional(optional);
   tables_[label] = table;

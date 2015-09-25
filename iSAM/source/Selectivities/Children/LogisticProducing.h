@@ -30,7 +30,7 @@ class LogisticProducing : public niwa::Selectivity {
 public:
   // Methods
   LogisticProducing();
-  explicit LogisticProducing(ModelPtr model);
+  explicit LogisticProducing(Model* model);
   virtual                     ~LogisticProducing() = default;
   void                        DoValidate() override final;
   void                        Reset() override final;

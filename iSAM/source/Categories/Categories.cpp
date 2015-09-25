@@ -37,7 +37,6 @@ namespace niwa {
  * Note: The constructor is parsed to generate Latex for the documentation.
  */
 Categories::Categories() {
-  LOG_TRACE();
   parameters_.Bind<string>(PARAM_FORMAT, &format_, "The format that the category names should adhere too", "");
   parameters_.Bind<string>(PARAM_NAMES, &names_, "The names of the categories to be used in the model", "");
   parameters_.Bind<string>(PARAM_YEARS, &years_, "The years that individual categories will be active for. This overrides the model values", "", true);
@@ -50,9 +49,9 @@ Categories::Categories() {
  *
  * @return singleton shared ptr
  */
-shared_ptr<Categories> Categories::Instance() {
-  static CategoriesPtr categories = CategoriesPtr(new Categories());
-  return categories;
+Categories* Categories::Instance() {
+  static Categories categories;
+  return &categories;
 }
 
 /**
@@ -77,7 +76,7 @@ void Categories::Validate() {
    */
 
   // Parameter: Names
-  ModelPtr model = Model::Instance();
+  Model* model = Model::Instance();
 
   // build the default years
   vector<unsigned> default_years;
@@ -128,7 +127,7 @@ void Categories::Build() {
 
   auto iter = category_age_length_labels_.begin();
   for (; iter != category_age_length_labels_.end(); ++iter) {
-    AgeLengthPtr age_size = age_sizes_manager.FindAgeLength(iter->second);
+    AgeLength* age_size = age_sizes_manager.FindAgeLength(iter->second);
     if (!age_size)
       LOG_ERROR_P(PARAM_AGE_LENGTHS) << "(" << iter->second << ") could not be found. Have you defined it?";
 
@@ -146,7 +145,7 @@ void Categories::Build() {
  * @param source_parameter The parameter object which holds configuration file details for error reporting
  * @return a singular vector with each category as it's own element
  */
-vector<string> Categories::ExpandLabels(const vector<string> &category_labels, const ParameterPtr source_parameter) {
+vector<string> Categories::ExpandLabels(const vector<string> &category_labels, const Parameter* source_parameter) {
   vector<string> result;
 
   vector<string> temp;
@@ -162,7 +161,7 @@ vector<string> Categories::ExpandLabels(const vector<string> &category_labels, c
  *
  * @param lookup_string The
  */
-vector<string> Categories::GetCategoryLabelsV(const string& lookup_string, const ParameterPtr source_parameter) {
+vector<string> Categories::GetCategoryLabelsV(const string& lookup_string, const Parameter* source_parameter) {
   string temp = GetCategoryLabels(lookup_string, source_parameter);
 
   vector<string> result;
@@ -180,7 +179,7 @@ vector<string> Categories::GetCategoryLabelsV(const string& lookup_string, const
  * @param source_parameter Source parameter object defined in configuration file
  * @return String containing the new lookup string once it's been parsed
  */
-string Categories::GetCategoryLabels(const string& lookup_string, const ParameterPtr source_parameter) {
+string Categories::GetCategoryLabels(const string& lookup_string, const Parameter* source_parameter) {
   /**
    * if we're asking for all categories then get a list of them all joined
    * by the + symbol
@@ -409,11 +408,11 @@ vector<unsigned> Categories::years(const string& category_name) {
 /**
  *
  */
-AgeLengthPtr Categories::age_length(const string& category_name) {
+AgeLength* Categories::age_length(const string& category_name) {
   if (categories_.find(category_name) == categories_.end())
     LOG_CODE_ERROR() << "Could not find category_name: " << category_name << " in the list of loaded categories";
   if (!categories_[category_name].age_length_) {
-    categories_[category_name].age_length_ = AgeLengthPtr(new agelengths::None());
+    categories_[category_name].age_length_ = new agelengths::None();
   }
 
   return categories_[category_name].age_length_;

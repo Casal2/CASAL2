@@ -53,18 +53,18 @@ protected:
   vector<string>                target_category_labels_;
   vector<string>                target_selectivity_labels_;
   Double                        delta_ = 0.0;
-  parameters::TablePtr          obs_table_;
+  parameters::Table*            obs_table_;
   Double                        tolerance_ = 0.0;
   vector<Double>                process_error_values_;
   map<unsigned, Double>         process_errors_by_year_;
   string                        ageing_error_label_;
-  parameters::TablePtr          error_values_table_;
+  parameters::Table*            error_values_table_;
   CachedCombinedCategoriesPtr   cached_partition_;
   CombinedCategoriesPtr         partition_;
   CachedCombinedCategoriesPtr   target_cached_partition_;
   CombinedCategoriesPtr         target_partition_;
   vector<Double>                age_results_;
-  vector<SelectivityPtr>        target_selectivities_;
+  vector<Selectivity*>          target_selectivities_;
 
   map<unsigned, map<string, vector<Double>>> proportions_;
   map<unsigned, map<string, vector<Double>>> error_values_;

@@ -26,12 +26,12 @@ namespace projects {
  * @param sub_type The child type of the object to create (e.g ageing, schnute)
  * @return shared_ptr to the object we've created
  */
-ProjectPtr Factory::Create(const string& object_type, const string& sub_type) {
-  ProjectPtr result;
+Project* Factory::Create(const string& object_type, const string& sub_type) {
+  Project* result = nullptr;
 
   if (object_type == PARAM_PROJECTS || object_type == PARAM_PROJECT) {
     if (sub_type == PARAM_CONSTANT)
-      result = ProjectPtr(new Constant());
+      result = new Constant();
 
     if (result)
       projects::Manager::Instance().AddObject(result);

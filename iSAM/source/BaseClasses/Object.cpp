@@ -43,10 +43,7 @@ bool Object::HasEstimable(const string& label) const {
  * @return True if estimable is a vector, false if not
  */
 bool Object::IsEstimableAVector(const string& label) const {
-  if (estimable_vectors_.find(label) == estimable_vectors_.end())
-    return false;
-
-  return true;
+  return !(estimable_vectors_.find(label) == estimable_vectors_.end());
 }
 
 /**
@@ -249,7 +246,7 @@ string Object::location() {
 void Object::PrintParameterQueryInfo() {
   cout << "Parameters:" << endl;
 
-  map<string, ParameterPtr>& map = parameters_.parameters();
+  auto map = parameters_.parameters();
   for (auto iter : map) {
     cout << iter.first << "<" << iter.second->stored_type() << ">\n";
     cout << "  -- Description: " << iter.second->description() << endl;

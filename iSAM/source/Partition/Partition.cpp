@@ -44,14 +44,14 @@ void Partition::Validate() {
  * accessor objects.
  */
 void Partition::Build() {
-  ModelPtr model                            = Model::Instance();
-  CategoriesPtr categories                  = Categories::Instance();
+//  Model* model                              = Model::Instance();
+  Categories* categories                    = Categories::Instance();
   vector<string> category_names             = categories->category_names();
 
   for(string category : category_names) {
     LOG_FINEST() << "Adding category " << category << " to the partition";
 
-    std::shared_ptr<partition::Category> new_category = std::shared_ptr<partition::Category>(new partition::Category());
+    partition::Category* new_category = new partition::Category();
     new_category->name_      = category;
     new_category->min_age_   = categories->min_age(category);
     new_category->max_age_   = categories->max_age(category);

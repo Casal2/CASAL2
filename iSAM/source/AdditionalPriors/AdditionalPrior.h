@@ -49,9 +49,6 @@ protected:
   string                      method_;
 };
 
-// typedef
-typedef std::shared_ptr<niwa::AdditionalPrior> AdditionalPriorPtr;
-
 } /* namespace niwa */
 
 #endif /* ADDITIONALPRIOR_H_ */

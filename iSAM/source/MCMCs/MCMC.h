@@ -100,13 +100,10 @@ protected:
   vector<bool>                is_enabled_estimate_;
   vector<mcmc::ChainLink>     chain_;
   vector<unsigned>            adapt_step_size_;
-  MinimiserPtr                minimiser_;
+  Minimiser*                  minimiser_;
   vector<string>              estimate_labels_;
   bool                        active_;
 };
-
-// Typdef
-typedef std::shared_ptr<MCMC> MCMCPtr;
 
 } /* namespace niwa */
 #endif /* MCMC_H_ */

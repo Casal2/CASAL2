@@ -35,7 +35,7 @@ public:
   void                        Validate() override final;
 
   // Accessors
-  MinimiserPtr                active_minimiser() { return active_minimiser_; }
+  Minimiser*                  active_minimiser() { return active_minimiser_; }
 
 protected:
   // methods
@@ -43,7 +43,7 @@ protected:
 
 private:
   // members
-  MinimiserPtr                active_minimiser_;
+  Minimiser*                  active_minimiser_;
 };
 
 } /* namespace minimisers */

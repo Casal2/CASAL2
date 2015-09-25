@@ -54,7 +54,7 @@ void Creator::CreateEstimates() {
   /**
    * At this point we need to determine if we need to split this estimate in to multiple estimates.
    */
-  base::ObjectPtr target = objects::FindObject(parameter_);
+  base::Object* target = objects::FindObject(parameter_);
   if (!target) {
     LOG_ERROR_P(PARAM_PARAMETER) << parameter_ << " is not a valid object in the system";
     return;
@@ -92,7 +92,7 @@ void Creator::CreateEstimates() {
     if (upper_bounds_.size() != 1)
       LOG_FATAL_P(PARAM_UPPER_BOUND) << "values specified (" << upper_bounds_.size() << " must match number of target estimables (1)";
 
-    EstimatePtr estimate = CreateEstimate(parameter_, 0, target->GetEstimable(parameter));
+    CreateEstimate(parameter_, 0, target->GetEstimable(parameter));
 
   } else if (indexes.size() != 0) {
     /**
@@ -210,8 +210,8 @@ void Creator::CreateEstimates() {
 /**
  * Create an instance of an estimate
  */
-niwa::EstimatePtr Creator::CreateEstimate(string parameter, unsigned index, Double* target) {
-  niwa::EstimatePtr estimate = estimates::Factory::Create(block_type_, type_);
+niwa::Estimate* Creator::CreateEstimate(string parameter, unsigned index, Double* target) {
+  niwa::Estimate* estimate = estimates::Factory::Create(block_type_, type_);
   if (!estimate)
     LOG_FATAL_P(PARAM_TYPE) << " " << type_ << " is invalid when creating an estimate.";
 
@@ -228,7 +228,7 @@ niwa::EstimatePtr Creator::CreateEstimate(string parameter, unsigned index, Doub
 /**
  *
  */
-void Creator::CopyParameters(niwa::EstimatePtr estimate, unsigned index) {
+void Creator::CopyParameters(niwa::Estimate* estimate, unsigned index) {
   estimate->parameters().CopyFrom(parameters_, PARAM_LABEL);
   estimate->parameters().CopyFrom(parameters_, PARAM_TYPE);
   estimate->parameters().CopyFrom(parameters_, PARAM_PARAMETER);

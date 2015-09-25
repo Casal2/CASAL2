@@ -58,7 +58,7 @@ void Profile::Build() {
   }
   objects::ImplodeString(type, label, parameter, index, parameter_);
 
-  base::ObjectPtr target = objects::FindObject(parameter_);
+  base::Object* target = objects::FindObject(parameter_);
   if (!target) {
     LOG_ERROR_P(PARAM_PARAMETER) << ": parameter " << parameter_ << " is not a valid estimable in the system";
     return;

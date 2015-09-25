@@ -30,16 +30,16 @@ namespace ageingerrors {
  * @param sub_type The child type of the object to create (e.g ageing, schnute)
  * @return shared_ptr to the object we've created
  */
-AgeingErrorPtr Factory::Create(const string& object_type, const string& sub_type) {
-  AgeingErrorPtr result;
+AgeingError* Factory::Create(const string& object_type, const string& sub_type) {
+  AgeingError* result = nullptr;
 
   if (object_type == PARAM_AGEING_ERROR || object_type == PARAM_AGEING_ERRORS) {
     if (sub_type == PARAM_DATA)
-      result = AgeingErrorPtr(new Data());
+      result = new Data();
     else if (sub_type == PARAM_NORMAL)
-      result = AgeingErrorPtr(new Normal());
+      result = new Normal();
     else if (sub_type == PARAM_OFF_BY_ONE)
-      result = AgeingErrorPtr(new OffByOne());
+      result = new OffByOne();
 
     if (result)
       ageingerrors::Manager::Instance().AddObject(result);

@@ -52,7 +52,7 @@ private:
   vector<string>              selectivity_names_;
   accessor::Categories        from_partition_;
   accessor::Categories        to_partition_;
-  vector<SelectivityPtr>      selectivities_;
+  vector<Selectivity*>        selectivities_;
   vector<vector<Double> >     maturation_rates_;
 
 };

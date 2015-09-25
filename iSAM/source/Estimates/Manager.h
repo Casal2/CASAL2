@@ -30,28 +30,28 @@ namespace estimates {
 /**
  * Class definition
  */
-class Manager : public niwa::oldbase::Manager<estimates::Manager, niwa::Estimate>, public boost::enable_shared_from_this<Manager>  {
+class Manager : public niwa::oldbase::Manager<estimates::Manager, niwa::Estimate> {
   friend class niwa::oldbase::Manager<estimates::Manager, niwa::Estimate>;
 public:
   // methods
-  virtual                         ~Manager() noexcept(true) { };
-  void                            Validate() override final;
-  unsigned                        GetEnabledCount();
-  vector<EstimatePtr>             GetEnabled();
-  void                            Clear() override final;
-  bool                            HasEstimate(const string& parameter);
-  void                            EnableEstimate(const string& parameter);
-  void                            DisableEstimate(const string& parameter);
-  void                            AddCreator(CreatorPtr creator) { creators_.push_back(creator); }
-  EstimatePtr                     GetEstimate(const string& parameter);
-  EstimatePtr                     GetEstimateByLabel(const string& label);
+  virtual                     ~Manager() noexcept(true) { };
+  void                        Validate() override final;
+  unsigned                    GetEnabledCount();
+  vector<Estimate*>           GetEnabled();
+  void                        Clear() override final;
+  bool                        HasEstimate(const string& parameter);
+  void                        EnableEstimate(const string& parameter);
+  void                        DisableEstimate(const string& parameter);
+  void                        AddCreator(Creator* creator) { creators_.push_back(creator); }
+  Estimate*                   GetEstimate(const string& parameter);
+  Estimate*                   GetEstimateByLabel(const string& label);
 
 private:
   // methods
   Manager() { };
 
   // members
-  vector<CreatorPtr>              creators_;
+  vector<Creator*>            creators_;
 };
 
 } /* namespace estimates */

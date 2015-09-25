@@ -40,7 +40,7 @@ public:
 
 protected:
   // Members
-  ModelPtr                    model_;
+  Model*                      model_;
   vector<string>              from_category_names_;
   vector<string>              to_category_names_;
   vector<Double>              rates_;
@@ -48,7 +48,7 @@ protected:
   vector<string>              selectivity_names_;
   accessor::Categories        from_partition_;
   accessor::Categories        to_partition_;
-  vector<SelectivityPtr>      selectivities_;
+  vector<Selectivity*>        selectivities_;
   map<unsigned, Double>       rates_by_years_;
 };
 

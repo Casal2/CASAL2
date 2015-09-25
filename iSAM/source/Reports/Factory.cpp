@@ -46,48 +46,48 @@ namespace reports {
  * @param sub_type The child type of the object to create (e.g ageing, schnute)
  * @return shared_ptr to the object we've created
  */
-ReportPtr Factory::Create(const string& object_type, const string& sub_type) {
-  ReportPtr result;
+Report* Factory::Create(const string& object_type, const string& sub_type) {
+  Report* result = nullptr;
 
   if (object_type == PARAM_REPORT) {
     if (sub_type == PARAM_CATEGORY_INFO)
-      result = ReportPtr(new CategoryInfo());
+      result = new CategoryInfo();
     else if (sub_type == PARAM_AGEING_ERROR)
-      result = ReportPtr(new AgeingErrorMatrix());
+      result = new AgeingErrorMatrix();
     else if (sub_type == PARAM_CATEGORY_LIST)
-      result = ReportPtr(new CategoryList());
+      result = new CategoryList();
     else if (sub_type == PARAM_COVARIANCE_MATRIX)
-      result = ReportPtr(new CovarianceMatrix());
+      result = new CovarianceMatrix();
     else if (sub_type == PARAM_DERIVED_QUANTITY)
-      result = ReportPtr(new DerivedQuantity());
+      result = new DerivedQuantity();
     else if (sub_type == PARAM_ESTIMABLE)
-      result = ReportPtr(new Estimable());
+      result = new Estimable();
     else if (sub_type == PARAM_ESTIMATE_SUMMARY)
-      result = ReportPtr(new EstimateSummary());
+      result = new EstimateSummary();
     else if (sub_type == PARAM_ESTIMATE_VALUE)
-      result = ReportPtr(new EstimateValue());
+      result = new EstimateValue();
     else if (sub_type == PARAM_INITIALISATION_PARTITION)
-      result = ReportPtr(new InitialisationPartition());
+      result = new InitialisationPartition();
     else if (sub_type == PARAM_MCMC_CHAIN)
-      result = ReportPtr(new MCMCChain());
+      result = new MCMCChain();
     else if (sub_type == PARAM_MCMC_COVARIANCE)
-      result = ReportPtr(new MCMCCovariance());
+      result = new MCMCCovariance();
     else if (sub_type == PARAM_PARTITION)
-      result = ReportPtr(new Partition());
+      result = new Partition();
     else if (sub_type == PARAM_PARTITION_BIOMASS)
-      result = ReportPtr(new PartitionBiomass());
+      result = new PartitionBiomass();
     else if (sub_type == PARAM_PARTITION_MEAN_WEIGHT)
-      result = ReportPtr(new PartitionMeanWeight());
+      result = new PartitionMeanWeight();
     else if (sub_type == PARAM_OBJECTIVE_FUNCTION)
-      result = ReportPtr(new ObjectiveFunction());
+      result = new ObjectiveFunction();
     else if (sub_type == PARAM_OBSERVATION)
-      result = ReportPtr(new Observation());
+      result = new Observation();
     else if (sub_type == PARAM_RANDOM_NUMBER_SEED)
-      result = ReportPtr(new RandomNumberSeed());
+      result = new RandomNumberSeed();
     else if (sub_type == PARAM_SIMULATED_OBSERVATION)
-      result = ReportPtr(new SimulatedObservation());
+      result = new SimulatedObservation();
     else if (sub_type == PARAM_SELECTIVITY)
-      result = ReportPtr(new Selectivity());
+      result = new Selectivity();
 
     if (result)
       niwa::reports::Manager::Instance().AddObject(result);

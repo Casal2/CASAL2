@@ -30,7 +30,7 @@ class InverseLogistic : public niwa::Selectivity {
 public:
   // Methods
   InverseLogistic();
-  explicit InverseLogistic(ModelPtr model);
+  explicit InverseLogistic(Model* model);
   virtual                     ~InverseLogistic() = default;
   void                        DoValidate() override final;
   void                        Reset() override final;

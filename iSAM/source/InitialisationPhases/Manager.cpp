@@ -33,7 +33,7 @@ void Manager::Build() {
   LOG_TRACE();
 
   // Build our objects
-  for(InitialisationPhasePtr phase : objects_)
+  for(auto phase : objects_)
     phase->Build();
 
   // Order our time steps based on the parameter given to the model
@@ -42,7 +42,7 @@ void Manager::Build() {
   LOG_FINE() << "Ordering initialisation phases";
   vector<string> phases = Model::Instance()->initialisation_phases();
   for(string label : phases) {
-    for(InitialisationPhasePtr phase : objects_) {
+    for(auto phase : objects_) {
       if (phase->label() == label) {
         ordered_initialisation_phases_.push_back(phase);
         break;
@@ -50,7 +50,7 @@ void Manager::Build() {
     }
   }
 
-  for (TimeStepPtr time_step : timesteps::Manager::Instance().ordered_time_steps())
+  for (auto time_step : timesteps::Manager::Instance().ordered_time_steps())
     time_step->BuildInitialisationProcesses();
 }
 
@@ -71,7 +71,7 @@ void Manager::Execute() {
  *
  */
 bool Manager::IsPhaseDefined(const string& label) const {
-  for(InitialisationPhasePtr phase : objects_)
+  for(auto phase : objects_)
     if (phase->label() == label)
       return true;
 

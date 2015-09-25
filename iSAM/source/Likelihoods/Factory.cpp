@@ -32,26 +32,25 @@ namespace likelihoods {
  * @param likelihood_type The type of likelihood to create
  * @return shared_ptr to the likelihood
  */
-LikelihoodPtr Factory::Create(const string& likelihood_type) {
-  LikelihoodPtr result;
+Likelihood* Factory::Create(const string& likelihood_type) {
+  Likelihood* result = nullptr;
 
   if (likelihood_type == PARAM_BINOMIAL)
-    result = LikelihoodPtr(new Binomial());
+    result = new Binomial();
   else if (likelihood_type == PARAM_BINOMIAL_APPROX)
-    result = LikelihoodPtr(new BinomialApprox());
+    result = new BinomialApprox();
   else if (likelihood_type == PARAM_DIRICHLET)
-    result = LikelihoodPtr(new Dirichlet());
+    result = new Dirichlet();
   else if (likelihood_type == PARAM_LOGNORMAL)
-    result = LikelihoodPtr(new LogNormal());
+    result = new LogNormal();
   else if (likelihood_type == PARAM_LOGNORMAL_WITH_Q)
-    result = LikelihoodPtr(new LogNormalWithQ());
+    result = new LogNormalWithQ();
   else if (likelihood_type == PARAM_MULTINOMIAL)
-    result = LikelihoodPtr(new Multinomial());
+    result = new Multinomial();
   else if (likelihood_type == PARAM_NORMAL)
-    result = LikelihoodPtr(new Normal());
+    result = new Normal();
   else if (likelihood_type == PARAM_PSEUDO)
-    result = LikelihoodPtr(new Pseudo());
-
+    result = new Pseudo();
 
   return result;
 }

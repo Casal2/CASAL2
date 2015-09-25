@@ -54,10 +54,10 @@ private:
   vector<string>              selectivity_names_;
   string                      penalty_name_;
   accessor::Categories        partition_;
-  ModelPtr                    model_;
-  vector<SelectivityPtr>      selectivities_;
+  Model*                    model_;
+  vector<Selectivity*>        selectivities_;
   map<string, map<unsigned, Double> > vulnerable_;
-  penalties::ProcessPtr       penalty_;
+  penalties::Process*         penalty_;
 };
 
 } /* namespace processes */

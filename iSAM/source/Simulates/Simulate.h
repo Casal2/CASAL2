@@ -52,7 +52,7 @@ protected:
   UpdateFunction              update_function_ = 0;
 
   // members
-  ModelPtr                    model_;
+  Model*                    model_;
   string                      type_ = "";
   vector<unsigned>            years_;
   string                      parameter_;

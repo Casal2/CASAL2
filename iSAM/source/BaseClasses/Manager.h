@@ -21,15 +21,12 @@
 // Headers
 #include <string>
 #include <vector>
-#include <memory>
-
 #include "Utilities/NoCopy.h"
 
 // Namespaces
 namespace niwa {
 namespace oldbase {
 
-using std::shared_ptr;
 using std::vector;
 
 // classes
@@ -42,19 +39,19 @@ public:
   virtual void                Validate();
   virtual void                Build();
   virtual void                Reset();
-  void                        AddObject(shared_ptr<StoredType> object) { objects_.push_back(object); }
+  void                        AddObject(StoredType* object) { objects_.push_back(object); }
   virtual void                Clear() { objects_.clear(); }
 
   // Accessors/mutators
-  vector<shared_ptr<StoredType> > objects() { return objects_; }
-  unsigned                        size() { return objects_.size(); }
+  vector<StoredType*>         objects() { return objects_; }
+  unsigned                    size() { return objects_.size(); }
 
 protected:
   // Methods
   Manager() = default;
 
   // Members
-  vector<shared_ptr<StoredType> > objects_;
+  vector<StoredType*> objects_;
 
   // Macros
   DISALLOW_COPY_AND_ASSIGN(Manager);

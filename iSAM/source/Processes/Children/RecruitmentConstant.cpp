@@ -56,7 +56,7 @@ void RecruitmentConstant::DoValidate() {
   /**
    * Validate age
    */
-  ModelPtr model = Model::Instance();
+  Model* model = Model::Instance();
   if (age_ < model->min_age())
     LOG_ERROR_P(PARAM_AGE) << " (" << age_ << ") is less than the model's min_age (" << model->min_age() << ")";
   if (age_ > model->max_age())

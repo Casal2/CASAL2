@@ -36,14 +36,14 @@ using niwa::utilities::Double;
 /**
  * Class definition
  */
-class Category : public std::enable_shared_from_this<Category> {
+class Category {
 public:
   // methods
   Category() = default;
   virtual                     ~Category() = default;
   void                        UpdateMeanLengthData();
   void                        UpdateMeanWeightData();
-  void                        UpdateAgeLengthData(const vector<Double>& length_bins, bool plus_grp, SelectivityPtr selectivity);
+  void                        UpdateAgeLengthData(const vector<Double>& length_bins, bool plus_grp, Selectivity* selectivity);
   void                        CollapseAgeLengthData();
   void                        CollapseAgeLengthDataToLength();
   // members

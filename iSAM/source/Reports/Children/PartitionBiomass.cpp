@@ -29,7 +29,7 @@ PartitionBiomass::PartitionBiomass() {
  *
  */
 void PartitionBiomass::DoValidate() {
-  ModelPtr model = Model::Instance();
+  Model* model = Model::Instance();
   vector<unsigned> model_years = model->years();
   for (unsigned year : years_) {
     if (std::find(model_years.begin(), model_years.end(), year) == model_years.end())

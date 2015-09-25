@@ -33,7 +33,7 @@ Manager::~Manager() noexcept(true) {
  */
 void Manager::Validate() {
   LOG_TRACE();
-  for (MinimiserPtr minimiser : objects_)
+  for (auto minimiser : objects_)
     minimiser->Validate();
 
   if (objects_.size() == 1) {
@@ -42,7 +42,7 @@ void Manager::Validate() {
 
   } else {
     unsigned active_count = 0;
-    for (MinimiserPtr minimiser : objects_) {
+    for (auto minimiser : objects_) {
       if (minimiser->active()) {
         active_count++;
         active_minimiser_ = minimiser;

@@ -40,7 +40,7 @@ void IndependenceMetropolis::Execute() {
   candidates_.resize(estimate_count_);
   is_enabled_estimate_.resize(estimate_count_);
 
-  vector<EstimatePtr> estimates = estimates::Manager::Instance().GetEnabled();
+  vector<Estimate*> estimates = estimates::Manager::Instance().GetEnabled();
   for (unsigned i = 0; i < estimate_count_; ++i) {
     candidates_[i] = AS_DOUBLE(estimates[i]->value());
 

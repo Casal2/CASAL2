@@ -27,7 +27,7 @@ class Manager : public niwa::oldbase::Manager<derivedquantities::Manager, niwa::
 public:
   // methods
   virtual                     ~Manager() noexcept(true) { };
-  DerivedQuantityPtr          GetDerivedQuantity(const string& label);
+  DerivedQuantity*            GetDerivedQuantity(const string& label);
 };
 
 } /* namespace derivedquantities */

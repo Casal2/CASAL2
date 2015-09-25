@@ -30,7 +30,7 @@ class KnifeEdge : public niwa::Selectivity {
 public:
   // Methods
   KnifeEdge();
-  explicit KnifeEdge(ModelPtr model);
+  explicit KnifeEdge(Model* model);
   virtual                     ~KnifeEdge() = default;
   void                        DoValidate() override final { };
   void                        Reset() override final;

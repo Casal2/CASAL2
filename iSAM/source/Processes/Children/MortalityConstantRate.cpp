@@ -95,7 +95,7 @@ void MortalityConstantRate::DoBuild() {
   partition_.Init(category_names_);
 
   for (string label : selectivity_names_) {
-    SelectivityPtr selectivity = selectivities::Manager::Instance().GetSelectivity(label);
+    Selectivity* selectivity = selectivities::Manager::Instance().GetSelectivity(label);
     if (!selectivity)
       LOG_ERROR_P(PARAM_SELECTIVITIES) << ": selectivity " << label << " does not exist. Have you defined it?";
 
@@ -107,7 +107,7 @@ void MortalityConstantRate::DoBuild() {
    * apply a different ratio of M so here we want to verify
    * we have enough and re-scale them to 1.0
    */
-  vector<TimeStepPtr> time_steps = time_steps_manager_.ordered_time_steps();
+  vector<TimeStep*> time_steps = time_steps_manager_.ordered_time_steps();
   LOG_FINEST() << "time_steps.size(): " << time_steps.size();
   vector<unsigned> active_time_steps;
   for (unsigned i = 0; i < time_steps.size(); ++i) {

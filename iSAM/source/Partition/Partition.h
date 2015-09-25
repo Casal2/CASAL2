@@ -54,7 +54,7 @@ private:
   Partition() = default;
 
   // Members
-  map<string, std::shared_ptr<partition::Category>> partition_; // map<category label, partition::Category Struct>
+  map<string, partition::Category*> partition_; // map<category label, partition::Category Struct>
 };
 
 } /* namespace niwa */

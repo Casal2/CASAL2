@@ -44,9 +44,6 @@ protected:
   // members
   vector<string>              parameters_;
 };
-
-typedef std::shared_ptr<niwa::estimates::Transformation> TransformationPtr;
-
 } /* namespace estimates */
 } /* namespace niwa */
 

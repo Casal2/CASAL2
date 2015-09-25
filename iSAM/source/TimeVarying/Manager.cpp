@@ -29,7 +29,7 @@ Manager::Manager() {
  */
 void Manager::Update(unsigned current_year) {
   LOG_TRACE();
-  for (TimeVaryingPtr time_varying : objects_)
+  for (auto time_varying : objects_)
     time_varying->Update(current_year);
 }
 

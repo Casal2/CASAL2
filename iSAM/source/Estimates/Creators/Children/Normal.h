@@ -28,7 +28,7 @@ class Normal : public estimates::Creator {
 public:
   Normal();
   virtual                     ~Normal() = default;
-  void                        DoCopyParameters(niwa::EstimatePtr estimate, unsigned index) override final;
+  void                        DoCopyParameters(niwa::Estimate* estimate, unsigned index) override final;
 
 private:
   // members

@@ -39,9 +39,6 @@ ProportionsByCategory::ProportionsByCategory() {
   parameters_.Bind<string>(PARAM_TARGET_SELECTIVITIES, &target_selectivity_labels_, "Target Selectivities", "");
   parameters_.Bind<Double>(PARAM_DELTA, &delta_, "Delta", "", DELTA)->set_lower_bound(0.0, false);
   parameters_.Bind<Double>(PARAM_PROCESS_ERRORS, &process_error_values_, "Process error", "", true);
-
-  obs_table_ = TablePtr(new parameters::Table(PARAM_OBS));
-  error_values_table_ = TablePtr(new parameters::Table(PARAM_ERROR_VALUES));
   parameters_.BindTable(PARAM_OBS, obs_table_, "Table of Observatons", "", false);
   parameters_.BindTable(PARAM_ERROR_VALUES, error_values_table_, "", "", false);
 }
@@ -51,7 +48,7 @@ ProportionsByCategory::ProportionsByCategory() {
  */
 void ProportionsByCategory::DoValidate() {
   unsigned expected_selectivity_count = 0;
-  CategoriesPtr categories = Categories::Instance();
+  auto categories = Categories::Instance();
   for (const string& category_label : category_labels_)
     expected_selectivity_count += categories->GetNumberOfCategoriesDefined(category_label);
 
@@ -71,7 +68,7 @@ void ProportionsByCategory::DoValidate() {
   /**
    * Do some simple checks
    */
-  ModelPtr model = Model::Instance();
+  Model* model = Model::Instance();
   if (min_age_ < model->min_age())
     LOG_ERROR_P(PARAM_MIN_AGE) << ": min_age (" << min_age_ << ") is less than the model's min_age (" << model->min_age() << ")";
   if (max_age_ > model->max_age())
@@ -225,7 +222,7 @@ void ProportionsByCategory::DoBuild() {
   age_results_.resize(age_spread_ * category_labels_.size(), 0.0);
 
   for(string label : target_selectivity_labels_) {
-    SelectivityPtr selectivity = selectivities::Manager::Instance().GetSelectivity(label);
+    auto selectivity = selectivities::Manager::Instance().GetSelectivity(label);
     if (!selectivity)
       LOG_ERROR_P(PARAM_TARGET_SELECTIVITIES) << ": " << label << " does not exist. Have you defined it?";
     else
@@ -244,7 +241,7 @@ void ProportionsByCategory::DoBuild() {
  * structure to use with any interpolation
  */
 void ProportionsByCategory::PreExecute() {
-  ModelPtr model = Model::Instance();
+  Model* model = Model::Instance();
 
   cached_partition_->BuildCache();
   target_cached_partition_->BuildCache();
@@ -264,7 +261,7 @@ void ProportionsByCategory::Execute() {
   /**
    * Verify our cached partition and partition sizes are correct
    */
-  ModelPtr model = Model::Instance();
+  Model* model = Model::Instance();
   auto cached_partition_iter  = cached_partition_->Begin();
   auto partition_iter         = partition_->Begin(); // vector<vector<partition::Category> >
   auto target_cached_partition_iter  = target_cached_partition_->Begin();

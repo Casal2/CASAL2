@@ -45,7 +45,7 @@ namespace util = niwa::utilities;
  * Once it has the name it'll load the file into a member vector
  * then start parsing it.
  */
-void Loader::LoadConfigFile(const string& override_file_name) {
+bool Loader::LoadConfigFile(const string& override_file_name) {
 
   /**
    * Check if we want to skip loading the configuration files or not. This is utilised
@@ -60,11 +60,11 @@ void Loader::LoadConfigFile(const string& override_file_name) {
     if (override_file_name != "")
       config_file = override_file_name;
 
-    FilePtr file = FilePtr(new File(this));
-    if (!file->OpenFile(config_file))
+    File file(*this);
+    if (!file.OpenFile(config_file))
       LOG_FATAL() << "Failed to open the first configuration file: " << config_file << ". Does this file exist? Is it in the right path?";
 
-    file->Parse();
+    file.Parse();
 
     LOG_FINEST() << "file_lines_.size() == " << file_lines_.size();
     if (file_lines_.size() == 0)
@@ -72,6 +72,7 @@ void Loader::LoadConfigFile(const string& override_file_name) {
   }
 
   ParseFileLines();
+  return true;
 }
 
 /**
@@ -211,7 +212,7 @@ void Loader::ParseBlock(vector<FileLine> &block) {
   block_type  = utilities::ToLowercase(block_type);
   sub_type = utilities::ToLowercase(sub_type);
 
-  ObjectPtr object = factory::Object::Create(block_type, sub_type);
+  Object* object = factory::Object::Create(block_type, sub_type);
   if (!object)
     LOG_FATAL() << "At line " << block[0].line_number_ << " in " << block[0].file_name_
         << ": Block object type or sub-type is invalid.\n"
@@ -321,7 +322,7 @@ void Loader::ParseBlock(vector<FileLine> &block) {
 
       loading_table   = false;
       loading_columns = false;
-      current_table_ = parameters::TablePtr();
+      current_table_ = nullptr;
 
     } else {
       /**
@@ -334,7 +335,7 @@ void Loader::ParseBlock(vector<FileLine> &block) {
             << ": " << error;
 
       // loading a normal parameter
-      const ParameterPtr parameter = object->parameters().Get(parameter_type);
+      const Parameter* parameter = object->parameters().Get(parameter_type);
       if (!parameter) {
         LOG_ERROR() << "At line " << file_line.line_number_ << " in " << file_line.file_name_
             << ": Parameter '" << parameter_type << "' is not supported";
