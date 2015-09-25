@@ -43,8 +43,6 @@ MortalityInstantaneous::MortalityInstantaneous() : Process(Model::Instance()) {
   process_type_ = ProcessType::kMortality;
   partition_structure_ = PartitionStructure::kAge;
 
-  catches_table_    = TablePtr(new parameters::Table(PARAM_CATCHES));
-  fisheries_table_  = TablePtr(new parameters::Table(PARAM_FISHERIES));
   // catches_table_->set_required_columns({"years"}, allow_others = true)
   // fisheries_table_->set_required_columns({"x", "x", "x,"});
 
@@ -178,7 +176,7 @@ void MortalityInstantaneous::DoBuild() {
    * apply a different ratio of M so here we want to verify
    * we have enough
    */
-  vector<TimeStepPtr> time_steps = model_->managers().time_step().ordered_time_steps();
+  vector<TimeStep*> time_steps = model_->managers().time_step().ordered_time_steps();
   vector<unsigned> active_time_steps;
   for (unsigned i = 0; i < time_steps.size(); ++i) {
     if (time_steps[i]->HasProcess(label_))
@@ -233,7 +231,7 @@ void MortalityInstantaneous::DoBuild() {
    * Assign the natural mortality selectivities
    */
   for (auto label : selectivity_labels_) {
-    SelectivityPtr selectivity = model_->managers().selectivity().GetSelectivity(label);
+    Selectivity* selectivity = model_->managers().selectivity().GetSelectivity(label);
     if (!selectivity)
       LOG_ERROR_P(PARAM_SELECTIVITIES) << "selectivity " << label << " does not exist. Have you defined it?";
     selectivities_.push_back(selectivity);

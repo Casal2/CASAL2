@@ -18,23 +18,19 @@
 #define BASE_FACTORY_H_
 
 // Headers
-#include <memory>
-
 #include "Model/Model.h"
 
 // namespaces
 namespace niwa {
 namespace base {
 
-using std::shared_ptr;
-
 // classes
 template<class ObjectType, class ManagerType>
 class Factory {
 public:
   // methods
-  static shared_ptr<ObjectType> Create() {
-    shared_ptr<ObjectType> return_value = shared_ptr<ObjectType>(new ObjectType());
+  static ObjectType* Create() {
+    ObjectType* return_value = new ObjectType();
 
     ManagerType::Instance().AddObject(return_value);
     return return_value;

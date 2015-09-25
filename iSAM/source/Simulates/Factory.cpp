@@ -26,12 +26,12 @@ namespace simulates {
  * @param sub_type The child type of the object to create (e.g ageing, schnute)
  * @return shared_ptr to the object we've created
  */
-SimulatePtr Factory::Create(const string& object_type, const string& sub_type) {
-  SimulatePtr result;
+Simulate* Factory::Create(const string& object_type, const string& sub_type) {
+  Simulate* result = nullptr;
 
   if (object_type == PARAM_PROJECTS || object_type == PARAM_PROJECT) {
     if (sub_type == PARAM_CONSTANT)
-      result = SimulatePtr(new Constant());
+      result = new Constant();
 
     if (result)
       simulates::Manager::Instance().AddObject(result);

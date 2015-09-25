@@ -42,8 +42,8 @@ namespace niwa {
 class GlobalConfiguration : public niwa::base::Object {
 public:
   // Methods
-  static shared_ptr<GlobalConfiguration> Instance();
-
+  GlobalConfiguration();
+  static GlobalConfiguration* Instance();
   virtual                     ~GlobalConfiguration() = default;
   void                        Clear();
   void                        OverrideGlobalValues(const map<string, string>& override_values);
@@ -71,9 +71,6 @@ public:
   string                log_level() { return global_parameters_[PARAM_LOG_LEVEL]; }
 
 private:
-  // Methods
-  GlobalConfiguration();
-
   // Members
   map<string, string>         global_parameters_;
   vector<string>              command_line_parameters_;

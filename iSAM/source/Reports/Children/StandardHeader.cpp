@@ -39,7 +39,7 @@ StandardHeader::StandardHeader() {
   time_start_   = time(NULL);
 
   // Linux Vars
-#ifndef __MINGW32__
+#if !defined(__MINGW32__) && !defined(_MSC_VER)
   times(&cpu_start);
 #endif
 }
@@ -82,9 +82,8 @@ void StandardHeader::DoPrepare() {
    */
 
 #ifdef __MINGW32__
-  header << "Environment: machine:" << getenv("COMPUTERNAME") << ", user:" << getenv("USERNAME") << ", os:" << getenv("OS") << ", pid:" << _getpid() << endl;
-
-
+  header << "Environment: machine:" << getenv("COMPUTERNAME") << ", user:" << getenv("USERNAME") << ", os:" << getenv("OS") << ", pid:" << _getpid() << endl;  
+#elif _MSC_VER
 #else
   header << "-- Username: ";
   char* cUsername = getenv("LOGNAME");
@@ -116,7 +115,7 @@ void StandardHeader::DoExecute() { }
  * console.
  */
 void StandardHeader::DoFinalise() {
-#ifndef __MINGW32__
+#if !defined(__MINGW32__) && !defined(_MSC_VER)
   times(&cpu_stop);
   double cpu_time=(static_cast<double>(cpu_stop.tms_utime)+static_cast<double>(cpu_stop.tms_stime))-(static_cast<double>(cpu_start.tms_utime) + static_cast<double>(cpu_start.tms_stime));
   // Turn into seconds

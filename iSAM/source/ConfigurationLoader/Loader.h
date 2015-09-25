@@ -24,6 +24,7 @@
 #include <string>
 
 #include "BaseClasses/Object.h"
+#include "Model/Model.h"
 #include "ParameterList/Table.h"
 
 // Namespaces
@@ -33,7 +34,6 @@ namespace configuration {
 using std::vector;
 using std::string;
 using niwa::base::Object;
-using niwa::base::ObjectPtr;
 
 // structs
 struct FileLine {
@@ -48,9 +48,9 @@ class Loader {
   friend class LoaderTest;
 public:
   // Methods
-  Loader() = default;
+  Loader(Model& model) : model_(model) { };
   virtual                     ~Loader() = default;
-  void                        LoadConfigFile(const string& override_file_name = "");
+  bool                        LoadConfigFile(const string& override_file_name = "");
   void                        ClearFileLines() { file_lines_.clear(); }
   void                        AddFileLine(FileLine line);
   void                        ParseFileLines();
@@ -58,13 +58,13 @@ public:
 private:
   // Methods
   void                        ParseBlock(vector<FileLine> &block);
-  ObjectPtr                   CreateObject(const string &block_type, const string &object_type);
   bool                        HandleOperators(vector<string> &line_values, string &error);
   void                        HandleInlineDefinitions(FileLine& file_line, const string& parent_label);
 
   // Members
+  Model&                      model_;
   vector<FileLine>            file_lines_;
-  parameters::TablePtr        current_table_;
+  parameters::Table*          current_table_;
 };
 
 } /* namespace configuration */

@@ -23,7 +23,7 @@ namespace catchabilities {
 class Factory {
 public:
   // methods
-  static CatchabilityPtr Create(const string& object_type, const string& sub_type);
+  static Catchability* Create(const string& object_type, const string& sub_type);
 
 private:
   Factory() = delete;

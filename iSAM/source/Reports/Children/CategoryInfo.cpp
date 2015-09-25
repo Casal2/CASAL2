@@ -33,7 +33,7 @@ CategoryInfo::CategoryInfo() {
 void CategoryInfo::DoExecute() {
 
 
-  CategoriesPtr categories = Categories::Instance();
+  auto categories = Categories::Instance();
   vector<string> names = categories->category_names();
   /*
   cache_ << "*category_info: " << label_ << "\n";

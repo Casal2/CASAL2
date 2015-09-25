@@ -28,14 +28,14 @@ namespace asserts {
  * @param sub_type The child type of the object to create (e.g ageing, schnute)
  * @return shared_ptr to the object we've created
  */
-AssertPtr Factory::Create(string object_type, string sub_type) {
-  AssertPtr result;
+Assert* Factory::Create(const string& object_type, const string& sub_type) {
+  Assert* result = nullptr;
 
   if (object_type == PARAM_ASSERT) {
     if (sub_type == PARAM_ESTIMABLE)
-      result = AssertPtr(new Estimable());
+      result = new Estimable();
     else if (sub_type == PARAM_OBJECTIVE_FUNCTION)
-      result = AssertPtr(new ObjectiveFunction());
+      result = new ObjectiveFunction();
 
     if (result)
       asserts::Manager::Instance().AddObject(result);

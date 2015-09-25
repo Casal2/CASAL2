@@ -88,9 +88,9 @@ void ImplodeString(const string& type, const string& label, const string& parame
 /**
  * See header file for description
  */
-niwa::base::ObjectPtr FindObject(const string& parameter_absolute_name) {
+niwa::base::Object* FindObject(const string& parameter_absolute_name) {
   LOG_FINE() << "Looking for object: " << parameter_absolute_name;
-  base::ObjectPtr result;
+  base::Object* result = nullptr;
 
   string type         = "";
   string label        = "";
@@ -122,7 +122,7 @@ niwa::base::ObjectPtr FindObject(const string& parameter_absolute_name) {
 Double* FindEstimable(const string& estimable_absolute_name) {
   LOG_TRACE();
 
-  niwa::base::ObjectPtr object = FindObject(estimable_absolute_name);
+  niwa::base::Object* object = FindObject(estimable_absolute_name);
   if (!object)
     return 0;
 

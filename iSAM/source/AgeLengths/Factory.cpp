@@ -30,18 +30,18 @@ namespace agelengths {
  * @param sub_type The child type of the object to create (e.g ageing, schnute)
  * @return shared_ptr to the object we've created
  */
-AgeLengthPtr Factory::Create(const string& object_type, const string& sub_type) {
-  AgeLengthPtr result;
+AgeLength* Factory::Create(const string& object_type, const string& sub_type) {
+  AgeLength* result = nullptr;
 
   if (object_type == PARAM_AGE_LENGTH || object_type == PARAM_AGE_LENGTHS) {
     if (sub_type == PARAM_DATA)
-      result = AgeLengthPtr(new Data());
+      result = new Data();
     else if (sub_type == PARAM_NONE)
-      result = AgeLengthPtr(new None());
+      result = new None();
     else if (sub_type == PARAM_SCHNUTE)
-      result = AgeLengthPtr(new Schnute());
+      result = new Schnute();
     else if (sub_type == PARAM_VON_BERTALANFFY)
-      result = AgeLengthPtr(new VonBertalanffy());
+      result = new VonBertalanffy();
 
     if (result)
       agelengths::Manager::Instance().AddObject(result);

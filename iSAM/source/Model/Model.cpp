@@ -89,10 +89,12 @@ Model::~Model() {
  * @param force_new Force a new instance or not
  * @return singleton shared ptr
  */
-shared_ptr<Model> Model::Instance(bool force_new) {
-  static ModelPtr model = ModelPtr(new Model());
-  if (force_new)
-    model.reset(new Model());
+Model* Model::Instance(bool force_new) {
+  static Model* model = new Model();
+  if (force_new) {
+    delete model;
+    model = new Model();
+  }
 
   return model;
 }
@@ -152,9 +154,9 @@ bool Model::Start(RunMode::Type run_mode) {
 
   if (state_ != State::kStartUp)
     LOG_CODE_ERROR() << "Model state should always be startup when entering the start method";
-  GlobalConfigurationPtr global_config = GlobalConfiguration::Instance();
+  GlobalConfiguration* global_config = GlobalConfiguration::Instance();
   if (global_config->estimable_value_file() != "") {
-    configuration::EstimableValuesLoader loader(shared_from_this());
+    configuration::EstimableValuesLoader loader(this);
     loader.LoadValues(global_config->estimable_value_file());
   }
   reports::Manager::Instance().Execute(State::kStartUp);
@@ -228,7 +230,7 @@ bool Model::Start(RunMode::Type run_mode) {
   // finalise all reports
   LOG_FINE() << "Finalising Reports";
   state_ = State::kFinalise;
-  for (ExecutorPtr executor : executors_[state_])
+  for (auto executor : executors_[state_])
     executor->Execute();
   reports::Manager::Instance().Execute(state_);
   reports::Manager::Instance().Finalise();
@@ -373,7 +375,7 @@ void Model::Build() {
  */
 void Model::Verify() {
   LOG_TRACE();
-  for (ExecutorPtr executor : executors_[state_])
+  for (auto executor : executors_[state_])
     executor->Execute();
 }
 
@@ -467,7 +469,7 @@ void Model::RunEstimation() {
     LOG_FINE() << "Calling minimiser to begin the estimation with the " << i + 1 << "st/nd/nth set of values";
     run_mode_ = RunMode::kEstimation;
 
-    MinimiserPtr minimiser = minimisers::Manager::Instance().active_minimiser();
+    auto minimiser = minimisers::Manager::Instance().active_minimiser();
     minimiser->Execute();
     minimiser->BuildCovarianceMatrix();
 
@@ -484,7 +486,7 @@ void Model::RunEstimation() {
  */
 bool Model::RunMCMC() {
   LOG_FINE() << "Entering the MCMC Sub-System";
-  MCMCPtr mcmc = mcmcs::Manager::Instance().active_mcmc();
+  auto mcmc = mcmcs::Manager::Instance().active_mcmc();
 
   Logging& logging = Logging::Instance();
   if (logging.errors().size() > 0) {
@@ -493,7 +495,7 @@ bool Model::RunMCMC() {
   }
 
   LOG_FINE() << "Calling minimiser to find our minimum and covariance matrix";
-  MinimiserPtr minimiser = minimisers::Manager::Instance().active_minimiser();
+  auto minimiser = minimisers::Manager::Instance().active_minimiser();
   minimiser->Execute();
   minimiser->BuildCovarianceMatrix();
 
@@ -522,11 +524,11 @@ void Model::RunProfiling() {
 
     LOG_FINE() << "Entering the Profiling Sub-System";
     estimates::Manager& estimate_manager = estimates::Manager::Instance();
-    MinimiserPtr minimiser = minimisers::Manager::Instance().active_minimiser();
+    auto minimiser = minimisers::Manager::Instance().active_minimiser();
 
-    vector<ProfilePtr> profiles = profiles::Manager::Instance().objects();
+    vector<Profile*> profiles = profiles::Manager::Instance().objects();
     LOG_FINE() << "Working with " << profiles.size() << " profiles";
-    for (ProfilePtr profile : profiles) {
+    for (auto profile : profiles) {
       LOG_FINE() << "Disabling estimate: " << profile->parameter();
       estimate_manager.DisableEstimate(profile->parameter());
 
@@ -660,7 +662,7 @@ void Model::Iterate() {
 
   observations::Manager::Instance().CalculateScores();
 
-  for (ExecutorPtr executor : executors_[State::kExecute])
+  for (auto executor : executors_[State::kExecute])
     executor->Execute();
 }
 

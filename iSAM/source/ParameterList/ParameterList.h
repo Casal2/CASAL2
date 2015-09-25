@@ -71,11 +71,11 @@
 using std::map;
 using std::vector;
 using std::string;
-using niwa::parameters::TablePtr;
+using niwa::parameters::Table;
 using niwa::parameters::Bindable;
 using niwa::parameters::BindableVector;
 using niwa::parameterlist::Parameter;
-using niwa::parameterlist::ParameterPtr;
+using niwa::parameterlist::Parameter;
 using std::shared_ptr;
 
 
@@ -91,19 +91,20 @@ public:
   virtual                     ~ParameterList() = default;
   bool                        Add(const string& label, const string& value, const string& file_name, const unsigned& line_number);
   bool                        Add(const string& label, const vector<string>& values, const string& file_name, const unsigned& line_number);
-//  bool                        AddTable(const string& label, const vector<string>& columns, const vector<vector<string> >& data, const string& file_name, const unsigned& line_number);
-  const ParameterPtr          Get(const string& label);
-  const parameters::TablePtr  GetTable(const string& label);
+  Parameter*                  Get(const string& label);
+  parameters::Table*          GetTable(const string& label);
   void                        CopyFrom(const ParameterList& source, string parameter_label);
   void                        CopyFrom(const ParameterList& source, string parameter_label, const unsigned &value_index);
   void                        Clear();
+
   template<typename T>
-  shared_ptr<Bindable<T> >    Bind(const string& label, T* target, const string& description, const string& values);
+  Bindable<T>*                Bind(const string& label, T* target, const string& description, const string& values);
   template<typename T>
-  shared_ptr<Bindable<T> >    Bind(const string& label, T* target, const string& description, const string& values, T default_value);
+  Bindable<T>*                Bind(const string& label, T* target, const string& description, const string& values, T default_value);
   template<typename T>
-  shared_ptr<BindableVector<T> > Bind(const string& label, vector<T>* target, const string& description, const string& values, bool optional = false);
-  void                        BindTable(const string& label, parameters::TablePtr table, const string& description,
+  BindableVector<T>*          Bind(const string& label, vector<T>* target, const string& description, const string& values, bool optional = false);
+
+  void                        BindTable(const string& label, parameters::Table* table, const string& description,
                                 const string& values, bool requires_columns = true, bool optional = false);
   void                        Populate();
 
@@ -114,7 +115,7 @@ public:
   string                      defined_file_name() const { return defined_file_name_; }
   void                        set_defined_line_number(unsigned value) { defined_line_number_ = value; }
   unsigned                    defined_line_number() const { return defined_line_number_; }
-  map<string, ParameterPtr>&  parameters() { return parameters_; }
+  map<string, Parameter*>&    parameters() { return parameters_; }
   void                        set_allow_any_parameter() { allow_any_parameter_ = true; }
 
 private:
@@ -122,8 +123,8 @@ private:
   string                      parent_block_type_    = "";
   string                      defined_file_name_    = "";
   unsigned                    defined_line_number_  = 0;
-  map<string, ParameterPtr>   parameters_;
-  map<string, TablePtr>       tables_;
+  map<string, Parameter*>     parameters_;
+  map<string, Table*>         tables_;
   bool                        allow_any_parameter_  = false;
 };
 

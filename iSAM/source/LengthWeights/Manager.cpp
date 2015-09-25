@@ -24,13 +24,13 @@ Manager::Manager() {
 /**
  *
  */
-LengthWeightPtr Manager::GetLengthWeight(const string& label) const {
-  for (LengthWeightPtr length_weight : objects_) {
+LengthWeight* Manager::GetLengthWeight(const string& label) const {
+  for (auto length_weight : objects_) {
     if (length_weight->label() == label)
       return length_weight;
   }
 
-  return LengthWeightPtr();
+  return nullptr;
 }
 
 } /* namespace lengthweights */

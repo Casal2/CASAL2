@@ -44,8 +44,8 @@ class Manager : public niwa::oldbase::Manager<penalties::Manager, niwa::Penalty>
 public:
   // Methods
   virtual                     ~Manager() noexcept(true) {};
-  PenaltyPtr                  GetPenalty(const string& label) const;
-  penalties::ProcessPtr       GetProcessPenalty(const string& label);
+  Penalty*                    GetPenalty(const string& label) const;
+  penalties::Process*         GetProcessPenalty(const string& label);
   void                        FlagPenalty(const string& label, Double value);
   void                        Reset() override final { flagged_penalties_.clear(); }
 

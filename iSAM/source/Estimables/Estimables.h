@@ -66,9 +66,6 @@ private:
   map<string, Double*>          estimables_;
 
 };
-
-typedef std::shared_ptr<Estimables> EstimablesPtr;
-
 } /* namespace niwa */
 
 #endif /* ESTIMABLES_H_ */

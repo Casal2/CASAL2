@@ -45,7 +45,7 @@ protected:
   unsigned                    years_;
   vector<string>              insert_processes_;
   vector<string>              exclude_processes_;
-  vector<TimeStepPtr>         time_steps_;
+  vector<TimeStep*>           time_steps_;
   Double                      lambda_;
   vector<unsigned>            convergence_years_;
   cached::Categories          cached_partition_;

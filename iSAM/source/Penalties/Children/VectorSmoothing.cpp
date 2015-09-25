@@ -62,7 +62,7 @@ void VectorSmoothing::DoBuild() {
         << " is not in the correct format. Correct format is object_type[label].estimable(array index)";
   }
 
-  base::ObjectPtr target = objects::FindObject(parameter_);
+  base::Object* target = objects::FindObject(parameter_);
   if (!target)
     LOG_ERROR_P(PARAM_PARAMETER) << " " << parameter_ << " is not a valid estimable in the system";
 

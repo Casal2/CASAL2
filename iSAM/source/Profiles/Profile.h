@@ -54,11 +54,5 @@ private:
   Double*                     target_ = 0;
   Double                      original_value_ = 0;
 };
-
-/**
- * Typedef
- */
-typedef std::shared_ptr<Profile> ProfilePtr;
-
 } /* namespace niwa */
 #endif /* PROFILE_H_ */

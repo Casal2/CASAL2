@@ -28,14 +28,14 @@ class AgeLength : public niwa::base::Object {
 public:
   // methods
   AgeLength() = delete;
-  explicit AgeLength(ModelPtr model);
+  explicit AgeLength(Model* model);
   virtual                     ~AgeLength() { };
   void                        Validate();
   void                        Build();
   void                        Reset() { DoReset(); };
   virtual void                BuildCV(unsigned year);
   void                        DoAgeToLengthConversion(partition::Category* category,
-                                const vector<Double>& length_bins, bool plus_grp, SelectivityPtr selectivity);
+                                const vector<Double>& length_bins, bool plus_grp, Selectivity* selectivity);
   void                        CummulativeNormal(Double mu, Double cv, vector<Double>& prop_in_length,
                                 vector<Double> length_bins, string distribution, bool plus_grp);
   // accessors
@@ -52,16 +52,13 @@ protected:
   virtual void                DoReset() = 0;
 
   // members
-  ModelPtr                    model_;
+  Model*                      model_;
   vector<Double>              time_step_proportions_;
   map<unsigned, Double>       cvs_;
   Double                      cv_first_ = 0.0;
   Double                      cv_last_ = 0.0;
   string                      distribution_;
 };
-
-// typedef
-typedef std::shared_ptr<AgeLength> AgeLengthPtr;
 
 } /* namespace niwa */
 #endif /* AGELENGTH_H_ */

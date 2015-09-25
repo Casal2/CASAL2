@@ -58,7 +58,7 @@ private:
   // members
   vector<T>*                  target_;
   vector<T>                   allowed_values_;
-  BindableVector::Range       range_;
+  Range                       range_;
 };
 
 } /* namespace parameters */

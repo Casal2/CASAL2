@@ -43,7 +43,7 @@ void Maturation::DoValidate() {
     selectivity_names_.assign(from_category_names_.size(), selectivity_names_[0]);
 
   // Validate Categories
-  niwa::CategoriesPtr categories = niwa::Categories::Instance();
+  niwa::Categories* categories = niwa::Categories::Instance();
   for (const string& label : from_category_names_) {
     if (!categories->IsValid(label))
       LOG_ERROR_P(PARAM_FROM) << ": category " << label << " does not exist. Have you defined it?";
@@ -94,7 +94,7 @@ void Maturation::DoBuild() {
   to_partition_.Init(to_category_names_);
 
   for(string label : selectivity_names_) {
-    SelectivityPtr selectivity = selectivities::Manager::Instance().GetSelectivity(label);
+    Selectivity* selectivity = selectivities::Manager::Instance().GetSelectivity(label);
     if (!selectivity)
       LOG_ERROR_P(PARAM_SELECTIVITIES) << ": Selectivity " << label << " does not exist. Have you defined it?";
     selectivities_.push_back(selectivity);

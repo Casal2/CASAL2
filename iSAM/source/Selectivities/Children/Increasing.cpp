@@ -29,7 +29,7 @@ Increasing::Increasing()
 /**
  * Explicit constructor
  */
-Increasing::Increasing(ModelPtr model)
+Increasing::Increasing(Model* model)
 : Selectivity(model) {
   parameters_.Bind<unsigned>(PARAM_L, &low_, "Low", "");
   parameters_.Bind<unsigned>(PARAM_H, &high_, "High", "");

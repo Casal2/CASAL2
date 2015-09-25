@@ -30,7 +30,7 @@ class Manager : public niwa::oldbase::Manager<niwa::catchabilities::Manager, niw
 public:
   // Methods
   virtual                     ~Manager() = default;
-  CatchabilityPtr             GetCatchability(const string& label);
+  Catchability*               GetCatchability(const string& label);
 
 protected:
   // methods
@@ -39,8 +39,4 @@ protected:
 
 } /* namespace catchabilities */
 } /* namespace niwa */
-
-// typedef
-//typedef std::shared_ptr<niwa::catchabilities::Manager> CatchabilityManagerPtr;
-
 #endif /* CATCHABILITIES_MANAGER_H_ */

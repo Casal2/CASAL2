@@ -26,17 +26,14 @@ Manager::Manager() {
 /**
  *
  */
-PenaltyPtr Manager::GetPenalty(const string& label) const {
-  PenaltyPtr result;
-
-  for (PenaltyPtr penalty : objects_) {
+Penalty* Manager::GetPenalty(const string& label) const {
+  for (auto penalty : objects_) {
     if (penalty->label() == label) {
-      result = penalty;
-      break;
+      return penalty;
     }
   }
 
-  return result;
+  return nullptr;
 }
 
 /**
@@ -45,13 +42,13 @@ PenaltyPtr Manager::GetPenalty(const string& label) const {
  * @param label The label of the penalty we want to find
  * @return shared_ptr to penalty or empty shared_ptr if not found
  */
-penalties::ProcessPtr Manager::GetProcessPenalty(const string& label) {
-  for (PenaltyPtr penalty : objects_) {
+penalties::Process* Manager::GetProcessPenalty(const string& label) {
+  for (Penalty* penalty : objects_) {
     if (penalty->type() == PARAM_PROCESS && penalty->label() == label)
-      return std::dynamic_pointer_cast<penalties::Process>(penalty);
+      return dynamic_cast<penalties::Process*>(penalty);
   }
 
-  return penalties::ProcessPtr();
+  return nullptr;
 }
 
 

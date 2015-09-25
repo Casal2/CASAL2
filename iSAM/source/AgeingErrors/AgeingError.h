@@ -55,8 +55,5 @@ protected:
   vector<vector<Double> >     mis_matrix_;
 };
 
-// Typedef
-typedef std::shared_ptr<AgeingError> AgeingErrorPtr;
-
 } /* namespace niwa */
 #endif /* AGEINGERROR_H_ */

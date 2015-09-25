@@ -73,16 +73,12 @@ protected:
   string                      likelihood_type_ = "";
   string                      simulation_likelihood_label_ = "";
   bool                        run_in_simulation_mode_ = false;
-  vector<SelectivityPtr>      selectivities_;
-  LikelihoodPtr               likelihood_;
+  vector<Selectivity*>        selectivities_;
+  Likelihood*                 likelihood_;
   Double                      error_value_multiplier_ = 1.0;
   Double                      likelihood_multiplier_ = 1.0;
   map<unsigned, vector<obs::Comparison> > comparisons_;
 
 };
-
-// Typedef
-typedef std::shared_ptr<niwa::Observation> ObservationPtr;
-
 } /* namespace niwa */
 #endif /* OBSERVATION_H_ */

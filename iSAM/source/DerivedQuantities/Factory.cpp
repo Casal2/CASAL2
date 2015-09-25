@@ -27,14 +27,14 @@ namespace derivedquantities {
  * @param sub_type The child type of the object to create (e.g ageing, schnute)
  * @return shared_ptr to the object we've created
  */
-DerivedQuantityPtr Factory::Create(const string& object_type, const string& sub_type) {
-  DerivedQuantityPtr result;
+DerivedQuantity* Factory::Create(const string& object_type, const string& sub_type) {
+  DerivedQuantity* result = nullptr;
 
   if (object_type == PARAM_DERIVED_QUANTITY || object_type == PARAM_DERIVED_QUANTITIES) {
     if (sub_type == PARAM_ABUNDANCE)
-      result = DerivedQuantityPtr(new Abundance());
+      result = new Abundance();
     else if (sub_type == PARAM_BIOMASS)
-      result = DerivedQuantityPtr(new Biomass());
+      result = new Biomass();
 
     if (result)
       derivedquantities::Manager::Instance().AddObject(result);

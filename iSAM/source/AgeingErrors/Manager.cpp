@@ -21,15 +21,15 @@ namespace ageingerrors {
  * Return an AgeingError smart_ptr based on label
  *
  * @param label The label of the age length object
- * @return ageing error smart_ptr
+ * @return ageing error pointer
  */
-AgeingErrorPtr Manager::GetAgeingError(const string& label) {
-  for (AgeingErrorPtr age_error : objects_) {
+AgeingError* Manager::GetAgeingError(const string& label) {
+  for (auto age_error : objects_) {
     if (age_error->label() == label)
       return age_error;
   }
 
-  return AgeingErrorPtr();
+  return nullptr;
 }
 
 } /* namespace ageingerrors */

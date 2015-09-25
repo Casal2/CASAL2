@@ -102,9 +102,9 @@ void MCMC::Build() {
 
   unsigned active_estimates = 0;
 
-  vector<EstimatePtr> estimates = estimates::Manager::Instance().GetEnabled();
+  vector<Estimate*> estimates = estimates::Manager::Instance().GetEnabled();
   estimate_count_ = estimates.size();
-  for (EstimatePtr estimate : estimates) {
+  for (Estimate* estimate : estimates) {
     estimate_labels_.push_back(estimate->label());
 
     if (estimate->upper_bound() == estimate->lower_bound() || estimate->mcmc_fixed())
@@ -151,8 +151,8 @@ void MCMC::BuildCovarianceMatrix() {
    * Adjust any non-zero variances less than min_diff_ * difference between bounds
    */
   vector<Double> difference_bounds;
-  vector<EstimatePtr> estimates = estimates::Manager::Instance().GetEnabled();
-  for (EstimatePtr estimate : estimates) {
+  vector<Estimate*> estimates = estimates::Manager::Instance().GetEnabled();
+  for (Estimate* estimate : estimates) {
     difference_bounds.push_back( estimate->upper_bound() - estimate->lower_bound() );
   }
 
@@ -233,7 +233,7 @@ bool MCMC::DoCholeskyDecmposition() {
  */
 void MCMC::GenerateRandomStart() {
   vector<Double> original_candidates = candidates_;
-  vector<EstimatePtr> estimates = estimates::Manager::Instance().GetEnabled();
+  vector<Estimate*> estimates = estimates::Manager::Instance().GetEnabled();
 
   unsigned attempts = 0;
   bool candidates_pass = false;
@@ -347,7 +347,7 @@ void MCMC::GenerateNewCandidates() {
       FillMultivariateT(step_size_);
 
     // Check bounds and regenerate if they're not within bounds
-    vector<EstimatePtr> estimates = estimates::Manager::Instance().GetEnabled();
+    vector<Estimate*> estimates = estimates::Manager::Instance().GetEnabled();
     for (unsigned i = 0; i < estimates.size(); ++i) {
       if (estimates[i]->lower_bound() > candidates_[i] || estimates[i]->upper_bound() < candidates_[i]) {
         candidates_ok = false;

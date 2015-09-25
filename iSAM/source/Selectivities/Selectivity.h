@@ -29,7 +29,7 @@ class Selectivity : public niwa::base::Object {
 public:
   // Methods
   Selectivity() = delete;
-  explicit Selectivity(ModelPtr model);
+  explicit Selectivity(Model* model);
   virtual                     ~Selectivity() = default;
   void                        Validate();
   virtual void                Build() { Reset(); };
@@ -41,16 +41,8 @@ public:
 
 protected:
   // Members
-  ModelPtr                    model_;
+  Model*                    model_;
   map<unsigned, Double>       values_;
 };
-
-
-
-/**
- * Typedef
- */
-typedef std::shared_ptr<Selectivity> SelectivityPtr;
-
 } /* namespace niwa */
 #endif /* SELECTIVITY_H_ */

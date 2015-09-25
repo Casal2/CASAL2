@@ -29,7 +29,7 @@ namespace minimisers {
 class Factory {
 public:
   // Methods
-  static MinimiserPtr         Create(const string& object_type, const string& sub_type);
+  static Minimiser*           Create(const string& object_type, const string& sub_type);
 
 private:
   // Methods

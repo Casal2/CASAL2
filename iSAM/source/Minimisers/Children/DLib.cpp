@@ -41,7 +41,7 @@ void DLib::Execute() {
   dlib::Callback  call_back;
 
   estimates::Manager& estimate_manager = estimates::Manager::Instance();
-  vector<EstimatePtr> estimates = estimate_manager.GetEnabled();
+  vector<Estimate*> estimates = estimate_manager.GetEnabled();
 
   ::dlib::matrix<double, 0, 1> start_values(estimates.size());
   ::dlib::matrix<double, 0, 1> lower_bounds(estimates.size());
@@ -50,7 +50,7 @@ void DLib::Execute() {
 //  double smallest_lower_bound = 9999999.9;
 
   unsigned i = 0;
-  for (EstimatePtr estimate : estimates) {
+  for (Estimate* estimate : estimates) {
     if (!estimate->enabled())
       continue;
 

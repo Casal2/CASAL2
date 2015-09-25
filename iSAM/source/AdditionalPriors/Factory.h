@@ -22,7 +22,7 @@ namespace additionalpriors {
 class Factory {
 public:
   // methods
-  static AdditionalPriorPtr Create(string object_type, string sub_type);
+  static AdditionalPrior*     Create(const string& object_type, const string& sub_type);
 
 private:
   // methods

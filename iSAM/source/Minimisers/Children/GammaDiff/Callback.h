@@ -39,7 +39,7 @@ public:
   double                      operator()(const vector<double>& Parameters);
 
 private:
-  ModelPtr                    model_;
+  Model*                    model_;
 };
 
 } /* namespace gammadiff */

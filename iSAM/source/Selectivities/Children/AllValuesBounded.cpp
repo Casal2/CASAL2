@@ -29,7 +29,7 @@ AllValuesBounded::AllValuesBounded()
 /**
  * Explicit Constructor
  */
-AllValuesBounded::AllValuesBounded(ModelPtr model)
+AllValuesBounded::AllValuesBounded(Model* model)
 
 : Selectivity(model) {
   parameters_.Bind<unsigned>(PARAM_L, &low_, "L", "");

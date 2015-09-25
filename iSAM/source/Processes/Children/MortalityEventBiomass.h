@@ -41,11 +41,11 @@ public:
 
 private:
   // members
-  ModelPtr                    model_;
+  Model*                    model_;
   accessor::Categories        partition_;
   vector<string>              category_labels_;
   vector<string>              selectivity_labels_;
-  vector<SelectivityPtr>      selectivities_;
+  vector<Selectivity*>        selectivities_;
   Double                      u_max_ = 0;
   Double                      catch_ = 0;
   vector<Double>              catches_;
@@ -53,7 +53,7 @@ private:
   Double                      exploitation_ = 0;
   vector<unsigned>            years_;
   string                      penalty_label_ = "";
-  penalties::ProcessPtr       penalty_;
+  penalties::Process*         penalty_;
 };
 
 } /* namespace processes */

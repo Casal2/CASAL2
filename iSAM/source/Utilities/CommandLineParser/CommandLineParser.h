@@ -21,6 +21,8 @@
 #include <string>
 #include <map>
 
+#include "GlobalConfiguration/GlobalConfiguration.h"
+#include "Model/Model.h"
 #include "Utilities/RunMode.h"
 
 // Namespaces
@@ -35,7 +37,7 @@ using std::string;
 class CommandLineParser {
 public:
   // Methods
-  CommandLineParser() = default;
+  CommandLineParser(Model& model, GlobalConfiguration &global_config) : model_(model), global_config_(global_config) { };
   virtual                     ~CommandLineParser() = default;
   void                        Parse(int argc, const char* argv[]);
 
@@ -46,6 +48,8 @@ public:
 
 private:
   // Members
+  Model&                      model_;
+  GlobalConfiguration&        global_config_;
   RunMode::Type               run_mode_ = RunMode::kInvalid;
   string                      command_line_usage_   = "";
   std::map<string, string>    override_values_;

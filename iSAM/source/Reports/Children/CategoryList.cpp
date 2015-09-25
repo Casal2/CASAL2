@@ -30,7 +30,7 @@ CategoryList::CategoryList() {
 void CategoryList::DoExecute() {
   cache_ << "*category_list: " << label_ << "\n";
 
-  CategoriesPtr categories = Categories::Instance();
+  auto categories = Categories::Instance();
 
   vector<string> names = categories->category_names();
   for(string name : names) {

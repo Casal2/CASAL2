@@ -39,34 +39,34 @@ namespace observations {
  * @param sub_type The child type of the object to create (e.g ageing, schnute)
  * @return shared_ptr to the object we've created
  */
-ObservationPtr Factory::Create(const string& object_type, const string& sub_type) {
-  ObservationPtr result;
+Observation* Factory::Create(const string& object_type, const string& sub_type) {
+  Observation* result = nullptr;
 
   if (object_type == PARAM_OBSERVATION) {
     if (sub_type == PARAM_ABUNDANCE)
-      result = ObservationPtr(new TimeStepAbundance());
+      result = new TimeStepAbundance();
     else if (sub_type == PARAM_PROCESS_ABUNDANCE)
-      result = ObservationPtr(new ProcessAbundance());
+      result = new ProcessAbundance();
     else if (sub_type == PARAM_BIOMASS)
-      result = ObservationPtr(new TimeStepBiomass());
+      result = new TimeStepBiomass();
     else if (sub_type == PARAM_PROCESS_BIOMASS)
-      result = ObservationPtr(new ProcessBiomass());
+      result = new ProcessBiomass();
     else if (sub_type == PARAM_PROPORTIONS_AT_AGE)
-      result = ObservationPtr(new TimeStepProportionsAtAge());
+      result = new TimeStepProportionsAtAge();
     else if (sub_type == PARAM_PROPORTIONS_AT_LENGTH)
-      result = ObservationPtr(new TimeStepProportionsAtLength());
+      result = new TimeStepProportionsAtLength();
     else if (sub_type == PARAM_PROCESS_PROPORTIONS_AT_AGE)
-      result = ObservationPtr(new ProcessProportionsAtAge());
+      result = new ProcessProportionsAtAge();
     else if (sub_type == PARAM_PROCESS_PROPORTIONS_AT_AGE_FOR_FISHERY)
-      result = ObservationPtr(new ProcessProportionsAtAgeForFishery());
+      result = new ProcessProportionsAtAgeForFishery();
     else if (sub_type == PARAM_PROCESS_PROPORTIONS_AT_LENGTH)
-      result = ObservationPtr(new ProcessProportionsAtLength());
+      result = new ProcessProportionsAtLength();
     else if (sub_type == PARAM_PROCESS_PROPORTIONS_AT_LENGTH_FOR_FISHERY)
-      result = ObservationPtr(new ProcessProportionsAtLengthForFishery());
+      result = new ProcessProportionsAtLengthForFishery();
     else if (sub_type == PARAM_PROCESS_PROPORTIONS_BY_CATEGORY)
-      result = ObservationPtr(new ProcessProportionsByCategory());
+      result = new ProcessProportionsByCategory();
     else if (sub_type == PARAM_PROPORTIONS_BY_CATEGORY)
-      result = ObservationPtr(new TimeStepProportionsByCategory());
+      result = new TimeStepProportionsByCategory();
   }
 
   if (result)

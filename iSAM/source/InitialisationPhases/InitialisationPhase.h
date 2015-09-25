@@ -40,11 +40,5 @@ protected:
   virtual void                DoValidate() = 0;
   virtual void                DoBuild() = 0;
 };
-
-/*
- * Typedef
- */
-typedef std::shared_ptr<niwa::InitialisationPhase> InitialisationPhasePtr;
-
 } /* namespace niwa */
 #endif /* INITIALISATIONPHASE_H_ */

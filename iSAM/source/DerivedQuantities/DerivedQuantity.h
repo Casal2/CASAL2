@@ -53,17 +53,13 @@ protected:
   map<unsigned, Double>       values_;
   Double                      cache_value_;
   vector<string>              selectivity_labels_;
-  vector<SelectivityPtr>      selectivities_;
+  vector<Selectivity*>        selectivities_;
   vector<string>              category_labels_;
-  ModelPtr                    model_;
+  Model*                    model_;
   accessor::Categories        partition_;
   string                      proportion_method_;
   Double                      time_step_proportion_;
   bool                        mean_proportion_method_;
 };
-
-// typedef
-typedef std::shared_ptr<DerivedQuantity> DerivedQuantityPtr;
-
 } /* namespace niwa */
 #endif /* DERIVEDQUANTITY_H_ */

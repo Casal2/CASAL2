@@ -42,7 +42,7 @@ public:
 
 private:
   // Members
-  ModelPtr                    model_;
+  Model*                    model_;
   accessor::Categories        partition_;
   vector<string>              category_names_;
 };

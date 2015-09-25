@@ -52,8 +52,8 @@ protected:
 
 private:
   // Members
-  map<State::Type, vector<ReportPtr> >  state_reports_;
-  map<string, vector<ReportPtr> >       time_step_reports_;
+  map<State::Type, vector<Report*>>  state_reports_;
+  map<string, vector<Report*>>       time_step_reports_;
   string                                report_suffix_ = "";
   std::atomic_flag                      continue_;
 };

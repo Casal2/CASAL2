@@ -29,7 +29,7 @@ Beta::Beta() {
 /**
  *
  */
-void Beta::DoCopyParameters(niwa::EstimatePtr estimate, unsigned index) {
+void Beta::DoCopyParameters(niwa::Estimate* estimate, unsigned index) {
   estimate->parameters().CopyFrom(parameters_, PARAM_MU, index);
   estimate->parameters().CopyFrom(parameters_, PARAM_SIGMA, index);
   estimate->parameters().CopyFrom(parameters_, PARAM_A, index);

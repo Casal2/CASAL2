@@ -37,8 +37,8 @@ void Manager::Validate() {
    * Firstly we need to isolate any estimates that will reference
    * another estimate as these will need to be created after the others
    */
-  vector<CreatorPtr> delayed_creators;
-  for (CreatorPtr creator : creators_) {
+  vector<Creator*> delayed_creators;
+  for (Creator* creator : creators_) {
     creator->parameters().Populate();
 
     if (creator->parameter().substr(0, 8) == PARAM_ESTIMATE) {
@@ -51,14 +51,14 @@ void Manager::Validate() {
 
   // nothing fancy here, we don't support chain estimates past 1 level
   LOG_FINE() << delayed_creators.size() << " estimates were delayed because they reference other estimates";
-  for (CreatorPtr creators : delayed_creators) {
+  for (auto creators : delayed_creators) {
     creators->CreateEstimates();
   }
 
   /**
    * Validate the actual estimates now
    */
-  for (EstimatePtr estimate : objects_)
+  for (auto estimate : objects_)
     estimate->Validate();
 
   /**
@@ -67,7 +67,7 @@ void Manager::Validate() {
   unsigned count = objects_.size();
   objects_.erase(
       std::remove_if(objects_.begin(), objects_.end(),
-         [](EstimatePtr estimate) {return dc::IsEqual(estimate->lower_bound(), estimate->upper_bound()); }
+         [](Estimate* estimate) {return dc::IsEqual(estimate->lower_bound(), estimate->upper_bound()); }
        ),
        objects_.end()
   );
@@ -77,14 +77,14 @@ void Manager::Validate() {
   /**
    * Load any estimate values that have been supplied
    */
-  GlobalConfigurationPtr global_config = GlobalConfiguration::Instance();
+  GlobalConfiguration* global_config = GlobalConfiguration::Instance();
   if (global_config->estimable_value_file() != "") {
     Estimables& estimables = Estimables::Instance();
     vector<string> estimable_labels = estimables.GetEstimables();
 
     for (string label : estimable_labels) {
-      auto match = [](string label, vector<EstimatePtr> objects) {
-        for (EstimatePtr estimate : objects) {
+      bool match = [](string label, vector<Estimate*> objects) -> bool {
+        for (Estimate* estimate : objects) {
           if (estimate->label() == label)
             return true;
         }
@@ -106,7 +106,7 @@ void Manager::Validate() {
 unsigned Manager::GetEnabledCount() {
   unsigned count = 0;
 
-  for (EstimatePtr estimate : objects_) {
+  for (Estimate* estimate : objects_) {
     if (estimate->enabled())
       count++;
   }
@@ -117,10 +117,10 @@ unsigned Manager::GetEnabledCount() {
 /**
  *
  */
-vector<EstimatePtr> Manager::GetEnabled() {
-  vector<EstimatePtr> result;
+vector<Estimate*> Manager::GetEnabled() {
+  vector<Estimate*> result;
 
-  for (EstimatePtr estimate : objects_) {
+  for (Estimate* estimate : objects_) {
     if (estimate->enabled())
       result.push_back(estimate);
   }
@@ -154,12 +154,12 @@ void Manager::Clear() {
  * @return True if found, false otherwise
  */
 bool Manager::HasEstimate(const string& parameter) {
-  for (EstimatePtr estimate : objects_) {
+  for (Estimate* estimate : objects_) {
     if (estimate->parameter() == parameter)
       return true;
   }
 
-  for (EstimatePtr estimate : objects_) {
+  for (Estimate* estimate : objects_) {
     if (estimate->creator_parameter() == parameter)
       return true;
   }
@@ -174,7 +174,7 @@ bool Manager::HasEstimate(const string& parameter) {
  * @param parameter The parameter to match against the estimate and parent info
  */
 void Manager::EnableEstimate(const string& parameter) {
-  for (EstimatePtr estimate : objects_) {
+  for (Estimate* estimate : objects_) {
     if (estimate->creator_parameter() == parameter)
       estimate->set_enabled(true);
     else if (estimate->parameter() == parameter)
@@ -189,7 +189,7 @@ void Manager::EnableEstimate(const string& parameter) {
  * @param parameter The parameter to match against the estimate and parent info
  */
 void Manager::DisableEstimate(const string& parameter) {
-  for (EstimatePtr estimate : objects_) {
+  for (Estimate* estimate : objects_) {
     if (estimate->creator_parameter() == parameter)
       estimate->set_enabled(false);
     else if (estimate->parameter() == parameter)
@@ -200,29 +200,29 @@ void Manager::DisableEstimate(const string& parameter) {
 /**
  *
  */
-EstimatePtr Manager::GetEstimate(const string& parameter) {
-  for (EstimatePtr estimate : objects_) {
+Estimate* Manager::GetEstimate(const string& parameter) {
+  for (Estimate* estimate : objects_) {
     if (estimate->parameter() == parameter)
       return estimate;
   }
-  return EstimatePtr();
+  return nullptr;;
 }
 
 /**
  *
  */
-EstimatePtr Manager::GetEstimateByLabel(const string& label) {
+Estimate* Manager::GetEstimateByLabel(const string& label) {
   LOG_FINEST() << "Checking for estimate by label " << label;
 
-  for (EstimatePtr estimate : objects_) {
+  for (Estimate* estimate : objects_) {
     if (estimate->label() == label)
       return estimate;
   }
 
-  for (EstimatePtr estimate : objects_)
+  for (Estimate* estimate : objects_)
     LOG_FINEST() << "Estimate: " << estimate->label() << " (" << estimate->parameter() << ")";
 
-  return EstimatePtr();
+  return nullptr;
 }
 
 } /* namespace estimates */

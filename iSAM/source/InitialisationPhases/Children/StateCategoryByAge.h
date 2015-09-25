@@ -47,7 +47,7 @@ private:
   unsigned                    min_age_ = 0;
   unsigned                    max_age_ = 0;
   unsigned                    column_count_ = 0;
-  parameters::TablePtr        n_table_;
+  parameters::Table*          n_table_ = nullptr;
   map<string, vector<Double>> n_;
 };
 

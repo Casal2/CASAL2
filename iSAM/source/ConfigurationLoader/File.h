@@ -15,29 +15,28 @@
 #ifndef CONFIGURATION_FILE_H_
 #define CONFIGURATION_FILE_H_
 
-// Headers
+// headers
 #include <string>
 #include <fstream>
 #include <iostream>
 #include <memory>
 
-// Namespaces
+#include "ConfigurationLoader/Loader.h"
+
+// namespaces
+namespace niwa {
+namespace configuration {
+
 using std::ifstream;
 using std::cout;
 using std::endl;
 using std::string;
 
-namespace niwa {
-namespace configuration {
-
-// Declarations
-class Loader;
-
 // classes
 class File {
 public:
   // Methods
-  File(Loader* loader);
+  File(Loader& loader) : loader_(loader) { };
   virtual                     ~File();
   bool                        OpenFile(string file_name);
   void                        Parse();
@@ -47,16 +46,13 @@ private:
   void                        HandleComments(string& current_line);
 
   // Members
-  Loader*                     loader_;
+  Loader&                     loader_;
   string                      file_name_            = "not specified";
   ifstream                    file_;
   unsigned                    line_number_          = 0;
   bool                        multi_line_comment_   = false;
   bool                        single_line_comment_  = false;
 };
-
-// typedefs
-typedef std::shared_ptr<File> FilePtr;
 
 } /* namespace configuration */
 } /* namespace niwa */

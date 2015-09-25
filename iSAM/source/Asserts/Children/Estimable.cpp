@@ -67,11 +67,11 @@ void Estimable::DoBuild() {
   /**
    * subscribe this assert to the target time step in all years that were specified.
    */
-  TimeStepPtr time_step = timesteps::Manager::Instance().GetTimeStep(time_step_label_);
+  TimeStep* time_step = timesteps::Manager::Instance().GetTimeStep(time_step_label_);
   if (!time_step)
     LOG_ERROR_P(PARAM_TIME_STEP) << "(" << time_step_label_ << ") does not exist. Have you defined it?";
   for (unsigned year : years_)
-    time_step->Subscribe(shared_ptr(), year);
+    time_step->Subscribe(this, year);
 
   estimable_ = objects::FindEstimable(parameter_);
   if (estimable_ == 0)

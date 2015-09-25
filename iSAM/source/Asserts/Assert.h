@@ -39,9 +39,6 @@ protected:
   virtual void                DoValidate() = 0;
   virtual void                DoBuild() = 0;
 };
-
-typedef std::shared_ptr<Assert> AssertPtr;
-
 } /* namespace niwa */
 
 #endif /* ASSERT_H_ */

@@ -19,9 +19,9 @@ int main(int argc, char **argv) {
 #include "Version.h"
 #include "ConfigurationLoader/Loader.h"
 #include "GlobalConfiguration/GlobalConfiguration.h"
+#include "Model/Managers.h"
 #include "Model/Model.h"
 #include "Reports/Children/StandardHeader.h"
-#include "Reports/Manager.h"
 #include "Utilities/CommandLineParser/CommandLineParser.h"
 #include "Logging/Logging.h"
 
@@ -30,51 +30,21 @@ using namespace niwa;
 using std::cout;
 using std::endl;
 
-// local variables
-RunMode::Type run_mode = RunMode::kInvalid;
-bool model_start_return_success = true;
-
-void ModelThread() {
-  // Run the model
-  ModelPtr model = Model::Instance();
-  model_start_return_success = model->Start(run_mode);
-
-  reports::Manager::Instance().StopThread();
-}
-
-/**
- *
- */
-void ReportThread() {
-  reports::Manager::Instance().FlushReports();
-}
-
 /**
  * Application entry point
  */
 int main(int argc, char * argv[]) {
-  int return_code = 0;
-  // Create instance now so it can record the time.
+  Model model;
+  GlobalConfiguration global_config;
   reports::StandardHeader standard_report;
-
-  /**
-   * Store our command line parameters
-   */
-  GlobalConfigurationPtr config = GlobalConfiguration::Instance();
-
-  vector<string> parameters;
-  for (int i = 0; i < argc; ++i)
-    parameters.push_back(argv[i]);
-  config->set_command_line_parameters(parameters);
+  int return_code = 0;
+  bool model_start_return_success = true;
 
   try {
-    /**
-     * Ask the runtime controller to parse the parameters.
-     */
-    niwa::utilities::CommandLineParser parser;
+    utilities::CommandLineParser parser(model, global_config);
     parser.Parse(argc, (const char **)argv);
 
-    run_mode = parser.run_mode();
+    RunMode::Type run_mode = parser.run_mode();
 
     /**
      * Check the run mode and call the handler.
@@ -100,32 +70,29 @@ int main(int argc, char * argv[]) {
       break;
 
     default:
-      if (!config->debug_mode() && !config->disable_standard_report())
+      if (!global_config.debug_mode() && !global_config.disable_standard_report())
         standard_report.Prepare();
 
-      /**
-       * Load our configuration files
-       */
-      configuration::Loader config_loader;
-      config_loader.LoadConfigFile();
-      if (Logging::Instance().errors().size() > 0) {
+      // load our configuration file
+      configuration::Loader config_loader(model);
+      if (!config_loader.LoadConfigFile()) {
         Logging::Instance().FlushErrors();
         return_code = -1;
         break;
       }
 
-      /**
-       * Override any config values
-       */
-      config->OverrideGlobalValues(parser.override_values());
+      // override any config file values from our command line
+      global_config.OverrideGlobalValues(parser.override_values());
 
-      /**
-       * build our threads
-       */
-      std::thread model_thread(ModelThread);
-      std::thread report_thread(ReportThread);
+      // Thread off the reports
+      reports::Manager& report_manager = model.managers().report();
+      std::thread report_thread([&report_manager]() { report_manager.FlushReports(); });
 
-      model_thread.join();
+      // Run the model
+      model_start_return_success = model.Start(run_mode);
+
+      // finish report thread
+      reports::Manager::Instance().StopThread();
       report_thread.join();
 
       Logging& logging = Logging::Instance();
@@ -136,35 +103,26 @@ int main(int argc, char * argv[]) {
 
       logging.FlushWarnings();
 
-      if (!config->debug_mode() && !config->disable_standard_report())
+      if (!global_config.debug_mode() && !global_config.disable_standard_report())
         standard_report.Finalise();
       break;
-    }
+    } // switch(run_mode)
 
-  } catch (const string &isam_exception) {
-    /**
-     * This is the standard method of printing an error to the user. So
-     * we expect exceptions to be thrown up cleanly.
-     */
+  } catch (const string &exception) {
     cout << "## ERROR - iSAM experienced a problem and has stopped execution" << endl;
-    cout << "## Execution stack: " << endl;
-
-    // Un-Wind our Exception Stack
-    int last_location = 0;
-    while (last_location != -1) {
-      int location = isam_exception.find_first_of(">", last_location+1);
-      cout << isam_exception.substr(last_location+1, (location-last_location)) << endl;
-      last_location = location;
-    }
-    cout << endl;
-    return -1;
+    cout << "Error: " << exception << endl;
+    return_code = -1;
 
   } catch (std::exception& e) {
     cout << "## ERROR - iSAM experienced a problem and has stopped execution" << endl;
     cout << e.what() << endl;
+    return_code = -1;
 
   } catch(...) {
     cout << "## ERROR - iSAM experienced a problem and has stopped execution" << endl;
+    cout << "The exception was caught with the catch-all. The type was unknown" << endl;
+    cout << "Please contact the application developer" << endl;
+    return_code = -1;
   }
 
   if (!model_start_return_success) {

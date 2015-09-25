@@ -37,10 +37,10 @@ EstimateValue::~EstimateValue() noexcept(true) {
  * Execute this report.
  */
 void EstimateValue::DoExecute() {
-  ModelPtr model = Model::Instance();
+  Model* model = Model::Instance();
 
-  vector<EstimatePtr> estimates = estimates::Manager::Instance().objects();
-  vector<ProfilePtr>  profiles  = profiles::Manager::Instance().objects();
+  vector<Estimate*> estimates = estimates::Manager::Instance().objects();
+  vector<Profile*>  profiles  = profiles::Manager::Instance().objects();
 
   /**
    * if this is the first run we print the report header etc
@@ -51,11 +51,11 @@ void EstimateValue::DoExecute() {
        cache_ << "*" << label_ << " " << "("<< type_ << ")"<<"\n";
        cache_ << "values "<< REPORT_R_MATRIX << "\n";
      }
-     for (EstimatePtr estimate : estimates)
+     for (Estimate* estimate : estimates)
          cache_ << estimate->parameter() << ", ";
 
      if (model->run_mode() == RunMode::kProfiling) {
-       for (ProfilePtr profile : profiles)
+       for (auto profile : profiles)
          cache_ << profile->parameter() << ", ";
      }
      cache_ << "\n";
@@ -63,10 +63,10 @@ void EstimateValue::DoExecute() {
    }
 
 
-   for (EstimatePtr estimate : estimates)
+   for (Estimate* estimate : estimates)
      cache_ << AS_DOUBLE(estimate->value()) << ", ";
    if (model->run_mode() == RunMode::kProfiling) {
-     for (ProfilePtr profile : profiles)
+     for (Profile* profile : profiles)
        cache_ << profile->value() << ", ";
    }
    cache_ << "\n";

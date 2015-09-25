@@ -30,7 +30,7 @@ class DoubleExponential : public niwa::Selectivity {
 public:
   // Methods
   DoubleExponential();
-  explicit DoubleExponential(ModelPtr model);
+  explicit DoubleExponential(Model* model);
   virtual                     ~DoubleExponential() = default;
   void                        DoValidate() override final;
   void                        Reset() override final;

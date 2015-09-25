@@ -36,7 +36,7 @@ public:
 private:
   // members
   string                      observation_label_;
-  ObservationPtr              observation_;
+  Observation*                observation_;
 };
 
 } /* namespace reports */

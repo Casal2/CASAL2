@@ -33,7 +33,7 @@ struct CategoryInfo {
   vector<unsigned>  years_;
   unsigned          min_age_ = 0;
   unsigned          max_age_ = 0;
-  AgeLengthPtr      age_length_;
+  AgeLength*        age_length_;
 };
 
 /**
@@ -42,7 +42,7 @@ struct CategoryInfo {
 class Categories : public niwa::base::Object {
 public:
   // Methods
-  static shared_ptr<Categories> Instance();
+  static Categories*            Instance();
   virtual                       ~Categories() = default;
   void                          Validate();
   void                          Build();
@@ -52,9 +52,9 @@ public:
   unsigned                      GetNumberOfCategoriesDefined(const string& label) const;
   void                          Clear();
 
-  vector<string>                ExpandLabels(const vector<string> &category_labels, const ParameterPtr source_parameter);
-  string                        GetCategoryLabels(const string& lookup_string, const ParameterPtr source_parameter);
-  vector<string>                GetCategoryLabelsV(const string& lookup_string, const ParameterPtr source_parameter);
+  vector<string>                ExpandLabels(const vector<string> &category_labels, const Parameter* source_parameter);
+  string                        GetCategoryLabels(const string& lookup_string, const Parameter* source_parameter);
+  vector<string>                GetCategoryLabelsV(const string& lookup_string, const Parameter* source_parameter);
 
   // Accessors
   string                        format() const { return format_; }
@@ -62,7 +62,7 @@ public:
   unsigned                      min_age(const string& category_name);
   unsigned                      max_age(const string& category_name);
   vector<unsigned>              years(const string& category_name);
-  AgeLengthPtr                  age_length(const string& category_name);
+  AgeLength*                    age_length(const string& category_name);
 
 private:
   // Methods
@@ -78,10 +78,6 @@ private:
   map<string, string>         category_age_length_labels_;
   map<string, CategoryInfo>   categories_;
 };
-
-// Typedef
-typedef std::shared_ptr<niwa::Categories> CategoriesPtr;
-
 } /* namespace niwa */
 
 #endif /* CATEGORIES_H_ */

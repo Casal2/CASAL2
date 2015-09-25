@@ -33,7 +33,7 @@ public:
   // methods
   virtual                     ~Manager() noexcept(true);
   void                        Validate() override final;
-  ProcessPtr                  GetProcess(const string& label);
+  Process*                    GetProcess(const string& label);
 
 protected:
   // methods

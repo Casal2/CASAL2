@@ -28,8 +28,6 @@ namespace niwa {
  * Note: The constructor is parsed to generate Latex for the documentation.
  */
 DerivedQuantity::DerivedQuantity() {
-  LOG_TRACE();
-
   parameters_.Bind<string>(PARAM_LABEL, &label_, "Label", "");
   parameters_.Bind<string>(PARAM_TYPE, &type_, "Type", "");
   parameters_.Bind<string>(PARAM_TIME_STEP, &time_step_label_, "The time step to calculate the derived quantity after", "");
@@ -72,7 +70,7 @@ void DerivedQuantity::Build() {
 
   selectivities::Manager& selectivity_manager = selectivities::Manager::Instance();
   for (string label : selectivity_labels_) {
-    SelectivityPtr selectivity = selectivity_manager.GetSelectivity(label);
+    Selectivity* selectivity = selectivity_manager.GetSelectivity(label);
     if (!selectivity)
       LOG_ERROR_P(PARAM_SELECTIVITIES) << " (" << label << ") could not be found. Have you defined it?";
 
@@ -82,11 +80,11 @@ void DerivedQuantity::Build() {
   /**
    * ensure the time steps we have are valid
    */
-  TimeStepPtr time_step = timesteps::Manager::Instance().GetTimeStep(time_step_label_);
+  TimeStep* time_step = timesteps::Manager::Instance().GetTimeStep(time_step_label_);
   if (!time_step)
     LOG_ERROR_P(PARAM_TIME_STEP) << " (" << time_step_label_ << ") could not be found. Have you defined it?";
-  time_step->SubscribeToBlock(shared_ptr());
-  time_step->SubscribeToInitialisationBlock(shared_ptr());
+  time_step->SubscribeToBlock(this);
+  time_step->SubscribeToInitialisationBlock(this);
 }
 
 /**

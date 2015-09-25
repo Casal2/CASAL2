@@ -52,7 +52,7 @@ public:
 
 private:
   // Members
-  ModelPtr                    model_;
+  Model*                      model_;
   map<unsigned, DataType >    data_; // map<year, vector<pair<category, Double*> > >
 };
 

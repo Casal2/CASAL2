@@ -47,15 +47,15 @@ private:
   unsigned                      min_age_;
   unsigned                      max_age_;
   string                        selectivity_label_;
-  SelectivityPtr                selectivity_;
+  Selectivity*                  selectivity_;
   string                        penalty_label_;
-  PenaltyPtr                    penalty_;
+  Penalty*                      penalty_;
   Double                        u_max_;
-  parameters::TablePtr          n_table_;
+  parameters::Table*            n_table_;
   map<unsigned, vector<Double>> n_;
   accessor::Categories          to_partition_;
   accessor::Categories          from_partition_;
-  ModelPtr                      model_;
+  Model*                        model_;
 };
 
 } /* namespace processes */

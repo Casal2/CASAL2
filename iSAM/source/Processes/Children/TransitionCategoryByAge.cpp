@@ -31,7 +31,6 @@ namespace processes {
 TransitionCategoryByAge::TransitionCategoryByAge() : Process(Model::Instance()) {
   process_type_ = ProcessType::kTransition;
   partition_structure_ = PartitionStructure::kAge;
-  n_table_ = TablePtr(new parameters::Table(PARAM_N));
 
   parameters_.Bind<string>(PARAM_FROM, &from_category_labels_, "Categories to transition from", "");
   parameters_.Bind<string>(PARAM_TO, &to_category_labels_, "Categories to transition to", "");

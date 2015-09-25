@@ -27,14 +27,14 @@ namespace lengthweights {
  * @param sub_type The child type of the object to create (e.g ageing, schnute)
  * @return shared_ptr to the object we've created
  */
-LengthWeightPtr Factory::Create(const string& object_type, const string& sub_type) {
-  LengthWeightPtr result;
+LengthWeight* Factory::Create(const string& object_type, const string& sub_type) {
+  LengthWeight* result = nullptr;
 
   if (object_type == PARAM_LENGTH_WEIGHT || object_type == PARAM_LENGTH_WEIGHTS) {
     if (sub_type == PARAM_NONE)
-      result = LengthWeightPtr(new None());
+      result = new None();
     else if (sub_type == PARAM_BASIC)
-      result = LengthWeightPtr(new Basic());
+      result = new Basic();
 
     if (result)
       lengthweights::Manager::Instance().AddObject(result);

@@ -22,12 +22,12 @@ namespace mcmcs {
 /**
  * Factory method
  */
-MCMCPtr Factory::Create(const string& object_type, const string& sub_type) {
-  MCMCPtr object;
+MCMC* Factory::Create(const string& object_type, const string& sub_type) {
+  MCMC* object = nullptr;
 
   if (object_type == PARAM_MCMC) {
     if (sub_type == "" || sub_type == PARAM_INDEPENDENCE_METROPOLIS || sub_type == PARAM_METROPOLIS_HASTINGS)
-      object = MCMCPtr(new IndependenceMetropolis());
+      object = new IndependenceMetropolis();
   }
 
   if (object)

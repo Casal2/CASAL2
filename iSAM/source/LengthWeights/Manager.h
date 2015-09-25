@@ -29,7 +29,7 @@ class Manager : public niwa::oldbase::Manager<niwa::lengthweights::Manager, niwa
 public:
   // methods
   virtual                     ~Manager() noexcept(true) { };
-  LengthWeightPtr             GetLengthWeight(const string& label) const;
+  LengthWeight*               GetLengthWeight(const string& label) const;
 
 protected:
   // methods

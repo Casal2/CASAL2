@@ -40,8 +40,6 @@ ProportionsAtAge::ProportionsAtAge() {
   parameters_.Bind<Double>(PARAM_DELTA, &delta_, "Delta", "", DELTA);
   parameters_.Bind<Double>(PARAM_PROCESS_ERRORS, &process_error_values_, "Process error", "", true);
   parameters_.Bind<string>(PARAM_AGEING_ERROR, &ageing_error_label_, "Label of ageing error to use", "", "");
-  obs_table_ = TablePtr(new parameters::Table(PARAM_OBS));
-  error_values_table_ = TablePtr(new parameters::Table(PARAM_ERROR_VALUES));
   parameters_.BindTable(PARAM_OBS, obs_table_, "Table of Observatons", "", false);
   parameters_.BindTable(PARAM_ERROR_VALUES, error_values_table_, "", "", false);
 }
@@ -57,7 +55,7 @@ void ProportionsAtAge::DoValidate() {
   /**
    * Do some simple checks
    */
-  ModelPtr model = Model::Instance();
+  Model* model = Model::Instance();
   if (min_age_ < model->min_age())
     LOG_ERROR_P(PARAM_MIN_AGE) << ": min_age (" << min_age_ << ") is less than the model's min_age (" << model->min_age() << ")";
   if (max_age_ > model->max_age())
@@ -211,7 +209,7 @@ void ProportionsAtAge::DoBuild() {
  * structure to use with any interpolation
  */
 void ProportionsAtAge::PreExecute() {
-  ModelPtr model = Model::Instance();
+  Model* model = Model::Instance();
 
   cached_partition_->BuildCache();
 
@@ -230,7 +228,7 @@ void ProportionsAtAge::Execute() {
   /**
    * Verify our cached partition and partition sizes are correct
    */
-  ModelPtr model = Model::Instance();
+  Model* model = Model::Instance();
   auto cached_partition_iter  = cached_partition_->Begin();
   auto partition_iter         = partition_->Begin(); // vector<vector<partition::Category> >
 

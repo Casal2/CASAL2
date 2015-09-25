@@ -34,13 +34,13 @@ using std::string;
 class EstimableValuesLoader {
 public:
   // methods
-  EstimableValuesLoader(ModelPtr model) : model_(model) { }
+  EstimableValuesLoader(Model* model) : model_(model) { }
   virtual                     ~EstimableValuesLoader() = default;
   void                        LoadValues(const string& file_name);
 
 private:
   // members
-  ModelPtr                    model_;
+  Model*                    model_;
 };
 
 } /* namespace configuration */

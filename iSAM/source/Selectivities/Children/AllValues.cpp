@@ -28,7 +28,7 @@ AllValues::AllValues()
 /**
  * Explicit Constructor
  */
-  AllValues::AllValues(ModelPtr model)
+  AllValues::AllValues(Model* model)
 : Selectivity(model) {
 
   parameters_.Bind<Double>(PARAM_V, &v_, "V", "");

@@ -27,7 +27,7 @@ Normal::Normal() {
 /**
  *
  */
-void Normal::DoCopyParameters(niwa::EstimatePtr estimate, unsigned index) {
+void Normal::DoCopyParameters(niwa::Estimate* estimate, unsigned index) {
   estimate->parameters().CopyFrom(parameters_, PARAM_MU, index);
   estimate->parameters().CopyFrom(parameters_, PARAM_CV, index);
 }

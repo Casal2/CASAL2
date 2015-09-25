@@ -25,7 +25,7 @@ namespace observations {
 class Factory {
 public:
   // methods
-  static ObservationPtr       Create(const string& object_type, const string& sub_type);
+  static Observation*         Create(const string& object_type, const string& sub_type);
 
 private:
   // Methods

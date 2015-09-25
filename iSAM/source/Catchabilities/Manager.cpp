@@ -22,17 +22,13 @@ namespace catchabilities {
  * @param label The label of the catchability
  * @return Catchability pointer
  */
-CatchabilityPtr Manager::GetCatchability(const string& label) {
-  CatchabilityPtr result;
-
-  for(CatchabilityPtr catchability : objects_) {
-    if (catchability->label() == label) {
-      result = catchability;
-      break;
-    }
+Catchability* Manager::GetCatchability(const string& label) {
+  for(auto catchability : objects_) {
+    if (catchability->label() == label)
+      return catchability;
   }
 
-  return result;
+  return nullptr;
 }
 
 } /* namespace catchabilities */

@@ -55,7 +55,7 @@ public:
 
 private:
   // Members
-  ModelPtr                    model_;
+  Model*                    model_;
   map<unsigned, DataType>     data_;
 };
 

@@ -28,7 +28,7 @@ public:
 
 private:
   string                      ageingerror_label_;
-  AgeingErrorPtr              ageingerror_;
+  AgeingError*                ageingerror_;
 };
 
 } /* namespace reports */

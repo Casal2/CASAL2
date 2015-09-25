@@ -29,7 +29,7 @@ namespace likelihoods {
 class Factory {
 public:
   // methods
-  static LikelihoodPtr        Create(const string& likelihood_type);
+  static Likelihood*          Create(const string& likelihood_type);
 
 private:
   // Methods

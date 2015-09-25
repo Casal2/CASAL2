@@ -32,9 +32,7 @@ namespace agelengths {
 Data::Data() : Data(Model::Instance()) {
 }
 
-Data::Data(ModelPtr model) : AgeLength(model) {
-  data_table_ = TablePtr(new parameters::Table(PARAM_DATA));
-
+Data::Data(Model* model) : AgeLength(model) {
   parameters_.BindTable(PARAM_DATA, data_table_, "", "");
   parameters_.Bind<string>(PARAM_EXTERNAL_GAPS, &external_gaps_, "", "", PARAM_MEAN)->set_allowed_values({PARAM_MEAN, PARAM_NEAREST_NEIGHBOUR});
   parameters_.Bind<string>(PARAM_INTERNAL_GAPS, &internal_gaps_, "", "", PARAM_MEAN)->set_allowed_values({PARAM_MEAN, PARAM_NEAREST_NEIGHBOUR, PARAM_INTERPOLATE});

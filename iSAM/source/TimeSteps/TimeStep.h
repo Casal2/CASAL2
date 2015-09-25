@@ -27,6 +27,7 @@
 namespace niwa {
 
 using std::pair;
+using base::Executor;
 
 /**
  * Class Definition
@@ -42,38 +43,32 @@ public:
   void                        ExecuteForInitialisation(const string& phase_label);
   void                        Execute(unsigned year);
   bool                        HasProcess(const string& label) { return std::find(process_names_.begin(), process_names_.end(), label) != process_names_.end(); }
-  void                        Subscribe(ExecutorPtr executor, unsigned year) { executors_[year].push_back(executor); }
-  void                        SubscribeToInitialisationBlock(ExecutorPtr executor) { initialisation_block_executors_.push_back(executor); }
-  void                        SubscribeToBlock(ExecutorPtr executor);
-  void                        SubscribeToBlock(ExecutorPtr executor, unsigned year) { block_executors_[year].push_back(executor); }
-  ProcessPtr                  SubscribeToProcess(ExecutorPtr executor, unsigned year, string process_label);
-  ProcessPtr                  SubscribeToProcess(ExecutorPtr executor, const vector<unsigned>& years, string process_label);
+  void                        Subscribe(Executor* executor, unsigned year) { executors_[year].push_back(executor); }
+  void                        SubscribeToInitialisationBlock(Executor* executor) { initialisation_block_executors_.push_back(executor); }
+  void                        SubscribeToBlock(Executor* executor);
+  void                        SubscribeToBlock(Executor* executor, unsigned year) { block_executors_[year].push_back(executor); }
+  Process*                    SubscribeToProcess(Executor* executor, unsigned year, string process_label);
+  Process*                    SubscribeToProcess(Executor* executor, const vector<unsigned>& years, string process_label);
   void                        SetInitialisationProcessLabels(const string& initialisation_phase_label, vector<string> process_labels_);
   void                        BuildInitialisationProcesses();
 
   // accessors
-  const vector<ProcessPtr>&   processes() const { return processes_; }
+  const vector<Process*>&     processes() const { return processes_; }
   vector<string>              process_labels() const { return process_names_; }
   vector<string>              initialisation_process_labels(const string& initialisation_phase) { return initialisation_process_labels_[initialisation_phase]; }
 
 private:
   // Members
   vector<string>                      process_names_;
-  vector<ProcessPtr>                  processes_;
-  map<unsigned, vector<ExecutorPtr> > executors_;
-  map<unsigned, vector<ExecutorPtr> > block_executors_;
-  vector<ExecutorPtr>                 initialisation_block_executors_;
+  vector<Process*>                    processes_;
+  map<unsigned, vector<Executor*> >   executors_;
+  map<unsigned, vector<Executor*> >   block_executors_;
+  vector<Executor*>                   initialisation_block_executors_;
   pair<unsigned, unsigned>            mortality_block_ = pair<unsigned,unsigned>(0u, 0u);
   map<string, vector<string>>         initialisation_process_labels_;
-  map<string, vector<ProcessPtr>>     initialisation_processes_;
+  map<string, vector<Process*>>       initialisation_processes_;
   map<string, pair<unsigned, unsigned>> initialisation_mortality_blocks_;
-  map<unsigned, map<unsigned, vector<ExecutorPtr>>> process_executors_; // year/process index
+  map<unsigned, map<unsigned, vector<Executor*>>> process_executors_; // year/process index
 };
-
-/**
- * Typedef
- */
-typedef std::shared_ptr<TimeStep> TimeStepPtr;
-
 } /* namespace niwa */
 #endif /* TIMESTEP_H_ */

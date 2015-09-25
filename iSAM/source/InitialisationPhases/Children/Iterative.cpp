@@ -58,7 +58,7 @@ void Iterative::DoBuild() {
   time_steps_ = timesteps::Manager::Instance().ordered_time_steps();
 
   // Set the default process labels for the time step for this phase
-  for (TimeStepPtr time_step : time_steps_)
+  for (auto time_step : time_steps_)
     time_step->SetInitialisationProcessLabels(label_, time_step->process_labels());
 
   // handle any new processes we want to insert
@@ -69,7 +69,7 @@ void Iterative::DoBuild() {
     string target_process   = pieces.size() == 3 ? pieces[1] : "";
     string new_process      = pieces.size() == 3 ? pieces[2] : pieces[1];
 
-    TimeStepPtr time_step = timesteps::Manager::Instance().GetTimeStep(pieces[0]);
+    auto time_step = timesteps::Manager::Instance().GetTimeStep(pieces[0]);
     vector<string> process_labels = time_step->initialisation_process_labels(label_);
 
     if (target_process == "") {
@@ -87,7 +87,7 @@ void Iterative::DoBuild() {
   // handle the excludes we've specified
   for (string exclude : exclude_processes_) {
     unsigned count = 0;
-    for (TimeStepPtr time_step : time_steps_) {
+    for (auto time_step : time_steps_) {
       vector<string> process_labels = time_step->initialisation_process_labels(label_);
       unsigned size_before = process_labels.size();
       process_labels.erase(std::remove_if(process_labels.begin(), process_labels.end(), [exclude](string& ex) { return exclude == ex; }), process_labels.end());

@@ -47,7 +47,7 @@ void TimeStep::Build() {
   // Get the pointers to our processes
   processes::Manager& process_manager = processes::Manager::Instance();
   for (string process_name : process_names_) {
-    ProcessPtr process = process_manager.GetProcess(process_name);
+    Process* process = process_manager.GetProcess(process_name);
     if (!process)
       LOG_ERROR_P(PARAM_PROCESSES) << ": process " << process_name << " does not exist. Have you defined it?";
     else
@@ -81,7 +81,7 @@ void TimeStep::ExecuteForInitialisation(const string& phase_label) {
 
   for (unsigned index = 0; index < initialisation_processes_[phase_label].size(); ++index) {
     if (initialisation_mortality_blocks_[phase_label].first == index) {
-      for (ExecutorPtr executor : initialisation_block_executors_) {
+      for (auto executor : initialisation_block_executors_) {
         executor->PreExecute();
       }
     }
@@ -89,7 +89,7 @@ void TimeStep::ExecuteForInitialisation(const string& phase_label) {
     initialisation_processes_[phase_label][index]->Execute(0u, "");
 
     if (initialisation_mortality_blocks_[phase_label].second == index) {
-      for (ExecutorPtr executor : initialisation_block_executors_) {
+      for (auto executor : initialisation_block_executors_) {
         executor->Execute();
       }
     }
@@ -102,37 +102,37 @@ void TimeStep::ExecuteForInitialisation(const string& phase_label) {
 void TimeStep::Execute(unsigned year) {
   LOG_TRACE();
 
-  for (ExecutorPtr executor : executors_[year])
+  for (auto executor : executors_[year])
       executor->PreExecute();
 
   for (unsigned index = 0; index < processes_.size(); ++index) {
     if (index == mortality_block_.first) {
-      for (ExecutorPtr executor : block_executors_[year])
+      for (auto executor : block_executors_[year])
         executor->PreExecute();
     }
 
-    for(ExecutorPtr executor : process_executors_[year][index])
+    for(auto executor : process_executors_[year][index])
       executor->PreExecute();
 
     processes_[index]->Execute(year, label_);
 
-    for(ExecutorPtr executor : process_executors_[year][index])
+    for(auto executor : process_executors_[year][index])
       executor->Execute();
 
     if (index == mortality_block_.second) {
-      for (ExecutorPtr executor : block_executors_[year])
+      for (auto executor : block_executors_[year])
         executor->Execute();
     }
   }
 
-  for (ExecutorPtr executor : executors_[year])
+  for (auto executor : executors_[year])
     executor->Execute();
 }
 
 /**
  *
  */
-void TimeStep::SubscribeToBlock(ExecutorPtr executor) {
+void TimeStep::SubscribeToBlock(Executor* executor) {
   vector<unsigned> years = Model::Instance()->years();
   for (unsigned year : years)
     block_executors_[year].push_back(executor);
@@ -141,7 +141,7 @@ void TimeStep::SubscribeToBlock(ExecutorPtr executor) {
 /**
  *
  */
-ProcessPtr TimeStep::SubscribeToProcess(ExecutorPtr executor, unsigned year, string process_label) {
+Process* TimeStep::SubscribeToProcess(Executor* executor, unsigned year, string process_label) {
   LOG_TRACE();
 
   for (unsigned i = 0; i < processes_.size(); ++i) {
@@ -152,13 +152,13 @@ ProcessPtr TimeStep::SubscribeToProcess(ExecutorPtr executor, unsigned year, str
   }
 
   LOG_FATAL() << executor->location() << "the process could not be found in the time step " << label_;
-  return ProcessPtr();
+  return nullptr;
 }
 
 /**
  *
  */
-ProcessPtr TimeStep::SubscribeToProcess(ExecutorPtr executor, const vector<unsigned>& years, string process_label) {
+Process* TimeStep::SubscribeToProcess(Executor* executor, const vector<unsigned>& years, string process_label) {
   LOG_TRACE();
 
   for (unsigned i = 0; i < processes_.size(); ++i) {
@@ -170,7 +170,7 @@ ProcessPtr TimeStep::SubscribeToProcess(ExecutorPtr executor, const vector<unsig
   }
 
   LOG_FATAL() << executor->location() << "the process could not be found in the time step " << label_;
-  return ProcessPtr();
+  return nullptr;
 }
 
 /**
@@ -187,7 +187,7 @@ void TimeStep::BuildInitialisationProcesses() {
   LOG_TRACE();
   for (auto iter : initialisation_process_labels_) {
     for (string process_label : iter.second) {
-      ProcessPtr process = processes::Manager::Instance().GetProcess(process_label);
+      auto process = processes::Manager::Instance().GetProcess(process_label);
       if (!process)
         return;
       initialisation_processes_[iter.first].push_back(process);

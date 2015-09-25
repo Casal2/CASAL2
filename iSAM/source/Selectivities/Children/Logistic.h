@@ -30,7 +30,7 @@ class Logistic : public niwa::Selectivity {
 public:
   // Methods
   Logistic();
-  explicit Logistic(ModelPtr ptr);
+  explicit Logistic(Model* ptr);
   virtual                     ~Logistic() = default;
   void                        DoValidate() override final;
   void                        Reset() override final;

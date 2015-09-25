@@ -14,7 +14,7 @@ namespace timevarying {
  * Default constructor
  */
 Constant::Constant() : Constant(Model::Instance()) { }
-Constant::Constant(ModelPtr model) : TimeVarying(model) {
+Constant::Constant(Model* model) : TimeVarying(model) {
   parameters_.Bind<Double>(PARAM_VALUE, &value_, "Value to assign to estimable", "");
 }
 

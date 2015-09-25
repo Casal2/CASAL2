@@ -33,8 +33,6 @@ ProportionsAtLength::ProportionsAtLength() {
   parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "Year to execute in", "");
   parameters_.Bind<Double>(PARAM_DELTA, &delta_, "Delta", "", DELTA);
   parameters_.Bind<Double>(PARAM_PROCESS_ERRORS, &process_error_values_, "Process error", "", true);
-  obs_table_ = TablePtr(new parameters::Table(PARAM_OBS));
-  error_values_table_ = TablePtr(new parameters::Table(PARAM_ERROR_VALUES));
   parameters_.BindTable(PARAM_OBS, obs_table_, "Table of Observatons", "", false);
   parameters_.BindTable(PARAM_ERROR_VALUES, error_values_table_, "", "", false);
 }
@@ -58,7 +56,7 @@ void ProportionsAtLength::DoValidate() {
    * Do some simple checks
    * e.g Validate that the length_bins are strictly increasing
    */
-  ModelPtr model = Model::Instance();
+//  Model* model = Model::Instance();
   for(unsigned length = 0; length < length_bins_.size(); ++length) {
     if(length_bins_[length] < 0.0)
     if(length_bins_[length] > length_bins_[length + 1])
@@ -213,7 +211,7 @@ void ProportionsAtLength::DoBuild() {
  * structure to use with any interpolation
  */
 void ProportionsAtLength::PreExecute() {
-  ModelPtr model = Model::Instance();
+  Model* model = Model::Instance();
 
   cached_partition_->BuildCache();
 
@@ -231,7 +229,7 @@ void ProportionsAtLength::Execute() {
   /**
    * Verify our cached partition and partition sizes are correct
    */
-  ModelPtr model = Model::Instance();
+  Model* model = Model::Instance();
   auto cached_partition_iter  = cached_partition_->Begin();
   auto partition_iter         = partition_->Begin(); // vector<vector<partition::Category> >
 

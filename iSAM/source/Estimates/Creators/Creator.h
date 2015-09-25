@@ -27,7 +27,7 @@ class Manager;
 /**
  *
  */
-class Creator : public niwa::base::Object, public std::enable_shared_from_this<Creator> {
+class Creator : public niwa::base::Object {
 public:
   // methods
   Creator();
@@ -39,9 +39,9 @@ public:
 
 protected:
   // methods
-  niwa::EstimatePtr           CreateEstimate(string parameter, unsigned index, Double* target);
-  void                        CopyParameters(niwa::EstimatePtr estimate, unsigned index);
-  virtual void                DoCopyParameters(niwa::EstimatePtr estimate, unsigned index) = 0;
+  niwa::Estimate*             CreateEstimate(string parameter, unsigned index, Double* target);
+  void                        CopyParameters(niwa::Estimate* estimate, unsigned index);
+  virtual void                DoCopyParameters(niwa::Estimate* estimate, unsigned index) = 0;
 
   // members
   string                      parameter_;
@@ -53,9 +53,6 @@ protected:
   string                      mcmc_;
   vector<string>              transformation_details_;
 };
-
-// typedef
-typedef std::shared_ptr<Creator> CreatorPtr;
 
 } /* namespace estimates */
 } /* namespace niwa */

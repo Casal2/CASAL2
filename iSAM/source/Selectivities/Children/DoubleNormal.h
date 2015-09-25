@@ -30,7 +30,7 @@ class DoubleNormal : public niwa::Selectivity {
 public:
   // Methods
   DoubleNormal();
-  explicit DoubleNormal(ModelPtr model);
+  explicit DoubleNormal(Model* model);
   virtual                     ~DoubleNormal() = default;
   void                        DoValidate() override final;
   void                        Reset() override final;

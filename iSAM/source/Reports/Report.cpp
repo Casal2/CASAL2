@@ -39,6 +39,7 @@ Report::Report() {
   parameters_.Bind<string>(PARAM_TYPE, &type_, "Type", "");
   parameters_.Bind<string>(PARAM_FILE_NAME, &file_name_, "File Name", "", "");
   parameters_.Bind<bool>(PARAM_OVERWRITE, &overwrite_, "Overwrite file", "", true);
+  parameters_.Bind<bool>(PARAM_SEQUENTIALLY_ADD, &sequentially_add_, "Sequentially add a suffix to the file", "", false);
 }
 
 /**
@@ -74,7 +75,9 @@ bool Report::HasYear(unsigned year) {
 }
 
 /**
- *
+ * The prepare method is called once before the model is run. It's done
+ * post-build in the model and will allow the report to check if
+ * the file it wants to write to exists etc.
  */
 void Report::Prepare() {
   Report::lock_.lock();
@@ -101,10 +104,14 @@ void Report::Finalise() {
 };
 
 /**
- * Flush the contents of the cache to the file or fisk.
+ * Flush the contents of the cache to the file or stdout/stderr
  */
 void Report::FlushCache() {
   Report::lock_.lock();
+
+  /**
+   * Are we writing to a file?
+   */
   if (file_name_ != "") {
     string suffix = reports::Manager::Instance().report_suffix();
 

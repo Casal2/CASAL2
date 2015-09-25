@@ -38,9 +38,5 @@ public:
   // accessors
   virtual Double              mean_weight(Double size, const string &distribution, Double cv) const = 0;
 };
-
-// typedef
-typedef std::shared_ptr<LengthWeight> LengthWeightPtr;
-
 } /* namespace niwa */
 #endif /* LENGTHWEIGHT_H_ */

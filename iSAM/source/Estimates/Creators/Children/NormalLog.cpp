@@ -27,7 +27,7 @@ NormalLog::NormalLog() {
 /**
  *
  */
-void NormalLog::DoCopyParameters(niwa::EstimatePtr estimate, unsigned index) {
+void NormalLog::DoCopyParameters(niwa::Estimate* estimate, unsigned index) {
   estimate->parameters().CopyFrom(parameters_, PARAM_MU, index);
   estimate->parameters().CopyFrom(parameters_, PARAM_SIGMA, index);
 }

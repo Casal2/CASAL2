@@ -29,7 +29,7 @@ public:
   void                        Build() override final;
   void                        Execute(unsigned year);
   void                        ExecuteInitialisation(const string& phase_label, unsigned years);
-  TimeStepPtr                 GetTimeStep(const string& label) const;
+  TimeStep*                   GetTimeStep(const string& label) const;
   void                        Clear() override final { objects_.clear(); ordered_time_steps_.clear(); derived_quantities_.clear(); }
   unsigned                    GetTimeStepIndex(const string& time_step_label) const;
   unsigned                    GetTimeStepIndexForProcess(const string& process_label) const;
@@ -38,7 +38,7 @@ public:
   vector<ProcessType>         GetOrderedProcessTypes();
 
   // accessors
-  const vector<TimeStepPtr>&  ordered_time_steps() const { return ordered_time_steps_; }
+  const vector<TimeStep*>&    ordered_time_steps() const { return ordered_time_steps_; }
   virtual unsigned            current_time_step() const { return current_time_step_; }
 
 protected:
@@ -47,8 +47,8 @@ protected:
 
 private:
   // Members
-  vector<TimeStepPtr>         ordered_time_steps_;
-  vector<DerivedQuantityPtr>  derived_quantities_;
+  vector<TimeStep*>           ordered_time_steps_;
+  vector<DerivedQuantity*>    derived_quantities_;
   unsigned                    current_time_step_ = 0;
 };
 

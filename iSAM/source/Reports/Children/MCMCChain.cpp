@@ -36,8 +36,8 @@ MCMCChain::~MCMCChain() noexcept(true) {
  *    Print out Chain after each iteration
  */
 void MCMCChain::DoExecute() {
-  MCMCPtr mcmc = mcmcs::Manager::Instance().active_mcmc();
-  vector<mcmc::ChainLink> chain = mcmc->chain();
+  MCMC* mcmc = mcmcs::Manager::Instance().active_mcmc();
+  auto chain = mcmc->chain();
 
   if (chain.size() == 2) {
     cache_ << "*" << label_ << " " << "(" << type_ << ")" << "\n";

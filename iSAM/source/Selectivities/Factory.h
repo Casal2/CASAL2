@@ -27,7 +27,7 @@ namespace selectivities {
 class Factory {
 public:
   // methods
-  static SelectivityPtr Create(const string& object_type, const string& sub_type);
+  static Selectivity* Create(const string& object_type, const string& sub_type);
 
 private:
   // methods

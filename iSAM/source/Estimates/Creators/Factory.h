@@ -27,7 +27,7 @@ namespace creators {
 class Factory {
 public:
   // methods
-  static CreatorPtr Create(const string& object_type, const string& sub_type);
+  static Creator*             Create(const string& object_type, const string& sub_type);
 
 private:
   // methods

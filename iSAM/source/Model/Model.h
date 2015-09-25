@@ -26,6 +26,7 @@
 namespace niwa {
 
 using std::shared_ptr;
+using base::Executor;
 class Managers;
 class Objects;
 
@@ -59,14 +60,15 @@ inline PartitionStructure operator&(PartitionStructure a, PartitionStructure b) 
 /**
  * Class definition
  */
-class Model : public base::Object, public std::enable_shared_from_this<Model> {
+class Model : public base::Object {
 public:
   // Methods
-  static shared_ptr<Model>    Instance(bool force_new = false);
+  Model();
+  static Model*               Instance(bool force_new = false);
   virtual                     ~Model();
   bool                        Start(RunMode::Type run_mode);
   void                        FullIteration();
-  void                        Subscribe(State::Type state, ExecutorPtr executor) { executors_[state].push_back(executor); }
+  void                        Subscribe(State::Type state, Executor* executor) { executors_[state].push_back(executor); }
 
   // Accessors
   RunMode::Type               run_mode() const { return run_mode_; }
@@ -92,7 +94,6 @@ public:
 
 protected:
   // Methods
-  Model();
   void                        Validate();
   void                        Build();
   void                        Verify();
@@ -123,15 +124,10 @@ protected:
   unsigned                    estimable_values_count_ = 1;
   PartitionStructure          partition_structure_ = PartitionStructure::kInvalid;
 
-  map<State::Type, vector<ExecutorPtr>> executors_;
+  map<State::Type, vector<Executor*>> executors_;
   Managers*                   managers_;
   Objects*                    objects_;
 };
-
-/**
- * Typedef
- */
-typedef std::shared_ptr<Model> ModelPtr;
 
 } /* namespace niwa */
 #endif /* MODEL_H_ */

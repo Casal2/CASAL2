@@ -29,17 +29,14 @@ Manager::Manager() {
 /**
  *
  */
-SelectivityPtr Manager::GetSelectivity(const string& label) {
-  SelectivityPtr result;
-
-  for(SelectivityPtr selectivity : objects_) {
+Selectivity* Manager::GetSelectivity(const string& label) {
+  for(auto selectivity : objects_) {
     if (selectivity->label() == label) {
-      result = selectivity;
-      break;
+      return selectivity;
     }
   }
 
-  return result;
+  return nullptr;
 }
 
 } /* namespace selectivities */

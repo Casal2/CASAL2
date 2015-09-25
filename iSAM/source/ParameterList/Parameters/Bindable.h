@@ -62,7 +62,7 @@ private:
   T*                          target_;
   T                           default_value_;
   vector<T>                   allowed_values_;
-  Bindable::Range             range_;
+  Range						            range_;
 };
 
 } /* namespace parameters */

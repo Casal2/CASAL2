@@ -29,7 +29,7 @@ public:
   // methods
   Beta();
   virtual                     ~Beta() = default;
-  void                        DoCopyParameters(niwa::EstimatePtr estimate, unsigned index) override final;
+  void                        DoCopyParameters(niwa::Estimate* estimate, unsigned index) override final;
 
 private:
   // members

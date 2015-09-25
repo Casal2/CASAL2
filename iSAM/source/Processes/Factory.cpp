@@ -41,55 +41,58 @@ namespace processes {
  * @param sub_type The child type of the object to create (e.g ageing, schnute)
  * @return shared_ptr to the object we've created
  */
-ProcessPtr Factory::Create(string object_type, string sub_type) {
-  ProcessPtr result;
+Process* Factory::Create(const string& object_type, const string& sub_type) {
+  Process* result = nullptr;
+
+  string object = object_type;
+  string sub    = sub_type;
 
   /**
    * If object_type is not "process" or "processes" then we're using a special
    * declaration (e.g @maturation) and we want to modify this back to the standard
    * method so we only need 1 set of conditional statements.
    */
-  if (object_type != PARAM_PROCESS && object_type != PARAM_PROCESSES) {
-    LOG_FINE() << "Changing object_type (" << object_type << ") and sub_type (" << ") to the standard declaration format";
-    if (sub_type != "")
-      sub_type = object_type + "_" + sub_type;
+  if (object != PARAM_PROCESS && object != PARAM_PROCESSES) {
+    LOG_FINE() << "Changing object_type (" << object << ") and sub_type (" << ") to the standard declaration format";
+    if (sub != "")
+      sub = object_type + "_" + sub_type;
     else
-      sub_type = object_type;
+      sub = object_type;
 
-    object_type = PARAM_PROCESS;
+    object = PARAM_PROCESS;
 
-    LOG_FINE() << "Finished modification of object_type (" << object_type << ") and sub_type (" << sub_type << ")";
+    LOG_FINE() << "Finished modification of object_type (" << object << ") and sub_type (" << sub << ")";
   }
 
-  if (object_type == PARAM_PROCESS || object_type == PARAM_PROCESSES) {
-    if (sub_type == PARAM_AGEING)
-      result = ProcessPtr(new Ageing());
-    else if (sub_type == PARAM_GROWTH)
-      result = ProcessPtr(new Growth());
-    else if (sub_type == PARAM_RECRUITMENT_BEVERTON_HOLT)
-      result = ProcessPtr(new RecruitmentBevertonHolt());
-    else if (sub_type == PARAM_RECRUITMENT_CONSTANT)
-      result = ProcessPtr(new RecruitmentConstant());
-    else if (sub_type == PARAM_MATURATION)
-      result = ProcessPtr(new Maturation());
-    else if (sub_type == PARAM_MATURATION_RATE)
-      result = ProcessPtr(new MaturationRate());
-    else if (sub_type == PARAM_MORTALITY_CONSTANT_RATE)
-      result = ProcessPtr(new MortalityConstantRate());
-    else if (sub_type == PARAM_MORTALITY_EVENT)
-      result = ProcessPtr(new MortalityEvent());
-    else if (sub_type == PARAM_MORTALITY_EVENT_BIOMASS)
-      result = ProcessPtr(new MortalityEventBiomass());
-    else if (sub_type == PARAM_MORTALITY_INSTANTANEOUS)
-      result = ProcessPtr(new MortalityInstantaneous());
-    else if (sub_type == PARAM_NOP)
-      result = ProcessPtr(new Nop());
-    else if (sub_type == PARAM_TAG_BY_AGE)
-      result = ProcessPtr(new TagByAge());
-    else if (sub_type == PARAM_TAG_BY_LENGTH)
-      result = ProcessPtr(new TagByLength());
-    else if (sub_type == PARAM_TRANSITION_CATEGORY_BY_AGE)
-      result = ProcessPtr(new TransitionCategoryByAge());
+  if (object == PARAM_PROCESS || object == PARAM_PROCESSES) {
+    if (sub == PARAM_AGEING)
+      result = new Ageing();
+    else if (sub == PARAM_GROWTH)
+      result = new Growth();
+    else if (sub == PARAM_RECRUITMENT_BEVERTON_HOLT)
+      result = new RecruitmentBevertonHolt();
+    else if (sub == PARAM_RECRUITMENT_CONSTANT)
+      result = new RecruitmentConstant();
+    else if (sub == PARAM_MATURATION)
+      result = new Maturation();
+    else if (sub == PARAM_MATURATION_RATE)
+      result = new MaturationRate();
+    else if (sub == PARAM_MORTALITY_CONSTANT_RATE)
+      result = new MortalityConstantRate();
+    else if (sub == PARAM_MORTALITY_EVENT)
+      result = new MortalityEvent();
+    else if (sub == PARAM_MORTALITY_EVENT_BIOMASS)
+      result = new MortalityEventBiomass();
+    else if (sub == PARAM_MORTALITY_INSTANTANEOUS)
+      result = new MortalityInstantaneous();
+    else if (sub == PARAM_NOP)
+      result = new Nop();
+    else if (sub == PARAM_TAG_BY_AGE)
+      result = new TagByAge();
+    else if (sub == PARAM_TAG_BY_LENGTH)
+      result = new TagByLength();
+    else if (sub == PARAM_TRANSITION_CATEGORY_BY_AGE)
+      result = new TransitionCategoryByAge();
 
     if (result)
       processes::Manager::Instance().AddObject(result);

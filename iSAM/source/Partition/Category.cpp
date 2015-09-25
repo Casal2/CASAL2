@@ -24,10 +24,10 @@ namespace partition {
  * data from the age data.
  */
 void Category::UpdateMeanLengthData() {
-  CategoriesPtr categories = Categories::Instance();
+  Categories* categories = Categories::Instance();
   unsigned year = Model::Instance()->current_year();
 
-  AgeLengthPtr age_length = categories->age_length(name_);
+  AgeLength* age_length = categories->age_length(name_);
   age_length->BuildCV(year);
   for (unsigned age = min_age_; age <= max_age_; ++age)
     mean_length_per_[age] = age_length->mean_length(year, age);
@@ -40,10 +40,10 @@ void Category::UpdateMeanLengthData() {
  */
 
 void Category::UpdateMeanWeightData() {
-  CategoriesPtr categories = Categories::Instance();
+  Categories* categories = Categories::Instance();
   unsigned year = Model::Instance()->current_year();
 
-  AgeLengthPtr age_length = categories->age_length(name_);
+  AgeLength* age_length = categories->age_length(name_);
   age_length->BuildCV(year);
   for (unsigned age = min_age_; age <= max_age_; ++age)
     mean_weight_per_[age] = age_length->mean_weight(year, age);
@@ -72,12 +72,12 @@ void Category::CollapseAgeLengthData() {
  * @param plus_grp whether the last length bin is a plus group
  * @param selectivity Selectivity Pointer
  */
-void Category::UpdateAgeLengthData(const vector<Double>& length_bins, bool plus_grp, SelectivityPtr selectivity) {
+void Category::UpdateAgeLengthData(const vector<Double>& length_bins, bool plus_grp, Selectivity* selectivity) {
   LOG_TRACE();
 
-  CategoriesPtr categories = Categories::Instance();
+  Categories* categories = Categories::Instance();
   unsigned year = Model::Instance()->current_year();
-  AgeLengthPtr age_length = categories->age_length(name_);
+  AgeLength* age_length = categories->age_length(name_);
   if (!age_length)
     LOG_CODE_ERROR() << "if (!age_length) for category " << name_;
   age_length->BuildCV(year);

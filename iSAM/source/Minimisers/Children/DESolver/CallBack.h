@@ -39,7 +39,7 @@ public:
 
 private:
   // Members
-  ModelPtr                    model_;
+  Model*                    model_;
 };
 
 } /* namespace desolver */

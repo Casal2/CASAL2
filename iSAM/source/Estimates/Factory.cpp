@@ -37,24 +37,24 @@ namespace estimates {
  * @param sub_type The child type of the object to create (e.g ageing, schnute)
  * @return shared_ptr to the object we've created
  */
-EstimatePtr Factory::Create(const string& object_type, const string& sub_type) {
-  EstimatePtr result;
+Estimate* Factory::Create(const string& object_type, const string& sub_type) {
+  Estimate* result = nullptr;
 
   if (object_type == PARAM_ESTIMATE) {
     if (sub_type == PARAM_BETA)
-      result = EstimatePtr(new Beta());
+      result = new Beta();
     else if (sub_type == PARAM_LOGNORMAL)
-      result = EstimatePtr(new Lognormal());
+      result = new Lognormal();
     else if (sub_type == PARAM_NORMAL)
-      result = EstimatePtr(new Normal());
+      result = new Normal();
     else if (sub_type == PARAM_NORMAL_BY_STDEV)
-      result = EstimatePtr(new NormalByStdev());
+      result = new NormalByStdev();
     else if (sub_type == PARAM_NORMAL_LOG)
-      result = EstimatePtr(new NormalLog());
+      result = new NormalLog();
     else if (sub_type == PARAM_UNIFORM)
-      result = EstimatePtr(new Uniform());
+      result = new Uniform();
     else if (sub_type == PARAM_UNIFORM_LOG)
-      result = EstimatePtr(new UniformLog());
+      result = new UniformLog();
 
     if (result)
       niwa::estimates::Manager::Instance().AddObject(result);

@@ -74,9 +74,6 @@ protected:
   bool                        is_optional_ = false;
 };
 
-// typedef
-typedef std::shared_ptr<Parameter> ParameterPtr;
-
 } /* namespace parameterlist */
 } /* namespace niwa */
 

@@ -30,7 +30,7 @@ public:
   virtual                     ~Manager() noexcept(true);
 //  void                        PreExecute(unsigned year, const string& time_step);
 //  void                        Execute(unsigned year, const string& time_step);
-  ObservationPtr              GetObservation(const string& label);
+  Observation*                GetObservation(const string& label);
   void                        CalculateScores();
 
 protected:

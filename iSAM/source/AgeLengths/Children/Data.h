@@ -28,7 +28,7 @@ class Data : public AgeLength {
 public:
   // methods
   Data();
-  explicit Data(ModelPtr model);
+  explicit Data(Model* model);
   virtual                     ~Data() = default;
   void                        DoValidate() override final {};
   void                        DoBuild() override final;
@@ -42,13 +42,13 @@ private:
   void                        FillInternalGaps();
 
   // members
-  parameters::TablePtr          data_table_;
+  parameters::Table*            data_table_;
   string                        external_gaps_;
   string                        internal_gaps_;
   map<unsigned, vector<Double>> data_by_year_;
   vector<Double>                means_;
   string                        length_weight_label_;
-  LengthWeightPtr               length_weight_;
+  const LengthWeight*           length_weight_;
 };
 
 } /* namespace agelengths */

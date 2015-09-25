@@ -29,7 +29,7 @@ class TimeVarying : public niwa::base::Object {
 public:
   // methods
   TimeVarying() = delete;
-  explicit TimeVarying(ModelPtr model);
+  explicit TimeVarying(Model* model);
   virtual                     ~TimeVarying() = default;
   void                        Validate();
   void                        Build();
@@ -53,7 +53,7 @@ protected:
   UpdateFunction              update_function_ = 0;
 
   // members
-  ModelPtr                    model_;
+  Model*                    model_;
   string                      type_ = "";
   vector<unsigned>            years_;
   string                      parameter_;

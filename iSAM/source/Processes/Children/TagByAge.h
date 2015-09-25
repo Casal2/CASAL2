@@ -41,7 +41,7 @@ public:
 
 private:
   // members
-  ModelPtr                      model_;
+  Model*                        model_;
   vector<string>                from_category_labels_;
   vector<string>                to_category_labels_;
   accessor::Categories          to_partition_;
@@ -50,20 +50,20 @@ private:
   unsigned                      min_age_ = 0;
   unsigned                      max_age_ = 0;
   vector<string>                selectivity_labels_;
-  map<string, SelectivityPtr>   selectivities_;
+  map<string, Selectivity*>     selectivities_;
   string                        penalty_label_ = "";
-  PenaltyPtr                    penalty_;
+  Penalty*                      penalty_;
   Double                        u_max_ = 0;
   Double                        initial_mortality_ = 0;
   string                        initial_mortality_selectivity_label_ = "";
-  SelectivityPtr                initial_mortality_selectivity_;
+  Selectivity*                  initial_mortality_selectivity_;
   vector<Double>                loss_rate_;
   map<string, Double>           loss_rate_by_category_;
   vector<string>                loss_rate_selectivity_labels_;
-  map<string, SelectivityPtr>   loss_rate_selectivity_by_category_;
+  map<string, Selectivity*>     loss_rate_selectivity_by_category_;
   vector<Double>                n_;
-  parameters::TablePtr          numbers_table_;
-  parameters::TablePtr          proportions_table_;
+  parameters::Table*            numbers_table_;
+  parameters::Table*            proportions_table_;
   unsigned                      first_year_ = 0;
   map<unsigned, vector<Double>> numbers_;
 };

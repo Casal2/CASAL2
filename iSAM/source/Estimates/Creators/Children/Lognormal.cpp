@@ -27,7 +27,7 @@ Lognormal::Lognormal() {
 /**
  *
  */
-void Lognormal::DoCopyParameters(niwa::EstimatePtr estimate, unsigned index) {
+void Lognormal::DoCopyParameters(niwa::Estimate* estimate, unsigned index) {
   estimate->parameters().CopyFrom(parameters_, PARAM_MU, index);
   estimate->parameters().CopyFrom(parameters_, PARAM_CV, index);
 }

@@ -38,7 +38,7 @@ PartitionMeanWeight::PartitionMeanWeight() {
  */
 void PartitionMeanWeight::DoExecute() {
 
-  CategoriesPtr categories = Categories::Instance();
+//  auto categories = Categories::Instance();
   niwa::partition::accessors::All all_view;
 
   /*

@@ -24,7 +24,7 @@ namespace derivedquantities {
 class Factory {
 public:
   // methods
-  static DerivedQuantityPtr Create(const string& object_type, const string& sub_type);
+  static DerivedQuantity*     Create(const string& object_type, const string& sub_type);
 
 private:
   // methods

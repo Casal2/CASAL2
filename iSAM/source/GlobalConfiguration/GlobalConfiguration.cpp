@@ -36,11 +36,11 @@ GlobalConfiguration::GlobalConfiguration() {
 /**
  * Standard singletone instance method
  *
- * @return static shared_ptr<> to the instance
+ * @return static pointer to the instance
  */
-shared_ptr<GlobalConfiguration> GlobalConfiguration::Instance() {
-  static GlobalConfigurationPtr instance = GlobalConfigurationPtr(new GlobalConfiguration());
-  return instance;
+GlobalConfiguration* GlobalConfiguration::Instance() {
+  static GlobalConfiguration instance;
+  return &instance;
 }
 
 /**

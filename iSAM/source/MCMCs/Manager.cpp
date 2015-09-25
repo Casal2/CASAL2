@@ -20,7 +20,7 @@ namespace mcmcs {
  *
  */
 void Manager::Validate() {
-  for (MCMCPtr mcmc : objects_)
+  for (auto mcmc : objects_)
     mcmc->Validate();
 }
 
@@ -28,14 +28,14 @@ void Manager::Validate() {
  *
  */
 void Manager::Build() {
-  for (MCMCPtr mcmc : objects_)
+  for (auto mcmc : objects_)
     mcmc->Build();
 
   if (objects_.size() == 1)
     mcmc_ = objects_[0];
   else if (objects_.size() > 1) {
-    vector<MCMCPtr> active_mcmcs;
-    for (MCMCPtr mcmc : objects_) {
+    vector<MCMC*> active_mcmcs;
+    for (auto mcmc : objects_) {
       if (mcmc->active())
         active_mcmcs.push_back(mcmc);
     }

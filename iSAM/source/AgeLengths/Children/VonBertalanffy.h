@@ -27,7 +27,7 @@ class VonBertalanffy : public niwa::AgeLength {
 public:
   // methods
   VonBertalanffy();
-  explicit VonBertalanffy(ModelPtr model);
+  explicit VonBertalanffy(Model* model);
   virtual                     ~VonBertalanffy() = default;
   void                        DoValidate() override final { };
   void                        DoBuild() override final;
@@ -45,7 +45,7 @@ protected:
   Double                      t0_;
   bool                        by_length_;
   string                      length_weight_label_;
-  LengthWeightPtr             length_weight_;
+  LengthWeight*               length_weight_;
 };
 
 } /* namespace agelengths */

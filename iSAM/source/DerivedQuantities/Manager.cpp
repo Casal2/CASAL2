@@ -21,14 +21,14 @@ namespace derivedquantities {
  * @param label The label of the derived quantity
  * @return pointer to quantity, or empty pointer if not found
  */
-DerivedQuantityPtr Manager::GetDerivedQuantity(const string& label) {
-  for (DerivedQuantityPtr quantity : objects_) {
+DerivedQuantity* Manager::GetDerivedQuantity(const string& label) {
+  for (auto quantity : objects_) {
     if (quantity->label() == label)
       return quantity;
   }
 
   LOG_WARNING() << "Returning an empty derived quantity because none was found";
-  return DerivedQuantityPtr();
+  return nullptr;
 }
 
 } /* namespace derivedquantities */

@@ -98,12 +98,6 @@ protected:
   DISALLOW_COPY_AND_ASSIGN(Object);
 };
 
-/**
- * Typedef
- */
-typedef std::shared_ptr<niwa::base::Object> ObjectPtr;
-
-
 } /* namespace base */
 } /* namespace niwa */
 #endif /* BASE_OBJECT_H_ */

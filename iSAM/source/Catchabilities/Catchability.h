@@ -39,8 +39,5 @@ public:
   virtual Double              q() const = 0;
 };
 
-// Typdef
-typedef std::shared_ptr<niwa::Catchability> CatchabilityPtr;
-
 } /* namespace niwa */
 #endif /* CATCHABILITY_H_ */

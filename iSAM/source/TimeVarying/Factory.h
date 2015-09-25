@@ -27,7 +27,7 @@ namespace timevarying {
 class Factory {
 public:
   // methods
-  static TimeVaryingPtr Create(const string& object_type, const string& sub_type);
+  static TimeVarying* Create(const string& object_type, const string& sub_type);
 
 private:
   // methods

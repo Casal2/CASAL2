@@ -30,7 +30,7 @@ class Increasing : public niwa::Selectivity {
 public:
   // Methods
   Increasing();
-  explicit Increasing(ModelPtr model);
+  explicit Increasing(Model* model);
   virtual                     ~Increasing() = default;
   void                        DoValidate() override final;
   void                        Reset() override final;
