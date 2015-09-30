@@ -52,9 +52,9 @@ TEST_F(BasicModel, Processes_Category_Transition_Constant_One_Selectivity) {
   vector<string> from_categories   = { "immature.male", "immature.female" };
   vector<string> to_categories = { "mature.male", "mature.female" };
   vector<string> maturation_proportions = { "0.6", "0.5" };
-  process = processes::Factory::Create(PARAM_CATEGORY_TRANSITION, PARAM_RATE);
+  process = processes::Factory::Create(PARAM_PROCESS, PARAM_CATEGORY_TRANSITION);
   process->parameters().Add(PARAM_LABEL, "maturation", __FILE__, __LINE__);
-  process->parameters().Add(PARAM_TYPE, "rate", __FILE__, __LINE__);
+  process->parameters().Add(PARAM_TYPE, "category_transition", __FILE__, __LINE__);
   process->parameters().Add(PARAM_FROM, from_categories, __FILE__, __LINE__);
   process->parameters().Add(PARAM_TO, to_categories, __FILE__, __LINE__);
   process->parameters().Add(PARAM_SELECTIVITIES, "constant_one", __FILE__, __LINE__);

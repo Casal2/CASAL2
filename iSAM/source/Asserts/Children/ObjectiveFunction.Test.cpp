@@ -79,8 +79,8 @@ U_max 0.99
 selectivities FishingSel FishingSel FishingSel FishingSel
 penalty event_mortality_penalty
 
-@maturation maturation
-type rate
+@process maturation
+type category_transition
 from stage=immature
 to stage=mature
 proportions 1.0 1.0
@@ -213,8 +213,8 @@ U_max 0.99
 selectivities FishingSel FishingSel FishingSel FishingSel
 penalty event_mortality_penalty
 
-@maturation maturation
-type rate
+@process maturation
+type category_transition
 from stage=immature
 to stage=mature
 proportions 1.0 1.0
