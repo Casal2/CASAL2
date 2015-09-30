@@ -1,6 +1,6 @@
 \documentclass[a4paper,11pt,twoside,pdftex]{article}
 
-\title{\iSAMName\ User Manual \\\iSAM\ \VER} %Document title
+\title{\Huge\textbf{\CAS} \Large \\\CASName \\\CAS\ \VER} %Document title
 \author{A. Dunn, I. Doonan, S. Rasmussen, K. Large} %Document authors %check this
 \date{\DocDate} %Date of publication
 
@@ -20,9 +20,9 @@
 % EXAMPLE: \href{http://www.niwa.co.nz}{NIWA}
 \usepackage[bookmarks=true,bookmarksopen=false,bookmarksnumbered=true,
             pdfpagelayout=TwoPageRight,
-            pdftitle={C++ algorithmic stock assessment laboratory 2 (CASAL2) Users Manual}, %title to be confimed
+            pdftitle={C++ algorithmic stock assessment laboratory 2 (CASAL2) User Manual}, %title to be confimed
             pdfauthor={Alistair Dunn, Ian Doonan, Scott Rasmussen, Kath Large} %author list required
-            pdfsubject={Stock Assessment Model Users manual},
+            pdfsubject={Stock Assessment Model User manual},
             pdftex]{hyperref}
 \hypersetup{
   breaklinks=true,      % allow line breaks in URLs
@@ -199,7 +199,7 @@ escapeinside={\%*}{*)}          % if you want to add a comment within your code
 \newcommand{\defUpperBound}[1]{\defText{Upper Bound:}{#1}}
 \newcommand{\defAllowedValues}[1]{\defText{Allowed Values:}{#1}}
 
-% Input iSAM version definitions
+% Input CASAL2 version definitions
 \input{Version.tex}
 \newcommand{\DocYear}{\SourceControlYearDoc}
 \newcommand{\DocMonth}{\SourceControlMonthDoc}
@@ -207,17 +207,15 @@ escapeinside={\%*}{*)}          % if you want to add a comment within your code
 \newcommand{\DocVer}{\SourceControlDateDoc}
 
 %New commands to automate document dates, manual titles, document reference, etc.
-%iSAM cannot be used officially, so new name required!!! WHAT IS IT!
-%for now \iSAM is {iSAM}, \iSAMName is {Stock Assessment Model}
-%\iSAM and \iSAMName will not change, but {} will.
-\newcommand{\VER}{\SourceControlShortVersionDoc} % SAM program version
-\newcommand{\iSAM}{\texttt{CASAL2}} % SAM short name
-\newcommand{\isam}{\texttt{casal2}} % sam prefix/suffix
-\newcommand{\iSAMName}{C++ Algorithmic Stock Assessment Laboratory} %SAM long name
+\newcommand{\VER}{\SourceControlShortVersionDoc} % CASAL2 program version
+\newcommand{\CAS}{$\texttt{CASAL}^{\texttt{2}}$} % CASAL2 short name
+\newcommand{\cas}{$\texttt{casal}^{\texttt{2}}$} % CASAL2 prefix/suffix
+\newcommand{\CASName}{C++ Stock Assessment Laboratory} %CASAL2 long name
+
 \newcommand{\authors}{\href{mailto:"Alistair Dunn"<alistair.dunn@niwa.co.nz>?subject=SAM:}{authors}} %check this
 %hyper ref for email
 \newcommand{\Organisation}{National Institute of Water \& Atmospheric Research Ltd.} %NIWA
-\newcommand{\ManualRef}{Dunn A., Doonan I., Rasmussen S., Large, K. (\DocYear) \iSAMName\ User Manual, \iSAM\ \VER. \Organisation\ \emph{Unpublished report}. \ref{TotPages} p.} % full document reference
+\newcommand{\ManualRef}{Dunn A., Doonan I., Rasmussen S., Large, K. (\DocYear) \CASName\ User Manual, \CAS\ \VER. \Organisation\ \emph{Unpublished report}. \ref{TotPages} p.} % full document reference
 
 % Define \clearemptydoublepage so-as to have truly blank pages between sections
 \let\origdoublepage\cleardoublepage
@@ -238,42 +236,24 @@ escapeinside={\%*}{*)}          % if you want to add a comment within your code
 
 
 % Title page
-\pdfbookmark[1]{iSAM Users Manual}{title}
+\pdfbookmark[1]{CASAL2 Users Manual}{title}
 \pagenumbering{alph} % alpha not used, but used to remove warnings when page 1 is re-defined below
 \maketitle
 \thispagestyle{empty} % no header/footer/page number on this page
 
-% This is a rattail and will be replaced by Erika's logo
-% As will the text in box that follows...
+%logo = we still need one!
+\vspace{30mm}
 \begin{figure}[htp]
   \begin{center}
-   \includegraphics[angle=50,height=4cm,width=3cm]{Figures/rattail}
-  \end{center}
+   %\includegraphics[angle=50,height=4cm,width=3cm]{Figures/rattail}
+   \includegraphics[height=7cm,width=9cm]{Figures/nemo}
+   \end{center}
 \end{figure}
 
-% Some text to explain where KL at so far
-% Define box style
-%\global\mdfdefinestyle{defKL}{%
-%linecolor=black,linewidth=4pt,%
-%leftmargin=1cm,rightmargin=1cm, %
-%backgroundcolor=lightgray
-%}
-% Text in box
-%\begin{mdframed}[style=defKL]
-%\iSAM\ logo being developed by Erika MacKay.\\\\
-%SAM\ name tbd.\\\\
-%Confirmation of structure and contents order is required in the first instance.\\\\
-%Documentation copied and adapted from CASAL and SPM manuals - requres discussion, checking and rewriting.\\\\
-%Chapters for command and subcommand syntax are auto-generated 
-%from the \iSAM\ code for Population, Estimation, Observation and
-%Report sections.\\\\
-%Version.tex file required to auto-update version date/time/number.
-%\end{mdframed}
-% End of text in box
 
 ~\vfill
 \begin{center}
-  \iSAMName\ User Manual (modified: \DocVer) \\ for use with \iSAM\ \VER
+  \CASName\ User Manual (modified: \DocVer) \\ for use with \CAS\ \VER
 \end{center}
 
 
@@ -292,8 +272,7 @@ $\vcenter{Citation: \ManualRef}$
 % Table of contents
 \clearemptydoublepage{}
 \pdfbookmark[1]{Contents}{contents}
-\CH
-\KL 4th level included for planning purposes, will be removed when order of contents confimed. \KLend
+
 \begin{spacing}{0.8} % Reduce space between lines in contents list
 \tableofcontents
 \end{spacing}
