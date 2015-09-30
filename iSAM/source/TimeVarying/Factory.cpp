@@ -14,6 +14,7 @@
 
 #include "TimeVarying/Children/AnnualShift.h"
 #include "TimeVarying/Children/Constant.h"
+#include "TimeVarying/Children/Exogenous.h"
 #include "TimeVarying/Manager.h"
 
 // namespaces
@@ -36,6 +37,8 @@ TimeVaryingPtr Factory::Create(const string& object_type, const string& sub_type
       result = TimeVaryingPtr(new AnnualShift());
     else if (sub_type == PARAM_CONSTANT)
       result = TimeVaryingPtr(new Constant());
+    else if (sub_type == PARAM_EXOGENOUS)
+      result = TimeVaryingPtr(new Exogenous());
 
     if (result)
       timevarying::Manager::Instance().AddObject(result);

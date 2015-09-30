@@ -136,7 +136,7 @@ void ProportionsAtAge::DoValidate() {
         LOG_ERROR_P(PARAM_ERROR_VALUES) << " value (" << error_values_data_line[i] << ") could not be converted to a double";
       if (likelihood_type_ == PARAM_LOGNORMAL && value <= 0.0) {
         LOG_ERROR_P(PARAM_ERROR_VALUES) << ": error_value (" << AS_DOUBLE(value) << ") cannot be equal to or less than 0.0";
-      } else if (likelihood_type_ == PARAM_MULTINOMIAL && value < 0.0) {
+      } else if ((likelihood_type_ == PARAM_MULTINOMIAL && value < 0.0) || (likelihood_type_ == PARAM_DIRICHLET && value < 0.0)) {
         LOG_ERROR_P(PARAM_ERROR_VALUES) << ": error_value (" << AS_DOUBLE(value) << ") cannot be less than 0.0";
       }
 
@@ -152,9 +152,9 @@ void ProportionsAtAge::DoValidate() {
   /**
    * Validate likelihood type
    */
-  if (likelihood_type_ != PARAM_LOGNORMAL && likelihood_type_ != PARAM_MULTINOMIAL)
+  if (likelihood_type_ != PARAM_LOGNORMAL && likelihood_type_ != PARAM_MULTINOMIAL && likelihood_type_ != PARAM_DIRICHLET)
     LOG_ERROR_P(PARAM_LIKELIHOOD) << ": likelihood " << likelihood_type_ << " is not supported by the proportions at age observation. "
-        << "Supported types are " << PARAM_LOGNORMAL << " and " << PARAM_MULTINOMIAL;
+        << "Supported types are " << PARAM_LOGNORMAL << ", " << PARAM_MULTINOMIAL << " and " << PARAM_DIRICHLET;
 
   /**
    * Build our proportions and error values for use in the observation
@@ -300,7 +300,6 @@ void ProportionsAtAge::Execute() {
     /*
      *  Now collapse the number_age into out expected values
      */
-    LOG_FINEST()<< "number of bins " << numbers_age.size() << " and expected " << expected_values.size() << " Last element " << age_spread_ - 1;
     for (unsigned k = 0; k < numbers_age.size(); ++k) {
       // this is the difference between the
       unsigned age_offset = min_age_ - model->min_age();

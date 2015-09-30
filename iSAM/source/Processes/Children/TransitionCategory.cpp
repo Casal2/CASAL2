@@ -1,5 +1,5 @@
 /**
- * @file MaturationRate.cpp
+ * @file TransitionCategory.cpp
  * @author  Scott Rasmussen (scott.rasmussen@zaita.com)
  * @version 1.0
  * @date 21/12/2012
@@ -11,8 +11,7 @@
  */
 
 // Headers
-#include "MaturationRate.h"
-
+#include <Processes/Children/TransitionCategory.h>
 #include "Categories/Categories.h"
 #include "Selectivities/Manager.h"
 
@@ -23,7 +22,7 @@ namespace processes {
 /**
  * Default Constructor
  */
-MaturationRate::MaturationRate() : Process(Model::Instance()){
+TransitionCategory::TransitionCategory() : Process(Model::Instance()){
   LOG_TRACE();
 
   parameters_.Bind<string>(PARAM_FROM, &from_category_names_, "From", "");
@@ -49,7 +48,7 @@ MaturationRate::MaturationRate() : Process(Model::Instance()){
  * - Verify categories From->To have matching age ranges
  * - Check all proportions are between 0.0 and 1.0
  */
-void MaturationRate::DoValidate() {
+void TransitionCategory::DoValidate() {
   LOG_TRACE();
 
   if (selectivity_names_.size() == 1)
@@ -119,7 +118,7 @@ void MaturationRate::DoValidate() {
  * - Verify the selectivities are valid
  * - Get pointers to the selectivities
  */
-void MaturationRate::DoBuild() {
+void TransitionCategory::DoBuild() {
   LOG_TRACE();
 
   from_partition_.Init(from_category_names_);
@@ -136,19 +135,19 @@ void MaturationRate::DoBuild() {
 /**
  * Execute our maturation rate process.
  */
-void MaturationRate::DoExecute() {
+void TransitionCategory::DoExecute() {
   auto from_iter     = from_partition_.begin();
   auto to_iter       = to_partition_.begin();
   Double amount      = 0.0;
 
-  if (maturation_rates_.size() == 0) {
-    maturation_rates_.resize(from_partition_.size());
-    for (unsigned i = 0; i < maturation_rates_.size(); ++i) {
+  if (transition_rates_.size() == 0) {
+    transition_rates_.resize(from_partition_.size());
+    for (unsigned i = 0; i < transition_rates_.size(); ++i) {
       Double proportion = proportions_.size() > 1 ? proportions_[i] : proportions_[0];
       unsigned min_age   = (*from_iter)->min_age_;
 
       for (unsigned j = 0; j < (*from_iter)->data_.size(); ++j) {
-        maturation_rates_[i].push_back(proportion * selectivities_[i]->GetResult(min_age + j));
+        transition_rates_[i].push_back(proportion * selectivities_[i]->GetResult(min_age + j));
         if (selectivities_[i]->GetResult(min_age + j) > 1.0)
           LOG_ERROR() << " Selectivity result is greater than 1.0, check selectivity";
       }
@@ -157,7 +156,7 @@ void MaturationRate::DoExecute() {
 
   for (unsigned i = 0; from_iter != from_partition_.end() && to_iter != to_partition_.end(); ++from_iter, ++to_iter, ++i) {
     for (unsigned offset = 0; offset < (*from_iter)->data_.size(); ++offset) {
-      amount = maturation_rates_[i][offset] * (*from_iter)->data_[offset];
+      amount = transition_rates_[i][offset] * (*from_iter)->data_[offset];
 
       (*from_iter)->data_[offset] -= amount;
       (*to_iter)->data_[offset] += amount;
@@ -170,8 +169,8 @@ void MaturationRate::DoExecute() {
 /**
  * Reset our maturation rates for a new run
  */
-void MaturationRate::DoReset() {
-  maturation_rates_.clear();
+void TransitionCategory::DoReset() {
+  transition_rates_.clear();
 }
 
 } /* namespace processes */
