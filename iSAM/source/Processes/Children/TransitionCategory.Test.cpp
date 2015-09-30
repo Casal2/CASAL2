@@ -1,5 +1,6 @@
+
 /**
- * @file MaturationRate.Test.cpp
+ * @file TransitionCategory.Test.cpp
  * @author  Scott Rasmussen (scott.rasmussen@zaita.com)
  * @version 1.0
  * @date 4/04/2013
@@ -12,7 +13,7 @@
 #ifdef TESTMODE
 
 // Headers
-#include "MaturationRate.h"
+#include <Processes/Children/TransitionCategory.h>
 
 #include <iostream>
 
@@ -34,7 +35,7 @@ using niwa::testfixtures::BasicModel;
 /**
  *
  */
-TEST_F(BasicModel, Processes_Maturation_Rate_Constant_One_Selectivity) {
+TEST_F(BasicModel, Processes_Category_Transition_Constant_One_Selectivity) {
 
   // Recruitment process
   vector<string> recruitment_categories   = { "immature.male", "immature.female" };
@@ -51,7 +52,7 @@ TEST_F(BasicModel, Processes_Maturation_Rate_Constant_One_Selectivity) {
   vector<string> from_categories   = { "immature.male", "immature.female" };
   vector<string> to_categories = { "mature.male", "mature.female" };
   vector<string> maturation_proportions = { "0.6", "0.5" };
-  process = processes::Factory::Create(PARAM_MATURATION, PARAM_RATE);
+  process = processes::Factory::Create(PARAM_CATEGORY_TRANSITION, PARAM_RATE);
   process->parameters().Add(PARAM_LABEL, "maturation", __FILE__, __LINE__);
   process->parameters().Add(PARAM_TYPE, "rate", __FILE__, __LINE__);
   process->parameters().Add(PARAM_FROM, from_categories, __FILE__, __LINE__);

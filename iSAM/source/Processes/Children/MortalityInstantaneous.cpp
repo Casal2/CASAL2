@@ -51,13 +51,11 @@ MortalityInstantaneous::MortalityInstantaneous() : Process(Model::Instance()) {
   parameters_.Bind<string>(PARAM_CATEGORIES, &category_labels_, "Categories", "");
   parameters_.BindTable(PARAM_CATCHES, catches_table_, "Table of catch data", "", true, false);
   parameters_.BindTable(PARAM_FISHERIES, fisheries_table_, "Table of fishery data", "", true, false);
-  parameters_.Bind<Double>(PARAM_U_MAX, &u_max_, "U Max", "", 0.99)->set_range(0.0, 1.0);
   parameters_.Bind<Double>(PARAM_M, &m_, "Mortality rates", "")->set_range(0.0, 1.0);
   parameters_.Bind<Double>(PARAM_TIME_STEP_RATIO, &time_step_ratios_temp_, "Time step ratios for M", "", true)->set_range(0.0, 1.0);
   parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_labels_, "Selectivities on Natural Mortality", "");
   parameters_.Bind<string>(PARAM_PENALTY, &  penalty_label_, "Label of penalty to be applied", "","");
 
-  RegisterAsEstimable(PARAM_U_MAX, &u_max_);
   RegisterAsEstimable(PARAM_M, &m_);
 }
 
@@ -286,14 +284,14 @@ void MortalityInstantaneous::DoExecute() {
       LOG_FINEST() << " Vulnerable biomass for fishery : " << fishery.label_ << " = " << fishery_vulnerability[fishery.label_] << " with Catch = " << fishery.catches_[model_->current_year()];
     }
 
-    for (auto categories : partition_)  {
+    for (auto categories : partition_) {
       for (auto fishery_category : fishery_categories_) {
         if (fishery_category.category_label_ != categories->name_)
           continue;
 
         for (unsigned i = 0; i < categories->data_.size(); ++i)
-          category_by_age_with_exploitation[categories->name_][categories->min_age_ + i] += fishery_exploitation[fishery_category.fishery_label_] *
-            fishery_category.selectivity_->GetResult(categories->min_age_ + i);
+          category_by_age_with_exploitation[categories->name_][categories->min_age_ + i] += fishery_exploitation[fishery_category.fishery_label_]
+              * fishery_category.selectivity_->GetResult(categories->min_age_ + i);
       }
     }
 
@@ -304,16 +302,21 @@ void MortalityInstantaneous::DoExecute() {
     bool recalculate_age_exploitation = false;
     map<string, Double> uobs_fishery;
     for (auto fishery_category : fishery_categories_) {
-      for (auto age_exploitation : category_by_age_with_exploitation[fishery_category.category_label_])
+      for (auto age_exploitation : category_by_age_with_exploitation[fishery_category.category_label_]) {
+        if (fisheries_[fishery_category.fishery_label_].time_step_index_ != time_step_index)
+          continue;
+
         uobs_fishery[fishery_category.fishery_label_] = uobs_fishery[fishery_category.fishery_label_] > age_exploitation.second
           ? uobs_fishery[fishery_category.fishery_label_] : age_exploitation.second;
+      }
     }
 
     for (auto uobs : uobs_fishery) {
       LOG_FINE() << uobs.first << " Highest exploitation rate = " << uobs.second;
-      Double uobs_f = uobs.second;
-      if (uobs_f > u_max_) {
-        fishery_exploitation[uobs.first] *= u_max_ / uobs_f;
+      Double u_max_ = fisheries_[uobs.first].u_max_;
+      if (uobs.second > u_max_) {
+        fishery_exploitation[uobs.first] *= (u_max_ / uobs.second);
+        LOG_FINE() << " Uobs.first = " << uobs.first << " Uobs second = " << uobs.second << " and u_max " << u_max_;
         LOG_FINE() << uobs.first << " Rescaled exploitation rate = " << fishery_exploitation[uobs.first];
         recalculate_age_exploitation = true;
 
@@ -328,15 +331,14 @@ void MortalityInstantaneous::DoExecute() {
      */
     if (recalculate_age_exploitation) {
       category_by_age_with_exploitation.clear();
-
       for (auto categories : partition_)  {
         for (auto fishery_category : fishery_categories_) {
           if (fishery_category.category_label_ != categories->name_)
             continue;
 
           for (unsigned i = 0; i < categories->data_.size(); ++i) {
-            category_by_age_with_exploitation[categories->name_][categories->min_age_ + i] += fishery_exploitation[fishery_category.fishery_label_] *
-                fishery_category.selectivity_->GetResult(categories->min_age_ + i);
+            category_by_age_with_exploitation[categories->name_][categories->min_age_ + i] += fishery_exploitation[fishery_category.fishery_label_]
+                * fishery_category.selectivity_->GetResult(categories->min_age_ + i);
           }
         }
       }
@@ -351,7 +353,6 @@ void MortalityInstantaneous::DoExecute() {
     for (unsigned i = 0; i < categories->data_.size(); ++i) {
       categories->data_[i] *= exp(-m_[m_offset] * ratio * selectivities_[m_offset]->GetResult(categories->min_age_ + i))
           * (1 - category_by_age_with_exploitation[categories->name_][categories->min_age_ + i]);
-      LOG_FINEST() << "Numbers at age after Exploitation= " << categories->data_[i];
       if (categories->data_[i] < 0.0) {
         LOG_FINEST() << " Category : " << categories->name_ << " M = "<< m_[m_offset] << " ratio " << ratio << " selectivity : " << selectivities_[m_offset]->GetResult(categories->min_age_ + i)
             << " u_f = " << category_by_age_with_exploitation[categories->name_][categories->min_age_ + i] << " data = " << categories->data_[i] << " Exp " << AS_DOUBLE(exp(-m_[m_offset]));

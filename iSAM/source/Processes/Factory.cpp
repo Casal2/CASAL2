@@ -11,13 +11,13 @@
  */
 
 // Headers
+#include <Processes/Children/TransitionCategory.h>
 #include "Factory.h"
 
 #include "Processes/Manager.h"
 #include "Processes/Children/Ageing.h"
 #include "Processes/Children/Growth.h"
 #include "Processes/Children/Maturation.h"
-#include "Processes/Children/MaturationRate.h"
 #include "Processes/Children/MortalityConstantRate.h"
 #include "Processes/Children/MortalityEvent.h"
 #include "Processes/Children/MortalityEventBiomass.h"
@@ -72,8 +72,8 @@ ProcessPtr Factory::Create(string object_type, string sub_type) {
       result = ProcessPtr(new RecruitmentConstant());
     else if (sub_type == PARAM_MATURATION)
       result = ProcessPtr(new Maturation());
-    else if (sub_type == PARAM_MATURATION_RATE)
-      result = ProcessPtr(new MaturationRate());
+    else if (sub_type == PARAM_CATEGORY_TRANSITION)
+      result = ProcessPtr(new TransitionCategory());
     else if (sub_type == PARAM_MORTALITY_CONSTANT_RATE)
       result = ProcessPtr(new MortalityConstantRate());
     else if (sub_type == PARAM_MORTALITY_EVENT)
