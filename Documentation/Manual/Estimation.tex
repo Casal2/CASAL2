@@ -4,7 +4,7 @@
 \CH
 \KL This text from SPM, a rewrite of CASAL. OK to use? \KLend
 
-The role of the estimation section is to define the tasks carried out by \iSAM: 
+The role of the estimation section is to define the tasks carried out by \CAS: 
 
 \begin{enumerate}
   \item Define the objective function (see Section \ref{sec:objective-function})
@@ -46,7 +46,7 @@ The estimable parameters that will be estimated are defined using \command{estim
   prior uniform
 \end{verbatim}}}
 
-See Section \ref{sec:parameter-names} for instructions on how to generate the parameter name. At least one parameter to be estimated if doing an estimation, profile, or MCMC run. Initial values for the parameters to be estimated will still need to be provided, and these are used as the starting values for the minimiser. However, these may be overwritten if you provide a set of alternative starting values (i.e., using  \texttt{\isam\ -i}, see Section \ref{sec:command-line-arguments}).
+See Section \ref{sec:parameter-names} for instructions on how to generate the parameter name. At least one parameter to be estimated if doing an estimation, profile, or MCMC run. Initial values for the parameters to be estimated will still need to be provided, and these are used as the starting values for the minimiser. However, these may be overwritten if you provide a set of alternative starting values (i.e., using  \texttt{\cas\ -i}, see Section \ref{sec:command-line-arguments}).
 
 All parameters are estimated within bounds\index{Bounds}. For each parameter to be estimated, you need to specify the bounds and the prior\index{Priors} (Section \ref{sec:priors}). Note that the bounds and prior for each parameter refer to the values of the parameters, not the actual values resulting from the application of the parameter to an equation. \textbf{Bounds should be carefully chosen as they effect the space in which the minimisers search over. Minimisers convert lower and upper bound to -1,1 space. Needs to be referenced}. If estimating only some elements of a vector, either define the elements of the vector to be estimated (see \ref{sec:parameter-names}) or fix the others by setting the bounds equal.
 
@@ -56,7 +56,7 @@ The estimation of parameters can be phased. Here, some of the estimated paramete
 \CH
 \KL This text from SPM. A rewrite of what's in CASAL and set out differntly. OK to use? Additions required? \KLend
 
-Point estimation is invoked with \texttt{\isam\ -e}. Mathematically, it is an attempt to find a minimum of the objective function\index{Objective function}. SPM has two algorithms for solving (minimising) the optimisation problem. The first uses a quasi-Newton minimiser built which is a slightly modified implementation of the main algorithm of Dennis Jr. \& Schnabel \citep{779}\index{Finite differences minimiser}, while the second uses a genetic algorithm developed by Storn \& Price \citep{1442}, the differential evolution minimiser \index{Differential evolution minimiser}. However, the second minimiser does not produce an estimate of the covariance matrix, and hence cannot be used to start an MCMC.
+Point estimation is invoked with \texttt{\cas\ -e}. Mathematically, it is an attempt to find a minimum of the objective function\index{Objective function}. SPM has two algorithms for solving (minimising) the optimisation problem. The first uses a quasi-Newton minimiser built which is a slightly modified implementation of the main algorithm of Dennis Jr. \& Schnabel \citep{779}\index{Finite differences minimiser}, while the second uses a genetic algorithm developed by Storn \& Price \citep{1442}, the differential evolution minimiser \index{Differential evolution minimiser}. However, the second minimiser does not produce an estimate of the covariance matrix, and hence cannot be used to start an MCMC.
 
 \subsubsection{\I{The numerical differences minimiser}}
 \CH
@@ -68,7 +68,7 @@ The minimiser has three kinds of (non-error) exit status:
 \item Convergence unclear (the minimiser halted but was unable to determine if convergence occurred. You may be at a local minimum, although you should check by restarting the minimiser at the final values of the estimated parameters).
 \end{enumerate}
 
-You can choose the maximum number of quasi-Newton iterations\index{Quasi-Newton iterations} and objective function evaluations\index{Objective function evaluations} allotted to the minimiser. If it exceeds either limit, it exits with a convergence failure\index{Convergence failure}. We recommend large numbers of evaluations and iterations (at least the defaults of 300 and 1000) unless you successfully reach convergence with less. You can also specify an alternative starting point of the minimiser using \texttt{\isam\ -i}.
+You can choose the maximum number of quasi-Newton iterations\index{Quasi-Newton iterations} and objective function evaluations\index{Objective function evaluations} allotted to the minimiser. If it exceeds either limit, it exits with a convergence failure\index{Convergence failure}. We recommend large numbers of evaluations and iterations (at least the defaults of 300 and 1000) unless you successfully reach convergence with less. You can also specify an alternative starting point of the minimiser using \texttt{\cas\ -i}.
 
 We want to stress that this is a local optimisation algorithm trying to solve a global optimisation problem. What this means is that, even if you get a 'successful convergence'\index{Successful convergence} message, your solution may be only a local minimum\index{Local minimums}, not a global one. To diagnose this problem, try doing multiple runs from different starting points and comparing the results, or doing profiles of one or more key parameters and seeing if any of the profiled estimates finds a better optimum than than the original point estimate.
 
@@ -95,29 +95,29 @@ We note that there is no proof of convergence for the differential evolution sol
 \KL This text from SPM. A rewrite of what's in CASAL, except for par. 5 and 7. OK to use? Additions required? \KLend
 
 
-If profiles are requested \texttt{\isam\ -p}, \iSAM\ will first calculate a point estimate. For each scalar parameter or, in the case of vectors or selectivities, the element of the parameter to be profiled, \iSAM\ will fix its value at a sequence of $n$ evenly spaced numbers ($step$) between a specified lower and upper bounds $l$ and $u$, and calculate a point estimate at each value. 
+If profiles are requested \texttt{\cas\ -p}, \CAS\ will first calculate a point estimate. For each scalar parameter or, in the case of vectors or selectivities, the element of the parameter to be profiled, \CAS\ will fix its value at a sequence of $n$ evenly spaced numbers ($step$) between a specified lower and upper bounds $l$ and $u$, and calculate a point estimate at each value. 
 
-By default $step=10$, and $(l, u)=($lower bound on parameter plus $(range/(2n))$, upper bound on parameter less $(range/(2n))$. Each minimisation starts at the final parameter values from the previous resulting value of the parameter being profiled. \iSAM\ will report the objective function for each parameter value. Note that an initial point estimate should be compared with the profile, not least to check that none of the other points along the profile have a better objective function value than the initial `minimum'.
+By default $step=10$, and $(l, u)=($lower bound on parameter plus $(range/(2n))$, upper bound on parameter less $(range/(2n))$. Each minimisation starts at the final parameter values from the previous resulting value of the parameter being profiled. \CAS\ will report the objective function for each parameter value. Note that an initial point estimate should be compared with the profile, not least to check that none of the other points along the profile have a better objective function value than the initial `minimum'.
 
 You specify which parameters are to be profiled, and optionally the number of steps, lower bound, and upper bound for each. In the case of vector parameters, you will also need to specify the element of the vector being profiled. 
 
-You can also supply the initial starting point for the estimation using \texttt{\isam\/ -i \emph{file}} --- this may improve the minimiser performance for the profiles.
+You can also supply the initial starting point for the estimation using \texttt{\cas\/ -i \emph{file}} --- this may improve the minimiser performance for the profiles.
 
-If you get an implausible profile, it may be a result of not using enough iterations in the minimiser or a poor choice of minimiser control variables (e.g., the minimiser tolerance). It also may be useful to try both if the minimisers in \iSAM\ and compare the results.
+If you get an implausible profile, it may be a result of not using enough iterations in the minimiser or a poor choice of minimiser control variables (e.g., the minimiser tolerance). It also may be useful to try both if the minimisers in \CAS\ and compare the results.
 
 \subsection{\I{Bayesian estimation}\label{sec:estimate-MCMC}}
 \CH
 \KL This text is from SPM and is nearly verbatim S6.5 in CASASL, but two large sections exluded: ...request covariate matrix change adaptively... and from ...multivariate t dist... onwards. OK to use/ Additions required? \KLend
 
-\iSAM\ can use a \I{Monte Carlo Markov Chain (MCMC)}\index{MCMC} to generate a sample from the posterior distribution of the estimated parameters \texttt{\isam\ -m} and output the sampled values to a file (optionally keeping only every $n$th set of values).
+\CAS\ can use a \I{Monte Carlo Markov Chain (MCMC)}\index{MCMC} to generate a sample from the posterior distribution of the estimated parameters \texttt{\cas\ -m} and output the sampled values to a file (optionally keeping only every $n$th set of values).
 
-As \iSAM\ has no post-processing capabilities. \iSAM\ cannot produce MCMC convergence diagnostics (use a package such as \href{http://www.public-health.uiowa.edu/boa}{BOA}) or plot/summarize the posterior distributions of the output quantities (for example, using a general-purpose statistical or spreadsheet package such as \href{http://www.insightful.com}{S-Plus}, \href{http://www.r-project.org}{\R}, or \href{http://www.microsoft.com}{Microsoft Excel}).
+As \CAS\ has no post-processing capabilities. \CAS\ cannot produce MCMC convergence diagnostics (use a package such as \href{http://www.public-health.uiowa.edu/boa}{BOA}) or plot/summarize the posterior distributions of the output quantities (for example, using a general-purpose statistical or spreadsheet package such as \href{http://www.insightful.com}{S-Plus}, \href{http://www.r-project.org}{\R}, or \href{http://www.microsoft.com}{Microsoft Excel}).
 
 Bayesian methodology\index{Bayesian estimation} and MCMC are both large and complex topics, and we do not describe either properly here. See Gelman et al. \citeyearpar{823} and Gilks et al. \citeyearpar{143} for details of both Bayesian analysis and MCMC methods. In addition, see Punt \& Hilborn \citeyearpar{828} for an introduction to quantitative fish stock assessment using Bayesian methods. 
 
-This section only briefly describes the MCMC algorithms used in \iSAM. See Section \ref{sec:estimation-syntax-MCMC} for a better description of the sequence of \iSAM\ commands used in a full Bayesian analysis.
+This section only briefly describes the MCMC algorithms used in \CAS. See Section \ref{sec:estimation-syntax-MCMC} for a better description of the sequence of \CAS\ commands used in a full Bayesian analysis.
 
-\iSAM\ uses a straightforward implementation of the Metropolis-Hastings algorithm \citep{823,143}. The Metropolis-Hastings algorithm attempts to draw a sample from a Bayesian posterior distribution, and calculates the posterior density $\pi$, scaled by an unknown constant. The algorithm generates a `chain' or sequence of values. Typically the beginning of the chain is discarded and every $N$th element of the remainder is taken as the posterior sample. The chain is produced by taking an initial point $x_0$ and repeatedly applying the following rule, where $x_i$ is the current point: 
+\CAS\ uses a straightforward implementation of the Metropolis-Hastings algorithm \citep{823,143}. The Metropolis-Hastings algorithm attempts to draw a sample from a Bayesian posterior distribution, and calculates the posterior density $\pi$, scaled by an unknown constant. The algorithm generates a `chain' or sequence of values. Typically the beginning of the chain is discarded and every $N$th element of the remainder is taken as the posterior sample. The chain is produced by taking an initial point $x_0$ and repeatedly applying the following rule, where $x_i$ is the current point: 
 
 \begin{itemize}
 \item Draw a candidate step s from a proposal distribution J, which should be symmetric i.e., $J(-s)=J(s)$.
@@ -127,14 +127,14 @@ This section only briefly describes the MCMC algorithms used in \iSAM. See Secti
 
 An initial point estimate is produced before the chain starts, which is done so as to calculate the approximate covariance matrix of the estimated parameters (as the inverse Hessian), and may also be used as the starting point of the chain. 
 
-The user can specify the starting point of the point estimate minimiser using \texttt{\isam\ -i}. Don't start it too close to the actual estimate (either by using \texttt{\isam\ -i}, or by changing the initial parameter values in \config) as it takes a few iterations to form a reasonable approximation to the Hessian. 
+The user can specify the starting point of the point estimate minimiser using \texttt{\cas\ -i}. Don't start it too close to the actual estimate (either by using \texttt{\cas\ -i}, or by changing the initial parameter values in \config) as it takes a few iterations to form a reasonable approximation to the Hessian. 
 
 There are two options for the starting point of the Markov Chain: 
 
 \begin{itemize}
 \item Start from the point estimate.
 \item Start from a random point near the point estimate (the point is generated from a multivariate normal distribution, centred on the point estimate, with covariance equal to the inverse Hessian times a user-specified constant). This may be useful if the chain gets `stuck' at the point estimate, or if you wish to generate multiple chains from  for later MCMC diagnostic tests.
-\item Start from a point specified by the user with \texttt{\isam\ -i} \COO
+\item Start from a point specified by the user with \texttt{\cas\ -i} \COO
 \end{itemize}
 
 The chain moves in natural space, i.e., no transformations are applied to the estimated parameters. The default proposal distribution is a multivariate t centred on the current point, with covariance matrix equal to a matrix based on the approximate covariance produced by the minimiser, times some stepsize factor. The following steps define the initial covariance matrix of the proposal distribution: 
@@ -169,7 +169,7 @@ The proposal distribution can also change adaptively during the chain, using two
 \item You can request that the entire covariance matrix change adaptively at one or more sample numbers. At each adaptation, it is replaced with a matrix based on the sample covariance of an earlier section of the chain. The theory here is that the covariance of a portion of chain could potentially be a better estimate of the covariance of the posterior distribution than the inverse Hessian. \COO
 \end{enumerate}
 
-The procedure used to choose the sample of points is as follows. First, all points on the chain so far are taken. All points in an initial user-specified period are discarded. The assumption is that the chain will have started moving during this period - if this is incorrect and the chain has still not moved by the end of this period, it is a fatal error and \iSAM\ stops. The remaining set of points must contain at least some user-specified number of transitions - if this is incorrect and the chain has not moved this often, it is again a fatal error. If this test is passed, the set of points is systematically sub-sampled down to 1000 points (it must be at least this long to start with). \COO
+The procedure used to choose the sample of points is as follows. First, all points on the chain so far are taken. All points in an initial user-specified period are discarded. The assumption is that the chain will have started moving during this period - if this is incorrect and the chain has still not moved by the end of this period, it is a fatal error and \CAS\ stops. The remaining set of points must contain at least some user-specified number of transitions - if this is incorrect and the chain has not moved this often, it is again a fatal error. If this test is passed, the set of points is systematically sub-sampled down to 1000 points (it must be at least this long to start with). \COO
 
 The variance-covariance matrix of this sub-sample of chain is calculated. As above, correlations greater than \commandsub{mcmc}{max\_correlation} are reduced to \commandsub{mcmc}{max\_correlation}, correlations less than \commandsub{mcmc}{max\_correlation} are increased to  \commandsub{mcmc}{max\_correlation}, and very small non-zero variances are increased (\commandsub{mcmc}{covariance\_adjustment} and \commandsub{mcmc}{min\_difference}. The result is the new variance-covariance matrix of the proposal distribution. \COO
 
@@ -181,10 +181,10 @@ The probability of acceptance for each jump is $0$ if it would move out of the b
 
 You have the option to specify that some of the estimated parameters are fixed during the MCMC. If the chain starts at the point estimate or at a random location, these fixed parameters are set to their values at the point estimate.
 
-If you specify the start of the chain using \texttt{\isam\ -i}, these fixed parameters are set to the values in the file. \COO
+If you specify the start of the chain using \texttt{\cas\ -i}, these fixed parameters are set to the values in the file. \COO
 
 The posterior sample can be used for (projections (Section \ref{sec:projections})\COO) or 
-simulations (Section \ref{sec:simulation-observations}) with the values supplied using \texttt{\isam\ -i \emph{file}}.
+simulations (Section \ref{sec:simulation-observations}) with the values supplied using \texttt{\cas\ -i \emph{file}}.
 
 \CA
 \begin{lstlisting}
@@ -207,7 +207,7 @@ In a Bayesian analysis, you need to give a prior for every parameter that is bei
 
 Note that when some of these priors are parameterised in terms of mean, c.v., and standard deviation, these refer to the parameters of the distribution before bounds are applied. The moments of the prior after the bounds are applied may differ.
 
-\iSAM\ has the following priors (expressed in terms of their contribution to the objective function): 
+\CAS\ has the following priors (expressed in terms of their contribution to the objective function): 
 
 \begin{enumerate}
 \item{Uniform\index{Uniform prior}\index{Priors ! Uniform}}
@@ -287,7 +287,7 @@ In addition, for a vector p of n identically distributed parameters (for example
 \CH
 \KL This text from SPM, currently iSAM coded as described here.  CASAL documentation (S6.7.6) includes 11 penalties. Will this be included? \KLend
 
-Penalties can be used to encourage or discourage parameter values or model outputs that are unlikely to be sensible, by adding a penalty to the objective function. For example, parameter estimates that do not allow a known mortality event to remove enough individuals from the population can be discouraged with an event mortality penalty. \iSAM\ requires penalty functions for processes that move or shift a \emph{number} of individuals between categories or from the partition.
+Penalties can be used to encourage or discourage parameter values or model outputs that are unlikely to be sensible, by adding a penalty to the objective function. For example, parameter estimates that do not allow a known mortality event to remove enough individuals from the population can be discouraged with an event mortality penalty. \CAS\ requires penalty functions for processes that move or shift a \emph{number} of individuals between categories or from the partition.
 
 For most penalties, you need to specify a multiplier, and the objective function is increased by this multiplier times the penalty value as described below. In some cases you will need to make the multiplier quite large to prohibit some model behaviour. 
 

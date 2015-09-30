@@ -2,19 +2,19 @@
 \CH
 \KL Needs rewriting \KLend
 
-\iSAM\ (\iSAMName) is a generalised age- or size-structured fish stock assessment model that allows flexibility in specifying population dynamics, paramaeter estimation and model outputs. \iSAM\ can model population dynamics for an age-structured population using a range of observations, including tagging, relative abundance, and age frequency data. \iSAM\ implements an age-structured population which can have user defined categories (e.g., immature, mature, male, female, etc.), and age range. 
+\CAS\ (\CASName) is a generalised age- or size-structured fish stock assessment model that allows flexibility in specifying population dynamics, paramaeter estimation and model outputs. \CAS\ can model population dynamics for an age-structured population using a range of observations, including tagging, relative abundance, and age frequency data. \CAS\ implements an age-structured population which can have user defined categories (e.g., immature, mature, male, female, etc.), and age range. 
 
-This manual describes how to use \iSAM, including how to run \iSAM, how to set up an \config. Further, we describe the population dynamics and estimation methods, and describe how to specify and interpret output. 
+This manual describes how to use \CAS, including how to run \CAS, how to set up an \config. Further, we describe the population dynamics and estimation methods, and describe how to specify and interpret output. 
 
 \subsection{Version\label{sec:version}}
 \CH
-This document (last modified \DocVer) describes \iSAM\ \VER. The \iSAM\ version number is suffixed with a date/time (\texttt{yyyy-mm-dd}) and revision number, giving the revision control system UTC date and revision number for the most recent modification of the source files. User manual updates will usually be issued for each minor version or date release of \iSAM, and can be obtained, on request, from the authors.\index{Version number}
+This document (last modified \DocVer) describes \CAS\ \VER. The \CAS\ version number is suffixed with a date/time (\texttt{yyyy-mm-dd}) and revision number, giving the revision control system UTC date and revision number for the most recent modification of the source files. User manual updates will usually be issued for each minor version or date release of \CAS, and can be obtained, on request, from the authors.\index{Version number}
 
-\subsection{Citing \iSAM}
+\subsection{Citing \CAS}
 \CH
-A suitable reference for \iSAM\ and this document is:
+A suitable reference for \CAS\ and this document is:
 
-\ManualRef\index{Citation}\index{Citing \iSAM}
+\ManualRef\index{Citation}\index{Citing \CAS}
 
 \subsection{\I{Software license}\index{Common Public License}}
 \CH
@@ -24,31 +24,31 @@ Copyright \copyright 2008-\SourceControlYearDoc, \href{http://www.niwa.co.nz}{\O
 
 \subsection{\I{System requirements}}
 \CH
-\iSAM\ is available for most IBM compatible machines running 64-bit \I{Linux} and \I{Microsoft Windows} operating systems.
+\CAS\ is available for most IBM compatible machines running 64-bit \I{Linux} and \I{Microsoft Windows} operating systems.
 
-Several of \iSAM s tasks are highly computer intensive and a fast processor is recommended. Depending on the model implemented, some of \iSAM s tasks can take a considerable amount of time (minutes to hours), and in extreme cases can even take several days to estimate a model fit. Some of \iSAM s tasks can be multi-threaded, and hence multi-core machines may perform some tasks quicker than single core processors.
+Several of \CAS s tasks are highly computer intensive and a fast processor is recommended. Depending on the model implemented, some of \CAS s tasks can take a considerable amount of time (minutes to hours), and in extreme cases can even take several days to estimate a model fit. Some of \CAS s tasks can be multi-threaded, and hence multi-core machines may perform some tasks quicker than single core processors.
 
 The program itself requires only a few megabytes of hard-disk space but output files can consume large amounts of disk space. Depending on number and type of user output requests, the output could range from a few hundred kilobytes to several hundred megabytes. When estimating model fits, several hundred megabytes of RAM may be required, depending on the spatial size of the model, number of categories, and complexity of processes and observations. For extremely large models, several gigabytes of RAM may be required. 
 
 \subsection{\I{Necessary files}}
 \CH
-For both 64-bit Linux and Microsoft Windows, only the binary file \texttt{spm} or \texttt{spm.exe} is required to run \iSAM . No other software is required. We do not compile a version for 32-bit operating systems. 
+For both 64-bit Linux and Microsoft Windows, only the binary file \texttt{spm} or \texttt{spm.exe} is required to run \CAS . No other software is required. We do not compile a version for 32-bit operating systems. 
 
-\iSAM\ offers little in the way of  post-processing of the output, and a package available that allows tabulation and graphing of model outputs is recommended. We suggest software such as \href{http://www.r-project.org}{\R}\ (R Development Core Team 2007) to assist in the post processing of \iSAM\ output. We provide the \texttt{sam} \R\ package for importing the \iSAM\ output into \R\ (see Section \ref{sec:post-processing}).
+\CAS\ offers little in the way of  post-processing of the output, and a package available that allows tabulation and graphing of model outputs is recommended. We suggest software such as \href{http://www.r-project.org}{\R}\ (R Development Core Team 2007) to assist in the post processing of \CAS\ output. We provide the \texttt{sam} \R\ package for importing the \CAS\ output into \R\ (see Section \ref{sec:post-processing}).
 
 \subsection{Getting help\index{Getting help}\index{User assistance}\index{Notifying errors}}
 \CH
-\iSAM\ is distributed as unsupported software, however we would appreciate being notified of any problems or errors in \iSAM. See Section \ref{sec:reporting-errors} for how to report errors to the \authors. Further information about \iSAM\ can be obtained by contacting the \authors.
+\CAS\ is distributed as unsupported software, however we would appreciate being notified of any problems or errors in \CAS. See Section \ref{sec:reporting-errors} for how to report errors to the \authors. Further information about \CAS\ can be obtained by contacting the \authors.
 
 \subsection{Technical details\index{Technical specifications}}
 \CH
-\iSAM\ was compiled on Linux using \href{http://gcc.gnu.org}{\texttt{gcc}}, the C/C++ compiler developed by the \href{http://gcc.gnu.org}{GNU Project}. The 64-bit Linux \index{Linux} version was compiled using \texttt{gcc} version 4.8.1 20130909 (\href{http://www.opensuse.org/}{SUSE Linux}). Note that \iSAM\ is not supported for Linux kernel versions prior to 2.6. The \href{http://www.microsoft.com}{Microsoft Windows}\index{Microsoft Windows} version was compiled using \href{http://www.mingw.org}{Mingw32}\index{Mingw} \href{http://gcc.gnu.org}{\texttt{gcc}} (tdm64-1) 4.7.1. The \href{http://www.microsoft.com}{Microsoft Windows} installer was built using the \href{http://nsis.sourceforge.net/Main_Page}{Nullsoft Scriptable Install System}.
+\CAS\ was compiled on Linux using \href{http://gcc.gnu.org}{\texttt{gcc}}, the C/C++ compiler developed by the \href{http://gcc.gnu.org}{GNU Project}. The 64-bit Linux \index{Linux} version was compiled using \texttt{gcc} version 4.8.1 20130909 (\href{http://www.opensuse.org/}{SUSE Linux}). Note that \CAS\ is not supported for Linux kernel versions prior to 2.6. The \href{http://www.microsoft.com}{Microsoft Windows}\index{Microsoft Windows} version was compiled using \href{http://www.mingw.org}{Mingw32}\index{Mingw} \href{http://gcc.gnu.org}{\texttt{gcc}} (tdm64-1) 4.7.1. The \href{http://www.microsoft.com}{Microsoft Windows} installer was built using the \href{http://nsis.sourceforge.net/Main_Page}{Nullsoft Scriptable Install System}.
 
-\iSAM\ uses two minimisers --- the first is closely based on the main algorithm of \cite{779}, and which which uses finite difference gradients\index{Finite differences minimiser}, and the second is an implementation of the differential evolution solver\index{Differential evolution minimiser} \citep{1442}, and based on code by \href{mailto:<godwin@pushcorp.com>}{Lester E. Godwin} of \href{http://www.pushcorp.com}{PushCorp, Inc.} 
+\CAS\ uses two minimisers --- the first is closely based on the main algorithm of \cite{779}, and which which uses finite difference gradients\index{Finite differences minimiser}, and the second is an implementation of the differential evolution solver\index{Differential evolution minimiser} \citep{1442}, and based on code by \href{mailto:<godwin@pushcorp.com>}{Lester E. Godwin} of \href{http://www.pushcorp.com}{PushCorp, Inc.} 
 
-The random number generator\index{Random number generator} used by \iSAM\ uses an implementation of the Mersenne twister random number generator \citep{796}. This, the command line functionality, matrix operations, and a number of other functions use the \href{http://www.boost.org/}{BOOST} C++ library (Version 1.54.0)\index{BOOST C++ library}.
+The random number generator\index{Random number generator} used by \CAS\ uses an implementation of the Mersenne twister random number generator \citep{796}. This, the command line functionality, matrix operations, and a number of other functions use the \href{http://www.boost.org/}{BOOST} C++ library (Version 1.54.0)\index{BOOST C++ library}.
 
-Note that the output from \iSAM\ may differ slightly on the different platforms due to different precision arithmetic or other platform dependent implementation issues. The source code\index{\iSAM\ source code} for \iSAM\ is available either as a part of the installation, or on request from the \authors.
+Note that the output from \CAS\ may differ slightly on the different platforms due to different precision arithmetic or other platform dependent implementation issues. The source code\index{\CAS\ source code} for \CAS\ is available either as a part of the installation, or on request from the \authors.
 
-Unit tests of the underlying \iSAM\ code are carried out at build time, using the \href{http://www.boost.org/}{BOOST} unit testing framework. The unit test framework aims to cover a significant proportion of the key functions and processes within the \iSAM\ code base. The unit test code for \iSAM\ is available as a part of the underlying source code.
+Unit tests of the underlying \CAS\ code are carried out at build time, using the \href{http://www.boost.org/}{BOOST} unit testing framework. The unit test framework aims to cover a significant proportion of the key functions and processes within the \CAS\ code base. The unit test code for \CAS\ is available as a part of the underlying source code.
 
