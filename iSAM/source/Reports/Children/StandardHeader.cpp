@@ -20,6 +20,7 @@
 
 #include "Version.h"
 #include "GlobalConfiguration/GlobalConfiguration.h"
+#include "Model/Model.h"
 
 // Namespaces
 using std::endl;
@@ -63,7 +64,7 @@ void StandardHeader::DoPrepare() {
    * Build the Command line
    */
   header << "Call: ";
-  vector<string>& commandLine = GlobalConfiguration::Instance()->command_line_parameters();
+  vector<string>& commandLine = Model::Instance()->global_configuration().command_line_parameters();
   for (unsigned i = 0; i < commandLine.size(); ++i)
     header << commandLine[i] << " ";
   header << endl;

@@ -11,6 +11,7 @@
 // Headers
 #include "BaseClasses/Manager.h"
 #include "InitialisationPhases/InitialisationPhase.h"
+#include "Model/Managers.h"
 
 // Namespaces
 namespace niwa {
@@ -21,6 +22,7 @@ namespace initialisationphases {
  */
 class Manager : public oldbase::Manager<niwa::initialisationphases::Manager, niwa::InitialisationPhase> {
   friend class oldbase::Manager<niwa::initialisationphases::Manager, niwa::InitialisationPhase>;
+  friend class niwa::Managers;
 public:
   // methods
   virtual                     ~Manager() noexcept(true);

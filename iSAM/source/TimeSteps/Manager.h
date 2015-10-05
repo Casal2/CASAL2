@@ -10,18 +10,20 @@
 
 // Headers
 #include "BaseClasses/Manager.h"
-#include "DerivedQuantities/Manager.h"
 #include "TimeSteps/TimeStep.h"
 
 // Namespaces
 namespace niwa {
 namespace timesteps {
 
+class DerivedQuantity;
+
 /**
  * Class Definition
  */
 class Manager : public niwa::oldbase::Manager<niwa::timesteps::Manager, niwa::TimeStep> {
   friend class niwa::oldbase::Manager<niwa::timesteps::Manager, niwa::TimeStep>;
+  friend class niwa::Managers;
 public:
   // Methods
   virtual                     ~Manager() noexcept(true);

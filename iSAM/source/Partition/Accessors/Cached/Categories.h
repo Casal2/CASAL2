@@ -57,7 +57,7 @@ public:
 private:
   // Members
   vector<string>              category_labels_;
-  Model*                    model_;
+  Model*                      model_;
   DataType                    data_;
 };
 

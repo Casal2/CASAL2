@@ -12,7 +12,9 @@
 // headers
 #include "Data.h"
 
+#include "LengthWeights/Manager.h"
 #include "Model/Managers.h"
+#include "TimeSteps/Manager.h"
 #include "Utilities/To.h"
 
 // namespaces
@@ -46,7 +48,7 @@ Data::Data(Model* model) : AgeLength(model) {
  * Obtain smart_pointers to any objects that will be used by this object.
  */
 void Data::DoBuild() {
-  length_weight_ = model_->managers().length_weight().GetLengthWeight(length_weight_label_);
+  length_weight_ = model_->managers().length_weight()->GetLengthWeight(length_weight_label_);
   if (!length_weight_)
     LOG_ERROR_P(PARAM_LENGTH_WEIGHT) << "(" << length_weight_label_ << ") could not be found. Have you defined it?";
   if (!data_table_)
@@ -234,7 +236,7 @@ Double Data::mean_length(unsigned year, unsigned age) {
   if ((age+1) - model_->min_age() < data_by_year_.find(year)->second.size())
     data_by_year_.find(year)->second[(age+1) - model_->min_age()];
 
-  Double proportion = time_step_proportions_[model_->managers().time_step().current_time_step()];
+  Double proportion = time_step_proportions_[model_->managers().time_step()->current_time_step()];
   current_value += (next_age - current_value) * proportion;
   return current_value;
 }

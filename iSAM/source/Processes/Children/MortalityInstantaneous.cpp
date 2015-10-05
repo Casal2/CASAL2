@@ -21,7 +21,9 @@
 #include "Categories/Categories.h"
 #include "Model/Managers.h"
 #include "Penalties/Manager.h"
+#include "Selectivities/Manager.h"
 #include "TimeSteps/TimeStep.h"
+#include "TimeSteps/Manager.h"
 #include "Utilities/DoubleCompare.h"
 #include "Utilities/To.h"
 
@@ -176,7 +178,7 @@ void MortalityInstantaneous::DoBuild() {
    * apply a different ratio of M so here we want to verify
    * we have enough
    */
-  vector<TimeStep*> time_steps = model_->managers().time_step().ordered_time_steps();
+  vector<TimeStep*> time_steps = model_->managers().time_step()->ordered_time_steps();
   vector<unsigned> active_time_steps;
   for (unsigned i = 0; i < time_steps.size(); ++i) {
     if (time_steps[i]->HasProcess(label_))
@@ -204,7 +206,7 @@ void MortalityInstantaneous::DoBuild() {
    * Assign the selectivity, penalty and time step index to each fisher data object
    */
   for (auto& fishery_category : fishery_categories_) {
-    fishery_category.selectivity_ = model_->managers().selectivity().GetSelectivity(fishery_category.selectivity_label_);
+    fishery_category.selectivity_ = model_->managers().selectivity()->GetSelectivity(fishery_category.selectivity_label_);
     if (!fishery_category.selectivity_)
       LOG_ERROR_P(PARAM_FISHERIES) << "selectivity " << fishery_category.selectivity_label_ << " does not exist. Have you defined it?";
   }
@@ -216,7 +218,7 @@ void MortalityInstantaneous::DoBuild() {
       if (!fishery.penalty_)
         LOG_ERROR_P(PARAM_FISHERIES) << ": penalty " << fishery.penalty_label_ << " does not exist. Have you defined it?";
     }
-    fishery.time_step_index_ = model_->managers().time_step().GetTimeStepIndex(fishery.time_step_label_);
+    fishery.time_step_index_ = model_->managers().time_step()->GetTimeStepIndex(fishery.time_step_label_);
   }
 
   /**
@@ -231,7 +233,7 @@ void MortalityInstantaneous::DoBuild() {
    * Assign the natural mortality selectivities
    */
   for (auto label : selectivity_labels_) {
-    Selectivity* selectivity = model_->managers().selectivity().GetSelectivity(label);
+    Selectivity* selectivity = model_->managers().selectivity()->GetSelectivity(label);
     if (!selectivity)
       LOG_ERROR_P(PARAM_SELECTIVITIES) << "selectivity " << label << " does not exist. Have you defined it?";
     selectivities_.push_back(selectivity);
@@ -242,7 +244,7 @@ void MortalityInstantaneous::DoBuild() {
  * Execute this process
  */
 void MortalityInstantaneous::DoExecute() {
-  unsigned time_step_index = model_->managers().time_step().current_time_step();
+  unsigned time_step_index = model_->managers().time_step()->current_time_step();
   Double ratio = time_step_ratios_[time_step_index];
 
   /**
@@ -385,7 +387,7 @@ Double MortalityInstantaneous::GetMBySelectivity(const string& category_label, u
  * @return Current time step ratio
  */
 Double MortalityInstantaneous::time_step_ratio() {
-  unsigned time_step = model_->managers().time_step().current_time_step();
+  unsigned time_step = model_->managers().time_step()->current_time_step();
   return time_step_ratios_[time_step];
 }
 
@@ -393,7 +395,7 @@ Double MortalityInstantaneous::time_step_ratio() {
  * COMMENT THIS
  */
 Double MortalityInstantaneous::GetFisheryExploitationFraction(const string& fishery_label, const string& category_label, unsigned age) {
-  unsigned time_step = model_->managers().time_step().current_time_step();
+  unsigned time_step = model_->managers().time_step()->current_time_step();
 
   Double running_total = 0;
   Double fishery_exploitation_rate = 0.0;

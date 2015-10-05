@@ -23,6 +23,7 @@ namespace profiles {
  */
 class Manager : public niwa::oldbase::Manager<niwa::profiles::Manager, niwa::Profile> {
   friend class niwa::oldbase::Manager<niwa::profiles::Manager, niwa::Profile>;
+  friend class niwa::Managers;
 public:
   // methods
   virtual                     ~Manager() noexcept(true) { };

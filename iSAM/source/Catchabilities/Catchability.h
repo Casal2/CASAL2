@@ -17,12 +17,9 @@
 
 // Headers
 #include "BaseClasses/Object.h"
-#include "Utilities/Types.h"
 
 // Namespaces
 namespace niwa {
-
-using niwa::utilities::Double;
 
 // classes
 class Catchability : public niwa::base::Object {

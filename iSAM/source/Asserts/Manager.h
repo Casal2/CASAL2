@@ -16,6 +16,7 @@
 // Headers
 #include "BaseClasses/Manager.h"
 #include "Asserts/Assert.h"
+#include "Model/Managers.h"
 
 // Namespaces
 namespace niwa {
@@ -26,6 +27,7 @@ namespace asserts {
  */
 class Manager : public niwa::oldbase::Manager<niwa::asserts::Manager, niwa::Assert> {
   friend class niwa::oldbase::Manager<niwa::asserts::Manager, niwa::Assert>;
+  friend class niwa::Managers;
 public:
   virtual                     ~Manager() = default;
 

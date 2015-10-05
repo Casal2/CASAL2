@@ -14,6 +14,7 @@
 // headers
 #include "AdditionalPriors/AdditionalPrior.h"
 #include "BaseClasses/Manager.h"
+#include "Model/Managers.h"
 
 // namespaces
 namespace niwa {
@@ -22,6 +23,7 @@ namespace additionalpriors {
 // classes
 class Manager : public niwa::oldbase::Manager<niwa::additionalpriors::Manager, niwa::AdditionalPrior> {
   friend class niwa::oldbase::Manager<niwa::additionalpriors::Manager, niwa::AdditionalPrior>;
+  friend class niwa::Managers;
 public:
   // methods
   virtual                     ~Manager() = default;

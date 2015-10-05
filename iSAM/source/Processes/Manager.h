@@ -29,6 +29,7 @@ namespace processes {
  */
 class Manager : public niwa::oldbase::Manager<niwa::processes::Manager, niwa::Process> {
   friend class niwa::oldbase::Manager<niwa::processes::Manager, niwa::Process>;
+  friend class niwa::Managers;
 public:
   // methods
   virtual                     ~Manager() noexcept(true);

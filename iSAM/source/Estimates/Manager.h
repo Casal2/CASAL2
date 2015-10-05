@@ -25,6 +25,8 @@
 
 // namespaces
 namespace niwa {
+class Managers;
+
 namespace estimates {
 
 /**
@@ -32,6 +34,7 @@ namespace estimates {
  */
 class Manager : public niwa::oldbase::Manager<estimates::Manager, niwa::Estimate> {
   friend class niwa::oldbase::Manager<estimates::Manager, niwa::Estimate>;
+  friend class niwa::Managers;
 public:
   // methods
   virtual                     ~Manager() noexcept(true) { };

@@ -16,6 +16,7 @@
 // headers
 #include "BaseClasses/Manager.h"
 #include "DerivedQuantities/DerivedQuantity.h"
+#include "Model/Managers.h"
 
 // namespaces
 namespace niwa {
@@ -24,6 +25,7 @@ namespace derivedquantities {
 // classes
 class Manager : public niwa::oldbase::Manager<derivedquantities::Manager, niwa::DerivedQuantity> {
   friend class niwa::oldbase::Manager<derivedquantities::Manager, niwa::DerivedQuantity>;
+  friend class niwa::Managers;
 public:
   // methods
   virtual                     ~Manager() noexcept(true) { };

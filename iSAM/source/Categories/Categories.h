@@ -18,12 +18,12 @@
 
 // Headers
 #include "BaseClasses/Object.h"
-#include "AgeLengths/AgeLength.h"
 
 // Namespaces
 namespace niwa {
 
 using std::shared_ptr;
+class AgeLength;
 
 /**
  * Struct Definition
@@ -40,6 +40,7 @@ struct CategoryInfo {
  * Class Definition
  */
 class Categories : public niwa::base::Object {
+  friend class Model;
 public:
   // Methods
   static Categories*            Instance();

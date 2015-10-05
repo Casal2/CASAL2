@@ -19,6 +19,7 @@
 // Headers
 #include "AgeingErrors/AgeingError.h"
 #include "BaseClasses/Manager.h"
+#include "Model/Managers.h"
 
 // Namespaces
 namespace niwa {
@@ -29,6 +30,7 @@ namespace ageingerrors {
  */
 class Manager : public niwa::oldbase::Manager<niwa::ageingerrors::Manager, niwa::AgeingError> {
   friend class niwa::oldbase::Manager<niwa::ageingerrors::Manager, niwa::AgeingError>;
+  friend class niwa::Managers;
 public:
   // methods
   virtual                     ~Manager() = default;

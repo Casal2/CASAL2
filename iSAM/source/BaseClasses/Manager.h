@@ -23,6 +23,8 @@
 #include <vector>
 #include "Utilities/NoCopy.h"
 
+#include "Model/Managers.h"
+
 // Namespaces
 namespace niwa {
 namespace oldbase {

@@ -13,6 +13,7 @@
 #include "Logging.h"
 
 #include "GlobalConfiguration/GlobalConfiguration.h"
+#include "Model/Model.h"
 
 // namespaces
 namespace niwa {
@@ -25,8 +26,8 @@ using std::string;
  */
 Logging::Logging() {
   // Set our logging level
-  GlobalConfiguration* config = GlobalConfiguration::Instance();
-  string log_level = config->log_level();
+  GlobalConfiguration& config = Model::Instance()->global_configuration();
+  string log_level = config.log_level();
   if (log_level == PARAM_TRACE)
     current_log_level_ = logger::Severity::kTrace;
   else if (log_level == PARAM_FINEST)

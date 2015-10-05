@@ -27,6 +27,7 @@ namespace mcmcs {
  */
 class Manager : public niwa::oldbase::Manager<niwa::mcmcs::Manager, niwa::MCMC> {
   friend class niwa::oldbase::Manager<niwa::mcmcs::Manager, niwa::MCMC>;
+  friend class niwa::Managers;
 public:
   // methods
   Manager() = default;

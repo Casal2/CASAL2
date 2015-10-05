@@ -13,6 +13,7 @@
 // headers
 #include "AgeLengths/AgeLength.h"
 #include "BaseClasses/Manager.h"
+#include "Model/Managers.h"
 
 // namespaces
 namespace niwa {
@@ -21,6 +22,7 @@ namespace agelengths {
 // classes
 class Manager : public niwa::oldbase::Manager<niwa::agelengths::Manager, niwa::AgeLength> {
   friend class niwa::oldbase::Manager<niwa::agelengths::Manager, niwa::AgeLength>;
+  friend class niwa::Managers;
 public:
   // methods
   virtual                     ~Manager() noexcept(true) { };

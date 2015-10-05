@@ -18,6 +18,8 @@
 #include <cmath>
 
 #include "Model/Managers.h"
+#include "LengthWeights/Manager.h"
+#include "TimeSteps/Manager.h"
 
 // namespaces
 namespace niwa {
@@ -57,7 +59,7 @@ VonBertalanffy::VonBertalanffy(Model* model) : AgeLength(model) {
  * Obtain smart_pointers to any objects that will be used by this object.
  */
 void VonBertalanffy::DoBuild() {
-  length_weight_ = model_->managers().length_weight().GetLengthWeight(length_weight_label_);
+  length_weight_ = model_->managers().length_weight()->GetLengthWeight(length_weight_label_);
   if (!length_weight_)
     LOG_ERROR_P(PARAM_LENGTH_WEIGHT) << "(" << length_weight_label_ << ") could not be found. Have you defined it?";
 }
@@ -70,7 +72,7 @@ void VonBertalanffy::DoBuild() {
  * @return The mean length for 1 member
  */
 Double VonBertalanffy::mean_length(unsigned year, unsigned age) {
-  Double proportion = time_step_proportions_[model_->managers().time_step().current_time_step()];
+  Double proportion = time_step_proportions_[model_->managers().time_step()->current_time_step()];
   if ((-k_ * ((age + proportion) - t0_)) > 10)
     LOG_ERROR_P(PARAM_K) << "exp(-k*(age-t0)) is enormous. The k or t0 parameters are probably wrong.";
 

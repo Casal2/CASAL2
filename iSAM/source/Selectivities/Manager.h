@@ -29,6 +29,7 @@ namespace selectivities {
  */
 class Manager : public niwa::oldbase::Manager<niwa::selectivities::Manager, niwa::Selectivity> {
   friend class niwa::oldbase::Manager<niwa::selectivities::Manager, niwa::Selectivity>;
+  friend class niwa::Managers;
 public:
   // methods
   virtual                     ~Manager() noexcept(true) {};

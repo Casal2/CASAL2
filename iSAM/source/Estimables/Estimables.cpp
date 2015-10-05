@@ -22,20 +22,6 @@
 namespace niwa {
 
 /**
- * Default constructor
- */
-Estimables::Estimables() {
-}
-
-/**
- * Instance method
- */
-Estimables& Estimables::Instance() {
-  static Estimables instance;
-  return instance;
-}
-
-/**
  *
  */
 void Estimables::AddValue(const string& estimable_label, Double value) {
@@ -92,7 +78,7 @@ void Estimables::LoadValues(unsigned index) {
     /**
      * Verify that we're only using @estimate parameters if this has been defined
      */
-    if (GlobalConfiguration::Instance()->get_force_estimable_values_file()) {
+    if (model_->global_configuration().get_force_estimable_values_file()) {
       vector<Estimate*> estimates = estimates::Manager::Instance().GetEnabled();
       for (auto estimate : estimates) {
         if (estimable_values_.find(estimate->parameter()) == estimable_values_.end())

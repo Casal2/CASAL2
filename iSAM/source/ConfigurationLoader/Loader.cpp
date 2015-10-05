@@ -51,12 +51,12 @@ bool Loader::LoadConfigFile(const string& override_file_name) {
    * Check if we want to skip loading the configuration files or not. This is utilised
    * by the unit testing suite to allow us to load values from memory
    */
-  bool skip_loading_file = GlobalConfiguration::Instance()->skip_config_file();
+  bool skip_loading_file = model_.global_configuration().skip_config_file();
   if (!skip_loading_file) {
     /**
      * Open our first configuration file and start loading it
      */
-    string config_file = GlobalConfiguration::Instance()->config_file();
+    string config_file = model_.global_configuration().config_file();
     if (override_file_name != "")
       config_file = override_file_name;
 
