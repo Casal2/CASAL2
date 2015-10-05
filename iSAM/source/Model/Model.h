@@ -19,7 +19,7 @@
 // Headers
 #include "BaseClasses/Executor.h"
 #include "BaseClasses/Object.h"
-#include "Catchabilities/Manager.h"
+#include "GlobalConfiguration/GlobalConfiguration.h"
 #include "Utilities/RunMode.h"
 
 // Namespaces
@@ -29,6 +29,7 @@ using std::shared_ptr;
 using base::Executor;
 class Managers;
 class Objects;
+class Categories;
 
 namespace State {
 enum Type {
@@ -91,6 +92,8 @@ public:
   // manager accessors
   virtual Managers&           managers();
   virtual Objects&            objects();
+  GlobalConfiguration&        global_configuration() { return *global_configuration_; }
+  virtual Categories*         categories() { return categories_; }
 
 protected:
   // Methods
@@ -127,6 +130,8 @@ protected:
   map<State::Type, vector<Executor*>> executors_;
   Managers*                   managers_;
   Objects*                    objects_;
+  GlobalConfiguration*        global_configuration_;
+  Categories*                 categories_;
 };
 
 } /* namespace niwa */

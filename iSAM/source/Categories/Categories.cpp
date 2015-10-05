@@ -16,6 +16,7 @@
 #include <boost/algorithm/string/trim_all.hpp>
 #include <boost/algorithm/string/split.hpp>
 
+#include "AgeLengths/AgeLength.h"
 #include "AgeLengths/Manager.h"
 #include "AgeLengths/Children/None.h"
 #include "Model/Model.h"

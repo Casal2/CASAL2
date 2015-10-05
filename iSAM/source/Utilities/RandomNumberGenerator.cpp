@@ -14,6 +14,7 @@
 #include "RandomNumberGenerator.h"
 
 #include "GlobalConfiguration/GlobalConfiguration.h"
+#include "Model/Model.h"
 
 // Namespaces
 namespace niwa {
@@ -23,7 +24,7 @@ namespace utilities {
  * Default Constructor
  */
 RandomNumberGenerator::RandomNumberGenerator() {
-  generator_.seed(GlobalConfiguration::Instance()->random_seed());
+  generator_.seed(Model::Instance()->global_configuration().random_seed());
 }
 
 /**

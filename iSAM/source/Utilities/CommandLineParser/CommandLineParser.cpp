@@ -88,19 +88,18 @@ void CommandLineParser::Parse(int argc, const char* argv[]) {
    * Load any variables into the global config that need to be available
    * immediately
    */
-  GlobalConfiguration* global_config = GlobalConfiguration::Instance();
   if (parameters.count("debug"))
-    global_config->set_debug_mode("true");
+    global_config_.set_debug_mode("true");
   if (parameters.count("config"))
-    global_config->set_config_file(parameters["config"].as<string>());
+    global_config_.set_config_file(parameters["config"].as<string>());
   if (parameters.count("input"))
-    global_config->set_estimable_value_file(parameters["input"].as<string>());
+    global_config_.set_estimable_value_file(parameters["input"].as<string>());
   if (parameters.count("fi"))
-    global_config->set_force_estimable_values_file();
+    global_config_.set_force_estimable_values_file();
   if (parameters.count("nostd"))
-    global_config->set_disable_standard_report();
+    global_config_.set_disable_standard_report();
   if (parameters.count("loglevel"))
-    global_config->set_log_level(parameters["loglevel"].as<string>());
+    global_config_.set_log_level(parameters["loglevel"].as<string>());
   if (parameters.count("output")) {
     auto report = reports::Factory::Create(PARAM_REPORT, PARAM_ESTIMATE_VALUE);
     report->parameters().Add(PARAM_LABEL, "estimate_value_output", __FILE__, __LINE__);
@@ -175,7 +174,7 @@ void CommandLineParser::Parse(int argc, const char* argv[]) {
     run_mode_ = RunMode::kProfiling;
   else if (parameters.count("simulation")) {
     run_mode_ = RunMode::kSimulation;
-    global_config->set_simulation_candidates(parameters["simulation"].as<unsigned>());
+    global_config_.set_simulation_candidates(parameters["simulation"].as<unsigned>());
   } else if (parameters.count("projection"))
     run_mode_ = RunMode::kProjection;
   else

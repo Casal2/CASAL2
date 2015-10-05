@@ -25,6 +25,7 @@ namespace observations {
  */
 class Manager : public niwa::oldbase::Manager<observations::Manager, niwa::Observation> {
   friend class niwa::oldbase::Manager<observations::Manager, niwa::Observation>;
+  friend class niwa::Managers;
 public:
   // methods
   virtual                     ~Manager() noexcept(true);

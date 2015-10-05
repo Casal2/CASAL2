@@ -26,6 +26,7 @@ namespace simulates {
  */
 class Manager : public niwa::oldbase::Manager<niwa::simulates::Manager, niwa::Simulate> {
   friend class niwa::oldbase::Manager<niwa::simulates::Manager, niwa::Simulate>;
+  friend class niwa::Managers;
 public:
   // methods
   virtual                     ~Manager() noexcept(true);

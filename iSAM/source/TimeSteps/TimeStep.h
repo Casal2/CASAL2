@@ -19,7 +19,6 @@
 // Headers
 #include "BaseClasses/Object.h"
 #include "BaseClasses/Executor.h"
-#include "DerivedQuantities/Manager.h"
 #include "Processes/Process.h"
 #include "Utilities/Map.h"
 

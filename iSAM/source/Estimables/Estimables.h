@@ -21,6 +21,7 @@
 #include <string>
 #include <memory>
 
+#include "Model/Managers.h"
 #include "Utilities/Map.h"
 #include "Utilities/Types.h"
 
@@ -32,6 +33,7 @@ using utilities::Double;
 using std::string;
 using std::vector;
 using std::map;
+class Model;
 
 // Enumerated Types
 enum class EstimableType {
@@ -49,8 +51,8 @@ enum class EstimableType {
 class Estimables {
 public:
   // methods
+  Estimables(Model* model) : model_(model) { };
   virtual                       ~Estimables() = default;
-  static Estimables&            Instance();
   void                          AddValue(const string& estimable_label, Double value);
   vector<string>                GetEstimables() const;
   unsigned                      GetValueCount() const;
@@ -58,10 +60,8 @@ public:
   void                          LoadValues(unsigned index);
 
 private:
-  // methods
-  Estimables();
-
   // members
+  Model*                        model_;
   map<string, vector<Double>>   estimable_values_;
   map<string, Double*>          estimables_;
 

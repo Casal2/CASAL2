@@ -29,6 +29,7 @@ namespace minimisers {
  */
 class Manager : public niwa::oldbase::Manager<minimisers::Manager, niwa::Minimiser> {
   friend class niwa::oldbase::Manager<minimisers::Manager, niwa::Minimiser>;
+  friend class niwa::Managers;
 public:
   // Methods
   virtual                     ~Manager() noexcept(true);

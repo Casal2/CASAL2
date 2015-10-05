@@ -63,7 +63,7 @@ void EstimableValuesLoader::LoadValues(const string& file_name) {
    */
   unsigned line_number = 1;
   vector<string> values;
-  Estimables& estimables = model_->managers().estimables();
+  Estimables& estimables = *model_->managers().estimables();
 
   while (getline(file_, current_line)) {
     ++line_number;

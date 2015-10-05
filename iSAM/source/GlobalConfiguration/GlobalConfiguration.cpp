@@ -34,16 +34,6 @@ GlobalConfiguration::GlobalConfiguration() {
 }
 
 /**
- * Standard singletone instance method
- *
- * @return static pointer to the instance
- */
-GlobalConfiguration* GlobalConfiguration::Instance() {
-  static GlobalConfiguration instance;
-  return &instance;
-}
-
-/**
  * This accessor will return the debug flag.
  *
  * @return If we should run in debug mode of not

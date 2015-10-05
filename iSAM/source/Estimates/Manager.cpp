@@ -17,6 +17,8 @@
 
 #include "Estimables/Estimables.h"
 #include "GlobalConfiguration/GlobalConfiguration.h"
+#include "Model/Model.h"
+#include "Model/Managers.h"
 #include "Utilities/DoubleCompare.h"
 
 // Namespaces
@@ -77,9 +79,9 @@ void Manager::Validate() {
   /**
    * Load any estimate values that have been supplied
    */
-  GlobalConfiguration* global_config = GlobalConfiguration::Instance();
-  if (global_config->estimable_value_file() != "") {
-    Estimables& estimables = Estimables::Instance();
+  GlobalConfiguration& global_config = Model::Instance()->global_configuration();
+  if (global_config.estimable_value_file() != "") {
+    Estimables& estimables = *Model::Instance()->managers().estimables();
     vector<string> estimable_labels = estimables.GetEstimables();
 
     for (string label : estimable_labels) {

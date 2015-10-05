@@ -26,6 +26,7 @@ namespace lengthweights {
  */
 class Manager : public niwa::oldbase::Manager<niwa::lengthweights::Manager, niwa::LengthWeight> {
   friend class niwa::oldbase::Manager<niwa::lengthweights::Manager, niwa::LengthWeight>;
+  friend class niwa::Managers;
 public:
   // methods
   virtual                     ~Manager() noexcept(true) { };

@@ -27,6 +27,7 @@ namespace timevarying {
  */
 class Manager : public niwa::oldbase::Manager<niwa::timevarying::Manager, niwa::TimeVarying> {
   friend class niwa::oldbase::Manager<niwa::timevarying::Manager, niwa::TimeVarying>;
+  friend class niwa::Managers;
 public:
   // methods
   virtual                     ~Manager() = default;

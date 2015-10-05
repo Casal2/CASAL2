@@ -41,6 +41,7 @@ struct Info {
  */
 class Manager : public niwa::oldbase::Manager<penalties::Manager, niwa::Penalty> {
   friend class niwa::oldbase::Manager<penalties::Manager, niwa::Penalty>;
+  friend class niwa::Managers;
 public:
   // Methods
   virtual                     ~Manager() noexcept(true) {};

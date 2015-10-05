@@ -22,6 +22,7 @@ int main(int argc, char **argv) {
 #include "Model/Managers.h"
 #include "Model/Model.h"
 #include "Reports/Children/StandardHeader.h"
+#include "Reports/Manager.h"
 #include "Utilities/CommandLineParser/CommandLineParser.h"
 #include "Logging/Logging.h"
 
@@ -35,13 +36,12 @@ using std::endl;
  */
 int main(int argc, char * argv[]) {
   Model model;
-  GlobalConfiguration global_config;
   reports::StandardHeader standard_report;
   int return_code = 0;
   bool model_start_return_success = true;
 
   try {
-    utilities::CommandLineParser parser(model, global_config);
+    utilities::CommandLineParser parser(model, model.global_configuration());
     parser.Parse(argc, (const char **)argv);
 
     RunMode::Type run_mode = parser.run_mode();
@@ -70,7 +70,7 @@ int main(int argc, char * argv[]) {
       break;
 
     default:
-      if (!global_config.debug_mode() && !global_config.disable_standard_report())
+      if (!model.global_configuration().debug_mode() && !model.global_configuration().disable_standard_report())
         standard_report.Prepare();
 
       // load our configuration file
@@ -82,17 +82,17 @@ int main(int argc, char * argv[]) {
       }
 
       // override any config file values from our command line
-      global_config.OverrideGlobalValues(parser.override_values());
+      model.global_configuration().OverrideGlobalValues(parser.override_values());
 
       // Thread off the reports
-      reports::Manager& report_manager = model.managers().report();
-      std::thread report_thread([&report_manager]() { report_manager.FlushReports(); });
+      reports::Manager* report_manager = model.managers().report();
+      std::thread report_thread([report_manager]() { report_manager->FlushReports(); });
 
       // Run the model
       model_start_return_success = model.Start(run_mode);
 
       // finish report thread
-      reports::Manager::Instance().StopThread();
+      report_manager->StopThread();
       report_thread.join();
 
       Logging& logging = Logging::Instance();
@@ -103,7 +103,7 @@ int main(int argc, char * argv[]) {
 
       logging.FlushWarnings();
 
-      if (!global_config.debug_mode() && !global_config.disable_standard_report())
+      if (!model.global_configuration().debug_mode() && !model.global_configuration().disable_standard_report())
         standard_report.Finalise();
       break;
     } // switch(run_mode)

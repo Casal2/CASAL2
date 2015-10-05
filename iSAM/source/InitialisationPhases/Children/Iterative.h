@@ -16,6 +16,7 @@
 
 // headers
 #include "InitialisationPhases/InitialisationPhase.h"
+#include "Partition/Accessors/Categories.h"
 #include "Partition/Accessors/Cached/Categories.h"
 
 // namespaces

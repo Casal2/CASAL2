@@ -55,7 +55,7 @@ protected:
   vector<string>              selectivity_labels_;
   vector<Selectivity*>        selectivities_;
   vector<string>              category_labels_;
-  Model*                    model_;
+  Model*                      model_;
   accessor::Categories        partition_;
   string                      proportion_method_;
   Double                      time_step_proportion_;

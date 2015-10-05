@@ -30,7 +30,6 @@
 using std::map;
 using std::vector;
 using std::string;
-using std::shared_ptr;
 
 namespace util = niwa::utilities;
 
@@ -43,7 +42,6 @@ class GlobalConfiguration : public niwa::base::Object {
 public:
   // Methods
   GlobalConfiguration();
-  static GlobalConfiguration* Instance();
   virtual                     ~GlobalConfiguration() = default;
   void                        Clear();
   void                        OverrideGlobalValues(const map<string, string>& override_values);
@@ -76,9 +74,5 @@ private:
   vector<string>              command_line_parameters_;
   unsigned                    simulation_candidates_ = 1;
 };
-
-// Typedef
-typedef std::shared_ptr<GlobalConfiguration> GlobalConfigurationPtr;
-
 } /* namespace niwa */
 #endif /* GLOBALCONFIGURATION_H_ */

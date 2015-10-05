@@ -64,7 +64,7 @@ using std::endl;
 /**
  * Default Constructor
  */
-Model::Model() : managers_(new Managers()), objects_(new Objects()) {
+Model::Model() {
   LOG_TRACE();
   parameters_.Bind<unsigned>(PARAM_START_YEAR, &start_year_, "Define the first year of the model, immediately following initialisation", R"(Defines the first year of the model, $\ge 1$, e.g. 1990)");
   parameters_.Bind<unsigned>(PARAM_FINAL_YEAR, &final_year_, "Define the final year of the model, excluding years in the projection period", "Defines the last year of the model, i.e., the model is run from start_year to final_year");
@@ -76,9 +76,15 @@ Model::Model() : managers_(new Managers()), objects_(new Objects()) {
   parameters_.Bind<unsigned>(PARAM_PROJECTION_FINAL_YEAR, &projection_final_year_, "Define the final year of the model in projection mode", R"(Defines the last year of the projection period, i.e., the projection period runs from \texttt{final_year}$+1$ to \texttt{projection_final_year}. For the default, $0$, no projections are run.)", 0);
   parameters_.Bind<string>(PARAM_TYPE, &type_, "Type of model (the partition structure). Either age, length or hybrid", "", PARAM_AGE);
   parameters_.Bind<Double>(PARAM_LENGTH_BINS, &length_bins_, "", "", true);
+
+  global_configuration_ = new GlobalConfiguration();
+  managers_ = new Managers(this);
+  objects_ = new Objects();
+  categories_ = new Categories();
 }
 
 Model::~Model() {
+  delete global_configuration_;
   delete managers_;
   delete objects_;
 }
@@ -154,10 +160,9 @@ bool Model::Start(RunMode::Type run_mode) {
 
   if (state_ != State::kStartUp)
     LOG_CODE_ERROR() << "Model state should always be startup when entering the start method";
-  GlobalConfiguration* global_config = GlobalConfiguration::Instance();
-  if (global_config->estimable_value_file() != "") {
+  if (global_configuration_->estimable_value_file() != "") {
     configuration::EstimableValuesLoader loader(this);
-    loader.LoadValues(global_config->estimable_value_file());
+    loader.LoadValues(global_configuration_->estimable_value_file());
   }
   reports::Manager::Instance().Execute(State::kStartUp);
 
@@ -363,7 +368,7 @@ void Model::Build() {
   simulates::Manager::Instance().Build();
   timevarying::Manager::Instance().Build();
 
-  Estimables& estimables = managers_->estimables();
+  Estimables& estimables = *managers_->estimables();
   if (estimables.GetValueCount() > 0) {
     estimable_values_file_ = true;
     estimable_values_count_ = estimables.GetValueCount();
@@ -417,7 +422,7 @@ void Model::Reset() {
  */
 void Model::RunBasic() {
   LOG_TRACE();
-  Estimables& estimables = managers_->estimables();
+  Estimables& estimables = *managers_->estimables();
 
   // Model is about to run
   for (unsigned i = 0; i < estimable_values_count_; ++i) {
@@ -449,7 +454,7 @@ void Model::RunBasic() {
  * Run the model in estimation mode.
  */
 void Model::RunEstimation() {
-  GlobalConfiguration::Instance()->set_force_estimable_values_file();
+  global_configuration_->set_force_estimable_values_file();
 
   /*
    * Before running the model in estimation mode we'll do an iteration
@@ -458,7 +463,7 @@ void Model::RunEstimation() {
   LOG_FINE() << "Doing pre-estimation iteration of the model";
   Iterate();
 
-  Estimables& estimables = managers_->estimables();
+  Estimables& estimables = *managers_->estimables();
   map<string, Double> estimable_values;
   for (unsigned i = 0; i < estimable_values_count_; ++i) {
     if (estimable_values_file_) {
@@ -508,9 +513,9 @@ bool Model::RunMCMC() {
  *
  */
 void Model::RunProfiling() {
-  GlobalConfiguration::Instance()->set_force_estimable_values_file();
+  global_configuration_->set_force_estimable_values_file();
 
-  Estimables& estimables = managers_->estimables();
+  Estimables& estimables = *managers_->estimables();
 
   map<string, Double> estimable_values;
   for (unsigned i = 0; i < estimable_values_count_; ++i) {
@@ -560,7 +565,7 @@ void Model::RunProfiling() {
 void Model::RunSimulation() {
   LOG_FINE() << "Entering the Simulation Sub-System";
 
-  unsigned simulation_candidates = GlobalConfiguration::Instance()->simulation_candidates();
+  unsigned simulation_candidates = global_configuration_->simulation_candidates();
   unsigned suffix_width          = (unsigned)floor(log10((double) simulation_candidates + 1)) + 1;
   for (unsigned i = 0; i < simulation_candidates; ++i) {
     string report_suffix = ".";

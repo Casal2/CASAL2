@@ -14,7 +14,9 @@
 
 #include <cmath>
 
+#include "LengthWeights/Manager.h"
 #include "Model/Managers.h"
+#include "TimeSteps/Manager.h"
 
 // namespaces
 namespace niwa {
@@ -62,7 +64,7 @@ Schnute::Schnute(Model* model) : AgeLength(model) {
  * Obtain smart_pointers to any objects that will be used by this object.
  */
 void Schnute::DoBuild() {
-  length_weight_ = model_->managers().length_weight().GetLengthWeight(length_weight_label_);
+  length_weight_ = model_->managers().length_weight()->GetLengthWeight(length_weight_label_);
   if (!length_weight_)
     LOG_ERROR_P(PARAM_LENGTH_WEIGHT) << "(" << length_weight_label_ << ") could not be found. Have you defined it?";
 }
@@ -78,7 +80,7 @@ Double Schnute::mean_length(unsigned year, unsigned age) {
   Double temp = 0.0;
   Double size = 0.0;
 
-  Double proportion = time_step_proportions_[model_->managers().time_step().current_time_step()];
+  Double proportion = time_step_proportions_[model_->managers().time_step()->current_time_step()];
 
   if (a_ != 0.0)
     temp = (1 - exp( -a_ * ((age + proportion) - tau1_))) / (1 - exp(-a_ * (tau2_ - tau1_)));
@@ -135,9 +137,9 @@ void Schnute::BuildCV(unsigned year) {
  */
 Double Schnute::mean_weight(unsigned year, unsigned age) {
   Double size = this->mean_length(year, age);
-  Double mean_weight = 0.0;
   BuildCV(year);
-   mean_weight = length_weight_->mean_weight(size, distribution_, cvs_[age]);
+
+  Double mean_weight = length_weight_->mean_weight(size, distribution_, cvs_[age]);
   return mean_weight;
 }
 

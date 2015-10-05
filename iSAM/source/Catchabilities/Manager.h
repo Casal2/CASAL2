@@ -19,6 +19,7 @@
 // headers
 #include "BaseClasses/Manager.h"
 #include "Catchabilities/Catchability.h"
+#include "Model/Managers.h"
 
 // namespaces
 namespace niwa {
@@ -27,6 +28,7 @@ namespace catchabilities {
 // classes
 class Manager : public niwa::oldbase::Manager<niwa::catchabilities::Manager, niwa::Catchability> {
   friend class niwa::oldbase::Manager<niwa::catchabilities::Manager, niwa::Catchability>;
+  friend class niwa::Managers;
 public:
   // Methods
   virtual                     ~Manager() = default;
