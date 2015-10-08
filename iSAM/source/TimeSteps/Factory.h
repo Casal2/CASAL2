@@ -13,15 +13,21 @@
 #define TIMESTEPS_FACTORY_H_
 
 // Headers
-#include "BaseClasses/Factory.h"
-
-#include "TimeSteps/Manager.h"
 #include "TimeSteps/TimeStep.h"
 
 namespace niwa {
 namespace timesteps {
 
-class Factory : public base::Factory<niwa::TimeStep, niwa::timesteps::Manager> { };
+class Factory {
+public:
+  // methods
+  static TimeStep* Create(Model* model, const string& object_type, const string& sub_type);
+
+private:
+  // methods
+  Factory() = delete;
+  ~Factory() = delete;
+};
 
 } /* namespace timesteps */
 } /* namespace niwa */

@@ -12,7 +12,6 @@
 #define CATCHABILITIES_FACTORY_H_
 
 // Headers
-#include "BaseClasses/Factory.h"
 #include "Catchabilities/Manager.h"
 
 // Namespaces
