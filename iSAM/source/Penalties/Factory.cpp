@@ -12,6 +12,8 @@
 // Headers
 #include "Factory.h"
 
+#include "Model/Model.h"
+#include "Model/Managers.h"
 #include "Penalties/Manager.h"
 #include "Penalties/Children/Process.h"
 #include "Penalties/Children/VectorAverage.h"
@@ -29,7 +31,7 @@ namespace penalties {
  * @param sub_type The child type of the object to create (e.g ageing, schnute)
  * @return shared_ptr to the object we've created
  */
-Penalty* Factory::Create(const string& object_type, const string& sub_type) {
+Penalty* Factory::Create(Model* model, const string& object_type, const string& sub_type) {
   Penalty* object = nullptr;
 
   if (object_type == PARAM_PENALTY) {
@@ -41,7 +43,7 @@ Penalty* Factory::Create(const string& object_type, const string& sub_type) {
       object = new VectorSmoothing();
 
     if (object)
-      penalties::Manager::Instance().AddObject(object);
+      model->managers().penalty()->AddObject(object);
   }
 
   return object;

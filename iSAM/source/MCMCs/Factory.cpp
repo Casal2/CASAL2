@@ -12,6 +12,8 @@
 // headers
 #include "Factory.h"
 
+#include "Model/Model.h"
+#include "Model/Managers.h"
 #include "MCMCs/Manager.h"
 #include "MCMCs/Children/IndependenceMetropolis.h"
 
@@ -22,7 +24,7 @@ namespace mcmcs {
 /**
  * Factory method
  */
-MCMC* Factory::Create(const string& object_type, const string& sub_type) {
+MCMC* Factory::Create(Model* model, const string& object_type, const string& sub_type) {
   MCMC* object = nullptr;
 
   if (object_type == PARAM_MCMC) {
@@ -31,7 +33,7 @@ MCMC* Factory::Create(const string& object_type, const string& sub_type) {
   }
 
   if (object)
-    mcmcs::Manager::Instance().AddObject(object);
+    model->managers().mcmc()->AddObject(object);
 
   return object;
 }

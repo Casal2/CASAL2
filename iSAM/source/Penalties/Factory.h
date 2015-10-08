@@ -18,6 +18,8 @@
 
 // Namespaces
 namespace niwa {
+class Model;
+
 namespace penalties {
 
 /**
@@ -26,7 +28,7 @@ namespace penalties {
 class Factory {
 public:
   // methods
-  static Penalty* Create(const string& object_type, const string& sub_type);
+  static Penalty* Create(Model* model, const string& object_type, const string& sub_type);
 
 private:
   // methods

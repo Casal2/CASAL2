@@ -17,6 +17,8 @@
 // Headers
 #include "Factory.h"
 
+#include "Model/Model.h"
+#include "Model/Managers.h"
 #include "Selectivities/Manager.h"
 #include "Selectivities/Children/AllValues.h"
 #include "Selectivities/Children/AllValuesBounded.h"
@@ -41,7 +43,7 @@ namespace selectivities {
  * @param sub_type The child type of the object to create (e.g ageing, schnute)
  * @return shared_ptr to the object we've created
  */
-Selectivity* Factory::Create(const string& object_type, const string& sub_type) {
+Selectivity* Factory::Create(Model* model, const string& object_type, const string& sub_type) {
   Selectivity* result = nullptr;
 
   if (object_type == PARAM_SELECTIVITY || object_type == PARAM_SELECTIVITIES) {
@@ -67,7 +69,7 @@ Selectivity* Factory::Create(const string& object_type, const string& sub_type) 
       result = new LogisticProducing();
 
     if (result)
-      niwa::selectivities::Manager::Instance().AddObject(result);
+      model->managers().selectivity()->AddObject(result);
   }
 
   return result;

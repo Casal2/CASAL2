@@ -22,9 +22,9 @@
 #include <boost/algorithm/string/join.hpp>
 
 #include "BaseClasses/Object.h"
-#include "Factory/Object.h"
 #include "GlobalConfiguration/GlobalConfiguration.h"
 #include "Logging/Logging.h"
+#include "Model/Factory.h"
 #include "Reports/Factory.h"
 
 // Namespaces
@@ -101,7 +101,7 @@ void CommandLineParser::Parse(int argc, const char* argv[]) {
   if (parameters.count("loglevel"))
     global_config_.set_log_level(parameters["loglevel"].as<string>());
   if (parameters.count("output")) {
-    auto report = reports::Factory::Create(PARAM_REPORT, PARAM_ESTIMATE_VALUE);
+    auto report = reports::Factory::Create(&model_, PARAM_REPORT, PARAM_ESTIMATE_VALUE);
     report->parameters().Add(PARAM_LABEL, "estimate_value_output", __FILE__, __LINE__);
     report->parameters().Add(PARAM_TYPE, PARAM_ESTIMATE_VALUE, __FILE__, __LINE__);
     report->parameters().Add(PARAM_FILE_NAME, parameters["output"].as<string>(), __FILE__, __LINE__);
@@ -131,7 +131,7 @@ void CommandLineParser::Parse(int argc, const char* argv[]) {
     if (parts.size() == 1)
       parts.push_back("");
     if (parts.size() == 2) {
-      base::Object* object = factory::Object::Create(parts[0], parts[1]);
+      base::Object* object = model_.factory().CreateObject(parts[0], parts[1]);
       if (object) {
         cout << "Printing information for " << parts[0] << " with sub-type " << parts[1] << endl;
         object->PrintParameterQueryInfo();

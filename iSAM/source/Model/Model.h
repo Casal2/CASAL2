@@ -30,6 +30,7 @@ using base::Executor;
 class Managers;
 class Objects;
 class Categories;
+class Factory;
 
 namespace State {
 enum Type {
@@ -94,6 +95,7 @@ public:
   virtual Objects&            objects();
   GlobalConfiguration&        global_configuration() { return *global_configuration_; }
   virtual Categories*         categories() { return categories_; }
+  virtual Factory&            factory();
 
 protected:
   // Methods
@@ -132,6 +134,7 @@ protected:
   Objects*                    objects_;
   GlobalConfiguration*        global_configuration_;
   Categories*                 categories_;
+  Factory*                    factory_;
 };
 
 } /* namespace niwa */

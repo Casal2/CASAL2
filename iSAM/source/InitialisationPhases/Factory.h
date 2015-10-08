@@ -19,6 +19,8 @@
 
 // Namespaces
 namespace niwa {
+class Model;
+
 namespace initialisationphases {
 
 /**
@@ -27,7 +29,7 @@ namespace initialisationphases {
 class Factory {
 public:
   // methods
-  static InitialisationPhase* Create(const string& object_type, const string& sub_type);
+  static InitialisationPhase* Create(Model* model, const string& object_type, const string& sub_type);
 
 private:
   // methods

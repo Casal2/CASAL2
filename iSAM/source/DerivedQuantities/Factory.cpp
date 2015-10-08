@@ -11,6 +11,8 @@
 // headers
 #include "Factory.h"
 
+#include "Model/Model.h"
+#include "Model/Managers.h"
 #include "DerivedQuantities/Manager.h"
 #include "DerivedQuantities/Children/Abundance.h"
 #include "DerivedQuantities/Children/Biomass.h"
@@ -27,7 +29,7 @@ namespace derivedquantities {
  * @param sub_type The child type of the object to create (e.g ageing, schnute)
  * @return shared_ptr to the object we've created
  */
-DerivedQuantity* Factory::Create(const string& object_type, const string& sub_type) {
+DerivedQuantity* Factory::Create(Model* model, const string& object_type, const string& sub_type) {
   DerivedQuantity* result = nullptr;
 
   if (object_type == PARAM_DERIVED_QUANTITY || object_type == PARAM_DERIVED_QUANTITIES) {
@@ -37,7 +39,7 @@ DerivedQuantity* Factory::Create(const string& object_type, const string& sub_ty
       result = new Biomass();
 
     if (result)
-      derivedquantities::Manager::Instance().AddObject(result);
+      model->managers().derived_quantity()->AddObject(result);
   }
 
   return result;

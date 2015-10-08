@@ -19,8 +19,9 @@
 
 // Namespaces
 namespace niwa {
-namespace reports {
+class Model;
 
+namespace reports {
 using std::string;
 
 /**
@@ -29,7 +30,7 @@ using std::string;
 class Factory {
 public:
   // methods
-  static Report* Create(const string& object_type, const string& sub_type);
+  static Report* Create(Model* model, const string& object_type, const string& sub_type);
 
 private:
   // methods

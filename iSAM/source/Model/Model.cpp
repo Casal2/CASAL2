@@ -15,6 +15,7 @@
 
 #include <iostream>
 
+#include "Factory.h"
 #include "Managers.h"
 #include "Objects.h"
 #include "AdditionalPriors/Manager.h"
@@ -81,12 +82,15 @@ Model::Model() {
   managers_ = new Managers(this);
   objects_ = new Objects();
   categories_ = new Categories();
+  factory_ = new Factory(this);
 }
 
 Model::~Model() {
   delete global_configuration_;
   delete managers_;
   delete objects_;
+  delete factory_;
+  delete categories_;
 }
 
 /**
@@ -139,6 +143,10 @@ Managers& Model::managers() {
 
 Objects& Model::objects() {
   return *objects_;
+}
+
+Factory& Model::factory() {
+  return *factory_;
 }
 
 /**

@@ -17,15 +17,16 @@
 
 // namespaces
 namespace niwa {
-namespace asserts {
+class Model;
 
+namespace asserts {
 using std::string;
 
 // classes
 class Factory {
 public:
   // methods
-  static Assert*              Create(const string& object_type, const string& sub_type);
+  static Assert*              Create(Model* model, const string& object_type, const string& sub_type);
 
 private:
   // methods

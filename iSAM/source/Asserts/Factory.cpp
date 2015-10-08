@@ -12,6 +12,8 @@
 // headers
 #include "Factory.h"
 
+#include "Model/Model.h"
+#include "Model/Managers.h"
 #include "Asserts/Manager.h"
 #include "Asserts/Children/Estimable.h"
 #include "Asserts/Children/ObjectiveFunction.h"
@@ -28,7 +30,7 @@ namespace asserts {
  * @param sub_type The child type of the object to create (e.g ageing, schnute)
  * @return shared_ptr to the object we've created
  */
-Assert* Factory::Create(const string& object_type, const string& sub_type) {
+Assert* Factory::Create(Model* model, const string& object_type, const string& sub_type) {
   Assert* result = nullptr;
 
   if (object_type == PARAM_ASSERT) {
@@ -38,7 +40,7 @@ Assert* Factory::Create(const string& object_type, const string& sub_type) {
       result = new ObjectiveFunction();
 
     if (result)
-      asserts::Manager::Instance().AddObject(result);
+      model->managers().assertx()->AddObject(result);
   }
 
   return result;

@@ -13,6 +13,8 @@
 // Headers
 #include "Factory.h"
 
+#include "Model/Model.h"
+#include "Model/Managers.h"
 #include "Minimisers/Manager.h"
 
 #ifdef USE_AUTODIFF
@@ -43,7 +45,7 @@ namespace minimisers {
  * @param sub_type The child type of the object to create (e.g ageing, schnute)
  * @return shared_ptr to the object we've created
  */
-Minimiser* Factory::Create(const string& object_type, const string& sub_type) {
+Minimiser* Factory::Create(Model* model, const string& object_type, const string& sub_type) {
   Minimiser* result = nullptr;
 
   if (object_type == PARAM_MINIMIZER) {
@@ -73,7 +75,7 @@ Minimiser* Factory::Create(const string& object_type, const string& sub_type) {
     if (!result)
       LOG_ERROR() << "The minimiser " << object_type << "." << sub_type << " is not supported in the current configuration";
     if (result)
-      minimisers::Manager::Instance().AddObject(result);
+      model->managers().minimiser()->AddObject(result);
   }
 
   return result;

@@ -19,9 +19,9 @@
 #include <boost/algorithm/string/split.hpp>
 #include <boost/algorithm/string/join.hpp>
 
-#include "Factory/Object.h"
 #include "File.h"
 #include "GlobalConfiguration/GlobalConfiguration.h"
+#include "Model/Factory.h"
 #include "Translations/Translations.h"
 #include "Utilities/String.h"
 #include "Utilities/To.h"
@@ -212,7 +212,7 @@ void Loader::ParseBlock(vector<FileLine> &block) {
   block_type  = utilities::ToLowercase(block_type);
   sub_type = utilities::ToLowercase(sub_type);
 
-  Object* object = factory::Object::Create(block_type, sub_type);
+  Object* object = model_.factory().CreateObject(block_type, sub_type);
   if (!object)
     LOG_FATAL() << "At line " << block[0].line_number_ << " in " << block[0].file_name_
         << ": Block object type or sub-type is invalid.\n"

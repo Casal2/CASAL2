@@ -13,6 +13,8 @@
 // Headers
 #include "Factory.h"
 
+#include "Model/Model.h"
+#include "Model/Managers.h"
 #include "Reports/Manager.h"
 #include "Reports/Children/AgeingErrorMatrix.h"
 #include "Reports/Children/CategoryInfo.h"
@@ -46,7 +48,7 @@ namespace reports {
  * @param sub_type The child type of the object to create (e.g ageing, schnute)
  * @return shared_ptr to the object we've created
  */
-Report* Factory::Create(const string& object_type, const string& sub_type) {
+Report* Factory::Create(Model* model, const string& object_type, const string& sub_type) {
   Report* result = nullptr;
 
   if (object_type == PARAM_REPORT) {
@@ -90,7 +92,7 @@ Report* Factory::Create(const string& object_type, const string& sub_type) {
       result = new Selectivity();
 
     if (result)
-      niwa::reports::Manager::Instance().AddObject(result);
+      model->managers().report()->AddObject(result);
   }
 
   return result;

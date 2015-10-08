@@ -11,6 +11,8 @@
 // headers
 #include "Factory.h"
 
+#include "Model/Model.h"
+#include "Model/Managers.h"
 #include "AgeLengths/Manager.h"
 #include "AgeLengths/AgeLength.h"
 #include "AgeLengths/Children/Data.h"
@@ -30,7 +32,7 @@ namespace agelengths {
  * @param sub_type The child type of the object to create (e.g ageing, schnute)
  * @return shared_ptr to the object we've created
  */
-AgeLength* Factory::Create(const string& object_type, const string& sub_type) {
+AgeLength* Factory::Create(Model* model, const string& object_type, const string& sub_type) {
   AgeLength* result = nullptr;
 
   if (object_type == PARAM_AGE_LENGTH || object_type == PARAM_AGE_LENGTHS) {
@@ -44,7 +46,7 @@ AgeLength* Factory::Create(const string& object_type, const string& sub_type) {
       result = new VonBertalanffy();
 
     if (result)
-      agelengths::Manager::Instance().AddObject(result);
+      model->managers().age_length()->AddObject(result);
   }
 
   return result;
