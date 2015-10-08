@@ -13,6 +13,8 @@
 // Headers
 #include "Factory.h"
 
+#include "Model/Model.h"
+#include "Model/Managers.h"
 #include "Processes/Manager.h"
 #include "Processes/Children/Ageing.h"
 #include "Processes/Children/Growth.h"
@@ -41,7 +43,7 @@ namespace processes {
  * @param sub_type The child type of the object to create (e.g ageing, schnute)
  * @return shared_ptr to the object we've created
  */
-Process* Factory::Create(const string& object_type, const string& sub_type) {
+Process* Factory::Create(Model* model, const string& object_type, const string& sub_type) {
   Process* result = nullptr;
 
   string object = object_type;
@@ -95,7 +97,7 @@ Process* Factory::Create(const string& object_type, const string& sub_type) {
       result = new TransitionCategoryByAge();
 
     if (result)
-      processes::Manager::Instance().AddObject(result);
+      model->managers().process()->AddObject(result);
   }
 
   return result;

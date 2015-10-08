@@ -29,7 +29,7 @@ template<class ObjectType, class ManagerType>
 class Factory {
 public:
   // methods
-  static ObjectType* Create() {
+  static ObjectType* Create(Model* model) {
     ObjectType* return_value = new ObjectType();
 
     ManagerType::Instance().AddObject(return_value);

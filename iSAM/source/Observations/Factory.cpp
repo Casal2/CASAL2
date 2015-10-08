@@ -13,6 +13,8 @@
 // Headers
 #include "Factory.h"
 
+#include "Model/Model.h"
+#include "Model/Managers.h"
 #include "Observations/Manager.h"
 #include "Observations/Children/ProcessAbundance.h"
 #include "Observations/Children/ProcessBiomass.h"
@@ -39,7 +41,7 @@ namespace observations {
  * @param sub_type The child type of the object to create (e.g ageing, schnute)
  * @return shared_ptr to the object we've created
  */
-Observation* Factory::Create(const string& object_type, const string& sub_type) {
+Observation* Factory::Create(Model* model, const string& object_type, const string& sub_type) {
   Observation* result = nullptr;
 
   if (object_type == PARAM_OBSERVATION) {
@@ -70,7 +72,7 @@ Observation* Factory::Create(const string& object_type, const string& sub_type) 
   }
 
   if (result)
-    niwa::observations::Manager::Instance().AddObject(result);
+    model->managers().observation()->AddObject(result);
 
   return result;
 }

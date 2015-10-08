@@ -10,6 +10,8 @@
 // headers
 #include "Factory.h"
 
+#include "Model/Model.h"
+#include "Model/Managers.h"
 #include "Estimates/Manager.h"
 #include "Estimates/Creators/Children/Beta.h"
 #include "Estimates/Creators/Children/Lognormal.h"
@@ -30,7 +32,7 @@ namespace creators {
  * @param object_type The major object type (@estimate)
  * @param sub_type The sub type of the object (e.g beta)
  */
-Creator* Factory::Create(const string& object_type, const string& sub_type) {
+Creator* Factory::Create(Model* model, const string& object_type, const string& sub_type) {
   Creator* object = nullptr;
 
   if (sub_type == PARAM_BETA)
@@ -49,7 +51,7 @@ Creator* Factory::Create(const string& object_type, const string& sub_type) {
     object = new UniformLog();
 
   if (object)
-    estimates::Manager::Instance().AddCreator(object);
+    model->managers().estimate()->AddCreator(object);
 
   return object;
 }

@@ -18,6 +18,8 @@
 
 // namespaces
 namespace niwa {
+class Model;
+
 namespace lengthweights {
 
 /**
@@ -26,7 +28,7 @@ namespace lengthweights {
 class Factory {
 public:
   // methods
-  static LengthWeight*        Create(const string& object_type, const string& sub_type);
+  static LengthWeight*        Create(Model* model, const string& object_type, const string& sub_type);
 
 private:
   // methods

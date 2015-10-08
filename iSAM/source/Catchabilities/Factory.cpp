@@ -12,6 +12,8 @@
 // headers
 #include "Factory.h"
 
+#include "Model/Model.h"
+#include "Model/Managers.h"
 #include "Catchabilities/Manager.h"
 #include "Catchabilities/Children/Free.h"
 
@@ -26,7 +28,7 @@ namespace catchabilities {
  * @param sub_type The sub type (e.g beta)
  * @return ptr of an catchability
  */
-Catchability* Factory::Create(const string& object_type, const string& sub_type) {
+Catchability* Factory::Create(Model* model, const string& object_type, const string& sub_type) {
   Catchability* result = nullptr;
 
   if (object_type == PARAM_CATCHABILITY) {
@@ -35,7 +37,7 @@ Catchability* Factory::Create(const string& object_type, const string& sub_type)
 
 
     if (result)
-      catchabilities::Manager::Instance().AddObject(result);
+      model->managers().catchability()->AddObject(result);
   }
 
   return result;

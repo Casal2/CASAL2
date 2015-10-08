@@ -11,6 +11,8 @@
 // headers
 #include "Factory.h"
 
+#include "Model/Model.h"
+#include "Model/Managers.h"
 #include "AgeingErrors/Manager.h"
 #include "AgeingErrors/AgeingError.h"
 #include "AgeingErrors/Children/Data.h"
@@ -30,7 +32,7 @@ namespace ageingerrors {
  * @param sub_type The child type of the object to create (e.g ageing, schnute)
  * @return shared_ptr to the object we've created
  */
-AgeingError* Factory::Create(const string& object_type, const string& sub_type) {
+AgeingError* Factory::Create(Model* model, const string& object_type, const string& sub_type) {
   AgeingError* result = nullptr;
 
   if (object_type == PARAM_AGEING_ERROR || object_type == PARAM_AGEING_ERRORS) {
@@ -42,7 +44,7 @@ AgeingError* Factory::Create(const string& object_type, const string& sub_type) 
       result = new OffByOne();
 
     if (result)
-      ageingerrors::Manager::Instance().AddObject(result);
+      model->managers().ageing_error()->AddObject(result);
   }
 
   return result;

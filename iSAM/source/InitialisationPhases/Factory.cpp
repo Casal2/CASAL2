@@ -11,6 +11,8 @@
 // headers
 #include "Factory.h"
 
+#include "Model/Model.h"
+#include "Model/Managers.h"
 #include "InitialisationPhases/Children/Derived.h"
 #include "InitialisationPhases/Children/Iterative.h"
 #include "InitialisationPhases/Children/StateCategoryByAge.h"
@@ -27,7 +29,7 @@ namespace initialisationphases {
  * @param sub_type The child type of the object to create (e.g ageing, schnute)
  * @return shared_ptr to the object we've created
  */
-InitialisationPhase* Factory::Create(const string& object_type, const string& sub_type) {
+InitialisationPhase* Factory::Create(Model* model, const string& object_type, const string& sub_type) {
   InitialisationPhase* result = nullptr;
 
   if (object_type == PARAM_INITIALISATION_PHASE) {
@@ -39,7 +41,7 @@ InitialisationPhase* Factory::Create(const string& object_type, const string& su
       result = new StateCategoryByAge();
 
     if (result)
-      niwa::initialisationphases::Manager::Instance().AddObject(result);
+      model->managers().initialisation_phase()->AddObject(result);
   }
 
   return result;

@@ -18,6 +18,8 @@
 
 // namespaces
 namespace niwa {
+class Model;
+
 namespace estimates {
 namespace creators {
 
@@ -27,7 +29,7 @@ namespace creators {
 class Factory {
 public:
   // methods
-  static Creator*             Create(const string& object_type, const string& sub_type);
+  static Creator*             Create(Model* model, const string& object_type, const string& sub_type);
 
 private:
   // methods

@@ -11,6 +11,8 @@
 // headers
 #include "Factory.h"
 
+#include "Model/Model.h"
+#include "Model/Managers.h"
 #include "Projects/Children/Constant.h"
 #include "Projects/Manager.h"
 
@@ -26,7 +28,7 @@ namespace projects {
  * @param sub_type The child type of the object to create (e.g ageing, schnute)
  * @return shared_ptr to the object we've created
  */
-Project* Factory::Create(const string& object_type, const string& sub_type) {
+Project* Factory::Create(Model* model, const string& object_type, const string& sub_type) {
   Project* result = nullptr;
 
   if (object_type == PARAM_PROJECTS || object_type == PARAM_PROJECT) {
@@ -34,7 +36,7 @@ Project* Factory::Create(const string& object_type, const string& sub_type) {
       result = new Constant();
 
     if (result)
-      projects::Manager::Instance().AddObject(result);
+      model->managers().project()->AddObject(result);
   }
 
   return result;

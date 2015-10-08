@@ -16,13 +16,15 @@
 
 // namespaces
 namespace niwa {
+class Model;
+
 namespace additionalpriors {
 
 // classes
 class Factory {
 public:
   // methods
-  static AdditionalPrior*     Create(const string& object_type, const string& sub_type);
+  static AdditionalPrior*     Create(Model* model, const string& object_type, const string& sub_type);
 
 private:
   // methods

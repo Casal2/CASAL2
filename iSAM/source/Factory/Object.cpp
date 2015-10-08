@@ -57,7 +57,7 @@ namespace factory {
 base::Object* Object::Create(string& object_type, string& sub_type) {
   object_type = utilities::ToLowercase(object_type);
   sub_type    = utilities::ToLowercase(sub_type);
-
+/**
   if (object_type == PARAM_ADDITIONAL_PRIOR)
     return additionalpriors::Factory::Create(object_type, sub_type);
   else if (object_type == PARAM_AGEING_ERROR || object_type == PARAM_AGEING_ERRORS)
@@ -108,7 +108,7 @@ base::Object* Object::Create(string& object_type, string& sub_type) {
     return timesteps::Factory::Create();
   else if (object_type == PARAM_TIME_VARYING)
     return timevarying::Factory::Create(object_type, sub_type);
-
+*/
   return nullptr;
 }
 

@@ -19,8 +19,9 @@
 
 // Namespaces
 namespace niwa {
-namespace processes {
+class Model;
 
+namespace processes {
 using std::string;
 
 /**
@@ -29,7 +30,7 @@ using std::string;
 class Factory {
 public:
   // methods
-  static Process* Create(const string& object_type, const string& sub_type);
+  static Process* Create(Model* model, const string& object_type, const string& sub_type);
 
 private:
   // methods

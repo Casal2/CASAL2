@@ -18,13 +18,15 @@
 
 // namespaces
 namespace niwa {
+class Model;
+
 namespace derivedquantities {
 
 // classes
 class Factory {
 public:
   // methods
-  static DerivedQuantity*     Create(const string& object_type, const string& sub_type);
+  static DerivedQuantity*     Create(Model* model, const string& object_type, const string& sub_type);
 
 private:
   // methods

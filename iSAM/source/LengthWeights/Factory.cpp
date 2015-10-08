@@ -11,6 +11,8 @@
 // headers
 #include "Factory.h"
 
+#include "Model/Model.h"
+#include "Model/Managers.h"
 #include "LengthWeights/Manager.h"
 #include "LengthWeights/Children/Basic.h"
 #include "LengthWeights/Children/None.h"
@@ -27,7 +29,7 @@ namespace lengthweights {
  * @param sub_type The child type of the object to create (e.g ageing, schnute)
  * @return shared_ptr to the object we've created
  */
-LengthWeight* Factory::Create(const string& object_type, const string& sub_type) {
+LengthWeight* Factory::Create(Model* model, const string& object_type, const string& sub_type) {
   LengthWeight* result = nullptr;
 
   if (object_type == PARAM_LENGTH_WEIGHT || object_type == PARAM_LENGTH_WEIGHTS) {
@@ -37,7 +39,7 @@ LengthWeight* Factory::Create(const string& object_type, const string& sub_type)
       result = new Basic();
 
     if (result)
-      lengthweights::Manager::Instance().AddObject(result);
+      model->managers().length_weight()->AddObject(result);
   }
 
   return result;

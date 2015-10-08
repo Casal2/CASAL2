@@ -33,12 +33,13 @@ using std::string;
 class Object {
 public:
   // methods
-  static base::Object*        Create(string& object_type, string& sub_type);
+
 
 private:
   // methods
   Object() = delete;
   virtual ~Object() = delete;
+  static base::Object*        Create(string& object_type, string& sub_type);
 };
 
 } /* namespace factory */

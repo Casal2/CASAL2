@@ -12,6 +12,8 @@
 // headers
 #include "Factory.h"
 
+#include "Model/Model.h"
+#include "Model/Managers.h"
 #include "TimeVarying/Children/AnnualShift.h"
 #include "TimeVarying/Children/Constant.h"
 #include "TimeVarying/Manager.h"
@@ -28,7 +30,7 @@ namespace timevarying {
  * @param sub_type The child type of the object to create (e.g ageing, schnute)
  * @return shared_ptr to the object we've created
  */
-TimeVarying* Factory::Create(const string& object_type, const string& sub_type) {
+TimeVarying* Factory::Create(Model* model, const string& object_type, const string& sub_type) {
   TimeVarying* result = nullptr;
 
   if (object_type == PARAM_TIME_VARYING) {
@@ -38,7 +40,7 @@ TimeVarying* Factory::Create(const string& object_type, const string& sub_type) 
       result = new Constant();
 
     if (result)
-      timevarying::Manager::Instance().AddObject(result);
+      model->managers().time_varying()->AddObject(result);
   }
 
   return result;

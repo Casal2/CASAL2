@@ -12,6 +12,8 @@
 // headers
 #include "Factory.h"
 
+#include "Model/Model.h"
+#include "Model/Managers.h"
 #include "AdditionalPriors/Manager.h"
 #include "AdditionalPriors/Children/Beta.h"
 
@@ -26,7 +28,7 @@ namespace additionalpriors {
  * @param sub_type The sub type (e.g beta)
  * @return smart_ptr of an additional prior
  */
-AdditionalPrior* Factory::Create(const string& object_type, const string& sub_type) {
+AdditionalPrior* Factory::Create(Model* model, const string& object_type, const string& sub_type) {
   AdditionalPrior* object = nullptr;
 
   if (object_type == PARAM_ADDITIONAL_PRIOR) {
@@ -35,7 +37,7 @@ AdditionalPrior* Factory::Create(const string& object_type, const string& sub_ty
   }
 
   if (object)
-    additionalpriors::Manager::Instance().AddObject(object);
+    model->managers().additional_prior()->AddObject(object);
 
   return object;
 }

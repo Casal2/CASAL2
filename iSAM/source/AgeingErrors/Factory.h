@@ -15,12 +15,14 @@
 
 // namespaces
 namespace niwa {
+class Model;
+
 namespace ageingerrors {
 
 // classes
 class Factory {
 public:
-  static AgeingError*         Create(const string& object_type, const string& sub_type);
+  static AgeingError*         Create(Model* model, const string& object_type, const string& sub_type);
 
 private:
   Factory() = delete;
