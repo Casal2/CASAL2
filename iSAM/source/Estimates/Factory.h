@@ -18,7 +18,6 @@
 #define ESTIMATE_FACTORY_H_
 
 // Headers
-#include "BaseClasses/Factory.h"
 #include "Estimates/Manager.h"
 
 namespace niwa {

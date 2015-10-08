@@ -20,6 +20,7 @@
 #include "Partition/Accessors/Categories.h"
 #include "Processes/Manager.h"
 #include "TimeSteps/Factory.h"
+#include "TimeSteps/Manager.h"
 
 // namespaces
 namespace niwa {

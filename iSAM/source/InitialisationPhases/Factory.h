@@ -13,7 +13,6 @@
 #define INITIALISATIONPHASES_FACTORY_H_
 
 // Headers
-#include "BaseClasses/Factory.h"
 #include "InitialisationPhases/InitialisationPhase.h"
 #include "InitialisationPhases/Manager.h"
 

@@ -13,20 +13,28 @@
 // headers
 #include <string>
 
-#include "BaseClasses/Factory.h"
-#include "Profiles/Manager.h"
 #include "Profiles/Profile.h"
 
 // namespaces
 namespace niwa {
-namespace profiles {
+class Model;
 
+namespace profiles {
 using std::string;
 
 /**
  * class definition
  */
-class Factory: public niwa::base::Factory<niwa::Profile, niwa::profiles::Manager> { };
+class Factory {
+public:
+  // methods
+  static Profile* Create(Model* model, const string& object_type, const string& sub_type);
+
+private:
+  // methods
+  Factory() = delete;
+  ~Factory() = delete;
+};
 
 } /* namespace profiles */
 } /* namespace niwa */
