@@ -1,9 +1,9 @@
 iSAM
 Call: iSAM -r 
-Date: Thu Aug 06 12:49:28 2015
-Version: 2015-08-03 02:13:30 UTC (rev. 8f2c20b)
+Date: Mon Oct 05 10:05:22 2015
+Version: 2015-09-30 23:56:05 UTC (rev. d592e6a)
 Copyright (c) 2012 - 2015, NIWA (www.niwa.co.nz)
-Environment: machine:ANUBIS, user:Admin, os:Windows_NT, pid:5796
+Environment: machine:NIWA-1007004, user:marshc, os:Windows_NT, pid:5336
 
 *objective (objective_function)
 values {v}

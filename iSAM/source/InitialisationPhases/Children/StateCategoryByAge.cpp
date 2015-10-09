@@ -12,6 +12,7 @@
 #include "StateCategoryByAge.h"
 
 #include "Categories/Categories.h"
+#include "TimeSteps/Factory.h"
 
 namespace niwa {
 namespace initialisationphases {
@@ -63,6 +64,11 @@ void StateCategoryByAge::DoValidate() {
     }
     row_number++;
   }
+  // Craig has added this for now, building up knowledge of time steps
+  // so we can run an annual cycle
+  vector<TimeStepPtr> time_steps_ = timesteps::Manager::Instance().ordered_time_steps();
+  for (TimeStepPtr time_step : time_steps_)
+    time_step->SetInitialisationProcessLabels(label_, time_step->process_labels());
 }
 
 /**
@@ -82,6 +88,9 @@ void StateCategoryByAge::Execute() {
     for (unsigned index = min_age_ - iter->min_age_; index <= max_age_ - iter->min_age_; ++index, ++i)
       iter->data_[index] = n_[iter->name_][i];
   }
+  // Do one run of the annual cycle so we can have a derived quantity
+  timesteps::Manager& time_step_manager = timesteps::Manager::Instance();
+  time_step_manager.ExecuteInitialisation(label_, 1);
 }
 
 } /* namespace initialisationphases */

@@ -140,8 +140,11 @@ void Iterative::Execute() {
       time_step_manager.ExecuteInitialisation(label_, 1);
       ++total_years;
 
-      if (CheckConvergence())
+      if (CheckConvergence()) {
+        LOG_FINEST() << " year Convergence was reached = " << years;
         break;
+      }
+      LOG_FINEST() << "Initial year = " << years;
     }
   }
 }

@@ -2,7 +2,7 @@
 \CH
 \CAS\ is run from the console window (i.e., the DOS command line) on \I{Microsoft Windows} or from a terminal window on \I{Linux}. \CAS\ gets its information from input data files, the key one of which is the \config\index{Input configuration file}. 
 
-The \config\ is compulsory and defines the model structure, processes, observations, parameters (both the fixed parameters and the parameters to be estimated)\index{Estimable parameters}, and the reports (outputs) requested. The following sections  describe how to construct the \CAS\ configuration file. By convention, the name of the \config\ ends with the suffix \texttt{.tex}, however, any file name is acceptable.
+The \config\ is compulsory and defines the model structure, processes, observations, parameters (both the fixed parameters and the parameters to be estimated)\index{Estimable parameters}, and the reports (outputs) requested. The following sections  describe how to construct the \CAS\ configuration file. By convention, the name of the \config\ ends with the suffix \texttt{.isam}, however, any file name is acceptable.
 
 Other input files can, in some circumstances, be supplied to define the starting point for an estimation %, define the parameters for a projection, 
 or as a point estimate from which to simulate observations.
@@ -146,7 +146,7 @@ Arguments of type integer vector, integer range, constant vector, estimable vect
 
 \subsubsection{The command-block format}\index{Command block format}
 \CH
-Each command-block either consists of a single command (starting with the symbol \@) and, for most commands, a label or an argument. Each command is then followed by its subcommands and their arguments, e.g., 
+Each command-block either consists of a single command (starting with the symbol \command{}) and, for most commands, a label or an argument. Each command is then followed by its subcommands and their arguments, e.g., 
 
 \begin{description}
 \item \command{command}, or 

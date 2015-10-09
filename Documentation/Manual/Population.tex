@@ -31,18 +31,25 @@ There are a number of possible changes in the state, which are called transition
 
 The division of the year into an arbitrary number of time steps allows the user to specify the exact order in which processes and observations occur. The user needs to specify the time step in which each process occurs. If more than one process occurs in the same time step, there is a default order in which they occur (see Section 5.3). If you don’t want things to happen in this default order, then split the processes into different time steps.
 
-The key element of the state is the partition. This is a broadly applicable concept that can be used to describe many different kinds of fish model. The partition is simply a breakdown of the total number of fish in the current population into different kinds of fish. (Note that the partition records numbers of fish, not biomass.) The fish are categorised by various characters. The permissible characters are: size class or age class, sex, maturity, area, stock, tag, and growth-path. The user chooses: 
+
+The key element of the state is the partition. This is a broadly applicable concept that can be used to describe many different kinds of fish model. The partition is simply a breakdown of the total number of fish in the current population into different kinds of fish. (Note that the partition records numbers of fish, not biomass.) The fish are categorised by various characters. The permissible characters are: size class or age class, sex, maturity, area, stock, tag, and growth-path. The user chooses:
 
 \begin{itemize}
 \item	whether the partition is subdivided by size class or age class (not both)
 \item	which of the other characters are included in the partition, e.g., the number of areas, stocks, tagging events, or growth paths (if any of these characters are included in the partition).
 \end{itemize}
 
-The resulting partition can be conceptualised as a matrix, where the columns are size or age classes and the rows represent combinations of the other characters. Then the number in each cell of the matrix is the number of fish with the corresponding combination of characters. 
+The resulting partition can be conceptualised as a matrix, where the columns are size or age classes and the rows represent combinations of the other characters. Then the number in each cell of the matrix is the number of fish with the corresponding combination of characters.\\ 
+\textbf{Craigs attempt}\\
+The resulting partition can be conceptualised as group of vectors, where each category is represented as a vector and the size of the vector, is how many age or size classes are represented for each category. Each element in a vector represents the number of individuals for that category in that age or size bin.
 
 For an example of these ideas, consider a model of a single stock with a spawning and non-spawning fishery. The non-spawning fishery happens over most of the year (say 10 months) in the home area. The mature fish then migrate to the spawning area, where the spawning fishery operates. At the end of spawning, these fish, along with the recruits from the previous year, migrate back to the home area. The modeller decides that fish will be divided in the partition by age, sex, maturity, and area (spawning and home grounds). So the partition has 8 rows (2 sexes × (mature or immature) × 2 areas) and one column per age class. 
- 
-\KL INSERT TABLE HERE \KLend
+\begin{figure}[H]\label{Fig:part}
+	\centering
+	\includegraphics[scale=0.3]{Figures/partition.png}
+		\caption{A visual representation of a partition}
+\end{figure}
+
 
 So they define four time steps, labelled 1 through 4. Step 1 includes the non-spawning fishery. Step 2 includes the migration to the spawning area. Step 3 includes the spawning fishery. Step 4 includes recruitment and the migration back to the home area. (In fact, they could have used only 3 time steps, by using a single step in place of their steps 2 and 3. Because the default order of processes within a time step places migrations before fisheries, the processes would still have occurred in the right order.) There are other details to be sorted out, such as the proportion of natural mortality occurring in each time step, but this gives the basic idea. 
 
@@ -50,7 +57,7 @@ This structure can be used to implement complex models, with intermingling of se
 
 The model is run from an initial year up to the current year. It can also be run past the current year to make projections — things that happen in the future — up to the final year. Alternatively, for yield calculations, it is run over an abstract simulation period.
 
-\textbf{}
+
 \subsection{\I{The state object and the partition}}
 
 The key component of the state object is the partition, a matrix of numbers of fish by combinations of characters. The columns can either be age or size classes, the rows are combinations of the following characters: 
@@ -81,8 +88,9 @@ Growth-paths are a feature used to implement some persistence of size at age in 
 \item	Whether the partition includes tagged fish, and, if so, how many, and the names of the tag partitions.
 \end{itemize}
 
-Age classes are always 1 year wide, except that the maximum age group can optionally be a plus group. Users need to choose the minimum and maximum age classes. Size classes are defined by the user, and you need to specify how many size classes there are, the lower bound of each size class, and whether the last size class is a plus group, or if not, what its upper bound is. The relevant parameters are \texttt{class\_mins} and \texttt{plus\_group}. The \texttt{class\_mins} parameter contains the lower bound of each class, and concludes with the upper bound of the last class if it is not a plus group. If, for example, size classes of 30–40, 40–50, 50–60, and 60–70+ cm were desired, you would set \texttt{class\_mins 30 40 50 60} and \texttt{plus\_group true}. Whereas if 30–40, 40–50, 50–60, and 60–70 cm were desired, you would set \texttt{class\_mins 30 40 50 60 70} and \texttt{plus\_group false}.
+Age classes are always 1 year wide, except that the maximum age group can optionally be a plus group. Users need to choose the minimum and maximum age classes. Size classes are defined by the user, and you need to specify how many size classes there are, the lower bound of each size class, and whether the last size class is a plus group, or if not, what its upper bound is. The relevant parameters are \texttt{class\_mins} and \texttt{plus\_group}. The \texttt{class\_mins} parameter contains the lower bound of each class, and concludes with the upper bound of the last class if it is not a plus group. If, for example, size classes of 30-40, 40-50, 50-60, and 60-70+ cm were desired, you would set \texttt{class\_mins 30 40 50 60} and \texttt{plus\_group true}. Whereas if 30-40, 40-50, 50-60, and 60-70 cm were desired, you would set \texttt{class\_mins 30 40 50 60 70} and \texttt{plus\_group false}.
 
+\textbf{Pretty sure, CASAL 2 doesn't support this concept, can be deleted}\\
 The user can specify that some combinations of characters are not possible. For example, immature fish might never occur in the area you have labelled \texttt{spawn\_ground}. To do this, you use the exclusions parameters. In this case, you would set,
 
 \texttt{exclusions\_char1 maturity}\\
@@ -92,7 +100,7 @@ The user can specify that some combinations of characters are not possible. For 
 
 It’s a good idea to use the exclusions parameter wherever appropriate because it reduces the size of the partition (so, with the above example, there will be no rows in the partition corresponding to immature fish in area \texttt{spawn\_ground}) and can save memory and calculation time.
 
-The other component of the state object in CASAL is a vector of spawning stock biomasses (SSBs, mid-spawning season biomasses of spawning fish) for each stock. CASAL needs to include this in the state object to calculate future recruitments, if there is a stock-recruitment relationship. 
+Another important component of the state object in \texttt{casal$^2$} are spawning stock biomasses (SSBs, mid-spawning season biomasses of spawning fish) for each stock. \texttt{Casal$^2$} derives through the command \command{derived\_quantity}, this is needed if there is a stock-recruitment relationship. 
 
 \subsection{\I{Time sequences}}
 
@@ -105,19 +113,25 @@ The time sequence of the population model includes the years over which it is to
 \item	Migration (if the model includes more than one area);
 \item	Growth (in a size-based model);
 \item	Natural and fishing mortality;
-\item	Disease mortality;
+\item	Disease mortality; (Not yet implemented)
 \item	Tag release events;
 \item	Tag shedding rate;
-\item	Semelparous mortality.
+\item	Semelparous mortality.(Not yet implemented)
 \end{itemize}
 
-If two or more processes are specified for the same time step then they will happen in the above order. This ordering is imposed only to simplify the specification of the annual cycle. It does not restrict the user because it applies only to processes within the same time step. If, for example, it is desired that maturation occur before recruitment then this can be done by putting these processes in separate time steps. 
+If two or more processes are specified for the same time step \cas will apply the processes in sequential order, that is the order the user has specified. For example, in an annual cycle that has a single time step labelled \texttt{step1},\\
+\command{model}\\
+\texttt{time\_steps step1}\\
+and in \texttt{step1} there are three processes that occured in the following order, \texttt{Recruitment, Natural\_mortality} and \texttt{Ageing}, you would specify thattime step as,\\
+\command{time\_step} \texttt{step1}\\
+\texttt{processes Recruitment Natural\_mortality Ageing}
 
-The basic unit of fishing mortality is a fishery, defined as fishing mortality in a single area and time step. You may need to split a single administrative fishery into multiple CASAL fisheries, in which case you will need to partition the catch. (However, this should often be avoidable. If you have an observation partway through a fishery, you can specify that a certain proportion of the mortality occurs before the observation, without needing to split the time step into two.) 
+\textbf{Alistair Re-write please}\\
+\hl{The basic unit of fishing mortality is a fishery, defined as fishing mortality in a single area and time step. You may need to split a single administrative fishery into multiple CASAL fisheries, in which case you will need to partition the catch. (However, this should often be avoidable. If you have an observation partway through a fishery, you can specify that a certain proportion of the mortality occurs before the observation, without needing to split the time step into two.)
 
 If there is more than one stock, recruitment is handled separately for each stock, but all stocks must recruit in the same time step. There can be more than one maturation episode per year, each of which can apply to only one stock, or all stocks equally. Similarly there can be more than one growth episode per year, each of which can apply to only one stock, or all stocks equally. The user can define any number of migrations in a given year.
 
-To specify the time sequence, you need to tell CASAL the following: 
+To specify the time sequence, you need to tell CASAL the following: }
 
 \begin{itemize}
 \item	The initial, current, and final years;

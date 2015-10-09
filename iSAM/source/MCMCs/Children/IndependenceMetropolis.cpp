@@ -120,7 +120,8 @@ void IndependenceMetropolis::Execute() {
       successful_jumps_since_adapt_++;
       jumps_++;
       jumps_since_adapt_++;
-      // keep the score, and its compontent parts if the following condition holds
+      // Record the score, and its compontent parts if the successful jump divided by keep has no remainder
+      // i.e the accepted candidate is a keep value
       if (successful_jumps_ % keep_ == 0) {
         LOG_FINE() << "Keeping jump " << successful_jumps_;
         mcmc::ChainLink new_link;
@@ -134,7 +135,7 @@ void IndependenceMetropolis::Execute() {
         new_link.acceptance_rate_since_adapt_ = Double(successful_jumps_since_adapt_) / Double(jumps_since_adapt_);
         new_link.step_size_ = step_size_;
         new_link.values_ = candidates_;
-        chain_.push_back(new_link);
+        chain_[0] = new_link;
         LOG_MEDIUM() << "Successful Jumps " << successful_jumps_ << " Jumps : " << jumps_ << " successful jumps since adapt " << successful_jumps_since_adapt_
             << " jumps since adapt " << jumps_since_adapt_;
         reports::Manager::Instance().Execute(State::kIterationComplete);
