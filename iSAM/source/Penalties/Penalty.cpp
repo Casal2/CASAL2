@@ -22,7 +22,7 @@ namespace niwa {
 /**
  * Default Constructor
  */
-Penalty::Penalty() {
+Penalty::Penalty(Model* model) : model_(model) {
   parameters_.Bind<string>(PARAM_LABEL, &label_, "Label", "");
   parameters_.Bind<string>(PARAM_TYPE, &type_, "Type", "");
 

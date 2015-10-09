@@ -19,7 +19,7 @@ namespace creators {
 /**
  * Default constructor
  */
-UniformLog::UniformLog() {
+UniformLog::UniformLog(Model* model) : Creator(model) {
 }
 
 } /* namespace creators */

@@ -27,7 +27,7 @@ namespace reports {
  */
 class SimulatedObservation: public Report {
 public:
-  SimulatedObservation();
+  SimulatedObservation(Model* model);
   virtual                     ~SimulatedObservation() = default;
   void                        DoValidate() override final { };
   void                        DoBuild() override final;

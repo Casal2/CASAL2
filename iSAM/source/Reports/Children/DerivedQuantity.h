@@ -20,7 +20,7 @@ namespace reports {
  */
 class DerivedQuantity : public niwa::Report {
 public:
-  DerivedQuantity();
+  DerivedQuantity(Model* model);
   virtual                     ~DerivedQuantity() = default;
   void                        DoValidate() override final { };
   void                        DoBuild() override final { };

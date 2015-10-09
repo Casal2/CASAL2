@@ -20,7 +20,7 @@ namespace ublas = boost::numeric::ublas;
 /**
  * Default Constructor
  */
-MCMCCovariance::MCMCCovariance() {
+MCMCCovariance::MCMCCovariance(Model* model) : Report(model) {
   run_mode_ = RunMode::kMCMC;
   model_state_ = State::kFinalise;
 }

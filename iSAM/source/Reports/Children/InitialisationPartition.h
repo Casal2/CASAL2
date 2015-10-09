@@ -25,7 +25,7 @@ namespace reports {
 // classes
 class InitialisationPartition : public niwa::Report {
 public:
-  InitialisationPartition();
+  InitialisationPartition(Model* model);
   virtual                     ~InitialisationPartition() = default;
   void                        DoValidate() override final { };
   void                        DoBuild() override final { };

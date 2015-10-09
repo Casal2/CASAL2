@@ -30,7 +30,7 @@ namespace reports {
 class ObjectiveFunction : public niwa::Report {
 public:
   // Methods
-  ObjectiveFunction();
+  ObjectiveFunction(Model* model);
   virtual                     ~ObjectiveFunction() = default;
   void                        DoValidate() override final { };
   void                        DoBuild() override final { };

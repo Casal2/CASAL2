@@ -12,7 +12,8 @@
 // headers
 #include "VectorAverage.h"
 
-#include "ObjectsFinder/ObjectsFinder.h"
+#include "Model/Model.h"
+#include "Model/Objects.h"
 
 // namespaces
 namespace niwa {
@@ -21,7 +22,7 @@ namespace penalties {
 /**
  * Default constructor
  */
-VectorAverage::VectorAverage() {
+VectorAverage::VectorAverage(Model* model) : Penalty(model) {
   parameters_.Bind<string>(PARAM_PARAMETER, &parameter_, "Label of the estimate to generate penalty on", "");
   parameters_.Bind<string>(PARAM_METHOD, &method_, "What calculation method to use (k, l, m)", "", PARAM_K);
   parameters_.Bind<Double>(PARAM_K, &k_, "K Value to use in the calculation", "");
@@ -51,13 +52,14 @@ void VectorAverage::DoBuild() {
     parameter_ = label_;
   }
 
-  objects::ExplodeString(parameter_, type, label, parameter, index);
+  model_->objects().ExplodeString(parameter_, type, label, parameter, index);
   if (type == "" || label == "" || parameter == "") {
     LOG_ERROR_P(PARAM_PARAMETER) << ": parameter " << parameter_
         << " is not in the correct format. Correct format is object_type[label].estimable(array index)";
   }
 
-  base::Object* target = objects::FindObject(parameter_);
+  string error = "";
+  base::Object* target = model_->objects().FindObject(parameter_, error);
   if (!target)
     LOG_ERROR_P(PARAM_PARAMETER) << " " << parameter_ << " is not a valid estimable in the system";
 

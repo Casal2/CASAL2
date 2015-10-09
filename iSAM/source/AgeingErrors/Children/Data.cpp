@@ -36,7 +36,7 @@ Data::Data() {
  *
  */
 void Data::DoBuild() {
-  vector<vector<string>> data = data_table_->data();
+  auto data = data_table_->data();
   if (data.size() != age_spread_) {
     LOG_ERROR_P(PARAM_DATA) << "number of rows provided " << data.size() << " does not match the age spread for the model " << age_spread_;
     return;
@@ -46,9 +46,9 @@ void Data::DoBuild() {
     return;
   }
 
+  Double value = 0.0;
   for (unsigned i = 0; i < data.size(); ++i) {
     for (unsigned j = 0; j < data[i].size(); ++j) {
-      Double value = 0.0;
       if (!utilities::To<string, Double>(data[i][j], value))
         LOG_ERROR_P(PARAM_DATA) << "Could not convert the value " << data[i][j] << " to a double for storage in mis matrix";
 

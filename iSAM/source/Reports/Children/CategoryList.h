@@ -24,7 +24,7 @@ namespace reports {
 class CategoryList : public niwa::Report  {
 public:
   // methods
-	CategoryList();
+	CategoryList(Model* model);
 	virtual                     ~CategoryList() = default;
   void                        DoValidate() override final { };
   void                        DoBuild() override final { };

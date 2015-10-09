@@ -24,7 +24,7 @@ namespace asserts {
 class Estimable : public niwa::Assert {
 public:
   // methods
-  Estimable();
+  Estimable(Model* model);
   virtual                     ~Estimable() = default;
   void                        Execute() override final;
 

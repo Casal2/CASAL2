@@ -22,7 +22,7 @@ namespace reports {
 /**
  * Default constructor
  */
-CategoryInfo::CategoryInfo() {
+CategoryInfo::CategoryInfo(Model* model) : Report(model) {
   run_mode_    = RunMode::kBasic;
   model_state_ = State::kFinalise;
 }

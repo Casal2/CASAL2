@@ -36,7 +36,7 @@ using std::endl;
  */
 int main(int argc, char * argv[]) {
   Model model;
-  reports::StandardHeader standard_report;
+  reports::StandardHeader standard_report(&model);
   int return_code = 0;
   bool model_start_return_success = true;
 

@@ -19,7 +19,7 @@ namespace creators {
 /**
  *
  */
-Lognormal::Lognormal() {
+Lognormal::Lognormal(Model* model) : Creator(model) {
   parameters_.Bind<Double>(PARAM_MU, &mu_, "", "");
   parameters_.Bind<Double>(PARAM_CV, &cv_, "", "");
 }

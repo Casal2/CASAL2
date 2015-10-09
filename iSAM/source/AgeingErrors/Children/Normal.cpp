@@ -80,7 +80,6 @@ void Normal::DoBuild() {
  * changes from any estimable modifications
  */
 void Normal::DoReset() {
-
   Double age = 0.0;
   Double min_age_class = 0.0;
 

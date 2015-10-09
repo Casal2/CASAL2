@@ -27,7 +27,7 @@ namespace reports {
 class Observation : public niwa::Report {
 public:
   // methods
-  Observation();
+  Observation(Model* model);
   virtual                     ~Observation() = default;
   void                        DoValidate() override final { };
   void                        DoBuild() override final;

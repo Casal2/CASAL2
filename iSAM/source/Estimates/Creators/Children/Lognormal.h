@@ -27,7 +27,8 @@ namespace creators {
 class Lognormal : public estimates::Creator {
 public:
   // methods
-  Lognormal();
+  Lognormal() = delete;
+  explicit Lognormal(Model* model);
   virtual                     ~Lognormal() = default;
   void                        DoCopyParameters(niwa::Estimate* estimate, unsigned index) override final;
 

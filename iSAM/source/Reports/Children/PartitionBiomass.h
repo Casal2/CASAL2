@@ -26,7 +26,7 @@ namespace reports {
  */
 class PartitionBiomass : public Report {
 public:
-  PartitionBiomass();
+  PartitionBiomass(Model* model);
   virtual                     ~PartitionBiomass() = default;
   void                        DoValidate() override final;
   void                        DoBuild() override final { };

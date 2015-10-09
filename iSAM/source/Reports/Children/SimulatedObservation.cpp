@@ -20,7 +20,7 @@ namespace reports {
 /**
  * default constructor
  */
-SimulatedObservation::SimulatedObservation() {
+SimulatedObservation::SimulatedObservation(Model* model) : Report(model) {
   run_mode_    = RunMode::kSimulation;
   model_state_ = State::kIterationComplete;
   skip_tags_   = true;

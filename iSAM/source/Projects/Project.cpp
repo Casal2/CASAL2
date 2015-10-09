@@ -11,7 +11,7 @@
 // headers
 #include "Project.h"
 
-#include "ObjectsFinder/ObjectsFinder.h"
+#include "Model/Objects.h"
 #include "Utilities/To.h"
 
 // namespaces
@@ -56,15 +56,16 @@ void Project::Build() {
     parameter_ = label_;
   }
 
-  objects::ExplodeString(parameter_, type, label, parameter, index);
+  model_->objects().ExplodeString(parameter_, type, label, parameter, index);
   if (type == "" || label == "" || parameter == "") {
     LOG_ERROR_P(PARAM_PARAMETER) << ": parameter " << parameter_
         << " is not in the correct format. Correct format is object_type[label].estimable(array index)";
   }
 
-  base::Object* target = objects::FindObject(parameter_);
+  string error = "";
+  base::Object* target = model_->objects().FindObject(parameter_, error);
   if (!target)
-    LOG_ERROR_P(PARAM_PARAMETER) << " " << parameter_ << " is not a valid estimable in the system";
+    LOG_ERROR_P(PARAM_PARAMETER) << " " << parameter_ << " is not a valid estimable in the system. Error: " << error;
 
 
   Estimable::Type estimable_type = target->GetEstimableType(parameter);

@@ -34,7 +34,7 @@ std::mutex Report::lock_;
 /**
  * Default constructor
  */
-Report::Report() {
+Report::Report(Model* model) : model_(model) {
   parameters_.Bind<string>(PARAM_LABEL, &label_, "Label", "");
   parameters_.Bind<string>(PARAM_TYPE, &type_, "Type", "");
   parameters_.Bind<string>(PARAM_FILE_NAME, &file_name_, "File Name", "", "");

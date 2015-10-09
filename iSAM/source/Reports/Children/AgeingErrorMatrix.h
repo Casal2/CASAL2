@@ -20,7 +20,7 @@ namespace reports {
  */
 class AgeingErrorMatrix : public niwa::Report {
 public:
-  AgeingErrorMatrix();
+  AgeingErrorMatrix(Model* model);
   virtual                     ~AgeingErrorMatrix() = default;
   void                        DoValidate() override final { };
   void                        DoBuild() override final;

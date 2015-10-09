@@ -32,7 +32,7 @@ namespace penalties {
 class VectorSmoothing : public niwa::Penalty {
 public:
   // methods
-  VectorSmoothing();
+  VectorSmoothing(Model* model);
   virtual                     ~VectorSmoothing() = default;
   Double                      GetScore() override final;
 

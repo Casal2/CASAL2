@@ -21,7 +21,7 @@ namespace reports {
 /**
  * Default constructor
  */
-RandomNumberSeed::RandomNumberSeed() {
+RandomNumberSeed::RandomNumberSeed(Model* model) : Report(model) {
   model_state_ = State::kFinalise;
   run_mode_    = (RunMode::Type)(RunMode::kEstimation | RunMode::kBasic | RunMode::kProjection | RunMode::kSimulation);
 }

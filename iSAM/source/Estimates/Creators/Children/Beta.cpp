@@ -19,7 +19,7 @@ namespace creators {
 /**
  * Default constructor
  */
-Beta::Beta() {
+Beta::Beta(Model* model) : Creator(model) {
   parameters_.Bind<Double>(PARAM_MU, &mu_, "Mu", "");
   parameters_.Bind<Double>(PARAM_SIGMA, &sigma_, "Sigma", "");
   parameters_.Bind<Double>(PARAM_A, &a_, "A", "");

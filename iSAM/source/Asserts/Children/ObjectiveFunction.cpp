@@ -28,7 +28,7 @@ namespace asserts {
  *
  * Note: The constructor is parsed to generate Latex for the documentation.
  */
-ObjectiveFunction::ObjectiveFunction() {
+ObjectiveFunction::ObjectiveFunction(Model* model) : Assert(model) {
   parameters_.Bind<Double>(PARAM_VALUE, &value_, "Expected value of the objective function", "");
 }
 

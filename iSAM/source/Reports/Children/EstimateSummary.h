@@ -30,7 +30,7 @@ namespace reports {
 class EstimateSummary : public niwa::Report {
 public:
   // Methods
-  EstimateSummary();
+  EstimateSummary(Model* model);
   virtual                     ~EstimateSummary() noexcept(true);
   void                        DoValidate() override final { };
   void                        DoBuild() override final { };

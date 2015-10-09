@@ -12,7 +12,7 @@
 #include "Estimable.h"
 
 #include "Model/Model.h"
-#include "ObjectsFinder/ObjectsFinder.h"
+#include "Model/Objects.h"
 #include "TimeSteps/Manager.h"
 
 // namespaces
@@ -29,7 +29,7 @@ namespace asserts {
  *
  * Note: The constructor is parsed to generate Latex for the documentation.
  */
-Estimable::Estimable() {
+Estimable::Estimable(Model* model) : Assert(model) {
   parameters_.Bind<string>(PARAM_PARAMETER, &parameter_, "Estimable to check", "", "");
   parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "Years to check estimable", "");
   parameters_.Bind<string>(PARAM_TIME_STEP, &time_step_label_, "Time step to execute after", "");
@@ -73,7 +73,8 @@ void Estimable::DoBuild() {
   for (unsigned year : years_)
     time_step->Subscribe(this, year);
 
-  estimable_ = objects::FindEstimable(parameter_);
+  string error = "";
+  estimable_ = model_->objects().FindEstimable(parameter_, error);
   if (estimable_ == 0)
     LOG_ERROR_P(PARAM_PARAMETER) << "(" << parameter_ << ") could not be found. Have you defined it properly?";
 }

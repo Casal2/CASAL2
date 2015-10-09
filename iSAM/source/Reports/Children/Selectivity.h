@@ -16,7 +16,7 @@ namespace reports {
 
 class Selectivity : public niwa::Report {
 public:
-  Selectivity();
+  Selectivity(Model* model);
   virtual ~Selectivity() = default;
   void                        DoValidate() override final;
   void                        DoBuild() override final;

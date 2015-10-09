@@ -27,7 +27,7 @@ namespace reports {
  *
  * Set the run mode and model state for this report
  */
-InitialisationPartition::InitialisationPartition() {
+InitialisationPartition::InitialisationPartition(Model* model) : Report(model) {
   run_mode_    = (RunMode::Type)(RunMode::kBasic | RunMode::kProjection);
   model_state_ = State::kInitialise;
 }

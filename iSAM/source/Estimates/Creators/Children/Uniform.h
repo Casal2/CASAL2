@@ -27,7 +27,8 @@ namespace creators {
 class Uniform : public estimates::Creator {
 public:
   // methods
-  Uniform();
+  Uniform() = delete;
+  explicit Uniform(Model* model);
   virtual                     ~Uniform() = default;
   void                        DoCopyParameters(niwa::Estimate* estimate, unsigned index) override final { };
 };

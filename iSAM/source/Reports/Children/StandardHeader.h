@@ -33,7 +33,7 @@ namespace reports {
 class StandardHeader : public niwa::Report {
 public:
   // Functions
-  StandardHeader();
+  StandardHeader(Model* model);
   virtual                     ~StandardHeader();
   void                        DoValidate() override final { };
   void                        DoBuild() override final { };

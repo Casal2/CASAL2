@@ -19,7 +19,7 @@ namespace creators {
 /**
  *
  */
-NormalByStdev::NormalByStdev() {
+NormalByStdev::NormalByStdev(Model* model) : Creator(model) {
   parameters_.Bind<Double>(PARAM_MU, &mu_, "", "");
   parameters_.Bind<Double>(PARAM_SIGMA, &sigma_, "", "");
 }
