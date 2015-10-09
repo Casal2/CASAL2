@@ -15,21 +15,32 @@
 
 // headers
 #include "InitialisationPhases/InitialisationPhase.h"
-
+#include "Partition/Accessors/Cached/Categories.h"
 // namespaces
 namespace niwa {
 namespace initialisationphases {
+
+namespace cached   = partition::accessors::cached;
+namespace accessor = partition::accessors;
 
 class Derived : public niwa::InitialisationPhase {
 public:
   Derived();
   virtual                     ~Derived() = default;
-  void                        Execute() override final { };
+  void                        Execute() override final;
 
 protected:
   // methods
-  void                        DoValidate() override final { };
-  void                        DoBuild() override final { };
+  void                        DoValidate() override final;
+  void                        DoBuild() override final;
+  // members
+  unsigned                    years_;
+  vector<string>              insert_processes_;
+  vector<string>              exclude_processes_;
+  vector<TimeStepPtr>         time_steps_;
+  cached::Categories          cached_partition_;
+  accessor::Categories        partition_;
+
 };
 
 } /* namespace initialisationphases */
