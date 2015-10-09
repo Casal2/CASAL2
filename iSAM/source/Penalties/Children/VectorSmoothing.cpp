@@ -13,7 +13,8 @@
 #include "VectorSmoothing.h"
 
 #include "Estimates/Manager.h"
-#include "ObjectsFinder/ObjectsFinder.h"
+#include "Model/Model.h"
+#include "Model/Objects.h"
 
 // namespaces
 namespace niwa {
@@ -22,7 +23,7 @@ namespace penalties {
 /**
  * Default constructor
  */
-VectorSmoothing::VectorSmoothing() {
+VectorSmoothing::VectorSmoothing(Model* model) : Penalty(model) {
   parameters_.Bind<string>(PARAM_PARAMETER, &parameter_, "Label of the estimate to generate penalty on", "");
   parameters_.Bind<bool>(PARAM_LOG_SCALE, &log_scale_, "Log scale", "", false);
   parameters_.Bind<Double>(PARAM_MULTIPLIER, &multiplier_, "Multiplier for the penalty amount", "", 1);
@@ -56,13 +57,14 @@ void VectorSmoothing::DoBuild() {
   }
 
 
-  objects::ExplodeString(parameter_, type, label, parameter, index);
+  model_->objects().ExplodeString(parameter_, type, label, parameter, index);
   if (type == "" || label == "" || parameter == "") {
     LOG_ERROR_P(PARAM_PARAMETER) << ": parameter " << parameter_
         << " is not in the correct format. Correct format is object_type[label].estimable(array index)";
   }
 
-  base::Object* target = objects::FindObject(parameter_);
+  string error = "";
+  base::Object* target = model_->objects().FindObject(parameter_, error);
   if (!target)
     LOG_ERROR_P(PARAM_PARAMETER) << " " << parameter_ << " is not a valid estimable in the system";
 

@@ -33,7 +33,7 @@
 
 // Namespaces
 namespace niwa {
-
+class Model;
 using std::streambuf;
 using std::ofstream;
 using std::cout;
@@ -49,7 +49,8 @@ using std::ostringstream;
 class Report : public base::Object {
 public:
   // Methods
-  Report();
+  Report() = delete;
+  explicit Report(Model* model);
   virtual                     ~Report() = default;
   void                        Validate();
   void                        Build();
@@ -76,6 +77,7 @@ protected:
   virtual void                DoFinalise() { };
 
   // Members
+  Model*                      model_;
   RunMode::Type               run_mode_    = RunMode::kInvalid;
   State::Type                 model_state_ = State::kInitialise;
   static std::mutex           lock_;

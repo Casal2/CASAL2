@@ -14,7 +14,8 @@
 #include <iomanip>
 
 #include "Estimates/Children/Uniform.h"
-#include "ObjectsFinder/ObjectsFinder.h"
+#include "Model/Model.h"
+#include "Model/Objects.h"
 #include "Utilities/To.h"
 
 // namespaces
@@ -24,7 +25,7 @@ namespace reports {
 /**
  * Default constructor
  */
-Estimable::Estimable() {
+Estimable::Estimable(Model* model) : Report(model) {
   run_mode_    = (RunMode::Type)(RunMode::kBasic | RunMode::kEstimation | RunMode::kProjection | RunMode::kProfiling);
   model_state_ = State::kExecute;
 
@@ -58,14 +59,15 @@ void Estimable::DoBuild() {
     parameter_ = label_;
   }
 
-  objects::ExplodeString(parameter_, type, label, parameter, index);
+  model_->objects().ExplodeString(parameter_, type, label, parameter, index);
   if (type == "" || label == "" || parameter == "") {
     LOG_ERROR_P(PARAM_PARAMETER) << ": parameter " << parameter_
         << " is not in the correct format. Correct format is object_type[label].estimable(array index)";
   }
-  objects::ImplodeString(type, label, parameter, index, parameter_);
+  model_->objects().ImplodeString(type, label, parameter, index, parameter_);
 
-  base::Object* target = objects::FindObject(parameter_);
+  string error = "";
+  base::Object* target = model_->objects().FindObject(parameter_, error);
   if (!target) {
     LOG_ERROR_P(PARAM_PARAMETER) << ": parameter " << parameter_ << " is not a valid estimable in the system";
   }

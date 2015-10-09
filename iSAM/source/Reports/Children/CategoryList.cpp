@@ -19,7 +19,7 @@ namespace reports {
 /**
  * Default constructor
  */
-CategoryList::CategoryList() {
+CategoryList::CategoryList(Model* model) : Report(model) {
   run_mode_    = RunMode::kBasic;
   model_state_ = State::kFinalise;
 }

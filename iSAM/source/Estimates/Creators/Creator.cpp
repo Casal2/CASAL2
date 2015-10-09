@@ -18,7 +18,8 @@
 
 #include "Estimates/Manager.h"
 #include "Estimates/Factory.h"
-#include "ObjectsFinder/ObjectsFinder.h"
+#include "Model/Model.h"
+#include "Model/Objects.h"
 #include "Utilities/String.h"
 #include "Utilities/To.h"
 
@@ -31,7 +32,7 @@ namespace utils = niwa::utilities;
 /**
  *
  */
-Creator::Creator() {
+Creator::Creator(Model* model) : model_(model) {
   parameters_.Bind<string>(PARAM_LABEL, &label_, "", "", "");
   parameters_.Bind<string>(PARAM_TYPE, &type_, "", "");
   parameters_.Bind<string>(PARAM_PARAMETER, &parameter_, "", "");
@@ -54,7 +55,8 @@ void Creator::CreateEstimates() {
   /**
    * At this point we need to determine if we need to split this estimate in to multiple estimates.
    */
-  base::Object* target = objects::FindObject(parameter_);
+  string error = "";
+  base::Object* target = model_->objects().FindObject(parameter_, error);
   if (!target) {
     LOG_ERROR_P(PARAM_PARAMETER) << parameter_ << " is not a valid object in the system";
     return;
@@ -64,7 +66,7 @@ void Creator::CreateEstimates() {
   string label      = "";
   string parameter  = "";
   string index      = "";
-  objects::ExplodeString(parameter_, type, label, parameter, index);
+  model_->objects().ExplodeString(parameter_, type, label, parameter, index);
   string new_parameter = type + "[" + label + "]." + parameter;
   LOG_FINEST() << "parameter: " << parameter_ << "; new_parameter: " << new_parameter;
 

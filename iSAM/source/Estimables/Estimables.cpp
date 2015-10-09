@@ -15,7 +15,7 @@
 #include "Estimates/Manager.h"
 #include "GlobalConfiguration/GlobalConfiguration.h"
 #include "Model/Model.h"
-#include "ObjectsFinder/ObjectsFinder.h"
+#include "Model/Objects.h"
 #include "Logging/Logging.h"
 
 // namespaces
@@ -68,8 +68,9 @@ void Estimables::LoadValues(unsigned index) {
    * load our estimables if they haven't been loaded already
    */
   if (estimables_.size() == 0) {
+    string error = "";
     for (auto iter : estimable_values_) {
-      Double* ptr = objects::FindEstimable(iter.first);
+      Double* ptr = model_->objects().FindEstimable(iter.first, error);
       if (ptr == 0)
         LOG_FATAL() << "The estimable " << iter.first << " was defined in the estimable's input value file but was not registered in the model";
       estimables_[iter.first] = ptr;

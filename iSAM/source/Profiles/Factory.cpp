@@ -32,7 +32,7 @@ Profile* Factory::Create(Model* model, const string& object_type, const string& 
   Profile* object = nullptr;
 
   if (object_type == PARAM_PROFILE) {
-    object = new Profile();
+    object = new Profile(model);
 
     if (object)
       model->managers().profile()->AddObject(object);

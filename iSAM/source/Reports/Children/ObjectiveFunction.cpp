@@ -22,7 +22,7 @@ namespace reports {
 /**
  * Default constructor
  */
-ObjectiveFunction::ObjectiveFunction() {
+ObjectiveFunction::ObjectiveFunction(Model* model) : Report(model) {
   model_state_ = State::kIterationComplete;
   run_mode_    = (RunMode::Type)(RunMode::kEstimation | RunMode::kBasic | RunMode::kProjection);
 }

@@ -36,19 +36,19 @@ Creator* Factory::Create(Model* model, const string& object_type, const string& 
   Creator* object = nullptr;
 
   if (sub_type == PARAM_BETA)
-    object = new Beta();
+    object = new Beta(model);
   else if (sub_type == PARAM_LOGNORMAL)
-    object = new Lognormal();
+    object = new Lognormal(model);
   else if (sub_type == PARAM_NORMAL)
-    object = new Normal();
+    object = new Normal(model);
   else if (sub_type == PARAM_NORMAL_BY_STDEV)
-    object = new NormalByStdev();
+    object = new NormalByStdev(model);
   else if (sub_type == PARAM_NORMAL_LOG)
-    object = new NormalLog();
+    object = new NormalLog(model);
   else if (sub_type == PARAM_UNIFORM)
-    object = new Uniform();
+    object = new Uniform(model);
   else if (sub_type == PARAM_UNIFORM_LOG)
-    object = new UniformLog();
+    object = new UniformLog(model);
 
   if (object)
     model->managers().estimate()->AddCreator(object);

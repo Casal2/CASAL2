@@ -26,7 +26,7 @@ namespace reports {
 /**
  * Default constructor
  */
-Partition::Partition() {
+Partition::Partition(Model* model) : Report(model) {
   run_mode_    = (RunMode::Type)(RunMode::kBasic | RunMode::kProjection);
   model_state_ = State::kExecute;
 

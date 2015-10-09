@@ -38,6 +38,9 @@ class Objects {
   friend class Model;
 public:
   // methods
+  void                        ExplodeString(const string& source_parameter, string &type, string& label, string& parameter, string& index);
+  void                        ImplodeString(const string& type, const string& label, const string& parameter, const string& index, string& target_parameter);
+
   Estimable::Type             GetEstimableType(const string& parameter_absolute_name, string& error);
   Double*                     GetEstimable(const string& label, string& error);
   map<unsigned, Double>*      GetEstimableUMap(const string& label, string& error);
@@ -49,9 +52,6 @@ public:
 
 private:
   // methods
-  void                        ExplodeString(const string& source_parameter, string &type, string& label, string& parameter, string& index);
-  void                        ImplodeString(const string& type, const string& label, const string& parameter, const string& index, string& target_parameter);
-
   Objects() = default;
   virtual                     ~Objects() = default;
 

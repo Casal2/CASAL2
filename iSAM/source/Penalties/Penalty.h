@@ -25,7 +25,7 @@
 
 // Namespaces
 namespace niwa {
-
+class Model;
 using niwa::utilities::Double;
 
 /**
@@ -34,7 +34,8 @@ using niwa::utilities::Double;
 class Penalty : public niwa::base::Object {
 public:
   // Methods
-  Penalty();
+  Penalty() = delete;
+  explicit Penalty(Model* model);
   virtual                     ~Penalty() = default;
   void                        Validate();
   void                        Build() { DoBuild(); };
@@ -50,8 +51,8 @@ protected:
   virtual void                DoValidate() = 0;
   virtual void                DoBuild() = 0;
 
-
   // members
+  Model*                      model_;
   bool                        has_score_ = true;
 };
 } /* namespace niwa */

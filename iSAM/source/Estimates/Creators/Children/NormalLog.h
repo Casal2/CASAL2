@@ -23,7 +23,8 @@ namespace creators {
  */
 class NormalLog : public estimates::Creator {
 public:
-  NormalLog();
+  NormalLog() = delete;
+  explicit NormalLog(Model* model);
   virtual                     ~NormalLog() = default;
   void                        DoCopyParameters(niwa::Estimate* estimate, unsigned index) override final;
 

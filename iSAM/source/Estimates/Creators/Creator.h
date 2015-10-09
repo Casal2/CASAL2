@@ -20,8 +20,9 @@
 
 // namespaces
 namespace niwa {
-namespace estimates {
+class Model;
 
+namespace estimates {
 class Manager;
 
 /**
@@ -30,7 +31,8 @@ class Manager;
 class Creator : public niwa::base::Object {
 public:
   // methods
-  Creator();
+  Creator() = delete;
+  explicit Creator(Model* model);
   virtual                     ~Creator() = default;
   void                        CreateEstimates();
 
@@ -44,6 +46,7 @@ protected:
   virtual void                DoCopyParameters(niwa::Estimate* estimate, unsigned index) = 0;
 
   // members
+  Model*                      model_;
   string                      parameter_;
   vector<Double>              lower_bounds_;
   vector<Double>              upper_bounds_;

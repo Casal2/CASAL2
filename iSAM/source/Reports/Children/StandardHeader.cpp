@@ -34,7 +34,7 @@ namespace reports {
 /**
  * Default Constructor
  */
-StandardHeader::StandardHeader() {
+StandardHeader::StandardHeader(Model* model) : Report(model) {
 
   // Variables
   time_start_   = time(NULL);

@@ -53,43 +53,43 @@ Report* Factory::Create(Model* model, const string& object_type, const string& s
 
   if (object_type == PARAM_REPORT) {
     if (sub_type == PARAM_CATEGORY_INFO)
-      result = new CategoryInfo();
+      result = new CategoryInfo(model);
     else if (sub_type == PARAM_AGEING_ERROR)
-      result = new AgeingErrorMatrix();
+      result = new AgeingErrorMatrix(model);
     else if (sub_type == PARAM_CATEGORY_LIST)
-      result = new CategoryList();
+      result = new CategoryList(model);
     else if (sub_type == PARAM_COVARIANCE_MATRIX)
-      result = new CovarianceMatrix();
+      result = new CovarianceMatrix(model);
     else if (sub_type == PARAM_DERIVED_QUANTITY)
-      result = new DerivedQuantity();
+      result = new DerivedQuantity(model);
     else if (sub_type == PARAM_ESTIMABLE)
-      result = new Estimable();
+      result = new Estimable(model);
     else if (sub_type == PARAM_ESTIMATE_SUMMARY)
-      result = new EstimateSummary();
+      result = new EstimateSummary(model);
     else if (sub_type == PARAM_ESTIMATE_VALUE)
-      result = new EstimateValue();
+      result = new EstimateValue(model);
     else if (sub_type == PARAM_INITIALISATION_PARTITION)
-      result = new InitialisationPartition();
+      result = new InitialisationPartition(model);
     else if (sub_type == PARAM_MCMC_CHAIN)
-      result = new MCMCChain();
+      result = new MCMCChain(model);
     else if (sub_type == PARAM_MCMC_COVARIANCE)
-      result = new MCMCCovariance();
+      result = new MCMCCovariance(model);
     else if (sub_type == PARAM_PARTITION)
-      result = new Partition();
+      result = new Partition(model);
     else if (sub_type == PARAM_PARTITION_BIOMASS)
-      result = new PartitionBiomass();
+      result = new PartitionBiomass(model);
     else if (sub_type == PARAM_PARTITION_MEAN_WEIGHT)
-      result = new PartitionMeanWeight();
+      result = new PartitionMeanWeight(model);
     else if (sub_type == PARAM_OBJECTIVE_FUNCTION)
-      result = new ObjectiveFunction();
+      result = new ObjectiveFunction(model);
     else if (sub_type == PARAM_OBSERVATION)
-      result = new Observation();
+      result = new Observation(model);
     else if (sub_type == PARAM_RANDOM_NUMBER_SEED)
-      result = new RandomNumberSeed();
+      result = new RandomNumberSeed(model);
     else if (sub_type == PARAM_SIMULATED_OBSERVATION)
-      result = new SimulatedObservation();
+      result = new SimulatedObservation(model);
     else if (sub_type == PARAM_SELECTIVITY)
-      result = new Selectivity();
+      result = new Selectivity(model);
 
     if (result)
       model->managers().report()->AddObject(result);

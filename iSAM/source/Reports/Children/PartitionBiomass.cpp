@@ -16,7 +16,7 @@
 namespace niwa {
 namespace reports {
 
-PartitionBiomass::PartitionBiomass() {
+PartitionBiomass::PartitionBiomass(Model* model) : Report(model) {
   run_mode_    = (RunMode::Type)(RunMode::kBasic | RunMode::kProjection);
   model_state_ = State::kExecute;
 

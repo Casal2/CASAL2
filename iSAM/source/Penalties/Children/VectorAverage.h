@@ -30,7 +30,7 @@ namespace penalties {
 class VectorAverage : public niwa::Penalty {
 public:
   // methods
-  VectorAverage();
+  VectorAverage(Model* model);
   virtual                     ~VectorAverage() = default;
   Double                      GetScore() override final;
 

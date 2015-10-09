@@ -21,7 +21,7 @@ namespace reports {
  */
 class CovarianceMatrix : public niwa::Report {
 public:
-  CovarianceMatrix();
+  CovarianceMatrix(Model* model);
   virtual                     ~CovarianceMatrix() = default;
   void                        DoValidate() override final { };
   void                        DoBuild() override final;

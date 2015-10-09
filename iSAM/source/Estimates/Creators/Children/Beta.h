@@ -27,7 +27,8 @@ namespace creators {
 class Beta : public estimates::Creator {
 public:
   // methods
-  Beta();
+  Beta() = delete;
+  explicit Beta(Model* model);
   virtual                     ~Beta() = default;
   void                        DoCopyParameters(niwa::Estimate* estimate, unsigned index) override final;
 

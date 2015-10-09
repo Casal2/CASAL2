@@ -14,7 +14,7 @@ namespace ublas = boost::numeric::ublas;
 /**
  *
  */
-CovarianceMatrix::CovarianceMatrix() {
+CovarianceMatrix::CovarianceMatrix(Model* model) : Report(model) {
   run_mode_    = (RunMode::Type)(RunMode::kBasic | RunMode::kEstimation);
   model_state_ = State::kFinalise;
 }

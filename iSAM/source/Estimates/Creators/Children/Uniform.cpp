@@ -19,7 +19,7 @@ namespace creators {
 /**
  * Default constructor
  */
-Uniform::Uniform() {
+Uniform::Uniform(Model* model) : Creator(model) {
 }
 
 } /* namespace creators */

@@ -12,7 +12,8 @@
 #include "Profile.h"
 
 #include "Estimates/Children/Uniform.h"
-#include "ObjectsFinder/ObjectsFinder.h"
+#include "Model/Model.h"
+#include "Model/Objects.h"
 #include "Utilities/To.h"
 
 // namespaces
@@ -23,7 +24,7 @@ namespace util = niwa::utilities;
 /**
  * default constructor
  */
-Profile::Profile() {
+Profile::Profile(Model* model) : model_(model) {
   parameters_.Bind<string>(PARAM_LABEL, &label_, "Label", "", "");
   parameters_.Bind<unsigned>(PARAM_STEPS, &steps_, "The number of steps to take between the lower and upper bound", "");
   parameters_.Bind<Double>(PARAM_LOWER_BOUND, &lower_bound_, "The lower bounds", "");
@@ -51,14 +52,15 @@ void Profile::Build() {
    * Explode the parameter string so we can get the estimable
    * name (parameter) and the index
    */
-  objects::ExplodeString(parameter_, type, label, parameter, index);
+  model_->objects().ExplodeString(parameter_, type, label, parameter, index);
   if (type == "" || label == "" || parameter == "") {
     LOG_ERROR_P(PARAM_PARAMETER) << ": parameter " << parameter_
         << " is not in the correct format. Correct format is object_type[label].estimable(array index)";
   }
-  objects::ImplodeString(type, label, parameter, index, parameter_);
+  model_->objects().ImplodeString(type, label, parameter, index, parameter_);
 
-  base::Object* target = objects::FindObject(parameter_);
+  string error = "";
+  base::Object* target = model_->objects().FindObject(parameter_, error);
   if (!target) {
     LOG_ERROR_P(PARAM_PARAMETER) << ": parameter " << parameter_ << " is not a valid estimable in the system";
     return;

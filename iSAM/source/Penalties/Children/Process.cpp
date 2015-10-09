@@ -22,7 +22,7 @@ namespace penalties {
 /**
  * Default Constructor
  */
-Process::Process() {
+Process::Process(Model* model) : Penalty(model) {
   parameters_.Bind<Double>(PARAM_MULTIPLIER, &multiplier_, "Multiplier", "", 1.0);
   parameters_.Bind<bool>(PARAM_LOG_SCALE, &log_scale_, "Log scale", "", false);
 

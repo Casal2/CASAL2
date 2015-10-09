@@ -20,7 +20,7 @@ namespace reports {
 /**
  * Default Constructor
  */
-MCMCChain::MCMCChain() {
+MCMCChain::MCMCChain(Model* model) : Report(model) {
   run_mode_ = RunMode::kMCMC;
   model_state_ = State::kIterationComplete;
   skip_tags_ = true;

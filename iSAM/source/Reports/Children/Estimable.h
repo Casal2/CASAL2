@@ -28,7 +28,7 @@ namespace reports {
 class Estimable : public niwa::Report {
 public:
   // methods
-  Estimable();
+  Estimable(Model* model);
   virtual                     ~Estimable() = default;
   void                        DoValidate() override final;
   void                        DoBuild() override final;

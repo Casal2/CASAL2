@@ -22,12 +22,14 @@
 
 // namespaces
 namespace niwa {
+class Model;
 
 // classes
 class Assert : public niwa::base::Executor {
 public:
   // methods
-  Assert();
+  Assert() = delete;
+  explicit Assert(Model* model);
   virtual                     ~Assert() = default;
   void                        Validate();
   void                        Build() { DoBuild();};
@@ -38,6 +40,9 @@ protected:
   // methods
   virtual void                DoValidate() = 0;
   virtual void                DoBuild() = 0;
+
+  // members
+  Model*                      model_;
 };
 } /* namespace niwa */
 

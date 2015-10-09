@@ -26,7 +26,8 @@ namespace creators {
  */
 class Normal : public estimates::Creator {
 public:
-  Normal();
+  Normal() = delete;
+  explicit Normal(Model* model);
   virtual                     ~Normal() = default;
   void                        DoCopyParameters(niwa::Estimate* estimate, unsigned index) override final;
 

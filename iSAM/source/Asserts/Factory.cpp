@@ -35,9 +35,9 @@ Assert* Factory::Create(Model* model, const string& object_type, const string& s
 
   if (object_type == PARAM_ASSERT) {
     if (sub_type == PARAM_ESTIMABLE)
-      result = new Estimable();
+      result = new Estimable(model);
     else if (sub_type == PARAM_OBJECTIVE_FUNCTION)
-      result = new ObjectiveFunction();
+      result = new ObjectiveFunction(model);
 
     if (result)
       model->managers().assertx()->AddObject(result);

@@ -31,7 +31,7 @@ namespace reports {
 class CategoryInfo : public niwa::Report {
 public:
   // Methods
-  CategoryInfo();
+  CategoryInfo(Model* model);
   virtual                     ~CategoryInfo() = default;
   void                        DoValidate() override final { };
   void                        DoBuild() override final { };

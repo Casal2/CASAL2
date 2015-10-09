@@ -205,6 +205,30 @@ base::Object* Objects::FindObject(const string& parameter_absolute_name, string&
   return result;
 }
 
+Double* Objects::FindEstimable(const string& estimable_absolute_name, string& error) {
+  LOG_TRACE();
+
+  niwa::base::Object* object = FindObject(estimable_absolute_name, error);
+  if (!object)
+    return 0;
+
+  Double* result = 0;
+
+  string type         = "";
+  string label        = "";
+  string parameter    = "";
+  string index        = "";
+
+  ExplodeString(estimable_absolute_name, type, label, parameter, index);
+  LOG_FINEST() << "type: " << type << "; label: " << label << "; parameter: " << parameter << "; index: " << index;
+  if (index != "")
+    result = object->GetEstimable(parameter, index);
+  else
+    result = object->GetEstimable(parameter);
+
+  return result;
+}
+
 /**
  *
  */

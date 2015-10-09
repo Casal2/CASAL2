@@ -27,7 +27,7 @@ namespace reports {
 class PartitionMeanWeight : public niwa::Report {
 public:
   // methods
-  PartitionMeanWeight();
+  PartitionMeanWeight(Model* model);
   virtual                     ~PartitionMeanWeight() = default;
   void                        DoValidate() override final { };
   void                        DoBuild() override final { };

@@ -15,7 +15,7 @@ namespace reports {
 /**
  *
  */
-AgeingErrorMatrix::AgeingErrorMatrix() {
+AgeingErrorMatrix::AgeingErrorMatrix(Model* model) : Report(model) {
   run_mode_    = (RunMode::Type)(RunMode::kBasic | RunMode::kProjection);
   model_state_ = State::kFinalise;
 

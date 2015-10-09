@@ -36,11 +36,11 @@ Penalty* Factory::Create(Model* model, const string& object_type, const string& 
 
   if (object_type == PARAM_PENALTY) {
     if (sub_type == PARAM_PROCESS)
-      object = new Process();
+      object = new Process(model);
     else if (sub_type == PARAM_VECTOR_AVERAGE)
-      object = new VectorAverage();
+      object = new VectorAverage(model);
     else if (sub_type == PARAM_VECTOR_SMOOTHING)
-      object = new VectorSmoothing();
+      object = new VectorSmoothing(model);
 
     if (object)
       model->managers().penalty()->AddObject(object);

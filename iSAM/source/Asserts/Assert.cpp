@@ -24,7 +24,7 @@ namespace niwa {
  *
  * Note: The constructor is parsed to generate Latex for the documentation.
  */
-Assert::Assert() {
+Assert::Assert(Model* model) : model_(model) {
   parameters_.Bind<string>(PARAM_LABEL, &label_, "Label for the assert", "");
   parameters_.Bind<string>(PARAM_TYPE, &type_, "Type of the assert", "");
 }

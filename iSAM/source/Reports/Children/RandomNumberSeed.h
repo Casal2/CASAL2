@@ -27,7 +27,7 @@ namespace reports {
 class RandomNumberSeed : public niwa::Report {
 public:
   // methods
-  RandomNumberSeed();
+  RandomNumberSeed(Model* model);
   virtual                     ~RandomNumberSeed() = default;
 
 protected:

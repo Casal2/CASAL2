@@ -29,7 +29,7 @@ namespace reports {
  */
 class Partition : public niwa::Report {
 public:
-  Partition();
+  Partition(Model* model);
   virtual                     ~Partition() = default;
   void                        DoValidate() override final { };
   void                        DoBuild() override final { };

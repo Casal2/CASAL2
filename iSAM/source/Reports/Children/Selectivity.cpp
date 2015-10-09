@@ -12,7 +12,7 @@
 namespace niwa {
 namespace reports {
 
-Selectivity::Selectivity() {
+Selectivity::Selectivity(Model* model) : Report(model) {
   run_mode_     = (RunMode::Type)(RunMode::kBasic | RunMode::kProjection);
   model_state_  = State::kFinalise;
 
