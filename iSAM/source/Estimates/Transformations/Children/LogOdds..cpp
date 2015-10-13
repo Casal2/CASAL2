@@ -56,7 +56,7 @@ Double LogOdds::Untransform(Double initial_value) {
 /*
 Double LogOdds::Jacobian(Double initial_value) {
   Double result = 0;
-  result = (upper_bound_ - lower_bound_) * 1 / (1 + exp( -initial_value)) * ( 1 - 1 / (1 + exp( -initial_value )));
+  result = (upper_bound_ - lower_bound_) * exp(initial_value) / pow(1 + exp(initial_value ), 2);
   return result;
 }
 */

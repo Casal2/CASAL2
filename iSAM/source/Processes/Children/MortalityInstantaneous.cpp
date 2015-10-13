@@ -48,15 +48,19 @@ MortalityInstantaneous::MortalityInstantaneous() : Process(Model::Instance()) {
   // catches_table_->set_required_columns({"years"}, allow_others = true)
   // fisheries_table_->set_required_columns({"x", "x", "x,"});
 
-  parameters_.Bind<string>(PARAM_CATEGORIES, &category_labels_, "Categories", "");
+  parameters_.Bind<string>(PARAM_CATEGORIES, &category_labels_, "Categories for natural mortality", "");
   parameters_.BindTable(PARAM_CATCHES, catches_table_, "Table of catch data", "", true, false);
   parameters_.BindTable(PARAM_FISHERIES, fisheries_table_, "Table of fishery data", "", true, false);
   parameters_.Bind<Double>(PARAM_M, &m_, "Mortality rates", "")->set_range(0.0, 1.0);
+  parameters_.Bind<Double>(PARAM_AVERAGE, &avg_, "The average mortality rate", "", Double(-999.0));
+  parameters_.Bind<Double>(PARAM_DIFFERENCE, &diff_, "The difference between, two categories natural mortality around the average", "", Double(-999.0));
   parameters_.Bind<Double>(PARAM_TIME_STEP_RATIO, &time_step_ratios_temp_, "Time step ratios for M", "", true)->set_range(0.0, 1.0);
   parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_labels_, "Selectivities for Natural Mortality", "");
   parameters_.Bind<string>(PARAM_PENALTY, &  penalty_label_, "Label of penalty to be applied", "","");
 
   RegisterAsEstimable(PARAM_M, &m_);
+  RegisterAsEstimable(PARAM_AVERAGE, &avg_);
+  RegisterAsEstimable(PARAM_DIFFERENCE, &diff_);
 }
 
 /**
@@ -148,7 +152,7 @@ void MortalityInstantaneous::DoValidate() {
     m_.assign(category_labels_.size(), m_[0]);
   if (selectivity_labels_.size() == 1)
     selectivity_labels_.assign(category_labels_.size(), selectivity_labels_[0]);
-  if (m_.size() != category_labels_.size())
+  if (m_.size() != category_labels_.size() && avg_ != -999.0)
     LOG_ERROR_P(PARAM_M)
         << ": Number of Ms provided is not the same as the number of categories provided. Expected: "
         << category_labels_.size()<< " but got " << m_.size();
@@ -156,6 +160,23 @@ void MortalityInstantaneous::DoValidate() {
     LOG_ERROR_P(PARAM_SELECTIVITIES)
         << ": Number of selectivities provided is not the same as the number of categories provided. Expected: "
         << category_labels_.size()<< " but got " << selectivity_labels_.size();
+  }
+
+  // validate if the average difference method is used for natural mortality
+  if (avg_ != -999.0 && diff_ != -999.0) {
+    if (category_labels_.size() % 2)
+      LOG_ERROR_P(PARAM_AVERAGE) << "This method of natural mortality only works when number of categories is a multiple of 2";
+    m_.assign(category_labels_.size(), 0.0);
+    for (unsigned i = 0; i <= (category_labels_.size() / 2); i+=2) {
+    m_[i] = avg_ + (diff_ * 0.5);
+    if (m_[i] > 1.0 || m_[i] < 0.0)
+      LOG_ERROR_P(PARAM_AVERAGE) << "the resulting parameters" << PARAM_AVERAGE << " " << PARAM_DIFFERENCE
+      << " caused natural mortality to be less than 0.0 or greater than 1.0";
+    m_[i + 1] = avg_ - (diff_ * 0.5);
+    if (m_[i + 1] > 1.0 || m_[i + 1] < 0.0)
+      LOG_ERROR_P(PARAM_AVERAGE) << "the resulting parameters" << PARAM_AVERAGE << " " << PARAM_DIFFERENCE
+      << " caused natural mortality to be less than 0.0 or greater than 1.0";
+    }
   }
 }
 
