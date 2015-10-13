@@ -87,6 +87,8 @@ private:
   penalties::ProcessPtr       penalty_;
   // members from natural mortality
   vector<Double>              m_;
+  Double                      avg_ = -999.0;
+  Double                      diff_ = -999.0;
   vector<Double>              time_step_ratios_temp_;
   map<unsigned, Double>       time_step_ratios_;
   vector<string>              selectivity_labels_;
