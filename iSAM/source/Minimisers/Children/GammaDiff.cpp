@@ -34,7 +34,7 @@ GammaDiff::GammaDiff(Model* model) : Minimiser(model) {
 void GammaDiff::Execute() {
   LOG_TRACE();
   // Variables
-  gammadiff::CallBack  call_back;
+  gammadiff::CallBack  call_back(model_);
 
   estimates::Manager& estimate_manager = *model_->managers().estimate();
 

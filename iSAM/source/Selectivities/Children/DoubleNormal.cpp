@@ -22,17 +22,11 @@ namespace niwa {
 namespace selectivities {
 
 /**
- * Constructor
- */
-DoubleNormal::DoubleNormal()
-: DoubleNormal(Model::Instance()) {
-}
-
-/**
  * Explicit constructor
  */
 DoubleNormal::DoubleNormal(Model* model)
-: Selectivity(model) {
+  : Selectivity(model) {
+
   parameters_.Bind<Double>(PARAM_MU, &mu_, "Mu", "");
   parameters_.Bind<Double>(PARAM_SIGMA_L, &sigma_l_, "Sigma L", "");
   parameters_.Bind<Double>(PARAM_SIGMA_R, &sigma_r_, "Sigma R", "");

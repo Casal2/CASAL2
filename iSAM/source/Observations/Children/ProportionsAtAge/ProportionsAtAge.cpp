@@ -333,7 +333,7 @@ void ProportionsAtAge::CalculateScore() {
    * Simulate or generate results
    * During simulation mode we'll simulate results for this observation
    */
-  if (Model::Instance()->run_mode() == RunMode::kSimulation) {
+  if (model_->run_mode() == RunMode::kSimulation) {
     likelihood_->SimulateObserved(comparisons_);
     for (auto& iter :  comparisons_) {
       Double total = 0.0;

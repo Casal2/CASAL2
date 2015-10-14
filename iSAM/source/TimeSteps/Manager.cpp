@@ -116,7 +116,12 @@ vector<ProcessType> Manager::GetOrderedProcessTypes() {
  * Validate our Time Steps
  */
 void Manager::Validate() {
+  LOG_CODE_ERROR() << "This method is not supported";
+}
+
+void Manager::Validate(Model* model) {
   LOG_TRACE();
+  model_ = model;
 
   for (auto time_step : objects_) {
     LOG_FINE() << "Validating time step: " << time_step->label();
@@ -124,7 +129,7 @@ void Manager::Validate() {
   }
 
   // Order our time steps based on the parameter given to the model
-  vector<string> time_steps = Model::Instance()->time_steps();
+  vector<string> time_steps = model->time_steps();
   for(string time_step_label : time_steps) {
     for(auto time_step : objects_) {
       if (time_step->label() == time_step_label) {
@@ -155,7 +160,7 @@ void Manager::Build() {
 void Manager::Execute(unsigned year) {
   LOG_TRACE();
 
-  reports::Manager& report_manager = *Model::Instance()->managers().report();
+  reports::Manager& report_manager = *model_->managers().report();
   for (current_time_step_ = 0; current_time_step_ < ordered_time_steps_.size(); ++current_time_step_) {
     LOG_FINE() << "Current Time Step: " <<  current_time_step_;
     ordered_time_steps_[current_time_step_]->Execute(year);

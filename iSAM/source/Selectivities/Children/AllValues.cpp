@@ -19,17 +19,10 @@ namespace niwa {
 namespace selectivities {
 
 /**
- * Default constructor
- */
-AllValues::AllValues()
-: AllValues(Model::Instance()) {
-}
-
-/**
  * Explicit Constructor
  */
-  AllValues::AllValues(Model* model)
-: Selectivity(model) {
+AllValues::AllValues(Model* model)
+  : Selectivity(model) {
 
   parameters_.Bind<Double>(PARAM_V, &v_, "V", "");
 

@@ -27,7 +27,7 @@ namespace niwa {
  *
  * Note: The constructor is parsed to generate Latex for the documentation.
  */
-AgeingError::AgeingError() {
+AgeingError::AgeingError(Model* model) : model_(model) {
   parameters_.Bind<string>(PARAM_LABEL, &label_, "Label", "");
   parameters_.Bind<string>(PARAM_TYPE, &type_, "Type", "");
 }
@@ -41,11 +41,10 @@ AgeingError::AgeingError() {
 void AgeingError::Validate() {
   parameters_.Populate();
 
-  Model* model = Model::Instance();
-  min_age_    = model->min_age();
-  max_age_    = model->max_age();
-  age_plus_   = model->age_plus();
-  age_spread_ = model->age_spread();
+  min_age_    = model_->min_age();
+  max_age_    = model_->max_age();
+  age_plus_   = model_->age_plus();
+  age_spread_ = model_->age_spread();
 
   DoValidate();
 }

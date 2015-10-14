@@ -13,7 +13,6 @@
 // Headers
 #include "RandomNumberGenerator.h"
 
-#include "GlobalConfiguration/GlobalConfiguration.h"
 #include "Model/Model.h"
 
 // Namespaces
@@ -24,7 +23,6 @@ namespace utilities {
  * Default Constructor
  */
 RandomNumberGenerator::RandomNumberGenerator() {
-  generator_.seed(Model::Instance()->global_configuration().random_seed());
 }
 
 /**

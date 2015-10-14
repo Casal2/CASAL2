@@ -34,6 +34,10 @@ Manager::~Manager() noexcept(true) {
  * based on their type.
  */
 void Manager::Build() {
+  LOG_CODE_ERROR() << "This method is not supported";
+}
+
+void Manager::Build(Model* model) {
   LOG_FINEST() << "objects_.size(): " << objects_.size();
   for (auto report : objects_) {
     report->Build();
@@ -60,7 +64,7 @@ void Manager::Build() {
 void Manager::Execute(State::Type model_state) {
   LOG_TRACE();
 
-  RunMode::Type run_mode = Model::Instance()->run_mode();
+  RunMode::Type run_mode = model_->run_mode();
   LOG_FINE() << "Checking " << state_reports_[model_state].size() << " reports";
   for(auto report : state_reports_[model_state]) {
       if ( (RunMode::Type)(report->run_mode() & run_mode) == run_mode)
@@ -82,7 +86,7 @@ void Manager::Execute(unsigned year, const string& time_step_label) {
   LOG_TRACE();
   LOG_FINEST() << "year: " << year << "; time_step_label: " << time_step_label << "; reports: " << time_step_reports_[time_step_label].size();
 
-  RunMode::Type run_mode = Model::Instance()->run_mode();
+  RunMode::Type run_mode = model_->run_mode();
   for(auto report : time_step_reports_[time_step_label]) {
     if ( (RunMode::Type)(report->run_mode() & run_mode) != run_mode) {
       LOG_FINEST() << "Skipping report: " << report->label() << " because run mode is not right";

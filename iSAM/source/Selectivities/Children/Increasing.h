@@ -29,7 +29,6 @@ namespace selectivities {
 class Increasing : public niwa::Selectivity {
 public:
   // Methods
-  Increasing();
   explicit Increasing(Model* model);
   virtual                     ~Increasing() = default;
   void                        DoValidate() override final;

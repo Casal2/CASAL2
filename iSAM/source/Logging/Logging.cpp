@@ -12,7 +12,6 @@
 // headers
 #include "Logging.h"
 
-#include "GlobalConfiguration/GlobalConfiguration.h"
 #include "Model/Model.h"
 
 // namespaces
@@ -25,9 +24,22 @@ using std::string;
  * Default constructor
  */
 Logging::Logging() {
-  // Set our logging level
-  GlobalConfiguration& config = Model::Instance()->global_configuration();
-  string log_level = config.log_level();
+}
+
+/**
+ * Singleton Instance method
+ *
+ * @return static instance of the logging class
+ */
+Logging& Logging::Instance() {
+  static Logging logging;
+  return logging;
+}
+
+/**
+ *
+ */
+void Logging::SetLogLevel(const std::string& log_level) {
   if (log_level == PARAM_TRACE)
     current_log_level_ = logger::Severity::kTrace;
   else if (log_level == PARAM_FINEST)
@@ -40,16 +52,6 @@ Logging::Logging() {
     cout << "The log level provided is an invalid log level. " << log_level << " is not supported" << endl;
     exit(-1);
   }
-}
-
-/**
- * Singleton Instance method
- *
- * @return static instance of the logging class
- */
-Logging& Logging::Instance() {
-  static Logging logging;
-  return logging;
 }
 
 #ifdef TESTMODE

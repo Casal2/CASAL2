@@ -48,7 +48,7 @@ Double NormalCDF(Double x, Double mu, Double sigma) {
  *
  * Note: The constructor is parsed to generate Latex for the documentation.
  */
-Normal::Normal() {
+Normal::Normal(Model* model) : AgeingError(model) {
   parameters_.Bind<Double>(PARAM_CV, &cv_, "CV for Misclassification matrix", "")->set_lower_bound(0.0);
   parameters_.Bind<unsigned>(PARAM_K, &k_, "TBA", "", 0u);
 

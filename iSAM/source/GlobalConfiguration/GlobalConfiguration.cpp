@@ -30,7 +30,6 @@ GlobalConfiguration::GlobalConfiguration() {
   global_parameters_[PARAM_RANDOM_NUMBER_SEED]          = "123";
   global_parameters_[PARAM_FORCE_ESTIMABLE_VALUES_FILE] = "f";
   global_parameters_[PARAM_NO_STANDARD_HEADER_REPORT]   = "f";
-  global_parameters_[PARAM_LOG_LEVEL]                   = PARAM_NONE;
 }
 
 /**

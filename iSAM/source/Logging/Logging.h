@@ -37,6 +37,7 @@ public:
   // methods
   virtual                     ~Logging() = default;
   static Logging&             Instance();
+  void                        SetLogLevel(const std::string& log_level);
   void                        Flush(niwa::logger::Record& record);
   void                        FlushErrors();
   void                        FlushWarnings();

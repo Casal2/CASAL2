@@ -30,7 +30,7 @@ namespace dlib {
 class Callback {
 public:
   // methods
-  Callback();
+  Callback(Model* model);
   virtual                     ~Callback() = default;
   Double                      operator()(const ::dlib::matrix<double, 0, 1>& Parameters) const;
 

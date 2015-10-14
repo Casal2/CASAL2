@@ -22,18 +22,11 @@ namespace niwa {
 namespace selectivities {
 
 /**
- * Default constructor
- */
-LogisticProducing::LogisticProducing()
-: LogisticProducing(Model::Instance()) {
-
-}
-
-/**
  * Explicit constructor
  */
 LogisticProducing::LogisticProducing(Model* model)
-: Selectivity(model) {
+  : Selectivity(model) {
+
   parameters_.Bind<unsigned>(PARAM_L, &low_, "Low", "");
   parameters_.Bind<unsigned>(PARAM_H, &high_, "High", "");
   parameters_.Bind<Double>(PARAM_A50, &a50_, "A50", "");

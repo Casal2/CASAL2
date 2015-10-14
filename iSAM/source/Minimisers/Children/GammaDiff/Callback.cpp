@@ -24,8 +24,7 @@ namespace gammadiff {
 /**
  * Default Constructor
  */
-CallBack::CallBack() {
-  model_ = Model::Instance();
+CallBack::CallBack(Model* model) : model_(model) {
 }
 
 //**********************************************************************

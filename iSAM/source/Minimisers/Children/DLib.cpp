@@ -38,7 +38,7 @@ DLib::DLib(Model* model) : Minimiser(model) {
 void DLib::Execute() {
   cout << "Executing DLib Minimiser" << endl;
   // Variables
-  dlib::Callback  call_back;
+  dlib::Callback  call_back(model_);
 
   estimates::Manager& estimate_manager = *model_->managers().estimate();
   vector<Estimate*> estimates = estimate_manager.GetEnabled();
@@ -82,7 +82,7 @@ void DLib::Execute() {
   // bfgs_search_strategy()
   ::dlib::find_min_using_approximate_derivatives(::dlib::bfgs_search_strategy(),
                                                  ::dlib::objective_delta_stop_strategy(1e-7),
-                                                  dlib::Callback(), start_values, -1);
+                                                  dlib::Callback(model_), start_values, -1);
 
 //  ::dlib::find_min_bobyqa(dlib::Callback(),
 //                  start_values,

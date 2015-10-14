@@ -133,7 +133,7 @@ void TimeStep::Execute(unsigned year) {
  *
  */
 void TimeStep::SubscribeToBlock(Executor* executor) {
-  vector<unsigned> years = Model::Instance()->years();
+  vector<unsigned> years = model_->years();
   for (unsigned year : years)
     block_executors_[year].push_back(executor);
 }

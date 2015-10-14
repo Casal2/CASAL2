@@ -68,7 +68,7 @@ class Model : public base::Object {
 public:
   // Methods
   Model();
-  static Model*               Instance(bool force_new = false);
+//  static Model*               Instance(bool force_new = false);
   virtual                     ~Model();
   bool                        Start(RunMode::Type run_mode);
   void                        FullIteration();

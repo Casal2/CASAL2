@@ -68,11 +68,10 @@ void ProportionsByCategory::DoValidate() {
   /**
    * Do some simple checks
    */
-  Model* model = Model::Instance();
-  if (min_age_ < model->min_age())
-    LOG_ERROR_P(PARAM_MIN_AGE) << ": min_age (" << min_age_ << ") is less than the model's min_age (" << model->min_age() << ")";
-  if (max_age_ > model->max_age())
-    LOG_ERROR_P(PARAM_MAX_AGE) << ": max_age (" << max_age_ << ") is greater than the model's max_age (" << model->max_age() << ")";
+  if (min_age_ < model_->min_age())
+    LOG_ERROR_P(PARAM_MIN_AGE) << ": min_age (" << min_age_ << ") is less than the model's min_age (" << model_->min_age() << ")";
+  if (max_age_ > model_->max_age())
+    LOG_ERROR_P(PARAM_MAX_AGE) << ": max_age (" << max_age_ << ") is greater than the model's max_age (" << model_->max_age() << ")";
   if (process_error_values_.size() != 0 && process_error_values_.size() != years_.size()) {
     LOG_ERROR_P(PARAM_PROCESS_ERRORS) << " number of values provided (" << process_error_values_.size() << ") does not match the number of years provided ("
         << years_.size() << ")";
@@ -241,14 +240,12 @@ void ProportionsByCategory::DoBuild() {
  * structure to use with any interpolation
  */
 void ProportionsByCategory::PreExecute() {
-  Model* model = Model::Instance();
-
   cached_partition_->BuildCache();
   target_cached_partition_->BuildCache();
 
-  if (cached_partition_->Size() != proportions_[model->current_year()].size())
+  if (cached_partition_->Size() != proportions_[model_->current_year()].size())
     LOG_CODE_ERROR() << "cached_partition_->Size() != proportions_[model->current_year()].size()";
-  if (partition_->Size() != proportions_[model->current_year()].size())
+  if (partition_->Size() != proportions_[model_->current_year()].size())
     LOG_CODE_ERROR() << "partition_->Size() != proportions_[model->current_year()].size()";
 }
 
@@ -400,7 +397,7 @@ void ProportionsByCategory::CalculateScore() {
    * Simulate or generate results
    * During simulation mode we'll simulate results for this observation
    */
-  if (Model::Instance()->run_mode() == RunMode::kSimulation) {
+  if (model_->run_mode() == RunMode::kSimulation) {
     likelihood_->SimulateObserved(comparisons_);
   } else {
     /**

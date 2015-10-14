@@ -25,7 +25,7 @@ namespace simulates {
  */
 class Constant : public niwa::Simulate {
 public:
-  Constant();
+  Constant(Model* model);
   virtual                     ~Constant() = default;
   void                        DoValidate() override final;
   void                        DoBuild() override final;

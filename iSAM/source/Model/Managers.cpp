@@ -98,7 +98,7 @@ Managers::~Managers() {
 }
 
 void Managers::Validate() {
-  time_step_->Validate();
+  time_step_->Validate(model_);
 
   additional_prior_->Validate();
   ageing_error_->Validate();
@@ -112,7 +112,7 @@ void Managers::Validate() {
   minimiser_->Validate();
   observation_->Validate();
   penalty_->Validate();
-  process_->Validate();
+  process_->Validate(model_);
   profile_->Validate();
   project_->Validate();
   report_->Validate();
@@ -120,7 +120,7 @@ void Managers::Validate() {
   simulate_->Validate();
   time_varying_->Validate();
 
-  estimate_->Validate();
+  estimate_->Validate(model_);
 }
 
 void Managers::Build() {
@@ -131,7 +131,7 @@ void Managers::Build() {
   catchability_->Build();
   derived_quantity_->Build();
   estimate_->Build();
-  initialisation_phase_->Build();
+  initialisation_phase_->Build(model_);
   length_weight_->Build();
   mcmc_->Build();
   minimiser_->Build();
@@ -140,7 +140,7 @@ void Managers::Build() {
   process_->Build();
   profile_->Build();
   project_->Build();
-  report_->Build();
+  report_->Build(model_);
   selectivity_->Build();
   simulate_->Build();
   time_step_->Build();

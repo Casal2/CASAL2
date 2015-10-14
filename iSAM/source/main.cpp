@@ -24,6 +24,7 @@ int main(int argc, char **argv) {
 #include "Reports/Children/StandardHeader.h"
 #include "Reports/Manager.h"
 #include "Utilities/CommandLineParser/CommandLineParser.h"
+#include "Utilities/RandomNumberGenerator.h"
 #include "Logging/Logging.h"
 
 // Namespaces
@@ -83,6 +84,7 @@ int main(int argc, char * argv[]) {
 
       // override any config file values from our command line
       model.global_configuration().OverrideGlobalValues(parser.override_values());
+      utilities::RandomNumberGenerator::Instance().Reset(model.global_configuration().random_seed());
 
       // Thread off the reports
       reports::Manager* report_manager = model.managers().report();

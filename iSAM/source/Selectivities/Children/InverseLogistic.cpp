@@ -22,18 +22,11 @@ namespace niwa {
 namespace selectivities {
 
 /**
- * Default constructor
- */
-InverseLogistic::InverseLogistic()
-: InverseLogistic(Model::Instance()) {
-
-}
-
-/**
  * Explicit constructor
  */
 InverseLogistic::InverseLogistic(Model* model)
-: Selectivity(model) {
+  : Selectivity(model) {
+
   parameters_.Bind<Double>(PARAM_A50, &a50_, "A50", "");
   parameters_.Bind<Double>(PARAM_ATO95, &aTo95_, "aTo95", "");
   parameters_.Bind<Double>(PARAM_ALPHA, &alpha_, "Alpha", "", 1.0);

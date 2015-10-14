@@ -15,6 +15,8 @@
 
 // Namespaces
 namespace niwa {
+class Model;
+
 namespace initialisationphases {
 
 /**
@@ -27,6 +29,7 @@ public:
   // methods
   virtual                     ~Manager() noexcept(true);
   void                        Build() override final;
+  void                        Build(Model* model);
   void                        Execute();
   bool                        IsPhaseDefined(const string& label) const;
   unsigned                    GetPhaseIndex(const string& label) const;

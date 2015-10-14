@@ -20,18 +20,11 @@ namespace niwa {
 namespace selectivities {
 
 /**
- * Default constructor
- */
-AllValuesBounded::AllValuesBounded()
-: AllValuesBounded(Model::Instance()) {
-}
-
-/**
  * Explicit Constructor
  */
 AllValuesBounded::AllValuesBounded(Model* model)
+  : Selectivity(model) {
 
-: Selectivity(model) {
   parameters_.Bind<unsigned>(PARAM_L, &low_, "L", "");
   parameters_.Bind<unsigned>(PARAM_H, &high_, "H", "");
   parameters_.Bind<Double>(PARAM_V, &v_, "V", "");

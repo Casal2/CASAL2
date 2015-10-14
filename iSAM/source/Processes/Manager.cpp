@@ -23,12 +23,16 @@ Manager::~Manager() noexcept(true) {
  * Validate any loaded processes we have.
  */
 void Manager::Validate() {
+  LOG_CODE_ERROR() << "This method is not supported";
+}
+
+void Manager::Validate(Model* model) {
   LOG_TRACE();
 
   if (objects_.size() == 0)
     LOG_ERROR() << "The configuration file requires you specify at least one type of process. E.g @recruitment, @mortality, @ageing";
 
-  PartitionStructure model_structure = Model::Instance()->partition_structure();
+  PartitionStructure model_structure = model->partition_structure();
 
   for (auto process : objects_) {
     if ((PartitionStructure)(process->partition_structure() & PartitionStructure::kInvalid) == PartitionStructure::kInvalid)
@@ -41,7 +45,7 @@ void Manager::Validate() {
       if (param)
         label = param->values()[0];
 
-      LOG_ERROR() << process->location() << "the process " << label << " is not allowed to be created when the model type is set to " << Model::Instance()->type();
+      LOG_ERROR() << process->location() << "the process " << label << " is not allowed to be created when the model type is set to " << model->type();
     }
 
     process->Validate();

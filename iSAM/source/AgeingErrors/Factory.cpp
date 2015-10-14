@@ -37,11 +37,11 @@ AgeingError* Factory::Create(Model* model, const string& object_type, const stri
 
   if (object_type == PARAM_AGEING_ERROR || object_type == PARAM_AGEING_ERRORS) {
     if (sub_type == PARAM_DATA)
-      result = new Data();
+      result = new Data(model);
     else if (sub_type == PARAM_NORMAL)
-      result = new Normal();
+      result = new Normal(model);
     else if (sub_type == PARAM_OFF_BY_ONE)
-      result = new OffByOne();
+      result = new OffByOne(model);
 
     if (result)
       model->managers().ageing_error()->AddObject(result);

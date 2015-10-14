@@ -37,7 +37,7 @@ ObjectiveFunction::ObjectiveFunction(Model* model) : Assert(model) {
  * Obtain smart_pointers to any objects that will be used by this object.
  */
 void ObjectiveFunction::DoBuild() {
-  Model::Instance()->Subscribe(State::kFinalise, this);
+  model_->Subscribe(State::kFinalise, this);
 }
 
 /**

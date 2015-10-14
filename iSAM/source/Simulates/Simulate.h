@@ -28,7 +28,8 @@ public:
   typedef void (Simulate::*UpdateFunction)(Double);
 
   // methods
-  Simulate();
+  Simulate() = delete;
+  Simulate(Model* model);
   virtual                     ~Simulate() = default;
   void                        Validate();
   void                        Build();
@@ -52,7 +53,7 @@ protected:
   UpdateFunction              update_function_ = 0;
 
   // members
-  Model*                    model_;
+  Model*                      model_;
   string                      type_ = "";
   vector<unsigned>            years_;
   string                      parameter_;
@@ -60,14 +61,7 @@ protected:
   map<unsigned, Double>*      estimable_map_ = 0;
   vector<Double>*             estimable_vector_ = 0;
   Double*                     estimable_ = 0;
-
 };
-
-/**
- * Typedef
- */
-typedef std::shared_ptr<Simulate> SimulatePtr;
-
 } /* namespace niwa */
 
 #endif /* PROJECT_H_ */

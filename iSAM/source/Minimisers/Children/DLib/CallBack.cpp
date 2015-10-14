@@ -24,8 +24,7 @@ namespace dlib {
 /**
  *
  */
-Callback::Callback() {
-  model_ = Model::Instance();
+Callback::Callback(Model* model) : model_(model) {
 }
 
 /**

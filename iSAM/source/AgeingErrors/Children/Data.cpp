@@ -28,7 +28,7 @@ namespace ageingerrors {
  *
  * Note: The constructor is parsed to generate Latex for the documentation.
  */
-Data::Data() {
+Data::Data(Model* model) : AgeingError(model) {
   parameters_.BindTable(PARAM_DATA, data_table_, "", "", false, false);
 }
 

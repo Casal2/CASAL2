@@ -18,19 +18,13 @@
 // Namespaces
 namespace niwa {
 namespace selectivities {
-/**
- * Default constructor
- */
-Increasing::Increasing()
-: Increasing(Model::Instance()) {
-
-}
 
 /**
  * Explicit constructor
  */
 Increasing::Increasing(Model* model)
-: Selectivity(model) {
+  : Selectivity(model) {
+
   parameters_.Bind<unsigned>(PARAM_L, &low_, "Low", "");
   parameters_.Bind<unsigned>(PARAM_H, &high_, "High", "");
   parameters_.Bind<Double>(PARAM_V, &v_, "V", "");

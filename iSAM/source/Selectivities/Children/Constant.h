@@ -29,7 +29,7 @@ namespace selectivities {
 class Constant : public niwa::Selectivity {
 public:
   // Methods
-  Constant();
+  explicit Constant(Model* model);
   virtual                     ~Constant() = default;
   void                        DoValidate() override final { };
   Double                      GetResult(unsigned age_or_length) override final;

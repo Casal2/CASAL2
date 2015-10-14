@@ -48,25 +48,25 @@ Selectivity* Factory::Create(Model* model, const string& object_type, const stri
 
   if (object_type == PARAM_SELECTIVITY || object_type == PARAM_SELECTIVITIES) {
     if (sub_type == PARAM_ALL_VALUES)
-      result = new AllValues();
+      result = new AllValues(model);
     else if (sub_type == PARAM_ALL_VALUES_BOUNDED)
-      result = new AllValuesBounded();
+      result = new AllValuesBounded(model);
     else if (sub_type == PARAM_CONSTANT)
-      result = new Constant();
+      result = new Constant(model);
     else if (sub_type == PARAM_DOUBLE_EXPONENTIAL)
-      result = new DoubleExponential();
+      result = new DoubleExponential(model);
     else if (sub_type == PARAM_DOUBLE_NORMAL)
-      result = new DoubleNormal();
+      result = new DoubleNormal(model);
     else if (sub_type == PARAM_INCREASING)
-      result = new Increasing();
+      result = new Increasing(model);
     else if (sub_type == PARAM_INVERSE_LOGISTIC)
-      result = new InverseLogistic();
+      result = new InverseLogistic(model);
     else if (sub_type == PARAM_KNIFE_EDGE)
-      result = new KnifeEdge();
+      result = new KnifeEdge(model);
     else if (sub_type == PARAM_LOGISTIC)
-      result = new Logistic();
+      result = new Logistic(model);
     else if (sub_type == PARAM_LOGISTIC_PRODUCING)
-      result = new LogisticProducing();
+      result = new LogisticProducing(model);
 
     if (result)
       model->managers().selectivity()->AddObject(result);

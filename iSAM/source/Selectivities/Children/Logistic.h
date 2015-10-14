@@ -29,8 +29,7 @@ namespace selectivities {
 class Logistic : public niwa::Selectivity {
 public:
   // Methods
-  Logistic();
-  explicit Logistic(Model* ptr);
+  explicit Logistic(Model* model);
   virtual                     ~Logistic() = default;
   void                        DoValidate() override final;
   void                        Reset() override final;

@@ -17,7 +17,7 @@ namespace niwa {
 namespace ageingerrors {
 
 // Constructor
-OffByOne::OffByOne() {
+OffByOne::OffByOne(Model* model) : AgeingError(model) {
   parameters_.Bind<Double>(PARAM_P1, &p1_, "proprtion of misclassification up by an age, i.e. how proportion of age 3 that are actually age 4", "");
   parameters_.Bind<Double>(PARAM_P2, &p2_, "proprtion of misclassification down by an age", "");
   parameters_.Bind<unsigned>(PARAM_K, &k_, "The minimum age of fish whcih can be missclassified", "", 0u);

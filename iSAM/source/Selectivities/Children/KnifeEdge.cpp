@@ -18,17 +18,10 @@ namespace niwa {
 namespace selectivities {
 
 /**
- * Default constructor (using constructor delegation)
- */
-KnifeEdge::KnifeEdge()
-: KnifeEdge(Model::Instance()) {
-}
-
-/**
  * Explicit Constructor
  */
 KnifeEdge::KnifeEdge(Model* model)
-: Selectivity(model) {
+  : Selectivity(model) {
 
   parameters_.Bind<Double>(PARAM_E, &edge_, "Edge", "");
   parameters_.Bind<Double>(PARAM_ALPHA, &alpha_, "Alpha", "", 1.0);
