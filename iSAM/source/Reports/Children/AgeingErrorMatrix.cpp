@@ -7,7 +7,7 @@
 
 #include "AgeingErrorMatrix.h"
 
-
+#include "AgeingErrors/Manager.h"
 
 namespace niwa {
 namespace reports {
@@ -27,7 +27,7 @@ AgeingErrorMatrix::AgeingErrorMatrix(Model* model) : Report(model) {
  */
 
 void AgeingErrorMatrix::DoBuild() {
-  ageingerror_ = ageingerrors::Manager::Instance().GetAgeingError(ageingerror_label_);
+  ageingerror_ = model_->managers().ageing_error()->GetAgeingError(ageingerror_label_);
   if (!ageingerror_)
     LOG_ERROR_P(PARAM_AGEING_ERROR) << "(" << ageingerror_label_ << ") could not be found. Have you defined it?";
   }

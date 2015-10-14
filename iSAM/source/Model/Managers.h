@@ -49,6 +49,7 @@ class Model;
 class Managers {
   friend class Model;
 public:
+  // accessors
   virtual additionalpriors::Manager*      additional_prior() { return additional_prior_; }
   virtual ageingerrors::Manager*          ageing_error() { return ageing_error_; }
   virtual agelengths::Manager*            age_length() { return age_length_; }
@@ -76,6 +77,9 @@ protected:
   // methods
   Managers(Model* model);
   virtual                     ~Managers();
+  void                        Validate();
+  void                        Build();
+  void                        Reset();
 
   // members
   Model*                              model_;

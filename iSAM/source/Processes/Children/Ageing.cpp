@@ -25,7 +25,9 @@ namespace processes {
 /**
  * Default constructor
  */
-Ageing::Ageing() : Process(Model::Instance()) {
+Ageing::Ageing(Model* model)
+  : Process(model),
+    partition_(model) {
   process_type_ = ProcessType::kAgeing;
   partition_structure_ = PartitionStructure::kAge;
 
@@ -42,7 +44,7 @@ Ageing::Ageing() : Process(Model::Instance()) {
 void Ageing::DoValidate() {
   // Ensure defined categories were valid
   for(const string& category : category_names_) {
-    if (!Categories::Instance()->IsValid(category))
+    if (!model_->categories()->IsValid(category))
       LOG_ERROR_P(PARAM_CATEGORIES) << ": category " << category << " is not a valid category";
   }
 }
@@ -57,7 +59,6 @@ void Ageing::DoValidate() {
  */
 void Ageing::DoBuild() {
   partition_.Init(category_names_);
-  model_      = Model::Instance();
 }
 
 /**

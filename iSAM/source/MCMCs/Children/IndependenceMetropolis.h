@@ -27,7 +27,7 @@ namespace mcmcs {
 class IndependenceMetropolis : public MCMC {
 public:
   // methods
-  IndependenceMetropolis();
+  IndependenceMetropolis(Model* model);
   virtual                     ~IndependenceMetropolis() = default;
   void                        Execute() override final;
 

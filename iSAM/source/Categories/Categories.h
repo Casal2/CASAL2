@@ -21,8 +21,7 @@
 
 // Namespaces
 namespace niwa {
-
-using std::shared_ptr;
+class Model;
 class AgeLength;
 
 /**
@@ -43,7 +42,6 @@ class Categories : public niwa::base::Object {
   friend class Model;
 public:
   // Methods
-  static Categories*            Instance();
   virtual                       ~Categories() = default;
   void                          Validate();
   void                          Build();
@@ -67,9 +65,11 @@ public:
 
 private:
   // Methods
-  Categories();
+  Categories() = delete;
+  explicit Categories(Model* model);
 
   // Members
+  Model*                      model_;
   string                      format_;
   vector<string>              names_;
   vector<string>              years_;

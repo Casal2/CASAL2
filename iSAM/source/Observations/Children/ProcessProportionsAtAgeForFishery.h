@@ -26,7 +26,7 @@ namespace observations {
  */
 class ProcessProportionsAtAgeForFishery : public observations::ProportionsAtAgeForFishery {
 public:
-  ProcessProportionsAtAgeForFishery();
+  explicit ProcessProportionsAtAgeForFishery(Model* model);
   virtual                     ~ProcessProportionsAtAgeForFishery() = default;
   void                        DoBuild() override final;
 

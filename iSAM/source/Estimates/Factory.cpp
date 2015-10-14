@@ -24,6 +24,8 @@
 #include "Estimates/Children/NormalLog.h"
 #include "Estimates/Children/Uniform.h"
 #include "Estimates/Children/UniformLog.h"
+#include "Model/Managers.h"
+#include "Model/Model.h"
 
 // Namespaces
 namespace niwa {
@@ -37,7 +39,7 @@ namespace estimates {
  * @param sub_type The child type of the object to create (e.g ageing, schnute)
  * @return shared_ptr to the object we've created
  */
-Estimate* Factory::Create(const string& object_type, const string& sub_type) {
+Estimate* Factory::Create(Model* model, const string& object_type, const string& sub_type) {
   Estimate* result = nullptr;
 
   if (object_type == PARAM_ESTIMATE) {
@@ -57,7 +59,7 @@ Estimate* Factory::Create(const string& object_type, const string& sub_type) {
       result = new UniformLog();
 
     if (result)
-      niwa::estimates::Manager::Instance().AddObject(result);
+      model->managers().estimate()->AddObject(result);
   }
 
   return result;

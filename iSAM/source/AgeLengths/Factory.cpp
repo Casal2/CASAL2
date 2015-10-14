@@ -37,13 +37,13 @@ AgeLength* Factory::Create(Model* model, const string& object_type, const string
 
   if (object_type == PARAM_AGE_LENGTH || object_type == PARAM_AGE_LENGTHS) {
     if (sub_type == PARAM_DATA)
-      result = new Data();
+      result = new Data(model);
     else if (sub_type == PARAM_NONE)
-      result = new None();
+      result = new None(model);
     else if (sub_type == PARAM_SCHNUTE)
-      result = new Schnute();
+      result = new Schnute(model);
     else if (sub_type == PARAM_VON_BERTALANFFY)
-      result = new VonBertalanffy();
+      result = new VonBertalanffy(model);
 
     if (result)
       model->managers().age_length()->AddObject(result);

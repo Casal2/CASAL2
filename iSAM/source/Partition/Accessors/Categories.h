@@ -46,7 +46,8 @@ public:
   typedef vector<partition::Category*> DataType;
 
   // Methods
-  Categories();
+  Categories() = delete;
+  explicit Categories(Model* model);
   virtual                     ~Categories() = default;
   void                        Init(const vector<string>& category_labels);
   DataType::iterator          begin();
@@ -55,7 +56,7 @@ public:
 
 private:
   // Members
-  Model*                    model_;
+  Model*                      model_;
   map<unsigned, DataType>     data_;
 };
 

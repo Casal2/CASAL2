@@ -68,6 +68,8 @@
 #include "Parameters/BindableVector.h"
 
 // Namespaces
+namespace niwa {
+
 using std::map;
 using std::vector;
 using std::string;
@@ -76,10 +78,6 @@ using niwa::parameters::Bindable;
 using niwa::parameters::BindableVector;
 using niwa::parameterlist::Parameter;
 using niwa::parameterlist::Parameter;
-using std::shared_ptr;
-
-
-namespace niwa {
 
 /**
  * Class Definition ParameterList

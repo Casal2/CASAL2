@@ -45,7 +45,7 @@ CallBack::~CallBack() {
  * @return The score from the energy function
  */
 double CallBack::EnergyFunction(vector<double> test_solution) {
-  vector<Estimate*> estimates = estimates::Manager::Instance().GetEnabled();
+  vector<Estimate*> estimates = model_->managers().estimate()->GetEnabled();
 
   if (test_solution.size() != estimates.size()) {
     LOG_CODE_ERROR() << "The number of enabled estimates does not match the number of test solution values";
@@ -54,7 +54,7 @@ double CallBack::EnergyFunction(vector<double> test_solution) {
   for (unsigned i = 0; i < test_solution.size(); ++i)
     estimates[i]->SetTransformedValue(test_solution[i]);
 
-  ObjectiveFunction& objective = ObjectiveFunction::Instance();
+  ObjectiveFunction& objective = model_->objective_function();
 
   model_->FullIteration();
 

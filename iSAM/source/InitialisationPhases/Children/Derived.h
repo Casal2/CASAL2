@@ -22,7 +22,7 @@ namespace initialisationphases {
 
 class Derived : public niwa::InitialisationPhase {
 public:
-  Derived();
+  explicit Derived(Model* model);
   virtual                     ~Derived() = default;
   void                        Execute() override final { };
 

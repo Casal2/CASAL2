@@ -18,6 +18,7 @@
 #include <cmath>
 
 #include "Model/Managers.h"
+#include "LengthWeights/LengthWeight.h"
 #include "LengthWeights/Manager.h"
 #include "TimeSteps/Manager.h"
 

@@ -24,7 +24,7 @@ namespace utils = niwa::utilities;
 /**
  * Default constructor
  */
-Biomass::Biomass() {
+Biomass::Biomass(Model* model) : Observation(model) {
   parameters_.Bind<string>(PARAM_CATCHABILITY, &catchability_label_, "TBA", "");
   parameters_.Bind<string>(PARAM_OBS, &obs_, "Observation values", "");
   parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "Years to execute in", "");
@@ -89,12 +89,12 @@ void Biomass::DoValidate() {
 void Biomass::DoBuild() {
   LOG_TRACE();
 
-  catchability_ = catchabilities::Manager::Instance().GetCatchability(catchability_label_);
+  catchability_ = model_->managers().catchability()->GetCatchability(catchability_label_);
   if (!catchability_)
     LOG_ERROR_P(PARAM_CATCHABILITY) << ": catchability " << catchability_label_ << " could not be found. Have you defined it?";
 
-  partition_ = CombinedCategoriesPtr(new niwa::partition::accessors::CombinedCategories(category_labels_));
-  cached_partition_ = CachedCombinedCategoriesPtr(new niwa::partition::accessors::cached::CombinedCategories(category_labels_));
+  partition_ = CombinedCategoriesPtr(new niwa::partition::accessors::CombinedCategories(model_, category_labels_));
+  cached_partition_ = CachedCombinedCategoriesPtr(new niwa::partition::accessors::cached::CombinedCategories(model_, category_labels_));
 
   if (partition_->category_count() != selectivities_.size())
     LOG_ERROR_P(PARAM_SELECTIVITIES) << ": number of selectivities provided (" << selectivities_.size() << ") does not match the number "
@@ -112,7 +112,6 @@ void Biomass::PreExecute() {
  *
  */
 void Biomass::Execute() {
-
   Double expected_total = 0.0; // value in the model
   vector<string> keys;
   vector<Double> expecteds;
@@ -128,7 +127,7 @@ void Biomass::Execute() {
   unsigned age = 0;
   Double error_value = 0.0;
 
-  unsigned current_year = Model::Instance()->current_year();
+  unsigned current_year = model_->current_year();
 
   // Loop through the obs
   auto cached_partition_iter = cached_partition_->Begin();
@@ -194,7 +193,7 @@ void Biomass::CalculateScore() {
    * Simulate or generate results
    * During simulation mode we'll simulate results for this observation
    */
-  if (Model::Instance()->run_mode() == RunMode::kSimulation) {
+  if (model_->run_mode() == RunMode::kSimulation) {
     likelihood_->SimulateObserved(comparisons_);
     for (auto& iter :  comparisons_) {
       Double total = 0.0;

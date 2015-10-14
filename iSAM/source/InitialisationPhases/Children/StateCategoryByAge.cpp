@@ -16,7 +16,9 @@
 namespace niwa {
 namespace initialisationphases {
 
-StateCategoryByAge::StateCategoryByAge() {
+StateCategoryByAge::StateCategoryByAge(Model* model)
+  : InitialisationPhase(model),
+    partition_(model) {
   parameters_.Bind<string>(PARAM_CATEGORIES, &category_labels_, "List of categories to use", "");
   parameters_.Bind<unsigned>(PARAM_MIN_AGE, &min_age_, "Minimum age to use for this process", "");
   parameters_.Bind<unsigned>(PARAM_MAX_AGE, &max_age_, "Maximum age to use for this process", "");
@@ -36,7 +38,7 @@ void StateCategoryByAge::DoValidate() {
    * Validate our categories
    */
   for (string label : category_labels_) {
-    if (!Categories::Instance()->IsValid(label))
+    if (!model_->categories()->IsValid(label))
       LOG_ERROR_P(PARAM_CATEGORIES) << " label " << label << " is not a valid category";
   }
 

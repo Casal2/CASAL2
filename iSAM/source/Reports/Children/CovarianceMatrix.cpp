@@ -7,6 +7,7 @@
 
 #include "CovarianceMatrix.h"
 
+#include "Minimisers/Manager.h"
 
 namespace niwa {
 namespace reports {
@@ -32,7 +33,7 @@ void CovarianceMatrix::DoExecute() {
    * This reports the Covariance, Correlation and Hessian matrix
    */
   LOG_TRACE();
-  minimiser_ = minimisers::Manager::Instance().active_minimiser();
+  minimiser_ = model_->managers().minimiser()->active_minimiser();
   covariance_matrix_ = minimiser_->covariance_matrix();
   correlation_matrix_ = minimiser_->correlation_matrix();
   hessian_ = minimiser_->hessian_matrix();

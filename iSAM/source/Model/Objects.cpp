@@ -17,6 +17,8 @@
 
 #include "Catchabilities/Manager.h"
 #include "Estimates/Manager.h"
+#include "Model/Model.h"
+#include "Model/Managers.h"
 #include "Processes/Manager.h"
 #include "Selectivities/Manager.h"
 #include "Utilities/To.h"
@@ -26,6 +28,10 @@ namespace niwa {
 
 namespace util = niwa::utilities;
 
+
+Objects::Objects(Model* model) : model_(model) {
+
+}
 /**
  * This method will find the type of estimable in the system defined by the absolute
  * parameter name.
@@ -189,16 +195,16 @@ base::Object* Objects::FindObject(const string& parameter_absolute_name, string&
   LOG_FINEST() << "FindObject; type: " << type << "; label: " << label << "; parameter: " << parameter << "; index: " << index;
 
   if (type == PARAM_PROCESS) {
-    result = processes::Manager::Instance().GetProcess(label);
+    result = model_->managers().process()->GetProcess(label);
 
   } else if (type == PARAM_ESTIMATE) {
-    result = estimates::Manager::Instance().GetEstimateByLabel(label);
+    result = model_->managers().estimate()->GetEstimateByLabel(label);
 
   } else if (type == PARAM_CATCHABILITY) {
-    result = catchabilities::Manager::Instance().GetCatchability(label);
+    result = model_->managers().catchability()->GetCatchability(label);
 
   } else if (type == PARAM_SELECTIVITY) {
-    result = selectivities::Manager::Instance().GetSelectivity(label);
+    result = model_->managers().selectivity()->GetSelectivity(label);
   }
 
   // TODO: Populate Error

@@ -24,10 +24,11 @@ namespace accessors {
 /**
  * Default Constructor
  */
-Categories::Categories() {
+Categories::Categories(Model* model) : model_(model) { }
 
-}
-
+/**
+ *
+ */
 void Categories::Init(const vector<string>& category_labels) {
   LOG_TRACE();
 
@@ -40,7 +41,7 @@ void Categories::Init(const vector<string>& category_labels) {
   LOG_FINEST() << "Model details: start_year: " << start_year << "; final_year: " << final_year;
   LOG_FINEST() << "Categories: " << category_labels.size();
 
-  Partition& partition = Partition::Instance();
+  Partition& partition = model_->partition();
 
   for(string category_label : category_labels) {
     partition::Category& category = partition.category(category_label);

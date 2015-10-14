@@ -27,7 +27,7 @@ namespace observations {
 class TimeStepProportionsAtLength : public observations::ProportionsAtLength {
 public:
   // methods
-  TimeStepProportionsAtLength();
+  TimeStepProportionsAtLength(Model* model);
   virtual                     ~TimeStepProportionsAtLength() = default;
   void                        DoBuild() override final;
 

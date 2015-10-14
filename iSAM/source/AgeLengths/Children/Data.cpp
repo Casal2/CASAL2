@@ -31,9 +31,6 @@ namespace agelengths {
  *
  * Note: The constructor is parsed to generate Latex for the documentation.
  */
-Data::Data() : Data(Model::Instance()) {
-}
-
 Data::Data(Model* model) : AgeLength(model) {
   parameters_.BindTable(PARAM_DATA, data_table_, "", "");
   parameters_.Bind<string>(PARAM_EXTERNAL_GAPS, &external_gaps_, "", "", PARAM_MEAN)->set_allowed_values({PARAM_MEAN, PARAM_NEAREST_NEIGHBOUR});

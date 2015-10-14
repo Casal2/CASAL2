@@ -9,9 +9,10 @@
 #define REPORTS_SELECTIVITY_H_
 
 #include "Reports/Report.h"
-#include "Selectivities/Manager.h"
 
 namespace niwa {
+class Selectivity;
+
 namespace reports {
 
 class Selectivity : public niwa::Report {

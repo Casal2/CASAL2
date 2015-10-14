@@ -11,6 +11,8 @@
 // headers
 #include "Factory.h"
 
+#include "Model/Model.h"
+#include "Model/Managers.h"
 #include "Simulates/Children/Constant.h"
 #include "Simulates/Manager.h"
 
@@ -26,7 +28,7 @@ namespace simulates {
  * @param sub_type The child type of the object to create (e.g ageing, schnute)
  * @return shared_ptr to the object we've created
  */
-Simulate* Factory::Create(const string& object_type, const string& sub_type) {
+Simulate* Factory::Create(Model* model, const string& object_type, const string& sub_type) {
   Simulate* result = nullptr;
 
   if (object_type == PARAM_PROJECTS || object_type == PARAM_PROJECT) {
@@ -34,7 +36,7 @@ Simulate* Factory::Create(const string& object_type, const string& sub_type) {
       result = new Constant();
 
     if (result)
-      simulates::Manager::Instance().AddObject(result);
+      model->managers().simulate()->AddObject(result);
   }
 
   return result;

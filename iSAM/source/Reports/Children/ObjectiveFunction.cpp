@@ -51,7 +51,7 @@ void ObjectiveFunction::DoExecute() {
 	  cache_ << "*" << label_ << " " << "("<< type_ << ")"<<"\n";
 	  cache_ <<"values " << REPORT_R_VECTOR <<"\n";
 
-	  ::niwa::ObjectiveFunction obj_function = niwa::ObjectiveFunction::Instance();
+	  ::niwa::ObjectiveFunction& obj_function = model_->objective_function();
 
 	  const vector<objective::Score>& score_list = obj_function.score_list();
 	  for (objective::Score score : score_list) {

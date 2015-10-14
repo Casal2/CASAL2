@@ -36,7 +36,7 @@ using utilities::OrderedMap;
 class MaturationRate : public niwa::Process {
 public:
   // Methods
-  MaturationRate();
+  explicit MaturationRate(Model* model);
   virtual                     ~MaturationRate() = default;
   void                        DoValidate() override final;
   void                        DoBuild() override final;

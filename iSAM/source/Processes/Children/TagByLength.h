@@ -32,7 +32,7 @@ namespace accessor = niwa::partition::accessors;
 class TagByLength : public Process {
 public:
   // method
-  TagByLength();
+  explicit TagByLength(Model* model);
   virtual                     ~TagByLength() = default;
   void                        DoValidate() override final;
   void                        DoBuild() override final;
@@ -41,7 +41,6 @@ public:
 
 private:
   // members
-  Model*                      model_;
   vector<string>                from_category_labels_;
   vector<string>                to_category_labels_;
   accessor::Categories          to_partition_;

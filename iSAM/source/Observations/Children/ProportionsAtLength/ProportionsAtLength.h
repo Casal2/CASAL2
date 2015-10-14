@@ -35,7 +35,7 @@ using partition::accessors::cached::CachedCombinedCategoriesPtr;
 class ProportionsAtLength : public niwa::Observation {
 public:
   // Methods
-  ProportionsAtLength();
+  explicit ProportionsAtLength(Model* model);
   virtual                     ~ProportionsAtLength() = default;
   void                        DoValidate() override final;
   virtual void                DoBuild() override;

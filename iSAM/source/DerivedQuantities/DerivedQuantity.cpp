@@ -27,7 +27,9 @@ namespace niwa {
  *
  * Note: The constructor is parsed to generate Latex for the documentation.
  */
-DerivedQuantity::DerivedQuantity() {
+DerivedQuantity::DerivedQuantity(Model* model)
+  : model_(model),
+    partition_(model) {
   parameters_.Bind<string>(PARAM_LABEL, &label_, "Label", "");
   parameters_.Bind<string>(PARAM_TYPE, &type_, "Type", "");
   parameters_.Bind<string>(PARAM_TIME_STEP, &time_step_label_, "The time step to calculate the derived quantity after", "");
@@ -36,8 +38,6 @@ DerivedQuantity::DerivedQuantity() {
   parameters_.Bind<Double>(PARAM_TIME_STEP_PROPORTION, &time_step_proportion_, "", "", Double(1.0));
   parameters_.Bind<string>(PARAM_TIME_STEP_PROPORTION_METHOD, &proportion_method_, "", "", PARAM_WEIGHTED_SUM)
       ->set_allowed_values({ PARAM_WEIGHTED_SUM, PARAM_WEIGHTED_PRODUCT });
-
-  model_ = Model::Instance();
 
   mean_proportion_method_ = true;
 }
@@ -68,7 +68,7 @@ void DerivedQuantity::Build() {
 
   partition_.Init(category_labels_);
 
-  selectivities::Manager& selectivity_manager = selectivities::Manager::Instance();
+  selectivities::Manager& selectivity_manager = *model_->managers().selectivity();
   for (string label : selectivity_labels_) {
     Selectivity* selectivity = selectivity_manager.GetSelectivity(label);
     if (!selectivity)
@@ -80,7 +80,7 @@ void DerivedQuantity::Build() {
   /**
    * ensure the time steps we have are valid
    */
-  TimeStep* time_step = timesteps::Manager::Instance().GetTimeStep(time_step_label_);
+  TimeStep* time_step = model_->managers().time_step()->GetTimeStep(time_step_label_);
   if (!time_step)
     LOG_ERROR_P(PARAM_TIME_STEP) << " (" << time_step_label_ << ") could not be found. Have you defined it?";
   time_step->SubscribeToBlock(this);

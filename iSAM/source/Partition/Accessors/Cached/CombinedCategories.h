@@ -46,7 +46,8 @@ public:
   typedef vector<vector<partition::Category> > DataType;
 
   // Methods
-  CombinedCategories(const vector<string>& category_labels);
+  CombinedCategories() = delete;
+  CombinedCategories(Model* model, const vector<string>& category_labels);
   virtual                     ~CombinedCategories() = default;
   void                        BuildCache();
   DataType::iterator          Begin();
@@ -56,7 +57,7 @@ public:
 private:
   // Members
   vector<vector<string> >     category_labels_;
-  Model*                    model_;
+  Model*                      model_;
   DataType                    data_;
 };
 

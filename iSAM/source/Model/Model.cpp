@@ -32,6 +32,7 @@
 #include "InitialisationPhases/Manager.h"
 #include "MCMCs/Manager.h"
 #include "Minimisers/Manager.h"
+#include "ObjectiveFunction/ObjectiveFunction.h"
 #include "Observations/Manager.h"
 #include "Penalties/Manager.h"
 #include "Processes/Manager.h"
@@ -80,9 +81,11 @@ Model::Model() {
 
   global_configuration_ = new GlobalConfiguration();
   managers_ = new Managers(this);
-  objects_ = new Objects();
-  categories_ = new Categories();
+  objects_ = new Objects(this);
+  categories_ = new Categories(this);
   factory_ = new Factory(this);
+  partition_ = new Partition(this);
+  objective_function_ = new ObjectiveFunction(this);
 }
 
 Model::~Model() {
@@ -91,6 +94,8 @@ Model::~Model() {
   delete objects_;
   delete factory_;
   delete categories_;
+  delete partition_;
+  delete objective_function_;
 }
 
 /**
@@ -149,6 +154,14 @@ Factory& Model::factory() {
   return *factory_;
 }
 
+Partition& Model::partition() {
+  return *partition_;
+}
+
+ObjectiveFunction& Model::objective_function() {
+  return *objective_function_;
+}
+
 /**
  * Start our model. This is the entry point method for the model
  * after being called from the main() method.
@@ -172,7 +185,8 @@ bool Model::Start(RunMode::Type run_mode) {
     configuration::EstimableValuesLoader loader(this);
     loader.LoadValues(global_configuration_->estimable_value_file());
   }
-  reports::Manager::Instance().Execute(State::kStartUp);
+
+  managers_->report()->Execute(State::kStartUp);
 
   LOG_FINE() << "Model: State Change to Validate";
   state_ = State::kValidate;
@@ -182,7 +196,7 @@ bool Model::Start(RunMode::Type run_mode) {
     return false;
   }
 
-  reports::Manager::Instance().Execute(state_);
+  managers_->report()->Execute(state_);
 
   LOG_FINE() << "Model: State Change to Build";
   state_ = State::kBuild;
@@ -191,7 +205,7 @@ bool Model::Start(RunMode::Type run_mode) {
     logging.FlushErrors();
     return false;
   }
-  reports::Manager::Instance().Execute(state_);
+  managers_->report()->Execute(state_);
 
   LOG_FINE() << "Model: State Change to Verify";
   state_ = State::kVerify;
@@ -200,11 +214,11 @@ bool Model::Start(RunMode::Type run_mode) {
     logging.FlushErrors();
     return false;
   }
-  reports::Manager::Instance().Execute(state_);
+  managers_->report()->Execute(state_);
 
   // prepare all reports
   LOG_FINE() << "Preparing Reports";
-  reports::Manager::Instance().Prepare();
+  managers_->report()->Prepare();
 
   switch(run_mode_) {
   case RunMode::kBasic:
@@ -245,8 +259,8 @@ bool Model::Start(RunMode::Type run_mode) {
   state_ = State::kFinalise;
   for (auto executor : executors_[state_])
     executor->Execute();
-  reports::Manager::Instance().Execute(state_);
-  reports::Manager::Instance().Finalise();
+  managers_->report()->Execute(state_);
+  managers_->report()->Finalise();
   return true;
 }
 
@@ -302,43 +316,21 @@ void Model::Validate() {
     LOG_ERROR() << "Partition structure " << (unsigned)partition_structure_ << " not supported";
 
   // Call validation for the other objects required by the model
-  Categories::Instance()->Validate();
-  Partition::Instance().Validate();
-  timesteps::Manager::Instance().Validate();
+  categories_->Validate();
+  partition_->Validate();
 
-  additionalpriors::Manager::Instance().Validate();
-  ageingerrors::Manager::Instance().Validate();
-  agelengths::Manager::Instance().Validate();
-  asserts::Manager::Instance().Validate();
-  catchabilities::Manager::Instance().Validate();
-  derivedquantities::Manager::Instance().Validate();
-  initialisationphases::Manager::Instance().Validate();
-  lengthweights::Manager::Instance().Validate();
-  mcmcs::Manager::Instance().Validate();
-  minimisers::Manager::Instance().Validate();
-  observations::Manager::Instance().Validate();
-  penalties::Manager::Instance().Validate();
-  processes::Manager::Instance().Validate();
-  profiles::Manager::Instance().Validate();
-  projects::Manager::Instance().Validate();
-  reports::Manager::Instance().Validate();
-  selectivities::Manager::Instance().Validate();
-  simulates::Manager::Instance().Validate();
-  timevarying::Manager::Instance().Validate();
-
-  // Final Objects to validate as they have dependencies
-  estimates::Manager::Instance().Validate();
+  managers_->Validate();
 
   /**
    * Do some more sanity checks
    */
-  initialisationphases::Manager& init_phase_mngr = initialisationphases::Manager::Instance();
+  initialisationphases::Manager& init_phase_mngr = *managers_->initialisation_phase();
   for (const string& phase : initialisation_phases_) {
     if (!init_phase_mngr.IsPhaseDefined(phase))
       LOG_ERROR_P(PARAM_INITIALISATION_PHASES) << "(" << phase << ") has not been defined. Please ensure you have defined it";
   }
 
-  timesteps::Manager& time_step_mngr = timesteps::Manager::Instance();
+  timesteps::Manager& time_step_mngr = *managers_->time_step();
   for (const string time_step : time_steps_) {
     if (!time_step_mngr.GetTimeStep(time_step))
       LOG_ERROR_P(PARAM_TIME_STEPS) << "(" << time_step << ") has not been defined. Please ensure you have defined it";
@@ -350,31 +342,10 @@ void Model::Validate() {
  */
 void Model::Build() {
   LOG_TRACE();
-  Categories::Instance()->Build();
-  Partition::Instance().Build();
-  timesteps::Manager::Instance().Build();
+  categories_->Build();
+  partition_->Build();
+  managers_->Build();
 
-  // build managers
-  additionalpriors::Manager::Instance().Build();
-  estimates::Manager::Instance().Build();
-  agelengths::Manager::Instance().Build();
-  ageingerrors::Manager::Instance().Build();
-  asserts::Manager::Instance().Build();
-  catchabilities::Manager::Instance().Build();
-  derivedquantities::Manager::Instance().Build();
-  initialisationphases::Manager::Instance().Build();
-  lengthweights::Manager::Instance().Build();
-  mcmcs::Manager::Instance().Build();
-  minimisers::Manager::Instance().Build();
-  observations::Manager::Instance().Build();
-  penalties::Manager::Instance().Build();
-  processes::Manager::Instance().Build();
-  profiles::Manager::Instance().Build();
-  projects::Manager::Instance().Build();
-  reports::Manager::Instance().Build();
-  selectivities::Manager::Instance().Build();
-  simulates::Manager::Instance().Build();
-  timevarying::Manager::Instance().Build();
 
   Estimables& estimables = *managers_->estimables();
   if (estimables.GetValueCount() > 0) {
@@ -398,31 +369,9 @@ void Model::Verify() {
 void Model::Reset() {
   LOG_TRACE();
 
-  Partition::Instance().Reset();
-
-  estimates::Manager::Instance().Reset();
-
-  additionalpriors::Manager::Instance().Reset();
-  ageingerrors::Manager::Instance().Reset();
-  agelengths::Manager::Instance().Reset();
-  asserts::Manager::Instance().Reset();
-  Categories::Instance()->Reset();
-  catchabilities::Manager::Instance().Reset();
-  derivedquantities::Manager::Instance().Reset();
-  initialisationphases::Manager::Instance().Reset();
-  lengthweights::Manager::Instance().Build();
-  mcmcs::Manager::Instance().Reset();
-  minimisers::Manager::Instance().Reset();
-  observations::Manager::Instance().Reset();
-  penalties::Manager::Instance().Reset();
-  processes::Manager::Instance().Reset();
-  profiles::Manager::Instance().Reset();
-  projects::Manager::Instance().Reset();
-  reports::Manager::Instance().Reset();
-  selectivities::Manager::Instance().Reset();
-  simulates::Manager::Instance().Reset();
-  timesteps::Manager::Instance().Reset();
-  timevarying::Manager::Instance().Reset();
+  partition_->Reset();
+  categories_->Reset();
+  managers_->Reset();
 }
 
 /**
@@ -440,21 +389,21 @@ void Model::RunBasic() {
     }
 
     LOG_FINE() << "Model: State change to PreExecute";
-    reports::Manager::Instance().Execute(State::kPreExecute);
+    managers_->report()->Execute(State::kPreExecute);
 
     /**
      * Running the model now
      */
     LOG_FINE() << "Model: State change to Execute";
     Iterate();
-    ObjectiveFunction::Instance().CalculateScore();
+    objective_function_->CalculateScore();
 
     // Model has finished so we can run finalise.
     LOG_FINE() << "Model: State change to PostExecute";
-    reports::Manager::Instance().Execute(State::kPostExecute);
+    managers_->report()->Execute(State::kPostExecute);
 
     LOG_FINE() << "Model: State change to Iteration Complete";
-    reports::Manager::Instance().Execute(State::kIterationComplete);
+    managers_->report()->Execute(State::kIterationComplete);
   }
 }
 
@@ -482,7 +431,7 @@ void Model::RunEstimation() {
     LOG_FINE() << "Calling minimiser to begin the estimation with the " << i + 1 << "st/nd/nth set of values";
     run_mode_ = RunMode::kEstimation;
 
-    auto minimiser = minimisers::Manager::Instance().active_minimiser();
+    auto minimiser = managers_->minimiser()->active_minimiser();
     minimiser->Execute();
     minimiser->BuildCovarianceMatrix();
 
@@ -490,7 +439,7 @@ void Model::RunEstimation() {
     FullIteration();
 
     LOG_FINE() << "Model: State change to Iteration Complete";
-    reports::Manager::Instance().Execute(State::kIterationComplete);
+    managers_->report()->Execute(State::kIterationComplete);
   }
 }
 
@@ -499,7 +448,7 @@ void Model::RunEstimation() {
  */
 bool Model::RunMCMC() {
   LOG_FINE() << "Entering the MCMC Sub-System";
-  auto mcmc = mcmcs::Manager::Instance().active_mcmc();
+  auto mcmc = managers_->mcmc()->active_mcmc();
 
   Logging& logging = Logging::Instance();
   if (logging.errors().size() > 0) {
@@ -508,7 +457,7 @@ bool Model::RunMCMC() {
   }
 
   LOG_FINE() << "Calling minimiser to find our minimum and covariance matrix";
-  auto minimiser = minimisers::Manager::Instance().active_minimiser();
+  auto minimiser = managers_->minimiser()->active_minimiser();
   minimiser->Execute();
   minimiser->BuildCovarianceMatrix();
 
@@ -536,10 +485,10 @@ void Model::RunProfiling() {
     Iterate();
 
     LOG_FINE() << "Entering the Profiling Sub-System";
-    estimates::Manager& estimate_manager = estimates::Manager::Instance();
-    auto minimiser = minimisers::Manager::Instance().active_minimiser();
+    estimates::Manager& estimate_manager = *managers_->estimate();
+    auto minimiser = managers_->minimiser()->active_minimiser();
 
-    vector<Profile*> profiles = profiles::Manager::Instance().objects();
+    vector<Profile*> profiles = managers_->profile()->objects();
     LOG_FINE() << "Working with " << profiles.size() << " profiles";
     for (auto profile : profiles) {
       LOG_FINE() << "Disabling estimate: " << profile->parameter();
@@ -555,7 +504,7 @@ void Model::RunProfiling() {
         FullIteration();
 
         LOG_FINE() << "Model: State change to Iteration Complete";
-        reports::Manager::Instance().Execute(State::kIterationComplete);
+        managers_->report()->Execute(State::kIterationComplete);
 
         run_mode_ = RunMode::kProfiling;
         profile->NextStep();
@@ -580,36 +529,36 @@ void Model::RunSimulation() {
     unsigned iteration_width = (unsigned)floor(log10(i + 1)) + 1;
     report_suffix.append("0", suffix_width - iteration_width);
     report_suffix.append(utilities::ToInline<unsigned, string>(i + 1));
-    reports::Manager::Instance().set_report_suffix(report_suffix);
+    managers_->report()->set_report_suffix(report_suffix);
 
     Reset();
 
     // Model is about to run
     LOG_FINE() << "Model: State change to PreExecute";
-    reports::Manager::Instance().Execute(State::kPreExecute);
+    managers_->report()->Execute(State::kPreExecute);
 
     state_ = State::kInitialise;
     current_year_ = start_year_;
-    initialisationphases::Manager& init_phase_manager = initialisationphases::Manager::Instance();
+    initialisationphases::Manager& init_phase_manager = *managers_->initialisation_phase();
     init_phase_manager.Execute();
-    reports::Manager::Instance().Execute(State::kInitialise);
+    managers_->report()->Execute(State::kInitialise);
 
     state_ = State::kExecute;
-    timesteps::Manager& time_step_manager = timesteps::Manager::Instance();
-    timevarying::Manager& time_varying_manager = timevarying::Manager::Instance();
+    timesteps::Manager& time_step_manager = *managers_->time_step();
+    timevarying::Manager& time_varying_manager = *managers_->time_varying();
     for (current_year_ = start_year_; current_year_ <= final_year_; ++current_year_, current_year_index_ = current_year_ - start_year_) {
       LOG_FINE() << "Iteration year: " << current_year_;
       time_varying_manager.Update(current_year_);
-      simulates::Manager::Instance().Update(current_year_);
+      managers_->simulate()->Update(current_year_);
       time_step_manager.Execute(current_year_);
     }
 
-    observations::Manager::Instance().CalculateScores();
+    managers_->observation()->CalculateScores();
 
     // Model has finished so we can run finalise.
     LOG_FINE() << "Model: State change to PostExecute";
-    reports::Manager::Instance().Execute(State::kPostExecute);
-    reports::Manager::Instance().Execute(State::kIterationComplete);
+    managers_->report()->Execute(State::kPostExecute);
+    managers_->report()->Execute(State::kIterationComplete);
   }
 }
 
@@ -621,13 +570,13 @@ void Model::RunProjection() {
 
   state_ = State::kInitialise;
   current_year_ = start_year_;
-  initialisationphases::Manager& init_phase_manager = initialisationphases::Manager::Instance();
+  initialisationphases::Manager& init_phase_manager = *managers_->initialisation_phase();
   init_phase_manager.Execute();
-  reports::Manager::Instance().Execute(State::kInitialise);
+  managers_->report()->Execute(State::kInitialise);
 
   state_ = State::kExecute;
-  timesteps::Manager& time_step_manager = timesteps::Manager::Instance();
-  timevarying::Manager& time_varying_manager = timevarying::Manager::Instance();
+  timesteps::Manager& time_step_manager = *managers_->time_step();
+  timevarying::Manager& time_varying_manager = *managers_->time_varying();
   for (current_year_ = start_year_; current_year_ <= final_year_; ++current_year_) {
     LOG_FINE() << "Iteration year: " << current_year_;
     time_varying_manager.Update(current_year_);
@@ -635,7 +584,7 @@ void Model::RunProjection() {
   }
 
   LOG_FINE() << "Starting projection years";
-  projects::Manager& project_manager = projects::Manager::Instance();
+  projects::Manager& project_manager = *managers_->project();
   for (; current_year_ <= projection_final_year_; ++current_year_) {
     LOG_FINE() << "Iteration year: " << current_year_;
     time_varying_manager.Update(current_year_);
@@ -645,9 +594,9 @@ void Model::RunProjection() {
 
   // Model has finished so we can run finalise.
   LOG_FINE() << "Model: State change to PostExecute";
-  reports::Manager::Instance().Execute(State::kPostExecute);
+  managers_->report()->Execute(State::kPostExecute);
 
-  observations::Manager::Instance().CalculateScores();
+  managers_->observation()->CalculateScores();
 }
 
 /**
@@ -660,20 +609,20 @@ void Model::Iterate() {
 
   state_ = State::kInitialise;
   current_year_ = start_year_;
-  initialisationphases::Manager& init_phase_manager = initialisationphases::Manager::Instance();
+  initialisationphases::Manager& init_phase_manager = *managers_->initialisation_phase();
   init_phase_manager.Execute();
-  reports::Manager::Instance().Execute(State::kInitialise);
+  managers_->report()->Execute(State::kInitialise);
 
   state_ = State::kExecute;
-  timesteps::Manager& time_step_manager = timesteps::Manager::Instance();
-  timevarying::Manager& time_varying_manager = timevarying::Manager::Instance();
+  timesteps::Manager& time_step_manager = *managers_->time_step();
+  timevarying::Manager& time_varying_manager = *managers_->time_varying();
   for (current_year_ = start_year_; current_year_ <= final_year_; ++current_year_, current_year_index_ = current_year_ - start_year_) {
     LOG_FINE() << "Iteration year: " << current_year_;
     time_varying_manager.Update(current_year_);
     time_step_manager.Execute(current_year_);
   }
 
-  observations::Manager::Instance().CalculateScores();
+  managers_->observation()->CalculateScores();
 
   for (auto executor : executors_[State::kExecute])
     executor->Execute();
@@ -687,7 +636,7 @@ void Model::FullIteration() {
 
   // Model is about to run
   LOG_FINE() << "Model: State change to PreExecute";
-  reports::Manager::Instance().Execute(State::kPreExecute);
+  managers_->report()->Execute(State::kPreExecute);
 
   /**
    * Running the model now
@@ -697,6 +646,6 @@ void Model::FullIteration() {
 
   // Model has finished so we can run finalise.
   LOG_FINE() << "Model: State change to PostExecute";
-  reports::Manager::Instance().Execute(State::kPostExecute);
+  managers_->report()->Execute(State::kPostExecute);
 }
 } /* namespace niwa */

@@ -15,10 +15,11 @@
 
 // headers
 #include "AgeLengths/AgeLength.h"
-#include "LengthWeights/LengthWeight.h"
 
 // namespaces
 namespace niwa {
+class LengthWeight;
+
 namespace agelengths {
 
 // classes

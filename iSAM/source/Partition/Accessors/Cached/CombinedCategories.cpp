@@ -26,9 +26,8 @@ namespace cached {
 /**
  * Default constructor
  */
-CombinedCategories::CombinedCategories(const vector<string>& category_labels) {
-  LOG_TRACE();
-  model_ = Model::Instance();
+CombinedCategories::CombinedCategories(Model* model, const vector<string>& category_labels)
+  : model_(model) {
   LOG_FINEST() << "Categories: " << category_labels.size();
 
   vector<string> split_category_labels;
@@ -51,7 +50,7 @@ void CombinedCategories::BuildCache() {
   data_.resize(category_labels_.size());
 
   unsigned year = model_->current_year();
-  Partition& partition = Partition::Instance();
+  Partition& partition = model_->partition();
 
   for (unsigned i = 0; i < category_labels_.size(); ++i) {
     for (auto cat_iter = category_labels_[i].begin(); cat_iter != category_labels_[i].end(); ++cat_iter) {

@@ -14,6 +14,7 @@
 #include "Manager.h"
 
 #include "Model/Model.h"
+#include "Model/Managers.h"
 #include "TimeSteps/Manager.h"
 
 // Namespaces
@@ -50,7 +51,7 @@ void Manager::Build() {
     }
   }
 
-  for (auto time_step : timesteps::Manager::Instance().ordered_time_steps())
+  for (auto time_step : Model::Instance()->managers().time_step()->ordered_time_steps())
     time_step->BuildInitialisationProcesses();
 }
 

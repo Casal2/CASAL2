@@ -18,13 +18,13 @@
 #include <boost/numeric/ublas/matrix.hpp>
 
 #include "BaseClasses/Object.h"
-#include "Minimisers/Minimiser.h"
 
 // namespaces
 namespace niwa {
-
 namespace ublas = boost::numeric::ublas;
-using std::shared_ptr;
+
+class Minimiser;
+class Model;
 
 /**
  * Struct definition for a chain link
@@ -50,7 +50,8 @@ struct ChainLink {
 class MCMC : public niwa::base::Object {
 public:
   // Methods
-  MCMC();
+  MCMC() = delete;
+  explicit MCMC(Model* model);
   virtual                     ~MCMC() = default;
   void                        Validate();
   void                        Build();
@@ -79,6 +80,7 @@ protected:
   void                        GenerateNewCandidates();
 
   // members
+  Model*                      model_;
   Double                      start_ = 0;
   unsigned                    length_ = 0;
   unsigned                    keep_ = 0;

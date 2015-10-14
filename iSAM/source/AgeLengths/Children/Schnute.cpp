@@ -34,9 +34,6 @@ using std::pow;
  *
  * Note: The constructor is parsed to generate Latex for the documentation.
  */
-Schnute::Schnute() : Schnute(Model::Instance()) {
-}
-
 Schnute::Schnute(Model* model) : AgeLength(model) {
   parameters_.Bind<Double>(PARAM_Y1, &y1_, "TBA", "");
   parameters_.Bind<Double>(PARAM_Y2, &y2_, "TBA", "");

@@ -36,13 +36,13 @@ namespace util = niwa::utilities;
  *
  * Construction of this object involves building the category map
  */
-Category::Category(const string& category_name) {
+Category::Category(Model* model, const string& category_name)
+  : model_(model) {
   LOG_TRACE();
 
-  model_ = Model::Instance();
   vector<unsigned> years = model_->years();
 
-  Partition& partition = Partition::Instance();
+  Partition& partition = model_->partition();
 
   partition::Category& category = partition.category(category_name);
   for (unsigned year : years) {

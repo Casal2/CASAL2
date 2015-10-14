@@ -26,7 +26,7 @@ namespace observations {
  */
 class ProcessBiomass : public observations::Biomass {
 public:
-  ProcessBiomass();
+  explicit ProcessBiomass(Model* model);
   virtual                     ~ProcessBiomass() = default;
   void                        DoBuild() override final;
 

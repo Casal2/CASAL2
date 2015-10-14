@@ -26,7 +26,7 @@ using niwa::partition::accessors::CategoriesWithAge;
 /**
  * Default Constructor
  */
-RecruitmentConstant::RecruitmentConstant() : Process(Model::Instance()) {
+RecruitmentConstant::RecruitmentConstant(Model* model) : Process(model) {
   parameters_.Bind<string>(PARAM_CATEGORIES, &category_names_, "Categories", "");
   parameters_.Bind<Double>(PARAM_PROPORTIONS, &proportions_, "Proportions", "", true);
   parameters_.Bind<unsigned>(PARAM_AGE, &age_, "Age", "");
@@ -49,18 +49,17 @@ RecruitmentConstant::RecruitmentConstant() : Process(Model::Instance()) {
  */
 void RecruitmentConstant::DoValidate() {
   for(const string& label : category_names_) {
-    if (!Categories::Instance()->IsValid(label))
+    if (!model_->categories()->IsValid(label))
       LOG_ERROR_P(PARAM_CATEGORIES) << ": category " << label << " does not exist. Have you defined it?";
   }
 
   /**
    * Validate age
    */
-  Model* model = Model::Instance();
-  if (age_ < model->min_age())
-    LOG_ERROR_P(PARAM_AGE) << " (" << age_ << ") is less than the model's min_age (" << model->min_age() << ")";
-  if (age_ > model->max_age())
-    LOG_ERROR_P(PARAM_AGE) << " (" << age_ << ") is greater than the model's max_age (" << model->max_age() << ")";
+  if (age_ < model_->min_age())
+    LOG_ERROR_P(PARAM_AGE) << " (" << age_ << ") is less than the model's min_age (" << model_->min_age() << ")";
+  if (age_ > model_->max_age())
+    LOG_ERROR_P(PARAM_AGE) << " (" << age_ << ") is greater than the model's max_age (" << model_->max_age() << ")";
 
   /**
    * Check our parameter proportion is the correct length
@@ -104,7 +103,7 @@ void RecruitmentConstant::DoValidate() {
  * have to other objects in the system.
  */
 void RecruitmentConstant::DoBuild() {
-  partition_ = CategoriesWithAgePtr(new CategoriesWithAge(category_names_, age_));
+  partition_ = CategoriesWithAgePtr(new CategoriesWithAge(model_, category_names_, age_));
 }
 
 /**

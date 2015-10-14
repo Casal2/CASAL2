@@ -155,7 +155,7 @@ void Manager::Build() {
 void Manager::Execute(unsigned year) {
   LOG_TRACE();
 
-  reports::Manager& report_manager = reports::Manager::Instance();
+  reports::Manager& report_manager = *Model::Instance()->managers().report();
   for (current_time_step_ = 0; current_time_step_ < ordered_time_steps_.size(); ++current_time_step_) {
     LOG_FINE() << "Current Time Step: " <<  current_time_step_;
     ordered_time_steps_[current_time_step_]->Execute(year);

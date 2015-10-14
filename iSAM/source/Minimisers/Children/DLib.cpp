@@ -29,7 +29,7 @@ typedef ::dlib::matrix<double,0,1> column_vector;
 /**
  * default constructor
  */
-DLib::DLib() {
+DLib::DLib(Model* model) : Minimiser(model) {
 }
 
 /**
@@ -40,7 +40,7 @@ void DLib::Execute() {
   // Variables
   dlib::Callback  call_back;
 
-  estimates::Manager& estimate_manager = estimates::Manager::Instance();
+  estimates::Manager& estimate_manager = *model_->managers().estimate();
   vector<Estimate*> estimates = estimate_manager.GetEnabled();
 
   ::dlib::matrix<double, 0, 1> start_values(estimates.size());

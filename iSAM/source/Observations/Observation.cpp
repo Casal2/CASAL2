@@ -28,7 +28,7 @@ namespace niwa {
 /**
  * Default Constructor
  */
-Observation::Observation() {
+Observation::Observation(Model* model) : model_(model) {
   parameters_.Bind<string>(PARAM_LABEL, &label_, "Label", "");
   parameters_.Bind<string>(PARAM_TYPE, &type_, "Type of observation", "");
   parameters_.Bind<string>(PARAM_TIME_STEP, &time_step_label_, "Time step to execute in", "");
@@ -48,7 +48,7 @@ Observation::Observation() {
 void Observation::Validate() {
   parameters_.Populate();
 
-  if (Model::Instance()->run_mode() == RunMode::kSimulation) {
+  if (model_->run_mode() == RunMode::kSimulation) {
     if (likelihood_type_ == PARAM_PSEUDO) {
       likelihood_type_ = simulation_likelihood_label_;
     } else {
@@ -65,7 +65,7 @@ void Observation::Validate() {
    * or the number of defined collections
    */
   unsigned expected_selectivity_count = 0;
-  Categories* categories = Categories::Instance();
+  Categories* categories = model_->categories();
   for (const string& category_label : category_labels_)
     expected_selectivity_count += categories->GetNumberOfCategoriesDefined(category_label);
 
@@ -105,7 +105,7 @@ void Observation::Build() {
   LOG_TRACE();
 
   for(string label : selectivity_labels_) {
-    Selectivity* selectivity = selectivities::Manager::Instance().GetSelectivity(label);
+    Selectivity* selectivity = model_->managers().selectivity()->GetSelectivity(label);
     if (!selectivity)
       LOG_ERROR_P(PARAM_SELECTIVITIES) << ": Selectivity " << label << " does not exist. Have you defined it?";
     selectivities_.push_back(selectivity);

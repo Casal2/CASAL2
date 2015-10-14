@@ -21,12 +21,14 @@
 #include "Estimates/Manager.h"
 
 namespace niwa {
+class Model;
+
 namespace estimates {
 
 class Factory {
 public:
   // methods
-  static Estimate* Create(const string& object_type, const string& sub_type);
+  static Estimate* Create(Model* model, const string& object_type, const string& sub_type);
 
 private:
   // methods

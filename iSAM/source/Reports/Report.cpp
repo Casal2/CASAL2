@@ -17,6 +17,8 @@
 #include <iostream>
 #include <fstream>
 
+#include "Model/Model.h"
+#include "Model/Managers.h"
 #include "Reports/Manager.h"
 #include "TimeSteps/Manager.h"
 
@@ -56,7 +58,7 @@ void Report::Validate() {
  *
  */
 void Report::Build() {
-  if (time_step_ != "" && !timesteps::Manager::Instance().GetTimeStep(time_step_))
+  if (time_step_ != "" && !model_->managers().time_step()->GetTimeStep(time_step_))
     LOG_ERROR_P(PARAM_TIME_STEP) << ": " << time_step_ << " could not be found. Have you defined it?";
 
   DoBuild();
@@ -113,7 +115,7 @@ void Report::FlushCache() {
    * Are we writing to a file?
    */
   if (file_name_ != "") {
-    string suffix = reports::Manager::Instance().report_suffix();
+    string suffix = model_->managers().report()->report_suffix();
 
     bool overwrite = false;
     if (first_write_ || suffix != last_suffix_)

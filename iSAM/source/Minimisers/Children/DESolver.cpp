@@ -23,7 +23,7 @@ namespace minimisers {
 /**
  * Default constructor
  */
-DESolver::DESolver() {
+DESolver::DESolver(Model* model) : Minimiser(model) {
   parameters_.Bind<unsigned>(PARAM_POPULATION_SIZE, &population_size_, "The number of candidate solutions to have in the population", "");
   parameters_.Bind<Double>(PARAM_CROSSOVER_PROBABILITY, &crossover_probability_, "TBA", "", 0.9);
   parameters_.Bind<Double>(PARAM_DIFFERENCE_SCALE, &difference_scale_, "The scale to apply to new solutions when comparing candidates", "", 0.02);
@@ -46,7 +46,7 @@ void DESolver::DoValidate() {
  * Execute our DE Solver minimiser engine
  */
 void DESolver::Execute() {
-  estimates::Manager& estimate_manager = estimates::Manager::Instance();
+  estimates::Manager& estimate_manager = *model_->managers().estimate();
 
   vector<double>  lower_bounds;
   vector<double>  upper_bounds;

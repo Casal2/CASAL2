@@ -27,7 +27,7 @@ namespace observations {
 class ProcessProportionsByCategory : public observations::ProportionsByCategory {
 public:
   // methods
-  ProcessProportionsByCategory();
+  ProcessProportionsByCategory(Model* model);
   virtual                     ~ProcessProportionsByCategory() = default;
   void                        DoBuild() override final;
 

@@ -25,8 +25,9 @@
 #include "Selectivities/Selectivity.h"
 // namespaces
 namespace niwa {
-namespace partition {
+class Model;
 
+namespace partition {
 using std::string;
 using std::map;
 using std::vector;
@@ -39,7 +40,7 @@ using niwa::utilities::Double;
 class Category {
 public:
   // methods
-  Category() = default;
+  Category(Model* model) : model_(model) { };
   virtual                     ~Category() = default;
   void                        UpdateMeanLengthData();
   void                        UpdateMeanWeightData();
@@ -56,6 +57,10 @@ public:
   vector<vector<Double>>      age_length_matrix_; // age_length_matrix_[age][length]
   map<unsigned, Double>       mean_length_per_; // map<bin, number per>
   map<unsigned, Double>       mean_weight_per_; // map<age, weight per>
+
+private:
+  // members
+  Model*                      model_;
 };
 
 } /* namespace partitions */

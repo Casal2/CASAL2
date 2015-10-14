@@ -26,7 +26,7 @@ namespace observations {
  */
 class ProcessProportionsAtLength : public observations::ProportionsAtLength {
 public:
-  ProcessProportionsAtLength();
+  ProcessProportionsAtLength(Model* model);
   virtual                     ~ProcessProportionsAtLength() = default;
   void                        DoBuild() override final;
 

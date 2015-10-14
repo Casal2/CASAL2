@@ -27,7 +27,7 @@ namespace observations {
 class TimeStepBiomass : public observations::Biomass {
 public:
   // methods
-  TimeStepBiomass();
+  TimeStepBiomass(Model* model);
   virtual                     ~TimeStepBiomass() = default;
   void                        DoBuild() override final;
 

@@ -10,9 +10,11 @@
 
 // headers
 #include "Reports/Report.h"
-#include "AgeingErrors/Manager.h"
+
 // namespaces
 namespace niwa {
+class AgeingError;
+
 namespace reports {
 
 /**
@@ -27,8 +29,8 @@ public:
   void                        DoExecute() override final;
 
 private:
-  string                      ageingerror_label_;
-  AgeingError*                ageingerror_;
+  string                      ageingerror_label_ = "";
+  AgeingError*                ageingerror_ = nullptr;
 };
 
 } /* namespace reports */

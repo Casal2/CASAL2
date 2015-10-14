@@ -17,11 +17,11 @@ namespace oldbase {
 /**
  * This method is our singleton instance method
  */
-template <class ClassType, class StoredType>
-ClassType& Manager<ClassType, StoredType>::Instance() {
-  static ClassType singleton;
-  return singleton;
-}
+//template <class ClassType, class StoredType>
+//ClassType& Manager<ClassType, StoredType>::Instance() {
+//  static ClassType singleton;
+//  return singleton;
+//}
 
 /**
  * Validate the objects stored in the manager

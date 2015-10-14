@@ -25,8 +25,9 @@
 
 // Namespaces
 namespace niwa {
-
 namespace ublas = boost::numeric::ublas;
+
+class Model;
 
 /**
  * Class Definition
@@ -34,7 +35,8 @@ namespace ublas = boost::numeric::ublas;
 class Minimiser : public niwa::base::Object {
 public:
   // Methods
-  Minimiser();
+  Minimiser() = delete;
+  explicit Minimiser(Model* model);
   virtual                     ~Minimiser();
   void                        Validate();
   void                        Build();
@@ -57,6 +59,7 @@ public:
 
 protected:
   // Members
+  Model*                      model_;
   string                      type_;
   bool                        active_;
   double**                    hessian_;

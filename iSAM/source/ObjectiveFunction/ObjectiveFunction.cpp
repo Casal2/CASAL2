@@ -15,6 +15,7 @@
 
 #include "AdditionalPriors/Manager.h"
 #include "Estimates/Manager.h"
+#include "Model/Model.h"
 #include "Observations/Manager.h"
 #include "Penalties/Manager.h"
 #include "Utilities/To.h"
@@ -25,15 +26,7 @@ namespace niwa {
 /**
  * Default constructor
  */
-ObjectiveFunction::ObjectiveFunction() {
-}
-
-/**
- * Singleton instance method
- */
-ObjectiveFunction& ObjectiveFunction::Instance() {
-  static ObjectiveFunction singleton;
-  return singleton;
+ObjectiveFunction::ObjectiveFunction(Model* model) : model_(model) {
 }
 
 /**
@@ -58,7 +51,7 @@ void ObjectiveFunction::CalculateScore() {
   /**
    * Get the scores from each of the observations/likelihoods
    */
-  vector<Observation*> observations = observations::Manager::Instance().objects();
+  vector<Observation*> observations = model_->managers().observation()->objects();
   likelihoods_ = 0.0;
   for(auto observation : observations) {
     const map<unsigned, Double>& scores = observation->scores();
@@ -81,7 +74,7 @@ void ObjectiveFunction::CalculateScore() {
    */
   penalties_ = 0.0;
 
-  for (auto penalty : penalties::Manager::Instance().objects()) {
+  for (auto penalty : model_->managers().penalty()->objects()) {
     if (penalty->has_score()) {
       objective::Score new_score;
 
@@ -97,7 +90,7 @@ void ObjectiveFunction::CalculateScore() {
   /**
    * Go through the flagged penalties
    */
-  const vector<penalties::Info>& penalties = penalties::Manager::Instance().flagged_penalties();
+  const vector<penalties::Info>& penalties = model_->managers().penalty()->flagged_penalties();
   for (penalties::Info penalty : penalties) {
     objective::Score new_score;
 
@@ -112,7 +105,7 @@ void ObjectiveFunction::CalculateScore() {
   /**
    * Get the scores from each of the estimate priors
    */
-  vector<Estimate*> estimates = estimates::Manager::Instance().objects();
+  vector<Estimate*> estimates = model_->managers().estimate()->objects();
   priors_ = 0.0;
   for (Estimate* estimate : estimates) {
     objective::Score new_score;
@@ -130,7 +123,7 @@ void ObjectiveFunction::CalculateScore() {
   /**
    * Get the score from each additional prior
    */
-  vector<AdditionalPrior*> additional_priors = additionalpriors::Manager::Instance().objects();
+  vector<AdditionalPrior*> additional_priors = model_->managers().additional_prior()->objects();
   additional_priors_ = 0.0;
   for (auto prior : additional_priors) {
     objective::Score new_score;

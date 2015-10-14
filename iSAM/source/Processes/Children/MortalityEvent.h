@@ -37,7 +37,7 @@ namespace accessor = niwa::partition::accessors;
 class MortalityEvent : public niwa::Process {
 public:
   // Methods
-  MortalityEvent();
+  explicit MortalityEvent(Model* model);
   virtual                     ~MortalityEvent() = default;
   void                        DoValidate() override final;
   void                        DoBuild() override final;
@@ -54,7 +54,6 @@ private:
   vector<string>              selectivity_names_;
   string                      penalty_name_;
   accessor::Categories        partition_;
-  Model*                    model_;
   vector<Selectivity*>        selectivities_;
   map<string, map<unsigned, Double> > vulnerable_;
   penalties::Process*         penalty_;

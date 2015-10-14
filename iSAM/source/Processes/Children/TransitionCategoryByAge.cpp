@@ -28,7 +28,10 @@ namespace processes {
 /**
  * Default constructor
  */
-TransitionCategoryByAge::TransitionCategoryByAge() : Process(Model::Instance()) {
+TransitionCategoryByAge::TransitionCategoryByAge(Model* model)
+  : Process(model),
+    to_partition_(model),
+    from_partition_(model) {
   process_type_ = ProcessType::kTransition;
   partition_structure_ = PartitionStructure::kAge;
 
@@ -42,8 +45,6 @@ TransitionCategoryByAge::TransitionCategoryByAge() : Process(Model::Instance()) 
   parameters_.BindTable(PARAM_N, n_table_, "Table of N data", "");
 
 //  RegisterAsEstimable(PARAM_N, &n_);
-
-  model_ = Model::Instance();
 }
 
 /**
@@ -106,16 +107,16 @@ void TransitionCategoryByAge::DoBuild() {
   to_partition_.Init(to_category_labels_);
 
   if (penalty_label_ != "")
-    penalty_ = penalties::Manager::Instance().GetPenalty(penalty_label_);
+    penalty_ = model_->managers().penalty()->GetPenalty(penalty_label_);
   if (selectivity_label_ != "")
-    selectivity_ = selectivities::Manager::Instance().GetSelectivity(selectivity_label_);
+    selectivity_ = model_->managers().selectivity()->GetSelectivity(selectivity_label_);
 }
 
 /**
  * Execute the process
  */
 void TransitionCategoryByAge::DoExecute() {
-  unsigned current_year = Model::Instance()->current_year();
+  unsigned current_year = model_->current_year();
   if (std::find(years_.begin(), years_.end(), current_year) == years_.end())
     return;
 

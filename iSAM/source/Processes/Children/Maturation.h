@@ -14,15 +14,14 @@
 #define PROCESSES_MATURATION_H_
 
 // headers
-#include "Model/Model.h"
 #include "Processes/Process.h"
 #include "Partition/Accessors/Categories.h"
-#include "Selectivities/Selectivity.h"
 
 // namespaces
 namespace niwa {
-namespace processes {
+class Selectivity;
 
+namespace processes {
 namespace accessor = niwa::partition::accessors;
 
 /**
@@ -31,7 +30,7 @@ namespace accessor = niwa::partition::accessors;
 class Maturation : public niwa::Process {
 public:
   // methods
-  Maturation();
+  explicit Maturation(Model* model);
   virtual                     ~Maturation() = default;
   void                        DoValidate() override final;
   void                        DoBuild() override final;
@@ -40,7 +39,6 @@ public:
 
 protected:
   // Members
-  Model*                      model_;
   vector<string>              from_category_names_;
   vector<string>              to_category_names_;
   vector<Double>              rates_;

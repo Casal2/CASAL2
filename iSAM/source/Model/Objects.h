@@ -52,7 +52,8 @@ public:
 
 private:
   // methods
-  Objects() = default;
+  Objects() = delete;
+  explicit Objects(Model* model);
   virtual                     ~Objects() = default;
 
   // members

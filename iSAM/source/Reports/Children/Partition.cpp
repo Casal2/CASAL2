@@ -43,7 +43,7 @@ void Partition::DoExecute() {
   unsigned highest        = 0;
   unsigned longest_length = 0;
 
-  niwa::partition::accessors::All all_view;
+  niwa::partition::accessors::All all_view(model_);
   for (auto iterator = all_view.Begin(); iterator != all_view.End(); ++iterator) {
     if (lowest > (*iterator)->min_age_)
       lowest = (*iterator)->min_age_;

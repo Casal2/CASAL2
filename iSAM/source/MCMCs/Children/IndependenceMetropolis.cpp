@@ -29,7 +29,7 @@ namespace dc = niwa::utilities::doublecompare;
 /**
  * Default constructor
  */
-IndependenceMetropolis::IndependenceMetropolis() {
+IndependenceMetropolis::IndependenceMetropolis(Model* model) : MCMC(model) {
 }
 
 
@@ -40,7 +40,7 @@ void IndependenceMetropolis::Execute() {
   candidates_.resize(estimate_count_);
   is_enabled_estimate_.resize(estimate_count_);
 
-  vector<Estimate*> estimates = estimates::Manager::Instance().GetEnabled();
+  vector<Estimate*> estimates = model_->managers().estimate()->GetEnabled();
   for (unsigned i = 0; i < estimate_count_; ++i) {
     candidates_[i] = AS_DOUBLE(estimates[i]->value());
 
@@ -64,8 +64,8 @@ void IndependenceMetropolis::Execute() {
   /**
    * Get the objective score
    */
-  Model::Instance()->FullIteration();
-  ObjectiveFunction obj_function = ObjectiveFunction::Instance();
+  model_->FullIteration();
+  ObjectiveFunction& obj_function = model_->objective_function();
   obj_function.CalculateScore();
   Double score = AS_DOUBLE(obj_function.score());
 
@@ -101,7 +101,7 @@ void IndependenceMetropolis::Execute() {
     for (unsigned i = 0; i < candidates_.size(); ++i)
       estimates[i]->set_value(candidates_[i]);
 
-    Model::Instance()->FullIteration();
+    model_->FullIteration();
     obj_function.CalculateScore();
 
     Double previous_score = score;
@@ -137,7 +137,7 @@ void IndependenceMetropolis::Execute() {
         chain_.push_back(new_link);
         LOG_MEDIUM() << "Successful Jumps " << successful_jumps_ << " Jumps : " << jumps_ << " successful jumps since adapt " << successful_jumps_since_adapt_
             << " jumps since adapt " << jumps_since_adapt_;
-        reports::Manager::Instance().Execute(State::kIterationComplete);
+        model_->managers().report()->Execute(State::kIterationComplete);
       }
     } else {
       // Reject this attempt

@@ -37,7 +37,7 @@ using processes::MortalityInstantaneous;
 class ProportionsAtAgeForFishery : public niwa::Observation {
 public:
   // Methods
-  ProportionsAtAgeForFishery();
+  explicit ProportionsAtAgeForFishery(Model* model);
   virtual                     ~ProportionsAtAgeForFishery() = default;
   void                        DoValidate() override final;
   virtual void                DoBuild() override;

@@ -29,7 +29,7 @@
 
 // Namespaces
 namespace niwa {
-
+class Model;
 using std::string;
 using std::pair;
 using std::vector;
@@ -45,16 +45,14 @@ struct Score {
 };
 }
 
-
 /**
  * Class definition
  */
 class ObjectiveFunction {
+  friend class Model;
 public:
   // Methods
-  ObjectiveFunction();
   virtual                     ~ObjectiveFunction() = default;
-  static ObjectiveFunction&   Instance();
   void                        CalculateScore();
   void                        Clear();
 
@@ -67,7 +65,11 @@ public:
   Double                          additional_priors() const { return additional_priors_; }
 
 private:
+  // methods
+  ObjectiveFunction(Model* model);
+
   // Members
+  Model*                      model_;
   Double                      score_        = 0.0;
   Double                      penalties_    = 0.0;
   Double                      priors_       = 0.0;

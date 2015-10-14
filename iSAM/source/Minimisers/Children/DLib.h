@@ -27,7 +27,7 @@ namespace minimisers {
 class DLib : public niwa::Minimiser {
 public:
   // methods
-  DLib();
+  DLib(Model* model);
   virtual                     ~DLib() = default;
   void                        DoValidate() override final { };
   void                        DoBuild() override final { };

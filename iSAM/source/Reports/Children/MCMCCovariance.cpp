@@ -24,20 +24,12 @@ MCMCCovariance::MCMCCovariance(Model* model) : Report(model) {
   run_mode_ = RunMode::kMCMC;
   model_state_ = State::kFinalise;
 }
-
-/**
- * Destructor
- */
-MCMCCovariance::~MCMCCovariance() noexcept(true) {
-
-}
-
 /**
  *
  *
  */
 void MCMCCovariance::DoExecute() {
-  MCMC* mcmc = mcmcs::Manager::Instance().active_mcmc();
+  MCMC* mcmc = model_->managers().mcmc()->active_mcmc();
   ublas::matrix<Double>& covariance_matrix = mcmc->GetCovarianceMatrix();
 
   cache_ << "*" << label_ << " " << "("<< type_ << ")"<<"\n";

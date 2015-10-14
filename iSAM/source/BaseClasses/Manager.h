@@ -37,7 +37,7 @@ class Manager {
 public:
   // Methods
   virtual                     ~Manager() = default;
-  static ClassType&           Instance();
+//  static ClassType&           Instance();
   virtual void                Validate();
   virtual void                Build();
   virtual void                Reset();

@@ -11,11 +11,14 @@
 // headers
 #include "Reports/Report.h"
 
-#include "Minimisers/Manager.h"
+#include <boost/numeric/ublas/matrix.hpp>
+
 // namespaces
 namespace niwa {
-namespace reports {
+class Minimiser;
 
+namespace reports {
+namespace ublas = boost::numeric::ublas;
 /**
  *
  */

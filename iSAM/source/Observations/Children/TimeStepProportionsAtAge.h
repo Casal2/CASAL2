@@ -27,7 +27,7 @@ namespace observations {
 class TimeStepProportionsAtAge : public observations::ProportionsAtAge {
 public:
   // methods
-  TimeStepProportionsAtAge();
+  TimeStepProportionsAtAge(Model* model);
   virtual                     ~TimeStepProportionsAtAge() = default;
   void                        DoBuild() override final;
 

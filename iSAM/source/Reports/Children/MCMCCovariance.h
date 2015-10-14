@@ -24,7 +24,7 @@ namespace reports {
 class MCMCCovariance : public niwa::Report {
 public:
   MCMCCovariance(Model* model);
-  virtual                     ~MCMCCovariance() noexcept(true);
+  virtual                     ~MCMCCovariance() = default;
   void                        DoValidate() override final { };
   void                        DoBuild() override final { };
   void                        DoExecute() override final;

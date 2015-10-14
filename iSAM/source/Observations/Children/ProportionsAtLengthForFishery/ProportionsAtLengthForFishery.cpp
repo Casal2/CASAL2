@@ -28,7 +28,9 @@ namespace observations {
 /**
  * Default constructor
  */
-ProportionsAtLengthForFishery::ProportionsAtLengthForFishery() {
+ProportionsAtLengthForFishery::ProportionsAtLengthForFishery(Model* model)
+  : Observation(model) {
+
   parameters_.Bind<Double>(PARAM_LENGTH_BINS, &length_bins_, "Length bins", "");
   parameters_.Bind<bool>(PARAM_LENGTH_PLUS, &length_plus_, "Is the last bin a plus group", "", true);
   parameters_.Bind<Double>(PARAM_TOLERANCE, &tolerance_, "Tolerance for rescaling proportions", "", Double(0.001));
@@ -48,9 +50,8 @@ void ProportionsAtLengthForFishery::DoValidate() {
   if(length_plus_) {
     number_bins_ = length_bins_.size();
   } else {
-      number_bins_ = length_bins_.size() - 1;
+    number_bins_ = length_bins_.size() - 1;
   }
-
 
   map<unsigned, vector<Double>> error_values_by_year;
   map<unsigned, vector<Double>> obs_by_year;
@@ -59,7 +60,6 @@ void ProportionsAtLengthForFishery::DoValidate() {
    * Do some simple checks
    * e.g Validate that the length_bins are strictly increasing
    */
-//  Model* model = Model::Instance();
   for(unsigned length = 0; length < length_bins_.size(); ++length) {
     if(length_bins_[length] < 0.0)
     if(length_bins_[length] > length_bins_[length + 1])
@@ -114,7 +114,6 @@ void ProportionsAtLengthForFishery::DoValidate() {
     if (obs_by_year[year].size() != obs_expected - 1)
       LOG_CODE_ERROR() << "obs_by_year_[year].size() (" << obs_by_year[year].size() << ") != obs_expected - 1 (" << obs_expected -1 << ")";
   }
-
 
   /**
    * Build our error value map
@@ -197,8 +196,8 @@ void ProportionsAtLengthForFishery::DoValidate() {
  * the labels for other objects are valid.
  */
 void ProportionsAtLengthForFishery::DoBuild() {
-  partition_ = CombinedCategoriesPtr(new niwa::partition::accessors::CombinedCategories(category_labels_));
-  cached_partition_ = CachedCombinedCategoriesPtr(new niwa::partition::accessors::cached::CombinedCategories(category_labels_));
+  partition_ = CombinedCategoriesPtr(new niwa::partition::accessors::CombinedCategories(model_, category_labels_));
+  cached_partition_ = CachedCombinedCategoriesPtr(new niwa::partition::accessors::cached::CombinedCategories(model_, category_labels_));
 
 //  if (ageing_error_label_ != "")
 //   LOG_CODE_ERROR() << "ageing error has not been implemented for the proportions at age observation";
@@ -214,13 +213,11 @@ void ProportionsAtLengthForFishery::DoBuild() {
  * structure to use with any interpolation
  */
 void ProportionsAtLengthForFishery::PreExecute() {
-  Model* model = Model::Instance();
-
   cached_partition_->BuildCache();
 
-  if (cached_partition_->Size() != proportions_[model->current_year()].size())
+  if (cached_partition_->Size() != proportions_[model_->current_year()].size())
     LOG_CODE_ERROR() << "cached_partition_->Size() != proportions_[model->current_year()].size()";
-  if (partition_->Size() != proportions_[model->current_year()].size())
+  if (partition_->Size() != proportions_[model_->current_year()].size())
     LOG_CODE_ERROR() << "partition_->Size() != proportions_[model->current_year()].size()";
 }
 
@@ -232,10 +229,9 @@ void ProportionsAtLengthForFishery::Execute() {
   /**
    * Verify our cached partition and partition sizes are correct
    */
-  Model* model = Model::Instance();
-  auto categories = Categories::Instance();
+  auto categories = model_->categories();
   Double t = mortality_instantaneous_->time_step_ratio();
-  unsigned year = Model::Instance()->current_year();
+  unsigned year = model_->current_year();
 
   auto cached_partition_iter  = cached_partition_->Begin();
   auto partition_iter         = partition_->Begin(); // vector<vector<partition::Category> >
@@ -325,16 +321,16 @@ void ProportionsAtLengthForFishery::Execute() {
             }
         }
 
-    if (expected_values.size() != proportions_[model->current_year()][category_labels_[category_offset]].size())
+    if (expected_values.size() != proportions_[model_->current_year()][category_labels_[category_offset]].size())
       LOG_CODE_ERROR() << "expected_values.size(" << expected_values.size() << ") != proportions_[category_offset].size("
-        << proportions_[model->current_year()][category_labels_[category_offset]].size() << ")";
+        << proportions_[model_->current_year()][category_labels_[category_offset]].size() << ")";
 
     /**
      * save our comparisons so we can use them to generate the score from the likelihoods later
      */
     for (unsigned i = 0; i < expected_values.size(); ++i) {
-      SaveComparison(category_labels_[category_offset], 0, length_bins_[i], expected_values[i], proportions_[model->current_year()][category_labels_[category_offset]][i],
-          process_errors_by_year_[model->current_year()], error_values_[model->current_year()][category_labels_[category_offset]][i], delta_, 0.0);
+      SaveComparison(category_labels_[category_offset], 0, length_bins_[i], expected_values[i], proportions_[model_->current_year()][category_labels_[category_offset]][i],
+          process_errors_by_year_[model_->current_year()], error_values_[model_->current_year()][category_labels_[category_offset]][i], delta_, 0.0);
     }
   }
 }
@@ -348,7 +344,7 @@ void ProportionsAtLengthForFishery::CalculateScore() {
    * Simulate or generate results
    * During simulation mode we'll simulate results for this observation
    */
-  if (Model::Instance()->run_mode() == RunMode::kSimulation) {
+  if (model_->run_mode() == RunMode::kSimulation) {
     likelihood_->SimulateObserved(comparisons_);
     for (auto& iter :  comparisons_) {
       Double total = 0.0;

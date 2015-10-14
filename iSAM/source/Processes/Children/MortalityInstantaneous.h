@@ -58,7 +58,7 @@ class MortalityInstantaneous : public Process {
   };
 public:
   // methods
-  MortalityInstantaneous();
+  explicit MortalityInstantaneous(Model* model);
   virtual                     ~MortalityInstantaneous() = default;
   void                        DoValidate() override final;
   void                        DoBuild() override final;

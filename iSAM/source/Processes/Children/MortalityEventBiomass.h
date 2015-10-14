@@ -18,12 +18,12 @@
 #include "Partition/Accessors/Categories.h"
 #include "Penalties/Children/Process.h"
 #include "Processes/Process.h"
-#include "Selectivities/Selectivity.h"
 
 // namespaces
 namespace niwa {
-namespace processes {
+class Selectivity;
 
+namespace processes {
 namespace accessor = niwa::partition::accessors;
 
 /**
@@ -32,7 +32,7 @@ namespace accessor = niwa::partition::accessors;
 class MortalityEventBiomass : public niwa::Process {
 public:
   // methods
-  MortalityEventBiomass();
+  explicit MortalityEventBiomass(Model* model);
   virtual                     ~MortalityEventBiomass() = default;
   void                        DoValidate() override final;
   void                        DoBuild() override final;
@@ -41,7 +41,6 @@ public:
 
 private:
   // members
-  Model*                    model_;
   accessor::Categories        partition_;
   vector<string>              category_labels_;
   vector<string>              selectivity_labels_;

@@ -27,7 +27,7 @@ namespace observations {
 class TimeStepProportionsByCategory : public observations::ProportionsByCategory {
 public:
   // methods
-  TimeStepProportionsByCategory();
+  TimeStepProportionsByCategory(Model* model);
   virtual                     ~TimeStepProportionsByCategory() = default;
   void                        DoBuild() override final;
 

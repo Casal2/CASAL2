@@ -34,7 +34,8 @@ using partition::accessors::cached::CachedCombinedCategoriesPtr;
 class Abundance : public niwa::Observation {
 public:
   // Methods
-  Abundance() = default;
+  Abundance() = delete;
+  explicit Abundance(Model* model) : Observation(model) { };
   virtual                     ~Abundance() = default;
   void                        DoValidate() override final;
   virtual void                DoBuild() override;

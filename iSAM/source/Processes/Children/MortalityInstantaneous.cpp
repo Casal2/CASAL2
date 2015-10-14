@@ -41,7 +41,9 @@ namespace processes {
  *
  * Note: The constructor is parsed to generate Latex for the documentation.
  */
-MortalityInstantaneous::MortalityInstantaneous() : Process(Model::Instance()) {
+MortalityInstantaneous::MortalityInstantaneous(Model* model)
+  : Process(model),
+    partition_(model) {
   process_type_ = ProcessType::kMortality;
   partition_structure_ = PartitionStructure::kAge;
 
@@ -214,7 +216,7 @@ void MortalityInstantaneous::DoBuild() {
   for (auto& fishery_iter : fisheries_) {
     auto& fishery = fishery_iter.second;
     if (fishery.penalty_label_ != "none") {
-      fishery.penalty_ = penalties::Manager::Instance().GetProcessPenalty(fishery.penalty_label_);
+      fishery.penalty_ = model_->managers().penalty()->GetProcessPenalty(fishery.penalty_label_);
       if (!fishery.penalty_)
         LOG_ERROR_P(PARAM_FISHERIES) << ": penalty " << fishery.penalty_label_ << " does not exist. Have you defined it?";
     }
@@ -225,7 +227,7 @@ void MortalityInstantaneous::DoBuild() {
    * Check the natural mortality categories are valid
    */
   for (const string& label : category_labels_) {
-    if (!Categories::Instance()->IsValid(label))
+    if (!model_->categories()->IsValid(label))
       LOG_ERROR_P(PARAM_CATEGORIES) << ": category " << label << " does not exist. Have you defined it?";
   }
 
