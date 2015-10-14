@@ -20,13 +20,13 @@
 // Headers
 #include "Partition/Accessors/Categories.h"
 #include "Processes/Process.h"
-#include "Selectivities/Selectivity.h"
-#include "TimeSteps/Manager.h"
+
 
 // namespaces
 namespace niwa {
-namespace processes {
+class Selectivity;
 
+namespace processes {
 namespace accessor = niwa::partition::accessors;
 
 /**
@@ -35,7 +35,7 @@ namespace accessor = niwa::partition::accessors;
 class MortalityConstantRate : public niwa::Process {
 public:
   // Methods
-  MortalityConstantRate();
+  MortalityConstantRate(Model* model);
   virtual                     ~MortalityConstantRate() = default;
   void                        DoValidate() override final;
   void                        DoBuild() override final;
@@ -48,12 +48,10 @@ private:
   vector<Double>              m_;
   vector<Double>              ratios_;
   map<unsigned, Double>       time_step_ratios_;
-  vector<vector<Double> >     mortality_rates_;
+  vector<vector<Double>>      mortality_rates_;
   vector<string>              selectivity_names_;
   accessor::Categories        partition_;
   vector<Selectivity*>        selectivities_;
-  Model*                    model_;
-  timesteps::Manager&         time_steps_manager_;
 };
 
 } /* namespace processes */

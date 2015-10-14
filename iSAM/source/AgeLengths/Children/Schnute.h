@@ -15,17 +15,17 @@
 
 // headers
 #include "AgeLengths/AgeLength.h"
-#include "LengthWeights/LengthWeight.h"
 
 // namespaces
 namespace niwa {
+class LengthWeight;
+
 namespace agelengths {
 
 // classes
 class Schnute : public niwa::AgeLength {
 public:
   // methods
-  Schnute();
   explicit Schnute(Model* model);
   virtual                     ~Schnute() = default;
   void                        DoValidate() override final { };

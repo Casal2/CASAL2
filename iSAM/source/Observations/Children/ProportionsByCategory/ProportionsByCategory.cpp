@@ -30,7 +30,7 @@ namespace observations {
 /**
  * Default constructor
  */
-ProportionsByCategory::ProportionsByCategory() {
+ProportionsByCategory::ProportionsByCategory(Model* model) : Observation(model) {
   parameters_.Bind<unsigned>(PARAM_MIN_AGE, &min_age_, "Minimum age", "");
   parameters_.Bind<unsigned>(PARAM_MAX_AGE, &max_age_, "Maximum age", "");
   parameters_.Bind<bool>(PARAM_AGE_PLUS, &age_plus_, "Use age plus group", "", true);
@@ -48,7 +48,7 @@ ProportionsByCategory::ProportionsByCategory() {
  */
 void ProportionsByCategory::DoValidate() {
   unsigned expected_selectivity_count = 0;
-  auto categories = Categories::Instance();
+  auto categories = model_->categories();
   for (const string& category_label : category_labels_)
     expected_selectivity_count += categories->GetNumberOfCategoriesDefined(category_label);
 
@@ -210,10 +210,10 @@ void ProportionsByCategory::DoValidate() {
  * the labels for other objects are valid.
  */
 void ProportionsByCategory::DoBuild() {
-  partition_ = CombinedCategoriesPtr(new niwa::partition::accessors::CombinedCategories(category_labels_));
-  cached_partition_ = CachedCombinedCategoriesPtr(new niwa::partition::accessors::cached::CombinedCategories(category_labels_));
-  target_partition_ = CombinedCategoriesPtr(new niwa::partition::accessors::CombinedCategories(target_category_labels_));
-  target_cached_partition_ = CachedCombinedCategoriesPtr(new niwa::partition::accessors::cached::CombinedCategories(target_category_labels_));
+  partition_ = CombinedCategoriesPtr(new niwa::partition::accessors::CombinedCategories(model_, category_labels_));
+  cached_partition_ = CachedCombinedCategoriesPtr(new niwa::partition::accessors::cached::CombinedCategories(model_, category_labels_));
+  target_partition_ = CombinedCategoriesPtr(new niwa::partition::accessors::CombinedCategories(model_, target_category_labels_));
+  target_cached_partition_ = CachedCombinedCategoriesPtr(new niwa::partition::accessors::cached::CombinedCategories(model_, target_category_labels_));
 
 
   if (ageing_error_label_ != "")
@@ -222,7 +222,7 @@ void ProportionsByCategory::DoBuild() {
   age_results_.resize(age_spread_ * category_labels_.size(), 0.0);
 
   for(string label : target_selectivity_labels_) {
-    auto selectivity = selectivities::Manager::Instance().GetSelectivity(label);
+    auto selectivity = model_->managers().selectivity()->GetSelectivity(label);
     if (!selectivity)
       LOG_ERROR_P(PARAM_TARGET_SELECTIVITIES) << ": " << label << " does not exist. Have you defined it?";
     else
@@ -261,7 +261,6 @@ void ProportionsByCategory::Execute() {
   /**
    * Verify our cached partition and partition sizes are correct
    */
-  Model* model = Model::Instance();
   auto cached_partition_iter  = cached_partition_->Begin();
   auto partition_iter         = partition_->Begin(); // vector<vector<partition::Category> >
   auto target_cached_partition_iter  = target_cached_partition_->Begin();
@@ -373,9 +372,9 @@ void ProportionsByCategory::Execute() {
       }
     }
 
-    if (age_results.size() != proportions_[model->current_year()][category_labels_[category_offset]].size())
+    if (age_results.size() != proportions_[model_->current_year()][category_labels_[category_offset]].size())
       LOG_CODE_ERROR() << "expected_values.size(" << age_results.size() << ") != proportions_[category_offset].size("
-        << proportions_[model->current_year()][category_labels_[category_offset]].size() << ")";
+        << proportions_[model_->current_year()][category_labels_[category_offset]].size() << ")";
 
     /**
      * save our comparisons so we can use them to generate the score from the likelihoods later
@@ -386,8 +385,8 @@ void ProportionsByCategory::Execute() {
       if (age_results[i] != 0.0)
         expected = target_age_results[i] / age_results[i];
 
-      SaveComparison(category_labels_[category_offset], min_age_ + i, 0, expected, proportions_[model->current_year()][category_labels_[category_offset]][i],
-          process_errors_by_year_[model->current_year()], error_values_[model->current_year()][category_labels_[category_offset]][i], delta_, 0.0);
+      SaveComparison(category_labels_[category_offset], min_age_ + i, 0, expected, proportions_[model_->current_year()][category_labels_[category_offset]][i],
+          process_errors_by_year_[model_->current_year()], error_values_[model_->current_year()][category_labels_[category_offset]][i], delta_, 0.0);
     }
   }
 }

@@ -26,7 +26,7 @@ namespace observations {
  */
 class ProcessProportionsAtAge : public observations::ProportionsAtAge {
 public:
-  ProcessProportionsAtAge();
+  ProcessProportionsAtAge(Model* model);
   virtual                     ~ProcessProportionsAtAge() = default;
   void                        DoBuild() override final;
 

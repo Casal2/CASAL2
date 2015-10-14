@@ -13,6 +13,7 @@
 
 #include "Categories/Categories.h"
 #include "Selectivities/Manager.h"
+#include "Selectivities/Selectivity.h"
 
 // namespaces
 namespace niwa {
@@ -21,7 +22,10 @@ namespace processes {
 /**
  * default constructor
  */
-Maturation::Maturation() : Process(Model::Instance()) {
+Maturation::Maturation(Model* model)
+  : Process(model),
+    from_partition_(model),
+    to_partition_(model) {
   parameters_.Bind<string>(PARAM_FROM, &from_category_names_, "List of categories to mature from", "");
   parameters_.Bind<string>(PARAM_TO, &to_category_names_, "List of categories to mature too", "");
   parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_names_, "List of selectivities to use for maturation", "");
@@ -43,7 +47,7 @@ void Maturation::DoValidate() {
     selectivity_names_.assign(from_category_names_.size(), selectivity_names_[0]);
 
   // Validate Categories
-  niwa::Categories* categories = niwa::Categories::Instance();
+  niwa::Categories* categories = model_->categories();
   for (const string& label : from_category_names_) {
     if (!categories->IsValid(label))
       LOG_ERROR_P(PARAM_FROM) << ": category " << label << " does not exist. Have you defined it?";
@@ -94,7 +98,7 @@ void Maturation::DoBuild() {
   to_partition_.Init(to_category_names_);
 
   for(string label : selectivity_names_) {
-    Selectivity* selectivity = selectivities::Manager::Instance().GetSelectivity(label);
+    Selectivity* selectivity = model_->managers().selectivity()->GetSelectivity(label);
     if (!selectivity)
       LOG_ERROR_P(PARAM_SELECTIVITIES) << ": Selectivity " << label << " does not exist. Have you defined it?";
     selectivities_.push_back(selectivity);

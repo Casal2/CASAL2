@@ -21,7 +21,7 @@ namespace minimisers {
 /**
  * Default constructor
  */
-GammaDiff::GammaDiff() {
+GammaDiff::GammaDiff(Model* model) : Minimiser(model) {
   parameters_.Bind<int>(PARAM_MAX_ITERATIONS, &max_iterations_, "Maximum number of iterations", "", 1000);
   parameters_.Bind<int>(PARAM_MAX_EVALUATIONS, &max_evaluations_, "Maximum number of evaluations", "", 4000);
   parameters_.Bind<Double>(PARAM_TOLERANCE, &gradient_tolerance_, "Tolerance of the gradient for convergence", "", 0.02);
@@ -36,7 +36,7 @@ void GammaDiff::Execute() {
   // Variables
   gammadiff::CallBack  call_back;
 
-  estimates::Manager& estimate_manager = estimates::Manager::Instance();
+  estimates::Manager& estimate_manager = *model_->managers().estimate();
 
   vector<double>  lower_bounds;
   vector<double>  upper_bounds;

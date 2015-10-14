@@ -44,7 +44,8 @@ public:
   typedef vector<std::pair<string, Double*> > DataType;
 
   // Methods
-  CategoriesWithAge(const vector<string>& categories, const unsigned& age);
+  CategoriesWithAge() = delete;
+  CategoriesWithAge(Model* model, const vector<string>& categories, const unsigned& age);
   virtual                     ~CategoriesWithAge() = default;
   unsigned                    size();
   DataType::iterator          begin();

@@ -27,7 +27,7 @@ namespace processes {
 class Growth : public niwa::Process {
 public:
   // methods
-  Growth();
+  explicit Growth(Model* model);
   virtual                     ~Growth() = default;
   void                        DoValidate() override final;
   void                        DoBuild() override final;

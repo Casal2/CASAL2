@@ -33,7 +33,7 @@ namespace accessor = niwa::partition::accessors;
 class Ageing : public niwa::Process {
 public:
   // Methods
-  Ageing();
+  explicit Ageing(Model* model);
   virtual                     ~Ageing() = default;
   void                        DoValidate() override final;
   void                        DoBuild() override final;
@@ -42,7 +42,6 @@ public:
 
 private:
   // Members
-  Model*                      model_;
   accessor::Categories        partition_;
   vector<string>              category_names_;
 };

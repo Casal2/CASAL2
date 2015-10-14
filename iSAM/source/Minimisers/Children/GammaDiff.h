@@ -31,7 +31,7 @@ namespace minimisers {
 class GammaDiff :  public niwa::Minimiser  {
 public:
   // Methods
-  GammaDiff();
+  GammaDiff(Model* model);
   virtual                     ~GammaDiff() = default;
   void                        DoValidate() override final { };
   void                        DoBuild() override final { };

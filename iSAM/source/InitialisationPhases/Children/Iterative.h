@@ -21,8 +21,9 @@
 
 // namespaces
 namespace niwa {
-namespace initialisationphases {
+class TimeStep;
 
+namespace initialisationphases {
 namespace cached   = partition::accessors::cached;
 namespace accessor = partition::accessors;
 
@@ -32,7 +33,7 @@ namespace accessor = partition::accessors;
 class Iterative : public niwa::InitialisationPhase {
 public:
   // methods
-  Iterative();
+  explicit Iterative(Model* model);
   virtual                     ~Iterative() = default;
   void                        Execute() override final;
 

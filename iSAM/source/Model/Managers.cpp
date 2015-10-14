@@ -97,4 +97,78 @@ Managers::~Managers() {
   delete time_varying_;
 }
 
+void Managers::Validate() {
+  time_step_->Validate();
+
+  additional_prior_->Validate();
+  ageing_error_->Validate();
+  age_length_->Validate();
+  assert_->Validate();
+  catchability_->Validate();
+  derived_quantity_->Validate();
+  initialisation_phase_->Validate();
+  length_weight_->Validate();
+  mcmc_->Validate();
+  minimiser_->Validate();
+  observation_->Validate();
+  penalty_->Validate();
+  process_->Validate();
+  profile_->Validate();
+  project_->Validate();
+  report_->Validate();
+  selectivity_->Validate();
+  simulate_->Validate();
+  time_varying_->Validate();
+
+  estimate_->Validate();
+}
+
+void Managers::Build() {
+  additional_prior_->Build();
+  ageing_error_->Build();
+  age_length_->Build();
+  assert_->Build();
+  catchability_->Build();
+  derived_quantity_->Build();
+  estimate_->Build();
+  initialisation_phase_->Build();
+  length_weight_->Build();
+  mcmc_->Build();
+  minimiser_->Build();
+  observation_->Build();
+  penalty_->Build();
+  process_->Build();
+  profile_->Build();
+  project_->Build();
+  report_->Build();
+  selectivity_->Build();
+  simulate_->Build();
+  time_step_->Build();
+  time_varying_->Build();
+}
+
+void Managers::Reset() {
+  additional_prior_->Reset();
+  ageing_error_->Reset();
+  age_length_->Reset();
+  assert_->Reset();
+  catchability_->Reset();
+  derived_quantity_->Reset();
+  estimate_->Reset();
+  initialisation_phase_->Reset();
+  length_weight_->Reset();
+  mcmc_->Reset();
+  minimiser_->Reset();
+  observation_->Reset();
+  penalty_->Reset();
+  process_->Reset();
+  profile_->Reset();
+  project_->Reset();
+  report_->Reset();
+  selectivity_->Reset();
+  simulate_->Reset();
+  time_step_->Reset();
+  time_varying_->Reset();
+}
+
 } /* namespace niwa */

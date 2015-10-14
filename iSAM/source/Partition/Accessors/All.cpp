@@ -24,11 +24,11 @@ namespace accessors {
 /**
  * Default constructor
  */
-All::All() {
+All::All(Model* model) : model_(model) {
 
-  vector<string> category_names = niwa::Categories::Instance()->category_names();
+  vector<string> category_names = model_->categories()->category_names();
   for (string category_name : category_names) {
-    data_.push_back(&Partition::Instance().category(category_name));
+    data_.push_back(&model_->partition().category(category_name));
   }
 }
 

@@ -68,33 +68,33 @@ Process* Factory::Create(Model* model, const string& object_type, const string& 
 
   if (object == PARAM_PROCESS || object == PARAM_PROCESSES) {
     if (sub == PARAM_AGEING)
-      result = new Ageing();
+      result = new Ageing(model);
     else if (sub == PARAM_GROWTH)
-      result = new Growth();
+      result = new Growth(model);
     else if (sub == PARAM_RECRUITMENT_BEVERTON_HOLT)
-      result = new RecruitmentBevertonHolt();
+      result = new RecruitmentBevertonHolt(model);
     else if (sub == PARAM_RECRUITMENT_CONSTANT)
-      result = new RecruitmentConstant();
+      result = new RecruitmentConstant(model);
     else if (sub == PARAM_MATURATION)
-      result = new Maturation();
+      result = new Maturation(model);
     else if (sub == PARAM_MATURATION_RATE)
-      result = new MaturationRate();
+      result = new MaturationRate(model);
     else if (sub == PARAM_MORTALITY_CONSTANT_RATE)
-      result = new MortalityConstantRate();
+      result = new MortalityConstantRate(model);
     else if (sub == PARAM_MORTALITY_EVENT)
-      result = new MortalityEvent();
+      result = new MortalityEvent(model);
     else if (sub == PARAM_MORTALITY_EVENT_BIOMASS)
-      result = new MortalityEventBiomass();
+      result = new MortalityEventBiomass(model);
     else if (sub == PARAM_MORTALITY_INSTANTANEOUS)
-      result = new MortalityInstantaneous();
+      result = new MortalityInstantaneous(model);
     else if (sub == PARAM_NOP)
-      result = new Nop();
+      result = new Nop(model);
     else if (sub == PARAM_TAG_BY_AGE)
-      result = new TagByAge();
+      result = new TagByAge(model);
     else if (sub == PARAM_TAG_BY_LENGTH)
-      result = new TagByLength();
+      result = new TagByLength(model);
     else if (sub == PARAM_TRANSITION_CATEGORY_BY_AGE)
-      result = new TransitionCategoryByAge();
+      result = new TransitionCategoryByAge(model);
 
     if (result)
       model->managers().process()->AddObject(result);

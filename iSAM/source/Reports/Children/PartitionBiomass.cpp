@@ -29,8 +29,7 @@ PartitionBiomass::PartitionBiomass(Model* model) : Report(model) {
  *
  */
 void PartitionBiomass::DoValidate() {
-  Model* model = Model::Instance();
-  vector<unsigned> model_years = model->years();
+  vector<unsigned> model_years = model_->years();
   for (unsigned year : years_) {
     if (std::find(model_years.begin(), model_years.end(), year) == model_years.end())
       LOG_ERROR_P(PARAM_YEARS) << " value " << year << " is not a valid year in the model";
@@ -49,7 +48,7 @@ void PartitionBiomass::DoExecute() {
   unsigned highest        = 0;
   unsigned longest_length = 0;
 
-  niwa::partition::accessors::All all_view;
+  niwa::partition::accessors::All all_view(model_);
   for (auto iterator = all_view.Begin(); iterator != all_view.End(); ++iterator) {
     if (lowest > (*iterator)->min_age_)
       lowest = (*iterator)->min_age_;
@@ -90,7 +89,7 @@ void PartitionBiomass::DoExecute() {
 
 
   cache_ << "*" << label_ << " " << "("<< type_ << ")"<<"\n";
-  cache_ << "year: " << Model::Instance()->current_year() << "\n";
+  cache_ << "year: " << model_->current_year() << "\n";
   cache_ << "time_step: " << time_step_ << "\n";
   cache_ << "values " << REPORT_R_DATAFRAME << "\n";
 

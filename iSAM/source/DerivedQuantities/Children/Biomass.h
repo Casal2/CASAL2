@@ -25,7 +25,7 @@ namespace derivedquantities {
 class Biomass : public niwa::DerivedQuantity {
 public:
   // methods
-  Biomass() = default;
+  explicit Biomass(Model* model) : DerivedQuantity(model) { }
   virtual                     ~Biomass() = default;
   void                        PreExecute() override final;
   void                        Execute() override final;

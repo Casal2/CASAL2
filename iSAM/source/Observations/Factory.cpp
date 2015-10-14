@@ -46,29 +46,29 @@ Observation* Factory::Create(Model* model, const string& object_type, const stri
 
   if (object_type == PARAM_OBSERVATION) {
     if (sub_type == PARAM_ABUNDANCE)
-      result = new TimeStepAbundance();
+      result = new TimeStepAbundance(model);
     else if (sub_type == PARAM_PROCESS_ABUNDANCE)
-      result = new ProcessAbundance();
+      result = new ProcessAbundance(model);
     else if (sub_type == PARAM_BIOMASS)
-      result = new TimeStepBiomass();
+      result = new TimeStepBiomass(model);
     else if (sub_type == PARAM_PROCESS_BIOMASS)
-      result = new ProcessBiomass();
+      result = new ProcessBiomass(model);
     else if (sub_type == PARAM_PROPORTIONS_AT_AGE)
-      result = new TimeStepProportionsAtAge();
+      result = new TimeStepProportionsAtAge(model);
     else if (sub_type == PARAM_PROPORTIONS_AT_LENGTH)
-      result = new TimeStepProportionsAtLength();
+      result = new TimeStepProportionsAtLength(model);
     else if (sub_type == PARAM_PROCESS_PROPORTIONS_AT_AGE)
-      result = new ProcessProportionsAtAge();
+      result = new ProcessProportionsAtAge(model);
     else if (sub_type == PARAM_PROCESS_PROPORTIONS_AT_AGE_FOR_FISHERY)
-      result = new ProcessProportionsAtAgeForFishery();
+      result = new ProcessProportionsAtAgeForFishery(model);
     else if (sub_type == PARAM_PROCESS_PROPORTIONS_AT_LENGTH)
-      result = new ProcessProportionsAtLength();
+      result = new ProcessProportionsAtLength(model);
     else if (sub_type == PARAM_PROCESS_PROPORTIONS_AT_LENGTH_FOR_FISHERY)
-      result = new ProcessProportionsAtLengthForFishery();
+      result = new ProcessProportionsAtLengthForFishery(model);
     else if (sub_type == PARAM_PROCESS_PROPORTIONS_BY_CATEGORY)
-      result = new ProcessProportionsByCategory();
+      result = new ProcessProportionsByCategory(model);
     else if (sub_type == PARAM_PROPORTIONS_BY_CATEGORY)
-      result = new TimeStepProportionsByCategory();
+      result = new TimeStepProportionsByCategory(model);
   }
 
   if (result)

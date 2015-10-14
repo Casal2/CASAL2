@@ -19,7 +19,7 @@ namespace processes {
 /**
  * Default constructor
  */
-Growth::Growth() : Process(Model::Instance()) {
+Growth::Growth(Model* model) : Process(model) {
   LOG_TRACE();
 
 //  parameters_.Bind<string>(PARAM_CATEGORIES, &category_names_, "Categories", "");

@@ -24,14 +24,6 @@ namespace niwa {
 /**
  *
  */
-Partition& Partition::Instance() {
-  static Partition instance = Partition();
-  return instance;
-}
-
-/**
- *
- */
 void Partition::Validate() {
 }
 
@@ -44,14 +36,13 @@ void Partition::Validate() {
  * accessor objects.
  */
 void Partition::Build() {
-//  Model* model                              = Model::Instance();
-  Categories* categories                    = Categories::Instance();
+  Categories* categories                    = model_->categories();
   vector<string> category_names             = categories->category_names();
 
   for(string category : category_names) {
     LOG_FINEST() << "Adding category " << category << " to the partition";
 
-    partition::Category* new_category = new partition::Category();
+    partition::Category* new_category = new partition::Category(model_);
     new_category->name_      = category;
     new_category->min_age_   = categories->min_age(category);
     new_category->max_age_   = categories->max_age(category);

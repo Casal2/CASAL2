@@ -20,13 +20,17 @@
 #include "BaseClasses/Executor.h"
 #include "Likelihoods/Likelihood.h"
 #include "Observations/Comparison.h"
-#include "Selectivities/Selectivity.h"
 #include "Utilities/Types.h"
 
 // Namespaces
 namespace niwa {
-using niwa::utilities::Double;
 namespace obs = niwa::observations;
+
+class Model;
+class Selectivity;
+
+using niwa::utilities::Double;
+
 
 /**
  * Class Definition
@@ -34,7 +38,8 @@ namespace obs = niwa::observations;
 class Observation : public niwa::base::Executor {
 public:
   // methods
-  Observation();
+  Observation() = delete;
+  explicit Observation(Model* model);
   virtual                     ~Observation() = default;
   void                        Validate();
   void                        Build();
@@ -63,6 +68,7 @@ protected:
       Double process_error, Double error_value, Double delta, Double score);
 
   // members
+  Model*                      model_;
   string                      type_ = "";
   map<unsigned, Double>       scores_;
   string                      time_step_label_ = "";

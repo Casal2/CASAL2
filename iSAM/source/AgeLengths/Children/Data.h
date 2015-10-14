@@ -16,18 +16,17 @@
 
 // headers
 #include "AgeLengths/AgeLength.h"
-#include "LengthWeights/LengthWeight.h"
-#include "Model/Model.h"
 
 // namespaces
 namespace niwa {
+class LengthWeight;
+
 namespace agelengths {
 
 // classes
 class Data : public AgeLength {
 public:
   // methods
-  Data();
   explicit Data(Model* model);
   virtual                     ~Data() = default;
   void                        DoValidate() override final {};

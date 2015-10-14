@@ -13,6 +13,7 @@
 
 #include "MCMCs/MCMC.h"
 #include "MCMCs/Manager.h"
+
 // namespaces
 namespace niwa {
 namespace reports {
@@ -36,7 +37,7 @@ MCMCChain::~MCMCChain() noexcept(true) {
  *    Print out Chain after each iteration
  */
 void MCMCChain::DoExecute() {
-  MCMC* mcmc = mcmcs::Manager::Instance().active_mcmc();
+  MCMC* mcmc = model_->managers().mcmc()->active_mcmc();
   auto chain = mcmc->chain();
 
   if (chain.size() == 2) {

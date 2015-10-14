@@ -30,7 +30,7 @@ CategoryList::CategoryList(Model* model) : Report(model) {
 void CategoryList::DoExecute() {
   cache_ << "*category_list: " << label_ << "\n";
 
-  auto categories = Categories::Instance();
+  auto categories = model_->categories();
 
   vector<string> names = categories->category_names();
   for(string name : names) {

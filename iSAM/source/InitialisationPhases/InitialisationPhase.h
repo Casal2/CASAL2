@@ -18,9 +18,9 @@
 
 // Headers
 #include "BaseClasses/Object.h"
-#include "TimeSteps/TimeStep.h"
 
 namespace niwa {
+class Model;
 
 /**
  * Class Defintiion
@@ -28,7 +28,8 @@ namespace niwa {
 class InitialisationPhase : public niwa::base::Object {
 public:
   // Methods
-  InitialisationPhase();
+  InitialisationPhase() = delete;
+  explicit InitialisationPhase(Model* model);
   virtual                     ~InitialisationPhase() = default;
   void                        Validate();
   void                        Build() { DoBuild(); }
@@ -39,6 +40,9 @@ protected:
   // methods
   virtual void                DoValidate() = 0;
   virtual void                DoBuild() = 0;
+
+  // members
+  Model*                      model_;
 };
 } /* namespace niwa */
 #endif /* INITIALISATIONPHASE_H_ */

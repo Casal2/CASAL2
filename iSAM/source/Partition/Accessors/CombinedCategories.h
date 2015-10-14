@@ -47,7 +47,8 @@ public:
   typedef vector<vector<partition::Category*> > DataType;
 
   // Methods
-  CombinedCategories(const vector<string>& category_labels);
+  CombinedCategories() = delete;
+  CombinedCategories(Model* model, const vector<string>& category_labels);
   virtual                     ~CombinedCategories() = default;
   DataType::iterator          Begin();
   DataType::iterator          End();

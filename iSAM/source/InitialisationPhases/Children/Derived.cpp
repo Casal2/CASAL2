@@ -10,7 +10,7 @@
 namespace niwa {
 namespace initialisationphases {
 
-Derived::Derived() {
+Derived::Derived(Model* model) : InitialisationPhase(model) {
 }
 
 } /* namespace initialisationphases */

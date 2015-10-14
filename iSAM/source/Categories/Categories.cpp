@@ -37,22 +37,12 @@ namespace niwa {
  *
  * Note: The constructor is parsed to generate Latex for the documentation.
  */
-Categories::Categories() {
+Categories::Categories(Model* model) : model_(model) {
   parameters_.Bind<string>(PARAM_FORMAT, &format_, "The format that the category names should adhere too", "");
   parameters_.Bind<string>(PARAM_NAMES, &names_, "The names of the categories to be used in the model", "");
   parameters_.Bind<string>(PARAM_YEARS, &years_, "The years that individual categories will be active for. This overrides the model values", "", true);
   parameters_.Bind<string>(PARAM_AGES, &ages_, "The ages that individual categories support. This overrides the model values", "", true);
   parameters_.Bind<string>(PARAM_AGE_LENGTHS, &age_length_labels_, R"(The labels of age\_length objects that are assigned to categories)", "", true);
-}
-
-/**
- * Our singleton accessor method
- *
- * @return singleton shared ptr
- */
-Categories* Categories::Instance() {
-  static Categories categories;
-  return &categories;
 }
 
 /**
@@ -77,11 +67,9 @@ void Categories::Validate() {
    */
 
   // Parameter: Names
-  Model* model = Model::Instance();
-
   // build the default years
   vector<unsigned> default_years;
-  for (unsigned i = model->start_year(); i <= model->final_year(); ++i)
+  for (unsigned i = model_->start_year(); i <= model_->final_year(); ++i)
     default_years.push_back(i);
 
   // get the age sizes
@@ -100,8 +88,8 @@ void Categories::Validate() {
     // Create a new CategoryInfo object
     CategoryInfo new_category_info;
     new_category_info.name_     = names_[i];
-    new_category_info.min_age_  = model->min_age();
-    new_category_info.max_age_  = model->max_age();
+    new_category_info.min_age_  = model_->min_age();
+    new_category_info.max_age_  = model_->max_age();
     new_category_info.years_    = default_years;
     categories_[names_[i]] = new_category_info;
 
@@ -124,11 +112,11 @@ void Categories::Build() {
   /**
    * Get our age length objects
    */
-  agelengths::Manager& age_sizes_manager = agelengths::Manager::Instance();
+  agelengths::Manager* age_sizes_manager = model_->managers().age_length();
 
   auto iter = category_age_length_labels_.begin();
   for (; iter != category_age_length_labels_.end(); ++iter) {
-    AgeLength* age_size = age_sizes_manager.FindAgeLength(iter->second);
+    AgeLength* age_size = age_sizes_manager->FindAgeLength(iter->second);
     if (!age_size)
       LOG_ERROR_P(PARAM_AGE_LENGTHS) << "(" << iter->second << ") could not be found. Have you defined it?";
 
@@ -413,7 +401,7 @@ AgeLength* Categories::age_length(const string& category_name) {
   if (categories_.find(category_name) == categories_.end())
     LOG_CODE_ERROR() << "Could not find category_name: " << category_name << " in the list of loaded categories";
   if (!categories_[category_name].age_length_) {
-    categories_[category_name].age_length_ = new agelengths::None();
+    categories_[category_name].age_length_ = new agelengths::None(model_);
   }
 
   return categories_[category_name].age_length_;

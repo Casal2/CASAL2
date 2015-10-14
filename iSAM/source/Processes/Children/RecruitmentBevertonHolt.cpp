@@ -29,7 +29,9 @@ namespace dc = niwa::utilities::doublecompare;
 /**
  * default constructor
  */
-RecruitmentBevertonHolt::RecruitmentBevertonHolt() : Process(Model::Instance()) {
+RecruitmentBevertonHolt::RecruitmentBevertonHolt(Model* model)
+  : Process(model),
+    partition_(model) {
   LOG_TRACE();
 
   parameters_.Bind<string>(PARAM_CATEGORIES, &category_labels_, "Category labels", "");
@@ -58,14 +60,12 @@ RecruitmentBevertonHolt::RecruitmentBevertonHolt() : Process(Model::Instance()) 
  *
  */
 void RecruitmentBevertonHolt::DoValidate() {
-  model_ = Model::Instance();
-
   if (!parameters_.Get(PARAM_AGE)->has_been_defined())
     age_ = model_->min_age();
 
   // Ensure defined categories were valid
   for(const string& category : category_labels_) {
-    if (!Categories::Instance()->IsValid(category))
+    if (!model_->categories()->IsValid(category))
       LOG_ERROR_P(PARAM_CATEGORIES) << ": category " << category << " is not a valid category";
   }
 
@@ -92,11 +92,11 @@ void RecruitmentBevertonHolt::DoBuild() {
   partition_.Init(category_labels_);
 
   if (phase_b0_label_ != "")
-    phase_b0_         = initialisationphases::Manager::Instance().GetPhaseIndex(phase_b0_label_);
+    phase_b0_         = model_->managers().initialisation_phase()->GetPhaseIndex(phase_b0_label_);
 
   print_values_["b0_value"].resize(1);
 
-  derived_quantity_ = derivedquantities::Manager::Instance().GetDerivedQuantity(ssb_);
+  derived_quantity_ = model_->managers().derived_quantity()->GetDerivedQuantity(ssb_);
   if (!derived_quantity_)
     LOG_ERROR_P(PARAM_SSB) << "(" << ssb_ << ") could not be found. Have you defined it?";
 
@@ -104,10 +104,10 @@ void RecruitmentBevertonHolt::DoBuild() {
    * Calculate out SSB offset
    */
   if (!parameters_.Get(PARAM_SSB_OFFSET)->has_been_defined()) {
-    vector<ProcessType> process_types = timesteps::Manager::Instance().GetOrderedProcessTypes();
+    vector<ProcessType> process_types = model_->managers().time_step()->GetOrderedProcessTypes();
     unsigned ageing_index = std::numeric_limits<unsigned>::max();
     unsigned recruitment_index = std::numeric_limits<unsigned>::max();
-    unsigned derived_quantity_index = timesteps::Manager::Instance().GetTimeStepIndex(derived_quantity_->time_step());
+    unsigned derived_quantity_index = model_->managers().time_step()->GetTimeStepIndex(derived_quantity_->time_step());
 
     for (unsigned i = 0; i < process_types.size(); ++i) {
       if (process_types[i] == ProcessType::kAgeing) {
@@ -207,7 +207,7 @@ void RecruitmentBevertonHolt::DoExecute() {
     ycs_values_ = stand_ycs_values_;
 
   if (model_->state() == State::kInitialise) {
-    initialisationphases::Manager& init_phase_manager = initialisationphases::Manager::Instance();
+    initialisationphases::Manager& init_phase_manager = *model_->managers().initialisation_phase();
     if (init_phase_manager.last_executed_phase() <= phase_b0_) {
       amount_per = r0_;
 

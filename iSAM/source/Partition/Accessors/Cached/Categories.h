@@ -46,7 +46,8 @@ public:
   typedef vector<partition::Category> DataType;
 
   // Methods
-  Categories();
+  Categories() = delete;
+  explicit Categories(Model* model);
   virtual                     ~Categories() = default;
   void                        Init(const vector<string>& category_labels);
   void                        BuildCache();
@@ -56,8 +57,8 @@ public:
 
 private:
   // Members
-  vector<string>              category_labels_;
   Model*                      model_;
+  vector<string>              category_labels_;
   DataType                    data_;
 };
 

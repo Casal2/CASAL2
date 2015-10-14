@@ -23,7 +23,9 @@ namespace processes {
 /**
  * default constructor
  */
-MortalityEventBiomass::MortalityEventBiomass() : Process(Model::Instance()) {
+MortalityEventBiomass::MortalityEventBiomass(Model* model)
+  : Process(model),
+    partition_(model) {
   parameters_.Bind<string>(PARAM_CATEGORIES, &category_labels_, "Category labels", "");
   parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_labels_, "Selectivity labels", "");
   parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "Years to apply mortality", "");
@@ -34,7 +36,6 @@ MortalityEventBiomass::MortalityEventBiomass() : Process(Model::Instance()) {
   RegisterAsEstimable(PARAM_U_MAX, &u_max_);
   RegisterAsEstimable(PARAM_CATCHES, &catch_years_);
 
-  model_ = Model::Instance();
   process_type_ = ProcessType::kMortality;
   partition_structure_ = PartitionStructure::kAge;
 }
@@ -78,7 +79,7 @@ void MortalityEventBiomass::DoBuild() {
   partition_.Init(category_labels_);
 
   for (string label : selectivity_labels_) {
-    Selectivity* selectivity = selectivities::Manager::Instance().GetSelectivity(label);
+    Selectivity* selectivity = model_->managers().selectivity()->GetSelectivity(label);
     if (!selectivity)
       LOG_ERROR_P(PARAM_SELECTIVITIES) << ": selectivity " << label << " does not exist. Have you defined it?";
 
@@ -86,7 +87,7 @@ void MortalityEventBiomass::DoBuild() {
   }
 
   if (penalty_label_ != "") {
-    penalty_ = penalties::Manager::Instance().GetProcessPenalty(penalty_label_);
+    penalty_ = model_->managers().penalty()->GetProcessPenalty(penalty_label_);
     if (!penalty_) {
       LOG_ERROR_P(PARAM_PENALTY) << ": penalty " << penalty_label_ << " does not exist. Have you defined it?";
     }

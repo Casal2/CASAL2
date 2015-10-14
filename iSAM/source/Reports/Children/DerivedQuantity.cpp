@@ -55,7 +55,7 @@ void DerivedQuantity::DoExecute() {
   }
   */
 
-  derivedquantities::Manager& manager = derivedquantities::Manager::Instance();
+  derivedquantities::Manager& manager = *model_->managers().derived_quantity();
 
   auto derived_quantities = manager.objects();
 

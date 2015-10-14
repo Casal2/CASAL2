@@ -37,7 +37,7 @@ using utilities::OrderedMap;
 class RecruitmentConstant : public niwa::Process {
 public:
   // Methods
-  RecruitmentConstant();
+  explicit RecruitmentConstant(Model* model);
   virtual                     ~RecruitmentConstant() = default;
   void                        DoValidate() override final;
   void                        DoBuild() override final;

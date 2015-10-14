@@ -18,20 +18,21 @@
 
 // headers
 #include "BaseClasses/Executor.h"
-#include "Model/Model.h"
 #include "Partition/Accessors/Categories.h"
-#include "Selectivities/Selectivity.h"
 
 // namespaces
 namespace niwa {
-
 namespace accessor = niwa::partition::accessors;
+
+class Model;
+class Selectivity;
 
 // classes
 class DerivedQuantity : public niwa::base::Executor {
 public:
   // methods
-  DerivedQuantity();
+  DerivedQuantity() = delete;
+  explicit DerivedQuantity(Model* model);
   virtual                     ~DerivedQuantity() = default;
   void                        Validate();
   void                        Build();
@@ -47,15 +48,15 @@ public:
 
 protected:
   // Members
+  Model*                      model_;
   string                      time_step_label_ = "";
   unsigned                    current_initialisation_phase_ = 0;
-  vector<vector<Double> >     initialisation_values_;
+  vector<vector<Double>>      initialisation_values_;
   map<unsigned, Double>       values_;
   Double                      cache_value_;
   vector<string>              selectivity_labels_;
   vector<Selectivity*>        selectivities_;
   vector<string>              category_labels_;
-  Model*                      model_;
   accessor::Categories        partition_;
   string                      proportion_method_;
   Double                      time_step_proportion_;

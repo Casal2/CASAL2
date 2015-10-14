@@ -31,6 +31,8 @@ class Managers;
 class Objects;
 class Categories;
 class Factory;
+class Partition;
+class ObjectiveFunction;
 
 namespace State {
 enum Type {
@@ -72,6 +74,7 @@ public:
   void                        FullIteration();
   void                        Subscribe(State::Type state, Executor* executor) { executors_[state].push_back(executor); }
 
+
   // Accessors
   RunMode::Type               run_mode() const { return run_mode_; }
   State::Type                 state() const { return state_; }
@@ -96,6 +99,8 @@ public:
   GlobalConfiguration&        global_configuration() { return *global_configuration_; }
   virtual Categories*         categories() { return categories_; }
   virtual Factory&            factory();
+  virtual Partition&          partition();
+  virtual ObjectiveFunction&  objective_function();
 
 protected:
   // Methods
@@ -135,6 +140,8 @@ protected:
   GlobalConfiguration*        global_configuration_;
   Categories*                 categories_;
   Factory*                    factory_;
+  Partition*                  partition_;
+  ObjectiveFunction*          objective_function_;
 };
 
 } /* namespace niwa */

@@ -18,6 +18,8 @@
 
 // namespaces
 namespace niwa {
+class Model;
+
 namespace simulates {
 
 /**
@@ -26,7 +28,7 @@ namespace simulates {
 class Factory {
 public:
   // methods
-  static Simulate* Create(const string& object_type, const string& sub_type);
+  static Simulate* Create(Model* model, const string& object_type, const string& sub_type);
 
 private:
   // methods

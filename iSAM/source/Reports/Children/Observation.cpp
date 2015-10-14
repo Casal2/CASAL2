@@ -11,6 +11,7 @@
 // headers
 #include "Observation.h"
 #include "Observations/Manager.h"
+#include "Observations/Observation.h"
 
 // namespaces
 namespace niwa {
@@ -35,9 +36,9 @@ Observation::Observation(Model* model) : Report(model) {
 void Observation::DoBuild() {
   LOG_TRACE();
 
-  observation_ = observations::Manager::Instance().GetObservation(observation_label_);
+  observation_ = model_->managers().observation()->GetObservation(observation_label_);
   if (!observation_) {
-    auto observations = observations::Manager::Instance().objects();
+    auto observations = model_->managers().observation()->objects();
     for (auto observation : observations)
       cout << observation->label() << endl;
     LOG_ERROR_P(PARAM_OBSERVATION) << " (" << observation_label_ << ") could not be found. Have you defined it?";

@@ -34,11 +34,11 @@ InitialisationPhase* Factory::Create(Model* model, const string& object_type, co
 
   if (object_type == PARAM_INITIALISATION_PHASE) {
     if (sub_type == PARAM_DERIVED)
-      result = new Derived();
+      result = new Derived(model);
     else if (sub_type == "" || sub_type == PARAM_ITERATIVE)
-      result = new Iterative();
+      result = new Iterative(model);
     else if (sub_type == PARAM_STATE_CATEGORY_BY_AGE)
-      result = new StateCategoryByAge();
+      result = new StateCategoryByAge(model);
 
     if (result)
       model->managers().initialisation_phase()->AddObject(result);

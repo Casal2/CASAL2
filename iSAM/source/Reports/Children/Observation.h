@@ -15,10 +15,11 @@
 
 // headers
 #include "Reports/Report.h"
-#include "Observations/Observation.h"
 
 // namespaces
 namespace niwa {
+class Observation;
+
 namespace reports {
 
 /**

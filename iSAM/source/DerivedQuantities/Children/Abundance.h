@@ -26,7 +26,7 @@ namespace derivedquantities {
 class Abundance : public niwa::DerivedQuantity {
 public:
   // methods
-  Abundance() = default;
+  explicit Abundance(Model* model) : DerivedQuantity(model) { }
   virtual                     ~Abundance() = default;
   void                        PreExecute() override final;
   void                        Execute() override final;

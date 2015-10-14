@@ -25,7 +25,7 @@ namespace niwa {
 /**
  * Default Constructor
  */
-TimeStep::TimeStep() {
+TimeStep::TimeStep(Model* model) : model_(model) {
   LOG_TRACE();
 
   parameters_.Bind<string>(PARAM_LABEL, &label_, "Label", "");
@@ -45,7 +45,7 @@ void TimeStep::Validate() {
 void TimeStep::Build() {
 
   // Get the pointers to our processes
-  processes::Manager& process_manager = processes::Manager::Instance();
+  processes::Manager& process_manager = *model_->managers().process();
   for (string process_name : process_names_) {
     Process* process = process_manager.GetProcess(process_name);
     if (!process)
@@ -187,7 +187,7 @@ void TimeStep::BuildInitialisationProcesses() {
   LOG_TRACE();
   for (auto iter : initialisation_process_labels_) {
     for (string process_label : iter.second) {
-      auto process = processes::Manager::Instance().GetProcess(process_label);
+      auto process = model_->managers().process()->GetProcess(process_label);
       if (!process)
         return;
       initialisation_processes_[iter.first].push_back(process);

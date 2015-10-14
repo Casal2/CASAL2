@@ -27,7 +27,7 @@ namespace observations {
 class ProcessAbundance : public observations::Abundance {
 public:
   // methods
-  ProcessAbundance();
+  explicit ProcessAbundance(Model* model);
   virtual                     ~ProcessAbundance() = default;
   void                        DoBuild() override final;
 

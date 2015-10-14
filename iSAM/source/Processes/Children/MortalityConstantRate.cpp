@@ -17,7 +17,8 @@
 
 #include "Categories/Categories.h"
 #include "Selectivities/Manager.h"
-#include "Logging/Logging.h"
+#include "Selectivities/Selectivity.h"
+#include "TimeSteps/Manager.h"
 
 // Namespaces
 namespace niwa {
@@ -26,13 +27,10 @@ namespace processes {
 /**
  * Default Constructor
  */
-MortalityConstantRate::MortalityConstantRate()
-  : Process(Model::Instance()),
-    time_steps_manager_(timesteps::Manager::Instance()) {
-
+MortalityConstantRate::MortalityConstantRate(Model* model)
+  : Process(model),
+    partition_(model) {
   LOG_TRACE();
-
-  model_ = Model::Instance();
   process_type_ = ProcessType::kMortality;
   partition_structure_ = PartitionStructure::kAge;
 
@@ -80,7 +78,7 @@ void MortalityConstantRate::DoValidate() {
 
   // Check categories are real
   for (const string& label : category_names_) {
-    if (!Categories::Instance()->IsValid(label))
+    if (!model_->categories()->IsValid(label))
       LOG_ERROR_P(PARAM_CATEGORIES) << ": category " << label << " does not exist. Have you defined it?";
   }
 }
@@ -95,7 +93,7 @@ void MortalityConstantRate::DoBuild() {
   partition_.Init(category_names_);
 
   for (string label : selectivity_names_) {
-    Selectivity* selectivity = selectivities::Manager::Instance().GetSelectivity(label);
+    Selectivity* selectivity = model_->managers().selectivity()->GetSelectivity(label);
     if (!selectivity)
       LOG_ERROR_P(PARAM_SELECTIVITIES) << ": selectivity " << label << " does not exist. Have you defined it?";
 
@@ -107,7 +105,7 @@ void MortalityConstantRate::DoBuild() {
    * apply a different ratio of M so here we want to verify
    * we have enough and re-scale them to 1.0
    */
-  vector<TimeStep*> time_steps = time_steps_manager_.ordered_time_steps();
+  vector<TimeStep*> time_steps = model_->managers().time_step()->ordered_time_steps();
   LOG_FINEST() << "time_steps.size(): " << time_steps.size();
   vector<unsigned> active_time_steps;
   for (unsigned i = 0; i < time_steps.size(); ++i) {
@@ -140,7 +138,7 @@ void MortalityConstantRate::DoExecute() {
   LOG_FINEST() << "year: " << model_->current_year();
 
   // get the ratio to apply first
-  unsigned time_step = time_steps_manager_.current_time_step();
+  unsigned time_step = model_->managers().time_step()->current_time_step();
 
   LOG_FINEST() << "Ratios.size() " << time_step_ratios_.size() << " : time_step: " << time_step << "; ratio: " << time_step_ratios_[time_step];
   Double ratio = time_step_ratios_[time_step];

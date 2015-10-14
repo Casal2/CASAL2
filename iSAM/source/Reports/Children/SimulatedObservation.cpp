@@ -12,6 +12,7 @@
 #include "SimulatedObservation.h"
 
 #include "Observations/Manager.h"
+#include "Observations/Observation.h"
 
 // namespaces
 namespace niwa {
@@ -32,7 +33,7 @@ SimulatedObservation::SimulatedObservation(Model* model) : Report(model) {
  * build method
  */
 void SimulatedObservation::DoBuild() {
-  observation_ = observations::Manager::Instance().GetObservation(observation_label_);
+  observation_ = model_->managers().observation()->GetObservation(observation_label_);
   if (!observation_)
     LOG_ERROR_P(PARAM_OBSERVATION) << "(" << observation_label_ << ") could not be found. Have you defined it?";
 }

@@ -75,7 +75,7 @@ base::Object* Factory::CreateObject(string& object_type, string& sub_type) {
   else if (object_type == PARAM_CATCHABILITY)
     return catchabilities::Factory::Create(model_, object_type, sub_type);
   else if (object_type == PARAM_CATEGORIES)
-    return Categories::Instance();
+    return model_->categories();
   else if (object_type == PARAM_DERIVED_QUANTITY || object_type == PARAM_DERIVED_QUANTITIES)
     return derivedquantities::Factory::Create(model_, object_type, sub_type);
   else if (object_type == PARAM_ESTIMATE)

@@ -22,7 +22,6 @@
 // namespaces
 namespace niwa {
 namespace initialisationphases {
-
 namespace accessor = niwa::partition::accessors;
 
 /**
@@ -31,7 +30,7 @@ namespace accessor = niwa::partition::accessors;
 class StateCategoryByAge : public niwa::InitialisationPhase {
 public:
   // methods
-  StateCategoryByAge();
+  explicit StateCategoryByAge(Model* model);
   virtual                     ~StateCategoryByAge() = default;
   virtual void                Execute() override final;
 

@@ -15,11 +15,8 @@
 #define ESTIMATE_MANAGER_H_
 
 // headers
-#include <boost/enable_shared_from_this.hpp>
-
 #include "BaseClasses/Manager.h"
 #include "Estimates/Estimate.h"
-#include "Estimates/Info.h"
 #include "Estimates/Creators/Creator.h"
 #include "Utilities/Map.h"
 

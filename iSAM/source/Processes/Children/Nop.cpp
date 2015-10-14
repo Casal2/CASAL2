@@ -22,7 +22,7 @@ namespace processes {
 /**
  * Empty constructor
  */
-Nop::Nop() : Process(Model::Instance()) {
+Nop::Nop(Model* model) : Process(model) {
   process_type_ = ProcessType::kAgeing;
   partition_structure_ = PartitionStructure::kAny;
 }

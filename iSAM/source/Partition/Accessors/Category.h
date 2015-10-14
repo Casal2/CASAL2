@@ -45,7 +45,8 @@ public:
   typedef vector<Double>* DataType;
 
   // Methods
-  Category(const string& category_name);
+  Category() = delete;
+  Category(Model* model, const string& category_name);
   virtual                     ~Category() = default;
 //  DataType::iterator          begin();
 //  DataType::iterator          end();

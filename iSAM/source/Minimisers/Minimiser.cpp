@@ -24,6 +24,7 @@
 
 #include "Estimates/Manager.h"
 #include "Logging/Logging.h"
+#include "Model/Model.h"
 #include "Utilities/DoubleCompare.h"
 
 // Namespaces
@@ -35,7 +36,7 @@ namespace ublas = boost::numeric::ublas;
 /**
  * Default constructor
  */
-Minimiser::Minimiser() {
+Minimiser::Minimiser(Model* model) : model_(model) {
   parameters_.Bind<string>(PARAM_LABEL, &label_, "Label", "");
   parameters_.Bind<string>(PARAM_TYPE, &type_, "Type of minimiser to use", "");
   parameters_.Bind<bool>(PARAM_ACTIVE, &active_, "True if this minimiser is active", "", false);
@@ -72,7 +73,7 @@ void Minimiser::Validate() {
 void Minimiser::Build() {
   LOG_TRACE();
 
-  hessian_size_ = estimates::Manager::Instance().GetEnabledCount();
+  hessian_size_ = model_->managers().estimate()->GetEnabledCount();
 
   hessian_ = new double*[hessian_size_];
   for (unsigned i = 0; i < hessian_size_; ++i) {

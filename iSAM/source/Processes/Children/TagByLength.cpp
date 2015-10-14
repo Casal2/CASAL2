@@ -24,7 +24,10 @@ namespace processes {
 /**
  *
  */
-TagByLength::TagByLength() : Process(Model::Instance()) {
+TagByLength::TagByLength(Model* model)
+  : Process(model),
+    to_partition_(model),
+    from_partition_(model) {
   process_type_ = ProcessType::kTransition;
   partition_structure_ = PartitionStructure::kAge;
 
@@ -43,8 +46,6 @@ TagByLength::TagByLength() : Process(Model::Instance()) {
   parameters_.Bind<Double>(PARAM_N, &n_, "", "", true);
   parameters_.BindTable(PARAM_NUMBERS, numbers_table_, "Table of N data", "", true, true);
   parameters_.BindTable(PARAM_PROPORTIONS, proportions_table_, "Table of proportions to move", "" , true, true);
-
-  model_ = Model::Instance();
 }
 
 /**
@@ -64,7 +65,7 @@ void TagByLength::DoValidate() {
 
   unsigned age_spread = (max_age_ - min_age_) + 1;
 
-  auto categories = niwa::Categories::Instance();
+  auto categories = model_->categories();
   from_category_labels_ = categories->ExpandLabels(from_category_labels_, parameters_.Get(PARAM_FROM));
   to_category_labels_   = categories->ExpandLabels(to_category_labels_, parameters_.Get(PARAM_TO));
 
@@ -200,11 +201,11 @@ void TagByLength::DoBuild() {
   to_partition_.Init(to_category_labels_);
 
   if (penalty_label_ != "")
-    penalty_ = penalties::Manager::Instance().GetPenalty(penalty_label_);
+    penalty_ = model_->managers().penalty()->GetPenalty(penalty_label_);
   else
     LOG_WARNING() << location() << " no penalty has been specified. Exploitation above u_max will not affect the objective function";
 
-  selectivities::Manager& selectivity_manager = selectivities::Manager::Instance();
+  selectivities::Manager& selectivity_manager = *model_->managers().selectivity();
   for (unsigned i = 0; i < selectivity_labels_.size(); ++i) {
     Selectivity* selectivity = selectivity_manager.GetSelectivity(selectivity_labels_[i]);
     if (!selectivity)

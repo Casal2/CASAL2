@@ -32,7 +32,7 @@ namespace accessor = niwa::partition::accessors;
 class TagByAge : public niwa::Process {
 public:
   // methods
-  TagByAge();
+  explicit TagByAge(Model* model);
   virtual                     ~TagByAge() = default;
   void                        DoValidate() override final;
   void                        DoBuild() override final;
@@ -41,7 +41,6 @@ public:
 
 private:
   // members
-  Model*                        model_;
   vector<string>                from_category_labels_;
   vector<string>                to_category_labels_;
   accessor::Categories          to_partition_;

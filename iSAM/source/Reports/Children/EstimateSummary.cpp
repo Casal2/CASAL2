@@ -40,7 +40,7 @@ void EstimateSummary::DoExecute() {
 
 
   // Print the estimates
-  niwa::estimates::Manager& estimate_manager = niwa::estimates::Manager::Instance();
+  niwa::estimates::Manager& estimate_manager = *model_->managers().estimate();
   vector<Estimate*> estimates = estimate_manager.objects();
 
   /*

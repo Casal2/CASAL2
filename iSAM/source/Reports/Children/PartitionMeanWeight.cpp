@@ -39,7 +39,7 @@ PartitionMeanWeight::PartitionMeanWeight(Model* model) : Report(model) {
 void PartitionMeanWeight::DoExecute() {
 
 //  auto categories = Categories::Instance();
-  niwa::partition::accessors::All all_view;
+  niwa::partition::accessors::All all_view(model_);
 
   /*
   cache_ << "*" << this->label() << "\n";
@@ -83,7 +83,7 @@ void PartitionMeanWeight::DoExecute() {
     cache_ << category << " " << REPORT_R_LIST << "\n";
 
     cache_ << "mean_weights " << REPORT_R_LIST << "\n";
-    unsigned year = Model::Instance()->current_year();
+    unsigned year = model_->current_year();
     cache_ << year << ": ";
 
     for (unsigned age = (*iterator)->min_age_; age <= (*iterator)->max_age_; ++age)

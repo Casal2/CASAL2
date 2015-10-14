@@ -27,7 +27,7 @@ namespace observations {
 /**
  * Default constructor
  */
-ProportionsAtAgeForFishery::ProportionsAtAgeForFishery() {
+ProportionsAtAgeForFishery::ProportionsAtAgeForFishery(Model* model) : Observation(model) {
   parameters_.Bind<unsigned>(PARAM_MIN_AGE, &min_age_, "Minimum age", "");
   parameters_.Bind<unsigned>(PARAM_MAX_AGE, &max_age_, "Maximum age", "");
   parameters_.Bind<bool>(PARAM_AGE_PLUS, &age_plus_, "Use age plus group", "", true);
@@ -52,11 +52,10 @@ void ProportionsAtAgeForFishery::DoValidate() {
   /**
    * Do some simple checks
    */
-  Model* model = Model::Instance();
-  if (min_age_ < model->min_age())
-    LOG_ERROR_P(PARAM_MIN_AGE) << ": min_age (" << min_age_ << ") is less than the model's min_age (" << model->min_age() << ")";
-  if (max_age_ > model->max_age())
-    LOG_ERROR_P(PARAM_MAX_AGE) << ": max_age (" << max_age_ << ") is greater than the model's max_age (" << model->max_age() << ")";
+  if (min_age_ < model_->min_age())
+    LOG_ERROR_P(PARAM_MIN_AGE) << ": min_age (" << min_age_ << ") is less than the model's min_age (" << model_->min_age() << ")";
+  if (max_age_ > model_->max_age())
+    LOG_ERROR_P(PARAM_MAX_AGE) << ": max_age (" << max_age_ << ") is greater than the model's max_age (" << model_->max_age() << ")";
   if (process_error_values_.size() != 0 && process_error_values_.size() != years_.size()) {
     LOG_ERROR_P(PARAM_PROCESS_ERRORS) << " number of values provied (" << process_error_values_.size() << ") does not match the number of years provided ("
         << years_.size() << ")";
@@ -187,12 +186,12 @@ void ProportionsAtAgeForFishery::DoValidate() {
  * the labels for other objects are valid.
  */
 void ProportionsAtAgeForFishery::DoBuild() {
-  partition_ = CombinedCategoriesPtr(new niwa::partition::accessors::CombinedCategories(category_labels_));
-  cached_partition_ = CachedCombinedCategoriesPtr(new niwa::partition::accessors::cached::CombinedCategories(category_labels_));
+  partition_ = CombinedCategoriesPtr(new niwa::partition::accessors::CombinedCategories(model_, category_labels_));
+  cached_partition_ = CachedCombinedCategoriesPtr(new niwa::partition::accessors::cached::CombinedCategories(model_, category_labels_));
 
   // Create a pointer to misclassification matrix
     if( ageing_error_label_ != "") {
-    ageing_error_ = ageingerrors::Manager::Instance().GetAgeingError(ageing_error_label_);
+    ageing_error_ = model_->managers().ageing_error()->GetAgeingError(ageing_error_label_);
     if (!ageing_error_)
       LOG_ERROR_P(PARAM_AGEING_ERROR) << "(" << ageing_error_label_ << ") could not be found. Have you defined it?";
     }
@@ -209,13 +208,11 @@ void ProportionsAtAgeForFishery::DoBuild() {
  * structure to use with any interpolation
  */
 void ProportionsAtAgeForFishery::PreExecute() {
-  Model* model = Model::Instance();
-
   cached_partition_->BuildCache();
 
-  if (cached_partition_->Size() != proportions_[model->current_year()].size())
+  if (cached_partition_->Size() != proportions_[model_->current_year()].size())
     LOG_CODE_ERROR() << "cached_partition_->Size() != proportions_[model->current_year()].size()";
-  if (partition_->Size() != proportions_[model->current_year()].size())
+  if (partition_->Size() != proportions_[model_->current_year()].size())
     LOG_CODE_ERROR() << "partition_->Size() != proportions_[model->current_year()].size()";
 }
 
@@ -228,7 +225,6 @@ void ProportionsAtAgeForFishery::Execute() {
   /**
    * Verify our cached partition and partition sizes are correct
    */
-  Model* model = Model::Instance();
   auto cached_partition_iter  = cached_partition_->Begin();
   auto partition_iter         = partition_->Begin(); // vector<vector<partition::Category> >
 
@@ -244,9 +240,8 @@ void ProportionsAtAgeForFishery::Execute() {
     Double      end_value          = 0.0;
     Double      final_value        = 0.0;
 
-
     vector<Double> expected_values(age_spread_, 0.0);
-    unsigned spread = model->max_age() - model->min_age() + 1;
+    unsigned spread = model_->max_age() - model_->min_age() + 1;
     vector<Double> numbers_age(spread, 0.0);
 
     /**
@@ -306,7 +301,7 @@ void ProportionsAtAgeForFishery::Execute() {
     LOG_FINEST()<< "number of bins " << numbers_age.size() << " and expected " << expected_values.size() << " Last element " << age_spread_ - 1;
     for (unsigned k = 0; k < numbers_age.size(); ++k) {
       // this is the difference between the
-      unsigned age_offset = min_age_ - model->min_age();
+      unsigned age_offset = min_age_ - model_->min_age();
       if (k >= age_offset && k <= (max_age_ + 1 - age_offset)) {
         expected_values[k - age_offset] = numbers_age[k];
         LOG_FINEST()<< expected_values[k - age_offset];
@@ -318,9 +313,9 @@ void ProportionsAtAgeForFishery::Execute() {
     LOG_FINEST() << expected_values[age_spread_ - 1];
 
 
-    if (expected_values.size() != proportions_[model->current_year()][category_labels_[category_offset]].size())
+    if (expected_values.size() != proportions_[model_->current_year()][category_labels_[category_offset]].size())
       LOG_CODE_ERROR() << "expected_values.size(" << expected_values.size() << ") != proportions_[category_offset].size("
-        << proportions_[model->current_year()][category_labels_[category_offset]].size() << ")";
+        << proportions_[model_->current_year()][category_labels_[category_offset]].size() << ")";
 
     /**
      * save our comparisons so we can use them to generate the score from the likelihoods later
@@ -328,8 +323,8 @@ void ProportionsAtAgeForFishery::Execute() {
 
     for (unsigned i = 0; i < expected_values.size(); ++i) {
       LOG_FINEST() << " Numbers at age after ageing error " << min_age_ + i << " = " << expected_values[i];
-      SaveComparison(category_labels_[category_offset], min_age_ + i ,0.0 ,expected_values[i], proportions_[model->current_year()][category_labels_[category_offset]][i],
-          process_errors_by_year_[model->current_year()], error_values_[model->current_year()][category_labels_[category_offset]][i], delta_, 0.0);
+      SaveComparison(category_labels_[category_offset], min_age_ + i ,0.0 ,expected_values[i], proportions_[model_->current_year()][category_labels_[category_offset]][i],
+          process_errors_by_year_[model_->current_year()], error_values_[model_->current_year()][category_labels_[category_offset]][i], delta_, 0.0);
     }
   }
 

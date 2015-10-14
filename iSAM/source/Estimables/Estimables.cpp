@@ -80,7 +80,7 @@ void Estimables::LoadValues(unsigned index) {
      * Verify that we're only using @estimate parameters if this has been defined
      */
     if (model_->global_configuration().get_force_estimable_values_file()) {
-      vector<Estimate*> estimates = estimates::Manager::Instance().GetEnabled();
+      vector<Estimate*> estimates = model_->managers().estimate()->GetEnabled();
       for (auto estimate : estimates) {
         if (estimable_values_.find(estimate->parameter()) == estimable_values_.end())
           LOG_FATAL() << "The estimate " << estimate->parameter() << " has not been defined in the input file, even though force-estimates has been enabled";

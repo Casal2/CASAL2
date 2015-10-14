@@ -23,7 +23,10 @@ namespace processes {
 /**
  * Default Constructor
  */
-MaturationRate::MaturationRate() : Process(Model::Instance()){
+MaturationRate::MaturationRate(Model* model)
+  : Process(model),
+    from_partition_(model),
+    to_partition_(model) {
   LOG_TRACE();
 
   parameters_.Bind<string>(PARAM_FROM, &from_category_names_, "From", "");
@@ -56,7 +59,7 @@ void MaturationRate::DoValidate() {
     selectivity_names_.assign(from_category_names_.size(), selectivity_names_[0]);
 
   // Validate Categories
-  niwa::Categories* categories = niwa::Categories::Instance();
+  niwa::Categories* categories = model_->categories();
   from_category_names_ = categories->ExpandLabels(from_category_names_, parameters_.Get(PARAM_FROM));
   to_category_names_   = categories->ExpandLabels(to_category_names_, parameters_.Get(PARAM_TO));
 
@@ -126,7 +129,7 @@ void MaturationRate::DoBuild() {
   to_partition_.Init(to_category_names_);
 
   for(string label : selectivity_names_) {
-    Selectivity* selectivity = selectivities::Manager::Instance().GetSelectivity(label);
+    Selectivity* selectivity = model_->managers().selectivity()->GetSelectivity(label);
     if (!selectivity)
       LOG_ERROR_P(PARAM_SELECTIVITIES) << ": Selectivity " << label << " does not exist. Have you defined it?";
     selectivities_.push_back(selectivity);

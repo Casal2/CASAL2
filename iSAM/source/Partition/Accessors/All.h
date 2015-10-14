@@ -30,9 +30,10 @@
 
 // Namespaces
 namespace niwa {
+class Model;
+
 namespace partition {
 namespace accessors {
-
 using std::map;
 using std::vector;
 using std::pair;
@@ -48,7 +49,8 @@ public:
   typedef vector<partition::Category*> DataType;
 
   // Methods
-  All();
+  All() = delete;
+  explicit All(Model* model);
   virtual                     ~All() = default;
   DataType::iterator          Begin();
   DataType::iterator          End();
@@ -56,6 +58,7 @@ public:
 
 private:
   // Members
+  Model*                      model_;
   All::DataType               data_;
 };
 

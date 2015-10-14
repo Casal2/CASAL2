@@ -25,8 +25,8 @@ namespace partition {
  * data from the age data.
  */
 void Category::UpdateMeanLengthData() {
-  Categories* categories = Categories::Instance();
-  unsigned year = Model::Instance()->current_year();
+  Categories* categories = model_->categories();
+  unsigned year = model_->current_year();
 
   AgeLength* age_length = categories->age_length(name_);
   age_length->BuildCV(year);
@@ -41,8 +41,8 @@ void Category::UpdateMeanLengthData() {
  */
 
 void Category::UpdateMeanWeightData() {
-  Categories* categories = Categories::Instance();
-  unsigned year = Model::Instance()->current_year();
+  Categories* categories = model_->categories();
+  unsigned year = model_->current_year();
 
   AgeLength* age_length = categories->age_length(name_);
   age_length->BuildCV(year);
@@ -76,8 +76,8 @@ void Category::CollapseAgeLengthData() {
 void Category::UpdateAgeLengthData(const vector<Double>& length_bins, bool plus_grp, Selectivity* selectivity) {
   LOG_TRACE();
 
-  Categories* categories = Categories::Instance();
-  unsigned year = Model::Instance()->current_year();
+  Categories* categories = model_->categories();
+  unsigned year = model_->current_year();
   AgeLength* age_length = categories->age_length(name_);
   if (!age_length)
     LOG_CODE_ERROR() << "if (!age_length) for category " << name_;

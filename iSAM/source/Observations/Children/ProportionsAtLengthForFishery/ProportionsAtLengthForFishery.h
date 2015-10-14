@@ -37,7 +37,7 @@ using processes::MortalityInstantaneous;
 class ProportionsAtLengthForFishery : public niwa::Observation {
 public:
   // Methods
-  ProportionsAtLengthForFishery();
+  explicit ProportionsAtLengthForFishery(Model* model);
   virtual                     ~ProportionsAtLengthForFishery() = default;
   void                        DoValidate() override final;
   virtual void                DoBuild() override;

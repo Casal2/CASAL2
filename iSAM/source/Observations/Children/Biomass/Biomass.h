@@ -33,7 +33,7 @@ using partition::accessors::cached::CachedCombinedCategoriesPtr;
 class Biomass : public niwa::Observation {
 public:
   // methods
-  Biomass();
+  Biomass(Model* model);
   virtual                     ~Biomass() = default;
   void                        DoValidate() override final;
   virtual void                DoBuild() override;

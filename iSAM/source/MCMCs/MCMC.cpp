@@ -28,7 +28,7 @@ namespace dc = niwa::utilities::doublecompare;
 /**
  * Constructor
  */
-MCMC::MCMC() {
+MCMC::MCMC(Model* model) : model_(model) {
   parameters_.Bind<string>(PARAM_LABEL, &label_, "Label", "");
   parameters_.Bind<string>(PARAM_TYPE, &type_, "Type", "", "");
   parameters_.Bind<Double>(PARAM_START, &start_, "Covariance multiplier for the starting point of the Markov chain", "", 0.0);
@@ -98,11 +98,11 @@ void MCMC::Validate() {
 
 void MCMC::Build() {
 
-  minimiser_ = minimisers::Manager::Instance().active_minimiser();
+  minimiser_ = model_->managers().minimiser()->active_minimiser();
 
   unsigned active_estimates = 0;
 
-  vector<Estimate*> estimates = estimates::Manager::Instance().GetEnabled();
+  vector<Estimate*> estimates = model_->managers().estimate()->GetEnabled();
   estimate_count_ = estimates.size();
   for (Estimate* estimate : estimates) {
     estimate_labels_.push_back(estimate->label());
@@ -151,7 +151,7 @@ void MCMC::BuildCovarianceMatrix() {
    * Adjust any non-zero variances less than min_diff_ * difference between bounds
    */
   vector<Double> difference_bounds;
-  vector<Estimate*> estimates = estimates::Manager::Instance().GetEnabled();
+  vector<Estimate*> estimates = model_->managers().estimate()->GetEnabled();
   for (Estimate* estimate : estimates) {
     difference_bounds.push_back( estimate->upper_bound() - estimate->lower_bound() );
   }
@@ -233,7 +233,7 @@ bool MCMC::DoCholeskyDecmposition() {
  */
 void MCMC::GenerateRandomStart() {
   vector<Double> original_candidates = candidates_;
-  vector<Estimate*> estimates = estimates::Manager::Instance().GetEnabled();
+  vector<Estimate*> estimates = model_->managers().estimate()->GetEnabled();
 
   unsigned attempts = 0;
   bool candidates_pass = false;
@@ -347,7 +347,7 @@ void MCMC::GenerateNewCandidates() {
       FillMultivariateT(step_size_);
 
     // Check bounds and regenerate if they're not within bounds
-    vector<Estimate*> estimates = estimates::Manager::Instance().GetEnabled();
+    vector<Estimate*> estimates = model_->managers().estimate()->GetEnabled();
     for (unsigned i = 0; i < estimates.size(); ++i) {
       if (estimates[i]->lower_bound() > candidates_[i] || estimates[i]->upper_bound() < candidates_[i]) {
         candidates_ok = false;

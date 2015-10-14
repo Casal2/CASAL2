@@ -30,7 +30,7 @@ namespace accessor = niwa::partition::accessors;
 class RecruitmentBevertonHolt : public niwa::Process {
 public:
   // methods
-  RecruitmentBevertonHolt();
+  RecruitmentBevertonHolt(Model* model);
   virtual                     ~RecruitmentBevertonHolt() = default;
   void                        DoValidate() override final;
   void                        DoBuild() override final;
@@ -39,7 +39,6 @@ public:
 
 private:
   // members
-  Model*                    model_;
   accessor::Categories        partition_;
   vector<string>              category_labels_;
   Double                      r0_ = 0.0;

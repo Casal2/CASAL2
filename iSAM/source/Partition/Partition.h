@@ -28,6 +28,7 @@
 
 // Namespaces
 namespace niwa {
+class Model;
 
 using std::string;
 using std::map;
@@ -37,10 +38,11 @@ using std::vector;
  * Class Definition
  */
 class Partition {
+  friend class Model;
 public:
   // Methods
   virtual                     ~Partition() = default;
-  static Partition&           Instance();
+//  static Partition&           Instance();
   void                        Validate();
   void                        Build();
   void                        Reset();
@@ -51,9 +53,10 @@ public:
 
 private:
   // Methods
-  Partition() = default;
+  Partition(Model* model) : model_(model) { };
 
   // Members
+  Model*                      model_;
   map<string, partition::Category*> partition_; // map<category label, partition::Category Struct>
 };
 

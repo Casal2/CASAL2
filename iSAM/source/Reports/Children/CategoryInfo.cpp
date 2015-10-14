@@ -33,7 +33,7 @@ CategoryInfo::CategoryInfo(Model* model) : Report(model) {
 void CategoryInfo::DoExecute() {
 
 
-  auto categories = Categories::Instance();
+  auto categories = model_->categories();
   vector<string> names = categories->category_names();
   /*
   cache_ << "*category_info: " << label_ << "\n";

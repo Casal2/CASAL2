@@ -31,7 +31,7 @@ namespace observations {
 /**
  * Default constructor
  */
-ProportionsAtAge::ProportionsAtAge() {
+ProportionsAtAge::ProportionsAtAge(Model* model) : Observation(model) {
   parameters_.Bind<unsigned>(PARAM_MIN_AGE, &min_age_, "Minimum age", "");
   parameters_.Bind<unsigned>(PARAM_MAX_AGE, &max_age_, "Maximum age", "");
   parameters_.Bind<bool>(PARAM_AGE_PLUS, &age_plus_, "Use age plus group", "", true);
@@ -55,11 +55,10 @@ void ProportionsAtAge::DoValidate() {
   /**
    * Do some simple checks
    */
-  Model* model = Model::Instance();
-  if (min_age_ < model->min_age())
-    LOG_ERROR_P(PARAM_MIN_AGE) << ": min_age (" << min_age_ << ") is less than the model's min_age (" << model->min_age() << ")";
-  if (max_age_ > model->max_age())
-    LOG_ERROR_P(PARAM_MAX_AGE) << ": max_age (" << max_age_ << ") is greater than the model's max_age (" << model->max_age() << ")";
+  if (min_age_ < model_->min_age())
+    LOG_ERROR_P(PARAM_MIN_AGE) << ": min_age (" << min_age_ << ") is less than the model's min_age (" << model_->min_age() << ")";
+  if (max_age_ > model_->max_age())
+    LOG_ERROR_P(PARAM_MAX_AGE) << ": max_age (" << max_age_ << ") is greater than the model's max_age (" << model_->max_age() << ")";
   if (process_error_values_.size() != 0 && process_error_values_.size() != years_.size()) {
     LOG_ERROR_P(PARAM_PROCESS_ERRORS) << " number of values provied (" << process_error_values_.size() << ") does not match the number of years provided ("
         << years_.size() << ")";
@@ -188,12 +187,12 @@ void ProportionsAtAge::DoValidate() {
  * the labels for other objects are valid.
  */
 void ProportionsAtAge::DoBuild() {
-  partition_ = CombinedCategoriesPtr(new niwa::partition::accessors::CombinedCategories(category_labels_));
-  cached_partition_ = CachedCombinedCategoriesPtr(new niwa::partition::accessors::cached::CombinedCategories(category_labels_));
+  partition_ = CombinedCategoriesPtr(new niwa::partition::accessors::CombinedCategories(model_, category_labels_));
+  cached_partition_ = CachedCombinedCategoriesPtr(new niwa::partition::accessors::cached::CombinedCategories(model_, category_labels_));
 
 // Create a pointer to misclassification matrix
   if( ageing_error_label_ != "") {
-  ageing_error_ = ageingerrors::Manager::Instance().GetAgeingError(ageing_error_label_);
+  ageing_error_ = model_->managers().ageing_error()->GetAgeingError(ageing_error_label_);
   if (!ageing_error_)
     LOG_ERROR_P(PARAM_AGEING_ERROR) << "(" << ageing_error_label_ << ") could not be found. Have you defined it?";
   }
@@ -209,13 +208,11 @@ void ProportionsAtAge::DoBuild() {
  * structure to use with any interpolation
  */
 void ProportionsAtAge::PreExecute() {
-  Model* model = Model::Instance();
-
   cached_partition_->BuildCache();
 
-  if (cached_partition_->Size() != proportions_[model->current_year()].size())
+  if (cached_partition_->Size() != proportions_[model_->current_year()].size())
     LOG_CODE_ERROR() << "cached_partition_->Size() != proportions_[model->current_year()].size()";
-  if (partition_->Size() != proportions_[model->current_year()].size())
+  if (partition_->Size() != proportions_[model_->current_year()].size())
     LOG_CODE_ERROR() << "partition_->Size() != proportions_[model->current_year()].size()";
 }
 
@@ -228,7 +225,6 @@ void ProportionsAtAge::Execute() {
   /**
    * Verify our cached partition and partition sizes are correct
    */
-  Model* model = Model::Instance();
   auto cached_partition_iter  = cached_partition_->Begin();
   auto partition_iter         = partition_->Begin(); // vector<vector<partition::Category> >
 
@@ -245,7 +241,7 @@ void ProportionsAtAge::Execute() {
     Double      final_value        = 0.0;
 
     vector<Double> expected_values(age_spread_, 0.0);
-    vector<Double> numbers_age((model->age_spread() + 1), 0.0);
+    vector<Double> numbers_age((model_->age_spread() + 1), 0.0);
 
     /**
      * Loop through the 2 combined categories building up the
@@ -301,7 +297,7 @@ void ProportionsAtAge::Execute() {
     LOG_FINEST()<< "number of bins " << numbers_age.size() << " and expected " << expected_values.size() << " Last element " << age_spread_ - 1;
     for (unsigned k = 0; k < numbers_age.size(); ++k) {
       // this is the difference between the
-      unsigned age_offset = min_age_ - model->min_age();
+      unsigned age_offset = min_age_ - model_->min_age();
       if (k >= age_offset && (k - age_offset + min_age_) <= max_age_) {
         expected_values[k - age_offset] = numbers_age[k];
       }
@@ -312,9 +308,9 @@ void ProportionsAtAge::Execute() {
     }
 
 
-    if (expected_values.size() != proportions_[model->current_year()][category_labels_[category_offset]].size())
+    if (expected_values.size() != proportions_[model_->current_year()][category_labels_[category_offset]].size())
       LOG_CODE_ERROR() << "expected_values.size(" << expected_values.size() << ") != proportions_[category_offset].size("
-        << proportions_[model->current_year()][category_labels_[category_offset]].size() << ")";
+        << proportions_[model_->current_year()][category_labels_[category_offset]].size() << ")";
 
     /**
      * save our comparisons so we can use them to generate the score from the likelihoods later
@@ -322,8 +318,8 @@ void ProportionsAtAge::Execute() {
 
     for (unsigned i = 0; i < expected_values.size(); ++i) {
       LOG_FINEST() << " Numbers at age " << min_age_ + i << " = " << expected_values[i];
-      SaveComparison(category_labels_[category_offset], min_age_ + i ,0.0 ,expected_values[i], proportions_[model->current_year()][category_labels_[category_offset]][i],
-          process_errors_by_year_[model->current_year()], error_values_[model->current_year()][category_labels_[category_offset]][i], delta_, 0.0);
+      SaveComparison(category_labels_[category_offset], min_age_ + i ,0.0 ,expected_values[i], proportions_[model_->current_year()][category_labels_[category_offset]][i],
+          process_errors_by_year_[model_->current_year()], error_values_[model_->current_year()][category_labels_[category_offset]][i], delta_, 0.0);
     }
   }
 }

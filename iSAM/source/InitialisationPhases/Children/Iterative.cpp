@@ -32,7 +32,10 @@ namespace accessor = partition::accessors;
 /**
  * Default constructor
  */
-Iterative::Iterative() {
+Iterative::Iterative(Model* model)
+  : InitialisationPhase(model),
+    cached_partition_(model),
+    partition_(model) {
   parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "The number of iterations to execute this phase for", "");
   parameters_.Bind<string>(PARAM_INSERT_PROCESSES, &insert_processes_, "The processes to insert in to target time steps", "", true);
   parameters_.Bind<string>(PARAM_EXCLUDE_PROCESSES, &exclude_processes_, "The processes to exclude from all time steps", "", true);
@@ -56,7 +59,7 @@ void Iterative::DoValidate() {
  *
  */
 void Iterative::DoBuild() {
-  time_steps_ = timesteps::Manager::Instance().ordered_time_steps();
+  time_steps_ = model_->managers().time_step()->ordered_time_steps();
 
   // Set the default process labels for the time step for this phase
   for (auto time_step : time_steps_)
@@ -70,7 +73,7 @@ void Iterative::DoBuild() {
     string target_process   = pieces.size() == 3 ? pieces[1] : "";
     string new_process      = pieces.size() == 3 ? pieces[2] : pieces[1];
 
-    auto time_step = timesteps::Manager::Instance().GetTimeStep(pieces[0]);
+    auto time_step = model_->managers().time_step()->GetTimeStep(pieces[0]);
     vector<string> process_labels = time_step->initialisation_process_labels(label_);
 
     if (target_process == "") {
@@ -109,7 +112,7 @@ void Iterative::DoBuild() {
   }
 
   // Build our partition
-  vector<string> categories = Categories::Instance()->category_names();
+  vector<string> categories = model_->categories()->category_names();
   partition_.Init(categories);
   cached_partition_.Init(categories);
 
@@ -121,13 +124,13 @@ void Iterative::DoBuild() {
  */
 void Iterative::Execute() {
   if (convergence_years_.size() == 0) {
-    timesteps::Manager& time_step_manager = timesteps::Manager::Instance();
+    timesteps::Manager& time_step_manager = *model_->managers().time_step();
     time_step_manager.ExecuteInitialisation(label_, years_);
 
   } else {
     unsigned total_years = 0;
     for (unsigned years : convergence_years_) {
-      timesteps::Manager& time_step_manager = timesteps::Manager::Instance();
+      timesteps::Manager& time_step_manager = *model_->managers().time_step();
       time_step_manager.ExecuteInitialisation(label_, years - (total_years + 1));
 
 

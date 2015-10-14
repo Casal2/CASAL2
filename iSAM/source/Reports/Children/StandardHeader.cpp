@@ -64,7 +64,7 @@ void StandardHeader::DoPrepare() {
    * Build the Command line
    */
   header << "Call: ";
-  vector<string>& commandLine = Model::Instance()->global_configuration().command_line_parameters();
+  vector<string>& commandLine = model_->global_configuration().command_line_parameters();
   for (unsigned i = 0; i < commandLine.size(); ++i)
     header << commandLine[i] << " ";
   header << endl;

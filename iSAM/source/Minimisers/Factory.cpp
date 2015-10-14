@@ -51,25 +51,25 @@ Minimiser* Factory::Create(Model* model, const string& object_type, const string
   if (object_type == PARAM_MINIMIZER) {
 #ifdef USE_BETADIFF
     if (sub_type == PARAM_BETADIFF) {
-      result = new BetaDiff();
+      result = new BetaDiff(model);
     }
 #elif defined(USE_ADOLC)
     if (sub_type == PARAM_ADOLC) {
-      result = new ADOLC();
+      result = new ADOLC(model);
     }
 #elif defined(USE_CPPAD)
     if (sub_type == PARAM_CPPAD) {
-      result = new CPPAD();
+      result = new CPPAD(model);
     }
 #endif
 
 #ifndef USE_AUTODIFF
     if (sub_type == PARAM_DE_SOLVER)
-      result = new DESolver();
+      result = new DESolver(model);
     else if (sub_type == PARAM_DLIB)
-      result = new DLib();
+      result = new DLib(model);
     else if (sub_type == PARAM_GAMMADIFF)
-      result = new GammaDiff();
+      result = new GammaDiff(model);
 #endif
 
     if (!result)

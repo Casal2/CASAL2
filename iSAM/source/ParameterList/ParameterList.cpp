@@ -132,15 +132,15 @@ void ParameterList::Populate() {
   }
 
   // handle categories
-  if (parameters_.find(PARAM_CATEGORIES) != parameters_.end() || parameters_.find(PARAM_CATEGORY) != parameters_.end()) {
-    Parameter* parameter;
-    if (parameters_.find(PARAM_CATEGORIES) != parameters_.end())
-      parameter = parameters_[PARAM_CATEGORIES];
-    else
-      parameter = parameters_[PARAM_CATEGORY];
-    vector<string> new_values = Categories::Instance()->ExpandLabels(parameter->values(), parameter);
-    parameter->set_values(new_values);
-  }
+//  if (parameters_.find(PARAM_CATEGORIES) != parameters_.end() || parameters_.find(PARAM_CATEGORY) != parameters_.end()) {
+//    Parameter* parameter;
+//    if (parameters_.find(PARAM_CATEGORIES) != parameters_.end())
+//      parameter = parameters_[PARAM_CATEGORIES];
+//    else
+//      parameter = parameters_[PARAM_CATEGORY];
+//    vector<string> new_values = model_->categories()->ExpandLabels(parameter->values(), parameter);
+//    parameter->set_values(new_values);
+//  }
 
   // NOTE: This has to be last
   // bind parameters

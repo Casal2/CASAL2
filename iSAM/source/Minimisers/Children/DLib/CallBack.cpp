@@ -33,7 +33,7 @@ Callback::Callback() {
  */
 Double Callback::operator()(const ::dlib::matrix<double, 0, 1>& Parameters) const {
   // Update our Components with the New Parameters
-  vector<Estimate*> estimates = estimates::Manager::Instance().GetEnabled();
+  vector<Estimate*> estimates = model_->managers().estimate()->GetEnabled();
 
   if (Parameters.size() != (int)estimates.size()) {
     LOG_CODE_ERROR() << "The number of enabled estimates does not match the number of test solution values";
@@ -45,7 +45,7 @@ Double Callback::operator()(const ::dlib::matrix<double, 0, 1>& Parameters) cons
     estimates[i]->SetTransformedValue(value);
   }
 
-  ObjectiveFunction& objective = ObjectiveFunction::Instance();
+  ObjectiveFunction& objective = model_->objective_function();
 
   model_->FullIteration();
 

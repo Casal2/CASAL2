@@ -25,10 +25,7 @@ namespace cached {
 /**
  * Default Constructor
  */
-Categories::Categories() {
-  LOG_TRACE();
-  model_ = Model::Instance();
-}
+Categories::Categories(Model* model) : model_(model) { }
 
 /**
  * Init
@@ -46,7 +43,7 @@ void Categories::BuildCache() {
   data_.clear();
 
   unsigned year = model_->current_year();
-  Partition& partition = Partition::Instance();
+  Partition& partition = model_->partition();
   for(string category_label : category_labels_) {
     partition::Category& category = partition.category(category_label);
     LOG_FINEST() << "Category: " << category_label << " has " << category.years_.size() << " years loaded";

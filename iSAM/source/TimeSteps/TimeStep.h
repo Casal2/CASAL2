@@ -24,6 +24,7 @@
 
 // Namespaces
 namespace niwa {
+class Model;
 
 using std::pair;
 using base::Executor;
@@ -34,7 +35,8 @@ using base::Executor;
 class TimeStep : public niwa::base::Object {
 public:
   // Methods
-  TimeStep();
+  TimeStep() = delete;
+  explicit TimeStep(Model* model);
   virtual                     ~TimeStep() = default;
   void                        Validate();
   void                        Build();
@@ -58,6 +60,7 @@ public:
 
 private:
   // Members
+  Model*                              model_;
   vector<string>                      process_names_;
   vector<Process*>                    processes_;
   map<unsigned, vector<Executor*> >   executors_;

@@ -213,7 +213,7 @@ void Creator::CreateEstimates() {
  * Create an instance of an estimate
  */
 niwa::Estimate* Creator::CreateEstimate(string parameter, unsigned index, Double* target) {
-  niwa::Estimate* estimate = estimates::Factory::Create(block_type_, type_);
+  niwa::Estimate* estimate = estimates::Factory::Create(model_, block_type_, type_);
   if (!estimate)
     LOG_FATAL_P(PARAM_TYPE) << " " << type_ << " is invalid when creating an estimate.";
 

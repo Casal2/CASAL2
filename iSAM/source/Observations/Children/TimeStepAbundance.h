@@ -27,7 +27,7 @@ namespace observations {
 class TimeStepAbundance : public observations::Abundance {
 public:
   // methods
-  TimeStepAbundance();
+  TimeStepAbundance(Model* model);
   virtual                     ~TimeStepAbundance() = default;
   void                        DoBuild() override final;
 

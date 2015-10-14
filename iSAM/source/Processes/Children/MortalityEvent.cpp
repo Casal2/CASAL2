@@ -24,7 +24,9 @@ namespace processes {
 /**
  * Default Constructor
  */
-MortalityEvent::MortalityEvent() : Process(Model::Instance()) {
+MortalityEvent::MortalityEvent(Model* model)
+  : Process(model),
+    partition_(model) {
   parameters_.Bind<string>(PARAM_CATEGORIES, &category_names_, "Categories", "");
   parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "Years", "");
   parameters_.Bind<Double>(PARAM_CATCHES, &catches_, "Catches", "");
@@ -35,7 +37,6 @@ MortalityEvent::MortalityEvent() : Process(Model::Instance()) {
   RegisterAsEstimable(PARAM_U_MAX, &u_max_);
   RegisterAsEstimable(PARAM_CATCHES, &catch_years_);
 
-  model_ = Model::Instance();
   process_type_ = ProcessType::kMortality;
   partition_structure_ = PartitionStructure::kAge;
 }
@@ -83,7 +84,7 @@ void MortalityEvent::DoBuild() {
   partition_.Init(category_names_);
 
   for (string label : selectivity_names_) {
-    Selectivity* selectivity = selectivities::Manager::Instance().GetSelectivity(label);
+    Selectivity* selectivity = model_->managers().selectivity()->GetSelectivity(label);
     if (!selectivity)
       LOG_ERROR_P(PARAM_SELECTIVITIES) << ": selectivity " << label << " does not exist. Have you defined it?";
 
@@ -91,7 +92,7 @@ void MortalityEvent::DoBuild() {
   }
 
   if (penalty_name_ != "") {
-    penalty_ = penalties::Manager::Instance().GetProcessPenalty(penalty_name_);
+    penalty_ = model_->managers().penalty()->GetProcessPenalty(penalty_name_);
     if (!penalty_) {
       LOG_ERROR_P(PARAM_PENALTY) << ": penalty " << penalty_name_ << " does not exist. Have you defined it?";
     }

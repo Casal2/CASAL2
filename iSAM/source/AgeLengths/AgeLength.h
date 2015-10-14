@@ -16,12 +16,12 @@
 
 // headers
 #include "BaseClasses/Object.h"
-#include "Model/Model.h"
 #include "Partition/Category.h"
-#include "Selectivities/Selectivity.h"
 
 // namespaces
 namespace niwa {
+class Model;
+class Selectivity;
 
 // classes
 class AgeLength : public niwa::base::Object {

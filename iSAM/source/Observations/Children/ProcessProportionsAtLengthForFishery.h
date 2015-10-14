@@ -26,7 +26,7 @@ namespace observations {
  */
 class ProcessProportionsAtLengthForFishery : public observations::ProportionsAtLengthForFishery {
 public:
-  ProcessProportionsAtLengthForFishery();
+  ProcessProportionsAtLengthForFishery(Model* model);
   virtual                     ~ProcessProportionsAtLengthForFishery() = default;
   void                        DoBuild() override final;
 

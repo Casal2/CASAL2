@@ -27,17 +27,17 @@ namespace accessors {
  *
  * @param category_labels List of category labels to parse
  */
-CombinedCategories::CombinedCategories(const vector<string>& category_labels) {
+CombinedCategories::CombinedCategories(Model* model, const vector<string>& category_labels)
+  : model_(model) {
   LOG_TRACE();
 
-  model_ = Model::Instance();
   unsigned start_year = model_->start_year();
   unsigned final_year = model_->final_year();
   LOG_FINEST() << "Model details: start_year: " << start_year << "; final_year: " << final_year;
   LOG_FINEST() << "Categories: " << category_labels.size();
 
 
-  Partition& partition = Partition::Instance();
+  Partition& partition = model_->partition();
   vector<string> split_category_labels;
 
   for (unsigned year = start_year; year <= final_year; ++year)

@@ -14,12 +14,12 @@
 #define REPORTS_SIMULATEDOBSERVATION_H_
 
 // headers
-#include "Observations/Observation.h"
 #include "Reports/Report.h"
-
 
 // namespace
 namespace niwa {
+class Observation;
+
 namespace reports {
 
 /**
