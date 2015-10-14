@@ -32,6 +32,12 @@ namespace dc = utilities::doublecompare;
  *
  */
 void Manager::Validate() {
+  LOG_CODE_ERROR() << "This method is not supported";
+}
+/**
+ *
+ */
+void Manager::Validate(Model* model) {
   /**
    * Run over our creators and get them to build the actual
    * estimates the system is going to build.
@@ -79,9 +85,9 @@ void Manager::Validate() {
   /**
    * Load any estimate values that have been supplied
    */
-  GlobalConfiguration& global_config = Model::Instance()->global_configuration();
+  GlobalConfiguration& global_config = model->global_configuration();
   if (global_config.estimable_value_file() != "") {
-    Estimables& estimables = *Model::Instance()->managers().estimables();
+    Estimables& estimables = *model->managers().estimables();
     vector<string> estimable_labels = estimables.GetEstimables();
 
     for (string label : estimable_labels) {

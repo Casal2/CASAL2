@@ -33,7 +33,8 @@ class Project : public niwa::base::Object {
   typedef void (Project::*UpdateFunction)(Double);
 public:
   // methods
-  Project();
+  Project() = delete;
+  explicit Project(Model* model);
   virtual                     ~Project() = default;
   void                        Validate();
   void                        Build();

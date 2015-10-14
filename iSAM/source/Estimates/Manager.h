@@ -23,6 +23,7 @@
 // namespaces
 namespace niwa {
 class Managers;
+class Model;
 
 namespace estimates {
 
@@ -36,6 +37,7 @@ public:
   // methods
   virtual                     ~Manager() noexcept(true) { };
   void                        Validate() override final;
+  void                        Validate(Model* model);
   unsigned                    GetEnabledCount();
   vector<Estimate*>           GetEnabled();
   void                        Clear() override final;

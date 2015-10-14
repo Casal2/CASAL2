@@ -71,7 +71,7 @@ void DESolver::Execute() {
   }
 
   // Setup Engine
-  desolver::CallBack solver = desolver::CallBack(start_values.size(), population_size_, tolerance_);
+  desolver::CallBack solver = desolver::CallBack(model_, start_values.size(), population_size_, tolerance_);
   solver.Setup(start_values, lower_bounds, upper_bounds, kBest1Exp, difference_scale_, crossover_probability_);
 
   // Solver

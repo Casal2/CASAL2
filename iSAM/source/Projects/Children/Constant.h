@@ -25,7 +25,7 @@ namespace projects {
  */
 class Constant : public niwa::Project {
 public:
-  Constant();
+  explicit Constant(Model* model);
   virtual                     ~Constant() = default;
   void                        DoValidate() override final;
   void                        DoBuild() override final;

@@ -247,7 +247,7 @@ void TagByLength::DoExecute() {
   /**
    * Do the transition with mortality on the fish we're moving
    */
-  unsigned current_year = Model::Instance()->current_year();
+  unsigned current_year = model_->current_year();
   if (std::find(years_.begin(), years_.end(), current_year) == years_.end())
     return;
 

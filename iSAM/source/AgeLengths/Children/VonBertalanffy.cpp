@@ -36,9 +36,6 @@ namespace agelengths {
  *
  * Note: The constructor is parsed to generate Latex for the documentation.
  */
-VonBertalanffy::VonBertalanffy() : VonBertalanffy(Model::Instance()) {
-}
-
 VonBertalanffy::VonBertalanffy(Model* model) : AgeLength(model) {
   parameters_.Bind<Double>(PARAM_LINF, &linf_, "TBA", "")->set_lower_bound(0.0);
   parameters_.Bind<Double>(PARAM_K, &k_, "TBA", "")->set_lower_bound(0.0);

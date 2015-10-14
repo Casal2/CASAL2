@@ -24,6 +24,8 @@
 
 // Namespaces
 namespace niwa {
+class Model;
+
 namespace reports {
 
 /**
@@ -36,6 +38,7 @@ public:
   // methods
   virtual                     ~Manager() noexcept(true);
   void                        Build() override final;
+  void                        Build(Model* model);
   void                        Execute(State::Type model_state);
   void                        Execute(unsigned year, const string& time_step_label);
   void                        Prepare();
@@ -57,6 +60,7 @@ private:
   map<string, vector<Report*>>      time_step_reports_;
   string                            report_suffix_ = "";
   std::atomic_flag                  continue_;
+  Model*                            model_;
 };
 
 } /* namespace reports */

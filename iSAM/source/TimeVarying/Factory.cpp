@@ -35,9 +35,9 @@ TimeVarying* Factory::Create(Model* model, const string& object_type, const stri
 
   if (object_type == PARAM_TIME_VARYING) {
     if (sub_type == PARAM_ANNUAL_SHIFT)
-      result = new AnnualShift();
+      result = new AnnualShift(model);
     else if (sub_type == PARAM_CONSTANT)
-      result = new Constant();
+      result = new Constant(model);
 
     if (result)
       model->managers().time_varying()->AddObject(result);

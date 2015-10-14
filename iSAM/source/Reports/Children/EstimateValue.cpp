@@ -37,8 +37,6 @@ EstimateValue::~EstimateValue() noexcept(true) {
  * Execute this report.
  */
 void EstimateValue::DoExecute() {
-  Model* model = Model::Instance();
-
   vector<Estimate*> estimates = model_->managers().estimate()->objects();
   vector<Profile*>  profiles  = model_->managers().profile()->objects();
 
@@ -54,7 +52,7 @@ void EstimateValue::DoExecute() {
      for (Estimate* estimate : estimates)
          cache_ << estimate->parameter() << ", ";
 
-     if (model->run_mode() == RunMode::kProfiling) {
+     if (model_->run_mode() == RunMode::kProfiling) {
        for (auto profile : profiles)
          cache_ << profile->parameter() << ", ";
      }
@@ -65,7 +63,7 @@ void EstimateValue::DoExecute() {
 
    for (Estimate* estimate : estimates)
      cache_ << AS_DOUBLE(estimate->value()) << ", ";
-   if (model->run_mode() == RunMode::kProfiling) {
+   if (model_->run_mode() == RunMode::kProfiling) {
      for (Profile* profile : profiles)
        cache_ << profile->value() << ", ";
    }

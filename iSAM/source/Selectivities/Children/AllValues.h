@@ -29,7 +29,6 @@ namespace selectivities {
 class AllValues : public niwa::Selectivity {
 public:
   // Methods
-  AllValues();
   explicit AllValues(Model* model);
   virtual                     ~AllValues() = default;
   void                        DoValidate() override final;

@@ -20,6 +20,7 @@
 
 // namespaces
 namespace niwa {
+class Model;
 
 using niwa::utilities::Double;
 
@@ -29,7 +30,8 @@ using niwa::utilities::Double;
 class AgeingError : public niwa::base::Object {
 public:
   // Methods
-  AgeingError();
+  AgeingError(Model* model);
+  AgeingError() = delete;
   virtual                     ~AgeingError() = default;
   void                        Validate();
   void                        Build();
@@ -48,6 +50,7 @@ protected:
   virtual void                DoReset() = 0;
 
   // Members
+  Model*                      model_;
   unsigned                    min_age_ = 0;
   unsigned                    max_age_ = 0;
   bool                        age_plus_ = false;

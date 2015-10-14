@@ -91,7 +91,7 @@ base::Object* Factory::CreateObject(string& object_type, string& sub_type) {
   else if (object_type == PARAM_MCMC)
     return mcmcs::Factory::Create(model_, object_type, sub_type);
   else if (object_type == PARAM_MODEL)
-    return Model::Instance();
+    return model_;
   else if (object_type == PARAM_OBSERVATION)
     return observations::Factory::Create(model_, object_type, sub_type);
   else if (object_type == PARAM_PENALTY)

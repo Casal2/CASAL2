@@ -33,7 +33,7 @@ Simulate* Factory::Create(Model* model, const string& object_type, const string&
 
   if (object_type == PARAM_PROJECTS || object_type == PARAM_PROJECT) {
     if (sub_type == PARAM_CONSTANT)
-      result = new Constant();
+      result = new Constant(model);
 
     if (result)
       model->managers().simulate()->AddObject(result);

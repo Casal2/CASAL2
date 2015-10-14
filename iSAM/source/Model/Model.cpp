@@ -104,15 +104,15 @@ Model::~Model() {
  * @param force_new Force a new instance or not
  * @return singleton shared ptr
  */
-Model* Model::Instance(bool force_new) {
-  static Model* model = new Model();
-  if (force_new) {
-    delete model;
-    model = new Model();
-  }
-
-  return model;
-}
+//Model* Model::Instance(bool force_new) {
+//  static Model* model = new Model();
+//  if (force_new) {
+//    delete model;
+//    model = new Model();
+//  }
+//
+//  return model;
+//}
 
 /**
  *

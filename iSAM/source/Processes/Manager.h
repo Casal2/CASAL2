@@ -22,6 +22,8 @@
 
 // Namespaces
 namespace niwa {
+class Model;
+
 namespace processes {
 
 /**
@@ -34,6 +36,7 @@ public:
   // methods
   virtual                     ~Manager() noexcept(true);
   void                        Validate() override final;
+  void                        Validate(Model* model);
   Process*                    GetProcess(const string& label);
 
 protected:

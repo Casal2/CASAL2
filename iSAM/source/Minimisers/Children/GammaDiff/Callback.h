@@ -34,7 +34,7 @@ using std::vector;
  */
 class CallBack {
 public:
-  CallBack();
+  CallBack(Model* model);
   virtual                     ~CallBack() = default;
   double                      operator()(const vector<double>& Parameters);
 

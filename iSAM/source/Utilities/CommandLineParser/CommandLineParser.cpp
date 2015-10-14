@@ -99,7 +99,7 @@ void CommandLineParser::Parse(int argc, const char* argv[]) {
   if (parameters.count("nostd"))
     global_config_.set_disable_standard_report();
   if (parameters.count("loglevel"))
-    global_config_.set_log_level(parameters["loglevel"].as<string>());
+    Logging::Instance().SetLogLevel(parameters["loglevel"].as<string>());
   if (parameters.count("output")) {
     auto report = reports::Factory::Create(&model_, PARAM_REPORT, PARAM_ESTIMATE_VALUE);
     report->parameters().Add(PARAM_LABEL, "estimate_value_output", __FILE__, __LINE__);

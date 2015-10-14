@@ -21,7 +21,6 @@ namespace timevarying {
 /**
  * Default constructor
  */
-AnnualShift::AnnualShift() : AnnualShift(Model::Instance()) { }
 AnnualShift::AnnualShift(Model* model) : TimeVarying(model) {
   parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "", "");
   parameters_.Bind<Double>(PARAM_A, &a_, "", "");
@@ -76,8 +75,8 @@ void AnnualShift::DoReset() {
  *
  */
 void AnnualShift::DoUpdate() {
-  LOG_FINE() << "Setting Value to: " << values_by_year_[Model::Instance()->current_year()];
-  (this->*update_function_)(values_by_year_[Model::Instance()->current_year()]);
+  LOG_FINE() << "Setting Value to: " << values_by_year_[model_->current_year()];
+  (this->*update_function_)(values_by_year_[model_->current_year()]);
 }
 
 } /* namespace timevarying */

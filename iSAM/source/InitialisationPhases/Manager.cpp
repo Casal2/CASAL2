@@ -14,7 +14,6 @@
 #include "Manager.h"
 
 #include "Model/Model.h"
-#include "Model/Managers.h"
 #include "TimeSteps/Manager.h"
 
 // Namespaces
@@ -31,6 +30,13 @@ Manager::~Manager() noexcept(true) {
  *
  */
 void Manager::Build() {
+  LOG_CODE_ERROR() << "This method is not supported";
+}
+
+/**
+ *
+ */
+void Manager::Build(Model* model) {
   LOG_TRACE();
 
   // Build our objects
@@ -41,7 +47,7 @@ void Manager::Build() {
   ordered_initialisation_phases_.clear();
 
   LOG_FINE() << "Ordering initialisation phases";
-  vector<string> phases = Model::Instance()->initialisation_phases();
+  vector<string> phases = model->initialisation_phases();
   for(string label : phases) {
     for(auto phase : objects_) {
       if (phase->label() == label) {
@@ -51,7 +57,7 @@ void Manager::Build() {
     }
   }
 
-  for (auto time_step : Model::Instance()->managers().time_step()->ordered_time_steps())
+  for (auto time_step : model->managers().time_step()->ordered_time_steps())
     time_step->BuildInitialisationProcesses();
 }
 

@@ -29,7 +29,6 @@ namespace selectivities {
 class DoubleNormal : public niwa::Selectivity {
 public:
   // Methods
-  DoubleNormal();
   explicit DoubleNormal(Model* model);
   virtual                     ~DoubleNormal() = default;
   void                        DoValidate() override final;

@@ -18,7 +18,7 @@ namespace projects {
 /**
  * Default constructor
  */
-Constant::Constant() {
+Constant::Constant(Model* model) : Project(model) {
   parameters_.Bind<Double>(PARAM_VALUE, &value_, "Value to assign to estimable", "");
 }
 

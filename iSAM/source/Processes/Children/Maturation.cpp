@@ -34,7 +34,6 @@ Maturation::Maturation(Model* model)
 
   RegisterAsEstimable(PARAM_RATES, &rates_by_years_);
 
-  model_ = Model::Instance();
   process_type_ = ProcessType::kMaturation;
   partition_structure_ = PartitionStructure::kAge;
 }

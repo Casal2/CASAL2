@@ -160,7 +160,7 @@ void Observation::SaveComparison(string category, unsigned age, Double length, D
   new_comparison.error_value_ = error_value;
   new_comparison.delta_ = delta;
   new_comparison.score_ = score;
-  comparisons_[Model::Instance()->current_year()].push_back(new_comparison);
+  comparisons_[model_->current_year()].push_back(new_comparison);
 }
 
 /**

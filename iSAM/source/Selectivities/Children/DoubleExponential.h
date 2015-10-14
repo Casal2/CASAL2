@@ -29,7 +29,6 @@ namespace selectivities {
 class DoubleExponential : public niwa::Selectivity {
 public:
   // Methods
-  DoubleExponential();
   explicit DoubleExponential(Model* model);
   virtual                     ~DoubleExponential() = default;
   void                        DoValidate() override final;

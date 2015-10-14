@@ -83,7 +83,7 @@ void Partition::DoExecute() {
 
   // Print the header
   cache_ << "*" << label_ << " " << "("<< type_ << ")"<<"\n";
-  cache_ << "year: " << Model::Instance()->current_year() << "\n";
+  cache_ << "year: " << model_->current_year() << "\n";
   cache_ << "time_step: " << time_step_ << "\n";
   cache_ << "values "<< REPORT_R_DATAFRAME<<"\n";
   cache_ << "category";

@@ -13,8 +13,8 @@ namespace selectivities {
 /**
  * Default Constructor
  */
-Constant::Constant()
-: Selectivity(Model::Instance()) {
+Constant::Constant(Model* model)
+  : Selectivity(model) {
 
   parameters_.Bind<Double>(PARAM_C, &c_, "C", "");
 

@@ -33,7 +33,7 @@ namespace desolver {
 class CallBack : public niwa::minimisers::desolver::Engine {
 public:
   // Methods
-  CallBack(unsigned vector_size, unsigned population_size, double tolerance);
+  CallBack(Model* model, unsigned vector_size, unsigned population_size, double tolerance);
   virtual                     ~CallBack();
   double                      EnergyFunction(vector<double> test_solution) override final;
 
