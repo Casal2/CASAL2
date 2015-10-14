@@ -22,7 +22,7 @@ The basic structure of a \cas population model is defined in terms of an annual 
 
 The annual cycle defines what processes happen in each model year, and in what sequence. (In line with the New Zealand fisheries management framework, \cas runs on an annual cycle rather than, for example, a 6-monthly cycle.) 
 
-Each year is split into one or more time steps, with at least one process occurring in each time step. Each time step can be thought of as representing a particular part of the calendar year, or you can just treat them as an abstract sequence of events.
+Each year is split into one or more time steps, with at least one process occurring in each time step. Each time step can be thought of as representing a particular part of the calendar year, or you can just treat them as an abstract sequence of events.\hlc[new]{In every time step, there exists a mortality block, this is a block where indivisuals are removed from the partition. If there are no mortality proceses then the mortaltiy block is empty (nothing happens) and occurs at the end of a time step}.
 
 The state is the current status of the population, at any given time. The state can change one or more times in every time step of every year. The state object must contain sufficient information to figure out the future course of the fishery (given a model and a complete set of parameters).
 
@@ -31,16 +31,26 @@ There are a number of possible changes in the state, which are called transition
 The division of the year into an arbitrary number of time steps allows the user to specify the exact order in which processes and observations occur. The user needs to specify the time step in which each process occurs. If more than one process occurs in the same time step, there is a default order in which they occur (see Section 5.3). If you don’t want things to happen in this default order, then split the processes into different time steps.
 
 
-The key element of the state is the partition. This is a broadly applicable concept that can be used to describe many different kinds of fish model. The partition is simply a breakdown of the total number of fish in the current population into different kinds of fish. (Note that the partition records numbers of fish, not biomass.) The fish are categorised by various characters. The permissible characters are: size class or age class, sex, maturity, area, stock, tag, and growth-path. The user chooses:
+The key element of the state is the partition. This is a broadly applicable concept that can be used to describe many different kinds of fish model. The partition is simply a breakdown of the total number of fish in the current population into different kinds of fish. (Note that the partition records numbers of fish, not biomass.) The fish are categorised by various characters. The permissible characters are: length class or age class, sex, maturity, area, stock, tag, and growth-path. The user chooses:
 
 \begin{itemize}
-\item	whether the partition is subdivided by size class or age class (not both)
+\item	whether the partition is subdivided by length class or age class (not both)
 \item	which of the other characters are included in the partition, e.g., the number of areas, stocks, tagging events, or growth paths (if any of these characters are included in the partition).
 \end{itemize}
 \hlc{
-The resulting partition can be conceptualised as a matrix, where the columns are size or age classes and the rows represent combinations of the other characters. Then the number in each cell of the matrix is the number of fish with the corresponding combination of characters.}\\ 
+The resulting partition can be conceptualised as a matrix, where the columns are length or age classes and the rows represent combinations of the other characters. Then the number in each cell of the matrix is the number of fish with the corresponding combination of characters.}\\ 
 \textbf{Craigs attempt}\\
-\hlc[new]{The resulting partition can be conceptualised as a group of vectors, where each category is represented as a vector and the size of the vector is teh number of age or size classes. Each element in a vector represents the number of individuals for that category in that age or size bin. splitting the partition up into separate categories allows categories to have different age/length structures.}
+\hlc[new]{The resulting partition can be conceptualised as a group of vectors, where each category is represented as a vector and the size of the vector is the number of age or length classes, shown in Figure~4.1. Each element in a vector represents the number of individuals for that category in that age or length bin. splitting the partition up into separate categories allows categories to have different age or length structures.
+	
+The names and number of categories are user defined, but there must be at least one category defined for a model. The ages are defined as a sequence from $age_{min}$ to $age_{max}$, with the last age optionally a plus group. In order to calculate biomass, the age-length relationship for each category must also be defined. An example of how this is specified for four categories based on sex and area is as follows,}
+{\small{\begin{verbatim}
+	@categories 
+	format spawn.sex
+	names 		spawn.male 	spawn.female 	nonspawn.male 	nonspawn.female
+	age_lengths 	male_AL		female_AL   male_AL		female_AL  
+		\end{verbatim}}}	
+
+For an example of these ideas, consider a model of a single stock with a spawning and non-spawning fishery. The non-spawning fishery happens over most of the year (say 10 months) in the home area. The mature fish then migrate to the spawning area, where the spawning fishery operates. At the end of spawning, these fish, along with the recruits from the previous year, migrate back to the home area. The modeller decides that fish will be divided in the partition by age, sex, maturity, and area (spawning and home grounds). So the partition has 8 rows (2 sexes × (mature or immature) × 2 areas) and one column per age class. 
 
 For an example of these ideas, consider a model of a single stock with a spawning and non-spawning fishery. The non-spawning fishery happens over most of the year (say 10 months) in the home area. The mature fish then migrate to the spawning area, where the spawning fishery operates. At the end of spawning, these fish, along with the recruits from the previous year, migrate back to the home area. The modeller decides that fish will be divided in the partition by age, sex, maturity, and area (spawning and home grounds). So the partition has 8 rows (2 sexes × (mature or immature) × 2 areas) and one column per age class. 
 \begin{figure}[H]\label{Fig:part}
@@ -57,11 +67,23 @@ This structure can be used to implement complex models, with intermingling of se
 The model is run from an initial year up to the current year. It can also be run past the current year to make projections — things that happen in the future — up to the final year. Alternatively, for yield calculations, it is run over an abstract simulation period.
 
 
+An example, to specify a model with 2 categories (male and female) with ages 1-20 (with the last age a plus group) and an age-length relationship defined with the label \texttt{male-growth} and \texttt{female-growth}, then the \texttt{@model} example from above becomes,
+{\small{\begin{verbatim}
+		@model
+		start_year
+		final_year
+		min_age 1
+		max_age 20
+		age_plus_group True
+		initialisation_phases iphase
+		time_steps step1 step2
+		\end{verbatim}}}
+
 \subsection{\I{The state object and the partition}}
 
-\hl{The key component of the state object is the partition, a matrix of numbers of fish by combinations of characters. The columns can either be age or size classes, the rows are combinations of the following characters:}
+\hl{The key component of the state object is the partition, a matrix of numbers of fish by combinations of characters. The columns can either be age or length classes, the rows are combinations of the following characters:}
 
-\hlc[new]{The key component of the state object is the partition, a group of vectors that store numbers of fish at age or size for a specific category. A category represents a group of fish that have specific attributes, examples of such attributes include life histories and growth paths. Characters in a population that display different attributes and that can make up a category or seperate categories are:}
+\hlc[new]{The key component of the state object is the partition, a group of vectors that store numbers of fish at age or length for a specific category. A category represents a group of fish that have specific attributes, examples of such attributes include life histories and growth paths. Characters in a population that display different attributes and that can make up a category or seperate categories are:}
 
 \begin{itemize}
 \item Sex (male or female);
@@ -74,11 +96,11 @@ The model is run from an initial year up to the current year. It can also be run
 
 A stock is defined as a subpopulation of fish which recruits separately. See Section 5.11 for the treatment of maturity when it is not a character in the partition. 
 
-Growth-paths are a feature used to implement some persistence of size at age in an age-based model that uses some length/size data. Each growth-path has its own growth curve, and the size-based model features will consequently  have different effects on different growth-paths. So, you need to tell \cas  the following: 
+Growth-paths are a feature used to implement some persistence of length at age in an age-based model that uses some length/size data. Each growth-path has its own growth curve, and the length-based model features will consequently  have different effects on different growth-paths. So, you need to tell \cas  the following: 
 
 \begin{itemize}
-\item Whether the model is age- or size-based.
-\item The number and nature of size classes in a size-based model.
+\item Whether the model is age- or length-based.
+\item The number and nature of length classes in a length-based model.
 \item	The minimum and maximum age classes in an age-based model.
 \item	Whether there is a plus group.
 \item 	The names of all categories and there corresponding growth path labels.
@@ -90,7 +112,7 @@ Growth-paths are a feature used to implement some persistence of size at age in 
 \item	Whether the partition includes tagged fish, and, if so, how many, and the names of the tag partitions.
 \end{itemize}
 
-Age classes are always 1 year wide, except that the maximum age group can optionally be a plus group. Users need to choose the minimum and maximum age classes. Size classes are defined by the user, and you need to specify how many size classes there are, the lower bound of each size class, and whether the last size class is a plus group, or if not, what its upper bound is. The relevant parameters are \texttt{class\_mins} and \texttt{plus\_group}. The \texttt{class\_mins} parameter contains the lower bound of each class, and concludes with the upper bound of the last class if it is not a plus group. If, for example, size classes of 30-40, 40-50, 50-60, and 60-70+ cm were desired, you would set \texttt{class\_mins 30 40 50 60} and \texttt{plus\_group true}. Whereas if 30-40, 40-50, 50-60, and 60-70 cm were desired, you would set \texttt{class\_mins 30 40 50 60 70} and \texttt{plus\_group false}.
+Age classes are always 1 year wide, except that the maximum age group can optionally be a plus group. Users need to choose the minimum and maximum age classes. Length classes are defined by the user, and you need to specify how many length classes there are, the lower bound of each length class, and whether the last length class is a plus group, or if not, what its upper bound is. The relevant parameters are \texttt{class\_mins} and \texttt{plus\_group}. The \texttt{class\_mins} parameter contains the lower bound of each class, and concludes with the upper bound of the last class if it is not a plus group. If, for example, length classes of 30-40, 40-50, 50-60, and 60-70+ cm were desired, you would set \texttt{class\_mins 30 40 50 60} and \texttt{plus\_group true}. Whereas if 30-40, 40-50, 50-60, and 60-70 cm were desired, you would set \texttt{class\_mins 30 40 50 60 70} and \texttt{plus\_group false}.
 
 \hl{\textbf{Pretty sure, CASAL 2 doesn't support this concept, can be deleted}}\\
 The user can specify that some combinations of characters are not possible. For example, immature fish might never occur in the area you have labelled \texttt{spawn\_ground}. To do this, you use the exclusions parameters. In this case, you would set,
@@ -116,7 +138,7 @@ The time sequence of the population model includes the years over which it is to
 \item	Recruitment;
 \item	Maturation (if maturity is a character in the partition);
 \item	Migration (if the model includes more than one area);
-\item	Growth (in a size-based model);
+\item	Growth (in a length-based model);
 \item	Natural and fishing mortality;
 \item	Disease mortality; (Not yet implemented)
 \item	Tag release events;
@@ -147,19 +169,19 @@ If there is more than one spawning stock, recruitment is handled separately for 
 \item	The initial, current, and final years;
 \item	The number of time steps in each year;
 \item	The time step in which recruitment occurs, and the area to which each stock recruits
-\item	How SSB is calculated \footnote{The SSB (spawning stock biomass) is a common model output and is also the measure of abundance used in stock-recruitment relationships in \cas (where applicable). Different models define SSB in quite different ways so we allow several options in \cas as to how SSB is calculated. \hl{By default, SSB is calculated for each stock as the mature biomass (of both sexes), in an area (or areas) of your choice, halfway through the natural and fishing mortality in a time step of your choice.}\hlc[new]{There is no default for calulating an SSB. When defining SSB you need, which categories contribute to the SSB, how different age or size classes contribute to SSB through selectivities (i.e maturity being age age or size based), whether SSB happens part way through natural and fishing mortality.} It can alternatively be calculated after some other specified proportion of the mortality (see Section 5.4.6) and/or for one sex only. \hlc{A ‘proportion spawning’ multiplier can be applied to the mature biomass to get the SSB (in multi-area models this would typically not be done, instead the appropriate proportion of fish would be migrated to the spawning area).} If maturity is not a category in the partition, then the modeller may nevertheless know that all fish in the spawning area should be mature (i.e., because only mature fish are meant to migrate) but the model does not ‘know’ this because maturity is not persistent. In this case the user can specify that the SSB is the total biomass,\hlc[new]{ through the use of a constant selectivity of one.}};
+\item	How SSB is calculated \footnote{The SSB (spawning stock biomass) is a common model output and is also the measure of abundance used in stock-recruitment relationships in \cas (where applicable). Different models define SSB in quite different ways so we allow several options in \cas as to how SSB is calculated. \hl{By default, SSB is calculated for each stock as the mature biomass (of both sexes), in an area (or areas) of your choice, halfway through the natural and fishing mortality in a time step of your choice.}\hlc[new]{There is no default for calulating an SSB. When defining SSB you need, which categories contribute to the SSB, how different age or length classes contribute to SSB through selectivities (i.e maturity being age age or length based), whether SSB happens part way through natural and fishing mortality.} It can alternatively be calculated after some other specified proportion of the mortality (see Section 5.4.6) and/or for one sex only. \hlc{A ‘proportion spawning’ multiplier can be applied to the mature biomass to get the SSB (in multi-area models this would typically not be done, instead the appropriate proportion of fish would be migrated to the spawning area).} If maturity is not a category in the partition, then the modeller may nevertheless know that all fish in the spawning area should be mature (i.e., because only mature fish are meant to migrate) but the model does not ‘know’ this because maturity is not persistent. In this case the user can specify that the SSB is the total biomass,\hlc[new]{ through the use of a constant selectivity of one.}};
 \item	In an age-based model, the time step at which ages are incremented;
 \item	If there are any migrations, the time step at which each migration occurs and the source and destination areas. Note that if there are multiple migrations in a time step and an area is the source of more than one migration, then the migrations will happen in the order that they are defined in the configuration file;
 \item	If maturity is a partition character, the number of maturation episodes per year, and the time step at which each maturation episode occurs;
-\item	In a size-based model, the number of growth episodes per year, and the time step at which each growth episode occurs;
-\item	In an age-based model, the proportion of the year’s growth which has occurred by the start of each time step \footnote{Fish growth in an age-based model is handled quite differently from a size-based model. The simplest option is to assume that the mean size of a fish is based on its age, rounded down to the next lowest whole number of years. So, for example, 2-year old fish have the same mean size whether they have just passed their 2nd birthday or whether they are about to turn 3. An alternative is to allow some fish growth between birthdays. You can do this using the \texttt{growth\_proportions} parameter. This is a vector with one entry per time step. The mean size of fish of age $a$ years (rounded down) in the $ith$ time step is calculated as if their age was ($a+$\texttt{growth\_proportions[i]}). So, if the first entry of \texttt{growth\_proportions} is 0.5, then, in time step 1, the mean size of 2-year-old fish is calculated as if they were age 2.5. The default is \texttt{growth\_proportions} = 0 (i.e., no growth between birthdays).};
+\item	In a length-based model, the number of growth episodes per year, and the time step at which each growth episode occurs;
+\item	In an age-based model, the proportion of the year’s growth which has occurred by the start of each time step \footnote{Fish growth in an age-based model is handled quite differently from a length-based model. The simplest option is to assume that the mean length of a fish is based on its age, rounded down to the next lowest whole number of years. So, for example, 2-year old fish have the same mean length whether they have just passed their 2nd birthday or whether they are about to turn 3. An alternative is to allow some fish growth between birthdays. You can do this using the \texttt{growth\_proportions} parameter. This is a vector with one entry per time step. The mean length of fish of age $a$ years (rounded down) in the $ith$ time step is calculated as if their age was ($a+$\texttt{growth\_proportions[i]}). So, if the first entry of \texttt{growth\_proportions} is 0.5, then, in time step 1, the mean length of 2-year-old fish is calculated as if they were age 2.5. The default is \texttt{growth\_proportions} = 0 (i.e., no growth between birthdays).};
 \item	The proportion of the year’s natural mortality occurring in each time step;
 \item	The time step and area in which each fishery occurs;
 \item Whether fishing mortality is instantaneous or uses the Baranov equation \footnote{
   Natural mortality and fishing mortality occurring in the same area and time step can be sequenced in two different ways. The first option is to apply half the natural mortality, then to apply the mortalities from all the fisheries instantaneously, then to apply the remaining half of the natural mortality. The second options is to use the Baranov catch equation, which implies that natural and fishing mortalities are simultaneous \hlc[new]{Not implemented}. We prefer the first option — the calculations are more straightforward and the result typically about the same. However you can use Baranov if you want, except that we have not yet implemented the Baranov equation for multiple fisheries in the same area in the same time step. Whichever option you use is applied to all fisheries. More on this in Section 5.4.6.
 };
 \item If there is a disease mortality event, and in which time step this occurs;
-\item	If tagging has been specified, when the tagging event occurs, how many fish by age or size class, in which member of the partition to put the tagged fish, and the tag shedding rates, if defined.
+\item	If tagging has been specified, when the tagging event occurs, how many fish by age or length class, in which member of the partition to put the tagged fish, and the tag shedding rates, if defined.
 \end{itemize}
 
 You then need to provide \cas with details about how each process works. These processes are described individually in Section 5.4. 
@@ -169,7 +191,7 @@ When defining the annual cycle, there are a number of errors that can be made. S
 \begin{itemize}
 \item	the sum of the proportions of the year’s natural mortality over time steps is not 1,
 \item	in an age-based model, any element of \texttt{growth\_props} is outside $[0,1]$; or if \texttt{growth\_props} is not 0 in the time step in which fish age; or if \texttt{growth\_props} diminishes between consecutive time steps without age incrementation having taken place,
-\item	in a size-based model, more than one growth episode occurs in the same time step, unless they involve different stocks,
+\item	in a length-based model, more than one growth episode occurs in the same time step, unless they involve different stocks,
 \item  you want to use the Baranov equation and there is a time step that includes two or more fisheries in the same area.
 \end{itemize}
 
@@ -419,15 +441,30 @@ So, to specify each maturation episode, the following information is required:
 
 \hlc[new]{Migration is the process of moving fish from one area to another. For this to be sensibly applied in \cas there needs to be a category for the source area and a category for the target area. If two or more migrations are specified in the same time step, then they take place in the order in which they are given.}
 
-A migration can involve only one stock in an area, or all stocks. You can migrate immature fish only, or mature fish only, or both. You can state that a given proportion of these fish migrate (constant across all age or size classes), or provide an ogive of proportions migrating by age or size class.
+\hlc{A migration can involve only one stock in an area, or all stocks. You can migrate immature fish only, or mature fish only, or both. You can state that a given proportion of these fish migrate (constant across all age or length classes), or provide an ogive of proportions migrating by age or length class.}
 
-You cannot migrate fish to an area where their combination of characters is not allowed (CASAL errors out). So, for example, if moving fish to an area where only mature fish are allowed, you need to specify that only mature fish migrate.
+\hlc[new]{A migration can involve any number of categories as long as there is one to one category relationship. That is for every source category there is one target category. You can state that a given proportion of these fish migrate (constant across all age or length classes), or provide a selectivity of proportions migrating by age or length class.
+
+An example, to specify a simple spawning migration of mature males and females moving from a western area to an eastern (spawning) area, then the syntax is}
+{\small{\begin{verbatim}
+		@process Spawning_migration
+		type category_transition 
+		from West.males	West.females	
+		to East.males West.females	
+		selectivities MatureSel matureSel
+		\end{verbatim}}}
+
+Where \texttt{MatureSel} is a selectivity that describes the proportion of age or length classes that are mature and move to the eastern area.
+
+
+\textbf{Have not implemented}
+\hlc{You cannot migrate fish to an area where their combination of characters is not allowed (CASAL errors out). So, for example, if moving fish to an area where only mature fish are allowed, you need to specify that only mature fish migrate.
 
 CASAL currently supports two-wave migrations. These migrations consist of two waves in different time steps. If $pi$ is the specified proportion of fish migrating from the $ith$ partition element, proportion (\texttt{pwave} $pi$) will migrate in wave 1 and proportion $(1 - \texttt{pwave})×pi/(1 - (\texttt{pwave} × pi))$ will migrate in wave 2. Specify these as two separate migrations, give \texttt{pwave} for each, and specify that the first is a `1st wave' and that the second is a `2nd wave'. (No checking is currently carried out that there are two matching waves with the same parameters. Remember that to specify \texttt{pwave} for each, not \texttt{pwave} for the first and (1-\texttt{pwave}) for the second. If you want to estimate \texttt{pwave}, you need to set the \texttt{estimate.same} parameter to make sure that \texttt{pwave} takes the same value for both waves.)
 
 CASAL also supports annual variation in migrations and density-dependent migrations. The annual variation allows the migration rate to be modified in a particular year by some factor $F$. For density dependent migrations, the rate depends on the fish abundance in the source area, the destination area, or both \mbox{--} so, you can encourage fish to move into an under populated area and/or out of an overpopulated area.
 
-Both annual variation and density dependen migration rates are calculated via an odds ratio, and a single factor ($F$) is applied to all fish in a given migration in a given year, regardless of age, sex, etc. Now let $P^i_{a,b}(y)$  be the proportion of fish in element $i$ of the partition which migrate from area $a$ to area $b$ in year $y$, prior to the application of an annual variation or density dependence. (These values depend on the migration rate, or ogive of migration rates, etc.) And let the corresponding odds be
+Both annual variation and density dependen migration rates are calculated via an odds ratio, and a single factor ($F$) is applied to all fish in a given migration in a given year, regardless of age, sex, etc. Now let $P^i_{a,b}(y)$  be the proportion of fish in element $i$ of the partition which migrate from area $a$ to area $b$ in year $y$, prior to the application of an annual variation or density dependence. (These values depend on the migration rate, or ogive of migration rates, etc.) And let the corresponding odds be}
 
 \begin{equation}
 O^i_{a,b} (y) = \frac{P^i_{a,b}(y)}{1 - P^i_{a,b}(y)}
@@ -460,7 +497,7 @@ The specification of the annual cycle includes the time step, source area, and d
 \begin{itemize}
 \item If there are multiple stocks and only one stock migrates, which is it?
 \item Do only mature fish migrate, or immature fish, or both?
-\item If a proportion of these fish migrate (constant across age or size classes), what is it? Or, if fish migrate according to an ogive across age or size classes, what is it?
+\item If a proportion of these fish migrate (constant across age or length classes), what is it? Or, if fish migrate according to an ogive across age or length classes, what is it?
 \item Is density dependence applied? If so, what are the values of the density dependence parameters $S$ and $D$?
 \item Is an annual variation applied? If so, what are the years (\texttt{annual\_variation\_years}) and values (\texttt{annual\_variation\_values}) of the annual variation, and what range of years should be used in calculating ?
 \end{itemize}
@@ -476,23 +513,22 @@ Two-wave migrations require more details \mbox{--} — see earlier.
 \paragraph{\I{Tag shedding rate}}
 
 \subsection{\I{Derived quantities}\label{sec:derived-quantities}}
+\hlc[new]{Derived quantities represent a snap shot of part or the whole partition at a point in time. Derived quantities can be of type abundance or biomass. This process works by accumulating individuals based on a selectivity and categories choosen to calculate abundance, If biomass is wanted then the age-length relationship is used to convert numbers at age or length to a biomass. Derived quantities are associated with the \textbf{mortaltiy block} of that time step. This allows you to specify whether the quantity should be at the beginning of mortality, at the end or part-way through a mortaltiy event.}
 
-\subsection{\I{Derived quantities by cell}\label{sec:derived-quantity-by-cell}}
+\subsection{\I{Age-length relationship}\label{sec:age-at-age}}
 
-\subsection{\I{Size-age relationship}\label{sec:size-at-age}}
+The age-length relationship defines the length at age (and the weight at length, see Section \ref{sec:mean-weight}) of individuals at age/category within the model. There are three length-age relationships available in \CAS. The first is the naive no relationship (where each individual has length 1 irrespective of age). The second  and third are the von-Bertalanffy and Schnute relationships respectively. The length-at-age relationship is used to determine the length frequency, given age, and then with the length-weight relationship, a weight-at-age of individuals within an age/category. 
 
-The age-size relationship defines the size at age (and the weight at size, see Section \ref{sec:mean-weight}) of individuals at age/category within the model. There are three size-age relationships available in \CAS. The first is the naive no relationship (where each individual has size 1 irrespective of age). The second  and third are the von-Bertalanffy and Schnute relationships respectively. The size-at-age relationship is used to determine the size frequency, given age, and then with the size-weight relationship, a weight-at-age of individuals within an age/category. 
-
-The three age-size relationships are,
+The three age-length relationships are,
 
 \begin{description}
-\item {None:} where the size of each individual is exactly 1 for all ages, in which case the \texttt{none} size-weight relationship must also be used.
-\item{von Bertalanffy:}\index{von Bertalanffy growth curve} where size at age is defined as,
+\item {None:} where the length of each individual is exactly 1 for all ages, in which case the \texttt{none} length-weight relationship must also be used.
+\item{von Bertalanffy:}\index{von Bertalanffy growth curve} where length at age is defined as,
 \begin{equation} 
 \bar{s}(age)= L_\infty \left( 1 - \exp \left( -k \left(age-t_0 \right) \right) \right)
 \end{equation}
 
-\item{Schnute:}\index{Schnute growth curve} where size at age is defined as,
+\item{Schnute:}\index{Schnute growth curve} where length at age is defined as,
 \begin{equation}
 \bar{s}(age)=\displaystyle\begin{cases}
   \left[ y_1^b + (y_2^b - y_1^b) \dfrac{1-\exp \left(-a(age - \tau_1) \right)}{1-\exp \left(-a(\tau_2 - \tau_1) \right)} \right]^{1/b}, & \text{if $a\ne0$ and $b\ne0$} \\
@@ -506,34 +542,34 @@ The three age-size relationships are,
 \end{equation}
 \end{description}
 
-The von Bertalanffy curve is parameterised by $L_\infty$, $k$, and $t_0$; the Schnute curve \citep{836} by $y_1$ and $y_2$, which are the mean sizes at reference ages $\tau_1$ and $\tau_2$, and $a$ and $b$ (when $b=1$, this reduces to the von Bertalanffy with $k=a$). 
+The von Bertalanffy curve is parameterised by $L_\infty$, $k$, and $t_0$; the Schnute curve \citep{836} by $y_1$ and $y_2$, which are the mean lengths at reference ages $\tau_1$ and $\tau_2$, and $a$ and $b$ (when $b=1$, this reduces to the von Bertalanffy with $k=a$). 
 
-When defining size-at-age in \CAS, you must also define a size-weight relationship (see Section \ref{sec:mean-weight} below).
+When defining length-at-age in \CAS, you must also define a length-weight relationship (see Section \ref{sec:mean-weight} below).
 
-\subsubsection*{\I{Calculation of size-at-age (in an age-based model)}}
+\subsubsection*{\I{Calculation of length-at-age (in an age-based model)}}
 
-\subsubsection*{\I{Interpolation of size-at-age}}
+\subsubsection*{\I{Interpolation of length-at-age}}
 
 \subsubsection*{\I{Size-weight relationship}\label{sec:mean-weight}}
 
-There are two size-weight relationship,s available in \CAS. The first is the naive no relationship. Here, the weight of an individual, regardless of size, is always 1. The second is the basic relationship. 
+There are two length-weight relationship,s available in \CAS. The first is the naive no relationship. Here, the weight of an individual, regardless of length, is always 1. The second is the basic relationship. 
 
-The two size-weight relationships are,
+The two length-weight relationships are,
 
 \begin{itemize}
-  \item{None:} The size-weight relationship where  
+  \item{None:} The length-weight relationship where  
   \begin{equation}
     \text{mean weight}=1
   \end{equation}
-  \item{Basic:}\index{Basic size-weight relationship} The size-weight relationship where the mean weight $w$ of an individual of size $l$ is
+  \item{Basic:}\index{Basic length-weight relationship} The length-weight relationship where the mean weight $w$ of an individual of length $l$ is
   \begin{equation}
     w=a l^b
   \end{equation}
-	Note that if a distribution of size-at-age is specified, then the mean weight is calculated over the distribution of sizes, and is
+	Note that if a distribution of length-at-age is specified, then the mean weight is calculated over the distribution of lengths, and is
   \begin{equation}
 	  w=(al^b)(1+cv^2)^{\frac{b(b-1)}{2}}
   \end{equation}
-	where the $cv$ is the c.v. of sizes-at-age. This adjustment is exact for lognormal distributions, and a close approximation for normal distributions if the c.v. is not large \citep{1388}.
+	where the $cv$ is the c.v. of lengths-at-age. This adjustment is exact for lognormal distributions, and a close approximation for normal distributions if the c.v. is not large \citep{1388}.
 \end{itemize}
 
 Be careful about the scale of $a$ --- this can easily be specified incorrectly. If the catch is in tonnes and the growth curve in centimetres, then $a$ should be on the right scale to convert a length in centimetres to a weight in tonnes. Note that there are reports available that can be used to help check that the units specified are plausible (see Section \ref{sec:report-section}).
