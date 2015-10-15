@@ -32,6 +32,7 @@ CharEnd = '
 CharEsc = \ 
 
 [Keywords 1]
+@additional_prior
 @age_size
 @ageing_error
 @age_length
@@ -57,6 +58,7 @@ CharEsc = \
 @selectivity
 @size_weight
 @time_step
+@time_varying
 
 [Keywords 2]
 N
@@ -74,6 +76,7 @@ ato95
 average
 b
 b0
+by_length
 c
 catchability
 categories
@@ -104,6 +107,7 @@ error_value
 end_table
 estimation_phase
 evaluations
+exogeneous_variable
 file_name
 final_year
 fishery
@@ -135,6 +139,7 @@ linf
 log_scale
 longitude
 lower_bound
+M
 m
 max_age
 max_correlation
@@ -168,6 +173,7 @@ process
 process_error
 processes
 profile
+projection_final_year
 proportion
 proportion_method
 proportion_time_step
@@ -203,6 +209,7 @@ tau2
 time_step
 time_steps
 time_step_proportion
+time_step_proportions
 time_step_proportion_method
 time_step_ratio
 to

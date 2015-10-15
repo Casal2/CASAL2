@@ -66,13 +66,11 @@ void Multinomial::GetScores(map<unsigned, vector<observations::Comparison> >& co
 Double Multinomial::GetInitialScore(map<unsigned, vector<observations::Comparison> >& comparisons, unsigned year) {
   Double score = 0.0;
 
-  string last_category = "";
+
   int stopper = 0;
   for (observations::Comparison& comparison : comparisons[year]) {
-    if (last_category == comparison.category_ || stopper == 1)
-      continue;
-
-    last_category = comparison.category_;
+    if (stopper == 1)
+      break;
     Double temp_score = -math::LnFactorial(AdjustErrorValue(comparison.process_error_, comparison.error_value_)  * error_value_multiplier_);
     LOG_FINEST() << "Adding: " << temp_score << " = LnFactorial(AdjustErrorValue(" << comparison.process_error_ << ", " << comparison.error_value_ << ")  * " << error_value_multiplier_ << ")";
     score += temp_score;
