@@ -67,15 +67,15 @@ Double Multinomial::GetInitialScore(map<unsigned, vector<observations::Compariso
   Double score = 0.0;
 
 
-  int stopper = 0;
-  for (observations::Comparison& comparison : comparisons[year]) {
-    if (stopper == 1)
-      break;
+ // int stopper = 0;
+  observations::Comparison& comparison = comparisons[year][0];
+    //if (stopper == 1)
+    //  break;
     Double temp_score = -math::LnFactorial(AdjustErrorValue(comparison.process_error_, comparison.error_value_)  * error_value_multiplier_);
     LOG_FINEST() << "Adding: " << temp_score << " = LnFactorial(AdjustErrorValue(" << comparison.process_error_ << ", " << comparison.error_value_ << ")  * " << error_value_multiplier_ << ")";
     score += temp_score;
-    stopper += 1;
-  }
+    //stopper += 1;
+  //}
 
   return score * multiplier_;
 }

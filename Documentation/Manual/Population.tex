@@ -414,6 +414,32 @@ selectivities FishingSel FishingSel
 penalty event_mortality_penalty
 \end{verbatim}}}
 
+\subsubsection*{Instantaneous mortality}
+The instantaneous mortality process\index{Instantaneous mortality} is a combination of natural mortality and event biomass mortality that occurs across multiple time steps. This process applies half the natural mortality, then to apply the mortalities from all the fisheries instantaneously, then to apply the remaining half of the natural mortality. 
+
+When Instantaneous mortality is applied the following equations are used.\\
+\hlc[new]{Steal the rest from CASAL manual}
+{\small{\begin{verbatim}
+@process instant_mort
+type mortality_instantaneous
+m 0.19
+time_step_ratio 0.42 0.25 0.33
+selectivities One
+categories stock
+table catches
+year FishingWest FishingEest
+1975	80000	111000
+1976	152000	336000
+1977	74000	1214000
+end table
+
+
+table fisheries
+fishery       category  selectivity u_max   time_step penalty
+FishingWest   stock     westFSel    0.7     step1     CatchPenalty
+FishingEest   stock     eastFSel    0.7     step1     CatchPenalty
+end_table
+\end{verbatim}}}
 \subsubsection{\I{Maturation}}
 \KL Text from CASAL, need to rewrite as relevant to SAM \KLend
 
@@ -585,9 +611,12 @@ Be careful about the scale of $a$ --- this can easily be specified incorrectly. 
 
 \subsection{\I{Selectivities}\label{sec:selectivities}}
 
-A selectivity is a function with a different value for each age class (i.e., for each column of the partition). Selectivities are used throughout \CAS\ to interpret observations (Section \ref{sec:estimation-section}) or to modify the effects of processes on each age class (Section \ref{sec:population-section}). \CAS\ implements a number of different parametric forms, including logistic, knife edge, and double normal selectivities.
+A selectivity is a function that can have a different value for each age class. Selectivities are used throughout \CAS\ to interpret observations (Section \ref{sec:estimation-section}) or to modify the effects of processes on each age class (Section \ref{sec:population-section}). \CAS\ implements a number of different parametric forms, including logistic, knife edge, and double normal selectivities.
 
-A selectivity is always defined to apply just to one category of the population (i.e, row of the partition). To apply the same selectivity to more than one category, then just repeat the selectivity for each category that it is applied to.
+\textbf{CASAL concept that has been removed can be removed?}
+\hlc{A selectivity is always defined to apply just to one category of the partition. To apply the same selectivity to more than one category, then just repeat the selectivity for each category that it is applied to.}
+
+
 
 Note that selectivities are indexed by age, with indices from \argument{min\_age} to \argument{max\_age}. For example, you might have an age-based selectivity that was logistic with $50\%$ selected at age $5$ and $95\%$ selected at age $7$. This would be defined by the \subcommand{type}=\argument{logistic} with parameters $a_{50}=5$ and $a_{to95}=(7-5)=2$. Then the value of the selectivity at age $x=7$ is $0.95$ and the selectivity at $x=3$ is $0.05$.
 
@@ -715,7 +744,7 @@ The double-exponential selectivity has non-estimable parameters $x_1$ and $x_2$,
 
 \subsubsection[Spline]{\argument{spline}}\index{Selectivities!Spline}
 
-The spline selectivity implements a cubic spline that has non-estimable knots, and an estimable value for each knot. The cubic spline is either (i) a natural splines where the where the second derivatives are set to 0 at the boundaries, i.e., the values at the boundaries are horizontal, (ii) a spline with a fixed first derivative at the boundaries (linear, but not necessarily horizontal) and (iii) spline which turns into a parabola at the boundaries.
+The spline selectivity implements a cubic spline that has non-estimable knots, and an estimable value for each knot. The cubic spline is either (i) a natural splines where the second derivatives are set to 0 at the boundaries, i.e., the values at the boundaries are horizontal, (ii) a spline with a fixed first derivative at the boundaries (linear, but not necessarily horizontal) and (iii) spline which turns into a parabola at the boundaries.
 
 
 
