@@ -114,10 +114,9 @@ TEST_F(InternalEmptyModel, Processes_Transition_Category_By_Age) {
   AddConfigurationLine(test_cases_process_transition_category_by_age, __FILE__, 37);
   LoadConfiguration();
 
-  ModelPtr model = Model::Instance();
-  model->Start(RunMode::kBasic);
+  model_->Start(RunMode::kBasic);
 
-  partition::Category& male   = Partition::Instance().category("mature.male");
+  partition::Category& male   = model_->partition().category("mature.male");
   EXPECT_DOUBLE_EQ(0.0,         male.data_[0]);
   EXPECT_DOUBLE_EQ(0.0,         male.data_[1]);
   EXPECT_DOUBLE_EQ(0.0,         male.data_[2]);
@@ -127,7 +126,7 @@ TEST_F(InternalEmptyModel, Processes_Transition_Category_By_Age) {
   EXPECT_DOUBLE_EQ(1761.1454029312279,  male.data_[6]);
   EXPECT_DOUBLE_EQ(0.0,                 male.data_[7]);
 
-  partition::Category& female = Partition::Instance().category("mature.female");
+  partition::Category& female = model_->partition().category("mature.female");
   EXPECT_DOUBLE_EQ(0.0,         female.data_[0]);
   EXPECT_DOUBLE_EQ(0.0,         female.data_[1]);
   EXPECT_DOUBLE_EQ(0.0,         female.data_[2]);

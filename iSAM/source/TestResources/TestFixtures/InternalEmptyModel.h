@@ -25,8 +25,9 @@
 
 // Namespaces
 namespace niwa {
-namespace testfixtures {
+class Model;
 
+namespace testfixtures {
 using std::string;
 using std::vector;
 namespace config = niwa::configuration;
@@ -37,8 +38,8 @@ namespace config = niwa::configuration;
 class InternalEmptyModel : public testfixtures::Base {
 public:
   // methods
-  InternalEmptyModel();
-  virtual                     ~InternalEmptyModel();
+  InternalEmptyModel() = default;
+  virtual                     ~InternalEmptyModel() = default;
   void                        SetUp() override final;
   void                        AddConfigurationLine(const string& line, const string& file_name, unsigned line_number);
   void                        LoadConfiguration();

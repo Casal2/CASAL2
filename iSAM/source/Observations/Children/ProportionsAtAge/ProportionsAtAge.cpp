@@ -32,6 +32,9 @@ namespace observations {
  * Default constructor
  */
 ProportionsAtAge::ProportionsAtAge(Model* model) : Observation(model) {
+  obs_table_ = new parameters::Table(PARAM_OBS);
+  error_values_table_ = new parameters::Table(PARAM_ERROR_VALUES);
+
   parameters_.Bind<unsigned>(PARAM_MIN_AGE, &min_age_, "Minimum age", "");
   parameters_.Bind<unsigned>(PARAM_MAX_AGE, &max_age_, "Maximum age", "");
   parameters_.Bind<bool>(PARAM_AGE_PLUS, &age_plus_, "Use age plus group", "", true);
@@ -48,9 +51,12 @@ ProportionsAtAge::ProportionsAtAge(Model* model) : Observation(model) {
  * Validate configuration file parameters
  */
 void ProportionsAtAge::DoValidate() {
+  LOG_TRACE();
   age_spread_ = (max_age_ - min_age_) + 1;
   map<unsigned, vector<Double>> error_values_by_year;
   map<unsigned, vector<Double>> obs_by_year;
+
+  LOG_FINEST() << error_values_table_ << " / " << obs_table_;
 
   /**
    * Do some simple checks
@@ -180,6 +186,8 @@ void ProportionsAtAge::DoValidate() {
       LOG_ERROR_P(PARAM_OBS) << ": obs sum total (" << total << ") for year (" << iter->first << ") exceeds tolerance (" << tolerance_ << ") from 1.0";
     }
   }
+
+  LOG_TRACE();
 }
 
 /**

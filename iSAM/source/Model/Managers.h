@@ -48,6 +48,7 @@ class Model;
 // classes
 class Managers {
   friend class Model;
+  friend class MockManagers;
 public:
   // accessors
   virtual additionalpriors::Manager*      additional_prior() { return additional_prior_; }

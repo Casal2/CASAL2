@@ -59,7 +59,7 @@ private:
   };
 
   // members
-  T*                          target_;
+  T*                          target_ = nullptr;
   T                           default_value_;
   vector<T>                   allowed_values_;
   Range						            range_;

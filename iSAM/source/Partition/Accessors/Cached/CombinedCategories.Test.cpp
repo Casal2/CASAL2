@@ -14,13 +14,9 @@
 // headers
 #include "CombinedCategories.h"
 
-#include "Catchabilities/Factory.h"
-#include "Observations/Factory.h"
-#include "Processes/Factory.h"
-#include "TimeSteps/Factory.h"
+#include "Model/Factory.h"
 #include "TimeSteps/Manager.h"
 #include "Partition/Partition.h"
-#include "Selectivities/Factory.h"
 #include "TestResources/TestFixtures/BasicModel.h"
 
 // namespaces
@@ -39,7 +35,7 @@ TEST_F(BasicModel, Accessors_Cached_CombinedCategories) {
   // Recruitment process
   vector<string> recruitment_categories   = { "immature.male", "immature.female" };
   vector<string> proportions  = { "0.6", "0.4" };
-  niwa::ProcessPtr process = processes::Factory::Create(PARAM_RECRUITMENT, PARAM_CONSTANT);
+  base::Object* process = model_->factory().CreateObject(PARAM_RECRUITMENT, PARAM_CONSTANT);
   process->parameters().Add(PARAM_LABEL, "recruitment", __FILE__, __LINE__);
   process->parameters().Add(PARAM_TYPE, "constant", __FILE__, __LINE__);
   process->parameters().Add(PARAM_CATEGORIES, recruitment_categories, __FILE__, __LINE__);
@@ -49,7 +45,7 @@ TEST_F(BasicModel, Accessors_Cached_CombinedCategories) {
 
   // Mortality process
   vector<string> mortality_categories   = { "immature.male", "immature.female", "mature.male", "mature.female" };
-  process = processes::Factory::Create(PARAM_MORTALITY, PARAM_CONSTANT_RATE);
+  process = model_->factory().CreateObject(PARAM_MORTALITY, PARAM_CONSTANT_RATE);
   process->parameters().Add(PARAM_LABEL, "mortality", __FILE__, __LINE__);
   process->parameters().Add(PARAM_TYPE, "constant_rate", __FILE__, __LINE__);
   process->parameters().Add(PARAM_CATEGORIES, mortality_categories, __FILE__, __LINE__);
@@ -58,26 +54,26 @@ TEST_F(BasicModel, Accessors_Cached_CombinedCategories) {
 
   // Ageing process
   vector<string> ageing_categories   = { "immature.male", "immature.female" };
-  process = processes::Factory::Create(PARAM_AGEING, "");
+  process = model_->factory().CreateObject(PARAM_AGEING, "");
   process->parameters().Add(PARAM_LABEL, "ageing", __FILE__, __LINE__);
   process->parameters().Add(PARAM_CATEGORIES, ageing_categories, __FILE__, __LINE__);
 
   // Timestep
-  niwa::base::ObjectPtr time_step = timesteps::Factory::Create();
+  base::Object* time_step = model_->factory().CreateObject(PARAM_TIME_STEP, "");
   vector<string> processes    = { "ageing", "recruitment", "mortality" };
   time_step->parameters().Add(PARAM_LABEL, "step_one", __FILE__, __LINE__);
   time_step->parameters().Add(PARAM_PROCESSES, processes, __FILE__, __LINE__);
 
   // Run the model
-  Model::Instance()->Start(RunMode::kTesting);
-  Model::Instance()->FullIteration();
+  model_->Start(RunMode::kTesting);
+  model_->FullIteration();
 
-  Partition::Instance().category("immature.male").years_.push_back(2009);
-  Partition::Instance().category("immature.female").years_.push_back(2009);
+  model_->partition().category("immature.male").years_.push_back(2009);
+  model_->partition().category("immature.female").years_.push_back(2009);
 
   // Build our accessor
   vector<string> accessor_category_labels = { "immature.male+immature.female", "immature.male", "immature.female" };
-  CachedCombinedCategoriesPtr accessor = CachedCombinedCategoriesPtr(new CombinedCategories(accessor_category_labels));
+  CachedCombinedCategoriesPtr accessor = CachedCombinedCategoriesPtr(new CombinedCategories(model_, accessor_category_labels));
 
   accessor->BuildCache();
   ASSERT_EQ(3u, accessor->Size());

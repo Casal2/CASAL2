@@ -16,11 +16,11 @@
 
 #include <iostream>
 
-#include "Processes/Factory.h"
-#include "TimeSteps/Factory.h"
+#include "Model/Factory.h"
+#include "Model/Managers.h"
+#include "Model/Model.h"
 #include "TimeSteps/Manager.h"
 #include "Partition/Partition.h"
-#include "Selectivities/Factory.h"
 #include "TestResources/TestFixtures/BasicModel.h"
 
 // Namespaces
@@ -35,11 +35,10 @@ using niwa::testfixtures::BasicModel;
  *
  */
 TEST_F(BasicModel, Processes_Mortality_Constant_Rate) {
-
   // Recruitment process
   vector<string> recruitment_categories   = { "immature.male", "immature.female" };
   vector<string> proportions  = { "0.6", "0.4" };
-  niwa::ProcessPtr process = processes::Factory::Create(PARAM_RECRUITMENT, PARAM_CONSTANT);
+  base::Object* process = model_->factory().CreateObject(PARAM_RECRUITMENT, PARAM_CONSTANT);
   process->parameters().Add(PARAM_LABEL, "recruitment", __FILE__, __LINE__);
   process->parameters().Add(PARAM_TYPE, "constant", __FILE__, __LINE__);
   process->parameters().Add(PARAM_CATEGORIES, recruitment_categories, __FILE__, __LINE__);
@@ -49,7 +48,7 @@ TEST_F(BasicModel, Processes_Mortality_Constant_Rate) {
 
   // Mortality process
   vector<string> mortality_categories   = { "immature.male", "immature.female", "mature.male", "mature.female" };
-  process = processes::Factory::Create(PARAM_MORTALITY, PARAM_CONSTANT_RATE);
+  process = model_->factory().CreateObject(PARAM_MORTALITY, PARAM_CONSTANT_RATE);
   process->parameters().Add(PARAM_LABEL, "mortality", __FILE__, __LINE__);
   process->parameters().Add(PARAM_TYPE, "constant_rate", __FILE__, __LINE__);
   process->parameters().Add(PARAM_CATEGORIES, mortality_categories, __FILE__, __LINE__);
@@ -58,22 +57,22 @@ TEST_F(BasicModel, Processes_Mortality_Constant_Rate) {
 
   // Ageing process
   vector<string> ageing_categories   = { "immature.male", "immature.female" };
-  process = processes::Factory::Create(PARAM_AGEING, "");
+  process = model_->factory().CreateObject(PARAM_AGEING, "");
   process->parameters().Add(PARAM_LABEL, "ageing", __FILE__, __LINE__);
   process->parameters().Add(PARAM_CATEGORIES, ageing_categories, __FILE__, __LINE__);
 
   // Timestep
-  niwa::base::ObjectPtr time_step = timesteps::Factory::Create();
+  base::Object* time_step = model_->factory().CreateObject(PARAM_TIME_STEP, "");
   vector<string> processes    = { "ageing", "recruitment", "mortality" };
   time_step->parameters().Add(PARAM_LABEL, "step_one", __FILE__, __LINE__);
   time_step->parameters().Add(PARAM_PROCESSES, processes, __FILE__, __LINE__);
 
-  Model::Instance()->Start(RunMode::kTesting);
+  model_->Start(RunMode::kTesting);
 
-  partition::Category& immature_male   = Partition::Instance().category("immature.male");
-  partition::Category& immature_female = Partition::Instance().category("immature.female");
-  partition::Category& mature_male     = Partition::Instance().category("mature.male");
-  partition::Category& mature_female   = Partition::Instance().category("mature.female");
+  partition::Category& immature_male   = model_->partition().category("immature.male");
+  partition::Category& immature_female = model_->partition().category("immature.female");
+  partition::Category& mature_male     = model_->partition().category("mature.male");
+  partition::Category& mature_female   = model_->partition().category("mature.female");
 
   // Verify blank partition
   for (unsigned i = 0; i < immature_male.data_.size(); ++i)
@@ -89,7 +88,7 @@ TEST_F(BasicModel, Processes_Mortality_Constant_Rate) {
    * Do 1 iteration of the model then check the categories to see if
    * the maturation was successful
    */
-  Model::Instance()->FullIteration();
+ model_->FullIteration();
 
   // 1-exp(-(selectivities_[i]->GetResult(min_age + offset) * m));
   double immature_male_value    = 60000;

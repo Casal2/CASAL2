@@ -45,13 +45,12 @@ TEST_F(InternalEmptyModel, Estimates_Normal) {
   AddConfigurationLine(estimate_normal, __FILE__, 33);
   LoadConfiguration();
 
-  ModelPtr model = Model::Instance();
-  model->Start(RunMode::kEstimation);
+  model_->Start(RunMode::kEstimation);
 
-  ObjectiveFunction& obj_function = ObjectiveFunction::Instance();
+  ObjectiveFunction& obj_function = model_->objective_function();
   EXPECT_DOUBLE_EQ(2567.7578345278534, obj_function.score());
 
-  EstimatePtr estimate = estimates::Manager::Instance().GetEstimate("selectivity[FishingSel].a50");
+  Estimate* estimate = model_->managers().estimate()->GetEstimate("selectivity[FishingSel].a50");
   if (!estimate)
     LOG_FATAL() << "!estimate";
   EXPECT_DOUBLE_EQ(estimate->value(), 8.9750027155000645);

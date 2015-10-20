@@ -31,7 +31,7 @@ class Factory {
   friend class Model;
 public:
   // methods
-  base::Object*               CreateObject(string& object_type, string& sub_type);
+  base::Object*               CreateObject(const string& object_type, const string& sub_type);
 
 private:
   // methods

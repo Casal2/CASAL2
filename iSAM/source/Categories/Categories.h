@@ -32,7 +32,7 @@ struct CategoryInfo {
   vector<unsigned>  years_;
   unsigned          min_age_ = 0;
   unsigned          max_age_ = 0;
-  AgeLength*        age_length_;
+  AgeLength*        age_length_ = nullptr;
 };
 
 /**
@@ -69,7 +69,7 @@ private:
   explicit Categories(Model* model);
 
   // Members
-  Model*                      model_;
+  Model*                      model_ = nullptr;
   string                      format_;
   vector<string>              names_;
   vector<string>              years_;

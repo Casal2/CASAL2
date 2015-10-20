@@ -21,6 +21,8 @@
 
 // namespaces
 namespace niwa {
+class Model;
+
 namespace testfixtures {
 
 /**
@@ -32,6 +34,10 @@ public:
   virtual                     ~Base();
   virtual void                SetUp() override;
   virtual void                TearDown() override;
+
+protected:
+  // members
+  Model*                      model_;
 };
 
 } /* namespace testfixtures */

@@ -29,12 +29,12 @@ using ::testing::Return;
  * Test the results of our KnifeEdge are correct
  */
 TEST(Selectivities, AllValues) {
-  std::shared_ptr<MockModel> model = std::shared_ptr<MockModel>(new MockModel);
-  EXPECT_CALL(*model.get(), min_age()).WillRepeatedly(Return(10));
-  EXPECT_CALL(*model.get(), max_age()).WillRepeatedly(Return(20));
-  EXPECT_CALL(*model.get(), age_spread()).WillRepeatedly(Return(11));
+  MockModel model;
+  EXPECT_CALL(model, min_age()).WillRepeatedly(Return(10));
+  EXPECT_CALL(model, max_age()).WillRepeatedly(Return(20));
+  EXPECT_CALL(model, age_spread()).WillRepeatedly(Return(11));
 
-  niwa::selectivities::AllValues all_values(model);
+  niwa::selectivities::AllValues all_values(&model);
 
   vector<string> v;
   for (unsigned i = 0; i < 11; ++i)

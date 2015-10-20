@@ -30,10 +30,9 @@ TEST_F(InternalEmptyModel, Model_CasalComplex3_BasicRun) {
   AddConfigurationLine(test_cases_casal_complex_3, "CasalComplex3.h", 31);
   LoadConfiguration();
 
-  ModelPtr model = Model::Instance();
-  model->Start(RunMode::kBasic);
+  model_->Start(RunMode::kBasic);
 
-  ObjectiveFunction& obj_function = ObjectiveFunction::Instance();
+  ObjectiveFunction& obj_function = model_->objective_function();
   EXPECT_DOUBLE_EQ(1560.8575036493282, obj_function.score());
 }
 
@@ -44,10 +43,9 @@ TEST_F(InternalEmptyModel, Model_CasalComplex3_Estimation) {
   AddConfigurationLine(test_cases_casal_complex_3, "CasalComplex3.h", 31);
   LoadConfiguration();
 
-  ModelPtr model = Model::Instance();
-  model->Start(RunMode::kEstimation);
+  model_->Start(RunMode::kEstimation);
 
-  ObjectiveFunction& obj_function = ObjectiveFunction::Instance();
+  ObjectiveFunction& obj_function = model_->objective_function();
   EXPECT_NEAR(7.1292288397386461, obj_function.score(), 1e-5);
 }
 

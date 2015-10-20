@@ -48,7 +48,7 @@ public:
 
 protected:
   // Members
-  Model*                      model_;
+  Model*                      model_ = nullptr;
   string                      time_step_label_ = "";
   unsigned                    current_initialisation_phase_ = 0;
   vector<vector<Double>>      initialisation_values_;

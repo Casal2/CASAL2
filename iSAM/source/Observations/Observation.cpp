@@ -46,7 +46,9 @@ Observation::Observation(Model* model) : model_(model) {
  * configuration file
  */
 void Observation::Validate() {
+  LOG_TRACE();
   parameters_.Populate();
+  category_labels_ = model_->categories()->ExpandLabels(category_labels_, parameters_.Get(PARAM_CATEGORIES));
 
   if (model_->run_mode() == RunMode::kSimulation) {
     if (likelihood_type_ == PARAM_PSEUDO) {
@@ -94,6 +96,7 @@ void Observation::Validate() {
     }
   }
 
+  LOG_TRACE();
   DoValidate();
 }
 

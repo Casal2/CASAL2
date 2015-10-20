@@ -52,7 +52,7 @@ protected:
   virtual void                DoReset() = 0;
 
   // members
-  Model*                      model_;
+  Model*                      model_ = nullptr;
   vector<Double>              time_step_proportions_;
   map<unsigned, Double>       cvs_;
   Double                      cv_first_ = 0.0;

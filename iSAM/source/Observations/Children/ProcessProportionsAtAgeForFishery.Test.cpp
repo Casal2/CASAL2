@@ -219,13 +219,12 @@ TEST_F(InternalEmptyModel, Observation_Process_Proportions_At_Age_for_fishery_Si
   AddConfigurationLine(test_cases_observation_proportions_at_age_for_fishery_single, __FILE__, 31);
   LoadConfiguration();
 
-  ModelPtr model = Model::Instance();
-  model->Start(RunMode::kBasic);
+  model_->Start(RunMode::kBasic);
 
-  ObjectiveFunction& obj_function = ObjectiveFunction::Instance();
+  ObjectiveFunction& obj_function = model_->objective_function();
   EXPECT_DOUBLE_EQ(243.66246977233092, obj_function.score());
 
-  ObservationPtr observation = observations::Manager::Instance().GetObservation("observation");
+  Observation* observation = model_->managers().observation()->GetObservation("observation");
 
   map<unsigned, vector<obs::Comparison> >& comparisons = observation->comparisons();
   ASSERT_EQ(7u, comparisons.size());

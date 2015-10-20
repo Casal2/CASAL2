@@ -60,60 +60,60 @@ Factory::Factory(Model* model) : model_(model) { }
  * @param sub_type The specialisation/sub_type of the object to create
  * @return A shared_ptr to the object we've created
  */
-base::Object* Factory::CreateObject(string& object_type, string& sub_type) {
-  object_type = utilities::ToLowercase(object_type);
-  sub_type    = utilities::ToLowercase(sub_type);
+base::Object* Factory::CreateObject(const string& object_type, const string& sub_type) {
+  string lwr_object_type = utilities::ToLowercase(object_type);
+  string lwr_sub_type    = utilities::ToLowercase(sub_type);
 
-  if (object_type == PARAM_ADDITIONAL_PRIOR)
-    return additionalpriors::Factory::Create(model_, object_type, sub_type);
-  else if (object_type == PARAM_AGEING_ERROR || object_type == PARAM_AGEING_ERRORS)
-    return ageingerrors::Factory::Create(model_, object_type, sub_type);
-  else if (object_type == PARAM_AGE_LENGTH || object_type == PARAM_AGE_LENGTHS)
-    return agelengths::Factory::Create(model_, object_type, sub_type);
-  else if (object_type == PARAM_ASSERT)
-    return asserts::Factory::Create(model_, object_type, sub_type);
-  else if (object_type == PARAM_CATCHABILITY)
-    return catchabilities::Factory::Create(model_, object_type, sub_type);
-  else if (object_type == PARAM_CATEGORIES)
+  if (lwr_object_type == PARAM_ADDITIONAL_PRIOR)
+    return additionalpriors::Factory::Create(model_, lwr_object_type, lwr_sub_type);
+  else if (lwr_object_type == PARAM_AGEING_ERROR || lwr_object_type == PARAM_AGEING_ERRORS)
+    return ageingerrors::Factory::Create(model_, lwr_object_type, lwr_sub_type);
+  else if (lwr_object_type == PARAM_AGE_LENGTH || lwr_object_type == PARAM_AGE_LENGTHS)
+    return agelengths::Factory::Create(model_, lwr_object_type, lwr_sub_type);
+  else if (lwr_object_type == PARAM_ASSERT)
+    return asserts::Factory::Create(model_, lwr_object_type, lwr_sub_type);
+  else if (lwr_object_type == PARAM_CATCHABILITY)
+    return catchabilities::Factory::Create(model_, lwr_object_type, lwr_sub_type);
+  else if (lwr_object_type == PARAM_CATEGORIES)
     return model_->categories();
-  else if (object_type == PARAM_DERIVED_QUANTITY || object_type == PARAM_DERIVED_QUANTITIES)
-    return derivedquantities::Factory::Create(model_, object_type, sub_type);
-  else if (object_type == PARAM_ESTIMATE)
-    return estimates::creators::Factory::Create(model_, object_type, sub_type);
-  else if (object_type == PARAM_INITIALISATION_PHASE || object_type == PARAM_INITIALISATION_PHASES)
-    return initialisationphases::Factory::Create(model_, object_type, sub_type);
-  else if (object_type == PARAM_LENGTH_WEIGHT || object_type == PARAM_LENGTH_WEIGHTS)
-    return lengthweights::Factory::Create(model_, object_type, sub_type);
-  else if (object_type == PARAM_LIKELIHOOD)
-    return likelihoods::Factory::Create(sub_type);
-  else if (object_type == PARAM_MINIMIZER)
-    return minimisers::Factory::Create(model_, object_type, sub_type);
-  else if (object_type == PARAM_MCMC)
-    return mcmcs::Factory::Create(model_, object_type, sub_type);
-  else if (object_type == PARAM_MODEL)
+  else if (lwr_object_type == PARAM_DERIVED_QUANTITY || lwr_object_type == PARAM_DERIVED_QUANTITIES)
+    return derivedquantities::Factory::Create(model_, lwr_object_type, lwr_sub_type);
+  else if (lwr_object_type == PARAM_ESTIMATE)
+    return estimates::creators::Factory::Create(model_, lwr_object_type, lwr_sub_type);
+  else if (lwr_object_type == PARAM_INITIALISATION_PHASE || lwr_object_type == PARAM_INITIALISATION_PHASES)
+    return initialisationphases::Factory::Create(model_, lwr_object_type, lwr_sub_type);
+  else if (lwr_object_type == PARAM_LENGTH_WEIGHT || lwr_object_type == PARAM_LENGTH_WEIGHTS)
+    return lengthweights::Factory::Create(model_, lwr_object_type, lwr_sub_type);
+  else if (lwr_object_type == PARAM_LIKELIHOOD)
+    return likelihoods::Factory::Create(lwr_sub_type);
+  else if (lwr_object_type == PARAM_MINIMIZER)
+    return minimisers::Factory::Create(model_, lwr_object_type, lwr_sub_type);
+  else if (lwr_object_type == PARAM_MCMC)
+    return mcmcs::Factory::Create(model_, lwr_object_type, lwr_sub_type);
+  else if (lwr_object_type == PARAM_MODEL)
     return model_;
-  else if (object_type == PARAM_OBSERVATION)
-    return observations::Factory::Create(model_, object_type, sub_type);
-  else if (object_type == PARAM_PENALTY)
-    return penalties::Factory::Create(model_, object_type, sub_type);
-  else if (object_type == PARAM_PROCESS || object_type == PARAM_PROCESSES)
-    return processes::Factory::Create(model_, object_type, sub_type);
-  else if (object_type == PARAM_PROFILE)
-    return profiles::Factory::Create(model_, object_type, sub_type);
-  else if (object_type == PARAM_PROJECT || object_type == PARAM_PROJECTS)
-    return projects::Factory::Create(model_, object_type, sub_type);
-  else if (object_type == PARAM_AGEING || object_type == PARAM_MATURATION || object_type == PARAM_MORTALITY || object_type == PARAM_RECRUITMENT)
-    return processes::Factory::Create(model_, object_type, sub_type);
-  else if (object_type == PARAM_STATE || object_type == PARAM_TAG || object_type == PARAM_TRANSITION) // @process specialisation
-    return processes::Factory::Create(model_, object_type, sub_type);
-  else if (object_type == PARAM_REPORT)
-    return reports::Factory::Create(model_, object_type, sub_type);
-  else if (object_type == PARAM_SELECTIVITY || object_type == PARAM_SELECTIVITIES)
-    return selectivities::Factory::Create(model_, object_type, sub_type);
-  else if (object_type == PARAM_TIME_STEP || object_type == PARAM_TIME_STEPS)
-    return timesteps::Factory::Create(model_, object_type, sub_type);
-  else if (object_type == PARAM_TIME_VARYING)
-    return timevarying::Factory::Create(model_, object_type, sub_type);
+  else if (lwr_object_type == PARAM_OBSERVATION)
+    return observations::Factory::Create(model_, lwr_object_type, lwr_sub_type);
+  else if (lwr_object_type == PARAM_PENALTY)
+    return penalties::Factory::Create(model_, lwr_object_type, lwr_sub_type);
+  else if (lwr_object_type == PARAM_PROCESS || lwr_object_type == PARAM_PROCESSES)
+    return processes::Factory::Create(model_, lwr_object_type, lwr_sub_type);
+  else if (lwr_object_type == PARAM_PROFILE)
+    return profiles::Factory::Create(model_, lwr_object_type, lwr_sub_type);
+  else if (lwr_object_type == PARAM_PROJECT || lwr_object_type == PARAM_PROJECTS)
+    return projects::Factory::Create(model_, lwr_object_type, lwr_sub_type);
+  else if (lwr_object_type == PARAM_AGEING || lwr_object_type == PARAM_MATURATION || lwr_object_type == PARAM_MORTALITY || lwr_object_type == PARAM_RECRUITMENT)
+    return processes::Factory::Create(model_, lwr_object_type, lwr_sub_type);
+  else if (lwr_object_type == PARAM_STATE || lwr_object_type == PARAM_TAG || lwr_object_type == PARAM_TRANSITION) // @process specialisation
+    return processes::Factory::Create(model_, lwr_object_type, lwr_sub_type);
+  else if (lwr_object_type == PARAM_REPORT)
+    return reports::Factory::Create(model_, lwr_object_type, lwr_sub_type);
+  else if (lwr_object_type == PARAM_SELECTIVITY || lwr_object_type == PARAM_SELECTIVITIES)
+    return selectivities::Factory::Create(model_, lwr_object_type, lwr_sub_type);
+  else if (lwr_object_type == PARAM_TIME_STEP || lwr_object_type == PARAM_TIME_STEPS)
+    return timesteps::Factory::Create(model_, lwr_object_type, lwr_sub_type);
+  else if (lwr_object_type == PARAM_TIME_VARYING)
+    return timevarying::Factory::Create(model_, lwr_object_type, lwr_sub_type);
 
   return nullptr;
 }

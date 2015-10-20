@@ -59,10 +59,10 @@ public:
 
 protected:
   // Members
-  Model*                      model_;
+  Model*                      model_ = nullptr;
   string                      type_;
   bool                        active_;
-  double**                    hessian_;
+  double**                    hessian_ = nullptr;
   unsigned                    hessian_size_;
   bool                        build_covariance_;
   ublas::matrix<double>       covariance_matrix_;

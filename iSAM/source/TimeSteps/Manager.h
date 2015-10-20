@@ -48,7 +48,6 @@ protected:
   // methods
   Manager();
 
-private:
   // Members
   Model*                      model_;
   vector<TimeStep*>           ordered_time_steps_;

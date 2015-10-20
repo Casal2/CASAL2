@@ -41,7 +41,7 @@ public:
 
 protected:
   // Members
-  Model*                    model_;
+  Model*                      model_ = nullptr;
   map<unsigned, Double>       values_;
 };
 } /* namespace niwa */

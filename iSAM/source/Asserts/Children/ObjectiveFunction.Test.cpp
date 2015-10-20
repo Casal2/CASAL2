@@ -152,10 +152,9 @@ TEST_F(InternalEmptyModel, Asserts_ObjectiveFunction) {
   AddConfigurationLine(simple_model, __FILE__, 30);
   LoadConfiguration();
 
-  ModelPtr model = Model::Instance();
-  EXPECT_NO_THROW(model->Start(RunMode::kBasic));
+  EXPECT_NO_THROW(model_->Start(RunMode::kBasic));
 
-  niwa::ObjectiveFunction& obj_function = niwa::ObjectiveFunction::Instance();
+  niwa::ObjectiveFunction& obj_function = model_->objective_function();
   EXPECT_DOUBLE_EQ(13.81289313550076, obj_function.score());
 }
 
@@ -286,8 +285,7 @@ TEST_F(InternalEmptyModel, Asserts_ObjectiveFunction_Throws_Exception) {
   AddConfigurationLine(simple_model_throws_exception, __FILE__, 170);
   LoadConfiguration();
 
-  ModelPtr model = Model::Instance();
-  EXPECT_THROW(model->Start(RunMode::kBasic), std::string);
+  EXPECT_THROW(model_->Start(RunMode::kBasic), std::string);
 }
 
 }

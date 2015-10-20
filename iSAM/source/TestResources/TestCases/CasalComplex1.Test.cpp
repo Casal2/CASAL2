@@ -32,10 +32,9 @@ TEST_F(InternalEmptyModel, Model_CasalComplex1_BasicRun) {
   AddConfigurationLine(test_cases_casal_complex_1, "CasalComplex1.h", 31);
   LoadConfiguration();
 
-  ModelPtr model = Model::Instance();
-  model->Start(RunMode::kBasic);
+  model_->Start(RunMode::kBasic);
 
-  ObjectiveFunction& obj_function = ObjectiveFunction::Instance();
+  ObjectiveFunction& obj_function = model_->objective_function();
   EXPECT_DOUBLE_EQ(16420.52830668812, obj_function.score());
 }
 
@@ -46,10 +45,9 @@ TEST_F(InternalEmptyModel, Model_CasalComplex1_Estimation) {
   AddConfigurationLine(test_cases_casal_complex_1, "CasalComplex1.h", 31);
   LoadConfiguration();
 
-  ModelPtr model = Model::Instance();
-  model->Start(RunMode::kEstimation);
+  model_->Start(RunMode::kEstimation);
 
-  ObjectiveFunction& obj_function = ObjectiveFunction::Instance();
+  ObjectiveFunction& obj_function = model_->objective_function();
   EXPECT_DOUBLE_EQ(463.46264220283479, obj_function.score());
 }
 
@@ -60,13 +58,12 @@ TEST_F(InternalEmptyModel, Model_CasalComplex1_Simulation) {
   AddConfigurationLine(test_cases_casal_complex_1, "CasalComplex1.h", 31);
   LoadConfiguration();
 
-  ModelPtr model = Model::Instance();
-  model->Start(RunMode::kSimulation);
+  model_->Start(RunMode::kSimulation);
 
-  ObjectiveFunction& obj_function = ObjectiveFunction::Instance();
+  ObjectiveFunction& obj_function = model_->objective_function();
   EXPECT_DOUBLE_EQ(0.0, obj_function.score());
 
-  ObservationPtr observation = observations::Manager::Instance().GetObservation("chatTANage");
+  Observation* observation = model_->managers().observation()->GetObservation("chatTANage");
   if (!observation && observation->label() != "chatTANage")
     LOG_ERROR() << "Observation chatTANage could not be loaded for testing";
 

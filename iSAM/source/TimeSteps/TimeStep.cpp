@@ -151,7 +151,7 @@ Process* TimeStep::SubscribeToProcess(Executor* executor, unsigned year, string 
     }
   }
 
-  LOG_FATAL() << executor->location() << "the process could not be found in the time step " << label_;
+  LOG_FATAL() << executor->location() << "the process " << process_label << " could not be found in the time step " << label_;
   return nullptr;
 }
 
@@ -169,7 +169,7 @@ Process* TimeStep::SubscribeToProcess(Executor* executor, const vector<unsigned>
     }
   }
 
-  LOG_FATAL() << executor->location() << "the process could not be found in the time step " << label_;
+  LOG_FATAL() << executor->location() << "the process " << process_label << " could not be found in the time step " << label_;
   return nullptr;
 }
 

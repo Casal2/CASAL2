@@ -11,7 +11,6 @@
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
 
-#include "Likelihoods/Factory.h"
 #include "Observations/Comparison.h"
 #include "Utilities/RandomNumberGenerator.h"
 
@@ -26,8 +25,7 @@ using observations::Comparison;
 TEST(Likelihood, Dirichlet) {
   utilities::RandomNumberGenerator::Instance().Reset(31373u);
 
-  LikelihoodPtr likelihood = likelihoods::Factory::Create(PARAM_DIRICHLET);
-
+  Dirichlet likelihood;
   map<unsigned, vector<Comparison> > comparison_list;
 
   // Test case 1
@@ -97,10 +95,10 @@ TEST(Likelihood, Dirichlet) {
   comparison_list[0].push_back(comparison);
 
   // Check initial score
-  EXPECT_DOUBLE_EQ(-269.29109765110968,likelihood->GetInitialScore(comparison_list, 0));
+  EXPECT_DOUBLE_EQ(-269.29109765110968, likelihood.GetInitialScore(comparison_list, 0));
 
   // Check Scores
-  likelihood->GetScores(comparison_list);
+  likelihood.GetScores(comparison_list);
   EXPECT_DOUBLE_EQ(  8.723231274827508, comparison_list[0][0].score_);
   EXPECT_DOUBLE_EQ( 25.278476730160975, comparison_list[0][1].score_);
   EXPECT_DOUBLE_EQ( 44.599342238420959, comparison_list[0][2].score_);
@@ -111,7 +109,7 @@ TEST(Likelihood, Dirichlet) {
 
 
   // check simulations
-  likelihood->SimulateObserved(comparison_list);
+  likelihood.SimulateObserved(comparison_list);
   EXPECT_DOUBLE_EQ(0.06310697719429153,   comparison_list[0][0].observed_);
   EXPECT_DOUBLE_EQ(0.15200180984615036,   comparison_list[0][1].observed_);
   EXPECT_DOUBLE_EQ(0.47011274483757398,   comparison_list[0][2].observed_);

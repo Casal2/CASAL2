@@ -23,8 +23,9 @@
 
 // Namespaces
 namespace niwa {
-namespace testfixtures {
+class Model;
 
+namespace testfixtures {
 using std::string;
 
 /**

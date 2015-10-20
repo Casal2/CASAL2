@@ -46,6 +46,8 @@ using std::ostringstream;
  * @param argv Pointer to an array containing the arguments
  */
 void CommandLineParser::Parse(int argc, const char* argv[]) {
+  LOG_TRACE();
+
   // Build Options menu
   options_description oDesc("Usage");
   oDesc.add_options()

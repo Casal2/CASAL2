@@ -27,7 +27,7 @@ using niwa::partition::accessors::CategoriesWithAge;
  * Default Constructor
  */
 RecruitmentConstant::RecruitmentConstant(Model* model) : Process(model) {
-  parameters_.Bind<string>(PARAM_CATEGORIES, &category_names_, "Categories", "");
+  parameters_.Bind<string>(PARAM_CATEGORIES, &category_labels_, "Categories", "");
   parameters_.Bind<Double>(PARAM_PROPORTIONS, &proportions_, "Proportions", "", true);
   parameters_.Bind<unsigned>(PARAM_AGE, &age_, "Age", "");
   parameters_.Bind<Double>(PARAM_R0, &r0_, "R0", "")
@@ -48,7 +48,9 @@ RecruitmentConstant::RecruitmentConstant(Model* model) : Process(model) {
  * 3. Assign remaining local parameters
  */
 void RecruitmentConstant::DoValidate() {
-  for(const string& label : category_names_) {
+  category_labels_ = model_->categories()->ExpandLabels(category_labels_, parameters_.Get(PARAM_CATEGORIES));
+
+  for(const string& label : category_labels_) {
     if (!model_->categories()->IsValid(label))
       LOG_ERROR_P(PARAM_CATEGORIES) << ": category " << label << " does not exist. Have you defined it?";
   }
@@ -67,10 +69,10 @@ void RecruitmentConstant::DoValidate() {
    * and print a warning message
    */
   if (proportions_.size() > 0) {
-    if (proportions_.size() != category_names_.size()) {
+    if (proportions_.size() != category_labels_.size()) {
       LOG_ERROR_P(PARAM_PROPORTIONS)
           << ": Number of proportions provided is not the same as the number of categories provided. Expected: "
-          << category_names_.size()<< " but got " << proportions_.size();
+          << category_labels_.size()<< " but got " << proportions_.size();
     }
 
     Double proportion_total = 0.0;
@@ -86,14 +88,14 @@ void RecruitmentConstant::DoValidate() {
         proportion = proportion / proportion_total;
     }
 
-    for (unsigned i = 0; i < category_names_.size(); ++i) {
-      proportions_categories_[category_names_[i]] = proportions_[i];
+    for (unsigned i = 0; i < category_labels_.size(); ++i) {
+      proportions_categories_[category_labels_[i]] = proportions_[i];
     }
 
   } else {
     // Assign equal proportions to every category
-    Double proportion = category_names_.size() / 1.0;
-    for (string category : category_names_)
+    Double proportion = category_labels_.size() / 1.0;
+    for (string category : category_labels_)
       proportions_categories_[category] = proportion;
   }
 }
@@ -103,7 +105,7 @@ void RecruitmentConstant::DoValidate() {
  * have to other objects in the system.
  */
 void RecruitmentConstant::DoBuild() {
-  partition_ = CategoriesWithAgePtr(new CategoriesWithAge(model_, category_names_, age_));
+  partition_ = CategoriesWithAgePtr(new CategoriesWithAge(model_, category_labels_, age_));
 }
 
 /**

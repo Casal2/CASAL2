@@ -31,7 +31,7 @@ Ageing::Ageing(Model* model)
   process_type_ = ProcessType::kAgeing;
   partition_structure_ = PartitionStructure::kAge;
 
-  parameters_.Bind<string>(PARAM_CATEGORIES, &category_names_, "Categories", "");
+  parameters_.Bind<string>(PARAM_CATEGORIES, &category_labels_, "Categories", "");
 }
 
 /**
@@ -42,8 +42,10 @@ Ageing::Ageing(Model* model)
  * 3. Assign any remaining parameters
  */
 void Ageing::DoValidate() {
+  category_labels_ = model_->categories()->ExpandLabels(category_labels_, parameters_.Get(PARAM_CATEGORIES));
+
   // Ensure defined categories were valid
-  for(const string& category : category_names_) {
+  for(const string& category : category_labels_) {
     if (!model_->categories()->IsValid(category))
       LOG_ERROR_P(PARAM_CATEGORIES) << ": category " << category << " is not a valid category";
   }
@@ -58,7 +60,7 @@ void Ageing::DoValidate() {
  * Then build the basics
  */
 void Ageing::DoBuild() {
-  partition_.Init(category_names_);
+  partition_.Init(category_labels_);
 }
 
 /**

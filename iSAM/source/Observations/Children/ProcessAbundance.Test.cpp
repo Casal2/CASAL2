@@ -145,13 +145,12 @@ TEST_F(InternalEmptyModel, Observation_Process_Abundance) {
   AddConfigurationLine(test_cases_observation_process_abundance, __FILE__, 32);
   LoadConfiguration();
 
-  ModelPtr model = Model::Instance();
-  model->Start(RunMode::kBasic);
+  model_->Start(RunMode::kBasic);
 
-  ObjectiveFunction& obj_function = ObjectiveFunction::Instance();
+  ObjectiveFunction& obj_function = model_->objective_function();
   EXPECT_DOUBLE_EQ(104357.99301535446, obj_function.score());
 
-  ObservationPtr observation = observations::Manager::Instance().GetObservation("observation");
+  Observation* observation = model_->managers().observation()->GetObservation("observation");
 
   map<unsigned, vector<obs::Comparison> >& comparisons = observation->comparisons();
   ASSERT_EQ(10u, comparisons.size());

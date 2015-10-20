@@ -11,6 +11,7 @@
 // headers
 #include "MortalityEventBiomass.h"
 
+#include "Categories/Categories.h"
 #include "Model/Model.h"
 #include "Penalties/Manager.h"
 #include "Selectivities/Manager.h"
@@ -44,6 +45,8 @@ MortalityEventBiomass::MortalityEventBiomass(Model* model)
  *
  */
 void MortalityEventBiomass::DoValidate() {
+  category_labels_ = model_->categories()->ExpandLabels(category_labels_, parameters_.Get(PARAM_CATEGORIES));
+
   if (u_max_ <= 0.0 || u_max_ >= 1.0)
     LOG_ERROR_P(PARAM_U_MAX) << " (" << u_max_ << ") must be between 0.0 and 1.0 exclusive";
 

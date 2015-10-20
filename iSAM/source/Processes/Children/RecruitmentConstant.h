@@ -46,7 +46,7 @@ public:
 
 private:
   // Members
-  vector<string>              category_names_;
+  vector<string>              category_labels_;
   vector<Double>              proportions_;
   OrderedMap<string, Double>  proportions_categories_;
   Double                      r0_;

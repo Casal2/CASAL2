@@ -29,11 +29,11 @@ using ::testing::Return;
  * Test the results of our selectivity are correct
  */
 TEST(Selectivities, AllValuesBounded) {
-  std::shared_ptr<MockModel> model = std::shared_ptr<MockModel>(new MockModel);
-  EXPECT_CALL(*model.get(), min_age()).WillRepeatedly(Return(10));
-  EXPECT_CALL(*model.get(), max_age()).WillRepeatedly(Return(20));
+  MockModel model;
+  EXPECT_CALL(model, min_age()).WillRepeatedly(Return(10));
+  EXPECT_CALL(model, max_age()).WillRepeatedly(Return(20));
 
-  niwa::selectivities::AllValuesBounded all_values_bounded(model);
+  niwa::selectivities::AllValuesBounded all_values_bounded(&model);
 
   vector<string> v;
   for (unsigned i = 0; i < 6; ++i)

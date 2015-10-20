@@ -16,14 +16,11 @@
 
 #include <iostream>
 
-#include "Catchabilities/Factory.h"
-#include "Observations/Factory.h"
-#include "Processes/Factory.h"
-#include "TimeSteps/Factory.h"
-#include "TimeSteps/Manager.h"
+#include "Model/Factory.h"
+#include "Observations/Manager.h"
 #include "Partition/Partition.h"
-#include "Selectivities/Factory.h"
 #include "TestResources/TestFixtures/BasicModel.h"
+#include "TimeSteps/Manager.h"
 
 // Namespaces
 namespace niwa {
@@ -41,7 +38,7 @@ TEST_F(BasicModel, Observation_Abundance) {
   // Recruitment process
   vector<string> recruitment_categories   = { "immature.male", "immature.female" };
   vector<string> proportions  = { "0.6", "0.4" };
-  niwa::ProcessPtr process = processes::Factory::Create(PARAM_RECRUITMENT, PARAM_CONSTANT);
+  base::Object* process = model_->factory().CreateObject(PARAM_RECRUITMENT, PARAM_CONSTANT);
   process->parameters().Add(PARAM_LABEL, "recruitment", __FILE__, __LINE__);
   process->parameters().Add(PARAM_TYPE, "constant", __FILE__, __LINE__);
   process->parameters().Add(PARAM_CATEGORIES, recruitment_categories, __FILE__, __LINE__);
@@ -51,7 +48,7 @@ TEST_F(BasicModel, Observation_Abundance) {
 
   // Mortality process
   vector<string> mortality_categories   = { "immature.male", "immature.female", "mature.male", "mature.female" };
-  process = processes::Factory::Create(PARAM_MORTALITY, PARAM_CONSTANT_RATE);
+  process = model_->factory().CreateObject(PARAM_MORTALITY, PARAM_CONSTANT_RATE);
   process->parameters().Add(PARAM_LABEL, "mortality", __FILE__, __LINE__);
   process->parameters().Add(PARAM_TYPE, "constant_rate", __FILE__, __LINE__);
   process->parameters().Add(PARAM_CATEGORIES, mortality_categories, __FILE__, __LINE__);
@@ -60,18 +57,18 @@ TEST_F(BasicModel, Observation_Abundance) {
 
   // Ageing process
   vector<string> ageing_categories   = { "immature.male", "immature.female" };
-  process = processes::Factory::Create(PARAM_AGEING, "");
+  process = model_->factory().CreateObject(PARAM_AGEING, "");
   process->parameters().Add(PARAM_LABEL, "ageing", __FILE__, __LINE__);
   process->parameters().Add(PARAM_CATEGORIES, ageing_categories, __FILE__, __LINE__);
 
   // Timestep
-  niwa::base::ObjectPtr time_step = timesteps::Factory::Create();
+  base::Object* time_step = model_->factory().CreateObject(PARAM_TIME_STEP, "");
   vector<string> processes    = { "ageing", "recruitment", "mortality" };
   time_step->parameters().Add(PARAM_LABEL, "step_one", __FILE__, __LINE__);
   time_step->parameters().Add(PARAM_PROCESSES, processes, __FILE__, __LINE__);
 
   // Catchability
-  niwa::CatchabilityPtr catchability = catchabilities::Factory::Create(PARAM_CATCHABILITY, "");
+  base::Object* catchability = model_->factory().CreateObject(PARAM_CATCHABILITY, "");
   catchability->parameters().Add(PARAM_LABEL, "catchability", __FILE__, __LINE__);
   catchability->parameters().Add(PARAM_Q, "0.000153139", __FILE__, __LINE__);
 
@@ -80,7 +77,7 @@ TEST_F(BasicModel, Observation_Abundance) {
   vector<string> obs = { "22.50", "11.25" };
   vector<string> error_values = { "0.2", "0.2" };
   vector<string> selectivities = { "constant_one", "constant_one", "constant_one" };
-  niwa::ObservationPtr observation = observations::Factory::Create(PARAM_OBSERVATION, PARAM_ABUNDANCE);
+  base::Object* observation = model_->factory().CreateObject(PARAM_OBSERVATION, PARAM_ABUNDANCE);
   observation->parameters().Add(PARAM_LABEL, "abundance", __FILE__, __LINE__);
   observation->parameters().Add(PARAM_TYPE, "abundance", __FILE__, __LINE__);
   observation->parameters().Add(PARAM_CATCHABILITY, "catchability", __FILE__, __LINE__);
@@ -93,10 +90,10 @@ TEST_F(BasicModel, Observation_Abundance) {
   observation->parameters().Add(PARAM_LIKELIHOOD, "lognormal", __FILE__, __LINE__);
   observation->parameters().Add(PARAM_TIME_STEP_PROPORTION, "1.0", __FILE__, __LINE__);
 
-  Model::Instance()->Start(RunMode::kTesting);
-  Model::Instance()->FullIteration();
+  model_->Start(RunMode::kTesting);
+  model_->FullIteration();
 
-  const vector<obs::Comparison>& comparisons = observation->comparisons(2008);
+  const vector<obs::Comparison>& comparisons = model_->managers().observation()->GetObservation("abundance")->comparisons(2008);
   ASSERT_EQ(2u, comparisons.size());
 
   EXPECT_EQ("immature.male+immature.female", comparisons[0].category_);

@@ -17,7 +17,7 @@ namespace reports {
 /**
  * Default Constructor
  */
-Manager::Manager() {
+Manager::Manager(Model* model) : model_(model) {
   continue_.test_and_set();
 }
 
@@ -34,10 +34,6 @@ Manager::~Manager() noexcept(true) {
  * based on their type.
  */
 void Manager::Build() {
-  LOG_CODE_ERROR() << "This method is not supported";
-}
-
-void Manager::Build(Model* model) {
   LOG_FINEST() << "objects_.size(): " << objects_.size();
   for (auto report : objects_) {
     report->Build();

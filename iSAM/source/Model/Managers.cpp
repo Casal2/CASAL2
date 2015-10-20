@@ -43,6 +43,8 @@ namespace niwa {
  * Default constructor
  */
 Managers::Managers(Model* model) {
+  LOG_TRACE();
+
   model_ = model;
 
   additional_prior_       = new additionalpriors::Manager();
@@ -62,7 +64,7 @@ Managers::Managers(Model* model) {
   process_                = new processes::Manager();
   profile_                = new profiles::Manager();
   project_                = new projects::Manager();
-  report_                 = new reports::Manager();
+  report_                 = new reports::Manager(model_);
   selectivity_            = new selectivities::Manager();
   simulate_               = new simulates::Manager();
   time_step_              = new timesteps::Manager();
@@ -98,6 +100,7 @@ Managers::~Managers() {
 }
 
 void Managers::Validate() {
+  LOG_TRACE();
   time_step_->Validate(model_);
 
   additional_prior_->Validate();
@@ -124,6 +127,9 @@ void Managers::Validate() {
 }
 
 void Managers::Build() {
+  LOG_TRACE();
+  time_step_->Build();
+
   additional_prior_->Build();
   ageing_error_->Build();
   age_length_->Build();
@@ -140,14 +146,14 @@ void Managers::Build() {
   process_->Build();
   profile_->Build();
   project_->Build();
-  report_->Build(model_);
+  report_->Build();
   selectivity_->Build();
   simulate_->Build();
-  time_step_->Build();
   time_varying_->Build();
 }
 
 void Managers::Reset() {
+  LOG_TRACE();
   additional_prior_->Reset();
   ageing_error_->Reset();
   age_length_->Reset();

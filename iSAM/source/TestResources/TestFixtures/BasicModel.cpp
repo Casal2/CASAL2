@@ -14,24 +14,9 @@
 // Headers
 #include "BasicModel.h"
 
-#include "AgeLengths/Manager.h"
-#include "Catchabilities/Manager.h"
+#include "Model/Model.h"
+#include "Model/Factory.h"
 #include "Categories/Categories.h"
-#include "DerivedQuantities/Manager.h"
-#include "Estimates/Manager.h"
-#include "InitialisationPhases/Manager.h"
-#include "Minimisers/Manager.h"
-#include "ObjectiveFunction/ObjectiveFunction.h"
-#include "Observations/Manager.h"
-#include "Partition/Accessors/Category.h"
-#include "Partition/Partition.h"
-#include "Penalties/Manager.h"
-#include "Processes/Manager.h"
-#include "Reports/Manager.h"
-#include "Selectivities/Factory.h"
-#include "Selectivities/Manager.h"
-#include "LengthWeights/Manager.h"
-#include "TimeSteps/Manager.h"
 #include "Logging/Logging.h"
 #include "Utilities/RandomNumberGenerator.h"
 #include "Utilities/To.h"
@@ -44,32 +29,28 @@ namespace testfixtures {
  *
  */
 void BasicModel::SetUp() {
-  Model::Instance(true);
+  Base::SetUp();
 
   utilities::RandomNumberGenerator& rng = utilities::RandomNumberGenerator::Instance();
   rng.Reset(2468);
 
-  niwa::base::ObjectPtr object;
-
   /**
    * Add Model Parameters
    */
-  object = Model::Instance();
-  object->set_block_type(PARAM_MODEL);
-  object->parameters().Add(PARAM_START_YEAR, "1994", __FILE__, __LINE__);
-  object->parameters().Add(PARAM_FINAL_YEAR, "2008", __FILE__, __LINE__);
-  object->parameters().Add(PARAM_MIN_AGE, "1", __FILE__, __LINE__);
-  object->parameters().Add(PARAM_MAX_AGE, "20", __FILE__, __LINE__);
-  object->parameters().Add(PARAM_AGE_PLUS, "true", __FILE__, __LINE__);
-  object->parameters().Add(PARAM_TIME_STEPS, "step_one", __FILE__, __LINE__);
+  model_->set_block_type(PARAM_MODEL);
+  model_->parameters().Add(PARAM_START_YEAR, "1994", __FILE__, __LINE__);
+  model_->parameters().Add(PARAM_FINAL_YEAR, "2008", __FILE__, __LINE__);
+  model_->parameters().Add(PARAM_MIN_AGE, "1", __FILE__, __LINE__);
+  model_->parameters().Add(PARAM_MAX_AGE, "20", __FILE__, __LINE__);
+  model_->parameters().Add(PARAM_AGE_PLUS, "true", __FILE__, __LINE__);
+  model_->parameters().Add(PARAM_TIME_STEPS, "step_one", __FILE__, __LINE__);
 
-  object = Categories::Instance();
-  vector<string> categories = { "immature.male", "mature.male", "immature.female", "mature.female" };
-  object->set_block_type(PARAM_CATEGORIES);
-  object->parameters().Add(PARAM_FORMAT, "stage.sex", __FILE__, __LINE__);
-  object->parameters().Add(PARAM_NAMES, categories, __FILE__, __LINE__);
+  base::Object* categories = model_->categories();
+  categories->set_block_type(PARAM_CATEGORIES);
+  categories->parameters().Add(PARAM_FORMAT, "stage.sex", __FILE__, __LINE__);
+  categories->parameters().Add(PARAM_NAMES, { "immature.male", "mature.male", "immature.female", "mature.female" }, __FILE__, __LINE__);
 
-  object = selectivities::Factory::Create(PARAM_SELECTIVITY, PARAM_CONSTANT);
+  base::Object* object = model_->factory().CreateObject(PARAM_SELECTIVITY, PARAM_CONSTANT);
   object->parameters().Add(PARAM_LABEL, "constant_one", __FILE__, __LINE__);
   object->parameters().Add(PARAM_TYPE, "constant", __FILE__, __LINE__);
   object->parameters().Add(PARAM_C, "1", __FILE__, __LINE__);

@@ -64,7 +64,7 @@ private:
   // Members
   Model&                      model_;
   vector<FileLine>            file_lines_;
-  parameters::Table*          current_table_;
+  parameters::Table*          current_table_ = nullptr;
 };
 
 } /* namespace configuration */

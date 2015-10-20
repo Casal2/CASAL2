@@ -54,15 +54,14 @@ MaturationRate::MaturationRate(Model* model)
  */
 void MaturationRate::DoValidate() {
   LOG_TRACE();
+  from_category_names_ = model_->categories()->ExpandLabels(from_category_names_, parameters_.Get(PARAM_FROM));
+  to_category_names_ = model_->categories()->ExpandLabels(to_category_names_, parameters_.Get(PARAM_TO));
 
   if (selectivity_names_.size() == 1)
     selectivity_names_.assign(from_category_names_.size(), selectivity_names_[0]);
 
   // Validate Categories
-  niwa::Categories* categories = model_->categories();
-  from_category_names_ = categories->ExpandLabels(from_category_names_, parameters_.Get(PARAM_FROM));
-  to_category_names_   = categories->ExpandLabels(to_category_names_, parameters_.Get(PARAM_TO));
-
+  auto categories = model_->categories();
   for (const string& label : from_category_names_) {
     if (!categories->IsValid(label))
       LOG_ERROR_P(PARAM_FROM) << ": category " << label << " does not exist. Have you defined it?";

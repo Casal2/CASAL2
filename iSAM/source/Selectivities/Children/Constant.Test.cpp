@@ -24,7 +24,7 @@ namespace niwa {
  */
 TEST(Selectivities, Constant) {
 
-  niwa::selectivities::Constant constant;
+  niwa::selectivities::Constant constant(nullptr);
   constant.parameters().Add(PARAM_LABEL, "unit_test_constant", __FILE__, __LINE__);
   constant.parameters().Add(PARAM_TYPE, "not needed in test", __FILE__, __LINE__);
   constant.parameters().Add(PARAM_C, "83", __FILE__, __LINE__);

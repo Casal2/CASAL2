@@ -60,7 +60,7 @@ public:
 
 private:
   // Members
-  Model*                              model_;
+  Model*                              model_ = nullptr;
   vector<string>                      process_names_;
   vector<Process*>                    processes_;
   map<unsigned, vector<Executor*> >   executors_;

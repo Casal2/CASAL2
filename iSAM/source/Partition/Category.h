@@ -60,7 +60,7 @@ public:
 
 private:
   // members
-  Model*                      model_;
+  Model*                      model_ = nullptr;
 };
 
 } /* namespace partitions */

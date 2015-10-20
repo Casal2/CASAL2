@@ -42,7 +42,7 @@ protected:
   virtual void                DoBuild() = 0;
 
   // members
-  Model*                      model_;
+  Model*                      model_ = nullptr;
 };
 } /* namespace niwa */
 #endif /* INITIALISATIONPHASE_H_ */

@@ -50,7 +50,7 @@ protected:
   virtual void                DoReset() = 0;
 
   // Members
-  Model*                      model_;
+  Model*                      model_ = nullptr;
   unsigned                    min_age_ = 0;
   unsigned                    max_age_ = 0;
   bool                        age_plus_ = false;

@@ -47,7 +47,7 @@ protected:
   Double                      b_;
   bool                        by_length_;
   string                      length_weight_label_;
-  LengthWeight*               length_weight_;
+  LengthWeight*               length_weight_ = nullptr;
 };
 
 } /* namespace agelengths */

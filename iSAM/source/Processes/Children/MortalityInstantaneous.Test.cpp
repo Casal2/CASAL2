@@ -194,8 +194,7 @@ TEST_F(InternalEmptyModel, Processes_Mortality_Instantaneous_Simple) {
   AddConfigurationLine(test_cases_process_mortality_instantaneous_simple, __FILE__, 136);
   LoadConfiguration();
 
-  ModelPtr model = Model::Instance();
-  model->Start(RunMode::kBasic);
+  model_->Start(RunMode::kBasic);
 
   vector<Double> expected = { 0.000000, 4949176.82048178, 4064898.2621518681, 3328684.1087008952, 2706834.6065880726,
       2190888.450324099, 1767721.5580938468, 1425641.5667563954, 1140148.3260357741, 907812.45802352321, 720031.05614045332,
@@ -204,7 +203,7 @@ TEST_F(InternalEmptyModel, Processes_Mortality_Instantaneous_Simple) {
       33999.31527315217, 28565.45150964101, 24327.409298919287,20914.675439551294, 18089.274781314001, 15700.519200272849,
       95507.546634746832 };
 
-  partition::Category& stock = Partition::Instance().category("stock");
+  partition::Category& stock = model_->partition().category("stock");
   for (unsigned i = 0; i < expected.size(); ++i) {
     EXPECT_DOUBLE_EQ(expected[i], stock.data_[i]) << " with i = " << i;
   }

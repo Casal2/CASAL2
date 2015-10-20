@@ -17,6 +17,7 @@
 
 #include "TestResources/MockClasses/Managers.h"
 #include "TestResources/MockClasses/Model.h"
+#include "TimeSteps/Manager.h"
 
 // Namespaces
 namespace niwa {
@@ -27,14 +28,15 @@ using ::testing::ReturnRef;
 // classes
 class MockTimeStepManager : public timesteps::Manager {
 public:
+  MockTimeStepManager() = default;
   unsigned time_step_index_ = 0;
   unsigned current_time_step() const override final { return time_step_index_; }
 };
 
 class MockSchnute : public Schnute {
 public:
-  MockSchnute(ModelPtr model, Double y1, Double y2, Double tau1, Double tau2, Double a, Double b, bool by_length,
-      Double cv_first, Double cv_last, vector<Double> time_step_proportions) : Schnute(model) {
+  MockSchnute(Model& model, Double y1, Double y2, Double tau1, Double tau2, Double a, Double b, bool by_length,
+      Double cv_first, Double cv_last, vector<Double> time_step_proportions) : Schnute(&model) {
     y1_ = y1;
     y2_ = y2;
     tau1_ = tau1;
@@ -52,18 +54,17 @@ public:
  * Test the results of our KnifeEdge are correct
  */
 TEST(AgeLengths, Schnute) {
+  MockModel model;
+  MockManagers mock_managers(&model);
   MockTimeStepManager time_step_manager;
 
-  MockManagers mock_managers;
-  EXPECT_CALL(mock_managers, time_step()).WillRepeatedly(ReturnRef(time_step_manager));
+  EXPECT_CALL(model, min_age()).WillRepeatedly(Return(5));
+  EXPECT_CALL(model, max_age()).WillRepeatedly(Return(10));
+  EXPECT_CALL(model, managers()).WillRepeatedly(ReturnRef(mock_managers));
 
-  std::shared_ptr<MockModel> model = std::shared_ptr<MockModel>(new MockModel);
-  EXPECT_CALL(*model.get(), min_age()).WillRepeatedly(Return(5));
-  EXPECT_CALL(*model.get(), max_age()).WillRepeatedly(Return(10));
-  EXPECT_CALL(*model.get(), managers()).WillRepeatedly(ReturnRef(mock_managers));
+  EXPECT_CALL(mock_managers, time_step()).WillRepeatedly(Return(&time_step_manager));
 
   MockSchnute schnute(model, 24.5, 104.8, 1, 20, 0.131, 1.70, true, 1.5, 0.01, {0.0});
-
 
   EXPECT_DOUBLE_EQ(69.024873822523432, schnute.mean_length(1999, 5));
   EXPECT_DOUBLE_EQ(74.848134092163818, schnute.mean_length(1999, 6));
@@ -72,7 +73,6 @@ TEST(AgeLengths, Schnute) {
   EXPECT_DOUBLE_EQ(87.285326700186346, schnute.mean_length(1999, 9));
   EXPECT_DOUBLE_EQ(90.261388412893822, schnute.mean_length(1999, 10));
 
-
   ASSERT_NO_THROW(schnute.BuildCV(1999));
   EXPECT_DOUBLE_EQ(1.5, schnute.cv(5));
   EXPECT_DOUBLE_EQ(1.0914274084458957, schnute.cv(6));
@@ -80,22 +80,21 @@ TEST(AgeLengths, Schnute) {
   EXPECT_DOUBLE_EQ(0.46309553126356651, schnute.cv(8));
   EXPECT_DOUBLE_EQ(0.21880695525926219, schnute.cv(9));
   EXPECT_DOUBLE_EQ(0.010000000000000009, schnute.cv(10));
-
 }
 
 /**
  *
  */
 TEST(AgeLengths, Schnute_BuildCV_ByLength_Proportion) {
+  MockModel model;
+  MockManagers mock_managers(&model);
   MockTimeStepManager time_step_manager;
 
-  MockManagers mock_managers;
-  EXPECT_CALL(mock_managers, time_step()).WillRepeatedly(ReturnRef(time_step_manager));
+  EXPECT_CALL(mock_managers, time_step()).WillRepeatedly(Return(&time_step_manager));
 
-  std::shared_ptr<MockModel> model = std::shared_ptr<MockModel>(new MockModel);
-  EXPECT_CALL(*model.get(), min_age()).WillRepeatedly(Return(5));
-  EXPECT_CALL(*model.get(), max_age()).WillRepeatedly(Return(10));
-  EXPECT_CALL(*model.get(), managers()).WillRepeatedly(ReturnRef(mock_managers));
+  EXPECT_CALL(model, min_age()).WillRepeatedly(Return(5));
+  EXPECT_CALL(model, max_age()).WillRepeatedly(Return(10));
+  EXPECT_CALL(model, managers()).WillRepeatedly(ReturnRef(mock_managers));
 
   MockSchnute schnute(model, 24.5, 104.8, 1, 20, 0.131, 1.70, true, 1.5, 7, {0.3});
 
@@ -123,16 +122,16 @@ TEST(AgeLengths, Schnute_BuildCV_ByLength_Proportion) {
  *
  */
 TEST(AgeLengths, Schnute_BuildCV_ByLength_ProportionAndTimeStep) {
+  MockModel model;
+  MockManagers mock_managers(&model);
   MockTimeStepManager time_step_manager;
   time_step_manager.time_step_index_ = 1;
 
-  MockManagers mock_managers;
-  EXPECT_CALL(mock_managers, time_step()).WillRepeatedly(ReturnRef(time_step_manager));
+  EXPECT_CALL(mock_managers, time_step()).WillRepeatedly(Return(&time_step_manager));
 
-  std::shared_ptr<MockModel> model = std::shared_ptr<MockModel>(new MockModel);
-  EXPECT_CALL(*model.get(), min_age()).WillRepeatedly(Return(5));
-  EXPECT_CALL(*model.get(), max_age()).WillRepeatedly(Return(10));
-  EXPECT_CALL(*model.get(), managers()).WillRepeatedly(ReturnRef(mock_managers));
+  EXPECT_CALL(model, min_age()).WillRepeatedly(Return(5));
+  EXPECT_CALL(model, max_age()).WillRepeatedly(Return(10));
+  EXPECT_CALL(model, managers()).WillRepeatedly(ReturnRef(mock_managers));
 
   MockSchnute schnute(model, 24.5, 104.8, 1, 20, 0.131, 1.70, true, 0.2, 0.9, {0.25, 0.5});
   ASSERT_NO_THROW(schnute.BuildCV(1999));
@@ -150,15 +149,15 @@ TEST(AgeLengths, Schnute_BuildCV_ByLength_ProportionAndTimeStep) {
  *
  */
 TEST(AgeLengths, Schnute_BuildCV_LinearInterpolation) {
+  MockModel model;
+  MockManagers mock_managers(&model);
   MockTimeStepManager time_step_manager;
 
-  MockManagers mock_managers;
-  EXPECT_CALL(mock_managers, time_step()).WillRepeatedly(ReturnRef(time_step_manager));
+  EXPECT_CALL(mock_managers, time_step()).WillRepeatedly(Return(&time_step_manager));
 
-  std::shared_ptr<MockModel> model = std::shared_ptr<MockModel>(new MockModel);
-  EXPECT_CALL(*model.get(), min_age()).WillRepeatedly(Return(5));
-  EXPECT_CALL(*model.get(), max_age()).WillRepeatedly(Return(10));
-  EXPECT_CALL(*model.get(), managers()).WillRepeatedly(ReturnRef(mock_managers));
+  EXPECT_CALL(model, min_age()).WillRepeatedly(Return(5));
+  EXPECT_CALL(model, max_age()).WillRepeatedly(Return(10));
+  EXPECT_CALL(model, managers()).WillRepeatedly(ReturnRef(mock_managers));
 
   MockSchnute schnute(model, 24.5, 104.8, 1, 20, 0.131, 1.70, false, 0.1, 0.9, {1.0});
   ASSERT_NO_THROW(schnute.BuildCV(1999));

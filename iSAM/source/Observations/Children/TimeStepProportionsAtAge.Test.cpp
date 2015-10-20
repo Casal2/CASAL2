@@ -149,13 +149,12 @@ TEST_F(InternalEmptyModel, Observation_Proportions_At_Age_Single) {
   AddConfigurationLine(test_cases_observation_proportions_at_age_single, __FILE__, 31);
   LoadConfiguration();
 
-  ModelPtr model = Model::Instance();
-  model->Start(RunMode::kBasic);
+  model_->Start(RunMode::kBasic);
 
-  ObjectiveFunction& obj_function = ObjectiveFunction::Instance();
+  ObjectiveFunction& obj_function = model_->objective_function();
   EXPECT_DOUBLE_EQ(3.6938037850412622, obj_function.score());
 
-  ObservationPtr observation = observations::Manager::Instance().GetObservation("observation");
+  Observation* observation = model_->managers().observation()->GetObservation("observation");
 
   map<unsigned, vector<obs::Comparison> >& comparisons = observation->comparisons();
   ASSERT_EQ(1u, comparisons.size());
@@ -319,10 +318,9 @@ TEST_F(InternalEmptyModel, Observation_Proportions_At_Age_Double) {
   AddConfigurationLine(test_cases_observation_proportions_at_age_double, __FILE__, 194);
   LoadConfiguration();
 
-  ModelPtr model = Model::Instance();
-  model->Start(RunMode::kBasic);
+  model_->Start(RunMode::kBasic);
 
-  ObservationPtr observation = observations::Manager::Instance().GetObservation("observation");
+  Observation* observation = model_->managers().observation()->GetObservation("observation");
 
   map<unsigned, vector<obs::Comparison> >& comparisons = observation->comparisons();
   ASSERT_EQ(1u, comparisons.size());
@@ -360,7 +358,7 @@ TEST_F(InternalEmptyModel, Observation_Proportions_At_Age_Double) {
   EXPECT_DOUBLE_EQ(0.0365,                comparisons[year][4].observed_);
   EXPECT_DOUBLE_EQ(-0.63798390702860996,  comparisons[year][4].score_);
 
-  ObjectiveFunction& obj_function = ObjectiveFunction::Instance();
+  ObjectiveFunction& obj_function = model_->objective_function();
   EXPECT_DOUBLE_EQ(30.122778748284137, obj_function.score());
 }
 

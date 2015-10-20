@@ -47,11 +47,11 @@ private:
   unsigned                      min_age_;
   unsigned                      max_age_;
   string                        selectivity_label_;
-  Selectivity*                  selectivity_;
+  Selectivity*                  selectivity_ = nullptr;
   string                        penalty_label_;
-  Penalty*                      penalty_;
+  Penalty*                      penalty_ = nullptr;
   Double                        u_max_;
-  parameters::Table*            n_table_;
+  parameters::Table*            n_table_ = nullptr;
   map<unsigned, vector<Double>> n_;
   accessor::Categories          to_partition_;
   accessor::Categories          from_partition_;

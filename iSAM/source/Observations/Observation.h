@@ -45,7 +45,6 @@ public:
   void                        Build();
   void                        Reset();
 
-
   // pure methods
   virtual void                DoValidate() = 0;
   virtual void                DoBuild() = 0;
@@ -68,7 +67,7 @@ protected:
       Double process_error, Double error_value, Double delta, Double score);
 
   // members
-  Model*                      model_;
+  Model*                      model_ = nullptr;
   string                      type_ = "";
   map<unsigned, Double>       scores_;
   string                      time_step_label_ = "";
@@ -80,7 +79,7 @@ protected:
   string                      simulation_likelihood_label_ = "";
   bool                        run_in_simulation_mode_ = false;
   vector<Selectivity*>        selectivities_;
-  Likelihood*                 likelihood_;
+  Likelihood*                 likelihood_ = nullptr;
   Double                      error_value_multiplier_ = 1.0;
   Double                      likelihood_multiplier_ = 1.0;
   map<unsigned, vector<obs::Comparison> > comparisons_;

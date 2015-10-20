@@ -52,7 +52,7 @@ protected:
   virtual void                DoBuild() = 0;
 
   // members
-  Model*                      model_;
+  Model*                      model_ = nullptr;
   bool                        has_score_ = true;
 };
 } /* namespace niwa */

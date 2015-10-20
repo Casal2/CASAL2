@@ -26,11 +26,11 @@ using ::testing::Return;
  * Test the results of our KnifeEdge are correct
  */
 TEST(Selectivities, KnifeEdge) {
-  std::shared_ptr<MockModel> model = std::shared_ptr<MockModel>(new MockModel);
-  EXPECT_CALL(*model.get(), min_age()).WillRepeatedly(Return(10));
-  EXPECT_CALL(*model.get(), max_age()).WillRepeatedly(Return(20));
+  MockModel model;
+  EXPECT_CALL(model, min_age()).WillRepeatedly(Return(10));
+  EXPECT_CALL(model, max_age()).WillRepeatedly(Return(20));
 
-  niwa::selectivities::KnifeEdge knife_edge(model);
+  niwa::selectivities::KnifeEdge knife_edge(&model);
   knife_edge.parameters().Add(PARAM_LABEL, "unit_test_knife_edge", __FILE__, __LINE__);
   knife_edge.parameters().Add(PARAM_TYPE, "not needed in test", __FILE__, __LINE__);
   knife_edge.parameters().Add(PARAM_E, "15", __FILE__, __LINE__);

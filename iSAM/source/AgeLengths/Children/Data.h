@@ -41,13 +41,13 @@ private:
   void                        FillInternalGaps();
 
   // members
-  parameters::Table*            data_table_;
+  parameters::Table*            data_table_ = nullptr;
   string                        external_gaps_;
   string                        internal_gaps_;
   map<unsigned, vector<Double>> data_by_year_;
   vector<Double>                means_;
   string                        length_weight_label_;
-  const LengthWeight*           length_weight_;
+  const LengthWeight*           length_weight_ = nullptr;
 };
 
 } /* namespace agelengths */

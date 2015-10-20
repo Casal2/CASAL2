@@ -28,6 +28,9 @@ namespace observations {
  * Default constructor
  */
 ProportionsAtAgeForFishery::ProportionsAtAgeForFishery(Model* model) : Observation(model) {
+  obs_table_ = new parameters::Table(PARAM_OBS);
+  error_values_table_ = new parameters::Table(PARAM_ERROR_VALUES);
+
   parameters_.Bind<unsigned>(PARAM_MIN_AGE, &min_age_, "Minimum age", "");
   parameters_.Bind<unsigned>(PARAM_MAX_AGE, &max_age_, "Maximum age", "");
   parameters_.Bind<bool>(PARAM_AGE_PLUS, &age_plus_, "Use age plus group", "", true);

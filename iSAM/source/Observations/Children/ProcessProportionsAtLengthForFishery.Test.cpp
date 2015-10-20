@@ -199,13 +199,12 @@ TEST_F(InternalEmptyModel, Observation_Proportions_At_Length_for_fishery_Single)
   AddConfigurationLine(test_cases_observation_proportions_at_length_for_fishery_single, __FILE__, 31);
   LoadConfiguration();
 
-  ModelPtr model = Model::Instance();
-  model->Start(RunMode::kBasic);
+  model_->Start(RunMode::kBasic);
 
-  ObjectiveFunction& obj_function = ObjectiveFunction::Instance();
+  ObjectiveFunction& obj_function = model_->objective_function();
   EXPECT_DOUBLE_EQ(313.6635868924738, obj_function.score());
 
-  ObservationPtr observation = observations::Manager::Instance().GetObservation("observation");
+  Observation* observation = model_->managers().observation()->GetObservation("observation");
 
   map<unsigned, vector<obs::Comparison> >& comparisons = observation->comparisons();
   ASSERT_EQ(5u, comparisons.size());

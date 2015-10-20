@@ -42,7 +42,7 @@ class MortalityInstantaneous : public Process {
     unsigned        time_step_index_;
     Double          u_max_;
     string          penalty_label_;
-    Penalty*        penalty_;
+    Penalty*        penalty_ = nullptr;
     map<unsigned, Double>  catches_;
   };
   /**
@@ -53,7 +53,7 @@ class MortalityInstantaneous : public Process {
     string          fishery_label_;
     string          category_label_;
     string          selectivity_label_;
-    Selectivity*    selectivity_;
+    Selectivity*    selectivity_ = nullptr;
     FisheryData&    fishery_;
   };
 public:
@@ -76,15 +76,15 @@ private:
   vector<string>              category_labels_;
   vector<FisheryCategoryData> fishery_categories_;
   map<string, FisheryData>    fisheries_;
-  parameters::Table*          catches_table_;
-  parameters::Table*          fisheries_table_;
+  parameters::Table*          catches_table_ = nullptr;
+  parameters::Table*          fisheries_table_ = nullptr;
   accessor::Categories        partition_;
   Double                      current_m_ = 0.0;
   map<string, Double>         fishery_exploitation;
   // members from mortality event
   Double                      u_max_;
   string                      penalty_label_ = "";
-  penalties::Process*         penalty_;
+  penalties::Process*         penalty_ = nullptr;
   // members from natural mortality
   vector<Double>              m_;
   vector<Double>              time_step_ratios_temp_;

@@ -31,7 +31,7 @@ using observations::Comparison;
 TEST(Likelihood, LogNormal) {
   utilities::RandomNumberGenerator::Instance().Reset(31373u);
 
-  LikelihoodPtr likelihood = likelihoods::Factory::Create(PARAM_LOGNORMAL);
+  LogNormal likelihood;
 
   map<unsigned, vector<Comparison> > comparison_list;
 
@@ -61,10 +61,10 @@ TEST(Likelihood, LogNormal) {
   }
 
   // Check initial score
-  EXPECT_DOUBLE_EQ(0.0, likelihood->GetInitialScore(comparison_list, 0));
+  EXPECT_DOUBLE_EQ(0.0, likelihood.GetInitialScore(comparison_list, 0));
 
   // Check scores
-  likelihood->GetScores(comparison_list);
+  likelihood.GetScores(comparison_list);
   EXPECT_DOUBLE_EQ(-9.2103403762649183,  comparison_list[0][0].score_);
   EXPECT_DOUBLE_EQ(-9.2103403762649183,  comparison_list[0][1].score_);
   EXPECT_DOUBLE_EQ(-9.2103403762649183,  comparison_list[0][2].score_);
@@ -75,7 +75,7 @@ TEST(Likelihood, LogNormal) {
   EXPECT_DOUBLE_EQ(-0.72207704946548157, comparison_list[0][7].score_);
 
   // check simulations
-  likelihood->SimulateObserved(comparison_list);
+  likelihood.SimulateObserved(comparison_list);
   EXPECT_DOUBLE_EQ(0.25001151803908866,   comparison_list[0][0].observed_);
   EXPECT_DOUBLE_EQ(0.25007450179597446,  comparison_list[0][1].observed_);
   EXPECT_DOUBLE_EQ(0.24998621490767847, comparison_list[0][2].observed_);

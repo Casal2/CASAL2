@@ -84,6 +84,7 @@ void GlobalConfiguration::Clear() {
  * be modified by the command line.
  */
 void GlobalConfiguration::OverrideGlobalValues(const map<string, string>& override_values) {
+  LOG_TRACE();
   for (auto iter : override_values) {
     global_parameters_[iter.first] = iter.second;
   }

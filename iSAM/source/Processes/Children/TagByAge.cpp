@@ -31,6 +31,9 @@ TagByAge::TagByAge(Model* model)
   process_type_ = ProcessType::kTransition;
   partition_structure_ = PartitionStructure::kAge;
 
+  numbers_table_ = new parameters::Table(PARAM_NUMBERS);
+  proportions_table_ = new parameters::Table(PARAM_PROPORTIONS);
+
   parameters_.Bind<string>(PARAM_FROM, &from_category_labels_, "Categories to transition from", "");
   parameters_.Bind<string>(PARAM_TO, &to_category_labels_, "Categories to transition to", "");
   parameters_.Bind<unsigned>(PARAM_MIN_AGE, &min_age_, "Minimum age to transition", "");
@@ -52,6 +55,9 @@ TagByAge::TagByAge(Model* model)
  * Validate the parameters from the configuration file
  */
 void TagByAge::DoValidate() {
+  from_category_labels_ = model_->categories()->ExpandLabels(from_category_labels_, parameters_.Get(PARAM_FROM));
+  to_category_labels_ = model_->categories()->ExpandLabels(to_category_labels_, parameters_.Get(PARAM_TO));
+
   if (from_category_labels_.size() != to_category_labels_.size()) {
     LOG_ERROR_P(PARAM_TO) << " number of values supplied (" << to_category_labels_.size()
         << ") does not match the number of from categories provided (" << from_category_labels_.size() << ")";
@@ -64,10 +70,6 @@ void TagByAge::DoValidate() {
     LOG_ERROR_P(PARAM_MAX_AGE) << " (" << max_age_ << ") is greater than the model's maximum age (" << model_->max_age() << ")";
 
   unsigned age_spread = (max_age_ - min_age_) + 1;
-
-  niwa::Categories* categories = model_->categories();
-  from_category_labels_ = categories->ExpandLabels(from_category_labels_, parameters_.Get(PARAM_FROM));
-  to_category_labels_   = categories->ExpandLabels(to_category_labels_, parameters_.Get(PARAM_TO));
 
   /**
    * Get our first year

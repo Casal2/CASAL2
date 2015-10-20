@@ -32,7 +32,8 @@ using niwa::testfixtures::InternalEmptyModel;
 class LoaderTest {
 public:
   bool HandleOperators(vector<string> &line_values) {
-    Loader loader;
+    Model model;
+    Loader loader(model);
     string error = "";
     if (!loader.HandleOperators(line_values, error)) {
       cout << "ERROR: " << error << endl;

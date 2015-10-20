@@ -27,6 +27,9 @@ namespace observations {
  * Default constructor
  */
 ProportionsAtLength::ProportionsAtLength(Model* model) : Observation(model) {
+  obs_table_ = new parameters::Table(PARAM_OBS);
+  error_values_table_ = new parameters::Table(PARAM_ERROR_VALUES);
+
   parameters_.Bind<Double>(PARAM_LENGTH_BINS, &length_bins_, "Length bins", "");
   parameters_.Bind<bool>(PARAM_LENGTH_PLUS, &length_plus_, "Is the last bin a plus group", "", true);
   parameters_.Bind<Double>(PARAM_TOLERANCE, &tolerance_, "Tolerance for rescaling proportions", "", Double(0.001));

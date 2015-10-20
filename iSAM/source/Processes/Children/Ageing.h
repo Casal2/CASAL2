@@ -43,7 +43,7 @@ public:
 private:
   // Members
   accessor::Categories        partition_;
-  vector<string>              category_names_;
+  vector<string>              category_labels_;
 };
 
 } /* namespace processes */
