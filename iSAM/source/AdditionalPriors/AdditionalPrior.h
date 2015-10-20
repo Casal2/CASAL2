@@ -34,12 +34,13 @@ public:
   virtual                     ~AdditionalPrior() = default;
   Double                      score();
   void                        Validate();
-  void                        Build() { };
+  void                        Build();
   void                        Reset() { };
 
 protected:
   // pure virtual methods
   virtual void                DoValidate() = 0;
+  virtual void                DoBuild() = 0;
   virtual Double              ratio_score() = 0;
   virtual Double              difference_score() = 0;
   virtual Double              mean_score() = 0;

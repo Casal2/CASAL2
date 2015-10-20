@@ -19,7 +19,6 @@
 #include "Processes/Children/Ageing.h"
 #include "Processes/Children/Growth.h"
 #include "Processes/Children/Maturation.h"
-#include "Processes/Children/MaturationRate.h"
 #include "Processes/Children/MortalityConstantRate.h"
 #include "Processes/Children/MortalityEvent.h"
 #include "Processes/Children/MortalityEventBiomass.h"
@@ -29,6 +28,7 @@
 #include "Processes/Children/RecruitmentConstant.h"
 #include "Processes/Children/TagByAge.h"
 #include "Processes/Children/TagByLength.h"
+#include "Processes/Children/TransitionCategory.h"
 #include "Processes/Children/TransitionCategoryByAge.h"
 
 // Namespaces
@@ -77,8 +77,6 @@ Process* Factory::Create(Model* model, const string& object_type, const string& 
       result = new RecruitmentConstant(model);
     else if (sub == PARAM_MATURATION)
       result = new Maturation(model);
-    else if (sub == PARAM_MATURATION_RATE)
-      result = new MaturationRate(model);
     else if (sub == PARAM_MORTALITY_CONSTANT_RATE)
       result = new MortalityConstantRate(model);
     else if (sub == PARAM_MORTALITY_EVENT)
@@ -93,6 +91,8 @@ Process* Factory::Create(Model* model, const string& object_type, const string& 
       result = new TagByAge(model);
     else if (sub == PARAM_TAG_BY_LENGTH)
       result = new TagByLength(model);
+    else if (sub == PARAM_TRANSITION_CATEGORY)
+      result = new TransitionCategory(model);
     else if (sub == PARAM_TRANSITION_CATEGORY_BY_AGE)
       result = new TransitionCategoryByAge(model);
 

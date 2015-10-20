@@ -49,6 +49,12 @@ void Beta::DoValidate() {
       << b_ << " - " << mu_ << ") / (" << sigma_ << " * " << sigma_ << ") - 1.0 == " << max_sigma << " <= 0.0";
 }
 
+/*
+ * Build any run time relationships
+ */
+void Beta::DoBuild() {
+}
+
 /**
  * TODO: Add documentation
  */

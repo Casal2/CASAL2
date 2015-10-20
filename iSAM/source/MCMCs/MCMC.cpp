@@ -316,6 +316,7 @@ void MCMC::UpdateStepSize() {
   if (jumps_since_adapt_ > 0 && successful_jumps_since_adapt_ > 0) {
     if (std::find(adapt_step_size_.begin(), adapt_step_size_.end(), successful_jumps_) == adapt_step_size_.end())
       return;
+
     // modify the stepsize by the ratio = AcceptanceRate / 0.24
     step_size_ *= ((Double)successful_jumps_since_adapt_ / (Double)jumps_since_adapt_) * 4.166667;
     // Ensure the stepsize remains positive
@@ -323,6 +324,8 @@ void MCMC::UpdateStepSize() {
     // reset counters
     jumps_since_adapt_ = 0;
     successful_jumps_since_adapt_ = 0;
+
+    return;
   }
 }
 

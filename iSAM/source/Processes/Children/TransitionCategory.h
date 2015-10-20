@@ -1,5 +1,5 @@
 /**
- * @file MaturationRate.h
+ * @file TransitionCategory.h
  * @author  Scott Rasmussen (scott.rasmussen@zaita.com)
  * @version 1.0
  * @date 21/12/2012
@@ -15,8 +15,8 @@
  *
  * $Date: 2008-03-04 16:33:32 +1300 (Tue, 04 Mar 2008) $
  */
-#ifndef MATURATIONRATE_H_
-#define MATURATIONRATE_H_
+#ifndef TRANSITIONCATEGORY_H_
+#define TRANSITIONCATEGORY_H_
 
 // Headers
 #include "Processes/Process.h"
@@ -33,11 +33,11 @@ using utilities::OrderedMap;
 /**
  * Class defintiion
  */
-class MaturationRate : public niwa::Process {
+class TransitionCategory : public niwa::Process {
 public:
   // Methods
-  explicit MaturationRate(Model* model);
-  virtual                     ~MaturationRate() = default;
+  explicit TransitionCategory(Model* model);
+  virtual                     ~TransitionCategory() = default;
   void                        DoValidate() override final;
   void                        DoBuild() override final;
   void                        DoReset() override final;
@@ -53,10 +53,10 @@ private:
   accessor::Categories        from_partition_;
   accessor::Categories        to_partition_;
   vector<Selectivity*>        selectivities_;
-  vector<vector<Double> >     maturation_rates_;
+  vector<vector<Double> >     transition_rates_;
 
 };
 
 } /* namespace processes */
 } /* namespace niwa */
-#endif /* MATURATIONRATE_H_ */
+#endif /* TRANSITIONCATEGORY_H_ */

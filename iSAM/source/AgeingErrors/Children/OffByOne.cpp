@@ -19,8 +19,8 @@ namespace ageingerrors {
 // Constructor
 OffByOne::OffByOne(Model* model) : AgeingError(model) {
   parameters_.Bind<Double>(PARAM_P1, &p1_, "proprtion of misclassification up by an age, i.e. how proportion of age 3 that are actually age 4", "");
-  parameters_.Bind<Double>(PARAM_P2, &p2_, "proprtion of misclassification down by an age", "");
-  parameters_.Bind<unsigned>(PARAM_K, &k_, "The minimum age of fish whcih can be missclassified", "", 0u);
+  parameters_.Bind<Double>(PARAM_P2, &p2_, "proprtion of misclassification down by an age", "")->set_range(0.0, 1.0);
+  parameters_.Bind<unsigned>(PARAM_K, &k_, "The minimum age of fish which can be missclassified", "", 0u)->set_range(0.0, 1.0);
 
   RegisterAsEstimable(PARAM_P1, &p1_);
   RegisterAsEstimable(PARAM_P2, &p2_);
@@ -35,11 +35,6 @@ OffByOne::OffByOne(Model* model) : AgeingError(model) {
 void OffByOne::DoValidate() {
   if (k_ > max_age_)
     LOG_ERROR_P(PARAM_K)<< "value (" << k_ << ") cannot be greater than the model's max age (" << max_age_ << ")";
-  if (p1_ < 0.0)
-    LOG_ERROR_P(PARAM_P1) << PARAM_P1 << " Cannot be less than 0.0";
-  if (p2_ > 1.0)
-    LOG_ERROR_P(PARAM_P2) << PARAM_P2 << " Cannot be greater than 1.0";
-
 }
 
 void OffByOne::DoBuild() {
@@ -51,27 +46,29 @@ void OffByOne::DoBuild() {
  * changes from any estimable modifications
  */
 void OffByOne::DoReset() {
-
   mis_matrix_[0][0] = 1.0 - p2_;
   mis_matrix_[0][1] = p2_;
-  for (unsigned i = 0; i < age_spread_; ++i) {
-    if (k_ > min_age_) {
-      mis_matrix_[i][i - 1.0] = p1_;
-      mis_matrix_[i][i] = 1.0 - p1_ - p2_;
-      mis_matrix_[i][i + 1.0] = p1_;
-    }
-    mis_matrix_[age_spread_][age_spread_ - 1.0] = p1_;
+  for (unsigned i = 1; i < (mis_matrix_.size() - 1); ++i) {
+    LOG_FINEST() << " did we enter the loop?";
+    mis_matrix_[i][i - 1] = p1_;
+    mis_matrix_[i][i] = 1.0 - (p1_ + p2_);
+    mis_matrix_[i][i + 1] = p2_;
   }
+
+  mis_matrix_[age_spread_ - 1][age_spread_ - 2] = p1_;
 
   if (age_plus_) {
-    mis_matrix_[age_spread_][age_spread_] = 1.0 - p1_;
+    mis_matrix_[age_spread_ - 1][age_spread_ - 1] = 1.0 - p1_;
   } else {
-    mis_matrix_[age_spread_][age_spread_] = 1.0 - p1_ - p2_;
+    mis_matrix_[age_spread_ - 1][age_spread_ - 1] = 1.0 - (p1_ + p2_);
   }
 
-  for (unsigned j = 0; j < k_; ++j) {
-    mis_matrix_[j].assign(mis_matrix_[j].size(), 0.0);
-    mis_matrix_[j][j] = 1.0;
+  if (k_ > min_age_) {
+    unsigned l = 0;
+    for (unsigned j = 0; j < (k_ - min_age_); ++j, ++l) {
+      mis_matrix_[j][l] = 0.0;
+      mis_matrix_[j][j] = 1.0;
+    }
   }
 
 }
