@@ -25,7 +25,7 @@ TimeVarying::TimeVarying(Model* model) : model_(model) {
   parameters_.Bind<string>(PARAM_LABEL, &label_, "Label", "");
   parameters_.Bind<string>(PARAM_TYPE, &type_, "Type", "", "");
   parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "Years to recalculate the values", "");
-  parameters_.Bind<string>(PARAM_PARAMETER, &parameter_, "Parameter to project", "");
+  parameters_.Bind<string>(PARAM_PARAMETER, &parameter_, "Parameter to vary", "");
 
   original_value_ = 0;
 }

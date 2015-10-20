@@ -259,16 +259,12 @@ void ProportionsAtAgeForFishery::Execute() {
         // for ages older than max_age_ that could be classified as an individual within the observation range
         unsigned age        = ((*category_iter)->min_age_ + data_offset);
 
-        LOG_FINE() << " did we make it here1?";
         start_value = (*cached_category_iter).data_[data_offset];
         end_value = (*category_iter)->data_[data_offset];
         final_value = 0.0;
 
-        LOG_FINE() << " Category Iter name " << (*category_iter)->name_ << " Fishery = " << fishery_<< " Age = " << age;
         Double M = mortality_instantaneous_->GetMBySelectivity((*category_iter)->name_, age);
-        LOG_FINE() << " did we make it here2?";
         Double t = mortality_instantaneous_->time_step_ratio();
-        LOG_FINE() << " did we make it here3?";
         Double u_frac = mortality_instantaneous_->GetFisheryExploitationFraction(fishery_, (*category_iter)->name_ , age);
         final_value = fabs(start_value * exp(- M * t * 0.5) - end_value * exp(M * t * 0.5)) * u_frac;
         numbers_age[data_offset] += final_value;
@@ -284,7 +280,7 @@ void ProportionsAtAgeForFishery::Execute() {
 
 
     /*
-    *  Apply Ageing error on numbers at age
+    *  Apply Ageing error on numbers at age vector
     */
     if (ageing_error_label_ != "") {
       vector<vector<Double>>& mis_matrix = ageing_error_->mis_matrix();
@@ -299,21 +295,18 @@ void ProportionsAtAgeForFishery::Execute() {
     }
 
     /*
-     *  Now collapse the number_age into out expected values
+     *  Now collapse the number_age into the expected_values for the observation
      */
-    LOG_FINEST()<< "number of bins " << numbers_age.size() << " and expected " << expected_values.size() << " Last element " << age_spread_ - 1;
     for (unsigned k = 0; k < numbers_age.size(); ++k) {
       // this is the difference between the
       unsigned age_offset = min_age_ - model_->min_age();
-      if (k >= age_offset && k <= (max_age_ + 1 - age_offset)) {
+      if (k >= age_offset && (k - age_offset + min_age_) <= max_age_) {
         expected_values[k - age_offset] = numbers_age[k];
-        LOG_FINEST()<< expected_values[k - age_offset];
       }
-      if (k > (max_age_ + 1 - age_offset) && age_plus_) {
+      if (((k - age_offset + min_age_) > max_age_) && age_plus_) {
         expected_values[age_spread_ - 1] += numbers_age[k];
       }
     }
-    LOG_FINEST() << expected_values[age_spread_ - 1];
 
 
     if (expected_values.size() != proportions_[model_->current_year()][category_labels_[category_offset]].size())
@@ -330,6 +323,11 @@ void ProportionsAtAgeForFishery::Execute() {
           process_errors_by_year_[model_->current_year()], error_values_[model_->current_year()][category_labels_[category_offset]][i], delta_, 0.0);
     }
   }
+  // We need to cache this comparison if there are multiple fisheries contributing to the observaton then we need to cater for this.
+  // i.e cache the comparison so we add to it with other fisheries before we Calculate score
+  // if ( multiple fisheries )
+  // if (this is not the last fishery cache or add to existing)
+  // else calculate score
 
 }
 

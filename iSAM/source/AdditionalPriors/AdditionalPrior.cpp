@@ -62,4 +62,11 @@ void AdditionalPrior::Validate() {
     score_function_ = &AdditionalPrior::mean_score;
 }
 
+/*
+ *
+ */
+void AdditionalPrior::Build() {
+  DoBuild();
+}
+
 } /* namespace niwa */

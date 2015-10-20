@@ -16,6 +16,7 @@
 #include "Model/Managers.h"
 #include "TimeVarying/Children/AnnualShift.h"
 #include "TimeVarying/Children/Constant.h"
+#include "TimeVarying/Children/Exogenous.h"
 #include "TimeVarying/Manager.h"
 
 // namespaces
@@ -38,6 +39,8 @@ TimeVarying* Factory::Create(Model* model, const string& object_type, const stri
       result = new AnnualShift(model);
     else if (sub_type == PARAM_CONSTANT)
       result = new Constant(model);
+    else if (sub_type == PARAM_EXOGENOUS)
+      result = new Exogenous(model);
 
     if (result)
       model->managers().time_varying()->AddObject(result);

@@ -38,6 +38,7 @@ public:
   virtual void                Validate() { };
   virtual Double              Transform(Double initial_value) = 0;
   virtual Double              Untransform(Double initial_value) = 0;
+//  virtual Double              Jocabian(Double initial_value) = 0;
   void                        SetParameters(vector<string> parameters) { parameters_ = parameters; }
 
 protected:

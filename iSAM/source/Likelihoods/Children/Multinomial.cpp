@@ -62,19 +62,20 @@ void Multinomial::GetScores(map<unsigned, vector<observations::Comparison> >& co
  *
  * @param comparisons A collection of comparisons passed by the observation
  */
+
 Double Multinomial::GetInitialScore(map<unsigned, vector<observations::Comparison> >& comparisons, unsigned year) {
   Double score = 0.0;
 
-  string last_category = "";
-  for (observations::Comparison& comparison : comparisons[year]) {
-    if (last_category == comparison.category_)
-      continue;
 
-    last_category = comparison.category_;
+ // int stopper = 0;
+  observations::Comparison& comparison = comparisons[year][0];
+    //if (stopper == 1)
+    //  break;
     Double temp_score = -math::LnFactorial(AdjustErrorValue(comparison.process_error_, comparison.error_value_)  * error_value_multiplier_);
     LOG_FINEST() << "Adding: " << temp_score << " = LnFactorial(AdjustErrorValue(" << comparison.process_error_ << ", " << comparison.error_value_ << ")  * " << error_value_multiplier_ << ")";
     score += temp_score;
-  }
+    //stopper += 1;
+  //}
 
   return score * multiplier_;
 }

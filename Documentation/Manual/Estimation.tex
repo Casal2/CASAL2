@@ -89,6 +89,10 @@ The differential evolution minimiser can be good at finding global minimums in s
 
 We note that there is no proof of convergence for the differential evolution solver, but several papers have found it to be an efficient method of solving multidimensional problems. Our (limited) experience suggests that it can often find a better minima and may be faster or longer (depending on the actual model specification) at finding a solution when compared with the numerical differences minimiser. Comparisons with auto-differentiation minimisers or other more sophisticated algorithms have not been made. 
 
+\subsubsection{\I{The Betadiff minimiser}}
+An auto-differentiable minimiser for non-linear models.
+
+
 \subsection{\I{Posterior profiles}\label{sec:estimate-profiles}}
 
 \CH
@@ -101,7 +105,7 @@ By default $step=10$, and $(l, u)=($lower bound on parameter plus $(range/(2n))$
 
 You specify which parameters are to be profiled, and optionally the number of steps, lower bound, and upper bound for each. In the case of vector parameters, you will also need to specify the element of the vector being profiled. 
 
-You can also supply the initial starting point for the estimation using \texttt{\cas\/ -i \emph{file}} --- this may improve the minimiser performance for the profiles.
+You can also supply the initial starting point for the estimation using \texttt{\cas\ -i \emph{file}} --- this may improve the minimiser performance for the profiles.
 
 If you get an implausible profile, it may be a result of not using enough iterations in the minimiser or a poor choice of minimiser control variables (e.g., the minimiser tolerance). It also may be useful to try both if the minimisers in \CAS\ and compare the results.
 

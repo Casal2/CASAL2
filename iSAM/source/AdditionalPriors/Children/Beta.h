@@ -28,7 +28,7 @@ public:
   Beta();
   virtual                     ~Beta() = default;
   void                        DoValidate() override final;
-
+  void                        DoBuild() override final;
 protected:
   // methods
   Double                      ratio_score() override final;

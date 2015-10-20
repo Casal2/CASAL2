@@ -52,6 +52,8 @@ breakatwhitespace=false,	    % sets if automatic breaks should only happen at wh
 escapeinside={\%*}{*)}          % if you want to add a comment within your code
 }
 
+% highlighting package for editing
+\usepackage{color,soul}
 
 % Allow colour for HTML links
 \usepackage{color}
@@ -170,7 +172,8 @@ escapeinside={\%*}{*)}          % if you want to add a comment within your code
 \newcommand{\KL}{\color{red}\emph{KL comment: }}
 \newcommand{\KLend}{\color{black}}
 \newcommand{\Done}{\textcolor{BurntOrange}{\emph{This section has been checked: \\}}\color{black}}
-
+\definecolor{new}{rgb}{0.60,0.803922,0.196078}
+\newcommand{\hlc}[2][yellow]{ {\sethlcolor{#1} \hl{#2}} }
 
 %quick index:
 \newcommand{\I}[1]{#1\index{#1}}

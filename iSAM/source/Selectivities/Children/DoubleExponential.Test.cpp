@@ -37,8 +37,8 @@ TEST(Selectivities, DoubleExponential) {
 
   double_exponential.parameters().Add(PARAM_LABEL, "unit_test_double_exponential", __FILE__, __LINE__);
   double_exponential.parameters().Add(PARAM_TYPE, "not needed in test", __FILE__, __LINE__);
-  double_exponential.parameters().Add(PARAM_X0, "5",  __FILE__, __LINE__);
-  double_exponential.parameters().Add(PARAM_X1, "7", __FILE__, __LINE__);
+  double_exponential.parameters().Add(PARAM_X0, "7",  __FILE__, __LINE__);
+  double_exponential.parameters().Add(PARAM_X1, "5", __FILE__, __LINE__);
   double_exponential.parameters().Add(PARAM_X2, "9", __FILE__, __LINE__);
   double_exponential.parameters().Add(PARAM_Y0, "3", __FILE__, __LINE__);
   double_exponential.parameters().Add(PARAM_Y1, "6", __FILE__, __LINE__);
@@ -47,17 +47,17 @@ TEST(Selectivities, DoubleExponential) {
   double_exponential.Build();
 
   EXPECT_DOUBLE_EQ(0.0,                 double_exponential.GetResult(9)); // Below model->min_age()
-  EXPECT_DOUBLE_EQ(34.837187452916304,  double_exponential.GetResult(10)); // At model->min_age()
-  EXPECT_DOUBLE_EQ(56.888888888888886,  double_exponential.GetResult(11));
-  EXPECT_DOUBLE_EQ(92.899166541110148,  double_exponential.GetResult(12));
-  EXPECT_DOUBLE_EQ(151.7037037037037,   double_exponential.GetResult(13));
-  EXPECT_DOUBLE_EQ(247.73111077629369,  double_exponential.GetResult(14));
-  EXPECT_DOUBLE_EQ(404.54320987654319,  double_exponential.GetResult(15));
-  EXPECT_DOUBLE_EQ(660.61629540344984,  double_exponential.GetResult(16));
-  EXPECT_DOUBLE_EQ(1078.7818930041151,  double_exponential.GetResult(17));
-  EXPECT_DOUBLE_EQ(1761.6434544091994,  double_exponential.GetResult(18));
-  EXPECT_DOUBLE_EQ(2876.7517146776399,  double_exponential.GetResult(19));
-  EXPECT_DOUBLE_EQ(4697.7158784245312,  double_exponential.GetResult(20)); // At model->max_age()
+  EXPECT_DOUBLE_EQ(13.063945294843617,  double_exponential.GetResult(10)); // At model->min_age()
+  EXPECT_DOUBLE_EQ(21.333333333333332,  double_exponential.GetResult(11));
+  EXPECT_DOUBLE_EQ(34.837187452916304,  double_exponential.GetResult(12));
+  EXPECT_DOUBLE_EQ(56.888888888888886,   double_exponential.GetResult(13));
+  EXPECT_DOUBLE_EQ(92.899166541110148,  double_exponential.GetResult(14));
+  EXPECT_DOUBLE_EQ(151.7037037037037,  double_exponential.GetResult(15));
+  EXPECT_DOUBLE_EQ(247.73111077629369,  double_exponential.GetResult(16));
+  EXPECT_DOUBLE_EQ(404.54320987654319,  double_exponential.GetResult(17));
+  EXPECT_DOUBLE_EQ(660.61629540344984,  double_exponential.GetResult(18));
+  EXPECT_DOUBLE_EQ(1078.7818930041151,  double_exponential.GetResult(19));
+  EXPECT_DOUBLE_EQ(1761.6434544091994,  double_exponential.GetResult(20)); // At model->max_age()
   EXPECT_DOUBLE_EQ(0.0,                 double_exponential.GetResult(21)); // This is above model->max_age()
   EXPECT_DOUBLE_EQ(0.0,                 double_exponential.GetResult(22));
   EXPECT_DOUBLE_EQ(0.0,                 double_exponential.GetResult(23));
