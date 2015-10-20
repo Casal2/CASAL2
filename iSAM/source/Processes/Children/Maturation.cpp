@@ -42,6 +42,9 @@ Maturation::Maturation(Model* model)
  * validate the values from the configuration file
  */
 void Maturation::DoValidate() {
+  from_category_names_ = model_->categories()->ExpandLabels(from_category_names_, parameters_.Get(PARAM_FROM));
+  to_category_names_ = model_->categories()->ExpandLabels(to_category_names_, parameters_.Get(PARAM_TO));
+
   if (selectivity_names_.size() == 1)
     selectivity_names_.assign(from_category_names_.size(), selectivity_names_[0]);
 

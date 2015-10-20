@@ -47,6 +47,8 @@ MortalityInstantaneous::MortalityInstantaneous(Model* model)
   process_type_ = ProcessType::kMortality;
   partition_structure_ = PartitionStructure::kAge;
 
+  catches_table_ = new parameters::Table(PARAM_CATCHES);
+  fisheries_table_ = new parameters::Table(PARAM_FISHERIES);
   // catches_table_->set_required_columns({"years"}, allow_others = true)
   // fisheries_table_->set_required_columns({"x", "x", "x,"});
 
@@ -72,6 +74,8 @@ MortalityInstantaneous::MortalityInstantaneous(Model* model)
  * Note: all parameters are populated from configuration files
  */
 void MortalityInstantaneous::DoValidate() {
+  category_labels_ = model_->categories()->ExpandLabels(category_labels_, parameters_.Get(PARAM_CATEGORIES));
+
   /**
    * Load a temporary map of the fishery catch data so we can use this
    * when we load our vector of FisheryData objects

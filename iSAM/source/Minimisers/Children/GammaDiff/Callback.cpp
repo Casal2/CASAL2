@@ -34,6 +34,7 @@ CallBack::CallBack(Model* model) : model_(model) {
 double CallBack::operator()(const vector<double>& Parameters) {
 
   // Update our Components with the New Parameters
+  LOG_FINE() << "model_: " << model_;
   vector<Estimate*> estimates = model_->managers().estimate()->GetEnabled();
 
   if (Parameters.size() != estimates.size()) {

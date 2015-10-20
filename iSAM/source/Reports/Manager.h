@@ -38,7 +38,6 @@ public:
   // methods
   virtual                     ~Manager() noexcept(true);
   void                        Build() override final;
-  void                        Build(Model* model);
   void                        Execute(State::Type model_state);
   void                        Execute(unsigned year, const string& time_step_label);
   void                        Prepare();
@@ -52,7 +51,8 @@ public:
 
 protected:
   // methods
-  Manager();
+  Manager() = delete;
+  explicit Manager(Model* model);
 
 private:
   // Members

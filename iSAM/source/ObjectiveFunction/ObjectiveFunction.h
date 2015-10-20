@@ -69,7 +69,7 @@ private:
   ObjectiveFunction(Model* model);
 
   // Members
-  Model*                      model_;
+  Model*                      model_ = nullptr;
   Double                      score_        = 0.0;
   Double                      penalties_    = 0.0;
   Double                      priors_       = 0.0;

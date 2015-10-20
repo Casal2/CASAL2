@@ -48,13 +48,13 @@ public:
 
 private:
   // members
-  Model*                      model_;
+  Model*                      model_ = nullptr;
   unsigned                    steps_ = 0;
   Double                      lower_bound_ = 0;
   Double                      upper_bound_ = 0;
   string                      parameter_ = "";
   Double                      step_size_ = 0;
-  Double*                     target_ = 0;
+  Double*                     target_ = nullptr;
   Double                      original_value_ = 0;
 };
 } /* namespace niwa */

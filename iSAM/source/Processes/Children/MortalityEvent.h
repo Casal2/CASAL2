@@ -46,7 +46,7 @@ public:
 
 private:
   // Members
-  vector<string>              category_names_;
+  vector<string>              category_labels_;
   vector<unsigned>            years_;
   vector<Double>              catches_;
   map<unsigned, Double>       catch_years_;
@@ -56,7 +56,7 @@ private:
   accessor::Categories        partition_;
   vector<Selectivity*>        selectivities_;
   map<string, map<unsigned, Double> > vulnerable_;
-  penalties::Process*         penalty_;
+  penalties::Process*         penalty_ = nullptr;
 };
 
 } /* namespace processes */

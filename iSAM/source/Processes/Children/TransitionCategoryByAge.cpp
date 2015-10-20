@@ -15,6 +15,7 @@
 #include <numeric>
 #include <limits>
 
+#include "Categories/Categories.h"
 #include "Model/Model.h"
 #include "Penalties/Manager.h"
 #include "Selectivities/Manager.h"
@@ -35,6 +36,8 @@ TransitionCategoryByAge::TransitionCategoryByAge(Model* model)
   process_type_ = ProcessType::kTransition;
   partition_structure_ = PartitionStructure::kAge;
 
+  n_table_ = new parameters::Table(PARAM_N);
+
   parameters_.Bind<string>(PARAM_FROM, &from_category_labels_, "Categories to transition from", "");
   parameters_.Bind<string>(PARAM_TO, &to_category_labels_, "Categories to transition to", "");
   parameters_.Bind<unsigned>(PARAM_MIN_AGE, &min_age_, "Minimum age to transition", "");
@@ -51,6 +54,9 @@ TransitionCategoryByAge::TransitionCategoryByAge(Model* model)
  * Validate our parameters
  */
 void TransitionCategoryByAge::DoValidate() {
+  from_category_labels_ = model_->categories()->ExpandLabels(from_category_labels_, parameters_.Get(PARAM_FROM));
+  to_category_labels_ = model_->categories()->ExpandLabels(to_category_labels_, parameters_.Get(PARAM_TO));
+
   if (from_category_labels_.size() != to_category_labels_.size()) {
     LOG_ERROR_P(PARAM_TO) << " number of values supplied (" << to_category_labels_.size()
         << ") does not match the number of from categories provided (" << from_category_labels_.size() << ")";

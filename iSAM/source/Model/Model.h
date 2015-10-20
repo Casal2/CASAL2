@@ -135,13 +135,13 @@ protected:
   PartitionStructure          partition_structure_ = PartitionStructure::kInvalid;
 
   map<State::Type, vector<Executor*>> executors_;
-  Managers*                   managers_;
-  Objects*                    objects_;
-  GlobalConfiguration*        global_configuration_;
-  Categories*                 categories_;
-  Factory*                    factory_;
-  Partition*                  partition_;
-  ObjectiveFunction*          objective_function_;
+  Managers*                   managers_ = nullptr;
+  Objects*                    objects_ = nullptr;
+  GlobalConfiguration*        global_configuration_ = nullptr;
+  Categories*                 categories_ = nullptr;
+  Factory*                    factory_ = nullptr;
+  Partition*                  partition_ = nullptr;
+  ObjectiveFunction*          objective_function_ = nullptr;
 };
 
 } /* namespace niwa */

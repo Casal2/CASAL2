@@ -44,7 +44,7 @@ public:
 
 private:
   // Members
-  vector<string>              category_names_;
+  vector<string>              category_labels_;
   vector<Double>              m_;
   vector<Double>              ratios_;
   map<unsigned, Double>       time_step_ratios_;

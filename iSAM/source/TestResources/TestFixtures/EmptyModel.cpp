@@ -29,7 +29,7 @@ EmptyModel::~EmptyModel() {}
  *
  */
 void EmptyModel::SetUp() {
-  Model::Instance(true);
+  Base::SetUp();
 
   utilities::RandomNumberGenerator& rng = utilities::RandomNumberGenerator::Instance();
   rng.Reset(2468);

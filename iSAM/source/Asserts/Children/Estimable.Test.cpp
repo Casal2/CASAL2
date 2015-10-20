@@ -155,10 +155,9 @@ TEST_F(InternalEmptyModel, Asserts_Estimable) {
   AddConfigurationLine(simple_model, __FILE__, 30);
   LoadConfiguration();
 
-  ModelPtr model = Model::Instance();
-  model->Start(RunMode::kBasic);
+  model_->Start(RunMode::kBasic);
 
-  ObjectiveFunction& obj_function = ObjectiveFunction::Instance();
+  ObjectiveFunction& obj_function = model_->objective_function();
   EXPECT_DOUBLE_EQ(13.81289313550076, obj_function.score());
 }
 
@@ -295,8 +294,7 @@ TEST_F(InternalEmptyModel, Asserts_Estimable_Throws_Exception) {
   AddConfigurationLine(simple_model_fail, __FILE__, 175);
   LoadConfiguration();
 
-  ModelPtr model = Model::Instance();
-  EXPECT_THROW(model->Start(RunMode::kBasic), std::string);
+  EXPECT_THROW(model_->Start(RunMode::kBasic), std::string);
 }
 
 }

@@ -56,7 +56,7 @@ private:
   };
 
   // members
-  vector<T>*                  target_;
+  vector<T>*                  target_ = nullptr;
   vector<T>                   allowed_values_;
   Range                       range_;
 };

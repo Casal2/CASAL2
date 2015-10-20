@@ -29,11 +29,11 @@ using ::testing::Return;
  * Test the results of our selectivity are correct
  */
 TEST(Selectivities, DoubleExponential) {
-  std::shared_ptr<MockModel> model = std::shared_ptr<MockModel>(new MockModel);
-  EXPECT_CALL(*model.get(), min_age()).WillRepeatedly(Return(10));
-  EXPECT_CALL(*model.get(), max_age()).WillRepeatedly(Return(20));
+  MockModel model;
+  EXPECT_CALL(model, min_age()).WillRepeatedly(Return(10));
+  EXPECT_CALL(model, max_age()).WillRepeatedly(Return(20));
 
-  niwa::selectivities::DoubleExponential double_exponential(model);
+  niwa::selectivities::DoubleExponential double_exponential(&model);
 
   double_exponential.parameters().Add(PARAM_LABEL, "unit_test_double_exponential", __FILE__, __LINE__);
   double_exponential.parameters().Add(PARAM_TYPE, "not needed in test", __FILE__, __LINE__);

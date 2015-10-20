@@ -57,7 +57,7 @@ private:
   vector<Double>              stand_ycs_values_;
   vector<Double>              recruitment_values_;
   vector<unsigned>            standardise_ycs_;
-  DerivedQuantity*            derived_quantity_;
+  DerivedQuantity*            derived_quantity_ = nullptr;
   bool                        prior_ycs_values_ = true;
 };
 

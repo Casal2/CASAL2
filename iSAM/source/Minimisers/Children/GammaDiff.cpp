@@ -34,18 +34,25 @@ GammaDiff::GammaDiff(Model* model) : Minimiser(model) {
 void GammaDiff::Execute() {
   LOG_TRACE();
   // Variables
-  gammadiff::CallBack  call_back(model_);
+  LOG_FINE() << "model_: " << model_;
 
-  estimates::Manager& estimate_manager = *model_->managers().estimate();
+  gammadiff::CallBack  call_back(model_);
+  estimates::Manager* estimate_manager = model_->managers().estimate();
+  LOG_FINE() << "estimate_manager: " << estimate_manager;
 
   vector<double>  lower_bounds;
   vector<double>  upper_bounds;
   vector<double>  start_values;
 
-  vector<Estimate*> estimates = estimate_manager.GetEnabled();
+  vector<Estimate*> estimates = estimate_manager->GetEnabled();
+  LOG_FINE() << "estimates.size(): " << estimates.size();
   for (Estimate* estimate : estimates) {
     if (!estimate->enabled())
       continue;
+
+    LOG_FINE() << "Estimate: " << estimate;
+    LOG_FINE() << "transformed value: " << estimate->GetTransformedValue();
+    LOG_FINE() << "Parameter: " << estimate->parameter();
 
     lower_bounds.push_back((double)estimate->lower_bound());
     upper_bounds.push_back((double)estimate->upper_bound());
@@ -60,6 +67,7 @@ void GammaDiff::Execute() {
     }
   }
 
+  LOG_FINE() << "Launching minimiser";
   int status = 0;
   gammadiff::Engine clGammaDiff;
   clGammaDiff.optimise_finite_differences(call_back,

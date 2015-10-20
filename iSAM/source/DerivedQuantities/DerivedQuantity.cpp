@@ -11,6 +11,7 @@
 // headers
 #include "DerivedQuantity.h"
 
+#include "Categories/Categories.h"
 #include "Selectivities/Manager.h"
 #include "TimeSteps/Manager.h"
 
@@ -50,6 +51,7 @@ DerivedQuantity::DerivedQuantity(Model* model)
  */
 void DerivedQuantity::Validate() {
   parameters_.Populate();
+  category_labels_ = model_->categories()->ExpandLabels(category_labels_, parameters_.Get(PARAM_CATEGORIES));
 
   if (proportion_method_ == PARAM_WEIGHTED_PRODUCT)
     mean_proportion_method_ = false;

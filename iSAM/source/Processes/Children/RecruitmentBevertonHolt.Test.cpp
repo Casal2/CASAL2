@@ -34,10 +34,9 @@ TEST_F(InternalEmptyModel, Processes_BevertonHolt_Recruitment) {
   AddConfigurationLine(testresources::models::test_cases_models_casal_complex_1, "TestResources/Models/CasalComplex1.h", 32);
   LoadConfiguration();
 
-  ModelPtr model = Model::Instance();
-  model->Start(RunMode::kBasic);
+  model_->Start(RunMode::kBasic);
 
-  partition::Category& male   = Partition::Instance().category("male");
+  partition::Category& male   = model_->partition().category("male");
   EXPECT_DOUBLE_EQ(0.0, male.data_[0]);
   EXPECT_DOUBLE_EQ(2499927.5474240803, male.data_[1]);
   EXPECT_DOUBLE_EQ(2046756.2758644461, male.data_[2]);
@@ -50,7 +49,7 @@ TEST_F(InternalEmptyModel, Processes_BevertonHolt_Recruitment) {
   EXPECT_DOUBLE_EQ(37254.617197639338, male.data_[22]);
   EXPECT_DOUBLE_EQ(168174.98846106316, male.data_[23]);
 
-  partition::Category& female = Partition::Instance().category("female");
+  partition::Category& female = model_->partition().category("female");
   EXPECT_DOUBLE_EQ(0.0, male.data_[0]);
   EXPECT_DOUBLE_EQ(2499927.5474240803, female.data_[1]);
   EXPECT_DOUBLE_EQ(2046760.4571484025, female.data_[2]);
@@ -123,10 +122,9 @@ TEST_F(InternalEmptyModel, Processes_BevertonHolt_Recruitment_AutoSSBOffset) {
   AddConfigurationLine(test_cases_process_recruitment_bh, __FILE__, 72);
   LoadConfiguration();
 
-  ModelPtr model = Model::Instance();
-  model->Start(RunMode::kBasic);
+  model_->Start(RunMode::kBasic);
 
-  partition::Category& male   = Partition::Instance().category("immature.male");
+  partition::Category& male   = model_->partition().category("immature.male");
   EXPECT_DOUBLE_EQ(0.0, male.data_[0]);
   EXPECT_DOUBLE_EQ(808758.83226136502, male.data_[1]);
   EXPECT_DOUBLE_EQ(808459.71285911126, male.data_[2]);
@@ -136,7 +134,7 @@ TEST_F(InternalEmptyModel, Processes_BevertonHolt_Recruitment_AutoSSBOffset) {
   EXPECT_DOUBLE_EQ(807237.30570228631, male.data_[6]);
   EXPECT_DOUBLE_EQ(806925.06741134496, male.data_[7]);
 
-  partition::Category& female = Partition::Instance().category("immature.female");
+  partition::Category& female = model_->partition().category("immature.female");
   EXPECT_DOUBLE_EQ(0.0, female.data_[0]);
   EXPECT_DOUBLE_EQ(808758.83226136502, female.data_[1]);
   EXPECT_DOUBLE_EQ(808459.71285911126, female.data_[2]);

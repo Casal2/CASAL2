@@ -61,7 +61,7 @@ public:
 
 private:
   // members
-  Model*                        model_;
+  Model*                        model_ = nullptr;
   map<string, vector<Double>>   estimable_values_;
   map<string, Double*>          estimables_;
 

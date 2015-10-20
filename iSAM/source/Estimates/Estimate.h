@@ -65,7 +65,7 @@ public:
 
 protected:
   // Members
-  Double*                     target_ = 0;
+  Double*                     target_ = nullptr;
   string                      parameter_;
   string                      creator_parameter_;
   Double                      lower_bound_;
@@ -77,7 +77,7 @@ protected:
   vector<Double*>             sames_;
   bool                        enabled_ = true;
   vector<string>              transformation_details_;
-  estimates::Transformation*  transformation_;
+  estimates::Transformation*  transformation_ = nullptr;
 };
 } /* namespace niwa */
 #endif /* ESTIMATE_H_ */

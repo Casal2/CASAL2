@@ -85,11 +85,10 @@ TEST_F(InternalEmptyModel, Processes_Tag_By_Age) {
   AddConfigurationLine(test_cases_process_tag_by_age, __FILE__, 36);
   LoadConfiguration();
 
-  ModelPtr model = Model::Instance();
-  model->Start(RunMode::kBasic);
+  model_->Start(RunMode::kBasic);
 
   // 0.000000 0.000000 0.000000 384.615385 769.230769 1153.846154 1538.461538 0.000000 0.000000 0.000000 0.000000 0.000000
-  partition::Category& male   = Partition::Instance().category("mature.male");
+  partition::Category& male   = model_->partition().category("mature.male");
   EXPECT_DOUBLE_EQ(0.0,         male.data_[0]);
   EXPECT_DOUBLE_EQ(0.0,         male.data_[1]);
   EXPECT_DOUBLE_EQ(0.0,         male.data_[2]);
@@ -100,7 +99,7 @@ TEST_F(InternalEmptyModel, Processes_Tag_By_Age) {
   EXPECT_DOUBLE_EQ(0.0,         male.data_[7]);
 
   // 615.384615 1230.769231 1846.153846 2461.538462 0.000000 0.000000 0.000000 0.000000 0.000000
-  partition::Category& female = Partition::Instance().category("mature.female");
+  partition::Category& female = model_->partition().category("mature.female");
   EXPECT_DOUBLE_EQ(0.0,         female.data_[0]);
   EXPECT_DOUBLE_EQ(0.0,         female.data_[1]);
   EXPECT_DOUBLE_EQ(0.0,         female.data_[2]);
@@ -169,10 +168,9 @@ TEST_F(InternalEmptyModel, Processes_Tag_By_Age_With_Loss_Rate) {
   AddConfigurationLine(test_cases_process_tag_by_age_with_loss_rate, __FILE__, 119);
   LoadConfiguration();
 
-  ModelPtr model = Model::Instance();
-  model->Start(RunMode::kBasic);
+  model_->Start(RunMode::kBasic);
 
-  partition::Category& male   = Partition::Instance().category("mature.male");
+  partition::Category& male   = model_->partition().category("mature.male");
   EXPECT_DOUBLE_EQ(0.0,         male.data_[0]);
   EXPECT_DOUBLE_EQ(0.0,         male.data_[1]);
   EXPECT_DOUBLE_EQ(0.0,         male.data_[2]);
@@ -182,7 +180,7 @@ TEST_F(InternalEmptyModel, Processes_Tag_By_Age_With_Loss_Rate) {
   EXPECT_DOUBLE_EQ(769.23076923076917, male.data_[6]);
   EXPECT_DOUBLE_EQ(0.0,         male.data_[7]);
 
-  partition::Category& female = Partition::Instance().category("mature.female");
+  partition::Category& female = model_->partition().category("mature.female");
   EXPECT_DOUBLE_EQ(0.0,         female.data_[0]);
   EXPECT_DOUBLE_EQ(0.0,         female.data_[1]);
   EXPECT_DOUBLE_EQ(0.0,         female.data_[2]);
@@ -251,8 +249,7 @@ TEST_F(InternalEmptyModel, Processes_Tag_By_Age_With_Loss_Rate_Selectivities) {
   AddConfigurationLine(test_cases_process_tag_by_age_with_loss_rate_selectivities, __FILE__, 202);
   LoadConfiguration();
 
-  ModelPtr model = Model::Instance();
-  model->Start(RunMode::kBasic);
+  model_->Start(RunMode::kBasic);
 
   /**
    * Note the results have moved compared to the other tests because this
@@ -260,7 +257,7 @@ TEST_F(InternalEmptyModel, Processes_Tag_By_Age_With_Loss_Rate_Selectivities) {
    */
 
   // 0.000000 0.000000 0.000000 0.000000 0.000000 190.389423 285.584135 380.778846 761.557692 0.000000 0.000000 0.000000
-  partition::Category& male   = Partition::Instance().category("mature.male");
+  partition::Category& male   = model_->partition().category("mature.male");
   EXPECT_DOUBLE_EQ(0.0,         male.data_[0]);
   EXPECT_DOUBLE_EQ(0.0,         male.data_[1]);
   EXPECT_DOUBLE_EQ(0.0,         male.data_[2]);
@@ -273,7 +270,7 @@ TEST_F(InternalEmptyModel, Processes_Tag_By_Age_With_Loss_Rate_Selectivities) {
   EXPECT_DOUBLE_EQ(0.0,         male.data_[9]);
 
   // 0.000000 0.000000 0.000000 0.000000 0.000000 302.788923 454.183385 605.577846 1211.155692 0.000000 0.000000 0.000000
-  partition::Category& female = Partition::Instance().category("mature.female");
+  partition::Category& female = model_->partition().category("mature.female");
   EXPECT_DOUBLE_EQ(0.0,         female.data_[0]);
   EXPECT_DOUBLE_EQ(0.0,         female.data_[1]);
   EXPECT_DOUBLE_EQ(0.0,         female.data_[2]);
@@ -344,11 +341,10 @@ TEST_F(InternalEmptyModel, Processes_Tag_By_Age_With_Selectivities) {
   AddConfigurationLine(test_cases_process_tag_by_age_with_selectivities, __FILE__, 292);
   LoadConfiguration();
 
-  ModelPtr model = Model::Instance();
-  model->Start(RunMode::kBasic);
+  model_->Start(RunMode::kBasic);
 
   // 0.000000 0.000000 0.000000 0.000000 0.000000 190.389423 285.584135 380.778846 761.557692 0.000000 0.000000 0.000000
-  partition::Category& male   = Partition::Instance().category("mature.male");
+  partition::Category& male   = model_->partition().category("mature.male");
   EXPECT_DOUBLE_EQ(0.0,         male.data_[0]);
   EXPECT_DOUBLE_EQ(0.0,         male.data_[1]);
   EXPECT_DOUBLE_EQ(0.0,         male.data_[2]);
@@ -361,7 +357,7 @@ TEST_F(InternalEmptyModel, Processes_Tag_By_Age_With_Selectivities) {
   EXPECT_DOUBLE_EQ(0.0,         male.data_[9]);
 
   // 0.000000 0.000000 0.000000 0.000000 0.000000 302.788923 454.183385 605.577846 1211.155692 0.000000 0.000000 0.000000
-  partition::Category& female = Partition::Instance().category("mature.female");
+  partition::Category& female = model_->partition().category("mature.female");
   EXPECT_DOUBLE_EQ(0.0,         female.data_[0]);
   EXPECT_DOUBLE_EQ(0.0,         female.data_[1]);
   EXPECT_DOUBLE_EQ(0.0,         female.data_[2]);
@@ -433,11 +429,10 @@ TEST_F(InternalEmptyModel, Processes_Tag_By_Age_With_Proportions_Table) {
   AddConfigurationLine(test_cases_process_tag_by_age_with_proportions_table, __FILE__, 379);
   LoadConfiguration();
 
-  ModelPtr model = Model::Instance();
-  model->Start(RunMode::kBasic);
+  model_->Start(RunMode::kBasic);
 
   // 0.000000 0.000000 0.000000 0.000000 0.000000 380.778846 761.557692 1142.336538 1523.115385 0.000000 0.000000 0.000000
-  partition::Category& male   = Partition::Instance().category("mature.male");
+  partition::Category& male   = model_->partition().category("mature.male");
   EXPECT_DOUBLE_EQ(0.0,         male.data_[0]);
   EXPECT_DOUBLE_EQ(0.0,         male.data_[1]);
   EXPECT_DOUBLE_EQ(0.0,         male.data_[2]);
@@ -450,7 +445,7 @@ TEST_F(InternalEmptyModel, Processes_Tag_By_Age_With_Proportions_Table) {
   EXPECT_DOUBLE_EQ(0.0,         male.data_[9]);
 
   // 0.000000 0.000000 0.000000 0.000000 0.000000 605.577846 1211.155692 1816.733538 2422.311385 0.000000 0.000000 0.000000
-  partition::Category& female = Partition::Instance().category("mature.female");
+  partition::Category& female = model_->partition().category("mature.female");
   EXPECT_DOUBLE_EQ(0.0,         female.data_[0]);
   EXPECT_DOUBLE_EQ(0.0,         female.data_[1]);
   EXPECT_DOUBLE_EQ(0.0,         female.data_[2]);

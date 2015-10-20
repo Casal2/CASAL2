@@ -44,7 +44,7 @@ protected:
 
 private:
   // members
-  Minimiser*                  active_minimiser_;
+  Minimiser*                  active_minimiser_ = nullptr;
 };
 
 } /* namespace minimisers */

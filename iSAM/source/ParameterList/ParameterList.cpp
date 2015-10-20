@@ -131,26 +131,17 @@ void ParameterList::Populate() {
     }
   }
 
-  // handle categories
-//  if (parameters_.find(PARAM_CATEGORIES) != parameters_.end() || parameters_.find(PARAM_CATEGORY) != parameters_.end()) {
-//    Parameter* parameter;
-//    if (parameters_.find(PARAM_CATEGORIES) != parameters_.end())
-//      parameter = parameters_[PARAM_CATEGORIES];
-//    else
-//      parameter = parameters_[PARAM_CATEGORY];
-//    vector<string> new_values = model_->categories()->ExpandLabels(parameter->values(), parameter);
-//    parameter->set_values(new_values);
-//  }
-
   // NOTE: This has to be last
   // bind parameters
   LOG_FINEST() << "Binding parameters for @" << parent_block_type_ << " defined at line " << defined_line_number_ << " in " << defined_file_name_;
   for (auto iter = parameters_.begin(); iter != parameters_.end(); ++iter) {
     if (iter->second->values().size() == 0 && !iter->second->is_optional())
       continue;
+    LOG_FINEST() << "Binding: " << iter->first;
     iter->second->Bind();
   }
 
+  LOG_FINEST() << "Binding complete";
   if (parameters_.find(PARAM_LABEL) != parameters_.end()) {
     Parameter* param = parameters_[PARAM_LABEL];
     if (param->values().size() != 0) {
@@ -275,7 +266,6 @@ string ParameterList::location(const string& label) {
  * @param values used for documentation, ignored
  */
 void ParameterList::BindTable(const string& label, parameters::Table* table, const string& description, const string& values, bool requires_columns, bool optional) {
-  table = new parameters::Table(label);
   table->set_requires_columns(requires_columns);
   table->set_is_optional(optional);
   tables_[label] = table;

@@ -40,7 +40,7 @@ private:
   string                      time_step_label_ = "";
   vector<unsigned>            values_;
   map<unsigned, double>       year_values_;
-  Double*                     estimable_ = 0;
+  Double*                     estimable_ = nullptr;
 };
 
 } /* namespace asserts */

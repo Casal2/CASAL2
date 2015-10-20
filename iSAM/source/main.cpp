@@ -88,7 +88,7 @@ int main(int argc, char * argv[]) {
 
       // Thread off the reports
       reports::Manager* report_manager = model.managers().report();
-      std::thread report_thread([report_manager]() { report_manager->FlushReports(); });
+      std::thread report_thread([&report_manager]() { report_manager->FlushReports(); });
 
       // Run the model
       model_start_return_success = model.Start(run_mode);

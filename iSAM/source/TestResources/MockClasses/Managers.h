@@ -25,8 +25,9 @@ namespace niwa {
  */
 class MockManagers : public niwa::Managers {
 public:
-  MOCK_METHOD0(time_step, timesteps::Manager&());
-  MOCK_METHOD0(length_weight, lengthweights::Manager&());
+  MockManagers(Model* model) : Managers(model) { };
+  MOCK_METHOD0(time_step, timesteps::Manager*());
+  MOCK_METHOD0(length_weight, lengthweights::Manager*());
 };
 
 } /* namespace niwa */

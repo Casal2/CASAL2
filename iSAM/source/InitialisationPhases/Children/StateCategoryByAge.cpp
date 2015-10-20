@@ -19,6 +19,9 @@ namespace initialisationphases {
 StateCategoryByAge::StateCategoryByAge(Model* model)
   : InitialisationPhase(model),
     partition_(model) {
+
+  n_table_ = new parameters::Table(PARAM_N);
+
   parameters_.Bind<string>(PARAM_CATEGORIES, &category_labels_, "List of categories to use", "");
   parameters_.Bind<unsigned>(PARAM_MIN_AGE, &min_age_, "Minimum age to use for this process", "");
   parameters_.Bind<unsigned>(PARAM_MAX_AGE, &max_age_, "Maximum age to use for this process", "");

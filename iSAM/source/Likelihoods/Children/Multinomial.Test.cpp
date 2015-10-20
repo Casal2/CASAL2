@@ -31,7 +31,7 @@ using observations::Comparison;
 TEST(Likelihood, Multinomial) {
   utilities::RandomNumberGenerator::Instance().Reset(31373u);
 
-  LikelihoodPtr likelihood = likelihoods::Factory::Create(PARAM_MULTINOMIAL);
+  Multinomial likelihood;
 
   map<unsigned, vector<Comparison> > comparison_list;
 
@@ -91,10 +91,10 @@ TEST(Likelihood, Multinomial) {
   comparison_list[0].push_back(comparison);
 
   // Check initial score
-  EXPECT_DOUBLE_EQ(-315.78552739959304, likelihood->GetInitialScore(comparison_list, 0));
+  EXPECT_DOUBLE_EQ(-315.78552739959304, likelihood.GetInitialScore(comparison_list, 0));
 
   // Check scores
-  likelihood->GetScores(comparison_list);
+  likelihood.GetScores(comparison_list);
   EXPECT_DOUBLE_EQ(16.300417207752272, comparison_list[0][0].score_);
   EXPECT_DOUBLE_EQ(12.834681304952547, comparison_list[0][1].score_);
   EXPECT_DOUBLE_EQ(10.807355764411724, comparison_list[0][2].score_);
@@ -104,7 +104,7 @@ TEST(Likelihood, Multinomial) {
   EXPECT_DOUBLE_EQ( 0.872226985105489, comparison_list[0][6].score_);
 
   // check simulations
-  likelihood->SimulateObserved(comparison_list);
+  likelihood.SimulateObserved(comparison_list);
   EXPECT_DOUBLE_EQ(7.0,   comparison_list[0][0].observed_);
   EXPECT_DOUBLE_EQ(14.0,  comparison_list[0][1].observed_);
   EXPECT_DOUBLE_EQ(13.0,  comparison_list[0][2].observed_);

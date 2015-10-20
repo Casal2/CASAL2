@@ -52,7 +52,7 @@ private:
   Double                      exploitation_ = 0;
   vector<unsigned>            years_;
   string                      penalty_label_ = "";
-  penalties::Process*         penalty_;
+  penalties::Process*         penalty_ = nullptr;
 };
 
 } /* namespace processes */

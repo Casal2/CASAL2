@@ -46,7 +46,7 @@ protected:
   virtual void                DoCopyParameters(niwa::Estimate* estimate, unsigned index) = 0;
 
   // members
-  Model*                      model_;
+  Model*                      model_ = nullptr;
   string                      parameter_;
   vector<Double>              lower_bounds_;
   vector<Double>              upper_bounds_;

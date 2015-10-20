@@ -51,13 +51,12 @@ TEST_F(InternalEmptyModel, Estimates_Single_Target) {
   AddConfigurationLine(estimate_single_target, __FILE__, 35);
   LoadConfiguration();
 
-  ModelPtr model = Model::Instance();
-  model->Start(RunMode::kEstimation);
+  model_->Start(RunMode::kEstimation);
 
-  ObjectiveFunction& obj_function = ObjectiveFunction::Instance();
+  ObjectiveFunction& obj_function = model_->objective_function();
   EXPECT_DOUBLE_EQ(1726.6295023192379, obj_function.score());
 
-  EstimatePtr estimate = estimates::Manager::Instance().GetEstimate("selectivity[FishingSel].a50");
+  Estimate* estimate = model_->managers().estimate()->GetEstimate("selectivity[FishingSel].a50");
   if (!estimate)
     LOG_FATAL() << "!estimate";
   EXPECT_DOUBLE_EQ(estimate->value(), 7.2724038656178385);
@@ -97,19 +96,18 @@ TEST_F(InternalEmptyModel, Estimates_Multiple_Defined_Targets_Vector) {
   AddConfigurationLine(estimate_multiple_defined_targets_vector, __FILE__, 83);
   LoadConfiguration();
 
-  ModelPtr model = Model::Instance();
-  model->Start(RunMode::kEstimation);
+  model_->Start(RunMode::kEstimation);
 
-  ObjectiveFunction& obj_function = ObjectiveFunction::Instance();
+  ObjectiveFunction& obj_function = model_->objective_function();
   EXPECT_DOUBLE_EQ(35171.333647143554, obj_function.score());
 
-  EstimatePtr estimate = estimates::Manager::Instance().GetEstimate("selectivity[av].v(21)");
+  Estimate* estimate = model_->managers().estimate()->GetEstimate("selectivity[av].v(21)");
   if (!estimate)
     LOG_FATAL() << "!estimate";
   EXPECT_DOUBLE_EQ(estimate->value(), 1.0000667295269956);
   EXPECT_DOUBLE_EQ(estimate->GetScore(), 0.017919754558039881);
 
-  estimate = estimates::Manager::Instance().GetEstimate("selectivity[av].v(25)");
+  estimate = model_->managers().estimate()->GetEstimate("selectivity[av].v(25)");
   if (!estimate)
     LOG_FATAL() << "!estimate";
   EXPECT_DOUBLE_EQ(estimate->value(), 1.000014483955731);
@@ -138,25 +136,24 @@ TEST_F(InternalEmptyModel, Estimates_Multiple_Defined_Targets_Unsigned_Map) {
   AddConfigurationLine(estimate_multiple_defined_targets_unsigned_map, __FILE__, 124);
   LoadConfiguration();
 
-  ModelPtr model = Model::Instance();
-  model->Start(RunMode::kEstimation);
+  model_->Start(RunMode::kEstimation);
 
-  ObjectiveFunction& obj_function = ObjectiveFunction::Instance();
+  ObjectiveFunction& obj_function = model_->objective_function();
   EXPECT_DOUBLE_EQ(2764.0521558776445, obj_function.score());
 
-  EstimatePtr estimate = estimates::Manager::Instance().GetEstimate("process[Fishing].catches(2000)");
+  Estimate* estimate = model_->managers().estimate()->GetEstimate("process[Fishing].catches(2000)");
   if (!estimate)
     LOG_FATAL() << "!estimate";
   EXPECT_DOUBLE_EQ(estimate->value(), 28323.203463000002);
   EXPECT_DOUBLE_EQ(estimate->GetScore(), 29.966307896614428);
 
-  estimate = estimates::Manager::Instance().GetEstimate("process[Fishing].catches(2001)");
+  estimate = model_->managers().estimate()->GetEstimate("process[Fishing].catches(2001)");
   if (!estimate)
     LOG_FATAL() << "!estimate";
   EXPECT_DOUBLE_EQ(estimate->value(), 24207.464203);
   EXPECT_DOUBLE_EQ(estimate->GetScore(), 24.757322431641612);
 
-  estimate = estimates::Manager::Instance().GetEstimate("process[Fishing].catches(2002)");
+  estimate = model_->managers().estimate()->GetEstimate("process[Fishing].catches(2002)");
   if (!estimate)
     LOG_FATAL() << "!estimate";
   EXPECT_DOUBLE_EQ(estimate->value(), 47279);
@@ -186,19 +183,18 @@ TEST_F(InternalEmptyModel, Estimates_Multiple_Defined_Targets_String_Map) {
   AddConfigurationLine(estimate_multiple_defined_targets_string_map, __FILE__, 171);
   LoadConfiguration();
 
-  ModelPtr model = Model::Instance();
-  model->Start(RunMode::kEstimation);
+  model_->Start(RunMode::kEstimation);
 
-  ObjectiveFunction& obj_function = ObjectiveFunction::Instance();
+  ObjectiveFunction& obj_function = model_->objective_function();
   EXPECT_DOUBLE_EQ(2682.979986309937, obj_function.score());
 
-  EstimatePtr estimate = estimates::Manager::Instance().GetEstimate("process[Recruitment].proportions(immature.male)");
+  Estimate* estimate = model_->managers().estimate()->GetEstimate("process[Recruitment].proportions(immature.male)");
   if (!estimate)
     LOG_FATAL() << "!estimate";
   EXPECT_DOUBLE_EQ(estimate->value(), 0.5);
   EXPECT_DOUBLE_EQ(estimate->GetScore(), -0.64756858783643167);
 
-  estimate = estimates::Manager::Instance().GetEstimate("process[Recruitment].proportions(immature.female)");
+  estimate = model_->managers().estimate()->GetEstimate("process[Recruitment].proportions(immature.female)");
   if (!estimate)
     LOG_FATAL() << "!estimate";
   EXPECT_DOUBLE_EQ(estimate->value(), 0.5);
@@ -227,19 +223,18 @@ TEST_F(InternalEmptyModel, Estimates_All_Targets_Vector) {
   AddConfigurationLine(estimate_all_targets_vector, __FILE__, 212);
   LoadConfiguration();
 
-  ModelPtr model = Model::Instance();
-  model->Start(RunMode::kEstimation);
+  model_->Start(RunMode::kEstimation);
 
-  ObjectiveFunction& obj_function = ObjectiveFunction::Instance();
+  ObjectiveFunction& obj_function = model_->objective_function();
   EXPECT_DOUBLE_EQ(39989.151448120341, obj_function.score());
 
-  EstimatePtr estimate = estimates::Manager::Instance().GetEstimate("selectivity[av].v(10)");
+  Estimate* estimate = model_->managers().estimate()->GetEstimate("selectivity[av].v(10)");
   if (!estimate)
     LOG_FATAL() << "!estimate";
   EXPECT_DOUBLE_EQ(estimate->value(), 5.0);
   EXPECT_DOUBLE_EQ(estimate->GetScore(), 2.2650530751015676);
 
-  estimate = estimates::Manager::Instance().GetEstimate("selectivity[av].v(40)");
+  estimate = model_->managers().estimate()->GetEstimate("selectivity[av].v(40)");
   if (!estimate)
     LOG_FATAL() << "!estimate";
   EXPECT_DOUBLE_EQ(estimate->value(), 20.0);
@@ -268,19 +263,18 @@ TEST_F(InternalEmptyModel, Estimates_All_Targets_Unsigned_Map) {
   AddConfigurationLine(estimate_all_targets_unsigned_map, __FILE__, 253);
   LoadConfiguration();
 
-  ModelPtr model = Model::Instance();
-  model->Start(RunMode::kEstimation);
+  model_->Start(RunMode::kEstimation);
 
-  ObjectiveFunction& obj_function = ObjectiveFunction::Instance();
+  ObjectiveFunction& obj_function = model_->objective_function();
   EXPECT_DOUBLE_EQ(2963.7305613725566, obj_function.score());
 
-  EstimatePtr estimate = estimates::Manager::Instance().GetEstimate("process[Fishing].catches(1998)");
+  Estimate* estimate = model_->managers().estimate()->GetEstimate("process[Fishing].catches(1998)");
   if (!estimate)
     LOG_FATAL() << "!estimate";
   EXPECT_DOUBLE_EQ(estimate->value(), 1849.153714);
   EXPECT_DOUBLE_EQ(estimate->GetScore(), 18.371135369472036);
 
-  estimate = estimates::Manager::Instance().GetEstimate("process[Fishing].catches(2006)");
+  estimate = model_->managers().estimate()->GetEstimate("process[Fishing].catches(2006)");
   if (!estimate)
     LOG_FATAL() << "!estimate";
   EXPECT_DOUBLE_EQ(estimate->value(), 113852.472257);
@@ -309,19 +303,18 @@ TEST_F(InternalEmptyModel, Estimates_All_Targets_String_Map) {
   AddConfigurationLine(estimate_all_targets_string_map, __FILE__, 293);
   LoadConfiguration();
 
-  ModelPtr model = Model::Instance();
-  model->Start(RunMode::kEstimation);
+  model_->Start(RunMode::kEstimation);
 
-  ObjectiveFunction& obj_function = ObjectiveFunction::Instance();
+  ObjectiveFunction& obj_function = model_->objective_function();
   EXPECT_DOUBLE_EQ(2682.979986309937, obj_function.score());
 
-  EstimatePtr estimate = estimates::Manager::Instance().GetEstimate("process[Recruitment].proportions(immature.male)");
+  Estimate* estimate = model_->managers().estimate()->GetEstimate("process[Recruitment].proportions(immature.male)");
   if (!estimate)
     LOG_FATAL() << "!estimate";
   EXPECT_DOUBLE_EQ(estimate->value(), 0.5);
   EXPECT_DOUBLE_EQ(estimate->GetScore(), -0.64756858783643167);
 
-  estimate = estimates::Manager::Instance().GetEstimate("process[Recruitment].proportions(immature.female)");
+  estimate = model_->managers().estimate()->GetEstimate("process[Recruitment].proportions(immature.female)");
   if (!estimate)
     LOG_FATAL() << "!estimate";
   EXPECT_DOUBLE_EQ(estimate->value(), 0.5);

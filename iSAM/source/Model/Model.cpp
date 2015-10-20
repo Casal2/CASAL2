@@ -420,11 +420,12 @@ void Model::RunEstimation() {
   LOG_FINE() << "Doing pre-estimation iteration of the model";
   Iterate();
 
-  Estimables& estimables = *managers_->estimables();
+  Estimables* estimables = managers_->estimables();
   map<string, Double> estimable_values;
+  LOG_FINE() << "estimable values count: " << estimable_values_count_;
   for (unsigned i = 0; i < estimable_values_count_; ++i) {
     if (estimable_values_file_) {
-      estimables.LoadValues(i);
+      estimables->LoadValues(i);
       Reset();
     }
 
@@ -432,6 +433,8 @@ void Model::RunEstimation() {
     run_mode_ = RunMode::kEstimation;
 
     auto minimiser = managers_->minimiser()->active_minimiser();
+    if (minimiser == nullptr)
+      LOG_CODE_ERROR() << "if (minimiser == nullptr)";
     minimiser->Execute();
     minimiser->BuildCovarianceMatrix();
 

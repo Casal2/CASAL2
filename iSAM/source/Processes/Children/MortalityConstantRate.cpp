@@ -34,7 +34,7 @@ MortalityConstantRate::MortalityConstantRate(Model* model)
   process_type_ = ProcessType::kMortality;
   partition_structure_ = PartitionStructure::kAge;
 
-  parameters_.Bind<string>(PARAM_CATEGORIES, &category_names_, "List of categories", "");
+  parameters_.Bind<string>(PARAM_CATEGORIES, &category_labels_, "List of categories", "");
   parameters_.Bind<Double>(PARAM_M, &m_, "Mortality rates", "");
   parameters_.Bind<Double>(PARAM_TIME_STEP_RATIO, &ratios_, "Time step ratios for M", "", true);
   parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_names_, "Selectivities", "");
@@ -53,21 +53,23 @@ MortalityConstantRate::MortalityConstantRate(Model* model)
  * - Check the categories are real
  */
 void MortalityConstantRate::DoValidate() {
-  if (m_.size() == 1)
-    m_.assign(category_names_.size(), m_[0]);
-  if (selectivity_names_.size() == 1)
-    selectivity_names_.assign(category_names_.size(), selectivity_names_[0]);
+  category_labels_ = model_->categories()->ExpandLabels(category_labels_, parameters_.Get(PARAM_CATEGORIES));
 
-  if (m_.size() != category_names_.size()) {
+  if (m_.size() == 1)
+    m_.assign(category_labels_.size(), m_[0]);
+  if (selectivity_names_.size() == 1)
+    selectivity_names_.assign(category_labels_.size(), selectivity_names_[0]);
+
+  if (m_.size() != category_labels_.size()) {
     LOG_ERROR_P(PARAM_M)
         << ": Number of Ms provided is not the same as the number of categories provided. Expected: "
-        << category_names_.size()<< " but got " << m_.size();
+        << category_labels_.size()<< " but got " << m_.size();
   }
 
-  if (selectivity_names_.size() != category_names_.size()) {
+  if (selectivity_names_.size() != category_labels_.size()) {
     LOG_ERROR_P(PARAM_SELECTIVITIES)
         << ": Number of selectivities provided is not the same as the number of categories provided. Expected: "
-        << category_names_.size()<< " but got " << selectivity_names_.size();
+        << category_labels_.size()<< " but got " << selectivity_names_.size();
   }
 
   // Validate our Ms are between 1.0 and 0.0
@@ -77,7 +79,7 @@ void MortalityConstantRate::DoValidate() {
   }
 
   // Check categories are real
-  for (const string& label : category_names_) {
+  for (const string& label : category_labels_) {
     if (!model_->categories()->IsValid(label))
       LOG_ERROR_P(PARAM_CATEGORIES) << ": category " << label << " does not exist. Have you defined it?";
   }
@@ -90,7 +92,7 @@ void MortalityConstantRate::DoValidate() {
  * - Build our ratios for the number of time steps
  */
 void MortalityConstantRate::DoBuild() {
-  partition_.Init(category_names_);
+  partition_.Init(category_labels_);
 
   for (string label : selectivity_names_) {
     Selectivity* selectivity = model_->managers().selectivity()->GetSelectivity(label);

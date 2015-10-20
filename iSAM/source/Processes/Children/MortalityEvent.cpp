@@ -13,6 +13,7 @@
 // Headers
 #include "MortalityEvent.h"
 
+#include "Categories/Categories.h"
 #include "Penalties/Manager.h"
 #include "Selectivities/Manager.h"
 #include "Utilities/DoubleCompare.h"
@@ -27,7 +28,7 @@ namespace processes {
 MortalityEvent::MortalityEvent(Model* model)
   : Process(model),
     partition_(model) {
-  parameters_.Bind<string>(PARAM_CATEGORIES, &category_names_, "Categories", "");
+  parameters_.Bind<string>(PARAM_CATEGORIES, &category_labels_, "Categories", "");
   parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "Years", "");
   parameters_.Bind<Double>(PARAM_CATCHES, &catches_, "Catches", "");
   parameters_.Bind<Double>(PARAM_U_MAX, &u_max_, "U Max", "", 0.99);
@@ -48,6 +49,8 @@ MortalityEvent::MortalityEvent(Model* model)
  * 2. Assign any remaining variables
  */
 void MortalityEvent::DoValidate() {
+  category_labels_ = model_->categories()->ExpandLabels(category_labels_, parameters_.Get(PARAM_CATEGORIES));
+
   // Validate that our number of years_ and catches_ vectors are the same size
   if (years_.size() != catches_.size()) {
     LOG_ERROR_P(PARAM_CATCHES)
@@ -56,10 +59,10 @@ void MortalityEvent::DoValidate() {
   }
 
   // Validate that the number of selectivities is the same as the number of categories
-  if (category_names_.size() != selectivity_names_.size()) {
+  if (category_labels_.size() != selectivity_names_.size()) {
     LOG_ERROR_P(PARAM_SELECTIVITIES)
         << " Number of selectivities provided does not match the number of categories provided."
-        << " Expected " << category_names_.size() << " but got " << selectivity_names_.size();
+        << " Expected " << category_labels_.size() << " but got " << selectivity_names_.size();
   }
 
   // Validate: catches_ and years_
@@ -81,7 +84,7 @@ void MortalityEvent::DoValidate() {
  * - Build partition reference
  */
 void MortalityEvent::DoBuild() {
-  partition_.Init(category_names_);
+  partition_.Init(category_labels_);
 
   for (string label : selectivity_names_) {
     Selectivity* selectivity = model_->managers().selectivity()->GetSelectivity(label);

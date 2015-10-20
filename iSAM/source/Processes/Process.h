@@ -69,7 +69,7 @@ protected:
   bool                        print_report_ = false;
   map<string, vector<string>> print_values_;
   map<unsigned, map<string, vector<Executor*>>> executors_;
-  Model*                    model_;
+  Model*                    model_ = nullptr;
 };
 
 } /* namespace niwa */

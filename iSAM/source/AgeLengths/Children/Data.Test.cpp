@@ -51,13 +51,12 @@ TEST_F(InternalEmptyModel, AgeLengths_Data_Mean_Mean) {
   AddConfigurationLine(age_length_data_external_mean_internal_mean, __FILE__, 33);
   LoadConfiguration();
 
-  ModelPtr model = Model::Instance();
-  model->Start(RunMode::kBasic);
+  model_->Start(RunMode::kBasic);
 
-  ObjectiveFunction& obj_function = ObjectiveFunction::Instance();
+  ObjectiveFunction& obj_function = model_->objective_function();
   EXPECT_DOUBLE_EQ(16884.277966840153, obj_function.score());
 
-  AgeLengthPtr age_size = agelengths::Manager::Instance().FindAgeLength("test_age_size");
+  AgeLength* age_size = model_->managers().age_length()->FindAgeLength("test_age_size");
   if (!age_size)
     LOG_CODE_ERROR() << "!age_size";
 
@@ -98,13 +97,12 @@ TEST_F(InternalEmptyModel, AgeLengths_Data_NearestNeighbour_Mean) {
   AddConfigurationLine(age_length_data_external_nearest_neighbour_internal_mean, __FILE__, 80);
   LoadConfiguration();
 
-  ModelPtr model = Model::Instance();
-  model->Start(RunMode::kBasic);
+  model_->Start(RunMode::kBasic);
 
-  ObjectiveFunction& obj_function = ObjectiveFunction::Instance();
+  ObjectiveFunction& obj_function = model_->objective_function();
   EXPECT_DOUBLE_EQ(16884.277966840153, obj_function.score());
 
-  AgeLengthPtr age_size = agelengths::Manager::Instance().FindAgeLength("test_age_size");
+  AgeLength* age_size = model_->managers().age_length()->FindAgeLength("test_age_size");
   if (!age_size)
     LOG_CODE_ERROR() << "!age_size";
 
@@ -148,13 +146,12 @@ TEST_F(InternalEmptyModel, AgeLengths_Data_Mean_NearestNeighbour) {
   AddConfigurationLine(age_length_data_external_mean_internal_nearest_neighbour, __FILE__, 130);
   LoadConfiguration();
 
-  ModelPtr model = Model::Instance();
-  model->Start(RunMode::kBasic);
+  model_->Start(RunMode::kBasic);
 
-  ObjectiveFunction& obj_function = ObjectiveFunction::Instance();
+  ObjectiveFunction& obj_function = model_->objective_function();
   EXPECT_DOUBLE_EQ(16884.277966840153, obj_function.score());
 
-  AgeLengthPtr age_size = agelengths::Manager::Instance().FindAgeLength("test_age_size");
+  AgeLength* age_size = model_->managers().age_length()->FindAgeLength("test_age_size");
   if (!age_size)
     LOG_CODE_ERROR() << "!age_size";
 
@@ -198,13 +195,12 @@ TEST_F(InternalEmptyModel, AgeLengths_Data_Mean_Interpolate) {
   AddConfigurationLine(age_length_data_external_mean_internal_interpolate, __FILE__, 180);
   LoadConfiguration();
 
-  ModelPtr model = Model::Instance();
-  model->Start(RunMode::kBasic);
+  model_->Start(RunMode::kBasic);
 
-  ObjectiveFunction& obj_function = ObjectiveFunction::Instance();
+  ObjectiveFunction& obj_function = model_->objective_function();
   EXPECT_DOUBLE_EQ(16884.277966840153, obj_function.score());
 
-  AgeLengthPtr age_size = agelengths::Manager::Instance().FindAgeLength("test_age_size");
+  AgeLength* age_size = model_->managers().age_length()->FindAgeLength("test_age_size");
   if (!age_size)
     LOG_CODE_ERROR() << "!age_size";
 

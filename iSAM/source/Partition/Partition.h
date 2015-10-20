@@ -56,7 +56,7 @@ private:
   Partition(Model* model) : model_(model) { };
 
   // Members
-  Model*                      model_;
+  Model*                      model_ = nullptr;
   map<string, partition::Category*> partition_; // map<category label, partition::Category Struct>
 };
 

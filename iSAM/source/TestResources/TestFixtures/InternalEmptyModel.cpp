@@ -24,6 +24,7 @@
 #include "InitialisationPhases/Manager.h"
 #include "LengthWeights/Manager.h"
 #include "Minimisers/Manager.h"
+#include "Model/Model.h"
 #include "ObjectiveFunction/ObjectiveFunction.h"
 #include "Observations/Manager.h"
 #include "Partition/Accessors/Category.h"
@@ -39,22 +40,17 @@
 
 namespace niwa {
 namespace testfixtures {
-
-
-InternalEmptyModel::InternalEmptyModel() { }
-InternalEmptyModel::~InternalEmptyModel() { }
-
 /**
  *
  */
 void InternalEmptyModel::SetUp() {
-  Model::Instance(true);
+  Base::SetUp();
 
   utilities::RandomNumberGenerator& rng = utilities::RandomNumberGenerator::Instance();
   rng.Reset(2468);
 
   configuration_file_.clear();
-  GlobalConfiguration::Instance()->set_skip_config_file("true");
+  model_->global_configuration().set_skip_config_file("true");
 }
 
 /**
@@ -86,7 +82,7 @@ void InternalEmptyModel::AddConfigurationLine(const string& line, const string& 
  * configuration file for execution in the model
  */
 void InternalEmptyModel::LoadConfiguration() {
-  configuration::Loader loader;
+  configuration::Loader loader(*model_);
 
   for (config::FileLine file_line : configuration_file_)
     loader.AddFileLine(file_line);

@@ -60,6 +60,8 @@ RecruitmentBevertonHolt::RecruitmentBevertonHolt(Model* model)
  *
  */
 void RecruitmentBevertonHolt::DoValidate() {
+  category_labels_ = model_->categories()->ExpandLabels(category_labels_, parameters_.Get(PARAM_CATEGORIES));
+
   if (!parameters_.Get(PARAM_AGE)->has_been_defined())
     age_ = model_->min_age();
 

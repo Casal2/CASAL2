@@ -36,7 +36,10 @@ template <class ClassType, class StoredType>
 class Manager {
 public:
   // Methods
-  virtual                     ~Manager() = default;
+  virtual                     ~Manager() {
+    for (StoredType* object: objects_)
+      delete object;
+  }
 //  static ClassType&           Instance();
   virtual void                Validate();
   virtual void                Build();

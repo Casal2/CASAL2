@@ -43,8 +43,8 @@ private:
   // members
   string                      parameter_ = "";
   string                      method_ = "";
-  map<unsigned, Double>*      estimable_map_ = 0;
-  vector<Double>*             estimable_vector_ = 0;
+  map<unsigned, Double>*      estimable_map_ = nullptr;
+  vector<Double>*             estimable_vector_ = nullptr;
   Double                      multiplier_ = 0.0;
   Double                      k_;
 };

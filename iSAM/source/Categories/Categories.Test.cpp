@@ -28,7 +28,7 @@ using niwa::testfixtures::InternalEmptyModel;
  *
  */
 TEST_F(InternalEmptyModel, Categories_GetCategoryLabels) {
-  CategoriesPtr categories = Categories::Instance();
+  Categories* categories = model_->categories();
 
   vector<string> names;
 
