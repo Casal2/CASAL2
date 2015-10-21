@@ -39,7 +39,7 @@ Manager::~Manager() noexcept(true) {
  */
 TimeStep* Manager::GetTimeStep(const string& label) const {
   LOG_FINE() << "label: " << label;
-  TimeStep* result;
+  TimeStep* result = nullptr;
   for (auto time_step : objects_) {
     if (time_step->label() == label) {
       result = time_step;
