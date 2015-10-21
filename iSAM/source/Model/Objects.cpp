@@ -184,7 +184,7 @@ vector<Double>* Objects::GetEstimableVector(const string& parameter_absolute_nam
  */
 base::Object* Objects::FindObject(const string& parameter_absolute_name, string& error) {
   LOG_FINE() << "Looking for object: " << parameter_absolute_name;
-  base::Object* result;
+  base::Object* result = nullptr;
 
   string type         = "";
   string label        = "";
