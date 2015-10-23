@@ -5,7 +5,7 @@
  * @date 8/04/2013
  * @section LICENSE
  *
- * Copyright NIWA Science ©2015 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2015 - www.niwa.co.nz
  *
  * @section DESCRIPTION
  *
@@ -38,7 +38,7 @@ class ProportionsAtLengthForFishery : public niwa::Observation {
 public:
   // Methods
   explicit ProportionsAtLengthForFishery(Model* model);
-  virtual                     ~ProportionsAtLengthForFishery() = default;
+  virtual                     ~ProportionsAtLengthForFishery();
   void                        DoValidate() override final;
   virtual void                DoBuild() override;
   void                        DoReset() override final { };

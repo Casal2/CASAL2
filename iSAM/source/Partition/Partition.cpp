@@ -5,7 +5,7 @@
  * @date 7/11/2012
  * @section LICENSE
  *
- * Copyright NIWA Science ©2012 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2012 - www.niwa.co.nz
  *
  * $Date: 2008-03-04 16:33:32 +1300 (Tue, 04 Mar 2008) $
  */
@@ -20,6 +20,16 @@
 
 // Namespaces
 namespace niwa {
+
+/**
+ *
+ */
+Partition::~Partition() {
+  for (auto partition : partition_) {
+    if (partition.second != nullptr)
+      delete partition.second;
+  }
+}
 
 /**
  *

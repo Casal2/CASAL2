@@ -5,7 +5,7 @@
  * @date 10/12/2014
  * @section LICENSE
  *
- * Copyright NIWA Science ©2014 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2014 - www.niwa.co.nz
  *
  * @section DESCRIPTION
  *
@@ -33,7 +33,7 @@ class TransitionCategoryByAge : public niwa::Process {
 public:
   // methods
   explicit TransitionCategoryByAge(Model* model);
-  virtual                     ~TransitionCategoryByAge() = default;
+  virtual                     ~TransitionCategoryByAge();
   void                        DoValidate() override final;
   void                        DoBuild() override final;
   void                        DoReset() override final { };

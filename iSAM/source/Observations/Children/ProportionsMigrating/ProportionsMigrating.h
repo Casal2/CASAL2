@@ -5,7 +5,7 @@
  * @date 8/10/2015
  * @section LICENSE
  *
- * Copyright NIWA Science ©2015 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2015 - www.niwa.co.nz
  *
  * @section This Observation describes the Proportion change from each age class.
  *    This is usually associated with TransitionCategory processes (i.e Migration)
@@ -40,7 +40,7 @@ class ProportionsMigrating : public niwa::Observation {
 public:
   // Methods
   explicit ProportionsMigrating(Model* model);
-  virtual                     ~ProportionsMigrating() = default;
+  virtual                     ~ProportionsMigrating();
   void                        DoValidate() override final;
   virtual void                DoBuild() override;
   void                        DoReset() override final { };

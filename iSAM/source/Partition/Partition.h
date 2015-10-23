@@ -5,7 +5,7 @@
  * @date 18/09/2012
  * @section LICENSE
  *
- * Copyright NIWA Science ©2012 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2012 - www.niwa.co.nz
  *
  * @section DESCRIPTION
  *
@@ -41,8 +41,7 @@ class Partition {
   friend class Model;
 public:
   // Methods
-  virtual                     ~Partition() = default;
-//  static Partition&           Instance();
+  virtual                     ~Partition();
   void                        Validate();
   void                        Build();
   void                        Reset();

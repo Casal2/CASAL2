@@ -5,7 +5,7 @@
  * @date 6/03/2013
  * @section LICENSE
  *
- * Copyright NIWA Science ©2013 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2013 - www.niwa.co.nz
  *
  * $Date: 2008-03-04 16:33:32 +1300 (Tue, 04 Mar 2008) $
  */
@@ -39,6 +39,14 @@ Observation::Observation(Model* model) : model_(model) {
   parameters_.Bind<Double>(PARAM_LIKELIHOOD_MULTIPLIER, &likelihood_multiplier_, "Likelihood score multiplier", "", Double(1.0));
   parameters_.Bind<Double>(PARAM_ERROR_VALUE_MULTIPLIER, &error_value_multiplier_, "Error value multiplier for likelihood", "", Double(1.0));
   mean_proportion_method_ = true;
+}
+
+/**
+ * Destructor
+ */
+Observation::~Observation() {
+  if (likelihood_ != nullptr)
+    delete likelihood_;
 }
 
 /**

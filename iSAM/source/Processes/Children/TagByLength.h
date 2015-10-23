@@ -5,7 +5,7 @@
  * @date 18/06/2015
  * @section LICENSE
  *
- * Copyright NIWA Science ©2015 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2015 - www.niwa.co.nz
  *
  * @section DESCRIPTION
  *
@@ -33,7 +33,7 @@ class TagByLength : public Process {
 public:
   // method
   explicit TagByLength(Model* model);
-  virtual                     ~TagByLength() = default;
+  virtual                     ~TagByLength();
   void                        DoValidate() override final;
   void                        DoBuild() override final;
   void                        DoReset() override final { };

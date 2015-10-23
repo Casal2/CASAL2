@@ -5,7 +5,7 @@
  * @date 8/04/2013
  * @section LICENSE
  *
- * Copyright NIWA Science ©2015 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2015 - www.niwa.co.nz
  *
  * @section DESCRIPTION
  *
@@ -36,7 +36,7 @@ class ProportionsAtLength : public niwa::Observation {
 public:
   // Methods
   explicit ProportionsAtLength(Model* model);
-  virtual                     ~ProportionsAtLength() = default;
+  virtual                     ~ProportionsAtLength();
   void                        DoValidate() override final;
   virtual void                DoBuild() override;
   void                        DoReset() override final { };

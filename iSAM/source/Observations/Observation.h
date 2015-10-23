@@ -5,7 +5,7 @@
  * @date 6/03/2013
  * @section LICENSE
  *
- * Copyright NIWA Science ©2013 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2013 - www.niwa.co.nz
  *
  * @section DESCRIPTION
  *
@@ -40,7 +40,7 @@ public:
   // methods
   Observation() = delete;
   explicit Observation(Model* model);
-  virtual                     ~Observation() = default;
+  virtual                     ~Observation();
   void                        Validate();
   void                        Build();
   void                        Reset();

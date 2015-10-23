@@ -5,7 +5,7 @@
  * @date 28/07/2015
  * @section LICENSE
  *
- * Copyright NIWA Science ©2015 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2015 - www.niwa.co.nz
  *
  * @section DESCRIPTION
  *
@@ -59,7 +59,7 @@ class MortalityInstantaneous : public Process {
 public:
   // methods
   explicit MortalityInstantaneous(Model* model);
-  virtual                     ~MortalityInstantaneous() = default;
+  virtual                     ~MortalityInstantaneous();
   void                        DoValidate() override final;
   void                        DoBuild() override final;
   void                        DoReset() override final { };

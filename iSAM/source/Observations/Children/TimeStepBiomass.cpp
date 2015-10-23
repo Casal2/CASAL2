@@ -5,7 +5,7 @@
  * @date 17/10/2014
  * @section LICENSE
  *
- * Copyright NIWA Science ©2014 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2014 - www.niwa.co.nz
  *
  */
 
@@ -23,12 +23,6 @@ namespace observations {
  */
 TimeStepBiomass::TimeStepBiomass(Model* model)
   : observations::Biomass(model) {
-  parameters_.Bind<string>(PARAM_CATCHABILITY, &catchability_label_, "TBA", "");
-  parameters_.Bind<string>(PARAM_OBS, &obs_, "Observation values", "");
-  parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "Years to execute in", "");
-  parameters_.Bind<Double>(PARAM_ERROR_VALUE, &error_values_, "The error values to use against the observation values", "");
-  parameters_.Bind<Double>(PARAM_DELTA, &delta_, "Delta value for error values", "", Double(1e-10));
-  parameters_.Bind<Double>(PARAM_PROCESS_ERROR, &process_error_value_, "Process error", "", Double(0.0));
   parameters_.Bind<Double>(PARAM_TIME_STEP_PROPORTION, &time_step_proportion_, "Proportion through the time step to analyse the partition from", "", Double(0.5));
 
   mean_proportion_method_ = true;

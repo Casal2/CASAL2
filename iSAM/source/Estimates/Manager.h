@@ -4,7 +4,7 @@
  * @date 17/09/2014
  * @section LICENSE
  *
- * Copyright NIWA Science ©2014 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2014 - www.niwa.co.nz
  *
  * @section DESCRIPTION
  *
@@ -35,7 +35,7 @@ class Manager : public niwa::oldbase::Manager<estimates::Manager, niwa::Estimate
   friend class niwa::Managers;
 public:
   // methods
-  virtual                     ~Manager() noexcept(true) { };
+  virtual                     ~Manager();
   void                        Validate() override final;
   void                        Validate(Model* model);
   unsigned                    GetEnabledCount();

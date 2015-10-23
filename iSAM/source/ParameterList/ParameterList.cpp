@@ -5,7 +5,7 @@
  * @date 20/02/2012
  * @section LICENSE
  *
- * Copyright NIWA Science ©2011 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2011 - www.niwa.co.nz
  *
  * $Date: 2008-03-04 16:33:32 +1300 (Tue, 04 Mar 2008) $
  */
@@ -34,6 +34,17 @@ using std::cout;
 using std::endl;
 
 namespace niwa {
+
+/**
+ * Destructor
+ */
+ParameterList::~ParameterList() {
+  for (auto parameter : parameters_) {
+    if (parameter.second != nullptr)
+      delete parameter.second;
+  }
+  // DO NOT CLEAN UP TABLE MEMORY. IT'S HANDLE BY THE OWNER
+}
 
 /**
  * Add a single value to our parameter list

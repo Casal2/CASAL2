@@ -5,7 +5,7 @@
  * @date 19/06/2015
  * @section LICENSE
  *
- * Copyright NIWA Science ©2015 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2015 - www.niwa.co.nz
  *
  * @section DESCRIPTION
  *
@@ -27,7 +27,7 @@ class Data : public niwa::AgeingError {
 public:
   // methods
   Data(Model* model);
-  virtual                   ~Data() = default;
+  virtual                   ~Data();
 
 protected:
   // methods

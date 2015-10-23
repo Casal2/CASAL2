@@ -5,7 +5,7 @@
  * @date 16/04/2015
  * @section LICENSE
  *
- * Copyright NIWA Science ©2015 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2015 - www.niwa.co.nz
  *
  * @section DESCRIPTION
  *
@@ -31,7 +31,7 @@ class StateCategoryByAge : public niwa::InitialisationPhase {
 public:
   // methods
   explicit StateCategoryByAge(Model* model);
-  virtual                     ~StateCategoryByAge() = default;
+  virtual                     ~StateCategoryByAge();
   virtual void                Execute() override final;
 
 protected:

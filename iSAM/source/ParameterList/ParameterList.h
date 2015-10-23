@@ -5,7 +5,7 @@
  * @date 20/02/2012
  * @section LICENSE
  *
- * Copyright NIWA Science ©2011 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2011 - www.niwa.co.nz
  *
  * @section DESCRIPTION
  *
@@ -86,7 +86,7 @@ class ParameterList {
 public:
   // Methods
   ParameterList() = default;
-  virtual                     ~ParameterList() = default;
+  virtual                     ~ParameterList();
   bool                        Add(const string& label, const string& value, const string& file_name, const unsigned& line_number);
   bool                        Add(const string& label, const vector<string>& values, const string& file_name, const unsigned& line_number);
   Parameter*                  Get(const string& label);

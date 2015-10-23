@@ -5,7 +5,7 @@
  * @date 12.8.15
  * @section LICENSE
  *
- * Copyright NIWA Science ©2013 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2013 - www.niwa.co.nz
  */
 
 // Headers
@@ -43,6 +43,14 @@ ProportionsAtLengthForFishery::ProportionsAtLengthForFishery(Model* model)
   parameters_.Bind<string>(PARAM_FISHERY, &fishery_, "Label of fishery the observation is from", "", "");
   parameters_.BindTable(PARAM_OBS, obs_table_, "Table of Observatons", "", false);
   parameters_.BindTable(PARAM_ERROR_VALUES, error_values_table_, "", "", false);
+}
+
+/**
+ * Destructor
+ */
+ProportionsAtLengthForFishery::~ProportionsAtLengthForFishery() {
+  delete obs_table_;
+  delete error_values_table_;
 }
 
 /**
