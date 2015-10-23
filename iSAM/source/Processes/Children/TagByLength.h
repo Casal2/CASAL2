@@ -46,8 +46,9 @@ private:
   accessor::Categories          to_partition_;
   accessor::Categories          from_partition_;
   vector<unsigned>              years_;
-  unsigned                      min_age_ = 0;
-  unsigned                      max_age_ = 0;
+  vector<Double>                length_bins_;
+  bool                          plus_group_ = false;
+  Double                        max_length_ = 0.0;
   vector<string>                selectivity_labels_;
   map<string, Selectivity*>     selectivities_;
   string                        penalty_label_ = "";
