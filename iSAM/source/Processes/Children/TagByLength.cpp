@@ -5,7 +5,7 @@
  * @date 18/06/2015
  * @section LICENSE
  *
- * Copyright NIWA Science ©2015 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2015 - www.niwa.co.nz
  *
  */
 
@@ -49,6 +49,14 @@ TagByLength::TagByLength(Model* model)
   parameters_.Bind<Double>(PARAM_N, &n_, "", "", true);
   parameters_.BindTable(PARAM_NUMBERS, numbers_table_, "Table of N data", "", true, true);
   parameters_.BindTable(PARAM_PROPORTIONS, proportions_table_, "Table of proportions to move", "" , true, true);
+}
+
+/**
+ * Destructor
+ */
+TagByLength::~TagByLength() {
+  delete numbers_table_;
+  delete proportions_table_;
 }
 
 /**

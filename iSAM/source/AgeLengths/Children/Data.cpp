@@ -5,7 +5,7 @@
  * @date 22/10/2014
  * @section LICENSE
  *
- * Copyright NIWA Science ©2014 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2014 - www.niwa.co.nz
  *
  */
 
@@ -42,7 +42,13 @@ Data::Data(Model* model) : AgeLength(model) {
   parameters_.Bind<Double>(PARAM_CV_LAST, &cv_last_ , "CV for maximum age", "",Double(0.0))->set_lower_bound(0.0);
 }
 
-/**@jigg
+/**
+ * Destructor
+ */
+Data::~Data() {
+  delete data_table_;
+}
+/**
  * Build any objects that will need to be utilised by this object.
  * Obtain smart_pointers to any objects that will be used by this object.
  */

@@ -4,7 +4,7 @@
  * @date 7/01/2014
  * @section LICENSE
  *
- * Copyright NIWA Science ©2013 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2013 - www.niwa.co.nz
  *
  */
 
@@ -25,7 +25,7 @@ namespace utils = niwa::utilities;
  * Default constructor
  */
 Biomass::Biomass(Model* model) : Observation(model) {
-  parameters_.Bind<string>(PARAM_CATCHABILITY, &catchability_label_, "TBA", "");
+  parameters_.Bind<string>(PARAM_CATCHABILITY, &catchability_label_, "Catchability of Biomass", "");
   parameters_.Bind<string>(PARAM_OBS, &obs_, "Observation values", "");
   parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "Years to execute in", "");
   parameters_.Bind<Double>(PARAM_ERROR_VALUE, &error_values_, "The error values to use against the observation values", "");

@@ -5,7 +5,7 @@
  * @date 22/10/2014
  * @section LICENSE
  *
- * Copyright NIWA Science ©2014 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2014 - www.niwa.co.nz
  *
  * @section DESCRIPTION
  *
@@ -28,7 +28,7 @@ class Data : public AgeLength {
 public:
   // methods
   explicit Data(Model* model);
-  virtual                     ~Data() = default;
+  virtual                     ~Data();
   void                        DoValidate() override final {};
   void                        DoBuild() override final;
   void                        DoReset() override final {};

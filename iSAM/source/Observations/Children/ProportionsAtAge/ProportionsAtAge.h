@@ -5,7 +5,7 @@
  * @date 8/04/2013
  * @section LICENSE
  *
- * Copyright NIWA Science ©2013 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2013 - www.niwa.co.nz
  *
  * @section DESCRIPTION
  *
@@ -39,7 +39,7 @@ class ProportionsAtAge : public niwa::Observation {
 public:
   // Methods
   explicit ProportionsAtAge(Model* model);
-  virtual                     ~ProportionsAtAge() = default;
+  virtual                     ~ProportionsAtAge();
   void                        DoValidate() override final;
   virtual void                DoBuild() override;
   void                        DoReset() override final { };

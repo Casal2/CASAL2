@@ -5,7 +5,7 @@
  * @date 25/08/15
  * @section LICENSE
  *
- * Copyright NIWA Science ©2013 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2013 - www.niwa.co.nz
  *
  * @section DESCRIPTION
  *
@@ -38,7 +38,7 @@ class ProportionsAtAgeForFishery : public niwa::Observation {
 public:
   // Methods
   explicit ProportionsAtAgeForFishery(Model* model);
-  virtual                     ~ProportionsAtAgeForFishery() = default;
+  virtual                     ~ProportionsAtAgeForFishery();
   void                        DoValidate() override final;
   virtual void                DoBuild() override;
   void                        DoReset() override final { };

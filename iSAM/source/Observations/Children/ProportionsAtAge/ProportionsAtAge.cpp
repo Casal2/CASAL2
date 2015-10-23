@@ -5,7 +5,7 @@
  * @date 8/04/2013
  * @section LICENSE
  *
- * Copyright NIWA Science ©2013 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2013 - www.niwa.co.nz
  *
  * $Date: 2008-03-04 16:33:32 +1300 (Tue, 04 Mar 2008) $
  */
@@ -45,6 +45,14 @@ ProportionsAtAge::ProportionsAtAge(Model* model) : Observation(model) {
   parameters_.Bind<string>(PARAM_AGEING_ERROR, &ageing_error_label_, "Label of ageing error to use", "", "");
   parameters_.BindTable(PARAM_OBS, obs_table_, "Table of Observatons", "", false);
   parameters_.BindTable(PARAM_ERROR_VALUES, error_values_table_, "", "", false);
+}
+
+/**
+ * Destructor
+ */
+ProportionsAtAge::~ProportionsAtAge() {
+  delete obs_table_;
+  delete error_values_table_;
 }
 
 /**

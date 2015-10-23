@@ -5,7 +5,7 @@
  * @date 17/02/2015
  * @section LICENSE
  *
- * Copyright NIWA Science ©2015 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2015 - www.niwa.co.nz
  *
  * @section DESCRIPTION
  *
@@ -34,7 +34,7 @@ class ProportionsByCategory : public niwa::Observation {
 public:
   // methods
   ProportionsByCategory(Model* model);
-  virtual                     ~ProportionsByCategory() = default;
+  virtual                     ~ProportionsByCategory();
   void                        DoValidate() override final;
   virtual void                DoBuild() override;
   void                        DoReset() override final { };

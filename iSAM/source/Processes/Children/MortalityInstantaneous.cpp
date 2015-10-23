@@ -5,7 +5,7 @@
  * @date 28/07/2015
  * @section LICENSE
  *
- * Copyright NIWA Science ©2015 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2015 - www.niwa.co.nz
  *
  */
 
@@ -65,6 +65,14 @@ MortalityInstantaneous::MortalityInstantaneous(Model* model)
   RegisterAsEstimable(PARAM_M, &m_);
   RegisterAsEstimable(PARAM_AVERAGE, &avg_);
   RegisterAsEstimable(PARAM_DIFFERENCE, &diff_);
+}
+
+/**
+ * Destructor
+ */
+MortalityInstantaneous::~MortalityInstantaneous() {
+  delete catches_table_;
+  delete fisheries_table_;
 }
 
 /**

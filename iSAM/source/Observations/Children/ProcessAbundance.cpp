@@ -5,7 +5,7 @@
  * @date 17/10/2014
  * @section LICENSE
  *
- * Copyright NIWA Science ©2014 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2014 - www.niwa.co.nz
  *
  */
 
@@ -24,7 +24,7 @@ namespace observations {
 ProcessAbundance::ProcessAbundance(Model* model)
   : observations::Abundance(model) {
 
-  parameters_.Bind<string>(PARAM_CATCHABILITY, &catchability_label_, "TBA", "");
+  parameters_.Bind<string>(PARAM_CATCHABILITY, &catchability_label_, "Abundance catchability", "");
   parameters_.Bind<string>(PARAM_OBS, &obs_, "Observation values", "");
   parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "Years to execute in", "");
   parameters_.Bind<Double>(PARAM_ERROR_VALUE, &error_values_, "The error values to use against the observation values", "");

@@ -5,7 +5,7 @@
  * @date 16/04/2015
  * @section LICENSE
  *
- * Copyright NIWA Science ©2015 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2015 - www.niwa.co.nz
  *
  */
 
@@ -29,6 +29,13 @@ StateCategoryByAge::StateCategoryByAge(Model* model)
   parameters_.Bind<unsigned>(PARAM_MIN_AGE, &min_age_, "Minimum age to use for this process", "");
   parameters_.Bind<unsigned>(PARAM_MAX_AGE, &max_age_, "Maximum age to use for this process", "");
   parameters_.BindTable(PARAM_N, n_table_, "Table of data", "", false, false);
+}
+
+/**
+ * Destructor
+ */
+StateCategoryByAge::~StateCategoryByAge() {
+  delete n_table_;
 }
 
 /**

@@ -5,7 +5,7 @@
  * @date 10/12/2014
  * @section LICENSE
  *
- * Copyright NIWA Science ©2014 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2014 - www.niwa.co.nz
  *
  */
 
@@ -48,6 +48,13 @@ TransitionCategoryByAge::TransitionCategoryByAge(Model* model)
   parameters_.BindTable(PARAM_N, n_table_, "Table of N data", "");
 
 //  RegisterAsEstimable(PARAM_N, &n_);
+}
+
+/**
+ * Destructor
+ */
+TransitionCategoryByAge::~TransitionCategoryByAge() {
+  delete n_table_;
 }
 
 /**

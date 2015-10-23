@@ -5,7 +5,7 @@
  * @date 12.8.15
  * @section LICENSE
  *
- * Copyright NIWA Science ©2013 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2013 - www.niwa.co.nz
  */
 
 // Headers
@@ -38,6 +38,14 @@ ProportionsAtLength::ProportionsAtLength(Model* model) : Observation(model) {
   parameters_.Bind<Double>(PARAM_PROCESS_ERRORS, &process_error_values_, "Process error", "", true);
   parameters_.BindTable(PARAM_OBS, obs_table_, "Table of Observatons", "", false);
   parameters_.BindTable(PARAM_ERROR_VALUES, error_values_table_, "", "", false);
+}
+
+/**
+ * Destructor
+ */
+ProportionsAtLength::~ProportionsAtLength() {
+  delete obs_table_;
+  delete error_values_table_;
 }
 
 /**
