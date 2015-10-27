@@ -39,9 +39,9 @@ void TimeStepBiomass::DoBuild() {
   proportion_of_time_ = time_step_proportion_;
 
   auto time_step = model_->managers().time_step()->GetTimeStep(time_step_label_);
-  if (!time_step)
+  if (!time_step) {
     LOG_ERROR_P(PARAM_TIME_STEP) << time_step_label_ << " could not be found. Have you defined it?";
-  else {
+  } else {
     for (unsigned year : years_)
       time_step->SubscribeToBlock(this, year);
   }
