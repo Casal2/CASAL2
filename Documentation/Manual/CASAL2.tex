@@ -1,9 +1,5 @@
 \documentclass[a4paper,11pt,twoside,pdftex]{article}
 
-\title{\Huge\textbf{\CAS} \Large \\\CASName \\\CAS\ \VER} %Document title
-\author{A. Dunn, I. Doonan, S. Rasmussen, K. Large} %Document authors %check this
-\date{\DocDate} %Date of publication
-
 % Caption package for formating figure and label captions
 \usepackage[font=bf,format=hang,labelsep=colon,justification=justified,singlelinecheck=false,compatibility=false]{caption}
 
@@ -20,9 +16,9 @@
 % EXAMPLE: \href{http://www.niwa.co.nz}{NIWA}
 \usepackage[bookmarks=true,bookmarksopen=false,bookmarksnumbered=true,
             pdfpagelayout=TwoPageRight,
-            pdftitle={C++ algorithmic stock assessment laboratory 2 (CASAL2) User Manual}, %title to be confimed
-            pdfauthor={Alistair Dunn, Ian Doonan, Scott Rasmussen, Kath Large} %author list required
-            pdfsubject={Stock Assessment Model User manual},
+            pdftitle={CASAL2 User Manual}, 
+            pdfauthor={I. Doonan, A. Dunn, K. Large, C. Marsh, S. Rasmussen, S. Mormede} %authors
+            pdfsubject={CASAL2 Stock Assessment Model User manual},
             pdftex]{hyperref}
 \hypersetup{
   breaklinks=true,      % allow line breaks in URLs
@@ -81,16 +77,14 @@ escapeinside={\%*}{*)}          % if you want to add a comment within your code
 % Add a dot after section headings
 \makeatletter
  \def\@seccntformat#1{\csname the#1\endcsname.\quad}
-
  \renewcommand\paragraph{\@startsection{paragraph}{4}{\z@}%
              {-2.5ex\@plus -1ex \@minus -.25ex}%
              {1.25ex \@plus .25ex}%
              {\normalfont\normalsize\bfseries}}
- 
 \makeatother
 
- \setcounter{secnumdepth}{4} % how many sectioning levels to assign numbers to
- \setcounter{tocdepth}{4}    % how many sectioning levels to show in ToC
+\setcounter{secnumdepth}{4} % how many sectioning levels to assign numbers to
+\setcounter{tocdepth}{4}    % how many sectioning levels to show in ToC
 
 % Page style
 \usepackage{fancyhdr}
@@ -157,16 +151,16 @@ escapeinside={\%*}{*)}          % if you want to add a comment within your code
 \newcommand{\Bzero}{\emph{B}$_0$}
 \newcommand{\R}{\textbf{R}}
 \newcommand{\SSBoff}{$SSB_{\text{offset}}$}
+
+% command shortcuts: to aid editing (KL)
 \newcommand{\NYI}{\color{red}(\emph{not yet implemented})\color{black}}
 \newcommand{\TODO}{\color{red}\emph{To be implemented}}
 \newcommand{\TODOend}{\color{black}}
 \newcommand{\TOUNDO}{\color{green}\emph{To be removed from the code }}
 \newcommand{\TOUNDOend}{\color{black}}
-
-% command shortcuts: to aid editing (KL)
-\newcommand{\COO}{\color{red}(\emph{was NYI, to be included?})\color{black}}
-\newcommand{\CA}{\color{red}(\emph{following from CASAL, to be included?})\color{black}}
-\newcommand{\CH}{\color{red}\emph{check and confirm text\\}\color{black}}
+\newcommand{\COO}{\color{red}(\emph{was NYI, to be included?})\color{red}}
+\newcommand{\CA}{\color{red}(\emph{following from CASAL, to be included?})\color{red}}
+\newcommand{\CH}{\color{red}\emph{check and confirm text\\}\color{red}}
 \newcommand{\EX}{\\\color{blue}\emph{need an example here...}}
 \newcommand{\EXend}{\color{black}}
 \newcommand{\KL}{\color{red}\emph{KL comment: }}
@@ -211,14 +205,13 @@ escapeinside={\%*}{*)}          % if you want to add a comment within your code
 
 %New commands to automate document dates, manual titles, document reference, etc.
 \newcommand{\VER}{\SourceControlShortVersionDoc} % CASAL2 program version
-\newcommand{\CAS}{$\texttt{CASAL}^{\texttt{2}}$} % CASAL2 short name
-\newcommand{\cas}{$\texttt{casal}^{\texttt{2}}$} % CASAL2 prefix/suffix
-\newcommand{\CASName}{C++ Stock Assessment Laboratory} %CASAL2 long name
-
-\newcommand{\authors}{\href{mailto:"Alistair Dunn"<alistair.dunn@niwa.co.nz>?subject=SAM:}{authors}} %check this
+\newcommand{\CNAME}{CASAL2} % CASAL2 name
+\newcommand{\cname}{\texttt{casal2}} % CASAL2 binary name
+\newcommand{\authors}{I. Doonan, A. Dunn, K. Large, C. Marsh, S. Rasmussen, S. Mormede}
+\newcommand{\authorlink}{\href{mailto:"CASAL2 Development Team"<casal@niwa.co.nz>?subject=CASAL2:}{authors}} %check this
 %hyper ref for email
 \newcommand{\Organisation}{National Institute of Water \& Atmospheric Research Ltd.} %NIWA
-\newcommand{\ManualRef}{Dunn A., Doonan I., Rasmussen S., Large, K. (\DocYear) \CASName\ User Manual, \CAS\ \VER. \Organisation\ \emph{Unpublished report}. \ref{TotPages} p.} % full document reference
+\newcommand{\ManualRef}{\authors\ (\DocYear) \CNAME\ User Manual, \VER. \Organisation\ \emph{NIWA Technical Report}. \ref{TotPages} p.} % full document reference
 
 % Define \clearemptydoublepage so-as to have truly blank pages between sections
 \let\origdoublepage\cleardoublepage
@@ -241,8 +234,34 @@ escapeinside={\%*}{*)}          % if you want to add a comment within your code
 % Title page
 \pdfbookmark[1]{CASAL2 Users Manual}{title}
 \pagenumbering{alph} % alpha not used, but used to remove warnings when page 1 is re-defined below
-\maketitle
-\thispagestyle{empty} % no header/footer/page number on this page
+
+\begin{titlepage}
+  \thispagestyle{empty} % no header/footer/page number on this page
+	\begin{center}
+
+		\vspace*{2cm}
+		\Huge \CNAME\ User Manual \\
+
+		\vspace{1cm}
+		\LARGE \authors \\ %Document authors
+
+		\vspace{2cm}
+		\begin{figure}[htp]
+			\begin{center}
+			 \includegraphics[height=7cm,width=7cm]{Figures/casal2.png}
+			\end{center}
+		\end{figure}
+		\vspace{2cm}
+
+		\Large NIWA Technical Report xxx \\%Document Date
+		\Large ISSN 1174-2631 \\%Document Date
+		\Large \DocYear \\%Document Date
+
+		~\vfill
+		\CNAME\ User Manual (modified: \DocVer) \\ for use with \cname\ \VER
+
+	\end{center}
+\end{titlepage}
 
 %logo = we still need one!
 \vspace{30mm}
@@ -256,7 +275,7 @@ escapeinside={\%*}{*)}          % if you want to add a comment within your code
 
 ~\vfill
 \begin{center}
-  \CASName\ User Manual (modified: \DocVer) \\ for use with \CAS\ \VER
+  \CNAME\ User Manual (modified: \DocVer) \\ for use with \cname\ \VER
 \end{center}
 
 
@@ -311,7 +330,7 @@ $\vcenter{Citation: \ManualRef}$
 \include{Overview}
 
 \clearemptydoublepage{}
-\include{RunningiSAM}
+\include{RunningCASAL2}
 
 \clearemptydoublepage{}
 \include{Population}
