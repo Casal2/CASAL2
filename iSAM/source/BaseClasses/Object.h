@@ -5,7 +5,7 @@
  * @date 18/09/2012
  * @section LICENSE
  *
- * Copyright NIWA Science ©2012 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2012 - www.niwa.co.nz
  *
  * @section DESCRIPTION
  *
@@ -23,6 +23,7 @@
 #include <string>
 #include <memory>
 
+#include "Logging/Logging.h"
 #include "ParameterList/ParameterList.h"
 #include "Translations/Translations.h"
 #include "Utilities/Map.h"

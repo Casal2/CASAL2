@@ -5,7 +5,7 @@
  * @date 14/04/2015
  * @section LICENSE
  *
- * Copyright NIWA Science ©2015 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2015 - www.niwa.co.nz
  *
  */
 
@@ -19,6 +19,8 @@ namespace niwa {
 
 using std::vector;
 using std::string;
+
+logger::Severity  Logging::current_log_level_ = logger::Severity::kWarning;
 
 /**
  * Default constructor
@@ -41,13 +43,13 @@ Logging& Logging::Instance() {
  */
 void Logging::SetLogLevel(const std::string& log_level) {
   if (log_level == PARAM_TRACE)
-    current_log_level_ = logger::Severity::kTrace;
+    Logging::current_log_level_ = logger::Severity::kTrace;
   else if (log_level == PARAM_FINEST)
-    current_log_level_ = logger::Severity::kFinest;
+    Logging::current_log_level_ = logger::Severity::kFinest;
   else if (log_level == PARAM_FINE)
-    current_log_level_ = logger::Severity::kFine;
+    Logging::current_log_level_ = logger::Severity::kFine;
   else if (log_level == PARAM_MEDIUM)
-    current_log_level_ = logger::Severity::kMedium;
+    Logging::current_log_level_ = logger::Severity::kMedium;
   else if (log_level != PARAM_NONE) {
     cout << "The log level provided is an invalid log level. " << log_level << " is not supported" << endl;
     exit(-1);

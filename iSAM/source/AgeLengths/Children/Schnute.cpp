@@ -5,7 +5,7 @@
  * @date 19/06/2015
  * @section LICENSE
  *
- * Copyright NIWA Science ©2015 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2015 - www.niwa.co.nz
  *
  */
 
@@ -134,7 +134,6 @@ void Schnute::BuildCV(unsigned year) {
  */
 Double Schnute::mean_weight(unsigned year, unsigned age) {
   Double size = this->mean_length(year, age);
-  BuildCV(year);
 
   Double mean_weight = length_weight_->mean_weight(size, distribution_, cvs_[age]);
   return mean_weight;

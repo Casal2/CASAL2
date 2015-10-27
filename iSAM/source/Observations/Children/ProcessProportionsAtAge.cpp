@@ -5,7 +5,7 @@
  * @date 17/10/2014
  * @section LICENSE
  *
- * Copyright NIWA Science ©2014 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2014 - www.niwa.co.nz
  *
  */
 
@@ -44,9 +44,9 @@ void ProcessProportionsAtAge::DoBuild() {
   proportion_of_time_ = process_proportion_;
 
   auto time_step = model_->managers().time_step()->GetTimeStep(time_step_label_);
-  if (!time_step)
+  if (!time_step) {
     LOG_FATAL_P(PARAM_TIME_STEP) << time_step_label_ << " could not be found. Have you defined it?";
-  else {
+  } else {
     auto process = time_step->SubscribeToProcess(this, years_, process_label_);
     mortality_instantaneous_ = dynamic_cast<processes::MortalityInstantaneous*>(process);
   }

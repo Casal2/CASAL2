@@ -5,7 +5,7 @@
  * @date 17/04/2013
  * @section LICENSE
  *
- * Copyright NIWA Science ©2013 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2013 - www.niwa.co.nz
  *
  * $Date: 2008-03-04 16:33:32 +1300 (Tue, 04 Mar 2008) $
  */
@@ -213,14 +213,15 @@ double Engine::optimise_finite_differences(gammadiff::CallBack& objective, vecto
     clMinimiser.fMin(vScaledValues, dScore, vGradientValues);
   }
 
-  if (clMinimiser.getResult() == -3)
+  if (clMinimiser.getResult() == -3) {
     LOG_MEDIUM() << GAMMADIFF_CONVERGENCE_UNCLEAR;
-  else if (clMinimiser.getResult() == -2)
+  } else if (clMinimiser.getResult() == -2) {
     LOG_MEDIUM() << GAMMADIFF_EVALUATIONS_MAX;
-  else if (clMinimiser.getResult() == -1)
+  } else if (clMinimiser.getResult() == -1) {
     LOG_MEDIUM() << GAMMADIFF_CONVERGENCE_SUCCESSFUL;
-  else
+  } else {
     LOG_MEDIUM() << GAMMADIFF_RETURN_VALUE_UNKNOWN << clMinimiser.getResult();
+  }
 
   for (int i = 0; i < iVectorSize; ++i) {
     vCurrentValues[i] = unScaleValue(vScaledValues[i], vLowerBounds[i], vUpperBounds[i]);
