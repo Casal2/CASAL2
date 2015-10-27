@@ -17,8 +17,8 @@ Class=LaTeXView
 Document=CASAL2.tex
 
 [Frame0_View0,0]
-TopLine=354
-Cursor=13543
+TopLine=61
+Cursor=2731
 
 [Frame1]
 Flags=0
@@ -32,11 +32,11 @@ NormalPos.top=26
 NormalPos.right=1322
 NormalPos.bottom=542
 Class=LaTeXView
-Document=Observation.tex
+Document=Introduction.tex
 
 [Frame1_View0,0]
-TopLine=0
-Cursor=0
+TopLine=12
+Cursor=1299
 
 [Frame2]
 Flags=0
@@ -68,11 +68,11 @@ NormalPos.top=26
 NormalPos.right=1322
 NormalPos.bottom=542
 Class=LaTeXView
-Document=RunningCASAL2.tex
+Document=Population.tex
 
 [Frame3_View0,0]
-TopLine=99
-Cursor=8188
+TopLine=899
+Cursor=58688
 
 [Frame4]
 Flags=0
@@ -86,13 +86,13 @@ NormalPos.top=26
 NormalPos.right=1322
 NormalPos.bottom=542
 Class=LaTeXView
-Document=Population.tex
+Document=Observation.tex
 
 [Frame4_View0,0]
-TopLine=358
-Cursor=27120
+TopLine=521
+Cursor=26254
 
 [SessionInfo]
 FrameCount=5
-ActiveFrame=4
+ActiveFrame=0
 
