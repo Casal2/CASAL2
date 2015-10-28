@@ -37,6 +37,13 @@ void Selectivity::Validate() {
 }
 
 /**
+ *
+ */
+void Selectivity::Reset() {
+  values_.clear();
+}
+
+/**
  * Return the cached value for the specified age or length from
  * our internal map
  *
