@@ -5,7 +5,7 @@
  * @date 20/12/2012
  * @section LICENSE
  *
- * Copyright NIWA Science ©2012 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2012 - www.niwa.co.nz
  *
  * $Date: 2008-03-04 16:33:32 +1300 (Tue, 04 Mar 2008) $
  */
@@ -48,9 +48,9 @@ void TimeStep::Build() {
   processes::Manager& process_manager = *model_->managers().process();
   for (string process_name : process_names_) {
     Process* process = process_manager.GetProcess(process_name);
-    if (!process)
+    if (!process) {
       LOG_ERROR_P(PARAM_PROCESSES) << ": process " << process_name << " does not exist. Have you defined it?";
-    else
+    } else
       processes_.push_back(process);
   }
   LOG_FINE() << "Time step " << label_ << " has " << processes_.size() << " processes";
