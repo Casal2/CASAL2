@@ -90,6 +90,14 @@ void DerivedQuantity::Build() {
 }
 
 /**
+ * Reset our derived quantity values
+ */
+void DerivedQuantity::Reset() {
+  initialisation_values_.clear();
+  values_.clear();
+}
+
+/**
  * Return the calculated value stored in this derived quantity
  * for the parameter year. If the year does not exist as a standard
  * value we'll calculate how many years to go back in to

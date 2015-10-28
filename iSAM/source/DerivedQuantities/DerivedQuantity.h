@@ -36,7 +36,7 @@ public:
   virtual                     ~DerivedQuantity() = default;
   void                        Validate();
   void                        Build();
-  void                        Reset() { };
+  void                        Reset();
   Double                      GetValue(unsigned year);
   Double                      GetInitialisationValue(unsigned phase = 0, unsigned index = 0);
   Double                      GetLastValueFromInitialisation(unsigned phase);

@@ -33,7 +33,7 @@ public:
   virtual                     ~Selectivity() = default;
   void                        Validate();
   virtual void                Build() { Reset(); };
-  virtual void                Reset() {};
+  virtual void                Reset();
   virtual Double              GetResult(unsigned age_or_length);
 
   // pure methods
