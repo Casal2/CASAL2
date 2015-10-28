@@ -153,11 +153,11 @@ void ProportionsByCategory::DoValidate() {
     if (error_values_data_line.size() != 2 && error_values_data_line.size() != obs_expected) {
       LOG_ERROR_P(PARAM_ERROR_VALUES) << " has " << error_values_data_line.size() << " values defined, but we expected " << obs_expected
           << " to match the age speard * categories + 1 (for year)";
-    } else if (!utilities::To<unsigned>(error_values_data_line[0], year))
+    } else if (!utilities::To<unsigned>(error_values_data_line[0], year)) {
       LOG_ERROR_P(PARAM_ERROR_VALUES) << " value " << error_values_data_line[0] << " could not be converted in to an unsigned integer. It should be the year for this line";
-    else if (std::find(years_.begin(), years_.end(), year) == years_.end())
+    } else if (std::find(years_.begin(), years_.end(), year) == years_.end()) {
       LOG_ERROR_P(PARAM_ERROR_VALUES) << " value " << year << " is not a valid year for this observation";
-    else {
+    } else {
       for (unsigned i = 1; i < error_values_data_line.size(); ++i) {
         Double value = 0;
         if (!utilities::To<Double>(error_values_data_line[i], value))
@@ -173,8 +173,9 @@ void ProportionsByCategory::DoValidate() {
       if (error_values_by_year[year].size() == 1) {
         error_values_by_year[year].assign(obs_expected - 1, error_values_by_year[year][0]);
       }
-      if (error_values_by_year[year].size() != obs_expected - 1)
+      if (error_values_by_year[year].size() != obs_expected - 1) {
         LOG_CODE_ERROR() << "error_values_by_year_[year].size() (" << error_values_by_year[year].size() << ") != obs_expected - 1 (" << obs_expected -1 << ")";
+      }
     }
   }
 
@@ -232,9 +233,9 @@ void ProportionsByCategory::DoBuild() {
 
   for(string label : target_selectivity_labels_) {
     auto selectivity = model_->managers().selectivity()->GetSelectivity(label);
-    if (!selectivity)
+    if (!selectivity) {
       LOG_ERROR_P(PARAM_TARGET_SELECTIVITIES) << ": " << label << " does not exist. Have you defined it?";
-    else
+    } else
       target_selectivities_.push_back(selectivity);
   }
 

@@ -5,7 +5,7 @@
  * @date 14/08/15
  * @section LICENSE
  *
- * Copyright NIWA Science ©2014 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2014 - www.niwa.co.nz
  *
  */
 
@@ -41,9 +41,9 @@ void ProcessProportionsAtLength::DoBuild() {
   proportion_of_time_ = process_proportion_;
 
   TimeStep* time_step = model_->managers().time_step()->GetTimeStep(time_step_label_);
-  if (!time_step)
+  if (!time_step) {
     LOG_FATAL_P(PARAM_TIME_STEP) << time_step_label_ << " could not be found. Have you defined it?";
-  else {
+  } else {
     for (unsigned year : years_)
       time_step->SubscribeToProcess(this, year, process_label_);
   }
