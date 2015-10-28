@@ -1,16 +1,17 @@
 /**
- * @file ProportionsByCategory.cpp
- * @author Scott Rasmussen (scott.rasmussen@zaita.com)
+ * @file TagRecaptureByAge.cpp
+ * @author C.Marsh
  * @github https://github.com/Zaita
- * @date 17/02/2015
+ * @date 23/10/2015
  * @section LICENSE
  *
- * Copyright NIWA Science ï¿½2015 - www.niwa.co.nz
+ * Copyright NIWA Science ©2015 - www.niwa.co.nz
  *
  */
 
 // headers
-#include <Observations/Children/ProportionsByCategory/ProportionsByCategory.h>
+#include "TagRecaptureByAge.h"
+
 #include <algorithm>
 
 #include "Categories/Categories.h"
@@ -29,9 +30,9 @@ namespace observations {
 /**
  * Default constructor
  */
-ProportionsByCategory::ProportionsByCategory(Model* model) : Observation(model) {
-  obs_table_ = new parameters::Table(PARAM_OBS);
-  error_values_table_ = new parameters::Table(PARAM_ERROR_VALUES);
+TagRecaptureByAge::TagRecaptureByAge(Model* model) : Observation(model) {
+  recaptures_table_ = new parameters::Table(PARAM_RECAPTURED);
+  scanned_table_ = new parameters::Table(PARAM_SCANNED);
 
   parameters_.Bind<unsigned>(PARAM_MIN_AGE, &min_age_, "Minimum age", "");
   parameters_.Bind<unsigned>(PARAM_MAX_AGE, &max_age_, "Maximum age", "");
@@ -41,39 +42,37 @@ ProportionsByCategory::ProportionsByCategory(Model* model) : Observation(model) 
   parameters_.Bind<string>(PARAM_TARGET_SELECTIVITIES, &target_selectivity_labels_, "Target Selectivities", "");
   parameters_.Bind<Double>(PARAM_DELTA, &delta_, "Delta", "", DELTA)->set_lower_bound(0.0, false);
   parameters_.Bind<Double>(PARAM_PROCESS_ERRORS, &process_error_values_, "Process error", "", true);
-  parameters_.BindTable(PARAM_OBS, obs_table_, "Table of Observatons", "", false);
-  parameters_.BindTable(PARAM_ERROR_VALUES, error_values_table_, "", "", false);
-}
-
-/**
- * Destructor
- */
-ProportionsByCategory::~ProportionsByCategory() {
-  delete obs_table_;
-  delete error_values_table_;
+  parameters_.Bind<Double>(PARAM_DETECTION_PARAMETER,  &detection_, "Detection probability ", "");
+  parameters_.BindTable(PARAM_RECAPTURED, recaptures_table_, "Table of Recaptures", "", false);
+  parameters_.BindTable(PARAM_SCANNED, scanned_table_, "Table of scanned individuals", "", false);
 }
 
 /**
  * Validate configuration file parameters
  */
-void ProportionsByCategory::DoValidate() {
+void TagRecaptureByAge::DoValidate() {
+
   unsigned expected_selectivity_count = 0;
   auto categories = model_->categories();
   for (const string& category_label : category_labels_)
     expected_selectivity_count += categories->GetNumberOfCategoriesDefined(category_label);
 
-  if (category_labels_.size() != target_category_labels_.size())
-    LOG_ERROR_P(PARAM_CATEGORIES) << ": Number of categories(" << category_labels_.size() << ") does not match the number of "
-    PARAM_TARGET_CATEGORIES << "(" << target_category_labels_.size() << ")";
+/*
+  category_labels_ = model_->categories()->ExpandLabels(category_labels_, parameters_.Get(PARAM_CATEGORIES));
+  target_category_labels_ = model_->categories()->ExpandLabels(target_category_labels_, parameters_.Get(PARAM_TARGET_CATEGORIES));
+*/
 
-  if (target_category_labels_.size() != target_selectivity_labels_.size() && expected_selectivity_count != target_selectivity_labels_.size())
-    LOG_ERROR_P(PARAM_TARGET_SELECTIVITIES) << ": Number of selectivities provided (" << target_selectivity_labels_.size()
-        << ") is not valid. You can specify either the number of category collections (" << target_category_labels_.size() << ") or "
-        << "the number of total categories (" << expected_selectivity_count << ")";
+  if (category_labels_.size() != selectivity_labels_.size())
+    LOG_ERROR_P(PARAM_CATEGORIES) << ": Number of categories(" << category_labels_.size() << ") does not match the number of "
+    PARAM_SELECTIVITIES << "(" << selectivity_labels_.size() << ")";
+  if (target_category_labels_.size() != target_selectivity_labels_.size())
+    LOG_ERROR_P(PARAM_TARGET_CATEGORIES) << ": Number of selectivities provided (" << target_selectivity_labels_.size()
+    << ") is not valid. You can specify either the number of category collections (" << target_category_labels_.size() << ") or "
+    << "the number of total categories (" << expected_selectivity_count << ")";
 
   age_spread_ = (max_age_ - min_age_) + 1;
-  map<unsigned, vector<Double>> error_values_by_year;
-  map<unsigned, vector<Double>> obs_by_year;
+  map<unsigned, vector<Double>> recaptures_by_year;
+  map<unsigned, vector<Double>> scanned_by_year;
 
   /**
    * Do some simple checks
@@ -82,116 +81,106 @@ void ProportionsByCategory::DoValidate() {
     LOG_ERROR_P(PARAM_MIN_AGE) << ": min_age (" << min_age_ << ") is less than the model's min_age (" << model_->min_age() << ")";
   if (max_age_ > model_->max_age())
     LOG_ERROR_P(PARAM_MAX_AGE) << ": max_age (" << max_age_ << ") is greater than the model's max_age (" << model_->max_age() << ")";
-  if (process_error_values_.size() != 0 && process_error_values_.size() != years_.size()) {
-    LOG_ERROR_P(PARAM_PROCESS_ERRORS) << " number of values provided (" << process_error_values_.size() << ") does not match the number of years provided ("
-        << years_.size() << ")";
-  }
-  for (Double process_error : process_error_values_) {
-    if (process_error < 0.0)
-      LOG_ERROR_P(PARAM_PROCESS_ERRORS) << ": process_error (" << AS_DOUBLE(process_error) << ") cannot be less than 0.0";
-  }
-  if (process_error_values_.size() != 0)
-    process_errors_by_year_ = utilities::Map::create(years_, process_error_values_);
+  if (detection_ < 0.0 || detection_ > 1.0)
+    LOG_ERROR_P(PARAM_DETECTION_PARAMETER) << ": detection probability must be between 0 and 1";
+
+
   if (delta_ < 0.0)
     LOG_ERROR_P(PARAM_DELTA) << ": delta (" << AS_DOUBLE(delta_) << ") cannot be less than 0.0";
 
   /**
-   * Validate the number of obs provided matches age spread * category_labels * years
-   * This is because we'll have 1 set of obs per category collection provided.
+   * Validate the number of recaptures provided matches age spread * category_labels * years
+   * This is because we'll have 1 set of recaptures per category collection provided.
    * categories male+female male = 2 collections
    */
   unsigned obs_expected = age_spread_ * category_labels_.size() + 1;
-  vector<vector<string>>& obs_data = obs_table_->data();
-  if (obs_data.size() != years_.size()) {
-    LOG_ERROR_P(PARAM_OBS) << " has " << obs_data.size() << " rows defined, but we expected " << years_.size()
+  vector<vector<string>>& recpatures_data = recaptures_table_->data();
+  if (recpatures_data.size() != years_.size()) {
+    LOG_ERROR_P(PARAM_RECAPTURED) << " has " << recpatures_data.size() << " rows defined, but we expected " << years_.size()
         << " to match the number of years provided";
   }
 
-  for (vector<string>& obs_data_line : obs_data) {
+  for (vector<string>& recaptures_data_line : recpatures_data) {
     unsigned year = 0;
 
-    if (obs_data_line.size() != obs_expected) {
-      LOG_ERROR_P(PARAM_OBS) << " has " << obs_data_line.size() << " values defined, but we expected " << obs_expected
+    if (recaptures_data_line.size() != obs_expected) {
+      LOG_ERROR_P(PARAM_RECAPTURED) << " has " << recaptures_data_line.size() << " values defined, but we expected " << obs_expected
           << " to match the age_spread * categories + 1 (for year)";
       return;
     }
 
-    if (!utilities::To<unsigned>(obs_data_line[0], year)) {
-      LOG_ERROR_P(PARAM_OBS) << " value " << obs_data_line[0] << " could not be converted in to an unsigned integer. It should be the year for this line";
+    if (!utilities::To<unsigned>(recaptures_data_line[0], year)) {
+      LOG_ERROR_P(PARAM_RECAPTURED) << " value " << recaptures_data_line[0] << " could not be converted in to an unsigned integer. It should be the year for this line";
       return;
     }
 
     if (std::find(years_.begin(), years_.end(), year) == years_.end()) {
-      LOG_ERROR_P(PARAM_OBS) << " value " << year << " is not a valid year for this observation";
+      LOG_ERROR_P(PARAM_RECAPTURED) << " value " << year << " is not a valid year for this observation";
       return;
     }
 
-    for (unsigned i = 1; i < obs_data_line.size(); ++i) {
+    for (unsigned i = 1; i < recaptures_data_line.size(); ++i) {
       Double value = 0;
-      if (!utilities::To<Double>(obs_data_line[i], value))
-        LOG_ERROR_P(PARAM_OBS) << " value (" << obs_data_line[i] << ") could not be converted to a double";
-      obs_by_year[year].push_back(value);
+      if (!utilities::To<Double>(recaptures_data_line[i], value))
+        LOG_ERROR_P(PARAM_RECAPTURED) << " value (" << recaptures_data_line[i] << ") could not be converted to a double";
+      recaptures_by_year[year].push_back(value);
     }
-    if (obs_by_year[year].size() != obs_expected - 1)
-      LOG_CODE_ERROR() << "obs_by_year_[year].size() (" << obs_by_year[year].size() << ") != obs_expected - 1 (" << obs_expected -1 << ")";
+    if (recaptures_by_year[year].size() != obs_expected - 1)
+      LOG_CODE_ERROR() << "obs_by_year_[year].size() (" << recaptures_by_year[year].size() << ") != obs_expected - 1 (" << obs_expected -1 << ")";
 
   }
 
 
   /**
-   * Build our error value map
+   * Build our scanned map
    */
-  vector<vector<string>>& error_values_data = error_values_table_->data();
-  if (error_values_data.size() != years_.size()) {
-    LOG_ERROR_P(PARAM_ERROR_VALUES) << " has " << error_values_data.size() << " rows defined, but we expected " << years_.size()
+  vector<vector<string>>& scanned_values_data = scanned_table_->data();
+  if (scanned_values_data.size() != years_.size()) {
+    LOG_ERROR_P(PARAM_SCANNED) << " has " << scanned_values_data.size() << " rows defined, but we expected " << years_.size()
         << " to match the number of years provided";
   }
 
-  for (vector<string>& error_values_data_line : error_values_data) {
+  for (vector<string>& scanned_values_data_line : scanned_values_data) {
     unsigned year = 0;
 
-    if (error_values_data_line.size() != 2 && error_values_data_line.size() != obs_expected) {
-      LOG_ERROR_P(PARAM_ERROR_VALUES) << " has " << error_values_data_line.size() << " values defined, but we expected " << obs_expected
+    if (scanned_values_data_line.size() != 2 && scanned_values_data_line.size() != obs_expected) {
+      LOG_ERROR_P(PARAM_SCANNED) << " has " << scanned_values_data_line.size() << " values defined, but we expected " << obs_expected
           << " to match the age speard * categories + 1 (for year)";
-    } else if (!utilities::To<unsigned>(error_values_data_line[0], year))
-      LOG_ERROR_P(PARAM_ERROR_VALUES) << " value " << error_values_data_line[0] << " could not be converted in to an unsigned integer. It should be the year for this line";
+    } else if (!utilities::To<unsigned>(scanned_values_data_line[0], year))
+      LOG_ERROR_P(PARAM_SCANNED) << " value " << scanned_values_data_line[0] << " could not be converted in to an unsigned integer. It should be the year for this line";
     else if (std::find(years_.begin(), years_.end(), year) == years_.end())
-      LOG_ERROR_P(PARAM_ERROR_VALUES) << " value " << year << " is not a valid year for this observation";
+      LOG_ERROR_P(PARAM_SCANNED) << " value " << year << " is not a valid year for this observation";
     else {
-      for (unsigned i = 1; i < error_values_data_line.size(); ++i) {
+      for (unsigned i = 1; i < scanned_values_data_line.size(); ++i) {
         Double value = 0;
-        if (!utilities::To<Double>(error_values_data_line[i], value))
-          LOG_ERROR_P(PARAM_ERROR_VALUES) << " value (" << error_values_data_line[i] << ") could not be converted to a double";
-        if (likelihood_type_ == PARAM_LOGNORMAL && value <= 0.0) {
-          LOG_ERROR_P(PARAM_ERROR_VALUES) << ": error_value (" << AS_DOUBLE(value) << ") cannot be equal to or less than 0.0";
-        } else if (likelihood_type_ == PARAM_MULTINOMIAL && value < 0.0) {
+        if (!utilities::To<Double>(scanned_values_data_line[i], value))
+          LOG_ERROR_P(PARAM_SCANNED) << " value (" << scanned_values_data_line[i] << ") could not be converted to a double";
+        else if (likelihood_type_ == PARAM_MULTINOMIAL && value < 0.0) {
           LOG_ERROR_P(PARAM_ERROR_VALUES) << ": error_value (" << AS_DOUBLE(value) << ") cannot be less than 0.0";
         }
 
-        error_values_by_year[year].push_back(value);
+        scanned_by_year[year].push_back(value);
       }
-      if (error_values_by_year[year].size() == 1) {
-        error_values_by_year[year].assign(obs_expected - 1, error_values_by_year[year][0]);
+      if (scanned_by_year[year].size() == 1) {
+        scanned_by_year[year].assign(obs_expected - 1, scanned_by_year[year][0]);
       }
-      if (error_values_by_year[year].size() != obs_expected - 1)
-        LOG_CODE_ERROR() << "error_values_by_year_[year].size() (" << error_values_by_year[year].size() << ") != obs_expected - 1 (" << obs_expected -1 << ")";
+      if (scanned_by_year[year].size() != obs_expected - 1)
+        LOG_CODE_ERROR() << "error_values_by_year_[year].size() (" << scanned_by_year[year].size() << ") != obs_expected - 1 (" << obs_expected -1 << ")";
     }
   }
 
   /**
    * Validate likelihood type
    */
-//  if (likelihood_type_ != PARAM_LOGNORMAL && likelihood_type_ != PARAM_MULTINOMIAL)
-//    LOG_ERROR_P(parameters_.location(PARAM_LIKELIHOOD) << ": likelihood " << likelihood_type_ << " is not supported by the proportions at age observation. "
-//        << "Supported types are " << PARAM_LOGNORMAL << " and " << PARAM_MULTINOMIAL);
+  if (likelihood_type_ != PARAM_BINOMIAL)
+    LOG_ERROR_P(PARAM_LIKELIHOOD) << ": likelihood " << likelihood_type_ << " is not supported by the proportions at age observation. "
+        << "Supported types are " << PARAM_BINOMIAL;
 
   /**
-   * Build our proportions and error values for use in the observation
-   * If the proportions for a given observation do not sum to 1.0
-   * and is off by more than the tolerance rescale them.
+   * Build our Recaptured and scanned maps for use in the DoExecute() section
    */
   Double value = 0.0;
-  for (auto iter = obs_by_year.begin(); iter != obs_by_year.end(); ++iter) {
+  for (auto iter = recaptures_by_year.begin(); iter != recaptures_by_year.end(); ++iter) {
     Double total = 0.0;
 
     for (unsigned i = 0; i < category_labels_.size(); ++i) {
@@ -201,10 +190,10 @@ void ProportionsByCategory::DoValidate() {
           LOG_ERROR_P(PARAM_OBS) << ": obs_ value (" << iter->second[obs_index] << ") at index " << obs_index + 1
               << " in the definition could not be converted to a numeric double";
 
-        Double error_value = error_values_by_year[iter->first][obs_index];
-        error_values_[iter->first][category_labels_[i]].push_back(error_value);
-        proportions_[iter->first][category_labels_[i]].push_back(value);
-        total += value;
+        Double error_value = scanned_by_year[iter->first][obs_index];
+        scanned_[iter->first][category_labels_[i]].push_back(error_value);
+        recaptures_[iter->first][category_labels_[i]].push_back(value);
+        total += error_value;
       }
     }
 
@@ -218,7 +207,7 @@ void ProportionsByCategory::DoValidate() {
  * Build any runtime relationships we may have and ensure
  * the labels for other objects are valid.
  */
-void ProportionsByCategory::DoBuild() {
+void TagRecaptureByAge::DoBuild() {
   partition_ = CombinedCategoriesPtr(new niwa::partition::accessors::CombinedCategories(model_, category_labels_));
   cached_partition_ = CachedCombinedCategoriesPtr(new niwa::partition::accessors::cached::CombinedCategories(model_, category_labels_));
   target_partition_ = CombinedCategoriesPtr(new niwa::partition::accessors::CombinedCategories(model_, target_category_labels_));
@@ -249,20 +238,20 @@ void ProportionsByCategory::DoBuild() {
  * At this point we need to build our cache for the partition
  * structure to use with any interpolation
  */
-void ProportionsByCategory::PreExecute() {
+void TagRecaptureByAge::PreExecute() {
   cached_partition_->BuildCache();
   target_cached_partition_->BuildCache();
 
-  if (cached_partition_->Size() != proportions_[model_->current_year()].size())
+  if (cached_partition_->Size() != scanned_[model_->current_year()].size())
     LOG_CODE_ERROR() << "cached_partition_->Size() != proportions_[model->current_year()].size()";
-  if (partition_->Size() != proportions_[model_->current_year()].size())
+  if (partition_->Size() != scanned_[model_->current_year()].size())
     LOG_CODE_ERROR() << "partition_->Size() != proportions_[model->current_year()].size()";
 }
 
 /**
  *
  */
-void ProportionsByCategory::Execute() {
+void TagRecaptureByAge::Execute() {
   LOG_TRACE();
 
   /**
@@ -288,7 +277,7 @@ void ProportionsByCategory::Execute() {
     vector<Double> target_age_results(age_spread_, 0.0);
 
     /**
-     * Loop through the 2 combined categories building up the
+     * Loop through the 2 combined categories if they are supplied, building up the
      * age results proportions values.
      */
     auto category_iter = partition_iter->begin();
@@ -330,6 +319,7 @@ void ProportionsByCategory::Execute() {
         LOG_FINE() << "final_value: " << final_value;
         LOG_FINE() << "final_value * selectivity: " << (Double)(final_value * selectivity_result);
 
+        // Numbers at age from the population
         age_results[age_offset] += final_value * selectivity_result;
         LOG_FINE() << "category1 becomes: " << age_results[age_offset];
       }
@@ -379,21 +369,27 @@ void ProportionsByCategory::Execute() {
       }
     }
 
-    if (age_results.size() != proportions_[model_->current_year()][category_labels_[category_offset]].size())
+    if (age_results.size() != scanned_[model_->current_year()][category_labels_[category_offset]].size())
       LOG_CODE_ERROR() << "expected_values.size(" << age_results.size() << ") != proportions_[category_offset].size("
-        << proportions_[model_->current_year()][category_labels_[category_offset]].size() << ")";
+        << scanned_[model_->current_year()][category_labels_[category_offset]].size() << ")";
 
-    /**
-     * save our comparisons so we can use them to generate the score from the likelihoods later
-     */
+
+     //save our comparisons so we can use them to generate the score from the likelihoods later
+
 
     for (unsigned i = 0; i < age_results.size(); ++i) {
       Double expected = 0.0;
+      Double observed = 0.0;
       if (age_results[i] != 0.0)
         expected = target_age_results[i] / age_results[i];
-
-      SaveComparison(category_labels_[category_offset], min_age_ + i, 0, expected, proportions_[model_->current_year()][category_labels_[category_offset]][i],
-          process_errors_by_year_[model_->current_year()], error_values_[model_->current_year()][category_labels_[category_offset]][i], delta_, 0.0);
+      if (scanned_[model_->current_year()][category_labels_[category_offset]][i] == 0.0)
+        observed = 0.0;
+      else
+        observed = (1 / detection_ * recaptures_[model_->current_year()][category_labels_[category_offset]][i]) / scanned_[model_->current_year()][category_labels_[category_offset]][i];                                                                                                                                                                    ;
+      LOG_MEDIUM() << "Comparison for age " << min_age_ + i << " Expected = " << expected << " observed = " << observed << " error = "
+          << scanned_[model_->current_year()][category_labels_[category_offset]][i] << " recaptures = " << recaptures_[model_->current_year()][category_labels_[category_offset]][i];
+      SaveComparison(category_labels_[category_offset], min_age_ + i, 0, expected, observed,
+          process_errors_by_year_[model_->current_year()], scanned_[model_->current_year()][category_labels_[category_offset]][i], delta_, 0.0);
     }
   }
 }
@@ -402,7 +398,7 @@ void ProportionsByCategory::Execute() {
  * This method is called at the end of a model iteration
  * to calculate the score for the observation.
  */
-void ProportionsByCategory::CalculateScore() {
+void TagRecaptureByAge::CalculateScore() {
   /**
    * Simulate or generate results
    * During simulation mode we'll simulate results for this observation

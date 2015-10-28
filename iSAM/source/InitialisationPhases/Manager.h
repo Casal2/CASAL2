@@ -31,6 +31,7 @@ public:
   void                        Build() override final;
   void                        Build(Model* model);
   void                        Execute();
+  InitialisationPhase*        GetInitPhase(const string& label);
   bool                        IsPhaseDefined(const string& label) const;
   unsigned                    GetPhaseIndex(const string& label) const;
 
