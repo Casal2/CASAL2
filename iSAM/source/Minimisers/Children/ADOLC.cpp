@@ -24,7 +24,7 @@ namespace minimisers {
 /**
  *
  */
-ADOLC::ADOLC() {
+ADOLC::ADOLC(Model* model) : Minimiser(model) {
   parameters_.Bind<int>(PARAM_MAX_ITERATIONS, &max_iterations_, "Maximum number of iterations", "", 1000);
   parameters_.Bind<int>(PARAM_MAX_EVALUATIONS, &max_evaluations_, "Maximum number of evaluations", "", 4000);
   parameters_.Bind<Double>(PARAM_TOLERANCE, &gradient_tolerance_, "Tolerance of the gradient for convergence", "", 0.02);
@@ -37,16 +37,16 @@ ADOLC::ADOLC() {
 void ADOLC::Execute() {
   LOG_TRACE();
   // Variables
-  adolc::CallBack  call_back;
+  adolc::CallBack  call_back(model_);
 
-  estimates::Manager& estimate_manager = estimates::Manager::Instance();
+  auto estimate_manager = model_->managers().estimate();
 
   vector<Double>  lower_bounds;
   vector<Double>  upper_bounds;
   vector<Double>  start_values;
 
-  vector<EstimatePtr> estimates = estimate_manager.GetEnabled();
-  for (EstimatePtr estimate : estimates) {
+  auto estimates = estimate_manager->GetEnabled();
+  for (auto estimate : estimates) {
     if (!estimate->enabled())
       continue;
 

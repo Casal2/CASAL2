@@ -25,8 +25,7 @@ namespace adolc {
 /**
  * Default Constructor
  */
-CallBack::CallBack() {
-  model_ = Model::Instance();
+CallBack::CallBack(Model* model) : model_(model) {
 }
 
 //**********************************************************************
@@ -36,7 +35,7 @@ CallBack::CallBack() {
 adouble CallBack::operator()(const vector<adouble>& Parameters) {
 
   // Update our Components with the New Parameters
-  vector<EstimatePtr> estimates = estimates::Manager::Instance().GetEnabled();
+  auto estimates = model_->managers().estimate()->GetEnabled();
 
   if (Parameters.size() != estimates.size()) {
     LOG_CODE_ERROR() << "The number of enabled estimates does not match the number of test solution values";
@@ -45,7 +44,7 @@ adouble CallBack::operator()(const vector<adouble>& Parameters) {
   for (unsigned i = 0; i < Parameters.size(); ++i)
     estimates[i]->SetTransformedValue(Parameters[i]);
 
-  ObjectiveFunction& objective = ObjectiveFunction::Instance();
+  ObjectiveFunction& objective = model_->objective_function();
 
   model_->FullIteration();
 
