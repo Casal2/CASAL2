@@ -35,12 +35,15 @@ using std::vector;
  */
 class CallBack {
 public:
-  CallBack();
+  // methods
+  CallBack() = delete;
+  explicit CallBack(Model* model);
   virtual                     ~CallBack() = default;
   adouble                     operator()(const vector<adouble>& Parameters);
 
 private:
-  ModelPtr                    model_;
+  // members
+  Model*                      model_;
 };
 
 } /* namespace gammadiff */

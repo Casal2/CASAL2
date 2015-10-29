@@ -32,7 +32,7 @@ using niwa::utilities::Double;
 class BetaDiff : public niwa::Minimiser {
 public:
   // Methods
-  BetaDiff();
+  explicit BetaDiff(Model* model);
   virtual                     ~BetaDiff() = default;
   void                        DoValidate() override final { };
   void                        DoBuild() override final { };
