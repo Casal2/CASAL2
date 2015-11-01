@@ -29,7 +29,7 @@ namespace minimisers {
 class ADOLC  :  public niwa::Minimiser  {
 public:
   // methods
-  ADOLC();
+  explicit ADOLC(Model* model);
   virtual                     ~ADOLC() = default;
   void                        DoValidate() override final { };
   void                        DoBuild() override final { };

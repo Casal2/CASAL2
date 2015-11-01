@@ -31,7 +31,7 @@ using niwa::utilities::Double;
  */
 class CPPAD : public Minimiser {
 public:
-  CPPAD();
+  explicit CPPAD(Model* model);
   virtual                     ~CPPAD() = default;
   void                        DoValidate() override final { };
   void                        DoBuild() override final { };
