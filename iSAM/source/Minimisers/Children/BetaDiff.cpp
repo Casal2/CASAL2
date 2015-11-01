@@ -23,29 +23,34 @@ namespace minimisers {
 class MyModel {};
 class MyObjective {
 public:
+  MyObjective(Model* model) : model_(model) { }
+
   Double operator()(const MyModel& model, const dvv& x_unbounded) {
-    vector<EstimatePtr> estimates = estimates::Manager::Instance().GetEnabled();
+    auto estimates = model_->managers().estimate()->GetEnabled();
 
     for (int i = 0; i < x_unbounded.size(); ++i) {
       dvariable estimate = x_unbounded[i + 1];
       estimates[i]->SetTransformedValue(estimate.x);
     }
 
-    ObjectiveFunction& objective = ObjectiveFunction::Instance();
-    Model::Instance()->FullIteration();
+    ObjectiveFunction& objective = model_->objective_function();
+    model_->FullIteration();
 
     objective.CalculateScore();
     Double score = objective.score();
 
     return score;
   }
+
+private:
+  Model* model_;
 };
 
 
 /**
  * Default constructor
  */
-BetaDiff::BetaDiff() {
+BetaDiff::BetaDiff(Model* model) : Minimiser(model) {
   parameters_.Bind<int>(PARAM_MAX_ITERATIONS, &max_iterations_, "Maximum number of iterations", "", 1000);
   parameters_.Bind<int>(PARAM_MAX_EVALUATIONS, &max_evaluations_, "Maximum number of evaluations", "", 4000);
   parameters_.Bind<double>(PARAM_TOLERANCE, &gradient_tolerance_, "Tolerance of the gradient for convergence", "", 2e-3);
@@ -55,17 +60,15 @@ BetaDiff::BetaDiff() {
  *
  */
 void BetaDiff::Execute() {
-  estimates::Manager& estimate_manager = estimates::Manager::Instance();
-
-  vector<EstimatePtr> estimates = estimate_manager.GetEnabled();
-
+  auto estimate_manager = model_->managers().estimate();
+  auto estimates = estimate_manager->GetEnabled();
 
   dvector lower_bounds((int)estimates.size());
   dvector upper_bounds((int)estimates.size());
   dvector start_values((int)estimates.size());
 
   int i = 0;
-  for (EstimatePtr estimate : estimates) {
+  for (auto estimate : estimates) {
     ++i;
 
     if (!estimate->enabled())
@@ -85,7 +88,7 @@ void BetaDiff::Execute() {
   }
 
   MyModel my_model;
-  MyObjective my_objective;
+  MyObjective my_objective(model_);
 
   dmatrix betadiff_hessian(estimates.size(), estimates.size());
 //  dmatrix adolc_hessian(estimates.size(), estimates.size());

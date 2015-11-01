@@ -33,30 +33,35 @@ using CppAD::AD;
  */
 class MyObjective {
 public:
+  MyObjective(Model* model) : model_(model) { }
+
   typedef CPPAD_TESTVECTOR( AD<double> ) ADvector;
 
   void operator()(ADvector& fg, const ADvector& candidates) {
-    vector<EstimatePtr> estimates = estimates::Manager::Instance().GetEnabled();
+    auto estimates = model_->managers().estimate()->GetEnabled();
 
     for (unsigned i = 0; i < candidates.size(); ++i) {
       Double estimate = candidates[i];
       estimates[i]->SetTransformedValue(candidates[i]);
     }
 
-    ObjectiveFunction& objective = ObjectiveFunction::Instance();
-    Model::Instance()->FullIteration();
+    ObjectiveFunction& objective = model_->objective_function();
+    model_->FullIteration();
 
     objective.CalculateScore();
     fg[0] = objective.score();
 
     return;
   }
+
+private:
+  Model* model_;
 };
 
 /**
  *
  */
-CPPAD::CPPAD() {
+CPPAD::CPPAD(Model* model) : Minimiser(model) {
 }
 
 /**
@@ -65,9 +70,8 @@ CPPAD::CPPAD() {
 void CPPAD::Execute() {
   typedef CPPAD_TESTVECTOR( double ) Dvector;
 
-  estimates::Manager& estimate_manager = estimates::Manager::Instance();
-
-  vector<EstimatePtr> estimates = estimate_manager.objects();
+  auto estimate_manager = model_->managers().estimate();
+  auto estimates = estimate_manager->objects();
 
   Dvector lower_bounds(estimates.size());
   Dvector upper_bounds(estimates.size());
@@ -79,7 +83,7 @@ void CPPAD::Execute() {
     start_values[i] = AS_DOUBLE(estimates[i]->GetTransformedValue());
   }
 
-  MyObjective obj;
+  MyObjective obj(model_);
 
   // options
   std::string options;

@@ -18,11 +18,11 @@ The population section consists of several components, including;
 
 \subsection{\I{Population structure}}
 
-The basic structure of a \cas population model is defined in terms of an annual cycle, time steps, states, and transitions.
+The basic structure of a \CNAME population model is defined in terms of an annual cycle, time steps, states, and transitions.
 
-The annual cycle defines what processes happen in each model year, and in what sequence. (In line with the New Zealand fisheries management framework, \cas runs on an annual cycle rather than, for example, a 6-monthly cycle.) 
+The annual cycle defines what processes happen in each model year, and in what sequence. (In line with the New Zealand fisheries management framework, \CNAME runs on an annual cycle rather than, for example, a 6-monthly cycle.) 
 
-Each year is split into one or more time steps, with at least one process occurring in each time step. Each time step can be thought of as representing a particular part of the calendar year, or you can just treat them as an abstract sequence of events.\hlc[new]{In every time step, there exists a mortality block, this is a block where indivisuals are removed from the partition. If there are no mortality proceses then the mortaltiy block is empty (nothing happens) and occurs at the end of a time step}.
+Each year is split into one or more time steps, with at least one process occurring in each time step. Each time step can be thought of as representing a particular part of the calendar year, or you can just treat them as an abstract sequence of events.\hlc[new]{In every time step, there exists a mortality block, this is a block where individuals are removed from the partition. If there are no mortality processes then the mortality block is empty (nothing happens) and occurs at the end of a time step}.
 
 The state is the current status of the population, at any given time. The state can change one or more times in every time step of every year. The state object must contain sufficient information to figure out the future course of the fishery (given a model and a complete set of parameters).
 
@@ -96,7 +96,7 @@ An example, to specify a model with 2 categories (male and female) with ages 1-2
 
 A stock is defined as a subpopulation of fish which recruits separately. See Section 5.11 for the treatment of maturity when it is not a character in the partition. 
 
-Growth-paths are a feature used to implement some persistence of length at age in an age-based model that uses some length/size data. Each growth-path has its own growth curve, and the length-based model features will consequently  have different effects on different growth-paths. So, you need to tell \cas  the following: 
+Growth-paths are a feature used to implement some persistence of length at age in an age-based model that uses some length/size data. Each growth-path has its own growth curve, and the length-based model features will consequently  have different effects on different growth-paths. So, you need to tell \CNAME  the following: 
 
 \begin{itemize}
 \item Whether the model is age- or length-based.
@@ -146,7 +146,7 @@ The time sequence of the population model includes the years over which it is to
 \item	Semelparous mortality.(Not yet implemented)
 \end{itemize}
 
-If two or more processes are specified for the same time step \cas will apply the processes in sequential order, that is the order the user has specified. For example, in an annual cycle that has a single time step labelled \texttt{step1},\\
+If two or more processes are specified for the same time step \CNAME will apply the processes in sequential order, that is the order the user has specified. For example, in an annual cycle that has a single time step labelled \texttt{step1},\\
 \command{model}\\
 \texttt{time\_steps step1}\\
 and in \texttt{step1} there are three processes that occured in the following order, \texttt{Recruitment, Natural\_mortality} and \texttt{Ageing}, you would specify that time step as,\\
@@ -163,13 +163,13 @@ To specify the time sequence, you need to tell CASAL the following: }
 	
 If there is more than one spawning stock, recruitment is handled separately for each stock. There can be more than one maturation episode per year, each of which can apply to only one stock, or all stocks equally. Similarly there can be more than one growth episode per year, each of which can apply to only one stock, or all stocks equally. The user can define any number of migrations in a given year.
 	
-	To specify the time sequence, you need to tell \cas the following: }
+	To specify the time sequence, you need to tell \CNAME the following: }
 
 \begin{itemize}
 \item	The initial, current, and final years;
 \item	The number of time steps in each year;
 \item	The time step in which recruitment occurs, and the area to which each stock recruits
-\item	How SSB is calculated \footnote{The SSB (spawning stock biomass) is a common model output and is also the measure of abundance used in stock-recruitment relationships in \cas (where applicable). Different models define SSB in quite different ways so we allow several options in \cas as to how SSB is calculated. \hl{By default, SSB is calculated for each stock as the mature biomass (of both sexes), in an area (or areas) of your choice, halfway through the natural and fishing mortality in a time step of your choice.}\hlc[new]{There is no default for calulating an SSB. When defining SSB you need, which categories contribute to the SSB, how different age or length classes contribute to SSB through selectivities (i.e maturity being age age or length based), whether SSB happens part way through natural and fishing mortality.} It can alternatively be calculated after some other specified proportion of the mortality (see Section 5.4.6) and/or for one sex only. \hlc{A ‘proportion spawning’ multiplier can be applied to the mature biomass to get the SSB (in multi-area models this would typically not be done, instead the appropriate proportion of fish would be migrated to the spawning area).} If maturity is not a category in the partition, then the modeller may nevertheless know that all fish in the spawning area should be mature (i.e., because only mature fish are meant to migrate) but the model does not ‘know’ this because maturity is not persistent. In this case the user can specify that the SSB is the total biomass,\hlc[new]{ through the use of a constant selectivity of one.}};
+\item	How SSB is calculated \footnote{The SSB (spawning stock biomass) is a common model output and is also the measure of abundance used in stock-recruitment relationships in \CNAME (where applicable). Different models define SSB in quite different ways so we allow several options in \CNAME as to how SSB is calculated. \hl{By default, SSB is calculated for each stock as the mature biomass (of both sexes), in an area (or areas) of your choice, halfway through the natural and fishing mortality in a time step of your choice.}\hlc[new]{There is no default for calulating an SSB. When defining SSB you need, which categories contribute to the SSB, how different age or length classes contribute to SSB through selectivities (i.e maturity being age age or length based), whether SSB happens part way through natural and fishing mortality.} It can alternatively be calculated after some other specified proportion of the mortality (see Section 5.4.6) and/or for one sex only. \hlc{A ‘proportion spawning’ multiplier can be applied to the mature biomass to get the SSB (in multi-area models this would typically not be done, instead the appropriate proportion of fish would be migrated to the spawning area).} If maturity is not a category in the partition, then the modeller may nevertheless know that all fish in the spawning area should be mature (i.e., because only mature fish are meant to migrate) but the model does not ‘know’ this because maturity is not persistent. In this case the user can specify that the SSB is the total biomass,\hlc[new]{ through the use of a constant selectivity of one.}};
 \item	In an age-based model, the time step at which ages are incremented;
 \item	If there are any migrations, the time step at which each migration occurs and the source and destination areas. Note that if there are multiple migrations in a time step and an area is the source of more than one migration, then the migrations will happen in the order that they are defined in the configuration file;
 \item	If maturity is a partition character, the number of maturation episodes per year, and the time step at which each maturation episode occurs;
@@ -179,12 +179,12 @@ If there is more than one spawning stock, recruitment is handled separately for 
 \item	The time step and area in which each fishery occurs;
 \item Whether fishing mortality is instantaneous or uses the Baranov equation \footnote{
   Natural mortality and fishing mortality occurring in the same area and time step can be sequenced in two different ways. The first option is to apply half the natural mortality, then to apply the mortalities from all the fisheries instantaneously, then to apply the remaining half of the natural mortality. The second options is to use the Baranov catch equation, which implies that natural and fishing mortalities are simultaneous \hlc[new]{Not implemented}. We prefer the first option — the calculations are more straightforward and the result typically about the same. However you can use Baranov if you want, except that we have not yet implemented the Baranov equation for multiple fisheries in the same area in the same time step. Whichever option you use is applied to all fisheries. More on this in Section 5.4.6.
-};
+}
 \item If there is a disease mortality event, and in which time step this occurs;
 \item	If tagging has been specified, when the tagging event occurs, how many fish by age or length class, in which member of the partition to put the tagged fish, and the tag shedding rates, if defined.
 \end{itemize}
 
-You then need to provide \cas with details about how each process works. These processes are described individually in Section 5.4. 
+You then need to provide \CNAME with details about how each process works. These processes are described individually in Section 5.4. 
 
 When defining the annual cycle, there are a number of errors that can be made. Some of the less obvious ones are listed here. It is an error if: 
 
@@ -211,9 +211,9 @@ The annual cycle is implemented as a set of processes that occur, in a user-defi
 
 \subsubsection{\I{Initialisation}}
 
-\hlc[new]{There are multiple methods to initialise a partiton in \cas. These methods are, iterative, fixed, and analytical}. Model initialisation can occur in several phases\index{Initialisation!phases}, each of which iterates through a number of years carrying out the population processes defined for that phase. At the end of the initialisation step, \CAS\ runs through the model years carrying out processes in the order defined in the annual cycle, and can evaluate expected values of observations in order to calculate likelihoods, project forward to determine future states, or simulate observations from the current state.
+There are multiple methods to initialise a partition in \CNAME. These methods are: iterative, fixed, and analytical. Model initialisation can occur in several phases\index{Initialisation!phases}, each of which iterates through a number of years carrying out the population processes defined for that phase. At the end of the initialisation step, \CNAME\ runs through the model years carrying out processes in the order defined in the annual cycle, and can evaluate expected values of observations in order to calculate likelihoods, project forward to determine future states, or simulate observations from the current state.
 
-One of \CAS\ methods for initialising the initial equilibrium state as an iterative process: a general solution that initialises complex structured models can be difficult to implement using analytic techniques. However, initialising via iteration for a long-lived species with complex transitions can take many iterations and be slow to run. In \CAS, we allow for user-defined multi-phased initialisation using iteration to allow the user to optimize models for speed. Each phase of the initialisation can involve any number of processes. Note that the length of the initialisation period may affect the model outputs, and that a period should be chosen to allow the population state to converge.
+One of \CNAME\ methods for initialising the initial equilibrium state as an iterative process: a general solution that initialises complex structured models can be difficult to implement using analytic techniques. However, initialising via iteration for a long-lived species with complex transitions can take many iterations and be slow to run. In \CNAME, we allow for user-defined multi-phased initialisation using iteration to allow the user to optimize models for speed. Each phase of the initialisation can involve any number of processes. Note that the length of the initialisation period may affect the model outputs, and that a period should be chosen to allow the population state to converge.
 
 In addition, each initialisation process can optionally be stopped early if a user defined convergence criteria is met. For a set of user defined years in the initialisation phase, convergence is defined as met if the proportional absolute summed difference between the the state in year $t-1$ and the state in year $t$ ($\widehat{\lambda}$) is less than $\lambda$ where, 
 \begin{equation}
@@ -243,10 +243,9 @@ Processes are carried out in the order specified within each time-step, and can 
   \item The final year (i.e., the model projection end year)
 \end{itemize}
 
-
 \subsubsection{\I{Projections}\label{sec:projections}}
 
-\CAS\ can project, from a set of parameter estimates, the state of the model into the future. In a projection run, the model is initialised and run through the model years from \argument{initial} to the \argument{current}. Then, the model is run from \argument{current} to \argument{final}. 
+\CNAME\ can project, from a set of parameter estimates, the state of the model into the future. In a projection run, the model is initialised and run through the model years from \argument{initial} to the \argument{current}. Then, the model is run from \argument{current} to \argument{final}. 
 
 
 \subsection{\I{Population processes}}
@@ -257,7 +256,7 @@ There are two types of processes, processes that occur across multiple time step
 
 \subsubsection{\I{Recruitment}}
 \CH
-Recruitment processes are defined as  process that introduces new individuals into the model. \CAS\ implements two types of recruitment process, constant recruitment\index{Recruitment ! Constant} and  \I{Beverton-Holt recruitment}\index{Recruitment ! Beverton-Holt} \citep{1203}.
+Recruitment processes are defined as  process that introduces new individuals into the model. \CNAME\ implements two types of recruitment process, constant recruitment\index{Recruitment ! Constant} and  \I{Beverton-Holt recruitment}\index{Recruitment ! Beverton-Holt} \citep{1203}.
 
 In the recruitment processes, the number of individuals are added to a single age class within the partition, with the amount defined by the type of recruitment process and its function. If more than one category is defined, then the proportion of recruiting individuals to be added to each category is specified by the \argument{proportions} parameter. For example, if recruiting to categories labelled male and female, then you might set the proportions as $0.5$ and $0.5$ respectively to denote that half of the recruits recruit to the male category and the remaining half to the female category.
 
@@ -348,11 +347,11 @@ type ageing
 categories immature mature
 \end{verbatim}}}
 
-Note that ageing is \emph{not} applied by \CAS\ by default. As with other processes, \CAS\ will not apply a process unless its defined and specified as a process within the annual cycle. Hence, it is possible to specify a model where a category is not aged. \CAS\ will not check or otherwise warn if there is a category defined where ageing is not applied.
+Note that ageing is \emph{not} applied by \CNAME\ by default. As with other processes, \CNAME\ will not apply a process unless its defined and specified as a process within the annual cycle. Hence, it is possible to specify a model where a category is not aged. \CNAME\ will not check or otherwise warn if there is a category defined where ageing is not applied.
 
 \subsubsection{\I{Mortality}\label{sec:mortality}}
 \CH
-Four types of mortality processes are permissible in \CAS, constant rate, event, biomass-event and instantaneous. These processes remove individuals from the partition, either as a rate, as a total number (abundance), as a biomass of individuals or as a mixture of these. \CAS\ does not implement the Baranov catch equation or any other process where both natural and event mortality are applied simultaneously. To apply both natural and biomass-event mortality, the population processes must be defined to remove some natural mortality (e.g. as a constant), then some event mortality (e.g. fishing) in sequence. It is up to the user to specify how this happens.
+Four types of mortality processes are permissible in \CNAME, constant rate, event, biomass-event and instantaneous. These processes remove individuals from the partition, either as a rate, as a total number (abundance), as a biomass of individuals or as a mixture of these. \CNAME\ does not implement the Baranov catch equation or any other process where both natural and event mortality are applied simultaneously. To apply both natural and biomass-event mortality, the population processes must be defined to remove some natural mortality (e.g. as a constant), then some event mortality (e.g. fishing) in sequence. It is up to the user to specify how this happens.
 
 \subsubsection*{Constant mortality rate}
 
@@ -375,7 +374,7 @@ c 1
 
 The event mortality process\index{Event mortality} and biomass mortality processes act in a similar manner, except that they remove a specified abundance (number of individuals) or biomass respectively, rather than applying mortality as a rate. However, the maximum abundance or biomass to remove is constrained by a maximum exploitation rate.
 
- \CAS\ removes as many individuals or as much biomass as it can while not exceeding the maximum exploitation rate. Event mortality processes require a penalty function to discourage parameter values that do not allow the defined number of individuals to be removed. Here, the model penalises those parameter estimates that result in an insufficient number of individuals in defined categories (after applying selectivities). See Section \ref{sec:penalties} for more information on specifying penalties.
+ \CNAME\ removes as many individuals or as much biomass as it can while not exceeding the maximum exploitation rate. Event mortality processes require a penalty function to discourage parameter values that do not allow the defined number of individuals to be removed. Here, the model penalises those parameter estimates that result in an insufficient number of individuals in defined categories (after applying selectivities). See Section \ref{sec:penalties} for more information on specifying penalties.
 
 For example, the event mortality applied to user-defined categories $i$, with the numbers removed at age $j$ determined by a selectivity-at-age $S_l$ is applied as follows:
 
@@ -465,7 +464,7 @@ So, to specify each maturation episode, the following information is required:
 
 \hlc{Migration is the process of moving fish from one area to another. It only occurs in multi-area models. You can specify any number of migrations occurring in each year. If two or more migrations are specified in the same time step then they take place in the order in which they are given.}
 
-\hlc[new]{Migration is the process of moving fish from one area to another. For this to be sensibly applied in \cas there needs to be a category for the source area and a category for the target area. If two or more migrations are specified in the same time step, then they take place in the order in which they are given.}
+\hlc[new]{Migration is the process of moving fish from one area to another. For this to be sensibly applied in \CNAME there needs to be a category for the source area and a category for the target area. If two or more migrations are specified in the same time step, then they take place in the order in which they are given.}
 
 \hlc{A migration can involve only one stock in an area, or all stocks. You can migrate immature fish only, or mature fish only, or both. You can state that a given proportion of these fish migrate (constant across all age or length classes), or provide an ogive of proportions migrating by age or length class.}
 
@@ -543,7 +542,7 @@ Two-wave migrations require more details \mbox{--} — see earlier.
 
 \subsection{\I{Age-length relationship}\label{sec:age-at-age}}
 
-The age-length relationship defines the length at age (and the weight at length, see Section \ref{sec:mean-weight}) of individuals at age/category within the model. There are three length-age relationships available in \CAS. The first is the naive no relationship (where each individual has length 1 irrespective of age). The second  and third are the von-Bertalanffy and Schnute relationships respectively. The length-at-age relationship is used to determine the length frequency, given age, and then with the length-weight relationship, a weight-at-age of individuals within an age/category. 
+The age-length relationship defines the length at age (and the weight at length, see Section \ref{sec:mean-weight}) of individuals at age/category within the model. There are three length-age relationships available in \CNAME. The first is the naive no relationship (where each individual has length 1 irrespective of age). The second  and third are the von-Bertalanffy and Schnute relationships respectively. The length-at-age relationship is used to determine the length frequency, given age, and then with the length-weight relationship, a weight-at-age of individuals within an age/category. 
 
 The three age-length relationships are,
 
@@ -570,7 +569,7 @@ The three age-length relationships are,
 
 The von Bertalanffy curve is parameterised by $L_\infty$, $k$, and $t_0$; the Schnute curve \citep{836} by $y_1$ and $y_2$, which are the mean lengths at reference ages $\tau_1$ and $\tau_2$, and $a$ and $b$ (when $b=1$, this reduces to the von Bertalanffy with $k=a$). 
 
-When defining length-at-age in \CAS, you must also define a length-weight relationship (see Section \ref{sec:mean-weight} below).
+When defining length-at-age in \CNAME, you must also define a length-weight relationship (see Section \ref{sec:mean-weight} below).
 
 \subsubsection*{\I{Calculation of length-at-age (in an age-based model)}}
 
@@ -578,7 +577,7 @@ When defining length-at-age in \CAS, you must also define a length-weight relati
 
 \subsubsection*{\I{Size-weight relationship}\label{sec:mean-weight}}
 
-There are two length-weight relationship,s available in \CAS. The first is the naive no relationship. Here, the weight of an individual, regardless of length, is always 1. The second is the basic relationship. 
+There are two length-weight relationship,s available in \CNAME. The first is the naive no relationship. Here, the weight of an individual, regardless of length, is always 1. The second is the basic relationship. 
 
 The two length-weight relationships are,
 
@@ -611,7 +610,7 @@ Be careful about the scale of $a$ --- this can easily be specified incorrectly. 
 
 \subsection{\I{Selectivities}\label{sec:selectivities}}
 
-A selectivity is a function that can have a different value for each age class. Selectivities are used throughout \CAS\ to interpret observations (Section \ref{sec:estimation-section}) or to modify the effects of processes on each age class (Section \ref{sec:population-section}). \CAS\ implements a number of different parametric forms, including logistic, knife edge, and double normal selectivities.
+A selectivity is a function that can have a different value for each age class. Selectivities are used throughout \CNAME\ to interpret observations (Section \ref{sec:estimation-section}) or to modify the effects of processes on each age class (Section \ref{sec:population-section}). \CNAME\ implements a number of different parametric forms, including logistic, knife edge, and double normal selectivities.
 
 \textbf{CASAL concept that has been removed can be removed?}
 \hlc{A selectivity is always defined to apply just to one category of the partition. To apply the same selectivity to more than one category, then just repeat the selectivity for each category that it is applied to.}
@@ -620,7 +619,7 @@ A selectivity is a function that can have a different value for each age class. 
 
 Note that selectivities are indexed by age, with indices from \argument{min\_age} to \argument{max\_age}. For example, you might have an age-based selectivity that was logistic with $50\%$ selected at age $5$ and $95\%$ selected at age $7$. This would be defined by the \subcommand{type}=\argument{logistic} with parameters $a_{50}=5$ and $a_{to95}=(7-5)=2$. Then the value of the selectivity at age $x=7$ is $0.95$ and the selectivity at $x=3$ is $0.05$.
 
-Note that the function values for some choices of parameters for some selectivities can result in an computer numeric overflow error (i.e., the number calculated from parameter values is either too large or too small to be represented in computer memory). \CAS\ implements range checks on some parameters to test for a possible numeric overflow error before attempting to calculate function values. For example, the logistic selectivity is implemented such that if $(a50-x)/ato_95 > 5$ then the value of the selectivity at $x=0$, i.e., for $a50=5$, $ato_95=0.1$, then the value of the selectivity at $x=1$, without range checking would be $7.1 \times 10^{-52}$. With range checking, that value is $0$ (as $(a50 x)/ato_95=40 > 5$).
+Note that the function values for some choices of parameters for some selectivities can result in an computer numeric overflow error (i.e., the number calculated from parameter values is either too large or too small to be represented in computer memory). \CNAME\ implements range checks on some parameters to test for a possible numeric overflow error before attempting to calculate function values. For example, the logistic selectivity is implemented such that if $(a50-x)/ato_95 > 5$ then the value of the selectivity at $x=0$, i.e., for $a50=5$, $ato_95=0.1$, then the value of the selectivity at $x=1$, without range checking would be $7.1 \times 10^{-52}$. With range checking, that value is $0$ (as $(a50 x)/ato_95=40 > 5$).
 
 The available selectivities are;
 
