@@ -42,6 +42,7 @@ protected:
   // members
   unsigned                    years_;
   vector<string>              insert_processes_;
+  bool                      recruitment_;
   vector<string>              exclude_processes_;
   vector<TimeStep*>           time_steps_;
   cached::Categories          cached_partition_;

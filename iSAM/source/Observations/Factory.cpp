@@ -30,6 +30,7 @@
 #include "Observations/Children/TimeStepProportionsAtLength.h"
 #include "Observations/Children/TimeStepProportionsByCategory.h"
 #include "Observations/Children/TimeStepTagRecaptureByAge.h"
+#include "Observations/Children/TimeStepTagRecaptureByLength.h"
 
 // Namespaces
 namespace niwa {
@@ -75,6 +76,8 @@ Observation* Factory::Create(Model* model, const string& object_type, const stri
       result = new TimeStepProportionsByCategory(model);
     else if (sub_type == PARAM_TAG_RECAPTURE_BY_AGE)
       result = new TimeStepTagRecaptureByAge(model);
+    else if (sub_type == PARAM_TAG_RECAPTURE_BY_LENGTH)
+      result = new TimeStepTagRecaptureByLength(model);
   }
 
   if (result)
