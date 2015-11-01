@@ -93,14 +93,12 @@ Double Engine::optimise(adolc::CallBack& objective,
     if (start_values[i] > upper_bounds[i])
       LOG_CODE_ERROR() << "start_values[i] > upper_bounds[i]";
 
-
     if (dc::IsEqual(lower_bounds[i], upper_bounds[i]))
       scaled_candidates[i] = 0.0;
     else
       scaled_candidates[i] = math::scale_value(start_values[i], lower_bounds[i], upper_bounds[i]);
-    LOG_MEDIUM() << scaled_candidates[i] << ", ";
   }
-  LOG_MEDIUM() << endl;
+
 
   // Loop through our Minimiser now
   while (fmm.getResult() >= 0) {
@@ -126,7 +124,7 @@ Double Engine::optimise(adolc::CallBack& objective,
           candidates[i] = math::unscale_value(scaled_candidates[i], penalty, lower_bounds[i], upper_bounds[i]);
         LOG_MEDIUM() << candidates[i] << ", ";
       }
-      LOG_MEDIUM() << endl;
+      LOG_MEDIUM() << "";
 
       LOG_MEDIUM() << "Running Model: Start -->";
       aobj_score = objective(candidates);
@@ -200,14 +198,15 @@ Double Engine::optimise(adolc::CallBack& objective,
     LOG_MEDIUM() << "FMM Result: " << fmm.getResult() << endl;
   }
 
-  if (fmm.getResult() == -3)
+  if (fmm.getResult() == -3) {
     LOG_MEDIUM() << "Convergence Unclear" << endl;
-  else if (fmm.getResult() == -2)
+  } else if (fmm.getResult() == -2) {
     LOG_MEDIUM() << "Max Evaluations" << endl;
-  else if (fmm.getResult() == -1)
+  } else if (fmm.getResult() == -1) {
     LOG_MEDIUM() << "BAM CONVERGENCE" << endl;
-  else
+  } else {
     LOG_MEDIUM() << "UNKNOWN RETURN VALUE: " << fmm.getResult() << endl;
+  }
 
   /**
    * Unscale our values
