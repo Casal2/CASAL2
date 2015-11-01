@@ -266,8 +266,6 @@ void ProportionsAtLength::Execute() {
       (*category_iter)->UpdateAgeLengthData(length_bins_, length_plus_, selectivities_[category_offset]);
       (*cached_category_iter).CollapseAgeLengthDataToLength();
       (*category_iter)->CollapseAgeLengthDataToLength();
-      for (unsigned j = 0; j < (*category_iter)->length_data_.size(); ++j)
-      LOG_FINEST() << "Numbers at length for bin " << length_bins_[j] << " is " << (*category_iter)->length_data_[j];
 
       for (unsigned length_offset = 0; length_offset < (*category_iter)->length_data_.size(); ++length_offset) {
        // now for each column (length bin) in age_length_matrix sum up all the rows (ages) for both cached and current matricies
