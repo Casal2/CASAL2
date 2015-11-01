@@ -96,7 +96,7 @@ void GlobalConfiguration::OverrideGlobalValues(const map<string, string>& overri
  * @return The random number seed for the system
  */
 unsigned GlobalConfiguration::random_seed() {
-  unsigned result;
+  unsigned result = 0;
   if (!util::To<unsigned>(global_parameters_[PARAM_RANDOM_NUMBER_SEED], result))
     LOG_ERROR() << "The random number seed provided (" << global_parameters_[PARAM_RANDOM_NUMBER_SEED] << ") is not numeric";
 
@@ -108,7 +108,7 @@ unsigned GlobalConfiguration::random_seed() {
  * defined objects or not.
  */
 bool GlobalConfiguration::get_force_estimable_values_file() {
-  bool result;
+  bool result = true;
   if (!util::To<bool>(global_parameters_[PARAM_FORCE_ESTIMABLE_VALUES_FILE], result))
     LOG_CODE_ERROR() << "!util::To<string, bool>(global_parameters_[PARAM_FORCE_ESTIMABLE_VALUES_FILE], result): '" << global_parameters_[PARAM_FORCE_ESTIMABLE_VALUES_FILE] << "'";
 
@@ -119,7 +119,7 @@ bool GlobalConfiguration::get_force_estimable_values_file() {
  * Return if we want to print the standard header report or not.
  */
 bool GlobalConfiguration::disable_standard_report() {
-  bool result;
+  bool result = false;
   if (!util::To<bool>(global_parameters_[PARAM_NO_STANDARD_HEADER_REPORT], result))
     LOG_CODE_ERROR() << "!util::To<string, bool>(global_parameters_[PARAM_NO_STANDARD_HEADER_REPORT], result): '" << global_parameters_[PARAM_NO_STANDARD_HEADER_REPORT] << "'";
 
