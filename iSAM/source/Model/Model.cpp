@@ -347,7 +347,6 @@ void Model::Build() {
   partition_->Build();
   managers_->Build();
 
-
   Estimables& estimables = *managers_->estimables();
   if (estimables.GetValueCount() > 0) {
     estimable_values_file_ = true;
