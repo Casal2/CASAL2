@@ -36,6 +36,8 @@ Derived::Derived(Model* model)
     partition_(model) {
     parameters_.Bind<string>(PARAM_INSERT_PROCESSES, &insert_processes_, "The processes to insert in to target time steps", "", true);
     parameters_.Bind<string>(PARAM_EXCLUDE_PROCESSES, &exclude_processes_, "The processes to exclude from all time steps", "", true);
+    parameters_.Bind<bool>(PARAM_RECRUITMENT_TIME, &recruitment_, "Does Recruitment occur before ageing in the annual cycle", "");
+
 }
 
 /*
@@ -112,17 +114,21 @@ void Derived::DoBuild() {
  * Execute our Derived Initialisation phase
  */
 void Derived::Execute() {
-  unsigned year_range = model_->max_age() - model_->min_age() + 1;
-  // Maybe in dobuild minus the following condition off max_age ((recruitment_time < ageing_time) ? 1 : 0)
+  unsigned year_range = model_->max_age() - model_->min_age();
+
+  if (!recruitment_)
+    year_range +=1;
+
   vector<string> categories = model_->categories()->category_names();
 
   timesteps::Manager* time_step_manager = model_->managers().time_step();
   time_step_manager->ExecuteInitialisation(label_, year_range);
 
-  cached_partition_.BuildCache();
+
   // a shortcut to avoid running the model over more years to get the plus group right
   // calculate the annual change c for each element of the plus group
   if (model_->age_plus()) {
+    cached_partition_.BuildCache();
     // Run the model for an extra year
     time_step_manager->ExecuteInitialisation(label_, 1);
     Double c;
@@ -130,10 +136,10 @@ void Derived::Execute() {
     auto category = partition_.begin();
     for (; category != partition_.end(); ++cached_category, ++category) {
       // find the element in the data container (numbers at age) that contains the plus group for each category
-      // We are assuming it is the last element I need to check with Scott with this.
+      // We are assuming it is the last element, If categories can have different age ranges, this will have to change.
       unsigned plus_index = (*category)->data_.size() - 1;
 
-      LOG_FINEST() << "Did any numbers populate the plus group " << cached_category->data_[plus_index] << " " << (*category)->data_[plus_index];
+      LOG_FINEST() << "Cached plus group " << cached_category->data_[plus_index] << " 1 year plus group " << (*category)->data_[plus_index];
       //if (the plus group has been populated)
       if (cached_category->data_[plus_index] > 0) {
         c = (*category)->data_[plus_index] / cached_category->data_[plus_index] - 1;
@@ -144,9 +150,9 @@ void Derived::Execute() {
           c = 0.0;
         // reset the partition back to the original Cached partition
         (*category)->data_ = cached_category->data_;
-        // now add the approximated plus group to the partition
+        // now multiply the approximated change to the plus group
         (*category)->data_[plus_index] *= 1 / (1 - c);
-        LOG_FINEST() << "Adjustment based an approximation for the plus group" <<  (*category)->data_[plus_index];
+        LOG_FINEST() << ":Adjustment based an approximation for the plus group = " <<  (*category)->data_[plus_index];
       } else {
         // reset the partition back to the original Cached partition
         (*category)->data_ = cached_category->data_;
@@ -154,7 +160,7 @@ void Derived::Execute() {
     }
   }
   Double max_rel_diff = 1e18;
-  vector<Double> plus_group(1,categories.size()), old_plus_group(1,categories.size());
+  vector<Double> plus_group(1, categories.size() - 1), old_plus_group(1, categories.size() - 1);
 
   auto category = partition_.begin();
   unsigned iter = 0;
@@ -162,7 +168,8 @@ void Derived::Execute() {
     old_plus_group[iter] = (*category)->data_[(*category)->data_.size() - 1];
 
   LOG_FINEST() << " max diff " << max_rel_diff;
-  while (max_rel_diff > 0.0005) {
+  unsigned loop_iter = 0;
+  while (max_rel_diff > 0.005) {
     time_step_manager->ExecuteInitialisation(label_, 1);
     max_rel_diff = 0;
     auto category = partition_.begin();
@@ -171,13 +178,15 @@ void Derived::Execute() {
       plus_group[iter] = (*category)->data_[(*category)->data_.size() - 1];
       LOG_FINEST() << " plus group " << plus_group[iter] << " Old plus group " << old_plus_group[iter];
       if (old_plus_group[iter] != 0) {
-        if (fabs((plus_group[iter]-old_plus_group[iter])/old_plus_group[iter]) > max_rel_diff)
+        if (fabs((plus_group[iter] - old_plus_group[iter]) / old_plus_group[iter]) > max_rel_diff)
           max_rel_diff = fabs((plus_group[iter] - old_plus_group[iter]) / old_plus_group[iter]);
         LOG_FINEST() << " max diff " << max_rel_diff;
       }
     }
     old_plus_group = plus_group;
+    loop_iter += 1;
   }
+  LOG_MEDIUM() << ": number of iterations to exit while loop = " << loop_iter;
 }
 
 } /* namespace initialisationphases */

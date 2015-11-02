@@ -6,7 +6,7 @@ q = re.compile('\}.*?\{',re.IGNORECASE)
 r = re.compile('[label]',re.IGNORECASE)
 
 FILE = [open('Syntax/AgeingError.tex', 'r'),
-        open('Syntax/AgeSize.tex', 'r'),
+        open('Syntax/AgeLength.tex', 'r'),
         open('Syntax/Catchability.tex', 'r'),
         open('Syntax/DerivedQuantity.tex', 'r'),
         open('Syntax/Estimate.tex', 'r'),
@@ -22,7 +22,7 @@ FILE = [open('Syntax/AgeingError.tex', 'r'),
         open('Syntax/Profile.tex', 'r'),
         open('Syntax/Report.tex', 'r'),
         open('Syntax/Selectivity.tex', 'r'),
-        open('Syntax/SizeWeight.tex', 'r'),
+        open('Syntax/LengthWeight.tex', 'r'),
         open('Syntax/TimeStep.tex', 'r')]
 OUTFILE = open('QuickReference.tex', 'w')
 VERSION = open('Version.tex', 'r')

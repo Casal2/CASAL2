@@ -1,16 +1,16 @@
 /**
- * @file TimeStepProportionsByCategory.cpp
- * @author Scott Rasmussen (scott.rasmussen@zaita.com)
+ * @file TimeStepTagRecaptureByAge.cpp
+ * @author C.Marsh
  * @github https://github.com/Zaita
- * @date 10/03/2015
+ * @date 27/10/2015
  * @section LICENSE
  *
- * Copyright NIWA Science ©2015 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2015 - www.niwa.co.nz
  *
  */
 
 // headers
-#include "TimeStepProportionsByCategory.h"
+#include "TimeStepTagRecaptureByAge.h"
 
 #include "TimeSteps/Manager.h"
 #include "Utilities/DoubleCompare.h"
@@ -22,8 +22,8 @@ namespace observations {
 /**
  *
  */
-TimeStepProportionsByCategory::TimeStepProportionsByCategory(Model* model)
-  : observations::ProportionsByCategory(model) {
+TimeStepTagRecaptureByAge::TimeStepTagRecaptureByAge(Model* model)
+  : observations::TagRecaptureByAge(model) {
   parameters_.Bind<Double>(PARAM_TIME_STEP_PROPORTION, &time_step_proportion_, "Proportion through the time step to analyse the partition from", "", Double(0.5));
 
   mean_proportion_method_ = true;
@@ -32,8 +32,8 @@ TimeStepProportionsByCategory::TimeStepProportionsByCategory(Model* model)
 /**
  *
  */
-void TimeStepProportionsByCategory::DoBuild() {
-  ProportionsByCategory::DoBuild();
+void TimeStepTagRecaptureByAge::DoBuild() {
+  TagRecaptureByAge::DoBuild();
 
   if (time_step_proportion_ < 0.0 || time_step_proportion_ > 1.0)
     LOG_ERROR_P(PARAM_TIME_STEP_PROPORTION) << ": time_step_proportion (" << AS_DOUBLE(time_step_proportion_) << ") must be between 0.0 and 1.0";
@@ -43,8 +43,8 @@ void TimeStepProportionsByCategory::DoBuild() {
   if (!time_step) {
     LOG_ERROR_P(PARAM_TIME_STEP) << " " << time_step_label_ << " could not be found. Have you defined it?";
   } else {
-      for (unsigned year : years_)
-        time_step->SubscribeToBlock(this, year);
+    for (unsigned year : years_)
+      time_step->SubscribeToBlock(this, year);
   }
 }
 

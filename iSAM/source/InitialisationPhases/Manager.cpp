@@ -98,5 +98,23 @@ unsigned Manager::GetPhaseIndex(const string& label) const {
   return 0;
 }
 
+
+/**
+ * Return the InitialisationPhase with the name passed in as a parameter.
+ * If no InitialisationPhase is found then an empty pointer will
+ * be returned.
+ *
+ * @param label The name of the process to find
+ * @return A pointer to the InitialisationPhase or empty pointer
+ */
+InitialisationPhase* Manager::GetInitPhase(const string& label) {
+  for (auto GetInitPhase : objects_) {
+    if (GetInitPhase->label() == label)
+      return GetInitPhase;
+  }
+
+  return nullptr;
+}
+
 } /* namespace initialisationphases */
 } /* namespace niwa */
