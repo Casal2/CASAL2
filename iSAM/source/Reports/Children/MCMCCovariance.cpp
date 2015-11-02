@@ -42,7 +42,6 @@ void MCMCCovariance::DoExecute() {
      }
   }
 
-
   ready_for_writing_ = true;
 }
 

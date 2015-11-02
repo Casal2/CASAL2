@@ -68,6 +68,9 @@ public:
   Estimable::Type                 GetEstimableType(const string& label) const;
   void                            PrintParameterQueryInfo();
 
+  // pure virtual methods
+  virtual void                    Reset() = 0;
+
   // Accessors and Mutators
   string                      label() const { return label_; }
   string                      type() const { return type_; }

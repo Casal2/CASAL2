@@ -53,7 +53,8 @@ protected:
   UpdateFunction              update_function_ = 0;
 
   // members
-  Model*                    model_;
+  Model*                      model_;
+  base::Object*               target_object_;
   string                      type_ = "";
   vector<unsigned>            years_;
   string                      parameter_;
