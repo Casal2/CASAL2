@@ -28,9 +28,11 @@ MCMCChain::MCMCChain(Model* model) : Report(model) {
 }
 
 /**
- * Destructor
+ * Build
  */
-MCMCChain::~MCMCChain() noexcept(true) {
+void MCMCChain::DoBuild() {
+  if (model_->global_configuration().resume() && overwrite_)
+    overwrite_ = false;
 }
 
 /**
@@ -40,7 +42,7 @@ void MCMCChain::DoExecute() {
   MCMC* mcmc = model_->managers().mcmc()->active_mcmc();
   auto chain = mcmc->chain();
 
-  if (chain.size() == 2) {
+  if (first_write_) {
     cache_ << "*" << label_ << " " << "(" << type_ << ")" << "\n";
     cache_ << "MCMC_values" << REPORT_R_DATAFRAME << "\n";
     cache_ << "index Objective_score prior likelihood penalties step_size acceptance_rate acceptance_rate_since_adapt ";

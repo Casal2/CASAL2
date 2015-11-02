@@ -25,6 +25,7 @@
 #include "Catchabilities/Manager.h"
 #include "Categories/Categories.h"
 #include "ConfigurationLoader/EstimableValuesLoader.h"
+#include "ConfigurationLoader/MPDLoader.h"
 #include "DerivedQuantities/Manager.h"
 #include "Estimables/Estimables.h"
 #include "Estimates/Manager.h"
@@ -440,10 +441,13 @@ void Model::RunEstimation() {
 
     run_mode_ = RunMode::kBasic;
     FullIteration();
+    run_mode_ = RunMode::kEstimation;
 
     LOG_FINE() << "Model: State change to Iteration Complete";
     managers_->report()->Execute(State::kIterationComplete);
   }
+
+
 }
 
 /**
@@ -459,12 +463,21 @@ bool Model::RunMCMC() {
     return false;
   }
 
-  LOG_FINE() << "Calling minimiser to find our minimum and covariance matrix";
-  auto minimiser = managers_->minimiser()->active_minimiser();
-  minimiser->Execute();
-  minimiser->BuildCovarianceMatrix();
+//  if (global_configuration_->resume()) {
+//    configuration::MPDLoader mpd_loader(this);
+//    if (!mpd_loader.LoadMPDFile())
+//      return false;
+//
+//  } else {
+    LOG_FINE() << "Calling minimiser to find our minimum and covariance matrix";
+    auto minimiser = managers_->minimiser()->active_minimiser();
+    minimiser->Execute();
+    minimiser->BuildCovarianceMatrix();
+    LOG_FINE() << "Minimisation complete. Starting MCMC";
+//  }
 
-  LOG_FINE() << "Minimisation complete. Starting MCMC";
+//  return true;
+
   mcmc->Execute();
   return true;
 }

@@ -48,6 +48,8 @@ void TimeVarying::Build() {
   }
 
   string error = "";
+  target_object_ = model_->objects().FindObject(parameter_, error);
+
   Estimable::Type estimable_type = model_->objects().GetEstimableType(parameter_, error);
   switch(estimable_type) {
     case Estimable::kInvalid:
@@ -88,6 +90,8 @@ void TimeVarying::Update(unsigned current_year) {
     RestoreOriginalValue();
   else
     DoUpdate();
+
+  target_object_->Reset();
 }
 
 /**
