@@ -84,7 +84,7 @@ void AgeLength::BuildCV(unsigned year) {
   unsigned min_age = model_->min_age();
   unsigned max_age = model_->max_age();
 
-  if (cv_last_==0) { // A test that is robust... If cv_last_ is not in the input then assume cv_first_ represents the cv for all age classes i.e constant cv
+  if (cv_last_== 0.0) { // A test that is robust... If cv_last_ is not in the input then assume cv_first_ represents the cv for all age classes i.e constant cv
     for (unsigned i = min_age; i <= max_age; ++i)
       cvs_[i]= (cv_first_);
     } else {
@@ -180,8 +180,12 @@ void AgeLength::DoAgeToLengthConversion(partition::Category* category, const vec
 
   category->age_length_matrix_.resize(category->data_.size());
   for (unsigned i = 0; i < category->data_.size(); ++i) {
+
     vector<Double> age_frequencies;
     unsigned age = category->min_age_ + i;
+
+    if (cvs_[age] <= 0.0)
+        LOG_ERROR_P(PARAM_CV_FIRST) << "cv first or last cannot be less than or equal to zero";
 
     Double mu= category->mean_length_per_[age];
     CummulativeNormal(mu, cvs_[age], age_frequencies, length_bins, distribution_, plus_grp);

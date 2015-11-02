@@ -4,16 +4,16 @@
 
 Observations are typically supplied as observations at an instance in time, over some spatially aggregated area. Time series of observations can be supplied as separate observations for each year or point in time. 
 
-\CAS\ allows the following types of observations;
+\CNAME\ allows the following types of observations;
 \begin{itemize}
   \item Observations of proportions by age class within categories
   \item Observations of proportions between categories within age classes
   \item Relative and absolute abundance/biomass observations
 \end{itemize}
 
-The definitions for each type of observation are described below, including how the observed values should be supplied, how \CAS\ calculates the expected values, and the likelihoods that are available for each type of observation.
+The definitions for each type of observation are described below, including how the observed values should be supplied, how \CNAME\ calculates the expected values, and the likelihoods that are available for each type of observation.
 
-\CAS\ evaluates the observations at the end of a time-step (i.e., after all of the processes for that time-step have been applied). However, the observation can be applied to the abundance at the start of a time-step or part-way through a time-step by the use of the \subcommand{proportion\_time\_step} subcommand. 
+\CNAME\ evaluates the observations at the end of a time-step (i.e., after all of the processes for that time-step have been applied). However, the observation can be applied to the abundance at the start of a time-step or part-way through a time-step by the use of the \subcommand{proportion\_time\_step} subcommand. 
 
 By default (i.e., if \subcommand{proportion\_method} \texttt{= mean}), the partition at some point $p$ during the time-step is then evaluated as the weighted sum between the start and end of the time-step, i.e, for any element $i$ in the partition, $n_i=(1-p) n_i^{start} + p n_i^{end}$. Note that it may not be sensible to use a value other than one, depending on the processes that happen during the time-step (for example, if the time-step contains an ageing process).
 
@@ -46,11 +46,11 @@ This form of defining the observation is the simplest, and is used to model a se
 categories male
 \end{verbatim}}}
 
-\CAS\ then expects that there will be a single vector of proportions supplied, with one proportion for each age class within the defined age range, and that these proportions sum to one. 
+\CNAME\ then expects that there will be a single vector of proportions supplied, with one proportion for each age class within the defined age range, and that these proportions sum to one. 
 
 For example, if the age range was 3 to 10, then 8 proportions should be supplied (one proportion for each of the the ages 3, 4, 5, 6, 7, 8, 9, and 10). The expected values will be the expected proportions of males within each of these age classes (after ignoring any males aged less than 3 or older than 10), after applying a selectivity at the year and time-step specified. The supplied vector of proportions (i.e., in this example, the 8 proportions) must sum to one, which is evaluated with a default tolerance of 0.001. 
 
-The observations must be also supplied using all or some of the the values of defined by some \emph{categorical} layer. \CAS\ calculates the expected values by summing over the defined ages (via the age range and selectivity) and categories for those spatial cells where the categorical layer has the same value as defined for each vector of observations.
+The observations must be also supplied using all or some of the the values of defined by some \emph{categorical} layer. \CNAME\ calculates the expected values by summing over the defined ages (via the age range and selectivity) and categories for those spatial cells where the categorical layer has the same value as defined for each vector of observations.
 
 For example, in a $2 \times 2$ spatial model a categorical layer (e.g., with label Area) may define that cells $(1,1)$ and $(1,2)$ have value $A$ and cells $(2,1)$ and $(2,2)$ have value $B$, i.e.,
 
@@ -100,7 +100,7 @@ This form of the observation extends the idea above for multiple categories. It 
 categories male female
 \end{verbatim}}}
 
-\CAS\ then expects that there will be a single vector of proportions supplied, with one proportion for each category and age class combination, and that these proportions sum to one. 
+\CNAME\ then expects that there will be a single vector of proportions supplied, with one proportion for each category and age class combination, and that these proportions sum to one. 
 
 For example, if there were two categories and the age range was 3 to 10, then 16 proportions should be supplied (one proportion for each of the the ages 3, 4, 5, 6, 7, 8, 9, and 10, for each category male and female). The expected values will be the expected proportions of males and within each of these age classes (after ignoring those aged less than 3 or older than 10), after applying a selectivity at the year and time-step specified. The supplied vector of proportions (i.e., in this example, the 16 proportions) must sum to one, which is evaluated with a default tolerance of 0.001. 
 
@@ -127,7 +127,7 @@ This form of the observation extends the idea above, but allows categories to be
 categories male + female
 \end{verbatim}}}
 
-\CAS\ then expects that there will be a single vector of proportions supplied, with one proportion for each age class, and that these proportions sum to one. 
+\CNAME\ then expects that there will be a single vector of proportions supplied, with one proportion for each age class, and that these proportions sum to one. 
 
 For example, if there were two categories and the age range was 3 to 10, then 8 proportions should be supplied (one proportion for each of the the ages 3, 4, 5, 6, 7, 8, 9, and 10, for the sum of males and females within each age class). The expected values will be the expected proportions of males + females within each of these age classes (after ignoring those aged less than 3 or older than 10), after applying a selectivity at the year and time-step specified. The supplied vector of proportions (i.e., in this example, the 16 proportions) must sum to one, which is evaluated with a default tolerance of 0.001. 
 
@@ -162,7 +162,7 @@ obs A 0.05 0.15 0.15 0.05 0.02 0.03 0.08 0.04 0.05 0.15 0.15 0.08
 
 \subsubsection{Likelihoods for proportions-at-age observations}
 
-\CAS\ implements two likelihoods for proportions-at-age observations, the multinomial likelihood and the lognormal likelihood. 
+\CNAME\ implements two likelihoods for proportions-at-age observations, the multinomial likelihood and the lognormal likelihood. 
 
 \subsubsection*{The multinomial likelihood\index{Multinomial likelihood ! proportions-at-age}}
 
@@ -224,9 +224,9 @@ selectivities male-selectivity
 selectivities2 female-selectivity
 \end{verbatim}}}
 
-defines that the proportion of males in each age class as a proportion of males $+$ females. \CAS\ then expects that there will be a vector of proportions supplied, with one proportion for each age class within the defined age range, i.e., if the age range was 3 to 10, then 8 proportions should be supplied (one proportion for each of the the ages 3, 4, 5, 6, 7, 8, 9, and 10). The expected values will be the expected proportions of male to male $+$ female within each of these age classes, after applying the selectivities at the year and time-step specified. 
+defines that the proportion of males in each age class as a proportion of males $+$ females. \CNAME\ then expects that there will be a vector of proportions supplied, with one proportion for each age class within the defined age range, i.e., if the age range was 3 to 10, then 8 proportions should be supplied (one proportion for each of the the ages 3, 4, 5, 6, 7, 8, 9, and 10). The expected values will be the expected proportions of male to male $+$ female within each of these age classes, after applying the selectivities at the year and time-step specified. 
 
-The observations must be supplied using all or some of the values defined by a categorical layer. \CAS\ calculates the expected values by summing over the ages (via the age range and selectivity) and categories for those spatial cells where the categorical layer has the same value as defined for each vector of observations.
+The observations must be supplied using all or some of the values defined by a categorical layer. \CNAME\ calculates the expected values by summing over the ages (via the age range and selectivity) and categories for those spatial cells where the categorical layer has the same value as defined for each vector of observations.
 
 For example, in a $2 \times 2$ spatial model a categorical layer (e.g., with label Area) may define that cells $(1,1)$ and $(1,2)$ have value $A$ and cells $(2,1)$ and $(2,2)$ have value $B$, i.e.,
 
@@ -272,7 +272,7 @@ To supply an observation for individual spatial cells, then you will need to def
 
 \subsubsection{Likelihoods for proportions-by-category observations}
 
-\CAS\ implements two likelihoods for proportions-by-category observations, the binomial likelihood, and the normal approximation to the binomial (binomial-approx). 
+\CNAME\ implements two likelihoods for proportions-by-category observations, the binomial likelihood, and the normal approximation to the binomial (binomial-approx). 
 
 \subsubsection*{The binomial likelihood\index{Binomial likelihood ! proportions-by-category}}
 
@@ -329,9 +329,9 @@ categories male
 selectivities male-selectivity
 \end{verbatim}}}
 
-defines an observation for males after applying the selectivity male-selectivity. \CAS\ then expects that there will be a single observation supplied. The expected values for the observations will be the expected abundance (or biomass) of males, after applying the selectivities, at the year and time-step specified. 
+defines an observation for males after applying the selectivity male-selectivity. \CNAME\ then expects that there will be a single observation supplied. The expected values for the observations will be the expected abundance (or biomass) of males, after applying the selectivities, at the year and time-step specified. 
 
-The observations must be supplied using all or some of the the values of defined by a categorical layer. \CAS\ calculates the expected values by summing over the defined ages (via the age range and selectivity) and categories for those spatial cells where the categorical layer has the same value as defined for each vector of observations.
+The observations must be supplied using all or some of the the values of defined by a categorical layer. \CNAME\ calculates the expected values by summing over the defined ages (via the age range and selectivity) and categories for those spatial cells where the categorical layer has the same value as defined for each vector of observations.
 
 For example, in a $2 \times 2$ spatial model a categorical layer (e.g., with label Area) may define that cells $(1,1)$ and $(1,2)$ have value $A$ and cells $(2,1)$ and $(2,2)$ have value $B$, i.e.,
 
@@ -447,7 +447,7 @@ For both the c.v. and $N$ process errors, the process error has more effect on s
 
 \subsection{\I{Ageing error}}
 
-\CAS\ can apply ageing error age frequency observations. Ageing error is applied to the expected values for proportions-at-age observations. The ageing error is applied as a misclassification matrix, which has the effect of 'smearing' the age frequencies. These are used in calculating the fits to the observed values, and hence the contribution to the total objective function. 
+\CNAME\ can apply ageing error age frequency observations. Ageing error is applied to the expected values for proportions-at-age observations. The ageing error is applied as a misclassification matrix, which has the effect of 'smearing' the age frequencies. These are used in calculating the fits to the observed values, and hence the contribution to the total objective function. 
 
 Ageing error is optional, and if it is used, it may be omitted for any individual time series. Different ageing error models may be applied for different observation commands. See Section \ref{sec:ageingerrorreport} for reporting the misclassification matrix.
 
@@ -458,13 +458,13 @@ The ageing error models implemented are,
   \item{Normal}: Individuals of age $a$ are classified as ages which are normally distributed with mean $a$ and constant c.v. $c$. As above, if there is no plus group in the population model, some individuals of the older age classes may disappear. If $c$ is high enough, some of the younger age classes may 'fall off the other edge'. Individuals of age $a < k$ are not misclassified.
 \end{enumerate}
 
-Note that the expected values (fits) reported by \CAS\ for observations with ageing error will have had the ageing error applied. 
+Note that the expected values (fits) reported by \CNAME\ for observations with ageing error will have had the ageing error applied. 
 
 \subsection{\I{Simulating observations}\label{sec:simulation-observations}}
 
-\CAS\ can generate simulated observations for a given model with given parameter values (using \texttt{spm -s}). Simulated observations are randomly distributed values, generated according to the error assumptions defined for each observation, around fits calculated from one or more sets of the 'true' parameter values. Simulating from a set of parameters can be used to generate observations from an operating model or as a form of parametric bootstrap. 
+\CNAME\ can generate simulated observations for a given model with given parameter values (using \texttt{spm -s}). Simulated observations are randomly distributed values, generated according to the error assumptions defined for each observation, around fits calculated from one or more sets of the 'true' parameter values. Simulating from a set of parameters can be used to generate observations from an operating model or as a form of parametric bootstrap. 
 
-The procedure \CAS\ uses for simulating observations is to first run using the `true' parameter values and generate the expected values. Then, if a set of observations uses ageing error, ageing error is applied. Finally a random value for each observed value is generated based on (i) the expected values, (ii) the type of likelihood specified, and (iii) the variability parameters (e.g., \subcommand{error\_value} and \subcommand{process\_error}). 
+The procedure \CNAME\ uses for simulating observations is to first run using the `true' parameter values and generate the expected values. Then, if a set of observations uses ageing error, ageing error is applied. Finally a random value for each observed value is generated based on (i) the expected values, (ii) the type of likelihood specified, and (iii) the variability parameters (e.g., \subcommand{error\_value} and \subcommand{process\_error}). 
 
 Methods for generating the random error, and hence simulated values, depend on the specific likelihood type of each observation. 
 
@@ -484,17 +484,17 @@ Methods for generating the random error, and hence simulated values, depend on t
   \end{enumerate}
 \end{enumerate}
 
-Note that \CAS\ will report simulated observations using the usual observation report (\commandlabsubarg{report}{type}{observation}). The report \commandlabsubarg{report}{type}{simulated\_observation} will generate simulated observations in a form suitable for use as input within a \CAS\ \config. See Section \ref{sec:report-section} for more detail.
+Note that \CNAME\ will report simulated observations using the usual observation report (\commandlabsubarg{report}{type}{observation}). The report \commandlabsubarg{report}{type}{simulated\_observation} will generate simulated observations in a form suitable for use as input within a \CNAME\ \config. See Section \ref{sec:report-section} for more detail.
 
 \subsection{\I{Pseudo-observations}}
 
-\CAS\ can generate expected values for observations without them contributing to the total objective function. These are called pseudo-observations, and can be used to either generate the expected values from \CAS\ for reporting or diagnostic purposes. To define an observation as a pseudo-observation, use the command \commandlabsubarg{observation}{likelihood}{none}. Any observation type can be used as a pseudo-observation. \CAS\ can also generate simulated observations from pseudo-observations. Note that;
+\CNAME\ can generate expected values for observations without them contributing to the total objective function. These are called pseudo-observations, and can be used to either generate the expected values from \CNAME\ for reporting or diagnostic purposes. To define an observation as a pseudo-observation, use the command \commandlabsubarg{observation}{likelihood}{none}. Any observation type can be used as a pseudo-observation. \CNAME\ can also generate simulated observations from pseudo-observations. Note that;
 
 \begin{itemize}
   \item Output will only be generated if a report command \commandlabsubarg{report}{type}{observation} is specified.
-  \item The observed values should be supplied (even if they are `dummy' observation). These will be processed by \CAS\ as if they were actual observation values, and must conform to the validations carried out for the other types of likelihood. 
+  \item The observed values should be supplied (even if they are `dummy' observation). These will be processed by \CNAME\ as if they were actual observation values, and must conform to the validations carried out for the other types of likelihood. 
   \item The subcommands \subcommand{likelihood}, \subcommand{obs}, \subcommand{error\_value} and \subcommand{process\_error} have no effect when generating the expected values for the pseudo-observation.   
-  \item When simulating observations, \CAS\ needs the subcommand \subcommand{simulation\_likelihood} to tell it what sort of likelihood to use. In this case, the \subcommand{obs}, \subcommand{error\_value} and \subcommand{process\_error} are used to determine the appropriate terms to use for the likelihood when simulating.
+  \item When simulating observations, \CNAME\ needs the subcommand \subcommand{simulation\_likelihood} to tell it what sort of likelihood to use. In this case, the \subcommand{obs}, \subcommand{error\_value} and \subcommand{process\_error} are used to determine the appropriate terms to use for the likelihood when simulating.
 \end{itemize}
 
 
