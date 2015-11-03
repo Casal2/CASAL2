@@ -27,11 +27,21 @@ namespace niwa {
 
 using std::streambuf;
 using std::ofstream;
+using std::ifstream;
 using std::cout;
 using std::endl;
 using std::ios_base;
 
 std::mutex Report::lock_;
+
+inline bool DoesFileExist(const string& file_name) {
+  ifstream  file(file_name.c_str());
+  if (file.fail() || !file.is_open())
+    return false;
+
+  file.close();
+  return true;
+}
 
 /**
  * Default constructor
@@ -40,8 +50,8 @@ Report::Report(Model* model) : model_(model) {
   parameters_.Bind<string>(PARAM_LABEL, &label_, "Label", "");
   parameters_.Bind<string>(PARAM_TYPE, &type_, "Type", "");
   parameters_.Bind<string>(PARAM_FILE_NAME, &file_name_, "File Name", "", "");
-  parameters_.Bind<bool>(PARAM_OVERWRITE, &overwrite_, "Overwrite file", "", true);
-  parameters_.Bind<bool>(PARAM_SEQUENTIALLY_ADD, &sequentially_add_, "Sequentially add a suffix to the file", "", false);
+  parameters_.Bind<string>(PARAM_WRITE_MODE, &write_mode_, "Write mode", "", PARAM_OVERWRITE)
+      ->set_allowed_values({ PARAM_OVERWRITE, PARAM_APPEND, PARAM_INCREMENTAL_SUFFIX });
 }
 
 /**
@@ -83,6 +93,27 @@ bool Report::HasYear(unsigned year) {
  */
 void Report::Prepare() {
   Report::lock_.lock();
+
+  /**
+   * Figure out the write options. If we're using an incremental suffix
+   * we want to loop over the existing files to see what suffix to use.
+   */
+  if (file_name_ != "" && write_mode_ == PARAM_INCREMENTAL_SUFFIX) {
+    if (DoesFileExist(file_name_)) {
+      for (unsigned i = 0; i < 1000; ++i) {
+        string trial_name = file_name_ + "." + util::ToInline<unsigned, string>(i);
+        if (!DoesFileExist(trial_name)) {
+          LOG_FINE() << "File name has been changed too " << trial_name << " to match incremental_suffix";
+          file_name_ = trial_name;
+          break;
+        }
+      }
+    }
+  }
+
+  if (write_mode_ == PARAM_APPEND)
+    overwrite_ = false;
+
   DoPrepare();
   Report::lock_.unlock();
 };
@@ -133,6 +164,9 @@ void Report::FlushCache() {
     file.open(file_name.c_str(), mode);
     if (!file.is_open())
       LOG_ERROR() << "Unable to open file: " << file_name;
+
+    if (!skip_tags_)
+      cache_ << CONFIG_END_REPORT << "\n";
 
     file << cache_.str();
     file.close();

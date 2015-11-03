@@ -27,6 +27,7 @@
 #include "Reports/Children/InitialisationPartition.h"
 #include "Reports/Children/MCMCChain.h"
 #include "Reports/Children/MCMCCovariance.h"
+#include "Reports/Children/MPD.h"
 #include "Reports/Children/ObjectiveFunction.h"
 #include "Reports/Children/Observation.h"
 #include "Reports/Children/Partition.h"
@@ -74,6 +75,8 @@ Report* Factory::Create(Model* model, const string& object_type, const string& s
       result = new MCMCChain(model);
     else if (sub_type == PARAM_MCMC_COVARIANCE)
       result = new MCMCCovariance(model);
+    else if (sub_type == PARAM_MPD)
+      result = new MPD(model);
     else if (sub_type == PARAM_PARTITION)
       result = new Partition(model);
     else if (sub_type == PARAM_PARTITION_BIOMASS)

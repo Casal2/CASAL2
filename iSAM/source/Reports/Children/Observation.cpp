@@ -71,13 +71,13 @@ void Observation::DoExecute() {
 
   cache_ << "Comparisons " <<REPORT_R_DATAFRAME <<"\n";
 
-  cache_ << "year category age observed expected residual error_value score\n";
+  cache_ << "year category age length observed expected residual error_value score\n";
 
   map<unsigned, vector<obs::Comparison> >& comparisons = observation_->comparisons();
   for (auto iter = comparisons.begin(); iter != comparisons.end(); ++iter) {
     for (obs::Comparison comparison : iter->second) {
 
-      cache_ << iter->first << " " << comparison.category_ << " " << comparison.age_ << " " << AS_DOUBLE(comparison.observed_) << " " << AS_DOUBLE(comparison.expected_)
+      cache_ << iter->first << " " << comparison.category_ << " " << comparison.age_ << " " << comparison.length_ << " " << AS_DOUBLE(comparison.observed_) << " " << AS_DOUBLE(comparison.expected_)
 	         << " " << AS_DOUBLE(comparison.observed_) - AS_DOUBLE(comparison.expected_) << " " << AS_DOUBLE(comparison.error_value_) << " "
 	         << AS_DOUBLE(comparison.score_) << "\n";
 	}

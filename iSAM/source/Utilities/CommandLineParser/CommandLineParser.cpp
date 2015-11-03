@@ -57,7 +57,8 @@ void CommandLineParser::Parse(int argc, const char* argv[]) {
     ("config,c", value<string>(), "Configuration file")
     ("run,r", "Basic model run mode")
     ("estimate,e", "Point estimation run mode")
-    ("mcmc,m", "Markov Chain Monte Carlo run mode")
+    ("mcmc,m", "Markov Chain Monte Carlo run mode (arg = continue, default: false)")
+    ("resume", "Resume the MCMC or estimation from an MPD or chain log")
     ("profiling,p", "Profling run mode")
     ("simulation,s", value<unsigned>(), "Simulation mode (arg = number of candidates)")
     ("projection,f", "Projection mode")
@@ -83,7 +84,6 @@ void CommandLineParser::Parse(int argc, const char* argv[]) {
 
   } catch (boost::program_options::unknown_option &ex) {
     cout << "An error occurred while processing the command line. " << ex.what() << endl;
-
   }
 
   /**
@@ -170,9 +170,11 @@ void CommandLineParser::Parse(int argc, const char* argv[]) {
     run_mode_ = RunMode::kBasic;
   else if (parameters.count("estimate"))
     run_mode_ = RunMode::kEstimation;
-  else if (parameters.count("mcmc"))
+  else if (parameters.count("mcmc")) {
     run_mode_ = RunMode::kMCMC;
-  else if (parameters.count("profiling"))
+    if (parameters.count("resume"))
+      global_config_.flag_resume();
+  } else if (parameters.count("profiling"))
     run_mode_ = RunMode::kProfiling;
   else if (parameters.count("simulation")) {
     run_mode_ = RunMode::kSimulation;

@@ -35,6 +35,7 @@ public:
   explicit Creator(Model* model);
   virtual                     ~Creator() = default;
   void                        CreateEstimates();
+  void                        Reset() override final { };
 
   // accessors
   string                      parameter() const { return parameter_; }
