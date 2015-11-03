@@ -38,7 +38,7 @@ namespace niwa {
 /**
  * Class Definitiion
  */
-class GlobalConfiguration : public niwa::base::Object {
+class GlobalConfiguration {
 public:
   // Methods
   GlobalConfiguration();
@@ -65,12 +65,15 @@ public:
   bool                  get_force_estimable_values_file();
   void                  set_disable_standard_report() { global_parameters_[PARAM_NO_STANDARD_HEADER_REPORT] = "t"; }
   bool                  disable_standard_report();
+  void                  flag_resume() { resume_ = true; }
+  bool                  resume() const { return resume_; }
 
 private:
   // Members
   map<string, string>         global_parameters_;
   vector<string>              command_line_parameters_;
   unsigned                    simulation_candidates_ = 1;
+  bool                        resume_ = false;
 };
 } /* namespace niwa */
 #endif /* GLOBALCONFIGURATION_H_ */

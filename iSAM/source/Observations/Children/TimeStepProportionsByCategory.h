@@ -15,7 +15,7 @@
 #define OBSERVATIONS_TIMESTEPPROPORTIONSBYCATEGORY_H_
 
 // headers
-#include "Observations/Children/ProportionsByCategory/ProportionsByCategory.h"
+#include <Observations/Children/ProportionsByCategory/ProportionsByCategory.h>
 
 // namespaces
 namespace niwa {

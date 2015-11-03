@@ -13,7 +13,7 @@
 // Headers
 #include "Partition.h"
 
-#include "AgeLengths/Factory.h"
+#include "AgeLengths/AgeLength.h"
 #include "Categories/Categories.h"
 #include "Model/Model.h"
 #include "Logging/Logging.h"
@@ -53,10 +53,11 @@ void Partition::Build() {
     LOG_FINEST() << "Adding category " << category << " to the partition";
 
     partition::Category* new_category = new partition::Category(model_);
-    new_category->name_      = category;
-    new_category->min_age_   = categories->min_age(category);
-    new_category->max_age_   = categories->max_age(category);
-    new_category->years_     = categories->years(category);
+    new_category->name_       = category;
+    new_category->min_age_    = categories->min_age(category);
+    new_category->max_age_    = categories->max_age(category);
+    new_category->years_      = categories->years(category);
+    new_category->age_length_ = categories->age_length(category);
 
     unsigned age_spread = (categories->max_age(category) - categories->min_age(category)) + 1;
     new_category->data_.resize(age_spread, 0.0);

@@ -85,8 +85,8 @@ protected:
   string                      file_name_   = "";
   bool                        first_write_ = true;
   bool                        overwrite_   = true;
-  bool                        sequentially_add_ = false;
   string                      last_suffix_ = "";
+  string                      write_mode_ = "";
   vector<unsigned>            years_;
   ostringstream               cache_;
   bool                        ready_for_writing_ = false;

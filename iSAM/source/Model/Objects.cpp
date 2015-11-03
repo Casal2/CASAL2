@@ -21,6 +21,7 @@
 #include "Model/Managers.h"
 #include "Processes/Manager.h"
 #include "Selectivities/Manager.h"
+#include "InitialisationPhases/Manager.h"
 #include "Utilities/To.h"
 
 // namespaces
@@ -182,6 +183,7 @@ vector<Double>* Objects::GetEstimableVector(const string& parameter_absolute_nam
  * @param error The string to populate the error if one occurs
  * @return Pointer to object or empty pointer if it's not found
  */
+
 base::Object* Objects::FindObject(const string& parameter_absolute_name, string& error) {
   LOG_FINE() << "Looking for object: " << parameter_absolute_name;
   base::Object* result = nullptr;
@@ -196,6 +198,9 @@ base::Object* Objects::FindObject(const string& parameter_absolute_name, string&
 
   if (type == PARAM_PROCESS) {
     result = model_->managers().process()->GetProcess(label);
+
+  } else if (type == PARAM_INITIALISATION_PHASE) {
+    result = model_->managers().initialisation_phase()->GetInitPhase(label);
 
   } else if (type == PARAM_ESTIMATE) {
     result = model_->managers().estimate()->GetEstimateByLabel(label);

@@ -24,9 +24,9 @@ namespace reports {
 class MCMCChain : public niwa::Report {
 public:
   MCMCChain(Model* model);
-  virtual                     ~MCMCChain() noexcept(true);
+  virtual                     ~MCMCChain() = default;
   void                        DoValidate() override final { };
-  void                        DoBuild() override final { };
+  void                        DoBuild() override final;
   void                        DoExecute() override final;
 };
 
