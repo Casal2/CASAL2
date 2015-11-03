@@ -13,8 +13,10 @@
 // Headers
 #include "LogisticProducing.h"
 
+#include <boost/math/distributions/lognormal.hpp>
 #include <cmath>
 
+#include "AgeLengths/AgeLength.h"
 #include "Model/Model.h"
 
 // namespaces
@@ -78,6 +80,18 @@ void LogisticProducing::Reset() {
       values_[age] = (lambda1 - lambda2) / (1.0 - lambda2) * alpha_;
     }
   }
+}
+
+/**
+ * GetLengthBasedResult function
+ *
+ * @param age
+ * @param age_length AgeLength pointer
+ * @return Double selectivity for an age based on age length distribution
+ */
+
+Double LogisticProducing::GetLengthBasedResult(unsigned age, AgeLength* age_length) {
+  return 0.0;
 }
 
 } /* namespace selectivities */

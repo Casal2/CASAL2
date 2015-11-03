@@ -125,7 +125,7 @@ void Maturation::DoExecute() {
     unsigned min_age   = (*from_iter)->min_age_;
 
     for (unsigned offset = 0; offset < (*from_iter)->data_.size(); ++offset) {
-      amount = rate * selectivities_[i]->GetResult(min_age + offset);
+      amount = rate * selectivities_[i]->GetResult(min_age + offset, (*from_iter)->age_length_);
       (*from_iter)->data_[offset] -= amount;
       (*to_iter)->data_[offset] += amount;
     }

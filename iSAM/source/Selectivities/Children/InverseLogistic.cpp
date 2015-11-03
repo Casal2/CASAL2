@@ -13,8 +13,10 @@
 // Headers
 #include "InverseLogistic.h"
 
+#include <boost/math/distributions/lognormal.hpp>
 #include <cmath>
 
+#include "AgeLengths/AgeLength.h"
 #include "Model/Model.h"
 
 // Namespaces
@@ -73,6 +75,76 @@ void InverseLogistic::Reset() {
     else
       values_[age] = alpha_ - (alpha_ / (1.0 + pow(19.0, threshold)));
   }
+}
+/**
+ * GetLengthBasedResult function
+ *
+ * @param age
+ * @param age_length AgeLength pointer
+ * @return Double selectivity for an age based on age length distribution
+ */
+
+Double InverseLogistic::GetLengthBasedResult(unsigned age, AgeLength* age_length) {
+  Double cv = age_length->cv(age);
+  unsigned year = model_->current_year();
+  Double mean = age_length->mean_length(year, age);
+  string dist = age_length->distribution();
+
+  if (dist == PARAM_NONE || n_quant_ <= 1) {
+    // no distribution just use the mu from age_length
+    Double threshold = (a50_ - (Double) mean) / aTo95_;
+
+    if (threshold > 5.0)
+      return alpha_;
+    else if (threshold < -5.0)
+      return 0.0;
+    else
+      return alpha_ - (alpha_ / (1.0 + pow(19.0, threshold)));
+
+  } else if (dist == PARAM_NORMAL) {
+
+    Double sigma = cv * mean;
+    Double size = 0.0;
+    Double total = 0.0;
+
+    for (unsigned j = 0; j < n_quant_; ++j) {
+      size = mean + sigma * quantiles_at_[j];
+
+      Double threshold = (a50_ - size) / aTo95_;
+
+      if (threshold > 5.0)
+        total += alpha_;
+      else if (threshold < -5.0)
+        total += 0.0;
+      else
+        total += alpha_ - (alpha_ / (1.0 + pow(19.0, threshold)));
+    }
+    return total / n_quant_;
+
+  } else if (dist == PARAM_LOGNORMAL) {
+    // convert paramters to log space
+    Double sigma = sqrt(log(1 + cv * cv));
+    Double mu = log(mean) - sigma * sigma * 0.5;
+    Double size = 0.0;
+    Double total = 0.0;
+    boost::math::lognormal dist{ mu, sigma };
+
+    for (unsigned j = 0; j < n_quant_; ++j) {
+      size = mu + sigma * quantile(dist, quantiles_[j]);
+
+      Double threshold = (a50_ - (Double) size) / aTo95_;
+
+      if (threshold > 5.0)
+        total += alpha_;
+      else if (threshold < -5.0)
+        total += 0.0;
+      else
+        total += alpha_ - (alpha_ / (1.0 + pow(19.0, threshold)));
+    }
+    return total / n_quant_;
+  }
+  LOG_CODE_ERROR() << "dist is invalid " << dist;
+  return 0;
 }
 
 } /* namespace selectivities */

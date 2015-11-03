@@ -31,11 +31,11 @@ TEST(Selectivities, Constant) {
   constant.Validate();
   constant.Build();
 
-  EXPECT_DOUBLE_EQ(83.0, constant.GetResult(0));
-  EXPECT_DOUBLE_EQ(83.0, constant.GetResult(1));
-  EXPECT_DOUBLE_EQ(83.0, constant.GetResult(2));
-  EXPECT_DOUBLE_EQ(83.0, constant.GetResult(3));
-  EXPECT_DOUBLE_EQ(83.0, constant.GetResult(4));
+  EXPECT_DOUBLE_EQ(83.0, constant.GetResult(0, nullptr));
+  EXPECT_DOUBLE_EQ(83.0, constant.GetResult(1, nullptr));
+  EXPECT_DOUBLE_EQ(83.0, constant.GetResult(2, nullptr));
+  EXPECT_DOUBLE_EQ(83.0, constant.GetResult(3, nullptr));
+  EXPECT_DOUBLE_EQ(83.0, constant.GetResult(4, nullptr));
 }
 
 } /* namespace niwa */
