@@ -7,6 +7,12 @@
 
 #include "Constant.h"
 
+#include <boost/math/distributions/lognormal.hpp>
+#include <cmath>
+
+#include "AgeLengths/AgeLength.h"
+#include "Model/Model.h"
+
 namespace niwa {
 namespace selectivities {
 
@@ -28,7 +34,19 @@ Constant::Constant(Model* model)
  * @param age_or_length unsused in this selectivity
  * @return the constant value
  */
-Double Constant::GetResult(unsigned age_or_length) {
+Double Constant::GetResult(unsigned age, AgeLength* age_length) {
+  return c_;
+}
+
+/**
+ * GetLengthBasedResult function
+ *
+ * @param age
+ * @param age_length AgeLength pointer
+ * @return Double selectivity for an age based on age length distribution
+ */
+
+Double Constant::GetLengthBasedResult(unsigned age, AgeLength* age_length) {
   return c_;
 }
 

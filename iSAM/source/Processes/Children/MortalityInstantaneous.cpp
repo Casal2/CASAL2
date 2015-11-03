@@ -296,8 +296,8 @@ void MortalityInstantaneous::DoExecute() {
           continue;
         for (unsigned i = 0; i < categories->data_.size(); ++i) {
           Double vulnerable = categories->data_[i] * categories->mean_weight_per_[categories->min_age_ + i]
-              * fishery_category.selectivity_->GetResult(categories->min_age_ + i)
-              * exp(-0.5 * ratio * m_[m_offset] * selectivities_[m_offset]->GetResult(categories->min_age_ + i));
+              * fishery_category.selectivity_->GetResult(categories->min_age_ + i, categories->age_length_)
+              * exp(-0.5 * ratio * m_[m_offset] * selectivities_[m_offset]->GetResult(categories->min_age_ + i, categories->age_length_));
 
           fishery_vulnerability[fishery_category.fishery_label_] += vulnerable;
         }
@@ -326,7 +326,7 @@ void MortalityInstantaneous::DoExecute() {
 
         for (unsigned i = 0; i < categories->data_.size(); ++i)
           category_by_age_with_exploitation[categories->name_][categories->min_age_ + i] += fishery_exploitation[fishery_category.fishery_label_]
-              * fishery_category.selectivity_->GetResult(categories->min_age_ + i);
+              * fishery_category.selectivity_->GetResult(categories->min_age_ + i, categories->age_length_);
       }
     }
 
@@ -373,7 +373,7 @@ void MortalityInstantaneous::DoExecute() {
 
           for (unsigned i = 0; i < categories->data_.size(); ++i) {
             category_by_age_with_exploitation[categories->name_][categories->min_age_ + i] += fishery_exploitation[fishery_category.fishery_label_]
-                * fishery_category.selectivity_->GetResult(categories->min_age_ + i);
+                * fishery_category.selectivity_->GetResult(categories->min_age_ + i, categories->age_length_);
           }
         }
       }
@@ -386,10 +386,10 @@ void MortalityInstantaneous::DoExecute() {
   m_offset = 0;
   for (auto categories : partition_) {
     for (unsigned i = 0; i < categories->data_.size(); ++i) {
-      categories->data_[i] *= exp(-m_[m_offset] * ratio * selectivities_[m_offset]->GetResult(categories->min_age_ + i))
+      categories->data_[i] *= exp(-m_[m_offset] * ratio * selectivities_[m_offset]->GetResult(categories->min_age_ + i, categories->age_length_))
           * (1 - category_by_age_with_exploitation[categories->name_][categories->min_age_ + i]);
       if (categories->data_[i] < 0.0) {
-        LOG_FINEST() << " Category : " << categories->name_ << " M = "<< m_[m_offset] << " ratio " << ratio << " selectivity : " << selectivities_[m_offset]->GetResult(categories->min_age_ + i)
+        LOG_FINEST() << " Category : " << categories->name_ << " M = "<< m_[m_offset] << " ratio " << ratio << " selectivity : " << selectivities_[m_offset]->GetResult(categories->min_age_ + i, categories->age_length_)
             << " u_f = " << category_by_age_with_exploitation[categories->name_][categories->min_age_ + i] << " data = " << categories->data_[i] << " Exp " << AS_DOUBLE(exp(-m_[m_offset]));
         LOG_FATAL() << " Fishing caused a negative partition : if (categories->data_[i] < 0.0)";
       }
@@ -411,8 +411,9 @@ Double MortalityInstantaneous::GetMBySelectivity(const string& category_label, u
   unsigned index = std::find(category_labels_.begin(), category_labels_.end(), category_label) - category_labels_.begin();
   if (index == 0 && category_labels_[0] != category_label)
     LOG_ERROR() << "Category: " << category_label << " is not a valid category for the mortality instantaneous process " << label_;
-
-  return m_[index] * selectivities_[index]->GetResult(age);
+  AgeLength* age_length = model_->categories()->age_length(category_label);
+  //LOG_MEDIUM() << ": selectivity value = " << selectivities_[index]->GetResult(age, age_length);
+  return m_[index] * selectivities_[index]->GetResult(age, age_length);
 }
 
 /**
@@ -426,22 +427,36 @@ Double MortalityInstantaneous::time_step_ratio() {
 }
 
 /**
- * COMMENT THIS
+ * GetFisheryExploitationFraction() this function returns an exploitation rate for a fishery, age and category, from all other fisheries
+ *    this is used in Observations for_fishery
+ * @param fishery_label the name of the fishery in the observation
+ * @praam category_label the name of the category of interest
+ * @param age
+ *
+ * @return Exploitation_fraction
  */
 Double MortalityInstantaneous::GetFisheryExploitationFraction(const string& fishery_label, const string& category_label, unsigned age) {
   unsigned time_step = model_->managers().time_step()->current_time_step();
+  Double selectivity_value = 0.0;
 
   Double running_total = 0;
   Double fishery_exploitation_rate = 0.0;
   for (auto fishery_category : fishery_categories_) {
+    LOG_MEDIUM() << " fisherys in this container " << fishery_category.fishery_label_;
     if (fishery_category.category_label_ == category_label && fishery_category.fishery_.time_step_index_ == time_step) {
-      if (fishery_category.fishery_label_ == fishery_label)
-        fishery_exploitation_rate = fishery_exploitation[fishery_category.fishery_label_] * fishery_category.selectivity_->GetResult(age);
-
-      running_total += fishery_exploitation[fishery_category.fishery_label_] * fishery_category.selectivity_->GetResult(age);
+      if (fishery_category.fishery_label_ == fishery_label) {
+        AgeLength* age_length = model_->categories()->age_length(category_label);
+        selectivity_value = fishery_category.selectivity_->GetResult(age, age_length);
+        LOG_MEDIUM() << ": selectivity value = " << selectivity_value << " for age = " << age << " fishery label = " << fishery_label;
+        fishery_exploitation_rate = fishery_exploitation[fishery_category.fishery_label_] * selectivity_value;
+      }
+      AgeLength* age_length = model_->categories()->age_length(fishery_category.category_label_);
+      running_total += fishery_exploitation[fishery_category.fishery_label_] * fishery_category.selectivity_->GetResult(age, age_length);
     }
   }
 
+
+  LOG_MEDIUM() << ": Running total = " << running_total << " exploitation rate = " << fishery_exploitation_rate;
   return fishery_exploitation_rate / running_total;
 }
 

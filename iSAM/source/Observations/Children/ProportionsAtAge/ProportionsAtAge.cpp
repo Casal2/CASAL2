@@ -271,7 +271,7 @@ void ProportionsAtAge::Execute() {
         // for ages older than max_age_ that could be classified as an individual within the observation range
         unsigned age = ( (*category_iter)->min_age_ + data_offset);
 
-        selectivity_result = selectivities_[category_offset]->GetResult(age);
+        selectivity_result = selectivities_[category_offset]->GetResult(age, (*category_iter)->age_length_);
         start_value   = (*cached_category_iter).data_[data_offset];
         end_value     = (*category_iter)->data_[data_offset];
         final_value   = 0.0;

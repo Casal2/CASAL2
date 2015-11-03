@@ -32,7 +32,11 @@ public:
   explicit Constant(Model* model);
   virtual                     ~Constant() = default;
   void                        DoValidate() override final { };
-  Double                      GetResult(unsigned age_or_length) override final;
+  Double                      GetResult(unsigned age, AgeLength* age_length) override final;
+
+protected:
+  //Methods
+  Double                      GetLengthBasedResult(unsigned age, AgeLength* age_length) override final;
 
 private:
   // Members

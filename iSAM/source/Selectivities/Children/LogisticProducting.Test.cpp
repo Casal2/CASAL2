@@ -44,21 +44,21 @@ TEST(Selectivities, LogisticProducing) {
   logistic_producing.Validate();
   logistic_producing.Build();
 
-  EXPECT_DOUBLE_EQ(0.0,                       logistic_producing.GetResult(9)); // Below model->min_age()
-  EXPECT_DOUBLE_EQ(0.0,                       logistic_producing.GetResult(10)); // At model->min_age()
-  EXPECT_DOUBLE_EQ(0.0,                       logistic_producing.GetResult(11));
-  EXPECT_DOUBLE_EQ(0.0,                       logistic_producing.GetResult(12));
-  EXPECT_DOUBLE_EQ(0.99031049840094476,       logistic_producing.GetResult(13));
-  EXPECT_DOUBLE_EQ(0.3411777524940745,        logistic_producing.GetResult(14));
-  EXPECT_DOUBLE_EQ(0.34192724168975369,       logistic_producing.GetResult(15));
-  EXPECT_DOUBLE_EQ(0.34242117259057536,       logistic_producing.GetResult(16));
-  EXPECT_DOUBLE_EQ(1.0,                       logistic_producing.GetResult(17));
-  EXPECT_DOUBLE_EQ(1.0,                       logistic_producing.GetResult(18));
-  EXPECT_DOUBLE_EQ(1.0,                       logistic_producing.GetResult(19));
-  EXPECT_DOUBLE_EQ(1.0,                       logistic_producing.GetResult(20)); // At model->max_age()
-  EXPECT_DOUBLE_EQ(0.0,                       logistic_producing.GetResult(21)); // This is above model->max_age()
-  EXPECT_DOUBLE_EQ(0.0,                       logistic_producing.GetResult(22));
-  EXPECT_DOUBLE_EQ(0.0,                       logistic_producing.GetResult(23));
+  EXPECT_DOUBLE_EQ(0.0,                       logistic_producing.GetResult(9, nullptr)); // Below model->min_age()
+  EXPECT_DOUBLE_EQ(0.0,                       logistic_producing.GetResult(10, nullptr)); // At model->min_age()
+  EXPECT_DOUBLE_EQ(0.0,                       logistic_producing.GetResult(11, nullptr));
+  EXPECT_DOUBLE_EQ(0.0,                       logistic_producing.GetResult(12, nullptr));
+  EXPECT_DOUBLE_EQ(0.99031049840094476,       logistic_producing.GetResult(13, nullptr));
+  EXPECT_DOUBLE_EQ(0.3411777524940745,        logistic_producing.GetResult(14, nullptr));
+  EXPECT_DOUBLE_EQ(0.34192724168975369,       logistic_producing.GetResult(15, nullptr));
+  EXPECT_DOUBLE_EQ(0.34242117259057536,       logistic_producing.GetResult(16, nullptr));
+  EXPECT_DOUBLE_EQ(1.0,                       logistic_producing.GetResult(17, nullptr));
+  EXPECT_DOUBLE_EQ(1.0,                       logistic_producing.GetResult(18, nullptr));
+  EXPECT_DOUBLE_EQ(1.0,                       logistic_producing.GetResult(19, nullptr));
+  EXPECT_DOUBLE_EQ(1.0,                       logistic_producing.GetResult(20, nullptr)); // At model->max_age()
+  EXPECT_DOUBLE_EQ(0.0,                       logistic_producing.GetResult(21, nullptr)); // This is above model->max_age()
+  EXPECT_DOUBLE_EQ(0.0,                       logistic_producing.GetResult(22, nullptr));
+  EXPECT_DOUBLE_EQ(0.0,                       logistic_producing.GetResult(23, nullptr));
 }
 
 }

@@ -13,8 +13,10 @@
 // Headers
 #include "DoubleNormal.h"
 
+#include <boost/math/distributions/lognormal.hpp>
 #include <cmath>
 
+#include "AgeLengths/AgeLength.h"
 #include "Model/Model.h"
 
 // Namespaces
@@ -71,6 +73,64 @@ void DoubleNormal::Reset() {
     else
       values_[age] = pow(2.0, -((temp - mu_)/sigma_r_ * (temp - mu_) / sigma_r_)) * alpha_;
   }
+}
+/**
+ * GetLengthBasedResult function
+ *
+ * @param age
+ * @param age_length AgeLength pointer
+ * @return Double selectivity for an age based on age length distribution
+ */
+
+Double DoubleNormal::GetLengthBasedResult(unsigned age, AgeLength* age_length) {
+  Double cv = age_length->cv(age);
+  unsigned year = model_->current_year();
+  Double mean = age_length->mean_length(year, age);
+  string dist = age_length->distribution();
+
+  if (dist == PARAM_NONE || n_quant_ <= 1) {
+
+    if (mean < mu_)
+      return pow(2.0, -((mean - mu_) / sigma_l_ * (mean - mu_) / sigma_l_)) * alpha_;
+    else
+      return  pow(2.0, -((mean - mu_)/sigma_r_ * (mean - mu_) / sigma_r_)) * alpha_;
+
+  } else if (dist == PARAM_NORMAL) {
+
+    Double sigma = cv * mean;
+    Double size = 0.0;
+    Double total = 0.0;
+
+    for (unsigned j = 0; j < n_quant_; ++j) {
+      size = mean + sigma * quantiles_at_[j];
+
+      if (size < mu_)
+        total +=  pow(2.0, -((size - mu_) / sigma_l_ * (size - mu_) / sigma_l_)) * alpha_;
+      else
+        total +=   pow(2.0, -((size - mu_)/sigma_r_ * (size - mu_) / sigma_r_)) * alpha_;
+    }
+    return total / n_quant_;
+
+  } else if (dist == PARAM_LOGNORMAL) {
+    // convert paramters to log space
+    Double sigma = sqrt(log(1 + cv * cv));
+    Double mu = log(mean) - sigma * sigma * 0.5;
+    Double size = 0.0;
+    Double total = 0.0;
+    boost::math::lognormal dist{ mu, sigma };
+
+    for (unsigned j = 0; j < n_quant_; ++j) {
+      size = mu + sigma * quantile(dist, quantiles_[j]);
+
+      if (size < mu_)
+        total +=  pow(2.0, -((size - mu_) / sigma_l_ * (size - mu_) / sigma_l_)) * alpha_;
+      else
+        total +=   pow(2.0, -((size - mu_)/sigma_r_ * (size - mu_) / sigma_r_)) * alpha_;
+    }
+    return total / n_quant_;
+  }
+  LOG_CODE_ERROR() << "dist is invalid " << dist;
+  return 0;
 }
 
 } /* namespace selectivities */

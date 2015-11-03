@@ -115,7 +115,7 @@ void MortalityEventBiomass::DoExecute() {
     categories->UpdateMeanWeightData();
     unsigned offset = 0;
     for (Double& data : categories->data_) {
-      Double temp = data * selectivities_[i]->GetResult(categories->min_age_ + offset);
+      Double temp = data * selectivities_[i]->GetResult(categories->min_age_ + offset, categories->age_length_);
       vulnerable += temp * categories->mean_weight_per_[categories->min_age_ + offset];
       ++offset;
     }
@@ -130,7 +130,7 @@ void MortalityEventBiomass::DoExecute() {
   if (exploitation > u_max_) {
     exploitation = u_max_;
     if (penalty_)
-      penalty_->Trigger(label_, catch_years_[model_->current_year()], vulnerable*u_max_);
+      penalty_->Trigger(label_, catch_years_[model_->current_year()], vulnerable * u_max_);
 
   } else if (exploitation < 0.0) {
     exploitation = 0.0;
@@ -146,7 +146,7 @@ void MortalityEventBiomass::DoExecute() {
   for (auto categories : partition_) {
     unsigned offset = 0;
     for (Double& data : categories->data_) {
-      data -= data * selectivities_[i]->GetResult(categories->min_age_ + offset) * exploitation;
+      data -= data * selectivities_[i]->GetResult(categories->min_age_ + offset, categories->age_length_) * exploitation;
       ++offset;
     }
     ++i;

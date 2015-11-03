@@ -72,8 +72,8 @@ MortalityHollingRate::MortalityHollingRate(Model* model)
  * Note: all parameters are populated from configuration files
  */
 void MortalityHollingRate::DoValidate() {
-  prey_category_labels_ = model_->categories()->ExpandLabels(prey_category_labels_, parameters_.Get(PARAM_CATEGORIES));
-  predator_category_labels_ = model_->categories()->ExpandLabels(predator_category_labels_, parameters_.Get(PARAM_CATEGORIES));
+  prey_category_labels_ = model_->categories()->ExpandLabels(prey_category_labels_, parameters_.Get(PARAM_PREY_CATEGORIES));
+  predator_category_labels_ = model_->categories()->ExpandLabels(predator_category_labels_, parameters_.Get(PARAM_PREDATOR_CATEGORIES));
 
   if (prey_category_labels_.size() != prey_selectivity_labels_.size())
     LOG_ERROR_P(PARAM_PREY_CATEGORIES) << ": You provided (" << prey_selectivity_labels_.size() << ") prey selectivities but we have "
@@ -152,7 +152,7 @@ void MortalityHollingRate::DoExecute() {
     for (auto prey_categories : prey_partition_) {
       //prey_categories->UpdateMeanWeightData(); // is not abundance
       for (unsigned i = 0; i < prey_categories->data_.size(); ++i) {
-        Vulnerable += prey_categories->data_[i] * prey_selectivities_[prey_offset]->GetResult(prey_categories->min_age_ + i);
+        Vulnerable += prey_categories->data_[i] * prey_selectivities_[prey_offset]->GetResult(prey_categories->min_age_ + i, prey_categories->age_length_);
       }
       ++prey_offset;
     }
@@ -164,7 +164,7 @@ void MortalityHollingRate::DoExecute() {
     for (auto predator_categories : predator_partition_) {
       //prey_categories->UpdateMeanWeightData(); // is not abundance
       for (unsigned i = 0; i < predator_categories->data_.size(); ++i) {
-        PredatorVulnerable += predator_categories->data_[i] * predator_selectivities_[predator_offset]->GetResult(predator_categories->min_age_ + i);
+        PredatorVulnerable += predator_categories->data_[i] * predator_selectivities_[predator_offset]->GetResult(predator_categories->min_age_ + i, predator_categories->age_length_);
       }
       ++predator_offset;
     }
@@ -190,7 +190,7 @@ void MortalityHollingRate::DoExecute() {
       for (unsigned i = 0; i < prey_categories->data_.size(); ++i) {
         Double Current = 0.0;
         // Get Amount to remove
-        Current = prey_categories->data_[i] * prey_selectivities_[prey_offset]->GetResult(prey_categories->min_age_ + i) * Exploitation;
+        Current = prey_categories->data_[i] * prey_selectivities_[prey_offset]->GetResult(prey_categories->min_age_ + i, prey_categories->age_length_) * Exploitation;
         // If is Zero, Cont
         if (Current <= 0.0)
           continue;

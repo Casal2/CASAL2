@@ -71,7 +71,7 @@ void Selectivity::DoExecute() {
 
   cache_ << "Values " << REPORT_R_VECTOR << "\n";
   for (unsigned i = model_->min_age(); i <= model_->max_age(); ++i)
-    cache_ << i << " " << selectivity_->GetResult(i) << "\n";
+    cache_ << i << " " << selectivity_->GetResult(i, nullptr) << "\n";
   ready_for_writing_ = true;
 }
 

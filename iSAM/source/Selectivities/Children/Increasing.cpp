@@ -13,6 +13,10 @@
 // Headers
 #include "Increasing.h"
 
+#include <boost/math/distributions/lognormal.hpp>
+#include <cmath>
+
+#include "AgeLengths/AgeLength.h"
 #include "Model/Model.h"
 
 // Namespaces
@@ -89,6 +93,18 @@ void Increasing::Reset() {
       values_[age] = value;
     }
   }
+}
+
+/**
+ * GetLengthBasedResult function
+ *
+ * @param age
+ * @param age_length AgeLength pointer
+ * @return Double selectivity for an age based on age length distribution
+ */
+
+Double Increasing::GetLengthBasedResult(unsigned age, AgeLength* age_length) {
+  return 0.0;
 }
 
 } /* namespace selectivities */

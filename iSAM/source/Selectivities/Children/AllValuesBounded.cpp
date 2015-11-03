@@ -13,6 +13,10 @@
 // Headers
 #include "AllValuesBounded.h"
 
+#include <boost/math/distributions/lognormal.hpp>
+#include <cmath>
+
+#include "AgeLengths/AgeLength.h"
 #include "Model/Model.h"
 
 // Namespaces
@@ -93,6 +97,18 @@ void AllValuesBounded::Reset() {
     values_[age] = v_[i];
   for (; age <= max_age; ++age)
     values_[age] = *v_.rbegin();
+}
+
+/**
+ * GetLengthBasedResult function
+ *
+ * @param age
+ * @param age_length AgeLength pointer
+ * @return Double selectivity for an age based on age length distribution
+ */
+
+Double AllValuesBounded::GetLengthBasedResult(unsigned age, AgeLength* age_length) {
+  return 0.0;
 }
 
 } /* namespace selectivities */
