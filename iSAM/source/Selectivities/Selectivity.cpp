@@ -39,12 +39,12 @@ void Selectivity::Validate() {
   DoValidate();
 
   if (length_based_) {
-    boost::math::normal dist{0.0, 1.0 };
+    boost::math::normal dist{ };
 
     for (unsigned i = 1; i <= n_quant_; ++i) {
       quantiles_.push_back((Double(i) - 0.5) / Double(n_quant_));
       LOG_FINEST() << ": Quantile value = " << quantiles_[i - 1];
-      quantiles_at_.push_back(quantile(dist, quantiles_[i - 1]));
+      quantiles_at_.push_back(quantile(dist, AS_DOUBLE(quantiles_[i - 1])));
       LOG_FINEST() << ": Normal quantile value = " << quantiles_at_[i - 1];
     }
   }

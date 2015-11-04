@@ -95,10 +95,10 @@ Double KnifeEdge::GetLengthBasedResult(unsigned age, AgeLength* age_length) {
     Double mu = log(mean) - sigma * sigma * 0.5;
     Double size = 0.0;
     Double total = 0.0;
-    boost::math::lognormal dist{ mu, sigma };
+    boost::math::lognormal dist{AS_DOUBLE(mu), AS_DOUBLE(sigma)};
 
     for (unsigned j = 0; j < n_quant_; ++j) {
-      size = mu + sigma * quantile(dist, quantiles_[j]);
+      size = mu + sigma * quantile(dist, AS_DOUBLE(quantiles_[j]));
 
       if (size >= edge_)
         total += alpha_;
