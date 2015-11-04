@@ -298,7 +298,7 @@ void MortalityInstantaneous::DoExecute() {
           Double vulnerable = categories->data_[i] * categories->mean_weight_per_[categories->min_age_ + i]
               * fishery_category.selectivity_->GetResult(categories->min_age_ + i, categories->age_length_)
               * exp(-0.5 * ratio * m_[m_offset] * selectivities_[m_offset]->GetResult(categories->min_age_ + i, categories->age_length_));
-
+          LOG_MEDIUM() << selectivities_[m_offset]->GetResult(categories->min_age_ + i, categories->age_length_) << " for fishery = " << fishery_category.fishery_label_;
           fishery_vulnerability[fishery_category.fishery_label_] += vulnerable;
         }
       }
