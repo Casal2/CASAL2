@@ -510,9 +510,9 @@ class Documentation:
             
         os.system('python QuickReference.py')
         for i in range(0,3):
-            os.system('pdflatex.exe iSAM')
-            os.system('bibtex.exe iSAM')
-            os.system('makeindex.exe iSAM')
+            os.system('pdflatex.exe CASAL2')
+            os.system('bibtex.exe CASAL2')
+            os.system('makeindex.exe CASAL2')
         
 
     
