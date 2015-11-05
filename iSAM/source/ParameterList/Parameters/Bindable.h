@@ -34,6 +34,7 @@ template<typename T>
 class Bindable : public niwa::parameterlist::Parameter {
 public:
   // methods
+  Bindable() = delete;
   Bindable(const string& label, T* target, const string& description);
   virtual                     ~Bindable() = default;
   void                        Bind() override final;

@@ -114,6 +114,11 @@ bool ParameterList::Add(const string& label, const string& value, const string& 
  *
  */
 void ParameterList::Populate() {
+  if (already_populated_) {
+    LOG_CODE_ERROR() << "  if (already_populated_)";
+  }
+
+  already_populated_ = true;
   /**
    * go through and look for missing required parameters
    */

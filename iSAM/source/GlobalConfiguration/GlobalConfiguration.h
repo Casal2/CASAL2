@@ -67,6 +67,10 @@ public:
   bool                  disable_standard_report();
   void                  flag_resume() { resume_ = true; }
   bool                  resume() const { return resume_; }
+  void                  set_mcmc_sample_file(string new_value) { mcmc_sample_file_ = new_value; }
+  string                mcmc_sample_file() const { return mcmc_sample_file_; }
+  void                  set_mcmc_objective_file(string new_value) { mcmc_objective_file_ = new_value; }
+  string                mcmc_objective_file() const { return mcmc_objective_file_; }
 
 private:
   // Members
@@ -74,6 +78,8 @@ private:
   vector<string>              command_line_parameters_;
   unsigned                    simulation_candidates_ = 1;
   bool                        resume_ = false;
+  string                      mcmc_sample_file_;
+  string                      mcmc_objective_file_;
 };
 } /* namespace niwa */
 #endif /* GLOBALCONFIGURATION_H_ */

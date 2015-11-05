@@ -22,14 +22,6 @@ namespace mcmcs {
 void Manager::Validate() {
   for (auto mcmc : objects_)
     mcmc->Validate();
-}
-
-/**
- *
- */
-void Manager::Build() {
-  for (auto mcmc : objects_)
-    mcmc->Build();
 
   if (objects_.size() == 1)
     mcmc_ = objects_[0];
@@ -44,6 +36,14 @@ void Manager::Build() {
       LOG_FATAL() << "Number of active MCMCs is " << active_mcmcs.size() << ". Only 1 MCMC can be defined as active";
     mcmc_ = active_mcmcs[0];
   }
+}
+
+/**
+ *
+ */
+void Manager::Build() {
+  for (auto mcmc : objects_)
+    mcmc->Build();
 }
 
 } /* namespace mcmcs */

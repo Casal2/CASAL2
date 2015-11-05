@@ -118,6 +118,7 @@ public:
 
 private:
   // members
+  bool                        already_populated_ = false;
   string                      parent_block_type_    = "";
   string                      defined_file_name_    = "";
   unsigned                    defined_line_number_  = 0;

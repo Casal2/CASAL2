@@ -18,7 +18,8 @@ namespace reports {
  * Default Constructor
  */
 Manager::Manager(Model* model) : model_(model) {
-  continue_.test_and_set();
+  run_.test_and_set();
+  pause_ = false;
 }
 
 /**
@@ -102,7 +103,12 @@ void Manager::Execute(unsigned year, const string& time_step_label) {
  */
 void Manager::Prepare() {
   LOG_TRACE();
+  RunMode::Type run_mode = model_->run_mode();
   for (auto report : objects_) {
+    if ( (RunMode::Type)(report->run_mode() & run_mode) != run_mode) {
+      LOG_FINEST() << "Skipping report: " << report->label() << " because run mode is not right";
+      continue;
+    }
     report->Prepare();
   }
 }
@@ -112,7 +118,12 @@ void Manager::Prepare() {
  */
 void Manager::Finalise() {
   LOG_TRACE();
+  RunMode::Type run_mode = model_->run_mode();
   for (auto report : objects_) {
+    if ( (RunMode::Type)(report->run_mode() & run_mode) != run_mode) {
+      LOG_FINEST() << "Skipping report: " << report->label() << " because run mode is not right";
+      continue;
+    }
     report->Finalise();
   }
 }
@@ -126,11 +137,12 @@ void Manager::Finalise() {
  */
 void Manager::FlushReports() {
   // WARNING: DO NOT CALL THIS ANYWHERE. IT'S THREADED
- bool do_break = continue_.test_and_set();
+ bool do_break = run_.test_and_set();
 
   while(true) {
-    do_break = !continue_.test_and_set();
+    while (pause_) continue;
 
+    do_break = !run_.test_and_set();
     for (auto report : objects_) {
       if (report->ready_for_writing())
         report->FlushCache();

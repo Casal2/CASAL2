@@ -35,6 +35,7 @@ using std::ios_base;
 std::mutex Report::lock_;
 
 inline bool DoesFileExist(const string& file_name) {
+  LOG_FINEST() << "Checking if file exists: " << file_name;
   ifstream  file(file_name.c_str());
   if (file.fail() || !file.is_open())
     return false;
@@ -92,13 +93,18 @@ bool Report::HasYear(unsigned year) {
  * the file it wants to write to exists etc.
  */
 void Report::Prepare() {
+  LOG_FINEST() << "preparing report: " << label_;
   Report::lock_.lock();
+  LOG_FINEST() << "Lock is good";
+  LOG_FINEST() << "Filename: " << file_name_;
+  LOG_FINEST() << "Write mode: " << write_mode_;
 
   /**
    * Figure out the write options. If we're using an incremental suffix
    * we want to loop over the existing files to see what suffix to use.
    */
   if (file_name_ != "" && write_mode_ == PARAM_INCREMENTAL_SUFFIX) {
+    LOG_FINEST() << "Finding incremental suffix for file: " << label_;
     if (DoesFileExist(file_name_)) {
       for (unsigned i = 0; i < 1000; ++i) {
         string trial_name = file_name_ + "." + util::ToInline<unsigned, string>(i);
@@ -111,8 +117,10 @@ void Report::Prepare() {
     }
   }
 
-  if (write_mode_ == PARAM_APPEND)
+  if (write_mode_ == PARAM_APPEND) {
+    LOG_FINEST() << "File write mode is append for file: " << label_;
     overwrite_ = false;
+  }
 
   DoPrepare();
   Report::lock_.unlock();
@@ -179,6 +187,8 @@ void Report::FlushCache() {
       cout << CONFIG_END_REPORT << "\n";
     cout << endl;
     cout.flush();
+
+    first_write_ = false;
   }
 
   cache_.clear();

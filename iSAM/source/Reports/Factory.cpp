@@ -25,8 +25,9 @@
 #include "Reports/Children/EstimateSummary.h"
 #include "Reports/Children/EstimateValue.h"
 #include "Reports/Children/InitialisationPartition.h"
-#include "Reports/Children/MCMCChain.h"
 #include "Reports/Children/MCMCCovariance.h"
+#include "Reports/Children/MCMCObjective.h"
+#include "Reports/Children/MCMCSample.h"
 #include "Reports/Children/MPD.h"
 #include "Reports/Children/ObjectiveFunction.h"
 #include "Reports/Children/Observation.h"
@@ -71,10 +72,12 @@ Report* Factory::Create(Model* model, const string& object_type, const string& s
       result = new EstimateValue(model);
     else if (sub_type == PARAM_INITIALISATION_PARTITION)
       result = new InitialisationPartition(model);
-    else if (sub_type == PARAM_MCMC_CHAIN)
-      result = new MCMCChain(model);
     else if (sub_type == PARAM_MCMC_COVARIANCE)
       result = new MCMCCovariance(model);
+    else if (sub_type == PARAM_MCMC_OBJECTIVE)
+      result = new MCMCObjective(model);
+    else if (sub_type == PARAM_MCMC_SAMPLE)
+      result = new MCMCSample(model);
     else if (sub_type == PARAM_MPD)
       result = new MPD(model);
     else if (sub_type == PARAM_PARTITION)
