@@ -43,21 +43,21 @@ TEST(Selectivities, DoubleNormal) {
   double_normal.Validate();
   double_normal.Build();
 
-  EXPECT_DOUBLE_EQ(0.0,                       double_normal.GetResult(9)); // Below model->min_age()
-  EXPECT_DOUBLE_EQ(2.9802322387695312e-008,   double_normal.GetResult(10)); // At model->min_age()
-  EXPECT_DOUBLE_EQ(1.52587890625e-005,        double_normal.GetResult(11));
-  EXPECT_DOUBLE_EQ(0.001953125,               double_normal.GetResult(12));
-  EXPECT_DOUBLE_EQ(0.0625,                    double_normal.GetResult(13));
-  EXPECT_DOUBLE_EQ(0.5,                       double_normal.GetResult(14));
-  EXPECT_DOUBLE_EQ(1.0,                       double_normal.GetResult(15));
-  EXPECT_DOUBLE_EQ(0.99309249543703593,       double_normal.GetResult(16));
-  EXPECT_DOUBLE_EQ(0.97265494741228553,       double_normal.GetResult(17));
-  EXPECT_DOUBLE_EQ(0.9395227492140118,        double_normal.GetResult(18));
-  EXPECT_DOUBLE_EQ(0.89502507092797245,       double_normal.GetResult(19));
-  EXPECT_DOUBLE_EQ(0.8408964152537145,        double_normal.GetResult(20)); // At model->max_age()
-  EXPECT_DOUBLE_EQ(0.0,                       double_normal.GetResult(21)); // This is above model->max_age()
-  EXPECT_DOUBLE_EQ(0.0,                       double_normal.GetResult(22));
-  EXPECT_DOUBLE_EQ(0.0,                       double_normal.GetResult(23));
+  EXPECT_DOUBLE_EQ(0.0,                       double_normal.GetResult(9, nullptr)); // Below model->min_age()
+  EXPECT_DOUBLE_EQ(2.9802322387695312e-008,   double_normal.GetResult(10, nullptr)); // At model->min_age()
+  EXPECT_DOUBLE_EQ(1.52587890625e-005,        double_normal.GetResult(11, nullptr));
+  EXPECT_DOUBLE_EQ(0.001953125,               double_normal.GetResult(12, nullptr));
+  EXPECT_DOUBLE_EQ(0.0625,                    double_normal.GetResult(13, nullptr));
+  EXPECT_DOUBLE_EQ(0.5,                       double_normal.GetResult(14, nullptr));
+  EXPECT_DOUBLE_EQ(1.0,                       double_normal.GetResult(15, nullptr));
+  EXPECT_DOUBLE_EQ(0.99309249543703593,       double_normal.GetResult(16, nullptr));
+  EXPECT_DOUBLE_EQ(0.97265494741228553,       double_normal.GetResult(17, nullptr));
+  EXPECT_DOUBLE_EQ(0.9395227492140118,        double_normal.GetResult(18, nullptr));
+  EXPECT_DOUBLE_EQ(0.89502507092797245,       double_normal.GetResult(19, nullptr));
+  EXPECT_DOUBLE_EQ(0.8408964152537145,        double_normal.GetResult(20, nullptr)); // At model->max_age()
+  EXPECT_DOUBLE_EQ(0.0,                       double_normal.GetResult(21, nullptr)); // This is above model->max_age()
+  EXPECT_DOUBLE_EQ(0.0,                       double_normal.GetResult(22, nullptr));
+  EXPECT_DOUBLE_EQ(0.0,                       double_normal.GetResult(23, nullptr));
 }
 
 }

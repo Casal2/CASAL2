@@ -42,21 +42,21 @@ TEST(Selectivities, InverseLogistic) {
   inverse_logistic.Validate();
   inverse_logistic.Build();
 
-  EXPECT_DOUBLE_EQ(0.0,                       inverse_logistic.GetResult(9)); // Below model->min_age()
-  EXPECT_DOUBLE_EQ(0.033405028356377708,      inverse_logistic.GetResult(10)); // At model->min_age()
-  EXPECT_DOUBLE_EQ(0.022189270565607933,      inverse_logistic.GetResult(11));
-  EXPECT_DOUBLE_EQ(0.014682011272418749,      inverse_logistic.GetResult(12));
-  EXPECT_DOUBLE_EQ(0.0096895015990552391,     inverse_logistic.GetResult(13));
-  EXPECT_DOUBLE_EQ(0.0063836592207018317,     inverse_logistic.GetResult(14));
-  EXPECT_DOUBLE_EQ(0.0042009122314798919,     inverse_logistic.GetResult(15));
-  EXPECT_DOUBLE_EQ(0.0027624309392264568,     inverse_logistic.GetResult(16));
-  EXPECT_DOUBLE_EQ(0.001815618012518061,      inverse_logistic.GetResult(17));
-  EXPECT_DOUBLE_EQ(0.0011929334946871872,     inverse_logistic.GetResult(18));
-  EXPECT_DOUBLE_EQ(0.00078363726063745975,    inverse_logistic.GetResult(19));
-  EXPECT_DOUBLE_EQ(0.00051469845718343787,    inverse_logistic.GetResult(20)); // At model->max_age()
-  EXPECT_DOUBLE_EQ(0.0,                       inverse_logistic.GetResult(21)); // This is above model->max_age()
-  EXPECT_DOUBLE_EQ(0.0,                       inverse_logistic.GetResult(22));
-  EXPECT_DOUBLE_EQ(0.0,                       inverse_logistic.GetResult(23));
+  EXPECT_DOUBLE_EQ(0.0,                       inverse_logistic.GetResult(9, nullptr)); // Below model->min_age()
+  EXPECT_DOUBLE_EQ(0.033405028356377708,      inverse_logistic.GetResult(10, nullptr)); // At model->min_age()
+  EXPECT_DOUBLE_EQ(0.022189270565607933,      inverse_logistic.GetResult(11, nullptr));
+  EXPECT_DOUBLE_EQ(0.014682011272418749,      inverse_logistic.GetResult(12, nullptr));
+  EXPECT_DOUBLE_EQ(0.0096895015990552391,     inverse_logistic.GetResult(13, nullptr));
+  EXPECT_DOUBLE_EQ(0.0063836592207018317,     inverse_logistic.GetResult(14, nullptr));
+  EXPECT_DOUBLE_EQ(0.0042009122314798919,     inverse_logistic.GetResult(15, nullptr));
+  EXPECT_DOUBLE_EQ(0.0027624309392264568,     inverse_logistic.GetResult(16, nullptr));
+  EXPECT_DOUBLE_EQ(0.001815618012518061,      inverse_logistic.GetResult(17, nullptr));
+  EXPECT_DOUBLE_EQ(0.0011929334946871872,     inverse_logistic.GetResult(18, nullptr));
+  EXPECT_DOUBLE_EQ(0.00078363726063745975,    inverse_logistic.GetResult(19, nullptr));
+  EXPECT_DOUBLE_EQ(0.00051469845718343787,    inverse_logistic.GetResult(20, nullptr)); // At model->max_age()
+  EXPECT_DOUBLE_EQ(0.0,                       inverse_logistic.GetResult(21, nullptr)); // This is above model->max_age()
+  EXPECT_DOUBLE_EQ(0.0,                       inverse_logistic.GetResult(22, nullptr));
+  EXPECT_DOUBLE_EQ(0.0,                       inverse_logistic.GetResult(23, nullptr));
 }
 
 }

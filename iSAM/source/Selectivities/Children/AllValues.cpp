@@ -12,6 +12,11 @@
 
 // Headers
 #include "AllValues.h"
+
+#include <boost/math/distributions/lognormal.hpp>
+#include <cmath>
+
+#include "AgeLengths/AgeLength.h"
 #include "Model/Model.h"
 
 // Namespaces
@@ -58,6 +63,19 @@ void AllValues::Reset() {
   for (unsigned i = 0; i < v_.size(); ++i) {
     values_[min_age + i] = v_[i];
   }
+}
+
+
+/**
+ * GetLengthBasedResult function
+ *
+ * @param age
+ * @param age_length AgeLength pointer
+ * @return Double selectivity for an age based on age length distribution
+ */
+
+Double AllValues::GetLengthBasedResult(unsigned age, AgeLength* age_length) {
+  return 0.0;
 }
 
 } /* namespace selectivities */

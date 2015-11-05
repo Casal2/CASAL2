@@ -13,6 +13,11 @@
 // Headers
 #include "KnifeEdge.h"
 
+#include <boost/math/distributions/lognormal.hpp>
+#include <cmath>
+
+#include "AgeLengths/AgeLength.h"
+#include "Model/Model.h"
 // namespaces
 namespace niwa {
 namespace selectivities {
@@ -46,6 +51,66 @@ void KnifeEdge::Reset() {
       values_[age] = 0.0;
   }
 }
+
+/**
+ * GetLengthBasedResult function
+ *
+ * @param age
+ * @param age_length AgeLength pointer
+ * @return Double selectivity for an age based on age length distribution
+ */
+
+Double KnifeEdge::GetLengthBasedResult(unsigned age, AgeLength* age_length) {
+  Double cv = age_length->cv(age);
+  unsigned year = model_->current_year();
+  Double mean = age_length->mean_length(year, age);
+  string dist = age_length->distribution();
+
+  if (dist == PARAM_NONE || n_quant_ <= 1) {
+    // no distribution just use the mu from age_length
+    if (mean >= edge_)
+      return alpha_;
+    else
+      return 0.0;
+
+  } else if (dist == PARAM_NORMAL) {
+
+    Double sigma = cv * mean;
+    Double size = 0.0;
+    Double total = 0.0;
+
+    for (unsigned j = 0; j < n_quant_; ++j) {
+      size = mean + sigma * quantiles_at_[j];
+
+      if (size >= edge_)
+        total += alpha_;
+      else
+        total += 0.0;
+    }
+    return total / n_quant_;
+
+  } else if (dist == PARAM_LOGNORMAL) {
+    // convert paramters to log space
+    Double sigma = sqrt(log(1 + cv * cv));
+    Double mu = log(mean) - sigma * sigma * 0.5;
+    Double size = 0.0;
+    Double total = 0.0;
+    boost::math::lognormal dist{AS_DOUBLE(mu), AS_DOUBLE(sigma)};
+
+    for (unsigned j = 0; j < n_quant_; ++j) {
+      size = mu + sigma * quantile(dist, AS_DOUBLE(quantiles_[j]));
+
+      if (size >= edge_)
+        total += alpha_;
+      else
+        total += 0.0;
+    }
+    return total / n_quant_;
+  }
+  LOG_CODE_ERROR() << "dist is invalid " << dist;
+  return 0;
+}
+
 
 } /* namespace selectivities */
 } /* namespace niwa */

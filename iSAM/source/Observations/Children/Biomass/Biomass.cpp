@@ -149,7 +149,7 @@ void Biomass::Execute() {
       for (unsigned data_offset = 0; data_offset < (*category_iter)->data_.size(); ++data_offset) {
         age = (*category_iter)->min_age_ + data_offset;
 
-        selectivity_result = selectivities_[category_offset]->GetResult(age);
+        selectivity_result = selectivities_[category_offset]->GetResult(age, (*category_iter)->age_length_);
         start_value = (*cached_category_iter).data_[data_offset];
         end_value = (*category_iter)->data_[data_offset];
         final_value = 0.0;
