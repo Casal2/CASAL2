@@ -58,7 +58,9 @@ void CommandLineParser::Parse(int argc, const char* argv[]) {
     ("run,r", "Basic model run mode")
     ("estimate,e", "Point estimation run mode")
     ("mcmc,m", "Markov Chain Monte Carlo run mode (arg = continue, default: false)")
-    ("resume", "Resume the MCMC or estimation from an MPD or chain log")
+    ("resume", "Resume the MCMC chain")
+    ("objective-file", value<string>(), "Objective file for resuming an MCMC")
+    ("sample-file", value<string>(), "Sample file for resuming an MCMC")
     ("profiling,p", "Profling run mode")
     ("simulation,s", value<unsigned>(), "Simulation mode (arg = number of candidates)")
     ("projection,f", "Projection mode")
@@ -70,6 +72,7 @@ void CommandLineParser::Parse(int argc, const char* argv[]) {
     ("nostd", "Do not print the standard header report")
     ("loglevel", value<string>(), "Set log level: finest, fine, trace, none(default)")
     ("output,o", value<string>(), "Create estimate value report directed to <file>");
+
 
   ostringstream o;
   o << oDesc;
@@ -168,21 +171,35 @@ void CommandLineParser::Parse(int argc, const char* argv[]) {
 
   if (parameters.count("run"))
     run_mode_ = RunMode::kBasic;
+
   else if (parameters.count("estimate"))
     run_mode_ = RunMode::kEstimation;
+
   else if (parameters.count("mcmc")) {
     run_mode_ = RunMode::kMCMC;
-    if (parameters.count("resume"))
+    if (parameters.count("resume")) {
+      if (!parameters.count("objective-file") || !parameters.count("sample-file")) {
+        LOG_ERROR() << "Resuming an MCMC chain requires the objective-file and sample-file parameters";
+        return;
+      }
+
+      global_config_.set_mcmc_objective_file(parameters["objective-file"].as<string>());
+      global_config_.set_mcmc_sample_file(parameters["sample-file"].as<string>());
       global_config_.flag_resume();
+    }
   } else if (parameters.count("profiling"))
     run_mode_ = RunMode::kProfiling;
+
   else if (parameters.count("simulation")) {
     run_mode_ = RunMode::kSimulation;
     global_config_.set_simulation_candidates(parameters["simulation"].as<unsigned>());
+
   } else if (parameters.count("projection"))
     run_mode_ = RunMode::kProjection;
-  else
+
+  else {
     LOG_ERROR() << "An invalid or unknown run mode has been specified on the command line.";
+  }
 
   /**
    * Now we store any variables we want to use to override global defaults.

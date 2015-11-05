@@ -36,12 +36,13 @@ using std::endl;
  * Application entry point
  */
 int main(int argc, char * argv[]) {
-  Model model;
-  reports::StandardHeader standard_report(&model);
   int return_code = 0;
   bool model_start_return_success = true;
 
   try {
+    Model model;
+    reports::StandardHeader standard_report(&model);
+
     utilities::CommandLineParser parser(model, model.global_configuration());
     parser.Parse(argc, (const char **)argv);
 

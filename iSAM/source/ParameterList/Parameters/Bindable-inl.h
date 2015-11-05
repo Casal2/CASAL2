@@ -60,15 +60,6 @@ void Bindable<T>::Bind() {
     LOG_CODE_ERROR() << location() << " The parameter " << label_ << " has not been defined or is missing";
 
   /**
-   * Check if the value provided is within the allowed values (if they have been defined)
-   */
-  if (allowed_values_.size() > 0) {
-    if (std::find(allowed_values_.begin(), allowed_values_.end(), *target_) == allowed_values_.end())
-      LOG_ERROR() << location() << " value " << *target_ << " is not in the allowed values list: "
-          << utilities::String::join<T>(allowed_values_, ", ");
-  }
-
-  /**
    * Check if the value provided is within the ranges provided (if defined)
    * or the allowed values.
    * An inclusive lower bound is equal to <=
@@ -82,7 +73,7 @@ void Bindable<T>::Bind() {
   }
   if (allowed_values_.size() != 0) {
     if (std::find(allowed_values_.begin(), allowed_values_.end(), *target_) == allowed_values_.end())
-      LOG_ERROR() << location() << " value " << *target_ << " is no in the list of allowed values: " << utilities::String::join(allowed_values_, ", ");
+      LOG_ERROR() << location() << " value " << *target_ << " is not in the list of allowed values: " << utilities::String::join(allowed_values_, ", ");
   }
 }
 

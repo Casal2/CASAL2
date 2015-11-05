@@ -36,17 +36,18 @@ class ObjectiveFunction;
 
 namespace State {
 enum Type {
-  kStartUp,
-  kValidate,
-  kBuild,
-  kVerify,
-  kInitialise,
-  kPreExecute,
-  kExecute,
-  kPostExecute,
-  kIterationComplete,
-  kFinalise,
-  kReset
+  kStartUp, // system is loading from configuration file
+  kValidate, // validating user supplied values for variables
+  kBuild, // building and checking relationships between objects
+  kVerify, // verifying business rules (not yet implemented)
+  kInitialise, // running through the initialisation phases
+  kPreExecute, // called at start of an iteration
+  kExecute, // execute the object
+  kPostExecute, // called at the end of an iteration
+  kIterationComplete, // a single iteration of the model is complete
+  kReset, // called between iterations to ensure objects caches are reset
+  kInputIterationComplete, // a single run of the mode is complete using an input file to set estimables
+  kFinalise // the model is finished
 };
 }
 
@@ -68,7 +69,6 @@ class Model : public base::Object {
 public:
   // Methods
   Model();
-//  static Model*               Instance(bool force_new = false);
   virtual                     ~Model();
   bool                        Start(RunMode::Type run_mode);
   void                        FullIteration();
@@ -133,8 +133,6 @@ protected:
   bool                        estimable_values_file_ = false;
   unsigned                    estimable_values_count_ = 1;
   PartitionStructure          partition_structure_ = PartitionStructure::kInvalid;
-
-  map<State::Type, vector<Executor*>> executors_;
   Managers*                   managers_ = nullptr;
   Objects*                    objects_ = nullptr;
   GlobalConfiguration*        global_configuration_ = nullptr;
@@ -142,6 +140,7 @@ protected:
   Factory*                    factory_ = nullptr;
   Partition*                  partition_ = nullptr;
   ObjectiveFunction*          objective_function_ = nullptr;
+  map<State::Type, vector<Executor*>> executors_;
 };
 
 } /* namespace niwa */

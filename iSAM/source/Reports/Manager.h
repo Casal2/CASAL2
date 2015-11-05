@@ -43,7 +43,9 @@ public:
   void                        Prepare();
   void                        Finalise();
   void                        FlushReports();
-  void                        StopThread() { continue_.clear(); }
+  void                        StopThread() { run_.clear(); }
+  void                        Pause() { pause_ = true; }
+  void                        Resume() { pause_ = false; }
 
   // accessors
   void                        set_report_suffix(const string& suffix) { report_suffix_ = suffix; }
@@ -59,7 +61,8 @@ private:
   map<State::Type, vector<Report*>> state_reports_;
   map<string, vector<Report*>>      time_step_reports_;
   string                            report_suffix_ = "";
-  std::atomic_flag                  continue_;
+  std::atomic<bool>                 pause_;
+  std::atomic_flag                  run_;
   Model*                            model_;
 };
 

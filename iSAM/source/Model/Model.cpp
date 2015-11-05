@@ -25,7 +25,8 @@
 #include "Catchabilities/Manager.h"
 #include "Categories/Categories.h"
 #include "ConfigurationLoader/EstimableValuesLoader.h"
-#include "ConfigurationLoader/MPDLoader.h"
+#include "ConfigurationLoader/MCMCObjective.h"
+#include "ConfigurationLoader/MCMCSample.h"
 #include "DerivedQuantities/Manager.h"
 #include "Estimables/Estimables.h"
 #include "Estimates/Manager.h"
@@ -45,18 +46,13 @@
 #include "LengthWeights/Manager.h"
 #include "TimeSteps/Manager.h"
 #include "TimeVarying/Manager.h"
-#include "ObjectiveFunction/ObjectiveFunction.h"
+#include "Utilities/RandomNumberGenerator.h"
 
 #include "Partition/Accessors/Category.h"
 #include "Partition/Partition.h"
 
 #include "Logging/Logging.h"
 #include "Utilities/To.h"
-
-
-// TODO: Remove
-#include "Estimates/Transformations/Factory.h"
-
 
 // Namespaces
 namespace niwa {
@@ -462,20 +458,25 @@ bool Model::RunMCMC() {
     return false;
   }
 
-//  if (global_configuration_->resume()) {
-//    configuration::MPDLoader mpd_loader(this);
-//    if (!mpd_loader.LoadMPDFile())
-//      return false;
-//
-//  } else {
+  if (global_configuration_->resume()) {
+    configuration::MCMCObjective objective_loader(this);
+    if (!objective_loader.LoadFile(global_configuration_->mcmc_objective_file()))
+      return false;
+
+    configuration::MCMCSample sample_loader(this);
+    if (!sample_loader.LoadFile(global_configuration_->mcmc_sample_file()))
+      return false;
+
+    // reset RNG seed for resume
+    utilities::RandomNumberGenerator::Instance().Reset((unsigned int)time(NULL));
+
+  } else {
     LOG_FINE() << "Calling minimiser to find our minimum and covariance matrix";
     auto minimiser = managers_->minimiser()->active_minimiser();
     minimiser->Execute();
     minimiser->BuildCovarianceMatrix();
     LOG_FINE() << "Minimisation complete. Starting MCMC";
-//  }
-
-//  return true;
+  }
 
   mcmc->Execute();
   return true;

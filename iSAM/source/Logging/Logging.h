@@ -80,9 +80,9 @@ private:
 #define LOG_WARNING() LOG_IF_FOR_STREAM(logger::Severity::kWarning)
 #define LOG_ERROR() LOG_IF_FOR_STREAM(logger::Severity::kError)
 #define LOG_ERROR_P(parameter) LOG_IF_FOR_STREAM(logger::Severity::kError) << this->parameters_.location(parameter)
-#define LOG_FATAL() LOG_IF_FOR_STREAM(logger::Severity::kFatal)
-#define LOG_FATAL_P(parameter) LOG_IF_FOR_STREAM(logger::Severity::kFatal) << this->parameters_.location(parameter)
-#define LOG_CODE_ERROR() LOG_IF_FOR_STREAM(logger::Severity::kCodeError)
+#define LOG_FATAL() LOG_FOR(logger::Severity::kFatal) r.stream()
+#define LOG_FATAL_P(parameter) LOG_FOR(logger::Severity::kFatal) r.stream() << this->parameters_.location(parameter)
+#define LOG_CODE_ERROR() LOG_FOR(logger::Severity::kCodeError) r.stream()
 
 //#define LOG_TRACE() for(logger::Record r(logger::Severity::kTrace, __FILE__, __FUNCTION__, __LINE__); !r.Flush(); Logging::Instance().Flush(r));
 //#define LOG_FINEST() for(logger::Record r(logger::Severity::kFinest, __FILE__, __FUNCTION__, __LINE__); !r.Flush(); Logging::Instance().Flush(r)) r.stream()

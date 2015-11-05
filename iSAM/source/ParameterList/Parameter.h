@@ -37,6 +37,7 @@ using std::vector;
 class Parameter {
 public:
   // Methods
+  Parameter() = delete;
   Parameter(const string& label, const string& description);
   virtual                     ~Parameter() { };
   virtual void                Bind() = 0;

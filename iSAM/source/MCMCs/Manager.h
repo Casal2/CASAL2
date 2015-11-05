@@ -41,7 +41,7 @@ public:
 
 private:
   // members
-  MCMC*                       mcmc_;
+  MCMC*                       mcmc_ = nullptr;
 };
 
 } /* namespace mcmcs */

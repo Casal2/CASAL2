@@ -32,6 +32,7 @@ template<typename T>
 class BindableVector : public niwa::parameterlist::Parameter {
 public:
   // methods
+  BindableVector() = delete;
   BindableVector(const string& label, vector<T>* target, const string& description);
   virtual                     ~BindableVector() = default;
   void                        Bind() override final;
