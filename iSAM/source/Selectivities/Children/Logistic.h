@@ -34,6 +34,10 @@ public:
   void                        DoValidate() override final;
   void                        Reset() override final;
 
+protected:
+  //Methods
+  Double                      GetLengthBasedResult(unsigned age, AgeLength* age_length) override final;
+
 private:
   // Members
   Double                      a50_;

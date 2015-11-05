@@ -14,7 +14,8 @@
 #include "Selectivity.h"
 
 #include "Model/Model.h"
-
+#include "AgeLengths/AgeLength.h"
+#include <boost/math/distributions/normal.hpp>
 // Namesapces
 namespace niwa {
 
@@ -26,6 +27,8 @@ Selectivity::Selectivity(Model* model)
 
   parameters_.Bind<string>(PARAM_LABEL, &label_, "Label", "");
   parameters_.Bind<string>(PARAM_TYPE, &type_, "Type", "");
+  parameters_.Bind<bool>(PARAM_LENGTH_BASED, &length_based_, "Is the selectivity length based", "", false);
+  parameters_.Bind<unsigned>(PARAM_INTERVALS, &n_quant_, "Number of quantiles to evaluate a length based selectivity over the age length distribution", "", 5);
 }
 
 /**
@@ -34,7 +37,19 @@ Selectivity::Selectivity(Model* model)
 void Selectivity::Validate() {
   parameters_.Populate();
   DoValidate();
+
+  if (length_based_) {
+    boost::math::normal dist{ };
+
+    for (unsigned i = 1; i <= n_quant_; ++i) {
+      quantiles_.push_back((Double(i) - 0.5) / Double(n_quant_));
+      LOG_FINEST() << ": Quantile value = " << quantiles_[i - 1];
+      quantiles_at_.push_back(quantile(dist, AS_DOUBLE(quantiles_[i - 1])));
+      LOG_FINEST() << ": Normal quantile value = " << quantiles_at_[i - 1];
+    }
+  }
 }
+
 
 /**
  *
@@ -50,8 +65,12 @@ void Selectivity::Reset() {
  * @param age_or_length The age or length to get selectivity value for
  * @return The value stored in the map or 0.0 as default
  */
-Double Selectivity::GetResult(unsigned age_or_length) {
-  return values_[age_or_length];
+
+Double Selectivity::GetResult(unsigned age, AgeLength* age_length) {
+  if (!length_based_)
+    return values_[age];
+
+  return GetLengthBasedResult(age, age_length);
 }
 
 } /* namespace niwa */

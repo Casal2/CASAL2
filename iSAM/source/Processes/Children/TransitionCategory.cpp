@@ -150,8 +150,8 @@ void TransitionCategory::DoExecute() {
       unsigned min_age   = (*from_iter)->min_age_;
 
       for (unsigned j = 0; j < (*from_iter)->data_.size(); ++j) {
-        transition_rates_[i].push_back(proportion * selectivities_[i]->GetResult(min_age + j));
-        if (selectivities_[i]->GetResult(min_age + j) > 1.0)
+        transition_rates_[i].push_back(proportion * selectivities_[i]->GetResult(min_age + j, (*from_iter)->age_length_));
+        if (selectivities_[i]->GetResult(min_age + j, (*from_iter)->age_length_) > 1.0)
           LOG_ERROR() << " Selectivity result is greater than 1.0, check selectivity";
       }
     }

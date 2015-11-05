@@ -13,6 +13,10 @@
 // Headers
 #include "DoubleExponential.h"
 
+#include <boost/math/distributions/lognormal.hpp>
+#include <cmath>
+
+#include "AgeLengths/AgeLength.h"
 #include "Model/Model.h"
 
 // Namespaces
@@ -83,5 +87,63 @@ void DoubleExponential::Reset() {
   }
 }
 
+/**
+ * GetLengthBasedResult function
+ *
+ * @param age
+ * @param age_length AgeLength pointer
+ * @return Double selectivity for an age based on age length distribution
+ */
+
+Double DoubleExponential::GetLengthBasedResult(unsigned age, AgeLength* age_length) {
+  Double cv = age_length->cv(age);
+  unsigned year = model_->current_year();
+  Double mean = age_length->mean_length(year, age);
+  string dist = age_length->distribution();
+
+  if (dist == PARAM_NONE || n_quant_ <= 1) {
+    // no distribution just use the mu from age_length
+    if ((Double)mean <= x0_)
+      return alpha_ * y0_ * pow((y1_ / y0_), ((Double)age - x0_)/(x1_ - x0_));
+    else
+      return alpha_ * y0_ * pow((y2_ / y0_), ((Double)age - x0_)/(x2_ - x0_));
+
+  } else if (dist == PARAM_NORMAL) {
+
+    Double sigma = cv * mean;
+    Double size = 0.0;
+    Double total = 0.0;
+
+    for (unsigned j = 0; j < n_quant_; ++j) {
+      size = mean + sigma * quantiles_at_[j];
+
+      if ((Double)size <= x0_)
+        total += alpha_ * y0_ * pow((y1_ / y0_), ((Double)age - x0_)/(x1_ - x0_));
+      else
+        total += alpha_ * y0_ * pow((y2_ / y0_), ((Double)age - x0_)/(x2_ - x0_));
+    }
+    return total / n_quant_;
+
+  } else if (dist == PARAM_LOGNORMAL) {
+    // convert paramters to log space
+    Double sigma = sqrt(log(1 + cv * cv));
+    Double mu = log(mean) - sigma * sigma * 0.5;
+    Double size = 0.0;
+    Double total = 0.0;
+    boost::math::lognormal dist{AS_DOUBLE(mu), AS_DOUBLE(sigma)};
+
+    for (unsigned j = 0; j < n_quant_; ++j) {
+      size = mu + sigma * quantile(dist, AS_DOUBLE(quantiles_[j]));
+
+      if ((Double)size <= x0_)
+        total += alpha_ * y0_ * pow((y1_ / y0_), ((Double)age - x0_)/(x1_ - x0_));
+      else
+        total += alpha_ * y0_ * pow((y2_ / y0_), ((Double)age - x0_)/(x2_ - x0_));
+    }
+    return total / n_quant_;
+  }
+  LOG_CODE_ERROR() << "dist is invalid " << dist;
+  return 0;
+}
 } /* namespace selectivities */
 } /* namespace niwa */

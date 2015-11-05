@@ -194,7 +194,7 @@ void AgeLength::DoAgeToLengthConversion(partition::Category* category, const vec
     // Loop through the length bins and multiple the partition of the current age to go from
     // length frequencies to age length numbers
     for (unsigned j = 0; j < size; ++j) {
-      category->age_length_matrix_[i][j] = selectivity->GetResult(age) * category->data_[i] * age_frequencies[j];
+      category->age_length_matrix_[i][j] = selectivity->GetResult(age, category->age_length_) * category->data_[i] * age_frequencies[j];
  //     LOG_FINEST() << " Selectivity for age: " << age << " = " << selectivity->GetResult(age) << " With numbers at age = " << category->data_[i] << " probability for bin " << length_bins[j] << " = " <<  age_frequencies[j];
  //     LOG_FINEST() << " When all the above multiplied we get " << category->age_length_matrix_[i][j];
     }

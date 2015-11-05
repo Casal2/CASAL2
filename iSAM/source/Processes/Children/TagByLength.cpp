@@ -247,7 +247,7 @@ void TagByLength::DoExecute() {
     for (unsigned i = 0; i < (*to_iter)->data_.size(); ++i) {
       Double amount = (*to_iter)->data_[i] * loss_rate;
       if (loss_rate_selectivity_by_category_.find(category_label) != loss_rate_selectivity_by_category_.end())
-        amount *= loss_rate_selectivity_by_category_[category_label]->GetResult((*from_iter)->min_age_ + i);
+        amount *= loss_rate_selectivity_by_category_[category_label]->GetResult((*from_iter)->min_age_ + i, (*to_iter)->age_length_);
       (*to_iter)->data_[i] -= amount;
       (*from_iter)->data_[i] += amount;
     }
