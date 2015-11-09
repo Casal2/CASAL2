@@ -44,7 +44,10 @@ TEST(LengthWeights, Basic) {
   EXPECT_DOUBLE_EQ(3000.0, basic.mean_weight(3.0, "", 1.0));
   EXPECT_DOUBLE_EQ(4000.0, basic.mean_weight(4.0, "", 1.0));
   EXPECT_DOUBLE_EQ(5000.0, basic.mean_weight(5.0, "", 1.0));
+}
 
+TEST(LengthWeights, Basic2) {
+  niwa::lengthweights::Basic basic;
   /**
    * Run some new parameters
    */
