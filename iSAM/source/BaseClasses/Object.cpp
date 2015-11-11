@@ -32,7 +32,17 @@ using std::endl;
  * @return True if found, false if not
  */
 bool Object::HasEstimable(const string& label) const {
-  return !(estimable_types_.find(label) == estimable_types_.end());
+  bool result = !(estimable_types_.find(label) == estimable_types_.end());
+
+  bool result2 = false;
+  for (auto unnamed : unnamed_estimable_s_map_vector_) {
+    if (unnamed->find(label) != unnamed->end()) {
+      result2 = true;
+      break;
+    }
+  }
+
+  return result || result2;
 }
 
 /**
@@ -43,7 +53,17 @@ bool Object::HasEstimable(const string& label) const {
  * @return True if estimable is a vector, false if not
  */
 bool Object::IsEstimableAVector(const string& label) const {
-  return !(estimable_vectors_.find(label) == estimable_vectors_.end());
+  bool result = !(estimable_vectors_.find(label) == estimable_vectors_.end());
+
+  bool result2 = false;
+  for (auto unnamed : unnamed_estimable_s_map_vector_) {
+    if (unnamed->find(label) != unnamed->end()) {
+      result2 = true;
+      break;
+    }
+  }
+
+  return result || result2;
 }
 
 /**
@@ -60,6 +80,10 @@ unsigned Object::GetEstimableSize(const string& label) const {
       return estimable_u_maps_.find(label)->second->size();
   if (estimable_s_maps_.find(label) != estimable_s_maps_.end())
     return estimable_s_maps_.find(label)->second->size();
+  for (auto unnamed : unnamed_estimable_s_map_vector_) {
+    if (unnamed->find(label) != unnamed->end())
+      return unnamed->find(label)->second.size();
+  }
 
   if (estimables_.find(label) == estimables_.end())
     LOG_CODE_ERROR() << "The estimable " << label << " has not been registered for the object " << block_type_ << ".type=" << type_;

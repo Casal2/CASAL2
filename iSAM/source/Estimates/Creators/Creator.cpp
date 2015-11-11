@@ -175,6 +175,7 @@ void Creator::CreateEstimates() {
 
     switch(target->GetEstimableType(parameter)) {
     case Estimable::kVector:
+    case Estimable::kVectorStringMap:
     {
       vector<Double>* targets = target->GetEstimableVector(parameter);
       for (unsigned i = 0; i < targets->size(); ++i)
