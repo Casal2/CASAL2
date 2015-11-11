@@ -200,7 +200,9 @@ base::Object* Objects::FindObject(const string& parameter_absolute_name, string&
     result = model_->managers().process()->GetProcess(label);
 
   } else if (type == PARAM_INITIALISATION_PHASE) {
+    LOG_FINEST() << "Looking for initialisation_phase: " << label;
     result = model_->managers().initialisation_phase()->GetInitPhase(label);
+    LOG_FINEST() << "Phase = " << result;
 
   } else if (type == PARAM_ESTIMATE) {
     result = model_->managers().estimate()->GetEstimateByLabel(label);
