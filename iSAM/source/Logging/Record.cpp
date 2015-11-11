@@ -84,6 +84,9 @@ void Record::BuildMessage() {
 //    o << stream_.str() << "\n\n";
     break;
   case Severity::kFatal:
+#ifdef TESTMODE
+    o << "[FATAL] " << file_name_ << "(line: " << line_number_ << "): " << stream_.str() << "\n";
+#else
     o << "\n";
     o << "********************************************************************************\n";
     o << "********                FATAL USER CONFIGURATION ERROR                  ********\n";
@@ -93,8 +96,12 @@ void Record::BuildMessage() {
     o << "\n";
     o << "Message:\n";
     o << stream_.str() << "\n\n";
+#endif
     break;
   case Severity::kCodeError:
+#ifdef TESTMODE
+    o << "[CODE_ERROR] " << file_name_ << "(line: " << line_number_ << "): " << stream_.str() << "\n";
+#else
     o << "\n";
     o << "********************************************************************************\n";
     o << "********                CODE ERROR - FORCE QUITTING                     ********\n";
@@ -106,6 +113,7 @@ void Record::BuildMessage() {
     o << stream_.str() << "\n";
     o << "NOTE: This error is a bug in the software and can only be corrected by a developer\n";
     o << "Please contact the application developers to have this issue fixed\n\n";
+#endif
     break;
   }
 
