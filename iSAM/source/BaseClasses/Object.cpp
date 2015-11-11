@@ -159,8 +159,17 @@ OrderedMap<string, Double>* Object::GetEstimableSMap(const string& label) {
  * @return vector pointer of estimables
  */
 vector<Double>* Object::GetEstimableVector(const string& label) {
-  if (estimable_types_.find(label) == estimable_types_.end())
+  if (estimable_types_.find(label) == estimable_types_.end()) {
+    /**
+     * It's a VectorStringMap estimable, so we'll go looking for it
+     */
+    for (auto container : unnamed_estimable_s_map_vector_) {
+      if (container->find(label) != container->end()) {
+        return &(*container)[label];
+      }
+    }
     LOG_CODE_ERROR() << "estimable_types_.find(" << label << ") == estimable_types_.end()";
+  }
   if (estimable_types_[label] != Estimable::kVector)
     LOG_CODE_ERROR() << "estimable_types_[" << label << "] != Estimable::kVector";
 
@@ -172,6 +181,10 @@ vector<Double>* Object::GetEstimableVector(const string& label) {
  */
 Estimable::Type Object::GetEstimableType(const string& label) const {
   if (estimable_types_.find(label) == estimable_types_.end()) {
+    for (auto container : unnamed_estimable_s_map_vector_) {
+      if (container->find(label) != container->end())
+        return Estimable::kVectorStringMap;
+    }
     LOG_CODE_ERROR() << "Unable to find the estimable type with the label: " << label;
   }
 
@@ -220,6 +233,13 @@ void Object::RegisterAsEstimable(const string& label, OrderedMap<string, Double>
 void Object::RegisterAsEstimable(const string& label, map<unsigned, Double>* variables) {
   estimable_u_maps_[label]  = variables;
   estimable_types_[label]   = Estimable::kUnsignedMap;
+}
+
+/**
+ *
+ */
+void Object::RegisterAsEstimable(map<string, vector<Double>>* variables) {
+  unnamed_estimable_s_map_vector_.push_back(variables);
 }
 
 /**
