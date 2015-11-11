@@ -29,6 +29,8 @@ StateCategoryByAge::StateCategoryByAge(Model* model)
   parameters_.Bind<unsigned>(PARAM_MIN_AGE, &min_age_, "Minimum age to use for this process", "");
   parameters_.Bind<unsigned>(PARAM_MAX_AGE, &max_age_, "Maximum age to use for this process", "");
   parameters_.BindTable(PARAM_N, n_table_, "Table of data", "", false, false);
+
+  RegisterAsEstimable(&n_);
 }
 
 /**
