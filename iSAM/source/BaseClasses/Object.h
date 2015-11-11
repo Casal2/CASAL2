@@ -42,7 +42,8 @@ enum Type {
   kSingle       = 1,
   kVector       = 2,
   kStringMap    = 3,
-  kUnsignedMap  = 4
+  kUnsignedMap  = 4,
+  kVectorStringMap = 5
 };
 }
 
@@ -50,6 +51,8 @@ namespace base {
 
 using std::string;
 using utilities::OrderedMap;
+using std::vector;
+using std::map;
 
 // classes
 class Object {
@@ -86,6 +89,7 @@ protected:
   void                        RegisterAsEstimable(const string& label, vector<Double>* variables);
   void                        RegisterAsEstimable(const string& label, OrderedMap<string, Double>* variables);
   void                        RegisterAsEstimable(const string& label, map<unsigned, Double>* variables);
+  void                        RegisterAsEstimable(map<string, vector<Double>>* variables);
 
   // Members
   string                        block_type_           = "";
@@ -98,6 +102,7 @@ protected:
 
   map<string, map<unsigned, Double>* >      estimable_u_maps_;
   map<string, OrderedMap<string, Double>* > estimable_s_maps_;
+  vector<map<string, vector<Double>>* >     unnamed_estimable_s_map_vector_;
 
   DISALLOW_COPY_AND_ASSIGN(Object);
 };
