@@ -108,6 +108,7 @@ void AllValuesBounded::Reset() {
  */
 
 Double AllValuesBounded::GetLengthBasedResult(unsigned age, AgeLength* age_length) {
+  LOG_ERROR_P(PARAM_LENGTH_BASED) << ": This selectivity type has not been implemented for length based selectivities ";
   return 0.0;
 }
 

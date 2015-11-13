@@ -32,13 +32,14 @@ public:
   void                        DoValidate() override final { };
   void                        DoBuild() override final;
   void                        DoReset() override final { };
-  void                        BuildCV(unsigned year) override final;
 
   // accessors
   Double                      mean_length(unsigned year, unsigned age) override final;
   Double                      mean_weight(unsigned year, unsigned age) override final;
 
 protected:
+  //methods
+  void                        BuildCV() override final;
   // members
   Double                      linf_;
   Double                      k_;
