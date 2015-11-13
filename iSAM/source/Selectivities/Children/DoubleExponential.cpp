@@ -18,6 +18,7 @@
 
 #include "AgeLengths/AgeLength.h"
 #include "Model/Model.h"
+#include "TimeSteps/Manager.h"
 
 // Namespaces
 namespace niwa {
@@ -96,17 +97,21 @@ void DoubleExponential::Reset() {
  */
 
 Double DoubleExponential::GetLengthBasedResult(unsigned age, AgeLength* age_length) {
-  Double cv = age_length->cv(age);
   unsigned year = model_->current_year();
+  unsigned time_step = model_->managers().time_step()->current_time_step();
+  Double cv = age_length->cv(year, age, time_step);
+
   Double mean = age_length->mean_length(year, age);
   string dist = age_length->distribution();
 
   if (dist == PARAM_NONE || n_quant_ <= 1) {
     // no distribution just use the mu from age_length
+    Double val;
     if ((Double)mean <= x0_)
-      return alpha_ * y0_ * pow((y1_ / y0_), ((Double)age - x0_)/(x1_ - x0_));
+      val = alpha_ * y0_ * pow((y1_ / y0_), ((Double)mean - x0_)/(x1_ - x0_));
     else
-      return alpha_ * y0_ * pow((y2_ / y0_), ((Double)age - x0_)/(x2_ - x0_));
+      val = alpha_ * y0_ * pow((y2_ / y0_), ((Double)mean - x0_)/(x2_ - x0_));
+    return val;
 
   } else if (dist == PARAM_NORMAL) {
 
@@ -118,9 +123,9 @@ Double DoubleExponential::GetLengthBasedResult(unsigned age, AgeLength* age_leng
       size = mean + sigma * quantiles_at_[j];
 
       if ((Double)size <= x0_)
-        total += alpha_ * y0_ * pow((y1_ / y0_), ((Double)age - x0_)/(x1_ - x0_));
+        total += alpha_ * y0_ * pow((y1_ / y0_), ((Double)size - x0_)/(x1_ - x0_));
       else
-        total += alpha_ * y0_ * pow((y2_ / y0_), ((Double)age - x0_)/(x2_ - x0_));
+        total += alpha_ * y0_ * pow((y2_ / y0_), ((Double)size - x0_)/(x2_ - x0_));
     }
     return total / n_quant_;
 
@@ -136,9 +141,9 @@ Double DoubleExponential::GetLengthBasedResult(unsigned age, AgeLength* age_leng
       size = mu + sigma * quantile(dist, AS_DOUBLE(quantiles_[j]));
 
       if ((Double)size <= x0_)
-        total += alpha_ * y0_ * pow((y1_ / y0_), ((Double)age - x0_)/(x1_ - x0_));
+        total += alpha_ * y0_ * pow((y1_ / y0_), ((Double)size - x0_)/(x1_ - x0_));
       else
-        total += alpha_ * y0_ * pow((y2_ / y0_), ((Double)age - x0_)/(x2_ - x0_));
+        total += alpha_ * y0_ * pow((y2_ / y0_), ((Double)size - x0_)/(x2_ - x0_));
     }
     return total / n_quant_;
   }

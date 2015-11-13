@@ -18,6 +18,7 @@
 
 #include "AgeLengths/AgeLength.h"
 #include "Model/Model.h"
+#include "TimeSteps/Manager.h"
 
 // Namespaces
 namespace niwa {
@@ -83,8 +84,9 @@ void DoubleNormal::Reset() {
  */
 
 Double DoubleNormal::GetLengthBasedResult(unsigned age, AgeLength* age_length) {
-  Double cv = age_length->cv(age);
   unsigned year = model_->current_year();
+  unsigned time_step = model_->managers().time_step()->current_time_step();
+  Double cv = age_length->cv(year, age, time_step);
   Double mean = age_length->mean_length(year, age);
   string dist = age_length->distribution();
 

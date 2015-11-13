@@ -53,6 +53,9 @@ public:
   void MockCummulativeNormal(Double mu, Double cv, vector<Double>& vprop_in_length, vector<Double> length_bins, string distribution, bool plus_grp) {
     this->CummulativeNormal(mu, cv, vprop_in_length, length_bins, distribution, plus_grp);
   }
+  void MockBuildCV() {
+    this->BuildCV();
+  }
 };
 
 
@@ -137,15 +140,19 @@ TEST(AgeLengths, VonBertalanffy_DoAgeLengthConversion) {
   MockModel model;
   MockManagers mock_managers(&model);
   MockTimeStepManager time_step_manager;
-  time_step_manager.time_step_index_ = 1;
-
+  time_step_manager.time_step_index_ = 0;
+  vector<string> time_steps = {"0", "1", "2"};
   EXPECT_CALL(mock_managers, time_step()).WillRepeatedly(Return(&time_step_manager));
 
   EXPECT_CALL(model, min_age()).WillRepeatedly(Return(5));
   EXPECT_CALL(model, max_age()).WillRepeatedly(Return(10));
   EXPECT_CALL(model, age_spread()).WillRepeatedly(Return(6));
+  EXPECT_CALL(model, start_year()).WillRepeatedly(Return(1990));
+  EXPECT_CALL(model, final_year()).WillRepeatedly(Return(1999));
+  EXPECT_CALL(model, current_year()).WillRepeatedly(Return(1999));
   EXPECT_CALL(model, age_plus()).WillRepeatedly(Return(true));
   EXPECT_CALL(model, managers()).WillRepeatedly(ReturnRef(mock_managers));
+  EXPECT_CALL(model, time_steps()).WillRepeatedly(ReturnRef(time_steps));
 
   selectivities::Logistic logistic(&model);
   logistic.parameters().Add(PARAM_LABEL, "unit_test_logistic", __FILE__, __LINE__);
@@ -168,12 +175,16 @@ TEST(AgeLengths, VonBertalanffy_DoAgeLengthConversion) {
   male.mean_length_per_[10] = 29.37047;
 
   MockVonBertalanffy von_bertalanffy(model, 70, 0.034, -6, false, 0.1, 0.1, {0.0});
-  ASSERT_NO_THROW(von_bertalanffy.BuildCV(1999));
+
+  ASSERT_NO_THROW(von_bertalanffy.MockBuildCV());
+
+  EXPECT_DOUBLE_EQ(0.1, von_bertalanffy.cv(1999, 5, 0));
+  EXPECT_DOUBLE_EQ(0.1, von_bertalanffy.cv(1999, 10, 0));
+
   von_bertalanffy.DoAgeToLengthConversion(&male, {0, 10, 20, 25, 30}, false, &logistic);
 
   // Check that the CV is being built appropriately and that the mean is stored correctly
-  EXPECT_DOUBLE_EQ(0.1, von_bertalanffy.cv(5));
-  EXPECT_DOUBLE_EQ(0.1, von_bertalanffy.cv(10));
+
 
   EXPECT_DOUBLE_EQ(21.84162, male.mean_length_per_[5]);
   EXPECT_DOUBLE_EQ(29.37047, male.mean_length_per_[10]);
@@ -202,15 +213,20 @@ TEST(AgeLengths, VonBertalanffy_DoAgeLengthConversion_plusGrp) {
   MockManagers mock_managers(&model);
 
   MockTimeStepManager time_step_manager;
-  time_step_manager.time_step_index_ = 1;
+  time_step_manager.time_step_index_ = 0;
+  vector<string> time_steps = {"0", "1", "2"};
 
   EXPECT_CALL(mock_managers, time_step()).WillRepeatedly(Return(&time_step_manager));
 
   EXPECT_CALL(model, min_age()).WillRepeatedly(Return(5));
   EXPECT_CALL(model, max_age()).WillRepeatedly(Return(10));
   EXPECT_CALL(model, age_spread()).WillRepeatedly(Return(6));
+  EXPECT_CALL(model, start_year()).WillRepeatedly(Return(1999));
+  EXPECT_CALL(model, final_year()).WillRepeatedly(Return(1999));
+  EXPECT_CALL(model, current_year()).WillRepeatedly(Return(1999));
   EXPECT_CALL(model, age_plus()).WillRepeatedly(Return(true));
   EXPECT_CALL(model, managers()).WillRepeatedly(ReturnRef(mock_managers));
+  EXPECT_CALL(model, time_steps()).WillRepeatedly(ReturnRef(time_steps));
 
   selectivities::Logistic logistic(&model);
   logistic.parameters().Add(PARAM_LABEL, "unit_test_logistic", __FILE__, __LINE__);
@@ -233,12 +249,13 @@ TEST(AgeLengths, VonBertalanffy_DoAgeLengthConversion_plusGrp) {
   male.mean_length_per_[10] = 25.50949;
 
   MockVonBertalanffy von_bertalanffy1(model, 80, 0.064, 4, false, 0.2, 0.2, {1.0});
-  ASSERT_NO_THROW(von_bertalanffy1.BuildCV(1999));
+  ASSERT_NO_THROW(von_bertalanffy1.MockBuildCV());
+
   von_bertalanffy1.DoAgeToLengthConversion(&male, {0, 10, 20, 25, 30}, true, &logistic);
 
   // Check that the CV is being built appropriately and that the mean is stored correctly
-   EXPECT_DOUBLE_EQ(0.2, von_bertalanffy1.cv(5));
-   EXPECT_DOUBLE_EQ(0.2, von_bertalanffy1.cv(10));
+   EXPECT_DOUBLE_EQ(0.2, von_bertalanffy1.cv(1999, 5, 0));
+   EXPECT_DOUBLE_EQ(0.2, von_bertalanffy1.cv(1999, 10, 0));
 
    //Run through length for the min and max age
    vector<Double> expec1 = {1635.5889366403298, 0.00030682770114173025, 0, 0, 0};

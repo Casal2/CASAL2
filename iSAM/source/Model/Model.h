@@ -78,17 +78,17 @@ public:
   // Accessors
   RunMode::Type               run_mode() const { return run_mode_; }
   State::Type                 state() const { return state_; }
-  unsigned                    start_year() const { return start_year_; }
-  unsigned                    final_year() const { return final_year_; }
+  virtual unsigned            start_year() const { return start_year_; }
+  virtual unsigned            final_year() const { return final_year_; }
   unsigned                    projection_final_year() const { return projection_final_year_; }
   vector<unsigned>            years() const;
   unsigned                    year_spread() const;
-  unsigned                    current_year() const { return current_year_; }
+  virtual unsigned            current_year() const { return current_year_; }
   virtual unsigned            min_age() const { return min_age_; }
   virtual unsigned            max_age() const { return max_age_; }
   virtual unsigned            age_spread() const { return (max_age_ - min_age_) + 1; }
   virtual bool                age_plus() const { return age_plus_; }
-  const vector<string>&       time_steps() const { return time_steps_; }
+  virtual const vector<string>&       time_steps() const { return time_steps_; }
   const vector<string>&       initialisation_phases() const { return initialisation_phases_; }
   PartitionStructure          partition_structure() const { return partition_structure_; }
   const vector<Double>        length_bins() const { return length_bins_; }

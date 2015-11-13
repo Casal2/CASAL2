@@ -9,13 +9,15 @@
  */
 
 // Headers
-#include <Observations/Children/ProportionsAtLengthForFishery/ProportionsAtLengthForFishery.h>
+#include "ProportionsAtLengthForFishery.h"
+
 #include <algorithm>
 
 #include "Model/Model.h"
 #include "AgeLengths/AgeLength.h"
 #include "Categories/Categories.h"
 #include "Partition/Accessors/All.h"
+#include "TimeSteps/Manager.h"
 #include "Utilities/DoubleCompare.h"
 #include "Utilities/Map.h"
 #include "Utilities/Math.h"
@@ -241,7 +243,7 @@ void ProportionsAtLengthForFishery::Execute() {
   auto categories = model_->categories();
   Double t = mortality_instantaneous_->time_step_ratio();
   unsigned year = model_->current_year();
-
+  unsigned time_step = model_->managers().time_step()->current_time_step();
   auto cached_partition_iter  = cached_partition_->Begin();
   auto partition_iter         = partition_->Begin(); // vector<vector<partition::Category> >
 
@@ -268,10 +270,6 @@ void ProportionsAtLengthForFishery::Execute() {
     for (; category_iter != partition_iter->end(); ++cached_category_iter, ++category_iter) {
       AgeLength* age_length = categories->age_length((*category_iter)->name_);
       (*category_iter)->UpdateMeanLengthData();
-      age_length->BuildCV(year);
-      unsigned size = length_bins_.size();
-      if (!length_plus_)
-        size = length_bins_.size() - 1;
 
       age_length_matrix_.resize((*category_iter)->data_.size());
 
@@ -294,14 +292,14 @@ void ProportionsAtLengthForFishery::Execute() {
 
         Double mu= (*category_iter)->mean_length_per_[age];
 
-        LOG_FINEST() << "mean = " << mu << " cv = " << age_length->cv(age) << " distribution = " << age_length->distribution() << " and length plus group = " << length_plus_;
-        age_length->CummulativeNormal(mu, age_length->cv(age), age_frequencies, length_bins_, age_length->distribution(), length_plus_);
+        LOG_FINEST() << "mean = " << mu << " cv = " << age_length->cv(year, age, time_step) << " distribution = " << age_length->distribution() << " and length plus group = " << length_plus_;
+        age_length->CummulativeNormal(mu, age_length->cv(year, age, time_step), age_frequencies, length_bins_, age_length->distribution(), length_plus_);
 
-        age_length_matrix_[data_offset].resize(size);
+        age_length_matrix_[data_offset].resize(number_bins_);
 
         // Loop through the length bins and multiple the partition of the current age to go from
         // length frequencies to age length numbers
-          for (unsigned j = 0; j < size; ++j) {
+          for (unsigned j = 0; j < number_bins_; ++j) {
             age_length_matrix_[data_offset][j] = number_at_age * age_frequencies[j];
             LOG_FINEST() << "The proportion of fish in length bin : " << length_bins_[j] << " = "<< age_frequencies[j];
           }
@@ -319,7 +317,7 @@ void ProportionsAtLengthForFishery::Execute() {
 
 
 
-            for (unsigned length_offset = 0; length_offset < size; ++length_offset) {
+            for (unsigned length_offset = 0; length_offset < number_bins_; ++length_offset) {
               LOG_FINEST() << " numbers for length bin : " << length_bins_[length_offset] << " = " <<  numbers_at_length[length_offset];
              expected_values[length_offset] += numbers_at_length[length_offset];
 

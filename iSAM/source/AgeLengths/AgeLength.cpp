@@ -39,6 +39,11 @@ AgeLength::AgeLength(Model* model) : model_(model) {
   parameters_.Bind<string>(PARAM_TYPE, &type_, "Type", "");
   parameters_.Bind<Double>(PARAM_TIME_STEP_PROPORTIONS, &time_step_proportions_, "", "", true);
   parameters_.Bind<string>(PARAM_DISTRIBUTION, &distribution_, "TBA", "", PARAM_NORMAL);
+  parameters_.Bind<Double>(PARAM_CV_FIRST, &cv_first_ , "CV for the first age class", "",Double(0.0))->set_lower_bound(0.0);
+  parameters_.Bind<Double>(PARAM_CV_LAST, &cv_last_ , "CV for last age class", "",Double(0.0))->set_lower_bound(0.0);
+
+  RegisterAsEstimable(PARAM_CV_FIRST, &cv_first_);
+  RegisterAsEstimable(PARAM_CV_LAST, &cv_last_);
 }
 
 /**
@@ -72,28 +77,34 @@ void AgeLength::Build() {
   }
 
   DoBuild();
+  BuildCV();
 }
 
 /**
  * BuildCV function
- *
- * @param year currentyear
- * @return vector<Double> CV for each age
+ * populates a #d map of cv's by year, age and time_step
  */
-void AgeLength::BuildCV(unsigned year) {
+void AgeLength::BuildCV() {
   unsigned min_age = model_->min_age();
   unsigned max_age = model_->max_age();
-
-  if (cv_last_== 0.0) { // A test that is robust... If cv_last_ is not in the input then assume cv_first_ represents the cv for all age classes i.e constant cv
-    for (unsigned i = min_age; i <= max_age; ++i)
-      cvs_[i]= (cv_first_);
-    } else {
-    // else Do linear interpolation between cv_first_ and cv_last_ based on age class
-    for (unsigned i = min_age; i <= max_age; ++i) {
-      cvs_[i]= (cv_first_ + (cv_last_ - cv_first_) * (i - min_age) / (max_age - min_age));
+  unsigned start_year = model_->start_year();
+  unsigned final_year = model_->final_year();
+  vector<string> time_steps = model_->time_steps();
+  LOG_MEDIUM() << ": number of time steps " << time_steps.size();
+  LOG_MEDIUM() << ": label of first tiome step " << time_steps[0];
+  for (unsigned year_iter = start_year; year_iter <= final_year; ++year_iter) {
+    for (unsigned step_iter = 0; step_iter < time_steps.size(); ++step_iter) {
+      if (cv_last_ == 0.0) { // A test that is robust... If cv_last_ is not in the input then assume cv_first_ represents the cv for all age classes i.e constant cv
+        for (unsigned age_iter = min_age; age_iter <= max_age; ++age_iter)
+          cvs_[year_iter][age_iter][step_iter] = (cv_first_);
+      } else {
+        // else Do linear interpolation between cv_first_ and cv_last_ based on age class
+        for (unsigned age_iter = min_age; age_iter <= max_age; ++age_iter) {
+          cvs_[year_iter][age_iter][step_iter] = (cv_first_ + (cv_last_ - cv_first_) * (age_iter - min_age) / (max_age - min_age));
+        }
+      }
     }
   }
-
 }
 
 /*
@@ -174,7 +185,9 @@ void AgeLength::CummulativeNormal(Double mu, Double cv, vector<Double>& prop_in_
  */
 void AgeLength::DoAgeToLengthConversion(partition::Category* category, const vector<Double>& length_bins, bool plus_grp, Selectivity* selectivity) {
   LOG_TRACE();
+  unsigned year = model_->current_year();
   unsigned size = length_bins.size();
+  unsigned time_step = model_->managers().time_step()->current_time_step();
   if (!plus_grp)
     size = length_bins.size() - 1;
 
@@ -184,21 +197,27 @@ void AgeLength::DoAgeToLengthConversion(partition::Category* category, const vec
     vector<Double> age_frequencies;
     unsigned age = category->min_age_ + i;
 
-    if (cvs_[age] <= 0.0)
+    if (cvs_[year][age][time_step] <= 0.0)
         LOG_ERROR_P(PARAM_CV_FIRST) << "cv first or last cannot be less than or equal to zero";
 
     Double mu= category->mean_length_per_[age];
-    CummulativeNormal(mu, cvs_[age], age_frequencies, length_bins, distribution_, plus_grp);
+    CummulativeNormal(mu, cvs_[year][age][time_step], age_frequencies, length_bins, distribution_, plus_grp);
     category->age_length_matrix_[i].resize(size);
 
     // Loop through the length bins and multiple the partition of the current age to go from
     // length frequencies to age length numbers
     for (unsigned j = 0; j < size; ++j) {
       category->age_length_matrix_[i][j] = selectivity->GetResult(age, category->age_length_) * category->data_[i] * age_frequencies[j];
- //     LOG_FINEST() << " Selectivity for age: " << age << " = " << selectivity->GetResult(age) << " With numbers at age = " << category->data_[i] << " probability for bin " << length_bins[j] << " = " <<  age_frequencies[j];
- //     LOG_FINEST() << " When all the above multiplied we get " << category->age_length_matrix_[i][j];
     }
   }
+}
+
+/**
+ * Reset the age length class.
+ */
+void AgeLength::Reset() {
+DoReset();
+BuildCV();
 }
 
 

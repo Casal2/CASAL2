@@ -292,36 +292,40 @@ void MortalityInstantaneous::DoExecute() {
       categories->UpdateMeanWeightData();
 
       for (auto fishery_category : fishery_categories_) {
-        if (fishery_category.category_label_ != categories->name_)
+        if (fishery_category.category_label_ != categories->name_ || fisheries_[fishery_category.fishery_label_].time_step_index_ != time_step_index)
           continue;
+
         for (unsigned i = 0; i < categories->data_.size(); ++i) {
           Double vulnerable = categories->data_[i] * categories->mean_weight_per_[categories->min_age_ + i]
               * fishery_category.selectivity_->GetResult(categories->min_age_ + i, categories->age_length_)
               * exp(-0.5 * ratio * m_[m_offset] * selectivities_[m_offset]->GetResult(categories->min_age_ + i, categories->age_length_));
-          LOG_MEDIUM() << selectivities_[m_offset]->GetResult(categories->min_age_ + i, categories->age_length_) << " for fishery = " << fishery_category.fishery_label_;
           fishery_vulnerability[fishery_category.fishery_label_] += vulnerable;
         }
+        LOG_FINEST() << ": Vulnerable biomass from category " << categories->name_ << " contributing to fishery " << fishery_category.fishery_label_ << " = " << fishery_vulnerability[fishery_category.fishery_label_];
       }
       ++m_offset;
     }
 
     /**
-     * Work out the exploitation rate to remove (catch/vulnerable)
+     * Work out the exploitation rate to remove (catch/vulnerable) for each fishery
      */
     fishery_exploitation.clear();
+
     for (auto fishery_iter : fisheries_) {
       auto fishery = fishery_iter.second;
+      Double exploitation = 0.0;
+      // If fishery occurs in this time step calculate exploitation rate
+      if (fishery.time_step_index_ == time_step_index) {
+        exploitation = fishery.catches_[model_->current_year()] / utilities::doublecompare::ZeroFun(fishery_vulnerability[fishery.label_]);
+        LOG_FINEST() << " Vulnerable biomass for fishery : " << fishery.label_ << " = " << fishery_vulnerability[fishery.label_] << " with Catch = " << fishery.catches_[model_->current_year()];
+      }
 
-      if (fishery.time_step_index_ != time_step_index)
-        continue;
-      Double exploitation = fishery.catches_[model_->current_year()] / utilities::doublecompare::ZeroFun(fishery_vulnerability[fishery.label_]);
       fishery_exploitation[fishery.label_] = exploitation;
-      LOG_FINEST() << " Vulnerable biomass for fishery : " << fishery.label_ << " = " << fishery_vulnerability[fishery.label_] << " with Catch = " << fishery.catches_[model_->current_year()];
     }
 
     for (auto categories : partition_) {
       for (auto fishery_category : fishery_categories_) {
-        if (fishery_category.category_label_ != categories->name_)
+        if (fishery_category.category_label_ != categories->name_ || fisheries_[fishery_category.fishery_label_].time_step_index_ != time_step_index)
           continue;
 
         for (unsigned i = 0; i < categories->data_.size(); ++i)

@@ -32,8 +32,7 @@ public:
   virtual                     ~AgeLength() { };
   void                        Validate();
   void                        Build();
-  void                        Reset() { DoReset(); };
-  virtual void                BuildCV(unsigned year);
+  void                        Reset();
   void                        DoAgeToLengthConversion(partition::Category* category,
                                 const vector<Double>& length_bins, bool plus_grp, Selectivity* selectivity);
   void                        CummulativeNormal(Double mu, Double cv, vector<Double>& prop_in_length,
@@ -41,8 +40,8 @@ public:
   // accessors
   virtual Double              mean_length(unsigned year, unsigned age) = 0;
   virtual Double              mean_weight(unsigned year, unsigned age) = 0;
-  Double                      cv(unsigned age) { return cvs_[age]; };
-  string                      distribution() { return distribution_; };
+  virtual Double              cv(unsigned year, unsigned age, unsigned time_step) { return cvs_[year][age][time_step]; };
+  virtual string              distribution() { return distribution_; };
 
 protected:
   // methods
@@ -50,11 +49,11 @@ protected:
   virtual void                DoValidate() = 0;
   virtual void                DoBuild() = 0;
   virtual void                DoReset() = 0;
-
+  virtual void                BuildCV();
   // members
   Model*                      model_ = nullptr;
   vector<Double>              time_step_proportions_;
-  map<unsigned, Double>       cvs_;
+  map<unsigned, map<unsigned,  map<unsigned, Double>>>       cvs_;  //cvs[year][time_step][age]
   Double                      cv_first_ = 0.0;
   Double                      cv_last_ = 0.0;
   string                      distribution_;

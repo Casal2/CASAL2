@@ -35,6 +35,10 @@ public:
   Double                      mean_length(unsigned year, unsigned age) override final;
   Double                      mean_weight(unsigned year, unsigned age) override final;
 
+protected:
+  //methods
+  void                        BuildCV() override final;
+
 private:
   // methods
   void                        FillExternalGaps();
@@ -48,6 +52,7 @@ private:
   vector<Double>                means_;
   string                        length_weight_label_;
   const LengthWeight*           length_weight_ = nullptr;
+  bool                          by_length_;
 };
 
 } /* namespace agelengths */

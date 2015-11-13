@@ -70,6 +70,8 @@ public:
 
   // accessors
   Double                      time_step_ratio();
+//  map<unsigned, map<string, Double>>&  catches() { return catch_by_year_fishery_; };
+//  map<unsigned, map<string, Double>>&  exploitation() { return exploitation_by_year_fishery_; };
 
 private:
   // members
@@ -93,6 +95,9 @@ private:
   map<unsigned, Double>       time_step_ratios_;
   vector<string>              selectivity_labels_;
   vector<Selectivity*>        selectivities_;
+  //members for reporting
+//  map<unsigned, map<string, Double>> exploitation_by_year_fishery_;
+//  map<unsigned, map<string, Double>> catch_by_year_fishery_;
 };
 
 } /* namespace processes */

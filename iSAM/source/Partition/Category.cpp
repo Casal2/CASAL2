@@ -29,7 +29,6 @@ void Category::UpdateMeanLengthData() {
   unsigned year = model_->current_year();
 
   AgeLength* age_length = categories->age_length(name_);
-  age_length->BuildCV(year);
   for (unsigned age = min_age_; age <= max_age_; ++age)
     mean_length_per_[age] = age_length->mean_length(year, age);
 }
@@ -45,7 +44,6 @@ void Category::UpdateMeanWeightData() {
   unsigned year = model_->current_year();
 
   AgeLength* age_length = categories->age_length(name_);
-  age_length->BuildCV(year);
   for (unsigned age = min_age_; age <= max_age_; ++age)
     mean_weight_per_[age] = age_length->mean_weight(year, age);
 }
@@ -77,11 +75,9 @@ void Category::UpdateAgeLengthData(const vector<Double>& length_bins, bool plus_
   LOG_TRACE();
 
   Categories* categories = model_->categories();
-  unsigned year = model_->current_year();
   AgeLength* age_length = categories->age_length(name_);
   if (!age_length)
     LOG_CODE_ERROR() << "if (!age_length) for category " << name_;
-  age_length->BuildCV(year);
   age_length->DoAgeToLengthConversion(this, length_bins, plus_grp, selectivity);
 }
 
