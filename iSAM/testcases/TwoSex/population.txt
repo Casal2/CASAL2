@@ -51,7 +51,7 @@ U_max 0.99
 selectivities FishingSel FishingSel FishingSel FishingSel
 penalty event_mortality_penalty
 
-@maturation maturation
+@transition maturation
 type rate
 from immature.male immature.female
 to mature.male mature.female

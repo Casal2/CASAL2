@@ -1,0 +1,1 @@
+line 4 when population size is entered as a negative number, it crashes the system

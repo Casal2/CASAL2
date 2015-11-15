@@ -1,0 +1,192 @@
+iSAM
+Call: isam -e 
+Date: Tue Apr 16 16:33:48 2013
+Version: 2012-08-29-04:22:49 UTC (rev. 4447)
+Copyright (c) 2012 - 2012, NIWA (www.niwa.co.nz)
+Environment: machine:ANUBIS, user:Admin, os:Windows_NT, pid:4160
+
+Best Solution: 0.000153139 997386 8 3 
+Population:
+0] 0.035763 4.00449e+009 14.0983 27.9912 
+1] 0.0574451 2.07698e+009 1.54459 34.4493 
+2] 0.0469343 2.07161e+009 1.07471 0.661355 
+3] 0.0420422 6.16195e+009 18.0028 20.5377 
+4] 0.0260769 2.67387e+008 3.05091 18.3405 
+5] 0.000388677 9.40093e+009 14.1342 45.9341 
+6] 0.0419732 8.04097e+009 12.374 0.182344 
+7] 0.0488318 8.82206e+009 18.751 49.2845 
+8] 0.0431288 1.28021e+009 17.5328 38.5795 
+9] 0.0700178 6.44227e+009 13.0792 49.8911 
+Objective Score: 2698.13
+First Trial Energy: 2698.13
+Current estimates: 0.000153139 997386 8 3 
+Objective function value: 2698.13
+
+DESolver: current generation: 1
+Best1Exp candidate: 0; r1_; 4; r2_: 1; scale_: 0.02
+Changing value: 0 == 0.035763 = 0.000153139 + (0.02 * (0.0260769 - 0.0574451))
+New current_values_[i]: -0.000474226
+Changing value: 1 == 4.00449e+009 = 997386 + (0.02 * (2.67387e+008 - 2.07698e+009))
+New current_values_[i]: -3.51946e+007
+Changing value: 2 == 14.0983 = 8 + (0.02 * (3.05091 - 1.54459))
+New current_values_[i]: 8.03013
+Changing value: 3 == 27.9912 = 3 + (0.02 * (18.3405 - 34.4493))
+New current_values_[i]: 2.67782
+1e-010 100000 8.03013 2.67782 
+0]] 1e-010 100000 8.03013 2.67782 
+Objective Score: 8.99591e+010
+trial_energy_: 8.99591e+010; best_energy_: 2698.13
+Best1Exp candidate: 1; r1_; 2; r2_: 9; scale_: 0.02
+Changing value: 0 == 0.0574451 = 0.000153139 + (0.02 * (0.0469343 - 0.0700178))
+New current_values_[i]: -0.00030853
+Changing value: 1 == 2.07698e+009 = 997386 + (0.02 * (2.07161e+009 - 6.44227e+009))
+New current_values_[i]: -8.64158e+007
+Changing value: 2 == 1.54459 = 8 + (0.02 * (1.07471 - 13.0792))
+New current_values_[i]: 7.75991
+Changing value: 3 == 34.4493 = 3 + (0.02 * (0.661355 - 49.8911))
+New current_values_[i]: 2.0154
+1e-010 100000 7.75991 2.0154 
+1]] 1e-010 100000 7.75991 2.0154 
+Objective Score: 2.69877e+011
+trial_energy_: 2.69877e+011; best_energy_: 2698.13
+Best1Exp candidate: 2; r1_; 8; r2_: 0; scale_: 0.02
+Changing value: 0 == 0.0469343 = 0.000153139 + (0.02 * (0.0431288 - 1e-010))
+New current_values_[i]: 0.00101571
+Changing value: 1 == 2.07161e+009 = 997386 + (0.02 * (1.28021e+009 - 100000))
+New current_values_[i]: 2.65996e+007
+Changing value: 2 == 1.07471 = 8 + (0.02 * (17.5328 - 8.03013))
+New current_values_[i]: 8.19005
+Changing value: 3 == 0.661355 = 3 + (0.02 * (38.5795 - 2.67782))
+New current_values_[i]: 3.71803
+0.00101571 2.65996e+007 8.19005 3.71803 
+2]] 0.00101571 2.65996e+007 8.19005 3.71803 
+Objective Score: 4.49795e+011
+trial_energy_: 4.49795e+011; best_energy_: 2698.13
+Best1Exp candidate: 3; r1_; 0; r2_: 4; scale_: 0.02
+Changing value: 0 == 0.0420422 = 0.000153139 + (0.02 * (1e-010 - 0.0260769))
+New current_values_[i]: -0.000368398
+Changing value: 1 == 6.16195e+009 = 997386 + (0.02 * (100000 - 2.67387e+008))
+New current_values_[i]: -4.34835e+006
+Changing value: 2 == 18.0028 = 8 + (0.02 * (8.03013 - 3.05091))
+New current_values_[i]: 8.09958
+Changing value: 3 == 20.5377 = 3 + (0.02 * (2.67782 - 18.3405))
+New current_values_[i]: 2.68675
+1e-010 100000 8.09958 2.68675 
+3]] 1e-010 100000 8.09958 2.68675 
+Objective Score: 7.19673e+011
+trial_energy_: 7.19673e+011; best_energy_: 2698.13
+Best1Exp candidate: 4; r1_; 1; r2_: 9; scale_: 0.02
+Changing value: 0 == 0.0260769 = 0.000153139 + (0.02 * (1e-010 - 0.0700178))
+New current_values_[i]: -0.00124722
+Changing value: 1 == 2.67387e+008 = 997386 + (0.02 * (100000 - 6.44227e+009))
+New current_values_[i]: -1.27846e+008
+Changing value: 2 == 3.05091 = 8 + (0.02 * (7.75991 - 13.0792))
+New current_values_[i]: 7.89362
+Changing value: 3 == 18.3405 = 3 + (0.02 * (2.0154 - 49.8911))
+New current_values_[i]: 2.04249
+1e-010 100000 7.89362 2.04249 
+4]] 1e-010 100000 7.89362 2.04249 
+Objective Score: 1.07951e+012
+trial_energy_: 1.07951e+012; best_energy_: 2698.13
+Best1Exp candidate: 5; r1_; 9; r2_: 4; scale_: 0.02
+Changing value: 1 == 9.40093e+009 = 997386 + (0.02 * (6.44227e+009 - 100000))
+New current_values_[i]: 1.29841e+008
+Changing value: 2 == 14.1342 = 8 + (0.02 * (13.0792 - 7.89362))
+New current_values_[i]: 8.10371
+Changing value: 3 == 45.9341 = 3 + (0.02 * (49.8911 - 2.04249))
+New current_values_[i]: 3.95697
+0.000388677 1.29841e+008 8.10371 3.95697 
+5]] 0.000388677 1.29841e+008 8.10371 3.95697 
+Objective Score: 1.43935e+012
+trial_energy_: 1.43935e+012; best_energy_: 2698.13
+Best1Exp candidate: 6; r1_; 9; r2_: 4; scale_: 0.02
+Changing value: 0 == 0.0419732 = 0.000153139 + (0.02 * (0.0700178 - 1e-010))
+New current_values_[i]: 0.00155349
+Changing value: 1 == 8.04097e+009 = 997386 + (0.02 * (6.44227e+009 - 100000))
+New current_values_[i]: 1.29841e+008
+Changing value: 2 == 12.374 = 8 + (0.02 * (13.0792 - 7.89362))
+New current_values_[i]: 8.10371
+Changing value: 3 == 0.182344 = 3 + (0.02 * (49.8911 - 2.04249))
+New current_values_[i]: 3.95697
+0.00155349 1.29841e+008 8.10371 3.95697 
+6]] 0.00155349 1.29841e+008 8.10371 3.95697 
+Objective Score: 1.79918e+012
+trial_energy_: 1.79918e+012; best_energy_: 2698.13
+Best1Exp candidate: 7; r1_; 3; r2_: 9; scale_: 0.02
+Changing value: 0 == 0.0488318 = 0.000153139 + (0.02 * (1e-010 - 0.0700178))
+New current_values_[i]: -0.00124722
+Changing value: 1 == 8.82206e+009 = 997386 + (0.02 * (100000 - 6.44227e+009))
+New current_values_[i]: -1.27846e+008
+Changing value: 2 == 18.751 = 8 + (0.02 * (8.09958 - 13.0792))
+New current_values_[i]: 7.90041
+Changing value: 3 == 49.2845 = 3 + (0.02 * (2.68675 - 49.8911))
+New current_values_[i]: 2.05591
+1e-010 100000 7.90041 2.05591 
+7]] 1e-010 100000 7.90041 2.05591 
+Objective Score: 2.24898e+012
+trial_energy_: 2.24898e+012; best_energy_: 2698.13
+Best1Exp candidate: 8; r1_; 2; r2_: 4; scale_: 0.02
+Changing value: 0 == 0.0431288 = 0.000153139 + (0.02 * (0.00101571 - 1e-010))
+New current_values_[i]: 0.000173453
+Changing value: 1 == 1.28021e+009 = 997386 + (0.02 * (2.65996e+007 - 100000))
+New current_values_[i]: 1.52738e+006
+Changing value: 2 == 17.5328 = 8 + (0.02 * (8.19005 - 7.89362))
+New current_values_[i]: 8.00593
+Changing value: 3 == 38.5795 = 3 + (0.02 * (3.71803 - 2.04249))
+New current_values_[i]: 3.03351
+0.000173453 1.52738e+006 8.00593 3.03351 
+8]] 0.000173453 1.52738e+006 8.00593 3.03351 
+Objective Score: 2.69877e+012
+trial_energy_: 2.69877e+012; best_energy_: 2698.13
+Best1Exp candidate: 9; r1_; 8; r2_: 0; scale_: 0.02
+Changing value: 2 == 13.0792 = 8 + (0.02 * (8.00593 - 8.03013))
+New current_values_[i]: 7.99952
+Changing value: 3 == 49.8911 = 3 + (0.02 * (3.03351 - 2.67782))
+New current_values_[i]: 3.00711
+0.0700178 6.44227e+009 7.99952 3.00711 
+9]] 0.0700178 6.44227e+009 7.99952 3.00711 
+Objective Score: 3.14857e+012
+trial_energy_: 3.14857e+012; best_energy_: 2698.13
+DESolver: (no convergence) convergence_check: 1.26223; tolerance: 0.01
+DE Solver has failed to converge
+[my-objective-function]
+report.type: objective_function
+obs->CAA-year-1998: 146.965
+obs->CAA-year-1999: 180.145
+obs->CAA-year-2000: 175.242
+obs->CAA-year-2001: 155.11
+obs->CAA-year-2002: 214.921
+obs->CAA-year-2003: 328.304
+obs->CAA-year-2004: 206.353
+obs->CAA-year-2005: 209.122
+obs->CAA-year-2006: 271.216
+obs->CAA-year-2007: 250.353
+obs->CPUE-1998: 4047.01
+obs->CPUE-1999: 3634.3
+obs->CPUE-2000: 3629.74
+obs->CPUE-2001: 3868.79
+obs->CPUE-2002: 3364.89
+obs->CPUE-2003: 3531.73
+obs->CPUE-2004: 3809.93
+obs->CPUE-2005: 3514.61
+obs->CPUE-2006: 3360.95
+obs->CPUE-2007: 3462.73
+penalty->event_mortality_penalty(Fishing): 3.26312e+010
+penalty->event_mortality_penalty(Fishing): 5.73279e+010
+penalty->event_mortality_penalty(Fishing): 3.26312e+010
+penalty->event_mortality_penalty(Fishing): 5.73279e+010
+penalty->event_mortality_penalty(Fishing): 3.26312e+010
+penalty->event_mortality_penalty(Fishing): 5.73279e+010
+penalty->event_mortality_penalty(Fishing): 3.26312e+010
+penalty->event_mortality_penalty(Fishing): 5.73279e+010
+penalty->event_mortality_penalty(Fishing): 3.26312e+010
+penalty->event_mortality_penalty(Fishing): 5.73279e+010
+prior->catchability[CPUEq].q: 0
+prior->process[Recruitment].R0: 22.5861
+prior->selectivity[FishingSel].a50: 0
+prior->selectivity[FishingSel].ato95: 0
+total_score: 3.14857e+012
+*end
+
+Total elapsed time: 1 second
+Completed

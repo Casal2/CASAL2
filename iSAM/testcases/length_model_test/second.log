@@ -1,0 +1,28 @@
+iSAM
+Call: isam -r 
+Date: Wed Apr 15 13:50:50 2015
+Version: 2015-04-02 01:33:23 UTC (rev. bb611a4)
+Copyright (c) 2012 - 2015, NIWA (www.niwa.co.nz)
+Environment: machine:ANUBIS, user:Admin, os:Windows_NT, pid:6056
+
+[ERROR] ..\source\Model\Model.cpp(line: 254): At line 1 in isam.txt @model is missing required parameter length_bins
+[ERROR] ..\source\Model\Model.cpp(line: 256): At line 4 in isam.txt the parameter min_age cannot be defined in a length model
+[ERROR] ..\source\Model\Model.cpp(line: 258): At line 5 in isam.txt the parameter max_age cannot be defined in a length model
+[ERROR] ..\source\Model\Model.cpp(line: 260): At line 6 in isam.txt the parameter age_plus cannot be defined in a length model
+[ERROR] ..\source\Processes\Manager.cpp(line: 43): At line 21 in isam.txt the process Ageing is not allowed to be created when the model type is set to length
+[ERROR] ..\source\Processes\Manager.cpp(line: 43): At line 24 in isam.txt the process Recruitment is not allowed to be created when the model type is set to length
+
+********************************************************************************
+********                     SUMMARY OF ERRORS                          ********
+********************************************************************************
+Printing 6 of 6 errors
+
+#0: At line 1 in isam.txt @model is missing required parameter length_bins
+#1: At line 4 in isam.txt the parameter min_age cannot be defined in a length model
+#2: At line 5 in isam.txt the parameter max_age cannot be defined in a length model
+#3: At line 6 in isam.txt the parameter age_plus cannot be defined in a length model
+#4: At line 21 in isam.txt the process Ageing is not allowed to be created when the model type is set to length
+#5: At line 24 in isam.txt the process Recruitment is not allowed to be created when the model type is set to length
+
+Total elapsed time: 1 second
+Completed

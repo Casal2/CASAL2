@@ -1,0 +1,3 @@
+@model
+categories m f u
+!include "include_2.txt"
