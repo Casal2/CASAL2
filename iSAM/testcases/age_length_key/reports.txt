@@ -1,0 +1,4 @@
+@report alk
+type age_length_key
+time_step step_one
+years 1998

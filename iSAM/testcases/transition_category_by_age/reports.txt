@@ -1,0 +1,9 @@
+@report partition
+type partition
+years 1995 2008
+time_step step_one
+
+@report partition
+type partition
+years 1995 2008
+time_step step_one_pt_five

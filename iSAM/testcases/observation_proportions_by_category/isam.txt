@@ -1,0 +1,79 @@
+@model
+start_year 1994
+final_year 2012
+min_age 1
+max_age 12
+age_plus t
+initialisation_phases iphase1 iphase2
+time_steps step_one=[processes=Recruitment] step_two=[processes=Ageing]
+
+@categories
+format stage.sex
+names immature.male mature.male immature.female mature.female
+
+@initialisation_phase iphase1
+years 200
+
+@initialisation_phase iphase2
+years 1
+
+@ageing Ageing
+categories *
+
+@recruitment Recruitment
+type beverton_holt
+categories stage=immature
+proportions 0.5 0.5
+r0 1.6059e+006
+age 1
+ssb SSB
+standardise_ycs_years 1995:2006 #need this?
+ycs_values 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+steepness 0.75
+
+@derived_quantity SSB
+type biomass
+time_step model.step_one
+categories stage=immature
+selectivities MaturityMale MaturityFemale 
+
+@selectivity MaturityMale
+type logistic 
+a50 11.99
+ato95 5.25
+
+@selectivity MaturityFemale
+type logistic 
+a50 16.92
+ato95 7.68
+
+@observation proportions_by_category_observation
+type proportions_by_category
+years 2008
+time_step model.step_one
+categories immature.male
+categories2 mature.male mature.female
+selectivities constant
+selectivities2 constant constant
+min_age 5
+max_age 7
+age_plus t
+table obs
+2008 0.1 0.2 0.7
+end_table
+table error_values
+2008 1300 1400 1500
+end_table
+likelihood binomial
+delta 1e-11
+
+@selectivity constant
+type constant
+c 1
+
+@report observations
+type observation
+observation proportions_by_category_observation
+
+@report obs
+type objective_function
