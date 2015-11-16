@@ -437,7 +437,7 @@ void IndependenceMetropolis::Execute() {
       jumps_since_adapt_++;
       // Record the score, and its compontent parts if the successful jump divided by keep has no remainder
       // i.e the accepted candidate is a keep value
-      if (successful_jumps_ % keep_ == 0) {
+      if (jumps_ % keep_ == 0) {
         LOG_FINE() << "Keeping jump " << successful_jumps_;
         mcmc::ChainLink new_link;
         new_link.iteration_ = successful_jumps_;
@@ -464,7 +464,7 @@ void IndependenceMetropolis::Execute() {
     }
 
     LOG_FINEST() << successful_jumps_ << " successful jumps have been completed";
-  } while (successful_jumps_ <= length_);
+  } while (jumps_ <= length_);
 }
 
 } /* namespace mcmcs */
