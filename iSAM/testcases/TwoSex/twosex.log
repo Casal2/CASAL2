@@ -1,0 +1,37 @@
+iSAM
+Call: isam -r 
+Date: Tue Apr 21 15:39:04 2015
+Version: 2015-04-16 23:48:40 UTC (rev. c45efa5)
+Copyright (c) 2012 - 2015, NIWA (www.niwa.co.nz)
+Environment: machine:ANUBIS, user:Admin, os:Windows_NT, pid:7176
+
+[ERROR] ..\source\ParameterList\ParameterList.cpp(line: 159): At line 79 of file estimation.txt the label 'process[Recruitment].r0' contains invalid characters: []
+[ERROR] ..\source\ParameterList\ParameterList.cpp(line: 129): At line 85 in estimation.txt the following parameters are required but have not been defined: parameter 
+[ERROR] ..\source\ParameterList\ParameterList.cpp(line: 159): At line 85 of file estimation.txt the label 'selectivity[One].c' contains invalid characters: []
+[ERROR] ..\source\ParameterList\ParameterList.cpp(line: 159): At line 91 of file estimation.txt the label 'catchability[CPUEq].q' contains invalid characters: []
+[ERROR] ..\source\ParameterList\ParameterList.cpp(line: 159): At line 91 of file estimation.txt the label 'catchability[CPUEq].q' contains invalid characters: []
+[ERROR] ..\source\ParameterList\ParameterList.cpp(line: 159): At line 99 of file estimation.txt the label 'process[Recruitment].R0' contains invalid characters: []
+[ERROR] ..\source\ParameterList\ParameterList.cpp(line: 159): At line 99 of file estimation.txt the label 'process[Recruitment].R0' contains invalid characters: []
+[ERROR] ..\source\ParameterList\ParameterList.cpp(line: 159): At line 105 of file estimation.txt the label 'selectivity[FishingSel].a50' contains invalid characters: []
+[ERROR] ..\source\ParameterList\ParameterList.cpp(line: 159): At line 105 of file estimation.txt the label 'selectivity[FishingSel].a50' contains invalid characters: []
+[ERROR] ..\source\ParameterList\ParameterList.cpp(line: 159): At line 111 of file estimation.txt the label 'selectivity[FishingSel].ato95' contains invalid characters: []
+[ERROR] ..\source\ParameterList\ParameterList.cpp(line: 159): At line 111 of file estimation.txt the label 'selectivity[FishingSel].ato95' contains invalid characters: []
+
+********************************************************************************
+********                     SUMMARY OF ERRORS                          ********
+********************************************************************************
+Printing 10 of 11 errors
+
+#1: At line 79 of file estimation.txt the label 'process[Recruitment].r0' contains invalid characters: []
+#2: At line 85 in estimation.txt the following parameters are required but have not been defined: parameter 
+#3: At line 85 of file estimation.txt the label 'selectivity[One].c' contains invalid characters: []
+#4: At line 91 of file estimation.txt the label 'catchability[CPUEq].q' contains invalid characters: []
+#5: At line 91 of file estimation.txt the label 'catchability[CPUEq].q' contains invalid characters: []
+#6: At line 99 of file estimation.txt the label 'process[Recruitment].R0' contains invalid characters: []
+#7: At line 99 of file estimation.txt the label 'process[Recruitment].R0' contains invalid characters: []
+#8: At line 105 of file estimation.txt the label 'selectivity[FishingSel].a50' contains invalid characters: []
+#9: At line 105 of file estimation.txt the label 'selectivity[FishingSel].a50' contains invalid characters: []
+#10: At line 111 of file estimation.txt the label 'selectivity[FishingSel].ato95' contains invalid characters: []
+
+Total elapsed time: 1 second
+Completed

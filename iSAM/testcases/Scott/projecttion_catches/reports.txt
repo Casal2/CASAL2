@@ -1,0 +1,25 @@
+{
+@report objective
+type objective_function
+
+@report meh
+type simulated_observation
+observation chatTANage1992
+}
+
+@project catch_2000
+type constant
+parameter process[fishing].catches
+years 2004
+value 1234
+
+@report catch_2000
+type estimable
+parameter process[fishing].catches(2004)
+years 2003 2004 2005
+time_step one
+
+@report partition_2005
+type partition
+years 2005
+time_step one

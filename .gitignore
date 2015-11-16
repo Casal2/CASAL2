@@ -55,3 +55,6 @@
 /iSAM/.cproject
 /iSAM/.settings
 /Documentation/Manual/*.aux
+/TestModels/additional_priors/run.log
+/TestModels/agelengths_data/run.log
+/TestModels/estimates_with_matching_bounds/run.log
