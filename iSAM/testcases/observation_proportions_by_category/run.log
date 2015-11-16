@@ -1,0 +1,23 @@
+iSAM
+Call: isam -r 
+Date: Thu Jun 04 13:51:06 2015
+Version: 2015-05-22 01:32:50 UTC (rev. 30a6527)
+Copyright (c) 2012 - 2015, NIWA (www.niwa.co.nz)
+Environment: machine:ANUBIS, user:Admin, os:Windows_NT, pid:1260
+
+[observations]
+observation: proportions_by_category_observation
+Comparisons: 
+year category age observed expected residual error_value score
+2008 immature.male 5 0.1 0 0.1 1300 2963.5
+2008 immature.male 6 0.2 0 0.2 1400 6589.1
+2008 immature.male 7 0.7 0 0.7 1500 26410.2
+*end
+
+[obs]
+obs->proportions_by_category_observation: 35962.8
+total_score: 35962.8
+*end
+
+Total elapsed time: 1 second
+Completed

@@ -1,0 +1,426 @@
+iSAM
+Call: isam -r --loglevel trace 
+Date: Tue Apr 21 16:01:43 2015
+Version: 2015-04-16 23:48:40 UTC (rev. c45efa5)
+Copyright (c) 2012 - 2015, NIWA (www.niwa.co.nz)
+Environment: machine:ANUBIS, user:Admin, os:Windows_NT, pid:5548
+
+[TRACE] ..\source\ConfigurationLoader\File.cpp(line: 53)
+[TRACE] ..\source\ConfigurationLoader\File.cpp(line: 69)
+[FINEST] ..\source\ConfigurationLoader\File.cpp(line: 96): current_line == '!include "population.txt"'
+[FINEST] ..\source\ConfigurationLoader\File.cpp(line: 106): Loading new configuration file via include  "population.txt"
+[TRACE] ..\source\ConfigurationLoader\File.cpp(line: 53)
+[TRACE] ..\source\ConfigurationLoader\File.cpp(line: 69)
+[FINEST] ..\source\ConfigurationLoader\File.cpp(line: 96): current_line == '@model'
+[FINEST] ..\source\ConfigurationLoader\File.cpp(line: 96): current_line == 'start_year 1994'
+[FINEST] ..\source\ConfigurationLoader\File.cpp(line: 96): current_line == 'final_year 2008'
+[FINEST] ..\source\ConfigurationLoader\File.cpp(line: 96): current_line == 'min_age 1'
+[FINEST] ..\source\ConfigurationLoader\File.cpp(line: 96): current_line == 'max_age 50'
+[FINEST] ..\source\ConfigurationLoader\File.cpp(line: 96): current_line == 'age_plus t'
+[FINEST] ..\source\ConfigurationLoader\File.cpp(line: 96): current_line == 'initialisation_phases iphase1 iphase2'
+[FINEST] ..\source\ConfigurationLoader\File.cpp(line: 96): current_line == 'time_steps step_one step_two'
+[FINEST] ..\source\ConfigurationLoader\File.cpp(line: 96): current_line == '@categories'
+[FINEST] ..\source\ConfigurationLoader\File.cpp(line: 96): current_line == 'format stage.sex'
+[FINEST] ..\source\ConfigurationLoader\File.cpp(line: 96): current_line == 'names immature.male mature.male immature.female mature.female'
+[FINEST] ..\source\ConfigurationLoader\File.cpp(line: 96): current_line == '@initialisation_phase iphase1'
+[FINEST] ..\source\ConfigurationLoader\File.cpp(line: 96): current_line == 'years 200'
+[FINEST] ..\source\ConfigurationLoader\File.cpp(line: 96): current_line == 'exclude_processes Fishing'
+[FINEST] ..\source\ConfigurationLoader\File.cpp(line: 96): current_line == '@initialisation_phase iphase2'
+[FINEST] ..\source\ConfigurationLoader\File.cpp(line: 96): current_line == 'years 1'
+[FINEST] ..\source\ConfigurationLoader\File.cpp(line: 96): current_line == 'exclude_processes Fishing'
+[FINEST] ..\source\ConfigurationLoader\File.cpp(line: 96): current_line == '@time_step step_one'
+[FINEST] ..\source\ConfigurationLoader\File.cpp(line: 96): current_line == 'processes Recruitment maturation halfM Fishing halfM'
+[FINEST] ..\source\ConfigurationLoader\File.cpp(line: 96): current_line == '@time_step step_two'
+[FINEST] ..\source\ConfigurationLoader\File.cpp(line: 96): current_line == 'processes my_ageing'
+[FINEST] ..\source\ConfigurationLoader\File.cpp(line: 96): current_line == '@ageing my_ageing'
+[FINEST] ..\source\ConfigurationLoader\File.cpp(line: 96): current_line == 'categories immature.male mature.male immature.female mature.female'
+[FINEST] ..\source\ConfigurationLoader\File.cpp(line: 96): current_line == '@Recruitment Recruitment'
+[FINEST] ..\source\ConfigurationLoader\File.cpp(line: 96): current_line == 'type constant'
+[FINEST] ..\source\ConfigurationLoader\File.cpp(line: 96): current_line == 'categories immature.male immature.female'
+[FINEST] ..\source\ConfigurationLoader\File.cpp(line: 96): current_line == 'proportions 0.5 0.5'
+[FINEST] ..\source\ConfigurationLoader\File.cpp(line: 96): current_line == 'R0 997386'
+[FINEST] ..\source\ConfigurationLoader\File.cpp(line: 96): current_line == 'age 1'
+[FINEST] ..\source\ConfigurationLoader\File.cpp(line: 96): current_line == '@mortality halfM'
+[FINEST] ..\source\ConfigurationLoader\File.cpp(line: 96): current_line == 'type constant_rate'
+[FINEST] ..\source\ConfigurationLoader\File.cpp(line: 96): current_line == 'categories immature.male mature.male immature.female mature.female'
+[FINEST] ..\source\ConfigurationLoader\File.cpp(line: 96): current_line == 'M 0.065 0.065 0.065 0.065'
+[FINEST] ..\source\ConfigurationLoader\File.cpp(line: 96): current_line == 'selectivities One One One One'
+[FINEST] ..\source\ConfigurationLoader\File.cpp(line: 96): current_line == '@mortality Fishing'
+[FINEST] ..\source\ConfigurationLoader\File.cpp(line: 96): current_line == 'type event'
+[FINEST] ..\source\ConfigurationLoader\File.cpp(line: 96): current_line == 'categories immature.male mature.male immature.female mature.female'
+[FINEST] ..\source\ConfigurationLoader\File.cpp(line: 96): current_line == 'years 1998 1999 2000 2001 2002 2003 2004 2005 2006 2007'
+[FINEST] ..\source\ConfigurationLoader\File.cpp(line: 96): current_line == 'catches 1849.153714 14442.000000 28323.203463 24207.464203 47279.000000 58350.943094 82875.872790 115974.547730 113852.472257 119739.517172'
+[FINEST] ..\source\ConfigurationLoader\File.cpp(line: 96): current_line == 'U_max 0.99'
+[FINEST] ..\source\ConfigurationLoader\File.cpp(line: 96): current_line == 'selectivities FishingSel FishingSel FishingSel FishingSel'
+[FINEST] ..\source\ConfigurationLoader\File.cpp(line: 96): current_line == 'penalty event_mortality_penalty'
+[FINEST] ..\source\ConfigurationLoader\File.cpp(line: 96): current_line == '@maturation maturation'
+[FINEST] ..\source\ConfigurationLoader\File.cpp(line: 96): current_line == 'type rate'
+[FINEST] ..\source\ConfigurationLoader\File.cpp(line: 96): current_line == 'from immature.male immature.female'
+[FINEST] ..\source\ConfigurationLoader\File.cpp(line: 96): current_line == 'to mature.male mature.female'
+[FINEST] ..\source\ConfigurationLoader\File.cpp(line: 96): current_line == 'proportions 1.0 1.0'
+[FINEST] ..\source\ConfigurationLoader\File.cpp(line: 96): current_line == 'selectivities Maturation Maturation'
+[FINEST] ..\source\ConfigurationLoader\File.cpp(line: 96): current_line == '@selectivity One'
+[FINEST] ..\source\ConfigurationLoader\File.cpp(line: 96): current_line == 'type constant'
+[FINEST] ..\source\ConfigurationLoader\File.cpp(line: 96): current_line == 'c 1'
+[FINEST] ..\source\ConfigurationLoader\File.cpp(line: 96): current_line == '@selectivity Maturation'
+[FINEST] ..\source\ConfigurationLoader\File.cpp(line: 96): current_line == 'type logistic_producing'
+[FINEST] ..\source\ConfigurationLoader\File.cpp(line: 96): current_line == 'L 5'
+[FINEST] ..\source\ConfigurationLoader\File.cpp(line: 96): current_line == 'H 30'
+[FINEST] ..\source\ConfigurationLoader\File.cpp(line: 96): current_line == 'a50 8'
+[FINEST] ..\source\ConfigurationLoader\File.cpp(line: 96): current_line == 'ato95 3'
+[FINEST] ..\source\ConfigurationLoader\File.cpp(line: 96): current_line == '@selectivity FishingSel'
+[FINEST] ..\source\ConfigurationLoader\File.cpp(line: 96): current_line == 'type logistic'
+[FINEST] ..\source\ConfigurationLoader\File.cpp(line: 96): current_line == 'a50 8'
+[FINEST] ..\source\ConfigurationLoader\File.cpp(line: 96): current_line == 'ato95 3'
+[FINEST] ..\source\ConfigurationLoader\File.cpp(line: 96): current_line == '!include "reports.txt"'
+[FINEST] ..\source\ConfigurationLoader\File.cpp(line: 106): Loading new configuration file via include  "reports.txt"
+[TRACE] ..\source\ConfigurationLoader\File.cpp(line: 53)
+[TRACE] ..\source\ConfigurationLoader\File.cpp(line: 69)
+[FINEST] ..\source\ConfigurationLoader\File.cpp(line: 96): current_line == '@report my-objective-function'
+[FINEST] ..\source\ConfigurationLoader\File.cpp(line: 96): current_line == 'type objective_function'
+[FINEST] ..\source\ConfigurationLoader\File.cpp(line: 96): current_line == '@report summary'
+[FINEST] ..\source\ConfigurationLoader\File.cpp(line: 96): current_line == 'type estimate_value'
+[FINEST] ..\source\ConfigurationLoader\File.cpp(line: 96): current_line == '!include "estimation.txt"'
+[FINEST] ..\source\ConfigurationLoader\File.cpp(line: 106): Loading new configuration file via include  "estimation.txt"
+[TRACE] ..\source\ConfigurationLoader\File.cpp(line: 53)
+[TRACE] ..\source\ConfigurationLoader\File.cpp(line: 69)
+[FINEST] ..\source\ConfigurationLoader\File.cpp(line: 96): current_line == '@minimiser de'
+[FINEST] ..\source\ConfigurationLoader\File.cpp(line: 96): current_line == 'type de_solver'
+[FINEST] ..\source\ConfigurationLoader\File.cpp(line: 96): current_line == 'covariance false'
+[FINEST] ..\source\ConfigurationLoader\File.cpp(line: 96): current_line == 'population_size 100'
+[FINEST] ..\source\ConfigurationLoader\File.cpp(line: 96): current_line == 'max_generations 1000'
+[FINEST] ..\source\ConfigurationLoader\File.cpp(line: 96): current_line == '@minimiser gammadiff'
+[FINEST] ..\source\ConfigurationLoader\File.cpp(line: 96): current_line == 'type numerical_differences'
+[FINEST] ..\source\ConfigurationLoader\File.cpp(line: 96): current_line == 'iterations 1000'
+[FINEST] ..\source\ConfigurationLoader\File.cpp(line: 96): current_line == 'evaluations 4000'
+[FINEST] ..\source\ConfigurationLoader\File.cpp(line: 96): current_line == 'step_size 1e-7'
+[FINEST] ..\source\ConfigurationLoader\File.cpp(line: 96): current_line == 'tolerance 0.002'
+[FINEST] ..\source\ConfigurationLoader\File.cpp(line: 96): current_line == 'covariance True'
+[FINEST] ..\source\ConfigurationLoader\File.cpp(line: 96): current_line == 'active true'
+[FINEST] ..\source\ConfigurationLoader\File.cpp(line: 96): current_line == '@minimiser dlib'
+[FINEST] ..\source\ConfigurationLoader\File.cpp(line: 96): current_line == 'type dlib'
+[FINEST] ..\source\ConfigurationLoader\File.cpp(line: 96): current_line == '@mcmc'
+[FINEST] ..\source\ConfigurationLoader\File.cpp(line: 96): current_line == 'length 100'
+[FINEST] ..\source\ConfigurationLoader\File.cpp(line: 96): current_line == '@catchability CPUEq'
+[FINEST] ..\source\ConfigurationLoader\File.cpp(line: 96): current_line == 'q 0.000153139'
+[FINEST] ..\source\ConfigurationLoader\File.cpp(line: 96): current_line == '@observation CAA-year'
+[FINEST] ..\source\ConfigurationLoader\File.cpp(line: 96): current_line == 'type proportions_at_age'
+[FINEST] ..\source\ConfigurationLoader\File.cpp(line: 96): current_line == 'years 1998:2007'
+[FINEST] ..\source\ConfigurationLoader\File.cpp(line: 96): current_line == 'time_step step_one'
+[FINEST] ..\source\ConfigurationLoader\File.cpp(line: 96): current_line == 'categories immature.male + mature.male + immature.female + mature.female'
+[FINEST] ..\source\ConfigurationLoader\File.cpp(line: 96): current_line == 'selectivities FishingSel FishingSel FishingSel FishingSel'
+[FINEST] ..\source\ConfigurationLoader\File.cpp(line: 96): current_line == 'min_age 1'
+[FINEST] ..\source\ConfigurationLoader\File.cpp(line: 96): current_line == 'max_age 35'
+[FINEST] ..\source\ConfigurationLoader\File.cpp(line: 96): current_line == 'age_plus True'
+[FINEST] ..\source\ConfigurationLoader\File.cpp(line: 96): current_line == 'table obs'
+[FINEST] ..\source\ConfigurationLoader\File.cpp(line: 96): current_line == '1998 0.00000 0.00000 0.01382 0.03178 0.08416 0.03859 0.06588 0.08455 0.05462 0.07629 0.03963 0.07307 0.07535 0.07065 0.04555 0.06775 0.02900 0.02156 0.02174 0.01617 0.01136 0.01653 0.00646 0.01327 0.00948 0.00838 0.00959 0.00189 0.00414 0.00518 0.00000 0.00000 0.00058 0.00068 0.00230'
+[FINEST] ..\source\ConfigurationLoader\File.cpp(line: 96): current_line == '1999 0.00000 0.00000 0.00086 0.00244 0.00448 0.03929 0.10549 0.11334 0.10784 0.09378 0.08746 0.10926 0.07183 0.07593 0.06111 0.03952 0.01718 0.01463 0.01281 0.00675 0.01591 0.00337 0.00814 0.00000 0.00051 0.00000 0.00391 0.00090 0.00138 0.00000 0.00000 0.00000 0.00000 0.00097 0.00090'
+[FINEST] ..\source\ConfigurationLoader\File.cpp(line: 96): current_line == '2000 0.00000 0.00000 0.00000 0.00037 0.00415 0.00640 0.01976 0.07120 0.08222 0.07515 0.08747 0.05801 0.10737 0.08080 0.08953 0.09575 0.06014 0.06322 0.02783 0.02057 0.02040 0.00738 0.00755 0.00536 0.00203 0.00438 0.00000 0.00242 0.00000 0.00045 0.00000 0.00000 0.00008 0.00000 0.00000'
+[FINEST] ..\source\ConfigurationLoader\File.cpp(line: 96): current_line == '2001 0.00000 0.00000 0.00000 0.00200 0.00350 0.03549 0.06725 0.09951 0.08653 0.04724 0.05347 0.04106 0.03943 0.05259 0.05045 0.06034 0.04739 0.04569 0.04445 0.03272 0.03233 0.02405 0.02646 0.02949 0.01345 0.01439 0.01173 0.01423 0.00349 0.00762 0.00389 0.00477 0.00227 0.00073 0.00126'
+[FINEST] ..\source\ConfigurationLoader\File.cpp(line: 96): current_line == '2002 0.00000 0.00000 0.00900 0.00021 0.00166 0.00281 0.00261 0.01229 0.04306 0.03154 0.05151 0.06312 0.06697 0.09535 0.05892 0.07222 0.07539 0.04725 0.04795 0.02844 0.04516 0.04174 0.02689 0.03357 0.01697 0.03698 0.02749 0.01893 0.01425 0.01098 0.00479 0.00452 0.00247 0.00324 0.00215'
+[FINEST] ..\source\ConfigurationLoader\File.cpp(line: 96): current_line == '2003 0.00000 0.00000 0.00000 0.00000 0.01000 0.00065 0.00066 0.00345 0.00887 0.00748 0.01729 0.03141 0.03914 0.05192 0.03888 0.05965 0.06126 0.05314 0.06201 0.06782 0.04751 0.05956 0.08472 0.05216 0.05335 0.05356 0.02539 0.02896 0.03062 0.01596 0.01437 0.00435 0.00976 0.00364 0.00162'
+[FINEST] ..\source\ConfigurationLoader\File.cpp(line: 96): current_line == '2004 0.00000 0.00000 0.00300 0.00090 0.00223 0.01645 0.01668 0.01642 0.01872 0.03421 0.02997 0.04186 0.06070 0.08973 0.08342 0.06299 0.09181 0.05329 0.06977 0.03387 0.04415 0.04125 0.02680 0.02912 0.01770 0.03041 0.01543 0.01909 0.01444 0.01296 0.00816 0.00938 0.00159 0.00235 0.00135'
+[FINEST] ..\source\ConfigurationLoader\File.cpp(line: 96): current_line == '2005 0.00000 0.00000 0.01722 0.00581 0.01447 0.01395 0.00875 0.01650 0.01843 0.01546 0.03134 0.03891 0.06389 0.07664 0.08851 0.07702 0.08848 0.07067 0.05496 0.06758 0.03703 0.03704 0.03964 0.01325 0.02080 0.00893 0.00995 0.02363 0.01265 0.00666 0.00688 0.00301 0.00223 0.01005 0.00065'
+[FINEST] ..\source\ConfigurationLoader\File.cpp(line: 96): current_line == '2006 0.00000 0.00000 0.00000 0.00100 0.00434 0.00278 0.02499 0.02925 0.02513 0.02217 0.05581 0.06836 0.06633 0.10862 0.10592 0.10892 0.08496 0.06597 0.05506 0.02521 0.03047 0.02841 0.01219 0.01519 0.00872 0.01126 0.01303 0.00897 0.00162 0.00294 0.00305 0.00629 0.00269 0.00003 0.00000'
+[FINEST] ..\source\ConfigurationLoader\File.cpp(line: 96): current_line == '2007 0.00000 0.00000 0.00000 0.00095 0.00970 0.01689 0.02675 0.03727 0.03764 0.03621 0.05253 0.04765 0.04557 0.06458 0.09280 0.08854 0.09656 0.07813 0.06467 0.03323 0.03816 0.02401 0.02313 0.02351 0.01130 0.01114 0.01160 0.00656 0.00294 0.00491 0.00302 0.00557 0.00097 0.00319 0.00000'
+[FINEST] ..\source\ConfigurationLoader\File.cpp(line: 96): current_line == 'end_table'
+[FINEST] ..\source\ConfigurationLoader\File.cpp(line: 96): current_line == 'table error_values'
+[FINEST] ..\source\ConfigurationLoader\File.cpp(line: 96): current_line == '1998 343'
+[FINEST] ..\source\ConfigurationLoader\File.cpp(line: 96): current_line == '1999 564'
+[FINEST] ..\source\ConfigurationLoader\File.cpp(line: 96): current_line == '2000 651'
+[FINEST] ..\source\ConfigurationLoader\File.cpp(line: 96): current_line == '2001 840'
+[FINEST] ..\source\ConfigurationLoader\File.cpp(line: 96): current_line == '2002 598'
+[FINEST] ..\source\ConfigurationLoader\File.cpp(line: 96): current_line == '2003 456'
+[FINEST] ..\source\ConfigurationLoader\File.cpp(line: 96): current_line == '2004 538'
+[FINEST] ..\source\ConfigurationLoader\File.cpp(line: 96): current_line == '2005 438'
+[FINEST] ..\source\ConfigurationLoader\File.cpp(line: 96): current_line == '2006 817'
+[FINEST] ..\source\ConfigurationLoader\File.cpp(line: 96): current_line == '2007 915'
+[FINEST] ..\source\ConfigurationLoader\File.cpp(line: 96): current_line == 'end_table'
+[FINEST] ..\source\ConfigurationLoader\File.cpp(line: 96): current_line == 'likelihood multinomial'
+[FINEST] ..\source\ConfigurationLoader\File.cpp(line: 96): current_line == 'delta 1e-11'
+[FINEST] ..\source\ConfigurationLoader\File.cpp(line: 96): current_line == '@observation CPUE'
+[FINEST] ..\source\ConfigurationLoader\File.cpp(line: 96): current_line == 'type abundance'
+[FINEST] ..\source\ConfigurationLoader\File.cpp(line: 96): current_line == 'catchability CPUEq'
+[FINEST] ..\source\ConfigurationLoader\File.cpp(line: 96): current_line == 'years 1998:2007'
+[FINEST] ..\source\ConfigurationLoader\File.cpp(line: 96): current_line == 'time_step step_one'
+[FINEST] ..\source\ConfigurationLoader\File.cpp(line: 96): current_line == 'categories immature.male+mature.male+immature.female+mature.female'
+[FINEST] ..\source\ConfigurationLoader\File.cpp(line: 96): current_line == 'selectivities FishingSel FishingSel FishingSel FishingSel'
+[FINEST] ..\source\ConfigurationLoader\File.cpp(line: 96): current_line == 'obs 22.55065505 57.30952381 57.92066148 33.52834377 108.4380734 72.84761934 38.29753826 75.84993311 109.47353102 85.7732931'
+[FINEST] ..\source\ConfigurationLoader\File.cpp(line: 96): current_line == 'error_value 0.2'
+[FINEST] ..\source\ConfigurationLoader\File.cpp(line: 96): current_line == 'likelihood lognormal'
+[FINEST] ..\source\ConfigurationLoader\File.cpp(line: 96): current_line == '@report obs'
+[FINEST] ..\source\ConfigurationLoader\File.cpp(line: 96): current_line == 'type observation'
+[FINEST] ..\source\ConfigurationLoader\File.cpp(line: 96): current_line == 'observation CPUE'
+[FINEST] ..\source\ConfigurationLoader\File.cpp(line: 96): current_line == '@profile process[Recruitment].r0'
+[FINEST] ..\source\ConfigurationLoader\File.cpp(line: 96): current_line == 'parameter process[Recruitment].r0'
+[FINEST] ..\source\ConfigurationLoader\File.cpp(line: 96): current_line == 'lower_bound 50000'
+[FINEST] ..\source\ConfigurationLoader\File.cpp(line: 96): current_line == 'upper_bound 100000'
+[FINEST] ..\source\ConfigurationLoader\File.cpp(line: 96): current_line == 'steps 50'
+[FINEST] ..\source\ConfigurationLoader\File.cpp(line: 96): current_line == '@profile selectivity[One].c'
+[FINEST] ..\source\ConfigurationLoader\File.cpp(line: 96): current_line == 'lower_bound 1'
+[FINEST] ..\source\ConfigurationLoader\File.cpp(line: 96): current_line == 'upper_bound 5'
+[FINEST] ..\source\ConfigurationLoader\File.cpp(line: 96): current_line == 'steps 3'
+[FINEST] ..\source\ConfigurationLoader\File.cpp(line: 96): current_line == '@estimate catchability[CPUEq].q'
+[FINEST] ..\source\ConfigurationLoader\File.cpp(line: 96): current_line == 'parameter catchability[CPUEq].q'
+[FINEST] ..\source\ConfigurationLoader\File.cpp(line: 96): current_line == 'lower_bound 1e-10'
+[FINEST] ..\source\ConfigurationLoader\File.cpp(line: 96): current_line == 'upper_bound 1e-1'
+[FINEST] ..\source\ConfigurationLoader\File.cpp(line: 96): current_line == 'type Uniform'
+[FINEST] ..\source\ConfigurationLoader\File.cpp(line: 96): current_line == '@estimate process[Recruitment].R0'
+[FINEST] ..\source\ConfigurationLoader\File.cpp(line: 96): current_line == 'parameter process[Recruitment].R0'
+[FINEST] ..\source\ConfigurationLoader\File.cpp(line: 96): current_line == 'lower_bound 1e5'
+[FINEST] ..\source\ConfigurationLoader\File.cpp(line: 96): current_line == 'upper_bound 1e10'
+[FINEST] ..\source\ConfigurationLoader\File.cpp(line: 96): current_line == 'type Uniform_log'
+[FINEST] ..\source\ConfigurationLoader\File.cpp(line: 96): current_line == '@estimate selectivity[FishingSel].a50'
+[FINEST] ..\source\ConfigurationLoader\File.cpp(line: 96): current_line == 'parameter selectivity[FishingSel].a50'
+[FINEST] ..\source\ConfigurationLoader\File.cpp(line: 96): current_line == 'lower_bound 1'
+[FINEST] ..\source\ConfigurationLoader\File.cpp(line: 96): current_line == 'upper_bound 20'
+[FINEST] ..\source\ConfigurationLoader\File.cpp(line: 96): current_line == 'type Uniform'
+[FINEST] ..\source\ConfigurationLoader\File.cpp(line: 96): current_line == '@estimate selectivity[FishingSel].ato95'
+[FINEST] ..\source\ConfigurationLoader\File.cpp(line: 96): current_line == 'parameter selectivity[FishingSel].ato95'
+[FINEST] ..\source\ConfigurationLoader\File.cpp(line: 96): current_line == 'lower_bound 0.01'
+[FINEST] ..\source\ConfigurationLoader\File.cpp(line: 96): current_line == 'upper_bound 50'
+[FINEST] ..\source\ConfigurationLoader\File.cpp(line: 96): current_line == 'type Uniform'
+[FINEST] ..\source\ConfigurationLoader\File.cpp(line: 96): current_line == '@penalty event_mortality_penalty'
+[FINEST] ..\source\ConfigurationLoader\File.cpp(line: 96): current_line == 'type process'
+[FINEST] ..\source\ConfigurationLoader\File.cpp(line: 96): current_line == 'log_scale False'
+[FINEST] ..\source\ConfigurationLoader\File.cpp(line: 96): current_line == 'multiplier 10'
+[FINEST] ..\source\ConfigurationLoader\File.cpp(line: 96): current_line == '@penalty event_mortality_penalty'
+[FINEST] ..\source\ConfigurationLoader\File.cpp(line: 96): current_line == 'type process'
+[FINEST] ..\source\ConfigurationLoader\File.cpp(line: 96): current_line == 'log_scale False'
+[FINEST] ..\source\ConfigurationLoader\File.cpp(line: 96): current_line == 'multiplier 10'
+[FINEST] ..\source\ConfigurationLoader\Loader.cpp(line: 71): file_lines_.size() == 169
+[TRACE] ..\source\ConfigurationLoader\Loader.cpp(line: 102)
+[TRACE] ..\source\ConfigurationLoader\Loader.cpp(line: 160)
+[TRACE] ..\source\Model\Model.cpp(line: 65)
+[TRACE] ..\source\ConfigurationLoader\Loader.cpp(line: 160)
+[TRACE] ..\source\Categories\Categories.cpp(line: 33)
+[TRACE] ..\source\ConfigurationLoader\Loader.cpp(line: 160)
+[TRACE] ..\source\InitialisationPhases\InitialisationPhase.cpp(line: 23)
+[TRACE] ..\source\Partition\Accessors\Age\Cached\Categories.cpp(line: 29)
+[TRACE] ..\source\ConfigurationLoader\Loader.cpp(line: 160)
+[TRACE] ..\source\InitialisationPhases\InitialisationPhase.cpp(line: 23)
+[TRACE] ..\source\Partition\Accessors\Age\Cached\Categories.cpp(line: 29)
+[TRACE] ..\source\ConfigurationLoader\Loader.cpp(line: 160)
+[TRACE] ..\source\TimeSteps\TimeStep.cpp(line: 29)
+[FINE] ..\source\TimeSteps\Manager.cpp(line: 28): TimeStep Manager Constructor
+[TRACE] ..\source\ConfigurationLoader\Loader.cpp(line: 160)
+[TRACE] ..\source\TimeSteps\TimeStep.cpp(line: 29)
+[TRACE] ..\source\ConfigurationLoader\Loader.cpp(line: 160)
+[FINE] ..\source\Processes\Factory.cpp(line: 50): Changing object_type (ageing) and sub_type () to the standard declaration format
+[FINE] ..\source\Processes\Factory.cpp(line: 58): Finished modification of object_type (process) and sub_type (ageing)
+[TRACE] ..\source\Processes\Children\Ageing.cpp(line: 29)
+[TRACE] ..\source\ConfigurationLoader\Loader.cpp(line: 160)
+[FINE] ..\source\Processes\Factory.cpp(line: 50): Changing object_type (recruitment) and sub_type () to the standard declaration format
+[FINE] ..\source\Processes\Factory.cpp(line: 58): Finished modification of object_type (process) and sub_type (recruitment_constant)
+[TRACE] ..\source\ConfigurationLoader\Loader.cpp(line: 160)
+[FINE] ..\source\Processes\Factory.cpp(line: 50): Changing object_type (mortality) and sub_type () to the standard declaration format
+[FINE] ..\source\Processes\Factory.cpp(line: 58): Finished modification of object_type (process) and sub_type (mortality_constant_rate)
+[TRACE] ..\source\Processes\Children\MortalityConstantRate.cpp(line: 32)
+[TRACE] ..\source\ConfigurationLoader\Loader.cpp(line: 160)
+[FINE] ..\source\Processes\Factory.cpp(line: 50): Changing object_type (mortality) and sub_type () to the standard declaration format
+[FINE] ..\source\Processes\Factory.cpp(line: 58): Finished modification of object_type (process) and sub_type (mortality_event)
+[TRACE] ..\source\ConfigurationLoader\Loader.cpp(line: 160)
+[FINE] ..\source\Processes\Factory.cpp(line: 50): Changing object_type (maturation) and sub_type () to the standard declaration format
+[FINE] ..\source\Processes\Factory.cpp(line: 58): Finished modification of object_type (process) and sub_type (maturation_rate)
+[TRACE] ..\source\Processes\Children\MaturationRate.cpp(line: 27)
+[TRACE] ..\source\ConfigurationLoader\Loader.cpp(line: 160)
+[TRACE] ..\source\ConfigurationLoader\Loader.cpp(line: 160)
+[TRACE] ..\source\ConfigurationLoader\Loader.cpp(line: 160)
+[TRACE] ..\source\ConfigurationLoader\Loader.cpp(line: 160)
+[TRACE] ..\source\ConfigurationLoader\Loader.cpp(line: 160)
+[TRACE] ..\source\ConfigurationLoader\Loader.cpp(line: 160)
+[TRACE] ..\source\ConfigurationLoader\Loader.cpp(line: 160)
+[TRACE] ..\source\ConfigurationLoader\Loader.cpp(line: 160)
+[TRACE] ..\source\ConfigurationLoader\Loader.cpp(line: 160)
+[TRACE] ..\source\ConfigurationLoader\Loader.cpp(line: 160)
+[TRACE] ..\source\ConfigurationLoader\Loader.cpp(line: 160)
+[TRACE] ..\source\ConfigurationLoader\Loader.cpp(line: 160)
+[TRACE] ..\source\ConfigurationLoader\Loader.cpp(line: 160)
+[TRACE] ..\source\Reports\Children\Observation.cpp(line: 25)
+[TRACE] ..\source\ConfigurationLoader\Loader.cpp(line: 160)
+[FINEST] ..\source\ConfigurationLoader\Loader.cpp(line: 489): block_type: parameter
+[FINEST] ..\source\ConfigurationLoader\Loader.cpp(line: 492): block_type: parameter
+[FINEST] ..\source\ConfigurationLoader\Loader.cpp(line: 517): Inline definition label: process[Recruitment].r0.1 | full definition: [Recruitment]
+[FINEST] ..\source\ConfigurationLoader\Loader.cpp(line: 550): first_inline_bracket: 17; second_inline_bracket: 29
+[FINEST] ..\source\ConfigurationLoader\Loader.cpp(line: 555): first_inline_bracket: 18446744073709551615; second_inline_bracket: 18446744073709551615
+[FINEST] ..\source\ConfigurationLoader\Loader.cpp(line: 570): Finished line replacement for inline definitions. New line: parameter process[Recruitment].r0
+[TRACE] ..\source\ConfigurationLoader\Loader.cpp(line: 160)
+[TRACE] ..\source\ConfigurationLoader\Loader.cpp(line: 160)
+[FINEST] ..\source\ConfigurationLoader\Loader.cpp(line: 489): block_type: parameter
+[FINEST] ..\source\ConfigurationLoader\Loader.cpp(line: 492): block_type: parameter
+[FINEST] ..\source\ConfigurationLoader\Loader.cpp(line: 517): Inline definition label: catchability[CPUEq].q.1 | full definition: [CPUEq]
+[FINEST] ..\source\ConfigurationLoader\Loader.cpp(line: 550): first_inline_bracket: 22; second_inline_bracket: 28
+[FINEST] ..\source\ConfigurationLoader\Loader.cpp(line: 555): first_inline_bracket: 18446744073709551615; second_inline_bracket: 18446744073709551615
+[FINEST] ..\source\ConfigurationLoader\Loader.cpp(line: 570): Finished line replacement for inline definitions. New line: parameter catchability[CPUEq].q
+[TRACE] ..\source\ConfigurationLoader\Loader.cpp(line: 160)
+[FINEST] ..\source\ConfigurationLoader\Loader.cpp(line: 489): block_type: parameter
+[FINEST] ..\source\ConfigurationLoader\Loader.cpp(line: 492): block_type: parameter
+[FINEST] ..\source\ConfigurationLoader\Loader.cpp(line: 517): Inline definition label: process[Recruitment].R0.1 | full definition: [Recruitment]
+[FINEST] ..\source\ConfigurationLoader\Loader.cpp(line: 550): first_inline_bracket: 17; second_inline_bracket: 29
+[FINEST] ..\source\ConfigurationLoader\Loader.cpp(line: 555): first_inline_bracket: 18446744073709551615; second_inline_bracket: 18446744073709551615
+[FINEST] ..\source\ConfigurationLoader\Loader.cpp(line: 570): Finished line replacement for inline definitions. New line: parameter process[Recruitment].R0
+[TRACE] ..\source\ConfigurationLoader\Loader.cpp(line: 160)
+[FINEST] ..\source\ConfigurationLoader\Loader.cpp(line: 489): block_type: parameter
+[FINEST] ..\source\ConfigurationLoader\Loader.cpp(line: 492): block_type: parameter
+[FINEST] ..\source\ConfigurationLoader\Loader.cpp(line: 517): Inline definition label: selectivity[FishingSel].a50.1 | full definition: [FishingSel]
+[FINEST] ..\source\ConfigurationLoader\Loader.cpp(line: 550): first_inline_bracket: 21; second_inline_bracket: 32
+[FINEST] ..\source\ConfigurationLoader\Loader.cpp(line: 555): first_inline_bracket: 18446744073709551615; second_inline_bracket: 18446744073709551615
+[FINEST] ..\source\ConfigurationLoader\Loader.cpp(line: 570): Finished line replacement for inline definitions. New line: parameter selectivity[FishingSel].a50
+[TRACE] ..\source\ConfigurationLoader\Loader.cpp(line: 160)
+[FINEST] ..\source\ConfigurationLoader\Loader.cpp(line: 489): block_type: parameter
+[FINEST] ..\source\ConfigurationLoader\Loader.cpp(line: 492): block_type: parameter
+[FINEST] ..\source\ConfigurationLoader\Loader.cpp(line: 517): Inline definition label: selectivity[FishingSel].ato95.1 | full definition: [FishingSel]
+[FINEST] ..\source\ConfigurationLoader\Loader.cpp(line: 550): first_inline_bracket: 21; second_inline_bracket: 32
+[FINEST] ..\source\ConfigurationLoader\Loader.cpp(line: 555): first_inline_bracket: 18446744073709551615; second_inline_bracket: 18446744073709551615
+[FINEST] ..\source\ConfigurationLoader\Loader.cpp(line: 570): Finished line replacement for inline definitions. New line: parameter selectivity[FishingSel].ato95
+[TRACE] ..\source\ConfigurationLoader\Loader.cpp(line: 160)
+[TRACE] ..\source\ConfigurationLoader\Loader.cpp(line: 160)
+[TRACE] ..\source\Model\Model.cpp(line: 125)
+[TRACE] ..\source\Reports\Manager.cpp(line: 60)
+[FINE] ..\source\Reports\Manager.cpp(line: 63): Checking 0 reports
+[FINE] ..\source\Model\Model.cpp(line: 143): Model: State Change to Validate
+[TRACE] ..\source\Model\Model.cpp(line: 225)
+[FINEST] ..\source\ParameterList\ParameterList.cpp(line: 147): Binding parameters for @model defined at line 1 in population.txt
+[FINEST] ..\source\ParameterList\ParameterList.cpp(line: 147): Binding parameters for @categories defined at line 10 in population.txt
+[TRACE] ..\source\TimeSteps\Manager.cpp(line: 119)
+[FINE] ..\source\TimeSteps\Manager.cpp(line: 122): Validating time step: 
+[FINEST] ..\source\ParameterList\ParameterList.cpp(line: 147): Binding parameters for @time_step defined at line 22 in population.txt
+[FINE] ..\source\TimeSteps\Manager.cpp(line: 122): Validating time step: 
+[FINEST] ..\source\ParameterList\ParameterList.cpp(line: 147): Binding parameters for @time_step defined at line 25 in population.txt
+[FINEST] ..\source\TimeSteps\Manager.cpp(line: 137): ordered_time_steps_.size(): 2
+[FINEST] ..\source\ParameterList\ParameterList.cpp(line: 147): Binding parameters for @catchability defined at line 22 in estimation.txt
+[FINEST] ..\source\ParameterList\ParameterList.cpp(line: 147): Binding parameters for @initialisation_phase defined at line 14 in population.txt
+[FINEST] ..\source\ParameterList\ParameterList.cpp(line: 147): Binding parameters for @initialisation_phase defined at line 18 in population.txt
+[TRACE] ..\source\Minimisers\Manager.cpp(line: 35)
+[TRACE] ..\source\Minimisers\Minimiser.cpp(line: 62)
+[FINEST] ..\source\ParameterList\ParameterList.cpp(line: 147): Binding parameters for @minimiser defined at line 1 in estimation.txt
+[TRACE] ..\source\Minimisers\Minimiser.cpp(line: 62)
+[FINEST] ..\source\ParameterList\ParameterList.cpp(line: 147): Binding parameters for @minimiser defined at line 7 in estimation.txt
+[TRACE] ..\source\Minimisers\Minimiser.cpp(line: 62)
+[FINEST] ..\source\ParameterList\ParameterList.cpp(line: 147): Binding parameters for @minimiser defined at line 16 in estimation.txt
+[FINEST] ..\source\ParameterList\ParameterList.cpp(line: 147): Binding parameters for @observation defined at line 26 in estimation.txt
+[FINEST] ..\source\ParameterList\ParameterList.cpp(line: 147): Binding parameters for @observation defined at line 63 in estimation.txt
+[TRACE] ..\source\Observations\Children\Abundance\Abundance.cpp(line: 30)
+[FINEST] ..\source\ParameterList\ParameterList.cpp(line: 147): Binding parameters for @penalty defined at line 118 in estimation.txt
+[FINEST] ..\source\ParameterList\ParameterList.cpp(line: 147): Binding parameters for @penalty defined at line 6 in isam.txt
+[TRACE] ..\source\Processes\Manager.cpp(line: 26)
+[FINEST] ..\source\ParameterList\ParameterList.cpp(line: 147): Binding parameters for @ageing defined at line 29 in population.txt
+[FINEST] ..\source\ParameterList\ParameterList.cpp(line: 147): Binding parameters for @recruitment defined at line 32 in population.txt
+[FINEST] ..\source\ParameterList\ParameterList.cpp(line: 147): Binding parameters for @mortality defined at line 39 in population.txt
+[FINEST] ..\source\ParameterList\ParameterList.cpp(line: 147): Binding parameters for @mortality defined at line 45 in population.txt
+[FINEST] ..\source\ParameterList\ParameterList.cpp(line: 147): Binding parameters for @maturation defined at line 54 in population.txt
+[TRACE] ..\source\Processes\Children\MaturationRate.cpp(line: 53)
+[FINEST] ..\source\ParameterList\ParameterList.cpp(line: 147): Binding parameters for @profile defined at line 79 in estimation.txt
+[ERROR] ..\source\ParameterList\ParameterList.cpp(line: 159): At line 79 in estimation.txt the label 'process[Recruitment].r0' contains the following invalid characters: []
+[ERROR] ..\source\ParameterList\ParameterList.cpp(line: 129): At line 85 in estimation.txt the following parameters are required but have not been defined: parameter 
+[FINEST] ..\source\ParameterList\ParameterList.cpp(line: 147): Binding parameters for @profile defined at line 85 in estimation.txt
+[ERROR] ..\source\ParameterList\ParameterList.cpp(line: 159): At line 85 in estimation.txt the label 'selectivity[One].c' contains the following invalid characters: []
+[FINEST] ..\source\ParameterList\ParameterList.cpp(line: 147): Binding parameters for @report defined at line 1 in reports.txt
+[FINEST] ..\source\ParameterList\ParameterList.cpp(line: 147): Binding parameters for @report defined at line 4 in reports.txt
+[FINEST] ..\source\ParameterList\ParameterList.cpp(line: 147): Binding parameters for @report defined at line 75 in estimation.txt
+[FINEST] ..\source\ParameterList\ParameterList.cpp(line: 147): Binding parameters for @selectivity defined at line 62 in population.txt
+[FINEST] ..\source\ParameterList\ParameterList.cpp(line: 147): Binding parameters for @selectivity defined at line 66 in population.txt
+[FINEST] ..\source\ParameterList\ParameterList.cpp(line: 147): Binding parameters for @selectivity defined at line 73 in population.txt
+[FINEST] ..\source\ParameterList\ParameterList.cpp(line: 147): Binding parameters for @estimate defined at line 91 in estimation.txt
+[ERROR] ..\source\ParameterList\ParameterList.cpp(line: 159): At line 91 in estimation.txt the label 'catchability[CPUEq].q' contains the following invalid characters: []
+[TRACE] ..\source\Estimates\Creators\Creator.cpp(line: 51)
+[FINE] ..\source\ObjectsFinder\ObjectsFinder.cpp(line: 92): Looking for object: catchability[CPUEq].q
+[TRACE] ..\source\ObjectsFinder\ObjectsFinder.cpp(line: 35)
+[FINEST] ..\source\ObjectsFinder\ObjectsFinder.cpp(line: 101): FindObject; type: catchability; label: CPUEq; parameter: q; index: 
+[TRACE] ..\source\ObjectsFinder\ObjectsFinder.cpp(line: 35)
+[FINEST] ..\source\Estimates\Creators\Creator.cpp(line: 69): parameter: catchability[CPUEq].q; new_parameter: catchability[CPUEq].q
+[TRACE] ..\source\ParameterList\ParameterList.cpp(line: 205)
+[TRACE] ..\source\ParameterList\ParameterList.cpp(line: 205)
+[TRACE] ..\source\ParameterList\ParameterList.cpp(line: 205)
+[TRACE] ..\source\ParameterList\ParameterList.cpp(line: 205)
+[TRACE] ..\source\ParameterList\ParameterList.cpp(line: 205)
+[TRACE] ..\source\ParameterList\ParameterList.cpp(line: 205)
+[TRACE] ..\source\ParameterList\ParameterList.cpp(line: 205)
+[TRACE] ..\source\ParameterList\ParameterList.cpp(line: 222)
+[TRACE] ..\source\ParameterList\ParameterList.cpp(line: 222)
+[TRACE] ..\source\ParameterList\ParameterList.cpp(line: 222)
+[FINEST] ..\source\ParameterList\ParameterList.cpp(line: 147): Binding parameters for @estimate defined at line 91 in estimation.txt
+[ERROR] ..\source\ParameterList\ParameterList.cpp(line: 159): At line 91 in estimation.txt the label 'catchability[CPUEq].q' contains the following invalid characters: []
+[FINEST] ..\source\ParameterList\ParameterList.cpp(line: 147): Binding parameters for @estimate defined at line 99 in estimation.txt
+[ERROR] ..\source\ParameterList\ParameterList.cpp(line: 159): At line 99 in estimation.txt the label 'process[Recruitment].R0' contains the following invalid characters: []
+[TRACE] ..\source\Estimates\Creators\Creator.cpp(line: 51)
+[FINE] ..\source\ObjectsFinder\ObjectsFinder.cpp(line: 92): Looking for object: process[Recruitment].R0
+[TRACE] ..\source\ObjectsFinder\ObjectsFinder.cpp(line: 35)
+[FINEST] ..\source\ObjectsFinder\ObjectsFinder.cpp(line: 101): FindObject; type: process; label: Recruitment; parameter: r0; index: 
+[TRACE] ..\source\ObjectsFinder\ObjectsFinder.cpp(line: 35)
+[FINEST] ..\source\Estimates\Creators\Creator.cpp(line: 69): parameter: process[Recruitment].R0; new_parameter: process[Recruitment].r0
+[TRACE] ..\source\ParameterList\ParameterList.cpp(line: 205)
+[TRACE] ..\source\ParameterList\ParameterList.cpp(line: 205)
+[TRACE] ..\source\ParameterList\ParameterList.cpp(line: 205)
+[TRACE] ..\source\ParameterList\ParameterList.cpp(line: 205)
+[TRACE] ..\source\ParameterList\ParameterList.cpp(line: 205)
+[TRACE] ..\source\ParameterList\ParameterList.cpp(line: 205)
+[TRACE] ..\source\ParameterList\ParameterList.cpp(line: 205)
+[TRACE] ..\source\ParameterList\ParameterList.cpp(line: 222)
+[TRACE] ..\source\ParameterList\ParameterList.cpp(line: 222)
+[TRACE] ..\source\ParameterList\ParameterList.cpp(line: 222)
+[FINEST] ..\source\ParameterList\ParameterList.cpp(line: 147): Binding parameters for @estimate defined at line 99 in estimation.txt
+[ERROR] ..\source\ParameterList\ParameterList.cpp(line: 159): At line 99 in estimation.txt the label 'process[Recruitment].R0' contains the following invalid characters: []
+[FINEST] ..\source\ParameterList\ParameterList.cpp(line: 147): Binding parameters for @estimate defined at line 105 in estimation.txt
+[ERROR] ..\source\ParameterList\ParameterList.cpp(line: 159): At line 105 in estimation.txt the label 'selectivity[FishingSel].a50' contains the following invalid characters: []
+[TRACE] ..\source\Estimates\Creators\Creator.cpp(line: 51)
+[FINE] ..\source\ObjectsFinder\ObjectsFinder.cpp(line: 92): Looking for object: selectivity[FishingSel].a50
+[TRACE] ..\source\ObjectsFinder\ObjectsFinder.cpp(line: 35)
+[FINEST] ..\source\ObjectsFinder\ObjectsFinder.cpp(line: 101): FindObject; type: selectivity; label: FishingSel; parameter: a50; index: 
+[TRACE] ..\source\ObjectsFinder\ObjectsFinder.cpp(line: 35)
+[FINEST] ..\source\Estimates\Creators\Creator.cpp(line: 69): parameter: selectivity[FishingSel].a50; new_parameter: selectivity[FishingSel].a50
+[TRACE] ..\source\ParameterList\ParameterList.cpp(line: 205)
+[TRACE] ..\source\ParameterList\ParameterList.cpp(line: 205)
+[TRACE] ..\source\ParameterList\ParameterList.cpp(line: 205)
+[TRACE] ..\source\ParameterList\ParameterList.cpp(line: 205)
+[TRACE] ..\source\ParameterList\ParameterList.cpp(line: 205)
+[TRACE] ..\source\ParameterList\ParameterList.cpp(line: 205)
+[TRACE] ..\source\ParameterList\ParameterList.cpp(line: 205)
+[TRACE] ..\source\ParameterList\ParameterList.cpp(line: 222)
+[TRACE] ..\source\ParameterList\ParameterList.cpp(line: 222)
+[TRACE] ..\source\ParameterList\ParameterList.cpp(line: 222)
+[FINEST] ..\source\ParameterList\ParameterList.cpp(line: 147): Binding parameters for @estimate defined at line 105 in estimation.txt
+[ERROR] ..\source\ParameterList\ParameterList.cpp(line: 159): At line 105 in estimation.txt the label 'selectivity[FishingSel].a50' contains the following invalid characters: []
+[FINEST] ..\source\ParameterList\ParameterList.cpp(line: 147): Binding parameters for @estimate defined at line 111 in estimation.txt
+[ERROR] ..\source\ParameterList\ParameterList.cpp(line: 159): At line 111 in estimation.txt the label 'selectivity[FishingSel].ato95' contains the following invalid characters: []
+[TRACE] ..\source\Estimates\Creators\Creator.cpp(line: 51)
+[FINE] ..\source\ObjectsFinder\ObjectsFinder.cpp(line: 92): Looking for object: selectivity[FishingSel].ato95
+[TRACE] ..\source\ObjectsFinder\ObjectsFinder.cpp(line: 35)
+[FINEST] ..\source\ObjectsFinder\ObjectsFinder.cpp(line: 101): FindObject; type: selectivity; label: FishingSel; parameter: ato95; index: 
+[TRACE] ..\source\ObjectsFinder\ObjectsFinder.cpp(line: 35)
+[FINEST] ..\source\Estimates\Creators\Creator.cpp(line: 69): parameter: selectivity[FishingSel].ato95; new_parameter: selectivity[FishingSel].ato95
+[TRACE] ..\source\ParameterList\ParameterList.cpp(line: 205)
+[TRACE] ..\source\ParameterList\ParameterList.cpp(line: 205)
+[TRACE] ..\source\ParameterList\ParameterList.cpp(line: 205)
+[TRACE] ..\source\ParameterList\ParameterList.cpp(line: 205)
+[TRACE] ..\source\ParameterList\ParameterList.cpp(line: 205)
+[TRACE] ..\source\ParameterList\ParameterList.cpp(line: 205)
+[TRACE] ..\source\ParameterList\ParameterList.cpp(line: 205)
+[TRACE] ..\source\ParameterList\ParameterList.cpp(line: 222)
+[TRACE] ..\source\ParameterList\ParameterList.cpp(line: 222)
+[TRACE] ..\source\ParameterList\ParameterList.cpp(line: 222)
+[FINEST] ..\source\ParameterList\ParameterList.cpp(line: 147): Binding parameters for @estimate defined at line 111 in estimation.txt
+[ERROR] ..\source\ParameterList\ParameterList.cpp(line: 159): At line 111 in estimation.txt the label 'selectivity[FishingSel].ato95' contains the following invalid characters: []
+[FINE] ..\source\Estimates\Manager.cpp(line: 53): 0 estimates were delayed because they reference other estimates
+[FINE] ..\source\TimeSteps\Manager.cpp(line: 41): label: step_one
+[FINE] ..\source\TimeSteps\Manager.cpp(line: 41): label: step_two
+
+********************************************************************************
+********                     SUMMARY OF ERRORS                          ********
+********************************************************************************
+Printing 10 of 11 errors
+
+#1: At line 79 in estimation.txt the label 'process[Recruitment].r0' contains the following invalid characters: []
+#2: At line 85 in estimation.txt the following parameters are required but have not been defined: parameter 
+#3: At line 85 in estimation.txt the label 'selectivity[One].c' contains the following invalid characters: []
+#4: At line 91 in estimation.txt the label 'catchability[CPUEq].q' contains the following invalid characters: []
+#5: At line 91 in estimation.txt the label 'catchability[CPUEq].q' contains the following invalid characters: []
+#6: At line 99 in estimation.txt the label 'process[Recruitment].R0' contains the following invalid characters: []
+#7: At line 99 in estimation.txt the label 'process[Recruitment].R0' contains the following invalid characters: []
+#8: At line 105 in estimation.txt the label 'selectivity[FishingSel].a50' contains the following invalid characters: []
+#9: At line 105 in estimation.txt the label 'selectivity[FishingSel].a50' contains the following invalid characters: []
+#10: At line 111 in estimation.txt the label 'selectivity[FishingSel].ato95' contains the following invalid characters: []
+
+Total elapsed time: 1 second
+Completed
+[FINEST] ..\source\main.cpp(line: 162): Done with errors

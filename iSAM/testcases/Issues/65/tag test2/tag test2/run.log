@@ -1,0 +1,92 @@
+iSAM
+Call: isam -r 
+Date: Tue Jun 09 15:55:28 2015
+Version: 2015-06-08 04:28:35 UTC (rev. aa23879)
+Copyright (c) 2012 - 2015, NIWA (www.niwa.co.nz)
+Environment: machine:ANUBIS, user:Admin, os:Windows_NT, pid:5304
+
+[WARNING] ..\source\Estimates\Manager.cpp(line: 75): Estimates were removed because of matching lower and upper bounds. Originally had 25 estimates, now have 22
+[WARNING] ..\source\Processes\Children\TagByAge.cpp(line: 208): At line 72 in config.isam for @process.Tag2008  no penalty has been specified. Exploitation above u_max will not effect the objective function
+[objective]
+obs->CAA-shelfcatch-1999: 1.49068
+obs->CAA-shelfcatch-2000: -20.2699
+obs->CAA-shelfcatch-2001: -105.405
+obs->CAA-shelfcatch-2002: 8.6324
+obs->CAA-shelfcatch-2003: 7.14482
+obs->CAA-shelfcatch-2004: -28.8769
+obs->CAA-shelfcatch-2005: -30.085
+obs->CAA-shelfcatch-2006: -20.7921
+obs->CAA-shelfcatch-2007: -15.7
+obs->CAA-shelfcatch-2008: -21.3827
+obs->CAA-shelfcatch-2009: -10.5731
+obs->CAA-shelfcatch-2010: -36.1202
+obs->CAA-shelfcatch-2011: -19.1633
+obs->CAA-shelfcatch-2012: -26.4913
+obs->CAA-slopecatch-1998: -0.42059
+obs->CAA-slopecatch-1999: -45.6393
+obs->CAA-slopecatch-2000: -37.727
+obs->CAA-slopecatch-2001: -2.1885
+obs->CAA-slopecatch-2002: -17.0258
+obs->CAA-slopecatch-2003: 2.96518
+obs->CAA-slopecatch-2004: -16.609
+obs->CAA-slopecatch-2005: -28.2332
+obs->CAA-slopecatch-2006: -46.0124
+obs->CAA-slopecatch-2007: -76.0744
+obs->CAA-slopecatch-2008: -63.8199
+obs->CAA-slopecatch-2009: -30.4948
+obs->CAA-slopecatch-2010: -66.0447
+obs->CAA-slopecatch-2011: -29.4339
+obs->CAA-slopecatch-2012: -22.7113
+obs->CAA-northcatch-1998: 12.5985
+obs->CAA-northcatch-2001: 28.0403
+obs->CAA-northcatch-2002: 40.1112
+obs->CAA-northcatch-2003: 46.5595
+obs->CAA-northcatch-2004: 36.6477
+obs->CAA-northcatch-2005: 37.7027
+obs->CAA-northcatch-2006: 28.3667
+obs->CAA-northcatch-2007: 32.3036
+obs->CAA-northcatch-2008: 22.3256
+obs->CAA-northcatch-2009: 33.4168
+obs->CAA-northcatch-2010: 25.8266
+obs->CAA-northcatch-2011: 20.0134
+obs->CAA-northcatch-2012: 25.8407
+penalty->Tag2010.1(Tag2010): 4.23015e+011
+penalty->Tag2010.1(Tag2010): 4.23015e+011
+penalty->Tag2010.1(Tag2010): 1.60804e+011
+penalty->Tag2010.1(Tag2010): 1.60804e+011
+prior->process[Recruitment].r0: 14.2892
+prior->selectivity[ShelfselMale].mu: 0
+prior->selectivity[ShelfselMale].sigma_l: 0
+prior->selectivity[ShelfselMale].sigma_r: 0
+prior->selectivity[ShelfselFemale].mu: 0
+prior->selectivity[ShelfselFemale].sigma_l: 0
+prior->selectivity[ShelfselFemale].sigma_r: 0
+prior->selectivity[ShelfselFemale].alpha: 0
+prior->selectivity[SlopeselMale].mu: 0
+prior->selectivity[SlopeselMale].sigma_l: 0
+prior->selectivity[SlopeselMale].sigma_r: 0
+prior->selectivity[SlopeselFemale].mu: 0
+prior->selectivity[SlopeselFemale].sigma_l: 0
+prior->selectivity[SlopeselFemale].sigma_r: 0
+prior->selectivity[SlopeselFemale].alpha: 0
+prior->selectivity[NorthselMale].mu: 0
+prior->selectivity[NorthselMale].sigma_l: 0
+prior->selectivity[NorthselMale].sigma_r: 0
+prior->selectivity[NorthselFemale].mu: 0
+prior->selectivity[NorthselFemale].sigma_l: 0
+prior->selectivity[NorthselFemale].sigma_r: 0
+prior->selectivity[NorthselFemale].alpha: 0
+total_score: 1.16764e+012
+*end
+
+
+********************************************************************************
+********                     SUMMARY OF WARNINGS                        ********
+********************************************************************************
+Printing 2 of 2 warnings
+
+#1: Estimates were removed because of matching lower and upper bounds. Originally had 25 estimates, now have 22
+#2: At line 72 in config.isam for @process.Tag2008  no penalty has been specified. Exploitation above u_max will not effect the objective function
+
+Total elapsed time: 1 second
+Completed
