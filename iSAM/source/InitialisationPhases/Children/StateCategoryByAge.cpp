@@ -64,7 +64,7 @@ void StateCategoryByAge::DoValidate() {
   unsigned row_number = 1;
   for (auto row : data) {
     if (row.size() != column_count_)
-      LOG_ERROR_P(PARAM_N) << "the " << row_number << "th row has " << row.size() << " values but " << column_count_ << " values are expected";
+      LOG_ERROR_P(PARAM_N) << "the " << row_number << "the row has " << row.size() << " values but " << column_count_ << " values are expected";
     if (n_.find(row[0]) != n_.end())
       LOG_ERROR_P(PARAM_N) << "the category " << row[0] << " is defined more than once. You can only define a category once";
     if (std::find(category_labels_.begin(), category_labels_.end(), row[0]) == category_labels_.end())
@@ -78,11 +78,6 @@ void StateCategoryByAge::DoValidate() {
     }
     row_number++;
   }
-  // Craig has added this for now, building up knowledge of time steps
-  // so we can run an annual cycle
-  vector<TimeStep*> time_steps = model_->managers().time_step()->ordered_time_steps();
-  for (auto time_step : time_steps)
-    time_step->SetInitialisationProcessLabels(label_, time_step->process_labels());
 }
 
 /**
@@ -99,12 +94,14 @@ void StateCategoryByAge::DoBuild() {
 void StateCategoryByAge::Execute() {
   for (auto iter : partition_) {
     unsigned i = 0;
-    for (unsigned index = min_age_ - iter->min_age_; index <= max_age_ - iter->min_age_; ++index, ++i)
+    for (unsigned index = min_age_ - iter->min_age_; index <= max_age_ - iter->min_age_; ++index, ++i)  {
+      if (index < 0)
+        LOG_ERROR_P(PARAM_MIN_AGE) << " Cannot be less than category or model min_age which is " << iter->min_age_;
+      LOG_MEDIUM() << ": the partition changes from " <<  iter->data_[index];
       iter->data_[index] = n_[iter->name_][i];
+      LOG_MEDIUM() << " to = " << iter->data_[index];
+    }
   }
-  // Do one run of the annual cycle so we can have a derived quantity
-  auto time_step_manager = model_->managers().time_step();
-  time_step_manager->ExecuteInitialisation(label_, 1);
 }
 
 } /* namespace initialisationphases */
