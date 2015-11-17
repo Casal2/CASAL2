@@ -20,10 +20,12 @@ class SystemInfo:
     
     if (Globals.operating_system_.startswith("linux")):
       Globals.operating_system_ = "linux"
+    if (Globals.operating_system_.startswith("win")):
+      Globals.operating_system_ = "windows"
       
     print "-- Configuring for Operating System: " + Globals.operating_system_
     cwd = os.path.normpath(os.getcwd())
-    if (Globals.operating_system_ == "win32"):
+    if (Globals.operating_system_ == "windows"):
       Globals.path_ += cwd + '\\buildtools\\windows\\unixutils;'
       Globals.path_ += cwd + '\\buildtools\\windows\\cmake\\bin;'   
       Globals.path_ += cwd + '\\buildtools\\windows\\Python27\\;'
@@ -33,7 +35,7 @@ class SystemInfo:
     
   def set_new_path(self):
     print "-- Overriding the system path with new values"
-    if Globals.operating_system_ == "win32":
+    if Globals.operating_system_ == "windows":
       os.environ['PATH'] = Globals.path_
       print '-- New Path: ' + Globals.path_
     else:
@@ -62,7 +64,7 @@ class SystemInfo:
     path = path.replace(exe + '\n', '').rstrip()
     print '-- ' + exe + ' found @ ' + path
 
-    if path != "" and Globals.operating_system_ == "win32":
+    if path != "" and Globals.operating_system_ == "windows":
       Globals.path_ = path + ";" + Globals.path_
     elif path != "":
       Globals.path_ = path + ":" + Globals.path_

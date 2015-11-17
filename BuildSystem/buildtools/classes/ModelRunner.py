@@ -15,12 +15,12 @@ class ModelRunner:
   Start the documentation builder
   """
   def start(self):
-    binary_name = 'iSAM'
-    if Globals.operating_system_ == 'win32':
+    binary_name = 'casal2'
+    if Globals.operating_system_ == 'windows':
       binary_name += '.exe'
     if not os.path.exists('bin/' + Globals.operating_system_ + '/debug/' + binary_name):
       print 'Looking for bin/' + Globals.operating_system_ + '/debug/' + binary_name
-      print 'iSAM binary was not found. Can not continue'
+      print 'CASAL2 binary was not found. Can not continue'
       print 'Please complete a debug binary build before running the models'
       return False
 
@@ -37,7 +37,7 @@ class ModelRunner:
       os.chdir("../TestModels/" + folder)
       start = time.time()
       result = False;
-      if os.system("iSAM -r > run.log 2>&1") != EX_OK:
+      if os.system("casal2 -r > run.log 2>&1") != EX_OK:
         elapsed = time.time() - start
         print '[FAILED] - ' + folder + ' in ' + str(round(elapsed, 2)) + ' seconds'
         fail_count += 1

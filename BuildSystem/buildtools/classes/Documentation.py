@@ -67,25 +67,25 @@ class Documentation:
                         'Reports', 'Selectivities', 'Simulates', 'TimeSteps', 'TimeVarying']
         for folder in folder_list:
             self.clean_variables()            
-            file_list = os.listdir('../iSAM/source/' + folder + '/')
+            file_list = os.listdir('../CASAL2/source/' + folder + '/')
             for file in file_list:                
                 if file.startswith(folder[:-3]) and file.endswith('.h'):
                     self.parent_file_ = file
                     print '--> Parent File: ' + self.parent_file_
                     class_name = self.parent_file_.replace('.h', '')
                     self.parent_class_ = class_name
-                    if not self.load_variables(class_name, '../iSAM/source/' + folder + '/' + self.parent_file_):
+                    if not self.load_variables(class_name, '../CASAL2/source/' + folder + '/' + self.parent_file_):
                         return False
-                    if not self.print_parent('../iSAM/source/' + folder + '/' + self.parent_file_):
+                    if not self.print_parent('../CASAL2/source/' + folder + '/' + self.parent_file_):
                         return False
                     self.clean_variables()
                     break
             
-            if os.path.exists('../iSAM/source/' + folder + '/Children'):
-                file_list = os.listdir('../iSAM/source/' + folder + '/Children/')
+            if os.path.exists('../CASAL2/source/' + folder + '/Children'):
+                file_list = os.listdir('../CASAL2/source/' + folder + '/Children/')
                 self.child_directories_ = []
                 for file in file_list:
-                    full_file = '../iSAM/source/' + folder + '/Children/' + file
+                    full_file = '../CASAL2/source/' + folder + '/Children/' + file
                     if os.path.isdir(full_file):
                         self.child_directories_.append(file)
                         
@@ -95,15 +95,15 @@ class Documentation:
                         class_name = file.replace('.h', '')
                         for directory in self.child_directories_:
                             print '-- Dir: ' + directory
-                            if class_name.endswith(directory) and os.path.exists('../iSAM/source/' + folder + '/Children/' + directory + '/' + directory + '.h'):
+                            if class_name.endswith(directory) and os.path.exists('../CASAL2/source/' + folder + '/Children/' + directory + '/' + directory + '.h'):
                               print 'X'
-                              if not self.load_variables(directory, '../iSAM/source/' + folder + '/Children/' + directory + '/' + directory + '.h'):
+                              if not self.load_variables(directory, '../CASAL2/source/' + folder + '/Children/' + directory + '/' + directory + '.h'):
                                 return False
-                              if not self.print_child(file.replace('.h', ''), '../iSAM/source/' + folder + '/Children/' + class_name + '/' + class_name):
+                              if not self.print_child(file.replace('.h', ''), '../CASAL2/source/' + folder + '/Children/' + class_name + '/' + class_name):
                                 return False                        
-                        if not self.load_variables(class_name, '../iSAM/source/' + folder + '/Children/' + file):
+                        if not self.load_variables(class_name, '../CASAL2/source/' + folder + '/Children/' + file):
                             return False
-                        if not self.print_child(file.replace('.h', ''), '../iSAM/source/' + folder + '/Children/' + file):
+                        if not self.print_child(file.replace('.h', ''), '../CASAL2/source/' + folder + '/Children/' + file):
                             return False
                         self.clean_variables()
 
@@ -134,7 +134,7 @@ class Documentation:
     """
     def load_translations(self):
         print '--> Loading translations'
-        file = fileinput.FileInput('../iSAM/source/Translations/English_UK.h')
+        file = fileinput.FileInput('../CASAL2/source/Translations/English_UK.h')
         if not file:
             return Globals.PrintError('Failed to open the English_UK.h for translation loading')
         
