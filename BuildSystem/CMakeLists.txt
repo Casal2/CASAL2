@@ -1,13 +1,13 @@
 cmake_minimum_required(VERSION 2.8)
-project(iSAM)
+project(CASAL2)
 
 # Variables
-SET(EXE_NAME "iSAM")
+SET(EXE_NAME "casal2")
 
 # Change the output folders for our build to something cleaner and platform dependent
 SET(CMAKE_ROOT   bin/cmake)
 
-STRING(REPLACE "BuildSystem" "iSAM" ISAM_HOME_DIRECTORY ${CMAKE_HOME_DIRECTORY})
+STRING(REPLACE "BuildSystem" "CASAL2" PROJECT_HOME_DIRECTORY ${CMAKE_HOME_DIRECTORY})
 
 # GLOBAL BUILD VARIABLES AND LIBRARIES
 IF (DEBUG)
@@ -21,7 +21,7 @@ ENDIF ()
 # Set variables based on OS
 IF (WIN32)
  ## WINDOWS BUILD VARIABLES AND LIBRARIES
- SET(buildOS win32) 
+ SET(buildOS windows) 
  SET(COMPILE_OPTIONS "${COMPILE_OPTIONS} -D__GNUDOS__ -std=c++11")
  
 ELSE (WIN32)
@@ -76,13 +76,13 @@ MESSAGE("COMPILE_OPTIONS: ${COMPILE_OPTIONS}")
 MESSAGE("SPECIAL_LIBRARIES: ${specialLibraries}")
 
 INCLUDE_DIRECTORIES(SYSTEM "${CMAKE_HOME_DIRECTORY}/bin/${buildOS}/thirdparty/include")
-INCLUDE_DIRECTORIES("${ISAM_HOME_DIRECTORY}/source")
+INCLUDE_DIRECTORIES("${PROJECT_HOME_DIRECTORY}/source")
 
 # This snippet of code will find all of our source and test files
 # and auto-populate variables with them for the build
-FILE(GLOB_RECURSE sourceFiles ${ISAM_HOME_DIRECTORY}/source/*.cpp)
+FILE(GLOB_RECURSE sourceFiles ${PROJECT_HOME_DIRECTORY}/source/*.cpp)
 IF (NOT TEST)
-  FILE(GLOB_RECURSE testFiles ${ISAM_HOME_DIRECTORY}/source/*.Test.cpp)
+  FILE(GLOB_RECURSE testFiles ${PROJECT_HOME_DIRECTORY}/source/*.Test.cpp)
   list(REMOVE_ITEM sourceFiles ${testFiles})
 ENDIF ()
 

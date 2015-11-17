@@ -7,7 +7,7 @@ import distutils
 
 sys.path.insert(0, "buildtools/classes")
 
-# These are iSAM specific python objects
+# These are CASAL2 specific python objects
 from System import *
 from Globals import *
 from Builder import *
@@ -21,7 +21,7 @@ Print the usage for this build system
 def print_usage():  
   os.system( [ 'clear', 'cls' ][ os.name == 'nt' ] )
   print '###########################################################'
-  print '# iSAM Build System Usage                                 #'
+  print '# CASAL2 Build System Usage                               #'
   print '###########################################################'
   print 'Usage:'
   print 'doBuild <build_target> <build_parameter>'
@@ -39,6 +39,7 @@ def print_usage():
   print '  archive - Build a zipped archive of the application'
   print '  check - Do a check of the build system'
   print '  modelrunner - Run the test suite of models'
+  print '  installer - Build an installer package'
   print ''
   print 'Valid Build Parameters: (thirdparty only)'
   print '  <libary name> - Target third party library to build or rebuild'
@@ -56,7 +57,7 @@ gets all of the system information we need and will
 test that executables are in the path that we need
 """
 def start_build_system():
-  if Globals.operating_system_ == "win32":
+  if Globals.operating_system_ == "windows":
     Globals.cmd_path_      = system_info.find_exe_path('cmd.exe')
     Globals.compiler_path_ = system_info.find_exe_path('g++.exe')
     Globals.gfortran_path_ = system_info.find_exe_path('gfortran.exe')
@@ -75,7 +76,7 @@ def start_build_system():
     return Globals.PrintError("gfortran for g++ is not installed. Please install the GCC Fortran compiler")
   if Globals.git_path_ == "":
     return Globals.PrintError("git is not in the current path. Please install a git command line client (e.g http://git-scm.com/downloads)")  
-  if Globals.operating_system_ == 'win32' and os.path.exists(Globals.git_path_ + '\\sh.exe'):
+  if Globals.operating_system_ == 'windows' and os.path.exists(Globals.git_path_ + '\\sh.exe'):
   	return Globals.PrintError("git version has sh.exe in the same location. This will conflict with cmake. Please upgrade to a 64bit version of Git")
   
   if not system_info.find_gcc_version():
@@ -113,7 +114,7 @@ def start():
     os.system( [ 'clear', 'cls' ][ os.name == 'nt' ] )
     print "*************************************************************************"
     print "*************************************************************************"
-    print "Welcome to the iSAM Build System"
+    print "Welcome to the CASAL2 Build System"
     print "*************************************************************************"
     print "*************************************************************************"
     print "\n"
@@ -167,7 +168,7 @@ def start():
   if build_target == "all":
     print "*************************************************************************"
     print "*************************************************************************"
-    print "--> Starting complete isam build"
+    print "--> Starting complete CASAL2 build"
     print "--> Step 1: Third Party Libraries"
     third_party_builder = ThirdPartyLibraries()
     if not third_party_builder.start():
@@ -230,14 +231,14 @@ def start():
   elif build_target == "clean":
     print "*************************************************************************"
     print "*************************************************************************"
-    print "--> Cleaning all iSAM built files"
+    print "--> Cleaning all CASAL2 built files"
     cleaner = Cleaner()
     if not cleaner.clean():
       return False
   elif build_target == "cleanall":
     print "*************************************************************************"
     print "*************************************************************************"
-    print "--> Cleaning all iSAM built files, including third party headers and libs"
+    print "--> Cleaning all CASAL2 built files, including third party headers and libs"
     cleaner = Cleaner()
     if not cleaner.clean_all():
       return False    

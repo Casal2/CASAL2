@@ -26,7 +26,7 @@ class MainCode:
     print "--> Build configuration " + Globals.build_target_ + " : " + Globals.build_parameters_
     print "--> Operating System: " + Globals.operating_system_
     
-    self.cmake_compiler_ = [ 'Unix', 'MinGW' ][ Globals.operating_system_ == "win32" ]
+    self.cmake_compiler_ = [ 'Unix', 'MinGW' ][ Globals.operating_system_ == "windows" ]
     print "--> CMake Compiler: " + self.cmake_compiler_
     
     # Check to see if the third party libraries have been built
@@ -36,7 +36,7 @@ class MainCode:
 
     # Build the Version.h file
     if Globals.git_path_ != '':
-      print '-- Build iSAM/source/Version.h with Git log information'
+      print '-- Build CASAL2/source/Version.h with Git log information'
       p = subprocess.Popen(['git', '--no-pager', 'log', '-n', '1', '--pretty=format:%H%n%h%n%ci' ], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
       out, err = p.communicate()
       lines = out.split('\n')          
@@ -60,7 +60,7 @@ class MainCode:
       version += '#define SOURCE_CONTROL_VERSION "' + utc_time.strftime('%Y-%m-%d %H:%M:%S %Z') + ' (rev. ' + lines[1] + ')"\n'
       version += '#endif\n'
 
-      fo = open('../iSAM/source/Version.h', 'w')
+      fo = open('../CASAL2/source/Version.h', 'w')
       fo.write(version)
       fo.close()
               
@@ -85,7 +85,7 @@ class MainCode:
       return Globals.PrintError("Failed to execute cmake successfully to rebuild the make files")
     
     print "--> Build main code base"
-    if Globals.operating_system_ == "win32":
+    if Globals.operating_system_ == "windows":
       if os.system("mingw32-make") != EX_OK:
         return Globals.PrintError("Failed to build code base. Please see above for build error")
     else:
@@ -185,7 +185,7 @@ class ThirdPartyLibraries:
       """
       # Handle loading the windows file and building this on windows
       """
-      if Globals.operating_system_ == "win32":
+      if Globals.operating_system_ == "windows":
         if not os.path.exists('windows.py'):
           return Globals.PrintError('Third party library ' + folder + ' does not have a windows.py file.\nThis file is required to build this library on Windows')
         import windows as third_party_builder
@@ -250,7 +250,7 @@ This class is responsible for cleaning the build folders
 """   
 class Cleaner:    
   def clean(self):
-    print '--> Starting clean of iSAM build files only (not cleaning third party)'      
+    print '--> Starting clean of CASAL2 build files only (not cleaning third party)'      
     for build_type in Globals.allowed_build_types_:    
       for param in Globals.allowed_build_parameters_:
         build_directory = os.path.normpath(os.getcwd()) + "/bin/" + Globals.operating_system_ + '/' + build_type
@@ -262,7 +262,7 @@ class Cleaner:
     return True
           
   def clean_all(self):
-    print '--> Starting clean of all iSAM build files (including third party)'
+    print '--> Starting clean of all CASAL2 build files (including third party)'
     build_directory = os.path.normpath(os.getcwd()) + "/bin/" + Globals.operating_system_
     if (os.path.exists(build_directory)):
       shutil.rmtree(build_directory)
