@@ -278,6 +278,8 @@ void MortalityInstantaneous::DoExecute() {
   unsigned time_step_index = model_->managers().time_step()->current_time_step();
   Double ratio = time_step_ratios_[time_step_index];
 
+  StoreForReport("year", model_->current_year());
+
   /**
    * Loop for each category. Add the vulnerability from each
    * category in to the fisheries it belongs too
@@ -321,6 +323,7 @@ void MortalityInstantaneous::DoExecute() {
       }
 
       fishery_exploitation[fishery.label_] = exploitation;
+      StoreForReport(fishery.label_ + " catches", exploitation);
     }
 
     for (auto categories : partition_) {

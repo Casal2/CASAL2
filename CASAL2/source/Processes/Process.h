@@ -57,20 +57,32 @@ public:
   virtual void                DoExecute() = 0;
 
   // accessors
+  void                        flag_print_report() { print_report_ = true; }
   bool                        print_report() const { return print_report_; }
   PartitionStructure          partition_structure() const { return partition_structure_; }
   ProcessType                 process_type() const { return process_type_; }
+  map<string, vector<string>>& print_values() { return print_values_; }
 
 protected:
+  // methods
+  template<typename T>
+  void                        StoreForReport(const string& label, T value);
+  template<typename T>
+  void                        StoreForReport(const string& label, const vector<T>& value);
+
   // members
+  Model*                      model_ = nullptr;
   string                      type_ = "";
   ProcessType                 process_type_ = ProcessType::kUnknown;
   PartitionStructure          partition_structure_ = PartitionStructure::kInvalid;
+  map<unsigned, map<string, vector<Executor*>>> executors_;
+
+private:
+  bool                        create_report_ = false;
   bool                        print_report_ = false;
   map<string, vector<string>> print_values_;
-  map<unsigned, map<string, vector<Executor*>>> executors_;
-  Model*                    model_ = nullptr;
 };
-
 } /* namespace niwa */
+
+#include "Process-inl.h"
 #endif /* PROCESS_H_ */

@@ -146,10 +146,11 @@ void Managers::Build() {
   process_->Build();
   profile_->Build();
   project_->Build();
-  report_->Build();
   selectivity_->Build();
   simulate_->Build();
   time_varying_->Build();
+
+  report_->Build();
 }
 
 void Managers::Reset() {
