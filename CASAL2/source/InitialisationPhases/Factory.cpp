@@ -13,6 +13,7 @@
 
 #include "Model/Model.h"
 #include "Model/Managers.h"
+#include "InitialisationPhases/Children/Cinitial.h"
 #include "InitialisationPhases/Children/Derived.h"
 #include "InitialisationPhases/Children/Iterative.h"
 #include "InitialisationPhases/Children/StateCategoryByAge.h"
@@ -39,6 +40,8 @@ InitialisationPhase* Factory::Create(Model* model, const string& object_type, co
       result = new Iterative(model);
     else if (sub_type == PARAM_STATE_CATEGORY_BY_AGE)
       result = new StateCategoryByAge(model);
+    else if (sub_type == PARAM_CINITIAL)
+      result = new Cinitial(model);
 
     if (result)
       model->managers().initialisation_phase()->AddObject(result);
