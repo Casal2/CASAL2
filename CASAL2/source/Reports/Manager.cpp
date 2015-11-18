@@ -60,7 +60,6 @@ void Manager::Build() {
  */
 void Manager::Execute(State::Type model_state) {
   LOG_TRACE();
-
   RunMode::Type run_mode = model_->run_mode();
   LOG_FINE() << "Checking " << state_reports_[model_state].size() << " reports";
   for(auto report : state_reports_[model_state]) {

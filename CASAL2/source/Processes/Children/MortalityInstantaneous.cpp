@@ -446,12 +446,10 @@ Double MortalityInstantaneous::GetFisheryExploitationFraction(const string& fish
   Double running_total = 0;
   Double fishery_exploitation_rate = 0.0;
   for (auto fishery_category : fishery_categories_) {
-    LOG_MEDIUM() << " fisherys in this container " << fishery_category.fishery_label_;
     if (fishery_category.category_label_ == category_label && fishery_category.fishery_.time_step_index_ == time_step) {
       if (fishery_category.fishery_label_ == fishery_label) {
         AgeLength* age_length = model_->categories()->age_length(category_label);
         selectivity_value = fishery_category.selectivity_->GetResult(age, age_length);
-        LOG_MEDIUM() << ": selectivity value = " << selectivity_value << " for age = " << age << " fishery label = " << fishery_label;
         fishery_exploitation_rate = fishery_exploitation[fishery_category.fishery_label_] * selectivity_value;
       }
       AgeLength* age_length = model_->categories()->age_length(fishery_category.category_label_);
@@ -460,7 +458,6 @@ Double MortalityInstantaneous::GetFisheryExploitationFraction(const string& fish
   }
 
 
-  LOG_MEDIUM() << ": Running total = " << running_total << " exploitation rate = " << fishery_exploitation_rate;
   return fishery_exploitation_rate / running_total;
 }
 

@@ -152,7 +152,7 @@ void Derived::Execute() {
         (*category)->data_ = cached_category->data_;
         // now multiply the approximated change to the plus group
         (*category)->data_[plus_index] *= 1 / (1 - c);
-        LOG_FINEST() << ":Adjustment based an approximation for the plus group = " <<  (*category)->data_[plus_index];
+        LOG_FINEST() << "Adjustment based an approximation for the plus group = " <<  (*category)->data_[plus_index];
       } else {
         // reset the partition back to the original Cached partition
         (*category)->data_ = cached_category->data_;
@@ -186,7 +186,11 @@ void Derived::Execute() {
     old_plus_group = plus_group;
     loop_iter += 1;
   }
-  LOG_MEDIUM() << ": number of iterations to exit while loop = " << loop_iter;
+  LOG_FINEST() << " number of iterations to exit while loop = " << loop_iter;
+
+  // Need to add extra annual cycles if ssb_offset > 1 for a recruitment type = BevertonHolt
+  time_step_manager->ExecuteInitialisation(label_, 3);
+  // this doesn't work for SBW... as this approximation is wrong for SBW
 }
 
 } /* namespace initialisationphases */
