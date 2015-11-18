@@ -276,9 +276,9 @@ void MortalityInstantaneous::DoBuild() {
  */
 void MortalityInstantaneous::DoExecute() {
   unsigned time_step_index = model_->managers().time_step()->current_time_step();
-  Double ratio = time_step_ratios_[time_step_index];
+//  unsigned year =  model_->current_year();
 
-  StoreForReport("year", model_->current_year());
+  Double ratio = time_step_ratios_[time_step_index];
 
   /**
    * Loop for each category. Add the vulnerability from each
@@ -323,7 +323,6 @@ void MortalityInstantaneous::DoExecute() {
       }
 
       fishery_exploitation[fishery.label_] = exploitation;
-      StoreForReport(fishery.label_ + " catches", exploitation);
     }
 
     for (auto categories : partition_) {
@@ -385,6 +384,29 @@ void MortalityInstantaneous::DoExecute() {
         }
       }
     }
+    /**
+     * Calculate the expectation for a proportions_at_age observation
+     */
+    /*
+    unsigned age_spread = model_->max_age() - model_->min_age();
+    m_offset = 0;
+    for (auto categories : partition_)  {
+      for (auto fishery_category : fishery_categories_) {
+        if (fishery_category.category_label_ != categories->name_)
+          continue;
+        removals_by_year_timestep_fishery_[year][time_step_index][fishery_category.fishery_label_].assign(0.0, age_spread);
+        for (unsigned i = 0; i < age_spread; ++i) {
+          unsigned age_offset = categories->min_age_ - model_->min_age();
+          if (i < age_offset)
+            continue;
+          removals_by_year_timestep_fishery_[year][time_step_index][fishery_category.fishery_label_][i] += categories->data_[i - age_offset] * fishery_exploitation[fishery_category.fishery_label_]
+              * fishery_category.selectivity_->GetResult(categories->min_age_ + i, categories->age_length_) * exp(-0.5 * ratio * m_[m_offset]
+                 * selectivities_[m_offset]->GetResult(categories->min_age_ + i, categories->age_length_));
+        }
+      }
+      m_offset++;
+    }
+    */
   } // if (model_->state() != State::kInitialise && std::find(years_.begin(), years_.end(), model_->current_year()) != years_.end()) {
 
   /**
@@ -449,12 +471,10 @@ Double MortalityInstantaneous::GetFisheryExploitationFraction(const string& fish
   Double running_total = 0;
   Double fishery_exploitation_rate = 0.0;
   for (auto fishery_category : fishery_categories_) {
-    LOG_MEDIUM() << " fisherys in this container " << fishery_category.fishery_label_;
     if (fishery_category.category_label_ == category_label && fishery_category.fishery_.time_step_index_ == time_step) {
       if (fishery_category.fishery_label_ == fishery_label) {
         AgeLength* age_length = model_->categories()->age_length(category_label);
         selectivity_value = fishery_category.selectivity_->GetResult(age, age_length);
-        LOG_MEDIUM() << ": selectivity value = " << selectivity_value << " for age = " << age << " fishery label = " << fishery_label;
         fishery_exploitation_rate = fishery_exploitation[fishery_category.fishery_label_] * selectivity_value;
       }
       AgeLength* age_length = model_->categories()->age_length(fishery_category.category_label_);
@@ -463,7 +483,6 @@ Double MortalityInstantaneous::GetFisheryExploitationFraction(const string& fish
   }
 
 
-  LOG_MEDIUM() << ": Running total = " << running_total << " exploitation rate = " << fishery_exploitation_rate;
   return fishery_exploitation_rate / running_total;
 }
 

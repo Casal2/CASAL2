@@ -153,6 +153,7 @@ void MortalityPreySuitability::DoExecute() {
 
     map<string, Double> Vulnerable_by_Prey;
     map<string, Double> Exploitation_by_Prey;
+
     auto partition_iter = prey_partition_->Begin(); // vector<vector<partition::Category> >
 
     unsigned prey_offset = 0;

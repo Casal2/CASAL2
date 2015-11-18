@@ -22,6 +22,7 @@
 #include "Model/Model.h"
 #include "Partition/Accessors/Categories.h"
 #include "TimeSteps/Manager.h"
+#include "DerivedQuantities/Manager.h"
 
 // namespaces
 namespace niwa {
@@ -37,6 +38,7 @@ Derived::Derived(Model* model)
     parameters_.Bind<string>(PARAM_INSERT_PROCESSES, &insert_processes_, "The processes to insert in to target time steps", "", true);
     parameters_.Bind<string>(PARAM_EXCLUDE_PROCESSES, &exclude_processes_, "The processes to exclude from all time steps", "", true);
     parameters_.Bind<bool>(PARAM_RECRUITMENT_TIME, &recruitment_, "Does Recruitment occur before ageing in the annual cycle", "");
+    parameters_.Bind<string>(PARAM_DERIVED_QUANTITY_LABEL, &derived_quanitity_, "The label of the derived quantity that we want to execute for ssb_offset in BH recruitment", "", "");
 
 }
 
@@ -152,7 +154,7 @@ void Derived::Execute() {
         (*category)->data_ = cached_category->data_;
         // now multiply the approximated change to the plus group
         (*category)->data_[plus_index] *= 1 / (1 - c);
-        LOG_FINEST() << ":Adjustment based an approximation for the plus group = " <<  (*category)->data_[plus_index];
+        LOG_FINEST() << "Adjustment based an approximation for the plus group = " <<  (*category)->data_[plus_index];
       } else {
         // reset the partition back to the original Cached partition
         (*category)->data_ = cached_category->data_;
@@ -186,7 +188,15 @@ void Derived::Execute() {
     old_plus_group = plus_group;
     loop_iter += 1;
   }
-  LOG_MEDIUM() << ": number of iterations to exit while loop = " << loop_iter;
+  LOG_FINEST() << " number of iterations to exit while loop = " << loop_iter;
+
+  // Need to add extra annual cycles if ssb_offset > 1 for a recruitment type = BevertonHolt
+  if (derived_quanitity_ != "") {
+    DerivedQuantity* derived_ptr_ = model_->managers().derived_quantity()->GetDerivedQuantity(derived_quanitity_);
+    derived_ptr_->Execute();
+    derived_ptr_->Execute();
+    derived_ptr_->Execute();
+  }
 }
 
 } /* namespace initialisationphases */
