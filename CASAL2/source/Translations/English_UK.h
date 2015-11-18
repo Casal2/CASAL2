@@ -165,6 +165,7 @@
 #define PARAM_CATEGORY_TRANSITION_RATE            "category_transition_rate"
 #define PARAM_CATEGORY_VALUES                     "category_values"
 #define PARAM_CATEGORY_LABELS                     "category_labels"
+#define PARAM_CINITIAL                            "cinitial"
 #define PARAM_CELL_LENGTH                         "cell_length"
 #define PARAM_CLASS_MINIMUMS                      "class_minimums"
 #define PARAM_COLUMN                              "column"
