@@ -11,6 +11,11 @@
 // headers
 #include "Process.h"
 
+#include "Model/Managers.h"
+#include "Model/Model.h"
+#include "Reports/Manager.h"
+#include "Reports/Children/Process.h"
+
 // namespaces
 namespace niwa {
 
@@ -20,7 +25,7 @@ namespace niwa {
 Process::Process(Model* model) : model_(model) {
   parameters_.Bind<string>(PARAM_LABEL, &label_, "Label", "");
   parameters_.Bind<string>(PARAM_TYPE, &type_, "Type", "", "");
-  parameters_.Bind<bool>(PARAM_PRINT_REPORT, &print_report_, "Print parameter report", "", false);
+  parameters_.Bind<bool>(PARAM_PRINT_REPORT, &create_report_, "Generate parameter report", "", false);
 
 }
 
@@ -42,6 +47,31 @@ void Process::Validate() {
  * then call the child build method.
  */
 void Process::Build() {
+  /**
+   * Create a report if the print_report flag is true
+   *
+   * NOTE: Since we're adding reports to the report manager
+   * and it's running in a different thread we need to pause
+   * and resume the manager thread or we'll get weird crashes.
+   */
+  if (create_report_) {
+    model_->managers().report()->Pause();
+
+    reports::Process* report = new reports::Process(model_);
+    report->set_block_type(PARAM_REPORT);
+    report->set_defined_file_name(__FILE__);
+    report->set_defined_line_number(__LINE__);
+    report->parameters().Add(PARAM_LABEL, label_, __FILE__, __LINE__);
+    report->parameters().Add(PARAM_TYPE, PARAM_PROCESS, __FILE__, __LINE__);
+    report->parameters().Add(PARAM_PROCESS, label_, __FILE__, __LINE__);
+    report->Validate();
+    model_->managers().report()->AddObject(report);
+
+    model_->managers().report()->Resume();
+
+    flag_print_report();
+  }
+
   DoBuild();
 }
 
