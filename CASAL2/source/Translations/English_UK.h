@@ -198,6 +198,7 @@
 #define PARAM_DERIVED                             "derived"
 #define PARAM_DERIVED_QUANTITIES                  "derived_quantities"
 #define PARAM_DERIVED_QUANTITY                    "derived_quantity"
+#define PARAM_DERIVED_QUANTITY_LABEL              "derived_quantity_label"
 #define PARAM_DETECTION_PARAMETER                 "detection"
 #define PARAM_DF                                  "df"
 #define PARAM_DIFFERENCE                          "difference"

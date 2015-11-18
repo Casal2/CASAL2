@@ -42,7 +42,8 @@ protected:
   // members
   unsigned                    years_;
   vector<string>              insert_processes_;
-  bool                      recruitment_;
+  bool                        recruitment_;
+  string                      derived_quanitity_ = "";
   vector<string>              exclude_processes_;
   vector<TimeStep*>           time_steps_;
   cached::Categories          cached_partition_;

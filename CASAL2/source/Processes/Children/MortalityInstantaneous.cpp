@@ -276,6 +276,8 @@ void MortalityInstantaneous::DoBuild() {
  */
 void MortalityInstantaneous::DoExecute() {
   unsigned time_step_index = model_->managers().time_step()->current_time_step();
+//  unsigned year =  model_->current_year();
+
   Double ratio = time_step_ratios_[time_step_index];
 
   /**
@@ -382,6 +384,29 @@ void MortalityInstantaneous::DoExecute() {
         }
       }
     }
+    /**
+     * Calculate the expectation for a proportions_at_age observation
+     */
+    /*
+    unsigned age_spread = model_->max_age() - model_->min_age();
+    m_offset = 0;
+    for (auto categories : partition_)  {
+      for (auto fishery_category : fishery_categories_) {
+        if (fishery_category.category_label_ != categories->name_)
+          continue;
+        removals_by_year_timestep_fishery_[year][time_step_index][fishery_category.fishery_label_].assign(0.0, age_spread);
+        for (unsigned i = 0; i < age_spread; ++i) {
+          unsigned age_offset = categories->min_age_ - model_->min_age();
+          if (i < age_offset)
+            continue;
+          removals_by_year_timestep_fishery_[year][time_step_index][fishery_category.fishery_label_][i] += categories->data_[i - age_offset] * fishery_exploitation[fishery_category.fishery_label_]
+              * fishery_category.selectivity_->GetResult(categories->min_age_ + i, categories->age_length_) * exp(-0.5 * ratio * m_[m_offset]
+                 * selectivities_[m_offset]->GetResult(categories->min_age_ + i, categories->age_length_));
+        }
+      }
+      m_offset++;
+    }
+    */
   } // if (model_->state() != State::kInitialise && std::find(years_.begin(), years_.end(), model_->current_year()) != years_.end()) {
 
   /**
