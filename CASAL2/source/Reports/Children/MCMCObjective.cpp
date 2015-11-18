@@ -68,16 +68,16 @@ void MCMCObjective::DoExecute() {
   }
 
   auto chain = mcmc_->chain();
-  for (auto link : chain) {
-    cache_ << link.iteration_ << " "
-        << link.score_ << " "
-        << link.prior_ << " "
-        << link.likelihood_ << " "
-        << link.penalty_ << " "
-        << link.step_size_ << " "
-        << link.acceptance_rate_ << " "
-        << link.acceptance_rate_since_adapt_ << "\n";
-  }
+  unsigned element = chain.size() - 1;
+    cache_ << chain[element].iteration_ << " "
+        << chain[element].score_ << " "
+        << chain[element].prior_ << " "
+        << chain[element].likelihood_ << " "
+        << chain[element].penalty_ << " "
+        << chain[element].step_size_ << " "
+        << chain[element].acceptance_rate_ << " "
+        << chain[element].acceptance_rate_since_adapt_ << "\n";
+
   ready_for_writing_ = true;
 }
 

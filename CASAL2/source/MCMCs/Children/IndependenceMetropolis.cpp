@@ -239,7 +239,7 @@ void IndependenceMetropolis::FillMultivariateT(Double step_size) {
  */
 void IndependenceMetropolis::UpdateStepSize() {
   if (jumps_since_adapt_ > 0 && successful_jumps_since_adapt_ > 0) {
-    if (std::find(adapt_step_size_.begin(), adapt_step_size_.end(), successful_jumps_) == adapt_step_size_.end())
+    if (std::find(adapt_step_size_.begin(), adapt_step_size_.end(), jumps_) == adapt_step_size_.end())
       return;
 
     // modify the stepsize by the ratio = AcceptanceRate / 0.24
@@ -438,7 +438,7 @@ void IndependenceMetropolis::Execute() {
       // Record the score, and its compontent parts if the successful jump divided by keep has no remainder
       // i.e the accepted candidate is a keep value
       if (jumps_ % keep_ == 0) {
-        LOG_FINE() << "Keeping jump " << successful_jumps_;
+        LOG_FINE() << "Keeping jump " << jumps_;
         mcmc::ChainLink new_link;
         new_link.iteration_ = jumps_;
         new_link.penalty_ = obj_function.penalties();
@@ -450,20 +450,39 @@ void IndependenceMetropolis::Execute() {
         new_link.acceptance_rate_since_adapt_ = Double(successful_jumps_since_adapt_) / Double(jumps_since_adapt_);
         new_link.step_size_ = step_size_;
         new_link.values_ = candidates_;
-        chain_[0] = new_link;
+        chain_.push_back(new_link);
         LOG_MEDIUM() << "Successful Jumps " << successful_jumps_ << " Jumps : " << jumps_ << " successful jumps since adapt " << successful_jumps_since_adapt_
             << " jumps since adapt " << jumps_since_adapt_;
         model_->managers().report()->Execute(State::kIterationComplete);
       }
     } else {
-      // Reject this attempt
+      // Reject this attempt but still record the chain if it lands on a keep
       score = previous_score;
       candidates_ = original_candidates;
       jumps_++;
       jumps_since_adapt_++;
+
+      if (jumps_ % keep_ == 0) {
+        LOG_FINE() << "Keeping jump " << jumps_;
+        mcmc::ChainLink new_link;
+        new_link.iteration_ = jumps_;
+        new_link.penalty_ = chain_[chain_.size() - 1].penalty_;
+        new_link.score_ = previous_score;
+        new_link.prior_ = chain_[chain_.size() - 1].prior_;
+        new_link.likelihood_ = chain_[chain_.size() - 1].likelihood_;
+        new_link.additional_priors_ = chain_[chain_.size() - 1].additional_priors_;
+        new_link.acceptance_rate_ = Double(successful_jumps_) / Double(jumps_);
+        new_link.acceptance_rate_since_adapt_ = Double(successful_jumps_since_adapt_) / Double(jumps_since_adapt_);
+        new_link.step_size_ = step_size_;
+        new_link.values_ = original_candidates;
+        chain_.push_back(new_link);
+        LOG_MEDIUM() << "Successful Jumps " << successful_jumps_ << " Jumps : " << jumps_ << " successful jumps since adapt " << successful_jumps_since_adapt_
+            << " jumps since adapt " << jumps_since_adapt_;
+        model_->managers().report()->Execute(State::kIterationComplete);
+      }
     }
 
-    LOG_FINEST() << successful_jumps_ << " successful jumps have been completed";
+    LOG_FINEST() << jumps_ << " jumps have been completed";
   } while (jumps_ <= length_);
 }
 

@@ -169,6 +169,34 @@ TEST(Object, UnnamedVectorMap_Double_Estimable) {
   EXPECT_THROW(object.GetEstimableType("apple"), std::string);
   EXPECT_THROW(object.GetEstimable("apple"), std::string);
 }
+/**
+ * Test 6
+ */
+class TestObject6 : public Object {
+public:
+  void Reset() override final { };
+
+  TestObject6() {
+    RegisterAsEstimable(&estimables_);
+
+    estimables_["lemon+apple"].push_back(1.0);
+  }
+
+  map<string, vector<double> >  estimables_;
+};
+
+TEST(Object, UnnamedVectorMap_Double_Estimable_with_plus) {
+  TestObject6 object;
+
+  EXPECT_EQ(Estimable::kVectorStringMap, object.GetEstimableType("lemon+apple"));
+  ASSERT_TRUE(object.estimables_.find("lemon+apple") != object.estimables_.end());
+  EXPECT_EQ(&object.estimables_["lemon+apple"], object.GetEstimableVector("lemon+apple"));
+  ASSERT_TRUE(object.estimables_["lemon+apple"].size() == 1);
+  EXPECT_EQ(1.0, object.estimables_["lemon+apple"][0]);
+
+  EXPECT_THROW(object.GetEstimableType("apple"), std::string);
+  EXPECT_THROW(object.GetEstimable("apple"), std::string);
+}
 
 } /* namespace base */
 } /* namespace niwa */

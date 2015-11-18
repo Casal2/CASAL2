@@ -37,6 +37,9 @@ public:
   void                        DoReset() override final;
   void                        DoExecute() override final;
 
+  //accessor
+  unsigned                    Get_ssb_offset() {return ssb_offset_;};
+
 private:
   // members
   accessor::Categories        partition_;

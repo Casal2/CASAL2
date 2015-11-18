@@ -63,10 +63,9 @@ void MCMCSample::DoExecute() {
     LOG_CODE_ERROR() << "if (!mcmc_)";
 
   auto chain = mcmc_->chain();
-  for (auto link : chain) {
-    cache_ << link.iteration_ << " ";
-    cache_ << utilities::String::join<Double>(link.values_, " ") << "\n";
-  }
+  unsigned element = chain.size() - 1;
+    cache_ << chain[element].iteration_ << " ";
+    cache_ << utilities::String::join<Double>(chain[element].values_, " ") << "\n";
 
   ready_for_writing_ = true;
 }
