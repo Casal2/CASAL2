@@ -27,15 +27,6 @@ immature.male 1 2 3 4 5 6 7 8 9 10
 immature.female 2 3 4 5 6 7 8 9 10 11
 end_table
 
-@estimate state
-type uniform
-parameter initialisation_phase[iphase3].immature.male
-lower_bound 0.0*10
-upper_bound 100.0*10
-
-@report ev
-type estimate_value
-
 @time_step step_one
 processes Recruitment maturation halfM 
 
@@ -61,6 +52,10 @@ type constant_rate
 categories immature.male mature.male immature.female mature.female
 M 0.065 0.065 0.065 0.065
 selectivities One One One One
+
+@report halfM_procss
+type process
+process halfM
 
 @process maturation
 type transition_category

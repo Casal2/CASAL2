@@ -96,8 +96,6 @@ void RecruitmentBevertonHolt::DoBuild() {
   if (phase_b0_label_ != "")
     phase_b0_         = model_->managers().initialisation_phase()->GetPhaseIndex(phase_b0_label_);
 
-  print_values_["b0_value"].resize(1);
-
   derived_quantity_ = model_->managers().derived_quantity()->GetDerivedQuantity(ssb_);
   if (!derived_quantity_)
     LOG_ERROR_P(PARAM_SSB) << "(" << ssb_ << ") could not be found. Have you defined it?";
