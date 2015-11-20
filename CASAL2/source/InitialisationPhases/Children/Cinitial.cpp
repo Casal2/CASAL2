@@ -15,6 +15,7 @@
 #include "Model/Managers.h"
 #include "Model/Model.h"
 #include "TimeSteps/Manager.h"
+#include "DerivedQuantities/Manager.h"
 
 namespace niwa {
 namespace initialisationphases {
@@ -26,6 +27,7 @@ Cinitial::Cinitial(Model* model)
 
   parameters_.Bind<string>(PARAM_CATEGORIES, &category_labels_, "List of categories to use", "");
   parameters_.BindTable(PARAM_N, n_table_, "Table of data", "", false, false);
+  parameters_.Bind<string>(PARAM_DERIVED_QUANTITY, &derived_quanitity_, "The label of the derived quantity that we want to execute for ssb_offset in BH recruitment", "", "");
 
   RegisterAsEstimable(&n_);
 }
@@ -77,6 +79,14 @@ void Cinitial::DoValidate() {
  */
 void Cinitial::DoBuild() {
   partition_ = CombinedCategoriesPtr(new niwa::partition::accessors::CombinedCategories(model_, category_labels_));
+
+  if (derived_quanitity_ != "") {
+    derived_ptr_ = model_->managers().derived_quantity()->GetDerivedQuantity(derived_quanitity_);
+    if (!derived_ptr_)  {
+      LOG_FATAL_P(PARAM_DERIVED_QUANTITY) << "Cannot find " << derived_quanitity_;
+    }
+  }
+
 }
 
 /**
@@ -96,7 +106,7 @@ void Cinitial::Execute() {
     for (; category_iter != partition_iter->end(); ++category_iter) {
       for (unsigned data_offset = 0; data_offset < (max_age_ - min_age_ + 1); ++data_offset) {
         unsigned age_offset = (*category_iter)->min_age_ - min_age_;
-        // if this category min_age occurs after model min age ignore this age
+        // if this category min_age occurs after model min age ignore current age
         if (data_offset < age_offset)
           continue;
         category_by_age_total[category_labels_[category_offset]][data_offset] += (*category_iter)->data_[data_offset - age_offset];
@@ -110,12 +120,16 @@ void Cinitial::Execute() {
   for (unsigned category_offset = 0; category_offset < category_labels_.size(); ++category_offset) {
     category_by_age_factor[category_labels_[category_offset]].assign((max_age_ - min_age_ + 1), 0.0);
     for (unsigned data_offset = 0; data_offset < (max_age_ - min_age_ + 1); ++data_offset) {
+      LOG_MEDIUM() << " Category " << category_labels_[category_offset] << " total for age " << min_age_ + data_offset << " = " << category_by_age_total[category_labels_[category_offset]][data_offset];
+      LOG_MEDIUM() << " Category " << category_labels_[category_offset] << " Cinitial for age " << min_age_ + data_offset << " = " << n_[category_labels_[category_offset]][data_offset];
 
       if (category_by_age_total[category_labels_[category_offset]][data_offset] == 0.0)
         category_by_age_factor[category_labels_[category_offset]][data_offset] = 1.0;
-      else
+      else {
         category_by_age_factor[category_labels_[category_offset]][data_offset] = n_[category_labels_[category_offset]][data_offset]
             / category_by_age_total[category_labels_[category_offset]][data_offset];
+      LOG_MEDIUM() << " Category " << category_labels_[category_offset] << " Factor for age " << min_age_ + data_offset << " = " << category_by_age_factor[category_labels_[category_offset]][data_offset];
+      }
     }
   }
   // Now loop through the combined categories multiplying each category by the factory
@@ -132,9 +146,19 @@ void Cinitial::Execute() {
         // if this category min_age occurs after model min age ignore this age
         if (data_offset < age_offset)
           continue;
+        LOG_MEDIUM() << " numbers in Category before " << (*category_iter)->name_ << " = " << (*category_iter)->data_[data_offset - age_offset];
         (*category_iter)->data_[data_offset - age_offset] *= category_by_age_factor[category_labels_[category_offset]][data_offset];
+        LOG_MEDIUM() << " numbers in Category before " << (*category_iter)->name_ << " = " << (*category_iter)->data_[data_offset - age_offset];
+
       }
     }
+  }
+  // Calculate Binitial and rinitial which is the biomass of this and recruits from a cinitialised populations
+  // If SSB offset > 1 then evaluate the derived_quantity 3 times (this is arbituary) on the equilibrium state.
+  if (derived_quanitity_ != "") {
+    derived_ptr_->Execute();
+    derived_ptr_->Execute();
+    derived_ptr_->Execute();
   }
 }
 
