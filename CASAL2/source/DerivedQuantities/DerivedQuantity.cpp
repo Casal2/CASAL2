@@ -111,6 +111,7 @@ void DerivedQuantity::Reset() {
  * @return The derived quantity value
  */
 Double DerivedQuantity::GetValue(unsigned year) {
+
   if (values_.find(year) != values_.end()) {
     return values_[year];
   }

@@ -38,7 +38,7 @@ Derived::Derived(Model* model)
     parameters_.Bind<string>(PARAM_INSERT_PROCESSES, &insert_processes_, "The processes to insert in to target time steps", "", true);
     parameters_.Bind<string>(PARAM_EXCLUDE_PROCESSES, &exclude_processes_, "The processes to exclude from all time steps", "", true);
     parameters_.Bind<bool>(PARAM_RECRUITMENT_TIME, &recruitment_, "Does Recruitment occur before ageing in the annual cycle", "");
-    parameters_.Bind<string>(PARAM_DERIVED_QUANTITY_LABEL, &derived_quanitity_, "The label of the derived quantity that we want to execute for ssb_offset in BH recruitment", "", "");
+    parameters_.Bind<string>(PARAM_DERIVED_QUANTITY, &derived_quanitity_, "The label of the derived quantity that we want to execute for ssb_offset in BH recruitment", "", "");
 
 }
 
@@ -52,6 +52,7 @@ void Derived::DoValidate() {
     if (pieces.size() != 2 && pieces.size() != 3)
       LOG_ERROR_P(PARAM_INSERT_PROCESSES) << " value " << insert << " does not match the format time_step(process)=new_process = " << pieces.size();
   }
+
 }
 
 /*
@@ -59,6 +60,13 @@ void Derived::DoValidate() {
  */
 void Derived::DoBuild() {
   time_steps_ = model_->managers().time_step()->ordered_time_steps();
+
+  if (derived_quanitity_ != "") {
+    derived_ptr_ = model_->managers().derived_quantity()->GetDerivedQuantity(derived_quanitity_);
+    if (!derived_ptr_)  {
+      LOG_FATAL_P(PARAM_DERIVED_QUANTITY) << "Cannot find " << derived_quanitity_;
+    }
+  }
 
   // Set the default process labels for the time step for this phase
   for (auto time_step : time_steps_)
@@ -144,7 +152,7 @@ void Derived::Execute() {
       LOG_FINEST() << "Cached plus group " << cached_category->data_[plus_index] << " 1 year plus group " << (*category)->data_[plus_index];
       //if (the plus group has been populated)
       if (cached_category->data_[plus_index] > 0) {
-        c = (*category)->data_[plus_index] / cached_category->data_[plus_index] - 1;
+        c = (*category)->data_[plus_index] / cached_category->data_[plus_index] - 1; //zero fun
         LOG_FINEST() << "The value of c = " << c;
         if (c > 0.9) {
           c = 0.9;
@@ -162,21 +170,24 @@ void Derived::Execute() {
     }
   }
   Double max_rel_diff = 1e18;
-  vector<Double> plus_group(1, categories.size() - 1), old_plus_group(1, categories.size() - 1);
+  vector<Double> plus_group(categories.size(), 1);
+  vector<Double> old_plus_group(categories.size(), 1);
 
   auto category = partition_.begin();
   unsigned iter = 0;
-  for (; category != partition_.end(); ++category, ++iter)
+  for (; category != partition_.end(); ++category, ++iter) {
+    if (iter >= old_plus_group.size())  {
+       LOG_CODE_ERROR() << "if (iter >= old_plus_group.size())";
+    }
     old_plus_group[iter] = (*category)->data_[(*category)->data_.size() - 1];
+  }
 
-  LOG_FINEST() << " max diff " << max_rel_diff;
-  unsigned loop_iter = 0;
   while (max_rel_diff > 0.005) {
     time_step_manager->ExecuteInitialisation(label_, 1);
     max_rel_diff = 0;
-    auto category = partition_.begin();
-    unsigned iter = 0;
-    for (; category != partition_.end(); ++category, ++iter) {
+    category = partition_.begin();
+
+    for (unsigned iter = 0; category != partition_.end(); ++category, ++iter) {
       plus_group[iter] = (*category)->data_[(*category)->data_.size() - 1];
       LOG_FINEST() << " plus group " << plus_group[iter] << " Old plus group " << old_plus_group[iter];
       if (old_plus_group[iter] != 0) {
@@ -186,17 +197,16 @@ void Derived::Execute() {
       }
     }
     old_plus_group = plus_group;
-    loop_iter += 1;
   }
-  LOG_FINEST() << " number of iterations to exit while loop = " << loop_iter;
 
-  // Need to add extra annual cycles if ssb_offset > 1 for a recruitment type = BevertonHolt
+  // If SSB offset > 1 then evaluate the derived_quantity 3 times (this is arbituary) on the equilibrium state.
   if (derived_quanitity_ != "") {
-    DerivedQuantity* derived_ptr_ = model_->managers().derived_quantity()->GetDerivedQuantity(derived_quanitity_);
     derived_ptr_->Execute();
     derived_ptr_->Execute();
     derived_ptr_->Execute();
   }
+
+  LOG_FINEST() << "Finish execute method";
 }
 
 } /* namespace initialisationphases */

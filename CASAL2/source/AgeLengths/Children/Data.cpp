@@ -71,14 +71,25 @@ void Data::DoBuild() {
    * and use it in the model
    */
   vector<vector<string>>& data = data_table_->data();
+  vector<Double> total_length(model_->age_spread(), 0.0);
+  Double number_of_years = 0.0;
+
   for (vector<string> row : data) {
     if (row.size() != columns.size())
       LOG_CODE_ERROR() << "row.size() != columns.size()";
-
+    number_of_years ++;
     unsigned year = utilities::ToInline<string, unsigned>(row[0]);
-    for (unsigned i = 1; i < row.size(); ++i)
+    for (unsigned i = 1; i < row.size(); ++i) {
       data_by_year_[year].push_back(utilities::ToInline<string, Double>(row[i]));
+      total_length[i - 1] += utilities::ToInline<string, Double>(row[i]);
+    }
   }
+
+  /*
+   * Build our average map for use in initialisation and simulation phases
+   */
+  for (unsigned i = 0; i < model_->age_spread(); ++i)
+    data_by_age_[model_->min_age() + i] = total_length[i] / number_of_years;
 
   /**
    * Check if we're using a mean method and build a vector of means now
@@ -97,6 +108,8 @@ void Data::DoBuild() {
   // Fill our gaps
   FillExternalGaps();
   FillInternalGaps();
+
+
 }
 
 /**
@@ -235,6 +248,9 @@ void Data::FillInternalGaps() {
  * @return The mean length for 1 member
  */
 Double Data::mean_length(unsigned year, unsigned age) {
+  if (model_->state() == State::kInitialise) // need to add something here for when we are simulating
+     return data_by_age_[age];
+
   Double current_value = data_by_year_.find(year)->second[age - model_->min_age()];
 
   Double next_age      = current_value;

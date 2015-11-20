@@ -49,6 +49,7 @@ private:
   string                        external_gaps_;
   string                        internal_gaps_;
   map<unsigned, vector<Double>> data_by_year_;
+  map<unsigned, Double>         data_by_age_;
   vector<Double>                means_;
   string                        length_weight_label_;
   const LengthWeight*           length_weight_ = nullptr;

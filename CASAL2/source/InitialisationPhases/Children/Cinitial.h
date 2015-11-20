@@ -21,8 +21,9 @@
 
 // namespaces
 namespace niwa {
-namespace initialisationphases {
+class DerivedQuantity;
 
+namespace initialisationphases {
 using partition::accessors::CombinedCategoriesPtr;
 
 /**
@@ -49,6 +50,11 @@ private:
   unsigned                    column_count_ = 0;
   parameters::Table*          n_table_ = nullptr;
   map<string, vector<Double>> n_;
+  DerivedQuantity*            derived_ptr_ = nullptr;
+  vector<Double>              binitial_;
+  vector<Double>              rinitial_;
+  string                      derived_quanitity_ = "";
+
 };
 
 } /* namespace initialisationphases */

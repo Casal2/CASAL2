@@ -379,7 +379,12 @@ void IndependenceMetropolis::Execute() {
   model_->FullIteration();
   ObjectiveFunction& obj_function = model_->objective_function();
   obj_function.CalculateScore();
+
   Double score = AS_DOUBLE(obj_function.score());
+  Double penalty = AS_DOUBLE(obj_function.penalties());
+  Double prior = AS_DOUBLE(obj_function.priors());
+  Double likelihood = AS_DOUBLE(obj_function.likelihoods());
+  Double additional_prior = AS_DOUBLE(obj_function.additional_priors());
 
   /**
    * Store first location
@@ -420,7 +425,18 @@ void IndependenceMetropolis::Execute() {
     obj_function.CalculateScore();
 
     Double previous_score = score;
+    Double previous_prior = prior;
+    Double previous_likelihood = likelihood;
+    Double previous_penalty = penalty;
+    Double previous_additional_prior = additional_prior;
+
+
     score = AS_DOUBLE(obj_function.score());
+    penalty = AS_DOUBLE(obj_function.penalties());
+    prior = AS_DOUBLE(obj_function.priors());
+    likelihood = AS_DOUBLE(obj_function.likelihoods());
+    additional_prior = AS_DOUBLE(obj_function.additional_priors());
+
     Double ratio = 1.0;
 
     if (score > previous_score) {
@@ -428,13 +444,14 @@ void IndependenceMetropolis::Execute() {
       LOG_MEDIUM() << " Current Objective score " << score << " Previous score " << previous_score;
     }
 
+    jumps_++;
+    jumps_since_adapt_++;
+
     if (dc::IsEqual(ratio, 1.0) || rng.uniform() < ratio) {
       LOG_MEDIUM() << "Ratio = " << ratio << " random_number = " << rng.uniform();
       // Accept this jump
       successful_jumps_++;
       successful_jumps_since_adapt_++;
-      jumps_++;
-      jumps_since_adapt_++;
       // Record the score, and its compontent parts if the successful jump divided by keep has no remainder
       // i.e the accepted candidate is a keep value
       if (jumps_ % keep_ == 0) {
@@ -458,19 +475,21 @@ void IndependenceMetropolis::Execute() {
     } else {
       // Reject this attempt but still record the chain if it lands on a keep
       score = previous_score;
+      prior = previous_prior;
+      penalty = previous_penalty;
+      likelihood = previous_likelihood;
+      additional_prior = previous_additional_prior;
       candidates_ = original_candidates;
-      jumps_++;
-      jumps_since_adapt_++;
 
       if (jumps_ % keep_ == 0) {
         LOG_FINE() << "Keeping jump " << jumps_;
         mcmc::ChainLink new_link;
         new_link.iteration_ = jumps_;
-        new_link.penalty_ = chain_[chain_.size() - 1].penalty_;
+        new_link.penalty_ = previous_penalty;
         new_link.score_ = previous_score;
-        new_link.prior_ = chain_[chain_.size() - 1].prior_;
-        new_link.likelihood_ = chain_[chain_.size() - 1].likelihood_;
-        new_link.additional_priors_ = chain_[chain_.size() - 1].additional_priors_;
+        new_link.prior_ = previous_prior;
+        new_link.likelihood_ = previous_likelihood;
+        new_link.additional_priors_ = previous_additional_prior;
         new_link.acceptance_rate_ = Double(successful_jumps_) / Double(jumps_);
         new_link.acceptance_rate_since_adapt_ = Double(successful_jumps_since_adapt_) / Double(jumps_since_adapt_);
         new_link.step_size_ = step_size_;

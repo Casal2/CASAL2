@@ -21,6 +21,7 @@
 // namespaces
 namespace niwa {
 class TimeStep;
+class DerivedQuantity;
 
 namespace initialisationphases {
 namespace cached   = partition::accessors::cached;
@@ -41,6 +42,7 @@ protected:
 
   // members
   unsigned                    years_;
+  DerivedQuantity*            derived_ptr_ = nullptr;
   vector<string>              insert_processes_;
   bool                        recruitment_;
   string                      derived_quanitity_ = "";
