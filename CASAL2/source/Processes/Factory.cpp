@@ -23,6 +23,7 @@
 #include "Processes/Children/MortalityEvent.h"
 #include "Processes/Children/MortalityEventBiomass.h"
 #include "Processes/Children/MortalityInstantaneous.h"
+#include "Processes/Children/MortalityPreySuitability.h"
 #include "Processes/Children/MortalityHollingRate.h"
 #include "Processes/Children/Nop.h"
 #include "Processes/Children/RecruitmentBevertonHolt.h"
@@ -88,6 +89,8 @@ Process* Factory::Create(Model* model, const string& object_type, const string& 
       result = new MortalityInstantaneous(model);
     else if (sub == PARAM_MORTALITY_HOLLING_RATE)
       result = new MortalityHollingRate(model);
+    else if (sub == PARAM_PREY_SUITABILITY_PREDATION)
+      result = new MortalityPreySuitability(model);
     else if (sub == PARAM_NOP)
       result = new Nop(model);
     else if (sub == PARAM_TAG_BY_AGE)

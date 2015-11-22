@@ -5,7 +5,7 @@
  * @date 1/11/2015
  * @section LICENSE
  *
- * Copyright NIWA Science �2015 - www.niwa.co.nz
+ * Copyright NIWA Science 2015 - www.niwa.co.nz
  */
 
 // headers
@@ -113,7 +113,7 @@ void MortalityPreySuitability::DoBuild() {
 
   category_offset = 0;
   for (string selectivity : predator_selectivity_labels_) {
-    prey_selectivities_.push_back(model_->managers().selectivity()->GetSelectivity(selectivity));
+    predator_selectivities_.push_back(model_->managers().selectivity()->GetSelectivity(selectivity));
     if (!predator_selectivities_[category_offset])
       LOG_ERROR_P(PARAM_PREDATOR_SELECTIVITIES) << "selectivity " << selectivity << " does not exist. Have you defined it?";
     ++category_offset;
@@ -125,17 +125,17 @@ void MortalityPreySuitability::DoBuild() {
       LOG_ERROR_P(PARAM_PENALTY) << ": penalty " << penalty_label_ << " does not exist. Have you defined it?";
   }
 
-  /**
+/*  *
    * Check All the categories are valid
-   */
+
   for (const string& label : prey_category_labels_) {
     if (!model_->categories()->IsValid(label))
-      LOG_ERROR_P(PARAM_CATEGORIES) << ": category " << label << " does not exist. Have you defined it?";
+      LOG_ERROR_P(PARAM_PREY_CATEGORIES) << ": category " << label << " does not exist. Have you defined it?";
   }
   for (const string& label : predator_category_labels_) {
     if (!model_->categories()->IsValid(label))
-      LOG_ERROR_P(PARAM_CATEGORIES) << ": category " << label << " does not exist. Have you defined it?";
-  }
+      LOG_ERROR_P(PARAM_PREDATOR_CATEGORIES) << ": category " << label << " does not exist. Have you defined it?";
+  }*/
 }
 
 /**
@@ -156,7 +156,6 @@ void MortalityPreySuitability::DoExecute() {
 
     auto partition_iter = prey_partition_->Begin(); // vector<vector<partition::Category> >
 
-    unsigned prey_offset = 0;
     for (unsigned category_offset = 0; category_offset < prey_category_labels_.size(); ++category_offset, ++partition_iter) {
       /**
         * Loop through the  combined categories building up the prey abundance for each prey category label
@@ -164,18 +163,15 @@ void MortalityPreySuitability::DoExecute() {
        auto category_iter = partition_iter->begin();
        for (; category_iter != partition_iter->end(); ++category_iter) {
          for (unsigned data_offset = 0; data_offset < (*category_iter)->data_.size(); ++data_offset) {
-
-           Double vulnerable = (*category_iter)->data_.size() * prey_selectivities_[prey_offset]->GetResult((*category_iter)->min_age_ + data_offset, (*category_iter)->age_length_);
+           Double vulnerable = (*category_iter)->data_[data_offset] * prey_selectivities_[category_offset]->GetResult((*category_iter)->min_age_ + data_offset, (*category_iter)->age_length_);
            if (vulnerable <= 0.0)
              vulnerable = 0.0;
-
-           Vulnerable_by_Prey[prey_category_labels_[prey_offset]] += vulnerable;
-           TotalPreyVulnerable += vulnerable * electivities_[prey_offset];
+           Vulnerable_by_Prey[prey_category_labels_[category_offset]] += vulnerable;
+           TotalPreyVulnerable += vulnerable * electivities_[category_offset];
            TotalPreyAvailability += vulnerable;
          }
        }
-       LOG_FINEST() << ": Vulnerable abundance for prey category " << prey_category_labels_[prey_offset] << " = " << Vulnerable_by_Prey[prey_category_labels_[prey_offset]];
-       ++prey_offset;
+       LOG_FINEST() << ": Vulnerable abundance for prey category " << prey_category_labels_[category_offset] << " = " << Vulnerable_by_Prey[prey_category_labels_[category_offset]];
     }
 
     TotalPreyAvailability = dc::ZeroFun(TotalPreyAvailability, ZERO);
@@ -194,7 +190,7 @@ void MortalityPreySuitability::DoExecute() {
       for (; category_iter != predator_partition_iter->end(); ++category_iter) {
         for (unsigned data_offset = 0; data_offset < (*category_iter)->data_.size(); ++data_offset) {
 
-          Double predator_vulnerable = (*category_iter)->data_.size() * predator_selectivities_[category_offset]->GetResult((*category_iter)->min_age_ + data_offset, (*category_iter)->age_length_);
+          Double predator_vulnerable = (*category_iter)->data_[data_offset] * predator_selectivities_[category_offset]->GetResult((*category_iter)->min_age_ + data_offset, (*category_iter)->age_length_);
           if (predator_vulnerable <= 0.0)
             predator_vulnerable = 0.0;
 

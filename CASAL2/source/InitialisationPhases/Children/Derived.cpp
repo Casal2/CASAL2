@@ -37,7 +37,7 @@ Derived::Derived(Model* model)
     partition_(model) {
     parameters_.Bind<string>(PARAM_INSERT_PROCESSES, &insert_processes_, "The processes to insert in to target time steps", "", true);
     parameters_.Bind<string>(PARAM_EXCLUDE_PROCESSES, &exclude_processes_, "The processes to exclude from all time steps", "", true);
-    parameters_.Bind<bool>(PARAM_RECRUITMENT_TIME, &recruitment_, "Does Recruitment occur before ageing in the annual cycle", "");
+    parameters_.Bind<bool>(PARAM_RECRUITMENT_TIME, &recruitment_, "Does Recruitment occur before ageing in the annual cycle?", "");
     parameters_.Bind<string>(PARAM_DERIVED_QUANTITY, &derived_quanitity_, "The label of the derived quantity that we want to execute for ssb_offset in BH recruitment", "", "");
 
 }
@@ -124,10 +124,10 @@ void Derived::DoBuild() {
  * Execute our Derived Initialisation phase
  */
 void Derived::Execute() {
-  unsigned year_range = model_->max_age() - model_->min_age();
+  unsigned year_range = model_->age_spread();
 
-  if (!recruitment_)
-    year_range +=1;
+  if (recruitment_)
+    year_range -= 1;
 
   vector<string> categories = model_->categories()->category_names();
 
