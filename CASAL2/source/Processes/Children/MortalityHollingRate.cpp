@@ -92,11 +92,13 @@ void MortalityHollingRate::DoValidate() {
  * in the system
  */
 void MortalityHollingRate::DoBuild() {
+  LOG_TRACE();
   prey_partition_.Init(prey_category_labels_);
   predator_partition_.Init(predator_category_labels_);
   /**
    * Assign the selectivity, penalty and time step index to each fisher data object
    */
+  LOG_MEDIUM() << "Are we pass here?";
   unsigned category_offset = 0;
   for (string selectivity : prey_selectivity_labels_) {
     prey_selectivities_.push_back(model_->managers().selectivity()->GetSelectivity(selectivity));
@@ -107,7 +109,7 @@ void MortalityHollingRate::DoBuild() {
 
   category_offset = 0;
   for (string selectivity : predator_selectivity_labels_) {
-    prey_selectivities_.push_back(model_->managers().selectivity()->GetSelectivity(selectivity));
+    predator_selectivities_.push_back(model_->managers().selectivity()->GetSelectivity(selectivity));
     if (!predator_selectivities_[category_offset])
       LOG_ERROR_P(PARAM_PREDATOR_SELECTIVITIES) << "selectivity " << selectivity << " does not exist. Have you defined it?";
     ++category_offset;
@@ -130,13 +132,14 @@ void MortalityHollingRate::DoBuild() {
     if (!model_->categories()->IsValid(label))
       LOG_ERROR_P(PARAM_CATEGORIES) << ": category " << label << " does not exist. Have you defined it?";
   }
+  LOG_MEDIUM() << "Are we pass here?";
 }
 
 /**
  * Execute this process
  */
 void MortalityHollingRate::DoExecute() {
-
+  LOG_TRACE();
   // Check if we are executing this process in current year
   if (std::find(years_.begin(), years_.end(), model_->current_year()) != years_.end()) {
 
@@ -156,6 +159,7 @@ void MortalityHollingRate::DoExecute() {
       }
       ++prey_offset;
     }
+    LOG_FINE() << "Vulnerable biomass of all prey categories = "  << Vulnerable;
 
     /**
      * Loop for predator each category, calculate vulnerable predator abundance
@@ -168,6 +172,7 @@ void MortalityHollingRate::DoExecute() {
       }
       ++predator_offset;
     }
+    LOG_FINE() << "Vulnerable biomass of all predator categories = "  << PredatorVulnerable;
 
     // Holling function type 2 (x=1) or 3 (x=2), or generalised (Michaelis Menten)
     Mortality = PredatorVulnerable * (a_ * pow(Vulnerable, (x_ - 1.0))) / (b_ + pow(Vulnerable, (x_ - 1.0)));
@@ -176,6 +181,7 @@ void MortalityHollingRate::DoExecute() {
     Double Exploitation = Mortality / dc::ZeroFun(Vulnerable, ZERO);
 
     if (Exploitation > u_max_) {
+      LOG_FINE() << "Exloitation rate larger than u_max = " << Exploitation << " this is rescaled to u_max = " << u_max_;
       Exploitation = u_max_;
 
       if (penalty_) // Throw Penalty
@@ -194,7 +200,7 @@ void MortalityHollingRate::DoExecute() {
         // If is Zero, Cont
         if (Current <= 0.0)
           continue;
-
+        LOG_FINEST() << "Number of individuals removed from this process = " << Current;
         // remove abundance
         prey_categories->data_[i] -= Current;
         SumMortality += Current;

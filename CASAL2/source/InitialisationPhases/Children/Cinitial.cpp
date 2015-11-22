@@ -120,15 +120,12 @@ void Cinitial::Execute() {
   for (unsigned category_offset = 0; category_offset < category_labels_.size(); ++category_offset) {
     category_by_age_factor[category_labels_[category_offset]].assign((max_age_ - min_age_ + 1), 0.0);
     for (unsigned data_offset = 0; data_offset < (max_age_ - min_age_ + 1); ++data_offset) {
-      LOG_MEDIUM() << " Category " << category_labels_[category_offset] << " total for age " << min_age_ + data_offset << " = " << category_by_age_total[category_labels_[category_offset]][data_offset];
-      LOG_MEDIUM() << " Category " << category_labels_[category_offset] << " Cinitial for age " << min_age_ + data_offset << " = " << n_[category_labels_[category_offset]][data_offset];
 
       if (category_by_age_total[category_labels_[category_offset]][data_offset] == 0.0)
         category_by_age_factor[category_labels_[category_offset]][data_offset] = 1.0;
       else {
         category_by_age_factor[category_labels_[category_offset]][data_offset] = n_[category_labels_[category_offset]][data_offset]
             / category_by_age_total[category_labels_[category_offset]][data_offset];
-      LOG_MEDIUM() << " Category " << category_labels_[category_offset] << " Factor for age " << min_age_ + data_offset << " = " << category_by_age_factor[category_labels_[category_offset]][data_offset];
       }
     }
   }
@@ -146,10 +143,7 @@ void Cinitial::Execute() {
         // if this category min_age occurs after model min age ignore this age
         if (data_offset < age_offset)
           continue;
-        LOG_MEDIUM() << " numbers in Category before " << (*category_iter)->name_ << " = " << (*category_iter)->data_[data_offset - age_offset];
         (*category_iter)->data_[data_offset - age_offset] *= category_by_age_factor[category_labels_[category_offset]][data_offset];
-        LOG_MEDIUM() << " numbers in Category before " << (*category_iter)->name_ << " = " << (*category_iter)->data_[data_offset - age_offset];
-
       }
     }
   }
