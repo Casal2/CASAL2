@@ -77,7 +77,7 @@ void Data::DoBuild() {
   for (vector<string> row : data) {
     if (row.size() != columns.size())
       LOG_CODE_ERROR() << "row.size() != columns.size()";
-    number_of_years ++;
+    ++number_of_years;
     unsigned year = utilities::ToInline<string, unsigned>(row[0]);
     for (unsigned i = 1; i < row.size(); ++i) {
       data_by_year_[year].push_back(utilities::ToInline<string, Double>(row[i]));
