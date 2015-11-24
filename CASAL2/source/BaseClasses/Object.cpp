@@ -153,11 +153,17 @@ Double* Object::GetEstimable(const string& label, const string& index) {
  * @return a pointer to the map to use
  */
 map<unsigned, Double>* Object::GetEstimableUMap(const string& label) {
+  bool dummy =  false;
+  return GetEstimableUMap(label, dummy);
+}
+
+map<unsigned, Double>* Object::GetEstimableUMap(const string& label, bool& create_missing) {
   if (estimable_types_.find(label) == estimable_types_.end())
     LOG_CODE_ERROR() << "estimable_types_.find(" << label << ") == estimable_types_.end()";
   if (estimable_types_[label] != Estimable::kUnsignedMap)
     LOG_CODE_ERROR() << "estimable_types_[" << label << "] != Estimable::kUnsignedMap";
 
+  create_missing = create_missing_estimables_.find(label) != create_missing_estimables_.end();
   return estimable_u_maps_[label];
 }
 

@@ -53,6 +53,7 @@ protected:
   unsigned                    current_initialisation_phase_ = 0;
   vector<vector<Double>>      initialisation_values_;
   map<unsigned, Double>       values_;
+  map<unsigned, Double>       override_values_;
   Double                      cache_value_;
   vector<string>              selectivity_labels_;
   vector<Selectivity*>        selectivities_;

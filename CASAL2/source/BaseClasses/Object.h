@@ -64,8 +64,9 @@ public:
   bool                            IsEstimableAVector(const string& label) const;
   unsigned                        GetEstimableSize(const string& label) const;
   Double*                         GetEstimable(const string& label);
-  Double*                         GetEstimable(const string& label, const string& index);
+  virtual Double*                 GetEstimable(const string& label, const string& index);
   map<unsigned, Double>*          GetEstimableUMap(const string& label);
+  map<unsigned, Double>*          GetEstimableUMap(const string& label, bool& create_missing);
   OrderedMap<string, Double>*     GetEstimableSMap(const string& label);
   vector<Double>*                 GetEstimableVector(const string& label);
   Estimable::Type                 GetEstimableType(const string& label) const;
@@ -97,6 +98,7 @@ protected:
   string                        type_                 = "";
   ParameterList                 parameters_;
   map<string, Double*>          estimables_;
+  map<string, bool>             create_missing_estimables_;
   map<string, vector<Double>* > estimable_vectors_;
   map<string, Estimable::Type>  estimable_types_;
 
