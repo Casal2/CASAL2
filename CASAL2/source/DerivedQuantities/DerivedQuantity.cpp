@@ -11,6 +11,8 @@
 // headers
 #include "DerivedQuantity.h"
 
+#include <limits>
+
 #include "Categories/Categories.h"
 #include "Selectivities/Manager.h"
 #include "TimeSteps/Manager.h"
@@ -39,6 +41,9 @@ DerivedQuantity::DerivedQuantity(Model* model)
   parameters_.Bind<Double>(PARAM_TIME_STEP_PROPORTION, &time_step_proportion_, "", "", Double(1.0));
   parameters_.Bind<string>(PARAM_TIME_STEP_PROPORTION_METHOD, &proportion_method_, "", "", PARAM_WEIGHTED_SUM)
       ->set_allowed_values({ PARAM_WEIGHTED_SUM, PARAM_WEIGHTED_PRODUCT });
+
+  RegisterAsEstimable(PARAM_VALUES, &override_values_);
+  create_missing_estimables_[PARAM_VALUES] = true;
 
   mean_proportion_method_ = true;
 }
@@ -111,11 +116,13 @@ void DerivedQuantity::Reset() {
  * @return The derived quantity value
  */
 Double DerivedQuantity::GetValue(unsigned year) {
-
-  if (values_.find(year) != values_.end()) {
-    return values_[year];
+  LOG_FINEST() << "get value for year: " << year;
+  if (override_values_.find(year) != override_values_.end()) {
+    values_[year] = override_values_[year];
+    return override_values_[year];
   }
-
+  if (values_.find(year) != values_.end())
+    return values_[year];
   if (initialisation_values_.size() == 0)
     return 0.0;
 

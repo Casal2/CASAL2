@@ -85,7 +85,7 @@ void Creator::CreateEstimates() {
     }
   }
 
-  if (indexes.size() == 1 || target->GetEstimableType(parameter) == Estimable::kSingle) {
+  if (target->GetEstimableType(parameter) == Estimable::kSingle) {
     /**
      * This estimate is only for a single object. So we will validate based on that
      */
@@ -128,14 +128,17 @@ void Creator::CreateEstimates() {
     break;
     case Estimable::kUnsignedMap:
     {
-      map<unsigned, Double>* targets = target->GetEstimableUMap(parameter);
+      bool create_missing = false;
+      map<unsigned, Double>* targets = target->GetEstimableUMap(parameter, create_missing);
       unsigned offset = 0;
       for (string string_index : indexes) {
         unsigned u_index = 0;
         if (!utils::To<string, unsigned>(string_index, u_index))
           LOG_FATAL_P(PARAM_PARAMETER) << "index " << string_index << " could not be converted to a numeric type";
-        if (targets->find(u_index) == targets->end())
+        if (targets->find(u_index) == targets->end() && !create_missing)
           LOG_FATAL_P(PARAM_PARAMETER) << "value " << string_index << " could not be found in the objects registered";
+        if (targets->find(u_index) == targets->end() && create_missing)
+          (*targets)[u_index] = lower_bounds_[offset];
 
         CreateEstimate(new_parameter + "(" + string_index + ")", offset, &(*targets)[u_index]);
         offset++;

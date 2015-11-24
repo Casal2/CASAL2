@@ -16,6 +16,7 @@
 #include <boost/lexical_cast.hpp>
 
 #include "Catchabilities/Manager.h"
+#include "DerivedQuantities/Manager.h"
 #include "Estimates/Manager.h"
 #include "Model/Model.h"
 #include "Model/Managers.h"
@@ -199,10 +200,11 @@ base::Object* Objects::FindObject(const string& parameter_absolute_name, string&
   if (type == PARAM_PROCESS) {
     result = model_->managers().process()->GetProcess(label);
 
+  } else if (type == PARAM_DERIVED_QUANTITY) {
+    result = model_->managers().derived_quantity()->GetDerivedQuantity(label);
+
   } else if (type == PARAM_INITIALISATION_PHASE) {
-    LOG_FINEST() << "Looking for initialisation_phase: " << label;
     result = model_->managers().initialisation_phase()->GetInitPhase(label);
-    LOG_FINEST() << "Phase = " << result;
 
   } else if (type == PARAM_ESTIMATE) {
     result = model_->managers().estimate()->GetEstimateByLabel(label);
