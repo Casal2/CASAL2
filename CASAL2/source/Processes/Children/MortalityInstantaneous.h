@@ -70,7 +70,7 @@ public:
 
   // accessors
   Double                      time_step_ratio();
-  map<unsigned, map<unsigned, map<string, vector<Double>>>>&  catch_at() { return removals_by_year_timestep_fishery_; };
+  map<unsigned, map<string, map<string, vector<Double>>>>&  catch_at() { return removals_by_year_fishery_category_; };
 
 //  map<unsigned, map<string, Double>>&  catches() { return catch_by_year_fishery_; };
 //  map<unsigned, map<string, Double>>&  exploitation() { return exploitation_by_year_fishery_; };
@@ -92,14 +92,12 @@ private:
   penalties::Process*         penalty_ = nullptr;
   // members from natural mortality
   vector<Double>              m_;
-  Double                      avg_ = -999.0;
-  Double                      diff_ = -999.0;
   vector<Double>              time_step_ratios_temp_;
   map<unsigned, Double>       time_step_ratios_;
   vector<string>              selectivity_labels_;
   vector<Selectivity*>        selectivities_;
   // members for observations
-  map<unsigned, map<unsigned, map<string, vector<Double>>>> removals_by_year_timestep_fishery_; // Year, time_step, fishery
+  map<unsigned,  map<string, map<string, vector<Double>>>> removals_by_year_fishery_category_; // Year,  fishery, category
 
   //members for reporting
 //  map<unsigned, map<string, Double>> exploitation_by_year_fishery_;

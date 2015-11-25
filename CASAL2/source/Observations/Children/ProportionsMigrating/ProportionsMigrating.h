@@ -67,6 +67,7 @@ protected:
   CombinedCategoriesPtr         partition_;
   AgeingError*                  ageing_error_ = nullptr;
   vector<Double>                age_results_;
+  string                        time_step_label_ = "";
 
   map<unsigned, map<string, vector<Double>>>  proportions_;
   map<unsigned, map<string, vector<Double>>>  error_values_;

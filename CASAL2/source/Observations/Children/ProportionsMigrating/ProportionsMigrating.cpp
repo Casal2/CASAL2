@@ -36,6 +36,7 @@ ProportionsMigrating::ProportionsMigrating(Model* model) : Observation(model) {
 
   parameters_.Bind<unsigned>(PARAM_MIN_AGE, &min_age_, "Minimum age", "");
   parameters_.Bind<unsigned>(PARAM_MAX_AGE, &max_age_, "Maximum age", "");
+  parameters_.Bind<string>(PARAM_TIME_STEP, &time_step_label_, "Time step to execute in", "");
   parameters_.Bind<bool>(PARAM_AGE_PLUS, &age_plus_, "Use age plus group", "", true);
   parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "Year to execute in", "");
   parameters_.Bind<Double>(PARAM_DELTA, &delta_, "Delta", "", DELTA);
@@ -241,10 +242,9 @@ void ProportionsMigrating::Execute() {
    */
   LOG_FINEST() << "Number of categories " << category_labels_.size();
   for (unsigned category_offset = 0; category_offset < category_labels_.size(); ++category_offset, ++partition_iter, ++cached_partition_iter) {
-//    Double      selectivity_result = 0.0;
     Double      start_value        = 0.0;
     Double      end_value          = 0.0;
-//    Double      final_value        = 0.0;
+
 
     vector<Double> expected_values(age_spread_, 0.0);
     vector<Double> numbers_age_before((model_->age_spread() + 1), 0.0);
@@ -262,7 +262,6 @@ void ProportionsMigrating::Execute() {
         // for ages older than max_age_ that could be classified as an individual within the observation range
         unsigned age = ( (*category_iter)->min_age_ + data_offset);
 
- //       selectivity_result = selectivities_[category_offset]->GetResult(age);
         start_value   = (*cached_category_iter).data_[data_offset];
         end_value     = (*category_iter)->data_[data_offset];
 
@@ -271,7 +270,6 @@ void ProportionsMigrating::Execute() {
 
         LOG_FINE() << "----------";
         LOG_FINE() << "Category: " << (*category_iter)->name_ << " at age " << age;
-//        LOG_FINE() << "Selectivity: " << selectivities_[category_offset]->label() << ": " << selectivity_result;
         LOG_FINE() << "start_value: " << start_value << "; end_value: " << end_value;
       }
     }

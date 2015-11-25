@@ -42,14 +42,13 @@ protected:
 
   // members
   unsigned                    years_;
-  DerivedQuantity*            derived_ptr_ = nullptr;
   vector<string>              insert_processes_;
-  bool                        recruitment_;
-  string                      derived_quanitity_ = "";
+  bool                        recruitment_ = false;
   vector<string>              exclude_processes_;
   vector<TimeStep*>           time_steps_;
   cached::Categories          cached_partition_;
   accessor::Categories        partition_;
+  unsigned                    ssb_offset_ = 4;
 };
 
 } /* namespace initialisationphases */

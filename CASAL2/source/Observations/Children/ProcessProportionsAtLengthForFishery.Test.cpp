@@ -173,7 +173,6 @@ fishery FishingEest
 process instant_mort
 categories stock
 length_plus_group false
-selectivities eastFSel
 length_bins 0 20 40 60 80 110
 delta 1e-5
 table obs

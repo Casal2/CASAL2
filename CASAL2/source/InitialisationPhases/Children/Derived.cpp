@@ -37,9 +37,6 @@ Derived::Derived(Model* model)
     partition_(model) {
     parameters_.Bind<string>(PARAM_INSERT_PROCESSES, &insert_processes_, "The processes to insert in to target time steps", "", true);
     parameters_.Bind<string>(PARAM_EXCLUDE_PROCESSES, &exclude_processes_, "The processes to exclude from all time steps", "", true);
-    parameters_.Bind<bool>(PARAM_RECRUITMENT_TIME, &recruitment_, "Does Recruitment occur before ageing in the annual cycle?", "");
-    parameters_.Bind<string>(PARAM_DERIVED_QUANTITY, &derived_quanitity_, "The label of the derived quantity that we want to execute for ssb_offset in BH recruitment", "", "");
-
 }
 
 /*
@@ -58,15 +55,9 @@ void Derived::DoValidate() {
 /*
  * Build any runtime relationships needed for execution
  */
+
 void Derived::DoBuild() {
   time_steps_ = model_->managers().time_step()->ordered_time_steps();
-
-  if (derived_quanitity_ != "") {
-    derived_ptr_ = model_->managers().derived_quantity()->GetDerivedQuantity(derived_quanitity_);
-    if (!derived_ptr_)  {
-      LOG_FATAL_P(PARAM_DERIVED_QUANTITY) << "Cannot find " << derived_quanitity_;
-    }
-  }
 
   // Set the default process labels for the time step for this phase
   for (auto time_step : time_steps_)
@@ -74,14 +65,14 @@ void Derived::DoBuild() {
 
   // handle any new processes we want to insert
   for (string insert : insert_processes_) {
-    vector<string> pieces;
+    vector < string > pieces;
     boost::split(pieces, insert, boost::is_any_of("()="), boost::token_compress_on);
 
-    string target_process   = pieces.size() == 3 ? pieces[1] : "";
-    string new_process      = pieces.size() == 3 ? pieces[2] : pieces[1];
+    string target_process = pieces.size() == 3 ? pieces[1] : "";
+    string new_process = pieces.size() == 3 ? pieces[2] : pieces[1];
 
     auto time_step = model_->managers().time_step()->GetTimeStep(pieces[0]);
-    vector<string> process_labels = time_step->initialisation_process_labels(label_);
+    vector < string > process_labels = time_step->initialisation_process_labels(label_);
 
     if (target_process == "")
       process_labels.insert(process_labels.begin(), new_process);
@@ -99,9 +90,10 @@ void Derived::DoBuild() {
   for (string exclude : exclude_processes_) {
     unsigned count = 0;
     for (auto time_step : time_steps_) {
-      vector<string> process_labels = time_step->initialisation_process_labels(label_);
+      vector < string > process_labels = time_step->initialisation_process_labels(label_);
       unsigned size_before = process_labels.size();
-      process_labels.erase(std::remove_if(process_labels.begin(), process_labels.end(), [exclude](string& ex) { return exclude == ex; }), process_labels.end());
+      process_labels.erase(std::remove_if(process_labels.begin(), process_labels.end(), [exclude](string& ex) {return exclude == ex;}),
+          process_labels.end());
       unsigned diff = size_before - process_labels.size();
 
       time_step->SetInitialisationProcessLabels(label_, process_labels);
@@ -109,15 +101,34 @@ void Derived::DoBuild() {
     }
 
     if (count == 0)
-      LOG_ERROR_P(PARAM_EXCLUDE_PROCESSES) << " process " << exclude << " does not exist in any time steps to be excluded. Please check your spelling";
+      LOG_ERROR_P(PARAM_EXCLUDE_PROCESSES) << " process " << exclude
+          << " does not exist in any time steps to be excluded. Please check your spelling";
   }
 
   // Build our partition
-  vector<string> categories = model_->categories()->category_names();
+  vector < string > categories = model_->categories()->category_names();
   partition_.Init(categories);
   cached_partition_.Init(categories);
 
-  // Build a model pointer so that we can access min and max age that all category ages must be within
+  // Find out the recruitment and ageing order
+  vector<ProcessType> process_types = model_->managers().time_step()->GetOrderedProcessTypes();
+  unsigned ageing_index = std::numeric_limits<unsigned>::max();
+  unsigned recruitment_index = std::numeric_limits<unsigned>::max();
+  for (unsigned i = 0; i < process_types.size(); ++i) {
+    if (process_types[i] == ProcessType::kAgeing) {
+      ageing_index = i;
+    } else if (process_types[i] == ProcessType::kRecruitment) {
+      recruitment_index = i;
+    }
+  }
+  if (ageing_index == std::numeric_limits<unsigned>::max())
+    LOG_ERROR() << location() << " could not calculate the recruitment index because there is no ageing process";
+  if (recruitment_index < ageing_index)
+    recruitment_ = true;
+
+  // Now we need to find ssb_offset
+
+
 }
 
 /*
@@ -199,14 +210,10 @@ void Derived::Execute() {
     old_plus_group = plus_group;
   }
 
-  // If SSB offset > 1 then evaluate the derived_quantity 3 times (this is arbituary) on the equilibrium state.
-  if (derived_quanitity_ != "") {
-    derived_ptr_->Execute();
-    derived_ptr_->Execute();
-    derived_ptr_->Execute();
-  }
+  // run the annual cycle for ssb_offset years
+  time_step_manager->ExecuteInitialisation(label_, ssb_offset_);
 
-  LOG_FINEST() << "Finish execute method";
+
 }
 
 } /* namespace initialisationphases */

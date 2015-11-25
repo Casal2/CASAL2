@@ -56,15 +56,11 @@ MortalityInstantaneous::MortalityInstantaneous(Model* model)
   parameters_.BindTable(PARAM_CATCHES, catches_table_, "Table of catch data", "", true, false);
   parameters_.BindTable(PARAM_FISHERIES, fisheries_table_, "Table of fishery data", "", true, false);
   parameters_.Bind<Double>(PARAM_M, &m_, "Mortality rates", "")->set_range(0.0, 1.0);
-  parameters_.Bind<Double>(PARAM_AVERAGE, &avg_, "The average mortality rate", "", Double(-999.0));
-  parameters_.Bind<Double>(PARAM_DIFFERENCE, &diff_, "The difference between, two categories natural mortality around the average", "", Double(-999.0));
   parameters_.Bind<Double>(PARAM_TIME_STEP_RATIO, &time_step_ratios_temp_, "Time step ratios for M", "", true)->set_range(0.0, 1.0);
   parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_labels_, "Selectivities for Natural Mortality", "");
   parameters_.Bind<string>(PARAM_PENALTY, &  penalty_label_, "Label of penalty to be applied", "","");
 
   RegisterAsEstimable(PARAM_M, &m_);
-  RegisterAsEstimable(PARAM_AVERAGE, &avg_);
-  RegisterAsEstimable(PARAM_DIFFERENCE, &diff_);
 }
 
 /**
@@ -166,7 +162,7 @@ void MortalityInstantaneous::DoValidate() {
     m_.assign(category_labels_.size(), m_[0]);
   if (selectivity_labels_.size() == 1)
     selectivity_labels_.assign(category_labels_.size(), selectivity_labels_[0]);
-  if (m_.size() != category_labels_.size() && avg_ != -999.0)
+  if (m_.size() != category_labels_.size())
     LOG_ERROR_P(PARAM_M)
         << ": Number of Ms provided is not the same as the number of categories provided. Expected: "
         << category_labels_.size()<< " but got " << m_.size();
@@ -174,23 +170,6 @@ void MortalityInstantaneous::DoValidate() {
     LOG_ERROR_P(PARAM_SELECTIVITIES)
         << ": Number of selectivities provided is not the same as the number of categories provided. Expected: "
         << category_labels_.size()<< " but got " << selectivity_labels_.size();
-  }
-
-  // validate if the average difference method is used for natural mortality
-  if (avg_ != -999.0 && diff_ != -999.0) {
-    if (category_labels_.size() % 2)
-      LOG_ERROR_P(PARAM_AVERAGE) << "This method of natural mortality only works when number of categories is a multiple of 2";
-    m_.assign(category_labels_.size(), 0.0);
-    for (unsigned i = 0; i <= (category_labels_.size() / 2); i+=2) {
-    m_[i] = avg_ + (diff_ * 0.5);
-    if (m_[i] > 1.0 || m_[i] < 0.0)
-      LOG_ERROR_P(PARAM_AVERAGE) << "the resulting parameters" << PARAM_AVERAGE << " " << PARAM_DIFFERENCE
-      << " caused natural mortality to be less than 0.0 or greater than 1.0";
-    m_[i + 1] = avg_ - (diff_ * 0.5);
-    if (m_[i + 1] > 1.0 || m_[i + 1] < 0.0)
-      LOG_ERROR_P(PARAM_AVERAGE) << "the resulting parameters" << PARAM_AVERAGE << " " << PARAM_DIFFERENCE
-      << " caused natural mortality to be less than 0.0 or greater than 1.0";
-    }
   }
 }
 
@@ -276,7 +255,7 @@ void MortalityInstantaneous::DoBuild() {
  */
 void MortalityInstantaneous::DoExecute() {
   unsigned time_step_index = model_->managers().time_step()->current_time_step();
-//  unsigned year =  model_->current_year();
+  unsigned year =  model_->current_year();
 
   Double ratio = time_step_ratios_[time_step_index];
 
@@ -387,26 +366,29 @@ void MortalityInstantaneous::DoExecute() {
     /**
      * Calculate the expectation for a proportions_at_age observation
      */
-    /*
-    unsigned age_spread = model_->max_age() - model_->min_age();
+    unsigned age_spread = model_->age_spread();
     m_offset = 0;
-    for (auto categories : partition_)  {
+    for (auto categories : partition_) {
       for (auto fishery_category : fishery_categories_) {
-        if (fishery_category.category_label_ != categories->name_)
-          continue;
-        removals_by_year_timestep_fishery_[year][time_step_index][fishery_category.fishery_label_].assign(0.0, age_spread);
-        for (unsigned i = 0; i < age_spread; ++i) {
-          unsigned age_offset = categories->min_age_ - model_->min_age();
-          if (i < age_offset)
-            continue;
-          removals_by_year_timestep_fishery_[year][time_step_index][fishery_category.fishery_label_][i] += categories->data_[i - age_offset] * fishery_exploitation[fishery_category.fishery_label_]
-              * fishery_category.selectivity_->GetResult(categories->min_age_ + i, categories->age_length_) * exp(-0.5 * ratio * m_[m_offset]
-                 * selectivities_[m_offset]->GetResult(categories->min_age_ + i, categories->age_length_));
+        if (fishery_category.category_label_ == categories->name_
+            && fisheries_[fishery_category.fishery_label_].time_step_index_ == time_step_index) {
+          removals_by_year_fishery_category_[year][fishery_category.fishery_label_][categories->name_].assign(age_spread, 0.0);
+          for (unsigned i = 0; i < age_spread; ++i) {
+            unsigned age_offset = categories->min_age_ - model_->min_age();
+            if (i < age_offset)
+              continue;
+            removals_by_year_fishery_category_[year][fishery_category.fishery_label_][categories->name_][i] += categories->data_[i - age_offset]
+                * fishery_exploitation[fishery_category.fishery_label_]
+                * fishery_category.selectivity_->GetResult(categories->min_age_ + i, categories->age_length_)
+                * exp(-0.5 * ratio * m_[m_offset] * selectivities_[m_offset]->GetResult(categories->min_age_ + i, categories->age_length_));
+          }
+          LOG_FINE() << " Fishery name = " << fishery_category.fishery_label_ << " with exploitation = "
+              << fishery_exploitation[fishery_category.fishery_label_] << " Numbers at first age = "
+              << removals_by_year_fishery_category_[year][fishery_category.fishery_label_][categories->name_][1];
         }
       }
       m_offset++;
     }
-    */
   } // if (model_->state() != State::kInitialise && std::find(years_.begin(), years_.end(), model_->current_year()) != years_.end()) {
 
   /**

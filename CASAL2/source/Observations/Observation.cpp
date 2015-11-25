@@ -20,7 +20,6 @@
 #include "Categories/Categories.h"
 #include "Likelihoods/Factory.h"
 #include "Model/Model.h"
-#include "Selectivities/Manager.h"
 
 // Namespaces
 namespace niwa {
@@ -28,13 +27,12 @@ namespace niwa {
 /**
  * Default Constructor
  */
+
 Observation::Observation(Model* model) : model_(model) {
   parameters_.Bind<string>(PARAM_LABEL, &label_, "Label", "");
   parameters_.Bind<string>(PARAM_TYPE, &type_, "Type of observation", "");
-  parameters_.Bind<string>(PARAM_TIME_STEP, &time_step_label_, "Time step to execute in", "");
   parameters_.Bind<string>(PARAM_LIKELIHOOD, &likelihood_type_, "Type of likelihood to use", "");
   parameters_.Bind<string>(PARAM_CATEGORIES, &category_labels_, "Category labels to use", "", true);
-  parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_labels_, "Selectivity labels to use", "", true);
   parameters_.Bind<string>(PARAM_SIMULATION_LIKELIHOOD, &simulation_likelihood_label_, "Simulation likelihood to use", "", "");
   parameters_.Bind<Double>(PARAM_LIKELIHOOD_MULTIPLIER, &likelihood_multiplier_, "Likelihood score multiplier", "", Double(1.0));
   parameters_.Bind<Double>(PARAM_ERROR_VALUE_MULTIPLIER, &error_value_multiplier_, "Error value multiplier for likelihood", "", Double(1.0));
@@ -74,15 +72,10 @@ void Observation::Validate() {
    * The number of selectivities can be either the number of true categories
    * or the number of defined collections
    */
-  unsigned expected_selectivity_count = 0;
+  expected_selectivity_count_ = 0;
   Categories* categories = model_->categories();
   for (const string& category_label : category_labels_)
-    expected_selectivity_count += categories->GetNumberOfCategoriesDefined(category_label);
-
-  if (category_labels_.size() != selectivity_labels_.size() && expected_selectivity_count != selectivity_labels_.size())
-    LOG_ERROR_P(PARAM_SELECTIVITIES) << ": Number of selectivities provided (" << selectivity_labels_.size()
-        << ") is not valid. You can specify either the number of category collections (" << category_labels_.size() << ") or "
-        << "the number of total categories (" << expected_selectivity_count << ")";
+    expected_selectivity_count_ += categories->GetNumberOfCategoriesDefined(category_label);
 
   /**
    * Now go through each category and split it if required, then check each piece to ensure
@@ -114,16 +107,6 @@ void Observation::Validate() {
  */
 void Observation::Build() {
   LOG_TRACE();
-
-  for(string label : selectivity_labels_) {
-    Selectivity* selectivity = model_->managers().selectivity()->GetSelectivity(label);
-    if (!selectivity)
-      LOG_ERROR_P(PARAM_SELECTIVITIES) << ": Selectivity " << label << " does not exist. Have you defined it?";
-    selectivities_.push_back(selectivity);
-  }
-
-  if (selectivities_.size() == 1 && category_labels_.size() != 1)
-    selectivities_.assign(category_labels_.size(), selectivities_[0]);
 
   likelihood_ = likelihoods::Factory::Create(likelihood_type_);
   if (!likelihood_) {

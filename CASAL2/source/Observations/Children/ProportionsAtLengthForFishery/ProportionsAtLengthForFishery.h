@@ -64,6 +64,7 @@ protected:
   CombinedCategoriesPtr         partition_;
   vector<Double>                length_results_;
   MortalityInstantaneous*       mortality_instantaneous_ = nullptr;
+  string                        time_step_label_ = "";
 
   map<unsigned, map<string, vector<Double>>> proportions_;
   map<unsigned, map<string, vector<Double>>> error_values_;

@@ -14,6 +14,7 @@
 #include "Abundance.h"
 
 #include "Catchabilities/Manager.h"
+#include "Selectivities/Manager.h"
 #include "Utilities/Map.h"
 #include "Utilities/To.h"
 
@@ -24,10 +25,23 @@ namespace observations {
 namespace utils = niwa::utilities;
 
 /**
+ * Default constructor
+ */
+Abundance::Abundance(Model* model) : Observation(model) {
+  parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_labels_, "Selectivity labels to use", "", true);
+  parameters_.Bind<string>(PARAM_TIME_STEP, &time_step_label_, "Time step to execute in", "");
+
+}
+/**
  * Validate configuration file parameters
  */
 void Abundance::DoValidate() {
   LOG_TRACE();
+
+  if (category_labels_.size() != selectivity_labels_.size() && expected_selectivity_count_ != selectivity_labels_.size())
+    LOG_ERROR_P(PARAM_SELECTIVITIES) << ": Number of selectivities provided (" << selectivity_labels_.size()
+        << ") is not valid. You can specify either the number of category collections (" << category_labels_.size() << ") or "
+        << "the number of total categories (" << expected_selectivity_count_ << ")";
 
   // Delta
   if (delta_ < 0.0)
@@ -83,9 +97,22 @@ void Abundance::DoBuild() {
   partition_ = CombinedCategoriesPtr(new niwa::partition::accessors::CombinedCategories(model_, category_labels_));
   cached_partition_ = CachedCombinedCategoriesPtr(new niwa::partition::accessors::cached::CombinedCategories(model_, category_labels_));
 
+  // Build Selectivity pointers
+  for(string label : selectivity_labels_) {
+    Selectivity* selectivity = model_->managers().selectivity()->GetSelectivity(label);
+    if (!selectivity)
+      LOG_ERROR_P(PARAM_SELECTIVITIES) << ": Selectivity " << label << " does not exist. Have you defined it?";
+    selectivities_.push_back(selectivity);
+  }
+
+    if (selectivities_.size() == 1 && category_labels_.size() != 1)
+      selectivities_.assign(category_labels_.size(), selectivities_[0]);
+
+
   if (partition_->category_count() != selectivities_.size())
     LOG_ERROR_P(PARAM_SELECTIVITIES) << ": number of selectivities provided (" << selectivities_.size() << ") does not match the number "
         "of categories provided (" << partition_->category_count() << ")";
+
 }
 
 /**

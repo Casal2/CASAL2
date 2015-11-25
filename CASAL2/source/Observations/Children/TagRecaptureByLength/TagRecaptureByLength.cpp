@@ -14,6 +14,7 @@
 #include <algorithm>
 
 #include "Categories/Categories.h"
+#include "Selectivities/Manager.h"
 #include "Model/Model.h"
 #include "Partition/Accessors/All.h"
 #include "Selectivities/Manager.h"
@@ -36,7 +37,9 @@ TagRecaptureByLength::TagRecaptureByLength(Model* model) : Observation(model) {
   parameters_.Bind<Double>(PARAM_LENGTH_BINS, &length_bins_, "Length Bins", "");
   parameters_.Bind<bool>(PARAM_PLUS_GROUP, &plus_group_, "Last length bin a plus group", "", true);
   parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "Year to execute in", "");
+  parameters_.Bind<string>(PARAM_TIME_STEP, &time_step_label_, "Time step to execute in", "");
   parameters_.Bind<string>(PARAM_TARGET_CATEGORIES, &target_category_labels_, "Target Categories", "");
+  parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_labels_, "Selectivity labels to use", "", true);
   parameters_.Bind<string>(PARAM_TARGET_SELECTIVITIES, &target_selectivity_labels_, "Target Selectivities", "");
   parameters_.Bind<Double>(PARAM_DELTA, &delta_, "Delta", "", DELTA)->set_lower_bound(0.0, false);
   parameters_.Bind<Double>(PARAM_PROCESS_ERRORS, &process_error_values_, "Process error", "", true);
@@ -227,6 +230,17 @@ void TagRecaptureByLength::DoBuild() {
   }
 
   age_results_.resize(length_spread_ * category_labels_.size(), 0.0);
+
+  // Build Selectivity pointers
+  for(string label : selectivity_labels_) {
+    Selectivity* selectivity = model_->managers().selectivity()->GetSelectivity(label);
+    if (!selectivity)
+      LOG_ERROR_P(PARAM_SELECTIVITIES) << ": Selectivity " << label << " does not exist. Have you defined it?";
+    selectivities_.push_back(selectivity);
+  }
+  if (selectivities_.size() == 1 && category_labels_.size() != 1)
+    selectivities_.assign(category_labels_.size(), selectivities_[0]);
+
 
   for(string label : target_selectivity_labels_) {
     auto selectivity = model_->managers().selectivity()->GetSelectivity(label);

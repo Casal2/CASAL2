@@ -13,6 +13,7 @@
 #include <algorithm>
 
 #include "Model/Model.h"
+#include "Selectivities/Manager.h"
 #include "Partition/Accessors/All.h"
 #include "Utilities/DoubleCompare.h"
 #include "Utilities/Map.h"
@@ -31,9 +32,11 @@ ProportionsAtLength::ProportionsAtLength(Model* model) : Observation(model) {
   error_values_table_ = new parameters::Table(PARAM_ERROR_VALUES);
 
   parameters_.Bind<Double>(PARAM_LENGTH_BINS, &length_bins_, "Length bins", "");
+  parameters_.Bind<string>(PARAM_TIME_STEP, &time_step_label_, "Time step to execute in", "");
   parameters_.Bind<bool>(PARAM_LENGTH_PLUS, &length_plus_, "Is the last bin a plus group", "", true);
   parameters_.Bind<Double>(PARAM_TOLERANCE, &tolerance_, "Tolerance for rescaling proportions", "", Double(0.001));
   parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "Year to execute in", "");
+  parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_labels_, "Selectivity labels to use", "", true);
   parameters_.Bind<Double>(PARAM_DELTA, &delta_, "Delta", "", DELTA);
   parameters_.Bind<Double>(PARAM_PROCESS_ERRORS, &process_error_values_, "Process error", "", true);
   parameters_.BindTable(PARAM_OBS, obs_table_, "Table of Observatons", "", false);
@@ -87,6 +90,10 @@ void ProportionsAtLength::DoValidate() {
   if (delta_ < 0.0)
     LOG_ERROR_P(PARAM_DELTA) << ": delta (" << AS_DOUBLE(delta_) << ") cannot be less than 0.0";
 
+  if (category_labels_.size() != selectivity_labels_.size() && expected_selectivity_count_ != selectivity_labels_.size())
+    LOG_ERROR_P(PARAM_SELECTIVITIES) << ": Number of selectivities provided (" << selectivity_labels_.size()
+        << ") is not valid. You can specify either the number of category collections (" << category_labels_.size() << ") or "
+        << "the number of total categories (" << expected_selectivity_count_ << ")";
   /**
    * Validate the number of obs provided matches age spread * category_labels * years
    * This is because we'll have 1 set of obs per category collection provided.
@@ -205,6 +212,17 @@ void ProportionsAtLength::DoValidate() {
 void ProportionsAtLength::DoBuild() {
   partition_ = CombinedCategoriesPtr(new niwa::partition::accessors::CombinedCategories(model_, category_labels_));
   cached_partition_ = CachedCombinedCategoriesPtr(new niwa::partition::accessors::cached::CombinedCategories(model_, category_labels_));
+
+  // Build Selectivity pointers
+  for(string label : selectivity_labels_) {
+    Selectivity* selectivity = model_->managers().selectivity()->GetSelectivity(label);
+    if (!selectivity)
+      LOG_ERROR_P(PARAM_SELECTIVITIES) << ": Selectivity " << label << " does not exist. Have you defined it?";
+    selectivities_.push_back(selectivity);
+  }
+
+  if (selectivities_.size() == 1 && category_labels_.size() != 1)
+    selectivities_.assign(category_labels_.size(), selectivities_[0]);
 
 //  if (ageing_error_label_ != "")
 //   LOG_CODE_ERROR() << "ageing error has not been implemented for the proportions at age observation";
