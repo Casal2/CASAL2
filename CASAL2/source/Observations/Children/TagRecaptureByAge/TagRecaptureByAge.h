@@ -22,6 +22,7 @@
 
 // Namespace
 namespace niwa {
+class Selectivity;
 namespace observations {
 
 using partition::accessors::CombinedCategoriesPtr;
@@ -66,6 +67,9 @@ protected:
   CombinedCategoriesPtr         target_partition_;
   vector<Double>                age_results_;
   vector<Selectivity*>          target_selectivities_;
+  vector<string>                selectivity_labels_;
+  vector<Selectivity*>          selectivities_;
+  string                        time_step_label_ = "";
 
   map<unsigned, map<string, vector<Double>>> recaptures_;
   map<unsigned, map<string, vector<Double>>> scanned_;

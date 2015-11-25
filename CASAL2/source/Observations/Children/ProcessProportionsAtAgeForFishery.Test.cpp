@@ -187,7 +187,6 @@ fishery FishingEest
 min_age 4
 max_age 21
 age_plus true
-selectivities eastFSel
 years 1992 1995 1997 1998 2001 2004 2007
 
 table obs
@@ -208,8 +207,7 @@ table error_values
 2001 53
 2004 43
 2007 42
-end_table
-process_proportion 0.5        
+end_table    
 )";
 
 /**
@@ -246,13 +244,13 @@ TEST_F(InternalEmptyModel, Observation_Process_Proportions_At_Age_for_fishery_Si
 
   EXPECT_EQ("stock",                      comparisons[year][2].category_);
   EXPECT_DOUBLE_EQ(15,                    comparisons[year][2].error_value_);
-  EXPECT_DOUBLE_EQ(0.14955362757708437,   comparisons[year][2].expected_);
+  EXPECT_DOUBLE_EQ(0.14955362757708424,   comparisons[year][2].expected_);
   EXPECT_DOUBLE_EQ(0.13189999999999999,   comparisons[year][2].observed_);
   EXPECT_DOUBLE_EQ(4.4327471728877041,    comparisons[year][2].score_);
 
   EXPECT_EQ("stock",                      comparisons[year][3].category_);
   EXPECT_DOUBLE_EQ(15,                    comparisons[year][3].error_value_);
-  EXPECT_DOUBLE_EQ(0.11208417531562663,   comparisons[year][3].expected_);
+  EXPECT_DOUBLE_EQ(0.1120841753156267,   comparisons[year][3].expected_);
   EXPECT_DOUBLE_EQ(0.074999999999999997,  comparisons[year][3].observed_);
   EXPECT_DOUBLE_EQ(2.519828116764669,     comparisons[year][3].score_);
 

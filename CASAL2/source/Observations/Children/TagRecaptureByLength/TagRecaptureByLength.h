@@ -22,6 +22,7 @@
 
 // Namespace
 namespace niwa {
+class Selectivity;
 namespace observations {
 
 using partition::accessors::CombinedCategoriesPtr;
@@ -49,22 +50,32 @@ protected:
   vector<Double>                length_bins_;
   bool                          plus_group_ = false;
   unsigned                      length_spread_ = 0;
+  string                        time_step_label_ = "";
   Double                        detection_;
-  vector<string>                target_category_labels_;
-  vector<string>                target_selectivity_labels_;
   Double                        delta_ = 0.0;
-  parameters::Table*            recaptures_table_ = nullptr;
+  vector<Double>                age_results_;
   Double                        tolerance_ = 0.0;
   vector<Double>                process_error_values_;
   map<unsigned, Double>         process_errors_by_year_;
   string                        ageing_error_label_;
+  parameters::Table*            recaptures_table_ = nullptr;
   parameters::Table*            scanned_table_ = nullptr;
+
+
+  // Category members
+  vector<string>                target_category_labels_;
   CachedCombinedCategoriesPtr   cached_partition_;
   CombinedCategoriesPtr         partition_;
   CachedCombinedCategoriesPtr   target_cached_partition_;
   CombinedCategoriesPtr         target_partition_;
-  vector<Double>                age_results_;
+
+  // Selectivity members
   vector<Selectivity*>          target_selectivities_;
+  vector<string>                selectivity_labels_;
+  vector<Selectivity*>          selectivities_;
+  vector<string>                target_selectivity_labels_;
+
+
 
   map<unsigned, map<string, vector<Double>>> recaptures_;
   map<unsigned, map<string, vector<Double>>> scanned_;

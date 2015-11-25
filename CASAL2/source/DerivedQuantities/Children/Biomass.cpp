@@ -50,6 +50,7 @@ void Biomass::Execute() {
   Double value = 0.0;
 
   if (model_->state() == State::kInitialise) {
+
     auto iterator = partition_.begin();
     // iterate over each category
     for (unsigned i = 0; i < partition_.size() && iterator != partition_.end(); ++i, ++iterator) {
@@ -64,14 +65,28 @@ void Biomass::Execute() {
     if (initialisation_values_.size() <= initialisation_phase)
       initialisation_values_.resize(initialisation_phase + 1);
 
-    if (time_step_proportion_ == 0.0)
-      initialisation_values_[initialisation_phase].push_back(cache_value_);
-    else if (time_step_proportion_ == 1.0)
-      initialisation_values_[initialisation_phase].push_back(value);
-    else if (mean_proportion_method_)
-      initialisation_values_[initialisation_phase].push_back(cache_value_ + ((value - cache_value_) * time_step_proportion_));
-    else
-      initialisation_values_[initialisation_phase].push_back(pow(cache_value_, 1 - time_step_proportion_) * pow(value ,time_step_proportion_));
+    Double b0_value = 0;
+
+    if (time_step_proportion_ == 0.0) {
+      b0_value = cache_value_;
+      initialisation_values_[initialisation_phase].push_back(b0_value);
+    } else if (time_step_proportion_ == 1.0) {
+      b0_value = value;
+      initialisation_values_[initialisation_phase].push_back(b0_value);
+    } else if (mean_proportion_method_) {
+      b0_value = cache_value_ + ((value - cache_value_) * time_step_proportion_);
+      initialisation_values_[initialisation_phase].push_back(b0_value);
+    } else {
+      b0_value = pow(cache_value_, 1 - time_step_proportion_) * pow(value ,time_step_proportion_);
+      initialisation_values_[initialisation_phase].push_back(b0_value);
+    }
+
+    // Store b0 on the model
+    vector<string> init_label = model_->initialisation_phases();
+    InitialisationPhase* Init_phase = model_->managers().initialisation_phase()->GetInitPhase(init_label[initialisation_phase]);
+    string type = Init_phase->type();
+    if (type == PARAM_DERIVED || type == PARAM_ITERATIVE)
+      model_->set_b0(label_, b0_value);
 
   } else {
     auto iterator = partition_.begin();

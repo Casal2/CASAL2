@@ -24,6 +24,7 @@
 
 // Namespace
 namespace niwa {
+class Selectivity;
 namespace observations {
 
 using partition::accessors::CombinedCategoriesPtr;
@@ -60,6 +61,9 @@ protected:
   CachedCombinedCategoriesPtr   cached_partition_;
   CombinedCategoriesPtr         partition_;
   vector<Double>                length_results_;
+  vector<string>                selectivity_labels_;
+  vector<Selectivity*>          selectivities_;
+  string                        time_step_label_ = "";
 
   map<unsigned, map<string, vector<Double>>> proportions_;
   map<unsigned, map<string, vector<Double>>> error_values_;

@@ -23,6 +23,7 @@
 
 // Namespaces
 namespace niwa {
+class Selectivity;
 namespace observations {
 
 using partition::accessors::CombinedCategoriesPtr;
@@ -34,8 +35,8 @@ using partition::accessors::cached::CachedCombinedCategoriesPtr;
 class Abundance : public niwa::Observation {
 public:
   // Methods
-  Abundance() = delete;
-  explicit Abundance(Model* model) : Observation(model) { };
+  //Abundance() = delete;
+  Abundance(Model* model);
   virtual                     ~Abundance() = default;
   void                        DoValidate() override final;
   virtual void                DoBuild() override;
@@ -59,6 +60,9 @@ protected:
   CombinedCategoriesPtr           partition_;
   vector<string>                  obs_;
   Double                          proportion_of_time_ = 0;
+  vector<string>                  selectivity_labels_;
+  vector<Selectivity*>            selectivities_;
+  string                          time_step_label_ = "";
 };
 
 } /* namespace observation */
