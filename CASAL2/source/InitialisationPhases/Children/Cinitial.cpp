@@ -150,8 +150,9 @@ void Cinitial::Execute() {
   // Calculate Binitial and rinitial which is the biomass of this and recruits from a cinitialised populations
   // If SSB offset > 1 then evaluate the derived_quantity 3 times (this is arbituary) on the equilibrium state.
 
+  unsigned ssb_offset = 3;
   timesteps::Manager* time_step_manager = model_->managers().time_step();
-  time_step_manager->ExecuteInitialisation(label_, 2);
+  time_step_manager->ExecuteInitialisation(label_, ssb_offset);
 
   if (derived_quanitity_ != "") {
     derived_ptr_->Execute();
