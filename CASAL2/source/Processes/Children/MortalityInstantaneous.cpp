@@ -382,9 +382,6 @@ void MortalityInstantaneous::DoExecute() {
                 * fishery_category.selectivity_->GetResult(categories->min_age_ + i, categories->age_length_)
                 * exp(-0.5 * ratio * m_[m_offset] * selectivities_[m_offset]->GetResult(categories->min_age_ + i, categories->age_length_));
           }
-          LOG_FINE() << " Fishery name = " << fishery_category.fishery_label_ << " with exploitation = "
-              << fishery_exploitation[fishery_category.fishery_label_] << " Numbers at first age = "
-              << removals_by_year_fishery_category_[year][fishery_category.fishery_label_][categories->name_][1];
         }
       }
       m_offset++;
