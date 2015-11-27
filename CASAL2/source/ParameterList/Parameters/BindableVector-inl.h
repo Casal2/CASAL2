@@ -43,7 +43,7 @@ BindableVector<T>::BindableVector(const string& label, vector<T>* target, const 
  */
 template<typename T>
 void BindableVector<T>::Bind() {
-  T value;
+  T value = T();
   for (unsigned i = 0; i < values_.size(); ++i) {
     if (!niwa::utilities::To<T>(values_[i], value))
       LOG_ERROR() << location() << ": " << label_ << " value " << values_[i] << " could not be converted to type "
