@@ -68,14 +68,44 @@ MortalityPreySuitability::MortalityPreySuitability(Model* model)
  * Note: all parameters are populated from configuration files
  */
 void MortalityPreySuitability::DoValidate() {
-/*  for (unsigned i = 0; i < prey_category_labels_.size(); ++i)
-    LOG_FINEST() << ": Original prey category = " << prey_category_labels_[i];
 
-  prey_category_labels_ = model_->categories()->ExpandLabels(prey_category_labels_, parameters_.Get(PARAM_CATEGORIES));
-  predator_category_labels_ = model_->categories()->ExpandLabels(predator_category_labels_, parameters_.Get(PARAM_CATEGORIES));
+  /**
+   * Now go through each category and split it if required, then check each piece to ensure
+   * it's a valid category
+   */
+  Categories* categories = model_->categories();
 
-  for (unsigned i = 0; i < prey_category_labels_.size(); ++i)
-    LOG_FINEST() << ": Prey category after expansion = " << prey_category_labels_[i];*/
+  vector<string> split_prey_category_labels;
+  for (const string& category_label : prey_category_labels_) {
+    boost::split(split_prey_category_labels, category_label, boost::is_any_of("+"));
+
+    for (const string& split_category_label : split_prey_category_labels) {
+      if (!categories->IsValid(split_category_label)) {
+        if (split_category_label == category_label) {
+          LOG_ERROR_P(PARAM_PREY_CATEGORIES) << ": The category " << split_category_label << " is not a valid category.";
+        } else {
+          LOG_ERROR_P(PARAM_PREY_CATEGORIES) << ": The category " << split_category_label << " is not a valid category."
+              << " It was defined in the category collection " << category_label;
+        }
+      }
+    }
+  }
+
+  vector<string> split_predator_category_labels;
+  for (const string& category_label : predator_category_labels_) {
+    boost::split(split_predator_category_labels, category_label, boost::is_any_of("+"));
+
+    for (const string& split_category_label : split_predator_category_labels) {
+      if (!categories->IsValid(split_category_label)) {
+        if (split_category_label == category_label) {
+          LOG_ERROR_P(PARAM_PREDATOR_CATEGORIES) << ": The category " << split_category_label << " is not a valid category.";
+        } else {
+          LOG_ERROR_P(PARAM_PREDATOR_CATEGORIES) << ": The category " << split_category_label << " is not a valid category."
+              << " It was defined in the category collection " << category_label;
+        }
+      }
+    }
+  }
 
   // Check length of categories are the same as selectivities
   if (prey_category_labels_.size() != prey_selectivity_labels_.size())
@@ -89,6 +119,7 @@ void MortalityPreySuitability::DoValidate() {
   if (prey_category_labels_.size() != electivities_.size())
     LOG_ERROR_P(PARAM_ELECTIVITIES) << ": You provided (" << prey_category_labels_.size() << ") prey categories but we have "
             << electivities_.size() << " prey electivities, these must be equal";
+
 }
 
 /**
