@@ -41,7 +41,6 @@ Categories::Categories(Model* model) : model_(model) {
   parameters_.Bind<string>(PARAM_FORMAT, &format_, "The format that the category names should adhere too", "");
   parameters_.Bind<string>(PARAM_NAMES, &names_, "The names of the categories to be used in the model", "");
   parameters_.Bind<string>(PARAM_YEARS, &years_, "The years that individual categories will be active for. This overrides the model values", "", true);
-  parameters_.Bind<string>(PARAM_AGES, &ages_, "The ages that individual categories support. This overrides the model values", "", true);
   parameters_.Bind<string>(PARAM_AGE_LENGTHS, &age_length_labels_, R"(The labels of age\_length objects that are assigned to categories)", "", true);
 }
 
@@ -102,6 +101,36 @@ void Categories::Validate() {
       LOG_ERROR_P(PARAM_NAMES) << " category label " << label << " contains the invalid characters: " << invalid_characters;
   }
 
+  /**
+   * Handle individual years for a category
+   */
+  map<string, string> category_values;
+  vector<string> years_split;
+  for (auto year_lookup : years_) {
+    category_values = GetCategoryLabelsAndValues(year_lookup, parameters_.Get(PARAM_YEARS));
+    for (auto iter : category_values) {
+      if (categories_.find(iter.first) == categories_.end()) {
+        LOG_FATAL_P(PARAM_YEARS) << "category " << iter.first << " does not exist.";
+      }
+
+      categories_[iter.first].years_.clear();
+      boost::split(years_split, iter.second, boost::is_any_of(","), boost::token_compress_on);
+      for (auto year : years_split) {
+        unsigned actual_value = 0;
+        if (!utilities::To<string, unsigned>(year, actual_value)) {
+          LOG_FATAL_P(PARAM_YEARS) << "year " << year << " is not a valid numeric";
+        }
+
+        if (std::find(categories_[iter.first].years_.begin(),
+            categories_[iter.first].years_.end(),
+            actual_value) != categories_[iter.first].years_.end()) {
+          LOG_ERROR_P(PARAM_YEARS) << "Value " << actual_value << " has already been defined for "
+              << "the category " << iter.first;
+        }
+        categories_[iter.first].years_.push_back(actual_value);
+      }
+    }
+  }
 }
 
 /**
@@ -205,11 +234,11 @@ string Categories::GetCategoryLabels(const string& lookup_string, const Paramete
   string result = "";
 
   vector<string> pieces;
-  boost::split(pieces, lookup_string, boost::is_any_of("="));
+  boost::split(pieces, lookup_string, boost::is_any_of("="), boost::token_compress_on);
 
   if (pieces.size() != 2) {
     LOG_ERROR() << source_parameter->location() << " short-hand category string (" << lookup_string
-        << ") is not in the proper format (e.g <format_chunk>=<lookup_chunk>)";
+        << ") is not in the proper format. e.g <format_chunk>=<lookup_chunk>";
   }
 
   boost::replace_all(pieces[0], " ", "");
@@ -299,29 +328,30 @@ string Categories::GetCategoryLabels(const string& lookup_string, const Paramete
           << "Valid format chunks must be taken from the format (" << format_ << ")";
     }
 
-    matched_categories.erase(
-        std::remove_if(matched_categories.begin(), matched_categories.end(),
-        [&format_offset, &source_parameter, &lookup, &lookup_string](string& category) {
-          vector<string> chunks;
-          boost::split(chunks, category, boost::is_any_of("."));
-          if (chunks.size() <= format_offset) {
-            LOG_ERROR() << source_parameter->location() << " short-hand category syntax (" << lookup_string
-                << ") could not be compared to category (" << category << ") because category was malformed";
-          }
+    if (lookup != "*") {
+      matched_categories.erase(
+          std::remove_if(matched_categories.begin(), matched_categories.end(),
+              // lambda start
+          [&format_offset, &source_parameter, &lookup, &lookup_string](string& category) {
+            vector<string> chunks;
+            boost::split(chunks, category, boost::is_any_of("."));
+            if (chunks.size() <= format_offset) {
+              LOG_ERROR() << source_parameter->location() << " short-hand category syntax (" << lookup_string
+                  << ") could not be compared to category (" << category << ") because category was malformed";
+            }
 
-          vector<string> comma_separated_pieces;
-          boost::split(comma_separated_pieces, lookup, boost::is_any_of(","));
-
-          if (std::find(comma_separated_pieces.begin(), comma_separated_pieces.end(), chunks[format_offset]) == comma_separated_pieces.end())
-            return true;
-          return false;
-        }),
-        matched_categories.end()
-    );
+            vector<string> comma_separated_pieces;
+            boost::split(comma_separated_pieces, lookup, boost::is_any_of(","));
+            if (std::find(comma_separated_pieces.begin(), comma_separated_pieces.end(), chunks[format_offset]) == comma_separated_pieces.end())
+              return true;
+            return false;
+          }),
+          matched_categories.end()
+      ); // End of .erase();
+    }
 
     LOG_FINEST() << "Short format parse of categories returned " << matched_categories.size() << " results";
   }
-
 
   if (matched_categories.size() == 0) {
     LOG_ERROR() << source_parameter->location() << " short-hand format string (" << lookup_string <<
@@ -337,6 +367,48 @@ string Categories::GetCategoryLabels(const string& lookup_string, const Paramete
   }
 
   return result;
+}
+
+/**
+ * This method will parse the lookup string and
+ * try to match it to categories that have been defined so we can set values on them.
+ *
+ * This supports
+ * <category_name>=<value>
+ * format=<lookup=<value>
+ * <tag>=<lookup>=<value>
+ *
+ * This is used when setting individual lengths/ages/years on specific categories
+ *
+ * @param lookup The string we're looking for
+ * @param source_parameter The source parameter
+ * @return a map of <category:value>
+ */
+map<string, string> Categories::GetCategoryLabelsAndValues(const string& lookup, const Parameter* source_parameter) {
+  map<string, string> results;
+
+  vector<string> pieces;
+  boost::split(pieces, lookup, boost::is_any_of("="), boost::token_compress_on);
+  if (pieces.size() != 2 && pieces.size() != 3) {
+    LOG_ERROR() << source_parameter->location() << " short-hand category string (" << lookup
+        << ") is not in the proper format. e.g <format_chunk>=<lookup_chunk>=values";
+  }
+
+  string temp_lookup = pieces[0];
+  if (pieces.size() == 3)
+    temp_lookup += "=" + pieces[1];
+  vector<string> categories = GetCategoryLabelsV(temp_lookup, source_parameter);
+  for (auto category : categories) {
+    if (results.find(category) != results.end()) {
+      LOG_ERROR() << source_parameter->location() << " category " << category
+          << " is being assigned a value more than once";
+    }
+
+
+    results[category] = pieces.size() == 2 ? pieces[1] : pieces[2];
+  }
+
+  return results;
 }
 
 /**
@@ -402,6 +474,7 @@ AgeLength* Categories::age_length(const string& category_name) {
     LOG_CODE_ERROR() << "Could not find category_name: " << category_name << " in the list of loaded categories";
   if (!categories_[category_name].age_length_) {
     categories_[category_name].age_length_ = new agelengths::None(model_);
+    // TODO: Pretty sure this is a memory leak
   }
 
   return categories_[category_name].age_length_;
