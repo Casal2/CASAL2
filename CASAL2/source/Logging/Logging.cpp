@@ -66,7 +66,6 @@ void Logging::Flush(niwa::logger::Record& record) {
   if (record.severity() == logger::Severity::kWarning || record.severity() == logger::Severity::kError ||
       record.severity() == logger::Severity::kFatal || record.severity() == logger::Severity::kCodeError) {
     cout << record.message();
-
     cout.flush();
     throw std::string(record.message());
   }

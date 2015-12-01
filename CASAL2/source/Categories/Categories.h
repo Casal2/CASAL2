@@ -40,6 +40,7 @@ struct CategoryInfo {
  */
 class Categories : public niwa::base::Object {
   friend class Model;
+  friend class MockCategories;
 public:
   // Methods
   virtual                       ~Categories() = default;
@@ -50,7 +51,6 @@ public:
   bool                          IsCombinedLabels(const string& label) const;
   unsigned                      GetNumberOfCategoriesDefined(const string& label) const;
   void                          Clear();
-
   vector<string>                ExpandLabels(const vector<string> &category_labels, const Parameter* source_parameter);
   string                        GetCategoryLabels(const string& lookup_string, const Parameter* source_parameter);
   vector<string>                GetCategoryLabelsV(const string& lookup_string, const Parameter* source_parameter);
@@ -63,17 +63,18 @@ public:
   vector<unsigned>              years(const string& category_name);
   AgeLength*                    age_length(const string& category_name);
 
-private:
+protected:
   // Methods
   Categories() = delete;
   explicit Categories(Model* model);
+
+  virtual map<string, string> GetCategoryLabelsAndValues(const string& lookup, const Parameter* source_parameter);
 
   // Members
   Model*                      model_ = nullptr;
   string                      format_;
   vector<string>              names_;
   vector<string>              years_;
-  vector<string>              ages_;
   vector<string>              category_names_;
   vector<string>              age_length_labels_;
   map<string, string>         category_age_length_labels_;
