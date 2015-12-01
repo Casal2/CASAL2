@@ -45,6 +45,7 @@ class Documentation:
         self.type_translations_['vector<string>']   = 'string vector'
         self.type_translations_['bool']             = 'boolean'
         self.type_translations_['vector<bool>']     = 'boolean vector'
+        self.type_translations_['map<string, vector<Double>>'] = 'constant vector'
 
     """
     Start the documentation builder
@@ -69,7 +70,7 @@ class Documentation:
             self.clean_variables()            
             file_list = os.listdir('../CASAL2/source/' + folder + '/')
             for file in file_list:                
-                if file.startswith(folder[:-3]) and file.endswith('.h'):
+                if file.startswith(folder[:-3]) and file.endswith('.h') and not file.endswith('-inl.h'):
                     self.parent_file_ = file
                     print '--> Parent File: ' + self.parent_file_
                     class_name = self.parent_file_.replace('.h', '')
@@ -360,11 +361,16 @@ class Documentation:
         pieces = re.split(',|<|>|;|(|)', short_line)
         pieces = filter(None, pieces)
 
-        if len(pieces) != 2:
-            return Globals.PrintError('Expected 3 pieces but got ' + str(len(pieces)) + ' with line: ' + line)
+        if len(pieces) != 2 and len(pieces) != 1:
+            return Globals.PrintError('Expected 2 or 3 pieces but got ' + str(len(pieces)) + ' with line: ' + line)
 
-        name = pieces[0]
-        variable = pieces[1].replace('&', '').replace(')', '').lstrip().rstrip()
+        if len(pieces) == 1:
+          name = 'user defined'
+          variable = pieces[0].replace('&', '').replace(')', '').lstrip().rstrip()
+        else:
+          name = pieces[0]
+          variable = pieces[1].replace('&', '').replace(')', '').lstrip().rstrip()
+
         print '--> Estimable: ' + name + ' with variable ' + variable
         self.estimables_[name] = variable
         return True
