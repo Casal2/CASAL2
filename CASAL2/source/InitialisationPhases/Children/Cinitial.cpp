@@ -27,7 +27,7 @@ Cinitial::Cinitial(Model* model)
 
   parameters_.Bind<string>(PARAM_CATEGORIES, &category_labels_, "List of categories to use", "");
   parameters_.BindTable(PARAM_N, n_table_, "Table of data", "", false, false);
-  parameters_.Bind<string>(PARAM_DERIVED_QUANTITY, &derived_quanitity_, "The label of the derived quantity that we want to execute for ssb_offset in BH recruitment", "", "");
+  parameters_.Bind<string>(PARAM_DERIVED_QUANTITY, &derived_quanitity_, R"(The label of the derived quantity that we want to execute for \texttt{ssb\_offset} for BH recruitment)", "", "");
 
   RegisterAsEstimable(&n_);
 }
