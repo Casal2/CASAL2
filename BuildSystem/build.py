@@ -14,6 +14,7 @@ from Builder import *
 from Documentation import *
 from Archiver import *
 from ModelRunner import *
+from Installer import *
 
 """
 Print the usage for this build system
@@ -241,7 +242,22 @@ def start():
     print "--> Cleaning all CASAL2 built files, including third party headers and libs"
     cleaner = Cleaner()
     if not cleaner.clean_all():
-      return False    
+      return False
+  elif build_target == "installer":
+    print "*************************************************************************"
+    print "*************************************************************************"
+    print "--> Building CASAL2 Installer"
+    print "-- Starting release build"
+    Globals.build_target_ = "release"
+    code_builder = MainCode()
+    if not code_builder.start():
+      return False
+    print "-- Starting documentation build"
+    documentation_builder = Documentation()
+    documentation_builder.start()
+    print "-- Building installer"
+    installer = Installer()
+    installer.start()
   
   return True
   
@@ -260,47 +276,3 @@ if not start():
 system_info.reset_original_path()
 print "--> Finished"
 exit(exit_code)  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
- 
-
-  

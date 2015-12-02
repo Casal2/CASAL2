@@ -106,11 +106,22 @@ FOREACH(library ${specialLibraries})
 SET(thirdPartyLibraries ${thirdPartyLibraries} ${library})
 ENDFOREACH()
 
-MESSAGE("Third party libraries: ${thirdPartyLibraries}")
 SET(LINK_OPTIONS " ")
+
+IF(WIN32)
+  MESSAGE("Building ICON")
+  ADD_CUSTOM_TARGET(icon ALL
+    COMMAND windres --output icon.o --input ${CMAKE_HOME_DIRECTORY}\\casal2.rc
+  )
+
+  SET(LINK_OPTIONS "-static icon.o")  
+ENDIF(WIN32)
+
+MESSAGE("Third party libraries: ${thirdPartyLibraries}")
+
 ADD_EXECUTABLE(${EXE_NAME} ${sourceFiles} )
 SET_TARGET_PROPERTIES(${EXE_NAME} PROPERTIES COMPILE_FLAGS ${COMPILE_OPTIONS} LINK_FLAGS ${LINK_OPTIONS})
 TARGET_LINK_LIBRARIES(${EXE_NAME} ${thirdPartyLibraries})
-
-
-
+IF(WIN32)
+  ADD_DEPENDENCIES(${EXE_NAME} version icon)
+ENDIF(WIN32)

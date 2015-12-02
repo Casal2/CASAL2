@@ -58,3 +58,13 @@
 /TestModels/additional_priors/run.log
 /TestModels/agelengths_data/run.log
 /TestModels/estimates_with_matching_bounds/run.log
+/BuildSystem/Output
+/BuildSystem/config.iss
+/Documentation/Manual/CASAL2.bbl
+/Documentation/Manual/CASAL2.blg
+/Documentation/Manual/CASAL2.idx
+/Documentation/Manual/CASAL2.ilg
+/Documentation/Manual/CASAL2.ind
+/Documentation/Manual/CASAL2.log
+/Documentation/Manual/CASAL2.out
+/Documentation/Manual/CASAL2.toc
