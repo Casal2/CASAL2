@@ -20,6 +20,7 @@ namespace reports {
 Manager::Manager(Model* model) : model_(model) {
   run_.test_and_set();
   pause_ = false;
+  is_paused_ = false;
 }
 
 /**
@@ -139,7 +140,12 @@ void Manager::FlushReports() {
  bool do_break = run_.test_and_set();
 
   while(true) {
-    while (pause_) continue;
+    while (pause_) {
+      is_paused_ = true;
+      continue;
+    }
+
+    is_paused_ = false;
 
     do_break = !run_.test_and_set();
     for (auto report : objects_) {
@@ -150,6 +156,14 @@ void Manager::FlushReports() {
     if (do_break)
       break;
   }
+}
+
+/**
+ *
+ */
+void Manager::Pause() {
+  pause_ = true;
+  while(!is_paused_) continue;
 }
 
 } /* namespace reports */
