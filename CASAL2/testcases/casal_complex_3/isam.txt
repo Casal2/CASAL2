@@ -62,8 +62,8 @@ r0 5e6
 age 2
 steepness 0.9
 ycs_values 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00
+ssb_offset 2
 ssb ssb
-ssb_offset 3
 standardise_ycs_years 1973:1999
 
 @mortality halfm
@@ -247,6 +247,14 @@ lower_bound 0.2
 upper_bound 5
 type uniform
 
+
+@estimate 
+parameter derived_quantity[ssb].values(2000)
+type uniform
+lower_bound 24500
+upper_bound 24600
+
+
 @selectivity chatTANselMale
 type logistic
 a50 9
@@ -268,6 +276,9 @@ type logistic
 a50 9
 ato95 4
 alpha 0.7
+
+@report dq
+type derived_quantity
 
 @report obj
 type objective_function
