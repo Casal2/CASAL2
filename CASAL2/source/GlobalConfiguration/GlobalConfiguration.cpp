@@ -26,7 +26,7 @@ namespace util = niwa::utilities;
 GlobalConfiguration::GlobalConfiguration() {
   global_parameters_[PARAM_DEBUG]                       = "f";
   global_parameters_[PARAM_SKIP_CONFIG_FILE]            = "f";
-  global_parameters_[PARAM_CONFIG_FILE]                 = "isam.txt";
+  global_parameters_[PARAM_CONFIG_FILE]                 = "casal2.txt";
   global_parameters_[PARAM_RANDOM_NUMBER_SEED]          = "123";
   global_parameters_[PARAM_FORCE_ESTIMABLE_VALUES_FILE] = "f";
   global_parameters_[PARAM_NO_STANDARD_HEADER_REPORT]   = "f";

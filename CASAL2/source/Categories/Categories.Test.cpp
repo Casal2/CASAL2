@@ -12,8 +12,10 @@
 // Headers
 #include "Categories.h"
 
-#include <iostream>
+#include <gmock/gmock.h>
+#include <gtest/gtest.h>
 
+#include "TestResources/MockClasses/Model.h"
 #include "TestResources/TestFixtures/InternalEmptyModel.h"
 
 // Namespaces
@@ -23,7 +25,12 @@ namespace categories {
 using std::cout;
 using std::endl;
 using niwa::testfixtures::InternalEmptyModel;
+using ::testing::Return;
+using ::testing::ReturnRef;
 
+/**
+ * Mock Class Definitions
+ */
 class MockCategories : public Categories {
 public:
   MockCategories(Model* model) : Categories(model) {
@@ -51,7 +58,15 @@ public:
  * Test validating the categories with a couple of year values to ensure it works.
  */
 TEST_F(InternalEmptyModel, Categories_AssignSpecificYearsPerCategory_1) {
-  MockCategories categories(model_);
+  MockModel model;
+  vector<unsigned> model_years { 2000u, 2001u, 2002u, 2003u, 2004u };
+  EXPECT_CALL(model, years()).WillRepeatedly(Return(model_years));
+  EXPECT_CALL(model, min_age()).WillRepeatedly(Return(10));
+  EXPECT_CALL(model, max_age()).WillRepeatedly(Return(20));
+  EXPECT_CALL(model, start_year()).WillRepeatedly(Return(2000));
+  EXPECT_CALL(model, final_year()).WillRepeatedly(Return(2010));
+
+  MockCategories categories(&model);
 
   vector<string> years_lookup = {"sex=male=2000,2002,2004"};
   categories.parameters().Add(PARAM_YEARS, years_lookup, __FILE__, __LINE__);
@@ -69,7 +84,15 @@ TEST_F(InternalEmptyModel, Categories_AssignSpecificYearsPerCategory_1) {
  * more than once
  */
 TEST_F(InternalEmptyModel, Categories_AssignSpecificYearsPerCategory_2) {
-  MockCategories categories(model_);
+  MockModel model;
+  vector<unsigned> model_years { 2000u, 2001u, 2002u, 2003u };
+  EXPECT_CALL(model, years()).WillRepeatedly(Return(model_years));
+  EXPECT_CALL(model, min_age()).WillRepeatedly(Return(10));
+  EXPECT_CALL(model, max_age()).WillRepeatedly(Return(20));
+  EXPECT_CALL(model, start_year()).WillRepeatedly(Return(2000));
+  EXPECT_CALL(model, final_year()).WillRepeatedly(Return(2010));
+
+  MockCategories categories(&model);
 
   vector<string> years_lookup = {"sex=male=2000,2000,2002"};
   categories.parameters().Add(PARAM_YEARS, years_lookup, __FILE__, __LINE__);
@@ -80,9 +103,41 @@ TEST_F(InternalEmptyModel, Categories_AssignSpecificYearsPerCategory_2) {
  * Check that we can use a wildcard lookup
  */
 TEST_F(InternalEmptyModel, Categories_AssignSpecificYearsPerCategory_3) {
-  MockCategories categories(model_);
+  MockModel model;
+  vector<unsigned> model_years { 2000u, 2001u, 2002u, 2003u };
+  EXPECT_CALL(model, years()).WillRepeatedly(Return(model_years));
+  EXPECT_CALL(model, min_age()).WillRepeatedly(Return(10));
+  EXPECT_CALL(model, max_age()).WillRepeatedly(Return(20));
+  EXPECT_CALL(model, start_year()).WillRepeatedly(Return(2000));
+  EXPECT_CALL(model, final_year()).WillRepeatedly(Return(2010));
+
+  MockCategories categories(&model);
 
   vector<string> years_lookup = {"tag=*=2002"};
+  categories.parameters().Add(PARAM_YEARS, years_lookup, __FILE__, __LINE__);
+  ASSERT_NO_THROW(categories.Validate());
+
+  auto years = categories.years("male.immature.notag");
+  ASSERT_EQ(1u, years.size());
+  EXPECT_EQ(2002u, years[0]);
+}
+
+
+/**
+ * Check that we can specify just a category
+ */
+TEST_F(InternalEmptyModel, Categories_AssignSpecificYearsPerCategory_4) {
+  MockModel model;
+  vector<unsigned> model_years { 2000u, 2001u, 2002u, 2003u };
+  EXPECT_CALL(model, years()).WillRepeatedly(Return(model_years));
+  EXPECT_CALL(model, min_age()).WillRepeatedly(Return(10));
+  EXPECT_CALL(model, max_age()).WillRepeatedly(Return(20));
+  EXPECT_CALL(model, start_year()).WillRepeatedly(Return(2000));
+  EXPECT_CALL(model, final_year()).WillRepeatedly(Return(2010));
+
+  MockCategories categories(&model);
+
+  vector<string> years_lookup = {"male.immature.notag=2002"};
   categories.parameters().Add(PARAM_YEARS, years_lookup, __FILE__, __LINE__);
   ASSERT_NO_THROW(categories.Validate());
 
@@ -95,7 +150,15 @@ TEST_F(InternalEmptyModel, Categories_AssignSpecificYearsPerCategory_3) {
  * This test will assign different years to different categories
  */
 TEST_F(InternalEmptyModel, Categories_AssignSpecificYearsPerCategory) {
-  MockCategories categories(model_);
+  MockModel model;
+  vector<unsigned> model_years { 2000u, 2001u, 2002u, 2003u };
+  EXPECT_CALL(model, years()).WillRepeatedly(Return(model_years));
+  EXPECT_CALL(model, min_age()).WillRepeatedly(Return(10));
+  EXPECT_CALL(model, max_age()).WillRepeatedly(Return(20));
+  EXPECT_CALL(model, start_year()).WillRepeatedly(Return(2000));
+  EXPECT_CALL(model, final_year()).WillRepeatedly(Return(2010));
+
+  MockCategories categories(&model);
   categories.Validate();
 
   /**

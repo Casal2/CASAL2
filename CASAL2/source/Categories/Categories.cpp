@@ -106,6 +106,7 @@ void Categories::Validate() {
    */
   map<string, string> category_values;
   vector<string> years_split;
+  auto model_years = model_->years();
   for (auto year_lookup : years_) {
     category_values = GetCategoryLabelsAndValues(year_lookup, parameters_.Get(PARAM_YEARS));
     for (auto iter : category_values) {
@@ -124,8 +125,12 @@ void Categories::Validate() {
         if (std::find(categories_[iter.first].years_.begin(),
             categories_[iter.first].years_.end(),
             actual_value) != categories_[iter.first].years_.end()) {
-          LOG_ERROR_P(PARAM_YEARS) << "Value " << actual_value << " has already been defined for "
+          LOG_ERROR_P(PARAM_YEARS) << "value " << actual_value << " has already been defined for "
               << "the category " << iter.first;
+        }
+
+        if (std::find(model_years.begin(), model_years.end(), actual_value) == model_years.end()) {
+          LOG_ERROR_P(PARAM_YEARS) << "value " << actual_value << " is not a valid year in the model";
         }
         categories_[iter.first].years_.push_back(actual_value);
       }
@@ -390,7 +395,7 @@ map<string, string> Categories::GetCategoryLabelsAndValues(const string& lookup,
   vector<string> pieces;
   boost::split(pieces, lookup, boost::is_any_of("="), boost::token_compress_on);
   if (pieces.size() != 2 && pieces.size() != 3) {
-    LOG_ERROR() << source_parameter->location() << " short-hand category string (" << lookup
+    LOG_FATAL() << source_parameter->location() << " short-hand category string (" << lookup
         << ") is not in the proper format. e.g <format_chunk>=<lookup_chunk>=values";
   }
 

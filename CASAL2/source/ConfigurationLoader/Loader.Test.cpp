@@ -41,6 +41,18 @@ public:
     }
     return true;
   }
+
+  void HandleAssignment(const string& input, string& output) {
+    Model model;
+    Loader loader(model);
+    loader.HandleAssignment(input, output);
+  }
+
+  string RangeSplit(const string& input) {
+    Model model;
+    Loader loader(model);
+    return loader.RangeSplit(input);
+  }
 };
 
 /**
@@ -226,8 +238,8 @@ TEST(ConfigurationLoader, HandleOperators_12) {
 }
 
 TEST(ConfigurationLoader, HandleOperators_13) {
-  vector<string> line_values { "format=male.*.*" };
-  vector<string> expected { "format=male.*.*" };
+  vector<string> line_values { "male.*.*" };
+  vector<string> expected { "male.*.*" };
 
   LoaderTest loader;
   loader.HandleOperators(line_values);
@@ -278,8 +290,8 @@ TEST(ConfigurationLoader, HandleOperators_16) {
 }
 
 TEST(ConfigurationLoader, HandleOperators_17) {
-  vector<string> line_values { "sex:male=age_length_male" };
-  vector<string> expected { "sex:male=age_length_male" };
+  vector<string> line_values { "sex=male=age_length_male" };
+  vector<string> expected { "sex=male=age_length_male" };
 
   LoaderTest loader;
   loader.HandleOperators(line_values);
@@ -291,8 +303,8 @@ TEST(ConfigurationLoader, HandleOperators_17) {
 }
 
 TEST(ConfigurationLoader, HandleOperators_18) {
-  vector<string> line_values { "sex:male=male.age_length" };
-  vector<string> expected { "sex:male=male.age_length" };
+  vector<string> line_values { "sex=male=male.age_length" };
+  vector<string> expected { "sex=male=male.age_length" };
 
   LoaderTest loader;
   loader.HandleOperators(line_values);
@@ -304,8 +316,8 @@ TEST(ConfigurationLoader, HandleOperators_18) {
 }
 
 TEST(ConfigurationLoader, HandleOperators_19) {
-  vector<string> line_values { "format:*.mature=male.age_length" };
-  vector<string> expected { "format:*.mature=male.age_length" };
+  vector<string> line_values { "*.mature=male.age_length" };
+  vector<string> expected { "*.mature=male.age_length" };
 
   LoaderTest loader;
   loader.HandleOperators(line_values);
@@ -314,6 +326,107 @@ TEST(ConfigurationLoader, HandleOperators_19) {
   for (unsigned i = 0; i < expected.size(); ++i) {
     EXPECT_EQ(expected[i], line_values[i]) << " with i = " << i;
   }
+}
+
+/**
+ * This test is the start of the tests for handling assigning things
+ * to categories by lookup and still handlign operators without
+ * causing issues
+ */
+TEST(ConfigurationLoader, HandleOperators_20) {
+  vector<string> line_values {"male.immature.2000=2002"};
+  vector<string> expected { "male.immature.2000=2002" };
+
+  LoaderTest loader;
+  loader.HandleOperators(line_values);
+
+  ASSERT_EQ(expected.size(), line_values.size());
+  for (unsigned i = 0; i < expected.size(); ++i) {
+    EXPECT_EQ(expected[i], line_values[i]) << " with i = " << i;
+  }
+}
+
+/**
+ * Test for range operator
+ */
+TEST(ConfigurationLoader, HandleOperators_21) {
+  vector<string> line_values {"male.immature.2000=2002:2004"};
+  vector<string> expected { "male.immature.2000=2002,2003,2004" };
+
+  LoaderTest loader;
+  loader.HandleOperators(line_values);
+
+  ASSERT_EQ(expected.size(), line_values.size());
+  for (unsigned i = 0; i < expected.size(); ++i) {
+    EXPECT_EQ(expected[i], line_values[i]) << " with i = " << i;
+  }
+}
+
+
+/**
+ * Test for range operator
+ */
+TEST(ConfigurationLoader, HandleOperators_22) {
+  vector<string> line_values {"male.immature.2000=2002:2004"};
+  vector<string> expected { "male.immature.2000=2002,2003,2004" };
+
+  LoaderTest loader;
+  loader.HandleOperators(line_values);
+
+  ASSERT_EQ(expected.size(), line_values.size());
+  for (unsigned i = 0; i < expected.size(); ++i) {
+    EXPECT_EQ(expected[i], line_values[i]) << " with i = " << i;
+  }
+}
+
+/**
+ * Test for range operator
+ */
+TEST(ConfigurationLoader, HandleAssignment_1) {
+  string input_line = "male.immature.2000=2002:2004";
+  string output_line = "";
+  string expected_line = "male.immature.2000=2002,2003,2004";
+
+  LoaderTest loader;
+  loader.HandleAssignment(input_line, output_line);
+  EXPECT_EQ(expected_line, output_line);
+}
+
+/**
+ * Test for range operator
+ */
+TEST(ConfigurationLoader, HandleAssignment_2) {
+  string input_line = "sex=male=2002:2004";
+  string output_line = "";
+  string expected_line = "sex=male=2002,2003,2004";
+
+  LoaderTest loader;
+  loader.HandleAssignment(input_line, output_line);
+  EXPECT_EQ(expected_line, output_line);
+}
+
+/**
+ * Test for range split
+ */
+TEST(ConfigurationLoader, RangeSplit) {
+  string input_line = "2002:2004";
+  string expected_line = "2002,2003,2004";
+
+  LoaderTest loader;
+  string result = loader.RangeSplit(input_line);
+  EXPECT_EQ(expected_line, result);
+}
+
+/**
+ * Test for range split when going backwards
+ */
+TEST(ConfigurationLoader, RangeSplit_Reverse) {
+  string input_line = "2004:2002";
+  string expected_line = "2004,2003,2002";
+
+  LoaderTest loader;
+  string result = loader.RangeSplit(input_line);
+  EXPECT_EQ(expected_line, result);
 }
 
 } /* namespace configuration */

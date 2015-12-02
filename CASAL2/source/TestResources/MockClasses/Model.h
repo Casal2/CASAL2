@@ -36,6 +36,7 @@ public:
   MOCK_CONST_METHOD0(age_plus, bool());
   MOCK_CONST_METHOD0(current_year, unsigned());
   MOCK_CONST_METHOD0(time_steps, vector<string>&());
+  MOCK_CONST_METHOD0(years, vector<unsigned>());
   MOCK_METHOD0(managers, niwa::Managers&());
 };
 
