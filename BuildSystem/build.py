@@ -248,14 +248,17 @@ def start():
     print "*************************************************************************"
     print "--> Building CASAL2 Installer"
     print "-- Starting release build"
+    cwd = os.path.normpath(os.getcwd()) 
     Globals.build_target_ = "release"
     code_builder = MainCode()
     if not code_builder.start():
       return False
-    print "-- Starting documentation build"
+    print "-- Starting documentation build"    
+    os.chdir(cwd)
     documentation_builder = Documentation()
     documentation_builder.start()
     print "-- Building installer"
+    os.chdir(cwd)
     installer = Installer()
     installer.start()
   
