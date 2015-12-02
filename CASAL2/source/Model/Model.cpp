@@ -14,44 +14,37 @@
 #include "Model.h"
 
 #include <iostream>
+#include <thread>
+#include <chrono>
+#include <boost/algorithm/string/replace.hpp>
+#include <boost/algorithm/string/trim_all.hpp>
+#include <boost/algorithm/string/split.hpp>
 
 #include "Factory.h"
 #include "Managers.h"
 #include "Objects.h"
-#include "AdditionalPriors/Manager.h"
-#include "AgeingErrors/Manager.h"
-#include "AgeLengths/Manager.h"
-#include "Asserts/Manager.h"
-#include "Catchabilities/Manager.h"
 #include "Categories/Categories.h"
 #include "ConfigurationLoader/EstimableValuesLoader.h"
 #include "ConfigurationLoader/MCMCObjective.h"
 #include "ConfigurationLoader/MCMCSample.h"
-#include "DerivedQuantities/Manager.h"
 #include "Estimables/Estimables.h"
 #include "Estimates/Manager.h"
 #include "GlobalConfiguration/GlobalConfiguration.h"
 #include "InitialisationPhases/Manager.h"
+#include "Logging/Logging.h"
 #include "MCMCs/Manager.h"
 #include "Minimisers/Manager.h"
 #include "ObjectiveFunction/ObjectiveFunction.h"
 #include "Observations/Manager.h"
-#include "Penalties/Manager.h"
-#include "Processes/Manager.h"
+#include "Partition/Accessors/Category.h"
+#include "Partition/Partition.h"
 #include "Profiles/Manager.h"
 #include "Projects/Manager.h"
 #include "Reports/Manager.h"
-#include "Selectivities/Manager.h"
 #include "Simulates/Manager.h"
-#include "LengthWeights/Manager.h"
 #include "TimeSteps/Manager.h"
 #include "TimeVarying/Manager.h"
 #include "Utilities/RandomNumberGenerator.h"
-
-#include "Partition/Accessors/Category.h"
-#include "Partition/Partition.h"
-
-#include "Logging/Logging.h"
 #include "Utilities/To.h"
 
 // Namespaces
@@ -85,6 +78,9 @@ Model::Model() {
   objective_function_ = new ObjectiveFunction(this);
 }
 
+/**
+ * Destructor
+ */
 Model::~Model() {
   delete global_configuration_;
   delete managers_;
@@ -94,22 +90,6 @@ Model::~Model() {
   delete partition_;
   delete objective_function_;
 }
-
-/**
- * Our singleton accessor method
- *
- * @param force_new Force a new instance or not
- * @return singleton shared ptr
- */
-//Model* Model::Instance(bool force_new) {
-//  static Model* model = new Model();
-//  if (force_new) {
-//    delete model;
-//    model = new Model();
-//  }
-//
-//  return model;
-//}
 
 /**
  *
@@ -376,6 +356,9 @@ void Model::Reset() {
 void Model::RunBasic() {
   LOG_TRACE();
   Estimables& estimables = *managers_->estimables();
+  bool single_step = global_configuration_->single_step();
+  vector<string> single_step_estimables;
+  vector<Double*> estimable_targets;
 
   // Model is about to run
   for (unsigned i = 0; i < estimable_values_count_; ++i) {
@@ -391,14 +374,81 @@ void Model::RunBasic() {
      * Running the model now
      */
     LOG_FINE() << "Model: State change to Execute";
-    Iterate();
-    objective_function_->CalculateScore();
+    state_ = State::kInitialise;
+    current_year_ = start_year_;
+    initialisationphases::Manager& init_phase_manager = *managers_->initialisation_phase();
+    init_phase_manager.Execute();
+    managers_->report()->Execute(State::kInitialise);
+
+    state_ = State::kExecute;
+
+    /**
+     * Handle single step now
+     */
+    if (single_step) {
+      managers_->report()->Pause();
+      cout << "Please enter a space separated list of estimable names to be used during single step" << endl;
+      string line = "";
+      string error = "";
+
+      std::getline(std::cin, line);
+      managers_->report()->Resume();
+      boost::split(single_step_estimables, line, boost::is_any_of(" "));
+      for (string estimable : single_step_estimables) {
+        Double* target = objects_->FindEstimable(estimable, error);
+        if (target == nullptr || error != "") {
+          LOG_FATAL() << "Estimable " << estimable << " could not be found in the model. Error: " << error;
+        }
+        estimable_targets.push_back(target);
+      }
+
+
+    }
+
+    timesteps::Manager& time_step_manager = *managers_->time_step();
+    timevarying::Manager& time_varying_manager = *managers_->time_varying();
+    for (current_year_ = start_year_; current_year_ <= final_year_; ++current_year_, current_year_index_ = current_year_ - start_year_) {
+      LOG_FINE() << "Iteration year: " << current_year_;
+      if (single_step) {
+        managers_->report()->Pause();
+        cout << "Please enter space separated values for estimables for year: " << current_year_ << endl;
+        string line = "";
+        std::getline(std::cin, line);
+        managers_->report()->Resume();
+
+        vector<string> temp_values;
+        boost::split(temp_values, line, boost::is_any_of(" "));
+        if (temp_values.size() != estimable_targets.size()) {
+          LOG_FATAL() << "Number of values provided was " << temp_values.size()
+              << " when we expected " << estimable_targets.size();
+        }
+
+        for (unsigned i = 0; i < temp_values.size(); ++i) {
+          Double value = 0;
+          if (!utilities::To<string, Double>(temp_values[i], value)) {
+            LOG_FATAL() << "Value " << temp_values[i] << " for the estimable "
+                << single_step_estimables[i] << " is invalid";
+          }
+
+          LOG_FINEST() << "Setting annual value for " << single_step_estimables[i] << " to " << value;
+          *estimable_targets[i] = value;
+        }
+      }
+      time_varying_manager.Update(current_year_);
+      time_step_manager.Execute(current_year_);
+    }
+
+    managers_->observation()->CalculateScores();
+
+    for (auto executor : executors_[State::kExecute])
+      executor->Execute();
 
     // Model has finished so we can run finalise.
     LOG_FINE() << "Model: State change to PostExecute";
     managers_->report()->Execute(State::kPostExecute);
 
     LOG_FINE() << "Model: State change to Iteration Complete";
+    objective_function_->CalculateScore();
     managers_->report()->Execute(State::kIterationComplete);
   }
 }

@@ -71,6 +71,8 @@ public:
   string                mcmc_sample_file() const { return mcmc_sample_file_; }
   void                  set_mcmc_objective_file(string new_value) { mcmc_objective_file_ = new_value; }
   string                mcmc_objective_file() const { return mcmc_objective_file_; }
+  void                  flag_single_step() { single_step_ = true; }
+  bool                  single_step() { return single_step_; }
 
 private:
   // Members
@@ -80,6 +82,7 @@ private:
   bool                        resume_ = false;
   string                      mcmc_sample_file_;
   string                      mcmc_objective_file_;
+  bool                        single_step_ = false;
 };
 } /* namespace niwa */
 #endif /* GLOBALCONFIGURATION_H_ */

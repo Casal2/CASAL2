@@ -44,7 +44,7 @@ public:
   void                        Finalise();
   void                        FlushReports();
   void                        StopThread() { run_.clear(); }
-  void                        Pause() { pause_ = true; }
+  void                        Pause();
   void                        Resume() { pause_ = false; }
 
   // accessors
@@ -62,6 +62,7 @@ private:
   map<string, vector<Report*>>      time_step_reports_;
   string                            report_suffix_ = "";
   std::atomic<bool>                 pause_;
+  std::atomic<bool>                 is_paused_;
   std::atomic_flag                  run_;
   Model*                            model_;
 };

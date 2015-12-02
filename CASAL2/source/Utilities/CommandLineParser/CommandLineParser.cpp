@@ -71,7 +71,8 @@ void CommandLineParser::Parse(int argc, const char* argv[]) {
     ("debug,d", "Run in debug mode (with debug output")
     ("nostd", "Do not print the standard header report")
     ("loglevel", value<string>(), "Set log level: finest, fine, trace, none(default)")
-    ("output,o", value<string>(), "Create estimate value report directed to <file>");
+    ("output,o", value<string>(), "Create estimate value report directed to <file>")
+    ("single-step", "Single step the model each year with new estimable values");
 
 
   ostringstream o;
@@ -112,6 +113,8 @@ void CommandLineParser::Parse(int argc, const char* argv[]) {
     report->parameters().Add(PARAM_FILE_NAME, parameters["output"].as<string>(), __FILE__, __LINE__);
     report->set_skip_tags(true);
   }
+  if (parameters.count("single-step"))
+    global_config_.flag_single_step();
 
   /**
    * Determine what run mode we should be in. If we're
