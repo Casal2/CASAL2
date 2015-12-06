@@ -95,10 +95,62 @@ bool Report::HasYear(unsigned year) {
 void Report::Prepare() {
   LOG_FINEST() << "preparing report: " << label_;
   Report::lock_.lock();
-  LOG_FINEST() << "Lock is good";
-  LOG_FINEST() << "Filename: " << file_name_;
-  LOG_FINEST() << "Write mode: " << write_mode_;
+  SetUpInternalStates();
+  DoPrepare();
+  Report::lock_.unlock();
+};
 
+/**
+ *
+ */
+void Report::Execute() {
+  Report::lock_.lock();
+  DoExecute();
+  Report::lock_.unlock();
+}
+
+/**
+ *
+ */
+void Report::Finalise() {
+  Report::lock_.lock();
+  DoFinalise();
+  Report::lock_.unlock();
+};
+
+/**
+ * Prepare the report
+ */
+void Report::PrepareTabular() {
+  LOG_FINEST() << "preparing tabular report: " << label_;
+  Report::lock_.lock();
+  SetUpInternalStates();
+  DoPrepareTabular();
+  Report::lock_.unlock();
+}
+
+/**
+ *
+ */
+void Report::ExecuteTabular() {
+  Report::lock_.lock();
+  DoExecuteTabular();
+  Report::lock_.unlock();
+}
+
+/**
+ *
+ */
+void Report::FinaliseTabular() {
+  Report::lock_.lock();
+  DoFinaliseTabular();
+  Report::lock_.unlock();
+}
+
+/**
+ *
+ */
+void Report::SetUpInternalStates() {
   /**
    * Figure out the write options. If we're using an incremental suffix
    * we want to loop over the existing files to see what suffix to use.
@@ -121,28 +173,7 @@ void Report::Prepare() {
     LOG_FINEST() << "File write mode is append for file: " << label_;
     overwrite_ = false;
   }
-
-  DoPrepare();
-  Report::lock_.unlock();
-};
-
-/**
- *
- */
-void Report::Execute() {
-  Report::lock_.lock();
-  DoExecute();
-  Report::lock_.unlock();
 }
-
-/**
- *
- */
-void Report::Finalise() {
-  Report::lock_.lock();
-  DoFinalise();
-  Report::lock_.unlock();
-};
 
 /**
  * Flush the contents of the cache to the file or stdout/stderr

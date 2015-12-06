@@ -72,7 +72,8 @@ void CommandLineParser::Parse(int argc, const char* argv[]) {
     ("nostd", "Do not print the standard header report")
     ("loglevel", value<string>(), "Set log level: finest, fine, trace, none(default)")
     ("output,o", value<string>(), "Create estimate value report directed to <file>")
-    ("single-step", "Single step the model each year with new estimable values");
+    ("single-step", "Single step the model each year with new estimable values")
+    ("tabular", "Print reports in Tabular mode");
 
 
   ostringstream o;
@@ -115,6 +116,8 @@ void CommandLineParser::Parse(int argc, const char* argv[]) {
   }
   if (parameters.count("single-step"))
     global_config_.flag_single_step();
+  if (parameters.count("tabular"))
+    global_config_.flag_print_tabular();
 
   /**
    * Determine what run mode we should be in. If we're

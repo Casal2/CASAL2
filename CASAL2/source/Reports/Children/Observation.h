@@ -33,6 +33,7 @@ public:
   void                        DoValidate() override final { };
   void                        DoBuild() override final;
   void                        DoExecute() override final;
+  void                        DoExecuteTabular() override final { };
 
 private:
   // members

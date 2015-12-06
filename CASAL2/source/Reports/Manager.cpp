@@ -62,11 +62,15 @@ void Manager::Build() {
 void Manager::Execute(State::Type model_state) {
   LOG_TRACE();
   RunMode::Type run_mode = model_->run_mode();
+  bool tabular = model_->global_configuration().print_tabular();
   LOG_FINE() << "Checking " << state_reports_[model_state].size() << " reports";
   for(auto report : state_reports_[model_state]) {
-      if ( (RunMode::Type)(report->run_mode() & run_mode) == run_mode)
-        report->Execute();
-      else
+      if ( (RunMode::Type)(report->run_mode() & run_mode) == run_mode) {
+        if (tabular)
+          report->ExecuteTabular();
+        else
+          report->Execute();
+      } else
         LOG_FINE() << "Skipping report: " << report->label() << " because run mode is incorrect";
   }
 }
@@ -84,6 +88,7 @@ void Manager::Execute(unsigned year, const string& time_step_label) {
   LOG_FINEST() << "year: " << year << "; time_step_label: " << time_step_label << "; reports: " << time_step_reports_[time_step_label].size();
 
   RunMode::Type run_mode = model_->run_mode();
+  bool tabular = model_->global_configuration().print_tabular();
   for(auto report : time_step_reports_[time_step_label]) {
     if ( (RunMode::Type)(report->run_mode() & run_mode) != run_mode) {
       LOG_FINEST() << "Skipping report: " << report->label() << " because run mode is not right";
@@ -94,7 +99,10 @@ void Manager::Execute(unsigned year, const string& time_step_label) {
       continue;
     }
 
-    report->Execute();
+    if (tabular)
+      report->ExecuteTabular();
+    else
+      report->Execute();
   }
 }
 
@@ -104,12 +112,17 @@ void Manager::Execute(unsigned year, const string& time_step_label) {
 void Manager::Prepare() {
   LOG_TRACE();
   RunMode::Type run_mode = model_->run_mode();
+  bool tabular = model_->global_configuration().print_tabular();
   for (auto report : objects_) {
     if ( (RunMode::Type)(report->run_mode() & run_mode) != run_mode) {
       LOG_FINEST() << "Skipping report: " << report->label() << " because run mode is not right";
       continue;
     }
-    report->Prepare();
+
+    if (tabular)
+      report->PrepareTabular();
+    else
+      report->Prepare();
   }
 }
 
@@ -119,12 +132,17 @@ void Manager::Prepare() {
 void Manager::Finalise() {
   LOG_TRACE();
   RunMode::Type run_mode = model_->run_mode();
+  bool tabular = model_->global_configuration().print_tabular();
   for (auto report : objects_) {
     if ( (RunMode::Type)(report->run_mode() & run_mode) != run_mode) {
       LOG_FINEST() << "Skipping report: " << report->label() << " because run mode is not right";
       continue;
     }
-    report->Finalise();
+
+    if (tabular)
+      report->FinaliseTabular();
+    else
+      report->Finalise();
   }
 }
 
