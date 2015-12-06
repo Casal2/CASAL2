@@ -58,6 +58,9 @@ public:
   void                        Reset() {};
   void                        Execute();
   void                        Finalise();
+  void                        PrepareTabular();
+  void                        ExecuteTabular();
+  void                        FinaliseTabular();
   bool                        HasYear(unsigned year);
   void                        FlushCache();
 
@@ -69,12 +72,17 @@ public:
   void                        set_skip_tags(bool value) { skip_tags_ = value; }
 
 protected:
+  // methods
+  void                        SetUpInternalStates();
   // pure methods
   virtual void                DoValidate() = 0;
   virtual void                DoBuild() = 0;
   virtual void                DoPrepare() { };
   virtual void                DoExecute() = 0;
   virtual void                DoFinalise() { };
+  virtual void                DoPrepareTabular() { };
+  virtual void                DoExecuteTabular() = 0;
+  virtual void                DoFinaliseTabular() { };
 
   // Members
   Model*                      model_;
