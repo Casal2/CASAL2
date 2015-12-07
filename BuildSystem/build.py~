@@ -15,7 +15,7 @@ from Documentation import *
 from Archiver import *
 from ModelRunner import *
 from Installer import *
-from DebBuilder import *
+from DebCreator import *
 
 """
 Print the usage for this build system
@@ -42,7 +42,6 @@ def print_usage():
   print '  check - Do a check of the build system'
   print '  modelrunner - Run the test suite of models'
   print '  installer - Build an installer package'
-  print '  deb - Create linux .deb installer'
   print ''
   print 'Valid Build Parameters: (thirdparty only)'
   print '  <libary name> - Target third party library to build or rebuild'
@@ -263,13 +262,6 @@ def start():
     os.chdir(cwd)
     installer = Installer()
     installer.start()
-  elif build_target == "deb":
-    print "*************************************************************************"
-    print "*************************************************************************"
-    print "--> Building CASAL2 .deb Installer"    
-    deb_builder = DebBuilder()
-    if not deb_builder.start():
-      return False    
   
   return True
   
