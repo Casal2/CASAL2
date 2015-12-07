@@ -11,7 +11,12 @@ from dateutil import tz
 EX_OK = getattr(os, "EX_OK", 0)
 
 class DebBuilder:
+  do_build_ = "doBuild"
   def start(self):
+    if Globals.operating_system_ == "windows":
+      self.do_build_ += '.bat'
+    else:
+      self.do_build_ = './' + self.do_build_ + '.sh'
     print '-- Starting Deb Builder'
     print '--> Building release version of CASAL2 binary'
     print '-- Re-Entering the build system to build a release binary'
