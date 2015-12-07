@@ -25,18 +25,18 @@ class Builder:
     os.system('rm -rf ' + Globals.target_special_lib_path_ + library)        
         
     # Decompress our archive
-    print '-- Decompressing - check isam_unzip.log'
+    print '-- Decompressing - check casal2_unzip.log'
     if os.path.exists(fileName + '.zip'):
-      os.system('unzip ' + fileName + '.zip 1> isam_unzip.log 2>&1')
+      os.system('unzip ' + fileName + '.zip 1> casal2_unzip.log 2>&1')
   
     # Run CMake
-    print '-- Configuring cmake - check ' + fileName + '/isam_cmake.log'
+    print '-- Configuring cmake - check ' + fileName + '/casal2_cmake.log'
     os.chdir(fileName)
-    os.system('cmake -G "Unix Makefiles" 1> isam_cmake.log 2>&1')
+    os.system('cmake -G "Unix Makefiles" 1> casal2_cmake.log 2>&1')
   
     # Build 
-    print '-- Building - check ' + fileName + '/isam_build.log'
-    os.system("make 1> isam_build.log 2>&1")
+    print '-- Building - check ' + fileName + '/casal2_build.log'
+    os.system("make 1> casal2_build.log 2>&1")
    
     # Move our headers and libraries
     print '-- Moving headers and libraries'

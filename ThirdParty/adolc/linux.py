@@ -26,16 +26,16 @@ class Builder:
     os.system('rm -rf ' + Globals.target_special_lib_path_ + library)
     
     # Decompress our archive
-    print '-- Decompressing - check isam_unzip.log'
+    print '-- Decompressing - check casal2_unzip.log'
     if os.path.exists(fileName + '.zip'):
-      os.system('unzip ' + fileName + '.zip 1> isam_unzip.log 2>&1')
+      os.system('unzip ' + fileName + '.zip 1> casal2_unzip.log 2>&1')
 
     # Build
     os.chdir(fileName)
-    print '-- Configuring - check isam_configure.log'
-    os.system("./configure 1> isam_configure.log 2>&1")
-    print '-- Building - check isam_build.log'
-    os.system("make 1> isam_build.log 2>&1")
+    print '-- Configuring - check casal2_configure.log'
+    os.system("./configure 1> casal2_configure.log 2>&1")
+    print '-- Building - check casal2_build.log'
+    os.system("make 1> casal2_build.log 2>&1")
 
     # Move our headers and libraries
     print '-- Moving headers and libraries'

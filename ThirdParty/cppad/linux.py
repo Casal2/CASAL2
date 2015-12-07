@@ -33,43 +33,43 @@ class Builder:
       os.system('rm -rf ' + Globals.target_special_lib_path_ + library)        
         
     # Decompress our archive
-    print '-- Decompressing - check isam_unzip.log'
+    print '-- Decompressing - check casal2_unzip.log'
     if os.path.exists(ipOptFileName + '.tgz'):
-      os.system('gzip -dk ' + ipOptFileName + '.tgz 1> isam_unzip.log 2>&1')
-      os.system('tar xvf ' + ipOptFileName + '.tar 1> isam_untar.log 2>&1')
+      os.system('gzip -dk ' + ipOptFileName + '.tgz 1> casal2_unzip.log 2>&1')
+      os.system('tar xvf ' + ipOptFileName + '.tar 1> casal2_untar.log 2>&1')
     if os.path.exists(cppadFileName + '.zip'):
-      os.system('unzip ' + cppadFileName + '.zip 1> isam_unzip.log 2>&1')
+      os.system('unzip ' + cppadFileName + '.zip 1> casal2_unzip.log 2>&1')
     
     # Build
     os.chdir(ipOptFileName + '/ThirdParty/ASL')      
     print '-- Building IpOPT Library'
-    if os.system('./get.ASL 1> isam_get.log 2>&1') != EX_OK:
-      return Globals.PrintError("Failed to download third party library. Please see isam_get.log for error")
+    if os.system('./get.ASL 1> casal2_get.log 2>&1') != EX_OK:
+      return Globals.PrintError("Failed to download third party library. Please see casal2_get.log for error")
     os.chdir('../Blas')
-    if os.system('./get.Blas 1> isam_get.log 2>&1') != EX_OK:
-      return Globals.PrintError("Failed to download third party library. Please see isam_get.log for error")
+    if os.system('./get.Blas 1> casal2_get.log 2>&1') != EX_OK:
+      return Globals.PrintError("Failed to download third party library. Please see casal2_get.log for error")
     os.chdir('../Lapack')
-    if os.system('./get.Lapack 1> isam_get.log 2>&1') != EX_OK:
-      return Globals.PrintError("Failed to download third party library. Please see isam_get.log for error")
+    if os.system('./get.Lapack 1> casal2_get.log 2>&1') != EX_OK:
+      return Globals.PrintError("Failed to download third party library. Please see casal2_get.log for error")
     os.chdir('../Metis')
-    if os.system('./get.Metis 1> isam_get.log 2>&1') != EX_OK:
-      return Globals.PrintError("Failed to download third party library. Please see isam_get.log for error")
+    if os.system('./get.Metis 1> casal2_get.log 2>&1') != EX_OK:
+      return Globals.PrintError("Failed to download third party library. Please see casal2_get.log for error")
     os.chdir('../Mumps')
-    if os.system('./get.Mumps 1> isam_get.log 2>&1') != EX_OK:
-      return Globals.PrintError("Failed to download third party library. Please see isam_get.log for error")
+    if os.system('./get.Mumps 1> casal2_get.log 2>&1') != EX_OK:
+      return Globals.PrintError("Failed to download third party library. Please see casal2_get.log for error")
     os.chdir('../../')
-    if os.system('./configure --enable-static --disable-shared 1> isam_configure.log 2>&1') != EX_OK:
+    if os.system('./configure --enable-static --disable-shared 1> casal2_configure.log 2>&1') != EX_OK:
       return Globals.PrintError("Failed to configure code base. Please see above for build error")
-    if os.system('make 1> isam_make.log 2>&1') != EX_OK:
+    if os.system('make 1> casal2_make.log 2>&1') != EX_OK:
       return Globals.PrintError("Failed to build code base. Please see above for build error")
-    if os.system('make install 1> isam_make_install.log 2>&1') != EX_OK:
+    if os.system('make install 1> casal2_make_install.log 2>&1') != EX_OK:
       return Globals.PrintError("Failed to install code base. Please see above for build error")
     os.chdir('../')
 
     print '-- Building CppAD Library'
     os.chdir(cppadFileName)
     os.system('chmod +x configure')
-    if os.system('./configure --prefix=$PWD 1> isam_configure.log 2>&1') != EX_OK:
+    if os.system('./configure --prefix=$PWD 1> casal2_configure.log 2>&1') != EX_OK:
       return Globals.PrintError("Failed to configure code base. Please see above for build error")                      
     if os.system('make install 1> make_install.log 2>&1') != EX_OK:
       return Globals.PrintError("Failed to install code base. Please see above for build error")    
