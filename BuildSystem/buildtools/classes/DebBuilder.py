@@ -13,6 +13,20 @@ EX_OK = getattr(os, "EX_OK", 0)
 class DebBuilder:
   def start(self):
     print '-- Starting Deb Builder'
+    print '--> Building release version of CASAL2 binary'
+    print '-- Re-Entering the build system to build a release binary'
+    print '-- All output is being diverted to release_build.log'
+    if os.system(self.do_build_ + ' release > release_build.log 2>&1') != EX_OK:
+      return Globals.PrintError('Failed to build release binary. Please check release_build.log for the error')
+    os.system('rm -rf release_build.log')
+
+    print '--> Building documentation'
+    print '-- Re-Entering the build system to build the documentation'
+    print '-- All ourput is being diverted to documentation_build.log'
+    if os.system(self.do_build_ + ' documentation > documentation_build.log 2>&1') != EX_OK:
+      return Globals.PrintError('Failed to build the documentation. Please check documenation_build.log for error')
+    os.system('rm -rf documentation_build.log')
+
     p = subprocess.Popen(['git', '--no-pager', 'log', '-n', '1', '--pretty=format:%H%n%h%n%ci' ], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     out, err = p.communicate()
     lines = out.split('\n')          
@@ -26,6 +40,8 @@ class DebBuilder:
     os.system('rm -rf ' + folder)
     os.makedirs(folder + '/usr/local/bin')
     os.system('cp bin/linux/release/casal2 ' + folder + '/usr/local/bin')
+    os.makedirs(folder + '/opt/casal2')
+    os.system('cp ../Documentation/Manual/CASAL2.pdf ' + folder + '/opt/casal2/')
     os.makedirs(folder + '/DEBIAN')
     control_file = open(folder + '/DEBIAN/control', 'w')
     control_file.write('Package: CASAL2\n')

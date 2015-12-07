@@ -267,6 +267,8 @@ def start():
     print "*************************************************************************"
     print "*************************************************************************"
     print "--> Building CASAL2 .deb Installer"    
+    if Globals.operating_system_ == 'windows':
+      return Globals.PrintError('Building linux .deb under Windows is not supported')
     deb_builder = DebBuilder()
     if not deb_builder.start():
       return False    
