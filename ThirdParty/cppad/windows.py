@@ -26,9 +26,9 @@ class Builder:
       os.system('rm -rf ' + Globals.target_special_lib_path_ + library)        
         
     # Decompress our archive
-    print '-- Decompressing - check isam_unzip.log'
+    print '-- Decompressing - check casal2_unzip.log'
     if os.path.exists(fileName + '.zip'):
-      os.system('unzip ' + fileName + '.zip 1> isam_unzip.log 2>&1')
+      os.system('unzip ' + fileName + '.zip 1> casal2_unzip.log 2>&1')
     
     # Build
     os.chdir(fileName + '\\1.0\\')

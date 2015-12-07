@@ -43,13 +43,13 @@ class Builder:
         # Decompress our boost archive
         print '-- Decompressing Boost'
         if os.path.exists(boostFileName + '_windows.zip'):
-            os.system('unzip ' + boostFileName + '_windows.zip 1> isam_unzip.log 2>&1')      
+            os.system('unzip ' + boostFileName + '_windows.zip 1> casal2_unzip.log 2>&1')      
     
     # Build Boost
-    print '-- Building Boost - check isam_build.log for progress - estimated time 30 minutes'
+    print '-- Building Boost - check casal2_build.log for progress - estimated time 30 minutes'
     os.chdir(boostFileName)
-    os.system('bootstrap.bat gcc 1> isam_bootstrap.log 2>&1')
-    os.system('b2.exe --toolset=gcc runtime-link=static threading=multi 1> isam_build.log 2>&1')
+    os.system('bootstrap.bat gcc 1> casal2_bootstrap.log 2>&1')
+    os.system('b2.exe --toolset=gcc runtime-link=static threading=multi 1> casal2_build.log 2>&1')
         
     # Move our headers and libraries
     print '-- Moving headers and libraries'

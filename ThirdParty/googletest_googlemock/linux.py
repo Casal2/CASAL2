@@ -27,21 +27,21 @@ class Builder:
     os.system('rm -rf ' + Globals.target_release_lib_path_ + library)
         
     # Decompress our archive
-    print '-- Decompressing - check isam_unzip.log'
+    print '-- Decompressing - check casal2_unzip.log'
     if os.path.exists(gmockFileName + '.zip'):
-        os.system('unzip ' + gmockFileName + '.zip 1> isam_unzip.log 2>&1')
+        os.system('unzip ' + gmockFileName + '.zip 1> casal2_unzip.log 2>&1')
         
     # configure linux specific stuff
     cwd = os.path.normpath(os.getcwd())
     os.chdir(gmockFileName)
     os.system("chmod +x configure")    
-    os.system("./configure 1> isam_configure.log 2>&1")    
+    os.system("./configure 1> casal2_configure.log 2>&1")    
     os.chdir(cwd)
    
     # Build 
-    print '-- Building - check ' + gmockFileName +'/make/isam_build.log'
+    print '-- Building - check ' + gmockFileName +'/make/casal2_build.log'
     os.chdir(gmockFileName + '/make')
-    os.system("make 1> isam_build.log 2>&1")
+    os.system("make 1> casal2_build.log 2>&1")
         
     # Move our headers and libraries
     print '-- Moving headers and libraries'

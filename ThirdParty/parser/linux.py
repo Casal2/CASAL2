@@ -27,15 +27,15 @@ class Builder:
     os.system('rm -rf ' + Globals.target_release_lib_path_ + library)        
     
     # Decompress our archive
-    print '-- Decompressing Parser - check isam_unzip.log'
+    print '-- Decompressing Parser - check casal2_unzip.log'
     if os.path.exists(fileName + '.zip'):
-      os.system('unzip ' + fileName + '.zip 1> isam_unzip.log 2>&1')
+      os.system('unzip ' + fileName + '.zip 1> casal2_unzip.log 2>&1')
     
     # Build 
-    print '-- Building Parser - check parser/isam_build.log'
+    print '-- Building Parser - check parser/casal2_build.log'
     os.chdir(fileName)
-    os.system("g++ -g0 -c parser.cpp 1> isam_build.log 2>&1")
-    os.system("ar rvs parser.a parser.o 1>> isam_build.log 2>&1")
+    os.system("g++ -g0 -c parser.cpp 1> casal2_build.log 2>&1")
+    os.system("ar rvs parser.a parser.o 1>> casal2_build.log 2>&1")
         
     # Move our headers and libraries
     print '-- Moving headers and libraries'

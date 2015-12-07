@@ -24,9 +24,9 @@ class Builder:
     if os.path.exists(Globals.target_include_path_ + 'dlib'):
       shutil.rmtree(Globals.target_include_path_ + 'dlib')
     # Decompress our archive
-    print '-- Decompressing DLib - check isam_unzip.log'
+    print '-- Decompressing DLib - check casal2_unzip.log'
     if os.path.exists(fileName + '.zip'):
-      os.system('unzip ' + fileName + '.zip 1> isam_unzip.log 2>&1')
+      os.system('unzip ' + fileName + '.zip 1> casal2_unzip.log 2>&1')
     
     # Move our headers and libraries
     print '-- Moving headers'

@@ -44,11 +44,11 @@ class Builder:
         os.system('rm -rf temp.tar')
   
       # Build Boost
-      print '-- Building Boost - check isam_build.log for progress - estimated time 30 minutes'
+      print '-- Building Boost - check casal2_build.log for progress - estimated time 30 minutes'
       os.chdir(boostFileName)
   
-      os.system('./bootstrap.sh gcc 1> isam_bootstrap.log 2>&1')
-      os.system('./b2 --toolset=gcc link=static runtime-link=static threading=multi 1> isam_build.log 2>&1')
+      os.system('./bootstrap.sh gcc 1> casal2_bootstrap.log 2>&1')
+      os.system('./b2 --toolset=gcc link=static runtime-link=static threading=multi 1> casal2_build.log 2>&1')
           
       # Move our headers and libraries
       print '-- Moving headers and libraries'
