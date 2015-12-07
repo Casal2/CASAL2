@@ -50,7 +50,7 @@ class DebBuilder:
     os.makedirs(folder + '/DEBIAN')
     control_file = open(folder + '/DEBIAN/control', 'w')
     control_file.write('Package: CASAL2\n')
-    control_file.write('Version: ' + lines[1] + '\n')
+    control_file.write('Version: 0x' + lines[1] + '\n')
     control_file.write('Section: base\n')
     control_file.write('Priority: optional\n')
     control_file.write('Architecture: amd64\n')
