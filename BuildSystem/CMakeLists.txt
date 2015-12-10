@@ -47,7 +47,6 @@ ELSEIF(CPPAD)
  SET(COMPILE_OPTIONS "${COMPILE_OPTIONS} -DUSE_AUTODIFF -DUSE_CPPAD")
  IF (WIN32)
   SET(specialLibraries
-   "m"
    "quadmath"
    "msvcrt"
    "ipopt"
@@ -55,6 +54,7 @@ ELSEIF(CPPAD)
    "coinlapack"
    "coinblas"
    "gfortran"
+   "m"
    "coinmetis"
   )
  ELSE (WIN32)
