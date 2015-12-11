@@ -47,27 +47,27 @@ ELSEIF(CPPAD)
  SET(COMPILE_OPTIONS "${COMPILE_OPTIONS} -DUSE_AUTODIFF -DUSE_CPPAD")
  IF (WIN32)
   SET(specialLibraries
-   "quadmath"
-   "msvcrt"
-   "ipopt"
+   "ipopt"   
    "coinmumps"
-   "coinlapack"
-   "coinblas"
-   "gfortran"
-   "m"
    "coinmetis"
+   "m"
+   "gfortran"   
+   "quadmath"
+   "msvcrt"   
+   "coinlapack"
+   "coinblas"   
   )
  ELSE (WIN32)
-  SET(specialLibraries
-   "m"
+  SET(specialLibraries   
    "quadmath"
    "dl"
    "ipopt"
    "coinmumps"
    "coinlapack"
-   "coinblas"
-   "gfortran"
+   "coinblas"   
    "coinmetis"
+   "m"
+   "gfortran"   
   ) 
  ENDIF ()
 ENDIF ()
@@ -110,13 +110,11 @@ SET(LINK_OPTIONS " ")
 
 IF(WIN32)
   MESSAGE("Building ICON")
-  ADD_CUSTOM_TARGET(icon ALL
-    COMMAND windres --output icon.o --input ${CMAKE_HOME_DIRECTORY}\\casal2.rc
-  )
-
-  SET(LINK_OPTIONS "-static icon.o")  
+  ADD_CUSTOM_TARGET(icon ALL COMMAND windres --output "${CMAKE_HOME_DIRECTORY}/icon.o" --input "${CMAKE_HOME_DIRECTORY}/casal2.rc")
+  MESSAGE("Icon Built")
+  SET(LINK_OPTIONS "-static ${CMAKE_HOME_DIRECTORY}/icon.o")  
 ENDIF(WIN32)
-
+MESSAGE("Link Options: ${LINK_OPTIONS}")
 MESSAGE("Third party libraries: ${thirdPartyLibraries}")
 
 ADD_EXECUTABLE(${EXE_NAME} ${sourceFiles} )
