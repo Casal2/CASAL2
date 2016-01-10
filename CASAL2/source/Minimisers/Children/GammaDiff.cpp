@@ -13,6 +13,7 @@
 #include "GammaDiff/Callback.h"
 #include "GammaDiff/Engine.h"
 #include "Estimates/Manager.h"
+#include "EstimateTransformations/Manager.h"
 
 // namespaces
 namespace niwa {
@@ -44,6 +45,7 @@ void GammaDiff::Execute() {
   vector<double>  upper_bounds;
   vector<double>  start_values;
 
+  model_->managers().estimate_transformation()->TransformEstimates();
   vector<Estimate*> estimates = estimate_manager->GetEnabled();
   LOG_FINE() << "estimates.size(): " << estimates.size();
   for (Estimate* estimate : estimates) {
@@ -51,18 +53,18 @@ void GammaDiff::Execute() {
       continue;
 
     LOG_FINE() << "Estimate: " << estimate;
-    LOG_FINE() << "transformed value: " << estimate->GetTransformedValue();
+    LOG_FINE() << "transformed value: " << estimate->value();
     LOG_FINE() << "Parameter: " << estimate->parameter();
 
     lower_bounds.push_back((double)estimate->lower_bound());
     upper_bounds.push_back((double)estimate->upper_bound());
-    start_values.push_back((double)estimate->GetTransformedValue());
+    start_values.push_back((double)estimate->value());
 
-    if (estimate->GetTransformedValue() < estimate->lower_bound()) {
-      LOG_ERROR() << "When starting the GammDiff numerical_differences minimiser the starting value (" << estimate->GetTransformedValue() << ") for estimate "
+    if (estimate->value() < estimate->lower_bound()) {
+      LOG_FATAL() << "When starting the GammDiff numerical_differences minimiser the starting value (" << estimate->value() << ") for estimate "
           << estimate->parameter() << " was less than the lower bound (" << estimate->lower_bound() << ")";
-    } else if (estimate->GetTransformedValue() > estimate->upper_bound()) {
-      LOG_ERROR() << "When starting the GammDiff numerical_differences minimiser the starting value (" << estimate->GetTransformedValue() << ") for estimate "
+    } else if (estimate->value() > estimate->upper_bound()) {
+      LOG_FATAL() << "When starting the GammDiff numerical_differences minimiser the starting value (" << estimate->value() << ") for estimate "
           << estimate->parameter() << " was greater than the upper bound (" << estimate->upper_bound() << ")";
     }
   }
@@ -74,6 +76,8 @@ void GammaDiff::Execute() {
       start_values, lower_bounds, upper_bounds,
       status, max_iterations_, max_evaluations_, gradient_tolerance_,
       hessian_,1,step_size_);
+
+  model_->managers().estimate_transformation()->RestoreEstimates();
 }
 
 } /* namespace minimisers */

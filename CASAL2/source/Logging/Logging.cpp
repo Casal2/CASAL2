@@ -20,7 +20,11 @@ namespace niwa {
 using std::vector;
 using std::string;
 
+#ifdef TESTMODE
 logger::Severity  Logging::current_log_level_ = logger::Severity::kWarning;
+#else
+logger::Severity  Logging::current_log_level_ = logger::Severity::kWarning;
+#endif
 
 /**
  * Default constructor
@@ -68,6 +72,11 @@ void Logging::Flush(niwa::logger::Record& record) {
     cout << record.message();
     cout.flush();
     throw std::string(record.message());
+  }
+
+  if (static_cast<int>(record.severity()) >= static_cast<int>(current_log_level_)) {
+    cerr << record.message();
+    cerr.flush();
   }
 }
 #else

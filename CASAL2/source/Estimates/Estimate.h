@@ -24,7 +24,6 @@
 
 // Headers
 #include "BaseClasses/Object.h"
-#include "Estimates/Transformations/Transformation.h"
 #include "Utilities/Types.h"
 
 // Namespaces
@@ -43,8 +42,6 @@ public:
   void                        Validate();
   void                        Build() { };
   void                        Reset() { };
-  Double                      GetTransformedValue();
-  void                        SetTransformedValue(Double minimiser_value);
 
   // pure methods
   virtual void                DoValidate() = 0;
@@ -56,7 +53,9 @@ public:
   string                      creator_parameter() const { return creator_parameter_; }
   string                      parameter() const { return parameter_; }
   Double                      lower_bound() const { return lower_bound_; }
+  void                        set_lower_bound(Double new_value) { lower_bound_ = new_value; }
   Double                      upper_bound() const { return upper_bound_; }
+  void                        set_upper_bound(Double new_value) { upper_bound_ = new_value; }
   bool                        enabled() const { return enabled_; }
   void                        set_enabled(bool new_value) { enabled_ = new_value; }
   Double                      value() { return *target_; }
@@ -76,8 +75,6 @@ protected:
   vector<string>              same_labels;
   vector<Double*>             sames_;
   bool                        enabled_ = true;
-  vector<string>              transformation_details_;
-  estimates::Transformation*  transformation_ = nullptr;
 };
 } /* namespace niwa */
 #endif /* ESTIMATE_H_ */

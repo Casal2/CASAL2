@@ -15,6 +15,7 @@
 
 #include "Estimates/Manager.h"
 #include "ObjectiveFunction/ObjectiveFunction.h"
+#include "EstimateTransformations/Manager.h"
 
 // namespaces
 namespace niwa {
@@ -42,13 +43,15 @@ double CallBack::operator()(const vector<double>& Parameters) {
   }
 
   for (unsigned i = 0; i < Parameters.size(); ++i)
-    estimates[i]->SetTransformedValue(Parameters[i]);
+    estimates[i]->set_value(Parameters[i]);
 
-  ObjectiveFunction& objective = model_->objective_function();
-
+  model_->managers().estimate_transformation()->RestoreEstimates();
   model_->FullIteration();
 
+  ObjectiveFunction& objective = model_->objective_function();
   objective.CalculateScore();
+
+  model_->managers().estimate_transformation()->TransformEstimates();
   return objective.score();
 }
 

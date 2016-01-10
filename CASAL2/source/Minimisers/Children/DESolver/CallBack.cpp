@@ -51,7 +51,7 @@ double CallBack::EnergyFunction(vector<double> test_solution) {
   }
 
   for (unsigned i = 0; i < test_solution.size(); ++i)
-    estimates[i]->SetTransformedValue(test_solution[i]);
+    estimates[i]->set_value(test_solution[i]);
 
   ObjectiveFunction& objective = model_->objective_function();
 

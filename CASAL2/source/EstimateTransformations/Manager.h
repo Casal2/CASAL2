@@ -1,0 +1,39 @@
+/*
+ * Manager.h
+ *
+ *  Created on: Dec 7, 2015
+ *      Author: Zaita
+ */
+
+#ifndef SOURCE_ESTIMATETRANSFORMATIONS_MANAGER_H_
+#define SOURCE_ESTIMATETRANSFORMATIONS_MANAGER_H_
+
+// Headers
+#include "BaseClasses/Manager.h"
+#include "EstimateTransformations/EstimateTransformation.h"
+#include "Model/Managers.h"
+
+// Namespaces
+namespace niwa {
+namespace estimatetransformations {
+
+/**
+ * Class Definition
+ */
+class Manager : public niwa::oldbase::Manager<niwa::estimatetransformations::Manager, niwa::EstimateTransformation> {
+  friend class niwa::oldbase::Manager<niwa::estimatetransformations::Manager, niwa::EstimateTransformation>;
+  friend class niwa::Managers;
+public:
+  virtual                     ~Manager() = default;
+  void                        Validate() override final;
+  void                        TransformEstimates();
+  void                        RestoreEstimates();
+
+protected:
+  // methods
+  Manager() = default;
+};
+
+} /* namespace estimatetransformations */
+} /* namespace niwa */
+#endif /* SOURCE_ESTIMATETRANSFORMATIONS_MANAGER_H_ */

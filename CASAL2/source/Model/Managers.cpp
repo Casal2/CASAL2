@@ -21,6 +21,7 @@
 #include "DerivedQuantities/Manager.h"
 #include "Estimables/Estimables.h"
 #include "Estimates/Manager.h"
+#include "EstimateTransformations/Manager.h"
 #include "InitialisationPhases/Manager.h"
 #include "LengthWeights/Manager.h"
 #include "MCMCs/Manager.h"
@@ -55,6 +56,7 @@ Managers::Managers(Model* model) {
   derived_quantity_       = new derivedquantities::Manager();
   estimables_             = new Estimables(model_);
   estimate_               = new estimates::Manager();
+  estimate_transformation_ = new estimatetransformations::Manager();
   initialisation_phase_   = new initialisationphases::Manager();
   length_weight_          = new lengthweights::Manager();
   mcmc_                   = new mcmcs::Manager();
@@ -83,6 +85,7 @@ Managers::~Managers() {
   delete derived_quantity_;
   delete estimables_;
   delete estimate_;
+  delete estimate_transformation_;
   delete initialisation_phase_;
   delete length_weight_;
   delete mcmc_;
@@ -109,6 +112,7 @@ void Managers::Validate() {
   assert_->Validate();
   catchability_->Validate();
   derived_quantity_->Validate();
+  estimate_transformation_->Validate();
   initialisation_phase_->Validate();
   length_weight_->Validate();
   mcmc_->Validate();
@@ -137,6 +141,7 @@ void Managers::Build() {
   catchability_->Build();
   derived_quantity_->Build();
   estimate_->Build();
+  estimate_transformation_->Build();
   initialisation_phase_->Build(model_);
   length_weight_->Build();
   mcmc_->Build();
@@ -162,6 +167,7 @@ void Managers::Reset() {
   catchability_->Reset();
   derived_quantity_->Reset();
   estimate_->Reset();
+  estimate_transformation_->Reset();
   initialisation_phase_->Reset();
   length_weight_->Reset();
   mcmc_->Reset();

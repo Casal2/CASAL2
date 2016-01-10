@@ -27,6 +27,7 @@ namespace asserts { class Manager; }
 namespace catchabilities { class Manager; }
 namespace derivedquantities { class Manager; }
 namespace estimates { class Manager; }
+namespace estimatetransformations { class Manager; }
 namespace initialisationphases { class Manager; }
 namespace lengthweights { class Manager; }
 namespace mcmcs { class Manager; }
@@ -59,6 +60,7 @@ public:
   virtual derivedquantities::Manager*     derived_quantity() { return derived_quantity_; }
   virtual Estimables*                     estimables() { return estimables_; }
   virtual estimates::Manager*             estimate() { return estimate_; }
+  virtual estimatetransformations::Manager* estimate_transformation() { return estimate_transformation_; }
   virtual initialisationphases::Manager*  initialisation_phase() { return initialisation_phase_; }
   virtual lengthweights::Manager*         length_weight() { return length_weight_; }
   virtual mcmcs::Manager*                 mcmc() { return mcmc_; }
@@ -92,6 +94,7 @@ protected:
   derivedquantities::Manager*         derived_quantity_;
   Estimables*                         estimables_; // TODO: Move to Model
   estimates::Manager*                 estimate_;
+  estimatetransformations::Manager*   estimate_transformation_;
   initialisationphases::Manager*      initialisation_phase_;
   lengthweights::Manager*             length_weight_;
   mcmcs::Manager*                     mcmc_;
