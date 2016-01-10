@@ -322,6 +322,8 @@ void IndependenceMetropolis::DoValidate() {
  *
  */
 void IndependenceMetropolis::DoBuild() {
+  LOG_TRACE();
+
   minimiser_ = model_->managers().minimiser()->active_minimiser();
 
   unsigned active_estimates = 0;

@@ -13,8 +13,6 @@
 // Headers
 #include "Estimate.h"
 
-#include "Estimates/Transformations/Factory.h"
-
 // Namespaces
 namespace niwa {
 
@@ -31,7 +29,6 @@ Estimate::Estimate() {
   parameters_.Bind<string>(PARAM_SAME, &same_labels, "A list of parameters that are bound to the value of this estimate", "", "");
   parameters_.Bind<unsigned>(PARAM_ESTIMATION_PHASE, &estimation_phase_, "TBA", "", 1u);
   parameters_.Bind<bool>(PARAM_MCMC, &mcmc_fixed_, "TBA", "", false);
-  parameters_.Bind<string>(PARAM_TRANSFORMATION, &transformation_details_, "", "", "");
 }
 
 /**
@@ -49,15 +46,6 @@ void Estimate::Validate() {
     }
   }
 
-  if (transformation_details_.size() != 0) {
-    string type = transformation_details_[0];
-    transformation_ = estimates::transformations::Factory::Create(type);
-    if (transformation_details_.size() > 1) {
-      vector<string> extra_parameters;
-      extra_parameters.assign(transformation_details_.begin() + 1, transformation_details_.end());
-    }
-  }
-
   if (*target_ < lower_bound_)
     LOG_ERROR() << location() <<  "the initial value(" << AS_DOUBLE((*target_)) << ") on the estimate " << parameter_
         << " is lower than the lower_bound(" << lower_bound_ << ")";
@@ -66,23 +54,6 @@ void Estimate::Validate() {
         << " is greater than the upper_bound(" << upper_bound_ << ")";
 
   DoValidate();
-}
-
-/**
- * Return the value applying any transformation we may have
- */
-Double Estimate::GetTransformedValue() {
-  if (transformation_)
-    return transformation_->Transform(*target_);
-
-  return *target_;
-}
-
-void Estimate::SetTransformedValue(Double minimiser_value) {
-  if (transformation_)
-    *target_ = transformation_->Untransform(minimiser_value);
-  else
-    *target_ = minimiser_value;
 }
 
 } /* namespace niwa */

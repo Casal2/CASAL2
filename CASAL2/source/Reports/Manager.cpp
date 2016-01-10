@@ -180,8 +180,10 @@ void Manager::FlushReports() {
  *
  */
 void Manager::Pause() {
+#ifndef TESTMODE
   pause_ = true;
   while(!is_paused_) continue;
+#endif
 }
 
 } /* namespace reports */

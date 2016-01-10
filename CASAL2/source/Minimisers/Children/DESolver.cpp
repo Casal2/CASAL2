@@ -59,13 +59,13 @@ void DESolver::Execute() {
 
     lower_bounds.push_back(estimate->lower_bound());
     upper_bounds.push_back(estimate->upper_bound());
-    start_values.push_back(estimate->GetTransformedValue());
+    start_values.push_back(estimate->value());
 
-    if (estimate->GetTransformedValue() < estimate->lower_bound()) {
-      LOG_FATAL() << "When starting the DESolver minimiser the starting value (" << estimate->GetTransformedValue() << ") for estimate "
+    if (estimate->value() < estimate->lower_bound()) {
+      LOG_FATAL() << "When starting the DESolver minimiser the starting value (" << estimate->value() << ") for estimate "
           << estimate->parameter() << " was less than the lower bound (" << estimate->lower_bound() << ")";
-    } else if (estimate->GetTransformedValue() > estimate->upper_bound()) {
-      LOG_FATAL() << "When starting the DESolver minimiser the starting value (" << estimate->GetTransformedValue() << ") for estimate "
+    } else if (estimate->value() > estimate->upper_bound()) {
+      LOG_FATAL() << "When starting the DESolver minimiser the starting value (" << estimate->value() << ") for estimate "
           << estimate->parameter() << " was greater than the upper bound (" << estimate->upper_bound() << ")";
     }
   }

@@ -33,8 +33,6 @@ public:
   Manager() = default;
   virtual                     ~Manager() = default;
   void                        Validate();
-  void                        Build();
-  void                        Reset() { };
 
   // accessors
   MCMC*                       active_mcmc() const { return mcmc_; }

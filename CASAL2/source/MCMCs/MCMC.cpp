@@ -45,6 +45,7 @@ void MCMC::Validate() {
  */
 
 void MCMC::Build() {
+  LOG_TRACE();
   /**
    * We will create the default reports if necessary.
    * But we'll use append if we're resuming.

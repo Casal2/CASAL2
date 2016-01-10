@@ -10,6 +10,8 @@
  * $Date: 2008-03-04 16:33:32 +1300 (Tue, 04 Mar 2008) $
  */
 
+#include "Logging/Logging.h"
+
 // Namespaces
 namespace niwa {
 namespace oldbase {
@@ -38,9 +40,12 @@ void Manager<ClassType, StoredType>::Validate() {
  */
 template <class ClassType, class StoredType>
 void Manager<ClassType, StoredType>::Build() {
+  LOG_FINEST() << "Starting Build... with " << objects_.size() << " objects";
   for(auto stored_object : objects_) {
     stored_object->Build();
   }
+
+  LOG_FINEST() << "Build Finished";
 }
 
 /**

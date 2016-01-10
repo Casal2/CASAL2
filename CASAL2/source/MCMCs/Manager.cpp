@@ -38,13 +38,5 @@ void Manager::Validate() {
   }
 }
 
-/**
- *
- */
-void Manager::Build() {
-  for (auto mcmc : objects_)
-    mcmc->Build();
-}
-
 } /* namespace mcmcs */
 } /* namespace niwa */
