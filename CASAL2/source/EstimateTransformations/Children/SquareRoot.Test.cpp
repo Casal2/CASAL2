@@ -15,6 +15,7 @@
 #include "TestResources/TestFixtures/InternalEmptyModel.h"
 #include "TestResources/Models/TwoSex.h"
 #include "TestResources/Models/TwoSexWithDLib.h"
+#include "TestResources/Models/TwoSexWithDeSolver.h"
 
 namespace niwa {
 namespace estimatetransformations {
@@ -79,6 +80,20 @@ TEST_F(InternalEmptyModel, EstimateTransformations_SquareRoot_With_DLib_Minimise
 
   ObjectiveFunction& obj_function = model_->objective_function();
   EXPECT_DOUBLE_EQ(1981.7778874187497, obj_function.score());
+}
+
+/**
+ *
+ */
+TEST_F(InternalEmptyModel, EstimateTransformations_SquareRoot_With_DeSolver_Minimiser) {
+  AddConfigurationLine(testresources::models::two_sex_with_de_solver, "TestResources/Models/TwoSexWithDeSolver.h", 28);
+  AddConfigurationLine(estimate_transformation_squareroot, __FILE__, 22);
+  LoadConfiguration();
+
+  model_->Start(RunMode::kEstimation);
+
+  ObjectiveFunction& obj_function = model_->objective_function();
+  EXPECT_DOUBLE_EQ(2204.6380608863997, obj_function.score());
 }
 
 } /* namespace estimatetransformations */

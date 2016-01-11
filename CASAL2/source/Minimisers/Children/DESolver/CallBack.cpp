@@ -14,6 +14,7 @@
 #include "CallBack.h"
 
 #include "Estimates/Manager.h"
+#include "EstimateTransformations/Manager.h"
 #include "ObjectiveFunction/ObjectiveFunction.h"
 #include "Logging/Logging.h"
 
@@ -53,11 +54,13 @@ double CallBack::EnergyFunction(vector<double> test_solution) {
   for (unsigned i = 0; i < test_solution.size(); ++i)
     estimates[i]->set_value(test_solution[i]);
 
-  ObjectiveFunction& objective = model_->objective_function();
-
+  model_->managers().estimate_transformation()->RestoreEstimates();
   model_->FullIteration();
 
+  ObjectiveFunction& objective = model_->objective_function();
   objective.CalculateScore();
+
+  model_->managers().estimate_transformation()->TransformEstimates();
   return objective.score();
 }
 
