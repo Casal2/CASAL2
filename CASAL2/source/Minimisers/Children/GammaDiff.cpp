@@ -46,10 +46,10 @@ void GammaDiff::Execute() {
   vector<double>  start_values;
 
   model_->managers().estimate_transformation()->TransformEstimates();
-  vector<Estimate*> estimates = estimate_manager->GetEnabled();
+  vector<Estimate*> estimates = estimate_manager->GetIsEstimated();
   LOG_FINE() << "estimates.size(): " << estimates.size();
   for (Estimate* estimate : estimates) {
-    if (!estimate->enabled())
+    if (!estimate->estimated())
       continue;
 
     LOG_FINE() << "Estimate: " << estimate;

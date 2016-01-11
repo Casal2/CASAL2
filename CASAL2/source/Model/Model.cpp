@@ -558,7 +558,7 @@ void Model::RunProfiling() {
     LOG_FINE() << "Working with " << profiles.size() << " profiles";
     for (auto profile : profiles) {
       LOG_FINE() << "Disabling estimate: " << profile->parameter();
-      estimate_manager.DisableEstimate(profile->parameter());
+      estimate_manager.UnFlagIsEstimated(profile->parameter());
 
       LOG_FINE() << "First-Stepping profile";
       profile->FirstStep();
@@ -577,7 +577,7 @@ void Model::RunProfiling() {
       }
       profile->RestoreOriginalValue();
 
-      estimate_manager.EnableEstimate(profile->parameter());
+      estimate_manager.FlagIsEstimated(profile->parameter());
     }
   }
 }

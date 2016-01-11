@@ -36,7 +36,7 @@ double CallBack::operator()(const vector<double>& Parameters) {
 
   // Update our Components with the New Parameters
   LOG_FINE() << "model_: " << model_;
-  vector<Estimate*> estimates = model_->managers().estimate()->GetEnabled();
+  vector<Estimate*> estimates = model_->managers().estimate()->GetIsEstimated();
 
   if (Parameters.size() != estimates.size()) {
     LOG_CODE_ERROR() << "The number of enabled estimates does not match the number of test solution values";

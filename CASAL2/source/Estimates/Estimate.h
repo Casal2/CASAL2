@@ -56,11 +56,13 @@ public:
   void                        set_lower_bound(Double new_value) { lower_bound_ = new_value; }
   Double                      upper_bound() const { return upper_bound_; }
   void                        set_upper_bound(Double new_value) { upper_bound_ = new_value; }
-  bool                        enabled() const { return enabled_; }
-  void                        set_enabled(bool new_value) { enabled_ = new_value; }
+  bool                        estimated() const { return estimated_; }
+  void                        set_estimated(bool new_value) { estimated_ = new_value; }
   Double                      value() { return *target_; }
   void                        set_value(Double new_value) { *target_ = new_value; }
   bool                        mcmc_fixed() const { return mcmc_fixed_; }
+  void                        set_in_objective_function(bool value) { in_objective_ = value; }
+  bool                        in_objective_function() const { return in_objective_; }
 
 protected:
   // Members
@@ -74,7 +76,8 @@ protected:
   unsigned                    estimation_phase_;
   vector<string>              same_labels;
   vector<Double*>             sames_;
-  bool                        enabled_ = true;
+  bool                        estimated_ = true;
+  bool                        in_objective_ = true;
 };
 } /* namespace niwa */
 #endif /* ESTIMATE_H_ */

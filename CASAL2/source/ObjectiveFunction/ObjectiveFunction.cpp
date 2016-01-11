@@ -108,6 +108,8 @@ void ObjectiveFunction::CalculateScore() {
   vector<Estimate*> estimates = model_->managers().estimate()->objects();
   priors_ = 0.0;
   for (Estimate* estimate : estimates) {
+    if (!estimate->in_objective_function())
+      continue;
     objective::Score new_score;
     if (estimate->label() != "")
       new_score.label_ = PARAM_PRIOR + string("->") + estimate->label() + "->" + estimate->parameter();
