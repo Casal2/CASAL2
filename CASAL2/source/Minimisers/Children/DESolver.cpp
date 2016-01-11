@@ -15,6 +15,7 @@
 
 #include "Estimates/Manager.h"
 #include "Minimisers/Children/DESolver/CallBack.h"
+#include "EstimateTransformations/Manager.h"
 
 // Namespaces
 namespace niwa {
@@ -52,6 +53,7 @@ void DESolver::Execute() {
   vector<double>  upper_bounds;
   vector<double>  start_values;
 
+  model_->managers().estimate_transformation()->TransformEstimates();
   vector<Estimate*> estimates = estimate_manager.GetIsEstimated();
   for (Estimate* estimate : estimates) {
     if (!estimate->estimated())
@@ -80,6 +82,8 @@ void DESolver::Execute() {
   } else {
     LOG_FINE() << "DE Solver has failed to converge";
   }
+
+  model_->managers().estimate_transformation()->RestoreEstimates();
 }
 
 } /* namespace minimisers */
