@@ -48,7 +48,7 @@ void MCMCSample::DoPrepare() {
     cache_ << "*mcmc_sample\n";
     cache_ << "sample ";
 
-    auto estimates = model_->managers().estimate()->GetEnabled();
+    auto estimates = model_->managers().estimate()->GetIsEstimated();
     for (unsigned i = 0; i < estimates.size() - 1; ++i)
       cache_ << estimates[i]->parameter() << " ";
     cache_ << estimates[estimates.size() - 1]->parameter() << "\n";

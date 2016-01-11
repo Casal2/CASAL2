@@ -17,6 +17,7 @@
 #include "Estimates/Manager.h"
 #include "Minimisers/Children/DLib/CallBack.h"
 #include "Utilities/Math.h"
+#include "EstimateTransformations/Manager.h"
 
 // namespaces
 namespace niwa {
@@ -36,35 +37,26 @@ DLib::DLib(Model* model) : Minimiser(model) {
  *
  */
 void DLib::Execute() {
-  cout << "Executing DLib Minimiser" << endl;
+  LOG_FINE() << "Executing DLib Minimiser";
   // Variables
   dlib::Callback  call_back(model_);
 
   estimates::Manager& estimate_manager = *model_->managers().estimate();
-  vector<Estimate*> estimates = estimate_manager.GetEnabled();
+  vector<Estimate*> estimates = estimate_manager.GetIsEstimated();
 
   ::dlib::matrix<double, 0, 1> start_values(estimates.size());
   ::dlib::matrix<double, 0, 1> lower_bounds(estimates.size());
   ::dlib::matrix<double, 0, 1> upper_bounds(estimates.size());
 
-//  double smallest_lower_bound = 9999999.9;
-
+  model_->managers().estimate_transformation()->TransformEstimates();
   unsigned i = 0;
   for (Estimate* estimate : estimates) {
-    if (!estimate->enabled())
+    if (!estimate->estimated())
       continue;
 
     lower_bounds(i) = estimate->lower_bound();
     upper_bounds(i) = estimate->upper_bound();
-    start_values(i) = estimate->value(); // utilities::math::scaleValue(estimate->value(), estimate->lower_bound(), estimate->upper_bound());
-//    if (start_values(i) < lower_bounds(i))
-//      start_values(i) = lower_bounds(i);
-//    if (start_values(i) < upper_bounds(i))
-//      start_values(i) = upper_bounds(i);
-//
-//    smallest_lower_bound = smallest_lower_bound < estimate->lower_bound() ? smallest_lower_bound : estimate->lower_bound();
-
-//    start_values.push_back((double)estimate->value());
+    start_values(i) = estimate->value();
 
     if (estimate->value() < estimate->lower_bound()) {
       LOG_ERROR() << "When starting the DLib minimiser the starting value (" << estimate->value() << ") for estimate "
@@ -93,6 +85,8 @@ void DLib::Execute() {
 //                  1e-6,  // stopping trust region radius
 //                  100000    // max number of objective function evaluations
 //                  );
+
+  model_->managers().estimate_transformation()->RestoreEstimates();
 }
 
 

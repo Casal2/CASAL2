@@ -41,6 +41,7 @@ void Manager::TransformEstimates() {
   LOG_TRACE();
   for (auto obj : objects_)
     obj->Transform();
+  LOG_FINEST() << "Transformations complete";
 }
 
 /**
@@ -50,6 +51,7 @@ void Manager::RestoreEstimates() {
   LOG_TRACE();
   for (auto obj : objects_)
     obj->Restore();
+  LOG_FINEST() << "Restores complete";
 }
 
 } /* namespace estimatetransformations */

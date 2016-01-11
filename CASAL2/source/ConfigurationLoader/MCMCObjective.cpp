@@ -74,7 +74,7 @@ bool MCMCObjective::LoadFile(const string& file_name) {
     return false;
   }
 
-  auto estimate_count      = model_->managers().estimate()->GetEnabledCount();
+  auto estimate_count      = model_->managers().estimate()->GetIsEstimatedCount();
   auto& covariance_matrix  = model_->managers().mcmc()->active_mcmc()->covariance_matrix();
   covariance_matrix.resize(estimate_count, estimate_count);
   for (unsigned i = 0; i < estimate_count; ++i) {

@@ -73,7 +73,7 @@ void Minimiser::Validate() {
 void Minimiser::Build() {
   LOG_TRACE();
 
-  hessian_size_ = model_->managers().estimate()->GetEnabledCount();
+  hessian_size_ = model_->managers().estimate()->GetIsEstimatedCount();
 
   hessian_ = new double*[hessian_size_];
   for (unsigned i = 0; i < hessian_size_; ++i) {

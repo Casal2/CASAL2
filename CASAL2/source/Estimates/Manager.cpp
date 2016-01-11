@@ -118,11 +118,11 @@ void Manager::Validate(Model* model) {
  *
  * @return The number of enabled estimates
  */
-unsigned Manager::GetEnabledCount() {
+unsigned Manager::GetIsEstimatedCount() {
   unsigned count = 0;
 
   for (Estimate* estimate : objects_) {
-    if (estimate->enabled())
+    if (estimate->estimated())
       count++;
   }
 
@@ -132,11 +132,25 @@ unsigned Manager::GetEnabledCount() {
 /**
  *
  */
-vector<Estimate*> Manager::GetEnabled() {
+vector<Estimate*> Manager::GetIsEstimated() {
   vector<Estimate*> result;
 
   for (Estimate* estimate : objects_) {
-    if (estimate->enabled())
+    if (estimate->estimated())
+      result.push_back(estimate);
+  }
+
+  return result;
+}
+
+/**
+ *
+ */
+vector<Estimate*> Manager::GetInObjectiveFunction() {
+  vector<Estimate*> result;
+
+  for (Estimate* estimate : objects_) {
+    if (estimate->in_objective_function())
       result.push_back(estimate);
   }
 
@@ -188,12 +202,12 @@ bool Manager::HasEstimate(const string& parameter) {
  *
  * @param parameter The parameter to match against the estimate and parent info
  */
-void Manager::EnableEstimate(const string& parameter) {
+void Manager::FlagIsEstimated(const string& parameter) {
   for (Estimate* estimate : objects_) {
     if (estimate->creator_parameter() == parameter)
-      estimate->set_enabled(true);
+      estimate->set_estimated(true);
     else if (estimate->parameter() == parameter)
-      estimate->set_enabled(true);
+      estimate->set_estimated(true);
   }
 }
 
@@ -203,12 +217,12 @@ void Manager::EnableEstimate(const string& parameter) {
  *
  * @param parameter The parameter to match against the estimate and parent info
  */
-void Manager::DisableEstimate(const string& parameter) {
+void Manager::UnFlagIsEstimated(const string& parameter) {
   for (Estimate* estimate : objects_) {
     if (estimate->creator_parameter() == parameter)
-      estimate->set_enabled(false);
+      estimate->set_estimated(false);
     else if (estimate->parameter() == parameter)
-      estimate->set_enabled(false);
+      estimate->set_estimated(false);
   }
 }
 

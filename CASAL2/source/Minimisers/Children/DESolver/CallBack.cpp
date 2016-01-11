@@ -44,7 +44,7 @@ CallBack::~CallBack() {
  * @return The score from the energy function
  */
 double CallBack::EnergyFunction(vector<double> test_solution) {
-  vector<Estimate*> estimates = model_->managers().estimate()->GetEnabled();
+  vector<Estimate*> estimates = model_->managers().estimate()->GetIsEstimated();
 
   if (test_solution.size() != estimates.size()) {
     LOG_CODE_ERROR() << "The number of enabled estimates does not match the number of test solution values";

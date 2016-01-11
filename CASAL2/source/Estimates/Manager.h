@@ -38,12 +38,15 @@ public:
   virtual                     ~Manager();
   void                        Validate() override final;
   void                        Validate(Model* model);
-  unsigned                    GetEnabledCount();
-  vector<Estimate*>           GetEnabled();
+  unsigned                    GetIsEstimatedCount();
+  vector<Estimate*>           GetIsEstimated();
+  vector<Estimate*>           GetInObjectiveFunction();
   void                        Clear() override final;
   bool                        HasEstimate(const string& parameter);
-  void                        EnableEstimate(const string& parameter);
-  void                        DisableEstimate(const string& parameter);
+  void                        FlagIsEstimated(const string& parameter);
+  void                        UnFlagIsEstimated(const string& parameter);
+  void                        FlagIsInObjective(const string& parameter);
+  void                        UnFlagIsInObjective(const string& parameter);
   void                        AddCreator(Creator* creator) { creators_.push_back(creator); }
   Estimate*                   GetEstimate(const string& parameter);
   Estimate*                   GetEstimateByLabel(const string& label);

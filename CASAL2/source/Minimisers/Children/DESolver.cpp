@@ -52,9 +52,9 @@ void DESolver::Execute() {
   vector<double>  upper_bounds;
   vector<double>  start_values;
 
-  vector<Estimate*> estimates = estimate_manager.GetEnabled();
+  vector<Estimate*> estimates = estimate_manager.GetIsEstimated();
   for (Estimate* estimate : estimates) {
-    if (!estimate->enabled())
+    if (!estimate->estimated())
       continue;
 
     lower_bounds.push_back(estimate->lower_bound());
