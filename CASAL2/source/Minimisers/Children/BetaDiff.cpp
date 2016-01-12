@@ -11,6 +11,7 @@
 #include <betadiff.h>
 
 #include "Estimates/Manager.h"
+#include "EstimateTransformations/Manager.h"
 #include "Model/Model.h"
 #include "ObjectiveFunction/ObjectiveFunction.h"
 
@@ -26,20 +27,21 @@ public:
   MyObjective(Model* model) : model_(model) { }
 
   Double operator()(const MyModel& model, const dvv& x_unbounded) {
-    auto estimates = model_->managers().estimate()->GetEnabled();
+    auto estimates = model_->managers().estimate()->GetIsEstimated();
 
     for (int i = 0; i < x_unbounded.size(); ++i) {
       dvariable estimate = x_unbounded[i + 1];
-      estimates[i]->SetTransformedValue(estimate.x);
+      estimates[i]->set_value(estimate.x);
     }
 
-    ObjectiveFunction& objective = model_->objective_function();
+    model_->managers().estimate_transformation()->RestoreEstimates();
     model_->FullIteration();
 
+    ObjectiveFunction& objective = model_->objective_function();
     objective.CalculateScore();
-    Double score = objective.score();
 
-    return score;
+    model_->managers().estimate_transformation()->TransformEstimates();
+    return objective.score();
   }
 
 private:
@@ -61,7 +63,8 @@ BetaDiff::BetaDiff(Model* model) : Minimiser(model) {
  */
 void BetaDiff::Execute() {
   auto estimate_manager = model_->managers().estimate();
-  auto estimates = estimate_manager->GetEnabled();
+  auto estimates = estimate_manager->GetIsEstimated();
+  model_->managers().estimate_transformation()->TransformEstimates();
 
   dvector lower_bounds((int)estimates.size());
   dvector upper_bounds((int)estimates.size());
@@ -71,12 +74,9 @@ void BetaDiff::Execute() {
   for (auto estimate : estimates) {
     ++i;
 
-    if (!estimate->enabled())
-      continue;
-
     lower_bounds[i] = AS_DOUBLE(estimate->lower_bound());
     upper_bounds[i] = AS_DOUBLE(estimate->upper_bound());
-    start_values[i] = AS_DOUBLE(estimate->GetTransformedValue());
+    start_values[i] = AS_DOUBLE(estimate->value());
 
 //    if (estimate->value() < estimate->lower_bound()) {
 //      LOG_ERROR_P("When starting the DESolver minimiser the starting value (" << estimate->value() << ") for estimate "
@@ -101,6 +101,8 @@ void BetaDiff::Execute() {
       hessian_[row][col] = betadiff_hessian[row+1][col+1];
     }
   }
+  
+  model_->managers().estimate_transformation()->RestoreEstimates();
 }
 
 } /* namespace reports */

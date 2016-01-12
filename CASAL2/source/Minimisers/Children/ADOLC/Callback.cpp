@@ -15,6 +15,7 @@
 #include "Callback.h"
 
 #include "Estimates/Manager.h"
+#include "EstimateTransformations/Manager.h"
 #include "ObjectiveFunction/ObjectiveFunction.h"
 
 // namespaces
@@ -35,20 +36,22 @@ CallBack::CallBack(Model* model) : model_(model) {
 adouble CallBack::operator()(const vector<adouble>& Parameters) {
 
   // Update our Components with the New Parameters
-  auto estimates = model_->managers().estimate()->GetEnabled();
+  auto estimates = model_->managers().estimate()->GetIsEstimated();
 
   if (Parameters.size() != estimates.size()) {
     LOG_CODE_ERROR() << "The number of enabled estimates does not match the number of test solution values";
   }
 
   for (unsigned i = 0; i < Parameters.size(); ++i)
-    estimates[i]->SetTransformedValue(Parameters[i]);
+    estimates[i]->set_value(Parameters[i]);
 
-  ObjectiveFunction& objective = model_->objective_function();
-
+  model_->managers().estimate_transformation()->RestoreEstimates();
   model_->FullIteration();
 
+  ObjectiveFunction& objective = model_->objective_function();
   objective.CalculateScore();
+
+  model_->managers().estimate_transformation()->TransformEstimates();
   return objective.score();
 }
 

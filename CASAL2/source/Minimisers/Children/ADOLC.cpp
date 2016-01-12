@@ -17,6 +17,7 @@
 #include "ADOLC/Engine.h"
 #include "ADOLC/Callback.h"
 #include "Estimates/Manager.h"
+#include "EstimateTransformations/Manager.h"
 
 namespace niwa {
 namespace minimisers {
@@ -45,20 +46,19 @@ void ADOLC::Execute() {
   vector<Double>  upper_bounds;
   vector<Double>  start_values;
 
-  auto estimates = estimate_manager->GetEnabled();
+  model_->managers().estimate_transformation()->TransformEstimates();
+  auto estimates = estimate_manager->GetIsEstimated();
   for (auto estimate : estimates) {
-    if (!estimate->enabled())
-      continue;
 
     lower_bounds.push_back(estimate->lower_bound());
     upper_bounds.push_back(estimate->upper_bound());
-    start_values.push_back(estimate->GetTransformedValue());
+    start_values.push_back(estimate->value());
 
-    if (estimate->GetTransformedValue() < estimate->lower_bound()) {
-      LOG_ERROR() << "When starting the GammDiff numerical_differences minimiser the starting value (" << estimate->GetTransformedValue() << ") for estimate "
+    if (estimate->value() < estimate->lower_bound()) {
+      LOG_ERROR() << "When starting the GammDiff numerical_differences minimiser the starting value (" << estimate->value() << ") for estimate "
           << estimate->parameter() << " was less than the lower bound (" << estimate->lower_bound() << ")";
-    } else if (estimate->GetTransformedValue() > estimate->upper_bound()) {
-      LOG_ERROR() << "When starting the GammDiff numerical_differences minimiser the starting value (" << estimate->GetTransformedValue() << ") for estimate "
+    } else if (estimate->value() > estimate->upper_bound()) {
+      LOG_ERROR() << "When starting the GammDiff numerical_differences minimiser the starting value (" << estimate->value() << ") for estimate "
           << estimate->parameter() << " was greater than the upper bound (" << estimate->upper_bound() << ")";
     }
   }
@@ -69,6 +69,8 @@ void ADOLC::Execute() {
       start_values, lower_bounds, upper_bounds,
       status, max_iterations_, max_evaluations_, gradient_tolerance_,
       hessian_,1,step_size_);
+
+  model_->managers().estimate_transformation()->RestoreEstimates();
 }
 
 } /* namespace minimisers */

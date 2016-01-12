@@ -19,6 +19,7 @@
 #include <cppad/ipopt/solve.hpp>
 
 #include "Estimates/Manager.h"
+#include "EstimateTransformations/Manager.h"
 #include "Model/Model.h"
 #include "ObjectiveFunction/ObjectiveFunction.h"
 
@@ -38,19 +39,21 @@ public:
   typedef CPPAD_TESTVECTOR( AD<double> ) ADvector;
 
   void operator()(ADvector& fg, const ADvector& candidates) {
-    auto estimates = model_->managers().estimate()->GetEnabled();
+    auto estimates = model_->managers().estimate()->GetIsEstimated();
 
     for (unsigned i = 0; i < candidates.size(); ++i) {
       Double estimate = candidates[i];
-      estimates[i]->SetTransformedValue(candidates[i]);
+      estimates[i]->set_value(candidates[i]);
     }
 
-    ObjectiveFunction& objective = model_->objective_function();
+    model_->managers().estimate_transformation()->RestoreEstimates();
     model_->FullIteration();
 
+    ObjectiveFunction& objective = model_->objective_function();
     objective.CalculateScore();
     fg[0] = objective.score();
 
+    model_->managers().estimate_transformation()->TransformEstimates();
     return;
   }
 
@@ -71,16 +74,17 @@ void CPPAD::Execute() {
   typedef CPPAD_TESTVECTOR( double ) Dvector;
 
   auto estimate_manager = model_->managers().estimate();
-  auto estimates = estimate_manager->objects();
+  auto estimates = estimate_manager->GetIsEstimated();
 
   Dvector lower_bounds(estimates.size());
   Dvector upper_bounds(estimates.size());
   Dvector start_values(estimates.size());
 
+  model_->managers().estimate_transformation()->TransformEstimates();
   for (unsigned i = 0; i < estimates.size(); ++i) {
     lower_bounds[i] = AS_DOUBLE(estimates[i]->lower_bound());
     upper_bounds[i] = AS_DOUBLE(estimates[i]->upper_bound());
-    start_values[i] = AS_DOUBLE(estimates[i]->GetTransformedValue());
+    start_values[i] = AS_DOUBLE(estimates[i]->value());
   }
 
   MyObjective obj(model_);
@@ -117,6 +121,8 @@ void CPPAD::Execute() {
   CppAD::ipopt::solve<Dvector, MyObjective>(
       options, start_values, lower_bounds, upper_bounds, gl, gu, obj, solution
     );
+
+  model_->managers().estimate_transformation()->RestoreEstimates();
 }
 
 } /* namespace minimisers */
