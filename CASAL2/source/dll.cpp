@@ -1,18 +1,14 @@
-#ifdef TESTMODE
-#include <gtest/gtest.h>
+/**
+ * @file dll.cpp
+ * @author Scott Rasmussen (scott.rasmussen@zaita.com)
+ * @github https://github.com/Zaita
+ * @date Jan 12, 2016
+ * @section LICENSE
+ *
+ * Copyright NIWA Science ©2016 - www.niwa.co.nz
+ */
+#include "dll.h"
 
-int main(int argc, char **argv) {
-  ::testing::InitGoogleTest(&argc, argv);
-  return RUN_ALL_TESTS();
-}
-#else
-
-// defines
-#ifndef BOOST_USE_WINDOWS_H
-#define BOOST_USE_WINDOWS_H
-#endif
-
-// Headers
 #include <iostream>
 #include <thread>
 #include <boost/algorithm/string/replace.hpp>
@@ -33,28 +29,48 @@ int main(int argc, char **argv) {
 #include "Utilities/RunParameters.h"
 #include "Logging/Logging.h"
 
+#include "Utilities/CommandLineParser/CommandLineParser.h"
+
 // Namespaces
 using namespace niwa;
 using std::cout;
 using std::endl;
 
+#ifdef TESTMODE
+#include <gtest/gtest.h>
+
+void LoadOptions(int argc, char * argv[], niwa::utilities::RunParameters& options) { }
+int Run(int argc, char * argv[], niwa::utilities::RunParameters& options) { return -1; }
+int RunUnitTests(int argc, char * argv[]) {
+  ::testing::InitGoogleTest(&argc, argv);
+  int result = RUN_ALL_TESTS();
+  return result;
+}
+#else
+int RunUnitTests(int argc, char * argv[]) { return -1; }
+
+void LoadOptions(int argc, char * argv[], niwa::utilities::RunParameters& options) {
+  niwa::utilities::CommandLineParser parser;
+  parser.Parse(argc, argv, options);
+}
+
 /**
- * Application entry point
+ * This is the main run method for our DLL. It's a modified version of main();
  */
-int main(int argc, char * argv[]) {
+int Run(int argc, char * argv[], niwa::utilities::RunParameters& options) {
   int return_code = 0;
   bool model_start_return_success = true;
 
   try {
     Model model;
+    model.global_configuration().set_run_parameters(options);
+    RunMode::Type run_mode = options.run_mode_;
+
     reports::StandardHeader standard_report(&model);
 
-    utilities::RunParameters parameters;
-
-    utilities::CommandLineParser parser;
-    parser.Parse(argc, argv, parameters);
-
-    RunMode::Type run_mode = parameters.run_mode_;
+    vector<string> cmd_parameters;
+    for (int i = 0; i < argc; ++i) cmd_parameters.push_back(argv[i]);
+    model.global_configuration().set_command_line_parameters(cmd_parameters);
 
     /**
      * Check the run mode and call the handler.
@@ -73,7 +89,10 @@ int main(int argc, char * argv[]) {
       break;
 
     case RunMode::kHelp:
+      {
+      utilities::CommandLineParser parser;
       cout << parser.command_line_usage() << endl;
+      }
       break;
 
     case RunMode::kQuery:
@@ -104,6 +123,7 @@ int main(int argc, char * argv[]) {
     case RunMode::kProfiling:
     case RunMode::kProjection:
     case RunMode::kTesting:
+    {
       if (!model.global_configuration().debug_mode() && !model.global_configuration().disable_standard_report())
         standard_report.Prepare();
 
@@ -140,6 +160,7 @@ int main(int argc, char * argv[]) {
 
       if (!model.global_configuration().debug_mode() && !model.global_configuration().disable_standard_report())
         standard_report.Finalise();
+    }
       break;
     } // switch(run_mode)
 
@@ -166,8 +187,7 @@ int main(int argc, char * argv[]) {
   }
 
   LOG_FINEST() << "Done";
-	return return_code;
+  return return_code;
 }
+
 #endif
-
-

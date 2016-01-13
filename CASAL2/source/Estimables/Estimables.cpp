@@ -79,7 +79,7 @@ void Estimables::LoadValues(unsigned index) {
     /**
      * Verify that we're only using @estimate parameters if this has been defined
      */
-    if (model_->global_configuration().get_force_estimable_values_file()) {
+    if (model_->global_configuration().force_estimable_values_file()) {
       vector<Estimate*> estimates = model_->managers().estimate()->GetIsEstimated();
       for (auto estimate : estimates) {
         if (estimable_values_.find(estimate->parameter()) == estimable_values_.end())

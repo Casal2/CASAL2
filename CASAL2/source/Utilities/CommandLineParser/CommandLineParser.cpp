@@ -21,12 +21,6 @@
 #include <boost/algorithm/string/split.hpp>
 #include <boost/algorithm/string/join.hpp>
 
-#include "BaseClasses/Object.h"
-#include "GlobalConfiguration/GlobalConfiguration.h"
-#include "Logging/Logging.h"
-#include "Model/Factory.h"
-#include "Reports/Factory.h"
-
 // Namespaces
 namespace niwa {
 namespace utilities {
@@ -44,8 +38,9 @@ using std::ostringstream;
  *
  * @param argc The number of arguments that have been provided
  * @param argv Pointer to an array containing the arguments
+ * @param options The options object to fille with the values
  */
-void CommandLineParser::Parse(int argc, const char* argv[]) {
+void CommandLineParser::Parse(int argc, char* argv[], RunParameters& options) {
   LOG_TRACE();
 
   // Build Options menu
@@ -66,14 +61,15 @@ void CommandLineParser::Parse(int argc, const char* argv[]) {
     ("projection,f", "Projection mode")
     ("input,i", value<string>(), "Load free parameter values from file")
     ("fi", "Force the input file to only allow @estimate parameters (basic run mode only)")
-    ("seed,g", value<string>(), "Random number seed")
+    ("seed,g", value<unsigned>(), "Random number seed")
     ("query,q", value<string>(), "Query an object type to see it's description and parameters")
     ("debug,d", "Run in debug mode (with debug output")
     ("nostd", "Do not print the standard header report")
     ("loglevel", value<string>(), "Set log level: finest, fine, trace, none(default)")
     ("output,o", value<string>(), "Create estimate value report directed to <file>")
     ("single-step", "Single step the model each year with new estimable values")
-    ("tabular", "Print reports in Tabular mode");
+    ("tabular", "Print reports in Tabular mode")
+    ("unittest", "Run the unit tests for CASAL2");
 
 
   ostringstream o;
@@ -96,64 +92,43 @@ void CommandLineParser::Parse(int argc, const char* argv[]) {
    * immediately
    */
   if (parameters.count("debug"))
-    global_config_.set_debug_mode("true");
+    options.debug_mode_ = true;
   if (parameters.count("config"))
-    global_config_.set_config_file(parameters["config"].as<string>());
+    options.config_file_ = parameters["config"].as<string>();
   if (parameters.count("input"))
-    global_config_.set_estimable_value_file(parameters["input"].as<string>());
+    options.estimable_value_input_file_ = parameters["input"].as<string>();
   if (parameters.count("fi"))
-    global_config_.set_force_estimable_values_file();
+    options.force_estimables_as_named_ = true;
   if (parameters.count("nostd"))
-    global_config_.set_disable_standard_report();
+    options.no_std_report_ = true;
   if (parameters.count("loglevel"))
-    Logging::Instance().SetLogLevel(parameters["loglevel"].as<string>());
-  if (parameters.count("output")) {
-    auto report = reports::Factory::Create(&model_, PARAM_REPORT, PARAM_ESTIMATE_VALUE);
-    report->parameters().Add(PARAM_LABEL, "estimate_value_output", __FILE__, __LINE__);
-    report->parameters().Add(PARAM_TYPE, PARAM_ESTIMATE_VALUE, __FILE__, __LINE__);
-    report->parameters().Add(PARAM_FILE_NAME, parameters["output"].as<string>(), __FILE__, __LINE__);
-    report->set_skip_tags(true);
-  }
+    options.log_level_ = parameters["loglevel"].as<string>();
+  if (parameters.count("output"))
+    options.output_ = parameters["output"].as<string>();
   if (parameters.count("single-step"))
-    global_config_.flag_single_step();
+    options.single_step_model_ = true;
   if (parameters.count("tabular"))
-    global_config_.flag_print_tabular();
+    options.tabular_reports_ = true;
 
   /**
    * Determine what run mode we should be in. If we're
    * in help, version or license then we don't need to continue.
    */
   if ( (parameters.count("help")) || (parameters.size() == 0) ) {
-    run_mode_ = RunMode::kHelp;
+    options.run_mode_ = RunMode::kHelp;
     return;
 
   } else if (parameters.count("version")) {
-    run_mode_ = RunMode::kVersion;
+    options.run_mode_ = RunMode::kVersion;
     return;
 
   } else if (parameters.count("license")) {
-    run_mode_ = RunMode::kLicense;
+    options.run_mode_ = RunMode::kLicense;
     return;
 
   } else if (parameters.count("query")) {
-    string lookup = parameters["query"].as<string>();
-    vector<string> parts;
-    boost::split(parts, lookup, boost::is_any_of("."));
-    if (parts.size() == 1)
-      parts.push_back("");
-    if (parts.size() == 2) {
-      base::Object* object = model_.factory().CreateObject(parts[0], parts[1]);
-      if (object) {
-        cout << "Printing information for " << parts[0] << " with sub-type " << parts[1] << endl;
-        object->PrintParameterQueryInfo();
-      } else {
-        cout << "Object type " << lookup << " is invalid" << endl;
-      }
-    } else {
-      cout << "Please use object_type.sub_type only when querying an object" << endl;
-    }
-
-    run_mode_ = RunMode::kQuery;
+    options.query_object_ = parameters["query"].as<string>();
+    options.run_mode_ = RunMode::kQuery;
     return;
   }
 
@@ -176,33 +151,28 @@ void CommandLineParser::Parse(int argc, const char* argv[]) {
     LOG_ERROR() << "Multiple run modes have been specified on the command line. Only 1 run mode is valid";
 
   if (parameters.count("run"))
-    run_mode_ = RunMode::kBasic;
-
+    options.run_mode_ = RunMode::kBasic;
   else if (parameters.count("estimate"))
-    run_mode_ = RunMode::kEstimation;
-
+    options.run_mode_ = RunMode::kEstimation;
   else if (parameters.count("mcmc")) {
-    run_mode_ = RunMode::kMCMC;
+    options.run_mode_ = RunMode::kMCMC;
     if (parameters.count("resume")) {
       if (!parameters.count("objective-file") || !parameters.count("sample-file")) {
         LOG_ERROR() << "Resuming an MCMC chain requires the objective-file and sample-file parameters";
         return;
       }
 
-      global_config_.set_mcmc_objective_file(parameters["objective-file"].as<string>());
-      global_config_.set_mcmc_sample_file(parameters["sample-file"].as<string>());
-      global_config_.flag_resume();
+      options.mcmc_objective_file_ = parameters["objective-file"].as<string>();
+      options.mcmc_sample_file_    = parameters["sample-file"].as<string>();
+      options.resume_mcmc_chain_   = true;
     }
   } else if (parameters.count("profiling"))
-    run_mode_ = RunMode::kProfiling;
-
+    options.run_mode_ = RunMode::kProfiling;
   else if (parameters.count("simulation")) {
-    run_mode_ = RunMode::kSimulation;
-    global_config_.set_simulation_candidates(parameters["simulation"].as<unsigned>());
-
+    options.run_mode_ = RunMode::kSimulation;
+    options.simulation_candidates_ = parameters["simulation"].as<unsigned>();
   } else if (parameters.count("projection"))
-    run_mode_ = RunMode::kProjection;
-
+    options.run_mode_ = RunMode::kProjection;
   else {
     LOG_ERROR() << "An invalid or unknown run mode has been specified on the command line.";
   }
@@ -211,8 +181,8 @@ void CommandLineParser::Parse(int argc, const char* argv[]) {
    * Now we store any variables we want to use to override global defaults.
    */
   if (parameters.count("seed")) {
-    override_values_[PARAM_RANDOM_NUMBER_SEED] = parameters["seed"].as<string>();
-    cout << override_values_[PARAM_RANDOM_NUMBER_SEED] << " : " << parameters["seed"].as<string>() << endl;
+    options.override_rng_seed_value_ = parameters["seed"].as<unsigned>();
+    options.override_random_number_seed_ = true;
   }
 }
 

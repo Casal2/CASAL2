@@ -50,7 +50,7 @@ void InternalEmptyModel::SetUp() {
   rng.Reset(2468);
 
   configuration_file_.clear();
-  model_->global_configuration().set_skip_config_file("true");
+  model_->global_configuration().flag_skip_config_file();
 }
 
 /**
