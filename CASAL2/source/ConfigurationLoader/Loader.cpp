@@ -71,7 +71,6 @@ bool Loader::LoadConfigFile(const string& override_file_name) {
       LOG_FATAL() << "The configuration file " << config_file << " is empty. Please specify a valid configuration file";
   }
 
-  ParseFileLines();
   return true;
 }
 

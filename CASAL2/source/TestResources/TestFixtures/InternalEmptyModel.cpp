@@ -88,6 +88,7 @@ void InternalEmptyModel::LoadConfiguration() {
     loader.AddFileLine(file_line);
 
   loader.LoadConfigFile();
+  loader.ParseFileLines();
 }
 
 } /* namespace sizeweights */

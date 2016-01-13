@@ -115,6 +115,14 @@ int main(int argc, char * argv[]) {
         break;
       }
 
+      Logging& logging = Logging::Instance();
+       config_loader.ParseFileLines();
+       if (logging.errors().size() > 0) {
+         logging.FlushErrors();
+         return_code = -1;
+         break;
+       }
+
       // override any config file values from our command line
       model.global_configuration().ParseOptions(&model);
       utilities::RandomNumberGenerator::Instance().Reset(model.global_configuration().random_seed());
@@ -130,7 +138,6 @@ int main(int argc, char * argv[]) {
       report_manager->StopThread();
       report_thread.join();
 
-      Logging& logging = Logging::Instance();
       if (logging.errors().size() > 0) {
         logging.FlushErrors();
         return_code = -1;

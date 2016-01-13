@@ -24,9 +24,10 @@ extern "C" {
 #define EXAMPLE_DLL __declspec(dllexport)
 // NOTE: this function is not declared extern "C"
 
-int EXAMPLE_DLL RunUnitTests(int argc, char * argv[]);
-void EXAMPLE_DLL LoadOptions(int argc, char * argv[], niwa::utilities::RunParameters& options);
-int EXAMPLE_DLL Run(int argc, char * argv[], niwa::utilities::RunParameters& options);
+int   EXAMPLE_DLL RunUnitTests(int argc, char * argv[]);
+int   EXAMPLE_DLL LoadOptions(int argc, char * argv[], niwa::utilities::RunParameters& options);
+int   EXAMPLE_DLL PreParseConfigFiles(niwa::utilities::RunParameters& options);
+int   EXAMPLE_DLL Run(int argc, char * argv[], niwa::utilities::RunParameters& options);
 
 #ifdef __cplusplus
 }

@@ -41,8 +41,6 @@ using std::ostringstream;
  * @param options The options object to fille with the values
  */
 void CommandLineParser::Parse(int argc, char* argv[], RunParameters& options) {
-  LOG_TRACE();
-
   // Build Options menu
   options_description oDesc("Usage");
   oDesc.add_options()
@@ -91,6 +89,13 @@ void CommandLineParser::Parse(int argc, char* argv[], RunParameters& options) {
    * Load any variables into the global config that need to be available
    * immediately
    */
+  if (parameters.count("loglevel")) {
+    options.log_level_ = parameters["loglevel"].as<string>();
+    Logging::Instance().SetLogLevel(options.log_level_);
+  }
+
+  LOG_TRACE();
+
   if (parameters.count("debug"))
     options.debug_mode_ = true;
   if (parameters.count("config"))
@@ -101,8 +106,6 @@ void CommandLineParser::Parse(int argc, char* argv[], RunParameters& options) {
     options.force_estimables_as_named_ = true;
   if (parameters.count("nostd"))
     options.no_std_report_ = true;
-  if (parameters.count("loglevel"))
-    options.log_level_ = parameters["loglevel"].as<string>();
   if (parameters.count("output"))
     options.output_ = parameters["output"].as<string>();
   if (parameters.count("single-step"))
@@ -116,6 +119,7 @@ void CommandLineParser::Parse(int argc, char* argv[], RunParameters& options) {
    */
   if ( (parameters.count("help")) || (parameters.size() == 0) ) {
     options.run_mode_ = RunMode::kHelp;
+    cout << command_line_usage_ << endl;
     return;
 
   } else if (parameters.count("version")) {
