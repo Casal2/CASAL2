@@ -457,8 +457,6 @@ void Model::RunBasic() {
  * Run the model in estimation mode.
  */
 void Model::RunEstimation() {
-  global_configuration_->set_force_estimable_values_file();
-
   /*
    * Before running the model in estimation mode we'll do an iteration
    * as a basic model. We don't call any reports though.
@@ -536,8 +534,6 @@ bool Model::RunMCMC() {
  *
  */
 void Model::RunProfiling() {
-  global_configuration_->set_force_estimable_values_file();
-
   Estimables& estimables = *managers_->estimables();
 
   map<string, Double> estimable_values;
