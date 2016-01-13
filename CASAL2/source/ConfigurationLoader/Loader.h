@@ -55,6 +55,9 @@ public:
   void                        AddFileLine(FileLine line);
   void                        ParseFileLines();
 
+  // accessors
+  vector<FileLine>&           file_lines() { return file_lines_; }
+
 private:
   // Methods
   void                        ParseBlock(vector<FileLine> &block);

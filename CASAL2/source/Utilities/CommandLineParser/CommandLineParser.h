@@ -39,7 +39,6 @@ public:
   CommandLineParser() = default;
   virtual                     ~CommandLineParser() = default;
   void                        Parse(int argc, char* argv[], RunParameters& options);
-
   // Accessors
   string                      command_line_usage() { return command_line_usage_; }
 

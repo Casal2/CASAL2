@@ -47,6 +47,8 @@ struct RunParameters {
 
   bool          override_random_number_seed_ = false;
   unsigned      override_rng_seed_value_ = 123u;
+
+  string        minimiser_ = "";
 };
 
 } /* namespace niwa */

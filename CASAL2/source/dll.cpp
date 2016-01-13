@@ -24,6 +24,7 @@
 #include "Model/Model.h"
 #include "Reports/Children/StandardHeader.h"
 #include "Reports/Manager.h"
+#include "Translations/Translations.h"
 #include "Utilities/CommandLineParser/CommandLineParser.h"
 #include "Utilities/RandomNumberGenerator.h"
 #include "Utilities/RunParameters.h"
@@ -39,7 +40,8 @@ using std::endl;
 #ifdef TESTMODE
 #include <gtest/gtest.h>
 
-void LoadOptions(int argc, char * argv[], niwa::utilities::RunParameters& options) { }
+int LoadOptions(int argc, char * argv[], niwa::utilities::RunParameters& options) { return -1; };
+int PreParseConfigFiles(niwa::utilities::RunParameters& options) { return -1; };
 int Run(int argc, char * argv[], niwa::utilities::RunParameters& options) { return -1; }
 int RunUnitTests(int argc, char * argv[]) {
   ::testing::InitGoogleTest(&argc, argv);
@@ -47,11 +49,92 @@ int RunUnitTests(int argc, char * argv[]) {
   return result;
 }
 #else
-int RunUnitTests(int argc, char * argv[]) { return -1; }
+/**
+ *
+ */
+int RunUnitTests(int argc, char * argv[]) {
+  cout << "DLL was built without TESTMODE enabled but it's trying to run unit tests..." << endl;
+  return -1;
+}
 
-void LoadOptions(int argc, char * argv[], niwa::utilities::RunParameters& options) {
-  niwa::utilities::CommandLineParser parser;
-  parser.Parse(argc, argv, options);
+/**
+ *
+ */
+int LoadOptions(int argc, char * argv[], niwa::utilities::RunParameters& options) {
+  try {
+    niwa::utilities::CommandLineParser parser;
+    parser.Parse(argc, argv, options);
+  } catch (const string &exception) {
+    cout << "## ERROR - iSAM experienced a problem and has stopped execution" << endl;
+    cout << "Error: " << exception << endl;
+    return -1;
+  } catch (std::exception& e) {
+    cout << "## ERROR - iSAM experienced a problem and has stopped execution" << endl;
+    cout << e.what() << endl;
+    return -1;
+  } catch(...) {
+    cout << "## ERROR - iSAM experienced a problem and has stopped execution" << endl;
+    cout << "The exception was caught with the catch-all. The type was unknown" << endl;
+    cout << "Please contact the application developer" << endl;
+    return -1;
+  }
+
+  return 0;
+}
+
+/**
+ *
+ */
+int PreParseConfigFiles(niwa::utilities::RunParameters& options) {
+  // load our configuration file
+  Model model;
+  model.global_configuration().set_run_parameters(options);
+
+  configuration::Loader config_loader(model);
+  if (!config_loader.LoadConfigFile()) {
+    Logging::Instance().FlushErrors();
+    return -1;
+  }
+
+  auto file_lines = config_loader.file_lines();
+  bool in_minimiser_block = false;
+  string active_minimiser = "";
+  string current_type = "";
+  vector<string> holding_vec;
+  unsigned minimiser_count = 0;
+  for (unsigned i = 0; i < file_lines.size(); ++i) {
+    auto file_line = file_lines[i];
+    if (file_line.line_.substr(0, 10) == "@minimiser") {
+      in_minimiser_block = true;
+      ++minimiser_count;
+    } else if (in_minimiser_block) {
+      if (file_line.line_.substr(0, 4) == "type") {
+        boost::split(holding_vec, file_line.line_, boost::is_any_of(" "));
+        if (holding_vec.size() != 2) {
+          cout << "Holding Vector size was " << holding_vec.size() << " when determining Minimiser type" << endl;
+          return -1;
+        }
+        current_type = holding_vec[1];
+
+      } else if (file_line.line_.substr(0, 6) == "active") {
+        boost::split(holding_vec, file_line.line_, boost::is_any_of(" "));
+        if (holding_vec.size() != 2) {
+          cout << "Holding Vector size was " << holding_vec.size() << " when determining active value" << endl;
+          return -1;
+        }
+
+        bool active = utilities::ToInline<string, bool>(holding_vec[1]);
+        if (active)
+          active_minimiser = current_type;
+      }
+    }
+  }
+
+  if (minimiser_count == 1)
+    active_minimiser = current_type;
+
+  options.minimiser_ = active_minimiser;
+  return 0;
 }
 
 /**
@@ -89,10 +172,6 @@ int Run(int argc, char * argv[], niwa::utilities::RunParameters& options) {
       break;
 
     case RunMode::kHelp:
-      {
-      utilities::CommandLineParser parser;
-      cout << parser.command_line_usage() << endl;
-      }
       break;
 
     case RunMode::kQuery:
@@ -135,6 +214,14 @@ int Run(int argc, char * argv[], niwa::utilities::RunParameters& options) {
         break;
       }
 
+      Logging& logging = Logging::Instance();
+      config_loader.ParseFileLines();
+      if (logging.errors().size() > 0) {
+        logging.FlushErrors();
+        return_code = -1;
+        break;
+      }
+
       // override any config file values from our command line
       model.global_configuration().ParseOptions(&model);
       utilities::RandomNumberGenerator::Instance().Reset(model.global_configuration().random_seed());
@@ -150,7 +237,6 @@ int Run(int argc, char * argv[], niwa::utilities::RunParameters& options) {
       report_manager->StopThread();
       report_thread.join();
 
-      Logging& logging = Logging::Instance();
       if (logging.errors().size() > 0) {
         logging.FlushErrors();
         return_code = -1;
