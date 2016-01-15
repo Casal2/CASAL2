@@ -123,7 +123,11 @@ int PreParseConfigFiles(niwa::utilities::RunParameters& options) {
           return -1;
         }
 
-        bool active = utilities::ToInline<string, bool>(holding_vec[1]);
+        bool active = false;
+        if (!utilities::To<bool>(holding_vec[1], active)) {
+          cout << "Error: " << holding_vec[1] << " could not be converted to a boolean to check if minimiser was active" << endl;
+          return -1;
+        }
         if (active)
           active_minimiser = current_type;
       }

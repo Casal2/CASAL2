@@ -29,20 +29,24 @@ def print_usage():
   print 'doBuild <build_target> <build_parameter>'
   print ''
   print 'Valid Build Types:'
-  print '  debug - Build debug version'
-  print '  release - Build release version'
-  print '  test - Build unit tests'
+  print '  debug - Build standalone debug executable'
+  print '  release - Build standalone release executable'
+  print '  test - Build standalone unit tests executable'
   print '  documentation - Build the user manual'
   print '  thirdparty - Build all required third party libraries'
   print '  thirdpartylean - Build minimal third party libraries'
-  print '  all - Does clean, thirdparty, debug, release builds in order'
   print '  clean - Remove any previous debug/release build information'
   print '  cleanall - Remove all previous build information'
-  print '  archive - Build a zipped archive of the application'
+  print '  archive - Build a zipped archive of the application.'
+  print '            Application is built using shared libraries'
+  print '            so a single casal2 exectable is created.'
   print '  check - Do a check of the build system'
   print '  modelrunner - Run the test suite of models'
   print '  installer - Build an installer package'
   print '  deb - Create linux .deb installer'
+  print '  library - Build shared library for use by front end application'
+  print '  frontend - Build single CASAL2 executable with all minimisers '
+  print '             and unit tests'
   print ''
   print 'Valid Build Parameters: (thirdparty only)'
   print '  <libary name> - Target third party library to build or rebuild'
@@ -51,6 +55,14 @@ def print_usage():
   print '  adolc - Use ADOLC auto-differentiation in compiled executable'
   print '  betadiff - Use BetaDiff auto-differentiation (from CASAL)'
   print '  cppad - Use CppAD auto-differentiation'
+  print ''
+  print 'Valid Build parameters: (library only)'
+  print '  adolc - Build ADOLC auto-differentiation library'
+  print '  betadiff - Build BetaDiff auto-differentiation library (from CASAL)'
+  print '  cppad - Build CppAD auto-differentiation library'
+  print '  test - Build Unit Tests library'  
+  print '  release - Build release library'
+  print ''
   return True
 
 
@@ -113,32 +125,6 @@ def start():
   build_target = ""
   build_parameters = ""
   
-  if not len(sys.argv) > 1:  
-    os.system( [ 'clear', 'cls' ][ os.name == 'nt' ] )
-    print "*************************************************************************"
-    print "*************************************************************************"
-    print "Welcome to the CASAL2 Build System"
-    print "*************************************************************************"
-    print "*************************************************************************"
-    print "\n"
-    print "Valid build targets: " +  ", ".join(Globals.allowed_build_targets_)
-    build_target = raw_input("Please enter a valid build type [debug]: ").lower()
-    while build_target != "" and not build_target in Globals.allowed_build_targets_:
-      print "## Error: " + build_target + " is not a valid build target" 
-      build_target = raw_input("Please enter a valid build type [debug]: ").lower()
-    if build_target == "":
-      build_target = "debug" 
-  
-    # Find our build parameters to use, this will enable admb etc
-    if build_target in Globals.allowed_build_types_:    
-      print "Valid build parameters: " + ", ".join(Globals.allowed_build_parameters_)
-      build_parameters = raw_input("Please enter build parameters [none]: ").lower()
-      while build_parameters != "" and not build_parameters in Globals.allowed_build_parameters_:
-        print "## Error: " + build_parameters + " is not a valid build parameter"
-        build_parameters = raw_input("Please enter build parameters [none]: ").lower()
-      if build_parameters == "none":
-        build_parameters = ""  
-  
   """
   Handle build information already passed in
   """
@@ -147,7 +133,9 @@ def start():
   if len(sys.argv) > 2 and len(str(sys.argv[2])) > 1:
       build_parameters = sys.argv[2] 
 
-  if build_target == "" or not build_target.lower() in Globals.allowed_build_targets_:
+  if build_target == "":
+    return Globals.PrintError('Please provide a valid build target. Use doBuild help to see list');
+  if not build_target.lower() in Globals.allowed_build_targets_:
     return Globals.PrintError(build_target + " is not a valid build target")
     
   build_target = build_target.lower()    
@@ -168,48 +156,38 @@ def start():
   print " -- Build parameters: " + Globals.build_parameters_
   print ""
   
-  if build_target == "all":
-    print "*************************************************************************"
-    print "*************************************************************************"
-    print "--> Starting complete CASAL2 build"
-    print "--> Step 1: Third Party Libraries"
-    third_party_builder = ThirdPartyLibraries()
-    if not third_party_builder.start():
-      return False
-    
-    print "--> Step 2: Debug Build"
-    Globals.build_target_ = "debug"
-    main_code_builder = MainCode()
-    if not main_code_builder.start():
-      return False
-    
-    print "--> Step 3: Release Build"
-    Globals.build_target_ = "release"
-    if not main_code_builder.start():
-      return False
-    
-    print "--> Step 4: Test"
-    Globals.build_target_ = "test"
-    if not main_code_builder.start():
-      return False
-    
   if build_target in Globals.allowed_build_types_:      
     if not build_parameters in Globals.allowed_build_parameters_:
       return Globals.PrintError("Build parameter " + build_parameters + " is not valid")
     
-    #os.system( [ 'clear', 'cls' ][ os.name == 'nt' ] )
     print "*************************************************************************"
     print "*************************************************************************"
     print "--> Starting " + Globals.build_target_ + " Build"
     code_builder = MainCode()
-    if not code_builder.start():
+    if not code_builder.start(False):
       return False
+  if build_target == "library":
+    if not build_parameters in Globals.allowed_library_parameters_:
+      return Globals.PrintError("Library build parameter" + build_parameters + " is not valid")
+    print "*************************************************************************"
+    print "*************************************************************************"
+    print "--> Starting " + Globals.build_target_ + " Build"
+    code_builder = MainCode()
+    if not code_builder.start(True):
+      return False
+  elif build_target == "frontend":
+    print "*************************************************************************" 
+    print "*************************************************************************"
+    print "--> Starting " + Globals.build_target_ + " Build"
+    code_builder = FrontEnd()
+    if not code_builder.start():
+      return False      
   elif build_target == "archive":
     print "*************************************************************************"
     print "*************************************************************************"
     print "--> Starting " + Globals.build_target_ + " Build"
     archive_builder = Archiver()
-    if not archive_builder.start():
+    if not archive_builder.start(build_parameters):
       return False
   elif build_target == "thirdparty" or build_target == "thirdpartylean":
     print "*************************************************************************"

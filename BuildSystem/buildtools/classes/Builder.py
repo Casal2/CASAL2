@@ -20,11 +20,12 @@ class MainCode:
   cmake_compiler_ = ""
   output_directory_ = "";
   
-  def start(self):
+  def start(self, build_library):
     start = time.time()
     print "--> Starting build of the main code base"
     print "--> Build configuration " + Globals.build_target_ + " : " + Globals.build_parameters_
     print "--> Operating System: " + Globals.operating_system_
+    print "--> Building Library?: " + str(build_library)
     
     self.cmake_compiler_ = [ 'Unix', 'MinGW' ][ Globals.operating_system_ == "windows" ]
     print "--> CMake Compiler: " + self.cmake_compiler_
@@ -63,8 +64,9 @@ class MainCode:
       fo = open('../CASAL2/source/Version.h', 'w')
       fo.write(version)
       fo.close()
-              
+    
     self.output_directory_ = "bin/" + Globals.operating_system_ + "/" + Globals.build_target_ 
+
     if Globals.build_parameters_ != "":
       self.output_directory_ += "_" + Globals.build_parameters_
       
@@ -244,6 +246,52 @@ class ThirdPartyLibraries:
     print ""
     print "--> All third party libraries have been built successfully"
     return True
+
+
+class FrontEnd:
+  def start(self):
+    start = time.time()
+    print "--> Starting build of the front end code base"
+    print "--> Build configuration " + Globals.build_target_ + " : " + Globals.build_parameters_
+    print "--> Operating System: " + Globals.operating_system_
+    
+    self.cmake_compiler_ = [ 'Unix', 'MinGW' ][ Globals.operating_system_ == "windows" ]
+    print "--> CMake Compiler: " + self.cmake_compiler_
+
+    # Check to see if the third party libraries have been built
+    third_party_dir = "bin/" + Globals.operating_system_ + "/thirdparty"
+    if not os.path.exists(third_party_dir):
+      return Globals.PrintError("Third party libraries have not been built. Please build these first with thirdparty argument")
+    
+    self.output_directory_ = "bin/" + Globals.operating_system_ + "/" + Globals.build_target_ 
+
+    if Globals.build_parameters_ != "":
+      self.output_directory_ += "_" + Globals.build_parameters_
+      
+    if not os.path.exists(self.output_directory_):
+      os.makedirs(self.output_directory_);
+    print "--> Target output directory: " + self.output_directory_
+    
+    os.chdir(self.output_directory_);
+    
+    print '--> Preparing CMake command'
+    build_string = 'cmake -G "' + self.cmake_compiler_ + ' Makefiles" ../../../../FrontEnd'
+    print "--> CMake command: " + build_string
+    if os.system(build_string) != EX_OK:
+      return Globals.PrintError("Failed to execute cmake successfully to rebuild the make files")
+    
+    print "--> Build main code base"
+    if Globals.operating_system_ == "windows":
+      if os.system("mingw32-make") != EX_OK:
+        return Globals.PrintError("Failed to build code base. Please see above for build error")
+    else:
+      if os.system("make") != EX_OK:
+        return Globals.PrintError("Failed to build code base. Please see above for build error")
+
+    elapsed = time.time() - start
+    print 'Compile finished in ' + str(round(elapsed, 2)) + ' seconds'
+    
+    return True 
 
 """
 This class is responsible for cleaning the build folders
