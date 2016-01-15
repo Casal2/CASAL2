@@ -37,7 +37,7 @@ struct RunParameters {
   bool          force_estimables_as_named_ = false;
   unsigned      random_number_seed_ = 123u;
   string        query_object_ = "";
-  bool          debug_mode_;
+  bool          debug_mode_ = false;
   bool          no_std_report_ = false;
   string        log_level_ = "warning";
   string        output_ = "";

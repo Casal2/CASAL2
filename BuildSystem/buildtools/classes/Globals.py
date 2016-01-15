@@ -20,9 +20,10 @@ target_special_lig_path_ = ""
 
 allowed_build_targets_ = [ "debug", "release", "documentation", "thirdparty", "thirdpartylean",
                            "test", "archive", "all", "clean", "cleanall", "help",
-                           "check", "modelrunner", "installer", "deb" ]
+                           "check", "modelrunner", "installer", "deb", "library", "frontend" ]
 allowed_build_types_ = [ "debug", "release", "test" ]
 allowed_build_parameters_ = [ "", "adolc", "betadiff", "cppad" ]
+allowed_library_parameters_ = [ "release", "test", "adolc", "betadiff", "cppad" ]
 
 def PrintError(error_message):
   print "\n\n\n"
