@@ -7,6 +7,7 @@
  *
  * Copyright NIWA Science ©2016 - www.niwa.co.nz
  */
+#ifdef __MINGW32__
 #include "dll.h"
 
 #include <iostream>
@@ -280,4 +281,5 @@ int Run(int argc, char * argv[], niwa::utilities::RunParameters& options) {
   return return_code;
 }
 
+#endif
 #endif

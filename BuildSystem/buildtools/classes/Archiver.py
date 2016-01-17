@@ -81,6 +81,13 @@ class Archiver:
         return Globals.PrintError('Failed to build the documentation. Please check documenation_build.log for error')
       os.system('rm -rf documentation_build.log')
 
+      print '--> Building test version of CASAL2'    
+      print '-- Re-Entering the build system to build a unit test library'
+      print '-- All output is being diverted to unit_test_build.log'
+      if os.system(self.do_build_ + ' library test > unit_test_build.log 2>&1') != EX_OK:
+        return Globals.PrintError('Failed to build release library. Please check unit_test_build.log for the error')
+      os.system('rm -rf unit_test_build.log') 
+
     print '--> Building Front End Binary'
     print '-- Re-Entering the build system to build the front end binary'
     print '-- All ourput is being diverted to front_end_build.log'
@@ -109,6 +116,7 @@ class Archiver:
     os.system('cp ' + binary_path + '/library_adolc/' + library_name + ' CASAL2/casal2_adolc' + extension)
     os.system('cp ' + binary_path + '/library_betadiff/' + library_name + ' CASAL2/casal2_betadiff' + extension)
     os.system('cp ' + binary_path + '/library_cppad/' + library_name + ' CASAL2/casal2_cppad' + extension)
+    os.system('cp ' + binary_path + '/library_test/' + library_name + ' CASAL2/casal2_test' + extension)
     os.system('cp ../Documentation/Manual/CASAL2.pdf CASAL2/CASAL2.pdf')
     os.system('tar cvf casal2.tar CASAL2/')   
     os.system('gzip casal2.tar')
