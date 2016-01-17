@@ -14,7 +14,7 @@
  */
 #ifndef SOURCE_DLL_H_
 #define SOURCE_DLL_H_
-
+#ifdef __MINGW32__
 #include "Utilities/RunParameters.h"
 
 #ifdef __cplusplus
@@ -31,6 +31,6 @@ int   EXAMPLE_DLL Run(int argc, char * argv[], niwa::utilities::RunParameters& o
 
 #ifdef __cplusplus
 }
-#endif
-
+#endif /* _cplusplus */
+#endif /* WIN32 */
 #endif /* SOURCE_DLL_H_ */
