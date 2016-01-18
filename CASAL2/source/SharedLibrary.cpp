@@ -1,14 +1,13 @@
 /**
- * @file dll.cpp
+ * @file SharedLibrary.cpp
  * @author Scott Rasmussen (scott.rasmussen@zaita.com)
  * @github https://github.com/Zaita
  * @date Jan 12, 2016
  * @section LICENSE
  *
- * Copyright NIWA Science ©2016 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2016 - www.niwa.co.nz
  */
-#ifdef __MINGW32__
-#include "dll.h"
+#include "SharedLibrary.h"
 
 #include <iostream>
 #include <thread>
@@ -281,5 +280,4 @@ int Run(int argc, char * argv[], niwa::utilities::RunParameters& options) {
   return return_code;
 }
 
-#endif
 #endif
