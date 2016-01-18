@@ -58,10 +58,8 @@ class Builder:
     if os.system('./get.Mumps 1> casal2_get.log 2>&1') != EX_OK:
       return Globals.PrintError("Failed to download third party library. Please see casal2_get.log for error")
     os.chdir('../../')
-    if os.system('./configure --enable-static --disable-shared 1> casal2_configure.log 2>&1') != EX_OK:
+    if os.system("./configure --enable-static --disable-shared --with-pic 1> casal2_configure.log 2>&1") != EX_OK:
       return Globals.PrintError("Failed to configure code base. Please see above for build error")
-    if os.system('make 1> casal2_make.log 2>&1') != EX_OK:
-      return Globals.PrintError("Failed to build code base. Please see above for build error")
     if os.system('make install 1> casal2_make_install.log 2>&1') != EX_OK:
       return Globals.PrintError("Failed to install code base. Please see above for build error")
     os.chdir('../')
@@ -69,9 +67,11 @@ class Builder:
     print '-- Building CppAD Library'
     os.chdir(cppadFileName)
     os.system('chmod +x configure')
-    if os.system('./configure --prefix=$PWD 1> casal2_configure.log 2>&1') != EX_OK:
-      return Globals.PrintError("Failed to configure code base. Please see above for build error")                      
-    if os.system('make install 1> make_install.log 2>&1') != EX_OK:
+    if os.system("./configure --prefix=$PWD 1> casal2_configure.log 2>&1") != EX_OK:
+      return Globals.PrintError("Failed to configure code base. Please see above for build error")
+    if os.system("make CXXFLAGS='-fPIC' 1> make.log 2>&1") != EX_OK:
+      return Globals.PrintError("Failed to make code base. Please see above for build error")
+    if os.system("make install 1> make_install.log 2>&1") != EX_OK:
       return Globals.PrintError("Failed to install code base. Please see above for build error")    
     os.chdir('../')
     
