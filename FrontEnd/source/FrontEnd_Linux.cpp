@@ -15,6 +15,8 @@
 #include <iostream>
 #include <string>
 #include <dlfcn.h>
+#include <limits.h>
+#include <unistd.h>
 
 #include "Utilities/RunParameters.h"
 
@@ -29,17 +31,27 @@ typedef int(*RUNPROC)(int, char**, niwa::utilities::RunParameters&);
 typedef int(*PRELOADPROC)(niwa::utilities::RunParameters&);
 typedef int(*LOADOPTIONSPROC)(int, char**, niwa::utilities::RunParameters&);
 
-const string release_dll = "./casal2_release.so";
-const string adolc_dll   = "./casal2_adolc.so";
-const string betadiff_dll = "./casal2_betadiff.so";
-const string cppad_dll = "./casal2_cppad.so";
-const string test_dll  = "./casal2_test.so";
+string release_dll = "casal2_release.so";
+string adolc_dll   = "casal2_adolc.so";
+string betadiff_dll = "casal2_betadiff.so";
+string cppad_dll = "casal2_cppad.so";
+string test_dll  = "casal2_test.so";
+
+
+std::string getexepath()
+{
+  char result[ PATH_MAX ];
+  ssize_t count = readlink( "/proc/self/exe", result, PATH_MAX );
+  string temp = std::string( result, (count > 0) ? count : 0 );
+  temp = temp.substr(0, temp.find_last_of("/")) + "/";
+  return temp;
+}
 
 /**
  *
  */
 int RunEstimationWithDll(int argc, char * argv[], niwa::utilities::RunParameters& options, const string& dll_name) {
-  auto library = dlopen(dll_name.c_str(), RTLD_LAZY);
+  auto library = dlopen((getexepath() + dll_name).c_str(), RTLD_LAZY);
   if (library == nullptr) {
     cout << "Error: Failed to load CASAL2 Library: " << dll_name << endl;
     return -1;
@@ -53,7 +65,7 @@ int RunEstimationWithDll(int argc, char * argv[], niwa::utilities::RunParameters
  *
  */
 int RunUnitTests(int argc, char * argv[]) {
-  auto unit_test_library = dlopen(test_dll.c_str(), RTLD_LAZY);
+  auto unit_test_library = dlopen((getexepath() + test_dll).c_str(), RTLD_LAZY);
   if (unit_test_library == nullptr) {
     cout << "Error: Failed to load CASAL2 Unit Test DLL: " << test_dll << endl;
     return -1;
@@ -81,9 +93,9 @@ int run_for_os(int argc, char * argv[]) {
     }
   }
 
-  auto release_library = dlopen(release_dll.c_str(), RTLD_LAZY);
+  auto release_library = dlopen((getexepath() + release_dll).c_str(), RTLD_LAZY);
   if (release_library == NULL) {
-    cout << "Error: Failed to load CASAL2 Release Library: " << release_dll << endl;
+    cout << "Error: Failed to load CASAL2 Release Library: " << getexepath() << release_dll << endl;
     return -1;
   }
 
