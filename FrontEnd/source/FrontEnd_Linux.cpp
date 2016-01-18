@@ -29,11 +29,11 @@ typedef int(*RUNPROC)(int, char**, niwa::utilities::RunParameters&);
 typedef int(*PRELOADPROC)(niwa::utilities::RunParameters&);
 typedef int(*LOADOPTIONSPROC)(int, char**, niwa::utilities::RunParameters&);
 
-const string release_dll = "casal2_release.dll";
-const string adolc_dll   = "casal2_adolc.dll";
-const string betadiff_dll = "casal2_betadiff.dll";
-const string cppad_dll = "casal2_cppad.dll";
-const string test_dll  = "casal2_test.dll";
+const string release_dll = "./casal2_release.so";
+const string adolc_dll   = "./casal2_adolc.so";
+const string betadiff_dll = "./casal2_betadiff.so";
+const string cppad_dll = "./casal2_cppad.so";
+const string test_dll  = "./casal2_test.so";
 
 /**
  *
@@ -82,7 +82,7 @@ int run_for_os(int argc, char * argv[]) {
   }
 
   auto release_library = dlopen(release_dll.c_str(), RTLD_LAZY);
-  if (release_library == nullptr) {
+  if (release_library == NULL) {
     cout << "Error: Failed to load CASAL2 Release Library: " << release_dll << endl;
     return -1;
   }
