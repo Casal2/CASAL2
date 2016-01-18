@@ -23,7 +23,7 @@ ELSE (WIN32)
  ## LINUX BUILD VARIABLES AND LIBRARIES
  SET(buildOS linux)
  SET(COMPILE_OPTIONS "${COMPILE_OPTIONS} -std=c++11")
- SET(thirdPartyLibraries ${thirdPartyLibraries} pthread rt)
+ SET(thirdPartyLibraries ${thirdPartyLibraries} dl pthread rt)
 ENDIF ()
 
 # BUILD PARAMETERS
@@ -54,4 +54,6 @@ ADD_EXECUTABLE(${EXE_NAME} ${sourceFiles} )
 SET_TARGET_PROPERTIES(${EXE_NAME} PROPERTIES COMPILE_FLAGS ${COMPILE_OPTIONS} LINK_FLAGS ${LINK_OPTIONS})
 IF(WIN32)
   ADD_DEPENDENCIES(${EXE_NAME} version icon)
+ELSE(WIN32)
+  TARGET_LINK_LIBRARIES(${EXE_NAME} ${thirdPartyLibraries})
 ENDIF(WIN32)
