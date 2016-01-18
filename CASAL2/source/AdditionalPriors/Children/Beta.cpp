@@ -26,7 +26,7 @@ namespace additionalpriors {
  *
  * Note: The constructor is parsed to generate Latex for the documentation.
  */
-Beta::Beta() {
+Beta::Beta(Model* model) : AdditionalPrior(model) {
   parameters_.Bind<Double>(PARAM_MU, &mu_, "Mu", "");
   parameters_.Bind<Double>(PARAM_SIGMA, &sigma_, "Sigma", "")
       ->set_lower_bound(0.0);
@@ -58,7 +58,7 @@ void Beta::DoBuild() {
 /**
  * TODO: Add documentation
  */
-Double Beta::ratio_score() {
+Double Beta::GetScore() {
   Double value = 1.0;
   Double score_ = 0.0;
   v_ = (mu_ - a_) / (b_ - a_);
@@ -67,20 +67,6 @@ Double Beta::ratio_score() {
   n_ = t_ * (1.0 - v_);
   score_ = ((1.0 - m_) * log(value - a_)) + ((1.0 - n_) * log(b_ - value));
   return score_;
-}
-
-/**
- * TODO: Add documentation
- */
-Double Beta::difference_score() {
-  return 0.0;
-}
-
-/**
- * TODO: Add documentation
- */
-Double Beta::mean_score() {
-  return 0.0;
 }
 
 } /* namespace additionalpriors */

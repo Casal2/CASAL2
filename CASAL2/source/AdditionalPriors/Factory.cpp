@@ -16,6 +16,8 @@
 #include "Model/Managers.h"
 #include "AdditionalPriors/Manager.h"
 #include "AdditionalPriors/Children/Beta.h"
+#include "AdditionalPriors/Children/VectorAverage.h"
+#include "AdditionalPriors/Children/VectorSmoothing.h"
 
 // namespaces
 namespace niwa {
@@ -33,7 +35,11 @@ AdditionalPrior* Factory::Create(Model* model, const string& object_type, const 
 
   if (object_type == PARAM_ADDITIONAL_PRIOR) {
     if (sub_type == PARAM_BETA)
-      object = new Beta();
+      object = new Beta(model);
+    else if (sub_type == PARAM_VECTOR_SMOOTHING)
+      object = new VectorSmoothing(model);
+    else if (sub_type == PARAM_VECTOR_AVERAGE)
+      object = new VectorAverage(model);
   }
 
   if (object)
