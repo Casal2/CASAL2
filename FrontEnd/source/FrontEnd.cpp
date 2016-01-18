@@ -71,7 +71,7 @@ int RunUnitTests(int argc, char * argv[]) {
 /**
  *
  */
-int main(int argc, char * argv[]) {
+int run_for_os(int argc, char * argv[]) {
   for (int i = 0; i < argc; ++i) {
     if (string(argv[i]) == "--unittest") {
       cout << "Loading unit test DLL" << endl;
