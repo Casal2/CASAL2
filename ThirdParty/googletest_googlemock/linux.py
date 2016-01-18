@@ -41,7 +41,7 @@ class Builder:
     # Build 
     print '-- Building - check ' + gmockFileName +'/make/casal2_build.log'
     os.chdir(gmockFileName + '/make')
-    os.system("make 1> casal2_build.log 2>&1")
+    os.system("make CXXFLAGS='-fPIC' GTEST_CXXFLAGS='-fPIC' 1> casal2_build.log 2>&1")
         
     # Move our headers and libraries
     print '-- Moving headers and libraries'
