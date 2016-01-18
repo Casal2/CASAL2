@@ -34,7 +34,7 @@ class Archiver:
       binary_name += '.exe'
       extension = '.dll'
     else:
-      library_name = 'casal2.so'
+      library_name = 'libcasal2.so'
       extension = '.so'
 
     if skip_building != 'true':
