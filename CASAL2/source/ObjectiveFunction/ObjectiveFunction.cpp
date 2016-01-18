@@ -130,7 +130,7 @@ void ObjectiveFunction::CalculateScore() {
   for (auto prior : additional_priors) {
     objective::Score new_score;
     new_score.label_ = PARAM_ADDITIONAL_PRIOR + string("->") + prior->label();
-    new_score.score_ = prior->score();
+    new_score.score_ = prior->GetScore();
 
     score_list_.push_back(new_score);
     score_ += new_score.score_;
