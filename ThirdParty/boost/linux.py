@@ -48,8 +48,8 @@ class Builder:
       os.chdir(boostFileName)
   
       os.system('./bootstrap.sh gcc 1> casal2_bootstrap.log 2>&1')
-      os.system('./b2 --toolset=gcc link=static runtime-link=static threading=multi 1> casal2_build.log 2>&1')
-          
+      os.system("./b2 --toolset=gcc link=static runtime-link=static threading=multi cxxflags='-fPIC' 1> casal2_build.log 2>&1")
+                
       # Move our headers and libraries
       print '-- Moving headers and libraries'
       dir_util.copy_tree('boost', Globals.target_include_path_ + '/boost/')
