@@ -16,6 +16,7 @@
 #include <gtest/gtest.h>
 #include <boost/lexical_cast.hpp>
 
+#include "Model/Model.h"
 #include "TestResources/MockClasses/Model.h"
 
 // Namespaces
@@ -28,10 +29,11 @@ using ::testing::Return;
  * Test the results of our KnifeEdge are correct
  */
 TEST(AdditionalPriors, Beta) {
-  Beta beta;
+  Model model;
+  Beta beta(&model);
   beta.parameters().Add(PARAM_LABEL, "beta", __FILE__, __LINE__);
   beta.parameters().Add(PARAM_TYPE,  PARAM_BETA, __FILE__, __LINE__);
-  beta.parameters().Add(PARAM_METHOD, PARAM_RATIO, __FILE__, __LINE__);
+//  beta.parameters().Add(PARAM_METHOD, PARAM_RATIO, __FILE__, __LINE__);
   beta.parameters().Add(PARAM_MU, "4", __FILE__, __LINE__);
   beta.parameters().Add(PARAM_SIGMA, "2", __FILE__, __LINE__);
   beta.parameters().Add(PARAM_A, "2", __FILE__, __LINE__);

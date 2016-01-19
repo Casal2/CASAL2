@@ -25,15 +25,17 @@ namespace additionalpriors {
 class Beta : public AdditionalPrior {
 public:
   // methods
-  Beta();
+  Beta(Model* model);
   virtual                     ~Beta() = default;
   void                        DoValidate() override final;
   void                        DoBuild() override final;
+  Double                      GetScore() override final;
+
 protected:
   // methods
-  Double                      ratio_score() override final;
-  Double                      difference_score() override final;
-  Double                      mean_score() override final;
+//  Double                      ratio_score() override final;
+//  Double                      difference_score() override final;
+//  Double                      mean_score() override final;
 
   // members
   Double                      mu_ = 0.0;

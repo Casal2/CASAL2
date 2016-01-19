@@ -21,6 +21,7 @@
 
 // namespaces
 namespace niwa {
+class Model;
 
 // forward decs
 class AdditionalPrior;
@@ -30,9 +31,9 @@ typedef Double (AdditionalPrior::*ScoreFunction)();
 class AdditionalPrior : public base::Object {
 public:
   // methods
-  AdditionalPrior();
+  AdditionalPrior(Model* model);
   virtual                     ~AdditionalPrior() = default;
-  Double                      score();
+  virtual Double              GetScore();
   void                        Validate();
   void                        Build();
   void                        Reset() { };
@@ -41,13 +42,11 @@ protected:
   // pure virtual methods
   virtual void                DoValidate() = 0;
   virtual void                DoBuild() = 0;
-  virtual Double              ratio_score() = 0;
-  virtual Double              difference_score() = 0;
-  virtual Double              mean_score() = 0;
 
   // members
+  Model*                      model_;
   ScoreFunction               score_function_ = 0;
-  string                      method_;
+//  string                      method_;
 };
 
 } /* namespace niwa */
