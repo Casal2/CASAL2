@@ -1,0 +1,51 @@
+1.5 Necessary files
+CASAL2 comes with a single binary, the documentation, sample models/test cases and a collection of shared libraries.
+
+We also have a set of "R" tools/libraries that could be packaged? But these need some work.
+
+1.7 Technical Details:
+We don't know the compiler versions yet. This is because NIWA hasn't got a build system in place to take over from mine at the end of the project. CASAL2 support is not based on the kernel version, but on the standard library version installed.
+
+At present my build system has Windows 7 and OpenSuSE Tumbleweed (August 2015) linked too it. I have Ubuntu 15.10 and Windows 10 as well used for building outside the automated builds.
+
+The compiler used is GCC/G++ with GFortran. Version 4.8 or higher is required. The Windows version is compiled with TDM-GCC (not MinGW32)
+
+CASAL2 has six minimisers right now. ADOLC, BetaDiff, CppAD/IpOPT, GammaDiff/Numerical Diff, DLib, DESolver.
+
+Boost version used at present is 1.58.0
+
+Unit tests are using the Google Test and Mock Framework, not Boost. The unit tests are also packaged with the application now, not just available with the source code. Any user with the unit tests will be able to run them on their platform to ensure integrity of the application.
+
+2.1 Introduction
+The model run modes are: Basic Run, Estimation, MCMC, Profiling, Forward-Projection or Simulation.
+
+3 Running CASAL2
+The initial file looked for by CASAL2 is casal2.txt. Do we want to change this? This can be overriden from the command line with the -c switch
+
+3.3 Redirecting standard output
+stdout is used for reports, errors and warnings.
+stderr is used for logging.
+This gives you the ability to turn on logging and pipe it out to a different file than the standard output for analysis.
+
+3.4 Command line arguments
+Need to be updated from CASAL2
+
+3.5.1 Commands
+Commands can contain alpha numeric characters "and" . _ - (period, underscore, dash)
+
+3.5.2 Subcommands
+switch supports t/f/true/false/y/n/yes/no
+integer range uses : not -
+
+3.5.3 The command block format
+We don't support @command argument
+
+It might be worth including
+subcommand [inline declaration]
+
+labels can contain alpha numeric characters "and" . _ - (period, underscore, dash)
+
+4.2 Population Structure
+"The permissible characters are:" etc. This is actually arbitrary. The user specifies how they want the category structure to be by using the "format" sub-command under @categories block.
+
+We also don't support length.
