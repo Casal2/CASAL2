@@ -16,8 +16,6 @@
 #include "Model/Managers.h"
 #include "Penalties/Manager.h"
 #include "Penalties/Children/Process.h"
-#include "Penalties/Children/VectorAverage.h"
-#include "Penalties/Children/VectorSmoothing.h"
 
 // Namespaces
 namespace niwa {
@@ -37,10 +35,6 @@ Penalty* Factory::Create(Model* model, const string& object_type, const string& 
   if (object_type == PARAM_PENALTY) {
     if (sub_type == PARAM_PROCESS)
       object = new Process(model);
-    else if (sub_type == PARAM_VECTOR_AVERAGE)
-      object = new VectorAverage(model);
-    else if (sub_type == PARAM_VECTOR_SMOOTHING)
-      object = new VectorSmoothing(model);
 
     if (object)
       model->managers().penalty()->AddObject(object);
