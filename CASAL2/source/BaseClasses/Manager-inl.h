@@ -5,7 +5,7 @@
  * @date 22/10/2012
  * @section LICENSE
  *
- * Copyright NIWA Science ©2012 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2012 - www.niwa.co.nz
  *
  * $Date: 2008-03-04 16:33:32 +1300 (Tue, 04 Mar 2008) $
  */
@@ -33,6 +33,8 @@ void Manager<ClassType, StoredType>::Validate() {
   for(auto stored_object : objects_) {
     stored_object->Validate();
   }
+
+  // TODO: Validate we don't have duplicate labels on objects
 }
 
 /**
