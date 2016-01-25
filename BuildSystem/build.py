@@ -227,18 +227,8 @@ def start():
     print "*************************************************************************"
     print "*************************************************************************"
     print "--> Building CASAL2 Installer"
-    print "-- Starting release build"
-    cwd = os.path.normpath(os.getcwd()) 
-    Globals.build_target_ = "release"
-    code_builder = MainCode()
-    if not code_builder.start():
-      return False
-    print "-- Starting documentation build"    
-    os.chdir(cwd)
-    documentation_builder = Documentation()
-    documentation_builder.start()
-    print "-- Building installer"
-    os.chdir(cwd)
+    if Globals.operating_system_ == 'linux':
+      return Globals.PrintError('Building Windows installer under Lindows is not supported')
     installer = Installer()
     installer.start()
   elif build_target == "deb":

@@ -12,7 +12,19 @@ import Globals
 EX_OK = getattr(os, "EX_OK", 0)
 
 class Installer:
+  do_build_ = "doBuild"
   def start(self):
+    if Globals.operating_system_ == "windows":
+      self.do_build_ += '.bat'
+    else:
+      self.do_build_ = './' + self.do_build_ + '.sh'
+
+    print '--> Building CASAL2 Archive'
+    print '-- Re-Entering build system to build the archive'
+    print '-- Expected build time 10-60 minutes'
+    #if os.system(self.do_build_ + ' archive') != EX_OK:
+    #  return Globals.PrintError('Failed to build the archive')      
+
     file = open('config.iss', 'w')
     if not file:
       return Globals.PrintError('Failed to open the config.iss to create installer configuration')
@@ -49,12 +61,19 @@ class Installer:
     file.write('Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}";\n')
     file.write('Name: "quicklaunchicon"; Description: "{cm:CreateQuickLaunchIcon}"; GroupDescription: "{cm:AdditionalIcons}";\n')
     file.write('[Files]\n')
-    file.write('Source: "bin\\windows\\release\\casal2.exe"; DestDir: "{app}"; Flags: ignoreversion\n')
+    file.write('Source: "CASAL2\\casal2.exe"; DestDir: "{app}"; Flags: ignoreversion\n')
+    file.write('Source: "CASAL2\\casal2_adolc.dll"; DestDir: "{app}"; Flags: ignoreversion\n')
+    file.write('Source: "CASAL2\\casal2_betadiff.dll"; DestDir: "{app}"; Flags: ignoreversion\n')
+    file.write('Source: "CASAL2\\casal2_cppad.dll"; DestDir: "{app}"; Flags: ignoreversion\n')
+    file.write('Source: "CASAL2\\casal2_release.dll"; DestDir: "{app}"; Flags: ignoreversion\n')
+    file.write('Source: "CASAL2\\casal2_test.dll"; DestDir: "{app}"; Flags: ignoreversion\n')
     file.write('Source: "..\\Documentation\\Manual\\CASAL2.pdf"; DestDir: "{app}"; Flags: ignoreversion\n')
     file.write('[Icons]\n')
     file.write('Name: "{group}\\CASAL2"; Filename: "{app}"; WorkingDir: "{app}";\n')
     file.write('Name: "{userdesktop}\\CASAL2"; Filename: "{app}"; WorkingDir: "{app}"; Tasks: desktopicon\n')
     file.close()
  
-    os.system('"C:\\Program Files (x86)\\Inno Setup 5\\ISCC.exe" config.iss')
+    if not os.path.exists("bin\\windows\\installer"):
+      os.makedirs("bin\\windows\\installer")
+    os.system('"C:\\Program Files (x86)\\Inno Setup 5\\ISCC.exe" /Obin\\windows\\installer\\ config.iss')
 

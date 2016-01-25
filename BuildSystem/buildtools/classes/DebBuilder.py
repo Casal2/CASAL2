@@ -44,7 +44,12 @@ class DebBuilder:
     folder = 'bin/linux/deb/CASAL2_' + lines[1]    
     os.system('rm -rf ' + folder)
     os.makedirs(folder + '/usr/local/bin')
-    os.system('cp bin/linux/release/casal2 ' + folder + '/usr/local/bin')
+    os.system('cp bin/linux/frontend/casal2 ' + folder + '/usr/local/bin')
+    os.system('cp bin/linux/library_adolc/libcasal2.so ' + folder + '/usr/local/lib/casal2_adolc.so')
+    os.system('cp bin/linux/library_betadiff/libcasal2.so ' + folder + '/usr/local/lib/casal2_betadiff.so')
+    os.system('cp bin/linux/library_cppad/libcasal2.so ' + folder + '/usr/local/lib/casal2_cppad.so')
+    os.system('cp bin/linux/library_release/libcasal2.so ' + folder + '/usr/local/lib/casal2_release.so')
+    os.system('cp bin/linux/library_test/libcasal2.so ' + folder + '/usr/local/lib/casal2_test.so')
     os.makedirs(folder + '/opt/casal2')
     os.system('cp ../Documentation/Manual/CASAL2.pdf ' + folder + '/opt/casal2/')
     os.makedirs(folder + '/DEBIAN')
