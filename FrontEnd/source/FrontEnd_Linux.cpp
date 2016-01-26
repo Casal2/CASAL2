@@ -40,11 +40,11 @@ string test_dll  = "casal2_test.so";
 
 std::string getexepath()
 {
-  char result[ PATH_MAX ];
+  /*char result[ PATH_MAX ];
   ssize_t count = readlink( "/proc/self/exe", result, PATH_MAX );
   string temp = std::string( result, (count > 0) ? count : 0 );
-  temp = temp.substr(0, temp.find_last_of("/")) + "/";
-  return temp;
+  temp = temp.substr(0, temp.find_last_of("/")) + "/"; */
+  return "/usr/local/lib/";
 }
 
 /**
