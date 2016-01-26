@@ -84,7 +84,6 @@ void Categories::Validate() {
       category_age_length_labels_[names_[i]] = age_length_labels_[i];
 
     // expand the names.
-    cout << "Working with name: " << names_[i] << endl;
     vector<string> category_chunks;
     boost::split(category_chunks, names_[i], boost::is_any_of("."), boost::token_compress_on);
     if (category_chunks.size() != category_chunks.size())
