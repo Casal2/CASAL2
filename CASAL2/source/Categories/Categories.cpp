@@ -76,13 +76,19 @@ void Categories::Validate() {
     LOG_ERROR_P(PARAM_AGE_LENGTHS) << " number defined (" << age_length_labels_.size() << ") must be the same as the number " <<
         " of categories defined (" << names_.size() << ")";
 
+  vector<string> format_chunks;
+  boost::split(format_chunks, format_, boost::is_any_of("."), boost::token_compress_on);
   // build our categories vector
   for (unsigned i = 0; i < names_.size(); ++i) {
     if (age_length_labels_.size() > i)
       category_age_length_labels_[names_[i]] = age_length_labels_[i];
 
-    // TODO: Verify the name matches the format string properly
-    // TODO: Expand the names
+    // expand the names.
+    cout << "Working with name: " << names_[i] << endl;
+    vector<string> category_chunks;
+    boost::split(category_chunks, names_[i], boost::is_any_of("."), boost::token_compress_on);
+    if (category_chunks.size() != category_chunks.size())
+      LOG_ERROR_P(PARAM_NAMES) << "Category " << names_[i] << " does not match the format: " << format_;
 
     // Create a new CategoryInfo object
     CategoryInfo new_category_info;
