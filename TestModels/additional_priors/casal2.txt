@@ -111,9 +111,9 @@ type process
 log_scale False
 multiplier 10
 
+
 @additional_prior x
 type beta
-method difference
 mu 0.3
 sigma 0.05
 a 0
@@ -121,7 +121,7 @@ b 10
 
 @assert obj
 type objective_function
-value 13.81289313550076
+value -2462.7
 
 @report obj
 type objective_function
