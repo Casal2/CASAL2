@@ -238,7 +238,7 @@ def start():
     if Globals.operating_system_ == 'windows':
       return Globals.PrintError('Building linux .deb under Windows is not supported')
     deb_builder = DebBuilder()
-    if not deb_builder.start():
+    if not deb_builder.start(build_parameters):
       return False    
   
   return True
