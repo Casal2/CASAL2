@@ -53,6 +53,7 @@ int main(int argc, char * argv[]) {
 
     utilities::CommandLineParser parser;
     parser.Parse(argc, argv, parameters);
+    model.global_configuration().set_run_parameters(parameters);
 
     RunMode::Type run_mode = parameters.run_mode_;
 
