@@ -37,6 +37,7 @@ struct ChainLink {
   Double          prior_;
   Double          penalty_;
   Double          additional_priors_;
+  Double          jacobians_;
   Double          acceptance_rate_;
   Double          acceptance_rate_since_adapt_;
   Double          step_size_;

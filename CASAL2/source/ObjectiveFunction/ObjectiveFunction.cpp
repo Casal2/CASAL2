@@ -15,6 +15,7 @@
 
 #include "AdditionalPriors/Manager.h"
 #include "Estimates/Manager.h"
+#include "EstimateTransformations/Manager.h"
 #include "Model/Model.h"
 #include "Observations/Manager.h"
 #include "Penalties/Manager.h"
@@ -135,6 +136,18 @@ void ObjectiveFunction::CalculateScore() {
     score_list_.push_back(new_score);
     score_ += new_score.score_;
     additional_priors_ += AS_DOUBLE(new_score.score_);
+  }
+
+  auto jacobians = model_->managers().estimate_transformation()->objects();
+  jacobians_ = 0.0;
+  for (auto jacobian : jacobians) {
+    objective::Score new_score;
+    new_score.label_ = PARAM_JACOBIAN + string("->") = jacobian->label();
+    new_score.score_ = jacobian->GetScore();
+
+    score_list_.push_back(new_score);
+    score_ += new_score.score_;
+    jacobians_ += AS_DOUBLE(new_score.score_);
   }
 }
 

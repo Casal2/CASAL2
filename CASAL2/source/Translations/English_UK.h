@@ -280,6 +280,7 @@
 #define PARAM_INVERSE                             "inverse"
 #define PARAM_INVERSE_LOGISTIC                    "inverse_logistic"
 #define PARAM_ITERATIVE                           "iterative"
+#define PARAM_JACOBIAN                            "jacobian"
 #define PARAM_K                                   "k"
 #define PARAM_KGS                                 "kgs"
 #define PARAM_KEEP                                "keep"

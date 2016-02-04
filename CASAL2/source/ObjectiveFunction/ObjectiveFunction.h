@@ -63,6 +63,7 @@ public:
   Double                          priors() const { return priors_; }
   Double                          likelihoods() const { return likelihoods_; }
   Double                          additional_priors() const { return additional_priors_; }
+  Double                          jacobians() const { return jacobians_; }
 
 private:
   // methods
@@ -75,6 +76,7 @@ private:
   Double                      priors_       = 0.0;
   Double                      likelihoods_  = 0.0;
   Double                      additional_priors_ = 0.0;
+  Double                      jacobians_ = 0.0;
   vector<objective::Score>    score_list_;
 };
 

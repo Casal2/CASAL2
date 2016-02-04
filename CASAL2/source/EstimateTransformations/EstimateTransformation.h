@@ -32,6 +32,7 @@ public:
   virtual void                Transform() = 0;
   virtual void                Restore() = 0;
   virtual std::set<string>    GetTargetEstimates() = 0;
+  virtual Double              GetScore() { return 0.0; };
 
 protected:
   // methods
