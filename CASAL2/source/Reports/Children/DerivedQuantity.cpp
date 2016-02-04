@@ -16,9 +16,10 @@ namespace reports {
  *
  */
 DerivedQuantity::DerivedQuantity(Model* model) : Report(model) {
-  run_mode_    = (RunMode::Type)(RunMode::kBasic | RunMode::kEstimation | RunMode::kProjection);
-  model_state_ = State::kFinalise;
+  run_mode_    = (RunMode::Type)(RunMode::kBasic | RunMode::kProjection);
+  model_state_ = State::kIterationComplete;
 }
+
 
 /**
  *
@@ -59,8 +60,8 @@ void DerivedQuantity::DoExecute() {
 
   auto derived_quantities = manager.objects();
 
-  cache_ << "*" << label_ << " " << "("<< type_ << ")"<<"\n";
 
+  cache_ << "*" << label_ << " " << "("<< type_ << ")"<<"\n";
   unsigned count = 1;
   for (auto dq : derived_quantities) {
     cache_ << dq->label() << " " << REPORT_R_LIST << "\n";
@@ -83,6 +84,41 @@ void DerivedQuantity::DoExecute() {
     count++;
   }
 
+  ready_for_writing_ = true;
+}
+
+
+/**
+ * Execute Tabular report
+ */
+
+void DerivedQuantity::DoExecuteTabular() {
+	skip_tags_ = true;
+	derivedquantities::Manager& manager = *model_->managers().derived_quantity();
+	auto derived_quantities = manager.objects();
+
+	for (auto dq : derived_quantities) {
+	  const map<unsigned, Double> values = dq->values();
+	    string derived_type = dq->type();
+		   if (first_run_) {
+			   cache_ << "*derived_quant (derived_quantity)\n";
+			   cache_ << "values " << REPORT_R_DATAFRAME << "\n";
+			   for (auto iter = values.begin(); iter != values.end(); ++iter)
+			   cache_ << derived_type << "_" << iter->first << " ";
+			   first_run_ = false;
+		   } else {
+		   for (auto iter = values.begin(); iter != values.end(); ++iter)
+	     cache_ << AS_DOUBLE(iter->second) << " ";
+	   }
+    }
+    ready_for_writing_ = true;
+}
+
+/**
+ *
+ */
+void DerivedQuantity::DoFinaliseTabular() {
+  cache_ << CONFIG_END_REPORT << "\n";
   ready_for_writing_ = true;
 }
 
