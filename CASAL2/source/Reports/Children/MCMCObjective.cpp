@@ -64,7 +64,7 @@ void MCMCObjective::DoExecute() {
        cache_ << covariance(i, covariance.size2() - 1) << "\n";
     }
     cache_ << "samples:\n";
-    cache_ << "sample objective_score prior likelihood penalties step_size acceptance_rate acceptance_rate_since_adapt\n";
+    cache_ << "sample objective_score prior likelihood penalties additional_priors jacobians step_size acceptance_rate acceptance_rate_since_adapt\n";
   }
 
   auto chain = mcmc_->chain();
@@ -74,6 +74,8 @@ void MCMCObjective::DoExecute() {
         << chain[element].prior_ << " "
         << chain[element].likelihood_ << " "
         << chain[element].penalty_ << " "
+        << chain[element].additional_priors_ << " "
+        << chain[element].jacobians_ << " "
         << chain[element].step_size_ << " "
         << chain[element].acceptance_rate_ << " "
         << chain[element].acceptance_rate_since_adapt_ << "\n";

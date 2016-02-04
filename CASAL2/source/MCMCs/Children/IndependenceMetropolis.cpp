@@ -387,6 +387,7 @@ void IndependenceMetropolis::Execute() {
   Double prior = AS_DOUBLE(obj_function.priors());
   Double likelihood = AS_DOUBLE(obj_function.likelihoods());
   Double additional_prior = AS_DOUBLE(obj_function.additional_priors());
+  Double jacobian = AS_DOUBLE(obj_function.jacobians());
 
   /**
    * Store first location
@@ -399,6 +400,7 @@ void IndependenceMetropolis::Execute() {
     new_link.prior_                         = AS_DOUBLE(obj_function.priors());
     new_link.likelihood_                    = AS_DOUBLE(obj_function.likelihoods());
     new_link.additional_priors_             = AS_DOUBLE(obj_function.additional_priors());
+    new_link.jacobians_                     = AS_DOUBLE(obj_function.jacobians());
     new_link.acceptance_rate_               = 0;
     new_link.acceptance_rate_since_adapt_   = 0;
     new_link.step_size_                     = step_size_;
@@ -431,6 +433,7 @@ void IndependenceMetropolis::Execute() {
     Double previous_likelihood = likelihood;
     Double previous_penalty = penalty;
     Double previous_additional_prior = additional_prior;
+    Double previous_jacobian = jacobian;
 
 
     score = AS_DOUBLE(obj_function.score());
@@ -438,6 +441,7 @@ void IndependenceMetropolis::Execute() {
     prior = AS_DOUBLE(obj_function.priors());
     likelihood = AS_DOUBLE(obj_function.likelihoods());
     additional_prior = AS_DOUBLE(obj_function.additional_priors());
+    jacobian = AS_DOUBLE(obj_function.jacobians());
 
     Double ratio = 1.0;
 
@@ -465,6 +469,7 @@ void IndependenceMetropolis::Execute() {
         new_link.prior_ = obj_function.priors();
         new_link.likelihood_ = obj_function.likelihoods();
         new_link.additional_priors_ = obj_function.additional_priors();
+        new_link.jacobians_ = obj_function.jacobians();
         new_link.acceptance_rate_ = Double(successful_jumps_) / Double(jumps_);
         new_link.acceptance_rate_since_adapt_ = Double(successful_jumps_since_adapt_) / Double(jumps_since_adapt_);
         new_link.step_size_ = step_size_;
@@ -481,6 +486,7 @@ void IndependenceMetropolis::Execute() {
       penalty = previous_penalty;
       likelihood = previous_likelihood;
       additional_prior = previous_additional_prior;
+      jacobian = previous_jacobian;
       candidates_ = original_candidates;
 
       if (jumps_ % keep_ == 0) {
@@ -492,6 +498,7 @@ void IndependenceMetropolis::Execute() {
         new_link.prior_ = previous_prior;
         new_link.likelihood_ = previous_likelihood;
         new_link.additional_priors_ = previous_additional_prior;
+        new_link.jacobians_ = previous_jacobian;
         new_link.acceptance_rate_ = Double(successful_jumps_) / Double(jumps_);
         new_link.acceptance_rate_since_adapt_ = Double(successful_jumps_since_adapt_) / Double(jumps_since_adapt_);
         new_link.step_size_ = step_size_;
