@@ -32,7 +32,7 @@ Process::Process(Model* model) : Report(model) {
   run_mode_    = (RunMode::Type)(RunMode::kBasic | RunMode::kProjection);
   model_state_ = State::kFinalise;
 
-  parameters_.Bind<string>(PARAM_PROCESS, &process_label_, "Process to report on", "", "");
+  parameters_.Bind<string>(PARAM_PROCESS, &process_label_, "Process label that is reported", "", "");
 }
 
 /**

@@ -176,8 +176,8 @@ void IndependenceMetropolis::GenerateRandomStart() {
     FillMultivariateNormal(start_);
 
     for (unsigned i = 0; i < estimates.size(); ++i) {
-      if (estimates[i]->lower_bound() > candidates_[i] || estimates[i]->lower_bound() < candidates_[i]) {
-        candidates_pass = false;
+      if (estimates[i]->lower_bound() > candidates_[i] || estimates[i]->upper_bound() < candidates_[i]) {
+    	  candidates_pass = false;
         break;
       }
     }
