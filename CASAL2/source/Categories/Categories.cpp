@@ -68,8 +68,8 @@ void Categories::Validate() {
   // Parameter: Names
   // build the default years
   vector<unsigned> default_years;
-  for (unsigned i = model_->start_year(); i <= model_->final_year(); ++i)
-    default_years.push_back(i);
+  for (auto year : model_->years())
+    default_years.push_back(year);
 
   // get the age sizes
   if (age_length_labels_.size() > 0 && age_length_labels_.size() != names_.size())

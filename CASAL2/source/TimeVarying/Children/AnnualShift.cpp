@@ -22,11 +22,10 @@ namespace timevarying {
  * Default constructor
  */
 AnnualShift::AnnualShift(Model* model) : TimeVarying(model) {
-  parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "", "");
+  parameters_.Bind<Double>(PARAM_VALUES, &values_, "", "");
   parameters_.Bind<Double>(PARAM_A, &a_, "", "");
   parameters_.Bind<Double>(PARAM_B, &b_, "", "");
   parameters_.Bind<Double>(PARAM_C, &c_, "", "");
-  parameters_.Bind<Double>(PARAM_D, &d_, "", "");
   parameters_.Bind<unsigned>(PARAM_SCALING_YEARS, &scaling_years_, "" ,"", true);
 
 }

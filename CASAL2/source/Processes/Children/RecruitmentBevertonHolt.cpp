@@ -44,7 +44,7 @@ RecruitmentBevertonHolt::RecruitmentBevertonHolt(Model* model)
   parameters_.Bind<string>(PARAM_B0, &phase_b0_label_, "B0 Label", "", "");
   parameters_.Bind<Double>(PARAM_YCS_VALUES, &ycs_values_, "YCS Values", "");
   parameters_.Bind<bool>(PARAM_PRIOR_YCS_VALUES, &prior_ycs_values_, "Priors for year class strength on ycs values (not standardised ycs values)", "",true);
-  parameters_.Bind<unsigned>(PARAM_STANDARDISE_YCS_YEARS, &standardise_ycs_, "", "", true);
+  parameters_.Bind<unsigned>(PARAM_STANDARDISE_YCS_YEARS, &standardise_ycs_, "Years that are included for year class standardisation", "", true);
 
   RegisterAsEstimable(PARAM_R0, &r0_);
   RegisterAsEstimable(PARAM_STEEPNESS, &steepness_);
@@ -226,7 +226,13 @@ void RecruitmentBevertonHolt::DoExecute() {
      * The model is not in an initialisation phase
      */
     LOG_FINEST() << "standardise_ycs_.size(): " << standardise_ycs_.size() << "; model_->current_year(): " << model_->current_year() << "; model_->start_year(): " << model_->start_year();
-    Double ycs = stand_ycs_values_[model_->current_year() - model_->start_year()];
+    Double ycs;
+    // If projection mode ycs values get replaced with projected value from @project block
+    if (RunMode::kProjection && model_->current_year() > model_->final_year())
+      ycs = ycs_values_[model_->current_year() - model_->start_year()];
+    else
+      ycs = stand_ycs_values_[model_->current_year() - model_->start_year()];
+
     b0_ = derived_quantity_->GetLastValueFromInitialisation(phase_b0_);
     unsigned ssb_year = model_->current_year() - ssb_offset_;
     Double SSB = derived_quantity_->GetValue(ssb_year);
@@ -234,6 +240,7 @@ void RecruitmentBevertonHolt::DoExecute() {
     Double SR = ssb_ratio / (1.0 - ((5.0 * steepness_ - 1.0) / (4.0 * steepness_) ) * (1.0 - ssb_ratio));
     Double true_ycs  = ycs * SR;
     amount_per = r0_ * true_ycs;
+    LOG_MEDIUM() << " R0 = " << r0_;
 
     true_ycs_values_.push_back(true_ycs);
     recruitment_values_.push_back(amount_per);

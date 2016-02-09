@@ -17,6 +17,7 @@
 #include "TimeVarying/Children/AnnualShift.h"
 #include "TimeVarying/Children/Constant.h"
 #include "TimeVarying/Children/Exogenous.h"
+#include "TimeVarying/Children/RandomWalk.h"
 #include "TimeVarying/Manager.h"
 
 // namespaces
@@ -41,6 +42,8 @@ TimeVarying* Factory::Create(Model* model, const string& object_type, const stri
       result = new Constant(model);
     else if (sub_type == PARAM_EXOGENOUS)
       result = new Exogenous(model);
+    else if (sub_type == PARAM_RANDOMWALK)
+      result = new RandomWalk(model);
 
     if (result)
       model->managers().time_varying()->AddObject(result);
