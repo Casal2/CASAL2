@@ -14,6 +14,7 @@
 #include "Model/Model.h"
 #include "Model/Managers.h"
 #include "Projects/Children/Constant.h"
+#include "Projects/Children/LogNormal.h"
 #include "Projects/Manager.h"
 
 // namespaces
@@ -34,6 +35,8 @@ Project* Factory::Create(Model* model, const string& object_type, const string& 
   if (object_type == PARAM_PROJECTS || object_type == PARAM_PROJECT) {
     if (sub_type == PARAM_CONSTANT)
       result = new Constant(model);
+    else if (sub_type == PARAM_LOGNORMAL)
+      result = new LogNormal(model);
 
     if (result)
       model->managers().project()->AddObject(result);

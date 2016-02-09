@@ -66,6 +66,8 @@ protected:
   map<unsigned, Double>*      estimable_map_ = 0;
   vector<Double>*             estimable_vector_ = 0;
   Double*                     estimable_ = 0;
+private:
+  bool                        ycs_value_check_;
 };
 
 /**

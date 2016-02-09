@@ -39,7 +39,6 @@ private:
   Double                      a_;
   Double                      b_;
   Double                      c_;
-  Double                      d_;
   vector<unsigned>            scaling_years_;
   map<unsigned, Double>       values_by_year_;
 };

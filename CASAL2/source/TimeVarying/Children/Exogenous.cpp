@@ -50,8 +50,8 @@ void Exogenous::DoValidate() {
 void Exogenous::DoBuild() {
   string error = "";
   values_by_year_ = utilities::Map::create(years_, exogenous_);
-  Double* param = model_->objects().GetEstimable(parameter_, error);
-  LOG_FINEST() << "Parameter value = " << (*param);
+  Double* value = model_->objects().GetEstimable(parameter_, error);
+  LOG_FINEST() << "Parameter value = " << (*value);
   Double total = 0.0;
 
   for (Double value : exogenous_)
@@ -60,7 +60,7 @@ void Exogenous::DoBuild() {
   Double mean = total / exogenous_.size();
 
   for (unsigned year : years_)
-    parameter_by_year_[year] = (*param) + (a_ * (values_by_year_[year] - mean));
+    parameter_by_year_[year] = (*value) + (a_ * (values_by_year_[year] - mean));
 }
 
 /**
