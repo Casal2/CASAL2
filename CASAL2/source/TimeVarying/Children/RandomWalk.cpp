@@ -28,7 +28,8 @@ RandomWalk::RandomWalk(Model* model) : TimeVarying(model) {
   parameters_.Bind<Double>(PARAM_SIGMA, &sigma_, "Standard deviation", "", 1);
   parameters_.Bind<string>(PARAM_DISTRIBUTION, &distribution_, "distribution", "", PARAM_NORMAL);
 
-
+  RegisterAsEstimable(PARAM_MEAN, &mu_);
+  RegisterAsEstimable(PARAM_SIGMA, &sigma_);
 }
 
 /**
