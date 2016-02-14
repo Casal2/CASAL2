@@ -62,6 +62,7 @@ int main(int argc, char * argv[]) {
      */
     switch (run_mode) {
     case RunMode::kInvalid:
+    case RunMode::kUnitTest:
       LOG_ERROR() << "Invalid run mode specified.";
       break;
 

@@ -38,6 +38,8 @@ public:
   virtual                     ~Manager();
   void                        Validate() override final;
   void                        Validate(Model* model);
+  void                        Build() override final;
+  void                        Build(Model* model);
   unsigned                    GetIsEstimatedCount();
   vector<Estimate*>           GetIsEstimated();
   vector<Estimate*>           GetInObjectiveFunction();

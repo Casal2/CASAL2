@@ -11,6 +11,8 @@
 // headers
 #include "MCMC.h"
 
+#include "ConfigurationLoader/MPD.h"
+#include "GlobalConfiguration/GlobalConfiguration.h"
 #include "Model/Managers.h"
 #include "Model/Model.h"
 #include "Reports/Manager.h"
@@ -116,4 +118,16 @@ void MCMC::Build() {
   DoBuild();
 }
 
+/**
+ *
+ */
+void MCMC::Execute() {
+  if (model_->global_configuration().create_mpd_file()) {
+    configuration::MPD mpd_loader(model_);
+    if (!mpd_loader.LoadFile("mpd.out"))
+      LOG_FATAL() << "Failed to load MPD Data from mpd.out file";
+  }
+
+  DoExecute();
+}
 } /* namespace niwa */

@@ -22,7 +22,8 @@ enum Type {
   kProfiling    = 128,
   kProjection   = 256,
   kQuery        = 512,
-  kTesting      = 4096
+  kTesting      = 4096,
+  kUnitTest     = 8192
 };
 }
 

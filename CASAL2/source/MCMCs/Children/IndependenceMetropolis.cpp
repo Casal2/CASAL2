@@ -348,7 +348,7 @@ void IndependenceMetropolis::DoBuild() {
 /**
  * Execute the MCMC system and build our MCMC chain
  */
-void IndependenceMetropolis::Execute() {
+void IndependenceMetropolis::DoExecute() {
   candidates_.resize(estimate_count_);
   is_enabled_estimate_.resize(estimate_count_);
 

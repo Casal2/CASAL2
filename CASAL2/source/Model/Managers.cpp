@@ -140,7 +140,7 @@ void Managers::Build() {
   assert_->Build();
   catchability_->Build();
   derived_quantity_->Build();
-  estimate_->Build();
+  estimate_->Build(model_);
   estimate_transformation_->Build();
   initialisation_phase_->Build(model_);
   length_weight_->Build();

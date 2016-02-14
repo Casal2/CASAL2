@@ -27,6 +27,8 @@
 #endif
 #endif
 
+#include "Minimisers/Children/Dummy.h"
+
 #ifndef USE_AUTODIFF
 #include "Minimisers/Children/DESolver.h"
 #include "Minimisers/Children/DLib.h"
@@ -49,6 +51,7 @@ Minimiser* Factory::Create(Model* model, const string& object_type, const string
   Minimiser* result = nullptr;
 
   if (object_type == PARAM_MINIMIZER) {
+#ifdef USE_AUTODIFF
 #ifdef USE_BETADIFF
     if (sub_type == PARAM_BETADIFF) {
       result = new BetaDiff(model);
@@ -62,6 +65,9 @@ Minimiser* Factory::Create(Model* model, const string& object_type, const string
       result = new CPPAD(model);
     }
 #endif
+    else if (sub_type == PARAM_DE_SOLVER || sub_type == PARAM_DLIB || sub_type == PARAM_GAMMADIFF)
+      result = new Dummy(model);
+#endif
 
 #ifndef USE_AUTODIFF
     if (sub_type == PARAM_DE_SOLVER)
@@ -70,10 +76,10 @@ Minimiser* Factory::Create(Model* model, const string& object_type, const string
       result = new DLib(model);
     else if (sub_type == PARAM_GAMMADIFF)
       result = new GammaDiff(model);
+    else if (sub_type == PARAM_BETADIFF || sub_type == PARAM_ADOLC || sub_type == PARAM_CPPAD)
+      result = new Dummy(model);
 #endif
 
-    if (!result)
-      LOG_ERROR() << "The minimiser " << object_type << "." << sub_type << " is not supported in the current configuration";
     if (result)
       model->managers().minimiser()->AddObject(result);
   }

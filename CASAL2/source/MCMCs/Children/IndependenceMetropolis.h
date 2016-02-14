@@ -29,7 +29,7 @@ public:
   // methods
   IndependenceMetropolis(Model* model);
   virtual                     ~IndependenceMetropolis() = default;
-  void                        Execute() override final;
+  void                        DoExecute() override final;
 
 protected:
   // methods
