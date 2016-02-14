@@ -142,7 +142,7 @@ void ObjectiveFunction::CalculateScore() {
   jacobians_ = 0.0;
   for (auto jacobian : jacobians) {
     objective::Score new_score;
-    new_score.label_ = PARAM_JACOBIAN + string("->") = jacobian->label();
+    new_score.label_ = PARAM_JACOBIAN + string("->") + jacobian->label();
     new_score.score_ = jacobian->GetScore();
 
     score_list_.push_back(new_score);

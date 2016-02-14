@@ -67,6 +67,7 @@ public:
   string                object_to_query() const { return options_.query_object_; }
   bool                  skip_loading_config_file() const { return skip_loading_config_file_; }
   void                  flag_skip_config_file() { skip_loading_config_file_ = true; }
+  bool                  create_mpd_file() const { return options_.create_mpd_file_; }
 
 private:
   // Members

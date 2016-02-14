@@ -57,7 +57,7 @@ public:
   void                        Validate();
   void                        Build();
   void                        Reset() { };
-  virtual void                Execute() = 0;
+  void                        Execute();
 
   // accessors/mutators
   vector<mcmc::ChainLink>&    chain() { return chain_; }
@@ -69,6 +69,7 @@ protected:
   // pure virtual methods
   virtual void                DoValidate() = 0;
   virtual void                DoBuild() = 0;
+  virtual void                DoExecute() = 0;
 
   // members
   Model*                      model_;

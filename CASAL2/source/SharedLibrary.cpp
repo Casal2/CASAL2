@@ -130,14 +130,18 @@ int PreParseConfigFiles(niwa::utilities::RunParameters& options) {
         }
         if (active)
           active_minimiser = current_type;
-      }
+      } else if (file_line.line_.substr(0, 1) == "@")
+        in_minimiser_block = false;
     }
   }
 
   if (minimiser_count == 1)
     active_minimiser = current_type;
+  else if (minimiser_count > 1)
+    LOG_FATAL() << "More than once @minimiser has been specified in the configuration file. None have been specified as active";
 
   options.minimiser_ = active_minimiser;
+  cout << "Active Minimiser: " << active_minimiser << endl;
   return 0;
 }
 
@@ -164,6 +168,7 @@ int Run(int argc, char * argv[], niwa::utilities::RunParameters& options) {
      */
     switch (run_mode) {
     case RunMode::kInvalid:
+    case RunMode::kUnitTest:
       LOG_ERROR() << "Invalid run mode specified.";
       break;
 

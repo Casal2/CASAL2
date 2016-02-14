@@ -19,6 +19,8 @@
 #include "GlobalConfiguration/GlobalConfiguration.h"
 #include "Model/Model.h"
 #include "Model/Managers.h"
+#include "Reports/Manager.h"
+#include "Reports/Children/MPD.h"
 #include "Utilities/DoubleCompare.h"
 
 // Namespaces
@@ -108,6 +110,38 @@ void Manager::Validate(Model* model) {
       if (!match)
         LOG_ERROR() << "The estimable " << label << " was defined in the estimable value file, but has not been defined as an @estimate";
     }
+  }
+}
+
+/**
+ *
+ */
+void Manager::Build() {
+  LOG_CODE_ERROR() << "This method is not supported";
+}
+
+/**
+ * Build our estimates
+ */
+void Manager::Build(Model* model) {
+  for (auto estimate : objects_) {
+    estimate->Build();
+  }
+
+  if (model->global_configuration().create_mpd_file()) {
+    model->managers().report()->Pause();
+
+    reports::MPD* report = new reports::MPD(model);
+    report->set_block_type(PARAM_REPORT);
+    report->set_defined_file_name(__FILE__);
+    report->set_defined_line_number(__LINE__);
+    report->parameters().Add(PARAM_LABEL, "mpd", __FILE__, __LINE__);
+    report->parameters().Add(PARAM_TYPE, PARAM_MPD, __FILE__, __LINE__);
+    report->parameters().Add(PARAM_FILE_NAME, "mpd.out", __FILE__, __LINE__);
+    report->Validate();
+    model->managers().report()->AddObject(report);
+
+    model->managers().report()->Resume();
   }
 }
 
