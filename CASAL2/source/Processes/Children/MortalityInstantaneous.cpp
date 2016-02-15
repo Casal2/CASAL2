@@ -388,6 +388,19 @@ void MortalityInstantaneous::DoExecute() {
       }
       m_offset++;
     }
+
+    // Report catches and exploitation rates for fisheries for each year and timestep
+    StoreForReport("year.timestep", utilities::ToInline<unsigned,string>(model_->current_year()) + "." + utilities::ToInline<unsigned,string>(time_step_index));
+    for (auto fishery_category : fishery_categories_) {
+      StoreForReport(fishery_category.fishery_label_ + "_U", fishery_exploitation[fishery_category.fishery_label_]);
+      if (fishery_exploitation[fishery_category.fishery_label_] > 0)
+        StoreForReport(fishery_category.fishery_label_ + "_Catch",fisheries_[fishery_category.fishery_label_].catches_[model_->current_year()]);
+      else
+        StoreForReport(fishery_category.fishery_label_ + "_Catch", 0);
+
+    }
+
+
   } // if (model_->state() != State::kInitialise && std::find(years_.begin(), years_.end(), model_->current_year()) != years_.end()) {
 
   /**

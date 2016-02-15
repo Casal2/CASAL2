@@ -1,7 +1,7 @@
 \section{\I{The population section}\label{sec:population-section}}
 
 \subsection{Introduction}
-The population section\index{Population section} specifies the model structure, population dynamics, and other associated parameters. It describes the model structure (population structure), defines the population  (e.g., recruitment, migration, and mortality), selectivities, and model parameters.
+The population section\index{Population section} specifies the model structure, population dynamics, and other associated parameters. It describes the model structure (population structure), defines the population processes (e.g., recruitment, migration, and mortality), selectivities, and model parameters.
 
 The population section consists of several components, including;
 \begin{itemize}
@@ -18,20 +18,22 @@ The population section consists of several components, including;
 
 \subsection{\I{Population structure}}
 
-The basic structure of a \CNAME population model is defined in terms of an annual cycle, time steps, states, and transitions.
+The basic structure of a \CNAME\ population model is defined in terms of an annual cycle, time steps, states, and transitions.
 
-The annual cycle defines what processes happen in each model year, and in what sequence. (In line with the New Zealand fisheries management framework, \CNAME runs on an annual cycle rather than, for example, a 6-monthly cycle.) 
+The annual cycle defines what processes happen in each model year, and in what sequence. (In line with the New Zealand fisheries management framework, \CNAME\ runs on an annual cycle rather than, for example, a 6-monthly cycle.) 
 
-Each year is split into one or more time steps, with at least one process occurring in each time step. Each time step can be thought of as representing a particular part of the calendar year, or you can just treat them as an abstract sequence of events.\hlc[new]{In every time step, there exists a mortality block, this is a block where individuals are removed from the partition. If there are no mortality processes then the mortality block is empty (nothing happens) and occurs at the end of a time step}.
+Each year is split into one or more time steps, with at least one process occurring in each time step. Each time step can be thought of as representing a particular part of the calendar year, or you can just treat them as an abstract sequence of events.\hlc[new]{In every time step, there exists a mortality block, this is a block where individuals are removed from the partition. If there are no mortality processes then the mortality block is empty (nothing happens) and occurs at the end of a time step}. maybe the user doesn't need to know this more of a code base statement
 
 The state is the current status of the population, at any given time. The state can change one or more times in every time step of every year. The state object must contain sufficient information to figure out the future course of the fishery (given a model and a complete set of parameters).
 
 There are a number of possible changes in the state, which are called transitions. These include processes such as recruitment, natural mortality, fishing mortality, disease mortality, ageing, migration, tagging events, and semelparous mortality.
 
-The division of the year into an arbitrary number of time steps allows the user to specify the exact order in which processes and observations occur. The user needs to specify the time step in which each process occurs. If more than one process occurs in the same time step, there is a default order in which they occur (see Section 5.3). If you don’t want things to happen in this default order, then split the processes into different time steps.
+The division of the year into an arbitrary number of time steps allows the user to specify the exact order in which processes and observations occur. The user needs to specify the time step in which each process occurs. If more than one process occurs in the same time step, they will be applied in the order specified in the \command{time\_step} block.
+
+there is a default order in which they occur (see Section 5.3). If you don’t want things to happen in this default order, then split the processes into different time steps.
 
 
-The key element of the state is the partition. This is a broadly applicable concept that can be used to describe many different kinds of fish model. The partition is simply a breakdown of the total number of fish in the current population into different kinds of fish. (Note that the partition records numbers of fish, not biomass.) The fish are categorised by various characters. The permissible characters are: length class or age class, sex, maturity, area, stock, tag, and growth-path. The user chooses:
+The key element of the state is the partition. This is a broadly applicable concept that can be used to describe many different kinds of population model. The partition is simply a breakdown of the total number of fish in the current population into different kinds of fish. (Note that the partition records numbers of fish, not biomass.) The fish are categorised by various characters. The permissible characters are: length class or age class, sex, maturity, area, stock, tag, and growth-path. The user chooses:
 
 \begin{itemize}
 \item	whether the partition is subdivided by length class or age class (not both)

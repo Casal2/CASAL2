@@ -150,7 +150,7 @@ void Managers::Build() {
   penalty_->Build();
   process_->Build();
   profile_->Build();
-  project_->Build();
+  project_->Build(model_);
   selectivity_->Build();
   simulate_->Build();
   time_varying_->Build();

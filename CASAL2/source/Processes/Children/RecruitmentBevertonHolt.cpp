@@ -240,7 +240,6 @@ void RecruitmentBevertonHolt::DoExecute() {
     Double SR = ssb_ratio / (1.0 - ((5.0 * steepness_ - 1.0) / (4.0 * steepness_) ) * (1.0 - ssb_ratio));
     Double true_ycs  = ycs * SR;
     amount_per = r0_ * true_ycs;
-    LOG_MEDIUM() << " R0 = " << r0_;
 
     true_ycs_values_.push_back(true_ycs);
     recruitment_values_.push_back(amount_per);

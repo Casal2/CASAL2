@@ -8,8 +8,8 @@
  *
  * @section DESCRIPTION
  *
- * This projection type will take a mean and cv as input and set the specified parameter
- * as a random draw from a lognormal distribution with the specified mean and cv.
+ * This projection type will take a mean, sigma, rho and multiplier as input and set the specified parameter
+ * as a random draw from a gaussian AR(1) process
  */
 #ifndef PROJECTS_LOGNORMAL_H_
 #define PROJECTS_LOGNORMAL_H_
@@ -35,9 +35,12 @@ public:
 
 private:
   // members
-  Double                      mean_;
-  Double                      cv_;
+  Double                      mean_ = 1.0;
+  Double                      sigma_;
+  Double                      rho_ = 0.0;
+  Double                      multiplier_ = 1.0;
   Double                      value_;
+  Double                      last_value_;
 };
 
 } /* namespace projects */

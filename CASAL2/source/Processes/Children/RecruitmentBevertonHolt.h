@@ -38,7 +38,7 @@ public:
   void                        DoExecute() override final;
 
   //accessor
-  unsigned                    Get_ssb_offset() {return ssb_offset_;};
+  unsigned                    ssb_offset() {return ssb_offset_;};
 
 private:
   // members
