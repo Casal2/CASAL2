@@ -272,7 +272,7 @@ void Objects::ExplodeString(const string& source_parameter, string &type, string
 
    type = utilities::ToLowercase(token_list[0]);
    label      = token_list[1];
-   parameter  = token_list[2].substr(1);
+   parameter  = utilities::ToLowercase(token_list[2].substr(1));
 
    /**
     * Now check for index
@@ -285,7 +285,7 @@ void Objects::ExplodeString(const string& source_parameter, string &type, string
      token_list.push_back(*tok_iter);
 
    if (token_list.size() == 2) {
-     parameter  = token_list[0];
+     parameter  = utilities::ToLowercase(token_list[0]);
      index      = token_list[1];
    }
 }
@@ -294,7 +294,7 @@ void Objects::ExplodeString(const string& source_parameter, string &type, string
  *
  */
 void Objects::ImplodeString(const string& type, const string& label, const string& parameter, const string& index, string& target_parameter) {
-  target_parameter = util::ToLowercase(type) + "[" + label + "]." + parameter;
+  target_parameter = util::ToLowercase(type) + "[" + label + "]." + util::ToLowercase(parameter);
   if (index != "")
     target_parameter += "(" + index + ")";
 }
