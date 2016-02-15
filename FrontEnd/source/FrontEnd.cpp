@@ -8,12 +8,18 @@
  * Copyright NIWA Science �2016 - www.niwa.co.nz
  *
  */
-#ifdef __MINGW32__
-// headers
 
+// headers
 #include <iostream>
 #include <string>
+
+#ifdef __MINGW32__
 #include <windows.h>
+#else
+#include <dlfcn.h>
+#include <limits.h>
+#include <unistd.h>
+#endif
 
 #include "Utilities/RunParameters.h"
 
@@ -22,128 +28,138 @@ using std::cout;
 using std::endl;
 using std::string;
 
+#ifdef __MINGW32__
 typedef int(__cdecl *RUNTESTSPROC)(int, char**);
 typedef int(__cdecl *RUNPROC)(int, char**, niwa::utilities::RunParameters&);
 typedef int(__cdecl *PRELOADPROC)(niwa::utilities::RunParameters&);
 typedef int(__cdecl *LOADOPTIONSPROC)(int, char**, niwa::utilities::RunParameters&);
 
-const string release_dll = "casal2_release.dll";
-const string adolc_dll   = "casal2_adolc.dll";
-const string betadiff_dll = "casal2_betadiff.dll";
-const string cppad_dll = "casal2_cppad.dll";
-const string test_dll  = "casal2_test.dll";
+const string release_lib  = "casal2_release.dll";
+const string adolc_lib    = "casal2_adolc.dll";
+const string betadiff_lib = "casal2_betadiff.dll";
+const string cppad_lib    = "casal2_cppad.dll";
+const string test_lib     = "casal2_test.dll";
+#else
+typedef int(*RUNTESTSPROC)(int, char**);
+typedef int(*RUNPROC)(int, char**, niwa::utilities::RunParameters&);
+typedef int(*PRELOADPROC)(niwa::utilities::RunParameters&);
+typedef int(*LOADOPTIONSPROC)(int, char**, niwa::utilities::RunParameters&);
 
-/**
- *
- */
-int RunEstimationWithDll(int argc, char * argv[], niwa::utilities::RunParameters& options, const string& dll_name) {
-  auto library = LoadLibrary(dll_name.c_str());
-  if (library == nullptr) {
-    cout << "Error: Failed to load CASAL2 Library: " << dll_name << endl;
-    return -1;
-  }
+string release_lib  = "/usr/local/lib/casal2_release.so";
+string adolc_lib    = "/usr/local/lib/casal2_adolc.so";
+string betadiff_lib = "/usr/local/lib/casal2_betadiff.so";
+string cppad_lib    = "/usr/local/lib/casal2_cppad.so";
+string test_lib     = "/usr/local/lib/casal2_test.so";
+#endif
 
-  auto proc = (RUNPROC)GetProcAddress(library, "Run");
-  return (proc)(argc, argv, options);
+#ifdef __MINGW32__
+HMODULE LoadSharedLibrary(const string& name) {
+  return LoadLibrary(name.c_str());
 }
 
-/**
- *
- */
-int RunUnitTests(int argc, char * argv[]) {
-  auto unit_test_library = LoadLibrary(test_dll.c_str());
-  if (unit_test_library == nullptr) {
-    cout << "Error: Failed to load CASAL2 Unit Test DLL: " << test_dll << endl;
-    return -1;
-  }
-
-  auto unit_test_main_method =  (RUNTESTSPROC)GetProcAddress(unit_test_library, "RunUnitTests");
-  if (unit_test_main_method == nullptr) {
-    cout << "Error: Failed to get the main method address" << endl;
-    return -1;
-  }
-
-  (unit_test_main_method)(argc, argv);
-  FreeLibrary(unit_test_library);
-  return 0;
+FARPROC LoadLibraryFunction(HMODULE library, string method) {
+ return GetProcAddress(library, method.c_str());
 }
 
+void CloseLibrary(HMODULE library) {
+  FreeLibrary(library);
+}
+
+#else
+void* LoadSharedLibrary(const string& name)
+  return dlopen(name.c_str(), RTLD_LAZY);
+}
+
+void* LoadLibraryFunction(void* library, string method) {
+ return dlsym(library, method.c_str());
+}
+
+void CloseLibrary(void* library) {
+  dlclose(library);
+}
+#endif
+
+// Function Prototypes
+void RunBasic(int argc, char * argv[], niwa::utilities::RunParameters &options);
+void RunEstimation(int argc, char * argv[], niwa::utilities::RunParameters &options);
+void RunMCMC(int argc, char * argv[], niwa::utilities::RunParameters &options);
+void RunUnitTests(int argc, char * argv[], niwa::utilities::RunParameters &options);
+
+// Local Variables
+int return_code_ = 0;
 /**
  *
  */
-int run_for_os(int argc, char * argv[]) {
-  for (int i = 0; i < argc; ++i) {
-    if (string(argv[i]) == "--unittest") {
-      cout << "Loading unit test DLL" << endl;
-      return RunUnitTests(argc, argv);
-    }
-  }
-
-  auto release_library = LoadLibrary(release_dll.c_str());
+int main(int argc, char * argv[]) {
+  niwa::utilities::RunParameters options;
+  /*
+   * load our release library to parse the command line
+   * parameters
+   */
+  auto release_library = LoadSharedLibrary(release_lib.c_str());
   if (release_library == nullptr) {
-    cout << "Error: Failed to load CASAL2 Release Library: " << release_dll << endl;
+    cout << "Error: Failed to load CASAL2 Release Library: " << release_lib << endl;
     return -1;
   }
 
-  auto load_options = (LOADOPTIONSPROC)GetProcAddress(release_library, "LoadOptions");
+  /**
+   * Load the "LoadOptions" method and parse our options
+   */
+  auto load_options = (LOADOPTIONSPROC)LoadLibraryFunction(release_library, "LoadOptions");
   if (load_options == nullptr) {
+    CloseLibrary(release_library);
     cout << "Failed to get the LoadOptions method address" << endl;
     return -1;
   }
-  int return_code = 0;
-  niwa::utilities::RunParameters options;
 
-  return_code = (load_options)(argc, argv, options);
-  if (return_code != 0) {
-    FreeLibrary(release_library);
-    return return_code;
+  /**
+   * Run the LoadOptions method to parse the
+   * command line parameters
+   */
+  return_code_ = (load_options)(argc, argv, options);
+  cout << "Options.minimiser_: " << options.minimiser_ << endl;
+  if (return_code_ != 0) {
+    CloseLibrary(release_library);
+    return return_code_;
   }
 
+  /**
+   * Pre-Parse our configuration file so we can determine what library we want
+   * to use for the estimation
+   */
+  auto preload_method = (PRELOADPROC)LoadLibraryFunction(release_library, "PreParseConfigFiles");
+  if (preload_method == nullptr) {
+    cout << "Error: Failed to get the PreParseConfigFiles method address" << endl;
+    CloseLibrary(release_library);
+    return -1;
+  }
+  if ((preload_method)(options) != 0) {
+     cout << "FUCK" << endl;
+    return -1;
+  }
+
+
+  cout << "RunMode: " << options.run_mode_ << endl;
   switch(options.run_mode_) {
   case RunMode::kLicense:
   case RunMode::kVersion:
   case RunMode::kHelp:
   case RunMode::kBasic:
-  case RunMode::kMCMC:
   case RunMode::kSimulation:
   case RunMode::kProfiling:
   case RunMode::kProjection:
   case RunMode::kQuery:
   case RunMode::kTesting:
-    {
-      auto main_method = (RUNPROC)GetProcAddress(release_library, "Run");
-      if (main_method == nullptr) {
-        cout << "Error: Failed to get the main method address" << endl;
-        return_code = -1;
-      } else {
-        (main_method)(argc, argv, options);
-      }
-    }
+    RunBasic(argc, argv, options);
     break;
   case RunMode::kEstimation:
-    /**
-     * 1. Pre-parse configuration file using release.dll
-     * 2. Identify the active minimiser
-     * 3. Pick DLL based on minimiser
-     * 3. Default to release if no matching DLL was found
-     */
-    {
-      auto preload_method = (PRELOADPROC)GetProcAddress(release_library, "PreParseConfigFiles");
-      if (preload_method == nullptr) {
-        cout << "Error: Failed to get the preload method address" << endl;
-        return_code = -1;
-      } else {
-        (preload_method)(options);
-        if (options.minimiser_ == "cppad") {
-          return_code = RunEstimationWithDll(argc, argv, options, cppad_dll);
-        } else if (options.minimiser_ == "adolc") {
-          return_code = RunEstimationWithDll(argc, argv, options, adolc_dll);
-        } else if (options.minimiser_ == "betadiff") {
-          return_code = RunEstimationWithDll(argc, argv, options, betadiff_dll);
-        } else
-          return_code = RunEstimationWithDll(argc, argv, options, release_dll);
-      }
-    }
+    RunEstimation(argc, argv, options);
+    break;
+  case RunMode::kMCMC:
+    RunMCMC(argc, argv, options);
+    break;
+  case RunMode::kUnitTest:
+    RunUnitTests(argc, argv, options);
     break;
   default:
     cout << "ERROR: Invalid RunMode:" << options.run_mode_ << endl;
@@ -151,6 +167,101 @@ int run_for_os(int argc, char * argv[]) {
   }
 
   FreeLibrary(release_library);
-	return return_code;
+	return return_code_;
 }
-#endif /* __MINGW32__ */
+
+/**
+ * Do a basic run of our system using the release
+ * library
+ */
+void RunBasic(int argc, char * argv[], niwa::utilities::RunParameters &options) {
+  /*
+   * load our release library to parse the command line
+   * parameters
+   */
+  auto release_library = LoadSharedLibrary(release_lib.c_str());
+  if (release_library == nullptr) {
+    cout << "Error: Failed to load CASAL2 Release Library: " << release_lib << endl;
+    return_code_ = -1;
+    return;
+  }
+
+  /**
+   * Load the "LoadOptions" method and parse our options
+   */
+  auto main_method = (RUNPROC)LoadLibraryFunction(release_library, "Run");
+  if (main_method == nullptr) {
+    cout << "Error: Failed to get the main method address" << endl;
+    CloseLibrary(release_library);
+    return_code_ = -1;
+    return;
+  }
+
+  return_code_ = (main_method)(argc, argv, options);
+}
+
+/**
+ * Do An estimation run of our model
+ */
+void RunEstimation(int argc, char * argv[], niwa::utilities::RunParameters &options) {
+  cout << "Minimiser: " << options.minimiser_ << endl;
+  string library_name = release_lib;
+  if (options.minimiser_ == "cppad")
+    library_name = cppad_lib;
+  else if (options.minimiser_ == "adolc")
+    library_name = adolc_lib;
+  else if (options.minimiser_ == "betadiff")
+    library_name = betadiff_lib;
+
+  auto library = LoadSharedLibrary(library_name);
+  if (library == nullptr) {
+    cout << "Error: Failed to load CASAL2 Library: " << library_name << endl;
+    CloseLibrary(library);
+    return_code_ = -1;
+    return;
+  }
+
+  cout << "Library: " << library_name << endl;
+  auto proc = (RUNPROC)LoadLibraryFunction(library, "Run");
+  return_code_ =  (proc)(argc, argv, options);
+  CloseLibrary(library);
+}
+
+/**
+ * Run our MCMC. But first we want to run an Estimation
+ */
+void RunMCMC(int argc, char * argv[], niwa::utilities::RunParameters &options) {
+  options.create_mpd_file_ = true;
+  options.no_std_report_   = true;
+  options.run_mode_        = RunMode::kEstimation;
+  RunEstimation(argc, argv, options);
+  if (return_code_ != 0)
+    return;
+
+  options.run_mode_        = RunMode::kMCMC;
+  RunBasic(argc, argv, options);
+}
+
+/**
+ *
+ */
+void RunUnitTests(int argc, char * argv[], niwa::utilities::RunParameters &options) {
+  auto unit_test_library = LoadSharedLibrary(test_lib.c_str());
+  if (unit_test_library == nullptr) {
+    cout << "Error: Failed to load CASAL2 Unit Test Library: " << test_lib << endl;
+    return_code_ = -1;
+    return;
+  }
+
+  auto unit_test_main_method =  (RUNTESTSPROC)LoadLibraryFunction(unit_test_library, "RunUnitTests");
+  if (unit_test_main_method == nullptr) {
+    cout << "Error: Failed to get the main method address" << endl;
+    return_code_ = -1;
+    CloseLibrary(unit_test_library);
+    return;
+  }
+
+  return_code_ = (unit_test_main_method)(argc, argv);
+  CloseLibrary(unit_test_library);
+  return;
+}

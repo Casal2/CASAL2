@@ -96,52 +96,69 @@ int PreParseConfigFiles(niwa::utilities::RunParameters& options) {
     return -1;
   }
 
+  // Find the defined minimisers
   auto file_lines = config_loader.file_lines();
-  bool in_minimiser_block = false;
-  string active_minimiser = "";
-  string current_type = "";
-  vector<string> holding_vec;
-  unsigned minimiser_count = 0;
+  vector<unsigned> minimiser_indexes;
   for (unsigned i = 0; i < file_lines.size(); ++i) {
     auto file_line = file_lines[i];
     if (file_line.line_.substr(0, 10) == "@minimiser") {
-      in_minimiser_block = true;
-      ++minimiser_count;
-    } else if (in_minimiser_block) {
-      if (file_line.line_.substr(0, 4) == "type") {
-        boost::split(holding_vec, file_line.line_, boost::is_any_of(" "));
-        if (holding_vec.size() != 2) {
-          cout << "Holding Vector size was " << holding_vec.size() << " when determining Minimiser type" << endl;
-          return -1;
-        }
-        current_type = holding_vec[1];
-
-      } else if (file_line.line_.substr(0, 6) == "active") {
-        boost::split(holding_vec, file_line.line_, boost::is_any_of(" "));
-        if (holding_vec.size() != 2) {
-          cout << "Holding Vector size was " << holding_vec.size() << " when determining active value" << endl;
-          return -1;
-        }
-
-        bool active = false;
-        if (!utilities::To<bool>(holding_vec[1], active)) {
-          cout << "Error: " << holding_vec[1] << " could not be converted to a boolean to check if minimiser was active" << endl;
-          return -1;
-        }
-        if (active)
-          active_minimiser = current_type;
-      } else if (file_line.line_.substr(0, 1) == "@")
-        in_minimiser_block = false;
+      minimiser_indexes.push_back(i);
     }
   }
 
-  if (minimiser_count == 1)
-    active_minimiser = current_type;
-  else if (minimiser_count > 1)
-    LOG_FATAL() << "More than once @minimiser has been specified in the configuration file. None have been specified as active";
+  // Find the active minimisers
+  vector<unsigned> active_minimiser_indexes;
+  if (minimiser_indexes.size() == 1)
+    active_minimiser_indexes.push_back(minimiser_indexes[0]);
+  else {
+    for (unsigned index : minimiser_indexes) {
+      unsigned offset = 0;
+      string line = "";
+      while (line.substr(0,1) != "@") {
+        ++offset;
+        line = file_lines[index + offset].line_;
+        if (line.substr(0, 6) == "active") {
+          vector<string> holding_vec;
+          boost::split(holding_vec, line, boost::is_any_of(" "));
+          if (holding_vec.size() != 2) {
+            LOG_FATAL() << "Holding Vector size was " << holding_vec.size() << " when determining active value" << endl;
+            return -1;
+          }
 
-  options.minimiser_ = active_minimiser;
-  cout << "Active Minimiser: " << active_minimiser << endl;
+          bool active = false;
+          if (!utilities::To<bool>(holding_vec[1], active)) {
+            LOG_FATAL() << holding_vec[1] << " could not be converted to a boolean to check if minimiser was active" << endl;
+            return -1;
+          }
+
+          if (active)
+            active_minimiser_indexes.push_back(index);
+        }
+      }
+    }
+  }
+
+  if (active_minimiser_indexes.size() == 0) {
+    LOG_FATAL() << "No active @minimiser blocks have been found in the configuration files";
+  } else if (active_minimiser_indexes.size() > 1) {
+    LOG_FATAL() << active_minimiser_indexes.size() << " active @minimiser's were found in the configuration files";
+  }
+
+  unsigned offset = 0;
+  string line = "";
+  while (line.substr(0, 1) != "@") {
+    ++offset;
+    line = file_lines[active_minimiser_indexes[0] + offset].line_;
+    if (line.substr(0, 4) == "type") {
+      vector<string> holding_vec;
+      boost::split(holding_vec, line, boost::is_any_of(" "));
+      if (holding_vec.size() != 2) {
+        LOG_FATAL() << "Got " << holding_vec.size() << " values instead of 2 when splitting minimiser type " << line << " by space";
+      }
+      options.minimiser_ = holding_vec[1];
+    }
+  }
+
   return 0;
 }
 
