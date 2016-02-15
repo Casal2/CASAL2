@@ -43,7 +43,6 @@ void Project::Validate() {
 void Project::Build() {
   string type       = "";
   string label      = "";
-  string parameter  = "";
   string index      = "";
 
   /**
@@ -55,35 +54,35 @@ void Project::Build() {
     parameter_ = label_;
   }
 
-  model_->objects().ExplodeString(parameter_, type, label, parameter, index);
-  if (type == "" || label == "" || parameter == "") {
+  model_->objects().ExplodeString(parameter_, type, label, estimable_parameter_, index);
+  if (type == "" || label == "" || estimable_parameter_ == "") {
     LOG_ERROR_P(PARAM_PARAMETER) << ": parameter " << parameter_
         << " is not in the correct format. Correct format is object_type[label].estimable(array index)";
   }
 
   string error = "";
-  base::Object* target = model_->objects().FindObject(parameter_, error);
-  if (!target)
+  target_ = model_->objects().FindObject(parameter_, error);
+  if (!target_)
     LOG_ERROR_P(PARAM_PARAMETER) << " " << parameter_ << " is not a valid estimable in the system. Error: " << error;
 
 
-  Estimable::Type estimable_type = target->GetEstimableType(parameter);
-  switch(estimable_type) {
+  estimable_type_ = target_->GetEstimableType(estimable_parameter_);
+  switch(estimable_type_) {
     case Estimable::kInvalid:
       LOG_CODE_ERROR() << "Invalid estimable type: " << parameter_;
       break;
     case Estimable::kSingle:
       DoUpdateFunc_ = &Project::SetSingleValue;
-      estimable_    = target->GetEstimable(parameter);
+      estimable_    = target_->GetEstimable(estimable_parameter_);
       original_value_ = *estimable_;
       break;
     case Estimable::kVector:
       DoUpdateFunc_ = &Project::SetVectorValue;
-      estimable_vector_ = target->GetEstimableVector(parameter);
+      estimable_vector_ = target_->GetEstimableVector(estimable_parameter_);
       break;
     case Estimable::kUnsignedMap:
       DoUpdateFunc_ = &Project::SetMapValue;
-      estimable_map_ = target->GetEstimableUMap(parameter);
+      estimable_map_ = target_->GetEstimableUMap(estimable_parameter_);
       break;
     default:
       LOG_ERROR() << "The estimable you have provided for use in a projection: " << parameter_ << " is not a type that is supported for projection modification";

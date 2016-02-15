@@ -17,8 +17,10 @@
 #include "BaseClasses/Manager.h"
 #include "Projects/Project.h"
 
+
 // namespaces
 namespace niwa {
+class Model;
 namespace projects {
 
 /**
@@ -30,6 +32,8 @@ class Manager : public niwa::oldbase::Manager<niwa::projects::Manager, niwa::Pro
 public:
   // methods
   virtual                     ~Manager() noexcept(true);
+  void                        Build() override final;
+  void                        Build(Model* model);
   void                        Update(unsigned current_year);
 
 protected:

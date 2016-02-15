@@ -41,6 +41,9 @@ public:
   void                        Reset() { DoReset(); };
   void                        Update(unsigned current_year);
 
+  // accessors
+  string                      estimable_parameter() {return estimable_parameter_;};
+
 protected:
   // methods
   void                        RestoreOriginalValue();
@@ -66,6 +69,9 @@ protected:
   map<unsigned, Double>*      estimable_map_ = 0;
   vector<Double>*             estimable_vector_ = 0;
   Double*                     estimable_ = 0;
+  Estimable::Type             estimable_type_;
+  base::Object*               target_;
+  string                      estimable_parameter_  = "";
 private:
   bool                        ycs_value_check_;
 };

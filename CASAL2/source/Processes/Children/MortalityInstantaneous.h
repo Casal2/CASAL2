@@ -72,8 +72,6 @@ public:
   Double                      time_step_ratio();
   map<unsigned, map<string, map<string, vector<Double>>>>&  catch_at() { return removals_by_year_fishery_category_; };
 
-//  map<unsigned, map<string, Double>>&  catches() { return catch_by_year_fishery_; };
-//  map<unsigned, map<string, Double>>&  exploitation() { return exploitation_by_year_fishery_; };
 
 private:
   // members
@@ -98,10 +96,6 @@ private:
   vector<Selectivity*>        selectivities_;
   // members for observations
   map<unsigned,  map<string, map<string, vector<Double>>>> removals_by_year_fishery_category_; // Year,  fishery, category
-
-  //members for reporting
-//  map<unsigned, map<string, Double>> exploitation_by_year_fishery_;
-//  map<unsigned, map<string, Double>> catch_by_year_fishery_;
 };
 
 } /* namespace processes */

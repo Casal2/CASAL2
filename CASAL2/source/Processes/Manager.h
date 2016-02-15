@@ -23,7 +23,6 @@
 // Namespaces
 namespace niwa {
 class Model;
-
 namespace processes {
 
 /**
