@@ -90,7 +90,7 @@ void Cinitial::DoBuild() {
 }
 
 /**
- * Execute this process
+ * Execute Cinitial this code follows from the original CASAL algorithm
  */
 void Cinitial::Execute() {
 
@@ -148,7 +148,7 @@ void Cinitial::Execute() {
     }
   }
   // Calculate Binitial and rinitial which is the biomass of this and recruits from a cinitialised populations
-  // If SSB offset > 1 then evaluate the derived_quantity 3 times (this is arbituary) on the equilibrium state.
+  // If SSB offset > 1 then evaluate the derived_quantity 3 times (this is currently arbituary) on the equilibrium state.
 
   unsigned ssb_offset = 3;
   timesteps::Manager* time_step_manager = model_->managers().time_step();

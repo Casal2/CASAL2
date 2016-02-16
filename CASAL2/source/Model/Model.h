@@ -83,6 +83,8 @@ public:
   unsigned                    projection_final_year() const { return projection_final_year_; }
   Double                      b0(string derived_quantity_label) {return b0_[derived_quantity_label];}
   void                        set_b0(string derived_quantity_label, Double new_b0) {b0_[derived_quantity_label] = new_b0;}
+  Double                      binitial(string derived_quantity_label) {return binitial_[derived_quantity_label];}
+  void                        set_binitial(string derived_quantity_label, Double new_binitial) {binitial_[derived_quantity_label] = new_binitial;}
   virtual vector<unsigned>    years() const;
   unsigned                    year_spread() const;
   virtual unsigned            current_year() const { return current_year_; }
@@ -129,6 +131,7 @@ protected:
   unsigned                    min_age_ = 0;
   unsigned                    max_age_ = 0;
   map<string, Double>         b0_;
+  map<string, Double>         binitial_;
   bool                        age_plus_ = true;
   vector<string>              initialisation_phases_;
   vector<string>              time_steps_;
