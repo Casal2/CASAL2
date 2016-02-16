@@ -23,7 +23,7 @@
 #include "Partition/Accessors/Categories.h"
 #include "TimeSteps/Manager.h"
 #include "Processes/Children/RecruitmentBevertonHolt.h"
-#include "DerivedQuantities/Manager.h"
+
 
 // namespaces
 namespace niwa {
@@ -32,12 +32,10 @@ namespace initialisationphases {
 /**
  * Default constructor
  */
-Derived::Derived(Model* model)
-  : InitialisationPhase(model),
-    cached_partition_(model),
-    partition_(model) {
-    parameters_.Bind<string>(PARAM_INSERT_PROCESSES, &insert_processes_, "The processes to insert in to target time steps", "", true);
-    parameters_.Bind<string>(PARAM_EXCLUDE_PROCESSES, &exclude_processes_, "The processes to exclude from all time steps", "", true);
+Derived::Derived(Model* model) :
+    InitialisationPhase(model), cached_partition_(model), partition_(model) {
+  parameters_.Bind<string>(PARAM_INSERT_PROCESSES, &insert_processes_, "The processes to insert in to target time steps", "", true);
+  parameters_.Bind<string>(PARAM_EXCLUDE_PROCESSES, &exclude_processes_, "The processes to exclude from all time steps", "", true);
 }
 
 /*
@@ -128,23 +126,18 @@ void Derived::DoBuild() {
     recruitment_ = true;
 
 
-  // Now we need to find ssb_offset if the annual cycle contains a recruitment process that is of subtype recruitment_beverton_holt
-  // Ask Scott the best way to do this.
+  // Calculate ssb_ofset if there is BH_recruitment process in the annual cycle
   for (auto time_step : model_->managers().time_step()->ordered_time_steps()) {
     for (auto process : time_step->processes()) {
-      //LOG_MEDIUM() << " sub type = " << process->type() << " is it a recruitment process " << (process->process_type() == ProcessType::kRecruitment);
-      string type = process->type();
-      LOG_MEDIUM() << "type = " << type;
       if (process->process_type() == ProcessType::kRecruitment && process->type() == PARAM_RECRUITMENT_BEVERTON_HOLT) {
         RecruitmentBevertonHolt* recruitment = dynamic_cast<RecruitmentBevertonHolt*>(process);
         if (!recruitment)
           LOG_CODE_ERROR() << "BevertonHolt Recruitment exists but dynamic cast pointer cannot be made, if (!recruitment) ";
-        ssb_offset_ = recruitment->ssb_offset();
+        if (recruitment->ssb_offset() > ssb_offset_)
+          ssb_offset_ = recruitment->ssb_offset();
       }
     }
   }
-  LOG_MEDIUM() << " SSB offset = " << ssb_offset_;
-
 
 
 }

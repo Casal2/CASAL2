@@ -27,6 +27,7 @@ namespace processes {
 MortalityEventBiomass::MortalityEventBiomass(Model* model)
   : Process(model),
     partition_(model) {
+
   parameters_.Bind<string>(PARAM_CATEGORIES, &category_labels_, "Category labels", "");
   parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_labels_, "Selectivity labels", "");
   parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "Years to apply mortality", "");

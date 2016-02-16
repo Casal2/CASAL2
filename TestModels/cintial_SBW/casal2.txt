@@ -1,0 +1,3 @@
+!include "population.isam"
+!include "estimation.isam"
+!include "observation.isam"

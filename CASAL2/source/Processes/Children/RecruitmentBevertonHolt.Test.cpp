@@ -126,23 +126,23 @@ TEST_F(InternalEmptyModel, Processes_BevertonHolt_Recruitment_AutoSSBOffset) {
 
   partition::Category& male   = model_->partition().category("immature.male");
   EXPECT_DOUBLE_EQ(0.0, male.data_[0]);
-  EXPECT_DOUBLE_EQ(808758.83226136502, male.data_[1]);
-  EXPECT_DOUBLE_EQ(808459.71285911126, male.data_[2]);
-  EXPECT_DOUBLE_EQ(808158.0304255113,  male.data_[3]);
-  EXPECT_DOUBLE_EQ(807853.75548539008, male.data_[4]);
-  EXPECT_DOUBLE_EQ(807546.85767228901, male.data_[5]);
-  EXPECT_DOUBLE_EQ(807237.30570228631, male.data_[6]);
-  EXPECT_DOUBLE_EQ(806925.06741134496, male.data_[7]);
+  EXPECT_DOUBLE_EQ(808433.25100872794, male.data_[1]);
+  EXPECT_DOUBLE_EQ(808132.92498174415, male.data_[2]);
+  EXPECT_DOUBLE_EQ(807830.0282960101,  male.data_[3]);
+  EXPECT_DOUBLE_EQ(807524.53144776647, male.data_[4]);
+  EXPECT_DOUBLE_EQ(807216.40403779258, male.data_[5]);
+  EXPECT_DOUBLE_EQ(806905.61474528315, male.data_[6]);
+  EXPECT_DOUBLE_EQ(806592.131365799, male.data_[7]);
 
   partition::Category& female = model_->partition().category("immature.female");
   EXPECT_DOUBLE_EQ(0.0, female.data_[0]);
-  EXPECT_DOUBLE_EQ(808758.83226136502, female.data_[1]);
-  EXPECT_DOUBLE_EQ(808459.71285911126, female.data_[2]);
-  EXPECT_DOUBLE_EQ(808158.0304255113,  female.data_[3]);
-  EXPECT_DOUBLE_EQ(807853.75548539008, female.data_[4]);
-  EXPECT_DOUBLE_EQ(807546.85767228901, female.data_[5]);
-  EXPECT_DOUBLE_EQ(807237.30570228631, female.data_[6]);
-  EXPECT_DOUBLE_EQ(806925.06741134496, female.data_[7]);
+  EXPECT_DOUBLE_EQ(808433.25100872794, female.data_[1]);
+  EXPECT_DOUBLE_EQ(808132.92498174415, female.data_[2]);
+  EXPECT_DOUBLE_EQ(807830.0282960101,  female.data_[3]);
+  EXPECT_DOUBLE_EQ(807524.53144776647, female.data_[4]);
+  EXPECT_DOUBLE_EQ(807216.40403779258, female.data_[5]);
+  EXPECT_DOUBLE_EQ(806905.61474528315, female.data_[6]);
+  EXPECT_DOUBLE_EQ(806592.131365799, female.data_[7]);
 }
 
 } /* namespace processes */

@@ -10,7 +10,6 @@
  * @section DESCRIPTION
  *
  * TODO: Add documentation
- * TODO: Implement this class
  */
 #ifndef AGEINGERRORS_OFFBYONE_H_
 #define AGEINGERRORS_OFFBYONE_H_

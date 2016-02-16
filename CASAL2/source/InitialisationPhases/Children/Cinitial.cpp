@@ -16,6 +16,7 @@
 #include "Model/Model.h"
 #include "TimeSteps/Manager.h"
 #include "DerivedQuantities/Manager.h"
+#include "Processes/Children/RecruitmentBevertonHolt.h"
 
 namespace niwa {
 namespace initialisationphases {
@@ -27,7 +28,6 @@ Cinitial::Cinitial(Model* model)
 
   parameters_.Bind<string>(PARAM_CATEGORIES, &category_labels_, "List of categories to use", "");
   parameters_.BindTable(PARAM_N, n_table_, "Table of data", "", false, false);
-  parameters_.Bind<string>(PARAM_DERIVED_QUANTITY, &derived_quanitity_, R"(The label of the derived quantity that we want to execute for \texttt{ssb\_offset} for BH recruitment)", "", "");
 
   RegisterAsEstimable(&n_);
 }
@@ -78,15 +78,40 @@ void Cinitial::DoValidate() {
  * Build any data objects that need to be built.
  */
 void Cinitial::DoBuild() {
-  partition_ = CombinedCategoriesPtr(new niwa::partition::accessors::CombinedCategories(model_, category_labels_));
+  time_steps_ = model_->managers().time_step()->ordered_time_steps();
 
-  if (derived_quanitity_ != "") {
-    derived_ptr_ = model_->managers().derived_quantity()->GetDerivedQuantity(derived_quanitity_);
-    if (!derived_ptr_)  {
-      LOG_FATAL_P(PARAM_DERIVED_QUANTITY) << "Cannot find " << derived_quanitity_;
+  // Set the default process labels for the time step for this phase
+  for (auto time_step : time_steps_)
+    time_step->SetInitialisationProcessLabels(label_, time_step->process_labels());
+
+  // Create Category and cached category pointers
+  partition_ = CombinedCategoriesPtr(new niwa::partition::accessors::CombinedCategories(model_, category_labels_));
+  cached_partition_ = CachedCombinedCategoriesPtr(new niwa::partition::accessors::cached::CombinedCategories(model_, category_labels_));
+
+  // Calculate ssb_ofset and ssb label if there is BH_recruitment process in the annual cycle
+  for (auto time_step : model_->managers().time_step()->ordered_time_steps()) {
+    for (auto process : time_step->processes()) {
+      if (process->process_type() == ProcessType::kRecruitment && process->type() == PARAM_RECRUITMENT_BEVERTON_HOLT) {
+        RecruitmentBevertonHolt* recruitment = dynamic_cast<RecruitmentBevertonHolt*>(process);
+        if (!recruitment)
+          LOG_CODE_ERROR() << "BevertonHolt Recruitment exists but dynamic cast pointer cannot be made, if (!recruitment) ";
+        if (recruitment->ssb_offset() > ssb_offset_)
+          ssb_offset_ = recruitment->ssb_offset();
+        derived_quanitity_.push_back(recruitment->ssb_label());
+      }
     }
   }
-
+  // Create derived quantity pointers
+  unsigned i = 0;
+  for (auto derived_quantities : derived_quanitity_) {
+    if (derived_quantities != "") {
+      derived_ptr_.push_back(model_->managers().derived_quantity()->GetDerivedQuantity(derived_quantities));
+      if (!derived_ptr_[i]) {
+        LOG_ERROR() << "Cannot find " << derived_quantities;
+      }
+    }
+    ++i;
+  }
 }
 
 /**
@@ -147,17 +172,34 @@ void Cinitial::Execute() {
       }
     }
   }
-  // Calculate Binitial and rinitial which is the biomass of this and recruits from a cinitialised populations
-  // If SSB offset > 1 then evaluate the derived_quantity 3 times (this is currently arbituary) on the equilibrium state.
+  // Build cache
+  cached_partition_->BuildCache();
 
-  unsigned ssb_offset = 3;
+  // Execute the annual cycle for one year to calculate Cinitial
+  LOG_MEDIUM() << "Are we here";
   timesteps::Manager* time_step_manager = model_->managers().time_step();
-  time_step_manager->ExecuteInitialisation(label_, ssb_offset);
+  time_step_manager->ExecuteInitialisation(label_, 1);
 
-  if (derived_quanitity_ != "") {
-    derived_ptr_->Execute();
-    derived_ptr_->Execute();
-    derived_ptr_->Execute();
+  // Store that SSB value ssb_offset times in the last initialisation phase
+
+  for (auto derived_quantities : derived_ptr_) {
+    vector<vector<Double>>& initialisation_values =derived_quantities->initialisation_values();
+    unsigned last_init_phase_index = initialisation_values.size() - 1;
+
+    for(unsigned i = 0; i < ssb_offset_; ++i)
+      initialisation_values[last_init_phase_index].push_back(initialisation_values[last_init_phase_index][initialisation_values[last_init_phase_index].size() - 1]);
+  }
+
+
+  // set the partition back to Cinitial state
+  auto cached_partition_iter  = cached_partition_->Begin();
+  partition_iter = partition_->Begin();
+  for (unsigned category_offset = 0; category_offset < category_labels_.size(); ++category_offset, ++partition_iter, ++cached_partition_iter) {
+    auto category_iter = partition_iter->begin();
+    auto cached_category_iter = cached_partition_iter->begin();
+    for (; category_iter != partition_iter->end(); ++cached_category_iter, ++category_iter) {
+      (*category_iter)->data_ = (*cached_category_iter).data_;
+    }
   }
 }
 

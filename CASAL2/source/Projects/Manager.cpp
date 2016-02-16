@@ -12,6 +12,8 @@
 #include "Manager.h"
 
 #include "Model/Model.h"
+#include "Model/Managers.h"
+#include "Processes/Manager.h"
 
 // namespaces
 namespace niwa {
@@ -41,20 +43,21 @@ void Manager::Build() {
  */
 void Manager::Build(Model* model) {
   LOG_TRACE();
-  bool ycs_values_exist = false;
-  for (auto project : objects_) {
-    LOG_FINE() << "Building Project: " << project->label();
-    project->Build();
-    if (project->estimable_parameter() == PARAM_YCS_VALUES)
-      ycs_values_exist = true;
-  }
+  if (model->run_mode() == RunMode::kProjection) {
+    bool ycs_values_exist = false;
+    for (auto project : objects_) {
+      LOG_FINE() << "Building Project: " << project->label();
+      project->Build();
+      if (project->estimable_parameter() == PARAM_YCS_VALUES)
+        ycs_values_exist = true;
+    }
 
-
-  if (!ycs_values_exist) {
-//    for (auto process : model->managers().process()->objects()) {
-//      if (process->type() == PARAM_RECRUITMENT_BEVERTON_HOLT)
-//        LOG_ERROR() << process->location() << " process " << process->label() << " does not contain a @project for ycs_values";
-//    }
+    if (!ycs_values_exist) {
+      for (auto process : model->managers().process()->objects()) {
+        if (process->type() == PARAM_RECRUITMENT_BEVERTON_HOLT)
+          LOG_ERROR() << process->location() << " process " << process->label() << " does not contain a @project for ycs_values";
+      }
+    }
   }
 }
 

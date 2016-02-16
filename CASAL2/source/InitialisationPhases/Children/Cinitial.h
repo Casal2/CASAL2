@@ -18,13 +18,19 @@
 // headers
 #include "InitialisationPhases/InitialisationPhase.h"
 #include "Partition/Accessors/CombinedCategories.h"
+#include "Partition/Accessors/Cached/CombinedCategories.h"
+
+#include "Processes/Children/RecruitmentBevertonHolt.h"
 
 // namespaces
 namespace niwa {
+class TimeStep;
 class DerivedQuantity;
 
 namespace initialisationphases {
 using partition::accessors::CombinedCategoriesPtr;
+using partition::accessors::cached::CachedCombinedCategoriesPtr;
+using processes::RecruitmentBevertonHolt;
 
 /**
  * Class definition
@@ -44,17 +50,19 @@ protected:
 private:
   // members
   CombinedCategoriesPtr       partition_;
+  CachedCombinedCategoriesPtr cached_partition_;
   vector<string>              category_labels_;
   unsigned                    min_age_ = 0;
   unsigned                    max_age_ = 0;
   unsigned                    column_count_ = 0;
   parameters::Table*          n_table_ = nullptr;
   map<string, vector<Double>> n_;
-  DerivedQuantity*            derived_ptr_ = nullptr;
   vector<Double>              binitial_;
   vector<Double>              rinitial_;
-  string                      derived_quanitity_ = "";
-
+  vector<TimeStep*>           time_steps_;
+  vector<string>              derived_quanitity_;
+  vector<DerivedQuantity*>    derived_ptr_;
+  unsigned                    ssb_offset_;
 };
 
 } /* namespace initialisationphases */
