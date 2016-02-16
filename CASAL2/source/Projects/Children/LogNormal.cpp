@@ -22,10 +22,10 @@ namespace projects {
  * Default constructor
  */
 LogNormal::LogNormal(Model* model) : Project(model) {
-  parameters_.Bind<Double>(PARAM_MEAN, &mean_, "Mean of the lognormal distribution to be sampled", "", AS_DOUBLE(1.0));
+  parameters_.Bind<Double>(PARAM_MEAN, &mean_, "Mean of the lognormal distribution to be sampled", "", 1.0);
   parameters_.Bind<Double>(PARAM_SIGMA, &sigma_, "Standard deviation on the log scale", "");
-  parameters_.Bind<Double>(PARAM_MULTIPLIER, &multiplier_, "A multiplier to for ycs_values", "", AS_DOUBLE(1.0));
-  parameters_.Bind<Double>(PARAM_RHO, &rho_, "an autocorrelation parameter on the log scale", "", AS_DOUBLE(0.0));
+  parameters_.Bind<Double>(PARAM_MULTIPLIER, &multiplier_, "A multiplier to for ycs_values", "", 1.0);
+  parameters_.Bind<Double>(PARAM_RHO, &rho_, "an autocorrelation parameter on the log scale", "", 0.0);
 
   RegisterAsEstimable(PARAM_SIGMA, &sigma_);
 }

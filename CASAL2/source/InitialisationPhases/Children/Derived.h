@@ -18,6 +18,8 @@
 #include "Partition/Accessors/Cached/Categories.h"
 #include "Partition/Accessors/Categories.h"
 
+#include "Processes/Children/RecruitmentBevertonHolt.h"
+
 // namespaces
 namespace niwa {
 class TimeStep;
@@ -26,7 +28,7 @@ class DerivedQuantity;
 namespace initialisationphases {
 namespace cached   = partition::accessors::cached;
 namespace accessor = partition::accessors;
-
+using processes::RecruitmentBevertonHolt;
 // classes
 class Derived : public niwa::InitialisationPhase {
 public:

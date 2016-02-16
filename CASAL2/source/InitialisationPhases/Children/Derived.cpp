@@ -22,6 +22,7 @@
 #include "Model/Model.h"
 #include "Partition/Accessors/Categories.h"
 #include "TimeSteps/Manager.h"
+#include "Processes/Children/RecruitmentBevertonHolt.h"
 #include "DerivedQuantities/Manager.h"
 
 // namespaces
@@ -126,7 +127,24 @@ void Derived::DoBuild() {
   if (recruitment_index < ageing_index)
     recruitment_ = true;
 
-  // Now we need to find ssb_offset
+
+  // Now we need to find ssb_offset if the annual cycle contains a recruitment process that is of subtype recruitment_beverton_holt
+  // Ask Scott the best way to do this.
+  for (auto time_step : model_->managers().time_step()->ordered_time_steps()) {
+    for (auto process : time_step->processes()) {
+      //LOG_MEDIUM() << " sub type = " << process->type() << " is it a recruitment process " << (process->process_type() == ProcessType::kRecruitment);
+      string type = process->type();
+      LOG_MEDIUM() << "type = " << type;
+      if (process->process_type() == ProcessType::kRecruitment && process->type() == PARAM_RECRUITMENT_BEVERTON_HOLT) {
+        RecruitmentBevertonHolt* recruitment = dynamic_cast<RecruitmentBevertonHolt*>(process);
+        if (!recruitment)
+          LOG_CODE_ERROR() << "BevertonHolt Recruitment exists but dynamic cast pointer cannot be made, if (!recruitment) ";
+        ssb_offset_ = recruitment->ssb_offset();
+      }
+    }
+  }
+  LOG_MEDIUM() << " SSB offset = " << ssb_offset_;
+
 
 
 }
@@ -180,6 +198,7 @@ void Derived::Execute() {
       }
     }
   }
+
   Double max_rel_diff = 1e18;
   vector<Double> plus_group(categories.size(), 1);
   vector<Double> old_plus_group(categories.size(), 1);
@@ -212,7 +231,6 @@ void Derived::Execute() {
 
   // run the annual cycle for ssb_offset years
   time_step_manager->ExecuteInitialisation(label_, ssb_offset_);
-
 
 }
 

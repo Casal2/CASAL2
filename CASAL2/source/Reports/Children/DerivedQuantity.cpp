@@ -35,7 +35,14 @@ void DerivedQuantity::DoExecute() {
   cache_ << "*" << label_ << " " << "("<< type_ << ")"<<"\n";
   unsigned count = 1;
   for (auto dq : derived_quantities) {
-    cache_ << dq->label() << " " << REPORT_R_LIST << "\n";
+    string label =  dq->label();
+    cache_ << label << " " << REPORT_R_LIST << "\n";
+
+    // report b0 and binitial
+    if (model_->b0(label) > 0)
+    cache_ << "B0: " << model_->b0(label) << "\n";
+    if (model_->binitial(dq->label()) > 0)
+    cache_ << "Binitial: " << model_->binitial(dq->label()) << "\n";
 
     const vector<vector<Double> > init_values = dq->initialisation_values();
     for (unsigned i = 0; i < init_values.size(); ++i) {
