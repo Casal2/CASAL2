@@ -72,7 +72,6 @@ protected:
 
   // members
   Model*                      model_ = nullptr;
-  string                      type_ = "";
   ProcessType                 process_type_ = ProcessType::kUnknown;
   PartitionStructure          partition_structure_ = PartitionStructure::kInvalid;
   map<unsigned, map<string, vector<Executor*>>> executors_;

@@ -26,6 +26,7 @@ Maturation::Maturation(Model* model)
   : Process(model),
     from_partition_(model),
     to_partition_(model) {
+
   parameters_.Bind<string>(PARAM_FROM, &from_category_names_, "List of categories to mature from", "");
   parameters_.Bind<string>(PARAM_TO, &to_category_names_, "List of categories to mature too", "");
   parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_names_, "List of selectivities to use for maturation", "");

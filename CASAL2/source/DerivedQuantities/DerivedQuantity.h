@@ -43,7 +43,7 @@ public:
 
   // accessors
   const string&               time_step() { return time_step_label_; }
-  const vector<vector<Double> >& initialisation_values() { return initialisation_values_; }
+  vector<vector<Double> >&    initialisation_values() { return initialisation_values_; }
   const map<unsigned, Double>& values() { return values_; }
 
 protected:

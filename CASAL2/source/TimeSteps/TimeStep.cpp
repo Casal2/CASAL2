@@ -78,7 +78,6 @@ void TimeStep::Build() {
  */
 void TimeStep::ExecuteForInitialisation(const string& phase_label) {
   LOG_FINEST() << "Executing for initialisation phase: " << phase_label << " with " << initialisation_block_executors_.size() << " executors";
-
   for (unsigned index = 0; index < initialisation_processes_[phase_label].size(); ++index) {
     if (initialisation_mortality_blocks_[phase_label].first == index) {
       for (auto executor : initialisation_block_executors_) {

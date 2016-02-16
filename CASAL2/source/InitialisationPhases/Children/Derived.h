@@ -23,7 +23,6 @@
 // namespaces
 namespace niwa {
 class TimeStep;
-class DerivedQuantity;
 
 namespace initialisationphases {
 namespace cached   = partition::accessors::cached;
@@ -50,7 +49,7 @@ protected:
   vector<TimeStep*>           time_steps_;
   cached::Categories          cached_partition_;
   accessor::Categories        partition_;
-  unsigned                    ssb_offset_ = 4;
+  unsigned                    ssb_offset_ = 1;
 };
 
 } /* namespace initialisationphases */

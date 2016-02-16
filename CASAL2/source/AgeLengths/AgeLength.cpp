@@ -91,7 +91,7 @@ void AgeLength::BuildCV() {
   unsigned final_year = model_->final_year();
   vector<string> time_steps = model_->time_steps();
   LOG_MEDIUM() << ": number of time steps " << time_steps.size();
-  LOG_MEDIUM() << ": label of first tiome step " << time_steps[0];
+  LOG_MEDIUM() << ": label of first time step " << time_steps[0];
   for (unsigned year_iter = start_year; year_iter <= final_year; ++year_iter) {
     for (unsigned step_iter = 0; step_iter < time_steps.size(); ++step_iter) {
       if (cv_last_ == 0.0) { // A test that is robust... If cv_last_ is not in the input then assume cv_first_ represents the cv for all age classes i.e constant cv
