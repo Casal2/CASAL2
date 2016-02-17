@@ -300,3 +300,21 @@ Currently, the penalties for the processes \commandlabsubarg{process}{type}{even
 For both of these processes, two types of penalty can be defined, natural scale (the default) and log scale. Both of these types add a penalty value of the squared difference between the observed value (i.e., the actual number of individuals to be removed in an event mortality process or the actual number of individuals to shift in a category transition process), and the number that were moved (if less than or equal), times the penalty multiplier.
 
 The natural scale penalty just uses at the squared difference on a natural scale, while the log scale penalty uses the squared difference of the logged values. 
+
+\subsection{\I{Estimate Transformations}\label{sec:transformations}}
+
+\CNAME\ has the untested functionality of transforming a parameter on a new scale. When parameters are estimated or used in MCMC they are transformed on the desired scale, and after each iteration they are untransformed and used in the annual cycle. Each transformation will contribute a Jacobian to the objective function taking into account the new distribution. The user must supply the lower and upper bound for the transformed variable.
+
+\subsubsection[log]{\argument{log}}\index{Estimate Transformations!log}
+
+
+\subsubsection[Inverse]{\argument{Inverse}}\index{Estimate Transformations!Inverse}
+
+
+\subsubsection[Log odds]{\argument{Log odds}}\index{Estimate Transformations!Log odds}
+
+
+\subsubsection[Log odds]{\argument{Log odds}}\index{Estimate Transformations!Log odds}
+
+\subsubsection[Simplex]{\argument{Simplex}}\index{Estimate Transformations!Simplex}
+
