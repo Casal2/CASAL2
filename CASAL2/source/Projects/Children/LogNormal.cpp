@@ -39,7 +39,7 @@ void LogNormal::DoValidate() {
   if (sigma_ == 0)
     LOG_ERROR_P(PARAM_SIGMA) << " must not equal 0.0, Use the constant projection method if you would like to project a parameter with 0 variability";
   if (mean_ == 0.0)
-    LOG_ERROR_P(PARAM_MEAN) << " should not be equal to zero on the log scale, causes -INF";
+    LOG_ERROR_P(PARAM_MEAN) << " should not be equal to zero on the log scale = -INF";
   if (multiplier_ == 0)
     LOG_ERROR_P(PARAM_MULTIPLIER)  << " should not be equal to zero";
 }
@@ -49,17 +49,6 @@ void LogNormal::DoValidate() {
  */
 
 void LogNormal::DoBuild() {
-  if (estimable_type_ != Estimable::kVector)
-    LOG_ERROR() << "LogNormal projections can only be performed on parameters that are unsigned maps. if (estimable_type_ != Estimable::kUnsignedMap)";
-
-  // if PARAM_RHO > 0 then we need to know the value of the ycs_value of first_random_year_ - 1, because the value for
-  // first_random_year_ will be dependent on ycs_value of first_random_year_ - 1. We need access to the map, maybe through the assert method
-  if (rho_ != 0.0) {
-    //Double last_value_ = parameter_map[model_->current_year() - 1];
-    //Double value = log((last_value - mean_) / (sigma_ * sigma_));
-
-  }
-
 }
 
 /**
@@ -72,13 +61,29 @@ void LogNormal::DoReset() { }
  */
 void LogNormal::DoUpdate() {
   // instance the random number generator
-  if (rho_ != 0.0) {
   utilities::RandomNumberGenerator& rng = utilities::RandomNumberGenerator::Instance();
+
+  if (rho_ != 0.0) {
+    // Need to take into account autocorrelation using a gaussian AR(1) process
+    switch (estimable_type_) {
+      case Estimable::kVector:
+        last_value_ = *estimable_vector_->rbegin();
+        break;
+      case Estimable::kSingle:
+        last_value_ = (*estimable_);
+        break;
+      case Estimable::kUnsignedMap:
+        last_value_ = (*estimable_map_)[model_->current_year() - 1];
+        break;
+      default:
+        LOG_ERROR() << "The estimable you have provided for use in a projection: " << parameter_ << " is not a type that is supported for type LogNormal";
+        break;
+    }
   Double Z = rng.normal(0.0, 1.0);
   value_ = -0.5 * sigma_ * sigma_ + sigma_ * (rho_ * last_value_ + sqrt(1 - rho_ * rho_ * Z));
   } else {
-    utilities::RandomNumberGenerator& rng = utilities::RandomNumberGenerator::Instance();
-    value_ = rng.lognormal(AS_DOUBLE(mean_), AS_DOUBLE(sigma_));
+    // Just a standard normal deviation
+    value_ = last_value_ + rng.lognormal(AS_DOUBLE(mean_), AS_DOUBLE(sigma_));
   }
 
   LOG_FINE() << "Setting Value to: " << value_;

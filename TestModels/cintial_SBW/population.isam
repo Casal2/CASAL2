@@ -298,4 +298,7 @@ q 0.5
 ## Assert
 @assert obj
 type objective_function
-value -2462.7
+value 2525.71
+
+@report objective_score
+type objective_function

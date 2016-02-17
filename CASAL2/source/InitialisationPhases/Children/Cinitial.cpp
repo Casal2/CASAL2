@@ -16,6 +16,7 @@
 #include "Model/Model.h"
 #include "TimeSteps/Manager.h"
 #include "DerivedQuantities/Manager.h"
+#include "InitialisationPhases/Manager.h"
 #include "Processes/Children/RecruitmentBevertonHolt.h"
 
 namespace niwa {
@@ -180,14 +181,14 @@ void Cinitial::Execute() {
   timesteps::Manager* time_step_manager = model_->managers().time_step();
   time_step_manager->ExecuteInitialisation(label_, 1);
 
-  // Store that SSB value ssb_offset times in the last initialisation phase
+  // Store that SSB value ssb_offset times in the Cintiial phase GetPhaseIndex
 
   for (auto derived_quantities : derived_ptr_) {
-    vector<vector<Double>>& initialisation_values =derived_quantities->initialisation_values();
-    unsigned last_init_phase_index = initialisation_values.size() - 1;
+    vector<vector<Double>>& initialisation_values = derived_quantities->initialisation_values();
+    unsigned cinit_phase_index = model_->managers().initialisation_phase()->GetPhaseIndex(label_);
 
     for(unsigned i = 0; i < ssb_offset_; ++i)
-      initialisation_values[last_init_phase_index].push_back(initialisation_values[last_init_phase_index][initialisation_values[last_init_phase_index].size() - 1]);
+      initialisation_values[cinit_phase_index].push_back(initialisation_values[cinit_phase_index][initialisation_values[cinit_phase_index].size() - 1]);
   }
 
 
