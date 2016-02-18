@@ -177,19 +177,18 @@ void Cinitial::Execute() {
   cached_partition_->BuildCache();
 
   // Execute the annual cycle for one year to calculate Cinitial
-  LOG_MEDIUM() << "Are we here";
   timesteps::Manager* time_step_manager = model_->managers().time_step();
   time_step_manager->ExecuteInitialisation(label_, 1);
 
   // Store that SSB value ssb_offset times in the Cintiial phase GetPhaseIndex
 
-  for (auto derived_quantities : derived_ptr_) {
-    vector<vector<Double>>& initialisation_values = derived_quantities->initialisation_values();
-    unsigned cinit_phase_index = model_->managers().initialisation_phase()->GetPhaseIndex(label_);
-
-    for(unsigned i = 0; i < ssb_offset_; ++i)
-      initialisation_values[cinit_phase_index].push_back(initialisation_values[cinit_phase_index][initialisation_values[cinit_phase_index].size() - 1]);
-  }
+//  for (auto derived_quantities : derived_ptr_) {
+//    vector<vector<Double>>& initialisation_values = derived_quantities->initialisation_values();
+//    unsigned cinit_phase_index = model_->managers().initialisation_phase()->GetPhaseIndex(label_);
+//
+//    for(unsigned i = 0; i < ssb_offset_; ++i)
+//      initialisation_values[cinit_phase_index].push_back(initialisation_values[cinit_phase_index][initialisation_values[cinit_phase_index].size() - 1]);
+//  }
 
 
   // set the partition back to Cinitial state
