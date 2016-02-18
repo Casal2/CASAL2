@@ -103,6 +103,8 @@ void File::Parse() {
 
         if (include_name.find('\\') == string::npos && file_name_.find('\\') != string::npos)
           include_name = file_name_.substr(0, file_name_.find_last_of('\\') + 1) + include_name;
+        if (include_name.find('/') == string::npos && file_name_.find('/') != string::npos)
+          include_name = file_name_.substr(0, file_name_.find_last_of('/') + 1) + include_name;
 
         if (!include_file.OpenFile(include_name))
           LOG_FATAL() << "At line: " << line_number_ << " of " << file_name_
