@@ -65,7 +65,7 @@ TEST_F(InternalEmptyModel, EstimateTransformations_SquareRoot_NoBounds) {
   model_->Start(RunMode::kEstimation);
 
   ObjectiveFunction& obj_function = model_->objective_function();
-  EXPECT_DOUBLE_EQ(1977.8957483899424, obj_function.score());
+  EXPECT_NEAR(1977.8957483899424, obj_function.score(), 1e-5);
 }
 
 /**
