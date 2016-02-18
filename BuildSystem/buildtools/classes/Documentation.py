@@ -517,11 +517,11 @@ class Documentation:
         os.system('python QuickReference.py')
         for i in range(0,3):
           if Globals.operating_system_ == "linux":
-            os.system('pdflatex CASAL2')
+            os.system('pdflatex --halt-on-error CASAL2')
             os.system('bibtex CASAL2')
             os.system('makeindex CASAL2')
           else:
-            os.system('pdflatex.exe CASAL2')
+            os.system('pdflatex.exe --halt-on-error CASAL2')
             os.system('bibtex.exe CASAL2')
             os.system('makeindex.exe CASAL2')        
 
