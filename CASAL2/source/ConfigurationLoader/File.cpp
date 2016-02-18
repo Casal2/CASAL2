@@ -30,7 +30,7 @@ namespace util = niwa::utilities;
  * Destructor
  */
 File::~File() {
-  if (file_.is_open())
+  if (!file_.fail() && file_.is_open())
     file_.close();
 }
 
@@ -44,6 +44,7 @@ bool File::OpenFile(string file_name) {
   LOG_TRACE();
 
   file_name_ = file_name;
+  LOG_FINE() << "Opening file: " << file_name;
 
   file_.open(file_name_.c_str());
   if (file_.fail() || !file_.is_open())
@@ -99,6 +100,10 @@ void File::Parse() {
         boost::replace_all(include_name, "\"", "");
         boost::trim_all(include_name);
         File include_file(loader_);
+
+        if (include_name.find('\\') == string::npos && file_name_.find('\\') != string::npos)
+          include_name = file_name_.substr(0, file_name_.find_last_of('\\') + 1) + include_name;
+
         if (!include_file.OpenFile(include_name))
           LOG_FATAL() << "At line: " << line_number_ << " of " << file_name_
               << ": Include file '" << include_name << "' could not be opened. Does this file exist?";
