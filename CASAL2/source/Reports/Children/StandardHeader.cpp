@@ -58,7 +58,7 @@ StandardHeader::~StandardHeader() {
 void StandardHeader::DoPrepare() {
 
   ostringstream               header;
-  header << "iSAM" << endl;
+  header << "CASAL2" << endl;
 
   /**
    * Build the Command line
