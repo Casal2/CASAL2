@@ -188,9 +188,10 @@ void Cinitial::Execute() {
     LOG_FINE() << "initialisation_values size: " << initialisation_values.size();
     LOG_FINE() << "ssb_offset: " << ssb_offset_;
     LOG_FINE() << "cinit_phase_index: " << cinit_phase_index;
+    LOG_FINE() << "init_values[cinit_phase].size(): " << initialisation_values[cinit_phase_index].size();
 
     for(unsigned i = 0; i < ssb_offset_; ++i)
-      initialisation_values[cinit_phase_index].push_back(initialisation_values[cinit_phase_index][initialisation_values[cinit_phase_index].size() - 1]);
+      initialisation_values[cinit_phase_index].push_back(*initialisation_values[cinit_phase_index].rbegin());
   }
 
 
