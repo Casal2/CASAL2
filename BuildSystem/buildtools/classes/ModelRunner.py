@@ -37,7 +37,7 @@ class ModelRunner:
       os.chdir("../TestModels/" + folder)
       start = time.time()
       result = False;
-      if os.system("casal2 -r > run.log 2>&1") != EX_OK:
+      if os.system("casal2 -r --loglevel=trace> run.log 2>&1") != EX_OK:
         elapsed = time.time() - start
         print '[FAILED] - ' + folder + ' in ' + str(round(elapsed, 2)) + ' seconds'
         fail_count += 1
