@@ -32,6 +32,7 @@ public:
   void                        Transform() override final;
   void                        Restore() override final;
   std::set<string>            GetTargetEstimates() override final;
+  void                        CalculateJocabian() override final { };
 
 protected:
   // methods

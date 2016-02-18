@@ -1,11 +1,74 @@
 iSAM
 Call: 
-Date: Wed Feb 17 10:47:45 2016
-Version: 2016-02-16 00:58:21 UTC (rev. d5356bb)
+Date: Wed Feb 17 16:03:24 2016
+Version: 2016-02-16 22:03:23 UTC (rev. c2a9e02)
 Copyright (c) 2012 - 2016, NIWA (www.niwa.co.nz)
-Environment: machine:NIWA-1007004, user:marshc, os:Windows_NT, pid:10320
+Environment: machine:NIWA-1007004, user:marshc, os:Windows_NT, pid:2008
 
+*objective_score (objective_function)
+values {v}
+obs->TangaroaAcousticMature-1993 34.7057
+obs->TangaroaAcousticMature-1994 -0.055453
+obs->TangaroaAcousticMature-1995 2.17166
+obs->TangaroaAcousticMature-1998 -1.69938
+obs->TangaroaAcousticMature-2000 -0.934452
+obs->TangaroaAcousticMature-2002 -0.477794
+obs->TangaroaAcousticMature-2004 0.742355
+obs->TangaroaAcousticMature-2006 0.409568
+obs->TangaroaAcousticMature-2009 -0.0038382
+obs->TangaroaAcousticMature-2011 -1.49585
+obs->TangaroaAcousticMature-2013 -0.897685
+obs->TangaroaAcousticImmature-1993 14.168
+obs->TangaroaAcousticImmature-1994 -0.999802
+obs->TangaroaAcousticImmature-1995 0.90937
+obs->TangaroaAcousticImmature-1998 -0.908481
+obs->TangaroaAcousticImmature-2000 19.1592
+obs->TangaroaAcousticImmature-2002 12.5837
+obs->TangaroaAcousticImmature-2004 4.01284
+obs->TangaroaAcousticImmature-2006 6.98896
+obs->TangaroaAcousticImmature-2009 9.4923
+obs->TangaroaAcousticImmature-2011 6.38669
+obs->TangaroaAcousticImmature-2013 -0.654571
+obs->ObserverProportionsAtAge-1979 88.9108
+obs->ObserverProportionsAtAge-1980 162.579
+obs->ObserverProportionsAtAge-1981 316.748
+obs->ObserverProportionsAtAge-1982 69.4612
+obs->ObserverProportionsAtAge-1983 49.1254
+obs->ObserverProportionsAtAge-1984 55.3758
+obs->ObserverProportionsAtAge-1985 46.3681
+obs->ObserverProportionsAtAge-1986 56.6799
+obs->ObserverProportionsAtAge-1987 49.8807
+obs->ObserverProportionsAtAge-1988 45.0893
+obs->ObserverProportionsAtAge-1989 40.2289
+obs->ObserverProportionsAtAge-1990 40.6617
+obs->ObserverProportionsAtAge-1991 128.756
+obs->ObserverProportionsAtAge-1992 56.9064
+obs->ObserverProportionsAtAge-1993 33.9436
+obs->ObserverProportionsAtAge-1994 167.316
+obs->ObserverProportionsAtAge-1995 146.811
+obs->ObserverProportionsAtAge-1996 149.61
+obs->ObserverProportionsAtAge-1997 79.3825
+obs->ObserverProportionsAtAge-1998 55.6374
+obs->ObserverProportionsAtAge-1999 56.4678
+obs->ObserverProportionsAtAge-2000 28.5885
+obs->ObserverProportionsAtAge-2001 38.9104
+obs->ObserverProportionsAtAge-2002 30.092
+obs->ObserverProportionsAtAge-2003 48.1875
+obs->ObserverProportionsAtAge-2004 25.3631
+obs->ObserverProportionsAtAge-2005 39.7966
+obs->ObserverProportionsAtAge-2006 24.3552
+obs->ObserverProportionsAtAge-2007 31.858
+obs->ObserverProportionsAtAge-2008 42.0938
+obs->ObserverProportionsAtAge-2009 21.752
+obs->ObserverProportionsAtAge-2010 43.156
+obs->ObserverProportionsAtAge-2011 53.8737
+obs->ObserverProportionsAtAge-2012 49.2919
+obs->ObserverProportionsAtAge-2013 48.0317
+prior->TangaroaMatureq->catchability[TangaroaMatureq].q 0.82066
+prior->TangaroaImmatureq->catchability[TangaroaImmatureq].q 0
+prior->R0_W->process[Recruitment].r0 0
+total_score 2525.71
+*end
 
-This application has requested the Runtime to terminate it in an unusual way.
-Please contact the application's support team for more information.
-terminate called without an active exception
+Total elapsed time: 32 seconds
+Completed
