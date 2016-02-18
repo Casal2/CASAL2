@@ -516,7 +516,7 @@ class Documentation:
             
         os.system('python QuickReference.py')
         for i in range(0,3):
-          if GLobals.operating_system_ == "linux":
+          if Globals.operating_system_ == "linux":
             os.system('pdflatex CASAL2')
             os.system('bibtex CASAL2')
             os.system('makeindex CASAL2')
