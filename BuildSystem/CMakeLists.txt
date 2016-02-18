@@ -70,6 +70,7 @@ ELSEIF(CPPAD)
    "coinmetis"
    "m"
    "gfortran"   
+   "dl"
   ) 
  ENDIF ()
 ENDIF ()
