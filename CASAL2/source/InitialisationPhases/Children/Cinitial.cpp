@@ -181,14 +181,17 @@ void Cinitial::Execute() {
   time_step_manager->ExecuteInitialisation(label_, 1);
 
   // Store that SSB value ssb_offset times in the Cintiial phase GetPhaseIndex
+  LOG_FINE() << "derived_ptr_.size(): " << derived_ptr_.size();
+  for (auto derived_quantities : derived_ptr_) {
+    vector<vector<Double>>& initialisation_values = derived_quantities->initialisation_values();
+    unsigned cinit_phase_index = model_->managers().initialisation_phase()->GetPhaseIndex(label_);
+    LOG_FINE() << "initialisation_values size: " << initialisation_values.size();
+    LOG_FINE() << "ssb_offset: " << ssb_offset_;
+    LOG_FINE() << "cinit_phase_index: " << cinit_phase_index;
 
-//  for (auto derived_quantities : derived_ptr_) {
-//    vector<vector<Double>>& initialisation_values = derived_quantities->initialisation_values();
-//    unsigned cinit_phase_index = model_->managers().initialisation_phase()->GetPhaseIndex(label_);
-//
-//    for(unsigned i = 0; i < ssb_offset_; ++i)
-//      initialisation_values[cinit_phase_index].push_back(initialisation_values[cinit_phase_index][initialisation_values[cinit_phase_index].size() - 1]);
-//  }
+    for(unsigned i = 0; i < ssb_offset_; ++i)
+      initialisation_values[cinit_phase_index].push_back(initialisation_values[cinit_phase_index][initialisation_values[cinit_phase_index].size() - 1]);
+  }
 
 
   // set the partition back to Cinitial state
