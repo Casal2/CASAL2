@@ -9,7 +9,8 @@
  */
 
 // Headers
-#include <Observations/Children/ProportionsAtLength/ProportionsAtLength.h>
+#include "ProportionsAtLength.h"
+
 #include <algorithm>
 
 #include "Model/Model.h"

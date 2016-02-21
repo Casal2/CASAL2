@@ -37,7 +37,7 @@ public:
   TagRecaptureByAge(Model* model);
   virtual                     ~TagRecaptureByAge() = default;
   void                        DoValidate() override final;
-  virtual void                DoBuild() override;
+  void                        DoBuild() override final;
   void                        DoReset() override final { };
   void                        PreExecute() override final;
   void                        Execute() override final;
@@ -70,6 +70,7 @@ protected:
   vector<string>                selectivity_labels_;
   vector<Selectivity*>          selectivities_;
   string                        time_step_label_ = "";
+  Double                      time_step_proportion_;
 
   map<unsigned, map<string, vector<Double>>> recaptures_;
   map<unsigned, map<string, vector<Double>>> scanned_;

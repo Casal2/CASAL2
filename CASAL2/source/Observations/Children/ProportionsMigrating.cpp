@@ -11,13 +11,14 @@
  */
 
 // Headers
-#include <Observations/Children/ProportionsMigrating/ProportionsMigrating.h>
+#include "ProportionsMigrating.h"
 #include <algorithm>
 
 #include "Model/Model.h"
 #include "AgeingErrors/AgeingError.h"
 #include "AgeingErrors/Manager.h"
 #include "Partition/Accessors/All.h"
+#include "TimeSteps/Manager.h"
 #include "Utilities/DoubleCompare.h"
 #include "Utilities/Map.h"
 #include "Utilities/Math.h"
@@ -44,6 +45,10 @@ ProportionsMigrating::ProportionsMigrating(Model* model) : Observation(model) {
   parameters_.Bind<string>(PARAM_AGEING_ERROR, &ageing_error_label_, "Label of ageing error to use", "", "");
   parameters_.BindTable(PARAM_OBS, obs_table_, "Table of Observatons", "", false);
   parameters_.BindTable(PARAM_ERROR_VALUES, error_values_table_, "", "", false);
+  parameters_.Bind<string>(PARAM_PROCESS, &process_label_, "Process label", "");
+  parameters_.Bind<Double>(PARAM_PROCESS_PROPORTION, &process_proportion_, "Process proportion", "", Double(0.5));
+
+  mean_proportion_method_ = false;
 }
 
 /**
@@ -202,6 +207,12 @@ void ProportionsMigrating::DoBuild() {
   }
 
   age_results_.resize(age_spread_ * category_labels_.size(), 0.0);
+
+  TimeStep* time_step = model_->managers().time_step()->GetTimeStep(time_step_label_);
+  if (!time_step) {
+    LOG_FATAL_P(PARAM_TIME_STEP) << time_step_label_ << " could not be found. Have you defined it?";
+  } else
+    time_step->SubscribeToProcess(this, years_, process_label_);
 }
 
 /**

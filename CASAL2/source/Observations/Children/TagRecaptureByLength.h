@@ -60,7 +60,7 @@ protected:
   string                        ageing_error_label_;
   parameters::Table*            recaptures_table_ = nullptr;
   parameters::Table*            scanned_table_ = nullptr;
-
+  Double                        time_step_proportion_;
 
   // Category members
   vector<string>                target_category_labels_;
@@ -74,8 +74,6 @@ protected:
   vector<string>                selectivity_labels_;
   vector<Selectivity*>          selectivities_;
   vector<string>                target_selectivity_labels_;
-
-
 
   map<unsigned, map<string, vector<Double>>> recaptures_;
   map<unsigned, map<string, vector<Double>>> scanned_;

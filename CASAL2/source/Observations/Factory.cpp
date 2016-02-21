@@ -16,21 +16,21 @@
 #include "Model/Model.h"
 #include "Model/Managers.h"
 #include "Observations/Manager.h"
-#include "Observations/Children/ProcessAbundance.h"
-#include "Observations/Children/ProcessBiomass.h"
-#include "Observations/Children/ProcessProportionsAtAge.h"
-#include "Observations/Children/ProcessProportionsAtAgeForFishery.h"
-#include "Observations/Children/ProcessProportionsAtLength.h"
-#include "Observations/Children/ProcessProportionsAtLengthForFishery.h"
-#include "Observations/Children/ProcessProportionsMigrating.h"
-#include "Observations/Children/ProcessProportionsByCategory.h"
-#include "Observations/Children/TimeStepAbundance.h"
-#include "Observations/Children/TimeStepBiomass.h"
-#include "Observations/Children/TimeStepProportionsAtAge.h"
-#include "Observations/Children/TimeStepProportionsAtLength.h"
-#include "Observations/Children/TimeStepProportionsByCategory.h"
-#include "Observations/Children/TimeStepTagRecaptureByAge.h"
-#include "Observations/Children/TimeStepTagRecaptureByLength.h"
+#include "Observations/Children/ProportionsAtAgeForFishery.h"
+#include "Observations/Children/ProportionsAtLengthForFishery.h"
+#include "Observations/Children/ProportionsMigrating.h"
+#include "Observations/Children/TagRecaptureByAge.h"
+#include "Observations/Children/TagRecaptureByLength.h"
+#include "Observations/Children/Abundance/Process.h"
+#include "Observations/Children/Abundance/TimeStep.h"
+#include "Observations/Children/Biomass/Process.h"
+#include "Observations/Children/Biomass/TimeStep.h"
+#include "Observations/Children/ProportionsAtAge/Process.h"
+#include "Observations/Children/ProportionsAtAge/TimeStep.h"
+#include "Observations/Children/ProportionsAtLength/Process.h"
+#include "Observations/Children/ProportionsAtLength/TimeStep.h"
+#include "Observations/Children/ProportionsByCategory/Process.h"
+#include "Observations/Children/ProportionsByCategory/TimeStep.h"
 
 // Namespaces
 namespace niwa {
@@ -63,21 +63,21 @@ Observation* Factory::Create(Model* model, const string& object_type, const stri
     else if (sub_type == PARAM_PROCESS_PROPORTIONS_AT_AGE)
       result = new ProcessProportionsAtAge(model);
     else if (sub_type == PARAM_PROCESS_PROPORTIONS_AT_AGE_FOR_FISHERY)
-      result = new ProcessProportionsAtAgeForFishery(model);
+      result = new ProportionsAtAgeForFishery(model);
     else if (sub_type == PARAM_PROCESS_PROPORTIONS_AT_LENGTH)
       result = new ProcessProportionsAtLength(model);
     else if (sub_type == PARAM_PROCESS_PROPORTIONS_AT_LENGTH_FOR_FISHERY)
-      result = new ProcessProportionsAtLengthForFishery(model);
+      result = new ProportionsAtLengthForFishery(model);
     else if (sub_type == PARAM_PROCESS_PROPORTIONS_MIGRATING)
-      result = new ProcessProportionsMigrating(model);
+      result = new ProportionsMigrating(model);
     else if (sub_type == PARAM_PROCESS_PROPORTIONS_BY_CATEGORY)
       result = new ProcessProportionsByCategory(model);
     else if (sub_type == PARAM_PROPORTIONS_BY_CATEGORY)
       result = new TimeStepProportionsByCategory(model);
     else if (sub_type == PARAM_TAG_RECAPTURE_BY_AGE)
-      result = new TimeStepTagRecaptureByAge(model);
+      result = new TagRecaptureByAge(model);
     else if (sub_type == PARAM_TAG_RECAPTURE_BY_LENGTH)
-      result = new TimeStepTagRecaptureByLength(model);
+      result = new TagRecaptureByLength(model);
   }
 
   if (result)

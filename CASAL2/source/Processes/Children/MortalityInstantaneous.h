@@ -72,7 +72,6 @@ public:
   Double                      time_step_ratio();
   map<unsigned, map<string, map<string, vector<Double>>>>&  catch_at() { return removals_by_year_fishery_category_; };
 
-
 private:
   // members
   vector<string>              category_labels_;
