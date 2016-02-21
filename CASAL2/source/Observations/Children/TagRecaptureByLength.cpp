@@ -10,7 +10,8 @@
  */
 
 // headers
-#include <Observations/Children/TagRecaptureByLength/TagRecaptureByLength.h>
+#include "TagRecaptureByLength.h"
+
 #include <algorithm>
 
 #include "Categories/Categories.h"
@@ -18,6 +19,7 @@
 #include "Model/Model.h"
 #include "Partition/Accessors/All.h"
 #include "Selectivities/Manager.h"
+#include "TimeSteps/Manager.h"
 #include "Utilities/DoubleCompare.h"
 #include "Utilities/Map.h"
 #include "Utilities/Math.h"
@@ -46,6 +48,9 @@ TagRecaptureByLength::TagRecaptureByLength(Model* model) : Observation(model) {
   parameters_.Bind<Double>(PARAM_DETECTION_PARAMETER,  &detection_, "Detection probability ", "");
   parameters_.BindTable(PARAM_RECAPTURED, recaptures_table_, "Table of Recaptures", "", false);
   parameters_.BindTable(PARAM_SCANNED, scanned_table_, "Table of scanned individuals", "", false);
+  parameters_.Bind<Double>(PARAM_TIME_STEP_PROPORTION, &time_step_proportion_, "Proportion through the time step to analyse the partition from", "", Double(0.5));
+
+  mean_proportion_method_ = true;
 }
 
 /**
@@ -252,6 +257,18 @@ void TagRecaptureByLength::DoBuild() {
 
   if (target_selectivities_.size() == 1 && category_labels_.size() != 1)
     target_selectivities_.assign(category_labels_.size(), target_selectivities_[0]);
+
+  if (time_step_proportion_ < 0.0 || time_step_proportion_ > 1.0)
+    LOG_ERROR_P(PARAM_TIME_STEP_PROPORTION) << ": time_step_proportion (" << AS_DOUBLE(time_step_proportion_) << ") must be between 0.0 and 1.0";
+  proportion_of_time_ = time_step_proportion_;
+
+  auto time_step = model_->managers().time_step()->GetTimeStep(time_step_label_);
+  if (!time_step) {
+    LOG_ERROR_P(PARAM_TIME_STEP) << " " << time_step_label_ << " could not be found. Have you defined it?";
+  } else {
+    for (unsigned year : years_)
+      time_step->SubscribeToBlock(this, year);
+  }
 }
 
 /**

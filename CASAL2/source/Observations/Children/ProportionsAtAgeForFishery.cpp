@@ -9,7 +9,8 @@
  */
 
 // Headers
-#include <Observations/Children/ProportionsAtAgeForFishery/ProportionsAtAgeForFishery.h>
+#include "ProportionsAtAgeForFishery.h"
+
 #include <algorithm>
 
 #include "Model/Model.h"
@@ -44,6 +45,9 @@ ProportionsAtAgeForFishery::ProportionsAtAgeForFishery(Model* model) : Observati
   parameters_.Bind<string>(PARAM_FISHERY, &fishery_, "Label of fishery the observation is from", "", "");
   parameters_.BindTable(PARAM_OBS, obs_table_, "Table of Observatons", "", false);
   parameters_.BindTable(PARAM_ERROR_VALUES, error_values_table_, "", "", false);
+  parameters_.Bind<string>(PARAM_PROCESS, &process_label_, "Process label", "");
+
+  mean_proportion_method_ = false;
 }
 
 /**
@@ -210,6 +214,18 @@ void ProportionsAtAgeForFishery::DoBuild() {
 
   age_results_.resize(age_spread_ * category_labels_.size(), 0.0);
 
+  for (string time_label : time_step_label_) {
+    auto time_step = model_->managers().time_step()->GetTimeStep(time_label);
+    if (!time_step) {
+      LOG_FATAL_P(PARAM_TIME_STEP) << time_label << " could not be found. Have you defined it?";
+    } else {
+      auto process = time_step->SubscribeToProcess(this, years_, process_label_);
+      mortality_instantaneous_ = dynamic_cast<MortalityInstantaneous*>(process);
+    }
+  }
+
+  if (!mortality_instantaneous_)
+    LOG_ERROR_P(PARAM_PROCESS) << "This observation can only be used for Process of type = " << PARAM_MORTALITY_INSTANTANEOUS;
 }
 
 /**

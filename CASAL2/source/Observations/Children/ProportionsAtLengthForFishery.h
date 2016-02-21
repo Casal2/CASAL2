@@ -40,7 +40,7 @@ public:
   explicit ProportionsAtLengthForFishery(Model* model);
   virtual                     ~ProportionsAtLengthForFishery();
   void                        DoValidate() override final;
-  virtual void                DoBuild() override;
+  void                        DoBuild() override final;
   void                        DoReset() override final { };
   void                        PreExecute() override final;
   void                        Execute() override final;
@@ -65,6 +65,8 @@ protected:
   vector<Double>                length_results_;
   MortalityInstantaneous*       mortality_instantaneous_ = nullptr;
   string                        time_step_label_ = "";
+  string                        process_label_;
+  Double                        process_proportion_;
 
   map<unsigned, map<string, vector<Double>>> proportions_;
   map<unsigned, map<string, vector<Double>>> error_values_;

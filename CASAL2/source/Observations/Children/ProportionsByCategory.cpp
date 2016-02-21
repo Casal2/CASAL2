@@ -10,7 +10,8 @@
  */
 
 // headers
-#include <Observations/Children/ProportionsByCategory/ProportionsByCategory.h>
+#include "ProportionsByCategory.h"
+
 #include <algorithm>
 
 #include "Categories/Categories.h"

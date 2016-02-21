@@ -38,7 +38,7 @@ public:
   explicit ProportionsAtAgeForFishery(Model* model);
   virtual                     ~ProportionsAtAgeForFishery();
   void                        DoValidate() override final;
-  virtual void                DoBuild() override;
+  void                        DoBuild() override final;
   void                        DoReset() override final { };
   void                        PreExecute() override final;
   void                        Execute() override final;
@@ -65,6 +65,7 @@ protected:
   vector<Double>                age_results_;
   MortalityInstantaneous*       mortality_instantaneous_ = nullptr;
   vector<string>                time_step_label_;
+  string                        process_label_;
 
   map<unsigned, map<string, vector<Double>>>  proportions_;
   map<unsigned, map<string, vector<Double>>>  error_values_;

@@ -19,6 +19,7 @@
 #include "Model/Model.h"
 #include "Partition/Accessors/All.h"
 #include "Selectivities/Manager.h"
+#include "TimeSteps/Manager.h"
 #include "Utilities/DoubleCompare.h"
 #include "Utilities/Map.h"
 #include "Utilities/Math.h"
@@ -48,6 +49,9 @@ TagRecaptureByAge::TagRecaptureByAge(Model* model) : Observation(model) {
   parameters_.Bind<Double>(PARAM_DETECTION_PARAMETER,  &detection_, "Detection probability ", "");
   parameters_.BindTable(PARAM_RECAPTURED, recaptures_table_, "Table of Recaptures", "", false);
   parameters_.BindTable(PARAM_SCANNED, scanned_table_, "Table of scanned individuals", "", false);
+  parameters_.Bind<Double>(PARAM_TIME_STEP_PROPORTION, &time_step_proportion_, "Proportion through the time step to analyse the partition from", "", Double(0.5));
+
+  mean_proportion_method_ = true;
 }
 
 /**
@@ -213,7 +217,6 @@ void TagRecaptureByAge::DoBuild() {
   target_partition_ = CombinedCategoriesPtr(new niwa::partition::accessors::CombinedCategories(model_, target_category_labels_));
   target_cached_partition_ = CachedCombinedCategoriesPtr(new niwa::partition::accessors::cached::CombinedCategories(model_, target_category_labels_));
 
-
   if (ageing_error_label_ != "") {
     LOG_CODE_ERROR() << "ageing error has not been implemented for the proportions at age observation";
   }
@@ -241,6 +244,18 @@ void TagRecaptureByAge::DoBuild() {
 
   if (target_selectivities_.size() == 1 && category_labels_.size() != 1)
     target_selectivities_.assign(category_labels_.size(), target_selectivities_[0]);
+
+  if (time_step_proportion_ < 0.0 || time_step_proportion_ > 1.0)
+    LOG_ERROR_P(PARAM_TIME_STEP_PROPORTION) << ": time_step_proportion (" << AS_DOUBLE(time_step_proportion_) << ") must be between 0.0 and 1.0";
+  proportion_of_time_ = time_step_proportion_;
+
+  auto time_step = model_->managers().time_step()->GetTimeStep(time_step_label_);
+  if (!time_step) {
+    LOG_ERROR_P(PARAM_TIME_STEP) << " " << time_step_label_ << " could not be found. Have you defined it?";
+  } else {
+    for (unsigned year : years_)
+      time_step->SubscribeToBlock(this, year);
+  }
 }
 
 /**

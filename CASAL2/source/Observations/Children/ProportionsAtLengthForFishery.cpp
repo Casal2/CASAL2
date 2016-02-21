@@ -46,6 +46,10 @@ ProportionsAtLengthForFishery::ProportionsAtLengthForFishery(Model* model)
   parameters_.Bind<string>(PARAM_FISHERY, &fishery_, "Label of fishery the observation is from", "", "");
   parameters_.BindTable(PARAM_OBS, obs_table_, "Table of Observatons", "", false);
   parameters_.BindTable(PARAM_ERROR_VALUES, error_values_table_, "", "", false);
+  parameters_.Bind<string>(PARAM_PROCESS, &process_label_, "Process label", "");
+  parameters_.Bind<Double>(PARAM_PROCESS_PROPORTION, &process_proportion_, "Process proportion", "", Double(0.5));
+
+  mean_proportion_method_ = false;
 }
 
 /**
@@ -215,6 +219,21 @@ void ProportionsAtLengthForFishery::DoBuild() {
 //   LOG_CODE_ERROR() << "ageing error has not been implemented for the proportions at age observation";
 
   length_results_.resize(number_bins_ * category_labels_.size(), 0.0);
+
+  if (process_proportion_ < 0.0 || process_proportion_ > 1.0)
+    LOG_ERROR_P(PARAM_PROCESS_PROPORTION) << ": process_proportion (" << AS_DOUBLE(process_proportion_) << ") must be between 0.0 and 1.0";
+  proportion_of_time_ = process_proportion_;
+
+  auto time_step = model_->managers().time_step()->GetTimeStep(time_step_label_);
+  if (!time_step) {
+    LOG_FATAL_P(PARAM_TIME_STEP) << time_step_label_ << " could not be found. Have you defined it?";
+  } else {
+    auto process = time_step->SubscribeToProcess(this, years_, process_label_);
+    mortality_instantaneous_ = dynamic_cast<MortalityInstantaneous*>(process);
+  }
+
+  if (!mortality_instantaneous_)
+    LOG_ERROR_P(PARAM_PROCESS) << "This observation can only be used for Process of type = " << PARAM_MORTALITY_INSTANTANEOUS;
 }
 
 /**

@@ -42,7 +42,7 @@ public:
   explicit ProportionsMigrating(Model* model);
   virtual                     ~ProportionsMigrating();
   void                        DoValidate() override final;
-  virtual void                DoBuild() override;
+  void                        DoBuild() override final;
   void                        DoReset() override final { };
   void                        PreExecute() override final;
   void                        Execute() override final;
@@ -68,6 +68,8 @@ protected:
   AgeingError*                  ageing_error_ = nullptr;
   vector<Double>                age_results_;
   string                        time_step_label_ = "";
+  string                        process_label_;
+  Double                        process_proportion_;
 
   map<unsigned, map<string, vector<Double>>>  proportions_;
   map<unsigned, map<string, vector<Double>>>  error_values_;
