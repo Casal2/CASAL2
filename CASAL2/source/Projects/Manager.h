@@ -31,14 +31,16 @@ class Manager : public niwa::oldbase::Manager<niwa::projects::Manager, niwa::Pro
   friend class niwa::Managers;
 public:
   // methods
-  virtual                     ~Manager() noexcept(true);
-  void                        Build() override final;
-  void                        Build(Model* model);
-  void                        Update(unsigned current_year);
+  virtual                      ~Manager() noexcept(true);
+  void                          Build() override final;
+  void                          Build(Model* model);
+  void                          Update(unsigned current_year);
+  void                          StoreValues(unsigned current_year, unsigned start_year, unsigned final_year);
 
 protected:
   // methods
   Manager();
+
 };
 
 } /* namespace projects */

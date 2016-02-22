@@ -30,7 +30,13 @@ CategoriesWithAge::CategoriesWithAge(Model* model, const vector<string>& categor
 
   // Variables
   unsigned start_year = model_->start_year();
-  unsigned final_year = model_->final_year();
+
+  unsigned final_year;
+
+  if (model_->run_mode() == RunMode::kProjection)
+    final_year = model_->projection_final_year();
+  else
+    final_year = model_->final_year();
 
   for (string category_name : category_names) {
     partition::Category& category = model_->partition().category(category_name);

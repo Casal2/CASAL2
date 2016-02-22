@@ -14,6 +14,7 @@
 #include "Model/Model.h"
 #include "Model/Managers.h"
 #include "Processes/Manager.h"
+#include "Model/Objects.h"
 
 // namespaces
 namespace niwa {
@@ -68,6 +69,20 @@ void Manager::Update(unsigned current_year) {
   LOG_TRACE();
   for (auto project : objects_)
     project->Update(current_year);
+}
+
+/**
+ *  @param current_year teh current year this method is calles
+ *
+ *  This function will store all parameter values that we may want to overwrite at in projection years
+ */
+void Manager::StoreValues(unsigned current_year, unsigned start_year, unsigned final_year) {
+  LOG_TRACE();
+  // iterate over all @project blocks
+  for (auto project : objects_) {
+    LOG_FINE() << "@Project: " << project->label();
+    project->StoreValue(current_year, start_year, final_year);
+  }
 }
 
 } /* namespace projects */

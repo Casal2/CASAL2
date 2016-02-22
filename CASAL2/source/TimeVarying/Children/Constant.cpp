@@ -15,6 +15,8 @@ namespace timevarying {
  */
 Constant::Constant(Model* model) : TimeVarying(model) {
   parameters_.Bind<Double>(PARAM_VALUE, &value_, "Value to assign to estimable", "");
+
+  RegisterAsEstimable(PARAM_VALUE, &value_);
 }
 
 /**

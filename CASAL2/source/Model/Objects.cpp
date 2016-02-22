@@ -23,6 +23,7 @@
 #include "Processes/Manager.h"
 #include "Selectivities/Manager.h"
 #include "InitialisationPhases/Manager.h"
+#include "TimeVarying/Manager.h"
 #include "Utilities/To.h"
 
 // namespaces
@@ -214,6 +215,9 @@ base::Object* Objects::FindObject(const string& parameter_absolute_name, string&
 
   } else if (type == PARAM_SELECTIVITY) {
     result = model_->managers().selectivity()->GetSelectivity(label);
+
+  } else if (type == PARAM_TIME_VARYING) {
+    result = model_->managers().time_varying()->GetTimeVarying(label);
   }
 
   // TODO: Populate Error
