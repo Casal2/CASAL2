@@ -32,6 +32,7 @@ public:
   // methods
   virtual                     ~Manager() = default;
   void                        Update(unsigned current_year);
+  TimeVarying*                GetTimeVarying(const string& label);
 
 protected:
   // methods

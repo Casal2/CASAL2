@@ -39,13 +39,15 @@ public:
 
   //accessor
   unsigned                    ssb_offset() {return ssb_offset_;};
-  string                      ssb_label() {return ssb_;};
+  string                    ssb_label() {return ssb_;};
 
 private:
   // members
   accessor::Categories        partition_;
   vector<string>              category_labels_;
   Double                      r0_ = 0.0;
+  string                      phase_b0_label_;
+  unsigned                    phase_b0_;
   Double                      b0_ = 0.0;
   vector<Double>              proportions_;
   unsigned                    age_ = 0;

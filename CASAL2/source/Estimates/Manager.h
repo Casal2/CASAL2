@@ -52,6 +52,7 @@ public:
   void                        AddCreator(Creator* creator) { creators_.push_back(creator); }
   Estimate*                   GetEstimate(const string& parameter);
   Estimate*                   GetEstimateByLabel(const string& label);
+  vector<Estimate*>           GetEstimatesByLabel(const string& label);
 
 private:
   // methods
