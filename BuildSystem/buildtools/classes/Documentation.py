@@ -113,12 +113,15 @@ class ClassLoader:
         global parent_class_
         casal2_src_folder = '../CASAL2/source/'
 
+        """
         parent_class_folders = [ 'AdditionalPriors', 'AgeingErrors', 'AgeLengths', 'Asserts',
                         'Catchabilities', 'Categories', 'DerivedQuantities',
                         'Estimates', 'InitialisationPhases', 'LengthWeights',
                         'Likelihoods', 'MCMCs', 'Minimisers',
                         'Model', 'Observations', 'Penalties', 'Processes', 'Profiles', 'Projects',
                         'Reports', 'Selectivities', 'Simulates', 'TimeSteps', 'TimeVarying']
+        """
+        parent_class_folders = [ 'Observations' ]
         type_without_children_folders = [ 'Model', 'Profiles', 'TimeSteps' ]
         for folder in parent_class_folders:
             parent_class_ = Class()
@@ -142,6 +145,7 @@ class ClassLoader:
                     break;
                 
             if os.path.exists(casal2_src_folder + folder + '/Children/'):
+                print '--> Scanning for children'
                 child_file_list = os.listdir(casal2_src_folder + folder + '/Children/')
                 # Scan First For 2nd Level Children
                 for file in child_file_list:
@@ -156,7 +160,7 @@ class ClassLoader:
 
                 # Scan 3rd Level Children
                 print '--> Scanning for Third Level Children'
-                for file in file_list:
+                for file in child_file_list:
                     if os.path.isdir(casal2_src_folder + folder + '/Children/' + file):                    
                         child_file_list = os.listdir(casal2_src_folder + folder + '/Children/' + file)                    
                         for child_file in child_file_list:
@@ -486,9 +490,11 @@ class Latex:
             os.system('pdflatex --halt-on-error CASAL2')
             os.system('bibtex CASAL2')
             os.system('makeindex CASAL2')
+          """
           else:
             os.system('pdflatex.exe --halt-on-error CASAL2')
             os.system('bibtex.exe CASAL2')
             os.system('makeindex.exe CASAL2')   
+            """
 
         return True
