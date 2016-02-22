@@ -112,16 +112,12 @@ class ClassLoader:
     def Run(self):
         global parent_class_
         casal2_src_folder = '../CASAL2/source/'
-
-        """
         parent_class_folders = [ 'AdditionalPriors', 'AgeingErrors', 'AgeLengths', 'Asserts',
                         'Catchabilities', 'Categories', 'DerivedQuantities',
                         'Estimates', 'InitialisationPhases', 'LengthWeights',
                         'Likelihoods', 'MCMCs', 'Minimisers',
                         'Model', 'Observations', 'Penalties', 'Processes', 'Profiles', 'Projects',
                         'Reports', 'Selectivities', 'Simulates', 'TimeSteps', 'TimeVarying']
-        """
-        parent_class_folders = [ 'Observations' ]
         type_without_children_folders = [ 'Model', 'Profiles', 'TimeSteps' ]
         for folder in parent_class_folders:
             parent_class_ = Class()
@@ -153,6 +149,8 @@ class ClassLoader:
                         continue                
                     child_class = Class()
                     child_class.variables_ = copy.deepcopy(parent_class_.variables_)
+                    child_class.variables_['label_'].name_ = ''
+                    child_class.variables_['type_'].name_ = ''
                     child_class.name_ = file.replace('.h', '')
                     parent_class_.child_classes_[child_class.name_] = child_class
                     if not VariableLoader().Load('../CASAL2/source/' + folder + '/Children/' + file, child_class):
