@@ -66,7 +66,7 @@ void CloseLibrary(HMODULE library) {
 }
 
 #else
-void* LoadSharedLibrary(const string& name)
+void* LoadSharedLibrary(const string& name) {
   return dlopen(name.c_str(), RTLD_LAZY);
 }
 
@@ -166,7 +166,7 @@ int main(int argc, char * argv[]) {
     break;
   }
 
-  FreeLibrary(release_library);
+  CloseLibrary(release_library);
 	return return_code_;
 }
 
