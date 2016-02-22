@@ -135,6 +135,37 @@ void Project::SetMapValue(Double value) {
   (*estimable_map_)[model_->current_year()] = value;
 }
 
+/**
+ *  Store at projects values in a map to be referenced when executing projection method.
+ */
+void Project::StoreValue(unsigned current_year, unsigned start_year, unsigned final_year) {
+  LOG_FINE() << "are we entering this loop";
+
+  switch (estimable_type_) {
+  case Estimable::kVector:
+    if (estimable_vector_->size() != (final_year - start_year + 1))
+      LOG_ERROR() << "if estimate is of type kVector, there must be a value for each year from start_year to final_year";
+    LOG_FINE() << " Value = " << (*estimable_vector_)[current_year - start_year];
+    projected_parameters[estimable_parameter_][current_year] = (*estimable_vector_)[current_year - start_year];
+    break;
+  case Estimable::kSingle:
+    LOG_FINE() << " Value = " << *estimable_;
+    projected_parameters[estimable_parameter_][current_year] = *estimable_;
+    break;
+
+  case Estimable::kUnsignedMap:
+    // Note of caution: If the parameter doesn't exist e.g catches in all years referenced a map will return a 0.0, by default
+    LOG_FINE() << " Value = " << (*estimable_map_)[current_year];
+    projected_parameters[estimable_parameter_][current_year] = (*estimable_map_)[current_year];
+    break;
+
+  default:
+    LOG_ERROR() << "The estimable you have provided for use in a projection: " << estimable_parameter_
+        << " is not a type that is supported for type LogNormal";
+    break;
+  }
+}
+
 } /* namespace niwa */
 
 

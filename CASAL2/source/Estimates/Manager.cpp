@@ -276,17 +276,42 @@ Estimate* Manager::GetEstimate(const string& parameter) {
  */
 Estimate* Manager::GetEstimateByLabel(const string& label) {
   LOG_FINEST() << "Checking for estimate by label " << label;
+  Estimate* result = nullptr;
 
+  unsigned count = 0;
   for (Estimate* estimate : objects_) {
-    if (estimate->label() == label)
-      return estimate;
+    if (estimate->label() == label) {
+      result = estimate;
+      ++count;
+    }
+  }
+  if (count > 1)
+    LOG_ERROR() << "Expected one parameter with the label " << label << " but found " << count;
+
+  return result;
+}
+
+/**
+ *
+ */
+vector<Estimate*> Manager::GetEstimatesByLabel(const string& label) {
+  LOG_FINEST() << "Checking for estimate by label " << label;
+  vector<Estimate*> result;
+
+  unsigned count = 0;
+  for (Estimate* estimate : objects_) {
+    if (estimate->label() == label) {
+      result.push_back(estimate);
+      ++count;
+    }
   }
 
-  for (Estimate* estimate : objects_)
-    LOG_FINEST() << "Estimate: " << estimate->label() << " (" << estimate->parameter() << ")";
+  if (count > 1)
+    LOG_FINEST() << "There were " << count << " parameters retrieved in the @estimate block labeled " << label;
 
-  return nullptr;
+  return result;
 }
+
 
 } /* namespace estimates */
 } /* namespace niwa */

@@ -455,6 +455,7 @@
 #define PARAM_SIGMA                               "sigma"
 #define PARAM_SIGMA_L                             "sigma_l"
 #define PARAM_SIGMA_R                             "sigma_r"
+#define PARAM_SIMPLEX                             "simplex"
 #define PARAM_SIMULATED_OBSERVATION               "simulated_observation"
 #define PARAM_SIMULATION_LIKELIHOOD               "simulation_likelihood"
 #define PARAM_SINGLE_STEP                         "single_step"

@@ -37,10 +37,11 @@ RecruitmentBevertonHolt::RecruitmentBevertonHolt(Model* model)
   parameters_.Bind<string>(PARAM_CATEGORIES, &category_labels_, "Category labels", "");
   parameters_.Bind<Double>(PARAM_R0, &r0_, "R0", "");
   parameters_.Bind<Double>(PARAM_PROPORTIONS, &proportions_, "Proportions", "");
-  parameters_.Bind<unsigned>(PARAM_AGE, &age_, "Age that individuals enter the category after recruitment. Default min age", "", true);
-  parameters_.Bind<Double>(PARAM_STEEPNESS, &steepness_, "Steepness parameter for BH recruitment", "", 1.0);
+  parameters_.Bind<unsigned>(PARAM_AGE, &age_, "Age to recruit at", "", true);
+  parameters_.Bind<Double>(PARAM_STEEPNESS, &steepness_, "Steepness", "", 1.0);
   parameters_.Bind<string>(PARAM_SSB, &ssb_, "SSB Label (derived quantity)", "");
   parameters_.Bind<int>(PARAM_SSB_OFFSET, &ssb_offset_, "SSB Offset (year offset)", "", 0);
+  parameters_.Bind<string>(PARAM_B0, &phase_b0_label_, "B0 Label", "", "");
   parameters_.Bind<Double>(PARAM_YCS_VALUES, &ycs_values_, "YCS Values", "");
   parameters_.Bind<bool>(PARAM_PRIOR_YCS_VALUES, &prior_ycs_values_, "Priors for year class strength on ycs values (not standardised ycs values)", "",true);
   parameters_.Bind<unsigned>(PARAM_STANDARDISE_YCS_YEARS, &standardise_ycs_, "Years that are included for year class standardisation", "", true);
@@ -50,6 +51,7 @@ RecruitmentBevertonHolt::RecruitmentBevertonHolt(Model* model)
   RegisterAsEstimable(PARAM_PROPORTIONS, &proportions_);
   RegisterAsEstimable(PARAM_YCS_VALUES, &ycs_values_);
 
+  phase_b0_         = 0;
   process_type_     = ProcessType::kRecruitment;
   partition_structure_ = PartitionStructure::kAge;
 }
@@ -90,6 +92,9 @@ void RecruitmentBevertonHolt::DoValidate() {
  */
 void RecruitmentBevertonHolt::DoBuild() {
   partition_.Init(category_labels_);
+
+  if (phase_b0_label_ != "")
+    phase_b0_         = model_->managers().initialisation_phase()->GetPhaseIndex(phase_b0_label_);
 
   derived_quantity_ = model_->managers().derived_quantity()->GetDerivedQuantity(ssb_);
   if (!derived_quantity_)
@@ -202,10 +207,21 @@ void RecruitmentBevertonHolt::DoExecute() {
     ycs_values_ = stand_ycs_values_;
 
   if (model_->state() == State::kInitialise) {
-    amount_per = r0_;
+    initialisationphases::Manager& init_phase_manager = *model_->managers().initialisation_phase();
+    if (init_phase_manager.last_executed_phase() <= phase_b0_) {
+      amount_per = r0_;
+
+    } else {
+      b0_ = derived_quantity_->GetLastValueFromInitialisation(phase_b0_);
+      Double SSB = derived_quantity_->GetValue(model_->start_year() - ssb_offset_);
+      Double ssb_ratio = SSB / b0_;
+      Double true_ycs  = 1.0 * ssb_ratio / (1 - ((5 * steepness_ - 1) / (4 * steepness_) ) * (1 - ssb_ratio));
+      amount_per = r0_ * true_ycs;
+
+      LOG_FINEST() << "b0_: " << b0_  << "; ssb_ratio: " << ssb_ratio << "; true_ycs: " << true_ycs << "; amount_per: " << amount_per;
+    }
 
   } else {
-
     /**
      * The model is not in an initialisation phase
      */
@@ -217,7 +233,7 @@ void RecruitmentBevertonHolt::DoExecute() {
     else
       ycs = stand_ycs_values_[model_->current_year() - model_->start_year()];
 
-    b0_ = model_->b0(ssb_);
+    b0_ = derived_quantity_->GetLastValueFromInitialisation(phase_b0_);
     unsigned ssb_year = model_->current_year() - ssb_offset_;
     Double SSB = derived_quantity_->GetValue(ssb_year);
     Double ssb_ratio = SSB / b0_;

@@ -33,5 +33,18 @@ void Manager::Update(unsigned current_year) {
     time_varying->Update(current_year);
 }
 
+/**
+ *
+ */
+TimeVarying* Manager::GetTimeVarying(const string& label) {
+  for(auto time_varying : objects_) {
+    if (time_varying->label() == label) {
+      return time_varying;
+    }
+  }
+
+  return nullptr;
+}
+
 } /* namespace processes */
 } /* namespace niwa */

@@ -55,6 +55,7 @@ void Creator::CreateEstimates() {
   /**
    * At this point we need to determine if we need to split this estimate in to multiple estimates.
    */
+
   string error = "";
   base::Object* target = model_->objects().FindObject(parameter_, error);
   if (!target) {
@@ -71,8 +72,7 @@ void Creator::CreateEstimates() {
   LOG_FINEST() << "parameter: " << parameter_ << "; new_parameter: " << new_parameter;
 
   if (!target->HasEstimable(parameter)) {
-    LOG_ERROR_P(PARAM_PARAMETER) << "value " << parameter_ << " is invalid. '" << parameter << "' is not an estimable on a "
-        << target->type() << " " << type;
+    LOG_ERROR_P(PARAM_PARAMETER) << "value " << parameter_ << " is invalid. '" << parameter << "' is not an estimable on a " << target->type() << " " << type;
     return;
   }
 

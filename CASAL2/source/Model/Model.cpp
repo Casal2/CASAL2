@@ -407,7 +407,7 @@ void Model::RunBasic() {
 
     timesteps::Manager& time_step_manager = *managers_->time_step();
     timevarying::Manager& time_varying_manager = *managers_->time_varying();
-    for (current_year_ = start_year_; current_year_ <= final_year_; ++current_year_, current_year_index_ = current_year_ - start_year_) {
+    for (current_year_ = start_year_; current_year_ <= final_year_; ++current_year_) {
       LOG_FINE() << "Iteration year: " << current_year_;
       if (single_step) {
         managers_->report()->Pause();
@@ -608,7 +608,7 @@ void Model::RunSimulation() {
     state_ = State::kExecute;
     timesteps::Manager& time_step_manager = *managers_->time_step();
     timevarying::Manager& time_varying_manager = *managers_->time_varying();
-    for (current_year_ = start_year_; current_year_ <= final_year_; ++current_year_, current_year_index_ = current_year_ - start_year_) {
+    for (current_year_ = start_year_; current_year_ <= final_year_; ++current_year_) {
       LOG_FINE() << "Iteration year: " << current_year_;
       time_varying_manager.Update(current_year_);
       managers_->simulate()->Update(current_year_);
@@ -627,38 +627,106 @@ void Model::RunSimulation() {
 /**
  *
  */
+
 void Model::RunProjection() {
-  LOG_FINE() << "Entering the Projection Sub-System";
 
-  state_ = State::kInitialise;
-  current_year_ = start_year_;
-  initialisationphases::Manager& init_phase_manager = *managers_->initialisation_phase();
-  init_phase_manager.Execute();
-  managers_->report()->Execute(State::kInitialise);
+  LOG_TRACE();
+  Estimables& estimables = *managers_->estimables();
+  vector<Double*> estimable_targets;
 
-  state_ = State::kExecute;
-  timesteps::Manager& time_step_manager = *managers_->time_step();
-  timevarying::Manager& time_varying_manager = *managers_->time_varying();
-  for (current_year_ = start_year_; current_year_ <= final_year_; ++current_year_) {
-    LOG_FINE() << "Iteration year: " << current_year_;
-    time_varying_manager.Update(current_year_);
-    time_step_manager.Execute(current_year_);
+  // Model is about to run
+  for (unsigned i = 0; i < estimable_values_count_; ++i) {
+    if (estimable_values_file_) {
+      estimables.LoadValues(i);
+      Reset();
+    }
+
+    LOG_FINE() << "Model: State change to PreExecute";
+
+    /**
+     * Running the model now
+     */
+    LOG_FINE() << "Model: State change to Execute";
+    state_ = State::kInitialise;
+    current_year_ = start_year_;
+    initialisationphases::Manager& init_phase_manager = *managers_->initialisation_phase();
+    init_phase_manager.Execute();
+
+    state_ = State::kExecute;
+
+    timesteps::Manager& time_step_manager = *managers_->time_step();
+    timevarying::Manager& time_varying_manager = *managers_->time_varying();
+    projects::Manager& project_manager = *managers_->project();
+
+    for (current_year_ = start_year_; current_year_ <= final_year_; ++current_year_) {
+      LOG_FINE() << "Iteration year: " << current_year_;
+      time_varying_manager.Update(current_year_);
+      time_step_manager.Execute(current_year_);
+      project_manager.StoreValues(current_year_, start_year_, final_year_);
+    }
+
+    LOG_FINE() << "Entering the Projection Sub-System";
+    Reset();
+    managers_->report()->Execute(State::kPreExecute);
+    state_ = State::kInitialise;
+    current_year_ = start_year_;
+
+    init_phase_manager.Execute();
+    managers_->report()->Execute(State::kInitialise);
+
+    state_ = State::kExecute;
+    LOG_FINE() << "Starting projection years";
+    for (; current_year_ <= projection_final_year_; ++current_year_) {
+      LOG_FINE() << "Iteration year: " << current_year_;
+      time_varying_manager.Update(current_year_);
+      project_manager.Update(current_year_);
+      time_step_manager.Execute(current_year_);
+    }
+
+    // Model has finished so we can run finalise.
+    LOG_FINE() << "Model: State change to PostExecute";
+    managers_->report()->Execute(State::kPostExecute);
+
+    managers_->observation()->CalculateScores();
+
   }
 
-  LOG_FINE() << "Starting projection years";
-  projects::Manager& project_manager = *managers_->project();
-  for (; current_year_ <= projection_final_year_; ++current_year_) {
-    LOG_FINE() << "Iteration year: " << current_year_;
-    time_varying_manager.Update(current_year_);
-    project_manager.Update(current_year_);
-    time_step_manager.Execute(current_year_);
-  }
-
-  // Model has finished so we can run finalise.
-  LOG_FINE() << "Model: State change to PostExecute";
-  managers_->report()->Execute(State::kPostExecute);
-
-  managers_->observation()->CalculateScores();
+//
+//
+//
+//
+//	// This is where projections start
+//  LOG_FINE() << "Entering the Projection Sub-System";
+//
+//  state_ = State::kInitialise;
+//  current_year_ = start_year_;
+//  initialisationphases::Manager& init_phase_manager = *managers_->initialisation_phase();
+//  init_phase_manager.Execute();
+//  managers_->report()->Execute(State::kInitialise);
+//
+//  state_ = State::kExecute;
+//  timesteps::Manager& time_step_manager = *managers_->time_step();
+//  timevarying::Manager& time_varying_manager = *managers_->time_varying();
+//  for (current_year_ = start_year_; current_year_ <= final_year_; ++current_year_) {
+//    LOG_FINE() << "Iteration year: " << current_year_;
+//    time_varying_manager.Update(current_year_);
+//    time_step_manager.Execute(current_year_);
+//  }
+//
+//  LOG_FINE() << "Starting projection years";
+//  projects::Manager& project_manager = *managers_->project();
+//  for (; current_year_ <= projection_final_year_; ++current_year_) {
+//    LOG_FINE() << "Iteration year: " << current_year_;
+//    time_varying_manager.Update(current_year_);
+//    project_manager.Update(current_year_);
+//    time_step_manager.Execute(current_year_);
+//  }
+//
+//  // Model has finished so we can run finalise.
+//  LOG_FINE() << "Model: State change to PostExecute";
+//  managers_->report()->Execute(State::kPostExecute);
+//
+//  managers_->observation()->CalculateScores();
 }
 
 /**
@@ -678,7 +746,7 @@ void Model::Iterate() {
   state_ = State::kExecute;
   timesteps::Manager& time_step_manager = *managers_->time_step();
   timevarying::Manager& time_varying_manager = *managers_->time_varying();
-  for (current_year_ = start_year_; current_year_ <= final_year_; ++current_year_, current_year_index_ = current_year_ - start_year_) {
+  for (current_year_ = start_year_; current_year_ <= final_year_; ++current_year_) {
     LOG_FINE() << "Iteration year: " << current_year_;
     time_varying_manager.Update(current_year_);
     time_step_manager.Execute(current_year_);
