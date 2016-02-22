@@ -19,7 +19,7 @@
 #include "EstimateTransformations/Children/Log.h"
 #include "EstimateTransformations/Children/LogOdds.h"
 #include "EstimateTransformations/Children/SquareRoot.h"
-
+#include "EstimateTransformations/Children/Simplex.h"
 // namespaces
 namespace niwa {
 namespace estimatetransformations {
@@ -44,6 +44,8 @@ EstimateTransformation* Factory::Create(Model* model, const string& object_type,
       result = new LogOdds(model);
     else if (sub_type == PARAM_SQUARE_ROOT)
       result = new SquareRoot(model);
+    else if (sub_type == PARAM_SIMPLEX)
+      result = new Simplex(model);
 
 
     if (result)

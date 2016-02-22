@@ -40,9 +40,12 @@ public:
   void                        Build();
   void                        Reset() { DoReset(); };
   void                        Update(unsigned current_year);
+  virtual void                StoreValue(unsigned current_year, unsigned start_year, unsigned final_year);
+
 
   // accessors
   string                      estimable_parameter() {return estimable_parameter_;};
+  Estimable::Type             estimate_type() {return estimable_type_;};
 
 protected:
   // methods
@@ -72,6 +75,8 @@ protected:
   Estimable::Type             estimable_type_;
   base::Object*               target_;
   string                      estimable_parameter_  = "";
+  map<string,map<unsigned,Double>>  projected_parameters; // Parameter_label , year = value;
+
 private:
   bool                        ycs_value_check_;
 };

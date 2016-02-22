@@ -95,6 +95,7 @@ type beverton_holt
 categories stage=immature
 proportions 0.5 0.5
 r0 1.6059e+006
+b0 iphase2
 age 1
 ssb SSB
 standardise_ycs_years 1995:2006
