@@ -14,6 +14,7 @@
 #include "Model/Model.h"
 #include "Model/Managers.h"
 #include "Projects/Children/Constant.h"
+#include "Projects/Children/EmpiricalSampling.h"
 #include "Projects/Children/LogNormal.h"
 #include "Projects/Manager.h"
 
@@ -37,6 +38,8 @@ Project* Factory::Create(Model* model, const string& object_type, const string& 
       result = new Constant(model);
     else if (sub_type == PARAM_LOGNORMAL)
       result = new LogNormal(model);
+    else if (sub_type == PARAM_EMPIRICAL_SAMPLING)
+      result = new EmpiricalSampling(model);
 
     if (result)
       model->managers().project()->AddObject(result);

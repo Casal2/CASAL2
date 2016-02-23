@@ -50,11 +50,11 @@ void EstimateValue::DoExecute() {
        cache_ << "values "<< REPORT_R_MATRIX << "\n";
      }
      for (Estimate* estimate : estimates)
-         cache_ << estimate->parameter() << ", ";
+         cache_ << estimate->parameter() << " ";
 
      if (model_->run_mode() == RunMode::kProfiling) {
        for (auto profile : profiles)
-         cache_ << profile->parameter() << ", ";
+         cache_ << profile->parameter() << " ";
      }
      cache_ << "\n";
 
@@ -62,10 +62,10 @@ void EstimateValue::DoExecute() {
 
 
    for (Estimate* estimate : estimates)
-     cache_ << AS_DOUBLE(estimate->value()) << ", ";
+     cache_ << AS_DOUBLE(estimate->value()) << " ";
    if (model_->run_mode() == RunMode::kProfiling) {
      for (Profile* profile : profiles)
-       cache_ << profile->value() << ", ";
+       cache_ << profile->value() << " ";
    }
    cache_ << "\n";
 

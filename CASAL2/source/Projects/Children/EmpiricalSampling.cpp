@@ -11,6 +11,8 @@
 // headers
 #include "EmpiricalSampling.h"
 
+#include "Utilities/RandomNumberGenerator.h"
+#include "Utilities/To.h"
 
 // namespaces
 namespace niwa {
@@ -37,9 +39,16 @@ void EmpiricalSampling::DoValidate() {
  * Build
  */
 void EmpiricalSampling::DoBuild() {
-  // validate that the parameter exists over this year range then
-  // Build up a map of all the years and the parameter value for each year
+  // Build a vector of years that have been resampled with replacement between start_year and end_year
+  utilities::RandomNumberGenerator& rng = utilities::RandomNumberGenerator::Instance();
 
+  for (unsigned project_year : years_) {
+    Double Random_draw = round(rng.uniform(start_year_, final_year_));
+    unsigned year = 0;
+    if (!utilities::To<Double, unsigned>(Random_draw, year))
+      LOG_ERROR() << " Random Draw " << Random_draw << " Could not be converted from double to type unsigned";
+    resampled_years_[project_year] = year;
+  }
 }
 
 /**
@@ -51,7 +60,10 @@ void EmpiricalSampling::DoReset() { }
  *  Update our parameter with a random resample of the parameter between start_year_ and final_year_
  */
 void EmpiricalSampling::DoUpdate() {
-
+  value_ = projected_parameters_[estimable_parameter_][resampled_years_[model_->current_year()]];
+  LOG_FINE() << "In year: " << model_->current_year() << " Setting Value to: " << value_ << " drawn from year: " << resampled_years_[model_->current_year()];
+  LOG_FINE() << "type of parameter = " << estimable_type_;
+  (this->*DoUpdateFunc_)(value_);
 
 }
 

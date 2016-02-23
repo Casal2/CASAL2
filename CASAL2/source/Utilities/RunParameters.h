@@ -44,6 +44,7 @@ struct RunParameters {
   bool          single_step_model_ = false;
   bool          tabular_reports_ = false;
   unsigned      simulation_candidates_ = 1u;
+  unsigned      projection_candidates_ = 1u;
 
   bool          override_random_number_seed_ = false;
   unsigned      override_rng_seed_value_ = 123u;

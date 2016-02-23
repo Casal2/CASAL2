@@ -18,6 +18,7 @@
 #include "Model/Factory.h"
 #include "Estimates/Manager.h"
 #include "Estimates/Estimate.h"
+#include "Estimates/Children/Uniform.h"
 
 // namespaces
 namespace niwa {
@@ -46,44 +47,31 @@ void Simplex::DoBuild() {
     LOG_ERROR_P(PARAM_ESTIMATE) << "Estimate " << estimate_label_ << " could not be found. Have you defined it?";
     return;
   }
-
   length_ = estimates_.size();
-  simplex_values_.assign(length_, 0.0);
+  simplex_values_.assign((length_ - 1), 0.0);
+  // Populate the simplex vector
+  for (unsigned i = 0; i < length_ - 1; ++i) {
+    Double value = estimates_[i]->value();
+    total_ += value;
+    simplex_values_[i] = value;
+  }
+  total_ += estimates_[length_]->value();
 
-//  for (unsigned i = 0; i < length_ - 1; ++i) {
-//    Estimate* estimate = model_->managers().estimate().creator().Create(PARAM_ESTIMATE, PARAM_UNIFORM);  // Giving the estimate a prior of uniform. i.e. no contribution
-//    estimate->set_is_in_objective(false);
-//    estimate->set_label("simplex_" + i);
-//    estimate->set_target(&simplex_values[i]);
-//    estimate->set_lower_bound(x);
-//    estimate->set_upper_bound(y);
-//    estimate->set_creator_parameter("simplex_" + i);
-//  }
-//
-//  for (auto parameter : estimate_parameters) {
-//    auto estimate = model_->managers().estimate()->GetEstimate(parameter);
-//    estimate->set_estimated(false);
-//    estimates_.push_back(estimate);
-//  }
-//
-
-//
-//  estimate_ = model_->managers().estimate()->GetEstimateByLabel(estimate_label_);
-//  if (estimate_ == nullptr) {
-//    LOG_ERROR_P(PARAM_ESTIMATE) << "Estimate " << estimate_label_ << " could not be found. Have you defined it?";
-//    return;
-//  }
-//
-//  // Find estimate create a new label for pseudo parameter of format type[label].simplex_parameter
-//  string type       = "";
-//  string label      = "";
-//  string parameter  = "";
-//  string index      = "";
-//  model_->objects().ExplodeString(estimate_label_, type, label, parameter, index);
-//  string new_parameter = type + "[" + label + "]." + "simplex_" + index;
-//  LOG_FINEST() << "parameter: " << estimate_label_ << "; new_parameter: " << new_parameter;
-//
-
+  // Create, populate and validate simplex estimates
+  for (unsigned i = 0; i < length_ - 1; ++i) {
+    estimates::Uniform* simplex = new estimates::Uniform();
+    simplex->set_block_type(PARAM_ESTIMATE);
+    simplex->set_defined_file_name(__FILE__);
+    simplex->set_defined_line_number(__LINE__);
+    simplex->parameters().Add(PARAM_LABEL, "simplex_" + i, __FILE__, __LINE__);
+    simplex->set_in_objective_function(false);
+    simplex->set_target(&simplex_values_[i]);
+    simplex->set_creator_parameter("simplex_" + i);
+    //simplex->set_lower_bound(x);    // Ask Alistair what the bounds be
+    //simplex->set_upper_bound(y);    //
+    simplex->Validate();
+    model_->managers().estimate()->AddObject(simplex);
+  }
 }
 
 /**
