@@ -56,7 +56,7 @@ void CommandLineParser::Parse(int argc, char* argv[], RunParameters& options) {
     ("sample-file", value<string>(), "Sample file for resuming an MCMC")
     ("profiling,p", "Profling run mode")
     ("simulation,s", value<unsigned>(), "Simulation mode (arg = number of candidates)")
-    ("projection,f", "Projection mode")
+    ("projection,f", value<unsigned>(), "Projection mode (arg = number of projections per set of input values)")
     ("input,i", value<string>(), "Load free parameter values from file")
     ("fi", "Force the input file to only allow @estimate parameters (basic run mode only)")
     ("seed,g", value<unsigned>(), "Random number seed")
@@ -175,9 +175,10 @@ void CommandLineParser::Parse(int argc, char* argv[], RunParameters& options) {
   else if (parameters.count("simulation")) {
     options.run_mode_ = RunMode::kSimulation;
     options.simulation_candidates_ = parameters["simulation"].as<unsigned>();
-  } else if (parameters.count("projection"))
+  } else if (parameters.count("projection")) {
     options.run_mode_ = RunMode::kProjection;
-  else {
+    options.projection_candidates_ = parameters["projection"].as<unsigned>();
+  } else {
     LOG_ERROR() << "An invalid or unknown run mode has been specified on the command line.";
   }
 

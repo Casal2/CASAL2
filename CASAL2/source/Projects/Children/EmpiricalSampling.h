@@ -37,6 +37,8 @@ private:
   // members
   unsigned                    start_year_;
   unsigned                    final_year_;
+  Double                      value_;
+  map<unsigned,unsigned>      resampled_years_;
 };
 
 } /* namespace projects */
