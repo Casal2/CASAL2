@@ -31,8 +31,8 @@ namespace reports {
 /**
  * Class Definition
  */
-class Manager : public niwa::oldbase::Manager<reports::Manager, niwa::Report> {
-  friend class niwa::oldbase::Manager<reports::Manager, niwa::Report>;
+class Manager : public niwa::base::Manager<reports::Manager, niwa::Report> {
+  friend class niwa::base::Manager<reports::Manager, niwa::Report>;
   friend class niwa::Managers;
 public:
   // methods

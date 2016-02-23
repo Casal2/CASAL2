@@ -121,28 +121,6 @@ type logistic
 a50 5
 ato95 2
 
-@selectivity chatTANselMale
-type logistic
-a50 9
-ato95 4
-
-@selectivity chatTANselFemale
-type logistic
-a50 9
-ato95 4
-alpha 0.7
-
-@selectivity chatFselMale
-type logistic
-a50 9
-ato95 4
-
-@selectivity chatFselFemale
-type logistic
-a50 9
-ato95 4
-alpha 0.7
-
 @selectivity one
 type constant
 c 1

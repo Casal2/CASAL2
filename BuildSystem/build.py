@@ -77,12 +77,16 @@ def start_build_system():
     Globals.compiler_path_ = system_info.find_exe_path('g++.exe')
     Globals.gfortran_path_ = system_info.find_exe_path('gfortran.exe')
     Globals.latex_path_    = system_info.find_exe_path('bibtex.exe')
-    Globals.git_path_      = system_info.find_exe_path('git.exe')
+    Globals.git_path_      = system_info.find_exe_path('git.exe')  
   else:
     Globals.compiler_path_ = system_info.find_exe_path('g++')
     Globals.gfortran_path_ = system_info.find_exe_path('gfortran')
     Globals.latex_path_    = system_info.find_exe_path('bibtex')
     Globals.git_path_      = system_info.find_exe_path('git')    
+    if system_info.find_exe_path('unzip') == '':
+      return Globals.PrintError('unzip is not in the current path. Please ensure it has been installed')
+    if system_info.find_exe_path('cmake') == '':
+      return Globals.PrintError('cmake is not in the current path. Please ensure it has been intalled')    
   system_info.set_new_path()
 
   if Globals.compiler_path_ == "":

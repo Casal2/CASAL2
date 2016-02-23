@@ -27,7 +27,8 @@
 
 // Namespaces
 namespace niwa {
-namespace oldbase {
+class Model;
+namespace base {
 
 using std::vector;
 
@@ -40,7 +41,6 @@ public:
     for (StoredType* object: objects_)
       delete object;
   }
-//  static ClassType&           Instance();
   virtual void                Validate();
   virtual void                Build();
   virtual void                Reset();

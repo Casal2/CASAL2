@@ -21,8 +21,8 @@ namespace niwa {
 namespace additionalpriors {
 
 // classes
-class Manager : public niwa::oldbase::Manager<niwa::additionalpriors::Manager, niwa::AdditionalPrior> {
-  friend class niwa::oldbase::Manager<niwa::additionalpriors::Manager, niwa::AdditionalPrior>;
+class Manager : public niwa::base::Manager<niwa::additionalpriors::Manager, niwa::AdditionalPrior> {
+  friend class niwa::base::Manager<niwa::additionalpriors::Manager, niwa::AdditionalPrior>;
   friend class niwa::Managers;
 public:
   // methods

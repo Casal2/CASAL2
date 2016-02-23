@@ -121,12 +121,8 @@ void Manager::Validate() {
 
 void Manager::Validate(Model* model) {
   LOG_TRACE();
+  base::Manager<niwa::timesteps::Manager, niwa::TimeStep>::Validate();
   model_ = model;
-
-  for (auto time_step : objects_) {
-    LOG_FINE() << "Validating time step: " << time_step->label();
-    time_step->Validate();
-  }
 
   // Order our time steps based on the parameter given to the model
   vector<string> time_steps = model->time_steps();

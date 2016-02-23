@@ -21,8 +21,8 @@ class DerivedQuantity;
 /**
  * Class Definition
  */
-class Manager : public niwa::oldbase::Manager<niwa::timesteps::Manager, niwa::TimeStep> {
-  friend class niwa::oldbase::Manager<niwa::timesteps::Manager, niwa::TimeStep>;
+class Manager : public niwa::base::Manager<niwa::timesteps::Manager, niwa::TimeStep> {
+  friend class niwa::base::Manager<niwa::timesteps::Manager, niwa::TimeStep>;
   friend class niwa::Managers;
 public:
   // Methods
