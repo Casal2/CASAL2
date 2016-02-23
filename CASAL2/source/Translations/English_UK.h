@@ -214,6 +214,7 @@
 #define PARAM_ELECTIVITIES                        "electivities"
 #define PARAM_ENABLED_ESTIMATES                   "enabled_estimates"
 #define PARAM_END_TABLE                           "end_table"
+#define PARAM_EMPIRICAL_SAMPLING                  "empirical_sampling"
 #define PARAM_ERROR_VALUE                         "error_value"
 #define PARAM_ERROR_VALUES                        "error_values"
 #define PARAM_ERROR_VALUE_MULTIPLIER              "error_value_multiplier"

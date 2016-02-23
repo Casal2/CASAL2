@@ -34,8 +34,6 @@ LogNormal::LogNormal(Model* model) : Project(model) {
  * Validate
  */
 void LogNormal::DoValidate() {
-  // TODO Validate so that year class values must be included or a default value for ycs for projection years
-
   if (sigma_ == 0)
     LOG_ERROR_P(PARAM_SIGMA) << " must not equal 0.0, Use the constant projection method if you would like to project a parameter with 0 variability";
   if (mean_ == 0.0)

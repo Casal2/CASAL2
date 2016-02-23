@@ -56,6 +56,7 @@ public:
   unsigned              random_seed() { return options_.random_number_seed_; }
   string                config_file() { return options_.config_file_; }
   unsigned              simulation_candidates() const { return options_.simulation_candidates_; }
+  unsigned              projection_candidates() const { return options_.projection_candidates_; }
   string                estimable_value_file() const { return options_.estimable_value_input_file_; }
   bool                  force_estimable_values_file() { return options_.force_estimables_as_named_; }
   bool                  disable_standard_report() { return options_.no_std_report_; }

@@ -56,7 +56,7 @@ void Manager::Build(Model* model) {
     if (!ycs_values_exist) {
       for (auto process : model->managers().process()->objects()) {
         if (process->type() == PARAM_RECRUITMENT_BEVERTON_HOLT)
-          LOG_ERROR() << process->location() << " process " << process->label() << " does not contain a @project for ycs_values";
+          LOG_ERROR() << process->location() << " process " << process->label() << " does not contain a @project for ycs_values, but you are running in projection mode";
       }
     }
   }
