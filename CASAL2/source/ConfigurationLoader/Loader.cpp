@@ -629,11 +629,11 @@ void Loader::HandleInlineDefinitions(FileLine& file_line, const string& parent_l
         if (space_loc == string::npos)
           LOG_CODE_ERROR() << "space_loc == string::npos for line: " << start_string;
 
-        label = parent_label + string(".") + start_string.substr(space_loc + 1);
+        label = parent_label + string(".") + block_type + string(".") + start_string.substr(space_loc + 1);
         full_definition = file_line.line_.substr(space_loc + 1, second_inline_bracket - space_loc);
 
       } else {
-        label = parent_label + string(".") + utilities::ToInline<unsigned, string>(++inline_count);
+        label = parent_label + string(".") + block_type + string(".") + utilities::ToInline<unsigned, string>(++inline_count);
         full_definition = file_line.line_.substr(first_inline_bracket, second_inline_bracket - first_inline_bracket + 1);
       }
 
