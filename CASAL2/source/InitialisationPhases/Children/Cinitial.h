@@ -62,7 +62,7 @@ private:
   vector<TimeStep*>           time_steps_;
   vector<string>              derived_quanitity_;
   vector<DerivedQuantity*>    derived_ptr_;
-  unsigned                    ssb_offset_;
+  unsigned                    ssb_offset_ = 1;
 };
 
 } /* namespace initialisationphases */
