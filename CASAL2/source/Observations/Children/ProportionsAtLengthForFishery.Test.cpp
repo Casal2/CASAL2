@@ -46,9 +46,6 @@ age_lengths age_size
 type iterative
 years 100
 
-
-
-
 @time_step init  
 processes [type=nop]
 
@@ -60,7 +57,6 @@ processes instant_mort
 
 @time_step step3 
 processes  Ageing instant_mort
-
 
 @process Recruitment
 type recruitment_beverton_holt
@@ -74,11 +70,9 @@ ssb biomass_t1
 age 1
 ssb_offset 1
 
-
 @process Ageing
 type ageing
 categories stock
-
 
 @process instant_mort
 type mortality_instantaneous
@@ -109,9 +103,6 @@ time_step step1
 categories stock
 selectivities MaturationSel
 
-
-
-
 @selectivity One
 type constant
 c 1
@@ -136,17 +127,12 @@ sigma_l 3
 sigma_r 10
 alpha 1.0
 
-@selectivity One
-type constant
-c 1
-
 @selectivity chatTANSel
 type double_normal
 mu 6
 sigma_l 3
 sigma_r 10
 alpha 1.0
-
 
 @age_length age_size
 type von_bertalanffy
@@ -156,7 +142,6 @@ t0 -0.21
 Linf 88.3
 cv_first 0.1  
 length_weight size_weight3  
-
 
 @length_weight size_weight3
 type basic

@@ -577,6 +577,7 @@ string Loader::RangeSplit(const string& range_value) {
  * All labels created will be prefixed with <parent>.
  */
 void Loader::HandleInlineDefinitions(FileLine& file_line, const string& parent_label) {
+  vector<string> replacements = { "one", "two", "three", "four", "five", "six", "seven", "eight", "nine" };
 
   /**
    * Check if this line contains an inline definition we need to process first
@@ -585,7 +586,6 @@ void Loader::HandleInlineDefinitions(FileLine& file_line, const string& parent_l
   size_t second_inline_bracket = file_line.line_.find("]");
 
   if (first_inline_bracket != string::npos && second_inline_bracket != string::npos) {
-    unsigned inline_count = 0;
     vector<std::pair<string, string> > replacement_strings;
     string full_definition = "";
 
@@ -633,7 +633,11 @@ void Loader::HandleInlineDefinitions(FileLine& file_line, const string& parent_l
         full_definition = file_line.line_.substr(space_loc + 1, second_inline_bracket - space_loc);
 
       } else {
-        label = parent_label + string(".") + block_type + string(".") + utilities::ToInline<unsigned, string>(++inline_count);
+        unsigned index = inline_count_[block_type + "." + parent_label];
+        string s_index = index < replacements.size() ? replacements[index] :  utilities::ToInline<unsigned, string>(++index);
+        ++inline_count_[block_type + "." + parent_label];
+
+        label = parent_label + string(".") + s_index;
         full_definition = file_line.line_.substr(first_inline_bracket, second_inline_bracket - first_inline_bracket + 1);
       }
 

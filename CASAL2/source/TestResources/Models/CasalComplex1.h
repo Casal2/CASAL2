@@ -80,7 +80,7 @@ standardise_ycs_years 1973:1999
 @mortality halfm
 type constant_rate
 categories male female
-selectivities [type=constant; c=1] halfm.1
+selectivities [type=constant; c=1] halfm.one
 m 0.10 0.10
 
 @mortality fishing
@@ -218,13 +218,13 @@ table error_values
 end_table
 
 @estimate
-parameter catchability[chatCPUE.1].q
+parameter catchability[chatCPUE.one].q
 type uniform_log
 lower_bound 1e-8
 upper_bound 10
 
 @estimate 
-parameter catchability[chatTANbiomass.1].q
+parameter catchability[chatTANbiomass.one].q
 type uniform_log
 lower_bound 1e-2
 upper_bound 1
