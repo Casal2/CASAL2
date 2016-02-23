@@ -20,7 +20,7 @@
 // Headers
 #include "Partition/Accessors/Categories.h"
 #include "Processes/Process.h"
-
+#include "Utilities/Types.h"
 
 // namespaces
 namespace niwa {
@@ -28,7 +28,7 @@ class Selectivity;
 
 namespace processes {
 namespace accessor = niwa::partition::accessors;
-
+using utilities::OrderedMap;
 /**
  * Class Definition
  */
@@ -45,7 +45,8 @@ public:
 private:
   // Members
   vector<string>              category_labels_;
-  vector<Double>              m_;
+  vector<Double>              m_input_;
+  OrderedMap<string, Double>  m_;
   vector<Double>              ratios_;
   map<unsigned, Double>       time_step_ratios_;
   vector<vector<Double>>      mortality_rates_;

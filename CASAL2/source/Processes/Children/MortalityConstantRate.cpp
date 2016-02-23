@@ -35,7 +35,7 @@ MortalityConstantRate::MortalityConstantRate(Model* model)
   partition_structure_ = PartitionStructure::kAge;
 
   parameters_.Bind<string>(PARAM_CATEGORIES, &category_labels_, "List of categories", "");
-  parameters_.Bind<Double>(PARAM_M, &m_, "Mortality rates", "");
+  parameters_.Bind<Double>(PARAM_M, &m_input_, "Mortality rates", "");
   parameters_.Bind<Double>(PARAM_TIME_STEP_RATIO, &ratios_, "Time step ratios for M", "", true);
   parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_names_, "Selectivities", "");
 
@@ -55,15 +55,15 @@ MortalityConstantRate::MortalityConstantRate(Model* model)
 void MortalityConstantRate::DoValidate() {
   category_labels_ = model_->categories()->ExpandLabels(category_labels_, parameters_.Get(PARAM_CATEGORIES));
 
-  if (m_.size() == 1)
-    m_.assign(category_labels_.size(), m_[0]);
+  if (m_input_.size() == 1)
+    m_input_.assign(category_labels_.size(), m_input_[0]);
   if (selectivity_names_.size() == 1)
     selectivity_names_.assign(category_labels_.size(), selectivity_names_[0]);
 
-  if (m_.size() != category_labels_.size()) {
+  if (m_input_.size() != category_labels_.size()) {
     LOG_ERROR_P(PARAM_M)
         << ": Number of Ms provided is not the same as the number of categories provided. Expected: "
-        << category_labels_.size()<< " but got " << m_.size();
+        << category_labels_.size()<< " but got " << m_input_.size();
   }
 
   if (selectivity_names_.size() != category_labels_.size()) {
@@ -73,10 +73,13 @@ void MortalityConstantRate::DoValidate() {
   }
 
   // Validate our Ms are between 1.0 and 0.0
-  for (Double m : m_) {
+  for (Double m : m_input_) {
     if (m < 0.0 || m > 1.0)
       LOG_ERROR_P(PARAM_M) << ": m value " << AS_DOUBLE(m) << " must be between 0.0 and 1.0 (inclusive)";
   }
+
+  for (unsigned i = 0; i < m_input_.size(); ++i)
+    m_[category_labels_[i]] = m_input_[i];
 
   // Check categories are real
   for (const string& label : category_labels_) {
@@ -149,7 +152,7 @@ void MortalityConstantRate::DoExecute() {
 
   unsigned i = 0;
   for (auto category : partition_) {
-    Double m = m_.size() > 1 ? m_[i] : m_[0];
+    Double m = m_[category->name_];
 
     unsigned j = 0;
     LOG_FINEST() << "category " << category->name_ << "; min_age: " << category->min_age_ << "; ratio: " << ratio;

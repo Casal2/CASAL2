@@ -28,8 +28,7 @@ namespace niwa {
 namespace processes {
 
 namespace accessor = niwa::partition::accessors;
-using utilities::map3D;
-using utilities::map2D;
+using utilities::OrderedMap;
 
 // classes
 class MortalityInstantaneous : public Process {
@@ -88,7 +87,8 @@ private:
   string                      penalty_label_ = "";
   penalties::Process*         penalty_ = nullptr;
   // members from natural mortality
-  vector<Double>              m_;
+  vector<Double>              m_input_;
+  OrderedMap<string, Double>  m_;
   vector<Double>              time_step_ratios_temp_;
   map<unsigned, Double>       time_step_ratios_;
   vector<string>              selectivity_labels_;

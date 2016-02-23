@@ -55,7 +55,7 @@ MortalityInstantaneous::MortalityInstantaneous(Model* model)
   parameters_.Bind<string>(PARAM_CATEGORIES, &category_labels_, "Categories for natural mortality", "");
   parameters_.BindTable(PARAM_CATCHES, catches_table_, "Table of catch data", "", true, false);
   parameters_.BindTable(PARAM_FISHERIES, fisheries_table_, "Table of fishery data", "", true, false);
-  parameters_.Bind<Double>(PARAM_M, &m_, "Mortality rates", "")->set_range(0.0, 1.0);
+  parameters_.Bind<Double>(PARAM_M, &m_input_, "Mortality rates", "")->set_range(0.0, 1.0);
   parameters_.Bind<Double>(PARAM_TIME_STEP_RATIO, &time_step_ratios_temp_, "Time step ratios for M", "", true)->set_range(0.0, 1.0);
   parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_labels_, "Selectivities for Natural Mortality", "");
 
@@ -159,14 +159,17 @@ void MortalityInstantaneous::DoValidate() {
    * Validate the non-table parameters now. These are mostly related to the natural mortality
    * aspect of the process.
    */
-  if (m_.size() == 1)
-    m_.assign(category_labels_.size(), m_[0]);
+  if (m_input_.size() == 1)
+    m_input_.assign(category_labels_.size(), m_input_[0]);
   if (selectivity_labels_.size() == 1)
     selectivity_labels_.assign(category_labels_.size(), selectivity_labels_[0]);
-  if (m_.size() != category_labels_.size())
+  if (m_input_.size() != category_labels_.size())
     LOG_ERROR_P(PARAM_M)
         << ": Number of Ms provided is not the same as the number of categories provided. Expected: "
-        << category_labels_.size()<< " but got " << m_.size();
+        << category_labels_.size()<< " but got " << m_input_.size();
+  for (unsigned i = 0; i < m_input_.size(); ++i)
+    m_[category_labels_[i]] = m_input_[i];
+
   if (selectivity_labels_.size() != category_labels_.size()) {
     LOG_ERROR_P(PARAM_SELECTIVITIES)
         << ": Number of selectivities provided is not the same as the number of categories provided. Expected: "
@@ -265,11 +268,11 @@ void MortalityInstantaneous::DoExecute() {
    * category in to the fisheries it belongs too
    */
   map<string, map<unsigned, Double>> category_by_age_with_exploitation;
-  unsigned m_offset = 0;
+  unsigned category_offset = 0;
 
   if (model_->state() != State::kInitialise) {
     map<string, Double> fishery_vulnerability;
-    m_offset = 0;
+    category_offset = 0;
     for (auto categories : partition_) {
       categories->UpdateMeanWeightData();
 
@@ -280,12 +283,12 @@ void MortalityInstantaneous::DoExecute() {
         for (unsigned i = 0; i < categories->data_.size(); ++i) {
           Double vulnerable = categories->data_[i] * categories->mean_weight_per_[categories->min_age_ + i]
               * fishery_category.selectivity_->GetResult(categories->min_age_ + i, categories->age_length_)
-              * exp(-0.5 * ratio * m_[m_offset] * selectivities_[m_offset]->GetResult(categories->min_age_ + i, categories->age_length_));
+              * exp(-0.5 * ratio * m_[categories->name_] * selectivities_[category_offset]->GetResult(categories->min_age_ + i, categories->age_length_));
           fishery_vulnerability[fishery_category.fishery_label_] += vulnerable;
         }
         LOG_FINEST() << ": Vulnerable biomass from category " << categories->name_ << " contributing to fishery " << fishery_category.fishery_label_ << " = " << fishery_vulnerability[fishery_category.fishery_label_];
       }
-      ++m_offset;
+      ++category_offset;
     }
 
     /**
@@ -368,7 +371,7 @@ void MortalityInstantaneous::DoExecute() {
      * Calculate the expectation for a proportions_at_age observation
      */
     unsigned age_spread = model_->age_spread();
-    m_offset = 0;
+    category_offset = 0;
     for (auto categories : partition_) {
       for (auto fishery_category : fishery_categories_) {
         if (fishery_category.category_label_ == categories->name_
@@ -381,11 +384,11 @@ void MortalityInstantaneous::DoExecute() {
             removals_by_year_fishery_category_[year][fishery_category.fishery_label_][categories->name_][i] += categories->data_[i - age_offset]
                 * fishery_exploitation[fishery_category.fishery_label_]
                 * fishery_category.selectivity_->GetResult(categories->min_age_ + i, categories->age_length_)
-                * exp(-0.5 * ratio * m_[m_offset] * selectivities_[m_offset]->GetResult(categories->min_age_ + i, categories->age_length_));
+                * exp(-0.5 * ratio * m_[categories->name_] * selectivities_[category_offset]->GetResult(categories->min_age_ + i, categories->age_length_));
           }
         }
       }
-      m_offset++;
+      category_offset++;
     }
 
     // Report catches and exploitation rates for fisheries for each year and timestep
@@ -405,19 +408,19 @@ void MortalityInstantaneous::DoExecute() {
   /**
    * Remove the stock now
    */
-  m_offset = 0;
+  category_offset = 0;
   for (auto categories : partition_) {
     for (unsigned i = 0; i < categories->data_.size(); ++i) {
-      categories->data_[i] *= exp(-m_[m_offset] * ratio * selectivities_[m_offset]->GetResult(categories->min_age_ + i, categories->age_length_))
+      categories->data_[i] *= exp(-m_[categories->name_] * ratio * selectivities_[category_offset]->GetResult(categories->min_age_ + i, categories->age_length_))
           * (1 - category_by_age_with_exploitation[categories->name_][categories->min_age_ + i]);
       if (categories->data_[i] < 0.0) {
-        LOG_FINEST() << " Category : " << categories->name_ << " M = "<< m_[m_offset] << " ratio " << ratio << " selectivity : " << selectivities_[m_offset]->GetResult(categories->min_age_ + i, categories->age_length_)
-            << " u_f = " << category_by_age_with_exploitation[categories->name_][categories->min_age_ + i] << " data = " << categories->data_[i] << " Exp " << AS_DOUBLE(exp(-m_[m_offset]));
+        LOG_FINEST() << " Category : " << categories->name_ << " M = "<< m_[categories->name_] << " ratio " << ratio << " selectivity : " << selectivities_[category_offset]->GetResult(categories->min_age_ + i, categories->age_length_)
+            << " u_f = " << category_by_age_with_exploitation[categories->name_][categories->min_age_ + i] << " data = " << categories->data_[i] << " Exp " << AS_DOUBLE(exp(-m_[categories->name_  ]));
         LOG_FATAL() << " Fishing caused a negative partition : if (categories->data_[i] < 0.0)";
       }
     }
 
-    ++m_offset;
+    ++category_offset;
   }
 }
 
@@ -435,7 +438,7 @@ Double MortalityInstantaneous::GetMBySelectivity(const string& category_label, u
     LOG_ERROR() << "Category: " << category_label << " is not a valid category for the mortality instantaneous process " << label_;
   AgeLength* age_length = model_->categories()->age_length(category_label);
   //LOG_MEDIUM() << ": selectivity value = " << selectivities_[index]->GetResult(age, age_length);
-  return m_[index] * selectivities_[index]->GetResult(age, age_length);
+  return m_[category_label] * selectivities_[index]->GetResult(age, age_length);
 }
 
 /**
