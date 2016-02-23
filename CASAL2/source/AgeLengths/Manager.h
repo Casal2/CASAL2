@@ -20,8 +20,8 @@ namespace niwa {
 namespace agelengths {
 
 // classes
-class Manager : public niwa::oldbase::Manager<niwa::agelengths::Manager, niwa::AgeLength> {
-  friend class niwa::oldbase::Manager<niwa::agelengths::Manager, niwa::AgeLength>;
+class Manager : public niwa::base::Manager<niwa::agelengths::Manager, niwa::AgeLength> {
+  friend class niwa::base::Manager<niwa::agelengths::Manager, niwa::AgeLength>;
   friend class niwa::Managers;
 public:
   // methods

@@ -28,6 +28,7 @@ void Manager::Validate() {
 
 void Manager::Validate(Model* model) {
   LOG_TRACE();
+  base::Manager<niwa::processes::Manager, niwa::Process>::Validate();
 
   if (objects_.size() == 0)
     LOG_ERROR() << "The configuration file requires you specify at least one type of process. E.g @recruitment, @mortality, @ageing";
@@ -47,8 +48,6 @@ void Manager::Validate(Model* model) {
 
       LOG_ERROR() << process->location() << "the process " << label << " is not allowed to be created when the model type is set to " << model->type();
     }
-
-    process->Validate();
   }
 }
 

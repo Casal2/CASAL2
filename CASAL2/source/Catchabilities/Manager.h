@@ -26,8 +26,8 @@ namespace niwa {
 namespace catchabilities {
 
 // classes
-class Manager : public niwa::oldbase::Manager<niwa::catchabilities::Manager, niwa::Catchability> {
-  friend class niwa::oldbase::Manager<niwa::catchabilities::Manager, niwa::Catchability>;
+class Manager : public niwa::base::Manager<niwa::catchabilities::Manager, niwa::Catchability> {
+  friend class niwa::base::Manager<niwa::catchabilities::Manager, niwa::Catchability>;
   friend class niwa::Managers;
 public:
   // Methods

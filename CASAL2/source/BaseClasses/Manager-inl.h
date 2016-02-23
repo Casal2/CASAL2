@@ -11,10 +11,11 @@
  */
 
 #include "Logging/Logging.h"
+#include "Model/Model.h"
 
 // Namespaces
 namespace niwa {
-namespace oldbase {
+namespace base {
 
 /**
  * This method is our singleton instance method
@@ -30,11 +31,17 @@ namespace oldbase {
  */
 template <class ClassType, class StoredType>
 void Manager<ClassType, StoredType>::Validate() {
+  map<string, StoredType*> duplicates;
+
   for(auto stored_object : objects_) {
     stored_object->Validate();
+    if (duplicates.find(stored_object->label()) != duplicates.end()) {
+      LOG_FATAL() << "Two " << stored_object->block_type() << " objects with the same label "
+          << stored_object->label() << " have been declared. At "
+          << stored_object->location() << "and " << duplicates[stored_object->label()]->location();
+    }
+    duplicates[stored_object->label()] = stored_object;
   }
-
-  // TODO: Validate we don't have duplicate labels on objects
 }
 
 /**

@@ -22,8 +22,8 @@ namespace initialisationphases {
 /**
  * Class Definition
  */
-class Manager : public oldbase::Manager<niwa::initialisationphases::Manager, niwa::InitialisationPhase> {
-  friend class oldbase::Manager<niwa::initialisationphases::Manager, niwa::InitialisationPhase>;
+class Manager : public base::Manager<niwa::initialisationphases::Manager, niwa::InitialisationPhase> {
+  friend class base::Manager<niwa::initialisationphases::Manager, niwa::InitialisationPhase>;
   friend class niwa::Managers;
 public:
   // methods
