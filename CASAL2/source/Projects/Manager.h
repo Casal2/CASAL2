@@ -26,8 +26,8 @@ namespace projects {
 /**
  * Class definition
  */
-class Manager : public niwa::oldbase::Manager<niwa::projects::Manager, niwa::Project> {
-  friend class niwa::oldbase::Manager<niwa::projects::Manager, niwa::Project>;
+class Manager : public niwa::base::Manager<niwa::projects::Manager, niwa::Project> {
+  friend class niwa::base::Manager<niwa::projects::Manager, niwa::Project>;
   friend class niwa::Managers;
 public:
   // methods

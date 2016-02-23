@@ -27,8 +27,8 @@ namespace minimisers {
 /**
  * Class Definition
  */
-class Manager : public niwa::oldbase::Manager<minimisers::Manager, niwa::Minimiser> {
-  friend class niwa::oldbase::Manager<minimisers::Manager, niwa::Minimiser>;
+class Manager : public niwa::base::Manager<minimisers::Manager, niwa::Minimiser> {
+  friend class niwa::base::Manager<minimisers::Manager, niwa::Minimiser>;
   friend class niwa::Managers;
 public:
   // Methods

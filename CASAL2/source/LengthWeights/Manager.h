@@ -24,8 +24,8 @@ namespace lengthweights {
 /**
  * class definition
  */
-class Manager : public niwa::oldbase::Manager<niwa::lengthweights::Manager, niwa::LengthWeight> {
-  friend class niwa::oldbase::Manager<niwa::lengthweights::Manager, niwa::LengthWeight>;
+class Manager : public niwa::base::Manager<niwa::lengthweights::Manager, niwa::LengthWeight> {
+  friend class niwa::base::Manager<niwa::lengthweights::Manager, niwa::LengthWeight>;
   friend class niwa::Managers;
 public:
   // methods

@@ -23,8 +23,8 @@ namespace observations {
 /**
  * Class Definition
  */
-class Manager : public niwa::oldbase::Manager<observations::Manager, niwa::Observation> {
-  friend class niwa::oldbase::Manager<observations::Manager, niwa::Observation>;
+class Manager : public niwa::base::Manager<observations::Manager, niwa::Observation> {
+  friend class niwa::base::Manager<observations::Manager, niwa::Observation>;
   friend class niwa::Managers;
 public:
   // methods

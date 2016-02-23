@@ -24,8 +24,8 @@ namespace simulates {
 /**
  * Class definition
  */
-class Manager : public niwa::oldbase::Manager<niwa::simulates::Manager, niwa::Simulate> {
-  friend class niwa::oldbase::Manager<niwa::simulates::Manager, niwa::Simulate>;
+class Manager : public niwa::base::Manager<niwa::simulates::Manager, niwa::Simulate> {
+  friend class niwa::base::Manager<niwa::simulates::Manager, niwa::Simulate>;
   friend class niwa::Managers;
 public:
   // methods

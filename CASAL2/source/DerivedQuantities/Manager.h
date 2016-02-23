@@ -23,8 +23,8 @@ namespace niwa {
 namespace derivedquantities {
 
 // classes
-class Manager : public niwa::oldbase::Manager<derivedquantities::Manager, niwa::DerivedQuantity> {
-  friend class niwa::oldbase::Manager<derivedquantities::Manager, niwa::DerivedQuantity>;
+class Manager : public niwa::base::Manager<derivedquantities::Manager, niwa::DerivedQuantity> {
+  friend class niwa::base::Manager<derivedquantities::Manager, niwa::DerivedQuantity>;
   friend class niwa::Managers;
 public:
   // methods

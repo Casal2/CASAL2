@@ -39,8 +39,8 @@ struct Info {
 /**
  * Class Definition
  */
-class Manager : public niwa::oldbase::Manager<penalties::Manager, niwa::Penalty> {
-  friend class niwa::oldbase::Manager<penalties::Manager, niwa::Penalty>;
+class Manager : public niwa::base::Manager<penalties::Manager, niwa::Penalty> {
+  friend class niwa::base::Manager<penalties::Manager, niwa::Penalty>;
   friend class niwa::Managers;
 public:
   // Methods

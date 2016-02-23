@@ -30,8 +30,8 @@ namespace estimates {
 /**
  * Class definition
  */
-class Manager : public niwa::oldbase::Manager<estimates::Manager, niwa::Estimate> {
-  friend class niwa::oldbase::Manager<estimates::Manager, niwa::Estimate>;
+class Manager : public niwa::base::Manager<estimates::Manager, niwa::Estimate> {
+  friend class niwa::base::Manager<estimates::Manager, niwa::Estimate>;
   friend class niwa::Managers;
 public:
   // methods

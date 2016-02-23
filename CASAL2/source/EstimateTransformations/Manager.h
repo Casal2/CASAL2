@@ -20,8 +20,8 @@ namespace estimatetransformations {
 /**
  * Class Definition
  */
-class Manager : public niwa::oldbase::Manager<niwa::estimatetransformations::Manager, niwa::EstimateTransformation> {
-  friend class niwa::oldbase::Manager<niwa::estimatetransformations::Manager, niwa::EstimateTransformation>;
+class Manager : public niwa::base::Manager<niwa::estimatetransformations::Manager, niwa::EstimateTransformation> {
+  friend class niwa::base::Manager<niwa::estimatetransformations::Manager, niwa::EstimateTransformation>;
   friend class niwa::Managers;
 public:
   virtual                     ~Manager() = default;

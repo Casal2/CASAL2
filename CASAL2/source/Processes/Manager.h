@@ -28,8 +28,8 @@ namespace processes {
 /**
  * Class Definition
  */
-class Manager : public niwa::oldbase::Manager<niwa::processes::Manager, niwa::Process> {
-  friend class niwa::oldbase::Manager<niwa::processes::Manager, niwa::Process>;
+class Manager : public niwa::base::Manager<niwa::processes::Manager, niwa::Process> {
+  friend class niwa::base::Manager<niwa::processes::Manager, niwa::Process>;
   friend class niwa::Managers;
 public:
   // methods
