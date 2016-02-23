@@ -152,11 +152,6 @@ sigma_l 17
 sigma_r 7
 alpha 1.0
 
-
-@selectivity One
-type constant
-c 1
-
 @age_length age_size
 type schnute
 by_length true
@@ -169,7 +164,6 @@ a 0.131
 b 1.70
 cv_first 0.1
 length_weight size_weight3 
-
 
 @length_weight size_weight3
 type basic
