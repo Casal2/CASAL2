@@ -25,8 +25,8 @@ namespace asserts {
 /**
  * Class Definition
  */
-class Manager : public niwa::oldbase::Manager<niwa::asserts::Manager, niwa::Assert> {
-  friend class niwa::oldbase::Manager<niwa::asserts::Manager, niwa::Assert>;
+class Manager : public niwa::base::Manager<niwa::asserts::Manager, niwa::Assert> {
+  friend class niwa::base::Manager<niwa::asserts::Manager, niwa::Assert>;
   friend class niwa::Managers;
 public:
   virtual                     ~Manager() = default;

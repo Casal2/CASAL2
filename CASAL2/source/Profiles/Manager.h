@@ -21,8 +21,8 @@ namespace profiles {
 /**
  * Class definition
  */
-class Manager : public niwa::oldbase::Manager<niwa::profiles::Manager, niwa::Profile> {
-  friend class niwa::oldbase::Manager<niwa::profiles::Manager, niwa::Profile>;
+class Manager : public niwa::base::Manager<niwa::profiles::Manager, niwa::Profile> {
+  friend class niwa::base::Manager<niwa::profiles::Manager, niwa::Profile>;
   friend class niwa::Managers;
 public:
   // methods

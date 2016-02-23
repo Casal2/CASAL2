@@ -28,8 +28,8 @@ namespace ageingerrors {
 /**
  * Class Definition
  */
-class Manager : public niwa::oldbase::Manager<niwa::ageingerrors::Manager, niwa::AgeingError> {
-  friend class niwa::oldbase::Manager<niwa::ageingerrors::Manager, niwa::AgeingError>;
+class Manager : public niwa::base::Manager<niwa::ageingerrors::Manager, niwa::AgeingError> {
+  friend class niwa::base::Manager<niwa::ageingerrors::Manager, niwa::AgeingError>;
   friend class niwa::Managers;
 public:
   // methods

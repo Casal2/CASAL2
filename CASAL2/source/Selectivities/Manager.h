@@ -27,8 +27,8 @@ namespace selectivities {
 /**
  * Class defintiion
  */
-class Manager : public niwa::oldbase::Manager<niwa::selectivities::Manager, niwa::Selectivity> {
-  friend class niwa::oldbase::Manager<niwa::selectivities::Manager, niwa::Selectivity>;
+class Manager : public niwa::base::Manager<niwa::selectivities::Manager, niwa::Selectivity> {
+  friend class niwa::base::Manager<niwa::selectivities::Manager, niwa::Selectivity>;
   friend class niwa::Managers;
 public:
   // methods
