@@ -263,10 +263,10 @@ TEST_F(InternalEmptyModel, Processes_Tag_By_Age_With_Loss_Rate_Selectivities) {
   EXPECT_DOUBLE_EQ(0.0,         male.data_[2]);
   EXPECT_DOUBLE_EQ(0.0,         male.data_[3]);
   EXPECT_DOUBLE_EQ(0.0,         male.data_[4]);
-  EXPECT_DOUBLE_EQ(190.38942307692307, male.data_[5]);
-  EXPECT_DOUBLE_EQ(285.58413461538464, male.data_[6]);
-  EXPECT_DOUBLE_EQ(380.77884615384613, male.data_[7]);
-  EXPECT_DOUBLE_EQ(761.55769230769226, male.data_[8]);
+  EXPECT_DOUBLE_EQ(192.18385769115466, male.data_[5]);
+  EXPECT_DOUBLE_EQ(288.14027764600274, male.data_[6]);
+  EXPECT_DOUBLE_EQ(383.88143638402539, male.data_[7]);
+  EXPECT_DOUBLE_EQ(766.75435176196413, male.data_[8]);
   EXPECT_DOUBLE_EQ(0.0,         male.data_[9]);
 
   // 0.000000 0.000000 0.000000 0.000000 0.000000 302.788923 454.183385 605.577846 1211.155692 0.000000 0.000000 0.000000
@@ -276,10 +276,10 @@ TEST_F(InternalEmptyModel, Processes_Tag_By_Age_With_Loss_Rate_Selectivities) {
   EXPECT_DOUBLE_EQ(0.0,         female.data_[2]);
   EXPECT_DOUBLE_EQ(0.0,         female.data_[3]);
   EXPECT_DOUBLE_EQ(0.0,         female.data_[4]);
-  EXPECT_DOUBLE_EQ(302.78892307692314,  female.data_[5]);
-  EXPECT_DOUBLE_EQ(454.18338461538463,  female.data_[6]);
-  EXPECT_DOUBLE_EQ(605.57784615384628,  female.data_[7]);
-  EXPECT_DOUBLE_EQ(1211.1556923076926,  female.data_[8]);
+  EXPECT_DOUBLE_EQ(301.56923076923078,  female.data_[5]);
+  EXPECT_DOUBLE_EQ(452.35384615384612,  female.data_[6]);
+  EXPECT_DOUBLE_EQ(603.13846153846157,  female.data_[7]);
+  EXPECT_DOUBLE_EQ(1206.2769230769231,  female.data_[8]);
   EXPECT_DOUBLE_EQ(0.0,                 female.data_[9]);
 }
 
@@ -438,10 +438,10 @@ TEST_F(InternalEmptyModel, Processes_Tag_By_Age_With_Proportions_Table) {
   EXPECT_DOUBLE_EQ(0.0,         male.data_[2]);
   EXPECT_DOUBLE_EQ(0.0,         male.data_[3]);
   EXPECT_DOUBLE_EQ(0.0,         male.data_[4]);
-  EXPECT_DOUBLE_EQ(380.77884615384613, male.data_[5]);
-  EXPECT_DOUBLE_EQ(761.55769230769226, male.data_[6]);
-  EXPECT_DOUBLE_EQ(1142.3365384615386, male.data_[7]);
-  EXPECT_DOUBLE_EQ(1523.1153846153845, male.data_[8]);
+  EXPECT_DOUBLE_EQ(384.36771538230931, male.data_[5]);
+  EXPECT_DOUBLE_EQ(768.37407372267387, male.data_[6]);
+  EXPECT_DOUBLE_EQ(1151.6443091520762, male.data_[7]);
+  EXPECT_DOUBLE_EQ(1533.5087035239283, male.data_[8]);
   EXPECT_DOUBLE_EQ(0.0,         male.data_[9]);
 
   // 0.000000 0.000000 0.000000 0.000000 0.000000 605.577846 1211.155692 1816.733538 2422.311385 0.000000 0.000000 0.000000
@@ -451,10 +451,10 @@ TEST_F(InternalEmptyModel, Processes_Tag_By_Age_With_Proportions_Table) {
   EXPECT_DOUBLE_EQ(0.0,         female.data_[2]);
   EXPECT_DOUBLE_EQ(0.0,         female.data_[3]);
   EXPECT_DOUBLE_EQ(0.0,         female.data_[4]);
-  EXPECT_DOUBLE_EQ(605.57784615384628, female.data_[5]);
-  EXPECT_DOUBLE_EQ(1211.1556923076926, female.data_[6]);
-  EXPECT_DOUBLE_EQ(1816.7335384615385, female.data_[7]);
-  EXPECT_DOUBLE_EQ(2422.3113846153851, female.data_[8]);
+  EXPECT_DOUBLE_EQ(603.13846153846157, female.data_[5]);
+  EXPECT_DOUBLE_EQ(1206.2769230769231, female.data_[6]);
+  EXPECT_DOUBLE_EQ(1809.4153846153845, female.data_[7]);
+  EXPECT_DOUBLE_EQ(2412.5538461538463, female.data_[8]);
   EXPECT_DOUBLE_EQ(0.0,         female.data_[9]);
 }
 

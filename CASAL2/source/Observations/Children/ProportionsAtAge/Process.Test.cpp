@@ -80,7 +80,7 @@ standardise_ycs_years 1973:1999
 @mortality halfm
 type constant_rate
 categories male female
-selectivities [type=constant; c=1] halfm.1
+selectivities [type=constant; c=1] halfm.one
 m 0.10 0.10
 
 @mortality fishing
@@ -247,7 +247,7 @@ standardise_ycs_years 1973:1999
 @mortality halfm
 type constant_rate
 categories male female
-selectivities [type=constant; c=1] halfm.1
+selectivities [type=constant; c=1] halfm.one
 m 0.10 0.10
 
 @mortality fishing

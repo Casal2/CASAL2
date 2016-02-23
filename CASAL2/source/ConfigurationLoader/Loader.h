@@ -70,6 +70,7 @@ private:
   Model&                      model_;
   vector<FileLine>            file_lines_;
   parameters::Table*          current_table_ = nullptr;
+  map<string, unsigned>       inline_count_;
 };
 
 } /* namespace configuration */
