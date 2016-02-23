@@ -56,7 +56,7 @@ void EstimableValuesLoader::LoadValues(const string& file_name) {
 
   boost::replace_all(current_line, "\t", " ");
   boost::trim_all(current_line);
-  boost::split(parameters, current_line, boost::is_any_of(","));
+  boost::split(parameters, current_line, boost::is_any_of(" "));
 
   /**
    * Iterate through file
@@ -72,7 +72,7 @@ void EstimableValuesLoader::LoadValues(const string& file_name) {
     boost::trim_all(current_line);
     LOG_FINEST() << "current_line " << line_number << " in estimate_values: " << current_line;
 
-    boost::split(values, current_line, boost::is_any_of(","));
+    boost::split(values, current_line, boost::is_any_of(" "));
     if (values.size() != parameters.size())
       LOG_FATAL() << "In estimate_value file, line " << line_number << " has " << values.size() << " values when we expected " << parameters.size();
     for (unsigned i = 0; i < values.size(); ++i) {

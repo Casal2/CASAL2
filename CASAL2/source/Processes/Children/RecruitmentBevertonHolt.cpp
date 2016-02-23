@@ -228,9 +228,10 @@ void RecruitmentBevertonHolt::DoExecute() {
     LOG_FINEST() << "standardise_ycs_.size(): " << standardise_ycs_.size() << "; model_->current_year(): " << model_->current_year() << "; model_->start_year(): " << model_->start_year();
     Double ycs;
     // If projection mode ycs values get replaced with projected value from @project block
-    if (RunMode::kProjection && model_->current_year() > model_->final_year())
+    if (RunMode::kProjection && model_->current_year() > model_->final_year()) {
       ycs = ycs_values_[model_->current_year() - model_->start_year()];
-    else
+      LOG_FINEST() << "Size of ycs values: "  << ycs_values_.size() << " should be one more entry from previous year";
+    } else
       ycs = stand_ycs_values_[model_->current_year() - model_->start_year()];
 
     b0_ = derived_quantity_->GetLastValueFromInitialisation(phase_b0_);
