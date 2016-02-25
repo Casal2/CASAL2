@@ -48,7 +48,7 @@ void Log::DoBuild() {
 
   original_lower_bound_ = estimate_->lower_bound();
   original_upper_bound_ = estimate_->upper_bound();
-
+  original_value_ = estimate_->value();
   if (!parameters_.Get(PARAM_LOWER_BOUND)->has_been_defined())
     lower_bound_ = log(original_lower_bound_);
   if (!parameters_.Get(PARAM_UPPER_BOUND)->has_been_defined())
@@ -73,6 +73,14 @@ void Log::Restore() {
   estimate_->set_upper_bound(original_upper_bound_);
 
   estimate_->set_value(exp(estimate_->value()));
+}
+
+Double Log::GetScore() {
+//
+//  jacobian_ = 1.0 / original_value_;
+//  LOG_MEDIUM() << "jacobian: " << jacobian_;
+  return 0.0;
+
 }
 
 /**
