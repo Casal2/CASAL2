@@ -35,7 +35,7 @@ void Manager::Validate() {
 }
 
 /**
- *
+ * Transform values
  */
 void Manager::TransformEstimates() {
   LOG_TRACE();
@@ -45,7 +45,7 @@ void Manager::TransformEstimates() {
 }
 
 /**
- *
+ *   Restore values
  */
 void Manager::RestoreEstimates() {
   LOG_TRACE();

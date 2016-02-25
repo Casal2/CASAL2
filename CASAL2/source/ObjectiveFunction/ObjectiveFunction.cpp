@@ -138,6 +138,9 @@ void ObjectiveFunction::CalculateScore() {
     additional_priors_ += AS_DOUBLE(new_score.score_);
   }
 
+  /**
+   * Get the Jacobian score from estimate_transformations
+   */
   auto jacobians = model_->managers().estimate_transformation()->objects();
   jacobians_ = 0.0;
   for (auto jacobian : jacobians) {

@@ -33,7 +33,7 @@ public:
   void                        Transform() override final;
   void                        Restore() override final;
   std::set<string>            GetTargetEstimates() override final;
-  void                        CalculateJocabian() override final { };
+  Double                      GetScore() override final;
 protected:
   // methods
   void                        DoValidate() override final;
@@ -44,9 +44,11 @@ private:
   string                      estimate_label_ = "";
   vector<Double>              simplex_values_;
   vector<Estimate*>           estimates_;
+  vector<Estimate*>           simplex_estimates_;
+  Double                      sub_total_ = 0.0;
+  Double                      scalar_ = 1.0;
   Double                      total_ = 0.0;
   unsigned                    length_;
-  Double                      Jacobian = 0.0;
 };
 
 } /* namespace estimatetransformations */

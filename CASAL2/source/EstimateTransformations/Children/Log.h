@@ -33,7 +33,7 @@ public:
   void                        Transform() override final;
   void                        Restore() override final;
   std::set<string>            GetTargetEstimates() override final;
-  void                        CalculateJocabian() override final { };
+  Double                      GetScore() override final;
 protected:
   // methods
   void                        DoValidate() override final;

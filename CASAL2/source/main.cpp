@@ -55,6 +55,10 @@ int main(int argc, char * argv[]) {
     parser.Parse(argc, argv, parameters);
     model.global_configuration().set_run_parameters(parameters);
 
+    vector<string> cmd_parameters;
+    for (int i = 0; i < argc; ++i) cmd_parameters.push_back(argv[i]);
+    model.global_configuration().set_command_line_parameters(cmd_parameters);
+
     RunMode::Type run_mode = parameters.run_mode_;
 
     /**
