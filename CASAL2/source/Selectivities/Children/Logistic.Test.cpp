@@ -79,11 +79,12 @@ TEST(Selectivities, Logistic) {
   EXPECT_DOUBLE_EQ(0.0,                       logistic.GetResult(22, nullptr));
   EXPECT_DOUBLE_EQ(0.0,                       logistic.GetResult(23, nullptr));
 }
+
 /**
  * Test the results of our length based selectivity are correct
  */
 TEST(Selectivities, Logistic_length_normal) {
-  /*
+/*
   MockModel model;
   MockAgeLength agelength1;
   MockTimeStepManager time_step_manager;
@@ -94,7 +95,6 @@ TEST(Selectivities, Logistic_length_normal) {
   EXPECT_CALL(model, current_year()).WillRepeatedly(Return(1999));
 
   niwa::selectivities::Logistic logistic(&model);
-
   logistic.parameters().Add(PARAM_LABEL, "unit_test_logistic", __FILE__, __LINE__);
   logistic.parameters().Add(PARAM_TYPE, "not needed in test", __FILE__, __LINE__);
   logistic.parameters().Add(PARAM_A50,   "2",  __FILE__, __LINE__);
@@ -106,7 +106,7 @@ TEST(Selectivities, Logistic_length_normal) {
   EXPECT_CALL(agelength1, distribution()).WillRepeatedly(Return("normal"));
   unsigned year,age,time_step;
 
-  EXPECT_CALL(agelength1, cv(year,age,time_step)).WillRepeatedly(Return("normal"));
+  EXPECT_CALL(agelength1, cv(year,age,time_step)).WillRepeatedly(Return(0.3));
   // age 1
   EXPECT_CALL(agelength1, mean_length()).WillRepeatedly(Return(26.87972));
   EXPECT_DOUBLE_EQ(1,       logistic.GetResult(1, &agelength)); // At model->min_age()
@@ -121,6 +121,7 @@ TEST(Selectivities, Logistic_length_normal) {
   EXPECT_CALL(agelength1, mean_length()).WillOnce(Return(82.72808));
   EXPECT_DOUBLE_EQ(1,       logistic.GetResult(8, &agelength));
 */
+
 }
 
 }
