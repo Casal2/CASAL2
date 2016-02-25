@@ -1,0 +1,272 @@
+# Model Structure
+@model
+nrows 1
+ncols 1
+layer Base
+categories male female
+min_age 2
+max_age 25
+age_plus_group True
+initialisation_phases phase1
+initial_year 1975
+current_year 2002
+cell_length 1
+time_steps one two three
+age_size male female
+
+@age_size male
+type von_bertalanffy
+size_weight male
+k 0.277
+t0 -0.11
+linf 90.3
+distribution normal
+cv 0.2
+by_length True
+
+@age_size female
+type von_bertalanffy
+size_weight female
+k 0.202
+t0 -0.20
+linf 113.4
+distribution normal
+cv 0.2
+by_length True
+
+@size_weight male
+type basic
+a 2.49e-12
+b 3.234
+
+@size_weight female
+type basic
+a 1.70e-12
+b 3.328
+
+# Initialisation
+@initialisation_phase phase1
+years 200
+time_steps i_one two three
+
+@time_step i_one
+processes halfM halfM
+
+# Annual Cycle
+@time_step one
+processes halfM Fishing halfM
+
+@time_step two
+processes  Recruitment
+
+@time_step three
+processes Ageing
+
+# Derived parameters
+@derived_quantity SSB
+type biomass
+categories male female
+selectivities MaleMaturity FemaleMaturity
+time_step one
+initialisation_time_steps i_one
+
+# Population processes
+@process Ageing
+type ageing
+categories male female
+
+@process Recruitment
+type BH_recruitment
+categories male female
+proportions 0.5 0.5
+r0 5e6
+age 2
+steepness 0.9
+ycs_values 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00
+ssb SSB
+ssb_offset 3
+standardise_ycs_years 1973-1999
+
+@process halfM
+type constant_mortality_rate
+categories male female
+selectivities one one
+M 0.10 0.10
+
+@process Fishing
+type biomass_event_mortality
+categories male female
+years 1975 1976 1977 1978 1979 1980 1981 1982 1983 1984 1985 1986 1987 1988 1989 1990 1991 1992 1993 1994 1995 1996 1997 1998 1999 2000 2001 2002
+layers catch1975 catch1976 catch1977 catch1978 catch1979 catch1980 catch1981 catch1982 catch1983 catch1984 catch1985 catch1986 catch1987 catch1988 catch1989 catch1990 catch1991 catch1992 catch1993 catch1994 catch1995 catch1996 catch1997 catch1998 catch1999 catch2000 catch2001 catch2002
+U_max 0.9
+selectivities chatFselMale chatFselFemale
+penalty event_mortality_penalty
+
+# PENALTIES
+@penalty event_mortality_penalty
+log_scale True
+multiplier 10
+
+# Definition of layers
+@layer Base
+type numeric
+data 1
+
+@layer Cell
+type categorical
+data all
+
+@layer catch1975
+type numeric
+data 1191
+
+@layer catch1976
+type numeric
+data 1488
+
+@layer catch1977
+type numeric
+data 1288
+
+@layer catch1978
+type numeric
+data 2004
+
+@layer catch1979
+type numeric
+data 609
+
+@layer catch1980
+type numeric
+data 750
+
+@layer catch1981
+type numeric
+data 997
+
+@layer catch1982
+type numeric
+data 596
+
+@layer catch1983
+type numeric
+data 302
+
+@layer catch1984
+type numeric
+data 344
+
+@layer catch1985
+type numeric
+data 544
+
+@layer catch1986
+type numeric
+data 362
+
+@layer catch1987
+type numeric
+data 509
+
+@layer catch1988
+type numeric
+data 574
+
+@layer catch1989
+type numeric
+data 804
+
+@layer catch1990
+type numeric
+data 977
+
+@layer catch1991
+type numeric
+data 991
+
+@layer catch1992
+type numeric
+data 2454
+
+@layer catch1993
+type numeric
+data 2775
+
+@layer catch1994
+type numeric
+data 2898
+
+@layer catch1995
+type numeric
+data 4094
+
+@layer catch1996
+type numeric
+data 3760
+
+@layer catch1997
+type numeric
+data 3761
+
+@layer catch1998
+type numeric
+data 3673
+
+@layer catch1999
+type numeric
+data 3524
+
+@layer catch2000
+type numeric
+data 3700
+
+@layer catch2001
+type numeric
+data 3700
+
+@layer catch2002
+type numeric
+data 3700
+
+# Definition of selectivities
+@selectivity MaleMaturity
+type logistic
+a50 5
+ato95 2
+
+@selectivity FemaleMaturity
+type logistic
+a50 5
+ato95 2
+
+@selectivity chatTANselMale
+type logistic
+a50 9
+ato95 4
+
+@selectivity chatTANselFemale
+type logistic
+a50 9
+ato95 4
+alpha 0.7
+
+@selectivity chatFselMale
+type logistic
+a50 9
+ato95 4
+
+@selectivity chatFselFemale
+type logistic
+a50 9
+ato95 4
+alpha 0.7
+
+@selectivity one
+type constant
+c 1
+
+# Estimation Section
+@include "Estimation.spm"
+
+# Report Section
+@include "Report.spm"

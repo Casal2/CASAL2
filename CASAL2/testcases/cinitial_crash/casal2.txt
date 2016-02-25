@@ -1,0 +1,4 @@
+!include "population.isam"
+!include "estimation.isam"
+!include "report.isam"
+!include "observation.isam"
