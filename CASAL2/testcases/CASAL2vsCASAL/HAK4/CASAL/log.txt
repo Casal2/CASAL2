@@ -1,0 +1,20 @@
+CASAL (C++ algorithmic stock assessment laboratory)
+Call: casal -r 
+Date: Thu Sep 12 11:18:30 2013
+v2.30-2012-12-02 23:07:06 UTC (rev.4840)  (c) Copyright 2002-2012, NIWA
+User name: Admin
+Machine name: ANUBIS (Microsoft Windows, PID=6604)
+
+Random number seed : 41510
+
+CASAL (C++ algorithmic stock assessment laboratory)
+Call: casal -r 
+Date: Thu Sep 12 11:18:30 2013
+v2.30-2012-12-02 23:07:06 UTC (rev.4840)  (c) Copyright 2002-2012, NIWA
+User name: Admin
+Machine name: ANUBIS (Microsoft Windows, PID=6604)
+
+A fish of size 50 cm has a weight of 0.771336 kg in your model. This size-weight scale check assumes that the growth curve is in centimetres, and that the catch is in tonnes.
+
+
+Error: For subcommand log_scale of command vector_smoothing_penalty with label 1 a default value of 0 or 1 should be supplied.
