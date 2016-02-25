@@ -17,7 +17,7 @@ namespace reports {
  */
 DerivedQuantity::DerivedQuantity(Model* model) : Report(model) {
   run_mode_    = (RunMode::Type)(RunMode::kBasic | RunMode::kProjection);
-  model_state_ = (State::Type)(State::kIterationComplete| State::kFinalise);
+  model_state_ = (State::Type)(State::kIterationComplete);
 }
 
 
@@ -71,32 +71,34 @@ void DerivedQuantity::DoExecute() {
  */
 
 void DerivedQuantity::DoExecuteTabular() {
-	skip_tags_ = true;
-	derivedquantities::Manager& manager = *model_->managers().derived_quantity();
-	auto derived_quantities = manager.objects();
+  derivedquantities::Manager& manager = *model_->managers().derived_quantity();
+  auto derived_quantities = manager.objects();
 
-	for (auto dq : derived_quantities) {
-	  const map<unsigned, Double> values = dq->values();
-	    string derived_type = dq->type();
-		   if (first_run_) {
-			   cache_ << "*derived_quant (derived_quantity)\n";
-			   cache_ << "values " << REPORT_R_DATAFRAME << "\n";
-			   for (auto iter = values.begin(); iter != values.end(); ++iter)
-			   cache_ << derived_type << "_" << iter->first << " ";
-			   first_run_ = false;
-		   } else {
-		   for (auto iter = values.begin(); iter != values.end(); ++iter)
-	     cache_ << AS_DOUBLE(iter->second) << " ";
-	   }
+
+  if (first_run_) {
+    first_run_ = false;
+    cache_ << "*derived_quant (derived_quantity)\n";
+    cache_ << "values " << REPORT_R_DATAFRAME << "\n";
+    for (auto dq : derived_quantities) {
+      const map<unsigned, Double> values = dq->values();
+      string derived_type = dq->type();
+      for (auto iter = values.begin(); iter != values.end(); ++iter)
+        cache_ << derived_type << "_" << iter->first << " ";
     }
-    ready_for_writing_ = true;
+    cache_ << "\n";
+  }
+  for (auto dq : derived_quantities) {
+    const map<unsigned, Double> values = dq->values();
+    for (auto iter = values.begin(); iter != values.end(); ++iter)
+      cache_ << AS_DOUBLE(iter->second) << " ";
+  }
+  cache_ << "\n";
 }
 
 /**
  *
  */
 void DerivedQuantity::DoFinaliseTabular() {
-  cache_ << CONFIG_END_REPORT << "\n";
   ready_for_writing_ = true;
 }
 

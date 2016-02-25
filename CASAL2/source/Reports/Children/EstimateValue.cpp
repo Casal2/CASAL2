@@ -72,5 +72,34 @@ void EstimateValue::DoExecute() {
   ready_for_writing_ = true;
 }
 
+/**
+ *  Execute the report in tabular format
+ */
+void EstimateValue::DoExecuteTabular() {
+  vector<Estimate*> estimates = model_->managers().estimate()->objects();
+  /**
+   * if this is the first run we print the report header etc
+   */
+  if (first_run_) {
+    first_run_ = false;
+    cache_ << "*" << label_ << " " << "(" << type_ << ")" << "\n";
+    cache_ << "values " << REPORT_R_DATAFRAME << "\n";
+    for (Estimate* estimate : estimates)
+      cache_ << estimate->parameter() << " ";
+    cache_ << "\n";
+  }
+
+  for (Estimate* estimate : estimates)
+    cache_ << AS_DOUBLE(estimate->value()) << " ";
+  cache_ <<"\n" ;
+}
+
+/**
+ *  End report signature
+ */
+void EstimateValue::DoFinaliseTabular() {
+  ready_for_writing_ = true;
+}
+
 } /* namespace reports */
 } /* namespace niwa */
