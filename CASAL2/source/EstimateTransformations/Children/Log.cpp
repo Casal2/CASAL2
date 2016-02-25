@@ -76,9 +76,11 @@ void Log::Restore() {
 }
 
 Double Log::GetScore() {
-  jacobian_ = 1.0 / original_value_;
-  LOG_MEDIUM() << "jacobian: " << jacobian_;
-  return jacobian_;
+//
+//  jacobian_ = 1.0 / original_value_;
+//  LOG_MEDIUM() << "jacobian: " << jacobian_;
+  return 0.0;
+
 }
 
 /**
