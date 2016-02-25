@@ -16,7 +16,7 @@ active true
 @minimiser dlib
 type dlib
 
-@mcmc
+@mcmc metrop
 length 100
 
 @catchability CPUEq
@@ -62,7 +62,7 @@ delta 1e-11
 # OBSERVATIONS: CPUE
 @observation CPUE
 type process_abundance
-process halfM(4)
+process halfM
 catchability CPUEq
 years 1998:2007
 time_step step_one
@@ -77,13 +77,13 @@ likelihood lognormal
 type observation
 observation CPUE
 
-@profile
+@profile X
 parameter process[Recruitment].r0
 lower_bound 50000
 upper_bound 100000
 steps 50
 
-@profile
+@profile Y
 parameter selectivity[One].c
 lower_bound 1
 upper_bound 5

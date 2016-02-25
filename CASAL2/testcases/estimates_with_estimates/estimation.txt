@@ -16,7 +16,7 @@ active true
 @minimiser dlib
 type dlib
 
-@mcmc
+@mcmc metrop
 length 100
 
 @catchability CPUEq
@@ -72,13 +72,13 @@ error_value 0.2
 likelihood lognormal
 #process_error 0.00
 
-@profile
+@profile X
 parameter process[Recruitment].r0
 lower_bound 50000
 upper_bound 100000
 steps 50
 
-@profile
+@profile Y
 parameter selectivity[One].c
 lower_bound 1
 upper_bound 5
