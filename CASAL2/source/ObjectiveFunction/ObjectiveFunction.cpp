@@ -118,6 +118,7 @@ void ObjectiveFunction::CalculateScore() {
       new_score.label_ = PARAM_PRIOR + string("->") + estimate->parameter();
     new_score.score_ = estimate->GetScore();
 
+    LOG_MEDIUM() << "Parameter: " << estimate->parameter() << " : prior contribution " << estimate->GetScore() << " value = "  << estimate->value();
     score_list_.push_back(new_score);
     score_ += new_score.score_;
     priors_ += AS_DOUBLE(new_score.score_);
@@ -138,6 +139,9 @@ void ObjectiveFunction::CalculateScore() {
     additional_priors_ += AS_DOUBLE(new_score.score_);
   }
 
+  /**
+   * Get the Jacobian score from estimate_transformations
+   */
   auto jacobians = model_->managers().estimate_transformation()->objects();
   jacobians_ = 0.0;
   for (auto jacobian : jacobians) {

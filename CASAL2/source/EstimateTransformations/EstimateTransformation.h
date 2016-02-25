@@ -31,9 +31,8 @@ public:
   // pure virtual
   virtual void                Transform() = 0;
   virtual void                Restore() = 0;
-  virtual void                CalculateJocabian() = 0;
   virtual std::set<string>    GetTargetEstimates() = 0;
-  virtual Double              GetScore() { return jacobian_; };
+  virtual Double              GetScore() = 0;
 
 protected:
   // methods
@@ -46,6 +45,7 @@ protected:
   Double                      upper_bound_ = 0.0;
   Double                      original_lower_bound_ = 0.0;
   Double                      original_upper_bound_ = 0.0;
+  Double                      original_value_ = 0.0;
   Double                      jacobian_ = 0.0;
 };
 
