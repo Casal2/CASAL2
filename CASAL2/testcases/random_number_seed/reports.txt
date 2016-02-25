@@ -1,2 +1,0 @@
-@report rng
-type random_number_seed

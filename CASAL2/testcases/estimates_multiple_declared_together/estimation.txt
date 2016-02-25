@@ -6,7 +6,7 @@ step_size 1e-7
 tolerance 0.002 #The default is 0.002
 covariance True
 
-@mcmc
+@mcmc metrop
 length 100
 
 @catchability CPUEq
