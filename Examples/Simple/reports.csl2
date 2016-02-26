@@ -1,0 +1,38 @@
+## Report section for now
+@report summary
+type estimate_value
+
+@report objective
+type objective_function
+
+@report Init
+type initialisation_partition
+
+@report state1
+type partition
+time_step step1
+years 1975:2012
+
+@report state2
+type partition
+time_step step2
+years 1975:2012
+
+@report SSB
+type derived_quantity
+
+@report obs_tan
+type observation
+observation chatTANbiomass
+
+@report tan_at_age
+type observation
+observation chatTANage
+
+@report eastF_at_age
+type observation
+observation chatOBSest
+
+@report westF_at_age
+type observation
+observation chatOBSwst
