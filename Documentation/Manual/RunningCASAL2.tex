@@ -23,19 +23,19 @@ The command and subcommand definitions in the \config\ can be extensive (especia
 \CH
 \CNAME\ uses the standard output stream \texttt{standard output}\index{standard output} to display run-time information. The \I{standard error} stream is used by \CNAME\ to output the program exit status and run-time errors. We suggest redirecting both the standard output and standard error into files\index{Redirecting standard out}\index{Redirecting standard error}. With the bash shell (on Linux systems), you can do this using the command structure,
 
-\begin{verbatim} (\cname\ [arguments] > out) >& err &\end{verbatim}
+\begin{verbatim} (casal2 [arguments] > out) >& err &\end{verbatim}
 
 It may be useful to redirect the standard input, especially is you're using \CNAME\ inside a batch job software, i.e. 
 
-\begin{verbatim} (\cname\ [arguments] > out < /dev/null) >& err &\end{verbatim}
+\begin{verbatim} (casal2 [arguments] > out < /dev/null) >& err &\end{verbatim}
 
 On Microsoft Windows systems, you can redirect to standard output using,
 
-\begin{verbatim} \cname\ [arguments] > out\end{verbatim}
+\begin{verbatim} casal2 [arguments] > out\end{verbatim}
 
 And, on some Microsoft Windows systems (e.g., Windows7), you can redirect to both standard output and standard error, using the syntax, 
 
-\begin{verbatim} \cname\ [arguments] > out 2> err\end{verbatim}
+\begin{verbatim} casal2 [arguments] > out 2> err\end{verbatim}
 
 Note that \CNAME\ outputs a few lines of header information to the output. The header\index{Output header information} consists of the program name and version, the arguments passed to \CNAME\ from the command line, the date and time that the program was called (derived from the system time), the user name, and the machine name (including the operating system and the process identification number). These can be used to track outputs as well as identifying the version of \CNAME\ used to run the model.
 
@@ -46,13 +46,13 @@ The call to \CNAME\ is of the following form.:
 \texttt{\cname [-c \emph{config\_file}] [\emph{task}] [\emph{options}]}
 
 \begin{description}
-  \item [\texttt{-c \emph{config\_file}}] Define the \config\ for \CNAME. If omitted, then \CNAME\ looks for a file named \texttt{config.csl2}.
+  \item [\texttt{-c \emph{config\_file}}] Define the \config\ for \CNAME. If omitted, then \CNAME\ looks for a file named \texttt{casal2.txt}.
 \end{description}
 
 and where \emph{task} is one of;
 \begin{description}
 \item [\texttt{-h}] Display help (this page).
-\item [\texttt{-l}] Display the reference for the software license (CPLv1.0).
+\item [\texttt{-l}] Display the reference for the software license (LGPL).
 \item [\texttt{-v}] Display the \CNAME\ version number.
 
 \item [\texttt{-r}] \emph{Run} the model once using the parameter values in the \config, or optionally, with the values from the file denoted with the command line argument \texttt{-i \emph{file}}.
@@ -63,7 +63,7 @@ and where \emph{task} is one of;
 
 \item [\texttt{-m}] Do an \emph{MCMC} estimate using the values in the \config\ as the starting point for the parameters to be estimated, or optionally, with the start values from the file denoted with the command line argument \texttt{-i \emph{file}}. 
 
-%\item [\texttt{-f}] Project the model \emph{forward} in time using the parameter values in the \config\ as the starting point for the estimation, or optionally, with the start values from the file denoted with the command line argument \texttt{-i \emph{file}}. \NYI.
+\item [\texttt{-f}] Project the model \emph{forward} in time using the parameter values in the \config\ as the starting point for the estimation, or optionally, with the start values from the file denoted with the command line argument \texttt{-i \emph{file}}. 
 
 \item [\texttt{-s} \emph{number}] \emph{Simulate} the \emph{number} of observation sets using values in the \config\ as the parameter values, or optionally, with the values for the parameters denoted as estimated from the file with the command line argument \texttt{-i \emph{file}}.
 
@@ -76,11 +76,13 @@ In addition, the following are optional arguments\index{Optional command line ar
 
 \item [\texttt{-o \emph{file}}] \emph{Output} a report of the free (estimated) parameter values in a format suitable for \texttt{-i \emph{file}}. See Section \ref{sec:InputFileFormat} for details about the format of \texttt{\emph{file}}.
 
-\item [\texttt{-t \emph{number}}] Maximum number of \emph{threads}\index{Setting the number of threads}\index{Threads!setting} to use when the model includes multi-threaded process.
-
-\item [\texttt{-q}] Run \emph{quietly}, i.e., suppress verbose printing of \CNAME.
-
 \item [\texttt{-g \emph{seed}}]  Seed the random number \emph{generator} with \texttt{\emph{seed}}, a positive (long) integer value. Note, if \texttt{-g} is not specified, then \CNAME\ will  generate a random number seed based on the computer clock time.
+
+\item [\texttt{--loglevel}] arg = \{trace, finest, fine, medium\}
+
+\item [\texttt{--tabular}] Run with \texttt{-r} or \texttt{-f}  command it will print \command{report} in tabular format.
+
+\item [\texttt{--single-step}] Run with \texttt{-r}, this additional option will pause the model and ask the user to specify parameters and their values to use for the next iteration.
 \end{description}
 
 \subsection{Constructing an \CNAME\ \config \label{constructing-config}}\index{Input configuration file syntax}

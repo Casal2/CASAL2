@@ -61,9 +61,6 @@ void CombinedCategories::BuildCache() {
 
       data_[i].push_back(category);
     }
-
-    if (data_[i].size() != category_labels_[i].size())
-      LOG_CODE_ERROR() << "data_[i].size() != category_labels_[i].size() | i = " << i;
   }
 }
 

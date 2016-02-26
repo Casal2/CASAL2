@@ -1,2 +1,2 @@
 \section{Post processing output using \R \label{sec:post-processing}}
-
+In the downloaded bundle is a R-package that reads \CNAME\ output into R. The \CNAME\ package has only one function \texttt{extract()}, which will read in the entire file. The reporting framework is set up so the each \command{report} will start with * and end with *end. If this is not the case the \texttt{extract()} function will most likely fail. A post processing package is being developed to then create plots and process the raw input from the \texttt{extract()} function.

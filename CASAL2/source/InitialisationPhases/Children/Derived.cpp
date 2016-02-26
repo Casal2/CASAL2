@@ -104,8 +104,10 @@ void Derived::DoBuild() {
           << " does not exist in any time steps to be excluded. Please check your spelling";
   }
 
+
   // Build our partition
   vector < string > categories = model_->categories()->category_names();
+
   partition_.Init(categories);
   cached_partition_.Init(categories);
 
