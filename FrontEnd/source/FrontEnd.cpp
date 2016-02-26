@@ -117,7 +117,6 @@ int main(int argc, char * argv[]) {
    * command line parameters
    */
   return_code_ = (load_options)(argc, argv, options);
-  cout << "Options.minimiser_: " << options.minimiser_ << endl;
   if (return_code_ != 0) {
     CloseLibrary(release_library);
     return return_code_;
@@ -134,12 +133,9 @@ int main(int argc, char * argv[]) {
     return -1;
   }
   if ((preload_method)(options) != 0) {
-     cout << "FUCK" << endl;
     return -1;
   }
 
-
-  cout << "RunMode: " << options.run_mode_ << endl;
   switch(options.run_mode_) {
   case RunMode::kLicense:
   case RunMode::kVersion:
@@ -204,7 +200,6 @@ void RunBasic(int argc, char * argv[], niwa::utilities::RunParameters &options) 
  * Do An estimation run of our model
  */
 void RunEstimation(int argc, char * argv[], niwa::utilities::RunParameters &options) {
-  cout << "Minimiser: " << options.minimiser_ << endl;
   string library_name = release_lib;
   if (options.minimiser_ == "cppad")
     library_name = cppad_lib;
@@ -221,7 +216,6 @@ void RunEstimation(int argc, char * argv[], niwa::utilities::RunParameters &opti
     return;
   }
 
-  cout << "Library: " << library_name << endl;
   auto proc = (RUNPROC)LoadLibraryFunction(library, "Run");
   return_code_ =  (proc)(argc, argv, options);
   CloseLibrary(library);
