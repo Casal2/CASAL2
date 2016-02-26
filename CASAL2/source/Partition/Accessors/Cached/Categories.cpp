@@ -53,10 +53,6 @@ void Categories::BuildCache() {
 
     data_.push_back(category);
   }
-
-  if (data_.size() != category_labels_.size())
-    LOG_CODE_ERROR() << "Number of categories loaded is not the same as the number provided (" << data_.size() << " != " << category_labels_.size() << ")";
-
 }
 
 /**

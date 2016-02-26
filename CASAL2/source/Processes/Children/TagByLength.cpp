@@ -237,8 +237,11 @@ void TagByLength::DoExecute() {
   /**
    * Apply the loss rate
    */
+
   auto from_iter = from_partition_.begin();
   auto to_iter   = to_partition_.begin();
+
+    LOG_ERROR() << "From or to Category may not exist for year of process execution";
   for (; from_iter != from_partition_.end(); from_iter++, to_iter++) {
     string category_label = (*from_iter)->name_;
     Double loss_rate = loss_rate_by_category_[category_label];
