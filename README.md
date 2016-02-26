@@ -13,3 +13,13 @@ A windows bundle which includes a binary, manual, examples and other help guides
 
 
 For more information about CASAL2 contact the casal2 development team at casal2@niwa.co.nz
+
+
+Developer Commandments (for contributors)
+====
+- Thou shalt use two-space indentation
+- Thou shalt use spaces between equal signs
+- Thou shalt use a space after a comma
+- Thou shalt use comments within a function
+- Thou shalt fill out the doxygen header for each function
+- Thou shalt test thy code
