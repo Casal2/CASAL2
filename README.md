@@ -1,9 +1,11 @@
 CASAL2
 ====
 
-Integrated Stock Assessment Model (CASAL 2)
+CASAL2 is an age structured population dynamics model. It implements a statistical catch-at-age population dynamics, using a discrete time-step
+state-space model that represents a cohort-based population age structure. 
 
-This repository is a standalone repository containing all thirdparty libraries and source code necessary to compile CASAL2 v 1.0. 
+
+This repository is standalone containing all thirdparty libraries and source code necessary to compile CASAL2 v 1.0. 
 As this is version 1.0, there is no guarantee from the developers that everything is perfect.
 
 
