@@ -1,2 +1,0 @@
-@report objective_function
-type objective_function

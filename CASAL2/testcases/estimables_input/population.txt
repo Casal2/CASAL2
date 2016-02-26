@@ -43,8 +43,8 @@ categories immature.male mature.male immature.female mature.female
 M 0.065 0.065 0.065 0.065
 selectivities One One One One
 
-@maturation maturation
-type rate
+@transition maturation
+type category
 from immature.male immature.female
 to mature.male mature.female
 proportions 1.0 1.0
