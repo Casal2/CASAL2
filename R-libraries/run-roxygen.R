@@ -1,3 +1,3 @@
 require(roxygen2)
-roxygen2::roxygenize("iSAM/")
+roxygen2::roxygenize("CASAL2/")
 
