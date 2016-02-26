@@ -22,6 +22,7 @@
 #include <boost/algorithm/string/join.hpp>
 
 #include "License.h"
+#include "Version.h"
 
 // Namespaces
 namespace niwa {
@@ -126,6 +127,7 @@ void CommandLineParser::Parse(int argc, char* argv[], RunParameters& options) {
 
   } else if (parameters.count("version")) {
     options.run_mode_ = RunMode::kVersion;
+    cout << SOURCE_CONTROL_VERSION << endl;
     return;
 
   } else if (parameters.count("license")) {

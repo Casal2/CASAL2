@@ -190,9 +190,6 @@ int Run(int argc, char * argv[], niwa::utilities::RunParameters& options) {
       break;
 
     case RunMode::kVersion:
-      cout << SOURCE_CONTROL_VERSION << endl;
-      break;
-
     case RunMode::kLicense:
     case RunMode::kHelp:
       break;
