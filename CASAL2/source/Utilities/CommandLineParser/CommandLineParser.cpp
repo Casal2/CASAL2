@@ -21,6 +21,8 @@
 #include <boost/algorithm/string/split.hpp>
 #include <boost/algorithm/string/join.hpp>
 
+#include "License.h"
+
 // Namespaces
 namespace niwa {
 namespace utilities {
@@ -128,6 +130,7 @@ void CommandLineParser::Parse(int argc, char* argv[], RunParameters& options) {
 
   } else if (parameters.count("license")) {
     options.run_mode_ = RunMode::kLicense;
+    cout << license << endl;
     return;
 
   } else if (parameters.count("query")) {
