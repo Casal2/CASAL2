@@ -1,5 +1,0 @@
-@report state-1
-type partition
-time_step one
-years 1973-2007
-

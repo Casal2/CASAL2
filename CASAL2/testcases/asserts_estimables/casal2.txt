@@ -12,7 +12,7 @@ format stage.sex
 names immature.male mature.male immature.female mature.female
 
 @initialisation_phase iphase1
-years -200
+years 200
 exclude_processes Fishing
 
 @initialisation_phase iphase2
@@ -25,26 +25,25 @@ processes Recruitment maturation halfM Fishing halfM
 @time_step step_two
 processes my_ageing
 
-# Population processes
 @ageing my_ageing
-categories immature.male mature.male immature.female mature.female
+categories *
 
 @Recruitment Recruitment
 type constant
-categories immature.male immature.female
+categories stage=immature
 proportions 0.5 0.5
 R0 997386
 age 1
 
 @mortality halfM
 type constant_rate
-categories immature.male mature.male immature.female mature.female
+categories *
 M 0.065 0.065 0.065 0.065
 selectivities One One One One
 
 @mortality Fishing
 type event
-categories immature.male mature.male immature.female mature.female
+categories *
 years           1998         1999         2000         2001         2002         2003         2004          2005          2006          2007
 catches  1849.153714 14442.000000 28323.203463 24207.464203 47279.000000 58350.943094 82875.872790 115974.547730 113852.472257 119739.517172
 U_max 0.99
@@ -53,12 +52,11 @@ penalty event_mortality_penalty
 
 @transition maturation
 type category
-from immature.male immature.female
-to mature.male mature.female
+from stage=immature
+to stage=mature
 proportions 1.0 1.0
 selectivities Maturation Maturation
 
-# Definition of selecivities
 @selectivity One
 type constant
 c 1
@@ -74,3 +72,48 @@ ato95 3
 type logistic
 a50 8
 ato95 3
+
+@catchability CPUEq
+q 0.000153139
+
+@derived_quantity abundance
+type abundance
+categories *
+selectivities Maturation Maturation Maturation Maturation
+time_step step_one
+
+@estimate
+parameter catchability[CPUEq].q
+lower_bound 1e-10
+upper_bound 1e-1
+type uniform
+
+@estimate
+parameter process[Recruitment].R0
+lower_bound 1e5
+upper_bound 1e10
+type uniform_log
+
+@estimate
+parameter selectivity[FishingSel].a50
+lower_bound 1
+upper_bound 20
+type uniform
+
+@estimate
+parameter selectivity[FishingSel].ato95
+lower_bound 0.01
+upper_bound 50
+type uniform
+
+@penalty event_mortality_penalty
+type process
+log_scale False
+multiplier 10
+
+@assert r0
+type estimable
+parameter process[Recruitment].R0
+time_step step_two
+years 1994 1996 1998
+values 997386 997386 997386

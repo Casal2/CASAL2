@@ -1,0 +1,107 @@
+@model
+min_age 2
+max_age 25
+age_plus t
+start_year 1975
+final_year 2002
+initialisation_phases phase1
+time_steps one two three
+
+@categories
+format sex
+names male female
+age_lengths age_size_male age_size_female
+
+@age_length age_size_male
+type data
+length_weight [type=none]
+external_gaps mean
+internal_gaps mean
+table data
+year 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25
+1977 25.31 30.70 34.36 36.92 37.76 38.85 38.51 38.07 37.57 38.06 37.91 37.71 37.85 38.02 39 45 41 47 43 44 45 46 46 47
+1990 30.31 35.70 39.36 41.92 42.76 43.85 43.51 43.07 42.57 43.06 42.91 42.71 42.85 43.02 44 45 46 47 48 49 50 51 51 52
+2000 35.31 40.70 44.36 46.92 47.76 48.85 48.51 48.07 47.57 48.06 47.91 47.71 47.85 48.02 49 45 51 47 53 54 55 56 56 57
+end_table
+
+@report pmw
+type partition_mean_weight
+#@report obj
+#type objective_function
+
+@age_length age_size_female
+type von_bertalanffy
+length_weight [type=none]
+k 0.202
+t0 -0.20
+linf 113.4
+
+@initialisation_phase phase1
+years 20000
+exclude_processes fishing
+
+@time_step one
+processes halfm fishing halfm
+
+@time_step two
+processes recruitment
+
+@time_step three
+processes ageing
+
+@derived_quantity ssb
+type biomass
+categories male female
+selectivities male_maturity female_maturity
+time_step one
+
+@ageing ageing
+categories male female
+
+@recruitment recruitment
+type beverton_holt
+categories male female
+proportions 0.5 0.5
+r0 5e6
+age 2
+steepness 0.9
+ycs_values 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00
+ssb ssb
+ssb_offset 3
+standardise_ycs_years 1973:1999
+
+@mortality halfm
+type constant_rate
+categories male female
+selectivities [type=constant; c=1] halfm.one
+m 0.10 0.10
+
+@mortality fishing
+type event_biomass
+categories male female
+years 1975:2002
+catches 1191 1488 1288 2004 609 750 997 596 302 344 544 362 509 574 804 977 991 2454 2775 2898 4094 3760 3761 3673 3524 3700 3700 3700
+U_max 0.9
+selectivities chatFselMale chatFselFemale
+penalty event_mortality_penalty
+
+@selectivity male_maturity
+type logistic
+a50 5
+ato95 2
+
+@selectivity female_maturity
+type logistic
+a50 5
+ato95 2
+
+@selectivity one
+type constant
+c 1
+
+@penalty event_mortality_penalty
+type process
+log_scale True
+multiplier 10
+
+!include "estimation.txt"
