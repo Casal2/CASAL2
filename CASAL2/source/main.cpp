@@ -75,7 +75,6 @@ int main(int argc, char * argv[]) {
       break;
 
     case RunMode::kLicense:
-      cout << "License has not been implemented yet" << endl;
       break;
 
     case RunMode::kHelp:

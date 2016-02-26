@@ -194,9 +194,6 @@ int Run(int argc, char * argv[], niwa::utilities::RunParameters& options) {
       break;
 
     case RunMode::kLicense:
-      cout << "License has not been implemented yet" << endl;
-      break;
-
     case RunMode::kHelp:
       break;
 
