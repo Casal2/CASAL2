@@ -122,6 +122,15 @@ int main(int argc, char * argv[]) {
     return return_code_;
   }
 
+  switch(options.run_mode_) {
+  case RunMode::kLicense:
+  case RunMode::kVersion:
+  case RunMode::kHelp:
+    return 0;
+  default:
+    break;
+  }
+
   /**
    * Pre-Parse our configuration file so we can determine what library we want
    * to use for the estimation

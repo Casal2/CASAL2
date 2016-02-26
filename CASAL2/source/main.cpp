@@ -20,7 +20,6 @@ int main(int argc, char **argv) {
 #include <boost/algorithm/string/split.hpp>
 #include <boost/algorithm/string/join.hpp>
 
-#include "Version.h"
 #include "ConfigurationLoader/Loader.h"
 #include "GlobalConfiguration/GlobalConfiguration.h"
 #include "Model/Factory.h"
@@ -71,14 +70,8 @@ int main(int argc, char * argv[]) {
       break;
 
     case RunMode::kVersion:
-      cout << SOURCE_CONTROL_VERSION << endl;
-      break;
-
-    case RunMode::kLicense:
-      break;
-
     case RunMode::kHelp:
-      cout << parser.command_line_usage() << endl;
+    case RunMode::kLicense:
       break;
 
     case RunMode::kQuery:
