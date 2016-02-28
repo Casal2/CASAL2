@@ -149,17 +149,17 @@ int main(int argc, char * argv[]) {
     } // switch(run_mode)
 
   } catch (const string &exception) {
-    cout << "## ERROR - iSAM experienced a problem and has stopped execution" << endl;
+    cout << "## ERROR - CASAL2 experienced a problem and has stopped execution" << endl;
     cout << "Error: " << exception << endl;
     return_code = -1;
 
   } catch (std::exception& e) {
-    cout << "## ERROR - iSAM experienced a problem and has stopped execution" << endl;
+    cout << "## ERROR - CASAL2 experienced a problem and has stopped execution" << endl;
     cout << e.what() << endl;
     return_code = -1;
 
   } catch(...) {
-    cout << "## ERROR - iSAM experienced a problem and has stopped execution" << endl;
+    cout << "## ERROR - CASAL2 experienced a problem and has stopped execution" << endl;
     cout << "The exception was caught with the catch-all. The type was unknown" << endl;
     cout << "Please contact the application developer" << endl;
     return_code = -1;

@@ -47,7 +47,6 @@ void MCMCSample::DoPrepare() {
   if (!model_->global_configuration().resume()) {
     cache_ << "*mcmc (mcmc_sample)\n";
     cache_ << "values " << REPORT_R_DATAFRAME << "\n";
-    cache_ << "sample ";
 
     auto estimates = model_->managers().estimate()->GetIsEstimated();
     for (unsigned i = 0; i < estimates.size() - 1; ++i)
@@ -65,7 +64,6 @@ void MCMCSample::DoExecute() {
 
   auto chain = mcmc_->chain();
   unsigned element = chain.size() - 1;
-    cache_ << chain[element].iteration_ << " ";
     cache_ << utilities::String::join<Double>(chain[element].values_, " ") << "\n";
 
   ready_for_writing_ = true;
