@@ -1,3 +1,19 @@
 \section{\I{The report section}\label{sec:report-section}}\index{Reports}\index{Reports section}
-The report section\index{Reports section} the output users wish the model to dump after there desired run. These reports include snapshots of the partition after each time step, parameter estimates after each iteration, objective function values, MCMC attributes and others. Reporting in debug mode, all through out the code base there are LOG() that come at varies level. The most detailed is LOG\_TRACE(), followed by, LOG\_FINEST(),LOG\_FINE() and LOG\_MEDIUM(). These were implemented by developers and will print on the fly which method and state the model is in.
+The report section\index{Reports section} the output users wish the model to dump after there desired run. These reports include snapshots of the partition after each time step, parameter estimates after each iteration, objective function values, MCMC attributes and others. All reports begin with the \command{report} command, followed by the label, type, and sub commands specific for certain reports, for example. Specifying \CNAME\ to print out the expected, observed, residuals and likelihood contribution values from a set of observations, the command would go,
+
+{\small{\begin{verbatim}
+		@report observation_age ## label of report
+		type observation		## Type of report
+		observation age_1990	## label corresponding to an @observation report, shown below
+		
+		@observation age_1990
+		type proportion_at_age
+		year 1990
+		plus_group
+		etc ...
+		\end{verbatim}}}
+
+
+
+ Reporting in debug mode. All through out the code base there are LOG() commands that come at varies levels. The most detailed is LOG\_TRACE(), followed by, LOG\_FINEST(),LOG\_FINE() and LOG\_MEDIUM(). These were implemented by developers and will print on the fly which method, state the model is in and sometimes quantities within methods. These are useful for isolating where crashes are occurring in the model. Because unlike \command{report}, which cache reports in memory, logging out will print on the go.
 

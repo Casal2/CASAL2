@@ -38,36 +38,42 @@ EstimateValue::~EstimateValue() noexcept(true) {
  */
 void EstimateValue::DoExecute() {
   vector<Estimate*> estimates = model_->managers().estimate()->objects();
-  vector<Profile*>  profiles  = model_->managers().profile()->objects();
+  vector<Profile*> profiles = model_->managers().profile()->objects();
 
   /**
    * if this is the first run we print the report header etc
    */
   if (first_run_) {
-     first_run_ = false;
-     if (!skip_tags_) {
-       cache_ << "*" << label_ << " " << "("<< type_ << ")"<<"\n";
-       cache_ << "values "<< REPORT_R_MATRIX << "\n";
-     }
-     for (Estimate* estimate : estimates)
-         cache_ << estimate->parameter() << " ";
+    first_run_ = false;
+    if (!skip_tags_) {
+      cache_ << "*" << label_ << " " << "(" << type_ << ")" << "\n";
+      cache_ << "values " << REPORT_R_DATAFRAME << "\n";
+    }
+    for (Estimate* estimate : estimates)
+      cache_ << estimate->parameter() << " ";
 
-     if (model_->run_mode() == RunMode::kProfiling) {
-       for (auto profile : profiles)
-         cache_ << profile->parameter() << " ";
-     }
-     cache_ << "\n";
+    if (model_->run_mode() == RunMode::kProfiling) {
+      for (auto profile : profiles)
+        cache_ << profile->parameter() << " ";
+    }
+    cache_ << "\n";
 
-   }
+  } else {
 
-
-   for (Estimate* estimate : estimates)
-     cache_ << AS_DOUBLE(estimate->value()) << " ";
-   if (model_->run_mode() == RunMode::kProfiling) {
-     for (Profile* profile : profiles)
-       cache_ << profile->value() << " ";
-   }
-   cache_ << "\n";
+    if (model_->run_mode() == RunMode::kProfiling) {
+      cache_ << "*" << label_ << " " << "(" << type_ << ")" << "\n";
+      cache_ << "values " << REPORT_R_DATAFRAME << "\n";
+      for (Estimate* estimate : estimates)
+        cache_ << estimate->parameter() << " ";
+      cache_ << "\n";
+      for (Estimate* estimate : estimates)
+        cache_ << AS_DOUBLE(estimate->value()) << " ";
+    } else {
+      for (Estimate* estimate : estimates)
+        cache_ << AS_DOUBLE(estimate->value()) << " ";
+    }
+    cache_ << "\n";
+  }
 
   ready_for_writing_ = true;
 }

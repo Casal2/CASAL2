@@ -368,6 +368,7 @@
 #define PARAM_OBS                                 "obs"
 #define PARAM_OBSERVATION                         "observation"
 #define PARAM_OFF_BY_ONE                          "off_by_one"
+#define PARAM_OUTPUT_PARAMETERS                   "output_parameters"
 #define PARAM_ONE                                 "1 (one)"
 #define PARAM_ONE_THOUSAND                        "1000"
 #define PARAM_OVERWRITE                           "overwrite"

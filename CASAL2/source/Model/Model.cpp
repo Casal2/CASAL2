@@ -566,9 +566,9 @@ void Model::RunProfiling() {
         FullIteration();
 
         LOG_FINE() << "Model: State change to Iteration Complete";
+        run_mode_ = RunMode::kProfiling;
         managers_->report()->Execute(State::kIterationComplete);
 
-        run_mode_ = RunMode::kProfiling;
         profile->NextStep();
       }
       profile->RestoreOriginalValue();

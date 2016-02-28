@@ -48,9 +48,9 @@ void GlobalConfiguration::ParseOptions(Model* model) {
     options_.random_number_seed_ = options_.override_rng_seed_value_;
 
   if (options_.output_ != "") {
-    auto report = reports::Factory::Create(model, PARAM_REPORT, PARAM_ESTIMATE_VALUE);
-    report->parameters().Add(PARAM_LABEL, "estimate_value_output", __FILE__, __LINE__);
-    report->parameters().Add(PARAM_TYPE, PARAM_ESTIMATE_VALUE, __FILE__, __LINE__);
+    auto report = reports::Factory::Create(model, PARAM_REPORT, PARAM_OUTPUT_PARAMETERS);
+    report->parameters().Add(PARAM_LABEL, "parameter_output", __FILE__, __LINE__);
+    report->parameters().Add(PARAM_TYPE, PARAM_OUTPUT_PARAMETERS, __FILE__, __LINE__);
     report->parameters().Add(PARAM_FILE_NAME, options_.output_, __FILE__, __LINE__);
     report->set_skip_tags(true);
   }

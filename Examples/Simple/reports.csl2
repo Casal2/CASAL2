@@ -8,16 +8,6 @@ type objective_function
 @report Init
 type initialisation_partition
 
-@report state1
-type partition
-time_step step1
-years 1975:2012
-
-@report state2
-type partition
-time_step step2
-years 1975:2012
-
 @report SSB
 type derived_quantity
 
