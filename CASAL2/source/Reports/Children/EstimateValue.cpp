@@ -51,11 +51,14 @@ void EstimateValue::DoExecute() {
     }
     for (Estimate* estimate : estimates)
       cache_ << estimate->parameter() << " ";
+    cache_ << "\n";
+    for (Estimate* estimate : estimates)
+      cache_ << AS_DOUBLE(estimate->value()) << " ";
 
-    if (model_->run_mode() == RunMode::kProfiling) {
-      for (auto profile : profiles)
-        cache_ << profile->parameter() << " ";
-    }
+//    if (model_->run_mode() == RunMode::kProfiling) {
+//      for (auto profile : profiles)
+//        cache_ << profile->parameter() << " ";
+//    }
     cache_ << "\n";
 
   } else {
