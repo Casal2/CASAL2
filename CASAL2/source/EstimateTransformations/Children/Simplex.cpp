@@ -42,6 +42,7 @@ void Simplex::DoValidate() {
  */
 void Simplex::DoBuild() {
   LOG_TRACE();
+  LOG_WARNING() << "Simplex transforamtion works but is version 1.0 may need more work for calculating bounds";
   estimates_ = model_->managers().estimate()->GetEstimatesByLabel(estimate_label_);
   if (estimates_.size() < 1) {
     LOG_ERROR_P(PARAM_ESTIMATE) << "Estimate " << estimate_label_ << " could not be found. Have you defined it?";
@@ -60,8 +61,8 @@ void Simplex::DoBuild() {
   LOG_FINEST() << "total = " << total_ << " length " << length_;
 
   // Do a validation if vector doesn't sum to 1 of length (number of elements) error can't use this method
-  if (fabs(1.0 - total_) > 0.001 && (total_ - (length_)) > 0.001) {
-    LOG_ERROR_P(PARAM_ESTIMATE) << "This transformation can only be used on vectors that have a mean = 1 or sum = 1";
+  if (fabs(1.0 - total_) > 0.001) {
+    LOG_ERROR_P(PARAM_ESTIMATE) << "This transformation can only be used on vectors that sum to 1";
   }
 
   // If average == 1 then convert to proportions
