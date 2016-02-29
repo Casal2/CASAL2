@@ -7,7 +7,7 @@
  *
  * Copyright NIWA Science ©2016 - www.niwa.co.nz
  *
- * @section DESCRIPTION
+ * @section This methods takes two @estimate blocks everides the original methods with an estimate mean and difference
  *
  * << Add Description >>
  */
@@ -40,8 +40,12 @@ protected:
 
 private:
   // members
-  string                      estimate_label_ = "";
-  Estimate*                   estimate_ = nullptr;
+  string                      first_estimate_label_ = "";
+  string                      second_estimate_label_ = "";
+  bool                        first_value_bigger_ = false;
+  Estimate*                   first_estimate_ = nullptr;
+  Estimate*                   second_estimate_ = nullptr;
+
 };
 
 } /* namespace estimatetransformations */
