@@ -40,8 +40,7 @@ Penalties and priors act as constraints on the estimation. They can either encou
 
 \subsection{\I{The observation section}}
 \CH
-Types of observations, their values, and the associated error structures are defined in the observation section (Section \ref{sec:observation-section}). Observations are data which allow us to make inferences about unknown parameters. The observation section\index{Observation section} specifies the observations, their errors, likelihoods, and when the observations occur. Examples include relative or absolute abundance indices, proportions-at-age frequencies, etc. Estimation uses the observations to find values for each of the estimated parameters so that each observation is `close' (in some mathematical sense) to a corresponding expected value. 
+Types of observations, their values, and the associated error structures are defined in the observation section (Section \ref{sec:observation-section}). Observations are data which allow us to make inferences about unknown parameters. The observation section\index{Observation section} specifies the observations, their errors, likelihoods, and when the observations occur. Examples include relative or absolute abundance indices, proportions-at-age frequencies, tag recapture observations, etc. Estimation uses the observations to find values for each of the estimated parameters so that each observation is `close' (in some mathematical sense) to a corresponding expected value. 
 
 \subsection{\I{The report section}}
-\CH
 The report section\index{Report section} (Section \ref{sec:report-section}) specifies the model outputs. It defines the quantities and model summaries to be output to external files or to the standard output. While \CNAME\ will provide informational messages to the screen, \CNAME\ will only produce model estimates, population states, and other data as requested by the report section. Note that if no reports are specified, then no output will be produced.

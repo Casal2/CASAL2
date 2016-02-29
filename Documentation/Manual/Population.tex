@@ -26,15 +26,14 @@ Each year is split into one or more time steps, with at least one process occurr
 
 The state is the current status of the population, at any given time. The state can change one or more times in every time step of every year. The state object must contain sufficient information to figure out the future course of the fishery (given a model and a complete set of parameters).
 
-There are a number of possible changes in the state, which are called transitions. These include processes such as recruitment, natural mortality, fishing mortality, disease mortality, ageing, migration, tagging events, and semelparous mortality.
+There are a number of possible changes in the state, which are called transitions. These include processes such as recruitment, natural mortality, fishing mortality, ageing, migration, tagging events, and maturation.
 
 The division of the year into an arbitrary number of time steps allows the user to specify the exact order in which processes and observations occur. The user needs to specify the time step in which each process occurs. If more than one process occurs in the same time step, they will be applied in the order specified in the \command{time\_step} block.
 
-there is a default order in which they occur (see Section 5.3). If you don’t want things to happen in this default order, then split the processes into different time steps.
+The key element of the state is the partition. This is a broadly applicable concept that can be used to describe many different kinds of population model. The partition is simply a breakdown of the total number of fish in the current population into different kinds of fish (Note that the partition records numbers of fish, not biomass). The fish are categorised by various characters. Traditionally these characters have been: length class or age class, sex, maturity, area, stock, tag, and growth-path. However \CNAME\ has no predefined characters in the partition. This is a major extension on CASAL where users can extend on traditional problems, for example incorporating predator, prey, and in the case of some shellfish species a clock(dead) category. 
 
 
-The key element of the state is the partition. This is a broadly applicable concept that can be used to describe many different kinds of population model. The partition is simply a breakdown of the total number of fish in the current population into different kinds of fish. (Note that the partition records numbers of fish, not biomass.) The fish are categorised by various characters. The permissible characters are: length class or age class, sex, maturity, area, stock, tag, and growth-path. The user chooses:
-
+When defining the partition the user must choose:
 \begin{itemize}
 \item	whether the partition is subdivided by length class or age class (not both)
 \item	which of the other characters are included in the partition, e.g., the number of areas, stocks, tagging events, or growth paths (if any of these characters are included in the partition).
@@ -47,7 +46,7 @@ The resulting partition can be conceptualised as a matrix, where the columns are
 The names and number of categories are user defined, but there must be at least one category defined for a model. The ages are defined as a sequence from $age_{min}$ to $age_{max}$, with the last age optionally a plus group. In order to calculate biomass, the age-length relationship for each category must also be defined. An example of how this is specified for four categories based on sex and area is as follows,}
 {\small{\begin{verbatim}
 	@categories 
-	format spawn.sex
+	format mature.sex
 	names 		spawn.male 	spawn.female 	nonspawn.male 	nonspawn.female
 	age_lengths 	male_AL		female_AL   male_AL		female_AL  
 		\end{verbatim}}}	
@@ -66,10 +65,9 @@ So they define four time steps, labelled 1 through 4. Step 1 includes the non-sp
 
 This structure can be used to implement complex models, with intermingling of separate stocks, with complex migration patterns over multiple areas, and multiple fisheries using different fishing methods and covering different areas and times. Note that there is little point in using a complex structure to model a stock when there are no observations to support that structure. In other words, use a structure for your model that is compatible with the data available. 
 
-The model is run from an initial year up to the current year. It can also be run past the current year to make projections — things that happen in the future — up to the final year. Alternatively, for yield calculations, it is run over an abstract simulation period.
+The model is run from an initial year up to the final(current) year. It can also be run past the final year to make projections — things that happen in the future — up to the final projection year.
 
-
-An example, to specify a model with 2 categories (male and female) with ages 1-20 (with the last age a plus group) and an age-length relationship defined with the label \texttt{male-growth} and \texttt{female-growth}, then the \texttt{@model} example from above becomes,
+An example, to specify a model with 2 categories (male and female) with ages 1-20 (with the last age a plus group) and an age-length relationship defined with the label \texttt{male\_growth} and \texttt{female\_growth}, then the \texttt{@model} example from above becomes,
 {\small{\begin{verbatim}
 		@model
 		start_year
@@ -96,9 +94,9 @@ An example, to specify a model with 2 categories (male and female) with ages 1-2
 \item Tag. (any number of tagging events).
 \end{itemize}
 
-A stock is defined as a subpopulation of fish which recruits separately. See Section 5.11 for the treatment of maturity when it is not a character in the partition. 
+A stock is defined as a subpopulation of fish which recruits separately. See Section \ref{sec:maturity-notinpartition} for the treatment of maturity when it is not a character in the partition. 
 
-Growth-paths are a feature used to implement some persistence of length at age in an age-based model that uses some length/size data. Each growth-path has its own growth curve, and the length-based model features will consequently  have different effects on different growth-paths. So, you need to tell \CNAME  the following: 
+Growth-paths are a feature used to implement some persistence of length at age in an age-based model that uses some length/size data. Each growth-path has its own growth curve, and the length-based model features will consequently  have different effects on different growth-paths. So, you need to tell \CNAME\ the following: 
 
 \begin{itemize}
 \item Whether the model is age- or length-based.
@@ -116,20 +114,14 @@ Growth-paths are a feature used to implement some persistence of length at age i
 
 Age classes are always 1 year wide, except that the maximum age group can optionally be a plus group. Users need to choose the minimum and maximum age classes. Length classes are defined by the user, and you need to specify how many length classes there are, the lower bound of each length class, and whether the last length class is a plus group, or if not, what its upper bound is. The relevant parameters are \texttt{class\_mins} and \texttt{plus\_group}. The \texttt{class\_mins} parameter contains the lower bound of each class, and concludes with the upper bound of the last class if it is not a plus group. If, for example, length classes of 30-40, 40-50, 50-60, and 60-70+ cm were desired, you would set \texttt{class\_mins 30 40 50 60} and \texttt{plus\_group true}. Whereas if 30-40, 40-50, 50-60, and 60-70 cm were desired, you would set \texttt{class\_mins 30 40 50 60 70} and \texttt{plus\_group false}.
 
-\hl{\textbf{Pretty sure, CASAL 2 doesn't support this concept, can be deleted}}\\
-The user can specify that some combinations of characters are not possible. For example, immature fish might never occur in the area you have labelled \texttt{spawn\_ground}. To do this, you use the exclusions parameters. In this case, you would set,
-
-\texttt{exclusions\_char1 maturity}\\
-\texttt{exclusions\_val1 immature}\\
-\texttt{exclusions\_char2 area}\\
-\texttt{exclusions\_val2 spawn\_ground}
-
-It’s a good idea to use the exclusions parameter wherever appropriate because it reduces the size of the partition (so, with the above example, there will be no rows in the partition corresponding to immature fish in area \texttt{spawn\_ground}) and can save memory and calculation time.
+\CNAME\ allows categories of the partition to exist for certain years of the model. This is added for computational efficiency, when models contain a large number of categories that do not persist for all model years. Situations where this is beneficial is when a model contains a process that transitions fish into a category that has otherwise not been used, for example tagging events. Excluding categories for certain years saves initialising empty categories. This can be a big time saver if initialisation is run for 50 years and there are many tagging events.(When the ross sea model is up and running \% differences would be a nice insert here)
 
 \hlc{
 Another important component of the state object in CASAL is a vector of spawning stock biomasses (SSB's, mid-spawning season biomasses of spawning fish) for each stock. CASAL needs to include this in the stat object to calculate future recruitments, if there is a stock-recruitment relationship.}
+
+
 \hlc[new]{
-Another important component of the state object in \texttt{casal$^2$} are spawning stock biomasses (SSBs, mid-spawning season biomasses of spawning fish) for each stock. \texttt{Casal$^2$} derives through the command} \command{derived\_quantity}, this is needed if there is a stock-recruitment relationship. 
+Another important component of the state object in \texttt{casal$^2$} are derived quantities. This includes quantities such as spawning stock biomasses (SSBs, mid-spawning season biomasses of spawning fish) for each or a combination of categories. \texttt{Casal$^2$} derives through the command} \command{derived\_quantity}, this is needed if there is a stock-recruitment relationshi
 
 \subsection{\I{Time sequences}}
 
