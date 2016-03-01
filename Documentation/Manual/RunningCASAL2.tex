@@ -78,19 +78,19 @@ In addition, the following are optional arguments\index{Optional command line ar
 
 \item [\texttt{-g \emph{seed}}]  Seed the random number \emph{generator} with \texttt{\emph{seed}}, a positive (long) integer value. Note, if \texttt{-g} is not specified, then \CNAME\ will  generate a random number seed based on the computer clock time.
 
-\item [\texttt{--loglevel}] arg = \{trace, finest, fine, medium\}
+\item [\texttt{--loglevel}] arg = \{trace, finest, fine, medium\} See Section \ref{sec:report-section}.
 
-\item [\texttt{--tabular}] Run with \texttt{-r} or \texttt{-f}  command it will print \command{report} in tabular format.
+\item [\texttt{--tabular}] Run with \texttt{-r} or \texttt{-f}  command it will print \command{report} in tabular format. See Section \ref{sec:report-section}.
 
-\item [\texttt{--single-step}] Run with \texttt{-r}, this additional option will pause the model and ask the user to specify parameters and their values to use for the next iteration.
+\item [\texttt{--single-step}] Run with \texttt{-r}, this additional option will pause the model and ask the user to specify parameters and their values to use for the next iteration. See Section \ref{}.
 \end{description}
 
 \subsection{Constructing an \CNAME\ \config \label{constructing-config}}\index{Input configuration file syntax}
-\CH
+
 The model definition, parameters, observations, and reports are specified in an \config. The  population section is described in Section \ref{sec:population-section} and the population commands in Section \ref{sec:population-syntax}. Similarly, the estimation section is described in Section \ref{sec:estimation-section} and its commands in Section \ref{sec:estimation-syntax}, and in Section \ref{sec:report-section} and Section \ref{sec:report-syntax} for the report and report commands. 
 
 \subsubsection{Commands}\index{Commands}
-\CH
+
 \CNAME\ has a range of commands that define the model structure, processes, observations, and how tasks are carried out. There are three types of commands, 
 
 \begin{enumerate}
@@ -99,30 +99,21 @@ The model definition, parameters, observations, and reports are specified in an 
 \item Commands that do not have either a label or argument, but have subcommands (for example \command{model})
 \end{enumerate}
 
-Commands that have a label must have a unique label, i.e., the label cannot be used on more than one command of that type. The labels must start with a letter or underscore, can contain letters, underscores, or numbers. Labels must not contain white-space, a full-point ('.'), or other characters that are not letters, numbers, or an underscore.
-\EX \EXend
+Commands that have a label must have a unique label, i.e., the label cannot be used on more than one command of that type. The labels must start with a letter or underscore, can contain letters, underscores, or numbers. Labels must not contain white-space, a full-point ('.'), or other characters that are not letters, numbers, or an underscore. For example,
+
+{\small{\begin{verbatim}
+@process BH_Recruitment
+or
+!include MyModel
+		\end{verbatim}}}
 
 \subsubsection{Subcommands}\index{Commands ! Subcommands}
-\CH
+
 Subcommands in \CNAME\ are for defining options and parameter values for commands. They always take an argument which is one of a specific \emph{type}. The types acceptable for each subcommand are defined in Section \ref{sec:syntax}, and are summarised below. 
 
 Like commands (\command{command}), subcommands and their arguments are not order specific --- except that that all subcommands of a given command must appear before the next \command{command} block. \CNAME\ may report an error if they are not supplied in this way, however, in some circumstances a different order may result in a valid, but unintended set of actions, leading to possible errors in your expected results.  
 
 The arguments for a subcommand are either\index{Subcommand argument type}:
-
-%replace list format, delete these commented lines if tabular OK
-% \begin{description}
-%\item \textbf{switch}  true/false, 
-%\item \textbf{integer} an integer number,
-%\item \textbf{integer vector} a vector of integer numbers,
-%\item \textbf{integer range} a range of integer numbers separated by a hyphen (-), e.g. 1994-1996 %2000 is expanded to an integer vector of values 1994 1995 1996 2000),
-%\item \textbf{constant} a real number (i.e. double),
-%\item \textbf{constant vector} a vector of real numbers (i.e. vector of doubles),
-%\item \textbf{estimable} a real number that can be estimated (i.e. estimable double),
-%\item \textbf{estimable vector} a vector of real numbers that can be estimated (i.e. vector of %estimable doubles),
-%\item \textbf{string} a categorical (string) value, or
-%\item \textbf{string vector} a vector of categorical values.
-%\end{description} 
 
 \begin{tabular}{ll}
 \textbf{switch} & true/false\\ 
@@ -147,7 +138,7 @@ Arguments of type integer vector, integer range, constant vector, estimable vect
 
 \subsubsection{The command-block format}\index{Command block format}
 \CH
-Each command-block either consists of a single command (starting with the symbol \command{}) and, for most commands, a label or an argument. Each command is then followed by its subcommands and their arguments, e.g., 
+Each command-block either consists of a single command (starting with the symbol \command{}) and, for most commands, a unique label or an argument. Each command is then followed by its subcommands and their arguments, e.g., 
 
 \begin{description}
 \item \command{command}, or 
@@ -175,7 +166,15 @@ Characters used in labels must be alphanumeric and can include underscores (\_).
 Text that follows a \commentline\ on a line are considered to be comments and are ignored. If you want to remove a group of commands or subcommands using \commentline, then comment out all lines in the block, not just the first line. 
 
 Alternatively, you can comment out an entire block or section by placing curly brackets around the text that you want to comment out. Put in a \commentstart\ as the first character on the line to start the comment block, then end it with \commentend. All lines (including line breaks) between \commentstart\ and \commentend\ inclusive are ignored. (These should ideally be the first character on a line. But if not, then the entire line will be treated as part of the comment block.)
-\EX ...short example of comment syntax \EXend
+{\small{\begin{verbatim}
+		## This is a comment and will be ignored by CASAL2
+		@process BH_Recruitment
+		r0 3000000
+		{ This 
+		block of code 
+		will also be ignored by CASAL2
+		}
+		\end{verbatim}}}
 
 \subsubsection{Determining parameter names\label{sec:parameter-names}\index{Determining parameter names}\index{Parameter names}}
 \CH
@@ -193,5 +192,4 @@ The unique parameter name is used to reference the parameter when estimating, ap
 \texttt{process[MyRecruitment].r0}
 
 \subsection{\CNAME\ exit status values\index{Exit status value}}
-\CH
-When \CNAME\ completes its task successfully or errors out gracefully, it returns a single exit status value ($0$) to the operating system. The operating system will return ($-1$) if \CNAME\ terminates unexpectedly. To determine if \CNAME\ has completed its task successfully, check the standard output for error and information messages.
+When \CNAME\ completes its task successfully or errors out gracefully, it returns a single exit status value 'completed' to the standard output. Error messages will be printed to the console and if it is a configuration error. It will print the line number and file the error has been identified at
