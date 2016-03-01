@@ -1,9 +1,6 @@
 \section{\I{The estimation section}\label{sec:estimation-section}}
 
 \subsection{Role of the estimation section\label{sec:role-of-the-estimation-section}}
-\CH
-\KL This text from SPM, a rewrite of CASAL. OK to use? \KLend
-
 The role of the estimation section is to define the tasks carried out by \CNAME: 
 
 \begin{enumerate}
@@ -34,32 +31,25 @@ The contribution to the objective function from the likelihoods are defined in S
 Penalties can be used to ensure that the exploitation rate constraints on mortality events (i.e., fisheries) are not breached (otherwise there is nothing to prevent the model from having abundances so low that the recorded mortalities could not have been taken), penalties on category transitions (to ensure there are enough individuals to move), and possibly penalties to encourage estimated values to be similar or smooth, etc.
 
 \subsection{\I{Specifying the parameters to be estimated}\label{sec:estimate-free-parameters}}
-\CH
-\KL This text from SPM. Does not cover all the text in CASAL, e.g. catchabilities.  OK to use? Additions required? \KLend
-
 The estimable parameters that will be estimated are defined using \command{estimate} commands (see Section \ref{sec:estimation-syntax}). An \command{estimate} command-block looks like\index{Estimating parameters},
 
 {\small{\begin{verbatim}
   @estimate process[MyRecruitment].r0
   lower_bound 1000
   upper_bound 100000
-  prior uniform
+  type uniform
 \end{verbatim}}}
 
 See Section \ref{sec:parameter-names} for instructions on how to generate the parameter name. At least one parameter to be estimated if doing an estimation, profile, or MCMC run. Initial values for the parameters to be estimated will still need to be provided, and these are used as the starting values for the minimiser. However, these may be overwritten if you provide a set of alternative starting values (i.e., using  \texttt{\cname\ -i}, see Section \ref{sec:command-line-arguments}).
 
 All parameters are estimated within bounds\index{Bounds}. For each parameter to be estimated, you need to specify the bounds and the prior\index{Priors} (Section \ref{sec:priors}). Note that the bounds and prior for each parameter refer to the values of the parameters, not the actual values resulting from the application of the parameter to an equation. \textbf{Bounds should be carefully chosen as they effect the space in which the minimisers search over. Minimisers convert lower and upper bound to -1,1 space. Needs to be referenced}. If estimating only some elements of a vector, either define the elements of the vector to be estimated (see \ref{sec:parameter-names}) or fix the others by setting the bounds equal.
 
-The estimation of parameters can be phased. Here, some of the estimated parameters are initially held fixed, and a minimisation is carried out. Next, some or all of the remaining parameters that were initially held fixed are freed, and another minimisation is carried out. This process continues until all phases have been carried out.
+\hlc[new]{The estimation of parameters can be phased. Here, some of the estimated parameters are initially held fixed, and a minimisation is carried out. Next, some or all of the remaining parameters that were initially held fixed are freed, and another minimisation is carried out. This process continues until all phases have been carried out.}
 
 \subsection{\I{Point estimation}\label{sec:estimate-MPD}}
-\CH
-\KL This text from SPM. A rewrite of what's in CASAL and set out differntly. OK to use? Additions required? \KLend
-
-Point estimation is invoked with \texttt{\cname\ -e}. Mathematically, it is an attempt to find a minimum of the objective function\index{Objective function}. SPM has two algorithms for solving (minimising) the optimisation problem. The first uses a quasi-Newton minimiser built which is a slightly modified implementation of the main algorithm of Dennis Jr. \& Schnabel \citep{779}\index{Finite differences minimiser}, while the second uses a genetic algorithm developed by Storn \& Price \citep{1442}, the differential evolution minimiser \index{Differential evolution minimiser}. However, the second minimiser does not produce an estimate of the covariance matrix, and hence cannot be used to start an MCMC.
-
+Point estimation is invoked with \texttt{\cname\ -e}. Mathematically, it is an attempt to find a minimum of the objective function\index{Objective function}. \CNAME has multiple algorithms for solving (minimising) the optimisation problem. There are three non auto differential minimisers: numerical differences, differential evolution minimiser, and the dlib minimiser. There are also three auto differential minimisers being: ADOL-C, CPPAD, and BETADIFF. For references see section \ref{sec:tech}
 \subsubsection{\I{The numerical differences minimiser}}
-\CH
+
 The minimiser has three kinds of (non-error) exit status: 
 
 \begin{enumerate}
@@ -82,23 +72,24 @@ The approximate covariance matrix\index{Covariance matrix} of the estimated para
 Also note that if an estimated parameter has equal lower and upper bounds, it will have entries of `0' in the covariance matrix and \texttt{NaN} or \texttt{-1.\#IND} (depending on the operating system) in the correlation matrix. 
 
 \subsubsection{\I{The differential evolution minimiser}}
-\CH
+
 The differential evolution minimiser is a simple population based, stochastic function minimizer, but is claimed to be quite powerful in solving minimisation problems. It is a method of mathematical optimization of multidimensional functions and belongs to the class of evolution strategy optimizers. Initially, the procedure randomly generates and evaluates a number of solution vectors (the population size), each with $p$ parameters. Then, for each generation (iteration), the algorithm creates a candidate solution for each existing solution by random mutation and uniform crossover. The random mutation generates a new solution by multiplying the difference between two randomly selected solution vectors by some scale factor, then adding the result to a third vector. Then an element-wise crossover takes place with probability $P_{cr}$, to generate a potential candidate solution. If this is better than the initial solution vector, it replaces it, otherwise the original solution is retained. The algorithm is terminated after either a predefined number of generations (\argument{max\_generations}) or when the maximum difference between the scaled individual parameters from the candidate solutions from all populations is less than some predefined amount \argument{tolerance}.
 
 The differential evolution minimiser can be good at finding global minimums in surfaces that may have local minima. However, the speed of the minimiser, and the ability to find a good minima depend on the number of initial `populations'. Some authors recommend that the number of populations be set at about $10*p$, where $p$ is the number of free parameters. However, depending on your problem, you may find that you may need more, or that less will suffice.
 
 We note that there is no proof of convergence for the differential evolution solver, but several papers have found it to be an efficient method of solving multidimensional problems. Our (limited) experience suggests that it can often find a better minima and may be faster or longer (depending on the actual model specification) at finding a solution when compared with the numerical differences minimiser. Comparisons with auto-differentiation minimisers or other more sophisticated algorithms have not been made. 
 
-\subsubsection{\I{The Betadiff minimiser}}
+\subsubsection{\I{Betadiff minimiser}}
 An auto-differentiable minimiser for non-linear models.
+\subsubsection{\I{ADOL-C minimiser}}
+An auto-differentiable minimiser for non-linear models.
+\subsubsection{\I{CPPAD minimiser}}
+An auto-differentiable minimiser for non-linear models.
+\subsubsection{\I{Dlib minimiser}}
+Non auto-diff minimiser
 
 
 \subsection{\I{Posterior profiles}\label{sec:estimate-profiles}}
-
-\CH
-\KL This text from SPM. A rewrite of what's in CASAL, except for par. 5 and 7. OK to use? Additions required? \KLend
-
-
 If profiles are requested \texttt{\cname\ -p}, \CNAME\ will first calculate a point estimate. For each scalar parameter or, in the case of vectors or selectivities, the element of the parameter to be profiled, \CNAME\ will fix its value at a sequence of $n$ evenly spaced numbers ($step$) between a specified lower and upper bounds $l$ and $u$, and calculate a point estimate at each value. 
 
 By default $step=10$, and $(l, u)=($lower bound on parameter plus $(range/(2n))$, upper bound on parameter less $(range/(2n))$. Each minimisation starts at the final parameter values from the previous resulting value of the parameter being profiled. \CNAME\ will report the objective function for each parameter value. Note that an initial point estimate should be compared with the profile, not least to check that none of the other points along the profile have a better objective function value than the initial `minimum'.
@@ -288,30 +279,28 @@ In addition, for a vector p of n identically distributed parameters (for example
 
 
 \subsection{Penalties\label{sec:penalties}}
-\CH
-\KL This text from SPM, currently iSAM coded as described here.  CASAL documentation (S6.7.6) includes 11 penalties. Will this be included? \KLend
-
-Penalties can be used to encourage or discourage parameter values or model outputs that are unlikely to be sensible, by adding a penalty to the objective function. For example, parameter estimates that do not allow a known mortality event to remove enough individuals from the population can be discouraged with an event mortality penalty. \CNAME\ requires penalty functions for processes that move or shift a \emph{number} of individuals between categories or from the partition.
+Penalties are associated with processes and can be used to encourage or discourage parameter values or model outputs that are unlikely to be sensible, by adding a penalty to the objective function. For example, parameter estimates that do not allow a known mortality event to remove enough individuals from the population can be discouraged with an event mortality penalty. \CNAME\ requires penalty functions for processes that move or shift a \emph{number} of individuals between categories or from the partition.
 
 For most penalties, you need to specify a multiplier, and the objective function is increased by this multiplier times the penalty value as described below. In some cases you will need to make the multiplier quite large to prohibit some model behaviour. 
 
-Currently, the penalties for the processes \commandlabsubarg{process}{type}{event\_mortality} and \commandlabsubarg{process}{type}{category\_transition} are the only penalties implemented. 
+Currently, the penalties for the processes \commandlabsubarg{process}{type}{event\_mortality}, \commandlabsubarg{process}{type}{tag\_by\_length} and \commandlabsubarg{process}{type}{category\_transition} are the only penalties implemented. 
 
-For both of these processes, two types of penalty can be defined, natural scale (the default) and log scale. Both of these types add a penalty value of the squared difference between the observed value (i.e., the actual number of individuals to be removed in an event mortality process or the actual number of individuals to shift in a category transition process), and the number that were moved (if less than or equal), times the penalty multiplier.
+For these processes, two types of penalty can be defined, natural scale (the default) and log scale. Both of these types add a penalty value of the squared difference between the observed value (i.e., the actual number of individuals to be removed in an event mortality process or the actual number of individuals to shift in a category transition process), and the number that were moved (if less than or equal), times the penalty multiplier.
 
 The natural scale penalty just uses at the squared difference on a natural scale, while the log scale penalty uses the squared difference of the logged values. 
 
+\subsection{Additional Priors\label{sec:additional_priors}}
+Additional priors are the inverse 
+
+
 \subsection{\I{Estimate Transformations}\label{sec:transformations}}
 
-\CNAME\ has the untested functionality of transforming a parameter on a new scale. When parameters are estimated or used in MCMC they are transformed on the desired scale, and after each iteration they are untransformed and used in the annual cycle. Each transformation will contribute a Jacobian to the objective function taking into account the new distribution. The user must supply the lower and upper bound for the transformed variable.
+\CNAME\ has the untested functionality of transforming an estimated parameter in a new space. This may be done to remove correlation for other convergence or optimisation purposes. This functionality transforms the estimate and the bounds to the transformed space along with the prior. To account for the change variable a Jacobian is added to the objective function. For more information uses are asked to read the STAN manual \textbf{REFERENCE}. The user must supply the type, bounds for the transformed varaiable can be supplied by the user, but if not \CNAME\ will work them out. NOTE must be used with caution. May be buggy!!!
 
 \subsubsection[log]{\argument{log}}\index{Estimate Transformations!log}
 
 
 \subsubsection[Inverse]{\argument{Inverse}}\index{Estimate Transformations!Inverse}
-
-
-\subsubsection[Log odds]{\argument{Log odds}}\index{Estimate Transformations!Log odds}
 
 
 \subsubsection[Log odds]{\argument{Log odds}}\index{Estimate Transformations!Log odds}
