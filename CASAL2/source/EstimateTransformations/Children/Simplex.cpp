@@ -58,32 +58,24 @@ void Simplex::DoBuild() {
     total_ += estimates_[i]->value();
     estimates_[i]->set_estimated(false);
   }
-  LOG_FINEST() << "total = " << total_ << " length " << length_;
+  LOG_MEDIUM() << "total = " << total_ << " length " << length_;
 
   // Do a validation if vector doesn't sum to 1 of length (number of elements) error can't use this method
-  if (fabs(1.0 - total_) > 0.001) {
-    LOG_ERROR_P(PARAM_ESTIMATE) << "This transformation can only be used on vectors that sum to 1";
-  }
-
-  // If average == 1 then convert to proportions
-  if (fabs(1.0 - total_) > 0.001)
-    scalar_ = length_;
-
-  LOG_FINEST() << "scalar = " << scalar_;
+  if (fabs(1.0 - total_) > 0.001 && (total_ - (length_)) > 0.001)
+   LOG_ERROR_P(PARAM_ESTIMATE) << "This transformation can only be used on vectors that have a mean = 1 or sum = 1";
 
   // Populate the simplex vector
+  for (unsigned i = 0; i < simplex_values_.size(); ++i)
+    sub_total_ += estimates_[i]->value();
+
   for (unsigned i = 0; i < simplex_values_.size(); ++i) {
-    Double value = estimates_[i]->value() / scalar_;
-    sub_total_ += value;
-  }
-  for (unsigned i = 0; i < simplex_values_.size(); ++i) {
-    simplex_values_[i] = (estimates_[i]->value() / scalar_) / (1 - sub_total_);
+    simplex_values_[i] = estimates_[i]->value() / (total_ - sub_total_);
   }
 
   LOG_MEDIUM() << "sub_total = " << sub_total_;
 
-  Double L_bound = estimates_[length_ - 1]->lower_bound() / scalar_;
-  Double U_bound = estimates_[length_ - 1]->upper_bound() / scalar_;
+  Double L_bound = estimates_[length_ - 1]->lower_bound();
+  Double U_bound = estimates_[length_ - 1]->upper_bound();
   // Create, populate and validate simplex estimates
   for (unsigned i = 0; i < simplex_values_.size(); ++i) {
     estimates::Uniform* simplex = new estimates::Uniform();
@@ -99,9 +91,9 @@ void Simplex::DoBuild() {
     simplex->set_label(param_label);
     simplex->set_target(&simplex_values_[i]);
     simplex->set_creator_parameter(param_label);
-    simplex->set_lower_bound((estimates_[i]->lower_bound() / scalar_) / U_bound);
-    simplex->set_upper_bound((estimates_[i]->upper_bound() / scalar_) / L_bound);
-    LOG_FINEST() << "value = " << simplex->value() << ", upper bound = " << simplex->upper_bound() << ", lower bound = " << simplex->lower_bound();
+    simplex->set_lower_bound(estimates_[i]->lower_bound()  / U_bound);
+    simplex->set_upper_bound(estimates_[i]->upper_bound()  / L_bound);
+    LOG_MEDIUM() << "value = " << simplex->value() << ", upper bound = " << simplex->upper_bound() << ", lower bound = " << simplex->lower_bound();
     simplex->set_in_objective_function(false);
     simplex_estimates_.push_back(simplex);
     model_->managers().estimate()->AddObject(simplex);
@@ -120,23 +112,26 @@ void Simplex::Transform() {
  */
 void Simplex::Restore() {
   LOG_TRACE();
+  jacobian_values_.assign(simplex_values_.size(),0.0);
   // intialise as 1 which accounts for the known parameter
   Double new_total = 1.0;
 
   for (unsigned i = 0; i < simplex_values_.size(); ++i) {
+    jacobian_values_[]
     new_total += simplex_values_[i];
   }
-  LOG_FINEST() << "total: " << new_total;
+  LOG_MEDIUM() << "total: " << new_total;
 
 
   // Calculate new values for annual cycle whilst reversing the relevant
   for (unsigned i = 0; i < simplex_values_.size(); ++i) {
-    Double restored_value = (simplex_values_[i] / new_total) * scalar_;
-    LOG_FINEST() << "Parameter label: " << estimates_[i]->parameter() << "Restored Value = " << restored_value;
+    Double restored_value = (simplex_values_[i] / new_total * total_);
+    LOG_MEDIUM() << "Parameter label: " << estimates_[i]->parameter() << "Restored Value = " << restored_value;
     estimates_[i]->set_value(restored_value);
   }
-  Double restore_final_value = (1.0 / new_total) * scalar_;
+  Double restore_final_value = (1.0 / new_total * total_);
   estimates_[length_ - 1]->set_value(restore_final_value);
+  LOG_MEDIUM() << "Parameter label: " << estimates_[length_ - 1]->parameter() << "Restored Value = " << restore_final_value;
 }
 
 /**
@@ -146,11 +141,12 @@ Double Simplex::GetScore() {
   jacobian_ = simplex_values_[0] * (1 - simplex_values_[0]);
   if (simplex_values_.size() > 1 ) {
   for (unsigned i = 1; i < simplex_values_.size(); ++i) {
+    LOG_MEDIUM() << "val = " << simplex_values_[i];
     jacobian_ *= simplex_values_[i] * (1 - simplex_values_[i]);
     }
   }
-  jacobian_ *= (1.0 - sub_total_);
-  LOG_FINEST() << "Jacobian: " << jacobian_;
+  jacobian_ *= (total_ - sub_total_);
+  LOG_MEDIUM() << "Jacobian: " << jacobian_;
   return jacobian_;
 }
 
