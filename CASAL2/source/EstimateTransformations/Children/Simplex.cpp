@@ -112,12 +112,10 @@ void Simplex::Transform() {
  */
 void Simplex::Restore() {
   LOG_TRACE();
-  jacobian_values_.assign(simplex_values_.size(),0.0);
   // intialise as 1 which accounts for the known parameter
   Double new_total = 1.0;
 
   for (unsigned i = 0; i < simplex_values_.size(); ++i) {
-    jacobian_values_[]
     new_total += simplex_values_[i];
   }
   LOG_MEDIUM() << "total: " << new_total;
