@@ -1,0 +1,226 @@
+\documentclass[12pt]{article}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage[left=2.54cm,top=2.54cm,bottom=3.17cm,right=3.17cm]{geometry}
+\newcommand{\cas}{\texttt{CASAL2}}
+\newcommand{\CAS}{CASAL$^2$}
+\newcommand{\command}[1] {\texttt{@#1}}
+\begin{document}
+	\title{An introduction to CASAL$^2$}
+	\author{C.Marsh}
+	\maketitle
+\section{Introduction}\label{sec:intro}
+This document is a help guide for \CAS\ (C++ Algorithmic stock assessment laboratory), aimed at users who are new to this program. As the names suggests \CAS\ is a generalised tool for carrying out age structured stock assessments. There are a range of benefits for using \CAS\ for catch-at-age/length stock assessments, The first being it is generalised, so has many settings that can be turned on and off for certain situations, it is well tested and great effort has been put into the code base, so that it can be easily adapted to new theory and development in integrated stock assessments. 
+This program is covered under the licence "vGPL v3" see the terms and conditions, or type \texttt{casal2 -v} into the command prompt. There is also supplementary information that may be useful to have access while reading this. This includes a more comprehensive and detailed user manual which goes into \CAS\ in more depth. 
+
+
+Also coming soon will be a document on how \CAS\ has inbuilt testing of code, and another validation document comparing \CAS\ predecessor with \CAS\. These can all be found in \CAS\ file that is installed with the installer. By this stage we are assuming you have installed \CAS\ using the \texttt{casal2\_setup.exe}. This will install \CAS\ into your path and create a folder in a location of your choice containing, source code, examples, a manual, an R library, this document, an executable and auxiliary libraries.
+
+
+\section{How it works}\label{Sec:how}
+\CAS\ is run from a command prompt (windows) or shell (linux), \CAS\ is executed by typing \texttt{casal2 -parameter}, where \texttt{parameter} defines the run type of \CAS. Once a \CAS\ has been executed with a certain parameter \CAS\ reads in text files. These text files define the model structure and the output wanted. For help on the parameters available and there descriptions type \texttt{casal2 --help}, this will print a help screen. There are multiple modes that \CAS\ can be run in, these are specified using the following command statement the program name followed by the mode parameter (e.g.\cas\ \texttt{ -parameter}). The modes and corresponding parameters include deterministic run \texttt{-r}, parameter estimation \texttt{-e}, parameter profiling \texttt{-p}, mcmc runs \texttt{-m}, and projections \texttt{-f}. There are two ways of printing output, the default is to print all output to screen, the second is to print output to a file. The second is usually the preferred if you intend on post processing output i.e. create plots. The following example shows how to read in text file that out model is configured in (\texttt{My\_model.txt}) and run an estimation on some parameters in that model, then print the output to a file named \texttt{output.txt}.\\
+\cas\ \texttt{-e  -c My\_model.txt > output.txt}
+
+\cas\ calls the program, \texttt{-e} tells the program it is going to do an estimation. \texttt{-c} is the parameter that gives the name of the text file with the configured model is, and \texttt{>} is the command to specify the file name where the output is printed.
+
+\section{Syntax of a CASAL2 file}\label{Sec:stru}
+A general structure of \CAS\ files are that they are split into blocks of subcommands. A block always starts with \command{} symbol. Blocks describe different aspects of the model, fundamental blocks to have in the model are \command{model}, \command{initialisation\_phase}, \command{categories}, \command{time\_step}, and \command{process}. Within each block there will be subcommands some will be optional and important subcommands will be mandatory. An example of subcommand is shown for the \command{model} block,
+
+{\small{\begin{verbatim}
+		@model
+		type age		## is the model age or length based?
+		min_age 1		## minimum age in model
+		max_age 17		## maximum age in model
+		age_plus true	## is the last age group a plus group?
+		start_year 1972	## the first year of the model
+		final_year 2013 	## the first year of the model
+		initialisation_phases phase1	
+		## The label for the block @intialisation_phase
+		time_steps step1 step2
+		## Labels for the block @time_step
+		\end{verbatim}}}
+The subcommands are all the options that follow \command{model}, then there is a space which is where the value for the subcommand goes, i.e. \texttt{min\_age} specifies the minimum age in the model and we have set that equal to one but could be any integer. This brings up a useful concept to understand. Different subcommands can take different types of parameters, they can be of type int, double, string and vector. For information about which parameter type a subcommand takes, you should read the syntax section of the manual, there is a field labelled type. If you use the wrong type for a subcommand, for example \texttt{min\_age 1.5}, you will get an error. A line beginning with \texttt{\#} is a comment and that line is ignored by \CAS. To comment out multilines the user can use the curly braces \{\}, everything between these braces will be ignored by \CAS. It is a useful tool for annotating models. 
+
+
+\section{Structure of a model}\label{Sec:model}
+Will need help with this one as I haven't actually built a model yet. 
+
+When setting up a model, I find for ease of readability and error catching, splitting each model into four sections these are:
+
+\begin{enumerate}
+\item Population
+\item estimation
+\item observation
+\item report
+\end{enumerate}
+
+The population section defines the categories that make up the partition, the annual cycle and processes that occur to the partition, along with the parameters that control those processes. The estimation sections defines any parameters that the user wants estimated and any prior information associated with parameters or processes. The observation section defines all the observations and there assumed error structure through the likelihoods which contribute to the objective function. The report section defines all the output the user wishes to have at the end of model runs e.g. objective scores, residuals and the state of the partition at a point in time. To keep models readability I split these sections into there own text file. I have a \texttt{casal2.txt} file that has only the following commands\\
+\texttt{!include "population.txt"}\\
+\texttt{!include "estimation.txt"}\\
+\texttt{!include "observation.txt"}\\
+\texttt{!include "report.txt"}
+
+The \texttt{!include} function looks around in the current directory for the filename that follows it, and reads them all in as a single model. See the Simple example in the Examples for a demonstration of this setup.
+
+\section{Components of a model}\label{Sec:comp}
+Components of a model that are important to know before setting up a \CAS\ model are, How many categories are in the partition, what processes occur to which categories in which order, where observations fit in to the model, and what the assumed state of the partition is before the model years run. \CAS\ runs in yearly cycles each year is split up by time steps, So processes such as fishing and spawning seasons will have an effect on how to specify specify time steps and so will observations such as annual surveys. The next section runs through a very simple example,
+
+\section{Simple Example}\label{Sec:simp}
+In the following example describe a situation then go on to configure a \CAS\ file to run. In this example we have a single area, single stock that has one fishery associated with it. We assume that the partition is made up of a single category (no sex or maturity in the partition). Processes and observations that occur in a typical year in the following order. \\
+\begin{enumerate}
+	\item Recruitment
+	\item Fishing mortality with natural mortality
+	\item A survey takes place out of the fishing season and in the spawning season
+	\item More natural mortaltiy
+	\item At the end of the year all the fish are aged.
+\end{enumerate}
+
+The following model would have the following structure.
+
+{\small{\begin{verbatim}
+		@model
+		type age		## is the model age or length based?
+		min_age 1		## minimum age in model
+		max_age 17		## maximum age in model
+		age_plus true	## is the last age group a plus group?
+		start_year 1972	## the first year of the model
+		final_year 2013 	## the first year of the model
+		initialisation_phases phase1	
+		## The label for the block @intialisation_phase
+		time_steps step1 step2
+		## Labels for the block @time_step
+		\end{verbatim}}}
+
+
+
+{\small{\begin{verbatim}
+		@categories
+		format Stock			## format of the category labels
+		names CHAT4 ## category labels
+		age_lengths CHAT4_AL ## Lables of age-length relationship for each category
+		\end{verbatim}}}
+
+
+The \command{categories} command defines the label, number and age-length relationship of categories that make up the partition. A category is a group of individuals that have the same attributes, some examples of such attributes are, life history and growth paths. Characters in a populations that cause differing attributes can be, sex, maturity, multiple area, multiple stock's and tagging information. An example of the \command{categories} block for a simple two area model with male and female in the partition.
+
+
+{\small{\begin{verbatim}
+		@time_step step1 	## The label from the @model subcommand
+		processes Recruitment Mortality 	## Labels for @process block
+		
+		@time_step step2 
+		processes Mortality Ageing
+		\end{verbatim}}}
+
+The \command{time\_step} command describes which processes are implemented and in what order. We will continue on from the \command{model} block example, where we defined two time steps in the annual cycle (\texttt{time\_steps step1 step2}). In each year we have two time steps, within each time step we have processes each process must be derined in \command{process} block the following processes are described.
+
+{\small{\begin{verbatim}
+		@process Recruitment ## label of process form @time_step
+		type recruitment_constant  ## keyword relates to a specific process
+		## The following are specific subcommands for this type of process
+		r0 4E7	## Number of average recruits if no fishing were to occur
+		age 1	## age of recruits when entering the partition
+		categories CHAT4	## label of categories that recruits join
+		proportions 1	## proportion ofrecruits to each category
+		
+		@process Mortality 
+		type mortality_instantaneous
+		categories CHAT4	## category labels
+		M 0.19 ## natural mortality rate
+		selectivities One ## label to a @selectivity block
+		## this selectivity allows for age varying mortaltiy
+		time_step_ratio 0.4 0.6 ## If this process is in multiple @time_step blocks
+		## then this is the proportion of M that occurs in each time step.
+		table catches
+		year Fishing 
+		1975	80000
+		1976	152000
+		1977	74000
+		1978	28000
+		1979	103000
+		1980	481000
+		1981	914000
+		end_table
+		
+		table fisheries
+		fishery  	category 	selectivity 	u_max 	time_step 	penalty
+		Fishing   	CHAT4   	FSel 		0.7 	step1 		Catchmustbetaken
+		end_table
+		
+		@process Ageing
+		type ageing
+		categories CHAT4_AL
+		\end{verbatim}}}
+
+The above defines all the processes that occur to the partition. In the process  \texttt{Mortality} we associate a selectivity to natural mortality and in the fisheries table \texttt{FSel}, this would be defined as follows. 
+{\small{\begin{verbatim}
+		@selectivity One
+		type constant 
+		c 1
+		
+		@selectivity FSel
+		type double_normal 
+		mu 3.82578 
+		sigma_l 1.63038 
+		sigma_r 17
+		\end{verbatim}}}
+
+If a age-length relationship is specified in the \command{categories} block then the \command{age\_length} block needs to be defined, this block is used to convert age to length which is then used to convert length to weight in an age based model, it is specified as follows,
+{\small{\begin{verbatim}
+@age_length CHAT4_AL
+type von_bertalanffy
+length_weight CHAT4_LW	## label for @length_weight block
+k 0.164
+t0 -2.16
+linf 100.8
+
+@length_weight CHAT4_LW	## label from @age_lenght block
+type basic
+units tonnes
+a 4.79e-09 
+b 2.89 
+		\end{verbatim}}}
+
+The last important block to complete the population text file, is the \command{initialisation\_phase}. This block of commands specifies how you initialise your partition. This describes the state of the partition before \texttt{start\_year} of the model, usually this is an equilibrium state. The subcommands available for this block are as follows,
+{\small{\begin{verbatim}
+		@initialisation_phase phase1
+		type iterative	## Type of initialisation method see manual for more
+		years 100	## How many years to run for
+		\end{verbatim}}}
+
+In the above example we have an iterative initialisation type. This will default to iterating your annual cycle for 100 years, which may or may not cause your partition to hit an equilibrium state. \textbf{N.B.} when using this initialisation method you as the user must check if the partition has reached an acceptable equilibrium state.
+
+The next section we are defining is the observation section. We have a survey that occurs in the second time step, which is of relative abundance, this would be defined as follows.
+
+{\small{\begin{verbatim}
+@observation Survey	## label of observation
+type biomass 		## tyoe of observation
+time_step step2		## which time step the observation occurs
+time_step_proportion 0.5	## the observation occurs half way through the time step
+categories CHAT4
+selectivities One
+catchability q		## The label for @catchability block
+years 		1992 	1993 	1994 	1995 	
+obs 		191000	613000	597000	411000	
+error_value 	0.41	0.52	0.91	0.61
+likelihood lognormal		## likelihood to use for the objective function
+
+@catchability q	## label from @observation
+q 0.001		## The value
+		\end{verbatim}}}
+
+To run the simple example which is located in \texttt{CASAL2/Examples/Simple}. [shift] + right click $->$ open command window in the above directory. Type in the command window \texttt{casal2 -r} and output should print to screen.
+
+\section{Extended example}\label{Sec:exte}
+Add a spawning stock biomass
+catch at age data
+multiple categories
+
+\section{Analyses of output}\label{Sec:output}
+\CAS\ has an \textbf{R} library \textbf{CASAL2} which imports \CAS\ output files into \textbf{R} as a list. This library can be found in the directory where you installed the program. There is also another library that helps pull out compress useful information such SSB's and Objective scores for datasets. 
+{\small{\begin{verbatim}
+		library(CASAL2)
+		output = extract(file = "Output_file.txt", path = "Directory_of_file")
+		\end{verbatim}}}
+
+\end{document}
