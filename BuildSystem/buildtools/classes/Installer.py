@@ -22,8 +22,8 @@ class Installer:
     print '--> Building CASAL2 Archive'
     print '-- Re-Entering build system to build the archive'
     print '-- Expected build time 10-60 minutes'
-#    if os.system(self.do_build_ + ' archive') != EX_OK:
-#      return Globals.PrintError('Failed to build the archive')      
+    if os.system(self.do_build_ + ' archive') != EX_OK:
+      return Globals.PrintError('Failed to build the archive')      
 
     file = open('config.iss', 'w')
     if not file:
@@ -52,8 +52,8 @@ class Installer:
     file.write('AppSupportURL=http://www.niwa.co.nz\n')
     file.write('AppUpdatesURL=http://www.niwa.co.nz\n')
     file.write('ChangesEnvironment=true\n')
-    file.write('DefaultDirName=C:\\CASAL2\n')
     file.write('DisableDirPage = no\n')
+    file.write('DefaultDirName=C:\\CASAL2\n')
     file.write('DefaultGroupName=CASAL2\n')
     file.write('AllowNoIcons=Yes\n')
     file.write('OutputBaseFileName=casal2_setup\n')
@@ -74,8 +74,8 @@ class Installer:
     file.write('Source: "CASAL2\\casal2_test.dll"; DestDir: "{app}"; Flags: ignoreversion\n')
     file.write('Source: "CASAL2\\CASAL2.pdf"; DestDir: "{app}"; Flags: ignoreversion\n')
     file.write('Source: "CASAL2\\Examples\*"; DestDir: "{app}\Examples"; Flags: replacesameversion recursesubdirs\n')
-#    file.write('Source: "CASAL2\\src\*"; DestDir: "{app}\src"; Flags: ignoreversion recursesubdirs\n') 
-    file.write('Source: "CASAL2\README.md"; DestDir: "{app}"; Flags: ignoreversion\m')    
+    file.write('Source: "CASAL2\\src\*"; DestDir: "{app}\src"; Flags: ignoreversion recursesubdirs\n') 
+    file.write('Source: "CASAL2\README.txt"; DestDir: "{app}"; Flags: ignoreversion\n')    
     file.write('[Registry]\n')
     file.write('Root: HKLM; Subkey: "SYSTEM\CurrentControlSet\Control\Session Manager\Environment"; ValueType: expandsz; ValueName: "Path"; ValueData: "{olddata};{app}"\n') 
     file.write('[Icons]\n')
@@ -92,7 +92,7 @@ class Installer:
     file.write('end;\n')
     file.write('#include \'modpath.iss\'\n') 
     file.write('[Run]\n')
-    file.write('Filename: {app}\README.md; Description: View the README file; Flags: postinstall shellexec skipifsilent\n')
+    file.write('Filename: {app}\README.txt; Description: View the README file; Flags: postinstall shellexec skipifsilent\n')
     file.close()
 
     if not os.path.exists("bin\\windows\\installer"):
