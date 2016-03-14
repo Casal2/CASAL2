@@ -22,8 +22,8 @@ class Installer:
     print '--> Building CASAL2 Archive'
     print '-- Re-Entering build system to build the archive'
     print '-- Expected build time 10-60 minutes'
-    if os.system(self.do_build_ + ' archive') != EX_OK:
-      return Globals.PrintError('Failed to build the archive')      
+#    if os.system(self.do_build_ + ' archive') != EX_OK:
+#      return Globals.PrintError('Failed to build the archive')      
 
     file = open('config.iss', 'w')
     if not file:
@@ -51,15 +51,20 @@ class Installer:
     file.write('AppPublisherURL=http://www.niwa.co.nz\n')
     file.write('AppSupportURL=http://www.niwa.co.nz\n')
     file.write('AppUpdatesURL=http://www.niwa.co.nz\n')
+    file.write('ChangesEnvironment=true\n')
     file.write('DefaultDirName=C:\\CASAL2\n')
+    file.write('DisableDirPage = no\n')
     file.write('DefaultGroupName=CASAL2\n')
     file.write('AllowNoIcons=Yes\n')
     file.write('OutputBaseFileName=casal2_setup\n')
     file.write('Compression=lzma\n')
     file.write('SolidCompression=yes\n')
+    file.write('[CustomMessages]\n')
+    file.write('AppAddPath=Add application directory to your environmental path (required)\n')
     file.write('[Tasks]\n')
     file.write('Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}";\n')
     file.write('Name: "quicklaunchicon"; Description: "{cm:CreateQuickLaunchIcon}"; GroupDescription: "{cm:AdditionalIcons}";\n')
+    file.write('Name: "modifypath"; Description: {cm:AppAddPath};\n')
     file.write('[Files]\n')
     file.write('Source: "CASAL2\\casal2.exe"; DestDir: "{app}"; Flags: ignoreversion\n')
     file.write('Source: "CASAL2\\casal2_adolc.dll"; DestDir: "{app}"; Flags: ignoreversion\n')
@@ -67,12 +72,29 @@ class Installer:
     file.write('Source: "CASAL2\\casal2_cppad.dll"; DestDir: "{app}"; Flags: ignoreversion\n')
     file.write('Source: "CASAL2\\casal2_release.dll"; DestDir: "{app}"; Flags: ignoreversion\n')
     file.write('Source: "CASAL2\\casal2_test.dll"; DestDir: "{app}"; Flags: ignoreversion\n')
-    file.write('Source: "..\\Documentation\\Manual\\CASAL2.pdf"; DestDir: "{app}"; Flags: ignoreversion\n')
+    file.write('Source: "CASAL2\\CASAL2.pdf"; DestDir: "{app}"; Flags: ignoreversion\n')
+    file.write('Source: "CASAL2\\Examples\*"; DestDir: "{app}\Examples"; Flags: replacesameversion recursesubdirs\n')
+#    file.write('Source: "CASAL2\\src\*"; DestDir: "{app}\src"; Flags: ignoreversion recursesubdirs\n') 
+    file.write('Source: "CASAL2\README.md"; DestDir: "{app}"; Flags: ignoreversion\m')    
+    file.write('[Registry]\n')
+    file.write('Root: HKLM; Subkey: "SYSTEM\CurrentControlSet\Control\Session Manager\Environment"; ValueType: expandsz; ValueName: "Path"; ValueData: "{olddata};{app}"\n') 
     file.write('[Icons]\n')
     file.write('Name: "{group}\\CASAL2"; Filename: "{app}"; WorkingDir: "{app}";\n')
-    file.write('Name: "{userdesktop}\\CASAL2"; Filename: "{app}"; WorkingDir: "{app}"; Tasks: desktopicon\n')
+    file.write('Name: "{userdesktop}\\CASAL2"; Filename: "{app}"; WorkingDir: "{app}"; Tasks: desktopicon\n')  
+    file.write('[Code]\n') 
+    file.write('const\n')
+    file.write('ModPathName = \'modifypath\';\n') 
+    file.write('ModPathType = \'system\';\n')
+    file.write('function ModPathDir(): TArrayOfString;\n')
+    file.write('begin\n')
+    file.write('setArrayLength(Result, 1)\n')
+    file.write('Result[0] := ExpandConstant(\'{app}\');\n')
+    file.write('end;\n')
+    file.write('#include \'modpath.iss\'\n') 
+    file.write('[Run]\n')
+    file.write('Filename: {app}\README.md; Description: View the README file; Flags: postinstall shellexec skipifsilent\n')
     file.close()
- 
+
     if not os.path.exists("bin\\windows\\installer"):
       os.makedirs("bin\\windows\\installer")
     os.system('"C:\\Program Files (x86)\\Inno Setup 5\\ISCC.exe" /Obin\\windows\\installer\\ config.iss')
