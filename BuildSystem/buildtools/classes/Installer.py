@@ -22,8 +22,8 @@ class Installer:
     print '--> Building CASAL2 Archive'
     print '-- Re-Entering build system to build the archive'
     print '-- Expected build time 10-60 minutes'
- #   if os.system(self.do_build_ + ' archive') != EX_OK:
- #     return Globals.PrintError('Failed to build the archive')      
+    if os.system(self.do_build_ + ' archive') != EX_OK:
+      return Globals.PrintError('Failed to build the archive')      
 
     file = open('config.iss', 'w')
     if not file:
