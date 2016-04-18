@@ -64,6 +64,8 @@ public:
   bool                        mcmc_fixed() const { return mcmc_fixed_; }
   void                        set_in_objective_function(bool value) { in_objective_ = value; }
   bool                        in_objective_function() const { return in_objective_; }
+  const vector<string>&       same_labels() const { return same_labels_; }
+  const vector<Double*>&      sames() const { return sames_; }
 
 protected:
   // Members

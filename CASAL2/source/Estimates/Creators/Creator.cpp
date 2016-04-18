@@ -106,8 +106,6 @@ void Creator::CreateEstimates() {
       LOG_FATAL_P(PARAM_LOWER_BOUND) << "values specified (" << lower_bounds_.size() << " must match number of target estimables (" << indexes.size() << ")";
     if (upper_bounds_.size() != indexes.size())
       LOG_FATAL_P(PARAM_UPPER_BOUND) << "values specified (" << upper_bounds_.size() << " must match number of target estimables (" << indexes.size() << ")";
-    if (same_labels_.size() != 0 && same_labels_.size() != indexes.size())
-      LOG_FATAL_P(PARAM_SAME) << "values specified (" << same_labels_.size() << " must match number of target estimables (" << indexes.size() << ")";
 
     switch(target->GetEstimableType(parameter)) {
     case Estimable::kVector:
