@@ -13,6 +13,8 @@
 // Headers
 #include "Estimate.h"
 
+#include "Utilities/DoubleCompare.h"
+
 // Namespaces
 namespace niwa {
 
@@ -46,6 +48,18 @@ void Estimate::Validate() {
         << " is greater than the upper_bound(" << upper_bound_ << ")";
 
   DoValidate();
+}
+
+/**
+ *
+ */
+void Estimate::Reset() {
+  /**
+   * Reset the value if the bounds are the same so we can ensure all of the
+   * "same" parameters are aligned
+   */
+  if (utilities::doublecompare::IsEqual(lower_bound_, upper_bound_))
+    set_value(value());
 }
 
 /**

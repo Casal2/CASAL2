@@ -40,8 +40,8 @@ public:
   Estimate();
   virtual                     ~Estimate() = default;
   void                        Validate();
-  void                        Build() { };
-  void                        Reset() { };
+  void                        Build() { Reset(); };
+  void                        Reset();
   void                        AddSame(const string& label, Double* target);
 
   // pure methods
