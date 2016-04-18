@@ -55,7 +55,6 @@ void Creator::CreateEstimates() {
   /**
    * At this point we need to determine if we need to split this estimate in to multiple estimates.
    */
-
   string error = "";
   base::Object* target = model_->objects().FindObject(parameter_, error);
   if (!target) {
@@ -84,6 +83,8 @@ void Creator::CreateEstimates() {
           << "Please ensure you are using correct indexes and only the operators , and : (range) are supported";
     }
   }
+
+
 
   if (target->GetEstimableType(parameter) == Estimable::kSingle) {
     /**
@@ -211,6 +212,206 @@ void Creator::CreateEstimates() {
       break;
     }
   }
+
+  HandleSameParameter();
+}
+
+/**
+ * This method is responsible for handling the same parameter on the @estimate
+ * block.
+ *
+ * Sames are objects added to the estimate that will be modified when the estimate
+ * is modified. The code below is quite complex as it needs to do all of the
+ * label expanding the code above does (and I don't have time to isolate it)
+ *
+ * We also do checks for duplicate sames etc.
+ */
+void Creator::HandleSameParameter() {
+  if (!parameters_.Get(PARAM_SAME)->has_been_defined())
+    return;
+
+  vector<string> labels;
+  vector<Double*> targets;
+  map<string, unsigned> same_count;
+
+  auto sames = parameters_.Get(PARAM_SAME)->values();
+  for (auto same : sames) {
+    /**
+     * At this point we need to determine if we need to split this estimate in to multiple estimates.
+     */
+    string error = "";
+    base::Object* target = model_->objects().FindObject(same, error);
+    if (!target) {
+      LOG_ERROR_P(PARAM_SAME) << same << " is not a valid object in the system";
+      return;
+    }
+
+    string type       = "";
+    string label      = "";
+    string parameter  = "";
+    string index      = "";
+    model_->objects().ExplodeString(same, type, label, parameter, index);
+    string new_parameter = type + "[" + label + "]." + parameter;
+    LOG_FINEST() << "same: " << same << "; new_parameter: " << new_parameter;
+
+    if (!target->HasEstimable(parameter)) {
+      LOG_ERROR_P(PARAM_SAME) << "value " << same << " is invalid. '" << parameter << "' is not an estimable on a " << target->type() << " " << type;
+      return;
+    }
+
+    vector<string> indexes;
+    if (index != "") {
+      indexes = utilities::String::explode(index);
+      if (index != "" && indexes.size() == 0) {
+        LOG_FATAL_P(PARAM_SAME) << " could be split up to search for indexes because the format was invalid. "
+            << "Please ensure you are using correct indexes and only the operators , and : (range) are supported";
+      }
+    }
+
+    if (target->GetEstimableType(parameter) == Estimable::kSingle) {
+      /**
+       * Handle when our sames are referencing a single object
+       */
+      labels.push_back(same);
+      targets.push_back(target->GetEstimable(parameter));
+
+    } else if (indexes.size() != 0) {
+      /**
+       * Handle sames that are using index values
+       */
+      switch(target->GetEstimableType(parameter)) {
+      case Estimable::kVector:
+      {
+        vector<Double>* temp = target->GetEstimableVector(parameter);
+        unsigned offset = 0;
+        for (string string_index : indexes) {
+          unsigned u_index = 0;
+          if (!utils::To<string, unsigned>(string_index, u_index))
+            LOG_FATAL_P(PARAM_SAME) << "index " << string_index << " could not be converted to a numeric type";
+          if (u_index <= 0 || u_index > temp->size())
+            LOG_FATAL_P(PARAM_SAME) << "index " << string_index << " is out of range 1-" << temp->size();
+
+          labels.push_back(new_parameter + "(" + string_index + ")");
+          targets.push_back(&(*temp)[u_index-1]);
+          offset++;
+        }
+      }
+      break;
+      case Estimable::kUnsignedMap:
+      {
+        bool create_missing = false;
+        map<unsigned, Double>* temps = target->GetEstimableUMap(parameter, create_missing);
+        unsigned offset = 0;
+        for (string string_index : indexes) {
+          unsigned u_index = 0;
+          if (!utils::To<string, unsigned>(string_index, u_index))
+            LOG_FATAL_P(PARAM_PARAMETER) << "index " << string_index << " could not be converted to a numeric type";
+          if (temps->find(u_index) == temps->end() && !create_missing)
+            LOG_FATAL_P(PARAM_PARAMETER) << "value " << string_index << " could not be found in the objects registered";
+          if (temps->find(u_index) == temps->end() && create_missing)
+            (*temps)[u_index] = lower_bounds_[offset];
+
+          labels.push_back(new_parameter + "(" + string_index + ")");
+          targets.push_back(&(*temps)[u_index]);
+          offset++;
+        }
+      }
+      break;
+      case Estimable::kStringMap:
+      {
+        utils::OrderedMap<string, Double>* temp = target->GetEstimableSMap(parameter);
+        unsigned offset = 0;
+        for (string index : indexes) {
+          if (temp->find(index) == temp->end())
+            LOG_FATAL_P(PARAM_PARAMETER) << "value " << index << " could not be found in the objects registered";
+
+          labels.push_back(new_parameter + "(" + index + ")");
+          targets.push_back(&(*temp)[index]);
+          offset++;
+        }
+      }
+      break;
+      default:
+        LOG_CODE_ERROR() << "This type of estimable is not supported: " << (unsigned)target->GetEstimableType(parameter);
+        break;
+      }
+    } else {
+      /**
+       * Here we need to handle when a user defines an entire container as the target for a same.
+       * We'll same every element separately.
+       */
+      switch(target->GetEstimableType(parameter)) {
+      case Estimable::kVector:
+      case Estimable::kVectorStringMap:
+      {
+        vector<Double>* temps = target->GetEstimableVector(parameter);
+        for (unsigned i = 0; i < temps->size(); ++i) {
+          labels.push_back(new_parameter + "(" + utilities::ToInline<unsigned, string>(i + 1) + ")");
+          targets.push_back(&(*temps)[i]);
+        }
+
+        break;
+      }
+      case Estimable::kUnsignedMap:
+      {
+        map<unsigned, Double>* temps = target->GetEstimableUMap(parameter);
+        unsigned offset = 0;
+        for (auto iter : (*temps)) {
+          labels.push_back(new_parameter + "(" + utilities::ToInline<unsigned, string>(iter.first) + ")");
+          targets.push_back(&(*temps)[iter.first]);
+          offset++;
+        }
+        break;
+      }
+      case Estimable::kStringMap:
+      {
+        utils::OrderedMap<string, Double>* temps = target->GetEstimableSMap(parameter);
+        unsigned offset = 0;
+        for (auto iter : (*temps)) {
+          labels.push_back(new_parameter + "(" + iter.first + ")");
+          targets.push_back(&(*temps)[iter.first]);
+          offset++;
+        }
+        break;
+      }
+      default:
+        LOG_CODE_ERROR() << "This type of estimable is not supported: " << (unsigned)target->GetEstimableType(parameter);
+        break;
+      }
+    }
+  }
+
+  /**
+   * Do checks against the number of estimates to ensure it's compat.
+   */
+  if (estimates_.size() == 1 && labels.size() == 0) {
+    LOG_ERROR_P(PARAM_SAME) << " Did not create any objects within the system when we had " << estimates_.size() << " estimates";
+  } else if (estimates_.size() != 1 && (estimates_.size() != labels.size())) {
+    LOG_ERROR_P(PARAM_SAME) << " created " << labels.size() << " same parameters against " << estimates_.size() << " estimates. These must match";
+  }
+
+  /**
+   * Check for Duplicates
+   */
+  for(string same : labels) {
+    same_count[same]++;
+    if (same_count[same] > 1) {
+      LOG_ERROR_P(PARAM_SAME) << ": same parameter '" << same << "' is a duplicate. Please remove this from your configuration file";
+    }
+  }
+
+  /**
+   * Assign Sames to Estimates
+   */
+  if (estimates_.size() == 1) {
+    for (unsigned i = 0; i < labels.size(); ++i) {
+      estimates_[0]->AddSame(labels[i], targets[i]);
+    }
+  } else {
+    for (unsigned i = 0; i < estimates_.size(); ++i) {
+      estimates_[i]->AddSame(labels[i], targets[i]);
+    }
+  }
 }
 
 /**
@@ -228,6 +429,8 @@ niwa::Estimate* Creator::CreateEstimate(string parameter, unsigned index, Double
   estimate->set_block_type(PARAM_ESTIMATE);
 
   estimate->parameters().Populate();
+
+  estimates_.push_back(estimate);
   return estimate;
 }
 
@@ -245,7 +448,6 @@ void Creator::CopyParameters(niwa::Estimate* estimate, unsigned index) {
 
   estimate->parameters().CopyFrom(parameters_, PARAM_LOWER_BOUND, index);
   estimate->parameters().CopyFrom(parameters_, PARAM_UPPER_BOUND, index);
-  estimate->parameters().CopyFrom(parameters_, PARAM_SAME, index);
 
   DoCopyParameters(estimate, index);
 }
