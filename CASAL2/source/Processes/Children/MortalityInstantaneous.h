@@ -86,6 +86,7 @@ private:
   Double                      u_max_;
   string                      penalty_label_ = "";
   penalties::Process*         penalty_ = nullptr;
+  string                      unit_;
   // members from natural mortality
   vector<Double>              m_input_;
   OrderedMap<string, Double>  m_;

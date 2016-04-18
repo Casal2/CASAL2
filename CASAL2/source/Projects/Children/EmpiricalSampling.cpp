@@ -31,7 +31,7 @@ EmpiricalSampling::EmpiricalSampling(Model* model) : Project(model) {
  */
 void EmpiricalSampling::DoValidate() {
   if (final_year_ <= start_year_)
-    LOG_ERROR() << PARAM_FINAL_YEAR << " must be larger than " << PARAM_START_YEAR;
+    LOG_ERROR_P(PARAM_FINAL_YEAR) << PARAM_FINAL_YEAR << " must be larger than " << PARAM_START_YEAR;
 
 }
 
@@ -48,6 +48,7 @@ void EmpiricalSampling::DoBuild() {
     if (!utilities::To<Double, unsigned>(Random_draw, year))
       LOG_ERROR() << " Random Draw " << Random_draw << " Could not be converted from double to type unsigned";
     resampled_years_[project_year] = year;
+    LOG_MEDIUM() << "Value from year: " << year << " used in projection year: " << project_year;
   }
 }
 
@@ -60,7 +61,7 @@ void EmpiricalSampling::DoReset() { }
  *  Update our parameter with a random resample of the parameter between start_year_ and final_year_
  */
 void EmpiricalSampling::DoUpdate() {
-  value_ = projected_parameters_[estimable_parameter_][resampled_years_[model_->current_year()]];
+  value_ = projected_parameters_[resampled_years_[model_->current_year()]];
   LOG_FINE() << "In year: " << model_->current_year() << " Setting Value to: " << value_ << " drawn from year: " << resampled_years_[model_->current_year()];
   LOG_FINE() << "type of parameter = " << estimable_type_;
   (this->*DoUpdateFunc_)(value_);

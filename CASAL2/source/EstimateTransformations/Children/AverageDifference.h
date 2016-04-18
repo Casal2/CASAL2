@@ -42,10 +42,17 @@ private:
   // members
   string                      first_estimate_label_ = "";
   string                      second_estimate_label_ = "";
+  Double                      diff_upper_bound_;
+  Double                      diff_lower_bound_;
+  Double                      mean_upper_bound_;
+  Double                      mean_lower_bound_;
   bool                        first_value_bigger_ = false;
   Estimate*                   first_estimate_ = nullptr;
   Estimate*                   second_estimate_ = nullptr;
-
+  Double                      first_original_upper_bound;
+  Double                      first_original_lower_bound;
+  Double                      second_original_upper_bound;
+  Double                      second_original_lower_bound;
 };
 
 } /* namespace estimatetransformations */
