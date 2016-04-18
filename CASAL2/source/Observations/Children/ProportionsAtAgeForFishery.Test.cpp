@@ -80,6 +80,7 @@ type mortality_instantaneous
 m 0.19
 time_step_ratio 0.42 0.25 0.33
 selectivities One
+units kgs
 categories stock
 table catches
 year FishingWest FishingEest

@@ -28,6 +28,10 @@ namespace estimatetransformations {
 AverageDifference::AverageDifference(Model* model) : EstimateTransformation(model) {
   parameters_.Bind<string>(PARAM_FIRST_ESTIMATE, &first_estimate_label_, "First estimate to transform", "");
   parameters_.Bind<string>(PARAM_SECOND_ESTIMATE, &second_estimate_label_, "Second estimate to transform", "");
+  parameters_.Bind<Double>(PARAM_MEAN_UPPER_BOUND, &mean_upper_bound_, "Mean transformed upper bound", "");
+  parameters_.Bind<Double>(PARAM_MEAN_LOWER_BOUND, &mean_lower_bound_, "Mean transformed lower bound", "");
+  parameters_.Bind<Double>(PARAM_DIFF_UPPER_BOUND, &diff_upper_bound_, "Difference transformed upper bound", "");
+  parameters_.Bind<Double>(PARAM_DIFF_LOWER_BOUND, &diff_lower_bound_, "Difference transformed lower bound", "");
 }
 
 /**
@@ -52,18 +56,15 @@ void AverageDifference::DoBuild() {
     LOG_ERROR_P(PARAM_SECOND_ESTIMATE) << "Estimate " << second_estimate_label_ << " could not be found. Have you defined it?";
     return;
   }
+
   if (first_estimate_->value() >= second_estimate_->value())
     first_value_bigger_ = true;
 
+  first_original_upper_bound =  first_estimate_->upper_bound();
+  first_original_lower_bound =  first_estimate_->lower_bound();
+  second_original_upper_bound =  second_estimate_->upper_bound();
+  second_original_lower_bound =  second_estimate_->lower_bound();
 
-//
-//  original_lower_bound_ = estimate_->lower_bound();
-//  original_upper_bound_ = estimate_->upper_bound();
-//
-//  if (!parameters_.Get(PARAM_LOWER_BOUND)->has_been_defined() && original_upper_bound_ != 0.0)
-//    lower_bound_ = 1 / original_upper_bound_;
-//  if (!parameters_.Get(PARAM_UPPER_BOUND)->has_been_defined() && original_lower_bound_ != 0.0)
-//    upper_bound_ = 1 / original_lower_bound_;
 }
 
 /**
@@ -75,12 +76,20 @@ void AverageDifference::Transform() {
   Double mean = (first_val + second_estimate_->value()) / 2.0;
   Double diff = fabs(mean - first_val);
 
+
   // Set the first estimate as the mean and the second as the difference
   LOG_FINE() << "Changing @estimate " << first_estimate_->label() << " from: " << first_estimate_->value() << "to: " << mean;
   LOG_FINE() << "Changing @estimate " << second_estimate_->label() << " from: " << second_estimate_->value() << "to: " << diff;
 
   first_estimate_->set_value(mean);
   second_estimate_->set_value(diff);
+
+  // Set the bounds
+  first_estimate_->set_lower_bound(mean_lower_bound_);
+  first_estimate_->set_upper_bound(mean_upper_bound_);
+  second_estimate_->set_lower_bound(diff_lower_bound_);
+  second_estimate_->set_upper_bound(diff_upper_bound_);
+
 }
 
 /**
@@ -95,6 +104,18 @@ void AverageDifference::Restore() {
     first_estimate_->set_value(first_estimate_->value() - 0.5 * second_estimate_->value());
     second_estimate_->set_value(first_estimate_->value() + 0.5 * second_estimate_->value());
   }
+  // Restore the bounds
+  first_estimate_->set_lower_bound(first_original_lower_bound);
+  first_estimate_->set_upper_bound(first_original_upper_bound);
+  second_estimate_->set_lower_bound(second_original_lower_bound);
+  second_estimate_->set_upper_bound(second_original_upper_bound);
+
+  if ((first_estimate_->value() < first_original_lower_bound) | (first_estimate_->value() > first_original_upper_bound))
+    LOG_ERROR() << "Retransformed value is: " << AS_DOUBLE(first_estimate_->value()) << " which is not within the original bounds?";
+
+  if ((second_estimate_->value() < second_original_lower_bound) | (second_estimate_->value() > second_original_upper_bound))
+    LOG_ERROR() << "Retransformed value is: " << AS_DOUBLE(second_estimate_->value()) << " which is not within the original bounds?";
+
 }
 
 /**

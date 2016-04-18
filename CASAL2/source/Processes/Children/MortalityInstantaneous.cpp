@@ -26,10 +26,12 @@
 #include "TimeSteps/Manager.h"
 #include "Utilities/DoubleCompare.h"
 #include "Utilities/To.h"
+#include "Utilities/Math.h"
 
 // namespaces
 namespace niwa {
 namespace processes {
+namespace math = niwa::utilities::math;
 
 /**
  * Default constructor
@@ -56,8 +58,9 @@ MortalityInstantaneous::MortalityInstantaneous(Model* model)
   parameters_.BindTable(PARAM_CATCHES, catches_table_, "Table of catch data", "", true, false);
   parameters_.BindTable(PARAM_FISHERIES, fisheries_table_, "Table of fishery data", "", true, false);
   parameters_.Bind<Double>(PARAM_M, &m_input_, "Mortality rates", "")->set_range(0.0, 1.0);
-  parameters_.Bind<Double>(PARAM_TIME_STEP_RATIO, &time_step_ratios_temp_, "Time step ratios for M", "", true)->set_range(0.0, 1.0);
+  parameters_.Bind<Double>(PARAM_TIME_STEP_RATIO, &time_step_ratios_temp_, "Time step ratios for M", "", true);
   parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_labels_, "Selectivities for Natural Mortality", "");
+  parameters_.Bind<string>(PARAM_UNITS, &unit_, "Unit of weight that the Catches table are expressed in", "");
 
   RegisterAsEstimable(PARAM_M, &m_);
 }
@@ -77,6 +80,13 @@ MortalityInstantaneous::~MortalityInstantaneous() {
  * Note: all parameters are populated from configuration files
  */
 void MortalityInstantaneous::DoValidate() {
+
+  // Check Natural Mortality parameter first
+  for (auto M_proportion : time_step_ratios_temp_) {
+    if ((M_proportion < 0.0) | (M_proportion > 1.0))
+      LOG_ERROR_P(PARAM_TIME_STEP_RATIO) << "Natural Mortality time step ratio cannot be greater than 1 or less than 0 for a given time step";
+  }
+
   category_labels_ = model_->categories()->ExpandLabels(category_labels_, parameters_.Get(PARAM_CATEGORIES));
 
   /**
@@ -102,7 +112,7 @@ void MortalityInstantaneous::DoValidate() {
       Double value = 0.0;
       if (!utilities::To<string, Double>(row[i], value))
         LOG_ERROR_P(PARAM_CATCHES) << "value " << row[i] << " for fishery " << columns[i] << " is not numeric";
-      fishery_year_catch[columns[i]][year] = value;
+      fishery_year_catch[columns[i]][year] = math::convert_units(value, unit_);
     }
   }
 
@@ -208,7 +218,7 @@ void MortalityInstantaneous::DoBuild() {
           << ") does not match the number of time steps this process has been assigned to (" << active_time_steps.size() << ")";
 
     for (Double value : time_step_ratios_temp_) {
-      if (value <= 0.0 || value > 1.0)
+      if (value < 0.0 || value > 1.0)
         LOG_ERROR_P(PARAM_TIME_STEP_RATIO) << " value (" << value << ") must be between 0.0 (exclusive) and 1.0 (inclusive)";
     }
 

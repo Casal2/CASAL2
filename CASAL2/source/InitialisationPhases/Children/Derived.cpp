@@ -224,7 +224,12 @@ void Derived::Execute() {
     old_plus_group = plus_group;
   }
 
-  // run the annual cycle for ssb_offset years
+
+  /////////////////////////////////////////////////// Note //////////////////////////////////////////////////////
+  // Some CASAL models do not reach equilibrium with the analytical solution. If the CASAL2 model differs after initialisation
+  // this piece of code can be commented out to replicate CASAL for the purpose of testing functionality.
+
+  // run the annual cycle for ssb_offset years to accumulate B0 for recruitment processes.
   time_step_manager->ExecuteInitialisation(label_, ssb_offset_);
 
 }
