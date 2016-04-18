@@ -42,6 +42,7 @@ public:
   void                        Validate();
   void                        Build() { };
   void                        Reset() { };
+  void                        AddSame(const string& label, Double* target);
 
   // pure methods
   virtual void                DoValidate() = 0;
@@ -59,7 +60,7 @@ public:
   bool                        estimated() const { return estimated_; }
   void                        set_estimated(bool new_value) { estimated_ = new_value; }
   Double                      value() { return *target_; }
-  void                        set_value(Double new_value) { *target_ = new_value; }
+  void                        set_value(Double new_value);
   bool                        mcmc_fixed() const { return mcmc_fixed_; }
   void                        set_in_objective_function(bool value) { in_objective_ = value; }
   bool                        in_objective_function() const { return in_objective_; }
@@ -74,7 +75,7 @@ protected:
   bool                        mcmc_fixed_;
   string                      prior_label_;
   unsigned                    estimation_phase_;
-  vector<string>              same_labels;
+  vector<string>              same_labels_;
   vector<Double*>             sames_;
   bool                        estimated_ = true;
   bool                        in_objective_ = true;

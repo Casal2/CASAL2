@@ -43,6 +43,7 @@ public:
 protected:
   // methods
   niwa::Estimate*             CreateEstimate(string parameter, unsigned index, Double* target);
+  void                        HandleSameParameter();
   void                        CopyParameters(niwa::Estimate* estimate, unsigned index);
   virtual void                DoCopyParameters(niwa::Estimate* estimate, unsigned index) = 0;
 
@@ -56,7 +57,9 @@ protected:
   string                      estimation_phase_;
   string                      mcmc_;
   vector<string>              transformation_details_;
+  vector<niwa::Estimate*>     estimates_;
 };
+
 
 } /* namespace estimates */
 } /* namespace niwa */
