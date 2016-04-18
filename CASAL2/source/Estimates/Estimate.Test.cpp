@@ -77,6 +77,60 @@ TEST_F(InternalEmptyModel, Estimates_Single_Target) {
 /**
  *
  */
+const string estimate_single_target_with_same =
+R"(
+@estimate e1
+parameter selectivity[FishingSel].a50
+lower_bound 1
+upper_bound 20
+type beta
+mu 0.3
+sigma 0.05
+a 0
+b 10
+same selectivity[Maturation].a50
+)";
+
+TEST_F(InternalEmptyModel, Estimates_Single_Target_WithSame) {
+  AddConfigurationLine(testresources::models::two_sex_no_estimates, "TestResources/Models/TwoSexNoEstimates.h", 28);
+  AddConfigurationLine(estimate_single_target_with_same, __FILE__, 82);
+  LoadConfiguration();
+
+  model_->Start(RunMode::kEstimation);
+
+  ObjectiveFunction& obj_function = model_->objective_function();
+  EXPECT_DOUBLE_EQ(1726.6295023182802, obj_function.score());
+
+  Estimate* estimate = model_->managers().estimate()->GetEstimate("selectivity[FishingSel].a50");
+  if (!estimate)
+    LOG_FATAL() << "!estimate";
+  EXPECT_DOUBLE_EQ(estimate->value(), 7.2724038541486005);
+
+  // Validate the sames
+  auto same_labels = estimate->same_labels();
+  ASSERT_EQ(1u, same_labels.size());
+  EXPECT_EQ("selectivity[Maturation].a50", same_labels[0]);
+
+  auto sames = estimate->sames();
+  ASSERT_EQ(1u, sames.size());
+  EXPECT_DOUBLE_EQ(*sames[0], 7.2724038541486005);
+
+  // Check results
+  estimate->set_value(1.0);
+  EXPECT_DOUBLE_EQ(estimate->GetScore(), -2476.5137933614251);
+  estimate->set_value(2.0);
+  EXPECT_DOUBLE_EQ(estimate->GetScore(), -2367.250113991935);
+  estimate->set_value(3.0);
+  EXPECT_DOUBLE_EQ(estimate->GetScore(), -2230.4867585646953);
+  estimate->set_value(4.0);
+  EXPECT_DOUBLE_EQ(estimate->GetScore(), -2066.4915312599851);
+  estimate->set_value(5.0);
+  EXPECT_DOUBLE_EQ(estimate->GetScore(), -1868.5574163359895);
+}
+
+/**
+ *
+ */
 const string estimate_multiple_defined_targets_vector =
 R"(
 @estimate e1
@@ -88,12 +142,9 @@ mu 3 5 3 5 3
 cv 4 5 4 6 4
 )";
 
-/**
- *
- */
 TEST_F(InternalEmptyModel, Estimates_Multiple_Defined_Targets_Vector) {
   AddConfigurationLine(testresources::models::two_sex_no_estimates_all_values_mortality, "TestResources/Models/TwoSexNoEstimatesAllValuesMortality.h", 28);
-  AddConfigurationLine(estimate_multiple_defined_targets_vector, __FILE__, 83);
+  AddConfigurationLine(estimate_multiple_defined_targets_vector, __FILE__, 136);
   LoadConfiguration();
 
   model_->Start(RunMode::kEstimation);
@@ -112,6 +163,54 @@ TEST_F(InternalEmptyModel, Estimates_Multiple_Defined_Targets_Vector) {
     LOG_FATAL() << "!estimate";
   EXPECT_DOUBLE_EQ(estimate->value(), 1.000014483955731);
   EXPECT_DOUBLE_EQ(estimate->GetScore(), 0.017861646655730232);
+}
+
+/**
+ *
+ */
+const string estimate_multiple_defined_targets_vector_with_same =
+R"(
+@estimate e1
+parameter selectivity[av].v(21:25)
+lower_bound 1 1 1 1 1
+upper_bound 20 20 20 20 20
+type lognormal
+mu 3 5 3 5 3
+cv 4 5 4 6 4
+same selectivity[av].v(11:15)
+)";
+
+TEST_F(InternalEmptyModel, Estimates_Multiple_Defined_Targets_Vector_WithSames) {
+  AddConfigurationLine(testresources::models::two_sex_no_estimates_all_values_mortality, "TestResources/Models/TwoSexNoEstimatesAllValuesMortality.h", 28);
+  AddConfigurationLine(estimate_multiple_defined_targets_vector_with_same, __FILE__, 173);
+  LoadConfiguration();
+
+  model_->Start(RunMode::kEstimation);
+
+  ObjectiveFunction& obj_function = model_->objective_function();
+  EXPECT_DOUBLE_EQ(19760.08265178404, obj_function.score());
+
+  Estimate* estimate = model_->managers().estimate()->GetEstimate("selectivity[av].v(21)");
+  if (!estimate)
+    LOG_FATAL() << "!estimate";
+  EXPECT_DOUBLE_EQ(estimate->value(), 1.0000126859810152);
+  EXPECT_DOUBLE_EQ(estimate->GetScore(), 0.017859646898357114);
+
+  // Validate the sames
+  auto same_labels = estimate->same_labels();
+  ASSERT_EQ(1u, same_labels.size());
+  EXPECT_EQ("selectivity[av].v(11)", same_labels[0]);
+
+  auto sames = estimate->sames();
+  ASSERT_EQ(1u, sames.size());
+  EXPECT_DOUBLE_EQ(*sames[0], 1.0000126859810152);
+
+  //
+  estimate = model_->managers().estimate()->GetEstimate("selectivity[av].v(25)");
+  if (!estimate)
+    LOG_FATAL() << "!estimate";
+  EXPECT_DOUBLE_EQ(estimate->value(), 1.0000000608621287);
+  EXPECT_DOUBLE_EQ(estimate->GetScore(), 0.017845604821652206);
 }
 
 /**
@@ -320,6 +419,8 @@ TEST_F(InternalEmptyModel, Estimates_All_Targets_String_Map) {
   EXPECT_DOUBLE_EQ(estimate->value(), 0.5);
   EXPECT_DOUBLE_EQ(estimate->GetScore(), -0.69298502612944257);
 }
+
+
 
 } /* namespace estimates */
 } /* namespace niwa */
