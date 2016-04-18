@@ -106,6 +106,24 @@ inline Double unscale_value(const Double& value, Double& penalty, Double min, Do
   return (t);
 }
 
+//**********************************************************************
+//    Convert units from unit to kgs
+//**********************************************************************
+inline Double convert_units(Double Value, string unit) {
+  Double converted_value = 0.0;
+  if (unit == PARAM_TONNES)
+    converted_value = Value * 1000;
+  else if (unit == PARAM_KGS)
+    converted_value = Value;
+  else if (unit == PARAM_GRAMS) {
+    converted_value = Value / 1000;
+  } else {
+    LOG_ERROR() << "The unit type: " << unit << " is not expected, Values expected are kgs, tonnes, grammes";
+  }
+  return converted_value;
+}
+
+
 } /* namespace math */
 } /* namespace utilities */
 } /* namespace niwa */

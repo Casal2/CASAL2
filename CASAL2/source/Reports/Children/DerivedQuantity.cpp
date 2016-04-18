@@ -8,9 +8,11 @@
 #include "DerivedQuantity.h"
 
 #include "DerivedQuantities/Manager.h"
+#include "Utilities/Math.h"
 
 namespace niwa {
 namespace reports {
+namespace math = niwa::utilities::math;
 
 /**
  *
@@ -18,6 +20,9 @@ namespace reports {
 DerivedQuantity::DerivedQuantity(Model* model) : Report(model) {
   run_mode_    = (RunMode::Type)(RunMode::kBasic | RunMode::kProjection);
   model_state_ = (State::Type)(State::kIterationComplete);
+
+  parameters_.Bind<string>(PARAM_UNITS, &unit_, "Unit of weight output expressed in", "", "");
+
 }
 
 
@@ -47,15 +52,23 @@ void DerivedQuantity::DoExecute() {
     const vector<vector<Double> > init_values = dq->initialisation_values();
     for (unsigned i = 0; i < init_values.size(); ++i) {
       cache_ << "Initial_phase_"<< i << ": ";
-      for (unsigned j = 0; j < init_values[i].size(); ++j)
+      for (unsigned j = 0; j < init_values[i].size(); ++j) {
+      if (dq->type() == PARAM_BIOMASS)
+        cache_ << AS_DOUBLE(math::convert_units(init_values[i][j], unit_)) << " ";
+      else
         cache_ << AS_DOUBLE(init_values[i][j]) << " ";
+      }
       cache_ << "\n";
     }
+
 
     const map<unsigned, Double> values = dq->values();
     cache_ << "values " << REPORT_R_VECTOR <<"\n";
     for (auto iter = values.begin(); iter != values.end(); ++iter) {
-      cache_ << iter->first << " " << AS_DOUBLE(iter->second) << "\n";
+      if (dq->type() == PARAM_BIOMASS)
+        cache_ << iter->first << " " << AS_DOUBLE(math::convert_units(iter->second, unit_)) << "\n";
+      else
+        cache_ << iter->first << " " << AS_DOUBLE(iter->second) << "\n";
     }
     cache_ << REPORT_R_LIST_END << "\n";
 
@@ -88,9 +101,14 @@ void DerivedQuantity::DoExecuteTabular() {
     cache_ << "\n";
   }
   for (auto dq : derived_quantities) {
+    string derived_type = dq->type();
     const map<unsigned, Double> values = dq->values();
-    for (auto iter = values.begin(); iter != values.end(); ++iter)
-      cache_ << AS_DOUBLE(iter->second) << " ";
+    for (auto iter = values.begin(); iter != values.end(); ++iter) {
+      if (derived_type == PARAM_BIOMASS)
+        cache_ << AS_DOUBLE(math::convert_units(iter->second, unit_)) << " ";
+      else
+        cache_ << AS_DOUBLE(iter->second) << " ";
+    }
   }
   cache_ << "\n";
 }

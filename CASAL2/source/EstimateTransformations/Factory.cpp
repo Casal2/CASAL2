@@ -15,6 +15,7 @@
 #include "Model/Managers.h"
 #include "Model/Model.h"
 #include "EstimateTransformations/Manager.h"
+#include "EstimateTransformations/Children/AverageDifference.h"
 #include "EstimateTransformations/Children/Inverse.h"
 #include "EstimateTransformations/Children/Log.h"
 #include "EstimateTransformations/Children/LogOdds.h"
@@ -46,6 +47,8 @@ EstimateTransformation* Factory::Create(Model* model, const string& object_type,
       result = new SquareRoot(model);
     else if (sub_type == PARAM_SIMPLEX)
       result = new Simplex(model);
+    else if (sub_type == PARAM_AVERAGE_DIFFERENCE)
+      result = new AverageDifference(model);
 
 
     if (result)

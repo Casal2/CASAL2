@@ -18,6 +18,7 @@
 #include "Partition/Accessors/Categories.h"
 #include "Penalties/Children/Process.h"
 #include "Processes/Process.h"
+#include "Utilities/Math.h"
 
 // namespaces
 namespace niwa {
@@ -53,6 +54,8 @@ private:
   vector<unsigned>            years_;
   string                      penalty_label_ = "";
   penalties::Process*         penalty_ = nullptr;
+  string                      unit_;
+
 };
 
 } /* namespace processes */
