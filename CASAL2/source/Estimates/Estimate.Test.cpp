@@ -232,7 +232,7 @@ cv 4 6 8
  */
 TEST_F(InternalEmptyModel, Estimates_Multiple_Defined_Targets_Unsigned_Map) {
   AddConfigurationLine(testresources::models::two_sex_no_estimates, "TestResources/Models/TwoSexNoEstimates.h", 28);
-  AddConfigurationLine(estimate_multiple_defined_targets_unsigned_map, __FILE__, 124);
+  AddConfigurationLine(estimate_multiple_defined_targets_unsigned_map, __FILE__, 221);
   LoadConfiguration();
 
   model_->Start(RunMode::kEstimation);
@@ -245,6 +245,59 @@ TEST_F(InternalEmptyModel, Estimates_Multiple_Defined_Targets_Unsigned_Map) {
     LOG_FATAL() << "!estimate";
   EXPECT_DOUBLE_EQ(estimate->value(), 28323.203463000002);
   EXPECT_DOUBLE_EQ(estimate->GetScore(), 29.966307896614428);
+
+  estimate = model_->managers().estimate()->GetEstimate("process[Fishing].catches(2001)");
+  if (!estimate)
+    LOG_FATAL() << "!estimate";
+  EXPECT_DOUBLE_EQ(estimate->value(), 24207.464203);
+  EXPECT_DOUBLE_EQ(estimate->GetScore(), 24.757322431641612);
+
+  estimate = model_->managers().estimate()->GetEstimate("process[Fishing].catches(2002)");
+  if (!estimate)
+    LOG_FATAL() << "!estimate";
+  EXPECT_DOUBLE_EQ(estimate->value(), 47279);
+  EXPECT_DOUBLE_EQ(estimate->GetScore(), 25.007985625485446);
+}
+
+/**
+ *
+ */
+const string estimate_multiple_defined_targets_unsigned_map_with_same =
+R"(
+@estimate
+parameter process[Fishing].catches(2000:2002)
+type lognormal
+lower_bound 28000 24000 47000
+upper_bound 29000 25000 48000
+mu 3 5 7
+cv 4 6 8
+same process[Fishing].catches(2003:2005)
+)";
+
+TEST_F(InternalEmptyModel, Estimates_Multiple_Defined_Targets_Unsigned_Map_WithSames) {
+  AddConfigurationLine(testresources::models::two_sex_no_estimates, "TestResources/Models/TwoSexNoEstimates.h", 28);
+  AddConfigurationLine(estimate_multiple_defined_targets_unsigned_map_with_same, __FILE__, 267);
+  LoadConfiguration();
+
+  model_->Start(RunMode::kEstimation);
+
+  ObjectiveFunction& obj_function = model_->objective_function();
+  EXPECT_DOUBLE_EQ(2750.3481036317216, obj_function.score());
+
+  Estimate* estimate = model_->managers().estimate()->GetEstimate("process[Fishing].catches(2000)");
+  if (!estimate)
+    LOG_FATAL() << "!estimate";
+  EXPECT_DOUBLE_EQ(estimate->value(), 28323.203463000002);
+  EXPECT_DOUBLE_EQ(estimate->GetScore(), 29.966307896614428);
+
+  // Validate the sames
+  auto same_labels = estimate->same_labels();
+  ASSERT_EQ(1u, same_labels.size());
+  EXPECT_EQ("process[Fishing].catches(2003)", same_labels[0]);
+
+  auto sames = estimate->sames();
+  ASSERT_EQ(1u, sames.size());
+  EXPECT_DOUBLE_EQ(*sames[0], 28323.203463000002);
 
   estimate = model_->managers().estimate()->GetEstimate("process[Fishing].catches(2001)");
   if (!estimate)
@@ -279,7 +332,7 @@ cv 3 4
  */
 TEST_F(InternalEmptyModel, Estimates_Multiple_Defined_Targets_String_Map) {
   AddConfigurationLine(testresources::models::two_sex_no_estimates, "TestResources/Models/TwoSexNoEstimates.h", 28);
-  AddConfigurationLine(estimate_multiple_defined_targets_string_map, __FILE__, 171);
+  AddConfigurationLine(estimate_multiple_defined_targets_string_map, __FILE__, 321);
   LoadConfiguration();
 
   model_->Start(RunMode::kEstimation);
@@ -319,7 +372,7 @@ cv 4 5 4 6 4 4 5 4 6 4 4 5 4 6 4 4 5 4 6 4 4 5 4 6 4 4 5 4 6 4 4 5 4 6 4 4 5 4 6
  */
 TEST_F(InternalEmptyModel, Estimates_All_Targets_Vector) {
   AddConfigurationLine(testresources::models::two_sex_no_estimates_all_values_mortality, "TestResources/Models/TwoSexNoEstimatesAllValuesMortality.h", 28);
-  AddConfigurationLine(estimate_all_targets_vector, __FILE__, 212);
+  AddConfigurationLine(estimate_all_targets_vector, __FILE__, 361);
   LoadConfiguration();
 
   model_->Start(RunMode::kEstimation);
@@ -359,7 +412,7 @@ cv 4 6 4 6 8 5 6 7 8 9
  */
 TEST_F(InternalEmptyModel, Estimates_All_Targets_Unsigned_Map) {
   AddConfigurationLine(testresources::models::two_sex_no_estimates, "TestResources/Models/TwoSexNoEstimates.h", 28);
-  AddConfigurationLine(estimate_all_targets_unsigned_map, __FILE__, 253);
+  AddConfigurationLine(estimate_all_targets_unsigned_map, __FILE__, 401);
   LoadConfiguration();
 
   model_->Start(RunMode::kEstimation);
@@ -399,7 +452,7 @@ cv 3 4
  */
 TEST_F(InternalEmptyModel, Estimates_All_Targets_String_Map) {
   AddConfigurationLine(testresources::models::two_sex_no_estimates, "TestResources/Models/TwoSexNoEstimates.h", 28);
-  AddConfigurationLine(estimate_all_targets_string_map, __FILE__, 293);
+  AddConfigurationLine(estimate_all_targets_string_map, __FILE__, 441);
   LoadConfiguration();
 
   model_->Start(RunMode::kEstimation);
