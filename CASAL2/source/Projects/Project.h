@@ -46,7 +46,7 @@ public:
   // accessors
   string                      estimable_parameter() {return estimable_parameter_;};
   Estimable::Type             estimate_type() {return estimable_type_;};
-  map<string,map<unsigned,Double>>& projected_parameters() {return projected_parameters_;};
+  map<unsigned,Double>&       projected_parameters() {return projected_parameters_;};
 
 protected:
   // methods
@@ -76,7 +76,7 @@ protected:
   Estimable::Type             estimable_type_;
   base::Object*               target_;
   string                      estimable_parameter_  = "";
-  map<string,map<unsigned,Double>>  projected_parameters_; // Parameter_label , year = value;
+  map<unsigned,Double>        projected_parameters_; // year = value;
 
 private:
   bool                        ycs_value_check_;

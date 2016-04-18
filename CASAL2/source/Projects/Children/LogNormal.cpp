@@ -62,23 +62,11 @@ void LogNormal::DoUpdate() {
   utilities::RandomNumberGenerator& rng = utilities::RandomNumberGenerator::Instance();
 
   if (rho_ != 0.0) {
-    // Need to take into account autocorrelation using a gaussian AR(1) process
-    switch (estimable_type_) {
-      case Estimable::kVector:
-        last_value_ = *estimable_vector_->rbegin();
-        break;
-      case Estimable::kSingle:
-        last_value_ = (*estimable_);
-        break;
-      case Estimable::kUnsignedMap:
-        last_value_ = (*estimable_map_)[model_->current_year() - 1];
-        break;
-      default:
-        LOG_ERROR() << "The estimable you have provided for use in a projection: " << parameter_ << " is not a type that is supported for type LogNormal";
-        break;
-    }
-  Double Z = rng.normal(0.0, 1.0);
-  value_ = -0.5 * sigma_ * sigma_ + sigma_ * (rho_ * last_value_ + sqrt(1 - rho_ * rho_ * Z));
+    Double last_value_ = projected_parameters_[model_->current_year() - 1];
+    Double Z = rng.normal(0.0, 1.0);
+    value_ = -0.5 * sigma_ * sigma_ + sigma_ * (rho_ * last_value_ + sqrt(1 - rho_ * rho_ * Z));
+    // Store this value to be pulled out next projection year
+    projected_parameters_[model_->current_year()] = value_;
   } else {
     // Just a standard normal deviation
     value_ = last_value_ + rng.lognormal(AS_DOUBLE(mean_), AS_DOUBLE(sigma_));

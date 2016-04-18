@@ -138,6 +138,7 @@ type mortality_instantaneous
 m 0.0798
 selectivities One
 categories stock
+units kgs
 table catches
 year FishingWest FishingEest
 1975 80000 111000                                                            
