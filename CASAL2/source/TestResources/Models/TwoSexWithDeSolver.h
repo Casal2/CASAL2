@@ -193,7 +193,7 @@ multiplier 10
 @project recruitment.r0
 type constant
 parameter process[Recruitment].R0
-value 100000
+values 100000
 years 2010 2012
 
 @derived_quantity abundance
