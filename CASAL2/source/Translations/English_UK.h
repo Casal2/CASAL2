@@ -153,6 +153,7 @@
 #define PARAM_BY_LENGTH                           "by_length"
 #define PARAM_C                                   "c"
 #define PARAM_CASAL_PENALTY                       "casal_penalty"
+#define PARAM_CASAL_INTIALISATION                 "casal_intialisation_switch"
 #define PARAM_CATCHABILITY                        "catchability"
 #define PARAM_CATCHES                             "catches"
 #define PARAM_CATEGORICAL                         "categorical"

@@ -50,6 +50,7 @@ protected:
   cached::Categories          cached_partition_;
   accessor::Categories        partition_;
   unsigned                    ssb_offset_ = 1;
+  bool                        casal_initialisation_ = false;
 };
 
 } /* namespace initialisationphases */
