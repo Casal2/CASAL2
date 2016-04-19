@@ -34,7 +34,8 @@ public:
 
 private:
   // members
-  Double                      value_;
+  vector<Double>              values_;
+  map<unsigned, Double>       year_values_;
 };
 
 } /* namespace projects */
