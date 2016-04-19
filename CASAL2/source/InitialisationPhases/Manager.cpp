@@ -36,6 +36,20 @@ void Manager::Build() {
 /**
  *
  */
+void Manager::Validate() {
+  bool has_derived_or_iterative = false;
+  for (auto phase : objects_) {
+    phase->Validate();
+    has_derived_or_iterative = phase->type() == PARAM_ITERATIVE || phase->type() == PARAM_DERIVED || has_derived_or_iterative;
+    if (phase->type() == PARAM_CINITIAL && !has_derived_or_iterative) {
+      LOG_ERROR() << phase->location() << " cannot be defined unless you have defined an iterative or derived initialisation phase prior in the annual cycle";
+    }
+  }
+}
+
+/**
+ *
+ */
 void Manager::Build(Model* model) {
   LOG_TRACE();
 

@@ -28,6 +28,7 @@ class Manager : public base::Manager<niwa::initialisationphases::Manager, niwa::
 public:
   // methods
   virtual                     ~Manager() noexcept(true);
+  void                        Validate() override final;
   void                        Build() override final;
   void                        Build(Model* model);
   void                        Execute();
