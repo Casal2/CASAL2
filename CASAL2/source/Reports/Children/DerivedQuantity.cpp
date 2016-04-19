@@ -8,11 +8,10 @@
 #include "DerivedQuantity.h"
 
 #include "DerivedQuantities/Manager.h"
-#include "Utilities/Math.h"
 
 namespace niwa {
 namespace reports {
-namespace math = niwa::utilities::math;
+
 
 /**
  *
@@ -31,6 +30,16 @@ DerivedQuantity::DerivedQuantity(Model* model) : Report(model) {
  */
 void DerivedQuantity::DoExecute() {
   LOG_TRACE();
+  Double conversion_factor = 1.0;
+  LOG_FINEST() << "Conversion factor = " << conversion_factor;
+
+  if (unit_ == PARAM_TONNES)
+    conversion_factor /= 1000;
+  else if (unit_ == PARAM_GRAMS)
+    conversion_factor *= 1000;
+  else if (unit_ != PARAM_KGS)
+    LOG_ERROR_P(PARAM_UNITS) << "The subcommand unit = " << unit_ << " Is not accepted, we take kgs, grams or tonnes";
+  LOG_FINEST() << "Conversion factor = " << conversion_factor;
 
   derivedquantities::Manager& manager = *model_->managers().derived_quantity();
 
@@ -54,7 +63,7 @@ void DerivedQuantity::DoExecute() {
       cache_ << "Initial_phase_"<< i << ": ";
       for (unsigned j = 0; j < init_values[i].size(); ++j) {
       if (dq->type() == PARAM_BIOMASS)
-        cache_ << AS_DOUBLE(math::convert_units(init_values[i][j], unit_)) << " ";
+        cache_ << AS_DOUBLE(conversion_factor * init_values[i][j]) << " ";
       else
         cache_ << AS_DOUBLE(init_values[i][j]) << " ";
       }
@@ -66,7 +75,7 @@ void DerivedQuantity::DoExecute() {
     cache_ << "values " << REPORT_R_VECTOR <<"\n";
     for (auto iter = values.begin(); iter != values.end(); ++iter) {
       if (dq->type() == PARAM_BIOMASS)
-        cache_ << iter->first << " " << AS_DOUBLE(math::convert_units(iter->second, unit_)) << "\n";
+        cache_ << iter->first << " " << AS_DOUBLE(conversion_factor * iter->second) << "\n";
       else
         cache_ << iter->first << " " << AS_DOUBLE(iter->second) << "\n";
     }
@@ -84,6 +93,14 @@ void DerivedQuantity::DoExecute() {
  */
 
 void DerivedQuantity::DoExecuteTabular() {
+  Double conversion_factor = 1;
+  if (unit_ == PARAM_TONNES)
+    conversion_factor = 1/1000;
+  else if (unit_ == PARAM_GRAMS)
+    conversion_factor = 1000;
+  else if (unit_ != PARAM_KGS)
+    LOG_ERROR_P(PARAM_UNITS) << "The subcommand unit = " << unit_ << " Is not accepted, we take kgs, grams or tonnes";
+
   derivedquantities::Manager& manager = *model_->managers().derived_quantity();
   auto derived_quantities = manager.objects();
 
@@ -105,7 +122,7 @@ void DerivedQuantity::DoExecuteTabular() {
     const map<unsigned, Double> values = dq->values();
     for (auto iter = values.begin(); iter != values.end(); ++iter) {
       if (derived_type == PARAM_BIOMASS)
-        cache_ << AS_DOUBLE(math::convert_units(iter->second, unit_)) << " ";
+        cache_ << AS_DOUBLE(conversion_factor * iter->second) << " ";
       else
         cache_ << AS_DOUBLE(iter->second) << " ";
     }

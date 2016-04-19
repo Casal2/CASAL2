@@ -402,13 +402,15 @@ void MortalityInstantaneous::DoExecute() {
     }
 
     // Report catches and exploitation rates for fisheries for each year and timestep
+    // Write a better report
     StoreForReport("year.timestep", utilities::ToInline<unsigned,string>(model_->current_year()) + "." + utilities::ToInline<unsigned,string>(time_step_index));
-    for (auto fishery_category : fishery_categories_) {
-      StoreForReport(fishery_category.fishery_label_ + "_U", fishery_exploitation[fishery_category.fishery_label_]);
-      if (fishery_exploitation[fishery_category.fishery_label_] > 0)
-        StoreForReport(fishery_category.fishery_label_ + "_Catch",fisheries_[fishery_category.fishery_label_].catches_[model_->current_year()]);
+    for (auto fishery_iter : fisheries_) {
+      auto fishery = fishery_iter.second;
+      StoreForReport(fishery.label_ + "_U", fishery_exploitation[fishery.label_]);
+      if (fishery_exploitation[fishery.label_] > 0)
+        StoreForReport(fishery.label_ + "_Catch",fisheries_[fishery.label_].catches_[model_->current_year()]);
       else
-        StoreForReport(fishery_category.fishery_label_ + "_Catch", 0);
+        StoreForReport(fishery.label_ + "_Catch", 0);
 
     }
 

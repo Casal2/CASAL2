@@ -41,7 +41,6 @@ void EmpiricalSampling::DoValidate() {
 void EmpiricalSampling::DoBuild() {
   // Build a vector of years that have been resampled with replacement between start_year and end_year
   utilities::RandomNumberGenerator& rng = utilities::RandomNumberGenerator::Instance();
-
   for (unsigned project_year : years_) {
     Double Random_draw = round(rng.uniform(start_year_, final_year_));
     unsigned year = 0;

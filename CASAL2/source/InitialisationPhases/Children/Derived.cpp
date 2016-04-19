@@ -36,6 +36,9 @@ Derived::Derived(Model* model) :
     InitialisationPhase(model), cached_partition_(model), partition_(model) {
   parameters_.Bind<string>(PARAM_INSERT_PROCESSES, &insert_processes_, "The processes to insert in to target time steps", "", true);
   parameters_.Bind<string>(PARAM_EXCLUDE_PROCESSES, &exclude_processes_, "The processes to exclude from all time steps", "", true);
+  parameters_.Bind<bool>(PARAM_CASAL_INTIALISATION, &casal_initialisation_, "A switch to emulate CASAL's intialisation when analytical solution cannot be determined", "");
+
+
 }
 
 /*
@@ -230,7 +233,9 @@ void Derived::Execute() {
   // this piece of code can be commented out to replicate CASAL for the purpose of testing functionality.
 
   // run the annual cycle for ssb_offset years to accumulate B0 for recruitment processes.
-  time_step_manager->ExecuteInitialisation(label_, ssb_offset_);
+
+  if (!casal_initialisation_)
+    time_step_manager->ExecuteInitialisation(label_, ssb_offset_);
 
 }
 
