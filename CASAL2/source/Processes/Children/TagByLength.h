@@ -57,10 +57,6 @@ private:
   Double                        initial_mortality_ = 0;
   string                        initial_mortality_selectivity_label_ = "";
   Selectivity*                  initial_mortality_selectivity_ = nullptr;
-  vector<Double>                loss_rate_;
-  map<string, Double>           loss_rate_by_category_;
-  vector<string>                loss_rate_selectivity_labels_;
-  map<string, Selectivity*>     loss_rate_selectivity_by_category_;
   vector<Double>                n_;
   parameters::Table*            numbers_table_ = nullptr;
   parameters::Table*            proportions_table_ = nullptr;

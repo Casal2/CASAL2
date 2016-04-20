@@ -94,7 +94,7 @@ void AgeLength::BuildCV() {
   LOG_MEDIUM() << ": label of first time step " << time_steps[0];
   for (unsigned year_iter = start_year; year_iter <= final_year; ++year_iter) {
     for (unsigned step_iter = 0; step_iter < time_steps.size(); ++step_iter) {
-      if (cv_last_ == 0.0) { // A test that is robust... If cv_last_ is not in the input then assume cv_first_ represents the cv for all age classes i.e constant cv
+      if (!parameters_.Get(PARAM_CV_LAST)->has_been_defined()) { // A test that is robust... If cv_last_ is not in the input then assume cv_first_ represents the cv for all age classes i.e constant cv
         for (unsigned age_iter = min_age; age_iter <= max_age; ++age_iter)
           cvs_[year_iter][age_iter][step_iter] = (cv_first_);
       } else {
@@ -198,7 +198,7 @@ void AgeLength::DoAgeToLengthConversion(partition::Category* category, const vec
     unsigned age = category->min_age_ + i;
 
     if (cvs_[year][age][time_step] <= 0.0)
-        LOG_ERROR_P(PARAM_CV_FIRST) << "cv first or last cannot be less than or equal to zero";
+        LOG_CODE_ERROR() << "Identified a CV of 0.0. please check parameters cv_first and cv_last in the @age_length";
 
     Double mu= category->mean_length_per_[age];
     CummulativeNormal(mu, cvs_[year][age][time_step], age_frequencies, length_bins, distribution_, plus_grp);

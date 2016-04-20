@@ -28,7 +28,7 @@ TagByLength::TagByLength(Model* model)
   : Process(model),
     to_partition_(model),
     from_partition_(model) {
-  process_type_ = ProcessType::kTransition;
+  process_type_ = ProcessType::kTaggingWithMortality;
   partition_structure_ = PartitionStructure::kAge;
 
   numbers_table_ = new parameters::Table(PARAM_NUMBERS);
@@ -43,8 +43,6 @@ TagByLength::TagByLength(Model* model)
   parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "Years to execute the transition in", "");
   parameters_.Bind<Double>(PARAM_INITIAL_MORTALITY, &initial_mortality_, "", "", Double(0));
   parameters_.Bind<string>(PARAM_INITIAL_MORTALITY_SELECTIVITY, &initial_mortality_selectivity_label_, "", "", "");
-  parameters_.Bind<Double>(PARAM_LOSS_RATE, &loss_rate_, "", "");
-  parameters_.Bind<string>(PARAM_LOSS_RATE_SELECTIVITIES, &loss_rate_selectivity_labels_, "", "", true);
   parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_labels_, "", "");
   parameters_.Bind<Double>(PARAM_N, &n_, "", "", true);
   parameters_.BindTable(PARAM_NUMBERS, numbers_table_, "Table of N data", "", true, true);
@@ -83,21 +81,6 @@ void TagByLength::DoValidate() {
    */
   first_year_ = years_[0];
   std::for_each(years_.begin(), years_.end(), [this](unsigned year){ first_year_ = year < first_year_ ? year : first_year_; });
-
-  /**
-   * Build our loss rate map
-   */
-  if (loss_rate_.size() == 1) {
-    loss_rate_.assign(from_category_labels_.size(), loss_rate_[0]);
-    loss_rate_by_category_ = utilities::Map::create(from_category_labels_, loss_rate_);
-
-  } else if (loss_rate_.size() == from_category_labels_.size()) {
-    loss_rate_by_category_ = utilities::Map::create(from_category_labels_, loss_rate_);
-
-  } else {
-    LOG_ERROR_P(PARAM_LOSS_RATE) << " number provided (" << loss_rate_.size() << " does not match the number of " << PARAM_FROM << " categories ("
-        << from_category_labels_.size() << ")";
-  }
 
   /**
    * Build our tables
@@ -191,7 +174,7 @@ void TagByLength::DoValidate() {
         numbers_[year][i - 1] = n_by_year[year] * proportion;
         total_proportion += proportion;
       }
-      if (!utilities::doublecompare::IsOne(total_proportion))
+      if (fabs(1.0 - total_proportion) > 0.00001)
         LOG_ERROR_P(PARAM_PROPORTIONS) << " total (" << total_proportion << ") is not 1.0 for year " << year;
     }
 
@@ -200,6 +183,11 @@ void TagByLength::DoValidate() {
         LOG_ERROR_P(PARAM_PROPORTIONS) << " table contains year " << iter.first << " that is not a valid year defined in this process";
     }
   }
+
+  // Check value for initial mortality
+  if ((initial_mortality_ < 0) | (initial_mortality_ > 1.0))
+    LOG_ERROR_P(PARAM_INITIAL_MORTALITY) << ": must be between 0.0 (inclusive) amd less than 1.0 (inclusive)";
+
 }
 
 /**
@@ -221,8 +209,6 @@ void TagByLength::DoBuild() {
       LOG_ERROR() << "Selectivity: " << selectivity_labels_[i] << " not found";
     selectivities_[from_category_labels_[i]] = selectivity;
   }
-  for (unsigned i = 0 ; i < loss_rate_selectivity_labels_.size(); ++i)
-    loss_rate_selectivity_by_category_[from_category_labels_[i]] = selectivity_manager.GetSelectivity(loss_rate_selectivity_labels_[i]);
   if (initial_mortality_selectivity_label_ != "")
     initial_mortality_selectivity_ = selectivity_manager.GetSelectivity(initial_mortality_selectivity_label_);
 }
@@ -233,29 +219,8 @@ void TagByLength::DoBuild() {
 void TagByLength::DoExecute() {
   if (model_->current_year() < first_year_)
     return;
-
-  /**
-   * Apply the loss rate
-   */
-
   auto from_iter = from_partition_.begin();
   auto to_iter   = to_partition_.begin();
-
-    LOG_ERROR() << "From or to Category may not exist for year of process execution";
-  for (; from_iter != from_partition_.end(); from_iter++, to_iter++) {
-    string category_label = (*from_iter)->name_;
-    Double loss_rate = loss_rate_by_category_[category_label];
-    LOG_FINE() << "Applying loss rate: " << loss_rate << " for category " << category_label;
-
-    for (unsigned i = 0; i < (*to_iter)->data_.size(); ++i) {
-      Double amount = (*to_iter)->data_[i] * loss_rate;
-      if (loss_rate_selectivity_by_category_.find(category_label) != loss_rate_selectivity_by_category_.end())
-        amount *= loss_rate_selectivity_by_category_[category_label]->GetResult((*from_iter)->min_age_ + i, (*to_iter)->age_length_);
-      (*to_iter)->data_[i] -= amount;
-      (*from_iter)->data_[i] += amount;
-    }
-  }
-
   /**
    * Do the transition with mortality on the fish we're moving
    */
@@ -356,8 +321,16 @@ void TagByLength::DoExecute() {
         numbers_at_age[j] += (*from_iter)->age_length_matrix_[j][i] * exploitation;
         (*from_iter)->data_[j] -= numbers_at_age[j];
         (*to_iter)->data_[j] += numbers_at_age[j];
-        LOG_FINEST() << "Numbers from age = " <<  (*from_iter)->min_age_ + j << " in length bin " << length_bins_[j] << " = "
+        LOG_FINEST() << "Numbers from age = " <<  (*from_iter)->min_age_ + j << " in length bin " << length_bins_[i] << " = "
             << numbers_at_age[j];
+        /**
+         * Apply the Initial mortality and tag loss after the tagging event
+         */
+        // Currently multiplying a proportion by a selectivity
+        if((initial_mortality_selectivity_label_ != "") & (initial_mortality_ > 0.0))
+          (*to_iter)->data_[j] -= (*to_iter)->data_[j] * initial_mortality_ * initial_mortality_selectivity_->GetResult((*to_iter)->min_age_ + j, (*to_iter)->age_length_);
+        else if((initial_mortality_selectivity_label_ == "") & (initial_mortality_ > 0.0))
+          (*to_iter)->data_[j] -= (*to_iter)->data_[j] * initial_mortality_;
       }
     }
   }  // for (unsigned i = 0; i <  length_bins_.size(); ++i)
