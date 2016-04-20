@@ -19,7 +19,6 @@ namespace reports {
 DerivedQuantity::DerivedQuantity(Model* model) : Report(model) {
   run_mode_    = (RunMode::Type)(RunMode::kBasic | RunMode::kProjection);
   model_state_ = (State::Type)(State::kIterationComplete);
-
   parameters_.Bind<string>(PARAM_UNITS, &unit_, "Unit of weight output expressed in", "", "");
 
 }
@@ -31,14 +30,12 @@ DerivedQuantity::DerivedQuantity(Model* model) : Report(model) {
 void DerivedQuantity::DoExecute() {
   LOG_TRACE();
   Double conversion_factor = 1.0;
-  LOG_FINEST() << "Conversion factor = " << conversion_factor;
-
   if (unit_ == PARAM_TONNES)
     conversion_factor /= 1000;
   else if (unit_ == PARAM_GRAMS)
     conversion_factor *= 1000;
   else if (unit_ != PARAM_KGS)
-    LOG_ERROR_P(PARAM_UNITS) << "The subcommand unit = " << unit_ << " Is not accepted, we take kgs, grams or tonnes";
+    LOG_ERROR_P(PARAM_UNITS) << "The subcommand unit = " << unit_ << " Is not accepted, casal2 takes teh units kgs, grams or tonnes";
   LOG_FINEST() << "Conversion factor = " << conversion_factor;
 
   derivedquantities::Manager& manager = *model_->managers().derived_quantity();
@@ -62,9 +59,10 @@ void DerivedQuantity::DoExecute() {
     for (unsigned i = 0; i < init_values.size(); ++i) {
       cache_ << "Initial_phase_"<< i << ": ";
       for (unsigned j = 0; j < init_values[i].size(); ++j) {
-      if (dq->type() == PARAM_BIOMASS)
-        cache_ << AS_DOUBLE(conversion_factor * init_values[i][j]) << " ";
-      else
+      if (dq->type() == PARAM_BIOMASS) {
+        Double weight = AS_DOUBLE(conversion_factor * init_values[i][j]);
+        cache_ << weight << " ";
+      } else
         cache_ << AS_DOUBLE(init_values[i][j]) << " ";
       }
       cache_ << "\n";
@@ -74,9 +72,10 @@ void DerivedQuantity::DoExecute() {
     const map<unsigned, Double> values = dq->values();
     cache_ << "values " << REPORT_R_VECTOR <<"\n";
     for (auto iter = values.begin(); iter != values.end(); ++iter) {
-      if (dq->type() == PARAM_BIOMASS)
-        cache_ << iter->first << " " << AS_DOUBLE(conversion_factor * iter->second) << "\n";
-      else
+      if (dq->type() == PARAM_BIOMASS) {
+        Double weight = AS_DOUBLE(conversion_factor * iter->second);
+        cache_ << iter->first << " " << weight << "\n";
+      } else
         cache_ << iter->first << " " << AS_DOUBLE(iter->second) << "\n";
     }
     cache_ << REPORT_R_LIST_END << "\n";
@@ -121,9 +120,10 @@ void DerivedQuantity::DoExecuteTabular() {
     string derived_type = dq->type();
     const map<unsigned, Double> values = dq->values();
     for (auto iter = values.begin(); iter != values.end(); ++iter) {
-      if (derived_type == PARAM_BIOMASS)
-        cache_ << AS_DOUBLE(conversion_factor * iter->second) << " ";
-      else
+      if (derived_type == PARAM_BIOMASS) {
+        Double weight = conversion_factor * iter->second;
+        cache_ << AS_DOUBLE(weight) << " ";
+      } else
         cache_ << AS_DOUBLE(iter->second) << " ";
     }
   }

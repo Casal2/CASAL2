@@ -36,7 +36,7 @@ TransitionCategory::TransitionCategory(Model* model)
 
   RegisterAsEstimable(PARAM_PROPORTIONS, &proportions_by_category_);
 
-  process_type_ = ProcessType::kMaturation;
+  process_type_ = ProcessType::kTransition;
   partition_structure_ = PartitionStructure::kAge;
 }
 
@@ -77,6 +77,10 @@ void TransitionCategory::DoValidate() {
         << ": Number of 'to' categories provided does not match the number of 'from' categories provided."
         << " Expected " << from_category_names_.size() << " but got " << to_category_names_.size();
   }
+
+  // Allow a one to many relationship between proportions and number of categories.
+  if (proportions_.size() == 1)
+    proportions_.resize(to_category_names_.size(),proportions_[0]);
 
   // Validate the to category and proportions vectors are the same size
   if (to_category_names_.size() != proportions_.size()) {

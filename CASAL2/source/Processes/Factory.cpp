@@ -30,6 +30,7 @@
 #include "Processes/Children/RecruitmentConstant.h"
 #include "Processes/Children/TagByAge.h"
 #include "Processes/Children/TagByLength.h"
+#include "Processes/Children/TagLoss.h"
 #include "Processes/Children/TransitionCategory.h"
 #include "Processes/Children/TransitionCategoryByAge.h"
 
@@ -97,6 +98,8 @@ Process* Factory::Create(Model* model, const string& object_type, const string& 
       result = new TagByAge(model);
     else if (sub == PARAM_TAG_BY_LENGTH)
       result = new TagByLength(model);
+    else if (sub == PARAM_TAG_LOSS)
+      result = new TagLoss(model);
     else if (sub == PARAM_TRANSITION_CATEGORY)
       result = new TransitionCategory(model);
     else if (sub == PARAM_TRANSITION_CATEGORY_BY_AGE)
