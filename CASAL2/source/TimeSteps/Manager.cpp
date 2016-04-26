@@ -91,12 +91,11 @@ vector<unsigned> Manager::GetTimeStepIndexesForProcess(const string& process_lab
     if (ordered_time_steps_[index]->HasProcess(process_label))
       result.push_back(index);
   }
-
   return result;
 }
 
 /**
- * Return a vector that contains the different types or processes and wthe order
+ * Return a vector that contains the different types or processes and the order
  * they are executed in. This is primarily used by the BH Recruitment to determine the SSB Offset
  *
  * @return Vector of ProcessType::Types for all processes executed.
@@ -111,6 +110,25 @@ vector<ProcessType> Manager::GetOrderedProcessTypes() {
 
   return types;
 }
+
+/**
+ *  Return sequence of process label. this treats the annual cycle as continuous. Given a process label return the sequence in which
+ *  that process was executed in the entire annual cycle
+ */
+unsigned Manager::GetProcessIndex(const string& process_label) const {
+  unsigned index = 0;
+  for (auto time_step : ordered_time_steps_) {
+    for (auto process : time_step->processes()) {
+      index++;
+      if (process->label() == process_label)
+        return index;
+    }
+  }
+  LOG_ERROR() << "No process with the label " << process_label << " is found in the annaul cycle";
+  return 0;
+}
+
+
 
 /**
  * Validate our Time Steps

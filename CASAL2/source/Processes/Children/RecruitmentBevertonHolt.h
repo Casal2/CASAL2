@@ -36,10 +36,12 @@ public:
   void                        DoBuild() override final;
   void                        DoReset() override final;
   void                        DoExecute() override final;
-
+  void                        ScalePartition();
   //accessor
   unsigned                    ssb_offset() {return ssb_offset_;};
-  string                    ssb_label() {return ssb_;};
+  string                      ssb_label() {return ssb_;};
+  bool                        bo_initialised() {return bo_initialised_;};
+
 
 private:
   // members
@@ -49,6 +51,7 @@ private:
   string                      phase_b0_label_;
   unsigned                    phase_b0_;
   Double                      b0_ = 0.0;
+  bool                        bo_initialised_ = false;
   vector<Double>              proportions_;
   unsigned                    age_ = 0;
   Double                      steepness_ = 0.0;
@@ -60,6 +63,7 @@ private:
   vector<Double>              true_ycs_values_;
   vector<Double>              stand_ycs_values_;
   vector<Double>              recruitment_values_;
+  bool                        have_scaled_partition = false;
   vector<unsigned>            standardise_ycs_;
   DerivedQuantity*            derived_quantity_ = nullptr;
   bool                        prior_ycs_values_ = true;
