@@ -248,11 +248,15 @@ ssb SSB_Biomass
 standardise_ycs_years 1994-2004
 ycs_years 1994 1995 1996 1997 1998 1999 2000 2001 2002 2003 2004 2005 2006
 YCS_values   1    1    1    1    1    1    1    1    1    1    1    1    1
-ssb_offset 2
 \end{verbatim}}}
-\textbf{Check}\\
-Note that if not specified, \texttt{ssb\_offset} is set at the value of $age + 1$ if recruitment occurs before ageing in annual cycle \hlc[new]{check this out}, other wise it is set to $age$.
 
+\begin{itemize}
+	\item If recruitment then ageing then spawning, then \texttt{ssb\_offset} should equal \texttt{min\_age} + 1.
+	\item If spawning then ageing then recruitment, then \texttt{ssb\_offset} should equal \texttt{min\_age} - 1.
+	\item If any other order is used, then \texttt{ssb\_offset} should equal \texttt{min\_age}.
+\end{itemize}
+
+If you have more than one ageing process and a bevertonholt recruitment process you will be warned to set your own \texttt{ssb\_offset} as \CNAME\ will set \texttt{ssb\_offset} based upon the first ageing process which may be not want the user desires.
 
 
 \subsubsection{\I{Ageing}\label{sec:ageing}}
