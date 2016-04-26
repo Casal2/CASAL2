@@ -36,7 +36,6 @@ Derived::Derived(Model* model) :
     InitialisationPhase(model), cached_partition_(model), partition_(model) {
   parameters_.Bind<string>(PARAM_INSERT_PROCESSES, &insert_processes_, "The processes to insert in to target time steps", "", true);
   parameters_.Bind<string>(PARAM_EXCLUDE_PROCESSES, &exclude_processes_, "The processes to exclude from all time steps", "", true);
-  parameters_.Bind<bool>(PARAM_CASAL_INTIALISATION, &casal_initialisation_, "A switch to emulate CASAL's intialisation when analytical solution cannot be determined", "");
 
 
 }
@@ -132,14 +131,17 @@ void Derived::DoBuild() {
 
 
   // Calculate ssb_ofset if there is BH_recruitment process in the annual cycle
+  unsigned i = 0;
   for (auto time_step : model_->managers().time_step()->ordered_time_steps()) {
     for (auto process : time_step->processes()) {
       if (process->process_type() == ProcessType::kRecruitment && process->type() == PARAM_RECRUITMENT_BEVERTON_HOLT) {
-        RecruitmentBevertonHolt* recruitment = dynamic_cast<RecruitmentBevertonHolt*>(process);
-        if (!recruitment)
+        LOG_FINEST() << "Found a BH process!!!!";
+        recruitment_process_.push_back(dynamic_cast<RecruitmentBevertonHolt*>(process));
+        if (!recruitment_process_[i])
           LOG_CODE_ERROR() << "BevertonHolt Recruitment exists but dynamic cast pointer cannot be made, if (!recruitment) ";
-        if (recruitment->ssb_offset() > ssb_offset_)
-          ssb_offset_ = recruitment->ssb_offset();
+        if (recruitment_process_[i]->ssb_offset() > ssb_offset_)
+          ssb_offset_ = recruitment_process_[i]->ssb_offset();
+        i++;
       }
     }
   }
@@ -227,15 +229,22 @@ void Derived::Execute() {
     old_plus_group = plus_group;
   }
 
+  LOG_FINEST() << "Number of BH recruitment processes in annual cycle = " << recruitment_process_.size();
+  // We are at Equilibrium state here
+  // Check if we have B0 initialised or R0 initialised recruitment
+  for (auto recruitment_process : recruitment_process_) {
+    if (recruitment_process->bo_initialised()) {
+      LOG_FINEST() << "PARAM_B0 has been defined";
+      recruitment_process->ScalePartition();
+    }
+  }
 
   /////////////////////////////////////////////////// Note //////////////////////////////////////////////////////
   // Some CASAL models do not reach equilibrium with the analytical solution. If the CASAL2 model differs after initialisation
   // this piece of code can be commented out to replicate CASAL for the purpose of testing functionality.
-
   // run the annual cycle for ssb_offset years to accumulate B0 for recruitment processes.
 
-  if (!casal_initialisation_)
-    time_step_manager->ExecuteInitialisation(label_, ssb_offset_);
+  time_step_manager->ExecuteInitialisation(label_, ssb_offset_);
 
 }
 

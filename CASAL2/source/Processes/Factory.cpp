@@ -109,6 +109,7 @@ Process* Factory::Create(Model* model, const string& object_type, const string& 
       model->managers().process()->AddObject(result);
   }
 
+  //result->parameters().Get(PARAM_TYPE)->set_value(sub);
   return result;
 }
 

@@ -67,10 +67,10 @@ void TimeStep::Build() {
       mortality_block_.first = mortality_block_.first == processes_.size() ? i : mortality_block_.first;
       mortality_block_.second = i;
     } else if (mortality_block_.first != processes_.size())
-      break;
+      LOG_FATAL() << "Mortality processes within a time step need to be consecutive (i.e. a single mortality block)";
   }
 
-  mortality_block_.first = mortality_block_.first == processes_.size() ? 0 : mortality_block_.first;
+  mortality_block_.second = mortality_block_.first == processes_.size() ? mortality_block_.first : mortality_block_.second;
 }
 
 /**
@@ -93,6 +93,12 @@ void TimeStep::ExecuteForInitialisation(const string& phase_label) {
       }
     }
   }
+  if (initialisation_mortality_blocks_[phase_label].first == processes_.size()){
+     for (auto executor : initialisation_block_executors_) {
+       executor->PreExecute();
+       executor->Execute();
+     }
+   }
 }
 
 /**
@@ -121,6 +127,12 @@ void TimeStep::Execute(unsigned year) {
     if (index == mortality_block_.second) {
       for (auto executor : block_executors_[year])
         executor->Execute();
+    }
+  }
+  if (mortality_block_.first == processes_.size()){
+    for (auto executor : block_executors_[year]) {
+      executor->PreExecute();
+      executor->Execute();
     }
   }
 
@@ -199,10 +211,11 @@ void TimeStep::BuildInitialisationProcesses() {
         initialisation_mortality_blocks_[iter.first].first = initialisation_mortality_blocks_[iter.first].first == processes_.size() ? i : initialisation_mortality_blocks_[iter.first].first;
         initialisation_mortality_blocks_[iter.first].second = i;
       } else if (initialisation_mortality_blocks_[iter.first].first != processes_.size())
-        break;
+        LOG_FATAL() << "Mortality processes within a time step need to be consecutive (i.e. a single mortality block)";
     }
+    mortality_block_.second = mortality_block_.first == processes_.size() ? mortality_block_.first : mortality_block_.second;
 
-    initialisation_mortality_blocks_[iter.first].first = initialisation_mortality_blocks_[iter.first].first == processes_.size() ? 0 : initialisation_mortality_blocks_[iter.first].first;
+    initialisation_mortality_blocks_[iter.first].second = initialisation_mortality_blocks_[iter.first].first == processes_.size() ? initialisation_mortality_blocks_[iter.first].first : initialisation_mortality_blocks_[iter.first].second;
   }
 }
 } /* namespace niwa */

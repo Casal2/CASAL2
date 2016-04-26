@@ -49,7 +49,6 @@ private:
   string                      tag_loss_type_ = "single";
   vector<Double>              ratios_;
   map<unsigned, Double>       time_step_ratios_;
-  vector<vector<Double>>      mortality_rates_;
   vector<string>              selectivity_names_;
   accessor::Categories        partition_;
   vector<Selectivity*>        selectivities_;

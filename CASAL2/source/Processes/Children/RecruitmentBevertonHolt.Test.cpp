@@ -95,7 +95,7 @@ type beverton_holt
 categories stage=immature
 proportions 0.5 0.5
 r0 1.6059e+006
-b0 iphase2
+b0_intialisation_phase iphase2
 age 1
 ssb SSB
 standardise_ycs_years 1995:2006
@@ -127,23 +127,23 @@ TEST_F(InternalEmptyModel, Processes_BevertonHolt_Recruitment_AutoSSBOffset) {
 
   partition::Category& male   = model_->partition().category("immature.male");
   EXPECT_DOUBLE_EQ(0.0, male.data_[0]);
-  EXPECT_DOUBLE_EQ(808433.25100872794, male.data_[1]);
-  EXPECT_DOUBLE_EQ(808132.92498174415, male.data_[2]);
-  EXPECT_DOUBLE_EQ(807830.0282960101,  male.data_[3]);
-  EXPECT_DOUBLE_EQ(807524.53144776647, male.data_[4]);
-  EXPECT_DOUBLE_EQ(807216.40403779258, male.data_[5]);
-  EXPECT_DOUBLE_EQ(806905.61474528315, male.data_[6]);
-  EXPECT_DOUBLE_EQ(806592.131365799, male.data_[7]);
+  EXPECT_DOUBLE_EQ(808729.94416124187, male.data_[1]);
+  EXPECT_DOUBLE_EQ(808432.22560777736, male.data_[2]);
+  EXPECT_DOUBLE_EQ(808131.97955769731,  male.data_[3]);
+  EXPECT_DOUBLE_EQ(807829.17489105463, male.data_[4]);
+  EXPECT_DOUBLE_EQ(807523.7799964858, male.data_[5]);
+  EXPECT_DOUBLE_EQ(807215.76276109123, male.data_[6]);
+  EXPECT_DOUBLE_EQ(806905.09056026023, male.data_[7]);
 
   partition::Category& female = model_->partition().category("immature.female");
   EXPECT_DOUBLE_EQ(0.0, female.data_[0]);
-  EXPECT_DOUBLE_EQ(808433.25100872794, female.data_[1]);
-  EXPECT_DOUBLE_EQ(808132.92498174415, female.data_[2]);
-  EXPECT_DOUBLE_EQ(807830.0282960101,  female.data_[3]);
-  EXPECT_DOUBLE_EQ(807524.53144776647, female.data_[4]);
-  EXPECT_DOUBLE_EQ(807216.40403779258, female.data_[5]);
-  EXPECT_DOUBLE_EQ(806905.61474528315, female.data_[6]);
-  EXPECT_DOUBLE_EQ(806592.131365799, female.data_[7]);
+  EXPECT_DOUBLE_EQ(808729.94416124187, female.data_[1]);
+  EXPECT_DOUBLE_EQ(808432.22560777736, female.data_[2]);
+  EXPECT_DOUBLE_EQ(808131.97955769731,  female.data_[3]);
+  EXPECT_DOUBLE_EQ(807829.17489105463, female.data_[4]);
+  EXPECT_DOUBLE_EQ(807523.7799964858, female.data_[5]);
+  EXPECT_DOUBLE_EQ(807215.76276109123, female.data_[6]);
+  EXPECT_DOUBLE_EQ(806905.09056026023, female.data_[7]);
 }
 
 } /* namespace processes */

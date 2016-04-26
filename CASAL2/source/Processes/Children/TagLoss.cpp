@@ -58,6 +58,8 @@ TagLoss::TagLoss(Model* model)
 void TagLoss::DoValidate() {
   category_labels_ = model_->categories()->ExpandLabels(category_labels_, parameters_.Get(PARAM_CATEGORIES));
 
+  LOG_FINEST() << "Number of categories = " << category_labels_.size() << " number of proportions given = " << tag_loss_input_.size();
+
   if (tag_loss_input_.size() == 1)
     tag_loss_input_.assign(category_labels_.size(), tag_loss_input_[0]);
   if (selectivity_names_.size() == 1)
@@ -182,10 +184,9 @@ void TagLoss::DoExecute() {
 }
 
 /**
- * Reset the Mortality Process
+ * Reset the Tag loss Process
  */
 void TagLoss::DoReset() {
-  mortality_rates_.clear();
 }
 
 } /* namespace processes */
