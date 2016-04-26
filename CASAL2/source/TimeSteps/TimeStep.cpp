@@ -62,12 +62,15 @@ void TimeStep::Build() {
    */
   mortality_block_.first  = processes_.size();
   mortality_block_.second = processes_.size() - 1;
+  bool finished_mortality_block = false;
   for (unsigned i = 0; i < processes_.size(); ++i) {
-    if (processes_[i]->process_type() == ProcessType::kMortality) {
+    if (processes_[i]->process_type() == ProcessType::kMortality && !finished_mortality_block) {
       mortality_block_.first = mortality_block_.first == processes_.size() ? i : mortality_block_.first;
       mortality_block_.second = i;
-    } else if (mortality_block_.first != processes_.size())
+    } else if (processes_[i]->process_type() == ProcessType::kMortality && finished_mortality_block) {
       LOG_FATAL() << "Mortality processes within a time step need to be consecutive (i.e. a single mortality block)";
+    } else if (mortality_block_.first != processes_.size())
+      finished_mortality_block = true;
   }
 
   mortality_block_.second = mortality_block_.first == processes_.size() ? mortality_block_.first : mortality_block_.second;
@@ -206,12 +209,15 @@ void TimeStep::BuildInitialisationProcesses() {
 
     initialisation_mortality_blocks_[iter.first].first  = processes_.size();
     initialisation_mortality_blocks_[iter.first].second = processes_.size() - 1;
+    bool finished_mortality_block = false;
     for (unsigned i = 0; i < initialisation_processes_[iter.first].size(); ++i) {
-      if (initialisation_processes_[iter.first][i]->process_type() == ProcessType::kMortality) {
+      if (initialisation_processes_[iter.first][i]->process_type() == ProcessType::kMortality && !finished_mortality_block) {
         initialisation_mortality_blocks_[iter.first].first = initialisation_mortality_blocks_[iter.first].first == processes_.size() ? i : initialisation_mortality_blocks_[iter.first].first;
         initialisation_mortality_blocks_[iter.first].second = i;
-      } else if (initialisation_mortality_blocks_[iter.first].first != processes_.size())
+      } else if (initialisation_processes_[iter.first][i]->process_type() == ProcessType::kMortality && finished_mortality_block) {
         LOG_FATAL() << "Mortality processes within a time step need to be consecutive (i.e. a single mortality block)";
+      } else if (initialisation_mortality_blocks_[iter.first].first != processes_.size())
+        finished_mortality_block = true;
     }
     mortality_block_.second = mortality_block_.first == processes_.size() ? mortality_block_.first : mortality_block_.second;
 
