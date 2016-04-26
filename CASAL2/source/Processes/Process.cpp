@@ -36,6 +36,15 @@ Process::Process(Model* model) : model_(model) {
 void Process::Validate() {
   parameters_.Populate();
 
+  if (block_type_ != PARAM_PROCESS && block_type_ != PARAM_PROCESSES) {
+    if (type_ != "")
+      type_ = block_type_ + "_" + type_;
+    else
+      type_ = block_type_;
+
+    block_type_ = PARAM_PROCESS;
+  }
+
   if (process_type_ == ProcessType::kUnknown)
     LOG_CODE_ERROR() << "process_type_ == ProcessType::kUnknown for label: " << label();
 
