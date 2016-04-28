@@ -51,6 +51,7 @@ protected:
   accessor::Categories        partition_;
   unsigned                    ssb_offset_ = 1;
   vector<RecruitmentBevertonHolt*> recruitment_process_;
+  bool                        casal_initialisation_phase_ = false;
 };
 
 } /* namespace initialisationphases */
