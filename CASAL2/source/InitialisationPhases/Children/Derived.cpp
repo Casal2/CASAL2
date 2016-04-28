@@ -36,6 +36,7 @@ Derived::Derived(Model* model) :
     InitialisationPhase(model), cached_partition_(model), partition_(model) {
   parameters_.Bind<string>(PARAM_INSERT_PROCESSES, &insert_processes_, "The processes to insert in to target time steps", "", true);
   parameters_.Bind<string>(PARAM_EXCLUDE_PROCESSES, &exclude_processes_, "The processes to exclude from all time steps", "", true);
+  parameters_.Bind<bool>(PARAM_CASAL_INTIALISATION, &casal_initialisation_phase_, "Reset the partition after running an extra annual cycle to take on equilibrium SSB's. Warning should only be set to true if comparing with previous CASAL models", "", false);
 
 
 }
@@ -244,8 +245,20 @@ void Derived::Execute() {
   // this piece of code can be commented out to replicate CASAL for the purpose of testing functionality.
   // run the annual cycle for ssb_offset years to accumulate B0 for recruitment processes.
 
-  time_step_manager->ExecuteInitialisation(label_, ssb_offset_);
+  if (casal_initialisation_phase_)
+    cached_partition_.BuildCache();
+  // Run a annual cycle once to populate derived quantities
+  time_step_manager->ExecuteInitialisation(label_, 1);
 
+  // if user wants a phase that is similar to CASAL then reset partition after the approximation
+  // Why this is bad: at this point we are at an assumed equilibrium state so why reset teh partition
+  // more annual cycles shouldn't matter if run.
+  if (casal_initialisation_phase_) {
+    auto cached_category = cached_partition_.begin();
+    auto category = partition_.begin();
+    for (; category != partition_.end(); ++category, ++cached_category)
+      (*category)->data_ = cached_category->data_;
+  }
 }
 
 } /* namespace initialisationphases */
