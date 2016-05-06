@@ -164,7 +164,6 @@ void Derived::Execute() {
   timesteps::Manager* time_step_manager = model_->managers().time_step();
   time_step_manager->ExecuteInitialisation(label_, year_range);
 
-
   // a shortcut to avoid running the model over more years to get the plus group right
   // calculate the annual change c for each element of the plus group
   if (model_->age_plus()) {
@@ -192,7 +191,7 @@ void Derived::Execute() {
         (*category)->data_ = cached_category->data_;
         // now multiply the approximated change to the plus group
         (*category)->data_[plus_index] *= 1 / (1 - c);
-        LOG_FINEST() << "Adjustment based an approximation for the plus group = " <<  (*category)->data_[plus_index];
+        LOG_FINEST() << "Adjustment based an approximation for the plus group = " << (*category)->data_[plus_index];
       } else {
         // reset the partition back to the original Cached partition
         (*category)->data_ = cached_category->data_;
@@ -207,8 +206,8 @@ void Derived::Execute() {
   auto category = partition_.begin();
   unsigned iter = 0;
   for (; category != partition_.end(); ++category, ++iter) {
-    if (iter >= old_plus_group.size())  {
-       LOG_CODE_ERROR() << "if (iter >= old_plus_group.size())";
+    if (iter >= old_plus_group.size()) {
+      LOG_CODE_ERROR()<< "if (iter >= old_plus_group.size())";
     }
     old_plus_group[iter] = (*category)->data_[(*category)->data_.size() - 1];
   }
@@ -233,27 +232,26 @@ void Derived::Execute() {
   LOG_FINEST() << "Number of BH recruitment processes in annual cycle = " << recruitment_process_.size();
   // We are at Equilibrium state here
   // Check if we have B0 initialised or R0 initialised recruitment
+
+  Double B0_intial_recruitment = false;
   for (auto recruitment_process : recruitment_process_) {
     if (recruitment_process->bo_initialised()) {
       LOG_FINEST() << "PARAM_B0 has been defined";
       recruitment_process->ScalePartition();
+
+      B0_intial_recruitment = true;
     }
   }
+  if (B0_intial_recruitment)
+    // Calculate derived quanitities in the right space if we have a B0 initialised model
+    time_step_manager->ExecuteInitialisation(label_, 1);
 
-  /////////////////////////////////////////////////// Note //////////////////////////////////////////////////////
-  // Some CASAL models do not reach equilibrium with the analytical solution. If the CASAL2 model differs after initialisation
-  // this piece of code can be commented out to replicate CASAL for the purpose of testing functionality.
-  // run the annual cycle for ssb_offset years to accumulate B0 for recruitment processes.
-
-  if (casal_initialisation_phase_)
-    cached_partition_.BuildCache();
-  // Run a annual cycle once to populate derived quantities
-  time_step_manager->ExecuteInitialisation(label_, 1);
-
-  // if user wants a phase that is similar to CASAL then reset partition after the approximation
-  // Why this is bad: at this point we are at an assumed equilibrium state so why reset teh partition
-  // more annual cycles shouldn't matter if run.
+  // Add a switch for to replicate CASAL output if this method does not reach an equilibrium State
   if (casal_initialisation_phase_) {
+    cached_partition_.BuildCache();
+    // Run a annual cycle once to populate derived quantities
+    time_step_manager->ExecuteInitialisation(label_, 1);
+
     auto cached_category = cached_partition_.begin();
     auto category = partition_.begin();
     for (; category != partition_.end(); ++category, ++cached_category)
