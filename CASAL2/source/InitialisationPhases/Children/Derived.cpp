@@ -236,18 +236,18 @@ void Derived::Execute() {
   Double B0_intial_recruitment = false;
   for (auto recruitment_process : recruitment_process_) {
     if (recruitment_process->bo_initialised()) {
-      LOG_FINEST() << "PARAM_B0 has been defined";
+      LOG_FINEST() << "PARAM_B0 has been defined for process labelled " << recruitment_process->label();
       recruitment_process->ScalePartition();
-
       B0_intial_recruitment = true;
     }
   }
-  if (B0_intial_recruitment)
+  if (B0_intial_recruitment) {
     // Calculate derived quanitities in the right space if we have a B0 initialised model
     time_step_manager->ExecuteInitialisation(label_, 1);
-
+  }
   // Add a switch for to replicate CASAL output if this method does not reach an equilibrium State
   if (casal_initialisation_phase_) {
+    LOG_FINEST() << ": CASAL initialisation has been executed";
     cached_partition_.BuildCache();
     // Run a annual cycle once to populate derived quantities
     time_step_manager->ExecuteInitialisation(label_, 1);
