@@ -37,10 +37,12 @@ namespace niwa {
 AgeLength::AgeLength(Model* model) : model_(model) {
   parameters_.Bind<string>(PARAM_LABEL, &label_, "Label", "");
   parameters_.Bind<string>(PARAM_TYPE, &type_, "Type", "");
-  parameters_.Bind<Double>(PARAM_TIME_STEP_PROPORTIONS, &time_step_proportions_, "", "", true);
+  parameters_.Bind<Double>(PARAM_TIME_STEP_PROPORTIONS, &time_step_proportions_, "the proportion increase of age through the in each time step that corresponds to a length and thus weight increase", "", true);
   parameters_.Bind<string>(PARAM_DISTRIBUTION, &distribution_, "TBA", "", PARAM_NORMAL);
   parameters_.Bind<Double>(PARAM_CV_FIRST, &cv_first_ , "CV for the first age class", "",Double(0.0))->set_lower_bound(0.0);
   parameters_.Bind<Double>(PARAM_CV_LAST, &cv_last_ , "CV for last age class", "",Double(0.0))->set_lower_bound(0.0);
+  parameters_.Bind<bool>(PARAM_CASAL_SWITCH, &casal_normal_cdf_ , "A switch to use CASAL Cumulative normal function, note CASAL2 uses the recent BOOST function which differs from the previous CASAL algorithm", "",false);
+
 
   RegisterAsEstimable(PARAM_CV_FIRST, &cv_first_);
   RegisterAsEstimable(PARAM_CV_LAST, &cv_last_);
@@ -148,20 +150,25 @@ void AgeLength::CummulativeNormal(Double mu, Double cv, vector<Double>& prop_in_
   for (unsigned j = 0; j < sz; ++j) {
     z = fabs((length_bins[j] - mu)) / sigma;
 
-    tt = 1.0 / (1.0 + 0.2316419 * z);
-    norm = 1.0 / sqrt(2.0 * M_PI) * exp(-0.5 * z * z);
-    ttt = tt;
-    tmp = 0.319381530 * ttt;
-    ttt = ttt * tt;
-    tmp = tmp - 0.356563782 * ttt;
-    ttt = ttt * tt;
-    tmp = tmp + 1.781477937 * ttt;
-    ttt = ttt * tt;
-    tmp = tmp - 1.821255978 * ttt;
-    ttt = ttt * tt;
-    tmp = tmp + 1.330274429 * ttt;
-
-    cum.push_back(1.0 - norm * tmp);
+    // If we are using CASAL's Normal CDF function use this switch
+    if (casal_normal_cdf_) {
+      tmp = 0.5 * pow((1 + 0.196854 * z + 0.115194 * z * z + 0.000344 * z * z * z + 0.019527 * z * z * z * z), -4);
+    } else {
+      tt = 1.0 / (1.0 + 0.2316419 * z);
+      norm = 1.0 / sqrt(2.0 * M_PI) * exp(-0.5 * z * z);
+      ttt = tt;
+      tmp = 0.319381530 * ttt;
+      ttt = ttt * tt;
+      tmp = tmp - 0.356563782 * ttt;
+      ttt = ttt * tt;
+      tmp = tmp + 1.781477937 * ttt;
+      ttt = ttt * tt;
+      tmp = tmp - 1.821255978 * ttt;
+      ttt = ttt * tt;
+      tmp = tmp + 1.330274429 * ttt;
+      tmp *= norm;
+    }
+    cum.push_back(1.0 - tmp);
     if (length_bins[j] < mu) {
       cum[j] = 1.0 - cum[j];
     }
@@ -169,6 +176,7 @@ void AgeLength::CummulativeNormal(Double mu, Double cv, vector<Double>& prop_in_
       prop_in_length[j - 1] = cum[j] - cum[j - 1];
       sum += prop_in_length[j - 1];
     }
+    LOG_FINEST() << "probability in bin: " << j << " = " << prop_in_length[j];
   }
   if (plus_grp) {
     prop_in_length[sz - 1] = 1.0 - sum - cum[0];

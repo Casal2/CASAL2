@@ -43,10 +43,10 @@ void DerivedQuantity::DoExecute() {
   auto derived_quantities = manager.objects();
 
 
-  cache_ << "*" << label_ << " " << "("<< type_ << ")"<<"\n";
   unsigned count = 1;
   for (auto dq : derived_quantities) {
     string label =  dq->label();
+    cache_ << "*" << label_ << " " << "("<< type_ << ")"<<"\n";
     cache_ << label << " " << REPORT_R_LIST << "\n";
 
     // report b0 and binitial
@@ -78,9 +78,9 @@ void DerivedQuantity::DoExecute() {
       } else
         cache_ << iter->first << " " << AS_DOUBLE(iter->second) << "\n";
     }
-    cache_ << REPORT_R_LIST_END << "\n";
 
     count++;
+    cache_ << "*end\n";
   }
 
   ready_for_writing_ = true;

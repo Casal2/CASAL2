@@ -57,6 +57,7 @@ protected:
   Double                      cv_first_ = 0.0;
   Double                      cv_last_ = 0.0;
   string                      distribution_;
+  bool                        casal_normal_cdf_ = false;
 };
 
 } /* namespace niwa */
