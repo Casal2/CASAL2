@@ -233,7 +233,7 @@ void Derived::Execute() {
   // We are at Equilibrium state here
   // Check if we have B0 initialised or R0 initialised recruitment
 
-  Double B0_intial_recruitment = false;
+  bool B0_intial_recruitment = false;
   for (auto recruitment_process : recruitment_process_) {
     if (recruitment_process->bo_initialised()) {
       LOG_FINEST() << "PARAM_B0 has been defined for process labelled " << recruitment_process->label();
