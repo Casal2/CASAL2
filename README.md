@@ -9,6 +9,10 @@ This repository is standalone containing all thirdparty libraries and source cod
 
 A windows bundle which includes a binary, manual, examples and other help guides can be downloaded at ftp://ftp.niwa.co.nz/CASAL2/windows/Casal2.zip
 
+Future collaborators
+If you are interested adding features to CASAL2. this is a quick how to set up a repostiory. To maintain the integrety of the code all pushes must be moderated. The first step is to fork the repository. Once you have forked the repository you want to clone it to your local machine. Now you can make changes to the code base. If you are happy with your changes and have followed all the steps from the contributors_tickbox.txt (Found ), you can so a "pull request" this will allow maintainers to moderate teh code and have a discussion. If everyone is happy your changes will be merged to the master for all to enjoy.
+
+
 For information on how to setup your system to compile CASAL2 code see the document Documentation/How To Build CASAL2.odt
 
 For more information about CASAL2 contact the casal2 development team at casal2@niwa.co.nz

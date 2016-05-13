@@ -168,7 +168,8 @@ void AgeLength::CummulativeNormal(Double mu, Double cv, vector<Double>& prop_in_
       tmp = tmp + 1.330274429 * ttt;
       tmp *= norm;
     }
-    cum.push_back(1.0 - tmp);
+    tmp = 1.0 - tmp;
+    cum.push_back(tmp);
     if (length_bins[j] < mu) {
       cum[j] = 1.0 - cum[j];
     }

@@ -1,5 +1,5 @@
 \section{Running \CNAME\label{sec:running-sam}\index{Running \CNAME}}
-\CH
+
 \CNAME\ is run from the console window (i.e., the DOS command line) on \I{Microsoft Windows} or from a terminal window on \I{Linux}. \CNAME\ gets its information from input data files, the key one of which is the \config\index{Input configuration file}. 
 
 The \config\ is compulsory and defines the model structure, processes, observations, parameters (both the fixed parameters and the parameters to be estimated)\index{Estimable parameters}, and the reports (outputs) requested. The following sections  describe how to construct the \CNAME\ configuration file. By convention, the name of the \config\ ends with the suffix \texttt{.csl2}, however, any file name is acceptable.
@@ -10,8 +10,7 @@ Simple command line arguments\index{Command line arguments} are used to determin
 
 \subsection{\I{Using \CNAME}}
 \CH
-To use \CNAME, open a console (i.e. the command prompt) window (Microsoft Windows) or a terminal window (Linux). Navigate to a directory of your choice, where your \config s are located. Then type \cname\ with any arguments (see Section \ref{sec:command-line-arguments} for the the list of possible arguments). \CNAME will print output to the screen and return you to the command prompt when it completes its task. Note that the \CNAME\ executable (binary) must be either in the directory where you run it or somewhere in your \texttt{PATH}. Note that an automated installer is available for \CNAME\ on Microsoft Windows. If you use the installer, then it will give you the option of modifying your \texttt{PATH} for you (as well a a number of other options to make using the program a little easier). Otherwise, see your operating system documentation for help on identifying or modifying your \texttt{PATH}.
-\EX a small example of directory navigation and \cname\ with arguments as would be typed in the command prompt window  \EXend
+To use \CNAME, open a console (i.e. the command prompt) window (Microsoft Windows) or a terminal window (Linux). Navigate to a directory of your choice, where your \config s are located. Then type \cname\ with any arguments (see Section \ref{sec:command-line-arguments} for the the list of possible arguments). \CNAME\ will print output to the screen and return you to the command prompt when it completes its task. Note that the \CNAME\ executable (binary) must be either in the directory where you run it or somewhere in your systems \texttt{PATH}. We are working on a installer which is coming soon. See your operating system documentation for help on identifying or modifying your \texttt{PATH}.
 
 \subsection{The \config\label{sec:config-files}}\index{Input configuration file}
 \CH
