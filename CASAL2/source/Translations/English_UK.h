@@ -313,6 +313,7 @@
 #define PARAM_LIKELIHOOD                          "likelihood"
 #define PARAM_LIKELIHOOD_MULTIPLIER               "likelihood_multiplier"
 #define PARAM_LINF                                "linf"
+#define PARAM_LINEAR_INTERPOLATION                "linear_interpolation"
 #define PARAM_LOCAL_BH_RECRUITMENT                "local_bh_recruitment"
 #define PARAM_LOG                                 "log"
 #define PARAM_LOG_LEVEL                           "log_level"

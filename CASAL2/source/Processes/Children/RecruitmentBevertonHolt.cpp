@@ -19,12 +19,14 @@
 #include "InitialisationPhases/Manager.h"
 #include "TimeSteps/Manager.h"
 #include "Utilities/DoubleCompare.h"
+#include "Utilities/Math.h"
 
 // namespaces
 namespace niwa {
 namespace processes {
 
 namespace dc = niwa::utilities::doublecompare;
+namespace math = niwa::utilities::math;
 
 /**
  * default constructor
@@ -46,6 +48,7 @@ RecruitmentBevertonHolt::RecruitmentBevertonHolt(Model* model)
   parameters_.Bind<Double>(PARAM_YCS_VALUES, &ycs_values_, "YCS Values", "");
   parameters_.Bind<bool>(PARAM_PRIOR_YCS_VALUES, &prior_ycs_values_, "Priors for year class strength on ycs values (not standardised ycs values)", "",true);
   parameters_.Bind<unsigned>(PARAM_STANDARDISE_YCS_YEARS, &standardise_ycs_, "Years that are included for year class standardisation", "", true);
+  parameters_.Bind<string>(PARAM_UNITS, &b0_units_, "Units of B0, if initialising model using B0", "", "");
 
   RegisterAsEstimable(PARAM_R0, &r0_);
   RegisterAsEstimable(PARAM_B0, &b0_);
@@ -64,11 +67,14 @@ RecruitmentBevertonHolt::RecruitmentBevertonHolt(Model* model)
 void RecruitmentBevertonHolt::DoValidate() {
   category_labels_ = model_->categories()->ExpandLabels(category_labels_, parameters_.Get(PARAM_CATEGORIES));
 
+  if (parameters_.Get(PARAM_B0)->has_been_defined() & (b0_units_ == ""))
+    LOG_FATAL_P(PARAM_UNITS) << "Must define unit of B0, for models initialised by B0";
   if (!parameters_.Get(PARAM_AGE)->has_been_defined())
     age_ = model_->min_age();
 
   if (parameters_.Get(PARAM_R0)->has_been_defined() & parameters_.Get(PARAM_B0)->has_been_defined())
     LOG_FATAL_P(PARAM_R0) << "Cannot specify both R0 and B0 in the model";
+
   if (!parameters_.Get(PARAM_R0)->has_been_defined() & !parameters_.Get(PARAM_B0)->has_been_defined())
     LOG_FATAL() << "You need to specify either R0 or B0 to intialise the model with Beverton Holt recruitment";
 
@@ -105,6 +111,9 @@ void RecruitmentBevertonHolt::DoBuild() {
 
   if (phase_b0_label_ != "")
     phase_b0_ = model_->managers().initialisation_phase()->GetPhaseIndex(phase_b0_label_);
+
+  if (parameters_.Get(PARAM_B0)->has_been_defined())
+    b0_ = math::convert_units_to_kgs(b0_, b0_units_);
 
   derived_quantity_ = model_->managers().derived_quantity()->GetDerivedQuantity(ssb_);
   if (!derived_quantity_)

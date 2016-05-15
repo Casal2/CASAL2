@@ -116,7 +116,7 @@ Age classes are always 1 year wide, except that the maximum age group can option
 
 \CNAME\ allows categories of the partition to exist for certain years of the model. This is added for computational efficiency, when models contain a large number of categories that do not persist for all model years. Situations where this is beneficial is when a model contains a process that transitions fish into a category that has otherwise not been used, for example tagging events. Excluding categories for certain years saves initialising empty categories. This can be a big time saver if initialisation is run for 50 years and there are many tagging events.(When the ross sea model is up and running \% differences would be a nice insert here)
 
-Another important component of the state object in \texttt{casal$^2$} are derived quantities. This includes quantities such as spawning stock biomasses (SSBs, mid-spawning season biomasses of spawning fish) for each or a combination of categories. \texttt{Casal$^2$} derives through the command \command{derived\_quantity}, this is needed if there is a stock-recruitment relationship.
+Another important component of the state object in \CNAME\ are derived quantities. This includes quantities such as spawning stock biomasses (SSBs, mid-spawning season biomasses of spawning fish) for each or a combination of categories. \CNAME\ derives through the command \command{derived\_quantity}, this is needed if there is a stock-recruitment relationship.
 
 \subsection{\I{Time sequences}}
 
@@ -153,14 +153,16 @@ Hence, for an iterative initialisation you need to define;
   \item The number of years in each phase and the processes to apply in each (default is the annual cycle).
 \end{itemize}
 \subsubsection*{\I{Derived Intitialisation}}
-An analytical solution to the iterative initialisation phase. It can be solved in max\_age - min\_age +1 years. 
+\texttt{Derived Intitialisation} is an analytical solution to calculate the equilibrium plus group using a geometric series. The benefit of this method is it can be solved in max\_age - min\_age +1 years, so is computationally faster than the iterative initialisation phase. Users should be warned that we have found under some process combinations. This solution does not reach the exact equilibrium partition. We advise to use this method for the computation benefits, but you should always compare to an iterative initialisation to satisfy you have found the equilibrium partition.
 \subsubsection*{\I{Cinitial Intitialisation}}
-This phase can only be applied once a derived or iterative intialisation phases has been implemented. It works off an equilibrium state and usese Cinitial factors that can be estimated to shift the intial population away from equilibrium prior to start year. This is implemented in teh Southern Blue Whiting assessment a FAR reference would be nice (AListair)
-\subsubsection*{\I{Fixed Intitialisation}}
-This is a user defined table that is taken to be the initial partition prior to start year.
-\subsubsection*{\I{Model years}}
+This phase can only be applied once a derived or iterative intialisation phases has been implemented. It works off an equilibrium state and uses Cinitial factors that can be estimated to shift the initial population away from equilibrium prior to start year. If there is known exploitation before data exists for a population this can be a solution for estimating a non equilibrium population. To apply this method, an observation of age composition data should be provided at start\_year in order to estimate this non equilibrium population. This is implemented in the Southern Blue Whiting assessment \hl{a FAR reference would be nice (Alistair)}
 
-Following initialisation, the model then runs over a number of user-defined years. For this part of the model, the annual cycle can be broken into separate time-steps, and observations can be associated with the state of the model at the end of any time-step, i.e., likelihoods for particular observations are evaluated, if required, at the end of each time-step. 
+
+\subsubsection*{\I{Fixed Intitialisation}}
+This is a user defined table that is taken to be the initial partition prior to start year. 
+
+\subsubsection*{\I{Model years}}
+Following initialisation, the model then runs over a number of user-defined years from (initial\_year to final\_year). For this part of the model, the annual cycle can be broken into separate time-steps, and observations can be associated with the state of the model at the end of any time-step, i.e., likelihoods for particular observations are evaluated, if required, at the end of each time-step. 
 
 Processes are carried out in the order specified within each time-step, and can be the same or different to processes in other initialisation phases of the model. The run years define the years over which the model is to run and the annual cycle within each year. The model runs from the start of year \argument{initial} and runs to the end of year \argument{current}. The projection part then extends the run time up to the end of year \argument{final}. 
 
@@ -285,7 +287,10 @@ Note that ageing is \emph{not} applied by \CNAME\ by default. As with other proc
 \CH
 Four types of mortality processes are permissible in \CNAME, constant rate, event, biomass-event and instantaneous. These processes remove individuals from the partition, either as a rate, as a total number (abundance), as a biomass of individuals or as a mixture of these. \CNAME\ does not implement the Baranov catch equation \textbf{YET}. To apply both natural and biomass-event mortality, users can use \texttt{mortality\_instantaneous}.
 
-\subsubsection*{Constant mortality rate}
+\textbf{Make a comment about mortality blocks here}
+for every time step there a mortality block. A mortality block is a number of consecutive mortality processes in a single time step. If no mortality processes occur in a time step then this block defaults to the end of the time step. \CNAME\ will error out if you have multiple mortality events in a time step that are not consecutive events. This mortality block is important for derived quantities see Section~\ref{sec:derived-quantities}.
+
+\paragraph{Constant mortality rate}
 
 To specify a constant annual mortality rate \index{Constant mortality}($M=0.2$) for categories `male' and `female', then, 
 {\small{\begin{verbatim}
@@ -302,7 +307,7 @@ type constant
 c 1
 \end{verbatim}}}
 
-\subsubsection*{Event and biomass-event mortality}
+\paragraph{Event and biomass-event mortality}
 
 The event mortality process\index{Event mortality} and biomass mortality processes act in a similar manner, except that they remove a specified abundance (number of individuals) or biomass respectively, rather than applying mortality as a rate. However, the maximum abundance or biomass to remove is constrained by a maximum exploitation rate.
 
@@ -345,20 +350,44 @@ selectivities FishingSel FishingSel
 penalty event_mortality_penalty
 \end{verbatim}}}
 
-\subsubsection*{Instantaneous mortality}
+\paragraph{Instantaneous mortality}
 The instantaneous mortality process\index{Instantaneous mortality} is a combination of natural mortality and event biomass mortality that occurs across multiple time steps. This process applies half the natural mortality, then to apply the mortalities from all the fisheries instantaneously, then to apply the remaining half of the natural mortality. 
 
-When Instantaneous mortality is applied the following equations are used.\\
-\hlc[new]{Steal the rest from CASAL manual}
+When Instantaneous mortality is applied the following equations are used.
+
+\begin{itemize}
+	\item An exploitation rate (actually a proportion) is calculated for each fishery, as the catch over the selected-and-retained biomass,
+	$$ U_f = \frac{C_f}{\sum_j \bar{w}_jS_{f,j}n_j e^{-0.5tM_j}}$$
+	\item The fishing pressure associated with fishery $f$ is defined as the maximum proportion of fish taken from any element of the partition in the area affected by fishery $f$,
+	$$ U_{f,obs} = max_j(\sum_k S_{k,j}U_k) $$
+	where the maximum is over all partition elements affected by fishery $f$, and the summation is over all fisheries $k$ which affect the jth partition element in the same time step as fishery $f$.
+	
+	In most cases the fishing pressure will be equal to the exploitation rate (i.e., $U_{f,obs} = U_f$). This will not be true only if (a) there is another fishery operating in the same time step as fishery $f$ and affecting some of the same partition elements, and/or (b) the selectivity $S_{f,j}$ does not have a maximum value of 1.
+	
+	
+	There is a maximum fishing pressure limit of Uf,max for each fishery $f$. So, no more than proportion Uf,max can be taken from any element of the partition affected by fishery $f$ in that time step. Clearly $0 \leq U_{max} \leq 1$. It is an error if two fisheries which affect the same partition elements in the same time step do not have the same Umax.
+	
+	
+	For each $f$, if $U_{f,obs} > U_{f,max}$, then $U_f$ is multiplied by $U_{f,max}/U_{f,obs}$ and the fishing pressures are recalculated. In this case the catch actually taken from the population in the model will differ from the specified catch, $C_f$.
+	
+	\item The partition is updated using
+	
+	$$ n'_j = n_j exp(-tM_j)\big[1 - \sum_f S_{f,j} U_f \big] $$ 
+\end{itemize}
+
+An example of the syntax is if we want to apply natural mortality of $0.19$ across three time steps on both male and female categories. And we have two fisheries \texttt{FishingWest FishingEast} with there respective catches known for years 1975:1977 in kilograms. These are given in the \texttt{catches} table and information on selectivities, penalties and maximum exploitation rates are given in the \texttt{fisheries} table.
 {\small{\begin{verbatim}
 @process instant_mort
 type mortality_instantaneous
 m 0.19
 time_step_ratio 0.42 0.25 0.33
 selectivities One
-categories stock
+categories male female
+units kgs
+
+
 table catches
-year FishingWest FishingEest
+year FishingWest FishingEast
 1975	80000	111000
 1976	152000	336000
 1977	74000	1214000
@@ -368,62 +397,103 @@ end table
 table fisheries
 fishery       category  selectivity u_max   time_step penalty
 FishingWest   stock     westFSel    0.7     step1     CatchPenalty
-FishingEest   stock     eastFSel    0.7     step1     CatchPenalty
+FishingEast   stock     eastFSel    0.7     step1     CatchPenalty
 end_table
 \end{verbatim}}}
 
-\subsubsection*{Baranov Mortality}
+\paragraph{Baranov Mortality}
 Coming Soon!
 
 \subsubsection{\I{Transition By Category}}
-This process covers two major processes being, Maturation and Migration. Because \CNAME has not constraints on maturity or area in the partition. This processes moves individuals from one category to another, for the case of maturity that is moving individuals form immature category to mature category. For migration this is moving individuals from one area defined category to another.
+This process covers two major processes being, Maturation and Migration. Because \CNAME partition is up to the user this type of process should only be used if maturity and/or area are defined in the partition. This processes moves individuals from one category to another, for the case of maturity, this could be moving individuals form immature category to mature category. For migration this could be moving individuals from an area defined category to another.
 
-\subsubsection*{Maturation}
-Maturation is the process in which immature fish become mature and are moved accordingly in the partition. See Section 5.11 for how to treat maturity when it is not a character in the partition.
-
-You can specify a single maturation episode in each year, or you can have multiple maturations. Each episode can apply to one stock, or all stocks equally, and can be applied in one area, or all areas equally. Maturation rates are expressed as an ogive (and note that this ogive contains the rates of maturation, not the proportions of mature fish).
-
-If you try to mature fish in an area where fish are constrained to be immature, CASAL will issue a warning, and will not mature those fish.
-
-So, to specify each maturation episode, the following information is required: 
-
-\begin{itemize}
-\item If it applies to only one stock, which is it?
-\item If it applies to only one area, which is it?
-\item The maturation rates, as an ogive, optionally by sex.
-\end{itemize}
+\paragraph{Maturation}
+Maturation is the process in which immature fish become mature and are moved accordingly in the partition. See Section~ref{sec:maturity-notinpartition} for how to treat maturity when it is not a character in the partition.
 
 
+{\small{\begin{verbatim}
+		@process Maturation
+		type category_transition 
+		from male.immature	
+		to male.mature	
+		selectivities MatureSel matureSel
+		proportions 1 1
+		\end{verbatim}}}
 
 
-\subsubsection*{Migration}
-Migration is the process of moving fish from one area to another. For this to be sensibly applied in \CNAME there needs to be a category for the source area and a category for the target area. If two or more migrations are specified in the same time step, then they take place in the order in which they are given.
+\paragraph{Migration}
+Migration is the process of moving fish from one area to another. For this to be sensibly applied in \CNAME\ there needs to be a category for the source area and a category for the target area. If two or more migrations are specified in the same time step, then they take place in the order in which they are given.
 
- long as there is one to one category relationship. That is for every source category there is one target category. You can state that a given proportion of these fish migrate (constant across all age or length classes), or provide a selectivity of proportions migrating by age or length class.
+ Aslong as there is one to one category relationship. That is for every source category there is one target category. You can state that a given proportion of these fish migrate (constant across all age or length classes), or provide a selectivity of proportions migrating by age or length class.
 
-An example, to specify a simple spawning migration of mature males and females moving from a western area to an eastern (spawning) area, then the syntax is
+\begin{equation}
+	N_{a,j} = N_{a,i} \times P_i \times S_{a,i}
+\end{equation}
+where $N_{a,j}$ is the number of individuals that have moved to category $j$ from category $i$ in age $a$ and $N_{a,i}$ is the number of individuals in category $i$. $P_i$ is the proportion parameter for category $i$ and $S_{a,i}$ is the selectivity at age $a$ for category $i$.
+
+
+An example, to specify a simple spawning migration of mature males from a western area migrating to an eastern (spawning) area, then the syntax is
 {\small{\begin{verbatim}
 		@process Spawning_migration
 		type category_transition 
-		from West.males	West.females	
-		to East.males West.females	
-		selectivities MatureSel matureSel
+		from West.males	
+		to East.males	
+		selectivities MatureSel
+		proportions 1
 		\end{verbatim}}}
 
-Where \texttt{MatureSel} is a selectivity that describes the proportion of age or length classes that are mature and move to the eastern area.
+Where \texttt{MatureSel} is a selectivity that describes the proportion of age or length classes that are mature and thus move to the eastern area.
 
 
-\paragraph{\I{Tag events}}
-Tagging processes can be age or length based processes, where by numbers of fished are moved from an untagged category to a tagged category that the user has defined in the \command{Categories} block. Alistair details...
+\subsubsection{\I{Tag Release events}}
+Tagging processes can be age or length based processes, where by numbers of fished are moved from an untagged category to a tagged category that the user has defined in the \command{Categories} block. Tag release processes can also account for tag induced mortality on individuals. Age based tag release events take a known number of individuals tagged for each age and do a straightforward category transition along with extra mortality. Length based tag release processes are more complicated, as \CNAME\ needs to calculate the age length matrix and exploitation by each length to then move the correct numbers at age based on a length input. 
 
-\paragraph{\I{Tag shedding rate}}
+
+\subsubsection{\I{Tag Loss}}
+Tag Loss is the process where tags are lost from tagged categories over time from tag failure or getting knocked off. This process is applied as a instantaneous mortality rate that can happen over multiple time steps in the annual cycle. This method assumes when tags are lost that the fish is removed from the partition. All though this seems logically incorrect, we are dealing with such a small number of fish that the impact is minimal and computationally simpler. Note that if your tagging events make up a large proportion of the population you may want to adjust this method. There will be two types of tag loss processes that are termed \texttt{single} and \texttt{double}. Currently only \texttt{single} exists in \CNAME. \texttt{double} will deal with situations where a tag release process tags individuals with two tags. In which there is another formulae to work out the rate of tag loss.
+
+
+{\small{\begin{verbatim}
+	@process Tag_loss
+	type tag_loss
+	categories tagged_fish
+	tag_loss_rate 0.02
+	time_step_ratio 0.25 0.75
+	selectivities One
+	tag_loss_type single
+	year 1985
+		\end{verbatim}}}
+
 
 \subsection{\I{Derived quantities}\label{sec:derived-quantities}}
-Derived quantities represent a snap shot of abundance or biomass of the partition at a specified point in time. The most common use of derived quantites is to calculate spawning stock biomasses. Derived quantities are associated with the \textbf{mortaltiy block} of that time step. This allows you to specify whether the quantity should be at the beginning of mortality, at the end or part-way through a mortality event.
+Some processes require, as arguments, a population value derived from the population state. These are termed \texttt{derived quantities}. Derived quantities are values, calculated by \CNAME\ as the end of a specified time-step in every year, and hence they have a single value for each year of the model. Derived quantities can be calculated as either an abundance or as a biomass. Abundance derived quantities are simply the count or sum of categories (after applying a selectivity). Biomass derived quantities are similar, except they are a measure of biomass. Derived quantities are also calculated during the initialisation phases, and hence the time-step during each phase must also be specified. If the initialisation time-steps are not specified, \CNAME\ will calculate the derived quantity during the initialisation phases in every year, at the end of the annual cycle. 
+
+Derived quantities are required by some processes, for example the Beverton-Holt recruitment process. The Beverton-Holt recruitment process can require an equilibrium biomass ($B_0$) and annual spawning stock biomass values ($SSB_y$) to resolve the stock-recruit relationship. Here, these would be defined as the abundance or biomass of a part of the population at some point in the annual cycle for selected ages and categories, and would be calculated as a derived quantity.
+
+Derived quantities are associated with a mortality block see section~\ref{sec:mortality} for more detail on mortality blocks. Users can ask for derived quantities partway through mortality blocks. Currently two methods are implemented in \CNAME\ to interpolate derived quantities part-way through a mortality block, these are \texttt{weighted\_sum} and \texttt{weighted\_product}, they are defined as,
+\begin{itemize}
+	\item \texttt{weighted\_sum}: after proportion $p$ of the mortality block, the partition elements are given by $n_{p,j} = (1 - p)n_j + p'_j$
+	
+	\item \texttt{weighted\_product}: after proportion $p$ of the mortality block, the partition elements are given by $n_{p,j} = n_j^{1-p} n'^p_j$
+\end{itemize}
+where, $n_p,j$ is the derived quantity at proportion $p$ of the mortality block for category $j$. $n_j$ is the quantity at the beginning of the mortality block and $n'_j$ is the quantity at the end of the mortality block.
+
+
+As an example, to define a biomass derived quantity (say spawning stock biomass, SSB) for a model, evaluated at the end of the first time-step (labelled \texttt{step\_one}), over all 'mature' male and female categories and halfway through the mortality block using the \texttt{weighted\_sum} method, we would use the syntax,
+
+{\small{\begin{verbatim}
+@derived_quantity SSB
+type biomass
+time_step step_one
+categories mature.male mature.female
+selectivities One
+time_step_proportion 0.5
+time_step_proportion_method weighted_sum
+\end{verbatim}}}
 
 \subsection{\I{Age-length relationship}\label{sec:age-at-age}}
 
-The age-length relationship defines the length at age (and the weight at length, see Section \ref{sec:mean-weight}) of individuals at age/category within the model. There are three length-age relationships available in \CNAME. The first is the naive no relationship (where each individual has length 1 irrespective of age). The second  and third are the von-Bertalanffy and Schnute relationships respectively. The length-at-age relationship is used to determine the length frequency, given age, and then with the length-weight relationship, a weight-at-age of individuals within an age/category. 
+The age-length relationship defines the length at age (and the weight at length, see Section \ref{sec:}) of individuals at age/category within the model. There are three length-age relationships available in \CNAME. The first is the naive no relationship (where each individual has length 1 irrespective of age). The second  and third are the von-Bertalanffy and Schnute relationships respectively. The length-at-age relationship is used to determine the length frequency, given age, and then with the length-weight relationship, a weight-at-age of individuals within an age/category. 
 
 The three age-length relationships are,
 
