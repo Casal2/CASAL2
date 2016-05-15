@@ -68,7 +68,7 @@ void MortalityEventBiomass::DoValidate() {
       LOG_ERROR_P(PARAM_YEARS) << " year " << years_[i] << " has already been specified, please remove the duplicate";
     }
 
-    catch_years_[years_[i]] =  math::convert_units(catches_[i], unit_);
+    catch_years_[years_[i]] =  math::convert_units_to_kgs(catches_[i], unit_);
   }
 
   // add extra years in to model for things like forward projection

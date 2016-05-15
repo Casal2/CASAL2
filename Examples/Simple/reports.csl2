@@ -19,6 +19,7 @@ years 1975:2012
 time_step step2
 
 @report SSB
+units tonnes
 type derived_quantity
 
 @report obs_tan

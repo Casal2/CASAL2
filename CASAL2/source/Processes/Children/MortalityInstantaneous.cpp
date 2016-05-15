@@ -112,7 +112,7 @@ void MortalityInstantaneous::DoValidate() {
       Double value = 0.0;
       if (!utilities::To<string, Double>(row[i], value))
         LOG_ERROR_P(PARAM_CATCHES) << "value " << row[i] << " for fishery " << columns[i] << " is not numeric";
-      fishery_year_catch[columns[i]][year] = math::convert_units(value, unit_);
+      fishery_year_catch[columns[i]][year] = math::convert_units_to_kgs(value, unit_);
     }
   }
 
