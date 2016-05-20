@@ -488,11 +488,9 @@ class Latex:
             os.system('pdflatex --halt-on-error CASAL2')
             os.system('bibtex CASAL2')
             os.system('makeindex CASAL2')
-          """
           else:
             os.system('pdflatex.exe --halt-on-error CASAL2')
             os.system('bibtex.exe CASAL2')
-            os.system('makeindex.exe CASAL2')   
-            """
-
+            os.system('makeindex.exe CASAL2')
+            
         return True
