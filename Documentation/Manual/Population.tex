@@ -30,7 +30,7 @@ There are a number of possible changes in the state, which are called transition
 
 The division of the year into an arbitrary number of time steps allows the user to specify the exact order in which processes and observations occur. The user needs to specify the time step in which each process occurs. If more than one process occurs in the same time step, they will be applied in the order specified in the \command{time\_step} block.
 
-The key element of the state is the partition. This is a broadly applicable concept that can be used to describe many different kinds of population model. The partition is simply a breakdown of the total number of fish in the current population into different kinds of fish (Note that the partition records numbers of fish, not biomass). The fish are categorised by various characters. Traditionally these characters have been: length class or age class, sex, maturity, area, stock, tag, and growth-path. However \CNAME\ has no predefined characters in the partition. This is a major extension on CASAL where users can extend on traditional problems, for example incorporating predator, prey, and in the case of some shellfish species a clock(dead) category. 
+The key element of the state is the partition. This is a broadly applicable concept that can be used to describe many different kinds of population model. The partition is simply a breakdown of the total number of fish in the current population into different kinds of fish (Note that the partition records numbers of fish, not biomass). The fish are categorised by various characters. Traditionally these characters have been: length class or age class, sex, maturity, area, stock, tag, and growth-path. However \CNAME\ has no predefined characters in the partition. This is a major extension on CASAL where users can extend on traditional problems, for example incorporating predator, prey, and in the case of some shellfish species a clock (death) category. 
 
 
 When defining the partition the user must choose:
@@ -91,7 +91,8 @@ An example, to specify a model with 2 categories (male and female) with ages 1-2
 \item Stock (any number of stocks, named by the user);
 \item Maturity (immature or mature);
 \item Growth-path (any number of growth-paths);
-\item Tag. (any number of tagging events).
+\item Tag (any number of tagging events);
+\item trophic level (Prey and Predator)
 \end{itemize}
 
 A stock is defined as a subpopulation of fish which recruits separately. See Section \ref{sec:maturity-notinpartition} for the treatment of maturity when it is not a character in the partition. 
@@ -159,30 +160,18 @@ This phase can only be applied once a derived or iterative intialisation phases 
 
 
 \subsubsection*{\I{Fixed Intitialisation}}
-This is a user defined table that is taken to be the initial partition prior to start year. 
+This is a user defined table that is taken to be the initial partition prior to start year. See initialisation type \texttt{state\_category\_by\_age} for how to implement this initialisation phase.
 
 \subsubsection*{\I{Model years}}
 Following initialisation, the model then runs over a number of user-defined years from (initial\_year to final\_year). For this part of the model, the annual cycle can be broken into separate time-steps, and observations can be associated with the state of the model at the end of any time-step, i.e., likelihoods for particular observations are evaluated, if required, at the end of each time-step. 
 
 Processes are carried out in the order specified within each time-step, and can be the same or different to processes in other initialisation phases of the model. The run years define the years over which the model is to run and the annual cycle within each year. The model runs from the start of year \argument{initial} and runs to the end of year \argument{current}. The projection part then extends the run time up to the end of year \argument{final}. 
-
 \begin{itemize}
   \item The time-steps and the processes applied in each
   \item The initial year (i.e., the model start year)
   \item The final year (i.e., the model end year)
   \item The projection final year (i.e., the model projection end year)
 \end{itemize}
-
-\subsubsection{\I{Projections}\label{sec:projections}}
-
-\CNAME\ can project, from a set of parameter estimates, the state of the model into the future. In a projection run, the model is initialised and run through the model years from \argument{initial} to the \argument{final}. Then, the model is re run from \argument{intial} to \argument{projection\_final\_year}, where any parameter can be projected between this time period. \CNAME\ does not have default projections. Users must specify them using the \command{project} blocks. This is important for parameters that are year specific such as year class parameters. If there is no \command{project} for these parameters, they will not exist after final\_year processes that call them will cause nonsensical output. In theory any parameter can be projected forward. The types of \command{project} blocks in \CNAME\ are: constant, LogNormal and empirical sampling.
-
-\subsubsection*{\I{Constant}}
-A value is set for the entire model run
-\subsubsection*{\I{Empirical Sampling}}
-Parameters that are of type vector or map can be re sampled with replacement between a year range for projected years
-\subsubsection*{\I{LogNormal}}
-The randomised parameter are lognormally distributed, with mean 1, and specified standard deviation and autocorrelation on the log-scale. YCSi=exp(Xi), where (Xi) are generated as a Gaussian AR(1) process with standard deviation $\sigma_R$ and mean-0.5 $\sigma_R$ (so that the mean of YCSi is 1), and autocorrelation $\rho$. Set $\rho=0$, the default, if you don’t want autocorrelation. If the randomised parameter are modified by an arbitrary multiplier, then the only change is that parameter will have mean $\mu$, where $\mu$ is the recruitment multiplier.
 
 \subsection{\I{Population processes}}
 \CH
