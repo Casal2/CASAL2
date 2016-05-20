@@ -26,12 +26,11 @@ FILE = [open('Syntax/AgeingError.tex', 'r'),
         open('Syntax/TimeStep.tex', 'r')]
 OUTFILE = open('QuickReference.tex', 'w')
 VERSION = open('Version.tex', 'r')
-SYNTAX_OUTFILE = open('SAM.syn', 'w')
-ERROR_OUTFILE = open('syntax_errors.txt', 'w')
+SYNTAX_OUTFILE = open('CASAL2.syn', 'w')
 
 OUTFILE.write("\section{Quick reference\label{sec:quick-reference}}\n")
 
-SYNTAX_OUTFILE.write("; TextPad syntax definitions for SAM version ")
+SYNTAX_OUTFILE.write("; TextPad syntax definitions for CASAL2 version ")
 SYNTAX_OUTFILE.write(VERSION.read())
 SYNTAX_OUTFILE.write("; ===================================================================================\n;\n;\n")
 SYNTAX_OUTFILE.write("C=1\n")
