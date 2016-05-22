@@ -8,7 +8,7 @@
  *
  * @section DESCRIPTION
  *
- * TODO: Add documentation
+ * Describes an asymptotic relationship between age and length.
  */
 #ifndef AGELENGTHS_VONBERTALANFFY_H_
 #define AGELENGTHS_VONBERTALANFFY_H_

@@ -5,9 +5,12 @@
  * @date 16/04/2013
  * @section LICENSE
  *
- * Copyright NIWA Science ©2013 - www.niwa.co.nz
+ * Copyright NIWA Science ©2016 - www.niwa.co.nz
  *
  * @section DESCRIPTION
+ *
+ * AgeingError generates a missclassification matrix of age by age dimensions, that describes the probability of a fish at age X belonging to age Y.
+ * This matrix is used in age observations such as ProportionsAtAge.
  *
  * The time class represents a moment of time.
  */

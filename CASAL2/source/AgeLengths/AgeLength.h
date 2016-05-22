@@ -9,7 +9,7 @@
  *
  * @section DESCRIPTION
  *
- * TODO: Add documentation
+ * AgeLength classes relate to a category or group of categories that describes the relationship between age and length.
  */
 #ifndef AGELENGTH_H_
 #define AGELENGTH_H_

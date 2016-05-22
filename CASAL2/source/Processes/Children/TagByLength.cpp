@@ -28,7 +28,7 @@ TagByLength::TagByLength(Model* model)
   : Process(model),
     to_partition_(model),
     from_partition_(model) {
-  process_type_ = ProcessType::kTaggingWithMortality;
+  process_type_ = ProcessType::kTransition;
   partition_structure_ = PartitionStructure::kAge;
 
   numbers_table_ = new parameters::Table(PARAM_NUMBERS);
