@@ -19,7 +19,7 @@
             pdfpagelayout=TwoPageRight,
             pdftitle={CASAL2 User Manual}, 
             pdfauthor={S. Rasmussen, I. Doonan, A. Dunn, K. Large, C. Marsh, S. Mormede} %authors
-            pdfsubject={CASAL2 Stock Assessment Model User manual},
+            pdfsubject={Casal2, User manual},
             pdftex]{hyperref}
 \hypersetup{
   breaklinks=true,      % allow line breaks in URLs
@@ -226,13 +226,30 @@ escapeinside={\%*}{*)}          % if you want to add a comment within your code
 \renewcommand{\labelenumii}{\alph{enumii})}
 \renewcommand{\labelenumiii}{\arabic{enumiii})}
 
+
+
 % Load package to count the number of pages in document
 % For getting number of pages in document (NOT the last page number printed), use \ref{TotPages}
 % Load this last to ensure its macros are not overwritten
 \usepackage{totpages} 
 
+%% Allow for a draft statement at beginning of manual
+\usepackage{type1cm}
+\usepackage{eso-pic}
+\makeatletter
+\AddToShipoutPicture*{%
+	\setlength{\@tempdimb}{.5\paperwidth}%
+	\setlength{\@tempdimc}{.3\paperheight}%
+	\setlength{\unitlength}{1pt}%
+	\put(\strip@pt\@tempdimb,\strip@pt\@tempdimc){%
+		\makebox(0,0){{\textcolor[gray]{0.75}%
+				{\fontsize{6cm}{6cm}\selectfont{DRAFT}}}}%
+	}%
+}
+\makeatother
+
 %Begin the document
-\begin{document}
+\begin{document} 
 \hbadness=10000 % to deal with underfull hbox warnings
 \sloppy % use sloppy paras
 
