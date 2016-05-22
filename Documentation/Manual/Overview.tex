@@ -19,17 +19,15 @@ The division of the year into an arbitrary number of time-steps allows the user 
 
 The population structure of \CNAME\ follows the usual population modelling conventions and is similar to those implemented in other population models, for example CASAL\index{CASAL}  \citep{1388}. The model records the numbers of individuals by age and category (e.g., male, female). In general, cohorts are added via a recruitment event, are aged annually, and are removed from the population via various forms of mortality. The population is assumed to be closed (i.e., no immigration or emigration from the modelled area)
 
-A model is implemented in \CNAME\ using an \config \index{Input configuration file}, which is a complete description of the model structure (i.e., spatial and population processes), observations, estimation methods, and reports (outputs) requested. \CNAME\ runs from a console window on \I{Microsoft Windows} or from a text terminal on \I{Linux}. A model can be either \emph{run}, estimable parameters can be \emph{estimated} or \emph{profiled}, \emph{MCMC} distributions calculated, and these estimates can be %\emph{projected} \NYI\ into the future or 
+A model is implemented in \CNAME\ using an \config \index{Input configuration file}, which is a complete description of the model structure (i.e., spatial and population processes), observations, estimation methods, and reports (outputs) requested. \CNAME\ runs from a console window on \I{Microsoft Windows} or from a text terminal on \I{Linux}. A model can be either \emph{run}, estimable parameters can be \emph{estimated} or \emph{profiled}, \emph{MCMC} distributions calculated, and these estimates can be \emph{projected} \NYI\ into the future or 
 used by \CNAME\ as parameters of an operating model to \emph{simulate} observations.
 
 A model in \CNAME\ is specified by an \config, and comprises of four main components. These are the population section\index{Population section} (model structure, population dynamics, etc.), the estimation section\index{Estimation section} (methods of estimation and the parameters to be estimated), the observation section\index{Observation section} (observational data and associated likelihoods), and the report section\index{Report section} (printouts and reports from the model). The \config\  completely describes a model implemented in \CNAME. See Sections \ref{sec:population-syntax}, \ref{sec:estimation-syntax}, \ref{sec:observation-syntax}, and \ref{sec:report-syntax} for details and specification of \CNAME s command and subcommand syntax within the \config. 
 
 \subsection{\I{The population section}}
-\CH
-The population section\index{Population section} (Section \ref{sec:population-section}) defines the model of the population dynamics. It describes the model structure (i.e. the population structure), initialisation and run years (model period), population processes (for example, recruitment, migration, and mortality), selectivities, and key population parameters.
+The population section\index{Population section} (Section \ref{sec:population-section}) defines the model of the population dynamics. It describes the model structure (i.e. the population structure), initialisation, run and projection years (model period), population processes (for example, recruitment, migration, and mortality), selectivities, and key population parameters.
 
 \subsection{\I{The estimation section}}
-\CH
 The estimation section\index{Estimation section} (Section \ref{sec:estimation-section}) specifies the parameters to be estimated\index{Estimated parameters}, estimation methods, penalties and priors. Estimation is based on an objective function (e.g., negative log posterior). Depending on the run mode, the estimation section is used to specify the methods for finding a point estimate (i.e., the set of parameter values that minimizes the objective function), doing profiles, or MCMC methods and options, etc.
 
 Further, the estimation section specifies the parameters to be estimated within each model run and the estimation methods. The estimation section specifies the choice of estimation method, which model parameters are to be estimated, priors, starting values, and minimiser control values.
@@ -37,7 +35,6 @@ Further, the estimation section specifies the parameters to be estimated within 
 Penalties and priors act as constraints on the estimation. They can either encourage or discourage (depending on the specific implementation) parameter estimates that are `near' some value, and hence influence the estimation process. For example, a penalty can be included in the objective function to discourage parameter estimates that lead to models where the recorded catch was unable to be fully taken.
 
 \subsection{\I{The observation section}}
-\CH
 Types of observations, their values, and the associated error structures are defined in the observation section (Section \ref{sec:observation-section}). Observations are data which allow us to make inferences about unknown parameters. The observation section\index{Observation section} specifies the observations, their errors, likelihoods, and when the observations occur. Examples include relative or absolute abundance indices, proportions-at-age frequencies, tag recapture observations, etc. Estimation uses the observations to find values for each of the estimated parameters so that each observation is `close' (in some mathematical sense) to a corresponding expected value. 
 
 \subsection{\I{The report section}}

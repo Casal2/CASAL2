@@ -9,22 +9,19 @@ Other input files can, in some circumstances, be supplied to define the starting
 Simple command line arguments\index{Command line arguments} are used to determine the actions or \emph{tasks}\index{Tasks} of \CNAME, i.e., to run a model with a set of parameter values, estimate parameter values (either point estimates or MCMC), project quantities into the future, simulate observations, etc,. Hence, the \emph{command line arguments} define the \emph{task}. For example, \texttt{-r} is the \emph{run}, \texttt{-e} is the \emph{estimation}, and \texttt{-m} is the \emph{MCMC} task. The \emph{command line arguments} are described in Section \ref{sec:command-line-arguments}.
 
 \subsection{\I{Using \CNAME}}
-\CH
-To use \CNAME, open a console (i.e. the command prompt) window (Microsoft Windows) or a terminal window (Linux). Navigate to a directory of your choice, where your \config s are located. Then type \cname\ with any arguments (see Section \ref{sec:command-line-arguments} for the the list of possible arguments). \CNAME\ will print output to the screen and return you to the command prompt when it completes its task. Note that the \CNAME\ executable (binary) must be either in the directory where you run it or somewhere in your systems \texttt{PATH}. We are working on a installer which is coming soon. See your operating system documentation for help on identifying or modifying your \texttt{PATH}.
+To use \CNAME, open a console (i.e. the command prompt) window (Microsoft Windows) or a terminal window (Linux). Navigate to a directory of your choice, where your \config s are located. Then type \cname\ with any arguments (see Section \ref{sec:command-line-arguments} for the the list of possible arguments). \CNAME\ will print output to the screen and return you to the command prompt when it completes its task. Note that the \CNAME\ executable (binary) and shared libraries (extension \texttt{.dll}) must be either in the directory where you run it or somewhere in your systems \texttt{PATH}. We are currently working on an installer which will be available soon. See your operating system documentation for help on identifying or modifying your \texttt{PATH}.
 
 \subsection{The \config\label{sec:config-files}}\index{Input configuration file}
-\CH
 The \config\ is made up of four broad sections; the description of the population structure and parameters (the population section), the estimation methods and variables (the estimation section), the observations and their associated likelihoods (the observation section), and the outputs and reports that \CNAME\ will return (the report section). The \config\ is made up of a number of commands (many with subcommands) which specify various options for each of these components.
 
 The command and subcommand definitions in the \config\ can be extensive (especially when you have a model that has many observations), and can result in a \config\ that is long and difficult to navigate. To aid readability and flexibility, we can use the \config\ command !\texttt{\emph{include}} \texttt{\emph{file}}. The command causes an external file, \argument{\emph{file}}, to be read and processed, exactly as if its contents had been inserted in the main \config\ at that point\index{Including external files}. The file name must be a complete file name with extension, but can use either a relative or absolute path as part of its name. Note that included files can also contain !\texttt{\emph{include}} commands --- but be careful that you do not set up a recursive state. See Section \ref{sec:general-syntax} for more detail.
 
 \subsection{\I{Redirecting standard output}\label{sec:redirecting-stdout}}
-\CH
 \CNAME\ uses the standard output stream \texttt{standard output}\index{standard output} to display run-time information. The \I{standard error} stream is used by \CNAME\ to output the program exit status and run-time errors. We suggest redirecting both the standard output and standard error into files\index{Redirecting standard out}\index{Redirecting standard error}. With the bash shell (on Linux systems), you can do this using the command structure,
 
 \begin{verbatim} (casal2 [arguments] > out) >& err &\end{verbatim}
 
-It may be useful to redirect the standard input, especially is you're using \CNAME\ inside a batch job software, i.e. 
+It may be useful to redirect the standard input, especially if you're using \CNAME\ inside a batch job software, i.e. 
 
 \begin{verbatim} (casal2 [arguments] > out < /dev/null) >& err &\end{verbatim}
 
@@ -39,8 +36,8 @@ And, on some Microsoft Windows systems (e.g., Windows7), you can redirect to bot
 Note that \CNAME\ outputs a few lines of header information to the output. The header\index{Output header information} consists of the program name and version, the arguments passed to \CNAME\ from the command line, the date and time that the program was called (derived from the system time), the user name, and the machine name (including the operating system and the process identification number). These can be used to track outputs as well as identifying the version of \CNAME\ used to run the model.
 
 \subsection{\I{Command line arguments}\label{sec:command-line-arguments}}
-\CH
-The call to \CNAME\ is of the following form.: 
+
+The call to \CNAME\ is of the following form: 
 
 \texttt{\cname [-c \emph{config\_file}] [\emph{task}] [\emph{options}]}
 
@@ -51,7 +48,7 @@ The call to \CNAME\ is of the following form.:
 and where \emph{task} is one of;
 \begin{description}
 \item [\texttt{-h}] Display help (this page).
-\item [\texttt{-l}] Display the reference for the software license (LGPL).
+\item [\texttt{-l}] Display the reference for the software license (GPL v2).
 \item [\texttt{-v}] Display the \CNAME\ version number.
 
 \item [\texttt{-r}] \emph{Run} the model once using the parameter values in the \config, or optionally, with the values from the file denoted with the command line argument \texttt{-i \emph{file}}.
@@ -71,9 +68,9 @@ and where \emph{task} is one of;
 In addition, the following are optional arguments\index{Optional command line arguments} [\emph{options}],
 
 \begin{description}
-\item [\texttt{-i \emph{file}}] \emph{Input} one or more sets of free (estimated) parameter values from \texttt{\emph{file}}. See Section \ref{sec:InputFileFormat} for details about the format of \texttt{\emph{file}}.
+\item [\texttt{-i \emph{file}}] \emph{Input} one or more sets of free (estimated) parameter values from \texttt{\emph{file}}. See Section \ref{sec:report-syntax} for details about the format of \texttt{\emph{file}}.
 
-\item [\texttt{-o \emph{file}}] \emph{Output} a report of the free (estimated) parameter values in a format suitable for \texttt{-i \emph{file}}. See Section \ref{sec:InputFileFormat} for details about the format of \texttt{\emph{file}}.
+\item [\texttt{-o \emph{file}}] \emph{Output} a report of the free (estimated) parameter values in a format suitable for \texttt{-i \emph{file}}. See Section \ref{sec:report-syntax} for details about the format of \texttt{\emph{file}}.
 
 \item [\texttt{-g \emph{seed}}]  Seed the random number \emph{generator} with \texttt{\emph{seed}}, a positive (long) integer value. Note, if \texttt{-g} is not specified, then \CNAME\ will  generate a random number seed based on the computer clock time.
 
@@ -81,12 +78,12 @@ In addition, the following are optional arguments\index{Optional command line ar
 
 \item [\texttt{--tabular}] Run with \texttt{-r} or \texttt{-f}  command it will print \command{report} in tabular format. See Section \ref{sec:report-section}.
 
-\item [\texttt{--single-step}] Run with \texttt{-r}, this additional option will pause the model and ask the user to specify parameters and their values to use for the next iteration. See Section \ref{}.
+\item [\texttt{--single-step}] Run with \texttt{-r}, this additional option will pause the model and ask the user to specify parameters and their values to use for the next iteration. See Section \ref{sec:singlestepping}.
 \end{description}
 
-\subsection{Constructing an \CNAME\ \config \label{constructing-config}}\index{Input configuration file syntax}
+\subsection{Constructing a \CNAME\ \config s \label{constructing-config}}\index{Input configuration file syntax}
 
-The model definition, parameters, observations, and reports are specified in an \config. The  population section is described in Section \ref{sec:population-section} and the population commands in Section \ref{sec:population-syntax}. Similarly, the estimation section is described in Section \ref{sec:estimation-section} and its commands in Section \ref{sec:estimation-syntax}, and in Section \ref{sec:report-section} and Section \ref{sec:report-syntax} for the report and report commands. 
+The model definition, parameters, observations, and reports are specified in an \config s. The  population section is described in Section \ref{sec:population-section} and the population commands in Section \ref{sec:population-syntax}. Similarly, the estimation section is described in Section \ref{sec:estimation-section} and its commands in Section \ref{sec:estimation-syntax}, and in Section \ref{sec:report-section} and Section \ref{sec:report-syntax} for the report and report commands. 
 
 \subsubsection{Commands}\index{Commands}
 
@@ -98,7 +95,7 @@ The model definition, parameters, observations, and reports are specified in an 
 \item Commands that do not have either a label or argument, but have subcommands (for example \command{model})
 \end{enumerate}
 
-Commands that have a label must have a unique label, i.e., the label cannot be used on more than one command of that type. The labels must start with a letter or underscore, can contain letters, underscores, or numbers. Labels must not contain white-space, a full-point ('.'), or other characters that are not letters, numbers, or an underscore. For example,
+Commands that have a label must have a unique label, i.e., the label cannot be used on more than one command of that type. The labels can contain alpha numeric characters, period ('.'), underscore ('\_') and dash ('-')). Labels must not contain white-space, or other characters that are not letters, numbers, dash, period or an underscore. For example,
 
 {\small{\begin{verbatim}
 @process BH_Recruitment
@@ -136,7 +133,6 @@ Arguments of type integer vector, integer range, constant vector, estimable vect
 \emph{Estimable} parameters are those parameters that \CNAME\ can estimate, if requested. If a particular parameter is not being estimated in a particular model run, then it acts as a constant.  Within \CNAME\, only estimable parameters can be estimated. And, you have to tell \CNAME\ those that are to be estimated in any particular model. Estimable parameters that are being estimated within a particular model run are called the \emph{estimated parameters}\index{Estimated parameters}.
 
 \subsubsection{The command-block format}\index{Command block format}
-\CH
 Each command-block either consists of a single command (starting with the symbol \command{}) and, for most commands, a unique label or an argument. Each command is then followed by its subcommands and their arguments, e.g., 
 
 \begin{description}
@@ -152,16 +148,14 @@ and then
 \item etc,.
 \end{description}
 
-Blank lines are ignored, as is extra white space (i.e., tabs and spaces) between arguments. But don't put extra white space before a \command{} character (which must also be the first character on the line), and make sure the file ends with a carriage return. 
+Blank lines are ignored, as is extra white space (i.e., tabs and spaces) between arguments. But don't put extra white space before a \command{} character (which must also be the first character on the line), and make sure the file ends with a carriage return.
 
 There is no need to mark the end of a command block. This is automatically recognized by either the end of the file, section, or the start of the next command block (which is marked by the \command{} on the first character of a line). Note, however, that the !\texttt{\emph{include}} is the only exception to this rule. See Section \ref{sec:general-syntax})\index{Command ! Include files} for details of the use of !\texttt{\emph{include}}. 
 
 Note that in the \config, commands, sub-commands, and arguments are not case sensitive. However, labels and variable values are case sensitive. Also note that if you are on a Linux system then external calls to files are case sensitive (i.e., when using !\texttt{\emph{include}} \subcommand{\emph{file}}, the argument \subcommand{\emph{file}} will be case sensitive). 
 
-Characters used in labels must be alphanumeric and can include underscores (\_). Other characters will result in an error.
 
 \subsubsection{\I{Commenting out lines}}\index{Comments}
-\CH
 Text that follows a \commentline\ on a line are considered to be comments and are ignored. If you want to remove a group of commands or subcommands using \commentline, then comment out all lines in the block, not just the first line. 
 
 Alternatively, you can comment out an entire block or section by placing curly brackets around the text that you want to comment out. Put in a \commentstart\ as the first character on the line to start the comment block, then end it with \commentend. All lines (including line breaks) between \commentstart\ and \commentend\ inclusive are ignored. (These should ideally be the first character on a line. But if not, then the entire line will be treated as part of the comment block.)
@@ -169,24 +163,24 @@ Alternatively, you can comment out an entire block or section by placing curly b
 		## This is a comment and will be ignored by CASAL2
 		@process BH_Recruitment
 		r0 3000000
-		{ This 
-		block of code 
+		{ 
+		This block of code is a comment and
 		will also be ignored by CASAL2
 		}
 		\end{verbatim}}}
 
 \subsubsection{Determining parameter names\label{sec:parameter-names}\index{Determining parameter names}\index{Parameter names}}
-\CH
-When \CNAME\ processes a \config, it translates each command and each subcommand into a parameter with a unique name. For commands, this parameter name is simply the command name. For subcommands, the parameter name format is either 
+
+When \CNAME\ processes a \config, it translates each command and each subcommand into a parameter with a unique name. For commands, this parameter name is simply the command label. For subcommands, the parameter name format is either 
 
 \begin{description}
 \item \texttt{command[label].subcommand} if the command has a label, or
 \item \texttt{command.subcommand} if the command has no label, or
 \item \texttt{command[label].subcommand(i)} if the command has a label and the subcommand arguments are a vector, and we are accessing the  \emph{i}th element of that vector. 
-%\item \texttt{command[label].subcommand(i-j)} if the command has a label, and the subcommand arguments are a vector, and we are accessing the elements from $i$ to $j$ (inclusive) of that vector.
+\item \texttt{command[label].subcommand(i:j)} if the command has a label, and the subcommand arguments are a vector, and we are accessing the elements from $i$ to $j$ (inclusive) of that vector.
 \end{description} 
 
-The unique parameter name is used to reference the parameter when estimating, applying a penalty, or applying a profile. For example, the parameter name of subcommand \subcommand{r0} of the command \command{process} with the label \argument{MyRecruitment} is
+The unique parameter name is used to reference the parameter when estimating, applying a penalty, projecting, time varying or applying a profile. For example, the parameter name of subcommand \subcommand{r0} of the command \command{process} with the label \argument{MyRecruitment} is
 
 \texttt{process[MyRecruitment].r0}
 
