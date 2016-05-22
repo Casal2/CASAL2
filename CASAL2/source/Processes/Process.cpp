@@ -146,4 +146,4 @@ void Process::Print() {
   // Console::Reset();
 }
 
-} /* namespace iSAM */
+} /* namespace Casal2 */

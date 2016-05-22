@@ -179,7 +179,7 @@ vector<Double>* Objects::GetEstimableVector(const string& parameter_absolute_nam
 }
 
 /**
- * This method will find the object in iSAM and return an Object pointer to it.
+ * This method will find the object in Casal2 and return an Object pointer to it.
  *
  * @param object_absolute_name The absolute name for the parameter. This includes the object details (e.g process[mortality].m
  * @param error The string to populate the error if one occurs
