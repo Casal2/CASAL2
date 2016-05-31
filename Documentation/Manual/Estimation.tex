@@ -15,8 +15,6 @@ The role of the estimation section is to define the tasks carried out by \CNAME:
 The estimation section defines the objective function, parameters of the model, and the method of estimation (point estimates, Bayesian posteriors, profiles, etc.). The objective function is based on a goodness-of-fit measure of the model to observations, priors and penalties. See the observation section for a description of the observations, likelihoods, priors and penalties. 
 
 \subsection{\I{The objective function}\label{sec:objective-function}}
-\CH
-\KL This text from SPM. Does not cover all text in S6.7 of CASAL, e.g. max likelihood. OK to use? Additions required? \KLend
 
 In Bayesian estimation, the objective function is a negative log-posterior,
 
@@ -40,14 +38,12 @@ The estimable parameters that will be estimated are defined using \command{estim
   type uniform
 \end{verbatim}}}
 
-See Section \ref{sec:parameter-names} for instructions on how to generate the parameter name. At least one parameter to be estimated if doing an estimation, profile, or MCMC run. Initial values for the parameters to be estimated will still need to be provided, and these are used as the starting values for the minimiser. However, these may be overwritten if you provide a set of alternative starting values (i.e., using  \texttt{\cname\ -i}, see Section \ref{sec:command-line-arguments}).
+See Section \ref{sec:parameter-names} for instructions on how to generate the parameter name. At least one parameter is to be estimated if doing an estimation, profile, or MCMC run. Initial values for the parameters to be estimated will still need to be provided, and these are used as the starting values for the minimiser. However, these may be overwritten if you provide a set of alternative starting values (i.e., using  \texttt{\cname\ -i}, see Section \ref{sec:command-line-arguments}).
 
-All parameters are estimated within bounds\index{Bounds}. For each parameter to be estimated, you need to specify the bounds and the prior\index{Priors} (Section \ref{sec:priors}). Note that the bounds and prior for each parameter refer to the values of the parameters, not the actual values resulting from the application of the parameter to an equation. \textbf{Bounds should be carefully chosen as they effect the space in which the minimisers search over. Minimisers convert lower and upper bound to -1,1 space. Needs to be referenced}. If estimating only some elements of a vector, either define the elements of the vector to be estimated (see \ref{sec:parameter-names}) or fix the others by setting the bounds equal.
-
-\hlc[new]{The estimation of parameters can be phased. Here, some of the estimated parameters are initially held fixed, and a minimisation is carried out. Next, some or all of the remaining parameters that were initially held fixed are freed, and another minimisation is carried out. This process continues until all phases have been carried out.}
+All parameters are estimated within bounds\index{Bounds}. For each parameter to be estimated, you need to specify the bounds and the prior\index{Priors} (\texttt{type}) (Section \ref{sec:priors}). Note that the bounds and prior for each parameter refer to the values of the parameters, not the actual values resulting from the application of the parameter to an equation. Bounds should be carefully chosen as they effect the space in which the minimisers search over. Minimisers convert lower and upper bound into a minimisation space (for example -1,1 space). If estimating only some elements of a vector, either define each element of the vector to be estimated (see \ref{sec:parameter-names}) or fix the others by setting the bounds equal.
 
 \subsection{\I{Point estimation}\label{sec:estimate-MPD}}
-Point estimation is invoked with \texttt{\cname\ -e}. Mathematically, it is an attempt to find a minimum of the objective function\index{Objective function}. \CNAME has multiple algorithms for solving (minimising) the optimisation problem. There are three non auto differential minimisers: numerical differences, differential evolution minimiser, and the dlib minimiser. There are also three auto differential minimisers being: ADOL-C, CPPAD, and BETADIFF. For references see section \ref{sec:tech}
+Point estimation is invoked with \texttt{\cname\ -e}. Mathematically, it is an attempt to find a minimum of the objective function\index{Objective function}. \CNAME\ has multiple algorithms for solving (minimising) the optimisation problem. There are three non auto differential minimisers: numerical differences, differential evolution minimiser, and the dlib minimiser. There are also three auto differential minimisers being: ADOL-C, CPPAD, and BETADIFF. For references see section \ref{sec:tech}
 \subsubsection{\I{The numerical differences minimiser}}
 
 The minimiser has three kinds of (non-error) exit status: 
@@ -80,7 +76,7 @@ The differential evolution minimiser can be good at finding global minimums in s
 We note that there is no proof of convergence for the differential evolution solver, but several papers have found it to be an efficient method of solving multidimensional problems. Our (limited) experience suggests that it can often find a better minima and may be faster or longer (depending on the actual model specification) at finding a solution when compared with the numerical differences minimiser. Comparisons with auto-differentiation minimisers or other more sophisticated algorithms have not been made. 
 
 \subsubsection{\I{Betadiff minimiser}}
-An auto-differentiable minimiser for non-linear models.
+An auto-differentiable minimiser for non-linear models, This is the minimiser from the original CASAL package.
 \subsubsection{\I{ADOL-C minimiser}}
 An auto-differentiable minimiser for non-linear models.
 \subsubsection{\I{CPPAD minimiser}}
