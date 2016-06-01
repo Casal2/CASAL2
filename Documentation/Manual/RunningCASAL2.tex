@@ -1,15 +1,15 @@
-\section{Running \CNAME\label{sec:running-sam}\index{Running \CNAME}}
+\section{Running \CNAME\label{sec:running}\index{Running \CNAME}}
 
-\CNAME\ is run from the console window (i.e., the DOS command line) on \I{Microsoft Windows} or from a terminal window on \I{Linux}. \CNAME\ gets its information from input data files, the key one of which is the \config\index{Input configuration file}. 
+\CNAME\ is run from the console window (i.e., the command line) on \I{Microsoft Windows} or from a terminal window on \I{Linux}. \CNAME\ gets its information from input data files, the key one of which is the \config\index{Input configuration file}. 
 
-The \config\ is compulsory and defines the model structure, processes, observations, parameters (both the fixed parameters and the parameters to be estimated)\index{Estimable parameters}, and the reports (outputs) requested. The following sections  describe how to construct the \CNAME\ configuration file. By convention, the name of the \config\ ends with the suffix \texttt{.csl2}, however, any file name is acceptable.
+The \config\ is compulsory and defines the model structure, processes, observations, parameters (both the fixed parameters and the parameters to be estimated)\index{Estimable parameters}, and the reports (outputs) requested. The following sections  describe how to construct the \CNAME\ configuration file. By convention, the name of the \config\ ends with the suffix \texttt{.csl2}, however, any file name is acceptable. Note that the \config\ can `include' other files as a part of its syntax. Collectively, these are called the \config.
 
-Other input files can, in some circumstances, be supplied to define the starting point for an estimation or as a point estimate from which to simulate observations.
+Other input files can, in some circumstances, be supplied, depending on what is required. For example, a file can be supplied that defines the starting point for estimation, as points from which to simulate observations, or as points from which to run projections.
 
 Simple command line arguments\index{Command line arguments} are used to determine the actions or \emph{tasks}\index{Tasks} of \CNAME, i.e., to run a model with a set of parameter values, estimate parameter values (either point estimates or MCMC), project quantities into the future, simulate observations, etc,. Hence, the \emph{command line arguments} define the \emph{task}. For example, \texttt{-r} is the \emph{run}, \texttt{-e} is the \emph{estimation}, and \texttt{-m} is the \emph{MCMC} task. The \emph{command line arguments} are described in Section \ref{sec:command-line-arguments}.
 
 \subsection{\I{Using \CNAME}}
-To use \CNAME, open a console (i.e. the command prompt) window (Microsoft Windows) or a terminal window (Linux). Navigate to a directory of your choice, where your \config s are located. Then type \cname\ with any arguments (see Section \ref{sec:command-line-arguments} for the the list of possible arguments). \CNAME\ will print output to the screen and return you to the command prompt when it completes its task. Note that the \CNAME\ executable (binary) and shared libraries (extension \texttt{.dll}) must be either in the directory where you run it or somewhere in your systems \texttt{PATH}. We are currently working on an installer which will be available soon. See your operating system documentation for help on identifying or modifying your \texttt{PATH}.
+To use \CNAME, open a console (i.e. the command prompt) window (Microsoft Windows) or a terminal window (Linux). Navigate to a directory of your choice, where your \config s are located. Then type \cname\ with any arguments (see Section \ref{sec:command-line-arguments} for the the list of possible arguments). \CNAME\ will print output to the screen and return you to the command prompt when it completes its task. Note that the \CNAME\ executable (binary) and shared libraries (extension \texttt{.dll}) must be either in the directory where you run it or in your systems \texttt{PATH}. The \CNAME\ installer should update your path on Windows in any case, but see your operating system documentation for help on identifying or modifying your \texttt{PATH}.
 
 \subsection{The \config\label{sec:config-files}}\index{Input configuration file}
 The \config\ is made up of four broad sections; the description of the population structure and parameters (the population section), the estimation methods and variables (the estimation section), the observations and their associated likelihoods (the observation section), and the outputs and reports that \CNAME\ will return (the report section). The \config\ is made up of a number of commands (many with subcommands) which specify various options for each of these components.
@@ -29,7 +29,7 @@ On Microsoft Windows systems, you can redirect to standard output using,
 
 \begin{verbatim} casal2 [arguments] > out\end{verbatim}
 
-And, on some Microsoft Windows systems (e.g., Windows7), you can redirect to both standard output and standard error, using the syntax, 
+And, on some Microsoft Windows systems (e.g., Windows10), you can redirect to both standard output and standard error, using the syntax, 
 
 \begin{verbatim} casal2 [arguments] > out 2> err\end{verbatim}
 
