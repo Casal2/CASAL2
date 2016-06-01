@@ -9,7 +9,7 @@
  *
  * @section DESCRIPTION
  *
- * This file contains conditional types that we'll use in iSAM instead
+ * This file contains conditional types that we'll use in CASAL2 instead
  * of the default types to give us more flexibility.
  *
  * $Date: 2008-03-04 16:33:32 +1300 (Tue, 04 Mar 2008) $
@@ -70,8 +70,8 @@ typedef double Double;
  * This code is used to demangle the typeid(x).name information
  */
 inline std::string demangle(const char* name) {
-	return name;
-	/*
+  return name;
+  /*
     int status = -4; // some arbitrary value to eliminate the compiler warning
 
     // enable c++11 by passing the flag -std=c++11 to g++

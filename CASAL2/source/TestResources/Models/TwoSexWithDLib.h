@@ -209,7 +209,7 @@ time_step step_one
 
 } /* */
 } /* testresources */
-} /* isam */
+} /* niwa */
 
 #endif /* TESTMODE */
 #endif /* TESTCASES_MODELS_TWOSEX_WITH_DLIB_H_ */

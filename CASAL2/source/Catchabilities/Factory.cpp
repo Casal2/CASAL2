@@ -44,4 +44,4 @@ Catchability* Factory::Create(Model* model, const string& object_type, const str
 }
 
 } /* catchabilities */
-} /* isam */
+} /* niwa */
