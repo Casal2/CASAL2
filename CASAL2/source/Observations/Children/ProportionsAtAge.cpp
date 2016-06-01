@@ -342,16 +342,16 @@ void ProportionsAtAge::Execute() {
         << proportions_[model_->current_year()][category_labels_[category_offset]].size() << ")";
 
     // Covert expectations from Numbers at age to proportions at age
-    Double total = 0.0;
-    for (unsigned i = 0; i < expected_values.size(); ++i)
-      total += expected_values[i];
+    //Double total = 0.0;
+    //for (unsigned i = 0; i < expected_values.size(); ++i)
+    //  total += expected_values[i];
 
     /**
      * save our comparisons so we can use them to generate the score from the likelihoods later
      */
 
     for (unsigned i = 0; i < expected_values.size(); ++i) {
-      SaveComparison(category_labels_[category_offset], min_age_ + i ,0.0 ,AS_DOUBLE(expected_values[i] / total), proportions_[model_->current_year()][category_labels_[category_offset]][i],
+      SaveComparison(category_labels_[category_offset], min_age_ + i ,0.0 ,AS_DOUBLE(expected_values[i]), proportions_[model_->current_year()][category_labels_[category_offset]][i],
           process_errors_by_year_[model_->current_year()], error_values_[model_->current_year()][category_labels_[category_offset]][i], delta_, 0.0);
     }
   }
@@ -367,6 +367,13 @@ void ProportionsAtAge::CalculateScore() {
    * During simulation mode we'll simulate results for this observation
    */
   if (model_->run_mode() == RunMode::kSimulation) {
+    for (auto& iter :  comparisons_) {
+      Double total_expec = 0.0;
+      for (auto& comparison : iter.second)
+        total_expec += comparison.expected_;
+      for (auto& comparison : iter.second)
+        comparison.expected_ /= total_expec;
+    }
     likelihood_->SimulateObserved(comparisons_);
     for (auto& iter :  comparisons_) {
       Double total = 0.0;
@@ -386,7 +393,7 @@ void ProportionsAtAge::CalculateScore() {
       }
       for (obs::Comparison& comparison : comparisons_[year]) {
         if (running_total != 0.0)
-          comparison.expected_  = comparison.expected_;
+          comparison.expected_  = comparison.expected_ / running_total;
         else
           comparison.expected_  = 0.0;
       }
