@@ -584,9 +584,12 @@ void Model::RunProfiling() {
 void Model::RunSimulation() {
   LOG_FINE() << "Entering the Simulation Sub-System";
 
-  unsigned simulation_candidates = global_configuration_->simulation_candidates();
+  int simulation_candidates = global_configuration_->simulation_candidates();
+  if (simulation_candidates < 1) {
+    LOG_FATAL() << "The number of simulations specified at the command line parser must be at least one";
+  }
   unsigned suffix_width          = (unsigned)floor(log10((double) simulation_candidates + 1)) + 1;
-  for (unsigned i = 0; i < simulation_candidates; ++i) {
+  for (int i = 0; i < simulation_candidates; ++i) {
     string report_suffix = ".";
     unsigned iteration_width = (unsigned)floor(log10(i + 1)) + 1;
     report_suffix.append("0", suffix_width - iteration_width);
@@ -630,13 +633,16 @@ void Model::RunSimulation() {
 
 void Model::RunProjection() {
   LOG_TRACE();
-  unsigned projection_candidates = global_configuration_->projection_candidates();
+  int projection_candidates = global_configuration_->projection_candidates();
+  if (projection_candidates < 1) {
+    LOG_FATAL() << "The number of projections specified at the command line parser must be at least one";
+  }
   Estimables& estimables = *managers_->estimables();
   vector<Double*> estimable_targets;
 
   // Model is about to run
   for (unsigned i = 0; i < estimable_values_count_; ++i) {
-    for (unsigned j = 0; j < projection_candidates; ++j) {
+    for (int j = 0; j < projection_candidates; ++j) {
 
       if (estimable_values_file_) {
         estimables.LoadValues(i);
