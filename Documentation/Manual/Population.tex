@@ -703,16 +703,33 @@ The spline selectivity implements a cubic spline that has non-estimable knots, a
 
 \CNAME\ has the functionality to vary a parameter annually between the start and final year of a model run. This can be for blocks of years or specific years if chosen. For years that are not specified the parameter will default to the input or if in a iterative state such as estimation mode, the value being trialled at that iteration. Available methods for time varying a parameter. Where this functionality will become quite useful is in simulating more realistic observations. When you allow fisheries to have annual varying catchabilities and other more realistic model components simulated observations become more real data and thus conclusions based on simulated data are more useful.
 
+
 \subsubsection[Constant]{\argument{Constant}}\index{Time Varying Parameters!Constant}
 Allows a parameter to have an alternative values during certain years, which can be estimated.
 
 \subsubsection[Random Walk]{\argument{Random Walk}}\index{Time Varying Parameters!Random Walk}
-A random deviate added into the last value drawn from a standard normal distribution. This has an estimable parameter $\sigma$. For reproducible modelling, it is highly recommended that users set the seed (see Section~\ref{sec:command-line-arguments}) when using stochastic functionality like this, otherwise reproducing models becomes very difficult.
+A random deviate added into the last value drawn from a standard normal distribution. This has an estimable parameter $\sigma_p$ for each time varying parameter $p$. For reproducible modelling, it is highly recommended that users set the seed (see Section~\ref{sec:command-line-arguments}) when using stochastic functionality like this, otherwise reproducing models becomes almost impossible.
+
+\subsubsection[Annual shift]{\argument{Annual shift}}\index{Time Varying Parameters!Annual shift}
+A parameter generated in year $y$ ($\theta'_y$) depends on the value specified by the user ($\theta_y$) along with three coefficients $a,b$ and $c$ as follows,
+
+
+\begin{equation}
+\bar{\theta}_y = \frac{\sum_{y}^Y\theta_y}{Y}
+\end{equation}
+
+\begin{equation}
+\theta'_y = a \bar{\theta}_y + b\bar{\theta}_y^{2} + c\bar{\theta}_y^{3}
+\end{equation}
 
 \subsubsection[Exogenous]{\argument{Exogenous}}\index{Time Varying Parameters!Exogenous}
-parameters are shifted based on an exogenous variable, an example of this is fishing selectivity parameters that may vary between years based on known changed fishing behaviours such as fishing season start time.
+parameters are shifted based on an exogenous variable, an example of this is an exploitation selectivity parameters that may vary between years based on known changes in exploitation behaviour such as season, start time, and average depth of exploitation.
 \begin{equation}
 \delta_y = a(E_y - \bar{E})
 \end{equation}
-where $\delta_y$ is the shift in parameter $X$ in year $y$, $a$ is an estimable shift parameter, $E$ is the exogenous variable and $E_y$ is the value of this variable in year $y$. For more information readers can see \cite{francis_03}.
+
+\begin{equation}
+\theta'_y = \theta_y + \delta_y
+\end{equation}
+where $\delta_y$ is the shift or deviation in parameter $\theta_y$ in year $y$ to generate the new parameter value in year $y$ ($\theta'_y$). $a$ is an estimable shift parameter, $E$ is the exogenous variable and $E_y$ is the value of this variable in year $y$. For more information readers can see \cite{francis_03}.
 
