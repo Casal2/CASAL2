@@ -205,16 +205,16 @@ escapeinside={\%*}{*)}          % if you want to add a comment within your code
 \newcommand{\DocVer}{\SourceControlDateDoc}
 
 %New commands to automate document dates, manual titles, document reference, etc.
-\newcommand{\VER}{\SourceControlShortVersionDoc} % CASAL2 program version
-\newcommand{\CNAME}{Casal2} % CASAL2 name
+\newcommand{\VER}{v\SourceControlDateDoc} % CASAL2 program version
+\newcommand{\CNAME}{\textsc{Casal2}} 
 \newcommand{\cname}{\texttt{casal2}} % casal2 binary name
-\newcommand{\Cname}{\texttt{Casal2}} % Casal2 binary name
 \newcommand{\authors}{S. Rasmussen, I. Doonan, A. Dunn, C. Marsh, K. Large, S. Mormede}
-\newcommand{\email}{casal2@niwa.co.nz}
-\newcommand{\authorlink}{\href{mailto:"CASAL2 Development Team"<casal@niwa.co.nz>?subject=CASAL2:}{authors}} %check this
+\newcommand{\email}{casal@niwa.co.nz}
+\newcommand{\github}{\url{https://github.com/NIWAFisheriesModelling/CASAL2}}
+\newcommand{\authorlink}{\href{mailto:"CASAL2 Development Team"<casal@niwa.co.nz>?subject=CASAL2:}{authors}} 
 %hyper ref for email
 \newcommand{\Organisation}{National Institute of Water \& Atmospheric Research Ltd.} %NIWA
-\newcommand{\ManualRef}{\authors\ (\DocYear) \CNAME\ User Manual, \VER. \Organisation\ \emph{NIWA Technical Report}. \ref{TotPages} p.} % full document reference
+\newcommand{\ManualRef}{\authors\ (\DocYear). \CNAME\ User Manual, \VER. \Organisation\ \emph{NIWA Technical Report}. \ref{TotPages} p.} % full document reference
 
 % Define \clearemptydoublepage so-as to have truly blank pages between sections
 \let\origdoublepage\cleardoublepage
@@ -255,34 +255,35 @@ escapeinside={\%*}{*)}          % if you want to add a comment within your code
 
 
 % Title page
-\pdfbookmark[1]{CASAL2 Users Manual}{title}
+\pdfbookmark[1]{CASAL2 User Manual}{title}
 \pagenumbering{alph} % alpha not used, but used to remove warnings when page 1 is re-defined below
 
 \begin{titlepage}
   \thispagestyle{empty} % no header/footer/page number on this page
 	\begin{center}
 
-		\vspace*{1cm}
-		\Huge \Cname\ User Manual \\
-
-		\vspace{0.5cm}
-		\Large \authors \\ %Document authors
-
-		\vspace{2cm}
+		\vspace{1cm}
 		\begin{figure}[htp]
-			\begin{center}
-			 \includegraphics[height=9cm,width=12cm]{Figures/logo_draft1.png}
-			\end{center}
+			%\begin{left}
+			 \includegraphics[height=3cm]{Figures/CASAL2.png}
+			%\end{left}
 		\end{figure}
-		
+
+		\vspace*{2.5cm}
+		\Huge \CNAME\ User Manual \\
+
+		\vspace{2.0cm}
+		\huge \authors \\ %Document authors
+
+		\vspace{1.0cm}
+		\Large\CNAME\ User Manual (modified \DocVer) for use with \cname\texttt{\_\VER}
+	
 
 		~\vfill
 		\Large NIWA Technical Report xxx \\%Document Date
 		\Large ISSN 1174-2631 \\%Document Date
 		\Large \DocYear \\%Document Date
 
-	%	~\vfill
-	%	\Cname\ User Manual (modified: \DocVer) \\ for use with \Cname\ \VER
 
 	\end{center}
 \end{titlepage}
@@ -293,17 +294,11 @@ escapeinside={\%*}{*)}          % if you want to add a comment within your code
 \fancyfoot[C]{\thepage}
 \pagenumbering{roman}
 
-\begin{center}
-  \Cname\ User Manual (modified: \DocVer) \\ for use with \Cname\ \VER
-\end{center}
-
 ~\vfill
 
-\begin{tabulary}{\textwidth}{L R} 
-$\vcenter{Citation: \ManualRef}$ &    
-%need code instead of frog 
-$\vcenter{\hbox{\includegraphics[height=1.8cm,width=1.8cm]{Figures/example_QR_code}}}$\\
-\end{tabulary}
+\begin{center}
+Citation: \ManualRef    
+\end{center}
 
 % Table of contents
 \clearemptydoublepage{}
