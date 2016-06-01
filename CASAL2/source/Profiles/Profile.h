@@ -10,7 +10,7 @@
  *
  * A profile is a form of estimate. When you define a profile
  * you define the usual lower and upper bounds as well as
- * a steps parameter. The steps parameter tells isam how many
+ * a steps parameter. The steps parameter tells CASAL2 how many
  * steps it must make between the lower and upper bounds incrementing
  * the estimate value each time and then doing another minimisation.
  */

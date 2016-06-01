@@ -321,5 +321,5 @@ Engine::~Engine() {
 
 } /* namespace gammadiff */
 } /* namespace minimisers */
-} /* namesapce isam */
+} /* namesapce niwa */
 #endif

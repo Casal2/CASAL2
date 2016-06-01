@@ -305,6 +305,6 @@ Double Engine::optimise(adolc::CallBack& objective,
 
 } /* namespace adolc */
 } /* namespace minimisers */
-} /* namesapce isam */
+} /* namesapce niwa */
 #endif /* USE_ADOLC */
 #endif /* USE_AUTODIFF */

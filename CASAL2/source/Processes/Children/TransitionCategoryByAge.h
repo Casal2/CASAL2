@@ -58,6 +58,6 @@ private:
 };
 
 } /* namespace processes */
-} /* namespace isam */
+} /* namespace niwa */
 
 #endif /* PROCESSES_TRANSITIONCATEGORYBYAGE_H_ */
