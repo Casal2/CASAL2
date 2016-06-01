@@ -42,16 +42,10 @@ void SimulatedObservation::DoBuild() {
  * execute method
  */
 void SimulatedObservation::DoExecute() {
-  /*
-  cache_ << CONFIG_SINGLE_COMMENT << CONFIG_ARRAY_START << label_ << CONFIG_ARRAY_END << endl;
-  cache_ << CONFIG_SINGLE_COMMENT << PARAM_REPORT << "." << PARAM_TYPE << CONFIG_RATIO_SEPARATOR << " " << type_ << "\n";
-  cache_ << CONFIG_SINGLE_COMMENT << PARAM_OBSERVATION << "." << PARAM_LABEL << CONFIG_RATIO_SEPARATOR << " " << observation_->label() << "\n";
-
-
-  cache_ << CONFIG_SECTION_SYMBOL << PARAM_OBSERVATION << " " << observation_->label() << "\n";
-
+  cache_ << CONFIG_SECTION_SYMBOL << PARAM_OBSERVATION << " " << label_ << "\n";
+  bool biomass_abundance_obs = false;
   ParameterList& parameter_list = observation_->parameters();
-  const map<string, ParameterPtr>& parameters = parameter_list.parameters();
+  const map<string, Parameter*>& parameters = parameter_list.parameters();
   for (auto iter = parameters.begin(); iter != parameters.end(); ++iter) {
     if (iter->first == PARAM_LIKELIHOOD) {
       if (iter->second->values()[0] == PARAM_PSEUDO)
@@ -68,85 +62,65 @@ void SimulatedObservation::DoExecute() {
     if (iter->second->values().size() > 0) {
       cache_ << iter->first << " ";
       const vector<string>& values = iter->second->values();
-      for (string value : values)
+      for (string value : values) {
+        if ((iter->first == PARAM_TYPE && value == PARAM_BIOMASS) || (iter->first == PARAM_TYPE && value == PARAM_ABUNDANCE)) {
+          biomass_abundance_obs = true;
+          LOG_MEDIUM() << "Type of observation simulating = " << value;
+        }
         cache_ << value << " ";
+      }
       cache_ << "\n";
     }
   }
 
   map<unsigned, vector<obs::Comparison> >& comparison = observation_->comparisons();
-  // obs
-  cache_ << PARAM_TABLE << " " << PARAM_OBS << "\n";
-  for (auto iter = comparison.begin(); iter != comparison.end(); ++iter) {
-    cache_ << iter->first << " ";
-    for (obs::Comparison comparison : iter->second) {
-      cache_ << comparison.observed_ << " ";
+  // Print Observations
+
+  if (biomass_abundance_obs) {
+    // biomass obs
+    cache_ << PARAM_OBS << " ";
+    for (auto iter = comparison.begin(); iter != comparison.end(); ++iter) {
+      for (obs::Comparison comparison : iter->second)
+        cache_ << comparison.observed_ << " ";
     }
     cache_ << "\n";
-  }
-  cache_ << PARAM_END_TABLE << "\n";
-
-  // error values
-  cache_ << PARAM_TABLE << " " << PARAM_ERROR_VALUES << "\n";
-  for (auto iter = comparison.begin(); iter != comparison.end(); ++iter) {
-    cache_ << iter->first << " ";
-    for (obs::Comparison comparison : iter->second) {
-      cache_ << comparison.error_value_ << " ";
+  } else {
+    // proportion at age obs
+    cache_ << PARAM_TABLE << " " << PARAM_OBS << "\n";
+    for (auto iter = comparison.begin(); iter != comparison.end(); ++iter) {
+      cache_ << iter->first << " ";
+      for (obs::Comparison comparison : iter->second) {
+        cache_ << comparison.observed_ << " ";
+      }
+      cache_ << "\n";
     }
-    cache_ << "\n";
-  }
-
     cache_ << PARAM_END_TABLE << "\n";
-    cache_ << "#end" << endl;
-  */
-  cache_ << "*" << label_ << " " << "("<< type_ << ")"<<"\n";
+  }
 
-  ParameterList& parameter_list = observation_->parameters();
-  const map<string, Parameter*>& parameters = parameter_list.parameters();
-  for (auto iter = parameters.begin(); iter != parameters.end(); ++iter) {
-    if (iter->first == PARAM_LIKELIHOOD) {
-      if (iter->second->values()[0] == PARAM_PSEUDO)
-        cache_ << PARAM_LIKELIHOOD << ": " << parameter_list.Get(PARAM_SIMULATED_OBSERVATION)->values()[0] << "\n";
-      else
-        cache_ << PARAM_LIKELIHOOD << ": " << iter->second->values()[0] << "\n";
 
-      continue;
+
+  // Print Error values
+  if (biomass_abundance_obs) {
+    // biomass error
+    cache_ << PARAM_ERROR_VALUE << " ";
+    for (auto iter = comparison.begin(); iter != comparison.end(); ++iter) {
+      for (obs::Comparison comparison : iter->second)
+        cache_ << comparison.error_value_ << " ";
     }
-
-    if (iter->first == PARAM_OBS || iter->first == PARAM_ERROR_VALUE || iter->first == PARAM_LABEL || iter->first == PARAM_SIMULATION_LIKELIHOOD)
-      continue;
-
-    if (iter->second->values().size() > 0) {
-      cache_ << iter->first << ": ";
-      const vector<string>& values = iter->second->values();
-      for (string value : values)
-        cache_ << value << " ";
+    cache_ << "\n";
+  } else {
+    // proportion at age obs
+    cache_ << PARAM_TABLE << " " << PARAM_ERROR_VALUES << "\n";
+    for (auto iter = comparison.begin(); iter != comparison.end(); ++iter) {
+      cache_ << iter->first << " ";
+      for (obs::Comparison comparison : iter->second) {
+        cache_ << comparison.error_value_ << " ";
+      }
       cache_ << "\n";
     }
+    cache_ << PARAM_END_TABLE << "\n";
   }
-
-  map<unsigned, vector<obs::Comparison> >& comparison = observation_->comparisons();
-  // obs
-  cache_ << PARAM_OBS << " " << REPORT_R_MATRIX << "\n";
-  for (auto iter = comparison.begin(); iter != comparison.end(); ++iter) {
-    cache_ << iter->first << " ";
-    for (obs::Comparison comparison : iter->second) {
-      cache_ << comparison.observed_ << " ";
-    }
-    cache_ << "\n";
-  }
-
-
-  // error values
-  cache_ << PARAM_ERROR_VALUES << " " << REPORT_R_MATRIX << "\n";
-  for (auto iter = comparison.begin(); iter != comparison.end(); ++iter) {
-    cache_ << iter->first << " ";
-    for (obs::Comparison comparison : iter->second) {
-      cache_ << comparison.error_value_ << " ";
-    }
-    cache_ << "\n";
-  }
-  cache_ << REPORT_END <<"\n";
+  cache_ << "\n";
   ready_for_writing_ = true;
 }
 

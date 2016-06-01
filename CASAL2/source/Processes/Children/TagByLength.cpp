@@ -217,17 +217,15 @@ void TagByLength::DoBuild() {
  * Execute this process
  */
 void TagByLength::DoExecute() {
-  if (model_->current_year() < first_year_)
+  unsigned current_year = model_->current_year();
+  if (std::find(years_.begin(), years_.end(), current_year) == years_.end())
     return;
+
   auto from_iter = from_partition_.begin();
   auto to_iter   = to_partition_.begin();
   /**
    * Do the transition with mortality on the fish we're moving
    */
-  unsigned current_year = model_->current_year();
-  if (std::find(years_.begin(), years_.end(), current_year) == years_.end())
-    return;
-
   LOG_FINEST() << "numbers__.size(): " << numbers_.size();
   LOG_FINEST() << "numbers__[current_year].size(): " << numbers_[current_year].size();
   for (unsigned i = 0; i < numbers_[current_year].size(); ++i)
@@ -265,12 +263,10 @@ void TagByLength::DoExecute() {
     total_stock_with_selectivities = 0.0;
     for (; from_iter != from_partition_.end(); from_iter++, to_iter++) {
 
-      Double stock_amount = (*from_iter)->length_data_[i];
-      total_stock_with_selectivities += stock_amount;
+      total_stock_with_selectivities += (*from_iter)->length_data_[i];
 
       LOG_FINEST() << "name: " << (*from_iter)->name_ << " in bin with lower length value = " << length_bins_[i];
       LOG_FINEST() << "Numbers at length: " << (*from_iter)->length_data_[i];
-      LOG_FINEST() << "amount added to total_stock_with_selecitivites: " << stock_amount;
       LOG_FINEST() << "**";
     }
     LOG_FINEST() << "total_stock_with_selectivities: " << total_stock_with_selectivities << " at length " << length_bins_[i];
