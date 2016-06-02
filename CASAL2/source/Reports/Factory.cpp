@@ -39,6 +39,8 @@
 #include "Reports/Children/OutputParameters.h"
 #include "Reports/Children/SimulatedObservation.h"
 #include "Reports/Children/Selectivity.h"
+#include "Reports/Children/TimeVarying.h"
+
 
 // Namespaces
 namespace niwa {
@@ -102,6 +104,8 @@ Report* Factory::Create(Model* model, const string& object_type, const string& s
       result = new SimulatedObservation(model);
     else if (sub_type == PARAM_SELECTIVITY)
       result = new Selectivity(model);
+    else if (sub_type == PARAM_TIME_VARYING)
+      result = new TimeVarying(model);
 
     if (result)
       model->managers().report()->AddObject(result);

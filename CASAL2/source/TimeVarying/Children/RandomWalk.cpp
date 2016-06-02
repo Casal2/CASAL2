@@ -67,9 +67,10 @@ void RandomWalk::DoUpdate() {
   Double deviate = rng.normal(AS_DOUBLE(mu_), AS_DOUBLE(sigma_));
   (*value_) += deviate;
 
-  LOG_FINEST() << "value after deviate of " << deviate << " = " << (*value_);
+  LOG_FINEST() << "value after deviate of " << deviate << " = " << (*value_) << " for year " << model_->current_year();
 
   LOG_FINE() << "Setting Value to: " << (*value_);
+  parameter_by_year_[model_->current_year()] = (*value_);
   (this->*update_function_)(*value_);
 }
 

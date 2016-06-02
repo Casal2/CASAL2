@@ -21,7 +21,7 @@
 #define SOURCE_MINIMISERS_CHILDREN_DUMMY_H_
 
 // headers
-#include "../Minimisers/Minimiser.h"
+#include "../../Minimiser.h"
 
 // namespaces
 namespace niwa {
@@ -36,7 +36,6 @@ public:
   void                        DoReset() override final { };
   void                        Execute() override final { };
 };
-
 } /* namespace minimisers */
 } /* namespace niwa */
 

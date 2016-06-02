@@ -36,6 +36,10 @@ public:
   void                        Reset() { };
   void                        Update(unsigned current_year);
 
+  //accessors
+
+  map<unsigned, Double>&       ParameterByYear() { return parameter_by_year_; }
+
 protected:
   // methods
   void                        RestoreOriginalValue();
@@ -62,6 +66,7 @@ protected:
   map<unsigned, Double>*      estimable_map_ = 0;
   vector<Double>*             estimable_vector_ = 0;
   Double*                     estimable_ = 0;
+  map<unsigned, Double>       parameter_by_year_;
 };
 
 typedef std::shared_ptr<TimeVarying> TimeVaryingPtr;
