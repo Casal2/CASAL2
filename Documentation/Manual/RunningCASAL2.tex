@@ -14,7 +14,7 @@ To use \CNAME, open a console (i.e. the command prompt) window (Microsoft Window
 \subsection{The \config\label{sec:config-files}}\index{Input configuration file}
 The \config\ is made up of four broad sections; the description of the population structure and parameters (the population section), the estimation methods and variables (the estimation section), the observations and their associated likelihoods (the observation section), and the outputs and reports that \CNAME\ will return (the report section). The \config\ is made up of a number of commands (many with subcommands) which specify various options for each of these components.
 
-The command and subcommand definitions in the \config\ can be extensive (especially when you have a model that has many observations), and can result in a \config\ that is long and difficult to navigate. To aid readability and flexibility, we can use the \config\ command !\texttt{\emph{include}} \texttt{\emph{file}}. The command causes an external file, \argument{\emph{file}}, to be read and processed, exactly as if its contents had been inserted in the main \config\ at that point\index{Including external files}. The file name must be a complete file name with extension, but can use either a relative or absolute path as part of its name. Note that included files can also contain !\texttt{\emph{include}} commands --- but be careful that you do not set up a recursive state. See Section \ref{sec:general-syntax} for more detail.
+The command and subcommand definitions in the \config\ can be extensive (especially when you have a model that has many observations), and can result in a \config\ that is long and difficult to navigate. To aid readability and flexibility, we can use the \config\ command !\texttt{\emph{include}} \texttt{\emph{file}}. The command causes an external file, \argument{\emph{file}}, to be read and processed, exactly as if its contents had been inserted in the main \config\ at that point\index{Including external files}. The file name must be a complete file name with extension, but can use either a relative or absolute path as part of its name. Note that included files can also contain !\texttt{\emph{include}} commands. See Section \ref{sec:general-syntax} for more detail.
 
 \subsection{\I{Redirecting standard output}\label{sec:redirecting-stdout}}
 \CNAME\ uses the standard output stream \texttt{standard output}\index{standard output} to display run-time information. The \I{standard error} stream is used by \CNAME\ to output the program exit status and run-time errors. We suggest redirecting both the standard output and standard error into files\index{Redirecting standard out}\index{Redirecting standard error}. With the bash shell (on Linux systems), you can do this using the command structure,
@@ -42,7 +42,7 @@ The call to \CNAME\ is of the following form:
 \texttt{\cname [-c \emph{config\_file}] [\emph{task}] [\emph{options}]}
 
 \begin{description}
-  \item [\texttt{-c \emph{config\_file}}] Define the \config\ for \CNAME. If omitted, then \CNAME\ looks for a file named \texttt{casal2.txt}.
+  \item [\texttt{-c \emph{config\_file}}] Define the \config\ for \CNAME. If omitted, then \CNAME\ looks for a file named \texttt{config.csl2}.
 \end{description}
 
 and where \emph{task} is one of;
@@ -95,12 +95,12 @@ The model definition, parameters, observations, and reports are specified in an 
 \item Commands that do not have either a label or argument, but have subcommands (for example \command{model})
 \end{enumerate}
 
-Commands that have a label must have a unique label, i.e., the label cannot be used on more than one command of that type. The labels can contain alpha numeric characters, period ('.'), underscore ('\_') and dash ('-')). Labels must not contain white-space, or other characters that are not letters, numbers, dash, period or an underscore. For example,
+Commands that have a label must have a unique label, i.e., the label cannot be used on more than one command of that type. The labels can contain alpha numeric characters, period (`.'), underscore (`\_') and dash (`-'). Labels must not contain white-space, or other characters that are not letters, numbers, dash, period or an underscore. For example,
 
 {\small{\begin{verbatim}
-@process BH_Recruitment
+@process NaturalMortality
 or
-!include MyModel
+!include MyModelSpecification.csl2
 		\end{verbatim}}}
 
 \subsubsection{Subcommands}\index{Commands ! Subcommands}
@@ -115,11 +115,11 @@ The arguments for a subcommand are either\index{Subcommand argument type}:
 \textbf{switch} & true/false\\ 
 \textbf{integer}& an integer number,\\
 \textbf{integer vector} & a vector of integer numbers,\\
-\textbf{integer range} & a range of integer numbers separated by a hyphen (-), e.g. 1994-1996 2000 is \\ & expanded to an integer vector of values 1994 1995 1996 2000),\\
+\textbf{integer range} & a range of integer numbers separated by a colon (:), e.g. 1994:1996 is \\ & expanded to an integer vector of values 1994 1995 1996),\\
 \textbf{constant} & a real number (i.e. double),\\
 \textbf{constant vector} & a vector of real numbers (i.e. vector of doubles),\\
 \textbf{estimable} & a real number that can be estimated (i.e. estimable double),\\
-\textbf{estimable vector} & a vector of real numbers that can be estimated (i.e. vector of estimable doubles),\\
+\textbf{estimable vector} & a vector of real numbers that can be estimated (i.e. vector of estimable \\ & doubles),\\
 \textbf{string} & a categorical (string) value, or\\
 \textbf{string vector} & a vector of categorical values.
 \end{tabular}
@@ -158,14 +158,15 @@ Note that in the \config, commands, sub-commands, and arguments are not case sen
 \subsubsection{\I{Commenting out lines}}\index{Comments}
 Text that follows a \commentline\ on a line are considered to be comments and are ignored. If you want to remove a group of commands or subcommands using \commentline, then comment out all lines in the block, not just the first line. 
 
-Alternatively, you can comment out an entire block or section by placing curly brackets around the text that you want to comment out. Put in a \commentstart\ as the first character on the line to start the comment block, then end it with \commentend. All lines (including line breaks) between \commentstart\ and \commentend\ inclusive are ignored. (These should ideally be the first character on a line. But if not, then the entire line will be treated as part of the comment block.)
+Alternatively, you can comment out an entire block or section by placing curly brackets around the text that you want to comment out. Put in a \commentstart\ as the first character on the line to start the comment block, then end it with \commentend. All lines (including line breaks) between \commentstart\ and \commentend\ inclusive are ignored. 
 {\small{\begin{verbatim}
-		## This is a comment and will be ignored by CASAL2
-		@process BH_Recruitment
-		r0 3000000
+		# This is a comment and will be ignored
+		@process NaturalMortality
+		m 0.2
 		{ 
-		This block of code is a comment and
-		will also be ignored by CASAL2
+		This block of code 
+		is a comment and
+		will be ignored
 		}
 		\end{verbatim}}}
 
@@ -180,9 +181,9 @@ When \CNAME\ processes a \config, it translates each command and each subcommand
 \item \texttt{command[label].subcommand(i:j)} if the command has a label, and the subcommand arguments are a vector, and we are accessing the elements from $i$ to $j$ (inclusive) of that vector.
 \end{description} 
 
-The unique parameter name is used to reference the parameter when estimating, applying a penalty, projecting, time varying or applying a profile. For example, the parameter name of subcommand \subcommand{r0} of the command \command{process} with the label \argument{MyRecruitment} is
+The unique parameter name is used to reference the parameter when estimating, applying a penalty, projecting, time varying or applying a profile. For example, the parameter name of subcommand \subcommand{m} of the command \command{process} with the label \argument{NaturalMortality} is
 
-\texttt{process[MyRecruitment].r0}
+\texttt{process[NaturalMortality].m}
 
 \subsection{\CNAME\ exit status values\index{Exit status value}}
-When \CNAME\ completes its task successfully or errors out gracefully, it returns a single exit status value 'completed' to the standard output. Error messages will be printed to the console and if it is a configuration error. It will print the line number and file the error has been identified at
+When \CNAME\ completes its task successfully or errors out gracefully, it returns a single exit status value 'completed' to the standard output. Error messages will be printed to the console. If configuration errors are found, \CNAME\ will print an error messages along with the associated files and line numbers where the errors were identified.
