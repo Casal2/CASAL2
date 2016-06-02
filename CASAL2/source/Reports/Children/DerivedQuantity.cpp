@@ -83,7 +83,7 @@ void DerivedQuantity::DoExecute() {
     cache_ << "*end\n";
   }
 
-  ready_for_writing_ = true;
+  //ready_for_writing_ = true;
 }
 
 
