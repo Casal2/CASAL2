@@ -164,7 +164,7 @@ escapeinside={\%*}{*)}          % if you want to add a comment within your code
 \newcommand{\CH}{\color{red}\emph{check and confirm text\\}\color{red}}
 \newcommand{\EX}{\\\color{blue}\emph{need an example here...}}
 \newcommand{\EXend}{\color{black}}
-\newcommand{\KL}{\color{red}\emph{KL comment: }}
+\newcommand{\KL}{\color{red}\emph{KL comment:}}
 \newcommand{\KLend}{\color{black}}
 \newcommand{\Done}{\textcolor{BurntOrange}{\emph{This section has been checked: \\}}\color{black}}
 \definecolor{new}{rgb}{0.60,0.803922,0.196078}
@@ -214,7 +214,7 @@ escapeinside={\%*}{*)}          % if you want to add a comment within your code
 \newcommand{\authorlink}{\href{mailto:"CASAL2 Development Team"<casal@niwa.co.nz>?subject=CASAL2:}{authors}} 
 %hyper ref for email
 \newcommand{\Organisation}{National Institute of Water \& Atmospheric Research Ltd.} %NIWA
-\newcommand{\ManualRef}{\authors\ (\DocYear). \CNAME\ User Manual, \VER. \Organisation\ \emph{NIWA Technical Report}. \ref{TotPages} p.} % full document reference
+\newcommand{\ManualRef}{\authors\ (\DocYear). \CNAME\ User Manual, \VER. \Organisation\ \emph{NIWA Technical Report 139}. \ref{TotPages} p.} % full document reference
 
 % Define \clearemptydoublepage so-as to have truly blank pages between sections
 \let\origdoublepage\cleardoublepage
@@ -226,26 +226,11 @@ escapeinside={\%*}{*)}          % if you want to add a comment within your code
 \renewcommand{\labelenumii}{\alph{enumii})}
 \renewcommand{\labelenumiii}{\arabic{enumiii})}
 
-
-
 % Load package to count the number of pages in document
 % For getting number of pages in document (NOT the last page number printed), use \ref{TotPages}
 % Load this last to ensure its macros are not overwritten
 \usepackage{totpages} 
 
-%% Allow for a draft statement at beginning of manual
-\usepackage{type1cm}
-\usepackage{eso-pic}
-\makeatletter
-\AddToShipoutPicture*{%
-	\setlength{\@tempdimb}{.5\paperwidth}%
-	\setlength{\@tempdimc}{.3\paperheight}%
-	\setlength{\unitlength}{1pt}%
-	\put(\strip@pt\@tempdimb,\strip@pt\@tempdimc){%
-		\makebox(0,0){{\textcolor[gray]{0.75}%
-				{\fontsize{6cm}{6cm}\selectfont{DRAFT}}}}%
-	}%
-}
 \makeatother
 
 %Begin the document
@@ -265,7 +250,7 @@ escapeinside={\%*}{*)}          % if you want to add a comment within your code
 		\vspace{1cm}
 		\begin{figure}[htp]
 			%\begin{left}
-			 \includegraphics[height=3cm]{Figures/CASAL2.png}
+			 \includegraphics[height=2.5cm]{Figures/CASAL2.png}
 			%\end{left}
 		\end{figure}
 
@@ -275,16 +260,14 @@ escapeinside={\%*}{*)}          % if you want to add a comment within your code
 		\vspace{2.0cm}
 		\huge \authors \\ %Document authors
 
-		\vspace{1.0cm}
-		\Large\CNAME\ User Manual (modified \DocVer) for use\\with \cname\texttt{\_\VER}
-	
-
 		~\vfill
-		\Large NIWA Technical Report xxx \\%Document Date
+		\Large NIWA Technical Report 139 \\%Document Date
 		\Large ISSN 1174-2631 \\%Document Date
 		\Large \DocYear \\%Document Date
 
-
+		\vspace{1.0cm}
+		\CNAME\ User Manual (modified \DocVer) for use with \cname\texttt{\_\VER}
+	
 	\end{center}
 \end{titlepage}
 
