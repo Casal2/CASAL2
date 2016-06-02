@@ -190,17 +190,17 @@ In the constant recruitment process the total number of recruits added each year
   R_y = R_0
 \end{equation}
 
-It is equivalent to a Beverton-Holt recruitment process where steepness is set equal to one ($h=1$).
+Constant recruitment recruits a constant number of individuals each year. It is equivalent to a Beverton-Holt recruitment process with steepness set equal to one ($h=1$).
 
-For example, to specify a constant recruitment process, where individuals are added to the category `immature' at $age=1$, and the number to add is $R_0=5 \times 10^5$, then the syntax is
+For example, to specify a constant recruitment process, where individuals are added to male and female immature categories at $age=1$, and the number to add is $R_0=5 \times 10^5$, then the syntax is
 
 {\small{\begin{verbatim}
-@process Recruitment
-type constant_recruitment
-categories immature
-proportions 1.0
-r0 500000
-age 1
+	@process Recruitment
+	type constant_recruitment
+	categories male.immature female.immature
+	proportions 0.5 0.5
+	r0 500000
+	age 1
 \end{verbatim}}}
 
 \subsubsection*{\I{Beverton-Holt recruitment}}
@@ -227,33 +227,38 @@ Y_i					 & :y \notin S
 
 Note that the an effect of this parameterisation is that R0 is then defined as the mean estimated recruitment over the years S, because the mean year class multiplier over these years will always be one.
 
-For example, assume a Beverton-Holt recruitment process, where individuals are added to the category `immature' at $age=1$, the number to add is $R_0=5 \times 10^5$. Then \texttt{SSB\_Biomass} is a derived quantity that specifies the total spawning stock biomass, with \Bzero\ the value of the derived quantity at the end of the initialisation phase labelled \texttt{phase1}. The $YCS$ are standardised to have mean one in the period 1994 to 2004, and recruits enter into the model two years following spawning. Then the command specification is
+For example, assume a Beverton-Holt recruitment process, where individuals are added to the category `immature' at $age=1$, the number to add is $R_0=5 \times 10^5$. Then \texttt{SSB\_derived\_quantity} is a derived quantity that specifies the total spawning stock biomass, with \Bzero\ the value of the derived quantity at the end of the initialisation phase labelled \texttt{phase1}. The $YCS$ are standardised to have mean one in the period 1994 to 2004, and recruits enter into the model two years following spawning. Then the command specification would be,
 
 {\small{\begin{verbatim}
-@process Recruitment
-type recruitment_beverton_holt
-categories immature
-proportions 1.0
-r0 500000
-b0_initialisation_phase phase1
-steepness 0.75
-age 1
-ssb SSB_Biomass
-standardise_ycs_years 1994-2004
-ycs_years 1994 1995 1996 1997 1998 1999 2000 2001 2002 2003 2004 2005 2006
-YCS_values   1    1    1    1    1    1    1    1    1    1    1    1    1
+	@process Recruitment
+	type recruitment_beverton_holt
+	categories immature
+	proportions 1.0
+	r0 500000
+	b0_initialisation_phase phase1
+	steepness 0.75
+	age 1
+	ssb SSB_derived_quantity
+	standardise_ycs_years 1994-2004
+	ycs_years 1994 1995 1996 1997 1998 1999 2000 2001 2002 2003 2004 2005 2006
+	YCS_values   1    1    1    1    1    1    1    1    1    1    1    1    1
 \end{verbatim}}}
 
+Note that the SSB year used in the Beverton-Holt stock recruitment relationship (ssb\_offset) is determined by the order of ageing, recruitment, and spawning, 
 \begin{itemize}
 	\item If recruitment then ageing then spawning, then \texttt{ssb\_offset} should equal \texttt{min\_age} + 1.
 	\item If spawning then ageing then recruitment, then \texttt{ssb\_offset} should equal \texttt{min\_age} - 1.
-	\item If any other order is used, then \texttt{ssb\_offset} should equal \texttt{min\_age}.
 \end{itemize}
 
-If you have more than one ageing process and a Beverton-Holt recruitment process you will be warned to set your own \texttt{ssb\_offset} as \CNAME\ will set \texttt{ssb\_offset} based upon the first ageing process which may be not want the user desires.
+If any other order is used, then \texttt{ssb\_offset} should equal \texttt{min\_age}.
+
+If you have more than one ageing process and a Beverton-Holt recruitment process you will be warned to set your own \texttt{ssb\_offset} as \CNAME\ will, by default, set it based upon the first ageing process in the annual cycle --- which may be not be what was desired.
 
 \subsubsection{\I{Ageing}\label{sec:ageing}}
-The ageing process simply moves all individuals in the named categories $i$ to the next age class $j + 1$. The ageing process is defined as,
+
+The ageing process `ages' individuals --- it simply moves all individuals in the named categories $i$ to the next age class $j + 1$, or accumulates them if the last age class is a plus group. 
+
+The ageing process is defined as,
 \begin{equation}
   \text{element}(i,j) \leftarrow \text{element}(i,j-1)
 \end{equation}
@@ -266,17 +271,17 @@ except that in the case of the plus group (if defined),
 For example, to apply ageing to the categories \texttt{immature} and \texttt{mature}, then the syntax is,
 
 {\small{\begin{verbatim}
-@process Ageing
-type ageing
-categories immature mature
-\end{verbatim}}}
+	@process Ageing
+	type ageing
+	categories immature mature
+	\end{verbatim}}}
 
 Note that ageing is \emph{not} applied by \CNAME\ by default. As with other processes, \CNAME\ will not apply a process unless its defined and specified as a process within the annual cycle. Hence, it is possible to specify a model where a category is not aged. \CNAME\ will not check or otherwise warn if there is a category defined where ageing is not applied.
 
 \subsubsection{\I{Mortality}\label{sec:mortality}}
-Four types of mortality processes are permissible in \CNAME, constant rate, event, biomass-event and instantaneous. These processes remove individuals from the partition, either as a rate, as a total number (abundance), as a biomass of individuals or as a mixture of these. \CNAME\ does not implement the Baranov catch equation yet. To apply both natural and biomass-event mortality, users can use \texttt{mortality\_instantaneous}.
+Four types of mortality processes are permissible in \CNAME, constant rate, event, biomass-event and instantaneous. These processes remove individuals from the partition, either as a rate, as a total number (abundance), as a biomass of individuals or as a mixture of these. Note that \CNAME\ does not (yet) implement the Baranov catch equation. To apply both natural and biomass-event mortality, users can use \texttt{mortality\_instantaneous}.
 
-All mortality processes occur within the mortality block of a time step. A mortality block is a number of consecutive mortality processes in a single time step. If no mortality processes occur in a time step then this block defaults to the end of the time step. \CNAME\ will error out if you have multiple mortality processes in a time step that are not consecutive. This mortality block is important for derived quantities see Section~\ref{sec:derived-quantities}.
+Note that all mortality processes occur within a `mortality block' of a time step. The mortality block is defined as the part of a time-step where a number of consecutive mortality processes occur sequentially. Each time step can have at most one mortality block, and if no mortality processes occur in a time step then it defaults to the end of the time step. \CNAME\ will error out if you attempt to put multiple mortality processes into a single time step in such a way that they are not consecutive. Note that the definition of mortality blocks is an important concept in the model structure, and is used for derived quantities (see Section~\ref{sec:derived-quantities}) and observations (see Section~\ref{sec:observations}).
 
 \paragraph{Constant mortality rate}
 
