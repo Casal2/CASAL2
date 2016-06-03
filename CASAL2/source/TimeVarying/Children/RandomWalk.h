@@ -43,7 +43,7 @@ private:
   map<unsigned, Double>       values_by_year_;
   Double                      upper_bound_;
   Double                      lower_bound_;
-  bool                        estimate_block_exists_ = false;
+  bool                        estimate_block_exists_ = true;
   Estimate*                   estimate_ = nullptr;
 };
 

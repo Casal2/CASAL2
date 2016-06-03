@@ -46,13 +46,19 @@ void RandomWalk::DoValidate() {
  *
  */
 void RandomWalk::DoBuild() {
-  estimate_ = model_->managers().estimate()->GetEstimateByLabel(parameter_);
-  if (estimate_) {
-    estimate_block_exists_ = true;
-    upper_bound_ =  estimate_->upper_bound();
-    lower_bound_ =  estimate_->lower_bound();
+  Estimate* estimate = model_->managers().estimate()->GetEstimate(parameter_);
+  if (!estimate) {
+    estimate_block_exists_ = false;
+    LOG_FINEST() << "No estimate block found for parameter " << parameter_;
+  }
+
+  if (estimate_block_exists_) {
+    LOG_FINEST() << "Estimate block found for parameter " << parameter_;
+    upper_bound_ = estimate->upper_bound();
+    lower_bound_ = estimate->lower_bound();
   }
 }
+
 
 /**
  *
@@ -79,12 +85,12 @@ void RandomWalk::DoUpdate() {
   if (estimate_block_exists_) {
     // If at estimate block exists make sure the random walk does not step outside of the bounds
     if ((*value_) < lower_bound_) {
-      (*value_) = lower_bound_;
       LOG_FINEST() << "Lower bound hit reseting from " << (*value_) << " to " << lower_bound_;
+      (*value_) = lower_bound_;
     }
     if ((*value_) > upper_bound_) {
-      (*value_) = upper_bound_;
       LOG_FINEST() << "Upper bound hit reseting from " << (*value_) << " to " << upper_bound_;
+      (*value_) = upper_bound_;
     }
   }
 
