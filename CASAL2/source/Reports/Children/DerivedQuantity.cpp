@@ -42,7 +42,7 @@ void DerivedQuantity::DoExecute() {
 
   auto derived_quantities = manager.objects();
 
-
+  LOG_FINEST() << "reporting on " << derived_quantities.size() << " derived quantity blocks";
   unsigned count = 1;
   for (auto dq : derived_quantities) {
     string label =  dq->label();
@@ -83,7 +83,7 @@ void DerivedQuantity::DoExecute() {
     cache_ << "*end\n";
   }
 
-  //ready_for_writing_ = true;
+  ready_for_writing_ = true;
 }
 
 
