@@ -41,13 +41,13 @@ void DerivedQuantity::DoExecute() {
   derivedquantities::Manager& manager = *model_->managers().derived_quantity();
 
   auto derived_quantities = manager.objects();
-
+  unsigned number_of_derived_blocks = derived_quantities.size();
   LOG_FINEST() << "reporting on " << derived_quantities.size() << " derived quantity blocks";
   unsigned count = 1;
   for (auto dq : derived_quantities) {
     string label =  dq->label();
     cache_ << "*" << label_ << " " << "("<< type_ << ")"<<"\n";
-    cache_ << label << " " << REPORT_R_LIST << "\n";
+    cache_ << "label: " << label << "\n";
 
     // report b0 and binitial
     if (model_->b0(label) > 0)
@@ -70,7 +70,7 @@ void DerivedQuantity::DoExecute() {
 
 
     const map<unsigned, Double> values = dq->values();
-    cache_ << "values " << REPORT_R_VECTOR <<"\n";
+    cache_ << "values " << REPORT_R_DATAFRAME <<"\n";
     for (auto iter = values.begin(); iter != values.end(); ++iter) {
       if (dq->type() == PARAM_BIOMASS) {
         Double weight = AS_DOUBLE(conversion_factor * iter->second);
@@ -80,7 +80,8 @@ void DerivedQuantity::DoExecute() {
     }
 
     count++;
-    cache_ << "*end\n";
+    if (count <= number_of_derived_blocks)
+      cache_ << "*end\n";
   }
 
   ready_for_writing_ = true;
