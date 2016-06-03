@@ -49,11 +49,11 @@ void AverageDifference::DoBuild() {
   second_estimate_ = model_->managers().estimate()->GetEstimateByLabel(second_estimate_label_);
 
   if (first_estimate_ == nullptr) {
-    LOG_ERROR_P(PARAM_FIRST_ESTIMATE) << "Estimate " << first_estimate_label_ << " could not be found. Have you defined it?";
+    LOG_ERROR_P(PARAM_FIRST_ESTIMATE) << "Estimate " << first_estimate_label_ << " could not be found. Have you defined it in at @estimate block?";
     return;
   }
   if (second_estimate_ == nullptr) {
-    LOG_ERROR_P(PARAM_SECOND_ESTIMATE) << "Estimate " << second_estimate_label_ << " could not be found. Have you defined it?";
+    LOG_ERROR_P(PARAM_SECOND_ESTIMATE) << "Estimate " << second_estimate_label_ << " could not be found. Have you defined it in at @estimate block?";
     return;
   }
 
