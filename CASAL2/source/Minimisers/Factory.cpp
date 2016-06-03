@@ -27,7 +27,7 @@
 #endif
 #endif
 
-#include "Minimisers/Children/Dummy.h"
+#include "Minimisers/Children/Dummy/Dummy.h"
 
 #ifndef USE_AUTODIFF
 #include "Minimisers/Children/DESolver.h"
