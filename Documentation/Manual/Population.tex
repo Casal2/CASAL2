@@ -281,7 +281,7 @@ Note that ageing is \emph{not} applied by \CNAME\ by default. As with other proc
 \subsubsection{\I{Mortality}\label{sec:mortality}}
 Four types of mortality processes are permissible in \CNAME, constant rate, event, biomass-event and instantaneous. These processes remove individuals from the partition, either as a rate, as a total number (abundance), as a biomass of individuals or as a mixture of these. Note that \CNAME\ does not (yet) implement the Baranov catch equation. To apply both natural and biomass-event mortality, users can use \texttt{mortality\_instantaneous}.
 
-Note that all mortality processes occur within a `mortality block' of a time step. The mortality block is defined as the part of a time-step where a number of consecutive mortality processes occur sequentially. Each time step can have at most one mortality block, and if no mortality processes occur in a time step then it defaults to the end of the time step. \CNAME\ will error out if you attempt to put multiple mortality processes into a single time step in such a way that they are not consecutive. Note that the definition of mortality blocks is an important concept in the model structure, and is used for derived quantities (see Section~\ref{sec:derived-quantities}) and observations (see Section~\ref{sec:observations}).
+Note that all mortality processes occur within a `mortality block' of a time step. The mortality block is defined as the part of a time-step where a number of consecutive mortality processes occur sequentially. Each time step can have at most one mortality block, and if no mortality processes occur in a time step then it defaults to the end of the time step. \CNAME\ will error out if you attempt to put multiple mortality processes into a single time step in such a way that they are not consecutive. Note that the definition of mortality blocks is an important concept in the model structure, and is used for derived quantities (see Section~\ref{sec:derived-quantities}) and observations (see Section~\ref{sec:observation-section}).
 
 \paragraph{Constant mortality rate}
 
@@ -677,7 +677,6 @@ A random deviate added into the last value drawn from a standard normal distribu
 
 \subsubsection[Annual shift]{\argument{Annual shift}}\index{Time Varying Parameters!Annual shift}
 A parameter generated in year $y$ ($\theta'_y$) depends on the value specified by the user ($\theta_y$) along with three coefficients $a,b$ and $c$ as follows,
-
 
 \begin{equation}
 \bar{\theta}_y = \frac{\sum_{y}^Y\theta_y}{Y}
