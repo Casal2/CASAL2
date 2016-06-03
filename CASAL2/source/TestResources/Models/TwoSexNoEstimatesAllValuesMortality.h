@@ -84,7 +84,7 @@ selectivities FishingSel FishingSel FishingSel FishingSel
 penalty event_mortality_penalty
 
 @process maturation
-type transition_category
+type category_transition
 from stage=immature
 to stage=mature
 proportions 1.0 1.0
@@ -113,7 +113,7 @@ population_size 100
 max_generations 1000
 
 @minimiser gammadiff
-type numerical_differences
+type gamma_diff
 active true
 iterations 1000
 evaluations 4000

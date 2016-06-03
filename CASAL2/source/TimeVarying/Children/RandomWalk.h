@@ -19,6 +19,7 @@
 
 // namespaces
 namespace niwa {
+class Estimate;
 namespace timevarying {
 
 /**
@@ -40,6 +41,10 @@ private:
   string                      distribution_;
   Double*                     value_;
   map<unsigned, Double>       values_by_year_;
+  Double                      upper_bound_;
+  Double                      lower_bound_;
+  bool                        estimate_block_exists_ = false;
+  Estimate*                   estimate_ = nullptr;
 };
 
 } /* namespace timevarying */

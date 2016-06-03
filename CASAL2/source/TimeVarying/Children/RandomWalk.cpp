@@ -15,6 +15,8 @@
 #include "Utilities/Map.h"
 #include "Utilities/RandomNumberGenerator.h"
 #include "Model/Objects.h"
+#include "Estimates/Manager.h"
+
 
 // namespaces
 namespace niwa {
@@ -44,7 +46,12 @@ void RandomWalk::DoValidate() {
  *
  */
 void RandomWalk::DoBuild() {
-
+  estimate_ = model_->managers().estimate()->GetEstimateByLabel(parameter_);
+  if (estimate_) {
+    estimate_block_exists_ = true;
+    upper_bound_ =  estimate_->upper_bound();
+    lower_bound_ =  estimate_->lower_bound();
+  }
 }
 
 /**
@@ -68,6 +75,18 @@ void RandomWalk::DoUpdate() {
   (*value_) += deviate;
 
   LOG_FINEST() << "value after deviate of " << deviate << " = " << (*value_) << " for year " << model_->current_year();
+
+  if (estimate_block_exists_) {
+    // If at estimate block exists make sure the random walk does not step outside of the bounds
+    if ((*value_) < lower_bound_) {
+      (*value_) = lower_bound_;
+      LOG_FINEST() << "Lower bound hit reseting from " << (*value_) << " to " << lower_bound_;
+    }
+    if ((*value_) > upper_bound_) {
+      (*value_) = upper_bound_;
+      LOG_FINEST() << "Upper bound hit reseting from " << (*value_) << " to " << upper_bound_;
+    }
+  }
 
   LOG_FINE() << "Setting Value to: " << (*value_);
   parameter_by_year_[model_->current_year()] = (*value_);

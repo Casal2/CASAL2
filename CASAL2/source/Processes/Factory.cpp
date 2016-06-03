@@ -17,8 +17,10 @@
 #include "Model/Managers.h"
 #include "Processes/Manager.h"
 #include "Processes/Children/Ageing.h"
+#include "Processes/Children/CategoryTransitionByYear.h"
+#include "Processes/Children/CategoryTransition.h"
+#include "Processes/Children/CategoryTransitionByAge.h"
 #include "Processes/Children/Growth.h"
-#include "Processes/Children/Maturation.h"
 #include "Processes/Children/MortalityConstantRate.h"
 #include "Processes/Children/MortalityEvent.h"
 #include "Processes/Children/MortalityEventBiomass.h"
@@ -31,8 +33,7 @@
 #include "Processes/Children/TagByAge.h"
 #include "Processes/Children/TagByLength.h"
 #include "Processes/Children/TagLoss.h"
-#include "Processes/Children/TransitionCategory.h"
-#include "Processes/Children/TransitionCategoryByAge.h"
+
 
 // Namespaces
 namespace niwa {
@@ -72,14 +73,18 @@ Process* Factory::Create(Model* model, const string& object_type, const string& 
   if (object == PARAM_PROCESS || object == PARAM_PROCESSES) {
     if (sub == PARAM_AGEING)
       result = new Ageing(model);
+    else if (sub == PARAM_CATEGORY_TRANSITION)
+      result = new CategoryTransition(model);
+    else if (sub == PARAM_CATEGORY_TRANSITION_BY_AGE)
+      result = new CategoryTransitionByAge(model);
+    else if (sub == PARAM_MATURATION || sub == PARAM_CATEGORY_TRANSITION_BY_YEAR)
+      result = new CategoryTransitionByYear(model);
     else if (sub == PARAM_GROWTH)
       result = new Growth(model);
     else if (sub == PARAM_RECRUITMENT_BEVERTON_HOLT)
       result = new RecruitmentBevertonHolt(model);
     else if (sub == PARAM_RECRUITMENT_CONSTANT)
       result = new RecruitmentConstant(model);
-    else if (sub == PARAM_MATURATION)
-      result = new Maturation(model);
     else if (sub == PARAM_MORTALITY_CONSTANT_RATE)
       result = new MortalityConstantRate(model);
     else if (sub == PARAM_MORTALITY_EVENT)
@@ -100,10 +105,7 @@ Process* Factory::Create(Model* model, const string& object_type, const string& 
       result = new TagByLength(model);
     else if (sub == PARAM_TAG_LOSS)
       result = new TagLoss(model);
-    else if (sub == PARAM_TRANSITION_CATEGORY)
-      result = new TransitionCategory(model);
-    else if (sub == PARAM_TRANSITION_CATEGORY_BY_AGE)
-      result = new TransitionCategoryByAge(model);
+
 
     if (result)
       model->managers().process()->AddObject(result);

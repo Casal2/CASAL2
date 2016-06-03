@@ -28,7 +28,6 @@ namespace niwa {
 enum class ProcessType {
   kUnknown,
   kAgeing,
-  kMaturation,
   kMortality,
   kRecruitment,
   kTransition,

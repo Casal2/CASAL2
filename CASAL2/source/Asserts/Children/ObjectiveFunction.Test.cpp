@@ -80,7 +80,7 @@ selectivities FishingSel FishingSel FishingSel FishingSel
 penalty event_mortality_penalty
 
 @process maturation
-type transition_category
+type category_transition
 from stage=immature
 to stage=mature
 proportions 1.0 1.0
@@ -213,7 +213,7 @@ selectivities FishingSel FishingSel FishingSel FishingSel
 penalty event_mortality_penalty
 
 @process maturation
-type transition_category
+type category_transition
 from stage=immature
 to stage=mature
 proportions 1.0 1.0

@@ -6,7 +6,7 @@ max_generations 1000
 active true
 
 @minimiser gammadiff
-type numerical_differences
+type gamma_diff
 iterations 1000
 evaluations 4000
 step_size 1e-7

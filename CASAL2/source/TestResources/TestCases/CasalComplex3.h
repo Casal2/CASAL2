@@ -132,7 +132,7 @@ log_scale True
 multiplier 10
 
 @minimiser gammadiff
-type numerical_differences
+type gamma_diff
 tolerance 0.002
 iterations 1000
 step_size 1e-7
