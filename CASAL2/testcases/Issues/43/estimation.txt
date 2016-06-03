@@ -14,7 +14,7 @@ type dlib  #de_solver
 }
 
 @minimiser de
-type numerical_differences   # gamma.diff  betadiff
+type gamma_diff   # gamma.diff  betadiff
 
 #-----------------------------------------------------------------
 #

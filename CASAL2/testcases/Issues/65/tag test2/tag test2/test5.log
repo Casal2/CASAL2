@@ -231,7 +231,7 @@ Environment: machine:ANUBIS, user:Admin, os:Windows_NT, pid:5152
 [FINEST] ..\source\ConfigurationLoader\File.cpp(line: 96): current_line == '!include "estimation.isam"'
 [FINEST] ..\source\ConfigurationLoader\File.cpp(line: 106): Loading new configuration file via include  "estimation.isam"
 [FINEST] ..\source\ConfigurationLoader\File.cpp(line: 96): current_line == '@minimiser gammadiff'
-[FINEST] ..\source\ConfigurationLoader\File.cpp(line: 96): current_line == 'type numerical_differences'
+[FINEST] ..\source\ConfigurationLoader\File.cpp(line: 96): current_line == 'type gamma_diff'
 [FINEST] ..\source\ConfigurationLoader\File.cpp(line: 96): current_line == 'tolerance 0.0002'
 [FINEST] ..\source\ConfigurationLoader\File.cpp(line: 96): current_line == 'iterations 1000'
 [FINEST] ..\source\ConfigurationLoader\File.cpp(line: 96): current_line == 'step_size 1e-7'
