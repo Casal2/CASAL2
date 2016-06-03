@@ -14,15 +14,26 @@ namespace timevarying {
  * Default constructor
  */
 Constant::Constant(Model* model) : TimeVarying(model) {
-  parameters_.Bind<Double>(PARAM_VALUE, &value_, "Value to assign to estimable", "");
+  parameters_.Bind<Double>(PARAM_VALUE, &values_, "Value to assign to estimable", "");
 
-  RegisterAsEstimable(PARAM_VALUE, &value_);
+  RegisterAsEstimable(PARAM_VALUE, &values_);
 }
 
 /**
  * Validate
  */
-void Constant::DoValidate() { }
+void Constant::DoValidate() {
+  if (values_.size() != 1 && values_.size() != years_.size()) {
+    LOG_ERROR_P(PARAM_VALUES) << "length (" << values_.size() << ") must match the number of years provided (" << years_.size() << ")";
+    return;
+  }
+
+  if (values_.size() == 1)
+    values_.assign(years_.size(), values_[0]);
+  for (unsigned i = 0; i < years_.size(); ++i) {
+    parameter_by_year_[years_[i]] = values_[i];
+  }
+}
 
 /**
  * Build
@@ -38,8 +49,8 @@ void Constant::DoReset() { }
  *
  */
 void Constant::DoUpdate() {
-  LOG_FINE() << "Setting Value to: " << value_;
-  (this->*update_function_)(value_);
+  LOG_FINE() << "Setting Value to: " << parameter_by_year_[model_->current_year()];
+  (this->*update_function_)(parameter_by_year_[model_->current_year()]);
 }
 
 } /* namespace timevarying */

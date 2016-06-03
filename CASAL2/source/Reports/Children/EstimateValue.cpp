@@ -37,48 +37,50 @@ EstimateValue::~EstimateValue() noexcept(true) {
  * Execute this report.
  */
 void EstimateValue::DoExecute() {
+  LOG_TRACE();
   vector<Estimate*> estimates = model_->managers().estimate()->objects();
   vector<Profile*> profiles = model_->managers().profile()->objects();
 
-  /**
-   * if this is the first run we print the report header etc
-   */
-  if (first_run_) {
-    first_run_ = false;
-    if (!skip_tags_) {
-      cache_ << "*" << label_ << " " << "(" << type_ << ")" << "\n";
-      cache_ << "values " << REPORT_R_DATAFRAME << "\n";
-    }
-    for (Estimate* estimate : estimates)
-      cache_ << estimate->parameter() << " ";
-    cache_ << "\n";
-    for (Estimate* estimate : estimates)
-      cache_ << AS_DOUBLE(estimate->value()) << " ";
-
-//    if (model_->run_mode() == RunMode::kProfiling) {
-//      for (auto profile : profiles)
-//        cache_ << profile->parameter() << " ";
-//    }
-    cache_ << "\n";
-
-  } else {
-
-    if (model_->run_mode() == RunMode::kProfiling) {
-      cache_ << "*" << label_ << " " << "(" << type_ << ")" << "\n";
-      cache_ << "values " << REPORT_R_DATAFRAME << "\n";
+  if (estimates.size() > 0) {
+    /**
+     * if this is the first run we print the report header etc
+     */
+    if (first_run_) {
+      LOG_FINEST() << "first run of estimate_value report";
+      first_run_ = false;
+      if (!skip_tags_) {
+        cache_ << "*" << label_ << " " << "(" << type_ << ")" << "\n";
+        cache_ << "values " << REPORT_R_DATAFRAME << "\n";
+      }
       for (Estimate* estimate : estimates)
         cache_ << estimate->parameter() << " ";
       cache_ << "\n";
+      LOG_FINEST() << "Number of estimates reporting on = " << estimates.size();
       for (Estimate* estimate : estimates)
         cache_ << AS_DOUBLE(estimate->value()) << " ";
-    } else {
-      for (Estimate* estimate : estimates)
-        cache_ << AS_DOUBLE(estimate->value()) << " ";
-    }
-    cache_ << "\n";
-  }
+      cache_ << "\n";
 
-  ready_for_writing_ = true;
+    } else {
+
+      if (model_->run_mode() == RunMode::kProfiling) {
+        cache_ << "*" << label_ << " " << "(" << type_ << ")" << "\n";
+        cache_ << "values " << REPORT_R_DATAFRAME << "\n";
+        for (Estimate* estimate : estimates)
+          cache_ << estimate->parameter() << " ";
+        cache_ << "\n";
+        for (Estimate* estimate : estimates)
+          cache_ << AS_DOUBLE(estimate->value()) << " ";
+      } else {
+        LOG_FINEST() << "Number of estimates reporting on = "
+            << estimates.size();
+        for (Estimate* estimate : estimates)
+          cache_ << AS_DOUBLE(estimate->value()) << " ";
+      }
+      cache_ << "\n";
+    }
+
+    ready_for_writing_ = true;
+  }
 }
 
 /**

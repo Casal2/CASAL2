@@ -39,6 +39,7 @@ private:
   Double                      sigma_;
   string                      distribution_;
   Double*                     value_;
+  map<unsigned, Double>       values_by_year_;
 };
 
 } /* namespace timevarying */
