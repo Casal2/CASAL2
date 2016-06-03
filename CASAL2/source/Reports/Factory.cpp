@@ -99,8 +99,8 @@ Report* Factory::Create(Model* model, const string& object_type, const string& s
       result = new OutputParameters(model);
     else if (sub_type == PARAM_PROCESS)
       result = new Process(model);
-    else if (sub_type == PARAM_PROJECT)
-      result = new Project(model);
+//   else if (sub_type == PARAM_PROJECT)
+//      result = new Project(model);
     else if (sub_type == PARAM_RANDOM_NUMBER_SEED)
       result = new RandomNumberSeed(model);
     else if (sub_type == PARAM_SIMULATED_OBSERVATION)
