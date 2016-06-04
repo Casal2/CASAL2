@@ -366,7 +366,7 @@ class VariableLoader:
         return True
 
 class Printer:
-    output_path_ = '../Documentation/Manual/Syntax/'
+    output_path_ = '../Documentation/UserManual/Syntax/'
     def Run(self):
         global parent_class_
         print '--> Running Latex Printer'
@@ -377,8 +377,8 @@ class Printer:
         if parent_class_.name_  != 'MCMC':
             parent_class_.name_  = re.sub( '(?<!^)(?=[A-Z])', '\_', parent_class_.name_)
 
-        if not os.path.exists('../Documentation/Manual/Syntax/'):
-            os.makedirs('../Documentation/Manual/Syntax/')
+        if not os.path.exists('../Documentation/UserManual/Syntax/'):
+            os.makedirs('../Documentation/UserManual/Syntax/')
 
         print '-- Printing to file ' + self.current_output_file_
         file = open(self.current_output_file_ + '.tex', 'w')
@@ -460,7 +460,7 @@ class Latex:
     def Build(self):
         print '-- Building latex documentation and pdf'
         cwd = os.path.normpath(os.getcwd())
-        os.chdir('../Documentation/Manual/')
+        os.chdir('../Documentation/UserManual/')
 
         # Build the Version.tex file
         if Globals.git_path_ != '':
@@ -512,5 +512,16 @@ class Latex:
             os.system('pdflatex.exe --halt-on-error CASAL2')
             os.system('bibtex.exe CASAL2')
             os.system('makeindex.exe CASAL2')
+
+        os.chdir('../GettingStartedGuide/')
+        for i in range(0,3):
+          if Globals.operating_system_ == "linux":
+            os.system('pdflatex --halt-on-error GettingStartedGuide')
+            os.system('bibtex GettingStartedGuide')
+            os.system('makeindex GettingStartedGuide')
+          else:
+            os.system('pdflatex.exe --halt-on-error GettingStartedGuide')
+            os.system('bibtex.exe GettingStartedGuide')
+            os.system('makeindex.exe GettingStartedGuide')
 
         return True
