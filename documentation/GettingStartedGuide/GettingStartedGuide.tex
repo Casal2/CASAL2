@@ -196,7 +196,7 @@ escapeinside={\%*}{*)}          % if you want to add a comment within your code
 \newcommand{\authorlink}{\href{mailto:"CASAL2 Development Team"<casal@niwa.co.nz>?subject=CASAL2:}{authors}} 
 %hyper ref for email
 \newcommand{\Organisation}{National Institute of Water \& Atmospheric Research Ltd.} %NIWA
-\newcommand{\ManualRef}{\authors\ (\DocYear). Getting started with \CNAME\. \Organisation. \ref{TotPages} p.} % full document reference
+\newcommand{\ManualRef}{\authors\ (\DocYear). Getting started with \CNAME . \Organisation. \ref{TotPages} p.} % full document reference
 
 % Define \clearemptydoublepage so-as to have truly blank pages between sections
 \let\origdoublepage\cleardoublepage
@@ -288,26 +288,14 @@ Citation: \ManualRef
 \fancyhead[LE]{\slshape \nouppercase \leftmark}  % Section headings at top of page (header, even pages)
 \pagenumbering{arabic} % Page numbers a arabic numerals
 
-%\include{equations}
-
 \include{Introduction}
-
-%\clearemptydoublepage{}
+\include{Installing}
 \include{HowItWorks}
-
-%\clearemptydoublepage{}
 \include{Syntax}
-
-%\clearemptydoublepage{}
 \include{ModelComponents}
-
-%\clearemptydoublepage{}
 \include{Examples}
-
-%\clearemptydoublepage{}
 \include{Output}
 
-\clearemptydoublepage{}
 %Referencing
 \bibliographystyle{plainnat}
 \renewcommand{\bibsection}{%
@@ -316,10 +304,12 @@ Citation: \ManualRef
 }
 \include{References}
 
-%\let\stdsection\section % Force index to be a numbered section
-%\def\section*#1{\stdsection{#1}}
-%\printindex % Insert index
-%\let\section\stdsection
+\include{Acknowledgments}
+
+\let\stdsection\section % Force index to be a numbered section
+\def\section*#1{\stdsection{#1}}
+\printindex % Insert index
+\let\section\stdsection
 
 \end{document}
 %End
