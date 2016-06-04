@@ -1,0 +1,7 @@
+\section{Analyses of output}\label{Sec:output}
+
+\CNAME\ has an \textbf{R} library \textbf{CASAL2} which imports \CNAME\ output files into \textbf{R} as a list. This library can be found in the directory where you installed the program. There is also another library that helps pull out compress useful information such SSB's and Objective scores for datasets. 
+{\small{\begin{verbatim}
+		library(CASAL2)
+		output = extract(file = "Output_file.txt", path = "Directory_of_file")
+		\end{verbatim}}}
