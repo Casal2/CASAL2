@@ -23,7 +23,7 @@ class Installer:
     print '-- Re-Entering build system to build the archive'
     print '-- Expected build time 10-60 minutes'
     if os.system(self.do_build_ + ' archive') != EX_OK:
-      return Globals.PrintError('Failed to build the archive')      
+      return Globals.PrintError('Failed to build the archive')
 
     file = open('config.iss', 'w')
     if not file:
@@ -35,7 +35,7 @@ class Installer:
     print '-- Loading version information from GIT'
     p = subprocess.Popen(['git', '--no-pager', 'log', '-n', '1', '--pretty=format:%H%n%h%n%ci' ], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     out, err = p.communicate()
-    lines = out.split('\n')          
+    lines = out.split('\n')
     if len(lines) != 3:
       return Globals.PrintError('Format printed by GIT did not meet expectations. Expected 3 lines but got ' + str(len(lines)))
 
@@ -74,24 +74,24 @@ class Installer:
     file.write('Source: "CASAL2\\casal2_test.dll"; DestDir: "{app}"; Flags: ignoreversion\n')
     file.write('Source: "CASAL2\\CASAL2.pdf"; DestDir: "{app}"; Flags: ignoreversion\n')
     file.write('Source: "CASAL2\\Examples\\*"; DestDir: "{app}\Examples"; Flags: replacesameversion recursesubdirs\n')
-    file.write('Source: "CASAL2\\src\\*"; DestDir: "{app}\src"; Flags: ignoreversion recursesubdirs\n') 
-    file.write('Source: "CASAL2\\README.txt"; DestDir: "{app}"; Flags: ignoreversion\n')  
-    file.write('Source: "CASAL2\\Getting started with CASAL2.pdf"; DestDir: "{app}"; Flags: ignoreversion\n') 
+    file.write('Source: "CASAL2\\src\\*"; DestDir: "{app}\src"; Flags: ignoreversion recursesubdirs\n')
+    file.write('Source: "CASAL2\\README.txt"; DestDir: "{app}"; Flags: ignoreversion\n')
+    file.write('Source: "CASAL2\\GettingStartedGuide.pdf"; DestDir: "{app}"; Flags: ignoreversion\n')
     file.write('[Registry]\n')
-    file.write('Root: HKLM; Subkey: "SYSTEM\\CurrentControlSet\\Control\\Session Manager\\Environment"; ValueType: expandsz; ValueName: "Path"; ValueData: "{olddata};{app}"\n') 
+    file.write('Root: HKLM; Subkey: "SYSTEM\\CurrentControlSet\\Control\\Session Manager\\Environment"; ValueType: expandsz; ValueName: "Path"; ValueData: "{olddata};{app}"\n')
     file.write('[Icons]\n')
     file.write('Name: "{group}\\CASAL2"; Filename: "{app}"; WorkingDir: "{app}";\n')
-    file.write('Name: "{userdesktop}\\CASAL2"; Filename: "{app}"; WorkingDir: "{app}"; Tasks: desktopicon\n')  
-    file.write('[Code]\n') 
+    file.write('Name: "{userdesktop}\\CASAL2"; Filename: "{app}"; WorkingDir: "{app}"; Tasks: desktopicon\n')
+    file.write('[Code]\n')
     file.write('const\n')
-    file.write('ModPathName = \'modifypath\';\n') 
+    file.write('ModPathName = \'modifypath\';\n')
     file.write('ModPathType = \'system\';\n')
     file.write('function ModPathDir(): TArrayOfString;\n')
     file.write('begin\n')
     file.write('setArrayLength(Result, 1)\n')
     file.write('Result[0] := ExpandConstant(\'{app}\');\n')
     file.write('end;\n')
-    file.write('#include \'modpath.iss\'\n') 
+    file.write('#include \'modpath.iss\'\n')
     file.write('[Run]\n')
     file.write('Filename: {app}\README.txt; Description: View the README file; Flags: postinstall shellexec skipifsilent\n')
     file.close()
