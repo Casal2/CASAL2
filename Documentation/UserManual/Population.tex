@@ -284,7 +284,6 @@ Four types of mortality processes are permissible in \CNAME, constant rate, even
 Note that all mortality processes occur within a `mortality block' of a time step. The mortality block is defined as the part of a time-step where a number of consecutive mortality processes occur sequentially. Each time step can have at most one mortality block, and if no mortality processes occur in a time step then it defaults to the end of the time step. \CNAME\ will error out if you attempt to put multiple mortality processes into a single time step in such a way that they are not consecutive. Note that the definition of mortality blocks is an important concept in the model structure, and is used for derived quantities (see Section~\ref{sec:derived-quantities}) and observations (see Section~\ref{sec:observation-section}).
 
 \paragraph{Constant mortality rate}
-
 To specify a constant annual mortality rate \index{Constant mortality}($M=0.2$) for categories `male' and `female', then, 
 {\small{\begin{verbatim}
 @process NaturalMortality
@@ -293,6 +292,11 @@ categories male female
 selectivities One One
 m 0.2 0.2
 \end{verbatim}}}
+
+\begin{equation}
+D_{j,t} = \sum_a N_{a,j} (1 - \exp{S_{a,j} M_j p_t})
+\end{equation}
+Where, $D_{j,t}$ is the number of deaths in category $j$ in time step $t$, $N_{a,j}$ is the number of individuals in category $j$ at age $a$. $S_{a,j}$ is the selectivity value for age $a$ in category $j$, $M_j$ is the mortality rate for category $j$, and $p_t$ is the proportion of the mortality rate to apply in time step $t$.
 
 Note that the mortality rate process requires a selectivity. To apply the same mortality rate over all age classes, use a selectivity defined as $S_j=1.0$ for all ages $j$, e.g.,
 
@@ -303,7 +307,6 @@ c 1
 \end{verbatim}}}
 
 \paragraph{Event and biomass-event mortality}
-
 The event mortality process\index{Event mortality} and biomass mortality processes act in a similar manner, except that they remove a specified abundance (number of individuals) or biomass respectively. These can be used to include anthropogenic mortality where numbers of removals are known, for example, fishing in a fisheries model, rather than applying mortality as a rate. 
 
 In these cases, the abundance or biomass removed is also constrained by a maximum exploitation rate. \CNAME\ removes as many individuals or as much biomass as it can while not exceeding the maximum exploitation rate. When minimising, event mortality processes require a penalty to discourage parameter values that do not allow the defined number of individuals to be removed. Here, the model penalises those parameter estimates that result in an too low a number of individuals in the defined categories (after applying selectivities) to allow for removals at the maximum exploitation rate. See Section \ref{sec:penalties} for more information on how to specify penalties.
@@ -391,6 +394,71 @@ An example of the syntax is if we want to apply natural mortality of $0.20$ acro
 	FishingEast   stock     eastFSel    0.7     step1     CatchPenalty
 	end_table
 	\end{verbatim}}}
+
+
+\paragraph{Hollings Rate}
+The density-dependent Holling mortality process\index{Holling mortality} applies the Holling Type II and Type III functions \citep{Holling1959}, but is generalised using the Michaelis-Menten equation \citep{MentenMichaelis1913}. The function removes a number or biomass from a set of categories according to their total (selected) abundance (or biomass)and some 'predator' abundance (or biomass), but constrained by a maximum exploitation rate.
+
+For example, the mortality applied to user-defined categories $k$, with the numbers removed at age $l$ determined by a selectivity-at-age $S(l)$ is applied as follows:
+
+First, calculate the total predator abundance (or biomass) over all predator categories $k$ in $1 \ldots K$ and ages $l = 1 \ldots L$ that are applying the mortality,
+\begin{equation}
+	P(k,l) = S_{predator}(l) N_{predator}(k,l)
+\end{equation}
+
+And define the total predator abundance (or biomass) $P_{total}$ as,
+\begin{equation}
+	P_{total}  = \sum\limits_K {\sum\limits_L {P(k,l)}} 
+\end{equation}
+
+Then, calculate the total vulnerable abundance (or biomass) over all prey categories $k$ in $1 \ldots K$ and ages $l = 1 \ldots L$ that are subject to the mortality,
+\begin{equation}
+	V(k,l) = S_{prey}(l) N_{prey}(k,l)
+\end{equation}
+
+And hence define the total vulnerable abundance (or biomass) $V_{total}$ as,
+\begin{equation}
+	V_{total}  = \sum\limits_K {\sum\limits_L {V(k,l)}} 
+\end{equation}
+
+and then, the the number to remove is determined as,
+\begin{equation}
+	R_{total} = P_{total} \frac{a  V_{total}^{x-1}}{b + V_{total}^{x-1}}
+\end{equation}
+where $x=2$ for Holling type II function,  $x=3$ for Holling type III function, or any value of $x \geq 1$ for the generalised Michaelis-Menten function, and $a > 0$ and $b > 0$ are the Holling function parameters.
+
+Hence the exploitation rate\index{Maximum exploitation rate} to apply is 
+\begin{equation}
+	U = \begin{cases}
+		R_{total}/V_{total}, & \text{if $R_{total}/V_{total} \leq U_{max}$} \\
+		U_{max}, & \text{otherwise}\\ 
+	\end{cases} 
+\end{equation}
+
+And the number removed $R$ from each age $l$ in category $k$ is,
+\begin{equation}
+	R(k,l) = UV(k,l)
+\end{equation}
+
+The density-dependent Holling mortality process is applied either as a biomass or an abundance depending on the value of the \texttt{is\_abundance} switch.
+
+For example, a biomass Holling type II mortality process on \texttt{prey} by our predator \texttt{predator} would have syntax,
+
+{\small{\begin{verbatim}
+		@process HollingMortality
+		type Holling_mortality_rate
+		is_abundance F
+		a 0.08
+		b 10000
+		x 2
+		categories prey
+		selectivities One
+		predator_categories predator
+		predator_selectivities One
+		u_max 0.8
+		\end{verbatim}}}
+
+
 
 \subsubsection{\I{Transition By Category}}
 This process covers moves individuals between categories. Because the \CNAME\ partition user defined, this type of process is used to move individuals between categorised, and is used to specify processes such as maturation (move individuals from an immature to mature state) or migration (move individuals from one area to another). 
