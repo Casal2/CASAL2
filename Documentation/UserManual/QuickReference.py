@@ -29,9 +29,7 @@ VERSION = open('Version.tex', 'r')
 SYNTAX_OUTFILE = open('CASAL2.syn', 'w')
 
 OUTFILE.write("\section{Quick reference\label{sec:quick-reference}}\n")
-
-SYNTAX_OUTFILE.write("; TextPad syntax definitions for CASAL2 version ")
-SYNTAX_OUTFILE.write(VERSION.read())
+SYNTAX_OUTFILE.write("; TextPad syntax definitions for CASAL2; This is auto generated from the quickreference.py script do not edit\n")
 SYNTAX_OUTFILE.write("; ===================================================================================\n;\n;\n")
 SYNTAX_OUTFILE.write("C=1\n")
 SYNTAX_OUTFILE.write("[Syntax]\n")
