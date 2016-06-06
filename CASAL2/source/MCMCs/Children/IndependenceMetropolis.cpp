@@ -40,6 +40,7 @@ IndependenceMetropolis::IndependenceMetropolis(Model* model) : MCMC(model) {
   parameters_.Bind<string>(PARAM_PROPOSAL_DISTRIBUTION, &proposal_distribution_, "The shape of the proposal distribution (either t or normal)", "", PARAM_T);
   parameters_.Bind<unsigned>(PARAM_DF, &df_, "Degrees of freedom of the multivariate t proposal distribution", "", 4);
   parameters_.Bind<unsigned>(PARAM_ADAPT_STEPSIZE_AT, &adapt_step_size_, "Iterations in the chain to check and resize the MCMC stepsize", "", true);
+  parameters_.Bind<unsigned>(PARAM_ADAPT_COVARIANCE_AT, &adapt_covariance_matrix_, "Iterations in the chain to check and resize the MCMC stepsize", "", true);
 
   jumps_                          = 0;
   successful_jumps_               = 0;
@@ -254,6 +255,54 @@ void IndependenceMetropolis::UpdateStepSize() {
   }
 }
 
+
+/**
+ * Update our MCMC Covariance matrix if it's required
+ * This is done by
+ * 1. Checking if the current iteration is in the adapt_covariance_matrix vector
+ * 2. Modify the covariance matrix
+ */
+void IndependenceMetropolis::UpdateCovarianceMatrix() {
+  if (jumps_since_adapt_ > 1000) {
+    if (std::find(adapt_covariance_matrix_.begin(), adapt_covariance_matrix_.end(), jumps_) == adapt_covariance_matrix_.end())
+      return;
+
+    // modify the covaraince matrix this algorithm is stolen from CASAL, maybe not the best place to take it from
+    //number of parameters
+    int n_params = chain_[0].values_.size();
+    // number of iterations
+    int n_iter = chain_.size();
+    // temp covariance matrix
+    ublas::matrix<Double> temp_covariance = covariance_matrix_;
+    // Mean parameter vector
+    vector<Double> mean_var(n_params, 1.0);
+    for (int i = 0; i < n_params; ++i) {
+      Double sx = 0.0;
+      for (int k = 0; k < n_iter; ++k) {
+       sx +=  chain_[k].values_[i];
+      }
+      mean_var[i] = sx / n_iter;
+      Double sxx = 0.0;
+      for (int k = 0; k < n_iter; ++k) {
+       sxx += pow(chain_[k].values_[i] - mean_var[i],2);
+      }
+      Double var = sxx / (n_iter - 1);
+      temp_covariance(i,i) = var;
+      for (int j = 0; j < i; j++){
+        Double sxy = 0;
+        for (int k = 0; k < n_iter; k++){
+          sxy += (chain_[k].values_[i] - mean_var[i]) * (chain_[k].values_[j] - mean_var[j]);
+        }
+        Double cov = (sxy / (n_iter - 1));
+        temp_covariance(i,j) = cov;
+        temp_covariance(j,i) = cov;
+      }
+    }
+    covariance_matrix_lt = temp_covariance;
+    return;
+  }
+}
+
 /**
  * Generate some new estimate candiddates
  */
@@ -421,6 +470,7 @@ void IndependenceMetropolis::DoExecute() {
 
     vector<Double> original_candidates = candidates_;
     UpdateStepSize();
+    UpdateCovarianceMatrix();
     GenerateNewCandidates();
     for (unsigned i = 0; i < candidates_.size(); ++i)
       estimates[i]->set_value(candidates_[i]);

@@ -38,13 +38,13 @@ The estimable parameters that will be estimated are defined using \command{estim
   type uniform
 \end{verbatim}}}
 
-See Section \ref{sec:parameter-names} for instructions on how to generate the parameter name. At least one parameter is to be estimated if doing an estimation, profile, or MCMC run. Initial values for the parameters to be estimated will still need to be provided, and these are used as the starting values for the minimiser. However, these may be overwritten if you provide a set of alternative starting values (i.e., using  \texttt{\cname\ -i}, see Section \ref{sec:command-line-arguments}).
+See Section \ref{sec:parameter-names} for instructions on how to generate the parameter name. At least one parameter is to be estimated if doing an estimation \texttt{-e}, profile \texttt{-p}, or MCMC \texttt{-m} run. Initial values for the parameters to be estimated will still need to be provided, and these are used as the starting values for the minimiser. However, these may be overwritten if you provide a set of alternative starting values (i.e., using  \texttt{\cname\ -i}, see Section \ref{sec:command-line-arguments}).
 
-All parameters are estimated within bounds\index{Bounds}. For each parameter to be estimated, you need to specify the bounds and the prior\index{Priors} (\texttt{type}) (Section \ref{sec:priors}). Note that the bounds and prior for each parameter refer to the values of the parameters, not the actual values resulting from the application of the parameter to an equation. Bounds should be carefully chosen as they effect the space in which the minimisers search over. Minimisers convert lower and upper bound into a minimisation space (for example -1,1 space). If estimating only some elements of a vector, either define each element of the vector to be estimated (see \ref{sec:parameter-names}) or fix the others by setting the bounds equal.
+All parameters are estimated within bounds\index{Bounds}. For each parameter to be estimated, you need to specify the bounds and the prior\index{Priors} (\texttt{type}) (Section \ref{sec:priors}). Note that the bounds and prior for each parameter refer to the values of the parameters, not the actual values resulting from the application of the parameter to an equation. Bounds should be carefully chosen as they effect the space in which the minimisers search over. Some minimisers convert lower and upper bound into a minimisation space (for example -1,1 space for the numerical differences algorithm). If estimating only some elements of a vector, either define each element of the vector to be estimated (see \ref{sec:parameter-names}) or fix the others by setting the bounds equal.
 
 \subsection{\I{Point estimation}\label{sec:estimate-MPD}}
-Point estimation is invoked with \texttt{\cname\ -e}. Mathematically, it is an attempt to find a minimum of the objective function\index{Objective function}. \CNAME\ has multiple algorithms for solving (minimising) the optimisation problem. There are three non auto differential minimisers: numerical differences, differential evolution minimiser, and the dlib minimiser. There are also three auto differential minimisers being: ADOL-C, CPPAD, and BETADIFF. For references see section \ref{sec:tech}
-\subsubsection{\I{The numerical differences minimiser}}
+Point estimation is invoked with \texttt{\cname\ -e}. Mathematically, it is an attempt to find a minimum of the objective function\index{Objective function}. \CNAME\ has multiple algorithms for solving (minimising) the optimisation problem. There are three non auto differential minimisers: numerical differences (GAMMA DIFF), differential evolution minimiser, and the dlib minimiser. There are also three auto differential minimisers being: ADOL-C, CPPAD, and BETADIFF. For references see section \ref{sec:tech}
+\subsubsection{\I{The numerical differences minimiser (\texttt{gamma\_diff})}}
 
 The minimiser has three kinds of (non-error) exit status, depending on the minimiser: 
 
@@ -110,14 +110,14 @@ This section only briefly describes the MCMC algorithms used in \CNAME. See Sect
 \begin{itemize}
 \item Draw a candidate step s from a proposal distribution J, which should be symmetric i.e., $J(-s)=J(s)$.
 \item Calculate $r=min(\pi(x_i+s)/\pi(x_i),1)$. 
-\item Let $x_i+1=x_i+s$ with probability $r$, or $x_i$ with probability $1-r$.
+\item Let $x_{i+1}=x_i+s$ with probability $r$, or $x_i$ with probability $1-r$.
 \end{itemize}
 
 An initial point estimate is produced before the chain starts, which is done so as to calculate the approximate covariance matrix of the estimated parameters (as the inverse Hessian), and may also be used as the starting point of the chain. 
 
 The user can specify the starting point of the point estimate minimiser using \texttt{\cname\ -i}. Don't start it too close to the actual estimate (either by using \texttt{\cname\ -i}, or by changing the initial parameter values in \config) as it takes a few iterations to form a reasonable approximation to the Hessian. 
 
-There are two options for the starting point of the Markov Chain: 
+There are three options for the starting point of the Markov Chain: 
 
 \begin{itemize}
 \item Start from the point estimate.
