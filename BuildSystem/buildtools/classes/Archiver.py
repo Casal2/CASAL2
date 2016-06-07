@@ -120,7 +120,6 @@ class Archiver:
     os.system('cp ../Documentation/UserManual/CASAL2.pdf CASAL2/CASAL2.pdf')
     os.system('cp ../Documentation/GettingStartedGuide/GettingStartedGuide.pdf CASAL2/GettingStartedGuide.pdf')
     os.system('cp -r ../Examples CASAL2/Examples')
-    os.system('cp -r ../CASAL2/source CASAL2/src')
     os.system('cp -r ../README.txt CASAL2/README.txt')
     os.system('cp ../R-libraries/CASAL2_1.0.zip CASAL2/CASAL2_Rlibrary.zip')
     if Globals.operating_system_ == "windows":
