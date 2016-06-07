@@ -54,7 +54,11 @@ IndependenceMetropolis::IndependenceMetropolis(Model* model) : MCMC(model) {
  * adjust it for our proposal distribution
  */
 void IndependenceMetropolis::BuildCovarianceMatrix() {
-  covariance_matrix_ = minimiser_->covariance_matrix();
+  // Are we starting at MPD or recalculating the matrix based on an empirical sample
+  if (recalculate_covariance_)
+    covariance_matrix_ = covariance_matrix_lt;
+  else
+    covariance_matrix_ = minimiser_->covariance_matrix();
 
   if (correlation_method_ == PARAM_NONE)
     return;
@@ -266,12 +270,14 @@ void IndependenceMetropolis::UpdateCovarianceMatrix() {
   if (jumps_since_adapt_ > 1000) {
     if (std::find(adapt_covariance_matrix_.begin(), adapt_covariance_matrix_.end(), jumps_) == adapt_covariance_matrix_.end())
       return;
-
+    recalculate_covariance_ = true;
+    LOG_MEDIUM() << "Re calculating covariance matrix, after " << chain_.size() << " iterations";
     // modify the covaraince matrix this algorithm is stolen from CASAL, maybe not the best place to take it from
     //number of parameters
     int n_params = chain_[0].values_.size();
     // number of iterations
-    int n_iter = chain_.size();
+    int n_iter = chain_.size() - 1;
+    LOG_MEDIUM() << "Number of parameters = " << n_params << ", number of iterations used to recalculate covariance = " << n_iter;
     // temp covariance matrix
     ublas::matrix<Double> temp_covariance = covariance_matrix_;
     // Mean parameter vector
@@ -282,6 +288,9 @@ void IndependenceMetropolis::UpdateCovarianceMatrix() {
        sx +=  chain_[k].values_[i];
       }
       mean_var[i] = sx / n_iter;
+
+      LOG_MEDIUM() << mean_var[i];
+
       Double sxx = 0.0;
       for (int k = 0; k < n_iter; ++k) {
        sxx += pow(chain_[k].values_[i] - mean_var[i],2);
@@ -298,7 +307,20 @@ void IndependenceMetropolis::UpdateCovarianceMatrix() {
         temp_covariance(j,i) = cov;
       }
     }
+    for (int i = 0; i < n_params; ++i){
+      for (int k = 0; k < n_params; ++k){
+        LOG_MEDIUM() << "row =  " << i << " " << " col = " << k << " " << temp_covariance(i,k);
+      }
+
+    }
     covariance_matrix_lt = temp_covariance;
+
+    // Adjust covariance based on maximum correlations and do teh choleskyDecompositon
+    BuildCovarianceMatrix();
+    if (!DoCholeskyDecmposition())
+      LOG_FATAL() << "Cholesky decomposition failed. Cannot continue MCMC";
+
+    // continue chain
     return;
   }
 }
@@ -318,6 +340,7 @@ void IndependenceMetropolis::GenerateNewCandidates() {
     if (attempts >= 1000)
       LOG_ERROR() << "Failed to generate new MCMC candidates after 1,000 attempts. Try a new random seed";
 
+    LOG_MEDIUM() << step_size_;
     if (proposal_distribution_ == PARAM_NORMAL)
       FillMultivariateNormal(step_size_);
     else if (proposal_distribution_ == PARAM_T)
@@ -325,6 +348,7 @@ void IndependenceMetropolis::GenerateNewCandidates() {
 
     // Check bounds and regenerate if they're not within bounds
     vector<Estimate*> estimates = model_->managers().estimate()->GetIsEstimated();
+
     for (unsigned i = 0; i < estimates.size(); ++i) {
       if (estimates[i]->lower_bound() > candidates_[i] || estimates[i]->upper_bound() < candidates_[i]) {
         candidates_ok = false;

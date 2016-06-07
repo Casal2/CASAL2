@@ -303,7 +303,7 @@ void RecruitmentBevertonHolt::DoExecute() {
     Double SSB;
     if (ssb_year < model_->start_year()) {
       initialisationphases::Manager& init_phase_manager = *model_->managers().initialisation_phase();
-      LOG_MEDIUM() << "Initialisation phase index SSB is being extracted from init phase " << init_phase_manager.last_executed_phase()
+      LOG_FINE() << "Initialisation phase index SSB is being extracted from init phase " << init_phase_manager.last_executed_phase()
           << " SSB year = " << ssb_year;
       SSB = derived_quantity_->GetLastValueFromInitialisation(init_phase_manager.last_executed_phase());
     } else {

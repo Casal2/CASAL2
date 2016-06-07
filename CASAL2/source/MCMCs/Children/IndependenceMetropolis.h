@@ -66,6 +66,7 @@ protected:
   vector<unsigned>            adapt_covariance_matrix_;
   Minimiser*                  minimiser_;
   vector<string>              estimate_labels_;
+
 };
 
 } /* namespace mcmcs */

@@ -727,10 +727,7 @@ The double-exponential selectivity has non-estimable parameters $x_1$ and $x_2$,
 
 \subsubsection[Spline]{\argument{spline}}\index{Selectivities!Spline}
 
-The spline selectivity implements a cubic spline that has non-estimable knots, and an estimable value for each knot. The cubic spline is either (i) a natural splines where the second derivatives are set to 0 at the boundaries, i.e., the values at the boundaries are horizontal, (ii) a spline with a fixed first derivative at the boundaries (linear, but not necessarily horizontal) and (iii) spline which turns into a parabola at the boundaries.
-
-\
-
+Not yet implemented, The spline selectivity implements a cubic spline that has non-estimable knots, and an estimable value for each knot. The cubic spline is either (i) a natural splines where the second derivatives are set to 0 at the boundaries, i.e., the values at the boundaries are horizontal, (ii) a spline with a fixed first derivative at the boundaries (linear, but not necessarily horizontal) and (iii) spline which turns into a parabola at the boundaries. 
 
 \subsection{\I{Time Varying Parameters}\label{sec:time_var}}
 
@@ -739,9 +736,36 @@ The spline selectivity implements a cubic spline that has non-estimable knots, a
 
 \subsubsection[Constant]{\argument{Constant}}\index{Time Varying Parameters!Constant}
 Allows a parameter to have an alternative values during certain years, which can be estimated.
+{\small{\begin{verbatim}
+		@time_varying q_time_var
+		type constant
+		parameter catchability[survey_q].q
+		years 1975:1988
+		value 0.001
+		\end{verbatim}}}
+
 
 \subsubsection[Random Walk]{\argument{Random Walk}}\index{Time Varying Parameters!Random Walk}
 A random deviate added into the last value drawn from a standard normal distribution. This has an estimable parameter $\sigma_p$ for each time varying parameter $p$. For reproducible modelling, it is highly recommended that users set the seed (see Section~\ref{sec:command-line-arguments}) when using stochastic functionality like this, otherwise reproducing models becomes almost impossible.
+{\small{\begin{verbatim}
+		@time_varying q_time_var
+		type random_walk
+		parameter catchability[survey_q].q
+		distribution normal
+		mean 0
+		sigma 3
+		\end{verbatim}}}
+
+If the \texttt{parameter} specified in the \command{time\_varying} is associated with an \command{estimate} block then the parameter is constrained to stay within the lower and upper bounds of the \command{estimate} block. Warning, if the parameter does not have an associated \command{estimate} block then there is no safe guard for a random deviate to put the parameter in a space where the model fails, i.e generates NA or INF values. to avoid this from happening it is recommended you specify an \command{estimate} block even though you are not estimating the parameter like below.
+
+{\small{\begin{verbatim}
+		@estimate survey_q_est
+		type uniform
+		parameter catchability[survey_q].q
+		lower_bound 1e-6
+		upper_bound 10
+		\end{verbatim}}}
+This will insure the random walk time varying process will set the any new candidate within the lower and upper bound of the \command{estimate} block.
 
 \subsubsection[Annual shift]{\argument{Annual shift}}\index{Time Varying Parameters!Annual shift}
 A parameter generated in year $y$ ($\theta'_y$) depends on the value specified by the user ($\theta_y$) along with three coefficients $a,b$ and $c$ as follows,
