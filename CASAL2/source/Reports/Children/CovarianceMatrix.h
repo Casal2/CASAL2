@@ -15,6 +15,7 @@
 
 // namespaces
 namespace niwa {
+class MCMC;
 class Minimiser;
 
 namespace reports {
@@ -36,6 +37,8 @@ private:
   ublas::matrix<Double>       covariance_matrix_;
   ublas::matrix<Double>       correlation_matrix_;
   double**                    hessian_;
+  MCMC*                       mcmc_ = nullptr;
+
 };
 
 } /* namespace reports */
