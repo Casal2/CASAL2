@@ -289,7 +289,8 @@ void IndependenceMetropolis::UpdateCovarianceMatrix() {
       }
       mean_var[i] = sx / n_iter;
 
-      LOG_MEDIUM() << mean_var[i];
+      LOG_MEDIUM() << "Total = " << sx << "\n";
+      LOG_MEDIUM() << "Mean = " << mean_var[i]  << "\n";
 
       Double sxx = 0.0;
       for (int k = 0; k < n_iter; ++k) {
@@ -361,6 +362,12 @@ void IndependenceMetropolis::GenerateNewCandidates() {
 void IndependenceMetropolis::DoValidate() {
   if (adapt_step_size_.size() == 0)
     adapt_step_size_.assign(1, 1u);
+
+  if (adapt_covariance_matrix_.size() == 0)
+    adapt_covariance_matrix_.assign(1, 1u);
+
+  if (adapt_covariance_matrix_.size() > 1)
+    LOG_ERROR_P(PARAM_ADAPT_COVARIANCE_AT) << "Currently you can only adapt the covariance matrix once, for a chain";
 
   if (length_ <= 0)
     LOG_ERROR_P(PARAM_LENGTH) << "(" << length_ << ") cannot be less than or equal to 0";
