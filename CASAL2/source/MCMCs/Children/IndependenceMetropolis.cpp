@@ -35,7 +35,7 @@ IndependenceMetropolis::IndependenceMetropolis(Model* model) : MCMC(model) {
   parameters_.Bind<Double>(PARAM_MAX_CORRELATION, &max_correlation_, "Maximum absolute correlation in the covariance matrix of the proposal distribution", "", 0.8);
   parameters_.Bind<string>(PARAM_COVARIANCE_ADJUSTMENT_METHOD, &correlation_method_, "Method for adjusting small variances in the covariance proposal matrix"
       , "", PARAM_COVARIANCE);
-  parameters_.Bind<Double>(PARAM_CORRELATION_ADJUSTMENT_DIFF, &correlation_diff_, "TBA", "", 0.0001);
+  parameters_.Bind<Double>(PARAM_CORRELATION_ADJUSTMENT_DIFF, &correlation_diff_, "Minimum non-zero variance times the range of the bounds in the covariance matrix of the proposal distribution", "", 0.0001);
   parameters_.Bind<Double>(PARAM_STEP_SIZE, &step_size_, "Initial stepsize (as a multiplier of the approximate covariance matrix)", "", 0.02);
   parameters_.Bind<string>(PARAM_PROPOSAL_DISTRIBUTION, &proposal_distribution_, "The shape of the proposal distribution (either t or normal)", "", PARAM_T);
   parameters_.Bind<unsigned>(PARAM_DF, &df_, "Degrees of freedom of the multivariate t proposal distribution", "", 4);
