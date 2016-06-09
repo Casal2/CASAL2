@@ -511,7 +511,7 @@ class Latex:
               return False
             if os.system('makeindex CASAL2') != EX_OK:
               return False
-            if not os.path.exists('CASAL2.pdf')
+            if not os.path.exists('CASAL2.pdf'):
               return False
           else:
             if os.system('pdflatex.exe --halt-on-error --enable-installer CASAL2') != EX_OK:
@@ -530,7 +530,7 @@ class Latex:
               return False
             if os.system('makeindex GettingStartedGuide') != EX_OK:
               return False
-            if not os.path.exists('GettingStartedGuide.pdf')
+            if not os.path.exists('GettingStartedGuide.pdf'):
               return False
           else:
             if os.system('pdflatex.exe --halt-on-error --enable-installer GettingStartedGuide') != EX_OK:
