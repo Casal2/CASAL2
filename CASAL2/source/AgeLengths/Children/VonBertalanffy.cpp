@@ -37,7 +37,7 @@ namespace agelengths {
  * Note: The constructor is parsed to generate Latex for the documentation.
  */
 VonBertalanffy::VonBertalanffy(Model* model) : AgeLength(model) {
-  parameters_.Bind<Double>(PARAM_LINF, &linf_, "Define the $L_\infty$ parameter of the von Bertalanffy relationship", "")->set_lower_bound(0.0);
+  parameters_.Bind<Double>(PARAM_LINF, &linf_, "Define the $L_{infinity}$ parameter of the von Bertalanffy relationship", "")->set_lower_bound(0.0);
   parameters_.Bind<Double>(PARAM_K, &k_, "Define the $k$ parameter of the von Bertalanffy relationship", "")->set_lower_bound(0.0);
   parameters_.Bind<Double>(PARAM_T0, &t0_, "Define the $t_0$ parameter of the von Bertalanffy relationship", "");
   parameters_.Bind<string>(PARAM_LENGTH_WEIGHT, &length_weight_label_, "Define the label of the associated length-weight relationship", "");
