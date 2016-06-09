@@ -205,7 +205,8 @@ def start():
     print "*************************************************************************"
     print "--> Starting " + Globals.build_target_ + " Build"
     documentation_builder = Documentation()
-    documentation_builder.start()
+    if not documentation_builder.start():
+      return False
   elif build_target == "modelrunner":
     print "*************************************************************************"
     print "*************************************************************************"
