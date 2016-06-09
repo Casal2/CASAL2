@@ -30,7 +30,7 @@ Estimate::Estimate() {
   parameters_.Bind<string>(PARAM_PRIOR, &prior_label_, "The name of the prior to use for the parameter", "", "");
   parameters_.Bind<string>(PARAM_SAME, &same_labels_, "A list of parameters that are bound to the value of this estimate", "", "");
   parameters_.Bind<unsigned>(PARAM_ESTIMATION_PHASE, &estimation_phase_, "TBA", "", 1u);
-  parameters_.Bind<bool>(PARAM_MCMC, &mcmc_fixed_, "TBA", "", false);
+  parameters_.Bind<bool>(PARAM_MCMC, &mcmc_fixed_, "This parameter fixes parameters during an MCMC run", "", false);
 }
 
 /**
