@@ -502,6 +502,7 @@ class Latex:
             file_output.write(version)
             file_output.close()
 
+        os.remove('CASAL2.pdf');
         os.system('python QuickReference.py')
         for i in range(0,3):
           if Globals.operating_system_ == "linux":
