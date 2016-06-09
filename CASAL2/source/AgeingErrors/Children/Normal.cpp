@@ -50,7 +50,7 @@ Double NormalCDF(Double x, Double mu, Double sigma) {
  */
 Normal::Normal(Model* model) : AgeingError(model) {
   parameters_.Bind<Double>(PARAM_CV, &cv_, "CV for Misclassification matrix", "")->set_lower_bound(0.0);
-  parameters_.Bind<unsigned>(PARAM_K, &k_, "TBA", "", 0u);
+  parameters_.Bind<unsigned>(PARAM_K, &k_, "k defines the minimum age of individuals which can be misclassified, e.g., individuals under age k have no ageing error", "", 0u);
 
   RegisterAsEstimable(PARAM_CV, &cv_);
 }

@@ -59,7 +59,7 @@ void Data::DoBuild() {
   for (unsigned i = 0; i < data.size(); ++i) {
     for (unsigned j = 0; j < data[i].size(); ++j) {
       if (!utilities::To<string, Double>(data[i][j], value))
-        LOG_ERROR_P(PARAM_DATA) << "Could not convert the value " << data[i][j] << " to a double for storage in mis matrix";
+        LOG_ERROR_P(PARAM_DATA) << "Could not convert the value " << data[i][j] << " to a double for storage in the misclassification matrix";
 
       mis_matrix_[i][j] = value;
     }

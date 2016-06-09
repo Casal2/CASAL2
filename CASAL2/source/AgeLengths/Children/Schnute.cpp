@@ -35,14 +35,14 @@ using std::pow;
  * Note: The constructor is parsed to generate Latex for the documentation.
  */
 Schnute::Schnute(Model* model) : AgeLength(model) {
-  parameters_.Bind<Double>(PARAM_Y1, &y1_, "TBA", "");
-  parameters_.Bind<Double>(PARAM_Y2, &y2_, "TBA", "");
-  parameters_.Bind<Double>(PARAM_TAU1, &tau1_, "TBA", "");
-  parameters_.Bind<Double>(PARAM_TAU2, &tau2_, "TBA", "");
-  parameters_.Bind<Double>(PARAM_A, &a_, "TBA", "")->set_lower_bound(0.0);
-  parameters_.Bind<Double>(PARAM_B, &b_, "TBA", "")->set_lower_bound(0.0, false);
-  parameters_.Bind<string>(PARAM_LENGTH_WEIGHT, &length_weight_label_, "TBA", "");
-  parameters_.Bind<bool>(PARAM_BY_LENGTH, &by_length_, "TBA", "", true);
+  parameters_.Bind<Double>(PARAM_Y1, &y1_, "Define the y1 parameter of the Schnute relationship", "");
+  parameters_.Bind<Double>(PARAM_Y2, &y2_, "Define the y2 parameter of the Schnute relationship", "");
+  parameters_.Bind<Double>(PARAM_TAU1, &tau1_, "Define the $\tau_1$ parameter of the Schnute relationship", "");
+  parameters_.Bind<Double>(PARAM_TAU2, &tau2_, "Define the $\tau_2$ parameter of the Schnute relationship", "");
+  parameters_.Bind<Double>(PARAM_A, &a_, "Define the $a$ parameter of the Schnute relationship", "")->set_lower_bound(0.0);
+  parameters_.Bind<Double>(PARAM_B, &b_, "Define the $b$ parameter of the Schnute relationship", "")->set_lower_bound(0.0, false);
+  parameters_.Bind<string>(PARAM_LENGTH_WEIGHT, &length_weight_label_, "Define the label of the associated length-weight relationship", "");
+  parameters_.Bind<bool>(PARAM_BY_LENGTH, &by_length_, "Specifies if the linear interpolation of CV's is a linear function of mean length at age. Default is just by age", "", true);
 
   RegisterAsEstimable(PARAM_Y1, &y1_);
   RegisterAsEstimable(PARAM_Y2, &y2_);
