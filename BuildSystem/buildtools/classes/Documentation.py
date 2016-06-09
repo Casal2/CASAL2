@@ -505,7 +505,7 @@ class Latex:
         os.system('python QuickReference.py')
         for i in range(0,3):
           if Globals.operating_system_ == "linux":
-            os.system('pdflatex --halt-on-error --enable-installer CASAL2')
+            os.system('pdflatex --halt-on-error CASAL2')
             os.system('bibtex CASAL2')
             os.system('makeindex CASAL2')
           else:
@@ -516,7 +516,7 @@ class Latex:
         os.chdir('../GettingStartedGuide/')
         for i in range(0,3):
           if Globals.operating_system_ == "linux":
-            os.system('pdflatex --halt-on-error --enable-installer GettingStartedGuide')
+            os.system('pdflatex --halt-on-error GettingStartedGuide')
             os.system('bibtex GettingStartedGuide')
             os.system('makeindex GettingStartedGuide')
           else:
