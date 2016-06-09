@@ -505,23 +505,35 @@ class Latex:
         os.system('python QuickReference.py')
         for i in range(0,3):
           if Globals.operating_system_ == "linux":
-            os.system('pdflatex --halt-on-error --interaction=nonstopmode CASAL2')
-            os.system('bibtex CASAL2')
-            os.system('makeindex CASAL2')
+            if os.system('pdflatex --halt-on-error --interaction=nonstopmode CASAL2') != EX_OK:
+              return False
+            if os.system('bibtex CASAL2') != EX_OK:
+              return False
+            if os.system('makeindex CASAL2') != EX_OK:
+              return False
           else:
-            os.system('pdflatex.exe --halt-on-error --enable-installer CASAL2')
-            os.system('bibtex.exe CASAL2')
-            os.system('makeindex.exe CASAL2')
+            if os.system('pdflatex.exe --halt-on-error --enable-installer CASAL2') != EX_OK:
+              return False
+            if os.system('bibtex.exe CASAL2') != EX_OK:
+              return False
+            if os.system('makeindex.exe CASAL2') != EX_OK:
+              return False
 
         os.chdir('../GettingStartedGuide/')
         for i in range(0,3):
           if Globals.operating_system_ == "linux":
-            os.system('pdflatex --halt-on-error --interaction=nonstopmode GettingStartedGuide')
-            os.system('bibtex GettingStartedGuide')
-            os.system('makeindex GettingStartedGuide')
+            if os.system('pdflatex --halt-on-error --interaction=nonstopmode GettingStartedGuide') != EX_OK:
+              return False
+            if os.system('bibtex GettingStartedGuide') != EX_OK:
+              return False
+            if os.system('makeindex GettingStartedGuide') != EX_OK:
+              return False
           else:
-            os.system('pdflatex.exe --halt-on-error --enable-installer GettingStartedGuide')
-            os.system('bibtex.exe GettingStartedGuide')
-            os.system('makeindex.exe GettingStartedGuide')
+            if os.system('pdflatex.exe --halt-on-error --enable-installer GettingStartedGuide') != EX_OK:
+              return False
+            if os.system('bibtex.exe GettingStartedGuide') != EX_OK:
+              return False
+            if os.system('makeindex.exe GettingStartedGuide') != EX_OK:
+              return False
 
         return True
