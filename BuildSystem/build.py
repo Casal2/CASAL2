@@ -245,7 +245,7 @@ def start():
     deb_builder = DebBuilder()
     if not deb_builder.start(build_parameters):
       return False    
-  
+
   return True
   
 """
@@ -261,5 +261,5 @@ if not start():
   exit_code = 1
   
 system_info.reset_original_path()
-print "--> Finished"
+print "--> Finished "
 exit(exit_code)  
