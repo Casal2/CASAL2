@@ -80,7 +80,7 @@ class Documentation:
         if not ClassLoader().Run():
             return False
 
-        Latex().Build()
+        return Latex().Build()
 
     """
     Load the translations from our translation file. This informaiton gets stored in a map
@@ -502,7 +502,7 @@ class Latex:
             file_output.write(version)
             file_output.close()
 
-        os.remove('CASAL2.pdf');
+        os.remove('CASAL2.pdf')
         os.system('python QuickReference.py')
         for i in range(0,3):
           if Globals.operating_system_ == "linux":
@@ -516,11 +516,11 @@ class Latex:
               return False
           else:
             if os.system('pdflatex.exe --halt-on-error --enable-installer CASAL2') != EX_OK:
-              return False
+              return Globals.PrintError('pdflatex failed')
             if os.system('bibtex.exe CASAL2') != EX_OK:
-              return False
+              return Globals.PrintError('bibtex failed')
             if os.system('makeindex.exe CASAL2') != EX_OK:
-              return False
+              return Globals.PrintError('makeindex failed')
 
         os.chdir('../GettingStartedGuide/')
         for i in range(0,3):
@@ -535,10 +535,10 @@ class Latex:
               return False
           else:
             if os.system('pdflatex.exe --halt-on-error --enable-installer GettingStartedGuide') != EX_OK:
-              return False
+              return Globals.PrintError('pdflatex failed')
             if os.system('bibtex.exe GettingStartedGuide') != EX_OK:
-              return False
+              return Globals.PrintError('bibtex failed')
             if os.system('makeindex.exe GettingStartedGuide') != EX_OK:
-              return False
+              return Globals.PrintError('makeindex failed')
 
         return True
