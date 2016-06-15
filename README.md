@@ -8,7 +8,7 @@ This repository is standalone containing all thirdparty libraries and source cod
 
 
 A windows bundle which includes a binary, manual, examples and other help guides can be downloaded at ftp://ftp.niwa.co.nz/Casal2/windows/Casal2.zip
-A linux bundle which includes a binary, manual, examples and other help guides can be downloaded at ftp://ftp.niwa.co.nz/Casal2/linux/Casal2.zip
+A linux bundle which includes a binary, manual, examples and other help guides can be downloaded at ftp://ftp.niwa.co.nz/Casal2/linux/Casal2.tar.gz
 
 Collaborators please read contributors_tickbox.txt (Found Documentation/contributors_tickbox.txt).
 
