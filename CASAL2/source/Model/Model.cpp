@@ -624,6 +624,8 @@ void Model::RunSimulation() {
     LOG_FINE() << "Model: State change to PostExecute";
     managers_->report()->Execute(State::kPostExecute);
     managers_->report()->Execute(State::kIterationComplete);
+
+    managers_->report()->WaitForReportsToFinish();
   }
 }
 

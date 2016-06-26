@@ -46,6 +46,7 @@ public:
   void                        StopThread() { run_.clear(); }
   void                        Pause();
   void                        Resume() { pause_ = false; }
+  void                        WaitForReportsToFinish();
 
   // accessors
   void                        set_report_suffix(const string& suffix) { report_suffix_ = suffix; }
@@ -64,6 +65,7 @@ private:
   std::atomic<bool>                 pause_;
   std::atomic<bool>                 is_paused_;
   std::atomic_flag                  run_;
+  std::atomic<bool>                 waiting_;
   Model*                            model_;
 };
 
