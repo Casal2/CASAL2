@@ -21,6 +21,7 @@ Manager::Manager(Model* model) : model_(model) {
   run_.test_and_set();
   pause_ = false;
   is_paused_ = false;
+  waiting_ = false;
 }
 
 /**
@@ -147,6 +148,17 @@ void Manager::Finalise() {
 }
 
 /**
+ * This method can be called from the main thread to ensure
+ * we wait for all reports to finish
+ */
+void Manager::WaitForReportsToFinish() {
+  waiting_ = true;
+  LOG_FINE() << "Waiting for reports";
+  while(waiting_);
+  return;
+}
+
+/**
  * This method will flush all of the reports to stdout or a file depending on each
  * report when it has finished caching it's output internally.
  *
@@ -156,7 +168,8 @@ void Manager::Finalise() {
 void Manager::FlushReports() {
   // WARNING: DO NOT CALL THIS ANYWHERE. IT'S THREADED
  bool do_break = run_.test_and_set();
-
+ waiting_ = false;
+ bool record_waiting = false;
   while(true) {
     while (pause_) {
       is_paused_ = true;
@@ -165,10 +178,18 @@ void Manager::FlushReports() {
 
     is_paused_ = false;
 
+    if (waiting_)
+      record_waiting = true;
+
     do_break = !run_.test_and_set();
     for (auto report : objects_) {
       if (report->ready_for_writing())
         report->FlushCache();
+    }
+
+    if (record_waiting) {
+      record_waiting = false;
+      waiting_ = false;
     }
 
     if (do_break)
