@@ -177,7 +177,6 @@ void AgeLength::CummulativeNormal(Double mu, Double cv, vector<Double>& prop_in_
       prop_in_length[j - 1] = cum[j] - cum[j - 1];
       sum += prop_in_length[j - 1];
     }
-    LOG_FINEST() << "probability in bin: " << j << " = " << prop_in_length[j];
   }
   if (plus_grp) {
     prop_in_length[sz - 1] = 1.0 - sum - cum[0];

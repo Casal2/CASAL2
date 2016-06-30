@@ -68,6 +68,19 @@ unsigned Manager::GetTimeStepIndex(const string& time_step_label) const {
 /**
  *
  */
+bool Manager::CheckTimeStep(const string& time_step_label) const {
+  bool time_step_exists = false;
+
+  for (unsigned index = 0; index < ordered_time_steps_.size(); ++index) {
+    if (ordered_time_steps_[index]->label() == time_step_label)
+      time_step_exists = true;
+  }
+  return time_step_exists;
+}
+
+/**
+ *
+ */
 unsigned Manager::GetTimeStepIndexForProcess(const string& process_label) const {
   unsigned index = 9999;
 

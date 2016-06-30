@@ -41,8 +41,7 @@ void DerivedQuantity::DoExecute() {
   derivedquantities::Manager& manager = *model_->managers().derived_quantity();
 
   auto derived_quantities = manager.objects();
-
-
+  unsigned number_of_dq_blocks = derived_quantities.size();
   unsigned count = 1;
   for (auto dq : derived_quantities) {
     string label =  dq->label();
@@ -79,11 +78,12 @@ void DerivedQuantity::DoExecute() {
         cache_ << iter->first << " " << AS_DOUBLE(iter->second) << "\n";
     }
 
+    if (count < number_of_dq_blocks)
+      cache_ << "*end\n\n";
     count++;
-    cache_ << "*end\n";
   }
 
-  //ready_for_writing_ = true;
+  ready_for_writing_ = true;
 }
 
 
@@ -102,7 +102,6 @@ void DerivedQuantity::DoExecuteTabular() {
 
   derivedquantities::Manager& manager = *model_->managers().derived_quantity();
   auto derived_quantities = manager.objects();
-
 
   if (first_run_) {
     first_run_ = false;

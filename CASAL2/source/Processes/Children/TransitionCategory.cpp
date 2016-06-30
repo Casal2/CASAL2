@@ -168,7 +168,7 @@ void TransitionCategory::DoExecute() {
       (*from_iter)->data_[offset] -= amount;
       (*to_iter)->data_[offset] += amount;
       if ((*from_iter)->data_[offset] < 0.0)
-      LOG_FATAL() << "Maturation rate caused a negative partition if ((*from_iter)->data_[offset] < 0.0) ";
+        LOG_FATAL() << "Maturation rate caused a negative partition if ((*from_iter)->data_[offset] < 0.0) ";
     }
   }
 }

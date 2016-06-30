@@ -63,9 +63,10 @@ void SimulatedObservation::DoExecute() {
       cache_ << iter->first << " ";
       const vector<string>& values = iter->second->values();
       for (string value : values) {
+        if (iter->first == PARAM_TYPE)
+          LOG_FINE() << "Type of observation simulating = " << value;
         if ((iter->first == PARAM_TYPE && value == PARAM_BIOMASS) || (iter->first == PARAM_TYPE && value == PARAM_ABUNDANCE)) {
           biomass_abundance_obs = true;
-          LOG_MEDIUM() << "Type of observation simulating = " << value;
         }
         cache_ << value << " ";
       }
