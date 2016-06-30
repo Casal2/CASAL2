@@ -52,8 +52,8 @@ void TimeVarying::Build() {
 
   Estimable::Type estimable_type = model_->objects().GetEstimableType(parameter_, error);
   // Random Walk type can only be associated with an estimable of type ksingle
-  if (estimable_type != Estimable::kSingle && type_ == PARAM_RANDOMWALK)
-    LOG_ERROR_P(PARAM_TYPE) << "@time_varying blocks of type " << PARAM_RANDOMWALK << " can only be implemented in parameters that are scalars or single values";
+  if ((estimable_type != Estimable::kSingle && type_ == PARAM_RANDOMWALK) | (estimable_type != Estimable::kSingle && type_ == PARAM_LINEAR))
+    LOG_ERROR_P(PARAM_TYPE) << "@time_varying blocks of type " << PARAM_RANDOMWALK << " or " << PARAM_LINEAR << " can only be implemented in parameters that are scalars or single values";
 
   switch(estimable_type) {
     case Estimable::kInvalid:

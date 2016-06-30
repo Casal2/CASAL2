@@ -345,8 +345,16 @@ void ProportionsAtAgeForFishery::CalculateScore() {
    * During simulation mode we'll simulate results for this observation
    */
   if (model_->run_mode() == RunMode::kSimulation) {
+
+    for (auto& iter : comparisons_) {
+      Double total_expec = 0.0;
+      for (auto& comparison : iter.second)
+        total_expec += comparison.expected_;
+      for (auto& comparison : iter.second)
+        comparison.expected_ /= total_expec;
+    }
     likelihood_->SimulateObserved(comparisons_);
-    for (auto& iter :  comparisons_) {
+    for (auto& iter : comparisons_) {
       Double total = 0.0;
       for (auto& comparison : iter.second)
         total += comparison.observed_;
@@ -364,17 +372,18 @@ void ProportionsAtAgeForFishery::CalculateScore() {
       }
       for (obs::Comparison& comparison : comparisons_[year]) {
         if (running_total != 0.0)
-          comparison.expected_  = comparison.expected_ / running_total;
+          comparison.expected_ = comparison.expected_ / running_total;
         else
-          comparison.expected_  = 0.0;
+          comparison.expected_ = 0.0;
       }
 
       scores_[year] = likelihood_->GetInitialScore(comparisons_, year);
       LOG_FINEST() << "-- Observation score calculation";
-      LOG_FINEST() << "[" << year << "] Initial Score:"<< scores_[year];
+      LOG_FINEST() << "[" << year << "] Initial Score:" << scores_[year];
       likelihood_->GetScores(comparisons_);
       for (obs::Comparison comparison : comparisons_[year]) {
-        LOG_FINEST() << "[" << year << "]+ likelihood score: " << comparison.score_;
+        LOG_FINEST() << "[" << year << "]+ likelihood score: "
+            << comparison.score_;
         scores_[year] += comparison.score_;
       }
     }

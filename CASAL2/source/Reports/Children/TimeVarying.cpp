@@ -20,7 +20,7 @@ namespace reports {
  *
  */
 TimeVarying::TimeVarying(Model* model) : Report(model) {
-  run_mode_    = (RunMode::Type)(RunMode::kBasic | RunMode::kProjection);
+  run_mode_    = (RunMode::Type)(RunMode::kBasic | RunMode::kProjection | RunMode::kEstimation | RunMode::kSimulation);
   model_state_ = (State::Type)(State::kIterationComplete);
 }
 

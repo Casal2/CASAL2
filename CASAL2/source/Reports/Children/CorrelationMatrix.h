@@ -1,12 +1,12 @@
 /*
- * CovarianceMatrix.h
+ * CorrelationMatrix.h
  *
- *  Created on: 10.9.2015
- *      Author: Admin
+ *  Created on: 28/06/2016
+ *      Author: C Marsh
  */
 
-#ifndef REPORTS_COVARIANCERMATRIX_H_
-#define REPORTS_COVARIANCERMATRIX_H_
+#ifndef REPORTS_CORRELATIONMATRIX_H_
+#define REPORTS_CORRELATIONMATRIX_H_
 
 // headers
 #include "Reports/Report.h"
@@ -15,7 +15,6 @@
 
 // namespaces
 namespace niwa {
-class MCMC;
 class Minimiser;
 
 namespace reports {
@@ -23,10 +22,10 @@ namespace ublas = boost::numeric::ublas;
 /**
  *
  */
-class CovarianceMatrix : public niwa::Report {
+class CorrelationMatrix : public niwa::Report {
 public:
-  CovarianceMatrix(Model* model);
-  virtual                     ~CovarianceMatrix() = default;
+  CorrelationMatrix(Model* model);
+  virtual                     ~CorrelationMatrix() = default;
   void                        DoValidate() override final { };
   void                        DoBuild() override final;
   void                        DoExecute() override final;
@@ -34,8 +33,7 @@ public:
 
 private:
   Minimiser*                  minimiser_;
-  ublas::matrix<Double>       covariance_matrix_;
-  MCMC*                       mcmc_ = nullptr;
+  ublas::matrix<Double>       correlation_matrix_;
 
 };
 

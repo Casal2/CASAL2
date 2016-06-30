@@ -52,6 +52,7 @@ protected:
   unsigned                      length_spread_ = 0;
   string                        time_step_label_ = "";
   Double                        detection_;
+  Double                        despersion_ = 1.0;
   Double                        delta_ = 0.0;
   vector<Double>                age_results_;
   Double                        tolerance_ = 0.0;
