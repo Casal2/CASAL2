@@ -1,23 +1,6 @@
 \section{Introduction\label{sec:Introduction}}
 \CNAME\ is a generalised age-structured population dynamics modelling software package that allows flexibility in specifying model structure, population dynamics, parameter estimation, and model outputs. \CNAME\ can model population dynamics for an age-structured population using a range of population dynamics observations, including mark-recapture, relative and absolute abundance time series, and age frequency data. \CNAME\ does this by implementing an age-structured population dynamics model that can have user defined categories (e.g., immature, mature, male, female, predator, prey, etc.,) to specify the population structure, and a user-defined age range. 
-
-This manual describes how to use \CNAME, including how to run \CNAME, how to set up an \config. Further, we describe the population dynamics, observations, and estimation methods, and describe how to specify and interpret output. 
-
-\subsection{Version\label{sec:version}}
-This document (last modified \DocVer) describes \CNAME\ \VER. The \CNAME\ version number is suffixed with a date/time (\texttt{yyyy-mm-dd}), giving the revision control system UTC date for the most recent modification of the underlying software source code. User manual updates will usually be issued for each minor version or date release of \CNAME. Any questions of the use of the software can be directed to the authors at \email. \index{Version number}
-
-\subsection{Citing \CNAME}
-A suitable reference for \CNAME\ and this document is:
-
-\ManualRef\index{Citation}\index{Citing \CNAME}
-
-\subsection{\I{Software license}\index{GNU GPL v2 licence}}
-\
-This program and the accompanying materials are made available under the terms of the licence \href{http://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html}{GNU GPL v2} which accompanies this software (see Section \ref{sec:gpl}).
-
-Copyright \copyright 2015-\SourceControlYearDoc, \href{http://www.niwa.co.nz}{\Organisation}. All rights reserved.
-
-\subsection{\I{System requirements}}
+bsection{\I{System requirements}}
 \CNAME\ is available for most IBM compatible machines running 64-bit \I{Linux} and \I{Microsoft Windows} operating systems.
 
 Several of \CNAME s tasks are highly computer intensive and a fast processor is recommended. Depending on the model implemented, some of \CNAME s tasks can take a considerable amount of time (minutes to hours), and in extreme cases can even take several days to undertake an MCMC estimate. 

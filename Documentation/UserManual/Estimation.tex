@@ -18,7 +18,7 @@ The estimation section defines the objective function, parameters of the model, 
 
 In Bayesian estimation, the objective function is a negative log-posterior,
 
-\begin{equation}
+\begin{equation}\label{objective_function}
 Objective(p)= - \sum\limits_i {\log \left[ {L\left( {{\bf{p}}|O_i } \right)} \right]}  - \log \left[ {\pi \left( {\bf{p}} \right)} \right]
 \end{equation}
 
@@ -26,7 +26,7 @@ where $\pi$ is the joint prior density of the parameters $p$.
 
 The contribution to the objective function from the likelihoods are defined in Section \ref{sec:likelihoods}. In addition to likelihoods, priors (see Section \ref{sec:priors}) and penalties (see Section \ref{sec:penalties}) are components of the objective function. 
 
-Penalties can be used to ensure that the exploitation rate constraints on mortality events (i.e., fisheries) are not breached (otherwise there is nothing to prevent the model from having abundances so low that the recorded mortalities could not have been taken), penalties on category transitions (to ensure there are enough individuals to move), and possibly penalties to encourage estimated values to be similar or smooth, etc.
+Penalties can be used to ensure that the exploitation rate constraints on mortality events (i.e., fisheries) are not breached (otherwise there is nothing to prevent the model from having abundances so low that the recorded mortalities could not have been taken), penalties on category transitions (to ensure there are enough individuals to move), and possibly penalties to encourage estimated values to be similar or smooth, etc. Equation~\ref{objective_function} can mathematically reduce to a penalised likelihood equation if all priors are assumed to be uniform. This is because uniform priors have a zero contribution to the objective function so Equation~\ref{objective_function} reduces to likelihoods plus penalties.
 
 \subsection{\I{Specifying the parameters to be estimated}\label{sec:estimate-free-parameters}}
 The estimable parameters that will be estimated are defined using \command{estimate} commands (see Section \ref{sec:estimation-syntax}). An \command{estimate} command-block looks like\index{Estimating parameters},
@@ -44,7 +44,7 @@ All parameters are estimated within bounds\index{Bounds}. For each parameter to 
 
 \subsection{\I{Point estimation}\label{sec:estimate-MPD}}
 Point estimation is invoked with \texttt{\cname\ -e}. Mathematically, it is an attempt to find a minimum of the objective function\index{Objective function}. \CNAME\ has multiple algorithms for solving (minimising) the optimisation problem. There are three non auto differential minimisers: numerical differences (GAMMA DIFF), differential evolution minimiser, and the dlib minimiser. There are also three auto differential minimisers being: ADOL-C, CPPAD, and BETADIFF. For references see section \ref{sec:tech}
-\subsubsection{\I{The numerical differences minimiser (\texttt{gamma\_diff})}}
+\subsubsection{\I{The numerical differences minimiser}}
 
 The minimiser has three kinds of (non-error) exit status, depending on the minimiser: 
 
@@ -67,6 +67,14 @@ The approximate covariance matrix\index{Covariance matrix} of the estimated para
 
 Also note that if an estimated parameter has equal lower and upper bounds, it will have entries of `0' in the covariance matrix and \texttt{NaN} or \texttt{-1.\#IND} (depending on the operating system) in the correlation matrix. 
 
+{\small{\begin{verbatim}
+@minimiser numerical_diff
+type numerical_differences
+tolerance 1e-6
+iterations 2500
+evaluations 4000
+\end{verbatim}}}
+
 \subsubsection{\I{The differential evolution minimiser}}
 
 The differential evolution minimiser is a simple population based, stochastic function minimizer, but is claimed to be quite powerful in solving minimisation problems. It is a method of mathematical optimization of multidimensional functions and belongs to the class of evolution strategy optimizers. Initially, the procedure randomly generates and evaluates a number of solution vectors (the population size), each with $p$ parameters. Then, for each generation (iteration), the algorithm creates a candidate solution for each existing solution by random mutation and uniform crossover. The random mutation generates a new solution by multiplying the difference between two randomly selected solution vectors by some scale factor, then adding the result to a third vector. Then an element-wise crossover takes place with probability $P_{cr}$, to generate a potential candidate solution. If this is better than the initial solution vector, it replaces it, otherwise the original solution is retained. The algorithm is terminated after either a predefined number of generations (\argument{max\_generations}) or when the maximum difference between the scaled individual parameters from the candidate solutions from all populations is less than some predefined amount \argument{tolerance}.
@@ -75,14 +83,51 @@ The differential evolution minimiser can be good at finding global minimums in s
 
 We note that there is no proof of convergence for the differential evolution solver, but several papers have found it to be an efficient method of solving multidimensional problems. Our (limited) experience suggests that it can often find a better minima and may be faster or longer (depending on the actual model specification) at finding a solution when compared with the numerical differences minimiser. Comparisons with auto-differentiation minimisers or other more sophisticated algorithms have not been made. 
 
+{\small{\begin{verbatim}
+		@minimiser DE_solver
+		type de_solver
+		tolerance 1e-6
+		iterations 2500
+		evaluations 4000
+		\end{verbatim}}}
+
 \subsubsection{\I{Betadiff minimiser}}
 An auto-differentiable minimiser for non-linear models, This is the minimiser from the original CASAL package.
+{\small{\begin{verbatim}
+		@minimiser beta_diff
+		type beta_diff
+		tolerance 1e-6
+		iterations 2500
+		evaluations 4000
+		\end{verbatim}}}
 \subsubsection{\I{ADOL-C minimiser}}
 An auto-differentiable minimiser for non-linear models.
+{\small{\begin{verbatim}
+		@minimiser ADOLC
+		type adolc
+		tolerance 1e-6
+		iterations 2500
+		evaluations 4000
+		\end{verbatim}}}
 \subsubsection{\I{CPPAD minimiser}}
 An auto-differentiable minimiser for non-linear models.
+{\small{\begin{verbatim}
+		@minimiser CPPAD
+		type cppad
+		tolerance 1e-6
+		iterations 2500
+		evaluations 4000
+		\end{verbatim}}}
+
 \subsubsection{\I{Dlib minimiser}}
 Non auto-diff minimiser
+{\small{\begin{verbatim}
+		@minimiser Dlib
+		type dlib
+		tolerance 1e-6
+		iterations 2500
+		evaluations 4000
+		\end{verbatim}}}
 
 \subsection{\I{Posterior profiles}\label{sec:estimate-profiles}}
 If profiles are requested \texttt{\cname\ -p}, \CNAME\ will first calculate a point estimate. For each scalar parameter or, in the case of vectors or selectivities, the element of the parameter to be profiled, \CNAME\ will fix its value at a sequence of $n$ evenly spaced numbers ($step$) between a specified lower and upper bounds $l$ and $u$, and calculate a point estimate at each value. 
@@ -117,12 +162,12 @@ An initial point estimate is produced before the chain starts, which is done so 
 
 The user can specify the starting point of the point estimate minimiser using \texttt{\cname\ -i}. Don't start it too close to the actual estimate (either by using \texttt{\cname\ -i}, or by changing the initial parameter values in \config) as it takes a few iterations to form a reasonable approximation to the Hessian. 
 
-There are three options for the starting point of the Markov Chain: 
+There is currently two options for the starting point of the Markov Chain: 
 
 \begin{itemize}
 \item Start from the point estimate.
-\item Start from a random point near the point estimate (the point is generated from a multivariate normal distribution, centred on the point estimate, with covariance equal to the inverse Hessian times a user-specified constant). This may be useful if the chain gets `stuck' at the point estimate, or if you wish to generate multiple chains from  for later MCMC diagnostic tests.
-\item Start from a point specified by the user with \texttt{\cname\ -i} 
+%\item Start from a random point near the point estimate (the point is generated from a multivariate normal distribution, centred on the point estimate, with covariance equal to the inverse Hessian times a user-specified constant). This may be useful if the chain gets `stuck' at the point estimate, or if you wish to generate multiple chains from  for later MCMC diagnostic tests.
+\item Restart a chain given a covariance matrix and starting points (see section \I{arg1}) 
 \end{itemize}
 
 The chain moves in natural space, i.e., no transformations are applied to the estimated parameters. The default proposal distribution is a multivariate t centred on the current point, with covariance matrix equal to a matrix based on the approximate covariance produced by the minimiser, times some stepsize factor. The following steps define the initial covariance matrix of the proposal distribution: 
@@ -152,18 +197,21 @@ This allows each estimated parameter to move in the MCMC even if its variance is
 The proposal distribution can also change adaptively during the chain, using two different mechanisms. Both are offered as means of improving the convergence properties of the chain. It is important to note that any adaptive behaviour must finish before the end of the burn-in period, i.e., the proposal distribution must be finalised before the kept portion of the chain starts. The adaptive mechanisms are as follows: 
 
 \begin{enumerate}
-\item You can request that the stepsize change adaptively at one or more sample numbers. At each adaptation, the stepsize is doubled if the acceptance rate since the last adaptation is more than $0.5$, or halved if the acceptance rate is less than $0.2$. (See Gelman et al. \citep{823} for justification.)
+\item You can request that the stepsize change adaptively at one or more sample numbers (See next paragraph for details on the stepsize adaptation methods)
 
-\item You can request that the entire covariance matrix change adaptively at one or more sample numbers. At each adaptation, it is replaced with a matrix based on the sample covariance of an earlier section of the chain. The theory here is that the covariance of a portion of chain could potentially be a better estimate of the covariance of the posterior distribution than the inverse Hessian. 
+\item You can request that the entire covariance matrix change adaptively at one or more sample numbers. At each adaptation, the covariance matrix is replaced with an empirical covariance, derived from the MCMC chain. The idea here is that an empirical covariance is a better approximation to the proposal distribution than the inverse of the hessian matrix, and can improve convergence and mixing of your chain.
 \end{enumerate}
 
-The procedure used to choose the sample of points is as follows. First, all points on the chain so far are taken. All points in an initial user-specified period are discarded. The assumption is that the chain will have started moving during this period - if this is incorrect and the chain has still not moved by the end of this period, it is a fatal error and \CNAME\ stops. The remaining set of points must contain at least some user-specified number of transitions - if this is incorrect and the chain has not moved this often, it is again a fatal error. If this test is passed, the set of points is systematically sub-sampled down to 1000 points (it must be at least this long to start with). 
-
-The variance-covariance matrix of this sub-sample of chain is calculated. As above, correlations greater than \commandsub{mcmc}{max\_correlation} are reduced to \commandsub{mcmc}{max\_correlation}, correlations less than \commandsub{mcmc}{max\_correlation} are increased to  \commandsub{mcmc}{max\_correlation}, and very small non-zero variances are increased (\commandsub{mcmc}{covariance\_adjustment} and \commandsub{mcmc}{min\_difference}. The result is the new variance-covariance matrix of the proposal distribution. 
+The two methods that you can choose to adapt the step size are \texttt{double\_half} or \texttt{ratio}, this is done through the input parameter \texttt{adapt\_stepsize\_method}. The \texttt{double\_half} method is used in CASAL and (See Gelman et al. \citep{823} for justification). The algorithm for \texttt{double\_half} is, at each adaptation, the stepsize is doubled if the acceptance rate since the last adaptation is more than $0.5$, or halved if the acceptance rate is less than $0.2$. The \texttt{ratio} is taken from SPM. It adapts the current step size by, the acceptance rate since the last adaptation multiplied by 4.1667.
 
 The stepsize parameter is now on a completely different scale, and must be reset. It is set to a user-specified value (which may or may not be the same as the initial stepsize). We recommend that some of the stepsize adaptations are set to occur after this, so that the stepsize can be readjusted to an appropriate value which gives good acceptance probabilities with the new matrix. 
 
-All modified versions of the covariance matrix are printed to the standard output, but only the initial covariance matrix (inverse Hessian) is saved to the objectives file. The number of covariance modifications by each iteration is recorded as a column on the objectives file. 
+All modified versions of the covariance matrix are printed to the standard output, but only the initial covariance matrix (inverse Hessian) is saved to the objectives file. The number of covariance modifications by each iteration is recorded as a column on the objectives file.  
+
+The variance-covariance matrix of this sub-sample of chain is calculated. As above, correlations greater than \commandsub{mcmc}{max\_correlation} are reduced to \commandsub{mcmc}{max\_correlation}, correlations less than \commandsub{mcmc}{max\_correlation} are increased to  \commandsub{mcmc}{max\_correlation}, and very small non-zero variances are increased (\commandsub{mcmc}{covariance\_adjustment} and \commandsub{mcmc}{min\_difference}. The result is the new variance-covariance matrix of the proposal distribution. 
+
+
+The procedure used to choose the sample of points is as follows. First, all points on the chain so far are taken. All points in an initial user-specified period are discarded. The assumption is that the chain will have started moving during this period - if this is incorrect and the chain has still not moved by the end of this period, it is a fatal error and \CNAME\ stops. The remaining set of points must contain at least some user-specified number of transitions - if this is incorrect and the chain has not moved this often, it is again a fatal error. If this test is passed, the set of points is systematically sub-sampled down to 1000 points (it must be at least this long to start with).
 
 The probability of acceptance for each jump is $0$ if it would move out of the bounds, or $1$ if it improves the posterior, or (new posterior/old posterior) otherwise. You can specify how often the position of the chain is recorded using the keep parameter. For example, with keep $10$, only every $10$th sample is recorded. 
 
@@ -171,19 +219,23 @@ You have the option to specify that some of the estimated parameters are fixed d
 
 If you specify the start of the chain using \texttt{\cname\ -i}, these fixed parameters are set to the values in the file.
 
+Restarting a mcmc chain, in the case where computers get turned off and an mcmc execution is haltered. There is the ability to restart it from where it finishes. 
+
+{\small{\begin{verbatim}
+		casal2 -m --resume --objective-file Objective_file_name --sample-file Sample_file_name
+		\end{verbatim}}}
+where \texttt{Objective\_file\_name} is the file name containing the objective report and \texttt{Sample\_file\_name} is the file name containing the sample report from a mcmc chain.
+
+
 The posterior sample can be used for (projections (Section \ref{sec:projection})) or simulations (Section \ref{sec:simulation-observations}) with the values supplied using \texttt{\cname\ -i \emph{file}}.
 
-\begin{lstlisting}
+
 A multivariate t distribution is available as an alternative to the multivariate normal proposal distribution. If you request multivariate t proposals, you may want to change the degrees of freedom from the default of 4. As the degrees of freedom decrease, the t distribution becomes more heavy tailed. This may lead to better convergence properties.
 
-Having produced one or more Markov chains and looked at the diagnostics, reload all the chain output files into CASAL and use them to generate a single posterior sample (using -C). At this stage, the first burn_in iterations for each chain are discarded (so, with keep 10, burn_in 1000, the first 1000 recorded samples are discarded for each chain). Unless a very large value of keep was originally chosen, it will be necessary to further reduce the size of the posterior sample (possibly down to several hundred) such that it can be analysed in a reasonable amount of time. This is done by sub-sampling. You specify the size of the sub-sample to be produced (or else no sub-sampling is done). You have the option to generate a systematic sub-sample (i.e., every nth point is kept) or a random sub-sample (the former is recommended except with prior re-weighting, when the latter must be used).
 
-Given a posterior (sub)sample, CASAL can calculate a list of output quantities for each sample point (see Section 7.2). These quantities can be dumped into a file (using casal -v) and read into an external software package where the posterior distributions can be plotted and/or summarised. 
+Given a posterior (sub)sample, \CNAME\ can calculate a list of output quantities for each sample point (see Section~\ref{sec:report-section} scecifically tabular report). These quantities can be dumped into a file (using \texttt{\cname\ -r --tabular}) and read into an external software package where the posterior distributions can be plotted and/or summarised. 
 
-The posterior sample can also be used for projections (Section 7.3) and stochastic yield calculations (Section 7.5). The advantage of this is that the parameter uncertainty, as expressed in your posterior distribution, can be included into the risk and yield estimates.
-
-It is possible to investigate the results that would have been obtained if a different prior had been specified This is called prior re-weighting and is done by calculating the ratio of the new prior to the original prior for each point in the posterior sample, then using these ratios as probability weights when generating a random (not systematic) sub-sample with casal -C. Prior re-weighting is applicable only if the new prior is zero in every part of the parameter space for which the original prior was zero. Also, it is likely to be numerically unstable unless the new prior is very small in every part of the parameter space for which the original prior was very small.
-\end{lstlisting}
+The posterior sample can also be used for projections (Section~\ref{sec:projection}). The advantage of this is that the parameter uncertainty, as expressed in your posterior distribution, can be included into the risk estimates.
 
 \subsection{Priors\label{sec:priors}}
 
@@ -241,29 +293,9 @@ where $\nu  = \frac{\mu  - A}{B - A}$, and $\tau = \frac{\left(\mu -A \right)\le
 
 \end{enumerate}
 
-\begin{lstlisting}
 Vectors of parameters can be independently (but not necessarily identically) distributed according to any of the above forms, in which case the joint negative-log-prior for the vector is the sum of the negative-log-priors of the components. Values of each parameter need to be specified for each element of the vector. 
 
 In addition, for a vector p of n identically distributed parameters (for example, YCS) the following priors are allowed: 
-
-1.	Multivariate normal from a stationary AR(1) process with parameters 
-.
-.
-.
-
-2.	Multivariate normal-log, where log(p) forms a stationary AR(1) process as per 1. above, with parameters
-.
-.
-.
-3.	Multivariate normal-log with mean 1, where E(pi)=1 and log(p) forms a stationary AR(1) process as for the multivariate normal above, with parameters 
-.
-.
-.
-\end{lstlisting}
-
-
-
-
 
 \subsection{Penalties\label{sec:penalties}}
 Penalties are associated with processes and can be used to encourage or discourage parameter values or model outputs that are unlikely to be sensible, by adding a penalty to the objective function. For example, parameter estimates that do not allow a known mortality event to remove enough individuals from the population can be discouraged with an event mortality penalty. \CNAME\ requires penalty functions for processes that move or shift a \emph{number} of individuals between categories or from the partition.
@@ -277,20 +309,14 @@ For these processes, two types of penalty can be defined, natural scale (the def
 The natural scale penalty just uses at the squared difference on a natural scale, while the log scale penalty uses the squared difference of the logged values. 
 
 \subsection{Additional Priors\label{sec:additional_priors}}
-Additional priors are the inverse 
+Additional priors can be thought of as the inverse of penalties. They constrain parameters in certain spaces. The types of additional priors available in \CNAME\ are \texttt{vector\_smoothing} and \texttt{vector\_averaging}, defined as,
 
-
-\subsection{\I{Estimate Transformations}\label{sec:transformations}}
-
-\CNAME\ has the untested functionality of transforming an estimated parameter in a new space. This may be done to remove correlation for other convergence or optimisation purposes. This functionality transforms the estimate and the bounds to the transformed space along with the prior. To account for the change variable a Jacobian is added to the objective function. For more information uses are asked to read the STAN manual \textbf{REFERENCE}. The user must supply the type, bounds for the transformed varaiable can be supplied by the user, but if not \CNAME\ will work them out. NOTE must be used with caution. May be buggy!!!
-
-\subsubsection[log]{\argument{log}}\index{Estimate Transformations!log}
-
-
-\subsubsection[Inverse]{\argument{Inverse}}\index{Estimate Transformations!Inverse}
-
-
-\subsubsection[Log odds]{\argument{Log odds}}\index{Estimate Transformations!Log odds}
-
-\subsubsection[Simplex]{\argument{Simplex}}\index{Estimate Transformations!Simplex}
+\begin{enumerate}
+	\item \texttt{vector\_averaging}
+	\\\\	
+	Applied to a vector parameter. Sum of squares of rth differences, optionally on a log scale. This encourages the vector to be like a polynomial of degree (r-1). Note a range of the vector to be “smoothed” can be specified (and if not, the smoother is applied to the entire vector), but this must be specified by an index of the vector and must be between 1 and the length of the vector, inclusive.
+	\item \texttt{vector\_smoothing}
+	\\\\
+	Applied to a vector parameter. Square of (mean(vector)-k), or of (mean(log(vector))-l), or of (log(mean(vector)/m)). Encourages the vector to average arithmetically to k or m, or geometrically to exp(l). Typically used for YCS with k=1 or m=1 or l=0, to encourage the YCS to centre on 1. Optionally, you can choose to exclude indices outside a given set of bounds.
+\end{enumerate}
 
