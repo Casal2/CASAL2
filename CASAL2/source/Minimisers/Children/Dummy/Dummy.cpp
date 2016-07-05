@@ -24,7 +24,7 @@ namespace minimisers {
  * @param model Pointer to the model object
  */
 Dummy::Dummy(Model* model) : Minimiser(model) {
-  parameters_.set_allow_any_parameter();
+  parameters_.set_ignore_all_parameters();
 }
 
 
