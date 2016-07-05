@@ -152,9 +152,11 @@ void Manager::Finalise() {
  * we wait for all reports to finish
  */
 void Manager::WaitForReportsToFinish() {
+#ifndef TESTMODE
   waiting_ = true;
   LOG_FINE() << "Waiting for reports";
   while(waiting_);
+#endif
   return;
 }
 
