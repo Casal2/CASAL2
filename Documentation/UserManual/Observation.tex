@@ -6,8 +6,10 @@ Observations are typically supplied as observations at an instance in time, over
 
 \CNAME\ allows the following types of observations;
 \begin{itemize}
-  \item Observations of proportions by age class within categories
+  \item Observations of proportions by age and length class within categories
   \item Observations of proportions between categories within age classes
+  \item Tag recapture observation by length and age
+  \item Proportions Migrating
   \item Relative and absolute abundance/biomass observations
 \end{itemize}
 
@@ -50,47 +52,21 @@ categories male
 
 For example, if the age range was 3 to 10, then 8 proportions should be supplied (one proportion for each of the the ages 3, 4, 5, 6, 7, 8, 9, and 10). The expected values will be the expected proportions of males within each of these age classes (after ignoring any males aged less than 3 or older than 10), after applying a selectivity at the year and time-step specified. The supplied vector of proportions (i.e., in this example, the 8 proportions) must sum to one, which is evaluated with a default tolerance of 0.001. 
 
-The observations must be also supplied using all or some of the the values of defined by some \emph{categorical} layer. \CNAME\ calculates the expected values by summing over the defined ages (via the age range and selectivity) and categories for those spatial cells where the categorical layer has the same value as defined for each vector of observations.
-
-For example, in a $2 \times 2$ spatial model a categorical layer (e.g., with label Area) may define that cells $(1,1)$ and $(1,2)$ have value $A$ and cells $(2,1)$ and $(2,2)$ have value $B$, i.e.,
-
-{\small{\begin{verbatim}
-@layer Area
-type categorical
-data A A 
-data B B
-\end{verbatim}}}
-
-The observations for those spatial cells where the categorical layer has value $A$ would be, 
 
 {\small{\begin{verbatim}
 @observation MyProportions
 type proportions_at_age
-layer Area
 ...
 categories male
 min_age 1
 max_age 5
-obs A 0.01 0.09 0.20 0.30 0.40
+years 1990
+table obs
+1990 0.01 0.09 0.20 0.30 0.40
+end_table
 ...
 \end{verbatim}}}
 
-Or, for both $A$ and $B$ as,
-
-{\small{\begin{verbatim}
-@observation MyProportions
-type proportions_at_age
-layer Area
-...
-categories male
-min_age 1
-max_age 5
-obs A 0.01 0.09 0.20 0.30 0.40
-obs B 0.02 0.06 0.12 0.25 0.55
-...
-\end{verbatim}
-
-Note that to have an observation for each individual spatial cell in a model, then define a categorical layer that has a single, unique value for each spatial cell for use in the observation. 
 
 \subsubsection*{\I{Proportions-at-age for multiple categories}}
 
@@ -104,18 +80,20 @@ categories male female
 
 For example, if there were two categories and the age range was 3 to 10, then 16 proportions should be supplied (one proportion for each of the the ages 3, 4, 5, 6, 7, 8, 9, and 10, for each category male and female). The expected values will be the expected proportions of males and within each of these age classes (after ignoring those aged less than 3 or older than 10), after applying a selectivity at the year and time-step specified. The supplied vector of proportions (i.e., in this example, the 16 proportions) must sum to one, which is evaluated with a default tolerance of 0.001. 
 
-For example, using the earlier spatial model with a categorical layer that has label Area, the observations for those spatial cells where the categorical layer has value $A$ would be, 
+For example,
 
 {\small{\begin{verbatim}
 @observation MyProportions
 type proportions_at_age
-layer Area
 ...
 categories male female
 min_age 1
 max_age 5
-obs A 0.01 0.05 0.10 0.20 0.20 0.01 0.05 0.15 0.20 0.03
-obs B 0.02 0.06 0.10 0.21 0.18 0.02 0.05 0.15 0.20 0.01
+years 1990 1991
+table obs
+1990 0.01 0.05 0.10 0.20 0.20 0.01 0.05 0.15 0.20 0.03
+1991 0.02 0.06 0.10 0.21 0.18 0.02 0.05 0.15 0.20 0.01
+end_table
 ...
 \end{verbatim}
 
@@ -138,11 +116,14 @@ For example, using the earlier spatial model with a categorical layer that has l
 type proportions_at_age
 layer Area
 ...
+years 1990 1991
 categories male + female
 min_age 1
 max_age 5
-obs A 0.02 0.13 0.25 0.30 0.30
-obs B 0.02 0.06 0.18 0.35 0.39
+table obs
+1990 0.02 0.13 0.25 0.30 0.30
+1991 0.02 0.06 0.18 0.35 0.39
+end_table
 ...
 \end{verbatim}
 
@@ -156,13 +137,16 @@ layer Area
 categories male_immature male_mature female_immature + female_mature
 min_age 1
 max_age 4
-obs A 0.05 0.15 0.15 0.05 0.02 0.03 0.08 0.04 0.05 0.15 0.15 0.08
+years 1990
+table obs
+year 1990 0.05 0.15 0.15 0.05 0.02 0.03 0.08 0.04 0.05 0.15 0.15 0.08
+end_table
 ...
 \end{verbatim}}}
 
 \subsubsection{Likelihoods for proportions-at-age observations}
 
-\CNAME\ implements two likelihoods for proportions-at-age observations, the multinomial likelihood and the lognormal likelihood. 
+\CNAME\ implements two likelihoods for proportions-at-age observations, the multinomial likelihood, dirichlet, and the lognormal likelihood. 
 
 \subsubsection*{The multinomial likelihood\index{Multinomial likelihood ! proportions-at-age}}
 
@@ -179,6 +163,24 @@ where $\sum\limits_i O_i = 1$ and $\sum\limits_i E_i = 1$. $Z \left(\theta,\delt
 	  \theta, & \text{where $\theta \ge r$} \\
 	  \delta/\left( 2-\theta/\delta \right), & \text{otherwise} \\  
   \end{cases}
+\end{equation}
+
+The default value of $\delta$ is $1 \times 10^{-11}$.
+\subsubsection*{The dirichlet likelihood\index{Dirichlet likelihood ! proportions-at-age}}
+
+For the observed proportions at age $O_i$ for age classes $i$, with sample size $N$, and the expected proportions at the same age classes $E_i$, the negative log-likelihood is defined as; 
+
+\begin{equation}
+-\log \left(L \right) = -\log(\Gamma \sum\limits_i (\alpha_i)) + \sum\limits_i \log(\Gamma (\alpha_i)) - \sum\limits_i (\alpha_i-1) \log(Z(O_i,\delta))
+\end{equation}
+
+where $\alpha_i = Z \left(N E_i,\delta \right)$, $\sum\limits_i O_i = 1$, and $\sum\limits_i E_i = 1$. $Z \left(\theta,\delta \right)$ is a robustifying function to prevent division by zero errors, with parameter $\delta>0$. $Z \left(\theta,\delta \right)$ is defined as,
+
+\begin{equation}
+Z \left(\theta,\delta \right) = \begin{cases}
+\theta, & \text{where $\theta \ge r$} \\
+\delta/\left( 2-\theta/\delta \right), & \text{otherwise} \\  
+\end{cases}
 \end{equation}
 
 The default value of $\delta$ is $1 \times 10^{-11}$.
@@ -226,49 +228,24 @@ selectivities2 female-selectivity
 
 defines that the proportion of males in each age class as a proportion of males $+$ females. \CNAME\ then expects that there will be a vector of proportions supplied, with one proportion for each age class within the defined age range, i.e., if the age range was 3 to 10, then 8 proportions should be supplied (one proportion for each of the the ages 3, 4, 5, 6, 7, 8, 9, and 10). The expected values will be the expected proportions of male to male $+$ female within each of these age classes, after applying the selectivities at the year and time-step specified. 
 
-The observations must be supplied using all or some of the values defined by a categorical layer. \CNAME\ calculates the expected values by summing over the ages (via the age range and selectivity) and categories for those spatial cells where the categorical layer has the same value as defined for each vector of observations.
-
-For example, in a $2 \times 2$ spatial model a categorical layer (e.g., with label Area) may define that cells $(1,1)$ and $(1,2)$ have value $A$ and cells $(2,1)$ and $(2,2)$ have value $B$, i.e.,
-
-{\small{\begin{verbatim}
-@layer Area
-type categorical
-data A A 
-data B B
-\end{verbatim}}}
-
-Here we supply observations for those spatial cells where the categorical layer has value $A$ as, 
+The observations must be supplied using all or some of the values defined by a categorical layer. \CNAME\ calculates the expected values by summing over the ages (via the age range and selectivity) and categories for those spatial cells where the categorical layer has the same value as defined for each vector of observations i.e.,
 
 {\small{\begin{verbatim}
 @observation MyProportions
 type proportions_by_category
-layer Area
-...
-categories male 
-categories2 female
-min_age 1
-max_age 5
-obs A 0.01 0.05 0.10 0.20 0.20
-...
-\end{verbatim}}}
-
-Or, for both $A$ and $B$ as,
-
-{\small{\begin{verbatim}
-@observation MyProportions
-type proportions_by_category
-layer Area
+years 1990 1991
 ...
 categories male
 categories2 female
 min_age 1
 max_age 5
-obs A 0.01 0.05 0.10 0.20 0.20
-obs B 0.02 0.06 0.10 0.21 0.18
+table obs
+1990 0.01 0.05 0.10 0.20 0.20
+1991 0.02 0.06 0.10 0.21 0.18
+end_table
 ...
 \end{verbatim}}}
 
-To supply an observation for individual spatial cells, then you will need to define a categorical layer with a single, unique value for each spatial cell. 
 
 \subsubsection{Likelihoods for proportions-by-category observations}
 
@@ -331,26 +308,16 @@ selectivities male-selectivity
 
 defines an observation for males after applying the selectivity male-selectivity. \CNAME\ then expects that there will be a single observation supplied. The expected values for the observations will be the expected abundance (or biomass) of males, after applying the selectivities, at the year and time-step specified. 
 
-The observations must be supplied using all or some of the the values of defined by a categorical layer. \CNAME\ calculates the expected values by summing over the defined ages (via the age range and selectivity) and categories for those spatial cells where the categorical layer has the same value as defined for each vector of observations.
+The observations must be supplied using all or some of the the values of defined by a categorical layer. \CNAME\ calculates the expected values by summing over the defined ages (via the age range and selectivity) and categories for those spatial cells where the categorical layer has the same value as defined for each vector of observations i.e.,
 
-For example, in a $2 \times 2$ spatial model a categorical layer (e.g., with label Area) may define that cells $(1,1)$ and $(1,2)$ have value $A$ and cells $(2,1)$ and $(2,2)$ have value $B$, i.e.,
-
-{\small{\begin{verbatim}
-@layer Area
-type categorical
-data A A 
-data B B
-\end{verbatim}}}
-
-Here we supply abundance observations for those spatial cells where the categorical layer has value $A$ as, 
 
 {\small{\begin{verbatim}
 @observation MyAbundance
 type abundance
-layer Area
+years 1999
 ...
 categories male 
-obs A 1000
+obs 1000
 ...
 \end{verbatim}}}
 
@@ -359,11 +326,13 @@ Or, for both $A$ and $B$ as,
 {\small{\begin{verbatim}
 @observation MyAbundance
 type abundance
-layer Area
+years 1990 1991
 ...
 categories male
-obs A 1000
-obs B 1200
+table obs
+1990 1000
+1991 1200
+end_table
 ...
 \end{verbatim}}}
 
@@ -462,7 +431,7 @@ Note that the expected values (fits) reported by \CNAME\ for observations with a
 
 \subsection{\I{Simulating observations}\label{sec:simulation-observations}}
 
-\CNAME\ can generate simulated observations for a given model with given parameter values (using \texttt{spm -s}). Simulated observations are randomly distributed values, generated according to the error assumptions defined for each observation, around fits calculated from one or more sets of the 'true' parameter values. Simulating from a set of parameters can be used to generate observations from an operating model or as a form of parametric bootstrap. 
+\CNAME\ can generate simulated observations for a given model with given parameter values (using \texttt{casal2 -s 1}). Simulated observations are randomly distributed values, generated according to the error assumptions defined for each observation, around fits calculated from one or more sets of the 'true' parameter values. Simulating from a set of parameters can be used to generate observations from an operating model or as a form of parametric bootstrap. 
 
 The procedure \CNAME\ uses for simulating observations is to first run using the `true' parameter values and generate the expected values. Then, if a set of observations uses ageing error, ageing error is applied. Finally a random value for each observed value is generated based on (i) the expected values, (ii) the type of likelihood specified, and (iii) the variability parameters (e.g., \subcommand{error\_value} and \subcommand{process\_error}). 
 
