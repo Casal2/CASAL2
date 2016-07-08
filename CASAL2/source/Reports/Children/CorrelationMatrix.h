@@ -27,12 +27,11 @@ public:
   CorrelationMatrix(Model* model);
   virtual                     ~CorrelationMatrix() = default;
   void                        DoValidate() override final { };
-  void                        DoBuild() override final;
+  void                        DoBuild() override final { };
   void                        DoExecute() override final;
   void                        DoExecuteTabular() override final { };
 
 private:
-  Minimiser*                  minimiser_;
   ublas::matrix<Double>       correlation_matrix_;
 
 };

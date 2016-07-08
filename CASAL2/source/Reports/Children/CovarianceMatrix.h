@@ -28,15 +28,12 @@ public:
   CovarianceMatrix(Model* model);
   virtual                     ~CovarianceMatrix() = default;
   void                        DoValidate() override final { };
-  void                        DoBuild() override final;
+  void                        DoBuild() override final { };
   void                        DoExecute() override final;
   void                        DoExecuteTabular() override final { };
 
 private:
-  Minimiser*                  minimiser_;
   ublas::matrix<Double>       covariance_matrix_;
-  MCMC*                       mcmc_ = nullptr;
-
 };
 
 } /* namespace reports */
