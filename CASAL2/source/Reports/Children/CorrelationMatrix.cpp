@@ -16,30 +16,22 @@ namespace ublas = boost::numeric::ublas;
  *
  */
 CorrelationMatrix::CorrelationMatrix(Model* model) : Report(model) {
-  run_mode_    = (RunMode::Type)(RunMode::kBasic | RunMode::kEstimation | RunMode::kMCMC);
+  run_mode_    = (RunMode::Type)(RunMode::kEstimation | RunMode::kMCMC);
   model_state_ = State::kFinalise;
 }
 
 /**
  *
  */
-
-void CorrelationMatrix::DoBuild() {
-  if (model_->run_mode() == RunMode::kEstimation) {
-    minimiser_ = model_->managers().minimiser()->active_minimiser();
-    if (!minimiser_)
-      LOG_CODE_ERROR()<< "minimiser_ = model_->managers().minimiser()->active_minimiser();";
-    } else if (model_->run_mode() == RunMode::kBasic) {
-      LOG_ERROR() << "Cannot create a covariance matrix in basic mode (i.e. casal2 -r)";
-    }
-
-}
-
 void CorrelationMatrix::DoExecute() {
+  LOG_TRACE();
   /*
    * This reports the Covariance, Correlation and Hessian matrix
    */
-  LOG_TRACE();
+  auto minimiser_ = model_->managers().minimiser()->active_minimiser();
+  if (!minimiser_)
+    return;
+
   correlation_matrix_ = minimiser_->correlation_matrix();
 
   cache_ << "*" << label_ << " " << "(" << type_ << ")" << "\n";
