@@ -17,34 +17,19 @@ namespace ublas = boost::numeric::ublas;
  *
  */
 CovarianceMatrix::CovarianceMatrix(Model* model) : Report(model) {
-  run_mode_    = (RunMode::Type)(RunMode::kBasic | RunMode::kEstimation | RunMode::kMCMC);
+  run_mode_    = (RunMode::Type)(RunMode::kEstimation | RunMode::kMCMC);
   model_state_ = State::kFinalise;
 }
 
 /**
  *
  */
-
-void CovarianceMatrix::DoBuild() {
-  if (model_->run_mode() == RunMode::kMCMC) {
-    mcmc_ = model_->managers().mcmc()->active_mcmc();
-    if (!mcmc_)
-      LOG_CODE_ERROR()<< "mcmc_ = model_->managers().mcmc()->active_mcmc();";
-    } else if (model_->run_mode() == RunMode::kEstimation) {
-      minimiser_ = model_->managers().minimiser()->active_minimiser();
-      if (!minimiser_)
-      LOG_CODE_ERROR() << "minimiser_ = model_->managers().minimiser()->active_minimiser();";
-    } else if (model_->run_mode() == RunMode::kBasic) {
-      LOG_ERROR() << "Cannot create a covariance matrix in basic mode (i.e. casal2 -r)";
-    }
-
-}
-
 void CovarianceMatrix::DoExecute() {
   /*
    * This reports the Covariance, Correlation and Hessian matrix
    */
   LOG_TRACE();
+  auto minimiser_ = model_->managers().minimiser()->active_minimiser();
   covariance_matrix_ = minimiser_->covariance_matrix();
 
   cache_ << "*" << label_ << " " << "(" << type_ << ")" << "\n";
@@ -57,6 +42,7 @@ void CovarianceMatrix::DoExecute() {
   }
 
   if (model_->run_mode() == RunMode::kMCMC) {
+    auto mcmc_ = model_->managers().mcmc()->active_mcmc();
     if (mcmc_->recalculate_covariance()) {
       cache_ << REPORT_END << "\n\n";
       LOG_FINE() << "During the mcmc run you recalculated the the covariance matrix, so we will print the modified matrix at the end of the chain";
