@@ -27,7 +27,7 @@ public:
   HessianMatrix(Model* model);
   virtual                     ~HessianMatrix() = default;
   void                        DoValidate() override final { };
-  void                        DoBuild() override final;
+  void                        DoBuild() override final { };
   void                        DoExecute() override final;
   void                        DoExecuteTabular() override final { };
 

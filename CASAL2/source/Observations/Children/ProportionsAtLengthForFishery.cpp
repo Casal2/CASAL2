@@ -190,9 +190,7 @@ void ProportionsAtLengthForFishery::DoValidate() {
     for (unsigned i = 0; i < category_labels_.size(); ++i) {
       for (unsigned j = 0; j < number_bins_; ++j) {
         unsigned obs_index = i * number_bins_ + j;
-        if (!utilities::To<Double>(iter->second[obs_index], value))
-          LOG_ERROR_P(PARAM_OBS) << ": obs_ value (" << iter->second[obs_index] << ") at index " << obs_index + 1
-              << " in the definition could not be converted to a numeric double";
+        value = iter->second[obs_index];
 
         Double error_value = error_values_by_year[iter->first][obs_index];
         error_values_[iter->first][category_labels_[i]].push_back(error_value);
