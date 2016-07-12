@@ -108,9 +108,10 @@ class Archiver:
     # Shitty stuff to make building archive easier
     binary_path = self.output_directory_ = os.path.normpath(os.getcwd()) + "/bin/" + Globals.operating_system_
 
-    os.system('rm -rf CASAL2')
+    os.system('rm -rf Casal2')
     os.system('rm -rf casal2.tar')
-    os.system('mkdir CASAL2')
+    os.system('rm -rf casal2.zip')
+    os.system('mkdir Casal2')
     os.system('cp ' + binary_path + '/frontend/' + binary_name + ' CASAL2/' + binary_name)
     os.system('cp ' + binary_path + '/library_release/' + library_name + ' CASAL2/casal2_release' + extension)
     os.system('cp ' + binary_path + '/library_adolc/' + library_name + ' CASAL2/casal2_adolc' + extension)

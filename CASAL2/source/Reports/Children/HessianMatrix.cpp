@@ -21,25 +21,19 @@ HessianMatrix::HessianMatrix(Model* model) : Report(model) {
 }
 
 /**
- *
+ * If a minimiser pointer exists this report will ask and print for the hessian matrix
  */
-
-void HessianMatrix::DoBuild() {
-  if (model_->run_mode() == RunMode::kEstimation) {
-    minimiser_ = model_->managers().minimiser()->active_minimiser();
-    if (!minimiser_)
-      LOG_CODE_ERROR()<< "minimiser_ = model_->managers().minimiser()->active_minimiser();";
-    } else if (model_->run_mode() == RunMode::kBasic) {
-      LOG_ERROR() << "Cannot create a covariance matrix in basic mode (i.e. casal2 -r)";
-    }
-
-}
-
 void HessianMatrix::DoExecute() {
   /*
    * This reports the Hessian matrix
    */
   LOG_TRACE();
+  /*
+   * This reports the Covariance, Correlation and Hessian matrix
+   */
+  auto minimiser_ = model_->managers().minimiser()->active_minimiser();
+  if (!minimiser_)
+    return;
 
   hessian_ = minimiser_->hessian_matrix();
   unsigned hessian_size = minimiser_->hessian_size();

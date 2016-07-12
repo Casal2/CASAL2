@@ -28,7 +28,7 @@ namespace timevarying {
 Linear::Linear(Model* model) : TimeVarying(model) {
   parameters_.Bind<Double>(PARAM_SLOPE, &slope_, "The slope of the linear trend (additive unit per year)", "", 0);
 
-  RegisterAsEstimable(PARAM_SIGMA, &slope_);
+  RegisterAsEstimable(PARAM_SLOPE, &slope_);
 }
 
 /**
