@@ -39,14 +39,12 @@ void DerivedQuantity::DoExecute() {
   LOG_FINEST() << "Conversion factor = " << conversion_factor;
 
   derivedquantities::Manager& manager = *model_->managers().derived_quantity();
+  cache_ << "*" << label_ << " " << "("<< type_ << ")"<<"\n";
 
   auto derived_quantities = manager.objects();
-  unsigned number_of_dq_blocks = derived_quantities.size();
-  unsigned count = 1;
   for (auto dq : derived_quantities) {
     string label =  dq->label();
-    cache_ << "*" << label_ << " " << "("<< type_ << ")"<<"\n";
-    cache_ << label << " " << REPORT_R_LIST << "\n";
+    cache_ << "label: " << label << " " << REPORT_R_LIST << " \n";
 
     // report b0 and binitial
     if (model_->b0(label) > 0)
@@ -77,10 +75,7 @@ void DerivedQuantity::DoExecute() {
       } else
         cache_ << iter->first << " " << AS_DOUBLE(iter->second) << "\n";
     }
-
-    if (count < number_of_dq_blocks)
-      cache_ << "*end\n\n";
-    count++;
+    cache_ << REPORT_R_LIST_END <<"\n";
   }
 
   ready_for_writing_ = true;

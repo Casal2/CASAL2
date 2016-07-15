@@ -133,6 +133,8 @@ void Abundance::PreExecute() {
  * Run our observation to generate the score
  */
 void Abundance::Execute() {
+  LOG_FINEST() << "Entering observation " << label_;
+
   Double expected_total = 0.0; // value in the model
   vector<string> keys;
   vector<Double> expecteds;

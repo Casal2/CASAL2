@@ -24,9 +24,9 @@ namespace additionalpriors {
  * Default constructor
  */
 VectorSmoothing::VectorSmoothing(Model* model) : AdditionalPrior(model) {
-  parameters_.Bind<string>(PARAM_PARAMETER, &parameter_, "Label of the estimate to generate penalty on", "");
-  parameters_.Bind<bool>(PARAM_LOG_SCALE, &log_scale_, "Log scale", "", false);
-  parameters_.Bind<Double>(PARAM_MULTIPLIER, &multiplier_, "Multiplier for the penalty amount", "", 1);
+  parameters_.Bind<string>(PARAM_PARAMETER, &parameter_, "The name of the vector parameter to which the penalty is applied", "");
+  parameters_.Bind<bool>(PARAM_LOG_SCALE, &log_scale_, "Should sums of squares be calculated on the log scale?", "", false);
+  parameters_.Bind<Double>(PARAM_MULTIPLIER, &multiplier_, "Multiply the penalty by this factor", "", 1);
   parameters_.Bind<unsigned>(PARAM_LOWER_BOUND, &lower_, "First element to apply the penalty to in the vector", "", 0u);
   parameters_.Bind<unsigned>(PARAM_UPPER_BOUND, &upper_, "Last element to apply the penalty to in the vector", "", 0u);
   parameters_.Bind<unsigned>(PARAM_R, &r_, "Penalty applied to rth differences", "", 2u);

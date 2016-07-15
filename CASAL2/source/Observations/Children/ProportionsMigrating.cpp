@@ -224,6 +224,8 @@ void ProportionsMigrating::DoBuild() {
  */
 void ProportionsMigrating::PreExecute() {
   cached_partition_->BuildCache();
+  LOG_FINEST() << "Entering observation " << label_;
+
 
   if (cached_partition_->Size() != proportions_[model_->current_year()].size()) {
     LOG_MEDIUM() << "Cached size " << cached_partition_->Size() << " partition size = " << proportions_[model_->current_year()].size();

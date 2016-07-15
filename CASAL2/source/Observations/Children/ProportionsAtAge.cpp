@@ -248,7 +248,7 @@ void ProportionsAtAge::PreExecute() {
  */
 void ProportionsAtAge::Execute() {
   LOG_TRACE();
-
+  LOG_FINEST() << "Entering observation " << label_;
   /**
    * Verify our cached partition and partition sizes are correct
    */
@@ -340,6 +340,9 @@ void ProportionsAtAge::Execute() {
 
 
     for (unsigned i = 0; i < expected_values.size(); ++i) {
+      LOG_FINEST() << "-----";
+      LOG_FINEST() << "Numbers at age for all categories in age " << min_age_ + i << " = " << expected_values[i];
+
       SaveComparison(category_labels_[category_offset], min_age_ + i ,0.0 ,AS_DOUBLE(expected_values[i]), proportions_[model_->current_year()][category_labels_[category_offset]][i],
           process_errors_by_year_[model_->current_year()], error_values_[model_->current_year()][category_labels_[category_offset]][i], delta_, 0.0);
     }

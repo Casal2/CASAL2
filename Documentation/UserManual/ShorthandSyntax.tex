@@ -51,6 +51,24 @@ Sometimes in observations we want to amalgamate categories together for example 
 		error_value 0.35
 \end{verbatim}}}
 
+Shorthand syntax can be useful when applying processes to a select group of categories from the partition, for example. If we wanted to apply a spawning migration to the mature categories in the partition and the partition was defined by the categories below,
+{\small{\begin{verbatim}
+		@categories 
+		format area.maturity.tag
+		names north.immature.notag,2011 north.mature.notag,2011 south.immature.notag,2011
+		south.mature.notag,2011		
+		\end{verbatim}}}	
+
+If we wanted to migrate a portion of the mature population from the southern area to the northern are you could use the following syntax,
+
+{\small{\begin{verbatim}
+@process spawn_migration
+type transition_category 		
+from format=south.mature.*	
+to format=north.mature.*
+proportions 1.0
+selectivities One
+\end{verbatim}}}
 
 
 \subsection{\I{Parameters}\label{sec:params}}
@@ -81,7 +99,7 @@ lower_bound 0.1 0.1 0.1 0.1
 upper_bound  10  10  10  10 
 \end{verbatim}}}
 
-This can also be applied to parameters that are of type map, for information on what type a parameter is see the syntax section. An example of a parameter that is of type map is \command{time\_varying}\texttt{[label].type=constant}. For the following \command{time\_varying} block,
+Note the first element of a vector is indexed by 1. This syntax can be applied to parameters that are of type map as well, for information on what type a parameter is see the syntax section. An example of a parameter that is of type map is \command{time\_varying}\texttt{[label].type=constant}. For the following \command{time\_varying} block,
 
 {\small{\begin{verbatim}
 @time_varying q_step1

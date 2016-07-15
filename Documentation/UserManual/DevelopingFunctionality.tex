@@ -1,0 +1,37 @@
+\section{\I{The Developmental section}\label{sec:development-section}}
+
+This section is aimed for users who are interested in seeing and understanding functionality that is currently being developed and tested in \CNAME. 
+
+
+\subsubsection{\I{Single stepping \CNAME}\label{sec:singlestepping}}\index{Single\_stepping}\index{single\_stepping section}
+
+\CNAME\ has the ability to pause after each annual cycle and query the user to input updated estimable parameters for the next year. This is an active area of development for \CNAME. The aim of this is to allow \CNAME\ to be used for operational management procedures or other similar studies. For example, \CNAME\ could be called and controlled by \R\ to update and provide management actions (for examples, catches in a fisheries model) using a harvest control rule to evaluate management strategies. 
+
+
+\subsubsection{\I{Estimate Transformations}\label{sec:transformations}}
+The support of a random variable $X$ with density $p_X(x)$ is that subset of values for which it has non-zero density, 
+$$ supp(X) = \{x|p_X(x) > 0\}$$ 
+If $f$ is a transformation function defined on the support of $X$, then $Y = f(X)$ is a new random variable. This section shows the available transformations in \CNAME\ and the probability density function of $Y$. This theory follows the STAN manual \cite{STAN}.
+
+Suppose $X$ is one dimensional and $f$: $supp(X) \to \mathbf{R}$ is a one-to-one, monotonic function with a differentiable inverse $f^{-1}$. Then the density of $Y$ is given by
+$$ p_Y(y) = p_X(f^{-1}(y)) \begin{vmatrix} \frac{\partial}{\partial y} f^{-1}(y) \end{vmatrix}$$
+
+The absolute derivative of the inverse transform measures how the scale of the transformed
+variable changes with respect to the underlying variable.
+
+$$ Y = F_y(X) $$
+$$ X = F_y^{-1}(Y) $$
+$$ J = $$
+\paragraph[log]{\argument{log}}\index{Estimate Transformations!log}
+Transforming a parameter onto the log scale is a simple log transformation. The Jacobian and inverse are discussed as follows
+
+$$ F_y = \log $$
+$$ F_y^{-1} = exp $$
+$$ J =  $$
+
+\paragraph[Inverse]{\argument{Inverse}}\index{Estimate Transformations!Inverse}
+
+
+\paragraph[Log odds]{\argument{Log odds}}\index{Estimate Transformations!Log odds}
+
+\paragraph[Simplex]{\argument{Simplex}}\index{Estimate Transformations!Simplex}
