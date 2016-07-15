@@ -133,6 +133,8 @@ void Biomass::PreExecute() {
  *
  */
 void Biomass::Execute() {
+  LOG_FINEST() << "Entering observation " << label_;
+
   Double expected_total = 0.0; // value in the model
   vector<string> keys;
   vector<Double> expecteds;

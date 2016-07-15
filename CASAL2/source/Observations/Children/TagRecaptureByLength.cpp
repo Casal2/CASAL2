@@ -107,6 +107,10 @@ void TagRecaptureByLength::DoValidate() {
   if (!plus_group_)
     length_spread_ -= 1;
 
+  // Catch user inputs that specify one length bin and no plus group
+  if (!plus_group_ & (length_bins_.size() == 1))
+    LOG_ERROR_P(PARAM_LENGTH_BINS) << "You specified " << length_bins_.size() << " number of length bins, if plus_group false you must specify an upper length limit";
+
   map<unsigned, vector<Double>> recaptures_by_year;
   map<unsigned, vector<Double>> scanned_by_year;
 
@@ -321,8 +325,8 @@ void TagRecaptureByLength::PreExecute() {
  */
 void TagRecaptureByLength::Execute() {
   LOG_TRACE();
-  LOG_FINEST() << "------";
-  LOG_FINEST() << "Entering tag recapture observation " << label_;
+  LOG_FINEST() << "Entering observation " << label_;
+
 
   /**
    * Verify our cached partition and partition sizes are correct
@@ -413,7 +417,7 @@ void TagRecaptureByLength::Execute() {
         target_length_results[length_offset] += final_value;
 
         LOG_FINE() << "----------";
-        LOG_FINE() << "Categories2: " << (*target_category_iter)->name_ << " at length " << length_bins_[length_offset];
+        LOG_FINE() << "Total categories: " << (*target_category_iter)->name_ << " at length " << length_bins_[length_offset];
         LOG_FINE() << "start_value: " << start_value << "; end_value: " << end_value << "; final_value: " << final_value;
         LOG_FINE() << "expected_value becomes: " << target_length_results[length_offset];
       }
@@ -432,7 +436,8 @@ void TagRecaptureByLength::Execute() {
       Double expected = 0.0;
       Double observed = 0.0;
       if (length_results[i] != 0.0) {
-        expected = length_results[i] / target_length_results[i] * detection_;
+        expected = length_results[i] * detection_ / target_length_results[i] ;
+        LOG_FINEST() << " total numbers at length " << length_bins_[i] << " = " << target_length_results[i] << ", numerator = " << length_results[i];
       }
       if (scanned_[model_->current_year()][category_labels_[category_offset]][i] == 0.0)
         observed = 0.0;

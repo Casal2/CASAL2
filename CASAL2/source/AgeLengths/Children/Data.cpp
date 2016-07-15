@@ -253,8 +253,8 @@ Double Data::mean_length(unsigned year, unsigned age) {
 
   Double current_value = data_by_year_.find(year)->second[age - model_->min_age()];
 
-  Double next_age      = current_value;
-  if ((age+1) - model_->min_age() < data_by_year_.find(year)->second.size())
+  Double next_age = current_value;
+  if ((age +1) - model_->min_age() < data_by_year_.find(year)->second.size())
     data_by_year_.find(year)->second[(age+1) - model_->min_age()];
 
   Double proportion = time_step_proportions_[model_->managers().time_step()->current_time_step()];
@@ -289,7 +289,7 @@ void Data::BuildCV() {
 
   for (unsigned year_iter = start_year; year_iter <= final_year; ++year_iter) {
     for (unsigned step_iter = 0; step_iter < time_steps.size(); ++step_iter) {
-      if (cv_last_ == 0.0) { // A test that is robust... If cv_last_ is not in the input then assume cv_first_ represents the cv for all age classes i.e constant cv
+      if (!parameters_.Get(PARAM_CV_LAST)->has_been_defined()) {
         for (unsigned age_iter = min_age; age_iter <= max_age; ++age_iter)
           cvs_[year_iter][age_iter][step_iter] = (cv_first_);
 

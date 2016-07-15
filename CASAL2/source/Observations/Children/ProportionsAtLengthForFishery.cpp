@@ -242,6 +242,8 @@ void ProportionsAtLengthForFishery::DoBuild() {
  * structure to use with any interpolation
  */
 void ProportionsAtLengthForFishery::PreExecute() {
+  LOG_FINEST() << "Entering observation " << label_;
+
   cached_partition_->BuildCache();
 
   if (cached_partition_->Size() != proportions_[model_->current_year()].size())

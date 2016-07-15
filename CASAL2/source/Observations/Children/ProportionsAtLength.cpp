@@ -236,6 +236,7 @@ void ProportionsAtLength::DoBuild() {
  * structure to use with any interpolation
  */
 void ProportionsAtLength::PreExecute() {
+
   cached_partition_->BuildCache();
 
   if (cached_partition_->Size() != proportions_[model_->current_year()].size())
@@ -249,6 +250,8 @@ void ProportionsAtLength::PreExecute() {
  */
 void ProportionsAtLength::Execute() {
   LOG_TRACE();
+  LOG_FINEST() << "Entering observation " << label_;
+
   /**
    * Verify our cached partition and partition sizes are correct
    */

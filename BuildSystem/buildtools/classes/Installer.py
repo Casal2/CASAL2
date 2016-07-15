@@ -74,7 +74,6 @@ class Installer:
     file.write('Source: "CASAL2\\casal2_test.dll"; DestDir: "{app}"; Flags: ignoreversion\n')
     file.write('Source: "CASAL2\\CASAL2.pdf"; DestDir: "{app}"; Flags: ignoreversion\n')
     file.write('Source: "CASAL2\\Examples\\*"; DestDir: "{app}\Examples"; Flags: replacesameversion recursesubdirs\n')
-    file.write('Source: "CASAL2\\src\\*"; DestDir: "{app}\src"; Flags: ignoreversion recursesubdirs\n')
     file.write('Source: "CASAL2\\README.txt"; DestDir: "{app}"; Flags: ignoreversion\n')
     file.write('Source: "CASAL2\\GettingStartedGuide.pdf"; DestDir: "{app}"; Flags: ignoreversion\n')
     file.write('[Registry]\n')

@@ -284,8 +284,7 @@ void TagByLength::DoExecute() {
       if (numbers_[current_year][i] == 0)
         continue;
 
-      Double current = numbers_[current_year][i] *
-          ((*from_iter)->length_data_[i] / total_stock_with_selectivities);
+      Double current = numbers_[current_year][i] * ((*from_iter)->length_data_[i] / total_stock_with_selectivities);
 
       Double exploitation = current / utilities::doublecompare::ZeroFun((*from_iter)->length_data_[i]);
       if (exploitation > u_max_) {

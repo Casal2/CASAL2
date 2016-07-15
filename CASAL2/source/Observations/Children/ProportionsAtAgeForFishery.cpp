@@ -240,6 +240,8 @@ void ProportionsAtAgeForFishery::PreExecute() {
  */
 void ProportionsAtAgeForFishery::Execute() {
   LOG_TRACE();
+  LOG_FINEST() << "Entering observation " << label_;
+
   // Check if we are in the final time_step so we have all the relevent information from the Mortaltiy process
 
   unsigned current_time_step = model_->managers().time_step()->current_time_step();

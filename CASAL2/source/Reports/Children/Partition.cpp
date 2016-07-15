@@ -53,34 +53,6 @@ void Partition::DoExecute() {
       longest_length = (*iterator)->name_.length();
   }
 
-  /*
-  // Print the header
-  cache_ << "*" << this->label() << "\n";
-  cache_ << "report.type: partition\n";
-  cache_ << "year: " << Model::Instance()->current_year() << "\n";
-  cache_ << "time_step: " << time_step_ << "\n";
-  cache_ << "category";
-  for (unsigned i = lowest; i <= highest; ++i)
-    cache_ << " " << i;
-  cache_ << "\n";
-
-  cache_.precision(1);
-  cache_ << std::fixed;
-
-  for (auto iterator = all_view.Begin(); iterator != all_view.End(); ++iterator) {
-    cache_ << (*iterator)->name_;
-    unsigned age = (*iterator)->min_age_;
-    for (auto values = (*iterator)->data_.begin(); values != (*iterator)->data_.end(); ++values, age++) {
-      if (age >= lowest && age <= highest)
-        cache_ << " " << std::fixed << std::setprecision(6) << *values;
-      else
-        cache_ << " " << "null";
-    }
-    cache_ << "\n";
-  }
-  ready_for_writing_ = true;
- */
-
   // Print the header
   cache_ << "*" << label_ << " " << "("<< type_ << ")"<<"\n";
   cache_ << "year: " << model_->current_year() << "\n";

@@ -40,7 +40,7 @@ TagRecaptureByAge::TagRecaptureByAge(Model* model) : Observation(model) {
   parameters_.Bind<unsigned>(PARAM_MAX_AGE, &max_age_, "Maximum age", "");
   parameters_.Bind<bool>(PARAM_AGE_PLUS, &age_plus_, "Use age plus group", "", true);
   parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "Year to execute in", "");
-  parameters_.Bind<string>(PARAM_TARGET_CATEGORIES, &target_category_labels_, "Target Categories", "");
+  parameters_.Bind<string>(PARAM_TARGET_CATEGORIES, &target_category_labels_, "The available categories in the partition", "");
   parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_labels_, "Selectivity labels to use", "", true);
   parameters_.Bind<string>(PARAM_TIME_STEP, &time_step_label_, "Time step to execute in", "");
   parameters_.Bind<string>(PARAM_TARGET_SELECTIVITIES, &target_selectivity_labels_, "Target Selectivities", "");
@@ -282,6 +282,7 @@ void TagRecaptureByAge::PreExecute() {
  */
 void TagRecaptureByAge::Execute() {
   LOG_TRACE();
+  LOG_FINEST() << "Entering observation " << label_;
 
   /**
    * Verify our cached partition and partition sizes are correct
@@ -386,6 +387,7 @@ void TagRecaptureByAge::Execute() {
           final_value = start_value + ((end_value - start_value) * proportion_of_time_);
         else
           final_value = fabs(start_value - end_value) * proportion_of_time_;
+
         LOG_FINE() << "----------";
         LOG_FINE() << "Category2:" << (*target_category_iter)->name_;
         LOG_FINE() << "age: " << age;

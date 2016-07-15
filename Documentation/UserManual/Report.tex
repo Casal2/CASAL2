@@ -32,13 +32,25 @@ Reports can be defined in an \command{report} but may not be generated. For exam
 
 Not all reports will be generated in all run modes. Some reports are only available in some run modes. For example, when simulating, only simulation reports will be output.
 
+\subsection{\I{Print the partition at the end of an initialisation}}\index{Reports ! Initialisation}
+
+Print the partition following an initialisation phase. This prints out, the numbers of individuals in each age class and category in the partition following an initialisation phase. This report will print out in the following runmodes \texttt{-r, -e, -f}.
+
 \subsection{\I{Print the partition}}\index{Reports ! Partition}
 
 Print the partition for a given year or given years and time-step. This prints out, the numbers of individuals in each age class and category in the partition for each year. Note that this report is evaluated at the end of the time-step in the given year(s). This report will print out in the following runmodes \texttt{-r, -e, -f}.
 
-\subsection{\I{Print the partition at the end of an initialisation}}\index{Reports ! Initialisation}
 
-Print the partition following an initialisation phase. This prints out, the numbers of individuals in each age class and category in the partition following an initialisation phase. This report will print out in the following runmodes \texttt{-r, -e, -f}.
+\subsection{\I{Print the age length and length weight values}}\index{Reports ! Partition}
+
+Print the length and weight for an age of the partition for a given year or given years and time-step. This prints out, the length and weight value for each age class and category in the partition for each year and time step. Note that this report is evaluated at the end of the time-step in the given year(s). This report will print out in the following runmodes \texttt{-r, -e, -f}.
+
+{\small{\begin{verbatim}
+		@report length_weight_at_age
+		type partition_mean_weight
+		time_step step2
+		years 1900:2013
+		\end{verbatim}}}
 
 \subsection{\I{Print a process summary}}\index{Reports ! Processes}
 Print a summary of a process. Depending on the process, different summaries are produced. These typically detail the type of process, its parameters and other options, and any associated details. This report will print out in the following runmodes \texttt{-r, -e, -f}.

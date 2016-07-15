@@ -68,7 +68,7 @@ void RecruitmentBevertonHolt::DoValidate() {
   category_labels_ = model_->categories()->ExpandLabels(category_labels_, parameters_.Get(PARAM_CATEGORIES));
 
   if (parameters_.Get(PARAM_B0)->has_been_defined() & (b0_units_ == ""))
-    LOG_FATAL_P(PARAM_UNITS) << "Must define unit of B0, for models initialised by B0";
+    LOG_FATAL_P(PARAM_B0) << "Must define unit of B0, for models initialised by B0";
   if (!parameters_.Get(PARAM_AGE)->has_been_defined())
     age_ = model_->min_age();
 
