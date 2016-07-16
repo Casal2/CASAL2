@@ -1,4 +1,5 @@
-This is a check list for collaborators, who would like to make changes to the master repository. There is an expected standard of coding practice which is the google C++ standard see here for what that means https://google.github.io/styleguide/cppguide.html. Once you have made changes to the code base, you should check that you have done the following checks before you submit a "pull request"
+This is a check list for collaborators, who would like to make changes to the master repository. There is an expected standard of coding practice which is the google C++ standard see here for more information https://google.github.io/styleguide/cppguide.html. Once you have made changes to the code, you should check that you have done the following checks before you submit a "pull request"
+
 
 - Filled out all the documnetation and put your name on the source files created
 - Have successfully compiled the code with doBuild.bat "debug", "release" and "archive" under the BuildSystem directory
@@ -6,4 +7,18 @@ This is a check list for collaborators, who would like to make changes to the ma
 - Run the model runner "doBuild.bat Modelrunner"
 - Now do a pull request 
 
-Thankyou very much in advanced from the development team =)
+
+
+
+Developer Commandments (for contributors)
+====
+- Thou shalt use two-space indentation
+- Thou shalt use spaces between equal signs
+- Thou shalt use a space after a comma
+- Thou shalt use comments within a function
+- Thou shalt fill out the doxygen header for each function
+- Thou shalt test thy code
+
+
+
+Thanks from the development team =)

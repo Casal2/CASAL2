@@ -51,7 +51,7 @@ private:
 
 } /* namespace adolc */
 } /* namespace minimisers */
-} /* namesapce isam */
+} /* namesapce niwa */
 
 #endif /* MINIMISERS_ADOLC_ENGINE_H_ */
 #endif /* USE_ADOLC */

@@ -38,7 +38,7 @@ AgeLength::AgeLength(Model* model) : model_(model) {
   parameters_.Bind<string>(PARAM_LABEL, &label_, "Label", "");
   parameters_.Bind<string>(PARAM_TYPE, &type_, "Type", "");
   parameters_.Bind<Double>(PARAM_TIME_STEP_PROPORTIONS, &time_step_proportions_, "the proportion increase of age through the in each time step that corresponds to a length and thus weight increase", "", true);
-  parameters_.Bind<string>(PARAM_DISTRIBUTION, &distribution_, "TBA", "", PARAM_NORMAL);
+  parameters_.Bind<string>(PARAM_DISTRIBUTION, &distribution_, "The assumed distribution for the growth curve", "", PARAM_NORMAL);
   parameters_.Bind<Double>(PARAM_CV_FIRST, &cv_first_ , "CV for the first age class", "",Double(0.0))->set_lower_bound(0.0);
   parameters_.Bind<Double>(PARAM_CV_LAST, &cv_last_ , "CV for last age class", "",Double(0.0))->set_lower_bound(0.0);
   parameters_.Bind<bool>(PARAM_CASAL_SWITCH, &casal_normal_cdf_ , "A switch to use CASAL Cumulative normal function, note CASAL2 uses the recent BOOST function which differs from the previous CASAL algorithm", "",false);
@@ -177,7 +177,6 @@ void AgeLength::CummulativeNormal(Double mu, Double cv, vector<Double>& prop_in_
       prop_in_length[j - 1] = cum[j] - cum[j - 1];
       sum += prop_in_length[j - 1];
     }
-    LOG_FINEST() << "probability in bin: " << j << " = " << prop_in_length[j];
   }
   if (plus_grp) {
     prop_in_length[sz - 1] = 1.0 - sum - cum[0];

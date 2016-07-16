@@ -89,7 +89,8 @@ void Record::BuildMessage() {
 #else
     o << "\n";
     o << "********************************************************************************\n";
-    o << "********                FATAL USER CONFIGURATION ERROR                  ********\n";
+    o << "********                  USER CONFIGURATION ERROR                      ********\n";
+    o << "********              THE ERROR SHOULD BE DESCRIBED BELOW               ********\n";
     o << "********************************************************************************\n";
     o << "Message:\n";
     o << stream_.str() << "\n\n";
@@ -101,15 +102,15 @@ void Record::BuildMessage() {
 #else
     o << "\n";
     o << "********************************************************************************\n";
-    o << "********                CODE ERROR - FORCE QUITTING                     ********\n";
+    o << "********                CODE ERROR - Casal2 is FORCE QUITTING           ********\n";
     o << "********************************************************************************\n";
     o << "Source File: " << file_name_ << "(line: " << line_number_ << ")\n";
     o << "Source Method: " << function_ << "\n";
     o << "\n";
     o << "Message:\n";
     o << stream_.str() << "\n";
-    o << "NOTE: This error is a bug in the software and can only be corrected by a developer\n";
-    o << "Please contact the application developers to have this issue fixed\n\n";
+    o << "NOTE: This error is a bug in the software and can be corrected by a developer\n";
+    o << "Please contact the application developers at casal2@niwa.co.nz to have this issue fixed\n\n";
 #endif
     break;
   }

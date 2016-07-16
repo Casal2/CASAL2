@@ -1,0 +1,45 @@
+\section{Introduction}\label{sec:introduction}
+
+This document is a help guide for \CNAME\, age-structured population modelling software package. This short document is aimed at users who are new to \CNAME. As the names suggests \CNAME\ is a generalised tool for carrying out age-structured population dynamics models, including fisheries assessments and other population dynamics problems. 
+
+\CNAME\ is very generalised, highly flexible, and therefore can be a bit daunting at first sight. It has a large number of run modes, settings, and user defined population dynamics choices that can turned on and off, depending on the circumstances and the user requirements. While there is no requirement for a user to see or understand the underlying code base, it has been written so that is is well tested and great effort has been put into developing a code base that can be easily interpreted and understood by even novice programmers
+
+\CNAME\ is open source, and is covered under the GNU GPL 2.0 licence. See the terms and conditions in the \CNAME\ User Manual \citep{CASAL2}, or type \texttt{casal2 -v} into the command prompt. There is also supplementary information that may be useful to access when learning to use \CNAME. \CNAME\ has a comprehensive user manual \citep{CASAL2} which should be consulted when attempting to write and run models. 
+
+Other documents may also be available to assist when learning to use \CNAME. These can be found in the directory where \CNAME\ was installed on most systems. If you have any questions, please contact the \CNAME\ development team at \email.
+
+The \CNAME\ User Manual \citep{CASAL2} gives a detailed description on how to use \CNAME, including how to run \CNAME, how to set up an \config.  
+
+\subsection{Version\label{sec:version}}
+
+\CNAME can differ between version, especially as issues are fixed or new features added. The \CNAME\ version number is suffixed with a date/time (\texttt{yyyy-mm-dd}), giving the revision control system UTC date for the most recent modification of the underlying software source code. User manual updates will usually be issued for each minor version or date release of \CNAME. Any questions of the use of the software can be directed to the authors at \email. \index{Version number}
+
+\subsection{Citing the \CNAME\ Getting Started Guide}
+A suitable reference for this document is: 
+
+\ManualRef\index{Citation}\index{Citing \CNAME}
+ 
+\subsection{\I{Software license}\index{GNU GPL v2 licence}}
+\
+This program and the accompanying materials are made available under the terms of the licence \href{http://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html}{GNU GPL v2} which accompanies this software.
+
+Copyright \copyright 2015-\SourceControlYearDoc, \href{http://www.niwa.co.nz}{\Organisation}. All rights reserved.
+
+\subsection{\I{System requirements}}
+
+\CNAME\ is available for most IBM compatible machines running 64-bit \I{Linux} and \I{Microsoft Windows} operating systems.
+
+Several of \CNAME s tasks are highly computer intensive and a fast processor is recommended. Depending on the model implemented, some of \CNAME s tasks can take a considerable amount of time (minutes to hours), and in extreme cases can even take several days to undertake an MCMC estimate. 
+
+The program itself requires only a few megabytes of hard-disk space but output files can consume large amounts of disk space. Depending on number and type of user output requests, the output could range from a few hundred kilobytes to several hundred megabytes. When estimating model fits, several hundred megabytes of RAM may be required, depending on the spatial size of the model, number of categories, and complexity of processes and observations. For extremely large models, several gigabytes of RAM may occasionally be required. 
+
+\subsection{\I{Necessary files}}
+
+For both 64-bit Linux and Microsoft Windows, only the binary file \texttt{casal2} or \texttt{casal2.exe} is required to run \CNAME . No other software is required. We do not compile a version for 32-bit operating systems. 
+
+\CNAME\ offers little in the way of post-processing of model output, and a package available that allows tabulation and graphing of model outputs is recommended. We suggest software such as \href{http://www.r-project.org}{\R}\ \citep{R} to assist in the post processing of \CNAME\ output. We provide the \texttt{CASAL2} \R\ package for importing the \CNAME\ output into \R\ (see the \CNAME User Manual for more detail).
+
+\subsection{Getting help\index{Getting help}\index{User assistance}\index{Notifying errors}}
+
+\CNAME\ is distributed as unsupported software, however we would appreciate being notified of any problems or errors in \CNAME. See the \CNAME User manual \citep{CASAL2} for the recommended template for reporting issues. For further information on \CNAME\, please contact the development team at \email.
+

@@ -205,7 +205,8 @@ def start():
     print "*************************************************************************"
     print "--> Starting " + Globals.build_target_ + " Build"
     documentation_builder = Documentation()
-    documentation_builder.start()
+    if not documentation_builder.start():
+      return False
   elif build_target == "modelrunner":
     print "*************************************************************************"
     print "*************************************************************************"
@@ -244,7 +245,7 @@ def start():
     deb_builder = DebBuilder()
     if not deb_builder.start(build_parameters):
       return False    
-  
+
   return True
   
 """
@@ -260,5 +261,5 @@ if not start():
   exit_code = 1
   
 system_info.reset_original_path()
-print "--> Finished"
+print "--> Finished "
 exit(exit_code)  

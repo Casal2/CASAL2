@@ -10,6 +10,7 @@
 "extract" <-
 function (file, path = "") {
 
+
   filename = make.filename(path = path, file = file)
   file = convert.to.lines(filename)
   temp = get.lines(file, starts.with = "\\*",fixed=F)
@@ -25,12 +26,20 @@ function (file, path = "") {
       type = substring(header[2],2,nchar(header[2])-1)
       report = get.lines(file, clip.to = temp[i])
       report = get.lines(report,clip.from = "*end")
-      
-      result[[label]] = make.list(report)
-      result[[label]]$type = type
+      report = make.list(report)
+      report$type = type
+      if (!is.in(label, names(result))) {       
+         result[[label]] = list()
+         result[[label]][["1"]] = report
+      } else {
+           result[[label]][[as.character(length(result[[label]])+1)]] = report
+      }
+      file = get.lines(file, clip.to = "*end")
       
   }
   result
+
+
 }
 
 

@@ -38,7 +38,6 @@ private:
   vector<Double>              exogenous_;
   Double                      a_;
   map<unsigned, Double>       values_by_year_;
-  map<unsigned, Double>       parameter_by_year_;
 };
 
 } /* namespace timevarying */

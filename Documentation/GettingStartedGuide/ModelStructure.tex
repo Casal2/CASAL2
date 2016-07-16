@@ -1,0 +1,20 @@
+\section{Structure of a model}\label{Sec:model}
+
+Will need help with this one as I haven't actually built a model yet. 
+
+When setting up a model, I find for ease of readability and error catching, splitting each model into four sections these are:
+
+\begin{enumerate}
+\item Population
+\item estimation
+\item observation
+\item report
+\end{enumerate}
+
+The population section defines the categories that make up the partition, the annual cycle and processes that occur to the partition, along with the parameters that control those processes. The estimation sections defines any parameters that the user wants estimated and any prior information associated with parameters or processes. The observation section defines all the observations and there assumed error structure through the likelihoods which contribute to the objective function. The report section defines all the output the user wishes to have at the end of model runs e.g. objective scores, residuals and the state of the partition at a point in time. To keep models readability I split these sections into there own text file. I have a \texttt{casal2.txt} file that has only the following commands\\
+\texttt{!include "population.txt"}\\
+\texttt{!include "estimation.txt"}\\
+\texttt{!include "observation.txt"}\\
+\texttt{!include "report.txt"}
+
+The \texttt{!include} function looks around in the current directory for the filename that follows it, and reads them all in as a single model. See the Simple example in the Examples for a demonstration of this setup.

@@ -184,10 +184,7 @@ void ProportionsAtAge::DoValidate() {
     for (unsigned i = 0; i < category_labels_.size(); ++i) {
       for (unsigned j = 0; j < age_spread_; ++j) {
         unsigned obs_index = i * age_spread_ + j;
-        if (!utilities::To<Double>(iter->second[obs_index], value))
-          LOG_ERROR_P(PARAM_OBS) << ": obs_ value (" << iter->second[obs_index] << ") at index " << obs_index + 1
-              << " in the definition could not be converted to a numeric double";
-
+        value = iter->second[obs_index];
         Double error_value = error_values_by_year[iter->first][obs_index];
         error_values_[iter->first][category_labels_[i]].push_back(error_value);
         proportions_[iter->first][category_labels_[i]].push_back(value);
@@ -251,7 +248,7 @@ void ProportionsAtAge::PreExecute() {
  */
 void ProportionsAtAge::Execute() {
   LOG_TRACE();
-
+  LOG_FINEST() << "Entering observation " << label_;
   /**
    * Verify our cached partition and partition sizes are correct
    */
@@ -341,12 +338,12 @@ void ProportionsAtAge::Execute() {
       LOG_CODE_ERROR() << "expected_values.size(" << expected_values.size() << ") != proportions_[category_offset].size("
         << proportions_[model_->current_year()][category_labels_[category_offset]].size() << ")";
 
-    /**
-     * save our comparisons so we can use them to generate the score from the likelihoods later
-     */
 
     for (unsigned i = 0; i < expected_values.size(); ++i) {
-      SaveComparison(category_labels_[category_offset], min_age_ + i ,0.0 ,expected_values[i], proportions_[model_->current_year()][category_labels_[category_offset]][i],
+      LOG_FINEST() << "-----";
+      LOG_FINEST() << "Numbers at age for all categories in age " << min_age_ + i << " = " << expected_values[i];
+
+      SaveComparison(category_labels_[category_offset], min_age_ + i ,0.0 ,AS_DOUBLE(expected_values[i]), proportions_[model_->current_year()][category_labels_[category_offset]][i],
           process_errors_by_year_[model_->current_year()], error_values_[model_->current_year()][category_labels_[category_offset]][i], delta_, 0.0);
     }
   }
@@ -362,6 +359,13 @@ void ProportionsAtAge::CalculateScore() {
    * During simulation mode we'll simulate results for this observation
    */
   if (model_->run_mode() == RunMode::kSimulation) {
+    for (auto& iter :  comparisons_) {
+      Double total_expec = 0.0;
+      for (auto& comparison : iter.second)
+        total_expec += comparison.expected_;
+      for (auto& comparison : iter.second)
+        comparison.expected_ /= total_expec;
+    }
     likelihood_->SimulateObserved(comparisons_);
     for (auto& iter :  comparisons_) {
       Double total = 0.0;

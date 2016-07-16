@@ -8,9 +8,9 @@
  *
  * @section DESCRIPTION
  *
- * This is testing iSAM vs CASAL-Complex-3 test case
+ * This is testing CASAL2 vs CASAL-Complex-3 test case
  * developed by Alistair Dunn to ensure consistency between
- * iSAM, CASAL and SPM.
+ * CASAL2, CASAL and SPM.
  */
 #ifndef TESTCASES_CASALCOMPLEX3_H_
 #define TESTCASES_CASALCOMPLEX3_H_
@@ -214,7 +214,7 @@ type uniform_log
 lower_bound 1e-8
 upper_bound 10
 
-@estimate 
+@estimate
 parameter catchability[chatTANbiomass.one].q
 type uniform_log
 lower_bound 1e-2

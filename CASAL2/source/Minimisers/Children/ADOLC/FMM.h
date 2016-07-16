@@ -91,7 +91,7 @@ private:
 
 } /* namespace adolc */
 } /* namespace minimisers */
-} /* namesapce isam */
+} /* namesapce niwa */
 
 #endif /* MINIMISERS_ADOLC_FMM_H_ */
 #endif /* USE_ADOLC */

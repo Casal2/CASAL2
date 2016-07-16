@@ -105,7 +105,7 @@ double RandomNumberGenerator::binomial(double p, double n) {
       count++;
   }
 
-  return count;
+  return count; // Generated Number (NOT a proportion)
 }
 
 /**

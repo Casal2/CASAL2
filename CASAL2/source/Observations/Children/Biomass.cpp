@@ -133,6 +133,8 @@ void Biomass::PreExecute() {
  *
  */
 void Biomass::Execute() {
+  LOG_FINEST() << "Entering observation " << label_;
+
   Double expected_total = 0.0; // value in the model
   vector<string> keys;
   vector<Double> expecteds;
@@ -215,13 +217,6 @@ void Biomass::CalculateScore() {
    */
   if (model_->run_mode() == RunMode::kSimulation) {
     likelihood_->SimulateObserved(comparisons_);
-    for (auto& iter :  comparisons_) {
-      Double total = 0.0;
-      for (auto& comparison : iter.second)
-        total += comparison.observed_;
-      for (auto& comparison : iter.second)
-        comparison.observed_ /= total;
-    }
   } else {
     /**
      * Convert the expected_values in to a proportion

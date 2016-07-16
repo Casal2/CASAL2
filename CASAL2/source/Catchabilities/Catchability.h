@@ -9,7 +9,7 @@
  *
  * @section DESCRIPTION
  *
- * TODO: Add documentation
+ * Catchabilities are used to scale up or down observations with expectations
  *
  */
 #ifndef CATCHABILITY_H_

@@ -283,6 +283,7 @@ void ProportionsByCategory::PreExecute() {
  */
 void ProportionsByCategory::Execute() {
   LOG_TRACE();
+  LOG_FINEST() << "Entering observation " << label_;
 
   /**
    * Verify our cached partition and partition sizes are correct

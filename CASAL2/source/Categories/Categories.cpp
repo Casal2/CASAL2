@@ -17,6 +17,7 @@
 #include <boost/algorithm/string/split.hpp>
 
 #include "AgeLengths/AgeLength.h"
+#include "AgeLengths/Factory.h"
 #include "AgeLengths/Manager.h"
 #include "AgeLengths/Children/None.h"
 #include "Model/Model.h"
@@ -483,8 +484,7 @@ AgeLength* Categories::age_length(const string& category_name) {
   if (categories_.find(category_name) == categories_.end())
     LOG_CODE_ERROR() << "Could not find category_name: " << category_name << " in the list of loaded categories";
   if (!categories_[category_name].age_length_) {
-    categories_[category_name].age_length_ = new agelengths::None(model_);
-    // TODO: Pretty sure this is a memory leak
+    categories_[category_name].age_length_ = agelengths::Factory::Create(model_, PARAM_AGE_LENGTH, PARAM_NONE);
   }
 
   return categories_[category_name].age_length_;

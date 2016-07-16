@@ -89,6 +89,6 @@ private:
 
 } /* namespace gammadiff */
 } /* namespace minimisers */
-} /* namesapce isam */
+} /* namesapce niwa */
 
 #endif /* MINIMISERS_GAMMADIFF_FMM_H_ */

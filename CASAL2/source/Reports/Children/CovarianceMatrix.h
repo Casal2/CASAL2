@@ -15,6 +15,7 @@
 
 // namespaces
 namespace niwa {
+class MCMC;
 class Minimiser;
 
 namespace reports {
@@ -27,15 +28,12 @@ public:
   CovarianceMatrix(Model* model);
   virtual                     ~CovarianceMatrix() = default;
   void                        DoValidate() override final { };
-  void                        DoBuild() override final;
+  void                        DoBuild() override final { };
   void                        DoExecute() override final;
   void                        DoExecuteTabular() override final { };
 
 private:
-  Minimiser*                  minimiser_;
   ublas::matrix<Double>       covariance_matrix_;
-  ublas::matrix<Double>       correlation_matrix_;
-  double**                    hessian_;
 };
 
 } /* namespace reports */

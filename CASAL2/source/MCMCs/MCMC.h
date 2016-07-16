@@ -64,6 +64,7 @@ public:
   bool                        active() const { return active_; }
   ublas::matrix<Double>&      covariance_matrix() {return covariance_matrix_;}
   void                        set_starting_iteration(unsigned value) { starting_iteration_ = value; }
+  bool                        recalculate_covariance() const { return recalculate_covariance_; }
 
 protected:
   // pure virtual methods
@@ -79,6 +80,8 @@ protected:
   vector<mcmc::ChainLink>     chain_;
   bool                        active_;
   bool                        print_default_reports_;
+  bool                        recalculate_covariance_ = false;
+
 };
 
 } /* namespace niwa */

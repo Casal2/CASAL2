@@ -112,7 +112,7 @@ void MortalityInstantaneous::DoValidate() {
       Double value = 0.0;
       if (!utilities::To<string, Double>(row[i], value))
         LOG_ERROR_P(PARAM_CATCHES) << "value " << row[i] << " for fishery " << columns[i] << " is not numeric";
-      fishery_year_catch[columns[i]][year] = math::convert_units(value, unit_);
+      fishery_year_catch[columns[i]][year] = math::convert_units_to_kgs(value, unit_);
     }
   }
 
@@ -242,6 +242,9 @@ void MortalityInstantaneous::DoBuild() {
       if (!fishery.penalty_)
         LOG_ERROR_P(PARAM_FISHERIES) << ": penalty " << fishery.penalty_label_ << " does not exist. Have you defined it?";
     }
+    bool check_time_step = model_->managers().time_step()->CheckTimeStep(fishery.time_step_label_);
+    if (!check_time_step)
+      LOG_FATAL_P(PARAM_FISHERIES) << "The time step " << fishery.time_step_label_ << " could not be found have you defined it in the annual cycle";
     fishery.time_step_index_ = model_->managers().time_step()->GetTimeStepIndex(fishery.time_step_label_);
   }
 

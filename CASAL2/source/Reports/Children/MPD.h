@@ -10,7 +10,7 @@
  * @section DESCRIPTION
  *
  * This report will dump the covariance matrix and estimables in a way that
- * can be read back in to iSAM for use in MCMC or a new estimation
+ * can be read back in to Casal2 for use in MCMC or a new estimation
  */
 #ifndef SOURCE_REPORTS_CHILDREN_MPD_H_
 #define SOURCE_REPORTS_CHILDREN_MPD_H_

@@ -98,9 +98,12 @@ void Multinomial::SimulateObserved(map<unsigned, vector<observations::Comparison
 
       if (comparison.expected_ <= 0.0 || error_value <= 0.0)
         comparison.observed_ = 0.0;
-      else
+      else {
+        LOG_FINEST() << "expected = " << comparison.expected_;
         comparison.observed_ = rng.binomial(AS_DOUBLE(comparison.expected_), AS_DOUBLE(error_value));
+        LOG_FINEST() << "Simulated = " << comparison.observed_;
 
+      }
 //      totals[comparison.category_] += comparison.observed_;
     }
 

@@ -51,9 +51,10 @@ MortalityHollingRate::MortalityHollingRate(Model* model)
 
   parameters_.Bind<string>(PARAM_PREY_CATEGORIES, &prey_category_labels_, "Prey Categories labels", "");
   parameters_.Bind<string>(PARAM_PREDATOR_CATEGORIES, &predator_category_labels_, "Predator Categories labels", "");
+  parameters_.Bind<bool>(PARAM_IS_ABUNDANCE, &is_abundance_, "Is vulnerable amount for prey and predator in Abundance (TRUE) or biomass (FALSE)", "", true);
   parameters_.Bind<Double>(PARAM_A, &a_, "parameter a", "")->set_lower_bound(0.0);
   parameters_.Bind<Double>(PARAM_B, &b_, "parameter b", "")->set_lower_bound(0.0);
-  parameters_.Bind<Double>(PARAM_X, &x_, "parameter x", "")->set_lower_bound(0.0);
+  parameters_.Bind<Double>(PARAM_X, &x_, "This parameter controls the type of functional form, Holling function type 2 (x=2) or 3 (x=3), or generalised (Michaelis Menten)", "")->set_lower_bound(1.0);
   parameters_.Bind<Double>(PARAM_U_MAX, &u_max_, "Umax", "")->set_range(0.0, 1.0);
   parameters_.Bind<string>(PARAM_PREY_SELECTIVITIES, &prey_selectivity_labels_, "Selectivities for prey categories", "");
   parameters_.Bind<string>(PARAM_PREDATOR_SELECTIVITIES, &predator_selectivity_labels_, "Selectivities for predator categories", "");
@@ -98,7 +99,6 @@ void MortalityHollingRate::DoBuild() {
   /**
    * Assign the selectivity, penalty and time step index to each fisher data object
    */
-  LOG_MEDIUM() << "Are we pass here?";
   unsigned category_offset = 0;
   for (string selectivity : prey_selectivity_labels_) {
     prey_selectivities_.push_back(model_->managers().selectivity()->GetSelectivity(selectivity));
@@ -132,7 +132,6 @@ void MortalityHollingRate::DoBuild() {
     if (!model_->categories()->IsValid(label))
       LOG_ERROR_P(PARAM_CATEGORIES) << ": category " << label << " does not exist. Have you defined it?";
   }
-  LOG_MEDIUM() << "Are we pass here?";
 }
 
 /**
@@ -153,9 +152,13 @@ void MortalityHollingRate::DoExecute() {
     unsigned prey_offset = 0;
 
     for (auto prey_categories : prey_partition_) {
-      //prey_categories->UpdateMeanWeightData(); // is not abundance
-      for (unsigned i = 0; i < prey_categories->data_.size(); ++i) {
-        Vulnerable += prey_categories->data_[i] * prey_selectivities_[prey_offset]->GetResult(prey_categories->min_age_ + i, prey_categories->age_length_);
+      if (!is_abundance_) {
+        prey_categories->UpdateMeanWeightData(); // is not abundance
+        for (unsigned i = 0; i < prey_categories->data_.size(); ++i)
+          Vulnerable += prey_categories->data_[i] * prey_selectivities_[prey_offset]->GetResult(prey_categories->min_age_ + i, prey_categories->age_length_) * prey_categories->mean_weight_per_[prey_categories->min_age_ + i];
+      } else {
+        for (unsigned i = 0; i < prey_categories->data_.size(); ++i)
+          Vulnerable += prey_categories->data_[i] * prey_selectivities_[prey_offset]->GetResult(prey_categories->min_age_ + i, prey_categories->age_length_);
       }
       ++prey_offset;
     }
@@ -166,9 +169,13 @@ void MortalityHollingRate::DoExecute() {
      */
     unsigned predator_offset = 0;
     for (auto predator_categories : predator_partition_) {
-      //prey_categories->UpdateMeanWeightData(); // is not abundance
-      for (unsigned i = 0; i < predator_categories->data_.size(); ++i) {
-        PredatorVulnerable += predator_categories->data_[i] * predator_selectivities_[predator_offset]->GetResult(predator_categories->min_age_ + i, predator_categories->age_length_);
+      if (!is_abundance_) {
+        predator_categories->UpdateMeanWeightData();
+        for (unsigned i = 0; i < predator_categories->data_.size(); ++i)
+          PredatorVulnerable += predator_categories->data_[i] * predator_selectivities_[predator_offset]->GetResult(predator_categories->min_age_ + i, predator_categories->age_length_) * predator_categories->mean_weight_per_[predator_categories->min_age_ + i];
+      } else {
+        for (unsigned i = 0; i < predator_categories->data_.size(); ++i)
+          PredatorVulnerable += predator_categories->data_[i] * predator_selectivities_[predator_offset]->GetResult(predator_categories->min_age_ + i, predator_categories->age_length_);
       }
       ++predator_offset;
     }
