@@ -109,7 +109,7 @@ inline Double unscale_value(const Double& value, Double& penalty, Double min, Do
 //**********************************************************************
 //    Convert units from unit to kgs
 //**********************************************************************
-inline Double convert_units(Double Value, string unit) {
+inline Double convert_units_to_kgs(Double Value, string unit) {
   Double converted_value = 0.0;
   if (unit == PARAM_TONNES)
     converted_value = Value * 1000;
@@ -118,7 +118,7 @@ inline Double convert_units(Double Value, string unit) {
   else if (unit == PARAM_GRAMS) {
     converted_value = Value / 1000;
   } else {
-    LOG_ERROR() << "The unit type: " << unit << " is not expected, Values expected are kgs, tonnes, grammes";
+    LOG_FATAL() << "The unit type: " << unit << " is not expected, Values expected are kgs, tonnes, grammes";
   }
   return converted_value;
 }

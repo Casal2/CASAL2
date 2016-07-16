@@ -48,5 +48,5 @@ TEST(PartitionAccessors, Category) {
 
 }
 
-} /* mamespace isam */
+} /* mamespace niwa */
 #endif /* #ifdef TESTMODE */

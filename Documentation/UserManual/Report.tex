@@ -1,0 +1,126 @@
+\section{\I{The report section}\label{{sec:report-section}}}\index{Reports}\index{Reports section}
+The report section specifies the printouts and other outputs from the model. \CNAME\ does not, in general, produce any output unless requested by a valid \command{report} block. 
+
+Reports from \CNAME\ can be defined to print partition and states objects at a particular point in time, observation summaries, estimated parameters and objective function values. See below for a more extensive list, and an example of an observation report.
+
+{\small{\begin{verbatim}
+		@report observation_age ## label of report
+		type observation		## Type of report
+		observation age_1990	## label corresponding to an @observation report, shown below
+		
+		@observation age_1990
+		type proportion_at_age
+		year 1990
+		plus_group
+		etc ...
+		\end{verbatim}}}
+
+Reports from \CNAME\ all conform to a standard style\index{Reports ! standard style} (with one exception --- the \texttt{output\_parameters} report, see below). The standard style is that reports are prefixed with an aster-ix followed by a user-defined label and type of report in brackets (e.g., \texttt{*label (type)}), with the report ending with the line \texttt{*end}. For example,
+
+\begin{verbatim} 
+*My_report(type)
+...
+*end
+\end{verbatim}
+
+
+This syntax should make it easier for external packages to be configured to read \CNAME\ output. The \texttt{extract} functions in the \R\ \texttt{CASAL2} package uses this information to identify and read \CNAME\ output within an \R\ environment.
+
+Note that the \texttt{output\_parameters} report does not print either a header or \texttt{*end} at the end of the report. This is as the \texttt{output\_parameters} report is designed to provide a single line (or multi-line for more than one set) vector of the estimated parameter values, suitable for reading by \CNAME\ (with the command \texttt{casal2 -i}). This is a specialised report for \texttt{casal2 -o filename} command. For estimate values in standard output users are recommended to use \texttt{type=estimate\_value}.
+
+Reports can be defined in an \command{report} but may not be generated. For example printing the partition for a year and/or time-step that does not exist or reporting the covariance matrix when not estimating. Certain reports are associated with certain \CNAME\ run modes. Such reports are ignored by \CNAME\ and the program will not generate any output for these reports --- although they must still conform to \CNAME s syntax requirements.
+
+Not all reports will be generated in all run modes. Some reports are only available in some run modes. For example, when simulating, only simulation reports will be output.
+
+\subsection{\I{Print the partition at the end of an initialisation}}\index{Reports ! Initialisation}
+
+Print the partition following an initialisation phase. This prints out, the numbers of individuals in each age class and category in the partition following an initialisation phase. This report will print out in the following runmodes \texttt{-r, -e, -f}.
+
+\subsection{\I{Print the partition}}\index{Reports ! Partition}
+
+Print the partition for a given year or given years and time-step. This prints out, the numbers of individuals in each age class and category in the partition for each year. Note that this report is evaluated at the end of the time-step in the given year(s). This report will print out in the following runmodes \texttt{-r, -e, -f}.
+
+
+\subsection{\I{Print the age length and length weight values}}\index{Reports ! Partition}
+
+Print the length and weight for an age of the partition for a given year or given years and time-step. This prints out, the length and weight value for each age class and category in the partition for each year and time step. Note that this report is evaluated at the end of the time-step in the given year(s). This report will print out in the following runmodes \texttt{-r, -e, -f}.
+
+{\small{\begin{verbatim}
+		@report length_weight_at_age
+		type partition_mean_weight
+		time_step step2
+		years 1900:2013
+		\end{verbatim}}}
+
+\subsection{\I{Print a process summary}}\index{Reports ! Processes}
+Print a summary of a process. Depending on the process, different summaries are produced. These typically detail the type of process, its parameters and other options, and any associated details. This report will print out in the following runmodes \texttt{-r, -e, -f}.
+
+\subsection{\I{Print derived quantities}}\index{Reports ! Derived quantities}
+
+Print out the description of the derived quantity, and the values of the derived quantity as recorded in the model state, for each year of the model. and for all years in the  initialisation phases. This report will print out in the following runmodes \texttt{-r, -e, -f}.
+
+\subsection{\I{Print the estimated parameters}}\index{Reports ! Estimated parameters}
+
+Print a summary of the estimated parameters using the following type \texttt{estimate\_summary}, including the parameter name, lower and upper bounds, the label of the prior, and its value. This report will print out in the following runmodes \texttt{-r, -e}.
+
+\subsection{\I{Print the estimated parameters in a vector format}}\index{Reports ! Estimated parameters}
+
+Print the estimated parameter values out as a vector. The \texttt{estimate\_values} report prints the name of the parameter, followed by the value of that run.  This report will print out in the following runmodes \texttt{-r, -e}.
+
+\subsection{\I{Print the objective function}}\index{Reports ! Objective function}
+
+Print the total objective function value, and the value of all observations, the values of all priors, and the value of any penalties that have been incurred in the model. Note that if an individual model run does not incur a penalty, then the penalty will not be reported. This report will print out in the following runmodes \texttt{-r, -e, -f}.
+
+\subsection{\I{Print the covariance matrix}}\index{Reports ! Covariance Matrix}\index{Reports ! Hessian}
+
+Print the Hessian and covariance matrices if estimating and if the covariance has been requested by\commandlabsubarg{minimiser}{covariance}{true}.
+
+\subsection{\I{Print observations, fits, and residuals}}\index{Reports ! Observations}
+
+Prints out for each category or combination of categories, expected values as calculated by the model, residuals (observed $-$ expected), the error value, process error, and the total error (i.e., the error value as modified by any additional process error), and the contribution to the total objective function of that individual point in the observation. 
+
+Note that constants in likelihoods are often ignored in the objective function score of individual points. Hence, the total score from an observation equals the contribution of the objective function scores from each individual point plus a constant term (if applicable). In likelihoods without a constant term, then the total score from an observation will equal the contribution of the objective function scores from each individual point.
+
+If simulating, then the contribution to the objective function of each observation is reported as zero. 
+
+\subsection{\I{Print simulated observations}}\index{Reports ! Simulated observations}
+
+Prints out a complete observation definition (i.e., in the form defined by \commandlabsubarg{report}{type}{observation}), but with observed values replaced by randomly generated simulated values. The output is in a form  suitable for use within a \CNAME\ \config, reproducing the command and subcommands from the \config. This report will print out in the following runmodes \texttt{-s}.
+
+\subsection{\I{Print the ageing error misclassification matrix}}\index{Reports ! Ageing error misclassification matrix}\label{sec:ageingerrorreport}
+
+Prints out the ageing error misclassification matrix used to offset observations within during model the model fitting procedure.
+
+\subsection{\I{Print selectivities}}\index{Reports ! Selectivities}
+
+Prints the values of a selectivity for each age in the partition, for a given year and at then end of a given time-step.
+
+\subsection{\I{Print the random number seed}}\index{Reports ! Random number seed}
+
+Prints the random number seed used by \CNAME\ to generate the random number sequence. Future runs made with the same random number seed and the same model will produce identical outputs.
+
+\subsection{\I{Print the results of an MCMC}}\index{Reports ! MCMC}
+
+Print the MCMC samples, objective function values, and proposal covariance matrix following an MCMC. This report will print out in the following runmode \texttt{-m}.
+
+\subsection{\I{Print the MCMC samples as they are calculated}}\index{Reports ! MCMC samples}
+
+Print the MCMC samples for each new \textit{i}th sample as they are calculated while doing an MCMC. The output file will be updated with each new sample as it is calculated by \CNAME. This report will print out in the following runmodes \texttt{-m}.
+
+\subsection{\I{Print the MCMC objective function values as they are calculated}}\index{Reports ! MCMC objective functions}
+
+Print the MCMC objective function values (along with the proposal covariance matrix) for each new \textit{i}th sample as they are calculated while doing an MCMC. The output file will be updated with each new set of objective function values as it is calculated by \CNAME. This report will print out in the following runmodes \texttt{-m}.
+
+\subsection{\I{Print time varying parameters}}\index{Reports ! time varying}
+
+Print all \command{time\_varying} blocks with the values and years that they were implemented in. This report will print out in the following runmodes \texttt{-r, -e, -m}.
+
+{\small{\begin{verbatim}
+		@report time_varying_parameters
+		type time_varying
+		\end{verbatim}}}
+
+\subsection{\I{Tabular reporting}}\index{Reports ! Tabular}
+An alternative reporting framework to the standard output is the tabular reporting. Tabular reporting is used with multiline \texttt{-i} input files (like the MCMC sample or -o outputs). Tabular reports will print out a row that will correspond with each row of the \texttt{-i} input files. Tabular reporting is in invoked at the command line using the following command \texttt{casal2 -r --tabular -i file\_name}. Currently derived quantities and estimate\_values are the only report types that are within this framework. For each input file the output will begin with the names of each column followed by a multiline report ending with the \texttt{*end} syntax. These tables can be easily read into \R\ using the \texttt{CASAL2} package and for the example of MCMC multi-line files posteriors of derived quantities can be plotted.
+
+

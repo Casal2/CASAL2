@@ -181,10 +181,7 @@ void ProportionsAtAgeForFishery::DoValidate() {
     for (unsigned i = 0; i < category_labels_.size(); ++i) {
       for (unsigned j = 0; j < age_spread_; ++j) {
         unsigned obs_index = i * age_spread_ + j;
-        if (!utilities::To<Double>(iter->second[obs_index], value))
-          LOG_ERROR_P(PARAM_OBS) << ": obs_ value (" << iter->second[obs_index] << ") at index " << obs_index + 1
-              << " in the definition could not be converted to a numeric double";
-
+        value = iter->second[obs_index];
         Double error_value = error_values_by_year[iter->first][obs_index];
         error_values_[iter->first][category_labels_[i]].push_back(error_value);
         proportions_[iter->first][category_labels_[i]].push_back(value);
@@ -243,6 +240,8 @@ void ProportionsAtAgeForFishery::PreExecute() {
  */
 void ProportionsAtAgeForFishery::Execute() {
   LOG_TRACE();
+  LOG_FINEST() << "Entering observation " << label_;
+
   // Check if we are in the final time_step so we have all the relevent information from the Mortaltiy process
 
   unsigned current_time_step = model_->managers().time_step()->current_time_step();
@@ -345,8 +344,16 @@ void ProportionsAtAgeForFishery::CalculateScore() {
    * During simulation mode we'll simulate results for this observation
    */
   if (model_->run_mode() == RunMode::kSimulation) {
+
+    for (auto& iter : comparisons_) {
+      Double total_expec = 0.0;
+      for (auto& comparison : iter.second)
+        total_expec += comparison.expected_;
+      for (auto& comparison : iter.second)
+        comparison.expected_ /= total_expec;
+    }
     likelihood_->SimulateObserved(comparisons_);
-    for (auto& iter :  comparisons_) {
+    for (auto& iter : comparisons_) {
       Double total = 0.0;
       for (auto& comparison : iter.second)
         total += comparison.observed_;
@@ -364,17 +371,18 @@ void ProportionsAtAgeForFishery::CalculateScore() {
       }
       for (obs::Comparison& comparison : comparisons_[year]) {
         if (running_total != 0.0)
-          comparison.expected_  = comparison.expected_ / running_total;
+          comparison.expected_ = comparison.expected_ / running_total;
         else
-          comparison.expected_  = 0.0;
+          comparison.expected_ = 0.0;
       }
 
       scores_[year] = likelihood_->GetInitialScore(comparisons_, year);
       LOG_FINEST() << "-- Observation score calculation";
-      LOG_FINEST() << "[" << year << "] Initial Score:"<< scores_[year];
+      LOG_FINEST() << "[" << year << "] Initial Score:" << scores_[year];
       likelihood_->GetScores(comparisons_);
       for (obs::Comparison comparison : comparisons_[year]) {
-        LOG_FINEST() << "[" << year << "]+ likelihood score: " << comparison.score_;
+        LOG_FINEST() << "[" << year << "]+ likelihood score: "
+            << comparison.score_;
         scores_[year] += comparison.score_;
       }
     }

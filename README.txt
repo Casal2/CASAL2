@@ -1,9 +1,9 @@
-CASAL2 README
+Casal2 README
 
-Firstly the developers would like to thank you for downloading CASAL2 and remind you that this is open source, and contributions in ideas and to source code is incouraged. This download once unzipped should contain, A manual (CASAL2.pdf), an executable (casal2.exe), Source code (src), an examples folder and 5 dynamic libraries (casal2_adolc.dll, casal2_betadiff.dll ...etc).
+Firstly the developers would like to thank you for downloading Casal2 and remind you that this is open source, and contributions in ideas and to source code is incouraged. Source code is available at https://github.com/NIWAFisheriesModelling/CASAL2. This zip file contains, a usermanual (Casal2.pdf), an executable (casal2.exe),an examples folder and 5 dynamic libraries (casal2_adolc.dll, casal2_betadiff.dll ...etc).
 
 Running Casal2 for windows users
-If you can change your systems path, it is advised to put the directory that casal2.exe and all the the thirdparty libraries with the extension .dll into your systems path. Once you have  casal2 in your path if you open the command prompt in any directory (shift + rigth click -> open command window) and type casal2 -h, you can get the help screen from casal2. If CASAL2 is in your path then open the command prompt in the Examples/Simple folder. To do a simple run type "casal2 -r" which will print output to the screen. If you want to just run CASAL2 then open the command prompt in the folder that casal2.exe and libraries and type the command into the command prompt "casal2 -r -c Examples/Simple/casal2.txt", which will also print output to the screen. for other run modes use the following commands:
+If you can change your systems path, it is advised to put the directory that casal2.exe and all the the thirdparty libraries with the extension .dll into your systems path. Once you have  casal2 in your path if you open the command prompt in any directory (shift + rigth click -> open command window) and type casal2 -h, you can get the help screen from casal2. If Casal2 is in your path then open the command prompt in the Examples/Simple folder. To do a simple run type "casal2 -r" which will print output to the screen. If you want to just run Casal2 then open the command prompt in the folder that casal2.exe and libraries and type the command into the command prompt "casal2 -r -c Examples/Simple/casal2.txt", which will also print output to the screen. for other run modes use the following commands:
 Estimation
 casal2 -e
 Profile a specific parameter
@@ -15,6 +15,4 @@ casal2 -s 1
 one set of projections
 casal2 -f 1
 
-To 
-
-For an overview of CASAL2 we suggest you start by reading, getting started with CASAL2.pdf. This will explain how to run CASAL2, and the fundamental syntax for CASAL2. For a more indepth read users are recommended to go to the manual.
+For an overview of Casal2 we suggest you start by reading, "getting started with CASAL2.pdf". This will explain how to run CASAL2, and the fundamental syntax for Casal2. For a more indepth read users are recommended to go to the manual.

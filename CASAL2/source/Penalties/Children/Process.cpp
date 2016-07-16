@@ -25,8 +25,8 @@ namespace penalties {
  * Default Constructor
  */
 Process::Process(Model* model) : Penalty(model) {
-  parameters_.Bind<Double>(PARAM_MULTIPLIER, &multiplier_, "Multiplier", "", 1.0);
-  parameters_.Bind<bool>(PARAM_LOG_SCALE, &log_scale_, "Log scale", "", false);
+  parameters_.Bind<Double>(PARAM_MULTIPLIER, &multiplier_, "Multiply the penalty by this factor", "", 1.0);
+  parameters_.Bind<bool>(PARAM_LOG_SCALE, &log_scale_, "Should sums of squares be calculated on the log scale?", "", false);
 
   has_score_ = false;
 }

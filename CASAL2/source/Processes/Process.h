@@ -28,11 +28,10 @@ namespace niwa {
 enum class ProcessType {
   kUnknown,
   kAgeing,
-  kMaturation, // DEL change process to transitoon
+  kMaturation,
   kMortality,
   kRecruitment,
   kTransition,
-  kTaggingWithMortality // CHG to kTagging
 };
 
 /**

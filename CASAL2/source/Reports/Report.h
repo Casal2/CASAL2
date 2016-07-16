@@ -9,7 +9,7 @@
  *
  * @section DESCRIPTION
  *
- * This is the base report class for all reports that are created within iSAM.
+ * This is the base report class for all reports that are created within CASA2.
  *
  * $Date: 2008-03-04 16:33:32 +1300 (Tue, 04 Mar 2008) $
  */

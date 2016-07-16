@@ -47,6 +47,7 @@ private:
   string                      penalty_label_ = "";
   penalties::Process*         penalty_ = nullptr;
   Double                      u_max_;
+  bool                        is_abundance_ = true;
   vector<string>              prey_category_labels_;
   vector<string>              predator_category_labels_;
   Double                      a_;

@@ -78,15 +78,15 @@ TEST_F(InternalEmptyModel, Model_CasalComplex1_Simulation) {
     EXPECT_DOUBLE_EQ(1.0, sum) << " for year " << iterator.first;
   }
 
-  EXPECT_DOUBLE_EQ(0.0066381041682021229,  comparisons[1992][0].observed_);
-  EXPECT_DOUBLE_EQ(0.0070833196771564336, comparisons[1992][1].observed_);
-  EXPECT_DOUBLE_EQ(0.0057998649850546837,  comparisons[1992][2].observed_);
+  EXPECT_DOUBLE_EQ(0.0066381041682021169,  comparisons[1992][0].observed_);
+  EXPECT_DOUBLE_EQ(0.0070833196771564275, comparisons[1992][1].observed_);
+  EXPECT_DOUBLE_EQ(0.0057998649850546881,  comparisons[1992][2].observed_);
   EXPECT_DOUBLE_EQ(0.01090770432991572,  comparisons[1992][3].observed_);
   EXPECT_DOUBLE_EQ(0.027242617586312013,   comparisons[1992][4].observed_);
-  EXPECT_DOUBLE_EQ(0.040261942218864102,  comparisons[1992][5].observed_);
-  EXPECT_DOUBLE_EQ(0.027889541540686152,   comparisons[1992][6].observed_);
+  EXPECT_DOUBLE_EQ(0.040261942218864068,  comparisons[1992][5].observed_);
+  EXPECT_DOUBLE_EQ(0.027889541540686093,   comparisons[1992][6].observed_);
   EXPECT_DOUBLE_EQ(0.043455271082630184,   comparisons[1992][7].observed_);
-  EXPECT_DOUBLE_EQ(0.059710394387489041,   comparisons[1992][8].observed_);
+  EXPECT_DOUBLE_EQ(0.059710394387488964,   comparisons[1992][8].observed_);
   EXPECT_DOUBLE_EQ(0.071124937102585217,  comparisons[1992][9].observed_);
 }
 

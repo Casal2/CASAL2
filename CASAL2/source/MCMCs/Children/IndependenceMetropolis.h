@@ -41,6 +41,7 @@ protected:
   void                        FillMultivariateNormal(Double step_size);
   void                        FillMultivariateT(Double step_size);
   void                        UpdateStepSize();
+  void                        UpdateCovarianceMatrix();
   void                        GenerateNewCandidates();
 
   // members
@@ -62,8 +63,10 @@ protected:
   vector<Double>              candidates_;
   vector<bool>                is_enabled_estimate_;
   vector<unsigned>            adapt_step_size_;
+  vector<unsigned>            adapt_covariance_matrix_;
   Minimiser*                  minimiser_;
   vector<string>              estimate_labels_;
+
 };
 
 } /* namespace mcmcs */

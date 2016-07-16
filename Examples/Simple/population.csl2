@@ -59,6 +59,7 @@ m 0.19
 time_step_ratio 0.42 0.58
 selectivities One
 categories stock
+units kgs
 table catches
 year FishingWest FishingEest
 1975	80000	111000

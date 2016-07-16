@@ -23,7 +23,7 @@ namespace observations {
  */
 TimeStepAbundance::TimeStepAbundance(Model* model)
   : observations::Abundance(model) {
-  parameters_.Bind<string>(PARAM_CATCHABILITY, &catchability_label_, "TBA", "");
+  parameters_.Bind<string>(PARAM_CATCHABILITY, &catchability_label_, "Catchability label for this observation", "");
   parameters_.Bind<string>(PARAM_OBS, &obs_, "Observation values", "");
   parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "Years to execute in", "");
   parameters_.Bind<Double>(PARAM_ERROR_VALUE, &error_values_, "The error values to use against the observation values", "");

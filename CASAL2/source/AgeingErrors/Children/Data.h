@@ -9,8 +9,8 @@
  *
  * @section DESCRIPTION
  *
- * TODO: Add documentation
- * TODO: Implement this class
+ * Data AgeingErrors is a user defined table that describes the probability of a fish being aged as age i being aged as age j.
+ *
  */
 #ifndef AGEINGERRORS_DATA_H_
 #define AGEINGERRORS_DATA_H_

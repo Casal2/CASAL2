@@ -10,7 +10,7 @@
  * @section DESCRIPTION
  *
  * This report will print a summary of all of the estimate
- * objects that have been created in iSAM
+ * objects that have been created in Casal2
  *
  * $Date: 2008-03-04 16:33:32 +1300 (Tue, 04 Mar 2008) $
  */

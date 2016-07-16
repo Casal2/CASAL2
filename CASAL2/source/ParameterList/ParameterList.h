@@ -114,7 +114,8 @@ public:
   void                        set_defined_line_number(unsigned value) { defined_line_number_ = value; }
   unsigned                    defined_line_number() const { return defined_line_number_; }
   map<string, Parameter*>&    parameters() { return parameters_; }
-  void                        set_allow_any_parameter() { allow_any_parameter_ = true; }
+  void                        set_ignore_all_parameters() { ignore_all_parameters_ = true; }
+  bool                        ignore_all_parameters() { return ignore_all_parameters_; }
 
 private:
   // members
@@ -124,7 +125,7 @@ private:
   unsigned                    defined_line_number_  = 0;
   map<string, Parameter*>     parameters_;
   map<string, Table*>         tables_;
-  bool                        allow_any_parameter_  = false;
+  bool                        ignore_all_parameters_ = false;
 };
 
 } /* namespace niwa */

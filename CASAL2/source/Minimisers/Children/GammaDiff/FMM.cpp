@@ -505,4 +505,4 @@ FMM::~FMM() {
 
 } /* namespace gammadiff */
 } /* namespace minimisers */
-} /* namesapce isam */
+} /* namesapce niwa */

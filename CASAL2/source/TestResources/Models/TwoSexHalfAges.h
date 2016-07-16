@@ -284,7 +284,7 @@ alpha 0.7
 
 } /* */
 } /* testresources */
-} /* isam */
+} /* niwa */
 
 #endif /* TESTMODE */
 #endif /* TWOSEXHALFAGES_H_ */

@@ -48,7 +48,7 @@ void CommandLineParser::Parse(int argc, char* argv[], RunParameters& options) {
   options_description oDesc("Usage");
   oDesc.add_options()
     ("help,h", "Print help")
-    ("license,l", "Display iSAM license")
+    ("license,l", "Display Casal2 license")
     ("version,v", "Display version information")
     ("config,c", value<string>(), "Configuration file")
     ("run,r", "Basic model run mode")
@@ -70,7 +70,7 @@ void CommandLineParser::Parse(int argc, char* argv[], RunParameters& options) {
     ("output,o", value<string>(), "Create estimate value report directed to <file>")
     ("single-step", "Single step the model each year with new estimable values")
     ("tabular", "Print reports in Tabular mode")
-    ("unittest", "Run the unit tests for CASAL2");
+    ("unittest", "Run the unit tests for Casal2");
 
 
   ostringstream o;

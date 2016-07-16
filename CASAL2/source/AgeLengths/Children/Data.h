@@ -9,7 +9,7 @@
  *
  * @section DESCRIPTION
  *
- * TODO: Add documentation
+ * Data AgeLength is a user defined table that describes the mean length for each age group in every year. The tables dimensions are years by ages
  */
 #ifndef AGELENGTHS_DATA_H_
 #define AGELENGTHS_DATA_H_

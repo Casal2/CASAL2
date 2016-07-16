@@ -20,10 +20,12 @@
 #include "Reports/Children/CategoryInfo.h"
 #include "Reports/Children/CategoryList.h"
 #include "Reports/Children/CovarianceMatrix.h"
+#include "Reports/Children/CorrelationMatrix.h"
 #include "Reports/Children/DerivedQuantity.h"
 #include "Reports/Children/Estimable.h"
 #include "Reports/Children/EstimateSummary.h"
 #include "Reports/Children/EstimateValue.h"
+#include "Reports/Children/HessianMatrix.h"
 #include "Reports/Children/InitialisationPartition.h"
 #include "Reports/Children/MCMCCovariance.h"
 #include "Reports/Children/MCMCObjective.h"
@@ -39,6 +41,8 @@
 #include "Reports/Children/OutputParameters.h"
 #include "Reports/Children/SimulatedObservation.h"
 #include "Reports/Children/Selectivity.h"
+#include "Reports/Children/TimeVarying.h"
+
 
 // Namespaces
 namespace niwa {
@@ -64,6 +68,8 @@ Report* Factory::Create(Model* model, const string& object_type, const string& s
       result = new CategoryList(model);
     else if (sub_type == PARAM_COVARIANCE_MATRIX)
       result = new CovarianceMatrix(model);
+    else if (sub_type == PARAM_CORRELATION_MATRIX)
+      result = new CorrelationMatrix(model);
     else if (sub_type == PARAM_DERIVED_QUANTITY)
       result = new DerivedQuantity(model);
     else if (sub_type == PARAM_ESTIMABLE)
@@ -72,6 +78,8 @@ Report* Factory::Create(Model* model, const string& object_type, const string& s
       result = new EstimateSummary(model);
     else if (sub_type == PARAM_ESTIMATE_VALUE)
       result = new EstimateValue(model);
+    else if (sub_type == PARAM_HESSIAN_MATRIX)
+      result = new HessianMatrix(model);
     else if (sub_type == PARAM_INITIALISATION_PARTITION)
       result = new InitialisationPartition(model);
     else if (sub_type == PARAM_MCMC_COVARIANCE)
@@ -102,6 +110,8 @@ Report* Factory::Create(Model* model, const string& object_type, const string& s
       result = new SimulatedObservation(model);
     else if (sub_type == PARAM_SELECTIVITY)
       result = new Selectivity(model);
+    else if (sub_type == PARAM_TIME_VARYING)
+      result = new TimeVarying(model);
 
     if (result)
       model->managers().report()->AddObject(result);
