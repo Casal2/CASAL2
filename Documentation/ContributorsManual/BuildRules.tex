@@ -1,0 +1,27 @@
+\section{\CNAME\ build rules\label{sec:build_rules}}
+This section will cover, the standards contributors are expected to follow and the builds that must pass on the local machine in order to add a pull request for changes to be accepted into the 'master' repository.
+
+\subsection{\CNAME\ coding practice}
+google style, C++ 11, annotate your code
+
+\subsection{Unit tests}
+test your code externally
+
+\subsection{Reporting}
+Add reports to your code change
+
+\subsection{Update manual}
+
+\subsection{Builds to pass before merging changes}
+build the unitest version
+\texttt{DoBuild test}
+run the unittest check they all pass
+\texttt{casal2}
+\texttt{DoBuild debug}
+run the second phase of unitests which are complete model runs
+\texttt{DoBuild modelrunner}
+this is conditional on having a debug version previously built.
+Build the archive which contains
+\texttt{DoBuild archive}
+
+
