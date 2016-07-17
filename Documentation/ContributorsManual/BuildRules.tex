@@ -1,13 +1,34 @@
 \section{\CNAME\ build rules\label{sec:build_rules}}
 This section will cover, the standards contributors are expected to follow and the builds that must pass on the local machine in order to add a pull request for changes to be accepted into the 'master' repository.
 
-\subsection{\CNAME\ coding practice}
-google style, C++ 11, annotate your code
+\subsection{\CNAME\ coding practice and style}
+\CNAME\ is written in C++ and follows googles C++ style guide which can be found at \url{https://google.github.io/styleguide/cppguide.html}. Because we are scientists and not computer programmers we don't expect you to read all that standard, but the main things the development team would like you to follow is the current code style. That is good indentations, sensible variable names and note the \_ on the end of variables that are class variables defined in the .h files. \textbf{Annotate} your code, for readability we encourage you to put comments around your code. On topping of annotating your code we encourage developers to add logs (print messages) in the source code. You will see in the source code this already. The purpose for logging out is for debugging purposes. By adding them and running \CNAME\ in log mode you can find out exactly where \CNAME\ is crashing. You can also output equations that would normally be too detailed for end users to be interested in, this is very useful for checking equations are correctly implemented.
+\\
+There are different levels of logging in \CNAME\ listed below.
+\begin{itemize}
+	\item LOG\_MEDIUM() 
+	\item LOG\_FINE() 
+	\item LOG\_FINEST() 
+	\item LOG\_TRACE() 
+\end{itemize}
 
+To run \CNAME\ in log mode piping out any LOG\_FINEST and coarser logs (LOG\_MEDIUM and LOG\_FINE) you can use the following command,
+\\
+\texttt{casal2 -r --loglevel finest > MyReports.csl2 2> log.out}
+\\
+This will output all the logged information to \texttt{log.out}.
 \subsection{Unit tests}
-test your code externally
+One of the key focusses in the \CNAME\ development is the emphasis on software integrity. It's hugely important to ensure results coming from user models are consistent and correct. As part of this we utilise unit tests to check individual components of the software and run entire models verifying results.
+\CNAME\ uses:
+\begin{itemize}
+	\item Google testing framework
+	\item Google mocking framework
+\end{itemize}
+
+It is advised when adding unit tests that they be validated outside of \CNAME\. For example in \R\ or another program like \CNAME\ e.g. CASAL, Stock Synthesis. An example of how to add a unit test for a process is shown in Section~\ref{sec:example}
 
 \subsection{Reporting}
+Currently 
 Add reports to your code change
 
 \subsection{Update manual}
