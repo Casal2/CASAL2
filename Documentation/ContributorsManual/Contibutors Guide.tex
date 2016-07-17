@@ -17,9 +17,9 @@
 % EXAMPLE: \href{http://www.niwa.co.nz}{NIWA}
 \usepackage[bookmarks=true,bookmarksopen=false,bookmarksnumbered=true,
             pdfpagelayout=TwoPageRight,
-            pdftitle={CASAL2 User Manual}, 
-            pdfauthor={S. Rasmussen, I. Doonan, A. Dunn, K. Large, C. Marsh, S. Mormede} %authors
-            pdfsubject={Casal2, User manual},
+            pdftitle={CASAL2 Contributors Manual}, 
+            pdfauthor={C. Marsh} %authors
+            pdfsubject={Casal2, Contributors manual},
             pdftex]{hyperref}
 \hypersetup{
   breaklinks=true,      % allow line breaks in URLs
@@ -121,8 +121,8 @@ escapeinside={\%*}{*)}          % if you want to add a comment within your code
   \setlength{\itemsep}{0.1ex}}
 \renewcommand{\itemhook}{\setlength{\topsep}{0.5ex}%
   \setlength{\itemsep}{0.1ex}}
-\renewcommand{\descripthook}{\setlength{\topsep}{0.5ex}%
-  \setlength{\itemsep}{0.1ex}}
+%\renewcommand{\descripthook}{\setlength{\topsep}{0.5ex}%
+%  \setlength{\itemsep}{0.1ex}}
   
 % Minimise hyphen use
 \hyphenpenalty=5000
@@ -181,23 +181,23 @@ escapeinside={\%*}{*)}          % if you want to add a comment within your code
 \newcommand{\defAllowedValues}[1]{\defText{Allowed Values:}{#1}}
 
 % Input CASAL2 version definitions
-\input{Version.tex}
-\newcommand{\DocYear}{\SourceControlYearDoc}
-\newcommand{\DocMonth}{\SourceControlMonthDoc}
-\newcommand{\DocDate}{\SourceControlMonthDoc\ \SourceControlYearDoc}
-\newcommand{\DocVer}{\SourceControlDateDoc}
+%\input{Version.tex}
+%\newcommand{\DocYear}{\SourceControlYearDoc}
+%\newcommand{\DocMonth}{\SourceControlMonthDoc}
+%\newcommand{\DocDate}{\SourceControlMonthDoc\ \SourceControlYearDoc}
+%\newcommand{\DocVer}{\SourceControlDateDoc}
 
 %New commands to automate document dates, manual titles, document reference, etc.
-\newcommand{\VER}{v\SourceControlDateDoc} % CASAL2 program version
+%\newcommand{\VER}{v\SourceControlDateDoc} % CASAL2 program version
 \newcommand{\CNAME}{\textsc{Casal2}} 
 \newcommand{\cname}{\texttt{casal2}} % casal2 binary name
-\newcommand{\authors}{S. Rasmussen, I. Doonan, A. Dunn, C. Marsh, K. Large, S. Mormede}
-\newcommand{\email}{casal@niwa.co.nz}
+\newcommand{\authors}{C. Marsh and S. Rasmussen}
+\newcommand{\email}{casal2@niwa.co.nz}
 \newcommand{\github}{\url{https://github.com/NIWAFisheriesModelling/CASAL2}}
-\newcommand{\authorlink}{\href{mailto:"CASAL2 Development Team"<casal@niwa.co.nz>?subject=CASAL2:}{authors}} 
+\newcommand{\authorlink}{\href{mailto:"CASAL2 Development Team"<casal2@niwa.co.nz>?subject=CASAL2:}{authors}} 
 %hyper ref for email
 \newcommand{\Organisation}{National Institute of Water \& Atmospheric Research Ltd.} %NIWA
-\newcommand{\ManualRef}{\authors\ (\DocYear). \CNAME\ User Manual, \VER. \Organisation\ \emph{NIWA Technical Report 139}. \ref{TotPages} p.} % full document reference
+%\newcommand{\ManualRef}{\authors\ (\DocYear). \CNAME\ User Manual, \VER. \Organisation\ \emph{NIWA Technical Report 139}. \ref{TotPages} p.} % full document reference
 
 % Define \clearemptydoublepage so-as to have truly blank pages between sections
 \let\origdoublepage\cleardoublepage
@@ -223,7 +223,7 @@ escapeinside={\%*}{*)}          % if you want to add a comment within your code
 
 
 % Title page
-\pdfbookmark[1]{CASAL2 User Manual}{title}
+\pdfbookmark[1]{CASAL2 Contributors Manual}{title}
 \pagenumbering{alph} % alpha not used, but used to remove warnings when page 1 is re-defined below
 
 \begin{titlepage}
@@ -238,36 +238,35 @@ escapeinside={\%*}{*)}          % if you want to add a comment within your code
 		\end{figure}
 
 		\vspace*{2.5cm}
-		\Huge \CNAME\ User Manual \\
+		\Huge \CNAME\ Contributors Manual \\
 
 		\vspace{2.0cm}
 		\huge \authors \\ %Document authors
 
-		~\vfill
-		\Large NIWA Technical Report 139 \\%Document Date
-		\Large ISSN 1174-2631 \\%Document Date
-		\Large \DocYear \\%Document Date
+		%~\vfill
+%		\Large NIWA Technical Report 139 \\%Document Date
+%		\Large ISSN 1174-2631 \\%Document Date
+%		\Large \DocYear \\%Document Date
 
-		\vspace{1.0cm}
-		\CNAME\ User Manual (modified \DocVer) for use with \cname\texttt{\_\VER}
+%		\vspace{1.0cm}
+%		\CNAME\ User Manual (modified \DocVer) for use with \cname\texttt{\_\VER}
 	
 	\end{center}
 \end{titlepage}
 
 
 % Citation page
-\cleardoublepage{}
 \fancyfoot[C]{\thepage}
 \pagenumbering{roman}
 
-~\vfill
+%~\vfill
 
-\begin{center}
-Citation: \ManualRef    
-\end{center}
+%\begin{center}
+%Citation: \ManualRef    
+%\end{center}
 
 % Table of contents
-\clearemptydoublepage{}
+%\clearemptydoublepage{}
 \pdfbookmark[1]{Contents}{contents}
 
 \begin{spacing}{0.8} % Reduce space between lines in contents list
@@ -301,63 +300,17 @@ Citation: \ManualRef
 
 \include{Introduction}
 
-\clearemptydoublepage{}
-\include{Overview}
+\include{LocalRepo}
 
-\clearemptydoublepage{}
-\include{RunningCASAL2}
+\include{MaintainRepo}
 
-\clearemptydoublepage{}
-\include{Population}
+\include{BuildEnvironment}
 
-\clearemptydoublepage{}
-\include{Estimation}
+\include{BuildRules}
 
-\clearemptydoublepage{}
-\include{Observation}
+\include{Example}
 
-\clearemptydoublepage{}
-\include{Report}
-
-\clearemptydoublepage{}
-\input{Syntax}\label{sec:syntax}
-
-\clearemptydoublepage{}
-\include{Examples}
-
-\clearemptydoublepage{}
-\include{PostProcessing}
-
-\clearemptydoublepage{}
-\include{Troubleshooting}
-
-\clearemptydoublepage{}
-\include{DevelopingFunctionality}
-
-\clearemptydoublepage{}
-\include{Acknowledgments}
-
-\clearemptydoublepage{}
-\include{QuickReference}
-
-\clearemptydoublepage{}
-% Referencing
-\bibliographystyle{plainnat}
-\renewcommand{\bibsection}{%
-  \section{References}}
-  \setcitestyle{round,aysep={},yysep={;}%
-}
-\include{References}
-
-\clearemptydoublepage{}
-\include{License}
-
-\clearemptydoublepage{}
-
-\let\stdsection\section % Force index to be a numbered section
-\def\section*#1{\stdsection{#1}}
-\printindex % Insert index
-\let\section\stdsection
+\include{PullRequest}
 
 \end{document}
 %End

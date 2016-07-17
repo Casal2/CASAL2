@@ -29,7 +29,7 @@ namespace reports {
  * @param model Pointer to the current model context
  */
 Process::Process(Model* model) : Report(model) {
-  run_mode_    = (RunMode::Type)(RunMode::kBasic | RunMode::kProjection);
+  run_mode_    = (RunMode::Type)(RunMode::kBasic | RunMode::kProjection | RunMode::kEstimation);
   model_state_ = State::kFinalise;
 
   parameters_.Bind<string>(PARAM_PROCESS, &process_label_, "Process label that is reported", "", "");
