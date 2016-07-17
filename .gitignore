@@ -89,3 +89,16 @@
 /ThirdParty/dlib/*.log
 /ThirdParty/googletest_googlemock/*.log
 /ThirdParty/parser/*.log
+/documentation/ContributorsManual/PullRequest.aux
+/documentation/ContributorsManual/BuildEnvironment.aux
+/documentation/ContributorsManual/BuildRules.aux
+/documentation/ContributorsManual/Contibutors Guide.aux
+/documentation/ContributorsManual/Contibutors Guide.idx
+/documentation/ContributorsManual/Contibutors Guide.log
+/documentation/ContributorsManual/Contibutors Guide.out
+/documentation/ContributorsManual/Contibutors Guide.synctex.gz
+/documentation/ContributorsManual/Contibutors Guide.toc
+/documentation/ContributorsManual/Example.aux
+/documentation/ContributorsManual/Introduction.aux
+/documentation/ContributorsManual/LocalRepo.aux
+/documentation/ContributorsManual/MaintainRepo.aux
