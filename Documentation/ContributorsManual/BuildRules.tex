@@ -27,22 +27,81 @@ One of the key focusses in the \CNAME\ development is the emphasis on software i
 
 It is advised when adding unit tests that they be validated outside of \CNAME\. For example in \R\ or another program like \CNAME\ e.g. CASAL, Stock Synthesis. An example of how to add a unit test for a process is shown in Section~\ref{sec:example}
 
-\subsection{Reporting}
-Currently 
-Add reports to your code change
+\subsection{Reporting (Optional)}
+Currently \CNAME\ has reports that are \R\ compatible, that is that all reports produced by \CNAME\ can be read into \R\ using the \textbf{CASAL2} \R\ package. If you create a report you most follow the standard so that the report is \R\ compatible.
+\\\\
+All reports must start with,
+\\
+\texttt{*label (type)}
+\\ 
+and end with,
+\\
+\texttt{*end}
+\\\\
+Depending on what type of information you wish to report, will depend on the syntax you need to use. For example
+\paragraph*{$\{$d$\}$ (Dataframe)}
+Report a dataframe
+{\small{\begin{verbatim}
+*estimates (estimate_value)
+values {d}
+process[Recrutiment_BOP].r0 process[Recrutiment_ENLD].r0 
+2e+006 8e+006
+*end
+\end{verbatim}}}
+
+\paragraph*{$\{$m$\}$ (Matrix)}
+Report a matrix
+{\small{\begin{verbatim}
+*covar (covariance_matrix)
+Covariance_Matrix {m}
+2.29729e+010 -742.276 -70160.5
+-110126 -424507 -81300 
+-36283.4 955920 -52736.2 
+*end
+\end{verbatim}}}
+
+\paragraph*{$\{$L$\}$ (List)}
+Report a List
+{\small{\begin{verbatim}
+*weight_one (partition_mean_weight)
+year: 1900
+ENLD.EN.notag {L}
+mean_weights {L}
+0.0476604 0.111575 0.199705
+end {L}
+age_lengths {L}
+12.0314 16.2808 20.0135
+end {L}
+end {L}
+*end
+\end{verbatim}}}
+
+
 
 \subsection{Update manual}
+Sections of the user manual are automatically generated from the source code. This is the Syntax section of the user manual. This means contributors need to manually update the sections of the user manual that their changes relate to. This is important if you want the end user to be able to use you're functionality with ease. It can be very difficult is users see functionality in the syntax section but no reference in text, so please keep this in mind.
+
 
 \subsection{Builds to pass before merging changes}
-build the unitest version
+Once you have made changes to your local repository you must run the following builds before your changes are considered for merging with the 'master' repository.
+\\
+build the unittest version see Section~\ref{sec:build_environment} for how to build unittest depending on you're system.
+\\
 \texttt{DoBuild test}
-run the unittest check they all pass
-\texttt{casal2}
+\\
+run the unittest's check they all pass
+\\
+\texttt{casal2} run this command in the \path{CASAL2/BuildSystem/bin/<operating system>/test} folder
+\\
 \texttt{DoBuild debug}
+\\
 run the second phase of unitests which are complete model runs
+\\
 \texttt{DoBuild modelrunner}
+\\
 this is conditional on having a debug version previously built.
 Build the archive which contains
+\\
 \texttt{DoBuild archive}
 
 
