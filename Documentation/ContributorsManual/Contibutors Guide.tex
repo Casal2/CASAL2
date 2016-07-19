@@ -14,7 +14,7 @@
 \usepackage[usenames, dvipsnames]{color} % Highlighting text for editing
 
 % hyperref for HTML links within pdf 
-% EXAMPLE: \href{http://www.niwa.co.nz}{NIWA}
+%% EXAMPLE: \href{http://www.niwa.co.nz}{NIWA}
 \usepackage[bookmarks=true,bookmarksopen=false,bookmarksnumbered=true,
             pdfpagelayout=TwoPageRight,
             pdftitle={CASAL2 Contributors Manual}, 
@@ -115,15 +115,6 @@ escapeinside={\%*}{*)}          % if you want to add a comment within your code
 \renewcommand{\textfraction}{0.1}
 \renewcommand{\floatpagefraction}{0.75}
 
-%% make list gaps small
-\usepackage{tweaklist} % (a local style) for tweaking spacing between list elements
-\renewcommand{\enumhook}{\setlength{\topsep}{0.5ex}%
-  \setlength{\itemsep}{0.1ex}}
-\renewcommand{\itemhook}{\setlength{\topsep}{0.5ex}%
-  \setlength{\itemsep}{0.1ex}}
-%\renewcommand{\descripthook}{\setlength{\topsep}{0.5ex}%
-%  \setlength{\itemsep}{0.1ex}}
-  
 % Minimise hyphen use
 \hyphenpenalty=5000
 \tolerance=1000
@@ -196,7 +187,7 @@ escapeinside={\%*}{*)}          % if you want to add a comment within your code
 \newcommand{\github}{\url{https://github.com/NIWAFisheriesModelling/CASAL2}}
 \newcommand{\authorlink}{\href{mailto:"CASAL2 Development Team"<casal2@niwa.co.nz>?subject=CASAL2:}{authors}} 
 %hyper ref for email
-\newcommand{\Organisation}{National Institute of Water \& Atmospheric Research Ltd.} %NIWA
+\newcommand{\Organisation}{National Institute of Water \& Atmospheric Research Ltd.}
 %\newcommand{\ManualRef}{\authors\ (\DocYear). \CNAME\ User Manual, \VER. \Organisation\ \emph{NIWA Technical Report 139}. \ref{TotPages} p.} % full document reference
 
 % Define \clearemptydoublepage so-as to have truly blank pages between sections
@@ -220,7 +211,6 @@ escapeinside={\%*}{*)}          % if you want to add a comment within your code
 \begin{document} 
 \hbadness=10000 % to deal with underfull hbox warnings
 \sloppy % use sloppy paras
-
 
 % Title page
 \pdfbookmark[1]{CASAL2 Contributors Manual}{title}

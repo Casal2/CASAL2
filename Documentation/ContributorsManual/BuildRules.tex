@@ -1,9 +1,19 @@
 \section{\CNAME\ build rules\label{sec:build_rules}}
-This section will cover, the standards contributors are expected to follow and the builds that must pass on the local machine in order to add a pull request for changes to be accepted into the 'master' repository.
+
+This section describes the standards and specifications for contributors to have their contributions included within the \CNAME\ codebase. 
 
 \subsection{\CNAME\ coding practice and style}
-\CNAME\ is written in C++ and follows googles C++ style guide which can be found at \url{https://google.github.io/styleguide/cppguide.html}. Because we are scientists and not computer programmers we don't expect you to read all that standard, but the main things the development team would like you to follow is the current code style. That is good indentations, sensible variable names and note the \_ on the end of variables that are class variables defined in the .h files. \textbf{Annotate} your code, for readability we encourage you to put comments around your code. On topping of annotating your code we encourage developers to add logs (print messages) in the source code. You will see in the source code this already. The purpose for logging out is for debugging purposes. By adding them and running \CNAME\ in log mode you can find out exactly where \CNAME\ is crashing. You can also output equations that would normally be too detailed for end users to be interested in, this is very useful for checking equations are correctly implemented.
-\\
+
+\CNAME\ is written in C++ and follows the Google C++ style guide (see \url{https://google.github.io/styleguide/cppguide.html}). The guide is long and comprehensive, so we don't necessarily recommend that you read or understand all of its content. However, the Development Team would like you to follow the Google style of code layout and structure. 
+
+This means using good indentations for functions and loops, sensible (human readable) variable names but noting the use of the characters `\_' on the end of class variables defined in the .h files. 
+
+\textbf{Annotate} your code. For readability we encourage you to put lots of comments in your code.This helps others read what you intended. 
+
+On topping of annotating your code we encourage developers to add descriptive logging statements (print messages) in the code. You will see in the source code this already. The purpose of this is to allow a descriptive summary of the actions being done in the model for debugging purposes. By using these, it becomes easier to identify issues and errors. 
+
+You can also output the text and equations in these logs that would normally be too detailed for general use, as this may allow users to verify the exact equations or processes that have been implemented.
+
 There are different levels of logging in \CNAME\ listed below.
 \begin{itemize}
 	\item LOG\_MEDIUM() 
@@ -13,32 +23,36 @@ There are different levels of logging in \CNAME\ listed below.
 \end{itemize}
 
 To run \CNAME\ in log mode piping out any LOG\_FINEST and coarser logs (LOG\_MEDIUM and LOG\_FINE) you can use the following command,
-\\
+
 \texttt{casal2 -r --loglevel finest > MyReports.csl2 2> log.out}
-\\
+
 This will output all the logged information to \texttt{log.out}.
+
 \subsection{Unit tests}
-One of the key focusses in the \CNAME\ development is the emphasis on software integrity. It's hugely important to ensure results coming from user models are consistent and correct. As part of this we utilise unit tests to check individual components of the software and run entire models verifying results.
+
+One of the key focusses in the \CNAME\ development is an emphasis on software integrity --- this is to help ensure that the results from implemented models are consistent and error free. As part of this, we use unit tests to check the individual components of the code base, as well as tests that run entire models in order to validate that the outputs are what we expect them to be.
+
 \CNAME\ uses:
 \begin{itemize}
 	\item Google testing framework
 	\item Google mocking framework
 \end{itemize}
 
-It is advised when adding unit tests that they be validated outside of \CNAME\. For example in \R\ or another program like \CNAME\ e.g. CASAL, Stock Synthesis. An example of how to add a unit test for a process is shown in Section~\ref{sec:example}
+When adding unit tests, they need to be developed and tested outside of \CNAME\  first, for example in \R\ or another program like \CNAME\ e.g. CASAL or Stock Synthesis. This gives confidence that the test does not contain a calcualtion or other error. 
+
+An example of how to add a unit test for a process is shown in Section~\ref{sec:example}
 
 \subsection{Reporting (Optional)}
-Currently \CNAME\ has reports that are \R\ compatible, that is that all reports produced by \CNAME\ can be read into \R\ using the \textbf{CASAL2} \R\ package. If you create a report you most follow the standard so that the report is \R\ compatible.
-\\\\
+
+Currently \CNAME\ has reports that are \R\ compatible, i.e., all output reports produced by \CNAME\ can be read into \R\ using the standard  \textbf{CASAL2} \R\ package. If you create a new report or modify an old one, you most follow the standard so that the report is \R\ compatible.
+
 All reports must start with,
-\\
 \texttt{*label (type)}
-\\ 
 and end with,
-\\
 \texttt{*end}
-\\\\
+
 Depending on what type of information you wish to report, will depend on the syntax you need to use. For example
+
 \paragraph*{$\{$d$\}$ (Dataframe)}
 Report a dataframe
 {\small{\begin{verbatim}
@@ -76,32 +90,25 @@ end {L}
 *end
 \end{verbatim}}}
 
-
-
 \subsection{Update manual}
-Sections of the user manual are automatically generated from the source code. This is the Syntax section of the user manual. This means contributors need to manually update the sections of the user manual that their changes relate to. This is important if you want the end user to be able to use you're functionality with ease. It can be very difficult is users see functionality in the syntax section but no reference in text, so please keep this in mind.
-
+The syntax sections of the user manual are automatically generated from the source code. This means contributors will need to add or modify the remaining sections of the the user manual to document their changes. This is a requirement of contributed or suggested code changes, and is important for end users to be able to use the new or modified functionality.
 
 \subsection{Builds to pass before merging changes}
-Once you have made changes to your local repository you must run the following builds before your changes are considered for merging with the 'master' repository.
-\\
+
+Once you have made changes to the code, you must run the following builds before your changes can be considered for includion in the the main code base.
+
 build the unittest version see Section~\ref{sec:build_environment} for how to build unittest depending on you're system.
-\\
+
+Run the standard and new unit tests to check that they all pass
 \texttt{DoBuild test}
-\\
-run the unittest's check they all pass
-\\
-\texttt{casal2} run this command in the \path{CASAL2/BuildSystem/bin/<operating system>/test} folder
-\\
+
+And test that the debug and release of \CNAME\ compile and run.
 \texttt{DoBuild debug}
-\\
-run the second phase of unitests which are complete model runs
-\\
+
+Then run the second phase of unit tests (requires the debug version is built). This runs the tests that comprise of complete model runs
 \texttt{DoBuild modelrunner}
-\\
-this is conditional on having a debug version previously built.
-Build the archive which contains
-\\
+
+Build the archive 
 \texttt{DoBuild archive}
 
 
