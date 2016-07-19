@@ -326,6 +326,7 @@ void RecruitmentBevertonHolt::DoExecute() {
 
   unsigned i = 0;
   for (auto category : partition_) {
+    LOG_FINEST() << category->name_ << "; age: " << age_ << "; category->min_age_: " << category->min_age_;
     category->data_[age_ - category->min_age_] += amount_per * proportions_[i];
     ++i;
   }
