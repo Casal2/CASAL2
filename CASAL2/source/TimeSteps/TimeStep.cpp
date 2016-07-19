@@ -122,6 +122,7 @@ void TimeStep::Execute(unsigned year) {
     for(auto executor : process_executors_[year][index])
       executor->PreExecute();
 
+    LOG_FINEST() << "Executing process: " << processes_[index]->label();
     processes_[index]->Execute(year, label_);
 
     for(auto executor : process_executors_[year][index])
