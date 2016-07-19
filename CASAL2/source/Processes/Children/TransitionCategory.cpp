@@ -143,11 +143,21 @@ void TransitionCategory::DoBuild() {
  * Execute our maturation rate process.
  */
 void TransitionCategory::DoExecute() {
+  LOG_TRACE();
+
   auto from_iter     = from_partition_.begin();
   auto to_iter       = to_partition_.begin();
   Double amount      = 0.0;
 
-  if (transition_rates_.size() == 0) {
+  LOG_FINEST() << "transition_rates_.size(): " << transition_rates_.size() << "; from_partition_.size(): " << from_partition_.size()
+      << "; to_partition_.size(): " << to_partition_.size();
+  if (from_partition_.size() != to_partition_.size()) {
+    LOG_FATAL() << "The list of categories for the Transition Category process are not of equal size in year " << model_->current_year()
+    << ". We have " << from_partition_.size() << " and " << to_partition_.size() << " categories to transition between";
+  }
+
+  if (transition_rates_.size() != from_partition_.size()) {
+    LOG_FINE() << "Re-building the transition rates because the partition size has changed";
     transition_rates_.resize(from_partition_.size());
     for (unsigned i = 0; i < transition_rates_.size(); ++i) {
       Double proportion = proportions_.size() > 1 ? proportions_[i] : proportions_[0];
@@ -162,6 +172,7 @@ void TransitionCategory::DoExecute() {
   }
 
   for (unsigned i = 0; from_iter != from_partition_.end() && to_iter != to_partition_.end(); ++from_iter, ++to_iter, ++i) {
+
     for (unsigned offset = 0; offset < (*from_iter)->data_.size(); ++offset) {
       amount = transition_rates_[i][offset] * (*from_iter)->data_[offset];
 

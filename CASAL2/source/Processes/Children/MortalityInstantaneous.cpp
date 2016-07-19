@@ -271,6 +271,8 @@ void MortalityInstantaneous::DoBuild() {
  * Execute this process
  */
 void MortalityInstantaneous::DoExecute() {
+  LOG_TRACE();
+
   unsigned time_step_index = model_->managers().time_step()->current_time_step();
   unsigned year =  model_->current_year();
 
