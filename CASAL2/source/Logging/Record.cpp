@@ -102,7 +102,7 @@ void Record::BuildMessage() {
 #else
     o << "\n";
     o << "********************************************************************************\n";
-    o << "********                CODE ERROR - Casal2 is FORCE QUITTING           ********\n";
+    o << "********                CODE ERROR - CASAL2 is FORCE QUITTING           ********\n";
     o << "********************************************************************************\n";
     o << "Source File: " << file_name_ << "(line: " << line_number_ << ")\n";
     o << "Source Method: " << function_ << "\n";

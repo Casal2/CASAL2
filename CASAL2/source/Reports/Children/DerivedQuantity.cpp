@@ -35,7 +35,7 @@ void DerivedQuantity::DoExecute() {
   else if (unit_ == PARAM_GRAMS)
     conversion_factor *= 1000;
   else if (unit_ != PARAM_KGS)
-    LOG_ERROR_P(PARAM_UNITS) << "The subcommand unit = " << unit_ << " Is not accepted, casal2 takes the units kgs, grams or tonnes";
+    LOG_ERROR_P(PARAM_UNITS) << "The subcommand unit = " << unit_ << " Is not accepted, CASAL2 takes the units kgs, grams or tonnes";
   LOG_FINEST() << "Conversion factor = " << conversion_factor;
 
   derivedquantities::Manager& manager = *model_->managers().derived_quantity();
