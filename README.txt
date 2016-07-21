@@ -1,18 +1,69 @@
-Casal2 README
+Readme.txt for Casal2
+=====================
 
-Firstly the developers would like to thank you for downloading Casal2 and remind you that this is open source, and contributions in ideas and to source code is incouraged. Source code is available at https://github.com/NIWAFisheriesModelling/CASAL2. This zip file contains, a usermanual (Casal2.pdf), an executable (casal2.exe),an examples folder and 5 dynamic libraries (casal2_adolc.dll, casal2_betadiff.dll ...etc).
+Thank you for downloading Casal2. 
 
-Running Casal2 for windows users
-If you can change your systems path, it is advised to put the directory that casal2.exe and all the the thirdparty libraries with the extension .dll into your systems path. Once you have  casal2 in your path if you open the command prompt in any directory (shift + rigth click -> open command window) and type casal2 -h, you can get the help screen from casal2. If Casal2 is in your path then open the command prompt in the Examples/Simple folder. To do a simple run type "casal2 -r" which will print output to the screen. If you want to just run Casal2 then open the command prompt in the folder that casal2.exe and libraries and type the command into the command prompt "casal2 -r -c Examples/Simple/casal2.txt", which will also print output to the screen. for other run modes use the following commands:
-Estimation
-casal2 -e
-Profile a specific parameter
-casal2 -p
-MCMC run
-casal2 -m
-simulate 1 set of observations
-casal2 -s 1
-one set of projections
-casal2 -f 1
+Casal2 is a generalised age-structured population dynamics 
+modelling package that allows a great deal of flexibility in 
+specifying the population dynamics, parameter estimation, 
+and model outputs. 
 
-For an overview of Casal2 we suggest you start by reading, "getting started with CASAL2.pdf". This will explain how to run CASAL2, and the fundamental syntax for Casal2. For a more indepth read users are recommended to go to the manual.
+See the Casal2 User Manual for more information.
+
+Casal2 is an open source development and contributions to 
+the package are encouraged. 
+
+The source code for Casal2 is available at 
+https://github.com/NIWAFisheriesModelling/CASAL2. 
+
+
+License
+=======
+
+See the Casal2 User Manual for a copy of the software license.
+
+
+Installation
+============
+
+Your can either
+
+Use the Microsoft Windows installer for Casal2. This copies 
+the progam files to the install directory, creates icons in 
+your start menu, and modifies the system registry to,
+(i)   Add to the the Casal2 install directory to the systems 
+      PATH
+(ii)  Associate .csl2 files with the Casal2 icon and to open 
+      with Notepad.exe
+(iii) Register the uninstall information required for 
+      Microsoft Windows to uninstall Casal2.
+
+Note that, depending on your system setup, you may need to 
+reboot after installing to re-initialise the system PATH.
+
+Or
+
+Manually copy the Casal2 executable and assocuiated dll files 
+to a location of your choice.
+
+Note that Casal2 is a console program, and can only be used 
+from the command line.
+
+
+Removing Casal2
+===============
+
+To uninstall, use the uninstaller. This will remove any 
+installed files and registry entries automatically. To 
+uninstall manually, delete the files from your computer 
+(typically stored in c:\Program Files\CASAL, but this 
+depends on your choices when you installed 
+the program) and any program links in your Start menu.
+
+
+Contact
+=======
+
+For more information about Casal2, please read the Casal2
+User Manual. You can contact the Casal2 Developement Team 
+at casal2@niwa.co.nz
