@@ -584,6 +584,16 @@ void Model::RunProfiling() {
 void Model::RunSimulation() {
   LOG_FINE() << "Entering the Simulation Sub-System";
 
+  Estimables* estimables = managers_->estimables();
+  LOG_FINE() << "estimable values count: " << estimable_values_count_;
+  if (estimable_values_count_ > 1)
+    LOG_FATAL() << "Simulation mode only allows a -i file with one set of parameters.";
+
+  if (estimable_values_file_) {
+    estimables->LoadValues(0);
+    Reset();
+  }
+
   int simulation_candidates = global_configuration_->simulation_candidates();
   if (simulation_candidates < 1) {
     LOG_FATAL() << "The number of simulations specified at the command line parser must be at least one";
