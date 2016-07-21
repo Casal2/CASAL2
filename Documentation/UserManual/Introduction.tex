@@ -1,6 +1,15 @@
 \section{Introduction\label{sec:Introduction}}
+
 \CNAME\ is a generalised age-structured population dynamics modelling software package that allows flexibility in specifying model structure, population dynamics, parameter estimation, and model outputs. \CNAME\ can model population dynamics for an age-structured population using a range of population dynamics observations, including mark-recapture, relative and absolute abundance time series, and age frequency data. \CNAME\ does this by implementing an age-structured population dynamics model that can have user defined categories (e.g., immature, mature, male, female, predator, prey, etc.,) to specify the population structure, and a user-defined age range. 
-Section~{\I{System requirements}}
+
+\subsection{Where to get \CNAME }
+
+In the first instance, see \url{http://www.niwa.co.nz/} for information about \CNAME . The \CNAME\ source code is hosted on github, and can be found at \url{https://github.com/NIWAFisheriesModelling/CASAL2}.
+
+A Microsoft Windows bundle which includes a binary, manual, examples and other help guides can be downloaded at \url{ftp://ftp.niwa.co.nz/Casal2/windows/Casal2.zip} for the Microsoft Windows version, \url{ftp://ftp.niwa.co.nz/Casal2/windows/Casal2_setup.exe} for the Microsoft Windows installer. The Linux bundle which includes a binary, manual, examples and other help guides can be downloaded at \url{ftp://ftp.niwa.co.nz/Casal2/linux/Casal2.tar.gz}.
+
+\subsection{\I{System requirements}}
+
 \CNAME\ is available for most IBM compatible machines running 64-bit \I{Linux} and \I{Microsoft Windows} operating systems.
 
 Several of \CNAME s tasks are highly computer intensive and a fast processor is recommended. Depending on the model implemented, some of \CNAME s tasks can take a considerable amount of time (minutes to hours), and in extreme cases can even take several days to undertake an MCMC estimate. 
@@ -9,23 +18,23 @@ The program itself requires only a few megabytes of hard-disk space but output f
 
 \subsection{\I{Necessary files}}
 
-For both 64-bit Linux and Microsoft Windows, only the binary file \texttt{casal2} or \texttt{casal2.exe} is required to run \CNAME . No other software is required. We do not compile a version for 32-bit operating systems. 
+For both 64-bit Linux and Microsoft Windows, only the binary executable \texttt{casal2} or \texttt{casal2.exe} is required to run \CNAME . No other software is required. We do not provide a version for 32-bit operating systems. 
 
 \CNAME\ offers little in the way of post-processing of model output, and a package available that allows tabulation and graphing of model outputs is recommended. We suggest software such as \href{http://www.r-project.org}{\R}\ \citep{R} to assist in the post processing of \CNAME\ output. We provide the \texttt{CASAL2} \R\ package for importing the \CNAME\ output into \R\ (see Section \ref{sec:post-processing}).
 
 \subsection{Getting help\index{Getting help}\index{User assistance}\index{Notifying errors}}
 
-\CNAME\ is distributed as unsupported software, however we would appreciate being notified of any problems or errors in \CNAME. See Section \ref{sec:reporting-errors} for the recommended template for reporting issues. For further information on \CNAME\, please contact the development team at \email.
+\CNAME\ is distributed as unsupported software, however we would appreciate being notified of any problems or errors in \CNAME. See Section \ref{sec:reporting-errors} for the recommended template for reporting issues. For further information on \CNAME\, please contact the development team at \email .
 
 \subsection{Technical details\index{Technical specifications}}\label{sec:tech}
 
-\CNAME\ was compiled on Linux using \href{http://gcc.gnu.org}{\texttt{gcc}}, the C/C++ compiler developed by the \href{http://gcc.gnu.org}{GNU Project}. The 64-bit Linux \index{Linux} version was compiled using \texttt{gcc} version 5.2.1 20151010 (\href{http://www.ubuntu.com/}{Ubuntu Linux}). The \href{http://www.microsoft.com}{Microsoft Windows}\index{Microsoft Windows} version was compiled using \href{http://www.mingw.org}{Mingw32}\index{Mingw} \href{http://gcc.gnu.org}{\texttt{gcc}} (tdm64-1) 5.1.0. The \href{http://www.microsoft.com}{Microsoft Windows} installer was built using the \href{http://www.jrsoftware.org/isdl.php}{Inno Setup 5 application}.
+\CNAME\ was compiled on Linux using \texttt{gcc} (\url{http://gcc.gnu.org}), the C/C++ compiler developed by the GNU Project (\url{http://gcc.gnu.org}). The 64-bit Linux \index{Linux} version was compiled using \texttt{gcc} version 5.2.1 20151010 Ubuntu Linux (\url{http://www.ubuntu.com/}). The Microsoft Windows (\url{http://www.microsoft.com})\index{Microsoft Windows} version was compiled using MingW (\url{http://www.mingw.org})\index{Mingw} \texttt{gcc} (tdm64-1) 5.1.0 (\url{http://gcc.gnu.org}). The Microsoft Windows(\url{http://www.microsoft.com}) installer was built using the Inno Setup 5 (\url{http://www.jrsoftware.org/isdl.php}).
 
-\CNAME\ includes six different minimisers --- Different minimisers may be better at some models that others. The first three are non-differentiation based minimisers: the first is closely based on the main algorithm of \cite{779}, and which which uses finite difference gradients\index{Finite differences minimiser}; the second is an implementation of the differential evolution solver\index{Differential evolution minimiser} \citep{1442}, and based on code by \href{mailto:<godwin@pushcorp.com>}{Lester E. Godwin} of \href{http://www.pushcorp.com}{PushCorp, Inc.}; and the third is Dlib \citep{dlib09}. The three differentiation based minimisers are: ADOLC, an auto differentiation minimiser \citep{walther1996adolc}; CPPAD is an auto differentiation minimiser similar to ADOLC \citep{wachter2006cppad}; and the third is a modified version of an older version of ADOL-C (v1.8.4) that was used in the original version of CASAL \citep{1388}.
+\CNAME\ includes number of different minimisers --- Different minimisers may be better at some models than others. The first three are non-differentiation based minimisers: the first is closely based on the main algorithm of \cite{779}, and which uses finite difference gradients\index{Finite differences minimiser}; the second is an implementation of the differential evolution solver\index{Differential evolution minimiser} \citep{1442}, and based on code by \href{mailto:<godwin@pushcorp.com>}{Lester E. Godwin} of \href{http://www.pushcorp.com}{PushCorp, Inc.}; and the third is Dlib \citep{dlib09}. The three differentiation based minimisers are: ADOLC, an auto differentiation minimiser \citep{walther1996adolc}; CPPAD an auto differentiation minimiser similar to ADOLC \citep{wachter2006cppad}; and the third is a modified version of an older version of ADOL-C (v1.8.4) that was used as the auto differentiation minimiser in the first version of CASAL \citep{1388}.
 
 The random number generator\index{Random number generator} used by \CNAME\ uses an implementation of the Mersenne twister random number generator \citep{796}. This, the command line functionality, matrix operations, and a number of other functions use the \href{http://www.boost.org/}{BOOST} C++ library (Version 1.58.0)\index{BOOST C++ library}.
 
-Note that the output from \CNAME\ may differ slightly on the different platforms due to different precision arithmetic or other platform dependent implementation issues. The source code\index{\CNAME\ source code} for \CNAME\ is available in the \href{ftp://ftp.niwa.co.nz/incoming/CASAL2_auto_build/casal2.tar.gz}{windows bundle} or on the github repository at \github.
+Note that the output from \CNAME\ may differ slightly on the different platforms due to different precision arithmetic or other platform dependent implementation issues. The source code\index{\CNAME\ source code} for \CNAME\ is available in the \href{ftp://ftp.niwa.co.nz/incoming/CASAL2_auto_build/casal2.tar.gz}{windows bundle} or on the github repository at \github .
 
 Unit tests of the underlying \CNAME\ code are carried out at build time, using the \href{http://www.boost.org/}{GOOGLE} mock and unit testing framework. The unit test framework aims to cover a significant proportion of the key functionality within the \CNAME\ code base. The unit test code for \CNAME\ is available as a part of the underlying source code.
 
