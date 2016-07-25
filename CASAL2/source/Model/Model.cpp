@@ -605,7 +605,9 @@ void Model::RunSimulation() {
   for (int i = 0; i < simulation_candidates; ++i) {
     string report_suffix = ".";
     unsigned iteration_width = (unsigned)floor(log10(i + 1)) + 1;
-    report_suffix.append("0", suffix_width - iteration_width);
+
+    unsigned diff = suffix_width - iteration_width;
+    report_suffix.append(diff,'0');
     report_suffix.append(utilities::ToInline<unsigned, string>(i + 1));
     managers_->report()->set_report_suffix(report_suffix);
 
