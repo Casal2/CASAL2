@@ -15,11 +15,6 @@
 namespace niwa {
 namespace lengthweights {
 
-/**
- * default constructor
- */
-None::None() {
-}
 
 } /* namespace lengthweights */
 } /* namespace niwa */

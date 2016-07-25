@@ -18,7 +18,7 @@ namespace lengthweights {
 /**
  * default constructor
  */
-Basic::Basic() {
+Basic::Basic(Model* model) : LengthWeight(model) {
   parameters_.Bind<Double>(PARAM_A, &a_, "A", "");
   parameters_.Bind<Double>(PARAM_B, &b_, "B", "");
   parameters_.Bind<string>(PARAM_UNITS, &units_, "Units of measure (tonnes, kgs, grams)", "");
@@ -48,13 +48,28 @@ void Basic::DoValidate() {
  */
 Double Basic::mean_weight(Double size, const string &distribution, Double cv) const {
   Double weight = a_ * pow(size, b_);
-  if (units_ == PARAM_TONNES)
-    weight *= 1000;
-  if (units_ == PARAM_GRAMS)
-    weight /= 1000;
+
+  // Add distribution offset
   if (distribution == PARAM_NORMAL || distribution == PARAM_LOGNORMAL)
     weight = weight * pow(1.0 + cv * cv, b_ * (b_ - 1.0) / 2.0);  // Give an R example/proof of this theory
 
+  // Deal with base weight as KGs
+  if ((units_ == PARAM_TONNES) && (model_->base_weight_units() == PARAM_KGS))
+    weight *= 1000;
+  else if (units_ == PARAM_GRAMS && (model_->base_weight_units() == PARAM_KGS))
+    weight /= 1000;
+
+  // Deal with base weight as tonnes
+  if ((units_ == PARAM_KGS) && (model_->base_weight_units() == PARAM_TONNES))
+    weight /= 1000;
+  else if (units_ == PARAM_GRAMS && (model_->base_weight_units() == PARAM_TONNES))
+    weight /= 1000000;
+
+  // Deal with base weight as grams
+  if ((units_ == PARAM_KGS) && (model_->base_weight_units() == PARAM_GRAMS))
+    weight *= 1000;
+  else if (units_ == PARAM_TONNES && (model_->base_weight_units() == PARAM_GRAMS))
+    weight *= 1000000;
   return weight;
 }
 

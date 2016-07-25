@@ -38,6 +38,7 @@ final_year 2008
 min_age 1
 max_age 12
 age_plus t
+base_weight_units kgs
 initialisation_phases iphase1 iphase2
 time_steps step_one=[processes=Recruitment] step_two=[processes=Tagging] step_three=[processes=Ageing]
 
@@ -121,6 +122,7 @@ final_year 2008
 min_age 1
 max_age 12
 age_plus t
+base_weight_units kgs
 initialisation_phases iphase1 iphase2
 time_steps step_one=[processes=Recruitment] step_two=[processes=Tagging] step_three=[processes=Ageing]
 
@@ -201,6 +203,7 @@ start_year 1994
 final_year 2010
 min_age 1
 max_age 12
+base_weight_units kgs
 age_plus t
 initialisation_phases iphase1 iphase2
 time_steps step_one=[processes=Recruitment] step_two=[processes=Tagging] step_three=[processes=Ageing]

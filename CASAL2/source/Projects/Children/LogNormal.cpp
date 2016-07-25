@@ -21,13 +21,12 @@ namespace projects {
 /**
  * Default constructor
  */
+
 LogNormal::LogNormal(Model* model) : Project(model) {
   parameters_.Bind<Double>(PARAM_MEAN, &mean_, "Mean of the lognormal distribution to be sampled", "", 1.0);
   parameters_.Bind<Double>(PARAM_SIGMA, &sigma_, "Standard deviation on the log scale", "");
-  parameters_.Bind<Double>(PARAM_MULTIPLIER, &multiplier_, "A multiplier to for ycs_values", "", 1.0);
   parameters_.Bind<Double>(PARAM_RHO, &rho_, "an autocorrelation parameter on the log scale", "", 0.0);
 
-  RegisterAsEstimable(PARAM_SIGMA, &sigma_);
 }
 
 /**
@@ -60,17 +59,18 @@ void LogNormal::DoReset() { }
 void LogNormal::DoUpdate() {
   // instance the random number generator
   utilities::RandomNumberGenerator& rng = utilities::RandomNumberGenerator::Instance();
-
-  if (rho_ != 0.0) {
+  LOG_TRACE();
+  if (parameters_.Get(PARAM_RHO)->has_been_defined()) {
+    LOG_FINE() << "Calculating an AR(1) process for projections.";
     Double last_value_ = projected_parameters_[model_->current_year() - 1];
     Double Z = rng.normal(0.0, 1.0);
     value_ = -0.5 * sigma_ * sigma_ + sigma_ * (rho_ * last_value_ + sqrt(1 - rho_ * rho_ * Z));
-    // Store this value to be pulled out next projection year
-    projected_parameters_[model_->current_year()] = value_;
   } else {
     // Just a standard normal deviation
-    value_ = last_value_ + rng.lognormal(AS_DOUBLE(mean_), AS_DOUBLE(sigma_));
+    value_ = rng.lognormal(AS_DOUBLE(mean_), AS_DOUBLE(sigma_));
   }
+  // Store this value to be pulled out next projection year
+  projected_parameters_[model_->current_year()] = value_;
 
   LOG_FINE() << "Setting Value to: " << value_;
   (this->*DoUpdateFunc_)(value_);

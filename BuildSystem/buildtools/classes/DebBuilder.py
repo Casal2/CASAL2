@@ -37,7 +37,7 @@ class DebBuilder:
     if not os.path.exists('bin/linux/deb'):
       os.mkdir('bin/linux/deb')
 
-    folder = 'bin/linux/deb/CASAL2_' + lines[1]    
+    folder = 'bin/linux/deb/Casal2_' + lines[1]    
     os.system('rm -rf ' + folder)
     os.makedirs(folder + '/usr/local/bin')
     os.makedirs(folder + '/usr/local/lib')
@@ -51,13 +51,13 @@ class DebBuilder:
     os.system('cp ../Documentation/Manual/CASAL2.pdf ' + folder + '/usr/local/share/doc/casal2/')
     os.makedirs(folder + '/DEBIAN')
     control_file = open(folder + '/DEBIAN/control', 'w')
-    control_file.write('Package: CASAL2\n')
+    control_file.write('Package: Casal2\n')
     control_file.write('Version: 0x' + lines[1] + '\n')
     control_file.write('Section: base\n')
     control_file.write('Priority: optional\n')
     control_file.write('Architecture: amd64\n')
     control_file.write('Maintainer: Scott Rasmussen (Zaita) <scott@zaita.com>\n')
-    control_file.write('Description: CASAL2 Modeling Platform\n')
+    control_file.write('Description: Casal2 Modeling Platform\n')
     control_file.close()
 
     if os.system('dpkg-deb --build ' + folder) != EX_OK:

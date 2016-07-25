@@ -51,7 +51,6 @@ private:
   string                      phase_b0_label_;
   unsigned                    phase_b0_;
   Double                      b0_ = 0.0;
-  string                      b0_units_ = "";
   bool                        bo_initialised_ = false;
   vector<Double>              proportions_;
   unsigned                    age_ = 0;

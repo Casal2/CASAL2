@@ -15,18 +15,19 @@
 
 // headers
 #include "BaseClasses/Object.h"
+#include "Model/Model.h"
 
 // namespaces
 namespace niwa {
-
 /**
  * class definition
  */
 class LengthWeight : public niwa::base::Object {
 public:
   // methods
-  LengthWeight();
-  virtual                     ~LengthWeight() = default;
+  LengthWeight() = delete;
+  explicit                    LengthWeight(Model* model);
+  virtual                     ~LengthWeight() { };
   void                        Validate();
   void                        Build() { DoBuild(); };
   void                        Reset() { DoReset(); };
@@ -37,6 +38,8 @@ public:
 
   // accessors
   virtual Double              mean_weight(Double size, const string &distribution, Double cv) const = 0;
+  // members
+  Model*                      model_ = nullptr;
 };
 } /* namespace niwa */
 #endif /* LENGTHWEIGHT_H_ */

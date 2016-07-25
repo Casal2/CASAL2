@@ -48,7 +48,6 @@ RecruitmentBevertonHolt::RecruitmentBevertonHolt(Model* model)
   parameters_.Bind<Double>(PARAM_YCS_VALUES, &ycs_values_, "YCS Values", "");
   parameters_.Bind<bool>(PARAM_PRIOR_YCS_VALUES, &prior_ycs_values_, "Priors for year class strength on ycs values (not standardised ycs values)", "",true);
   parameters_.Bind<unsigned>(PARAM_STANDARDISE_YCS_YEARS, &standardise_ycs_, "Years that are included for year class standardisation", "", true);
-  parameters_.Bind<string>(PARAM_UNITS, &b0_units_, "Units of B0, if initialising model using B0", "", "");
 
   RegisterAsEstimable(PARAM_R0, &r0_);
   RegisterAsEstimable(PARAM_B0, &b0_);
@@ -67,8 +66,6 @@ RecruitmentBevertonHolt::RecruitmentBevertonHolt(Model* model)
 void RecruitmentBevertonHolt::DoValidate() {
   category_labels_ = model_->categories()->ExpandLabels(category_labels_, parameters_.Get(PARAM_CATEGORIES));
 
-  if (parameters_.Get(PARAM_B0)->has_been_defined() & (b0_units_ == ""))
-    LOG_FATAL_P(PARAM_B0) << "Must define unit of B0, for models initialised by B0";
   if (!parameters_.Get(PARAM_AGE)->has_been_defined())
     age_ = model_->min_age();
 
@@ -111,9 +108,6 @@ void RecruitmentBevertonHolt::DoBuild() {
 
   if (phase_b0_label_ != "")
     phase_b0_ = model_->managers().initialisation_phase()->GetPhaseIndex(phase_b0_label_);
-
-  if (parameters_.Get(PARAM_B0)->has_been_defined())
-    b0_ = math::convert_units_to_kgs(b0_, b0_units_);
 
   derived_quantity_ = model_->managers().derived_quantity()->GetDerivedQuantity(ssb_);
   if (!derived_quantity_)
@@ -341,19 +335,19 @@ void RecruitmentBevertonHolt::ScalePartition() {
 
   have_scaled_partition = true;
   Double SSB = derived_quantity_->GetValue(model_->start_year() - ssb_offset_);
-  LOG_MEDIUM() << "Last SSB value = " << SSB;
+  LOG_FINEST() << "Last SSB value = " << SSB;
   Double scalar = b0_ / SSB;
-  LOG_MEDIUM() << "Scalar = " << scalar << " B0 = " << b0_;
+  LOG_FINEST() << "Scalar = " << scalar << " B0 = " << b0_;
   LOG_FINEST() << "r0_ value = " << r0_;
   r0_ = 1 * scalar;
   for (auto category : partition_) {
     for (unsigned j = 0; j < category->data_.size(); ++j) {
-      LOG_MEDIUM() << "Category "<< category->name_ << " Age = " << j + category->min_age_ << " Numbers at age = " <<  category->data_[j];
+      LOG_FINEST() << "Category "<< category->name_ << " Age = " << j + category->min_age_ << " Numbers at age = " <<  category->data_[j];
       category->data_[j] *= scalar;
-      LOG_MEDIUM() << "Category "<< category->name_ << " Age = " << j + category->min_age_ << " Numbers at age = " <<  category->data_[j];
+      LOG_FINEST() << "Category "<< category->name_ << " Age = " << j + category->min_age_ << " Numbers at age = " <<  category->data_[j];
     }
   }
-  LOG_MEDIUM() << "R0 = " << r0_;
+  LOG_FINEST() << "R0 = " << r0_;
 }
 
 

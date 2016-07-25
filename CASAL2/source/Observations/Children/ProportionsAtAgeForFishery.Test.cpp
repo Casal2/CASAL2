@@ -35,6 +35,7 @@ final_year 2012
 min_age 1
 max_age 30
 age_plus true
+base_weight_units kgs
 initialisation_phases iphase1
 time_steps init step1 step2 step3
 
@@ -80,7 +81,6 @@ type mortality_instantaneous
 m 0.19
 time_step_ratio 0.42 0.25 0.33
 selectivities One
-units kgs
 categories stock
 table catches
 year FishingWest FishingEest

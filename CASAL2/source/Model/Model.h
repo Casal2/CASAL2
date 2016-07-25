@@ -88,6 +88,7 @@ public:
   virtual vector<unsigned>    years() const;
   unsigned                    year_spread() const;
   virtual unsigned            current_year() const { return current_year_; }
+  virtual string              base_weight_units() const { return base_weight_units_; }
   virtual unsigned            min_age() const { return min_age_; }
   virtual unsigned            max_age() const { return max_age_; }
   virtual unsigned            age_spread() const { return (max_age_ - min_age_) + 1; }
@@ -129,6 +130,7 @@ protected:
   unsigned                    current_year_ = 0;
   unsigned                    min_age_ = 0;
   unsigned                    max_age_ = 0;
+  string                      base_weight_units_;
   map<string, Double>         b0_;
   map<string, Double>         binitial_;
   bool                        age_plus_ = true;

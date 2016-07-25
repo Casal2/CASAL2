@@ -72,6 +72,7 @@ R"(
 start_year 1994
 final_year 2012
 min_age 1
+base_weight_units kgs
 max_age 12
 age_plus t
 initialisation_phases iphase1 iphase2
@@ -156,6 +157,7 @@ start_year 1975
 final_year 2012
 min_age 1
 max_age 30
+base_weight_units kgs
 age_plus true
 initialisation_phases iphase1
 time_steps step1 step2 step3
@@ -181,7 +183,6 @@ processes  Ageing instant_mort
 type recruitment_beverton_holt
 categories stock
 proportions 1 
-units kgs
 b0 5.18767e+008
 standardise_ycs_years 1975 1976 1977 1978 1979 1980 1981 1982 1983 1984 1985 1986 1987 1988 1989 1990 1991 1992 1993 1994 1995 1996 1997 1998 1999 2000 2001 2002 2003 2004 2005 2006 2007 2008 2009
 ycs_values          1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00
@@ -205,7 +206,6 @@ m 0.19
 time_step_ratio 0.42 0.25 0.33
 selectivities One
 categories stock
-units kgs
 table catches
 year FishingWest FishingEest
 1975  80000 111000
