@@ -34,9 +34,9 @@ LengthWeight* Factory::Create(Model* model, const string& object_type, const str
 
   if (object_type == PARAM_LENGTH_WEIGHT || object_type == PARAM_LENGTH_WEIGHTS) {
     if (sub_type == PARAM_NONE)
-      result = new None();
+      result = new None(model);
     else if (sub_type == PARAM_BASIC)
-      result = new Basic();
+      result = new Basic(model);
 
     if (result)
       model->managers().length_weight()->AddObject(result);

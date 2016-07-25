@@ -26,7 +26,7 @@ namespace lengthweights {
 class Basic : public niwa::LengthWeight {
 public:
   // methods
-  Basic();
+  explicit                    Basic(Model* model);
   virtual                     ~Basic() = default;
   void                        DoValidate() override final;
   void                        DoBuild() override final { };

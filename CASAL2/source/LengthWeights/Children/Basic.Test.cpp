@@ -28,7 +28,8 @@ using ::testing::Return;
  */
 TEST(LengthWeights, Basic) {
   // TODO: Add more unit tests
-  niwa::lengthweights::Basic basic;
+  MockModel model;
+  niwa::lengthweights::Basic basic(&model);
 
   basic.parameters().Add(PARAM_LABEL, "unit_test_basic", __FILE__, __LINE__);
   basic.parameters().Add(PARAM_TYPE, "any value is fine", __FILE__, __LINE__);
@@ -39,15 +40,16 @@ TEST(LengthWeights, Basic) {
   basic.Validate();
   basic.Build();
 
-  EXPECT_DOUBLE_EQ(1000.0, basic.mean_weight(1.0, "", 1.0));
-  EXPECT_DOUBLE_EQ(2000.0, basic.mean_weight(2.0, "", 1.0));
-  EXPECT_DOUBLE_EQ(3000.0, basic.mean_weight(3.0, "", 1.0));
-  EXPECT_DOUBLE_EQ(4000.0, basic.mean_weight(4.0, "", 1.0));
-  EXPECT_DOUBLE_EQ(5000.0, basic.mean_weight(5.0, "", 1.0));
+  EXPECT_DOUBLE_EQ(1, basic.mean_weight(1.0, "", 1.0));
+  EXPECT_DOUBLE_EQ(2, basic.mean_weight(2.0, "", 1.0));
+  EXPECT_DOUBLE_EQ(3, basic.mean_weight(3.0, "", 1.0));
+  EXPECT_DOUBLE_EQ(4, basic.mean_weight(4.0, "", 1.0));
+  EXPECT_DOUBLE_EQ(5, basic.mean_weight(5.0, "", 1.0));
 }
 
 TEST(LengthWeights, Basic2) {
-  niwa::lengthweights::Basic basic;
+  MockModel model;
+  niwa::lengthweights::Basic basic(&model);
   /**
    * Run some new parameters
    */
@@ -61,11 +63,35 @@ TEST(LengthWeights, Basic2) {
   basic.Validate();
   basic.Build();
 
-  EXPECT_DOUBLE_EQ(2000.0, basic.mean_weight(1.0, "", 1.0));
-  EXPECT_DOUBLE_EQ(8000.0, basic.mean_weight(2.0, "", 1.0));
-  EXPECT_DOUBLE_EQ(18000.0, basic.mean_weight(3.0, "", 1.0));
-  EXPECT_DOUBLE_EQ(32000.0, basic.mean_weight(4.0, "", 1.0));
-  EXPECT_DOUBLE_EQ(50000.0, basic.mean_weight(5.0, "", 1.0));
+  EXPECT_DOUBLE_EQ(2, basic.mean_weight(1.0, "", 1.0));
+  EXPECT_DOUBLE_EQ(8, basic.mean_weight(2.0, "", 1.0));
+  EXPECT_DOUBLE_EQ(18, basic.mean_weight(3.0, "", 1.0));
+  EXPECT_DOUBLE_EQ(32, basic.mean_weight(4.0, "", 1.0));
+  EXPECT_DOUBLE_EQ(50, basic.mean_weight(5.0, "", 1.0));
+}
+
+
+TEST(LengthWeights, Basic3) {
+  MockModel model;
+  niwa::lengthweights::Basic basic(&model);
+  /**
+   * Run some new parameters
+   */
+  basic.parameters().Clear();
+  basic.parameters().Add(PARAM_LABEL, "unit_test_basic", __FILE__, __LINE__);
+  basic.parameters().Add(PARAM_TYPE, "any value is fine", __FILE__, __LINE__);
+  basic.parameters().Add(PARAM_A, "2", __FILE__, __LINE__);
+  basic.parameters().Add(PARAM_B, "2", __FILE__, __LINE__);
+  basic.parameters().Add(PARAM_UNITS, "tonnes", __FILE__, __LINE__);
+
+  basic.Validate();
+  basic.Build();
+
+  EXPECT_DOUBLE_EQ(2, basic.mean_weight(1.0, "", 1.0));
+  EXPECT_DOUBLE_EQ(8, basic.mean_weight(2.0, "", 1.0));
+  EXPECT_DOUBLE_EQ(18, basic.mean_weight(3.0, "", 1.0));
+  EXPECT_DOUBLE_EQ(32, basic.mean_weight(4.0, "", 1.0));
+  EXPECT_DOUBLE_EQ(50, basic.mean_weight(5.0, "", 1.0));
 }
 
 }

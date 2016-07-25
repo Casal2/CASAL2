@@ -60,7 +60,6 @@ MortalityInstantaneous::MortalityInstantaneous(Model* model)
   parameters_.Bind<Double>(PARAM_M, &m_input_, "Mortality rates", "")->set_range(0.0, 1.0);
   parameters_.Bind<Double>(PARAM_TIME_STEP_RATIO, &time_step_ratios_temp_, "Time step ratios for M", "", true);
   parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_labels_, "Selectivities for Natural Mortality", "");
-  parameters_.Bind<string>(PARAM_UNITS, &unit_, "Unit of weight that the Catches table are expressed in", "");
 
   RegisterAsEstimable(PARAM_M, &m_);
 }
@@ -112,8 +111,7 @@ void MortalityInstantaneous::DoValidate() {
       Double value = 0.0;
       if (!utilities::To<string, Double>(row[i], value))
         LOG_ERROR_P(PARAM_CATCHES) << "value " << row[i] << " for fishery " << columns[i] << " is not numeric";
-      fishery_year_catch[columns[i]][year] = math::convert_units_to_kgs(value, unit_);
-    }
+      fishery_year_catch[columns[i]][year] = value;    }
   }
 
   /**

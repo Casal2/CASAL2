@@ -106,22 +106,82 @@ inline Double unscale_value(const Double& value, Double& penalty, Double min, Do
   return (t);
 }
 
+
 //**********************************************************************
-//    Convert units from unit to kgs
+//    General math utilities
 //**********************************************************************
-inline Double convert_units_to_kgs(Double Value, string unit) {
-  Double converted_value = 0.0;
-  if (unit == PARAM_TONNES)
-    converted_value = Value * 1000;
-  else if (unit == PARAM_KGS)
-    converted_value = Value;
-  else if (unit == PARAM_GRAMS) {
-    converted_value = Value / 1000;
-  } else {
-    LOG_FATAL() << "The unit type: " << unit << " is not expected, Values expected are kgs, tonnes, grammes";
-  }
-  return converted_value;
+// Return the mean for a vector
+inline Double mean(const vector<Double>& Values){
+  Double mu = 0.0;
+  Double total = 0.0;
+  for (auto value : Values)
+    total += value;
+  Double n = AS_DOUBLE(Values.size();
+  mu = total / n);
+  return mu;
 }
+
+// Return the mean for an unsigned map
+inline Double mean(const map<unsigned, Double>& Values){
+  Double mu = 0.0;
+  Double total = 0.0;
+  for (auto value : Values)
+    total += value.second;
+  Double n = Values.size();
+  mu = total / n;
+  return mu;
+}
+
+// Return the Variance for a vector
+inline Double Var(const vector<Double>& Values){
+  Double mean_ = math::mean(Values);
+  Double variance = 0;
+  for (auto value : Values)
+    variance += (value - mean_) * (value - mean_);
+  Double n = Values.size();
+  Double var = variance / (n - 1.0);
+  return var;
+}
+
+// Return the Variance for an unsigned map
+inline Double Var(const map<unsigned, Double>& Values){
+  Double mean_ = math::mean(Values);
+  Double variance = 0;
+  for (auto value : Values)
+    variance += (value.second - mean_) * (value.second - mean_);
+  Double n = Values.size();
+  Double var = variance / (n - 1.0);
+  return var;
+}
+
+// Return the Standard Deviation for a vector
+inline Double std_dev(const vector<Double>& Values){
+  Double sd;
+  sd = sqrt(math::Var(Values));
+  return sd;
+}
+
+// Return the Standard Deviation for an unsigned map
+inline Double std_dev(const map<unsigned, Double>& Values){
+  Double sd;
+  sd = sqrt(math::Var(Values));
+  return sd;
+}
+
+// Return the maximum value for a vector
+inline Double Max(const vector<Double>& Values){
+  Double max = 0.0;
+  unsigned iter = 1;
+  for (auto value : Values) {
+    if (iter == 1)
+      max = value;
+    else if (max < value)
+      max = value;
+   ++iter;
+  }
+  return max;
+}
+
 
 
 } /* namespace math */

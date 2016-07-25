@@ -127,7 +127,7 @@ void MortalityConstantRate::DoBuild() {
           << ") does not match the number of time steps this process has been assigned to (" << active_time_steps.size() << ")";
 
     for (Double value : ratios_) {
-      if (value <= 0.0 || value > 1.0)
+      if (value < 0.0 || value > 1.0)
         LOG_ERROR_P(PARAM_TIME_STEP_RATIO) << " value (" << value << ") must be between 0.0 (exclusive) and 1.0 (inclusive)";
     }
 

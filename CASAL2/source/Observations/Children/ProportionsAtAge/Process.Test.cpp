@@ -35,6 +35,7 @@ max_age 25
 age_plus t
 start_year 1975
 final_year 2002
+base_weight_units kgs
 initialisation_phases phase1
 time_steps one two three
 
@@ -87,7 +88,6 @@ m 0.10 0.10
 type event_biomass
 categories male female
 years 1975:2002
-units kgs
 catches 1191 1488 1288 2004 609 750 997 596 302 344 544 362 509 574 804 977 991 2454 2775 2898 4094 3760 3761 3673 3524 3700 3700 3700
 U_max 0.9
 selectivities observation.male observation.female
@@ -203,6 +203,7 @@ max_age 25
 age_plus t
 start_year 1975
 final_year 2002
+base_weight_units kgs
 initialisation_phases phase1
 time_steps one two three
 
@@ -255,7 +256,6 @@ m 0.10 0.10
 type event_biomass
 categories male female
 years 1975:2002
-units kgs
 catches 1191 1488 1288 2004 609 750 997 596 302 344 544 362 509 574 804 977 991 2454 2775 2898 4094 3760 3761 3673 3524 3700 3700 3700
 U_max 0.9
 selectivities observation.male observation.female

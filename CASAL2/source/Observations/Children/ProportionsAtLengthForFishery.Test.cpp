@@ -34,6 +34,7 @@ final_year 1997
 min_age 1
 max_age 4
 age_plus true
+base_weight_units kgs
 initialisation_phases iphase1
 time_steps init step1 step2 step3
 
@@ -80,7 +81,6 @@ m 0.19
 time_step_ratio 0.42 0.25 0.33
 selectivities One
 categories stock
-units kgs
 table catches
 year FishingWest FishingEest
 1991  309000  689000

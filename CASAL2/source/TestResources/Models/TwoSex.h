@@ -29,6 +29,7 @@ start_year 1994
 final_year 2008
 projection_final_year 2012
 min_age 1
+base_weight_units kgs
 max_age 50
 age_plus t
 initialisation_phases iphase1 iphase2

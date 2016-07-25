@@ -13,6 +13,7 @@
 
 // headers
 #include "LengthWeight.h"
+#include "Model/Model.h"
 
 // namespaces
 namespace niwa {
@@ -20,7 +21,8 @@ namespace niwa {
 /**
  * default constructor
  */
-LengthWeight::LengthWeight() {
+LengthWeight::LengthWeight(Model* model)
+: model_(model) {
   parameters_.Bind<string>(PARAM_LABEL, &label_, "Label", "");
   parameters_.Bind<string>(PARAM_TYPE, &type_, "Type", "");
 }

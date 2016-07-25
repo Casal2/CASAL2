@@ -34,6 +34,7 @@ final_year 2012
 min_age 1
 max_age 30
 age_plus true
+base_weight_units kgs
 initialisation_phases iphase1
 time_steps step1 step2 step3
 
@@ -138,7 +139,6 @@ type mortality_instantaneous
 m 0.0798
 selectivities One
 categories stock
-units kgs
 table catches
 year FishingWest FishingEest
 1975 80000 111000                                                            

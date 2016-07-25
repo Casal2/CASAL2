@@ -35,7 +35,6 @@ MortalityEventBiomass::MortalityEventBiomass(Model* model)
   parameters_.Bind<Double>(PARAM_CATCHES, &catches_, "Catches for each year", "");
   parameters_.Bind<Double>(PARAM_U_MAX, &u_max_, "U Max", "", 0.99);
   parameters_.Bind<string>(PARAM_PENALTY, &penalty_label_, "Penalty label", "", "");
-  parameters_.Bind<string>(PARAM_UNITS, &unit_, "Unit of weight that the Catches table are expressed in", "");
 
 
   RegisterAsEstimable(PARAM_U_MAX, &u_max_);
@@ -67,8 +66,7 @@ void MortalityEventBiomass::DoValidate() {
     if (catch_years_.find(years_[i]) != catch_years_.end()) {
       LOG_ERROR_P(PARAM_YEARS) << " year " << years_[i] << " has already been specified, please remove the duplicate";
     }
-
-    catch_years_[years_[i]] =  math::convert_units_to_kgs(catches_[i], unit_);
+    catch_years_[years_[i]] = catches_[i];
   }
 
   // add extra years in to model for things like forward projection

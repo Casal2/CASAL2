@@ -93,6 +93,7 @@ void Biomass::Execute() {
   } else {
     auto iterator = partition_.begin();
     // iterate over each category
+    LOG_FINEST() << "Partition size = " << partition_.size();
     for (unsigned i = 0; i < partition_.size() && iterator != partition_.end(); ++i, ++iterator) {
       (*iterator)->UpdateMeanWeightData();
 

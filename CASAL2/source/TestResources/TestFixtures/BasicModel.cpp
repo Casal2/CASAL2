@@ -44,6 +44,7 @@ void BasicModel::SetUp() {
   model_->parameters().Add(PARAM_MAX_AGE, "20", __FILE__, __LINE__);
   model_->parameters().Add(PARAM_AGE_PLUS, "true", __FILE__, __LINE__);
   model_->parameters().Add(PARAM_TIME_STEPS, "step_one", __FILE__, __LINE__);
+  model_->parameters().Add(PARAM_BASE_UNTIS, "kgs", __FILE__, __LINE__);
 
   base::Object* categories = model_->categories();
   categories->set_block_type(PARAM_CATEGORIES);

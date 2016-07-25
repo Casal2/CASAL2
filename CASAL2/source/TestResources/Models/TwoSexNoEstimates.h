@@ -28,6 +28,7 @@ R"(
 @model
 start_year 1994
 final_year 2008
+base_weight_units kgs
 projection_final_year 2012
 min_age 1
 max_age 50

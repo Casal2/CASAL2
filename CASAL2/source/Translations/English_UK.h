@@ -139,6 +139,7 @@
 #define PARAM_AVERAGE                             "average"
 #define PARAM_AVERAGE_DIFFERENCE                  "average_difference"
 #define PARAM_B                                   "b"
+#define PARAM_BASE_UNTIS                          "base_weight_units"
 #define PARAM_B0                                  "b0"
 #define PARAM_B0_VALUE                            "b0_value"
 #define PARAM_B0_PHASE                            "b0_intialisation_phase"
