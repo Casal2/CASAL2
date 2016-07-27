@@ -332,13 +332,10 @@ Citation: \ManualRef
 \include{Troubleshooting}
 
 \clearemptydoublepage{}
-\include{DevelopingFunctionality}
+\include{License}
 
 \clearemptydoublepage{}
 \include{Acknowledgments}
-
-\clearemptydoublepage{}
-\include{QuickReference}
 
 \clearemptydoublepage{}
 % Referencing
@@ -350,14 +347,14 @@ Citation: \ManualRef
 \include{References}
 
 \clearemptydoublepage{}
-\include{License}
-
-\clearemptydoublepage{}
 
 \let\stdsection\section % Force index to be a numbered section
 \def\section*#1{\stdsection{#1}}
 \printindex % Insert index
 \let\section\stdsection
+
+\clearemptydoublepage{}
+\include{QuickReference}
 
 \end{document}
 %End

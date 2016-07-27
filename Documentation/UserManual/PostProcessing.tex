@@ -1,3 +1,7 @@
 \section{Post processing output using \R \label{sec:post-processing}}
 
-In the downloaded bundle is a R-package that reads \CNAME\ output into R. The \CNAME\ package has only one function \texttt{extract()}, which will read in the entire file. The output is written so that each \command{report} will start with a `*' and end with `*end'. Users may wish to construct R or other package routines that read \CNAME\ output that  identify and select individual reports in the output for post-processing.
+In the downloaded bundle is a R-package that reads \CNAME\ output into R. The \CNAME\ package has one key function \texttt{extract()}.
+
+This function will read and process \CNAME\ output files into R. 
+
+\CNAME\ output is written so that each \command{report} will start with a `*' and end with `*end'. Users can use this format as the basis to construct R or other functions that read \CNAME\ output to identify and read individual reports for post-processing.
