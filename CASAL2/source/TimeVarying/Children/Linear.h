@@ -37,10 +37,9 @@ public:
 private:
   // members
   Double                      slope_;
+  Double                      intercept_;
   Double*                     value_;
   map<unsigned, Double>       values_by_year_;
-  Double                      lower_bound_;
-  Double                      upper_bound_;
 
 };
 

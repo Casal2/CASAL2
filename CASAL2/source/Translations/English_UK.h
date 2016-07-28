@@ -292,6 +292,7 @@
 #define PARAM_IS_ABUNDANCE                        "is_abundance"
 #define PARAM_INTERNAL_GAPS                       "internal_gaps"
 #define PARAM_INTERPOLATE                         "interpolate"
+#define PARAM_INTERCEPT                           "intercept"
 #define PARAM_INVERSE                             "inverse"
 #define PARAM_INVERSE_LOGISTIC                    "inverse_logistic"
 #define PARAM_ITERATIVE                           "iterative"
