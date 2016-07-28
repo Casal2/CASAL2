@@ -219,6 +219,9 @@ void RecruitmentBevertonHolt::DoBuild() {
 void RecruitmentBevertonHolt::DoReset() {
   LOG_TRACE();
 
+  if (parameters_.Get(PARAM_B0)->has_been_defined()) {
+    have_scaled_partition = false;
+  }
   ssb_values_.clear();
   ycs_years_.clear();
   true_ycs_values_.clear();
