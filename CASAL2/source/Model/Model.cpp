@@ -492,13 +492,12 @@ void Model::RunEstimation() {
     LOG_FINE() << "Model: State change to Iteration Complete";
     managers_->report()->Execute(State::kIterationComplete);
   }
-
-
 }
 
 /**
  *
  */
+
 bool Model::RunMCMC() {
   LOG_FINE() << "Entering the MCMC Sub-System";
   auto mcmc = managers_->mcmc()->active_mcmc();
