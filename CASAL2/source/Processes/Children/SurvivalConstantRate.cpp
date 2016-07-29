@@ -33,9 +33,9 @@ SurvivalConstantRate::SurvivalConstantRate(Model* model)
   partition_structure_ = PartitionStructure::kAge;
 
   parameters_.Bind<string>(PARAM_CATEGORIES, &category_labels_, "List of categories", "");
-  parameters_.Bind<Double>(PARAM_S, &s_input_, "Mortality rates", "");
+  parameters_.Bind<Double>(PARAM_S, &s_input_, "Survival rates", "");
   parameters_.Bind<Double>(PARAM_TIME_STEP_RATIO, &ratios_, "Time step ratios for S", "", true);
-  parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_names_, "Selectivities", "");
+  parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_names_, "Selectivity label", "");
 
   RegisterAsEstimable(PARAM_S, &s_);
 }
@@ -53,31 +53,33 @@ SurvivalConstantRate::SurvivalConstantRate(Model* model)
 void SurvivalConstantRate::DoValidate() {
   category_labels_ = model_->categories()->ExpandLabels(category_labels_, parameters_.Get(PARAM_CATEGORIES));
 
+  // If one S supplied expand for each category
   if (s_input_.size() == 1)
     s_input_.assign(category_labels_.size(), s_input_[0]);
+  // Do the same for selectivity labels
   if (selectivity_names_.size() == 1)
     selectivity_names_.assign(category_labels_.size(), selectivity_names_[0]);
-
+  //Check we have equal category labels as survival rates
   if (s_input_.size() != category_labels_.size()) {
     LOG_ERROR_P(PARAM_S)
         << ": Number of Ms provided is not the same as the number of categories provided. Expected: "
         << category_labels_.size()<< " but got " << s_input_.size();
   }
-
+  //Check we have equal category labels to selectivity labels
   if (selectivity_names_.size() != category_labels_.size()) {
     LOG_ERROR_P(PARAM_SELECTIVITIES)
         << ": Number of selectivities provided is not the same as the number of categories provided. Expected: "
         << category_labels_.size()<< " but got " << selectivity_names_.size();
   }
 
-  // Validate our Ms are between 1.0 and 0.0
+  // Validate our S's are between 1.0 and 0.0
   for (Double s : s_input_) {
     if (s < 0.0 || s > 1.0)
-      LOG_ERROR_P(PARAM_S) << ": m value " << AS_DOUBLE(s) << " must be between 0.0 and 1.0 (inclusive)";
+      LOG_ERROR_P(PARAM_S) << ": s value " << AS_DOUBLE(s) << " must be between 0.0 and 1.0 (inclusive)";
   }
-
+  // Assign survival rates to a map s_
   for (unsigned i = 0; i < s_input_.size(); ++i)
-    m_[category_labels_[i]] = s_input_[i];
+    s_[category_labels_[i]] = s_input_[i];
 
   // Check categories are real
   for (const string& label : category_labels_) {
@@ -156,7 +158,7 @@ void SurvivalConstantRate::DoExecute() {
     LOG_FINEST() << "category " << category->name_ << "; min_age: " << category->min_age_ << "; ratio: " << ratio;
     StoreForReport(category->name_ + " ratio", ratio);
     for (Double& data : category->data_) {
-      data -= data * (1-exp(-selectivities_[i]->GetResult(category->min_age_ + j, category->age_length_)  * (s * ratio)));
+      data -= data * (1-exp(-selectivities_[i]->GetResult(category->min_age_ + j, category->age_length_)  * ((1.0 - s) * ratio)));
       ++j;
     }
 
@@ -168,7 +170,7 @@ void SurvivalConstantRate::DoExecute() {
  * Reset the Survival Process
  */
 void SurvivalConstantRate::DoReset() {
-  mortality_rates_.clear();
+  survival_rates_.clear();
 }
 
 } /* namespace processes */
