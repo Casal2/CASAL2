@@ -461,6 +461,7 @@
 #define PARAM_ROW_INDEX                           "row_index"
 #define PARAM_RUN_LENGTH                          "run_length"
 #define PARAM_RUN_MODE                            "run_mode"
+#define PARAM_S                                   "s"
 #define PARAM_SAME                                "same"
 #define PARAM_SAMPLE                              "sample"
 #define PARAM_SCALING_YEARS                       "scaling_years"
