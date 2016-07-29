@@ -17,12 +17,44 @@ The status of the forked repository as compared to the master repository can be 
 	\caption{Fork status}\label{fig:fork_status}
 \end{figure}
 
-This line underlined in red indicates the relationship between the master and the forked version. In the above example, the forked version is one commit behind the master. 
+This line underlined in blue indicates how many commits have occurred on the forked repo since forking the repo or updating the forked repo. The line underlined in red indicates the commits that have occurred to the master since you forked the repo or last updated it. In the above example, we have made one commit to our forked repo (indicated by the blue) and the forked version is one commit behind the master (indicated by the red). 
 
-To update this forked repository, click the `compare' button (circled in red on the right of the above example figure). This will bring up a page that will tell you of the changes that have occurred to the master repository. 
 
-There are two situations that can occur when updating a forked repository. The first and easiest is that there is no conflicts and you can merge the master changes with ease, the second is there are conflicts. The second case is described below.
 
-\subsection{Updating the forked repository}
+\subsection{Updating the forked repository to incorporate changes committed to the master}
 
-Craig to add a section here.
+To update your forked repository to be the same as the master, click the `compare' button (circled in red on the right of Figure~\ref{fig:fork_status}). This will bring up a page that will tell you of the changes that have occurred to the master repository. 
+\clearpage
+\begin{figure}[!ht]
+	\includegraphics[scale=0.6]{Figures/Compare_fork3.png}
+	\caption{}\label{fig:fork_compare1}
+\end{figure}
+
+If the following figure appears (Figure~\ref{fig:fork_compare1}) telling you "there isn't anything to compare" click on the \texttt{switching the base} underlined in red.
+\raggedbottom
+\begin{figure}[!ht]
+	\includegraphics[scale=0.6]{Figures/Compare_fork4.png}
+	\caption{}\label{fig:fork_compare2}
+\end{figure}
+
+You can see that there are 7 commits and 28 files changed on the master that we want to merge into our forked repo. You can see that there is now a "create pull request" and a green message saying "Able to merge". This indicates you will be able to update your forked repo with ease. Click on the "create pull request" button. This will open a git pull request (Figure~\ref{fig:fork_compare3}) we suggest adding a nice title for the merge like "Updating Craig's Forked Repository" 
+\clearpage
+\begin{figure}[!ht]
+	\includegraphics[scale=0.6]{Figures/Compare_fork5.png}
+	\caption{}\label{fig:fork_compare3}
+\end{figure}
+
+Once you write a reasonable title and click create pull request if there are no conflicts, you can merge teh changes from the master into your forked repo by clicking "merge pull request" form Figure~\ref{fig:fork_compare4}.
+
+\begin{figure}[!ht]
+	\includegraphics[scale=0.6]{Figures/Compare_fork6.png}
+	\caption{}\label{fig:fork_compare4}
+\end{figure}
+\clearpage
+Once you have clicked that you will be told that the merge was a success as shown in Figure~\ref{fig:fork_compare5}.
+\begin{figure}[!ht]
+	\includegraphics[scale=0.6]{Figures/Compare_fork7.png}
+	\caption{}\label{fig:fork_compare5}
+\end{figure}
+
+Now you have successfully updated your remote forked repository. To incorporate these changes into your local repository on your computer you just need to do a pull and the code changes should be incorporated in your next build.
