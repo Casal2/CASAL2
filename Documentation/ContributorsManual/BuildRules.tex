@@ -2,7 +2,7 @@
 
 This section describes the standards and specifications for contributors to have their contributions included within the \CNAME\ codebase. 
 
-\subsection{\CNAME\ coding practice and style}
+\subsection{\CNAME\ coding practice and style}\label{subsec:code_practive}
 
 \CNAME\ is written in C++ and follows the Google C++ style guide (see \url{https://google.github.io/styleguide/cppguide.html}). The guide is long and comprehensive, so we don't necessarily recommend that you read or understand all of its content. However, the Development Team would like you to follow the Google style of code layout and structure. Google provides a handy script to parse source code and highlight errors that do not match their coding style.
 
@@ -12,14 +12,14 @@ This means using good indentations for functions and loops, sensible (human read
 
 On topping of annotating your code we encourage developers to add descriptive logging statements (print messages) in the code. You will see in the source code this already. The purpose of this is to allow a descriptive summary of the actions being done in the model for debugging purposes. By using these, it becomes easier to identify issues and errors. 
 
-You can also output the text and equations in these logs that would normally be too detailed for general use, as this may allow users to verify the exact equations or processes that have been implemented.
+You can also output the text and equations in these logs that would normally be too detailed for general users to be interested, as this may allow users to verify the exact equations or processes that have been implemented. These are really there for curious users and developers.
 
 There are different levels of logging in \CNAME\ listed below.
 \begin{itemize}
-	\item LOG\_MEDIUM() 
-	\item LOG\_FINE() 
-	\item LOG\_FINEST() 
-	\item LOG\_TRACE() 
+	\item LOG\_MEDIUM()  usually reserved for iterative functionality
+	\item LOG\_FINE() the level of reporting between an actual report and a finscale detail that end users are not interested in (Developers)
+	\item LOG\_FINEST() Minor details
+	\item LOG\_TRACE() put at the beginning of every function
 \end{itemize}
 
 To run \CNAME\ in log mode piping out any LOG\_FINEST and coarser logs (LOG\_MEDIUM and LOG\_FINE) you can use the following command,
