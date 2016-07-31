@@ -60,6 +60,13 @@ uninstall manually, delete the files from your computer
 depends on your choices when you installed 
 the program) and any program links in your Start menu.
 
+Contributing to Casal2
+======================
+
+For users who are interested in contributing to Casal2 please see
+ContributorsGuide.pdf which will show you how to get access to the 
+source code, build Casal2 on your local machine and ultimately add 
+functionality to the publically available program.
 
 Contact
 =======
