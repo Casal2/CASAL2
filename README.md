@@ -16,18 +16,21 @@ is error free.
 
 A windows bundle which includes a binary, manual, 
 examples and other help guides can be downloaded at 
-ftp://ftp.niwa.co.nz/Casal2/windows/Casal2.zip
+ftp://ftp.niwa.co.nz/Casal2/windows/Casal2.zip. For a
+windows installer ftp://ftp.niwa.co.nz/Casal2/windows/casal2_setup.exe
+
 
 A linux bundle which includes a binary, manual, 
 examples and other help guides can be downloaded at 
 ftp://ftp.niwa.co.nz/Casal2/linux/Casal2.tar.gz
 
-Collaborators please read contributors_tickbox.txt 
-(Found Documentation/contributors_tickbox.txt).
 
-For information on how to setup your system to compile 
-Casal2 see the document 
-"Documentation/How To Build CASAL2.odt"
+For users who are interested in contributing to 
+Casal2 please see ContributorsGuide.pdf which will 
+show you how to get access to the source code and 
+build Casal2 on your local machine. Finally adding 
+functionality to the publically available program.
+
 
 For more information about Casal2 contact the Casal2 
 Development Team at casal2@niwa.co.nz
