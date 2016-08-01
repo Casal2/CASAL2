@@ -524,6 +524,7 @@ class Latex:
               return Globals.PrintError('bibtex failed')
             if os.system('makeindex.exe CASAL2') != EX_OK:
               return Globals.PrintError('makeindex failed')
+        print '-- Built the Casal2 usermanual'
 
         os.chdir('../GettingStartedGuide/')
         for i in range(0,3):
@@ -543,7 +544,8 @@ class Latex:
               return Globals.PrintError('bibtex failed')
             if os.system('makeindex.exe GettingStartedGuide') != EX_OK:
               return Globals.PrintError('makeindex failed')
-
+              
+        print '-- Built the GettingStartedGuide'
         os.chdir('../ContributorsManual/')
         for i in range(0,3):
           if Globals.operating_system_ == "linux":
@@ -562,5 +564,6 @@ class Latex:
               #return Globals.PrintError('bibtex failed')
             #if os.system('makeindex.exe ContributorsGuide') != EX_OK:
               #return Globals.PrintError('makeindex failed')
+        print '-- Built the ContributorsGuide'
 
         return True
