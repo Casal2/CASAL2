@@ -551,8 +551,6 @@ class Latex:
           if Globals.operating_system_ == "linux":
             if os.system('pdflatex --halt-on-error --interaction=nonstopmode ContributorsGuide') != EX_OK:
               return False
-            if os.system('bibtex ContributorsGuide') != EX_OK:
-              return False
           else:
             if os.system('pdflatex.exe --halt-on-error --enable-installer ContributorsGuide') != EX_OK:
               return Globals.PrintError('pdflatex failed')
