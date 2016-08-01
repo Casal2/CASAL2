@@ -558,9 +558,9 @@ class Latex:
           else:
             if os.system('pdflatex.exe --halt-on-error --enable-installer ContributorsGuide') != EX_OK:
               return Globals.PrintError('pdflatex failed')
-            if os.system('bibtex.exe ContributorsGuide') != EX_OK:
-              return Globals.PrintError('bibtex failed')
-            if os.system('makeindex.exe ContributorsGuide') != EX_OK:
-              return Globals.PrintError('makeindex failed')
+            #if os.system('bibtex.exe ContributorsGuide') != EX_OK:
+              #return Globals.PrintError('bibtex failed')
+            #if os.system('makeindex.exe ContributorsGuide') != EX_OK:
+              #return Globals.PrintError('makeindex failed')
 
         return True
