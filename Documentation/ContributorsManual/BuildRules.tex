@@ -1,6 +1,6 @@
 \section{\CNAME\ build rules\label{sec:build_rules}}
 
-This section describes the standards and specifications for contributors to have their contributions included within the \CNAME\ codebase. 
+This section describes the standards and requirements for code to be included within the \CNAME\ code base. 
 
 \subsection{\CNAME\ coding practice and style}\label{subsec:code_practive}
 
@@ -10,14 +10,14 @@ This means using good indentations for functions and loops, sensible (human read
 
 \textbf{Annotate} your code. For readability we encourage you to put lots of comments in your code.This helps others read what you intended. 
 
-On topping of annotating your code we encourage developers to add descriptive logging statements (print messages) in the code. You will see in the source code this already. The purpose of this is to allow a descriptive summary of the actions being done in the model for debugging purposes. By using these, it becomes easier to identify issues and errors. 
+On top of annotating your code we encourage developers to add descriptive logging statements (print messages) in the code. You will see in the source code this already. The purpose of this, is to allow a descriptive summary of the actions being done in the model for debugging purposes and curious users. By using these, it becomes easier to identify issues, errors and creates a transparent model for users.
 
 You can also output the text and equations in these logs that would normally be too detailed for general users to be interested, as this may allow users to verify the exact equations or processes that have been implemented. These are really there for curious users and developers.
 
 There are different levels of logging in \CNAME\ listed below.
 \begin{itemize}
-	\item LOG\_MEDIUM()  usually reserved for iterative functionality
-	\item LOG\_FINE() the level of reporting between an actual report and a finscale detail that end users are not interested in (Developers)
+	\item LOG\_MEDIUM()  usually reserved for iterative functionality (e.g. estimates during estimation phase)
+	\item LOG\_FINE() the level of reporting between an actual report and a fine scale detail that end users are not interested in (Developers)
 	\item LOG\_FINEST() Minor details
 	\item LOG\_TRACE() put at the beginning of every function
 \end{itemize}

@@ -544,4 +544,23 @@ class Latex:
             if os.system('makeindex.exe GettingStartedGuide') != EX_OK:
               return Globals.PrintError('makeindex failed')
 
+        os.chdir('../ContributorsManual/')
+        for i in range(0,3):
+          if Globals.operating_system_ == "linux":
+            if os.system('pdflatex --halt-on-error --interaction=nonstopmode ContributorsGuide') != EX_OK:
+              return False
+            if os.system('bibtex ContributorsGuide') != EX_OK:
+              return False
+            if os.system('makeindex ContributorsGuide') != EX_OK:
+              return False
+            if not os.path.exists('ContributorsGuide.pdf'):
+              return False
+          else:
+            if os.system('pdflatex.exe --halt-on-error --enable-installer ContributorsGuide') != EX_OK:
+              return Globals.PrintError('pdflatex failed')
+            if os.system('bibtex.exe ContributorsGuide') != EX_OK:
+              return Globals.PrintError('bibtex failed')
+            if os.system('makeindex.exe ContributorsGuide') != EX_OK:
+              return Globals.PrintError('makeindex failed')
+
         return True
