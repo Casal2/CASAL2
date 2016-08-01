@@ -2,11 +2,11 @@
 
 \subsection{\I{Observations} and likelihoods\label{sec:likelihoods}\index{Likelihoods}}
 
-Observations are typically supplied as observations at an instance in time, over some spatially aggregated area. Time series of observations can be supplied as separate observations for each year or point in time. 
+Observations are typically supplied at an instance in time, over a group aggregated categories. Time series of observations can be supplied as separate observations for each year or point in time. 
 
 \CNAME\ allows the following types of observations;
 \begin{itemize}
-  \item Observations of proportions by age and length class within categories
+  \item Observations of proportions by age and length class across categories
   \item Observations of proportions between categories within age classes
   \item Tag recapture observation by length and age
   \item Proportions Migrating
@@ -15,7 +15,7 @@ Observations are typically supplied as observations at an instance in time, over
 
 The definitions for each type of observation are described below, including how the observed values should be supplied, how \CNAME\ calculates the expected values, and the likelihoods that are available for each type of observation.
 
-\CNAME\ evaluates the observations at the end of a time-step (i.e., after all of the processes for that time-step have been applied). However, the observation can be applied to the abundance at the start of a time-step or part-way through a time-step by the use of the \subcommand{proportion\_time\_step} subcommand. 
+\CNAME\ evaluates \textit{time\_step} observations at the end of a time-step (i.e., after all of the processes for that time-step have been applied). However, the observation can be applied to the abundance at the start of a time-step or part-way through a time-step by the use of the \subcommand{proportion\_time\_step} subcommand. 
 
 By default (i.e., if \subcommand{proportion\_method} \texttt{= mean}), the partition at some point $p$ during the time-step is then evaluated as the weighted sum between the start and end of the time-step, i.e, for any element $i$ in the partition, $n_i=(1-p) n_i^{start} + p n_i^{end}$. Note that it may not be sensible to use a value other than one, depending on the processes that happen during the time-step (for example, if the time-step contains an ageing process).
 
@@ -113,7 +113,7 @@ For example, using the earlier spatial model with a categorical layer that has l
 
 {\small{\begin{verbatim}
 @observation MyProportions
-type proportions_at_age
+type proportions_at_age ## or time_step_proportions_at_age
 layer Area
 ...
 years 1990 1991
@@ -209,6 +209,140 @@ and the $c_i$'s are the c.v.s for each age class $i$, and $Z \left(\theta,\delta
 \end{equation}
 
 The default value of $\delta$ is $1 \times 10^{-11}$.
+
+\subsection{\I{Tag Recapture by length}\label{sec:tag-recapture-by-length}}
+
+Tag data is primarily used to estimate the population abundance of fish. In some models, this estimation can only be made outside the model and the result is used as an estimate of abundance in the model. But in CASAL the tagging data can, alternatively, be fitted within the model.
+\\\\
+Before adding a tag-recapture time series, you will need to define a tag-release process (Section~\ref{sub:tag_release}). Tagging events list the labels of the tags which are modelled, and define the events where fish are tagged (i.e., \CNAME moves fish into the section of the partition corresponding to a specific tag).
+\\\\
+The observations are divided into two parts: (i) the number of fish that were scanned, and (ii) the number of tags that were recaptured. Each can be specified by categories, or for combinations of categories. The precise content of the scanned and recaptured observations depends on the sampling method, and the available options are:
+
+\begin{enumerate}
+	\item age: both scanned and recaptured are vectors containing numbers-at-age. Only available in an age-based model. The selectivity ogive is redundant and cannot be supplied.
+	\item size: both scanned and recaptured are vectors containing numbers-at-size. Can be used in either an age- or size-based model. The selectivity ogive is redundant and cannot be supplied.
+\end{enumerate}
+When defining the tag-recapture time series, you also need to specify:
+\begin{itemize}
+	\item the time step,
+	\item the years (unlike a tag-release process, the tag-recapture observations can occur over several years),
+	\item the probability that each scanned tagged fish is detected as tagged (may be less than 1 if the observers are not infallible). The expected number of tags detected is calculated by multiplying this number by the number of tagged fish in the sample,
+	\item the tagged category or categories (Make up the recaptures),
+	\item the categories scanned (All the fish sampled for tags),
+	\item A selectivity used in the recapture process,
+	\item the size classes if the observations are size-based in an age-based model.
+\end{itemize}
+
+
+An example of a tag recapture observation applied in \CNAME\ is shown, below
+{\small{\begin{verbatim}
+## For the following partition
+@categories
+format sex.area.tag
+names  		male.Area1.2011,notag female.Area1.2011,notag
+		
+@observation Tag_2011_Area1_recap_2012 ## individuals tagged in 2011 and recaptured in 2012
+## in Area1
+type tag_recapture_by_length
+categories *.Area1.2011+  ## male and femaled tagged categories
+categories2 format=*.Area1.*+ ## scanned categories in Area1
+detection 0.85 ## detection probability
+likelihood binomial ## likelihood choice
+selectivities One ## label of selectivity for tagged
+selectivities2 One ## label of selectivity for scanned
+years 2012  ## years to apply observation
+time_step step2  ## time_step to apply observation	
+time_step_proportion 0.5 ## proportion of mortality applied before observation is calculated 
+length_bins 21 30 40 50	## size bins
+plus_group true ## is the last bin a plus group i.e. 50cm +
+
+table scanned
+2012 281271 41360 30239 12234
+end_table
+
+table recaptured
+2012 15 20 12 2
+end_table
+
+delta 1e-11 ## robustification value
+dispersion 6.3	## dispersion factor
+
+\end{verbatim}}}
+
+
+
+The tag-recapture likelihoods are specified below. Note that these likelihoods do not have any user-set precision parameters such as $N$ or $c.v.$ (though there are user-specified robustification and dispersion parameters available). Note that factorials are calculated using the log-gamma function, to allow for non-integer arguments where necessary (and avoid overflow errors).
+
+
+\subsubsection*{The binomial likelihood\index{Binomial likelihood ! tag-recapture-by-length}}
+Designed for situations where the size frequencies or age frequencies of the recaptured tagged fish and of the scanned fish are known. Available in both age or size based models.
+\\\\
+Here we define the likelihood as a binomial, but based on sizes, rather than ages,
+\begin{equation}
+\begin{split}
+-\log \left(L \right)'= -\sum\limits_i & \left[ \right. \log \left(n_i! \right) - \log \left(\left(n_i - m_i \right)! \right) - \log \left(\left(m_i \right)! \right) + m_i \log \left(Z\left(\frac{M_i}{N_i},\delta \right) \right) \\
+&+  \left(n_i - m_i \right)\log \left(Z\left(1 - \frac{M_i}{N_i},\delta\right) \right) \left. \right]
+\end{split}
+\end{equation}
+where 
+\\
+$n_i$ = number of fish at size or age $i$ that were scanned
+\\
+$m_i$ = number of fish at size or age $i$ that were recaptured
+\\
+$N_i$ = number of fish at size or age $i$ in the available population (tagged and untagged)
+\\
+$M_i$ = number of fish at size or age $i$ in the available population that have the tag after a detection probability $p_d$ has been applied, $M_i = M_i'p_d$, where $M_i'$ is the expected available population that have the tag.
+\\\\
+where $Z(x,\delta)$ is a robustifying function with parameter $r > 0$ (to prevent division by zero errors), defined as
+
+
+\[ Z(x,\delta) =
+\begin{cases}
+x       & \text{where } x \geq \delta\\
+\frac{\delta}{(2 - x / \delta)}  & \text{otherwise}\\
+\end{cases}
+\]
+
+Finally if a dispersion parameter ($\tau$) is described in the observation then the final negative log likelihood $-log(L)$ contribution is,
+
+$$-log(L) = -log(L)' / \tau$$
+
+
+\subsection{\I{Proportions migrating}\label{sec:Proportions-migrating}}
+Another observation is of the proportion migrating from one area to another. This observation is used to inform migration rates in migration processes. This observation class is used in the Hoki stock assessment see~\cite{francis_03} for more information on how these observations are actually observed. This observation calculates an expectation $E_a$ of proportions for each age class $a$ that have migrated, by evaluating the following,
+
+\begin{equation}
+E_a = \frac{N_a - N_a'}{N_a}
+\end{equation}
+where, $N_a$ are the numbers of individuals in age $a$ before the migration process occurs and $N_a'$ is the number of individuals after the migration process occurs.
+\\
+The likelihoods that are allowed for this observation are the lognormal, multinomial and dirichlet.
+\\\\
+An extract of the Hoki stock assessment is as follows,
+{\small{\begin{verbatim}
+@observation pspawn_1993
+type process_proportions_migrating
+years 1993
+time_step step4
+process Wspmg ## migration process that the observation is associated with
+age_plus true
+min_age 4
+max_age 9
+likelihood lognormal
+categories male.west+female.west ## Categories to evaluate the prportion for
+ageing_error Normal_offset ## label for an @ageing_error block
+table obs
+#age    4    5    6    7    8    9
+1993 0.64 0.58 0.65 0.66 0.71 0.60
+end_table
+
+table error_values
+## if lognormal these are c.v.'s
+1993 0.25
+end_table
+\end{verbatim}}}
+
 
 \subsection{\I{Proportions-by-category observations}\label{sec:proportions-by-category}}
 Proportions-by-category observations are observations of either the relative number of individuals between categories within age classes, or relative biomass between categories within age classes. 
