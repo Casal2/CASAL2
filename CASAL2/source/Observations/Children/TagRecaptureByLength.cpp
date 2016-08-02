@@ -40,7 +40,7 @@ TagRecaptureByLength::TagRecaptureByLength(Model* model) : Observation(model) {
   scanned_table_ = new parameters::Table(PARAM_SCANNED);
 
   parameters_.Bind<Double>(PARAM_LENGTH_BINS, &length_bins_, "Length Bins", "");
-  parameters_.Bind<bool>(PARAM_PLUS_GROUP, &plus_group_, "Last length bin a plus group", "", true);
+  parameters_.Bind<bool>(PARAM_PLUS_GROUP, &plus_group_, "Is the last length bin a plus group?", "", true);
   parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "Year to execute in", "");
   parameters_.Bind<string>(PARAM_TIME_STEP, &time_step_label_, "Time step to execute in", "");
   parameters_.Bind<string>(PARAM_TARGET_CATEGORIES, &target_category_labels_, "Target Categories", "");
