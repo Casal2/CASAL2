@@ -120,6 +120,7 @@ class Archiver:
     os.system('cp ' + binary_path + '/library_test/' + library_name + ' CASAL2/casal2_test' + extension)
     os.system('cp ../Documentation/UserManual/CASAL2.pdf CASAL2/CASAL2.pdf')
     os.system('cp ../Documentation/GettingStartedGuide/GettingStartedGuide.pdf CASAL2/GettingStartedGuide.pdf')
+    os.system('cp ../Documentation/ContributorsManual/ContributorsGuide.pdf Casal2/ContributorsGuide.pdf')    
     os.system('cp -r ../Examples CASAL2/Examples')
     os.system('cp -r ../README.txt CASAL2/README.txt')
     os.system('cp ../R-libraries/CASAL2_1.0.zip CASAL2/CASAL2_Rlibrary.zip')
