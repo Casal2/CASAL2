@@ -63,7 +63,8 @@ class Documentation:
         type_aliases_['vector<string>']   = 'string vector'
         type_aliases_['map<string, vector<string>>'] = 'string matrix'
         type_aliases_['map<string, vector<Double>>'] = 'constant vector'
-
+        type_aliases_['parameters::table*']          = 'constant'
+        
     """
     Start the documentation builder
     """
@@ -254,15 +255,19 @@ class VariableLoader:
                 print '-- Bind Line ' + line
                 if not self.HandleParameterBindLine(line, class_):
                     return False
-            ## ADD LINE TO HANDLE parameters_.BindTable<
+            if line.startswith('parameters_.BindTable('):
+                print '-- Bind Table Line ' + line
+                if not self.HandleParameterBindTable(line, class_):
+                    return False            
             if line.startswith('RegisterAsEstimable('):
+                print '-- RegisterAsEstimable Line ' + line
                 if not self.HandlRegisterAsLine(line, class_):
                     return False
-
         return True
 
     def HandleParameterBindLine(self, line, class_):
-        lines  = re.split('->', line)
+        line = line.replace('Double(', '') 
+        lines = re.split('->', line)
         short_line = lines[0].replace('parameters_.Bind<', '')
         pieces = re.split(',|<|>|;|(|)', short_line)
         pieces = filter(None, pieces)
@@ -346,6 +351,48 @@ class VariableLoader:
                 variable.allowed_values_ = short_line
         return True
 
+    def HandleParameterBindTable(self, line, class_):
+        lines  = re.split('->', line)    
+        short_line = line.replace('parameters_.BindTable(', '')
+        pieces = re.split(',|<|>|;|(|)', short_line)
+        pieces = filter(None, pieces)
+
+        # Check for the name of the variable we're binding too
+        used_variable = pieces[1].rstrip().lstrip().lower()
+
+        variable = Variable()
+        if used_variable in class_.variables_:
+            variable = class_.variables_[used_variable];
+        else:
+            return Globals.PrintError('Could not find record for the header variable: ' + used_variable)
+            
+        # Check for Name
+        variable.name_ = translations_[pieces[0].rstrip().lstrip()]
+        
+        # Set the description
+        index = 2;
+        description = pieces[index]
+        while description.count('"') != 2:
+            index += 1
+            description += ',' + pieces[index]
+        variable.description_ = description.replace('R"(', '').replace(')"', '').replace('"', '').rstrip().lstrip()
+
+        # Set the value
+        index += 1
+        value = pieces[index]
+        while value.count('"') != 2:
+            index += 1
+            value += ',' + pieces[index]
+        value = value.replace(')', '')
+        variable.value_ = value.replace(')', '').replace('R"(', '').replace(')"', '').replace('"', '').replace(')', '').rstrip().lstrip()
+ 
+        return True
+ 
+         # Set the default value
+        index += 1
+        if len(pieces) > index:
+            variable.default_ = pieces[index].replace(')', '').rstrip().lstrip()
+        
     def HandlRegisterAsLine(self, line, class_):
         short_line = line.replace('RegisterAsEstimable(', '')
         pieces = re.split(',|<|>|;|(|)', short_line)
@@ -382,7 +429,7 @@ class Printer:
 
         print '-- Printing to file ' + self.current_output_file_
         file = open(self.current_output_file_ + '.tex', 'w')
-        file.write('\defComLab{' + parent_class_.name_.lower() + '}{Define an object type ' + parent_class_.name_ + '}\n')
+        file.write('\defComLab{' + parent_class_.name_.lower() + '}{Define an object of type \emph{' + parent_class_.name_.lower() + '}}\n')
         file.write('\n')
         self.PrintClass(file, parent_class_)
 
@@ -436,6 +483,10 @@ class Printer:
         for key, variable in class_.variables_.iteritems():
             if variable.name_ == '':
                 continue
+            # Remove PARAMs and associated desriptions of variables that have yet to be completed in the code
+            if variable.description_.startswith('TBA'):
+                continue
+            # And continue as normal
             file_.write('\\defSub{' + variable.name_ + '} {' + variable.description_ + '}\n')
             if variable.name_ in class_.estimables_:
                 if class_.estimables_[variable.name_ ].startswith('vector<'):

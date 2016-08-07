@@ -36,15 +36,15 @@ ProportionsAtAgeForFishery::ProportionsAtAgeForFishery(Model* model) : Observati
   parameters_.Bind<unsigned>(PARAM_MIN_AGE, &min_age_, "Minimum age", "");
   parameters_.Bind<unsigned>(PARAM_MAX_AGE, &max_age_, "Maximum age", "");
   parameters_.Bind<bool>(PARAM_AGE_PLUS, &age_plus_, "Use age plus group", "", true);
-  parameters_.Bind<string>(PARAM_TIME_STEP, &time_step_label_, "Time steps that the fisheries are in", "");
+  parameters_.Bind<string>(PARAM_TIME_STEP, &time_step_label_, "The time-steps of the observation", "");
   parameters_.Bind<Double>(PARAM_TOLERANCE, &tolerance_, "Tolerance", "", Double(0.001));
-  parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "Year to execute in", "");
+  parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "Years for which there are observations", "");
   parameters_.Bind<Double>(PARAM_DELTA, &delta_, "Delta", "", DELTA);
   parameters_.Bind<Double>(PARAM_PROCESS_ERRORS, &process_error_values_, "Process error", "", true);
   parameters_.Bind<string>(PARAM_AGEING_ERROR, &ageing_error_label_, "Label of ageing error to use", "", "");
-  parameters_.Bind<string>(PARAM_FISHERY, &fishery_, "Label of fishery the observation is from", "", "");
-  parameters_.BindTable(PARAM_OBS, obs_table_, "Table of Observatons", "", false);
-  parameters_.BindTable(PARAM_ERROR_VALUES, error_values_table_, "", "", false);
+  parameters_.Bind<string>(PARAM_FISHERY, &fishery_, "Label of observed fishery", "", "");
+  parameters_.BindTable(PARAM_OBS, obs_table_, "Table of observed values", "", false);
+  parameters_.BindTable(PARAM_ERROR_VALUES, error_values_table_, "Table of error values of the observed values (note the units depend on the likelihood)", "", false);
   parameters_.Bind<string>(PARAM_PROCESS, &process_label_, "Process label", "");
 
   mean_proportion_method_ = false;

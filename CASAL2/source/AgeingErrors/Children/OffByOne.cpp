@@ -18,9 +18,9 @@ namespace ageingerrors {
 
 // Constructor
 OffByOne::OffByOne(Model* model) : AgeingError(model) {
-  parameters_.Bind<Double>(PARAM_P1, &p1_, "proprtion of misclassification up by a single age, i.e. Proportion of individuals at age 3 that are actually age 4", "");
-  parameters_.Bind<Double>(PARAM_P2, &p2_, "proprtion of misclassification down by a single age", "")->set_range(0.0, 1.0);
-  parameters_.Bind<unsigned>(PARAM_K, &k_, "The minimum age of fish which can be missclassified", "", 0u)->set_range(0.0, 1.0);
+  parameters_.Bind<Double>(PARAM_P1, &p1_, "proportion misclassified as one year younger, e.g., the proportion of age 3 individuals that were misclassified as age 2", "")->set_range(0.0, 1.0);
+  parameters_.Bind<Double>(PARAM_P2, &p2_, "proportion misclassified as one year older, e.g., the proportion of age 3 individuals that were misclassified as age 4", "")->set_range(0.0, 1.0);
+  parameters_.Bind<unsigned>(PARAM_K, &k_, "The minimum age of fish which can be misclassified, i.e., fish of age less than k are assumed to be correctly classified", "", 0u)->set_range(0.0, 1.0);
 
   RegisterAsEstimable(PARAM_P1, &p1_);
   RegisterAsEstimable(PARAM_P2, &p2_);

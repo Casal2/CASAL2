@@ -22,8 +22,8 @@ namespace niwa {
 InitialisationPhase::InitialisationPhase(Model* model) : model_(model) {
   LOG_TRACE();
 
-  parameters_.Bind<string>(PARAM_LABEL, &label_, "Label", "");
-  parameters_.Bind<string>(PARAM_TYPE, &type_, "Type", "", PARAM_ITERATIVE);
+  parameters_.Bind<string>(PARAM_LABEL, &label_, "The label of the initialisation phase", "");
+  parameters_.Bind<string>(PARAM_TYPE, &type_, "The type of initialisation", "", PARAM_ITERATIVE);
 }
 
 /**

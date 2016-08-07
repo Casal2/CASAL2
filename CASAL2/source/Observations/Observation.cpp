@@ -29,13 +29,13 @@ namespace niwa {
  */
 
 Observation::Observation(Model* model) : model_(model) {
-  parameters_.Bind<string>(PARAM_LABEL, &label_, "Label", "");
-  parameters_.Bind<string>(PARAM_TYPE, &type_, "Type of observation", "");
-  parameters_.Bind<string>(PARAM_LIKELIHOOD, &likelihood_type_, "Type of likelihood to use", "");
-  parameters_.Bind<string>(PARAM_CATEGORIES, &category_labels_, "Category labels to use", "", true);
-  parameters_.Bind<string>(PARAM_SIMULATION_LIKELIHOOD, &simulation_likelihood_label_, "Simulation likelihood to use", "", "");
-  parameters_.Bind<Double>(PARAM_LIKELIHOOD_MULTIPLIER, &likelihood_multiplier_, "Likelihood score multiplier", "", Double(1.0));
-  parameters_.Bind<Double>(PARAM_ERROR_VALUE_MULTIPLIER, &error_value_multiplier_, "Error value multiplier for likelihood", "", Double(1.0));
+  parameters_.Bind<string>(PARAM_LABEL, &label_, "The label of the observation", "");
+  parameters_.Bind<string>(PARAM_TYPE, &type_, "The type of observation", "");
+  parameters_.Bind<string>(PARAM_LIKELIHOOD, &likelihood_type_, "The likelihood type assumed in evaluating the observation", "");
+  parameters_.Bind<string>(PARAM_CATEGORIES, &category_labels_, "The labels of the categories used in the observed values", "", true);
+  parameters_.Bind<string>(PARAM_SIMULATION_LIKELIHOOD, &simulation_likelihood_label_, "The likelihood used in simulations if the observation likelihood is a pseudo-observation", "", "");
+  parameters_.Bind<Double>(PARAM_LIKELIHOOD_MULTIPLIER, &likelihood_multiplier_, "The arbitary multiplier of the likelihood score", "", Double(1.0));
+  parameters_.Bind<Double>(PARAM_ERROR_VALUE_MULTIPLIER, &error_value_multiplier_, "The arbitary multipler of the error values used in the likelihood", "", Double(1.0));
   mean_proportion_method_ = true;
 }
 

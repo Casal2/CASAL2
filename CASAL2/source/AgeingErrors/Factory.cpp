@@ -18,7 +18,7 @@
 #include "AgeingErrors/Children/Data.h"
 #include "AgeingErrors/Children/Normal.h"
 #include "AgeingErrors/Children/OffByOne.h"
-
+#include "AgeingErrors/Children/None.h"
 
 // namespaces
 namespace niwa {
@@ -42,6 +42,8 @@ AgeingError* Factory::Create(Model* model, const string& object_type, const stri
       result = new Normal(model);
     else if (sub_type == PARAM_OFF_BY_ONE)
       result = new OffByOne(model);
+    else if (sub_type == PARAM_NONE)
+      result = new None(model);
 
     if (result)
       model->managers().ageing_error()->AddObject(result);

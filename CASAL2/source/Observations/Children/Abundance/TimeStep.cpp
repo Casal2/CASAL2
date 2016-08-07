@@ -23,14 +23,13 @@ namespace observations {
  */
 TimeStepAbundance::TimeStepAbundance(Model* model)
   : observations::Abundance(model) {
-  parameters_.Bind<string>(PARAM_CATCHABILITY, &catchability_label_, "Catchability label for this observation", "");
-  parameters_.Bind<string>(PARAM_OBS, &obs_, "Observation values", "");
-  parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "Years to execute in", "");
-  parameters_.Bind<Double>(PARAM_ERROR_VALUE, &error_values_, "The error values to use against the observation values", "");
-  parameters_.Bind<Double>(PARAM_DELTA, &delta_, "Delta value for error values", "", Double(1e-10));
+  parameters_.Bind<string>(PARAM_CATCHABILITY, &catchability_label_, "The label of the catchability coefficient (q) assumed", "");
+  parameters_.Bind<string>(PARAM_OBS, &obs_, "The observed values", "");
+  parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "Years for which there are observations", "");
+  parameters_.Bind<Double>(PARAM_ERROR_VALUE, &error_values_, "The error values of the observed values (note the units depend on the likelihood)", "");
+  parameters_.Bind<Double>(PARAM_DELTA, &delta_, "The value of the delta robustification parameter", "", Double(1e-10));
   parameters_.Bind<Double>(PARAM_PROCESS_ERROR, &process_error_value_, "Process error", "", Double(0.0));
-  parameters_.Bind<Double>(PARAM_TIME_STEP_PROPORTION, &time_step_proportion_, "Proportion through the time step to analyse the partition from", "", Double(0.5));
-
+  parameters_.Bind<Double>(PARAM_TIME_STEP_PROPORTION, &time_step_proportion_, "Proportion through the mortality block of the time step when the observation is evaluated", "", Double(0.5));
   mean_proportion_method_ = true;
 }
 

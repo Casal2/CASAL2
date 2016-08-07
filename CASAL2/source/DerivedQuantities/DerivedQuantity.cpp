@@ -33,13 +33,13 @@ namespace niwa {
 DerivedQuantity::DerivedQuantity(Model* model)
   : model_(model),
     partition_(model) {
-  parameters_.Bind<string>(PARAM_LABEL, &label_, "Label", "");
-  parameters_.Bind<string>(PARAM_TYPE, &type_, "Type", "");
-  parameters_.Bind<string>(PARAM_TIME_STEP, &time_step_label_, "The time step to calculate the derived quantity after", "");
+  parameters_.Bind<string>(PARAM_LABEL, &label_, "Label of the derived quantity", "");
+  parameters_.Bind<string>(PARAM_TYPE, &type_, "Type of derived quantity", "");
+  parameters_.Bind<string>(PARAM_TIME_STEP, &time_step_label_, "The time step in which to calculate the derived quantity", "");
   parameters_.Bind<string>(PARAM_CATEGORIES, &category_labels_, "The list of categories to use when calculating the derived quantity", "");
-  parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_labels_, "The list of selectivities to use when calculating the derived quantity. 1 per category", "");
-  parameters_.Bind<Double>(PARAM_TIME_STEP_PROPORTION, &time_step_proportion_, "", "", Double(1.0));
-  parameters_.Bind<string>(PARAM_TIME_STEP_PROPORTION_METHOD, &proportion_method_, "", "", PARAM_WEIGHTED_SUM)
+  parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_labels_, "The list of selectivities to use when calculating the derived quantity. A list of one selectivity per category", "");
+  parameters_.Bind<Double>(PARAM_TIME_STEP_PROPORTION, &time_step_proportion_, "Proportion through the mortality block of the time step when calculated", "", 0.5d)->set_range(0.0, 1.0);
+  parameters_.Bind<string>(PARAM_TIME_STEP_PROPORTION_METHOD, &proportion_method_, "Method for interpolating for the proportion through the mortality block", "", PARAM_WEIGHTED_SUM)
       ->set_allowed_values({ PARAM_WEIGHTED_SUM, PARAM_WEIGHTED_PRODUCT });
 
   RegisterAsEstimable(PARAM_VALUES, &override_values_);

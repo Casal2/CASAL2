@@ -26,7 +26,7 @@ namespace estimatetransformations {
  * Default constructor
  */
 SquareRoot::SquareRoot(Model* model) : EstimateTransformation(model) {
-  parameters_.Bind<string>(PARAM_ESTIMATE, &estimate_label_, "Estimate to transform", "");
+  parameters_.Bind<string>(PARAM_ESTIMATE, &estimate_label_, "The variable to use in the square root transformation", "");
 }
 
 /**

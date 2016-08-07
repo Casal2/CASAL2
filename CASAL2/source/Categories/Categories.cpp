@@ -39,7 +39,7 @@ namespace niwa {
  * Note: The constructor is parsed to generate Latex for the documentation.
  */
 Categories::Categories(Model* model) : model_(model) {
-  parameters_.Bind<string>(PARAM_FORMAT, &format_, "The format that the category names should adhere too", "");
+  parameters_.Bind<string>(PARAM_FORMAT, &format_, "The format that the category names adhere too", "");
   parameters_.Bind<string>(PARAM_NAMES, &names_, "The names of the categories to be used in the model", "");
   parameters_.Bind<string>(PARAM_YEARS, &years_, "The years that individual categories will be active for. This overrides the model values", "", true);
   parameters_.Bind<string>(PARAM_AGE_LENGTHS, &age_length_labels_, R"(The labels of age\_length objects that are assigned to categories)", "", true);

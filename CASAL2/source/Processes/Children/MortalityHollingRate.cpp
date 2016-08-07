@@ -51,14 +51,14 @@ MortalityHollingRate::MortalityHollingRate(Model* model)
 
   parameters_.Bind<string>(PARAM_PREY_CATEGORIES, &prey_category_labels_, "Prey Categories labels", "");
   parameters_.Bind<string>(PARAM_PREDATOR_CATEGORIES, &predator_category_labels_, "Predator Categories labels", "");
-  parameters_.Bind<bool>(PARAM_IS_ABUNDANCE, &is_abundance_, "Is vulnerable amount for prey and predator in Abundance (TRUE) or biomass (FALSE)", "", true);
+  parameters_.Bind<bool>(PARAM_IS_ABUNDANCE, &is_abundance_, "Is vulnerable amount of prey and predator an abundance [true] or biomass [false]", "", true);
   parameters_.Bind<Double>(PARAM_A, &a_, "parameter a", "")->set_lower_bound(0.0);
   parameters_.Bind<Double>(PARAM_B, &b_, "parameter b", "")->set_lower_bound(0.0);
-  parameters_.Bind<Double>(PARAM_X, &x_, "This parameter controls the type of functional form, Holling function type 2 (x=2) or 3 (x=3), or generalised (Michaelis Menten)", "")->set_lower_bound(1.0);
-  parameters_.Bind<Double>(PARAM_U_MAX, &u_max_, "Umax", "")->set_range(0.0, 1.0);
+  parameters_.Bind<Double>(PARAM_X, &x_, "This parameter controls the type of functional form, Holling function type 2 (x=2) or 3 (x=3), or generalised (Michaelis Menten, x>=1)", "")->set_lower_bound(1.0);
+  parameters_.Bind<Double>(PARAM_U_MAX, &u_max_, "Maximum exploitation rate ($Umax$)", "")->set_range(0.0, 1.0);
   parameters_.Bind<string>(PARAM_PREY_SELECTIVITIES, &prey_selectivity_labels_, "Selectivities for prey categories", "");
   parameters_.Bind<string>(PARAM_PREDATOR_SELECTIVITIES, &predator_selectivity_labels_, "Selectivities for predator categories", "");
-  parameters_.Bind<string>(PARAM_PENALTY, &  penalty_label_, "Label of penalty to be applied", "","");
+  parameters_.Bind<string>(PARAM_PENALTY, &  penalty_label_, "Label of penalty to be applied","");
   parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "Year to execute in", "");
 
   RegisterAsEstimable(PARAM_A, &a_);

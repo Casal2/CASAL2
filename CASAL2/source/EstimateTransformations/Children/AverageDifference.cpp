@@ -26,12 +26,12 @@ namespace estimatetransformations {
  * Default constructor
  */
 AverageDifference::AverageDifference(Model* model) : EstimateTransformation(model) {
-  parameters_.Bind<string>(PARAM_FIRST_ESTIMATE, &first_estimate_label_, "First estimate to transform", "");
-  parameters_.Bind<string>(PARAM_SECOND_ESTIMATE, &second_estimate_label_, "Second estimate to transform", "");
-  parameters_.Bind<Double>(PARAM_MEAN_UPPER_BOUND, &mean_upper_bound_, "Mean transformed upper bound", "");
-  parameters_.Bind<Double>(PARAM_MEAN_LOWER_BOUND, &mean_lower_bound_, "Mean transformed lower bound", "");
-  parameters_.Bind<Double>(PARAM_DIFF_UPPER_BOUND, &diff_upper_bound_, "Difference transformed upper bound", "");
-  parameters_.Bind<Double>(PARAM_DIFF_LOWER_BOUND, &diff_lower_bound_, "Difference transformed lower bound", "");
+  parameters_.Bind<string>(PARAM_FIRST_ESTIMATE, &first_estimate_label_, "The first variable to use in the transformation", "");
+  parameters_.Bind<string>(PARAM_SECOND_ESTIMATE, &second_estimate_label_, "The second variable to use in the transformation", "");
+  parameters_.Bind<Double>(PARAM_MEAN_UPPER_BOUND, &mean_upper_bound_, "Upper bound of the mean of the transformed variable", "");
+  parameters_.Bind<Double>(PARAM_MEAN_LOWER_BOUND, &mean_lower_bound_, "Lower bound of the mean of the transformed variable", "");
+  parameters_.Bind<Double>(PARAM_DIFF_UPPER_BOUND, &diff_upper_bound_, "Upper bound of the difference of the transformed variable", "");
+  parameters_.Bind<Double>(PARAM_DIFF_LOWER_BOUND, &diff_lower_bound_, "Lower bound of the difference of the transformed variable", "");
 }
 
 /**
