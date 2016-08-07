@@ -25,10 +25,10 @@ StateCategoryByAge::StateCategoryByAge(Model* model)
 
   n_table_ = new parameters::Table(PARAM_N);
 
-  parameters_.Bind<string>(PARAM_CATEGORIES, &category_labels_, "List of categories to use", "");
-  parameters_.Bind<unsigned>(PARAM_MIN_AGE, &min_age_, "Minimum age to use for this process", "");
-  parameters_.Bind<unsigned>(PARAM_MAX_AGE, &max_age_, "Maximum age to use for this process", "");
-  parameters_.BindTable(PARAM_N, n_table_, "Table of data", "", false, false);
+  parameters_.Bind<string>(PARAM_CATEGORIES, &category_labels_, "The list of categories for the category state initialisation", "");
+  parameters_.Bind<unsigned>(PARAM_MIN_AGE, &min_age_, "The minimum age of values supplied in the definition of the category state", "");
+  parameters_.Bind<unsigned>(PARAM_MAX_AGE, &max_age_, "The minimum age of values supplied in the definition of the category state", "");
+  parameters_.BindTable(PARAM_N, n_table_, "Table of data from minimum age to maximum age for each category", "", false, false);
 
   RegisterAsEstimable(&n_);
 }

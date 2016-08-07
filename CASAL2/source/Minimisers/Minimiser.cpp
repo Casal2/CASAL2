@@ -37,10 +37,10 @@ namespace ublas = boost::numeric::ublas;
  * Default constructor
  */
 Minimiser::Minimiser(Model* model) : model_(model) {
-  parameters_.Bind<string>(PARAM_LABEL, &label_, "Label", "");
-  parameters_.Bind<string>(PARAM_TYPE, &type_, "Type of minimiser to use", "");
-  parameters_.Bind<bool>(PARAM_ACTIVE, &active_, "True if this minimiser is active", "", false);
-  parameters_.Bind<bool>(PARAM_COVARIANCE, &build_covariance_, "True if a covariance matrix should be created", "", true);
+  parameters_.Bind<string>(PARAM_LABEL, &label_, "The minimiser label", "");
+  parameters_.Bind<string>(PARAM_TYPE, &type_, "The type of minimiser to use", "");
+  parameters_.Bind<bool>(PARAM_ACTIVE, &active_, "Indicates if this minimiser is active", "", false);
+  parameters_.Bind<bool>(PARAM_COVARIANCE, &build_covariance_, "Indicates if a covariance matrix should be generated", "", true);
 
   hessian_ = 0;
   hessian_size_ = 0;

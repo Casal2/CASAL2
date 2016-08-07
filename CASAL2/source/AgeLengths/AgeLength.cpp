@@ -35,14 +35,13 @@ namespace niwa {
  * Note: The constructor is parsed to generate Latex for the documentation.
  */
 AgeLength::AgeLength(Model* model) : model_(model) {
-  parameters_.Bind<string>(PARAM_LABEL, &label_, "Label", "");
-  parameters_.Bind<string>(PARAM_TYPE, &type_, "Type", "");
-  parameters_.Bind<Double>(PARAM_TIME_STEP_PROPORTIONS, &time_step_proportions_, "the proportion increase of age through the in each time step that corresponds to a length and thus weight increase", "", true);
-  parameters_.Bind<string>(PARAM_DISTRIBUTION, &distribution_, "The assumed distribution for the growth curve", "", PARAM_NORMAL);
+  parameters_.Bind<string>(PARAM_LABEL, &label_, "Label of the age length relationship", "");
+  parameters_.Bind<string>(PARAM_TYPE, &type_, "Type of age length relationship", "");
+  parameters_.Bind<Double>(PARAM_TIME_STEP_PROPORTIONS, &time_step_proportions_, "the fraction of the year applied in each time step that is added to the age for the purposes of evaluating the length, i.e., a value of 0.5 for a time step will evaluate the length of individuals at age+0.5 in that time step", "", true);
+  parameters_.Bind<string>(PARAM_DISTRIBUTION, &distribution_, "The distribution for the growth curve", "", PARAM_NORMAL);
   parameters_.Bind<Double>(PARAM_CV_FIRST, &cv_first_ , "CV for the first age class", "",Double(0.0))->set_lower_bound(0.0);
   parameters_.Bind<Double>(PARAM_CV_LAST, &cv_last_ , "CV for last age class", "",Double(0.0))->set_lower_bound(0.0);
-  parameters_.Bind<bool>(PARAM_CASAL_SWITCH, &casal_normal_cdf_ , "A switch to use CASAL Cumulative normal function, note CASAL2 uses the recent BOOST function which differs from the previous CASAL algorithm", "",false);
-
+  parameters_.Bind<bool>(PARAM_CASAL_SWITCH, &casal_normal_cdf_ , "If true, use the (less accurate) equation for the cumulative normal function as was used in the legacy version of CASAL.", "",false);
 
   RegisterAsEstimable(PARAM_CV_FIRST, &cv_first_);
   RegisterAsEstimable(PARAM_CV_LAST, &cv_last_);

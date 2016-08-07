@@ -39,20 +39,19 @@ TagRecaptureByLength::TagRecaptureByLength(Model* model) : Observation(model) {
   recaptures_table_ = new parameters::Table(PARAM_RECAPTURED);
   scanned_table_ = new parameters::Table(PARAM_SCANNED);
 
-  parameters_.Bind<Double>(PARAM_LENGTH_BINS, &length_bins_, "Length Bins", "");
-  parameters_.Bind<bool>(PARAM_PLUS_GROUP, &plus_group_, "Last length bin a plus group", "", true);
-  parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "Year to execute in", "");
-  parameters_.Bind<string>(PARAM_TIME_STEP, &time_step_label_, "Time step to execute in", "");
-  parameters_.Bind<string>(PARAM_TARGET_CATEGORIES, &target_category_labels_, "Target Categories", "");
-  parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_labels_, "Selectivity labels to use", "", true);
-  parameters_.Bind<string>(PARAM_TARGET_SELECTIVITIES, &target_selectivity_labels_, "Target Selectivities", "");
-  parameters_.Bind<Double>(PARAM_DELTA, &delta_, "Delta", "", DELTA)->set_lower_bound(0.0, false);
-  parameters_.Bind<Double>(PARAM_PROCESS_ERRORS, &process_error_values_, "Process error", "", true);
-  parameters_.Bind<Double>(PARAM_DETECTION_PARAMETER,  &detection_, "Detection probability ", "");
-  parameters_.Bind<Double>(PARAM_DISPERSION,  &despersion_, "Dispersion parameter (A weighting factor for the likelihood) ", "", Double(1.0));
-  parameters_.BindTable(PARAM_RECAPTURED, recaptures_table_, "Table of Recaptures", "", false);
-  parameters_.BindTable(PARAM_SCANNED, scanned_table_, "Table of scanned individuals", "", false);
-  parameters_.Bind<Double>(PARAM_TIME_STEP_PROPORTION, &time_step_proportion_, "Proportion through the time step to analyse the partition from", "", Double(0.5));
+  parameters_.Bind<Double>(PARAM_LENGTH_BINS, &length_bins_, "Length bins of the observation", "");
+  parameters_.Bind<bool>(PARAM_PLUS_GROUP, &plus_group_, "Indicates if the last length bin is a plus group", "", true);
+  parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "Years for which there are observations", "");
+  parameters_.Bind<string>(PARAM_TIME_STEP, &time_step_label_, "The time-step of the observation", "");
+  parameters_.Bind<string>(PARAM_TARGET_CATEGORIES, &target_category_labels_, "The categories of tagged individuals", "");
+  parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_labels_, "The labels of the selectivities", "", true);
+  parameters_.Bind<string>(PARAM_TARGET_SELECTIVITIES, &target_selectivity_labels_, "The labels of the tag category selectivities", "");
+  parameters_.Bind<Double>(PARAM_DELTA, &delta_, "The value of the delta robustification parameter", "", DELTA)->set_lower_bound(0.0, false);
+  parameters_.Bind<Double>(PARAM_DETECTION_PARAMETER,  &detection_, "Probability of detecting a recaptured individual", "");
+  parameters_.Bind<Double>(PARAM_DISPERSION,  &despersion_, "Over-dispersion parameter (phi) ", "", Double(1.0));
+  parameters_.BindTable(PARAM_RECAPTURED, recaptures_table_, "Table of observed recaptured individuals in each length bin", "", false);
+  parameters_.BindTable(PARAM_SCANNED, scanned_table_, "Table of observed scanned individuals in each length bin", "", false);
+  parameters_.Bind<Double>(PARAM_TIME_STEP_PROPORTION, &time_step_proportion_, "Proportion through the mortality block of the time step when the observation is evaluated", "", Double(0.5));
 
   mean_proportion_method_ = true;
 }
@@ -217,7 +216,7 @@ void TagRecaptureByLength::DoValidate() {
    * Validate likelihood type
    */
   if (likelihood_type_ != PARAM_BINOMIAL) {
-    LOG_ERROR_P(PARAM_LIKELIHOOD) << ": likelihood " << likelihood_type_ << " is not supported by the proportions at age observation. "
+    LOG_ERROR_P(PARAM_LIKELIHOOD) << ": likelihood " << likelihood_type_ << " is not supported by the tag recapture at length observation. "
         << "Supported types are " << PARAM_BINOMIAL;
   }
 
@@ -261,7 +260,7 @@ void TagRecaptureByLength::DoBuild() {
 
 
   if (ageing_error_label_ != "") {
-    LOG_CODE_ERROR() << "ageing error has not been implemented for the proportions at age observation";
+    LOG_CODE_ERROR() << "ageing errors are not valid for the tag recapture at length observation";
   }
 
   age_results_.resize(length_spread_ * category_labels_.size(), 0.0);

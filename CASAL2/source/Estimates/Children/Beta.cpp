@@ -21,10 +21,10 @@ namespace estimates {
  * Default constructor
  */
 Beta::Beta() {
-  parameters_.Bind<Double>(PARAM_MU, &mu_, "Mu", "");
-  parameters_.Bind<Double>(PARAM_SIGMA, &sigma_, "Sigma", "")->set_lower_bound(0.0, false);
-  parameters_.Bind<Double>(PARAM_A, &a_, "A", "");
-  parameters_.Bind<Double>(PARAM_B, &b_, "B", "");
+  parameters_.Bind<Double>(PARAM_MU, &mu_, "Beta prior  mean (mu) parameter", "");
+  parameters_.Bind<Double>(PARAM_SIGMA, &sigma_, "Beta prior variance (sigma) parameter", "")->set_lower_bound(0.0, false);
+  parameters_.Bind<Double>(PARAM_A, &a_, "Beta prior lower bound of the range (A) parameter", "");
+  parameters_.Bind<Double>(PARAM_B, &b_, "Beta prior upper bound of the range (B) parameter", "");
 
   RegisterAsEstimable(PARAM_MU, &mu_);
   RegisterAsEstimable(PARAM_SIGMA, &sigma_);

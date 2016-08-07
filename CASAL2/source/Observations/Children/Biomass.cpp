@@ -26,13 +26,13 @@ namespace utils = niwa::utilities;
  * Default constructor
  */
 Biomass::Biomass(Model* model) : Observation(model) {
-  parameters_.Bind<string>(PARAM_CATCHABILITY, &catchability_label_, "Catchability of Biomass", "");
-  parameters_.Bind<string>(PARAM_TIME_STEP, &time_step_label_, "Time step to execute in", "");
-  parameters_.Bind<string>(PARAM_OBS, &obs_, "Observation values", "");
-  parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "Years to execute in", "");
-  parameters_.Bind<Double>(PARAM_ERROR_VALUE, &error_values_, "The error values to use against the observation values", "");
-  parameters_.Bind<Double>(PARAM_DELTA, &delta_, "Delta value for error values", "", Double(1e-10));
-  parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_labels_, "Selectivity labels to use", "", true);
+  parameters_.Bind<string>(PARAM_CATCHABILITY, &catchability_label_, "The label of the catchability coefficient (q) assumed", "");
+  parameters_.Bind<string>(PARAM_TIME_STEP, &time_step_label_, "The time-step of the observation", "");
+  parameters_.Bind<string>(PARAM_OBS, &obs_, "The observed values", "");
+  parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "The years of the observed values", "");
+  parameters_.Bind<Double>(PARAM_ERROR_VALUE, &error_values_, "The error values of the observed values (note the units depend on the likelihood)", "");
+  parameters_.Bind<Double>(PARAM_DELTA, &delta_, "Robustification value (delta) for the likelihood", "", Double(1e-10));
+  parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_labels_, "Labels of the selectivities", "", true);
   parameters_.Bind<Double>(PARAM_PROCESS_ERROR, &process_error_value_, "Process error", "", Double(0.0));
 
 }

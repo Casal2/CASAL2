@@ -33,16 +33,16 @@ namespace utils = niwa::utilities;
  *
  */
 Creator::Creator(Model* model) : model_(model) {
-  parameters_.Bind<string>(PARAM_LABEL, &label_, "", "", "");
-  parameters_.Bind<string>(PARAM_TYPE, &type_, "", "");
-  parameters_.Bind<string>(PARAM_PARAMETER, &parameter_, "", "");
-  parameters_.Bind<Double>(PARAM_LOWER_BOUND, &lower_bounds_, "", "");
-  parameters_.Bind<Double>(PARAM_UPPER_BOUND, &upper_bounds_, "", "");
-  parameters_.Bind<string>(PARAM_PRIOR, &prior_label_, "", "", "");
-  parameters_.Bind<string>(PARAM_SAME, &same_labels_, "", "", "");
-  parameters_.Bind<string>(PARAM_ESTIMATION_PHASE, &estimation_phase_, "", "", "");
-  parameters_.Bind<string>(PARAM_MCMC, &mcmc_, "", "", "");
-  parameters_.Bind<string>(PARAM_TRANSFORMATION, &transformation_details_, "", "", "");
+  parameters_.Bind<string>(PARAM_LABEL, &label_, "TThe label of the estimate", "", "");
+  parameters_.Bind<string>(PARAM_TYPE, &type_, "The prior type for the estimate", "");
+  parameters_.Bind<string>(PARAM_PARAMETER, &parameter_, "The name of the variable to estimate in the model", "");
+  parameters_.Bind<Double>(PARAM_LOWER_BOUND, &lower_bounds_, "The lower bound for the parameter", "");
+  parameters_.Bind<Double>(PARAM_UPPER_BOUND, &upper_bounds_, "The upper bound for the parameter", "");
+  parameters_.Bind<string>(PARAM_PRIOR, &prior_label_, "The label of the prior to use for this parameter in the estimation", "", "");
+  parameters_.Bind<string>(PARAM_SAME, &same_labels_, "List of parameters that are contrained to have the same value as this parameter", "", "");
+  parameters_.Bind<string>(PARAM_ESTIMATION_PHASE, &estimation_phase_, "TBA", "", "");
+  parameters_.Bind<string>(PARAM_MCMC, &mcmc_, "Indicates if this parameter is fixed at the point estimate during an MCMC run", "", "");
+  parameters_.Bind<string>(PARAM_TRANSFORMATION, &transformation_details_, "Label of the variable transformation to apply during estimation", "", "");
 }
 
 /**

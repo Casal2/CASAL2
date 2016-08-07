@@ -28,7 +28,7 @@ namespace utils = niwa::utilities;
  * Default constructor
  */
 Simplex::Simplex(Model* model) : EstimateTransformation(model) {
-  parameters_.Bind<string>(PARAM_ESTIMATE, &estimate_label_, "Estimate to transform", "");
+  parameters_.Bind<string>(PARAM_ESTIMATE, &estimate_label_, "The variable to use in teh simplex transformation", "");
 }
 
 /**

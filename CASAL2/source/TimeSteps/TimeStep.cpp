@@ -27,9 +27,8 @@ namespace niwa {
  */
 TimeStep::TimeStep(Model* model) : model_(model) {
   LOG_TRACE();
-
-  parameters_.Bind<string>(PARAM_LABEL, &label_, "Label", "");
-  parameters_.Bind<string>(PARAM_PROCESSES, &process_names_, "Processes", "");
+  parameters_.Bind<string>(PARAM_LABEL, &label_, "The label of the timestep", "");
+  parameters_.Bind<string>(PARAM_PROCESSES, &process_names_, "The labels of the processes for this time step in the order that they occur", "");
 }
 
 /**

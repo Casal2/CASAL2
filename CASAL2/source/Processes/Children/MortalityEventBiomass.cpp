@@ -30,11 +30,11 @@ MortalityEventBiomass::MortalityEventBiomass(Model* model)
     partition_(model) {
 
   parameters_.Bind<string>(PARAM_CATEGORIES, &category_labels_, "Category labels", "");
-  parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_labels_, "Selectivity labels", "");
-  parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "Years to apply mortality", "");
-  parameters_.Bind<Double>(PARAM_CATCHES, &catches_, "Catches for each year", "");
-  parameters_.Bind<Double>(PARAM_U_MAX, &u_max_, "U Max", "", 0.99);
-  parameters_.Bind<string>(PARAM_PENALTY, &penalty_label_, "Penalty label", "", "");
+  parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_labels_, "The labels of the selectivities for each of the categories", "");
+  parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "Years in which to apply the mortality process", "");
+  parameters_.Bind<Double>(PARAM_CATCHES, &catches_, "The biomass of removals (catches) to apply for each yea", "");
+  parameters_.Bind<Double>(PARAM_U_MAX, &u_max_, "Maximum exploitation rate ($Umax$)", "", 0.99);
+  parameters_.Bind<string>(PARAM_PENALTY, &penalty_label_, "The label of the penalty to apply if the total biomass of removals cannot be taken", "", "");
 
 
   RegisterAsEstimable(PARAM_U_MAX, &u_max_);

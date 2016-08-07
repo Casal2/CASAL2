@@ -37,15 +37,15 @@ ProportionsAtLengthForFishery::ProportionsAtLengthForFishery(Model* model)
   error_values_table_ = new parameters::Table(PARAM_ERROR_VALUES);
 
   parameters_.Bind<Double>(PARAM_LENGTH_BINS, &length_bins_, "Length bins", "");
-  parameters_.Bind<string>(PARAM_TIME_STEP, &time_step_label_, "Time step to execute in", "");
-  parameters_.Bind<bool>(PARAM_LENGTH_PLUS, &length_plus_, "Is the last bin a plus group", "", true);
+  parameters_.Bind<string>(PARAM_TIME_STEP, &time_step_label_, "The time-step of the observation", "");
+  parameters_.Bind<bool>(PARAM_LENGTH_PLUS, &length_plus_, "Indicates if the last bin is a plus group", "", true);
   parameters_.Bind<Double>(PARAM_TOLERANCE, &tolerance_, "Tolerance for rescaling proportions", "", Double(0.001));
-  parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "Year to execute in", "");
-  parameters_.Bind<Double>(PARAM_DELTA, &delta_, "Delta", "", DELTA);
+  parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "Years for which there are observations", "");
+  parameters_.Bind<Double>(PARAM_DELTA, &delta_, "The value of the delta robustification parameter", "", DELTA);
   parameters_.Bind<Double>(PARAM_PROCESS_ERRORS, &process_error_values_, "Process error", "", true);
   parameters_.Bind<string>(PARAM_FISHERY, &fishery_, "Label of fishery the observation is from", "", "");
-  parameters_.BindTable(PARAM_OBS, obs_table_, "Table of Observatons", "", false);
-  parameters_.BindTable(PARAM_ERROR_VALUES, error_values_table_, "", "", false);
+  parameters_.BindTable(PARAM_OBS, obs_table_, "Table of observed values", "", false);
+  parameters_.BindTable(PARAM_ERROR_VALUES, error_values_table_, "Table of error values of the observed values (note the units depend on the likelihood)", "", false);
   parameters_.Bind<string>(PARAM_PROCESS, &process_label_, "Process label", "");
   parameters_.Bind<Double>(PARAM_PROCESS_PROPORTION, &process_proportion_, "Process proportion", "", Double(0.5));
 

@@ -28,8 +28,8 @@ namespace niwa {
  * Note: The constructor is parsed to generate Latex for the documentation.
  */
 AdditionalPrior::AdditionalPrior(Model* model) : model_(model) {
-  parameters_.Bind<string>(PARAM_LABEL, &label_, "Label", "");
-  parameters_.Bind<string>(PARAM_TYPE, &type_, "Type", "");
+  parameters_.Bind<string>(PARAM_LABEL, &label_, "Label", "Label for the additional prior");
+  parameters_.Bind<string>(PARAM_TYPE, &type_, "Type", "Type of additional prior");
 //  parameters_.Bind<string>(PARAM_METHOD, &method_, "Method", "")
 //    ->set_allowed_values({PARAM_RATIO, PARAM_DIFFERENCE, PARAM_MEAN});
 }
