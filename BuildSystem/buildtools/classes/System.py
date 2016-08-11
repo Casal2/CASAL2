@@ -29,7 +29,7 @@ class SystemInfo:
       Globals.path_ += cwd + '\\buildtools\\windows\\unixutils;'
       Globals.path_ += cwd + '\\buildtools\\windows\\cmake\\bin;'   
       Globals.path_ += cwd + '\\buildtools\\windows\\Python27\\;'
-      Globals.path_ += cwd + '\\bin\\' + Globals.operating_system_ + '\\debug;'
+      Globals.path_ += cwd + '\\bin\\' + Globals.operating_system_ + '\\release_betadiff;'
     else:
       Globals.path_ += cwd + '/bin/' + Globals.operating_system_ + '/debug'
     

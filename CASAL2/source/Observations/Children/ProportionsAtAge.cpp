@@ -343,7 +343,7 @@ void ProportionsAtAge::Execute() {
       LOG_FINEST() << "-----";
       LOG_FINEST() << "Numbers at age for all categories in age " << min_age_ + i << " = " << expected_values[i];
 
-      SaveComparison(category_labels_[category_offset], min_age_ + i ,0.0 ,AS_DOUBLE(expected_values[i]), proportions_[model_->current_year()][category_labels_[category_offset]][i],
+      SaveComparison(category_labels_[category_offset], min_age_ + i ,0.0 ,expected_values[i], proportions_[model_->current_year()][category_labels_[category_offset]][i],
           process_errors_by_year_[model_->current_year()], error_values_[model_->current_year()][category_labels_[category_offset]][i], delta_, 0.0);
     }
   }
