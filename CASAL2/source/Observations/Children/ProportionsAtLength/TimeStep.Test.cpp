@@ -109,6 +109,7 @@ end_table
 type biomass
 time_step step1
 categories stock
+time_step_proportion 1.0
 selectivities MaturationSel
 
 

@@ -2,10 +2,10 @@
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\Reports\Report.cpp(line: 96): preparing report: 
 CASAL2
 Call: casal2 -r --loglevel=trace 
-Date: Thu Aug 11 11:53:38 2016
-Version: 2016-08-07 22:31:29 UTC (rev. 0cfb2f8)
+Date: Fri Aug 12 12:01:39 2016
+Version: 2016-08-11 02:07:16 UTC (rev. e3c9dc6)
 Copyright (c) 2012 - 2016, NIWA (www.niwa.co.nz)
-Environment: machine:NIWA-1007004, user:marshc, os:Windows_NT, pid:12436
+Environment: machine:NIWA-1007004, user:marshc, os:Windows_NT, pid:11012
 
 [TRACE] C:\Craig\Models\CASAL2\CASAL2\source\ConfigurationLoader\File.cpp(line: 44) - Method: OpenFile
 [FINE] C:\Craig\Models\CASAL2\CASAL2\source\ConfigurationLoader\File.cpp(line: 47): Opening file: config.csl2
@@ -321,7 +321,7 @@ Environment: machine:NIWA-1007004, user:marshc, os:Windows_NT, pid:12436
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\ConfigurationLoader\File.cpp(line: 88): current_line == 'end_table'
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\ConfigurationLoader\File.cpp(line: 88): current_line == '@ageing_error Normal_ageing'
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\ConfigurationLoader\File.cpp(line: 88): current_line == 'type data'
-[FINEST] C:\Craig\Models\CASAL2\CASAL2\source\ConfigurationLoader\File.cpp(line: 88): current_line == 'table data'
+[FINEST] C:\Craig\Models\CASAL2\CASAL2\source\ConfigurationLoader\File.cpp(line: 88): current_line == 'table table'
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\ConfigurationLoader\File.cpp(line: 88): current_line == '1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0'
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\ConfigurationLoader\File.cpp(line: 88): current_line == '0.00110432 0.997791 0.00110432 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0'
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\ConfigurationLoader\File.cpp(line: 88): current_line == '0 0.0184686 0.963063 0.0184686 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0'
@@ -1273,6 +1273,7 @@ Environment: machine:NIWA-1007004, user:marshc, os:Windows_NT, pid:12436
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\ParameterList\ParameterList.cpp(line: 156): Binding: active
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\ParameterList\ParameterList.cpp(line: 156): Binding: adapt_covariance_matrix_at
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\ParameterList\ParameterList.cpp(line: 156): Binding: adapt_stepsize_at
+[FINEST] C:\Craig\Models\CASAL2\CASAL2\source\ParameterList\ParameterList.cpp(line: 156): Binding: adapt_stepsize_method
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\ParameterList\ParameterList.cpp(line: 156): Binding: correlation_adjustment_diff
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\ParameterList\ParameterList.cpp(line: 156): Binding: covariance_adjustment_method
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\ParameterList\ParameterList.cpp(line: 156): Binding: df
@@ -2896,7 +2897,7 @@ Environment: machine:NIWA-1007004, user:marshc, os:Windows_NT, pid:12436
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\ParameterList\ParameterList.cpp(line: 156): Binding: type
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\ParameterList\ParameterList.cpp(line: 156): Binding: write_mode
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\ParameterList\ParameterList.cpp(line: 160): Binding complete
-[TRACE] C:\Craig\Models\CASAL2\CASAL2\source\MCMCs\Children\IndependenceMetropolis.cpp(line: 405) - Method: DoBuild
+[TRACE] C:\Craig\Models\CASAL2\CASAL2\source\MCMCs\Children\IndependenceMetropolis.cpp(line: 415) - Method: DoBuild
 [FINEST] C:/Craig/Models/CASAL2/CASAL2/source/BaseClasses/Manager-inl.h(line: 57): Build Finished
 [FINEST] C:/Craig/Models/CASAL2/CASAL2/source/BaseClasses/Manager-inl.h(line: 52): Starting Build... with 1 objects
 [TRACE] C:\Craig\Models\CASAL2\CASAL2\source\Minimisers\Minimiser.cpp(line: 74) - Method: Build
@@ -3260,8 +3261,8 @@ Environment: machine:NIWA-1007004, user:marshc, os:Windows_NT, pid:12436
 [TRACE] C:\Craig\Models\CASAL2\CASAL2\source\Processes\Children\MortalityInstantaneous.cpp(line: 272) - Method: DoExecute
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\InitialisationPhases\Children\Derived.cpp(line: 222):  plus group 0.0233824 Old plus group 0.0233824
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\InitialisationPhases\Children\Derived.cpp(line: 226):  max diff 0
-[FINEST] C:\Craig\Models\CASAL2\CASAL2\source\InitialisationPhases\Children\Derived.cpp(line: 232): Number of BH recruitment processes in annual cycle = 1
-[FINEST] C:\Craig\Models\CASAL2\CASAL2\source\InitialisationPhases\Children\Derived.cpp(line: 239): PARAM_B0 has been defined for process labelled Recruitment
+[FINEST] C:\Craig\Models\CASAL2\CASAL2\source\InitialisationPhases\Children\Derived.cpp(line: 232): Number of Beveerton-Holt recruitment processes in annual cycle = 1
+[FINEST] C:\Craig\Models\CASAL2\CASAL2\source\InitialisationPhases\Children\Derived.cpp(line: 239): b0 has been defined for process labelled Recruitment
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\DerivedQuantities\DerivedQuantity.cpp(line: 128): get value for year: 1974
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\DerivedQuantities\DerivedQuantity.cpp(line: 155): years_to_go_back: 1; year: 1974; result: 0.01132; .begin(): 0.01132: .size(): 31
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\Processes\Children\RecruitmentBevertonHolt.cpp(line: 341): Last SSB value = 0.01132
@@ -12999,6 +13000,7 @@ Environment: machine:NIWA-1007004, user:marshc, os:Windows_NT, pid:12436
 [FINE] C:\Craig\Models\CASAL2\CASAL2\source\Model\Model.cpp(line: 453): Model: State change to Iteration Complete
 [TRACE] C:\Craig\Models\CASAL2\CASAL2\source\Reports\Manager.cpp(line: 64) - Method: Execute
 [FINE] C:\Craig\Models\CASAL2\CASAL2\source\Reports\Manager.cpp(line: 67): Checking 3 reports
+[FINE] C:\Craig\Models\CASAL2\CASAL2\source\Reports\Manager.cpp(line: 75): Skipping report: mcmc_objective because run mode is incorrect
 *obj (objective_function)
 values {v}
 obs->chatTANbiomass-1992 -1.03889
@@ -13122,7 +13124,6 @@ additional_prior->smooth_YCS 0.27146
 total_score 682.978
 *end
 
-[FINE] C:\Craig\Models\CASAL2\CASAL2\source\Reports\Manager.cpp(line: 75): Skipping report: mcmc_objective because run mode is incorrect
 [FINE] C:\Craig\Models\CASAL2\CASAL2\source\Reports\Manager.cpp(line: 75): Skipping report: mcmc_sample because run mode is incorrect
 [FINE] C:\Craig\Models\CASAL2\CASAL2\source\Model\Model.cpp(line: 238): Finalising Reports
 [TRACE] C:\Craig\Models\CASAL2\CASAL2\source\Reports\Manager.cpp(line: 64) - Method: Execute

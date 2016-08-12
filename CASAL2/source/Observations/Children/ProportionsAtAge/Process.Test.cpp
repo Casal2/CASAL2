@@ -60,6 +60,7 @@ processes recruitment ageing
 @derived_quantity ssb
 type biomass
 categories male female
+time_step_proportion 1.0
 selectivities male_maturity female_maturity
 time_step one
 
@@ -228,6 +229,7 @@ processes recruitment ageing
 @derived_quantity ssb
 type biomass
 categories male female
+time_step_proportion 1.0
 selectivities male_maturity female_maturity
 time_step one
 

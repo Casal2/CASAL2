@@ -48,10 +48,10 @@ inline bool DoesFileExist(const string& file_name) {
  * Default constructor
  */
 Report::Report(Model* model) : model_(model) {
-  parameters_.Bind<string>(PARAM_LABEL, &label_, "Label", "");
-  parameters_.Bind<string>(PARAM_TYPE, &type_, "Type", "");
-  parameters_.Bind<string>(PARAM_FILE_NAME, &file_name_, "File Name", "", "");
-  parameters_.Bind<string>(PARAM_WRITE_MODE, &write_mode_, "Write mode", "", PARAM_OVERWRITE)
+  parameters_.Bind<string>(PARAM_LABEL, &label_, "The label for the report", "");
+  parameters_.Bind<string>(PARAM_TYPE, &type_, "The type of report", "");
+  parameters_.Bind<string>(PARAM_FILE_NAME, &file_name_, "The File Name if you want this report to be in a seperate file", "", "");
+  parameters_.Bind<string>(PARAM_WRITE_MODE, &write_mode_, "The write mode", "", PARAM_OVERWRITE)
       ->set_allowed_values({ PARAM_OVERWRITE, PARAM_APPEND, PARAM_INCREMENTAL_SUFFIX });
 }
 

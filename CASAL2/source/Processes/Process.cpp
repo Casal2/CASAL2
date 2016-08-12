@@ -23,9 +23,9 @@ namespace niwa {
  * Default constructor
  */
 Process::Process(Model* model) : model_(model) {
-  parameters_.Bind<string>(PARAM_LABEL, &label_, "Label", "");
-  parameters_.Bind<string>(PARAM_TYPE, &type_, "Type", "", "");
-  parameters_.Bind<bool>(PARAM_PRINT_REPORT, &create_report_, "Generate parameter report", "", false);
+  parameters_.Bind<string>(PARAM_LABEL, &label_, "The label of the process", "");
+  parameters_.Bind<string>(PARAM_TYPE, &type_, "The type of process", "", "");
+  parameters_.Bind<bool>(PARAM_PRINT_REPORT, &create_report_, "Indicates if a process report should be generated for this process", "", false);
 
 }
 
