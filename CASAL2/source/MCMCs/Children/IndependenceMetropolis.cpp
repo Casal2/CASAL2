@@ -30,17 +30,18 @@ namespace dc = niwa::utilities::doublecompare;
  * Default constructor
  */
 IndependenceMetropolis::IndependenceMetropolis(Model* model) : MCMC(model) {
-  parameters_.Bind<Double>(PARAM_START, &start_, "Covariance multiplier for the starting point of the Markov chain", "", 0.0);
-  parameters_.Bind<unsigned>(PARAM_KEEP, &keep_, "Spacing between recorded values in the chain", "", 1u);
+  parameters_.Bind<Double>(PARAM_START, &start_, "Covariance multiplier for the starting point of the MCMC", "", 0.0);
+  parameters_.Bind<unsigned>(PARAM_KEEP, &keep_, "Spacing between recorded values in the MCMC", "", 1u);
   parameters_.Bind<Double>(PARAM_MAX_CORRELATION, &max_correlation_, "Maximum absolute correlation in the covariance matrix of the proposal distribution", "", 0.8);
   parameters_.Bind<string>(PARAM_COVARIANCE_ADJUSTMENT_METHOD, &correlation_method_, "Method for adjusting small variances in the covariance proposal matrix"
       , "", PARAM_COVARIANCE);
   parameters_.Bind<Double>(PARAM_CORRELATION_ADJUSTMENT_DIFF, &correlation_diff_, "Minimum non-zero variance times the range of the bounds in the covariance matrix of the proposal distribution", "", 0.0001);
   parameters_.Bind<Double>(PARAM_STEP_SIZE, &step_size_, "Initial stepsize (as a multiplier of the approximate covariance matrix)", "", 0.02);
-  parameters_.Bind<string>(PARAM_PROPOSAL_DISTRIBUTION, &proposal_distribution_, "The shape of the proposal distribution (either t or normal)", "", PARAM_T);
+  parameters_.Bind<string>(PARAM_PROPOSAL_DISTRIBUTION, &proposal_distribution_, "The shape of the proposal distribution (either the t or the normal distribution)", "", PARAM_T);
   parameters_.Bind<unsigned>(PARAM_DF, &df_, "Degrees of freedom of the multivariate t proposal distribution", "", 4);
   parameters_.Bind<unsigned>(PARAM_ADAPT_STEPSIZE_AT, &adapt_step_size_, "Iterations in the chain to check and resize the MCMC stepsize", "", true);
   parameters_.Bind<unsigned>(PARAM_ADAPT_COVARIANCE_AT, &adapt_covariance_matrix_, "Iterations in the chain to check and resize the MCMC stepsize", "", true);
+  parameters_.Bind<string>(PARAM_ADAPT_STEPSIZE_METHOD, &adapt_stepsize_method_, "Method to adapt step size.", "", PARAM_SPM)->set_allowed_values({PARAM_CASAL, PARAM_SPM});
 
   jumps_                          = 0;
   successful_jumps_               = 0;
@@ -246,12 +247,21 @@ void IndependenceMetropolis::UpdateStepSize() {
   if (jumps_since_adapt_ > 0 && successful_jumps_since_adapt_ > 0) {
     if (std::find(adapt_step_size_.begin(), adapt_step_size_.end(), jumps_) == adapt_step_size_.end())
       return;
+    if (adapt_stepsize_method_ == PARAM_SPM) {
+      // modify the stepsize so that AcceptanceRate = 0.24
+      step_size_ *= ((Double)successful_jumps_since_adapt_ / (Double)jumps_since_adapt_) * 4.166667;
+      // Ensure the stepsize remains positive
+      step_size_ = AS_DOUBLE(dc::ZeroFun(step_size_, 1e-10));
+      // reset counters
+    } else if (adapt_stepsize_method_ == PARAM_CASAL) {
+      // This is a half or double method really.
+      Double acceptance_rate = ((Double)successful_jumps_ - (Double)successful_jumps_since_adapt_) / ((Double)jumps_ - (Double)jumps_since_adapt_);
+      if (acceptance_rate > 0.5)
+        step_size_ *= 2;
+      else if (acceptance_rate < 0.2)
+        step_size_ /= 2;
+    }
 
-    // modify the stepsize by the ratio = AcceptanceRate / 0.24
-    step_size_ *= ((Double)successful_jumps_since_adapt_ / (Double)jumps_since_adapt_) * 4.166667;
-    // Ensure the stepsize remains positive
-    step_size_ = AS_DOUBLE(dc::ZeroFun(step_size_, 1e-10));
-    // reset counters
     jumps_since_adapt_ = 0;
     successful_jumps_since_adapt_ = 0;
 

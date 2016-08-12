@@ -29,11 +29,11 @@ MortalityEvent::MortalityEvent(Model* model)
   : Process(model),
     partition_(model) {
   parameters_.Bind<string>(PARAM_CATEGORIES, &category_labels_, "Categories", "");
-  parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "Years", "");
-  parameters_.Bind<Double>(PARAM_CATCHES, &catches_, "Catches", "");
-  parameters_.Bind<Double>(PARAM_U_MAX, &u_max_, "U Max", "", 0.99);
+  parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "Years in which to apply the mortality process", "");
+  parameters_.Bind<Double>(PARAM_CATCHES, &catches_, "The number of removals (catches) to apply for each year", "");
+  parameters_.Bind<Double>(PARAM_U_MAX, &u_max_, "Maximum exploitation rate ($Umax$)", "", 0.99);
   parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_names_, "List of selectivities", "");
-  parameters_.Bind<string>(PARAM_PENALTY, &penalty_name_, "Penalty label", "", "");
+  parameters_.Bind<string>(PARAM_PENALTY, &penalty_name_, "The label of the penalty to apply if the total number of removals cannot be taken", "", "");
 
   RegisterAsEstimable(PARAM_U_MAX, &u_max_);
   RegisterAsEstimable(PARAM_CATCHES, &catch_years_);

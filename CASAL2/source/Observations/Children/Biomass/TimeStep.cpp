@@ -23,7 +23,7 @@ namespace observations {
  */
 TimeStepBiomass::TimeStepBiomass(Model* model)
   : observations::Biomass(model) {
-  parameters_.Bind<Double>(PARAM_TIME_STEP_PROPORTION, &time_step_proportion_, "Proportion through the time step to analyse the partition from", "", Double(0.5));
+  parameters_.Bind<Double>(PARAM_TIME_STEP_PROPORTION, &time_step_proportion_, "Proportion through the mortality block of the time step when the observation is evaluated", "", Double(0.5));
 
   mean_proportion_method_ = true;
 }

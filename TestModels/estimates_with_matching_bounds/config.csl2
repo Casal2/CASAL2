@@ -96,15 +96,15 @@ log_scale True
 multiplier 10
 
 @minimiser gammadiff
-type numerical_differences
+type betadiff
 tolerance 0.000002
 iterations 1000
-step_size 1e-7
-covariance f
+#step_size 1e-7
+#covariance f
 
-@minimiser dlib
-type dlib
-active true
+#@minimiser dlib
+#type betadiff
+#active true
 
 @observation chatCPUE
 type biomass

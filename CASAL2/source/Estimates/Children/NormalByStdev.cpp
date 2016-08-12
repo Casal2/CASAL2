@@ -21,8 +21,8 @@ namespace estimates {
  * Default constructor
  */
 NormalByStdev::NormalByStdev() {
-  parameters_.Bind<Double>(PARAM_MU, &mu_, "Mu", "");
-  parameters_.Bind<Double>(PARAM_SIGMA, &sigma_, "Sigma", "")->set_lower_bound(0.0, false);
+  parameters_.Bind<Double>(PARAM_MU, &mu_, "The normal prior mean (mu) parameter", "");
+  parameters_.Bind<Double>(PARAM_SIGMA, &sigma_, "The normal variance (standard devation) parameter", "")->set_lower_bound(0.0, false);
 
   RegisterAsEstimable(PARAM_MU, &mu_);
   RegisterAsEstimable(PARAM_SIGMA, &sigma_);
