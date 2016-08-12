@@ -2,18 +2,45 @@
 
 \subsection{\I{Observations} and likelihoods\label{sec:likelihoods}\index{Likelihoods}}
 
-Observations are typically supplied at an instance in time, over a group aggregated categories. Time series of observations can be supplied as separate observations for each year or point in time. 
-
-\CNAME\ allows the following types of observations;
-\begin{itemize}
-  \item Observations of proportions by age and length class across categories
-  \item Observations of proportions between categories within age classes
-  \item Tag recapture observation by length and age
-  \item Proportions Migrating
-  \item Relative and absolute abundance/biomass observations
-\end{itemize}
+Observations are typically supplied at an instance in time, over a group of aggregated categories. Time series of observations can be supplied as separate observations for each year or point in time. 
 
 The definitions for each type of observation are described below, including how the observed values should be supplied, how \CNAME\ calculates the expected values, and the likelihoods that are available for each type of observation.
+
+There are two types of observations available in \CNAME. The first are observations that are associated with a \textbf{mortality block} and secondly observations that are associated with a specific process. These can be distinguished by the type definition. If an observation type begins with \texttt{process} it is an observation that is associated with a process. If a type does \textbf{not} begin with \texttt{process} it is associated with the mortality block of the time step that you define. For example the observation type \texttt{process\_abundance} is a process based observation vs \texttt{process\_abundance} \texttt{abundance}, which is an observation that is associated with a mortality block.
+
+Process specific observations can also be broken into two types. \textbf{Specific process observations} are observations that are associated to a specific process (e.g. \texttt{process\_proportions\_migrating}), and \textbf{general process observations} are observations that can be associated with any process (e.g. \texttt{process\_proportions\_at\_age}). These tiers of observations have been separated in different sections as to reduce the confusion.
+
+\subsubsection*{\I{Mortality block associated observations}}
+A list of \texttt{types} that are associated with this set of observations.
+\begin{itemize}
+	\item \texttt{abundance}
+	\item \texttt{biomass}
+	\item \texttt{proportions\_at\_age}
+	\item \texttt{proportions\_at\_length}	
+	\item \texttt{proportions\_by\_category}	
+	\item \texttt{tag\_recapture\_by\_length}		
+	\item \texttt{tag\_recapture\_by\_age}																			
+\end{itemize}
+
+
+\subsubsection*{\I{General process observations}}
+A list of \texttt{types} that are associated with this set of observations.
+\begin{itemize}
+	\item \texttt{process\_abundance}
+	\item \texttt{process\_biomass}
+	\item \texttt{process\_proportions\_at\_age}
+	\item \texttt{process\_proportions\_at\_length}	
+	\item \texttt{process\_proportions\_by\_category}				
+\end{itemize}
+\subsubsection*{\I{Specific process observations}}
+A list of \texttt{types} that are associated with this set of observations.
+\begin{itemize}
+	\item \texttt{process\_removals\_by\_age}
+	\item \texttt{process\_removals\_by\_length}
+	\item \texttt{process\_proportions\_migrating}				
+\end{itemize}
+
+
 
 \CNAME\ evaluates \textit{time\_step} observations at the end of a time-step (i.e., after all of the processes for that time-step have been applied). However, the observation can be applied to the abundance at the start of a time-step or part-way through a time-step by the use of the \subcommand{proportion\_time\_step} subcommand. 
 
