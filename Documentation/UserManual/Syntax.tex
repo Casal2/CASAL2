@@ -1,5 +1,5 @@
 \section{Population command and subcommand syntax\label{sec:population-syntax}}
-For ease of reading \CNAME\ files in text editors, there exists a syntax highlighter \texttt{CASAL2.syn}
+
 \subsection{\I{Model structure}}
 \input{Syntax/Model} 
 
@@ -77,10 +77,11 @@ Each type of observation requires a set of subcommands and arguments specific to
 
 \subsection{\I{Defining ageing error}}
 
-Three methods for including ageing error into estimation with observations are,
+The methods for including ageing error into estimation with observations are,
 
 \begin{itemize}
 	\item None
+	\item Data
 	\item Normal
 	\item Off-by-one
 \end{itemize}
@@ -103,5 +104,5 @@ Each type of ageing error requires a set of subcommands and arguments specific t
 \defDefault{No default}
 \defValue{A valid external file}
 \defCondition{The file name must be enclosed in double quotes}
-\defExample{\command{include} \argument{\ "my\_file.txt"}}
+\defExample{\command{include} \argument{\ "my\_file.csl2"}}
 \defNote{\command{include} does not denote the end of the previous command block as is the case for all other commands}

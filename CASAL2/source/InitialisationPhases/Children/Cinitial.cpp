@@ -27,8 +27,8 @@ Cinitial::Cinitial(Model* model)
 
   n_table_ = new parameters::Table(PARAM_N);
 
-  parameters_.Bind<string>(PARAM_CATEGORIES, &category_labels_, "List of categories to use", "");
-  parameters_.BindTable(PARAM_N, n_table_, "Table of data", "", false, false);
+  parameters_.Bind<string>(PARAM_CATEGORIES, &category_labels_, "The list of categories for the Cinitial initialisation", "");
+  parameters_.BindTable(PARAM_N, n_table_, "Table of values for the Cinitial initialisation", "", false, false);
 
   RegisterAsEstimable(&n_);
 }

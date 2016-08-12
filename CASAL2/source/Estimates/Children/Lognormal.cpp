@@ -14,8 +14,8 @@ namespace estimates {
  * Default constructor
  */
 Lognormal::Lognormal() {
-  parameters_.Bind<Double>(PARAM_MU, &mu_, "Mu", "")->set_lower_bound(0.0, false);
-  parameters_.Bind<Double>(PARAM_CV, &cv_, "Cv", "")->set_lower_bound(0.0, false);
+  parameters_.Bind<Double>(PARAM_MU, &mu_, "The lognormal prior mean (mu) parameter", "")->set_lower_bound(0.0, false);
+  parameters_.Bind<Double>(PARAM_CV, &cv_, "The Lognormal variance (CV) parameter", "")->set_lower_bound(0.0, false);
 
   RegisterAsEstimable(PARAM_MU, &mu_);
   RegisterAsEstimable(PARAM_CV, &cv_);

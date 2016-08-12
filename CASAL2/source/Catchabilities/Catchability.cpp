@@ -26,7 +26,7 @@ namespace niwa {
  * Note: The constructor is parsed to generate Latex for the documentation.
  */
 Catchability::Catchability() {
-  parameters_.Bind<string>(PARAM_LABEL, &label_, "Label", "");
+  parameters_.Bind<string>(PARAM_LABEL, &label_, "Label of the catchability", "");
 }
 
 /**

@@ -24,8 +24,8 @@ namespace observations {
  */
 ProcessProportionsAtLength::ProcessProportionsAtLength(Model* model)
   : observations::ProportionsAtLength(model) {
-  parameters_.Bind<string>(PARAM_PROCESS, &process_label_, "Process label", "");
-  parameters_.Bind<Double>(PARAM_PROCESS_PROPORTION, &process_proportion_, "Process proportion", "", Double(0.5));
+  parameters_.Bind<string>(PARAM_PROCESS, &process_label_, "The label of the process for the observation", "");
+  parameters_.Bind<Double>(PARAM_PROCESS_PROPORTION, &process_proportion_, "Proportion through the process when the observation is evaluated", "", Double(0.5));
 
   mean_proportion_method_ = false;
 }

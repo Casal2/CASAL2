@@ -26,7 +26,7 @@ namespace estimatetransformations {
  * Default constructor
  */
 Log::Log(Model* model) : EstimateTransformation(model) {
-  parameters_.Bind<string>(PARAM_ESTIMATE, &estimate_label_, "Estimate to transform", "");
+  parameters_.Bind<string>(PARAM_ESTIMATE, &estimate_label_, "The parameter to use in the log transformation", "");
 }
 
 /**

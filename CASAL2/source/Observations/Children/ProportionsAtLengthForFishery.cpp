@@ -40,14 +40,13 @@ ProportionsAtLengthForFishery::ProportionsAtLengthForFishery(Model* model)
   parameters_.Bind<string>(PARAM_TIME_STEP, &time_step_label_, "Time step to execute in", "");
   parameters_.Bind<bool>(PARAM_LENGTH_PLUS, &length_plus_, "Is the last bin a plus group", "", true);
   parameters_.Bind<Double>(PARAM_TOLERANCE, &tolerance_, "Tolerance for rescaling proportions", "", Double(0.001));
-  parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "Year to execute in", "");
-  parameters_.Bind<Double>(PARAM_DELTA, &delta_, "Delta", "", DELTA);
+  parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "Years for which there are observations", "");
+  parameters_.Bind<Double>(PARAM_DELTA, &delta_, "The value of the delta robustification parameter", "", DELTA);
   parameters_.Bind<Double>(PARAM_PROCESS_ERRORS, &process_error_values_, "Process error", "", true);
-  parameters_.Bind<string>(PARAM_FISHERY, &fishery_, "Label of fishery the observation is from", "", "");
-  parameters_.BindTable(PARAM_OBS, obs_table_, "Table of Observatons", "", false);
-  parameters_.BindTable(PARAM_ERROR_VALUES, error_values_table_, "", "", false);
-  parameters_.Bind<string>(PARAM_PROCESS, &process_label_, "Process label", "");
-  parameters_.Bind<Double>(PARAM_PROCESS_PROPORTION, &process_proportion_, "Process proportion", "", Double(0.5));
+  parameters_.Bind<string>(PARAM_FISHERY, &fishery_, "Label of observed fishery", "", "");
+  parameters_.BindTable(PARAM_OBS, obs_table_, "Table of observed values", "", false);
+  parameters_.BindTable(PARAM_ERROR_VALUES, error_values_table_, "Table of error values of the observed values (note the units depend on the likelihood)", "", false);
+  parameters_.Bind<string>(PARAM_PROCESS, &process_label_, "The label of the process for the observation", "");
 
   mean_proportion_method_ = false;
 }
@@ -217,10 +216,6 @@ void ProportionsAtLengthForFishery::DoBuild() {
 //   LOG_CODE_ERROR() << "ageing error has not been implemented for the proportions at age observation";
 
   length_results_.resize(number_bins_ * category_labels_.size(), 0.0);
-
-  if (process_proportion_ < 0.0 || process_proportion_ > 1.0)
-    LOG_ERROR_P(PARAM_PROCESS_PROPORTION) << ": process_proportion (" << AS_DOUBLE(process_proportion_) << ") must be between 0.0 and 1.0";
-  proportion_of_time_ = process_proportion_;
 
   auto time_step = model_->managers().time_step()->GetTimeStep(time_step_label_);
   if (!time_step) {
