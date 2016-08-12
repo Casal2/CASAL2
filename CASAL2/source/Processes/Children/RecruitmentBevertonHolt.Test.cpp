@@ -107,6 +107,7 @@ steepness 0.75
 type biomass
 time_step model.step_one
 categories stage=immature
+time_step_proportion 1.0
 selectivities MaturityMale MaturityFemale 
 
 @selectivity MaturityMale

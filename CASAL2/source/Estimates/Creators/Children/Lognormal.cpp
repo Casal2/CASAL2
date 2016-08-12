@@ -20,8 +20,8 @@ namespace creators {
  *
  */
 Lognormal::Lognormal(Model* model) : Creator(model) {
-  parameters_.Bind<Double>(PARAM_MU, &mu_, "", "");
-  parameters_.Bind<Double>(PARAM_CV, &cv_, "", "");
+  parameters_.Bind<Double>(PARAM_MU, &mu_, "The lognormal prior mean (mu) parameter", "");
+  parameters_.Bind<Double>(PARAM_CV, &cv_, "The Lognormal variance (CV) parameter", "");
 }
 
 /**

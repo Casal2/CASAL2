@@ -26,11 +26,11 @@ namespace niwa {
  * Constructor
  */
 MCMC::MCMC(Model* model) : model_(model) {
-  parameters_.Bind<string>(PARAM_LABEL, &label_, "Label", "");
-  parameters_.Bind<string>(PARAM_TYPE, &type_, "Type", "", "");
-  parameters_.Bind<unsigned>(PARAM_LENGTH, &length_, "The number of chain links to create", "");
-  parameters_.Bind<bool>(PARAM_ACTIVE, &active_, "Is this the active MCMC algorithm", "", true);
-  parameters_.Bind<bool>(PARAM_PRINT_DEFAULT_REPORTS, &print_default_reports_, "", "", true);
+  parameters_.Bind<string>(PARAM_LABEL, &label_, "The label of the MCMC", "");
+  parameters_.Bind<string>(PARAM_TYPE, &type_, "The type of MCMC", "", "");
+  parameters_.Bind<unsigned>(PARAM_LENGTH, &length_, "The number of iterations in for the MCMC chain", "");
+  parameters_.Bind<bool>(PARAM_ACTIVE, &active_, "Indicates if this is the active MCMC algorithm", "", true);
+  parameters_.Bind<bool>(PARAM_PRINT_DEFAULT_REPORTS, &print_default_reports_, "Indicates if the output prints the default reports", "", true);
 }
 
 /**

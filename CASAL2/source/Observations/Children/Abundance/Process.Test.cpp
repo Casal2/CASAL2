@@ -60,6 +60,7 @@ processes recruitment ageing
 @derived_quantity ssb
 type biomass
 categories male female
+time_step_proportion 1.0
 selectivities male_maturity female_maturity
 time_step one
 
@@ -129,6 +130,7 @@ multiplier 10
 @observation observation
 type process_abundance
 catchability [q=6.52606e-005]
+delta 1e-10
 time_step two
 process halfm
 categories male+female

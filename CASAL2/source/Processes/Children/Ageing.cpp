@@ -31,7 +31,7 @@ Ageing::Ageing(Model* model)
   process_type_ = ProcessType::kAgeing;
   partition_structure_ = PartitionStructure::kAge;
 
-  parameters_.Bind<string>(PARAM_CATEGORIES, &category_labels_, "Categories", "");
+  parameters_.Bind<string>(PARAM_CATEGORIES, &category_labels_, "The labels of the categories", "");
 }
 
 /**

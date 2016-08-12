@@ -101,6 +101,7 @@ end_table
 @derived_quantity biomass_t1
 type biomass
 time_step step1
+time_step_proportion 1.0
 categories stock
 selectivities MaturationSel
 

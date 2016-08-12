@@ -20,8 +20,8 @@ namespace creators {
  *
  */
 NormalLog::NormalLog(Model* model) : Creator(model) {
-  parameters_.Bind<Double>(PARAM_MU, &mu_, "", "");
-  parameters_.Bind<Double>(PARAM_SIGMA, &sigma_, "", "");
+  parameters_.Bind<Double>(PARAM_MU, &mu_, "The normal-log prior mean (mu) parameter", "");
+  parameters_.Bind<Double>(PARAM_SIGMA, &sigma_, "The normal-log prior variance (standard deviation) parameter", "");
 }
 
 /**

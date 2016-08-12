@@ -25,8 +25,8 @@ namespace niwa {
 Selectivity::Selectivity(Model* model)
 : model_(model) {
 
-  parameters_.Bind<string>(PARAM_LABEL, &label_, "Label", "");
-  parameters_.Bind<string>(PARAM_TYPE, &type_, "Type", "");
+  parameters_.Bind<string>(PARAM_LABEL, &label_, "The label for this selectivity", "");
+  parameters_.Bind<string>(PARAM_TYPE, &type_, "The type of selectivity", "");
   parameters_.Bind<bool>(PARAM_LENGTH_BASED, &length_based_, "Is the selectivity length based", "", false);
   parameters_.Bind<unsigned>(PARAM_INTERVALS, &n_quant_, "Number of quantiles to evaluate a length based selectivity over the age length distribution", "", 5);
 }

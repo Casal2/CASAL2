@@ -68,6 +68,7 @@ processes ageing
 type biomass
 categories male female
 selectivities male_maturity female_maturity
+time_step_proportion 1.0
 time_step one
 
 @ageing ageing

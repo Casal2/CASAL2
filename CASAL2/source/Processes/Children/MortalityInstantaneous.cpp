@@ -54,12 +54,12 @@ MortalityInstantaneous::MortalityInstantaneous(Model* model)
   // catches_table_->set_required_columns({"years"}, allow_others = true)
   // fisheries_table_->set_required_columns({"x", "x", "x,"});
 
-  parameters_.Bind<string>(PARAM_CATEGORIES, &category_labels_, "Categories for natural mortality", "");
-  parameters_.BindTable(PARAM_CATCHES, catches_table_, "Table of catch data", "", true, false);
+  parameters_.Bind<string>(PARAM_CATEGORIES, &category_labels_, "Categories for instantaneous mortality", "");
+  parameters_.BindTable(PARAM_CATCHES, catches_table_, "Table of removals (catch) data", "", true, false);
   parameters_.BindTable(PARAM_FISHERIES, fisheries_table_, "Table of fishery data", "", true, false);
-  parameters_.Bind<Double>(PARAM_M, &m_input_, "Mortality rates", "")->set_range(0.0, 1.0);
-  parameters_.Bind<Double>(PARAM_TIME_STEP_RATIO, &time_step_ratios_temp_, "Time step ratios for M", "", true);
-  parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_labels_, "Selectivities for Natural Mortality", "");
+  parameters_.Bind<Double>(PARAM_M, &m_input_, "Natural mortality rates for each category", "")->set_range(0.0, 1.0);
+  parameters_.Bind<Double>(PARAM_TIME_STEP_RATIO, &time_step_ratios_temp_, "Time step ratios for natural mortality", "", true);
+  parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_labels_, "The selectivities to apply on the categories for natural mortality", "");
 
   RegisterAsEstimable(PARAM_M, &m_);
 }

@@ -17,7 +17,6 @@
 #include "Model/Managers.h"
 #include "Processes/Manager.h"
 #include "Processes/Children/Ageing.h"
-#include "Processes/Children/Growth.h"
 #include "Processes/Children/Maturation.h"
 #include "Processes/Children/MortalityConstantRate.h"
 #include "Processes/Children/MortalityEvent.h"
@@ -72,8 +71,6 @@ Process* Factory::Create(Model* model, const string& object_type, const string& 
   if (object == PARAM_PROCESS || object == PARAM_PROCESSES) {
     if (sub == PARAM_AGEING)
       result = new Ageing(model);
-    else if (sub == PARAM_GROWTH)
-      result = new Growth(model);
     else if (sub == PARAM_RECRUITMENT_BEVERTON_HOLT)
       result = new RecruitmentBevertonHolt(model);
     else if (sub == PARAM_RECRUITMENT_CONSTANT)

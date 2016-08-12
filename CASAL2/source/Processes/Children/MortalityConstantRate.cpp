@@ -34,10 +34,10 @@ MortalityConstantRate::MortalityConstantRate(Model* model)
   process_type_ = ProcessType::kMortality;
   partition_structure_ = PartitionStructure::kAge;
 
-  parameters_.Bind<string>(PARAM_CATEGORIES, &category_labels_, "List of categories", "");
+  parameters_.Bind<string>(PARAM_CATEGORIES, &category_labels_, "List of categories labels", "");
   parameters_.Bind<Double>(PARAM_M, &m_input_, "Mortality rates", "");
-  parameters_.Bind<Double>(PARAM_TIME_STEP_RATIO, &ratios_, "Time step ratios for M", "", true);
-  parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_names_, "Selectivities", "");
+  parameters_.Bind<Double>(PARAM_TIME_STEP_RATIO, &ratios_, "Time step ratios for the mortality rates", "", true);
+  parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_names_, "List of selectivities for the categories", "");
 
   RegisterAsEstimable(PARAM_M, &m_);
 }

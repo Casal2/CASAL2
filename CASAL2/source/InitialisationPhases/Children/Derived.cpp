@@ -34,9 +34,9 @@ namespace initialisationphases {
  */
 Derived::Derived(Model* model) :
     InitialisationPhase(model), cached_partition_(model), partition_(model) {
-  parameters_.Bind<string>(PARAM_INSERT_PROCESSES, &insert_processes_, "The processes to insert in to target time steps", "", true);
-  parameters_.Bind<string>(PARAM_EXCLUDE_PROCESSES, &exclude_processes_, "The processes to exclude from all time steps", "", true);
-  parameters_.Bind<bool>(PARAM_CASAL_INTIALISATION, &casal_initialisation_phase_, "Reset the partition after running an extra annual cycle to take on equilibrium SSB's. Warning should only be set to true if comparing with previous CASAL models", "", false);
+  parameters_.Bind<string>(PARAM_INSERT_PROCESSES, &insert_processes_, "Additional processes not defined in the annual cycle, that are to beinserted into this initialisation phase", "", true);
+  parameters_.Bind<string>(PARAM_EXCLUDE_PROCESSES, &exclude_processes_, "Processes in the annual cycle to be excluded from this initialisation phase", "", true);
+  parameters_.Bind<bool>(PARAM_CASAL_INTIALISATION, &casal_initialisation_phase_, "Run an extra annual cycle to evalaute equilibrium SSB's. Warning - if true, this may not correctly evaluate the equilibrium state. Use true if attempting to replicate a legacy CASAL model", "", false);
 
 
 }
@@ -104,7 +104,7 @@ void Derived::DoBuild() {
 
     if (count == 0)
       LOG_ERROR_P(PARAM_EXCLUDE_PROCESSES) << " process " << exclude
-          << " does not exist in any time steps to be excluded. Please check your spelling";
+          << " does not exist in any time steps to be excluded. Please check that the process is defined";
   }
 
 
@@ -126,7 +126,7 @@ void Derived::DoBuild() {
     }
   }
   if (ageing_index == std::numeric_limits<unsigned>::max())
-    LOG_ERROR() << location() << " could not calculate the recruitment index because there is no ageing process";
+    LOG_ERROR() << location() << "Unable to calculate the recruitment index because there is no ageing process";
   if (recruitment_index < ageing_index)
     recruitment_ = true;
 
@@ -229,14 +229,14 @@ void Derived::Execute() {
     old_plus_group = plus_group;
   }
 
-  LOG_FINEST() << "Number of BH recruitment processes in annual cycle = " << recruitment_process_.size();
+  LOG_FINEST() << "Number of Beveerton-Holt recruitment processes in annual cycle = " << recruitment_process_.size();
   // We are at Equilibrium state here
   // Check if we have B0 initialised or R0 initialised recruitment
 
   bool B0_intial_recruitment = false;
   for (auto recruitment_process : recruitment_process_) {
     if (recruitment_process->bo_initialised()) {
-      LOG_FINEST() << "PARAM_B0 has been defined for process labelled " << recruitment_process->label();
+      LOG_FINEST() << PARAM_B0 << " has been defined for process labelled " << recruitment_process->label();
       recruitment_process->ScalePartition();
       B0_intial_recruitment = true;
     }
@@ -247,7 +247,7 @@ void Derived::Execute() {
   }
   // Add a switch for to replicate CASAL output if this method does not reach an equilibrium State
   if (casal_initialisation_phase_) {
-    LOG_FINEST() << ": CASAL initialisation has been executed";
+    LOG_FINEST() << "Legacy CASAL type initialisation has been executed";
     cached_partition_.BuildCache();
     // Run a annual cycle once to populate derived quantities
     time_step_manager->ExecuteInitialisation(label_, 1);

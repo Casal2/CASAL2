@@ -36,11 +36,11 @@ Iterative::Iterative(Model* model)
   : InitialisationPhase(model),
     cached_partition_(model),
     partition_(model) {
-  parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "The number of iterations to execute this phase for", "");
-  parameters_.Bind<string>(PARAM_INSERT_PROCESSES, &insert_processes_, "The processes to insert in to target time steps", "", true);
-  parameters_.Bind<string>(PARAM_EXCLUDE_PROCESSES, &exclude_processes_, "The processes to exclude from all time steps", "", true);
-  parameters_.Bind<unsigned>(PARAM_CONVERGENCE_YEARS, &convergence_years_, "The years to test for convergence", "", true);
-  parameters_.Bind<Double>(PARAM_LAMBDA, &lambda_, "Lambda", "", Double(0.0));
+  parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "The number of iterations (years) over which to execute this initialisation phase", "");
+  parameters_.Bind<string>(PARAM_INSERT_PROCESSES, &insert_processes_, " (years) over which to execute this initialisation phase", "", true);
+  parameters_.Bind<string>(PARAM_EXCLUDE_PROCESSES, &exclude_processes_, "Processes in the annual cycle to be excluded from this initialisation phase", "", true);
+  parameters_.Bind<unsigned>(PARAM_CONVERGENCE_YEARS, &convergence_years_, "The iteration (year) when the test for converegence (lambda) is evaluated", "", true);
+  parameters_.Bind<Double>(PARAM_LAMBDA, &lambda_, "The maximum value of the absolute sum of differences (lambda) between the partition at year-1 and year that indicates successfull convergence", "", Double(0.0));
 }
 
 /**
