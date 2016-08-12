@@ -173,6 +173,8 @@ class ClassLoader:
                                 sub_child_class = copy.deepcopy(parent_class_.child_classes_[file])
                                 sub_child_class.name_ = child_file.replace('.h', '') + file
                                 sub_child_class.parent_name_ = file
+                                print 'child file ' + sub_child_class.name_
+                                
                                 parent_class_.child_classes_[file].child_classes_[sub_child_class.name_] = sub_child_class
                                 if not VariableLoader().Load('../CASAL2/source/' + folder + '/Children/' + file + '/' + child_file, sub_child_class):
                                     return False
@@ -368,7 +370,7 @@ class VariableLoader:
             
         # Check for Name
         variable.name_ = translations_[pieces[0].rstrip().lstrip()]
-        
+
         # Set the description
         index = 2;
         description = pieces[index]
@@ -438,9 +440,16 @@ class Printer:
             if len(child_class.child_classes_) > 0:
                 child_class.child_classes_ = collections.OrderedDict(sorted(child_class.child_classes_.items()))
                 for third_class_name, third_class in child_class.child_classes_.iteritems():
+                    
+                    ## this is an exception to remove time_step in front of mortality block observations
+                    first_val = third_class.name_[0:8]                  
+                    if parent_class_.name_ == 'Observation' and first_val == 'TimeStep':
+                    	third_class.name_ = third_class.name_[8:len(third_class.name_)]
+                                        
                     object_name = re.sub( '(?<!^)(?=[A-Z])', ' ', third_class.name_)
                     class_name = re.sub( '(?<!^)(?=[A-Z])', '\_', third_class.name_).lower()
                     parent_class = re.sub( '(?<!^)(?=[A-Z])', '\_', parent_class_.name_).lower()
+
                     # Exeption corrections
                     class_name = class_name.replace('m\_c\_m\_c', 'mcmc')
                     class_name = class_name.replace('beta\_diff', 'betadiff')
@@ -448,7 +457,7 @@ class Printer:
                     class_name = class_name.replace('a\_d\_o\_l\_c', 'adolc')
                     class_name = class_name.replace('c\_p\_p\_a\_d', 'cppad')
                     class_name = class_name.replace('d\_e\_solver', 'de\_solver')
-                    parent_class = parent_class.replace('@m\_c\_m\_c', '@mcmc')
+                    parent_class = parent_class.replace('m\_c\_m\_c', 'mcmc')
                     parent_class = parent_class.replace('a\_d\_o\_l\_c', 'adolc')
                     parent_class = parent_class.replace('c\_p\_p\_a\_d', 'cppad')
                     parent_class = parent_class.replace('d\_e\_solver', 'de\_solver')
@@ -467,7 +476,7 @@ class Printer:
                 class_name = class_name.replace('c\_p\_p\_a\_d', 'cppad')
                 class_name = class_name.replace('gamma\_diff', 'numerical\_differences')     
                 class_name = class_name.replace('d\_e\_solver', 'de\_solver')
-                parent_class = parent_class.replace('@m\_c\_m\_c', '@mcmc')
+                parent_class = parent_class.replace('m\_c\_m\_c', 'mcmc')
                 parent_class = parent_class.replace('a\_d\_o\_l\_c', 'adolc')
                 parent_class = parent_class.replace('c\_p\_p\_a\_d', 'cppad')
                 parent_class = parent_class.replace('d\_e\_solver', 'de\_solver')
