@@ -16,8 +16,8 @@
 #include "Model/Model.h"
 #include "Model/Managers.h"
 #include "Observations/Manager.h"
-#include "Observations/Children/ProportionsAtAgeForFishery.h"
-#include "Observations/Children/ProportionsAtLengthForFishery.h"
+#include <Observations/Children/ProcessRemovalsByAge.h>
+#include <Observations/Children/ProcessRemovalsByLength.h>
 #include "Observations/Children/ProportionsMigrating.h"
 #include "Observations/Children/TagRecaptureByAge.h"
 #include "Observations/Children/TagRecaptureByLength.h"
@@ -62,12 +62,12 @@ Observation* Factory::Create(Model* model, const string& object_type, const stri
       result = new TimeStepProportionsAtLength(model);
     else if (sub_type == PARAM_PROCESS_PROPORTIONS_AT_AGE)
       result = new ProcessProportionsAtAge(model);
-    else if (sub_type == PARAM_PROCESS_PROPORTIONS_AT_AGE_FOR_FISHERY)
-      result = new ProportionsAtAgeForFishery(model);
+    else if (sub_type == PARAM_PROCESS_REMOVALS_BY_AGE)
+      result = new ProcessRemovalsByAge(model);
     else if (sub_type == PARAM_PROCESS_PROPORTIONS_AT_LENGTH)
       result = new ProcessProportionsAtLength(model);
-    else if (sub_type == PARAM_PROCESS_PROPORTIONS_AT_LENGTH_FOR_FISHERY)
-      result = new ProportionsAtLengthForFishery(model);
+    else if (sub_type == PARAM_PROCESS_REMOVALS_BY_LENGTH)
+      result = new ProcessRemovalsByLength(model);
     else if (sub_type == PARAM_PROCESS_PROPORTIONS_MIGRATING)
       result = new ProportionsMigrating(model);
     else if (sub_type == PARAM_PROCESS_PROPORTIONS_BY_CATEGORY)

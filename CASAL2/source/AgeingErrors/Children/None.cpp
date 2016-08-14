@@ -41,6 +41,11 @@ None::~None() {
  *
  */
 void None::DoBuild() {
+  unsigned j = 0;
+  // No ageing error so we create a misspecification matrix of 1's on the diagonal.
+  for (unsigned i = 0; i < age_spread_; ++i, ++j)
+    mis_matrix_[i][j] = 1.0;
+
 }
 
 } /* namespace ageingerrors */

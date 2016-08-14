@@ -1,16 +1,15 @@
 /**
- * @file ProportionsAtAgeForFishery.cpp
+ * @file ProcessRemovalsByAge.cpp
  * @author  C Marsh
  * @version 1.0
  * @date 25/08/15
  * @section LICENSE
  *
- * Copyright NIWA Science �2013 - www.niwa.co.nz
+ * Copyright NIWA Science 2016 - www.niwa.co.nz
  */
 
 // Headers
-#include "ProportionsAtAgeForFishery.h"
-
+#include <Observations/Children/ProcessRemovalsByAge.h>
 #include <algorithm>
 
 #include "Model/Model.h"
@@ -29,7 +28,7 @@ namespace observations {
 /**
  * Default constructor
  */
-ProportionsAtAgeForFishery::ProportionsAtAgeForFishery(Model* model) : Observation(model) {
+ProcessRemovalsByAge::ProcessRemovalsByAge(Model* model) : Observation(model) {
   obs_table_ = new parameters::Table(PARAM_OBS);
   error_values_table_ = new parameters::Table(PARAM_ERROR_VALUES);
 
@@ -53,7 +52,7 @@ ProportionsAtAgeForFishery::ProportionsAtAgeForFishery(Model* model) : Observati
 /**
  * Destructor
  */
-ProportionsAtAgeForFishery::~ProportionsAtAgeForFishery() {
+ProcessRemovalsByAge::~ProcessRemovalsByAge() {
   delete obs_table_;
   delete error_values_table_;
 }
@@ -61,7 +60,7 @@ ProportionsAtAgeForFishery::~ProportionsAtAgeForFishery() {
 /**
  * Validate configuration file parameters
  */
-void ProportionsAtAgeForFishery::DoValidate() {
+void ProcessRemovalsByAge::DoValidate() {
   age_spread_ = (max_age_ - min_age_) + 1;
   map<unsigned, vector<Double>> error_values_by_year;
   map<unsigned, vector<Double>> obs_by_year;
@@ -199,7 +198,7 @@ void ProportionsAtAgeForFishery::DoValidate() {
  * Build any runtime relationships we may have and ensure
  * the labels for other objects are valid.
  */
-void ProportionsAtAgeForFishery::DoBuild() {
+void ProcessRemovalsByAge::DoBuild() {
   partition_ = CombinedCategoriesPtr(new niwa::partition::accessors::CombinedCategories(model_, category_labels_));
 
   // Create a pointer to misclassification matrix
@@ -232,13 +231,13 @@ void ProportionsAtAgeForFishery::DoBuild() {
  * At this point we need to build our cache for the partition
  * structure to use with any interpolation
  */
-void ProportionsAtAgeForFishery::PreExecute() {
+void ProcessRemovalsByAge::PreExecute() {
 }
 
 /**
  *
  */
-void ProportionsAtAgeForFishery::Execute() {
+void ProcessRemovalsByAge::Execute() {
   LOG_TRACE();
   LOG_FINEST() << "Entering observation " << label_;
 
@@ -338,7 +337,7 @@ if ((time_step_label_.size() > 1 && last_fishery_time_step == current_time_step)
  * This method is called at the end of a model iteration
  * to calculate the score for the observation.
  */
-void ProportionsAtAgeForFishery::CalculateScore() {
+void ProcessRemovalsByAge::CalculateScore() {
   /**
    * Simulate or generate results
    * During simulation mode we'll simulate results for this observation
