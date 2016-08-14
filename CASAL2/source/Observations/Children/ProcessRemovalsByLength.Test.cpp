@@ -1,5 +1,5 @@
 /**
- * @file ProcessProportionsAtLengthForFishery.Test.cpp
+ * @file ProcessRemovalsByLength.Test.cpp
  * @author  C.Marsh
  * @date 21/08/2015
  * @section LICENSE
@@ -10,7 +10,7 @@
 #ifdef TESTMODE
 
 // Headers
-#include "ProportionsAtLengthForFishery.h"
+#include "ProcessRemovalsByLength.h"
 
 #include <iostream>
 
@@ -26,7 +26,7 @@ using std::cout;
 using std::endl;
 using niwa::testfixtures::InternalEmptyModel;
 
-const std::string test_cases_observation_proportions_at_length_for_fishery_single =
+const std::string test_cases_observation_removals_by_length_for_fishery_single =
 R"(
 @model
 start_year 1990 
@@ -152,7 +152,7 @@ a 2.0e-6
 b 3.288
 
 @observation observation 
-type process_proportions_at_length_for_fishery
+type process_removals_by_length
 years 1991 1992 1993 1994 1995 
 likelihood multinomial
 time_step step1
@@ -181,8 +181,8 @@ end_table
 /**
  *
  */
-TEST_F(InternalEmptyModel, Observation_Proportions_At_Length_for_fishery_Single) {
-  AddConfigurationLine(test_cases_observation_proportions_at_length_for_fishery_single, __FILE__, 31);
+TEST_F(InternalEmptyModel, Observation_removals_by_length_for_fishery_Single) {
+  AddConfigurationLine(test_cases_observation_removals_by_length_for_fishery_single, __FILE__, 31);
   LoadConfiguration();
 
   model_->Start(RunMode::kBasic);

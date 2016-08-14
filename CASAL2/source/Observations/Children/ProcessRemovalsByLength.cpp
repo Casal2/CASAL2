@@ -1,15 +1,15 @@
 /**
- * @file ProportionsAtLengthForFishery.cpp
+ * @file ProcessRemovalsByLength.cpp
  * @author  C Marsh
  * @version 1.0
  * @date 12.8.15
  * @section LICENSE
  *
- * Copyright NIWA Science �2013 - www.niwa.co.nz
+ * Copyright NIWA Science 2016 - www.niwa.co.nz
  */
 
 // Headers
-#include "ProportionsAtLengthForFishery.h"
+#include "ProcessRemovalsByLength.h"
 
 #include <algorithm>
 
@@ -30,7 +30,7 @@ namespace observations {
 /**
  * Default constructor
  */
-ProportionsAtLengthForFishery::ProportionsAtLengthForFishery(Model* model)
+ProcessRemovalsByLength::ProcessRemovalsByLength(Model* model)
   : Observation(model) {
 
   obs_table_ = new parameters::Table(PARAM_OBS);
@@ -42,7 +42,7 @@ ProportionsAtLengthForFishery::ProportionsAtLengthForFishery(Model* model)
   parameters_.Bind<Double>(PARAM_TOLERANCE, &tolerance_, "Tolerance for rescaling proportions", "", Double(0.001));
   parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "Years for which there are observations", "");
   parameters_.Bind<Double>(PARAM_DELTA, &delta_, "The value of the delta robustification parameter", "", DELTA);
-  parameters_.Bind<Double>(PARAM_PROCESS_ERRORS, &process_error_values_, "Process error", "", true);
+  parameters_.Bind<Double>(PARAM_PROCESS_ERRORS, &process_error_values_, "the value of process error", "", true);
   parameters_.Bind<string>(PARAM_FISHERY, &fishery_, "Label of observed fishery", "", "");
   parameters_.BindTable(PARAM_OBS, obs_table_, "Table of observed values", "", false);
   parameters_.BindTable(PARAM_ERROR_VALUES, error_values_table_, "Table of error values of the observed values (note the units depend on the likelihood)", "", false);
@@ -54,7 +54,7 @@ ProportionsAtLengthForFishery::ProportionsAtLengthForFishery(Model* model)
 /**
  * Destructor
  */
-ProportionsAtLengthForFishery::~ProportionsAtLengthForFishery() {
+ProcessRemovalsByLength::~ProcessRemovalsByLength() {
   delete obs_table_;
   delete error_values_table_;
 }
@@ -62,7 +62,7 @@ ProportionsAtLengthForFishery::~ProportionsAtLengthForFishery() {
 /**
  * Validate configuration file parameters
  */
-void ProportionsAtLengthForFishery::DoValidate() {
+void ProcessRemovalsByLength::DoValidate() {
   // How many elements are expected in our observed table;
   if(length_plus_) {
     number_bins_ = length_bins_.size();
@@ -208,7 +208,7 @@ void ProportionsAtLengthForFishery::DoValidate() {
  * Build any runtime relationships we may have and ensure
  * the labels for other objects are valid.
  */
-void ProportionsAtLengthForFishery::DoBuild() {
+void ProcessRemovalsByLength::DoBuild() {
   partition_ = CombinedCategoriesPtr(new niwa::partition::accessors::CombinedCategories(model_, category_labels_));
   cached_partition_ = CachedCombinedCategoriesPtr(new niwa::partition::accessors::cached::CombinedCategories(model_, category_labels_));
 
@@ -236,7 +236,7 @@ void ProportionsAtLengthForFishery::DoBuild() {
  * At this point we need to build our cache for the partition
  * structure to use with any interpolation
  */
-void ProportionsAtLengthForFishery::PreExecute() {
+void ProcessRemovalsByLength::PreExecute() {
   LOG_FINEST() << "Entering observation " << label_;
 
   cached_partition_->BuildCache();
@@ -250,7 +250,7 @@ void ProportionsAtLengthForFishery::PreExecute() {
 /**
  *
  */
-void ProportionsAtLengthForFishery::Execute() {
+void ProcessRemovalsByLength::Execute() {
   LOG_TRACE();
   /**
    * Verify our cached partition and partition sizes are correct
@@ -361,7 +361,7 @@ void ProportionsAtLengthForFishery::Execute() {
  * This method is called at the end of a model iteration
  * to calculate the score for the observation.
  */
-void ProportionsAtLengthForFishery::CalculateScore() {
+void ProcessRemovalsByLength::CalculateScore() {
   /**
    * Simulate or generate results
    * During simulation mode we'll simulate results for this observation

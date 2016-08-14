@@ -1,17 +1,17 @@
 /**
- * @file ProcessProportionsAtAgeForFishery.Test.cpp
+ * @file ProcessRemovalsByAge.Test.cpp
  * @author Craig Marsh
  * @github https://github.com/Zaita
  * @date 28/08/2015
  * @section LICENSE
  *
- * Copyright NIWA Science ©2014 - www.niwa.co.nz
+ * Copyright NIWA Science ©2016 - www.niwa.co.nz
  *
  */
 #ifdef TESTMODE
 
 // Headers
-#include "ProportionsAtAgeForFishery.h"
+#include "ProcessRemovalsByAge.h"
 
 #include <iostream>
 
@@ -27,7 +27,7 @@ using std::cout;
 using std::endl;
 using niwa::testfixtures::InternalEmptyModel;
 
-const std::string test_cases_observation_proportions_at_age_for_fishery_single =
+const std::string test_cases_observation_process_removals_by_age_single =
 R"(
 @model
 start_year 1990 
@@ -174,7 +174,7 @@ a 2.0e-6
 b 3.288
 
 @observation observation
-type process_proportions_at_age_for_fishery
+type process_removals_by_age
 likelihood multinomial
 time_step step1
 process instant_mort
@@ -209,8 +209,8 @@ end_table
 /**
  *
  */
-TEST_F(InternalEmptyModel, Observation_Process_Proportions_At_Age_for_fishery_Single) {
-  AddConfigurationLine(test_cases_observation_proportions_at_age_for_fishery_single, __FILE__, 31);
+TEST_F(InternalEmptyModel, Observation_Process_Removals_By_Age_for_fishery_Single) {
+  AddConfigurationLine(test_cases_observation_process_removals_by_age_single, __FILE__, 31);
   LoadConfiguration();
 
   model_->Start(RunMode::kBasic);
