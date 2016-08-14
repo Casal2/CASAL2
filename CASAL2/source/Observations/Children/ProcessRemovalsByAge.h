@@ -60,7 +60,7 @@ protected:
   vector<Double>                process_error_values_;
   map<unsigned, Double>         process_errors_by_year_;
   string                        ageing_error_label_ = "";
-  vector<string>                fishery_;
+  vector<string>                method_;
   parameters::Table*            error_values_table_ = nullptr;
   CombinedCategoriesPtr         partition_;
   AgeingError*                  ageing_error_ = nullptr;

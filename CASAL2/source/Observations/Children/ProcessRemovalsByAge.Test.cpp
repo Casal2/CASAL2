@@ -109,8 +109,8 @@ year FishingWest FishingEest
 2012  800000  150000
 end_table
 
-table fisheries
-fishery       category  selectivity u_max   time_step penalty
+table method
+method       category  selectivity u_max   time_step penalty
 FishingWest   stock     westFSel    0.7     step1     none
 FishingEest   stock     eastFSel    0.7     step1     none
 end_table
@@ -177,9 +177,9 @@ b 3.288
 type process_removals_by_age
 likelihood multinomial
 time_step step1
-process instant_mort
+mortality_instantaneous_process instant_mort
 categories stock
-fishery FishingEest
+method_of_removal FishingEest
 min_age 4
 max_age 21
 age_plus true

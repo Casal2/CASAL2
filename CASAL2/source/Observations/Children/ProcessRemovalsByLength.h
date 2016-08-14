@@ -58,7 +58,7 @@ protected:
   Double                        tolerance_ = 0.0;
   vector<Double>                process_error_values_;
   map<unsigned, Double>         process_errors_by_year_;
-  string                        fishery_;
+  string                        method_;
   parameters::Table*            error_values_table_ = nullptr;
   CachedCombinedCategoriesPtr   cached_partition_;
   CombinedCategoriesPtr         partition_;

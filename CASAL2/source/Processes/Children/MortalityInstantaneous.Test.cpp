@@ -181,8 +181,9 @@ year FishingWest FishingEest
 2011 822000 118000
 2012 800000 150000
 end_table
-table fisheries
-fishery  category selectivity u_max time_step penalty
+
+table method
+method  category selectivity u_max time_step penalty
 FishingWest   stock   westFSel 0.7 step1 none
 FishingEest  stock   eastFSel 0.7 step1 none
 end_table
