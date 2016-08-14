@@ -63,12 +63,8 @@ public:
   void                        DoBuild() override final;
   void                        DoReset() override final { };
   void                        DoExecute() override final;
-  Double                      GetMBySelectivity(const string& category_label, unsigned age);
-  Double                      GetFisheryExploitationFraction(const string& fishery_label, const string& category_label, unsigned age);
-  bool                        IsFisheryValid(const string& fishery_label);
 
   // accessors
-  Double                      time_step_ratio();
   map<unsigned, map<string, map<string, vector<Double>>>>&  catch_at() { return removals_by_year_fishery_category_; };
 
 private:
@@ -77,7 +73,7 @@ private:
   vector<FisheryCategoryData> fishery_categories_;
   map<string, FisheryData>    fisheries_;
   parameters::Table*          catches_table_ = nullptr;
-  parameters::Table*          fisheries_table_ = nullptr;
+  parameters::Table*          method_table_ = nullptr;
   accessor::Categories        partition_;
   Double                      current_m_ = 0.0;
   map<string, Double>         fishery_exploitation;

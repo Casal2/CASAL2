@@ -92,8 +92,8 @@ year FishingWest FishingEest
 1997  1353000 2483000
 end_table
 
-table fisheries
-fishery       category  selectivity u_max   time_step penalty
+table method
+method       category  selectivity u_max   time_step penalty
 FishingWest   stock     westFSel    0.7     step1     none
 FishingEest   stock     eastFSel    0.7     step1     none
 end_table
@@ -156,8 +156,8 @@ type process_removals_by_length
 years 1991 1992 1993 1994 1995 
 likelihood multinomial
 time_step step1
-fishery FishingEest
-process instant_mort
+method_of_removal FishingEest
+mortality_instantaneous_process instant_mort
 categories stock
 length_plus_group false
 length_bins 0 20 40 60 80 110
@@ -188,7 +188,7 @@ TEST_F(InternalEmptyModel, Observation_removals_by_length_for_fishery_Single) {
   model_->Start(RunMode::kBasic);
 
   ObjectiveFunction& obj_function = model_->objective_function();
-  EXPECT_DOUBLE_EQ(313.6635868924738, obj_function.score());
+  EXPECT_DOUBLE_EQ(313.66358689247426, obj_function.score());
 
   Observation* observation = model_->managers().observation()->GetObservation("observation");
 
@@ -200,27 +200,27 @@ TEST_F(InternalEmptyModel, Observation_removals_by_length_for_fishery_Single) {
   ASSERT_EQ(5u, comparisons[year].size());
   EXPECT_EQ("stock",                        comparisons[year][0].category_);
   EXPECT_DOUBLE_EQ(37,                      comparisons[year][0].error_value_);
-  EXPECT_DOUBLE_EQ(1.2882479154946077e-008, comparisons[year][0].expected_);
+  EXPECT_DOUBLE_EQ(1.2882479154945758e-008, comparisons[year][0].expected_);
   EXPECT_DOUBLE_EQ(0.12,                    comparisons[year][0].observed_);
   EXPECT_DOUBLE_EQ(58.053610343773592,      comparisons[year][0].score_);
 
   EXPECT_EQ("stock",                        comparisons[year][1].category_);
   EXPECT_DOUBLE_EQ(37,                      comparisons[year][1].error_value_);
-  EXPECT_DOUBLE_EQ(0.023315666243312768,    comparisons[year][1].expected_);
+  EXPECT_DOUBLE_EQ(0.023315666243312189,    comparisons[year][1].expected_);
   EXPECT_DOUBLE_EQ(0.25 ,                   comparisons[year][1].observed_);
-  EXPECT_DOUBLE_EQ(48.135349075361262,      comparisons[year][1].score_);
+  EXPECT_DOUBLE_EQ(48.135349075361496,      comparisons[year][1].score_);
 
   EXPECT_EQ("stock",                        comparisons[year][2].category_);
   EXPECT_DOUBLE_EQ(37,                      comparisons[year][2].error_value_);
-  EXPECT_DOUBLE_EQ(0.084381382173839128,    comparisons[year][2].expected_);
+  EXPECT_DOUBLE_EQ(0.084381382173838546,    comparisons[year][2].expected_);
   EXPECT_DOUBLE_EQ(0.28,                    comparisons[year][2].observed_);
-  EXPECT_DOUBLE_EQ(41.571293069551452,      comparisons[year][2].score_);
+  EXPECT_DOUBLE_EQ(41.57129306955153,      comparisons[year][2].score_);
 
   EXPECT_EQ("stock",                        comparisons[year][3].category_);
   EXPECT_DOUBLE_EQ(37,                      comparisons[year][3].error_value_);
-  EXPECT_DOUBLE_EQ(0.59514507275357065,     comparisons[year][3].expected_);
+  EXPECT_DOUBLE_EQ(0.59514507275357176,     comparisons[year][3].expected_);
   EXPECT_DOUBLE_EQ(0.25,                    comparisons[year][3].observed_);
-  EXPECT_DOUBLE_EQ(18.168311942943394,      comparisons[year][3].score_);
+  EXPECT_DOUBLE_EQ(18.168311942943376,      comparisons[year][3].score_);
 
   EXPECT_EQ("stock",                        comparisons[year][4].category_);
   EXPECT_DOUBLE_EQ(37,                      comparisons[year][4].error_value_);

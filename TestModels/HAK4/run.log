@@ -2,10 +2,10 @@
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\Reports\Report.cpp(line: 96): preparing report: 
 CASAL2
 Call: casal2 -r --loglevel=trace 
-Date: Sun Aug 14 12:46:29 2016
-Version: 2016-08-12 04:30:17 UTC (rev. b6e9696)
+Date: Sun Aug 14 15:54:48 2016
+Version: 2016-08-14 00:50:21 UTC (rev. 6aa3612)
 Copyright (c) 2012 - 2016, NIWA (www.niwa.co.nz)
-Environment: machine:NIWA-1007004, user:marshc, os:Windows_NT, pid:8824
+Environment: machine:NIWA-1007004, user:marshc, os:Windows_NT, pid:9696
 
 [TRACE] C:\Craig\Models\CASAL2\CASAL2\source\ConfigurationLoader\File.cpp(line: 44) - Method: OpenFile
 [FINE] C:\Craig\Models\CASAL2\CASAL2\source\ConfigurationLoader\File.cpp(line: 47): Opening file: config.csl2
@@ -98,8 +98,8 @@ Environment: machine:NIWA-1007004, user:marshc, os:Windows_NT, pid:8824
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\ConfigurationLoader\File.cpp(line: 88): current_line == '2011 822 118'
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\ConfigurationLoader\File.cpp(line: 88): current_line == '2012 800 150'
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\ConfigurationLoader\File.cpp(line: 88): current_line == 'end_table'
-[FINEST] C:\Craig\Models\CASAL2\CASAL2\source\ConfigurationLoader\File.cpp(line: 88): current_line == 'table fisheries'
-[FINEST] C:\Craig\Models\CASAL2\CASAL2\source\ConfigurationLoader\File.cpp(line: 88): current_line == 'fishery category selectivity u_max time_step penalty'
+[FINEST] C:\Craig\Models\CASAL2\CASAL2\source\ConfigurationLoader\File.cpp(line: 88): current_line == 'table method'
+[FINEST] C:\Craig\Models\CASAL2\CASAL2\source\ConfigurationLoader\File.cpp(line: 88): current_line == 'method category selectivity u_max time_step penalty'
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\ConfigurationLoader\File.cpp(line: 88): current_line == 'FishingWest stock westFSel 0.7 step1 CatchMustBeTaken1'
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\ConfigurationLoader\File.cpp(line: 88): current_line == 'FishingEest stock eastFSel 0.7 step1 CatchMustBeTaken1'
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\ConfigurationLoader\File.cpp(line: 88): current_line == 'end_table'
@@ -241,9 +241,9 @@ Environment: machine:NIWA-1007004, user:marshc, os:Windows_NT, pid:8824
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\ConfigurationLoader\File.cpp(line: 88): current_line == 'type process_removals_by_age'
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\ConfigurationLoader\File.cpp(line: 88): current_line == 'likelihood multinomial'
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\ConfigurationLoader\File.cpp(line: 88): current_line == 'time_step step1'
-[FINEST] C:\Craig\Models\CASAL2\CASAL2\source\ConfigurationLoader\File.cpp(line: 88): current_line == 'process instant_mort'
+[FINEST] C:\Craig\Models\CASAL2\CASAL2\source\ConfigurationLoader\File.cpp(line: 88): current_line == 'mortality_instantaneous_process instant_mort'
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\ConfigurationLoader\File.cpp(line: 88): current_line == 'categories stock'
-[FINEST] C:\Craig\Models\CASAL2\CASAL2\source\ConfigurationLoader\File.cpp(line: 88): current_line == 'fishery FishingWest'
+[FINEST] C:\Craig\Models\CASAL2\CASAL2\source\ConfigurationLoader\File.cpp(line: 88): current_line == 'method_of_removal FishingWest'
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\ConfigurationLoader\File.cpp(line: 88): current_line == 'min_age 3'
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\ConfigurationLoader\File.cpp(line: 88): current_line == 'max_age 19'
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\ConfigurationLoader\File.cpp(line: 88): current_line == 'ageing_error Normal_ageing'
@@ -293,9 +293,9 @@ Environment: machine:NIWA-1007004, user:marshc, os:Windows_NT, pid:8824
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\ConfigurationLoader\File.cpp(line: 88): current_line == 'type process_removals_by_age'
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\ConfigurationLoader\File.cpp(line: 88): current_line == 'likelihood multinomial'
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\ConfigurationLoader\File.cpp(line: 88): current_line == 'time_step step1'
-[FINEST] C:\Craig\Models\CASAL2\CASAL2\source\ConfigurationLoader\File.cpp(line: 88): current_line == 'process instant_mort'
+[FINEST] C:\Craig\Models\CASAL2\CASAL2\source\ConfigurationLoader\File.cpp(line: 88): current_line == 'mortality_instantaneous_process instant_mort'
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\ConfigurationLoader\File.cpp(line: 88): current_line == 'categories stock'
-[FINEST] C:\Craig\Models\CASAL2\CASAL2\source\ConfigurationLoader\File.cpp(line: 88): current_line == 'fishery FishingEest'
+[FINEST] C:\Craig\Models\CASAL2\CASAL2\source\ConfigurationLoader\File.cpp(line: 88): current_line == 'method_of_removal FishingEest'
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\ConfigurationLoader\File.cpp(line: 88): current_line == 'min_age 4'
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\ConfigurationLoader\File.cpp(line: 88): current_line == 'max_age 21'
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\ConfigurationLoader\File.cpp(line: 88): current_line == 'age_plus true'
@@ -578,7 +578,7 @@ Environment: machine:NIWA-1007004, user:marshc, os:Windows_NT, pid:8824
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\ConfigurationLoader\Loader.cpp(line: 377): HandleOperators: 2010 231 159
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\ConfigurationLoader\Loader.cpp(line: 377): HandleOperators: 2011 822 118
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\ConfigurationLoader\Loader.cpp(line: 377): HandleOperators: 2012 800 150
-[FINEST] C:\Craig\Models\CASAL2\CASAL2\source\ConfigurationLoader\Loader.cpp(line: 377): HandleOperators: fishery category selectivity u_max time_step penalty
+[FINEST] C:\Craig\Models\CASAL2\CASAL2\source\ConfigurationLoader\Loader.cpp(line: 377): HandleOperators: method category selectivity u_max time_step penalty
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\ConfigurationLoader\Loader.cpp(line: 377): HandleOperators: FishingWest stock westFSel 0.7 step1 CatchMustBeTaken1
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\ConfigurationLoader\Loader.cpp(line: 377): HandleOperators: FishingEest stock eastFSel 0.7 step1 CatchMustBeTaken1
 [TRACE] C:\Craig\Models\CASAL2\CASAL2\source\ConfigurationLoader\Loader.cpp(line: 158) - Method: ParseBlock
@@ -786,11 +786,11 @@ Environment: machine:NIWA-1007004, user:marshc, os:Windows_NT, pid:8824
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\ConfigurationLoader\Loader.cpp(line: 377): HandleOperators: step1
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\ConfigurationLoader\Loader.cpp(line: 352): Storing values: [time_step]: step1
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\ConfigurationLoader\Loader.cpp(line: 377): HandleOperators: instant_mort
-[FINEST] C:\Craig\Models\CASAL2\CASAL2\source\ConfigurationLoader\Loader.cpp(line: 352): Storing values: [process]: instant_mort
+[FINEST] C:\Craig\Models\CASAL2\CASAL2\source\ConfigurationLoader\Loader.cpp(line: 352): Storing values: [mortality_instantaneous_process]: instant_mort
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\ConfigurationLoader\Loader.cpp(line: 377): HandleOperators: stock
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\ConfigurationLoader\Loader.cpp(line: 352): Storing values: [categories]: stock
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\ConfigurationLoader\Loader.cpp(line: 377): HandleOperators: FishingWest
-[FINEST] C:\Craig\Models\CASAL2\CASAL2\source\ConfigurationLoader\Loader.cpp(line: 352): Storing values: [fishery]: FishingWest
+[FINEST] C:\Craig\Models\CASAL2\CASAL2\source\ConfigurationLoader\Loader.cpp(line: 352): Storing values: [method_of_removal]: FishingWest
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\ConfigurationLoader\Loader.cpp(line: 377): HandleOperators: 3
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\ConfigurationLoader\Loader.cpp(line: 352): Storing values: [min_age]: 3
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\ConfigurationLoader\Loader.cpp(line: 377): HandleOperators: 19
@@ -845,11 +845,11 @@ Environment: machine:NIWA-1007004, user:marshc, os:Windows_NT, pid:8824
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\ConfigurationLoader\Loader.cpp(line: 377): HandleOperators: step1
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\ConfigurationLoader\Loader.cpp(line: 352): Storing values: [time_step]: step1
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\ConfigurationLoader\Loader.cpp(line: 377): HandleOperators: instant_mort
-[FINEST] C:\Craig\Models\CASAL2\CASAL2\source\ConfigurationLoader\Loader.cpp(line: 352): Storing values: [process]: instant_mort
+[FINEST] C:\Craig\Models\CASAL2\CASAL2\source\ConfigurationLoader\Loader.cpp(line: 352): Storing values: [mortality_instantaneous_process]: instant_mort
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\ConfigurationLoader\Loader.cpp(line: 377): HandleOperators: stock
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\ConfigurationLoader\Loader.cpp(line: 352): Storing values: [categories]: stock
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\ConfigurationLoader\Loader.cpp(line: 377): HandleOperators: FishingEest
-[FINEST] C:\Craig\Models\CASAL2\CASAL2\source\ConfigurationLoader\Loader.cpp(line: 352): Storing values: [fishery]: FishingEest
+[FINEST] C:\Craig\Models\CASAL2\CASAL2\source\ConfigurationLoader\Loader.cpp(line: 352): Storing values: [method_of_removal]: FishingEest
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\ConfigurationLoader\Loader.cpp(line: 377): HandleOperators: 4
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\ConfigurationLoader\Loader.cpp(line: 352): Storing values: [min_age]: 4
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\ConfigurationLoader\Loader.cpp(line: 377): HandleOperators: 21
@@ -1350,13 +1350,13 @@ Environment: machine:NIWA-1007004, user:marshc, os:Windows_NT, pid:8824
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\ParameterList\ParameterList.cpp(line: 156): Binding: categories
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\ParameterList\ParameterList.cpp(line: 156): Binding: delta
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\ParameterList\ParameterList.cpp(line: 156): Binding: error_value_multiplier
-[FINEST] C:\Craig\Models\CASAL2\CASAL2\source\ParameterList\ParameterList.cpp(line: 156): Binding: fishery
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\ParameterList\ParameterList.cpp(line: 156): Binding: label
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\ParameterList\ParameterList.cpp(line: 156): Binding: likelihood
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\ParameterList\ParameterList.cpp(line: 156): Binding: likelihood_multiplier
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\ParameterList\ParameterList.cpp(line: 156): Binding: max_age
+[FINEST] C:\Craig\Models\CASAL2\CASAL2\source\ParameterList\ParameterList.cpp(line: 156): Binding: method_of_removal
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\ParameterList\ParameterList.cpp(line: 156): Binding: min_age
-[FINEST] C:\Craig\Models\CASAL2\CASAL2\source\ParameterList\ParameterList.cpp(line: 156): Binding: process
+[FINEST] C:\Craig\Models\CASAL2\CASAL2\source\ParameterList\ParameterList.cpp(line: 156): Binding: mortality_instantaneous_process
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\ParameterList\ParameterList.cpp(line: 156): Binding: process_errors
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\ParameterList\ParameterList.cpp(line: 156): Binding: simulation_likelihood
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\ParameterList\ParameterList.cpp(line: 156): Binding: time_step
@@ -1372,13 +1372,13 @@ Environment: machine:NIWA-1007004, user:marshc, os:Windows_NT, pid:8824
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\ParameterList\ParameterList.cpp(line: 156): Binding: categories
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\ParameterList\ParameterList.cpp(line: 156): Binding: delta
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\ParameterList\ParameterList.cpp(line: 156): Binding: error_value_multiplier
-[FINEST] C:\Craig\Models\CASAL2\CASAL2\source\ParameterList\ParameterList.cpp(line: 156): Binding: fishery
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\ParameterList\ParameterList.cpp(line: 156): Binding: label
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\ParameterList\ParameterList.cpp(line: 156): Binding: likelihood
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\ParameterList\ParameterList.cpp(line: 156): Binding: likelihood_multiplier
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\ParameterList\ParameterList.cpp(line: 156): Binding: max_age
+[FINEST] C:\Craig\Models\CASAL2\CASAL2\source\ParameterList\ParameterList.cpp(line: 156): Binding: method_of_removal
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\ParameterList\ParameterList.cpp(line: 156): Binding: min_age
-[FINEST] C:\Craig\Models\CASAL2\CASAL2\source\ParameterList\ParameterList.cpp(line: 156): Binding: process
+[FINEST] C:\Craig\Models\CASAL2\CASAL2\source\ParameterList\ParameterList.cpp(line: 156): Binding: mortality_instantaneous_process
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\ParameterList\ParameterList.cpp(line: 156): Binding: process_errors
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\ParameterList\ParameterList.cpp(line: 156): Binding: simulation_likelihood
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\ParameterList\ParameterList.cpp(line: 156): Binding: time_step

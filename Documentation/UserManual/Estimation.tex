@@ -24,7 +24,7 @@ Objective(p)= - \sum\limits_i {\log \left[ {L\left( {{\bf{p}}|O_i } \right)} \ri
 
 where $\pi$ is the joint prior density of the parameters $p$.
 
-The contribution to the objective function from the likelihoods are defined in Section \ref{sec:likelihoods}. In addition to likelihoods, priors (see Section \ref{sec:priors}) and penalties (see Section \ref{sec:penalties}) are components of the objective function. 
+The contribution to the objective function from the likelihoods are defined in Section \ref{sec:likelihoods}. In addition to likelihoods, priors (see Section \ref{sec:priors}) and penalties (see Section \ref{sec:penalties}) are components of the objective function. Note that if the priors are specified as uniform, then the prior contribution is zero and the estimation problem turns into penalised-likelihood and not Bayesian.
 
 Penalties can be used to ensure that the exploitation rate constraints on mortality events (i.e., fisheries) are not breached (otherwise there is nothing to prevent the model from having abundances so low that the recorded mortalities could not have been taken), penalties on category transitions (to ensure there are enough individuals to move), and possibly penalties to encourage estimated values to be similar or smooth, etc. Equation~\ref{objective_function} can mathematically reduce to a penalised likelihood equation if all priors are assumed to be uniform. This is because uniform priors have a zero contribution to the objective function so Equation~\ref{objective_function} reduces to likelihoods plus penalties.
 
@@ -105,18 +105,16 @@ An auto-differentiable minimiser for non-linear models.
 {\small{\begin{verbatim}
 		@minimiser ADOLC
 		type adolc
-		tolerance 1e-6
+		step_size 1e-6
 		iterations 2500
 		evaluations 4000
+		tolerance 1e-6		
 		\end{verbatim}}}
 \subsubsection{\I{CPPAD minimiser}}
 An auto-differentiable minimiser for non-linear models.
 {\small{\begin{verbatim}
 		@minimiser CPPAD
 		type cppad
-		tolerance 1e-6
-		iterations 2500
-		evaluations 4000
 		\end{verbatim}}}
 
 \subsubsection{\I{Dlib minimiser}}
@@ -127,6 +125,16 @@ Non auto-diff minimiser
 		tolerance 1e-6
 		iterations 2500
 		evaluations 4000
+		\end{verbatim}}}
+
+\subsubsection{\I{De solver minimiser}}
+Non auto-diff minimiser
+{\small{\begin{verbatim}
+@minimiser de_soler
+type de_solver
+covariance false
+population_size 100
+max_generations 1000
 		\end{verbatim}}}
 
 \subsection{\I{Posterior profiles}\label{sec:estimate-profiles}}
@@ -202,7 +210,7 @@ The proposal distribution can also change adaptively during the chain, using two
 \item You can request that the entire covariance matrix change adaptively at one or more sample numbers. At each adaptation, the covariance matrix is replaced with an empirical covariance, derived from the MCMC chain. The idea here is that an empirical covariance is a better approximation to the proposal distribution than the inverse of the hessian matrix, and can improve convergence and mixing of your chain.
 \end{enumerate}
 
-The two methods that you can choose to adapt the step size are \texttt{double\_half} or \texttt{ratio}, this is done through the input parameter \texttt{adapt\_stepsize\_method}. The \texttt{double\_half} method is used in CASAL and (See Gelman et al. \citep{823} for justification). The algorithm for \texttt{double\_half} is, at each adaptation, the stepsize is doubled if the acceptance rate since the last adaptation is more than $0.5$, or halved if the acceptance rate is less than $0.2$. The \texttt{ratio} is taken from SPM. It adapts the current step size by, the acceptance rate since the last adaptation multiplied by 4.1667.
+The two methods that you can choose to adapt the step size are \texttt{double\_half} or \texttt{ratio}, this is done through the input parameter \texttt{adapt\_stepsize\_method}. The \texttt{double\_half} method is used in CASAL and (See Gelman et al. \citep{823} for justification). The algorithm for \texttt{double\_half} is, at each adaptation, the stepsize is doubled if the acceptance rate since the last adaptation is more than $0.5$, or halved if the acceptance rate is less than $0.2$. The \texttt{ratio} is taken from SPM. It adapts the current step size by, the acceptance rate since the last adaptation multiplied by 4.1667 to reach an acceptance rate of $\approx$ 0.24 see \cite{mcmc_rate} for justification on that acceptance rate.
 
 The stepsize parameter is now on a completely different scale, and must be reset. It is set to a user-specified value (which may or may not be the same as the initial stepsize). We recommend that some of the stepsize adaptations are set to occur after this, so that the stepsize can be readjusted to an appropriate value which gives good acceptance probabilities with the new matrix. 
 
