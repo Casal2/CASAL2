@@ -35,15 +35,12 @@ class Builder:
     # Decompress our archive
     print '-- Decompressing - check casal2_unzip.log'
     if os.path.exists(ipOptFileName + '.tgz'):
-      os.system('gzip -dk ' + ipOptFileName + '.tgz 1> casal2_unzip.log 2>&1')
+      os.system('tar -xvzf ' + ipOptFileName + '.tgz 1> casal2_unzip.log 2>&1')
       os.system('tar xvf ' + ipOptFileName + '.tar 1> casal2_untar.log 2>&1')
-    print '-- cppadFileName' + cppadFileName  
     if os.path.exists(cppadFileName + '.zip'):
       os.system('unzip ' + cppadFileName + '.zip 1> casal2_unzip.log 2>&1')
-    
-    # Build
-    print '-- ipOptFileName' + ipOptFileName
 
+    # Build
     os.chdir(ipOptFileName + '/ThirdParty/ASL')      
     print '-- Building IpOPT Library'
     if os.system('./get.ASL 1> casal2_get.log 2>&1') != EX_OK:
