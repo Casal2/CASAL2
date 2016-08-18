@@ -78,12 +78,12 @@ time_step_proportion 1.0
 
 ## Fishery dependent age data
 @observation chatOBSwst
-type process_proportions_at_age_for_fishery
+type process_removals_by_age
 likelihood multinomial
 time_step step1
-process instant_mort
+mortality_instantaneous_process instant_mort
 categories stock
-fishery FishingWest
+method_of_removal FishingWest
 min_age 3
 max_age 19
 ageing_error Normal_ageing
@@ -134,12 +134,12 @@ end_table
 
 
 @observation chatOBSest
-type process_proportions_at_age_for_fishery
+type process_removals_by_age
 likelihood multinomial
 time_step step1
-process instant_mort
+mortality_instantaneous_process instant_mort
 categories stock
-fishery FishingEest
+method_of_removal FishingEest
 min_age 4
 max_age 21
 age_plus true

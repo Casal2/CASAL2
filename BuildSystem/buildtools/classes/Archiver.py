@@ -42,51 +42,51 @@ class Archiver:
       print '-- Re-Entering build system to build the third party libraries'
       print '-- All output is being diverted to third_party.log'
       print '-- Expected build time 10-60 minutes'
-      #if os.system(self.do_build_ + ' thirdparty > third_party.log 2>&1') != EX_OK:
-        #return Globals.PrintError('Failed to build the third party libraries. Please check third_party.log for the error')
-      #os.system('rm -rf third_party.log')
+      if os.system(self.do_build_ + ' thirdparty > third_party.log 2>&1') != EX_OK:
+        return Globals.PrintError('Failed to build the third party libraries. Please check third_party.log for the error')
+      os.system('rm -rf third_party.log')
 
       print '--> Building release version of CASAL2 library'
       print '-- Re-Entering the build system to build a release library'
       print '-- All output is being diverted to release_build.log'
-      #if os.system(self.do_build_ + ' library release > release_build.log 2>&1') != EX_OK:
-        #return Globals.PrintError('Failed to build release library. Please check release_build.log for the error')
-      #os.system('rm -rf release_build.log')
+      if os.system(self.do_build_ + ' library release > release_build.log 2>&1') != EX_OK:
+        return Globals.PrintError('Failed to build release library. Please check release_build.log for the error')
+      os.system('rm -rf release_build.log')
 
       print '--> Building release version of ADOLC CASAL2'
       print '-- Re-Entering the build system to build an adolc release library'
       print '-- All output is being diverted to release_adolc_build.log'
-      #if os.system(self.do_build_ + ' library adolc > release_adolc_build.log 2>&1') != EX_OK:
-        #return Globals.PrintError('Failed to build release library. Please check release_adolc_build.log for the error')
-      #os.system('rm -rf release_adolc_build.log')
+      if os.system(self.do_build_ + ' library adolc > release_adolc_build.log 2>&1') != EX_OK:
+        return Globals.PrintError('Failed to build release library. Please check release_adolc_build.log for the error')
+      os.system('rm -rf release_adolc_build.log')
 
       print '--> Building release version of BetaDiff CASAL2'
       print '-- Re-Entering the build system to build a betadiff release library'
       print '-- All output is being diverted to release_betadiff_build.log'
-      #if os.system(self.do_build_ + ' library betadiff > release_betadiff_build.log 2>&1') != EX_OK:
-        #return Globals.PrintError('Failed to build release library. Please check release_betadiff_build.log for the error')
-      #os.system('rm -rf release_betadiff_build.log')
+      if os.system(self.do_build_ + ' library betadiff > release_betadiff_build.log 2>&1') != EX_OK:
+        return Globals.PrintError('Failed to build release library. Please check release_betadiff_build.log for the error')
+      os.system('rm -rf release_betadiff_build.log')
 
       print '--> Building release version of CppAD CASAL2'
       print '-- Re-Entering the build system to build a cppad release library'
       print '-- All output is being diverted to release_cppad_build.log'
-      #if os.system(self.do_build_ + ' library cppad > release_cppad_build.log 2>&1') != EX_OK:
-        #return Globals.PrintError('Failed to build release library. Please check release_cppad_build.log for the error')
-      #os.system('rm -rf release_cppad_build.log')
+      if os.system(self.do_build_ + ' library cppad > release_cppad_build.log 2>&1') != EX_OK:
+        return Globals.PrintError('Failed to build release library. Please check release_cppad_build.log for the error')
+      os.system('rm -rf release_cppad_build.log')
 
       print '--> Building documentation'
       print '-- Re-Entering the build system to build the documentation'
       print '-- All ourput is being diverted to documentation_build.log'
-      #if os.system(self.do_build_ + ' documentation > documentation_build.log 2>&1') != EX_OK:
-        #return Globals.PrintError('Failed to build the documentation. Please check documenation_build.log for error')
-      #os.system('rm -rf documentation_build.log')
+      if os.system(self.do_build_ + ' documentation > documentation_build.log 2>&1') != EX_OK:
+        return Globals.PrintError('Failed to build the documentation. Please check documenation_build.log for error')
+      os.system('rm -rf documentation_build.log')
 
       print '--> Building test version of CASAL2'
       print '-- Re-Entering the build system to build a unit test library'
       print '-- All output is being diverted to unit_test_build.log'
-      #if os.system(self.do_build_ + ' library test > unit_test_build.log 2>&1') != EX_OK:
-        #return Globals.PrintError('Failed to build release library. Please check unit_test_build.log for the error')
-      #os.system('rm -rf unit_test_build.log')
+      if os.system(self.do_build_ + ' library test > unit_test_build.log 2>&1') != EX_OK:
+        return Globals.PrintError('Failed to build release library. Please check unit_test_build.log for the error')
+      os.system('rm -rf unit_test_build.log')
 
     print '--> Building Front End Binary'
     print '-- Re-Entering the build system to build the front end binary'

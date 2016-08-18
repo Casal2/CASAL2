@@ -1,16 +1,15 @@
 /**
- * @file ProportionsAtAgeForFishery.cpp
+ * @file ProcessRemovalsByAge.cpp
  * @author  C Marsh
  * @version 1.0
  * @date 25/08/15
  * @section LICENSE
  *
- * Copyright NIWA Science �2013 - www.niwa.co.nz
+ * Copyright NIWA Science 2016 - www.niwa.co.nz
  */
 
 // Headers
-#include "ProportionsAtAgeForFishery.h"
-
+#include <Observations/Children/ProcessRemovalsByAge.h>
 #include <algorithm>
 
 #include "Model/Model.h"
@@ -29,7 +28,7 @@ namespace observations {
 /**
  * Default constructor
  */
-ProportionsAtAgeForFishery::ProportionsAtAgeForFishery(Model* model) : Observation(model) {
+ProcessRemovalsByAge::ProcessRemovalsByAge(Model* model) : Observation(model) {
   obs_table_ = new parameters::Table(PARAM_OBS);
   error_values_table_ = new parameters::Table(PARAM_ERROR_VALUES);
 
@@ -42,10 +41,10 @@ ProportionsAtAgeForFishery::ProportionsAtAgeForFishery(Model* model) : Observati
   parameters_.Bind<Double>(PARAM_DELTA, &delta_, "Robustification value (delta) for the likelihood", "", DELTA);
   parameters_.Bind<Double>(PARAM_PROCESS_ERRORS, &process_error_values_, "Label of process error to use", "", true);
   parameters_.Bind<string>(PARAM_AGEING_ERROR, &ageing_error_label_, "Label of ageing error to use", "", "");
-  parameters_.Bind<string>(PARAM_FISHERY, &fishery_, "Label of observed fishery", "", "");
+  parameters_.Bind<string>(PARAM_METHOD_OF_REMOVAL, &method_, "Label of observed method of removals", "", "");
   parameters_.BindTable(PARAM_OBS, obs_table_, "Table of observed values", "", false);
   parameters_.BindTable(PARAM_ERROR_VALUES, error_values_table_, "Table of error values of the observed values (note the units depend on the likelihood)", "", false);
-  parameters_.Bind<string>(PARAM_PROCESS, &process_label_, "The label of the process for the observation", "");
+  parameters_.Bind<string>(PARAM_MORTALITY_INSTANTANEOUS_PROCESS, &process_label_, "The label of the mortality instantaneous process for the observation", "");
 
   mean_proportion_method_ = false;
 }
@@ -53,7 +52,7 @@ ProportionsAtAgeForFishery::ProportionsAtAgeForFishery(Model* model) : Observati
 /**
  * Destructor
  */
-ProportionsAtAgeForFishery::~ProportionsAtAgeForFishery() {
+ProcessRemovalsByAge::~ProcessRemovalsByAge() {
   delete obs_table_;
   delete error_values_table_;
 }
@@ -61,7 +60,7 @@ ProportionsAtAgeForFishery::~ProportionsAtAgeForFishery() {
 /**
  * Validate configuration file parameters
  */
-void ProportionsAtAgeForFishery::DoValidate() {
+void ProcessRemovalsByAge::DoValidate() {
   age_spread_ = (max_age_ - min_age_) + 1;
   map<unsigned, vector<Double>> error_values_by_year;
   map<unsigned, vector<Double>> obs_by_year;
@@ -199,7 +198,7 @@ void ProportionsAtAgeForFishery::DoValidate() {
  * Build any runtime relationships we may have and ensure
  * the labels for other objects are valid.
  */
-void ProportionsAtAgeForFishery::DoBuild() {
+void ProcessRemovalsByAge::DoBuild() {
   partition_ = CombinedCategoriesPtr(new niwa::partition::accessors::CombinedCategories(model_, category_labels_));
 
   // Create a pointer to misclassification matrix
@@ -232,13 +231,13 @@ void ProportionsAtAgeForFishery::DoBuild() {
  * At this point we need to build our cache for the partition
  * structure to use with any interpolation
  */
-void ProportionsAtAgeForFishery::PreExecute() {
+void ProcessRemovalsByAge::PreExecute() {
 }
 
 /**
  *
  */
-void ProportionsAtAgeForFishery::Execute() {
+void ProcessRemovalsByAge::Execute() {
   LOG_TRACE();
   LOG_FINEST() << "Entering observation " << label_;
 
@@ -250,17 +249,17 @@ void ProportionsAtAgeForFishery::Execute() {
   for (string label : time_step_label_)
     time_step_index.push_back(model_->managers().time_step()->GetTimeStepIndex(label));
 
-  unsigned last_fishery_time_step = 9999;
+  unsigned last_method_time_step = 9999;
   if (time_step_index.size() > 1) {
     for (unsigned i = 0; i < (time_step_index.size() - 1); ++i) {
       if (time_step_index[i] > time_step_index[i + 1])
-        last_fishery_time_step = time_step_index[i];
+        last_method_time_step = time_step_index[i];
       else
-        last_fishery_time_step = time_step_index[i + 1];
+        last_method_time_step = time_step_index[i + 1];
     }
   }
 
-if ((time_step_label_.size() > 1 && last_fishery_time_step == current_time_step) || time_step_label_.size() == 1) {
+if ((time_step_label_.size() > 1 && last_method_time_step == current_time_step) || time_step_label_.size() == 1) {
 
   unsigned year = model_->current_year();
   map<unsigned,map<string, map<string, vector<Double>>>> &Removals_at_age = mortality_instantaneous_->catch_at();
@@ -273,8 +272,8 @@ if ((time_step_label_.size() > 1 && last_fishery_time_step == current_time_step)
     auto category_iter = partition_iter->begin();
     for (; category_iter != partition_iter->end(); ++category_iter) {
       // Go through all the fisheries and accumulate the expectation whilst also applying ageing error
-      unsigned fishery_offset = 0;
-      for (string fishery : fishery_) {
+      unsigned method_offset = 0;
+      for (string fishery : method_) {
 
         /*
          *  Apply Ageing error on Removals at age vector
@@ -316,7 +315,7 @@ if ((time_step_label_.size() > 1 && last_fishery_time_step == current_time_step)
         for (unsigned i = 0; i < expected_values.size(); ++i)
         accumulated_expected_values[i] += expected_values[i];
 
-        fishery_offset++;
+        method_offset++;
       }
     }
 
@@ -338,7 +337,7 @@ if ((time_step_label_.size() > 1 && last_fishery_time_step == current_time_step)
  * This method is called at the end of a model iteration
  * to calculate the score for the observation.
  */
-void ProportionsAtAgeForFishery::CalculateScore() {
+void ProcessRemovalsByAge::CalculateScore() {
   /**
    * Simulate or generate results
    * During simulation mode we'll simulate results for this observation

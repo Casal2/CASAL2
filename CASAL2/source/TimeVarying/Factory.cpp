@@ -18,6 +18,7 @@
 #include "TimeVarying/Children/Constant.h"
 #include "TimeVarying/Children/Exogenous.h"
 #include "TimeVarying/Children/Linear.h"
+#include "TimeVarying/Children/RandomDraw.h"
 #include "TimeVarying/Children/RandomWalk.h"
 #include "TimeVarying/Manager.h"
 
@@ -47,6 +48,8 @@ TimeVarying* Factory::Create(Model* model, const string& object_type, const stri
       result = new Linear(model);
     else if (sub_type == PARAM_RANDOMWALK)
       result = new RandomWalk(model);
+    else if (sub_type == PARAM_RANDOMDRAW)
+      result = new RandomDraw(model);
 
     if (result)
       model->managers().time_varying()->AddObject(result);

@@ -26,7 +26,7 @@ namespace catchabilities {
  *
  * Note: The constructor is parsed to generate Latex for the documentation.
  */
-Free::Free() {
+Free::Free(Model* model) : Catchability(model) {
   parameters_.Bind<Double>(PARAM_Q, &q_, "value of the catchability", "");
 
   RegisterAsEstimable(PARAM_Q, &q_);

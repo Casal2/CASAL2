@@ -130,7 +130,7 @@ multiplier 10
 
 @observation observation
 type process_biomass
-catchability [q=6.52606e-005]
+catchability [type=free; q=6.52606e-005]
 time_step one
 process halfm
 categories male+female

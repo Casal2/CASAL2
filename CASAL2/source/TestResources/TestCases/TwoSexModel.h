@@ -121,6 +121,7 @@ covariance true
 length 100
 
 @catchability CPUEq
+type free
 q 0.000153139
 
 @observation CAA_year

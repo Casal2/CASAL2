@@ -17,6 +17,7 @@
 
 // Headers
 #include "BaseClasses/Object.h"
+#include "Model/Model.h"
 
 // Namespaces
 namespace niwa {
@@ -25,15 +26,21 @@ namespace niwa {
 class Catchability : public niwa::base::Object {
 public:
   // Methods
-  Catchability();
-  virtual                     ~Catchability() = default;
+  Catchability() = delete;
+  explicit                    Catchability(Model* model);
+  virtual                     ~Catchability() { };
   void                        Validate();
-  void                        Build() { };
+  void                        Build() {DoBuild();};
   void                        Reset() { };
   virtual void                DoValidate() = 0;
+  virtual void                DoBuild() = 0;
+
 
   // Accessors
   virtual Double              q() const = 0;
+protected:
+  // members
+  Model*                      model_ = nullptr;
 };
 
 } /* namespace niwa */

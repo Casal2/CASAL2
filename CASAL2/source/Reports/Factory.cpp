@@ -18,6 +18,7 @@
 #include "Reports/Manager.h"
 #include "Reports/Children/AgeingErrorMatrix.h"
 #include "Reports/Children/CategoryInfo.h"
+#include "Reports/Children/Catchabilities.h"
 #include "Reports/Children/CategoryList.h"
 #include "Reports/Children/CovarianceMatrix.h"
 #include "Reports/Children/CorrelationMatrix.h"
@@ -66,6 +67,8 @@ Report* Factory::Create(Model* model, const string& object_type, const string& s
       result = new AgeingErrorMatrix(model);
     else if (sub_type == PARAM_CATEGORY_LIST)
       result = new CategoryList(model);
+    else if (sub_type == PARAM_CATCHABILITY)
+      result = new Catchabilities(model);
     else if (sub_type == PARAM_COVARIANCE_MATRIX)
       result = new CovarianceMatrix(model);
     else if (sub_type == PARAM_CORRELATION_MATRIX)

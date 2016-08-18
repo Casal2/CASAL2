@@ -40,7 +40,7 @@ public:
   Estimate();
   virtual                     ~Estimate() = default;
   void                        Validate();
-  void                        Build() { Reset(); };
+  void                        Build() ;
   void                        Reset();
   void                        AddSame(const string& label, Double* target);
 
