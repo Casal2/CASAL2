@@ -68,8 +68,9 @@ TEST_F(BasicModel, Observation_Abundance) {
   time_step->parameters().Add(PARAM_PROCESSES, processes, __FILE__, __LINE__);
 
   // Catchability
-  base::Object* catchability = model_->factory().CreateObject(PARAM_CATCHABILITY, "");
+  base::Object* catchability = model_->factory().CreateObject(PARAM_CATCHABILITY, PARAM_FREE);
   catchability->parameters().Add(PARAM_LABEL, "catchability", __FILE__, __LINE__);
+  catchability->parameters().Add(PARAM_TYPE, "free", __FILE__, __LINE__);
   catchability->parameters().Add(PARAM_Q, "0.000153139", __FILE__, __LINE__);
 
   // Observation

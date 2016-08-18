@@ -2,10 +2,10 @@
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\Reports\Report.cpp(line: 96): preparing report: 
 CASAL2
 Call: casal2 -r --loglevel=trace 
-Date: Sun Aug 14 15:54:48 2016
-Version: 2016-08-14 00:50:21 UTC (rev. 6aa3612)
+Date: Thu Aug 18 16:45:25 2016
+Version: 2016-08-15 01:01:17 UTC (rev. 1bdbcc9)
 Copyright (c) 2012 - 2016, NIWA (www.niwa.co.nz)
-Environment: machine:NIWA-1007004, user:marshc, os:Windows_NT, pid:9696
+Environment: machine:NIWA-1007004, user:marshc, os:Windows_NT, pid:13996
 
 [TRACE] C:\Craig\Models\CASAL2\CASAL2\source\ConfigurationLoader\File.cpp(line: 44) - Method: OpenFile
 [FINE] C:\Craig\Models\CASAL2\CASAL2\source\ConfigurationLoader\File.cpp(line: 47): Opening file: config.csl2
@@ -154,6 +154,7 @@ Environment: machine:NIWA-1007004, user:marshc, os:Windows_NT, pid:9696
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\ConfigurationLoader\File.cpp(line: 88): current_line == 'a 2.0e-6'
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\ConfigurationLoader\File.cpp(line: 88): current_line == 'b 3.288'
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\ConfigurationLoader\File.cpp(line: 88): current_line == '@catchability chatTANq'
+[FINEST] C:\Craig\Models\CASAL2\CASAL2\source\ConfigurationLoader\File.cpp(line: 88): current_line == 'type free'
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\ConfigurationLoader\File.cpp(line: 88): current_line == 'q 0.0575073'
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\ConfigurationLoader\File.cpp(line: 88): current_line == '@assert obj'
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\ConfigurationLoader\File.cpp(line: 88): current_line == 'type objective_function'
@@ -457,7 +458,7 @@ Environment: machine:NIWA-1007004, user:marshc, os:Windows_NT, pid:9696
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\ConfigurationLoader\File.cpp(line: 88): current_line == 'upper_bound 10'
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\ConfigurationLoader\File.cpp(line: 88): current_line == 'multiplier 100'
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\ConfigurationLoader\File.cpp(line: 88): current_line == 'log_scale true'
-[FINEST] C:\Craig\Models\CASAL2\CASAL2\source\ConfigurationLoader\Loader.cpp(line: 69): file_lines_.size() == 432
+[FINEST] C:\Craig\Models\CASAL2\CASAL2\source\ConfigurationLoader\Loader.cpp(line: 69): file_lines_.size() == 433
 [TRACE] C:\Craig\Models\CASAL2\CASAL2\source\ConfigurationLoader\Loader.cpp(line: 100) - Method: ParseFileLines
 [TRACE] C:\Craig\Models\CASAL2\CASAL2\source\ConfigurationLoader\Loader.cpp(line: 158) - Method: ParseBlock
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\ConfigurationLoader\Loader.cpp(line: 377): HandleOperators: 1975
@@ -674,6 +675,8 @@ Environment: machine:NIWA-1007004, user:marshc, os:Windows_NT, pid:9696
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\ConfigurationLoader\Loader.cpp(line: 377): HandleOperators: 3.288
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\ConfigurationLoader\Loader.cpp(line: 352): Storing values: [b]: 3.288
 [TRACE] C:\Craig\Models\CASAL2\CASAL2\source\ConfigurationLoader\Loader.cpp(line: 158) - Method: ParseBlock
+[FINEST] C:\Craig\Models\CASAL2\CASAL2\source\ConfigurationLoader\Loader.cpp(line: 377): HandleOperators: free
+[FINEST] C:\Craig\Models\CASAL2\CASAL2\source\ConfigurationLoader\Loader.cpp(line: 352): Storing values: [type]: free
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\ConfigurationLoader\Loader.cpp(line: 377): HandleOperators: 0.0575073
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\ConfigurationLoader\Loader.cpp(line: 352): Storing values: [q]: 0.0575073
 [TRACE] C:\Craig\Models\CASAL2\CASAL2\source\ConfigurationLoader\Loader.cpp(line: 158) - Method: ParseBlock
@@ -1237,7 +1240,7 @@ Environment: machine:NIWA-1007004, user:marshc, os:Windows_NT, pid:9696
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\ParameterList\ParameterList.cpp(line: 156): Binding: y1
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\ParameterList\ParameterList.cpp(line: 156): Binding: y2
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\ParameterList\ParameterList.cpp(line: 160): Binding complete
-[FINEST] C:\Craig\Models\CASAL2\CASAL2\source\ParameterList\ParameterList.cpp(line: 152): Binding parameters for @assert defined at line 163 in population_new.isam
+[FINEST] C:\Craig\Models\CASAL2\CASAL2\source\ParameterList\ParameterList.cpp(line: 152): Binding parameters for @assert defined at line 164 in population_new.isam
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\ParameterList\ParameterList.cpp(line: 156): Binding: label
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\ParameterList\ParameterList.cpp(line: 156): Binding: type
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\ParameterList\ParameterList.cpp(line: 156): Binding: value
@@ -1245,6 +1248,7 @@ Environment: machine:NIWA-1007004, user:marshc, os:Windows_NT, pid:9696
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\ParameterList\ParameterList.cpp(line: 152): Binding parameters for @catchability defined at line 160 in population_new.isam
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\ParameterList\ParameterList.cpp(line: 156): Binding: label
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\ParameterList\ParameterList.cpp(line: 156): Binding: q
+[FINEST] C:\Craig\Models\CASAL2\CASAL2\source\ParameterList\ParameterList.cpp(line: 156): Binding: type
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\ParameterList\ParameterList.cpp(line: 160): Binding complete
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\ParameterList\ParameterList.cpp(line: 152): Binding parameters for @derived_quantity defined at line 101 in population_new.isam
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\ParameterList\ParameterList.cpp(line: 156): Binding: categories
@@ -1318,7 +1322,7 @@ Environment: machine:NIWA-1007004, user:marshc, os:Windows_NT, pid:9696
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\ParameterList\ParameterList.cpp(line: 156): Binding: years
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\ParameterList\ParameterList.cpp(line: 160): Binding complete
 [TRACE] C:\Craig\Models\CASAL2\CASAL2\source\Observations\Observation.cpp(line: 100) - Method: Validate
-[TRACE] C:\Craig\Models\CASAL2\CASAL2\source\Observations\Children\Biomass.cpp(line: 44) - Method: DoValidate
+[TRACE] C:\Craig\Models\CASAL2\CASAL2\source\Observations\Children\Biomass.cpp(line: 45) - Method: DoValidate
 [TRACE] C:\Craig\Models\CASAL2\CASAL2\source\Observations\Observation.cpp(line: 55) - Method: Validate
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\ParameterList\ParameterList.cpp(line: 152): Binding parameters for @observation defined at line 16 in Observation_new.isam
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\ParameterList\ParameterList.cpp(line: 156): Binding: age_plus
@@ -1428,7 +1432,7 @@ Environment: machine:NIWA-1007004, user:marshc, os:Windows_NT, pid:9696
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\ParameterList\ParameterList.cpp(line: 160): Binding complete
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\Processes\Children\MortalityInstantaneous.cpp(line: 98): year_index for fisheries table is: 0
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\Processes\Children\MortalityInstantaneous.cpp(line: 131): indexes: fishery=0; category=1; selectivity=2; time_step=4; u_max=3; penalty5
-[FINEST] C:\Craig\Models\CASAL2\CASAL2\source\ParameterList\ParameterList.cpp(line: 152): Binding parameters for @report defined at line 167 in population_new.isam
+[FINEST] C:\Craig\Models\CASAL2\CASAL2\source\ParameterList\ParameterList.cpp(line: 152): Binding parameters for @report defined at line 168 in population_new.isam
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\ParameterList\ParameterList.cpp(line: 156): Binding: file_name
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\ParameterList\ParameterList.cpp(line: 156): Binding: label
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\ParameterList\ParameterList.cpp(line: 156): Binding: type
@@ -2904,7 +2908,7 @@ Environment: machine:NIWA-1007004, user:marshc, os:Windows_NT, pid:9696
 [FINEST] C:/Craig/Models/CASAL2/CASAL2/source/BaseClasses/Manager-inl.h(line: 57): Build Finished
 [FINEST] C:/Craig/Models/CASAL2/CASAL2/source/BaseClasses/Manager-inl.h(line: 52): Starting Build... with 4 objects
 [TRACE] C:\Craig\Models\CASAL2\CASAL2\source\Observations\Observation.cpp(line: 109) - Method: Build
-[TRACE] C:\Craig\Models\CASAL2\CASAL2\source\Observations\Children\Biomass.cpp(line: 98) - Method: DoBuild
+[TRACE] C:\Craig\Models\CASAL2\CASAL2\source\Observations\Children\Biomass.cpp(line: 99) - Method: DoBuild
 [TRACE] C:\Craig\Models\CASAL2\CASAL2\source\Partition\Accessors\CombinedCategories.cpp(line: 32) - Method: CombinedCategories
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\Partition\Accessors\CombinedCategories.cpp(line: 36): Model details: start_year: 1975; final_year: 2012
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\Partition\Accessors\CombinedCategories.cpp(line: 37): Categories: 1
@@ -4434,7 +4438,7 @@ Environment: machine:NIWA-1007004, user:marshc, os:Windows_NT, pid:9696
 [TRACE] C:\Craig\Models\CASAL2\CASAL2\source\DerivedQuantities\Children\Biomass.cpp(line: 49) - Method: Execute
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\DerivedQuantities\Children\Biomass.cpp(line: 96): Partition size = 1
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\DerivedQuantities\Children\Biomass.cpp(line: 115):  Pre Exploitation value 68666 Post exploitation 61867.2 Final value 65266.6
-[FINEST] C:\Craig\Models\CASAL2\CASAL2\source\Observations\Children\Biomass.cpp(line: 136): Entering observation chatTANbiomass
+[FINEST] C:\Craig\Models\CASAL2\CASAL2\source\Observations\Children\Biomass.cpp(line: 147): Entering observation chatTANbiomass
 [TRACE] C:\Craig\Models\CASAL2\CASAL2\source\Observations\Children\ProportionsAtAge.cpp(line: 250) - Method: Execute
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\Observations\Children\ProportionsAtAge.cpp(line: 251): Entering observation chatTANage
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\Observations\Children\ProportionsAtAge.cpp(line: 263): Number of categories 1
@@ -4659,7 +4663,7 @@ Environment: machine:NIWA-1007004, user:marshc, os:Windows_NT, pid:9696
 [TRACE] C:\Craig\Models\CASAL2\CASAL2\source\DerivedQuantities\Children\Biomass.cpp(line: 49) - Method: Execute
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\DerivedQuantities\Children\Biomass.cpp(line: 96): Partition size = 1
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\DerivedQuantities\Children\Biomass.cpp(line: 115):  Pre Exploitation value 64237.3 Post exploitation 57021.6 Final value 60629.4
-[FINEST] C:\Craig\Models\CASAL2\CASAL2\source\Observations\Children\Biomass.cpp(line: 136): Entering observation chatTANbiomass
+[FINEST] C:\Craig\Models\CASAL2\CASAL2\source\Observations\Children\Biomass.cpp(line: 147): Entering observation chatTANbiomass
 [TRACE] C:\Craig\Models\CASAL2\CASAL2\source\Observations\Children\ProportionsAtAge.cpp(line: 250) - Method: Execute
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\Observations\Children\ProportionsAtAge.cpp(line: 251): Entering observation chatTANage
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\Observations\Children\ProportionsAtAge.cpp(line: 263): Number of categories 1
@@ -5010,7 +5014,7 @@ Environment: machine:NIWA-1007004, user:marshc, os:Windows_NT, pid:9696
 [TRACE] C:\Craig\Models\CASAL2\CASAL2\source\DerivedQuantities\Children\Biomass.cpp(line: 49) - Method: Execute
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\DerivedQuantities\Children\Biomass.cpp(line: 96): Partition size = 1
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\DerivedQuantities\Children\Biomass.cpp(line: 115):  Pre Exploitation value 59413.9 Post exploitation 51991.8 Final value 55702.8
-[FINEST] C:\Craig\Models\CASAL2\CASAL2\source\Observations\Children\Biomass.cpp(line: 136): Entering observation chatTANbiomass
+[FINEST] C:\Craig\Models\CASAL2\CASAL2\source\Observations\Children\Biomass.cpp(line: 147): Entering observation chatTANbiomass
 [TRACE] C:\Craig\Models\CASAL2\CASAL2\source\Observations\Children\ProportionsAtAge.cpp(line: 250) - Method: Execute
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\Observations\Children\ProportionsAtAge.cpp(line: 251): Entering observation chatTANage
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\Observations\Children\ProportionsAtAge.cpp(line: 263): Number of categories 1
@@ -5489,7 +5493,7 @@ Environment: machine:NIWA-1007004, user:marshc, os:Windows_NT, pid:9696
 [TRACE] C:\Craig\Models\CASAL2\CASAL2\source\DerivedQuantities\Children\Biomass.cpp(line: 49) - Method: Execute
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\DerivedQuantities\Children\Biomass.cpp(line: 96): Partition size = 1
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\DerivedQuantities\Children\Biomass.cpp(line: 115):  Pre Exploitation value 54925.5 Post exploitation 47763.3 Final value 51344.4
-[FINEST] C:\Craig\Models\CASAL2\CASAL2\source\Observations\Children\Biomass.cpp(line: 136): Entering observation chatTANbiomass
+[FINEST] C:\Craig\Models\CASAL2\CASAL2\source\Observations\Children\Biomass.cpp(line: 147): Entering observation chatTANbiomass
 [TRACE] C:\Craig\Models\CASAL2\CASAL2\source\Observations\Children\ProportionsAtAge.cpp(line: 250) - Method: Execute
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\Observations\Children\ProportionsAtAge.cpp(line: 251): Entering observation chatTANage
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\Observations\Children\ProportionsAtAge.cpp(line: 263): Number of categories 1
@@ -5840,7 +5844,7 @@ Environment: machine:NIWA-1007004, user:marshc, os:Windows_NT, pid:9696
 [TRACE] C:\Craig\Models\CASAL2\CASAL2\source\DerivedQuantities\Children\Biomass.cpp(line: 49) - Method: Execute
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\DerivedQuantities\Children\Biomass.cpp(line: 96): Partition size = 1
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\DerivedQuantities\Children\Biomass.cpp(line: 115):  Pre Exploitation value 51605.5 Post exploitation 44656.1 Final value 48130.8
-[FINEST] C:\Craig\Models\CASAL2\CASAL2\source\Observations\Children\Biomass.cpp(line: 136): Entering observation chatTANbiomass
+[FINEST] C:\Craig\Models\CASAL2\CASAL2\source\Observations\Children\Biomass.cpp(line: 147): Entering observation chatTANbiomass
 [TRACE] C:\Craig\Models\CASAL2\CASAL2\source\Observations\Children\ProportionsAtAge.cpp(line: 250) - Method: Execute
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\Observations\Children\ProportionsAtAge.cpp(line: 251): Entering observation chatTANage
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\Observations\Children\ProportionsAtAge.cpp(line: 263): Number of categories 1
@@ -6319,7 +6323,7 @@ Environment: machine:NIWA-1007004, user:marshc, os:Windows_NT, pid:9696
 [TRACE] C:\Craig\Models\CASAL2\CASAL2\source\DerivedQuantities\Children\Biomass.cpp(line: 49) - Method: Execute
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\DerivedQuantities\Children\Biomass.cpp(line: 96): Partition size = 1
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\DerivedQuantities\Children\Biomass.cpp(line: 115):  Pre Exploitation value 49237.1 Post exploitation 42996.5 Final value 46116.8
-[FINEST] C:\Craig\Models\CASAL2\CASAL2\source\Observations\Children\Biomass.cpp(line: 136): Entering observation chatTANbiomass
+[FINEST] C:\Craig\Models\CASAL2\CASAL2\source\Observations\Children\Biomass.cpp(line: 147): Entering observation chatTANbiomass
 [TRACE] C:\Craig\Models\CASAL2\CASAL2\source\Observations\Children\ProportionsAtAge.cpp(line: 250) - Method: Execute
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\Observations\Children\ProportionsAtAge.cpp(line: 251): Entering observation chatTANage
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\Observations\Children\ProportionsAtAge.cpp(line: 263): Number of categories 1
@@ -6798,7 +6802,7 @@ Environment: machine:NIWA-1007004, user:marshc, os:Windows_NT, pid:9696
 [TRACE] C:\Craig\Models\CASAL2\CASAL2\source\DerivedQuantities\Children\Biomass.cpp(line: 49) - Method: Execute
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\DerivedQuantities\Children\Biomass.cpp(line: 96): Partition size = 1
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\DerivedQuantities\Children\Biomass.cpp(line: 115):  Pre Exploitation value 47828.1 Post exploitation 42293.9 Final value 45061
-[FINEST] C:\Craig\Models\CASAL2\CASAL2\source\Observations\Children\Biomass.cpp(line: 136): Entering observation chatTANbiomass
+[FINEST] C:\Craig\Models\CASAL2\CASAL2\source\Observations\Children\Biomass.cpp(line: 147): Entering observation chatTANbiomass
 [TRACE] C:\Craig\Models\CASAL2\CASAL2\source\Observations\Children\ProportionsAtAge.cpp(line: 250) - Method: Execute
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\Observations\Children\ProportionsAtAge.cpp(line: 251): Entering observation chatTANage
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\Observations\Children\ProportionsAtAge.cpp(line: 263): Number of categories 1
@@ -7149,7 +7153,7 @@ Environment: machine:NIWA-1007004, user:marshc, os:Windows_NT, pid:9696
 [TRACE] C:\Craig\Models\CASAL2\CASAL2\source\DerivedQuantities\Children\Biomass.cpp(line: 49) - Method: Execute
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\DerivedQuantities\Children\Biomass.cpp(line: 96): Partition size = 1
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\DerivedQuantities\Children\Biomass.cpp(line: 115):  Pre Exploitation value 46890.8 Post exploitation 39682.6 Final value 43286.7
-[FINEST] C:\Craig\Models\CASAL2\CASAL2\source\Observations\Children\Biomass.cpp(line: 136): Entering observation chatTANbiomass
+[FINEST] C:\Craig\Models\CASAL2\CASAL2\source\Observations\Children\Biomass.cpp(line: 147): Entering observation chatTANbiomass
 [TRACE] C:\Craig\Models\CASAL2\CASAL2\source\Observations\Children\ProportionsAtAge.cpp(line: 250) - Method: Execute
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\Observations\Children\ProportionsAtAge.cpp(line: 251): Entering observation chatTANage
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\Observations\Children\ProportionsAtAge.cpp(line: 263): Number of categories 1
@@ -7500,7 +7504,7 @@ Environment: machine:NIWA-1007004, user:marshc, os:Windows_NT, pid:9696
 [TRACE] C:\Craig\Models\CASAL2\CASAL2\source\DerivedQuantities\Children\Biomass.cpp(line: 49) - Method: Execute
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\DerivedQuantities\Children\Biomass.cpp(line: 96): Partition size = 1
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\DerivedQuantities\Children\Biomass.cpp(line: 115):  Pre Exploitation value 43627.4 Post exploitation 37650.3 Final value 40638.8
-[FINEST] C:\Craig\Models\CASAL2\CASAL2\source\Observations\Children\Biomass.cpp(line: 136): Entering observation chatTANbiomass
+[FINEST] C:\Craig\Models\CASAL2\CASAL2\source\Observations\Children\Biomass.cpp(line: 147): Entering observation chatTANbiomass
 [TRACE] C:\Craig\Models\CASAL2\CASAL2\source\Observations\Children\ProportionsAtAge.cpp(line: 250) - Method: Execute
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\Observations\Children\ProportionsAtAge.cpp(line: 251): Entering observation chatTANage
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\Observations\Children\ProportionsAtAge.cpp(line: 263): Number of categories 1
@@ -7979,7 +7983,7 @@ Environment: machine:NIWA-1007004, user:marshc, os:Windows_NT, pid:9696
 [TRACE] C:\Craig\Models\CASAL2\CASAL2\source\DerivedQuantities\Children\Biomass.cpp(line: 49) - Method: Execute
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\DerivedQuantities\Children\Biomass.cpp(line: 96): Partition size = 1
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\DerivedQuantities\Children\Biomass.cpp(line: 115):  Pre Exploitation value 40840 Post exploitation 35355.4 Final value 38097.7
-[FINEST] C:\Craig\Models\CASAL2\CASAL2\source\Observations\Children\Biomass.cpp(line: 136): Entering observation chatTANbiomass
+[FINEST] C:\Craig\Models\CASAL2\CASAL2\source\Observations\Children\Biomass.cpp(line: 147): Entering observation chatTANbiomass
 [TRACE] C:\Craig\Models\CASAL2\CASAL2\source\Observations\Children\ProportionsAtAge.cpp(line: 250) - Method: Execute
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\Observations\Children\ProportionsAtAge.cpp(line: 251): Entering observation chatTANage
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\Observations\Children\ProportionsAtAge.cpp(line: 263): Number of categories 1
@@ -8330,7 +8334,7 @@ Environment: machine:NIWA-1007004, user:marshc, os:Windows_NT, pid:9696
 [TRACE] C:\Craig\Models\CASAL2\CASAL2\source\DerivedQuantities\Children\Biomass.cpp(line: 49) - Method: Execute
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\DerivedQuantities\Children\Biomass.cpp(line: 96): Partition size = 1
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\DerivedQuantities\Children\Biomass.cpp(line: 115):  Pre Exploitation value 37783.6 Post exploitation 33619.3 Final value 35701.4
-[FINEST] C:\Craig\Models\CASAL2\CASAL2\source\Observations\Children\Biomass.cpp(line: 136): Entering observation chatTANbiomass
+[FINEST] C:\Craig\Models\CASAL2\CASAL2\source\Observations\Children\Biomass.cpp(line: 147): Entering observation chatTANbiomass
 [TRACE] C:\Craig\Models\CASAL2\CASAL2\source\Observations\Children\ProportionsAtAge.cpp(line: 250) - Method: Execute
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\Observations\Children\ProportionsAtAge.cpp(line: 251): Entering observation chatTANage
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\Observations\Children\ProportionsAtAge.cpp(line: 263): Number of categories 1
@@ -8681,7 +8685,7 @@ Environment: machine:NIWA-1007004, user:marshc, os:Windows_NT, pid:9696
 [TRACE] C:\Craig\Models\CASAL2\CASAL2\source\DerivedQuantities\Children\Biomass.cpp(line: 49) - Method: Execute
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\DerivedQuantities\Children\Biomass.cpp(line: 96): Partition size = 1
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\DerivedQuantities\Children\Biomass.cpp(line: 115):  Pre Exploitation value 35503.7 Post exploitation 31773.9 Final value 33638.8
-[FINEST] C:\Craig\Models\CASAL2\CASAL2\source\Observations\Children\Biomass.cpp(line: 136): Entering observation chatTANbiomass
+[FINEST] C:\Craig\Models\CASAL2\CASAL2\source\Observations\Children\Biomass.cpp(line: 147): Entering observation chatTANbiomass
 [TRACE] C:\Craig\Models\CASAL2\CASAL2\source\Observations\Children\ProportionsAtAge.cpp(line: 250) - Method: Execute
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\Observations\Children\ProportionsAtAge.cpp(line: 251): Entering observation chatTANage
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\Observations\Children\ProportionsAtAge.cpp(line: 263): Number of categories 1
@@ -9160,7 +9164,7 @@ Environment: machine:NIWA-1007004, user:marshc, os:Windows_NT, pid:9696
 [TRACE] C:\Craig\Models\CASAL2\CASAL2\source\DerivedQuantities\Children\Biomass.cpp(line: 49) - Method: Execute
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\DerivedQuantities\Children\Biomass.cpp(line: 96): Partition size = 1
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\DerivedQuantities\Children\Biomass.cpp(line: 115):  Pre Exploitation value 33375.6 Post exploitation 28551.7 Final value 30963.7
-[FINEST] C:\Craig\Models\CASAL2\CASAL2\source\Observations\Children\Biomass.cpp(line: 136): Entering observation chatTANbiomass
+[FINEST] C:\Craig\Models\CASAL2\CASAL2\source\Observations\Children\Biomass.cpp(line: 147): Entering observation chatTANbiomass
 [TRACE] C:\Craig\Models\CASAL2\CASAL2\source\Observations\Children\ProportionsAtAge.cpp(line: 250) - Method: Execute
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\Observations\Children\ProportionsAtAge.cpp(line: 251): Entering observation chatTANage
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\Observations\Children\ProportionsAtAge.cpp(line: 263): Number of categories 1
@@ -9511,7 +9515,7 @@ Environment: machine:NIWA-1007004, user:marshc, os:Windows_NT, pid:9696
 [TRACE] C:\Craig\Models\CASAL2\CASAL2\source\DerivedQuantities\Children\Biomass.cpp(line: 49) - Method: Execute
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\DerivedQuantities\Children\Biomass.cpp(line: 96): Partition size = 1
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\DerivedQuantities\Children\Biomass.cpp(line: 115):  Pre Exploitation value 30087.7 Post exploitation 24767.3 Final value 27427.5
-[FINEST] C:\Craig\Models\CASAL2\CASAL2\source\Observations\Children\Biomass.cpp(line: 136): Entering observation chatTANbiomass
+[FINEST] C:\Craig\Models\CASAL2\CASAL2\source\Observations\Children\Biomass.cpp(line: 147): Entering observation chatTANbiomass
 [TRACE] C:\Craig\Models\CASAL2\CASAL2\source\Observations\Children\ProportionsAtAge.cpp(line: 250) - Method: Execute
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\Observations\Children\ProportionsAtAge.cpp(line: 251): Entering observation chatTANage
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\Observations\Children\ProportionsAtAge.cpp(line: 263): Number of categories 1
@@ -9862,7 +9866,7 @@ Environment: machine:NIWA-1007004, user:marshc, os:Windows_NT, pid:9696
 [TRACE] C:\Craig\Models\CASAL2\CASAL2\source\DerivedQuantities\Children\Biomass.cpp(line: 49) - Method: Execute
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\DerivedQuantities\Children\Biomass.cpp(line: 96): Partition size = 1
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\DerivedQuantities\Children\Biomass.cpp(line: 115):  Pre Exploitation value 26513.2 Post exploitation 24146.9 Final value 25330.1
-[FINEST] C:\Craig\Models\CASAL2\CASAL2\source\Observations\Children\Biomass.cpp(line: 136): Entering observation chatTANbiomass
+[FINEST] C:\Craig\Models\CASAL2\CASAL2\source\Observations\Children\Biomass.cpp(line: 147): Entering observation chatTANbiomass
 [TRACE] C:\Craig\Models\CASAL2\CASAL2\source\Observations\Children\ProportionsAtAge.cpp(line: 250) - Method: Execute
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\Observations\Children\ProportionsAtAge.cpp(line: 251): Entering observation chatTANage
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\Observations\Children\ProportionsAtAge.cpp(line: 263): Number of categories 1
@@ -10215,7 +10219,7 @@ Environment: machine:NIWA-1007004, user:marshc, os:Windows_NT, pid:9696
 [TRACE] C:\Craig\Models\CASAL2\CASAL2\source\DerivedQuantities\Children\Biomass.cpp(line: 49) - Method: Execute
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\DerivedQuantities\Children\Biomass.cpp(line: 96): Partition size = 1
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\DerivedQuantities\Children\Biomass.cpp(line: 115):  Pre Exploitation value 26713.3 Post exploitation 23932.8 Final value 25323.1
-[FINEST] C:\Craig\Models\CASAL2\CASAL2\source\Observations\Children\Biomass.cpp(line: 136): Entering observation chatTANbiomass
+[FINEST] C:\Craig\Models\CASAL2\CASAL2\source\Observations\Children\Biomass.cpp(line: 147): Entering observation chatTANbiomass
 [TRACE] C:\Craig\Models\CASAL2\CASAL2\source\Observations\Children\ProportionsAtAge.cpp(line: 250) - Method: Execute
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\Observations\Children\ProportionsAtAge.cpp(line: 251): Entering observation chatTANage
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\Observations\Children\ProportionsAtAge.cpp(line: 263): Number of categories 1
@@ -10566,7 +10570,7 @@ Environment: machine:NIWA-1007004, user:marshc, os:Windows_NT, pid:9696
 [TRACE] C:\Craig\Models\CASAL2\CASAL2\source\DerivedQuantities\Children\Biomass.cpp(line: 49) - Method: Execute
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\DerivedQuantities\Children\Biomass.cpp(line: 96): Partition size = 1
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\DerivedQuantities\Children\Biomass.cpp(line: 115):  Pre Exploitation value 27309.4 Post exploitation 24319.5 Final value 25814.5
-[FINEST] C:\Craig\Models\CASAL2\CASAL2\source\Observations\Children\Biomass.cpp(line: 136): Entering observation chatTANbiomass
+[FINEST] C:\Craig\Models\CASAL2\CASAL2\source\Observations\Children\Biomass.cpp(line: 147): Entering observation chatTANbiomass
 [TRACE] C:\Craig\Models\CASAL2\CASAL2\source\Observations\Children\ProportionsAtAge.cpp(line: 250) - Method: Execute
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\Observations\Children\ProportionsAtAge.cpp(line: 251): Entering observation chatTANage
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\Observations\Children\ProportionsAtAge.cpp(line: 263): Number of categories 1
@@ -10917,7 +10921,7 @@ Environment: machine:NIWA-1007004, user:marshc, os:Windows_NT, pid:9696
 [TRACE] C:\Craig\Models\CASAL2\CASAL2\source\DerivedQuantities\Children\Biomass.cpp(line: 49) - Method: Execute
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\DerivedQuantities\Children\Biomass.cpp(line: 96): Partition size = 1
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\DerivedQuantities\Children\Biomass.cpp(line: 115):  Pre Exploitation value 27969.3 Post exploitation 24452.5 Final value 26210.9
-[FINEST] C:\Craig\Models\CASAL2\CASAL2\source\Observations\Children\Biomass.cpp(line: 136): Entering observation chatTANbiomass
+[FINEST] C:\Craig\Models\CASAL2\CASAL2\source\Observations\Children\Biomass.cpp(line: 147): Entering observation chatTANbiomass
 [TRACE] C:\Craig\Models\CASAL2\CASAL2\source\Observations\Children\ProportionsAtAge.cpp(line: 250) - Method: Execute
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\Observations\Children\ProportionsAtAge.cpp(line: 251): Entering observation chatTANage
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\Observations\Children\ProportionsAtAge.cpp(line: 263): Number of categories 1
@@ -11268,7 +11272,7 @@ Environment: machine:NIWA-1007004, user:marshc, os:Windows_NT, pid:9696
 [TRACE] C:\Craig\Models\CASAL2\CASAL2\source\DerivedQuantities\Children\Biomass.cpp(line: 49) - Method: Execute
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\DerivedQuantities\Children\Biomass.cpp(line: 96): Partition size = 1
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\DerivedQuantities\Children\Biomass.cpp(line: 115):  Pre Exploitation value 27650 Post exploitation 25237.1 Final value 26443.5
-[FINEST] C:\Craig\Models\CASAL2\CASAL2\source\Observations\Children\Biomass.cpp(line: 136): Entering observation chatTANbiomass
+[FINEST] C:\Craig\Models\CASAL2\CASAL2\source\Observations\Children\Biomass.cpp(line: 147): Entering observation chatTANbiomass
 [TRACE] C:\Craig\Models\CASAL2\CASAL2\source\Observations\Children\ProportionsAtAge.cpp(line: 250) - Method: Execute
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\Observations\Children\ProportionsAtAge.cpp(line: 251): Entering observation chatTANage
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\Observations\Children\ProportionsAtAge.cpp(line: 263): Number of categories 1
@@ -11619,7 +11623,7 @@ Environment: machine:NIWA-1007004, user:marshc, os:Windows_NT, pid:9696
 [TRACE] C:\Craig\Models\CASAL2\CASAL2\source\DerivedQuantities\Children\Biomass.cpp(line: 49) - Method: Execute
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\DerivedQuantities\Children\Biomass.cpp(line: 96): Partition size = 1
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\DerivedQuantities\Children\Biomass.cpp(line: 115):  Pre Exploitation value 27921.1 Post exploitation 25090.1 Final value 26505.6
-[FINEST] C:\Craig\Models\CASAL2\CASAL2\source\Observations\Children\Biomass.cpp(line: 136): Entering observation chatTANbiomass
+[FINEST] C:\Craig\Models\CASAL2\CASAL2\source\Observations\Children\Biomass.cpp(line: 147): Entering observation chatTANbiomass
 [TRACE] C:\Craig\Models\CASAL2\CASAL2\source\Observations\Children\ProportionsAtAge.cpp(line: 250) - Method: Execute
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\Observations\Children\ProportionsAtAge.cpp(line: 251): Entering observation chatTANage
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\Observations\Children\ProportionsAtAge.cpp(line: 263): Number of categories 1
@@ -11844,7 +11848,7 @@ Environment: machine:NIWA-1007004, user:marshc, os:Windows_NT, pid:9696
 [TRACE] C:\Craig\Models\CASAL2\CASAL2\source\DerivedQuantities\Children\Biomass.cpp(line: 49) - Method: Execute
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\DerivedQuantities\Children\Biomass.cpp(line: 96): Partition size = 1
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\DerivedQuantities\Children\Biomass.cpp(line: 115):  Pre Exploitation value 27301.2 Post exploitation 24520.1 Final value 25910.7
-[FINEST] C:\Craig\Models\CASAL2\CASAL2\source\Observations\Children\Biomass.cpp(line: 136): Entering observation chatTANbiomass
+[FINEST] C:\Craig\Models\CASAL2\CASAL2\source\Observations\Children\Biomass.cpp(line: 147): Entering observation chatTANbiomass
 [TRACE] C:\Craig\Models\CASAL2\CASAL2\source\Observations\Children\ProportionsAtAge.cpp(line: 250) - Method: Execute
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\Observations\Children\ProportionsAtAge.cpp(line: 251): Entering observation chatTANage
 [FINEST] C:\Craig\Models\CASAL2\CASAL2\source\Observations\Children\ProportionsAtAge.cpp(line: 263): Number of categories 1

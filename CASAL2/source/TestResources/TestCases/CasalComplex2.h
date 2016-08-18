@@ -144,7 +144,7 @@ covariance false
 
 @observation chatCPUE
 type biomass
-catchability [q=6.52606e-005]
+catchability [type=free; q=6.52606e-005]
 time_step one
 time_step_proportion 1.0
 categories male+female
@@ -156,7 +156,7 @@ error_value 0.35
 
 @observation chatTANbiomass
 type biomass
-catchability [q=0.205139]
+catchability [type=free; q=0.205139]
 time_step one
 categories male+female
 selectivities chatTANselMale chatTANselFemale

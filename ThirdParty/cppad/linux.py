@@ -44,19 +44,19 @@ class Builder:
     os.chdir(ipOptFileName + '/ThirdParty/ASL')      
     print '-- Building IpOPT Library'
     if os.system('./get.ASL 1> casal2_get.log 2>&1') != EX_OK:
-      return Globals.PrintError("Failed to download third party library. Please see casal2_get.log for error")
+      return Globals.PrintError("Failed to download third party library. Please see ASL/casal2_get.log for error")
     os.chdir('../Blas')
     if os.system('./get.Blas 1> casal2_get.log 2>&1') != EX_OK:
-      return Globals.PrintError("Failed to download third party library. Please see casal2_get.log for error")
+      return Globals.PrintError("Failed to download third party library. Please see Blas/casal2_get.log for error")
     os.chdir('../Lapack')
     if os.system('./get.Lapack 1> casal2_get.log 2>&1') != EX_OK:
-      return Globals.PrintError("Failed to download third party library. Please see casal2_get.log for error")
+      return Globals.PrintError("Failed to download third party library. Please see Lapack/casal2_get.log for error")
     os.chdir('../Metis')
     if os.system('./get.Metis 1> casal2_get.log 2>&1') != EX_OK:
-      return Globals.PrintError("Failed to download third party library. Please see casal2_get.log for error")
+      return Globals.PrintError("Failed to download third party library. Please see Metis/casal2_get.log for error")
     os.chdir('../Mumps')
     if os.system('./get.Mumps 1> casal2_get.log 2>&1') != EX_OK:
-      return Globals.PrintError("Failed to download third party library. Please see casal2_get.log for error")
+      return Globals.PrintError("Failed to download third party library. Please see Mumps/casal2_get.log for error")
     os.chdir('../../')
     if os.system("./configure --enable-static --disable-shared --with-pic 1> casal2_configure.log 2>&1") != EX_OK:
       return Globals.PrintError("Failed to configure code base. Please see above for build error")
