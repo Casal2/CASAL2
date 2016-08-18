@@ -103,6 +103,7 @@ a50 8
 ato95 3
 
 @catchability CPUEq
+type free
 q 0.000153139
 
 @derived_quantity abundance
@@ -242,6 +243,7 @@ a50 8
 ato95 3
 
 @catchability CPUEq
+type free
 q 0.000153139
 
 @derived_quantity abundance

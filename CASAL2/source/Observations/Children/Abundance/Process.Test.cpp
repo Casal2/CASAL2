@@ -129,7 +129,7 @@ multiplier 10
 
 @observation observation
 type process_abundance
-catchability [q=6.52606e-005]
+catchability [type=free; q=6.52606e-005]
 delta 1e-10
 time_step two
 process halfm

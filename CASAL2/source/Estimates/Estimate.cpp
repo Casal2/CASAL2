@@ -40,6 +40,10 @@ Estimate::Estimate() {
  * estimate was created so we can skip that.
  */
 void Estimate::Validate() {
+  DoValidate();
+}
+
+void Estimate::Build() {
   if (*target_ < lower_bound_)
     LOG_ERROR() << location() <<  "the initial value(" << AS_DOUBLE((*target_)) << ") on the estimate " << parameter_
         << " is lower than the lower_bound(" << lower_bound_ << ")";
@@ -47,7 +51,7 @@ void Estimate::Validate() {
     LOG_ERROR() << location() << "the initial value(" << AS_DOUBLE((*target_)) << ") on the estimate " << parameter_
         << " is greater than the upper_bound(" << upper_bound_ << ")";
 
-  DoValidate();
+  Reset();
 }
 
 /**

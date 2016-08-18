@@ -28,8 +28,8 @@ namespace estimatetransformations {
 class Simplex : public EstimateTransformation {
 public:
   Simplex() = delete;
-  explicit Simplex(Model* model);
-  virtual ~Simplex() = default;
+  explicit                    Simplex(Model* model);
+  virtual                     ~Simplex() = default;
   void                        Transform() override final;
   void                        Restore() override final;
   std::set<string>            GetTargetEstimates() override final;

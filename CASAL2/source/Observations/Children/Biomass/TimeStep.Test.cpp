@@ -129,7 +129,7 @@ multiplier 10
 
 @observation observation
 type biomass
-catchability [q=6.52606e-005]
+catchability [type=free; q=6.52606e-005]
 time_step one
 categories male+female
 selectivities male=[type=logistic; a50=9; ato95=4] female=[type=logistic; a50=9; ato95=4; alpha=0.7]

@@ -15,6 +15,7 @@
 #include "Selectivities/Manager.h"
 #include "Utilities/Map.h"
 #include "Utilities/To.h"
+#include "Catchabilities/Children/Nuisance.h"
 
 // namespaces
 namespace niwa {
@@ -100,6 +101,16 @@ void Biomass::DoBuild() {
   catchability_ = model_->managers().catchability()->GetCatchability(catchability_label_);
   if (!catchability_)
     LOG_ERROR_P(PARAM_CATCHABILITY) << ": catchability " << catchability_label_ << " could not be found. Have you defined it?";
+
+  if (catchability_->type() == PARAM_NUISANCE){
+    nuisance_q_ = true;
+    // create a dynamic cast pointer to the nuisance catchability
+    nuisance_catchability_ = dynamic_cast<Nuisance*>(catchability_);
+    if (!nuisance_catchability_)
+      LOG_ERROR_P(PARAM_CATCHABILITY) << ": catchability " << catchability_label_ << " could not create dynamic cast for nuisance catchability";
+
+  }
+
 
   partition_ = CombinedCategoriesPtr(new niwa::partition::accessors::CombinedCategories(model_, category_labels_));
   cached_partition_ = CachedCombinedCategoriesPtr(new niwa::partition::accessors::cached::CombinedCategories(model_, category_labels_));
@@ -192,7 +203,12 @@ void Biomass::Execute() {
     /**
      * expected_total is the number of fish the model has for the category across
      */
-    expected_total *= catchability_->q();
+    if (!nuisance_q_) {
+      // If nuisance q then the default value for Q is 1 but this has a null effect on the expectations so I am just skipping it replicate this and get
+      // around issues with bounds in the estimation system
+      expected_total *= catchability_->q();
+    }
+
     error_value = error_values_by_year_[current_year];
 
     // Store the values
@@ -215,12 +231,47 @@ void Biomass::CalculateScore() {
    * Simulate or generate results
    * During simulation mode we'll simulate results for this observation
    */
+  // Check if we have a nusiance q or a free q
   if (model_->run_mode() == RunMode::kSimulation) {
+  if (catchability_->type() == PARAM_NUISANCE){
+    nuisance_catchability_->CalculateQ(comparisons_, likelihood_type_);
+
+    // Log out the new q
+    LOG_FINE() << "Q = " << nuisance_catchability_->q();
+    // Recalculate the expectations by multiplying by the new Q
+    for (auto year_iterator = comparisons_.begin(); year_iterator != comparisons_.end(); ++year_iterator) {
+      for (observations::Comparison& comparison : year_iterator->second) {
+        LOG_FINEST() << "---- Expected before nuisance Q applied = " << comparison.expected_;
+        comparison.expected_ *= nuisance_catchability_->q();
+        LOG_FINEST() << "---- Expected After nuisance Q applied = " << comparison.expected_;
+
+      }
+    }
+  }
+ // Send to be simulated
     likelihood_->SimulateObserved(comparisons_);
+
   } else {
     /**
-     * Convert the expected_values in to a proportion
+     * Convert the expected_values
      */
+    // Check if we have a nusiance q or a free q
+    if (catchability_->type() == PARAM_NUISANCE){
+      nuisance_catchability_->CalculateQ(comparisons_, likelihood_type_);
+
+      // Log out the new q
+      LOG_FINE() << "Q = " << nuisance_catchability_->q();
+      // Recalculate the expectations by multiplying by the new Q
+      for (auto year_iterator = comparisons_.begin(); year_iterator != comparisons_.end(); ++year_iterator) {
+        for (observations::Comparison& comparison : year_iterator->second) {
+          LOG_FINEST() << "---- Expected before nuisance Q applied = " << comparison.expected_;
+          comparison.expected_ *= nuisance_catchability_->q();
+          LOG_FINEST() << "---- Expected After nuisance Q applied = " << comparison.expected_;
+
+        }
+      }
+    }
+
     for (unsigned year : years_) {
       scores_[year] = likelihood_->GetInitialScore(comparisons_, year);
       likelihood_->GetScores(comparisons_);

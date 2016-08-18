@@ -647,6 +647,93 @@ Note that this requires that $N_{process\_ error} > 0$, but we allow the special
 
 For both the c.v. and $N$ process errors, the process error has more effect on small errors than on large ones. Be clear that a large value for the $N$ process error means a small process error.
 
+\subsection{\I{Calculating nuisance q's}}
+This section describes the equations used to calculate nuisance catchability coefficients q’s (see Section 6.7.1). From the user’s point of view, the essence is that you can use nuisance q’s in the following situations:
+\begin{enumerate}
+	\item With maximum likelihood.
+	\item With Bayesian estimation, providing that your prior on the q is one of the following:
+		\begin{itemize} 
+			\item Uniform
+			\item Uniform-log
+			\item Lognormal with observations distributed lognormal, robustified lognormal
+		\end{itemize}
+\end{enumerate}
+
+The equations used for calculating nuisance q’s in maximum likelihood or Bayesian analysis are indexed in Table ?.
+
+\begin{table}[h!]
+	\caption{\textbf{Equations used to calculate nuisance $q$'s. (*=no analytic solution found.)}}\label{tab:overview}
+	\begin{tabular}{cccccc}
+		Distribution of observations & Maximum Likelihood & Uniform & Uniform-log & Normal & lognormal\\
+		\hline
+		Normal & \eqref{EQ:1} & \eqref{EQ:1} & \eqref{EQ:3} & \textbf{*} & \textbf{*} \\
+		Lognormal & \eqref{EQ:4} & \eqref{EQ:4} & \eqref{EQ:8} & \textbf{*} & \eqref{EQ:9} \\				
+	\end{tabular}
+\end{table}
+%% Insert table 4 here
+Note that $q$’s are calculated for robustified lognormal likelihoods as if they were ordinary lognormal likelihoods.
+\\\\
+The equations and their derivations follow. Let $\sigma_i = \sqrt{log(1 + c_i^2)}$ throughout, and let $n$ be the number of observations in the time series. The case of multiple time series sharing the same $q$, and the modifications required for the assumption of curvature, are addressed at the end of this subsection.
+\\\\
+First, consider maximum likelihood estimation. When the ($Oi$) are assumed to be normally
+distributed,
+\begin{equation}\label{EQ:1}
+-log(L) = \sum_i log (c_iqE_i) + 0.5\sum_i \bigg(\frac{O_i - qE_i}{c_iqE_i} \bigg)^2
+\end{equation}
+The value of $q$ which minimises the objective function is found by solving $\partial/\partial q(-log(L))$
+
+\begin{equation}\label{EQ:2}
+\frac{\partial }{\partial q}(-log(L)) = \frac{n}{q} + \frac{1}{q^2} \sum_i \frac{O_i}{c_i^2E_i} - \frac{1}{q^3} \sum_i \bigg(\frac{O_i}{c_iE_i}\bigg)^2
+\end{equation}
+hence
+\begin{equation}\label{EQ:3}
+\hat q = \frac{-S_1 + \sqrt{S_1^2 + 4nS_2}}{2n} 
+\end{equation}
+where $S_1 = \sum_i (O_i/c_i^2E_i)$ and $S_2 = \sum_i (O_i/c_iE_i)^2$
+\\\\
+When the ($O_i$) are assumed to be lognormally distributed,
+\begin{equation}\label{EQ:4}
+-log(L) = \sum_i log (\sigma_i) + 0.5\sum_i \bigg(\frac{log(O_i) - log(qE_i) + 0.5\sigma_i^2}{\sigma_i} \bigg)^2
+\end{equation}
+\begin{equation}\label{EQ:5}
+\frac{\partial }{\partial q}(-log(L)) = \frac{-1}{q} \sum_i\bigg( \frac{log(O_i/E_i) - log(q) + 0.5\sigma_i^2}{\sigma_i^2}\bigg)
+\end{equation}
+
+\begin{equation}\label{EQ:6}
+\hat q = exp\frac{0.5n + S_3}{S_4} 
+\end{equation}
+
+where $S_3 = \sum_i (log(O_i /E_I)/\sigma_i^2)$ and $S_4 = \sum_i(1/\sigma_i^2)$ 
+\\\\
+Next consider Bayesian estimation, where we must also specify a prior for $q$.
+\\\\
+The effects of the prior on the equations are to replace likelihood $L$ by posterior $P$ throughout, to add $-log(\pi(q))$ to the equation for $-log(P)$ and $\partial/\partial q(-log(-\pi(q)))$ to the equation for $\partial/\partial q(-log(P))$
+\\\\
+This last term is 0 for a uniform prior on $q$, $1/q$ for a log-uniform prior, and $\frac{1}{q}\bigg( 1.5 + \frac{log(q) - log(\mu_q)}{\sigma_q^2}$ for a lognormal prior, 
+\\\\
+where $\mu_q$ and $c_q$ are the mean and c.v of the prior on $q$ and $\sigma_q = \sqrt{log(1+c_q^2)}$. Clearly, if the prior is uniform, the equation for $\hat q$ is teh same as teh maximum likelihood estimation.
+\\\\
+When the $(O_i)$ are assumed to be normally distributed and teh prior is log-uniform equation~\eqref{EQ:3} becomes,
+
+\begin{equation}\label{EQ:7}
+\hat q = \frac{-S_1 + \sqrt{S_1^2 + 4(n + 1)S_2}}{2(n+1)} 
+\end{equation}
+
+but we cannot solve for $\hat q$ with either a normal or lognormal prior.
+\\\\
+When the $O_i$ are assumed to be lognormally distributed and the prior is log-uniform, equation~\eqref{EQ:6} becomes 
+
+
+\begin{equation}\label{EQ:8}
+\hat q = exp\frac{0.5n -1 + S_3}{S_4} 
+\end{equation}
+
+and if the prior is lognormal,
+
+\begin{equation}\label{EQ:9}
+\hat q = exp\frac{0.5n -1.5 + log(\mu_q)/\sigma_q^2 + S_3}{S_4 + 1 / \sigma_q^2} 
+\end{equation}
+but it is not possible to solve for $\hat q$ with a normal prior.
 \subsection{\I{Ageing error}}
 
 \CNAME\ can apply ageing error age frequency observations. Ageing error is applied to the expected values for proportions-at-age observations. The ageing error is applied as a misclassification matrix, which has the effect of 'smearing' the age frequencies. These are used in calculating the fits to the observed values, and hence the contribution to the total objective function. 
