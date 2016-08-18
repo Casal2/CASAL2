@@ -16,6 +16,7 @@
 #include "Model/Managers.h"
 #include "Catchabilities/Manager.h"
 #include "Catchabilities/Children/Free.h"
+#include <Catchabilities/Children/Nuisance.h>
 
 // namespaces
 namespace niwa {
@@ -32,9 +33,10 @@ Catchability* Factory::Create(Model* model, const string& object_type, const str
   Catchability* result = nullptr;
 
   if (object_type == PARAM_CATCHABILITY) {
-    if (sub_type == PARAM_FREE || sub_type == "")
-      result = new Free();
-
+    if (sub_type == PARAM_FREE)
+      result = new Free(model);
+    else if (sub_type == PARAM_NUISANCE)
+      result = new Nuisance(model);
 
     if (result)
       model->managers().catchability()->AddObject(result);

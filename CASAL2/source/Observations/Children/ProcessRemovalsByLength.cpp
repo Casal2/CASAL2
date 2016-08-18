@@ -1,15 +1,15 @@
 /**
- * @file ProportionsAtLengthForFishery.cpp
+ * @file ProcessRemovalsByLength.cpp
  * @author  C Marsh
  * @version 1.0
  * @date 12.8.15
  * @section LICENSE
  *
- * Copyright NIWA Science �2013 - www.niwa.co.nz
+ * Copyright NIWA Science 2016 - www.niwa.co.nz
  */
 
 // Headers
-#include "ProportionsAtLengthForFishery.h"
+#include "ProcessRemovalsByLength.h"
 
 #include <algorithm>
 
@@ -30,7 +30,7 @@ namespace observations {
 /**
  * Default constructor
  */
-ProportionsAtLengthForFishery::ProportionsAtLengthForFishery(Model* model)
+ProcessRemovalsByLength::ProcessRemovalsByLength(Model* model)
   : Observation(model) {
 
   obs_table_ = new parameters::Table(PARAM_OBS);
@@ -42,11 +42,11 @@ ProportionsAtLengthForFishery::ProportionsAtLengthForFishery(Model* model)
   parameters_.Bind<Double>(PARAM_TOLERANCE, &tolerance_, "Tolerance for rescaling proportions", "", Double(0.001));
   parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "Years for which there are observations", "");
   parameters_.Bind<Double>(PARAM_DELTA, &delta_, "The value of the delta robustification parameter", "", DELTA);
-  parameters_.Bind<Double>(PARAM_PROCESS_ERRORS, &process_error_values_, "Process error", "", true);
-  parameters_.Bind<string>(PARAM_FISHERY, &fishery_, "Label of observed fishery", "", "");
+  parameters_.Bind<Double>(PARAM_PROCESS_ERRORS, &process_error_values_, "the value of process error", "", true);
+  parameters_.Bind<string>(PARAM_METHOD_OF_REMOVAL, &method_, "Label of observed method of removals", "", "");
   parameters_.BindTable(PARAM_OBS, obs_table_, "Table of observed values", "", false);
   parameters_.BindTable(PARAM_ERROR_VALUES, error_values_table_, "Table of error values of the observed values (note the units depend on the likelihood)", "", false);
-  parameters_.Bind<string>(PARAM_PROCESS, &process_label_, "The label of the process for the observation", "");
+  parameters_.Bind<string>(PARAM_MORTALITY_INSTANTANEOUS_PROCESS, &process_label_, "The label of the mortality instantaneous process for the observation", "");
 
   mean_proportion_method_ = false;
 }
@@ -54,7 +54,7 @@ ProportionsAtLengthForFishery::ProportionsAtLengthForFishery(Model* model)
 /**
  * Destructor
  */
-ProportionsAtLengthForFishery::~ProportionsAtLengthForFishery() {
+ProcessRemovalsByLength::~ProcessRemovalsByLength() {
   delete obs_table_;
   delete error_values_table_;
 }
@@ -62,7 +62,7 @@ ProportionsAtLengthForFishery::~ProportionsAtLengthForFishery() {
 /**
  * Validate configuration file parameters
  */
-void ProportionsAtLengthForFishery::DoValidate() {
+void ProcessRemovalsByLength::DoValidate() {
   // How many elements are expected in our observed table;
   if(length_plus_) {
     number_bins_ = length_bins_.size();
@@ -208,7 +208,7 @@ void ProportionsAtLengthForFishery::DoValidate() {
  * Build any runtime relationships we may have and ensure
  * the labels for other objects are valid.
  */
-void ProportionsAtLengthForFishery::DoBuild() {
+void ProcessRemovalsByLength::DoBuild() {
   partition_ = CombinedCategoriesPtr(new niwa::partition::accessors::CombinedCategories(model_, category_labels_));
   cached_partition_ = CachedCombinedCategoriesPtr(new niwa::partition::accessors::cached::CombinedCategories(model_, category_labels_));
 
@@ -236,7 +236,7 @@ void ProportionsAtLengthForFishery::DoBuild() {
  * At this point we need to build our cache for the partition
  * structure to use with any interpolation
  */
-void ProportionsAtLengthForFishery::PreExecute() {
+void ProcessRemovalsByLength::PreExecute() {
   LOG_FINEST() << "Entering observation " << label_;
 
   cached_partition_->BuildCache();
@@ -250,17 +250,17 @@ void ProportionsAtLengthForFishery::PreExecute() {
 /**
  *
  */
-void ProportionsAtLengthForFishery::Execute() {
+void ProcessRemovalsByLength::Execute() {
   LOG_TRACE();
   /**
    * Verify our cached partition and partition sizes are correct
    */
   auto categories = model_->categories();
-  Double t = mortality_instantaneous_->time_step_ratio();
   unsigned year = model_->current_year();
   unsigned time_step = model_->managers().time_step()->current_time_step();
   auto cached_partition_iter  = cached_partition_->Begin();
   auto partition_iter         = partition_->Begin(); // vector<vector<partition::Category> >
+  map<unsigned,map<string, map<string, vector<Double>>>> &Removals_at_age = mortality_instantaneous_->catch_at();
 
   /**
    * Loop through the provided categories. Each provided category (combination) will have a list of observations
@@ -272,6 +272,7 @@ void ProportionsAtLengthForFishery::Execute() {
     Double      start_value        = 0.0;
     Double      end_value          = 0.0;
     Double      number_at_age      = 0.0;
+
     vector<Double>              expected_values(number_bins_, 0.0);
     vector<Double>              numbers_at_length;
     vector<vector<Double>>      age_length_matrix_;
@@ -280,6 +281,8 @@ void ProportionsAtLengthForFishery::Execute() {
      * Loop through the 2 combined categories building up the
      * expected proportions values.
      */
+
+
     auto category_iter = partition_iter->begin();
     auto cached_category_iter = cached_partition_iter->begin();
     for (; category_iter != partition_iter->end(); ++cached_category_iter, ++category_iter) {
@@ -292,12 +295,8 @@ void ProportionsAtLengthForFishery::Execute() {
         unsigned age        = ( (*category_iter)->min_age_ + data_offset);
 
         // Calculate the age structure removed from the fishing process
+        number_at_age = Removals_at_age[year][method_][(*category_iter)->name_][data_offset];
 
-        start_value   = (*cached_category_iter).data_[data_offset];
-        end_value     = (*category_iter)->data_[data_offset];
-        Double M      = mortality_instantaneous_->GetMBySelectivity((*category_iter)->name_, age);
-        Double u_frac = mortality_instantaneous_->GetFisheryExploitationFraction(fishery_, (*category_iter)->name_ , age);
-        number_at_age = (fabs(start_value * exp(- M * t * 0.5) - end_value * exp(M * t * 0.5)) * u_frac);
 
         LOG_FINEST() << "Numbers at age = " << age << " = " <<  number_at_age << " start value : "<< start_value << " end value : " << end_value;
         // Implement an algorithm similar to DoAgeLengthConversion() to convert numbers at age to numbers at length
@@ -361,7 +360,7 @@ void ProportionsAtLengthForFishery::Execute() {
  * This method is called at the end of a model iteration
  * to calculate the score for the observation.
  */
-void ProportionsAtLengthForFishery::CalculateScore() {
+void ProcessRemovalsByLength::CalculateScore() {
   /**
    * Simulate or generate results
    * During simulation mode we'll simulate results for this observation

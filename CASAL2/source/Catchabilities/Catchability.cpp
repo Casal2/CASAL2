@@ -11,6 +11,7 @@
 
 // headers
 #include "Catchability.h"
+#include "Model/Model.h"
 
 // namespaces
 namespace niwa {
@@ -25,8 +26,10 @@ namespace niwa {
  *
  * Note: The constructor is parsed to generate Latex for the documentation.
  */
-Catchability::Catchability() {
+Catchability::Catchability(Model* model) : model_(model) {
   parameters_.Bind<string>(PARAM_LABEL, &label_, "Label of the catchability", "");
+  parameters_.Bind<string>(PARAM_TYPE, &type_, "Type of catchability", "");
+
 }
 
 /**
@@ -36,6 +39,7 @@ Catchability::Catchability() {
  * Note: all parameters are populated from configuration files
  */
 void Catchability::Validate() {
+  DoValidate();
   parameters_.Populate();
 }
 

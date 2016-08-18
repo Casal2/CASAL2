@@ -41,8 +41,9 @@ void EmpiricalSampling::DoValidate() {
 void EmpiricalSampling::DoBuild() {
   // Build a vector of years that have been resampled with replacement between start_year and end_year
   utilities::RandomNumberGenerator& rng = utilities::RandomNumberGenerator::Instance();
+  Double Random_draw = 0.0;
   for (unsigned project_year : years_) {
-    Double Random_draw = round(rng.uniform(start_year_, final_year_));
+    Random_draw = ceil(rng.uniform((unsigned)start_year_, (unsigned)final_year_));
     unsigned year = 0;
     if (!utilities::To<Double, unsigned>(Random_draw, year))
       LOG_ERROR() << " Random Draw " << Random_draw << " Could not be converted from double to type unsigned";

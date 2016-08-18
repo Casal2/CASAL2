@@ -421,7 +421,7 @@ For each $f$, if $U_{f,obs} > U_{f,max}$, then $U_f$ is multiplied by $U_{f,max}
 	$$ n'_j = n_j exp(-tM_j)\big[1 - \sum_f S_{f,j} U_f \big] $$ 
 \end{itemize}
 
-An example of the syntax is if we want to apply natural mortality of $0.20$ across three time steps on both male and female categories. And we have two fisheries \texttt{FishingWest FishingEast} with there respective catches known for years 1975:1977 in kilograms. These are given in the \texttt{catches} table and information on selectivities, penalties and maximum exploitation rates are given in the \texttt{fisheries} table.
+An example of the syntax is if we want to apply natural mortality of $0.20$ across three time steps on both male and female categories. And we have two method of removals (fisheries) \texttt{FishingWest FishingEast} with there respective catches known for years 1975:1977 in kilograms. These are given in the \texttt{catches} table and information on selectivities, penalties and maximum exploitation rates are given in the \texttt{fisheries} table.
 
 {\small{\begin{verbatim}
 	@process instant_mort
@@ -439,8 +439,8 @@ An example of the syntax is if we want to apply natural mortality of $0.20$ acro
 	1977	74000	1214000
 	end table
 
-	table fisheries
-	fishery       category  selectivity u_max   time_step penalty
+	table method
+	method       category  selectivity u_max   time_step penalty
 	FishingWest   stock     westFSel    0.7     step1     CatchPenalty
 	FishingEast   stock     eastFSel    0.7     step1     CatchPenalty
 	end_table

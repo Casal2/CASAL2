@@ -92,8 +92,8 @@ year FishingWest FishingEest
 2012	800	150
 end_table
 
-table fisheries
-fishery  	category 	selectivity 	u_max 	time_step 	penalty
+table method
+method  	category 	selectivity 	u_max 	time_step 	penalty
 FishingWest   	stock   	westFSel 	0.7 	step1 		CatchMustBeTaken1
 FishingEest  	stock   	eastFSel 	0.7 	step1 		CatchMustBeTaken1
 end_table
@@ -158,6 +158,7 @@ a 2.0e-6
 b 3.288
 
 @catchability chatTANq
+type free
 q 0.0575073
 
 @assert obj

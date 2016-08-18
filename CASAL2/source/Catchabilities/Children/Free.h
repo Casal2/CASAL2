@@ -24,10 +24,12 @@ namespace catchabilities {
 // classes
 class Free : public Catchability {
 public:
-  Free();
-  virtual                     ~Free() = default;
+  Free() = delete;
+  explicit                    Free(Model* model);
+  virtual                     ~Free() { };
   Double                      q() const override final { return q_; }
   void                        DoValidate() override final { };
+  void                        DoBuild() override final { };
 
 private:
   // members

@@ -50,13 +50,13 @@ MortalityInstantaneous::MortalityInstantaneous(Model* model)
   partition_structure_ = PartitionStructure::kAge;
 
   catches_table_ = new parameters::Table(PARAM_CATCHES);
-  fisheries_table_ = new parameters::Table(PARAM_FISHERIES);
+  method_table_ = new parameters::Table(PARAM_METHOD);
   // catches_table_->set_required_columns({"years"}, allow_others = true)
-  // fisheries_table_->set_required_columns({"x", "x", "x,"});
+  // method_table_->set_required_columns({"x", "x", "x,"});
 
   parameters_.Bind<string>(PARAM_CATEGORIES, &category_labels_, "Categories for instantaneous mortality", "");
   parameters_.BindTable(PARAM_CATCHES, catches_table_, "Table of removals (catch) data", "", true, false);
-  parameters_.BindTable(PARAM_FISHERIES, fisheries_table_, "Table of fishery data", "", true, false);
+  parameters_.BindTable(PARAM_METHOD, method_table_, "Table of Method of removal data", "", true, false);
   parameters_.Bind<Double>(PARAM_M, &m_input_, "Natural mortality rates for each category", "")->set_range(0.0, 1.0);
   parameters_.Bind<Double>(PARAM_TIME_STEP_RATIO, &time_step_ratios_temp_, "Time step ratios for natural mortality", "", true);
   parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_labels_, "The selectivities to apply on the categories for natural mortality", "");
@@ -69,7 +69,7 @@ MortalityInstantaneous::MortalityInstantaneous(Model* model)
  */
 MortalityInstantaneous::~MortalityInstantaneous() {
   delete catches_table_;
-  delete fisheries_table_;
+  delete method_table_;
 }
 
 /**
@@ -119,10 +119,10 @@ void MortalityInstantaneous::DoValidate() {
    * We create a master fishery object and then multiple category objects
    * depending on how many categories are defined.
    */
-  columns = fisheries_table_->columns();
-  rows = fisheries_table_->data();
+  columns = method_table_->columns();
+  rows = method_table_->data();
 
-  unsigned fishery_index      = std::find(columns.begin(), columns.end(), PARAM_FISHERY) - columns.begin();
+  unsigned fishery_index      = std::find(columns.begin(), columns.end(), PARAM_METHOD) - columns.begin();
   unsigned category_index     = std::find(columns.begin(), columns.end(), PARAM_CATEGORY) - columns.begin();
   unsigned selectivity_index  = std::find(columns.begin(), columns.end(), PARAM_SELECTIVITY) - columns.begin();
   unsigned time_step_index    = std::find(columns.begin(), columns.end(), PARAM_TIME_STEP) - columns.begin();
@@ -137,9 +137,9 @@ void MortalityInstantaneous::DoValidate() {
     new_fishery.time_step_label_    = row[time_step_index];
     new_fishery.penalty_label_      = row[penalty_index];
     if (!utilities::To<string, Double>(row[u_max_index], new_fishery.u_max_))
-      LOG_ERROR_P(PARAM_FISHERIES) << "u_max value " << row[u_max_index] << " is not numeric";
+      LOG_ERROR_P(PARAM_METHOD) << "u_max value " << row[u_max_index] << " is not numeric";
     if (fishery_year_catch.find(new_fishery.label_) == fishery_year_catch.end())
-      LOG_ERROR_P(PARAM_FISHERIES) << "fishery " << new_fishery.label_ << " does not have catch information in the catches table";
+      LOG_ERROR_P(PARAM_METHOD) << "fishery " << new_fishery.label_ << " does not have catch information in the catches table";
     new_fishery.catches_ = fishery_year_catch[new_fishery.label_];
 
     fisheries_[new_fishery.label_] = new_fishery;
@@ -151,7 +151,7 @@ void MortalityInstantaneous::DoValidate() {
     boost::split(categories, row[category_index], boost::is_any_of(","));
     boost::split(selectivities, row[selectivity_index], boost::is_any_of(","));
     if (categories.size() != selectivities.size())
-      LOG_ERROR_P(PARAM_FISHERIES) << "The number of categories (" << categories.size()
+      LOG_ERROR_P(PARAM_METHOD) << "The number of categories (" << categories.size()
       << ") and selectivities (" << selectivities.size() << ") provided must be identical";
 
     for (unsigned i = 0; i < categories.size(); ++i) {
@@ -230,7 +230,7 @@ void MortalityInstantaneous::DoBuild() {
   for (auto& fishery_category : fishery_categories_) {
     fishery_category.selectivity_ = model_->managers().selectivity()->GetSelectivity(fishery_category.selectivity_label_);
     if (!fishery_category.selectivity_)
-      LOG_ERROR_P(PARAM_FISHERIES) << "selectivity " << fishery_category.selectivity_label_ << " does not exist. Have you defined it?";
+      LOG_ERROR_P(PARAM_METHOD) << "selectivity " << fishery_category.selectivity_label_ << " does not exist. Have you defined it?";
   }
 
   for (auto& fishery_iter : fisheries_) {
@@ -238,11 +238,11 @@ void MortalityInstantaneous::DoBuild() {
     if (fishery.penalty_label_ != "none") {
       fishery.penalty_ = model_->managers().penalty()->GetProcessPenalty(fishery.penalty_label_);
       if (!fishery.penalty_)
-        LOG_ERROR_P(PARAM_FISHERIES) << ": penalty " << fishery.penalty_label_ << " does not exist. Have you defined it?";
+        LOG_ERROR_P(PARAM_METHOD) << ": penalty " << fishery.penalty_label_ << " does not exist. Have you defined it?";
     }
     bool check_time_step = model_->managers().time_step()->CheckTimeStep(fishery.time_step_label_);
     if (!check_time_step)
-      LOG_FATAL_P(PARAM_FISHERIES) << "The time step " << fishery.time_step_label_ << " could not be found have you defined it in the annual cycle";
+      LOG_FATAL_P(PARAM_METHOD) << "The time step " << fishery.time_step_label_ << " could not be found have you defined it in the annual cycle";
     fishery.time_step_index_ = model_->managers().time_step()->GetTimeStepIndex(fishery.time_step_label_);
   }
 
@@ -437,75 +437,6 @@ void MortalityInstantaneous::DoExecute() {
 
     ++category_offset;
   }
-}
-
-/**
- * This method will return the mortality rate (m) multiplied by the selectivity
- * for a specific age.
- *
- * @param category The category label we want M and selectivity for
- * @param age The age we want to get from the selectivity
- * @return M * selectivity
- */
-Double MortalityInstantaneous::GetMBySelectivity(const string& category_label, unsigned age) {
-  unsigned index = std::find(category_labels_.begin(), category_labels_.end(), category_label) - category_labels_.begin();
-  if (index == 0 && category_labels_[0] != category_label)
-    LOG_ERROR() << "Category: " << category_label << " is not a valid category for the mortality instantaneous process " << label_;
-  AgeLength* age_length = model_->categories()->age_length(category_label);
-  //LOG_MEDIUM() << ": selectivity value = " << selectivities_[index]->GetResult(age, age_length);
-  return m_[category_label] * selectivities_[index]->GetResult(age, age_length);
-}
-
-/**
- * Return the time step ratio for the current time step
- *
- * @return Current time step ratio
- */
-Double MortalityInstantaneous::time_step_ratio() {
-  unsigned time_step = model_->managers().time_step()->current_time_step();
-  return time_step_ratios_[time_step];
-}
-
-/**
- * GetFisheryExploitationFraction() this function returns an exploitation rate for a fishery, age and category, from all other fisheries
- *    this is used in Observations for_fishery
- * @param fishery_label the name of the fishery in the observation
- * @praam category_label the name of the category of interest
- * @param age
- *
- * @return Exploitation_fraction
- */
-Double MortalityInstantaneous::GetFisheryExploitationFraction(const string& fishery_label, const string& category_label, unsigned age) {
-  unsigned time_step = model_->managers().time_step()->current_time_step();
-  Double selectivity_value = 0.0;
-
-  Double running_total = 0;
-  Double fishery_exploitation_rate = 0.0;
-  for (auto fishery_category : fishery_categories_) {
-    if (fishery_category.category_label_ == category_label && fishery_category.fishery_.time_step_index_ == time_step) {
-      if (fishery_category.fishery_label_ == fishery_label) {
-        AgeLength* age_length = model_->categories()->age_length(category_label);
-        selectivity_value = fishery_category.selectivity_->GetResult(age, age_length);
-        fishery_exploitation_rate = fishery_exploitation[fishery_category.fishery_label_] * selectivity_value;
-      }
-      AgeLength* age_length = model_->categories()->age_length(fishery_category.category_label_);
-      running_total += fishery_exploitation[fishery_category.fishery_label_] * fishery_category.selectivity_->GetResult(age, age_length);
-    }
-  }
-
-
-  return fishery_exploitation_rate / running_total;
-}
-
-/**
- * This method checks to see if the parameter fishery_label is a valid
- * fishery that has been loaded from the table
- *
- * @param fishery_label The fishery to look for
- * @return true if fishery exists, false otherwise
- */
-bool MortalityInstantaneous::IsFisheryValid(const string& fishery_label) {
-  return fisheries_.find(fishery_label) != fisheries_.end();
 }
 
 } /* namespace processes */

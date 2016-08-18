@@ -19,6 +19,7 @@
 #include "Catchabilities/Catchability.h"
 #include "Partition/Accessors/CombinedCategories.h"
 #include "Partition/Accessors/Cached/CombinedCategories.h"
+#include "Catchabilities/Children/Nuisance.h"
 
 // namespaces
 namespace niwa {
@@ -27,6 +28,7 @@ namespace observations {
 
 using partition::accessors::CombinedCategoriesPtr;
 using partition::accessors::cached::CachedCombinedCategoriesPtr;
+using catchabilities::Nuisance;
 
 /**
  * class definition
@@ -60,6 +62,9 @@ protected:
   vector<string>                  selectivity_labels_;
   vector<Selectivity*>            selectivities_;
   string                          time_step_label_ = "";
+  Nuisance*                       nuisance_catchability_ = nullptr;
+  bool                            nuisance_q_ = false;
+
 };
 
 } /* namespace observations */

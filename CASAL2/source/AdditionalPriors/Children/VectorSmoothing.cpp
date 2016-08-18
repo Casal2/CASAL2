@@ -24,7 +24,7 @@ namespace additionalpriors {
  * Default constructor
  */
 VectorSmoothing::VectorSmoothing(Model* model) : AdditionalPrior(model) {
-  parameters_.Bind<string>(PARAM_PARAMETER, &parameter_, "The name of the vector parameter to which the penalty is applied", "");
+  parameters_.Bind<string>(PARAM_PARAMETER, &parameter_, "Name of the parameter to generate additional prior on", "");
   parameters_.Bind<bool>(PARAM_LOG_SCALE, &log_scale_, "Should sums of squares be calculated on the log scale?", "", false);
   parameters_.Bind<Double>(PARAM_MULTIPLIER, &multiplier_, "Multiply the penalty by this factor", "", 1);
   parameters_.Bind<unsigned>(PARAM_LOWER_BOUND, &lower_, "First element to apply the penalty to in the vector", "", 0u);
@@ -81,7 +81,7 @@ void VectorSmoothing::DoBuild() {
       estimable_map_ = target->GetEstimableUMap(parameter);
       break;
     default:
-      LOG_ERROR() << "The estimable you have provided for use in a projection: " << parameter_ << " is not a type that is supported for projection modification";
+      LOG_ERROR() << "The estimable you have provided for use in a additional priors: " << parameter_ << " is not a type that is supported for this class of additional prior";
       break;
   }
 }
