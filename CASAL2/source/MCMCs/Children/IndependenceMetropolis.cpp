@@ -69,11 +69,14 @@ void IndependenceMetropolis::BuildCovarianceMatrix() {
    */
   for (unsigned i = 0; i < covariance_matrix_.size1(); ++i) {
     for (unsigned j = i + 1; j < covariance_matrix_.size2(); ++j) {
+      // This is the lower triangle of the covariance matrix
       if (covariance_matrix_(i,j) / sqrt(covariance_matrix_(i,i) * covariance_matrix_(j,j)) > max_correlation_) {
         covariance_matrix_(i,j) = max_correlation_ * sqrt(covariance_matrix_(i,i) * covariance_matrix_(j,j));
+        covariance_matrix_(j,i) = max_correlation_ * sqrt(covariance_matrix_(i,i) * covariance_matrix_(j,j));
       }
       if (covariance_matrix_(i,j) / sqrt(covariance_matrix_(i,i) * covariance_matrix_(j,j)) < -max_correlation_){
         covariance_matrix_(i,j) = -max_correlation_ * sqrt(covariance_matrix_(i,i) * covariance_matrix_(j,j));
+        covariance_matrix_(j,i) = -max_correlation_ * sqrt(covariance_matrix_(i,i) * covariance_matrix_(j,j));
       }
     }
   }
@@ -140,21 +143,21 @@ bool IndependenceMetropolis::DoCholeskyDecmposition() {
 
       if (covariance_matrix_(i,i) <= sum)
         return false;
-      covariance_matrix_lt(i,i) = sqrt(covariance_matrix_(i,i)-sum);
+      covariance_matrix_lt(i,i) = sqrt(covariance_matrix_(i,i) - sum);
       for (unsigned j = i+1; j < matrix_size1; ++j) {
         sum = 0.0;
         for (unsigned k = 0; k < i; ++k)
           sum += covariance_matrix_lt(j,k) * covariance_matrix_lt(i,k);
-        covariance_matrix_lt(j,i) = (covariance_matrix_(j,i)-sum)/covariance_matrix_lt(i,i);
+        covariance_matrix_lt(j,i) = (covariance_matrix_(j,i) - sum) / covariance_matrix_lt(i,i);
       }
     }
 
     sum = 0.0;
-    for (unsigned i = 0; i < (matrix_size1-1); ++i)
-      sum += covariance_matrix_lt(matrix_size1-1,i) * covariance_matrix_lt(matrix_size1-1,i);
-    if (covariance_matrix_(matrix_size1-1,matrix_size1-1) <= sum)
+    for (unsigned i = 0; i < (matrix_size1 - 1); ++i)
+      sum += covariance_matrix_lt(matrix_size1 - 1,i) * covariance_matrix_lt(matrix_size1-1,i);
+    if (covariance_matrix_(matrix_size1 - 1, matrix_size1 - 1) <= sum)
       return false;
-    covariance_matrix_lt(matrix_size1-1,matrix_size1-1) = sqrt(covariance_matrix_(matrix_size1-1,matrix_size1-1) - sum);
+    covariance_matrix_lt(matrix_size1 - 1, matrix_size1 - 1) = sqrt(covariance_matrix_(matrix_size1 - 1, matrix_size1 - 1) - sum);
 
    return true;
 }
@@ -351,7 +354,7 @@ void IndependenceMetropolis::GenerateNewCandidates() {
     if (attempts >= 1000)
       LOG_ERROR() << "Failed to generate new MCMC candidates after 1,000 attempts. Try a new random seed";
 
-    LOG_MEDIUM() << step_size_;
+    LOG_FINE() << step_size_;
     if (proposal_distribution_ == PARAM_NORMAL)
       FillMultivariateNormal(step_size_);
     else if (proposal_distribution_ == PARAM_T)
