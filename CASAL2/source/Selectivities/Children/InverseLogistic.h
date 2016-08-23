@@ -41,7 +41,7 @@ protected:
 private:
   // Members
   Double                      a50_;
-  Double                      aTo95_;
+  Double                      ato95_;
   Double                      alpha_;
 };
 

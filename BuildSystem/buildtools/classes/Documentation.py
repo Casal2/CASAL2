@@ -41,6 +41,7 @@ class Class:
         self.variables_ = {}
         self.estimables_ = {}
         self.child_classes_  = {}
+        self.variable_order_ = []
 
 # Variables we want to use
 type_aliases_ = {} # Type Aliases convert C++ types to English text
@@ -130,7 +131,7 @@ class ClassLoader:
                 parent_class_.variables_['label_'] = label_
                 type_ = Variable()
                 type_.name_ = 'type'
-                type_.type_ = 'string'
+                type_.type_ = 'string'                
                 parent_class_.variables_['type_'] = type_
             # Scan for and load the top level parent class
             file_list = os.listdir(casal2_src_folder + folder + '/')
@@ -216,7 +217,7 @@ class VariableLoader:
 
             variable = Variable()
             variable.type_ = pieces[0]
-            class_.variables_[pieces[1]] = variable
+            class_.variables_[pieces[1]] = variable            
             print '-- Heading Variable: ' + pieces[1] + '(' + pieces[0] + ')'
 
     def LoadCppFile(self, header_file_, class_):
@@ -285,7 +286,7 @@ class VariableLoader:
 
         # Check for Name
         variable.name_ = translations_[pieces[1].replace('(', '').rstrip().lstrip()]
-
+        class_.variable_order_.append(used_variable)
         # Set the description
         index = 3;
         description = pieces[index]
@@ -410,8 +411,12 @@ class VariableLoader:
           name = pieces[0]
           variable = pieces[1].replace('&', '').replace(')', '').lstrip().rstrip()
 
-        print '--> Estimable: ' + name + ' with variable ' + variable
-        class_.estimables_[name] = variable
+        print '--> Estimable: ' + name + ' with variable ' + variable    
+        if name in translations_:    
+          name = translations_[name]
+        print class_.variables_
+        class_.estimables_[name] = class_.variables_[variable].type_
+        print '--> Estimable: ' + name + ' as type ' + class_.estimables_[name]
         return True
 
 class Printer:
@@ -488,17 +493,17 @@ class Printer:
 
     def PrintClass(self, file_, class_):
         class_.estimables_ = collections.OrderedDict(sorted(class_.estimables_.items()))
-        class_.variables_  = collections.OrderedDict(sorted(class_.variables_.items()))
-        for key, variable in class_.variables_.iteritems():
+        for key in class_.variable_order_:
+            variable = class_.variables_[(key)]
             if variable.name_ == '':
                 continue
             # Remove PARAMs and associated desriptions of variables that have yet to be completed in the code
             if variable.description_.startswith('TBA'):
                 continue
             # And continue as normal
-            file_.write('\\defSub{' + variable.name_ + '} {' + variable.description_ + '}\n')
+            file_.write('\\defSub{' + variable.name_ + '} {' + variable.description_ + '}\n')            
             if variable.name_ in class_.estimables_:
-                if class_.estimables_[variable.name_ ].startswith('vector<'):
+                if class_.estimables_[variable.name_ ].startswith('vector<') or class_.estimables_[variable.name_ ].startswith('map<'):
                     file_.write('\\defType{estimable vector}\n')
                 else:
                     file_.write('\\defType{estimable}\n')

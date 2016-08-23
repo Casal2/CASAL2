@@ -31,11 +31,11 @@ Logistic::Logistic(Model* model)
   : Selectivity(model) {
 
   parameters_.Bind<Double>(PARAM_A50, &a50_, "A50", "");
-  parameters_.Bind<Double>(PARAM_ATO95, &aTo95_, "Ato95", "");
+  parameters_.Bind<Double>(PARAM_ATO95, &ato95_, "Ato95", "");
   parameters_.Bind<Double>(PARAM_ALPHA, &alpha_, "Alpha", "", 1.0);
 
   RegisterAsEstimable(PARAM_A50, &a50_);
-  RegisterAsEstimable(PARAM_ATO95, &aTo95_);
+  RegisterAsEstimable(PARAM_ATO95, &ato95_);
   RegisterAsEstimable(PARAM_ALPHA, &alpha_);
 }
 
@@ -51,8 +51,8 @@ Logistic::Logistic(Model* model)
 void Logistic::DoValidate() {
   if (alpha_ <= 0.0)
     LOG_ERROR_P(PARAM_ALPHA) << ": alpha (" << AS_DOUBLE(alpha_) << ") cannot be less than or equal to 0.0";
-  if (aTo95_ <= 0.0)
-    LOG_ERROR_P(PARAM_ATO95) << ": ato95 (" << AS_DOUBLE(aTo95_) << ") cannot be less than or equal to 0.0";
+  if (ato95_ <= 0.0)
+    LOG_ERROR_P(PARAM_ATO95) << ": ato95 (" << AS_DOUBLE(ato95_) << ") cannot be less than or equal to 0.0";
 }
 
 /**
@@ -66,7 +66,7 @@ void Logistic::Reset() {
   Double threshold = 0.0;
 
   for (unsigned age = model_->min_age(); age <= model_->max_age(); ++age) {
-    threshold = (a50_ - (Double)age) / aTo95_;
+    threshold = (a50_ - (Double)age) / ato95_;
 
     if (threshold > 5.0)
       values_[age] = 0.0;
@@ -94,7 +94,7 @@ Double Logistic::GetLengthBasedResult(unsigned age, AgeLength* age_length) {
 
   if (dist == PARAM_NONE || n_quant_ <= 1) {
     // no distribution just use the mu from age_length
-    Double threshold = (a50_ - (Double) mean) / aTo95_;
+    Double threshold = (a50_ - (Double) mean) / ato95_;
 
     if (threshold > 5.0)
       return 0.0;
@@ -112,7 +112,7 @@ Double Logistic::GetLengthBasedResult(unsigned age, AgeLength* age_length) {
     for (unsigned j = 0; j < n_quant_; ++j) {
       size = mean + sigma * quantiles_at_[j];
 
-      Double threshold = (a50_ - size) / aTo95_;
+      Double threshold = (a50_ - size) / ato95_;
 
       if (threshold > 5.0)
         total += 0.0;
@@ -134,7 +134,7 @@ Double Logistic::GetLengthBasedResult(unsigned age, AgeLength* age_length) {
     for (unsigned j = 0; j < n_quant_; ++j) {
       size = mu + sigma * quantile(dist, AS_DOUBLE(quantiles_[j]));
 
-      Double threshold = (a50_ - (Double) size) / aTo95_;
+      Double threshold = (a50_ - (Double) size) / ato95_;
 
       if (threshold > 5.0)
         total += 0.0;

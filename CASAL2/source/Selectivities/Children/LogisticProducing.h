@@ -43,7 +43,7 @@ private:
   unsigned                    low_;
   unsigned                    high_;
   Double                      a50_;
-  Double                      aTo95_;
+  Double                      ato95_;
   Double                      alpha_;
 };
 
