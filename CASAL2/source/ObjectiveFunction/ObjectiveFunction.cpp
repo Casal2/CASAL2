@@ -40,6 +40,8 @@ void ObjectiveFunction::Clear() {
   priors_       = 0.0;
   likelihoods_  = 0.0;
   additional_priors_ = 0.0;
+  jacobians_ = 0.0;
+
   score_list_.clear();
 }
 
