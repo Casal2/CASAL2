@@ -524,10 +524,11 @@ bool Model::RunMCMC() {
     LOG_FINE() << "Calling minimiser to find our minimum and covariance matrix";
     auto minimiser = managers_->minimiser()->active_minimiser();
     minimiser->Execute();
+    LOG_FINE() << "Build covariance matrix";
     minimiser->BuildCovarianceMatrix();
     LOG_FINE() << "Minimisation complete. Starting MCMC";
   }
-
+  LOG_FINE() << "Begin MCMC chain";
   mcmc->Execute();
   return true;
 }

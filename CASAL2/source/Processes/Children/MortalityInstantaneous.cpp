@@ -94,6 +94,7 @@ void MortalityInstantaneous::DoValidate() {
    */
   map<string, map<unsigned, Double>> fishery_year_catch;
   auto columns = catches_table_->columns();
+  // TODO Need to catch if key column headers are missing?
   unsigned year_index = std::find(columns.begin(), columns.end(), PARAM_YEAR) - columns.begin();
   LOG_FINEST() << "year_index for fisheries table is: " << year_index;
 
@@ -106,7 +107,9 @@ void MortalityInstantaneous::DoValidate() {
     if (std::find(model_years.begin(), model_years.end(), year) == model_years.end())
       LOG_ERROR_P(PARAM_CATCHES) << "year " << year << " is not a valid year in this model";
     for (unsigned i = 0; i < row.size(); ++i) {
-      if (i == year_index) continue;
+
+      if (i == year_index)
+        continue;
 
       Double value = 0.0;
       if (!utilities::To<string, Double>(row[i], value))
@@ -119,6 +122,7 @@ void MortalityInstantaneous::DoValidate() {
    * We create a master fishery object and then multiple category objects
    * depending on how many categories are defined.
    */
+
   columns = method_table_->columns();
   rows = method_table_->data();
 

@@ -85,6 +85,8 @@ public:
   void                        set_b0(string derived_quantity_label, Double new_b0) {b0_[derived_quantity_label] = new_b0;}
   Double                      binitial(string derived_quantity_label) {return binitial_[derived_quantity_label];}
   void                        set_binitial(string derived_quantity_label, Double new_binitial) {binitial_[derived_quantity_label] = new_binitial;}
+  bool                        b0_initialised(string derived_quantity_label) {return b0_initialised_[derived_quantity_label];}
+  void                        set_b0_initialised(string derived_quantity_label, bool new_b0_initialised) {b0_initialised_[derived_quantity_label] = new_b0_initialised;}
   virtual vector<unsigned>    years() const;
   unsigned                    year_spread() const;
   virtual unsigned            current_year() const { return current_year_; }
@@ -133,6 +135,7 @@ protected:
   string                      base_weight_units_;
   map<string, Double>         b0_;
   map<string, Double>         binitial_;
+  map<string, bool>           b0_initialised_;
   bool                        age_plus_ = true;
   vector<string>              initialisation_phases_;
   vector<string>              time_steps_;

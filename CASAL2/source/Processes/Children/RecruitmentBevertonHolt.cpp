@@ -103,9 +103,10 @@ void RecruitmentBevertonHolt::DoValidate() {
 void RecruitmentBevertonHolt::DoBuild() {
   partition_.Init(category_labels_);
 
-  if (parameters_.Get(PARAM_B0)->has_been_defined())
+  if (parameters_.Get(PARAM_B0)->has_been_defined()) {
+    model_->set_b0_initialised(ssb_, true);
     bo_initialised_ = true;
-
+  }
   if (phase_b0_label_ != "")
     phase_b0_ = model_->managers().initialisation_phase()->GetPhaseIndex(phase_b0_label_);
 
@@ -341,8 +342,8 @@ void RecruitmentBevertonHolt::ScalePartition() {
   LOG_FINEST() << "Last SSB value = " << SSB;
   Double scalar = b0_ / SSB;
   LOG_FINEST() << "Scalar = " << scalar << " B0 = " << b0_;
-  LOG_FINEST() << "r0_ value = " << r0_;
-  r0_ = 1 * scalar;
+  LOG_FINEST() << "r0 = " << scalar;
+  r0_ = scalar;
   for (auto category : partition_) {
     for (unsigned j = 0; j < category->data_.size(); ++j) {
       LOG_FINEST() << "Category "<< category->name_ << " Age = " << j + category->min_age_ << " Numbers at age = " <<  category->data_[j];

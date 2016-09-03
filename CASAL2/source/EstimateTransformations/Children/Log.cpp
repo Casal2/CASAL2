@@ -61,7 +61,6 @@ void Log::DoBuild() {
 void Log::Transform() {
   estimate_->set_lower_bound(lower_bound_);
   estimate_->set_upper_bound(upper_bound_);
-
   estimate_->set_value(log(estimate_->value()));
 }
 
@@ -71,7 +70,6 @@ void Log::Transform() {
 void Log::Restore() {
   estimate_->set_lower_bound(original_lower_bound_);
   estimate_->set_upper_bound(original_upper_bound_);
-
   estimate_->set_value(exp(estimate_->value()));
 }
 

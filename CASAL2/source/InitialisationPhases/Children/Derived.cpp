@@ -161,6 +161,7 @@ void Derived::Execute() {
 
   vector<string> categories = model_->categories()->category_names();
 
+  LOG_FINEST() << "running intialisation for " << year_range << " years";
   timesteps::Manager* time_step_manager = model_->managers().time_step();
   time_step_manager->ExecuteInitialisation(label_, year_range);
 
