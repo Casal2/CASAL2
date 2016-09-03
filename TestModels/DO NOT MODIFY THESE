@@ -1,1 +1,2 @@
 These models are run automatically as part of the build system or with dobuild modelrunner as a self-checking system
+If you add another test model for a -e betadiff minimser. You need to add the folder name to the BuildSystem/buildtools/Classes/Modelrunner.py
