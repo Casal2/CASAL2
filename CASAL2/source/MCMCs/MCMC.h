@@ -64,6 +64,9 @@ public:
   bool                        active() const { return active_; }
   ublas::matrix<Double>&      covariance_matrix() {return covariance_matrix_;}
   void                        set_starting_iteration(unsigned value) { starting_iteration_ = value; }
+  void                        set_succeful_jumps(unsigned value) { successful_jumps_ = value; }
+  void                        set_step_size(Double value) { step_size_ = value; }
+  void                        set_acceptance_rate_from_last_adapt(Double value) { acceptance_rate_since_last_adapt_ = value; }
   bool                        recalculate_covariance() const { return recalculate_covariance_; }
 
 protected:
@@ -78,9 +81,15 @@ protected:
   unsigned                    starting_iteration_ = 0;
   ublas::matrix<Double>       covariance_matrix_;
   vector<mcmc::ChainLink>     chain_;
+
   bool                        active_;
   bool                        print_default_reports_;
   bool                        recalculate_covariance_ = false;
+
+  // These were moved from the child for scenerios where we are resuming the chain
+  Double                      step_size_ = 0.0;
+  unsigned                    successful_jumps_ = 0;
+  Double                      acceptance_rate_since_last_adapt_ = 0;
 
 };
 

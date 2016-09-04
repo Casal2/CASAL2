@@ -57,14 +57,14 @@ void MCMCObjective::DoExecute() {
 
   if (first_write_ && !model_->global_configuration().resume()) {
 
-    cache_ << "starting_covariance_matrix:\n";
+    cache_ << "starting_covariance_matrix {m}\n";
     auto covariance = mcmc_->covariance_matrix();
     for (unsigned i = 0; i < covariance.size1(); ++i) {
        for (unsigned j = 0; j < covariance.size2() - 1; ++j)
          cache_ << covariance(i,j) << " ";
        cache_ << covariance(i, covariance.size2() - 1) << "\n";
     }
-    cache_ << "samples:\n";
+    cache_ << "samples {d} \n";
     cache_ << "sample objective_score prior likelihood penalties additional_priors jacobians step_size acceptance_rate acceptance_rate_since_adapt\n";
   }
 
