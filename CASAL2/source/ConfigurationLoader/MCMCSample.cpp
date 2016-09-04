@@ -61,17 +61,34 @@ bool MCMCSample::LoadFile(const string& file_name) {
    * as this is the expected line before our sample lines
    */
   string line = "";
-  while (line != "*mcmc_sample") {
+  while (line != "*mcmc (mcmc_sample)") {
     if (!getline(file, line)) {
-      LOG_ERROR() << "Failed to read a line from the MCMC Sample file when looking for '*mcmc_sample'";
+      LOG_ERROR() << "Failed to read a line from the MCMC Sample file when looking for '*mcmc (mcmc_sample)'";
+      return false;
+    }
+  }
+  LOG_FINEST() << "line = " << line;
+
+
+  if (line != "*mcmc (mcmc_sample)") {
+    LOG_ERROR() << "Could not read '*mcmc (mcmc_sample)' string in MCMC Sample file: " << file_name;
+    return false;
+  }
+  LOG_FINEST() << "line = " << line;
+
+  // Skip the next line which is needed for reading into R
+  while (line != "values {d}") {
+    if (!getline(file, line)) {
+      LOG_ERROR() << "Failed to read a line from the MCMC Sample file when looking for 'values {d}'";
       return false;
     }
   }
 
-  if (line != "*mcmc_sample") {
-    LOG_ERROR() << "Could not read '*mcmc_sample' string in MCMC Sample file: " << file_name;
-    return false;
-  }
+  if (line != "values {d}") {
+     LOG_ERROR() << "Could not read 'values {d}' string in MCMC Sample file: " << file_name;
+     return false;
+   }
+
 
   /**
    * read the columns from our header
@@ -112,34 +129,26 @@ bool MCMCSample::LoadFile(const string& file_name) {
    * Apply the values to our estimates
    */
   auto estimates     = model_->managers().estimate()->GetIsEstimated();
-  if (estimates.size() != columns.size() - 1) {
+  if (estimates.size() != columns.size()) {
     LOG_ERROR() << "Model has " << estimates.size() << " estimates and the MCMC sample file has "
-        << columns.size() - 1;
+        << columns.size();
     return false;
   }
 
-  for (unsigned i = 1; i < columns.size(); ++i) {
+  for (unsigned i = 0; i < columns.size(); ++i) {
     Double value = 0.0;
     if (!utilities::To<string, Double>(estimable_values[i], value)) {
       LOG_ERROR() << "";
       return false;
     }
 
-    if (estimates[i - 1]->parameter() != columns[i]) {
-      LOG_ERROR() << " parameter " << estimates[i - 1]->parameter() << " was not found in column " << columns[i];
+    if (estimates[i]->parameter() != columns[i]) {
+      LOG_ERROR() << " parameter " << estimates[i]->parameter() << " was not found in column " << columns[i];
       return false;
     }
 
-    estimates[i - 1]->set_value(value);
+    estimates[i]->set_value(value);
   }
-
-  unsigned iteration_number = 0;
-  if (!utilities::To<string, unsigned>(estimable_values[0], iteration_number)) {
-    LOG_ERROR() << "Could not convert " << estimable_values[0] << " to an unsigned";
-    return false;
-  }
-
-  model_->managers().mcmc()->active_mcmc()->set_starting_iteration(iteration_number);
 
   file.close();
   return true;

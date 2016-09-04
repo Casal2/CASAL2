@@ -49,14 +49,12 @@ protected:
   unsigned                    keep_ = 0;
   unsigned                    estimate_count_ = 0;
   unsigned                    jumps_ = 0;
-  unsigned                    successful_jumps_ = 0;
   unsigned                    jumps_since_adapt_ = 0;
   bool                        last_item_ = false;
   unsigned                    successful_jumps_since_adapt_ = 0;
   Double                      max_correlation_ = 0;
   string                      correlation_method_ = "";
   Double                      correlation_diff_ = 0;
-  Double                      step_size_ = 0;
   string                      proposal_distribution_ = "";
   unsigned                    df_ = 0;
   ublas::matrix<Double>       covariance_matrix_lt;

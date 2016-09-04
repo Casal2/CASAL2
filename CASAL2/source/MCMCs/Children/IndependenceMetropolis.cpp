@@ -36,7 +36,6 @@ IndependenceMetropolis::IndependenceMetropolis(Model* model) : MCMC(model) {
   parameters_.Bind<string>(PARAM_COVARIANCE_ADJUSTMENT_METHOD, &correlation_method_, "Method for adjusting small variances in the covariance proposal matrix"
       , "", PARAM_COVARIANCE);
   parameters_.Bind<Double>(PARAM_CORRELATION_ADJUSTMENT_DIFF, &correlation_diff_, "Minimum non-zero variance times the range of the bounds in the covariance matrix of the proposal distribution", "", 0.0001);
-  parameters_.Bind<Double>(PARAM_STEP_SIZE, &step_size_, "Initial stepsize (as a multiplier of the approximate covariance matrix)", "", 0.02);
   parameters_.Bind<string>(PARAM_PROPOSAL_DISTRIBUTION, &proposal_distribution_, "The shape of the proposal distribution (either the t or the normal distribution)", "", PARAM_T);
   parameters_.Bind<unsigned>(PARAM_DF, &df_, "Degrees of freedom of the multivariate t proposal distribution", "", 4);
   parameters_.Bind<unsigned>(PARAM_ADAPT_STEPSIZE_AT, &adapt_step_size_, "Iterations in the chain to check and resize the MCMC stepsize", "", true);
@@ -47,7 +46,6 @@ IndependenceMetropolis::IndependenceMetropolis(Model* model) : MCMC(model) {
   successful_jumps_               = 0;
   jumps_since_adapt_              = 0;
   successful_jumps_since_adapt_   = 0;
-  step_size_                      = 0.0;
   last_item_                      = false;
 }
 /**
@@ -457,6 +455,27 @@ void IndependenceMetropolis::DoExecute() {
 
   if (!model_->global_configuration().resume()) {
     BuildCovarianceMatrix();
+    successful_jumps_ = starting_iteration_;
+  }
+  // Set jumps = starting iteration if it is resuming
+
+  unsigned jumps_since_last_adapt = 1;
+  if (model_->global_configuration().resume()) {
+    for (unsigned i = 0; i < adapt_step_size_.size(); ++i) {
+      if (adapt_step_size_[i] < starting_iteration_) {
+        jumps_since_last_adapt = adapt_step_size_[i];
+        LOG_FINE() << "Chain last adapted at " << jumps_since_last_adapt;
+      }
+    }
+    jumps_= starting_iteration_;
+    jumps_since_adapt_ = jumps_ - jumps_since_last_adapt;
+
+    Double temp_success_jumps = (Double)jumps_since_adapt_ * acceptance_rate_since_last_adapt_;
+
+    if (!utilities::To<Double, unsigned>(temp_success_jumps, successful_jumps_since_adapt_))
+      LOG_ERROR() << "Could not convert " << temp_success_jumps << " to an unsigned";
+
+    LOG_FINE() << "jumps = " << jumps_ << "jumps since last adapt " << jumps_since_adapt_ << " successful jumps since last adapt " << successful_jumps_since_adapt_ << " step size " << step_size_ << " successful jumps " << successful_jumps_;
   }
 
   if (!DoCholeskyDecmposition())
@@ -501,7 +520,6 @@ void IndependenceMetropolis::DoExecute() {
     chain_.push_back(new_link);
   }
 
-  successful_jumps_ = starting_iteration_;
   /**
    * Now we start the MCMC process
    */

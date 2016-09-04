@@ -1,6 +1,5 @@
-
-@minimiser gamma_diff
-type betadiff
+@minimiser gammadiff
+type numerical_differences
 tolerance 1e-6
 iterations 2500
 evaluations 4000
