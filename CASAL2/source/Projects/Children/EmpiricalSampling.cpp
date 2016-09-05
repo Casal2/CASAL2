@@ -70,7 +70,6 @@ void EmpiricalSampling::DoReset() { }
 void EmpiricalSampling::DoUpdate() {
   value_ = projected_parameters_[resampled_years_[model_->current_year()]];
   LOG_FINE() << "In year: " << model_->current_year() << " Setting Value to: " << value_ << " drawn from year: " << resampled_years_[model_->current_year()];
-  LOG_FINE() << "type of parameter = " << estimable_type_;
   (this->*DoUpdateFunc_)(value_);
 
 }

@@ -711,9 +711,11 @@ void Model::RunProjection() {
       // Model has finished so we can run finalise.
       LOG_FINE() << "Model: State change to PostExecute";
       managers_->report()->Execute(State::kPostExecute);
+      managers_->report()->Execute(State::kIterationComplete);
 
+      // Not sure if we want
       managers_->observation()->CalculateScores();
-
+      managers_->report()->WaitForReportsToFinish();
     }
   }
 }
