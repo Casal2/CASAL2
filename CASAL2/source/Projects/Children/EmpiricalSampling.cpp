@@ -22,14 +22,20 @@ namespace projects {
  * Default constructor
  */
 EmpiricalSampling::EmpiricalSampling(Model* model) : Project(model) {
-  parameters_.Bind<unsigned>(PARAM_START_YEAR, &start_year_, "Start year of sampling", "");
-  parameters_.Bind<unsigned>(PARAM_FINAL_YEAR, &final_year_, "Last year of sampling", "");
+  parameters_.Bind<unsigned>(PARAM_START_YEAR, &start_year_, "Start year of sampling", "", false);
+  parameters_.Bind<unsigned>(PARAM_FINAL_YEAR, &final_year_, "Last year of sampling", "", false);
 }
 
 /**
  * Validate
  */
 void EmpiricalSampling::DoValidate() {
+  // if no values specified then set default as the model lifespan
+  if (!parameters_.Get(PARAM_START_YEAR)->has_been_defined())
+    start_year_ = model_->start_year();
+  if (!parameters_.Get(PARAM_FINAL_YEAR)->has_been_defined())
+    final_year_ = model_->final_year();
+
   if (final_year_ <= start_year_)
     LOG_ERROR_P(PARAM_FINAL_YEAR) << PARAM_FINAL_YEAR << " must be larger than " << PARAM_START_YEAR;
 

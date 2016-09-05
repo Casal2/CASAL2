@@ -147,7 +147,7 @@ void MortalityInstantaneous::DoValidate() {
     new_fishery.catches_ = fishery_year_catch[new_fishery.label_];
 
     fisheries_[new_fishery.label_] = new_fishery;
-    RegisterAsEstimable(PARAM_FISHERY + string("_") + new_fishery.label_, &fisheries_[new_fishery.label_].catches_);
+    RegisterAsEstimable(PARAM_FISHERY + string("_") + utilities::ToLowercase(new_fishery.label_), &fisheries_[new_fishery.label_].catches_);
 
     // remove after build
     vector<string> categories;

@@ -48,39 +48,43 @@ The call to \CNAME\ is of the following form:
   \item [\texttt{-c \emph{config\_file}}] Define the \config\ for \CNAME. If omitted, then \CNAME\ looks for a file named \texttt{config.csl2}.
 \end{description}
 
-and where \emph{task} is one of;
+and where \emph{task} is one of, if there are square brackets \textbf{[]} this indicates a secondary label to call the same task for example \textbf{\texttt{-h}} will execute the same task as \textbf{\texttt{--help}};
+
 \begin{description}
-\item [\texttt{-h}] Display help (this page).
-\item [\texttt{-l}] Display the reference for the software license (GPL v2).
-\item [\texttt{-v}] Display the \CNAME\ version number.
+\item [\texttt{-h [--help]}] Display help (this page).
+\item [\texttt{-l [--licence]}] Display the reference for the software license (GPL v2).
+\item [\texttt{-v [--version]}] Display the \CNAME\ version number.
 
-\item [\texttt{-r}] \emph{Run} the model once using the parameter values in the \config, or optionally, with the values from the file denoted with the command line argument \texttt{-i \emph{file}}.
+\item [\texttt{-r [--run]}] \emph{Run} the model once using the parameter values in the \config, or optionally, with the values from the file denoted with the command line argument \texttt{-i \emph{file}}.
 
-\item [\texttt{-e}] Do a point \emph{estimate} using the values in the \config\ as the starting point for the parameters to be estimated, or optionally, with the start values from the file denoted with the command line argument \texttt{-i \emph{file}}.
+\item [\texttt{-e [--estimate]}] Do a point \emph{estimate} using the values in the \config\ as the starting point for the parameters to be estimated, or optionally, with the start values from the file denoted with the command line argument \texttt{-i \emph{file}}.
 
-\item [\texttt{-p}] Do a likelihood \emph{profile} using the parameter values in the \config\ as the starting point, or optionally, with the start values from the file denoted with the command line argument \texttt{-i \emph{file}}.
+\item [\texttt{-p [--profiling]}] Do a likelihood \emph{profile} using the parameter values in the \config\ as the starting point, or optionally, with the start values from the file denoted with the command line argument \texttt{-i \emph{file}}.
 
-\item [\texttt{-m}] Do an \emph{MCMC} estimate using the values in the \config\ as the starting point for the parameters to be estimated, or optionally, with the start values from the file denoted with the command line argument \texttt{-i \emph{file}}. 
+\item [\texttt{-m [--mcmc]}] Do an \emph{MCMC} estimate using the values in the \config\ as the starting point for the parameters to be estimated, or optionally, with the start values from the file denoted with the command line argument \texttt{-i \emph{file}}. 
 
-\item [\texttt{-f}] Project the model \emph{forward} in time using the parameter values in the \config\ as the starting point for the estimation, or optionally, with the start values from the file denoted with the command line argument \texttt{-i \emph{file}}. 
+\item [\texttt{-f [--projection]}] Project the model \emph{forward} in time using the parameter values in the \config\ as the starting point for the estimation, or optionally, with the start values from the file denoted with the command line argument \texttt{-i \emph{file}}. 
 
-\item [\texttt{-s} \emph{number}] \emph{Simulate} the \emph{number} of observation sets using values in the \config\ as the parameter values, or optionally, with the values for the parameters denoted as estimated from the file with the command line argument \texttt{-i \emph{file}}.
+\item [\texttt{-s [--simulation]} \emph{number}] \emph{Simulate} the \emph{number} of observation sets using values in the \config\ as the parameter values, or optionally, with the values for the parameters denoted as estimated from the file with the command line argument \texttt{-i \emph{file}}.
 \end{description}
 
 In addition, the following are optional arguments\index{Optional command line arguments} [\emph{options}],
 
 \begin{description}
-\item [\texttt{-i \emph{file}}] \emph{Input} one or more sets of free (estimated) parameter values from \texttt{\emph{file}}. See Section \ref{sec:report-syntax} for details about the format of \texttt{\emph{file}}.
+\item [\texttt{-i [--input] \emph{file}}] \emph{Input} one or more sets of free (estimated) parameter values from \texttt{\emph{file}}. See Section \ref{sec:report-syntax} for details about the format of \texttt{\emph{file}}.
 
-\item [\texttt{-o \emph{file}}] \emph{Output} a report of the free (estimated) parameter values in a format suitable for \texttt{-i \emph{file}}. See Section \ref{sec:report-syntax} for details about the format of \texttt{\emph{file}}.
+\item [\texttt{-o [--output]\emph{file}}] \emph{Output} a report of the free (estimated) parameter values in a format suitable for \texttt{-i \emph{file}}. See Section \ref{sec:report-syntax} for details about the format of \texttt{\emph{file}}.
 
-\item [\texttt{-g \emph{seed}}]  Seed the random number \emph{generator} with \texttt{\emph{seed}}, a positive (long) integer value. Note, if \texttt{-g} is not specified, then \CNAME\ will  generate a random number seed based on the computer clock time.
+\item [\texttt{-g [--seed]\emph{seed}}]  Seed the random number \emph{generator} with \texttt{\emph{seed}}, a positive (long) integer value. Note, if \texttt{-g} is not specified, then \CNAME\ will  generate a random number seed based on the computer clock time.
 
 \item [\texttt{--loglevel}] arg = \{trace, finest, fine, medium\} See Section \ref{sec:report-section}.
 
 \item [\texttt{--tabular}] Run with \texttt{-r} or \texttt{-f}  command it will print \command{report} in tabular format. See Section \ref{sec:report-section}.
 
 \item [\texttt{--single-step}] Run with \texttt{-r}, this additional option will pause the model and ask the user to specify parameters and their values to use for the next iteration. See Section \ref{sec:singlestepping}.
+
+\item [\texttt{-q [--query]}] Query an object type to see it's description and parameter definitions. This will print out an extract of the object. An object can be defined as block.type. For example \texttt{casal2 --query process.recruitment\_constant}, will query the constant recruitment block.
+
 \end{description}
 
 \subsection{Constructing a \CNAME\ \config s \label{constructing-config}}\index{Input configuration file syntax}
