@@ -63,7 +63,7 @@ void CommandLineParser::Parse(int argc, char* argv[], RunParameters& options) {
     ("input,i", value<string>(), "Load free parameter values from file")
     ("fi", "Force the input file to only allow @estimate parameters (basic run mode only)")
     ("seed,g", value<unsigned>(), "Random number seed")
-    ("query,q", value<string>(), "Query an object type to see it's description and parameters")
+    ("query,q", value<string>(), "Query an object type to see its description and parameters. Argument object_type.sub_type e.g. process.recruitment_constant")
     ("debug,d", "Run in debug mode (with debug output")
     ("nostd", "Do not print the standard header report")
     ("loglevel", value<string>(), "Set log level: finest, fine, trace, none(default)")
