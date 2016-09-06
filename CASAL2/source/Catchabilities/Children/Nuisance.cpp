@@ -198,7 +198,7 @@ void Nuisance::CalculateQ(map<unsigned, vector<observations::Comparison> >& comp
       // Iterate over each category
       for (observations::Comparison& comparison : year_iterator->second) {
 
-        Double cv = 0.0;
+        Double cv = comparison.error_value_;
         if (comparison.error_value_ > 0.0 && comparison.process_error_ > 0.0)
           cv =  sqrt(comparison.error_value_ * comparison.error_value_ + comparison.process_error_ * comparison.process_error_);
 
@@ -216,9 +216,11 @@ void Nuisance::CalculateQ(map<unsigned, vector<observations::Comparison> >& comp
   for (auto year_iterator = comparisons.begin(); year_iterator != comparisons.end(); ++year_iterator) {
     // Iterate over each category
     for (observations::Comparison& comparison : year_iterator->second) {
+      if (comparison.expected_ <= ZERO)
+        LOG_WARNING() << "Expected less than " << ZERO << " you may want to check this.";
       comparison.expected_ = dc::ZeroFun(comparison.expected_,ZERO);
         n++;
-        Double cv = 0.0;
+        Double cv = comparison.error_value_;
         if (comparison.error_value_ > 0.0 && comparison.process_error_ > 0.0)
           cv =  sqrt(comparison.error_value_ * comparison.error_value_ + comparison.process_error_ * comparison.process_error_);
 
@@ -228,6 +230,7 @@ void Nuisance::CalculateQ(map<unsigned, vector<observations::Comparison> >& comp
         s4 += 1 / (sigma * sigma);
       }
     }
+  LOG_FINEST() << "S3 = " << s3 << " S4 = " << s4;
   q_ = exp((0.5 * n + s3) / s4);
 
   } else if (likelihood == PARAM_NORMAL && prior_ == PARAM_UNIFORM_LOG){
@@ -238,7 +241,7 @@ void Nuisance::CalculateQ(map<unsigned, vector<observations::Comparison> >& comp
       for (observations::Comparison& comparison : year_iterator->second) {
         comparison.expected_ = dc::ZeroFun(comparison.expected_,ZERO);
           n++;
-          Double cv = 0.0;
+          Double cv = comparison.error_value_;
           if (comparison.error_value_ > 0.0 && comparison.process_error_ > 0.0)
             cv =  sqrt(comparison.error_value_ * comparison.error_value_ + comparison.process_error_ * comparison.process_error_);
 
@@ -246,6 +249,7 @@ void Nuisance::CalculateQ(map<unsigned, vector<observations::Comparison> >& comp
           s2 += pow(comparison.observed_ / (cv * comparison.expected_), 2);
         }
       }
+      LOG_FINEST() << "S1 = " << s1 << " S2 = " << s2;
       q_ = (-s1 + sqrt(s1 * s1 + 4 * (n + 1) * s2)) / (2 * (n + 1));
 
   } else if (likelihood == PARAM_LOGNORMAL && prior_ == PARAM_UNIFORM_LOG) {
@@ -256,16 +260,20 @@ void Nuisance::CalculateQ(map<unsigned, vector<observations::Comparison> >& comp
       for (observations::Comparison& comparison : year_iterator->second) {
         comparison.expected_ = dc::ZeroFun(comparison.expected_,ZERO);
           n++;
-          Double cv = 0.0;
+          Double cv = comparison.error_value_;
           if (comparison.error_value_ > 0.0 && comparison.process_error_ > 0.0)
             cv =  sqrt(comparison.error_value_ * comparison.error_value_ + comparison.process_error_ * comparison.process_error_);
 
-          Double sigma = sqrt(log(1 + cv * cv));
 
+          Double sigma = sqrt(log(1 + cv * cv));
+          LOG_FINEST() << "Sigma = " << sigma;
+          LOG_FINEST() << "E = " << comparison.expected_;
           s3 += log(comparison.observed_ /  comparison.expected_) / (sigma * sigma);
           s4 += 1 / (sigma * sigma);
         }
       }
+    LOG_FINEST() << "S3 = " << s3 << " S4 = " << s4;
+
     q_ = exp((0.5 * n - 1 + s3) / s4);
     } else if (likelihood == PARAM_LOGNORMAL && prior_ == PARAM_LOGNORMAL){
       Double s3 = 0, s4 = 0;
@@ -275,7 +283,7 @@ void Nuisance::CalculateQ(map<unsigned, vector<observations::Comparison> >& comp
         for (observations::Comparison& comparison : year_iterator->second) {
           comparison.expected_ = dc::ZeroFun(comparison.expected_,ZERO);
             n++;
-            Double cv = 0.0;
+            Double cv = comparison.error_value_;
             if (comparison.error_value_ > 0.0 && comparison.process_error_ > 0.0)
               cv =  sqrt(comparison.error_value_ * comparison.error_value_ + comparison.process_error_ * comparison.process_error_);
 
@@ -290,7 +298,7 @@ void Nuisance::CalculateQ(map<unsigned, vector<observations::Comparison> >& comp
       LOG_FINE() << "mu = " << mu_ << " cv = " << cv_ << " s3 = " << s3 << " s4 = " << s4 << " n = " << n;
       q_ = exp((0.5 * n - 1.5 + log(mu_) / var_q + s3) / (s4 + 1 / var_q));
     } else {
-      LOG_ERROR() << "Unrecognised combination in CalculateQ : likelihood_type = " <<  likelihood << " prior_type = " << prior_;
+      LOG_ERROR() << "Unrecognised combination in CalculateQ : likelihood_type = " <<  likelihood << " prior_type = " << prior_ << " these combinations ";
     }
 
   LOG_FINE() << "Analytical q = " << q_;
