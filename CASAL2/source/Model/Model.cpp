@@ -662,15 +662,12 @@ void Model::RunProjection() {
     for (int j = 0; j < projection_candidates; ++j) {
 
       if (estimable_values_file_) {
+        LOG_FINE() << "loading input parameters";
         estimables.LoadValues(i);
         Reset();
       }
 
       LOG_FINE() << "Model: State change to PreExecute";
-
-      /**
-       * Running the model now
-       */
       LOG_FINE() << "Model: State change to Execute";
       state_ = State::kInitialise;
       current_year_ = start_year_;
@@ -690,13 +687,18 @@ void Model::RunProjection() {
         project_manager.StoreValues(current_year_, start_year_, final_year_);
       }
 
+      /**
+       * Running the model now
+       */
       LOG_FINE() << "Entering the Projection Sub-System";
+      // Reset the model
       Reset();
       managers_->report()->Execute(State::kPreExecute);
       state_ = State::kInitialise;
       current_year_ = start_year_;
-
+      // Run the intialisation phase
       init_phase_manager.Execute();
+      // Reset all parameter and re run the model
       managers_->report()->Execute(State::kInitialise);
 
       state_ = State::kExecute;
@@ -709,13 +711,14 @@ void Model::RunProjection() {
       }
 
       // Model has finished so we can run finalise.
-      LOG_FINE() << "Model: State change to PostExecute";
+      LOG_FINE() << "Model: State change to PostExecute and iteration complete";
       managers_->report()->Execute(State::kPostExecute);
       managers_->report()->Execute(State::kIterationComplete);
 
       // Not sure if we want
       managers_->observation()->CalculateScores();
       managers_->report()->WaitForReportsToFinish();
+      Reset();
     }
   }
 }
