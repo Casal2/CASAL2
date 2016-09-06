@@ -92,6 +92,14 @@ void Project::Build() {
 }
 
 /**
+ * Reset and re build any pointers
+ */
+void Project::Reset() {
+ DoReset();
+ DoBuild();
+}
+
+/**
  *
  */
 void Project::Update(unsigned current_year) {
@@ -99,17 +107,19 @@ void Project::Update(unsigned current_year) {
   if (DoUpdateFunc_ == 0)
     LOG_CODE_ERROR() << "DoUpdateFunc_ == 0";
 
-  if (years_.size() > 0 && std::find(years_.begin(), years_.end(), current_year) == years_.end())
-    RestoreOriginalValue();
-  else
+  if (years_.size() > 0 && std::find(years_.begin(), years_.end(), current_year) == years_.end()) {
+    LOG_FINEST() << "Resetting parameter to original value as the year " << current_year << " not in years";
+    RestoreOriginalValue(current_year);
+  } else
     DoUpdate();
 }
 
 /**
  *
  */
-void Project::RestoreOriginalValue() {
+void Project::RestoreOriginalValue(unsigned year) {
   LOG_TRACE();
+  original_value_ = projected_parameters_[year];
   LOG_FINE() << "Setting original value to: " << original_value_;
   (this->*DoUpdateFunc_)(original_value_);
 }
@@ -142,6 +152,7 @@ void Project::StoreValue(unsigned current_year, unsigned start_year, unsigned fi
   LOG_TRACE();
   switch (estimable_type_) {
   case Estimable::kVector:
+    LOG_FINE() << "Size of estimable vector = " << estimable_vector_->size();
     if (estimable_vector_->size() != (final_year - start_year + 1))
       LOG_ERROR() << "if estimate is of type kVector, there must be a value for each year from start_year to final_year";
     LOG_FINE() << " Value = " << (*estimable_vector_)[current_year - start_year];
@@ -160,7 +171,7 @@ void Project::StoreValue(unsigned current_year, unsigned start_year, unsigned fi
 
   default:
     LOG_ERROR() << "The estimable you have provided for use in a projection: " << estimable_parameter_
-        << " is not a type that is supported for type LogNormal";
+        << " is not a type that is supported for type " << type_;
     break;
   }
 }

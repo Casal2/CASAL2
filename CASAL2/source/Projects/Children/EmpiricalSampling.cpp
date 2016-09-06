@@ -56,7 +56,6 @@ void EmpiricalSampling::DoBuild() {
     resampled_years_[project_year] = year;
     LOG_MEDIUM() << "Value from year: " << year << " used in projection year: " << project_year;
   }
-
 }
 
 /**

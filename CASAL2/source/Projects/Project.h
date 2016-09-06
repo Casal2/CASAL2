@@ -38,7 +38,7 @@ public:
   virtual                     ~Project() = default;
   void                        Validate();
   void                        Build();
-  void                        Reset() { DoReset(); };
+  void                        Reset();
   void                        Update(unsigned current_year);
   virtual void                StoreValue(unsigned current_year, unsigned start_year, unsigned final_year);
 
@@ -50,7 +50,7 @@ public:
 
 protected:
   // methods
-  void                        RestoreOriginalValue();
+  void                        RestoreOriginalValue(unsigned year);
   void                        SetSingleValue(Double value);
   void                        SetVectorValue(Double value);
   void                        SetMapValue(Double value);
