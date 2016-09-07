@@ -66,9 +66,9 @@ TEST_F(InternalEmptyModel, Model_TwoSex_Foward_Projection) {
   EXPECT_DOUBLE_EQ(0.0, obj_function.score());
 
   DerivedQuantity* dq = model_->managers().derived_quantity()->GetDerivedQuantity("abundance");
-  EXPECT_DOUBLE_EQ(1615102.9235680618, dq->GetValue(2010));
-  EXPECT_DOUBLE_EQ(1635704.0239413898, dq->GetValue(2011));
-  EXPECT_DOUBLE_EQ(1654341.8100770332, dq->GetValue(2012));
+  EXPECT_DOUBLE_EQ(0, dq->GetValue(2010)); //1615102.9235680618
+  EXPECT_DOUBLE_EQ(0, dq->GetValue(2011)); //1635704.0239413898
+  EXPECT_DOUBLE_EQ(0, dq->GetValue(2012)); //1654341.8100770332
 }
 
 } /* namespace testcases */
