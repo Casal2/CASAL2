@@ -27,13 +27,16 @@ Constant::Constant(Model* model) : Project(model) {
  */
 void Constant::DoValidate() {
   if (values_.size() != 1 && values_.size() != years_.size()) {
-    LOG_ERROR_P(PARAM_VALUES) << "length (" << values_.size() << ") must match the number of years provided (" << years_.size() << ")";
+    LOG_ERROR_P(PARAM_VALUES) << "length (" << values_.size() << ") must match the number of years provided (" << years_.size() << "), or supply a single value for all years";
     return;
   }
 
-  if (values_.size() == 1)
+  if (values_.size() == 1) {
     values_.assign(years_.size(), values_[0]);
+    LOG_FINEST() << "number of values converted from 1 to " << values_.size();
+  }
   for (unsigned i = 0; i < years_.size(); ++i) {
+    LOG_FINEST() << "value in year " << years_[i] << " = " << values_[i];
     year_values_[years_[i]] = values_[i];
   }
 }

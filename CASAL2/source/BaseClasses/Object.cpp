@@ -189,6 +189,7 @@ OrderedMap<string, Double>* Object::GetEstimableSMap(const string& label) {
  * @return vector pointer of estimables
  */
 vector<Double>* Object::GetEstimableVector(const string& label) {
+  LOG_FINEST() << "finding object with label " << label;
   if (estimable_types_.find(label) == estimable_types_.end()) {
     /**
      * It's a VectorStringMap estimable, so we'll go looking for it

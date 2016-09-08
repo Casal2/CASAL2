@@ -196,7 +196,7 @@ void RecruitmentBevertonHolt::DoBuild() {
   }
 
   if (standardise_ycs_[0] < model_->start_year() - ssb_offset_)
-    LOG_ERROR_P(PARAM_STANDARDISE_YCS_YEARS) << " first value is less than the model's start_year";
+    LOG_ERROR_P(PARAM_STANDARDISE_YCS_YEARS) << " first value is less than the model's start_year - ssb offset = " << model_->start_year() - ssb_offset_;
   if ((*standardise_ycs_.rbegin()) > model_->final_year() - ssb_offset_)
     LOG_ERROR_P(PARAM_STANDARDISE_YCS_YEARS) << " final value (" << (*standardise_ycs_.rbegin())
         << ") is greater than the model's final year - ssb_offset (" << model_->final_year() - ssb_offset_ << ")";
@@ -291,20 +291,27 @@ void RecruitmentBevertonHolt::DoExecute() {
     // If projection mode ycs values get replaced with projected value from @project block
     if (RunMode::kProjection && model_->current_year() > model_->final_year()) {
       ycs = ycs_values_[model_->current_year() - model_->start_year()];
-      LOG_FINEST() << "Size of ycs values: " << ycs_values_.size() << " should be one more entry from previous year";
-    } else
+      LOG_FINEST() << "Size of ycs values: " << ycs_values_.size() << " should be one more entry from previous year, trying to access element " << model_->current_year() - model_->start_year();
+    // else business as usual
+    } else {
       ycs = stand_ycs_values_[model_->current_year() - model_->start_year()];
+    }
 
+    // Check whether B0 as an input paramter or a derived quantity, this is a result of having an r0 or a b0 in the process
     if (!parameters_.Get(PARAM_B0)->has_been_defined())
       b0_ = derived_quantity_->GetLastValueFromInitialisation(phase_b0_);
+
+    // Calculate year to get SSB that contributes to this years recruits
     unsigned ssb_year = model_->current_year() - ssb_offset_;
     Double SSB;
     if (ssb_year < model_->start_year()) {
+      // Model is in normal years but requires an SSB from the initialisation phase
       initialisationphases::Manager& init_phase_manager = *model_->managers().initialisation_phase();
       LOG_FINE() << "Initialisation phase index SSB is being extracted from init phase " << init_phase_manager.last_executed_phase()
           << " SSB year = " << ssb_year;
       SSB = derived_quantity_->GetLastValueFromInitialisation(init_phase_manager.last_executed_phase());
     } else {
+      // else get value from offset
       SSB = derived_quantity_->GetValue(ssb_year);
     }
     Double ssb_ratio = SSB / b0_;
@@ -314,12 +321,20 @@ void RecruitmentBevertonHolt::DoExecute() {
 
     true_ycs_values_.push_back(true_ycs);
     recruitment_values_.push_back(amount_per);
-    ssb_values_.push_back(derived_quantity_->GetValue(ssb_year));
+    ssb_values_.push_back(SSB);
 
+    if (RunMode::kProjection && model_->current_year() > model_->final_year()) {
+      // Don't log out standardised ycs if in projections, it is overwritten with the projected value
+      LOG_FINEST() << "year = " << model_->current_year() << " SSB= " << SSB << " SR = " << SR << "; ycs = "
+          << ycs_values_[model_->current_year() - model_->start_year()] << " Standardised year class = "
+          << stand_ycs_values_[model_->current_year() - model_->start_year()] << "; b0_ = " << b0_ << "; ssb_ratio = " << ssb_ratio << "; true_ycs = "
+          << true_ycs << "; amount_per = " << amount_per;
+    } else {
     LOG_FINEST() << "year = " << model_->current_year() << " SSB= " << SSB << " SR = " << SR << "; ycs = "
         << ycs_values_[model_->current_year() - model_->start_year()] << " Standardised year class = "
         << stand_ycs_values_[model_->current_year() - model_->start_year()] << "; b0_ = " << b0_ << "; ssb_ratio = " << ssb_ratio << "; true_ycs = "
         << true_ycs << "; amount_per = " << amount_per;
+    }
   }
 
   unsigned i = 0;

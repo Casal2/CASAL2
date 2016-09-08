@@ -77,8 +77,8 @@ void Project::Build() {
       original_value_ = *estimable_;
       break;
     case Estimable::kVector:
-      DoUpdateFunc_ = &Project::SetVectorValue;
       estimable_vector_ = target_->GetEstimableVector(estimable_parameter_);
+      DoUpdateFunc_ = &Project::SetVectorValue;
       break;
     case Estimable::kUnsignedMap:
       DoUpdateFunc_ = &Project::SetMapValue;
@@ -96,7 +96,7 @@ void Project::Build() {
  */
 void Project::Reset() {
  DoReset();
- DoBuild();
+ //DoBuild();
 }
 
 /**
@@ -135,7 +135,10 @@ void Project::SetSingleValue(Double value) {
  *
  */
 void Project::SetVectorValue(Double value) {
+  LOG_FINEST() << "size before adding another value = " << estimable_vector_->size();
   estimable_vector_->push_back(value);
+  LOG_FINEST() << "size before adding a value of "<< value << " = " << estimable_vector_->size();
+
 }
 
 /**

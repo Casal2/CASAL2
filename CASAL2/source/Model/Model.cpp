@@ -705,7 +705,6 @@ void Model::RunProjection() {
       LOG_FINE() << "Starting projection years";
       for (; current_year_ <= projection_final_year_; ++current_year_) {
         LOG_FINE() << "Iteration year: " << current_year_;
-        time_varying_manager.Update(current_year_);
         project_manager.Update(current_year_);
         time_step_manager.Execute(current_year_);
       }
