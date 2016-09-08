@@ -29,11 +29,11 @@ class ModelRunner:
     print ''
     success_count = 0
     fail_count = 0
-    estimation_dir_list = {"HAK4", "LING 3 & 4"}
+    estimation_dir_list = {"Simple", "TwoSex"}
     dir_list = os.listdir("../TestModels/")
     cwd = os.path.normpath(os.getcwd())  
     for folder in dir_list:
-      if folder == "LING 3 & 4":
+      if folder == "TwoSex":
       	continue
       if folder.startswith("."):
         continue
