@@ -28,7 +28,7 @@ namespace timevarying {
 RandomDraw::RandomDraw(Model* model) : TimeVarying(model) {
   parameters_.Bind<Double>(PARAM_MEAN, &mu_, "Mean", "", 0);
   parameters_.Bind<Double>(PARAM_SIGMA, &sigma_, "Standard deviation", "", 1);
-  parameters_.Bind<string>(PARAM_DISTRIBUTION, &distribution_, "distribution", "", PARAM_NORMAL);
+  parameters_.Bind<string>(PARAM_DISTRIBUTION, &distribution_, "distribution", "", PARAM_NORMAL)->set_allowed_values({PARAM_NORMAL,PARAM_LOGNORMAL});
 
   RegisterAsEstimable(PARAM_MEAN, &mu_);
   RegisterAsEstimable(PARAM_SIGMA, &sigma_);
@@ -38,19 +38,23 @@ RandomDraw::RandomDraw(Model* model) : TimeVarying(model) {
  *
  */
 void RandomDraw::DoValidate() {
-  if (distribution_ != PARAM_NORMAL)
-    LOG_ERROR() << "Random Walk can only can draw from a normal distribution currently";
+
 }
 
 /**
  *
  */
 void RandomDraw::DoBuild() {
-  Estimate* estimate = model_->managers().estimate()->GetEstimate(parameter_);
+  Estimate* estimate = nullptr;
+  estimate = model_->managers().estimate()->GetEstimate(parameter_);
   if (estimate) {
     LOG_FINEST() << "Found an @estimate block for " << parameter_;
     upper_bound_ = estimate->upper_bound();
     lower_bound_ = estimate->lower_bound();
+    if (model_->run_mode() == RunMode::kEstimation) {
+      LOG_ERROR_P(PARAM_PARAMETER) << "You cannot have an @estimate block for a parameter that is time varying of type " << type_
+          << ", casal2 will overwite the estimate and a false minimum will be found";
+    }
   }
 
 }
@@ -71,8 +75,14 @@ void RandomDraw::DoUpdate() {
   LOG_FINEST() << "value = " << (*value_);
 
   utilities::RandomNumberGenerator& rng = utilities::RandomNumberGenerator::Instance();
-
-  Double new_value = rng.normal(AS_DOUBLE(mu_), AS_DOUBLE(sigma_));
+  Double new_value = (*value_);
+  // Draw from the random distribution
+  if (distribution_ == PARAM_NORMAL) {
+    new_value = rng.normal(AS_DOUBLE(mu_), AS_DOUBLE(sigma_));
+  } else if (distribution_ == PARAM_LOGNORMAL)  {
+    new_value = rng.lognormal(AS_DOUBLE(mu_), AS_DOUBLE(sigma_));
+  }
+  // Set value
   (*value_) = new_value;
 
   if ((*value_) < lower_bound_) {
