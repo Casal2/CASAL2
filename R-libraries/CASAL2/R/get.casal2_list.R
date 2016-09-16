@@ -1,10 +1,7 @@
 #' Utility function
 #'
-#' 
-#'
 #' @author Craig Marsh
-#' @export returns a list that matches each subcommand to a type
-
+#'
 "get.casal2_list" <-
     function() {
   ## @model
@@ -32,8 +29,8 @@
   grow_type = c(rep("single_value",16),rep("vector",1))
 
   ## Observations
-  obs = c("likelihood","catchability","delta","process_error","tolerance","mortality_instantaneous_process","method_of_removal","ageing_error", "time_step","obs","error_values")
-  obs_type = c(rep("single_value",8),rep("vector",3))
+  obs = c("detection","dispersion","plus_group","likelihood","catchability","delta","process_error","tolerance","mortality_instantaneous_process","method_of_removal","ageing_error", "time_step","obs","error_values","process_errors","selectivities2")
+  obs_type = c(rep("single_value",11),rep("vector",5))
 
   ## priors 
   pri = c("mu","sigma","lower_bound","upper_bound","multiplier")
@@ -51,8 +48,11 @@
   age = c("p1","p2")
   age_type = rep("single_value",2)
   
+  ## reporting
+  report = c("file_name","write_mode","observation","process","selectivity")
+  report_type = rep("single_value",5)
   ## Combine them all.
-  casal2_list = list( command = c(model, categories, common, init, pro, obs, sel, grow, pri, tim,age), type = c(model_type,   categories_type,common_types,init_types,pro_type,obs_type,sel_type,grow_type,pri_type,tim_type,age_type))
+  casal2_list = list( command = c(model, categories, common, init, pro, obs, sel, grow, pri, tim, age, report), type = c(model_type, categories_type, common_types, init_types, pro_type, obs_type, sel_type, grow_type, pri_type, tim_type, age_type, report_type))
   if (TRUE %in% duplicated(casal2_list$command)) {
     stop("can not have duplicated subcommand in this object")
   }

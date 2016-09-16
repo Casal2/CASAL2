@@ -2,12 +2,12 @@
 % Please edit documentation in R/get.casal2_list.R
 \name{get.casal2_list}
 \alias{get.casal2_list}
-\title{Utility extract function}
+\title{Utility function}
 \usage{
 get.casal2_list()
 }
 \description{
-Utility extract function
+Utility function
 }
 \author{
 Craig Marsh
