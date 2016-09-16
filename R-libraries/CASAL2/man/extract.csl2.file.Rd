@@ -2,7 +2,7 @@
 % Please edit documentation in R/extract.csl2.file.R
 \name{extract.csl2.file}
 \alias{extract.csl2.file}
-\title{Utility extract function}
+\title{This function reads a Casal2 configuration file and returns a list object in R. Where each element is a command and subcommand from the configuration file}
 \usage{
 extract.csl2.file(file, path = "")
 }
@@ -12,7 +12,7 @@ extract.csl2.file(file, path = "")
 \item{path}{Optionally, the path to the file}
 }
 \description{
-Utility extract function
+This function reads a Casal2 configuration file and returns a list object in R. Where each element is a command and subcommand from the configuration file
 }
 \author{
 Craig Marsh
