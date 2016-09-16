@@ -1,3 +1,5 @@
+#' Model configuration write function
+#'
 #' This function reads a Casal2 configuration file and returns a list object in R. Where each element is a command and subcommand from the configuration file
 #'
 #' @author Craig Marsh
@@ -5,7 +7,6 @@
 #' @param path Optionally, the path to the file
 #' @export
 #'
-
 "extract.csl2.file" <-
     function(file, path = "") {
     ## if no path specified look in current directory
@@ -53,6 +54,9 @@
     blocks = get.lines(file, starts.with = "\\@", fixed = F)
     ## create a labels for blocks that do not take a label following the @block statement
     exception_blocks = c("model","categories")
+    ## a list of tables that don't have headers    
+    non_header_tables = c("obs","data","error_values")
+
     ans <- list()
     print(paste("The 'csl' input parameter file has", length(file[substring(file, 1, 1) == "@"]), "commands, and", length(file), "lines"))
     CommandCount <- 0
@@ -80,40 +84,42 @@
             ## Check if it is a valid type/subcommand
             if (type == "single_value") {
               ## The easiest subcommand we deal with
-              #ans[[Command]][temp[1]]= temp[-1];
               eval(parse(text= paste("ans[['",Command,"']]$",temp[1]," = temp[2]", sep="")));
               
             } else if (type == "vector") {
               ## deal with a vector subcommand
-
-              ans[[Command]][[temp[1]]] = list("value" = temp[-1])
-              
+              ans[[Command]][[temp[1]]] = list("value" = temp[-1])              
             }  else if ((type == "table_label") || in_table) {
-              ## deal with a table input. the biggest pain in the ass
+              ## deal with a table input. the biggest pain in ithe ass
               in_table = TRUE;
               if (header == 1) {
                 Label = temp[2];
+                table_list = list();
               } else {
                 ## try the other cases
-                if (header == 2) {
+                if (header == 2 && !Label %in% non_header_tables) {
                  ## We need to read in the header labels for the table
-                 Colnames = temp;
-                 ## intialise temp list object for storing info into the table
-                 table_list = list();
-                } else if (header > 2 && type != "end_table"){
+                 Colnames = temp;                   
+                 ## intialise temp list object for storing info into the table                 
+                } else if ((header > 2 && type != "end_table") || (Label %in% non_header_tables && type != "end_table")){
                   ## create a temp list which will be the same as 
-                  for ( j in 1:length(Colnames)) {
-                   table_list[[Colnames[j]]] = c(table_list[[Colnames[j]]],temp[j])
-                   #ans[[Command]][[Label]][[Colnames[j]]] = c(ans[[Command]][[Label]][[Colnames[j]]],temp[j])
-                 }
-               } else if (length(casal2_list$type[casal2_list$command == temp[1]] == "end_table") > 0) {
+                  if (!Label %in% non_header_tables) {
+                    ## if not an observational table
+                    for ( j in 1:length(Colnames)) {
+                      table_list[[Colnames[j]]] = c(table_list[[Colnames[j]]],temp[j])
+                    }
+                  } else {
+                    ## else make an exception for an observational table
+                    table_list[[temp[1]]] = temp[-1];
+                  }
+                } else if (length(casal2_list$type[casal2_list$command == temp[1]] == "end_table") > 0) {
                 ## an initial check to prevent logical(0) in the condition
                   if (type == "end_table") {
                    ## we are leaving the table inputs
                    in_table = FALSE;  
                    header = 1;
                    for (k in 1:length(names(table_list))) {
-                    eval(parse(text= paste("ans[['",Command,"']]$Table$",Label,"[['",names(table_list)[k], "']] = table_list$",names(table_list)[k] , sep="")));
+                    eval(parse(text= paste("ans[['",Command,"']]$Table$",Label,"[['",names(table_list)[k], "']] = table_list$'",names(table_list)[k] ,"'" ,sep="")));
                    }
                    next;
                   }

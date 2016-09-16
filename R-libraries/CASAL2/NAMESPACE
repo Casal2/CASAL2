@@ -2,4 +2,5 @@
 
 export(extract)
 export(extract.csl2.file)
+export(get.casal2_list)
 export(write.csl2.file)
