@@ -8,6 +8,9 @@
 
 "extract.csl2.file" <-
     function(file, path = "") {
+    ## if no path specified look in current directory
+    if (missing(path)) 
+        path <- ""
     ## get the list that lins subcommands to their type.
     casal2_list = get.casal2_list();
     filename = make.filename(path = path, file = file)
@@ -56,9 +59,6 @@
     ## A global variable to tell us if we are still inputing a table
     in_table = FALSE;
     for (i in 1:length(file)) {
-    #for (i in 1:15) { 
-    #for (i in 36:90) { 
-          print(i)
           temp <- string.to.vector.of.words(file[i])
           if (substring(temp[1], 1, 1) == "@") {        
               ## create a block
