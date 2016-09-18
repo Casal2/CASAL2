@@ -95,6 +95,10 @@ void Estimables::LoadValues(unsigned index) {
     if (index >= estimable_values_[iter.first].size())
       LOG_CODE_ERROR() << "index >= estimable_values_[iter.first].size()";
     (*estimables_[iter.first]) = estimable_values_[iter.first][index];
+
+    auto estimate = model_->managers().estimate()->GetEstimate(iter.first);
+    if (estimate != nullptr)
+      estimate->set_value(estimable_values_[iter.first][index]);
   }
 }
 
