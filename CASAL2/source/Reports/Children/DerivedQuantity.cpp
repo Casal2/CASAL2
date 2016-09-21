@@ -33,7 +33,7 @@ void DerivedQuantity::DoExecute() {
   auto derived_quantities = manager.objects();
   for (auto dq : derived_quantities) {
     string label =  dq->label();
-    cache_ << "label: " << label << " " << REPORT_R_LIST << " \n";
+    cache_ << "label: " << label << " \n";
 
     // report b0 and binitial
     if (model_->b0(label) > 0)
@@ -64,7 +64,7 @@ void DerivedQuantity::DoExecute() {
       } else
         cache_ << iter->first << " " << iter->second << "\n";
     }
-    cache_ << REPORT_R_LIST_END <<"\n";
+    cache_ <<"\n";
   }
 
   ready_for_writing_ = true;
