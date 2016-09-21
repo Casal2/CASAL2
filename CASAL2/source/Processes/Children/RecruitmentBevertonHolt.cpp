@@ -335,7 +335,16 @@ void RecruitmentBevertonHolt::DoExecute() {
         << stand_ycs_values_[model_->current_year() - model_->start_year()] << "; b0_ = " << b0_ << "; ssb_ratio = " << ssb_ratio << "; true_ycs = "
         << true_ycs << "; amount_per = " << amount_per;
     }
+    // Store true_ycs values
+    StoreForReport("YCS_year: " , model_->current_year() - ssb_offset_);
+    StoreForReport("true_ycs: " , true_ycs);
+
+
   }
+
+
+
+
 
   unsigned i = 0;
   for (auto category : partition_) {
