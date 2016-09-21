@@ -94,7 +94,7 @@ void MortalityInstantaneous::DoValidate() {
    */
   map<string, map<unsigned, Double>> fishery_year_catch;
   auto columns = catches_table_->columns();
-  // TODO Need to catch if key column headers are missing?
+  // TODO Need to catch if key column headers are missing for example year
   unsigned year_index = std::find(columns.begin(), columns.end(), PARAM_YEAR) - columns.begin();
   LOG_FINEST() << "year_index for fisheries table is: " << year_index;
 
