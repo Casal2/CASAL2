@@ -42,7 +42,7 @@ void PartitionMeanWeight::DoExecute() {
   niwa::partition::accessors::All all_view(model_);
   unsigned year = model_->current_year();
   cache_ << "*" << label_ << " " << "("<< type_ << ")"<<"\n";
-  cache_ << "year: " << year;
+  cache_ << "year: " << year << "\n";
   for (auto iterator = all_view.Begin(); iterator != all_view.End(); ++iterator) {
     (*iterator)->UpdateMeanWeightData();
     (*iterator)->UpdateMeanLengthData();
