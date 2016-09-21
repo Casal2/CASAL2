@@ -57,7 +57,7 @@ DoubleExponential::DoubleExponential(Model* model)
 void DoubleExponential::DoValidate() {
   // Param: x0, x1, x2 - Check that x1 is between x0 and x2
   if (x0_ < x1_ || x0_ > x2_)
-    LOG_ERROR_P(PARAM_X1) << ": x0 ( " << AS_DOUBLE(x1_) << ") must be between x1 (" << AS_DOUBLE(x0_) << ") and x2 (" << AS_DOUBLE(x2_) << ")";
+    LOG_ERROR_P(PARAM_X0) << "x0 ( " << AS_DOUBLE(x0_) << ") must be between x1 (" << AS_DOUBLE(x1_) << ") and x2 (" << AS_DOUBLE(x2_) << ")";
 
   // Param: y0, y1, y2
   if (y0_ < 0.0)
@@ -83,8 +83,11 @@ void DoubleExponential::Reset() {
   for (unsigned age = model_->min_age(); age <= model_->max_age(); ++age) {
     if ((Double)age <= x0_)
       values_[age] = alpha_ * y0_ * pow((y1_ / y0_), ((Double)age - x0_)/(x1_ - x0_));
-    else
+    else if ((Double)age > x0_ && (Double)age <= x2_)
       values_[age] = alpha_ * y0_ * pow((y2_ / y0_), ((Double)age - x0_)/(x2_ - x0_));
+    else
+      values_[age] = y2_;
+
   }
 }
 
