@@ -96,7 +96,13 @@ void Project::Build() {
  */
 void Project::Reset() {
  DoReset();
- //DoBuild();
+ string error = "";
+ Estimable::Type estimable_type = model_->objects().GetEstimableType(parameter_, error);
+ if (estimable_type == Estimable::kSingle) {
+   if (estimable_ != nullptr) {
+     original_value_ = *estimable_;
+   }
+ }
 }
 
 /**
