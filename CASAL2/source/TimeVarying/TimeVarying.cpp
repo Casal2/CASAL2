@@ -80,7 +80,6 @@ void TimeVarying::Build() {
   }
   if (error != "")
     LOG_ERROR_P(PARAM_PARAMETER) << error;
-
   DoBuild();
 }
 
@@ -134,13 +133,13 @@ void TimeVarying::set_map_value(Double value) {
  *
  */
 void TimeVarying::Reset() {
-
   string error = "";
-  estimable_    = model_->objects().GetEstimable(parameter_, error);
-  if (estimable_ != nullptr) {
-    original_value_ = *estimable_;
+  Estimable::Type estimable_type = model_->objects().GetEstimableType(parameter_, error);
+  if (estimable_type == Estimable::kSingle) {
+    if (estimable_ != nullptr) {
+      original_value_ = *estimable_;
+    }
   }
-
 }
 
 } /* namespace niwa */
