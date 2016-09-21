@@ -32,12 +32,12 @@ void TimeVarying::DoExecute() {
   LOG_TRACE();
   timevarying::Manager& manager = *model_->managers().time_varying();
   auto time_varying = manager.objects();
+  cache_ << "*" << label_ << " " << "("<< type_ << ")"<<"\n";
 
   for (auto time_var : time_varying) {
     string label =  time_var->label();
     LOG_FINEST() << "Reporting for @time_varying block " << label;
-    cache_ << "*" << label_ << " " << "("<< type_ << ")"<<"\n";
-    cache_ << label << " " << REPORT_R_LIST << "\n";
+    cache_ << label << " " << REPORT_R_DATAFRAME << "\n";
 
     map<unsigned, Double>& parameter_by_year = time_var->ParameterByYear();
     cache_ << "year" << " Value \n";
