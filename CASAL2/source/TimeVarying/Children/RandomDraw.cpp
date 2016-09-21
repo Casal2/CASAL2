@@ -80,7 +80,8 @@ void RandomDraw::DoUpdate() {
   if (distribution_ == PARAM_NORMAL) {
     new_value = rng.normal(AS_DOUBLE(mu_), AS_DOUBLE(sigma_));
   } else if (distribution_ == PARAM_LOGNORMAL)  {
-    new_value = rng.lognormal(AS_DOUBLE(mu_), AS_DOUBLE(sigma_));
+    Double cv = sigma_ / mu_;
+    new_value = rng.lognormal(AS_DOUBLE(mu_), cv);
   }
   // Set value
   (*value_) = new_value;

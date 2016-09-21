@@ -33,7 +33,7 @@ public:
   virtual                     ~TimeVarying() = default;
   void                        Validate();
   void                        Build();
-  void                        Reset() { };
+  void                        Reset();
   void                        Update(unsigned current_year);
 
   //accessors

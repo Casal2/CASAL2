@@ -67,7 +67,7 @@ void RandomWalk::DoReset() {
  */
 void RandomWalk::DoUpdate() {
   string error = "";
-  value_ = model_->objects().GetEstimable(parameter_, error);
+  value_ = model_->objects().FindEstimable(parameter_, error);
   LOG_FINEST() << "value = " << (*value_);
 
   utilities::RandomNumberGenerator& rng = utilities::RandomNumberGenerator::Instance();

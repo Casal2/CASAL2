@@ -62,7 +62,9 @@ void TimeVarying::Build() {
     case Estimable::kSingle:
       update_function_ = &TimeVarying::set_single_value;
       estimable_    = model_->objects().GetEstimable(parameter_, error);
-      original_value_ = *estimable_;
+      if (estimable_ != nullptr) {
+        original_value_ = *estimable_;
+      }
       break;
     case Estimable::kVector:
       update_function_ = &TimeVarying::set_vector_value;
@@ -126,6 +128,19 @@ void TimeVarying::set_vector_value(Double value) {
  */
 void TimeVarying::set_map_value(Double value) {
   (*estimable_map_)[model_->current_year()] = value;
+}
+
+/**
+ *
+ */
+void TimeVarying::Reset() {
+
+  string error = "";
+  estimable_    = model_->objects().GetEstimable(parameter_, error);
+  if (estimable_ != nullptr) {
+    original_value_ = *estimable_;
+  }
+
 }
 
 } /* namespace niwa */
