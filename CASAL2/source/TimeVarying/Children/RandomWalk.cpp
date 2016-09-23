@@ -48,6 +48,7 @@ void RandomWalk::DoValidate() {
 void RandomWalk::DoBuild() {
   Estimate* estimate = model_->managers().estimate()->GetEstimate(parameter_);
   if (estimate) {
+    has_at_estimate_ = true;
     LOG_FINEST() << "Found an @estimate block for " << parameter_;
     upper_bound_ = estimate->upper_bound();
     lower_bound_ = estimate->lower_bound();
@@ -75,13 +76,19 @@ void RandomWalk::DoUpdate() {
   Double deviate = rng.normal(AS_DOUBLE(mu_), AS_DOUBLE(sigma_));
   (*value_) += deviate;
 
-  if ((*value_) < lower_bound_) {
-    LOG_FINEST() << "hit @estimate lower bound setting value from " << (*value_) << " to " << lower_bound_;
-    (*value_) = lower_bound_;
+  if (has_at_estimate_) {
+    if ((*value_) < lower_bound_) {
+      LOG_FINEST() << "hit @estimate lower bound setting value from " << (*value_) << " to " << lower_bound_;
+      (*value_) = lower_bound_;
+    }
+    if ((*value_) > upper_bound_) {
+      LOG_FINEST() << "hit @estimate upper bound setting value from " << (*value_) << " to " << upper_bound_;
+      (*value_) = upper_bound_;
+    }
   }
-  if ((*value_) > upper_bound_) {
-    LOG_FINEST() << "hit @estimate upper bound setting value from " << (*value_) << " to " << upper_bound_;
-    (*value_) = upper_bound_;
+  if ((*value_) <= 0.0) {
+    LOG_WARNING() << "parameter: " << parameter_ << " random draw of value = " << (*value_) << " a natural lower bound of 0.0 has been forced so resetting the value = 0.01";
+    (*value_)  = 0.01;
   }
 
   LOG_FINEST() << "value after deviate of " << deviate << " = " << (*value_) << " for year " << model_->current_year();
