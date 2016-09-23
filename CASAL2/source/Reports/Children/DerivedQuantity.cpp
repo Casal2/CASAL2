@@ -64,7 +64,7 @@ void DerivedQuantity::DoExecute() {
       } else
         cache_ << iter->first << " " << iter->second << "\n";
     }
-    cache_ <<"\n";
+    //cache_ <<"\n";
   }
 
   ready_for_writing_ = true;
