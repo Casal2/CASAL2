@@ -119,10 +119,14 @@ class Archiver:
     os.system('cp ' + binary_path + '/library_cppad/' + library_name + ' CASAL2/casal2_cppad' + extension)
     os.system('cp ' + binary_path + '/library_test/' + library_name + ' CASAL2/casal2_test' + extension)
     os.system('cp ../Documentation/UserManual/CASAL2.pdf CASAL2/CASAL2.pdf')
+    print "-- Copy manual"
     os.system('cp ../Documentation/GettingStartedGuide/GettingStartedGuide.pdf CASAL2/GettingStartedGuide.pdf')
+    print "-- Copy starters guide"
     os.system('cp ../Documentation/ContributorsManual/ContributorsGuide.pdf Casal2/ContributorsGuide.pdf')    
+    print "-- Copy contriutors guide"
     os.system('cp ../Documentation/UserManual/CASAL2.syn Casal2/CASAL2.syn')    
     os.system('cp -r ../Examples CASAL2/Examples')
+    print "-- Copy contriutors guide"    
     os.system('cp -r ../README.txt CASAL2/README.txt')
     os.system('cp ../R-libraries/CASAL2_1.0.zip CASAL2/CASAL2_Rlibrary.zip')
     if Globals.operating_system_ == "windows":
