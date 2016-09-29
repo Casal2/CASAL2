@@ -24,10 +24,8 @@
     ## Remove any lines that begin with a #
     file <- file[substring(file, 1, 1) != "#"]
     ## Find and remove any lines that begin or end with { or } which is also a comment
-    index1 <- ifelse(substring(file, 1, 1) == "{", 1:length(file), 
-        0)
-    index2 <- ifelse(substring(file, 1, 1) == "}", 1:length(file), 
-        0)
+    index1 <- ifelse(substring(file, 1, 1) == "{", 1:length(file), 0)
+    index2 <- ifelse(substring(file, 1, 1) == "}", 1:length(file), 0)
     index1 <- index1[index1 != 0]
     index2 <- index2[index2 != 0]
     if (length(index1) != length(index2)) 
@@ -55,16 +53,33 @@
     ## create a labels for blocks that do not take a label following the @block statement
     exception_blocks = c("model","categories")
     ## a list of tables that don't have headers    
-    non_header_tables = c("obs","data","error_values")
-
+    non_header_tables = c("obs","data","error_values","table")
+    ## there are three types of tables, 1) tables with headers (Instant mortality) 2) tables with row labels (observations and error values) and 3)tables that are just a matrix (ageing error)
     ans <- list()
     print(paste("The 'csl' input parameter file has", length(file[substring(file, 1, 1) == "@"]), "commands, and", length(file), "lines"))
     CommandCount <- 0
     ## A global variable to tell us if we are still inputing a table
     in_table = FALSE;
+    label_name = 1; ## this will be the default label if no user defined label is specified
     for (i in 1:length(file)) {
           temp <- string.to.vector.of.words(file[i])
-          if (substring(temp[1], 1, 1) == "@") {        
+          check_inputs = check_short_hand(temp)
+          ## expand numeric shorthand
+          if (any(check_inputs$numeric) && substr(Command,1,3) != "est") {
+            vals = eval(parse(text = temp[check_inputs$numeric]))
+            eval(parse(text = "temp = paste(c(temp[!check_inputs$numeric],as.character(vals)), collapse = ' ')"))             
+            temp = string.to.vector.of.words(temp)
+          }
+          ## expand String shorthand
+          if (any(check_inputs$string)) {
+            ## Do nothing for now, this one needs more thought
+          }
+          ## Check if it is a beginning of a block
+          if (substring(temp[1], 1, 1) == "@") {              
+              if(is.na(temp[2])) {
+                temp[2]= paste(substr(temp[1],2, 1000), "_",label_name , sep = "")
+                label_name = label_name + 1;
+              }      
               ## create a block
               header = 1
               CommandCount <- CommandCount + 1
@@ -95,6 +110,7 @@
               if (header == 1) {
                 Label = temp[2];
                 table_list = list();
+                mat = matrix();
               } else {
                 ## try the other cases
                 if (header == 2 && !Label %in% non_header_tables) {
@@ -109,8 +125,16 @@
                       table_list[[Colnames[j]]] = c(table_list[[Colnames[j]]],temp[j])
                     }
                   } else {
-                    ## else make an exception for an observational table
-                    table_list[[temp[1]]] = temp[-1];
+                    ## else make an exception for an observational table and ageing error
+                    if (Label == "table") { # then this is a ageing error matrix                      
+                      if (header == 2) {
+                         mat = temp;
+                      } else {
+                         mat = rbind(mat, temp); 
+                      }
+                    } else {  
+                      table_list[[temp[1]]] = temp[-1];
+                    }
                   }
                 } else if (length(casal2_list$type[casal2_list$command == temp[1]] == "end_table") > 0) {
                 ## an initial check to prevent logical(0) in the condition
@@ -118,8 +142,13 @@
                    ## we are leaving the table inputs
                    in_table = FALSE;  
                    header = 1;
-                   for (k in 1:length(names(table_list))) {
-                    eval(parse(text= paste("ans[['",Command,"']]$Table$",Label,"[['",names(table_list)[k], "']] = table_list$'",names(table_list)[k] ,"'" ,sep="")));
+                   if (!Label == "table") {
+                    for (k in 1:length(names(table_list))) {
+                      eval(parse(text= paste("ans[['",Command,"']]$Table$",Label,"[['",names(table_list)[k], "']] = table_list$'",names(table_list)[k] ,"'" ,sep="")));
+                    }
+                   } else {
+                    dimnames(mat) = NULL;
+                    eval(parse(text= paste("ans[['",Command,"']]$Table$",Label," = mat" , sep = "")));
                    }
                    next;
                   }
@@ -131,5 +160,5 @@
             }
          }
       }
-    ans;  
+   ans;
 }
