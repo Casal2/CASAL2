@@ -36,8 +36,9 @@ public:
 
 private:
   // members
-  Double                      mu_;
-  Double                      sigma_;
+  Double                      mu_ = 0.0;
+  Double                      sigma_ = 1.0;
+  Double                      rho_ = 1.0;
   Double                      intercept_;
   string                      distribution_;
   Double*                     value_;
