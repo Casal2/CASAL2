@@ -28,6 +28,7 @@ namespace timevarying {
 RandomWalk::RandomWalk(Model* model) : TimeVarying(model) {
   parameters_.Bind<Double>(PARAM_MEAN, &mu_, "Mean", "", 0);
   parameters_.Bind<Double>(PARAM_SIGMA, &sigma_, "Standard deviation", "", 1);
+  parameters_.Bind<Double>(PARAM_SIGMA, &rho_, "Auto Correlation parameter", "", 1);
   parameters_.Bind<string>(PARAM_DISTRIBUTION, &distribution_, "distribution", "", PARAM_NORMAL);
 
   RegisterAsEstimable(PARAM_MEAN, &mu_);
@@ -74,7 +75,7 @@ void RandomWalk::DoUpdate() {
   utilities::RandomNumberGenerator& rng = utilities::RandomNumberGenerator::Instance();
 
   Double deviate = rng.normal(AS_DOUBLE(mu_), AS_DOUBLE(sigma_));
-  (*value_) += deviate;
+  (*value_) += (*value_) * rho_ + deviate;
 
   if (has_at_estimate_) {
     if ((*value_) < lower_bound_) {
