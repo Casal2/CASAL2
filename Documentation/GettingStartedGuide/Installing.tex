@@ -4,5 +4,8 @@ In the first instance, see \url{http://www.niwa.co.nz/} for information about \C
 
 A Microsoft Windows bundle includes the binary, manual, examples and other help guides. It can be downloaded at \url{ftp://ftp.niwa.co.nz/Casal2/windows/Casal2.zip} for the Microsoft Windows version. The Linux bundle which includes a binary, manual, examples and other help guides can be downloaded at \url{ftp://ftp.niwa.co.nz/Casal2/linux/Casal2.tar.gz}.
 
+For both 64-bit Linux and Microsoft Windows, only the executable file \texttt{casal2} or \texttt{casal2.exe} is required to run CASAL2 with non-auto differentiable minimisers. If you wish to use the auto differentiable minimisers the \texttt{.so} or \texttt{.dll} must be in the same folder as the executable \CNAME files.
+
+If you cannot run the following command \texttt{casal2 -h} you man need to shift \texttt{casal2\_release.so} to \path{/usr/local/lib/} (which is where your system may expect to find it).
 
 

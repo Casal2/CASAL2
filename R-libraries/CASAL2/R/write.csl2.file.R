@@ -17,7 +17,8 @@
     cat("", file = filename, sep = "", fill = F, labels = NULL, append = F)
     ## these are blocks that have no label's associated with them
     exception_commands = c("model","categories")
-
+    ## a list of tables that don't have headers
+    non_header_tables = c("obs","data","error_values","table")
     for (i in 1:length(object)) {
       Command = names(object)[i];
       if (Command %in% exception_commands) {
@@ -36,30 +37,55 @@
       subcommands = names(object[[i]]);
       for (j in 1:length(subcommands)) {
         if (subcommands[j] == "Table") {
-          ## find out how many tables are in teh block
+          ## find out how many tables are in the block
           tables = names(object[[i]][[j]])
           for ( k in 1:length(tables)) {
+            ## iterate over all the tables
             ## initial line
             initial = paste("table", tables[k]);
             cat(initial, file = filename, sep = "", fill = F, labels = NULL, append = T)  
             cat("\n", file = filename, sep = "", fill = F, labels = NULL, append = T)
-            ## Add colnames
-            this_table = eval(parse(text= paste("object[[i]][[j]]$",tables[k],sep="")));
-            header = paste(names(this_table), collapse = " ");
-            cat(header, file = filename, sep = "", fill = F, labels = NULL, append = T)  
-            cat("\n", file = filename, sep = "", fill = F, labels = NULL, append = T)
-            Nrows = length(this_table[[1]]);
-            for (rows in 1:Nrows) {
-              values = vector();
-              for (cols in 1:length(names(this_table))) {
-                values[cols] = this_table[[cols]][rows];
+            
+            ## we have to deal with the three types of tables
+            
+            if (tables[k] %in% non_header_tables) {
+                ## make the exception for ageing errors
+                if (tables[k] == "table") {
+                  this_table = eval(parse(text= paste("object[[i]][[j]]$",tables[k],sep="")));
+                  for (Nrow in 1:nrow(this_table)) {
+                    Line = paste(this_table[Nrow,], collapse = " ")
+                    cat(Line, file = filename, sep = "", fill = F, labels = NULL, append = T)  
+                    cat("\n", file = filename, sep = "", fill = F, labels = NULL, append = T)                           
+                  }
+                } else {
+                  ## mostly dealing with observational tables
+                  this_table = eval(parse(text= paste("object[[i]][[j]]$",tables[k],sep="")));
+                  for (Nrows in 1:length(this_table)) {
+                    Line = paste(c(names(this_table)[Nrows], this_table[[Nrows]]) , collapse = " ")
+                    cat(Line, file = filename, sep = "", fill = F, labels = NULL, append = T)  
+                    cat("\n", file = filename, sep = "", fill = F, labels = NULL, append = T)                       
+                  }                
+                }   
+              cat("end_table", file = filename, sep = "", fill = F, labels = NULL, append = T)  
+              cat("\n\n", file = filename, sep = "", fill = F, labels = NULL, append = T)                  
+            } else {
+              this_table = eval(parse(text= paste("object[[i]][[j]]$",tables[k],sep="")));
+              header = paste(names(this_table), collapse = " ");
+              cat(header, file = filename, sep = "", fill = F, labels = NULL, append = T)  
+              cat("\n", file = filename, sep = "", fill = F, labels = NULL, append = T)
+              Nrows = length(this_table[[1]]);
+              for (rows in 1:Nrows) {
+                values = vector();
+                for (cols in 1:length(names(this_table))) {
+                 values[cols] = this_table[[cols]][rows];
+                }
+                Line = paste(values,collapse = " ");
+                cat(Line, file = filename, sep = "", fill = F, labels = NULL, append = T)  
+                cat("\n", file = filename, sep = "", fill = F, labels = NULL, append = T)              
               }
-              Line = paste(values,collapse = " ");
-              cat(Line, file = filename, sep = "", fill = F, labels = NULL, append = T)  
-              cat("\n", file = filename, sep = "", fill = F, labels = NULL, append = T)              
-            }
-            cat("end_table", file = filename, sep = "", fill = F, labels = NULL, append = T)  
-            cat("\n\n\n", file = filename, sep = "", fill = F, labels = NULL, append = T)                 
+              cat("end_table", file = filename, sep = "", fill = F, labels = NULL, append = T)  
+              cat("\n\n\n", file = filename, sep = "", fill = F, labels = NULL, append = T)  
+            }  
           }
           cat("\n", file = filename, sep = "", fill = F, labels = NULL, append = T)
         } else {
