@@ -36,8 +36,8 @@ class DebBuilder:
     print '-- CASAL2 Revision: ' + lines[1]
     if not os.path.exists('bin/linux/deb'):
       os.mkdir('bin/linux/deb')
-
-    folder = 'bin/linux/deb/Casal2_' + lines[1]    
+    print lines[1]
+    folder = 'bin/linux/deb/Casal2'   
     os.system('rm -rf ' + folder)
     os.makedirs(folder + '/usr/local/bin')
     os.makedirs(folder + '/usr/local/lib')
