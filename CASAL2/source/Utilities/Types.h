@@ -19,7 +19,8 @@
 
 #include <cstdlib>
 #include <memory>
-//#include <cxxabi.h>
+#include <cxxabi.h>
+#include <string>
 
 #ifdef USE_ADOLC
 #include <adolc/adouble.h>
@@ -70,17 +71,19 @@ typedef double Double;
  * This code is used to demangle the typeid(x).name information
  */
 inline std::string demangle(const char* name) {
-  return name;
-  /*
-    int status = -4; // some arbitrary value to eliminate the compiler warning
+  int status = -1; // some arbitrary value to eliminate the compiler warning
 
-    // enable c++11 by passing the flag -std=c++11 to g++
-    std::unique_ptr<char, void(*)(void*)> res {
-        abi::__cxa_demangle(name, NULL, NULL, &status),
-        std::free
-    };
+  char   *realname;
+  std::string val = "";
+  realname = abi::__cxa_demangle(name, 0, 0, &status);
+  val = realname;
+  free(realname);
 
-    return (status==0) ? res.get() : name ;*/
+  val = val == "std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >" ? "string" : val;
+  val = val.length() > 38 && val.substr(0, 38) == "std::vector<std::__cxx11::basic_string" ? "vector<string>" : val;
+  val = val == "std::vector<double, std::allocator<double> >" ? "vector<double>" : val;
+  val = val == "std::vector<unsigned int, std::allocator<unsigned int> >" ? "vector<unsigned int>" : val;
+  return (status==0) ? val : name ;
 }
 
 
