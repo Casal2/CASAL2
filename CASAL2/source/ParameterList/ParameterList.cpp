@@ -156,8 +156,8 @@ void ParameterList::Populate() {
     LOG_FINEST() << "Binding: " << iter->first;
     iter->second->Bind();
   }
-
   LOG_FINEST() << "Binding complete";
+
   if (parameters_.find(PARAM_LABEL) != parameters_.end()) {
     Parameter* param = parameters_[PARAM_LABEL];
     if (param->values().size() != 0) {
@@ -166,6 +166,8 @@ void ParameterList::Populate() {
         LOG_ERROR() << param->location() << " the label '" << param->values()[0] << "' contains the following invalid characters: " << invalid;
     }
   }
+
+  LOG_FINEST() << "Populate complete";
 }
 
 /**
@@ -264,7 +266,9 @@ string ParameterList::location(const string& label) {
   map<string, Parameter*>::iterator iter = parameters_.find(label);
   auto table_iter = tables_.find(label);
   if (iter == parameters_.end() && table_iter == tables_.end()) {
-    LOG_CODE_ERROR() << "parameters_ object is missing the parameter: " << label;
+    LOG_CODE_ERROR() << "Trying to find the configuration file location for the parameter " << label
+        << " failed because it has not been previously bound to this object. This is a developer"
+        << " error most likely caused by using mismatched PARAM_X values";
   }
 
   if (iter != parameters_.end())
