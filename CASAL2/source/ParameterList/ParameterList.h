@@ -78,6 +78,7 @@ using niwa::parameters::Bindable;
 using niwa::parameters::BindableVector;
 using niwa::parameterlist::Parameter;
 using niwa::parameterlist::Parameter;
+class Object;
 
 /**
  * Class Definition ParameterList
@@ -120,8 +121,8 @@ public:
 private:
   // members
   bool                        already_populated_ = false;
-  string                      parent_block_type_    = "";
-  string                      defined_file_name_    = "";
+  string                      parent_block_type_    = "<unknown>";
+  string                      defined_file_name_    = "<unknown>";
   unsigned                    defined_line_number_  = 0;
   map<string, Parameter*>     parameters_;
   map<string, Table*>         tables_;

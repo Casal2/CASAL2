@@ -134,15 +134,16 @@ void ParameterList::Populate() {
 
   if (missing_parameters != "") {
     if (parameters_.find(PARAM_LABEL) == parameters_.end()) {
-      LOG_ERROR() << "At line " << defined_line_number_ << " in " << defined_file_name_ << " the following required parameters for the block "
+      LOG_ERROR() << "At line " << defined_line_number_ << " in " << defined_file_name_ << " the following required parameters for the block @"
                   << parent_block_type_ << " are required but have not been defined: " << missing_parameters;
     } else {
       auto parameter = parameters_.find(PARAM_LABEL);
       if (parameter->second->values().size() == 0) {
-        LOG_ERROR() << "At line " << defined_line_number_ << " in " << defined_file_name_ << " the following required parameters for the block "
+        LOG_ERROR() << "At line " << defined_line_number_ << " in " << defined_file_name_ << " the following required parameters for the block @"
             << parent_block_type_ << " are required but have not been defined: " << missing_parameters;
       } else {
-        LOG_ERROR() << parameter->second->location() << " the following parameters are required but have not been defined: " << missing_parameters;
+        LOG_ERROR() << parameter->second->location() << " the following required parameters for the block @"
+            << parent_block_type_ << " are required but have not been defined: " << missing_parameters;
       }
     }
   }

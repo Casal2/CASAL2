@@ -60,7 +60,6 @@ public:
 protected:
   // Members
   Model*                      model_ = nullptr;
-  string                      type_;
   bool                        active_;
   double**                    hessian_ = nullptr;
   unsigned                    hessian_size_;
