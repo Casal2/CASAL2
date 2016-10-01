@@ -64,6 +64,9 @@ Estimable::Type Objects::GetEstimableType(const string& parameter_absolute_name,
     return Estimable::kInvalid;
   }
 
+  if (index != "")
+    return Estimable::kSingle;
+
   return target->GetEstimableType(parameter);
 }
 
