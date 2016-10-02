@@ -139,6 +139,10 @@ void CommandLineParser::Parse(int argc, char* argv[], RunParameters& options) {
     options.query_object_ = parameters["query"].as<string>();
     options.run_mode_ = RunMode::kQuery;
     return;
+
+  } else if (parameters.count("unittest")) {
+    options.run_mode_ = RunMode::kUnitTest;
+    return;
   }
 
   /**

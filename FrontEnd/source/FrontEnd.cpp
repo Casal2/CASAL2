@@ -127,6 +127,9 @@ int main(int argc, char * argv[]) {
   case RunMode::kVersion:
   case RunMode::kHelp:
     return 0;
+  case RunMode::kUnitTest:
+    RunUnitTests(argc, argv, options);
+    return return_code_;
   default:
     break;
   }
@@ -162,9 +165,6 @@ int main(int argc, char * argv[]) {
     break;
   case RunMode::kMCMC:
     RunMCMC(argc, argv, options);
-    break;
-  case RunMode::kUnitTest:
-    RunUnitTests(argc, argv, options);
     break;
   default:
     cout << "ERROR: Invalid RunMode:" << options.run_mode_ << endl;
