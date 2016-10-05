@@ -22,7 +22,7 @@ IF (WIN32)
 ELSE (WIN32)
  ## LINUX BUILD VARIABLES AND LIBRARIES
  SET(buildOS linux)
- SET(COMPILE_OPTIONS "${COMPILE_OPTIONS} -std=c++11")
+ SET(COMPILE_OPTIONS "${COMPILE_OPTIONS} -std=c++11 -pthread")
  SET(thirdPartyLibraries ${thirdPartyLibraries} dl pthread rt)
 ENDIF ()
 
@@ -39,7 +39,7 @@ MESSAGE("CASAL2 Folder: ${CASAL2_HOME_DIRECTORY}/source")
 FILE(GLOB_RECURSE sourceFiles ${PROJECT_HOME_DIRECTORY}/source/*.cpp)
 MESSAGE("SOURCE FILES: ${sourceFiles}")
 
-SET(LINK_OPTIONS " ")
+SET(LINK_OPTIONS "-pthread")
 
 
 IF(WIN32)
