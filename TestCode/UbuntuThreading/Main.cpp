@@ -23,6 +23,7 @@ int main(int argc, char * argv[]) {
   auto library = dlopen("./libshared_library.so", RTLD_LAZY);
   if (library == nullptr) {
     cout << "Failed to Load Shared Library" << endl;
+    cout << "Error: " << dlerror() << endl;
     return -1;
   }
 
