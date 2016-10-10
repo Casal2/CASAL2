@@ -142,5 +142,3 @@ class Archiver:
       os.system('mv Casal2.tar.gz ' + output_directory + 'Casal2.tar.gz')
 
     return True #Success!
-
-ADD: R library for linux in debian installer and archiver
