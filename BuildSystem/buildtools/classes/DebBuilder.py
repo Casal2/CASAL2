@@ -49,6 +49,7 @@ class DebBuilder:
     os.system('cp Casal2/casal2_test.so ' + folder + '/usr/local/lib')
     os.makedirs(folder + '/usr/local/share/doc/casal2')
     os.system('cp ../Documentation/UserManual/CASAL2.pdf ' + folder + '/usr/local/share/doc/casal2/')
+    os.system('cp ../"R-libraries"/CASAL2_1.0.tar.gz ' + folder + '/usr/local/share/doc/casal2/')
     os.makedirs(folder + '/DEBIAN')
     control_file = open(folder + '/DEBIAN/control', 'w')
     control_file.write('Package: Casal2\n')
