@@ -128,7 +128,12 @@ class Archiver:
     os.system('cp -r ../Examples Casal2/Examples')
     print "-- Copy contriutors guide"    
     os.system('cp -r ../README.txt Casal2/README.txt')
-    os.system('cp ../R-libraries/CASAL2_1.0.zip Casal2/CASAL2_Rlibrary.zip')
+    ## deal with R libraries
+    if Globals.operating_system_ == "windows":
+      os.system('cp ../R-libraries/CASAL2_1.0.zip Casal2/CASAL2_Rlibrary.zip')
+    else: 
+      os.system('cp ../R-libraries/CASAL2_1.0.tar.gz Casal2/CASAL2_1.0.tar.gz')
+      
     if Globals.operating_system_ == "windows":
       os.system("zip -r Casal2.zip CASAL2/*")
     else:
@@ -138,3 +143,4 @@ class Archiver:
 
     return True #Success!
 
+ADD: R library for linux in debian installer and archiver
