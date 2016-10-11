@@ -20,9 +20,10 @@ ftp://ftp.niwa.co.nz/Casal2/windows/Casal2.zip. For a
 windows installer ftp://ftp.niwa.co.nz/Casal2/windows/casal2_setup.exe
 
 
-A linux bundle which includes a binary, manual, 
+A linux bundle  installer which includes a binary, manual, 
 examples and other help guides can be downloaded at 
-ftp://ftp.niwa.co.nz/Casal2/linux/Casal2.tar.gz
+ftp://ftp.niwa.co.nz/Casal2/linux/Casal2.tar.gz. There is
+also a debian installer available for download at ftp://ftp.niwa.co.nz/Casal2/linux/Casal2.deb
 
 
 For users who are interested in contributing to 
