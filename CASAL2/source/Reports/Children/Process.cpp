@@ -62,10 +62,9 @@ void Process::DoExecute() {
     cache_ << line << "\n";
   }
 
-  cache_ << "stored values:\n";
   auto print_values = process_->print_values();
   for (auto element : print_values) {
-    cache_ << element.first << ": ";
+    cache_ << element.first;
     string line = boost::algorithm::join(element.second, " ");
     cache_ << line << "\n";
   }
