@@ -125,9 +125,13 @@ void Project::Update(unsigned current_year) {
  */
 void Project::RestoreOriginalValue(unsigned year) {
   LOG_TRACE();
-  original_value_ = projected_parameters_[year];
-  LOG_FINE() << "Setting original value to: " << original_value_;
-  (this->*DoUpdateFunc_)(original_value_);
+  string error = "";
+  Estimable::Type estimable_type = model_->objects().GetEstimableType(parameter_, error);
+  if (estimable_type == Estimable::kSingle) {
+    original_value_ = projected_parameters_[year];
+    LOG_FINE() << "Setting original value to: " << original_value_;
+    (this->*DoUpdateFunc_)(original_value_);
+  }
 }
 
 /**
