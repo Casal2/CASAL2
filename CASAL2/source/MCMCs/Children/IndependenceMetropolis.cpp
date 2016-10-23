@@ -206,7 +206,7 @@ void IndependenceMetropolis::FillMultivariateNormal(Double step_size) {
   for (unsigned i = 0; i < estimate_count_; ++i) {
     Double row_sum = 0.0;
     for (unsigned j = 0; j < estimate_count_; ++j) {
-      row_sum += covariance_matrix_lt(i, j) * normals[j];
+      row_sum += covariance_matrix_lt(j, i) * normals[j];
     }
 
     if (is_enabled_estimate_[i])
