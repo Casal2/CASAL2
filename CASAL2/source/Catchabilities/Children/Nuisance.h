@@ -9,8 +9,8 @@
  *
  * @section DESCRIPTION
  *
- * Nuisance catchabilities are analytical solutions for catchabilities. They can only be derived under certain scenerios's see the manual for more detail.
- * They can still have a prior on them even though they are not estimated as a free parameter. This is useful functionlaity for reducing correlations in your
+ * Nuisance catchabilities are an analytical solutions for solving catchabilities given the data. They can only be derived under certain scenerios's see the manual for more detail.
+ * They can still have a prior on them even though they are not estimated as a free parameter. This is useful functionality for reducing correlations in your
  * free parameters, thus generating more stable MCMC chains.
  */
 #ifndef CATCHABILITIES_NUISANCE_H_

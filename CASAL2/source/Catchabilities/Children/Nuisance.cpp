@@ -42,64 +42,6 @@ Nuisance::Nuisance(Model* model) : Catchability(model) {
  *
  */
 void Nuisance::DoValidate() {
-  LOG_TRACE();
-
-//  //This was the first path that I went down, the second was going down an additional prior.
-//  string parameter = "catchability["+ label_+"].q";
-//  // Find out if an estimate exists
-//  LOG_FINEST() << "Find estimate block for parameter " << parameter;
-//
-//  bool is_estimated;
-//  is_estimated = model_->managers().estimate()->HasEstimate(parameter);
-//
-//  if (is_estimated) {
-//    // Obtain a pointer to the estimate
-//    Estimate* estimate = model_->managers().estimate()->GetEstimate(parameter);
-//    if (!estimate)
-//      LOG_ERROR() << "Can not get estimate with the parameter name " << parameter;
-//    // Find out the prior type
-//    prior_ = estimate->type();
-//    LOG_FINEST() << "Type of prior on Nuisance Q = "  << prior_;
-//
-//    // Get the lower and upper bounds
-//    lower_bound_ = estimate->lower_bound();
-//    upper_bound_ = estimate->upper_bound();
-//    // Perhaps set value to the mean of the bounds for now if the estimate system cannot handle an uninitialised estimate
-//    q_ = (upper_bound_ + lower_bound_) / 2.0;
-//
-//
-//    if (prior_ == PARAM_LOGNORMAL) {
-//    // Need to store mu and cv for the prior for use later
-//    map<string, Parameter*> parameters = estimate->parameters().parameters();
-//     for (auto iter = parameters.begin(); iter != parameters.end(); ++iter) {
-//       if (iter->first == PARAM_MU) {
-//         Double mu = 0.0;
-//         for (string parameter_value : iter->second->values()) {
-//           if (!utils::To<Double>(parameter_value, mu))
-//             LOG_ERROR() << "parameter mu = " << parameter_value << " cannot be converted to a double";
-//         }
-//         mu_ = mu;
-//       }
-//       if (iter->first == PARAM_CV) {
-//         Double cv = 0.0;
-//         for (string parameter_value : iter->second->values()) {
-//           if (!utils::To<Double>(parameter_value, cv))
-//             LOG_ERROR() << "parameter cv = " << parameter_value << " cannot be converted to a double";
-//         }
-//         cv_ = cv;
-//       }
-//     }
-//    }
-//
-//    // Turn off estimation but turn on contribute to the objective function
-//    estimate->set_in_objective_function(true);
-//    estimate->set_estimated(false);
-//
-//  } else {
-//    LOG_FINEST() << "solving for q in a maximum likelihood context. i.e. no prior";
-//    q_ = 1.0;
-//  }
-
 }
 
 /*
