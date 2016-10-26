@@ -95,6 +95,8 @@ void MortalityInstantaneous::DoValidate() {
   map<string, map<unsigned, Double>> fishery_year_catch;
   auto columns = catches_table_->columns();
   // TODO Need to catch if key column headers are missing for example year
+  if (std::find(columns.begin(), columns.end(), PARAM_YEAR) == columns.end())
+    LOG_ERROR_P(PARAM_CATCHES) << "Cannot find the column " << PARAM_YEAR << ", this column is needed, for casal2 to run this process. Please add it =)";
   unsigned year_index = std::find(columns.begin(), columns.end(), PARAM_YEAR) - columns.begin();
   LOG_FINEST() << "year_index for fisheries table is: " << year_index;
 
@@ -125,6 +127,20 @@ void MortalityInstantaneous::DoValidate() {
 
   columns = method_table_->columns();
   rows = method_table_->data();
+
+  // Check the column headers are all specified corectly
+  if (std::find(columns.begin(), columns.end(), PARAM_METHOD) == columns.end())
+    LOG_ERROR_P(PARAM_METHOD) << "Cannot find the column " << PARAM_METHOD << ", this column is needed, for casal2 to run this process. Please add it =)";
+  if (std::find(columns.begin(), columns.end(), PARAM_CATEGORY) == columns.end())
+    LOG_ERROR_P(PARAM_METHOD) << "Cannot find the column " << PARAM_CATEGORY << ", this column is needed, for casal2 to run this process. Please add it =)";
+  if (std::find(columns.begin(), columns.end(), PARAM_SELECTIVITY) == columns.end())
+    LOG_ERROR_P(PARAM_METHOD) << "Cannot find the column " << PARAM_SELECTIVITY << ", this column is needed, for casal2 to run this process. Please add it =)";
+  if (std::find(columns.begin(), columns.end(), PARAM_TIME_STEP) == columns.end())
+    LOG_ERROR_P(PARAM_METHOD) << "Cannot find the column " << PARAM_TIME_STEP << ", this column is needed, for casal2 to run this process. Please add it =)";
+  if (std::find(columns.begin(), columns.end(), PARAM_U_MAX) == columns.end())
+    LOG_ERROR_P(PARAM_METHOD) << "Cannot find the column " << PARAM_U_MAX << ", this column is needed, for casal2 to run this process. Please add it =)";
+  if (std::find(columns.begin(), columns.end(), PARAM_PENALTY) == columns.end())
+    LOG_ERROR_P(PARAM_METHOD) << "Cannot find the column " << PARAM_PENALTY << ", this column is needed, for casal2 to run this process. Please add it =)";
 
   unsigned fishery_index      = std::find(columns.begin(), columns.end(), PARAM_METHOD) - columns.begin();
   unsigned category_index     = std::find(columns.begin(), columns.end(), PARAM_CATEGORY) - columns.begin();

@@ -57,54 +57,76 @@ void RandomDraw::DoBuild() {
           << ", casal2 will overwite the estimate and a false minimum will be found";
     }
   }
+  string error = "";
+  target_object_ = model_->objects().FindObject(parameter_, error);
 
+  Estimable::Type estimable_type = model_->objects().GetEstimableType(parameter_, error);
+  if( estimable_type != Estimable::kSingle)
+    LOG_ERROR_P(PARAM_TYPE) << "@time_varying blocks of type " << PARAM_RANDOMWALK << " can only be implemented in parameters that are scalars or single values";
+  DoReset();
 }
 
 /**
  *
  */
 void RandomDraw::DoReset() {
-
+  utilities::RandomNumberGenerator& rng = utilities::RandomNumberGenerator::Instance();
+  Double new_value = 0.0;
+  // Draw from the random distribution
+  if (distribution_ == PARAM_NORMAL) {
+    for (unsigned year : years_) {
+    new_value = rng.normal(AS_DOUBLE(mu_), AS_DOUBLE(sigma_));
+    LOG_FINEST() << "with mean = " << mu_ << " and sigma = " << sigma_ << " new value = " << new_value;
+    // Set value
+    if (has_at_estimate_) {
+      if (new_value < lower_bound_) {
+        LOG_FINEST() << "hit @estimate lower bound setting value from " << new_value << " to " << lower_bound_;
+        new_value = lower_bound_;
+      }
+      if (new_value > upper_bound_) {
+        LOG_FINEST() << "hit @estimate upper bound setting value from " << new_value << " to " << upper_bound_;
+        new_value = upper_bound_;
+      }
+    }
+    if (new_value <= 0.0) {
+      LOG_WARNING() << "parameter: " << parameter_ << " random draw of value = " << new_value << " a natural lower bound of 0.0 has been forced so resetting the value = 0.01";
+      new_value  = 0.01;
+    }
+    parameter_by_year_[year] = new_value;
+    }
+  } else if (distribution_ == PARAM_LOGNORMAL)  {
+    for (unsigned year : years_) {
+      Double cv = sigma_ / mu_;
+      new_value = rng.lognormal(AS_DOUBLE(mu_), AS_DOUBLE(cv));
+      LOG_FINEST() << "with mean = " << mu_ << " and sigma = " << sigma_ << " new value = " << new_value;
+      // Set value
+      if (has_at_estimate_) {
+        if (new_value < lower_bound_) {
+          LOG_FINEST() << "hit @estimate lower bound setting value from " << new_value << " to " << lower_bound_;
+          new_value = lower_bound_;
+        }
+        if (new_value > upper_bound_) {
+          LOG_FINEST() << "hit @estimate upper bound setting value from " << new_value << " to " << upper_bound_;
+          new_value = upper_bound_;
+        }
+      }
+      if (new_value <= 0.0) {
+        LOG_WARNING() << "parameter: " << parameter_ << " random draw of value = " << new_value << " a natural lower bound of 0.0 has been forced so resetting the value = 0.01";
+        new_value  = 0.01;
+      }
+      parameter_by_year_[year] = new_value;
+    }
+  }
 }
 
 /**
  *
  */
 void RandomDraw::DoUpdate() {
-  string error = "";
-  value_ = model_->objects().GetEstimable(parameter_, error);
-  LOG_FINEST() << "value = " << (*value_);
 
-  utilities::RandomNumberGenerator& rng = utilities::RandomNumberGenerator::Instance();
-  Double new_value = (*value_);
-  // Draw from the random distribution
-  if (distribution_ == PARAM_NORMAL) {
-    new_value = rng.normal(AS_DOUBLE(mu_), AS_DOUBLE(sigma_));
-  } else if (distribution_ == PARAM_LOGNORMAL)  {
-    Double cv = sigma_ / mu_;
-    new_value = rng.lognormal(AS_DOUBLE(mu_), AS_DOUBLE(cv));
-  }
-  // Set value
-  (*value_) = new_value;
 
-  if (has_at_estimate_) {
-    if ((*value_) < lower_bound_) {
-      LOG_FINEST() << "hit @estimate lower bound setting value from " << (*value_) << " to " << lower_bound_;
-      (*value_) = lower_bound_;
-    }
-    if ((*value_) > upper_bound_) {
-      LOG_FINEST() << "hit @estimate upper bound setting value from " << (*value_) << " to " << upper_bound_;
-      (*value_) = upper_bound_;
-    }
-  }
-  if ((*value_) <= 0.0) {
-    LOG_WARNING() << "parameter: " << parameter_ << " random draw of value = " << (*value_) << " a natural lower bound of 0.0 has been forced so resetting the value = 0.01";
-    (*value_)  = 0.01;
-  }
-
-  LOG_FINE() << "Setting Value to: " << (*value_);
-  parameter_by_year_[model_->current_year()] = (*value_);
-  (this->*update_function_)(*value_);
+  LOG_FINE() << "Setting Value to: " << parameter_by_year_[model_->current_year()];
+  (this->*update_function_)(parameter_by_year_[model_->current_year()]);
 }
 
 } /* namespace timevarying */
