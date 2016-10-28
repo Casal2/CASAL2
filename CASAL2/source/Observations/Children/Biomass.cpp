@@ -36,6 +36,9 @@ Biomass::Biomass(Model* model) : Observation(model) {
   parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_labels_, "Labels of the selectivities", "", true);
   parameters_.Bind<Double>(PARAM_PROCESS_ERROR, &process_error_value_, "Value for process error", "", Double(0.0));
 
+  allowed_likelihood_types_.push_back(PARAM_NORMAL);
+  allowed_likelihood_types_.push_back(PARAM_LOGNORMAL);
+  allowed_likelihood_types_.push_back(PARAM_PSEUDO);
 }
 
 /**
@@ -84,12 +87,6 @@ void Biomass::DoValidate() {
           proportions_by_year_[years_[i]].push_back(value);
     }
   }
-
-  /**
-   * Verify that the likelihood is from the acceptable ones.
-   */
-  if (likelihood_type_ != PARAM_NORMAL && likelihood_type_ != PARAM_LOGNORMAL && likelihood_type_ != PARAM_PSEUDO)
-    LOG_ERROR_P(PARAM_LIKELIHOOD) << ": likelihood " << likelihood_type_ << " is not supported by the biomass observation";
 }
 
 /**

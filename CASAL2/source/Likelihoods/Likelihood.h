@@ -34,7 +34,7 @@ public:
   // Methods
   Likelihood() = default;
   virtual                     ~Likelihood() = default;
-  void                        Validate() { };
+  void                        Validate();
   void                        Build() { };
   void                        Reset() override final { };
   virtual Double              AdjustErrorValue(const Double process_error, const Double error_value) = 0;

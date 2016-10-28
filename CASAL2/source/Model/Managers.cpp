@@ -24,6 +24,7 @@
 #include "EstimateTransformations/Manager.h"
 #include "InitialisationPhases/Manager.h"
 #include "LengthWeights/Manager.h"
+#include "Likelihoods/Manager.h"
 #include "MCMCs/Manager.h"
 #include "Minimisers/Manager.h"
 #include "Observations/Manager.h"
@@ -59,6 +60,7 @@ Managers::Managers(Model* model) {
   estimate_transformation_ = new estimatetransformations::Manager();
   initialisation_phase_   = new initialisationphases::Manager();
   length_weight_          = new lengthweights::Manager();
+  likelihood_             = new likelihoods::Manager();
   mcmc_                   = new mcmcs::Manager();
   minimiser_              = new minimisers::Manager();
   observation_            = new observations::Manager();
@@ -88,6 +90,7 @@ Managers::~Managers() {
   delete estimate_transformation_;
   delete initialisation_phase_;
   delete length_weight_;
+  delete likelihood_;
   delete mcmc_;
   delete minimiser_;
   delete observation_;
@@ -115,6 +118,7 @@ void Managers::Validate() {
   estimate_transformation_->Validate();
   initialisation_phase_->Validate();
   length_weight_->Validate();
+  likelihood_->Validate();
   mcmc_->Validate();
   minimiser_->Validate();
   observation_->Validate();
@@ -144,6 +148,7 @@ void Managers::Build() {
   estimate_transformation_->Build();
   initialisation_phase_->Build(model_);
   length_weight_->Build();
+  likelihood_->Build();
   mcmc_->Build();
   minimiser_->Build();
   observation_->Build();
@@ -170,6 +175,7 @@ void Managers::Reset() {
   estimate_transformation_->Reset();
   initialisation_phase_->Reset();
   length_weight_->Reset();
+  likelihood_->Reset();
   mcmc_->Reset();
   minimiser_->Reset();
   observation_->Reset();

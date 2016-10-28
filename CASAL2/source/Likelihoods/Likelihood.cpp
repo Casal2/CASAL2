@@ -15,5 +15,12 @@
 // namespaces
 namespace niwa {
 
+/**
+ * Validate the parameters
+ */
+void Likelihood::Validate() {
+  parameters_.Populate();
+}
+
 } /* namespace niwa */
 

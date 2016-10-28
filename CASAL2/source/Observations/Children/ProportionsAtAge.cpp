@@ -48,6 +48,10 @@ ProportionsAtAge::ProportionsAtAge(Model* model) : Observation(model) {
   parameters_.Bind<string>(PARAM_AGEING_ERROR, &ageing_error_label_, "Label of ageing error to use", "", "");
   parameters_.BindTable(PARAM_OBS, obs_table_, "Table of observed values", "", false);
   parameters_.BindTable(PARAM_ERROR_VALUES, error_values_table_, "", "", false);
+
+  allowed_likelihood_types_.push_back(PARAM_LOGNORMAL);
+  allowed_likelihood_types_.push_back(PARAM_MULTINOMIAL);
+  allowed_likelihood_types_.push_back(PARAM_DIRICHLET);
 }
 
 /**
@@ -164,13 +168,6 @@ void ProportionsAtAge::DoValidate() {
     if (error_values_by_year[year].size() != obs_expected - 1)
       LOG_CODE_ERROR() << "error_values_by_year_[year].size() (" << error_values_by_year[year].size() << ") != obs_expected - 1 (" << obs_expected -1 << ")";
   }
-
-  /**
-   * Validate likelihood type
-   */
-  if (likelihood_type_ != PARAM_LOGNORMAL && likelihood_type_ != PARAM_MULTINOMIAL && likelihood_type_ != PARAM_DIRICHLET)
-    LOG_ERROR_P(PARAM_LIKELIHOOD) << ": likelihood " << likelihood_type_ << " is not supported by the proportions at age observation. "
-        << "Supported types are " << PARAM_LOGNORMAL << ", " << PARAM_MULTINOMIAL << " and " << PARAM_DIRICHLET;
 
   /**
    * Build our proportions and error values for use in the observation
