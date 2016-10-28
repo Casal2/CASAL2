@@ -45,28 +45,20 @@ void Linear::DoValidate() {
  *
  */
 void Linear::DoBuild() {
+  string error = "";
+  target_object_ = model_->objects().FindObject(parameter_, error);
 
+  Estimable::Type estimable_type = model_->objects().GetEstimableType(parameter_, error);
+  if( estimable_type != Estimable::kSingle)
+    LOG_ERROR_P(PARAM_TYPE) << "@time_varying blocks of type " << PARAM_LINEAR << " can only be implemented in parameters that are scalars or single values";
+  DoReset();
 }
 
 /**
  *
  */
 void Linear::DoReset() {
-
-}
-
-/**
- *
- */
-void Linear::DoUpdate() {
-  string error = "";
-  value_ = model_->objects().GetEstimable(parameter_, error);
-  if (value_ == nullptr)
-    LOG_ERROR() << "The parameter you have chosen is not an estimable parameter";
-  LOG_FINE() << "current year " << model_->current_year();
-  LOG_FINE() << "First year to implement " << years_[0];
   bool current_year =  model_->current_year() == years_[0];
-
   unsigned diff = model_->current_year() - years_[0];
   LOG_FINE() << "diff unsigned = " << diff;
 
@@ -76,21 +68,22 @@ void Linear::DoUpdate() {
   if (current_year) {
     // First year don't make a change
     LOG_FINE() << "Setting Value to: " << intercept_;
-    (*value_) = intercept_;
-    parameter_by_year_[model_->current_year()] = intercept_;
-    (this->*update_function_)(*value_);
+    parameter_by_year_[model_->current_year()] =  intercept_;
   } else {
     // Add a linear trend
-    (*value_) = intercept_ + years_since_first_year * slope_;
+    parameter_by_year_[model_->current_year()] = intercept_ + years_since_first_year * slope_;
     //value_ = model_->objects().GetEstimable(parameter_, error);
-    LOG_FINE() << "value = " << (*value_);
-
-    LOG_FINE() << "value after deviate of " << slope_ << " = " << (*value_) << " for year " << model_->current_year();
-
-    LOG_FINE() << "Setting Value to: " << (*value_);
-    parameter_by_year_[model_->current_year()] = (*value_);
-    (this->*update_function_)(*value_);
+    LOG_FINE() << "value = " << parameter_by_year_[model_->current_year()];
+    LOG_FINE() << "value after deviate of " << slope_ << " = " << parameter_by_year_[model_->current_year()] << " for year " << model_->current_year();
+    LOG_FINE() << "Setting Value to: " << parameter_by_year_[model_->current_year()];
   }
+}
+
+/**
+ *
+ */
+void Linear::DoUpdate() {
+    (this->*update_function_)(parameter_by_year_[model_->current_year()]);
 }
 
 } /* namespace timevarying */

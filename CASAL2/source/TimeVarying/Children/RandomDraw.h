@@ -39,10 +39,9 @@ private:
   Double                      mu_;
   Double                      sigma_;
   Double                      intercept_;
-  bool                        has_at_estimate_;
+  bool                        has_at_estimate_ = false;
   string                      distribution_;
   Double*                     value_;
-  map<unsigned, Double>       values_by_year_;
   Double                      lower_bound_;
   Double                      upper_bound_;
 
