@@ -39,7 +39,7 @@ public:
   // methods
   Observation() = delete;
   explicit Observation(Model* model);
-  virtual                     ~Observation();
+  virtual                     ~Observation() = default;
   void                        Validate();
   void                        Build();
   void                        Reset();
@@ -74,6 +74,7 @@ protected:
   string                      simulation_likelihood_label_ = "";
   bool                        run_in_simulation_mode_ = false;
   Likelihood*                 likelihood_ = nullptr;
+  vector<string>              allowed_likelihood_types_;
   Double                      error_value_multiplier_ = 1.0;
   Double                      likelihood_multiplier_ = 1.0;
   vector<string>              category_labels_;

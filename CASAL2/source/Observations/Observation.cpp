@@ -16,9 +16,11 @@
 #include <boost/algorithm/string/replace.hpp>
 #include <boost/algorithm/string/trim_all.hpp>
 #include <boost/algorithm/string/split.hpp>
+#include <boost/algorithm/string/join.hpp>
 
 #include "Categories/Categories.h"
-#include "Likelihoods/Factory.h"
+#include "Likelihoods/Manager.h"
+#include "Model/Managers.h"
 #include "Model/Model.h"
 
 // Namespaces
@@ -40,14 +42,6 @@ Observation::Observation(Model* model) : model_(model) {
 }
 
 /**
- * Destructor
- */
-Observation::~Observation() {
-  if (likelihood_ != nullptr)
-    delete likelihood_;
-}
-
-/**
  * Validate the parameters passed in from the
  * configuration file
  */
@@ -62,6 +56,12 @@ void Observation::Validate() {
     } else {
       simulation_likelihood_label_ = likelihood_type_;
     }
+  }
+
+  if (std::find(allowed_likelihood_types_.begin(), allowed_likelihood_types_.end(), likelihood_type_) == allowed_likelihood_types_.end()) {
+    string allowed = boost::algorithm::join(allowed_likelihood_types_, ", ");
+    LOG_ERROR_P(PARAM_LIKELIHOOD) << ": likelihood " << likelihood_type_ << " is not supported by the " << type_ << " observation."
+        << " Allowed types are: " << allowed;
   }
 
   /**
@@ -108,7 +108,7 @@ void Observation::Validate() {
 void Observation::Build() {
   LOG_TRACE();
 
-  likelihood_ = likelihoods::Factory::Create(likelihood_type_);
+  likelihood_ = model_->managers().likelihood()->GetOrCreateLikelihood(likelihood_type_);
   if (!likelihood_) {
     LOG_ERROR_P(PARAM_LIKELIHOOD) << "(" << likelihood_type_ << ") could not be created.";
     return;

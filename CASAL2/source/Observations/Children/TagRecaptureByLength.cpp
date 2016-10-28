@@ -55,6 +55,8 @@ TagRecaptureByLength::TagRecaptureByLength(Model* model) : Observation(model) {
   parameters_.Bind<Double>(PARAM_TIME_STEP_PROPORTION, &time_step_proportion_, "Proportion through the mortality block of the time step when the observation is evaluated", "", Double(0.5));
 
   mean_proportion_method_ = true;
+
+  allowed_likelihood_types_.push_back(PARAM_BINOMIAL);
 }
 
 /**
@@ -211,14 +213,6 @@ void TagRecaptureByLength::DoValidate() {
         LOG_CODE_ERROR() << "error_values_by_year_[year].size() (" << scanned_by_year[year].size() << ") != obs_expected - 1 (" << obs_expected -1 << ")";
       }
     }
-  }
-
-  /**
-   * Validate likelihood type
-   */
-  if (likelihood_type_ != PARAM_BINOMIAL) {
-    LOG_ERROR_P(PARAM_LIKELIHOOD) << ": likelihood " << likelihood_type_ << " is not supported by the proportions at age observation. "
-        << "Supported types are " << PARAM_BINOMIAL;
   }
 
   /**

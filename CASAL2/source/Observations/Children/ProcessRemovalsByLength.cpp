@@ -49,6 +49,9 @@ ProcessRemovalsByLength::ProcessRemovalsByLength(Model* model)
   parameters_.Bind<string>(PARAM_MORTALITY_INSTANTANEOUS_PROCESS, &process_label_, "The label of the mortality instantaneous process for the observation", "");
 
   mean_proportion_method_ = false;
+
+  allowed_likelihood_types_.push_back(PARAM_LOGNORMAL);
+  allowed_likelihood_types_.push_back(PARAM_MULTINOMIAL);
 }
 
 /**
@@ -169,13 +172,6 @@ void ProcessRemovalsByLength::DoValidate() {
     if (error_values_by_year[year].size() != obs_expected - 1)
       LOG_CODE_ERROR() << "error_values_by_year_[year].size() (" << error_values_by_year[year].size() << ") != obs_expected - 1 (" << obs_expected -1 << ")";
   }
-
-  /**
-   * Validate likelihood type
-   */
-  if (likelihood_type_ != PARAM_LOGNORMAL && likelihood_type_ != PARAM_MULTINOMIAL)
-    LOG_ERROR_P(PARAM_LIKELIHOOD) << ": likelihood " << likelihood_type_ << " is not supported by the Length Frequency observation. "
-        << "Supported types are " << PARAM_LOGNORMAL << " and " << PARAM_MULTINOMIAL;
 
   /**
    * Build our proportions and error values for use in the observation

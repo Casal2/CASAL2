@@ -30,6 +30,7 @@ namespace estimates { class Manager; }
 namespace estimatetransformations { class Manager; }
 namespace initialisationphases { class Manager; }
 namespace lengthweights { class Manager; }
+namespace likelihoods { class Manager; }
 namespace mcmcs { class Manager; }
 namespace minimisers { class Manager; }
 namespace observations { class Manager; }
@@ -63,6 +64,7 @@ public:
   virtual estimatetransformations::Manager* estimate_transformation() { return estimate_transformation_; }
   virtual initialisationphases::Manager*  initialisation_phase() { return initialisation_phase_; }
   virtual lengthweights::Manager*         length_weight() { return length_weight_; }
+  virtual likelihoods::Manager*           likelihood() { return likelihood_; }
   virtual mcmcs::Manager*                 mcmc() { return mcmc_; }
   virtual minimisers::Manager*            minimiser() { return minimiser_; }
   virtual observations::Manager*          observation() { return observation_; }
@@ -97,6 +99,7 @@ protected:
   estimatetransformations::Manager*   estimate_transformation_;
   initialisationphases::Manager*      initialisation_phase_;
   lengthweights::Manager*             length_weight_;
+  likelihoods::Manager*               likelihood_;
   mcmcs::Manager*                     mcmc_;
   minimisers::Manager*                minimiser_;
   observations::Manager*              observation_;

@@ -42,6 +42,9 @@ ProportionsAtLength::ProportionsAtLength(Model* model) : Observation(model) {
   parameters_.Bind<Double>(PARAM_PROCESS_ERRORS, &process_error_values_, "Process error", "", true);
   parameters_.BindTable(PARAM_OBS, obs_table_, "Table of observed values", "", false);
   parameters_.BindTable(PARAM_ERROR_VALUES, error_values_table_, "Table of error values of the observed values (note the units depend on the likelihood)", "", false);
+
+  allowed_likelihood_types_.push_back(PARAM_LOGNORMAL);
+  allowed_likelihood_types_.push_back(PARAM_MULTINOMIAL);
 }
 
 /**
@@ -169,13 +172,6 @@ void ProportionsAtLength::DoValidate() {
     if (error_values_by_year[year].size() != obs_expected - 1)
       LOG_CODE_ERROR() << "error_values_by_year_[year].size() (" << error_values_by_year[year].size() << ") != obs_expected - 1 (" << obs_expected -1 << ")";
   }
-
-  /**
-   * Validate likelihood type
-   */
-  if (likelihood_type_ != PARAM_LOGNORMAL && likelihood_type_ != PARAM_MULTINOMIAL)
-    LOG_ERROR_P(PARAM_LIKELIHOOD) << ": likelihood " << likelihood_type_ << " is not supported by the Length Frequency observation. "
-        << "Supported types are " << PARAM_LOGNORMAL << " and " << PARAM_MULTINOMIAL;
 
   /**
    * Build our proportions and error values for use in the observation
