@@ -48,6 +48,14 @@ void Exogenous::DoValidate() {
  *  values_by_year.
  */
 void Exogenous::DoBuild() {
+  DoReset();
+}
+
+/**
+ *
+ */
+void Exogenous::DoReset() {
+  // Add this to the Reset so that if a, is estimated the model can actually update the model.
   string error = "";
   values_by_year_ = utilities::Map::create(years_, exogenous_);
   Double* value = model_->objects().GetEstimable(parameter_, error);
@@ -61,12 +69,6 @@ void Exogenous::DoBuild() {
 
   for (unsigned year : years_)
     parameter_by_year_[year] = (*value) + (a_ * (values_by_year_[year] - mean));
-}
-
-/**
- *
- */
-void Exogenous::DoReset() {
 
 }
 
