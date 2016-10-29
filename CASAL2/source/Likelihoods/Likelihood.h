@@ -41,12 +41,12 @@ public:
   virtual void                SimulateObserved(map<unsigned, vector<observations::Comparison> >& comparisons) { };
   virtual Double              GetInitialScore(map<unsigned, vector<observations::Comparison> >& comparisons, unsigned year) { return 0.0; };
   virtual void                GetScores(map<unsigned, vector<observations::Comparison> >& comparisons) { };
-  virtual void                DoValidate() = 0;
-
+  virtual void                DoValidate() { };
 
   // accessors
   void                        set_multiplier(Double new_value) { multiplier_ = new_value; }
   void                        set_error_value_multiplier(Double new_value) { error_value_multiplier_ = new_value; }
+  void                        set_type(const string& type) { type_ = type; }
 
 protected:
   // members

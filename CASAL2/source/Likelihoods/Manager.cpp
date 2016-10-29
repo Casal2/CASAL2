@@ -13,6 +13,7 @@
 #include "Manager.h"
 
 #include "Likelihoods/Factory.h"
+#include "Model/Model.h"
 
 // namespaces
 namespace niwa {
@@ -27,27 +28,36 @@ Manager::Manager() {
 /**
  *
  */
-Likelihood* Manager::GetOrCreateLikelihood(const string& label) {
+Likelihood* Manager::GetOrCreateLikelihood(Model* model, const string& observation_label, const string& label) {
+  LOG_FINEST() << observation_label << " + " << label;
   Likelihood* labelled = nullptr;
   Likelihood* factory  = nullptr;
 
   for (auto likelihood : objects_) {
     LOG_FINEST() << likelihood->label();
     if (likelihood->label() == label) {
+      LOG_FINEST() << "Matched: " << label;
       labelled = likelihood;
       break;
     }
   }
 
-  factory = likelihoods::Factory::Create(label);
+  factory = likelihoods::Factory::Create(model, PARAM_LIKELIHOOD, label);
   if (labelled != nullptr && factory != nullptr) {
     LOG_ERROR() << labelled->location() << " likelihood " << label << " has the label that matches a type of likelihood. This is not allowed";
   }
 
-  if (labelled != nullptr)
+  if (labelled == nullptr && factory == nullptr)
+    return nullptr;
+
+  if (labelled != nullptr) {
+    LOG_FINE() << "Returning likelihood: " << labelled->label();
     return labelled;
+  }
 
   objects_.push_back(factory);
+  factory->set_type(label);
+  factory->set_label(observation_label + "." + label);
   return factory;
 }
 

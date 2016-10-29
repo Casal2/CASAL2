@@ -21,6 +21,7 @@
 
 // Namespaces
 namespace niwa {
+class Model;
 namespace likelihoods {
 
 /**
@@ -29,7 +30,7 @@ namespace likelihoods {
 class Factory {
 public:
   // methods
-  static Likelihood*          Create(const string& likelihood_type);
+  static Likelihood*          Create(Model* model, const string& object_type, const string& sub_type);
 
 private:
   // Methods

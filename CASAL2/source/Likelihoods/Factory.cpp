@@ -13,6 +13,9 @@
 // Headers
 #include "Factory.h"
 
+#include "Model/Model.h"
+#include "Model/Managers.h"
+#include "Likelihoods/Manager.h"
 #include "Likelihoods/Children/Binomial.h"
 #include "Likelihoods/Children/BinomialApprox.h"
 #include "Likelihoods/Children/Dirichlet.h"
@@ -33,27 +36,30 @@ namespace likelihoods {
  * @param likelihood_type The type of likelihood to create
  * @return shared_ptr to the likelihood
  */
-Likelihood* Factory::Create(const string& likelihood_type) {
+Likelihood* Factory::Create(Model* model, const string& object_type, const string& sub_type) {
   Likelihood* result = nullptr;
 
-  if (likelihood_type == PARAM_BINOMIAL)
+  if (sub_type == PARAM_BINOMIAL)
     result = new Binomial();
-  else if (likelihood_type == PARAM_BINOMIAL_APPROX)
+  else if (sub_type == PARAM_BINOMIAL_APPROX)
     result = new BinomialApprox();
-  else if (likelihood_type == PARAM_DIRICHLET)
+  else if (sub_type == PARAM_DIRICHLET)
     result = new Dirichlet();
-  else if (likelihood_type == PARAM_LOGNORMAL)
+  else if (sub_type == PARAM_LOGNORMAL)
     result = new LogNormal();
-  else if (likelihood_type == PARAM_LOGISTIC_NORMAL)
+  else if (sub_type == PARAM_LOGISTIC_NORMAL)
     result = new LogisticNormal();
-  else if (likelihood_type == PARAM_LOGNORMAL_WITH_Q)
+  else if (sub_type == PARAM_LOGNORMAL_WITH_Q)
     result = new LogNormalWithQ();
-  else if (likelihood_type == PARAM_MULTINOMIAL)
+  else if (sub_type == PARAM_MULTINOMIAL)
     result = new Multinomial();
-  else if (likelihood_type == PARAM_NORMAL)
+  else if (sub_type == PARAM_NORMAL)
     result = new Normal();
-  else if (likelihood_type == PARAM_PSEUDO)
+  else if (sub_type == PARAM_PSEUDO)
     result = new Pseudo();
+
+  if (result)
+    model->managers().likelihood()->AddObject(result);
 
   return result;
 }
