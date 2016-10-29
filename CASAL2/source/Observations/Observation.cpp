@@ -58,12 +58,6 @@ void Observation::Validate() {
     }
   }
 
-  if (std::find(allowed_likelihood_types_.begin(), allowed_likelihood_types_.end(), likelihood_type_) == allowed_likelihood_types_.end()) {
-    string allowed = boost::algorithm::join(allowed_likelihood_types_, ", ");
-    LOG_ERROR_P(PARAM_LIKELIHOOD) << ": likelihood " << likelihood_type_ << " is not supported by the " << type_ << " observation."
-        << " Allowed types are: " << allowed;
-  }
-
   /**
    * Because this observation supports categories that are provided in groups
    * (using the + operator) we need to verify the number of selectivities
@@ -117,6 +111,11 @@ void Observation::Build() {
   likelihood_->set_error_value_multiplier(error_value_multiplier_);
   likelihood_->Validate();
   likelihood_->Build();
+  if (std::find(allowed_likelihood_types_.begin(), allowed_likelihood_types_.end(), likelihood_->type()) == allowed_likelihood_types_.end()) {
+    string allowed = boost::algorithm::join(allowed_likelihood_types_, ", ");
+    LOG_ERROR_P(PARAM_LIKELIHOOD) << ": likelihood " << likelihood_->type() << " is not supported by the " << type_ << " observation."
+        << " Allowed types are: " << allowed;
+  }
 
   DoBuild();
 }

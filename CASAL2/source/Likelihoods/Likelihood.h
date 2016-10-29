@@ -41,6 +41,8 @@ public:
   virtual void                SimulateObserved(map<unsigned, vector<observations::Comparison> >& comparisons) { };
   virtual Double              GetInitialScore(map<unsigned, vector<observations::Comparison> >& comparisons, unsigned year) { return 0.0; };
   virtual void                GetScores(map<unsigned, vector<observations::Comparison> >& comparisons) { };
+  virtual void                DoValidate() = 0;
+
 
   // accessors
   void                        set_multiplier(Double new_value) { multiplier_ = new_value; }
