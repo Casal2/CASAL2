@@ -145,6 +145,8 @@ void Manager::Finalise() {
     else
       report->Finalise();
   }
+
+  LOG_TRACE();
 }
 
 /**

@@ -33,7 +33,7 @@ LogisticNormal::LogisticNormal() {
 }
 
 LogisticNormal::~LogisticNormal() {
-  // TODO Auto-generated destructor stub
+  delete [] covariance_table_;
 }
 
 void LogisticNormal::DoValidate() {

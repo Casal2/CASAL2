@@ -88,7 +88,7 @@ base::Object* Factory::CreateObject(const string& object_type, const string& sub
   else if (lwr_object_type == PARAM_LENGTH_WEIGHT || lwr_object_type == PARAM_LENGTH_WEIGHTS)
     return lengthweights::Factory::Create(model_, lwr_object_type, lwr_sub_type);
   else if (lwr_object_type == PARAM_LIKELIHOOD)
-    return likelihoods::Factory::Create(lwr_sub_type);
+    return likelihoods::Factory::Create(model_, lwr_object_type, lwr_sub_type);
   else if (lwr_object_type == PARAM_MINIMIZER)
     return minimisers::Factory::Create(model_, lwr_object_type, lwr_sub_type);
   else if (lwr_object_type == PARAM_MCMC)

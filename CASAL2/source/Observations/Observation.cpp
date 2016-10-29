@@ -102,18 +102,16 @@ void Observation::Validate() {
 void Observation::Build() {
   LOG_TRACE();
 
-  likelihood_ = model_->managers().likelihood()->GetOrCreateLikelihood(likelihood_type_);
+  likelihood_ = model_->managers().likelihood()->GetOrCreateLikelihood(model_, label_, likelihood_type_);
   if (!likelihood_) {
-    LOG_ERROR_P(PARAM_LIKELIHOOD) << "(" << likelihood_type_ << ") could not be created.";
+    LOG_FATAL_P(PARAM_LIKELIHOOD) << "(" << likelihood_type_ << ") could not be found or constructed.";
     return;
   }
   likelihood_->set_multiplier(likelihood_multiplier_);
   likelihood_->set_error_value_multiplier(error_value_multiplier_);
-  likelihood_->Validate();
-  likelihood_->Build();
   if (std::find(allowed_likelihood_types_.begin(), allowed_likelihood_types_.end(), likelihood_->type()) == allowed_likelihood_types_.end()) {
     string allowed = boost::algorithm::join(allowed_likelihood_types_, ", ");
-    LOG_ERROR_P(PARAM_LIKELIHOOD) << ": likelihood " << likelihood_->type() << " is not supported by the " << type_ << " observation."
+    LOG_FATAL_P(PARAM_LIKELIHOOD) << ": likelihood " << likelihood_->type() << " is not supported by the " << type_ << " observation."
         << " Allowed types are: " << allowed;
   }
 
