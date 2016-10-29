@@ -5,7 +5,7 @@
  * @date Oct 26, 2016
  * @section LICENSE
  *
- * Copyright NIWA Science ©2016 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2016 - www.niwa.co.nz
  *
  */
 
@@ -55,7 +55,6 @@ Likelihood* Manager::GetOrCreateLikelihood(Model* model, const string& observati
     return labelled;
   }
 
-  objects_.push_back(factory);
   factory->set_type(label);
   factory->set_label(observation_label + "." + label);
   return factory;
