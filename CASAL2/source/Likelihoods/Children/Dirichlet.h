@@ -26,6 +26,7 @@ public:
   // Methods
 	Dirichlet() = default;
   virtual                     ~Dirichlet() = default;
+  void                        DoValidate() override final { };
   Double                      AdjustErrorValue(const Double process_error, const Double error_value) override final;
   void                        SimulateObserved(map<unsigned, vector<observations::Comparison> >& comparisons) override final;
   Double                      GetInitialScore(map<unsigned, vector<observations::Comparison> >& comparisons, unsigned year) override final;

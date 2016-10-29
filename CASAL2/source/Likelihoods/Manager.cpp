@@ -32,6 +32,7 @@ Likelihood* Manager::GetOrCreateLikelihood(const string& label) {
   Likelihood* factory  = nullptr;
 
   for (auto likelihood : objects_) {
+    LOG_FINEST() << likelihood->label();
     if (likelihood->label() == label) {
       labelled = likelihood;
       break;

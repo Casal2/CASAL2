@@ -17,6 +17,7 @@
 #include "Likelihoods/Children/BinomialApprox.h"
 #include "Likelihoods/Children/Dirichlet.h"
 #include "Likelihoods/Children/LogNormal.h"
+#include "Likelihoods/Children/LogisticNormal.h"
 #include "Likelihoods/Children/LogNormalWithQ.h"
 #include "Likelihoods/Children/Multinomial.h"
 #include "Likelihoods/Children/Normal.h"
@@ -43,6 +44,8 @@ Likelihood* Factory::Create(const string& likelihood_type) {
     result = new Dirichlet();
   else if (likelihood_type == PARAM_LOGNORMAL)
     result = new LogNormal();
+  else if (likelihood_type == PARAM_LOGISTIC_NORMAL)
+    result = new LogisticNormal();
   else if (likelihood_type == PARAM_LOGNORMAL_WITH_Q)
     result = new LogNormalWithQ();
   else if (likelihood_type == PARAM_MULTINOMIAL)

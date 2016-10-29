@@ -19,7 +19,9 @@ namespace niwa {
  * Validate the parameters
  */
 void Likelihood::Validate() {
+  LOG_TRACE();
   parameters_.Populate();
+  DoValidate();
 }
 
 } /* namespace niwa */
