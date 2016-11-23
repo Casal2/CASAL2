@@ -25,7 +25,7 @@ namespace obs = niwa::observations;
 Observation::Observation(Model* model) : Report(model) {
   LOG_TRACE();
   model_state_ = State::kPostExecute;
-  run_mode_    = RunMode::kBasic;
+  run_mode_    = (RunMode::Type)(RunMode::kBasic | RunMode::kSimulation);
 
   parameters_.Bind<string>(PARAM_OBSERVATION, &observation_label_, "Observation label", "");
 }

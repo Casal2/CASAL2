@@ -33,30 +33,7 @@ void Selectivity::DoBuild() {
 }
 
 void Selectivity::DoExecute() {
-  /*
-  cache_ << "[" << label_ << "]\n";
-  cache_ << "report.type: " << PARAM_SELECTIVITY << "\n";
-  cache_ << "selectivity.label: " << selectivity_->label() << "\n";
-
-  const map<string, ParameterPtr> parameters = selectivity_->parameters().parameters();
-
-  for (auto iter : parameters) {
-    ParameterPtr x = iter.second;
-    cache_ << "selectivity." << iter.first << " ";
-
-    vector<string> values = x->current_values();
-    for (string value : values)
-      cache_ << value << " ";
-    cache_ << "\n";
-  }
-
-  cache_ << "Age Value\n";
-  for (unsigned i = model->min_age(); i <= model->max_age(); ++i)
-    cache_ << i << " " << selectivity_->GetResult(i) << "\n";
- */
   cache_ << "*" << label_ << " " << "("<< type_ << ")"<<"\n";
-  // cache_ << ".label: " << selectivity_->label() << "\n";
-
   const map<string, Parameter*> parameters = selectivity_->parameters().parameters();
 
   for (auto iter : parameters) {
