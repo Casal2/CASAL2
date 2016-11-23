@@ -17,7 +17,7 @@ namespace reports {
  *
  */
 DerivedQuantity::DerivedQuantity(Model* model) : Report(model) {
-  run_mode_    = (RunMode::Type)(RunMode::kBasic | RunMode::kProjection | RunMode::kEstimation | RunMode::kProfiling);
+  run_mode_    = (RunMode::Type)(RunMode::kBasic | RunMode::kProjection | RunMode::kSimulation| RunMode::kEstimation | RunMode::kProfiling);
   model_state_ = (State::Type)(State::kIterationComplete);
 }
 
@@ -33,8 +33,8 @@ void DerivedQuantity::DoExecute() {
   auto derived_quantities = manager.objects();
   for (auto dq : derived_quantities) {
     string label =  dq->label();
-    cache_ << "label: " << label << " \n";
-
+    cache_ << label << " " << REPORT_R_LIST <<" \n";
+    cache_ << "derived_type: " << dq->type() << " \n";
     // report b0 and binitial
     if (model_->b0(label) > 0)
     cache_ << "B0: " << model_->b0(label) << "\n";
@@ -65,6 +65,8 @@ void DerivedQuantity::DoExecute() {
         cache_ << iter->first << " " << iter->second << "\n";
     }
     //cache_ <<"\n";
+    cache_ << REPORT_R_LIST_END <<" \n";
+
   }
 
   ready_for_writing_ = true;
