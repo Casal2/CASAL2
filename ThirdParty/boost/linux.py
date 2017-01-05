@@ -48,7 +48,7 @@ class Builder:
       os.chdir(boostFileName)
   
       os.system('./bootstrap.sh gcc 1> casal2_bootstrap.log 2>&1')
-      os.system("./b2 --toolset=gcc link=static runtime-link=static threading=multi cxxflags='-fPIC' 1> casal2_build.log 2>&1")
+      os.system("./b2 address-model=64 architecture=x86 --toolset=gcc link=static runtime-link=static threading=multi cxxflags='-fPIC' 1> casal2_build.log 2>&1")
                 
       # Move our headers and libraries
       print '-- Moving headers and libraries'
