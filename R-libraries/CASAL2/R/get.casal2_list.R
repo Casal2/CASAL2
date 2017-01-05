@@ -17,8 +17,8 @@
   init_types = c(rep("vector",3),"single_value")
 
   ## Common to all blocks
-  common = c("label","parameter", "type", "table", "end_table","categories","selectivities", "years")
-  common_types = c(rep("single_value",3),"table_label", "end_table",rep("vector",3))
+  common = c("label","parameter", "type", "table", "end_table","categories","selectivities", "years","mean")
+  common_types = c(rep("single_value",3),"table_label", "end_table",rep("vector",4))
 
   ## mcmc
   mcmc = c("start", "length", "keep","step_size","adapt_stepsize_at","proposal_distribution","adapt_stepsize_method")
@@ -33,7 +33,7 @@
   grow_type = c(rep("single_value",16),rep("vector",2))
 
   ## Observations
-  obs = c("q","detection","dispersion","plus_group","likelihood","catchability","delta","process_error","tolerance","mortality_instantaneous_process","method_of_removal","ageing_error", "time_step","obs","error_values","error_value","process_errors","selectivities2","time_step_proportion")
+  obs = c("q","detection","dispersion","plus_group","likelihood","catchability","delta","process_error","tolerance","mortality_instantaneous_process","method_of_removal","ageing_error", "time_step","obs","error_values","error_value","process_errors","selectivities2","time_step_proportion","rho","robust","arma","sexed","bin_labels","seperate_by_sex")
   obs_type = rep("vector",length(obs))
 
   ## priors 
