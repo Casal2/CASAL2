@@ -156,7 +156,7 @@
             }
             header = header + 1;
             } else {
-              stop(paste("Haven't come up with R code to deal with subcommand", temp[1]))
+              stop(paste("Haven't come up with R code to deal with this subcommand", temp[1]))
             }
          }
       }
