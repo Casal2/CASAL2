@@ -2,9 +2,9 @@
 
 \subsection{\I{Observations}\label{sec:Observations}\index{Observations}}
 
-Observations are typically supplied at an instance in time, over a group of aggregated categories. Time series of observations can be supplied as separate observations for each year or point in time. 
+The objective function is based on the goodness-of-fit of the model to your observations. Observations are typically supplied at an instance in time, over a group of aggregated categories. Most observations are different kinds of time series, i.e., data which were recorded for one or more years, in the same format each year. Examples of time series data types include relative abundance indices, commercial catch length frequencies, and survey numbers-at-age.
 
-The definitions for each type of observation are described below, including how the observed values should be supplied, how \CNAME\ calculates the expected values, and the likelihoods that are available for each type of observation.
+The definitions for each type of observation are described below, including how the observed values should be formatted, how \CNAME\ calculates the expected values, and the likelihoods that are available for each type of observation.
 
 There are two types of observations available in \CNAME. The first are observations that are associated with a \textbf{mortality block} and secondly observations that are associated with a specific process. These can be distinguished by the type definition. If an observation type begins with \texttt{process} it is an observation that is associated with a process. If a type does \textbf{not} begin with \texttt{process} it is associated with the mortality block of the time step that you define. For example the observation type \texttt{process\_abundance} is a process based observation vs \texttt{process\_abundance} \texttt{abundance}, which is an observation that is associated with a mortality block.
 
@@ -24,7 +24,6 @@ All observations within this class are calculated in a similar fashion. That is 
 \end{itemize}
 
 \paragraph*{\I{Abundance or biomass observations}}
-
 Abundance (or biomass) observations are observations of either a relative or absolute number (or biomass) of individuals from a set of categories after applying a selectivity. The observations classes are the same, except that a biomass observation will use the biomass as the observed (and expected) value (calculated from mean weight of individuals within each age and category) while an abundance observation is just the number of individuals. 
 
 Each observation is for a given year and time-step, for some selected age classes of the population (i.e., for a range of ages multiplied by a selectivity), for aggregated categories. Further, you need to provide the label of the catchability coefficient $q$, which can either be estimated of fixed. For absolute abundance or absolute biomass observations, define a catchability where $q=1$.
@@ -39,6 +38,20 @@ The observations can be supplied for any set of categories. For example, for a m
 defines an observation for males after applying the selectivity male-selectivity. \CNAME\ then expects that there will be a single observation supplied. The expected values for the observations will be the expected abundance (or biomass) of males, after applying the selectivities, at the year and time-step specified. 
 
 \CNAME\ calculates the expected values by summing over the defined ages (via the age range and selectivity) and categories at both the beginning and end of a mortality block. You can prompt \CNAME\ to approximate the expectation part way through the mortality block using the \texttt{time\_step\_proportion}. The default value \CNAME\ uses us 0.5, which does linear interpolation between the start and end abundance (or biomass) from the mortality block.
+
+For an abundance observation the expectation is calculated as follows,
+\begin{equation}\label{eq:expec_1}
+E_{i,1} = \sum_{c=1}^{} \sum_{a=1}^{A} S_{a,c} N_{a,c,i,1}
+\end{equation}
+
+\begin{equation}\label{eq:expec_2}
+E_{i,2} = \sum_{c=1}^{} \sum_{a=1}^{A} S_a N_{a,c,i,2}
+\end{equation}
+
+Where $E_{i,1}$ is the expectation at the beginning of time step and $E_{i,2}$ is the expectation at the end of the time-step. $S_a$ is the selectivity for age $a$ and category $c$. If there is no mortality related to this observation then $E_i$ which is used in the likelihood contribution is $E_{i,1}$. If this was a biomass observation we would replace $N_{a,c,i,1}$ in Equation~\eqref{eq:expec_1} and~\eqref{eq:expec_2} with $N_{a,c,i,1} \bar{w}_{a,c}$, where $\bar{w}_{a,c}$ is the mean weight of category $c$ at age $a$. If the user wishes to apply 100\% mortality then $E_i = E_{i,2}$. For applying quantities of mortality between these values ($M_i$), \CNAME\ does the following linear interpolation.
+\begin{equation}
+E_{i} = |E_{i,1} - E_{i,2}|  M_i
+\end{equation}
 
 
 {\small{\begin{verbatim}
