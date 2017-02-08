@@ -53,7 +53,7 @@ RecruitmentBevertonHolt::RecruitmentBevertonHolt(Model* model)
   RegisterAsEstimable(PARAM_B0, &b0_);
   RegisterAsEstimable(PARAM_STEEPNESS, &steepness_);
   RegisterAsEstimable(PARAM_PROPORTIONS, &proportions_);
-  RegisterAsEstimable(PARAM_YCS_VALUES, &ycs_values_);
+  RegisterAsEstimable(PARAM_YCS_VALUES, &ycs_value_by_year_);
 
   phase_b0_         = 0;
   process_type_     = ProcessType::kRecruitment;
@@ -177,9 +177,7 @@ void RecruitmentBevertonHolt::DoBuild() {
 
     LOG_FINEST() << "SSB Offset calculated to be = " << ssb_offset_ << "; recruitment index = " << recruitment_index << "; ageing index = "
         << ageing_index << "; derived_quantity index = " << derived_quantity_index;
-
   }
-
 
   // validate the standardise YCS year range
   if (standardise_ycs_.size() == 0) {
@@ -211,6 +209,10 @@ void RecruitmentBevertonHolt::DoBuild() {
       LOG_ERROR_P(PARAM_YCS_VALUES) << " value " << value << " cannot be less than 0.0";
   }
 
+  for (unsigned i = model_->start_year(); i <= model_->final_year(); ++i) {
+    ycs_value_by_year_[i] = ycs_values_[i - model_->start_year()];
+  }
+
   DoReset();
 }
 
@@ -235,18 +237,19 @@ void RecruitmentBevertonHolt::DoReset() {
   for (unsigned i = 0; i < ycs_years_.size(); ++i) {
     for (unsigned j = 0; j < standardise_ycs_.size(); ++j) {
       if (ycs_years_[i] == standardise_ycs_[j]) {
-        mean_ycs += ycs_values_[i];
+        mean_ycs += ycs_value_by_year_[ycs_years_[i]];
         break;
       }
     }
   }
-  stand_ycs_values_ = ycs_values_;
+  stand_ycs_value_by_year_ = ycs_value_by_year_;
   mean_ycs /= standardise_ycs_.size();
-  for (unsigned i = 0; i < ycs_years_.size(); ++i) {
-    for (unsigned j = 0; j < standardise_ycs_.size(); ++j) {
-      if (ycs_years_[i] == standardise_ycs_[j])
-        stand_ycs_values_[i] = ycs_values_[i] / mean_ycs;
+  for (unsigned ycs_year : ycs_years_) {
+      for (unsigned j = 0; j < standardise_ycs_.size(); ++j) {
+      if (ycs_year == standardise_ycs_[j])
+        stand_ycs_value_by_year_[ycs_year] = ycs_value_by_year_[ycs_year + ssb_offset_] / mean_ycs;
     }
+
   }
 }
 
@@ -257,7 +260,7 @@ void RecruitmentBevertonHolt::DoReset() {
 void RecruitmentBevertonHolt::DoExecute() {
   Double amount_per = 0.0;
   if (prior_ycs_values_)
-    ycs_values_ = stand_ycs_values_;
+    ycs_value_by_year_ = stand_ycs_value_by_year_;
 
   if (model_->state() == State::kInitialise) {
     initialisationphases::Manager& init_phase_manager = *model_->managers().initialisation_phase();
@@ -294,7 +297,7 @@ void RecruitmentBevertonHolt::DoExecute() {
       LOG_FINEST() << "Size of ycs values: " << ycs_values_.size() << " should be one more entry from previous year, trying to access element " << model_->current_year() - model_->start_year();
     // else business as usual
     } else {
-      ycs = stand_ycs_values_[model_->current_year() - model_->start_year()];
+      ycs = stand_ycs_value_by_year_[model_->current_year()];
     }
 
     // Check whether B0 as an input paramter or a derived quantity, this is a result of having an r0 or a b0 in the process
@@ -327,24 +330,18 @@ void RecruitmentBevertonHolt::DoExecute() {
       // Don't log out standardised ycs if in projections, it is overwritten with the projected value
       LOG_FINEST() << "year = " << model_->current_year() << " SSB= " << SSB << " SR = " << SR << "; ycs = "
           << ycs_values_[model_->current_year() - model_->start_year()] << " Standardised year class = "
-          << stand_ycs_values_[model_->current_year() - model_->start_year()] << "; b0_ = " << b0_ << "; ssb_ratio = " << ssb_ratio << "; true_ycs = "
+          << stand_ycs_value_by_year_[model_->current_year()] << "; b0_ = " << b0_ << "; ssb_ratio = " << ssb_ratio << "; true_ycs = "
           << true_ycs << "; amount_per = " << amount_per;
     } else {
     LOG_FINEST() << "year = " << model_->current_year() << " SSB= " << SSB << " SR = " << SR << "; ycs = "
         << ycs_values_[model_->current_year() - model_->start_year()] << " Standardised year class = "
-        << stand_ycs_values_[model_->current_year() - model_->start_year()] << "; b0_ = " << b0_ << "; ssb_ratio = " << ssb_ratio << "; true_ycs = "
+        << stand_ycs_value_by_year_[model_->current_year()] << "; b0_ = " << b0_ << "; ssb_ratio = " << ssb_ratio << "; true_ycs = "
         << true_ycs << "; amount_per = " << amount_per;
     }
     // Store true_ycs values
     StoreForReport("YCS_year: " , model_->current_year() - ssb_offset_);
     StoreForReport("true_ycs: " , true_ycs);
-
-
   }
-
-
-
-
 
   unsigned i = 0;
   for (auto category : partition_) {
