@@ -60,8 +60,9 @@ private:
   vector<Double>              ssb_values_;
   vector<Double>              ycs_years_;
   vector<Double>              ycs_values_;
+  map<unsigned, Double>       ycs_value_by_year_;
   vector<Double>              true_ycs_values_;
-  vector<Double>              stand_ycs_values_;
+  map<unsigned, Double>       stand_ycs_value_by_year_;
   vector<Double>              recruitment_values_;
   bool                        have_scaled_partition = false;
   vector<unsigned>            standardise_ycs_;

@@ -140,8 +140,6 @@ void Derived::DoBuild() {
         recruitment_process_.push_back(dynamic_cast<RecruitmentBevertonHolt*>(process));
         if (!recruitment_process_[i])
           LOG_CODE_ERROR() << "BevertonHolt Recruitment exists but dynamic cast pointer cannot be made, if (!recruitment) ";
-        if (recruitment_process_[i]->ssb_offset() > ssb_offset_)
-          ssb_offset_ = recruitment_process_[i]->ssb_offset();
         i++;
       }
     }
