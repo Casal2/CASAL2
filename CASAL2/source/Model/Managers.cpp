@@ -108,6 +108,8 @@ Managers::~Managers() {
 void Managers::Validate() {
   LOG_TRACE();
   time_step_->Validate(model_);
+  initialisation_phase_->Validate();
+  process_->Validate(model_); // Needs to go before estimate for the situation where there is an @estimate block
 
   additional_prior_->Validate();
   ageing_error_->Validate();
@@ -116,14 +118,12 @@ void Managers::Validate() {
   catchability_->Validate();
   derived_quantity_->Validate();
   estimate_transformation_->Validate();
-  initialisation_phase_->Validate();
   length_weight_->Validate();
   likelihood_->Validate();
   mcmc_->Validate();
   minimiser_->Validate();
   observation_->Validate();
   penalty_->Validate();
-  process_->Validate(model_);
   profile_->Validate();
   project_->Validate();
   report_->Validate();

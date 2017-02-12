@@ -47,6 +47,7 @@ void Manager::Validate() {
  *
  */
 void Manager::Validate(Model* model) {
+  LOG_TRACE();
   /**
    * Run over our creators and get them to build the actual
    * estimates the system is going to build.

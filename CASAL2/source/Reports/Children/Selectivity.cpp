@@ -30,6 +30,9 @@ void Selectivity::DoBuild() {
   selectivity_ = model_->managers().selectivity()->GetSelectivity(selectivity_label_);
   if (!selectivity_)
     LOG_ERROR_P(PARAM_SELECTIVITY) << " " << selectivity_label_ << " does not exist. Have you defined it?";
+  if (selectivity_->IsSelectivityLengthBased()) {
+    LOG_ERROR_P(PARAM_LABEL) << "Cannot report length based selectivity values, This can be done in the R package see info on the R package in the user manual";
+  }
 }
 
 void Selectivity::DoExecute() {

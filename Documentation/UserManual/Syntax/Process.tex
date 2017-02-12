@@ -1,0 +1,490 @@
+\defComLab{process}{Define an object of type \emph{process}}
+
+\defSub{label} {The label of the process}
+\defType{string}
+\defDefault{No Default}
+
+\defSub{type} {The type of process}
+\defType{string}
+\defDefault{""}
+
+\defSub{print\_report} {Indicates if a process report should be generated for this process}
+\defType{boolean}
+\defDefault{false}
+
+\subsubsection[Ageing]{\commandlabsubarg{process}{type}{ageing}}
+
+\defSub{categories} {The labels of the categories}
+\defType{string vector}
+\defDefault{No Default}
+
+\subsubsection[Maturation]{\commandlabsubarg{process}{type}{maturation}}
+
+\defSub{from} {List of categories to mature from}
+\defType{string vector}
+\defDefault{No Default}
+
+\defSub{to} {List of categories to mature too}
+\defType{string vector}
+\defDefault{No Default}
+
+\defSub{selectivities} {List of selectivities to use for maturation}
+\defType{string vector}
+\defDefault{No Default}
+
+\defSub{years} {The years to be associated with rates}
+\defType{non-negative integer vector}
+\defDefault{No Default}
+
+\defSub{rates} {The rates to mature for each year}
+\defType{estimable vector}
+\defDefault{No Default}
+
+\subsubsection[Mortality Constant Rate]{\commandlabsubarg{process}{type}{mortality\_constant\_rate}}
+
+\defSub{categories} {List of categories labels}
+\defType{string vector}
+\defDefault{No Default}
+
+\defSub{m} {Mortality rates}
+\defType{estimable}
+\defDefault{No Default}
+
+\defSub{time\_step\_ratio} {Time step ratios for the mortality rates}
+\defType{constant vector}
+\defDefault{true}
+
+\defSub{selectivities} {List of selectivities for the categories}
+\defType{string vector}
+\defDefault{No Default}
+
+\subsubsection[Mortality Event]{\commandlabsubarg{process}{type}{mortality\_event}}
+
+\defSub{categories} {Categories}
+\defType{string vector}
+\defDefault{No Default}
+
+\defSub{years} {Years in which to apply the mortality process}
+\defType{non-negative integer vector}
+\defDefault{No Default}
+
+\defSub{catches} {The number of removals (catches) to apply for each year}
+\defType{estimable vector}
+\defDefault{No Default}
+
+\defSub{u\_max} {Maximum exploitation rate ($Umax$}
+\defType{estimable}
+\defDefault{0.99}
+
+\defSub{selectivities} {List of selectivities}
+\defType{string vector}
+\defDefault{No Default}
+
+\defSub{penalty} {The label of the penalty to apply if the total number of removals cannot be taken}
+\defType{string}
+\defDefault{""}
+
+\subsubsection[Mortality Event Biomass]{\commandlabsubarg{process}{type}{mortality\_event\_biomass}}
+
+\defSub{categories} {Category labels}
+\defType{string vector}
+\defDefault{No Default}
+
+\defSub{selectivities} {The labels of the selectivities for each of the categories}
+\defType{string vector}
+\defDefault{No Default}
+
+\defSub{years} {Years in which to apply the mortality process}
+\defType{non-negative integer vector}
+\defDefault{No Default}
+
+\defSub{catches} {The biomass of removals (catches) to apply for each year}
+\defType{estimable vector}
+\defDefault{No Default}
+
+\defSub{u\_max} {Maximum exploitation rate ($Umax$}
+\defType{estimable}
+\defDefault{0.99}
+
+\defSub{penalty} {The label of the penalty to apply if the total biomass of removals cannot be taken}
+\defType{string}
+\defDefault{""}
+
+\subsubsection[Mortality Holling Rate]{\commandlabsubarg{process}{type}{mortality\_holling\_rate}}
+
+\defSub{prey\_categories} {Prey Categories labels}
+\defType{string vector}
+\defDefault{No Default}
+
+\defSub{predator\_categories} {Predator Categories labels}
+\defType{string vector}
+\defDefault{No Default}
+
+\defSub{is\_abundance} {Is vulnerable amount of prey and predator an abundance [true] or biomass [false]}
+\defType{boolean}
+\defDefault{true}
+
+\defSub{a} {parameter a}
+\defType{estimable}
+\defDefault{No Default}
+\defLowerBound{0.0 (inclusive)}
+
+\defSub{b} {parameter b}
+\defType{estimable}
+\defDefault{No Default}
+\defLowerBound{0.0 (inclusive)}
+
+\defSub{x} {This parameter controls the type of functional form, Holling function type 2 (x=2) or 3 (x=3), or generalised (Michaelis Menten, x,=1}
+\defType{estimable}
+\defDefault{No Default}
+\defLowerBound{1.0 (inclusive)}
+
+\defSub{u\_max} {Maximum exploitation rate ($Umax$}
+\defType{constant}
+\defDefault{No Default}
+\defLowerBound{0.0 (inclusive)}
+\defUpperBound{1.0 (inclusive)}
+
+\defSub{prey\_selectivities} {Selectivities for prey categories}
+\defType{string vector}
+\defDefault{No Default}
+
+\defSub{predator\_selectivities} {Selectivities for predator categories}
+\defType{string vector}
+\defDefault{No Default}
+
+\defSub{penalty} {Label of penalty to be applied}
+\defType{string}
+\defDefault{""}
+
+\defSub{years} {Years in which to apply the mortality process}
+\defType{non-negative integer vector}
+\defDefault{No Default}
+
+\subsubsection[Mortality Instantaneous]{\commandlabsubarg{process}{type}{mortality\_instantaneous}}
+
+\defSub{categories} {Categories for instantaneous mortality}
+\defType{string vector}
+\defDefault{No Default}
+
+\defSub{m} {Natural mortality rates for each category}
+\defType{estimable}
+\defDefault{No Default}
+\defLowerBound{0.0 (inclusive)}
+\defUpperBound{1.0 (inclusive)}
+
+\defSub{time\_step\_ratio} {Time step ratios for natural mortality}
+\defType{constant vector}
+\defDefault{true}
+
+\defSub{selectivities} {The selectivities to apply on the categories for natural mortality}
+\defType{string vector}
+\defDefault{No Default}
+
+\subsubsection[Mortality Prey Suitability]{\commandlabsubarg{process}{type}{mortality\_prey\_suitability}}
+
+\defSub{prey\_categories} {Prey Categories labels}
+\defType{string vector}
+\defDefault{No Default}
+
+\defSub{predator\_categories} {Predator Categories labels}
+\defType{string vector}
+\defDefault{No Default}
+
+\defSub{consumption\_rate} {Predator consumption rate}
+\defType{estimable}
+\defDefault{No Default}
+\defLowerBound{0.0 (inclusive)}
+\defUpperBound{1.0 (inclusive)}
+
+\defSub{electivities} {Prey Electivities}
+\defType{estimable vector}
+\defDefault{No Default}
+\defLowerBound{0.0 (inclusive)}
+\defUpperBound{1.0 (inclusive)}
+
+\defSub{u\_max} {Umax}
+\defType{constant}
+\defDefault{No Default}
+\defLowerBound{0.0 (inclusive)}
+\defUpperBound{1.0 (inclusive)}
+
+\defSub{prey\_selectivities} {Selectivities for prey categories}
+\defType{string vector}
+\defDefault{No Default}
+
+\defSub{predator\_selectivities} {Selectivities for predator categories}
+\defType{string vector}
+\defDefault{No Default}
+
+\defSub{penalty} {Label of penalty to be applied}
+\defType{string}
+\defDefault{""}
+
+\defSub{years} {Year that process occurs}
+\defType{non-negative integer vector}
+\defDefault{No Default}
+
+\subsubsection[Nop]{\commandlabsubarg{process}{type}{nop}}
+
+\subsubsection[Recruitment Beverton Holt]{\commandlabsubarg{process}{type}{recruitment\_beverton\_holt}}
+
+\defSub{categories} {Category labels}
+\defType{string vector}
+\defDefault{No Default}
+
+\defSub{r0} {R0}
+\defType{estimable}
+\defDefault{false}
+
+\defSub{b0} {B0}
+\defType{estimable}
+\defDefault{false}
+
+\defSub{proportions} {Proportions}
+\defType{estimable vector}
+\defDefault{No Default}
+
+\defSub{age} {Age to recruit at}
+\defType{non-negative integer}
+\defDefault{true}
+
+\defSub{ssb\_offset} {Spawning biomass year offset}
+\defType{non-negative integer}
+\defDefault{true}
+
+\defSub{steepness} {Steepness}
+\defType{estimable}
+\defDefault{1.0}
+
+\defSub{ssb} {SSB Label (derived quantity}
+\defType{string}
+\defDefault{No Default}
+
+\defSub{b0\_intialisation\_phase} {Initialisation phase Label that b0 is from}
+\defType{string}
+\defDefault{""}
+
+\defSub{ycs\_values} {YCS Values}
+\defType{estimable vector}
+\defDefault{No Default}
+
+\defSub{ycs\_years} {Recruitment years. A vector of years that relates to the year of the spawning event that created this cohort}
+\defType{non-negative integer vector}
+\defDefault{false}
+
+\defSub{standardise\_ycs\_years} {Years that are included for year class standardisation}
+\defType{non-negative integer vector}
+\defDefault{true}
+
+\subsubsection[Recruitment Constant]{\commandlabsubarg{process}{type}{recruitment\_constant}}
+
+\defSub{categories} {Categories}
+\defType{string vector}
+\defDefault{No Default}
+
+\defSub{proportions} {Proportions}
+\defType{estimable}
+\defDefault{true}
+
+\defSub{age} {Age}
+\defType{non-negative integer}
+\defDefault{No Default}
+
+\defSub{r0} {R0}
+\defType{estimable}
+\defDefault{No Default}
+\defLowerBound{0.0 (exclusive)}
+
+\subsubsection[Survival Constant Rate]{\commandlabsubarg{process}{type}{survival\_constant\_rate}}
+
+\defSub{categories} {List of categories}
+\defType{string vector}
+\defDefault{No Default}
+
+\defSub{s} {Survival rates}
+\defType{estimable}
+\defDefault{No Default}
+
+\defSub{time\_step\_ratio} {Time step ratios for S}
+\defType{constant vector}
+\defDefault{true}
+
+\defSub{selectivities} {Selectivity label}
+\defType{string vector}
+\defDefault{No Default}
+
+\subsubsection[Tag By Age]{\commandlabsubarg{process}{type}{tag\_by\_age}}
+
+\defSub{from} {Categories to transition from}
+\defType{string vector}
+\defDefault{No Default}
+
+\defSub{to} {Categories to transition to}
+\defType{string vector}
+\defDefault{No Default}
+
+\defSub{min\_age} {Minimum age to transition}
+\defType{non-negative integer}
+\defDefault{No Default}
+
+\defSub{max\_age} {Maximum age to transition}
+\defType{non-negative integer}
+\defDefault{No Default}
+
+\defSub{penalty} {Penalty label}
+\defType{string}
+\defDefault{""}
+
+\defSub{u\_max} {U Max}
+\defType{constant}
+\defDefault{0.99}
+
+\defSub{years} {Years to execute the transition in}
+\defType{non-negative integer vector}
+\defDefault{No Default}
+
+\defSub{initial\_mortality} {}
+\defType{constant}
+\defDefault{0}
+
+\defSub{initial\_mortality\_selectivity} {}
+\defType{string}
+\defDefault{""}
+
+\defSub{loss\_rate} {}
+\defType{constant vector}
+\defDefault{No Default}
+
+\defSub{loss\_rate\_selectivities} {}
+\defType{string vector}
+\defDefault{true}
+
+\defSub{selectivities} {}
+\defType{string vector}
+\defDefault{No Default}
+
+\defSub{n} {}
+\defType{constant vector}
+\defDefault{true}
+
+\subsubsection[Tag By Length]{\commandlabsubarg{process}{type}{tag\_by\_length}}
+
+\defSub{from} {Categories to transition from}
+\defType{string vector}
+\defDefault{No Default}
+
+\defSub{to} {Categories to transition to}
+\defType{string vector}
+\defDefault{No Default}
+
+\defSub{plus\_group} {Use plus group for last length bin}
+\defType{boolean}
+\defDefault{false}
+
+\defSub{maximum\_length} {The upper length when there is no plus group}
+\defType{constant}
+\defDefault{0}
+
+\defSub{penalty} {Penalty label}
+\defType{string}
+\defDefault{""}
+
+\defSub{u\_max} {U Max}
+\defType{constant}
+\defDefault{0.99}
+
+\defSub{years} {Years to execute the transition in}
+\defType{non-negative integer vector}
+\defDefault{No Default}
+
+\defSub{initial\_mortality} {}
+\defType{constant}
+\defDefault{0}
+
+\defSub{initial\_mortality\_selectivity} {}
+\defType{string}
+\defDefault{""}
+
+\defSub{selectivities} {}
+\defType{string vector}
+\defDefault{No Default}
+
+\defSub{n} {}
+\defType{constant vector}
+\defDefault{true}
+
+\subsubsection[Tag Loss]{\commandlabsubarg{process}{type}{tag\_loss}}
+
+\defSub{categories} {List of categories}
+\defType{string vector}
+\defDefault{No Default}
+
+\defSub{tag\_loss\_rate} {Tag Loss rates}
+\defType{constant vector}
+\defDefault{No Default}
+
+\defSub{time\_step\_ratio} {Time step ratios for Tag Loss}
+\defType{constant vector}
+\defDefault{true}
+
+\defSub{tag\_loss\_type} {Type of tag loss}
+\defType{string}
+\defDefault{No Default}
+
+\defSub{selectivities} {Selectivities}
+\defType{string vector}
+\defDefault{No Default}
+
+\defSub{year} {The year the first tagging release process was executed}
+\defType{non-negative integer}
+\defDefault{No Default}
+
+\subsubsection[Transition Category]{\commandlabsubarg{process}{type}{transition\_category}}
+
+\defSub{from} {From}
+\defType{string vector}
+\defDefault{No Default}
+
+\defSub{to} {To}
+\defType{string vector}
+\defDefault{No Default}
+
+\defSub{proportions} {Proportions}
+\defType{estimable}
+\defDefault{No Default}
+
+\defSub{selectivities} {Selectivity names}
+\defType{string vector}
+\defDefault{No Default}
+
+\subsubsection[Transition Category By Age]{\commandlabsubarg{process}{type}{transition\_category\_by\_age}}
+
+\defSub{from} {Categories to transition from}
+\defType{string vector}
+\defDefault{No Default}
+
+\defSub{to} {Categories to transition to}
+\defType{string vector}
+\defDefault{No Default}
+
+\defSub{min\_age} {Minimum age to transition}
+\defType{non-negative integer}
+\defDefault{No Default}
+
+\defSub{max\_age} {Maximum age to transition}
+\defType{non-negative integer}
+\defDefault{No Default}
+
+\defSub{penalty} {Penalty label}
+\defType{string}
+\defDefault{""}
+
+\defSub{u\_max} {U Max}
+\defType{constant}
+\defDefault{0.99}
+
+\defSub{years} {Years to execute the transition in}
+\defType{non-negative integer vector}
+\defDefault{No Default}
+

@@ -221,26 +221,29 @@ There are two types of processes, processes that occur across multiple time step
 
 \subsubsection{\I{Recruitment}}
 
-Recruitment processes are defined as a process that introduces new individuals into the model. \CNAME\ currently implements two types of recruitment process, constant recruitment\index{Recruitment ! Constant} and  \I{Beverton-Holt recruitment}\index{Recruitment ! Beverton-Holt} \citep{1203}.
+Recruitment processes are defined as a process that introduces new individuals into the partition. \CNAME\ currently implements two types of recruitment process, constant recruitment\index{Recruitment ! Constant} and  \I{Beverton-Holt recruitment}\index{Recruitment ! Beverton-Holt} \citep{1203}.
 
-In the recruitment processes, the number of individuals are added to a single age class within the partition, with the amount defined by the type of recruitment process and its function. If more than one category is defined, then the proportion of recruiting individuals to be added to each category is specified by the \argument{proportions} parameter. For example, if recruiting to categories labelled male and female, then you might set the proportions as $0.5$ and $0.5$ respectively to denote that half of the recruits recruit to the male category and the remaining half to the female category.
+In the recruitment processes, the number of individuals are added to a single age class within the partition, with the amount defined by the type of recruitment process and its function. If more than one category is defined, then the proportion of recruiting individuals to be added to each category is specified by the \argument{proportions} parameter, or multiple recruitment processes can be defined. For example, if recruiting to categories labelled male and female, then you might set the proportions as $0.5$ and $0.5$ respectively to denote that half of the recruits recruit to the male category and the remaining half to the female category. 
+
+\hl{An important note here is that recruitment can differ from a spawning event or the creation of a cohort/year class. In a fisheries context recruitment usually refers to indivisuals 'recruiting' to the fishery. This is done for a few reasons, one being often we do not have a lot of information relating to age classes between spawning and data collection i.e. an information gap exists. Once again in a fisheries context this information gap can refer to the time between spawning and being vulnerable to a survey or fishery for data collection. Thus users may only want to model the population for which data is available. This offset between spawning and recruitment is parameratised either by the recruitment variable \texttt{age} or \texttt{min\_age} (the default value for the \texttt{age} parameter in the recruitment process). For CASAL users the parameter \texttt{age} is the same as \texttt{y\_enter} in CASAL.}. 
 
 For the constant and Beverton-Holt recruitment processes, the  number of individuals following recruitment in year $y$ is,  
+
 \begin{equation}
-N_{i,j} \leftarrow N_{i,j} + p_j(R_y)
+N_{y,a,j} \leftarrow N_{y,a - 1,j} + p_j(R_{y,a})
 \end{equation}
-where $N_{i,j}$ is the numbers in category $j$ at age $i$, $p_j$ is the proportion to category $j$, and $R_y$ is the number of recruits for year $y$. See below for how $R_y$ is determined in each of these cases.
+where $N_{y,a,j}$ is the numbers in category $j$ at age $a$, $p_j$ is the proportion to category $j$, and $R_{y,a}$ is the number of recruits for year $y$. See below for how $N_{y,a,j}$ is determined in each of these cases.
 
 \subsubsection*{\I{Constant Recruitment}}
 
-In the constant recruitment process the total number of recruits added each year is $R_y$, and is simply $R_0$, i.e.
+In the constant recruitment process the total number of recruits added each year $y$ in age $a$ is $R_{y,a}$, and is simply $p_j(R_0)$, i.e.
 \begin{equation}
-  R_y = R_0
+  R_{y,a,j} = p_j(R_0)
 \end{equation}
 
 Constant recruitment recruits a constant number of individuals each year. It is equivalent to a Beverton-Holt recruitment process with steepness set equal to one (i.e., $h=1$).
 
-For example, to specify a constant recruitment process, where individuals are added to male and female immature categories at $age=1$, and the number to add is $R_0=5 \times 10^5$, then the syntax is
+For example, to specify a constant recruitment process, where individuals are added to male and female immature categories at $age=1$ evenly (\texttt{proportions} = 0.5), and the number to add is $R_0=5 \times 10^5$, then the syntax is
 
 {\small{\begin{verbatim}
 	@process Recruitment
@@ -254,29 +257,51 @@ For example, to specify a constant recruitment process, where individuals are ad
 \subsubsection*{\I{Beverton-Holt recruitment}}
 
 In the Beverton-Holt recruitment process the total number of recruits added each year is $R_y$, and is the product of the average recruitment $R_0$, the annual year class strength multiplier, $YCS$, and the stock-recruit relationship i.e.,
-\begin{equation}
-  R_y = R_0 \times YCS_{y-\text{ssb\_offset}} \times SR(SSB_{y-\text{ssb\_offset}})
+\begin{equation}\label{eq:BH}
+  R_{y,a,j} = p_j(R_0 \times YCS_{ycs\_year} \times SR(SSB_{ycs\_year}))
 \end{equation}
-  
-where $ssb\_offset$ is the number of years offset to link the year class with the year of spawning $y$, and $SR$ is the Beverton-Holt stock-recruit relationship parametrised by the steepness $h$,
-\begin{equation}
+where
+\begin{equation}\label{eq:year_class}
+ycs\_year = y - \texttt{ssb\_offset}
+\end{equation}
+
+where $a$ is the parameter \texttt{age}, $p_j$ is the proportion of recruits to enter category $j$ and \texttt{ssb\_offset} is the lag between spawning and recruitment. As stated earlier recruitment refers to the recruitment into the population and may differ from the spawning event. See two paragraphs below on more information about \texttt{ssb\_offset}, but in general this parameter shouldn't be specified by the user.
+
+$SR$ is the Beverton-Holt stock-recruit relationship parametrised by the steepness $h$,
+\begin{equation}\label{eq:BH_SR}
 SR(SSB_y) = \frac{SSB_y}{B_0} / \left( 1-\frac{5h-1}{4h} \left( 1-\frac{SSB_y}{B_0} \right) \right)
 \end{equation}
 
-Note that the Beverton-Holt recruitment process requires a value for \Bzero\ and $SSB_y$ to resolve the stock-recruitment relationship. Here, a derived quantity (see Section \ref{sec:derived-quantities}) must be defined that provides the annual $SSB_y$ for the recruitment process. \Bzero\ is then defined as the value of the $SSB$ at the end of one of the initialisation phases. During initialisation the $YCS$ multipliers are assumed to be equal to one, and recruitment that happens in the initialisation phases that occur before and during the phase when \Bzero\ is determined is assumed to have steepness $h=1$ (i.e. in those initialisation phases, recruitment is simply equal to \Rzero). Recruitment in the initialisation phases after the phase where \Bzero\ was determined follow the Beverton-Holt stock-recruit relationship defined above. \Rzero\ and \Bzero\ have a direct relationship when there are no density dependent processes, for this reason users can choose to initialise models using \Bzero\ or \Rzero\. In New Zealand \Bzero\ is often used, as biological reference points for managing marine populations is based on a percentage of \Bzero.
+Note that the Beverton-Holt recruitment process requires a value for \Bzero\ and $SSB_y$ to resolve the stock-recruitment relationship. Here, a derived quantity (see Section \ref{sec:derived-quantities}) must be defined that provides the annual $SSB_y$ for the recruitment process. \Bzero\ is then defined as the value of the $SSB$ at the end of one of the initialisation phases, this initialisation phase is defined by the parameter \texttt{b0\_intialisation\_phase}. During initialisation the $YCS$ multipliers are assumed to be equal to one, and recruitment that happens in the initialisation phases that occur before and during the phase when \Bzero\ is determined is assumed to have steepness $h=1$ (i.e. in those initialisation phases, recruitment is simply equal to \Rzero). Recruitment in the initialisation phases after the phase where \Bzero\ was determined follow the Beverton-Holt stock-recruit relationship defined above. \Rzero\ and \Bzero\ have a direct relationship when there are no density dependent processes in the annual cycle, for this reason users can choose to initialise models using \Bzero\ or \Rzero.
 
-Year classes are standardised to be equal to one over the period S defined by standardise YCS years, i.e., the year classes (YCS) for each year of the model are calculated as
+\texttt{ssb\_offset} should not be manually given by the user in commonplace, \CNAME\ determines \texttt{ssb\_offset} by the order of ageing, recruitment, spawning and the recruitment parameter \texttt{age}, 
+\begin{itemize}
+	\item If recruitment then ageing then spawning, then \texttt{ssb\_offset} should equal \texttt{age} + 1.
+	\item If spawning then ageing then recruitment, then \texttt{ssb\_offset} should equal \texttt{age} - 1.
+	\item else \texttt{ssb\_offset} = \texttt{age}
+\end{itemize}
+
+The certain scenarios where the user will manually want to input these values is if there are multiple ageing processes in the annual cycle. We have not coded \CNAME\ to deal with this situation so will be up to the user to define the \texttt{ssb\_offset}.
+
+Another important input parameter is the \texttt{ycs\_years} which is defined in Equation~\eqref{eq:year_class}. When referencing the parameter \texttt{ycs\_values} you should always reference it by the \texttt{ycs\_years} parameter, this is important to note for when defining \command{estimate}, \command{project} and \command{time\_varying} blocks for the parameter \texttt{ycs\_values}. An example follows
+
+Year classes values are standardised using the Haist parametrisation suggested by V. Haist. Here, the model parameter \texttt{ycs\_values} is a vector \textbf{Y}, covering years from \texttt{start\_year} - \texttt{ssb\_offset} to \texttt{final\_year} - \texttt{ssb\_offset}, as defined by the parameter \texttt{ycs\_years}. The year class strengths are calculated by $YCS_i=Y_i/\bar{\textbf{Y}}$ where the mean is calculated over the user-specified years \texttt{standardise\_ycs\_years}. Then,
 \[
 YCS_i = 
 \begin{cases}
-Y_i / mean_{y \in S} & :y \in S\\
+Y_i / mean_{y \in S}(Y_y) & :y \in S\\
 Y_i					 & :y \notin S
 \end{cases}
 \]
 
-Note that the an effect of this parameterisation is that R0 is then defined as the mean estimated recruitment over the years S, because the mean year class multiplier over these years will always be one.
+where S is the set of years from \texttt{standardise\_ycs\_years}. One effect of this parametrisation is that\Rzero\ is then defined as the mean estimated recruitment over the years S, because the mean year class multiplier over these years will always be one.
 
-For example, assume a Beverton-Holt recruitment process, where individuals are added to the category `immature' at $age=1$, the number to add is $R_0=5 \times 10^5$. Then \texttt{SSB\_derived\_quantity} is a derived quantity that specifies the total spawning stock biomass, with \Bzero\ the value of the derived quantity at the end of the initialisation phase labelled \texttt{phase1}. The $YCS$ are standardised to have mean one in the period 1994 to 2004, and recruits enter into the model two years following spawning. Then the command specification would be,
+Typically, the user will define \texttt{standardise\_ycs\_years} to span the years for which they expect to have reasonable estimates of YCSs. Often, the user will wish to force $Y_y=1$ for some or all years $y\in S$ (this is equivalent to forcing Ry=R0 x SR) by setting the lower and upper bounds of these Ys to be 1. An exception to this might occur for the most recent YCSs, which the user may want to estimate, but not include in the definition of R0 (because the estimates are based on too few data). Note that, optionally, the user may exclude one or more years from within the range from the averaging process of the Haist parameterisation. 
+
+The advantage of the Haist parameterisation is that the user need no longer use a large penalty to force the mean of the YCS parameter to be 1 (though they should still use a small penalty to stop the mean of Y from drifting). This may improve MCMC performance.  projected YCS are not affected by this feature. A disadvantage with this parameterisation in a Bayesian analysis is that the prior refers to the Y’s, not the YCS.
+
+An example of a the configuration of the Beverton-Holt recruitment process, where individuals are added to the category `immature' at $age=1$, and the number to add is $R_0=5 \times 10^5$. \texttt{SSB\_derived\_quantity} is a derived quantity that specifies the total spawning stock biomass that contributed to the this year class, with \Bzero\ the value of the derived quantity at the end of the initialisation phase labelled \texttt{phase1}. The $YCS$ are standardised to have mean one in the period 1995 to 2004, and recruits enter into the model two years following spawning.
+
 
 {\small{\begin{verbatim}
 	@process Recruitment
@@ -288,21 +313,19 @@ For example, assume a Beverton-Holt recruitment process, where individuals are a
 	steepness 0.75
 	age 1
 	ssb SSB_derived_quantity
-	standardise_ycs_years 1994-2004
+	standardise_ycs_years 1995:2004
 	ycs_years 1994 1995 1996 1997 1998 1999 2000 2001 2002 2003 2004 2005 2006
-	YCS_values   1    1    1    1    1    1    1    1    1    1    1    1    1
+	ycs_values   0.65    0.87    1.6    1.13    1.0235    0.385   2.653    1.35    1    1    1    1    1
 \end{verbatim}}}
 
-Note that the SSB year used in the Beverton-Holt stock recruitment relationship (ssb\_offset) is determined by the order of ageing, recruitment, and spawning, 
-\begin{itemize}
-	\item If recruitment then ageing then spawning, then \texttt{ssb\_offset} should equal \texttt{min\_age} + 1.
-	\item If spawning then ageing then recruitment, then \texttt{ssb\_offset} should equal \texttt{min\_age} - 1.
-\end{itemize}
-
-If any other order is used, then \texttt{ssb\_offset} should equal \texttt{min\_age}.
-
-If you have more than one ageing process and a Beverton-Holt recruitment process you will be warned to set your own \texttt{ssb\_offset} as \CNAME\ will, by default, set it based upon the first ageing process in the annual cycle --- which may be not be what was desired.
-
+So, to specify a Beverton-Holt recruitment for each stock, the following information is required:
+\begin{enumerate}
+	\item YCS, starting from year (\texttt{start\_year} - \texttt{ssb\_offset}) and extending up to year (\texttt{final\_year} - \texttt{ssb\_offset}).
+	\item The value of \texttt{age} aka \texttt{y\_enter} to CASAL users.
+	\item the steepness parameter \texttt{h}.
+	\item In a multi category model, the proportion of recruits for each category.
+	\item label for the derived quantity
+\end{enumerate}
 \subsubsection{\I{Ageing}\label{sec:ageing}}
 
 The ageing process `ages' individuals --- it simply moves all individuals in the named categories $i$ to the next age class $j + 1$, or accumulates them if the last age class is a plus group. 
