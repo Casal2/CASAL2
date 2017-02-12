@@ -1,8 +1,9 @@
-@minimiser gammadiff
-type numerical_differences
-tolerance 1e-6
-iterations 2500
-evaluations 4000
+
+@minimiser gamma_diff
+type betadiff
+#tolerance 1e-6
+#iterations 2500
+#evaluations 4000
 
 
 ## Format for @estimate block type[label].parameter

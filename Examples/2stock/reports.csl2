@@ -10,32 +10,31 @@ type derived_quantity
 @report Init_part
 type initialisation_partition
 
-
 @report partition1
 type partition
-time_step step1
+time_step Oct_Nov
 years 1972:2013
-
 
 @report partition2
 type partition
-time_step step2
+time_step Dec_Mar
 years 1972:2013
 
 @report partition3
 type partition
-time_step step3
+time_step Apr_Jun
 years 1972:2013
 
 @report partition4
 type partition
-time_step step4
+time_step End_Jun
 years 1972:2013
 
 @report partition5
 type partition
-time_step step5
+time_step Jul_Sep
 years 1972:2013
+
  {
 @report SAsl
 type selectivity

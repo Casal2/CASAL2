@@ -12,35 +12,35 @@ final_year 2013
 projection_final_year 2018
 
 ## Initialisation Phase
-initialisation_phases phase1
+initialisation_phases Equilibrium_State
 # Annual cycle
-time_steps step1 step2 step3 step4 step5  # 5 time steps May have to be 6 if SSB is calculated with half M on each side
+time_steps Oct_Nov Dec_Mar Apr_Jun End_Jun Jul_Sep  # 5 time steps May have to be 6 if SSB is calculated with half M on each side
 # Oct-Nov, Dec-Mar, Apr-Jun, End Jun, Jul-Sep
 
 
-@initialisation_phase phase1
+@initialisation_phase Equilibrium_State
 type derived
 
 # Categories 
 @categories
-format sex.stock.area ## stock E (east) or W (west)  area WC-SA-CR-CS
+format sex.stock.area ## sex male or female, stock E (east) or W (west),  area WC-SA-CR-CS
 names  		male.west.sa 	male.east.cr 	male.west.cr 	male.west.wc 	male.east.cs 	female.west.sa 	female.east.cr 	female.west.cr 	female.west.wc 	female.east.cs	
 age_lengths 	age_size_W 	age_size_E 	age_size_W 	age_size_W  	age_size_E   	age_size_W 	age_size_E 	age_size_W 	age_size_W  	age_size_E
 
 
-@time_step step1 # Oct-Nov
+@time_step Oct_Nov # Oct-Nov
 processes  Wrtn Ertn  Instant_mortality			## 2 Migration steps - Natural mortaltiy
 
-@time_step step2 # Dec-Mar
+@time_step Dec_Mar # Dec-Mar
 processes  recruit_W recruit_E Instant_mortality	## 2 Fishing events - recruitment 
 
-@time_step step3 # Apr-Jun
+@time_step Apr_Jun # Apr-Jun
 processes  Whome Instant_mortality			## 2 fishing events 1 migration step
 
-@time_step step4 # End Jun 
+@time_step End_Jun # End Jun 
 processes  Wspmg Espmg					## 2 Migration 
 
-@time_step step5 # Jul-Sep
+@time_step Jul_Sep # Jul-Sep
 processes  Ageing Instant_mortality  			## 2 Fishing - Spawning -Ageing
 
 ####################### Migration Processes
@@ -92,8 +92,8 @@ selectivities sel_Wspmg
 @process recruit_W
 type recruitment_beverton_holt
 b0 897000
-ssb_offset 2
 standardise_ycs_years 1975 1976 1977 1978 1979 1980 1981 1982 1983 1984 1985 1986 1987 1988 1989 1990 1991 1992 1993 1994 1995 1996 1997 1998 1999 2000 2001 2002 2003 2004 2005 2006 2007 2008
+ycs_years 1970:2011
 ycs_values 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
 age 1
 steepness 0.75
@@ -105,8 +105,8 @@ proportions 0.5 0.5 0.0 0.0 0.0 0.0 ## The zeros are needed if you initialise vi
 @process recruit_E
 type recruitment_beverton_holt
 b0 540000
-ssb_offset 2
 standardise_ycs_years 1975 1976 1977 1978 1979 1980 1981 1982 1983 1984 1985 1986 1987 1988 1989 1990 1991 1992 1993 1994 1995 1996 1997 1998 1999 2000 2001 2002 2003 2004 2005 2006 2007 2008
+ycs_years 1970:2011
 ycs_values 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
 age 1
 steepness 0.75
@@ -172,23 +172,25 @@ end_table
 
 table method
 method  	category 		selectivity 	u_max 	time_step 	penalty
-Esp		male.east.cs		Espsl		0.99	step5		none
-Ensp1		male.east.cr		Enspsl		0.3	step2		none
-Ensp1		male.west.cr		Enspsl		0.3	step2		none
-Ensp2		male.east.cr		Enspsl		0.3	step3		none
-Ensp2		male.west.cr		Enspsl		0.3	step3		none		
-Wsp		male.west.wc		Wspsl		0.99	step5		none
-Wnsp1		male.west.sa		Wnspsl		0.3	step2		none
-Wnsp2		male.west.sa		Wnspsl		0.3	step3		none
-Esp		female.east.cs		Espsl		0.99	step5		none
-Ensp1		female.east.cr		Enspsl		0.3	step2		none
-Ensp1		female.west.cr		Enspsl		0.3	step2		none
-Ensp2		female.east.cr		Enspsl		0.3	step3		none
-Ensp2		female.west.cr		Enspsl		0.3	step3		none		
-Wsp		female.west.wc		Wspsl		0.99	step5		none
-Wnsp1		female.west.sa		Wnspsl		0.3	step2		none
-Wnsp2		female.west.sa		Wnspsl		0.3	step3		none
+Esp		male.east.cs		Espsl		0.99	Jul_Sep		none
+Ensp1		male.east.cr		Enspsl		0.3	Dec_Mar		none
+Ensp1		male.west.cr		Enspsl		0.3	Dec_Mar		none
+Ensp2		male.east.cr		Enspsl		0.3	Apr_Jun		none
+Ensp2		male.west.cr		Enspsl		0.3	Apr_Jun		none		
+Wsp		male.west.wc		Wspsl		0.99	Jul_Sep		none
+Wnsp1		male.west.sa		Wnspsl		0.3	Dec_Mar		none
+Wnsp2		male.west.sa		Wnspsl		0.3	Apr_Jun		none
+Esp		female.east.cs		Espsl		0.99	Jul_Sep		none
+Ensp1		female.east.cr		Enspsl		0.3	Dec_Mar		none
+Ensp1		female.west.cr		Enspsl		0.3	Dec_Mar		none
+Ensp2		female.east.cr		Enspsl		0.3	Apr_Jun		none
+Ensp2		female.west.cr		Enspsl		0.3	Apr_Jun		none		
+Wsp		female.west.wc		Wspsl		0.99	Jul_Sep		none
+Wnsp1		female.west.sa		Wnspsl		0.3	Dec_Mar		none
+Wnsp2		female.west.sa		Wnspsl		0.3	Apr_Jun		none
 end_table
+
+## Oct_Nov Dec_Mar Apr_Jun End_Jun Jul_Sep
 
 ## Fishery Selectivities
 {
@@ -330,7 +332,7 @@ b 2.89
 ## Derive SSB
 @derived_quantity SSB_E
 type biomass
-time_step step5
+time_step Jul_Sep
 categories format=male,female.east.cs
 selectivities One One
 time_step_proportion 0.5
@@ -338,7 +340,7 @@ time_step_proportion_method weighted_sum
 
 @derived_quantity SSB_W
 type biomass
-time_step step5
+time_step Jul_Sep
 categories format=male,female.west.wc
 selectivities One One
 time_step_proportion 0.5
