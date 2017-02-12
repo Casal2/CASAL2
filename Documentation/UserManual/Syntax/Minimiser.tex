@@ -1,0 +1,99 @@
+\defComLab{minimiser}{Define an object of type \emph{minimiser}}
+
+\defSub{label} {The minimiser label}
+\defType{string}
+\defDefault{No Default}
+
+\defSub{type} {The type of minimiser to use}
+\defType{string}
+\defDefault{No Default}
+
+\defSub{active} {Indicates if this minimiser is active}
+\defType{boolean}
+\defDefault{false}
+
+\defSub{covariance} {Indicates if a covariance matrix should be generated}
+\defType{boolean}
+\defDefault{true}
+
+\subsubsection[A D O L C]{\commandlabsubarg{minimiser}{type}{adolc}}
+
+\defSub{iterations} {Maximum number of iterations}
+\defType{integer}
+\defDefault{1000}
+
+\defSub{evaluations} {Maximum number of evaluations}
+\defType{integer}
+\defDefault{4000}
+
+\defSub{tolerance} {Tolerance of the gradient for convergence}
+\defType{constant}
+\defDefault{0.02}
+
+\defSub{step\_size} {Minimum Step-size before minimisation fails}
+\defType{constant}
+\defDefault{1e-7}
+
+\subsubsection[Beta Diff]{\commandlabsubarg{minimiser}{type}{betadiff}}
+
+\defSub{iterations} {Maximum number of iterations}
+\defType{integer}
+\defDefault{1000}
+
+\defSub{evaluations} {Maximum number of evaluations}
+\defType{integer}
+\defDefault{4000}
+
+\defSub{tolerance} {Tolerance of the gradient for convergence}
+\defType{constant}
+\defDefault{2e-3}
+
+\subsubsection[C P P A D]{\commandlabsubarg{minimiser}{type}{cppad}}
+
+\subsubsection[D E Solver]{\commandlabsubarg{minimiser}{type}{de\_solver}}
+
+\defSub{population\_size} {The number of candidate solutions to have in the population}
+\defType{non-negative integer}
+\defDefault{No Default}
+
+\defSub{crossover\_probability} {Define the minimisers crossover probability}
+\defType{constant}
+\defDefault{0.9}
+
+\defSub{difference\_scale} {The scale to apply to new solutions when comparing candidates}
+\defType{constant}
+\defDefault{0.02}
+
+\defSub{max\_generations} {The maximum number of iterations to run}
+\defType{non-negative integer}
+\defDefault{No Default}
+
+\defSub{tolerance} {The total variance between the population and best candidate before acceptance}
+\defType{constant}
+\defDefault{0.01}
+
+\defSub{method} {The type of candidate generation method to use}
+\defType{string}
+\defDefault{""}
+\defValue{not\_yet\_implemented}
+
+\subsubsection[D Lib]{\commandlabsubarg{minimiser}{type}{d\_lib}}
+
+\subsubsection[Gamma Diff]{\commandlabsubarg{minimiser}{type}{numerical\_differences}}
+
+\defSub{iterations} {Maximum number of iterations}
+\defType{integer}
+\defDefault{1000}
+
+\defSub{evaluations} {Maximum number of evaluations}
+\defType{integer}
+\defDefault{4000}
+
+\defSub{tolerance} {Tolerance of the gradient for convergence}
+\defType{constant}
+\defDefault{0.02}
+
+\defSub{step\_size} {Minimum Step-size before minimisation fails}
+\defType{constant}
+\defDefault{1e-7}
+

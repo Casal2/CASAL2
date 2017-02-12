@@ -1,0 +1,48 @@
+\defComLab{project}{Define an object of type \emph{project}}
+
+\defSub{label} {Label}
+\defType{string}
+\defDefault{No Default}
+
+\defSub{type} {Type}
+\defType{string}
+\defDefault{""}
+
+\defSub{years} {Years to recalculate the values}
+\defType{non-negative integer vector}
+\defDefault{true}
+
+\defSub{parameter} {Parameter to project}
+\defType{string}
+\defDefault{No Default}
+
+\subsubsection[Constant]{\commandlabsubarg{project}{type}{constant}}
+
+\defSub{values} {Values to assign to estimable}
+\defType{constant vector}
+\defDefault{No Default}
+
+\subsubsection[Empirical Sampling]{\commandlabsubarg{project}{type}{empirical\_sampling}}
+
+\defSub{start\_year} {Start year of sampling}
+\defType{non-negative integer}
+\defDefault{false}
+
+\defSub{final\_year} {Last year of sampling}
+\defType{non-negative integer}
+\defDefault{false}
+
+\subsubsection[Log Normal]{\commandlabsubarg{project}{type}{log\_normal}}
+
+\defSub{mean} {Mean of the lognormal distribution to be sampled}
+\defType{constant}
+\defDefault{1.0}
+
+\defSub{sigma} {Standard deviation on the log scale}
+\defType{constant}
+\defDefault{No Default}
+
+\defSub{rho} {an autocorrelation parameter on the log scale}
+\defType{constant}
+\defDefault{0.0}
+

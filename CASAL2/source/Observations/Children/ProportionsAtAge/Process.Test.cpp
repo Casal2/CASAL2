@@ -72,11 +72,11 @@ type beverton_holt
 categories male female
 proportions 0.5 0.5
 r0 5e6
-age 2
+age 3
 steepness 0.9
 ycs_values 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00
 ssb ssb
-ssb_offset 3
+ycs_years 1972:1999
 standardise_ycs_years 1973:1999
 
 @mortality halfm
@@ -155,7 +155,7 @@ TEST_F(InternalEmptyModel, Observation_Process_Proportions_At_Age_Single) {
   model_->Start(RunMode::kBasic);
 
   ObjectiveFunction& obj_function = model_->objective_function();
-  EXPECT_DOUBLE_EQ(250.08722881168586, obj_function.score());
+  EXPECT_DOUBLE_EQ(795.46042414425756, obj_function.score());
 
   Observation* observation = model_->managers().observation()->GetObservation("observation");
 
@@ -173,27 +173,27 @@ TEST_F(InternalEmptyModel, Observation_Process_Proportions_At_Age_Single) {
 
   EXPECT_EQ("male+female",                comparisons[year][1].category_);
   EXPECT_DOUBLE_EQ(0.79500000000000004,   comparisons[year][1].error_value_);
-  EXPECT_DOUBLE_EQ(0.0070692498806404821, comparisons[year][1].expected_);
+  EXPECT_DOUBLE_EQ(0, comparisons[year][1].expected_);
   EXPECT_DOUBLE_EQ(0.047300000000000002,  comparisons[year][1].observed_);
-  EXPECT_DOUBLE_EQ(4.3426966868720482,    comparisons[year][1].score_);
+  EXPECT_DOUBLE_EQ(549.79019030204006,    comparisons[year][1].score_);
 
   EXPECT_EQ("male+female",                comparisons[year][2].category_);
   EXPECT_DOUBLE_EQ(0.76400000000000001,   comparisons[year][2].error_value_);
-  EXPECT_DOUBLE_EQ(0.011928900863548361,  comparisons[year][2].expected_);
+  EXPECT_DOUBLE_EQ(0.012012525090472419,  comparisons[year][2].expected_);
   EXPECT_DOUBLE_EQ(0.0448,                comparisons[year][2].observed_);
-  EXPECT_DOUBLE_EQ(2.2347896916241421,    comparisons[year][2].score_);
+  EXPECT_DOUBLE_EQ(2.2112440825341411,    comparisons[year][2].score_);
 
   EXPECT_EQ("male+female",              comparisons[year][3].category_);
   EXPECT_DOUBLE_EQ(0.66300000000000003, comparisons[year][3].error_value_);
-  EXPECT_DOUBLE_EQ(0.019859167514238552,comparisons[year][3].expected_);
+  EXPECT_DOUBLE_EQ(0.019998426583322435,comparisons[year][3].expected_);
   EXPECT_DOUBLE_EQ(0.070999999999999994,comparisons[year][3].observed_);
-  EXPECT_DOUBLE_EQ(2.4051671826084839,  comparisons[year][3].score_);
+  EXPECT_DOUBLE_EQ(2.3773055602019428,  comparisons[year][3].score_);
 
   EXPECT_EQ("male+female",              comparisons[year][4].category_);
   EXPECT_DOUBLE_EQ(0.72399999999999998, comparisons[year][4].error_value_);
-  EXPECT_DOUBLE_EQ(0.032194345844364598,comparisons[year][4].expected_);
+  EXPECT_DOUBLE_EQ(0.03242023195231699,comparisons[year][4].expected_);
   EXPECT_DOUBLE_EQ(0.078,               comparisons[year][4].observed_);
-  EXPECT_DOUBLE_EQ(0.99214019756872429, comparisons[year][4].score_);
+  EXPECT_DOUBLE_EQ(0.97402168381968313, comparisons[year][4].score_);
 }
 
 const std::string test_cases_observation_proportions_at_age_double =
@@ -245,7 +245,7 @@ age 2
 steepness 0.9
 ycs_values 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00
 ssb ssb
-ssb_offset 3
+ycs_years 1973:2000
 standardise_ycs_years 1973:1999
 
 @mortality halfm
@@ -324,7 +324,7 @@ TEST_F(InternalEmptyModel, Observation_Process_Proportions_At_Age_Double) {
   model_->Start(RunMode::kBasic);
 
   ObjectiveFunction& obj_function = model_->objective_function();
-  EXPECT_DOUBLE_EQ(30.135808744378249, obj_function.score());
+  EXPECT_DOUBLE_EQ(30.135766436667744, obj_function.score());
 
   Observation* observation = model_->managers().observation()->GetObservation("observation");
 
@@ -336,33 +336,33 @@ TEST_F(InternalEmptyModel, Observation_Process_Proportions_At_Age_Double) {
   ASSERT_EQ(26u, comparisons[year].size());
   EXPECT_EQ("male",                       comparisons[year][0].category_);
   EXPECT_DOUBLE_EQ(1.091,                 comparisons[year][0].error_value_);
-  EXPECT_DOUBLE_EQ(0.0041574660970200381, comparisons[year][0].expected_);
+  EXPECT_DOUBLE_EQ(0.0041574653467937941, comparisons[year][0].expected_);
   EXPECT_DOUBLE_EQ(0.0173,                comparisons[year][0].observed_);
-  EXPECT_DOUBLE_EQ(1.9856979039149982,    comparisons[year][0].score_);
+  EXPECT_DOUBLE_EQ(1.9856983223045572,    comparisons[year][0].score_);
 
   EXPECT_EQ("male",                       comparisons[year][1].category_);
   EXPECT_DOUBLE_EQ(0.770,                 comparisons[year][1].error_value_);
-  EXPECT_DOUBLE_EQ(0.0070154811244283674, comparisons[year][1].expected_);
+  EXPECT_DOUBLE_EQ(0.0070154825800801696, comparisons[year][1].expected_);
   EXPECT_DOUBLE_EQ(0.0193,                comparisons[year][1].observed_);
-  EXPECT_DOUBLE_EQ(1.2818097321427793,    comparisons[year][1].score_);
+  EXPECT_DOUBLE_EQ(1.2818091773704532,    comparisons[year][1].score_);
 
   EXPECT_EQ("male",                       comparisons[year][2].category_);
   EXPECT_DOUBLE_EQ(0.539,                 comparisons[year][2].error_value_);
-  EXPECT_DOUBLE_EQ(0.011679422618522223,  comparisons[year][2].expected_);
+  EXPECT_DOUBLE_EQ(0.011679426533958197,  comparisons[year][2].expected_);
   EXPECT_DOUBLE_EQ(0.0241,                comparisons[year][2].observed_);
-  EXPECT_DOUBLE_EQ(0.73961575691950443,   comparisons[year][2].score_);
+  EXPECT_DOUBLE_EQ(0.7396146371416138,   comparisons[year][2].score_);
 
   EXPECT_EQ("male",                       comparisons[year][3].category_);
   EXPECT_DOUBLE_EQ(0.421,                 comparisons[year][3].error_value_);
-  EXPECT_DOUBLE_EQ(0.018934171455814545,  comparisons[year][3].expected_);
+  EXPECT_DOUBLE_EQ(0.018934183961419469,  comparisons[year][3].expected_);
   EXPECT_DOUBLE_EQ(0.0346,                comparisons[year][3].observed_);
-  EXPECT_DOUBLE_EQ(0.52912406930999711,   comparisons[year][3].score_);
+  EXPECT_DOUBLE_EQ(0.52912129877249725,   comparisons[year][3].score_);
 
   EXPECT_EQ("male",                       comparisons[year][4].category_);
   EXPECT_DOUBLE_EQ(0.412,                 comparisons[year][4].error_value_);
-  EXPECT_DOUBLE_EQ(0.029217869923475314,  comparisons[year][4].expected_);
+  EXPECT_DOUBLE_EQ(0.029217880897376522,  comparisons[year][4].expected_);
   EXPECT_DOUBLE_EQ(0.0365,                comparisons[year][4].observed_);
-  EXPECT_DOUBLE_EQ(-0.637651609604165,    comparisons[year][4].score_);
+  EXPECT_DOUBLE_EQ(-0.63765233048750125,    comparisons[year][4].score_);
 }
 
 } /* namespace processes */
