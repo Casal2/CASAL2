@@ -2,7 +2,7 @@
 
 @observation CSacous
 type biomass 
-time_step step5
+time_step Jul_Sep
 time_step_proportion 0.5
 categories male.east.cs+female.east.cs
 selectivities One One
@@ -15,7 +15,7 @@ likelihood lognormal
 ## West Coast Acoustic biomass survey
 @observation WCacous
 type biomass 
-time_step step5
+time_step Jul_Sep
 time_step_proportion 0.5
 catchability WCacous
 categories male.west.wc+female.west.wc
@@ -28,7 +28,7 @@ likelihood lognormal
 
 @observation CRsumbio
 type biomass  
-time_step step2
+time_step Dec_Mar
 time_step_proportion 0.6
 categories male.east.cr+female.east.cr+male.west.cr+female.west.cr
 selectivities CRsl CRsl CRsl CRsl
@@ -42,7 +42,7 @@ likelihood lognormal
 
 @observation SAsumbio
 type biomass  
-time_step step2
+time_step Dec_Mar
 time_step_proportion 0.5
 categories male.west.sa+female.west.sa
 selectivities SAsl SAsl
@@ -56,7 +56,7 @@ process_error 0.20
 
 @observation SAautbio
 type biomass  
-time_step step3
+time_step Apr_Jun
 time_step_proportion 0.1
 categories male.west.sa+female.west.sa
 selectivities SAsl SAsl
@@ -73,7 +73,7 @@ likelihood multinomial
 mortality_instantaneous_process Instant_mortality
 method_of_removal Esp
 age_plus true
-time_step step5
+time_step Jul_Sep
 min_age 2
 max_age 15
 categories male.east.cs female.east.cs
@@ -138,7 +138,7 @@ likelihood multinomial
 mortality_instantaneous_process Instant_mortality
 method_of_removal Wsp
 age_plus true
-time_step step5
+time_step Jul_Sep
 min_age 2
 max_age 15
 categories male.west.wc female.west.wc 
@@ -210,7 +210,7 @@ mortality_instantaneous_process Instant_mortality
 years 1992 1994 1996 1998
 method_of_removal Ensp1 Ensp2
 age_plus true
-time_step step2 step3
+time_step Dec_Mar Apr_Jun
 min_age 1
 max_age 6
 categories male.west.cr+male.east.cr female.west.cr+female.east.cr 
@@ -234,7 +234,7 @@ likelihood multinomial
 mortality_instantaneous_process Instant_mortality
 method_of_removal Ensp1 Ensp2
 age_plus true
-time_step step2 step3
+time_step Dec_Mar Apr_Jun
 min_age 1
 max_age 13
 categories male.west.cr+male.east.cr female.west.cr+female.east.cr 
@@ -284,7 +284,7 @@ mortality_instantaneous_process Instant_mortality
 method_of_removal Wnsp1 Wnsp2
 years 1992 1993 1994 1996 1999 2000
 age_plus true
-time_step step2 step3
+time_step Dec_Mar Apr_Jun
 min_age 2
 max_age 6
 categories male.west.sa female.west.sa 
@@ -313,7 +313,7 @@ likelihood multinomial
 mortality_instantaneous_process Instant_mortality
 method_of_removal Wnsp1 Wnsp2
 age_plus true
-time_step step2 step3
+time_step Dec_Mar Apr_Jun
 min_age 2
 max_age 13
 categories male.west.sa female.west.sa 
@@ -353,7 +353,7 @@ end_table
 
 @observation CRsumage
 type proportions_at_age
-time_step step2
+time_step Dec_Mar
 time_step_proportion 0.6
 categories male.west.cr+male.east.cr female.west.cr+female.east.cr 
 selectivities CRsl CRsl
@@ -414,7 +414,7 @@ end_table
 
 @observation SAsumage
 type proportions_at_age
-time_step step2
+time_step Dec_Mar
 time_step_proportion 0.5
 years 1992 1993 1994 2001 2002 2003 2004 2005 2006 2007 2008 2009 2010 2012 2013 #2015
 age_plus true
@@ -462,7 +462,7 @@ end_table
 
 @observation SAautage
 type proportions_at_age
-time_step step3
+time_step Apr_Jun
 time_step_proportion 0.1
 min_age 2
 max_age 15
@@ -486,7 +486,7 @@ end_table
 @observation pspawn_1993
 type process_proportions_migrating
 years 1993
-time_step step4
+time_step End_Jun
 process Wspmg
 age_plus true
 min_age 4
@@ -504,7 +504,7 @@ end_table
 @observation pspawn
 type process_proportions_migrating
 years 1992 1998
-time_step step4
+time_step End_Jun
 process Wspmg
 age_plus true
 min_age 3
