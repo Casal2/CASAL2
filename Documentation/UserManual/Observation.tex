@@ -512,10 +512,21 @@ Z \left(\theta,\delta \right) = \begin{cases}
 
 The default value of $\delta$ is $1 \times 10^{-11}$.
 
-\subsubsection{Likelihoods for abundance and biomass observations}
+\subsubsection{Likelihoods for abundance and biomass observations}\label{Obs:biomass}
+Abundance and biomass observations are expected as an annual time series in \CNAME, where they select the same categories over that time series. The parameters and inputs needed to use this observation class are: a observation $O_i$, c.v. $c_i$, catchability coefficient $q$, where $i$ indexed the year. \CNAME\ calculates an expectation $E_i$ and scales it by $q$ before comparing it to $O_i$. This means that the value chosen for $q$ will determine whether the observation is relative ($q\neq 1$) or absolute $q = 1$. Before we describe each of the likelihoods we will discuss the methods available to handle $q's$:
+
+\begin{enumerate}
+	\item The $q's$ can be treated as ‘nuisance’ parameters. For each set of values of the free parameters, the model uses the values of the $q's$which minimise the objective function. These optimal $q's$ are calculated algebraically (see Section~\ref{subsec:nuisance}). If one of the $q's$ falls outside the bounds specified by the user, it is set equal to the closest bound. This approach reduces the size of the parameter vector and hence should improve the performance of the estimation method. However, it is not correct when calculating a sample from the posterior in a Bayesian analysis (except asymptotically, see \cite{Walters_ludwig_94}) and we offer the following alternative;
+	
+	\item The $q's$ can be treated as ordinary free parameters.
+\end{enumerate}	
+	
+For both options, it is necessary to evaluate the contribution of $O_i$ to the negative loglikelihood for a given value of $q$. Each observation $O_i$ varies about $qE_i$ — express the variability of $O_i$ in terms of its c.v. $c_i$ (or in one case, its standard deviation si). Here are the likelihoods, which are expressed on the objective-function scale of -log(L):
+
+
 \subsubsection*{The lognormal likelihood\index{Lognormal likelihood}\index{Lognormal likelihood}}
 
-For observations $O_i$, c.v. $c_i$, and expected values $qE_i$, the negative log-likelihood is defined as;
+The negative log likelihood for a the lognormal is as follows,
 
 \begin{equation}
 - \log \left(L \right) = \sum\limits_i \left( \log \left( \sigma _i \right) + 0.5\left( \frac{\log \left(O_i / q Z \left(E_i,\delta \right) \right)}{\sigma_i} + 0.5 \sigma_i \right)^2 \right)
@@ -528,6 +539,8 @@ where
 \end{equation}
 
 and $Z \left(\theta,\delta \right)$ is a robustifying function to prevent division by zero errors, with parameter $\delta>0$. $Z \left(\theta,\delta \right)$ is defined as,
+
+This reflects the distributional assumptions that  $O_i$ has the lognormal distribution, that the mean of $O_i$ is $qE_i$  and the c.v. of $O_i$ is $c_i$.
 
 \begin{equation}
 Z \left(\theta,\delta \right) = \begin{cases}
@@ -556,6 +569,8 @@ Z \left(\theta,\delta \right) = \begin{cases}
 \end{equation}
 
 The default value of $\delta$ is $1 \times 10^{-11}$.
+
+This reflects the distributional assumptions that  $O_i$ has the normal distribution, that the mean of $O_i$ is $qE_i$  and the c.v. of $O_i$ is $c_i$.
 
 \subsubsection{Likelihoods for tag recapture by age and length observations}
 \paragraph*{The binomial likelihood\index{Binomial likelihood ! tag-recapture-by-length}}
@@ -660,8 +675,8 @@ Note that this requires that $N_{process\_ error} > 0$, but we allow the special
 
 For both the c.v. and $N$ process errors, the process error has more effect on small errors than on large ones. Be clear that a large value for the $N$ process error means a small process error.
 
-\subsection{\I{Calculating nuisance q's}}
-This section describes the equations used to calculate nuisance catchability coefficients q’s (see Section 6.7.1). From the user’s point of view, the essence is that you can use nuisance q’s in the following situations:
+\subsection{\I{Calculating nuisance q's}}\label{subsec:nuisance}
+This section describes the equations used to calculate nuisance catchability coefficients $q’s$ (see Section~\ref{Obs:biomass}). From the user's point of view, the essence is that you can use nuisance $q’s$ in the following situations:
 \begin{enumerate}
 	\item With maximum likelihood.
 	\item With Bayesian estimation, providing that your prior on the q is one of the following:
@@ -671,11 +686,10 @@ This section describes the equations used to calculate nuisance catchability coe
 			\item Lognormal with observations distributed lognormal, robustified lognormal
 		\end{itemize}
 \end{enumerate}
-
-The equations used for calculating nuisance q’s in maximum likelihood or Bayesian analysis are indexed in Table ?.
+Table~\ref{tab:nus_overview} displays the scenarios when the nuisance catchability can be used for a Bayesian analysis.
 
 \begin{table}[h!]
-	\caption{\textbf{Equations used to calculate nuisance $q$'s. (*=no analytic solution found.)}}\label{tab:overview}
+	\caption{\textbf{Equations used to calculate nuisance $q$'s. (*=no analytic solution found.)}}\label{tab:nus_overview}
 	\begin{tabular}{cccccc}
 		Distribution of observations & Maximum Likelihood & Uniform & Uniform-log & Normal & lognormal\\
 		\hline
@@ -684,7 +698,7 @@ The equations used for calculating nuisance q’s in maximum likelihood or Bayes
 	\end{tabular}
 \end{table}
 %% Insert table 4 here
-Note that $q$’s are calculated for robustified lognormal likelihoods as if they were ordinary lognormal likelihoods.
+Note that $q’s$ are calculated for robustified lognormal likelihoods as if they were ordinary lognormal likelihoods.
 \\\\
 The equations and their derivations follow. Let $\sigma_i = \sqrt{log(1 + c_i^2)}$ throughout, and let $n$ be the number of observations in the time series. The case of multiple time series sharing the same $q$, and the modifications required for the assumption of curvature, are addressed at the end of this subsection.
 \\\\
@@ -749,9 +763,9 @@ and if the prior is lognormal,
 but it is not possible to solve for $\hat q$ with a normal prior.
 \subsection{\I{Ageing error}}
 
-\CNAME\ can apply ageing error age frequency observations. Ageing error is applied to the expected values for proportions-at-age observations. The ageing error is applied as a misclassification matrix, which has the effect of 'smearing' the age frequencies. These are used in calculating the fits to the observed values, and hence the contribution to the total objective function. 
+\CNAME\ can apply ageing error to expected age frequency generated by the model. The ageing error is applied as a misclassification matrix, which has the effect of 'smearing' the expected age frequencies. This is mimicking the error involved in identifying the age of individuals. For example fish species are aged by reading the ear bones (otoliths) which can be quite difficult depending on the species. These are used in calculating the fits to the observed values, and hence the contribution to the total objective function. 
 
-Ageing error is optional, and if it is used, it may be omitted for any individual time series. Different ageing error models may be applied for different observation commands. See Section \ref{sec:ageingerrorreport} for reporting the misclassification matrix.
+Ageing error is optional, and if it is used, it may be omitted for any individual time series. Different ageing error models may be applied for different observation commands. See Section \ref{sec:ageingerrorreport} for reporting the misclassification matrix at the end of model run.
 
 The ageing error models implemented are,
 \begin{enumerate}
@@ -788,7 +802,7 @@ Methods for generating the random error, and hence simulated values, depend on t
   \end{enumerate}
 \end{enumerate}
 
-Note that \CNAME\ will report simulated observations using the usual observation report (\commandlabsubarg{report}{type}{observation}). The report \commandlabsubarg{report}{type}{simulated\_observation} will generate simulated observations in a form suitable for use as input within a \CNAME\ \config. See Section \ref{sec:report-section} for more detail.
+\textbf{An important note:} \CNAME\ will not automatically report simulated observations, the user must write a report using the \texttt{simulated\_observation} report (\commandlabsubarg{report}{type}{observation}). See Section \ref{sec:report-section} for more information on how to write this report.
 
 
 
