@@ -803,6 +803,11 @@ The double-exponential selectivity has non-estimable parameters $x_1$ and $x_2$,
 %
 %The spline selectivity implements a cubic spline that has non-estimable knots, and an estimable value for each knot. The cubic spline is either (i) a natural splines where the second derivatives are set to 0 at the boundaries, i.e., the values at the boundaries are horizontal, (ii) a spline with a fixed first derivative at the boundaries (linear, but not necessarily horizontal) and (iii) spline which turns into a parabola at the boundaries. 
 %
+\begin{figure}
+	\includegraphics[scale = 0.7]{Figures/Selectivities.jpeg}
+	\caption{Examples of the functional forms of selectivities available in \CNAME.}
+\end{figure}
+
 \subsection{\I{Time Varying Parameters}\label{sec:time_var}}
 
 \CNAME\ has the functionality to vary a parameter annually between the start and final year of a model run. This can be for blocks of years or specific years if chosen. For years that are not specified the parameter will default to the input or if in a iterative state such as estimation mode, the value being trialled at that iteration. Available methods for time varying a parameter. Where this functionality will become quite useful is in simulating more realistic observations. When you allow fisheries to have annual varying catchabilities and other more realistic model components simulated observations become more real data and thus conclusions based on simulated data are more useful.
