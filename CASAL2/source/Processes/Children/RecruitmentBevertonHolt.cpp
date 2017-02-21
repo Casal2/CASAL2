@@ -211,10 +211,10 @@ void RecruitmentBevertonHolt::DoBuild() {
   else
     temp_ssb_offset = age_;
 
-  LOG_FINEST() << "SSB Offset calculated to be = " << ssb_offset_ << "; recruitment index = " << recruitment_index << "; ageing index = "
+  LOG_FINEST() << "SSB Offset calculated to be = " << temp_ssb_offset << "; recruitment index = " << recruitment_index << "; ageing index = "
       << ageing_index << "; derived_quantity index = " << derived_quantity_index;
   if (parameters_.Get(PARAM_SSB_OFFSET)->has_been_defined()) {
-    // Check if the user has supplied the correct value for the model.
+    // Check if the user has supplied the expected value for the model.
     if (temp_ssb_offset != ssb_offset_) {
       LOG_WARNING() << "You have specified a different " << PARAM_SSB_OFFSET << " to what Casal2 calculated. Make sure you understand how this parameter is used in the process before you manually set it. Casal2 will automatically generate this variable, and should only be manually set under certain scenerios. See the usermanual on this process for more information.";
     }
