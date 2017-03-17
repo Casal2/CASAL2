@@ -61,6 +61,18 @@ TagByLength::~TagByLength() {
  * Validate the parameters from the configuration file
  */
 void TagByLength::DoValidate() {
+  // Check that the user has not specified combined categories
+  for(auto category : from_category_labels_) {
+    bool check_combined = model_->categories()->IsCombinedLabels(category);
+    if(check_combined)
+      LOG_ERROR_P(PARAM_FROM) << "You supplied the combined category " << category << " this process can only take seperate categories.";
+  }
+  for(auto category : to_category_labels_) {
+    bool check_combined = model_->categories()->IsCombinedLabels(category);
+    if(check_combined)
+      LOG_ERROR_P(PARAM_TO) << "You supplied the combined category " << category << " this process can only take seperate categories.";
+  }
+
   from_category_labels_ = model_->categories()->ExpandLabels(from_category_labels_, parameters_.Get(PARAM_FROM));
   to_category_labels_ = model_->categories()->ExpandLabels(to_category_labels_, parameters_.Get(PARAM_TO));
 
@@ -194,7 +206,10 @@ void TagByLength::DoValidate() {
  * Build relationships between this object and others
  */
 void TagByLength::DoBuild() {
+  LOG_TRACE();
+  LOG_FINEST() << "Initialising from categories";
   from_partition_.Init(from_category_labels_);
+  LOG_FINEST() << "Initialising to categories";
   to_partition_.Init(to_category_labels_);
 
   if (penalty_label_ != "")
