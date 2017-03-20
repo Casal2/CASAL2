@@ -1,0 +1,615 @@
+\section{Quick reference\label{sec:quick-reference}}
+\defComLab{ageing\_error}{Define an object of type \emph{ageing\_error}}\par
+\defSub{label} {Label of the ageing error}
+\defSub{type} {Type of ageing error}
+\par\textbf{\commandlabsubarg{ageing\_\_error}{type}{data}}\par
+\par\textbf{\commandlabsubarg{ageing\_\_error}{type}{none}}\par
+\par\textbf{\commandlabsubarg{ageing\_\_error}{type}{normal}}\par
+\defSub{cv} {CV of the misclassification matrix}
+\defSub{k} {k defines the minimum age of individuals which can be misclassified, e.g., individuals of age less than k have no ageing error}
+\par\textbf{\commandlabsubarg{ageing\_\_error}{type}{off\_by\_one}}\par
+\defSub{p1} {proportion misclassified as one year younger, e.g., the proportion of age 3 individuals that were misclassified as age 2}
+\defSub{p2} {proportion misclassified as one year older, e.g., the proportion of age 3 individuals that were misclassified as age 4}
+\defSub{k} {The minimum age of fish which can be misclassified, i.e., fish of age less than k are assumed to be correctly classified}
+\defComLab{age\_length}{Define an object of type \emph{age\_length}}\par\par
+\defSub{label} {Label of the age length relationship}
+\defSub{type} {Type of age length relationship}
+\defSub{time\_step\_proportions} {the fraction of the year applied in each time step that is added to the age for the purposes of evaluating the length, i.e., a value of 0.5 for a time step will evaluate the length of individuals at age+0.5 in that time step}
+\defSub{distribution} {The assumed distribution for the growth curve}
+\defSub{cv\_first} {CV for the first age class}
+\defSub{cv\_last} {CV for last age class}
+\defSub{casal\_switch} {If true, use the (less accurate) equation for the cumulative normal function as was used in the legacy version of CASAL.}
+\par\textbf{\commandlabsubarg{age\_\_length}{type}{data}}\par
+\defSub{external\_gaps} {}
+\defSub{internal\_gaps} {}
+\defSub{length\_weight} {The label from an associated length-weight block}
+\defSub{by\_length} {Specifies if the linear interpolation of CV's is a linear function of mean length at age. Default is just by age}
+\par\textbf{\commandlabsubarg{age\_\_length}{type}{none}}\par
+\par\textbf{\commandlabsubarg{age\_\_length}{type}{schnute}}\par
+\defSub{y1} {Define the y1 parameter of the Schnute relationship}
+\defSub{y2} {Define the y2 parameter of the Schnute relationship}
+\defSub{tau1} {Define the $\tau_1$ parameter of the Schnute relationship}
+\defSub{tau2} {Define the $\tau_2$ parameter of the Schnute relationship}
+\defSub{a} {Define the $a$ parameter of the Schnute relationship}
+\defSub{b} {Define the $b$ parameter of the Schnute relationship}
+\defSub{length\_weight} {Define the label of the associated length-weight relationship}
+\defSub{by\_length} {Specifies if the linear interpolation of CV's is a linear function of mean length at age. Default is just by age}
+\par\textbf{\commandlabsubarg{age\_\_length}{type}{von\_bertalanffy}}\par
+\defSub{linf} {Define the $L_{infinity}$ parameter of the von Bertalanffy relationship}
+\defSub{k} {Define the $k$ parameter of the von Bertalanffy relationship}
+\defSub{t0} {Define the $t_0$ parameter of the von Bertalanffy relationship}
+\defSub{length\_weight} {Define the label of the associated length-weight relationship}
+\defSub{by\_length} {Specifies if the linear interpolation of CV's is a linear function of mean length at age. Default is just by age}
+\defComLab{catchability}{Define an object of type \emph{catchability}}\par\par
+\defSub{label} {Label of the catchability}
+\defSub{type} {Type of catchability}
+\par\textbf{\commandlabsubarg{catchability}{type}{free}}\par
+\defSub{q} {value of the catchability}
+\par\textbf{\commandlabsubarg{catchability}{type}{nuisance}}\par
+\defComLab{derived\_quantity}{Define an object of type \emph{derived\_quantity}}\par\par
+\defSub{label} {Label of the derived quantity}
+\defSub{type} {Type of derived quantity}
+\defSub{time\_step} {The time step in which to calculate the derived quantity after}
+\defSub{categories} {The list of categories to use when calculating the derived quantity}
+\defSub{selectivities} {A list of one selectivity}
+\defSub{time\_step\_proportion} {Proportion through the mortality block of the time step when calculated}
+\defSub{time\_step\_proportion\_method} {Method for interpolating for the proportion through the mortality block}
+\par\textbf{\commandlabsubarg{derived\_\_quantity}{type}{abundance}}\par
+\par\textbf{\commandlabsubarg{derived\_\_quantity}{type}{biomass}}\par
+\defComLab{estimate}{Define an object of type \emph{estimate}}\par\par
+\defSub{label} {The label of the estimate}
+\defSub{type} {The prior type for the estimate}
+\defSub{parameter} {The name of the parameter to estimate in the model}
+\defSub{lower\_bound} {The lower bound for the parameter}
+\defSub{upper\_bound} {The upper bound for the parameter}
+\defSub{same} {List of parameters that are constrained to have the same value as this parameter}
+\defSub{mcmc} {Indicates if this parameter is fixed at the point estimate during an MCMC run}
+\par\textbf{\commandlabsubarg{estimate}{type}{beta}}\par
+\defSub{mu} {Beta prior  mean (mu) parameter}
+\defSub{sigma} {Beta prior variance (sigma) parameter}
+\defSub{a} {Beta prior lower bound of the range (A) parameter}
+\defSub{b} {Beta prior upper bound of the range (B) parameter}
+\par\textbf{\commandlabsubarg{estimate}{type}{lognormal}}\par
+\defSub{mu} {The lognormal prior mean (mu) parameter}
+\defSub{cv} {The Lognormal variance (CV) parameter}
+\par\textbf{\commandlabsubarg{estimate}{type}{normal}}\par
+\defSub{mu} {The normal prior mean (mu) parameter}
+\defSub{cv} {The normal variance (standard devation) parameter}
+\par\textbf{\commandlabsubarg{estimate}{type}{normal\_by\_stdev}}\par
+\defSub{mu} {The normal prior mean (mu) parameter}
+\defSub{sigma} {The normal variance (standard devation) parameter}
+\par\textbf{\commandlabsubarg{estimate}{type}{normal\_log}}\par
+\defSub{mu} {The normal-log prior mean (mu) parameter}
+\defSub{sigma} {The normal-log prior variance (standard deviation) parameter}
+\par\textbf{\commandlabsubarg{estimate}{type}{uniform}}\par
+\par\textbf{\commandlabsubarg{estimate}{type}{uniform\_log}}\par
+\defComLab{initialisation\_phase}{Define an object of type \emph{initialisation\_phase}}\par\par
+\defSub{label} {The label of the initialisation phase}
+\defSub{type} {The type of initialisation}
+\par\textbf{\commandlabsubarg{initialisation\_\_phase}{type}{cinitial}}\par
+\defSub{categories} {The list of categories for the Cinitial initialisation}
+\par\textbf{\commandlabsubarg{initialisation\_\_phase}{type}{derived}}\par
+\defSub{insert\_processes} {Additional processes not defined in the annual cycle, that are to beinserted into this initialisation phase}
+\defSub{exclude\_processes} {Processes in the annual cycle to be excluded from this initialisation phase}
+\defSub{casal\_intialisation\_switch} {Run an extra annual cycle to evalaute equilibrium SSB's. Warning - if true, this may not correctly evaluate the equilibrium state. Use true if attempting to replicate a legacy CASAL model}
+\par\textbf{\commandlabsubarg{initialisation\_\_phase}{type}{iterative}}\par
+\defSub{years} {The number of iterations (years) over which to execute this initialisation phase}
+\defSub{insert\_processes} {(years) over which to execute this initialisation phase}
+\defSub{exclude\_processes} {Processes in the annual cycle to be excluded from this initialisation phase}
+\defSub{convergence\_years} {The iteration (year) when the test for converegence (lambda) is evaluated}
+\defSub{lambda} {The maximum value of the absolute sum of differences (lambda) between the partition at year-1 and year that indicates successfull convergence}
+\par\textbf{\commandlabsubarg{initialisation\_\_phase}{type}{state\_category\_by\_age}}\par
+\defSub{categories} {The list of categories for the category state initialisation}
+\defSub{min\_age} {The minimum age of values supplied in the definition of the category state}
+\defSub{max\_age} {The minimum age of values supplied in the definition of the category state}
+\defComLab{likelihood}{Define an object of type \emph{likelihood}}\par\par
+\par\textbf{\commandlabsubarg{likelihood}{type}{binomial}}\par
+\par\textbf{\commandlabsubarg{likelihood}{type}{binomial\_approx}}\par
+\par\textbf{\commandlabsubarg{likelihood}{type}{dirichlet}}\par
+\par\textbf{\commandlabsubarg{likelihood}{type}{log\_normal}}\par
+\par\textbf{\commandlabsubarg{likelihood}{type}{log\_normal\_with\_q}}\par
+\par\textbf{\commandlabsubarg{likelihood}{type}{logistic\_normal}}\par
+\defSub{label} {Label for Logisitic Normal Likelihood}
+\defSub{type} {Type of likelihood}
+\defSub{rho} {The auto-correlation parameter $\rho$}
+\defSub{sigma} {Sigma parameter in the likelihood}
+\defSub{arma} {Defines if two rho parameters supplied then covar is assumed to have the correlation matrix of an ARMA(1,1) process}
+\defSub{bin\_labels} {If no covariance matrix parameter then list a vector of bin labels that the covariance matrix will be built for, can be ages or lengths.}
+\defSub{sexed} {Will the observation be split by sex?}
+\defSub{seperate\_by\_sex} {If data is sexed, shold the correlation structure be seperated by sex?}
+\par\textbf{\commandlabsubarg{likelihood}{type}{multinomial}}\par
+\par\textbf{\commandlabsubarg{likelihood}{type}{normal}}\par
+\par\textbf{\commandlabsubarg{likelihood}{type}{pseudo}}\par
+\defComLab{derived\_quantity}{Define an object of type \emph{derived\_quantity}}\par\par
+\defSub{label} {Label of the derived quantity}
+\defSub{type} {Type of derived quantity}
+\defSub{time\_step} {The time step in which to calculate the derived quantity after}
+\defSub{categories} {The list of categories to use when calculating the derived quantity}
+\defSub{selectivities} {A list of one selectivity}
+\defSub{time\_step\_proportion} {Proportion through the mortality block of the time step when calculated}
+\defSub{time\_step\_proportion\_method} {Method for interpolating for the proportion through the mortality block}
+\par\textbf{\commandlabsubarg{derived\_\_quantity}{type}{abundance}}\par
+\par\textbf{\commandlabsubarg{derived\_\_quantity}{type}{biomass}}\par
+\defComLab{mcmc}{Define an object of type \emph{mcmc}}\par\par
+\defSub{label} {The label of the MCMC}
+\defSub{type} {The type of MCMC}
+\defSub{length} {The number of iterations in for the MCMC chain}
+\defSub{active} {Indicates if this is the active MCMC algorithm}
+\defSub{print\_default\_reports} {Indicates if the output prints the default reports}
+\defSub{step\_size} {Initial stepsize (as a multiplier of the approximate covariance matrix}
+\par\textbf{\commandlabsubarg{mcmc}{type}{independence\_metropolis}}\par
+\defSub{start} {Covariance multiplier for the starting point of the MCMC}
+\defSub{keep} {Spacing between recorded values in the MCMC}
+\defSub{max\_correlation} {Maximum absolute correlation in the covariance matrix of the proposal distribution}
+\defSub{covariance\_adjustment\_method} {Method for adjusting small variances in the covariance proposal matrix}
+\defSub{correlation\_adjustment\_diff} {Minimum non-zero variance times the range of the bounds in the covariance matrix of the proposal distribution}
+\defSub{proposal\_distribution} {The shape of the proposal distribution (either the t or the normal distribution}
+\defSub{df} {Degrees of freedom of the multivariate t proposal distribution}
+\defSub{adapt\_stepsize\_at} {Iterations in the chain to check and resize the MCMC stepsize}
+\defSub{adapt\_covariance\_matrix\_at} {Iterations in the chain to check and resize the MCMC stepsize}
+\defSub{adapt\_stepsize\_method} {Method to adapt step size.}
+\defComLab{minimiser}{Define an object of type \emph{minimiser}}\par\par
+\defSub{label} {The minimiser label}
+\defSub{type} {The type of minimiser to use}
+\defSub{active} {Indicates if this minimiser is active}
+\defSub{covariance} {Indicates if a covariance matrix should be generated}
+\par\textbf{\commandlabsubarg{minimiser}{type}{adolc}}\par
+\defSub{iterations} {Maximum number of iterations}
+\defSub{evaluations} {Maximum number of evaluations}
+\defSub{tolerance} {Tolerance of the gradient for convergence}
+\defSub{step\_size} {Minimum Step-size before minimisation fails}
+\par\textbf{\commandlabsubarg{minimiser}{type}{betadiff}}\par
+\defSub{iterations} {Maximum number of iterations}
+\defSub{evaluations} {Maximum number of evaluations}
+\defSub{tolerance} {Tolerance of the gradient for convergence}
+\par\textbf{\commandlabsubarg{minimiser}{type}{cppad}}\par
+\par\textbf{\commandlabsubarg{minimiser}{type}{de\_solver}}\par
+\defSub{population\_size} {The number of candidate solutions to have in the population}
+\defSub{crossover\_probability} {Define the minimisers crossover probability}
+\defSub{difference\_scale} {The scale to apply to new solutions when comparing candidates}
+\defSub{max\_generations} {The maximum number of iterations to run}
+\defSub{tolerance} {The total variance between the population and best candidate before acceptance}
+\defSub{method} {The type of candidate generation method to use}
+\par\textbf{\commandlabsubarg{minimiser}{type}{d\_lib}}\par
+\par\textbf{\commandlabsubarg{minimiser}{type}{numerical\_differences}}\par
+\defSub{iterations} {Maximum number of iterations}
+\defSub{evaluations} {Maximum number of evaluations}
+\defSub{tolerance} {Tolerance of the gradient for convergence}
+\defSub{step\_size} {Minimum Step-size before minimisation fails}
+\defComLab{model}{Define an object of type \emph{model}}\par\par
+\defSub{start\_year} {Define the first year of the model, immediately following initialisation}
+\defSub{final\_year} {Define the final year of the model, excluding years in the projection period}
+\defSub{min\_age} {Minimum age of individuals in the population}
+\defSub{max\_age} {Maximum age of individuals in the population}
+\defSub{age\_plus} {Define the oldest age as a plus group}
+\defSub{initialisation\_phases} {Define the labels of the phases of the initialisation}
+\defSub{time\_steps} {Define the labels of the time steps, in the order that they are applied, to form the annual cycle}
+\defSub{projection\_final\_year} {Define the final year of the model in projection mode}
+\defSub{length\_bins} {}
+\defSub{base\_weight\_units} {Define the units for the base weight. This will be the default unit of any weight input parameters}
+\defComLab{observation}{Define an object of type \emph{observation}}\par\par
+\defSub{label} {Label}
+\defSub{type} {Type of observation}
+\defSub{likelihood} {Type of likelihood to use}
+\defSub{categories} {Category labels to use}
+\defSub{simulation\_likelihood} {Simulation likelihood to use}
+\defSub{likelihood\_multiplier} {Likelihood score multiplier}
+\defSub{error\_value\_multiplier} {Error value multiplier for likelihood}
+\par\textbf{\commandlabsubarg{observation}{type}{process\_abundance}}\par
+\defSub{selectivities} {Labels of the selectivities}
+\defSub{time\_step} {The label of time-step that the observation occurs in}
+\defSub{catchability} {The label of the catchability (q) block assumed for this observation}
+\defSub{obs} {The observed values}
+\defSub{years} {The years of the observed values}
+\defSub{error\_value} {The error values of the observed values (note the units depend on the likelihood}
+\defSub{delta} {Robustification value (delta) for the likelihood}
+\defSub{process\_error} {The label of the process error}
+\defSub{process} {The label of the process for the observation}
+\defSub{process\_proportion} {Proportion through the process when the observation is evaluated}
+\par\textbf{\commandlabsubarg{observation}{type}{abundance}}\par
+\defSub{selectivities} {Labels of the selectivities}
+\defSub{time\_step} {The label of time-step that the observation occurs in}
+\defSub{catchability} {The label of the catchability coefficient (q) assumed}
+\defSub{obs} {The observed values}
+\defSub{years} {Years for which there are observations}
+\defSub{error\_value} {The error values of the observed values (note the units depend on the likelihood}
+\defSub{delta} {The value of the delta robustification parameter}
+\defSub{process\_error} {The label of the process error block}
+\defSub{time\_step\_proportion} {Proportion through the mortality block of the time step when the observation is evaluated}
+\par\textbf{\commandlabsubarg{observation}{type}{process\_biomass}}\par
+\defSub{catchability} {The time-step of the observation}
+\defSub{time\_step} {The label of time-step that the observation occurs in}
+\defSub{obs} {The observed values}
+\defSub{years} {The years of the observed values}
+\defSub{error\_value} {The error values of the observed values (note the units depend on the likelihood}
+\defSub{delta} {Robustification value (delta) for the likelihood}
+\defSub{selectivities} {Labels of the selectivities}
+\defSub{process\_error} {Value for process error}
+\defSub{process} {The label of the process for the observation}
+\defSub{process\_proportion} {Proportion through the process when the observation is evaluated}
+\par\textbf{\commandlabsubarg{observation}{type}{biomass}}\par
+\defSub{catchability} {The time-step of the observation}
+\defSub{time\_step} {The label of time-step that the observation occurs in}
+\defSub{obs} {The observed values}
+\defSub{years} {The years of the observed values}
+\defSub{error\_value} {The error values of the observed values (note the units depend on the likelihood}
+\defSub{delta} {Robustification value (delta) for the likelihood}
+\defSub{selectivities} {Labels of the selectivities}
+\defSub{process\_error} {Value for process error}
+\defSub{time\_step\_proportion} {Proportion through the mortality block of the time step when the observation is evaluated}
+\par\textbf{\commandlabsubarg{observation}{type}{process\_removals\_by\_age}}\par
+\defSub{min\_age} {Minimum age}
+\defSub{max\_age} {Maximum age}
+\defSub{age\_plus} {Use age plus group}
+\defSub{time\_step} {The label of time-step that the observation occurs in}
+\defSub{tolerance} {Tolerance}
+\defSub{years} {Years for which there are observations}
+\defSub{delta} {Robustification value (delta) for the likelihood}
+\defSub{process\_errors} {Label of process error to use}
+\defSub{ageing\_error} {Label of ageing error to use}
+\defSub{method\_of\_removal} {Label of observed method of removals}
+\defSub{mortality\_instantaneous\_process} {The label of the mortality instantaneous process for the observation}
+\par\textbf{\commandlabsubarg{observation}{type}{process\_removals\_by\_length}}\par
+\defSub{length\_bins} {Length bins}
+\defSub{time\_step} {Time step to execute in}
+\defSub{length\_plus\_group} {Is the last bin a plus group}
+\defSub{tolerance} {Tolerance for rescaling proportions}
+\defSub{years} {Years for which there are observations}
+\defSub{delta} {The value of the delta robustification parameter}
+\defSub{process\_errors} {the value of process error}
+\defSub{method\_of\_removal} {Label of observed method of removals}
+\defSub{mortality\_instantaneous\_process} {The label of the mortality instantaneous process for the observation}
+\par\textbf{\commandlabsubarg{observation}{type}{process\_proportions\_at\_age}}\par
+\defSub{min\_age} {Minimum age}
+\defSub{max\_age} {Maximum age}
+\defSub{age\_plus} {Use age plus group}
+\defSub{time\_step} {The label of time-step that the observation occurs in}
+\defSub{tolerance} {Tolerance on the constraint, that for each year the sum of proportions in each age must equal one e.g. tolerance = 0.1 then 1 - Sum(Proportions) can be as great as 0.1}
+\defSub{years} {The years of the observed values}
+\defSub{delta} {Robustification value (delta) for the likelihood}
+\defSub{selectivities} {Labels of the selectivities}
+\defSub{process\_errors} {Process error}
+\defSub{ageing\_error} {Label of ageing error to use}
+\defSub{process} {The label of the process for the observation}
+\defSub{process\_proportion} {Proportion through the process when the observation is evaluated}
+\par\textbf{\commandlabsubarg{observation}{type}{proportions\_at\_age}}\par
+\defSub{min\_age} {Minimum age}
+\defSub{max\_age} {Maximum age}
+\defSub{age\_plus} {Use age plus group}
+\defSub{time\_step} {The label of time-step that the observation occurs in}
+\defSub{tolerance} {Tolerance on the constraint, that for each year the sum of proportions in each age must equal one e.g. tolerance = 0.1 then 1 - Sum(Proportions) can be as great as 0.1}
+\defSub{years} {The years of the observed values}
+\defSub{delta} {Robustification value (delta) for the likelihood}
+\defSub{selectivities} {Labels of the selectivities}
+\defSub{process\_errors} {Process error}
+\defSub{ageing\_error} {Label of ageing error to use}
+\defSub{time\_step\_proportion} {Proportion through the mortality block of the time step when the observation is evaluated}
+\par\textbf{\commandlabsubarg{observation}{type}{process\_proportions\_at\_length}}\par
+\defSub{length\_bins} {Length bins}
+\defSub{time\_step} {The label of time-step that the observation occurs in}
+\defSub{length\_plus\_group} {Is the last bin a plus group}
+\defSub{tolerance} {Tolerance for rescaling proportions}
+\defSub{years} {Years for which there are observations}
+\defSub{selectivities} {The labels of the selectivities}
+\defSub{delta} {The value of the delta robustification parameter}
+\defSub{process\_errors} {Process error}
+\defSub{process} {The label of the process for the observation}
+\defSub{process\_proportion} {Proportion through the process when the observation is evaluated}
+\par\textbf{\commandlabsubarg{observation}{type}{proportions\_at\_length}}\par
+\defSub{length\_bins} {Length bins}
+\defSub{time\_step} {The label of time-step that the observation occurs in}
+\defSub{length\_plus\_group} {Is the last bin a plus group}
+\defSub{tolerance} {Tolerance for rescaling proportions}
+\defSub{years} {Years for which there are observations}
+\defSub{selectivities} {The labels of the selectivities}
+\defSub{delta} {The value of the delta robustification parameter}
+\defSub{process\_errors} {Process error}
+\defSub{time\_step\_proportion} {Proportion through the mortality block of the time step when the observation is evaluated}
+\par\textbf{\commandlabsubarg{observation}{type}{process\_proportions\_by\_category}}\par
+\defSub{min\_age} {Minimum age}
+\defSub{max\_age} {Maximum age}
+\defSub{time\_step} {The label of time-step that the observation occurs in}
+\defSub{age\_plus} {Use age plus group}
+\defSub{years} {Years for which there are observations}
+\defSub{selectivities} {The labels of the selectivities}
+\defSub{categories2} {Target Categories}
+\defSub{selectivities2} {Target Selectivities}
+\defSub{delta} {The value of the delta robustification parameter}
+\defSub{process\_errors} {Process error}
+\defSub{process} {The label of the process for the observation}
+\defSub{process\_proportion} {Proportion through the mortality block of the time step when the observation is evaluated}
+\par\textbf{\commandlabsubarg{observation}{type}{proportions\_by\_category}}\par
+\defSub{min\_age} {Minimum age}
+\defSub{max\_age} {Maximum age}
+\defSub{time\_step} {The label of time-step that the observation occurs in}
+\defSub{age\_plus} {Use age plus group}
+\defSub{years} {Years for which there are observations}
+\defSub{selectivities} {The labels of the selectivities}
+\defSub{categories2} {Target Categories}
+\defSub{selectivities2} {Target Selectivities}
+\defSub{delta} {The value of the delta robustification parameter}
+\defSub{process\_errors} {Process error}
+\defSub{time\_step\_proportion} {Proportion through the time step to analyse the partition from}
+\par\textbf{\commandlabsubarg{observation}{type}{proportions\_migrating}}\par
+\defSub{min\_age} {Minimum age}
+\defSub{max\_age} {Maximum age}
+\defSub{time\_step} {The label of time-step that the observation occurs in}
+\defSub{age\_plus} {Use age plus group}
+\defSub{years} {Years for which there are observations}
+\defSub{delta} {The value of the delta robustification parameter}
+\defSub{process\_errors} {Process error}
+\defSub{ageing\_error} {Label of ageing error to use}
+\defSub{process} {Process label}
+\par\textbf{\commandlabsubarg{observation}{type}{tag\_recapture\_by\_age}}\par
+\defSub{min\_age} {Minimum age}
+\defSub{max\_age} {Maximum age}
+\defSub{age\_plus} {Use age plus group}
+\defSub{years} {Years for which there are observations}
+\defSub{categories2} {The available categories in the partition}
+\defSub{selectivities} {The labels of the selectivities}
+\defSub{time\_step} {The label of time-step that the observation occurs in}
+\defSub{selectivities2} {The categories of tagged individuals for the observation}
+\defSub{delta} {The value of the delta robustification parameter}
+\defSub{process\_errors} {Process error}
+\defSub{detection} {Probability of detecting a recaptured individual}
+\defSub{time\_step\_proportion} {Proportion through the mortality block of the time step when the observation is evaluated}
+\par\textbf{\commandlabsubarg{observation}{type}{tag\_recapture\_by\_length}}\par
+\defSub{length\_bins} {Length Bins}
+\defSub{plus\_group} {Indicates if the last length bin is a plus group}
+\defSub{years} {Years for which there are observations}
+\defSub{time\_step} {The label of time-step that the observation occurs in}
+\defSub{categories2} {The categories of tagged individuals for the observation}
+\defSub{selectivities} {The labels of the selectivities used for untagged categories}
+\defSub{selectivities2} {The labels of the tag category selectivities}
+\defSub{delta} {The value of the delta robustification parameter}
+\defSub{process\_errors} {Process error}
+\defSub{detection} {Probability of detecting a recaptured individual}
+\defSub{dispersion} {Over-dispersion parameter (phi)}
+\defSub{time\_step\_proportion} {Proportion through the mortality block of the time step when the observation is evaluated}
+\defComLab{penalty}{Define an object of type \emph{penalty}}\par\par
+\defSub{label} {The label of the penalty}
+\defSub{type} {The type of penalty}
+\par\textbf{\commandlabsubarg{penalty}{type}{process}}\par
+\defSub{multiplier} {The penalty multiplier}
+\defSub{log\_scale} {Indicates if the sums of squares is calculated on the log scale}
+\defComLab{process}{Define an object of type \emph{process}}\par\par
+\defSub{label} {The label of the process}
+\defSub{type} {The type of process}
+\defSub{print\_report} {Indicates if a process report should be generated for this process}
+\par\textbf{\commandlabsubarg{process}{type}{ageing}}\par
+\defSub{categories} {The labels of the categories}
+\par\textbf{\commandlabsubarg{process}{type}{maturation}}\par
+\defSub{from} {List of categories to mature from}
+\defSub{to} {List of categories to mature too}
+\defSub{selectivities} {List of selectivities to use for maturation}
+\defSub{years} {The years to be associated with rates}
+\defSub{rates} {The rates to mature for each year}
+\par\textbf{\commandlabsubarg{process}{type}{mortality\_constant\_rate}}\par
+\defSub{categories} {List of categories labels}
+\defSub{m} {Mortality rates}
+\defSub{time\_step\_ratio} {Time step ratios for the mortality rates}
+\defSub{selectivities} {List of selectivities for the categories}
+\par\textbf{\commandlabsubarg{process}{type}{mortality\_event}}\par
+\defSub{categories} {Categories}
+\defSub{years} {Years in which to apply the mortality process}
+\defSub{catches} {The number of removals (catches) to apply for each year}
+\defSub{u\_max} {Maximum exploitation rate ($Umax$}
+\defSub{selectivities} {List of selectivities}
+\defSub{penalty} {The label of the penalty to apply if the total number of removals cannot be taken}
+\par\textbf{\commandlabsubarg{process}{type}{mortality\_event\_biomass}}\par
+\defSub{categories} {Category labels}
+\defSub{selectivities} {The labels of the selectivities for each of the categories}
+\defSub{years} {Years in which to apply the mortality process}
+\defSub{catches} {The biomass of removals (catches) to apply for each year}
+\defSub{u\_max} {Maximum exploitation rate ($Umax$}
+\defSub{penalty} {The label of the penalty to apply if the total biomass of removals cannot be taken}
+\par\textbf{\commandlabsubarg{process}{type}{mortality\_holling\_rate}}\par
+\defSub{prey\_categories} {Prey Categories labels}
+\defSub{predator\_categories} {Predator Categories labels}
+\defSub{is\_abundance} {Is vulnerable amount of prey and predator an abundance [true] or biomass [false]}
+\defSub{a} {parameter a}
+\defSub{b} {parameter b}
+\defSub{x} {This parameter controls the type of functional form, Holling function type 2 (x=2) or 3 (x=3), or generalised (Michaelis Menten, x,=1}
+\defSub{u\_max} {Maximum exploitation rate ($Umax$}
+\defSub{prey\_selectivities} {Selectivities for prey categories}
+\defSub{predator\_selectivities} {Selectivities for predator categories}
+\defSub{penalty} {Label of penalty to be applied}
+\defSub{years} {Years in which to apply the mortality process}
+\par\textbf{\commandlabsubarg{process}{type}{mortality\_instantaneous}}\par
+\defSub{categories} {Categories for instantaneous mortality}
+\defSub{m} {Natural mortality rates for each category}
+\defSub{time\_step\_ratio} {Time step ratios for natural mortality}
+\defSub{selectivities} {The selectivities to apply on the categories for natural mortality}
+\par\textbf{\commandlabsubarg{process}{type}{mortality\_prey\_suitability}}\par
+\defSub{prey\_categories} {Prey Categories labels}
+\defSub{predator\_categories} {Predator Categories labels}
+\defSub{consumption\_rate} {Predator consumption rate}
+\defSub{electivities} {Prey Electivities}
+\defSub{u\_max} {Umax}
+\defSub{prey\_selectivities} {Selectivities for prey categories}
+\defSub{predator\_selectivities} {Selectivities for predator categories}
+\defSub{penalty} {Label of penalty to be applied}
+\defSub{years} {Year that process occurs}
+\par\textbf{\commandlabsubarg{process}{type}{nop}}\par
+\par\textbf{\commandlabsubarg{process}{type}{recruitment\_beverton\_holt}}\par
+\defSub{categories} {Category labels}
+\defSub{r0} {R0}
+\defSub{b0} {B0}
+\defSub{proportions} {Proportions}
+\defSub{age} {Age to recruit at}
+\defSub{ssb\_offset} {Spawning biomass year offset}
+\defSub{steepness} {Steepness}
+\defSub{ssb} {SSB Label (derived quantity}
+\defSub{b0\_intialisation\_phase} {Initialisation phase Label that b0 is from}
+\defSub{ycs\_values} {YCS Values}
+\defSub{ycs\_years} {Recruitment years. A vector of years that relates to the year of the spawning event that created this cohort}
+\defSub{standardise\_ycs\_years} {Years that are included for year class standardisation}
+\par\textbf{\commandlabsubarg{process}{type}{recruitment\_constant}}\par
+\defSub{categories} {Categories}
+\defSub{proportions} {Proportions}
+\defSub{age} {Age}
+\defSub{r0} {R0}
+\par\textbf{\commandlabsubarg{process}{type}{survival\_constant\_rate}}\par
+\defSub{categories} {List of categories}
+\defSub{s} {Survival rates}
+\defSub{time\_step\_ratio} {Time step ratios for S}
+\defSub{selectivities} {Selectivity label}
+\par\textbf{\commandlabsubarg{process}{type}{tag\_by\_age}}\par
+\defSub{from} {Categories to transition from}
+\defSub{to} {Categories to transition to}
+\defSub{min\_age} {Minimum age to transition}
+\defSub{max\_age} {Maximum age to transition}
+\defSub{penalty} {Penalty label}
+\defSub{u\_max} {U Max}
+\defSub{years} {Years to execute the transition in}
+\defSub{initial\_mortality} {}
+\defSub{initial\_mortality\_selectivity} {}
+\defSub{loss\_rate} {}
+\defSub{loss\_rate\_selectivities} {}
+\defSub{selectivities} {}
+\defSub{n} {}
+\par\textbf{\commandlabsubarg{process}{type}{tag\_by\_length}}\par
+\defSub{from} {Categories to transition from}
+\defSub{to} {Categories to transition to}
+\defSub{plus\_group} {Use plus group for last length bin}
+\defSub{maximum\_length} {The upper length when there is no plus group}
+\defSub{penalty} {Penalty label}
+\defSub{u\_max} {U Max}
+\defSub{years} {Years to execute the transition in}
+\defSub{initial\_mortality} {}
+\defSub{initial\_mortality\_selectivity} {}
+\defSub{selectivities} {}
+\defSub{n} {}
+\par\textbf{\commandlabsubarg{process}{type}{tag\_loss}}\par
+\defSub{categories} {List of categories}
+\defSub{tag\_loss\_rate} {Tag Loss rates}
+\defSub{time\_step\_ratio} {Time step ratios for Tag Loss}
+\defSub{tag\_loss\_type} {Type of tag loss}
+\defSub{selectivities} {Selectivities}
+\defSub{year} {The year the first tagging release process was executed}
+\par\textbf{\commandlabsubarg{process}{type}{transition\_category}}\par
+\defSub{from} {From}
+\defSub{to} {To}
+\defSub{proportions} {Proportions}
+\defSub{selectivities} {Selectivity names}
+\par\textbf{\commandlabsubarg{process}{type}{transition\_category\_by\_age}}\par
+\defSub{from} {Categories to transition from}
+\defSub{to} {Categories to transition to}
+\defSub{min\_age} {Minimum age to transition}
+\defSub{max\_age} {Maximum age to transition}
+\defSub{penalty} {Penalty label}
+\defSub{u\_max} {U Max}
+\defSub{years} {Years to execute the transition in}
+\defComLab{profile}{Define an object of type \emph{profile}}\par\par
+\defSub{label} {Label}
+\defSub{steps} {The number of steps to take between the lower and upper bound}
+\defSub{lower\_bound} {The lower bounds}
+\defSub{upper\_bound} {The upper bounds}
+\defSub{parameter} {The system parameter to profile}
+\defComLab{report}{Define an object of type \emph{report}}\par\par
+\defSub{label} {The label for the report}
+\defSub{type} {The type of report}
+\defSub{file\_name} {The File Name if you want this report to be in a seperate file}
+\defSub{write\_mode} {The write mode}
+\par\textbf{\commandlabsubarg{report}{type}{ageing\_error\_matrix}}\par
+\defSub{ageing\_error} {Ageing Error label}
+\par\textbf{\commandlabsubarg{report}{type}{catchabilities}}\par
+\par\textbf{\commandlabsubarg{report}{type}{category\_info}}\par
+\par\textbf{\commandlabsubarg{report}{type}{category\_list}}\par
+\par\textbf{\commandlabsubarg{report}{type}{correlation\_matrix}}\par
+\par\textbf{\commandlabsubarg{report}{type}{covariance\_matrix}}\par
+\par\textbf{\commandlabsubarg{report}{type}{derived\_quantity}}\par
+\par\textbf{\commandlabsubarg{report}{type}{estimable}}\par
+\defSub{parameter} {Parameter to print}
+\defSub{years} {Years to print the estimable for}
+\defSub{time\_step} {Time Step label}
+\par\textbf{\commandlabsubarg{report}{type}{estimate\_summary}}\par
+\par\textbf{\commandlabsubarg{report}{type}{estimate\_value}}\par
+\par\textbf{\commandlabsubarg{report}{type}{hessian\_matrix}}\par
+\par\textbf{\commandlabsubarg{report}{type}{initialisation\_partition}}\par
+\par\textbf{\commandlabsubarg{report}{type}{mcmc\_covariance}}\par
+\par\textbf{\commandlabsubarg{report}{type}{mcmc\_objective}}\par
+\par\textbf{\commandlabsubarg{report}{type}{mcmc\_sample}}\par
+\par\textbf{\commandlabsubarg{report}{type}{m\_p\_d}}\par
+\par\textbf{\commandlabsubarg{report}{type}{objective\_function}}\par
+\par\textbf{\commandlabsubarg{report}{type}{observation}}\par
+\defSub{observation} {Observation label}
+\par\textbf{\commandlabsubarg{report}{type}{output\_parameters}}\par
+\par\textbf{\commandlabsubarg{report}{type}{partition}}\par
+\defSub{time\_step} {Time Step label}
+\defSub{years} {Years}
+\par\textbf{\commandlabsubarg{report}{type}{partition\_biomass}}\par
+\defSub{time\_step} {Time Step label}
+\defSub{years} {Years}
+\defSub{units} {Units (Default Kgs}
+\par\textbf{\commandlabsubarg{report}{type}{partition\_mean\_weight}}\par
+\defSub{time\_step} {Time Step label}
+\defSub{years} {Years}
+\par\textbf{\commandlabsubarg{report}{type}{process}}\par
+\defSub{process} {Process label that is reported}
+\par\textbf{\commandlabsubarg{report}{type}{random\_number\_seed}}\par
+\par\textbf{\commandlabsubarg{report}{type}{selectivity}}\par
+\defSub{selectivity} {Selectivity name}
+\par\textbf{\commandlabsubarg{report}{type}{simulated\_observation}}\par
+\defSub{observation} {Observation label}
+\par\textbf{\commandlabsubarg{report}{type}{standard\_header}}\par
+\par\textbf{\commandlabsubarg{report}{type}{time\_varying}}\par
+\defComLab{selectivity}{Define an object of type \emph{selectivity}}\par\par
+\defSub{label} {The label for this selectivity}
+\defSub{type} {The type of selectivity}
+\defSub{length\_based} {Is the selectivity length based}
+\defSub{intervals} {Number of quantiles to evaluate a length based selectivity over the age length distribution}
+\par\textbf{\commandlabsubarg{selectivity}{type}{all\_values}}\par
+\defSub{v} {V}
+\par\textbf{\commandlabsubarg{selectivity}{type}{all\_values\_bounded}}\par
+\defSub{l} {L}
+\defSub{h} {H}
+\defSub{v} {V}
+\par\textbf{\commandlabsubarg{selectivity}{type}{constant}}\par
+\defSub{c} {C}
+\par\textbf{\commandlabsubarg{selectivity}{type}{double\_exponential}}\par
+\defSub{x0} {X0}
+\defSub{x1} {X1}
+\defSub{x2} {X2}
+\defSub{y0} {Y0}
+\defSub{y1} {Y1}
+\defSub{y2} {Y2}
+\defSub{alpha} {Alpha}
+\par\textbf{\commandlabsubarg{selectivity}{type}{double\_normal}}\par
+\defSub{mu} {Mu}
+\defSub{sigma\_l} {Sigma L}
+\defSub{sigma\_r} {Sigma R}
+\defSub{alpha} {Alpha}
+\par\textbf{\commandlabsubarg{selectivity}{type}{increasing}}\par
+\defSub{l} {Low}
+\defSub{h} {High}
+\defSub{v} {V}
+\defSub{alpha} {Alpha}
+\par\textbf{\commandlabsubarg{selectivity}{type}{inverse\_logistic}}\par
+\defSub{a50} {A50}
+\defSub{ato95} {aTo95}
+\defSub{alpha} {Alpha}
+\par\textbf{\commandlabsubarg{selectivity}{type}{knife\_edge}}\par
+\defSub{e} {Edge}
+\defSub{alpha} {Alpha}
+\par\textbf{\commandlabsubarg{selectivity}{type}{logistic}}\par
+\defSub{a50} {A50}
+\defSub{ato95} {Ato95}
+\defSub{alpha} {Alpha}
+\par\textbf{\commandlabsubarg{selectivity}{type}{logistic\_producing}}\par
+\defSub{l} {Low}
+\defSub{h} {High}
+\defSub{a50} {A50}
+\defSub{ato95} {Ato95}
+\defSub{alpha} {Alpha}
+\defComLab{length\_weight}{Define an object of type \emph{length\_weight}}\par\par
+\defSub{label} {The label of the length-weight relationship}
+\defSub{type} {The type of the length-weight relationship}
+\par\textbf{\commandlabsubarg{length\_\_weight}{type}{basic}}\par
+\defSub{a} {The $a$ parameter in the basic length-weight relationship}
+\defSub{b} {The $b$ parameter in the basic length-weight relationship}
+\defSub{units} {Units of measure (tonnes, kgs, grams}
+\par\textbf{\commandlabsubarg{length\_\_weight}{type}{none}}\par
+\defComLab{time\_step}{Define an object of type \emph{time\_step}}\par\par
+\defSub{label} {The label of the timestep}
+\defSub{processes} {The labels of the processes for this time step in the order that they occur}

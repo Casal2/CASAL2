@@ -30,42 +30,6 @@ using niwa::testfixtures::InternalEmptyModel;
 /**
  *
  */
-TEST_F(InternalEmptyModel, Processes_BevertonHolt_Recruitment) {
-  AddConfigurationLine(testresources::models::test_cases_models_casal_complex_1, "TestResources/Models/CasalComplex1.h", 32);
-  LoadConfiguration();
-
-  model_->Start(RunMode::kBasic);
-
-  partition::Category& male   = model_->partition().category("male");
-  EXPECT_DOUBLE_EQ(0.0, male.data_[0]);
-  EXPECT_DOUBLE_EQ(2499927.5474240803, male.data_[1]);
-  EXPECT_DOUBLE_EQ(2046756.2758644461, male.data_[2]);
-
-  EXPECT_DOUBLE_EQ(151391.67827268399, male.data_[15]);
-  EXPECT_DOUBLE_EQ(123889.51433539754, male.data_[16]);
-  EXPECT_DOUBLE_EQ(101388.98722028485, male.data_[17]);
-
-  EXPECT_DOUBLE_EQ(45509.118554179389, male.data_[21]);
-  EXPECT_DOUBLE_EQ(37254.617197639338, male.data_[22]);
-  EXPECT_DOUBLE_EQ(168174.98846106316, male.data_[23]);
-
-  partition::Category& female = model_->partition().category("female");
-  EXPECT_DOUBLE_EQ(0.0, male.data_[0]);
-  EXPECT_DOUBLE_EQ(2499927.5474240803, female.data_[1]);
-  EXPECT_DOUBLE_EQ(2046760.4571484025, female.data_[2]);
-
-  EXPECT_DOUBLE_EQ(151581.19489755956, female.data_[15]);
-  EXPECT_DOUBLE_EQ(124062.47306900102, female.data_[16]);
-  EXPECT_DOUBLE_EQ(101543.48455296629, female.data_[17]);
-
-  EXPECT_DOUBLE_EQ(45592.839274420774, female.data_[21]);
-  EXPECT_DOUBLE_EQ(37324.680701432851, female.data_[22]);
-  EXPECT_DOUBLE_EQ(168519.01800652978, female.data_[23]);
-}
-
-/**
- *
- */
 const std::string test_cases_process_recruitment_bh =
 R"(
 @model
@@ -98,6 +62,7 @@ proportions 0.5 0.5
 r0 1.6059e+006
 b0_intialisation_phase iphase2
 age 1
+ycs_years 1993:2011
 ssb SSB
 standardise_ycs_years 1995:2006
 ycs_values 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
@@ -185,12 +150,12 @@ type recruitment_beverton_holt
 categories stock
 proportions 1 
 b0 5.18767e+008
+ycs_years 1974:2011
 standardise_ycs_years 1975 1976 1977 1978 1979 1980 1981 1982 1983 1984 1985 1986 1987 1988 1989 1990 1991 1992 1993 1994 1995 1996 1997 1998 1999 2000 2001 2002 2003 2004 2005 2006 2007 2008 2009
 ycs_values          1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00
 steepness 0.9
 ssb biomass_t1
 age 1
-prior_standardised_ycs false
 
 @process Ageing
 type ageing

@@ -1,22 +1,32 @@
 ## Report section for now
+
 @report summary
 type estimate_value
 
 @report objective
 type objective_function
 
+@report Rec
+type process
+process Recruitment
+
 @report Init
 type initialisation_partition
 
-@report part_step1
+@report Sep_Feb
 type partition
+time_step Sep_Feb
 years 1975:2012
-time_step step1
 
-@report part_step2
+@report Mar_May
 type partition
+time_step Mar_May
 years 1975:2012
-time_step step2
+
+@report Jun_Aug
+type partition
+time_step Jun_Aug
+years 1975:2012
 
 @report SSB
 type derived_quantity
@@ -36,3 +46,7 @@ observation chatOBSest
 @report westF_at_age
 type observation
 observation chatOBSwst
+
+@report age_error
+type ageing_error
+ageing_error Normal_ageing

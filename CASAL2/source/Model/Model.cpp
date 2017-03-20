@@ -720,6 +720,8 @@ void Model::RunProjection() {
       Reset();
     }
   }
+  // Print the report to disk if tabular
+  //managers_->report()->Finalise();
 }
 
 /**

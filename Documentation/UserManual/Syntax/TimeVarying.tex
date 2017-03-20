@@ -1,0 +1,99 @@
+\defComLab{time\_varying}{Define an object of type \emph{time\_varying}}
+
+\defSub{label} {The time-varying label}
+\defType{string}
+\defDefault{No Default}
+
+\defSub{type} {The time-varying type}
+\defType{string}
+\defDefault{""}
+
+\defSub{years} {Years in which to vary the values}
+\defType{non-negative integer vector}
+\defDefault{No Default}
+
+\defSub{parameter} {The name of the parameter to time vary}
+\defType{string}
+\defDefault{No Default}
+
+\subsubsection[Annual Shift]{\commandlabsubarg{time\_\_varying}{type}{annual\_shift}}
+
+\defSub{values} {}
+\defType{constant vector}
+\defDefault{No Default}
+
+\defSub{a} {}
+\defType{constant}
+\defDefault{No Default}
+
+\defSub{b} {}
+\defType{constant}
+\defDefault{No Default}
+
+\defSub{c} {}
+\defType{constant}
+\defDefault{No Default}
+
+\defSub{scaling\_years} {}
+\defType{non-negative integer vector}
+\defDefault{true}
+
+\subsubsection[Constant]{\commandlabsubarg{time\_\_varying}{type}{constant}}
+
+\defSub{values} {Value to assign to estimable}
+\defType{estimable vector}
+\defDefault{No Default}
+
+\subsubsection[Exogenous]{\commandlabsubarg{time\_\_varying}{type}{exogenous}}
+
+\defSub{a} {Shift parameter}
+\defType{estimable}
+\defDefault{No Default}
+
+\defSub{exogeneous\_variable} {Values of exogeneous variable for each year}
+\defType{constant vector}
+\defDefault{No Default}
+
+\subsubsection[Linear]{\commandlabsubarg{time\_\_varying}{type}{linear}}
+
+\defSub{slope} {The slope of the linear trend (additive unit per year}
+\defType{estimable}
+\defDefault{No Default}
+
+\defSub{intercept} {The intercept of the linear trend value for the first year}
+\defType{estimable}
+\defDefault{No Default}
+
+\subsubsection[Random Draw]{\commandlabsubarg{time\_\_varying}{type}{random\_draw}}
+
+\defSub{mean} {Mean}
+\defType{estimable}
+\defDefault{0}
+
+\defSub{sigma} {Standard deviation}
+\defType{estimable}
+\defDefault{1}
+
+\defSub{distribution} {distribution}
+\defType{string}
+\defDefault{normal}
+\defAllowedValues{normal, lognormal}
+
+\subsubsection[Random Walk]{\commandlabsubarg{time\_\_varying}{type}{random\_walk}}
+
+\defSub{mean} {Mean}
+\defType{estimable}
+\defDefault{0}
+
+\defSub{sigma} {Standard deviation}
+\defType{estimable}
+\defDefault{1}
+
+\defSub{sigma} {Auto Correlation parameter}
+\defType{estimable}
+\defDefault{1}
+
+\defSub{distribution} {distribution}
+\defType{string}
+\defDefault{normal}
+

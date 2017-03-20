@@ -1,7 +1,7 @@
 Package: CASAL2
 Title: CASAL2 extract package
 Version: 1.0
-Date: 2015-06-10
+Date: 2017-03-20
 Author: D. Fu and C. Marsh
 Description: A set of R functions for extracting from CASAL2 output files.
 Maintainer: Casal2 development team <casal2@niwa.co.nz>

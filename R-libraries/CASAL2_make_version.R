@@ -2,7 +2,7 @@
 VERSION<-system("casal2.exe -v",intern=TRUE)
 VERSION<-substring(VERSION,1,regexpr(" ",VERSION)-1)
 version.number<-"1.0" #substring(VERSION,1,regexpr("-",VERSION)-1)
-version.date<- "2015-06-10" #substring(VERSION,regexpr("-",VERSION)+1)
+version.date<- "2017-03-20" #substring(VERSION,regexpr("-",VERSION)+1)
 
 # Build DESCRIPTION file
 filename<-"CASAL2/DESCRIPTION"
@@ -24,6 +24,13 @@ filename<-"CASAL2/R/CASAL2.binary.version.R"
 cat("\"CASAL2.binary.version\"<-\n",file=filename)
 cat("function() {\n",file=filename,append=T)
 cat(paste("return(\"",VERSION,"\")\n",sep=""),file=filename,append=T)
+cat("}\n",file=filename,append=T)
+
+# Create R function to return R library version number
+filename<-"CASAL2/R/Version.R"
+cat("\"Version\"<-\n",file=filename)
+cat("function() {\n",file=filename,append=T)
+cat(paste("return(\"",version.date,"\")\n",sep=""),file=filename,append=T)
 cat("}\n",file=filename,append=T)
 
 # Write a .html file to report version number for the Wiki

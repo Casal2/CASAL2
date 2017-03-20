@@ -54,7 +54,7 @@ TEST_F(InternalEmptyModel, AgeLengths_Data_Mean_Mean) {
   model_->Start(RunMode::kBasic);
 
   ObjectiveFunction& obj_function = model_->objective_function();
-  EXPECT_DOUBLE_EQ(16884.277966840153, obj_function.score());
+  EXPECT_DOUBLE_EQ(16884.281874378819, obj_function.score());
 
   AgeLength* age_size = model_->managers().age_length()->FindAgeLength("test_age_size");
   if (!age_size)
@@ -100,7 +100,7 @@ TEST_F(InternalEmptyModel, AgeLengths_Data_NearestNeighbour_Mean) {
   model_->Start(RunMode::kBasic);
 
   ObjectiveFunction& obj_function = model_->objective_function();
-  EXPECT_DOUBLE_EQ(16884.277966840153, obj_function.score());
+  EXPECT_DOUBLE_EQ(16884.281874378819, obj_function.score());
 
   AgeLength* age_size = model_->managers().age_length()->FindAgeLength("test_age_size");
   if (!age_size)
@@ -149,7 +149,7 @@ TEST_F(InternalEmptyModel, AgeLengths_Data_Mean_NearestNeighbour) {
   model_->Start(RunMode::kBasic);
 
   ObjectiveFunction& obj_function = model_->objective_function();
-  EXPECT_DOUBLE_EQ(16884.277966840153, obj_function.score());
+  EXPECT_DOUBLE_EQ(16884.281874378819, obj_function.score());
 
   AgeLength* age_size = model_->managers().age_length()->FindAgeLength("test_age_size");
   if (!age_size)
@@ -198,7 +198,7 @@ TEST_F(InternalEmptyModel, AgeLengths_Data_Mean_Interpolate) {
   model_->Start(RunMode::kBasic);
 
   ObjectiveFunction& obj_function = model_->objective_function();
-  EXPECT_DOUBLE_EQ(16884.277966840153, obj_function.score());
+  EXPECT_DOUBLE_EQ(16884.281874378819, obj_function.score());
 
   AgeLength* age_size = model_->managers().age_length()->FindAgeLength("test_age_size");
   if (!age_size)
