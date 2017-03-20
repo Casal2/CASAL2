@@ -35,7 +35,7 @@ TEST_F(InternalEmptyModel, Model_CasalComplex1_BasicRun) {
   model_->Start(RunMode::kBasic);
 
   ObjectiveFunction& obj_function = model_->objective_function();
-  EXPECT_DOUBLE_EQ(16420.52830668812, obj_function.score());
+  EXPECT_DOUBLE_EQ(86017.407059557605, obj_function.score());
 }
 
 /**
@@ -48,7 +48,7 @@ TEST_F(InternalEmptyModel, Model_CasalComplex1_Estimation) {
   model_->Start(RunMode::kEstimation);
 
   ObjectiveFunction& obj_function = model_->objective_function();
-  EXPECT_DOUBLE_EQ(463.46264220283479, obj_function.score());
+  EXPECT_DOUBLE_EQ(70082.72043536164, obj_function.score());
 }
 
 /**
@@ -78,16 +78,16 @@ TEST_F(InternalEmptyModel, Model_CasalComplex1_Simulation) {
     EXPECT_DOUBLE_EQ(1.0, sum) << " for year " << iterator.first;
   }
 
-  EXPECT_DOUBLE_EQ(0.0066381041682021169,  comparisons[1992][0].observed_);
-  EXPECT_DOUBLE_EQ(0.0070833196771564275, comparisons[1992][1].observed_);
-  EXPECT_DOUBLE_EQ(0.0057998649850546881,  comparisons[1992][2].observed_);
-  EXPECT_DOUBLE_EQ(0.01090770432991572,  comparisons[1992][3].observed_);
-  EXPECT_DOUBLE_EQ(0.027242617586312013,   comparisons[1992][4].observed_);
-  EXPECT_DOUBLE_EQ(0.040261942218864068,  comparisons[1992][5].observed_);
-  EXPECT_DOUBLE_EQ(0.027889541540686093,   comparisons[1992][6].observed_);
-  EXPECT_DOUBLE_EQ(0.043455271082630184,   comparisons[1992][7].observed_);
-  EXPECT_DOUBLE_EQ(0.059710394387488964,   comparisons[1992][8].observed_);
-  EXPECT_DOUBLE_EQ(0.071124937102585217,  comparisons[1992][9].observed_);
+  EXPECT_DOUBLE_EQ(1.0150837531311599e-011,  comparisons[1992][0].observed_);
+  EXPECT_DOUBLE_EQ(0.010470482494025671, comparisons[1992][1].observed_);
+  EXPECT_DOUBLE_EQ(0.012347042547332919,  comparisons[1992][2].observed_);
+  EXPECT_DOUBLE_EQ(0.010111907418287399,  comparisons[1992][3].observed_);
+  EXPECT_DOUBLE_EQ(0.015590386918144931,   comparisons[1992][4].observed_);
+  EXPECT_DOUBLE_EQ(0.040143133477430946,  comparisons[1992][5].observed_);
+  EXPECT_DOUBLE_EQ(0.053110701331827929,   comparisons[1992][6].observed_);
+  EXPECT_DOUBLE_EQ(0.03141798580362324,   comparisons[1992][7].observed_);
+  EXPECT_DOUBLE_EQ(0.044980767245313164,   comparisons[1992][8].observed_);
+  EXPECT_DOUBLE_EQ(0.056026019079491715,  comparisons[1992][9].observed_);
 }
 
 } /* namespace testcases */

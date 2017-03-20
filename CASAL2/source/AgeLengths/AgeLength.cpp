@@ -205,7 +205,7 @@ void AgeLength::DoAgeToLengthConversion(partition::Category* category, const vec
     unsigned age = category->min_age_ + i;
 
     if (cvs_[year][age][time_step] <= 0.0)
-        LOG_CODE_ERROR() << "Identified a CV of 0.0. please check parameters cv_first and cv_last in the @age_length";
+        LOG_ERROR_P(PARAM_CV_FIRST) << "Identified a CV of 0.0. please check parameters cv_first and cv_last in the @age_length, or make sure you have specified suitable bounds in the @estimate block";
 
     Double mu= category->mean_length_per_[age];
     CummulativeNormal(mu, cvs_[year][age][time_step], age_frequencies, length_bins, distribution_, plus_grp);

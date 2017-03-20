@@ -108,6 +108,8 @@ Managers::~Managers() {
 void Managers::Validate() {
   LOG_TRACE();
   time_step_->Validate(model_);
+  initialisation_phase_->Validate();
+  process_->Validate(model_); // Needs to go before estimate for the situation where there is an @estimate block
 
   additional_prior_->Validate();
   ageing_error_->Validate();
@@ -116,14 +118,12 @@ void Managers::Validate() {
   catchability_->Validate();
   derived_quantity_->Validate();
   estimate_transformation_->Validate();
-  initialisation_phase_->Validate();
   length_weight_->Validate();
   likelihood_->Validate();
   mcmc_->Validate();
   minimiser_->Validate();
   observation_->Validate();
   penalty_->Validate();
-  process_->Validate(model_);
   profile_->Validate();
   project_->Validate();
   report_->Validate();
@@ -137,6 +137,8 @@ void Managers::Validate() {
 void Managers::Build() {
   LOG_TRACE();
   time_step_->Build();
+  initialisation_phase_->Build(model_);
+  process_->Build(); // To handle BH Recruitment having ssb_offset available
 
   additional_prior_->Build();
   ageing_error_->Build();
@@ -144,21 +146,20 @@ void Managers::Build() {
   assert_->Build();
   catchability_->Build();
   derived_quantity_->Build();
-  estimate_->Build(model_);
-  estimate_transformation_->Build();
-  initialisation_phase_->Build(model_);
   length_weight_->Build();
   likelihood_->Build();
   mcmc_->Build();
   minimiser_->Build();
   observation_->Build();
   penalty_->Build();
-  process_->Build();
   profile_->Build();
   project_->Build(model_);
   selectivity_->Build();
   simulate_->Build();
   time_varying_->Build();
+
+  estimate_->Build(model_);
+  estimate_transformation_->Build();
 
   report_->Build();
 }

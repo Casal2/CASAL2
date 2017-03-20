@@ -39,7 +39,7 @@ Creator::Creator(Model* model) : model_(model) {
   parameters_.Bind<Double>(PARAM_LOWER_BOUND, &lower_bounds_, "The lower bound for the parameter", "");
   parameters_.Bind<Double>(PARAM_UPPER_BOUND, &upper_bounds_, "The upper bound for the parameter", "");
   parameters_.Bind<string>(PARAM_PRIOR, &prior_label_, "TBA", "", "");
-  parameters_.Bind<string>(PARAM_SAME, &same_labels_, "List of parameters that are contrained to have the same value as this parameter", "", "");
+  parameters_.Bind<string>(PARAM_SAME, &same_labels_, "List of parameters that are constrained to have the same value as this parameter", "", "");
   parameters_.Bind<string>(PARAM_ESTIMATION_PHASE, &estimation_phase_, "TBA", "", "");
   parameters_.Bind<string>(PARAM_MCMC, &mcmc_, "Indicates if this parameter is fixed at the point estimate during an MCMC run", "", "");
   parameters_.Bind<string>(PARAM_TRANSFORMATION, &transformation_details_, "TBA", "", "");
@@ -83,8 +83,6 @@ void Creator::CreateEstimates() {
           << "Please ensure you are using correct indexes and only the operators , and : (range) are supported";
     }
   }
-
-
 
   if (target->GetEstimableType(parameter) == Estimable::kSingle) {
     /**

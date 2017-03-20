@@ -1,0 +1,69 @@
+\defComLab{mcmc}{Define an object of type \emph{mcmc}}
+
+\defSub{label} {The label of the MCMC}
+\defType{string}
+\defDefault{No Default}
+
+\defSub{type} {The type of MCMC}
+\defType{string}
+\defDefault{""}
+
+\defSub{length} {The number of iterations in for the MCMC chain}
+\defType{non-negative integer}
+\defDefault{No Default}
+
+\defSub{active} {Indicates if this is the active MCMC algorithm}
+\defType{boolean}
+\defDefault{true}
+
+\defSub{print\_default\_reports} {Indicates if the output prints the default reports}
+\defType{boolean}
+\defDefault{true}
+
+\defSub{step\_size} {Initial stepsize (as a multiplier of the approximate covariance matrix}
+\defType{constant}
+\defDefault{0.02}
+
+\subsubsection[Independence Metropolis]{\commandlabsubarg{mcmc}{type}{independence\_metropolis}}
+
+\defSub{start} {Covariance multiplier for the starting point of the MCMC}
+\defType{constant}
+\defDefault{0.0}
+
+\defSub{keep} {Spacing between recorded values in the MCMC}
+\defType{non-negative integer}
+\defDefault{1u}
+
+\defSub{max\_correlation} {Maximum absolute correlation in the covariance matrix of the proposal distribution}
+\defType{constant}
+\defDefault{0.8}
+
+\defSub{covariance\_adjustment\_method} {Method for adjusting small variances in the covariance proposal matrix}
+\defType{string}
+\defDefault{covariance}
+
+\defSub{correlation\_adjustment\_diff} {Minimum non-zero variance times the range of the bounds in the covariance matrix of the proposal distribution}
+\defType{constant}
+\defDefault{0.0001}
+
+\defSub{proposal\_distribution} {The shape of the proposal distribution (either the t or the normal distribution}
+\defType{string}
+\defDefault{t}
+
+\defSub{df} {Degrees of freedom of the multivariate t proposal distribution}
+\defType{non-negative integer}
+\defDefault{4}
+
+\defSub{adapt\_stepsize\_at} {Iterations in the chain to check and resize the MCMC stepsize}
+\defType{non-negative integer vector}
+\defDefault{true}
+
+\defSub{adapt\_covariance\_matrix\_at} {Iterations in the chain to check and resize the MCMC stepsize}
+\defType{non-negative integer vector}
+\defDefault{true}
+
+\defSub{adapt\_stepsize\_method} {Method to adapt step size.}
+\defType{string}
+\defDefault{ratio}
+\defAllowedValues{ratio, double\_half}
+

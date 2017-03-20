@@ -36,7 +36,8 @@ public:
   virtual void                Build() { Reset(); };
   virtual void                Reset();
   virtual Double              GetResult(unsigned age, AgeLength* age_length);
-
+  // accessor
+  bool                        IsSelectivityLengthBased() {return length_based_;};
 protected:
   // pure methods
   virtual Double              GetLengthBasedResult(unsigned age, AgeLength* age_length) = 0;

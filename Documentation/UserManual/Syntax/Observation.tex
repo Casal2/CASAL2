@@ -1,0 +1,688 @@
+\defComLab{observation}{Define an object of type \emph{observation}}
+
+\defSub{label} {Label}
+\defType{string}
+\defDefault{No Default}
+
+\defSub{type} {Type of observation}
+\defType{string}
+\defDefault{No Default}
+
+\defSub{likelihood} {Type of likelihood to use}
+\defType{string}
+\defDefault{No Default}
+
+\defSub{categories} {Category labels to use}
+\defType{string vector}
+\defDefault{true}
+
+\defSub{simulation\_likelihood} {Simulation likelihood to use}
+\defType{string}
+\defDefault{""}
+
+\defSub{likelihood\_multiplier} {Likelihood score multiplier}
+\defType{constant}
+\defDefault{1.0}
+
+\defSub{error\_value\_multiplier} {Error value multiplier for likelihood}
+\defType{constant}
+\defDefault{1.0}
+
+\subsubsection[Process Abundance]{\commandlabsubarg{observation}{type}{process\_abundance}}
+
+\defSub{selectivities} {Labels of the selectivities}
+\defType{string vector}
+\defDefault{true}
+
+\defSub{time\_step} {The label of time-step that the observation occurs in}
+\defType{string}
+\defDefault{No Default}
+
+\defSub{catchability} {The label of the catchability (q) block assumed for this observation}
+\defType{string}
+\defDefault{No Default}
+
+\defSub{obs} {The observed values}
+\defType{string vector}
+\defDefault{No Default}
+
+\defSub{years} {The years of the observed values}
+\defType{non-negative integer vector}
+\defDefault{No Default}
+
+\defSub{error\_value} {The error values of the observed values (note the units depend on the likelihood}
+\defType{constant vector}
+\defDefault{No Default}
+
+\defSub{delta} {Robustification value (delta) for the likelihood}
+\defType{constant}
+\defDefault{DELTA}
+
+\defSub{process\_error} {The label of the process error}
+\defType{constant}
+\defDefault{0.0}
+
+\defSub{process} {The label of the process for the observation}
+\defType{string}
+\defDefault{No Default}
+
+\defSub{process\_proportion} {Proportion through the process when the observation is evaluated}
+\defType{constant}
+\defDefault{0.5}
+
+\subsubsection[Abundance]{\commandlabsubarg{observation}{type}{abundance}}
+
+\defSub{selectivities} {Labels of the selectivities}
+\defType{string vector}
+\defDefault{true}
+
+\defSub{time\_step} {The label of time-step that the observation occurs in}
+\defType{string}
+\defDefault{No Default}
+
+\defSub{catchability} {The label of the catchability coefficient (q) assumed}
+\defType{string}
+\defDefault{No Default}
+
+\defSub{obs} {The observed values}
+\defType{string vector}
+\defDefault{No Default}
+
+\defSub{years} {Years for which there are observations}
+\defType{non-negative integer vector}
+\defDefault{No Default}
+
+\defSub{error\_value} {The error values of the observed values (note the units depend on the likelihood}
+\defType{constant vector}
+\defDefault{No Default}
+
+\defSub{delta} {The value of the delta robustification parameter}
+\defType{constant}
+\defDefault{DELTA}
+
+\defSub{process\_error} {The label of the process error block}
+\defType{constant}
+\defDefault{0.0}
+
+\defSub{time\_step\_proportion} {Proportion through the mortality block of the time step when the observation is evaluated}
+\defType{constant}
+\defDefault{0.5}
+
+\subsubsection[Process Biomass]{\commandlabsubarg{observation}{type}{process\_biomass}}
+
+\defSub{catchability} {The time-step of the observation}
+\defType{string}
+\defDefault{No Default}
+
+\defSub{time\_step} {The label of time-step that the observation occurs in}
+\defType{string}
+\defDefault{No Default}
+
+\defSub{obs} {The observed values}
+\defType{string vector}
+\defDefault{No Default}
+
+\defSub{years} {The years of the observed values}
+\defType{non-negative integer vector}
+\defDefault{No Default}
+
+\defSub{error\_value} {The error values of the observed values (note the units depend on the likelihood}
+\defType{constant vector}
+\defDefault{No Default}
+
+\defSub{delta} {Robustification value (delta) for the likelihood}
+\defType{constant}
+\defDefault{1e-10}
+
+\defSub{selectivities} {Labels of the selectivities}
+\defType{string vector}
+\defDefault{true}
+
+\defSub{process\_error} {Value for process error}
+\defType{constant}
+\defDefault{0.0}
+
+\defSub{process} {The label of the process for the observation}
+\defType{string}
+\defDefault{No Default}
+
+\defSub{process\_proportion} {Proportion through the process when the observation is evaluated}
+\defType{constant}
+\defDefault{0.5}
+
+\subsubsection[Biomass]{\commandlabsubarg{observation}{type}{biomass}}
+
+\defSub{catchability} {The time-step of the observation}
+\defType{string}
+\defDefault{No Default}
+
+\defSub{time\_step} {The label of time-step that the observation occurs in}
+\defType{string}
+\defDefault{No Default}
+
+\defSub{obs} {The observed values}
+\defType{string vector}
+\defDefault{No Default}
+
+\defSub{years} {The years of the observed values}
+\defType{non-negative integer vector}
+\defDefault{No Default}
+
+\defSub{error\_value} {The error values of the observed values (note the units depend on the likelihood}
+\defType{constant vector}
+\defDefault{No Default}
+
+\defSub{delta} {Robustification value (delta) for the likelihood}
+\defType{constant}
+\defDefault{1e-10}
+
+\defSub{selectivities} {Labels of the selectivities}
+\defType{string vector}
+\defDefault{true}
+
+\defSub{process\_error} {Value for process error}
+\defType{constant}
+\defDefault{0.0}
+
+\defSub{time\_step\_proportion} {Proportion through the mortality block of the time step when the observation is evaluated}
+\defType{constant}
+\defDefault{0.5}
+
+\subsubsection[Process Removals By Age]{\commandlabsubarg{observation}{type}{process\_removals\_by\_age}}
+
+\defSub{min\_age} {Minimum age}
+\defType{non-negative integer}
+\defDefault{No Default}
+
+\defSub{max\_age} {Maximum age}
+\defType{non-negative integer}
+\defDefault{No Default}
+
+\defSub{age\_plus} {Use age plus group}
+\defType{boolean}
+\defDefault{true}
+
+\defSub{time\_step} {The label of time-step that the observation occurs in}
+\defType{string vector}
+\defDefault{No Default}
+
+\defSub{tolerance} {Tolerance}
+\defType{constant}
+\defDefault{0.001}
+
+\defSub{years} {Years for which there are observations}
+\defType{non-negative integer vector}
+\defDefault{No Default}
+
+\defSub{delta} {Robustification value (delta) for the likelihood}
+\defType{constant}
+\defDefault{DELTA}
+
+\defSub{process\_errors} {Label of process error to use}
+\defType{constant vector}
+\defDefault{true}
+
+\defSub{ageing\_error} {Label of ageing error to use}
+\defType{string}
+\defDefault{""}
+
+\defSub{method\_of\_removal} {Label of observed method of removals}
+\defType{string vector}
+\defDefault{""}
+
+\defSub{mortality\_instantaneous\_process} {The label of the mortality instantaneous process for the observation}
+\defType{string}
+\defDefault{No Default}
+
+\subsubsection[Process Removals By Length]{\commandlabsubarg{observation}{type}{process\_removals\_by\_length}}
+
+\defSub{length\_bins} {Length bins}
+\defType{constant vector}
+\defDefault{No Default}
+
+\defSub{time\_step} {Time step to execute in}
+\defType{string}
+\defDefault{No Default}
+
+\defSub{length\_plus\_group} {Is the last bin a plus group}
+\defType{boolean}
+\defDefault{true}
+
+\defSub{tolerance} {Tolerance for rescaling proportions}
+\defType{constant}
+\defDefault{0.001}
+
+\defSub{years} {Years for which there are observations}
+\defType{non-negative integer vector}
+\defDefault{No Default}
+
+\defSub{delta} {The value of the delta robustification parameter}
+\defType{constant}
+\defDefault{DELTA}
+
+\defSub{process\_errors} {the value of process error}
+\defType{constant vector}
+\defDefault{true}
+
+\defSub{method\_of\_removal} {Label of observed method of removals}
+\defType{string}
+\defDefault{""}
+
+\defSub{mortality\_instantaneous\_process} {The label of the mortality instantaneous process for the observation}
+\defType{string}
+\defDefault{No Default}
+
+\subsubsection[Process Proportions At Age]{\commandlabsubarg{observation}{type}{process\_proportions\_at\_age}}
+
+\defSub{min\_age} {Minimum age}
+\defType{non-negative integer}
+\defDefault{No Default}
+
+\defSub{max\_age} {Maximum age}
+\defType{non-negative integer}
+\defDefault{No Default}
+
+\defSub{age\_plus} {Use age plus group}
+\defType{boolean}
+\defDefault{true}
+
+\defSub{time\_step} {The label of time-step that the observation occurs in}
+\defType{string}
+\defDefault{No Default}
+
+\defSub{tolerance} {Tolerance on the constraint, that for each year the sum of proportions in each age must equal one e.g. tolerance = 0.1 then 1 - Sum(Proportions) can be as great as 0.1}
+\defType{constant}
+\defDefault{0.001}
+
+\defSub{years} {The years of the observed values}
+\defType{non-negative integer vector}
+\defDefault{No Default}
+
+\defSub{delta} {Robustification value (delta) for the likelihood}
+\defType{constant}
+\defDefault{DELTA}
+
+\defSub{selectivities} {Labels of the selectivities}
+\defType{string vector}
+\defDefault{true}
+
+\defSub{process\_errors} {Process error}
+\defType{constant vector}
+\defDefault{true}
+
+\defSub{ageing\_error} {Label of ageing error to use}
+\defType{string}
+\defDefault{""}
+
+\defSub{process} {The label of the process for the observation}
+\defType{string}
+\defDefault{No Default}
+
+\defSub{process\_proportion} {Proportion through the process when the observation is evaluated}
+\defType{constant}
+\defDefault{0.5}
+
+\subsubsection[Proportions At Age]{\commandlabsubarg{observation}{type}{proportions\_at\_age}}
+
+\defSub{min\_age} {Minimum age}
+\defType{non-negative integer}
+\defDefault{No Default}
+
+\defSub{max\_age} {Maximum age}
+\defType{non-negative integer}
+\defDefault{No Default}
+
+\defSub{age\_plus} {Use age plus group}
+\defType{boolean}
+\defDefault{true}
+
+\defSub{time\_step} {The label of time-step that the observation occurs in}
+\defType{string}
+\defDefault{No Default}
+
+\defSub{tolerance} {Tolerance on the constraint, that for each year the sum of proportions in each age must equal one e.g. tolerance = 0.1 then 1 - Sum(Proportions) can be as great as 0.1}
+\defType{constant}
+\defDefault{0.001}
+
+\defSub{years} {The years of the observed values}
+\defType{non-negative integer vector}
+\defDefault{No Default}
+
+\defSub{delta} {Robustification value (delta) for the likelihood}
+\defType{constant}
+\defDefault{DELTA}
+
+\defSub{selectivities} {Labels of the selectivities}
+\defType{string vector}
+\defDefault{true}
+
+\defSub{process\_errors} {Process error}
+\defType{constant vector}
+\defDefault{true}
+
+\defSub{ageing\_error} {Label of ageing error to use}
+\defType{string}
+\defDefault{""}
+
+\defSub{time\_step\_proportion} {Proportion through the mortality block of the time step when the observation is evaluated}
+\defType{constant}
+\defDefault{0.5}
+
+\subsubsection[Process Proportions At Length]{\commandlabsubarg{observation}{type}{process\_proportions\_at\_length}}
+
+\defSub{length\_bins} {Length bins}
+\defType{constant vector}
+\defDefault{No Default}
+
+\defSub{time\_step} {The label of time-step that the observation occurs in}
+\defType{string}
+\defDefault{No Default}
+
+\defSub{length\_plus\_group} {Is the last bin a plus group}
+\defType{boolean}
+\defDefault{true}
+
+\defSub{tolerance} {Tolerance for rescaling proportions}
+\defType{constant}
+\defDefault{0.001}
+
+\defSub{years} {Years for which there are observations}
+\defType{non-negative integer vector}
+\defDefault{No Default}
+
+\defSub{selectivities} {The labels of the selectivities}
+\defType{string vector}
+\defDefault{true}
+
+\defSub{delta} {The value of the delta robustification parameter}
+\defType{constant}
+\defDefault{DELTA}
+
+\defSub{process\_errors} {Process error}
+\defType{constant vector}
+\defDefault{true}
+
+\defSub{process} {The label of the process for the observation}
+\defType{string}
+\defDefault{No Default}
+
+\defSub{process\_proportion} {Proportion through the process when the observation is evaluated}
+\defType{constant}
+\defDefault{0.5}
+
+\subsubsection[Proportions At Length]{\commandlabsubarg{observation}{type}{proportions\_at\_length}}
+
+\defSub{length\_bins} {Length bins}
+\defType{constant vector}
+\defDefault{No Default}
+
+\defSub{time\_step} {The label of time-step that the observation occurs in}
+\defType{string}
+\defDefault{No Default}
+
+\defSub{length\_plus\_group} {Is the last bin a plus group}
+\defType{boolean}
+\defDefault{true}
+
+\defSub{tolerance} {Tolerance for rescaling proportions}
+\defType{constant}
+\defDefault{0.001}
+
+\defSub{years} {Years for which there are observations}
+\defType{non-negative integer vector}
+\defDefault{No Default}
+
+\defSub{selectivities} {The labels of the selectivities}
+\defType{string vector}
+\defDefault{true}
+
+\defSub{delta} {The value of the delta robustification parameter}
+\defType{constant}
+\defDefault{DELTA}
+
+\defSub{process\_errors} {Process error}
+\defType{constant vector}
+\defDefault{true}
+
+\defSub{time\_step\_proportion} {Proportion through the mortality block of the time step when the observation is evaluated}
+\defType{constant}
+\defDefault{0.5}
+
+\subsubsection[Process Proportions By Category]{\commandlabsubarg{observation}{type}{process\_proportions\_by\_category}}
+
+\defSub{min\_age} {Minimum age}
+\defType{non-negative integer}
+\defDefault{No Default}
+
+\defSub{max\_age} {Maximum age}
+\defType{non-negative integer}
+\defDefault{No Default}
+
+\defSub{time\_step} {The label of time-step that the observation occurs in}
+\defType{string}
+\defDefault{No Default}
+
+\defSub{age\_plus} {Use age plus group}
+\defType{boolean}
+\defDefault{true}
+
+\defSub{years} {Years for which there are observations}
+\defType{non-negative integer vector}
+\defDefault{No Default}
+
+\defSub{selectivities} {The labels of the selectivities}
+\defType{string vector}
+\defDefault{true}
+
+\defSub{categories2} {Target Categories}
+\defType{string vector}
+\defDefault{No Default}
+
+\defSub{selectivities2} {Target Selectivities}
+\defType{string vector}
+\defDefault{No Default}
+
+\defSub{delta} {The value of the delta robustification parameter}
+\defType{constant}
+\defDefault{DELTA}
+\defLowerBound{0.0 (exclusive)}
+
+\defSub{process\_errors} {Process error}
+\defType{constant vector}
+\defDefault{true}
+
+\defSub{process} {The label of the process for the observation}
+\defType{string}
+\defDefault{No Default}
+
+\defSub{process\_proportion} {Proportion through the mortality block of the time step when the observation is evaluated}
+\defType{constant}
+\defDefault{0.5}
+
+\subsubsection[Proportions By Category]{\commandlabsubarg{observation}{type}{proportions\_by\_category}}
+
+\defSub{min\_age} {Minimum age}
+\defType{non-negative integer}
+\defDefault{No Default}
+
+\defSub{max\_age} {Maximum age}
+\defType{non-negative integer}
+\defDefault{No Default}
+
+\defSub{time\_step} {The label of time-step that the observation occurs in}
+\defType{string}
+\defDefault{No Default}
+
+\defSub{age\_plus} {Use age plus group}
+\defType{boolean}
+\defDefault{true}
+
+\defSub{years} {Years for which there are observations}
+\defType{non-negative integer vector}
+\defDefault{No Default}
+
+\defSub{selectivities} {The labels of the selectivities}
+\defType{string vector}
+\defDefault{true}
+
+\defSub{categories2} {Target Categories}
+\defType{string vector}
+\defDefault{No Default}
+
+\defSub{selectivities2} {Target Selectivities}
+\defType{string vector}
+\defDefault{No Default}
+
+\defSub{delta} {The value of the delta robustification parameter}
+\defType{constant}
+\defDefault{DELTA}
+\defLowerBound{0.0 (exclusive)}
+
+\defSub{process\_errors} {Process error}
+\defType{constant vector}
+\defDefault{true}
+
+\defSub{time\_step\_proportion} {Proportion through the time step to analyse the partition from}
+\defType{constant}
+\defDefault{0.5}
+
+\subsubsection[Proportions Migrating]{\commandlabsubarg{observation}{type}{proportions\_migrating}}
+
+\defSub{min\_age} {Minimum age}
+\defType{non-negative integer}
+\defDefault{No Default}
+
+\defSub{max\_age} {Maximum age}
+\defType{non-negative integer}
+\defDefault{No Default}
+
+\defSub{time\_step} {The label of time-step that the observation occurs in}
+\defType{string}
+\defDefault{No Default}
+
+\defSub{age\_plus} {Use age plus group}
+\defType{boolean}
+\defDefault{true}
+
+\defSub{years} {Years for which there are observations}
+\defType{non-negative integer vector}
+\defDefault{No Default}
+
+\defSub{delta} {The value of the delta robustification parameter}
+\defType{constant}
+\defDefault{DELTA}
+
+\defSub{process\_errors} {Process error}
+\defType{constant vector}
+\defDefault{true}
+
+\defSub{ageing\_error} {Label of ageing error to use}
+\defType{string}
+\defDefault{""}
+
+\defSub{process} {Process label}
+\defType{string}
+\defDefault{No Default}
+
+\subsubsection[Tag Recapture By Age]{\commandlabsubarg{observation}{type}{tag\_recapture\_by\_age}}
+
+\defSub{min\_age} {Minimum age}
+\defType{non-negative integer}
+\defDefault{No Default}
+
+\defSub{max\_age} {Maximum age}
+\defType{non-negative integer}
+\defDefault{No Default}
+
+\defSub{age\_plus} {Use age plus group}
+\defType{boolean}
+\defDefault{true}
+
+\defSub{years} {Years for which there are observations}
+\defType{non-negative integer vector}
+\defDefault{No Default}
+
+\defSub{categories2} {The available categories in the partition}
+\defType{string vector}
+\defDefault{No Default}
+
+\defSub{selectivities} {The labels of the selectivities}
+\defType{string vector}
+\defDefault{true}
+
+\defSub{time\_step} {The label of time-step that the observation occurs in}
+\defType{string}
+\defDefault{No Default}
+
+\defSub{selectivities2} {The categories of tagged individuals for the observation}
+\defType{string vector}
+\defDefault{No Default}
+
+\defSub{delta} {The value of the delta robustification parameter}
+\defType{constant}
+\defDefault{DELTA}
+\defLowerBound{0.0 (exclusive)}
+
+\defSub{process\_errors} {Process error}
+\defType{constant vector}
+\defDefault{true}
+
+\defSub{detection} {Probability of detecting a recaptured individual}
+\defType{constant}
+\defDefault{No Default}
+
+\defSub{time\_step\_proportion} {Proportion through the mortality block of the time step when the observation is evaluated}
+\defType{constant}
+\defDefault{0.5}
+
+\subsubsection[Tag Recapture By Length]{\commandlabsubarg{observation}{type}{tag\_recapture\_by\_length}}
+
+\defSub{length\_bins} {Length Bins}
+\defType{constant vector}
+\defDefault{No Default}
+
+\defSub{plus\_group} {Indicates if the last length bin is a plus group}
+\defType{boolean}
+\defDefault{true}
+
+\defSub{years} {Years for which there are observations}
+\defType{non-negative integer vector}
+\defDefault{No Default}
+
+\defSub{time\_step} {The label of time-step that the observation occurs in}
+\defType{string}
+\defDefault{No Default}
+
+\defSub{categories2} {The categories of tagged individuals for the observation}
+\defType{string vector}
+\defDefault{No Default}
+
+\defSub{selectivities} {The labels of the selectivities used for untagged categories}
+\defType{string vector}
+\defDefault{true}
+
+\defSub{selectivities2} {The labels of the tag category selectivities}
+\defType{string vector}
+\defDefault{No Default}
+
+\defSub{delta} {The value of the delta robustification parameter}
+\defType{constant}
+\defDefault{DELTA}
+\defLowerBound{0.0 (exclusive)}
+
+\defSub{process\_errors} {Process error}
+\defType{constant vector}
+\defDefault{true}
+
+\defSub{detection} {Probability of detecting a recaptured individual}
+\defType{constant}
+\defDefault{No Default}
+
+\defSub{dispersion} {Over-dispersion parameter (phi)}
+\defType{constant}
+\defDefault{1.0}
+
+\defSub{time\_step\_proportion} {Proportion through the mortality block of the time step when the observation is evaluated}
+\defType{constant}
+\defDefault{0.5}
+

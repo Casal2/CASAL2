@@ -67,13 +67,13 @@ processes  Ageing instant_mort
 type recruitment_beverton_holt
 categories stock
 proportions 1 
-r0 4.04838e+006   
+r0 4.04838e+006  
+ycs_years  1989:1996
 standardise_ycs_years 1989 1990 1991 1992 1993 1994 1995 1996 
 ycs_values      1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 
 steepness 0.9
 ssb biomass_t1
 age 1
-ssb_offset 1
 
 
 @process Ageing
@@ -291,11 +291,11 @@ type beverton_holt
 categories male female
 proportions 0.5 0.5
 r0 5e6
-age 2
+age 3
 steepness 0.9
 ycs_values 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00
 ssb ssb
-ssb_offset 3
+ycs_years 1972:1999
 standardise_ycs_years 1973:1999
 
 @mortality halfm

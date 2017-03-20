@@ -70,7 +70,7 @@ ycs_values            1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.0
 steepness 0.9
 ssb biomass_t1
 age 1
-ssb_offset 1
+ycs_years 1989:2011
 
 @process Ageing
 type ageing

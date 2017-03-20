@@ -32,6 +32,7 @@ enum class ProcessType {
   kMortality,
   kRecruitment,
   kTransition,
+  kNullProcess, // Special process type for the process child nop
 };
 
 /**
@@ -45,7 +46,7 @@ public:
   virtual                     ~Process() = default;
   void                        Validate();
   void                        Build();
-  void                        Reset() { DoReset(); };
+  void                        Reset();
   void                        Execute(unsigned year, const string& time_step_label);
   void                        Print();
   void                        Subscribe(unsigned year, const string& time_step_label, Executor* executor);

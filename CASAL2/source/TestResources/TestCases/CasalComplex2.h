@@ -89,7 +89,7 @@ age 2
 steepness 0.9
 ycs_values 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00
 ssb ssb
-ssb_offset 3
+ycs_years 1973:2000
 standardise_ycs_years 1973:1999
 
 @mortality halfm

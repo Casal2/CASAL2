@@ -1,120 +1,119 @@
-## Model Block
+#THE MODEL
 @model
 start_year 1975 
 final_year 2012
 min_age 1
 max_age 30
 age_plus true
-base_weight_units kgs
-initialisation_phases iphase1
-time_steps step1 step2
+base_weight_units tonnes
+initialisation_phases Equilibrium_state
+time_steps Sep_Feb Mar_May Jun_Aug
 
-## Category Block
+#CATEGORIES
+#
 @categories 
-format 
-names stock
+format stock  ## Single sex category
+names HAK4 
 age_lengths age_size 
 
-## Initialisation block
-@initialisation_phase iphase1
-type iterative
-years 120
+@initialisation_phase Equilibrium_state
+type derived
 
-## Annual Cycle definition
-@time_step step1 
-processes Recruitment instant_mort
+## Define the Annual Cycle
+## This is a list of labels that correspond to a process
+@time_step Sep_Feb 
+processes Recruitment Instantaneou_Mortality
 
-@time_step step2
-processes Ageing instant_mort
+@time_step Mar_May 
+processes Instantaneou_Mortality 
 
-## Define the above Processes referenced by the label given in the @time_step block
-## Recruitment
+@time_step Jun_Aug 
+processes  Ageing Instantaneou_Mortality
+
+## Define the above Processes
 @process Recruitment
 type recruitment_beverton_holt
-categories stock
+categories HAK4
 proportions 1 
-r0 4.04838e+006  
-standardise_ycs_years      1975 1976 1977 1978 1979 1980 1981 1982 1983 1984 1985 1986 1987 1988 1989 1990 1991 1992 1993 1994 1995 1996 1997 1998 1999 2000 2001 2002 2003 2004 2005 2006 2007 2008 2009
-## years              1974 1975 1976 1977 1978 1979 1980 1981 1982 1983 1984 1985 1986 1987 1988 1989 1990 1991 1992 1993 1994 1995 1996 1997 1998 1999 2000 2001 2002 2003 2004 2005 2006 2007 2008 2009 2010 2011
+b0 44000
+standardise_ycs_years 1975 1976 1977 1978 1979 1980 1981 1982 1983 1984 1985 1986 1987 1988 1989 1990 1991 1992 1993 1994 1995 1996 1997 1998 1999 2000 2001 2002 2003 2004 2005 2006 2007 2008 2009
 ycs_values   	      1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00
 steepness 0.9
-ssb biomass_t1
+ssb SSB
 age 1
-ssb_offset 1
+ycs_years 1974:2011
 
 ## Ageing
 @process Ageing
 type ageing
 #time_step_proportions 1
-categories stock
+categories HAK4
 
-@penalty CatchMustBeTaken1
-type process
-log_scale True
-multiplier 1000
 
 ## Fishing Mortality
-@process instant_mort
+@process Instantaneou_Mortality
 type mortality_instantaneous
-m 0.19
-time_step_ratio 0.42 0.58
+#@mortality Exploitation
+#type instanteneous
+m 0.2
+time_step_ratio 0.42 0.25 0.33
 selectivities One
-categories stock
+categories HAK4
 table catches
 year FishingWest FishingEest
-1975	80000	111000
-1976	152000	336000
-1977	74000	1214000
-1978	28000	6000
-1979	103000	506000
-1980	481000	269000
-1981	914000	83000
-1982	393000	203000
-1983	154000	148000
-1984	224000	120000
-1985	232000	312000
-1986	282000	80000
-1987	387000	122000
-1988	385000	189000
-1989	386000	418000
-1990	309000	689000
-1991	409000	503000
-1992	718000	1087000
-1993	656000	1996000
-1994	368000	2912000
-1995	597000	2903000
-1996	1353000	2483000
-1997	1475000	1820000
-1998	1424000	1124000
-1999	1169000	3339000
-2000	1155000	2130000
-2001	1208000	1700000
-2002	454000	1058000
-2003	497000	718000
-2004	687000	1983000
-2005	2585000	1434000
-2006	184000	255000
-2007	270000	683000
-2008	259000	901000
-2009	1069000	832000
-2010	231000	159000
-2011	822000	118000
-2012	800000	150000
+1975	80	111
+1976	152	336
+1977	74	1214
+1978	28	6
+1979	103	506
+1980	481	269
+1981	914	83
+1982	393	203
+1983	154	148
+1984	224	120
+1985	232	312
+1986	282	80
+1987	387	122
+1988	385	189
+1989	386	418
+1990	309	689
+1991	409	503
+1992	718	1087
+1993	656	1996
+1994	368	2912
+1995	597	2903
+1996	1353	2483
+1997	1475	1820
+1998	1424	1124
+1999	1169	3339
+2000	1155	2130
+2001	1208	1700
+2002	454	1058
+2003	497	718
+2004	687	1983
+2005	2585	1434
+2006	184	255
+2007	270	683
+2008	259	901
+2009	1069	832
+2010	231	159
+2011	822	118
+2012	800	150
 end_table
 
 table method
-method  	category 	selectivity 	u_max 	time_step 	penalty
-FishingWest   	stock   	westFSel 	0.7 	step1 		CatchMustBeTaken1
-FishingEest  	stock   	eastFSel 	0.7 	step1 		CatchMustBeTaken1
+method  	category 	selectivity 	u_max 	time_step 		penalty
+FishingWest   	HAK4  	 	westFSel 	0.7 	Sep_Feb 		CatchMustBeTaken1
+FishingEest  	HAK4   		eastFSel 	0.7 	Sep_Feb 		CatchMustBeTaken1
 end_table
 
 
 ## Derived Quantities
 ## SSB which gets feed into Recruitment
-@derived_quantity biomass_t1
+@derived_quantity SSB
 type biomass
-time_step step1
-categories stock
+time_step Sep_Feb
+categories HAK4
 time_step_proportion 0.5
 time_step_proportion_method weighted_sum
 selectivities MaturationSel
@@ -155,19 +154,20 @@ c 1
 @age_length age_size
 type schnute
 by_length true
-time_step_proportions 0.25 0.5
+time_step_proportions 0.25 0.5 0.0
 y1 24.5
 y2 104.8
 tau1 1 
 tau2 20 
 a 0.131
 b 1.70
-cv_first 0.1 
-length_weight size_weight3 
+cv_first 0.1
+length_weight Length_Weight 
 
 
-# SIZE-WEIGHT Relationship
-@length_weight size_weight3
+# SIZE-WEIGHT
+#
+@length_weight Length_Weight
 type basic
 units kgs 
 a 2.0e-6 
@@ -175,5 +175,6 @@ b 3.288
 
 ## Catchability
 @catchability chatTANq
-type free
-q 0.06970529129
+type nuisance
+
+## Pick up any other files we want to include

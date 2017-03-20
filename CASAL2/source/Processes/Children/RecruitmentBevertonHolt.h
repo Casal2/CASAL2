@@ -42,7 +42,6 @@ public:
   string                      ssb_label() {return ssb_;};
   bool                        bo_initialised() {return bo_initialised_;};
 
-
 private:
   // members
   accessor::Categories        partition_;
@@ -56,17 +55,17 @@ private:
   unsigned                    age_ = 0;
   Double                      steepness_ = 0.0;
   string                      ssb_;
-  int                         ssb_offset_ = 0;
+  unsigned                    ssb_offset_;
   vector<Double>              ssb_values_;
-  vector<Double>              ycs_years_;
+  vector<unsigned>            ycs_years_;
   vector<Double>              ycs_values_;
+  map<unsigned, Double>       ycs_value_by_year_;
   vector<Double>              true_ycs_values_;
-  vector<Double>              stand_ycs_values_;
+  map<unsigned, Double>       stand_ycs_value_by_year_;
   vector<Double>              recruitment_values_;
   bool                        have_scaled_partition = false;
   vector<unsigned>            standardise_ycs_;
   DerivedQuantity*            derived_quantity_ = nullptr;
-  bool                        prior_ycs_values_ = true;
 };
 
 } /* namespace processes */
