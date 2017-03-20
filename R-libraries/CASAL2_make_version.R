@@ -2,7 +2,7 @@
 VERSION<-system("casal2.exe -v",intern=TRUE)
 VERSION<-substring(VERSION,1,regexpr(" ",VERSION)-1)
 version.number<-"1.0" #substring(VERSION,1,regexpr("-",VERSION)-1)
-version.date<- "2015-06-10" #substring(VERSION,regexpr("-",VERSION)+1)
+version.date<- "2017-03-20" #substring(VERSION,regexpr("-",VERSION)+1)
 
 # Build DESCRIPTION file
 filename<-"CASAL2/DESCRIPTION"
