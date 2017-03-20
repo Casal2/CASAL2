@@ -65,10 +65,9 @@ void DerivedQuantity::DoExecute() {
         cache_ << iter->first << " " << iter->second << "\n";
     }
     //cache_ <<"\n";
-    cache_ << REPORT_R_LIST_END <<" \n";
+    cache_ << REPORT_R_LIST_END <<"\n";
 
   }
-
   ready_for_writing_ = true;
 }
 

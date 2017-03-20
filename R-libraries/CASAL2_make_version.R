@@ -26,6 +26,13 @@ cat("function() {\n",file=filename,append=T)
 cat(paste("return(\"",VERSION,"\")\n",sep=""),file=filename,append=T)
 cat("}\n",file=filename,append=T)
 
+# Create R function to return R library version number
+filename<-"CASAL2/R/Version.R"
+cat("\"Version\"<-\n",file=filename)
+cat("function() {\n",file=filename,append=T)
+cat(paste("return(\"",version.date,"\")\n",sep=""),file=filename,append=T)
+cat("}\n",file=filename,append=T)
+
 # Write a .html file to report version number for the Wiki
 cat(paste("Version",VERSION),file="CASAL2.html")
 
