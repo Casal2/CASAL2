@@ -61,7 +61,7 @@ public:
   virtual                     ~MortalityInstantaneous();
   void                        DoValidate() override final;
   void                        DoBuild() override final;
-  void                        DoReset() override final { };
+  void                        DoReset() override final;
   void                        DoExecute() override final;
 
   // accessors

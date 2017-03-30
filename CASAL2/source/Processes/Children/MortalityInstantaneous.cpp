@@ -286,8 +286,20 @@ void MortalityInstantaneous::DoBuild() {
 }
 
 /**
+ * Reset the M parameter
+ */
+void MortalityInstantaneous::DoReset() {
+  unsigned m_iter = 0;
+  for (auto m : m_) {
+    m_input_[m_iter] = m.second;
+    ++m_iter;
+  }
+}
+
+/**
  * Execute this process
  */
+
 void MortalityInstantaneous::DoExecute() {
   LOG_TRACE();
 
@@ -319,6 +331,7 @@ void MortalityInstantaneous::DoExecute() {
               * exp(-0.5 * ratio * m_[categories->name_] * selectivities_[category_offset]->GetResult(categories->min_age_ + i, categories->age_length_));
           fishery_vulnerability[fishery_category.fishery_label_] += vulnerable;
         }
+        LOG_MEDIUM() << "M for category " << categories->name_<< " = " << m_[categories->name_];
         LOG_FINEST() << ": Vulnerable biomass from category " << categories->name_ << " contributing to fishery " << fishery_category.fishery_label_ << " = " << fishery_vulnerability[fishery_category.fishery_label_];
       }
       ++category_offset;
