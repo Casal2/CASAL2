@@ -45,7 +45,7 @@ void Manager::Build() {
       LOG_CODE_ERROR() << "Report: " << report->label() << " has not been properly configured to have a run mode";
 
     if (report->model_state() != State::kExecute) {
-      LOG_FINE() << "Adding report " << report->label() << " to state reports";
+      LOG_FINE() << "Adding report " << report->label() << " to state reports, with model->state() = " << report->model_state();
       state_reports_[report->model_state()].push_back(report);
     } else {
       LOG_FINE() << "Adding report " << report->label() << " to time step reports";
@@ -66,6 +66,7 @@ void Manager::Execute(State::Type model_state) {
   bool tabular = model_->global_configuration().print_tabular();
   LOG_FINE() << "Checking " << state_reports_[model_state].size() << " reports";
   for(auto report : state_reports_[model_state]) {
+      LOG_FINE() << "Checking report: " << report->label();
       if ( (RunMode::Type)(report->run_mode() & run_mode) == run_mode) {
         if (tabular)
           report->ExecuteTabular();

@@ -66,12 +66,18 @@ void Profile::Build() {
     return;
   }
 
-  target_ = target->GetEstimable(parameter);
+  // If Estimable is a map need to give index
+  target_ = target->GetEstimable(parameter,index);
+
+  LOG_FINEST() << "Running profile on parameter: " << parameter << ", that has type: " << type << " and label: " << label;
   if (target_ == 0)
     LOG_ERROR_P(PARAM_PARAMETER) << ": parameter " << parameter_ << " is not a valid estimable in the system";
   original_value_ = *target_;
 
   step_size_ = (upper_bound_ - lower_bound_) / (steps_ + 1);
+
+  // TODO Deal with the same parameter
+
 }
 
 /**
