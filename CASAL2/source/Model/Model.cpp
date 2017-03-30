@@ -562,7 +562,7 @@ void Model::RunProfiling() {
       LOG_FINE() << "First-Stepping profile";
       profile->FirstStep();
       for (unsigned i = 0; i < profile->steps() + 2; ++i) {
-        LOG_FINE() << "Calling minimiser to begin the estimation (profling)";
+        LOG_FINE() << "Calling minimiser to begin the estimation (profiling)";
         minimiser->Execute();
 
         run_mode_ = RunMode::kBasic;

@@ -331,7 +331,6 @@ void MortalityInstantaneous::DoExecute() {
               * exp(-0.5 * ratio * m_[categories->name_] * selectivities_[category_offset]->GetResult(categories->min_age_ + i, categories->age_length_));
           fishery_vulnerability[fishery_category.fishery_label_] += vulnerable;
         }
-        LOG_MEDIUM() << "M for category " << categories->name_<< " = " << m_[categories->name_];
         LOG_FINEST() << ": Vulnerable biomass from category " << categories->name_ << " contributing to fishery " << fishery_category.fishery_label_ << " = " << fishery_vulnerability[fishery_category.fishery_label_];
       }
       ++category_offset;
