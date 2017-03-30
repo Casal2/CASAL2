@@ -3,4 +3,6 @@
 export(ReadSimulatedData)
 export(extract)
 export(extract.csl2.file)
+export(param.profile)
+export(param.profile.by.cohort)
 export(write.csl2.file)

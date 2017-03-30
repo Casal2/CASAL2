@@ -53,9 +53,12 @@ private:
   Double                      lower_bound_ = 0;
   Double                      upper_bound_ = 0;
   string                      parameter_ = "";
+  string                      same_parameter_ = "";
   Double                      step_size_ = 0;
   Double*                     target_ = nullptr;
+  Double*                     same_target_ = nullptr;
   Double                      original_value_ = 0;
+  Double                      same_original_value_ = 0;
 };
 } /* namespace niwa */
 #endif /* PROFILE_H_ */
