@@ -28,7 +28,9 @@ This function reads an extracted list from Casal2 and plots the likelihood/objec
 \examples{
 library(CASAL2)
 Profile = extract("profile.log") ## this is an output file from a casal2 -p run
-param.profile(obs = c("Tangaroa_propn_at_age_Jan","trawl_propn_at_age"), param = "process[Instantaneous_Mortality].m(male)",extract_list = "Profile", Rescale = T,ylab = "Objective contribution", xlab = "M")
+param.profile(obs = c("Tangaroa_propn_at_age_Jan","trawl_propn_at_age"),
+param = "process[Instantaneous_Mortality].m(male)",extract_list = "Profile",
+Rescale = T,ylab = "Objective contribution", xlab = "M")
 }
 \author{
 Craig Marsh
