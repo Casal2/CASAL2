@@ -817,5 +817,32 @@ Methods for generating the random error, and hence simulated values, depend on t
   \item When simulating observations, \CNAME\ needs the subcommand \subcommand{simulation\_likelihood} to tell it what sort of likelihood to use. In this case, the \subcommand{obs}, \subcommand{error\_value} and \subcommand{process\_error} are used to determine the appropriate terms to use for the likelihood when simulating.
 \end{itemize}
 
+\subsection{\I{Residuals}}\label{sec:Residuals}}
+
+\CNAME\ will only print the usual residual (i.e. observed less fitted) using the report type \command{report}.type=observation. For an observation \textit{O} and \textit{F} the corresponding fit (=\textit{qE} for relative observations), then
+\begin{itemize}
+	\item Residuals = \textit{O} - \textit{F}
+\end{itemize}
+
+Pearson and Normalised residuals can be generated using \CNAME\ \textbf{R} package with-in the \textbf{R} environment. For specific R functions see Section~\ref{sec:post-processing}. The definitions used in the calculations are as follows,
+
+\begin{enumerate}
+	\item \textit{Pearson residuals} attempt to express the residual relative to the variability of the observation, and are defined as (\textit{O}-\textit{F})/std.dev.(\textit{O}), where std.dev.(\textit{O}) is calculated as
+	\begin{itemize}
+			\item F $\times$ cv for normal, lognormal, robustified lognormal, and normal-log error distributions.
+			\item s for normal-by-standard deviation error distributions.
+			\item $\sqrt{\frac{Z(\textit{F},r)(1 - Z(\textit{F},r))}{N}}$ for multinomial or binomial likelihoods.
+			\item $\sqrt{\frac{(\textit{F} + r)(1 - \textit{F} + r)}{N}}$ for binomial-approx likelihood likelihoods.
+	\end{itemize}
+	\item \textit{Normalised residuals} to express the residual on a standard normal scale, and are defined as:
+	\begin{itemize}
+		\item Equal to the Pearson residuals for normal error distributions.
+		\item (log(\textit{O}/\textit{F})+0.5$\sigma^2$)/$\sigma$ for lognormal (including robustified lognormal) error distributions, where $\sigma= \sqrt{log(1 + cv^2)}$.
+		\item  log(\textit{O}/\textit{F})/$\sigma$ for normal-log error distributions, again with $\sigma= \sqrt{log(1 + cv^2)}$.
+		\item And are otherwise undefined.
+	\end{itemize}	
+\end{enumerate}
+
+where $Z(\textit{F},r)$ is the robustifying term on \textit{F} (fit or expectation of the observation). This robustifying is described earlier in the likelihood section.
 
 

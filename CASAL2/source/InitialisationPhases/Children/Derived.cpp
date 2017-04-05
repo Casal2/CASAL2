@@ -77,7 +77,7 @@ void Derived::DoBuild() {
     vector < string > process_labels = time_step->initialisation_process_labels(label_);
 
     if (target_process == "")
-      process_labels.insert(process_labels.begin(), new_process);
+      process_labels.push_back(new_process);
     else {
       auto iter = std::find(process_labels.begin(), process_labels.end(), target_process);
       if (iter == process_labels.end())

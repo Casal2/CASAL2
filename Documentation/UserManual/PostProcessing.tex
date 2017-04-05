@@ -1,7 +1,22 @@
-\section{Post processing output using \R \label{sec:post-processing}}
+\section{\I{Post processing output using \R} \label{sec:post-processing}}\index{Post processing}\index{Post processing section}
 
-In the downloaded bundle is a R-package that reads \CNAME\ output into R. The \CNAME\ package has one key function \texttt{extract()}.
+In the downloaded bundle is a R-package that reads \CNAME\ output into R. The \CNAME\ package has multiple functionalities, it can dump \CNAME\ into R as a list. It also has plotting and summarising functions for summarising \CNAME\ output.
 
-This function will read and process \CNAME\ output files into R. 
+The \texttt{extract()} function will read and process \CNAME\ output files into R. 
 
 \CNAME\ output is written so that each \command{report} will start with a `*' and end with `*end'. Users can use this format as the basis to construct R or other functions that read \CNAME\ output to identify and read individual reports for post-processing.
+
+
+The following is a list of R functions with their descriptions that are available in the R package.
+
+\begin{itemize}
+	\item \texttt{extract()} - read \CNAME\ output into R
+	\item \texttt{param.profile()} - plot a parameter profile, from a \texttt{casal2 -p} run
+	\item \texttt{param.profile.by.cohort} - plot a parameter profile for an age compositional dataset by cohort and category, from a \texttt{casal2 -p} run
+	\item \texttt{extract.csl2.file} - read \CNAME\ .csl2 (configuration) file into R as a list
+	\item \texttt{write.csl2.file} - write \CNAME\ .csl2 (configuration) file from R
+	\item \texttt{ReadSimulatedData} - read \CNAME\ output into R from a \texttt{casal2 -s} run		
+\end{itemize}
+
+
+specific settings for these functions can be queried once you have loaded the \CNAME\ R library into your current R session vie (\texttt{library(CASAL2)}), using the standard \texttt{?} (i.e. \texttt{?param.profile()})
