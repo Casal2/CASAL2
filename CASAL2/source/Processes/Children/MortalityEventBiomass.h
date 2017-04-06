@@ -47,7 +47,6 @@ private:
   vector<string>              selectivity_labels_;
   vector<Selectivity*>        selectivities_;
   Double                      u_max_ = 0;
-  Double                      catch_ = 0;
   vector<Double>              catches_;
   map<unsigned, Double>       catch_years_;
   Double                      exploitation_ = 0;

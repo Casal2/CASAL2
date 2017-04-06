@@ -1,22 +1,21 @@
 /**
- * @file MortalityEvent.h
- * @author  Scott Rasmussen (scott.rasmussen@zaita.com)
+ * @file InitialisationMortalityEvent.h
+ * @author  C.Marsh
  * @version 1.0
- * @date 21/12/2012
+ * @date 6/4/2017
  * @section LICENSE
  *
  * Copyright NIWA Science ©2012 - www.niwa.co.nz
  *
  * @section DESCRIPTION
  *
- * This is a time-varying mortality class. Every year fish will be killed
+ * This is a specific initialisation mortality class. Every iteration in the initialisation phase that this process is executed fish will be killed
  * off by an "event" that involves the user providing the amount as a
  * catch value from the configuration file.
  *
- * $Date: 2008-03-04 16:33:32 +1300 (Tue, 04 Mar 2008) $
  */
-#ifndef MORTALITYEVENT_H_
-#define MORTALITYEVENT_H_
+#ifndef INITIALISATIONMORTALITYEVENT_H_
+#define INITIALISATIONMORTALITYEVENT_H_
 
 // Headers
 #include "Model/Model.h"
@@ -34,11 +33,11 @@ namespace accessor = niwa::partition::accessors;
 /**
  * Class definition
  */
-class MortalityEvent : public niwa::Process {
+class InitialisationMortalityEvent : public niwa::Process {
 public:
   // Methods
-  explicit MortalityEvent(Model* model);
-  virtual                     ~MortalityEvent() = default;
+  explicit InitialisationMortalityEvent(Model* model);
+  virtual                     ~InitialisationMortalityEvent() = default;
   void                        DoValidate() override final;
   void                        DoBuild() override final;
   void                        DoReset() override final { };
@@ -47,13 +46,12 @@ public:
 private:
   // Members
   vector<string>              category_labels_;
-  vector<unsigned>            years_;
-  vector<Double>              catches_;
-  map<unsigned, Double>       catch_years_;
+  Double                      catch_;
   Double                      u_max_;
   vector<string>              selectivity_names_;
   string                      penalty_name_;
   accessor::Categories        partition_;
+  unsigned                    init_iteration_ = 1;
   vector<Selectivity*>        selectivities_;
   map<string, map<unsigned, Double> > vulnerable_;
   penalties::Process*         penalty_ = nullptr;
@@ -61,4 +59,4 @@ private:
 
 } /* namespace processes */
 } /* namespace niwa */
-#endif /* MORTALITYEVENT_H_ */
+#endif /* INITIALISATIONMORTALITYEVENT_H_ */
