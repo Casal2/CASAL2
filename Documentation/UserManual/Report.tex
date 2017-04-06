@@ -83,6 +83,12 @@ Note that constants in likelihoods are often ignored in the objective function s
 
 If simulating, then the contribution to the objective function of each observation is reported as zero. 
 
+{\small{\begin{verbatim}
+		@report Tan_at_age_obs
+		type observation
+		observation TAN_AT_AGE
+		\end{verbatim}}}
+
 \subsection{\I{Print simulated observations}}\index{Reports ! Simulated observations}
 
 Prints out a complete observation definition (i.e., in the form defined by \commandlabsubarg{report}{type}{observation}), but with observed values replaced by randomly generated simulated values. The output is in a form  suitable for use within a \CNAME\ \config, reproducing the command and subcommands from the \config. This report will print out in the following runmodes \texttt{-s}.

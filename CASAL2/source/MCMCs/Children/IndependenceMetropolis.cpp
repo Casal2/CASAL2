@@ -54,11 +54,13 @@ IndependenceMetropolis::IndependenceMetropolis(Model* model) : MCMC(model) {
  */
 void IndependenceMetropolis::BuildCovarianceMatrix() {
   // Are we starting at MPD or recalculating the matrix based on an empirical sample
-  if (recalculate_covariance_)
+  if (recalculate_covariance_) {
+    LOG_MEDIUM() << "recalculate covariance";
     covariance_matrix_ = covariance_matrix_lt;
-  else
+  } else {
+    LOG_MEDIUM() << "Set covariance = minimiser";
     covariance_matrix_ = minimiser_->covariance_matrix();
-
+  }
   if (correlation_method_ == PARAM_NONE)
     return;
 
@@ -418,7 +420,6 @@ void IndependenceMetropolis::DoBuild() {
   minimiser_ = model_->managers().minimiser()->active_minimiser();
 
   unsigned active_estimates = 0;
-
   vector<Estimate*> estimates = model_->managers().estimate()->GetIsEstimated();
   estimate_count_ = estimates.size();
   for (Estimate* estimate : estimates) {
@@ -454,7 +455,9 @@ void IndependenceMetropolis::DoExecute() {
   }
 
   if (!model_->global_configuration().resume()) {
+    LOG_MEDIUM() << "not resuming";
     BuildCovarianceMatrix();
+    LOG_MEDIUM() << "Building Covariance matrix";
     successful_jumps_ = starting_iteration_;
   }
   // Set jumps = starting iteration if it is resuming

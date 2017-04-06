@@ -3,6 +3,7 @@ R --vanilla < CASAL2_make_version.R
 
 Rcmd build --force CASAL2
 Rcmd INSTALL --build CASAL2
+R CMD check CASAL2
 
 del CASAL2.html
 

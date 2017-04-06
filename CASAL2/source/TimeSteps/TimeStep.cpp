@@ -202,6 +202,7 @@ void TimeStep::BuildInitialisationProcesses() {
   LOG_TRACE();
   for (auto iter : initialisation_process_labels_) {
     for (string process_label : iter.second) {
+      LOG_FINEST() << "Including " << process_label << " process in initialisation phase";
       auto process = model_->managers().process()->GetProcess(process_label);
       if (!process)
         return;

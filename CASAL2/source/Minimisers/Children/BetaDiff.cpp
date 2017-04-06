@@ -32,7 +32,9 @@ public:
     for (int i = 0; i < x_unbounded.size(); ++i) {
       dvariable estimate = x_unbounded[i + 1];
       estimates[i]->set_value(estimate.x);
+      LOG_MEDIUM() << estimates[i]->value() << " ";
     }
+
 
     model_->managers().estimate_transformation()->RestoreEstimates();
     model_->FullIteration();
@@ -73,7 +75,6 @@ void BetaDiff::Execute() {
   int i = 0;
   for (auto estimate : estimates) {
     ++i;
-
     lower_bounds[i] = AS_DOUBLE(estimate->lower_bound());
     upper_bounds[i] = AS_DOUBLE(estimate->upper_bound());
     start_values[i] = AS_DOUBLE(estimate->value());

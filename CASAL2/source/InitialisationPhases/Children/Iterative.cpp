@@ -59,6 +59,7 @@ void Iterative::DoValidate() {
  *
  */
 void Iterative::DoBuild() {
+  LOG_TRACE();
   time_steps_ = model_->managers().time_step()->ordered_time_steps();
 
   // Set the default process labels for the time step for this phase
@@ -77,7 +78,7 @@ void Iterative::DoBuild() {
     vector<string> process_labels = time_step->initialisation_process_labels(label_);
 
     if (target_process == "") {
-      process_labels.insert(process_labels.begin(), new_process);
+      process_labels.push_back(new_process);
     } else {
       vector<string>::iterator iter = std::find(process_labels.begin(), process_labels.end(), target_process);
       if (iter == process_labels.end())

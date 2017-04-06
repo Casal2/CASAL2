@@ -29,8 +29,8 @@ namespace reports {
  * @param model Pointer to the current model context
  */
 Process::Process(Model* model) : Report(model) {
-  run_mode_    = (RunMode::Type)(RunMode::kBasic | RunMode::kProjection | RunMode::kEstimation);
-  model_state_ = State::kFinalise;
+  model_state_ = State::kPostExecute;
+  run_mode_    = (RunMode::Type)(RunMode::kBasic | RunMode::kSimulation);
 
   parameters_.Bind<string>(PARAM_PROCESS, &process_label_, "Process label that is reported", "", "");
 }
@@ -51,6 +51,7 @@ void Process::DoBuild() {
  * Execute this report
  */
 void Process::DoExecute() {
+  LOG_MEDIUM() <<" printing report";
   cache_ << "*" << label_ << " " << "("<< type_ << ")"<<"\n";
   cache_ << "process: " << process_label_ << "\n";
 

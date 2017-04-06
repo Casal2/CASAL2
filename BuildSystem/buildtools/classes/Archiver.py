@@ -112,13 +112,14 @@ class Archiver:
     os.system('rm -rf casal2.tar')
     os.system('rm -rf casal2.zip')
     os.system('mkdir Casal2')
+    os.makedirs('Casal2/R-Libraries')
     os.system('cp ' + binary_path + '/frontend/' + binary_name + ' Casal2/' + binary_name)
     os.system('cp ' + binary_path + '/library_release/' + library_name + ' Casal2/casal2_release' + extension)
     os.system('cp ' + binary_path + '/library_adolc/' + library_name + ' Casal2/casal2_adolc' + extension)
     os.system('cp ' + binary_path + '/library_betadiff/' + library_name + ' Casal2/casal2_betadiff' + extension)
     os.system('cp ' + binary_path + '/library_cppad/' + library_name + ' Casal2/casal2_cppad' + extension)
     os.system('cp ' + binary_path + '/library_test/' + library_name + ' Casal2/casal2_test' + extension)
-    os.system('cp ../Documentation/UserManual/CASAL2.pdf Casal2/CASAL2.pdf')
+    os.system('cp ../Documentation/UserManual/CASAL2.pdf Casal2/UserManual.pdf')
     print "-- Copy manual"
     os.system('cp ../Documentation/GettingStartedGuide/GettingStartedGuide.pdf Casal2/GettingStartedGuide.pdf')
     print "-- Copy starters guide"
@@ -130,9 +131,9 @@ class Archiver:
     os.system('cp -r ../README.txt Casal2/README.txt')
     ## deal with R libraries
     if Globals.operating_system_ == "windows":
-      os.system('cp ../R-libraries/CASAL2_1.0.zip Casal2/CASAL2_Rlibrary.zip')
+      os.system('cp ../R-libraries/CASAL2_1.0.zip Casal2/R-Libraries/CASAL2.zip')
     else: 
-      os.system('cp ../R-libraries/CASAL2_1.0.tar.gz Casal2/CASAL2_1.0.tar.gz')
+      os.system('cp ../R-libraries/CASAL2_1.0.tar.gz Casal2/R-Libraries/CASAL2.tar.gz')
       
     if Globals.operating_system_ == "windows":
       os.system("zip -r Casal2.zip CASAL2/*")
