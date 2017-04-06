@@ -286,8 +286,20 @@ void MortalityInstantaneous::DoBuild() {
 }
 
 /**
+ * Reset the M parameter
+ */
+void MortalityInstantaneous::DoReset() {
+  unsigned m_iter = 0;
+  for (auto m : m_) {
+    m_input_[m_iter] = m.second;
+    ++m_iter;
+  }
+}
+
+/**
  * Execute this process
  */
+
 void MortalityInstantaneous::DoExecute() {
   LOG_TRACE();
 

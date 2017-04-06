@@ -36,6 +36,7 @@ InitialisationPartition::InitialisationPartition(Model* model) : Report(model) {
  *
  */
 void InitialisationPartition::DoExecute() {
+  LOG_TRACE();
   // First, figure out the lowest and highest ages/length
   unsigned lowest         = 9999;
   unsigned highest        = 0;
@@ -50,6 +51,7 @@ void InitialisationPartition::DoExecute() {
     if (longest_length < (*iterator)->name_.length())
       longest_length = (*iterator)->name_.length();
   }
+  LOG_FINEST() << "min age = " << lowest << " max-age = " << highest << " what ever lonest_length is " << longest_length;
 
   // Print the header
   cache_ << "*" << label_ << " " << "("<< type_ << ")"<<"\n";

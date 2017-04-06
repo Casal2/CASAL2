@@ -1,4 +1,4 @@
-# Get iSAM Version
+# Get CASAL2 Version
 VERSION<-system("casal2.exe -v",intern=TRUE)
 VERSION<-substring(VERSION,1,regexpr(" ",VERSION)-1)
 version.number<-"1.0" #substring(VERSION,1,regexpr("-",VERSION)-1)
@@ -12,7 +12,7 @@ cat("\nDate: ",file=filename,append=TRUE)
 cat(version.date,file=filename,append=TRUE)
 cat("\n",file=filename,append=TRUE)
 cat("Author: D. Fu and C. Marsh\n",file=filename,append=TRUE)
-cat("Description: A set of R functions for extracting from CASAL2 output files.\n",file=filename,append=TRUE)
+cat("Description: A set of R functions for extracting and plotting from CASAL2 output files.\n",file=filename,append=TRUE)
 cat("Maintainer: Casal2 development team <casal2@niwa.co.nz>\n",file=filename,append=TRUE)
 cat("License: CPL v1.0. See the CASAL2 User Manual for license details.\n",file=filename,append=TRUE)
 cat("URL: http://www.niwa.co.nz\n",file=filename,append=TRUE)

@@ -138,13 +138,35 @@ Model initialisation can also occur in several phases\index{Initialisation!phase
 
 The multi-phased initialisation allows the user to choose a number of initialisations that may assist with optimising the models for speed, initialise a non-equilibrium starting state, or resolve simple processes before introducing more complex ones.
 
-Each phase of the initialisation can involve any number of processes.
+Each phase of the initialisation defaults to have the same processes and in the same order as defined in the annual cycle. Although they can involve any number of processes using the \texttt{insert\_processes} subcommand.
 
 In each initialisation phase, the processes defined for that phase are carried out and used as the starting point for the following phase or, if it is the last phase, then the years that the model is run over. 
 
 Note that the \emph{first} initialisation phase is always initialised with each element (i.e., each age and category) set at zero. Note that you may need to be careful when using complex category inter-relationships or density dependent processes that depend on a previously calculated state, as they may fail when used in the first phase of an initialisation. 
 
 Multi-phase iterations\index{Multi-phase iteration} can also be used to determine if the initialisation has converged. Here, add a second initialisation phase for, say, $1$ year (with the same processes applied). Then report the state at the end of the first and second phase. If these states are identical, then its likely that the initialisation has converged to an equilibrium state.
+
+Syntax for including or excluding processes through the \texttt{insert\_processes} and  \texttt{exclude\_processes}. For the \texttt{insert\_processes} the syntax is;
+{\small{\begin{verbatim}
+		insert_processes time_step_label(process_label_in_annual_cycle) = label_new_process
+\end{verbatim}}}
+		An example of this is would be in the \command{time\_step} labelled \texttt{Oct\_Nov} include the \command{process} labelled \texttt{predationIni} before the \command{process} labelled \texttt{Instantaneous\_Mortality}
+{\small{\begin{verbatim}
+		insert_processes Oct_Nov(Instantaneous_Mortality)=predationIni
+\end{verbatim}}}
+
+if you want to include a process at the end of the time step you can use the following syntax,
+{\small{\begin{verbatim}
+		insert_processes Oct_Nov()=predationIni
+		\end{verbatim}}}
+To exclude a process from an initialisation phase the syntax is much simpler and can be done by the following subcommand in your \command{initialisation\_phase};
+
+{\small{\begin{verbatim}
+		exclude_processes process_label_in_annual_cycle
+    	exclude_processes Instantaneous_Mortality	
+		\end{verbatim}}}
+
+The command above will remove the process \texttt{Instantaneous\_Mortality} during that particular initialisation phase.
 
 \subsubsection*{\I{Iterative Initialisation}}
 
@@ -173,7 +195,7 @@ This initialisation is only available as a second or greater phase initialisatio
 
 \subsubsection*{\I{Fixed Initialisation}}
 
-This is a user defined table that is taken to be the initial partition prior to the start year. Users have the ability to initialise models by specify the numbers at age for each category. 
+This is a user defined table that is taken to be the initial partition prior to the start year. Users have the ability to initialise models by specify the numbers at age for each category. Be careful when initialising models with this type, if the model applies processes that require derived quantities to be calculated in the initialisation phase. As this may cause undefined behaviour.
 
 \subsection{\I{Model run years}}
 
