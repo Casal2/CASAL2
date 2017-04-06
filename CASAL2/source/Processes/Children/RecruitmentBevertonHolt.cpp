@@ -150,6 +150,8 @@ void RecruitmentBevertonHolt::DoBuild() {
   if (!derived_quantity_)
     LOG_ERROR_P(PARAM_SSB) << "(" << ssb_ << ") could not be found. Have you defined it?";
 
+  // TODO Need to implement a check to make sure the user has not set an @estimate block for both R0 and B0
+
   /**
    * Calculate out SSB offset
    */
@@ -283,15 +285,9 @@ void RecruitmentBevertonHolt::DoReset() {
  */
 
 void RecruitmentBevertonHolt::DoExecute() {
-  Double amount_per = 0.0;
-  // Check that if doing a projection that ycs_values have been projected else the process will crash and thus the model
-  // maps default value is zero so if it is zero then it is assumed there is no @project block
-  if ((model_->run_mode() == (RunMode::Type)(RunMode::kProjection)) & (model_->current_year() > model_->final_year())) {
-    if (stand_ycs_value_by_year_[model_->current_year() - ssb_offset_] == 0.0) {
-      LOG_FATAL_P(PARAM_YCS_VALUES) << "You are in a projection mode (-f) and in a projection year but ycs values are = 0 for ycs_year " << model_->current_year() - ssb_offset_ << ", this is an error that will cause the recruitment process to fail. Please check you have correctly specified an @project block for this parameter, thanks";
-    }
-  }
+  unsigned ssb_year = model_->current_year() - ssb_offset_;
 
+  Double amount_per = 0.0;
   if (model_->state() == State::kInitialise) {
     initialisationphases::Manager& init_phase_manager = *model_->managers().initialisation_phase();
     if ((init_phase_manager.last_executed_phase() <= phase_b0_) & (parameters_.Get(PARAM_R0)->has_been_defined())) {
@@ -323,11 +319,15 @@ void RecruitmentBevertonHolt::DoExecute() {
     Double ycs;
     // If projection mode ycs values get replaced with projected value from @project block
     if (RunMode::kProjection && model_->current_year() > model_->final_year()) {
-      ycs = stand_ycs_value_by_year_[model_->current_year() - ssb_offset_];
-      LOG_FINEST() << "Size of ycs values: " << ycs_values_.size() << " should be one more entry from previous year, trying to access element " << model_->current_year() - model_->start_year();
+      // take the value from the ycs_values as that is the container that the @project class will be modifying
+      if (ycs_value_by_year_[ssb_year] == 0.0) {
+        LOG_FATAL_P(PARAM_YCS_VALUES) << "You are in a projection mode (-f) and in a projection year but ycs values are = 0 for ycs_year " << model_->current_year() - ssb_offset_ << ", this is an error that will cause the recruitment process to fail. Please check you have correctly specified an @project block for this parameter, thanks";
+      }
+      ycs = ycs_value_by_year_[ssb_year];
+      LOG_FINEST() << "Projected ycs = " << ycs;
     // else business as usual
     } else {
-      ycs = stand_ycs_value_by_year_[model_->current_year() - ssb_offset_];
+      ycs = stand_ycs_value_by_year_[ssb_year];
     }
 
     // Check whether B0 as an input paramter or a derived quantity, this is a result of having an r0 or a b0 in the process
@@ -335,7 +335,6 @@ void RecruitmentBevertonHolt::DoExecute() {
       b0_ = derived_quantity_->GetLastValueFromInitialisation(phase_b0_);
 
     // Calculate year to get SSB that contributes to this years recruits
-    unsigned ssb_year = model_->current_year() - ssb_offset_;
     Double SSB;
     if (ssb_year < model_->start_year()) {
       // Model is in normal years but requires an SSB from the initialisation phase
@@ -358,8 +357,8 @@ void RecruitmentBevertonHolt::DoExecute() {
 
 
     LOG_FINEST() << "year = " << model_->current_year() << " SSB= " << SSB << " SR = " << SR << "; ycs = "
-        << ycs_values_[model_->current_year() - model_->start_year()] << " Standardised year class = "
-        << stand_ycs_value_by_year_[model_->current_year() - ssb_offset_] << "; b0_ = " << b0_ << "; ssb_ratio = " << ssb_ratio << "; true_ycs = "
+        << ycs_value_by_year_[ssb_year] << " Standardised year class = "
+        << stand_ycs_value_by_year_[ssb_year] << "; b0_ = " << b0_ << "; ssb_ratio = " << ssb_ratio << "; true_ycs = "
         << true_ycs << "; amount_per = " << amount_per;
 
     // Store true_ycs values
