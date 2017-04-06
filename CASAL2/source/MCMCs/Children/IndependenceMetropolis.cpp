@@ -58,7 +58,14 @@ void IndependenceMetropolis::BuildCovarianceMatrix() {
     LOG_MEDIUM() << "recalculate covariance";
     covariance_matrix_ = covariance_matrix_lt;
   } else {
-    LOG_MEDIUM() << "Set covariance = minimiser";
+    LOG_MEDIUM() << "Set covariance = minimiser; first check it hasn't been populated by MPD. rows = " << covariance_matrix_.size1() << " cols = " << covariance_matrix_.size2();
+    for (unsigned i = 0; i < covariance_matrix_.size1(); ++i) {
+      for (unsigned j = i + 1; j < covariance_matrix_.size2(); ++j) {
+        LOG_MEDIUM() << covariance_matrix_(i,j) << " ";
+      }
+    }
+
+
     covariance_matrix_ = minimiser_->covariance_matrix();
   }
   if (correlation_method_ == PARAM_NONE)
