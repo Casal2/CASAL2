@@ -660,7 +660,7 @@ void Model::RunProjection() {
   // Model is about to run
   for (unsigned i = 0; i < estimable_values_count_; ++i) {
     for (int j = 0; j < projection_candidates; ++j) {
-
+      projection_final_phase_ = false;
       if (estimable_values_file_) {
         LOG_FINE() << "loading input parameters";
         estimables.LoadValues(i);
@@ -692,6 +692,7 @@ void Model::RunProjection() {
        */
       LOG_FINE() << "Entering the Projection Sub-System";
       // Reset the model
+      projection_final_phase_ = true;
       Reset();
       managers_->report()->Execute(State::kPreExecute);
       state_ = State::kInitialise;
@@ -714,10 +715,10 @@ void Model::RunProjection() {
       managers_->report()->Execute(State::kPostExecute);
       managers_->report()->Execute(State::kIterationComplete);
 
-      // Not sure if we want
-      managers_->observation()->CalculateScores();
-      managers_->report()->WaitForReportsToFinish();
-      Reset();
+      // Not sure if we need these
+      //managers_->observation()->CalculateScores();
+      //managers_->report()->WaitForReportsToFinish();
+      //Reset();
     }
   }
   // Print the report to disk if tabular

@@ -64,8 +64,8 @@ RecruitmentBevertonHolt::RecruitmentBevertonHolt(Model* model)
  *
  */
 void RecruitmentBevertonHolt::DoValidate() {
+  LOG_TRACE();
   category_labels_ = model_->categories()->ExpandLabels(category_labels_, parameters_.Get(PARAM_CATEGORIES));
-
   if (!parameters_.Get(PARAM_AGE)->has_been_defined())
     age_ = model_->min_age();
 
@@ -96,6 +96,12 @@ void RecruitmentBevertonHolt::DoValidate() {
   if (!dc::IsOne(running_total))
     LOG_ERROR_P(PARAM_PROPORTIONS) << " sum total is " << running_total << " when it should be 1.0";
 
+  if (ycs_years_.size() != ((model_->final_year() - model_->start_year()) + 1))
+    LOG_ERROR_P(PARAM_YCS_YEARS) << "There must be a year class year for each year of the model";
+
+  if(ycs_values_.size() != ycs_years_.size()) {
+    LOG_FATAL_P(PARAM_YCS_VALUES) << "you supplied " << ycs_years_.size() << " " << PARAM_YCS_YEARS  << " and " << ycs_values_.size() << " " << PARAM_YCS_VALUES << ". These parameters must be of equal length before the model will run.";
+  }
   // initialise ycs_values and check values arn't < 0.0
   unsigned ycs_iter = 0;
   for (unsigned ycs_year : ycs_years_) {
@@ -106,13 +112,6 @@ void RecruitmentBevertonHolt::DoValidate() {
     ycs_iter++;
   }
 
-  // Now validate them
-  if (ycs_years_.size() != ((model_->final_year() - model_->start_year()) + 1))
-    LOG_ERROR_P(PARAM_YCS_YEARS) << "There must be a year class year for each year of the model";
-
-  if(ycs_value_by_year_.size() != ycs_years_.size()) {
-    LOG_ERROR_P(PARAM_YCS_VALUES) << "you supplied " << ycs_years_.size() << " year class values but " << ycs_value_by_year_.size() << " ycs years";
-  }
 
   // Check ascending order
   if (standardise_ycs_.size() == 0) {
@@ -324,6 +323,9 @@ void RecruitmentBevertonHolt::DoExecute() {
         LOG_FATAL_P(PARAM_YCS_VALUES) << "You are in a projection mode (-f) and in a projection year but ycs values are = 0 for ycs_year " << model_->current_year() - ssb_offset_ << ", this is an error that will cause the recruitment process to fail. Please check you have correctly specified an @project block for this parameter, thanks";
       }
       ycs = ycs_value_by_year_[ssb_year];
+      // set standardised ycs = ycs for reporting
+      stand_ycs_value_by_year_[ssb_year] = ycs;
+
       LOG_FINEST() << "Projected ycs = " << ycs;
     // else business as usual
     } else {
@@ -362,8 +364,11 @@ void RecruitmentBevertonHolt::DoExecute() {
         << true_ycs << "; amount_per = " << amount_per;
 
     // Store true_ycs values
-    StoreForReport("YCS_year: " , model_->current_year() - ssb_offset_);
-    StoreForReport("true_ycs: " , true_ycs);
+    StoreForReport("ycs_years: " , ssb_year); // the input parameter isn't updated during projections. So thats why we are reporting it twice.
+    StoreForReport("ycs_values: " , ycs_value_by_year_[ssb_year]); // the input parameter isn't updated during projections. So thats why we are reporting it twice.
+    StoreForReport("true_ycs: " , true_ycs); // this is including SR-relationship
+    StoreForReport("standardiesed_ycs: " , stand_ycs_value_by_year_[ssb_year]);
+
   }
 
   unsigned i = 0;
