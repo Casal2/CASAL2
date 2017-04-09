@@ -334,6 +334,7 @@
 #define PARAM_LOGISTIC_NORMAL                     "logistic_normal"
 #define PARAM_LOGISTIC_PRODUCING                  "logistic_producing"
 #define PARAM_LOGNORMAL                           "lognormal"
+#define PARAM_LOGNORMAL_EMPIRICAL                 "lognormal_empirical"
 #define PARAM_LOGNORMAL_WITH_Q                    "lognormal_with_q"
 #define PARAM_LOSS_RATE                           "loss_rate"
 #define PARAM_LOSS_RATE_SELECTIVITIES             "loss_rate_selectivities"

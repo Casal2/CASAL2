@@ -66,6 +66,7 @@ protected:
 
   // members
   Model*                      model_;
+  Double                      multiplier_;
   string                      type_ = "";
   vector<unsigned>            years_;
   string                      parameter_;
@@ -77,6 +78,7 @@ protected:
   base::Object*               target_;
   string                      estimable_parameter_  = "";
   map<unsigned,Double>        projected_parameters_; // year = value;
+  bool                        final_phase_ = false;
 
 private:
   bool                        ycs_value_check_;

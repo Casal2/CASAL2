@@ -45,6 +45,13 @@ void EmpiricalSampling::DoValidate() {
  * Build
  */
 void EmpiricalSampling::DoBuild() {
+
+}
+
+/**
+ * Reset
+ */
+void EmpiricalSampling::DoReset() {
   // Build a vector of years that have been resampled with replacement between start_year and end_year
   utilities::RandomNumberGenerator& rng = utilities::RandomNumberGenerator::Instance();
   Double Random_draw = 0.0;
@@ -54,20 +61,15 @@ void EmpiricalSampling::DoBuild() {
     if (!utilities::To<Double, unsigned>(Random_draw, year))
       LOG_ERROR() << " Random Draw " << Random_draw << " Could not be converted from double to type unsigned";
     resampled_years_[project_year] = year;
-    LOG_MEDIUM() << "Value from year: " << year << " used in projection year: " << project_year;
+    LOG_FINEST() << "Value from year: " << year << " used in projection year: " << project_year;
   }
 }
-
-/**
- * Reset
- */
-void EmpiricalSampling::DoReset() { }
 
 /**
  *  Update our parameter with a random resample of the parameter between start_year_ and final_year_
  */
 void EmpiricalSampling::DoUpdate() {
-  value_ = projected_parameters_[resampled_years_[model_->current_year()]];
+  value_ = projected_parameters_[resampled_years_[model_->current_year()]] * multiplier_;
   LOG_FINE() << "In year: " << model_->current_year() << " Setting Value to: " << value_ << " drawn from year: " << resampled_years_[model_->current_year()];
   (this->*DoUpdateFunc_)(value_);
 

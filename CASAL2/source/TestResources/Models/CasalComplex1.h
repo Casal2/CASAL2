@@ -36,6 +36,7 @@ age_plus t
 base_weight_units kgs
 start_year 1975
 final_year 2002
+projection_final_year 2012
 initialisation_phases phase1
 time_steps one two three
 

@@ -213,27 +213,77 @@ The run years define the years over which the model is to run and the annual cyc
 
 \subsection{\I{Projection years}}\label{sec:projection}
 
-Projecting is the process of running the model forwards into the future, using stochastic and or deterministic values for population dynamic parameters, such as recruitments and catches.
+Projecting is the process of running the model forwards into the future, using stochastic and or deterministic values for population dynamic parameters, such as recruitments and catches. Users invoke \CNAME\ to run in projection mode using the following command \texttt{casal2 -f 1}. The number the follows the \texttt{-f} parameter indicates how many projections you would like to undertake for each set of parameters supplied. This allows you to explore many future scenarios for a single set of parameters, this should only be used if you are applying a projection type that is stochastic.
 
 Projection years occur immediately after the model run years.
 
-In a projection run in \CNAME\, a model is initialised and run through the model years from \argument{initial} to the \argument{final}. Then, the model is re-run from \argument{initial} to \argument{projection\_final\_year}, where any parameter can be either fixed or, if specified, drawn from a stochastic distribution or process during that time period. 
+In a projection run in \CNAME\, a model is initialised and run through the model years from \argument{initial} to the \argument{final}. Then, the model is re-run from \argument{initial} to \argument{projection\_final\_year}, where any parameter can be either fixed or, if specified, drawn from a stochastic distribution or process during that time period. This gives users the ability to apply projection methods on parameters that occur between \argument{start\_year} and \argument{final\_year} defined in teh \command{model} block. An example of when users may want to do this is when you are estimating all the year class parameters. Usually the last few year class parameters are poorly estimated, although this depends on the quality and coverage of the compositional data that would inform these parameter. So users may wish to assume they are unknown and apply projection methods as they do for future values.
 
-\CNAME\ does not have any default projections for when parameters are specified by year. These must be specified using the \command{project} command blocks. This is important for parameters that may vary from year to year (such as year class strength parameters). 
+\CNAME\ does not have any default projections for when parameters are specified by year. These must be specified using the \command{project} command blocks. This is important for parameters that may vary from year to year (such as year class strength parameters), \CNAME\ should error out if users do this.
 
 \CNAME\ allows any estimable parameter to be specified in a \command{project} block and then used in a projection. The available projection types for these parameters include constant, lognormal, empirical-lognormal, or empirical re-sampling.
 
+The subcommand that is common to all projection methods is the \argument{multiplier} command. This is as it suggests a constant that is multiplied to the projected value after it has been derived by its respective method.
+
+A \textbf{note} to users for the specific year class parameter, The definition of year applies to the \argument{ycs\_years} not the model years. As defined in Section~\ref{subsubsec:BH-recruitment}, \argument{ycs\_years} are offset between time of spawning and when they enter the partition. 
+
 \paragraph*{Constant}
+A parameter can either be fixed during all projection years or specified individually for each projection year. This is a deterministic assumption, where the parameter is assumed to be known without error during projection years.
 
-A parameter can either be fixed during all projection years or specified individually for each projection year. This is a deterministic assumption, where the parameter is assumed to be known without error in each future year.
-
+{\small{\begin{verbatim}
+		@project Future_ycs
+		type constant
+		parameter process[Recruitment].ycs_values
+		years 2012:2016
+		values 1 2 1 2 0.5
+		multiplier 1
+		\end{verbatim}}}
 \paragraph*{Empirical resampling}
 
-Parameters that are of type vector or map can be re-sampled with replacement over a range of years and used as the projected year values.
+Parameters that have time components associated with them can be re-sampled uniformly with replacement over a range of years and used as the projected year values. The year range which users must specify are between \argument{start\_year} and \argument{final\_year}
+{\small{\begin{verbatim}
+		@project Future_ycs
+		type empirical_sampling
+		parameter process[Recruitment].ycs_values
+		years 2012:2016
+		start_year 1988
+		final_year 2008
+		multiplier 1
+		\end{verbatim}}}
+
 
 \paragraph*{Lognormal}
+The parameters are originally drawn from a gaussian distribution in log space and exponentiated out to form the lognormal distribution,
+\begin{equation}\label{eq:lognormal}
+X_p = e^{\epsilon_p- 0.5\sigma^2}
+\end{equation}
+where $\epsilon_p\stackrel{iid}{\sim}N(\mu,\sigma)$ and $X_p$ is the projected value for parameter $X$, and $\mu$, $\sigma$ is the mean and standard deviation on the log scale. An example of applying this process is if we wanted to draw future year class parameters from a lognormal distribution with mean 1 and standard deviation 0.8, we would define the syntax as,
+ 
+ {\small{\begin{verbatim}
+ 		@project Future_ycs
+ 		type lognormal
+ 		parameter process[Recruitment].ycs_values
+ 		years 2012:2016
+ 		mean 0
+ 		sigma 0.8
+ 		multiplier 1
+ 		\end{verbatim}}}
 
-The randomised parameters are sampled from a lognormal distribution with mean one and the specified standard deviation and autocorrelation on the log-scale. For example, when projecting year class strengths as a lognormal, they are generated as a Gaussian process with standard deviation $\sigma_R$ and mean - 0.5 $\sigma_R$ (so that the mean of the parameter will be 1). If the randomised parameter is modified by the optional multiplier, then the parameter will have mean $\mu$, where $\mu$ is the multiplier.
+
+\paragraph*{Lognormal-Empirical}
+This class applies Lognormal draw as in the \argument{LogNormal} class but it allows the user to specify a year range which is re-sampled uniformly without replacement. These re sampled values are then used to calculate the standard deviation of the distribution. Then equation~\eqref{eq:lognormal} is used to generate future values with user defined $\mu$ and empirically calculated $\sigma$,
+
+{\small{\begin{verbatim}
+		@project Future_ycs
+		type lognormal_empirical
+		parameter process[Recruitment].ycs_values
+		years 2012:2016
+		mean 0
+		start_year 1988
+		final_year 2008
+		multiplier 1
+		\end{verbatim}}}
+
 
 \subsection{\I{Population processes}}
 
@@ -276,7 +326,7 @@ For example, to specify a constant recruitment process, where individuals are ad
 	age 1
 \end{verbatim}}}
 
-\subsubsection*{\I{Beverton-Holt recruitment}}
+\subsubsection*{\I{Beverton-Holt recruitment}}\label{subsubsec:BH-recruitment}
 
 In the Beverton-Holt recruitment process the total number of recruits added each year is $R_y$, and is the product of the average recruitment $R_0$, the annual year class strength multiplier, $YCS$, and the stock-recruit relationship i.e.,
 \begin{equation}\label{eq:BH}
