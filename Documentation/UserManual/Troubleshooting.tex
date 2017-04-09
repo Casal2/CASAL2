@@ -1,10 +1,22 @@
 \section{Troubleshooting\label{sec:trouble-shooting}}
 
 \subsection{Introduction}
+This section is to aid users in debugging models, if you cannot resolve an issue using the guidelines then don't hesitate to contact the development team. To report an issue please follow the format described in Section~\ref{sec:error-guidelines}. We are hoping that most user errors will be well documented and that \CNAME\ will produce informative error messages. In the case where this doesn't happen, there are some quick and easy tactics that users can do to attempt to resolve or at least isolate an error/bug. Using \CNAME's internal logging out system, this is invoked at the command line with by the \argument{--loglevel} parameter followed by one of these arguments; \argument{trace}, \argument{finest}, \argument{fine}, \argument{medium}. An example of implementing logging with trace level at the command line is,\textsl{}
+
+\argument{casal2 -r --loglevel trace > output.log 2> log.out}
+
+The above command will output \CNAME\ normal reports into the file "output.log" where as the \argument{2>} syntax will print the logged out information into the file "log.out". You should be able to see where \CNAME\ is exiting by going to the end of the "log.out" file. 
+
+Deciding what argument to get \CNAME\ to log out at. This will depend on what mode you are running \CNAME\ and at what level information you want to see. There is a hierarchy in the arguments with \argument{medium} being the most coarse, and \argument{trace} being the finest mode with \argument{fine} and \argument{finest} in between. We suggest that if you are running \CNAME\ in an iterative state such as estimation (\argument{casal2 -e}) or mcmc you only use \argument{medium}. This is because the logging out can print a great deal of information from a single model run, so naturally when you are doing an estimation which could equate to thousands of model runs some of the finer log outs can produce gigabyte sized text files that cannot be opened. For a single iteration run such as \argument{casal2 -r} all the logging out arguments will be useful. If you would like to see how \CNAME\ creates these reports you can open up almost any ".cpp" file and see code lines such as in \texttt{model.cpp},
+
+\argument{LOG\_FINE() << "Model: State change to Execute";}
+
+taken from line 379.
+
 
 \subsection{Reporting errors\label{sec:reporting-errors}}
 
-If you find a bug or problem in \CNAME , please let the Development Team know by contacting them at \email\ or by submitting an issue on the github repository found at \url{https://github.com/NIWAFisheriesModelling/CASAL2/issues}. The latter is preferred as it will document the issue better than the development team does. Please follow the guidelines below will assist the Development Team identify and resolve any issues.
+If you find a bug or problem in \CNAME , please let the Development Team know by contacting them at \email\ or by submitting an issue on the github repository found at \url{https://github.com/NIWAFisheriesModelling/CASAL2/issues}. The latter is preferred as it will automatically document the issue which is better than depending on teh development team. Please follow the guidelines below, as they will enhance the debugging process which can be quite time consuming.
 
 \subsection{Guidelines for reporting a problem with \CNAME\label{sec:error-guidelines}}
 
@@ -12,7 +24,7 @@ If you find a bug or problem in \CNAME , please let the Development Team know by
 
 \item Check to ensure you are using the most recent version of \CNAME. Its possible that the error or problem you are having may have ready been resolved. 
 
-\item Describe the version of \CNAME\ are you using? e.g., \CNAME\ \VER Microsoft Windows executable''
+\item Describe the version of \CNAME\ are you using? e.g., \CNAME\ \VER\ Microsoft Windows executable''. The version is provided by \CNAME\ with the following command \argument{casal2 -v}.
 
 \item What operating system or environment are you using? e.g., ``IBM-PC Intel CPU running Microsoft Windows 10 Enterprise''.
 
@@ -24,6 +36,6 @@ If you find a bug or problem in \CNAME , please let the Development Team know by
 
 \item If the problem causes any error messages to appear, please give the \emph{exact} text displayed, e.g., \texttt{segmentation fault (core dumped)}.
 
-\item Remember to attach all relevant input and output files so that the problem can be reproduced (it can helpful to compress these into a single file). Without these, it is usually not possible to determine the cause of the problem, and we are unlikely to provide any assistance. Note that it is helpful to be as specific as possible when describing the problem.
+\item Remember to attach all relevant input and output files so that the problem can be reproduced (it can be helpful to compress these into a single file e.g. zip file). Without these, it is usually not possible to determine the cause of the problem, and we are unlikely to provide any assistance. Note that it is helpful to be as specific as possible when describing the problem.
 
 \end{enumerate}

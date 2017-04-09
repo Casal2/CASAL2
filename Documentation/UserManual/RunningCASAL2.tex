@@ -193,9 +193,9 @@ The unique parameter name is used to reference the parameter when estimating, ap
 
 \subsection{\I{Single stepping \CNAME}\label{sec:singlestepping}}\index{Single\_stepping}\index{single\_stepping section}
 
-Single stepping in \CNAME\ gives it the ability to write observations and `pause' after each annual cycle during a run, and then wait and process user input of updated estimable parameters for the next year. 
+Single stepping in \CNAME\ gives it the ability to write reports and `pause' after each year in the annual cycle during a run, and then wait and process user input of updated estimable parameters for the next year. 
 
-This can allow, for example, \CNAME\ to be used for implementing models that require feedback management simulations or scenarios, for example for use in operational management procedures (OMPs). This can be automated using, for example, \R, where \CNAME\ may be controlled by \R\ to update input harvest values (for examples, catches in a fisheries model) to evaluate a particular management strategy. 
+This can allow \CNAME\ to be used for implementing models that require feedback management simulations or scenarios, for example for use in operational management procedures (OMPs). This can be automated using \R, where \CNAME\ may be controlled by \R\ to update input harvest values (for examples, catches in a fisheries model) to evaluate a particular harvest control rule. 
 
 \subsection{\CNAME\ exit status values\index{Exit status value}}
 When \CNAME\ completes its task successfully or errors out gracefully, it returns a single exit status value 'completed' to the standard output. Error messages will be printed to the console. If configuration errors are found, \CNAME\ will print an error messages along with the associated files and line numbers where the errors were identified.

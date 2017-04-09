@@ -13,9 +13,8 @@
 // headers
 #include "Partition/Partition.h"
 #include "Model/Model.h"
-#include "Estimates/Manager.h"
-#include "TestResources/TestCases/CasalComplex1.h"
 #include "TestResources/TestFixtures/InternalEmptyModel.h"
+#include "DerivedQuantities/Manager.h"
 
 #include "Utilities/RandomNumberGenerator.h"
 
@@ -156,6 +155,33 @@ R"(
  sigma 0.8
 
 )";
+
+/**
+ * Empirical_test
+ */
+const string empirical_project =
+R"(
+ @project future_ycs
+ type lognormal
+ parameter process[Recruitment].ycs_values
+ years 2009:2019
+ mean 0
+ sigma 0.8
+)";
+
+/**
+ * LogNormal-Empirical_test
+ */
+const string lognormal_empirical_project =
+R"(
+ @project future_ycs
+ type lognormal
+ parameter process[Recruitment].ycs_values
+ years 2009:2019
+ mean 0
+ sigma 0.8
+)";
+
 /**
  *  Test LogNormal @project for estimate of type map and
  */
@@ -166,30 +192,21 @@ TEST_F(InternalEmptyModel,Projection_Run_lognormal) {
   AddConfigurationLine(lognormal_project, __FILE__, 55);
   LoadConfiguration();
   model_->Start(RunMode::kProjection);
-  string error_message = "";
-  //Double* = model_->objects().FindEstimable("process[Recruitment].ycs_values",error_message);
-  //if (!estimate)
-  //  LOG_FATAL() << "!estimate";
-  //EXPECT_DOUBLE_EQ(estimate->value(), 7.2724038656178385);
-//
-//  partition::Category& immature_male   = model_->partition().category("immature.male");
-//  partition::Category& immature_female = model_->partition().category("immature.female");
-//
-//  // Verify blank partition for the last time_step
-//  for (unsigned i = 0; i < immature_male.data_.size(); ++i)
-//    EXPECT_DOUBLE_EQ(0.0, immature_male.data_[i]) << " where i = " << i << "; age = " << i + immature_male.min_age_;
-//  for (unsigned i = 0; i < immature_female.data_.size(); ++i)
-//    EXPECT_DOUBLE_EQ(0.0, immature_female.data_[i]) << " where i = " << i << "; age = " << i + immature_female.min_age_;
+//  string error_message = "";
+//  base::Object*  ycs_param = model_->objects().FindObject("process[Recruitment].ycs_values",error_message);
+//  if (!ycs_param)
+//    LOG_FATAL() << "!ycs_param" << error_message;
+
+  // check the results
+  vector<Double> expected = {39020.374395850878,37682.623047506087,38068.329938270457,38413.293486112576,38587.282857092388,38357.258716542878,37717.130143529248,36958.935350696898};
+  niwa::DerivedQuantity* dq = model_->managers().derived_quantity()->GetDerivedQuantity("SSB");
+  for (unsigned i = 0; i < 8; ++i) {
+    unsigned year = 2012 + i;
+    Double value = expected[i];
+    EXPECT_DOUBLE_EQ(value, dq->GetValue(year)) << " for year " << year << " and value " << value;
+  }
 }
 
-const string lognormal_vector =
-R"(
-@project future_catches
-type lognormal
-parameter process[Fishing].catches(2008:2012)
-mean 10.0944
-sigma 1
-)";
 
 } /* namespace projects */
 } /* namespace niwa */
