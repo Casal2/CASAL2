@@ -263,11 +263,11 @@ TEST(AgeLengths, VonBertalanffy_DoAgeLengthConversion_plusGrp) {
 
    unsigned age_index = 0;
    for(unsigned bin = 0; bin <= 4; ++bin)
-   EXPECT_DOUBLE_EQ(expec1[bin], male.age_length_matrix_[age_index][bin]) << " where age = " << (male.min_age_ + age_index) << " where class_bin = " << bin;
+     EXPECT_DOUBLE_EQ(expec1[bin], male.age_length_matrix_[age_index][bin]) << " where age = " << (male.min_age_ + age_index) << " where class_bin = " << bin;
 
    age_index = 5;
    for(unsigned bin = 0; bin <= 4; ++bin)
-   EXPECT_DOUBLE_EQ(expec2[bin], male.age_length_matrix_[age_index][bin]) << " where age = " << (male.min_age_ + age_index) << " where class_bin = " << bin;
+     EXPECT_DOUBLE_EQ(expec2[bin], male.age_length_matrix_[age_index][bin]) << " where age = " << (male.min_age_ + age_index) << " where class_bin = " << bin;
 }
 
 

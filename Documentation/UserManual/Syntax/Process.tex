@@ -18,6 +18,50 @@
 \defType{string vector}
 \defDefault{No Default}
 
+\subsubsection[Initialisation Mortality Event]{\commandlabsubarg{process}{type}{initialisation\_mortality\_event}}
+
+\defSub{categories} {Categories}
+\defType{string vector}
+\defDefault{No Default}
+
+\defSub{catch} {The number of removals (catches) to apply for each year}
+\defType{estimable}
+\defDefault{No Default}
+
+\defSub{u\_max} {Maximum exploitation rate ($Umax$}
+\defType{estimable}
+\defDefault{0.99}
+
+\defSub{selectivities} {List of selectivities}
+\defType{string vector}
+\defDefault{No Default}
+
+\defSub{penalty} {The label of the penalty to apply if the total number of removals cannot be taken}
+\defType{string}
+\defDefault{""}
+
+\subsubsection[Initialisation Mortality Event Biomass]{\commandlabsubarg{process}{type}{initialisation\_mortality\_event\_biomass}}
+
+\defSub{categories} {Categories}
+\defType{string vector}
+\defDefault{No Default}
+
+\defSub{catch} {The number of removals (catches) to apply for each year}
+\defType{estimable}
+\defDefault{No Default}
+
+\defSub{u\_max} {Maximum exploitation rate ($Umax$}
+\defType{estimable}
+\defDefault{0.99}
+
+\defSub{selectivities} {List of selectivities}
+\defType{string vector}
+\defDefault{No Default}
+
+\defSub{penalty} {The label of the penalty to apply if the total number of removals cannot be taken}
+\defType{string}
+\defDefault{""}
+
 \subsubsection[Maturation]{\commandlabsubarg{process}{type}{maturation}}
 
 \defSub{from} {List of categories to mature from}
@@ -79,10 +123,6 @@
 \defSub{selectivities} {List of selectivities}
 \defType{string vector}
 \defDefault{No Default}
-
-\defSub{initialisation} {Apply the first value of the catches in the intialisation phase}
-\defType{boolean}
-\defDefault{false}
 
 \defSub{penalty} {The label of the penalty to apply if the total number of removals cannot be taken}
 \defType{string}

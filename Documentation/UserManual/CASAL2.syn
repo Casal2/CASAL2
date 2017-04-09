@@ -73,6 +73,7 @@ by_length
 c
 casal_intialisation_switch
 casal_switch
+catch
 catchability
 catches
 categories
@@ -105,7 +106,6 @@ from
 h
 initial_mortality
 initial_mortality_selectivity
-initialisation
 initialisation_phases
 insert_processes
 internal_gaps
@@ -265,6 +265,8 @@ free
 hessian_matrix
 increasing
 independence_metropolis
+initialisation_mortality_event
+initialisation_mortality_event_biomass
 initialisation_partition
 inverse_logistic
 iterative
