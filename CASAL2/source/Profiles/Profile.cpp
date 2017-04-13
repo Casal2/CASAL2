@@ -69,7 +69,10 @@ void Profile::Build() {
   }
 
   // If Estimable is a map need to give index
-  target_ = target->GetEstimable(parameter,index);
+  if (index != "")
+    target_ = target->GetEstimable(parameter, index);
+  else
+    target_ = target->GetEstimable(parameter);
 
   LOG_FINEST() << "Running profile on parameter: " << parameter << ", that has type: " << type << " and label: " << label;
   if (target_ == 0)
@@ -106,7 +109,10 @@ void Profile::Build() {
     }
 
     // If Estimable is a map need to give index
-    same_target_ = same_target->GetEstimable(same_parameter,same_index);
+    if (same_index != "")
+      same_target_ = same_target->GetEstimable(same_parameter, same_index);
+    else
+      same_target_ = same_target->GetEstimable(same_parameter);
     if (same_target_ == 0)
       LOG_ERROR_P(PARAM_SAME) << ": same parameter " << same_parameter_ << " is not a valid estimable in the system";
     same_original_value_ = *same_target_;

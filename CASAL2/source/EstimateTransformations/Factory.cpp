@@ -16,6 +16,7 @@
 #include "Model/Model.h"
 #include "EstimateTransformations/Manager.h"
 #include "EstimateTransformations/Children/AverageDifference.h"
+#include "EstimateTransformations/Children/Orthogonal.h"
 #include "EstimateTransformations/Children/Inverse.h"
 #include "EstimateTransformations/Children/Log.h"
 #include "EstimateTransformations/Children/LogOdds.h"
@@ -43,6 +44,8 @@ EstimateTransformation* Factory::Create(Model* model, const string& object_type,
       result = new Log(model);
     else if (sub_type == PARAM_LOG_ODDS)
       result = new LogOdds(model);
+    else if (sub_type == PARAM_ORTHOGONAL)
+      result = new Orthogonal(model);
     else if (sub_type == PARAM_SQUARE_ROOT)
       result = new SquareRoot(model);
     else if (sub_type == PARAM_SIMPLEX)

@@ -399,6 +399,7 @@
 #define PARAM_OUTPUT_PARAMETERS                   "output_parameters"
 #define PARAM_ONE                                 "1 (one)"
 #define PARAM_ONE_THOUSAND                        "1000"
+#define PARAM_ORTHOGONAL                          "orthogonal"
 #define PARAM_OVERWRITE                           "overwrite"
 #define PARAM_P1                                  "p1"
 #define PARAM_P2                                  "p2"
