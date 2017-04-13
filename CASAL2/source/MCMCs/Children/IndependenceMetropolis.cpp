@@ -112,7 +112,7 @@ void IndependenceMetropolis::BuildCovarianceMatrix() {
  * @return true on success, false on failure
  */
 bool IndependenceMetropolis::DoCholeskyDecmposition() {
-  if (covariance_matrix_.size1() != covariance_matrix_.size2() )
+  if (covariance_matrix_.size1() != covariance_matrix_.size2())
       LOG_ERROR() << "Invalid covariance matrix (size1!=size2)";
     unsigned matrix_size1 = covariance_matrix_.size1();
     covariance_matrix_lt = covariance_matrix_;

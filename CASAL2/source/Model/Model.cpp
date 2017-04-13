@@ -404,8 +404,6 @@ void Model::RunBasic() {
         }
         estimable_targets.push_back(target);
       }
-
-
     }
 
     timesteps::Manager& time_step_manager = *managers_->time_step();

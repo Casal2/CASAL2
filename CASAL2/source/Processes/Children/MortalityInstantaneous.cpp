@@ -165,6 +165,7 @@ void MortalityInstantaneous::DoValidate() {
     fisheries_[new_fishery.label_] = new_fishery;
     RegisterAsEstimable(PARAM_FISHERY + string("_") + utilities::ToLowercase(new_fishery.label_), &fisheries_[new_fishery.label_].catches_);
 
+    LOG_FINEST() << "Creating estimable: " << PARAM_FISHERY + string("_") + utilities::ToLowercase(new_fishery.label_), &fisheries_[new_fishery.label_].catches_;
     // remove after build
     vector<string> categories;
     vector<string> selectivities;
