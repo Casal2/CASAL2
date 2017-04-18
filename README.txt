@@ -74,3 +74,10 @@ Contact
 For more information about Casal2, please read the Casal2
 User Manual. You can contact the Casal2 Developement Team 
 at casal2@niwa.co.nz
+
+
+Textpad syntax highlighter
+==========================
+
+To embed the syntax highlighter recommended for viewing .csl2 files, see
+TextPad_syntax_highlighter.readme for steps on how to do this.

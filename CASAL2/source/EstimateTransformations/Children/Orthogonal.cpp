@@ -78,7 +78,6 @@ void Orthogonal::Transform() {
   second_estimate_->set_lower_bound(first_original_lower_bound_ / second_original_upper_bound_);
   second_estimate_->set_upper_bound(first_original_upper_bound_ / second_original_lower_bound_);
   LOG_MEDIUM() << "theta 1 UB " << first_estimate_->upper_bound() << " and LB " << first_estimate_->lower_bound() << " theta 2 UB = " << second_estimate_->upper_bound() << " LB = " << second_estimate_->lower_bound();
-
 }
 
 /**
