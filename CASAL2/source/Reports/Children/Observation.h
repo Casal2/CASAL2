@@ -39,6 +39,8 @@ private:
   // members
   string              observation_label_;
   niwa::Observation*  observation_;
+  bool                normalised_resids_;
+  bool                pearson_resids_;
 };
 
 } /* namespace reports */

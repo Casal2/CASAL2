@@ -20,7 +20,6 @@
 #include "Likelihoods/Children/BinomialApprox.h"
 #include "Likelihoods/Children/Dirichlet.h"
 #include "Likelihoods/Children/LogNormal.h"
-#include "Likelihoods/Children/LogisticNormal.h"
 #include "Likelihoods/Children/LogNormalWithQ.h"
 #include "Likelihoods/Children/Multinomial.h"
 #include "Likelihoods/Children/Normal.h"
@@ -47,8 +46,6 @@ Likelihood* Factory::Create(Model* model, const string& object_type, const strin
     result = new Dirichlet();
   else if (sub_type == PARAM_LOGNORMAL)
     result = new LogNormal();
-  else if (sub_type == PARAM_LOGISTIC_NORMAL)
-    result = new LogisticNormal();
   else if (sub_type == PARAM_LOGNORMAL_WITH_Q)
     result = new LogNormalWithQ();
   else if (sub_type == PARAM_MULTINOMIAL)
