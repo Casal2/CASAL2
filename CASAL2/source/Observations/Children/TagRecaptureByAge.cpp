@@ -44,7 +44,6 @@ TagRecaptureByAge::TagRecaptureByAge(Model* model) : Observation(model) {
   parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_labels_, "The labels of the selectivities", "", true);
   parameters_.Bind<string>(PARAM_TIME_STEP, &time_step_label_, "The label of time-step that the observation occurs in", "");
   parameters_.Bind<string>(PARAM_TARGET_SELECTIVITIES, &target_selectivity_labels_, "The categories of tagged individuals for the observation", "");
-  parameters_.Bind<Double>(PARAM_DELTA, &delta_, "The value of the delta robustification parameter", "", DELTA)->set_lower_bound(0.0, false);
   parameters_.Bind<Double>(PARAM_PROCESS_ERRORS, &process_error_values_, "Process error", "", true);
   parameters_.Bind<Double>(PARAM_DETECTION_PARAMETER,  &detection_, "Probability of detecting a recaptured individual", "");
   parameters_.BindTable(PARAM_RECAPTURED, recaptures_table_, "Table of observed recaptured individuals in each age class", "", false);
@@ -414,7 +413,7 @@ void TagRecaptureByAge::Execute() {
       LOG_MEDIUM() << "Comparison for age " << min_age_ + i << " Expected = " << expected << " observed = " << observed << " error = "
           << scanned_[model_->current_year()][category_labels_[category_offset]][i] << " recaptures = " << recaptures_[model_->current_year()][category_labels_[category_offset]][i];
       SaveComparison(target_category_labels_[category_offset], min_age_ + i, 0, expected, observed,
-          process_errors_by_year_[model_->current_year()], scanned_[model_->current_year()][category_labels_[category_offset]][i], delta_, 0.0);
+          process_errors_by_year_[model_->current_year()], scanned_[model_->current_year()][category_labels_[category_offset]][i], 0.0, delta_, 0.0);
     }
   }
 }

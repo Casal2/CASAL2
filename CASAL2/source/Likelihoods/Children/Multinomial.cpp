@@ -52,6 +52,8 @@ void Multinomial::GetScores(map<unsigned, vector<observations::Comparison> >& co
 
       Double score = math::LnFactorial(error_value * comparison.observed_)
                       - error_value * comparison.observed_ * log(dc::ZeroFun(comparison.expected_, comparison.delta_));
+
+      comparison.adjusted_error_ = error_value;
       comparison.score_ = score * multiplier_;
     }
   }
@@ -95,6 +97,7 @@ void Multinomial::SimulateObserved(map<unsigned, vector<observations::Comparison
 //    map<string, Double> totals;
     for (observations::Comparison& comparison : iterator->second) {
       Double error_value = AdjustErrorValue(comparison.process_error_, comparison.error_value_);
+      comparison.adjusted_error_ = error_value;
 
       if (comparison.expected_ <= 0.0 || error_value <= 0.0)
         comparison.observed_ = 0.0;

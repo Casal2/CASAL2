@@ -52,6 +52,8 @@ void LogNormalWithQ::GetScores(map<unsigned, vector<observations::Comparison> >&
       Double sigma = sqrt(log(1 + error_value * error_value));
       Double score = log(comparison.observed_ / dc::ZeroFun(comparison.expected_, comparison.delta_)) / sigma + 0.5 * sigma;
       score = log(sigma) + 0.5 * (score * score);
+
+      comparison.adjusted_error_ = error_value;
       comparison.score_ = score * multiplier_;
     }
   }
@@ -76,6 +78,8 @@ void LogNormalWithQ::SimulateObserved(map<unsigned, vector<observations::Compari
         comparison.observed_ = comparison.delta_;
       else
         comparison.observed_ = rng.lognormal(AS_DOUBLE(comparison.expected_), AS_DOUBLE(error_value));
+
+      comparison.adjusted_error_ = error_value;
     }
   }
 }

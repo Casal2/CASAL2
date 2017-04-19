@@ -157,6 +157,7 @@ years 1992:2002
 time_step_proportion 1.0
 obs 4180 2950 3353 3303 2457 2811 2873 2302 2090 1589 1567
 error_value 0.15 0.17 0.10 0.23 0.13 0.17 0.18 0.12 0.09 0.13 0.15
+delta 1e-10
 
 @observation chatTANage
 type proportions_at_age

@@ -34,7 +34,6 @@ namespace dc = niwa::utilities::doublecompare;
 Double Binomial::AdjustErrorValue(const Double process_error, const Double error_value) {
   if (error_value > 0.0 && process_error > 0.0)
     return (1.0 /  (1.0 / error_value + 1.0 / process_error));
-
   return error_value;
 }
 
@@ -55,6 +54,7 @@ void Binomial::GetScores(map<unsigned, vector<observations::Comparison> >& compa
                       + error_value * comparison.observed_ * log(dc::ZeroFun(comparison.expected_, comparison.delta_))
                       + error_value * (1.0 - comparison.observed_) * log(dc::ZeroFun(1.0 - comparison.expected_, comparison.delta_));
 
+      comparison.adjusted_error_ = error_value;
       comparison.score_ = -score * multiplier_;
     }
   }
@@ -79,6 +79,8 @@ void Binomial::SimulateObserved(map<unsigned, vector<observations::Comparison> >
         comparison.observed_ = 0.0;
       else
         comparison.observed_ = rng.binomial(AS_DOUBLE(comparison.expected_), AS_DOUBLE(error_value)) / error_value;
+
+      comparison.adjusted_error_ = error_value;
     }
   }
 }

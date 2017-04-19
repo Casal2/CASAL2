@@ -42,7 +42,6 @@ ProportionsAtAge::ProportionsAtAge(Model* model) : Observation(model) {
   parameters_.Bind<string>(PARAM_TIME_STEP, &time_step_label_, "The label of time-step that the observation occurs in", "");
   parameters_.Bind<Double>(PARAM_TOLERANCE, &tolerance_, "Tolerance on the constraint, that for each year the sum of proportions in each age must equal one e.g. tolerance = 0.1 then 1 - Sum(Proportions) can be as great as 0.1 ", "", Double(0.001));
   parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "The years of the observed values", "");
-  parameters_.Bind<Double>(PARAM_DELTA, &delta_, "Robustification value (delta) for the likelihood", "", DELTA);
   parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_labels_, "Labels of the selectivities", "", true);
   parameters_.Bind<Double>(PARAM_PROCESS_ERRORS, &process_error_values_, "Process error", "", true);
   parameters_.Bind<string>(PARAM_AGEING_ERROR, &ageing_error_label_, "Label of ageing error to use", "", "");
@@ -343,7 +342,7 @@ void ProportionsAtAge::Execute() {
       LOG_FINEST() << "Numbers at age for all categories in age " << min_age_ + i << " = " << expected_values[i];
 
       SaveComparison(category_labels_[category_offset], min_age_ + i ,0.0 ,expected_values[i], proportions_[model_->current_year()][category_labels_[category_offset]][i],
-          process_errors_by_year_[model_->current_year()], error_values_[model_->current_year()][category_labels_[category_offset]][i], delta_, 0.0);
+          process_errors_by_year_[model_->current_year()], error_values_[model_->current_year()][category_labels_[category_offset]][i], 0.0, delta_, 0.0);
     }
   }
 }
