@@ -67,9 +67,10 @@ void Partition::DoExecute() {
     cache_ << (*iterator)->name_;
     unsigned age = (*iterator)->min_age_;
     for (auto values = (*iterator)->data_.begin(); values != (*iterator)->data_.end(); ++values, age++) {
-      if (age >= lowest && age <= highest)
-        cache_ << " " << std::fixed << *values;
-      else
+      if (age >= lowest && age <= highest) {
+        Double value = *values;
+        cache_ << " " << std::fixed << AS_DOUBLE(value);
+      } else
         cache_ << " " << "null";
     }
     cache_ << "\n";

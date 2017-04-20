@@ -24,7 +24,6 @@ TimeVarying::TimeVarying(Model* model) : Report(model) {
   model_state_ = (State::Type)(State::kIterationComplete);
 }
 
-
 /**
  *
  */
@@ -42,10 +41,9 @@ void TimeVarying::DoExecute() {
     map<unsigned, Double>& parameter_by_year = time_var->ParameterByYear();
     cache_ << "year" << " Value \n";
     for (auto param : parameter_by_year) {
-      cache_ << param.first << "  " << param.second << "\n";
+      cache_ << param.first << "  " << AS_DOUBLE(param.second) << "\n";
     }
     ready_for_writing_ = true;
-
   }
 }
 

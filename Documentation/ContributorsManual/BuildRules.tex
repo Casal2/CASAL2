@@ -43,6 +43,7 @@ When adding unit tests, they need to be developed and tested outside of \CNAME\ 
 An example of how to add a unit test for a process is shown in Section~\ref{sec:example}
 
 \subsection{Reporting (Optional)}
+When generating a new report or adapting existing reports remember to use the \argument{AS\_DOUBLE()} if you are reporting a value of type \argument{double}. The reason behind this is so all minimisers don't add garbage to the end. An example of this will be when you use the adolc minimiser. If you haven't used the \argument{AS\_DOUBLE()} the report will have values trailed with an (a) e.g. 2.43(a). This will break the \R\ comparability.
 
 Currently \CNAME\ has reports that are \R\ compatible, i.e., all output reports produced by \CNAME\ can be read into \R\ using the standard  \textbf{CASAL2} \R\ package. If you create a new report or modify an old one, you most follow the standard so that the report is \R\ compatible.
 

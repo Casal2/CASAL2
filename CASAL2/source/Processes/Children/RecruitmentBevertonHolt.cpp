@@ -365,9 +365,9 @@ void RecruitmentBevertonHolt::DoExecute() {
 
     // Store true_ycs values
     StoreForReport("ycs_years: " , ssb_year); // the input parameter isn't updated during projections. So thats why we are reporting it twice.
-    StoreForReport("ycs_values: " , ycs_value_by_year_[ssb_year]); // the input parameter isn't updated during projections. So thats why we are reporting it twice.
-    StoreForReport("true_ycs: " , true_ycs); // this is including SR-relationship
-    StoreForReport("standardiesed_ycs: " , stand_ycs_value_by_year_[ssb_year]);
+    StoreForReport("ycs_values: " , AS_DOUBLE(ycs_value_by_year_[ssb_year])); // the input parameter isn't updated during projections. So thats why we are reporting it twice.
+    StoreForReport("true_ycs: " , AS_DOUBLE(true_ycs)); // this is including SR-relationship
+    StoreForReport("standardiesed_ycs: " , AS_DOUBLE(stand_ycs_value_by_year_[ssb_year]));
 
   }
 

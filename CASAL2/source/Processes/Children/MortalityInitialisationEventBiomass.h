@@ -1,5 +1,5 @@
 /**
- * @file InitialisationMortalityEventBiomass.h
+ * @file MortalityInitialisationEventBiomass.h
  * @author  C.Marsh
  * @version 1.0
  * @date 6/4/2017
@@ -33,11 +33,11 @@ namespace accessor = niwa::partition::accessors;
 /**
  * Class definition
  */
-class InitialisationMortalityEventBiomass : public niwa::Process {
+class MortalityInitialisationEventBiomass : public niwa::Process {
 public:
   // Methods
-  explicit InitialisationMortalityEventBiomass(Model* model);
-  virtual                     ~InitialisationMortalityEventBiomass() = default;
+  explicit MortalityInitialisationEventBiomass(Model* model);
+  virtual                     ~MortalityInitialisationEventBiomass() = default;
   void                        DoValidate() override final;
   void                        DoBuild() override final;
   void                        DoReset() override final { };

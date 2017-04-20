@@ -442,9 +442,9 @@ void MortalityInstantaneous::DoExecute() {
     StoreForReport("year.timestep: ", utilities::ToInline<unsigned,string>(model_->current_year()) + "." + utilities::ToInline<unsigned,string>(time_step_index));
     for (auto fishery_iter : fisheries_) {
       auto fishery = fishery_iter.second;
-      StoreForReport(fishery.label_ + "_U: ", fishery_exploitation[fishery.label_]);
+      StoreForReport(fishery.label_ + "_U: ", AS_DOUBLE(fishery_exploitation[fishery.label_]));
       if (fishery_exploitation[fishery.label_] > 0)
-        StoreForReport(fishery.label_ + "_Catch: ",fisheries_[fishery.label_].catches_[model_->current_year()]);
+        StoreForReport(fishery.label_ + "_Catch: ",AS_DOUBLE(fisheries_[fishery.label_].catches_[model_->current_year()]));
       else
         StoreForReport(fishery.label_ + "_Catch: ", 0);
 
