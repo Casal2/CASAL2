@@ -57,37 +57,6 @@ void PartitionBiomass::DoExecute() {
     if (longest_length < (*iterator)->name_.length())
       longest_length = (*iterator)->name_.length();
   }
-
-  // Print the header
-  /*
-  cache_ << "*" << this->label() << "\n";
-  cache_ << "report.type: partition_biomass\n";
-  cache_ << "year: " << Model::Instance()->current_year() << "\n";
-  cache_ << "time_step: " << time_step_ << "\n";
-  cache_ << "category";
-  for (unsigned i = lowest; i <= highest; ++i)
-    cache_ << " " << i;
-  cache_ << "\n";
-
-  cache_.precision(1);
-  cache_ << std::fixed;
-
-  for (auto iterator = all_view.Begin(); iterator != all_view.End(); ++iterator) {
-    (*iterator)->UpdateMeanWeightData();
-
-    cache_ << (*iterator)->name_;
-    for (unsigned i = 0; i < (*iterator)->data_.size(); ++i) {
-      unsigned age = (*iterator)->min_age_ + i;
-      if (age >= lowest && age <= highest)
-        cache_ << " " << std::fixed << std::setprecision(6) << AS_DOUBLE(((*iterator)->data_[i] * (*iterator)->weight_per_[age]));
-      else
-        cache_ << " " << "null";
-    }
-    cache_ << "\n";
-  }
-  */
-
-
   cache_ << "*" << label_ << " " << "("<< type_ << ")"<<"\n";
   cache_ << "year: " << model_->current_year() << "\n";
   cache_ << "time_step: " << time_step_ << "\n";

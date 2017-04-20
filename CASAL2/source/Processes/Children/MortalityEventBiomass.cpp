@@ -145,15 +145,15 @@ void MortalityEventBiomass::DoExecute() {
    * vulnerable * exploitation and store for report
    */
   StoreForReport("year: ", model_->current_year());
-  StoreForReport("Exploitation: ", exploitation);
-  StoreForReport("Catch: ", catch_years_[model_->current_year()]);
+  StoreForReport("Exploitation: ", AS_DOUBLE(exploitation));
+  StoreForReport("Catch: ", AS_DOUBLE(catch_years_[model_->current_year()]));
   i = 0;
   Double removals = 0;
   for (auto categories : partition_) {
     unsigned offset = 0;
     for (Double& data : categories->data_) {
       removals = data * selectivities_[i]->GetResult(categories->min_age_ + offset, categories->age_length_) * exploitation;
-      StoreForReport(categories->name_ + "_Removals: ",removals);
+      StoreForReport(categories->name_ + "_Removals: ",AS_DOUBLE(removals));
       data -= removals;
       ++offset;
     }

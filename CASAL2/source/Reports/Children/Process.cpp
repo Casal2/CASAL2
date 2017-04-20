@@ -61,7 +61,7 @@ void Process::DoExecute() {
   for (auto parameter : parameters) {
     if(!(is_BH_recruitment & ((parameter.first == PARAM_YCS_YEARS ||  parameter.first  == PARAM_YCS_VALUES)))) {
       // if this process is a beverton holt process don't print the parameters ycs_years or ycs_values. The reason is, this is printed in the storeForReport Function within the process
-      // The reason this was done was, we can't update the input parameters to include future years in projection mode, specifically we push back on a vector and becomes a non-sensical vector, thus we went down the
+      // The reason this was done was, we can't update the input parameters to include future years in projection mode, specifically we push back on a vector and becomes a non-sensical vector (when doing multiple projections), thus we went down the
       // store for report method.
       cache_ << parameter.first << ": ";
       string line = boost::algorithm::join(parameter.second->current_values(), " ");

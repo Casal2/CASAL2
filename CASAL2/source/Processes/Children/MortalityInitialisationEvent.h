@@ -1,5 +1,5 @@
 /**
- * @file InitialisationMortalityEvent.h
+ * @file MortalityInitialisationEvent.h
  * @author  C.Marsh
  * @version 1.0
  * @date 6/4/2017
@@ -33,11 +33,11 @@ namespace accessor = niwa::partition::accessors;
 /**
  * Class definition
  */
-class InitialisationMortalityEvent : public niwa::Process {
+class MortalityInitialisationEvent : public niwa::Process {
 public:
   // Methods
-  explicit InitialisationMortalityEvent(Model* model);
-  virtual                     ~InitialisationMortalityEvent() = default;
+  explicit MortalityInitialisationEvent(Model* model);
+  virtual                     ~MortalityInitialisationEvent() = default;
   void                        DoValidate() override final;
   void                        DoBuild() override final;
   void                        DoReset() override final { };

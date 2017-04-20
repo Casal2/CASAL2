@@ -20,9 +20,10 @@
 #include "Processes/Children/Maturation.h"
 #include "Processes/Children/MortalityConstantRate.h"
 #include "Processes/Children/MortalityEvent.h"
-#include "Processes/Children/InitialisationMortalityEvent.h"
 #include "Processes/Children/MortalityEventBiomass.h"
 #include "Processes/Children/MortalityInstantaneous.h"
+#include <Processes/Children/MortalityInitialisationEvent.h>
+#include <Processes/Children/MortalityInitialisationEventBiomass.h>
 #include "Processes/Children/MortalityPreySuitability.h"
 #include "Processes/Children/MortalityHollingRate.h"
 #include "Processes/Children/Nop.h"
@@ -80,8 +81,10 @@ Process* Factory::Create(Model* model, const string& object_type, const string& 
       result = new Maturation(model);
     else if (sub == PARAM_MORTALITY_CONSTANT_RATE)
       result = new MortalityConstantRate(model);
-    else if (sub == PARAM_INITIALISATION_MORTALITY_EVENT)
-      result = new InitialisationMortalityEvent(model);
+    else if (sub == PARAM_MORTALITY_INITIALISATION_EVENT)
+      result = new MortalityInitialisationEvent(model);
+    else if (sub == PARAM_MORTALITY_INITIALISATION_EVENT_BIOMSS)
+      result = new MortalityInitialisationEventBiomass(model);
     else if (sub == PARAM_MORTALITY_EVENT)
       result = new MortalityEvent(model);
     else if (sub == PARAM_MORTALITY_EVENT_BIOMASS)

@@ -1,5 +1,5 @@
 /**
- * @file InitialisationMortalityEvent.cpp
+ * @file MortalityInitialisationEvent.cpp
  * @author  C.Marsh
  * @version 1.0
  * @date 6/4/2017
@@ -11,8 +11,7 @@
  */
 
 // Headers
-#include "InitialisationMortalityEvent.h"
-
+#include <Processes/Children/MortalityInitialisationEvent.h>
 #include "Categories/Categories.h"
 #include "Penalties/Manager.h"
 #include "Selectivities/Manager.h"
@@ -25,7 +24,7 @@ namespace processes {
 /**
  * Default Constructor
  */
-InitialisationMortalityEvent::InitialisationMortalityEvent(Model* model)
+MortalityInitialisationEvent::MortalityInitialisationEvent(Model* model)
   : Process(model),
     partition_(model) {
   parameters_.Bind<string>(PARAM_CATEGORIES, &category_labels_, "Categories", "");
@@ -47,7 +46,7 @@ InitialisationMortalityEvent::InitialisationMortalityEvent(Model* model)
  * 1. Check for the required parameters
  * 2. Assign any remaining variables
  */
-void InitialisationMortalityEvent::DoValidate() {
+void MortalityInitialisationEvent::DoValidate() {
   category_labels_ = model_->categories()->ExpandLabels(category_labels_, parameters_.Get(PARAM_CATEGORIES));
 
   // Validate that the number of selectivities is the same as the number of categories
@@ -66,7 +65,7 @@ void InitialisationMortalityEvent::DoValidate() {
  * Build the runtime relationships required
  * - Build partition reference
  */
-void InitialisationMortalityEvent::DoBuild() {
+void MortalityInitialisationEvent::DoBuild() {
   partition_.Init(category_labels_);
 
   for (string label : selectivity_names_) {
@@ -89,7 +88,7 @@ void InitialisationMortalityEvent::DoBuild() {
  * Execute our mortality event object.
  *
  */
-void InitialisationMortalityEvent::DoExecute() {
+void MortalityInitialisationEvent::DoExecute() {
   LOG_TRACE();
 
   // only apply if initialisation phase
@@ -132,14 +131,14 @@ void InitialisationMortalityEvent::DoExecute() {
      */
     // Report catches and exploitation rates for each category for each iteration
     StoreForReport("initialisation_iteration: ", init_iteration_);
-    StoreForReport("Exploitation: ", exploitation);
+    StoreForReport("Exploitation: ", AS_DOUBLE(exploitation));
     StoreForReport("Catch: ", AS_DOUBLE(catch_));
     Double removals = 0;
     for (auto categories : partition_) {
       unsigned offset = 0;
       for (Double& data : categories->data_) {
         removals = vulnerable_[categories->name_][categories->min_age_ + offset] * exploitation;
-        StoreForReport(categories->name_ + "_Removals: ",removals);
+        StoreForReport(categories->name_ + "_Removals: ",AS_DOUBLE(removals));
         data -= removals;
         offset++;
       }

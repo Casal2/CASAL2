@@ -61,8 +61,8 @@ void MCMCObjective::DoExecute() {
     auto covariance = mcmc_->covariance_matrix();
     for (unsigned i = 0; i < covariance.size1(); ++i) {
        for (unsigned j = 0; j < covariance.size2() - 1; ++j)
-         cache_ << covariance(i,j) << " ";
-       cache_ << covariance(i, covariance.size2() - 1) << "\n";
+         cache_ << AS_DOUBLE(covariance(i,j)) << " ";
+       cache_ << AS_DOUBLE(covariance(i, covariance.size2() - 1)) << "\n";
     }
     cache_ << "samples {d} \n";
     cache_ << "sample objective_score prior likelihood penalties additional_priors jacobians step_size acceptance_rate acceptance_rate_since_adapt\n";
@@ -71,15 +71,15 @@ void MCMCObjective::DoExecute() {
   auto chain = mcmc_->chain();
   unsigned element = chain.size() - 1;
     cache_ << chain[element].iteration_ << " "
-        << chain[element].score_ << " "
-        << chain[element].prior_ << " "
-        << chain[element].likelihood_ << " "
-        << chain[element].penalty_ << " "
-        << chain[element].additional_priors_ << " "
-        << chain[element].jacobians_ << " "
-        << chain[element].step_size_ << " "
-        << chain[element].acceptance_rate_ << " "
-        << chain[element].acceptance_rate_since_adapt_ << "\n";
+        << AS_DOUBLE(chain[element].score_) << " "
+        << AS_DOUBLE(chain[element].prior_) << " "
+        << AS_DOUBLE(chain[element].likelihood_) << " "
+        << AS_DOUBLE(chain[element].penalty_) << " "
+        << AS_DOUBLE(chain[element].additional_priors_) << " "
+        << AS_DOUBLE(chain[element].jacobians_) << " "
+        << AS_DOUBLE(chain[element].step_size_) << " "
+        << AS_DOUBLE(chain[element].acceptance_rate_) << " "
+        << AS_DOUBLE(chain[element].acceptance_rate_since_adapt_) << "\n";
 
   ready_for_writing_ = true;
 }
