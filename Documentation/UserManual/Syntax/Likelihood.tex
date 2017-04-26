@@ -10,40 +10,6 @@
 
 \subsubsection[Log Normal With Q]{\commandlabsubarg{likelihood}{type}{log\_normal\_with\_q}}
 
-\subsubsection[Logistic Normal]{\commandlabsubarg{likelihood}{type}{logistic\_normal}}
-
-\defSub{label} {Label for Logisitic Normal Likelihood}
-\defType{string}
-\defDefault{No Default}
-
-\defSub{type} {Type of likelihood}
-\defType{string}
-\defDefault{No Default}
-
-\defSub{rho} {The auto-correlation parameter $\rho$}
-\defType{constant vector}
-\defDefault{No Default}
-
-\defSub{sigma} {Sigma parameter in the likelihood}
-\defType{constant}
-\defDefault{No Default}
-
-\defSub{arma} {Defines if two rho parameters supplied then covar is assumed to have the correlation matrix of an ARMA(1,1) process}
-\defType{boolean}
-\defDefault{No Default}
-
-\defSub{bin\_labels} {If no covariance matrix parameter then list a vector of bin labels that the covariance matrix will be built for, can be ages or lengths.}
-\defType{non-negative integer vector}
-\defDefault{false}
-
-\defSub{sexed} {Will the observation be split by sex?}
-\defType{boolean}
-\defDefault{false}
-
-\defSub{seperate\_by\_sex} {If data is sexed, shold the correlation structure be seperated by sex?}
-\defType{boolean}
-\defDefault{false}
-
 \subsubsection[Multinomial]{\commandlabsubarg{likelihood}{type}{multinomial}}
 
 \subsubsection[Normal]{\commandlabsubarg{likelihood}{type}{normal}}
