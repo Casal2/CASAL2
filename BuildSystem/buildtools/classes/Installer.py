@@ -99,7 +99,7 @@ class Installer:
     file.write('Name: "{group}\\CASAL2 user manual"; Filename: "{app}\UserManual.pdf"; WorkingDir: {app}\n')
     file.write('Name: "{group}\\Getting started guide"; Filename: "{app}\GettingStartedGuide.pdf"; WorkingDir: {app}\n')
     file.write('Name: "{group}\\Uninstall CASAL2"; Filename: "{uninstallexe}"\n')
-    file.write('Name: "{commondesktop}\\run casal2"; Filename: "{app}\run casal2.lnk"; WorkingDir: "{app}"; Tasks: desktopicon\n')
+    file.write('Name: "{commondesktop}\\run casal2"; Filename: "{app}\\run casal2.lnk"; WorkingDir: "{app}"; Tasks: desktopicon\n')
     file.write('[Code]\n')    
     file.write('/////////////////////////////////////////////////////////////////////\n') 
     file.write('function GetUninstallString: string;\n') 

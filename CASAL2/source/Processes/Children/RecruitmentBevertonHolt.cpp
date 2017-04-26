@@ -17,6 +17,7 @@
 #include "Categories/Categories.h"
 #include "DerivedQuantities/Manager.h"
 #include "InitialisationPhases/Manager.h"
+#include "Estimates/Manager.h"
 #include "TimeSteps/Manager.h"
 #include "Utilities/DoubleCompare.h"
 #include "Utilities/Math.h"
@@ -234,6 +235,18 @@ void RecruitmentBevertonHolt::DoBuild() {
   if ((*standardise_ycs_.rbegin()) > model_->final_year() - ssb_offset_)
     LOG_ERROR_P(PARAM_STANDARDISE_YCS_YEARS) << " final value (" << (*standardise_ycs_.rbegin())
         << ") is greater than the model's final year - ssb_offset (" << model_->final_year() - ssb_offset_ << ")";
+
+  // Check users haven't specified a @estimate block for both R0 and B0
+  string b0_param = "process[" + label_ + "].b0";
+  string r0_param = "process[" + label_ + "].r0";
+
+  bool B0_estimate = model_->managers().estimate()->HasEstimate(b0_param);
+  bool R0_estimate = model_->managers().estimate()->HasEstimate(r0_param);
+
+  LOG_FINEST() << "is b0 estimated = " << B0_estimate << " is R0 estimated " << R0_estimate;
+  if(B0_estimate & R0_estimate) {
+    LOG_ERROR() << "Found an @estimate for both R0 and B0 for recruitment process " << label_ << " this is not allowed, you can only estimate one of these parameters";
+  }
 
   DoReset();
 }

@@ -250,6 +250,12 @@ void MortalityInstantaneous::DoBuild() {
    */
   for (auto& fishery_category : fishery_categories_) {
     fishery_category.selectivity_ = model_->managers().selectivity()->GetSelectivity(fishery_category.selectivity_label_);
+    /**
+     * Check the fishery categories are valid
+     */
+    if (!model_->categories()->IsValid(fishery_category.category_label_))
+        LOG_ERROR_P(PARAM_METHOD) << ": category " << fishery_category.category_label_ << " does not exist. Have you defined it?";
+
     if (!fishery_category.selectivity_)
       LOG_ERROR_P(PARAM_METHOD) << "selectivity " << fishery_category.selectivity_label_ << " does not exist. Have you defined it?";
   }
