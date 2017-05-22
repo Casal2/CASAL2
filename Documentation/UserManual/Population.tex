@@ -665,11 +665,34 @@ Where \texttt{MatureSel} is a selectivity that describes the proportion of age o
 
 \subsubsection{\I{Tag Release events}}\label{sub:tag_release}
 
-Tagging processes can be age or length based processes, where by numbers of fished are moved from an untagged category to a tagged category that the user has defined in the \command{Categories} block. Tag release processes can also account for tag induced mortality on individuals. Age based tag release events take a known number of individuals tagged for each age and do a straightforward category transition along with extra mortality. Length based tag release processes are more complicated, as \CNAME\ needs to calculate the age length matrix and exploitation by each length to then move the correct numbers at age based on a length input. 
+Tagging processes can be age or length based processes, where by numbers of fished are moved from an untagged category to a tagged category that the user has defined in the \command{Categories} block. Tag release processes can also account for tag induced mortality on individuals. Age based tag release events take a known number of individuals tagged for each age and do a straightforward category transition along with extra mortality. Length based tag release processes are more complicated, as \CNAME\ needs to calculate the age length matrix and exploitation by each length to then move the correct numbers at age based on the known lengths of release. \CNAME\ also allows for initial tag loss. An example of tag release by length process is as follows. 
+
+{\small{\begin{verbatim}
+		@process 2005Tags_shelf
+		type tag_by_length 
+		years 2005
+		from male.untagged  female.untagged
+		to male.2005  female.2005	
+		selectivities MatureSel
+		proportions 1
+		selectivities ShelfselMale ShelfselFemale
+		penalty tagging_penalty
+		maximum_length 230
+		plus_group False
+		initial_mortality 0.1
+		table proportions
+		year 30 40 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220
+		2005  0 0 0.0580 0.1546 0.3380 0.1981 0.1643 0.0531 0.0242 0.0097 0 0 0 0 0 0 0 0 0 0
+		end_table
+		n 207
+		U_max 0.999
+		\end{verbatim}}}
+
+The above process will move 207 individuals from a combination of male.untagged and female.untagged, based on the combination of growth rates and selectivity between the sexes.
 
 \subsubsection{\I{Tag Loss}}
 
-Tag Loss is the process where tags are lost from tagged categories over time from tag failure or getting knocked off. This process is applied as a instantaneous mortality rate that can happen over multiple time steps in the annual cycle. This method assumes when tags are lost that the fish is removed from the partition. All though this seems logically incorrect, we are dealing with such a small number of fish that the impact is minimal and computationally simpler. Note that if your tagging events make up a large proportion of the population you may want to adjust this method. There will be two types of tag loss processes that are termed \texttt{single} and \texttt{double}. Currently only \texttt{single} exists in \CNAME. \texttt{double} will deal with situations where a tag release process tags individuals with two tags. In which there is another formulae to work out the rate of tag loss.
+Tag Loss is the process where tags are lost from tagged categories over time from tag failure or getting knocked off. This process is applied as a instantaneous migration rate that can happen over multiple time steps in the annual cycle. This method assumes when tags are lost that the fish are transferred from the \subcommand{from} category to the \subcommand{to} category. How the tag loss rate is applied depends on whether the fish were only tagged with a single tag (\subcommand{tag\_number\_per\_animal = 1}), double tagged (\subcommand{tag\_number\_per\_animal = 2}) or $n$ tagged (\subcommand{tag\_number\_per\_animal = n}). The relationship is as follows
 
 {\small{\begin{verbatim}
 	@process Tag_loss

@@ -136,6 +136,7 @@ mcmc
 method
 method_of_removal
 min_age
+mode
 mortality_instantaneous_process
 mu
 multiplier
@@ -167,6 +168,8 @@ proposal_distribution
 q
 r0
 rates
+recruitment_deviation_values
+recruitment_deviation_years
 s
 same
 selectivities
@@ -271,6 +274,7 @@ log_normal_with_q
 logistic
 logistic_producing
 lognormal
+lognormal_by_mode
 m_p_d
 maturation
 mcmc_covariance
@@ -314,6 +318,7 @@ proportions_migrating
 pseudo
 random_number_seed
 recruitment_beverton_holt
+recruitment_beverton_holt_devs
 recruitment_constant
 schnute
 selectivity
