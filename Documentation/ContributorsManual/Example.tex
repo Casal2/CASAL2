@@ -12,7 +12,7 @@ To add a new process you start by going into the \path{CASAL2\CASAL2\source\proc
 	\end{figure}
 
 
-This folder shown in Figure~\ref{fig:process} contains a general layout of all main classes in \CNAME. It contains a folder named \texttt{Children}, C++ source code \texttt{Factory.cpp}, \texttt{Factory.h}, \texttt{Manager.cpp}, \texttt{Manager.h}, \texttt{Process.cpp}, \texttt{Process.h}. The folder \texttt{Children} contains all the current processes implemented in \CNAME. The \texttt{Factory} source code creates all the processes during runtime. The \texttt{Manager} source code managers the class it can build pointers to specific processes to share information across classes. The \texttt{Process} source code contains base functionality that is inherited by all child classes (inheritance is a major concept in C++ and it is  advised have some knowledge of the concept). Before creating a new child look at the parent (in this example \texttt{Process.cpp}, \texttt{Process.h}), to see the functionality you don't have to add in your child because it is already done at the parent level. The following figure shows the constructor in \texttt{Process.cpp}.
+This folder shown in Figure~\ref{fig:process} contains a general layout of all main classes in \CNAME. It contains a folder named \texttt{Children}, C++ source code \texttt{Factory.cpp}, \texttt{Factory.h}, \texttt{Manager.cpp}, \texttt{Manager.h}, \texttt{Process.cpp}, \texttt{Process.h}. The folder \texttt{Children} contains all the current processes implemented in \CNAME. The \texttt{Factory} source code creates all the processes during runtime. The \texttt{Manager} source code {\color{red}manages} the class{\color{red};} it can build pointers to specific processes to share information across classes. The \texttt{Process} source code contains base functionality that is inherited by all child classes (inheritance is a major concept in C++ and it is  advised have some knowledge of the concept). Before creating a new child look at the parent (in this example \texttt{Process.cpp}, \texttt{Process.h}), to see the functionality you don't have to add in your child because it is already done at the parent level. The following figure shows the constructor in \texttt{Process.cpp}.
 \clearpage
 \begin{figure}[!ht]
 	\centering
@@ -20,17 +20,17 @@ This folder shown in Figure~\ref{fig:process} contains a general layout of all m
 	\caption{}\label{fig:process1}
 \end{figure}
 
-From Figure~\ref{fig:process1} the process parent class does not do much it assigns a label and type for each child that will be created and a report subcommand. The point of this is to look at the parent class to reduce duplicating functionality in the child class.
+From Figure~\ref{fig:process1} the process parent class does not do much {\color{red}-} it assigns a label and type for each child that will be created and a report subcommand. The point of this is to look at the parent class to reduce duplicating functionality in the child class.
 
 
-We will be returning to the factory source code later but for now lets get adding a new process. Enter the \texttt{Children} folder and create C++ source code labelled \texttt{SurvivalConstantRate.cpp} and \texttt{SurvivalConstantRate.h}. I usually copy an existing process and rename it, although this is not good coding practice. It's one of those do as I say not as I do types of things.
+We will be returning to the factory source code later{\color{red},} but for now {\color{red}let's} get adding a new process. Enter the \texttt{Children} folder and create C++ source code labelled \texttt{SurvivalConstantRate.cpp} and \texttt{SurvivalConstantRate.h}. {\color{red}These files were already in my CASAL2 Children folder. Should it automatically be generated when setting up CASAL2?} I usually copy an existing process and rename it, although this is not good coding practice. It's one of those {\color{red}do-as-I-say-not-as-I-do} types of things.
 \begin{figure}[!ht]
 	\centering
 	\includegraphics[scale=0.6]{Figures/add_survival.png}
 	\caption{}\label{fig:process2}
 \end{figure}
 
-once you have done that for each child class you may have to write code for the following functions \texttt{DoValidate()}, \texttt{DoBuild()}, \texttt{PreExecute()}, \texttt{DoExecute()}, \texttt{PostExecute()}, \texttt{DoReset()}. To understand what these all do Figure~\ref{fig:flow} shows the state transition of \CNAME.
+{\color{red}Once} you have done that for each child class you may have to write code for the following functions{\color{red}:} \texttt{DoValidate()}, \texttt{DoBuild()}, \texttt{PreExecute()}, \texttt{DoExecute()}, \texttt{PostExecute()}, \texttt{DoReset()}. To understand what these all do Figure~\ref{fig:flow} shows the state transition of \CNAME.
 \raggedbottom
 \begin{figure}[!ht]
 	\centering
@@ -38,7 +38,7 @@ once you have done that for each child class you may have to write code for the 
 	\caption{}\label{fig:flow}
 \end{figure}
 
-Now we describe the purpose of each transition and this will give you an idea of what you should be incorporating in each function.
+Now we describe the purpose of each transition and this will give you an idea of what you should be incorporating {\color{red}into} each function.
 
 \paragraph*{StartUp}
 The model is in the blank start and the configuration system is loading the configuration files and parsing any extra inputs.
@@ -91,7 +91,7 @@ Finalise will happen after all iterations of the model have been completed.
 \pagebreak
 
 
-Coming back to our example, if we look in \texttt{SurvivalConstantRate.h} we will so the following set up, as shown in Figure~\ref{fig:process_h}
+Coming back to our example, if we look in \texttt{SurvivalConstantRate.h} we will {\color{red}see} the following {\color{red}setup}, as shown in Figure~\ref{fig:process_h}{\color{red}.}
 
 \begin{figure}[!ht]
 	\centering
@@ -101,16 +101,16 @@ Coming back to our example, if we look in \texttt{SurvivalConstantRate.h} we wil
 
 We can see that we are implementing \texttt{DoValidate()}, \texttt{DoBuild()}, \texttt{DoExecute()}, \texttt{DoReset()}, which are public functions and we define our variables as private. This idea of structuring classes by public, private and protected is known as encapsulation, and is another important C++ concept. Our variables will be stored in memory for the entire model run so you must make decisions on whether a variable needs to persist for the entire model run or can be temporarily created and destroyed at execution time (Note: the \_ at the end this indicates whether the variable is defined in the \texttt{.h} file or not). 
 \\\\
-Moving into \texttt{SurvivalConstantRate.cpp} if we look at the constructor. We can see that this describes input parameters that are supplied by the user, and which variables are estimable. This is applied by the \texttt{RegisterAsEstimable()} function.
+Moving into \texttt{SurvivalConstantRate.cpp}{\color{red},} if we look at the constructor{\color{red}, we} can see that this describes input parameters that are supplied by the user, and which variables are estimable. This is applied by the \texttt{RegisterAsEstimable()} function.
 
 \begin{figure}[!ht]
 	\centering
 	\includegraphics[scale=0.8]{Figures/constructor.png}
 	\caption{}\label{fig:constructor}
 \end{figure}
-When you see keywords that begin with \texttt{PARAM}, for example \texttt{PARAM\_CATEGORIES}, these will be defined in \path{CASAL2\CASAL2\source\English_UK.h}
+When you see keywords that begin with \texttt{PARAM}, for example \texttt{PARAM\_CATEGORIES}, these will be defined in \path{CASAL2\CASAL2\source\English_UK.h}{\color{red}.}
 
-Moving on to the \texttt{DoValidate()} function in Figure~\ref{fig:validate}. The purpose of this function is to validate the users inputs and expand inputs to allow short hand syntax. You can see the annotation of what is happening in the function. This is considered one of the coding commandments \textbf{Thou shall annotate thy code}.
+Moving on to the \texttt{DoValidate()} function in Figure~\ref{fig:validate}. The purpose of this function is to validate the {\color{red}user's} inputs and expand inputs to allow short hand syntax. You can see the annotation of what is happening in the function. This is considered one of the coding commandments \textbf{Thou shall annotate thy code}.
 \begin{figure}[!ht]
 	\centering
 	\includegraphics[scale=0.7]{Figures/validate.png}
@@ -128,10 +128,10 @@ Another nice inclusion to the \CNAME\ source code is it's error checking and mes
 	\item \texttt{LOG\_CODE\_ERROR() << "error message";} if triggered quit \CNAME\ with a message like contact the development team this is a bug in the software.	
 \end{itemize}
 
-We encourage you to put these all throughout the validate and build functions to help users correctly specify models and catch silly inputs sequences.
+We encourage you to put these all throughout the validate and build functions{\color{red},} to help users correctly specify models and catch silly {\color{red}input} sequences.
 
 
-Moving on to the \texttt{DoBuild()} function. The purpose of the build function is to create pointers and relationships with other classes that will be required during execution. For example in this process we will require access to the partition, time step and selectivity classes.
+Moving on to the \texttt{DoBuild()} function. The purpose of the build function is to create pointers and relationships with other classes that will be required during execution. For example{\color{red},} in this process we will require access to the partition, time step and selectivity classes.
 
 \begin{figure}[!ht]
 	\centering

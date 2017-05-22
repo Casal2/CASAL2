@@ -8,9 +8,9 @@ This section describes the standards and requirements for code to be included wi
 
 This means using good indentations for functions and loops, sensible (human readable) variable names but noting the use of the characters `\_' on the end of class variables defined in the .h files. 
 
-\textbf{Annotate} your code. For readability we encourage you to put lots of comments in your code.This helps others read what you intended. 
+\textbf{Annotate} your code. For readability we encourage you to put lots of comments in your code. This helps others read what you intended. 
 
-On top of annotating your code we encourage developers to add descriptive logging statements (print messages) in the code. You will see in the source code this already. The purpose of this, is to allow a descriptive summary of the actions being done in the model for debugging purposes and curious users. By using these, it becomes easier to identify issues, errors and creates a transparent model for users.
+On top of annotating your code we encourage developers to add descriptive logging statements (print messages) in the code. You will see this in the source code already. The purpose of this is to allow a descriptive summary of the actions being done in the model for debugging purposes and curious users. By using these, it becomes easier to identify issues, errors and creates a transparent model for users.
 
 You can also output the text and equations in these logs that would normally be too detailed for general users to be interested, as this may allow users to verify the exact equations or processes that have been implemented. These are really there for curious users and developers.
 
@@ -43,7 +43,6 @@ When adding unit tests, they need to be developed and tested outside of \CNAME\ 
 An example of how to add a unit test for a process is shown in Section~\ref{sec:example}
 
 \subsection{Reporting (Optional)}
-When generating a new report or adapting existing reports remember to use the \argument{AS\_DOUBLE()} if you are reporting a value of type \argument{double}. The reason behind this is so all minimisers don't add garbage to the end. An example of this will be when you use the adolc minimiser. If you haven't used the \argument{AS\_DOUBLE()} the report will have values trailed with an (a) e.g. 2.43(a). This will break the \R\ comparability.
 
 Currently \CNAME\ has reports that are \R\ compatible, i.e., all output reports produced by \CNAME\ can be read into \R\ using the standard  \textbf{CASAL2} \R\ package. If you create a new report or modify an old one, you most follow the standard so that the report is \R\ compatible.
 
@@ -59,7 +58,7 @@ Report a dataframe
 {\small{\begin{verbatim}
 *estimates (estimate_value)
 values {d}
-process[Recrutiment_BOP].r0 process[Recrutiment_ENLD].r0 
+process[Recruitment_BOP].r0 process[Recruitment_ENLD].r0 
 2e+006 8e+006
 *end
 \end{verbatim}}}
@@ -98,7 +97,7 @@ The syntax sections of the user manual are automatically generated from the sour
 
 Once you have made changes to the code, you must run the following builds before your changes can be considered for includion in the the main code base.
 
-build the unittest version see Section~\ref{sec:build_environment} for how to build unittest depending on you're system.
+build the unittest version see Section~\ref{sec:build_environment} for how to build unittest depending on {\color{red}your} system.
 
 Run the standard and new unit tests to check that they all pass
 \texttt{DoBuild test}
