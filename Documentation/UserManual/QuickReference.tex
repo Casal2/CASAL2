@@ -72,6 +72,9 @@
 \par\textbf{\commandlabsubarg{estimate}{type}{lognormal}}\par
 \defSub{mu} {The lognormal prior mean (mu) parameter}
 \defSub{cv} {The Lognormal variance (CV) parameter}
+\par\textbf{\commandlabsubarg{estimate}{type}{lognormal\_by\_mode}}\par
+\defSub{mode} {The mode of the lognormal prior}
+\defSub{cv} {The Lognormal variance (CV) parameter}
 \par\textbf{\commandlabsubarg{estimate}{type}{normal}}\par
 \defSub{mu} {The normal prior mean (mu) parameter}
 \defSub{cv} {The normal variance (standard devation) parameter}
@@ -433,6 +436,19 @@
 \defSub{ycs\_values} {YCS Values}
 \defSub{ycs\_years} {Recruitment years. A vector of years that relates to the year of the spawning event that created this cohort}
 \defSub{standardise\_ycs\_years} {Years that are included for year class standardisation}
+\par\textbf{\commandlabsubarg{process}{type}{recruitment\_beverton\_holt\_devs}}\par
+\defSub{categories} {Category labels}
+\defSub{r0} {R0}
+\defSub{b0} {B0}
+\defSub{proportions} {Proportions}
+\defSub{age} {Age to recruit at}
+\defSub{ssb\_offset} {Spawning biomass year offset}
+\defSub{steepness} {Steepness}
+\defSub{ssb} {SSB Label (derived quantity}
+\defSub{sigma\_r} {Sigma r, the assumed standard deviation for the lognormal process}
+\defSub{b0\_intialisation\_phase} {Initialisation phase Label that b0 is from}
+\defSub{recruitment\_deviation\_values} {Recruitment deviations Values}
+\defSub{recruitment\_deviation\_years} {Recruitment deviations. A vector of years that relates to the year of the spawning event that created this cohort}
 \par\textbf{\commandlabsubarg{process}{type}{recruitment\_constant}}\par
 \defSub{categories} {Categories}
 \defSub{proportions} {Proportions}
