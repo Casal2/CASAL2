@@ -75,9 +75,8 @@ The building of \CNAME\ requires additional build tools and software, including 
 
 Source: tdm-gcc (MingW64) from \url{http://www.tdm-gcc.tdragon.net/}.
 
-\CNAME\ is designed to compile under GCC on Microsoft Windows and Linux  platforms. While it may be possible to build the package using different compilers, the \CNAME\ Development Team does provide any assistance or recommendations. We recommend using 64-bit TDM-GCC version 5.1.0. Ensure you have the gfortran and openmp options installed as a part of TDM-GCC otherwise \CNAME will not compile. \textbf{Note}: A common error that can be made is having a different GCC compiler in your path when attempting to compile. For example, rtools includes a version of the GCC compiler. We recommend removing these from your path prior to compiling.
+\CNAME\ is designed to compile under GCC on Microsoft Windows and Linux  platforms. While it may be possible to build the package using different compilers, the \CNAME\ Development Team does provide any assistance or recommendations. We recommend using 64-bit TDM-GCC version 5.1.0. Ensure you have the "fortran" and "openmp" options installed as a part of the "gcc" dropdown tickboxes otherwise \CNAME will not compile.. \textbf{Note}: A common error that can be made is having a different GCC compiler in your path when attempting to compile. For example, rtools includes a version of the GCC compiler. We recommend removing these from your path prior to compiling.
 
-{\color{red}I think "gfortran" should be "fortran" here. To make it clearer, probably replace the sentence with "Ensure you have the "fortran" and "openmp" options installed as a part of the "gcc" dropdown tickboxes otherwise \CNAME will not compile.".}
 
 \textbf{GIT Version Control}
 
@@ -91,11 +90,11 @@ Source: Portable version from url{http://www.miktex.org/portable}.
 
 The main user documentation for \CNAME\ is a PDF manual generated from LaTeX. The LaTeX syntax sections of the documentation are generated, in part, directly from the code. In order to regenerate the user documentation, you will need the MiKTeX LaTeX compiler.
 
-{\color{red}\textbf{7-Zip}
+\textbf{7-Zip}
 
 Source: 7-Zip from \url{http://www.7-zip.org/download.html}.
 	
-The BuildSystem calls 7zip.exe to unzip files in the build system; it is advised to have this in the path.}
+The BuildSystem calls 7zip.exe to unzip files in the build system; it is advised to have this in the path.
 
 \textbf{Inno Setup Installer Builder (optional)}
 
@@ -201,7 +200,7 @@ The build process is relatively straighforward. You can run \texttt{./doBuild.sh
 
 \subsubsection{Third-party Libraries}
 
-It's possible {\color{red}that} there will be build errors or issues building the third-party libraries. If you encounter an error{\color{red},} then it’s worth checking the log files. Each third-party build system stores a log of everything it’s doing. The files will be named
+It's possible that there will be build errors or issues building the third-party libraries. If you encounter an error, then it’s worth checking the log files. Each third-party build system stores a log of everything it’s doing. The files will be named
 
 \begin{itemize}
 	\item casal2\_unzip.log
