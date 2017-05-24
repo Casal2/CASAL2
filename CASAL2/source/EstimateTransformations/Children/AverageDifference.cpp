@@ -32,6 +32,8 @@ AverageDifference::AverageDifference(Model* model) : EstimateTransformation(mode
   parameters_.Bind<Double>(PARAM_MEAN_LOWER_BOUND, &mean_lower_bound_, "Lower bound of the mean of the transformed variable", "");
   parameters_.Bind<Double>(PARAM_DIFF_UPPER_BOUND, &diff_upper_bound_, "Upper bound of the difference of the transformed variable", "");
   parameters_.Bind<Double>(PARAM_DIFF_LOWER_BOUND, &diff_lower_bound_, "Lower bound of the difference of the transformed variable", "");
+
+  is_simple_ = false;
 }
 
 /**

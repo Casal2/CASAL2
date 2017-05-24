@@ -29,7 +29,8 @@ namespace estimates {
 class Uniform : public niwa::Estimate {
 public:
   // Methods
-  Uniform();
+  Uniform() = delete;
+  explicit Uniform(Model* model);
   virtual                     ~Uniform() = default;
   void                        DoValidate() override final { };
   Double                      GetScore() override final { return 0; }

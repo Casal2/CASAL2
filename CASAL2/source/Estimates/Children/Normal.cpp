@@ -20,7 +20,7 @@ namespace estimates {
 /**
  * Default constructor
  */
-Normal::Normal() {
+Normal::Normal(Model* model) : Estimate(model) {
   parameters_.Bind<Double>(PARAM_MU, &mu_, "The normal prior mean (mu) parameter", "");
   parameters_.Bind<Double>(PARAM_CV, &cv_, "The normal variance (standard devation) parameter", "")->set_lower_bound(0.0, false);
 

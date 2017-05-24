@@ -27,6 +27,8 @@ namespace estimatetransformations {
 Orthogonal::Orthogonal(Model* model) : EstimateTransformation(model) {
   parameters_.Bind<string>(PARAM_FIRST_ESTIMATE, &first_estimate_label_, "$\theta_1$ The first variable to use in the transformation", "");
   parameters_.Bind<string>(PARAM_SECOND_ESTIMATE, &second_estimate_label_, "$\theta_2$ The second variable to use in the transformation", "");
+
+  is_simple_ = false;
 }
 
 /**
