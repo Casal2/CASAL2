@@ -7,7 +7,7 @@ This section descibes how to set up the environment on your local machine that w
 The build system is made up of a collection of python scripts that do various tasks. These are located in \path{CASAL2/BuildSystem/buildtools/classes/}. Each python script has it’s own set of functionality and undertakes one set of actions. 
 
 The top level of the build system can be found at \path{CASAL2/BuildSystem/}. In this directory you can run \texttt{doBuild.bat help} from the command line in Microsoft Windows systems or \texttt{./doBuild.sh help} from a terminal in Linux systems.
-
+ - this doesn't make sense.
 The build system will take one or two parameters depending on what style of build you'd like to achieve. These commands allow the building of various stand-alone binaries, shared libraries, and the documentation. Note that you will need additional software installed on your system in order to build \CNAME . These requirements are described later.
 
 A summary of all of the doBuild arguments can be found using the command \texttt{doBuild help} in the BuildSystem directory.
@@ -75,7 +75,8 @@ The building of \CNAME\ requires additional build tools and software, including 
 
 Source: tdm-gcc (MingW64) from \url{http://www.tdm-gcc.tdragon.net/}.
 
-\CNAME\ is designed to compile under GCC on Microsoft Windows and Linux  platforms. While it may be possible to build the package using different compilers, the \CNAME\ Development Team does provide any assistance or recommendations. We recommend using 64-bit TDM-GCC version 5.1.0. Ensure you have the gfortran and openmp options installed as a part of TDM-GCC otherwise \CNAME will not compile. \textbf{Note}: A common error that can be made is having a different GCC compiler in your path when attempting to compile. For example, rtools includes a version of the GCC compiler. We recommend removing these from your path prior to compiling.
+\CNAME\ is designed to compile under GCC on Microsoft Windows and Linux  platforms. While it may be possible to build the package using different compilers, the \CNAME\ Development Team does provide any assistance or recommendations. We recommend using 64-bit TDM-GCC version 5.1.0. Ensure you have the "fortran" and "openmp" options installed as a part of the "gcc" dropdown tickboxes otherwise \CNAME will not compile.. \textbf{Note}: A common error that can be made is having a different GCC compiler in your path when attempting to compile. For example, rtools includes a version of the GCC compiler. We recommend removing these from your path prior to compiling.
+
 
 \textbf{GIT Version Control}
 
@@ -89,8 +90,11 @@ Source: Portable version from url{http://www.miktex.org/portable}.
 
 The main user documentation for \CNAME\ is a PDF manual generated from LaTeX. The LaTeX syntax sections of the documentation are generated, in part, directly from the code. In order to regenerate the user documentation, you will need the MiKTeX LaTeX compiler.
 
-\textbf{7}
-The BuildSystem calls 7zip.exe to unzip files in the build system it is advised to have this in the path.
+\textbf{7-Zip}
+
+Source: 7-Zip from \url{http://www.7-zip.org/download.html}.
+	
+The BuildSystem calls 7zip.exe to unzip files in the build system; it is advised to have this in the path.
 
 \textbf{Inno Setup Installer Builder (optional)}
 
@@ -196,7 +200,7 @@ The build process is relatively straighforward. You can run \texttt{./doBuild.sh
 
 \subsubsection{Third-party Libraries}
 
-It’s possible there will be build errors or issues building the third-party libraries. If you encounter an error then it’s worth checking the log files. Each third-party build system stores a log of everything it’s doing. The files will be named
+It's possible that there will be build errors or issues building the third-party libraries. If you encounter an error, then it’s worth checking the log files. Each third-party build system stores a log of everything it’s doing. The files will be named
 
 \begin{itemize}
 	\item casal2\_unzip.log
@@ -210,6 +214,7 @@ Some of the third-party libraries require very specialised environments for comp
 
 e.g: \path{ThirdParty/adolc/msys/1.0/adolc/ADOL-C-2.5.2/casal2_make.log}\\
 e.g: \path{ThirdParty/boost/boost_1_58_0/casal2_build.log}
+
 \subsubsection{Main Code Base}
 
 If the unmodified code base does not compile, the most likely cause is an issue with the third-party libraries not being built. Ensure they have been built correctly. As they are outside the control of the Development Team, problems can arise that may require the developers of the third party libraries to resolve first. Contact the \CNAME\ development team at \texttt{casal2@niwa.co.nz} for help.
