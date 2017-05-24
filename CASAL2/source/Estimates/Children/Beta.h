@@ -29,7 +29,8 @@ namespace estimates {
 class Beta : public niwa::Estimate {
 public:
   // Methods
-  Beta();
+  Beta() = delete;
+  explicit Beta(Model* model);
   virtual                     ~Beta() = default;
   void                        DoValidate() override final;
   Double                      GetScore() override final;

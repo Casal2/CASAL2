@@ -13,7 +13,12 @@
 // Headers
 #include "Estimate.h"
 
+#include "EstimateTransformations/EstimateTransformation.h"
+#include "EstimateTransformations/Factory.h"
+#include "Model/Factory.h"
+#include "Model/Model.h"
 #include "Utilities/DoubleCompare.h"
+#include "Utilities/To.h"
 
 // Namespaces
 namespace niwa {
@@ -21,7 +26,7 @@ namespace niwa {
 /**
  * Default constructor
  */
-Estimate::Estimate() {
+Estimate::Estimate(Model* model) : model_(model) {
   parameters_.Bind<string>(PARAM_LABEL, &label_, "The label of the estimate", "", "");
   parameters_.Bind<string>(PARAM_TYPE, &type_, "The prior type for the estimate", "");
   parameters_.Bind<string>(PARAM_PARAMETER, &parameter_, "The name of the parameter to estimate in the model", "");
@@ -31,6 +36,8 @@ Estimate::Estimate() {
   parameters_.Bind<string>(PARAM_SAME, &same_labels_, "List of parameters that are constrained to have the same value as this parameter", "", "");
   parameters_.Bind<unsigned>(PARAM_ESTIMATION_PHASE, &estimation_phase_, "TBA", "", 1);
   parameters_.Bind<bool>(PARAM_MCMC, &mcmc_fixed_, "Indicates if this parameter is fixed at the point estimate during an MCMC run", "", false);
+  parameters_.Bind<string>(PARAM_TRANSFORMATION, &transformation_type_, "Type of simple transformation to apply to estimable", "", "");
+  parameters_.Bind<bool>(PARAM_TRANSFORM_WITH_JACOBIAN, &transform_with_jacobian_, "Apply jacobian during transformation", "", false);
 }
 
 /**
@@ -50,6 +57,22 @@ void Estimate::Build() {
   if (*target_ > upper_bound_)
     LOG_ERROR() << location() << "the initial value(" << AS_DOUBLE((*target_)) << ") on the estimate " << parameter_
         << " is greater than the upper_bound(" << upper_bound_ << ")";
+
+  /**
+   * If we have a transformation declared, we need to create it here and
+   * let it know if it needs to calculate a Jacobian.
+   */
+  if (transformation_type_ != "") {
+    string boolean_value = "";
+    boolean_value = utilities::ToInline<bool, string>(transform_with_jacobian_);
+    EstimateTransformation* transformation = estimatetransformations::Factory::Create(model_, PARAM_ESTIMATE_TRANSFORMATION, transformation_type_);
+    transformation->parameters().Add(PARAM_LABEL, label_, __FILE__, __LINE__);
+    transformation->parameters().Add(PARAM_TYPE, transformation_type_, __FILE__, __LINE__);
+    transformation->parameters().Add(PARAM_ESTIMATE, label_, __FILE__, __LINE__);
+    transformation->parameters().Add(PARAM_TRANSFORM_WITH_JACOBIAN, boolean_value, __FILE__, __LINE__);
+    transformation->Validate();
+    transformation->Build();
+  }
 
   Reset();
 }
@@ -93,3 +116,4 @@ void Estimate::set_value(Double new_value) {
 }
 
 } /* namespace niwa */
+

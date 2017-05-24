@@ -57,6 +57,7 @@ protected:
   string                      estimation_phase_;
   string                      mcmc_;
   vector<string>              transformation_details_;
+  vector<bool>                transform_with_jacobian_;
   vector<niwa::Estimate*>     estimates_;
 };
 

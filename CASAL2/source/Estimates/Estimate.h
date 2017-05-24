@@ -28,7 +28,7 @@
 
 // Namespaces
 namespace niwa {
-
+class Model;
 using niwa::utilities::Double;
 
 /**
@@ -37,7 +37,8 @@ using niwa::utilities::Double;
 class Estimate : public niwa::base::Object {
 public:
   // Methods
-  Estimate();
+  Estimate() = delete;
+  explicit Estimate(Model* model);
   virtual                     ~Estimate() = default;
   void                        Validate();
   void                        Build() ;
@@ -69,6 +70,7 @@ public:
 
 protected:
   // Members
+  Model*                      model_ = nullptr;
   Double*                     target_ = nullptr;
   string                      parameter_;
   string                      creator_parameter_;
@@ -81,6 +83,8 @@ protected:
   vector<Double*>             sames_;
   bool                        estimated_ = true;
   bool                        in_objective_ = true;
+  string                      transformation_type_ = "";
+  bool                        transform_with_jacobian_ = false;
 };
 } /* namespace niwa */
 #endif /* ESTIMATE_H_ */
