@@ -75,7 +75,7 @@ void Estimable::DoBuild() {
 
   string error = "";
   estimable_ = model_->objects().FindEstimable(parameter_, error);
-  if (estimable_ == 0)
+  if (estimable_ == nullptr)
     LOG_ERROR_P(PARAM_PARAMETER) << "(" << parameter_ << ") could not be found. Have you defined it properly?";
 }
 

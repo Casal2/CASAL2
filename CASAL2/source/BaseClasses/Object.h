@@ -34,7 +34,6 @@ using niwa::utilities::Double;
 
 // Namespaces
 namespace niwa {
-
 // Enumerated Types
 namespace Estimable {
 enum Type {

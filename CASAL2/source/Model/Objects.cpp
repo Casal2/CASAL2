@@ -232,7 +232,7 @@ Double* Objects::FindEstimable(const string& estimable_absolute_name, string& er
 
   niwa::base::Object* object = FindObject(estimable_absolute_name, error);
   if (!object)
-    return 0;
+    return nullptr;
 
   Double* result = 0;
 
