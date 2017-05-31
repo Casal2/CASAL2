@@ -282,7 +282,7 @@ void Loader::ParseBlock(vector<FileLine> &block) {
        */
       vector<string> values(line_parts.begin(), line_parts.end());
       string error = "";
-      if (parameter_type != PARAM_PARAMETER && !HandleOperators(values, error))
+      if (parameter_type != PARAM_PARAMETER && parameter_type != PARAM_EQUATION && !HandleOperators(values, error))
         LOG_FATAL() << "At line " << file_line.line_number_ << " in " << file_line.file_name_
             << ": " << error;
 
@@ -302,7 +302,7 @@ void Loader::ParseBlock(vector<FileLine> &block) {
        */
       vector<string> values(line_parts.begin(), line_parts.end());
       string error = "";
-      if (parameter_type != PARAM_PARAMETER && !HandleOperators(values, error))
+      if (parameter_type != PARAM_PARAMETER && parameter_type != PARAM_EQUATION  && !HandleOperators(values, error))
         LOG_FATAL() << "At line " << file_line.line_number_ << " in " << file_line.file_name_
             << ": " << error;
 
@@ -329,7 +329,7 @@ void Loader::ParseBlock(vector<FileLine> &block) {
        */
       vector<string> values(line_parts.begin() + 1, line_parts.end());
       string error = "";
-      if (parameter_type != PARAM_PARAMETER && !HandleOperators(values, error))
+      if (parameter_type != PARAM_PARAMETER && parameter_type != PARAM_EQUATION  && !HandleOperators(values, error))
         LOG_FATAL() << "At line " << file_line.line_number_ << " in " << file_line.file_name_
             << ": " << error;
 

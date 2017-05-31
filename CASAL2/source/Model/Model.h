@@ -33,6 +33,7 @@ class Categories;
 class Factory;
 class Partition;
 class ObjectiveFunction;
+class EquationParser;
 
 namespace State {
 enum Type {
@@ -110,6 +111,7 @@ public:
   virtual Factory&            factory();
   virtual Partition&          partition();
   virtual ObjectiveFunction&  objective_function();
+  EquationParser&             equation_parser();
 
 protected:
   // Methods
@@ -152,6 +154,7 @@ protected:
   Factory*                    factory_ = nullptr;
   Partition*                  partition_ = nullptr;
   ObjectiveFunction*          objective_function_ = nullptr;
+  EquationParser*             equation_parser_ = nullptr;
   bool                        projection_final_phase_ = false; // this parameter is for the projection classes. most of the methods are in the reset but they don't need to be applied
   // if the model is in the first iteration and storeing values.
   map<State::Type, vector<Executor*>> executors_;

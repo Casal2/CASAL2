@@ -23,6 +23,7 @@
 #include "Reports/Children/CovarianceMatrix.h"
 #include "Reports/Children/CorrelationMatrix.h"
 #include "Reports/Children/DerivedQuantity.h"
+#include "Reports/Children/EquationTest.h"
 #include "Reports/Children/Estimable.h"
 #include "Reports/Children/EstimateSummary.h"
 #include "Reports/Children/EstimateValue.h"
@@ -75,6 +76,8 @@ Report* Factory::Create(Model* model, const string& object_type, const string& s
       result = new CorrelationMatrix(model);
     else if (sub_type == PARAM_DERIVED_QUANTITY)
       result = new DerivedQuantity(model);
+    else if (sub_type == PARAM_EQUATION)
+      result = new EquationTest(model);
     else if (sub_type == PARAM_ESTIMABLE)
       result = new Estimable(model);
     else if (sub_type == PARAM_ESTIMATE_SUMMARY)

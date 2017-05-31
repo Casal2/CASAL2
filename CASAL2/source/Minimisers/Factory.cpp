@@ -33,6 +33,7 @@
 #include "Minimisers/Children/DESolver.h"
 #include "Minimisers/Children/DLib.h"
 #include "Minimisers/Children/GammaDiff.h"
+#include "Minimisers/Children/STANBFGS.h"
 #endif
 
 // Namespaces
@@ -76,6 +77,8 @@ Minimiser* Factory::Create(Model* model, const string& object_type, const string
       result = new DLib(model);
     else if (sub_type == PARAM_GAMMADIFF)
       result = new GammaDiff(model);
+    else if (sub_type == PARAM_STAN_BFGS)
+      result = new STANBFGS(model);
     else if (sub_type == PARAM_BETADIFF || sub_type == PARAM_ADOLC || sub_type == PARAM_CPPAD)
       result = new Dummy(model);
 #endif

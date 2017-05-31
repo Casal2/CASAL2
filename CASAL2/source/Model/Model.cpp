@@ -27,6 +27,7 @@
 #include "ConfigurationLoader/EstimableValuesLoader.h"
 #include "ConfigurationLoader/MCMCObjective.h"
 #include "ConfigurationLoader/MCMCSample.h"
+#include "EquationParser/EquationParser.h"
 #include "Estimables/Estimables.h"
 #include "Estimates/Manager.h"
 #include "GlobalConfiguration/GlobalConfiguration.h"
@@ -70,8 +71,6 @@ Model::Model() {
   parameters_.Bind<Double>(PARAM_LENGTH_BINS, &length_bins_, "", "", true);
   parameters_.Bind<string>(PARAM_BASE_UNTIS, &base_weight_units_, "Define the units for the base weight. This will be the default unit of any weight input parameters ", "", PARAM_TONNES)->set_allowed_values({PARAM_GRAMS, PARAM_TONNES,PARAM_KGS});
 
-
-
   global_configuration_ = new GlobalConfiguration();
   managers_ = new Managers(this);
   objects_ = new Objects(this);
@@ -79,6 +78,7 @@ Model::Model() {
   factory_ = new Factory(this);
   partition_ = new Partition(this);
   objective_function_ = new ObjectiveFunction(this);
+  equation_parser_ = new EquationParser(this);
 }
 
 /**
@@ -140,6 +140,10 @@ Partition& Model::partition() {
 
 ObjectiveFunction& Model::objective_function() {
   return *objective_function_;
+}
+
+EquationParser& Model::equation_parser() {
+  return *equation_parser_;
 }
 
 /**

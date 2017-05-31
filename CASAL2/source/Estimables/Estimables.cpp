@@ -71,7 +71,7 @@ void Estimables::LoadValues(unsigned index) {
     string error = "";
     for (auto iter : estimable_values_) {
       Double* ptr = model_->objects().FindEstimable(iter.first, error);
-      if (ptr == 0)
+      if (ptr == nullptr)
         LOG_FATAL() << "The estimable " << iter.first << " was defined in the estimable's input value file but was not registered in the model";
       estimables_[iter.first] = ptr;
     }
