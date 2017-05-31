@@ -7,7 +7,7 @@ import shutil
 import Globals
 
 class Builder:
-  version_ = '1.0'
+  version_ = '1.1'
 
   def is_lean(self):
     return True
@@ -16,13 +16,14 @@ class Builder:
     # Variables
     fileName = 'parser'
     header   = 'parser.h'
+    header2  = 'parser-inl.h'
     library  = 'parser.a'
-    
     # Clean our any existing files if they already exist
     print '-- Cleaning Parser files'
     if os.path.exists(fileName):
       shutil.rmtree(fileName)
     os.system('rm -rf ' + Globals.target_include_path_ + header)
+    os.system('rm -rf ' + Globals.target_include_path_ + header2)
     os.system('rm -rf ' + Globals.target_debug_lib_path_ + library)
     os.system('rm -rf ' + Globals.target_release_lib_path_ + library)        
     
@@ -31,16 +32,15 @@ class Builder:
     if os.path.exists(fileName + '.zip'):
       os.system('unzip ' + fileName + '.zip 1> casal2_unzip.log 2>&1')
     
-    # Build 
-    print '-- Building Parser - check parser/casal2_build.log'
+    # Build     
     os.chdir(fileName)
-    os.system("g++ -g0 -c parser.cpp 1> casal2_build.log 2>&1")
-    os.system("ar rvs parser.a parser.o 1>> casal2_build.log 2>&1")
-        
+            
     # Move our headers and libraries
     print '-- Moving headers and libraries'
     shutil.copy(header, Globals.target_include_path_)
-    shutil.copy(library, Globals.target_debug_lib_path_)
-    shutil.copy(library, Globals.target_release_lib_path_)
-    
+    shutil.copy(header2, Globals.target_include_path_)
+	    
     return True
+
+	
+	
