@@ -23,7 +23,7 @@
 #include <string>
 
 #ifdef USE_ADOLC
-#include <adolc/adouble.h>
+#include <adolc/adolc.h>
 #endif
 
 #ifdef USE_BETADIFF
