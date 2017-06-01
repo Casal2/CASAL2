@@ -20,7 +20,7 @@ namespace estimates {
 /**
  * Default constructor
  */
-Uniform::Uniform() {
+Uniform::Uniform(Model* model) : Estimate(model) {
 }
 
 } /* namespace estimates */

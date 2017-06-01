@@ -34,7 +34,9 @@ Process::Process(Model* model) : model_(model) {
  * set some generic variables.
  */
 void Process::Validate() {
+  LOG_TRACE();
   parameters_.Populate();
+  LOG_FINEST() << "Validating process " << label_;
 
   if (block_type_ != PARAM_PROCESS && block_type_ != PARAM_PROCESSES) {
     if (type_ != "")
@@ -48,6 +50,7 @@ void Process::Validate() {
   if (process_type_ == ProcessType::kUnknown)
     LOG_CODE_ERROR() << "process_type_ == ProcessType::kUnknown for label: " << label();
 
+  LOG_FINEST() << "Exit parent validation and into child validation";
   DoValidate();
 }
 

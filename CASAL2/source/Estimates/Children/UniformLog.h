@@ -29,7 +29,8 @@ namespace estimates {
 class UniformLog : public niwa::Estimate {
 public:
   // Methods
-  UniformLog();
+  UniformLog() = delete;
+  explicit UniformLog(Model* model);
   virtual                     ~UniformLog() = default;
   void                        DoValidate() override final { };
   Double                      GetScore() override final;

@@ -29,7 +29,8 @@ namespace estimates {
 class NormalByStdev : public niwa::Estimate {
 public:
   // Methods
-  NormalByStdev();
+  NormalByStdev() = delete;
+  explicit NormalByStdev(Model* model);
   virtual                     ~NormalByStdev() = default;
   void                        DoValidate() override final { };
   Double                      GetScore() override final;

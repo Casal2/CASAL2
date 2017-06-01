@@ -65,7 +65,7 @@ void OutputParameters::DoExecute() {
      cache_ << AS_DOUBLE(estimate->value()) << " ";
    if (model_->run_mode() == RunMode::kProfiling) {
      for (Profile* profile : profiles)
-       cache_ << profile->value() << " ";
+       cache_ << AS_DOUBLE(profile->value()) << " ";
    }
    cache_ << "\n";
 

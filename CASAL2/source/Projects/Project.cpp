@@ -25,6 +25,8 @@ Project::Project(Model* model) : model_(model) {
   parameters_.Bind<string>(PARAM_TYPE, &type_, "Type", "", "");
   parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "Years to recalculate the values", "", true);
   parameters_.Bind<string>(PARAM_PARAMETER, &parameter_, "Parameter to project", "");
+  parameters_.Bind<Double>(PARAM_MULTIPLIER, &multiplier_, "Multiplier that is applied to the projected value", "", 1.0);
+
 
   original_value_ = 0;
 }
@@ -34,6 +36,8 @@ Project::Project(Model* model) : model_(model) {
  */
 void Project::Validate() {
   parameters_.Populate();
+  if (multiplier_ == 0)
+    LOG_ERROR_P(PARAM_MULTIPLIER)  << " should not be equal to zero";
   DoValidate();
 }
 
@@ -72,15 +76,18 @@ void Project::Build() {
       LOG_CODE_ERROR() << "Invalid estimable type: " << parameter_;
       break;
     case Estimable::kSingle:
+      LOG_FINEST() << "applying projection for parameter " << parameter_ << " is an single type";
       DoUpdateFunc_ = &Project::SetSingleValue;
       estimable_    = target_->GetEstimable(estimable_parameter_);
       original_value_ = *estimable_;
       break;
     case Estimable::kVector:
+      LOG_FINEST() << "applying projection for parameter " << parameter_ << " is a vector";
       estimable_vector_ = target_->GetEstimableVector(estimable_parameter_);
       DoUpdateFunc_ = &Project::SetVectorValue;
       break;
     case Estimable::kUnsignedMap:
+      LOG_FINEST() << "applying projection for parameter " << parameter_ << " is an unsigned map";
       DoUpdateFunc_ = &Project::SetMapValue;
       estimable_map_ = target_->GetEstimableUMap(estimable_parameter_);
       break;
@@ -95,7 +102,6 @@ void Project::Build() {
  * Reset and re build any pointers
  */
 void Project::Reset() {
- DoReset();
  string error = "";
  Estimable::Type estimable_type = model_->objects().GetEstimableType(parameter_, error);
  if (estimable_type == Estimable::kSingle) {
@@ -103,6 +109,9 @@ void Project::Reset() {
      original_value_ = *estimable_;
    }
  }
+
+ if(model_->projection_final_phase())
+   DoReset();
 }
 
 /**
@@ -112,12 +121,13 @@ void Project::Update(unsigned current_year) {
   LOG_TRACE();
   if (DoUpdateFunc_ == 0)
     LOG_CODE_ERROR() << "DoUpdateFunc_ == 0";
-
   if (years_.size() > 0 && std::find(years_.begin(), years_.end(), current_year) == years_.end()) {
     LOG_FINEST() << "Resetting parameter to original value as the year " << current_year << " not in years";
     RestoreOriginalValue(current_year);
-  } else
+  } else {
+    LOG_FINEST() << "updating parameter";
     DoUpdate();
+  }
 }
 
 /**
@@ -138,6 +148,7 @@ void Project::RestoreOriginalValue(unsigned year) {
  *
  */
 void Project::SetSingleValue(Double value) {
+  LOG_TRACE();
   *estimable_ = value;
 }
 
@@ -155,6 +166,7 @@ void Project::SetVectorValue(Double value) {
  *
  */
 void Project::SetMapValue(Double value) {
+  LOG_TRACE();
   (*estimable_map_)[model_->current_year()] = value;
 }
 

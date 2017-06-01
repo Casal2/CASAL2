@@ -80,13 +80,15 @@ public:
   State::Type                 state() const { return state_; }
   virtual unsigned            start_year() const { return start_year_; }
   virtual unsigned            final_year() const { return final_year_; }
-  unsigned                    projection_final_year() const { return projection_final_year_; }
+  unsigned                    projection_final_year() const { return projection_final_year_;}
   Double                      b0(string derived_quantity_label) {return b0_[derived_quantity_label];}
   void                        set_b0(string derived_quantity_label, Double new_b0) {b0_[derived_quantity_label] = new_b0;}
   Double                      binitial(string derived_quantity_label) {return binitial_[derived_quantity_label];}
   void                        set_binitial(string derived_quantity_label, Double new_binitial) {binitial_[derived_quantity_label] = new_binitial;}
   bool                        b0_initialised(string derived_quantity_label) {return b0_initialised_[derived_quantity_label];}
   void                        set_b0_initialised(string derived_quantity_label, bool new_b0_initialised) {b0_initialised_[derived_quantity_label] = new_b0_initialised;}
+  bool                        projection_final_phase() {return projection_final_phase_;}
+  void                        set_projection_final_phase(bool phase) {projection_final_phase_ = phase;}
   virtual vector<unsigned>    years() const;
   unsigned                    year_spread() const;
   virtual unsigned            current_year() const { return current_year_; }
@@ -150,6 +152,8 @@ protected:
   Factory*                    factory_ = nullptr;
   Partition*                  partition_ = nullptr;
   ObjectiveFunction*          objective_function_ = nullptr;
+  bool                        projection_final_phase_ = false; // this parameter is for the projection classes. most of the methods are in the reset but they don't need to be applied
+  // if the model is in the first iteration and storeing values.
   map<State::Type, vector<Executor*>> executors_;
 };
 

@@ -38,7 +38,7 @@ void CorrelationMatrix::DoExecute() {
   cache_ << "Correlation_Matrix " << REPORT_R_MATRIX << "\n";
   for (unsigned i = 0; i < correlation_matrix_.size1(); ++i) {
     for (unsigned j = 0; j < correlation_matrix_.size2(); ++j)
-      cache_ << correlation_matrix_(i, j) << " ";
+      cache_ << AS_DOUBLE(correlation_matrix_(i, j)) << " ";
     cache_ << "\n";
   }
   ready_for_writing_ = true;

@@ -51,8 +51,22 @@ void EstimableValuesLoader::LoadValues(const string& file_name) {
    */
   string    current_line        = "";
   vector<string> parameters;
+  unsigned line_number = 0;
   if (!getline(file_, current_line) || current_line == "")
     LOG_FATAL() << "estimable value file appears to be empty, or the first line is blank. File: " << file_name;
+
+  // Make an exception for MCMC_samples outputs that users will want to feed back into Casal2 using the -i functionality
+  if(current_line == "*mcmc (mcmc_sample)") {
+    LOG_FINEST() << "skipping line as it is an input from an MCMC report " << current_line;
+    getline(file_, current_line);
+    ++line_number;
+  }
+  if(current_line == "values {d}") {
+    LOG_FINEST() << "skipping line as it is an input from an MCMC report " << current_line;
+    getline(file_, current_line);
+    ++line_number;
+  }
+  LOG_FINEST() << "current line: " << current_line;
 
   boost::replace_all(current_line, "\t", " ");
   boost::trim_all(current_line);
@@ -61,10 +75,10 @@ void EstimableValuesLoader::LoadValues(const string& file_name) {
   /**
    * Iterate through file
    */
-  unsigned line_number = 1;
+
   vector<string> values;
   Estimables& estimables = *model_->managers().estimables();
-
+  ++line_number;
   while (getline(file_, current_line)) {
     ++line_number;
 
@@ -82,7 +96,6 @@ void EstimableValuesLoader::LoadValues(const string& file_name) {
       Double numeric = 0.0;
       if (!utilities::To<Double>(values[i], numeric))
         LOG_FATAL() << "In estimate_value file could not convert the value " << values[i] << " to a double";
-
       estimables.AddValue(parameters[i], numeric);
     }
   }

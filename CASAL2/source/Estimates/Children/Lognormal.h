@@ -29,7 +29,8 @@ namespace estimates {
 class Lognormal : public niwa::Estimate {
 public:
   // Methods
-  Lognormal();
+  Lognormal() = delete;
+  explicit Lognormal(Model* model);
   virtual                     ~Lognormal() = default;
   void                        DoValidate() override final { };
   Double                      GetScore() override final;

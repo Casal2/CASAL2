@@ -42,7 +42,7 @@ void AgeingErrorMatrix::DoExecute() {
 
   for (unsigned i = 0; i < mis_matrix.size(); ++i) {
     for (unsigned j = 0; j < mis_matrix[i].size(); ++j) {
-      cache_ << mis_matrix [i][j] << " ";
+      cache_ << AS_DOUBLE(mis_matrix [i][j]) << " ";
       if ( j == (mis_matrix[i].size() - 1))
         cache_ << "\n";
     }

@@ -54,7 +54,6 @@ protected:
   vector<Double>                  error_values_;
   string                          catchability_label_;
   Catchability*                   catchability_ = nullptr;
-  Double                          delta_;
   Double                          process_error_value_;
   CachedCombinedCategoriesPtr     cached_partition_;
   CombinedCategoriesPtr           partition_;

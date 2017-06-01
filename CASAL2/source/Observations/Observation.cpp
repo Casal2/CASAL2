@@ -17,6 +17,7 @@
 #include <boost/algorithm/string/trim_all.hpp>
 #include <boost/algorithm/string/split.hpp>
 #include <boost/algorithm/string/join.hpp>
+#include "Utilities/DoubleCompare.h"
 
 #include "Categories/Categories.h"
 #include "Likelihoods/Manager.h"
@@ -35,6 +36,7 @@ Observation::Observation(Model* model) : model_(model) {
   parameters_.Bind<string>(PARAM_TYPE, &type_, "Type of observation", "");
   parameters_.Bind<string>(PARAM_LIKELIHOOD, &likelihood_type_, "Type of likelihood to use", "");
   parameters_.Bind<string>(PARAM_CATEGORIES, &category_labels_, "Category labels to use", "", true);
+  parameters_.Bind<Double>(PARAM_DELTA, &delta_, "Robustification value (delta) for the likelihood", "", DELTA);
   parameters_.Bind<string>(PARAM_SIMULATION_LIKELIHOOD, &simulation_likelihood_label_, "Simulation likelihood to use", "", "");
   parameters_.Bind<Double>(PARAM_LIKELIHOOD_MULTIPLIER, &likelihood_multiplier_, "Likelihood score multiplier", "", Double(1.0));
   parameters_.Bind<Double>(PARAM_ERROR_VALUE_MULTIPLIER, &error_value_multiplier_, "Error value multiplier for likelihood", "", Double(1.0));
@@ -140,7 +142,7 @@ void Observation::Reset() {
  * @param score The amount of score for this comparison
  */
 void Observation::SaveComparison(string category, unsigned age, Double length, Double expected, Double observed,
-    Double process_error, Double error_value, Double delta, Double score) {
+    Double process_error, Double error_value, Double adjusted_error, Double delta, Double score) {
   observations::Comparison new_comparison;
   new_comparison.category_ = category;
   new_comparison.age_ = age;
@@ -149,6 +151,7 @@ void Observation::SaveComparison(string category, unsigned age, Double length, D
   new_comparison.observed_ = observed;
   new_comparison.process_error_ = process_error;
   new_comparison.error_value_ = error_value;
+  new_comparison.adjusted_error_ = adjusted_error;
   new_comparison.delta_ = delta;
   new_comparison.score_ = score;
   comparisons_[model_->current_year()].push_back(new_comparison);
@@ -166,8 +169,8 @@ void Observation::SaveComparison(string category, unsigned age, Double length, D
  * @param score The amount of score for this comparison
  */
 void Observation::SaveComparison(string category, Double expected, Double observed,
-    Double process_error, Double error_value, Double delta, Double score) {
-  SaveComparison(category, 0, 0, expected, observed, process_error, error_value, delta, score);
+    Double process_error, Double error_value, Double adjusted_error, Double delta, Double score) {
+  SaveComparison(category, 0, 0, expected, observed, process_error, error_value,adjusted_error, delta, score);
 }
 
 } /* namespace niwa */

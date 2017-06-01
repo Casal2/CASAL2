@@ -126,6 +126,7 @@ class Archiver:
     os.system('cp ../Documentation/ContributorsManual/ContributorsGuide.pdf Casal2/ContributorsGuide.pdf')    
     print "-- Copy contriutors guide"
     os.system('cp ../Documentation/UserManual/CASAL2.syn Casal2/CASAL2.syn')    
+    os.system('cp ../Documentation/UserManual/TextPad_syntax_highlighter.readme Casal2/TextPad_syntax_highlighter.readme')        
     os.system('cp -r ../Examples Casal2/Examples')
     print "-- Copy contriutors guide"    
     os.system('cp -r ../README.txt Casal2/README.txt')

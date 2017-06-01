@@ -16,6 +16,10 @@
 \defType{string vector}
 \defDefault{true}
 
+\defSub{delta} {Robustification value (delta) for the likelihood}
+\defType{constant}
+\defDefault{DELTA}
+
 \defSub{simulation\_likelihood} {Simulation likelihood to use}
 \defType{string}
 \defDefault{""}
@@ -53,10 +57,6 @@
 \defSub{error\_value} {The error values of the observed values (note the units depend on the likelihood}
 \defType{constant vector}
 \defDefault{No Default}
-
-\defSub{delta} {Robustification value (delta) for the likelihood}
-\defType{constant}
-\defDefault{DELTA}
 
 \defSub{process\_error} {The label of the process error}
 \defType{constant}
@@ -96,10 +96,6 @@
 \defType{constant vector}
 \defDefault{No Default}
 
-\defSub{delta} {The value of the delta robustification parameter}
-\defType{constant}
-\defDefault{DELTA}
-
 \defSub{process\_error} {The label of the process error block}
 \defType{constant}
 \defDefault{0.0}
@@ -129,10 +125,6 @@
 \defSub{error\_value} {The error values of the observed values (note the units depend on the likelihood}
 \defType{constant vector}
 \defDefault{No Default}
-
-\defSub{delta} {Robustification value (delta) for the likelihood}
-\defType{constant}
-\defDefault{1e-10}
 
 \defSub{selectivities} {Labels of the selectivities}
 \defType{string vector}
@@ -172,10 +164,6 @@
 \defType{constant vector}
 \defDefault{No Default}
 
-\defSub{delta} {Robustification value (delta) for the likelihood}
-\defType{constant}
-\defDefault{1e-10}
-
 \defSub{selectivities} {Labels of the selectivities}
 \defType{string vector}
 \defDefault{true}
@@ -213,10 +201,6 @@
 \defSub{years} {Years for which there are observations}
 \defType{non-negative integer vector}
 \defDefault{No Default}
-
-\defSub{delta} {Robustification value (delta) for the likelihood}
-\defType{constant}
-\defDefault{DELTA}
 
 \defSub{process\_errors} {Label of process error to use}
 \defType{constant vector}
@@ -256,10 +240,6 @@
 \defType{non-negative integer vector}
 \defDefault{No Default}
 
-\defSub{delta} {The value of the delta robustification parameter}
-\defType{constant}
-\defDefault{DELTA}
-
 \defSub{process\_errors} {the value of process error}
 \defType{constant vector}
 \defDefault{true}
@@ -297,10 +277,6 @@
 \defSub{years} {The years of the observed values}
 \defType{non-negative integer vector}
 \defDefault{No Default}
-
-\defSub{delta} {Robustification value (delta) for the likelihood}
-\defType{constant}
-\defDefault{DELTA}
 
 \defSub{selectivities} {Labels of the selectivities}
 \defType{string vector}
@@ -348,10 +324,6 @@
 \defType{non-negative integer vector}
 \defDefault{No Default}
 
-\defSub{delta} {Robustification value (delta) for the likelihood}
-\defType{constant}
-\defDefault{DELTA}
-
 \defSub{selectivities} {Labels of the selectivities}
 \defType{string vector}
 \defDefault{true}
@@ -394,10 +366,6 @@
 \defType{string vector}
 \defDefault{true}
 
-\defSub{delta} {The value of the delta robustification parameter}
-\defType{constant}
-\defDefault{DELTA}
-
 \defSub{process\_errors} {Process error}
 \defType{constant vector}
 \defDefault{true}
@@ -435,10 +403,6 @@
 \defSub{selectivities} {The labels of the selectivities}
 \defType{string vector}
 \defDefault{true}
-
-\defSub{delta} {The value of the delta robustification parameter}
-\defType{constant}
-\defDefault{DELTA}
 
 \defSub{process\_errors} {Process error}
 \defType{constant vector}
@@ -481,11 +445,6 @@
 \defSub{selectivities2} {Target Selectivities}
 \defType{string vector}
 \defDefault{No Default}
-
-\defSub{delta} {The value of the delta robustification parameter}
-\defType{constant}
-\defDefault{DELTA}
-\defLowerBound{0.0 (exclusive)}
 
 \defSub{process\_errors} {Process error}
 \defType{constant vector}
@@ -533,11 +492,6 @@
 \defType{string vector}
 \defDefault{No Default}
 
-\defSub{delta} {The value of the delta robustification parameter}
-\defType{constant}
-\defDefault{DELTA}
-\defLowerBound{0.0 (exclusive)}
-
 \defSub{process\_errors} {Process error}
 \defType{constant vector}
 \defDefault{true}
@@ -567,10 +521,6 @@
 \defSub{years} {Years for which there are observations}
 \defType{non-negative integer vector}
 \defDefault{No Default}
-
-\defSub{delta} {The value of the delta robustification parameter}
-\defType{constant}
-\defDefault{DELTA}
 
 \defSub{process\_errors} {Process error}
 \defType{constant vector}
@@ -618,11 +568,6 @@
 \defType{string vector}
 \defDefault{No Default}
 
-\defSub{delta} {The value of the delta robustification parameter}
-\defType{constant}
-\defDefault{DELTA}
-\defLowerBound{0.0 (exclusive)}
-
 \defSub{process\_errors} {Process error}
 \defType{constant vector}
 \defDefault{true}
@@ -664,11 +609,6 @@
 \defSub{selectivities2} {The labels of the tag category selectivities}
 \defType{string vector}
 \defDefault{No Default}
-
-\defSub{delta} {The value of the delta robustification parameter}
-\defType{constant}
-\defDefault{DELTA}
-\defLowerBound{0.0 (exclusive)}
 
 \defSub{process\_errors} {Process error}
 \defType{constant vector}

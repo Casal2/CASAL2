@@ -23,6 +23,7 @@ Manager::~Manager() noexcept(true) {
  * Validate any loaded processes we have.
  */
 void Manager::Validate() {
+  LOG_TRACE();
   LOG_CODE_ERROR() << "This method is not supported";
 }
 
@@ -36,6 +37,7 @@ void Manager::Validate(Model* model) {
   PartitionStructure model_structure = model->partition_structure();
 
   for (auto process : objects_) {
+    LOG_FINEST() << "Validating process" << process->label();
     if ((PartitionStructure)(process->partition_structure() & PartitionStructure::kInvalid) == PartitionStructure::kInvalid)
       LOG_CODE_ERROR() << "Process: " << process->label() << " has not been properly configured to have a partition structure";
 

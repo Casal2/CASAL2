@@ -58,8 +58,8 @@ void IndependenceMetropolis::BuildCovarianceMatrix() {
     LOG_MEDIUM() << "recalculate covariance";
     covariance_matrix_ = covariance_matrix_lt;
   } else {
-    LOG_MEDIUM() << "Set covariance = minimiser";
-    covariance_matrix_ = minimiser_->covariance_matrix();
+    //covariance_matrix_ = minimiser_->covariance_matrix();
+    // This is already built by MPD.cpp at line 137. in the frontend the minimiser is dropped out before the MCMC state kicks in, so this will return a rubbish covariance matrix
   }
   if (correlation_method_ == PARAM_NONE)
     return;
@@ -112,7 +112,7 @@ void IndependenceMetropolis::BuildCovarianceMatrix() {
  * @return true on success, false on failure
  */
 bool IndependenceMetropolis::DoCholeskyDecmposition() {
-  if (covariance_matrix_.size1() != covariance_matrix_.size2() )
+  if (covariance_matrix_.size1() != covariance_matrix_.size2())
       LOG_ERROR() << "Invalid covariance matrix (size1!=size2)";
     unsigned matrix_size1 = covariance_matrix_.size1();
     covariance_matrix_lt = covariance_matrix_;
@@ -416,8 +416,6 @@ void IndependenceMetropolis::DoValidate() {
  */
 void IndependenceMetropolis::DoBuild() {
   LOG_TRACE();
-
-  minimiser_ = model_->managers().minimiser()->active_minimiser();
 
   unsigned active_estimates = 0;
   vector<Estimate*> estimates = model_->managers().estimate()->GetIsEstimated();

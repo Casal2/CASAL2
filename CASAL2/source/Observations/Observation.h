@@ -53,16 +53,17 @@ public:
 
   // accessors
   const map<unsigned, Double>&  scores() const { return scores_; }
+  string&                       likelihood() { return likelihood_type_; }
   vector<obs::Comparison>&      comparisons(unsigned year) { return comparisons_[year]; }
   map<unsigned, vector<obs::Comparison> >& comparisons() { return comparisons_; }
 
 protected:
   // methods
   void                        SaveComparison(string category, unsigned age, Double length, Double expected, Double observed,
-      Double process_error, Double error_value, Double delta, Double score);
+      Double process_error, Double error_value, Double adjusted_error, Double delta, Double score);
 
   void                        SaveComparison(string category, Double expected, Double observed,
-      Double process_error, Double error_value, Double delta, Double score);
+      Double process_error, Double error_value, Double adjusted_error, Double delta, Double score);
 
   // members
   Model*                      model_ = nullptr;
@@ -72,6 +73,7 @@ protected:
   bool                        mean_proportion_method_ = false;
   string                      likelihood_type_ = "";
   string                      simulation_likelihood_label_ = "";
+  Double                      delta_ = 0;
   bool                        run_in_simulation_mode_ = false;
   Likelihood*                 likelihood_ = nullptr;
   vector<string>              allowed_likelihood_types_;

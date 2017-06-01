@@ -54,6 +54,8 @@ void Dirichlet::GetScores(map<unsigned, vector<observations::Comparison> >& comp
       Double error_value = AdjustErrorValue(comparison.process_error_, comparison.error_value_) * error_value_multiplier_;
       Double alpha = dc::ZeroFun(comparison.expected_,comparison.delta_) * error_value;
       Double a2_a3 = math::LnGamma(alpha) - ((alpha - 1.0) * log(dc::ZeroFun(comparison.observed_,comparison.delta_)));
+
+      comparison.adjusted_error_ = error_value;
       comparison.score_ = a2_a3 * multiplier_;
     }
   }
@@ -82,6 +84,7 @@ void Dirichlet::SimulateObserved(map<unsigned, vector<observations::Comparison> 
         comparison.observed_ = rng.gamma(AS_DOUBLE(comparison.expected_) * AS_DOUBLE(error_value));
 
       totals[comparison.category_] += comparison.observed_;
+      comparison.adjusted_error_ = error_value;
     }
 
     for (observations::Comparison& comparison : iterator->second)

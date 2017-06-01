@@ -17,6 +17,7 @@
 #include "Categories/Categories.h"
 #include "DerivedQuantities/Manager.h"
 #include "InitialisationPhases/Manager.h"
+#include "Estimates/Manager.h"
 #include "TimeSteps/Manager.h"
 #include "Utilities/DoubleCompare.h"
 #include "Utilities/Math.h"
@@ -64,8 +65,8 @@ RecruitmentBevertonHolt::RecruitmentBevertonHolt(Model* model)
  *
  */
 void RecruitmentBevertonHolt::DoValidate() {
+  LOG_TRACE();
   category_labels_ = model_->categories()->ExpandLabels(category_labels_, parameters_.Get(PARAM_CATEGORIES));
-
   if (!parameters_.Get(PARAM_AGE)->has_been_defined())
     age_ = model_->min_age();
 
@@ -96,6 +97,12 @@ void RecruitmentBevertonHolt::DoValidate() {
   if (!dc::IsOne(running_total))
     LOG_ERROR_P(PARAM_PROPORTIONS) << " sum total is " << running_total << " when it should be 1.0";
 
+  if (ycs_years_.size() != ((model_->final_year() - model_->start_year()) + 1))
+    LOG_ERROR_P(PARAM_YCS_YEARS) << "There must be a year class year for each year of the model";
+
+  if(ycs_values_.size() != ycs_years_.size()) {
+    LOG_FATAL_P(PARAM_YCS_VALUES) << "you supplied " << ycs_years_.size() << " " << PARAM_YCS_YEARS  << " and " << ycs_values_.size() << " " << PARAM_YCS_VALUES << ". These parameters must be of equal length before the model will run.";
+  }
   // initialise ycs_values and check values arn't < 0.0
   unsigned ycs_iter = 0;
   for (unsigned ycs_year : ycs_years_) {
@@ -106,13 +113,6 @@ void RecruitmentBevertonHolt::DoValidate() {
     ycs_iter++;
   }
 
-  // Now validate them
-  if (ycs_years_.size() != ((model_->final_year() - model_->start_year()) + 1))
-    LOG_ERROR_P(PARAM_YCS_YEARS) << "There must be a year class year for each year of the model";
-
-  if(ycs_value_by_year_.size() != ycs_years_.size()) {
-    LOG_ERROR_P(PARAM_YCS_VALUES) << "you supplied " << ycs_years_.size() << " year class values but " << ycs_value_by_year_.size() << " ycs years";
-  }
 
   // Check ascending order
   if (standardise_ycs_.size() == 0) {
@@ -149,6 +149,8 @@ void RecruitmentBevertonHolt::DoBuild() {
   derived_quantity_ = model_->managers().derived_quantity()->GetDerivedQuantity(ssb_);
   if (!derived_quantity_)
     LOG_ERROR_P(PARAM_SSB) << "(" << ssb_ << ") could not be found. Have you defined it?";
+
+  // TODO Need to implement a check to make sure the user has not set an @estimate block for both R0 and B0
 
   /**
    * Calculate out SSB offset
@@ -234,6 +236,18 @@ void RecruitmentBevertonHolt::DoBuild() {
     LOG_ERROR_P(PARAM_STANDARDISE_YCS_YEARS) << " final value (" << (*standardise_ycs_.rbegin())
         << ") is greater than the model's final year - ssb_offset (" << model_->final_year() - ssb_offset_ << ")";
 
+  // Check users haven't specified a @estimate block for both R0 and B0
+  string b0_param = "process[" + label_ + "].b0";
+  string r0_param = "process[" + label_ + "].r0";
+
+  bool B0_estimate = model_->managers().estimate()->HasEstimate(b0_param);
+  bool R0_estimate = model_->managers().estimate()->HasEstimate(r0_param);
+
+  LOG_FINEST() << "is b0 estimated = " << B0_estimate << " is R0 estimated " << R0_estimate;
+  if(B0_estimate & R0_estimate) {
+    LOG_ERROR() << "Found an @estimate for both R0 and B0 for recruitment process " << label_ << " this is not allowed, you can only estimate one of these parameters";
+  }
+
   DoReset();
 }
 
@@ -283,15 +297,9 @@ void RecruitmentBevertonHolt::DoReset() {
  */
 
 void RecruitmentBevertonHolt::DoExecute() {
-  Double amount_per = 0.0;
-  // Check that if doing a projection that ycs_values have been projected else the process will crash and thus the model
-  // maps default value is zero so if it is zero then it is assumed there is no @project block
-  if ((model_->run_mode() == (RunMode::Type)(RunMode::kProjection)) & (model_->current_year() > model_->final_year())) {
-    if (stand_ycs_value_by_year_[model_->current_year() - ssb_offset_] == 0.0) {
-      LOG_FATAL_P(PARAM_YCS_VALUES) << "You are in a projection mode (-f) and in a projection year but ycs values are = 0 for ycs_year " << model_->current_year() - ssb_offset_ << ", this is an error that will cause the recruitment process to fail. Please check you have correctly specified an @project block for this parameter, thanks";
-    }
-  }
+  unsigned ssb_year = model_->current_year() - ssb_offset_;
 
+  Double amount_per = 0.0;
   if (model_->state() == State::kInitialise) {
     initialisationphases::Manager& init_phase_manager = *model_->managers().initialisation_phase();
     if ((init_phase_manager.last_executed_phase() <= phase_b0_) & (parameters_.Get(PARAM_R0)->has_been_defined())) {
@@ -323,11 +331,18 @@ void RecruitmentBevertonHolt::DoExecute() {
     Double ycs;
     // If projection mode ycs values get replaced with projected value from @project block
     if (RunMode::kProjection && model_->current_year() > model_->final_year()) {
-      ycs = stand_ycs_value_by_year_[model_->current_year() - ssb_offset_];
-      LOG_FINEST() << "Size of ycs values: " << ycs_values_.size() << " should be one more entry from previous year, trying to access element " << model_->current_year() - model_->start_year();
+      // take the value from the ycs_values as that is the container that the @project class will be modifying
+      if (ycs_value_by_year_[ssb_year] == 0.0) {
+        LOG_FATAL_P(PARAM_YCS_VALUES) << "You are in a projection mode (-f) and in a projection year but ycs values are = 0 for ycs_year " << model_->current_year() - ssb_offset_ << ", this is an error that will cause the recruitment process to fail. Please check you have correctly specified an @project block for this parameter, thanks";
+      }
+      ycs = ycs_value_by_year_[ssb_year];
+      // set standardised ycs = ycs for reporting
+      stand_ycs_value_by_year_[ssb_year] = ycs;
+
+      LOG_FINEST() << "Projected ycs = " << ycs;
     // else business as usual
     } else {
-      ycs = stand_ycs_value_by_year_[model_->current_year() - ssb_offset_];
+      ycs = stand_ycs_value_by_year_[ssb_year];
     }
 
     // Check whether B0 as an input paramter or a derived quantity, this is a result of having an r0 or a b0 in the process
@@ -335,7 +350,6 @@ void RecruitmentBevertonHolt::DoExecute() {
       b0_ = derived_quantity_->GetLastValueFromInitialisation(phase_b0_);
 
     // Calculate year to get SSB that contributes to this years recruits
-    unsigned ssb_year = model_->current_year() - ssb_offset_;
     Double SSB;
     if (ssb_year < model_->start_year()) {
       // Model is in normal years but requires an SSB from the initialisation phase
@@ -358,13 +372,16 @@ void RecruitmentBevertonHolt::DoExecute() {
 
 
     LOG_FINEST() << "year = " << model_->current_year() << " SSB= " << SSB << " SR = " << SR << "; ycs = "
-        << ycs_values_[model_->current_year() - model_->start_year()] << " Standardised year class = "
-        << stand_ycs_value_by_year_[model_->current_year() - ssb_offset_] << "; b0_ = " << b0_ << "; ssb_ratio = " << ssb_ratio << "; true_ycs = "
+        << ycs_value_by_year_[ssb_year] << " Standardised year class = "
+        << stand_ycs_value_by_year_[ssb_year] << "; b0_ = " << b0_ << "; ssb_ratio = " << ssb_ratio << "; true_ycs = "
         << true_ycs << "; amount_per = " << amount_per;
 
     // Store true_ycs values
-    StoreForReport("YCS_year: " , model_->current_year() - ssb_offset_);
-    StoreForReport("true_ycs: " , true_ycs);
+    StoreForReport("ycs_years: " , ssb_year); // the input parameter isn't updated during projections. So thats why we are reporting it twice.
+    StoreForReport("ycs_values: " , AS_DOUBLE(ycs_value_by_year_[ssb_year])); // the input parameter isn't updated during projections. So thats why we are reporting it twice.
+    StoreForReport("true_ycs: " , AS_DOUBLE(true_ycs)); // this is including SR-relationship
+    StoreForReport("standardiesed_ycs: " , AS_DOUBLE(stand_ycs_value_by_year_[ssb_year]));
+
   }
 
   unsigned i = 0;

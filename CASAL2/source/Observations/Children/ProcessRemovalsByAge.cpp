@@ -38,7 +38,6 @@ ProcessRemovalsByAge::ProcessRemovalsByAge(Model* model) : Observation(model) {
   parameters_.Bind<string>(PARAM_TIME_STEP, &time_step_label_, "The label of time-step that the observation occurs in", "");
   parameters_.Bind<Double>(PARAM_TOLERANCE, &tolerance_, "Tolerance", "", Double(0.001));
   parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "Years for which there are observations", "");
-  parameters_.Bind<Double>(PARAM_DELTA, &delta_, "Robustification value (delta) for the likelihood", "", DELTA);
   parameters_.Bind<Double>(PARAM_PROCESS_ERRORS, &process_error_values_, "Label of process error to use", "", true);
   parameters_.Bind<string>(PARAM_AGEING_ERROR, &ageing_error_label_, "Label of ageing error to use", "", "");
   parameters_.Bind<string>(PARAM_METHOD_OF_REMOVAL, &method_, "Label of observed method of removals", "", "");
@@ -323,7 +322,7 @@ if ((time_step_label_.size() > 1 && last_method_time_step == current_time_step) 
       LOG_FINEST() << "Numbers at age for category: " << category_labels_[category_offset] << " for age " << min_age_ + i << " = " << accumulated_expected_values[i];
       SaveComparison(category_labels_[category_offset], min_age_ + i, 0.0, accumulated_expected_values[i],
       proportions_[model_->current_year()][category_labels_[category_offset]][i], process_errors_by_year_[model_->current_year()],
-      error_values_[model_->current_year()][category_labels_[category_offset]][i], delta_, 0.0);
+      error_values_[model_->current_year()][category_labels_[category_offset]][i],0.0, delta_, 0.0);
     }
   }
 }

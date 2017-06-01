@@ -35,12 +35,13 @@ public:
 
 private:
   // members
-  Double                      mean_ = 1.0;
+  Double                      mean_ = 0.0;
   Double                      sigma_;
-  Double                      rho_ = 0.0;
-  Double                      multiplier_ = 1.0;
+//  Double                      alpha_;
+//  Double                      rho_ = 0.0;
   Double                      value_;
   Double                      last_value_;
+  map<unsigned,Double>        normal_draw_by_year_;
 };
 
 } /* namespace projects */

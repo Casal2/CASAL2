@@ -53,7 +53,6 @@ private:
   Double                      u_max_;
   vector<string>              selectivity_names_;
   string                      penalty_name_;
-  bool                        apply_in_initialisation_;
   accessor::Categories        partition_;
   vector<Selectivity*>        selectivities_;
   map<string, map<unsigned, Double> > vulnerable_;

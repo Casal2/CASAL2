@@ -29,7 +29,6 @@ ProcessAbundance::ProcessAbundance(Model* model)
   parameters_.Bind<string>(PARAM_OBS, &obs_, "The observed values", "");
   parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "The years of the observed values", "");
   parameters_.Bind<Double>(PARAM_ERROR_VALUE, &error_values_, "The error values of the observed values (note the units depend on the likelihood)", "");
-  parameters_.Bind<Double>(PARAM_DELTA, &delta_, "Robustification value (delta) for the likelihood", "", DELTA);
   parameters_.Bind<Double>(PARAM_PROCESS_ERROR, &process_error_value_, "The label of the process error", "", Double(0.0));
   parameters_.Bind<string>(PARAM_PROCESS, &process_label_, "The label of the process for the observation", "");
   parameters_.Bind<Double>(PARAM_PROCESS_PROPORTION, &process_proportion_, "Proportion through the process when the observation is evaluated", "", Double(0.5));

@@ -20,7 +20,7 @@ namespace estimates {
 /**
  * Default Constructor
  */
-UniformLog::UniformLog() {
+UniformLog::UniformLog(Model* model) : Estimate(model) {
 }
 
 /**

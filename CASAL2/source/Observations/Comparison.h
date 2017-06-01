@@ -33,6 +33,7 @@ struct Comparison {
   Double    observed_ = 0;
   Double    error_value_ = 0;
   Double    process_error_ = 0;
+  Double    adjusted_error_ = 0;
   Double    delta_ = 0;
   Double    score_ = 0;
 };

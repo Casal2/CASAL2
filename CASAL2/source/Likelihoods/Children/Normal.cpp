@@ -46,6 +46,8 @@ void Normal::GetScores(map<unsigned, vector<observations::Comparison> >& compari
     for (observations::Comparison& comparison : year_iterator->second) {
 
       Double error_value = AdjustErrorValue(comparison.process_error_, comparison.error_value_) * error_value_multiplier_;
+      comparison.adjusted_error_ = error_value;
+
       Double sigma = error_value * comparison.expected_;
       Double score = (comparison.observed_ - comparison.expected_) / dc::ZeroFun(error_value * comparison.expected_, comparison.delta_);
       score = log(sigma) + 0.5 * (score * score);
@@ -68,6 +70,7 @@ void Normal::SimulateObserved(map<unsigned, vector<observations::Comparison> >& 
     LOG_FINE() << "Simulating values for year: " << iterator->first;
     for (observations::Comparison& comparison : iterator->second) {
       error_value = AdjustErrorValue(comparison.process_error_, comparison.error_value_);
+      comparison.adjusted_error_ = error_value;
 
       if (comparison.expected_ <= 0.0 || error_value <= 0.0)
         comparison.observed_ = 0.0;

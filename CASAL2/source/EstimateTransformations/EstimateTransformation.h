@@ -34,6 +34,8 @@ public:
   virtual std::set<string>    GetTargetEstimates() = 0;
   virtual Double              GetScore() = 0;
 
+  bool                        is_simple() const { return is_simple_; }
+
 protected:
   // methods
   virtual void                DoValidate() = 0;
@@ -47,6 +49,7 @@ protected:
   Double                      original_upper_bound_ = 0.0;
   Double                      original_value_ = 0.0;
   Double                      jacobian_ = 0.0;
+  bool                        is_simple_ = true;
 };
 
 } /* namespace niwa */

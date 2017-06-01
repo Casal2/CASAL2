@@ -213,7 +213,7 @@ void Abundance::Execute() {
   }
 
   for (unsigned index = 0; index < observeds.size(); ++index)
-    SaveComparison(keys[index], expecteds[index], observeds[index], process_errors[index], error_values[index], delta_, 0.0);
+    SaveComparison(keys[index], expecteds[index], observeds[index], process_errors[index], error_values[index], 0.0, delta_, 0.0);
 }
 
 /**

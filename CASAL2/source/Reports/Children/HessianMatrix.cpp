@@ -28,9 +28,6 @@ void HessianMatrix::DoExecute() {
    * This reports the Hessian matrix
    */
   LOG_TRACE();
-  /*
-   * This reports the Covariance, Correlation and Hessian matrix
-   */
   auto minimiser_ = model_->managers().minimiser()->active_minimiser();
   if (!minimiser_)
     return;
@@ -41,8 +38,10 @@ void HessianMatrix::DoExecute() {
   cache_ << "*" << label_ << " " << "(" << type_ << ")" << "\n";
   cache_ << "Hessian_Matrix " << REPORT_R_MATRIX << "\n";
   for (unsigned i = 0; i < hessian_size; ++i) {
-    for (unsigned j = 0; j < hessian_size; ++j)
-      cache_ << hessian_[i][j] << " ";
+    for (unsigned j = 0; j < hessian_size; ++j) {
+      Double value = hessian_[i][j];
+      cache_ << AS_DOUBLE(value) << " ";
+    }
     cache_ << "\n";
   }
   ready_for_writing_ = true;

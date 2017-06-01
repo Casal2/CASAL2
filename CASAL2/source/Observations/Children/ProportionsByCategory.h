@@ -53,7 +53,6 @@ protected:
   unsigned                      age_spread_ = 0;
   vector<string>                target_category_labels_;
   vector<string>                target_selectivity_labels_;
-  Double                        delta_ = 0.0;
   parameters::Table*            obs_table_ = nullptr;
   Double                        tolerance_ = 0.0;
   vector<Double>                process_error_values_;
