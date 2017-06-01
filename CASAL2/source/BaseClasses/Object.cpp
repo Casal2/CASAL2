@@ -99,6 +99,9 @@ unsigned Object::GetEstimableSize(const string& label) const {
  * @return A pointer to the estimable to be used by the Estimate object
  */
 Double* Object::GetEstimable(const string& label) {
+  for(auto estimables : estimable_types_)
+    LOG_FINEST() << estimables.first;
+
   if (estimable_types_.find(label) == estimable_types_.end())
     LOG_CODE_ERROR() << "estimable_types_.find(" << label << ") == estimable_types_.end()";
   return estimables_[label];

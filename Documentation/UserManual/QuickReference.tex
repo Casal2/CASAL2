@@ -72,6 +72,9 @@
 \par\textbf{\commandlabsubarg{estimate}{type}{lognormal}}\par
 \defSub{mu} {The lognormal prior mean (mu) parameter}
 \defSub{cv} {The Lognormal variance (CV) parameter}
+\par\textbf{\commandlabsubarg{estimate}{type}{lognormal\_by\_mode}}\par
+\defSub{mode} {The mode of the lognormal prior}
+\defSub{cv} {The Lognormal variance (CV) parameter}
 \par\textbf{\commandlabsubarg{estimate}{type}{normal}}\par
 \defSub{mu} {The normal prior mean (mu) parameter}
 \defSub{cv} {The normal variance (standard devation) parameter}
@@ -108,15 +111,6 @@
 \par\textbf{\commandlabsubarg{likelihood}{type}{dirichlet}}\par
 \par\textbf{\commandlabsubarg{likelihood}{type}{log\_normal}}\par
 \par\textbf{\commandlabsubarg{likelihood}{type}{log\_normal\_with\_q}}\par
-\par\textbf{\commandlabsubarg{likelihood}{type}{logistic\_normal}}\par
-\defSub{label} {Label for Logisitic Normal Likelihood}
-\defSub{type} {Type of likelihood}
-\defSub{rho} {The auto-correlation parameter $\rho$}
-\defSub{sigma} {Sigma parameter in the likelihood}
-\defSub{arma} {Defines if two rho parameters supplied then covar is assumed to have the correlation matrix of an ARMA(1,1) process}
-\defSub{bin\_labels} {If no covariance matrix parameter then list a vector of bin labels that the covariance matrix will be built for, can be ages or lengths.}
-\defSub{sexed} {Will the observation be split by sex?}
-\defSub{seperate\_by\_sex} {If data is sexed, shold the correlation structure be seperated by sex?}
 \par\textbf{\commandlabsubarg{likelihood}{type}{multinomial}}\par
 \par\textbf{\commandlabsubarg{likelihood}{type}{normal}}\par
 \par\textbf{\commandlabsubarg{likelihood}{type}{pseudo}}\par
@@ -192,6 +186,7 @@
 \defSub{type} {Type of observation}
 \defSub{likelihood} {Type of likelihood to use}
 \defSub{categories} {Category labels to use}
+\defSub{delta} {Robustification value (delta) for the likelihood}
 \defSub{simulation\_likelihood} {Simulation likelihood to use}
 \defSub{likelihood\_multiplier} {Likelihood score multiplier}
 \defSub{error\_value\_multiplier} {Error value multiplier for likelihood}
@@ -202,7 +197,6 @@
 \defSub{obs} {The observed values}
 \defSub{years} {The years of the observed values}
 \defSub{error\_value} {The error values of the observed values (note the units depend on the likelihood}
-\defSub{delta} {Robustification value (delta) for the likelihood}
 \defSub{process\_error} {The label of the process error}
 \defSub{process} {The label of the process for the observation}
 \defSub{process\_proportion} {Proportion through the process when the observation is evaluated}
@@ -213,7 +207,6 @@
 \defSub{obs} {The observed values}
 \defSub{years} {Years for which there are observations}
 \defSub{error\_value} {The error values of the observed values (note the units depend on the likelihood}
-\defSub{delta} {The value of the delta robustification parameter}
 \defSub{process\_error} {The label of the process error block}
 \defSub{time\_step\_proportion} {Proportion through the mortality block of the time step when the observation is evaluated}
 \par\textbf{\commandlabsubarg{observation}{type}{process\_biomass}}\par
@@ -222,7 +215,6 @@
 \defSub{obs} {The observed values}
 \defSub{years} {The years of the observed values}
 \defSub{error\_value} {The error values of the observed values (note the units depend on the likelihood}
-\defSub{delta} {Robustification value (delta) for the likelihood}
 \defSub{selectivities} {Labels of the selectivities}
 \defSub{process\_error} {Value for process error}
 \defSub{process} {The label of the process for the observation}
@@ -233,7 +225,6 @@
 \defSub{obs} {The observed values}
 \defSub{years} {The years of the observed values}
 \defSub{error\_value} {The error values of the observed values (note the units depend on the likelihood}
-\defSub{delta} {Robustification value (delta) for the likelihood}
 \defSub{selectivities} {Labels of the selectivities}
 \defSub{process\_error} {Value for process error}
 \defSub{time\_step\_proportion} {Proportion through the mortality block of the time step when the observation is evaluated}
@@ -244,7 +235,6 @@
 \defSub{time\_step} {The label of time-step that the observation occurs in}
 \defSub{tolerance} {Tolerance}
 \defSub{years} {Years for which there are observations}
-\defSub{delta} {Robustification value (delta) for the likelihood}
 \defSub{process\_errors} {Label of process error to use}
 \defSub{ageing\_error} {Label of ageing error to use}
 \defSub{method\_of\_removal} {Label of observed method of removals}
@@ -255,7 +245,6 @@
 \defSub{length\_plus\_group} {Is the last bin a plus group}
 \defSub{tolerance} {Tolerance for rescaling proportions}
 \defSub{years} {Years for which there are observations}
-\defSub{delta} {The value of the delta robustification parameter}
 \defSub{process\_errors} {the value of process error}
 \defSub{method\_of\_removal} {Label of observed method of removals}
 \defSub{mortality\_instantaneous\_process} {The label of the mortality instantaneous process for the observation}
@@ -266,7 +255,6 @@
 \defSub{time\_step} {The label of time-step that the observation occurs in}
 \defSub{tolerance} {Tolerance on the constraint, that for each year the sum of proportions in each age must equal one e.g. tolerance = 0.1 then 1 - Sum(Proportions) can be as great as 0.1}
 \defSub{years} {The years of the observed values}
-\defSub{delta} {Robustification value (delta) for the likelihood}
 \defSub{selectivities} {Labels of the selectivities}
 \defSub{process\_errors} {Process error}
 \defSub{ageing\_error} {Label of ageing error to use}
@@ -279,7 +267,6 @@
 \defSub{time\_step} {The label of time-step that the observation occurs in}
 \defSub{tolerance} {Tolerance on the constraint, that for each year the sum of proportions in each age must equal one e.g. tolerance = 0.1 then 1 - Sum(Proportions) can be as great as 0.1}
 \defSub{years} {The years of the observed values}
-\defSub{delta} {Robustification value (delta) for the likelihood}
 \defSub{selectivities} {Labels of the selectivities}
 \defSub{process\_errors} {Process error}
 \defSub{ageing\_error} {Label of ageing error to use}
@@ -291,7 +278,6 @@
 \defSub{tolerance} {Tolerance for rescaling proportions}
 \defSub{years} {Years for which there are observations}
 \defSub{selectivities} {The labels of the selectivities}
-\defSub{delta} {The value of the delta robustification parameter}
 \defSub{process\_errors} {Process error}
 \defSub{process} {The label of the process for the observation}
 \defSub{process\_proportion} {Proportion through the process when the observation is evaluated}
@@ -302,7 +288,6 @@
 \defSub{tolerance} {Tolerance for rescaling proportions}
 \defSub{years} {Years for which there are observations}
 \defSub{selectivities} {The labels of the selectivities}
-\defSub{delta} {The value of the delta robustification parameter}
 \defSub{process\_errors} {Process error}
 \defSub{time\_step\_proportion} {Proportion through the mortality block of the time step when the observation is evaluated}
 \par\textbf{\commandlabsubarg{observation}{type}{process\_proportions\_by\_category}}\par
@@ -314,7 +299,6 @@
 \defSub{selectivities} {The labels of the selectivities}
 \defSub{categories2} {Target Categories}
 \defSub{selectivities2} {Target Selectivities}
-\defSub{delta} {The value of the delta robustification parameter}
 \defSub{process\_errors} {Process error}
 \defSub{process} {The label of the process for the observation}
 \defSub{process\_proportion} {Proportion through the mortality block of the time step when the observation is evaluated}
@@ -327,7 +311,6 @@
 \defSub{selectivities} {The labels of the selectivities}
 \defSub{categories2} {Target Categories}
 \defSub{selectivities2} {Target Selectivities}
-\defSub{delta} {The value of the delta robustification parameter}
 \defSub{process\_errors} {Process error}
 \defSub{time\_step\_proportion} {Proportion through the time step to analyse the partition from}
 \par\textbf{\commandlabsubarg{observation}{type}{proportions\_migrating}}\par
@@ -336,7 +319,6 @@
 \defSub{time\_step} {The label of time-step that the observation occurs in}
 \defSub{age\_plus} {Use age plus group}
 \defSub{years} {Years for which there are observations}
-\defSub{delta} {The value of the delta robustification parameter}
 \defSub{process\_errors} {Process error}
 \defSub{ageing\_error} {Label of ageing error to use}
 \defSub{process} {Process label}
@@ -349,7 +331,6 @@
 \defSub{selectivities} {The labels of the selectivities}
 \defSub{time\_step} {The label of time-step that the observation occurs in}
 \defSub{selectivities2} {The categories of tagged individuals for the observation}
-\defSub{delta} {The value of the delta robustification parameter}
 \defSub{process\_errors} {Process error}
 \defSub{detection} {Probability of detecting a recaptured individual}
 \defSub{time\_step\_proportion} {Proportion through the mortality block of the time step when the observation is evaluated}
@@ -361,7 +342,6 @@
 \defSub{categories2} {The categories of tagged individuals for the observation}
 \defSub{selectivities} {The labels of the selectivities used for untagged categories}
 \defSub{selectivities2} {The labels of the tag category selectivities}
-\defSub{delta} {The value of the delta robustification parameter}
 \defSub{process\_errors} {Process error}
 \defSub{detection} {Probability of detecting a recaptured individual}
 \defSub{dispersion} {Over-dispersion parameter (phi)}
@@ -395,7 +375,6 @@
 \defSub{catches} {The number of removals (catches) to apply for each year}
 \defSub{u\_max} {Maximum exploitation rate ($Umax$}
 \defSub{selectivities} {List of selectivities}
-\defSub{initialisation} {Apply the first value of the catches in the intialisation phase}
 \defSub{penalty} {The label of the penalty to apply if the total number of removals cannot be taken}
 \par\textbf{\commandlabsubarg{process}{type}{mortality\_event\_biomass}}\par
 \defSub{categories} {Category labels}
@@ -416,6 +395,18 @@
 \defSub{predator\_selectivities} {Selectivities for predator categories}
 \defSub{penalty} {Label of penalty to be applied}
 \defSub{years} {Years in which to apply the mortality process}
+\par\textbf{\commandlabsubarg{process}{type}{mortality\_initialisation\_event}}\par
+\defSub{categories} {Categories}
+\defSub{catch} {The number of removals (catches) to apply for each year}
+\defSub{u\_max} {Maximum exploitation rate ($Umax$}
+\defSub{selectivities} {List of selectivities}
+\defSub{penalty} {The label of the penalty to apply if the total number of removals cannot be taken}
+\par\textbf{\commandlabsubarg{process}{type}{mortality\_initialisation\_event\_biomass}}\par
+\defSub{categories} {Categories}
+\defSub{catch} {The number of removals (catches) to apply for each year}
+\defSub{u\_max} {Maximum exploitation rate ($Umax$}
+\defSub{selectivities} {List of selectivities}
+\defSub{penalty} {The label of the penalty to apply if the total number of removals cannot be taken}
 \par\textbf{\commandlabsubarg{process}{type}{mortality\_instantaneous}}\par
 \defSub{categories} {Categories for instantaneous mortality}
 \defSub{m} {Natural mortality rates for each category}
@@ -445,6 +436,19 @@
 \defSub{ycs\_values} {YCS Values}
 \defSub{ycs\_years} {Recruitment years. A vector of years that relates to the year of the spawning event that created this cohort}
 \defSub{standardise\_ycs\_years} {Years that are included for year class standardisation}
+\par\textbf{\commandlabsubarg{process}{type}{recruitment\_beverton\_holt\_devs}}\par
+\defSub{categories} {Category labels}
+\defSub{r0} {R0}
+\defSub{b0} {B0}
+\defSub{proportions} {Proportions}
+\defSub{age} {Age to recruit at}
+\defSub{ssb\_offset} {Spawning biomass year offset}
+\defSub{steepness} {Steepness}
+\defSub{ssb} {SSB Label (derived quantity}
+\defSub{sigma\_r} {Sigma r, the assumed standard deviation for the lognormal process}
+\defSub{b0\_intialisation\_phase} {Initialisation phase Label that b0 is from}
+\defSub{recruitment\_deviation\_values} {Recruitment deviations Values}
+\defSub{recruitment\_deviation\_years} {Recruitment deviations. A vector of years that relates to the year of the spawning event that created this cohort}
 \par\textbf{\commandlabsubarg{process}{type}{recruitment\_constant}}\par
 \defSub{categories} {Categories}
 \defSub{proportions} {Proportions}
@@ -536,6 +540,8 @@
 \par\textbf{\commandlabsubarg{report}{type}{objective\_function}}\par
 \par\textbf{\commandlabsubarg{report}{type}{observation}}\par
 \defSub{observation} {Observation label}
+\defSub{pearsons\_residuals} {Print Pearsons Residuals}
+\defSub{normalised\_residuals} {Print Normalised Residuals}
 \par\textbf{\commandlabsubarg{report}{type}{output\_parameters}}\par
 \par\textbf{\commandlabsubarg{report}{type}{partition}}\par
 \defSub{time\_step} {Time Step label}

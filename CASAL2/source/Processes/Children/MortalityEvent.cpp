@@ -33,7 +33,6 @@ MortalityEvent::MortalityEvent(Model* model)
   parameters_.Bind<Double>(PARAM_CATCHES, &catches_, "The number of removals (catches) to apply for each year", "");
   parameters_.Bind<Double>(PARAM_U_MAX, &u_max_, "Maximum exploitation rate ($Umax$)", "", 0.99);
   parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_names_, "List of selectivities", "");
-  parameters_.Bind<bool>(PARAM_INITIALISATION, &apply_in_initialisation_, "Apply the first value of the catches in the intialisation phase", "", false);
   parameters_.Bind<string>(PARAM_PENALTY, &penalty_name_, "The label of the penalty to apply if the total number of removals cannot be taken", "", "");
 
   RegisterAsEstimable(PARAM_U_MAX, &u_max_);
@@ -112,7 +111,7 @@ void MortalityEvent::DoExecute() {
   if (catch_years_.find(model_->current_year()) == catch_years_.end())
     return;
 
-  if (((model_->state() == State::kInitialise) & apply_in_initialisation_) | ((model_->state() != State::kInitialise) & !apply_in_initialisation_)) {
+  if (model_->state() != State::kInitialise) {
     /**
      * Work our how much of the stock is vulnerable
      */
@@ -133,13 +132,9 @@ void MortalityEvent::DoExecute() {
      * Work out the exploitation rate to remove (catch/vulnerable)
      */
     Double exploitation = 0;
-    if(model_->state() == State::kInitialise) {
-      LOG_FINEST() << "vulnerable biomass = " << vulnerable << " catch = " << catch_years_[years_.front()];
-      exploitation = catch_years_[years_.front()] / utilities::doublecompare::ZeroFun(vulnerable);
-    } else {
-      LOG_FINEST() << "vulnerable biomass = " << vulnerable << " catch = " << catch_years_[model_->current_year()];
-      exploitation = catch_years_[model_->current_year()] / utilities::doublecompare::ZeroFun(vulnerable);
-    }
+    LOG_FINEST() << "vulnerable biomass = " << vulnerable << " catch = " << catch_years_[model_->current_year()];
+    exploitation = catch_years_[model_->current_year()] / utilities::doublecompare::ZeroFun(vulnerable);
+
     if (exploitation > u_max_) {
       exploitation = u_max_;
       if (penalty_)
@@ -154,10 +149,16 @@ void MortalityEvent::DoExecute() {
      * Remove the stock now. The amount to remove is
      * vulnerable * exploitation
      */
+    StoreForReport("year: ", model_->current_year());
+    StoreForReport("Exploitation: ", AS_DOUBLE(exploitation));
+    StoreForReport("Catch: ", AS_DOUBLE(catch_years_[model_->current_year()]));
+    Double removals = 0;
     for (auto categories : partition_) {
       unsigned offset = 0;
       for (Double& data : categories->data_) {
-        data -= vulnerable_[categories->name_][categories->min_age_ + offset] * exploitation;
+        removals = vulnerable_[categories->name_][categories->min_age_ + offset] * exploitation;
+        StoreForReport(categories->name_ + "_Removals: ",AS_DOUBLE(removals));
+        data -= removals;
         offset++;
       }
     }

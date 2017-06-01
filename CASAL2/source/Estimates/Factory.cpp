@@ -44,19 +44,19 @@ Estimate* Factory::Create(Model* model, const string& object_type, const string&
 
   if (object_type == PARAM_ESTIMATE) {
     if (sub_type == PARAM_BETA)
-      result = new Beta();
+      result = new Beta(model);
     else if (sub_type == PARAM_LOGNORMAL)
-      result = new Lognormal();
+      result = new Lognormal(model);
     else if (sub_type == PARAM_NORMAL)
-      result = new Normal();
+      result = new Normal(model);
     else if (sub_type == PARAM_NORMAL_BY_STDEV)
-      result = new NormalByStdev();
+      result = new NormalByStdev(model);
     else if (sub_type == PARAM_NORMAL_LOG)
-      result = new NormalLog();
+      result = new NormalLog(model);
     else if (sub_type == PARAM_UNIFORM)
-      result = new Uniform();
+      result = new Uniform(model);
     else if (sub_type == PARAM_UNIFORM_LOG)
-      result = new UniformLog();
+      result = new UniformLog(model);
 
     if (result)
       model->managers().estimate()->AddObject(result);

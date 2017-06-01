@@ -213,27 +213,77 @@ The run years define the years over which the model is to run and the annual cyc
 
 \subsection{\I{Projection years}}\label{sec:projection}
 
-Projecting is the process of running the model forwards into the future, using stochastic and or deterministic values for population dynamic parameters, such as recruitments and catches.
+Projecting is the process of running the model forwards into the future, using stochastic and or deterministic values for population dynamic parameters, such as recruitments and catches. Users invoke \CNAME\ to run in projection mode using the following command \texttt{casal2 -f 1}. The number the follows the \texttt{-f} parameter indicates how many projections you would like to undertake for each set of parameters supplied. This allows you to explore many future scenarios for a single set of parameters, this should only be used if you are applying a projection type that is stochastic.
 
 Projection years occur immediately after the model run years.
 
-In a projection run in \CNAME\, a model is initialised and run through the model years from \argument{initial} to the \argument{final}. Then, the model is re-run from \argument{initial} to \argument{projection\_final\_year}, where any parameter can be either fixed or, if specified, drawn from a stochastic distribution or process during that time period. 
+In a projection run in \CNAME\, a model is initialised and run through the model years from \argument{initial} to the \argument{final}. Then, the model is re-run from \argument{initial} to \argument{projection\_final\_year}, where any parameter can be either fixed or, if specified, drawn from a stochastic distribution or process during that time period. This gives users the ability to apply projection methods on parameters that occur between \argument{start\_year} and \argument{final\_year} defined in teh \command{model} block. An example of when users may want to do this is when you are estimating all the year class parameters. Usually the last few year class parameters are poorly estimated, although this depends on the quality and coverage of the compositional data that would inform these parameter. So users may wish to assume they are unknown and apply projection methods as they do for future values.
 
-\CNAME\ does not have any default projections for when parameters are specified by year. These must be specified using the \command{project} command blocks. This is important for parameters that may vary from year to year (such as year class strength parameters). 
+\CNAME\ does not have any default projections for when parameters are specified by year. These must be specified using the \command{project} command blocks. This is important for parameters that may vary from year to year (such as year class strength parameters), \CNAME\ should error out if users do this.
 
 \CNAME\ allows any estimable parameter to be specified in a \command{project} block and then used in a projection. The available projection types for these parameters include constant, lognormal, empirical-lognormal, or empirical re-sampling.
 
+The subcommand that is common to all projection methods is the \argument{multiplier} command. This is as it suggests a constant that is multiplied to the projected value after it has been derived by its respective method.
+
+A \textbf{note} to users for the specific year class parameter, The definition of year applies to the \argument{ycs\_years} not the model years. As defined in Section~\ref{subsubsec:BH-recruitment}, \argument{ycs\_years} are offset between time of spawning and when they enter the partition. 
+
 \paragraph*{Constant}
+A parameter can either be fixed during all projection years or specified individually for each projection year. This is a deterministic assumption, where the parameter is assumed to be known without error during projection years.
 
-A parameter can either be fixed during all projection years or specified individually for each projection year. This is a deterministic assumption, where the parameter is assumed to be known without error in each future year.
-
+{\small{\begin{verbatim}
+		@project Future_ycs
+		type constant
+		parameter process[Recruitment].ycs_values
+		years 2012:2016
+		values 1 2 1 2 0.5
+		multiplier 1
+		\end{verbatim}}}
 \paragraph*{Empirical resampling}
 
-Parameters that are of type vector or map can be re-sampled with replacement over a range of years and used as the projected year values.
+Parameters that have time components associated with them can be re-sampled uniformly with replacement over a range of years and used as the projected year values. The year range which users must specify are between \argument{start\_year} and \argument{final\_year}
+{\small{\begin{verbatim}
+		@project Future_ycs
+		type empirical_sampling
+		parameter process[Recruitment].ycs_values
+		years 2012:2016
+		start_year 1988
+		final_year 2008
+		multiplier 1
+		\end{verbatim}}}
+
 
 \paragraph*{Lognormal}
+The parameters are originally drawn from a gaussian distribution in log space and exponentiated out to form the lognormal distribution,
+\begin{equation}\label{eq:lognormal}
+X_p = e^{\epsilon_p- 0.5\sigma^2}
+\end{equation}
+where $\epsilon_p\stackrel{iid}{\sim}N(\mu,\sigma)$ and $X_p$ is the projected value for parameter $X$, and $\mu$, $\sigma$ is the mean and standard deviation on the log scale. An example of applying this process is if we wanted to draw future year class parameters from a lognormal distribution with mean 1 and standard deviation 0.8, we would define the syntax as,
+ 
+ {\small{\begin{verbatim}
+ 		@project Future_ycs
+ 		type lognormal
+ 		parameter process[Recruitment].ycs_values
+ 		years 2012:2016
+ 		mean 0
+ 		sigma 0.8
+ 		multiplier 1
+ 		\end{verbatim}}}
 
-The randomised parameters are sampled from a lognormal distribution with mean one and the specified standard deviation and autocorrelation on the log-scale. For example, when projecting year class strengths as a lognormal, they are generated as a Gaussian process with standard deviation $\sigma_R$ and mean - 0.5 $\sigma_R$ (so that the mean of the parameter will be 1). If the randomised parameter is modified by the optional multiplier, then the parameter will have mean $\mu$, where $\mu$ is the multiplier.
+
+\paragraph*{Lognormal-Empirical}
+This class applies Lognormal draw as in the \argument{LogNormal} class but it allows the user to specify a year range which is re-sampled uniformly without replacement. These re sampled values are then used to calculate the standard deviation of the distribution. Then equation~\eqref{eq:lognormal} is used to generate future values with user defined $\mu$ and empirically calculated $\sigma$,
+
+{\small{\begin{verbatim}
+		@project Future_ycs
+		type lognormal_empirical
+		parameter process[Recruitment].ycs_values
+		years 2012:2016
+		mean 0
+		start_year 1988
+		final_year 2008
+		multiplier 1
+		\end{verbatim}}}
+
 
 \subsection{\I{Population processes}}
 
@@ -276,7 +326,7 @@ For example, to specify a constant recruitment process, where individuals are ad
 	age 1
 \end{verbatim}}}
 
-\subsubsection*{\I{Beverton-Holt recruitment}}
+\subsubsection*{\I{Beverton-Holt recruitment}}\label{subsubsec:BH-recruitment}
 
 In the Beverton-Holt recruitment process the total number of recruits added each year is $R_y$, and is the product of the average recruitment $R_0$, the annual year class strength multiplier, $YCS$, and the stock-recruit relationship i.e.,
 \begin{equation}\label{eq:BH}
@@ -374,7 +424,7 @@ Note that ageing is \emph{not} applied by \CNAME\ by default. As with other proc
 
 \subsubsection{\I{Mortality}\label{sec:mortality}}
 
-Four types of mortality processes are permissible in \CNAME, constant rate, event, biomass-event and instantaneous. These processes remove individuals from the partition, either as a rate, as a total number (abundance), as a biomass of individuals or as a mixture of these. Note that \CNAME\ does not (yet) implement the Baranov catch equation. To apply both natural and biomass-event mortality, users can use \texttt{mortality\_instantaneous}. Note that all mortality processes occur within a mortality block of a time step
+Six types of mortality processes are permissible in \CNAME, constant rate, event, biomass-event, Hollings mortality, initialisation mortality event and instantaneous. These processes remove individuals from the partition, either as a rate, as a total number (abundance), as a biomass of individuals or as a mixture of these. Note that \CNAME\ does not (yet) implement the Baranov catch equation. To apply both natural and biomass-event mortality, users can use \texttt{mortality\_instantaneous}. Note that all mortality processes occur within a mortality block of a time step see Section~\ref{sec:mortality_block} for more information and definitions on mortality blocks. 
 
 \paragraph{Constant mortality rate}
 
@@ -402,7 +452,7 @@ c 1
 
 \paragraph{Event and biomass-event mortality}
 
-The event mortality process\index{Event mortality} and biomass mortality processes act in a similar manner, except that they remove a specified abundance (number of individuals) or biomass respectively. These can be used to include anthropogenic mortality where numbers of removals are known, for example, fishing in a fisheries model, rather than applying mortality as a rate. 
+The event mortality process\index{Event mortality} and biomass mortality\index{Biomass event mortality} processes act in a similar manner, except that they remove a specified abundance (number of individuals) or biomass respectively. These can be used to include anthropogenic mortality where numbers of removals are known, for example, fishing in a fisheries model, rather than applying mortality as a rate. 
 
 In these cases, the abundance or biomass removed is also constrained by a maximum exploitation rate. \CNAME\ removes as many individuals or as much biomass as it can while not exceeding the maximum exploitation rate. When minimising, event mortality processes require a penalty to discourage parameter values that do not allow the defined number of individuals to be removed. Here, the model penalises those parameter estimates that result in an too low a number of individuals in the defined categories (after applying selectivities) to allow for removals at the maximum exploitation rate. See Section \ref{sec:penalties} for more information on how to specify penalties.
 
@@ -554,6 +604,38 @@ For example, a biomass Holling type II mortality process on \texttt{prey} by our
 		u_max 0.8
 		\end{verbatim}}}
 
+\paragraph{Initialisation event or biomass-event mortality}
+
+The Initialisation event mortality process\index{Initialisation event mortality} are specific processes that only can occur in the initialisation phase. It allows users to apply abundance or biomass mortality events specifically in initialisation phases. This can be useful if you wanted to deviate a model from equilibrium before model start. This process applies a single catch for all iterations within the initialisation phase, this process wont apply any mortality outside of the initialisation phase. It is advised that users use this process in conjunction with the \texttt{insert\_processes} command in the \command{initialisation\_phase} block, and not embed this process in the annual cycle. Example syntax to implement such a scenario,
+
+{\small{\begin{verbatim}
+initialisation_phases Equilibrium_state Predation_state
+time_steps Oct_Nov Dec_Mar
+
+@initialisation_phase Equilibrium_state 
+type derived
+
+@initialisation_phase Predation_state
+type iterative
+insert_processes Oct_Nov()=predation_Initialisation
+
+@process predation_Initialisation
+type initialisation_mortality_event
+categories male.HOKI female.HOKI
+catch 90000
+selectivities Hakesl Hakesl
+
+time_step Oct_Nov
+processes Mg1 Instantaneous_Mortality
+
+@time_step Dec_Mar 
+processes Recruitment Instantaneous_Mortality
+\end{verbatim}}}
+
+Note how we have added the \texttt{initialisation\_mortality\_event} into the initialisation phase \texttt{Predation\_state} but not in the annual cycle. This was a case where the functionality has been applied.
+
+
+
 \subsubsection{\I{Transition By Category}}
 
 This process covers moves individuals between categories. Because the \CNAME\ partition user defined, this type of process is used to move individuals between categorised, and is used to specify processes such as maturation (move individuals from an immature to mature state) or migration (move individuals from one area to another). 
@@ -583,11 +665,34 @@ Where \texttt{MatureSel} is a selectivity that describes the proportion of age o
 
 \subsubsection{\I{Tag Release events}}\label{sub:tag_release}
 
-Tagging processes can be age or length based processes, where by numbers of fished are moved from an untagged category to a tagged category that the user has defined in the \command{Categories} block. Tag release processes can also account for tag induced mortality on individuals. Age based tag release events take a known number of individuals tagged for each age and do a straightforward category transition along with extra mortality. Length based tag release processes are more complicated, as \CNAME\ needs to calculate the age length matrix and exploitation by each length to then move the correct numbers at age based on a length input. 
+Tagging processes can be age or length based processes, where by numbers of fished are moved from an untagged category to a tagged category that the user has defined in the \command{Categories} block. Tag release processes can also account for tag induced mortality on individuals. Age based tag release events take a known number of individuals tagged for each age and do a straightforward category transition along with extra mortality. Length based tag release processes are more complicated, as \CNAME\ needs to calculate the age length matrix and exploitation by each length to then move the correct numbers at age based on the known lengths of release. \CNAME\ also allows for initial tag loss. An example of tag release by length process is as follows. 
+
+{\small{\begin{verbatim}
+		@process 2005Tags_shelf
+		type tag_by_length 
+		years 2005
+		from male.untagged  female.untagged
+		to male.2005  female.2005	
+		selectivities MatureSel
+		proportions 1
+		selectivities ShelfselMale ShelfselFemale
+		penalty tagging_penalty
+		maximum_length 230
+		plus_group False
+		initial_mortality 0.1
+		table proportions
+		year 30 40 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220
+		2005  0 0 0.0580 0.1546 0.3380 0.1981 0.1643 0.0531 0.0242 0.0097 0 0 0 0 0 0 0 0 0 0
+		end_table
+		n 207
+		U_max 0.999
+		\end{verbatim}}}
+
+The above process will move 207 individuals from a combination of male.untagged and female.untagged, based on the combination of growth rates and selectivity between the sexes.
 
 \subsubsection{\I{Tag Loss}}
 
-Tag Loss is the process where tags are lost from tagged categories over time from tag failure or getting knocked off. This process is applied as a instantaneous mortality rate that can happen over multiple time steps in the annual cycle. This method assumes when tags are lost that the fish is removed from the partition. All though this seems logically incorrect, we are dealing with such a small number of fish that the impact is minimal and computationally simpler. Note that if your tagging events make up a large proportion of the population you may want to adjust this method. There will be two types of tag loss processes that are termed \texttt{single} and \texttt{double}. Currently only \texttt{single} exists in \CNAME. \texttt{double} will deal with situations where a tag release process tags individuals with two tags. In which there is another formulae to work out the rate of tag loss.
+Tag Loss is the process where tags are lost from tagged categories over time from tag failure or getting knocked off. This process is applied as a instantaneous migration rate that can happen over multiple time steps in the annual cycle. This method assumes when tags are lost that the fish are transferred from the \subcommand{from} category to the \subcommand{to} category. How the tag loss rate is applied depends on whether the fish were only tagged with a single tag (\subcommand{tag\_number\_per\_animal = 1}), double tagged (\subcommand{tag\_number\_per\_animal = 2}) or $n$ tagged (\subcommand{tag\_number\_per\_animal = n}). The relationship is as follows
 
 {\small{\begin{verbatim}
 	@process Tag_loss

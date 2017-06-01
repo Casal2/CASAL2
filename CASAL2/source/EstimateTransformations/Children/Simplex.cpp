@@ -29,6 +29,8 @@ namespace utils = niwa::utilities;
  */
 Simplex::Simplex(Model* model) : EstimateTransformation(model) {
   parameters_.Bind<string>(PARAM_ESTIMATE, &estimate_label_, "The label for the estimate label to use in the simplex transformation", "");
+
+  is_simple_ = true;
 }
 
 /**
@@ -78,7 +80,7 @@ void Simplex::DoBuild() {
   Double U_bound = estimates_[length_ - 1]->upper_bound();
   // Create, populate and validate simplex estimates
   for (unsigned i = 0; i < simplex_values_.size(); ++i) {
-    estimates::Uniform* simplex = new estimates::Uniform();
+    estimates::Uniform* simplex = new estimates::Uniform(model_);
     simplex->set_block_type(PARAM_ESTIMATE);
     simplex->set_defined_file_name(__FILE__);
     simplex->set_defined_line_number(__LINE__);

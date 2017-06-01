@@ -165,6 +165,7 @@ void MortalityInstantaneous::DoValidate() {
     fisheries_[new_fishery.label_] = new_fishery;
     RegisterAsEstimable(PARAM_FISHERY + string("_") + utilities::ToLowercase(new_fishery.label_), &fisheries_[new_fishery.label_].catches_);
 
+    LOG_FINEST() << "Creating estimable: " << PARAM_FISHERY + string("_") + utilities::ToLowercase(new_fishery.label_), &fisheries_[new_fishery.label_].catches_;
     // remove after build
     vector<string> categories;
     vector<string> selectivities;
@@ -249,6 +250,12 @@ void MortalityInstantaneous::DoBuild() {
    */
   for (auto& fishery_category : fishery_categories_) {
     fishery_category.selectivity_ = model_->managers().selectivity()->GetSelectivity(fishery_category.selectivity_label_);
+    /**
+     * Check the fishery categories are valid
+     */
+    if (!model_->categories()->IsValid(fishery_category.category_label_))
+        LOG_ERROR_P(PARAM_METHOD) << ": category " << fishery_category.category_label_ << " does not exist. Have you defined it?";
+
     if (!fishery_category.selectivity_)
       LOG_ERROR_P(PARAM_METHOD) << "selectivity " << fishery_category.selectivity_label_ << " does not exist. Have you defined it?";
   }
@@ -441,9 +448,9 @@ void MortalityInstantaneous::DoExecute() {
     StoreForReport("year.timestep: ", utilities::ToInline<unsigned,string>(model_->current_year()) + "." + utilities::ToInline<unsigned,string>(time_step_index));
     for (auto fishery_iter : fisheries_) {
       auto fishery = fishery_iter.second;
-      StoreForReport(fishery.label_ + "_U: ", fishery_exploitation[fishery.label_]);
+      StoreForReport(fishery.label_ + "_U: ", AS_DOUBLE(fishery_exploitation[fishery.label_]));
       if (fishery_exploitation[fishery.label_] > 0)
-        StoreForReport(fishery.label_ + "_Catch: ",fisheries_[fishery.label_].catches_[model_->current_year()]);
+        StoreForReport(fishery.label_ + "_Catch: ",AS_DOUBLE(fisheries_[fishery.label_].catches_[model_->current_year()]));
       else
         StoreForReport(fishery.label_ + "_Catch: ", 0);
 
@@ -462,7 +469,7 @@ void MortalityInstantaneous::DoExecute() {
           * (1 - category_by_age_with_exploitation[categories->name_][categories->min_age_ + i]);
       if (categories->data_[i] < 0.0) {
         LOG_FINEST() << " Category : " << categories->name_ << " M = "<< m_[categories->name_] << " ratio " << ratio << " selectivity : " << selectivities_[category_offset]->GetResult(categories->min_age_ + i, categories->age_length_)
-            << " u_f = " << category_by_age_with_exploitation[categories->name_][categories->min_age_ + i] << " data = " << categories->data_[i] << " Exp " << AS_DOUBLE(exp(-m_[categories->name_  ]));
+            << " u_f = " << category_by_age_with_exploitation[categories->name_][categories->min_age_ + i] << " data = " << categories->data_[i] << " Exp " << AS_DOUBLE(exp(-m_[categories->name_  ])) << " in age = " << categories->min_age_ + i;;
         LOG_FATAL() << " Fishing caused a negative partition : if (categories->data_[i] < 0.0)";
       }
     }

@@ -32,7 +32,6 @@ Biomass::Biomass(Model* model) : Observation(model) {
   parameters_.Bind<string>(PARAM_OBS, &obs_, "The observed values", "");
   parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "The years of the observed values", "");
   parameters_.Bind<Double>(PARAM_ERROR_VALUE, &error_values_, "The error values of the observed values (note the units depend on the likelihood)", "");
-  parameters_.Bind<Double>(PARAM_DELTA, &delta_, "Robustification value (delta) for the likelihood", "", Double(1e-10));
   parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_labels_, "Labels of the selectivities", "", true);
   parameters_.Bind<Double>(PARAM_PROCESS_ERROR, &process_error_value_, "Value for process error", "", Double(0.0));
 
@@ -217,7 +216,7 @@ void Biomass::Execute() {
   }
 
   for (unsigned index = 0; index < observeds.size(); ++index)
-    SaveComparison(keys[index], expecteds[index], observeds[index], process_errors[index], error_values[index], delta_, 0.0);
+    SaveComparison(keys[index], expecteds[index], observeds[index], process_errors[index], error_values[index],0.0, delta_, 0.0);
 }
 
 /**

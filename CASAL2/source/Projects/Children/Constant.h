@@ -35,6 +35,7 @@ public:
 private:
   // members
   vector<Double>              values_;
+  Double                      value_;
   map<unsigned, Double>       year_values_;
 };
 

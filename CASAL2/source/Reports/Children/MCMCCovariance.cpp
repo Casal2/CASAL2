@@ -36,7 +36,7 @@ void MCMCCovariance::DoExecute() {
   cache_ << "MCMC_covariance" << REPORT_R_MATRIX <<"\n";
   for (unsigned i = 0; i < covariance_matrix.size1(); ++i) {
      for (unsigned j = 0; j < covariance_matrix.size2(); ++j) {
-       cache_ << covariance_matrix(i,j) << " ";
+       cache_ << AS_DOUBLE(covariance_matrix(i,j)) << " ";
        if ( j == (covariance_matrix.size1() - 1))
          cache_ << "\n";
      }
