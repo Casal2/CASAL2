@@ -119,7 +119,7 @@ void Creator::CreateEstimates() {
         if (u_index <= 0 || u_index > targets->size())
           LOG_FATAL_P(PARAM_PARAMETER) << "index " << string_index << " is out of range 1-" << targets->size();
 
-        CreateEstimate(new_parameter + "(" + string_index + ")", offset, &(*targets)[u_index-1]);
+        CreateEstimate(new_parameter + "{" + string_index + "}", offset, &(*targets)[u_index-1]);
         offset++;
       }
     }
@@ -138,7 +138,7 @@ void Creator::CreateEstimates() {
         if (targets->find(u_index) == targets->end() && create_missing)
           (*targets)[u_index] = lower_bounds_[offset];
 
-        CreateEstimate(new_parameter + "(" + string_index + ")", offset, &(*targets)[u_index]);
+        CreateEstimate(new_parameter + "{" + string_index + "}", offset, &(*targets)[u_index]);
         offset++;
       }
     }
@@ -151,7 +151,7 @@ void Creator::CreateEstimates() {
         if (targets->find(index) == targets->end())
           LOG_FATAL_P(PARAM_PARAMETER) << "value " << index << " could not be found in the objects registered";
 
-        CreateEstimate(new_parameter + "(" + index + ")", offset, &(*targets)[index]);
+        CreateEstimate(new_parameter + "{" + index + "}", offset, &(*targets)[index]);
         offset++;
       }
     }
@@ -180,7 +180,7 @@ void Creator::CreateEstimates() {
     {
       vector<Double>* targets = target->GetEstimableVector(parameter);
       for (unsigned i = 0; i < targets->size(); ++i)
-        CreateEstimate(new_parameter + "(" + utilities::ToInline<unsigned, string>(i + 1) + ")", i, &(*targets)[i]);
+        CreateEstimate(new_parameter + "{" + utilities::ToInline<unsigned, string>(i + 1) + "}", i, &(*targets)[i]);
 
       break;
     }
@@ -189,7 +189,7 @@ void Creator::CreateEstimates() {
       map<unsigned, Double>* targets = target->GetEstimableUMap(parameter);
       unsigned offset = 0;
       for (auto iter : (*targets)) {
-        CreateEstimate(new_parameter + "(" + utilities::ToInline<unsigned, string>(iter.first) + ")", offset, &(*targets)[iter.first]);
+        CreateEstimate(new_parameter + "{" + utilities::ToInline<unsigned, string>(iter.first) + "}", offset, &(*targets)[iter.first]);
         offset++;
       }
       break;
@@ -199,7 +199,7 @@ void Creator::CreateEstimates() {
       utils::OrderedMap<string, Double>* targets = target->GetEstimableSMap(parameter);
       unsigned offset = 0;
       for (auto iter : (*targets)) {
-        CreateEstimate(new_parameter + "(" + iter.first + ")", offset, &(*targets)[iter.first]);
+        CreateEstimate(new_parameter + "{" + iter.first + "}", offset, &(*targets)[iter.first]);
         offset++;
       }
       break;
@@ -288,7 +288,7 @@ void Creator::HandleSameParameter() {
           if (u_index <= 0 || u_index > temp->size())
             LOG_FATAL_P(PARAM_SAME) << "index " << string_index << " is out of range 1-" << temp->size();
 
-          labels.push_back(new_parameter + "(" + string_index + ")");
+          labels.push_back(new_parameter + "{" + string_index + "}");
           targets.push_back(&(*temp)[u_index-1]);
           offset++;
         }
@@ -308,7 +308,7 @@ void Creator::HandleSameParameter() {
           if (temps->find(u_index) == temps->end() && create_missing)
             (*temps)[u_index] = lower_bounds_[offset];
 
-          labels.push_back(new_parameter + "(" + string_index + ")");
+          labels.push_back(new_parameter + "{" + string_index + "}");
           targets.push_back(&(*temps)[u_index]);
           offset++;
         }
@@ -322,7 +322,7 @@ void Creator::HandleSameParameter() {
           if (temp->find(index) == temp->end())
             LOG_FATAL_P(PARAM_PARAMETER) << "value " << index << " could not be found in the objects registered";
 
-          labels.push_back(new_parameter + "(" + index + ")");
+          labels.push_back(new_parameter + "{" + index + "}");
           targets.push_back(&(*temp)[index]);
           offset++;
         }
@@ -343,7 +343,7 @@ void Creator::HandleSameParameter() {
       {
         vector<Double>* temps = target->GetEstimableVector(parameter);
         for (unsigned i = 0; i < temps->size(); ++i) {
-          labels.push_back(new_parameter + "(" + utilities::ToInline<unsigned, string>(i + 1) + ")");
+          labels.push_back(new_parameter + "{" + utilities::ToInline<unsigned, string>(i + 1) + "}");
           targets.push_back(&(*temps)[i]);
         }
 
@@ -354,7 +354,7 @@ void Creator::HandleSameParameter() {
         map<unsigned, Double>* temps = target->GetEstimableUMap(parameter);
         unsigned offset = 0;
         for (auto iter : (*temps)) {
-          labels.push_back(new_parameter + "(" + utilities::ToInline<unsigned, string>(iter.first) + ")");
+          labels.push_back(new_parameter + "{" + utilities::ToInline<unsigned, string>(iter.first) + "}");
           targets.push_back(&(*temps)[iter.first]);
           offset++;
         }
@@ -365,7 +365,7 @@ void Creator::HandleSameParameter() {
         utils::OrderedMap<string, Double>* temps = target->GetEstimableSMap(parameter);
         unsigned offset = 0;
         for (auto iter : (*temps)) {
-          labels.push_back(new_parameter + "(" + iter.first + ")");
+          labels.push_back(new_parameter + "{" + iter.first + "}");
           targets.push_back(&(*temps)[iter.first]);
           offset++;
         }
