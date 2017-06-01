@@ -136,6 +136,7 @@ void File::Parse() {
  * @param current_line The current line to parse
  */
 void File::HandleComments(string& current_line) {
+  LOG_FINEST() << "HandleComments: " << current_line;
 
   /**
    * Trigger is flagged when we find a comment in the line. If a comment
@@ -152,7 +153,7 @@ void File::HandleComments(string& current_line) {
      */
     if (!multi_line_comment_) {
       size_t single_line_pos = current_line.find_first_of(CONFIG_SINGLE_COMMENT);
-      size_t multi_comment_start = current_line.find_first_of(CONFIG_MULTI_COMMENT_START);
+      size_t multi_comment_start = current_line.find(CONFIG_MULTI_COMMENT_START, 0);
 
       bool process_single_line = false;
       if (multi_comment_start == string::npos && single_line_pos != string::npos)
@@ -161,6 +162,7 @@ void File::HandleComments(string& current_line) {
         process_single_line = true;
 
       if (process_single_line) {
+        LOG_FINEST() << "Single line comment found: " << current_line;
         trigger = true;
         current_line = current_line.substr(0, single_line_pos);
         continue;
@@ -171,30 +173,34 @@ void File::HandleComments(string& current_line) {
      * If we're in a multi-line comment then we're ok to look for the end of it in the current line.
      */
     if (multi_line_comment_) {
-      size_t pos = current_line.find_first_of(CONFIG_MULTI_COMMENT_END);
+      size_t pos = current_line.find(CONFIG_MULTI_COMMENT_END, 0);
       if (pos == string::npos) {
+        LOG_FINEST() << "Still in multi-line comment. Ignoring line: " << current_line;
         current_line = "";
         continue;
       }
 
       multi_line_comment_ = false;
       trigger = true;
-      current_line = current_line.substr(pos + 1, current_line.length() - pos);
+      LOG_FINEST() << "Ending multi-line comment on line: " << current_line << " @ " << pos;
+      current_line = current_line.substr(pos + 2); //, current_line.length() - (pos-1));
     }
 
     /**
      * Look for a new multi-line comment to begin. Then if we begin one look for the ending
      * which maybe right after it.
      */
-    size_t start_pos = current_line.find_first_of(CONFIG_MULTI_COMMENT_START);
+    size_t start_pos = current_line.find(CONFIG_MULTI_COMMENT_START, 0);
     if (start_pos != string::npos) {
-      size_t end_pos = current_line.find_first_of(CONFIG_MULTI_COMMENT_END, start_pos);
+      size_t end_pos = current_line.find(CONFIG_MULTI_COMMENT_END, start_pos+2);
       if (end_pos != string::npos) {
-        current_line = current_line.substr(0, start_pos) + current_line.substr(end_pos+1);
+        LOG_FINEST() << "Single-line multi-line comment on line: " << current_line << " @ " << start_pos << " & " << end_pos;
+        current_line = current_line.substr(0, start_pos) + current_line.substr(end_pos+2);
         trigger = true;
 
       } else {
         multi_line_comment_ = true;
+        LOG_FINEST() << "Starting multi-line comment on line: " << current_line << " @ " << start_pos;
         current_line = current_line.substr(0, start_pos);
       }
     }

@@ -284,7 +284,7 @@ void Objects::ExplodeString(const string& source_parameter, string &type, string
    /**
     * Now check for index
     */
-   boost::char_separator<char> seperator2("()");
+   boost::char_separator<char> seperator2("{}");
    tokenizer tokens2(parameter, seperator2);
 
    token_list.clear();
@@ -303,7 +303,7 @@ void Objects::ExplodeString(const string& source_parameter, string &type, string
 void Objects::ImplodeString(const string& type, const string& label, const string& parameter, const string& index, string& target_parameter) {
   target_parameter = util::ToLowercase(type) + "[" + label + "]." + util::ToLowercase(parameter);
   if (index != "")
-    target_parameter += "(" + index + ")";
+    target_parameter += "{" + index + "}";
 }
 
 } /* namespace niwa */
