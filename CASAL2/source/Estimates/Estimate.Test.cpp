@@ -380,13 +380,13 @@ TEST_F(InternalEmptyModel, Estimates_All_Targets_Vector) {
   ObjectiveFunction& obj_function = model_->objective_function();
   EXPECT_DOUBLE_EQ(39989.151448120341, obj_function.score());
 
-  Estimate* estimate = model_->managers().estimate()->GetEstimate("selectivity[av].v(10)");
+  Estimate* estimate = model_->managers().estimate()->GetEstimate("selectivity[av].v{10}");
   if (!estimate)
     LOG_FATAL() << "!estimate";
   EXPECT_DOUBLE_EQ(estimate->value(), 5.0);
   EXPECT_DOUBLE_EQ(estimate->GetScore(), 2.2650530751015676);
 
-  estimate = model_->managers().estimate()->GetEstimate("selectivity[av].v(40)");
+  estimate = model_->managers().estimate()->GetEstimate("selectivity[av].v{40}");
   if (!estimate)
     LOG_FATAL() << "!estimate";
   EXPECT_DOUBLE_EQ(estimate->value(), 20.0);
@@ -420,13 +420,13 @@ TEST_F(InternalEmptyModel, Estimates_All_Targets_Unsigned_Map) {
   ObjectiveFunction& obj_function = model_->objective_function();
   EXPECT_DOUBLE_EQ(2963.7305613725566, obj_function.score());
 
-  Estimate* estimate = model_->managers().estimate()->GetEstimate("process[Fishing].catches(1998)");
+  Estimate* estimate = model_->managers().estimate()->GetEstimate("process[Fishing].catches{1998}");
   if (!estimate)
     LOG_FATAL() << "!estimate";
   EXPECT_DOUBLE_EQ(estimate->value(), 1849.153714);
   EXPECT_DOUBLE_EQ(estimate->GetScore(), 18.371135369472036);
 
-  estimate = model_->managers().estimate()->GetEstimate("process[Fishing].catches(2006)");
+  estimate = model_->managers().estimate()->GetEstimate("process[Fishing].catches{2006}");
   if (!estimate)
     LOG_FATAL() << "!estimate";
   EXPECT_DOUBLE_EQ(estimate->value(), 113852.472257);
@@ -460,13 +460,13 @@ TEST_F(InternalEmptyModel, Estimates_All_Targets_String_Map) {
   ObjectiveFunction& obj_function = model_->objective_function();
   EXPECT_DOUBLE_EQ(2682.979986309937, obj_function.score());
 
-  Estimate* estimate = model_->managers().estimate()->GetEstimate("process[Recruitment].proportions(immature.male)");
+  Estimate* estimate = model_->managers().estimate()->GetEstimate("process[Recruitment].proportions{immature.male}");
   if (!estimate)
     LOG_FATAL() << "!estimate";
   EXPECT_DOUBLE_EQ(estimate->value(), 0.5);
   EXPECT_DOUBLE_EQ(estimate->GetScore(), -0.64756858783643167);
 
-  estimate = model_->managers().estimate()->GetEstimate("process[Recruitment].proportions(immature.female)");
+  estimate = model_->managers().estimate()->GetEstimate("process[Recruitment].proportions{immature.female}");
   if (!estimate)
     LOG_FATAL() << "!estimate";
   EXPECT_DOUBLE_EQ(estimate->value(), 0.5);
