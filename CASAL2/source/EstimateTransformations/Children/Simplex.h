@@ -41,7 +41,6 @@ protected:
 
 private:
   // members
-  string                      estimate_label_ = "";
   vector<Double>              simplex_values_;
   vector<Estimate*>           estimates_;
   vector<Estimate*>           simplex_estimates_;

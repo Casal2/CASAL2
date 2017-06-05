@@ -51,7 +51,7 @@ const string estimate_transformation_log_no_bounds =
 R"(
 @estimate_transformation log_r0
 type log
-estimate recruitment.r0
+estimate_label recruitment.r0
 )";
 
 /**

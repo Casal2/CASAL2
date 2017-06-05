@@ -525,6 +525,9 @@ bool Model::RunMCMC() {
   } else {
     LOG_FINE() << "Calling minimiser to find our minimum and covariance matrix";
     auto minimiser = managers_->minimiser()->active_minimiser();
+    if((minimiser->type() == PARAM_DE_SOLVER) | (minimiser->type() == PARAM_DLIB))
+      LOG_ERROR() << "The minimiser type " << PARAM_DE_SOLVER << ", " << PARAM_DE_SOLVER << " does not produce a covariance matrix and so will not be viable for an MCMC run, try one of the other minimisers.";
+
     minimiser->Execute();
     LOG_FINE() << "Build covariance matrix";
     minimiser->BuildCovarianceMatrix();

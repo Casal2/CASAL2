@@ -41,8 +41,8 @@ protected:
 
 private:
   // members
-  string                      estimate_label_ = "";
   Estimate*                   estimate_ = nullptr;
+  Double                      current_untransformed_value_;
 };
 
 } /* namespace estimatetransformations */

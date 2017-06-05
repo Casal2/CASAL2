@@ -26,7 +26,7 @@ namespace estimatetransformations {
  * Default constructor
  */
 Inverse::Inverse(Model* model) : EstimateTransformation(model) {
-  parameters_.Bind<string>(PARAM_ESTIMATE, &estimate_label_, "The parameter to use in the inverse transformation", "");
+  //parameters_.Bind<string>(PARAM_ESTIMATE, &estimate_label_, "The parameter to use in the inverse transformation", "");
 }
 
 /**
@@ -48,22 +48,22 @@ void Inverse::DoBuild() {
 
   original_lower_bound_ = estimate_->lower_bound();
   original_upper_bound_ = estimate_->upper_bound();
+  // tranformed bounds
+  lower_bound_ = 1.0 / original_lower_bound_;
+  upper_bound_ = 1.0 / original_upper_bound_;
 
-  if (!parameters_.Get(PARAM_LOWER_BOUND)->has_been_defined() && original_upper_bound_ != 0.0)
-    lower_bound_ = 1 / original_upper_bound_;
-  if (!parameters_.Get(PARAM_UPPER_BOUND)->has_been_defined() && original_lower_bound_ != 0.0)
-    upper_bound_ = 1 / original_lower_bound_;
 }
 
 /**
  *
  */
 void Inverse::Transform() {
-  estimate_->set_lower_bound(lower_bound_);
-  estimate_->set_upper_bound(upper_bound_);
+  estimate_->set_lower_bound(upper_bound_);
+  estimate_->set_upper_bound(lower_bound_);
+  current_untransformed_value_ = estimate_->value();
+  estimate_->set_value(1 / current_untransformed_value_);
+  LOG_MEDIUM() << "transforming value from " << current_untransformed_value_ << " to " << estimate_->value();
 
-  if (estimate_->value() != 0)
-    estimate_->set_value(1 / estimate_->value());;
 }
 
 /**
@@ -72,10 +72,25 @@ void Inverse::Transform() {
 void Inverse::Restore() {
   estimate_->set_lower_bound(original_lower_bound_);
   estimate_->set_upper_bound(original_upper_bound_);
+  LOG_MEDIUM() << "Restoring value from " << estimate_->value()  << " to " << AS_DOUBLE(1.0 /  estimate_->value());
 
-  if (estimate_->value() != 0)
-    estimate_->set_value(1 / estimate_->value());
+  estimate_->set_value(1.0 / estimate_->value());
 }
+
+
+/**
+ *  @Return the jacobian
+ */
+Double Inverse::GetScore() {
+//
+  if(transform_with_jacobian_) {
+    jacobian_ = -1.0 * pow(current_untransformed_value_,-2);
+    LOG_MEDIUM() << "jacobian: " << jacobian_;
+    return jacobian_;
+  } else
+    return 0.0;
+}
+
 
 /**
  * Get the target estimables so we can ensure each
