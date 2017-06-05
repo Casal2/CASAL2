@@ -116,7 +116,7 @@ class ClassLoader:
         casal2_src_folder = '../CASAL2/source/'
         parent_class_folders = [ 'AdditionalPriors', 'AgeingErrors', 'AgeLengths', 'Asserts',
                         'Catchabilities', 'Categories', 'DerivedQuantities',
-                        'Estimates', 'InitialisationPhases', 'LengthWeights',
+                        'Estimates', 'EstimateTransformations', 'InitialisationPhases', 'LengthWeights',
                         'Likelihoods', 'MCMCs', 'Minimisers',
                         'Model', 'Observations', 'Penalties', 'Processes', 'Profiles', 'Projects',
                         'Reports', 'Selectivities', 'Simulates', 'TimeSteps', 'TimeVarying']
@@ -527,10 +527,13 @@ class Printer:
 
 class Latex:
     def Build(self):
+
         print '-- Building latex documentation and pdf'
         cwd = os.path.normpath(os.getcwd())
         os.chdir('../Documentation/UserManual/')
-
+        print '-- Building CASAL.syn'
+        os.system('python QuickReference.py')
+        
         # Build the Version.tex file
         if Globals.git_path_ != '':
             print '-- Build version.tex with Git log information'
@@ -571,7 +574,6 @@ class Latex:
             file_output.write(version)
             file_output.close()
 
-        os.system('python QuickReference.py')
         for i in range(0,3):
           if Globals.operating_system_ == "linux":
             if os.system('pdflatex --halt-on-error --interaction=nonstopmode CASAL2') != EX_OK:

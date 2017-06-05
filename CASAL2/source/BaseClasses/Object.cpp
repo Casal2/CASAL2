@@ -123,6 +123,8 @@ Double* Object::GetEstimable(const string& label, const string& index) {
     if (!success)
       LOG_CODE_ERROR() << "bool success = util::To<unsigned>(" << index << ", value);";
 
+    LOG_FINEST() << "looking for " << label << " with index " << index;
+
     if (estimable_u_maps_[label]->find(value) == estimable_u_maps_[label]->end())
       LOG_CODE_ERROR() << "estimable_u_maps[" << label << "].find(" << value << ") == estimable_u_maps_.end()";
 
