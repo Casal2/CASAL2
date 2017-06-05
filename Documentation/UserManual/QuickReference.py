@@ -10,6 +10,7 @@ FILE = [open('Syntax/AgeingError.tex', 'r'),
         open('Syntax/Catchability.tex', 'r'),
         open('Syntax/DerivedQuantity.tex', 'r'),
         open('Syntax/Estimate.tex', 'r'),
+        open('Syntax/EstimateTransformation.tex', 'r'),        
         open('Syntax/InitialisationPhase.tex', 'r'),
         open('Syntax/Likelihood.tex', 'r'),
         open('Syntax/DerivedQuantity.tex', 'r'),
@@ -20,6 +21,7 @@ FILE = [open('Syntax/AgeingError.tex', 'r'),
         open('Syntax/Penalty.tex', 'r'),
         open('Syntax/Process.tex', 'r'),
         open('Syntax/Profile.tex', 'r'),
+        open('Syntax/Project.tex', 'r'),        
         open('Syntax/Report.tex', 'r'),
         open('Syntax/Selectivity.tex', 'r'),
         open('Syntax/LengthWeight.tex', 'r'),
@@ -42,8 +44,8 @@ SYNTAX_OUTFILE.write("PreprocStart =\n")
 SYNTAX_OUTFILE.write("HexPrefix = 0x\n")
 SYNTAX_OUTFILE.write("SyntaxStart =\n")
 SYNTAX_OUTFILE.write("SyntaxEnd =\n")
-SYNTAX_OUTFILE.write("CommentStart = {\n")
-SYNTAX_OUTFILE.write("CommentEnd = }\n")
+SYNTAX_OUTFILE.write("CommentStart = /*\n")
+SYNTAX_OUTFILE.write("CommentEnd = */ \n")
 SYNTAX_OUTFILE.write("CommentStartAlt =\n")
 SYNTAX_OUTFILE.write("CommentEndAlt =\n")
 SYNTAX_OUTFILE.write("SingleComment = #\n")

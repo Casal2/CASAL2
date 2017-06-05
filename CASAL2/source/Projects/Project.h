@@ -77,7 +77,7 @@ protected:
   Estimable::Type             estimable_type_;
   base::Object*               target_;
   string                      estimable_parameter_  = "";
-  map<unsigned,Double>        projected_parameters_; // year = value;
+  map<unsigned,Double>        projected_parameters_; // year , value;
   bool                        final_phase_ = false;
 
 private:

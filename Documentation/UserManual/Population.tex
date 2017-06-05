@@ -1015,3 +1015,27 @@ Parameters are shifted based on an exogenous variable, an example of this is an 
 \end{equation}
 where $\delta_y$ is the shift or deviation in parameter $\theta_y$ in year $y$ to generate the new parameter value in year $y$ ($\theta'_y$). $a$ is an estimable shift parameter, $E$ is the exogenous variable and $E_y$ is the value of this variable in year $y$. For more information readers can see \cite{francis_03}.
 
+\subsection{\I{Equation Parser}\label{sec:eq_parser}}
+\CNAME\ has the ability to use an equation parser, this is currently implemented in two classes of the model, Projections, Derived quantities, \textbf{link to these}. Examples of syntax for implementing the equation parser follow from here. But for a more detailed look at the parser see \url{https://github.com/nickgammon/parser/blob/master/parser.cpp}\\
+
+
+{\small{\begin{verbatim}
+		equation process[Recruitment].r0 * (2-1)
+		\end{verbatim}}}
+
+Can apply routine mathematical functions such as \texttt{log}, \texttt{exp},\texttt{cos},\texttt{sin},\texttt{tan} such as;
+{\small{\begin{verbatim}
+		equation sqrt(process[Recruitment].r0)
+		\end{verbatim}}}
+
+Apply exponents,
+{\small{\begin{verbatim}
+		equation pow(2, 3)
+		\end{verbatim}}}
+
+evaluate the absolute od an equation using the \texttt{abs()} syntax,
+{\small{\begin{verbatim}
+		equation abs(sqrt(process[Recruitment].r0) * 1.33)
+		\end{verbatim}}}
+
+Constraints, are that you can only reference singletons so cannot apply an equation to vector parameters for example calculating 

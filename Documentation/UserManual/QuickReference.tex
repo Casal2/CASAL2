@@ -64,6 +64,8 @@
 \defSub{upper\_bound} {The upper bound for the parameter}
 \defSub{same} {List of parameters that are constrained to have the same value as this parameter}
 \defSub{mcmc} {Indicates if this parameter is fixed at the point estimate during an MCMC run}
+\defSub{transformation} {Type of simple transformation to apply to estimable}
+\defSub{transform\_with\_jacobian} {Apply jacobian during transformation}
 \par\textbf{\commandlabsubarg{estimate}{type}{beta}}\par
 \defSub{mu} {Beta prior  mean (mu) parameter}
 \defSub{sigma} {Beta prior variance (sigma) parameter}
@@ -71,9 +73,6 @@
 \defSub{b} {Beta prior upper bound of the range (B) parameter}
 \par\textbf{\commandlabsubarg{estimate}{type}{lognormal}}\par
 \defSub{mu} {The lognormal prior mean (mu) parameter}
-\defSub{cv} {The Lognormal variance (CV) parameter}
-\par\textbf{\commandlabsubarg{estimate}{type}{lognormal\_by\_mode}}\par
-\defSub{mode} {The mode of the lognormal prior}
 \defSub{cv} {The Lognormal variance (CV) parameter}
 \par\textbf{\commandlabsubarg{estimate}{type}{normal}}\par
 \defSub{mu} {The normal prior mean (mu) parameter}
@@ -86,6 +85,17 @@
 \defSub{sigma} {The normal-log prior variance (standard deviation) parameter}
 \par\textbf{\commandlabsubarg{estimate}{type}{uniform}}\par
 \par\textbf{\commandlabsubarg{estimate}{type}{uniform\_log}}\par
+\defComLab{estimate\_transformation}{Define an object of type \emph{estimate\_transformation}}\par\par
+\defSub{label} {Label for the transformation block}
+\defSub{type} {Type of transformation}
+\defSub{estimate\_label} {Label of estimate block to apply transformation to}
+\defSub{transform\_with\_jacobian} {Apply jacobian during transformation}
+\par\textbf{\commandlabsubarg{estimate\_\_transformation}{type}{average\_difference}}\par
+\par\textbf{\commandlabsubarg{estimate\_\_transformation}{type}{inverse}}\par
+\par\textbf{\commandlabsubarg{estimate\_\_transformation}{type}{log}}\par
+\par\textbf{\commandlabsubarg{estimate\_\_transformation}{type}{orthogonal}}\par
+\par\textbf{\commandlabsubarg{estimate\_\_transformation}{type}{simplex}}\par
+\par\textbf{\commandlabsubarg{estimate\_\_transformation}{type}{square\_root}}\par
 \defComLab{initialisation\_phase}{Define an object of type \emph{initialisation\_phase}}\par\par
 \defSub{label} {The label of the initialisation phase}
 \defSub{type} {The type of initialisation}
@@ -157,6 +167,15 @@
 \defSub{evaluations} {Maximum number of evaluations}
 \defSub{tolerance} {Tolerance of the gradient for convergence}
 \par\textbf{\commandlabsubarg{minimiser}{type}{cppad}}\par
+\defSub{retape} {Retape? yes or no}
+\defSub{print\_level} {Level of debug to stdout}
+\defSub{sb} {String buffer output?}
+\defSub{max\_iter} {Maximum number of iterations}
+\defSub{tol} {Tolerance for convergence}
+\defSub{acceptable\_tol} {Acceptable tolerance}
+\defSub{acceptable\_obj\_change\_tol} {}
+\defSub{derivative\_test} {How to test for derivaties}
+\defSub{point\_pertubation\_radius} {}
 \par\textbf{\commandlabsubarg{minimiser}{type}{de\_solver}}\par
 \defSub{population\_size} {The number of candidate solutions to have in the population}
 \defSub{crossover\_probability} {Define the minimisers crossover probability}
@@ -436,19 +455,6 @@
 \defSub{ycs\_values} {YCS Values}
 \defSub{ycs\_years} {Recruitment years. A vector of years that relates to the year of the spawning event that created this cohort}
 \defSub{standardise\_ycs\_years} {Years that are included for year class standardisation}
-\par\textbf{\commandlabsubarg{process}{type}{recruitment\_beverton\_holt\_devs}}\par
-\defSub{categories} {Category labels}
-\defSub{r0} {R0}
-\defSub{b0} {B0}
-\defSub{proportions} {Proportions}
-\defSub{age} {Age to recruit at}
-\defSub{ssb\_offset} {Spawning biomass year offset}
-\defSub{steepness} {Steepness}
-\defSub{ssb} {SSB Label (derived quantity}
-\defSub{sigma\_r} {Sigma r, the assumed standard deviation for the lognormal process}
-\defSub{b0\_intialisation\_phase} {Initialisation phase Label that b0 is from}
-\defSub{recruitment\_deviation\_values} {Recruitment deviations Values}
-\defSub{recruitment\_deviation\_years} {Recruitment deviations. A vector of years that relates to the year of the spawning event that created this cohort}
 \par\textbf{\commandlabsubarg{process}{type}{recruitment\_constant}}\par
 \defSub{categories} {Categories}
 \defSub{proportions} {Proportions}
@@ -512,6 +518,26 @@
 \defSub{upper\_bound} {The upper bounds}
 \defSub{parameter} {The system parameter to profile}
 \defSub{same} {A Parameter that are constrained to have the same value as the parameter being profiled}
+\defComLab{project}{Define an object of type \emph{project}}\par\par
+\defSub{label} {Label}
+\defSub{type} {Type}
+\defSub{years} {Years to recalculate the values}
+\defSub{parameter} {Parameter to project}
+\defSub{multiplier} {Multiplier that is applied to the projected value}
+\par\textbf{\commandlabsubarg{project}{type}{constant}}\par
+\defSub{values} {Values to assign to estimable}
+\par\textbf{\commandlabsubarg{project}{type}{empirical\_sampling}}\par
+\defSub{start\_year} {Start year of sampling}
+\defSub{final\_year} {Last year of sampling}
+\par\textbf{\commandlabsubarg{project}{type}{log\_normal}}\par
+\defSub{sigma} {Standard deviation of gaussian process on the log scale}
+\defSub{mean} {Mean of gaussian process}
+\par\textbf{\commandlabsubarg{project}{type}{log\_normal\_empirical}}\par
+\defSub{mean} {Mean of gaussian process}
+\defSub{start\_year} {Start year of sampling}
+\defSub{final\_year} {Last year of sampling}
+\par\textbf{\commandlabsubarg{project}{type}{user\_defined}}\par
+\defSub{equation} {Equation to do a test run of}
 \defComLab{report}{Define an object of type \emph{report}}\par\par
 \defSub{label} {The label for the report}
 \defSub{type} {The type of report}
@@ -525,6 +551,8 @@
 \par\textbf{\commandlabsubarg{report}{type}{correlation\_matrix}}\par
 \par\textbf{\commandlabsubarg{report}{type}{covariance\_matrix}}\par
 \par\textbf{\commandlabsubarg{report}{type}{derived\_quantity}}\par
+\par\textbf{\commandlabsubarg{report}{type}{equation\_test}}\par
+\defSub{equation} {Equation to do a test run of}
 \par\textbf{\commandlabsubarg{report}{type}{estimable}}\par
 \defSub{parameter} {Parameter to print}
 \defSub{years} {Years to print the estimable for}
@@ -555,6 +583,8 @@
 \defSub{years} {Years}
 \par\textbf{\commandlabsubarg{report}{type}{process}}\par
 \defSub{process} {Process label that is reported}
+\par\textbf{\commandlabsubarg{report}{type}{project}}\par
+\defSub{project} {Project label that is reported}
 \par\textbf{\commandlabsubarg{report}{type}{random\_number\_seed}}\par
 \par\textbf{\commandlabsubarg{report}{type}{selectivity}}\par
 \defSub{selectivity} {Selectivity name}

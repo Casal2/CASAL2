@@ -82,6 +82,7 @@ void DerivedQuantity::Validate() {
 void DerivedQuantity::Build() {
   LOG_TRACE();
 
+
   partition_.Init(category_labels_);
 
   selectivities::Manager& selectivity_manager = *model_->managers().selectivity();
@@ -108,7 +109,10 @@ void DerivedQuantity::Build() {
  */
 void DerivedQuantity::Reset() {
   initialisation_values_.clear();
-  values_.clear();
+
+  // initialise the values variable
+  for (unsigned year : model_->years())
+    values_[year] = 0.0;
 }
 
 /**

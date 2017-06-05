@@ -39,6 +39,7 @@
 #include "Reports/Children/PartitionBiomass.h"
 #include "Reports/Children/PartitionMeanWeight.h"
 #include "Reports/Children/Process.h"
+#include "Reports/Children/Project.h"
 #include "Reports/Children/RandomNumberSeed.h"
 #include "Reports/Children/OutputParameters.h"
 #include "Reports/Children/SimulatedObservation.h"
@@ -102,14 +103,16 @@ Report* Factory::Create(Model* model, const string& object_type, const string& s
       result = new PartitionBiomass(model);
     else if (sub_type == PARAM_PARTITION_MEAN_WEIGHT)
       result = new PartitionMeanWeight(model);
+    else if (sub_type == PARAM_PROJECT)
+      result = new Project(model);
+    else if (sub_type == PARAM_PROCESS)
+      result = new Process(model);
     else if (sub_type == PARAM_OBJECTIVE_FUNCTION)
       result = new ObjectiveFunction(model);
     else if (sub_type == PARAM_OBSERVATION)
       result = new Observation(model);
     else if (sub_type == PARAM_OUTPUT_PARAMETERS)
       result = new OutputParameters(model);
-    else if (sub_type == PARAM_PROCESS)
-      result = new Process(model);
     else if (sub_type == PARAM_RANDOM_NUMBER_SEED)
       result = new RandomNumberSeed(model);
     else if (sub_type == PARAM_SIMULATED_OBSERVATION)

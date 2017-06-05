@@ -85,5 +85,22 @@ void Manager::StoreValues(unsigned current_year, unsigned start_year, unsigned f
   }
 }
 
+/**
+ * Return the project with the name passed in as a parameter.
+ * If no process is found then an empty pointer will
+ * be returned.
+ *
+ * @param label The name of the project to find
+ * @return A pointer to the project or empty pointer
+ */
+Project* Manager::GetProject(const string& label) {
+  for (auto project : objects_) {
+    if (project->label() == label)
+      return project;
+  }
+
+  return nullptr;
+}
+
 } /* namespace projects */
 } /* namespace niwa */

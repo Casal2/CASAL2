@@ -50,6 +50,51 @@
 
 \subsubsection[C P P A D]{\commandlabsubarg{minimiser}{type}{cppad}}
 
+\defSub{retape} {Retape? yes or no}
+\defType{string}
+\defDefault{"true"}
+\defAllowedValues{true, false}
+
+\defSub{print\_level} {Level of debug to stdout}
+\defType{non-negative integer}
+\defDefault{5u}
+\defLowerBound{0u (inclusive)}
+\defUpperBound{12u (inclusive)}
+
+\defSub{sb} {String buffer output?}
+\defType{string}
+\defDefault{"yes"}
+\defAllowedValues{yes, no}
+
+\defSub{max\_iter} {Maximum number of iterations}
+\defType{non-negative integer}
+\defDefault{4000}
+\defLowerBound{0u (exclusive)}
+
+\defSub{tol} {Tolerance for convergence}
+\defType{constant}
+\defDefault{1e-9}
+
+\defSub{acceptable\_tol} {Acceptable tolerance}
+\defType{constant}
+\defDefault{1e-6}
+\defLowerBound{0.0 (inclusive)}
+
+\defSub{acceptable\_obj\_change\_tol} {}
+\defType{constant}
+\defDefault{1e+20}
+\defLowerBound{0u (exclusive)}
+
+\defSub{derivative\_test} {How to test for derivaties}
+\defType{string}
+\defDefault{"none"}
+\defAllowedValues{none, first-order, second-order, only-second-order}
+
+\defSub{point\_pertubation\_radius} {}
+\defType{constant}
+\defDefault{0.0}
+\defLowerBound{0.0 (inclusive)}
+
 \subsubsection[D E Solver]{\commandlabsubarg{minimiser}{type}{de\_solver}}
 
 \defSub{population\_size} {The number of candidate solutions to have in the population}

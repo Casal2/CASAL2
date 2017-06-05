@@ -13,8 +13,8 @@ PreprocStart =
 HexPrefix = 0x
 SyntaxStart =
 SyntaxEnd =
-CommentStart = {
-CommentEnd = }
+CommentStart = /*
+CommentEnd = */ 
 CommentStartAlt =
 CommentEndAlt =
 SingleComment = #
@@ -37,6 +37,7 @@ CharEsc = \
 @catchability
 @derived_quantity
 @estimate
+@estimate_transformation
 @initialisation_phase
 @length_weight
 @likelihood
@@ -47,6 +48,7 @@ CharEsc = \
 @penalty
 @process
 @profile
+@project
 @report
 @selectivity
 @time_step
@@ -54,6 +56,8 @@ CharEsc = \
 [Keywords 2]
 a
 a50
+acceptable_obj_change_tol
+acceptable_tol
 active
 adapt_covariance_matrix_at
 adapt_stepsize_at
@@ -86,6 +90,7 @@ cv
 cv_first
 cv_last
 delta
+derivative_test
 detection
 df
 difference_scale
@@ -93,8 +98,10 @@ dispersion
 distribution
 e
 electivities
+equation
 error_value
 error_value_multiplier
+estimate_label
 evaluations
 exclude_processes
 external_gaps
@@ -131,12 +138,13 @@ m
 max_age
 max_correlation
 max_generations
+max_iter
 maximum_length
 mcmc
+mean
 method
 method_of_removal
 min_age
-mode
 mortality_instantaneous_process
 mu
 multiplier
@@ -150,28 +158,31 @@ parameter
 pearsons_residuals
 penalty
 plus_group
+point_pertubation_radius
 population_size
 predator_categories
 predator_selectivities
 prey_categories
 prey_selectivities
 print_default_reports
+print_level
 print_report
 process
 process_error
 process_errors
 process_proportion
 processes
+project
 projection_final_year
 proportions
 proposal_distribution
 q
 r0
 rates
-recruitment_deviation_values
-recruitment_deviation_years
+retape
 s
 same
+sb
 selectivities
 selectivities2
 selectivity
@@ -199,12 +210,16 @@ time_step_proportions
 time_step_ratio
 time_steps
 to
+tol
 tolerance
+transform_with_jacobian
+transformation
 type
 u_max
 units
 upper_bound
 v
+values
 write_mode
 x
 x0
@@ -236,6 +251,7 @@ ageing
 ageing_error_matrix
 all_values
 all_values_bounded
+average_difference
 basic
 beta
 betadiff
@@ -258,6 +274,8 @@ derived_quantity
 dirichlet
 double_exponential
 double_normal
+empirical_sampling
+equation_test
 estimable
 estimate_summary
 estimate_value
@@ -266,15 +284,17 @@ hessian_matrix
 increasing
 independence_metropolis
 initialisation_partition
+inverse
 inverse_logistic
 iterative
 knife_edge
+log
 log_normal
+log_normal_empirical
 log_normal_with_q
 logistic
 logistic_producing
 lognormal
-lognormal_by_mode
 m_p_d
 maturation
 mcmc_covariance
@@ -299,6 +319,7 @@ numerical_differences
 objective_function
 observation
 off_by_one
+orthogonal
 output_parameters
 partition
 partition_biomass
@@ -311,6 +332,7 @@ process_proportions_at_length
 process_proportions_by_category
 process_removals_by_age
 process_removals_by_length
+project
 proportions_at_age
 proportions_at_length
 proportions_by_category
@@ -318,11 +340,12 @@ proportions_migrating
 pseudo
 random_number_seed
 recruitment_beverton_holt
-recruitment_beverton_holt_devs
 recruitment_constant
 schnute
 selectivity
+simplex
 simulated_observation
+square_root
 standard_header
 state_category_by_age
 survival_constant_rate
@@ -336,6 +359,7 @@ transition_category
 transition_category_by_age
 uniform
 uniform_log
+user_defined
 von_bertalanffy
 
 [Keywords 5]

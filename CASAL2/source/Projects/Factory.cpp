@@ -17,6 +17,7 @@
 #include "Projects/Children/EmpiricalSampling.h"
 #include "Projects/Children/LogNormal.h"
 #include "Projects/Children/LogNormalEmpirical.h"
+#include "Projects/Children/UserDefined.h"
 #include "Projects/Manager.h"
 
 // namespaces
@@ -43,6 +44,9 @@ Project* Factory::Create(Model* model, const string& object_type, const string& 
       result = new LogNormalEmpirical(model);
     else if (sub_type == PARAM_EMPIRICAL_SAMPLING)
       result = new EmpiricalSampling(model);
+    else if (sub_type == PARAM_USER_DEFINED)
+      result = new UserDefined(model);
+
 
     if (result)
       model->managers().project()->AddObject(result);
