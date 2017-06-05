@@ -33,7 +33,7 @@
 #include "Minimisers/Children/DESolver.h"
 #include "Minimisers/Children/DLib.h"
 #include "Minimisers/Children/GammaDiff.h"
-#include "Minimisers/Children/STANBFGS.h"
+//#include "Minimisers/Children/STANBFGS.h"
 #endif
 
 // Namespaces
