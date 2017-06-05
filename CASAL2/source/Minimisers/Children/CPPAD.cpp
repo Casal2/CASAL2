@@ -7,6 +7,8 @@
  *
  * Copyright NIWA Science ©2014 - www.niwa.co.nz
  *
+ *
+ * CppAD Documentation for Solver options: https://www.coin-or.org/Ipopt/documentation/node40.html
  */
 #ifdef USE_AUTODIFF
 #ifdef USE_CPPAD
@@ -66,13 +68,13 @@ private:
  *
  */
 CPPAD::CPPAD(Model* model) : Minimiser(model) {
-  parameters_.Bind<string>("solver", &solver_, "The solver to use", "", "mumps");
   parameters_.Bind<string>("retape", &retape_, "Retape? yes or no", "", "true")->set_allowed_values({"true", "false"});
   parameters_.Bind<unsigned>("print_level", &print_level_, "Level of debug to stdout", "", 5u)->set_range(0u, 12u);
   parameters_.Bind<string>("sb", &sb_, "String buffer output?", "", "yes")->set_allowed_values({"yes", "no"});
   parameters_.Bind<unsigned>("max_iter", &max_iter_, "Maximum number of iterations", "", 1000)->set_lower_bound(0u, false);
-  parameters_.Bind<Double>("tol", &tol_, "Tolerance for convergence", "", 1e-5);
-  parameters_.Bind<Double>("acceptable_obj_change_tol", &acceptable_obj_change_tol_, "", "", 1e+10)->set_lower_bound(0u, false);
+  parameters_.Bind<Double>("tol", &tol_, "Tolerance for convergence", "", 1e-9);
+  parameters_.Bind<Double>("acceptable_tol", &acceptable_tol_, "Acceptable tolerance", "", 1e-6)->set_lower_bound(0.0, true);
+  parameters_.Bind<Double>("acceptable_obj_change_tol", &acceptable_obj_change_tol_, "", "", 1e+20)->set_lower_bound(0u, false);
   parameters_.Bind<string>("derivative_test", &derivative_test_, "How to test for derivaties", "", "second-order")->set_allowed_values({"second-order", "first-order"});
   parameters_.Bind<Double>("point_pertubation_radius", &point_perturbation_radius_, "", "", 0.0)->set_lower_bound(0.0, true);
 }
@@ -101,14 +103,15 @@ void CPPAD::Execute() {
 
   // options
   std::string options = "";
-  options += "String linear_solver " + solver_ + "\n";
   options += "Retape " + retape_ + "\n"; // retape operation sequence for each new x
   options += "Integer print_level " + utilities::ToInline<unsigned, string>(print_level_) + "\n";
   options += "String sb " + sb_ + "\n";
   options += "Integer max_iter " + utilities::ToInline<unsigned, string>(max_iter_) + "\n";
   options += "Numeric tol " + utilities::ToInline<Double, string>(tol_) + "\n";
-  options += "Numeric acceptable_obj_change_tol " + utilities::ToInline<Double, string>(tol_) + "\n";
+  options += "Numeric acceptable_tol " + utilities::ToInline<Double, string>(acceptable_tol_) + "\n";
+  options += "Numeric acceptable_obj_change_tol " + utilities::ToInline<Double, string>(acceptable_obj_change_tol_) + "\n";
   options += "String  derivative_test " + derivative_test_ + "\n";
+  options += "String check_derivatives_for_naninf yes\n";
   options += "Numeric point_perturbation_radius " + utilities::ToInline<Double, string>(point_perturbation_radius_) + "\n";
 
   CppAD::ipopt::solve_result<Dvector> solution;
