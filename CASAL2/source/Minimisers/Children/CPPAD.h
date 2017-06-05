@@ -40,12 +40,12 @@ public:
 
 private:
   // members
-  string                      solver_ = "";
   string                      retape_ = "";
   unsigned                    print_level_ = 0;
   string                      sb_ = "";
   unsigned                    max_iter_ = 0;
   Double                      tol_ = 0.0;
+  Double                      acceptable_tol_ = 0.0;
   Double                      acceptable_obj_change_tol_ = 0.0;
   string                      derivative_test_ = "";
   Double                      point_perturbation_radius_ = 0.0;
