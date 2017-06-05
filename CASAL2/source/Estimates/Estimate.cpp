@@ -68,7 +68,7 @@ void Estimate::Build() {
     boolean_value = utilities::ToInline<bool, string>(transform_with_jacobian_);
     EstimateTransformation* transformation = estimatetransformations::Factory::Create(model_, PARAM_ESTIMATE_TRANSFORMATION, transformation_type_);
     if(!transformation)
-      LOG_ERROR_P(PARAM_TRANSFORMATION) << "Wrong transformation type";
+      LOG_ERROR_P(PARAM_TRANSFORMATION) << "Wrong transformation type, check the manual for available types.";
     transformation->parameters().Add(PARAM_LABEL, transformation_type_ + "_" + label_, __FILE__, __LINE__);
     transformation->parameters().Add(PARAM_TYPE, transformation_type_, __FILE__, __LINE__);
     transformation->parameters().Add(PARAM_ESTIMATE_LABEL, label_, __FILE__, __LINE__);
