@@ -24,6 +24,23 @@
 
 #ifdef USE_ADOLC
 #include <adolc/adolc.h>
+
+adub acos(const badouble&);
+adub asin(const badouble&);
+adub atan(const badouble&);
+adub ceil(const badouble&);
+adub cos(const badouble&);
+adub cosh(const badouble&);
+adub exp(const badouble&);
+adub fabs(const badouble&);
+adub floor(const badouble&);
+adub log(const badouble&);
+adub log10(const badouble&);
+adub sin(const badouble&);
+adub sinh(const badouble&);
+adub sqrt(const badouble&);
+adub tan(const badouble&);
+adub tanh(const badouble&);
 #endif
 
 #ifdef USE_BETADIFF
