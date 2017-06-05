@@ -63,12 +63,15 @@ void Estimate::Build() {
    * let it know if it needs to calculate a Jacobian.
    */
   if (transformation_type_ != "") {
+    LOG_FINEST() << "Applying transformaton to @estimate: " << label_ << ", label of estimate transformation = " <<  transformation_type_ + "_" + label_ << ", transformation type = " <<transformation_type_;
     string boolean_value = "";
     boolean_value = utilities::ToInline<bool, string>(transform_with_jacobian_);
     EstimateTransformation* transformation = estimatetransformations::Factory::Create(model_, PARAM_ESTIMATE_TRANSFORMATION, transformation_type_);
-    transformation->parameters().Add(PARAM_LABEL, label_, __FILE__, __LINE__);
+    if(!transformation)
+      LOG_ERROR_P(PARAM_TRANSFORMATION) << "Wrong transformation type";
+    transformation->parameters().Add(PARAM_LABEL, transformation_type_ + "_" + label_, __FILE__, __LINE__);
     transformation->parameters().Add(PARAM_TYPE, transformation_type_, __FILE__, __LINE__);
-    transformation->parameters().Add(PARAM_ESTIMATE, label_, __FILE__, __LINE__);
+    transformation->parameters().Add(PARAM_ESTIMATE_LABEL, label_, __FILE__, __LINE__);
     transformation->parameters().Add(PARAM_TRANSFORM_WITH_JACOBIAN, boolean_value, __FILE__, __LINE__);
     transformation->Validate();
     transformation->Build();

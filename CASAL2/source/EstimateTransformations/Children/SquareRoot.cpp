@@ -26,7 +26,7 @@ namespace estimatetransformations {
  * Default constructor
  */
 SquareRoot::SquareRoot(Model* model) : EstimateTransformation(model) {
-  parameters_.Bind<string>(PARAM_ESTIMATE, &estimate_label_, "The parameter to use in the square root transformation", "");
+  //parameters_.Bind<string>(PARAM_ESTIMATE, &estimate_label_, "The parameter to use in the square root transformation", "");
 }
 
 /**
@@ -49,30 +49,43 @@ void SquareRoot::DoBuild() {
   original_lower_bound_ = estimate_->lower_bound();
   original_upper_bound_ = estimate_->upper_bound();
 
-  if (!parameters_.Get(PARAM_LOWER_BOUND)->has_been_defined())
-    lower_bound_ = sqrt(original_lower_bound_);
-  if (!parameters_.Get(PARAM_UPPER_BOUND)->has_been_defined())
-    upper_bound_ = sqrt(original_upper_bound_);
+  lower_bound_ = sqrt(original_lower_bound_);
+  upper_bound_ = sqrt(original_upper_bound_);
 }
 
 /**
  *
  */
 void SquareRoot::Transform() {
+  LOG_TRACE();
   estimate_->set_lower_bound(lower_bound_);
   estimate_->set_upper_bound(upper_bound_);
-
-  estimate_->set_value(sqrt(estimate_->value()));
+  current_untransformed_value_ = estimate_->value();
+  estimate_->set_value(sqrt(current_untransformed_value_));
+  LOG_MEDIUM() << "transforming value from " << current_untransformed_value_ << " to " << estimate_->value();
 }
 
 /**
  *
  */
 void SquareRoot::Restore() {
+  LOG_TRACE();
   estimate_->set_lower_bound(original_lower_bound_);
   estimate_->set_upper_bound(original_upper_bound_);
-
+  Double check = estimate_->value() * estimate_->value();
+  LOG_MEDIUM() << "Restoring value from " << estimate_->value()  << " to " << AS_DOUBLE(check);
   estimate_->set_value(estimate_->value() * estimate_->value());
+
+}
+
+Double SquareRoot::GetScore() {
+//
+  if(transform_with_jacobian_) {
+    jacobian_ = -0.5 * pow(current_untransformed_value_,-1.5);
+    LOG_MEDIUM() << "jacobian: " << jacobian_;
+    return jacobian_;
+  } else
+    return 0.0;
 }
 
 /**

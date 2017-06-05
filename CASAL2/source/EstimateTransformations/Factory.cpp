@@ -19,7 +19,6 @@
 #include "EstimateTransformations/Children/Orthogonal.h"
 #include "EstimateTransformations/Children/Inverse.h"
 #include "EstimateTransformations/Children/Log.h"
-#include "EstimateTransformations/Children/LogOdds.h"
 #include "EstimateTransformations/Children/SquareRoot.h"
 #include "EstimateTransformations/Children/Simplex.h"
 // namespaces
@@ -42,8 +41,6 @@ EstimateTransformation* Factory::Create(Model* model, const string& object_type,
       result = new Inverse(model);
     else if (sub_type == PARAM_LOG)
       result = new Log(model);
-    else if (sub_type == PARAM_LOG_ODDS)
-      result = new LogOdds(model);
     else if (sub_type == PARAM_ORTHOGONAL)
       result = new Orthogonal(model);
     else if (sub_type == PARAM_SQUARE_ROOT)

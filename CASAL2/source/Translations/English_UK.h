@@ -235,6 +235,7 @@
 #define PARAM_ESTIMABLE                           "estimable"
 #define PARAM_ESTIMABLE_VALUE_FILE                "estimable_value_file"
 #define PARAM_ESTIMATE                            "estimate"
+#define PARAM_ESTIMATE_LABEL                      "estimate_label"
 #define PARAM_ESTIMATE_SUMMARY                    "estimate_summary"
 #define PARAM_ESTIMATE_TRANSFORMATION             "estimate_transformation"
 #define PARAM_ESTIMATES                           "estimates"

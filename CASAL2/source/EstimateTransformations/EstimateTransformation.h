@@ -43,6 +43,7 @@ protected:
 
   // members
   Model*                      model_ = nullptr;
+  string                      estimate_label_;
   Double                      lower_bound_ = 0.0;
   Double                      upper_bound_ = 0.0;
   Double                      original_lower_bound_ = 0.0;
@@ -50,6 +51,8 @@ protected:
   Double                      original_value_ = 0.0;
   Double                      jacobian_ = 0.0;
   bool                        is_simple_ = true;
+  bool                        transform_with_jacobian_ = true;
+
 };
 
 } /* namespace niwa */

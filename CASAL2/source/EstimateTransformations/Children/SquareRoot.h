@@ -32,7 +32,7 @@ public:
   void                        Transform() override final;
   void                        Restore() override final;
   std::set<string>            GetTargetEstimates() override final;
-  Double                      GetScore() override final {return jacobian_;};
+  Double                      GetScore() override final;
 
 protected:
   // methods
@@ -41,8 +41,10 @@ protected:
 
 private:
   // members
-  string                      estimate_label_ = "";
+  //string                      estimate_label_ = "";
   Estimate*                   estimate_;
+  Double                      current_untransformed_value_;
+
 };
 
 } /* namespace estimatetransformations */
