@@ -26,9 +26,8 @@ const string estimate_transformation_inverse =
 R"(
 @estimate_transformation x
 type inverse
-estimate recruitment.r0
-lower_bound 1e-10
-upper_bound 1
+estimate_label recruitment.r0
+
 )";
 
 /**
@@ -42,7 +41,7 @@ TEST_F(InternalEmptyModel, EstimateTransformations_Inverse) {
   model_->Start(RunMode::kEstimation);
 
   ObjectiveFunction& obj_function = model_->objective_function();
-  EXPECT_DOUBLE_EQ(1977.6941559919785, obj_function.score());
+  EXPECT_DOUBLE_EQ(1977.8957249006603, obj_function.score());
 }
 
 /**
@@ -52,7 +51,7 @@ const string estimate_transformation_inverse_no_bounds =
 R"(
 @estimate_transformation x
 type inverse
-estimate recruitment.r0
+estimate_label recruitment.r0
 )";
 
 /**

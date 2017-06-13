@@ -25,9 +25,7 @@ const string estimate_transformation_log =
 R"(
 @estimate_transformation log_r0
 type log
-estimate recruitment.r0
-lower_bound 1e-10
-upper_bound 10000
+estimate_label recruitment.r0
 )";
 
 /**
@@ -41,7 +39,7 @@ TEST_F(InternalEmptyModel, EstimateTransformations_Log) {
   model_->Start(RunMode::kEstimation);
 
   ObjectiveFunction& obj_function = model_->objective_function();
-  EXPECT_DOUBLE_EQ(1990.1650989633442, obj_function.score());
+  EXPECT_DOUBLE_EQ(1977.8942177618578, obj_function.score());
 }
 
 /**

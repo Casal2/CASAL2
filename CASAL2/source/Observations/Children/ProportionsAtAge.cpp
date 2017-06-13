@@ -71,7 +71,7 @@ void ProportionsAtAge::DoValidate() {
   age_spread_ = (max_age_ - min_age_) + 1;
   map<unsigned, vector<Double>> error_values_by_year;
   map<unsigned, vector<Double>> obs_by_year;
-
+  LOG_FINEST() << "category_labels_.size() = " << category_labels_.size();
   if (category_labels_.size() != selectivity_labels_.size() && expected_selectivity_count_ != selectivity_labels_.size())
     LOG_ERROR_P(PARAM_SELECTIVITIES) << ": Number of selectivities provided (" << selectivity_labels_.size()
         << ") is not valid. You can specify either the number of category collections (" << category_labels_.size() << ") or "
@@ -195,7 +195,6 @@ void ProportionsAtAge::DoValidate() {
     }
   }
 
-  LOG_TRACE();
 }
 
 /**
@@ -203,11 +202,13 @@ void ProportionsAtAge::DoValidate() {
  * the labels for other objects are valid.
  */
 void ProportionsAtAge::DoBuild() {
+	LOG_TRACE();
   partition_ = CombinedCategoriesPtr(new niwa::partition::accessors::CombinedCategories(model_, category_labels_));
   cached_partition_ = CachedCombinedCategoriesPtr(new niwa::partition::accessors::cached::CombinedCategories(model_, category_labels_));
 
   // Build Selectivity pointers
   for(string label : selectivity_labels_) {
+  	LOG_FINEST() << "label = " << label;
     Selectivity* selectivity = model_->managers().selectivity()->GetSelectivity(label);
     if (!selectivity)
       LOG_ERROR_P(PARAM_SELECTIVITIES) << ": Selectivity " << label << " does not exist. Have you defined it?";
@@ -223,6 +224,14 @@ void ProportionsAtAge::DoBuild() {
     LOG_ERROR_P(PARAM_AGEING_ERROR) << "(" << ageing_error_label_ << ") could not be found. Have you defined it?";
   }
   age_results_.resize(age_spread_ * category_labels_.size(), 0.0);
+
+  // Find out how many selectivities there are, we can have selectivities for combined categories. this is what I am trying to solve for
+  // We can either have 1 selectivity
+  // A selectivity for each category_label
+  // or a selectivity for each combined category in each category_label (total categories) These are defined by business rules in the DoValidate.
+  if (expected_selectivity_count_ > category_labels_.size()) {
+  	selectivity_for_combined_categories_ = true;
+  }
 }
 
 /**
@@ -233,6 +242,7 @@ void ProportionsAtAge::DoBuild() {
  * structure to use with any interpolation
  */
 void ProportionsAtAge::PreExecute() {
+	LOG_TRACE();
   cached_partition_->BuildCache();
 
   if (cached_partition_->Size() != proportions_[model_->current_year()].size())
@@ -258,8 +268,10 @@ void ProportionsAtAge::Execute() {
    * with it. We need to build a vector of proportions for each age using that combination and then
    * compare it to the observations.
    */
+  unsigned selectivity_iter = 0;
+
   LOG_FINEST() << "Number of categories " << category_labels_.size();
-  for (unsigned category_offset = 0; category_offset < category_labels_.size(); ++category_offset, ++partition_iter, ++cached_partition_iter) {
+  for (unsigned category_offset = 0; category_offset < category_labels_.size(); ++category_offset, ++partition_iter, ++cached_partition_iter, ++selectivity_iter) {
     Double      selectivity_result = 0.0;
     Double      start_value        = 0.0;
     Double      end_value          = 0.0;
@@ -275,12 +287,15 @@ void ProportionsAtAge::Execute() {
     auto category_iter = partition_iter->begin();
     auto cached_category_iter = cached_partition_iter->begin();
     for (; category_iter != partition_iter->end(); ++cached_category_iter, ++category_iter) {
+    	if(selectivity_iter >= selectivities_.size())
+    		LOG_CODE_ERROR() << "selectivity_iter > selectivities_.size()";
+
+      LOG_FINEST() << "using selectivity = " << selectivities_[selectivity_iter]->label();
       for (unsigned data_offset = 0; data_offset < (*category_iter)->data_.size(); ++data_offset) {
         // We now need to loop through all ages to apply ageing misclassification matrix to account
         // for ages older than max_age_ that could be classified as an individual within the observation range
         unsigned age = ( (*category_iter)->min_age_ + data_offset);
-
-        selectivity_result = selectivities_[category_offset]->GetResult(age, (*category_iter)->age_length_);
+        selectivity_result = selectivities_[selectivity_iter]->GetResult(age, (*category_iter)->age_length_);
         start_value   = (*cached_category_iter).data_[data_offset];
         end_value     = (*category_iter)->data_[data_offset];
         final_value   = 0.0;
@@ -295,10 +310,13 @@ void ProportionsAtAge::Execute() {
 
         LOG_FINE() << "----------";
         LOG_FINE() << "Category: " << (*category_iter)->name_ << " at age " << age;
-        LOG_FINE() << "Selectivity: " << selectivities_[category_offset]->label() << ": " << selectivity_result;
+        LOG_FINE() << "Selectivity: " << selectivities_[selectivity_iter]->label() << ": " << selectivity_result;
         LOG_FINE() << "start_value: " << start_value << "; end_value: " << end_value << "; final_value: " << final_value;
         LOG_FINE() << "Numbers at age before ageing error is applied: " << numbers_age[data_offset];
       }
+    	if(selectivity_for_combined_categories_) {
+    		++selectivity_iter;
+    	}
     }
 
     /*

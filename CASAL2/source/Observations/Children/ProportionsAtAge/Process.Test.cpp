@@ -155,7 +155,7 @@ TEST_F(InternalEmptyModel, Observation_Process_Proportions_At_Age_Single) {
   model_->Start(RunMode::kBasic);
 
   ObjectiveFunction& obj_function = model_->objective_function();
-  EXPECT_DOUBLE_EQ(795.46042414425756, obj_function.score());
+  EXPECT_DOUBLE_EQ(795.46016532022554, obj_function.score());
 
   Observation* observation = model_->managers().observation()->GetObservation("observation");
 
@@ -179,21 +179,21 @@ TEST_F(InternalEmptyModel, Observation_Process_Proportions_At_Age_Single) {
 
   EXPECT_EQ("male+female",                comparisons[year][2].category_);
   EXPECT_DOUBLE_EQ(0.76400000000000001,   comparisons[year][2].error_value_);
-  EXPECT_DOUBLE_EQ(0.012012525090472419,  comparisons[year][2].expected_);
+  EXPECT_DOUBLE_EQ(0.012012717333534685,  comparisons[year][2].expected_);
   EXPECT_DOUBLE_EQ(0.0448,                comparisons[year][2].observed_);
-  EXPECT_DOUBLE_EQ(2.2112440825341411,    comparisons[year][2].score_);
+  EXPECT_DOUBLE_EQ(2.2111902646396828,    comparisons[year][2].score_);
 
   EXPECT_EQ("male+female",              comparisons[year][3].category_);
   EXPECT_DOUBLE_EQ(0.66300000000000003, comparisons[year][3].error_value_);
-  EXPECT_DOUBLE_EQ(0.019998426583322435,comparisons[year][3].expected_);
+  EXPECT_DOUBLE_EQ(0.019998740797780443,comparisons[year][3].expected_);
   EXPECT_DOUBLE_EQ(0.070999999999999994,comparisons[year][3].observed_);
-  EXPECT_DOUBLE_EQ(2.3773055602019428,  comparisons[year][3].score_);
+  EXPECT_DOUBLE_EQ(2.3772430658161219,  comparisons[year][3].score_);
 
   EXPECT_EQ("male+female",              comparisons[year][4].category_);
   EXPECT_DOUBLE_EQ(0.72399999999999998, comparisons[year][4].error_value_);
-  EXPECT_DOUBLE_EQ(0.03242023195231699,comparisons[year][4].expected_);
+  EXPECT_DOUBLE_EQ(0.032420722865177096,comparisons[year][4].expected_);
   EXPECT_DOUBLE_EQ(0.078,               comparisons[year][4].observed_);
-  EXPECT_DOUBLE_EQ(0.97402168381968313, comparisons[year][4].score_);
+  EXPECT_DOUBLE_EQ(0.97398257079591199, comparisons[year][4].score_);
 }
 
 const std::string test_cases_observation_proportions_at_age_double =
