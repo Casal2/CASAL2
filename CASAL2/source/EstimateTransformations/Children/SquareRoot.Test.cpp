@@ -25,9 +25,8 @@ const string estimate_transformation_squareroot =
 R"(
 @estimate_transformation log_r0
 type sqrt
-estimate recruitment.r0
-lower_bound 500
-upper_bound 2500
+estimate_label recruitment.r0
+
 )";
 
 /**
@@ -41,7 +40,7 @@ TEST_F(InternalEmptyModel, EstimateTransformations_SquareRoot) {
   model_->Start(RunMode::kEstimation);
 
   ObjectiveFunction& obj_function = model_->objective_function();
-  EXPECT_DOUBLE_EQ(1981.8766604103455, obj_function.score());
+  EXPECT_DOUBLE_EQ(1977.8957483899424, obj_function.score());
 }
 
 /**
@@ -51,7 +50,7 @@ const string estimate_transformation_squareroot_no_bounds =
 R"(
 @estimate_transformation log_r0
 type sqrt
-estimate recruitment.r0
+estimate_label recruitment.r0
 )";
 
 /**
@@ -79,7 +78,7 @@ TEST_F(InternalEmptyModel, EstimateTransformations_SquareRoot_With_DLib_Minimise
   model_->Start(RunMode::kEstimation);
 
   ObjectiveFunction& obj_function = model_->objective_function();
-  EXPECT_DOUBLE_EQ(1981.7778874187497, obj_function.score());
+  EXPECT_DOUBLE_EQ(1977.6906102868745, obj_function.score());
 }
 
 /**
@@ -93,7 +92,7 @@ TEST_F(InternalEmptyModel, EstimateTransformations_SquareRoot_With_DeSolver_Mini
   model_->Start(RunMode::kEstimation);
 
   ObjectiveFunction& obj_function = model_->objective_function();
-  EXPECT_DOUBLE_EQ(2204.6380608863997, obj_function.score());
+  EXPECT_DOUBLE_EQ(2219.3446777004519, obj_function.score());
 }
 
 } /* namespace estimatetransformations */

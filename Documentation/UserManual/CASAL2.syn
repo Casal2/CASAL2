@@ -7,7 +7,7 @@ C=1
 Namespace1 = 6
 IgnoreCase = No
 KeyWordLength = 0
-BracketChars = ([])
+BracketChars = {[]}
 OperatorChars = -+*/!~%^&|=$:!_<>
 PreprocStart =
 HexPrefix = 0x

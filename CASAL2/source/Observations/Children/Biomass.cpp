@@ -46,6 +46,9 @@ Biomass::Biomass(Model* model) : Observation(model) {
 void Biomass::DoValidate() {
   LOG_TRACE();
 
+  for(auto category_label : category_labels_)
+  	LOG_FINEST() << category_label;
+
   if (category_labels_.size() != selectivity_labels_.size() && expected_selectivity_count_ != selectivity_labels_.size())
     LOG_ERROR_P(PARAM_SELECTIVITIES) << ": Number of selectivities provided (" << selectivity_labels_.size()
         << ") is not valid. You can specify either the number of category collections (" << category_labels_.size() << ") or "
