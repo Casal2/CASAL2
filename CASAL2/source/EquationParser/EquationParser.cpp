@@ -122,7 +122,7 @@ Double& EquationParser::LookupValue(const std::string& name) {
   LOG_FINEST() << "Equation lookup on value: " << name;
 
   std::string error = "";
-  Double* value = model_->objects().FindEstimable(name, error);
+  Double* value = model_->objects().FindAddressable(name, error);
   if (value == nullptr) {
     LOG_FATAL() << "Could not find the value " << name << " when parsing a user defined equation";
   }
