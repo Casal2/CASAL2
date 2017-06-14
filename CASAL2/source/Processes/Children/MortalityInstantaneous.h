@@ -43,6 +43,8 @@ class MortalityInstantaneous : public Process {
     string          penalty_label_;
     Penalty*        penalty_ = nullptr;
     map<unsigned, Double>  catches_;
+    map<unsigned, Double>  actual_catches_;
+
   };
   /**
    * FisheryCategoryData is used to store 1 Fishery x Category x Selectivity
@@ -92,6 +94,8 @@ private:
   vector<Selectivity*>        selectivities_;
   // members for observations
   map<unsigned,  map<string, map<string, vector<Double>>>> removals_by_year_fishery_category_; // Year,  fishery, category
+  // Members for reporting
+  unsigned 										reporting_year_ = 0;
 };
 
 } /* namespace processes */

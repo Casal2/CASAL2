@@ -79,5 +79,29 @@ void Process::DoExecute() {
   ready_for_writing_ = true;
 }
 
+/**
+ * Execute this report
+ */
+void Process::DoExecuteTabular() {
+  auto print_tabular_values = process_->print_tabular_values();
+  if (first_run_) {
+    first_run_ = false;
+    cache_ << "*" << label_ << " " << "(" << type_ << ")" << "\n";
+    cache_ << "values " << REPORT_R_DATAFRAME << "\n";
+    for (auto Reports : print_tabular_values)
+      cache_ << Reports.first << " ";
+    cache_ << "\n";
+  }
+  for (auto Reports : print_tabular_values)
+    cache_ << Reports.second << " ";
+  cache_ << "\n";
+}
+
+/**
+ *  End report signature
+ */
+void Process::DoFinaliseTabular() {
+  ready_for_writing_ = true;
+}
 } /* namespace reports */
 } /* namespace niwa */

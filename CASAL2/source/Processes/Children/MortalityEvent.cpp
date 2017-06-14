@@ -152,6 +152,15 @@ void MortalityEvent::DoExecute() {
     StoreForReport("year: ", model_->current_year());
     StoreForReport("Exploitation: ", AS_DOUBLE(exploitation));
     StoreForReport("Catch: ", AS_DOUBLE(catch_years_[model_->current_year()]));
+
+    string current_year = utilities::ToInline<unsigned,string>(model_->current_year());
+    string catch_label, U_label;
+
+  	catch_label = "catch[" + label_ + "]." + current_year;
+  	U_label = "fishing_pressure[" + label_ + "]." + current_year;
+    StoreForTabularReport(catch_label, AS_DOUBLE(catch_years_[model_->current_year()]));
+    StoreForTabularReport(U_label, AS_DOUBLE(catch_years_[model_->current_year()]));
+
     Double removals = 0;
     for (auto categories : partition_) {
       unsigned offset = 0;

@@ -57,7 +57,7 @@ public:
 
   // Accessors
   string                        format() const { return format_; }
-  vector<string>                category_names() const { return category_names_; }
+  vector<string>                category_names() const { return category_names_;}
   unsigned                      min_age(const string& category_name);
   unsigned                      max_age(const string& category_name);
   vector<unsigned>              years(const string& category_name);

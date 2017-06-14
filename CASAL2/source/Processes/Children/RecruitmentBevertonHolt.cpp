@@ -21,6 +21,7 @@
 #include "TimeSteps/Manager.h"
 #include "Utilities/DoubleCompare.h"
 #include "Utilities/Math.h"
+#include "Utilities/To.h"
 
 // namespaces
 namespace niwa {
@@ -381,6 +382,20 @@ void RecruitmentBevertonHolt::DoExecute() {
     StoreForReport("ycs_values: " , AS_DOUBLE(ycs_value_by_year_[ssb_year])); // the input parameter isn't updated during projections. So thats why we are reporting it twice.
     StoreForReport("true_ycs: " , AS_DOUBLE(true_ycs)); // this is including SR-relationship
     StoreForReport("standardiesed_ycs: " , AS_DOUBLE(stand_ycs_value_by_year_[ssb_year]));
+
+    // Store for Tabular report
+    string ssb_year_string;
+    if (!utilities::To<unsigned, string>(ssb_year, ssb_year_string))
+      LOG_CODE_ERROR() << "Could not convert the value " << ssb_year << " to a string for storage in the tabular report";
+
+    string stand_label = "standardiesed_ycs." + ssb_year_string;
+    string true_ycs_label = "true_ycs." + ssb_year_string;
+
+    LOG_FINEST() << "adding tabular report = " << true_ycs_label;
+
+    StoreForTabularReport(stand_label, AS_DOUBLE(stand_ycs_value_by_year_[ssb_year]));
+    StoreForTabularReport(true_ycs_label ,  AS_DOUBLE(true_ycs));
+
 
   }
 

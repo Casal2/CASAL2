@@ -151,16 +151,20 @@ void MortalityInstantaneous::DoValidate() {
   LOG_FINEST() << "indexes: fishery=" << fishery_index << "; category=" << category_index << "; selectivity="
       << selectivity_index << "; time_step=" << time_step_index << "; u_max=" << u_max_index
       << "; penalty" << penalty_index;
+  // This is object is going to check the business rule that a fishery can only exist in one time-step in each year
+  map<string,vector<string>> fishery_time_step;
   for (auto row : rows) {
     FisheryData new_fishery;
     new_fishery.label_              = row[fishery_index];
     new_fishery.time_step_label_    = row[time_step_index];
     new_fishery.penalty_label_      = row[penalty_index];
+    fishery_time_step[new_fishery.label_].push_back(new_fishery.time_step_label_);
     if (!utilities::To<string, Double>(row[u_max_index], new_fishery.u_max_))
       LOG_ERROR_P(PARAM_METHOD) << "u_max value " << row[u_max_index] << " is not numeric";
     if (fishery_year_catch.find(new_fishery.label_) == fishery_year_catch.end())
       LOG_ERROR_P(PARAM_METHOD) << "fishery " << new_fishery.label_ << " does not have catch information in the catches table";
     new_fishery.catches_ = fishery_year_catch[new_fishery.label_];
+    new_fishery.actual_catches_ = fishery_year_catch[new_fishery.label_];
 
     fisheries_[new_fishery.label_] = new_fishery;
     RegisterAsEstimable(PARAM_FISHERY + string("_") + utilities::ToLowercase(new_fishery.label_), &fisheries_[new_fishery.label_].catches_);
@@ -183,6 +187,12 @@ void MortalityInstantaneous::DoValidate() {
       fishery_categories_.push_back(new_category_data);
     }
   }
+  // Check the business rule that a fishery can only exist one time-step
+  for(auto fishery : fishery_time_step) {
+    if (!std::equal(fishery.second.begin() + 1, fishery.second.end(), fishery.second.begin()))
+      LOG_ERROR_P(PARAM_METHOD) << "Found method '" << fishery.first << "' in more than one time step. You can only have a method occur in each time step. If a fishery occcurs in multiple time steps then call it method_step1 and method_step2 or something like that.";
+  }
+
 
   /**
    * Validate the non-table parameters now. These are mostly related to the natural mortality
@@ -395,7 +405,7 @@ void MortalityInstantaneous::DoExecute() {
         LOG_FINE() << " Uobs.first = " << uobs.first << " Uobs second = " << uobs.second << " and u_max " << u_max_;
         LOG_FINE() << uobs.first << " Rescaled exploitation rate = " << fishery_exploitation[uobs.first];
         recalculate_age_exploitation = true;
-
+        fisheries_[uobs.first].actual_catches_[model_->current_year()] = fishery_vulnerability[fisheries_[uobs.first].label_] * u_max_;
         if (fisheries_[uobs.first].penalty_)
           fisheries_[uobs.first].penalty_->Trigger(label_, fisheries_[uobs.first].catches_[model_->current_year()],
               fishery_vulnerability[fisheries_[uobs.first].label_] * u_max_);
@@ -444,16 +454,34 @@ void MortalityInstantaneous::DoExecute() {
     }
 
     // Report catches and exploitation rates for fisheries for each year and timestep
-    // Write a better report: try iterate over each fishery and write out the U, F and Catch for each year. Assuming a fishery occurs in one time-step
-    StoreForReport("year.timestep: ", utilities::ToInline<unsigned,string>(model_->current_year()) + "." + utilities::ToInline<unsigned,string>(time_step_index));
+    if(reporting_year_ != model_->current_year()) {
+    	StoreForReport("year: ", utilities::ToInline<unsigned,string>(model_->current_year()));
+    	reporting_year_ = model_->current_year();
+    }
+
     for (auto fishery_iter : fisheries_) {
       auto fishery = fishery_iter.second;
-      StoreForReport(fishery.label_ + "_U: ", AS_DOUBLE(fishery_exploitation[fishery.label_]));
-      if (fishery_exploitation[fishery.label_] > 0)
-        StoreForReport(fishery.label_ + "_Catch: ",AS_DOUBLE(fisheries_[fishery.label_].catches_[model_->current_year()]));
-      else
-        StoreForReport(fishery.label_ + "_Catch: ", 0);
+      if (fisheries_[fishery.label_].time_step_index_ != time_step_index)
+      	continue;
+			StoreForReport("fishing_pressure[" + fishery.label_ + "]: ", AS_DOUBLE(fishery_exploitation[fishery.label_]));
+			StoreForReport("Catch[" + fishery.label_ + "]: ",AS_DOUBLE(fisheries_[fishery.label_].catches_[model_->current_year()]));
+    }
+    // Store for Tabular report
+    string year_string;
+    if (!utilities::To<unsigned, string>(model_->current_year(), year_string))
+      LOG_CODE_ERROR() << "Could not convert the value " << model_->current_year() << " to a string for storage in the tabular report";
 
+    string catch_label;
+    string U_label;
+
+    for (auto fishery_iter : fisheries_) {
+    	auto fishery = fishery_iter.second;
+      if (fisheries_[fishery.label_].time_step_index_ != time_step_index)
+      	continue;
+    	catch_label = "catch[" + fishery.label_ + "]." + year_string;
+    	U_label = "fishing_pressure[" + fishery.label_ + "]." + year_string;
+      StoreForTabularReport(catch_label, AS_DOUBLE(fisheries_[fishery.label_].catches_[model_->current_year()]));
+      StoreForTabularReport(U_label, AS_DOUBLE(fishery_exploitation[fishery.label_]));
     }
 
 

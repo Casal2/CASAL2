@@ -92,6 +92,7 @@ void Process::Build() {
  */
 void Process::Reset(){
   print_values_.clear();
+  print_tabular_values_.clear();
   DoReset();
 }
 
