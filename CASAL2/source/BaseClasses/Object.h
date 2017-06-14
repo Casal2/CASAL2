@@ -35,6 +35,17 @@ using niwa::utilities::Double;
 // Namespaces
 namespace niwa {
 // Enumerated Types
+namespace Addressable {
+enum Type {
+  kInvalid      = 0,
+  kSingle       = 1,
+  kVector       = 2,
+  kStringMap    = 3,
+  kUnsignedMap  = 4,
+  kVectorStringMap = 5
+};
+};
+
 namespace Estimable {
 enum Type {
   kInvalid      = 0,
@@ -44,7 +55,7 @@ enum Type {
   kUnsignedMap  = 4,
   kVectorStringMap = 5
 };
-}
+};
 
 namespace base {
 
@@ -69,6 +80,10 @@ public:
   OrderedMap<string, Double>*     GetEstimableSMap(const string& label);
   vector<Double>*                 GetEstimableVector(const string& label);
   Estimable::Type                 GetEstimableType(const string& label) const;
+
+  Double*                   GetAddressable(const string& label);
+  virtual Double*           GetAddressable(const string& label, const string& index);
+
   void                            PrintParameterQueryInfo();
 
   // pure virtual methods
@@ -93,6 +108,11 @@ protected:
   void                        RegisterAsEstimable(const string& label, map<unsigned, Double>* variables);
   void                        RegisterAsEstimable(map<string, vector<Double>>* variables);
 
+  void                        RegisterAsAddressable(const string& label, Double* variable);
+  void                        RegisterAsAddressable(const string& label, vector<Double>* variables);
+  void                        RegisterAsAddressable(const string& label, OrderedMap<string, Double>* variables);
+  void                        RegisterAsAddressable(const string& label, map<unsigned, Double>* variables);
+
   // Members
   string                        block_type_           = "";
   string                        label_                = "";
@@ -106,6 +126,13 @@ protected:
   map<string, map<unsigned, Double>* >      estimable_u_maps_;
   map<string, OrderedMap<string, Double>* > estimable_s_maps_;
   vector<map<string, vector<Double>>* >     unnamed_estimable_s_map_vector_;
+
+  map<string, Double*>            addressables_;
+  map<string, vector<Double>* >   addressable_vectors_;
+  map<string, Addressable::Type>  addressable_types_;
+
+  map<string, map<unsigned, Double>* >      addressable_u_maps_;
+  map<string, OrderedMap<string, Double>* > addressable_s_maps_;
 
   DISALLOW_COPY_AND_ASSIGN(Object);
 };

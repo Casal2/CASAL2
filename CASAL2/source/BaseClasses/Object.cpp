@@ -279,6 +279,113 @@ void Object::RegisterAsEstimable(map<string, vector<Double>>* variables) {
 }
 
 /**
+ * This method will find the addressable object with the matching
+ * label and return it.
+ *
+ * @param label The label of the addressable to find
+ * @return A pointer to the addressable to be used by the Estimate object
+ */
+Double* Object::GetAddressable(const string& label) {
+  if (HasEstimable(label) && GetEstimableType(label) == Estimable::kSingle)
+    return this->GetEstimable(label);
+
+  if (addressable_types_.find(label) == addressable_types_.end())
+    LOG_CODE_ERROR() << "addressable_types_.find(" << label << ") == estimable_types_.end()";
+  return addressables_[label];
+}
+
+Double* Object::GetAddressable(const string& label, const string& index) {
+  if (HasEstimable(label))
+    return this->GetEstimable(label, index);
+
+  if (addressable_types_.find(label) == addressable_types_.end())
+     LOG_CODE_ERROR() << "addressable_types_.find(" << label << ") == addressable_types_.end()";
+
+  if (addressable_types_[label] == Addressable::kStringMap) {
+    if (addressable_s_maps_[label]->find(index)
+        == addressable_s_maps_[label]->end())
+      LOG_CODE_ERROR()<< "addressable_s_maps_[" << label << "].find(" << index << ") == addressable_s_maps_.end()";
+
+      return &(*addressable_s_maps_[label])[index];
+
+    } else if (addressable_types_[label] == Addressable::kUnsignedMap) {
+      unsigned value = 0;
+      bool success = utilities::To<unsigned>(index, value);
+      if (!success)
+      LOG_CODE_ERROR() << "bool success = util::To<unsigned>(" << index << ", value);";
+
+      LOG_FINEST() << "looking for " << label << " with index " << index;
+
+      if (addressable_u_maps_[label]->find(value) == addressable_u_maps_[label]->end())
+      LOG_CODE_ERROR() << "addressable_u_maps[" << label << "].find(" << value << ") == addressable_u_maps_.end()";
+
+      return &(*addressable_u_maps_[label])[value];
+
+    } else if (addressable_types_[label] == Addressable::kVector) {
+      unsigned value = 0;
+      bool success = utilities::To<unsigned>(index, value);
+      if (!success)
+      LOG_CODE_ERROR() << "bool success = util::To<unsigned>(" << index << ", value);";
+
+      if (value == 0)
+      LOG_FATAL() << "Estimable " << label << " is a vector and must be indexed from 1, not 0";
+      if (addressable_vectors_[label]->size() < value)
+      LOG_CODE_ERROR() << "addressable_vectors_[" << label << "]->size() " << addressable_vectors_[label]->size() << " < " << value;
+
+      return &(*addressable_vectors_[label])[value - 1];
+
+    } else if (addressable_types_[label] != Addressable::kSingle)
+    LOG_CODE_ERROR() << "addressable_types_[" << label << "] != Estimable::kSingle";
+
+  return estimables_[label];
+}
+
+
+/**
+ * This method will register a single variable as addressable. An
+ * addressable object can be lookup in the system, but not used
+ * in something like a minimiser/mcmc etc.
+ *
+ * @param label The label to register the addressable against
+ * @param variable The variable to store
+ */
+void Object::RegisterAsAddressable(const string& label, Double* variable) {
+  addressable_types_[label] = Addressable::kSingle;
+  addressables_[label] = variable;
+}
+
+/**
+ * This method will register a vector variable as addressable. An
+ * addressable object can be lookup in the system, but not used
+ * in something like a minimiser/mcmc etc.
+ *
+ * @param label The label to register the addressable under
+ * @param variables Vector containing all the elements to register
+ */
+void Object::RegisterAsAddressable(const string& label, vector<Double>* variables) {
+  addressable_vectors_[label] = variables;
+  addressable_types_[label]   = Addressable::kVector;
+}
+
+/**
+ * This method will register a map of variables as addressables.
+ * When register each variable it'll be done like:
+ *
+ * process_label.variable(map.string)
+ *
+ * @param label The label for the process
+ * @param variables Map containing index and double values to store
+ */
+void Object::RegisterAsAddressable(const string& label, OrderedMap<string, Double>* variables) {
+  addressable_s_maps_[label]  = variables;
+  addressable_types_[label]   = Addressable::kStringMap;
+}
+void Object::RegisterAsAddressable(const string& label, map<unsigned, Double>* variables) {
+  addressable_u_maps_[label]  = variables;
+  addressable_types_[label]   = Addressable::kUnsignedMap;
+}
+
+/**
  * This method will print the same value as the locations() method on the ParameterList for a given
  * parameter except it'll doing it for the whole base object
  *

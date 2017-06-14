@@ -49,6 +49,7 @@ public:
 
   base::Object*               FindObject(const string& parameter_absolute_name, string& error);
   Double*                     FindEstimable(const string& estimable_absolute_name, string& error);
+  Double*                     FindAddressable(const string& addressable_absolute_name, string& error);
 
 private:
   // methods

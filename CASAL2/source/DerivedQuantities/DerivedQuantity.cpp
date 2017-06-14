@@ -42,8 +42,7 @@ DerivedQuantity::DerivedQuantity(Model* model)
   parameters_.Bind<string>(PARAM_TIME_STEP_PROPORTION_METHOD, &proportion_method_, "Method for interpolating for the proportion through the mortality block", "", PARAM_WEIGHTED_SUM)
       ->set_allowed_values({ PARAM_WEIGHTED_SUM, PARAM_WEIGHTED_PRODUCT });
 
-  RegisterAsEstimable(PARAM_VALUES, &override_values_);
-  create_missing_estimables_[PARAM_VALUES] = true;
+  RegisterAsAddressable(PARAM_VALUES, &values_);
 
   mean_proportion_method_ = true;
 }
@@ -130,10 +129,6 @@ void DerivedQuantity::Reset() {
  */
 Double DerivedQuantity::GetValue(unsigned year) {
   LOG_FINEST() << "get value for year: " << year;
-  if (override_values_.find(year) != override_values_.end()) {
-    values_[year] = override_values_[year];
-    return override_values_[year];
-  }
   if (values_.find(year) != values_.end())
     return values_[year];
   if (initialisation_values_.size() == 0)

@@ -252,6 +252,30 @@ Double* Objects::FindEstimable(const string& estimable_absolute_name, string& er
 }
 
 /**
+ * This method will return a pointer to an addressable double in the system. This is
+ * similar to an estimable, but it won't be used by a minimiser etc.
+ */
+Double* Objects::FindAddressable(const string& addressable_absolute_name, string& error) {
+  LOG_TRACE();
+
+  niwa::base::Object* object = FindObject(addressable_absolute_name, error);
+  if (!object)
+    return nullptr;
+
+  string type         = "";
+  string label        = "";
+  string parameter    = "";
+  string index        = "";
+
+  ExplodeString(addressable_absolute_name, type, label, parameter, index);
+  LOG_FINEST() << "type: " << type << "; label: " << label << "; parameter: " << parameter << "; index: " << index;
+  if (index != "")
+    return object->GetAddressable(parameter, index);
+
+  return object->GetAddressable(parameter);
+}
+
+/**
  *
  */
 void Objects::ExplodeString(const string& source_parameter, string &type, string& label, string& parameter, string& index) {
