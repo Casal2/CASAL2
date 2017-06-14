@@ -23,12 +23,14 @@ public:
   void                        DoBuild() override final;
   void                        DoPrepare() override final { };
   void                        DoExecute() override final;
+  void                        DoExecuteTabular() override final;
   void                        DoFinalise() override final { };
-  void                        DoExecuteTabular() override final { };
+  void                        DoFinaliseTabular() override final;
 
 private:
   string                      selectivity_label_;
   niwa::Selectivity*          selectivity_;
+  bool												first_run_ = true;
 };
 
 } /* namespace reports */

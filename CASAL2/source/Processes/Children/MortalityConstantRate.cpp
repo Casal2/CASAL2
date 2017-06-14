@@ -151,19 +151,30 @@ void MortalityConstantRate::DoExecute() {
   StoreForReport("year", model_->current_year());
 
   unsigned i = 0;
+  Double amount;
+  Double total_amount = 0.0;
   for (auto category : partition_) {
     Double m = m_[category->name_];
 
     unsigned j = 0;
+
     LOG_FINEST() << "category " << category->name_ << "; min_age: " << category->min_age_ << "; ratio: " << ratio;
     StoreForReport(category->name_ + " ratio", ratio);
     for (Double& data : category->data_) {
-      data -= data * (1-exp(-selectivities_[i]->GetResult(category->min_age_ + j, category->age_length_)  * (m * ratio)));
+    	amount = data * (1-exp(-selectivities_[i]->GetResult(category->min_age_ + j, category->age_length_)  * (m * ratio)));
+      data -= amount;
+      total_amount += amount;
       ++j;
     }
-
     ++i;
   }
+  StoreForReport("removals", total_amount);
+  string current_year = utilities::ToInline<unsigned,string>(model_->current_year());
+  string removal_label;
+
+  removal_label = "removals[" + label_ + "]." + current_year;
+  StoreForTabularReport(removal_label, AS_DOUBLE(total_amount));
+
 }
 
 /**

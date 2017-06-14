@@ -61,6 +61,44 @@ void Process::StoreForReport(const string& label, const vector<T>& values) {
   }
 }
 
+/**
+ * This method converts the parameter value into a string
+ * and stores it to be printed in the process report when --tabular is on
+ * if one has been requested
+ *
+ * @param label The label of the parameter to print
+ * @param value The value to add to the parameter
+ */
+template<typename T>
+void Process::StoreForTabularReport(const string& label, T value) {
+  if (!print_report_)
+      return;
+
+  string svalue = utilities::ToInline<T, string>(value);
+  print_tabular_values_[label] = svalue;
+}
+
+/**
+ * This method converts the parameter value into a string
+ * and stores it to be printed in the process report when --tabular is on
+ * if one has been requested
+ *
+ * @param label The label of the parameter to print
+ * @param value The values to add to the parameter
+ */
+template<typename T>
+void Process::StoreForTabularReport(const string& label, const vector<T>& values) {
+  if (!print_report_)
+    return;
+
+  string svalue = "";
+  for (auto value : values) {
+    svalue = utilities::ToInline<T, string>(value);
+    print_tabular_values_[label] = values;
+  }
+}
+
+
 }
 
 #endif /* SOURCE_PROCESSES_PROCESS_INL_H_ */

@@ -35,6 +35,7 @@ void Selectivity::DoBuild() {
   }
 }
 
+
 void Selectivity::DoExecute() {
   if (selectivity_->IsSelectivityLengthBased()) {
     cache_ << "*" << label_ << " " << "("<< type_ << ")"<<"\n";
@@ -55,6 +56,34 @@ void Selectivity::DoExecute() {
       cache_ << i << " " << AS_DOUBLE(selectivity_->GetResult(i, nullptr)) << "\n";
     ready_for_writing_ = true;
   }
+}
+
+void Selectivity::DoExecuteTabular() {
+  if (selectivity_->IsSelectivityLengthBased()) {
+    if (first_run_) {
+      first_run_ = false;
+      cache_ << "*" << label_ << " " << "(" << type_ << ")" << "\n";
+      cache_ << "values " << REPORT_R_DATAFRAME << "\n";
+    	string age, selectivity_by_age_label;
+
+      for (unsigned i = model_->min_age(); i <= model_->max_age(); ++i) {
+        if (!utilities::To<unsigned, string>(i, age))
+          LOG_CODE_ERROR() << "Could not convert the value " << i << " to a string for storage in the tabular report";
+        selectivity_by_age_label = "selectivity[" + selectivity_->label() + "]." + age;
+        cache_ << selectivity_by_age_label << " ";
+      }
+      cache_ << "\n";
+    }
+    for (unsigned i = model_->min_age(); i <= model_->max_age(); ++i) {
+    	cache_ << AS_DOUBLE(selectivity_->GetResult(i, nullptr)) << " ";
+    }
+    cache_ << "\n";
+}
+
+}
+
+void Selectivity::DoFinaliseTabular() {
+  ready_for_writing_ = true;
 }
 
 

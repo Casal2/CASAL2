@@ -33,14 +33,15 @@ public:
   void                        DoValidate() override final { };
   void                        DoBuild() override final;
   void                        DoExecute() override final;
-  void                        DoExecuteTabular() override final { };
-
+  void                        DoExecuteTabular() override final;
+  void                        DoFinaliseTabular() override final;
 private:
   // members
   string              observation_label_;
   niwa::Observation*  observation_;
   bool                normalised_resids_;
   bool                pearson_resids_;
+  bool								first_run_ = true;
 };
 
 } /* namespace reports */

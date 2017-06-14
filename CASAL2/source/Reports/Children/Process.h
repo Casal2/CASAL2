@@ -31,11 +31,15 @@ public:
   void                        DoValidate() override final { };
   void                        DoBuild() override final;
   void                        DoExecute() override final;
-  void                        DoExecuteTabular() override final { };
+  void                        DoExecuteTabular() override final;
+  void                        DoFinaliseTabular() override final;
+
 
 private:
   string                      process_label_ = "";
   niwa::Process*              process_ = nullptr;
+  bool                        first_run_ = true;
+
 };
 
 } /* namespace reports */

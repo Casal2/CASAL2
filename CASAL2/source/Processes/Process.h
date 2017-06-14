@@ -62,6 +62,7 @@ public:
   PartitionStructure          partition_structure() const { return partition_structure_; }
   ProcessType                 process_type() const { return process_type_; }
   map<string, vector<string>>& print_values() { return print_values_; }
+  map<string, string>& 			 print_tabular_values() { return print_tabular_values_; }
 
 protected:
   // methods
@@ -69,7 +70,10 @@ protected:
   void                        StoreForReport(const string& label, T value);
   template<typename T>
   void                        StoreForReport(const string& label, const vector<T>& value);
-
+  template<typename T>
+  void                        StoreForTabularReport(const string& label, T value);
+  template<typename T>
+  void                        StoreForTabularReport(const string& label, const vector<T>& value);
   // members
   Model*                      model_ = nullptr;
   ProcessType                 process_type_ = ProcessType::kUnknown;
@@ -80,6 +84,7 @@ private:
   bool                        create_report_ = false;
   bool                        print_report_ = false;
   map<string, vector<string>> print_values_;
+  map<string, string> 				print_tabular_values_;
 };
 } /* namespace niwa */
 

@@ -63,7 +63,7 @@ void Observation::DoBuild() {
 }
 
 /**
- *
+ *	Execute the report
  */
 void Observation::DoExecute() {
   cache_ << "*" << label_ << " " << "("<< type_ << ")"<<"\n";
@@ -95,9 +95,9 @@ void Observation::DoExecute() {
       }
     }
   } else if (normalised_resids_ & !pearson_resids_) {
-    Double resid;
     // reporting normalised residuals
     cache_ << "year category age length observed expected residual error_value process_error adjusted_error score normalised_residuals\n";
+    Double resid;
     for (auto iter = comparisons.begin(); iter != comparisons.end(); ++iter) {
       for (obs::Comparison comparison : iter->second) {
         if (observation_->likelihood() == PARAM_LOGNORMAL) {
@@ -145,6 +145,209 @@ void Observation::DoExecute() {
       }
     }
   }
+  ready_for_writing_ = true;
+}
+
+/**
+ *	Execute tabular report
+ */
+void Observation::DoExecuteTabular() {
+  map<unsigned, vector<obs::Comparison>>& comparisons = observation_->comparisons();
+  if (first_run_) {
+    first_run_ = false;
+    cache_ << "*" << label_ << " " << "(" << type_ << ")" << "\n";
+    cache_ << "values " << REPORT_R_DATAFRAME << "\n";
+    string bin,year,label;
+    /**
+     *	Generate header
+     */
+    // Generate labels for the fits
+    for (auto iter = comparisons.begin(); iter != comparisons.end(); ++iter) {
+      if (!utilities::To<unsigned, string>(iter->first, year))
+        LOG_CODE_ERROR() << "Could not convert the value " << iter->first << " to a string for storage in the tabular report";
+      for (obs::Comparison comparison : iter->second) {
+      	if((comparison.length_ == 0) & (comparison.age_ == 0)) {
+      		// Biomass/abundance
+      		bin = "1";
+      	} else if ((comparison.length_ == 0) & (comparison.age_ != 0)) {
+      		// age based observation
+          if (!utilities::To<Double, string>(comparison.age_, bin))
+            LOG_CODE_ERROR() << "Could not convert the value " << comparison.age_ << " to a string for storage in the tabular report";
+      	} else if ((comparison.length_ != 0) & (comparison.age_ == 0)) {
+      		// length based observation
+          if (!utilities::To<Double, string>(comparison.length_, bin))
+            LOG_CODE_ERROR() << "Could not convert the value " << comparison.length_ << " to a string for storage in the tabular report";
+      	} else {
+      		LOG_ERROR() << "Haven't coded a tabular report for an observation that has a structured comparison as in observation " << observation_label_;
+      	}
+      	label = observation_label_ + ".fits" + "[" + year + "][" + bin + "]";
+      	cache_ << label << " ";
+      }
+    }
+    // Generate labels for the obs
+    for (auto iter = comparisons.begin(); iter != comparisons.end(); ++iter) {
+      if (!utilities::To<unsigned, string>(iter->first, year))
+        LOG_CODE_ERROR() << "Could not convert the value " << iter->first << " to a string for storage in the tabular report";
+      for (obs::Comparison comparison : iter->second) {
+      	if((comparison.length_ == 0) & (comparison.age_ == 0)) {
+      		// Biomass/abundance
+      	} else if ((comparison.length_ == 0) & (comparison.age_ != 0)) {
+      		// age based observation
+          if (!utilities::To<Double, string>(comparison.age_, bin))
+            LOG_CODE_ERROR() << "Could not convert the value " << comparison.age_ << " to a string for storage in the tabular report";
+      	} else if ((comparison.length_ != 0) & (comparison.age_ == 0)) {
+      		// length based observation
+          if (!utilities::To<Double, string>(comparison.length_, bin))
+            LOG_CODE_ERROR() << "Could not convert the value " << comparison.length_ << " to a string for storage in the tabular report";
+      	} else {
+      		LOG_ERROR() << "Haven't coded a tabular report for an observation that has a structured comparison as in observation " << observation_label_;
+      	}
+      	label = observation_label_ + ".obs" + "[" + year + "][" + bin + "]";
+      	cache_ << label << " ";
+      }
+    }
+    // Generate labels for the resids
+    for (auto iter = comparisons.begin(); iter != comparisons.end(); ++iter) {
+      if (!utilities::To<unsigned, string>(iter->first, year))
+        LOG_CODE_ERROR() << "Could not convert the value " << iter->first << " to a string for storage in the tabular report";
+      for (obs::Comparison comparison : iter->second) {
+      	if((comparison.length_ == 0) & (comparison.age_ == 0)) {
+      		// Biomass/abundance
+      	} else if ((comparison.length_ == 0) & (comparison.age_ != 0)) {
+      		// age based observation
+          if (!utilities::To<Double, string>(comparison.age_, bin))
+            LOG_CODE_ERROR() << "Could not convert the value " << comparison.age_ << " to a string for storage in the tabular report";
+      	} else if ((comparison.length_ != 0) & (comparison.age_ == 0)) {
+      		// length based observation
+          if (!utilities::To<Double, string>(comparison.length_, bin))
+            LOG_CODE_ERROR() << "Could not convert the value " << comparison.length_ << " to a string for storage in the tabular report";
+      	} else {
+      		LOG_ERROR() << "Haven't coded a tabular report for an observation that has a structured comparison as in observation " << observation_label_;
+      	}
+      	label = observation_label_ + ".resids" + "[" + year + "][" + bin + "]";
+      	cache_ << label << " ";
+      }
+    }
+    if (pearson_resids_) {
+      // Generate labels for the pearsons resids
+      for (auto iter = comparisons.begin(); iter != comparisons.end(); ++iter) {
+        if (!utilities::To<unsigned, string>(iter->first, year))
+          LOG_CODE_ERROR() << "Could not convert the value " << iter->first << " to a string for storage in the tabular report";
+        for (obs::Comparison comparison : iter->second) {
+        	if((comparison.length_ == 0) & (comparison.age_ == 0)) {
+        		// Biomass/abundance
+        	} else if ((comparison.length_ == 0) & (comparison.age_ != 0)) {
+        		// age based observation
+            if (!utilities::To<Double, string>(comparison.age_, bin))
+              LOG_CODE_ERROR() << "Could not convert the value " << comparison.age_ << " to a string for storage in the tabular report";
+        	} else if ((comparison.length_ != 0) & (comparison.age_ == 0)) {
+        		// length based observation
+            if (!utilities::To<Double, string>(comparison.length_, bin))
+              LOG_CODE_ERROR() << "Could not convert the value " << comparison.length_ << " to a string for storage in the tabular report";
+        	} else {
+        		LOG_ERROR() << "Haven't coded a tabular report for an observation that has a structured comparison as in observation " << observation_label_;
+        	}
+        	label = observation_label_ + ".pearson_resids" + "[" + year + "][" + bin + "]";
+        	cache_ << label << " ";
+        }
+      }
+    }
+    if (normalised_resids_) {
+      // Generate labels for the normalised resids
+      for (auto iter = comparisons.begin(); iter != comparisons.end(); ++iter) {
+        if (!utilities::To<unsigned, string>(iter->first, year))
+          LOG_CODE_ERROR() << "Could not convert the value " << iter->first << " to a string for storage in the tabular report";
+        for (obs::Comparison comparison : iter->second) {
+        	if((comparison.length_ == 0) & (comparison.age_ == 0)) {
+        		// Biomass/abundance
+        	} else if ((comparison.length_ == 0) & (comparison.age_ != 0)) {
+        		// age based observation
+            if (!utilities::To<Double, string>(comparison.age_, bin))
+              LOG_CODE_ERROR() << "Could not convert the value " << comparison.age_ << " to a string for storage in the tabular report";
+        	} else if ((comparison.length_ != 0) & (comparison.age_ == 0)) {
+        		// length based observation
+            if (!utilities::To<Double, string>(comparison.length_, bin))
+              LOG_CODE_ERROR() << "Could not convert the value " << comparison.length_ << " to a string for storage in the tabular report";
+        	} else {
+        		LOG_ERROR() << "Haven't coded a tabular report for an observation that has a structured comparison as in observation " << observation_label_;
+        	}
+        	label_ = observation_label_ + ".normalised_resids" + "[" + year + "][" + bin + "]";
+        	cache_ << label << " ";
+        }
+      }
+    }
+    cache_ << "\n";
+  }
+  /**
+   *	Print Values
+   */
+  // Print fits
+  for (auto iter = comparisons.begin(); iter != comparisons.end(); ++iter) {
+    for (obs::Comparison comparison : iter->second) {
+    	cache_ << comparison.expected_ << " ";
+    }
+  }
+  // Print obs
+  for (auto iter = comparisons.begin(); iter != comparisons.end(); ++iter) {
+    for (obs::Comparison comparison : iter->second) {
+    	cache_ << comparison.observed_ << " ";
+    }
+  }
+  // Print resids
+  Double resid = 0.0;
+  for (auto iter = comparisons.begin(); iter != comparisons.end(); ++iter) {
+    for (obs::Comparison comparison : iter->second) {
+    	resid = comparison.observed_ - comparison.expected_;
+    	cache_ << AS_DOUBLE(resid) << " ";
+    }
+  }
+  if (pearson_resids_) {
+    // Generate labels for the pearsons resids
+    Double resid;
+    for (auto iter = comparisons.begin(); iter != comparisons.end(); ++iter) {
+      for (obs::Comparison comparison : iter->second) {
+        if(observation_->likelihood() == PARAM_BINOMIAL){
+          resid =(comparison.observed_ - comparison.expected_) / sqrt((dc::ZeroFun(comparison.expected_, comparison.delta_) * (1 - dc::ZeroFun(comparison.expected_, comparison.delta_))) / comparison.adjusted_error_);
+        } else if (observation_->likelihood() == PARAM_MULTINOMIAL) {
+            resid = (comparison.observed_ - comparison.expected_) / sqrt((dc::ZeroFun(comparison.expected_, comparison.delta_) * (1 - dc::ZeroFun(comparison.expected_, comparison.delta_))) / comparison.adjusted_error_);
+        } else if (observation_->likelihood() == PARAM_BINOMIAL_APPROX) {
+            resid = (comparison.observed_ - comparison.expected_) / sqrt(((comparison.expected_ + comparison.delta_) * (1 -comparison.expected_ + comparison.delta_)) / comparison.adjusted_error_);
+        } else if (observation_->likelihood() == PARAM_LOGNORMAL) {
+          resid = (comparison.observed_ - comparison.expected_) / (comparison.expected_ * comparison.adjusted_error_);
+        } else if (observation_->likelihood() == PARAM_NORMAL) {
+          resid = (comparison.observed_ - comparison.expected_) / (comparison.expected_ * comparison.adjusted_error_);
+        } else {
+          LOG_CODE_ERROR() << "Unknown coded likelihood type should be dealt with in DoBuild(), if the pearsons residual is unknown for this likelihood set, pearsons_residual false";
+        }
+      	cache_ << resid << " ";
+      }
+    }
+  }
+  if (normalised_resids_) {
+    // Generate labels for the normalised resids
+    Double resid;
+    for (auto iter = comparisons.begin(); iter != comparisons.end(); ++iter) {
+      for (obs::Comparison comparison : iter->second) {
+        if (observation_->likelihood() == PARAM_LOGNORMAL) {
+          Double sigma =  sqrt(log(1 + comparison.adjusted_error_ * comparison.adjusted_error_));
+          resid = (log(comparison.observed_ / comparison.expected_) + 0.5 * sigma * sigma) / sigma;
+        } else if (observation_->likelihood() == PARAM_NORMAL) {
+          resid =  (comparison.observed_ - comparison.expected_) / (comparison.expected_ * comparison.adjusted_error_);
+        } else {
+          LOG_CODE_ERROR() << "Unknown coded likelihood type should be dealt with in DoBuild(), if the pearsons residual is unknown for this likelihood set, pearsons_residual false";
+        }
+      	cache_ << resid << " ";
+      }
+    }
+  }
+  cache_ << "\n";
+
+}
+
+/**
+ *	Finalise tabular report
+ */
+void Observation::DoFinaliseTabular() {
   ready_for_writing_ = true;
 }
 
