@@ -30,14 +30,7 @@ process instant_mort
 @report Rec
 type process
 process Recruitment
-{
-@report chatTANq
-type derived_quantity
 
-@report instant_mortality
-type observation
-observation instant_mort
-}
 @report Tangaroa_bio
 type observation
 observation chatTANbiomass
@@ -57,30 +50,4 @@ observation longline_propn_at_length
 @report longline_propn_at_age
 type observation
 observation longline_propn_at_age
-
-{
-@report sel_tanF
-type selectivity
-selectivity chatTANSel_f
-
-@report sel_tanM
-type selectivity
-selectivity chatTANSel_m
-
-@report sel_trwlF
-type selectivity
-selectivity trwlFSel_f
-
-@report sel_trwlM
-type selectivity
-selectivity trwlFSel_m
-
-@report sel_lineA
-type selectivity
-selectivity lineFSel_f
-
-@report sel_lineM
-type selectivity
-selectivity lineFSel_m
-}
 

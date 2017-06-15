@@ -229,20 +229,3 @@ end_table
 @ageing_error Normal_ageing
 type none
 #cv 0.05
-{
-@observation chatCPUEline
-type biomass
-time_step step1
-categories male+female
-catchability chatCPUEq
-selectivities lineFSel_a lineFSel_f
-likelihood lognormal
-years 1991:2010
-obs	    1.66	2.15	1.54	1.54	1.48	1.19	0.82	0.89	0.78	0.92	0.91	0.74	0.9	0.74	0.84	0.71	0.78	0.99	0.71	0.88
-error_value 0.06 0.05 0.05 0.05 0.05 0.04 0.04 0.04 0.04 0.04 0.04 0.04 0.04 0.04 0.04 0.04 0.04 0.05 0.04 0.04
-time_step_proportion 0.5
-process_error 0.2
-
-
-
-}
