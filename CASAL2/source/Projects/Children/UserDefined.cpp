@@ -65,8 +65,10 @@ void UserDefined::DoUpdate() {
   } catch (...) {
     LOG_FATAL() << "result: equation failed\n";
   }
-  LOG_FINE() << "Setting Value to: " << value_;
+  LOG_FINE() << "Setting Value to: " << value_ << ", in year = " << model_->current_year();
   year_values_[model_->current_year()] = value_;
+  // store for report
+  projected_parameters_[model_->current_year()] = value_* multiplier_;
 
   (this->*DoUpdateFunc_)(value_);
 }
