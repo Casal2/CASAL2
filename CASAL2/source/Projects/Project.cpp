@@ -27,7 +27,6 @@ Project::Project(Model* model) : model_(model) {
   parameters_.Bind<string>(PARAM_PARAMETER, &parameter_, "Parameter to project", "");
   parameters_.Bind<Double>(PARAM_MULTIPLIER, &multiplier_, "Multiplier that is applied to the projected value", "", 1.0);
 
-
   original_value_ = 0;
 }
 
@@ -119,6 +118,7 @@ void Project::Reset() {
  */
 void Project::Update(unsigned current_year) {
   LOG_TRACE();
+  LOG_FINEST() << "current_year = " << current_year << " label = " << label_;
   if (DoUpdateFunc_ == 0)
     LOG_CODE_ERROR() << "DoUpdateFunc_ == 0";
   if (years_.size() > 0 && std::find(years_.begin(), years_.end(), current_year) == years_.end()) {

@@ -66,7 +66,7 @@ void Log::DoBuild() {
  */
 void Log::Transform() {
   LOG_MEDIUM() << "parameter before transform = " << estimate_->value() << " lower bound " << lower_bound_ << " upper bound " << upper_bound_;
-  current_untransformed_value_ = original_value_ = estimate_->value();
+  current_untransformed_value_ = estimate_->value();
   estimate_->set_lower_bound(lower_bound_);
   estimate_->set_upper_bound(upper_bound_);
   estimate_->set_value(log(estimate_->value()));

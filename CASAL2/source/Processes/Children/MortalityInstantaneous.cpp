@@ -167,6 +167,9 @@ void MortalityInstantaneous::DoValidate() {
     new_fishery.actual_catches_ = fishery_year_catch[new_fishery.label_];
 
     fisheries_[new_fishery.label_] = new_fishery;
+    /**
+     * An important piece of code. This is the Estimable that we can access in other classes, such as projections, time_varying to set fishery catches.
+     */
     RegisterAsEstimable(PARAM_FISHERY + string("_") + utilities::ToLowercase(new_fishery.label_), &fisheries_[new_fishery.label_].catches_);
 
     LOG_FINEST() << "Creating estimable: " << PARAM_FISHERY + string("_") + utilities::ToLowercase(new_fishery.label_), &fisheries_[new_fishery.label_].catches_;
@@ -465,6 +468,8 @@ void MortalityInstantaneous::DoExecute() {
       	continue;
 			StoreForReport("fishing_pressure[" + fishery.label_ + "]: ", AS_DOUBLE(fishery_exploitation[fishery.label_]));
 			StoreForReport("Catch[" + fishery.label_ + "]: ",AS_DOUBLE(fisheries_[fishery.label_].catches_[model_->current_year()]));
+      LOG_FINEST() << "fishery = " << fishery.label_ << " catch = " << fishery_exploitation[fishery.label_] << " U = " << fisheries_[fishery.label_].catches_[model_->current_year()];
+
     }
     // Store for Tabular report
     string year_string;
