@@ -229,7 +229,8 @@ void ProportionsAtAge::DoBuild() {
   // We can either have 1 selectivity
   // A selectivity for each category_label
   // or a selectivity for each combined category in each category_label (total categories) These are defined by business rules in the DoValidate.
-  if (expected_selectivity_count_ > category_labels_.size()) {
+
+  if (selectivity_labels_.size() > category_labels_.size()) {
   	selectivity_for_combined_categories_ = true;
   }
 }

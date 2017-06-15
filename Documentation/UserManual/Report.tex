@@ -6,7 +6,7 @@ Reports from \CNAME\ can be defined to print partition and states objects at a p
 {\small{\begin{verbatim}
 		@report observation_age ## label of report
 		type observation		## Type of report
-		observation age_1990	## label corresponding to an @observation report, shown below
+		observation age_1990	## label corresponding to an @observation as shown below
 		
 		@observation age_1990
 		type proportion_at_age
@@ -126,7 +126,9 @@ Print all \command{time\_varying} blocks with the values and years that they wer
 		type time_varying
 		\end{verbatim}}}
 
-\subsection{\I{Tabular reporting}}\index{Reports ! Tabular}
-An alternative reporting framework to the standard output is the tabular reporting. Tabular reporting is used with multiline \texttt{-i} input files (like the MCMC sample or -o outputs). Tabular reports will print out a row that will correspond with each row of the \texttt{-i} input files. Tabular reporting is in invoked at the command line using the following command \texttt{casal2 -r --tabular -i file\_name}. Currently derived quantities and estimate\_values are the only report types that are within this framework. For each input file the output will begin with the names of each column followed by a multiline report ending with the \texttt{*end} syntax. These tables can be easily read into \R\ using the \texttt{CASAL2} package and for the example of MCMC multi-line files posteriors of derived quantities can be plotted.
+\subsection{\I{Tabular or derived quantity reporting}}\index{Reports ! Tabular}
+An alternative reporting framework to the standard output is the tabular reporting. Tabular reporting is used with multiline \texttt{-i} input files (like the MCMC sample or -o outputs). Tabular reports will print out a row that will correspond with each row of the \texttt{-i} input files. Tabular reporting is in invoked at the command line using the following command \texttt{casal2 -r --tabular -i file\_name}.
+
+\command{report}'s that have \texttt{tabular} functionality, these are derived quantities, observations, selectivities, processes and estimate\_values. For each input file the output will begin with the names of each column followed by a multiline report ending with the \texttt{*end} syntax. These tables can be easily read into \R\ using the \texttt{CASAL2} package and for the example of MCMC multi-line files posteriors of derived quantities can be plotted. This functionality is analagous to running CASAL with the \texttt{-v} mode. The main use is extracting SSB's, exploitation by year, residuals from a MCMC run.
 
 
