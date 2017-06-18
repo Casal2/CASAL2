@@ -57,8 +57,8 @@ void Creator::CreateEstimates() {
    * At this point we need to determine if we need to split this estimate in to multiple estimates.
    */
   string error = "";
-  if (!model_->objects().VerfiyAddressableForUse(parameter_, addressable::kLookup, error)) {
-    LOG_FATAL_P(PARAM_PARAMETER) << "could not be verified for use in additional_prior.vector_average. Error was " << error;
+  if (!model_->objects().VerfiyAddressableForUse(parameter_, addressable::kEstimate, error)) {
+    LOG_FATAL_P(PARAM_PARAMETER) << "could not be verified for use in an @estimate block. Error was " << error;
   }
 
   string new_parameter = parameter_;
@@ -233,8 +233,8 @@ void Creator::HandleSameParameter() {
       LOG_FATAL_P(PARAM_SAME) << "could not be verified for use in an @estimate.same block. Error was " << error;
     }
 
-    string new_parameter = parameter_;
-    auto pair = model_->objects().ExplodeParameterAndIndex(parameter_);
+    string new_parameter = same;
+    auto pair = model_->objects().ExplodeParameterAndIndex(same);
     string parameter = pair.first;
     string index = pair.second;
     LOG_FINEST() << "same: " << same << "; new_parameter: " << new_parameter;
@@ -246,9 +246,11 @@ void Creator::HandleSameParameter() {
         LOG_FATAL_P(PARAM_SAME) << " could be split up to search for indexes because the format was invalid. "
             << "Please ensure you are using correct indexes and only the operators , and : (range) are supported";
       }
+
+      new_parameter = new_parameter.substr(0, new_parameter.find('{'));
     }
 
-    auto target = model_->objects().FindObject(parameter_);
+    auto target = model_->objects().FindObject(same);
     if (target->GetAddressableType(parameter) == addressable::kSingle) {
       /**
        * Handle when our sames are referencing a single object

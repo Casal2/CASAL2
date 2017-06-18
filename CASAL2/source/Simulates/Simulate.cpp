@@ -58,16 +58,16 @@ void Simulate::Build() {
       break;
     case addressable::kSingle:
       update_function_ = &Simulate::set_single_value;
-      estimable_    = model_->objects().GetAddressable(parameter_);
-      original_value_ = *estimable_;
+      addressable_    = model_->objects().GetAddressable(parameter_);
+      original_value_ = *addressable_;
       break;
     case addressable::kVector:
       update_function_ = &Simulate::set_vector_value;
-      estimable_vector_ = model_->objects().GetAddressableVector(parameter_);
+      addressable_vector_ = model_->objects().GetAddressableVector(parameter_);
       break;
     case addressable::kUnsignedMap:
       update_function_ = &Simulate::set_map_value;
-      estimable_map_ = model_->objects().GetAddressableUMap(parameter_);
+      addressable_map_ = model_->objects().GetAddressableUMap(parameter_);
       break;
     default:
       LOG_ERROR() << "The addressable you have provided for use in a time varying: " << parameter_ << " is not a type that is supported";
@@ -106,21 +106,21 @@ void Simulate::RestoreOriginalValue() {
  *
  */
 void Simulate::set_single_value(Double value) {
-  *estimable_ = value;
+  *addressable_ = value;
 }
 
 /**
  *
  */
 void Simulate::set_vector_value(Double value) {
-  estimable_vector_->push_back(value);
+  addressable_vector_->push_back(value);
 }
 
 /**
  *
  */
 void Simulate::set_map_value(Double value) {
-  (*estimable_map_)[model_->current_year()] = value;
+  (*addressable_map_)[model_->current_year()] = value;
 }
 
 } /* namespace niwa */

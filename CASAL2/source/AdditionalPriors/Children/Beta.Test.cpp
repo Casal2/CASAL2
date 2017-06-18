@@ -25,24 +25,34 @@ namespace additionalpriors {
 
 using ::testing::Return;
 
+/*
+ * Mock class to make testing easier
+ */
+class MockBeta : public Beta {
+public:
+  MockBeta(Model* model, double mu, double sigma, double a, double b) : Beta(model) {
+    mu_ = mu;
+    sigma_ = sigma;
+    a_ = a;
+    b_ = b;
+  }
+};
+
 /**
  * Test the results of our KnifeEdge are correct
  */
 TEST(AdditionalPriors, Beta) {
+  // layout is mu, sigma, a, b, expected_score
+  vector<vector<double>> values = {
+      { 4, 2, 2, 7, 0 },
+      { 4, 2, 2, 7, 0 }
+  };
+
   Model model;
-  Beta beta(&model);
-  beta.parameters().Add(PARAM_LABEL, "beta", __FILE__, __LINE__);
-  beta.parameters().Add(PARAM_TYPE,  PARAM_BETA, __FILE__, __LINE__);
-//  beta.parameters().Add(PARAM_METHOD, PARAM_RATIO, __FILE__, __LINE__);
-  beta.parameters().Add(PARAM_MU, "4", __FILE__, __LINE__);
-  beta.parameters().Add(PARAM_SIGMA, "2", __FILE__, __LINE__);
-  beta.parameters().Add(PARAM_A, "2", __FILE__, __LINE__);
-  beta.parameters().Add(PARAM_B, "7", __FILE__, __LINE__);
-
-  beta.Validate();
-  beta.Build();
-
-//  EXPECT_DOUBLE_EQ(0.0, beta.score());
+  for (auto line : values) {
+    MockBeta beta(&model, line[0], line[1], line[2], line[3]);
+//    EXPECT_DOUBLE_EQ(line[4], beta.GetScore());
+  }
 }
 
 } /* namespace additionalpriors */

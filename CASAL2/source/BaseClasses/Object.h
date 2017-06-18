@@ -55,7 +55,7 @@ enum Usage {
   kSimulate     = 32,
   kSingleStep   = 64,
   kTimeVarying  = 128,
-  kAll          = 256
+  kAll          = 255
 };
 };
 

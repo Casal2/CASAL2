@@ -79,7 +79,7 @@ Report* Factory::Create(Model* model, const string& object_type, const string& s
       result = new DerivedQuantity(model);
     else if (sub_type == PARAM_EQUATION)
       result = new EquationTest(model);
-    else if (sub_type == PARAM_ESTIMABLE)
+    else if (sub_type == PARAM_ADDRESSABLE)
       result = new Addressable(model);
     else if (sub_type == PARAM_ESTIMATE_SUMMARY)
       result = new EstimateSummary(model);

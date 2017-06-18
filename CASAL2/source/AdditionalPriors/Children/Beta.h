@@ -28,7 +28,7 @@ public:
   Beta(Model* model);
   virtual                     ~Beta() = default;
   void                        DoValidate() override final;
-  void                        DoBuild() override final;
+  void                        DoBuild() override final { };
   Double                      GetScore() override final;
 
 protected:

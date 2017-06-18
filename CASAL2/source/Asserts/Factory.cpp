@@ -34,7 +34,7 @@ Assert* Factory::Create(Model* model, const string& object_type, const string& s
   Assert* result = nullptr;
 
   if (object_type == PARAM_ASSERT) {
-    if (sub_type == PARAM_ESTIMABLE)
+    if (sub_type == PARAM_ADDRESSABLE)
       result = new Addressable(model);
     else if (sub_type == PARAM_OBJECTIVE_FUNCTION)
       result = new ObjectiveFunction(model);

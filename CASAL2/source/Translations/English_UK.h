@@ -115,6 +115,7 @@
 #define PARAM_ADDITIONAL_PRIOR                    "additional_prior"
 #define PARAM_ADDITIVE                            "additive"
 #define PARAM_ADDITIVE_NORMAL                     "additive_normal"
+#define PARAM_ADDRESSABLE                         "addressable"
 #define PARAM_ADJACENT_CELL_MOVEMENT              "adjacent_cell"
 #define PARAM_ADMB                                "admb"
 #define PARAM_ADOLC                               "adolc"

@@ -13,7 +13,7 @@
 #ifdef TESTMODE
 
 // headers
-#include "Estimable.h"
+#include "Addressable.h"
 
 #include "Model/Model.h"
 #include "ObjectiveFunction/ObjectiveFunction.h"
@@ -142,7 +142,7 @@ log_scale False
 multiplier 10
 
 @assert Recruitment.r0
-type estimable
+type addressable
 parameter process[Recruitment].R0
 time_step step_two
 years 1994 1996 1998
@@ -152,7 +152,7 @@ values 997386 997386 997386
 /**
  *
  */
-TEST_F(InternalEmptyModel, Asserts_Estimable) {
+TEST_F(InternalEmptyModel, Asserts_Addressable) {
   AddConfigurationLine(simple_model, __FILE__, 30);
   LoadConfiguration();
 
@@ -282,7 +282,7 @@ log_scale False
 multiplier 10
 
 @assert r0
-type estimable
+type addressable
 parameter process[Recruitment].R0
 time_step step_two
 years 1994 1996 1998
@@ -292,7 +292,7 @@ values 997386 1 997386
 /**
  *
  */
-TEST_F(InternalEmptyModel, Asserts_Estimable_Throws_Exception) {
+TEST_F(InternalEmptyModel, Asserts_Addressable_Throws_Exception) {
   AddConfigurationLine(simple_model_fail, __FILE__, 175);
   LoadConfiguration();
 
