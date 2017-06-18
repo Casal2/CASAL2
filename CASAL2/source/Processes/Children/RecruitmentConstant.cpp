@@ -33,8 +33,8 @@ RecruitmentConstant::RecruitmentConstant(Model* model) : Process(model) {
   parameters_.Bind<Double>(PARAM_R0, &r0_, "R0", "")
       ->set_lower_bound(0.0, false);
 
-  RegisterAsEstimable(PARAM_R0, &r0_);
-  RegisterAsEstimable(PARAM_PROPORTIONS, &proportions_categories_);
+  RegisterAsAddressable(PARAM_R0, &r0_);
+  RegisterAsAddressable(PARAM_PROPORTIONS, &proportions_categories_);
 
   process_type_ = ProcessType::kRecruitment;
   partition_structure_ = PartitionStructure::kAge;

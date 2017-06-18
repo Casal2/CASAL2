@@ -56,8 +56,8 @@ MortalityPreySuitability::MortalityPreySuitability(Model* model)
   parameters_.Bind<string>(PARAM_PENALTY, &  penalty_label_, "Label of penalty to be applied", "","");
   parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "Year that process occurs", "");
 
-  RegisterAsEstimable(PARAM_CONSUMPTION_RATE, &consumption_rate_);
-  RegisterAsEstimable(PARAM_ELECTIVITIES, &electivities_);
+  RegisterAsAddressable(PARAM_CONSUMPTION_RATE, &consumption_rate_);
+  RegisterAsAddressable(PARAM_ELECTIVITIES, &electivities_);
 
 }
 

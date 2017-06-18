@@ -30,7 +30,7 @@ StateCategoryByAge::StateCategoryByAge(Model* model)
   parameters_.Bind<unsigned>(PARAM_MAX_AGE, &max_age_, "The minimum age of values supplied in the definition of the category state", "");
   parameters_.BindTable(PARAM_N, n_table_, "Table of data from minimum age to maximum age for each category", "", false, false);
 
-  RegisterAsEstimable(&n_);
+  RegisterAsAddressable(&n_);
 }
 
 /**

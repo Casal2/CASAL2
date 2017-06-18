@@ -10,12 +10,12 @@
  */
 
 // headers
+#include <Asserts/Children/Addressable.h>
 #include "Factory.h"
 
 #include "Model/Model.h"
 #include "Model/Managers.h"
 #include "Asserts/Manager.h"
-#include "Asserts/Children/Estimable.h"
 #include "Asserts/Children/ObjectiveFunction.h"
 
 // namespaces
@@ -35,7 +35,7 @@ Assert* Factory::Create(Model* model, const string& object_type, const string& s
 
   if (object_type == PARAM_ASSERT) {
     if (sub_type == PARAM_ESTIMABLE)
-      result = new Estimable(model);
+      result = new Addressable(model);
     else if (sub_type == PARAM_OBJECTIVE_FUNCTION)
       result = new ObjectiveFunction(model);
 

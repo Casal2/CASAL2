@@ -25,8 +25,7 @@ Project::Project(Model* model) : model_(model) {
   parameters_.Bind<string>(PARAM_TYPE, &type_, "Type", "", "");
   parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "Years to recalculate the values", "", true);
   parameters_.Bind<string>(PARAM_PARAMETER, &parameter_, "Parameter to project", "");
-  parameters_.Bind<Double>(PARAM_MULTIPLIER, &multiplier_, "Multiplier that is applied to the projected value", "", 1.0);
-
+  parameters_.Bind<Double>(PARAM_MULTIPLIER, &multiplier_, "Multiplier that is applied to the projected value", "", 1.0)->set_lower_bound(0, false);
 
   original_value_ = 0;
 }
@@ -36,8 +35,6 @@ Project::Project(Model* model) : model_(model) {
  */
 void Project::Validate() {
   parameters_.Populate();
-  if (multiplier_ == 0)
-    LOG_ERROR_P(PARAM_MULTIPLIER)  << " should not be equal to zero";
   DoValidate();
 }
 
@@ -45,54 +42,34 @@ void Project::Validate() {
  *
  */
 void Project::Build() {
-  string type       = "";
-  string label      = "";
-  string index      = "";
-
-  /**
-   * Explode the parameter string sive o we can get the estimable
-   * name (parameter) and the index
-   */
-  if (parameter_ == "") {
-    parameters().Add(PARAM_PARAMETER, label_, parameters_.Get(PARAM_LABEL)->file_name(), parameters_.Get(PARAM_LABEL)->line_number());
-    parameter_ = label_;
-  }
-
-  model_->objects().ExplodeString(parameter_, type, label, estimable_parameter_, index);
-  if (type == "" || label == "" || estimable_parameter_ == "") {
-    LOG_ERROR_P(PARAM_PARAMETER) << ": parameter " << parameter_
-        << " is not in the correct format. Correct format is object_type[label].estimable(array index)";
-  }
-
   string error = "";
-  target_ = model_->objects().FindObject(parameter_, error);
-  if (!target_)
-    LOG_ERROR_P(PARAM_PARAMETER) << " " << parameter_ << " is not a valid estimable in the system. Error: " << error;
+  if (!model_->objects().VerfiyAddressableForUse(parameter_, addressable::kProject, error)) {
+    LOG_FATAL_P(PARAM_PARAMETER) << "could not be verified for use in a @project block. Error was " << error;
+  }
 
-
-  estimable_type_ = target_->GetEstimableType(estimable_parameter_);
-  switch(estimable_type_) {
-    case Estimable::kInvalid:
-      LOG_CODE_ERROR() << "Invalid estimable type: " << parameter_;
+  addressable::Type addressable_type = model_->objects().GetAddressableType(parameter_);
+  switch(addressable_type) {
+    case addressable::kInvalid:
+      LOG_CODE_ERROR() << "Invalid addressable type: " << parameter_;
       break;
-    case Estimable::kSingle:
+    case addressable::kSingle:
       LOG_FINEST() << "applying projection for parameter " << parameter_ << " is an single type";
       DoUpdateFunc_ = &Project::SetSingleValue;
-      estimable_    = target_->GetEstimable(estimable_parameter_);
-      original_value_ = *estimable_;
+      addressable_    = model_->objects().GetAddressable(parameter_);
+      original_value_ = *addressable_;
       break;
-    case Estimable::kVector:
+    case addressable::kVector:
       LOG_FINEST() << "applying projection for parameter " << parameter_ << " is a vector";
-      estimable_vector_ = target_->GetEstimableVector(estimable_parameter_);
+      addressable_vector_ = model_->objects().GetAddressableVector(parameter_);
       DoUpdateFunc_ = &Project::SetVectorValue;
       break;
-    case Estimable::kUnsignedMap:
+    case addressable::kUnsignedMap:
       LOG_FINEST() << "applying projection for parameter " << parameter_ << " is an unsigned map";
       DoUpdateFunc_ = &Project::SetMapValue;
-      estimable_map_ = target_->GetEstimableUMap(estimable_parameter_);
+      addressable_map_ = model_->objects().GetAddressableUMap(parameter_);
       break;
     default:
-      LOG_ERROR() << "The estimable you have provided for use in a projection: " << parameter_ << " is not a type that is supported for projection modification";
+      LOG_ERROR() << "The addressable you have provided for use in a projection: " << parameter_ << " is not a type that is supported for projection modification";
       break;
   }
   DoBuild();
@@ -102,12 +79,8 @@ void Project::Build() {
  * Reset and re build any pointers
  */
 void Project::Reset() {
- string error = "";
- Estimable::Type estimable_type = model_->objects().GetEstimableType(parameter_, error);
- if (estimable_type == Estimable::kSingle) {
-   if (estimable_ != nullptr) {
-     original_value_ = *estimable_;
-   }
+ if (addressable_ != nullptr) {
+   original_value_ = *addressable_;
  }
 
  if(model_->projection_final_phase())
@@ -119,9 +92,9 @@ void Project::Reset() {
  */
 void Project::Update(unsigned current_year) {
   LOG_TRACE();
-  if (DoUpdateFunc_ == 0)
-    LOG_CODE_ERROR() << "DoUpdateFunc_ == 0";
-  if (years_.size() > 0 && std::find(years_.begin(), years_.end(), current_year) == years_.end()) {
+  if (DoUpdateFunc_ == nullptr)
+    LOG_CODE_ERROR() << "DoUpdateFunc_ == nullptr";
+  if (std::find(years_.begin(), years_.end(), current_year) == years_.end()) {
     LOG_FINEST() << "Resetting parameter to original value as the year " << current_year << " not in years";
     RestoreOriginalValue(current_year);
   } else {
@@ -135,10 +108,7 @@ void Project::Update(unsigned current_year) {
  */
 void Project::RestoreOriginalValue(unsigned year) {
   LOG_TRACE();
-  string error = "";
-  Estimable::Type estimable_type = model_->objects().GetEstimableType(parameter_, error);
-  if (estimable_type == Estimable::kSingle) {
-    original_value_ = projected_parameters_[year];
+  if (addressable_ != nullptr) {
     LOG_FINE() << "Setting original value to: " << original_value_;
     (this->*DoUpdateFunc_)(original_value_);
   }
@@ -149,16 +119,18 @@ void Project::RestoreOriginalValue(unsigned year) {
  */
 void Project::SetSingleValue(Double value) {
   LOG_TRACE();
-  *estimable_ = value;
+  *addressable_ = value;
+  projected_values_[model_->current_year()] = value;
 }
 
 /**
  *
  */
 void Project::SetVectorValue(Double value) {
-  LOG_FINEST() << "size before adding another value = " << estimable_vector_->size();
-  estimable_vector_->push_back(value);
-  LOG_FINEST() << "size before adding a value of "<< value << " = " << estimable_vector_->size();
+  LOG_FINEST() << "size before adding another value = " << addressable_vector_->size();
+  addressable_vector_->push_back(value);
+  projected_values_[model_->current_year()] = value;
+  LOG_FINEST() << "size before adding a value of "<< value << " = " << addressable_vector_->size();
 
 }
 
@@ -167,37 +139,25 @@ void Project::SetVectorValue(Double value) {
  */
 void Project::SetMapValue(Double value) {
   LOG_TRACE();
-  (*estimable_map_)[model_->current_year()] = value;
+  (*addressable_map_)[model_->current_year()] = value;
+  projected_values_[model_->current_year()] = value;
 }
 
 /**
- *  Store at projects values in a map to be referenced when executing projection method.
+ * Store the value from our addressable for this year
  */
-void Project::StoreValue(unsigned current_year, unsigned start_year, unsigned final_year) {
-  LOG_TRACE();
-  switch (estimable_type_) {
-  case Estimable::kVector:
-    LOG_FINE() << "Size of estimable vector = " << estimable_vector_->size();
-    if (estimable_vector_->size() != (final_year - start_year + 1))
-      LOG_ERROR() << "if estimate is of type kVector, there must be a value for each year from start_year to final_year";
-    LOG_FINE() << " Value = " << (*estimable_vector_)[current_year - start_year];
-    projected_parameters_[current_year] = (*estimable_vector_)[current_year - start_year];
-    break;
-  case Estimable::kSingle:
-    LOG_FINE() << " Value = " << *estimable_;
-    projected_parameters_[current_year] = *estimable_;
-    break;
-
-  case Estimable::kUnsignedMap:
-    // Note of caution: If the parameter doesn't exist e.g catches in all years referenced a map will return a 0.0, by default
-    LOG_FINE() << " Value = " << (*estimable_map_)[current_year];
-    projected_parameters_[current_year] = (*estimable_map_)[current_year];
-    break;
-
-  default:
-    LOG_ERROR() << "The estimable you have provided for use in a projection: " << estimable_parameter_
-        << " is not a type that is supported for type " << type_;
-    break;
+void Project::StoreValue(unsigned current_year) {
+  if (addressable_ != nullptr)
+    stored_values_[current_year] = *addressable_;
+  else if (addressable_map_ != nullptr)
+    stored_values_[current_year] = (*addressable_map_)[current_year];
+  else if (addressable_vector_ != nullptr) {
+    unsigned index = current_year - model_->start_year();
+    if (index >= addressable_vector_->size()) {
+      LOG_CODE_ERROR() << "Could not store value for @project parameter " << parameter_ << " in year "
+      << current_year << " because index exceeded size of vector " << index << " : " << addressable_vector_->size();
+    }
+    stored_values_[current_year] = addressable_vector_->at(index);
   }
 }
 

@@ -37,7 +37,7 @@ SurvivalConstantRate::SurvivalConstantRate(Model* model)
   parameters_.Bind<Double>(PARAM_TIME_STEP_RATIO, &ratios_, "Time step ratios for S", "", true);
   parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_names_, "Selectivity label", "");
 
-  RegisterAsEstimable(PARAM_S, &s_);
+  RegisterAsAddressable(PARAM_S, &s_);
 }
 
 /**

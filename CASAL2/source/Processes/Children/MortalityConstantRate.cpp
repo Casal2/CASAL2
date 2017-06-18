@@ -39,7 +39,7 @@ MortalityConstantRate::MortalityConstantRate(Model* model)
   parameters_.Bind<Double>(PARAM_TIME_STEP_RATIO, &ratios_, "Time step ratios for the mortality rates", "", true);
   parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_names_, "List of selectivities for the categories", "");
 
-  RegisterAsEstimable(PARAM_M, &m_);
+  RegisterAsAddressable(PARAM_M, &m_);
 }
 
 /**

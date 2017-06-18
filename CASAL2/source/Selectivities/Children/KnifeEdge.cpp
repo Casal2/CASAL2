@@ -32,8 +32,8 @@ KnifeEdge::KnifeEdge(Model* model)
   parameters_.Bind<Double>(PARAM_E, &edge_, "Edge", "");
   parameters_.Bind<Double>(PARAM_ALPHA, &alpha_, "Alpha", "", 1.0);
 
-  RegisterAsEstimable(PARAM_ALPHA, &alpha_);
-  RegisterAsEstimable(PARAM_E, &edge_);
+  RegisterAsAddressable(PARAM_ALPHA, &alpha_);
+  RegisterAsAddressable(PARAM_E, &edge_);
 }
 
 /**

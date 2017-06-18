@@ -33,7 +33,7 @@ AllValuesBounded::AllValuesBounded(Model* model)
   parameters_.Bind<unsigned>(PARAM_H, &high_, "H", "");
   parameters_.Bind<Double>(PARAM_V, &v_, "V", "");
 
-  RegisterAsEstimable(PARAM_V, &v_);
+  RegisterAsAddressable(PARAM_V, &v_);
 }
 
 /**

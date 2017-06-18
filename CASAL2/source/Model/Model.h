@@ -98,7 +98,7 @@ public:
   virtual unsigned            max_age() const { return max_age_; }
   virtual unsigned            age_spread() const { return (max_age_ - min_age_) + 1; }
   virtual bool                age_plus() const { return age_plus_; }
-  virtual const vector<string>&       time_steps() const { return time_steps_; }
+  virtual const vector<string>& time_steps() const { return time_steps_; }
   const vector<string>&       initialisation_phases() const { return initialisation_phases_; }
   PartitionStructure          partition_structure() const { return partition_structure_; }
   const vector<Double>        length_bins() const { return length_bins_; }
@@ -144,8 +144,8 @@ protected:
   vector<string>              initialisation_phases_;
   vector<string>              time_steps_;
   vector<Double>              length_bins_;
-  bool                        estimable_values_file_ = false;
-  unsigned                    estimable_values_count_ = 1;
+  bool                        addressable_values_file_ = false;
+  unsigned                    adressable_values_count_ = 1;
   PartitionStructure          partition_structure_ = PartitionStructure::kInvalid;
   Managers*                   managers_ = nullptr;
   Objects*                    objects_ = nullptr;

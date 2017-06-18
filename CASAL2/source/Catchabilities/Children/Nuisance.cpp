@@ -35,7 +35,7 @@ namespace utils = niwa::utilities;
  * Note: The constructor is parsed to generate Latex for the documentation.
  */
 Nuisance::Nuisance(Model* model) : Catchability(model) {
-  RegisterAsEstimable(PARAM_Q, &q_);
+  RegisterAsAddressable(PARAM_Q, &q_);
 }
 
 /*

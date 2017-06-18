@@ -332,8 +332,8 @@ void Model::Build() {
 
   Estimables& estimables = *managers_->estimables();
   if (estimables.GetValueCount() > 0) {
-    estimable_values_file_ = true;
-    estimable_values_count_ = estimables.GetValueCount();
+    addressable_values_file_ = true;
+    adressable_values_count_ = estimables.GetValueCount();
   }
 }
 
@@ -364,12 +364,12 @@ void Model::RunBasic() {
   LOG_TRACE();
   Estimables& estimables = *managers_->estimables();
   bool single_step = global_configuration_->single_step();
-  vector<string> single_step_estimables;
+  vector<string> single_step_addressables;
   vector<Double*> estimable_targets;
 
   // Model is about to run
-  for (unsigned i = 0; i < estimable_values_count_; ++i) {
-    if (estimable_values_file_) {
+  for (unsigned i = 0; i < adressable_values_count_; ++i) {
+    if (addressable_values_file_) {
       estimables.LoadValues(i);
       Reset();
     }
@@ -394,18 +394,18 @@ void Model::RunBasic() {
      */
     if (single_step) {
       managers_->report()->Pause();
-      cout << "Please enter a space separated list of estimable names to be used during single step" << endl;
+      cout << "Please enter a space separated list of addressable names to be used during single step" << endl;
       string line = "";
       string error = "";
 
       std::getline(std::cin, line);
       managers_->report()->Resume();
-      boost::split(single_step_estimables, line, boost::is_any_of(" "));
-      for (string estimable : single_step_estimables) {
-        Double* target = objects_->FindEstimable(estimable, error);
-        if (target == nullptr || error != "") {
-          LOG_FATAL() << "Estimable " << estimable << " could not be found in the model. Error: " << error;
+      boost::split(single_step_addressables, line, boost::is_any_of(" "));
+      for (string addressable : single_step_addressables) {
+        if (!objects().VerfiyAddressableForUse(addressable, addressable::kSingleStep, error)) {
+          LOG_FATAL() << "The addressable " << addressable << " could not be verified for use in a single-step basic run. Error was " << error;
         }
+        Double* target = objects().GetAddressable(addressable);
         estimable_targets.push_back(target);
       }
     }
@@ -432,10 +432,10 @@ void Model::RunBasic() {
           Double value = 0;
           if (!utilities::To<string, Double>(temp_values[i], value)) {
             LOG_FATAL() << "Value " << temp_values[i] << " for the estimable "
-                << single_step_estimables[i] << " is invalid";
+                << single_step_addressables[i] << " is invalid";
           }
 
-          LOG_FINEST() << "Setting annual value for " << single_step_estimables[i] << " to " << value;
+          LOG_FINEST() << "Setting annual value for " << single_step_addressables[i] << " to " << value;
           *estimable_targets[i] = value;
         }
       }
@@ -471,9 +471,9 @@ void Model::RunEstimation() {
 
   Estimables* estimables = managers_->estimables();
   map<string, Double> estimable_values;
-  LOG_FINE() << "estimable values count: " << estimable_values_count_;
-  for (unsigned i = 0; i < estimable_values_count_; ++i) {
-    if (estimable_values_file_) {
+  LOG_FINE() << "estimable values count: " << adressable_values_count_;
+  for (unsigned i = 0; i < adressable_values_count_; ++i) {
+    if (addressable_values_file_) {
       estimables->LoadValues(i);
       Reset();
     }
@@ -545,8 +545,8 @@ void Model::RunProfiling() {
   Estimables& estimables = *managers_->estimables();
 
   map<string, Double> estimable_values;
-  for (unsigned i = 0; i < estimable_values_count_; ++i) {
-    if (estimable_values_file_) {
+  for (unsigned i = 0; i < adressable_values_count_; ++i) {
+    if (addressable_values_file_) {
       estimables.LoadValues(i);
       Reset();
     }
@@ -593,11 +593,11 @@ void Model::RunSimulation() {
   LOG_FINE() << "Entering the Simulation Sub-System";
 
   Estimables* estimables = managers_->estimables();
-  LOG_FINE() << "estimable values count: " << estimable_values_count_;
-  if (estimable_values_count_ > 1)
+  LOG_FINE() << "estimable values count: " << adressable_values_count_;
+  if (adressable_values_count_ > 1)
     LOG_FATAL() << "Simulation mode only allows a -i file with one set of parameters.";
 
-  if (estimable_values_file_) {
+  if (addressable_values_file_) {
     estimables->LoadValues(0);
     Reset();
   }
@@ -663,10 +663,10 @@ void Model::RunProjection() {
   vector<Double*> estimable_targets;
 
   // Model is about to run
-  for (unsigned i = 0; i < estimable_values_count_; ++i) {
+  for (unsigned i = 0; i < adressable_values_count_; ++i) {
     for (int j = 0; j < projection_candidates; ++j) {
       projection_final_phase_ = false;
-      if (estimable_values_file_) {
+      if (addressable_values_file_) {
         LOG_FINE() << "loading input parameters";
         estimables.LoadValues(i);
         Reset();
@@ -689,7 +689,7 @@ void Model::RunProjection() {
         LOG_FINE() << "Iteration year: " << current_year_;
         time_varying_manager.Update(current_year_);
         time_step_manager.Execute(current_year_);
-        project_manager.StoreValues(current_year_, start_year_, final_year_);
+        project_manager.StoreValues(current_year_);
       }
 
       /**

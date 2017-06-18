@@ -34,7 +34,7 @@ Increasing::Increasing(Model* model)
   parameters_.Bind<Double>(PARAM_V, &v_, "V", "");
   parameters_.Bind<Double>(PARAM_ALPHA, &alpha_, "Alpha", "", 1.0);
 
-  RegisterAsEstimable(PARAM_V, &v_);
+  RegisterAsAddressable(PARAM_V, &v_);
 }
 
 /**

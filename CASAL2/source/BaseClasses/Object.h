@@ -35,7 +35,7 @@ using niwa::utilities::Double;
 // Namespaces
 namespace niwa {
 // Enumerated Types
-namespace Addressable {
+namespace addressable {
 enum Type {
   kInvalid      = 0,
   kSingle       = 1,
@@ -43,17 +43,19 @@ enum Type {
   kStringMap    = 3,
   kUnsignedMap  = 4,
   kVectorStringMap = 5
-};
 };
 
-namespace Estimable {
-enum Type {
-  kInvalid      = 0,
-  kSingle       = 1,
-  kVector       = 2,
-  kStringMap    = 3,
-  kUnsignedMap  = 4,
-  kVectorStringMap = 5
+enum Usage {
+  kNone         = 0,
+  kLookup       = 1, // Assert, Additional Prior, Equation, Reports
+  kEstimate     = 2,
+  kInputRun     = 4,
+  kProfile      = 8,
+  kProject      = 16,
+  kSimulate     = 32,
+  kSingleStep   = 64,
+  kTimeVarying  = 128,
+  kAll          = 256
 };
 };
 
@@ -70,19 +72,17 @@ public:
   // Methods
   Object() = default;
   virtual                         ~Object() {};
-  bool                            HasEstimable(const string& label) const;
-  bool                            IsEstimableAVector(const string& label) const;
-  unsigned                        GetEstimableSize(const string& label) const;
-  Double*                         GetEstimable(const string& label);
-  virtual Double*                 GetEstimable(const string& label, const string& index);
-  map<unsigned, Double>*          GetEstimableUMap(const string& label);
-  map<unsigned, Double>*          GetEstimableUMap(const string& label, bool& create_missing);
-  OrderedMap<string, Double>*     GetEstimableSMap(const string& label);
-  vector<Double>*                 GetEstimableVector(const string& label);
-  Estimable::Type                 GetEstimableType(const string& label) const;
-
-  Double*                   GetAddressable(const string& label);
-  virtual Double*           GetAddressable(const string& label, const string& index);
+  bool                            HasAddressable(const string& label) const;
+  bool                            HasAddressableUsage(const string& label, const addressable::Usage&) const;
+  bool                            IsAddressableAVector(const string& label) const;
+  unsigned                        GetAddressableSize(const string& label) const;
+  Double*                         GetAddressable(const string& label);
+  virtual Double*                 GetAddressable(const string& label, const string& index);
+  map<unsigned, Double>*          GetAddressableUMap(const string& label);
+  map<unsigned, Double>*          GetAddressableUMap(const string& label, bool& create_missing);
+  OrderedMap<string, Double>*     GetAddressableSMap(const string& label);
+  vector<Double>*                 GetAddressableVector(const string& label);
+  addressable::Type               GetAddressableType(const string& label) const;
 
   void                            PrintParameterQueryInfo();
 
@@ -102,37 +102,26 @@ public:
 
 protected:
   // Methods
-  void                        RegisterAsEstimable(const string& label, Double* variable);
-  void                        RegisterAsEstimable(const string& label, vector<Double>* variables);
-  void                        RegisterAsEstimable(const string& label, OrderedMap<string, Double>* variables);
-  void                        RegisterAsEstimable(const string& label, map<unsigned, Double>* variables);
-  void                        RegisterAsEstimable(map<string, vector<Double>>* variables);
-
-  void                        RegisterAsAddressable(const string& label, Double* variable);
-  void                        RegisterAsAddressable(const string& label, vector<Double>* variables);
-  void                        RegisterAsAddressable(const string& label, OrderedMap<string, Double>* variables);
-  void                        RegisterAsAddressable(const string& label, map<unsigned, Double>* variables);
+  void                        RegisterAsAddressable(const string& label, Double* variable, addressable::Usage usage = addressable::kAll);
+  void                        RegisterAsAddressable(const string& label, vector<Double>* variables, addressable::Usage usage = addressable::kAll);
+  void                        RegisterAsAddressable(const string& label, OrderedMap<string, Double>* variables, addressable::Usage usage = addressable::kAll);
+  void                        RegisterAsAddressable(const string& label, map<unsigned, Double>* variables, addressable::Usage usage = addressable::kAll);
+  void                        RegisterAsAddressable(map<string, vector<Double>>* variables);
 
   // Members
-  string                        block_type_           = "";
-  string                        label_                = "";
-  string                        type_                 = "";
-  ParameterList                 parameters_;
-  map<string, Double*>          estimables_;
-  map<string, bool>             create_missing_estimables_;
-  map<string, vector<Double>* > estimable_vectors_;
-  map<string, Estimable::Type>  estimable_types_;
-
-  map<string, map<unsigned, Double>* >      estimable_u_maps_;
-  map<string, OrderedMap<string, Double>* > estimable_s_maps_;
-  vector<map<string, vector<Double>>* >     unnamed_estimable_s_map_vector_;
-
+  string                          block_type_           = "";
+  string                          label_                = "";
+  string                          type_                 = "";
+  ParameterList                   parameters_;
   map<string, Double*>            addressables_;
+  map<string, bool>               create_missing_addressables_;
   map<string, vector<Double>* >   addressable_vectors_;
-  map<string, Addressable::Type>  addressable_types_;
+  map<string, addressable::Type>  addressable_types_;
+  map<string, addressable::Usage> addressable_usage_;
 
   map<string, map<unsigned, Double>* >      addressable_u_maps_;
   map<string, OrderedMap<string, Double>* > addressable_s_maps_;
+  vector<map<string, vector<Double>>* >     unnamed_addressable_s_map_vector_;
 
   DISALLOW_COPY_AND_ASSIGN(Object);
 };

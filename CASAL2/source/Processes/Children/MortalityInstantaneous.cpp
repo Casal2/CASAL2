@@ -61,7 +61,7 @@ MortalityInstantaneous::MortalityInstantaneous(Model* model)
   parameters_.Bind<Double>(PARAM_TIME_STEP_RATIO, &time_step_ratios_temp_, "Time step ratios for natural mortality", "", true);
   parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_labels_, "The selectivities to apply on the categories for natural mortality", "");
 
-  RegisterAsEstimable(PARAM_M, &m_);
+  RegisterAsAddressable(PARAM_M, &m_);
 }
 
 /**
@@ -167,7 +167,7 @@ void MortalityInstantaneous::DoValidate() {
     new_fishery.actual_catches_ = fishery_year_catch[new_fishery.label_];
 
     fisheries_[new_fishery.label_] = new_fishery;
-    RegisterAsEstimable(PARAM_FISHERY + string("_") + utilities::ToLowercase(new_fishery.label_), &fisheries_[new_fishery.label_].catches_);
+    RegisterAsAddressable(PARAM_FISHERY + string("_") + utilities::ToLowercase(new_fishery.label_), &fisheries_[new_fishery.label_].catches_);
 
     LOG_FINEST() << "Creating estimable: " << PARAM_FISHERY + string("_") + utilities::ToLowercase(new_fishery.label_), &fisheries_[new_fishery.label_].catches_;
     // remove after build

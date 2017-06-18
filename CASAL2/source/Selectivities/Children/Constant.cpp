@@ -24,7 +24,7 @@ Constant::Constant(Model* model)
 
   parameters_.Bind<Double>(PARAM_C, &c_, "C", "");
 
-  RegisterAsEstimable(PARAM_C, &c_);
+  RegisterAsAddressable(PARAM_C, &c_);
 }
 
 /**

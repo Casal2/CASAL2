@@ -26,7 +26,7 @@ Exogenous::Exogenous(Model* model) : TimeVarying(model) {
   parameters_.Bind<Double>(PARAM_A, &a_, "Shift parameter", "");
   parameters_.Bind<Double>(PARAM_EXOGENOUS_VARIABLE, &exogenous_, "Values of exogeneous variable for each year", "");
 
-  RegisterAsEstimable(PARAM_A, &a_);
+  RegisterAsAddressable(PARAM_A, &a_);
 }
 
 /**
@@ -36,11 +36,9 @@ void Exogenous::DoValidate() {
   if (years_.size() != exogenous_.size())
     LOG_ERROR_P(PARAM_YEARS) << " provided (" << years_.size() << ") does not match the number of values provided (" << exogenous_.size() << ")";
 
-  // Check that the paramter is of type scalar
-  string error = "";
-  Estimable::Type estimable_type = model_->objects().GetEstimableType(parameter_, error);
-  if (estimable_type != Estimable::kSingle)
-    LOG_ERROR_P(PARAM_PARAMETER) << "Parameter must be a scalar, other estimable types not supported yet";
+  // Check that the parameter is of type scalar
+  if (model_->objects().GetAddressableType(parameter_) != addressable::kSingle)
+    LOG_ERROR_P(PARAM_PARAMETER) << "Parameter must be a scalar, other addressable types not supported yet";
 }
 
 /**
@@ -56,9 +54,8 @@ void Exogenous::DoBuild() {
  */
 void Exogenous::DoReset() {
   // Add this to the Reset so that if a, is estimated the model can actually update the model.
-  string error = "";
   values_by_year_ = utilities::Map::create(years_, exogenous_);
-  Double* value = model_->objects().GetEstimable(parameter_, error);
+  Double* value = model_->objects().GetAddressable(parameter_);
   LOG_FINEST() << "Parameter value = " << (*value);
   Double total = 0.0;
 

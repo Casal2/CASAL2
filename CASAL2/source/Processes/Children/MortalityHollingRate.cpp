@@ -61,9 +61,9 @@ MortalityHollingRate::MortalityHollingRate(Model* model)
   parameters_.Bind<string>(PARAM_PENALTY, &  penalty_label_, "Label of penalty to be applied", "","");
   parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "Years in which to apply the mortality process", "");
 
-  RegisterAsEstimable(PARAM_A, &a_);
-  RegisterAsEstimable(PARAM_B, &b_);
-  RegisterAsEstimable(PARAM_X, &x_);
+  RegisterAsAddressable(PARAM_A, &a_);
+  RegisterAsAddressable(PARAM_B, &b_);
+  RegisterAsAddressable(PARAM_X, &x_);
 }
 
 /**

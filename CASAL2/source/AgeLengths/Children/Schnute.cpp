@@ -44,12 +44,12 @@ Schnute::Schnute(Model* model) : AgeLength(model) {
   parameters_.Bind<string>(PARAM_LENGTH_WEIGHT, &length_weight_label_, "Define the label of the associated length-weight relationship", "");
   parameters_.Bind<bool>(PARAM_BY_LENGTH, &by_length_, "Specifies if the linear interpolation of CV's is a linear function of mean length at age. Default is just by age", "", true);
 
-  RegisterAsEstimable(PARAM_Y1, &y1_);
-  RegisterAsEstimable(PARAM_Y2, &y2_);
-  RegisterAsEstimable(PARAM_TAU1, &tau1_);
-  RegisterAsEstimable(PARAM_TAU2, &tau2_);
-  RegisterAsEstimable(PARAM_A, &a_);
-  RegisterAsEstimable(PARAM_B, &b_);
+  RegisterAsAddressable(PARAM_Y1, &y1_);
+  RegisterAsAddressable(PARAM_Y2, &y2_);
+  RegisterAsAddressable(PARAM_TAU1, &tau1_);
+  RegisterAsAddressable(PARAM_TAU2, &tau2_);
+  RegisterAsAddressable(PARAM_A, &a_);
+  RegisterAsAddressable(PARAM_B, &b_);
 }
 
 /**

@@ -34,7 +34,7 @@ TransitionCategory::TransitionCategory(Model* model)
   parameters_.Bind<Double>(PARAM_PROPORTIONS, &proportions_, "Proportions", "");
   parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_names_, "Selectivity names", "");
 
-  RegisterAsEstimable(PARAM_PROPORTIONS, &proportions_by_category_);
+  RegisterAsAddressable(PARAM_PROPORTIONS, &proportions_by_category_);
 
   process_type_ = ProcessType::kTransition;
   partition_structure_ = PartitionStructure::kAge;

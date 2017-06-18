@@ -70,9 +70,10 @@ void Estimables::LoadValues(unsigned index) {
   if (estimables_.size() == 0) {
     string error = "";
     for (auto iter : estimable_values_) {
-      Double* ptr = model_->objects().FindEstimable(iter.first, error);
-      if (ptr == nullptr)
-        LOG_FATAL() << "The estimable " << iter.first << " was defined in the estimable's input value file but was not registered in the model";
+      if (!model_->objects().VerfiyAddressableForUse(iter.first, addressable::kInputRun, error)) {
+        LOG_FATAL() << "The addressable " << iter.first << " could not be verified for use in -i run. Error was " << error;
+      }
+      Double* ptr = model_->objects().GetAddressable(iter.first);
       estimables_[iter.first] = ptr;
     }
 

@@ -33,7 +33,7 @@ public:
   // methods
   AdditionalPrior(Model* model);
   virtual                     ~AdditionalPrior() = default;
-  virtual Double              GetScore();
+  virtual Double              GetScore() = 0;
   void                        Validate();
   void                        Build();
   void                        Reset() { };
@@ -46,7 +46,6 @@ protected:
   // members
   Model*                      model_;
   ScoreFunction               score_function_ = 0;
-//  string                      method_;
 };
 
 } /* namespace niwa */

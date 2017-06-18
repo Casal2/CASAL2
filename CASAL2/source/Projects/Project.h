@@ -40,13 +40,11 @@ public:
   void                        Build();
   void                        Reset();
   void                        Update(unsigned current_year);
-  virtual void                StoreValue(unsigned current_year, unsigned start_year, unsigned final_year);
-
+  void                        StoreValue(unsigned current_year);
 
   // accessors
-  string                      estimable_parameter() {return estimable_parameter_;};
-  Estimable::Type             estimate_type() {return estimable_type_;};
-  map<unsigned,Double>&       projected_parameters() {return projected_parameters_;};
+  string                      parameter() { return parameter_; };
+  map<unsigned,Double>&       projected_parameters() { return projected_values_; };
 
 protected:
   // methods
@@ -62,7 +60,7 @@ protected:
   virtual void                DoUpdate() = 0;
 
   // function pointers
-  UpdateFunction              DoUpdateFunc_ = 0;
+  UpdateFunction              DoUpdateFunc_ = nullptr;
 
   // members
   Model*                      model_;
@@ -71,24 +69,16 @@ protected:
   vector<unsigned>            years_;
   string                      parameter_;
   Double                      original_value_ = 0;
-  map<unsigned, Double>*      estimable_map_ = 0;
-  vector<Double>*             estimable_vector_ = 0;
-  Double*                     estimable_ = 0;
-  Estimable::Type             estimable_type_;
-  base::Object*               target_;
-  string                      estimable_parameter_  = "";
-  map<unsigned,Double>        projected_parameters_; // year , value;
+  Double*                     addressable_ = nullptr;
+  map<unsigned, Double>*      addressable_map_ = nullptr;
+  vector<Double>*             addressable_vector_ = nullptr;
+  map<unsigned, Double>       projected_values_;
+  map<unsigned, Double>       stored_values_;
   bool                        final_phase_ = false;
 
 private:
   bool                        ycs_value_check_;
 };
-
-/**
- * Typedef
- */
-typedef std::shared_ptr<Project> ProjectPtr;
-
 } /* namespace niwa */
 
 #endif /* PROJECT_H_ */

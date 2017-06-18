@@ -32,11 +32,6 @@ public:
   Double                      GetScore() override final;
 
 protected:
-  // methods
-//  Double                      ratio_score() override final;
-//  Double                      difference_score() override final;
-//  Double                      mean_score() override final;
-
   // members
   Double                      mu_ = 0.0;
   Double                      sigma_ = 0.0;
