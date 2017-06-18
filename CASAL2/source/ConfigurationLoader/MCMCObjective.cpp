@@ -83,20 +83,20 @@ bool MCMCObjective::LoadFile(const string& file_name) {
     }
 
     // split the line
-    vector<string> estimable_values;
-    boost::split(estimable_values, line, boost::is_any_of(" "), boost::token_compress_on);
-    if (estimate_count != estimable_values.size()) {
-      LOG_ERROR() << "Line " << i+1 << " of the covariance matrix had " << estimable_values.size()
+    vector<string> addressable_values;
+    boost::split(addressable_values, line, boost::is_any_of(" "), boost::token_compress_on);
+    if (estimate_count != addressable_values.size()) {
+      LOG_ERROR() << "Line " << i+1 << " of the covariance matrix had " << addressable_values.size()
           << " values when we expected " << estimate_count << " to match number of estimates";
       return false;
     }
 
     for (unsigned j = 0; j < estimate_count; ++j) {
-      LOG_FINE() << "i: " << i << ", j: " << j << ", value: " << estimable_values[j];
+      LOG_FINE() << "i: " << i << ", j: " << j << ", value: " << addressable_values[j];
       Double value = 0;
-      if (!utilities::To<string, Double>(estimable_values[j], value)) {
+      if (!utilities::To<string, Double>(addressable_values[j], value)) {
         LOG_ERROR() << "MCMC Objective file " << file_name << " is not in the correct format."
-            << " Value " << estimable_values[j] << " could not be converted to a numeric";
+            << " Value " << addressable_values[j] << " could not be converted to a numeric";
         return false;
       }
 

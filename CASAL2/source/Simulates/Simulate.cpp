@@ -51,8 +51,8 @@ void Simulate::Build() {
     LOG_FATAL_P(PARAM_PARAMETER) << "could not be verified for use in additional_prior.vector_smoothing. Error was " << error;
   }
 
-  addressable::Type estimable_type = model_->objects().GetAddressableType(parameter_);
-  switch(estimable_type) {
+  addressable::Type addressable_type = model_->objects().GetAddressableType(parameter_);
+  switch(addressable_type) {
     case addressable::kInvalid:
       LOG_ERROR_P(PARAM_PARAMETER) << error;
       break;

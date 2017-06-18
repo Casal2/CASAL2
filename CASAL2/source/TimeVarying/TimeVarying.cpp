@@ -52,8 +52,8 @@ void TimeVarying::Build() {
     LOG_FATAL_P(PARAM_PARAMETER) << "could not be verified for use in a time_varying block. Error was " << error;
   }
 
-  addressable::Type estimable_type = model_->objects().GetAddressableType(parameter_);
-  switch(estimable_type) {
+  addressable::Type addressable_type = model_->objects().GetAddressableType(parameter_);
+  switch(addressable_type) {
     case addressable::kInvalid:
       LOG_ERROR_P(PARAM_PARAMETER) << error;
       break;
@@ -130,12 +130,8 @@ void TimeVarying::set_map_value(Double value) {
  */
 void TimeVarying::Reset() {
   string error = "";
-  addressable::Type estimable_type = model_->objects().GetAddressableType(parameter_);
-  if (estimable_type == addressable::kSingle) {
-    if (addressable_ != nullptr) {
-      original_value_ = *addressable_;
-    }
-  }
+  if (addressable_ != nullptr)
+    original_value_ = *addressable_;
 }
 
 } /* namespace niwa */

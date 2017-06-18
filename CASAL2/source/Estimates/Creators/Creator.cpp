@@ -43,7 +43,7 @@ Creator::Creator(Model* model) : model_(model) {
   parameters_.Bind<string>(PARAM_ESTIMATION_PHASE, &estimation_phase_, "TBA", "", "");
   parameters_.Bind<string>(PARAM_MCMC, &mcmc_, "Indicates if this parameter is fixed at the point estimate during an MCMC run", "", "");
   parameters_.Bind<string>(PARAM_TRANSFORMATION, &transformation_details_, "TBA", "", true);
-  parameters_.Bind<bool>(PARAM_TRANSFORM_WITH_JACOBIAN, &transform_with_jacobian_, "Transform our estimables with jacobian score", "", true);
+  parameters_.Bind<bool>(PARAM_TRANSFORM_WITH_JACOBIAN, &transform_with_jacobian_, "Transform our addressables with jacobian score", "", true);
 }
 
 /**
@@ -82,9 +82,9 @@ void Creator::CreateEstimates() {
      * This estimate is only for a single object. So we will validate based on that
      */
     if (lower_bounds_.size() != 1)
-      LOG_FATAL_P(PARAM_LOWER_BOUND) << "values specified (" << lower_bounds_.size() << " must match number of target estimables (1)";
+      LOG_FATAL_P(PARAM_LOWER_BOUND) << "values specified (" << lower_bounds_.size() << " must match number of target addressables (1)";
     if (upper_bounds_.size() != 1)
-      LOG_FATAL_P(PARAM_UPPER_BOUND) << "values specified (" << upper_bounds_.size() << " must match number of target estimables (1)";
+      LOG_FATAL_P(PARAM_UPPER_BOUND) << "values specified (" << upper_bounds_.size() << " must match number of target addressables (1)";
 
     CreateEstimate(parameter_, 0, target->GetAddressable(parameter));
 
@@ -94,9 +94,9 @@ void Creator::CreateEstimates() {
      * and create new estimates for each of these.
      */
     if (lower_bounds_.size() != indexes.size())
-      LOG_FATAL_P(PARAM_LOWER_BOUND) << "values specified (" << lower_bounds_.size() << " must match number of target estimables (" << indexes.size() << ")";
+      LOG_FATAL_P(PARAM_LOWER_BOUND) << "values specified (" << lower_bounds_.size() << " must match number of target addressables (" << indexes.size() << ")";
     if (upper_bounds_.size() != indexes.size())
-      LOG_FATAL_P(PARAM_UPPER_BOUND) << "values specified (" << upper_bounds_.size() << " must match number of target estimables (" << indexes.size() << ")";
+      LOG_FATAL_P(PARAM_UPPER_BOUND) << "values specified (" << upper_bounds_.size() << " must match number of target addressables (" << indexes.size() << ")";
 
     switch(target->GetAddressableType(parameter)) {
     case addressable::kVector:
@@ -149,7 +149,7 @@ void Creator::CreateEstimates() {
     }
     break;
     default:
-      LOG_CODE_ERROR() << "This type of estimable is not supported: " << (unsigned)target->GetAddressableType(parameter);
+      LOG_CODE_ERROR() << "This type of addressable is not supported: " << (unsigned)target->GetAddressableType(parameter);
       break;
     }
   } else {
@@ -162,9 +162,9 @@ void Creator::CreateEstimates() {
       n = target->GetAddressableSize(parameter);
 
     if (lower_bounds_.size() != n)
-      LOG_FATAL_P(PARAM_LOWER_BOUND) << "values specified (" << lower_bounds_.size() << " must match number of target estimables (" << n << ")";
+      LOG_FATAL_P(PARAM_LOWER_BOUND) << "values specified (" << lower_bounds_.size() << " must match number of target addressables (" << n << ")";
     if (upper_bounds_.size() != n)
-      LOG_FATAL_P(PARAM_UPPER_BOUND) << "values specified (" << upper_bounds_.size() << " must match number of target estimables (" << n << ")";
+      LOG_FATAL_P(PARAM_UPPER_BOUND) << "values specified (" << upper_bounds_.size() << " must match number of target addressables (" << n << ")";
 
     switch(target->GetAddressableType(parameter)) {
     case addressable::kVector:
@@ -197,7 +197,7 @@ void Creator::CreateEstimates() {
       break;
     }
     default:
-      LOG_CODE_ERROR() << "This type of estimable is not supported: " << (unsigned)target->GetAddressableType(parameter);
+      LOG_CODE_ERROR() << "This type of addressable is not supported: " << (unsigned)target->GetAddressableType(parameter);
       break;
     }
   }
@@ -315,7 +315,7 @@ void Creator::HandleSameParameter() {
       }
       break;
       default:
-        LOG_CODE_ERROR() << "This type of estimable is not supported: " << (unsigned)target->GetAddressableType(parameter);
+        LOG_CODE_ERROR() << "This type of addressable is not supported: " << (unsigned)target->GetAddressableType(parameter);
         break;
       }
     } else {
@@ -358,7 +358,7 @@ void Creator::HandleSameParameter() {
         break;
       }
       default:
-        LOG_CODE_ERROR() << "This type of estimable is not supported: " << (unsigned)target->GetAddressableType(parameter);
+        LOG_CODE_ERROR() << "This type of addressable is not supported: " << (unsigned)target->GetAddressableType(parameter);
         break;
       }
     }

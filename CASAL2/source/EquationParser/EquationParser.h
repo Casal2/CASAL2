@@ -11,7 +11,7 @@
  *
  * This class is the interface to the equation parser
  * third-party library. We need this to ensure we can have a single
- * instance managed by the model that handles registration of symbols/estimables
+ * instance managed by the model that handles registration of symbols/addressables
  * to be used within an equation.
  */
 #ifndef SOURCE_EQUATIONPARSER_EQUATIONPARSER_H_
@@ -43,7 +43,7 @@ public:
   virtual                     ~EquationParser();
   Double                      Parse(string equation);
 
-  // Callback method for the equation parser to lookup estimables
+  // Callback method for the equation parser to lookup addressables
   Double&                     LookupValue(const std::string& name);
 
 private:

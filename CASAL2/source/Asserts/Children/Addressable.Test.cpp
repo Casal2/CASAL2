@@ -1,5 +1,5 @@
 /**
- * @file Estimable.Test.cpp
+ * @file Addressable.Test.cpp
  * @author  Scott Rasmussen (scott.rasmussen@zaita.com)
  * @date 1/09/2014
  * @section LICENSE

@@ -29,7 +29,7 @@ Addressable::Addressable(Model* model) : Report(model) {
   model_state_ = State::kExecute;
 
   parameters_.Bind<string>(PARAM_PARAMETER, &parameter_, "Parameter to print", "");
-  parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "Years to print the estimable for", "");
+  parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "Years to print the addressable for", "");
   parameters_.Bind<string>(PARAM_TIME_STEP, &time_step_, "Time Step label", "", "");
 }
 
@@ -50,7 +50,7 @@ void Addressable::DoBuild() {
   string index      = "";
 
   /**
-   * Explode the parameter string so we can get the estimable
+   * Explode the parameter string so we can get the addressable
    * name (parameter) and the index
    */
   if (parameter_ == "") {

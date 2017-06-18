@@ -9,7 +9,7 @@
  *
  * @section DESCRIPTION
  *
- * Free catchabilities are normal estimables that require a prior, but are considered a nuisance parameter in the estimation problem.
+ * Free catchabilities are normal addressables that require a prior, but are considered a nuisance parameter in the estimation problem.
  */
 #ifndef CATCHABILITIES_FREE_H_
 #define CATCHABILITIES_FREE_H_

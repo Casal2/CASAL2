@@ -114,11 +114,11 @@ void AverageDifference::Restore() {
 }
 
 /**
- * Get the target estimables so we can ensure each
+ * Get the target addressable so we can ensure each
  * object is not referencing multiple ones as this would
  * cause chain issues
  *
- * @return Set of estimable labels
+ * @return Set of addressable labels
  */
 
 std::set<string> AverageDifference::GetTargetEstimates() {

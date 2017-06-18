@@ -8,10 +8,10 @@
  *
  * @section DESCRIPTION
  *
- * A project(ion) value is an estimable in the system that has it's value changed
+ * A project(ion) value is an addressable in the system that has it's value changed
  * dynamically through future models of the year.
  *
- * This object supports 3 different types of Estimables
+ * This object supports 3 different types of addressables
  * 1. A single double
  * 2. A vector of doubles (where it will add a value to the end)
  * 3. A map indexed by unsigned (years)

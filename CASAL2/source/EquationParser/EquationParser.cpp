@@ -113,7 +113,7 @@ EquationParser::~EquationParser() {
 
 /**
  * This method will try to find the registered
- * estimable/object that we're looking for
+ * addressable/object that we're looking for
  *
  * @param name The name (e.g process[recruitment].r0
  * @return Reference to the double value (not const)
