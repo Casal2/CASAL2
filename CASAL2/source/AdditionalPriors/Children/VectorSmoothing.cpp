@@ -42,46 +42,24 @@ void VectorSmoothing::DoValidate() {
  * Build our parameters
  */
 void VectorSmoothing::DoBuild() {
-  string type       = "";
-  string label      = "";
-  string parameter  = "";
-  string index      = "";
-
-  /**
-   * Explode the parameter string sive o we can get the estimable
-   * name (parameter) and the index
-   */
-  if (parameter_ == "") {
-    parameters().Add(PARAM_PARAMETER, label_, parameters_.Get(PARAM_LABEL)->file_name(), parameters_.Get(PARAM_LABEL)->line_number());
-    parameter_ = label_;
-  }
-
-
-  model_->objects().ExplodeString(parameter_, type, label, parameter, index);
-  if (type == "" || label == "" || parameter == "") {
-    LOG_ERROR_P(PARAM_PARAMETER) << ": parameter " << parameter_
-        << " is not in the correct format. Correct format is object_type[label].estimable(array index)";
-  }
-
   string error = "";
-  base::Object* target = model_->objects().FindObject(parameter_, error);
-  if (!target)
-    LOG_ERROR_P(PARAM_PARAMETER) << " " << parameter_ << " is not a valid estimable in the system";
+  if (!model_->objects().VerfiyAddressableForUse(parameter_, addressable::kLookup, error)) {
+    LOG_FATAL_P(PARAM_PARAMETER) << "could not be verified for use in additional_prior.vector_smoothing. Error was " << error;
+  }
 
-
-  Estimable::Type estimable_type = target->GetEstimableType(parameter);
-  switch(estimable_type) {
-    case Estimable::kInvalid:
-      LOG_CODE_ERROR() << "Invalid estimable type: " << parameter_;
+  addressable::Type addressable_type = model_->objects().GetAddressableType(parameter_);
+  switch(addressable_type) {
+    case addressable::kInvalid:
+      LOG_CODE_ERROR() << "Invalid addressable type: " << parameter_;
       break;
-    case Estimable::kVector:
-      estimable_vector_ = target->GetEstimableVector(parameter);
+    case addressable::kVector:
+      addressable_vector_ = model_->objects().GetAddressableVector(parameter_);
       break;
-    case Estimable::kUnsignedMap:
-      estimable_map_ = target->GetEstimableUMap(parameter);
+    case addressable::kUnsignedMap:
+      addressable_map_ = model_->objects().GetAddressableUMap(parameter_);
       break;
     default:
-      LOG_ERROR() << "The estimable you have provided for use in a additional priors: " << parameter_ << " is not a type that is supported for this class of additional prior";
+      LOG_ERROR() << "The addressable you have provided for use in a additional priors: " << parameter_ << " is not a type that is supported for additional priors";
       break;
   }
 }
@@ -93,13 +71,13 @@ void VectorSmoothing::DoBuild() {
  */
 Double VectorSmoothing::GetScore() {
   vector<Double> values;
-  if (estimable_vector_ != 0)
-    values.assign((*estimable_vector_).begin(), (*estimable_vector_).end());
-  else if (estimable_map_ != 0) {
-    for (auto iter : (*estimable_map_))
+  if (addressable_vector_ != 0)
+    values.assign((*addressable_vector_).begin(), (*addressable_vector_).end());
+  else if (addressable_map_ != 0) {
+    for (auto iter : (*addressable_map_))
       values.push_back(iter.second);
   } else
-    LOG_CODE_ERROR() << "(estimable_map_ != 0) && (estimable_map_ != 0)";
+    LOG_CODE_ERROR() << "(addressable_map_ != 0) && (addressable_vector_ != 0)";
 
   if(upper_ == lower_ && upper_ == 0u) {
     upper_ = values.size();

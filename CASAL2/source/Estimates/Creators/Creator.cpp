@@ -57,25 +57,14 @@ void Creator::CreateEstimates() {
    * At this point we need to determine if we need to split this estimate in to multiple estimates.
    */
   string error = "";
-  base::Object* target = model_->objects().FindObject(parameter_, error);
-  if (!target) {
-    LOG_ERROR_P(PARAM_PARAMETER) << parameter_ << " is not a valid object in the system";
-    return;
+  if (!model_->objects().VerfiyAddressableForUse(parameter_, addressable::kLookup, error)) {
+    LOG_FATAL_P(PARAM_PARAMETER) << "could not be verified for use in additional_prior.vector_average. Error was " << error;
   }
 
-  string type       = "";
-  string label      = "";
-  string parameter  = "";
-  string index      = "";
-  model_->objects().ExplodeString(parameter_, type, label, parameter, index);
-  string new_parameter = type + "[" + label + "]." + parameter;
-  LOG_FINEST() << "parameter: " << parameter_ << "; new_parameter: " << new_parameter;
-
-  if (!target->HasEstimable(parameter)) {
-    LOG_ERROR_P(PARAM_PARAMETER) << "value " << parameter_ << " is invalid. '" << parameter << "' is not an estimable on a " << target->type() << " " << type;
-    return;
-  }
-
+  string new_parameter = parameter_;
+  auto pair = model_->objects().ExplodeParameterAndIndex(parameter_);
+  string parameter = pair.first;
+  string index = pair.second;
   vector<string> indexes;
   if (index != "") {
     indexes = utilities::String::explode(index);
@@ -83,9 +72,12 @@ void Creator::CreateEstimates() {
       LOG_FATAL_P(PARAM_PARAMETER) << " could be split up to search for indexes because the format was invalid. "
           << "Please ensure you are using correct indexes and only the operators , and : (range) are supported";
     }
+
+    new_parameter = new_parameter.substr(0, new_parameter.find('{'));
   }
 
-  if (target->GetEstimableType(parameter) == Estimable::kSingle) {
+  auto target = model_->objects().FindObject(parameter_);
+  if (target->GetAddressableType(parameter) == addressable::kSingle) {
     /**
      * This estimate is only for a single object. So we will validate based on that
      */
@@ -94,7 +86,7 @@ void Creator::CreateEstimates() {
     if (upper_bounds_.size() != 1)
       LOG_FATAL_P(PARAM_UPPER_BOUND) << "values specified (" << upper_bounds_.size() << " must match number of target estimables (1)";
 
-    CreateEstimate(parameter_, 0, target->GetEstimable(parameter));
+    CreateEstimate(parameter_, 0, target->GetAddressable(parameter));
 
   } else if (indexes.size() != 0) {
     /**
@@ -106,10 +98,10 @@ void Creator::CreateEstimates() {
     if (upper_bounds_.size() != indexes.size())
       LOG_FATAL_P(PARAM_UPPER_BOUND) << "values specified (" << upper_bounds_.size() << " must match number of target estimables (" << indexes.size() << ")";
 
-    switch(target->GetEstimableType(parameter)) {
-    case Estimable::kVector:
+    switch(target->GetAddressableType(parameter)) {
+    case addressable::kVector:
     {
-      vector<Double>* targets = target->GetEstimableVector(parameter);
+      vector<Double>* targets = target->GetAddressableVector(parameter);
 
       unsigned offset = 0;
       for (string string_index : indexes) {
@@ -124,10 +116,10 @@ void Creator::CreateEstimates() {
       }
     }
     break;
-    case Estimable::kUnsignedMap:
+    case addressable::kUnsignedMap:
     {
       bool create_missing = false;
-      map<unsigned, Double>* targets = target->GetEstimableUMap(parameter, create_missing);
+      map<unsigned, Double>* targets = target->GetAddressableUMap(parameter, create_missing);
       unsigned offset = 0;
       for (string string_index : indexes) {
         unsigned u_index = 0;
@@ -143,9 +135,9 @@ void Creator::CreateEstimates() {
       }
     }
     break;
-    case Estimable::kStringMap:
+    case addressable::kStringMap:
     {
-      utils::OrderedMap<string, Double>* targets = target->GetEstimableSMap(parameter);
+      utils::OrderedMap<string, Double>* targets = target->GetAddressableSMap(parameter);
       unsigned offset = 0;
       for (string index : indexes) {
         if (targets->find(index) == targets->end())
@@ -157,7 +149,7 @@ void Creator::CreateEstimates() {
     }
     break;
     default:
-      LOG_CODE_ERROR() << "This type of estimable is not supported: " << (unsigned)target->GetEstimableType(parameter);
+      LOG_CODE_ERROR() << "This type of estimable is not supported: " << (unsigned)target->GetAddressableType(parameter);
       break;
     }
   } else {
@@ -167,26 +159,26 @@ void Creator::CreateEstimates() {
      */
     unsigned n = indexes.size();
     if (n == 0)
-      n = target->GetEstimableSize(parameter);
+      n = target->GetAddressableSize(parameter);
 
     if (lower_bounds_.size() != n)
       LOG_FATAL_P(PARAM_LOWER_BOUND) << "values specified (" << lower_bounds_.size() << " must match number of target estimables (" << n << ")";
     if (upper_bounds_.size() != n)
       LOG_FATAL_P(PARAM_UPPER_BOUND) << "values specified (" << upper_bounds_.size() << " must match number of target estimables (" << n << ")";
 
-    switch(target->GetEstimableType(parameter)) {
-    case Estimable::kVector:
-    case Estimable::kVectorStringMap:
+    switch(target->GetAddressableType(parameter)) {
+    case addressable::kVector:
+    case addressable::kVectorStringMap:
     {
-      vector<Double>* targets = target->GetEstimableVector(parameter);
+      vector<Double>* targets = target->GetAddressableVector(parameter);
       for (unsigned i = 0; i < targets->size(); ++i)
         CreateEstimate(new_parameter + "{" + utilities::ToInline<unsigned, string>(i + 1) + "}", i, &(*targets)[i]);
 
       break;
     }
-    case Estimable::kUnsignedMap:
+    case addressable::kUnsignedMap:
     {
-      map<unsigned, Double>* targets = target->GetEstimableUMap(parameter);
+      map<unsigned, Double>* targets = target->GetAddressableUMap(parameter);
       unsigned offset = 0;
       for (auto iter : (*targets)) {
         CreateEstimate(new_parameter + "{" + utilities::ToInline<unsigned, string>(iter.first) + "}", offset, &(*targets)[iter.first]);
@@ -194,9 +186,9 @@ void Creator::CreateEstimates() {
       }
       break;
     }
-    case Estimable::kStringMap:
+    case addressable::kStringMap:
     {
-      utils::OrderedMap<string, Double>* targets = target->GetEstimableSMap(parameter);
+      utils::OrderedMap<string, Double>* targets = target->GetAddressableSMap(parameter);
       unsigned offset = 0;
       for (auto iter : (*targets)) {
         CreateEstimate(new_parameter + "{" + iter.first + "}", offset, &(*targets)[iter.first]);
@@ -205,7 +197,7 @@ void Creator::CreateEstimates() {
       break;
     }
     default:
-      LOG_CODE_ERROR() << "This type of estimable is not supported: " << (unsigned)target->GetEstimableType(parameter);
+      LOG_CODE_ERROR() << "This type of estimable is not supported: " << (unsigned)target->GetAddressableType(parameter);
       break;
     }
   }
@@ -237,24 +229,15 @@ void Creator::HandleSameParameter() {
      * At this point we need to determine if we need to split this estimate in to multiple estimates.
      */
     string error = "";
-    base::Object* target = model_->objects().FindObject(same, error);
-    if (!target) {
-      LOG_ERROR_P(PARAM_SAME) << same << " is not a valid object in the system";
-      return;
+    if (!model_->objects().VerfiyAddressableForUse(same, addressable::kEstimate, error)) {
+      LOG_FATAL_P(PARAM_SAME) << "could not be verified for use in an @estimate.same block. Error was " << error;
     }
 
-    string type       = "";
-    string label      = "";
-    string parameter  = "";
-    string index      = "";
-    model_->objects().ExplodeString(same, type, label, parameter, index);
-    string new_parameter = type + "[" + label + "]." + parameter;
+    string new_parameter = parameter_;
+    auto pair = model_->objects().ExplodeParameterAndIndex(parameter_);
+    string parameter = pair.first;
+    string index = pair.second;
     LOG_FINEST() << "same: " << same << "; new_parameter: " << new_parameter;
-
-    if (!target->HasEstimable(parameter)) {
-      LOG_ERROR_P(PARAM_SAME) << "value " << same << " is invalid. '" << parameter << "' is not an estimable on a " << target->type() << " " << type;
-      return;
-    }
 
     vector<string> indexes;
     if (index != "") {
@@ -265,21 +248,22 @@ void Creator::HandleSameParameter() {
       }
     }
 
-    if (target->GetEstimableType(parameter) == Estimable::kSingle) {
+    auto target = model_->objects().FindObject(parameter_);
+    if (target->GetAddressableType(parameter) == addressable::kSingle) {
       /**
        * Handle when our sames are referencing a single object
        */
       labels.push_back(same);
-      targets.push_back(target->GetEstimable(parameter));
+      targets.push_back(target->GetAddressable(parameter));
 
     } else if (indexes.size() != 0) {
       /**
        * Handle sames that are using index values
        */
-      switch(target->GetEstimableType(parameter)) {
-      case Estimable::kVector:
+      switch(target->GetAddressableType(parameter)) {
+      case addressable::kVector:
       {
-        vector<Double>* temp = target->GetEstimableVector(parameter);
+        vector<Double>* temp = target->GetAddressableVector(parameter);
         unsigned offset = 0;
         for (string string_index : indexes) {
           unsigned u_index = 0;
@@ -294,10 +278,10 @@ void Creator::HandleSameParameter() {
         }
       }
       break;
-      case Estimable::kUnsignedMap:
+      case addressable::kUnsignedMap:
       {
         bool create_missing = false;
-        map<unsigned, Double>* temps = target->GetEstimableUMap(parameter, create_missing);
+        map<unsigned, Double>* temps = target->GetAddressableUMap(parameter, create_missing);
         unsigned offset = 0;
         for (string string_index : indexes) {
           unsigned u_index = 0;
@@ -314,9 +298,9 @@ void Creator::HandleSameParameter() {
         }
       }
       break;
-      case Estimable::kStringMap:
+      case addressable::kStringMap:
       {
-        utils::OrderedMap<string, Double>* temp = target->GetEstimableSMap(parameter);
+        utils::OrderedMap<string, Double>* temp = target->GetAddressableSMap(parameter);
         unsigned offset = 0;
         for (string index : indexes) {
           if (temp->find(index) == temp->end())
@@ -329,7 +313,7 @@ void Creator::HandleSameParameter() {
       }
       break;
       default:
-        LOG_CODE_ERROR() << "This type of estimable is not supported: " << (unsigned)target->GetEstimableType(parameter);
+        LOG_CODE_ERROR() << "This type of estimable is not supported: " << (unsigned)target->GetAddressableType(parameter);
         break;
       }
     } else {
@@ -337,11 +321,11 @@ void Creator::HandleSameParameter() {
        * Here we need to handle when a user defines an entire container as the target for a same.
        * We'll same every element separately.
        */
-      switch(target->GetEstimableType(parameter)) {
-      case Estimable::kVector:
-      case Estimable::kVectorStringMap:
+      switch(target->GetAddressableType(parameter)) {
+      case addressable::kVector:
+      case addressable::kVectorStringMap:
       {
-        vector<Double>* temps = target->GetEstimableVector(parameter);
+        vector<Double>* temps = target->GetAddressableVector(parameter);
         for (unsigned i = 0; i < temps->size(); ++i) {
           labels.push_back(new_parameter + "{" + utilities::ToInline<unsigned, string>(i + 1) + "}");
           targets.push_back(&(*temps)[i]);
@@ -349,9 +333,9 @@ void Creator::HandleSameParameter() {
 
         break;
       }
-      case Estimable::kUnsignedMap:
+      case addressable::kUnsignedMap:
       {
-        map<unsigned, Double>* temps = target->GetEstimableUMap(parameter);
+        map<unsigned, Double>* temps = target->GetAddressableUMap(parameter);
         unsigned offset = 0;
         for (auto iter : (*temps)) {
           labels.push_back(new_parameter + "{" + utilities::ToInline<unsigned, string>(iter.first) + "}");
@@ -360,9 +344,9 @@ void Creator::HandleSameParameter() {
         }
         break;
       }
-      case Estimable::kStringMap:
+      case addressable::kStringMap:
       {
-        utils::OrderedMap<string, Double>* temps = target->GetEstimableSMap(parameter);
+        utils::OrderedMap<string, Double>* temps = target->GetAddressableSMap(parameter);
         unsigned offset = 0;
         for (auto iter : (*temps)) {
           labels.push_back(new_parameter + "{" + iter.first + "}");
@@ -372,7 +356,7 @@ void Creator::HandleSameParameter() {
         break;
       }
       default:
-        LOG_CODE_ERROR() << "This type of estimable is not supported: " << (unsigned)target->GetEstimableType(parameter);
+        LOG_CODE_ERROR() << "This type of estimable is not supported: " << (unsigned)target->GetAddressableType(parameter);
         break;
       }
     }

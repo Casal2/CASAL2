@@ -51,11 +51,11 @@ RecruitmentBevertonHolt::RecruitmentBevertonHolt(Model* model)
   parameters_.Bind<unsigned>(PARAM_YCS_YEARS, &ycs_years_, "Recruitment years. A vector of years that relates to the year of the spawning event that created this cohort", "", false);
   parameters_.Bind<unsigned>(PARAM_STANDARDISE_YCS_YEARS, &standardise_ycs_, "Years that are included for year class standardisation", "", true);
 
-  RegisterAsEstimable(PARAM_R0, &r0_);
-  RegisterAsEstimable(PARAM_B0, &b0_);
-  RegisterAsEstimable(PARAM_STEEPNESS, &steepness_);
-  RegisterAsEstimable(PARAM_PROPORTIONS, &proportions_);
-  RegisterAsEstimable(PARAM_YCS_VALUES, &ycs_value_by_year_);
+  RegisterAsAddressable(PARAM_R0, &r0_);
+  RegisterAsAddressable(PARAM_B0, &b0_);
+  RegisterAsAddressable(PARAM_STEEPNESS, &steepness_);
+  RegisterAsAddressable(PARAM_PROPORTIONS, &proportions_);
+  RegisterAsAddressable(PARAM_YCS_VALUES, &ycs_value_by_year_);
 
   phase_b0_         = 0;
   process_type_     = ProcessType::kRecruitment;

@@ -35,9 +35,9 @@ LogisticProducing::LogisticProducing(Model* model)
   parameters_.Bind<Double>(PARAM_ATO95, &ato95_, "Ato95", "");
   parameters_.Bind<Double>(PARAM_ALPHA, &alpha_, "Alpha", "", 1.0);
 
-  RegisterAsEstimable(PARAM_A50, &a50_);
-  RegisterAsEstimable(PARAM_ATO95, &ato95_);
-  RegisterAsEstimable(PARAM_ALPHA, &alpha_);
+  RegisterAsAddressable(PARAM_A50, &a50_);
+  RegisterAsAddressable(PARAM_ATO95, &ato95_);
+  RegisterAsAddressable(PARAM_ALPHA, &alpha_);
 }
 
 /**

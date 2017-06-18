@@ -47,26 +47,30 @@ void Simulate::Build() {
   }
 
   string error = "";
-  Estimable::Type estimable_type = model_->objects().GetEstimableType(parameter_, error);
+  if (!model_->objects().VerfiyAddressableForUse(parameter_, addressable::kSimulate, error)) {
+    LOG_FATAL_P(PARAM_PARAMETER) << "could not be verified for use in additional_prior.vector_smoothing. Error was " << error;
+  }
+
+  addressable::Type estimable_type = model_->objects().GetAddressableType(parameter_);
   switch(estimable_type) {
-    case Estimable::kInvalid:
+    case addressable::kInvalid:
       LOG_ERROR_P(PARAM_PARAMETER) << error;
       break;
-    case Estimable::kSingle:
+    case addressable::kSingle:
       update_function_ = &Simulate::set_single_value;
-      estimable_    = model_->objects().GetEstimable(parameter_, error);
+      estimable_    = model_->objects().GetAddressable(parameter_);
       original_value_ = *estimable_;
       break;
-    case Estimable::kVector:
+    case addressable::kVector:
       update_function_ = &Simulate::set_vector_value;
-      estimable_vector_ = model_->objects().GetEstimableVector(parameter_, error);
+      estimable_vector_ = model_->objects().GetAddressableVector(parameter_);
       break;
-    case Estimable::kUnsignedMap:
+    case addressable::kUnsignedMap:
       update_function_ = &Simulate::set_map_value;
-      estimable_map_ = model_->objects().GetEstimableUMap(parameter_, error);
+      estimable_map_ = model_->objects().GetAddressableUMap(parameter_);
       break;
     default:
-      LOG_ERROR() << "The estimable you have provided for use in a time varying: " << parameter_ << " is not a type that is supported";
+      LOG_ERROR() << "The addressable you have provided for use in a time varying: " << parameter_ << " is not a type that is supported";
       break;
   }
   if (error != "")

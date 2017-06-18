@@ -30,19 +30,6 @@ namespace niwa {
 AdditionalPrior::AdditionalPrior(Model* model) : model_(model) {
   parameters_.Bind<string>(PARAM_LABEL, &label_, "Label for teh additional prior", "");
   parameters_.Bind<string>(PARAM_TYPE, &type_, "Type of additional prior", "");
-//  parameters_.Bind<string>(PARAM_METHOD, &method_, "Method", "")
-//    ->set_allowed_values({PARAM_RATIO, PARAM_DIFFERENCE, PARAM_MEAN});
-}
-
-/**
- * Return the score from the additional prior
- *
- * @return Score from additional prior
- */
-Double AdditionalPrior::GetScore() {
-  if (score_function_ == 0)
-    LOG_CODE_ERROR() << "score_function_ == 0";
-  return (this->*score_function_)();
 }
 
 /**
@@ -54,14 +41,6 @@ Double AdditionalPrior::GetScore() {
 void AdditionalPrior::Validate() {
   parameters_.Populate();
   DoValidate();
-
-  // assign our function pointer
-//  if (method_ == PARAM_RATIO)
-//    score_function_ = &AdditionalPrior::ratio_score;
-//  else if (method_ == PARAM_DIFFERENCE)
-//    score_function_ = &AdditionalPrior::difference_score;
-//  else
-//    score_function_ = &AdditionalPrior::mean_score;
 }
 
 /*

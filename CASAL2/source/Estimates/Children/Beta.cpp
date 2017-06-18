@@ -26,8 +26,8 @@ Beta::Beta(Model* model) : Estimate(model) {
   parameters_.Bind<Double>(PARAM_A, &a_, "Beta prior lower bound of the range (A) parameter", "");
   parameters_.Bind<Double>(PARAM_B, &b_, "Beta prior upper bound of the range (B) parameter", "");
 
-  RegisterAsEstimable(PARAM_MU, &mu_);
-  RegisterAsEstimable(PARAM_SIGMA, &sigma_);
+  RegisterAsAddressable(PARAM_MU, &mu_);
+  RegisterAsAddressable(PARAM_SIGMA, &sigma_);
 }
 
 /**

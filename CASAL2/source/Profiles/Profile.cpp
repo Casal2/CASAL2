@@ -44,79 +44,27 @@ void Profile::Validate() {
  *
  */
 void Profile::Build() {
-  string type       = "";
-  string label      = "";
-  string parameter  = "";
-  string index      = "";
-
-  /**
-   * Explode the parameter string so we can get the estimable
-   * name (parameter) and the index
-   */
-
-  model_->objects().ExplodeString(parameter_, type, label, parameter, index);
-  if (type == "" || label == "" || parameter == "") {
-    LOG_ERROR_P(PARAM_PARAMETER) << ": parameter " << parameter_
-        << " is not in the correct format. Correct format is object_type[label].estimable(array index)";
-  }
-  model_->objects().ImplodeString(type, label, parameter, index, parameter_);
-
   string error = "";
-  base::Object* target = model_->objects().FindObject(parameter_, error);
-  if (!target) {
-    LOG_ERROR_P(PARAM_PARAMETER) << ": parameter " << parameter_ << " is not a valid estimable in the system";
-    return;
+  if (!model_->objects().VerfiyAddressableForUse(parameter_, addressable::kProfile, error)) {
+    LOG_FATAL_P(PARAM_PARAMETER) << "could not be verified for use in a @profile block. Error was " << error;
   }
 
-  // If Estimable is a map need to give index
-  if (index != "")
-    target_ = target->GetEstimable(parameter, index);
-  else
-    target_ = target->GetEstimable(parameter);
-
-  LOG_FINEST() << "Running profile on parameter: " << parameter << ", that has type: " << type << " and label: " << label;
-  if (target_ == 0)
-    LOG_ERROR_P(PARAM_PARAMETER) << ": parameter " << parameter_ << " is not a valid estimable in the system";
+  target_ = model_->objects().GetAddressable(parameter_);
   original_value_ = *target_;
-
   step_size_ = (upper_bound_ - lower_bound_) / (steps_ + 1);
+  LOG_MEDIUM() << "start_value for parameter: " << original_value_;
 
   /**
    * Deal with the same parameter
    */
-  if (parameters_.Get(PARAM_SAME)->has_been_defined()) {
-    string same_type       = "";
-    string same_label      = "";
-    string same_parameter  = "";
-    string same_index      = "";
-
-    /**
-     * Explode the parameter string so we can get the estimable
-     * name (parameter) and the index
-     */
-    model_->objects().ExplodeString(same_parameter_, same_type, same_label, same_parameter, same_index);
-    if (same_type == "" || same_label == "" || same_parameter == "") {
-      LOG_ERROR_P(PARAM_SAME) << ": same parameter " << same_parameter_
-          << " is not in the correct format. Correct format is object_type[label].estimable(array index)";
-    }
-    model_->objects().ImplodeString(same_type, same_label, same_parameter, same_index, same_parameter_);
-
-    string error = "";
-    base::Object* same_target = model_->objects().FindObject(same_parameter_, error);
-    if (!same_target) {
-      LOG_ERROR_P(PARAM_SAME) << ": same parameter " << same_parameter_ << " is not a valid estimable in the system";
-      return;
+  if (same_parameter_ != "") {
+    if (!model_->objects().VerfiyAddressableForUse(same_parameter_, addressable::kProfile, error)) {
+      LOG_FATAL_P(PARAM_SAME) << "could not be verified for use in a @profile block. Error was " << error;
     }
 
-    // If Estimable is a map need to give index
-    if (same_index != "")
-      same_target_ = same_target->GetEstimable(same_parameter, same_index);
-    else
-      same_target_ = same_target->GetEstimable(same_parameter);
-    if (same_target_ == 0)
-      LOG_ERROR_P(PARAM_SAME) << ": same parameter " << same_parameter_ << " is not a valid estimable in the system";
+    same_target_ = model_->objects().GetAddressable(same_parameter_);
     same_original_value_ = *same_target_;
-    LOG_MEDIUM() << "start_value for same param = " << same_original_value_;
+    LOG_MEDIUM() << "start_value for same parameter: " << same_original_value_;
   }
 }
 
@@ -127,7 +75,7 @@ void Profile::FirstStep() {
   *target_ = lower_bound_;
   if (parameters_.Get(PARAM_SAME)->has_been_defined()) {
     *same_target_ = lower_bound_;
-    LOG_MEDIUM() << "esitmating with profile parameter = " <<  *target_  << " and same parameter = " << *same_target_;
+    LOG_MEDIUM() << "Profiling with profile parameter = " <<  *target_  << " and same parameter = " << *same_target_;
   }
 }
 /**
@@ -137,7 +85,7 @@ void Profile::NextStep() {
   *target_ += step_size_;
   if (parameters_.Get(PARAM_SAME)->has_been_defined()) {
     *same_target_ += step_size_;
-    LOG_MEDIUM() << "esitmating with profile parameter = " <<  *target_  << " and same parameter = " << *same_target_;
+    LOG_MEDIUM() << "Profiling with profile parameter = " <<  *target_  << " and same parameter = " << *same_target_;
   }
 }
 
@@ -145,7 +93,7 @@ void Profile::RestoreOriginalValue() {
   *target_ = original_value_;
   if (parameters_.Get(PARAM_SAME)->has_been_defined()) {
     *same_target_ = original_value_;
-    LOG_MEDIUM() << "esitmating with profile parameter = " <<  *target_  << " and same parameter = " << *same_target_;
+    LOG_MEDIUM() << "Profiling with profile parameter = " <<  *target_  << " and same parameter = " << *same_target_;
   }
 }
 

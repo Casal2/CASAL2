@@ -43,9 +43,9 @@ VonBertalanffy::VonBertalanffy(Model* model) : AgeLength(model) {
   parameters_.Bind<string>(PARAM_LENGTH_WEIGHT, &length_weight_label_, "Define the label of the associated length-weight relationship", "");
   parameters_.Bind<bool>(PARAM_BY_LENGTH, &by_length_, "Specifies if the linear interpolation of CV's is a linear function of mean length at age. Default is just by age", "", true);
 
-  RegisterAsEstimable(PARAM_LINF, &linf_);
-  RegisterAsEstimable(PARAM_K, &k_);
-  RegisterAsEstimable(PARAM_T0, &t0_);
+  RegisterAsAddressable(PARAM_LINF, &linf_);
+  RegisterAsAddressable(PARAM_K, &k_);
+  RegisterAsAddressable(PARAM_T0, &t0_);
 }
 
 /**

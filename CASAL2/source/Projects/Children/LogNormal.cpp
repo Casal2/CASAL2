@@ -76,10 +76,10 @@ void LogNormal::DoUpdate() {
     value_ = exp(normal_draw_by_year_[model_->current_year()] - 0.5 * sigma_ * sigma_);
   // }
   // Store this value to be pulled out next projection year
-  projected_parameters_[model_->current_year()] = value_ * multiplier_;
+  value_ = value_ * multiplier_;
 
-  LOG_FINE() << "Setting Value to: " << projected_parameters_[model_->current_year()];
-  (this->*DoUpdateFunc_)(projected_parameters_[model_->current_year()]);
+  LOG_FINE() << "Setting Value to: " << value_;
+  (this->*DoUpdateFunc_)(value_);
 }
 
 } /* namespace projects */

@@ -49,7 +49,7 @@ void Manager::Build(Model* model) {
     for (auto project : objects_) {
       LOG_FINE() << "Building Project: " << project->label();
       project->Build();
-      if (project->estimable_parameter() == PARAM_YCS_VALUES)
+      if (project->parameter() == PARAM_YCS_VALUES)
         ycs_values_exist = true;
     }
 
@@ -72,16 +72,16 @@ void Manager::Update(unsigned current_year) {
 }
 
 /**
- *  @param current_year teh current year this method is calles
+ *  @param current_year The year this is called.
  *
  *  This function will store all parameter values that we may want to overwrite at in projection years
+ *  TODO: This is not how projections work. They will only modify values in the year they're called.
  */
-void Manager::StoreValues(unsigned current_year, unsigned start_year, unsigned final_year) {
+void Manager::StoreValues(unsigned current_year) {
   LOG_TRACE();
   // iterate over all @project blocks
   for (auto project : objects_) {
-    LOG_FINE() << "@Project: " << project->label();
-    project->StoreValue(current_year, start_year, final_year);
+    project->StoreValue(current_year);
   }
 }
 

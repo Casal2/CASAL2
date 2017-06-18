@@ -42,7 +42,7 @@ DerivedQuantity::DerivedQuantity(Model* model)
   parameters_.Bind<string>(PARAM_TIME_STEP_PROPORTION_METHOD, &proportion_method_, "Method for interpolating for the proportion through the mortality block", "", PARAM_WEIGHTED_SUM)
       ->set_allowed_values({ PARAM_WEIGHTED_SUM, PARAM_WEIGHTED_PRODUCT });
 
-  RegisterAsAddressable(PARAM_VALUES, &values_);
+  RegisterAsAddressable(PARAM_VALUES, &values_, addressable::kLookup);
 
   mean_proportion_method_ = true;
 }

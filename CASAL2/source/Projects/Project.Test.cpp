@@ -102,17 +102,20 @@ categories HAK4
 time_step_proportion 0.5
 time_step_proportion_method weighted_sum
 selectivities MaturationSel
+
 @selectivity MaturationSel
 type all_values_bounded
 l 2
 h 13
 v 0.02  0.05  0.13  0.29  0.50  0.70  0.84  0.93  0.97  0.99  0.99  1.00
+
 @selectivity westFSel
 type double_normal
 mu 6
 sigma_l  3  
 sigma_r 10
 alpha 1.0
+
 @selectivity chatTANSel
 type double_normal
 mu 6

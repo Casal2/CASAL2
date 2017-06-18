@@ -43,8 +43,8 @@ AgeLength::AgeLength(Model* model) : model_(model) {
   parameters_.Bind<Double>(PARAM_CV_LAST, &cv_last_ , "CV for last age class", "",Double(0.0))->set_lower_bound(0.0);
 parameters_.Bind<bool>(PARAM_CASAL_SWITCH, &casal_normal_cdf_ , "If true, use the (less accurate) equation for the cumulative normal function as was used in the legacy version of CASAL.", "",false);
 
-  RegisterAsEstimable(PARAM_CV_FIRST, &cv_first_);
-  RegisterAsEstimable(PARAM_CV_LAST, &cv_last_);
+  RegisterAsAddressable(PARAM_CV_FIRST, &cv_first_);
+  RegisterAsAddressable(PARAM_CV_LAST, &cv_last_);
 }
 
 /**

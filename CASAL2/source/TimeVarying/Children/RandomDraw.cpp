@@ -30,8 +30,8 @@ RandomDraw::RandomDraw(Model* model) : TimeVarying(model) {
   parameters_.Bind<Double>(PARAM_SIGMA, &sigma_, "Standard deviation", "", 1);
   parameters_.Bind<string>(PARAM_DISTRIBUTION, &distribution_, "distribution", "", PARAM_NORMAL)->set_allowed_values({PARAM_NORMAL,PARAM_LOGNORMAL});
 
-  RegisterAsEstimable(PARAM_MEAN, &mu_);
-  RegisterAsEstimable(PARAM_SIGMA, &sigma_);
+  RegisterAsAddressable(PARAM_MEAN, &mu_);
+  RegisterAsAddressable(PARAM_SIGMA, &sigma_);
 }
 
 /**
@@ -45,8 +45,7 @@ void RandomDraw::DoValidate() {
  *
  */
 void RandomDraw::DoBuild() {
-  Estimate* estimate = nullptr;
-  estimate = model_->managers().estimate()->GetEstimate(parameter_);
+  Estimate* estimate = model_->managers().estimate()->GetEstimate(parameter_);
   if (estimate) {
     has_at_estimate_ = true;
     LOG_FINEST() << "Found an @estimate block for " << parameter_;
@@ -54,14 +53,11 @@ void RandomDraw::DoBuild() {
     lower_bound_ = estimate->lower_bound();
     if (model_->run_mode() == RunMode::kEstimation) {
       LOG_ERROR_P(PARAM_PARAMETER) << "You cannot have an @estimate block for a parameter that is time varying of type " << type_
-          << ", casal2 will overwite the estimate and a false minimum will be found";
+          << ", casal2 will overwrite the estimate and a false minimum will be found";
     }
   }
-  string error = "";
-  target_object_ = model_->objects().FindObject(parameter_, error);
 
-  Estimable::Type estimable_type = model_->objects().GetEstimableType(parameter_, error);
-  if( estimable_type != Estimable::kSingle)
+  if(model_->objects().GetAddressableType(parameter_) != addressable::kSingle)
     LOG_ERROR_P(PARAM_TYPE) << "@time_varying blocks of type " << PARAM_RANDOMWALK << " can only be implemented in parameters that are scalars or single values";
   DoReset();
 }
@@ -123,8 +119,6 @@ void RandomDraw::DoReset() {
  *
  */
 void RandomDraw::DoUpdate() {
-
-
   LOG_FINE() << "Setting Value to: " << parameter_by_year_[model_->current_year()];
   (this->*update_function_)(parameter_by_year_[model_->current_year()]);
 }

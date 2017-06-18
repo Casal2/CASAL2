@@ -29,7 +29,7 @@ namespace catchabilities {
 Free::Free(Model* model) : Catchability(model) {
   parameters_.Bind<Double>(PARAM_Q, &q_, "value of the catchability", "");
 
-  RegisterAsEstimable(PARAM_Q, &q_);
+  RegisterAsAddressable(PARAM_Q, &q_);
 }
 
 } /* namespace catchabilities */

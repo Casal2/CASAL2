@@ -31,7 +31,7 @@ AllValues::AllValues(Model* model)
 
   parameters_.Bind<Double>(PARAM_V, &v_, "V", "");
 
-  RegisterAsEstimable(PARAM_V, &v_);
+  RegisterAsAddressable(PARAM_V, &v_);
 }
 
 

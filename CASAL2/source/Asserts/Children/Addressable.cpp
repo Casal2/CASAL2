@@ -1,5 +1,5 @@
 /**
- * @file Estimable.cpp
+ * @file Addressable.cpp
  * @author  Scott Rasmussen (scott.rasmussen@zaita.com)
  * @date 1/09/2014
  * @section LICENSE
@@ -9,8 +9,7 @@
  */
 
 // headers
-#include "Estimable.h"
-
+#include <Asserts/Children/Addressable.h>
 #include "Model/Model.h"
 #include "Model/Objects.h"
 #include "TimeSteps/Manager.h"
@@ -29,7 +28,7 @@ namespace asserts {
  *
  * Note: The constructor is parsed to generate Latex for the documentation.
  */
-Estimable::Estimable(Model* model) : Assert(model) {
+Addressable::Addressable(Model* model) : Assert(model) {
   parameters_.Bind<string>(PARAM_PARAMETER, &parameter_, "Estimable to check", "", "");
   parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "Years to check estimable", "");
   parameters_.Bind<string>(PARAM_TIME_STEP, &time_step_label_, "Time step to execute after", "");
@@ -42,7 +41,7 @@ Estimable::Estimable(Model* model) : Assert(model) {
  *
  * Note: all parameters are populated from configuration files
  */
-void Estimable::DoValidate() {
+void Addressable::DoValidate() {
   if (parameter_ == "")
     parameter_ = label_;
 
@@ -63,7 +62,7 @@ void Estimable::DoValidate() {
  * Build any objects that will need to be utilised by this object.
  * Obtain smart_pointers to any objects that will be used by this object.
  */
-void Estimable::DoBuild() {
+void Addressable::DoBuild() {
   /**
    * subscribe this assert to the target time step in all years that were specified.
    */
@@ -74,18 +73,20 @@ void Estimable::DoBuild() {
     time_step->Subscribe(this, year);
 
   string error = "";
-  estimable_ = model_->objects().FindEstimable(parameter_, error);
-  if (estimable_ == nullptr)
-    LOG_ERROR_P(PARAM_PARAMETER) << "(" << parameter_ << ") could not be found. Have you defined it properly?";
+  if (!model_->objects().VerfiyAddressableForUse(parameter_, addressable::kLookup, error)) {
+    LOG_FATAL_P(PARAM_PARAMETER) << "could not be verified for use in assert.addressable. Error was " << error;
+  }
+
+  addressable_ = model_->objects().GetAddressable(parameter_);
 }
 
 /**
  * Execute/Run/Process the object.
  */
-void Estimable::Execute() {
+void Addressable::Execute() {
   Double expected = year_values_[model_->current_year()];
-  if (*estimable_ != expected)
-    LOG_ERROR() << "Assert Failure: Estimable: " << parameter_ << " had actual value " << *estimable_ << " when we expected " << expected;
+  if (*addressable_ != expected)
+    LOG_ERROR() << "Assert Failure: Addressable: " << parameter_ << " had actual value " << *addressable_ << " when we expected " << expected;
 }
 
 } /* namespace asserts */

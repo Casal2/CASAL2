@@ -33,7 +33,7 @@ Maturation::Maturation(Model* model)
   parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "The years to be associated with rates", "");
   parameters_.Bind<Double>(PARAM_RATES, &rates_, "The rates to mature for each year", "");
 
-  RegisterAsEstimable(PARAM_RATES, &rates_by_years_);
+  RegisterAsAddressable(PARAM_RATES, &rates_by_years_);
 
   process_type_ = ProcessType::kMaturation;
   partition_structure_ = PartitionStructure::kAge;

@@ -31,165 +31,137 @@ namespace niwa {
 
 namespace util = niwa::utilities;
 
-
-Objects::Objects(Model* model) : model_(model) {
-
-}
 /**
- * This method will find the type of estimable in the system defined by the absolute
+ * Default constructor
+ */
+Objects::Objects(Model* model) : model_(model) {
+}
+
+/**
+ * This method will verify the existence of the addressable and it's usage flag. This check should
+ * be done prior to any other call to this object to ensure the addressable can be found and used.
+ *
+ * @param parameter_absolute_name The absolute name for the addressable (e.g block[label].variable{index}
+ * @param usage The intended usage for this addressable
+ * @param error A string to hold any returning errors in
+ * @return True if the verification was successful, false otherwise
+ */
+bool Objects::VerfiyAddressableForUse(const string& parameter_absolute_name, addressable::Usage usage, string& error) {
+  string type       = "";
+  string label      = "";
+  string parameter  = "";
+  string index      = "";
+
+  ostringstream str;
+
+  ExplodeString(parameter_absolute_name, type, label, parameter, index);
+  if (type == "" || label == "" || parameter == "") {
+    str << "Syntax for " << parameter_absolute_name << " is invalid. Correct syntax is block[label].variable{index}";
+    error = str.str();
+    return false;
+  }
+
+  base::Object* object = this->FindObject(parameter_absolute_name);
+  if (!object) {
+    str << "Parent object for " << parameter_absolute_name << " is not valid. Please double check spelling";
+    error = str.str();
+    return false;
+  }
+
+  if (!object->HasAddressable(parameter)) {
+    error = parameter + " is not a valid addressable on " + type + "." + label;
+    return false;
+  }
+
+  if (!object->HasAddressableUsage(parameter, usage)) {
+    error = parameter + " on " + type + "." + label + " cannot be used for this purpose due to usage restrictions";
+    return false;
+  }
+
+  return true;
+}
+
+
+/**
+ * This method will find the type of addressable in the system defined by the absolute
  * parameter name.
  *
  * @param parameter_absolute_name The absolute parameter name e.g. process[recruitment].r0
- * @param error The variable to populate with the error message if one occurs
- * @return The Estimable type, set to invalid if it's not found
+ * @return The addressable type, set to invalid if it's not found
  */
-Estimable::Type Objects::GetEstimableType(const string& parameter_absolute_name, string& error) {
-  string type       = "";
-  string label      = "";
-  string parameter  = "";
-  string index      = "";
+addressable::Type Objects::GetAddressableType(const string& parameter_absolute_name) {
+  base::Object* target = FindObject(parameter_absolute_name);
+  std::pair<string, string> parameter_index = ExplodeParameterAndIndex(parameter_absolute_name);
+  if (parameter_index.second == "")
+    return addressable::kSingle;
 
-  ExplodeString(parameter_absolute_name, type, label, parameter, index);
-  if (type == "" || label == "" || parameter == "") {
-    error = parameter_absolute_name + " is not in the correct format. Correct format is object_type[label].estimable(array index)";
-    return Estimable::kInvalid;
-  }
-
-  base::Object* target = FindObject(parameter_absolute_name, error);
-  if (!target)
-    return Estimable::kInvalid;
-
-  if (!target->HasEstimable(parameter)) {
-    error = parameter + " is not a valid estimable on the " + type + " with label " + label;
-    return Estimable::kInvalid;
-  }
-
-  if (index != "")
-    return Estimable::kSingle;
-
-  return target->GetEstimableType(parameter);
+  return target->GetAddressableType(parameter_index.first);
 }
 
 /**
- * This method will search the model for the specific estimable and
+ * This method will search the model for the specific addressable and
+ * return a pointer to it if it exists.
+ *
+ * @param parameter_absolute_name The absolute parameter name e.g. process[recruitment].r0
+ * @return Pointer to the addressable
+ */
+Double* Objects::GetAddressable(const string& parameter_absolute_name) {
+  base::Object* target = FindObject(parameter_absolute_name);
+  std::pair<string, string> parameter_index = ExplodeParameterAndIndex(parameter_absolute_name);
+  if (parameter_index.second != "")
+    return target->GetAddressable(parameter_index.first, parameter_index.second);
+
+  return target->GetAddressable(parameter_index.first);
+}
+
+/**
+ * This method will search the model for the specific addressable and
  * return a pointer to it if it exists.
  *
  * @param parameter_absolute_name The absolute parameter name e.g. process[recruitment].r0
  * @param error The variable to populate with the error message if one occurs
- * @return Pointer to the estimable or nullptr if none exists
+ * @return Pointer to the addressable or nullptr if none exists
  */
-Double* Objects::GetEstimable(const string& parameter_absolute_name, string& error) {
-  string type       = "";
-  string label      = "";
-  string parameter  = "";
-  string index      = "";
-
-  ExplodeString(parameter_absolute_name, type, label, parameter, index);
-  if (type == "" || label == "" || parameter == "") {
-    error = parameter_absolute_name + " is not in the correct format. Correct format is object_type[label].estimable(array index)";
-    return nullptr;;
-  }
-
-  base::Object* target = FindObject(parameter_absolute_name, error);
-  if (!target)
-    return nullptr;
-
-  if (index != "")
-    return target->GetEstimable(parameter, index);
-
-  return target->GetEstimable(parameter);
+map<unsigned, Double>* Objects::GetAddressableUMap(const string& parameter_absolute_name) {
+  base::Object* target = FindObject(parameter_absolute_name);
+  std::pair<string, string> parameter_index = ExplodeParameterAndIndex(parameter_absolute_name);
+  return target->GetAddressableUMap(parameter_index.first);
 }
 
 /**
- * This method will search the model for the specific estimable and
+ * This method will search the model for the specific addressable and
  * return a pointer to it if it exists.
  *
  * @param parameter_absolute_name The absolute parameter name e.g. process[recruitment].r0
- * @param error The variable to populate with the error message if one occurs
- * @return Pointer to the estimable or nullptr if none exists
+ * @return Pointer to the addressable
  */
-map<unsigned, Double>* Objects::GetEstimableUMap(const string& parameter_absolute_name, string& error) {
-  string type       = "";
-  string label      = "";
-  string parameter  = "";
-  string index      = "";
-
-  ExplodeString(parameter_absolute_name, type, label, parameter, index);
-  if (type == "" || label == "" || parameter == "") {
-    error = parameter_absolute_name + " is not in the correct format. Correct format is object_type[label].estimable(array index)";
-    return nullptr;;
-  }
-
-  base::Object* target = FindObject(parameter_absolute_name, error);
-  if (!target)
-    return nullptr;
-
-  return target->GetEstimableUMap(parameter);
+OrderedMap<string, Double>* Objects::GetAddressableSMap(const string& parameter_absolute_name) {
+  base::Object* target = FindObject(parameter_absolute_name);
+  std::pair<string, string> parameter_index = ExplodeParameterAndIndex(parameter_absolute_name);
+  return target->GetAddressableSMap(parameter_index.first);
 }
 
 /**
- * This method will search the model for the specific estimable and
+ * This method will search the model for the specific addressable and
  * return a pointer to it if it exists.
  *
  * @param parameter_absolute_name The absolute parameter name e.g. process[recruitment].r0
- * @param error The variable to populate with the error message if one occurs
- * @return Pointer to the estimable or nullptr if none exists
+ * @return Pointer to the addressable
  */
-OrderedMap<string, Double>* Objects::GetEstimableSMap(const string& parameter_absolute_name, string& error) {
-  string type       = "";
-  string label      = "";
-  string parameter  = "";
-  string index      = "";
-
-  ExplodeString(parameter_absolute_name, type, label, parameter, index);
-  if (type == "" || label == "" || parameter == "") {
-    error = parameter_absolute_name + " is not in the correct format. Correct format is object_type[label].estimable(array index)";
-    return nullptr;;
-  }
-
-  base::Object* target = FindObject(parameter_absolute_name, error);
-  if (!target)
-    return nullptr;
-
-  return target->GetEstimableSMap(parameter);
-}
-
-/**
- * This method will search the model for the specific estimable and
- * return a pointer to it if it exists.
- *
- * @param parameter_absolute_name The absolute parameter name e.g. process[recruitment].r0
- * @param error The variable to populate with the error message if one occurs
- * @return Pointer to the estimable or nullptr if none exists
- */
-vector<Double>* Objects::GetEstimableVector(const string& parameter_absolute_name, string& error) {
-  string type       = "";
-  string label      = "";
-  string parameter  = "";
-  string index      = "";
-
-  ExplodeString(parameter_absolute_name, type, label, parameter, index);
-  if (type == "" || label == "" || parameter == "") {
-    error = parameter_absolute_name + " is not in the correct format. Correct format is object_type[label].estimable(array index)";
-    return nullptr;;
-  }
-
-  base::Object* target = FindObject(parameter_absolute_name, error);
-  if (!target)
-    return nullptr;
-
-  return target->GetEstimableVector(parameter);
+vector<Double>* Objects::GetAddressableVector(const string& parameter_absolute_name) {
+  base::Object* target = FindObject(parameter_absolute_name);
+  std::pair<string, string> parameter_index = ExplodeParameterAndIndex(parameter_absolute_name);
+  return target->GetAddressableVector(parameter_index.first);
 }
 
 /**
  * This method will find the object in Casal2 and return an Object pointer to it.
  *
  * @param object_absolute_name The absolute name for the parameter. This includes the object details (e.g process[mortality].m
- * @param error The string to populate the error if one occurs
  * @return Pointer to object or empty pointer if it's not found
  */
 
-base::Object* Objects::FindObject(const string& parameter_absolute_name, string& error) {
+base::Object* Objects::FindObject(const string& parameter_absolute_name) {
   LOG_FINE() << "Looking for object: " << parameter_absolute_name;
   base::Object* result = nullptr;
 
@@ -223,62 +195,29 @@ base::Object* Objects::FindObject(const string& parameter_absolute_name, string&
     result = model_->managers().time_varying()->GetTimeVarying(label);
   }
 
-  // TODO: Populate Error
-  return result;
-}
-
-Double* Objects::FindEstimable(const string& estimable_absolute_name, string& error) {
-  LOG_TRACE();
-
-  niwa::base::Object* object = FindObject(estimable_absolute_name, error);
-  if (!object)
-    return nullptr;
-
-  Double* result = 0;
-
-  string type         = "";
-  string label        = "";
-  string parameter    = "";
-  string index        = "";
-
-  ExplodeString(estimable_absolute_name, type, label, parameter, index);
-  LOG_FINEST() << "type: " << type << "; label: " << label << "; parameter: " << parameter << "; index: " << index;
-  if (index != "")
-    result = object->GetEstimable(parameter, index);
-  else
-    result = object->GetEstimable(parameter);
+  if (!result) {
+    LOG_CODE_ERROR() << parameter_absolute_name << " could not be located. "
+      << "Please ensure VerfiyAddressableForUse() was called prior to any model_.objects() methods";
+  }
 
   return result;
-}
-
-/**
- * This method will return a pointer to an addressable double in the system. This is
- * similar to an estimable, but it won't be used by a minimiser etc.
- */
-Double* Objects::FindAddressable(const string& addressable_absolute_name, string& error) {
-  LOG_TRACE();
-
-  niwa::base::Object* object = FindObject(addressable_absolute_name, error);
-  if (!object)
-    return nullptr;
-
-  string type         = "";
-  string label        = "";
-  string parameter    = "";
-  string index        = "";
-
-  ExplodeString(addressable_absolute_name, type, label, parameter, index);
-  LOG_FINEST() << "type: " << type << "; label: " << label << "; parameter: " << parameter << "; index: " << index;
-  if (index != "")
-    return object->GetAddressable(parameter, index);
-
-  return object->GetAddressable(parameter);
 }
 
 /**
  *
  */
-void Objects::ExplodeString(const string& source_parameter, string &type, string& label, string& parameter, string& index) {
+std::pair<string, string> Objects::ExplodeParameterAndIndex(const string& parameter_absolute_name) {
+  string blank        = "";
+  std::pair<string, string> result;
+
+  ExplodeString(parameter_absolute_name, blank, blank, result.first, result.second);
+  return result;
+}
+
+/**
+ *
+ */
+void Objects::ExplodeString(const string& parameter_absolute_name, string &type, string& label, string& parameter, string& index) {
   LOG_TRACE();
 
   type       = "";
@@ -293,7 +232,7 @@ void Objects::ExplodeString(const string& source_parameter, string &type, string
 
    typedef boost::tokenizer<boost::char_separator<char> > tokenizer;
    boost::char_separator<char> seperator("[]");
-   tokenizer tokens(source_parameter, seperator);
+   tokenizer tokens(parameter_absolute_name, seperator);
 
    for (tokenizer::iterator tok_iter = tokens.begin(); tok_iter != tokens.end(); ++tok_iter)
      token_list.push_back(*tok_iter);

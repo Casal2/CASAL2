@@ -35,7 +35,7 @@ public:
   void                          Build() override final;
   void                          Build(Model* model);
   void                          Update(unsigned current_year);
-  void                          StoreValues(unsigned current_year, unsigned start_year, unsigned final_year);
+  void                          StoreValues(unsigned current_year);
   Project*                      GetProject(const string& label);
 
 protected:

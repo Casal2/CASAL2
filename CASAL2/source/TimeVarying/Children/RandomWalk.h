@@ -31,7 +31,7 @@ public:
   virtual                     ~RandomWalk() = default;
   void                        DoValidate() override final;
   void                        DoBuild() override final;
-  void                        DoReset() override final;
+  void                        DoReset() override final { };
   void                        DoUpdate() override final;
 
 private:
@@ -41,7 +41,6 @@ private:
   Double                      rho_ = 1.0;
   Double                      intercept_;
   string                      distribution_;
-  Double*                     value_;
   map<unsigned, Double>       values_by_year_;
   bool                        has_at_estimate_;
   Double                      lower_bound_;

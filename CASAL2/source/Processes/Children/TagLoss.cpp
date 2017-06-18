@@ -42,7 +42,7 @@ TagLoss::TagLoss(Model* model)
   parameters_.Bind<unsigned>(PARAM_YEAR, &year_, "The year the first tagging release process was executed", "");
 
 
-  RegisterAsEstimable(PARAM_TAG_LOSS, &tag_loss_);
+  RegisterAsAddressable(PARAM_TAG_LOSS, &tag_loss_);
 }
 
 /**

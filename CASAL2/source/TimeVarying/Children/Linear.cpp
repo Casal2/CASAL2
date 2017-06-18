@@ -29,8 +29,8 @@ Linear::Linear(Model* model) : TimeVarying(model) {
   parameters_.Bind<Double>(PARAM_SLOPE, &slope_, "The slope of the linear trend (additive unit per year)", "");
   parameters_.Bind<Double>(PARAM_INTERCEPT, &intercept_, "The intercept of the linear trend value for the first year", "");
 
-  RegisterAsEstimable(PARAM_SLOPE, &slope_);
-  RegisterAsEstimable(PARAM_INTERCEPT, &intercept_);
+  RegisterAsAddressable(PARAM_SLOPE, &slope_);
+  RegisterAsAddressable(PARAM_INTERCEPT, &intercept_);
 
 }
 
@@ -45,11 +45,7 @@ void Linear::DoValidate() {
  *
  */
 void Linear::DoBuild() {
-  string error = "";
-  target_object_ = model_->objects().FindObject(parameter_, error);
-
-  Estimable::Type estimable_type = model_->objects().GetEstimableType(parameter_, error);
-  if( estimable_type != Estimable::kSingle)
+  if(model_->objects().GetAddressableType(parameter_) != addressable::kSingle)
     LOG_ERROR_P(PARAM_TYPE) << "@time_varying blocks of type " << PARAM_LINEAR << " can only be implemented in parameters that are scalars or single values";
   DoReset();
 }

@@ -37,12 +37,13 @@ public:
   void                        Update(unsigned current_year);
 
   //accessors
-
-  map<unsigned, Double>&       ParameterByYear() { return parameter_by_year_; }
+  map<unsigned, Double>&       ParameterByYear() { return parameter_by_year_; } // TODO: Lowercase with get_ as it's an accessor
 
 protected:
   // methods
   void                        RestoreOriginalValue();
+
+  // settors
   void                        set_single_value(Double value);
   void                        set_vector_value(Double value);
   void                        set_map_value(Double value);
@@ -63,9 +64,9 @@ protected:
   vector<unsigned>            years_;
   string                      parameter_;
   Double                      original_value_ = 0;
-  map<unsigned, Double>*      estimable_map_ = 0;
-  vector<Double>*             estimable_vector_ = 0;
-  Double*                     estimable_ = 0;
+  map<unsigned, Double>*      addressable_map_ = 0;
+  vector<Double>*             addressable_vector_ = 0;
+  Double*                     addressable_ = 0;
   map<unsigned, Double>       parameter_by_year_;
 };
 

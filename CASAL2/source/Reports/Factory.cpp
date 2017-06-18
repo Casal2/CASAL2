@@ -11,6 +11,7 @@
  */
 
 // Headers
+#include <Reports/Children/Addressable.h>
 #include "Factory.h"
 
 #include "Model/Model.h"
@@ -24,7 +25,6 @@
 #include "Reports/Children/CorrelationMatrix.h"
 #include "Reports/Children/DerivedQuantity.h"
 #include "Reports/Children/EquationTest.h"
-#include "Reports/Children/Estimable.h"
 #include "Reports/Children/EstimateSummary.h"
 #include "Reports/Children/EstimateValue.h"
 #include "Reports/Children/HessianMatrix.h"
@@ -80,7 +80,7 @@ Report* Factory::Create(Model* model, const string& object_type, const string& s
     else if (sub_type == PARAM_EQUATION)
       result = new EquationTest(model);
     else if (sub_type == PARAM_ESTIMABLE)
-      result = new Estimable(model);
+      result = new Addressable(model);
     else if (sub_type == PARAM_ESTIMATE_SUMMARY)
       result = new EstimateSummary(model);
     else if (sub_type == PARAM_ESTIMATE_VALUE)

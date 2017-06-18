@@ -35,8 +35,8 @@ MortalityEvent::MortalityEvent(Model* model)
   parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_names_, "List of selectivities", "");
   parameters_.Bind<string>(PARAM_PENALTY, &penalty_name_, "The label of the penalty to apply if the total number of removals cannot be taken", "", "");
 
-  RegisterAsEstimable(PARAM_U_MAX, &u_max_);
-  RegisterAsEstimable(PARAM_CATCHES, &catch_years_);
+  RegisterAsAddressable(PARAM_U_MAX, &u_max_);
+  RegisterAsAddressable(PARAM_CATCHES, &catch_years_);
 
   process_type_ = ProcessType::kMortality;
   partition_structure_ = PartitionStructure::kAge;
