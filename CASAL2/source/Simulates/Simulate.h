@@ -58,9 +58,9 @@ protected:
   vector<unsigned>            years_;
   string                      parameter_;
   Double                      original_value_ = 0;
-  map<unsigned, Double>*      estimable_map_ = 0;
-  vector<Double>*             estimable_vector_ = 0;
-  Double*                     estimable_ = 0;
+  map<unsigned, Double>*      addressable_map_ = 0;
+  vector<Double>*             addressable_vector_ = 0;
+  Double*                     addressable_ = 0;
 };
 } /* namespace niwa */
 

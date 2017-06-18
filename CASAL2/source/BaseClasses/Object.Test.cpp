@@ -24,7 +24,7 @@ namespace niwa {
 namespace base {
 
 /**
- * This test is checking that we can get a basic estimable
+ * This test is checking that we can get a basic addressable
  * and the error handling is right
  */
 class TestObject1 : public Object {
@@ -32,20 +32,20 @@ public:
   void Reset() override final { };
 
   TestObject1() {
-    RegisterAsEstimable("lemon", &estimable);
+    RegisterAsAddressable("lemon", &addressable);
   }
 
-  double  estimable = 0.0;
+  double  addressable = 0.0;
 };
 
-TEST(Object, Standard_Double_Estimable) {
+TEST(Object, Standard_Double_Addressable) {
   TestObject1 object;
 
-  EXPECT_EQ(Estimable::kSingle, object.GetEstimableType("lemon"));
-  EXPECT_EQ(&object.estimable, object.GetEstimable("lemon"));
+  EXPECT_EQ(addressable::kSingle, object.GetAddressableType("lemon"));
+  EXPECT_EQ(&object.addressable, object.GetAddressable("lemon"));
 
-  EXPECT_THROW(object.GetEstimableType("apple"), std::string);
-  EXPECT_THROW(object.GetEstimable("apple"), std::string);
+  EXPECT_THROW(object.GetAddressableType("apple"), std::string);
+  EXPECT_THROW(object.GetAddressable("apple"), std::string);
 }
 
 /**
@@ -56,27 +56,27 @@ public:
   void Reset() override final { };
 
   TestObject2() {
-    RegisterAsEstimable("lemon", &estimables_);
-    estimables_.push_back(2.5);
-    estimables_.push_back(5.0);
-    estimables_.push_back(7.5);
-    estimables_.push_back(9.0);
+    RegisterAsAddressable("lemon", &addressables_);
+    addressables_.push_back(2.5);
+    addressables_.push_back(5.0);
+    addressables_.push_back(7.5);
+    addressables_.push_back(9.0);
   }
 
-  vector<double>  estimables_;
+  vector<double>  addressables_;
 };
 
-TEST(Object, Vector_Double_Estimable) {
+TEST(Object, Vector_Double_Addressable) {
   TestObject2 object;
 
-  EXPECT_EQ(Estimable::kVector, object.GetEstimableType("lemon"));
-  EXPECT_EQ(&object.estimables_, object.GetEstimableVector("lemon"));
-  EXPECT_EQ(&object.estimables_[0], object.GetEstimable("lemon", "1"));
-  EXPECT_EQ(&object.estimables_[1], object.GetEstimable("lemon", "2"));
-  EXPECT_EQ(&object.estimables_[2], object.GetEstimable("lemon", "3"));
+  EXPECT_EQ(addressable::kVector, object.GetAddressableType("lemon"));
+  EXPECT_EQ(&object.addressables_, object.GetAddressableVector("lemon"));
+  EXPECT_EQ(&object.addressables_[0], object.GetAddressable("lemon", "1"));
+  EXPECT_EQ(&object.addressables_[1], object.GetAddressable("lemon", "2"));
+  EXPECT_EQ(&object.addressables_[2], object.GetAddressable("lemon", "3"));
 
-  EXPECT_THROW(object.GetEstimableType("apple"), std::string);
-  EXPECT_THROW(object.GetEstimable("apple"), std::string);
+  EXPECT_THROW(object.GetAddressableType("apple"), std::string);
+  EXPECT_THROW(object.GetAddressable("apple"), std::string);
 }
 
 /**
@@ -87,27 +87,27 @@ public:
   void Reset() override final { };
 
   TestObject3() {
-    RegisterAsEstimable("lemon", &estimables_);
+    RegisterAsAddressable("lemon", &addressables_);
 
-    estimables_["male"] = 1.0;
-    estimables_["female"] = 1.0;
+    addressables_["male"] = 1.0;
+    addressables_["female"] = 1.0;
   }
 
-  OrderedMap<string, double>  estimables_;
+  OrderedMap<string, double>  addressables_;
 };
 
-TEST(Object, StringMap_Double_Estimable) {
+TEST(Object, StringMap_Double_Addressable) {
   TestObject3 object;
 
-  EXPECT_EQ(Estimable::kStringMap, object.GetEstimableType("lemon"));
-  EXPECT_EQ(&object.estimables_, object.GetEstimableSMap("lemon"));
-  EXPECT_EQ(&object.estimables_["male"], object.GetEstimable("lemon", "male"));
-  EXPECT_EQ(&object.estimables_["female"], object.GetEstimable("lemon", "female"));
-  EXPECT_EQ(1.0, *object.GetEstimable("lemon", "male"));
-  EXPECT_EQ(1.0, *object.GetEstimable("lemon", "female"));
+  EXPECT_EQ(addressable::kStringMap, object.GetAddressableType("lemon"));
+  EXPECT_EQ(&object.addressables_, object.GetAddressableSMap("lemon"));
+  EXPECT_EQ(&object.addressables_["male"], object.GetAddressable("lemon", "male"));
+  EXPECT_EQ(&object.addressables_["female"], object.GetAddressable("lemon", "female"));
+  EXPECT_EQ(1.0, *object.GetAddressable("lemon", "male"));
+  EXPECT_EQ(1.0, *object.GetAddressable("lemon", "female"));
 
-  EXPECT_THROW(object.GetEstimableType("apple"), std::string);
-  EXPECT_THROW(object.GetEstimable("apple"), std::string);
+  EXPECT_THROW(object.GetAddressableType("apple"), std::string);
+  EXPECT_THROW(object.GetAddressable("apple"), std::string);
 }
 
 /**
@@ -118,27 +118,27 @@ public:
   void Reset() override final { };
 
   TestObject4() {
-    RegisterAsEstimable("lemon", &estimables_);
+    RegisterAsAddressable("lemon", &addressables_);
 
-    estimables_[100] = 1.0;
-    estimables_[101] = 1.0;
+    addressables_[100] = 1.0;
+    addressables_[101] = 1.0;
   }
 
-  map<unsigned, double>  estimables_;
+  map<unsigned, double>  addressables_;
 };
 
-TEST(Object, UnsignedMap_Double_Estimable) {
+TEST(Object, UnsignedMap_Double_Addressable) {
   TestObject4 object;
 
-  EXPECT_EQ(Estimable::kUnsignedMap, object.GetEstimableType("lemon"));
-  EXPECT_EQ(&object.estimables_, object.GetEstimableUMap("lemon"));
-  EXPECT_EQ(&object.estimables_[100], object.GetEstimable("lemon", "100"));
-  EXPECT_EQ(&object.estimables_[101], object.GetEstimable("lemon", "101"));
-  EXPECT_EQ(1.0, *object.GetEstimable("lemon", "100"));
-  EXPECT_EQ(1.0, *object.GetEstimable("lemon", "101"));
+  EXPECT_EQ(addressable::kUnsignedMap, object.GetAddressableType("lemon"));
+  EXPECT_EQ(&object.addressables_, object.GetAddressableUMap("lemon"));
+  EXPECT_EQ(&object.addressables_[100], object.GetAddressable("lemon", "100"));
+  EXPECT_EQ(&object.addressables_[101], object.GetAddressable("lemon", "101"));
+  EXPECT_EQ(1.0, *object.GetAddressable("lemon", "100"));
+  EXPECT_EQ(1.0, *object.GetAddressable("lemon", "101"));
 
-  EXPECT_THROW(object.GetEstimableType("apple"), std::string);
-  EXPECT_THROW(object.GetEstimable("apple"), std::string);
+  EXPECT_THROW(object.GetAddressableType("apple"), std::string);
+  EXPECT_THROW(object.GetAddressable("apple"), std::string);
 }
 
 /**
@@ -149,25 +149,25 @@ public:
   void Reset() override final { };
 
   TestObject5() {
-    RegisterAsEstimable(&estimables_);
+    RegisterAsAddressable(&addressables_);
 
-    estimables_["lemon"].push_back(1.0);
+    addressables_["lemon"].push_back(1.0);
   }
 
-  map<string, vector<double> >  estimables_;
+  map<string, vector<double> >  addressables_;
 };
 
-TEST(Object, UnnamedVectorMap_Double_Estimable) {
+TEST(Object, UnnamedVectorMap_Double_Addressable) {
   TestObject5 object;
 
-  EXPECT_EQ(Estimable::kVectorStringMap, object.GetEstimableType("lemon"));
-  ASSERT_TRUE(object.estimables_.find("lemon") != object.estimables_.end());
-  EXPECT_EQ(&object.estimables_["lemon"], object.GetEstimableVector("lemon"));
-  ASSERT_TRUE(object.estimables_["lemon"].size() == 1);
-  EXPECT_EQ(1.0, object.estimables_["lemon"][0]);
+  EXPECT_EQ(addressable::kVectorStringMap, object.GetAddressableType("lemon"));
+  ASSERT_TRUE(object.addressables_.find("lemon") != object.addressables_.end());
+  EXPECT_EQ(&object.addressables_["lemon"], object.GetAddressableVector("lemon"));
+  ASSERT_TRUE(object.addressables_["lemon"].size() == 1);
+  EXPECT_EQ(1.0, object.addressables_["lemon"][0]);
 
-  EXPECT_THROW(object.GetEstimableType("apple"), std::string);
-  EXPECT_THROW(object.GetEstimable("apple"), std::string);
+  EXPECT_THROW(object.GetAddressableType("apple"), std::string);
+  EXPECT_THROW(object.GetAddressable("apple"), std::string);
 }
 /**
  * Test 6
@@ -177,25 +177,25 @@ public:
   void Reset() override final { };
 
   TestObject6() {
-    RegisterAsEstimable(&estimables_);
+    RegisterAsAddressable(&addressables_);
 
-    estimables_["lemon+apple"].push_back(1.0);
+    addressables_["lemon+apple"].push_back(1.0);
   }
 
-  map<string, vector<double> >  estimables_;
+  map<string, vector<double> >  addressables_;
 };
 
-TEST(Object, UnnamedVectorMap_Double_Estimable_with_plus) {
+TEST(Object, UnnamedVectorMap_Double_Addressable_with_plus) {
   TestObject6 object;
 
-  EXPECT_EQ(Estimable::kVectorStringMap, object.GetEstimableType("lemon+apple"));
-  ASSERT_TRUE(object.estimables_.find("lemon+apple") != object.estimables_.end());
-  EXPECT_EQ(&object.estimables_["lemon+apple"], object.GetEstimableVector("lemon+apple"));
-  ASSERT_TRUE(object.estimables_["lemon+apple"].size() == 1);
-  EXPECT_EQ(1.0, object.estimables_["lemon+apple"][0]);
+  EXPECT_EQ(addressable::kVectorStringMap, object.GetAddressableType("lemon+apple"));
+  ASSERT_TRUE(object.addressables_.find("lemon+apple") != object.addressables_.end());
+  EXPECT_EQ(&object.addressables_["lemon+apple"], object.GetAddressableVector("lemon+apple"));
+  ASSERT_TRUE(object.addressables_["lemon+apple"].size() == 1);
+  EXPECT_EQ(1.0, object.addressables_["lemon+apple"][0]);
 
-  EXPECT_THROW(object.GetEstimableType("apple"), std::string);
-  EXPECT_THROW(object.GetEstimable("apple"), std::string);
+  EXPECT_THROW(object.GetAddressableType("apple"), std::string);
+  EXPECT_THROW(object.GetAddressable("apple"), std::string);
 }
 
 } /* namespace base */
