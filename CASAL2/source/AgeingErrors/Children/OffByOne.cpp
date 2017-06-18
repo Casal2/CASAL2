@@ -42,7 +42,7 @@ void OffByOne::DoBuild() {
 
 /**
  * Reset our mis_matrix to ensure it has the latest
- * changes from any estimable modifications
+ * changes from any addressable modifications
  */
 void OffByOne::DoReset() {
   mis_matrix_[0][0] = 1.0 - p2_;

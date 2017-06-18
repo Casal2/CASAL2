@@ -106,11 +106,11 @@ Double Orthogonal::GetScore() {
 }
 
 /**
- * Get the target estimables so we can ensure each
+ * Get the target addressables so we can ensure each
  * object is not referencing multiple ones as this would
  * cause chain issues
  *
- * @return Set of estimable labels
+ * @return Set of addressable labels
  */
 std::set<string> Orthogonal::GetTargetEstimates() {
   set<string> result;

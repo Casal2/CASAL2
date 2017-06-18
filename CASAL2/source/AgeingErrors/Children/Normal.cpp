@@ -77,7 +77,7 @@ void Normal::DoBuild() {
 
 /**
  * Reset our mis_matrix to ensure it has the latest
- * changes from any estimable modifications
+ * changes from any addressable modifications
  */
 void Normal::DoReset() {
   Double age = 0.0;

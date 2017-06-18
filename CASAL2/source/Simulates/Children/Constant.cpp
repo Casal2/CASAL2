@@ -19,7 +19,7 @@ namespace simulates {
  * Default constructor
  */
 Constant::Constant(Model* model) : Simulate(model) {
-  parameters_.Bind<Double>(PARAM_VALUE, &value_, "Value to assign to estimable", "");
+  parameters_.Bind<Double>(PARAM_VALUE, &value_, "Value to assign to addressable", "");
 }
 
 /**

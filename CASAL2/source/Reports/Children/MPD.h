@@ -9,7 +9,7 @@
  *
  * @section DESCRIPTION
  *
- * This report will dump the covariance matrix and estimables in a way that
+ * This report will dump the covariance matrix and addressables in a way that
  * can be read back in to Casal2 for use in MCMC or a new estimation
  */
 #ifndef SOURCE_REPORTS_CHILDREN_MPD_H_

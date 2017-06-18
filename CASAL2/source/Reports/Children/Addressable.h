@@ -8,7 +8,7 @@
  *
  * @section DESCRIPTION
  *
- * This report will print an estimable out during a year/time step
+ * This report will print an addressable out during a year/time step
  * so you can track the value of it over time (useful when it's
  * been modified during a projection etc)
  */
@@ -46,4 +46,4 @@ private:
 } /* namespace reports */
 } /* namespace niwa */
 
-#endif /* ESTIMABLE_H_ */
+#endif /* REPORTS_ADDRESSABLE_H_ */

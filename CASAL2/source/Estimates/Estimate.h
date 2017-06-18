@@ -10,8 +10,8 @@
  * @section DESCRIPTION
  *
  * This class represents a currently loaded estimate. Each
- * estimate is tied to a specific registered estimable in the
- * system. There is a 1:1 relationship between estimate and estimable
+ * estimate is tied to a specific registered addressable in the
+ * system. There is a 1:1 relationship between estimate and addressable
  * (excluding when the 'same' keyword is used).
  *
  * This object is not constructed directly from a configuration file

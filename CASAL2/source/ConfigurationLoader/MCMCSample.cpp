@@ -117,10 +117,10 @@ bool MCMCSample::LoadFile(const string& file_name) {
   /**
    * Split last line in to a vector
    */
-  vector<string> estimable_values;
-  boost::split(estimable_values, last_line, boost::is_any_of(" "), boost::token_compress_on);
-  if (estimable_values.size() != columns.size()) {
-    LOG_ERROR() << "Number of values provided in the sample file (" << estimable_values.size()
+  vector<string> addressable_values;
+  boost::split(addressable_values, last_line, boost::is_any_of(" "), boost::token_compress_on);
+  if (addressable_values.size() != columns.size()) {
+    LOG_ERROR() << "Number of values provided in the sample file (" << addressable_values.size()
         << ") does not match the columns provided in the header line (" << columns.size() << ")";
     return false;
   }
@@ -137,7 +137,7 @@ bool MCMCSample::LoadFile(const string& file_name) {
 
   for (unsigned i = 0; i < columns.size(); ++i) {
     Double value = 0.0;
-    if (!utilities::To<string, Double>(estimable_values[i], value)) {
+    if (!utilities::To<string, Double>(addressable_values[i], value)) {
       LOG_ERROR() << "";
       return false;
     }

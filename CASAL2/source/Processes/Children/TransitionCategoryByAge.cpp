@@ -46,8 +46,6 @@ TransitionCategoryByAge::TransitionCategoryByAge(Model* model)
   parameters_.Bind<Double>(PARAM_U_MAX, &u_max_, "U Max", "", 0.99);
   parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "Years to execute the transition in", "");
   parameters_.BindTable(PARAM_N, n_table_, "Table of N data", "");
-
-//  RegisterAsEstimable(PARAM_N, &n_);
 }
 
 /**
