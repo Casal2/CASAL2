@@ -5,7 +5,7 @@
  * @date 27/01/2015
  * @section LICENSE
  *
- * Copyright NIWA Science ©2014 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2014 - www.niwa.co.nz
  *
  */
 
@@ -74,8 +74,9 @@ void TimeVarying::Build() {
       LOG_ERROR() << "The addressable you have provided for use in a time varying: " << parameter_ << " is not a type that is supported";
       break;
   }
-  if (error != "")
-    LOG_ERROR_P(PARAM_PARAMETER) << error;
+
+  target_object_ = model_->objects().FindObject(parameter_);
+
   DoBuild();
 }
 
