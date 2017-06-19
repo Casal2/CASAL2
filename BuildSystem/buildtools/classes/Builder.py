@@ -91,7 +91,7 @@ class MainCode:
       if os.system("mingw32-make -j4") != EX_OK:
         return Globals.PrintError("Failed to build code base. Please see above for build error")
     else:
-      if os.system("make") != EX_OK:
+      if os.system("make -j6") != EX_OK:
         return Globals.PrintError("Failed to build code base. Please see above for build error")
 
     elapsed = time.time() - start

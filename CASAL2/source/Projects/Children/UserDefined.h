@@ -4,7 +4,7 @@
  * @date 5/6/17
  * @section LICENSE
  *
- * Copyright NIWA Science ©2017 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2017 - www.niwa.co.nz
  *
  * @section DESCRIPTION
  *
@@ -27,9 +27,9 @@ class UserDefined : public niwa::Project {
 public:
   explicit UserDefined(Model* model);
   virtual                     ~UserDefined() = default;
-  void                        DoValidate() override final;
+  void                        DoValidate() override final { };
   void                        DoBuild() override final;
-  void                        DoReset() override final;
+  void                        DoReset() override final { };
   void                        DoUpdate() override final;
 
 private:
@@ -37,7 +37,6 @@ private:
   vector<string>              equation_input_;
   string                      equation_ = "";
   Double                      value_;
-  map<unsigned, Double>       year_values_;
 };
 
 } /* namespace projects */

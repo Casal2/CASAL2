@@ -481,7 +481,7 @@ void MortalityInstantaneous::DoExecute() {
     	auto fishery = fishery_iter.second;
       if (fisheries_[fishery.label_].time_step_index_ != time_step_index)
       	continue;
-    	catch_label = "catch[" + fishery.label_ + "]." + year_string;
+      catch_label = "catch[" + fishery.label_ + "]." + year_string;
     	U_label = "fishing_pressure[" + fishery.label_ + "]." + year_string;
       StoreForTabularReport(catch_label, AS_DOUBLE(fisheries_[fishery.label_].catches_[model_->current_year()]));
       StoreForTabularReport(U_label, AS_DOUBLE(fishery_exploitation[fishery.label_]));

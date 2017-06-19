@@ -4,7 +4,7 @@
  * @date 05/02/2016
  * @section LICENSE
  *
- * Copyright NIWA Science ©2016 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2016 - www.niwa.co.nz
  *
  */
 
@@ -70,10 +70,9 @@ void EmpiricalSampling::DoReset() {
  *  Update our parameter with a random resample of the parameter between start_year_ and final_year_
  */
 void EmpiricalSampling::DoUpdate() {
-//  value_ = projected_parameters_[resampled_years_[model_->current_year()]] * multiplier_;
-//  LOG_FINE() << "In year: " << model_->current_year() << " Setting Value to: " << value_ << " drawn from year: " << resampled_years_[model_->current_year()];
-//  (this->*DoUpdateFunc_)(value_);
-
+  value_ = stored_values_[resampled_years_[model_->current_year()]] * multiplier_;
+  LOG_FINE() << "In year: " << model_->current_year() << " Setting Value to: " << value_ << " drawn from year: " << resampled_years_[model_->current_year()];
+  (this->*DoUpdateFunc_)(value_);
 }
 
 } /* namespace projects */
