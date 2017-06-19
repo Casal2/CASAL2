@@ -4,7 +4,7 @@
  * @date 28/05/2014
  * @section LICENSE
  *
- * Copyright NIWA Science ©2014 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2014 - www.niwa.co.nz
  *
  */
 
@@ -49,7 +49,7 @@ void Manager::Build(Model* model) {
     for (auto project : objects_) {
       LOG_FINE() << "Building Project: " << project->label();
       project->Build();
-      if (project->parameter() == PARAM_YCS_VALUES)
+      if (project->parameter().find(PARAM_YCS_VALUES) != string::npos)
         ycs_values_exist = true;
     }
 
