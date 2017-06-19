@@ -169,11 +169,11 @@ Alternatively, you can comment out an entire block or section by placing curly b
 		# This is a comment and will be ignored
 		@process NaturalMortality
 		m 0.2
-		{ 
+		/* 
 		This block of code 
 		is a comment and
 		will be ignored
-		}
+		*/
 		\end{verbatim}}}
 
 \subsubsection{Determining parameter names\label{sec:parameter-names}\index{Determining parameter names}\index{Parameter names}}
@@ -183,14 +183,17 @@ When \CNAME\ processes a \config, it translates each command and each subcommand
 \begin{description}
 \item \texttt{command[label].subcommand} if the command has a label, or
 \item \texttt{command.subcommand} if the command has no label, or
-\item \texttt{command[label].subcommand(i)} if the command has a label and the subcommand arguments are a vector, and we are accessing the  \emph{i}th element of that vector. 
-\item \texttt{command[label].subcommand(i:j)} if the command has a label, and the subcommand arguments are a vector, and we are accessing the elements from $i$ to $j$ (inclusive) of that vector.
+\item \texttt{command[label].subcommand\{i\}} if the command has a label and the subcommand arguments are a vector, and we are accessing the  \emph{i}th element of that vector. 
+\item \texttt{command[label].subcommand\{i:j\}} if the command has a label, and the subcommand arguments are a vector, and we are accessing the elements from $i$ to $j$ (inclusive) of that vector.
 \end{description} 
 
-The unique parameter name is used to reference the parameter when estimating, applying a penalty, projecting, time varying or applying a profile. For example, the parameter name of subcommand \subcommand{m} of the command \command{process} with the label \argument{NaturalMortality} is
+The unique parameter name is used to reference the parameter when estimating, applying a penalty, projecting, time varying or applying a profile. For example, the parameter name of subcommand \subcommand{m} of the command \command{process} with the label \argument{NaturalMortality} is category related and so, if you want to reference all m related categories you can specify, 
 
 \texttt{process[NaturalMortality].m}
 
+if you wanted to specify teh naturl mortality for single categories you could specify it using,
+
+\texttt{process[NaturalMortality].m\{male\}}
 \subsection{\I{Single stepping \CNAME}\label{sec:singlestepping}}\index{Single\_stepping}\index{single\_stepping section}
 
 Single stepping in \CNAME\ gives it the ability to write reports and `pause' after each year in the annual cycle during a run, and then wait and process user input of updated estimable parameters for the next year. 
@@ -198,4 +201,8 @@ Single stepping in \CNAME\ gives it the ability to write reports and `pause' aft
 This can allow \CNAME\ to be used for implementing models that require feedback management simulations or scenarios, for example for use in operational management procedures (OMPs). This can be automated using \R, where \CNAME\ may be controlled by \R\ to update input harvest values (for examples, catches in a fisheries model) to evaluate a particular harvest control rule. 
 
 \subsection{\CNAME\ exit status values\index{Exit status value}}
-When \CNAME\ completes its task successfully or errors out gracefully, it returns a single exit status value 'completed' to the standard output. Error messages will be printed to the console. If configuration errors are found, \CNAME\ will print an error messages along with the associated files and line numbers where the errors were identified.
+When \CNAME\ completes its task successfully or errors out gracefully, it returns a single exit status value 'completed' to the standard output. Error messages will be printed to the console. If configuration errors are found, \CNAME\ will print an error messages along with the associated files and line numbers where the errors were identified. For example
+
+{\small{\begin{verbatim}
+	#1: At line 15 in Reports.csl2: Parameter '{' is not supported
+\end{verbatim}}}	

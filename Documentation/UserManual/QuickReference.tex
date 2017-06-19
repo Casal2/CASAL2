@@ -64,7 +64,7 @@
 \defSub{upper\_bound} {The upper bound for the parameter}
 \defSub{same} {List of parameters that are constrained to have the same value as this parameter}
 \defSub{mcmc} {Indicates if this parameter is fixed at the point estimate during an MCMC run}
-\defSub{transformation} {Type of simple transformation to apply to estimable}
+\defSub{transformation} {Type of simple transformation to apply to estimate}
 \defSub{transform\_with\_jacobian} {Apply jacobian during transformation}
 \par\textbf{\commandlabsubarg{estimate}{type}{beta}}\par
 \defSub{mu} {Beta prior  mean (mu) parameter}
@@ -91,6 +91,11 @@
 \defSub{estimate\_label} {Label of estimate block to apply transformation to}
 \defSub{transform\_with\_jacobian} {Apply jacobian during transformation}
 \par\textbf{\commandlabsubarg{estimate\_\_transformation}{type}{average\_difference}}\par
+\defSub{difference\_estimate\_label} {The label from the @estimate block relating to the difference parameter}
+\defSub{average\_upper\_bound} {Upper bound for the average transformed parameter}
+\defSub{average\_lower\_bound} {Lower bound for the average transformed parameter}
+\defSub{difference\_upper\_bound} {Upper bound for the difference transformed parameter}
+\defSub{difference\_lower\_bound} {Lower bound for the difference transformed parameter}
 \par\textbf{\commandlabsubarg{estimate\_\_transformation}{type}{inverse}}\par
 \par\textbf{\commandlabsubarg{estimate\_\_transformation}{type}{log}}\par
 \par\textbf{\commandlabsubarg{estimate\_\_transformation}{type}{orthogonal}}\par
@@ -525,7 +530,7 @@
 \defSub{parameter} {Parameter to project}
 \defSub{multiplier} {Multiplier that is applied to the projected value}
 \par\textbf{\commandlabsubarg{project}{type}{constant}}\par
-\defSub{values} {Values to assign to estimable}
+\defSub{values} {Values to assign to addressable}
 \par\textbf{\commandlabsubarg{project}{type}{empirical\_sampling}}\par
 \defSub{start\_year} {Start year of sampling}
 \defSub{final\_year} {Last year of sampling}
@@ -543,6 +548,10 @@
 \defSub{type} {The type of report}
 \defSub{file\_name} {The File Name if you want this report to be in a seperate file}
 \defSub{write\_mode} {The write mode}
+\par\textbf{\commandlabsubarg{report}{type}{addressable}}\par
+\defSub{parameter} {Parameter to print}
+\defSub{years} {Years to print the addressable for}
+\defSub{time\_step} {Time Step label}
 \par\textbf{\commandlabsubarg{report}{type}{ageing\_error\_matrix}}\par
 \defSub{ageing\_error} {Ageing Error label}
 \par\textbf{\commandlabsubarg{report}{type}{catchabilities}}\par
@@ -553,10 +562,6 @@
 \par\textbf{\commandlabsubarg{report}{type}{derived\_quantity}}\par
 \par\textbf{\commandlabsubarg{report}{type}{equation\_test}}\par
 \defSub{equation} {Equation to do a test run of}
-\par\textbf{\commandlabsubarg{report}{type}{estimable}}\par
-\defSub{parameter} {Parameter to print}
-\defSub{years} {Years to print the estimable for}
-\defSub{time\_step} {Time Step label}
 \par\textbf{\commandlabsubarg{report}{type}{estimate\_summary}}\par
 \par\textbf{\commandlabsubarg{report}{type}{estimate\_value}}\par
 \par\textbf{\commandlabsubarg{report}{type}{hessian\_matrix}}\par

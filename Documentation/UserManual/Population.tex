@@ -128,9 +128,9 @@ A mortality block is defined as a consecutive sequence of mortality processes wi
 	\caption{A visual representation of a hypothetical sequence for an annual cycle.}\label{Fig:annual}
 \end{figure}
 
-\subsubsection{\I{Initialisation}}
+\subsubsection{\I{Initialisation}}\label{subsec:initialisation}
 
-Initialisation is the process of determining the model equilibrium starting state, or some other initial state for the model, prior to the start year of the model.
+Initialisation is the process of determining the model starting state, whether it be equilibrium/steady state or some other initial state for the model (e.g exploited), prior to the start year of the model. This can be computationally expensive if a plus group is present in the partition.
 
 There are multiple methods to initialise a partition in \CNAME. These methods are: iterative, fixed, derived, and Cinitial. 
 
@@ -168,7 +168,7 @@ To exclude a process from an initialisation phase the syntax is much simpler and
 
 The command above will remove the process \texttt{Instantaneous\_Mortality} during that particular initialisation phase.
 
-\subsubsection*{\I{Iterative Initialisation}}
+\paragraph*{\I{Iterative Initialisation}}
 
 The iterative initialisation is a general solution for initialising the model. The iterative method can be slow to converge, depending on the nature of the problem being resolved, but will work on even complex structured models that may be difficult or impossible to implement using analytic approximations. 
 
@@ -185,17 +185,84 @@ Hence, for an iterative initialisation you need to define;
   \item The number of years in each phase and the processes to apply in each (default is the annual cycle).
 \end{itemize}
 
-\subsubsection*{\I{Derived Initialisation}}
+An example of the syntax to implement this would be,
+{\small{\begin{verbatim}
+@model
+...
+initialisation_phases Iterative_initialisation
+
+@initialisation_phase Iterative_initialisation
+type iterative
+years 50
+lambda 0.0001
+convergence_years 20 40
+\end{verbatim}}}
+
+\paragraph*{\I{Derived Initialisation}}
 
 \texttt{Derived} initialisation is an analytical solution that calculates the equilibrium age structure and the plus group using a geometric series solution. The benefit of this method is it can be solved in max\_age - min\_age +1 years, so is computationally faster than the iterative initialisation phase. Users should be warned that we have found under some process combinations (for example. one way migrations) that this solution does not reach the exact equilibrium partition. We note that if using this method, that users confirm the partition has reached an equilibrium state by either comparing with and iterative initialisation, or by adding a second iterative initialisation phase of a limited number of iterations to confirm convergence.
 
-\subsubsection*{\I{Cinitial Initialisation}}
+An example of the syntax to implement this would be,
+{\small{\begin{verbatim}
+		@model
+		...
+		initialisation_phases Equilibrium_initialisation
+		
+		@initialisation_phase Equilibrium_initialisation
+		type derived
+		\end{verbatim}}}
+	
+\paragraph*{\I{Cinitial Initialisation}}
 
 This initialisation is only available as a second or greater phase initialisation, and can only be applied after derived or iterative initialisation phases. The Cinitial factors that can be estimated to shift the initial population away from an equilibrium state prior to start year. If there is known exploitation before data exists for a population this can be a solution for estimating a non equilibrium population. Note that it may be advisable to include an observation of age composition data for the first year of the model in order to estimate the non equilibrium population state. 
 
-\subsubsection*{\I{Fixed Initialisation}}
+An example of the syntax to implement this would be,
+
+{\small{\begin{verbatim}
+		@model
+		...
+		initialisation_phases Cinitial
+		
+		@initialisation_phase Cinitial
+		type cinitial
+		categories spawn.male+nonspawn.male 	spawn.female+nonspawn.female
+		table n
+		spawn.male+nonspawn.male   5e7 5e7 7e6 6e6 5e6 4e6 3e6 2e6 1e6 1e6 1e1 1e1 1e1 1e1	
+		spawn.female+nonspawn.female 5e7 5e7 7e6 6e6 5e6 4e6 3e6 2e6 1e6 1e6 1e1 1e1 1e1 1e1
+		end_table
+		\end{verbatim}}}
+	
+		The cinitial factors can also be estimated using the following syntax
+		
+{\small{\begin{verbatim}	
+	@estimate cinit_male
+	parameter initialisation_phase[Cinitial].spawn.male+nonspawn.male
+	same initialisation_phase[Cinitial].spawn.female+nonspawn.female
+	lower_bound  2e2  2e2  2e2  2e2  2e2  2e2  2e2  2e2  2e2  2e2  2e0  2e0  2e0  2e0
+	upper_bound  2e9  2e9  2e9  2e9  2e9  2e9  2e9  2e9  2e9  2e9  2e9  2e9  2e9  2e9
+	type uniform
+	\end{verbatim}}}
+
+\paragraph*{\I{Fixed Initialisation}}
 
 This is a user defined table that is taken to be the initial partition prior to the start year. Users have the ability to initialise models by specify the numbers at age for each category. Be careful when initialising models with this type, if the model applies processes that require derived quantities to be calculated in the initialisation phase. As this may cause undefined behaviour.
+
+An example of the syntax to implement this would be,
+{\small{\begin{verbatim}
+		@model
+		...
+		initialisation_phases Fixed
+		
+		@initialisation_phase Fixed
+		type state_category_by_age
+		categories male female
+		min_age 3
+		max_age 10
+		table n
+		male   1000 900 800 700 600 500 400 700
+		female 1000 900 800 700 600 500 400 700
+		end_table
+		\end{verbatim}}}
 
 \subsection{\I{Model run years}}
 
@@ -221,75 +288,17 @@ In a projection run in \CNAME\, a model is initialised and run through the model
 
 \CNAME\ does not have any default projections for when parameters are specified by year. These must be specified using the \command{project} command blocks. This is important for parameters that may vary from year to year (such as year class strength parameters), \CNAME\ should error out if users do this.
 
-\CNAME\ allows any estimable parameter to be specified in a \command{project} block and then used in a projection. The available projection types for these parameters include constant, lognormal, empirical-lognormal, or empirical re-sampling.
+\CNAME\ allows any estimable parameter to be specified in a \command{project} block and then used in a projection. The available projection types for these parameters include constant, lognormal, empirical-lognormal, empirical re-sampling, or user-defined.
 
 The subcommand that is common to all projection methods is the \argument{multiplier} command. This is as it suggests a constant that is multiplied to the projected value after it has been derived by its respective method.
 
 A \textbf{note} to users for the specific year class parameter, The definition of year applies to the \argument{ycs\_years} not the model years. As defined in Section~\ref{subsubsec:BH-recruitment}, \argument{ycs\_years} are offset between time of spawning and when they enter the partition. 
 
-\paragraph*{Constant}
-A parameter can either be fixed during all projection years or specified individually for each projection year. This is a deterministic assumption, where the parameter is assumed to be known without error during projection years.
-
-{\small{\begin{verbatim}
-		@project Future_ycs
-		type constant
-		parameter process[Recruitment].ycs_values
-		years 2012:2016
-		values 1 2 1 2 0.5
-		multiplier 1
-		\end{verbatim}}}
-\paragraph*{Empirical resampling}
-
-Parameters that have time components associated with them can be re-sampled uniformly with replacement over a range of years and used as the projected year values. The year range which users must specify are between \argument{start\_year} and \argument{final\_year}
-{\small{\begin{verbatim}
-		@project Future_ycs
-		type empirical_sampling
-		parameter process[Recruitment].ycs_values
-		years 2012:2016
-		start_year 1988
-		final_year 2008
-		multiplier 1
-		\end{verbatim}}}
-
-
-\paragraph*{Lognormal}
-The parameters are originally drawn from a gaussian distribution in log space and exponentiated out to form the lognormal distribution,
-\begin{equation}\label{eq:lognormal}
-X_p = e^{\epsilon_p- 0.5\sigma^2}
-\end{equation}
-where $\epsilon_p\stackrel{iid}{\sim}N(\mu,\sigma)$ and $X_p$ is the projected value for parameter $X$, and $\mu$, $\sigma$ is the mean and standard deviation on the log scale. An example of applying this process is if we wanted to draw future year class parameters from a lognormal distribution with mean 1 and standard deviation 0.8, we would define the syntax as,
- 
- {\small{\begin{verbatim}
- 		@project Future_ycs
- 		type lognormal
- 		parameter process[Recruitment].ycs_values
- 		years 2012:2016
- 		mean 0
- 		sigma 0.8
- 		multiplier 1
- 		\end{verbatim}}}
-
-
-\paragraph*{Lognormal-Empirical}
-This class applies Lognormal draw as in the \argument{LogNormal} class but it allows the user to specify a year range which is re-sampled uniformly without replacement. These re sampled values are then used to calculate the standard deviation of the distribution. Then equation~\eqref{eq:lognormal} is used to generate future values with user defined $\mu$ and empirically calculated $\sigma$,
-
-{\small{\begin{verbatim}
-		@project Future_ycs
-		type lognormal_empirical
-		parameter process[Recruitment].ycs_values
-		years 2012:2016
-		mean 0
-		start_year 1988
-		final_year 2008
-		multiplier 1
-		\end{verbatim}}}
-
-
+To see all the projection classes available and examples of their syntax see Section~\ref{sec:projections}.
 \subsection{\I{Population processes}}
-
 Population processes are those processes that change the model state. Processes produce changes in the model partition, by adding, removing or moving individuals between ages and/or categories. The population processes include recruitment\index{Recruitment}, ageing\index{Ageing},  mortality\index{Mortality} events (e.g., natural and anthropogenic) and category transition processes\index{Category transition} (i.e., processes that move individuals between categories while preserving their age structure). See Section~\ref{sec:population-section} for a complete list of available processes.
 
-There are two types of processes, processes that occur across multiple time steps in the annual cycle e.g Natural Mortality and Instantaneous Mortality. There are also processes that only occur within the time step they are defined. Each of these processes is carried out in the user-defined prescribed order when initialising the model, and then for a user-defined order in each year in the annual cycle\index{Annual cycle}. 
+There are two types of processes, processes that occur across multiple time steps in the annual cycle e.g \subcommand{mortality\_constant\_rate} and \subcommand{mortality\_instantaneous}. There are also processes that only occur within the time step they are defined. Each of these processes are carried out in the user-defined prescribed order when initialising the model, and then for a user-defined order in each year in the annual cycle\index{Annual cycle}. 
 
 \subsubsection{\I{Recruitment}}
 
@@ -398,6 +407,19 @@ So, to specify a Beverton-Holt recruitment for each stock, the following informa
 	\item In a multi category model, the proportion of recruits for each category.
 	\item label for the derived quantity
 \end{enumerate}
+
+Defining a \command{recruitment} block with a \command{initialisation\_phase} (Section~\ref{subsec:initialisation}) type = \subcommand{derived}. Ususally in a recruitment processes you only need to define the categories that recieve recruits, for example if you had a model that had a spawning area different from the are that recruits enter the population at, you would want an area explicit model containing spawning categories and recruiting categories. You can just specify the recruited categories in the subcommand \subcommand{categories}. As these will be the categories recieving recruits. \textbf{If} you have \command{initialisation\_phase}, \subcommand{type=derived} you need to specify all categories that are apart of that recruitment process. using the following example this would be defined as;
+
+{\small{\begin{verbatim}
+		@process Recruitment
+		type recruitment_beverton_holt
+		categories recruits.male recruits.female spawn.male spawn.female
+		proportions 0.5 0.5 0.0 0.0
+		r0 500000
+		ssb SSB
+		....
+		\end{verbatim}}}
+note the proportions = 0.0, this is needed because of how the derived initalisation phase works, it finds a solution for when \subcommand{r0} = 1.0 based on a infinite geometric series for the plus group, and scales the initial partition by \subcommand{r0}. Thus if you did not include all categories not all categories would be initialised to true values and give possibly messed up answers. This is cauton and will come up again in fishery based models where you have multiple stocks then you need to list all the categories that make up the stock.
 \subsubsection{\I{Ageing}\label{sec:ageing}}
 
 The ageing process `ages' individuals --- it simply moves all individuals in the named categories $i$ to the next age class $j + 1$, or accumulates them if the last age class is a plus group. 
@@ -424,7 +446,7 @@ Note that ageing is \emph{not} applied by \CNAME\ by default. As with other proc
 
 \subsubsection{\I{Mortality}\label{sec:mortality}}
 
-Six types of mortality processes are permissible in \CNAME, constant rate, event, biomass-event, Hollings mortality, initialisation mortality event and instantaneous. These processes remove individuals from the partition, either as a rate, as a total number (abundance), as a biomass of individuals or as a mixture of these. Note that \CNAME\ does not (yet) implement the Baranov catch equation. To apply both natural and biomass-event mortality, users can use \texttt{mortality\_instantaneous}. Note that all mortality processes occur within a mortality block of a time step see Section~\ref{sec:mortality_block} for more information and definitions on mortality blocks. 
+Six types of mortality processes are permissible in \CNAME, constant rate, event, biomass-event, Hollings mortality, initialisation mortality event and instantaneous. These processes remove individuals from the partition, either as a rate, as a total number (abundance), as a biomass of individuals or as a mixture of these. Note that \CNAME\ does not (yet) implement the Baranov catch equation but instantaneous mortality is an approximation to the baranov catch equation. To apply both natural and biomass-event mortality, users can use \texttt{mortality\_instantaneous}. Note that all mortality processes occur within a mortality block of a time step see Section~\ref{sec:mortality_block} for more information and definitions on mortality blocks. 
 
 \paragraph{Constant mortality rate}
 
@@ -552,6 +574,16 @@ An example of the syntax is if we want to apply natural mortality of $0.20$ acro
 	end_table
 	\end{verbatim}}}
 
+Referencing catch parameters for use in projecting, time\_varying and estimating uses the following syntax;
+{\small{\begin{verbatim}
+		parameter process[mortality_instantaneous].method_"method_label"{2018}
+		\end{verbatim}}}
+	where \subcommand{"method\_label"} is lower case from your \subcommand{catch} or \subcommand{method} table taking the following earlier example;
+
+{\small{\begin{verbatim}
+		parameter process[instant_mort].method_FishingWest{2018}
+		\end{verbatim}}}
+		
 \paragraph{Hollings mortality rate}
 
 The density-dependent Holling mortality process\index{Holling mortality} applies the Holling Type II and Type III functions \citep{Holling1959}, but is generalised using the Michaelis-Menten equation \citep{MentenMichaelis1913}. The function removes a number or biomass from a set of categories according to their total (selected) abundance (or biomass)and some 'predator' abundance (or biomass), but constrained by a maximum exploitation rate.
@@ -665,7 +697,7 @@ where $N_{a,j}$ is the number of individuals that have moved to category $j$ fro
 An example, to specify a simple spawning migration of mature males from a western area migrating to an eastern (spawning) area, then the syntax is
 {\small{\begin{verbatim}
 		@process Spawning_migration
-		type category_transition 
+		type transition_category
 		from West.males	
 		to East.males	
 		selectivities MatureSel
@@ -777,7 +809,7 @@ When defining length-at-age in \CNAME, you must also define a length-weight rela
 
 \subsubsection*{\I{Interpolation of length-at-age}}
 
-\subsubsection*{\I{Size-weight relationship}\label{sec:mean-weight}}
+\subsubsection*{\I{Length-weight relationship}\label{sec:mean-weight}}
 
 There are two length-weight relationship,s available in \CNAME. The first is the naive no relationship. Here, the weight of an individual, regardless of length, is always 1. The second is the basic relationship. 
 
@@ -801,9 +833,17 @@ The two length-weight relationships are,
 
 Be careful about the scale of $a$ --- this can easily be specified incorrectly. If the catch is in tonnes and the growth curve in centimetres, then $a$ should be on the right scale to convert a length in centimetres to a weight in tonnes. Note that there are reports available that can be used to help check that the units specified are plausible (see Section \ref{sec:report-section}).
 
-\subsubsection*{\I{Calculation of mean weight}}
 
 \subsection{\I{Weightless model}\label{sec:weightless-model}}
+If users would like to only model abundance and are not interested in converting the population to weight you can turn off the \command{length\_weight}, by specifing the keyword \subcommand{none} in the \command{age\_length} block. For example,
+{\small{\begin{verbatim}
+	@age_length age_size
+	type schnute
+	...
+	length_weight none
+	\end{verbatim}}}
+
+If this specified in the model any biomass that is generated by \CNAME\ will actually be abundance, so be careful on intepretations when using this setting.
 
 \subsection{\I{Maturity, in models without maturing in the partition}\label{sec:maturity-notinpartition}}
 
@@ -835,7 +875,7 @@ The available selectivities are;
 
 The available selectivities are described below.
 
-\subsubsection[Constant]{\argument{constant}}\index{Selectivities!Constant}
+\subsubsection[Constant]{{constant}}
 
 \begin{equation}
 f(x)=C
@@ -843,8 +883,7 @@ f(x)=C
 
 The constant selectivity has the estimable parameter C. 
 
-\subsubsection[Knife-edge]{\argument{knife\_edge}}\index{Selectivities!Knife-edge}
-
+\subsubsection[Knife-edge]{\argument{knife\_edge}}
 \begin{equation}
 f(x)= \begin{cases}
   0, & \text{if $x < E$} \\
@@ -946,6 +985,89 @@ The double-exponential selectivity has non-estimable parameters $x_1$ and $x_2$,
 	\caption{Examples of the functional forms of selectivities available in \CNAME.}
 \end{figure}
 
+\subsection{\I{Projections}\label{sec:projections}}
+This section lists all the projections classes available, their functionality and an example of the syntax.
+\paragraph*{\I{Constant}}
+A parameter can either be fixed during all projection years or specified individually for each projection year. This is a deterministic assumption, where the parameter is assumed to be known without error during projection years.
+
+{\small{\begin{verbatim}
+		@project Future_ycs
+		type constant
+		parameter process[Recruitment].ycs_values
+		years 2012:2016
+		values 1 2 1 2 0.5
+		multiplier 1
+		\end{verbatim}}}
+\paragraph*{\I{Empirical resampling}}
+
+Parameters that have time components associated with them can be re-sampled uniformly with replacement over a range of years and used as the projected year values. The year range which users must specify are between \argument{start\_year} and \argument{final\_year}
+{\small{\begin{verbatim}
+		@project Future_ycs
+		type empirical_sampling
+		parameter process[Recruitment].ycs_values
+		years 2012:2016
+		start_year 1988
+		final_year 2008
+		multiplier 1
+		\end{verbatim}}}
+
+
+\paragraph*{\I{Lognormal}}
+The parameters are originally drawn from a gaussian distribution in log space and exponentiated out to form the lognormal distribution,
+\begin{equation}\label{eq:lognormal}
+X_p = e^{\epsilon_p- 0.5\sigma^2}
+\end{equation}
+where $\epsilon_p\stackrel{iid}{\sim}N(\mu,\sigma)$ and $X_p$ is the projected value for parameter $X$, and $\mu$, $\sigma$ is the mean and standard deviation on the log scale. An example of applying this process is if we wanted to draw future year class parameters from a lognormal distribution with mean 1 and standard deviation 0.8, we would define the syntax as,
+
+{\small{\begin{verbatim}
+		@project Future_ycs
+		type lognormal
+		parameter process[Recruitment].ycs_values
+		years 2012:2016
+		mean 0
+		sigma 0.8
+		multiplier 1
+		\end{verbatim}}}
+
+
+\paragraph*{\I{Lognormal-Empirical}}
+This class applies Lognormal draw as in the \argument{LogNormal} class but it allows the user to specify a year range which is re-sampled uniformly without replacement. These re sampled values are then used to calculate the standard deviation of the distribution. Then equation~\eqref{eq:lognormal} is used to generate future values with user defined $\mu$ and empirically calculated $\sigma$,
+
+{\small{\begin{verbatim}
+		@project Future_ycs
+		type lognormal_empirical
+		parameter process[Recruitment].ycs_values
+		years 2012:2016
+		mean 0
+		start_year 1988
+		final_year 2008
+		multiplier 1
+		\end{verbatim}}}
+
+\paragraph*{\I{User Defined}}
+This class allows users to use the equation parser to define the future values of a parameter during projection mode. This was originally set-up to apply harvest control rules (i.e. apply a management action, change in TACC based on the current or previos state). In fisheries this would be setting the catch based on an exploitation rate * vulnerable biomass, where the exploitation rate is based on some rule as shown in figure~\ref{fig:HCR}.
+
+\begin{figure}[!h]\label{fig:HCR}
+	\includegraphics[scale=0.9]{Figures/HarvestControlRules.png}
+	\caption{\textbf{Examples of control rules based on current stock status.}}
+\end{figure}
+
+\pagebreak
+{\small{\begin{verbatim}
+		@project HCR_2015
+		type user_defined
+		parameter process[Instantaneous_Mortality].method_Sub_Ant_F
+		years 2015 
+		equation if(derived_quantity[SSB].values{2014} / process[Recruitment].b0 <= 0.1, 0.0,
+		if(derived_quantity[SSB].values{2014} / process[Recruitment].b0 > 0.1 && 
+		derived_quantity[SSB].values{2014} / process[Recruitment].b0 < 0.2,
+		derived_quantity[SSB].values{2014} * derived_quantity[SSB].values{2014}  
+		/ process[Recruitment].b0,
+		derived_quantity[SSB].values{2014} * 0.2))
+		\end{verbatim}}}
+
+The syntax of the equation parser is a bit difficult and care should be taken when writing it. In words the above equation is, if $\%B_{2014} \leq 0.1$ next years catch is 0.0, else if $\%B_{2014} > 0.1 \& \%B_{2014} \leq 0.2$, next years catch is equal to $\%B_{2014} * SSB_{2014}$, else set next years catch to $0.2 SSB_{2014}$
+
 \subsection{\I{Time Varying Parameters}\label{sec:time_var}}
 
 \CNAME\ has the functionality to vary any parameter annually between the start and final year of a model run. This can be for blocks of years or specific years if chosen. For years that are not specified the parameter will default to the input or if in a iterative state such as estimation mode, the value being trialled at that iteration. Method \texttt{type}'s for time varying a parameter are; \subcommand{constant}, \subcommand{random\_walk}, \subcommand{exogenous}, \subcommand{linear}, \subcommand{annual\_shift}. Where this functionality will become quite useful is in simulating more realistic observations. When you allow fisheries to have annual varying catchabilities and other more realistic model components simulated observations become more real data and thus conclusions based on simulated data are more useful.
@@ -1003,7 +1125,7 @@ A parameter generated in year $y$ ($\theta'_y$) depends on the value specified b
 \theta'_y = a \bar{\theta}_y + b\bar{\theta}_y^{2} + c\bar{\theta}_y^{3}
 \end{equation}
 
-\subsubsection[Exogenous]{\argument{Exogenous}}\index{Time Varying Parameters!Exogenous}
+\subsubsection[Exogenous]{\argument{Exogenous}}
 
 Parameters are shifted based on an exogenous variable, an example of this is an exploitation selectivity parameters that may vary between years based on known changes in exploitation behaviour such as season, start time, and average depth of exploitation.
 \begin{equation}
@@ -1017,6 +1139,8 @@ where $\delta_y$ is the shift or deviation in parameter $\theta_y$ in year $y$ t
 
 \subsection{\I{Equation Parser}\label{sec:eq_parser}}
 \CNAME\ has the ability to use an equation parser, this is currently implemented in two classes of the model, Projections, Derived quantities, \textbf{link to these}. Examples of syntax for implementing the equation parser follow from here. But for a more detailed look at the parser see \url{https://github.com/nickgammon/parser/blob/master/parser.cpp}\\
+\subsection{\I{Equation Parser}\label{sec:eq_parser}}
+\CNAME\ has the ability to use an equation parser, this is currently implemented in two classes of the model, Projections (section~\ref{sec:projections}), Derived quantities (section~\ref{sec:derived-quantities}) and reports (section~\ref{sec:report-section}). Examples of syntax for implementing the equation parser follow from here. But for a more detailed look at the parser see \url{https://github.com/nickgammon/parser/blob/master/parser.cpp}\\
 
 
 {\small{\begin{verbatim}
@@ -1033,9 +1157,23 @@ Apply exponents,
 		equation pow(2, 3)
 		\end{verbatim}}}
 
-evaluate the absolute od an equation using the \texttt{abs()} syntax,
+evaluate the absolute of an equation using the \texttt{abs()} syntax,
 {\small{\begin{verbatim}
 		equation abs(sqrt(process[Recruitment].r0) * 1.33)
 		\end{verbatim}}}
+	
+Use if else statements
+{\small{\begin{verbatim}
+		equation if(process[Recruitment].r0 > 23, 44, 55)
+		## if R0 is greater than 23 return 44 else return 55
+		\end{verbatim}}}
+You can link if else statements as well but be warned the syntax becomes a bit messy, such as
+{\small{\begin{verbatim}
+		equation if(process[Recruitment].r0 > 23, 44, 
+         		if(process[Recruitment].r0 > 10, 55, 66))
+		## if R0 is greater than 23 return 44 else if R0 less than 23 but greater than 10 return 55, 
+		else R0 must be less than 10 return 66
+		\end{verbatim}}}
 
-Constraints, are that you can only reference singletons so cannot apply an equation to vector parameters for example calculating 
+Constraints, are that you can only reference singletons so cannot apply an equation to vector parameters for example, in a harvest control rule setting you may want to future catch based on what the current percen $B_0$ is,
+

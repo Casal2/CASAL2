@@ -1,5 +1,5 @@
 
-\section{\I{Examples}\label{sec:examples}}
+\section{\I{Syntax conventions, examples and niceties}\label{sec:examples}}
 
 \subsection{Input File Specification}
 The file format used for \CNAME\ is based on the formats used for CASAL and SPM. It's a standard text file that contains definitions organised into blocks.
@@ -66,8 +66,8 @@ type <sub_type> #Descriptive comment
 parameter <value_1> #<value_2>(value_2 is commented out)
 \end{verbatim}}}
 
-\paragraph*{$\{ \}$ (Multi-Line Comment)}
-Multiple line comments are supported by surrounding the comments in \{ and \}\\
+\paragraph*{\commentstart\ \commentend\ (Multi-Line Comment)}
+Multiple line comments are supported by surrounding the comments in \commentstart\ and \commentend\\
 Example:
 {\small{\begin{verbatim}
 @block <label>
@@ -75,14 +75,27 @@ type <sub_type>
 parameter <value_1>
 parameter <value_1> <value_2>
 
-{ Do not load this process
+\* 
+	Do not load this process
 	@block <label>
 	type <sub_type>
 	parameter <value_1>
 	parameter <value_1> <value_2>
-}
+*\
 \end{verbatim}}}
 
+\paragraph*{$\{ \}$ (Indexing Parameters)}
+
+Users can reference individual elements of a map using the \{ \} syntax, for example when estimating \subcommand{ycs\_values} you may only want to estimate a block of YCS not all of them say between 1975 and 2012.
+Example:
+{\small{\begin{verbatim}
+		@estimate YCS
+		parameter process[Recruitment].ycs_values{1975:2012}
+		type uniform
+		lower_bound
+		upper_bound
+		\end{verbatim}}}
+	
 \paragraph*{':' (Range Specifier)}
 The range specifier allows you to specify a range of values at once instead of having to input them manually. Ranges can be either incremental or decremental.\\
 Example:
@@ -187,13 +200,6 @@ years tag=2001=1999:2003  tag=2005=2003:2007
 # Categories with the tag value “2005” will be available during the years 2003, 2004, 2005, 2006, 2007
 \end{verbatim}}}
 
-
-\subsection{\I{An example of a simple model}\label{example1}}
-\index{Examples ! Example 1}\index{Examples ! A simple non-spatial model}
-\input{Examples/Example1}
-
-
-
 \subsection{More examples of shorthand syntax and use of \CNAME's reserved and key characters}\label{sec:ShorthandSyntax-section}
 \paragraph*{\I{Categories}\label{sub:categories}}
 \CNAME\ allows many user defined categories so shorthand syntax has been added to aid in the readability of complex configuration scripts and partition structures. For example when defining categories you can use a comma for shortening lists of categories. The following syntax is how we would specify the categories the long way.
@@ -275,7 +281,7 @@ If we wanted to migrate a portion of the mature population from the southern are
 		r0 400000
 		years
 		ycs_values 1 1 1 1 1 1 1 1 
-		
+		ycs_years 1975:1983
 		An alternative specification to the sequence of values you can use an astrix to
 		shorthand repeating integers e.g.
 		
@@ -285,11 +291,11 @@ If we wanted to migrate a portion of the mature population from the southern are
 		age 1
 		\end{verbatim}}}
 
-Lets say we wanted to only estimate the last four values of the parameter \texttt{process[WestRecruitment].ycs\_values} vector. This can be done as specified in the following \command{estimate} block,
+Lets say we wanted to only estimate the last four years of the parameter \texttt{process[WestRecruitment].ycs\_values}. This can be done as specified in the following \command{estimate} block,
 
 {\small{\begin{verbatim}
 		@estimate
-		parameter process[WestRecruitment].ycs_values(5:8)
+		parameter process[WestRecruitment].ycs_values{1979:1983}
 		type uniform
 		lower_bound 0.1 0.1 0.1 0.1
 		upper_bound  10  10  10  10 
@@ -308,8 +314,8 @@ Note the first element of a vector is indexed by 1. This syntax can be applied t
 In this example a user may want to estimate only one element of the map (say 1992), but force all other years to be the same as the one estimate. This can be done in an estimate block as follows,
 {\small{\begin{verbatim}
 		@estimate
-		parameter time_varying[q_step1].value(1992)
-		same time_varying[q_step1].value(1993:1995)
+		parameter time_varying[q_step1].value{1992}
+		same time_varying[q_step1].value{1993:1995}
 		type uniform
 		lower_bound 0.1 0.1 0.1 0.1
 		upper_bound  10  10  10  10 
@@ -355,3 +361,33 @@ if there were 10 categories all with there own selectivity the $10^th$ selectivi
 {\small{\begin{verbatim}
 		@selectivity halfm.10
 		\end{verbatim}}}
+
+
+\subsection{Processes}
+Processes are special in how they can be defined, althrough out this document we have been referring to specifying a process as follows,
+
+{\small{\begin{verbatim}
+		@process Recruitment
+		type recruitment_beverton_holt
+		\end{verbatim}}}
+However for convenience and for file clarity you could equally specify this block as follows,
+{\small{\begin{verbatim}
+		@recruitment Recruitment
+		type beverton_holt
+		\end{verbatim}}}
+
+The trick is that you can replace the keyword \subcommand{process} with the first word of the process type, in the example above this is the \subcommand{recruitment} this can be away of creating more reader friendly/lay term configuration scripts. More examples follow;
+
+{\small{\begin{verbatim}
+		@mortality Fishing_and_M
+		type instantaneous
+		\end{verbatim}}}
+
+{\small{\begin{verbatim}
+		@transition Migration
+		type category
+		\end{verbatim}}}
+	
+\subsection{\I{An example of a simple model}\label{example1}}
+\index{Examples ! Example 1}\index{Examples ! A simple non-spatial model}
+\input{Examples/Example1}

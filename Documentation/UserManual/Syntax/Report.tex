@@ -17,6 +17,20 @@
 \defDefault{overwrite}
 \defAllowedValues{overwrite, append, incremental\_suffix}
 
+\subsubsection[Addressable]{\commandlabsubarg{report}{type}{addressable}}
+
+\defSub{parameter} {Parameter to print}
+\defType{string}
+\defDefault{No Default}
+
+\defSub{years} {Years to print the addressable for}
+\defType{non-negative integer vector}
+\defDefault{No Default}
+
+\defSub{time\_step} {Time Step label}
+\defType{string}
+\defDefault{""}
+
 \subsubsection[Ageing Error Matrix]{\commandlabsubarg{report}{type}{ageing\_error\_matrix}}
 
 \defSub{ageing\_error} {Ageing Error label}
@@ -40,20 +54,6 @@
 \defSub{equation} {Equation to do a test run of}
 \defType{string vector}
 \defDefault{No Default}
-
-\subsubsection[Estimable]{\commandlabsubarg{report}{type}{estimable}}
-
-\defSub{parameter} {Parameter to print}
-\defType{string}
-\defDefault{No Default}
-
-\defSub{years} {Years to print the estimable for}
-\defType{non-negative integer vector}
-\defDefault{No Default}
-
-\defSub{time\_step} {Time Step label}
-\defType{string}
-\defDefault{""}
 
 \subsubsection[Estimate Summary]{\commandlabsubarg{report}{type}{estimate\_summary}}
 

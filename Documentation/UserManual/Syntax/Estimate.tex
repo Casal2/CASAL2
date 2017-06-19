@@ -28,7 +28,7 @@
 \defType{boolean}
 \defDefault{false}
 
-\defSub{transformation} {Type of simple transformation to apply to estimable}
+\defSub{transformation} {Type of simple transformation to apply to estimate}
 \defType{string}
 \defDefault{""}
 
@@ -39,11 +39,11 @@
 \subsubsection[Beta]{\commandlabsubarg{estimate}{type}{beta}}
 
 \defSub{mu} {Beta prior  mean (mu) parameter}
-\defType{estimable}
+\defType{constant}
 \defDefault{No Default}
 
 \defSub{sigma} {Beta prior variance (sigma) parameter}
-\defType{estimable}
+\defType{constant}
 \defDefault{No Default}
 \defLowerBound{0.0 (exclusive)}
 
@@ -58,45 +58,45 @@
 \subsubsection[Lognormal]{\commandlabsubarg{estimate}{type}{lognormal}}
 
 \defSub{mu} {The lognormal prior mean (mu) parameter}
-\defType{estimable}
+\defType{constant}
 \defDefault{No Default}
 \defLowerBound{0.0 (exclusive)}
 
 \defSub{cv} {The Lognormal variance (CV) parameter}
-\defType{estimable}
+\defType{constant}
 \defDefault{No Default}
 \defLowerBound{0.0 (exclusive)}
 
 \subsubsection[Normal]{\commandlabsubarg{estimate}{type}{normal}}
 
 \defSub{mu} {The normal prior mean (mu) parameter}
-\defType{estimable}
+\defType{constant}
 \defDefault{No Default}
 
 \defSub{cv} {The normal variance (standard devation) parameter}
-\defType{estimable}
+\defType{constant}
 \defDefault{No Default}
 \defLowerBound{0.0 (exclusive)}
 
 \subsubsection[Normal By Stdev]{\commandlabsubarg{estimate}{type}{normal\_by\_stdev}}
 
 \defSub{mu} {The normal prior mean (mu) parameter}
-\defType{estimable}
+\defType{constant}
 \defDefault{No Default}
 
 \defSub{sigma} {The normal variance (standard devation) parameter}
-\defType{estimable}
+\defType{constant}
 \defDefault{No Default}
 \defLowerBound{0.0 (exclusive)}
 
 \subsubsection[Normal Log]{\commandlabsubarg{estimate}{type}{normal\_log}}
 
 \defSub{mu} {The normal-log prior mean (mu) parameter}
-\defType{estimable}
+\defType{constant}
 \defDefault{No Default}
 
 \defSub{sigma} {The normal-log prior variance (standard deviation) parameter}
-\defType{estimable}
+\defType{constant}
 \defDefault{No Default}
 \defLowerBound{0.0 (exclusive)}
 

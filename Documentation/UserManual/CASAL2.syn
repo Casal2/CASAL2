@@ -67,6 +67,8 @@ age_plus
 ageing_error
 alpha
 ato95
+average_lower_bound
+average_upper_bound
 b
 b0
 b0_intialisation_phase
@@ -93,7 +95,10 @@ delta
 derivative_test
 detection
 df
+difference_estimate_label
+difference_lower_bound
 difference_scale
+difference_upper_bound
 dispersion
 distribution
 e
@@ -246,6 +251,7 @@ true
 
 [Keywords 4]
 abundance
+addressable
 adolc
 ageing
 ageing_error_matrix
@@ -276,7 +282,6 @@ double_exponential
 double_normal
 empirical_sampling
 equation_test
-estimable
 estimate_summary
 estimate_value
 free

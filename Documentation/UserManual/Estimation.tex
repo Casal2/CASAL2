@@ -1,6 +1,6 @@
 \section{\I{The estimation section}\label{sec:estimation-section}}
 
-\subsection{Role of the estimation section\label{sec:role-of-the-estimation-section}}
+\subsection{\I{Role of the estimation section}\label{sec:role-of-the-estimation-section}}
 The role of the estimation section is to define the tasks carried out by \CNAME: 
 
 \begin{enumerate}
@@ -32,7 +32,8 @@ Penalties can be used to ensure that the exploitation rate constraints on mortal
 The estimable parameters that will be estimated are defined using \command{estimate} commands (see Section \ref{sec:estimation-syntax}). An \command{estimate} command-block looks like\index{Estimating parameters},
 
 {\small{\begin{verbatim}
-  @estimate process[NaturalMortality].m
+  @estimate male.m
+  parameter process[NaturalMortality].m{male}
   lower_bound 0.1
   upper_bound 0.4
   type uniform
