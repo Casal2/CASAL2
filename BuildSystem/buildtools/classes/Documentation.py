@@ -262,8 +262,8 @@ class VariableLoader:
                 print '-- Bind Table Line ' + line
                 if not self.HandleParameterBindTable(line, class_):
                     return False            
-            if line.startswith('RegisterAsEstimable('):
-                print '-- RegisterAsEstimable Line ' + line
+            if line.startswith('RegisterAsAddressable('):
+                print '-- RegisterAsAddressable Line ' + line
                 if not self.HandlRegisterAsLine(line, class_):
                     return False
         return True

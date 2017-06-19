@@ -5,7 +5,7 @@
  * @date 1/09/2015
  * @section LICENSE
  *
- * Copyright NIWA Science ©2015 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2015 - www.niwa.co.nz
  *
  * @section DESCRIPTION
  *
@@ -29,6 +29,7 @@
 namespace niwa {
 
 class Model;
+class TimeVarying;
 namespace estimates { class Creator; }
 using niwa::utilities::Double;
 using std::string;
@@ -38,6 +39,7 @@ using utilities::OrderedMap;
 class Objects {
   friend class Model;
   friend class estimates::Creator;
+  friend class TimeVarying;
 public:
   // methods
   bool                        VerfiyAddressableForUse(const string& parameter_absolute_name, addressable::Usage usage, string& error);
