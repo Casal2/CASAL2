@@ -229,7 +229,7 @@ end_table
 @ageing_error Normal_ageing
 type none
 #cv 0.05
-{
+/*
 @observation chatCPUEline
 type biomass
 time_step step1
@@ -245,4 +245,4 @@ process_error 0.2
 
 
 
-}
+*/

@@ -31,7 +31,7 @@ cv 0.70
 ## Natural Mortality
 @estimate
 type uniform
-parameter process[instant_mort].m(male)
+parameter process[instant_mort].m{male}
 same process[instant_mort].m(female)
 lower_bound 0.01
 upper_bound 0.6
@@ -129,7 +129,7 @@ type uniform
 
 
 @estimate
-parameter process[Recruitment].ycs_values(1973:2010)
+parameter process[Recruitment].ycs_values{1973:2010}
 #YCS_years     1973 1974 1975 1976 1977 1978 1979 1980 1981 1982 1983 1984 1985 1986 1987 1988 1989 1990 1991 1992 1993 1994 1995 1996 1997 1998 1999 2000 2001 2002 2003 2004 2005 2006 2007 2008 2009 2010
 lower_bound    0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01
 upper_bound     100  100  100  100  100  100  100  100  100  100  100  100  100  100  100  100  100  100  100  100  100  100  100  100  100  100  100  100  100  100  100  100  100  100  100  100  100  100
@@ -150,7 +150,7 @@ type process
 log_scale True
 multiplier 1000
 
-{
+/*
 ## estimate M
 @estimate M_male
 parameter process[instant_mort].m(male)
@@ -173,4 +173,4 @@ mean_upper_bound 0.5
 mean_lower_bound 0.06
 difference_upper_bound 0.1
 difference_lower_bound -0.1
-}
+*/
