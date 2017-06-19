@@ -5,7 +5,7 @@
  * @date 1/09/2015
  * @section LICENSE
  *
- * Copyright NIWA Science ©2015 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2015 - www.niwa.co.nz
  *
  */
 
@@ -92,7 +92,7 @@ bool Objects::VerfiyAddressableForUse(const string& parameter_absolute_name, add
 addressable::Type Objects::GetAddressableType(const string& parameter_absolute_name) {
   base::Object* target = FindObject(parameter_absolute_name);
   std::pair<string, string> parameter_index = ExplodeParameterAndIndex(parameter_absolute_name);
-  if (parameter_index.second == "")
+  if (parameter_index.second != "")
     return addressable::kSingle;
 
   return target->GetAddressableType(parameter_index.first);
