@@ -4,7 +4,7 @@
  * @date 5/6/17
  * @section LICENSE
  *
- * Copyright NIWA Science ©2017 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2017 - www.niwa.co.nz
  *
  */
 
@@ -29,28 +29,11 @@ UserDefined::UserDefined(Model* model) : Project(model) {
 }
 
 /**
- * Validate
- */
-void UserDefined::DoValidate() {
-//  for (unsigned i = 0; i < years_.size(); ++i) {
-//    LOG_FINEST() << "value in year " << years_[i] << " = " << values_[i];
-//    year_values_[years_[i]] = values_[i];
-//  }
-}
-
-/**
  * Build
  */
 void UserDefined::DoBuild() {
   LOG_TRACE();
   equation_ = boost::algorithm::join(equation_input_, " ");
-}
-
-/**
- * Reset
- */
-void UserDefined::DoReset() {
-  LOG_TRACE();
 }
 
 /**
@@ -65,11 +48,8 @@ void UserDefined::DoUpdate() {
   } catch (...) {
     LOG_FATAL() << "result: equation failed\n";
   }
-  LOG_FINE() << "Setting Value to: " << value_ << ", in year = " << model_->current_year();
-  year_values_[model_->current_year()] = value_;
-  // store for report
-  projected_parameters_[model_->current_year()] = value_* multiplier_;
 
+  LOG_FINE() << "Setting Value to: " << value_ << ", in year = " << model_->current_year();
   (this->*DoUpdateFunc_)(value_);
 }
 

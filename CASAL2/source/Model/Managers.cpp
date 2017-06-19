@@ -5,7 +5,7 @@
  * @date 28/09/2015
  * @section LICENSE
  *
- * Copyright NIWA Science ©2015 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2015 - www.niwa.co.nz
  *
  */
 
@@ -148,7 +148,8 @@ void Managers::Build() {
   derived_quantity_->Build();
   length_weight_->Build();
   likelihood_->Build();
-  mcmc_->Build();
+  if (model_->run_mode() == RunMode::kMCMC)
+    mcmc_->Build();
   minimiser_->Build();
   observation_->Build();
   penalty_->Build();

@@ -5,7 +5,7 @@
  * @date 8/4/2017
  * @section LICENSE
  *
- * Copyright NIWA Science ©2016 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2016 - www.niwa.co.nz
  *
  */
 #ifdef TESTMODE
@@ -190,24 +190,24 @@ R"(
  */
 
 TEST_F(InternalEmptyModel,Projection_Run_lognormal) {
-//  utilities::RandomNumberGenerator::Instance().Reset(3445u);
-//  AddConfigurationLine(simple_model, __FILE__, 31);
-//  AddConfigurationLine(lognormal_project, __FILE__, 55);
-//  LoadConfiguration();
-//  model_->Start(RunMode::kProjection);
-////  string error_message = "";
-////  base::Object*  ycs_param = model_->objects().FindObject("process[Recruitment].ycs_values",error_message);
-////  if (!ycs_param)
-////    LOG_FATAL() << "!ycs_param" << error_message;
-//
-//  // check the results
-//  vector<Double> expected = {39020.374395850878,37682.623047506087,38068.329938270457,38413.293486112576,38587.282857092388,38357.258716542878,37717.130143529248,36958.935350696898};
-//  niwa::DerivedQuantity* dq = model_->managers().derived_quantity()->GetDerivedQuantity("SSB");
-//  for (unsigned i = 0; i < 8; ++i) {
-//    unsigned year = 2012 + i;
-//    Double value = expected[i];
-//    EXPECT_DOUBLE_EQ(value, dq->GetValue(year)) << " for year " << year << " and value " << value;
-//  }
+  utilities::RandomNumberGenerator::Instance().Reset(3445u);
+  AddConfigurationLine(simple_model, __FILE__, 31);
+  AddConfigurationLine(lognormal_project, __FILE__, 55);
+  LoadConfiguration();
+  model_->Start(RunMode::kProjection);
+//  string error_message = "";
+//  base::Object*  ycs_param = model_->objects().FindObject("process[Recruitment].ycs_values",error_message);
+//  if (!ycs_param)
+//    LOG_FATAL() << "!ycs_param" << error_message;
+
+  // check the results
+  vector<Double> expected = {39020.374395850878,37682.623047506087,38068.329938270457,38413.293486112576,38587.282857092388,38357.258716542878,37717.130143529248,36958.935350696898};
+  niwa::DerivedQuantity* dq = model_->managers().derived_quantity()->GetDerivedQuantity("SSB");
+  for (unsigned i = 0; i < 8; ++i) {
+    unsigned year = 2012 + i;
+    Double value = expected[i];
+    EXPECT_DOUBLE_EQ(value, dq->GetValue(year)) << " for year " << year << " and value " << value;
+  }
 }
 
 

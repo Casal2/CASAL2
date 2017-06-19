@@ -4,7 +4,7 @@
  * @date 10/07/2014
  * @section LICENSE
  *
- * Copyright NIWA Science ©2014 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2014 - www.niwa.co.nz
  *
  */
 #ifdef TESTMODE
@@ -83,7 +83,7 @@ TEST_F(InternalEmptyModel, Categories_AssignSpecificYearsPerCategory_1) {
  * Check that we get an appropriate error when we re-define a year
  * more than once
  */
-TEST_F(InternalEmptyModel, Categories_AssignSpecificYearsPerCategory_2) {
+TEST_F(InternalEmptyModel, Categories_AssignSpecificYearsPerCategory_2_ExpectError) {
   MockModel model;
   vector<unsigned> model_years { 2000u, 2001u, 2002u, 2003u };
   EXPECT_CALL(model, years()).WillRepeatedly(Return(model_years));
