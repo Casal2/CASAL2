@@ -397,21 +397,27 @@ class VariableLoader:
             variable.default_ = pieces[index].replace(')', '').rstrip().lstrip()
         
     def HandlRegisterAsLine(self, line, class_):
-        short_line = line.replace('RegisterAsEstimable(', '')
+        short_line = line.replace('RegisterAsAddressable(', '')
         pieces = re.split(',|<|>|;|(|)', short_line)
         pieces = filter(None, pieces)
 
-        if len(pieces) != 2 and len(pieces) != 1:
+        if len(pieces) != 3 and len(pieces) != 2 and len(pieces) != 1:
             return Globals.PrintError('Expected 2 or 3 pieces but got ' + str(len(pieces)) + ' with line: ' + line)
 
         if len(pieces) == 1:
           name = 'user defined'
           variable = pieces[0].replace('&', '').replace(')', '').lstrip().rstrip()
-        else:
+          lookup = "all"
+        elif len(pieces) == 2:
           name = pieces[0]
           variable = pieces[1].replace('&', '').replace(')', '').lstrip().rstrip()
-
-        print '--> Estimable: ' + name + ' with variable ' + variable    
+          lookup = "all"
+	else:
+          name = pieces[0]
+          variable = pieces[1].replace('&', '').replace(')', '').lstrip().rstrip()
+	  lookup = pieces[2].replace('addressable::k', '').replace(')', '').lstrip().rstrip()
+	  
+        print '--> Estimable: ' + name + ' with variable ' + variable + ' lookup = ' + lookup   
         if name in translations_:    
           name = translations_[name]
         print class_.variables_
