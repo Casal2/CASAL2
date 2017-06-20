@@ -1,0 +1,64 @@
+DoubleExponential       Calculate the Double-Exponential Selectivity
+                        used in Casal2
+DoubleNormal            Calculate the Double-Normal Selectivity used in
+                        Casal2
+Increasing              Calculate the Increasing Selectivity used in
+                        Casal2
+InverseLogistic         Calculate the Inverse-Logistic Selectivity used
+                        in Casal2
+KnifeEdge               Calculate the KnifeEdge Selectivity used in
+                        Casal2
+Logistic                Calculate the Logistic Selectivity used in
+                        Casal2
+LogisticProducing       Calculate the Logistic-Producing Selectivity
+                        used in Casal2
+Paste                   Utility plot function
+ReadSimulatedData       Read in multiple sets of Simualted data for a
+                        single observation
+Regexpr                 Utility extract function
+Sum                     Utility plot function
+check_short_hand        Utility extract function
+convert.to.lines        Utility extract function
+evalit                  Utility plot function
+extract                 Utility extract function
+extract.csl2.file       Model configuration write function
+extract.parameters      Utility extract.parameters function
+get.casal2_list         Utility function
+get.line.label          Utility extract function
+get.line.type           Utility extract function
+get.lines               Utility extract function
+is.all.numeric          Utility extract function
+is.even                 Utility extract function
+is.in                   Utility extract function
+is.odd                  Utility extract function
+make.complete_vector    Utility extract function
+make.data.frame         Utility extract function
+make.list               Utility extract function
+make.list_element       Utility extract function
+make.matrix             Utility extract function
+make.named_complete_vector
+                        Utility extract function
+make.vector             Utility extract function
+param.profile           Generate an objective score profile plot for a
+                        particular parameter as a consequence from a
+                        casal2 -p run
+param.profile.by.cohort
+                        Generate an objective score profile plot for a
+                        particular parameter and age compositional
+                        dataset as a consequence from a casal2 -p run.
+pos                     Utility extract function
+pos.match               Utility extract function
+pow                     Utility extract function
+reformat.compositional.data
+                        Reformat Casal2 compositional observations so
+                        they are in the same format as the legacy Casal
+                        observations.
+regexp.in               Utility extract function
+remove.first.words      Utility extract function
+string.to.vector.of.numbers
+                        Utility extract function
+string.to.vector.of.words
+                        Utility extract function
+strip                   Utility for extract function
+unpaste                 Utility extract function
+write.csl2.file         Model configuration write function

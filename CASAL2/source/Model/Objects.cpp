@@ -92,6 +92,7 @@ bool Objects::VerfiyAddressableForUse(const string& parameter_absolute_name, add
 addressable::Type Objects::GetAddressableType(const string& parameter_absolute_name) {
   base::Object* target = FindObject(parameter_absolute_name);
   std::pair<string, string> parameter_index = ExplodeParameterAndIndex(parameter_absolute_name);
+  LOG_FINEST() << "parameter type = " << parameter_index.first << " index = " << parameter_index.second;
   if (parameter_index.second != "")
     return addressable::kSingle;
 

@@ -1,0 +1,197 @@
+* using log directory 'C:/Craig/Software/CASAL2/R-libraries/CASAL2.Rcheck'
+* using R version 3.3.3 (2017-03-06)
+* using platform: x86_64-w64-mingw32 (64-bit)
+* using session charset: ISO8859-1
+* checking for file 'CASAL2/DESCRIPTION' ... OK
+* this is package 'CASAL2' version '1.0'
+* checking package namespace information ... OK
+* checking package dependencies ... OK
+* checking if this is a source package ... OK
+* checking if there is a namespace ... OK
+* checking for executable files ... OK
+* checking for hidden files and directories ... OK
+* checking for portable file names ... OK
+* checking whether package 'CASAL2' can be installed ... OK
+* checking installed package size ... OK
+* checking package directory ... OK
+* checking DESCRIPTION meta-information ... WARNING
+Non-standard license specification:
+  CPL v1.0. See the CASAL2 User Manual for license details.
+Standardizable: FALSE
+Checking should be performed on sources prepared by 'R CMD build'.
+* checking top-level files ... OK
+* checking for left-over files ... OK
+* checking index information ... OK
+* checking package subdirectories ... OK
+* checking R files for non-ASCII characters ... OK
+* checking R files for syntax errors ... OK
+* checking whether the package can be loaded ... OK
+* checking whether the package can be loaded with stated dependencies ... OK
+* checking whether the package can be unloaded cleanly ... OK
+* checking whether the namespace can be loaded with stated dependencies ... OK
+* checking whether the namespace can be unloaded cleanly ... OK
+* checking loading without being on the library search path ... OK
+* checking dependencies in R code ... OK
+* checking S3 generic/method consistency ... OK
+* checking replacement functions ... OK
+* checking foreign function calls ... OK
+* checking R code for possible problems ... NOTE
+extract.parameters: warning in gsub(pattern = "\t", replace = " ", x =
+  file[1], fixed = TRUE): partial argument match of 'replace' to
+  'replacement'
+make.list: no visible binding for global variable 'curent_no'
+param.profile: no visible global function definition for 'Max'
+param.profile: no visible global function definition for 'palette'
+param.profile: no visible global function definition for 'rainbow'
+param.profile: no visible global function definition for 'plot'
+param.profile: no visible global function definition for 'lines'
+param.profile: no visible global function definition for 'abline'
+param.profile: no visible global function definition for 'legend'
+param.profile.by.cohort: no visible global function definition for
+  'Max'
+param.profile.by.cohort: no visible global function definition for
+  'palette'
+param.profile.by.cohort: no visible global function definition for
+  'rainbow'
+param.profile.by.cohort: no visible global function definition for
+  'par'
+param.profile.by.cohort: no visible global function definition for
+  'plot'
+param.profile.by.cohort: no visible global function definition for
+  'lines'
+param.profile.by.cohort: no visible global function definition for
+  'abline'
+param.profile.by.cohort: no visible global function definition for
+  'legend'
+reformat.compositional.data: no visible global function definition for
+  'head'
+Undefined global functions or variables:
+  Max abline curent_no head legend lines palette par plot rainbow
+Consider adding
+  importFrom("grDevices", "palette", "rainbow")
+  importFrom("graphics", "abline", "legend", "lines", "par", "plot")
+  importFrom("utils", "head")
+to your NAMESPACE file.
+* checking Rd files ... OK
+* checking Rd metadata ... OK
+* checking Rd cross-references ... OK
+* checking for missing documentation entries ... OK
+* checking for code/documentation mismatches ... OK
+* checking Rd \usage sections ... WARNING
+Undocumented arguments in documentation object 'KnifeEdge'
+  'Edge'
+Documented arguments not in \usage in documentation object 'KnifeEdge':
+  'edge'
+
+Undocumented arguments in documentation object 'Paste'
+  '...' 'sep'
+
+Undocumented arguments in documentation object 'Regexpr'
+  'x' 'y' 'fixed'
+
+Undocumented arguments in documentation object 'Sum'
+  '...' 'na.rm'
+
+Undocumented arguments in documentation object 'check_short_hand'
+  'x'
+
+Undocumented arguments in documentation object 'convert.to.lines'
+  'filename'
+
+Undocumented arguments in documentation object 'evalit'
+  'x'
+
+Documented arguments not in \usage in documentation object 'extract':
+  'validate' 'conversion'
+
+Undocumented arguments in documentation object 'get.line.label'
+  'line'
+
+Undocumented arguments in documentation object 'get.line.type'
+  'line'
+
+Undocumented arguments in documentation object 'get.lines'
+  'lines' 'from' 'to' 'contains' 'starts.with' 'clip.to' 'clip.from'
+  'clip.to.match' 'clip.from.match' '...'
+
+Undocumented arguments in documentation object 'is.all.numeric'
+  'x' 'what' 'extras'
+
+Undocumented arguments in documentation object 'is.even'
+  'x'
+
+Undocumented arguments in documentation object 'is.in'
+  'x' 'y'
+
+Undocumented arguments in documentation object 'is.odd'
+  'x'
+
+Undocumented arguments in documentation object 'make.complete_vector'
+  'lines'
+
+Undocumented arguments in documentation object 'make.data.frame'
+  'lines'
+
+Undocumented arguments in documentation object 'make.list'
+  'lines'
+
+Undocumented arguments in documentation object 'make.list_element'
+  'lines'
+
+Undocumented arguments in documentation object 'make.matrix'
+  'lines'
+
+Undocumented arguments in documentation object 'make.named_complete_vector'
+  'lines'
+
+Undocumented arguments in documentation object 'make.vector'
+  'lines'
+
+Undocumented arguments in documentation object 'param.profile'
+  'y_min'
+Documented arguments not in \usage in documentation object 'param.profile':
+  'ymin'
+
+Undocumented arguments in documentation object 'param.profile.by.cohort'
+  'y_min'
+Documented arguments not in \usage in documentation object 'param.profile.by.cohort':
+  'ymin'
+
+Undocumented arguments in documentation object 'pos'
+  'vector' 'x'
+
+Undocumented arguments in documentation object 'pos.match'
+  'vector' 'regexp'
+
+Undocumented arguments in documentation object 'pow'
+  'x' 'exponent'
+
+Undocumented arguments in documentation object 'regexp.in'
+  'vector' 'regexp'
+
+Undocumented arguments in documentation object 'remove.first.words'
+  'string' 'words'
+
+Undocumented arguments in documentation object 'string.to.vector.of.numbers'
+  'string'
+
+Undocumented arguments in documentation object 'string.to.vector.of.words'
+  'string'
+
+Undocumented arguments in documentation object 'strip'
+  'x'
+
+Undocumented arguments in documentation object 'unpaste'
+  'string' 'sep'
+
+Functions with \usage entries need to have the appropriate \alias
+entries, and all their arguments documented.
+The \usage entries must correspond to syntactically valid R code.
+See chapter 'Writing R documentation files' in the 'Writing R
+Extensions' manual.
+* checking Rd contents ... OK
+* checking for unstated dependencies in examples ... OK
+* checking examples ... NONE
+* checking PDF version of manual ... OK
+* DONE
+Status: 2 WARNINGs, 1 NOTE

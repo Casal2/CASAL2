@@ -40,9 +40,7 @@ protected:
   void                        DoBuild() override final;
 
 private:
-  // members
-  Estimate*                   estimate_ = nullptr;
-  Double                      current_untransformed_value_;
+
 };
 
 } /* namespace estimatetransformations */

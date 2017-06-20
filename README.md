@@ -1,7 +1,7 @@
 Casal2
 ======
 
-Casal2 is an age structured population dynamics model. 
+Casal2 is an open source age structured population dynamics model. 
 It can implement a range of a statistical catch-at-age 
 population dynamics models, using a discrete time-step 
 area-space model that represents a cohort-based 
@@ -10,8 +10,11 @@ population age structure.
 
 This repository is standalone containing all thirdparty 
 libraries and source code necessary to compile Casal2. 
-There is no guarantee from the developers that Casal2 
-is error free.
+This project is covered under the GNU General Public 
+License vesrion 2. This program is distributed in the 
+hope that it will be useful, but WITHOUT ANY WARRANTY; 
+without even the implied warranty of MERCHANTABILITY 
+or FITNESS FOR A PARTICULAR PURPOSE.
 
 
 A windows bundle which includes a binary, manual, 

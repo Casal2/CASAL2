@@ -187,6 +187,9 @@ void ProcessRemovalsByAge::DoValidate() {
       LOG_ERROR_P(PARAM_OBS) << ": obs sum total (" << total << ") for year (" << iter->first << ") exceeds tolerance (" << tolerance_ << ") from 1.0";
     }
   }
+  if (time_step_label_.size() != method_.size()) {
+  	LOG_ERROR_P(PARAM_TIME_STEP) << "you must specify the same number of time step labels as methods. You have specified " << time_step_label_.size() << " time-step labels but only " << method_.size() << " methods, please fix this";
+  }
 }
 
 /**
@@ -216,7 +219,9 @@ void ProcessRemovalsByAge::DoBuild() {
   }
 
   if (!mortality_instantaneous_)
-    LOG_ERROR_P(PARAM_PROCESS) << "This observation can only be used for Process of type = " << PARAM_MORTALITY_INSTANTANEOUS;
+    LOG_ERROR_P(PARAM_PROCESS) << "This observation can only be used for Process of type = " << PARAM_MORTALITY_INSTANTANEOUS << " could not find process " << process_label_ << " have you defined it?";
+  // TODO Need to check methods, years and categories are comparable for this observation with the process.
+
 }
 
 /**
@@ -237,7 +242,6 @@ void ProcessRemovalsByAge::Execute() {
   LOG_FINEST() << "Entering observation " << label_;
 
   // Check if we are in the final time_step so we have all the relevent information from the Mortaltiy process
-
   unsigned current_time_step = model_->managers().time_step()->current_time_step();
   vector<unsigned> time_step_index;
 
@@ -253,79 +257,85 @@ void ProcessRemovalsByAge::Execute() {
         last_method_time_step = time_step_index[i + 1];
     }
   }
-
-if ((time_step_label_.size() > 1 && last_method_time_step == current_time_step) || time_step_label_.size() == 1) {
-
-  unsigned year = model_->current_year();
-  map<unsigned,map<string, map<string, vector<Double>>>> &Removals_at_age = mortality_instantaneous_->catch_at();
-
-  auto partition_iter = partition_->Begin(); // vector<vector<partition::Category> >
-  for (unsigned category_offset = 0; category_offset < category_labels_.size(); ++category_offset, ++partition_iter) {
-    vector<Double> expected_values(age_spread_, 0.0);
-    vector<Double> accumulated_expected_values(age_spread_, 0.0);
-
-    auto category_iter = partition_iter->begin();
-    for (; category_iter != partition_iter->end(); ++category_iter) {
-      // Go through all the fisheries and accumulate the expectation whilst also applying ageing error
-      unsigned method_offset = 0;
-      for (string fishery : method_) {
-
-        /*
-         *  Apply Ageing error on Removals at age vector
-         */
-
-        if (ageing_error_label_ != "") {
-          vector < vector < Double >> &mis_matrix = ageing_error_->mis_matrix();
-          vector<Double> temp(Removals_at_age[year][fishery][(*category_iter)->name_].size(), 0.0);
-
-          for (unsigned i = 0; i < mis_matrix.size(); ++i) {
-            for (unsigned j = 0; j < mis_matrix[i].size(); ++j) {
-              temp[j] += Removals_at_age[year][fishery][(*category_iter)->name_][i] * mis_matrix[i][j];
-            }
-          }
-          Removals_at_age[year][fishery][(*category_iter)->name_] = temp;
-        }
-
-        /*
-         *  Now collapse the number_age into the expected_values for the observation
-         */
-        for (unsigned k = 0; k < Removals_at_age[year][fishery][(*category_iter)->name_].size(); ++k) {
-          LOG_FINE() << "----------";
-          LOG_FINE() << "Fishery: " << fishery;
-          LOG_FINE() << "Numbers At Age After Ageing error: " << (*category_iter)->min_age_ + k << "for category " << (*category_iter)->name_ << " " << Removals_at_age[year][fishery][(*category_iter)->name_][k];
-
-          unsigned age_offset = min_age_ - model_->min_age();
-          if (k >= age_offset && (k - age_offset + min_age_) <= max_age_)
-          expected_values[k - age_offset] = Removals_at_age[year][fishery][(*category_iter)->name_][k];
-          // Deal with the plus group
-          if (((k - age_offset + min_age_) > max_age_) && age_plus_)
-          expected_values[age_spread_ - 1] += Removals_at_age[year][fishery][(*category_iter)->name_][k];
-        }
-
-        if (expected_values.size() != proportions_[model_->current_year()][category_labels_[category_offset]].size())
-        LOG_CODE_ERROR()<< "expected_values.size(" << expected_values.size() << ") != proportions_[category_offset].size("
-        << proportions_[model_->current_year()][category_labels_[category_offset]].size() << ")";
-
-        // Accumulate the expectations if they come form multiple fisheries
-        for (unsigned i = 0; i < expected_values.size(); ++i)
-        accumulated_expected_values[i] += expected_values[i];
-
-        method_offset++;
-      }
-    }
-
-    /**
-     * save our comparisons so we can use them to generate the score from the likelihoods later
-     */
-    for (unsigned i = 0; i < expected_values.size(); ++i) {
-      LOG_FINEST() << "-----";
-      LOG_FINEST() << "Numbers at age for category: " << category_labels_[category_offset] << " for age " << min_age_ + i << " = " << accumulated_expected_values[i];
-      SaveComparison(category_labels_[category_offset], min_age_ + i, 0.0, accumulated_expected_values[i],
-      proportions_[model_->current_year()][category_labels_[category_offset]][i], process_errors_by_year_[model_->current_year()],
-      error_values_[model_->current_year()][category_labels_[category_offset]][i],0.0, delta_, 0.0);
-    }
+  for(auto time_step : time_step_index) {
+  	LOG_FINEST() << "time step index = " << time_step;
   }
-}
+  LOG_FINEST() << "last time step = " << last_method_time_step << " current time step = " << current_time_step;
+	if ((time_step_label_.size() > 1 && last_method_time_step == current_time_step) || time_step_label_.size() == 1) {
+
+		unsigned year = model_->current_year();
+		map<unsigned,map<string, map<string, vector<Double>>>> &Removals_at_age = mortality_instantaneous_->catch_at();
+
+		auto partition_iter = partition_->Begin(); // vector<vector<partition::Category> >
+		for (unsigned category_offset = 0; category_offset < category_labels_.size(); ++category_offset, ++partition_iter) {
+			vector<Double> expected_values(age_spread_, 0.0);
+			vector<Double> accumulated_expected_values(age_spread_, 0.0);
+			LOG_FINEST() << "Category = " << category_labels_[category_offset];
+			auto category_iter = partition_iter->begin();
+			for (; category_iter != partition_iter->end(); ++category_iter) {
+				// Go through all the fisheries and accumulate the expectation whilst also applying ageing error
+				unsigned method_offset = 0;
+				for (string fishery : method_) {
+					if (Removals_at_age[year][fishery][(*category_iter)->name_].size() == 0) {
+						LOG_FATAL() << "There is no catch at age data in year " << year << " for method " << fishery << " applied to category = " << (*category_iter)->name_ << " please check that your mortality_instantaneous process '" << process_label_<< "' is comparable with the observation " << label_;
+					}
+					/*
+					 *  Apply Ageing error on Removals at age vector
+					 */
+					if (ageing_error_label_ != "") {
+						vector < vector < Double >> &mis_matrix = ageing_error_->mis_matrix();
+						vector<Double> temp(Removals_at_age[year][fishery][(*category_iter)->name_].size(), 0.0);
+						LOG_FINEST() << "category = " << (*category_iter)->name_;
+						LOG_FINEST() << "size = " << Removals_at_age[year][fishery][(*category_iter)->name_].size();
+
+						for (unsigned i = 0; i < mis_matrix.size(); ++i) {
+							for (unsigned j = 0; j < mis_matrix[i].size(); ++j) {
+								temp[j] += Removals_at_age[year][fishery][(*category_iter)->name_][i] * mis_matrix[i][j];
+							}
+						}
+						Removals_at_age[year][fishery][(*category_iter)->name_] = temp;
+					}
+					LOG_TRACE();
+					/*
+					 *  Now collapse the number_age into the expected_values for the observation
+					 */
+					for (unsigned k = 0; k < Removals_at_age[year][fishery][(*category_iter)->name_].size(); ++k) {
+						LOG_FINE() << "----------";
+						LOG_FINE() << "Fishery: " << fishery;
+						LOG_FINE() << "Numbers At Age After Ageing error: " << (*category_iter)->min_age_ + k << "for category " << (*category_iter)->name_ << " " << Removals_at_age[year][fishery][(*category_iter)->name_][k];
+
+						unsigned age_offset = min_age_ - model_->min_age();
+						if (k >= age_offset && (k - age_offset + min_age_) <= max_age_)
+						expected_values[k - age_offset] = Removals_at_age[year][fishery][(*category_iter)->name_][k];
+						// Deal with the plus group
+						if (((k - age_offset + min_age_) > max_age_) && age_plus_)
+						expected_values[age_spread_ - 1] += Removals_at_age[year][fishery][(*category_iter)->name_][k];
+					}
+
+					if (expected_values.size() != proportions_[model_->current_year()][category_labels_[category_offset]].size())
+					LOG_CODE_ERROR()<< "expected_values.size(" << expected_values.size() << ") != proportions_[category_offset].size("
+					<< proportions_[model_->current_year()][category_labels_[category_offset]].size() << ")";
+
+					// Accumulate the expectations if they come form multiple fisheries
+					for (unsigned i = 0; i < expected_values.size(); ++i)
+					accumulated_expected_values[i] += expected_values[i];
+
+					method_offset++;
+				}
+			}
+
+			/**
+			 * save our comparisons so we can use them to generate the score from the likelihoods later
+			 */
+			for (unsigned i = 0; i < expected_values.size(); ++i) {
+				LOG_FINEST() << "-----";
+				LOG_FINEST() << "Numbers at age for category: " << category_labels_[category_offset] << " for age " << min_age_ + i << " = " << accumulated_expected_values[i];
+				SaveComparison(category_labels_[category_offset], min_age_ + i, 0.0, accumulated_expected_values[i],
+				proportions_[model_->current_year()][category_labels_[category_offset]][i], process_errors_by_year_[model_->current_year()],
+				error_values_[model_->current_year()][category_labels_[category_offset]][i],0.0, delta_, 0.0);
+			}
+		}
+	}
 }
 
 /**

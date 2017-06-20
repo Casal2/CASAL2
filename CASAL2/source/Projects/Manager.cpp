@@ -52,7 +52,6 @@ void Manager::Build(Model* model) {
       if (project->parameter().find(PARAM_YCS_VALUES) != string::npos)
         ycs_values_exist = true;
     }
-
     if (!ycs_values_exist) {
       for (auto process : model->managers().process()->objects()) {
         if (process->type() == PARAM_RECRUITMENT_BEVERTON_HOLT)

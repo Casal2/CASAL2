@@ -159,6 +159,7 @@ void Project::StoreValue(unsigned current_year) {
     }
     stored_values_[current_year] = addressable_vector_->at(index);
   }
+  LOG_FINEST() << "Storing value = " << stored_values_[current_year];
 }
 
 } /* namespace niwa */

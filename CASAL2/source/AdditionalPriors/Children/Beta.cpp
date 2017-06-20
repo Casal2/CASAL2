@@ -12,6 +12,9 @@
 // headers
 #include "Beta.h"
 
+#include "Estimates/Manager.h"
+#include "Model/Model.h"
+#include "Model/Objects.h"
 // namespaces
 namespace niwa {
 namespace additionalpriors {
@@ -49,17 +52,42 @@ void Beta::DoValidate() {
       << b_ << " - " << mu_ << ") / (" << sigma_ << " * " << sigma_ << ") - 1.0 == " << max_sigma << " <= 0.0";
 }
 
+void Beta::DoBuild() {
+	string error = "";
+	if (!model_->objects().VerfiyAddressableForUse(parameter_, addressable::kLookup, error)) {
+		LOG_FATAL_P(PARAM_PARAMETER) << "could not be verified for use in additional_prior.vector_average. Error was " << error;
+	}
+  addressable::Type addressable_type = model_->objects().GetAddressableType(parameter_);
+  LOG_FINEST() << "type = " << addressable_type;
+  switch(addressable_type) {
+    case addressable::kInvalid:
+      LOG_CODE_ERROR() << "Invalid addressable type: " << parameter_;
+      break;
+    case addressable::kSingle:
+    	Addressable_ = model_->objects().GetAddressable(parameter_);
+      break;
+    default:
+      LOG_ERROR() << "The addressable you have provided for use in a additional priors: " << parameter_ << " is not a type that is supported for additional priors";
+      break;
+  }
+
+}
+
 /**
- * TODO: Add documentation
+ * Return the score for
  */
 Double Beta::GetScore() {
-  Double value = 1.0;
+  Double value = (*Addressable_);
+	if (b_ < value || a_ > value) {
+		LOG_FATAL_P(PARAM_B) << "parameter b can't be less than the target parameter = " << value << " or the parameter a can't be greater than the target paraemter";
+	}
   Double score_ = 0.0;
   v_ = (mu_ - a_) / (b_ - a_);
   t_ = (((mu_ - a_) * (b_ - mu_)) / (sigma_ * sigma_)) - 1.0;
   m_ = t_ * v_;
   n_ = t_ * (1.0 - v_);
   score_ = ((1.0 - m_) * log(value - a_)) + ((1.0 - n_) * log(b_ - value));
+  LOG_FINEST() << "score = " << score_ << " value = " << value << " t = " << t_ << " m_ = " << m_;
   return score_;
 }
 

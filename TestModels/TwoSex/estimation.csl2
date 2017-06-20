@@ -32,7 +32,7 @@ cv 0.70
 @estimate
 type uniform
 parameter process[instant_mort].m{male}
-same process[instant_mort].m(female)
+same process[instant_mort].m{female}
 lower_bound 0.01
 upper_bound 0.6
 

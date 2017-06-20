@@ -28,7 +28,9 @@ namespace timevarying {
 RandomWalk::RandomWalk(Model* model) : TimeVarying(model) {
   parameters_.Bind<Double>(PARAM_MEAN, &mu_, "Mean", "", 0);
   parameters_.Bind<Double>(PARAM_SIGMA, &sigma_, "Standard deviation", "", 1);
-  parameters_.Bind<Double>(PARAM_SIGMA, &rho_, "Auto Correlation parameter", "", 1);
+  parameters_.Bind<Double>(PARAM_UPPER_BOUND, &upper_bound_, "Upper bound for the random walk", "", 1);
+  parameters_.Bind<Double>(PARAM_UPPER_BOUND, &lower_bound_, "Lower bound for the random walk", "", 1);
+  parameters_.Bind<Double>(PARAM_RHO, &rho_, "Auto Correlation parameter", "", 1);
   parameters_.Bind<string>(PARAM_DISTRIBUTION, &distribution_, "distribution", "", PARAM_NORMAL);
 
   RegisterAsAddressable(PARAM_MEAN, &mu_);
@@ -47,18 +49,11 @@ void RandomWalk::DoValidate() {
  *
  */
 void RandomWalk::DoBuild() {
-  Estimate* estimate = model_->managers().estimate()->GetEstimate(parameter_);
-  if (estimate) {
-    LOG_FINEST() << "Found an @estimate block for " << parameter_;
-    has_at_estimate_ = true;
-    upper_bound_ = estimate->upper_bound();
-    lower_bound_ = estimate->lower_bound();
-    if (model_->run_mode() == RunMode::kEstimation) {
-      LOG_ERROR_P(PARAM_PARAMETER) << "You cannot have an @estimate block for a parameter that is time varying of type " << type_
-          << ", casal2 will overwrite the estimate and a false minimum will be found";
-    }
-  }
-
+	// Warn users that they have a time-varying parameter in estimation mode.
+	if (model_->run_mode() == RunMode::kEstimation) {
+		LOG_WARNING() << "You have a varying of type " << type_
+				<< " during estimation, Not the correct implementation of a random effect, its purpose is more for simulating/projecting adding variaion.";
+	}
   if(model_->objects().GetAddressableType(parameter_) != addressable::kSingle)
     LOG_ERROR_P(PARAM_TYPE) << "@time_varying blocks of type " << PARAM_RANDOMWALK << " can only be implemented in parameters that are scalars or single values";
 }
@@ -67,26 +62,21 @@ void RandomWalk::DoBuild() {
  *
  */
 void RandomWalk::DoUpdate() {
-  LOG_FINEST() << "value = " << AS_DOUBLE(*addressable_);
+  LOG_FINEST() << "value = " << *addressable_;
   utilities::RandomNumberGenerator& rng = utilities::RandomNumberGenerator::Instance();
   Double value = *addressable_;
   Double deviate = rng.normal(AS_DOUBLE(mu_), AS_DOUBLE(sigma_));
   value += value * rho_ + deviate;
 
-  if (has_at_estimate_) {
-    if (value < lower_bound_) {
-      LOG_FINEST() << "hit @estimate lower bound setting value from " << value << " to " << lower_bound_;
-      value = lower_bound_;
-    }
-    if (value > upper_bound_) {
-      LOG_FINEST() << "hit @estimate upper bound setting value from " << value << " to " << upper_bound_;
-      value = upper_bound_;
-    }
-  }
-  if (value <= 0.0) {
-    LOG_WARNING() << "parameter: " << parameter_ << " random draw of value = " << value << " a natural lower bound of 0.0 has been forced so resetting the value = 0.01";
-    value  = 0.01;
-  }
+
+	if (value < lower_bound_) {
+		LOG_FINEST() << "hit @estimate lower bound setting value from " << value << " to " << lower_bound_;
+		value = lower_bound_;
+	}
+	if (value > upper_bound_) {
+		LOG_FINEST() << "hit @estimate upper bound setting value from " << value << " to " << upper_bound_;
+		value = upper_bound_;
+	}
 
   LOG_FINEST() << "value after deviate of " << deviate << " = " << value << " for year " << model_->current_year();
 

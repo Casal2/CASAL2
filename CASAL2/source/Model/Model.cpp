@@ -439,7 +439,9 @@ void Model::RunBasic() {
           *estimable_targets[i] = value;
         }
       }
+      LOG_TRACE();
       time_varying_manager.Update(current_year_);
+      LOG_FINEST() << "finishing update now running annual cycle";
       time_step_manager.Execute(current_year_);
     }
 

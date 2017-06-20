@@ -12,11 +12,6 @@
 #' @param xlab "string" optional, x-axis label
 #' @param ymin "numeric" optional, minimum value parsed to the ylim parameter in plot()
 #' @export
-#'
-#' @examples
-#' library(CASAL2)
-#' Profile = extract("profile.log") ## this is an output file from a casal2 -p run
-#' param.profile.by.cohort(obs = c("Tangaroa_propn_at_age_Jan"), param = "process[Instantaneous_Mortality].m(male)",extract_list = "Profile", Rescale = T,ylab = "Objective contribution", xlab = "M",threshold = 10)
 #' 
 "param.profile.by.cohort" <-
   function(obs, param,extract_list, Rescale = F,ylab = "Objective contribution", xlab = "Parameter",y_min = -0.5, threshold = 10) {

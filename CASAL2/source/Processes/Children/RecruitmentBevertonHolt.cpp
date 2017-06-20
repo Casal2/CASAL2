@@ -131,7 +131,6 @@ void RecruitmentBevertonHolt::DoValidate() {
       LOG_ERROR_P(PARAM_YCS_VALUES) << " values must be in numeric ascending order. Value "
           << ycs_years_[i - 1] << " is not less than " << ycs_years_[i];
   }
-
 }
 
 /**

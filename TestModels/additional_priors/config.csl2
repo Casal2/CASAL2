@@ -116,14 +116,15 @@ multiplier 10
 
 @additional_prior x
 type beta
-mu 0.3
-sigma 0.05
-a 0
-b 10
+parameter process[Recruitment].r0
+mu 997386
+sigma 2000
+a 987386
+b 1097386
 
 @assert obj
 type objective_function
-value -2462.7
+value -2780.06
 
 @report obj
 type objective_function
