@@ -12,13 +12,6 @@
 #' @param ymin "numeric" optional, minimum value parsed to the ylim parameter in plot()
 #' @export
 #'
-#' @examples
-#' library(CASAL2)
-#' Profile = extract("profile.log") ## this is an output file from a casal2 -p run
-#' param.profile(obs = c("Tangaroa_propn_at_age_Jan","trawl_propn_at_age"), 
-#' param = "process[Instantaneous_Mortality].m(male)",extract_list = "Profile",
-#' Rescale = T,ylab = "Objective contribution", xlab = "M")
-
 "param.profile" <-
   function(obs, param,extract_list, Rescale = F,ylab = "Objective contribution", xlab = "Parameter",y_min = -0.5) {
   ## -1 check that the extract list exists.

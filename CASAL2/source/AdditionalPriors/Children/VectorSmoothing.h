@@ -43,7 +43,6 @@ protected:
 
 private:
   // members
-  string                      parameter_ = "";
   map<unsigned, Double>*      addressable_map_ = nullptr;
   vector<Double>*             addressable_vector_ = nullptr;
   bool                        log_scale_ = false;

@@ -7,6 +7,9 @@
 
 #include "EstimateTransformation.h"
 
+#include "Estimates/Manager.h"
+#include "Model/Managers.h"
+
 namespace niwa {
 
 /**
@@ -24,7 +27,6 @@ EstimateTransformation::EstimateTransformation(Model* model) : model_(model) {
   parameters_.Bind<string>(PARAM_TYPE, &type_, "Type of transformation", "");
   parameters_.Bind<string>(PARAM_ESTIMATE_LABEL, &estimate_label_, "Label of estimate block to apply transformation to", "");
   parameters_.Bind<bool>(PARAM_TRANSFORM_WITH_JACOBIAN, &transform_with_jacobian_, "Apply jacobian during transformation", "", false);
-
   }
 
 /**
@@ -38,4 +40,17 @@ void EstimateTransformation::Validate() {
   DoValidate();
 }
 
-} /* namespace niwa */
+/**
+ * Build relationships
+ */
+void EstimateTransformation::Build() {
+  estimate_ = model_->managers().estimate()->GetEstimateByLabel(estimate_label_);
+  if (estimate_ == nullptr) {
+    LOG_ERROR_P(PARAM_ESTIMATE) << "Estimate " << estimate_label_ << " could not be found. Have you defined it?";
+    return;
+  }
+ DoBuild();
+}
+
+}
+/* namespace niwa */

@@ -1,0 +1,13 @@
+Package: CASAL2
+Title: CASAL2 extract package
+Version: 1.0
+Date: 2017-03-20
+Author: D. Fu and C. Marsh
+Description: A set of R functions for extracting and plotting from CASAL2 output files.
+Maintainer: Casal2 development team <casal2@niwa.co.nz>
+License: CPL v1.0. See the CASAL2 User Manual for license details.
+URL: http://www.niwa.co.nz
+Copyright: National Institute of Water & Atmospheric Research (NIWA),
+        New Zealand Ministry for Primary Industries.
+RoxygenNote: 6.0.1
+Built: R 3.3.3; ; 2017-06-19 03:37:30 UTC; windows

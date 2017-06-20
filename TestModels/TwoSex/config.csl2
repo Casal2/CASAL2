@@ -1,4 +1,4 @@
-!include "Observation.isam"
-!include "reports.isam"
-!include "population.isam"
-!include "estimation.isam"
+!include "Observation.csl2"
+!include "reports.csl2"
+!include "population.csl2"
+!include "estimation.csl2"

@@ -25,7 +25,13 @@ namespace estimatetransformations {
 /**
  * Default constructor
  */
+
 AverageDifference::AverageDifference(Model* model) : EstimateTransformation(model) {
+  parameters_.Bind<string>(PARAM_DIFFERENCE_ESTIMATE, &difference_estimate_label_, "The label from the @estimate block relating to the difference parameter", "");
+  parameters_.Bind<Double>(PARAM_AVERAGE_UPPER_BOUND, &average_upper_bound_, "Upper bound for the average transformed parameter", "");
+  parameters_.Bind<Double>(PARAM_AVERAGE_LOWER_BOUND, &average_lower_bound_, "Lower bound for the average transformed parameter", "");
+  parameters_.Bind<Double>(PARAM_DIFF_UPPER_BOUND, &difference_upper_bound_, "Upper bound for the difference transformed parameter", "");
+  parameters_.Bind<Double>(PARAM_DIFF_LOWER_BOUND, &difference_lower_bound_, "Lower bound for the difference transformed parameter", "");
   is_simple_ = false;
 }
 
@@ -40,25 +46,17 @@ void AverageDifference::DoValidate() {
  */
 void AverageDifference::DoBuild() {
   LOG_TRACE();
-  first_estimate_ = model_->managers().estimate()->GetEstimateByLabel(first_estimate_label_);
-  second_estimate_ = model_->managers().estimate()->GetEstimateByLabel(second_estimate_label_);
+  difference_estimate_ = model_->managers().estimate()->GetEstimateByLabel(difference_estimate_label_);
 
-  if (first_estimate_ == nullptr) {
-    LOG_ERROR_P(PARAM_FIRST_ESTIMATE) << "Estimate " << first_estimate_label_ << " could not be found. Have you defined it?";
-    return;
-  }
-  if (second_estimate_ == nullptr) {
-    LOG_ERROR_P(PARAM_SECOND_ESTIMATE) << "Estimate " << second_estimate_label_ << " could not be found. Have you defined it?";
+  if (difference_estimate_ == nullptr) {
+    LOG_ERROR_P(PARAM_DIFFERENCE_ESTIMATE) << "Estimate " << difference_estimate_label_ << " could not be found. Have you defined it?";
     return;
   }
 
-  if (first_estimate_->value() >= second_estimate_->value())
-    first_value_bigger_ = true;
-
-  first_original_upper_bound =  first_estimate_->upper_bound();
-  first_original_lower_bound =  first_estimate_->lower_bound();
-  second_original_upper_bound =  second_estimate_->upper_bound();
-  second_original_lower_bound =  second_estimate_->lower_bound();
+  average_original_upper_bound_ =  estimate_->upper_bound();
+  average_original_lower_bound_ =  estimate_->lower_bound();
+  difference_original_upper_bound_ =  difference_estimate_->upper_bound();
+  difference_original_lower_bound_ =  difference_estimate_->lower_bound();
 
 }
 
@@ -66,51 +64,39 @@ void AverageDifference::DoBuild() {
  *
  */
 void AverageDifference::Transform() {
-  LOG_WARNING() << "AverageDifference transforamtion still needs work, especially on bounds()";
-  Double first_val = first_estimate_->value();
-  Double mean = (first_val + second_estimate_->value()) / 2.0;
-  Double diff = fabs(mean - first_val);
-
+  x1_ = estimate_->value();
+  Double mean = (x1_ + difference_estimate_->value()) / 2.0;
+  Double diff = fabs(mean - x1_);
 
   // Set the first estimate as the mean and the second as the difference
-  LOG_FINE() << "Changing @estimate " << first_estimate_->label() << " from: " << first_estimate_->value() << "to: " << mean;
-  LOG_FINE() << "Changing @estimate " << second_estimate_->label() << " from: " << second_estimate_->value() << "to: " << diff;
+  LOG_MEDIUM() << "Changing @estimate " << estimate_->label() << " from: " << estimate_->value() << "to: " << mean;
+  LOG_MEDIUM() << "Changing @estimate " << difference_estimate_->label() << " from: " << difference_estimate_->value() << "to: " << diff;
 
-  first_estimate_->set_value(mean);
-  second_estimate_->set_value(diff);
+  estimate_->set_value(mean);
+  difference_estimate_->set_value(diff);
 
   // Set the bounds
-  first_estimate_->set_lower_bound(mean_lower_bound_);
-  first_estimate_->set_upper_bound(mean_upper_bound_);
-  second_estimate_->set_lower_bound(diff_lower_bound_);
-  second_estimate_->set_upper_bound(diff_upper_bound_);
-
+  estimate_->set_lower_bound(average_lower_bound_);
+  estimate_->set_upper_bound(average_upper_bound_);
+  difference_estimate_->set_lower_bound(difference_lower_bound_);
+  difference_estimate_->set_upper_bound(difference_upper_bound_);
 }
 
 /**
  *
  */
 void AverageDifference::Restore() {
-  if (first_value_bigger_) {
-    first_estimate_->set_value(first_estimate_->value() + 0.5 * second_estimate_->value());
-    second_estimate_->set_value(first_estimate_->value() - 0.5 * second_estimate_->value());
-
-  } else {
-    first_estimate_->set_value(first_estimate_->value() - 0.5 * second_estimate_->value());
-    second_estimate_->set_value(first_estimate_->value() + 0.5 * second_estimate_->value());
-  }
+	x1_ = estimate_->value() + (difference_estimate_->value() / 2.0);
+	difference_estimate_->set_value(estimate_->value() - (difference_estimate_->value() / 2.0));
+	estimate_->set_value(x1_);
   // Restore the bounds
-  first_estimate_->set_lower_bound(first_original_lower_bound);
-  first_estimate_->set_upper_bound(first_original_upper_bound);
-  second_estimate_->set_lower_bound(second_original_lower_bound);
-  second_estimate_->set_upper_bound(second_original_upper_bound);
-
-  if ((first_estimate_->value() < first_original_lower_bound) | (first_estimate_->value() > first_original_upper_bound))
-    LOG_ERROR() << "Retransformed value is: " << AS_DOUBLE(first_estimate_->value()) << " which is not within the original bounds?";
-
-  if ((second_estimate_->value() < second_original_lower_bound) | (second_estimate_->value() > second_original_upper_bound))
-    LOG_ERROR() << "Retransformed value is: " << AS_DOUBLE(second_estimate_->value()) << " which is not within the original bounds?";
-
+  estimate_->set_lower_bound(average_original_lower_bound_);
+  estimate_->set_upper_bound(average_original_upper_bound_);
+  difference_estimate_->set_lower_bound(difference_original_lower_bound_);
+  difference_estimate_->set_upper_bound(difference_original_upper_bound_);
+  // Set the first estimate as the mean and the second as the difference
+  LOG_MEDIUM() << "Restoring @estimate " << estimate_->label() << "to: " << estimate_->value();
+  LOG_MEDIUM() << "Restoring @estimate " << difference_estimate_->label() << "to: " << difference_estimate_->value();
 }
 
 /**
@@ -123,8 +109,8 @@ void AverageDifference::Restore() {
 
 std::set<string> AverageDifference::GetTargetEstimates() {
   set<string> result;
-  result.insert(first_estimate_label_);
-  result.insert(second_estimate_label_);
+  result.insert(estimate_label_);
+  result.insert(difference_estimate_label_);
 
   return result;
 }

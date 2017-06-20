@@ -26,7 +26,6 @@ namespace estimatetransformations {
  * Default constructor
  */
 Log::Log(Model* model) : EstimateTransformation(model) {
-  //parameters_.Bind<string>(PARAM_ESTIMATE, &estimate_label_, "The parameter to use in the log transformation", "");
 }
 
 /**
@@ -40,15 +39,6 @@ void Log::DoValidate() {
  */
 void Log::DoBuild() {
   LOG_FINEST() << "transformation on @estimate " << estimate_label_;
-
-  estimate_ = model_->managers().estimate()->GetEstimateByLabel(estimate_label_);
-
-  if (estimate_ == nullptr) {
-    LOG_ERROR_P(PARAM_ESTIMATE) << "Estimate " << estimate_label_ << " could not be found. Have you defined it?";
-    return;
-  }
-
-  LOG_FINEST() << "found estimate";
 
   original_lower_bound_ = estimate_->lower_bound();
   original_upper_bound_ = estimate_->upper_bound();

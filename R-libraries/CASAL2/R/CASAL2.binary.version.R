@@ -1,4 +1,4 @@
 "CASAL2.binary.version"<-
 function() {
-return("2017-04-19")
+return("2017-06-18")
 }

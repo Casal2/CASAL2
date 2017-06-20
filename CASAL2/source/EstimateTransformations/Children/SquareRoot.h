@@ -40,10 +40,7 @@ protected:
   void                        DoBuild() override final;
 
 private:
-  // members
-  //string                      estimate_label_ = "";
-  Estimate*                   estimate_;
-  Double                      current_untransformed_value_;
+
 
 };
 

@@ -24,7 +24,6 @@ namespace additionalpriors {
  * Default constructor
  */
 VectorSmoothing::VectorSmoothing(Model* model) : AdditionalPrior(model) {
-  parameters_.Bind<string>(PARAM_PARAMETER, &parameter_, "Name of the parameter to generate additional prior on", "");
   parameters_.Bind<bool>(PARAM_LOG_SCALE, &log_scale_, "Should sums of squares be calculated on the log scale?", "", false);
   parameters_.Bind<Double>(PARAM_MULTIPLIER, &multiplier_, "Multiply the penalty by this factor", "", 1);
   parameters_.Bind<unsigned>(PARAM_LOWER_BOUND, &lower_, "First element to apply the penalty to in the vector", "", 0u);
@@ -48,6 +47,7 @@ void VectorSmoothing::DoBuild() {
   }
 
   addressable::Type addressable_type = model_->objects().GetAddressableType(parameter_);
+  LOG_FINEST() << "addressable type = " << addressable_type;
   switch(addressable_type) {
     case addressable::kInvalid:
       LOG_CODE_ERROR() << "Invalid addressable type: " << parameter_;

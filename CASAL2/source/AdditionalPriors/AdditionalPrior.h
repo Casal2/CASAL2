@@ -44,6 +44,7 @@ protected:
   virtual void                DoBuild() = 0;
 
   // members
+  string											parameter_;
   Model*                      model_;
   ScoreFunction               score_function_ = 0;
 };

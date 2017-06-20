@@ -13,9 +13,12 @@
 
 #include "BaseClasses/Object.h"
 
+#include "Model/Model.h"
+
 // namespaces
 namespace niwa {
 using std::set;
+class Estimate;
 class Model;
 
 // classes
@@ -26,7 +29,7 @@ public:
   explicit EstimateTransformation(Model* model);
   virtual                     ~EstimateTransformation() = default;
   void                        Validate();
-  void                        Build() { DoBuild();};
+  void                        Build();
   void                        Reset() { };
   // pure virtual
   virtual void                Transform() = 0;
@@ -43,6 +46,8 @@ protected:
 
   // members
   Model*                      model_ = nullptr;
+  Estimate*                   estimate_ = nullptr;
+  Double                      current_untransformed_value_;
   string                      estimate_label_;
   Double                      lower_bound_ = 0.0;
   Double                      upper_bound_ = 0.0;

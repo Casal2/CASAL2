@@ -19,7 +19,6 @@
 
 // namespaces
 namespace niwa {
-class Estimate;
 namespace estimatetransformations {
 
 // classes
@@ -39,9 +38,7 @@ protected:
   void                        DoBuild() override final;
 
 private:
-  // members
-  Estimate*                   estimate_ = nullptr;
-  Double                      current_untransformed_value_;
+
 
 };
 

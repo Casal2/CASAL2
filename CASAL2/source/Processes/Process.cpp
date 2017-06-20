@@ -91,6 +91,7 @@ void Process::Build() {
  * Flush the print_values_ that are created in the StoreForReport() method. To ensure when CASAL2 is in an iterative state the reports dosen't keep appending information
  */
 void Process::Reset(){
+	LOG_TRACE();
   print_values_.clear();
   print_tabular_values_.clear();
   DoReset();

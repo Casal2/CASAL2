@@ -24,12 +24,12 @@
     ## Remove any lines that begin with a #
     file <- file[substring(file, 1, 1) != "#"]
     ## Find and remove any lines that begin or end with { or } which is also a comment
-    index1 <- ifelse(substring(file, 1, 1) == "{", 1:length(file), 0)
-    index2 <- ifelse(substring(file, 1, 1) == "}", 1:length(file), 0)
+    index1 <- ifelse(substring(file, 1, 1) == "/*", 1:length(file), 0)
+    index2 <- ifelse(substring(file, 1, 1) == "*/", 1:length(file), 0)
     index1 <- index1[index1 != 0]
     index2 <- index2[index2 != 0]
     if (length(index1) != length(index2)) 
-        stop(paste("Error in the file ", filename, ". Cannot find a matching '{' or '}'", 
+        stop(paste("Error in the file ", filename, ". Cannot find a matching '/*' or '*/'", 
             sep = ""))
     if (length(index1) > 0 || length(index2) > 0) {
         index <- unlist(apply(cbind(index1, index2), 1, function(x) seq(x[1], 

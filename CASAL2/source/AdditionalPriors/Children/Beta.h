@@ -17,6 +17,7 @@
 // headers
 #include "AdditionalPriors/AdditionalPrior.h"
 
+
 // namespaces
 namespace niwa {
 namespace additionalpriors {
@@ -28,11 +29,13 @@ public:
   Beta(Model* model);
   virtual                     ~Beta() = default;
   void                        DoValidate() override final;
-  void                        DoBuild() override final { };
+  void                        DoBuild() override final;
   Double                      GetScore() override final;
 
 protected:
   // members
+  Double* 										Addressable_ = nullptr;
+
   Double                      mu_ = 0.0;
   Double                      sigma_ = 0.0;
   Double                      a_ = 0.0;

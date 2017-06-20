@@ -29,9 +29,12 @@ Manager::Manager() {
  */
 void Manager::Update(unsigned current_year) {
   LOG_TRACE();
-  for (auto time_varying : objects_)
+  for (auto time_varying : objects_) {
     time_varying->Update(current_year);
+    LOG_FINEST() << "updating time_varying class " << time_varying->label();
+  }
 }
+
 
 /**
  *

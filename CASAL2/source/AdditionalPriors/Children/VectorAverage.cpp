@@ -23,7 +23,6 @@ namespace additionalpriors {
  * Default constructor
  */
 VectorAverage::VectorAverage(Model* model) : AdditionalPrior(model) {
-  parameters_.Bind<string>(PARAM_PARAMETER, &parameter_, "Name of the parameter to generate additional prior on", "");
   parameters_.Bind<string>(PARAM_METHOD, &method_, "What calculation method to use, either k, l, or m", "", PARAM_K);
   parameters_.Bind<Double>(PARAM_K, &k_, "K Value to use in the calculation", "");
   parameters_.Bind<Double>(PARAM_MULTIPLIER, &multiplier_, "Multiplier for the penalty amount", "", 1);
@@ -44,6 +43,7 @@ void VectorAverage::DoBuild() {
   }
 
   addressable::Type addressable_type = model_->objects().GetAddressableType(parameter_);
+  LOG_FINEST() << "type = " << addressable_type;
   switch(addressable_type) {
     case addressable::kInvalid:
       LOG_CODE_ERROR() << "Invalid addressable type: " << parameter_;

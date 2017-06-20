@@ -41,7 +41,6 @@ protected:
 
 private:
   // members
-  string                      parameter_ = "";
   string                      method_ = "";
   map<unsigned, Double>*      addressable_map_ = nullptr;
   vector<Double>*             addressable_vector_ = nullptr;

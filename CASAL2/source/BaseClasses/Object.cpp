@@ -227,6 +227,7 @@ vector<Double>* Object::GetAddressableVector(const string& label) {
 /**
  *
  */
+
 addressable::Type Object::GetAddressableType(const string& label) const {
   if (addressable_types_.find(label) == addressable_types_.end()) {
     for (auto container : unnamed_addressable_s_map_vector_) {

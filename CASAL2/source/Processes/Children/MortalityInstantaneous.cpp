@@ -168,7 +168,7 @@ void MortalityInstantaneous::DoValidate() {
 
     fisheries_[new_fishery.label_] = new_fishery;
     
-    RegisterAsAddressable(PARAM_FISHERY + string("_") + utilities::ToLowercase(new_fishery.label_), &fisheries_[new_fishery.label_].catches_);
+    RegisterAsAddressable(PARAM_METHOD + string("_") + utilities::ToLowercase(new_fishery.label_), &fisheries_[new_fishery.label_].catches_);
 
     LOG_FINEST() << "Creating addressable: " << PARAM_FISHERY + string("_") + utilities::ToLowercase(new_fishery.label_), &fisheries_[new_fishery.label_].catches_;
     // remove after build
@@ -184,6 +184,9 @@ void MortalityInstantaneous::DoValidate() {
       FisheryCategoryData new_category_data(fisheries_[new_fishery.label_]);
       new_category_data.fishery_label_     = row[fishery_index];
       new_category_data.category_label_    = categories[i];
+      // check categories are in category_labels_ as well
+		  if (std::find(category_labels_.begin(), category_labels_.end(), categories[i]) == category_labels_.end())
+		  	LOG_ERROR_P(PARAM_METHOD) << "Found the category " << categories[i] << " in table but not in the '" << PARAM_CATEGORIES << "' subcommand, this means you are applying exploitation processes and not natural mortality, which is not currently allowed. Make sure all categories in the methods table are in the categories subcommand.";
       new_category_data.selectivity_label_ = selectivities[i];
       fishery_categories_.push_back(new_category_data);
     }
@@ -307,6 +310,7 @@ void MortalityInstantaneous::DoBuild() {
  * Reset the M parameter
  */
 void MortalityInstantaneous::DoReset() {
+	LOG_TRACE();
   unsigned m_iter = 0;
   for (auto m : m_) {
     m_input_[m_iter] = m.second;
@@ -332,13 +336,12 @@ void MortalityInstantaneous::DoExecute() {
    */
   map<string, map<unsigned, Double>> category_by_age_with_exploitation;
   unsigned category_offset = 0;
-
   if (model_->state() != State::kInitialise) {
     map<string, Double> fishery_vulnerability;
     category_offset = 0;
     for (auto categories : partition_) {
+    	LOG_FINEST() << "applying mortality to category " << categories->name_;
       categories->UpdateMeanWeightData();
-
       for (auto fishery_category : fishery_categories_) {
         if (fishery_category.category_label_ != categories->name_ || fisheries_[fishery_category.fishery_label_].time_step_index_ != time_step_index)
           continue;
@@ -365,7 +368,7 @@ void MortalityInstantaneous::DoExecute() {
       // If fishery occurs in this time step calculate exploitation rate
       if (fishery.time_step_index_ == time_step_index) {
         exploitation = fishery.catches_[model_->current_year()] / utilities::doublecompare::ZeroFun(fishery_vulnerability[fishery.label_]);
-        LOG_FINEST() << " Vulnerable biomass for fishery : " << fishery.label_ << " = " << fishery_vulnerability[fishery.label_] << " with Catch = " << fishery.catches_[model_->current_year()];
+        LOG_FINEST() << " Vulnerable biomass for fishery : " << fishery.label_ << " = " << fishery_vulnerability[fishery.label_] << " with Catch = " << fishery.catches_[model_->current_year()] << " = exploitation = " << exploitation;
       }
 
       fishery_exploitation[fishery.label_] = exploitation;
@@ -392,7 +395,6 @@ void MortalityInstantaneous::DoExecute() {
       for (auto age_exploitation : category_by_age_with_exploitation[fishery_category.category_label_]) {
         if (fisheries_[fishery_category.fishery_label_].time_step_index_ != time_step_index)
           continue;
-
         uobs_fishery[fishery_category.fishery_label_] = uobs_fishery[fishery_category.fishery_label_] > age_exploitation.second
           ? uobs_fishery[fishery_category.fishery_label_] : age_exploitation.second;
       }
@@ -402,8 +404,8 @@ void MortalityInstantaneous::DoExecute() {
       LOG_FINE() << uobs.first << " Highest exploitation rate = " << uobs.second;
       Double u_max_ = fisheries_[uobs.first].u_max_;
       if (uobs.second > u_max_) {
-        fishery_exploitation[uobs.first] *= (u_max_ / uobs.second);
-        LOG_FINE() << " Uobs.first = " << uobs.first << " Uobs second = " << uobs.second << " and u_max " << u_max_;
+        fishery_exploitation[uobs.first] *= (u_max_ / uobs.second); // This may seem weird to be greater than u_max but later we multiply it by the selectivity which scales it to U_max
+        LOG_FINE() << "fishery = " << uobs.first << " U_obs = " << uobs.second << " and u_max " << u_max_;
         LOG_FINE() << uobs.first << " Rescaled exploitation rate = " << fishery_exploitation[uobs.first];
         recalculate_age_exploitation = true;
         fisheries_[uobs.first].actual_catches_[model_->current_year()] = fishery_vulnerability[fisheries_[uobs.first].label_] * u_max_;
@@ -465,8 +467,11 @@ void MortalityInstantaneous::DoExecute() {
       if (fisheries_[fishery.label_].time_step_index_ != time_step_index)
       	continue;
 			StoreForReport("fishing_pressure[" + fishery.label_ + "]: ", AS_DOUBLE(fishery_exploitation[fishery.label_]));
-			StoreForReport("Catch[" + fishery.label_ + "]: ",AS_DOUBLE(fisheries_[fishery.label_].catches_[model_->current_year()]));
-      LOG_FINEST() << "fishery = " << fishery.label_ << " catch = " << fishery_exploitation[fishery.label_] << " U = " << fisheries_[fishery.label_].catches_[model_->current_year()];
+			StoreForReport("catch[" + fishery.label_ + "]: ",AS_DOUBLE(fisheries_[fishery.label_].catches_[model_->current_year()]));
+			Double temp = fisheries_[fishery.label_].catches_[model_->current_year()] * fishery_exploitation[fishery.label_];
+			StoreForReport("actual_catch[" + fishery.label_ + "]: ",AS_DOUBLE(temp));
+
+      LOG_FINEST() << "fishery = " << fishery.label_ << " catch = " << fisheries_[fishery.label_].catches_[model_->current_year()] << " U = " << fishery_exploitation[fishery.label_];
 
     }
     // Store for Tabular report
@@ -488,7 +493,7 @@ void MortalityInstantaneous::DoExecute() {
     }
 
 
-  } // if (model_->state() != State::kInitialise && std::find(years_.begin(), years_.end(), model_->current_year()) != years_.end()) {
+  } // if (model_->state() != State::kInitialise )
 
   /**
    * Remove the stock now using the exploitation rate
