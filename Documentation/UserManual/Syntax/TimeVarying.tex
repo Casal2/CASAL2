@@ -41,13 +41,13 @@
 \subsubsection[Constant]{\commandlabsubarg{time\_\_varying}{type}{constant}}
 
 \defSub{values} {Value to assign to addressable}
-\defType{constant vector}
+\defType{estimable vector}
 \defDefault{No Default}
 
 \subsubsection[Exogenous]{\commandlabsubarg{time\_\_varying}{type}{exogenous}}
 
 \defSub{a} {Shift parameter}
-\defType{constant}
+\defType{estimable}
 \defDefault{No Default}
 
 \defSub{exogeneous\_variable} {Values of exogeneous variable for each year}
@@ -57,21 +57,21 @@
 \subsubsection[Linear]{\commandlabsubarg{time\_\_varying}{type}{linear}}
 
 \defSub{slope} {The slope of the linear trend (additive unit per year}
-\defType{constant}
+\defType{estimable}
 \defDefault{No Default}
 
 \defSub{intercept} {The intercept of the linear trend value for the first year}
-\defType{constant}
+\defType{estimable}
 \defDefault{No Default}
 
 \subsubsection[Random Draw]{\commandlabsubarg{time\_\_varying}{type}{random\_draw}}
 
 \defSub{mean} {Mean}
-\defType{constant}
+\defType{estimable}
 \defDefault{0}
 
 \defSub{sigma} {Standard deviation}
-\defType{constant}
+\defType{estimable}
 \defDefault{1}
 
 \defSub{distribution} {distribution}
@@ -82,11 +82,11 @@
 \subsubsection[Random Walk]{\commandlabsubarg{time\_\_varying}{type}{random\_walk}}
 
 \defSub{mean} {Mean}
-\defType{constant}
+\defType{estimable}
 \defDefault{0}
 
 \defSub{sigma} {Standard deviation}
-\defType{constant}
+\defType{estimable}
 \defDefault{1}
 
 \defSub{upper\_bound} {Upper bound for the random walk}

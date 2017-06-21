@@ -40,8 +40,6 @@ protected:
   // methods
   void                        DoValidate() override final;
   void                        DoBuild() override final;
-
-private:
   // members
   map<unsigned, Double>*      addressable_map_ = nullptr;
   vector<Double>*             addressable_vector_ = nullptr;

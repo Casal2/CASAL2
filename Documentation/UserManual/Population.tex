@@ -1137,8 +1137,7 @@ Parameters are shifted based on an exogenous variable, an example of this is an 
 \end{equation}
 where $\delta_y$ is the shift or deviation in parameter $\theta_y$ in year $y$ to generate the new parameter value in year $y$ ($\theta'_y$). $a$ is an estimable shift parameter, $E$ is the exogenous variable and $E_y$ is the value of this variable in year $y$. For more information readers can see \cite{francis_03}.
 
-\subsection{\I{Equation Parser}\label{sec:eq_parser}}
-\CNAME\ has the ability to use an equation parser, this is currently implemented in two classes of the model, Projections, Derived quantities, \textbf{link to these}. Examples of syntax for implementing the equation parser follow from here. But for a more detailed look at the parser see \url{https://github.com/nickgammon/parser/blob/master/parser.cpp}\\
+
 \subsection{\I{Equation Parser}\label{sec:eq_parser}}
 \CNAME\ has the ability to use an equation parser, this is currently implemented in two classes of the model, Projections (section~\ref{sec:projections}), Derived quantities (section~\ref{sec:derived-quantities}) and reports (section~\ref{sec:report-section}). Examples of syntax for implementing the equation parser follow from here. But for a more detailed look at the parser see \url{https://github.com/nickgammon/parser/blob/master/parser.cpp}\\
 
@@ -1175,5 +1174,13 @@ You can link if else statements as well but be warned the syntax becomes a bit m
 		else R0 must be less than 10 return 66
 		\end{verbatim}}}
 
-Constraints, are that you can only reference singletons so cannot apply an equation to vector parameters for example, in a harvest control rule setting you may want to future catch based on what the current percen $B_0$ is,
+Constraints, are that you can only reference singletons so cannot apply an equation to vector parameters for example, you can't reference \subcommand{process[Recruit].ycs\_values\{1974:1980\}}. To see which parameters you can include in an equation parser go to the syntax section (Section~\ref{sec:syntax}) any subcommand that has a \textbf{Type} Estimable should in theory be addressed in an equation parser.
 
+With the equation parser it is difficult to catch all user configuration errors. Such as we cannot check whether a parameter that exists in the system has been populated when the user requires it. For example if you wanted to say that next years (2015) removals was based on the this years (2014) state of the population. The user can easily specify the wrong year;
+{\small{\begin{verbatim}
+		parameter process[removals].catch
+		year 2015
+		equation derived_quantity[percent_b0].values{2020}
+		\end{verbatim}}}
+	
+The above would be an acceptable equation but obviously will cause non-sensical results, because you are asking for a value in 2020 when you are in 2015. This is just a caution that although the equation parser is great and adds a great deal of flexibility, users should be careful because it is easy to mis-specify and near impossible for the development team to catch all errors.

@@ -38,14 +38,13 @@ protected:
   // methods
   void                        DoValidate() override final;
   void                        DoBuild() override final;
-
-private:
   // members
   string                      method_ = "";
   map<unsigned, Double>*      addressable_map_ = nullptr;
   vector<Double>*             addressable_vector_ = nullptr;
   Double                      multiplier_ = 0.0;
   Double                      k_;
+
 };
 
 } /* namespace additionalpriors */
