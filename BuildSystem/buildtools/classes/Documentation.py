@@ -416,7 +416,8 @@ class VariableLoader:
           name = pieces[0]
           variable = pieces[1].replace('&', '').replace(')', '').lstrip().rstrip()
 	  lookup = pieces[2].replace('addressable::k', '').replace(')', '').lstrip().rstrip()
-	  
+	
+	## At some point it would be nice to add the lookup into the auto-documentation but that can wait.
         print '--> Estimable: ' + name + ' with variable ' + variable + ' lookup = ' + lookup   
         if name in translations_:    
           name = translations_[name]

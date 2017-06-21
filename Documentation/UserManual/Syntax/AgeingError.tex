@@ -15,7 +15,7 @@
 \subsubsection[Normal]{\commandlabsubarg{ageing\_\_error}{type}{normal}}
 
 \defSub{cv} {CV of the misclassification matrix}
-\defType{constant}
+\defType{estimable}
 \defDefault{No Default}
 \defLowerBound{0.0 (inclusive)}
 
@@ -26,13 +26,13 @@
 \subsubsection[Off By One]{\commandlabsubarg{ageing\_\_error}{type}{off\_by\_one}}
 
 \defSub{p1} {proportion misclassified as one year younger, e.g., the proportion of age 3 individuals that were misclassified as age 2}
-\defType{constant}
+\defType{estimable}
 \defDefault{No Default}
 \defLowerBound{0.0 (inclusive)}
 \defUpperBound{1.0 (inclusive)}
 
 \defSub{p2} {proportion misclassified as one year older, e.g., the proportion of age 3 individuals that were misclassified as age 4}
-\defType{constant}
+\defType{estimable}
 \defDefault{No Default}
 \defLowerBound{0.0 (inclusive)}
 \defUpperBound{1.0 (inclusive)}

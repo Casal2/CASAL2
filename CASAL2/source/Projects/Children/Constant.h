@@ -32,7 +32,7 @@ public:
   void                        DoReset() override final;
   void                        DoUpdate() override final;
 
-private:
+protected:
   // members
   vector<Double>              values_;
   Double                      value_;

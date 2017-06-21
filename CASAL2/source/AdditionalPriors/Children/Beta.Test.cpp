@@ -23,18 +23,19 @@
 namespace niwa {
 namespace additionalpriors {
 
-using ::testing::Return;
+using::testing::Return;
 
 /*
  * Mock class to make testing easier
  */
 class MockBeta : public Beta {
 public:
-  MockBeta(Model* model, double mu, double sigma, double a, double b) : Beta(model) {
+  MockBeta(Model* model, double mu, double sigma, double a, double b, double* parameter) : Beta(model) {
     mu_ = mu;
     sigma_ = sigma;
     a_ = a;
     b_ = b;
+    Addressable_ = parameter;
   }
 };
 
@@ -44,14 +45,14 @@ public:
 TEST(AdditionalPriors, Beta) {
   // layout is mu, sigma, a, b, expected_score
   vector<vector<double>> values = {
-      { 4, 2, 2, 7, 0 },
-      { 4, 2, 2, 7, 0 }
+      { 4, 2, 2, 7, 5, 1.3640928573264497},
+      { 4, 2, 2, 7, 6, 1.1090354888959124}
   };
 
   Model model;
   for (auto line : values) {
-    MockBeta beta(&model, line[0], line[1], line[2], line[3]);
-//    EXPECT_DOUBLE_EQ(line[4], beta.GetScore());
+    MockBeta beta(&model, line[0], line[1], line[2], line[3], &line[4]);
+    EXPECT_DOUBLE_EQ(line[5], beta.GetScore());
   }
 }
 

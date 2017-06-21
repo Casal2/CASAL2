@@ -17,7 +17,6 @@
 #include "Model/Model.h"
 #include "Partition/Partition.h"
 #include "TestResources/TestFixtures/InternalEmptyModel.h"
-#include "TestResources/Models/CasalComplex1.h"
 
 // Namespaces
 namespace niwa {

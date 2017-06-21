@@ -112,7 +112,7 @@ An auto-differentiable minimiser for non-linear models.
 		tolerance 1e-6		
 		\end{verbatim}}}
 \subsubsection{\I{CPPAD minimiser}}
-An auto-differentiable minimiser for non-linear models.
+An auto-differentiable minimiser for non-linear models using the mumps solver, see
 {\small{\begin{verbatim}
 		@minimiser CPPAD
 		type cppad
@@ -126,16 +126,6 @@ Non auto-diff minimiser
 		tolerance 1e-6
 		iterations 2500
 		evaluations 4000
-		\end{verbatim}}}
-
-\subsubsection{\I{De solver minimiser}}
-Non auto-diff minimiser
-{\small{\begin{verbatim}
-@minimiser de_soler
-type de_solver
-covariance false
-population_size 100
-max_generations 1000
 		\end{verbatim}}}
 
 \subsection{\I{Posterior profiles}\label{sec:estimate-profiles}}
@@ -327,6 +317,13 @@ Additional priors can be thought of as the inverse of penalties. They constrain 
 	\item \texttt{vector\_smoothing}
 	\\\\
 	Applied to a vector parameter. Square of (mean(vector)-k), or of (mean(log(vector))-l), or of (log(mean(vector)/m)). Encourages the vector to average arithmetically to k or m, or geometrically to exp(l). Typically used for YCS with k=1 or m=1 or l=0, to encourage the YCS to centre on 1. Optionally, you can choose to exclude indices outside a given set of bounds.
+	\\\\
+	\item{Beta\index{Beta prior}\index{Priors ! Beta} with mean $\mu$ and standard deviation $\sigma$, and range parameters $A$ and $B$, for parameter value = $p$}
+	
+	\begin{equation}
+	- \log \left(\pi \left( p \right) \right) = \left( 1 - m \right) \log \left( p - A \right) + \left( 1 - n \right)\log \left( B - p \right)
+	\end{equation}	
+	where $\nu  = \frac{\mu  - A}{B - A}$, and $\tau = \frac{\left(\mu -A \right)\left(B - \mu \right)}{\sigma ^2} - 1$ and then $m=\tau \nu$ and $n=\tau(1-\nu)$. Note that the beta prior is undefined when $\tau \leq 0$.
 \end{enumerate}
 
 \subsubsection{\I{Estimate Transformations}\label{sec:transformations}}
