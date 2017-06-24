@@ -16,8 +16,8 @@ An example of a bad commit message is:
   Changed some stuff to make it better
 
 An example of a good commit message is: 
-  CHG: AgeingErrors now rebuild. This allows them to use estimables correctly.
-  CHG: AgeingErrors now build the Matrix slightly differently
+  CHG: AgeingErrors now rebuild. This allows them to use Addressables correctly.
+  CHG: AgeingErrors/OffbyOne now build the Matrix slightly differently see .cpp for more info
   CHG: Derived Quantities now rebuild for estimation
   CHG: NormalDistribution now uses a static function, no longer inherits from CBaseManager
   CHG: AgeingError Unit Tests for Observations merged into a single file.

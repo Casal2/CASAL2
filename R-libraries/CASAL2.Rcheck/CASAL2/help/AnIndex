@@ -1,10 +1,12 @@
 check_short_hand	check_short_hand
 convert.to.lines	convert.to.lines
+CV.for.CPUE	CV.for.CPUE
 DoubleExponential	DoubleExponential
 DoubleNormal	DoubleNormal
 evalit	evalit
-extract	extract
 extract.csl2.file	extract.csl2.file
+extract.mcmc	extract.mcmc
+extract.mpd	extract.mpd
 extract.parameters	extract.parameters
 get.casal2_list	get.casal2_list
 get.line.label	get.line.label
@@ -29,6 +31,8 @@ make.vector	make.vector
 param.profile	param.profile
 param.profile.by.cohort	param.profile.by.cohort
 Paste	Paste
+plot.derived_quantities	plot.derived_quantities
+plot.derived_quantities.casal2MPD	plot.derived_quantities
 pos	pos
 pos.match	pos.match
 pow	pow

@@ -56,7 +56,7 @@ Removing Casal2
 To uninstall, use the uninstaller. This will remove any 
 installed files and registry entries automatically. To 
 uninstall manually, delete the files from your computer 
-(typically stored in c:\Program Files\CASAL, but this 
+(typically stored in c:\Program Files\CASAL2, but this 
 depends on your choices when you installed 
 the program) and any program links in your Start menu.
 

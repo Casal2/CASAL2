@@ -1,22 +1,47 @@
 \section{\I{Post processing output using \R} \label{sec:post-processing}}\index{Post processing}\index{Post processing section}
 
-In the downloaded bundle is a R-package that reads \CNAME\ output into R. The \CNAME\ package has multiple functionalities, it can dump \CNAME\ into R as a list. It also has plotting and summarising functions for summarising \CNAME\ output.
+In the downloaded bundle is a R-package that reads \CNAME\ output into \R. The \CNAME\ package has multiple functionalities, it can dump \CNAME\ into \R\ as a list. It also has plotting and summarising functions for summarising \CNAME\ output.
 
-The \texttt{extract()} function will read and process \CNAME\ output files into R. 
+The \texttt{extract.mpd()} function will read and process \CNAME\ output files into \R\ that have been generated from the following \CNAME\ runs, \texttt{-r}, \texttt{-e}, \texttt{-p}, \texttt{-f} that has not been run with the \texttt{--tabular}. This function expects a certain format of the output (i.e every report starts with * and finishs with *end), if this format is broken the library will most likely spit the dummy. \CNAME's reported output is written so that each \command{report} will start with a '*' and end with `*end'. Users can use this format as the basis to construct \R\ or other functions that read \CNAME\ output to identify and read individual reports for post-processing.
 
-\CNAME\ output is written so that each \command{report} will start with a `*' and end with `*end'. Users can use this format as the basis to construct R or other functions that read \CNAME\ output to identify and read individual reports for post-processing.
+The \texttt{extract.tabular()} function will read and process \CNAME\ output files into \R\ that have been generated from any \CNAME\ run that has been run with the \texttt{--tabular}. Although the 
 
+The \texttt{extract.mcmc()} function will read and process \CNAME\ samples and objectives files into \R\ that have been generated from \CNAME\ \texttt{-m} runs.
 
-The following is a list of R functions with their descriptions that are available in the R package.
+These extract functions differ by how the expected output is structured and they each create a different \texttt{casal2} object in \R\ that when run with \texttt{summary, plot} functions will generate different plots. The following is a list of R functions with their descriptions that are available in the R package.
 
 \begin{itemize}
-	\item \texttt{extract()} - import \CNAME\ output into R as a list
+	\item \texttt{extract.mpd()} - import \CNAME\ default output into \R\ as a list
+	\item \texttt{extract.mcmc()} - import \CNAME\ mcmc output into \R\ as a list
+	\item \texttt{extract.tabular()} - import \CNAME\ tabular output into \R\ as a list
+	\item \texttt{extract.parameters()} - import \CNAME\ parameter files into \R\ as a list
+	\item \texttt{plot.derived\_quantities()} - plot derived quantities
+	\item \texttt{plot.selectivities()} - plot selectivities
+	\item \texttt{summary()} - summarise a model run	
+	\item \texttt{extract.csl2.file} - read \CNAME\ .csl2 (configuration) file into \R\ as a list
+	\item \texttt{write.csl2.file} - write \CNAME\ .csl2 (configuration) file from R
+	\item \texttt{ReadSimulatedData} - read \CNAME\ output into \R\ from a \texttt{casal2 -s} run		
 	\item \texttt{param.profile()} - plot a parameter profile, from a \texttt{casal2 -p} run
 	\item \texttt{param.profile.by.cohort} - plot a parameter profile for an age compositional dataset by cohort and category, from a \texttt{casal2 -p} run
-	\item \texttt{extract.csl2.file} - read \CNAME\ .csl2 (configuration) file into R as a list
-	\item \texttt{write.csl2.file} - write \CNAME\ .csl2 (configuration) file from R
-	\item \texttt{ReadSimulatedData} - read \CNAME\ output into R from a \texttt{casal2 -s} run		
+	
 \end{itemize}
 
+specific settings for these functions can be queried once you have loaded the \CNAME\ R library into your current R session via (\texttt{library(CASAL2)}), using the standard \R\ help syntax \texttt{?} (i.e. \texttt{?param.profile()})
+\\
+\paragraph*{Standard diagnostics and plots for model output}
+An aspect of \CNAME\ that we have added to aid in userability is an \R\ package that has functions that can summarise and diagnose a model with ease. Stock synthesis is exceptional for having a well tested and used \R\ package, this our attempt of trying to follow suit.
 
-specific settings for these functions can be queried once you have loaded the \CNAME\ R library into your current R session vie (\texttt{library(CASAL2)}), using the standard \texttt{?} (i.e. \texttt{?param.profile()})
+\texttt{plot.mpd.derived.quantity()}
+
+\texttt{plot.mpd.derived.quantity()}
+Generally when comparing model outputs we are either comparing different parameters for the same model structure (Option 1) or comparing outputs from multiple model structures (Option 2). This function in theory should work for both of these.
+
+\texttt{plot.mpd.selectivities()}
+
+
+\texttt{plot.mcmc.pearsons.residuals()}
+
+
+\paragraph*{DataWeighting}
+An important component of stock assessment is dealing with data conflicts through the use of dataweighting. There are a range of methods for this for a great summary see \textbf{Reference Chris's papers.}. We have re-written Chris's DataWeighting
+

@@ -35,7 +35,7 @@ type partition
 time_step Jul_Sep
 years 1972:2013
 
- {
+/*
 @report SAsl
 type selectivity
 selectivity SAsl
@@ -48,4 +48,4 @@ selectivity Msel
 type partition_mean_weight
 time_step step1
 years 1975
-}
+*/

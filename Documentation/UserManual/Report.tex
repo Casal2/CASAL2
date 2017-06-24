@@ -1,7 +1,7 @@
 \section{\I{The report section}\label{sec:report-section}}\index{Reports}\index{Reports section}
 The report section specifies the printouts and other outputs from the model. \CNAME\ does not, in general, produce any output unless requested by a valid \command{report} block. 
 
-Reports from \CNAME\ can be defined to print partition and states objects at a particular point in time, observation summaries, estimated parameters and objective function values. See below for a more extensive list, and an example of an observation report.
+Reports from \CNAME\ can be defined to print partition and states objects at a particular point in time, observation summaries, estimated parameters and objective function values. See below for a more extensive list of report types, and an example of an observation report.
 
 {\small{\begin{verbatim}
 		@report observation_age ## label of report
@@ -14,7 +14,7 @@ Reports from \CNAME\ can be defined to print partition and states objects at a p
 		plus_group
 		etc ...
 		\end{verbatim}}}
-
+\textsl{}
 Reports from \CNAME\ all conform to a standard style\index{Reports ! standard style} (with one exception --- the \texttt{output\_parameters} report, see below). The standard style is that reports are prefixed with an aster-ix followed by a user-defined label and type of report in brackets (e.g., \texttt{*label (type)}), with the report ending with the line \texttt{*end}. For example,
 
 \begin{verbatim} 
@@ -111,11 +111,11 @@ Print the MCMC samples, objective function values, and proposal covariance matri
 
 \subsection{\I{Print the MCMC samples as they are calculated}}\index{Reports ! MCMC samples}
 
-Print the MCMC samples for each new \textit{i}th sample as they are calculated while doing an MCMC. The output file will be updated with each new sample as it is calculated by \CNAME. This report will print out in the following runmodes \texttt{-m}.
+Print the MCMC samples for each new \textit{i}th sample as they are calculated while doing an MCMC. The output file will be updated with each new sample as it is calculated by \CNAME. This report will print out by default using the following runmodes \texttt{-m}.
 
 \subsection{\I{Print the MCMC objective function values as they are calculated}}\index{Reports ! MCMC objective functions}
 
-Print the MCMC objective function values (along with the proposal covariance matrix) for each new \textit{i}th sample as they are calculated while doing an MCMC. The output file will be updated with each new set of objective function values as it is calculated by \CNAME. This report will print out in the following runmodes \texttt{-m}.
+Print the MCMC objective function values (along with the proposal covariance matrix) for each new \textit{i}th sample as they are calculated while doing an MCMC. The output file will be updated with each new set of objective function values as it is calculated by \CNAME. This report will print out by default using the following runmodes \texttt{-m}.
 
 \subsection{\I{Print time varying parameters}}\index{Reports ! time varying}
 
@@ -126,7 +126,7 @@ Print all \command{time\_varying} blocks with the values and years that they wer
 		type time_varying
 		\end{verbatim}}}
 
-\subsection{\I{Tabular reporting}}\index{Reports ! Tabular}
-An alternative reporting framework to the standard output is the tabular reporting. Tabular reporting is used with multiline \texttt{-i} input files (like the MCMC sample or -o outputs). Tabular reports will print out a row that will correspond with each row of the \texttt{-i} input files. Tabular reporting is in invoked at the command line using the following command \texttt{casal2 -r --tabular -i file\_name}. Currently derived quantities and estimate\_values are the only report types that are within this framework. For each input file the output will begin with the names of each column followed by a multiline report ending with the \texttt{*end} syntax. These tables can be easily read into \R\ using the \texttt{CASAL2} package and for the example of MCMC multi-line files posteriors of derived quantities can be plotted.
+\subsection{\I{Tabular reporting}}\index{Reports ! Tabular}\label{sub:tabular}
+An alternative reporting framework to the standard output is the tabular reporting. Tabular reporting is used with multiline \texttt{-i} input files (like the MCMC sample or -o outputs). Tabular reports will print out a row that will correspond with each row of the \texttt{-i} input files. Tabular reporting is invoked at the command line using the \texttt{--tabular} command e.g. (\texttt{casal2 -r --tabular -i file\_name}). Currently derived quantities, processes, observations and estimate\_values are the only report types that are within this framework. For each input file the output will begin with the names of each column followed by a multiline report ending with the \texttt{*end} syntax. These tables can be easily read into \R\ using the \texttt{CASAL2} package and for the example of MCMC multi-line files posteriors of derived quantities can be plotted. This command is the same as running \texttt{casal -v} in CASAL.
 
 
