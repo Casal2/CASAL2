@@ -520,7 +520,7 @@ table error_values
 1998 0.25
 end_table
 
-{
+/*
 @proportions_migrating pspawn
 years 1992 1998
 sex 2
@@ -533,9 +533,8 @@ dist lognormal
 1998 0.27 0.46 0.39 0.42 0.49 0.44 0.54
 cv_1992 0.25
 cv_1998 0.25
-}
 
-{
+
 
 @YCS_difference_penalty 
 label YCS.eq.13
@@ -593,4 +592,4 @@ ogive1 migration[Espmg].rates_female
 ogive2 migration[Wspmg].rates_female
 class 8
 multiplier 100
-}
+*/

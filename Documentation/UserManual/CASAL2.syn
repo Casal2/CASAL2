@@ -172,7 +172,6 @@ prey_selectivities
 print_default_reports
 print_level
 print_report
-prior_on_transformation
 process
 process_error
 process_errors

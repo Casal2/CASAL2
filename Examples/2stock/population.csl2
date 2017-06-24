@@ -193,7 +193,7 @@ end_table
 ## Oct_Nov Dec_Mar Apr_Jun End_Jun Jul_Sep
 
 ## Fishery Selectivities
-{
+/*
 @selectivity Enspsl
 type double_normal 
 length_based true
@@ -215,7 +215,8 @@ type logistic
 length_based true
 a50 50
 ato95 10
-}
+*/
+
 @selectivity Point5
 type constant
 c 0.5
@@ -260,7 +261,7 @@ sigma_l 5.5028
 sigma_r 3.24635 
 alpha 1.0
 
-{
+/*
 @selectivity Msel 
 type double_exponential
 x1	1
@@ -270,7 +271,7 @@ y0	0.2
 y1	1
 y2	0.8
 alpha 1.0
-}
+*/
 ## Migration Selectivities
 @selectivity sel_Whome
 type all_values_bounded
@@ -387,7 +388,7 @@ exogeneous_variable       305     305     305     305     305     305     305   
 a 0.4
 
 
-{
+/*
 @additional_prior Hoki_Msel
 type hoki_prior
 method ratio
@@ -396,6 +397,6 @@ mu -1.817
 sigma 0.48
 upper_bound 5
 lower_bound 9
-}
+*/
 
 

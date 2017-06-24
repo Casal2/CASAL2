@@ -1,3 +1,4 @@
+CV.for.CPUE             CV.for.CPUE
 DoubleExponential       Calculate the Double-Exponential Selectivity
                         used in Casal2
 DoubleNormal            Calculate the Double-Normal Selectivity used in
@@ -20,8 +21,11 @@ Sum                     Utility plot function
 check_short_hand        Utility extract function
 convert.to.lines        Utility extract function
 evalit                  Utility plot function
-extract                 Utility extract function
 extract.csl2.file       Model configuration write function
+extract.mcmc            extract.mcmc function for casal2 output
+extract.mpd             extract MPD function for readin in Casal2
+                        output that has been generated from a -r, -e,
+                        -f, -p run mode.
 extract.parameters      Utility extract.parameters function
 get.casal2_list         Utility function
 get.line.label          Utility extract function
@@ -46,6 +50,8 @@ param.profile.by.cohort
                         Generate an objective score profile plot for a
                         particular parameter and age compositional
                         dataset as a consequence from a casal2 -p run.
+plot.derived_quantities
+                        plot.derived_quantities default
 pos                     Utility extract function
 pos.match               Utility extract function
 pow                     Utility extract function

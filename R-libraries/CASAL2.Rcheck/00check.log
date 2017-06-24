@@ -32,13 +32,26 @@ Checking should be performed on sources prepared by 'R CMD build'.
 * checking whether the namespace can be unloaded cleanly ... OK
 * checking loading without being on the library search path ... OK
 * checking dependencies in R code ... OK
-* checking S3 generic/method consistency ... OK
+* checking S3 generic/method consistency ... WARNING
+plot:
+  function(x, ...)
+plot.derived_quantities:
+  function(model, type, report_label, xlim, ylim, xlab, ylab, main,
+           col, plot.it, ...)
+
+See section 'Generic functions and methods' in the 'Writing R
+Extensions' manual.
 * checking replacement functions ... OK
 * checking foreign function calls ... OK
 * checking R code for possible problems ... NOTE
 extract.parameters: warning in gsub(pattern = "\t", replace = " ", x =
   file[1], fixed = TRUE): partial argument match of 'replace' to
   'replacement'
+CV.for.CPUE : CV.for.lognormal.error: no visible global function
+  definition for 'optimize'
+CV.for.CPUE: no visible global function definition for 'lowess'
+CV.for.CPUE: no visible global function definition for 'plot'
+CV.for.CPUE: no visible global function definition for 'lines'
 make.list: no visible binding for global variable 'curent_no'
 param.profile: no visible global function definition for 'Max'
 param.profile: no visible global function definition for 'palette'
@@ -63,13 +76,27 @@ param.profile.by.cohort: no visible global function definition for
   'abline'
 param.profile.by.cohort: no visible global function definition for
   'legend'
+plot.derived_quantities.casal2MPD: no visible global function
+  definition for 'quantile'
+plot.derived_quantities.casal2MPD: no visible global function
+  definition for 'plot'
+plot.derived_quantities.casal2MPD: no visible global function
+  definition for 'palette'
+plot.derived_quantities.casal2MPD: no visible global function
+  definition for 'gray'
+plot.derived_quantities.casal2MPD: no visible global function
+  definition for 'lines'
+plot.derived_quantities.casal2MPD: no visible global function
+  definition for 'legend'
 reformat.compositional.data: no visible global function definition for
   'head'
 Undefined global functions or variables:
-  Max abline curent_no head legend lines palette par plot rainbow
+  Max abline curent_no gray head legend lines lowess optimize palette
+  par plot quantile rainbow
 Consider adding
-  importFrom("grDevices", "palette", "rainbow")
+  importFrom("grDevices", "gray", "palette", "rainbow")
   importFrom("graphics", "abline", "legend", "lines", "par", "plot")
+  importFrom("stats", "lowess", "optimize", "quantile")
   importFrom("utils", "head")
 to your NAMESPACE file.
 * checking Rd files ... OK
@@ -100,9 +127,6 @@ Undocumented arguments in documentation object 'convert.to.lines'
 
 Undocumented arguments in documentation object 'evalit'
   'x'
-
-Documented arguments not in \usage in documentation object 'extract':
-  'validate' 'conversion'
 
 Undocumented arguments in documentation object 'get.line.label'
   'line'
@@ -157,6 +181,9 @@ Undocumented arguments in documentation object 'param.profile.by.cohort'
 Documented arguments not in \usage in documentation object 'param.profile.by.cohort':
   'ymin'
 
+Undocumented arguments in documentation object 'plot.derived_quantities'
+  'xlim' 'ylim' 'xlab' 'ylab' 'main' 'col' 'plot.it'
+
 Undocumented arguments in documentation object 'pos'
   'vector' 'x'
 
@@ -189,9 +216,16 @@ entries, and all their arguments documented.
 The \usage entries must correspond to syntactically valid R code.
 See chapter 'Writing R documentation files' in the 'Writing R
 Extensions' manual.
+S3 methods shown with full name in documentation object 'plot.derived_quantities':
+  'plot.derived_quantities'
+
+The \usage entries for S3 methods should use the \method markup and not
+their full name.
+See chapter 'Writing R documentation files' in the 'Writing R
+Extensions' manual.
 * checking Rd contents ... OK
 * checking for unstated dependencies in examples ... OK
 * checking examples ... NONE
 * checking PDF version of manual ... OK
 * DONE
-Status: 2 WARNINGs, 1 NOTE
+Status: 3 WARNINGs, 1 NOTE
