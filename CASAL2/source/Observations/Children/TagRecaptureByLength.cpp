@@ -71,6 +71,10 @@ void TagRecaptureByLength::DoValidate() {
 
   // Expand out short hand syntax
   target_category_labels_ = model_->categories()->ExpandLabels(target_category_labels_, parameters_.Get(PARAM_TARGET_CATEGORIES));
+  for (auto year : years_) {
+  	if((year < model_->start_year()) || (year > model_->final_year()))
+  		LOG_ERROR_P(PARAM_YEARS) << "Years can't be less than start_year (" << model_->start_year() << "), or greater than final_year (" << model_->final_year() << "). Please fix this.";
+  }
 
   /**
    * Now go through each target category and split it if required, then check each piece to ensure
@@ -451,6 +455,8 @@ void TagRecaptureByLength::CalculateScore() {
    * Simulate or generate results
    * During simulation mode we'll simulate results for this observation
    */
+	LOG_FINEST() << "Calculating score for observation = " << label_;
+
   if (model_->run_mode() == RunMode::kSimulation) {
     likelihood_->SimulateObserved(comparisons_);
   } else {

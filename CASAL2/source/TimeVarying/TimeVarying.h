@@ -37,7 +37,7 @@ public:
   void                        Update(unsigned current_year);
 
   //accessors
-  map<unsigned, Double>&       ParameterByYear() { return parameter_by_year_; } // TODO: Lowercase with get_ as it's an accessor
+  map<unsigned, Double>&      get_parameter_by_year() { return parameter_by_year_; }
 
 protected:
   // methods

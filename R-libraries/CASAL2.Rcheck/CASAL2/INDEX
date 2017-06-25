@@ -13,6 +13,8 @@ Logistic                Calculate the Logistic Selectivity used in
                         Casal2
 LogisticProducing       Calculate the Logistic-Producing Selectivity
                         used in Casal2
+Method.TA1.10           Method.TA1.10
+Method.TA1.8            Method.TA1.8
 Paste                   Utility plot function
 ReadSimulatedData       Read in multiple sets of Simualted data for a
                         single observation

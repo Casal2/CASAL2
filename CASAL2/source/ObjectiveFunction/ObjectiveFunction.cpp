@@ -49,6 +49,7 @@ void ObjectiveFunction::Clear() {
  * Calculate our score for the current run
  */
 void ObjectiveFunction::CalculateScore() {
+	LOG_TRACE();
   Clear();
 
   /**

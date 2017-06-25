@@ -22,6 +22,7 @@ namespace timevarying {
  *
  */
 Manager::Manager() {
+
 }
 
 /**
