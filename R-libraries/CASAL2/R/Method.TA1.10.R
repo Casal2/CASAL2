@@ -16,7 +16,7 @@
 #'
 #' @note Method TA1.10 is described in Appendix A of the following paper Francis, R.I.C.C. (2011). Data weighting in statistical fisheries stock assessment models. 
 #' Canadian Journal of Fisheries and Aquatic Sciences 68: 1124-1138. (With corrections to the equation in Francis R.I.C.C. (2011) Corrigendum: Data weighting in statistical fisheries stock assessment models. 
-#' @export
+#' Haven't exported this function because I don't think it works even in Chris's DataWeighting package.
 
 Method.TA1.10 = function (model, Observation_label, pe.cv.stg1, plotit = F, xlim = NULL, ylim = NULL, trial.pe.cvs = seq(0, 2, 0.05)) {
     Obs <- as.matrix(fit$obs)

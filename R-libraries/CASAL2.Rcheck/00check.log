@@ -52,6 +52,19 @@ CV.for.CPUE : CV.for.lognormal.error: no visible global function
 CV.for.CPUE: no visible global function definition for 'lowess'
 CV.for.CPUE: no visible global function definition for 'plot'
 CV.for.CPUE: no visible global function definition for 'lines'
+Method.TA1.10: no visible binding for global variable 'fit'
+Method.TA1.10: no visible global function definition for 'len'
+Method.TA1.10: no visible global function definition for 'var'
+Method.TA1.10: no visible global function definition for 'approx'
+Method.TA1.10: no visible global function definition for 'plot'
+Method.TA1.10: no visible global function definition for 'points'
+Method.TA1.10: no visible global function definition for 'segments'
+Method.TA1.10: no visible global function definition for 'lines'
+Method.TA1.8: no visible global function definition for 'var'
+Method.TA1.8: no visible global function definition for 'plot'
+Method.TA1.8: no visible global function definition for 'points'
+Method.TA1.8: no visible global function definition for 'segments'
+Method.TA1.8: no visible global function definition for 'lines'
 make.list: no visible binding for global variable 'curent_no'
 param.profile: no visible global function definition for 'Max'
 param.profile: no visible global function definition for 'palette'
@@ -91,12 +104,13 @@ plot.derived_quantities.casal2MPD: no visible global function
 reformat.compositional.data: no visible global function definition for
   'head'
 Undefined global functions or variables:
-  Max abline curent_no gray head legend lines lowess optimize palette
-  par plot quantile rainbow
+  Max abline approx curent_no fit gray head legend len lines lowess
+  optimize palette par plot points quantile rainbow segments var
 Consider adding
   importFrom("grDevices", "gray", "palette", "rainbow")
-  importFrom("graphics", "abline", "legend", "lines", "par", "plot")
-  importFrom("stats", "lowess", "optimize", "quantile")
+  importFrom("graphics", "abline", "legend", "lines", "par", "plot",
+             "points", "segments")
+  importFrom("stats", "approx", "lowess", "optimize", "quantile", "var")
   importFrom("utils", "head")
 to your NAMESPACE file.
 * checking Rd files ... OK
@@ -109,6 +123,16 @@ Undocumented arguments in documentation object 'KnifeEdge'
   'Edge'
 Documented arguments not in \usage in documentation object 'KnifeEdge':
   'edge'
+
+Undocumented arguments in documentation object 'Method.TA1.10'
+  'plotit'
+Documented arguments not in \usage in documentation object 'Method.TA1.10':
+  'plot.it'
+
+Undocumented arguments in documentation object 'Method.TA1.8'
+  'observation_labels'
+Documented arguments not in \usage in documentation object 'Method.TA1.8':
+  'Observation_label'
 
 Undocumented arguments in documentation object 'Paste'
   '...' 'sep'
