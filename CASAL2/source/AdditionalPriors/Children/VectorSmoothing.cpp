@@ -52,6 +52,9 @@ void VectorSmoothing::DoBuild() {
     case addressable::kInvalid:
       LOG_CODE_ERROR() << "Invalid addressable type: " << parameter_;
       break;
+    case addressable::kMultiple:
+      addressable_ptr_vector_ = model_->objects().GetAddressables(parameter_);
+      break;
     case addressable::kVector:
       addressable_vector_ = model_->objects().GetAddressableVector(parameter_);
       break;
@@ -59,7 +62,8 @@ void VectorSmoothing::DoBuild() {
       addressable_map_ = model_->objects().GetAddressableUMap(parameter_);
       break;
     default:
-      LOG_ERROR() << "The addressable you have provided for use in a additional priors: " << parameter_ << " is not a type that is supported for additional priors";
+      LOG_ERROR() << "The addressable you have provided for use in a additional priors: " << parameter_
+        << " is not a type that is supported for vector smoothing additional priors";
       break;
   }
 }
@@ -71,9 +75,12 @@ void VectorSmoothing::DoBuild() {
  */
 Double VectorSmoothing::GetScore() {
   vector<Double> values;
-  if (addressable_vector_ != 0)
+  if (addressable_vector_ != nullptr)
     values.assign((*addressable_vector_).begin(), (*addressable_vector_).end());
-  else if (addressable_map_ != 0) {
+  else if (addressable_ptr_vector_ != nullptr) {
+    for (auto ptr : (*addressable_ptr_vector_))
+      values.push_back((*ptr));
+  } else if (addressable_map_ != nullptr) {
     for (auto iter : (*addressable_map_))
       values.push_back(iter.second);
   } else

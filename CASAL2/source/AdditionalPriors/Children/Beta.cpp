@@ -64,10 +64,10 @@ void Beta::DoBuild() {
       LOG_CODE_ERROR() << "Invalid addressable type: " << parameter_;
       break;
     case addressable::kSingle:
-    	Addressable_ = model_->objects().GetAddressable(parameter_);
+    	addressable_ = model_->objects().GetAddressable(parameter_);
       break;
     default:
-      LOG_ERROR() << "The addressable you have provided for use in a additional priors: " << parameter_ << " is not a type that is supported for additional priors";
+      LOG_ERROR() << "The addressable you have provided for use in a additional priors: " << parameter_ << " is not a type that is supported for Beta additional priors";
       break;
   }
 
@@ -77,7 +77,7 @@ void Beta::DoBuild() {
  * Return the score for
  */
 Double Beta::GetScore() {
-  Double value = (*Addressable_);
+  Double value = (*addressable_);
 	if (b_ < value || a_ > value) {
 		LOG_FATAL_P(PARAM_B) << "parameter b can't be less than the target parameter = " << value << " or the parameter a can't be greater than the target paraemter";
 	}

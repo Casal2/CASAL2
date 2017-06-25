@@ -39,10 +39,11 @@ namespace addressable {
 enum Type {
   kInvalid      = 0,
   kSingle       = 1,
-  kVector       = 2,
-  kStringMap    = 3,
-  kUnsignedMap  = 4,
-  kVectorStringMap = 5
+  kMultiple     = 2,
+  kVector       = 3,
+  kStringMap    = 4,
+  kUnsignedMap  = 5,
+  kVectorStringMap = 6
 };
 
 enum Usage {
@@ -78,6 +79,7 @@ public:
   unsigned                        GetAddressableSize(const string& label) const;
   Double*                         GetAddressable(const string& label);
   virtual Double*                 GetAddressable(const string& label, const string& index);
+  vector<Double*>*                GetAddressables(const string& absolute_label, const vector<string> indexes);
   map<unsigned, Double>*          GetAddressableUMap(const string& label);
   map<unsigned, Double>*          GetAddressableUMap(const string& label, bool& create_missing);
   OrderedMap<string, Double>*     GetAddressableSMap(const string& label);
@@ -116,6 +118,7 @@ protected:
   map<string, Double*>            addressables_;
   map<string, bool>               create_missing_addressables_;
   map<string, vector<Double>* >   addressable_vectors_;
+  map<string, vector<Double*> >   addressable_custom_vectors_;
   map<string, addressable::Type>  addressable_types_;
   map<string, addressable::Usage> addressable_usage_;
 

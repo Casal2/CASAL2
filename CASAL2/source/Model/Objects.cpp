@@ -24,6 +24,7 @@
 #include "Selectivities/Manager.h"
 #include "InitialisationPhases/Manager.h"
 #include "TimeVarying/Manager.h"
+#include "Utilities/String.h"
 #include "Utilities/To.h"
 
 // namespaces
@@ -90,12 +91,16 @@ bool Objects::VerfiyAddressableForUse(const string& parameter_absolute_name, add
  * @return The addressable type, set to invalid if it's not found
  */
 addressable::Type Objects::GetAddressableType(const string& parameter_absolute_name) {
-  base::Object* target = FindObject(parameter_absolute_name);
   std::pair<string, string> parameter_index = ExplodeParameterAndIndex(parameter_absolute_name);
   LOG_FINEST() << "parameter type = " << parameter_index.first << " index = " << parameter_index.second;
-  if (parameter_index.second != "")
-    return addressable::kSingle;
+  if (parameter_index.second != "") {
+    if (utilities::String::explode(parameter_index.second).size() == 1)
+      return addressable::kSingle;
+    else
+      return addressable::kMultiple;
+  } // TODO; Write unit tests for the above
 
+  base::Object* target = FindObject(parameter_absolute_name); // TODO: Mock FIndObject() so we can unit test this.
   return target->GetAddressableType(parameter_index.first);
 }
 
@@ -103,16 +108,35 @@ addressable::Type Objects::GetAddressableType(const string& parameter_absolute_n
  * This method will search the model for the specific addressable and
  * return a pointer to it if it exists.
  *
- * @param parameter_absolute_name The absolute parameter name e.g. process[recruitment].r0
+ * @param addressable_absolute_name The absolute parameter name e.g. process[recruitment].r0
  * @return Pointer to the addressable
  */
-Double* Objects::GetAddressable(const string& parameter_absolute_name) {
-  base::Object* target = FindObject(parameter_absolute_name);
-  std::pair<string, string> parameter_index = ExplodeParameterAndIndex(parameter_absolute_name);
+Double* Objects::GetAddressable(const string& addressable_absolute_name) {
+  base::Object* target = FindObject(addressable_absolute_name);
+  std::pair<string, string> parameter_index = ExplodeParameterAndIndex(addressable_absolute_name);
   if (parameter_index.second != "")
     return target->GetAddressable(parameter_index.first, parameter_index.second);
 
   return target->GetAddressable(parameter_index.first);
+}
+
+/**
+ * This method will return a vector of double pointers to a specific sub-set of an addressable
+ *
+ * @param addressable_absolute_name The absolute parameter name e.g. process[recruitment].r0
+ * @return Pointer to a vector or addressable pointers
+ */
+vector<Double*>* Objects::GetAddressables(const string& addressable_absolute_name) {
+  std::pair<string, string> parameter_index = ExplodeParameterAndIndex(addressable_absolute_name);
+  if (parameter_index.second == "") {
+    LOG_CODE_ERROR() << addressable_absolute_name << " is not a multiple type of addressable lookup";
+  }
+
+  string absolute_parameter = parameter_index.first + "{" + parameter_index.second + "}";
+  vector<string> indexes = utilities::String::explode(parameter_index.second);
+
+  base::Object* target = FindObject(addressable_absolute_name);
+  return target->GetAddressables(absolute_parameter, indexes);
 }
 
 /**

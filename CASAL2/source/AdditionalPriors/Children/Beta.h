@@ -34,7 +34,7 @@ public:
 
 protected:
   // members
-  Double* 										Addressable_ = nullptr;
+  Double* 										addressable_ = nullptr;
 
   Double                      mu_ = 0.0;
   Double                      sigma_ = 0.0;
