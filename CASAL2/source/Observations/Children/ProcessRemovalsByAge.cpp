@@ -78,7 +78,10 @@ void ProcessRemovalsByAge::DoValidate() {
     LOG_ERROR_P(PARAM_PROCESS_ERRORS) << " number of values provied (" << process_error_values_.size() << ") does not match the number of years provided ("
         << years_.size() << ")";
   }
-
+  for (auto year : years_) {
+  	if((year < model_->start_year()) || (year > model_->final_year()))
+  		LOG_ERROR_P(PARAM_YEARS) << "Years can't be less than start_year (" << model_->start_year() << "), or greater than final_year (" << model_->final_year() << "). Please fix this.";
+  }
   for (Double process_error : process_error_values_) {
     if (process_error < 0.0)
       LOG_ERROR_P(PARAM_PROCESS_ERRORS) << ": process_error (" << AS_DOUBLE(process_error) << ") cannot be less than 0.0";
@@ -347,6 +350,7 @@ void ProcessRemovalsByAge::CalculateScore() {
    * Simulate or generate results
    * During simulation mode we'll simulate results for this observation
    */
+	LOG_FINEST() << "Calculating score for observation = " << label_;
   if (model_->run_mode() == RunMode::kSimulation) {
 
     for (auto& iter : comparisons_) {

@@ -28,6 +28,8 @@ make.list_element	make.list_element
 make.matrix	make.matrix
 make.named_complete_vector	make.named_complete_vector
 make.vector	make.vector
+Method.TA1.10	Method.TA1.10
+Method.TA1.8	Method.TA1.8
 param.profile	param.profile
 param.profile.by.cohort	param.profile.by.cohort
 Paste	Paste

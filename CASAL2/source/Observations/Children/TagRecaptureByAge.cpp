@@ -76,6 +76,10 @@ void TagRecaptureByAge::DoValidate() {
   age_spread_ = (max_age_ - min_age_) + 1;
   map<unsigned, vector<Double>> recaptures_by_year;
   map<unsigned, vector<Double>> scanned_by_year;
+  for (auto year : years_) {
+  	if((year < model_->start_year()) || (year > model_->final_year()))
+  		LOG_ERROR_P(PARAM_YEARS) << "Years can't be less than start_year (" << model_->start_year() << "), or greater than final_year (" << model_->final_year() << "). Please fix this.";
+  }
 
   /**
    * Do some simple checks
@@ -427,6 +431,8 @@ void TagRecaptureByAge::CalculateScore() {
    * Simulate or generate results
    * During simulation mode we'll simulate results for this observation
    */
+	LOG_FINEST() << "Calculating score for observation = " << label_;
+
   if (model_->run_mode() == RunMode::kSimulation) {
     likelihood_->SimulateObserved(comparisons_);
   } else {

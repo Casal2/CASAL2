@@ -73,7 +73,7 @@ void MCMCSample::DoExecute() {
  *
  */
 void MCMCSample::DoFinalise() {
-  cache_ << CONFIG_END_REPORT << "\n";
+  //cache_ << CONFIG_END_REPORT << "\n";
   ready_for_writing_ = true;
 }
 
