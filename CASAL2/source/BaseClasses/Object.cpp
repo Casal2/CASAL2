@@ -162,6 +162,27 @@ Double* Object::GetAddressable(const string& label, const string& index) {
 }
 
 /**
+ * This method will return a vector of addressables for use. This is required
+ * when we're asking for a subset of a vector or map.
+ *
+ * @param The absolute label for this (e.g ycs_years{1973:2014}
+ * @param A vector of the indexes to find (already exploded with utilities::string::explode()
+ * @return a Pointer to a vector of Double pointers
+ */
+vector<Double*>* Object::GetAddressables(const string& absolute_label, const vector<string> indexes) {
+  if (addressable_custom_vectors_.find(absolute_label) != addressable_custom_vectors_.end())
+    return &addressable_custom_vectors_[absolute_label];
+
+  string short_label = absolute_label.substr(0, absolute_label.find_first_of('{'));
+  for (auto& index : indexes) {
+    addressable_custom_vectors_[absolute_label].push_back(GetAddressable(short_label, index));
+  }
+
+  LOG_FINE() << "Creating custom addressable vector " << absolute_label << " with " << indexes.size() << " values";
+  return &addressable_custom_vectors_[absolute_label];
+}
+
+/**
  * This method will return a pointer to a map of addressables that have
  * been indexed by unsigned. The majority of these addressables will
  * be indexed by year.
