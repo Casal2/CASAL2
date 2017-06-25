@@ -56,9 +56,14 @@ void MCMCObjective::DoExecute() {
     LOG_CODE_ERROR() << "if (!mcmc_)";
 
   if (first_write_ && !model_->global_configuration().resume()) {
-
+  	/// Up here!!!!!!!!!
+  	//vector<Estimate*>           GetIsEstimated
     cache_ << "starting_covariance_matrix {m}\n";
     auto covariance = mcmc_->covariance_matrix();
+    for (unsigned i = 0; i < covariance.size1(); ++i) {
+
+    }
+    cache_ << "\n";
     for (unsigned i = 0; i < covariance.size1(); ++i) {
        for (unsigned j = 0; j < covariance.size2() - 1; ++j)
          cache_ << AS_DOUBLE(covariance(i,j)) << " ";
@@ -88,7 +93,7 @@ void MCMCObjective::DoExecute() {
  *
  */
 void MCMCObjective::DoFinalise() {
-  cache_ << CONFIG_END_REPORT << "\n";
+  //cache_ << CONFIG_END_REPORT << "\n";
   ready_for_writing_ = true;
 }
 

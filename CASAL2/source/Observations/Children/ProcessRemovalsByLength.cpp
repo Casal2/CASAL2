@@ -71,6 +71,10 @@ void ProcessRemovalsByLength::DoValidate() {
   } else {
     number_bins_ = length_bins_.size() - 1;
   }
+  for (auto year : years_) {
+  	if((year < model_->start_year()) || (year > model_->final_year()))
+  		LOG_ERROR_P(PARAM_YEARS) << "Years can't be less than start_year (" << model_->start_year() << "), or greater than final_year (" << model_->final_year() << "). Please fix this.";
+  }
 
   map<unsigned, vector<Double>> error_values_by_year;
   map<unsigned, vector<Double>> obs_by_year;
@@ -360,6 +364,8 @@ void ProcessRemovalsByLength::CalculateScore() {
    * Simulate or generate results
    * During simulation mode we'll simulate results for this observation
    */
+	LOG_FINEST() << "Calculating score for observation = " << label_;
+
   if (model_->run_mode() == RunMode::kSimulation) {
     likelihood_->SimulateObserved(comparisons_);
     for (auto& iter :  comparisons_) {

@@ -230,6 +230,8 @@ void Biomass::CalculateScore() {
    * Simulate or generate results
    * During simulation mode we'll simulate results for this observation
    */
+	LOG_FINEST() << "Calculating score for observation = " << label_;
+
   // Check if we have a nusiance q or a free q
   if (model_->run_mode() == RunMode::kSimulation) {
   if (catchability_->type() == PARAM_NUISANCE){

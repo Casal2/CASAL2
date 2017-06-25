@@ -313,6 +313,7 @@ void MortalityInstantaneous::DoReset() {
 	LOG_TRACE();
   unsigned m_iter = 0;
   for (auto m : m_) {
+  	LOG_FINEST() << "resetting M for category " << m.first << " = " << m.second;
     m_input_[m_iter] = m.second;
     ++m_iter;
   }
