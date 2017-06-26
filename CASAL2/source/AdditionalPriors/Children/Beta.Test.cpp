@@ -35,7 +35,7 @@ public:
     sigma_ = sigma;
     a_ = a;
     b_ = b;
-    Addressable_ = parameter;
+    addressable_ = parameter;
   }
 };
 
