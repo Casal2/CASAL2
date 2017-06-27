@@ -35,6 +35,7 @@ public:
   void                        Validate();
   virtual void                Build() { Reset(); };
   virtual void                Reset();
+  void                        RebuildCache() override final { Reset(); }
   virtual Double              GetResult(unsigned age, AgeLength* age_length);
   // accessor
   bool                        IsSelectivityLengthBased() {return length_based_;};

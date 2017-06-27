@@ -85,11 +85,12 @@ public:
   OrderedMap<string, Double>*     GetAddressableSMap(const string& label);
   vector<Double>*                 GetAddressableVector(const string& label);
   addressable::Type               GetAddressableType(const string& label) const;
-
   void                            PrintParameterQueryInfo();
+  virtual void                    RebuildCache() { };
 
   // pure virtual methods
   virtual void                    Reset() = 0;
+
 
   // Accessors and Mutators
   string                      label() const { return label_; }
