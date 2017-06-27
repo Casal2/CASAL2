@@ -93,7 +93,7 @@ void TimeVarying::Update(unsigned current_year) {
   else
     DoUpdate();
 
-  target_object_->Reset();
+  target_object_->RebuildCache();
 }
 
 /**
