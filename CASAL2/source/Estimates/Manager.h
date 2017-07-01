@@ -53,6 +53,7 @@ public:
   Estimate*                   GetEstimate(const string& parameter);
   Estimate*                   GetEstimateByLabel(const string& label);
   vector<Estimate*>           GetEstimatesByLabel(const string& label);
+  void                        SetActivePhase(unsigned phase);
 
 private:
   // methods

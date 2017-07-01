@@ -34,7 +34,7 @@ Estimate::Estimate(Model* model) : model_(model) {
   parameters_.Bind<Double>(PARAM_UPPER_BOUND, &upper_bound_, "The upper bound for the parameter", "");
   parameters_.Bind<string>(PARAM_PRIOR, &prior_label_, "TBA", "", "");
   parameters_.Bind<string>(PARAM_SAME, &same_labels_, "List of parameters that are constrained to have the same value as this parameter", "", "");
-  parameters_.Bind<unsigned>(PARAM_ESTIMATION_PHASE, &estimation_phase_, "TBA", "", 1);
+  parameters_.Bind<unsigned>(PARAM_ESTIMATION_PHASE, &estimation_phase_, "The first estimation phase to allow this to be estimated", "", 1);
   parameters_.Bind<bool>(PARAM_MCMC, &mcmc_fixed_, "Indicates if this parameter is fixed at the point estimate during an MCMC run", "", false);
   parameters_.Bind<string>(PARAM_TRANSFORMATION, &transformation_type_, "Type of simple transformation to apply to estimate", "", "");
   parameters_.Bind<bool>(PARAM_TRANSFORM_WITH_JACOBIAN, &transform_with_jacobian_, "Apply jacobian during transformation", "", false);
@@ -51,6 +51,8 @@ void Estimate::Validate() {
 }
 
 void Estimate::Build() {
+  if (estimation_phase_ > model_->global_configuration().estimation_phases())
+    LOG_ERROR_P(PARAM_ESTIMATION_PHASE) << "value (" << estimation_phase_ << ") exceeds the number of specified estimation phases " << model_->global_configuration().estimation_phases();
   if (*target_ < lower_bound_)
     LOG_ERROR() << location() <<  "the initial value(" << AS_DOUBLE((*target_)) << ") on the estimate " << parameter_
         << " is lower than the lower_bound(" << lower_bound_ << ")";

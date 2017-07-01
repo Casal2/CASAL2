@@ -313,6 +313,23 @@ vector<Estimate*> Manager::GetEstimatesByLabel(const string& label) {
   return result;
 }
 
+/**
+ * This method will enable all estimates who are part of the current phase or a prior phase
+ *
+ * @param phase The current estimate phase
+ */
+void Manager::SetActivePhase(unsigned phase) {
+  for (auto estimate : objects_) {
+    if (estimate->phase() <= phase) {
+      estimate->set_estimated(true);
+      LOG_FINEST() << "estimate " << estimate->label() << " is enabled for phase " << phase;
+    } else {
+      estimate->set_estimated(false);
+      LOG_FINEST() << "estimate " << estimate->label() << " is disabled for phase " << phase;
+    }
+  }
+}
+
 
 } /* namespace estimates */
 } /* namespace niwa */
