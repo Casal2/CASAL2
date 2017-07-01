@@ -46,7 +46,7 @@ private:
   vector<Estimate*>           simplex_estimates_;
   Double                      sub_total_ = 0.0;
   Double                      total_ = 0.0;
-  unsigned                    length_;
+  unsigned                    length_ = 0;
 };
 
 } /* namespace estimatetransformations */
