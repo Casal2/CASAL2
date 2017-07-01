@@ -54,27 +54,37 @@ void Log::DoBuild() {
 /**
  *
  */
-void Log::Transform() {
+void Log::DoTransform() {
   LOG_MEDIUM() << "parameter before transform = " << estimate_->value() << " lower bound " << lower_bound_ << " upper bound " << upper_bound_;
   current_untransformed_value_ = estimate_->value();
   estimate_->set_lower_bound(lower_bound_);
   estimate_->set_upper_bound(upper_bound_);
   estimate_->set_value(log(estimate_->value()));
   LOG_MEDIUM() << "parameter after transform = " << estimate_->value() << " lower bound " << estimate_->lower_bound() << " upper bound " << estimate_->upper_bound();
-
 }
 
 /**
  *
  */
-void Log::Restore() {
-  estimate_->set_lower_bound(original_lower_bound_);
-  estimate_->set_upper_bound(original_upper_bound_);
-  estimate_->set_value(exp(estimate_->value()));
+void Log::DoRestore() {
+    estimate_->set_lower_bound(original_lower_bound_);
+    estimate_->set_upper_bound(original_upper_bound_);
+    estimate_->set_value(exp(estimate_->value()));
 }
 
+/**
+ * This method will check if the estimate needs to be transformed for the objective function. If it does then
+ * it'll do the transformation.
+ */
+void Log::TransformForObjectiveFunction() {
+  if (estimate_->transform_for_objective())
+    Transform();
+}
+
+/**
+ *
+ */
 Double Log::GetScore() {
-//
   if(transform_with_jacobian_) {
     jacobian_ = 1.0 / current_untransformed_value_;
     LOG_MEDIUM() << "jacobian: " << jacobian_;

@@ -109,6 +109,7 @@ void ObjectiveFunction::CalculateScore() {
   /**
    * Get the scores from each of the estimate priors
    */
+  model_->managers().estimate_transformation()->TransformEstimatesForObjectiveFunction();
   vector<Estimate*> estimates = model_->managers().estimate()->objects();
   priors_ = 0.0;
   for (Estimate* estimate : estimates) {
@@ -125,6 +126,7 @@ void ObjectiveFunction::CalculateScore() {
     score_ += new_score.score_;
     priors_ += AS_DOUBLE(new_score.score_);
   }
+  model_->managers().estimate_transformation()->RestoreEstimates();
 
   /**
    * Get the score from each additional prior
@@ -155,6 +157,8 @@ void ObjectiveFunction::CalculateScore() {
     score_ += new_score.score_;
     jacobians_ += AS_DOUBLE(new_score.score_);
   }
+
+  LOG_MEDIUM() << "objective.score: " << score_;
 }
 
 } /* namespace niwa */

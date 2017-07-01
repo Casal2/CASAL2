@@ -30,17 +30,16 @@ public:
   Log() = delete;
   explicit Log(Model* model);
   virtual ~Log() = default;
-  void                        Transform() override final;
-  void                        Restore() override final;
+  void                        TransformForObjectiveFunction() override final;
   std::set<string>            GetTargetEstimates() override final;
   Double                      GetScore() override final;
+
 protected:
   // methods
   void                        DoValidate() override final;
   void                        DoBuild() override final;
-
-private:
-
+  void                        DoTransform() override final;
+  void                        DoRestore() override final;
 };
 
 } /* namespace estimatetransformations */

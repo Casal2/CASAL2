@@ -30,14 +30,16 @@ public:
   Simplex() = delete;
   explicit                    Simplex(Model* model);
   virtual                     ~Simplex() = default;
-  void                        Transform() override final;
-  void                        Restore() override final;
+  void                        TransformForObjectiveFunction() override final { };
   std::set<string>            GetTargetEstimates() override final;
   Double                      GetScore() override final;
+
 protected:
   // methods
   void                        DoValidate() override final;
   void                        DoBuild() override final;
+  void                        DoTransform() override final { };
+  void                        DoRestore() override final;
 
 private:
   // members

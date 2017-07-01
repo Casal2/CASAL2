@@ -56,6 +56,7 @@ protected:
   vector<string>              same_labels_;
   string                      estimation_phase_;
   string                      mcmc_;
+  bool                        transform_for_objective_function_;
   vector<string>              transformation_details_;
   vector<bool>                transform_with_jacobian_;
   vector<niwa::Estimate*>     estimates_;
