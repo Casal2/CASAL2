@@ -62,7 +62,7 @@ void Orthogonal::DoBuild() {
 /**
  *  transform estimate
  */
-void Orthogonal::Transform() {
+void Orthogonal::DoTransform() {
   LOG_TRACE();
   // transform
   theta_1_ = first_estimate_->value();
@@ -85,7 +85,7 @@ void Orthogonal::Transform() {
 /**
  *  Restore estimate
  */
-void Orthogonal::Restore() {
+void Orthogonal::DoRestore() {
   LOG_TRACE();
   theta_1_ = sqrt(first_estimate_->value() * second_estimate_->value());
   theta_2_ = sqrt(first_estimate_->value() / second_estimate_->value());

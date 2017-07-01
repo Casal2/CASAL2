@@ -54,5 +54,14 @@ void Manager::RestoreEstimates() {
   LOG_FINEST() << "Restores complete";
 }
 
+/**
+ * Transform the objects for the objective function
+ */
+void Manager::TransformEstimatesForObjectiveFunction() {
+  LOG_MEDIUM() << "Transforming estimates for the objective function";
+  for (auto obj : objects_)
+    obj->TransformForObjectiveFunction();
+}
+
 } /* namespace estimatetransformations */
 } /* namespace niwa */

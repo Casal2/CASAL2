@@ -63,7 +63,7 @@ void AverageDifference::DoBuild() {
 /**
  *
  */
-void AverageDifference::Transform() {
+void AverageDifference::DoTransform() {
   x1_ = estimate_->value();
   Double mean = (x1_ + difference_estimate_->value()) / 2.0;
   Double diff = fabs(mean - x1_);
@@ -85,7 +85,7 @@ void AverageDifference::Transform() {
 /**
  *
  */
-void AverageDifference::Restore() {
+void AverageDifference::DoRestore() {
 	x1_ = estimate_->value() + (difference_estimate_->value() / 2.0);
 	difference_estimate_->set_value(estimate_->value() - (difference_estimate_->value() / 2.0));
 	estimate_->set_value(x1_);

@@ -103,16 +103,9 @@ void Simplex::DoBuild() {
 }
 
 /**
- *
- */
-void Simplex::Transform() {
-
-}
-
-/**
  *    This will restore values provided by the minimiser that need to be restored for use in the annual cycle
  */
-void Simplex::Restore() {
+void Simplex::DoRestore() {
   LOG_TRACE();
   // intialise as 1 which accounts for the known parameter
   Double new_total = 1.0;

@@ -38,6 +38,7 @@ Estimate::Estimate(Model* model) : model_(model) {
   parameters_.Bind<bool>(PARAM_MCMC, &mcmc_fixed_, "Indicates if this parameter is fixed at the point estimate during an MCMC run", "", false);
   parameters_.Bind<string>(PARAM_TRANSFORMATION, &transformation_type_, "Type of simple transformation to apply to estimate", "", "");
   parameters_.Bind<bool>(PARAM_TRANSFORM_WITH_JACOBIAN, &transform_with_jacobian_, "Apply jacobian during transformation", "", false);
+  parameters_.Bind<bool>(PARAM_TRANSFORM_FOR_OBJECTIVE, &transform_for_objective_function_, "Transform before calculating prior score for objective function", "", false);
 }
 
 /**

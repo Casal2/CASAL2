@@ -52,7 +52,7 @@ void Inverse::DoBuild() {
 /**
  *
  */
-void Inverse::Transform() {
+void Inverse::DoTransform() {
   estimate_->set_lower_bound(upper_bound_);
   estimate_->set_upper_bound(lower_bound_);
   current_untransformed_value_ = estimate_->value();
@@ -64,12 +64,21 @@ void Inverse::Transform() {
 /**
  *
  */
-void Inverse::Restore() {
+void Inverse::DoRestore() {
   estimate_->set_lower_bound(original_lower_bound_);
   estimate_->set_upper_bound(original_upper_bound_);
   LOG_MEDIUM() << "Restoring value from " << estimate_->value()  << " to " << AS_DOUBLE(1.0 /  estimate_->value());
 
   estimate_->set_value(1.0 / estimate_->value());
+}
+
+/**
+ * This method will check if the estimate needs to be transformed for the objective function. If it does then
+ * it'll do the transformation.
+ */
+void Inverse::TransformForObjectiveFunction() {
+  if (estimate_->transform_for_objective())
+    Transform();
 }
 
 

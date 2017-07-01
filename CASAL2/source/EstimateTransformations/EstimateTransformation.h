@@ -31,9 +31,11 @@ public:
   void                        Validate();
   void                        Build();
   void                        Reset() { };
+  void                        Transform();
+  void                        Restore();
+
   // pure virtual
-  virtual void                Transform() = 0;
-  virtual void                Restore() = 0;
+  virtual void                TransformForObjectiveFunction() = 0;
   virtual std::set<string>    GetTargetEstimates() = 0;
   virtual Double              GetScore() = 0;
 
@@ -43,10 +45,13 @@ protected:
   // methods
   virtual void                DoValidate() = 0;
   virtual void                DoBuild() = 0;
+  virtual void                DoTransform() = 0;
+  virtual void                DoRestore() = 0;
 
   // members
   Model*                      model_ = nullptr;
   Estimate*                   estimate_ = nullptr;
+  bool                        is_transformed_ = false;
   Double                      current_untransformed_value_;
   string                      estimate_label_;
   Double                      lower_bound_ = 0.0;

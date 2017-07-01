@@ -569,6 +569,7 @@
 #define PARAM_TOTAL_SCORE                         "total_score"
 #define PARAM_TOTAL                               "total"
 #define PARAM_TRACE                               "trace"
+#define PARAM_TRANSFORM_FOR_OBJECTIVE             "transform_for_objective"
 #define PARAM_TRANSFORM_WITH_JACOBIAN             "transform_with_jacobian"
 #define PARAM_TRANSFORMATION                      "transformation"
 #define PARAM_TRANSFORMATION_TYPE                 "transformation_type"

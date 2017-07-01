@@ -44,6 +44,7 @@ Creator::Creator(Model* model) : model_(model) {
   parameters_.Bind<string>(PARAM_MCMC, &mcmc_, "Indicates if this parameter is fixed at the point estimate during an MCMC run", "", "");
   parameters_.Bind<string>(PARAM_TRANSFORMATION, &transformation_details_, "TBA", "", true);
   parameters_.Bind<bool>(PARAM_TRANSFORM_WITH_JACOBIAN, &transform_with_jacobian_, "Transform our addressables with jacobian score", "", true);
+  parameters_.Bind<bool>(PARAM_TRANSFORM_FOR_OBJECTIVE, &transform_for_objective_function_, "Transform before calculating prior score for objective function", "", false);
 }
 
 /**
@@ -427,6 +428,7 @@ void Creator::CopyParameters(niwa::Estimate* estimate, unsigned index) {
   estimate->parameters().CopyFrom(parameters_, PARAM_PRIOR);
   estimate->parameters().CopyFrom(parameters_, PARAM_ESTIMATION_PHASE);
   estimate->parameters().CopyFrom(parameters_, PARAM_MCMC);
+  estimate->parameters().CopyFrom(parameters_, PARAM_TRANSFORM_FOR_OBJECTIVE);
 
   estimate->parameters().CopyFrom(parameters_, PARAM_TRANSFORMATION, index);
   estimate->parameters().CopyFrom(parameters_, PARAM_TRANSFORM_WITH_JACOBIAN, index);

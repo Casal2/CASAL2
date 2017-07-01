@@ -28,6 +28,7 @@ public:
   void                        Validate() override final;
   void                        TransformEstimates();
   void                        RestoreEstimates();
+  void                        TransformEstimatesForObjectiveFunction();
 
 protected:
   // methods

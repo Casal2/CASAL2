@@ -52,5 +52,30 @@ void EstimateTransformation::Build() {
  DoBuild();
 }
 
+/**
+ * This method will check to ensure we're not already transformed, then transform if it's
+ * ok.
+ */
+void EstimateTransformation::Transform() {
+  if (!is_transformed_) {
+    DoTransform();
+    is_transformed_ = true;
+  } else {
+    LOG_FINE() << "The transformation " << label() << " is already transformed. Skipping transform";
+  }
+}
+
+/**
+ * This method will check to ensure we're currently transformed, then restore
+ */
+void EstimateTransformation::Restore() {
+  if (is_transformed_) {
+    DoRestore();
+    is_transformed_ = false;
+  } else {
+    LOG_FINE() << "The transformation " << label() << " is not transformed. Skipping restore";
+  }
+}
+
 }
 /* namespace niwa */

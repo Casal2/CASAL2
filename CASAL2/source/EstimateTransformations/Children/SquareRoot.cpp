@@ -25,15 +25,7 @@ namespace estimatetransformations {
 /**
  * Default constructor
  */
-SquareRoot::SquareRoot(Model* model) : EstimateTransformation(model) {
-  //parameters_.Bind<string>(PARAM_ESTIMATE, &estimate_label_, "The parameter to use in the square root transformation", "");
-}
-
-/**
- */
-void SquareRoot::DoValidate() {
-
-}
+SquareRoot::SquareRoot(Model* model) : EstimateTransformation(model) { }
 
 /**
  *
@@ -50,7 +42,7 @@ void SquareRoot::DoBuild() {
 /**
  *
  */
-void SquareRoot::Transform() {
+void SquareRoot::DoTransform() {
   LOG_TRACE();
   estimate_->set_lower_bound(lower_bound_);
   estimate_->set_upper_bound(upper_bound_);
@@ -62,7 +54,7 @@ void SquareRoot::Transform() {
 /**
  *
  */
-void SquareRoot::Restore() {
+void SquareRoot::DoRestore() {
   LOG_TRACE();
   estimate_->set_lower_bound(original_lower_bound_);
   estimate_->set_upper_bound(original_upper_bound_);
@@ -72,8 +64,17 @@ void SquareRoot::Restore() {
 
 }
 
+/**
+ * This method will check if the estimate needs to be transformed for the objective function. If it does then
+ * it'll do the transformation.
+ */
+void SquareRoot::TransformForObjectiveFunction() {
+  if (estimate_->transform_for_objective())
+    Transform();
+}
+
+
 Double SquareRoot::GetScore() {
-//
   if(transform_with_jacobian_) {
     jacobian_ = -0.5 * pow(current_untransformed_value_,-1.5);
     LOG_MEDIUM() << "jacobian: " << jacobian_;
