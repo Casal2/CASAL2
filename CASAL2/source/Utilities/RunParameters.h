@@ -33,6 +33,7 @@ struct RunParameters {
   bool          resume_mcmc_chain_ = false;
   string        mcmc_objective_file_ = "";
   string        mcmc_sample_file_ = "";
+  unsigned      estimation_phases_ = 1;
   string        estimable_value_input_file_ = "";
   bool          force_estimables_as_named_ = false;
   unsigned      random_number_seed_ = 123u;

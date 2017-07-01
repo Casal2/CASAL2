@@ -471,6 +471,11 @@ void Model::RunEstimation() {
   LOG_FINE() << "Doing pre-estimation iteration of the model";
   Iterate();
 
+
+  auto minimiser = managers_->minimiser()->active_minimiser();
+  if (minimiser == nullptr)
+    LOG_CODE_ERROR() << "if (minimiser == nullptr)";
+
   Estimables* estimables = managers_->estimables();
   map<string, Double> estimable_values;
   LOG_FINE() << "estimable values count: " << adressable_values_count_;
@@ -479,38 +484,15 @@ void Model::RunEstimation() {
       estimables->LoadValues(i);
       Reset();
     }
-/*
-    // For issue #137
-    // The information we need to know here is how many phases there are
-    // i.e get_number_of_phases()
-    // Iterate over all estiamtes and turn them all off
-    // set estiamte->set_estimated(false);
-    // iterate over all estimates calling get_estimation_phase() if that phase is in current phase or earlier
-    // set estiamte->set_estimated(true);
-    // dummy code
-     for (auto estimate:estimates)
-     estimate:estimates->set_estimated(false);
-     number_phases = managers_->estimates()->get_number_of_phases()
-     for (unsigned phase = 1; phase <= number_phases; ++phase) {
-    	for (auto estimate:estimates)
-    		if (estimate->get_estimation_phase() <= phase)
-    			estimate->set_estimated(true);
 
-      LOG_FINE() << "Calling minimiser to begin the estimation in phase " << phase;
-    	run_mode_ = RunMode::kEstimation;
-			auto minimiser = managers_->minimiser()->active_minimiser();
-			if (minimiser == nullptr)
-				LOG_CODE_ERROR() << "if (minimiser == nullptr)";
-			minimiser->Execute();
-     }
-*/
-    LOG_FINE() << "Calling minimiser to begin the estimation with the " << i + 1 << "st/nd/nth set of values";
     run_mode_ = RunMode::kEstimation;
+    LOG_FINE() << "Calling minimiser to begin the estimation with the " << i + 1 << "st/nd/nth set of values";
+    for (unsigned j = 1; j <= global_configuration_->estimation_phases(); ++j) {
+      LOG_FINEST() << "model.estimation_phase: " << j;
+      managers_->estimate()->SetActivePhase(j);
+      minimiser->Execute();
+    }
 
-    auto minimiser = managers_->minimiser()->active_minimiser();
-    if (minimiser == nullptr)
-      LOG_CODE_ERROR() << "if (minimiser == nullptr)";
-    minimiser->Execute();
     minimiser->BuildCovarianceMatrix();
 
     run_mode_ = RunMode::kBasic;

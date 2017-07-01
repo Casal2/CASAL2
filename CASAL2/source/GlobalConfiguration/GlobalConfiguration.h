@@ -69,6 +69,7 @@ public:
   bool                  skip_loading_config_file() const { return skip_loading_config_file_; }
   void                  flag_skip_config_file() { skip_loading_config_file_ = true; }
   bool                  create_mpd_file() const { return options_.create_mpd_file_; }
+  unsigned              estimation_phases() const { return options_.estimation_phases_; }
 
 private:
   // Members

@@ -67,6 +67,7 @@ public:
   bool                        in_objective_function() const { return in_objective_; }
   const vector<string>&       same_labels() const { return same_labels_; }
   const vector<Double*>&      sames() const { return sames_; }
+  unsigned                    phase() const { return estimation_phase_; }
 
 protected:
   // Members

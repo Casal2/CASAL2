@@ -60,6 +60,7 @@ void CommandLineParser::Parse(int argc, char* argv[], RunParameters& options) {
     ("profiling,p", "Profling run mode")
     ("simulation,s", value<unsigned>(), "Simulation mode (arg = number of candidates)")
     ("projection,f", value<unsigned>(), "Projection mode (arg = number of projections per set of input values)")
+    ("phases", value<unsigned>(), "The number of estimations phases (default: 1)")
     ("input,i", value<string>(), "Load free parameter values from file")
     ("fi", "Force the input file to only allow @estimate parameters (basic run mode only)")
     ("seed,g", value<unsigned>(), "Random number seed")
@@ -115,6 +116,8 @@ void CommandLineParser::Parse(int argc, char* argv[], RunParameters& options) {
     options.single_step_model_ = true;
   if (parameters.count("tabular"))
     options.tabular_reports_ = true;
+  if (parameters.count("phases"))
+    options.estimation_phases_ = parameters["phases"].as<unsigned>();
 
   /**
    * Determine what run mode we should be in. If we're
