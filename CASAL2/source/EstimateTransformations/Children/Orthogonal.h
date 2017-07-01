@@ -44,14 +44,14 @@ private:
   string                      second_estimate_label_ = "";
   Estimate*                   first_estimate_ = nullptr;
   Estimate*                   second_estimate_ = nullptr;
-  Double                      phi_1_;
-  Double                      phi_2_;
-  Double                      theta_1_;
-  Double                      theta_2_;
-  Double                      first_original_upper_bound_;
-  Double                      first_original_lower_bound_;
-  Double                      second_original_upper_bound_;
-  Double                      second_original_lower_bound_;
+  Double                      phi_1_ = 0.0;
+  Double                      phi_2_ = 0.0;
+  Double                      theta_1_ = 0.0;
+  Double                      theta_2_ = 0.0;
+  Double                      first_original_upper_bound_ = 0.0;
+  Double                      first_original_lower_bound_ = 0.0;
+  Double                      second_original_upper_bound_ = 0.0;
+  Double                      second_original_lower_bound_ = 0.0;
 
 };
 
