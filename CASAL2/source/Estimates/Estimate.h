@@ -68,7 +68,7 @@ public:
   const vector<string>&       same_labels() const { return same_labels_; }
   const vector<Double*>&      sames() const { return sames_; }
   unsigned                    phase() const { return estimation_phase_; }
-  bool                        transform_for_objective() const { return transform_for_objective_function_; }
+  bool                        transform_for_objective() const { return transform_for_objective_function_;}
 
 protected:
   // Members
@@ -80,7 +80,7 @@ protected:
   Double                      upper_bound_;
   bool                        mcmc_fixed_;
   string                      prior_label_;
-  unsigned                    estimation_phase_;
+  unsigned                    estimation_phase_ = 1;
   vector<string>              same_labels_;
   vector<Double*>             sames_;
   bool                        estimated_ = true;

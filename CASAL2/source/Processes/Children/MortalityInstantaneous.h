@@ -65,6 +65,7 @@ public:
   void                        DoBuild() override final;
   void                        DoReset() override final;
   void                        DoExecute() override final;
+  void                        RebuildCache() override final;
 
   // accessors
   map<unsigned, map<string, map<string, vector<Double>>>>&  catch_at() { return removals_by_year_fishery_category_; };

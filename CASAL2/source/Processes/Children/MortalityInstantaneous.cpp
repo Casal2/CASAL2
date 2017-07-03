@@ -319,6 +319,21 @@ void MortalityInstantaneous::DoReset() {
   }
 }
 
+
+/**
+ * Called from the time varying class (see TimeVarying.cpp line 96) used to reset parameters.
+ * this avoids a full reset and clearing of printed values which is what was happening before
+ */
+void MortalityInstantaneous::RebuildCache() {
+	LOG_TRACE();
+  unsigned m_iter = 0;
+  for (auto m : m_) {
+  	LOG_FINEST() << "resetting M for category " << m.first << " = " << m.second;
+    m_input_[m_iter] = m.second;
+    ++m_iter;
+  }
+}
+
 /**
  * Execute this process
  */

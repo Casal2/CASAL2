@@ -330,6 +330,34 @@ void Manager::SetActivePhase(unsigned phase) {
   }
 }
 
+/**
+ * This method will search over all estimates and calculate how many phases exist across all estimates.
+ * It will also apply a business rule, such as there must be consecutive phases. 1,2,3 not 1,3
+ *
+ * @param phase The current estimate phase
+ */
+unsigned Manager::GetNumberOfPhases() {
+	vector<unsigned> store_unique_phases = {1};
+  for (auto estimate : objects_) {
+    unsigned current_phase = estimate->phase();
+    // store unique phase numbers
+    if (std::find(store_unique_phases.begin(),store_unique_phases.end(),current_phase) == store_unique_phases.end()) {
+    	store_unique_phases.push_back(current_phase);
+      LOG_FINE() << "storing phase = " << current_phase;
+    }
+  }
+  // Now check that there is a consecutive sequence.
+  unsigned max = *max_element(store_unique_phases.begin(), store_unique_phases.end());
+  LOG_FINE() << "found max = " << max << " iterations";
+  for(unsigned i = 1; i <= max; ++i) {
+  	if (std::find(store_unique_phases.begin(),store_unique_phases.end(),i) == store_unique_phases.end()) {
+  		LOG_WARNING() << "Could not find estimation phase " << i << ", but have found an estimation phase " << max << ". this is inefficient specification we suggest you should specify consecutive phases e.g. 1,2,3 and 4 not 1 and 4. Please check the specification of the estimation phase's on your @estimates";
+  	}
+  }
+  return max;
+}
+
+
 
 } /* namespace estimates */
 } /* namespace niwa */

@@ -44,7 +44,8 @@ See Section \ref{sec:parameter-names} for instructions on how to generate the pa
 All parameters are estimated within bounds\index{Bounds}. For each parameter to be estimated, you need to specify the bounds and the prior\index{Priors} (\texttt{type}) (Section \ref{sec:priors}). Note that the bounds and prior for each parameter refer to the values of the parameters, not the actual values resulting from the application of the parameter to an equation. Bounds should be carefully chosen as they effect the space in which the minimisers search over. Some minimisers convert lower and upper bound into a minimisation space (for example -1,1 space for the numerical differences algorithm). If estimating only some elements of a vector, either define each element of the vector to be estimated (see \ref{sec:parameter-names}) or fix the others by setting the bounds equal.
 
 \subsection{\I{Point estimation}\label{sec:estimate-MPD}}
-Point estimation is invoked with \texttt{\cname\ -e}. Mathematically, it is an attempt to find a minimum of the objective function\index{Objective function}. \CNAME\ has multiple algorithms for solving (minimising) the optimisation problem. There are three non auto differential minimisers: numerical differences (GAMMA DIFF), differential evolution minimiser, and the dlib minimiser. There are also three auto differential minimisers being: ADOL-C, CPPAD, and BETADIFF. For references see section \ref{sec:tech}
+Point estimation is invoked with \texttt{\cname\ -e}. Mathematically, it is an attempt to find a minimum of the objective function\index{Objective function}. \CNAME\ has multiple algorithms for solving (minimising) the optimisation problem. There are three non auto differential minimisers: numerical differences, differential evolution minimiser (\subcommand{de\_solver}), and the dlib minimiser. There are also three auto differential minimisers being: ADOL-C, CPPAD, and BETADIFF. For references see section \ref{sec:tech}. Recently with the number of parameters growing in these models, an important input parameter on most minimisers is the \subcommand{tolerance} parameter. This is the stopping rule that minimisers use to define when they have found a 'solution' (remember there is no guarantee that a solution is the global solution, such is the world we live in). Try alternative starting values, this is easiliy done with the \texttt{-i parameter\_file.txt} in \CNAME. I digress I highly recommend when estimating any model with \CNAME\ that you try smaller values for the \subcommand{tolerance} parameter. I have found for some models that if you make it say 0.00000002 that the solution is quite a bit different than when using the default (0.002). I believe this is not ideal behaviour from your model (Craig's Opinion) and that you should do some more investigative work on what parameters are causing the behaviour. An aside note: this will also effect your covariance matrix as with different tolerances and searchs you may end up with a different approximate hessian matrix which is inverted to solve for the covariance matrix. I thought that this might make a difference on MCMC results because the covariance is incorporated into the proposal distribution. However I have run a few MCMC's with varying tolerances and have found that doesn't effect the posterior distribution of the MCMC.
+
 \subsubsection{\I{The numerical differences minimiser}}
 
 The minimiser has three kinds of (non-error) exit status, depending on the minimiser: 
@@ -112,11 +113,12 @@ An auto-differentiable minimiser for non-linear models.
 		tolerance 1e-6		
 		\end{verbatim}}}
 \subsubsection{\I{CPPAD minimiser}}
-An auto-differentiable minimiser for non-linear models using the mumps solver, see
+An auto-differentiable minimiser for non-linear models using the mumps solver, see \url{https://www.coin-or.org/CppAD/Doc/ipopt_solve.htm} for more information about this solver.
 {\small{\begin{verbatim}
 		@minimiser CPPAD
 		type cppad
 		\end{verbatim}}}
+I have found this solver to be by far the quickest solver for models that have a reasonably well defined solution. What I mean by that, is there is 'good' information in the data to identify all the parameters. Now you may be thinking shouldn't this be the case for all minimisers? Short answer is yes, but the other minimisers are quicker than \subcommand{cppad} to tell you there is not a reasonable solution. 
 
 \subsubsection{\I{Dlib minimiser}}
 Non auto-diff minimiser
@@ -318,7 +320,20 @@ Additional priors can be thought of as the inverse of penalties. They constrain 
 	\\\\
 	Applied to a vector parameter. Square of (mean(vector)-k), or of (mean(log(vector))-l), or of (log(mean(vector)/m)). Encourages the vector to average arithmetically to k or m, or geometrically to exp(l). Typically used for YCS with k=1 or m=1 or l=0, to encourage the YCS to centre on 1. Optionally, you can choose to exclude indices outside a given set of bounds.
 	\\\\
-	\item{Beta\index{Beta prior}\index{Priors ! Beta} with mean $\mu$ and standard deviation $\sigma$, and range parameters $A$ and $B$, for parameter value = $p$}
+	\item\texttt{lognormal}
+	 with mean $\mu$ and c.v. $c$
+	\begin{equation}
+	- \log \left(\pi \left(p \right) \right) = \log \left( p \right) + 0.5 \left( \frac{\log \left( p / \mu \right)}{s} + \frac{s}{2} \right)^2
+	\end{equation}
+	\\\\
+	\item\texttt{uniform\_log}
+	
+	\begin{equation}
+	- \log \left(\pi \left(p \right) \right) = \log \left( p \right)
+	\end{equation}	
+	\\\\
+	\item\texttt{Beta}
+	{Beta\index{Beta additional prior}\index{Additional Priors ! Beta} with mean $\mu$ and standard deviation $\sigma$, and range parameters $A$ and $B$, for parameter value = $p$}
 	
 	\begin{equation}
 	- \log \left(\pi \left( p \right) \right) = \left( 1 - m \right) \log \left( p - A \right) + \left( 1 - n \right)\log \left( B - p \right)

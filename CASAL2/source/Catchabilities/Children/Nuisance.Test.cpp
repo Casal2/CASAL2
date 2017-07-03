@@ -362,6 +362,8 @@ upper_bound 250000
 
 @catchability chatTANq
 type nuisance
+lower_bound 0.01
+upper_bound 0.40
 
 )";
 
@@ -399,42 +401,40 @@ process_error 0.20
 
 const std::string lognormal_q =
 R"(
-@estimate chatTANq
+@additional_prior chatTANq
 type lognormal
 parameter catchability[chatTANq].q
-lower_bound 0.01
-upper_bound 0.40
 mu 0.16
 cv 0.79
 )";
 
-const std::string uniform_q =
-R"(
-@estimate chatTANq
-type uniform
-parameter catchability[chatTANq].q
-lower_bound 0.01
-upper_bound 0.40
-)";
 
 const std::string uniform_log_q =
 R"(
-@estimate chatTANq
+@additional_prior chatTANq
 type uniform_log
 parameter catchability[chatTANq].q
-lower_bound 0.01
-upper_bound 0.40
 )";
 
-TEST_F(InternalEmptyModel, Nuisance_normal_prior_uniform) {
+TEST_F(InternalEmptyModel, Nuisance_normal_prior_none) {
     AddConfigurationLine(base_model, __FILE__, 31);
     AddConfigurationLine(normal_biomass, __FILE__, 31);
-    AddConfigurationLine(uniform_q, __FILE__, 31);
     LoadConfiguration();
     model_->Start(RunMode::kBasic);
     Catchability* catchability = model_->managers().catchability()->GetCatchability("chatTANq");
     EXPECT_DOUBLE_EQ(0.05629393317159407, catchability->q());
 }
+
+
+TEST_F(InternalEmptyModel, Nuisance_normal_prior_none_estimation) {
+    AddConfigurationLine(base_model, __FILE__, 31);
+    AddConfigurationLine(normal_biomass, __FILE__, 31);
+    LoadConfiguration();
+    model_->Start(RunMode::kEstimation);
+    Catchability* catchability = model_->managers().catchability()->GetCatchability("chatTANq");
+    EXPECT_DOUBLE_EQ(0.052417942854968778, catchability->q());
+}
+
 
 TEST_F(InternalEmptyModel, Nuisance_normal_prior_uniform_log) {
     AddConfigurationLine(base_model, __FILE__, 31);
@@ -457,10 +457,9 @@ TEST_F(InternalEmptyModel, Nuisance_lognormal_prior_uniform_log) {
     EXPECT_DOUBLE_EQ(0.057232970885068367, catchability->q());
 }
 
-TEST_F(InternalEmptyModel, Nuisance_lognormal_prior_uniform) {
+TEST_F(InternalEmptyModel, Nuisance_lognormal_prior_none) {
     AddConfigurationLine(base_model, __FILE__, 31);
     AddConfigurationLine(lognormal_biomass, __FILE__, 31);
-    AddConfigurationLine(uniform_q, __FILE__, 31);
     LoadConfiguration();
     model_->Start(RunMode::kBasic);
     Catchability* catchability = model_->managers().catchability()->GetCatchability("chatTANq");
