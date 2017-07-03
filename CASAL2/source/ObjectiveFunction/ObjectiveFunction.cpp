@@ -126,7 +126,7 @@ void ObjectiveFunction::CalculateScore() {
     score_ += new_score.score_;
     priors_ += AS_DOUBLE(new_score.score_);
   }
-  model_->managers().estimate_transformation()->RestoreEstimates();
+  model_->managers().estimate_transformation()->RestoreEstimatesFromObjectiveFunction();
 
   /**
    * Get the score from each additional prior

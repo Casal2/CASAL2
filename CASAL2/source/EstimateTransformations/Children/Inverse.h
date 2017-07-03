@@ -28,6 +28,7 @@ public:
   explicit Inverse(Model* model);
   virtual ~Inverse() = default;
   void                        TransformForObjectiveFunction() override final;
+  void                        RestoreFromObjectiveFunction() override final;
   std::set<string>            GetTargetEstimates() override final;
   Double                      GetScore() override final;
 

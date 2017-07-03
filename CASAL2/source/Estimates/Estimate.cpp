@@ -52,22 +52,28 @@ void Estimate::Validate() {
 }
 
 void Estimate::Build() {
+  LOG_TRACE();
+  if (transform_with_jacobian_ & transform_for_objective_function_)
+    LOG_ERROR_P(PARAM_TRANSFORM_WITH_JACOBIAN) << "You cannot specify both " << PARAM_TRANSFORM_WITH_JACOBIAN << " and " << PARAM_TRANSFORM_FOR_OBJECTIVE << " to be true. Please check the manual for more info";
 
-//  if (estimation_phase_ > model_->global_configuration().estimation_phases())
-//    LOG_ERROR_P(PARAM_ESTIMATION_PHASE) << "value (" << estimation_phase_ << ") exceeds the number of specified estimation phases " << model_->global_configuration().estimation_phases();
-  if (*target_ < lower_bound_)
-    LOG_ERROR() << location() <<  "the initial value(" << AS_DOUBLE((*target_)) << ") on the estimate " << parameter_
-        << " is lower than the lower_bound(" << lower_bound_ << ")";
-  if (*target_ > upper_bound_)
-    LOG_ERROR() << location() << "the initial value(" << AS_DOUBLE((*target_)) << ") on the estimate " << parameter_
-        << " is greater than the upper_bound(" << upper_bound_ << ")";
-
+  if (!transform_for_objective_function_) {
+    // only check bounds if prior on untransformed variable.
+    if (*target_ < lower_bound_)
+      LOG_ERROR() << location() <<  "the initial value(" << AS_DOUBLE((*target_)) << ") on the estimate " << parameter_
+          << " is lower than the lower_bound(" << lower_bound_ << ")";
+    if (*target_ > upper_bound_)
+      LOG_ERROR() << location() << "the initial value(" << AS_DOUBLE((*target_)) << ") on the estimate " << parameter_
+          << " is greater than the upper_bound(" << upper_bound_ << ")";
+  }
+  // allow users to specify none
+  if (transformation_type_ == PARAM_NONE)
+    transformation_type_ = "";
   /**
    * If we have a transformation declared, we need to create it here and
    * let it know if it needs to calculate a Jacobian.
    */
   if (transformation_type_ != "") {
-    LOG_FINEST() << "Applying transformaton to @estimate: " << label_ << ", label of estimate transformation = " <<  transformation_type_ + "_" + label_ << ", transformation type = " <<transformation_type_;
+    LOG_FINEST() << "Applying transformaton to @estimate: " << label_ << ", label of estimate transformation = " <<  transformation_type_ + "_" + label_ << ", transformation type = " << transformation_type_;
     string boolean_value = "";
     boolean_value = utilities::ToInline<bool, string>(transform_with_jacobian_);
     EstimateTransformation* transformation = estimatetransformations::Factory::Create(model_, PARAM_ESTIMATE_TRANSFORMATION, transformation_type_);
@@ -79,10 +85,23 @@ void Estimate::Build() {
     transformation->parameters().Add(PARAM_TRANSFORM_WITH_JACOBIAN, boolean_value, __FILE__, __LINE__);
     transformation->Validate();
     transformation->Build();
+
+    if (transform_for_objective_function_) {
+      // if prior on transformed varible check to see if the bounds make sense once the transformation has occured.
+      transformation->Transform();
+      if (*target_ < lower_bound_)
+        LOG_ERROR() << location() <<  "the initial value(" << AS_DOUBLE((*target_)) << ") on the estimate " << parameter_
+            << " is lower than the lower_bound(" << lower_bound_ << ")";
+      if (*target_ > upper_bound_)
+        LOG_ERROR() << location() << "the initial value(" << AS_DOUBLE((*target_)) << ") on the estimate " << parameter_
+            << " is greater than the upper_bound(" << upper_bound_ << ")";
+      transformation->Restore();
+    }
   }
 
   Reset();
 }
+
 
 /**
  *

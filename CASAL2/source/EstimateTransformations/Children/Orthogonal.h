@@ -30,6 +30,7 @@ public:
   explicit Orthogonal(Model* model);
   virtual ~Orthogonal() = default;
   void                        TransformForObjectiveFunction() override final { };
+  void                        RestoreFromObjectiveFunction() override final { };
   std::set<string>            GetTargetEstimates() override final;
   Double                      GetScore() override final;
 

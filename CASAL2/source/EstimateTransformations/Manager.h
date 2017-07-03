@@ -29,6 +29,7 @@ public:
   void                        TransformEstimates();
   void                        RestoreEstimates();
   void                        TransformEstimatesForObjectiveFunction();
+  void                        RestoreEstimatesFromObjectiveFunction();
 
 protected:
   // methods

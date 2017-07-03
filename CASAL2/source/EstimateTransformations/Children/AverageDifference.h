@@ -27,7 +27,8 @@ public:
   AverageDifference() = delete;
   explicit AverageDifference(Model* model);
   virtual ~AverageDifference() = default;
-  void                        TransformForObjectiveFunction() override final { };
+  void                        TransformForObjectiveFunction() override final;
+  void                        RestoreFromObjectiveFunction() override final;
   std::set<string>            GetTargetEstimates() override final;
   Double                      GetScore() override final {return jacobian_;};
 

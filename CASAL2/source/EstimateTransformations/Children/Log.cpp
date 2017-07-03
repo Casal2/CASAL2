@@ -82,6 +82,16 @@ void Log::TransformForObjectiveFunction() {
 }
 
 /**
+ * This method will check if the estimate needs to be Restored from the objective function. If it does then
+ * it'll do the undo the transformation.
+ */
+void Log::RestoreFromObjectiveFunction() {
+  if (estimate_->transform_for_objective())
+    Restore();
+}
+
+
+/**
  *
  */
 Double Log::GetScore() {
