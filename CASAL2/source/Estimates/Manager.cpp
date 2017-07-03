@@ -337,7 +337,7 @@ void Manager::SetActivePhase(unsigned phase) {
  * @param phase The current estimate phase
  */
 unsigned Manager::GetNumberOfPhases() {
-	vector<unsigned> store_unique_phases = {1};
+  vector<unsigned> store_unique_phases = {1};
   for (auto estimate : objects_) {
     unsigned current_phase = estimate->phase();
     // store unique phase numbers
