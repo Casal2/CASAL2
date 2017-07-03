@@ -36,6 +36,7 @@ public:
 
   // pure virtual
   virtual void                TransformForObjectiveFunction() = 0;
+  virtual void                RestoreFromObjectiveFunction() = 0;
   virtual std::set<string>    GetTargetEstimates() = 0;
   virtual Double              GetScore() = 0;
 

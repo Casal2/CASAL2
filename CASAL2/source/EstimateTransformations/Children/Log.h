@@ -31,6 +31,7 @@ public:
   explicit Log(Model* model);
   virtual ~Log() = default;
   void                        TransformForObjectiveFunction() override final;
+  void                        RestoreFromObjectiveFunction() override final;
   std::set<string>            GetTargetEstimates() override final;
   Double                      GetScore() override final;
 

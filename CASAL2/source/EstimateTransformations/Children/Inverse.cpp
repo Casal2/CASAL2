@@ -81,6 +81,14 @@ void Inverse::TransformForObjectiveFunction() {
     Transform();
 }
 
+/**
+ * This method will check if the estimate needs to be Restored from the objective function. If it does then
+ * it'll do the undo the transformation.
+ */
+void Inverse::RestoreFromObjectiveFunction() {
+  if (estimate_->transform_for_objective())
+    Restore();
+}
 
 /**
  *  @Return the jacobian

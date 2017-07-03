@@ -676,7 +676,7 @@ Note that this requires that $N_{process\_ error} > 0$, but we allow the special
 For both the c.v. and $N$ process errors, the process error has more effect on small errors than on large ones. Be clear that a large value for the $N$ process error means a small process error.
 
 \subsection{\I{Calculating nuisance q's}}\label{subsec:nuisance}
-This section describes the equations used to calculate nuisance catchability coefficients $q’s$ (see Section~\ref{Obs:biomass}). From the user's point of view, the essence is that you can use nuisance $q’s$ in the following situations:
+This section describes the theory used to calculate nuisance (analytical) catchability coefficients $q’s$ (see Section~\ref{Obs:biomass}). From the user's point of view, the essence is that you can use nuisance $q’s$ in the following situations:
 \begin{enumerate}
 	\item With maximum likelihood.
 	\item With Bayesian estimation, providing that your provide an additional prior on the q is one of the following:
@@ -707,7 +707,7 @@ distributed,
 \begin{equation}\label{EQ:1}
 -log(L) = \sum_i log (c_iqE_i) + 0.5\sum_i \bigg(\frac{O_i - qE_i}{c_iqE_i} \bigg)^2
 \end{equation}
-The value of $q$ which minimises the objective function is found by solving $\partial/\partial q(-log(L))$
+The value of $q$ which minimises the objective function is found by solving for $q$ under the following condition, $\partial/\partial q(-log(L)) = 0$
 
 \begin{equation}\label{EQ:2}
 \frac{\partial }{\partial q}(-log(L)) = \frac{n}{q} + \frac{1}{q^2} \sum_i \frac{O_i}{c_i^2E_i} - \frac{1}{q^3} \sum_i \bigg(\frac{O_i}{c_iE_i}\bigg)^2

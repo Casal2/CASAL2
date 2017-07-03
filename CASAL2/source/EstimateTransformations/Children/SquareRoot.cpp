@@ -73,6 +73,14 @@ void SquareRoot::TransformForObjectiveFunction() {
     Transform();
 }
 
+/**
+ * This method will check if the estimate needs to be Restored from the objective function. If it does then
+ * it'll do the undo the transformation.
+ */
+void SquareRoot::RestoreFromObjectiveFunction() {
+  if (estimate_->transform_for_objective())
+    Restore();
+}
 
 Double SquareRoot::GetScore() {
   if(transform_with_jacobian_) {

@@ -63,5 +63,14 @@ void Manager::TransformEstimatesForObjectiveFunction() {
     obj->TransformForObjectiveFunction();
 }
 
+/**
+ * Transform the objects for the objective function
+ */
+void Manager::RestoreEstimatesFromObjectiveFunction() {
+LOG_MEDIUM() << "Transforming estimates for the objective function";
+for (auto obj : objects_)
+  obj->RestoreFromObjectiveFunction();
+}
+
 } /* namespace estimatetransformations */
 } /* namespace niwa */
