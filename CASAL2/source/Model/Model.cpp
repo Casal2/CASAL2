@@ -487,8 +487,11 @@ void Model::RunEstimation() {
 
     run_mode_ = RunMode::kEstimation;
     LOG_FINE() << "Calling minimiser to begin the estimation with the " << i + 1 << "st/nd/nth set of values";
-    for (unsigned j = 1; j <= global_configuration_->estimation_phases(); ++j) {
-      LOG_FINEST() << "model.estimation_phase: " << j;
+    unsigned max_iters = managers_->estimate()->GetNumberOfPhases();
+
+    LOG_FINE() << "found iterations = " << max_iters;
+    for (unsigned j = 1; j <= max_iters; ++j) {
+    	LOG_MEDIUM() << "model.estimation_phase: " << j;
       managers_->estimate()->SetActivePhase(j);
       minimiser->Execute();
     }

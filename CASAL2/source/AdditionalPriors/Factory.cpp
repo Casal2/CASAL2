@@ -16,6 +16,8 @@
 #include "Model/Managers.h"
 #include "AdditionalPriors/Manager.h"
 #include "AdditionalPriors/Children/Beta.h"
+#include "AdditionalPriors/Children/LogNormal.h"
+#include "AdditionalPriors/Children/UniformLog.h"
 #include "AdditionalPriors/Children/VectorAverage.h"
 #include "AdditionalPriors/Children/VectorSmoothing.h"
 
@@ -40,6 +42,10 @@ AdditionalPrior* Factory::Create(Model* model, const string& object_type, const 
       object = new VectorSmoothing(model);
     else if (sub_type == PARAM_VECTOR_AVERAGE)
       object = new VectorAverage(model);
+    else if (sub_type == PARAM_LOGNORMAL)
+      object = new LogNormal(model);
+    else if (sub_type == PARAM_UNIFORM_LOG)
+      object = new UniformLog(model);
   }
 
   if (object)

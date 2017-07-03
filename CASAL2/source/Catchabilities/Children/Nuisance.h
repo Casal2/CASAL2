@@ -43,7 +43,7 @@ private:
   Double                      q_;
   Double                      lower_bound_ = 0.0;
   Double                      upper_bound_= 100.0;
-  string                      prior_ = PARAM_NONE;
+  string                      prior_type_ = PARAM_NONE;
   Double                      mu_ = 0.0;
   Double                      cv_ = 1.0;
 

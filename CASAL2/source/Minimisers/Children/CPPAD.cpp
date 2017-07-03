@@ -65,7 +65,7 @@ private:
 };
 
 /**
- *
+ * * For information about what these options do see here https://www.coin-or.org/CppAD/Doc/ipopt_solve.htm
  */
 CPPAD::CPPAD(Model* model) : Minimiser(model) {
   parameters_.Bind<string>(PARAM_RETAPE, &retape_, "Retape? yes or no", "", "true")->set_allowed_values({"true", "false"});

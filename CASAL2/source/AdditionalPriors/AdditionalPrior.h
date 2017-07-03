@@ -37,6 +37,8 @@ public:
   void                        Validate();
   void                        Build();
   void                        Reset() { };
+  string                      parameter() const { return parameter_; }
+
 
 protected:
   // pure virtual methods

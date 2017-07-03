@@ -124,6 +124,7 @@ void MCMC::Build() {
  *
  */
 void MCMC::Execute() {
+	LOG_FINE() << "executing MCMC";
   if (model_->global_configuration().create_mpd_file()) {
     configuration::MPD mpd_loader(model_);
     if (!mpd_loader.LoadFile("mpd.out"))

@@ -17,10 +17,11 @@
 // headers
 #include "MCMCs/MCMC.h"
 
+#include "Estimates/Estimate.h"
+
 // namespaces
 namespace niwa {
 namespace mcmcs {
-
 /**
  * Class definition
  */
@@ -43,6 +44,7 @@ protected:
   void                        UpdateStepSize();
   void                        UpdateCovarianceMatrix();
   void                        GenerateNewCandidates();
+  bool												WithinBounds();
 
   // members
   Double                      start_ = 0;
@@ -64,7 +66,7 @@ protected:
   vector<unsigned>            adapt_covariance_matrix_;
   vector<string>              estimate_labels_;
   string                      adapt_stepsize_method_;
-
+  vector<Estimate*> 					estimates_;
 };
 
 } /* namespace mcmcs */

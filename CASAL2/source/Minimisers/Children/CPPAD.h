@@ -8,6 +8,7 @@
  * Copyright NIWA Science ©2014 - www.niwa.co.nz
  *
  * @section DESCRIPTION
+ * see this webpage for more information about this solver https://www.coin-or.org/CppAD/Doc/ipopt_solve.htm
  *
  * << Add Description >>
  */

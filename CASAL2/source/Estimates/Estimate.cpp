@@ -38,7 +38,7 @@ Estimate::Estimate(Model* model) : model_(model) {
   parameters_.Bind<bool>(PARAM_MCMC, &mcmc_fixed_, "Indicates if this parameter is fixed at the point estimate during an MCMC run", "", false);
   parameters_.Bind<string>(PARAM_TRANSFORMATION, &transformation_type_, "Type of simple transformation to apply to estimate", "", "");
   parameters_.Bind<bool>(PARAM_TRANSFORM_WITH_JACOBIAN, &transform_with_jacobian_, "Apply jacobian during transformation", "", false);
-  parameters_.Bind<bool>(PARAM_TRANSFORM_FOR_OBJECTIVE, &transform_for_objective_function_, "Transform before calculating prior score for objective function", "", false);
+  parameters_.Bind<bool>(PARAM_TRANSFORM_FOR_OBJECTIVE, &transform_for_objective_function_, "Does the prior apply to the transformed parameter? a legacy switch, see Manual for more information", "", false);
 }
 
 /**
@@ -52,8 +52,9 @@ void Estimate::Validate() {
 }
 
 void Estimate::Build() {
-  if (estimation_phase_ > model_->global_configuration().estimation_phases())
-    LOG_ERROR_P(PARAM_ESTIMATION_PHASE) << "value (" << estimation_phase_ << ") exceeds the number of specified estimation phases " << model_->global_configuration().estimation_phases();
+
+//  if (estimation_phase_ > model_->global_configuration().estimation_phases())
+//    LOG_ERROR_P(PARAM_ESTIMATION_PHASE) << "value (" << estimation_phase_ << ") exceeds the number of specified estimation phases " << model_->global_configuration().estimation_phases();
   if (*target_ < lower_bound_)
     LOG_ERROR() << location() <<  "the initial value(" << AS_DOUBLE((*target_)) << ") on the estimate " << parameter_
         << " is lower than the lower_bound(" << lower_bound_ << ")";

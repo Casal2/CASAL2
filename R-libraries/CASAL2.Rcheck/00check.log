@@ -33,6 +33,11 @@ Checking should be performed on sources prepared by 'R CMD build'.
 * checking loading without being on the library search path ... OK
 * checking dependencies in R code ... OK
 * checking S3 generic/method consistency ... WARNING
+summary:
+  function(object, ...)
+summary.casal2MPD:
+  function(model)
+
 plot:
   function(x, ...)
 plot.derived_quantities:
@@ -103,9 +108,26 @@ plot.derived_quantities.casal2MPD: no visible global function
   definition for 'legend'
 reformat.compositional.data: no visible global function definition for
   'head'
+summary.casal2MPD: no visible binding for global variable 'type'
+summary.casal2MPD: no visible binding for global variable
+  'report_label'
+summary.casal2MPD: no visible global function definition for 'quantile'
+summary.casal2MPD: no visible binding for global variable 'plot.it'
+summary.casal2MPD: no visible global function definition for 'plot'
+summary.casal2MPD: ... may be used in an incorrect context: plot(years,
+  values, xlim = xlim, ylim = ylim, xlab = xlab, ylab = ylab, main =
+  main, type = "o", ...)
+summary.casal2MPD: no visible global function definition for 'palette'
+summary.casal2MPD: no visible global function definition for 'gray'
+summary.casal2MPD: ... may be used in an incorrect context: plot(years,
+  values, xlim = xlim, ylim = ylim, xlab = xlab, ylab = ylab, main =
+  main, type = "o", lwd = 3, col = Cols[i], ...)
+summary.casal2MPD: no visible global function definition for 'lines'
+summary.casal2MPD: no visible global function definition for 'legend'
 Undefined global functions or variables:
   Max abline approx curent_no fit gray head legend len lines lowess
-  optimize palette par plot points quantile rainbow segments var
+  optimize palette par plot plot.it points quantile rainbow
+  report_label segments type var
 Consider adding
   importFrom("grDevices", "gray", "palette", "rainbow")
   importFrom("graphics", "abline", "legend", "lines", "par", "plot",
@@ -116,7 +138,12 @@ to your NAMESPACE file.
 * checking Rd files ... OK
 * checking Rd metadata ... OK
 * checking Rd cross-references ... OK
-* checking for missing documentation entries ... OK
+* checking for missing documentation entries ... WARNING
+Undocumented code objects:
+  'summary'
+All user-level objects in a package should have documentation entries.
+See chapter 'Writing R documentation files' in the 'Writing R
+Extensions' manual.
 * checking for code/documentation mismatches ... OK
 * checking Rd \usage sections ... WARNING
 Undocumented arguments in documentation object 'KnifeEdge'
@@ -128,11 +155,6 @@ Undocumented arguments in documentation object 'Method.TA1.10'
   'plotit'
 Documented arguments not in \usage in documentation object 'Method.TA1.10':
   'plot.it'
-
-Undocumented arguments in documentation object 'Method.TA1.8'
-  'observation_labels'
-Documented arguments not in \usage in documentation object 'Method.TA1.8':
-  'Observation_label'
 
 Undocumented arguments in documentation object 'Paste'
   '...' 'sep'
@@ -195,6 +217,9 @@ Undocumented arguments in documentation object 'make.named_complete_vector'
 Undocumented arguments in documentation object 'make.vector'
   'lines'
 
+Undocumented arguments in documentation object 'mpd_derived_quantity'
+  'filename'
+
 Undocumented arguments in documentation object 'param.profile'
   'y_min'
 Documented arguments not in \usage in documentation object 'param.profile':
@@ -252,4 +277,4 @@ Extensions' manual.
 * checking examples ... NONE
 * checking PDF version of manual ... OK
 * DONE
-Status: 3 WARNINGs, 1 NOTE
+Status: 4 WARNINGs, 1 NOTE

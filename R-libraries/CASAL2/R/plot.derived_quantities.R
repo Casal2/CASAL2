@@ -46,7 +46,7 @@ function(model, type = "number", report_label="", xlim, ylim, xlab, ylab, main, 
   }
   if (!muliple_iterations_in_a_report) {
     ## only a single trajectory
-    this_report = get(report_label, this_report$'1')
+    this_report = get(names(this_report$'1')[1], this_report$'1')
     values = this_report$values
     zero_ndx = values == 0;
     if (any(zero_ndx)) {
@@ -93,7 +93,7 @@ function(model, type = "number", report_label="", xlim, ylim, xlab, ylab, main, 
     }
     for (i in 1:length(this_report)) {
       this_derived_quantity = this_report[[i]]
-      this_derived_quantity = get(report_label, this_derived_quantity)
+      this_derived_quantity = get(names(this_derived_quantity$'1')[1], this_derived_quantity)
       values = this_derived_quantity$values
       zero_ndx = values == 0;
       if (any(zero_ndx)) {

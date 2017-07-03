@@ -10,21 +10,19 @@ Method.TA1.8(model, observation_labels, plot.it = F, xlim = NULL,
 \arguments{
 \item{model}{Casal2 output that is the result of a -r, -e run.}
 
+\item{observation_labels}{vector<string> Labels of the observations you want to apply the iterative weighting too, can be multiple datasets as in in Chris's original package multiple = T.}
+
 \item{plot.it}{If TRUE, plot the index and the smoothed fit. Otherwise, return a dataframe of the year, index, smoothed fitted value, and cv)}
 
 \item{xlim}{x-axis limits for the illustrative plot}
 
 \item{ylim}{y-axis limits for the illustrative plot}
-
-\item{Observation_label}{Label of the observation you want to apply the weighting too.}
 }
 \value{
-Outputs a stage-2 process-error c.v. for the data set. Returns a 2-vector containing the process-error c.v. assumed or estimated in stage 1, and that estimated using TA1.10 for stage 2
+Outputs a mutiplier, w, so that N2y = w x N1y, where N1y and N2y are the stage-1 and stage-2 multinomial sample sizes for the data set in year y.
 }
 \description{
-This function is useful for deciding on the data weights of one or more at-age or at-length data sets with assumed lognormal error structure in a stock assessment.
-Originally written in Chris Francis's DataWeighting Package, this has been copied over and modified so that users can use this 
-functionality with Casal2 models/output.
+This function is useful for deciding on the data weights of one or more at-age or at-length data sets with assumed multinomial error structure in a stock assessment. Can produce a diagnostic plot if the analysis is for a single data set
 }
 \note{
 Method TA1.8 is described in Appendix A of the following paper Francis, R.I.C.C. (2011). Data weighting in statistical fisheries stock assessment models. 
