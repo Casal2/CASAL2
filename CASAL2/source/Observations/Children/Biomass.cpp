@@ -35,6 +35,8 @@ Biomass::Biomass(Model* model) : Observation(model) {
   parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_labels_, "Labels of the selectivities", "", true);
   parameters_.Bind<Double>(PARAM_PROCESS_ERROR, &process_error_value_, "Value for process error", "", Double(0.0));
 
+  RegisterAsAddressable(PARAM_PROCESS_ERROR, &process_error_value_);
+
   allowed_likelihood_types_.push_back(PARAM_NORMAL);
   allowed_likelihood_types_.push_back(PARAM_LOGNORMAL);
   allowed_likelihood_types_.push_back(PARAM_PSEUDO);

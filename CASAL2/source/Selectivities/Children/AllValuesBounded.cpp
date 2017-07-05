@@ -34,6 +34,7 @@ AllValuesBounded::AllValuesBounded(Model* model)
   parameters_.Bind<Double>(PARAM_V, &v_, "V", "");
 
   RegisterAsAddressable(PARAM_V, &v_);
+  RegisterAsAddressable(PARAM_VALUES, &values_for_lookup_,addressable::kLookup);
 }
 
 /**
@@ -71,6 +72,9 @@ void AllValuesBounded::DoValidate() {
     LOG_ERROR_P(PARAM_V) << ": Parameter 'v' does not have the right amount of elements n = h - l\n"
         << "Expected " << (high_ - low_) + 1 << " but got " << v_.size();
   }
+
+  for (unsigned age = model_->min_age(); age <= model_->max_age(); ++age)
+    values_for_lookup_[age] = 0.0;
 }
 
 /**
@@ -91,12 +95,18 @@ void AllValuesBounded::Reset() {
    * While age > High :: Value = Last element if v_
    */
   unsigned age = min_age;
-  for (; age < low_; ++age)
+  for (; age < low_; ++age) {
     values_[age] = 0.0;
-  for (unsigned i = 0; i < v_.size(); ++i, ++age)
+    values_for_lookup_[age] = 0.0;
+  }
+  for (unsigned i = 0; i < v_.size(); ++i, ++age) {
     values_[age] = v_[i];
-  for (; age <= max_age; ++age)
+    values_for_lookup_[age] = v_[i];
+  }
+  for (; age <= max_age; ++age) {
     values_[age] = *v_.rbegin();
+    values_for_lookup_[age] = *v_.rbegin();
+  }
 }
 
 /**

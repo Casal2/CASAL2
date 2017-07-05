@@ -67,8 +67,6 @@ age_plus
 ageing_error
 alpha
 ato95
-average_lower_bound
-average_upper_bound
 b
 b0
 b0_intialisation_phase
@@ -96,9 +94,7 @@ derivative_test
 detection
 df
 difference_estimate_label
-difference_lower_bound
 difference_scale
-difference_upper_bound
 dispersion
 distribution
 e
@@ -107,6 +103,7 @@ equation
 error_value
 error_value_multiplier
 estimate_label
+estimation_phase
 evaluations
 exclude_processes
 external_gaps
@@ -172,6 +169,7 @@ prey_selectivities
 print_default_reports
 print_level
 print_report
+prior_applies_to_transform
 process
 process_error
 process_errors
@@ -188,6 +186,7 @@ retape
 s
 same
 sb
+second_estimate
 selectivities
 selectivities2
 selectivity
@@ -297,6 +296,7 @@ log
 log_normal
 log_normal_empirical
 log_normal_with_q
+log_sum
 logistic
 logistic_producing
 lognormal

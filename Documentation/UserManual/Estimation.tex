@@ -44,8 +44,9 @@ See Section \ref{sec:parameter-names} for instructions on how to generate the pa
 All parameters are estimated within bounds\index{Bounds}. For each parameter to be estimated, you need to specify the bounds and the prior\index{Priors} (\texttt{type}) (Section \ref{sec:priors}). Note that the bounds and prior for each parameter refer to the values of the parameters, not the actual values resulting from the application of the parameter to an equation. Bounds should be carefully chosen as they effect the space in which the minimisers search over. Some minimisers convert lower and upper bound into a minimisation space (for example -1,1 space for the numerical differences algorithm). If estimating only some elements of a vector, either define each element of the vector to be estimated (see \ref{sec:parameter-names}) or fix the others by setting the bounds equal.
 
 \subsection{\I{Point estimation}\label{sec:estimate-MPD}}
-Point estimation is invoked with \texttt{\cname\ -e}. Mathematically, it is an attempt to find a minimum of the objective function\index{Objective function}. \CNAME\ has multiple algorithms for solving (minimising) the optimisation problem. There are three non auto differential minimisers: numerical differences, differential evolution minimiser (\subcommand{de\_solver}), and the dlib minimiser. There are also three auto differential minimisers being: ADOL-C, CPPAD, and BETADIFF. For references see section \ref{sec:tech}. Recently with the number of parameters growing in these models, an important input parameter on most minimisers is the \subcommand{tolerance} parameter. This is the stopping rule that minimisers use to define when they have found a 'solution' (remember there is no guarantee that a solution is the global solution, such is the world we live in). Try alternative starting values, this is easiliy done with the \texttt{-i parameter\_file.txt} in \CNAME. I digress I highly recommend when estimating any model with \CNAME\ that you try smaller values for the \subcommand{tolerance} parameter. I have found for some models that if you make it say 0.00000002 that the solution is quite a bit different than when using the default (0.002). I believe this is not ideal behaviour from your model (Craig's Opinion) and that you should do some more investigative work on what parameters are causing the behaviour. An aside note: this will also effect your covariance matrix as with different tolerances and searchs you may end up with a different approximate hessian matrix which is inverted to solve for the covariance matrix. I thought that this might make a difference on MCMC results because the covariance is incorporated into the proposal distribution. However I have run a few MCMC's with varying tolerances and have found that doesn't effect the posterior distribution of the MCMC.
+Point estimation is invoked with \texttt{\cname\ -e}. Mathematically, it is an attempt to find a minimum of the objective function\index{Objective function}. \CNAME\ has multiple algorithms for solving (minimising) the optimisation problem. There are three non auto differential minimisers: numerical differences, differential evolution minimiser (\subcommand{de\_solver}), and the dlib minimiser. There are also three auto differential (AD) minimisers being: ADOL-C, CPPAD, and BETADIFF. For references see section \ref{sec:tech}. AD minimisers are recommended for complex models they are on average much faster and from my experience find a better minimum if exploring a complex objective surface. 
 
+Recently with the number of parameters growing in these models, an important input parameter on most minimisers is the \subcommand{tolerance} parameter. This is the stopping rule that minimisers use to define when they have found a 'solution' (remember there is no guarantee that a solution is the global solution, such is the world we live in). Try  alternative starting values, this is easiliy done with the \texttt{-i parameter\_file.txt} in \CNAME. I digress, I highly recommend when estimating any model with \CNAME\ that you try smaller values for the \subcommand{tolerance} parameter. I have found for some models that if you make it say 0.00000002 that the solution is quite a bit different than when using the default (0.002). I believe this is not ideal behaviour from your model (Craig's Opinion) and that you should do some more investigative work on what parameters are causing the behaviour. An aside note: this will also effect your covariance matrix as with different tolerances and searchs you may end up with a different approximate hessian matrix which is inverted to solve for the covariance matrix. I thought that this might make a difference on MCMC results because the covariance is incorporated into the proposal distribution. However I have run a few MCMC's with varying tolerances and have found that doesn't effect the posterior distribution of the MCMC.
 \subsubsection{\I{The numerical differences minimiser}}
 
 The minimiser has three kinds of (non-error) exit status, depending on the minimiser: 
@@ -280,9 +281,6 @@ Note that when some of these priors are parameterised in terms of mean, c.v., an
 
 where $s$ is the standard deviation of $\log(p)$ and $s= \sqrt{\log \left(1+c^2 \right)}$.
 
-\begin{lstlisting}
-6.	Normal-log with log(p) having mean m and standard deviation s, 
-\end{lstlisting}
 
 \item{Beta\index{Beta prior}\index{Priors ! Beta} with mean $\mu$ and standard deviation $\sigma$, and range parameters $A$ and $B$}
 
@@ -294,20 +292,64 @@ where $\nu  = \frac{\mu  - A}{B - A}$, and $\tau = \frac{\left(\mu -A \right)\le
 
 \end{enumerate}
 
-Vectors of parameters can be independently (but not necessarily identically) distributed according to any of the above forms, in which case the joint negative-log-prior for the vector is the sum of the negative-log-priors of the components. Values of each parameter need to be specified for each element of the vector. 
+Vectors of parameters can be independently (but not necessarily identically) distributed according to any of the above forms, in which case the joint negative-log-prior for the vector is the sum of the negative-log-priors of the components. Values of each parameter need to be specified for each element of the vector. Example of syntax to define the estimation of a parameter and the prior assumed follows;
 
-In addition, for a vector p of n identically distributed parameters (for example, YCS) the following priors are allowed: 
+{\small{\begin{verbatim}
+		## uniform-log example estimate
+		@estimate B0
+		type uniform_log	# this command "type" defines the prior type.
+		parameter process[Recruitment].b0 # "Recruitment" is the label of your process
+		upper_bound 20000
+		lower_bound 1000
+		
+		## Lognormal YCS estimation
+		@estimate year_class_strengths_1990_1995
+		type lognormal
+		parameter process[Recruitment].ycs_values{1990:1995}
+		#ycs_year   1990	1991	1992	1993	1994	1995
+		mu   		1   	1   	1   	1   	1   	1
+		cv 			0.9 	0.9 	0.9 	0.9 	0.9 	0.9
+		lower_bound 0.01	0.01	0.01	0.01	0.01	0.01
+		upper_bound 9		9		9		9		9		9	
+		
+		
+\end{verbatim}}}
 
 \subsection{Penalties\label{sec:penalties}}
-Penalties are associated with processes and can be used to encourage or discourage parameter values or model outputs that are unlikely to be sensible, by adding a penalty to the objective function. For example, parameter estimates that do not allow a known mortality event to remove enough individuals from the population can be discouraged with an event mortality penalty. \CNAME\ requires penalty functions for processes that move or shift a \emph{number} of individuals between categories or from the partition.
+Penalties are associated with processes and can be used to discourage parameter values or model outputs that are non-sensical, by adding a penalty to the objective function. For example, parameter estimates that do not allow a known mortality event to remove enough individuals from the population can be discouraged with an event mortality penalty. \CNAME\ requires penalty functions for processes that remove or shift a \emph{number} of individuals between categories or from the partition. For CASAL users many of the penalties that were available in CASAL have been moved to be additional priors, see Section~\ref{sec:additional_priors}.
 
 For most penalties, you need to specify a multiplier, and the objective function is increased by this multiplier times the penalty value as described below. In some cases you will need to make the multiplier quite large to prohibit some model behaviour. 
 
-Currently, the penalties for the processes \commandlabsubarg{process}{type}{event\_mortality}, \commandlabsubarg{process}{type}{tag\_by\_length} and \commandlabsubarg{process}{type}{category\_transition} are the only penalties implemented. 
+Currently, the penalties for the processes \commandlabsubarg{process}{type}{event\_mortality},
+\commandlabsubarg{process}{type}{mortality\_instantaneous},
+\commandlabsubarg{process}{type}{tag\_by\_length}, \commandlabsubarg{process}{type}{tag\_by\_length} and \commandlabsubarg{process}{type}{category\_transition} are the only penalties implemented. 
 
 For these processes, two types of penalty can be defined, natural scale (the default) and log scale. Both of these types add a penalty value of the squared difference between the observed value (i.e., the actual number of individuals to be removed in an event mortality process or the actual number of individuals to shift in a category transition process), and the number that were moved (if less than or equal), times the penalty multiplier.
 
-The natural scale penalty just uses at the squared difference on a natural scale, while the log scale penalty uses the squared difference of the logged values. 
+The natural scale penalty just uses at the squared difference on a natural scale, while the log scale penalty uses the squared difference of the logged values. An example of applying a penalty
+
+{\small{\begin{verbatim}
+@process Mortality
+type mortality_instantaneous
+penalty CatchMustBeTaken	
+
+# define the penalty in an @penalty block
+@penalty CatchMustBeTaken
+type process
+log_scale True
+multiplier 10000
+\end{verbatim}}}
+
+Penalties are added to the objective function in the following ways;
+\begin{equation}
+	Penalty = (X_1 - X_2)^2
+\end{equation}
+or if \subcommand{log\_scale true}
+\begin{equation}
+Penalty = (log(X_1) - log(X_2))^2
+\end{equation}
+
+Where $X_1$ could be a known catch and $X_2$ is the model catch under a given set of parameter values. These are usually applied in situations where you have known numbers or weight. Another obvious example is tagging, we know for a fact that we tagged $N$ fish this year so don't allow you model to apply less than that because that is inplausible.
 
 \subsection{Additional Priors\label{sec:additional_priors}}
 Additional priors can be thought of as the inverse of penalties. They constrain parameters in certain spaces. The types of additional priors available in \CNAME\ are \texttt{vector\_smoothing} and \texttt{vector\_averaging}, defined as,
@@ -331,6 +373,11 @@ Additional priors can be thought of as the inverse of penalties. They constrain 
 	\begin{equation}
 	- \log \left(\pi \left(p \right) \right) = \log \left( p \right)
 	\end{equation}	
+	\item\texttt{element\_difference}
+
+	\begin{equation}
+	- \log \left(\pi \left(p \right) \right) = \log \left( p \right)
+	\end{equation}		
 	\\\\
 	\item\texttt{Beta}
 	{Beta\index{Beta additional prior}\index{Additional Priors ! Beta} with mean $\mu$ and standard deviation $\sigma$, and range parameters $A$ and $B$, for parameter value = $p$}
@@ -342,19 +389,22 @@ Additional priors can be thought of as the inverse of penalties. They constrain 
 \end{enumerate}
 
 \subsubsection{\I{Estimate Transformations}\label{sec:transformations}}
+\CNAME\ has multiple methods to transform a parameter some methods are for legacy purposes and some are more recent ideas. All transformations are implemented for the same reason and that is to try and achieve better optimisation from our models. Is is no surprise that complex population models can have highly correlated parameters so transforming them into orthogonal or into a different space is a way of trying to remove correlations and hope this allows our minimiser to find a 'global' minimum quicker. There are two main methods available, \subcommand{transform\_with\_jacobian} and \subcommand{transform\_without\_jacobian} but define the prior for the transformed variable. The latter has to more additional options where users can define the priors and bounds on either the transformed or non-transformed parameter. To read more about transformations and get a better understanding of why they are used we refer you to \cite{gilks1995markov} specifically chapter 6.
 
+\paragraph{Transform with Jacobian}
 The support of a random variable $X$ with density $p_X(x)$ is that subset of values for which it has non-zero density, 
-$$ supp(X) = \{x|p_X(x) > 0\}$$ 
-If $f$ is a transformation function defined on the support of $X$, then $Y = f(X)$ is a new random variable. This section shows the available transformations in \CNAME\ and the probability density function of $Y$. This theory follows the STAN manual \cite{STAN}.
+\begin{equation}
+ supp(X) = \{x|p_X(x) > 0\}
+\end{equation}
+If $f$ is a transformation function defined on the support of $X$, then $Y = f(X)$ is a new random variable (transformed variable). This section shows the available transformations in \CNAME\ and the probability density function of $Y$. %%This theory follows the STAN manual \cite{STAN}.
 
 Suppose $X$ is one dimensional and $f$: $supp(X) \to \mathbf{R}$ is a one-to-one, monotonic function with a differentiable inverse $f^{-1}$. Then the density of $Y$ is given by
-$$ p_Y(y) = p_X(f^{-1}(y)) \begin{vmatrix} \frac{\partial}{\partial y} f^{-1}(y) \end{vmatrix}$$
+\begin{equation}\label{eq:jacobian}
+	p_Y(y) = p_X(f^{-1}(y)) \begin{vmatrix} \frac{\partial}{\partial y} f^{-1}(y) \end{vmatrix}
+\end{equation}
 
-The absolute derivative of the inverse transform measures how the scale of the transformed variable changes with respect to the underlying variable.
+where $\begin{vmatrix} \frac{\partial}{\partial y} f^{-1}(y) \end{vmatrix}$ is the jacobian term. The jacobian measures how the scale of the transformed variable changes with respect to the underlying variable. This can be expanded to the multivaiate case where the jacobian becomes a matrix of partial derivatives, see later for some example of multivariate cases. In equation~\ref{eq:jacobian} the term $p_X(f^{-1}(y)) = p_X(X)$ and in a bayesian context is the prior of the untransformed variable/parameter.
 
-%%$$ Y = F_y(X) $$
-%%$$ X = F_y^{-1}(Y) $$
-%%$$ J = $$
 %%\paragraph[log]{\argument{log}}\index{Estimate Transformations!log}
 %%Transforming a parameter onto the log scale is a simple log transformation. The Jacobian and inverse are discussed as follows
 
@@ -364,8 +414,10 @@ The absolute derivative of the inverse transform measures how the scale of the t
 
 %%\paragraph[Inverse]{\argument{Inverse}}\index{Estimate Transformations!Inverse}
 
-
 %%\paragraph[Log odds]{\argument{Log odds}}\index{Estimate Transformations!Log odds}
 
 %%\paragraph[Simplex]{\argument{Simplex}}\index{Estimate Transformations!Simplex}
 
+\paragraph{Transform without Jacobian}
+
+\paragraph*{Specifying bounds on transformed variables}

@@ -33,6 +33,9 @@ AverageDifference::AverageDifference(Model* model) : EstimateTransformation(mode
 /**
  */
 void AverageDifference::DoValidate() {
+  if (PARAM_TRANSFORM_WITH_JACOBIAN) {
+    LOG_ERROR_P(PARAM_TRANSFORM_WITH_JACOBIAN) << "The jacobian transformation has not been worked out (if it exists) for the average difference transformation, If you would like to do by all means get stuck in.";
+  }
 
 }
 
@@ -58,7 +61,7 @@ void AverageDifference::DoBuild() {
     difference_original_lower_bound_ =  difference_estimate_->lower_bound();
     Transform();
     if(difference_estimate_->value() < difference_original_lower_bound_ || difference_estimate_->value() > difference_original_upper_bound_)
-      LOG_ERROR_P(PARAM_DIFFERENCE_ESTIMATE) << "You have specified " << PARAM_TRANSFORM_FOR_OBJECTIVE << " true, but the transformed parameter = " << difference_estimate_->value() << " which is outside one of these bounds, please reconsider your choice in bounds. If this is on M try staggering the starting values of males and females if they are the same it will make the diff == 0.";
+      LOG_ERROR_P(PARAM_DIFFERENCE_ESTIMATE) << "You have specified " << PARAM_PRIOR_APPLIES_TO_TRANSFORM << " true, but the transformed parameter = " << difference_estimate_->value() << " which is outside one of these bounds, please reconsider your choice in bounds. If this is on M try staggering the starting values of males and females if they are the same it will make the diff == 0.";
     Restore();
   }
 
@@ -68,7 +71,7 @@ void AverageDifference::DoBuild() {
     average_original_lower_bound_ =  estimate_->lower_bound();
     DoTransform();
     if(estimate_->value() < average_original_lower_bound_ || estimate_->value() > average_original_upper_bound_)
-      LOG_ERROR_P(PARAM_ESTIMATE) << "You have specified " << PARAM_TRANSFORM_FOR_OBJECTIVE << " true, but the transformed parameter = " << estimate_->value() << " which is outside one of these bounds, please reconsider your choice in bounds.";
+      LOG_ERROR_P(PARAM_ESTIMATE) << "You have specified " << PARAM_PRIOR_APPLIES_TO_TRANSFORM << " true, but the transformed parameter = " << estimate_->value() << " which is outside one of these bounds, please reconsider your choice in bounds.";
     DoRestore();
   }
 }

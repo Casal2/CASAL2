@@ -47,6 +47,8 @@ ProcessRemovalsByAge::ProcessRemovalsByAge(Model* model) : Observation(model) {
 
   mean_proportion_method_ = false;
 
+  RegisterAsAddressable(PARAM_PROCESS_ERRORS, &process_error_values_);
+
   allowed_likelihood_types_.push_back(PARAM_LOGNORMAL);
   allowed_likelihood_types_.push_back(PARAM_MULTINOMIAL);
 }

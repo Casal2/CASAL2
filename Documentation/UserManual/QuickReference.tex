@@ -46,6 +46,8 @@
 \par\textbf{\commandlabsubarg{catchability}{type}{free}}\par
 \defSub{q} {value of the catchability}
 \par\textbf{\commandlabsubarg{catchability}{type}{nuisance}}\par
+\defSub{lower\_bound} {Upper bound for nuisance catchability}
+\defSub{upper\_bound} {Lower bound for nuisance catchability}
 \defComLab{derived\_quantity}{Define an object of type \emph{derived\_quantity}}\par\par
 \defSub{label} {Label of the derived quantity}
 \defSub{type} {Type of derived quantity}
@@ -62,10 +64,11 @@
 \defSub{parameter} {The name of the parameter to estimate in the model}
 \defSub{lower\_bound} {The lower bound for the parameter}
 \defSub{upper\_bound} {The upper bound for the parameter}
-\defSub{same} {List of parameters that are constrained to have the same value as this parameter}
+\defSub{estimation\_phase} {The first estimation phase to allow this to be estimated}
 \defSub{mcmc} {Indicates if this parameter is fixed at the point estimate during an MCMC run}
 \defSub{transformation} {Type of simple transformation to apply to estimate}
 \defSub{transform\_with\_jacobian} {Apply jacobian during transformation}
+\defSub{prior\_applies\_to\_transform} {Does the prior apply to the transformed parameter? a legacy switch, see Manual for more information}
 \par\textbf{\commandlabsubarg{estimate}{type}{beta}}\par
 \defSub{mu} {Beta prior  mean (mu) parameter}
 \defSub{sigma} {Beta prior variance (sigma) parameter}
@@ -91,13 +94,11 @@
 \defSub{estimate\_label} {Label of estimate block to apply transformation to}
 \defSub{transform\_with\_jacobian} {Apply jacobian during transformation}
 \par\textbf{\commandlabsubarg{estimate\_\_transformation}{type}{average\_difference}}\par
-\defSub{difference\_estimate\_label} {The label from the @estimate block relating to the difference parameter}
-\defSub{average\_upper\_bound} {Upper bound for the average transformed parameter}
-\defSub{average\_lower\_bound} {Lower bound for the average transformed parameter}
-\defSub{difference\_upper\_bound} {Upper bound for the difference transformed parameter}
-\defSub{difference\_lower\_bound} {Lower bound for the difference transformed parameter}
+\defSub{difference\_estimate\_label} {The label from the @estimate block relating to the difference parameter, used in this transformation}
 \par\textbf{\commandlabsubarg{estimate\_\_transformation}{type}{inverse}}\par
 \par\textbf{\commandlabsubarg{estimate\_\_transformation}{type}{log}}\par
+\par\textbf{\commandlabsubarg{estimate\_\_transformation}{type}{log\_sum}}\par
+\defSub{second\_estimate} {The label from the @estimate block relating to the difference parameter, used in this transformation}
 \par\textbf{\commandlabsubarg{estimate\_\_transformation}{type}{orthogonal}}\par
 \par\textbf{\commandlabsubarg{estimate\_\_transformation}{type}{simplex}}\par
 \par\textbf{\commandlabsubarg{estimate\_\_transformation}{type}{square\_root}}\par

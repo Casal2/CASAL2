@@ -45,11 +45,11 @@ protected:
   virtual void                DoValidate() = 0;
   // Members
   Model*                      model_ = nullptr;
-  map<unsigned, Double>       values_;
   unsigned                    n_quant_ = 5;
   vector<Double>              quantiles_;
   vector<Double>              quantiles_at_;
   bool                        length_based_ = false;
+  map<unsigned, Double>       values_;
 };
 } /* namespace niwa */
 #endif /* SELECTIVITY_H_ */

@@ -24,6 +24,7 @@
 #include "Selectivities/Manager.h"
 #include "InitialisationPhases/Manager.h"
 #include "TimeVarying/Manager.h"
+#include "Observations/Manager.h"
 #include "Utilities/String.h"
 #include "Utilities/To.h"
 
@@ -218,7 +219,11 @@ base::Object* Objects::FindObject(const string& parameter_absolute_name) {
 
   } else if (type == PARAM_TIME_VARYING) {
     result = model_->managers().time_varying()->GetTimeVarying(label);
+
+  } else if (type == PARAM_OBSERVATION) {
+    result = model_->managers().observation()->GetObservation(label);
   }
+
 
   if (!result) {
     LOG_CODE_ERROR() << parameter_absolute_name << " could not be located. "

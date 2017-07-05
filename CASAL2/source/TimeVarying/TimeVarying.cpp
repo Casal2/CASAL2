@@ -49,7 +49,7 @@ void TimeVarying::Build() {
 
   string error = "";
   if (!model_->objects().VerfiyAddressableForUse(parameter_, addressable::kTimeVarying, error)) {
-    LOG_FATAL_P(PARAM_PARAMETER) << "could not be verified for use in a time_varying block. Error was " << error;
+    LOG_FATAL_P(PARAM_PARAMETER) << "could not be verified for use in a time_varying block. Error was " << error << ", please double checked you have specified the parameter correctly.";
   }
 
   addressable::Type addressable_type = model_->objects().GetAddressableType(parameter_);
