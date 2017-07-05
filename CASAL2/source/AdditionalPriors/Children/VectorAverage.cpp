@@ -51,6 +51,9 @@ void VectorAverage::DoBuild() {
     case addressable::kVector:
       addressable_vector_ = model_->objects().GetAddressableVector(parameter_);
       break;
+    case addressable::kMultiple:
+      addressable_ptr_vector_ = model_->objects().GetAddressables(parameter_);
+      break;
     case addressable::kUnsignedMap:
       addressable_map_ = model_->objects().GetAddressableUMap(parameter_);
       break;
@@ -72,6 +75,9 @@ Double VectorAverage::GetScore() {
   else if (addressable_map_ != 0) {
     for (auto iter : (*addressable_map_))
       values.push_back(iter.second);
+  } else if (addressable_ptr_vector_ != nullptr) {
+    for (auto ptr : (*addressable_ptr_vector_))
+      values.push_back((*ptr));
   } else
     LOG_CODE_ERROR() << "(addressable_vector_ != 0) && (addressable_map_ != 0)";
 

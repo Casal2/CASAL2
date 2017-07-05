@@ -41,6 +41,7 @@ protected:
 private:
   // Members
   vector<Double>              v_;
+  map<unsigned, Double>       values_for_lookup_;
 };
 
 } /* namespace selectivities */

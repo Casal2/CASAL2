@@ -32,6 +32,8 @@ AllValues::AllValues(Model* model)
   parameters_.Bind<Double>(PARAM_V, &v_, "V", "");
 
   RegisterAsAddressable(PARAM_V, &v_);
+
+  RegisterAsAddressable(PARAM_VALUES, &values_for_lookup_,addressable::kLookup);
 }
 
 
@@ -49,6 +51,10 @@ void AllValues::DoValidate() {
     LOG_ERROR_P(PARAM_V) << ": Number of 'v' values supplied is not the same as the model age spread.\n"
         << "Expected: " << model_->age_spread() << " but got " << v_.size();
   }
+
+  //initialise values container
+  for (unsigned age = model_->min_age(); age <= model_->max_age(); ++age)
+    values_for_lookup_[age] = 0.0;
 }
 
 /**
@@ -62,6 +68,7 @@ void AllValues::Reset() {
   unsigned min_age = model_->min_age();
   for (unsigned i = 0; i < v_.size(); ++i) {
     values_[min_age + i] = v_[i];
+    values_for_lookup_[min_age + i] = v_[i];
   }
 }
 

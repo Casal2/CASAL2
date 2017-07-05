@@ -34,7 +34,10 @@ public:
 
 protected:
   // members
-  Double* 										addressable_ = nullptr;
+  Double*                     addressable_ = nullptr;
+  map<unsigned, Double>*      addressable_map_ = nullptr;
+  vector<Double>*             addressable_vector_ = nullptr;
+  vector<Double*>*            addressable_ptr_vector_ = nullptr;
   Double											score_ = 0.0;
   Double											mu_;
   Double											cv_;

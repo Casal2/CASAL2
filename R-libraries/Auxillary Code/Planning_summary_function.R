@@ -16,7 +16,7 @@ summary
   
   Trace for likelihood and parameters
   Marginal Posteriors for key parameters
-  
+  Correlation of parameters
   
 -TAB (Assumed) for a projection off a mcmc
   

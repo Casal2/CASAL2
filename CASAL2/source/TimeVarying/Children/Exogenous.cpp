@@ -36,9 +36,7 @@ void Exogenous::DoValidate() {
   if (years_.size() != exogenous_.size())
     LOG_ERROR_P(PARAM_YEARS) << " provided (" << years_.size() << ") does not match the number of values provided (" << exogenous_.size() << ")";
 
-  // Check that the parameter is of type scalar
-  if (model_->objects().GetAddressableType(parameter_) != addressable::kSingle)
-    LOG_ERROR_P(PARAM_PARAMETER) << "Parameter must be a scalar, other addressable types not supported yet";
+
 }
 
 /**
@@ -46,6 +44,9 @@ void Exogenous::DoValidate() {
  *  values_by_year.
  */
 void Exogenous::DoBuild() {
+  // Check that the parameter is of type scalar
+  if (model_->objects().GetAddressableType(parameter_) != addressable::kSingle)
+    LOG_ERROR_P(PARAM_PARAMETER) << "Parameter must be a scalar, other addressable types not supported yet";
   DoReset();
 }
 

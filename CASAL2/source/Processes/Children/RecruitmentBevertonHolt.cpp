@@ -57,6 +57,10 @@ RecruitmentBevertonHolt::RecruitmentBevertonHolt(Model* model)
   RegisterAsAddressable(PARAM_PROPORTIONS, &proportions_);
   RegisterAsAddressable(PARAM_YCS_VALUES, &ycs_value_by_year_);
 
+  // Allow these to be used in additional priors.
+  RegisterAsAddressable(PARAM_STANDARDISE_YCS_YEARS, &stand_ycs_value_by_year_,addressable::kLookup);
+
+
   phase_b0_         = 0;
   process_type_     = ProcessType::kRecruitment;
   partition_structure_ = PartitionStructure::kAge;

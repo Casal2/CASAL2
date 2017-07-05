@@ -816,9 +816,7 @@ Methods for generating the random error, and hence simulated values, depend on t
   \end{enumerate}
 \end{enumerate}
 
-\textbf{An important note:} \CNAME\ will not automatically report simulated observations, the user must write a report using the \texttt{simulated\_observation} report (\commandlabsubarg{report}{type}{observation}). See Section \ref{sec:report-section} for more information on how to write this report.
-
-
+\textbf{An important note when simulating:} \CNAME\ will \textbf{not} automatically report simulated observations when users undertake a \texttt{casal2 -s 1} run, you must write an explicit report using the \texttt{simulated\_observation} report (\commandlabsubarg{report}{type}{observation}). See Section \ref{sec:report-section} for more information on how to write this report.
 
 
 \subsection{\I{Pseudo-observations}}
@@ -832,7 +830,6 @@ Methods for generating the random error, and hence simulated values, depend on t
 \end{itemize}
 
 \subsection{\I{Residuals}}\label{sec:Residuals}}
-
 \CNAME\ will only print the usual residual (i.e. observed less fitted) using the report type \command{report}.type=observation. For an observation \textit{O} and \textit{F} the corresponding fit (=\textit{qE} for relative observations), then
 \begin{itemize}
 	\item Residuals = \textit{O} - \textit{F}

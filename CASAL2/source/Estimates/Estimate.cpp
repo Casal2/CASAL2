@@ -32,13 +32,13 @@ Estimate::Estimate(Model* model) : model_(model) {
   parameters_.Bind<string>(PARAM_PARAMETER, &parameter_, "The name of the parameter to estimate in the model", "");
   parameters_.Bind<Double>(PARAM_LOWER_BOUND, &lower_bound_, "The lower bound for the parameter", "");
   parameters_.Bind<Double>(PARAM_UPPER_BOUND, &upper_bound_, "The upper bound for the parameter", "");
-  parameters_.Bind<string>(PARAM_PRIOR, &prior_label_, "TBA", "", "");
+//  parameters_.Bind<string>(PARAM_PRIOR, &prior_label_, "TBA", "", ""); // This is type
   parameters_.Bind<string>(PARAM_SAME, &same_labels_, "List of parameters that are constrained to have the same value as this parameter", "", "");
   parameters_.Bind<unsigned>(PARAM_ESTIMATION_PHASE, &estimation_phase_, "The first estimation phase to allow this to be estimated", "", 1);
   parameters_.Bind<bool>(PARAM_MCMC, &mcmc_fixed_, "Indicates if this parameter is fixed at the point estimate during an MCMC run", "", false);
   parameters_.Bind<string>(PARAM_TRANSFORMATION, &transformation_type_, "Type of simple transformation to apply to estimate", "", "");
   parameters_.Bind<bool>(PARAM_TRANSFORM_WITH_JACOBIAN, &transform_with_jacobian_, "Apply jacobian during transformation", "", false);
-  parameters_.Bind<bool>(PARAM_TRANSFORM_FOR_OBJECTIVE, &transform_for_objective_function_, "Does the prior apply to the transformed parameter? a legacy switch, see Manual for more information", "", false);
+  parameters_.Bind<bool>(PARAM_PRIOR_APPLIES_TO_TRANSFORM, &transform_for_objective_function_, "Does the prior apply to the transformed parameter? a legacy switch, see Manual for more information", "", false);
 }
 
 /**
@@ -48,13 +48,15 @@ Estimate::Estimate(Model* model) : model_(model) {
  * estimate was created so we can skip that.
  */
 void Estimate::Validate() {
+  if (transform_with_jacobian_ & transform_for_objective_function_)
+    LOG_ERROR_P(PARAM_TRANSFORM_WITH_JACOBIAN) << "You cannot specify an estimate that has a jacobian contributing to the objective function and define the prior for the transformed variable together. See the manual for more info";
   DoValidate();
 }
 
 void Estimate::Build() {
   LOG_TRACE();
   if (transform_with_jacobian_ & transform_for_objective_function_)
-    LOG_ERROR_P(PARAM_TRANSFORM_WITH_JACOBIAN) << "You cannot specify both " << PARAM_TRANSFORM_WITH_JACOBIAN << " and " << PARAM_TRANSFORM_FOR_OBJECTIVE << " to be true. Please check the manual for more info";
+    LOG_ERROR_P(PARAM_TRANSFORM_WITH_JACOBIAN) << "You cannot specify both " << PARAM_TRANSFORM_WITH_JACOBIAN << " and " << PARAM_PRIOR_APPLIES_TO_TRANSFORM << " to be true. Please check the manual for more info";
 
   if (!transform_for_objective_function_) {
     // only check bounds if prior on untransformed variable.

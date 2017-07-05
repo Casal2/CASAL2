@@ -52,9 +52,6 @@ void VectorSmoothing::DoBuild() {
     case addressable::kInvalid:
       LOG_CODE_ERROR() << "Invalid addressable type: " << parameter_;
       break;
-    case addressable::kMultiple:
-      addressable_ptr_vector_ = model_->objects().GetAddressables(parameter_);
-      break;
     case addressable::kVector:
       addressable_vector_ = model_->objects().GetAddressableVector(parameter_);
       break;
@@ -77,10 +74,7 @@ Double VectorSmoothing::GetScore() {
   vector<Double> values;
   if (addressable_vector_ != nullptr)
     values.assign((*addressable_vector_).begin(), (*addressable_vector_).end());
-  else if (addressable_ptr_vector_ != nullptr) {
-    for (auto ptr : (*addressable_ptr_vector_))
-      values.push_back((*ptr));
-  } else if (addressable_map_ != nullptr) {
+  else if (addressable_map_ != nullptr) {
     for (auto iter : (*addressable_map_))
       values.push_back(iter.second);
   } else
