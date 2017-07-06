@@ -54,6 +54,7 @@ void Process::DoExecute() {
   LOG_FINE() <<" printing report " << label_ << " of type " << process_->type();
   bool is_BH_recruitment = (process_->type() == PARAM_RECRUITMENT_BEVERTON_HOLT) | (process_->type() == PARAM_BEVERTON_HOLT);
   cache_ << "*" << label_ << " " << "("<< type_ << ")"<<"\n";
+  cache_ << "process_type: " << process_->type() << "\n";
   cache_ << "process: " << process_label_ << "\n";
 
   cache_ << "parameters:\n";

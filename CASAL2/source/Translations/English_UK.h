@@ -44,14 +44,15 @@
 //**********************************************************************
 // Report output Syntax Strings
 #define REPORT_END                           "*end"
-#define REPORT_R_COMPLETE_VECTOR             "{c}"
-#define REPORT_R_DATAFRAME                   "{d}"
-#define REPORT_R_MATRIX                      "{m}"
-#define REPORT_R_NAMED_COMPLETE_VECTOR       "{C}"
+#define REPORT_R_COMPLETE_VECTOR             "{c}"    // not sure if this is used
+#define REPORT_R_DATAFRAME                   "{d}"    // R library will add a header to the data frame, so if you don't add one to the report R will put row 1 as the header
+#define REPORT_R_MATRIX                      "{m}"    // No header's
+#define REPORT_R_NAMED_COMPLETE_VECTOR       "{C}"    // not sure if this is used
 #define REPORT_R_LIST                        "{L}"
 #define REPORT_R_LIST_END                    "end {L}"
 #define REPORT_R_LIST_ELEMENT_SEPERATOR      ":"
 #define REPORT_R_VECTOR                      "{v}"
+#define REPORT_R_STRING_VECTOR               "{s}"    // This will not split a vector: used to read in warnings, see Logging.cpp warnings section
 
 
 //**********************************************************************

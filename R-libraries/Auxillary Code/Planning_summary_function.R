@@ -8,8 +8,8 @@ summary
   B_current
   
   Estimation
-  Covariance
-  Any parameters hit bounds
+  
+  Any parameters hit bounds (warnings)
   
 -MCMC
   Diagnostics

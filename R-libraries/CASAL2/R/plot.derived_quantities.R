@@ -46,55 +46,12 @@ function(model, type = "number", report_label="", xlim, ylim, xlab, ylab, main, 
   }
   if (!muliple_iterations_in_a_report) {
     ## only a single trajectory
-    this_report = get(names(this_report$'1')[1], this_report$'1')
-    values = this_report$values
-    zero_ndx = values == 0;
-    if (any(zero_ndx)) {
-      ## I am going to assume that these are in the projection phase and am going to remove them
-      values = values[!zero_ndx]      
-    }
-    years = as.numeric(names(values))
-    ## does the user want it plotted as percent B0
-    if (type == "percent")
-      values = values / this_report$B0 * 100
-    if(missing(ylim)) {
-      ymax = max(values) + quantile(values, 0.05) 
-      ylim = c(0, ymax)
-    }    
-    if(missing(xlim)) 
-      xlim = c(min(years) - 1, max(years) + 1)    
-    if(missing(ylab)) {
-      if (type == "percent")
-        ylab = "%B0"
-      else
-        ylab = "Biomass (t)"
-    }
-    if(missing(xlab)) 
-      xlab = "Years"
-    if(missing(col)) 
-      col = "black"      
-    if(missing(main)) 
-      main = report_label  
-    if (plot.it == TRUE) {
-      plot(years, values, xlim = xlim, ylim = ylim, xlab = xlab, ylab = ylab, main = main, type = "o", ...)
-    } else {
-      temp_DF = values;
-    }
-  } else {
-    ## Multiple trajectory's
-    first_run = TRUE;
-    Legend_txt = c();
-    #print(Paste("found - ",length(this_report), " iterations"))
-    if(missing(col)) {
-      palette(gray(seq(0.,.90,len = N_runs)))
-      Cols = palette()
-    } else {
-      Cols = col;
-    }
-    for (i in 1:length(this_report)) {
-      this_derived_quantity = this_report[[i]]
-      this_derived_quantity = get(names(this_derived_quantity$'1')[1], this_derived_quantity)
-      values = this_derived_quantity$values
+    derived_quantities = names(this_report$'1')[names(this_report$'1') != "type"]
+    ## create a multi-plot panel
+    par(mfrow = c(1,length(derived_quantities)))
+    for (i in 1:length(derived_quantities)) {
+      this_derived_q = get(derived_quantities[i], this_report$'1')
+      values = this_derived_q$values
       zero_ndx = values == 0;
       if (any(zero_ndx)) {
         ## I am going to assume that these are in the projection phase and am going to remove them
@@ -103,45 +60,105 @@ function(model, type = "number", report_label="", xlim, ylim, xlab, ylab, main, 
       years = as.numeric(names(values))
       ## does the user want it plotted as percent B0
       if (type == "percent")
-        values = values / this_derived_quantity$B0 * 100
-        
-      Legend_txt = c(Legend_txt,this_derived_quantity$B0)  
-
-      if (first_run) {      
-        if(plot.it == FALSE) {
-          temp_DF = values
-        }      
-        if(missing(ylim)) {
-          ymax = max(values) + quantile(values, 0.15) 
-          ylim = c(0, ymax)
-        }    
-        if(missing(xlim)) 
-          xlim = c(min(years) - 1, max(years) + 1)    
-        if(missing(ylab)) {
-          if (type == "percent")
-            ylab = "%B0"
-          else
-            ylab = "Biomass (t)"
-        }
-        if(missing(xlab)) 
-          xlab = "Years"    
-        if(missing(main)) 
-          main = report_label      
-        if (plot.it == TRUE) {  
-          plot(years, values , xlim = xlim, ylim = ylim, xlab = xlab, ylab = ylab, main = main, type = "o", lwd = 3, col = Cols[i] ,...)        
-        }
-      } else {
-        if (plot.it == TRUE) {
-          lines(years, values, type = "o", lwd = 3, col = Cols[i])          
-        } else {
-          temp_DF = rbind(values, temp_DF)
-        }
+        values = values / this_derived_q$B0 * 100
+      if(missing(ylim)) {
+        ymax = max(values) + quantile(values, 0.05) 
+        ylim = c(0, ymax)
+      }    
+      if(missing(xlim)) 
+        xlim = c(min(years) - 1, max(years) + 1)    
+      if(missing(ylab)) {
+        if (type == "percent")
+          ylab = "%B0"
+        else
+          ylab = "Biomass (t)"
       }
-      first_run = FALSE;
+      if(missing(xlab)) 
+        xlab = "Years"
+      if(missing(col)) 
+        col = "black"      
+      if(missing(main)) 
+        main = derived_quantities[i]  
+      if (plot.it == TRUE) {
+        plot(years, values, xlim = xlim, ylim = ylim, xlab = xlab, ylab = ylab, main = main, type = "o", ...)
+      } else {
+        temp_DF = cbind(values,temp_DF);
+      }
     }  
-    if (plot.it == TRUE)
-      legend('bottomleft',legend = Legend_txt, col = Cols, lty = 2, lwd = 3)
+    if (plot.it == FALSE)
+      colnames(temp_DF) = derived_quantities
+  } else {
+    ## Multiple trajectory's
+    derived_quantities = names(this_report$'1')[names(this_report$'1') != "type"]
+    
+    #print(Paste("found - ",length(this_report), " iterations"))
+    if(missing(col)) {
+      palette(gray(seq(0.,.90,len = N_runs)))
+      Cols = palette()
+    } else {
+      Cols = col;
+    }
+    temp_DF = list();
+    par(mfrow = c(1,length(derived_quantities)))
+    for (k in 1:length(derived_quantities)) {
+    temp_df = c()
+      first_run = TRUE;
+      Legend_txt = c();
+      for (i in 1:length(this_report)) {
+        this_derived_quantity = this_report[[i]]
+        this_derived_quantity = get(derived_quantities[k], this_derived_quantity)
+        values = this_derived_quantity$values
+        zero_ndx = values == 0;
+        if (any(zero_ndx)) {
+          ## I am going to assume that these are in the projection phase and am going to remove them
+          values = values[!zero_ndx]      
+        }
+        years = as.numeric(names(values))
+        ## does the user want it plotted as percent B0
+        if (type == "percent")
+          values = values / this_derived_quantity$B0 * 100
 
+        Legend_txt = c(Legend_txt,this_derived_quantity$B0)  
+
+        if (first_run) {      
+          if(plot.it == FALSE) {
+            temp_df = values
+          }      
+          if(missing(ylim)) {
+            ymax = max(values) + quantile(values, 0.15) 
+            ylim = c(0, ymax)
+          }    
+          if(missing(xlim)) 
+            xlim = c(min(years) - 1, max(years) + 1)    
+          if(missing(ylab)) {
+            if (type == "percent")
+              ylab = "%B0"
+            else
+              ylab = "Biomass (t)"
+          }
+          if(missing(xlab)) 
+            xlab = "Years"    
+          if(missing(main)) 
+            main = derived_quantities[k]      
+          if (plot.it == TRUE) {  
+            plot(years, values , xlim = xlim, ylim = ylim, xlab = xlab, ylab = ylab, main = main, type = "o", lwd = 3, col = Cols[i] ,...)        
+          }
+        } else {
+          if (plot.it == TRUE) {
+            lines(years, values, type = "o", lwd = 3, col = Cols[i])          
+          } else {
+            temp_df = rbind(temp_df,values)
+          }
+        }
+        first_run = FALSE;
+      }  
+      if (plot.it == TRUE) {
+        legend('bottomleft',legend = Legend_txt, col = Cols, lty = 2, lwd = 3)
+      } else {
+        rownames(temp_df) = as.character(1:length(this_report))
+        temp_DF[[derived_quantities[k]]] = temp_df
+      }
+    }
   }
   if (plot.it == FALSE)
     return(temp_DF)

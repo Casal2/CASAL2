@@ -7,7 +7,7 @@
 make.matrix(lines)
 }
 \description{
-Utility extract function
+create a matrix, does not expect header values.
 }
 \author{
 Dan Fu
