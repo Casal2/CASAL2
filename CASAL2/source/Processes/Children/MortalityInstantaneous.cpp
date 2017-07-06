@@ -428,6 +428,8 @@ void MortalityInstantaneous::DoExecute() {
         if (fisheries_[uobs.first].penalty_)
           fisheries_[uobs.first].penalty_->Trigger(label_, fisheries_[uobs.first].catches_[model_->current_year()],
               fishery_vulnerability[fisheries_[uobs.first].label_] * u_max_);
+      } else {
+        fisheries_[uobs.first].actual_catches_[model_->current_year()] = fisheries_[uobs.first].catches_[model_->current_year()];
       }
     }
 
@@ -484,9 +486,7 @@ void MortalityInstantaneous::DoExecute() {
       	continue;
 			StoreForReport("fishing_pressure[" + fishery.label_ + "]: ", AS_DOUBLE(fishery_exploitation[fishery.label_]));
 			StoreForReport("catch[" + fishery.label_ + "]: ",AS_DOUBLE(fisheries_[fishery.label_].catches_[model_->current_year()]));
-			Double temp = fisheries_[fishery.label_].catches_[model_->current_year()] * fishery_exploitation[fishery.label_];
-			StoreForReport("actual_catch[" + fishery.label_ + "]: ",AS_DOUBLE(temp));
-
+			StoreForReport("actual_catch[" + fishery.label_ + "]: ",fisheries_[fishery.label_].actual_catches_[model_->current_year()]);
       LOG_FINEST() << "fishery = " << fishery.label_ << " catch = " << fisheries_[fishery.label_].catches_[model_->current_year()] << " U = " << fishery_exploitation[fishery.label_];
 
     }

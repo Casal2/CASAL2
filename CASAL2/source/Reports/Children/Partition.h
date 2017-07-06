@@ -31,7 +31,7 @@ class Partition : public niwa::Report {
 public:
   Partition(Model* model);
   virtual                     ~Partition() = default;
-  void                        DoValidate() override final { };
+  void                        DoValidate() override final;
   void                        DoBuild() override final { };
   void                        DoExecute() override final;
   void                        DoExecuteTabular() override final { };

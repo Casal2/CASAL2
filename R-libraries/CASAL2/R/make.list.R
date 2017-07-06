@@ -47,6 +47,21 @@ function(lines) {
                         result[[label]] = vector()
                   line_no  = next_no
                 
+            } else if (type == "s") { #string vector
+                  next_no = line_no + 1
+                  while (next_no <= length(lines)) {
+                      next_line = lines[next_no]
+                      next_type = get.line.type(next_line)
+                      if(next_type != "")
+                          break
+                      next_no = next_no + 1
+                  }
+                  if (next_no-line_no > 1) 
+                        result[[label]] = make.string_vector(lines[(line_no+1):(next_no-1)])
+                  else 
+                        result[[label]] = vector()
+                  line_no  = next_no
+                
             } else if (type=="c") { #complete vector
                 next_no = line_no + 1
                 if (next_no <= length(lines)) {

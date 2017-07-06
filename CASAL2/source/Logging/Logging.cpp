@@ -141,10 +141,10 @@ void Logging::FlushWarnings() {
 
   cout << "*warnings (warnings_encounted)\n";
   cout << "warnings_found: " << warnings_.size() << "\n";
-  cout << "warnings {d}\n";
-  cout << "Warning_number Warning_message\n";
+
   for (unsigned i = 0; i < warnings_.size(); ++i) {
-    cout << i+1 << " '" << warnings_[i] << "'\n";
+    cout << "warning_" << i << " " << REPORT_R_STRING_VECTOR <<"\n";
+    cout << warnings_[i] << "'\n";
   }
 
   cout << "*end\n\n";
