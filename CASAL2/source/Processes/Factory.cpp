@@ -28,6 +28,7 @@
 #include "Processes/Children/MortalityHollingRate.h"
 #include "Processes/Children/Nop.h"
 #include "Processes/Children/RecruitmentBevertonHolt.h"
+#include "Processes/Children/RecruitmentBevertonHoltWithDeviations.h"
 #include "Processes/Children/RecruitmentConstant.h"
 #include "Processes/Children/TagByAge.h"
 #include "Processes/Children/TagByLength.h"
@@ -75,6 +76,8 @@ Process* Factory::Create(Model* model, const string& object_type, const string& 
       result = new Ageing(model);
     else if (sub == PARAM_RECRUITMENT_BEVERTON_HOLT)
       result = new RecruitmentBevertonHolt(model);
+    else if (sub == PARAM_RECRUITMENT_BEVERTON_HOLT_WITH_DEVIATIONS)
+      result = new RecruitmentBevertonHoltWithDeviations(model);
     else if (sub == PARAM_RECRUITMENT_CONSTANT)
       result = new RecruitmentConstant(model);
     else if (sub == PARAM_MATURATION)

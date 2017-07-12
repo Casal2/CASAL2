@@ -154,8 +154,6 @@ void RecruitmentBevertonHolt::DoBuild() {
   if (!derived_quantity_)
     LOG_ERROR_P(PARAM_SSB) << "(" << ssb_ << ") could not be found. Have you defined it?";
 
-  // TODO Need to implement a check to make sure the user has not set an @estimate block for both R0 and B0
-
   /**
    * Calculate out SSB offset
    */
@@ -385,6 +383,7 @@ void RecruitmentBevertonHolt::DoExecute() {
     StoreForReport("ycs_values: " , AS_DOUBLE(ycs_value_by_year_[ssb_year])); // the input parameter isn't updated during projections. So thats why we are reporting it twice.
     StoreForReport("true_ycs: " , AS_DOUBLE(true_ycs)); // this is including SR-relationship
     StoreForReport("standardiesed_ycs: " , AS_DOUBLE(stand_ycs_value_by_year_[ssb_year]));
+    StoreForReport("Recruits: " , AS_DOUBLE(amount_per));
 
     // Store for Tabular report
     string ssb_year_string;

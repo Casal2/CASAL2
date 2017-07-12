@@ -37,7 +37,9 @@ void Selectivity::DoBuild() {
 
 
 void Selectivity::DoExecute() {
-  if (selectivity_->IsSelectivityLengthBased()) {
+  LOG_TRACE();
+  if (!selectivity_->IsSelectivityLengthBased()) {
+    LOG_FINEST() << "Printing age based selectivity";
     cache_ << "*" << label_ << " " << "("<< type_ << ")"<<"\n";
     const map<string, Parameter*> parameters = selectivity_->parameters().parameters();
 

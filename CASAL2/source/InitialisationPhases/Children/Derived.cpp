@@ -23,6 +23,7 @@
 #include "Partition/Accessors/Categories.h"
 #include "TimeSteps/Manager.h"
 #include "Processes/Children/RecruitmentBevertonHolt.h"
+#include "Processes/Children/RecruitmentBevertonHoltWithDeviations.h"
 
 
 // namespaces
@@ -141,6 +142,12 @@ void Derived::DoBuild() {
         if (!recruitment_process_[i])
           LOG_CODE_ERROR() << "BevertonHolt Recruitment exists but dynamic cast pointer cannot be made, if (!recruitment) ";
         i++;
+      } else if (process->process_type() == ProcessType::kRecruitment && process->type() == PARAM_RECRUITMENT_BEVERTON_HOLT_WITH_DEVIATIONS) {
+        LOG_FINEST() << "Found a BH process!!!!";
+        recruitment_process_with_devs_.push_back(dynamic_cast<RecruitmentBevertonHoltWithDeviations*>(process));
+        if (!recruitment_process_with_devs_[i])
+          LOG_CODE_ERROR() << "BevertonHolt Recruitment with deviations exists but dynamic cast pointer cannot be made, if (!recruitment) ";
+        i++;
       }
     }
   }
@@ -182,12 +189,13 @@ void Derived::Execute() {
       if (cached_category->data_[plus_index] > 0) {
         c = (*category)->data_[plus_index] / cached_category->data_[plus_index] - 1; //zero fun
         LOG_FINEST() << "The value of c = " << c;
-        if (c > 0.9) {
-          c = 0.9;
+        if (c > 0.99) {
+          c = 0.99;
         } else if (c < 0.0)
           c = 0.0;
         // reset the partition back to the original Cached partition
         (*category)->data_ = cached_category->data_;
+        LOG_FINEST() << "plus group pre adjustment = " << (*category)->data_[plus_index];
         // now multiply the approximated change to the plus group
         (*category)->data_[plus_index] *= 1 / (1 - c);
         LOG_FINEST() << "Adjustment based an approximation for the plus group = " << (*category)->data_[plus_index];
@@ -211,6 +219,7 @@ void Derived::Execute() {
     old_plus_group[iter] = (*category)->data_[(*category)->data_.size() - 1];
   }
 
+  LOG_FINEST() << "check relative diff";
   while (max_rel_diff > 0.005) {
     time_step_manager->ExecuteInitialisation(label_, 1);
     max_rel_diff = 0;
@@ -228,7 +237,9 @@ void Derived::Execute() {
     old_plus_group = plus_group;
   }
 
-  LOG_FINEST() << "Number of Beveerton-Holt recruitment processes in annual cycle = " << recruitment_process_.size();
+  LOG_FINEST() << "Number of Beverton-Holt recruitment processes in annual cycle = " << recruitment_process_.size();
+
+  LOG_FINEST() << "Number of Beverton-Holt recruitment processes with deviations in annual cycle = " << recruitment_process_with_devs_.size();
   // We are at Equilibrium state here
   // Check if we have B0 initialised or R0 initialised recruitment
 
@@ -237,6 +248,13 @@ void Derived::Execute() {
     if (recruitment_process->bo_initialised()) {
       LOG_FINEST() << PARAM_B0 << " has been defined for process labelled " << recruitment_process->label();
       recruitment_process->ScalePartition();
+      B0_intial_recruitment = true;
+    }
+  }
+  for (auto recruitment_process_with_devs : recruitment_process_with_devs_) {
+    if (recruitment_process_with_devs->bo_initialised()) {
+      LOG_FINEST() << PARAM_B0 << " has been defined for process labelled " << recruitment_process_with_devs->label();
+      recruitment_process_with_devs->ScalePartition();
       B0_intial_recruitment = true;
     }
   }

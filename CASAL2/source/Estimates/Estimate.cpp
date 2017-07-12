@@ -54,7 +54,6 @@ void Estimate::Validate() {
 }
 
 void Estimate::Build() {
-  LOG_TRACE();
   if (transform_with_jacobian_ & transform_for_objective_function_)
     LOG_ERROR_P(PARAM_TRANSFORM_WITH_JACOBIAN) << "You cannot specify both " << PARAM_TRANSFORM_WITH_JACOBIAN << " and " << PARAM_PRIOR_APPLIES_TO_TRANSFORM << " to be true. Please check the manual for more info";
 
