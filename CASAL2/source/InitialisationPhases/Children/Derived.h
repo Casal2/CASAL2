@@ -19,6 +19,7 @@
 #include "Partition/Accessors/Categories.h"
 
 #include "Processes/Children/RecruitmentBevertonHolt.h"
+#include "Processes/Children/RecruitmentBevertonHoltWithDeviations.h"
 
 // namespaces
 namespace niwa {
@@ -28,6 +29,8 @@ namespace initialisationphases {
 namespace cached   = partition::accessors::cached;
 namespace accessor = partition::accessors;
 using processes::RecruitmentBevertonHolt;
+using processes::RecruitmentBevertonHoltWithDeviations;
+
 // classes
 class Derived : public niwa::InitialisationPhase {
 public:
@@ -50,6 +53,7 @@ protected:
   cached::Categories          cached_partition_;
   accessor::Categories        partition_;
   vector<RecruitmentBevertonHolt*> recruitment_process_;
+  vector<RecruitmentBevertonHoltWithDeviations*> recruitment_process_with_devs_;
   bool                        casal_initialisation_phase_ = false;
 };
 

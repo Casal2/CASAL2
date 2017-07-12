@@ -15,6 +15,7 @@
 #include <boost/tokenizer.hpp>
 #include <boost/lexical_cast.hpp>
 
+#include "AgeLengths/Manager.h"
 #include "Catchabilities/Manager.h"
 #include "DerivedQuantities/Manager.h"
 #include "Estimates/Manager.h"
@@ -204,6 +205,9 @@ base::Object* Objects::FindObject(const string& parameter_absolute_name) {
 
   } else if (type == PARAM_DERIVED_QUANTITY) {
     result = model_->managers().derived_quantity()->GetDerivedQuantity(label);
+
+  } else if (type == PARAM_AGE_LENGTH) {
+    result = model_->managers().age_length()->FindAgeLength(label);
 
   } else if (type == PARAM_INITIALISATION_PHASE) {
     result = model_->managers().initialisation_phase()->GetInitPhase(label);

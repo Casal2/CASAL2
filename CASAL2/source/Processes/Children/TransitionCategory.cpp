@@ -41,7 +41,7 @@ TransitionCategory::TransitionCategory(Model* model)
 }
 
 /**
- * Validate our Maturation Rate process
+ * Validate our Transition process
  *
  * - Check for the required parameters
  * - Assign variables from our parameters
