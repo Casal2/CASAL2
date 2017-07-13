@@ -38,7 +38,6 @@ public:
 
 protected:
   // methods
-  void                        BuildCV() override final;
 
   // members
   Double                      y1_;
@@ -47,7 +46,6 @@ protected:
   Double                      tau2_;
   Double                      a_;
   Double                      b_;
-  bool                        by_length_;
   string                      length_weight_label_;
   LengthWeight*               length_weight_ = nullptr;
 };

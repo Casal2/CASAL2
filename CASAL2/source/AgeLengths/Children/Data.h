@@ -37,7 +37,6 @@ public:
 
 protected:
   //methods
-  void                        BuildCV() override final;
 
 private:
   // methods
@@ -53,7 +52,6 @@ private:
   vector<Double>                means_;
   string                        length_weight_label_;
   const LengthWeight*           length_weight_ = nullptr;
-  bool                          by_length_;
 };
 
 } /* namespace agelengths */

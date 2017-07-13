@@ -41,7 +41,8 @@ AgeLength::AgeLength(Model* model) : model_(model) {
   parameters_.Bind<string>(PARAM_DISTRIBUTION, &distribution_, "The assumed distribution for the growth curve", "", PARAM_NORMAL);
   parameters_.Bind<Double>(PARAM_CV_FIRST, &cv_first_ , "CV for the first age class", "",Double(0.0))->set_lower_bound(0.0);
   parameters_.Bind<Double>(PARAM_CV_LAST, &cv_last_ , "CV for last age class", "",Double(0.0))->set_lower_bound(0.0);
-parameters_.Bind<bool>(PARAM_CASAL_SWITCH, &casal_normal_cdf_ , "If true, use the (less accurate) equation for the cumulative normal function as was used in the legacy version of CASAL.", "",false);
+  parameters_.Bind<bool>(PARAM_CASAL_SWITCH, &casal_normal_cdf_ , "If true, use the (less accurate) equation for the cumulative normal function as was used in the legacy version of CASAL.", "",false);
+  parameters_.Bind<bool>(PARAM_BY_LENGTH, &by_length_, "Specifies if the linear interpolation of CV's is a linear function of mean length at age. Default is just by age", "", true);
 
   RegisterAsAddressable(PARAM_CV_FIRST, &cv_first_);
   RegisterAsAddressable(PARAM_CV_LAST, &cv_last_);
@@ -55,7 +56,6 @@ parameters_.Bind<bool>(PARAM_CASAL_SWITCH, &casal_normal_cdf_ , "If true, use th
  */
 void AgeLength::Validate() {
   parameters_.Populate();
-
   DoValidate();
 }
 
@@ -83,7 +83,7 @@ void AgeLength::Build() {
 
 /**
  * BuildCV function
- * populates a #d map of cv's by year, age and time_step
+ * populates a 3d map of cv's by year, age and time_step
  */
 void AgeLength::BuildCV() {
   unsigned min_age = model_->min_age();
@@ -95,9 +95,14 @@ void AgeLength::BuildCV() {
   LOG_MEDIUM() << ": label of first time step " << time_steps[0];
   for (unsigned year_iter = start_year; year_iter <= final_year; ++year_iter) {
     for (unsigned step_iter = 0; step_iter < time_steps.size(); ++step_iter) {
-      if (!parameters_.Get(PARAM_CV_LAST)->has_been_defined()) { // A test that is robust... If cv_last_ is not in the input then assume cv_first_ represents the cv for all age classes i.e constant cv
+      if (!parameters_.Get(PARAM_CV_LAST)->has_been_defined()) { // this test is robust but not compatible with testing framework, blah
+        //If cv_last_ is not defined in the input then assume cv_first_ represents the cv for all age classes i.e constant cv
         for (unsigned age_iter = min_age; age_iter <= max_age; ++age_iter)
           cvs_[year_iter][age_iter][step_iter] = (cv_first_);
+      } else if (by_length_) {  // if passed the first test we have a min and max CV. So ask if this is linear interpolated by length at age
+        for (unsigned age_iter = min_age; age_iter <= max_age; ++age_iter)
+          cvs_[year_iter][age_iter][step_iter] = ((mean_length(year_iter, age_iter) - mean_length(year_iter, min_age)) * (cv_last_ - cv_first_)
+              / (mean_length(year_iter, max_age) - mean_length(year_iter, min_age)) + cv_first_);
       } else {
         // else Do linear interpolation between cv_first_ and cv_last_ based on age class
         for (unsigned age_iter = min_age; age_iter <= max_age; ++age_iter) {
@@ -205,7 +210,7 @@ void AgeLength::DoAgeToLengthConversion(partition::Category* category, const vec
     unsigned age = category->min_age_ + i;
 
     if (cvs_[year][age][time_step] <= 0.0)
-        LOG_ERROR_P(PARAM_CV_FIRST) << "Identified a CV of 0.0. please check parameters cv_first and cv_last in the @age_length, or make sure you have specified suitable bounds in the @estimate block";
+        LOG_FATAL_P(PARAM_CV_FIRST) << "Identified a CV of 0.0, in year " << year << ", for age " << age << " and time step = " << time_step << " please check parameters cv_first and cv_last in the @age_length, or make sure you have specified suitable bounds in the @estimate block";
 
     Double mu= category->mean_length_per_[age];
     CummulativeNormal(mu, cvs_[year][age][time_step], age_frequencies, length_bins, distribution_, plus_grp);
@@ -223,8 +228,8 @@ void AgeLength::DoAgeToLengthConversion(partition::Category* category, const vec
  * Reset the age length class.
  */
 void AgeLength::Reset() {
-DoReset();
-BuildCV();
+  DoReset();
+  BuildCV();
 }
 
 

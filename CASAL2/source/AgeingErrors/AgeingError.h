@@ -13,6 +13,7 @@
  * This matrix is used in age observations such as ProportionsAtAge.
  *
  * The time class represents a moment of time.
+ * TODO: add an apply() method. given a vector of numbers at age that are of length model_->age_spread(); return a vector that has been modified by the ageing error
  */
 #ifndef AGEINGERROR_H_
 #define AGEINGERROR_H_

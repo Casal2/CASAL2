@@ -817,15 +817,15 @@ The two length-weight relationships are,
   \begin{equation}
     \text{mean weight}=1
   \end{equation}
-  \item{Basic:}\index{Basic length-weight relationship} The length-weight relationship where the mean weight $w$ of an individual of length $l$ is
+  \item{Basic:}\index{Basic length-weight relationship} The length-weight relationship in age based model, where the mean weight $\hat{w}_a$ of an individual at age $a$ is,
   \begin{equation}
-    w=a l^b
+    \hat{w}_a=a \hat{l}_a^b
   \end{equation}
-	Note that if a distribution of length-at-age is specified, then the mean weight is calculated over the distribution of lengths, and is
+	where $\hat{l}_a$ is the mean length at age $a$. Note that if a distribution of length-at-age is specified, then the mean weight is calculated over the distribution of lengths, and is
   \begin{equation}
-	  w=(al^b)(1+cv^2)^{\frac{b(b-1)}{2}}
+	  \hat{w}_a=(a\hat{l}_a^b)(1+cv^2)^{\frac{b(b-1)}{2}}
   \end{equation}
-	where the $cv$ is the c.v. of lengths-at-age. This adjustment is exact for lognormal distributions, and a close approximation for normal distributions if the c.v. is not large \citep{1388}.
+	where the $cv$ is the c.v. of lengths-at-age. This adjustment is exact for lognormal distributions, and a close approximation for normal distributions if the c.v. is not large \citep{1388}. For users comparing CASAL with \CNAME, a small difference between the two programs is CASAL only adjusted the CV's \subcommand{by\_length} when CV's are used in distribution calculations (length based selectivities, length based processes and observations). Not in the above correction.
 \end{itemize}
 
 Be careful about the scale of $a$ --- this can easily be specified incorrectly. If the catch is in tonnes and the growth curve in centimetres, then $a$ should be on the right scale to convert a length in centimetres to a weight in tonnes. Note that there are reports available that can be used to help check that the units specified are plausible (see Section \ref{sec:report-section}).

@@ -49,13 +49,14 @@ protected:
   virtual void                DoValidate() = 0;
   virtual void                DoBuild() = 0;
   virtual void                DoReset() = 0;
-  virtual void                BuildCV();
+  void                        BuildCV();
   // members
   Model*                      model_ = nullptr;
   vector<Double>              time_step_proportions_;
-  map<unsigned, map<unsigned,  map<unsigned, Double>>>       cvs_;  //cvs[year][time_step][age]
+  map<unsigned, map<unsigned, map<unsigned, Double>>>       cvs_;  //cvs[year][age][time_step]
   Double                      cv_first_ = 0.0;
-  Double                      cv_last_ = 0.0;
+  Double                      cv_last_;
+  bool                        by_length_;
   string                      distribution_;
   bool                        casal_normal_cdf_ = false;
 };
