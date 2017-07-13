@@ -39,7 +39,7 @@ public:
 
 protected:
   //methods
-  void                        BuildCV() override final;
+
   // members
   Double                      linf_;
   Double                      k_;

@@ -18,6 +18,7 @@
 #include "Observations/Manager.h"
 #include <Observations/Children/ProcessRemovalsByAge.h>
 #include <Observations/Children/ProcessRemovalsByLength.h>
+#include <Observations/Children/ProportionsMatureByAge.h>
 #include "Observations/Children/ProportionsMigrating.h"
 #include "Observations/Children/TagRecaptureByAge.h"
 #include "Observations/Children/TagRecaptureByLength.h"
@@ -58,6 +59,8 @@ Observation* Factory::Create(Model* model, const string& object_type, const stri
       result = new ProcessBiomass(model);
     else if (sub_type == PARAM_PROPORTIONS_AT_AGE)
       result = new TimeStepProportionsAtAge(model);
+    else if (sub_type == PARAM_PROPORTIONS_MATURE_BY_AGE)
+      result = new ProportionsMatureByAge(model);
     else if (sub_type == PARAM_PROPORTIONS_AT_LENGTH)
       result = new TimeStepProportionsAtLength(model);
     else if (sub_type == PARAM_PROCESS_PROPORTIONS_AT_AGE)

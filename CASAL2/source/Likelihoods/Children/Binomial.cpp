@@ -47,15 +47,19 @@ void Binomial::GetScores(map<unsigned, vector<observations::Comparison> >& compa
   for (auto year_iterator = comparisons.begin(); year_iterator != comparisons.end(); ++year_iterator) {
     for (observations::Comparison& comparison : year_iterator->second) {
       Double error_value = AdjustErrorValue(comparison.process_error_, comparison.error_value_) * error_value_multiplier_;
+      if (error_value == 0.0) {
+        comparison.adjusted_error_ = error_value;
+        comparison.score_ = 0.0;
+      } else {
+        Double score = math::LnFactorial(error_value)
+                        - math::LnFactorial(error_value * (1.0 - comparison.observed_))
+                        - math::LnFactorial(error_value * comparison.observed_)
+                        + error_value * comparison.observed_ * log(dc::ZeroFun(comparison.expected_, comparison.delta_))
+                        + error_value * (1.0 - comparison.observed_) * log(dc::ZeroFun(1.0 - comparison.expected_, comparison.delta_));
 
-      Double score = math::LnFactorial(error_value)
-                      - math::LnFactorial(error_value * (1.0 - comparison.observed_))
-                      - math::LnFactorial(error_value * comparison.observed_)
-                      + error_value * comparison.observed_ * log(dc::ZeroFun(comparison.expected_, comparison.delta_))
-                      + error_value * (1.0 - comparison.observed_) * log(dc::ZeroFun(1.0 - comparison.expected_, comparison.delta_));
-
-      comparison.adjusted_error_ = error_value;
-      comparison.score_ = -score * multiplier_;
+        comparison.adjusted_error_ = error_value;
+        comparison.score_ = -score * multiplier_;
+      }
     }
   }
 }
