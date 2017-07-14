@@ -1,0 +1,8 @@
+## Report section for now
+
+@report summary
+type estimate_value
+
+@assert obj
+type objective_function
+value 464.518
