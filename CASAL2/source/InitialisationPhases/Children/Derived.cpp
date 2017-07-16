@@ -132,7 +132,7 @@ void Derived::DoBuild() {
     recruitment_ = true;
 
 
-  // Calculate ssb_ofset if there is BH_recruitment process in the annual cycle
+  // Find any BH_recruitment process in the annual cycle
   unsigned i = 0;
   for (auto time_step : model_->managers().time_step()->ordered_time_steps()) {
     for (auto process : time_step->processes()) {
@@ -242,7 +242,6 @@ void Derived::Execute() {
   LOG_FINEST() << "Number of Beverton-Holt recruitment processes with deviations in annual cycle = " << recruitment_process_with_devs_.size();
   // We are at Equilibrium state here
   // Check if we have B0 initialised or R0 initialised recruitment
-
   bool B0_intial_recruitment = false;
   for (auto recruitment_process : recruitment_process_) {
     if (recruitment_process->bo_initialised()) {
