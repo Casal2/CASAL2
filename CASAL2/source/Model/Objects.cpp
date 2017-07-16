@@ -226,6 +226,8 @@ base::Object* Objects::FindObject(const string& parameter_absolute_name) {
 
   } else if (type == PARAM_OBSERVATION) {
     result = model_->managers().observation()->GetObservation(label);
+  } else {
+    LOG_CODE_ERROR() << "Currently the type " << type << " has not been coded to find addressable, please add it here.";
   }
 
 

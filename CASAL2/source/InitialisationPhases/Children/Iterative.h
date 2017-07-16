@@ -19,6 +19,8 @@
 #include "Partition/Accessors/Categories.h"
 #include "Partition/Accessors/Cached/Categories.h"
 
+#include "Processes/Children/RecruitmentBevertonHolt.h"
+#include "Processes/Children/RecruitmentBevertonHoltWithDeviations.h"
 // namespaces
 namespace niwa {
 class TimeStep;
@@ -26,7 +28,8 @@ class TimeStep;
 namespace initialisationphases {
 namespace cached   = partition::accessors::cached;
 namespace accessor = partition::accessors;
-
+using processes::RecruitmentBevertonHolt;
+using processes::RecruitmentBevertonHoltWithDeviations;
 /**
  *
  */
@@ -52,6 +55,9 @@ protected:
   vector<unsigned>            convergence_years_;
   cached::Categories          cached_partition_;
   accessor::Categories        partition_;
+
+  vector<RecruitmentBevertonHolt*> recruitment_process_;
+  vector<RecruitmentBevertonHoltWithDeviations*> recruitment_process_with_devs_;
 };
 
 } /* namespace base */

@@ -81,7 +81,7 @@ void TimeVarying::Build() {
 }
 
 /**
- *
+ * UpDate target object
  */
 void TimeVarying::Update(unsigned current_year) {
   LOG_TRACE();

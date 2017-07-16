@@ -22,6 +22,8 @@
 #include "TimeSteps/Factory.h"
 #include "TimeSteps/Manager.h"
 
+#include "Processes/Children/RecruitmentBevertonHolt.h"
+#include "Processes/Children/RecruitmentBevertonHoltWithDeviations.h"
 // namespaces
 namespace niwa {
 namespace initialisationphases {
@@ -117,6 +119,25 @@ void Iterative::DoBuild() {
   partition_.Init(categories);
   cached_partition_.Init(categories);
 
+  // Find any BH_recruitment process in the annual cycle
+  unsigned i = 0;
+  for (auto time_step : model_->managers().time_step()->ordered_time_steps()) {
+    for (auto process : time_step->processes()) {
+      if (process->process_type() == ProcessType::kRecruitment && process->type() == PARAM_RECRUITMENT_BEVERTON_HOLT) {
+        LOG_FINEST() << "Found a BH process!!!!";
+        recruitment_process_.push_back(dynamic_cast<RecruitmentBevertonHolt*>(process));
+        if (!recruitment_process_[i])
+          LOG_CODE_ERROR() << "BevertonHolt Recruitment exists but dynamic cast pointer cannot be made, if (!recruitment) ";
+        i++;
+      } else if (process->process_type() == ProcessType::kRecruitment && process->type() == PARAM_RECRUITMENT_BEVERTON_HOLT_WITH_DEVIATIONS) {
+        LOG_FINEST() << "Found a BH process!!!!";
+        recruitment_process_with_devs_.push_back(dynamic_cast<RecruitmentBevertonHoltWithDeviations*>(process));
+        if (!recruitment_process_with_devs_[i])
+          LOG_CODE_ERROR() << "BevertonHolt Recruitment with deviations exists but dynamic cast pointer cannot be made, if (!recruitment) ";
+        i++;
+      }
+    }
+  }
 
 }
 
@@ -151,6 +172,31 @@ void Iterative::Execute() {
       }
       LOG_FINEST() << "Initial year = " << years;
     }
+  }
+
+  LOG_FINEST() << "Number of Beverton-Holt recruitment processes in annual cycle = " << recruitment_process_.size();
+  LOG_FINEST() << "Number of Beverton-Holt recruitment processes with deviations in annual cycle = " << recruitment_process_with_devs_.size();
+  // We are at Equilibrium state here
+  // Check if we have B0 initialised or R0 initialised recruitment
+  bool B0_intial_recruitment = false;
+  for (auto recruitment_process : recruitment_process_) {
+    if (recruitment_process->bo_initialised()) {
+      LOG_FINEST() << PARAM_B0 << " has been defined for process labelled " << recruitment_process->label();
+      recruitment_process->ScalePartition();
+      B0_intial_recruitment = true;
+    }
+  }
+  for (auto recruitment_process_with_devs : recruitment_process_with_devs_) {
+    if (recruitment_process_with_devs->bo_initialised()) {
+      LOG_FINEST() << PARAM_B0 << " has been defined for process labelled " << recruitment_process_with_devs->label();
+      recruitment_process_with_devs->ScalePartition();
+      B0_intial_recruitment = true;
+    }
+  }
+  if (B0_intial_recruitment) {
+    // Calculate derived quanitities in the right space if we have a B0 initialised model
+    timesteps::Manager& time_step_manager = *model_->managers().time_step();
+    time_step_manager.ExecuteInitialisation(label_, 1);
   }
 }
 

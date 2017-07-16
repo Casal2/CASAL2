@@ -31,7 +31,7 @@ Partition::Partition(Model* model) : Report(model) {
   model_state_ = State::kExecute;
 
   parameters_.Bind<string>(PARAM_TIME_STEP, &time_step_, "Time Step label", "", "");
-  parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "Years", "", false);
+  parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "Years", "", true);
 }
 
 void Partition::DoValidate() {
