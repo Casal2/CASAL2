@@ -3,6 +3,9 @@
 @report summary
 type estimate_value
 
+@report obj1
+type objective_function
+
 @assert obj
 type objective_function
 value 464.518

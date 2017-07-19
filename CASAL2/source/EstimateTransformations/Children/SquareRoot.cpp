@@ -37,6 +37,8 @@ void SquareRoot::DoBuild() {
 
   lower_bound_ = sqrt(original_lower_bound_);
   upper_bound_ = sqrt(original_upper_bound_);
+  current_untransformed_value_ = estimate_->value();
+
 }
 
 /**

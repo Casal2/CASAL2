@@ -16,6 +16,7 @@ age_lengths age_size_male age_size_female
 @age_length age_size_male
 type data
 length_weight [type=none]
+time_step_measurements_were_made three
 external_gaps mean
 internal_gaps mean
 table data

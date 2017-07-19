@@ -40,7 +40,7 @@ TEST_F(InternalEmptyModel, EstimateTransformations_SquareRoot) {
   model_->Start(RunMode::kEstimation);
 
   ObjectiveFunction& obj_function = model_->objective_function();
-  EXPECT_NEAR(1977.8957483899424, obj_function.score(),0.0001); // For some reason linus minimised this to 1977.8957463948109
+  EXPECT_NEAR(1977.894534729402, obj_function.score(),0.0001); // For some reason linus minimised this to 1977.8957463948109
 }
 
 /**
@@ -64,7 +64,7 @@ TEST_F(InternalEmptyModel, EstimateTransformations_SquareRoot_NoBounds) {
   model_->Start(RunMode::kEstimation);
 
   ObjectiveFunction& obj_function = model_->objective_function();
-  EXPECT_NEAR(1977.8957483899424, obj_function.score(), 1e-5);
+  EXPECT_NEAR(1977.894534729402, obj_function.score(), 1e-5);
 }
 
 /**
@@ -78,7 +78,7 @@ TEST_F(InternalEmptyModel, EstimateTransformations_SquareRoot_With_DLib_Minimise
   model_->Start(RunMode::kEstimation);
 
   ObjectiveFunction& obj_function = model_->objective_function();
-  EXPECT_DOUBLE_EQ(1977.6906102868745, obj_function.score());
+  EXPECT_DOUBLE_EQ(1977.6906102868063, obj_function.score());
 }
 
 /**
@@ -92,7 +92,7 @@ TEST_F(InternalEmptyModel, EstimateTransformations_SquareRoot_With_DeSolver_Mini
   model_->Start(RunMode::kEstimation);
 
   ObjectiveFunction& obj_function = model_->objective_function();
-  EXPECT_DOUBLE_EQ(2219.3446777004519, obj_function.score());
+  EXPECT_DOUBLE_EQ(2219.3446776999212, obj_function.score());
 }
 
 } /* namespace estimatetransformations */

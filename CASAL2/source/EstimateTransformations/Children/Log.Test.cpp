@@ -39,7 +39,7 @@ TEST_F(InternalEmptyModel, EstimateTransformations_Log) {
   model_->Start(RunMode::kEstimation);
 
   ObjectiveFunction& obj_function = model_->objective_function();
-  EXPECT_DOUBLE_EQ(1977.8942177618578, obj_function.score());
+  EXPECT_DOUBLE_EQ(1977.8933046799843, obj_function.score());
 }
 
 /**
@@ -63,7 +63,7 @@ TEST_F(InternalEmptyModel, EstimateTransformations_Log_NoBounds) {
   model_->Start(RunMode::kEstimation);
 
   ObjectiveFunction& obj_function = model_->objective_function();
-  EXPECT_DOUBLE_EQ(1977.8942177618578, obj_function.score());
+  EXPECT_DOUBLE_EQ(1977.8933046799843, obj_function.score());
 }
 
 /**
@@ -91,7 +91,7 @@ TEST_F(InternalEmptyModel, EstimateTransformations_Log_With_DeSolver_Minimiser) 
   model_->Start(RunMode::kEstimation);
 
   ObjectiveFunction& obj_function = model_->objective_function();
-  EXPECT_DOUBLE_EQ(2214.974747990268, obj_function.score());
+  EXPECT_DOUBLE_EQ(2214.9747491287994, obj_function.score());
 }
 
 } /* namespace estimatetransformations */

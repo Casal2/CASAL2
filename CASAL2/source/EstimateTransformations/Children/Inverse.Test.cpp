@@ -27,6 +27,7 @@ R"(
 @estimate_transformation x
 type inverse
 estimate_label recruitment.r0
+transform_with_jacobian true
 
 )";
 
@@ -41,7 +42,7 @@ TEST_F(InternalEmptyModel, EstimateTransformations_Inverse) {
   model_->Start(RunMode::kEstimation);
 
   ObjectiveFunction& obj_function = model_->objective_function();
-  EXPECT_DOUBLE_EQ(1977.8957249006603, obj_function.score());
+  EXPECT_DOUBLE_EQ(1977.8957256493582, obj_function.score());
 }
 
 /**
@@ -65,7 +66,7 @@ TEST_F(InternalEmptyModel, EstimateTransformations_Inverse_NoBounds) {
   model_->Start(RunMode::kEstimation);
 
   ObjectiveFunction& obj_function = model_->objective_function();
-  EXPECT_DOUBLE_EQ(1977.8957249006603, obj_function.score());
+  EXPECT_DOUBLE_EQ(1977.8957256493582, obj_function.score());
 }
 
 /**
@@ -79,7 +80,7 @@ TEST_F(InternalEmptyModel, EstimateTransformations_Inverse_NoBounds_With_DLib_Mi
   model_->Start(RunMode::kEstimation);
 
   ObjectiveFunction& obj_function = model_->objective_function();
-  EXPECT_DOUBLE_EQ(4747.9727415759089, obj_function.score());
+  EXPECT_DOUBLE_EQ(1977.6906102868909, obj_function.score());
 }
 
 /**

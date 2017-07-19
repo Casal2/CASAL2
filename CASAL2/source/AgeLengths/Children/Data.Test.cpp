@@ -35,6 +35,7 @@ type data
 length_weight [type=none]
 external_gaps mean
 internal_gaps mean
+time_step_measurements_were_made one
 table data
 year 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25
 1977 25.31 30.70 34.36 36.92 37.76 38.85 38.51 38.07 37.57 38.06 37.91 37.71 37.85 38.02 39 45 41 47 43 44 45 46 46 47
@@ -81,6 +82,7 @@ type data
 length_weight [type=none]
 external_gaps nearest_neighbour
 internal_gaps mean
+time_step_measurements_were_made one
 table data
 year 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25
 1977 25.31 30.70 34.36 36.92 37.76 38.85 38.51 38.07 37.57 38.06 37.91 37.71 37.85 38.02 39 45 41 47 43 44 45 46 46 47
@@ -130,6 +132,7 @@ type data
 length_weight [type=none]
 external_gaps mean
 internal_gaps nearest_neighbour
+time_step_measurements_were_made one
 table data
 year 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25
 1977 25.31 30.70 34.36 36.92 37.76 38.85 38.51 38.07 37.57 38.06 37.91 37.71 37.85 38.02 39 45 41 47 43 44 45 46 46 47
@@ -179,6 +182,7 @@ type data
 length_weight [type=none]
 external_gaps mean
 internal_gaps interpolate
+time_step_measurements_were_made three
 table data
 year 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25
 1977 25.31 30.70 34.36 36.92 37.76 38.85 38.51 38.07 37.57 38.06 37.91 37.71 37.85 38.02 39 45 41 47 43 44 45 46 46 47
@@ -206,16 +210,16 @@ TEST_F(InternalEmptyModel, AgeLengths_Data_Mean_Interpolate) {
 
   // Check results
   EXPECT_DOUBLE_EQ(1.0, age_size->mean_weight(1976, 2));
-  EXPECT_DOUBLE_EQ(30.31, age_size->mean_length(1976, 2));
+  EXPECT_DOUBLE_EQ(30.310000000000002, age_size->mean_length(1976, 2));
 
   EXPECT_DOUBLE_EQ(1.0, age_size->mean_weight(1991, 2));
-  EXPECT_DOUBLE_EQ(30.865555555555556, age_size->mean_length(1991, 2));
+  EXPECT_DOUBLE_EQ(30.309999999999999, age_size->mean_length(1991, 2));//30.865555555555556
 
   EXPECT_DOUBLE_EQ(1.0, age_size->mean_weight(1996, 2));
-  EXPECT_DOUBLE_EQ(33.643333333333331, age_size->mean_length(1996, 2));
+  EXPECT_DOUBLE_EQ(33.087777777777781, age_size->mean_length(1996, 2)); //33.643333333333331
 
   EXPECT_DOUBLE_EQ(1.0, age_size->mean_weight(2001, 2));
-  EXPECT_DOUBLE_EQ(30.31, age_size->mean_length(2001, 2));
+  EXPECT_DOUBLE_EQ(35.310000000000002, age_size->mean_length(2001, 2)); //30.310000000000002
 }
 
 

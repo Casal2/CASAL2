@@ -45,6 +45,7 @@ void Log::DoBuild() {
     estimate_->set_lower_bound(log(estimate_->lower_bound()));
     estimate_->set_upper_bound(log(estimate_->upper_bound()));
   }
+  current_untransformed_value_ = estimate_->value();
 
   LOG_FINEST() << "Finish DoBuild()";
 
