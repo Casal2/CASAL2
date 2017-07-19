@@ -57,6 +57,9 @@ void Orthogonal::DoBuild() {
   first_original_lower_bound_ =  first_estimate_->lower_bound();
   second_original_upper_bound_ =  second_estimate_->upper_bound();
   second_original_lower_bound_ =  second_estimate_->lower_bound();
+
+  theta_1_ = first_estimate_->value();
+  theta_2_ = second_estimate_->value();
 }
 
 /**

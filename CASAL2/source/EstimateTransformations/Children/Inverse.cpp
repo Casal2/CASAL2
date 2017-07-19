@@ -46,7 +46,7 @@ void Inverse::DoBuild() {
   // tranformed bounds
   lower_bound_ = 1.0 / original_lower_bound_;
   upper_bound_ = 1.0 / original_upper_bound_;
-
+  current_untransformed_value_ = estimate_->value();
 }
 
 /**
@@ -97,7 +97,7 @@ Double Inverse::GetScore() {
 //
   if(transform_with_jacobian_) {
     jacobian_ = -1.0 * pow(current_untransformed_value_,-2);
-    LOG_MEDIUM() << "jacobian: " << jacobian_;
+    LOG_MEDIUM() << "jacobian: " << jacobian_ << " current value " << current_untransformed_value_;
     return jacobian_;
   } else
     return 0.0;
