@@ -5,15 +5,17 @@ p = re.compile('\{.*?\}',re.IGNORECASE)
 q = re.compile('\}.*?\{',re.IGNORECASE)
 r = re.compile('[label]',re.IGNORECASE)
 
-FILE = [open('Syntax/AgeingError.tex', 'r'),
+FILE = [open('Syntax/AdditionalPrior.tex', 'r'),
+	open('Syntax/AgeingError.tex', 'r'),
         open('Syntax/AgeLength.tex', 'r'),
         open('Syntax/Catchability.tex', 'r'),
+        open('Syntax/Categories.tex', 'r'),        
         open('Syntax/DerivedQuantity.tex', 'r'),
         open('Syntax/Estimate.tex', 'r'),
         open('Syntax/EstimateTransformation.tex', 'r'),        
         open('Syntax/InitialisationPhase.tex', 'r'),
+        open('Syntax/LengthWeight.tex', 'r'),        
         open('Syntax/Likelihood.tex', 'r'),
-        open('Syntax/DerivedQuantity.tex', 'r'),
         open('Syntax/MCMC.tex', 'r'),
         open('Syntax/Minimiser.tex', 'r'),
         open('Syntax/Model.tex', 'r'),
@@ -21,11 +23,12 @@ FILE = [open('Syntax/AgeingError.tex', 'r'),
         open('Syntax/Penalty.tex', 'r'),
         open('Syntax/Process.tex', 'r'),
         open('Syntax/Profile.tex', 'r'),
-        open('Syntax/Project.tex', 'r'),        
+        open('Syntax/Project.tex', 'r'),    
         open('Syntax/Report.tex', 'r'),
         open('Syntax/Selectivity.tex', 'r'),
-        open('Syntax/LengthWeight.tex', 'r'),
-        open('Syntax/TimeStep.tex', 'r')]
+        open('Syntax/Simulate.tex', 'r'),        
+        open('Syntax/TimeStep.tex', 'r'),
+        open('Syntax/TimeVarying.tex', 'r')]
 OUTFILE = open('QuickReference.tex', 'w')
 VERSION = open('Version.tex', 'r')
 SYNTAX_OUTFILE = open('CASAL2.syn', 'w')

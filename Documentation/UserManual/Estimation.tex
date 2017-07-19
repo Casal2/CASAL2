@@ -316,7 +316,7 @@ Vectors of parameters can be independently (but not necessarily identically) dis
 \end{verbatim}}}
 
 \subsection{Penalties\label{sec:penalties}}
-Penalties are associated with processes and can be used to discourage parameter values or model outputs that are non-sensical, by adding a penalty to the objective function. For example, parameter estimates that do not allow a known mortality event to remove enough individuals from the population can be discouraged with an event mortality penalty. \CNAME\ requires penalty functions for processes that remove or shift a \emph{number} of individuals between categories or from the partition. For CASAL users many of the penalties that were available in CASAL have been moved to be additional priors, see Section~\ref{sec:additional_priors}.
+Penalties are associated with processes and can be used to discourage parameter values or model outputs that are non-sensical, by adding a penalty to the objective function. For example, parameter estimates that do not allow a known mortality event to remove enough individuals from the population can be discouraged within an event mortality process. \CNAME\ requires penalty functions for processes that remove or shift a \emph{number} of individuals between categories or from the partition. For CASAL users many of the penalties that were available in CASAL have been moved to be additional priors, see Section~\ref{sec:additional_priors}.
 
 For most penalties, you need to specify a multiplier, and the objective function is increased by this multiplier times the penalty value as described below. In some cases you will need to make the multiplier quite large to prohibit some model behaviour. 
 
@@ -349,10 +349,10 @@ or if \subcommand{log\_scale true}
 Penalty = (log(X_1) - log(X_2))^2
 \end{equation}
 
-Where $X_1$ could be a known catch and $X_2$ is the model catch under a given set of parameter values. These are usually applied in situations where you have known numbers or weight. Another obvious example is tagging, we know for a fact that we tagged $N$ fish this year so don't allow you model to apply less than that because that is inplausible.
+Where $X_1$ could be a known catch and $X_2$ is the model catch under a given set of parameter values. These are usually applied in situations where you have known numbers or weight. Another obvious example is tagging, we know for a fact that we tagged $N$ fish this year so don't allow you model to apply less than that because that is nonsensical.
 
 \subsection{Additional Priors\label{sec:additional_priors}}
-Additional priors can be thought of as the inverse of penalties. They constrain parameters in certain spaces. The types of additional priors available in \CNAME\ are \texttt{vector\_smoothing} and \texttt{vector\_averaging}, defined as,
+Additional priors can be thought of as the inverse of penalties and for CASAL users most of the legacy \command{penalty} blocks have now been migrated as \command{additional\_prior} blocks. They constrain or encourage parameters in user defined spaces. The types of additional priors available in \CNAME\ are \texttt{vector\_smoothing}, \texttt{vector\_averaging}, \texttt{uniform\_log}, \texttt{lognormal}, \texttt{element\_difference} and \texttt{Beta}, which are defined as,
 
 \begin{enumerate}
 	\item \texttt{vector\_averaging}
@@ -376,7 +376,7 @@ Additional priors can be thought of as the inverse of penalties. They constrain 
 	\item\texttt{element\_difference}
 
 	\begin{equation}
-	- \log \left(\pi \left(p \right) \right) = \log \left( p \right)
+	- \log \left(\pi \left(p_1,p_2 \right) \right) = \sum_{i = 1}^n \left( p_{1,i} - p_{2,i} \right)^2
 	\end{equation}		
 	\\\\
 	\item\texttt{Beta}
@@ -388,10 +388,62 @@ Additional priors can be thought of as the inverse of penalties. They constrain 
 	where $\nu  = \frac{\mu  - A}{B - A}$, and $\tau = \frac{\left(\mu -A \right)\left(B - \mu \right)}{\sigma ^2} - 1$ and then $m=\tau \nu$ and $n=\tau(1-\nu)$. Note that the beta prior is undefined when $\tau \leq 0$.
 \end{enumerate}
 
-\subsubsection{\I{Estimate Transformations}\label{sec:transformations}}
-\CNAME\ has multiple methods to transform a parameter some methods are for legacy purposes and some are more recent ideas. All transformations are implemented for the same reason and that is to try and achieve better optimisation from our models. Is is no surprise that complex population models can have highly correlated parameters so transforming them into orthogonal or into a different space is a way of trying to remove correlations and hope this allows our minimiser to find a 'global' minimum quicker. There are two main methods available, \subcommand{transform\_with\_jacobian} and \subcommand{transform\_without\_jacobian} but define the prior for the transformed variable. The latter has to more additional options where users can define the priors and bounds on either the transformed or non-transformed parameter. To read more about transformations and get a better understanding of why they are used we refer you to \cite{gilks1995markov} specifically chapter 6.
+Methods available for the type \texttt{vector\_average} are \subcommand{l}, \subcommand{k}, \subcommand{m}. For a target vector parameter $\textbf{X}$ and desired average $k$, the contribution to the objective score is.
 
-\paragraph{Transform with Jacobian}
+\begin{itemize}
+	\item \subcommand{method k}\\\\
+	$- \log \left(\pi \left(p \right) \right) = \left(\bar{X} - k\right)^2$
+	
+	\item \subcommand{method l}\\\\
+	$- \log \left(\pi \left(p \right) \right) = \left(\overline{ln\left(X\right)} - k\right)^2$
+	
+	\item \subcommand{method m}\\\\
+$- \log \left(\pi \left(p \right) \right) = \left(ln\left(\bar{X}\right) - k\right)^2$	
+\end{itemize}
+where $\overline{ln\left(X\right)}$ is the mean of the logged values.
+
+
+There are a range of parameters and derived values that users can apply additional priors to. Here are a list of non-estiamted (All parameters that can be estimated can have an additional prior attached to them) parameters that you can apply additional priors on. This should be a useful guide for users how are trying to apply the equivalnet old CASAL penalties to their updated \CNAME\ models.
+
+\begin{itemize}
+	\item \subcommand{selectivity[Selectivity\_label].values\{3:8\}}. This applying a selectivity to the actual selectivity value by age (in this case for ages 3-8). This is only available for certain types of selectivities (\subcommand{all\_values}, \subcommand{all\_values\_bounded}, \subcommand{double\_exponential}). See the Hoki stock assessment for an application of applying additional priors on selectivities.
+	\item \subcommand{catchability[Catchability\_label].q}
+	this is only for catchabilities that are of type \subcommand{nuisance}. Because \subcommand{nuisance} q's are not free parameters to replicate legacy CASAL models with \command{estimate} blocks in nuisance q's we now apply additional priors. Note if legacy models applied uniform priors this has a null effect and you can ignore functionality when converting to \CNAME\ models.
+\end{itemize}
+\pagebreak
+\subsubsection{\I{Estimate Transformations}\label{sec:transformations}}
+\CNAME\ has multiple methods to transform a parameter some methods are for legacy purposes and some are more recent ideas. All transformations are implemented for the same reason and that is to try and achieve 'better' optimisation from our models. It is no surprise that complex population models can have highly correlated parameters so transforming them into orthogonal or into a different space is a way of trying to remove correlations and hope this allows our minimiser to find a 'global' minimum quicker. To read more about transformations and get a better understanding of why they are used we refer you to \cite{gilks1995markov} specifically chapter 6. There are two main methods available in \CNAME, \subcommand{transform\_with\_jacobian} and \subcommand{prior\_applies\_to\_transform}. Transform with jacobian is when users define priors on parameters in natural/model space (business as usual priors) but when we pass the parameter to the minimiser it gets transformed and a jacobian is added to the objective function to account for the transformation. The second method is when users can specify bounds and prior parameters on the parameters in transformed space. Note that you cannot specify both \subcommand{prior\_applies\_to\_transform} and \subcommand{transform\_with\_jacobian} true, \CNAME\ should gracefully tell you this.
+
+There are two ways users can apply estimate transformations. The first is within the \command{estimate} block, this is for univariate (simple) transformations only. For complicated transformations you will have to specify a \command{estimate\_transformation} block to describe the transformation. Examples of these two implementations.
+
+{\small{\begin{verbatim}
+		## simple transformation
+		@estimate log_R0
+		type lognormal
+		transformation log
+		parameter process[Recruitment].r0
+		transform_with_jacobian true
+		mu 442413
+		cv 0.2
+		lower_bound 3000
+		upper_bound 24154953
+		
+		## Complicated 
+		@estimate R0
+		type lognormal
+		parameter process[Recruitment].r0		
+		mu 442413
+		cv 0.2
+		lower_bound 3000
+		upper_bound 24154953
+		
+		@estiamte_transformation Log_R0
+		type log
+		estimate_label log_R0
+		transform_with_jacobian true	
+		\end{verbatim}}}
+
+\paragraph*{Transform with Jacobian}
 The support of a random variable $X$ with density $p_X(x)$ is that subset of values for which it has non-zero density, 
 \begin{equation}
  supp(X) = \{x|p_X(x) > 0\}
@@ -405,19 +457,83 @@ Suppose $X$ is one dimensional and $f$: $supp(X) \to \mathbf{R}$ is a one-to-one
 
 where $\begin{vmatrix} \frac{\partial}{\partial y} f^{-1}(y) \end{vmatrix}$ is the jacobian term. The jacobian measures how the scale of the transformed variable changes with respect to the underlying variable. This can be expanded to the multivaiate case where the jacobian becomes a matrix of partial derivatives, see later for some example of multivariate cases. In equation~\ref{eq:jacobian} the term $p_X(f^{-1}(y)) = p_X(X)$ and in a bayesian context is the prior of the untransformed variable/parameter.
 
-%%\paragraph[log]{\argument{log}}\index{Estimate Transformations!log}
-%%Transforming a parameter onto the log scale is a simple log transformation. The Jacobian and inverse are discussed as follows
+{\small{\begin{verbatim}
+		@estimate log_R0
+		type lognormal
+		transformation log
+		parameter process[Recruitment].r0
+		transform_with_jacobian true
+		mu 442413
+		cv 0.2
+		lower_bound 3000
+		upper_bound 24154953		 	
+\end{verbatim}}}
+	
+\paragraph*{Transform without Jacobian but prior defined in transformed space}
+This is where users define the priors in transformed space, this clas of transformations will contain functionality that was implemented in the original CASAL. If $f$ is a transformation function defined on the support of $X$, then $Y = f(X)$ is a new random variable (transformed variable). In this class users specify \textit{a priori} information with regard to $p_Y(y)$, an example of this syntax 
 
-%%$$ F_y = \log $$
-%%$$ F_y^{-1} = exp $$
-%%$$ J =  $$
+{\small{\begin{verbatim}
+		@estimate log_R0
+		type lognormal
+		parameter process[Recruitment].r0
+		prior_applies_to_transform true
+		mu 13
+		cv 0.5
+		lower_bound 8
+		upper_bound 17		 	
+		\end{verbatim}}}
 
-%%\paragraph[Inverse]{\argument{Inverse}}\index{Estimate Transformations!Inverse}
 
-%%\paragraph[Log odds]{\argument{Log odds}}\index{Estimate Transformations!Log odds}
+\paragraph*{Transformation types}
 
-%%\paragraph[Simplex]{\argument{Simplex}}\index{Estimate Transformations!Simplex}
 
-\paragraph{Transform without Jacobian}
+\begin{itemize}
+\item \subcommand{log} natural logorithm transformation\\
+\subcommand{is\_simple = true}\\
+\subcommand{jacobian defined = true}\\
+$Y = ln(X)$\\
+$\begin{vmatrix} \frac{\partial}{\partial y} f^{-1}(y) \end{vmatrix} = X^{-1}$\\\\
 
-\paragraph*{Specifying bounds on transformed variables}
+\item \subcommand{inverse}\\
+\subcommand{is\_simple = true}\\
+\subcommand{jacobian defined = true}\\
+$Y = X^{-1}$\\
+$\begin{vmatrix} \frac{\partial}{\partial y} f^{-1}(y) \end{vmatrix} = -X^{-2}$\\\\
+
+\item \subcommand{sqrt} Square Root transformation\\
+\subcommand{is\_simple = true}\\
+\subcommand{jacobian defined = true}\\
+$Y = \sqrt{X}$\\
+$\begin{vmatrix} \frac{\partial}{\partial y} f^{-1}(y) \end{vmatrix} = -X^{-1.5}$\\\\
+
+\item \subcommand{average\_difference} Take two parameters $X_1$ and $X_2$ and transform to $Y_1$ and $Y_2$, where $Y_1$ is the average of the original parameters and $Y_2$ is the difference between the mean and each parameter.\\
+\subcommand{is\_simple = false}\\
+\subcommand{jacobian defined = false}\\
+$Y_1 = \frac{X_1 + X_2}{2}$\\
+$Y_2 = | Y_1 - X_1 |$\\
+Restore transformations\\
+$X_1 = Y_1 + 0.5Y_2$\\
+$X_2 = X_1 - 0.5Y_2$\\
+$\begin{vmatrix} \frac{\partial}{\partial y} f^{-1}(y) \end{vmatrix}$ Hasn't been assessed (i.e it could exist)\\\\
+
+\item \subcommand{log\_sum} Take two parameters $X_1$ and $X_2$ and transform to $Y_1$ and $Y_2$, where $Y_1$ is the natural logorithm of the sum of $X_1$ and $X_2$. $Y_2$ describes the proportion of the sum with respect to $X_1$\\
+\subcommand{is\_simple = false}\\
+\subcommand{jacobian defined = false}\\
+$Y_1 = ln(X_1 + X_2)$\\
+$Y_2 = X_1 / (X_1 + X_2)$\\
+Restore transformations\\
+$X_1 = exp(Y_1)Y_2$\\
+$X_2 =exp(Y_1)(1 - Y_2)$\\
+$\begin{vmatrix} \frac{\partial}{\partial y} f^{-1}(y) \end{vmatrix}$ Hasn't been assessed (i.e it could exist)\\\\
+
+\item \subcommand{orthogonal} Take two parameters $X_1$ and $X_2$ and transform to $Y_1$ and $Y_2$, where $Y_1$ is the multiplication of $X_1$ and $X_2$. $Y_2$ is the division of $X_1$ and $X_2$\\
+\subcommand{is\_simple = false}\\
+\subcommand{jacobian defined = true}\\
+$Y_1 = X_1 X_2$\\
+$Y_2 = X_1 / X_2$\\
+Restore transformations\\
+$X_1 = \sqrt{Y_1 Y_2}$\\
+$X_2 = \sqrt{Y_1 / Y_2}$\\
+$\begin{vmatrix} \frac{\partial}{\partial y} f^{-1}(y) \end{vmatrix} = 2Y_2$\\\\
+
+\end{itemize}
