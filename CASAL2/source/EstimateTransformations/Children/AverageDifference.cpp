@@ -33,7 +33,7 @@ AverageDifference::AverageDifference(Model* model) : EstimateTransformation(mode
 /**
  */
 void AverageDifference::DoValidate() {
-  if (PARAM_TRANSFORM_WITH_JACOBIAN) {
+  if (transform_with_jacobian_) {
     LOG_ERROR_P(PARAM_TRANSFORM_WITH_JACOBIAN) << "The jacobian transformation has not been worked out (if it exists) for the average difference transformation, If you would like to do by all means get stuck in.";
   }
 

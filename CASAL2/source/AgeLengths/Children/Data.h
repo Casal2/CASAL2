@@ -42,16 +42,25 @@ private:
   // methods
   void                        FillExternalGaps();
   void                        FillInternalGaps();
+  void                        InterpolateTimeStepsForInitialConditions();
+  void                        InterpolateTimeStepsForAllYears();
 
   // members
   parameters::Table*            data_table_ = nullptr;
   string                        external_gaps_;
   string                        internal_gaps_;
   map<unsigned, vector<Double>> data_by_year_;
-  map<unsigned, Double>         data_by_age_;
+  map<unsigned,map<unsigned,Double>> data_by_age_time_step_; // used in the initialisation
+  map<unsigned,map<unsigned,map<unsigned,Double>>> data_by_year_age_time_step_; // used in mean length
+  map<unsigned,map<unsigned,Double>> mean_data_by_year_and_step_;
+  string                        step_data_supplied_;
+  unsigned                      step_index_data_supplied_;
+  unsigned                      ageing_index_;
   vector<Double>                means_;
   string                        length_weight_label_;
   const LengthWeight*           length_weight_ = nullptr;
+  vector<unsigned>              steps_to_figure_;
+  unsigned                      number_time_steps_;
 };
 
 } /* namespace agelengths */

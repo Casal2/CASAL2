@@ -51,6 +51,12 @@ private:
   string                      phase_b0_label_;
   unsigned                    phase_b0_;
   Double                      b0_ = 0.0;
+  Double                      b_max_;
+  map<unsigned,Double>        bias_by_year_;
+  unsigned                    year1_;
+  unsigned                    year2_;
+  unsigned                    year3_;
+  unsigned                    year4_;
   bool                        bo_initialised_ = false;
   vector<Double>              proportions_;
   unsigned                    age_ = 0;

@@ -39,26 +39,31 @@ RecruitmentBevertonHoltWithDeviations::RecruitmentBevertonHoltWithDeviations(Mod
   LOG_TRACE();
 
   parameters_.Bind<string>(PARAM_CATEGORIES, &category_labels_, "Category labels", "");
-  parameters_.Bind<Double>(PARAM_R0, &r0_, "R0", "",false);
-  parameters_.Bind<Double>(PARAM_B0, &b0_, "B0", "",false);
+  parameters_.Bind<Double>(PARAM_R0, &r0_, "R0", "", false);
+  parameters_.Bind<Double>(PARAM_B0, &b0_, "B0", "", false);
   parameters_.Bind<Double>(PARAM_PROPORTIONS, &proportions_, "Proportions", "");
   parameters_.Bind<unsigned>(PARAM_AGE, &age_, "Age to recruit at", "", true);
   parameters_.Bind<unsigned>(PARAM_SSB_OFFSET, &ssb_offset_, "Spawning biomass year offset","", true);
   parameters_.Bind<Double>(PARAM_STEEPNESS, &steepness_, "Steepness", "", 1.0);
   parameters_.Bind<string>(PARAM_SSB, &ssb_, "SSB Label (derived quantity)", "");
   parameters_.Bind<Double>(PARAM_SIGMA_R, &sigma_r_, "Sigma r", "");
+  parameters_.Bind<Double>(PARAM_B_MAX, &b_max_, "Max bias adjustment", "", 0.85)->set_range(0.0,1.0,true,true);
+  parameters_.Bind<unsigned>(PARAM_LAST_YEAR_WITH_NO_BIAS, &year1_, "Last year with no bias adjustment", "", false);
+  parameters_.Bind<unsigned>(PARAM_FIRST_YEAR_WITH_BIAS, &year2_, "First year with full bias adjustment", "", false);
+  parameters_.Bind<unsigned>(PARAM_LAST_YEAR_WITH_BIAS, &year3_, "Last year with full bias adjustment", "", false);
+  parameters_.Bind<unsigned>(PARAM_FIRST_RECENT_YEAR_WITH_NO_BIAS, &year4_, "First recent year with no bias adjustment", "", false);
+
   parameters_.Bind<string>(PARAM_B0_PHASE, &phase_b0_label_, "Initialisation phase Label that b0 is from", "", "");
   parameters_.Bind<Double>(PARAM_DEVIATION_VALUES, &recruit_dev_values_, "Recruitment deviation values", "");
   parameters_.Bind<unsigned>(PARAM_DEVIATION_YEARS, &recruit_dev_years_, "Recruitment years. A vector of years that relates to the year of the spawning event that created this cohort", "", false);
 
   RegisterAsAddressable(PARAM_R0, &r0_);
   RegisterAsAddressable(PARAM_B0, &b0_);
+  RegisterAsAddressable(PARAM_B_MAX, &b_max_);
   RegisterAsAddressable(PARAM_SIGMA_R, &sigma_r_);
   RegisterAsAddressable(PARAM_STEEPNESS, &steepness_);
   RegisterAsAddressable(PARAM_PROPORTIONS, &proportions_);
   RegisterAsAddressable(PARAM_DEVIATION_VALUES, &recruit_dev_value_by_year_);
-
-  // Allow these to be used in additional priors.
 
 
   phase_b0_         = 0;
@@ -261,6 +266,20 @@ void RecruitmentBevertonHoltWithDeviations::DoBuild() {
     }
   }
 
+  // Build Bias correction map by year 'bias_by_year_'
+  for(auto year : recruit_dev_years_) {
+    if (year <= year1_) {
+      bias_by_year_[year] = 0.0;
+    } else if ((year > year1_) & (year < year2_)) {
+      bias_by_year_[year] = b_max_ * (Double)(1 - ((year - year1_) / (year2_ - year1_)));
+    } else if ((year >= year2_) & (year <= year3_)) {
+      bias_by_year_[year] = b_max_;
+    } else if ((year > year3_) & (year < year4_)) {
+      bias_by_year_[year] = b_max_ * (Double)(1 - ((year3_ - year) / (year4_ - year3_)));
+    } else if (year >= year4_) {
+      bias_by_year_[year] = 0.0;
+    }
+  }
   DoReset();
 }
 
@@ -271,6 +290,7 @@ void RecruitmentBevertonHoltWithDeviations::DoBuild() {
  * - clear reporting containers
  * - check where b0 is coming from.
  */
+
 void RecruitmentBevertonHoltWithDeviations::DoReset() {
   LOG_TRACE();
   if (parameters_.Get(PARAM_B0)->has_been_defined()) {
@@ -291,6 +311,25 @@ void RecruitmentBevertonHoltWithDeviations::DoReset() {
   // if its estimated or an input it will be updates.
   if (!parameters_.Get(PARAM_B0)->has_been_defined())
     b0_ = derived_quantity_->GetLastValueFromInitialisation(phase_b0_);
+
+  // Only rebuild in the reset if Bmax is estimated, otherwise it remains constant.
+  if (model_->managers().estimate()->HasEstimate("process[" +label_ + "].b_max")) {
+    // Build Bias correction map by year 'bias_by_year_'
+    for(auto year : recruit_dev_years_) {
+      if (year <= year1_) {
+        bias_by_year_[year] = 0.0;
+      } else if ((year > year1_) & (year < year2_)) {
+        bias_by_year_[year] = b_max_ * (Double)(1 - ((year - year1_) / (year2_ - year1_)));
+      } else if ((year >= year2_) & (year <= year3_)) {
+        bias_by_year_[year] = b_max_;
+      } else if ((year > year3_) & (year < year4_)) {
+        bias_by_year_[year] = b_max_ * (Double)(1 - ((year3_ - year) / (year4_ - year3_)));
+      } else if (year >= year4_) {
+        bias_by_year_[year] = 0.0;
+      }
+    }
+}
+
 }
 
 /**
@@ -330,7 +369,7 @@ void RecruitmentBevertonHoltWithDeviations::DoExecute() {
      */
     LOG_FINEST() << "; model_->start_year(): " << model_->start_year();
     Double ycs;
-    ycs = exp(recruit_dev_value_by_year_[ssb_year] - 0.5 * sigma_r_ * sigma_r_);
+    ycs = exp(recruit_dev_value_by_year_[ssb_year] - (bias_by_year_[ssb_year] * 0.5 * sigma_r_ * sigma_r_));
     LOG_FINEST() << "Projected ycs = " << ycs;
 
 
@@ -389,6 +428,7 @@ void RecruitmentBevertonHoltWithDeviations::DoExecute() {
     category->data_[age_ - category->min_age_] += amount_per * proportions_[i];
     ++i;
   }
+
 }
 
 /**

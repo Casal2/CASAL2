@@ -417,8 +417,10 @@ void RecruitmentBevertonHolt::ScalePartition() {
     LOG_CODE_ERROR() << "Cannot apply this method as B0 has not been defined";
 
   have_scaled_partition = true;
-  Double SSB = derived_quantity_->GetValue(model_->start_year() - ssb_offset_);
-  LOG_FINEST() << "Last SSB value = " << SSB;
+  Double alternative_ssb = derived_quantity_->GetValue(model_->start_year() - ssb_offset_);
+  // Look at initialisation phase
+  Double SSB = derived_quantity_->GetLastValueFromInitialisation(phase_b0_);
+  LOG_FINEST() << "Last SSB value = " << SSB << " init ssb = " << alternative_ssb;
   Double scalar = b0_ / SSB;
   LOG_FINEST() << "Scalar = " << scalar << " B0 = " << b0_;
   LOG_FINEST() << "r0 = " << scalar;
