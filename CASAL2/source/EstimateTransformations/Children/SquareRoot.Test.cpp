@@ -78,7 +78,7 @@ TEST_F(InternalEmptyModel, EstimateTransformations_SquareRoot_With_DLib_Minimise
   model_->Start(RunMode::kEstimation);
 
   ObjectiveFunction& obj_function = model_->objective_function();
-  EXPECT_DOUBLE_EQ(1977.6906102868063, obj_function.score());
+  EXPECT_NEAR(1977.6906102868063, obj_function.score(), 1e-5);
 }
 
 /**

@@ -53,7 +53,7 @@ protected:
   Model*                      model_ = nullptr;
   Estimate*                   estimate_ = nullptr;
   bool                        is_transformed_ = false;
-  Double                      current_untransformed_value_;
+  Double                      current_untransformed_value_ = 0.0;
   string                      estimate_label_;
   Double                      lower_bound_ = 0.0;
   Double                      upper_bound_ = 0.0;
