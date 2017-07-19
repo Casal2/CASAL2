@@ -32,9 +32,11 @@ CharEnd = '
 CharEsc = \ 
 
 [Keywords 1]
+@additional_prior
 @age_length
 @ageing_error
 @catchability
+@categories
 @derived_quantity
 @estimate
 @estimate_transformation
@@ -51,7 +53,9 @@ CharEsc = \
 @project
 @report
 @selectivity
+@simulate
 @time_step
+@time_varying
 
 [Keywords 2]
 a
@@ -63,6 +67,7 @@ adapt_covariance_matrix_at
 adapt_stepsize_at
 adapt_stepsize_method
 age
+age_lengths
 age_plus
 ageing_error
 alpha
@@ -70,6 +75,7 @@ ato95
 b
 b0
 b0_intialisation_phase
+b_max
 base_weight_units
 by_length
 c
@@ -92,6 +98,8 @@ cv_last
 delta
 derivative_test
 detection
+deviation_values
+deviation_years
 df
 difference_estimate_label
 difference_scale
@@ -106,15 +114,20 @@ estimate_label
 estimation_phase
 evaluations
 exclude_processes
+exogeneous_variable
 external_gaps
 file_name
 final_year
+first_recent_year_with_no_bias
+first_year_with_bias
+format
 from
 h
 initial_mortality
 initial_mortality_selectivity
 initialisation_phases
 insert_processes
+intercept
 internal_gaps
 intervals
 is_abundance
@@ -124,6 +137,8 @@ keep
 l
 label
 lambda
+last_year_with_bias
+last_year_with_no_bias
 length
 length_based
 length_bins
@@ -151,6 +166,7 @@ mortality_instantaneous_process
 mu
 multiplier
 n
+names
 normalised_residuals
 obs
 observation
@@ -180,13 +196,17 @@ projection_final_year
 proportions
 proposal_distribution
 q
+r
 r0
 rates
 retape
+rho
 s
 same
 sb
+scaling_years
 second_estimate
+second_parameter
 selectivities
 selectivities2
 selectivity
@@ -194,6 +214,7 @@ sigma
 sigma_l
 sigma_r
 simulation_likelihood
+slope
 ssb
 ssb_offset
 standardise_ycs_years
@@ -208,6 +229,7 @@ tag_loss_type
 tau1
 tau2
 time_step
+time_step_measurements_were_made
 time_step_proportion
 time_step_proportion_method
 time_step_proportions
@@ -216,6 +238,7 @@ time_steps
 to
 tol
 tolerance
+total_categories
 transform_with_jacobian
 transformation
 type
@@ -223,6 +246,7 @@ u_max
 units
 upper_bound
 v
+value
 values
 write_mode
 x
@@ -256,6 +280,7 @@ ageing
 ageing_error_matrix
 all_values
 all_values_bounded
+annual_shift
 average_difference
 basic
 beta
@@ -279,19 +304,23 @@ derived_quantity
 dirichlet
 double_exponential
 double_normal
+element_difference
 empirical_sampling
 equation_test
 estimate_summary
 estimate_value
+exogenous
 free
 hessian_matrix
 increasing
 independence_metropolis
 initialisation_partition
+initialisation_partition_mean_weight
 inverse
 inverse_logistic
 iterative
 knife_edge
+linear
 log
 log_normal
 log_normal_empirical
@@ -341,10 +370,14 @@ project
 proportions_at_age
 proportions_at_length
 proportions_by_category
+proportions_mature_by_age
 proportions_migrating
 pseudo
+random_draw
 random_number_seed
+random_walk
 recruitment_beverton_holt
+recruitment_beverton_holt_with_deviations
 recruitment_constant
 schnute
 selectivity
@@ -365,6 +398,8 @@ transition_category_by_age
 uniform
 uniform_log
 user_defined
+vector_average
+vector_smoothing
 von_bertalanffy
 
 [Keywords 5]
