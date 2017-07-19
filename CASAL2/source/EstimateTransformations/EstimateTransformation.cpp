@@ -49,6 +49,14 @@ void EstimateTransformation::Build() {
     LOG_ERROR_P(PARAM_ESTIMATE) << "Estimate " << estimate_label_ << " could not be found. Have you defined it?";
     return;
   }
+  if (!transform_with_jacobian_ & !estimate_->transform_for_objective()) {
+    LOG_ERROR_P(PARAM_TRANSFORM_WITH_JACOBIAN) << "You have specified a transformation that does not contribute a jacobian, and the prior parameters do not refer to the transformed estimate, in the @estimate" << estimate_label_ << ". This is not advised, and may cause bias estimation. Please address the user manual if you need help";
+  }
+  if (estimate_->transform_with_jacobian_is_defined()) {
+    if (transform_with_jacobian_ != estimate_->transform_with_jacobian()) {
+      LOG_ERROR_P(PARAM_TRANSFORM_WITH_JACOBIAN) << "This parameter is not consistent with the equivalent parameter in the @estimate block " << estimate_label_ << ". please make sure these are both true or both false.";
+    }
+  }
  DoBuild();
 }
 

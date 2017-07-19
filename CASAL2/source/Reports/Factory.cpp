@@ -29,6 +29,7 @@
 #include "Reports/Children/EstimateValue.h"
 #include "Reports/Children/HessianMatrix.h"
 #include "Reports/Children/InitialisationPartition.h"
+#include "Reports/Children/InitialisationPartitionMeanWeight.h"
 #include "Reports/Children/MCMCCovariance.h"
 #include "Reports/Children/MCMCObjective.h"
 #include "Reports/Children/MCMCSample.h"
@@ -89,6 +90,8 @@ Report* Factory::Create(Model* model, const string& object_type, const string& s
       result = new HessianMatrix(model);
     else if (sub_type == PARAM_INITIALISATION_PARTITION)
       result = new InitialisationPartition(model);
+    else if (sub_type == PARAM_INITIALISATION_PARTITION_MEAN_WEIGHT)
+      result = new InitialisationPartitionMeanWeight(model);
     else if (sub_type == PARAM_MCMC_COVARIANCE)
       result = new MCMCCovariance(model);
     else if (sub_type == PARAM_MCMC_OBJECTIVE)
