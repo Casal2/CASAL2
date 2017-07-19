@@ -46,7 +46,6 @@ void Inverse::DoBuild() {
   // tranformed bounds
   lower_bound_ = 1.0 / original_lower_bound_;
   upper_bound_ = 1.0 / original_upper_bound_;
-  current_untransformed_value_ = estimate_->value();
 }
 
 /**
