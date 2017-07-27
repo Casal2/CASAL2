@@ -11,10 +11,10 @@
 
 #include "CasalComplex1.h"
 
-#include "Model/Model.h"
-#include "ObjectiveFunction/ObjectiveFunction.h"
-#include "Observations/Manager.h"
-#include "Observations/Observation.h"
+#include "Common/Model/Model.h"
+#include "Common/ObjectiveFunction/ObjectiveFunction.h"
+#include "Common/Observations/Manager.h"
+#include "Common/Observations/Observation.h"
 #include "TestResources/TestFixtures/InternalEmptyModel.h"
 
 // Namespaces

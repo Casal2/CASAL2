@@ -17,8 +17,8 @@
 #define MOCK_MODEL_H_
 
 // Headers
-#include "Model/Model.h"
-#include "Model/Managers.h"
+#include "Common/Model/Model.h"
+#include "Common/Model/Managers.h"
 
 // Namespaces
 namespace niwa {

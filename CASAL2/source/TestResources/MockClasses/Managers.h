@@ -15,7 +15,7 @@
 #define SOURCE_TESTRESOURCES_MOCKCLASSES_MANAGERS_H_
 
 // Headers
-#include "Model/Managers.h"
+#include "Common/Model/Managers.h"
 
 // Namespaces
 namespace niwa {
