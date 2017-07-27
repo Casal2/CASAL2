@@ -14,8 +14,8 @@
 // Headers
 #include "EmptyModel.h"
 
-#include "Model/Model.h"
-#include "Utilities/RandomNumberGenerator.h"
+#include "Common/Model/Model.h"
+#include "Common/Utilities/RandomNumberGenerator.h"
 
 // namespaces
 namespace niwa {

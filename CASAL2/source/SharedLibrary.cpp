@@ -17,20 +17,20 @@
 #include <boost/algorithm/string/join.hpp>
 
 #include "Version.h"
-#include "ConfigurationLoader/Loader.h"
-#include "GlobalConfiguration/GlobalConfiguration.h"
-#include "Model/Factory.h"
-#include "Model/Managers.h"
-#include "Model/Model.h"
-#include "Reports/Children/StandardHeader.h"
-#include "Reports/Manager.h"
-#include "Translations/Translations.h"
-#include "Utilities/CommandLineParser/CommandLineParser.h"
-#include "Utilities/RandomNumberGenerator.h"
-#include "Utilities/RunParameters.h"
-#include "Logging/Logging.h"
+#include "Common/ConfigurationLoader/Loader.h"
+#include "Common/GlobalConfiguration/GlobalConfiguration.h"
+#include "Common/Model/Factory.h"
+#include "Common/Model/Managers.h"
+#include "Common/Model/Model.h"
+#include "Common/Reports/Children/StandardHeader.h"
+#include "Common/Reports/Manager.h"
+#include "Common/Translations/Translations.h"
+#include "Common/Utilities/CommandLineParser/CommandLineParser.h"
+#include "Common/Utilities/RandomNumberGenerator.h"
+#include "Common/Utilities/RunParameters.h"
+#include "Common/Logging/Logging.h"
 
-#include "Utilities/CommandLineParser/CommandLineParser.h"
+#include "Common/Utilities/CommandLineParser/CommandLineParser.h"
 
 // Namespaces
 using namespace niwa;

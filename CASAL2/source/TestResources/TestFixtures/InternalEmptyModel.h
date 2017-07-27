@@ -20,7 +20,7 @@
 #include <string>
 #include <vector>
 
-#include "ConfigurationLoader/Loader.h"
+#include "Common/ConfigurationLoader/Loader.h"
 #include "TestResources/TestFixtures/Base.h"
 
 // Namespaces

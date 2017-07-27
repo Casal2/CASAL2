@@ -11,8 +11,8 @@
 
 #include "CasalComplex2.h"
 
-#include "Model/Model.h"
-#include "ObjectiveFunction/ObjectiveFunction.h"
+#include "Common/Model/Model.h"
+#include "Common/ObjectiveFunction/ObjectiveFunction.h"
 #include "TestResources/TestFixtures/InternalEmptyModel.h"
 
 // Namespaces
