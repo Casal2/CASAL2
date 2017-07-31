@@ -21,15 +21,16 @@
 #include "Common/Observations/Observation.h"
 
 #include "Common/Partition/Accessors/CombinedCategories.h"
-#include "Common/Processes/Children/MortalityInstantaneous.h"
+#include "Age/Processes/Children/MortalityInstantaneous.h"
 #include "Age/AgeingErrors/AgeingError.h"
+// TODO: move to age
 
 // Namespace
 namespace niwa {
 namespace observations {
 
 using partition::accessors::CombinedCategoriesPtr;
-using processes::MortalityInstantaneous;
+using age::processes::MortalityInstantaneous;
 
 /**
  * Class Definition

@@ -31,11 +31,13 @@ using niwa::testfixtures::BasicModel;
  *
  */
 TEST_F(BasicModel, Accessors_Cached_CombinedCategories) {
+  ASSERT_NE(model_, nullptr);
 
   // Recruitment process
   vector<string> recruitment_categories   = { "immature.male", "immature.female" };
   vector<string> proportions  = { "0.6", "0.4" };
   base::Object* process = model_->factory().CreateObject(PARAM_RECRUITMENT, PARAM_CONSTANT);
+  ASSERT_NE(process, nullptr);
   process->parameters().Add(PARAM_LABEL, "recruitment", __FILE__, __LINE__);
   process->parameters().Add(PARAM_TYPE, "constant", __FILE__, __LINE__);
   process->parameters().Add(PARAM_CATEGORIES, recruitment_categories, __FILE__, __LINE__);
@@ -46,6 +48,7 @@ TEST_F(BasicModel, Accessors_Cached_CombinedCategories) {
   // Mortality process
   vector<string> mortality_categories   = { "immature.male", "immature.female", "mature.male", "mature.female" };
   process = model_->factory().CreateObject(PARAM_MORTALITY, PARAM_CONSTANT_RATE);
+  ASSERT_NE(process, nullptr);
   process->parameters().Add(PARAM_LABEL, "mortality", __FILE__, __LINE__);
   process->parameters().Add(PARAM_TYPE, "constant_rate", __FILE__, __LINE__);
   process->parameters().Add(PARAM_CATEGORIES, mortality_categories, __FILE__, __LINE__);
@@ -55,11 +58,13 @@ TEST_F(BasicModel, Accessors_Cached_CombinedCategories) {
   // Ageing process
   vector<string> ageing_categories   = { "immature.male", "immature.female" };
   process = model_->factory().CreateObject(PARAM_AGEING, "");
+  ASSERT_NE(process, nullptr);
   process->parameters().Add(PARAM_LABEL, "ageing", __FILE__, __LINE__);
   process->parameters().Add(PARAM_CATEGORIES, ageing_categories, __FILE__, __LINE__);
 
   // Timestep
   base::Object* time_step = model_->factory().CreateObject(PARAM_TIME_STEP, "");
+  ASSERT_NE(time_step, nullptr);
   vector<string> processes    = { "ageing", "recruitment", "mortality" };
   time_step->parameters().Add(PARAM_LABEL, "step_one", __FILE__, __LINE__);
   time_step->parameters().Add(PARAM_PROCESSES, processes, __FILE__, __LINE__);

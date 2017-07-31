@@ -67,7 +67,7 @@ Model::Model() {
   parameters_.Bind<string>(PARAM_INITIALISATION_PHASES, &initialisation_phases_, "Define the labels of the phases of the initialisation", R"(A list of valid labels defined by \texttt{@initialisation_phase})", true);
   parameters_.Bind<string>(PARAM_TIME_STEPS, &time_steps_, "Define the labels of the time steps, in the order that they are applied, to form the annual cycle", R"(A list of valid labels defined by \texttt{@time_step})");
   parameters_.Bind<unsigned>(PARAM_PROJECTION_FINAL_YEAR, &projection_final_year_, "Define the final year of the model in projection mode", R"(Defines the last year of the projection period, i.e., the projection period runs from \texttt{final_year}$+1$ to \texttt{projection_final_year}. For the default, $0$, no projections are run.)", 0);
-  parameters_.Bind<string>(PARAM_TYPE, &type_, "TBA: Type of model (the partition structure). Either age, length or hybrid", "", PARAM_AGE);
+  parameters_.Bind<string>(PARAM_TYPE, &type_, "TBA: Type of model (the partition structure). Either age, length or hybrid", "", PARAM_AGE)->set_allowed_values({PARAM_AGE, PARAM_LENGTH});
   parameters_.Bind<Double>(PARAM_LENGTH_BINS, &length_bins_, "", "", true);
   parameters_.Bind<string>(PARAM_BASE_UNTIS, &base_weight_units_, "Define the units for the base weight. This will be the default unit of any weight input parameters ", "", PARAM_TONNES)->set_allowed_values({PARAM_GRAMS, PARAM_TONNES,PARAM_KGS});
 
@@ -249,9 +249,9 @@ bool Model::Start(RunMode::Type run_mode) {
 }
 
 /**
- * First we will do the local validations. Then we will call validation on the other objects
+ * Populate the loaded parameters
  */
-void Model::Validate() {
+void Model::PopulateParameters() {
   LOG_TRACE();
 
   // Check that we've actually defined a @model block
@@ -266,9 +266,6 @@ void Model::Validate() {
     partition_structure_ = PartitionStructure::kAge;
   else if (type_ == PARAM_LENGTH)
     partition_structure_ = PartitionStructure::kLength;
-  else
-    LOG_ERROR_P(PARAM_TYPE) << " (" << type_ << ") is not valid. Please use either " << PARAM_AGE
-        << " or " << PARAM_LENGTH;
 
   if (partition_structure_ == PartitionStructure::kAge) {
     if (start_year_ < 1000)
@@ -298,6 +295,18 @@ void Model::Validate() {
 
   } else
     LOG_ERROR() << "Partition structure " << (unsigned)partition_structure_ << " not supported";
+}
+
+/**
+ * First we will do the local validations. Then we will call validation on the other objects
+ */
+void Model::Validate() {
+  // Check that we've actually defined a @model block
+  if (block_type_ == "")
+    LOG_ERROR() << "The @model block is missing from configuration file. This block is required.";
+
+  if (!parameters_.has_been_populated())
+    parameters_.Populate();
 
   // Call validation for the other objects required by the model
   categories_->Validate();

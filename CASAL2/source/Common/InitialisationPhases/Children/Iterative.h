@@ -15,12 +15,12 @@
 #define INITIALISATIONPHASES_ITERATIVE_H_
 
 // headers
+#include "Age/Processes/Children/RecruitmentBevertonHolt.h"
+#include "Age/Processes/Children/RecruitmentBevertonHoltWithDeviations.h"
 #include "Common/InitialisationPhases/InitialisationPhase.h"
 #include "Common/Partition/Accessors/Categories.h"
 #include "Common/Partition/Accessors/Cached/Categories.h"
-#include "Common/Processes/Children/RecruitmentBevertonHolt.h"
-#include "Common/Processes/Children/RecruitmentBevertonHoltWithDeviations.h"
-
+// TODO: Move this to age
 // namespaces
 namespace niwa {
 class TimeStep;
@@ -28,8 +28,8 @@ class TimeStep;
 namespace initialisationphases {
 namespace cached   = partition::accessors::cached;
 namespace accessor = partition::accessors;
-using processes::RecruitmentBevertonHolt;
-using processes::RecruitmentBevertonHoltWithDeviations;
+using age::processes::RecruitmentBevertonHolt;
+using age::processes::RecruitmentBevertonHoltWithDeviations;
 /**
  *
  */

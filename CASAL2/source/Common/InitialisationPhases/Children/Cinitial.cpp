@@ -17,8 +17,9 @@
 #include "Common/TimeSteps/Manager.h"
 #include "Common/DerivedQuantities/Manager.h"
 #include "Common/InitialisationPhases/Manager.h"
-#include "Common/Processes/Children/RecruitmentBevertonHolt.h"
+#include "Age/Processes/Children/RecruitmentBevertonHolt.h"
 
+// TODO: Move this to age
 namespace niwa {
 namespace initialisationphases {
 

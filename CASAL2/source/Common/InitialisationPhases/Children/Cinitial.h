@@ -19,7 +19,8 @@
 #include "Common/InitialisationPhases/InitialisationPhase.h"
 #include "Common/Partition/Accessors/CombinedCategories.h"
 #include "Common/Partition/Accessors/Cached/CombinedCategories.h"
-#include "Common/Processes/Children/RecruitmentBevertonHolt.h"
+#include "Age/Processes/Children/RecruitmentBevertonHolt.h"
+// TODO: move this to age
 
 // namespaces
 namespace niwa {
@@ -29,7 +30,7 @@ class DerivedQuantity;
 namespace initialisationphases {
 using partition::accessors::CombinedCategoriesPtr;
 using partition::accessors::cached::CachedCombinedCategoriesPtr;
-using processes::RecruitmentBevertonHolt;
+using age::processes::RecruitmentBevertonHolt;
 
 /**
  * Class definition

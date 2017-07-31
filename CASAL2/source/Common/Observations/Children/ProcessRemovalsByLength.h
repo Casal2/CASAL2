@@ -18,10 +18,10 @@
 
 // Headers
 #include "Common/Observations/Observation.h"
-
 #include "Common/Partition/Accessors/CombinedCategories.h"
 #include "Common/Partition/Accessors/Cached/CombinedCategories.h"
-#include "Common/Processes/Children/MortalityInstantaneous.h"
+#include "Age/Processes/Children/MortalityInstantaneous.h"
+// TODO: Move this to age
 
 // Namespace
 namespace niwa {
@@ -29,7 +29,7 @@ namespace observations {
 
 using partition::accessors::CombinedCategoriesPtr;
 using partition::accessors::cached::CachedCombinedCategoriesPtr;
-using processes::MortalityInstantaneous;
+using age::processes::MortalityInstantaneous;
 
 /**
  * Class Definition

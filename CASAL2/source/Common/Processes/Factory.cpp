@@ -16,25 +16,7 @@
 #include "Common/Model/Model.h"
 #include "Common/Model/Managers.h"
 #include "Common/Processes/Manager.h"
-#include "Common/Processes/Children/Ageing.h"
-#include "Common/Processes/Children/Maturation.h"
-#include "Common/Processes/Children/MortalityConstantRate.h"
-#include "Common/Processes/Children/MortalityEvent.h"
-#include "Common/Processes/Children/MortalityEventBiomass.h"
-#include "Common/Processes/Children/MortalityInstantaneous.h"
-#include "Common/Processes/Children/MortalityInitialisationEvent.h"
-#include "Common/Processes/Children/MortalityInitialisationEventBiomass.h"
-#include "Common/Processes/Children/MortalityPreySuitability.h"
-#include "Common/Processes/Children/MortalityHollingRate.h"
-#include "Common/Processes/Children/Nop.h"
-#include "Common/Processes/Children/RecruitmentBevertonHolt.h"
-#include "Common/Processes/Children/RecruitmentBevertonHoltWithDeviations.h"
-#include "Common/Processes/Children/RecruitmentConstant.h"
-#include "Common/Processes/Children/TagByAge.h"
-#include "Common/Processes/Children/TagByLength.h"
-#include "Common/Processes/Children/TagLoss.h"
-#include "Common/Processes/Children/TransitionCategory.h"
-#include "Common/Processes/Children/TransitionCategoryByAge.h"
+#include "Age/Processes/Factory.h"
 
 // Namespaces
 namespace niwa {
@@ -71,49 +53,12 @@ Process* Factory::Create(Model* model, const string& object_type, const string& 
     LOG_FINE() << "Finished modification of object_type (" << object << ") and sub_type (" << sub << ")";
   }
 
-  if (object == PARAM_PROCESS || object == PARAM_PROCESSES) {
-    if (sub == PARAM_AGEING)
-      result = new Ageing(model);
-    else if (sub == PARAM_RECRUITMENT_BEVERTON_HOLT)
-      result = new RecruitmentBevertonHolt(model);
-    else if (sub == PARAM_RECRUITMENT_BEVERTON_HOLT_WITH_DEVIATIONS)
-      result = new RecruitmentBevertonHoltWithDeviations(model);
-    else if (sub == PARAM_RECRUITMENT_CONSTANT)
-      result = new RecruitmentConstant(model);
-    else if (sub == PARAM_MATURATION)
-      result = new Maturation(model);
-    else if (sub == PARAM_MORTALITY_CONSTANT_RATE)
-      result = new MortalityConstantRate(model);
-    else if (sub == PARAM_MORTALITY_INITIALISATION_EVENT)
-      result = new MortalityInitialisationEvent(model);
-    else if (sub == PARAM_MORTALITY_INITIALISATION_EVENT_BIOMSS)
-      result = new MortalityInitialisationEventBiomass(model);
-    else if (sub == PARAM_MORTALITY_EVENT)
-      result = new MortalityEvent(model);
-    else if (sub == PARAM_MORTALITY_EVENT_BIOMASS)
-      result = new MortalityEventBiomass(model);
-    else if (sub == PARAM_MORTALITY_INSTANTANEOUS)
-      result = new MortalityInstantaneous(model);
-    else if (sub == PARAM_MORTALITY_HOLLING_RATE)
-      result = new MortalityHollingRate(model);
-    else if (sub == PARAM_PREY_SUITABILITY_PREDATION)
-      result = new MortalityPreySuitability(model);
-    else if (sub == PARAM_NOP)
-      result = new Nop(model);
-    else if (sub == PARAM_TAG_BY_AGE)
-      result = new TagByAge(model);
-    else if (sub == PARAM_TAG_BY_LENGTH)
-      result = new TagByLength(model);
-    else if (sub == PARAM_TAG_LOSS)
-      result = new TagLoss(model);
-    else if (sub == PARAM_TRANSITION_CATEGORY)
-      result = new TransitionCategory(model);
-    else if (sub == PARAM_TRANSITION_CATEGORY_BY_AGE)
-      result = new TransitionCategoryByAge(model);
-
-    if (result)
-      model->managers().process()->AddObject(result);
+  if (model->partition_structure() == PartitionStructure::kAge) {
+    result = age::processes::Factory::Create(model, object_type, sub_type);
   }
+
+  if (result)
+    model->managers().process()->AddObject(result);
 
   //result->parameters().Get(PARAM_TYPE)->set_value(sub);
   return result;

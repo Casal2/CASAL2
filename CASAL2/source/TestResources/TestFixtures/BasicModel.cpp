@@ -38,6 +38,7 @@ void BasicModel::SetUp() {
    * Add Model Parameters
    */
   model_->set_block_type(PARAM_MODEL);
+  model_->parameters().Add(PARAM_TYPE, PARAM_AGE, __FILE__, __LINE__);
   model_->parameters().Add(PARAM_START_YEAR, "1994", __FILE__, __LINE__);
   model_->parameters().Add(PARAM_FINAL_YEAR, "2008", __FILE__, __LINE__);
   model_->parameters().Add(PARAM_MIN_AGE, "1", __FILE__, __LINE__);
@@ -45,6 +46,7 @@ void BasicModel::SetUp() {
   model_->parameters().Add(PARAM_AGE_PLUS, "true", __FILE__, __LINE__);
   model_->parameters().Add(PARAM_TIME_STEPS, "step_one", __FILE__, __LINE__);
   model_->parameters().Add(PARAM_BASE_UNTIS, "kgs", __FILE__, __LINE__);
+  model_->PopulateParameters();
 
   base::Object* categories = model_->categories();
   categories->set_block_type(PARAM_CATEGORIES);

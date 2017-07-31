@@ -48,7 +48,7 @@ void ProcessProportionsAtAge::DoBuild() {
     LOG_FATAL_P(PARAM_TIME_STEP) << time_step_label_ << " could not be found. Have you defined it?";
   } else {
     auto process = time_step->SubscribeToProcess(this, years_, process_label_);
-    mortality_instantaneous_ = dynamic_cast<processes::MortalityInstantaneous*>(process);
+    mortality_instantaneous_ = dynamic_cast<age::processes::MortalityInstantaneous*>(process);
   }
 }
 

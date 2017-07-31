@@ -25,7 +25,6 @@
 // Namespaces
 namespace niwa {
 
-using std::shared_ptr;
 using base::Executor;
 class Managers;
 class Objects;
@@ -53,10 +52,10 @@ enum Type {
 }
 
 enum class PartitionStructure {
-  kAge = 1,
-  kLength = 2,
-  kAny = 4,
-  kInvalid = 4096
+  kAge      = 1,
+  kLength   = 2,
+  kMixed    = 4,
+  kInvalid  = 4096
 };
 
 inline PartitionStructure operator&(PartitionStructure a, PartitionStructure b) {
@@ -74,7 +73,7 @@ public:
   bool                        Start(RunMode::Type run_mode);
   void                        FullIteration();
   void                        Subscribe(State::Type state, Executor* executor) { executors_[state].push_back(executor); }
-
+  void                        PopulateParameters();
 
   // Accessors
   RunMode::Type               run_mode() const { return run_mode_; }
