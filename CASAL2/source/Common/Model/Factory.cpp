@@ -12,10 +12,9 @@
 // headers
 #include "Factory.h"
 
+// Common Factories
 #include "Common/BaseClasses/Object.h"
 #include "Common/AdditionalPriors/Factory.h"
-#include "Age/AgeingErrors/Factory.h"
-#include "Age/AgeLengths/Factory.h"
 #include "Common/Asserts/Factory.h"
 #include "Common/Catchabilities/Factory.h"
 #include "Common/Categories/Categories.h"
@@ -33,12 +32,17 @@
 #include "Common/Profiles/Factory.h"
 #include "Common/Projects/Factory.h"
 #include "Common/Reports/Factory.h"
-#include "Age/Selectivities/Factory.h"
-#include "Length/LengthWeights/Factory.h"
+#include "Common/LengthWeights/Factory.h"
 #include "Common/TimeSteps/Factory.h"
 #include "Common/TimeVarying/Factory.h"
 #include "Common/Utilities/To.h"
 
+// Age Factories
+#include "Age/Selectivities/Factory.h"
+#include "Age/AgeingErrors/Factory.h"
+#include "Age/AgeLengths/Factory.h"
+
+// Length Factories
 // namespaces
 namespace niwa {
 
