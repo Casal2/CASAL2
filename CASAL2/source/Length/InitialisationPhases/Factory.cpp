@@ -1,25 +1,23 @@
 /**
  * @file Factory.cpp
  * @author  Scott Rasmussen (scott.rasmussen@zaita.com)
- * @version 1.0
- * @date 13/12/2012
+ * @date 2/09/2014
  * @section LICENSE
  *
- * Copyright NIWA Science ©2017 - www.niwa.co.nz
+ * Copyright NIWA Science ©2014 - www.niwa.co.nz
  *
  */
 
-// Headers
+// headers
 #include "Factory.h"
 
 #include "Common/Model/Model.h"
 #include "Common/Model/Managers.h"
-#include "Common/InitialisationPhases/Manager.h"
-#include "Age/InitialisationPhases/Factory.h"
-#include "Length/InitialisationPhases/Factory.h"
+#include "Length/InitialisationPhases/Children/Iterative.h"
 
 // Namespaces
 namespace niwa {
+namespace length {
 namespace initialisationphases {
 
 /**
@@ -33,18 +31,16 @@ namespace initialisationphases {
 InitialisationPhase* Factory::Create(Model* model, const string& object_type, const string& sub_type) {
   InitialisationPhase* result = nullptr;
 
-
-  if (model->partition_structure() == PartitionStructure::kAge) {
-    result = age::initialisationphases::Factory::Create(model, object_type, sub_type);
-  } else if (model->partition_structure() == PartitionStructure::kLength) {
-    result = length::initialisationphases::Factory::Create(model, object_type, sub_type);
+  if (object_type == PARAM_INITIALISATION_PHASE) {
+    if (sub_type == "" || sub_type == PARAM_ITERATIVE)
+      result = new Iterative(model);
   }
-
-  if (result)
-    model->managers().initialisation_phase()->AddObject(result);
 
   return result;
 }
 
-} /* namespace processes */
+} /* namespace initialisationphases */
+} /* namespace age */
 } /* namespace niwa */
+
+

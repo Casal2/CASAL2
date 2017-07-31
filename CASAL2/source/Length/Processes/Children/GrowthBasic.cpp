@@ -16,10 +16,11 @@
 #include "Common/Categories/Categories.h"
 #include "Common/TimeSteps/Manager.h"
 #include "Common/Utilities/Map.h"
-#include <boost/math/distributions/normal.hpp>
+#include "boost/math/distributions/normal.hpp"
 
 // Namespaces
 namespace niwa {
+namespace length {
 namespace processes {
 
 /**
@@ -142,4 +143,4 @@ void GrowthBasic::DoExecute() {
 
 } /* namespace processes */
 } /* namespace length */
-//} /* namespace niwa */
+} /* namespace niwa */

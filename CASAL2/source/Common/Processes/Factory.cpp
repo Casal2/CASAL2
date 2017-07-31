@@ -17,6 +17,7 @@
 #include "Common/Model/Managers.h"
 #include "Common/Processes/Manager.h"
 #include "Age/Processes/Factory.h"
+#include "Length/Processes/Factory.h"
 
 // Namespaces
 namespace niwa {
@@ -55,6 +56,8 @@ Process* Factory::Create(Model* model, const string& object_type, const string& 
 
   if (model->partition_structure() == PartitionStructure::kAge) {
     result = age::processes::Factory::Create(model, object_type, sub_type);
+  } else if (model->partition_structure() == PartitionStructure::kLength) {
+    result = length::processes::Factory::Create(model, object_type, sub_type);
   }
 
   if (result)
