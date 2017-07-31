@@ -22,6 +22,7 @@
 
 // Namespaces
 namespace niwa {
+namespace length {
 namespace processes {
 
 namespace accessor = niwa::partition::accessors;
@@ -60,5 +61,5 @@ private:
 
 } /* namespace processes */
 } /* namespace length */
-//} /* namespace niwa */
+} /* namespace niwa */
 #endif /* GROWTH_BASIC_H_ */
