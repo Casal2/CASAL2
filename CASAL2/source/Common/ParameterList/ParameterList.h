@@ -117,6 +117,7 @@ public:
   map<string, Parameter*>&    parameters() { return parameters_; }
   void                        set_ignore_all_parameters() { ignore_all_parameters_ = true; }
   bool                        ignore_all_parameters() { return ignore_all_parameters_; }
+  bool                        has_been_populated() const { return already_populated_; }
 
 private:
   // members

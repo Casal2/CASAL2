@@ -101,14 +101,24 @@ void Loader::ParseFileLines() {
 
   vector<FileLine> block;
 
+  bool first_block = true;
   for (unsigned i = 0; i < file_lines_.size(); ++i) {
     if (file_lines_[i].line_ == "")
       continue;
 
+
+
     // Check if we're entering a new block
     if (file_lines_[i].line_[0] == '@') {
-      if (block.size() > 0)
+      if (block.size() > 0) {
+        if (first_block) {
+          if (utilities::ToLowercase(block[0].line_) != "@model")
+            LOG_FATAL() << "The first block to be processed must be @model. Actual was " << block[0].line_;
+        }
+
         ParseBlock(block);
+        first_block = false;
+      }
       block.clear();
     }
 
@@ -356,6 +366,9 @@ void Loader::ParseBlock(vector<FileLine> &block) {
       }
     }
   }
+
+  if (block_type == "model")
+    model_.PopulateParameters();
 }
 
 /**

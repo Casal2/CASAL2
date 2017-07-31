@@ -22,9 +22,9 @@
 #include "Common/Model/Model.h"
 #include "Common/Partition/Accessors/Categories.h"
 #include "Common/TimeSteps/Manager.h"
-#include "Common/Processes/Children/RecruitmentBevertonHolt.h"
-#include "Common/Processes/Children/RecruitmentBevertonHoltWithDeviations.h"
-
+#include "Age/Processes/Children/RecruitmentBevertonHolt.h"
+#include "Age/Processes/Children/RecruitmentBevertonHoltWithDeviations.h"
+// TODO: Move this to age
 
 // namespaces
 namespace niwa {

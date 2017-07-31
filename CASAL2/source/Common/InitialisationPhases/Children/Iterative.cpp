@@ -15,14 +15,15 @@
 #include <boost/algorithm/string/trim_all.hpp>
 #include <boost/algorithm/string/split.hpp>
 
+#include "Age/Processes/Children/RecruitmentBevertonHolt.h"
+#include "Age/Processes/Children/RecruitmentBevertonHoltWithDeviations.h"
 #include "Common/Categories/Categories.h"
 #include "Common/DerivedQuantities/Manager.h"
 #include "Common/Partition/Accessors/Categories.h"
 #include "Common/Processes/Manager.h"
 #include "Common/TimeSteps/Factory.h"
 #include "Common/TimeSteps/Manager.h"
-#include "Common/Processes/Children/RecruitmentBevertonHolt.h"
-#include "Common/Processes/Children/RecruitmentBevertonHoltWithDeviations.h"
+// TODO: move this to age
 
 // namespaces
 namespace niwa {

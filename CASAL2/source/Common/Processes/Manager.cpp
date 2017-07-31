@@ -42,7 +42,7 @@ void Manager::Validate(Model* model) {
       LOG_CODE_ERROR() << "Process: " << process->label() << " has not been properly configured to have a partition structure";
 
     if ((PartitionStructure)(process->partition_structure() & model_structure) != model_structure
-        && process->partition_structure() != PartitionStructure::kAny) {
+        && process->partition_structure() != PartitionStructure::kMixed) {
       string label = "unknown";
       Parameter* param = process->parameters().Get(PARAM_LABEL);
       if (param)
