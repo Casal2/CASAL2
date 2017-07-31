@@ -21,6 +21,7 @@
 
 // namespaces
 namespace niwa {
+namespace age {
 namespace initialisationphases {
 namespace accessor = niwa::partition::accessors;
 
@@ -51,6 +52,7 @@ private:
 };
 
 } /* namespace initialisationphases */
+} /* namespace age */
 } /* namespace niwa */
 
 #endif /* SOURCE_INITIALISATIONPHASES_CHILDREN_STATECATEGORYBYAGE_H_ */

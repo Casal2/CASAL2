@@ -20,13 +20,12 @@
 #include "Common/Partition/Accessors/CombinedCategories.h"
 #include "Common/Partition/Accessors/Cached/CombinedCategories.h"
 #include "Age/Processes/Children/RecruitmentBevertonHolt.h"
-// TODO: move this to age
 
 // namespaces
 namespace niwa {
 class TimeStep;
 class DerivedQuantity;
-
+namespace age {
 namespace initialisationphases {
 using partition::accessors::CombinedCategoriesPtr;
 using partition::accessors::cached::CachedCombinedCategoriesPtr;
@@ -66,6 +65,7 @@ private:
 };
 
 } /* namespace initialisationphases */
+} /* namespace age */
 } /* namespace niwa */
 
 #endif /* SOURCE_INITIALISATIONPHASES_CHILDREN_CINITIAL_H_ */

@@ -23,10 +23,10 @@
 #include "Common/Processes/Manager.h"
 #include "Common/TimeSteps/Factory.h"
 #include "Common/TimeSteps/Manager.h"
-// TODO: move this to age
 
 // namespaces
 namespace niwa {
+namespace age {
 namespace initialisationphases {
 
 namespace cached   = partition::accessors::cached;
@@ -234,4 +234,5 @@ bool Iterative::CheckConvergence() {
 
 
 } /* namespace initialisationphases */
+} /* namespace age */
 } /* namespace niwa */

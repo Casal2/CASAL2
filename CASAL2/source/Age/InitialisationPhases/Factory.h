@@ -9,8 +9,8 @@
  *
  * $Date: 2008-03-04 16:33:32 +1300 (Tue, 04 Mar 2008) $
  */
-#ifndef INITIALISATIONPHASES_FACTORY_H_
-#define INITIALISATIONPHASES_FACTORY_H_
+#ifndef AGE_INITIALISATIONPHASES_FACTORY_H_
+#define AGE_INITIALISATIONPHASES_FACTORY_H_
 
 // Headers
 #include "Common/InitialisationPhases/InitialisationPhase.h"
@@ -20,6 +20,7 @@
 namespace niwa {
 class Model;
 
+namespace age {
 namespace initialisationphases {
 
 /**
@@ -37,9 +38,7 @@ private:
 };
 
 } /* namespace initialisationphases */
+} /* namespace age */
 } /* namespace niwa */
 
-
-
-
-#endif /* INITIALISATIONPHASES_FACTORY_H_ */
+#endif /* AGE_INITIALISATIONPHASES_FACTORY_H_ */
