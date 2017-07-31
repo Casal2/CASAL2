@@ -13,13 +13,14 @@
 
 #include "Common/Model/Model.h"
 #include "Common/Model/Managers.h"
-#include "Common/InitialisationPhases/Children/Cinitial.h"
-#include "Common/InitialisationPhases/Children/Derived.h"
-#include "Common/InitialisationPhases/Children/Iterative.h"
-#include "Common/InitialisationPhases/Children/StateCategoryByAge.h"
+#include "Age/InitialisationPhases/Children/Cinitial.h"
+#include "Age/InitialisationPhases/Children/Derived.h"
+#include "Age/InitialisationPhases/Children/Iterative.h"
+#include "Age/InitialisationPhases/Children/StateCategoryByAge.h"
 
 // Namespaces
 namespace niwa {
+namespace age {
 namespace initialisationphases {
 
 /**
@@ -50,7 +51,8 @@ InitialisationPhase* Factory::Create(Model* model, const string& object_type, co
   return result;
 }
 
-}
-}
+} /* namespace initialisationphases */
+} /* namespace age */
+} /* namespace niwa */
 
 

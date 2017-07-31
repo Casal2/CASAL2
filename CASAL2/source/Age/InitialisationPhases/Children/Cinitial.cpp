@@ -9,6 +9,7 @@
  *
  */
 
+// headers
 #include "Cinitial.h"
 
 #include "Common/Categories/Categories.h"
@@ -19,10 +20,16 @@
 #include "Common/InitialisationPhases/Manager.h"
 #include "Age/Processes/Children/RecruitmentBevertonHolt.h"
 
-// TODO: Move this to age
+// namesapces
 namespace niwa {
+namespace age {
 namespace initialisationphases {
 
+/**
+ * Default constrcutor
+ *
+ * @param model Pointer to our core model object
+ */
 Cinitial::Cinitial(Model* model)
   : InitialisationPhase(model) {
 
@@ -209,4 +216,5 @@ void Cinitial::Execute() {
 }
 
 } /* namespace initialisationphases */
+} /* namespace age */
 } /* namespace niwa */

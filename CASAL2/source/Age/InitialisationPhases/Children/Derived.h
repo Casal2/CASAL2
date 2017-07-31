@@ -19,12 +19,11 @@
 #include "Common/InitialisationPhases/InitialisationPhase.h"
 #include "Common/Partition/Accessors/Cached/Categories.h"
 #include "Common/Partition/Accessors/Categories.h"
-// TODO: Move this to age
 
 // namespaces
 namespace niwa {
 class TimeStep;
-
+namespace age {
 namespace initialisationphases {
 namespace cached   = partition::accessors::cached;
 namespace accessor = partition::accessors;
@@ -58,5 +57,6 @@ protected:
 };
 
 } /* namespace initialisationphases */
+} /* namespace age */
 } /* namespace niwa */
 #endif /* INITIALISATIONPHASES_DERIVED_H_ */

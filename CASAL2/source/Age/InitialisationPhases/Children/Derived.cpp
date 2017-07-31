@@ -24,10 +24,10 @@
 #include "Common/TimeSteps/Manager.h"
 #include "Age/Processes/Children/RecruitmentBevertonHolt.h"
 #include "Age/Processes/Children/RecruitmentBevertonHoltWithDeviations.h"
-// TODO: Move this to age
 
 // namespaces
 namespace niwa {
+namespace age {
 namespace initialisationphases {
 
 /**
@@ -276,4 +276,5 @@ void Derived::Execute() {
 }
 
 } /* namespace initialisationphases */
+} /* namespace age */
 } /* namespace niwa */

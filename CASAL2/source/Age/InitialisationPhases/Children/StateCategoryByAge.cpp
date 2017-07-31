@@ -16,9 +16,16 @@
 #include "Common/Model/Model.h"
 #include "Common/TimeSteps/Manager.h"
 
+// namespaces
 namespace niwa {
+namespace age {
 namespace initialisationphases {
 
+/**
+ * Default constructor
+ *
+ * @param model A pointer to our core model object
+ */
 StateCategoryByAge::StateCategoryByAge(Model* model)
   : InitialisationPhase(model),
     partition_(model) {
@@ -105,4 +112,5 @@ void StateCategoryByAge::Execute() {
 }
 
 } /* namespace initialisationphases */
+} /* namespace age */
 } /* namespace niwa */
