@@ -122,6 +122,7 @@ first_recent_year_with_no_bias
 first_year_with_bias
 format
 from
+growth_time_steps
 h
 initial_mortality
 initial_mortality_selectivity
@@ -168,6 +169,7 @@ multiplier
 n
 names
 normalised_residuals
+number_of_growth_episodes
 obs
 observation
 p1
@@ -212,6 +214,7 @@ selectivities2
 selectivity
 sigma
 sigma_l
+sigma_min
 sigma_r
 simulation_likelihood
 slope
@@ -311,6 +314,7 @@ estimate_summary
 estimate_value
 exogenous
 free
+growth_basic
 hessian_matrix
 increasing
 independence_metropolis
