@@ -50,7 +50,7 @@ private:
   vector<Double>              proportions_;
   OrderedMap<string, Double>  proportions_categories_;
   Double                      r0_;
-  vector<Double>              length_bins_;
+  vector<unsigned>            length_bins_;
   accessor::Categories        partition_;
   Double                      r0_by_length_bin_;
 };
