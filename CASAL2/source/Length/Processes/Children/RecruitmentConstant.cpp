@@ -29,7 +29,7 @@ RecruitmentConstant::RecruitmentConstant(Model* model)
     partition_(model) {
   parameters_.Bind<string>(PARAM_CATEGORIES, &category_labels_, "Categories", "");
   parameters_.Bind<Double>(PARAM_PROPORTIONS, &proportions_, "Proportions", "", true);
-  parameters_.Bind<Double>(PARAM_LENGTH_BINS, &length_bins_, "The length bins recruits are uniformly distributed over, when recruitment occurs", "");
+  parameters_.Bind<unsigned>(PARAM_LENGTH_BINS, &length_bins_, "The length bins recruits are uniformly distributed over, when recruitment occurs", "");
   parameters_.Bind<Double>(PARAM_R0, &r0_, "R0", "")
       ->set_lower_bound(0.0, false);
 

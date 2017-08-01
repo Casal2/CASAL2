@@ -100,7 +100,7 @@ public:
   virtual const vector<string>& time_steps() const { return time_steps_; }
   const vector<string>&       initialisation_phases() const { return initialisation_phases_; }
   PartitionStructure          partition_structure() const { return partition_structure_; }
-  const vector<Double>        length_bins() const { return length_bins_; }
+  const vector<unsigned>      length_bins() const { return length_bins_; }
 
   // manager accessors
   virtual Managers&           managers();
@@ -142,7 +142,7 @@ protected:
   bool                        age_plus_ = true;
   vector<string>              initialisation_phases_;
   vector<string>              time_steps_;
-  vector<Double>              length_bins_;
+  vector<unsigned>            length_bins_;
   bool                        addressable_values_file_ = false;
   unsigned                    adressable_values_count_ = 1;
   PartitionStructure          partition_structure_ = PartitionStructure::kInvalid;

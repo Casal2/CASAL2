@@ -13,8 +13,8 @@
  *
  *
  */
-#ifndef GROWTH_BASIC_H_
-#define GROWTH_BASIC_H_
+#ifndef LENGTH_GROWTH_BASIC_H_
+#define LENGTH_GROWTH_BASIC_H_
 
 // Headers
 #include "Common/Partition/Accessors/Categories.h"
@@ -46,7 +46,7 @@ private:
   vector<Double>              g_;
   vector<Double>              l_;
   vector<Double>              length_bin_mid_points_;
-  vector<Double>              length_bins_;
+  vector<unsigned>            length_bins_;
   Model*                      model_ = nullptr;
   vector<string>              category_labels_;
   Double                      cv_ = 0.0;
@@ -62,4 +62,4 @@ private:
 } /* namespace processes */
 } /* namespace length */
 } /* namespace niwa */
-#endif /* GROWTH_BASIC_H_ */
+#endif /* LENGTH_GROWTH_BASIC_H_ */
