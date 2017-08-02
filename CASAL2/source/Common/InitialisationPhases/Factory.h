@@ -5,25 +5,26 @@
  * @date 13/12/2012
  * @section LICENSE
  *
- * Copyright NIWA Science ©2012 - www.niwa.co.nz
+ * Copyright NIWA Science ©2017 - www.niwa.co.nz
  *
- * $Date: 2008-03-04 16:33:32 +1300 (Tue, 04 Mar 2008) $
  */
-#ifndef INITIALISATIONPHASES_FACTORY_H_
-#define INITIALISATIONPHASES_FACTORY_H_
+#ifndef INITIALISATIONPHASE_FACTORY_H_
+#define INITIALISATIONPHASE_FACTORY_H_
 
 // Headers
+#include <string>
+
 #include "Common/InitialisationPhases/InitialisationPhase.h"
-#include "Common/InitialisationPhases/Manager.h"
 
 // Namespaces
 namespace niwa {
 class Model;
 
 namespace initialisationphases {
+using std::string;
 
 /**
- * Class Definition
+ * Class definition
  */
 class Factory {
 public:
@@ -36,10 +37,6 @@ private:
   virtual ~Factory() = delete;
 };
 
-} /* namespace initialisationphases */
+} /* namespace processes */
 } /* namespace niwa */
-
-
-
-
-#endif /* INITIALISATIONPHASES_FACTORY_H_ */
+#endif /* INITIALISATIONPHASE_FACTORY_H_ */

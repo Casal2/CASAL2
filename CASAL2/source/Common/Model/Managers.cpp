@@ -23,7 +23,7 @@
 #include "Common/Estimates/Manager.h"
 #include "Common/EstimateTransformations/Manager.h"
 #include "Common/InitialisationPhases/Manager.h"
-#include "Length/LengthWeights/Manager.h"
+#include "Common/LengthWeights/Manager.h"
 #include "Common/Likelihoods/Manager.h"
 #include "Common/MCMCs/Manager.h"
 #include "Common/Minimisers/Manager.h"
