@@ -18,8 +18,8 @@
 #include <cmath>
 
 #include "Common/Model/Managers.h"
-#include "Length/LengthWeights/LengthWeight.h"
-#include "Length/LengthWeights/Manager.h"
+#include "Common/LengthWeights/LengthWeight.h"
+#include "Common/LengthWeights/Manager.h"
 #include "Common/TimeSteps/Manager.h"
 
 // namespaces

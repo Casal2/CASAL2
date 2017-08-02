@@ -44,9 +44,7 @@ InitialisationPhase* Factory::Create(Model* model, const string& object_type, co
     else if (sub_type == PARAM_CINITIAL)
       result = new Cinitial(model);
 
-    if (result)
-      model->managers().initialisation_phase()->AddObject(result);
-  }
+   }
 
   return result;
 }

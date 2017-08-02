@@ -18,7 +18,6 @@
 #include "Common/Model/Managers.h"
 #include "Common/Reports/Manager.h"
 #include "Common/Reports/Children/Addressable.h"
-#include "Common/Reports/Children/AgeingErrorMatrix.h"
 #include "Common/Reports/Children/CategoryInfo.h"
 #include "Common/Reports/Children/Catchabilities.h"
 #include "Common/Reports/Children/CategoryList.h"
@@ -29,17 +28,15 @@
 #include "Common/Reports/Children/EstimateSummary.h"
 #include "Common/Reports/Children/EstimateValue.h"
 #include "Common/Reports/Children/HessianMatrix.h"
-#include "Common/Reports/Children/InitialisationPartition.h"
-#include "Common/Reports/Children/InitialisationPartitionMeanWeight.h"
 #include "Common/Reports/Children/MCMCCovariance.h"
 #include "Common/Reports/Children/MCMCObjective.h"
 #include "Common/Reports/Children/MCMCSample.h"
 #include "Common/Reports/Children/MPD.h"
 #include "Common/Reports/Children/ObjectiveFunction.h"
 #include "Common/Reports/Children/Observation.h"
-#include "Common/Reports/Children/Partition.h"
-#include "Common/Reports/Children/PartitionBiomass.h"
+#include "Common/Reports/Children/InitialisationPartitionMeanWeight.h"
 #include "Common/Reports/Children/PartitionMeanWeight.h"
+#include "Common/Reports/Children/PartitionBiomass.h"
 #include "Common/Reports/Children/Process.h"
 #include "Common/Reports/Children/Project.h"
 #include "Common/Reports/Children/RandomNumberSeed.h"
@@ -47,6 +44,11 @@
 #include "Common/Reports/Children/SimulatedObservation.h"
 #include "Common/Reports/Children/Selectivity.h"
 #include "Common/Reports/Children/TimeVarying.h"
+
+// Age Factory
+#include "Age/Reports/Factory.h"
+// Length Factory
+#include "Length/Reports/Factory.h"
 
 // Namespaces
 namespace niwa {
@@ -66,8 +68,6 @@ Report* Factory::Create(Model* model, const string& object_type, const string& s
   if (object_type == PARAM_REPORT) {
     if (sub_type == PARAM_CATEGORY_INFO)
       result = new CategoryInfo(model);
-    else if (sub_type == PARAM_AGEING_ERROR)
-      result = new AgeingErrorMatrix(model);
     else if (sub_type == PARAM_CATEGORY_LIST)
       result = new CategoryList(model);
     else if (sub_type == PARAM_CATCHABILITY)
@@ -88,8 +88,6 @@ Report* Factory::Create(Model* model, const string& object_type, const string& s
       result = new EstimateValue(model);
     else if (sub_type == PARAM_HESSIAN_MATRIX)
       result = new HessianMatrix(model);
-    else if (sub_type == PARAM_INITIALISATION_PARTITION)
-      result = new InitialisationPartition(model);
     else if (sub_type == PARAM_INITIALISATION_PARTITION_MEAN_WEIGHT)
       result = new InitialisationPartitionMeanWeight(model);
     else if (sub_type == PARAM_MCMC_COVARIANCE)
@@ -100,8 +98,6 @@ Report* Factory::Create(Model* model, const string& object_type, const string& s
       result = new MCMCSample(model);
     else if (sub_type == PARAM_MPD)
       result = new MPD(model);
-    else if (sub_type == PARAM_PARTITION)
-      result = new Partition(model);
     else if (sub_type == PARAM_PARTITION_BIOMASS)
       result = new PartitionBiomass(model);
     else if (sub_type == PARAM_PARTITION_MEAN_WEIGHT)
@@ -124,6 +120,11 @@ Report* Factory::Create(Model* model, const string& object_type, const string& s
       result = new Selectivity(model);
     else if (sub_type == PARAM_TIME_VARYING)
       result = new TimeVarying(model);
+    else if (model->partition_structure() == PartitionStructure::kAge)
+      result = age::reports::Factory::Create(model, object_type, sub_type);
+    else if (model->partition_structure() == PartitionStructure::kLength)
+      result = length::reports::Factory::Create(model, object_type, sub_type);
+
 
     if (result)
       model->managers().report()->AddObject(result);

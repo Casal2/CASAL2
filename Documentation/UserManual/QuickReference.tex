@@ -420,6 +420,12 @@
 \defSub{print\_report} {Indicates if a process report should be generated for this process}
 \par\textbf{\commandlabsubarg{process}{type}{ageing}}\par
 \defSub{categories} {The labels of the categories}
+\par\textbf{\commandlabsubarg{process}{type}{growth\_basic}}\par
+\defSub{categories} {The labels of the categories}
+\defSub{number\_of\_growth\_episodes} {Number of growth episodes per year}
+\defSub{growth\_time\_steps} {Time step in which each growth episode occurs}
+\defSub{cv} {c.v. for the growth model}
+\defSub{sigma\_min} {Lower bound on sigma for the growth model}
 \par\textbf{\commandlabsubarg{process}{type}{maturation}}\par
 \defSub{from} {List of categories to mature from}
 \defSub{to} {List of categories to mature too}
@@ -430,7 +436,6 @@
 \defSub{categories} {List of categories labels}
 \defSub{m} {Mortality rates}
 \defSub{time\_step\_ratio} {Time step ratios for the mortality rates}
-\defSub{selectivities} {List of selectivities for the categories}
 \par\textbf{\commandlabsubarg{process}{type}{mortality\_event}}\par
 \defSub{categories} {Categories}
 \defSub{years} {Years in which to apply the mortality process}
@@ -519,7 +524,7 @@
 \par\textbf{\commandlabsubarg{process}{type}{recruitment\_constant}}\par
 \defSub{categories} {Categories}
 \defSub{proportions} {Proportions}
-\defSub{age} {Age}
+\defSub{length\_bins} {The length bins recruits are uniformly distributed over, when recruitment occurs}
 \defSub{r0} {R0}
 \par\textbf{\commandlabsubarg{process}{type}{survival\_constant\_rate}}\par
 \defSub{categories} {List of categories}
