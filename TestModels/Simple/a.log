@@ -1,0 +1,1052 @@
+CASAL2
+Call: casal2 -r --loglevel trace 
+Date: Wed Aug 02 16:30:20 2017
+Version: 2017-08-01 05:09:26 UTC (rev. 40376b86)
+Copyright (c) 2012 - 2017, NIWA (www.niwa.co.nz)
+Environment: machine:NIWA-1019128, user:marshc, os:Windows_NT, pid:12856
+
+*init_part (initialisation_partition)
+year: 1975
+time_step: 
+values {d}
+category 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30
+stock nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan
+*end
+
+*part1 (partition)
+year: 1975
+time_step: step1
+values {d}
+category 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30
+stock nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan
+*end
+
+*part2 (partition)
+year: 1975
+time_step: step2
+values {d}
+category 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30
+stock nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan
+*end
+
+*part3 (partition)
+year: 1975
+time_step: step3
+values {d}
+category 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30
+stock nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan
+*end
+
+*part1 (partition)
+year: 1976
+time_step: step1
+values {d}
+category 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30
+stock nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan
+*end
+
+*part2 (partition)
+year: 1976
+time_step: step2
+values {d}
+category 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30
+stock nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan
+*end
+
+*part3 (partition)
+year: 1976
+time_step: step3
+values {d}
+category 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30
+stock nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan
+*end
+
+*part1 (partition)
+year: 1977
+time_step: step1
+values {d}
+category 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30
+stock nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan
+*end
+
+*part2 (partition)
+year: 1977
+time_step: step2
+values {d}
+category 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30
+stock nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan
+*end
+
+*part3 (partition)
+year: 1977
+time_step: step3
+values {d}
+category 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30
+stock nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan
+*end
+
+*part1 (partition)
+year: 1978
+time_step: step1
+values {d}
+category 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30
+stock nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan
+*end
+
+*part2 (partition)
+year: 1978
+time_step: step2
+values {d}
+category 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30
+stock nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan
+*end
+
+*part3 (partition)
+year: 1978
+time_step: step3
+values {d}
+category 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30
+stock nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan
+*end
+
+*part1 (partition)
+year: 1979
+time_step: step1
+values {d}
+category 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30
+stock nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan
+*end
+
+*part2 (partition)
+year: 1979
+time_step: step2
+values {d}
+category 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30
+stock nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan
+*end
+
+*part3 (partition)
+year: 1979
+time_step: step3
+values {d}
+category 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30
+stock nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan
+*end
+
+*part1 (partition)
+year: 1980
+time_step: step1
+values {d}
+category 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30
+stock nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan
+*end
+
+*part2 (partition)
+year: 1980
+time_step: step2
+values {d}
+category 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30
+stock nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan
+*end
+
+*part3 (partition)
+year: 1980
+time_step: step3
+values {d}
+category 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30
+stock nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan
+*end
+
+*part1 (partition)
+year: 1981
+time_step: step1
+values {d}
+category 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30
+stock nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan
+*end
+
+*part2 (partition)
+year: 1981
+time_step: step2
+values {d}
+category 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30
+stock nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan
+*end
+
+*part3 (partition)
+year: 1981
+time_step: step3
+values {d}
+category 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30
+stock nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan
+*end
+
+*part1 (partition)
+year: 1982
+time_step: step1
+values {d}
+category 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30
+stock nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan
+*end
+
+*part2 (partition)
+year: 1982
+time_step: step2
+values {d}
+category 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30
+stock nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan
+*end
+
+*part3 (partition)
+year: 1982
+time_step: step3
+values {d}
+category 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30
+stock nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan
+*end
+
+*part1 (partition)
+year: 1983
+time_step: step1
+values {d}
+category 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30
+stock nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan
+*end
+
+*part2 (partition)
+year: 1983
+time_step: step2
+values {d}
+category 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30
+stock nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan
+*end
+
+*part3 (partition)
+year: 1983
+time_step: step3
+values {d}
+category 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30
+stock nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan
+*end
+
+*part1 (partition)
+year: 1984
+time_step: step1
+values {d}
+category 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30
+stock nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan
+*end
+
+*part2 (partition)
+year: 1984
+time_step: step2
+values {d}
+category 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30
+stock nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan
+*end
+
+*part3 (partition)
+year: 1984
+time_step: step3
+values {d}
+category 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30
+stock nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan
+*end
+
+*part1 (partition)
+year: 1985
+time_step: step1
+values {d}
+category 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30
+stock nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan
+*end
+
+*part2 (partition)
+year: 1985
+time_step: step2
+values {d}
+category 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30
+stock nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan
+*end
+
+*part3 (partition)
+year: 1985
+time_step: step3
+values {d}
+category 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30
+stock nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan
+*end
+
+*part1 (partition)
+year: 1986
+time_step: step1
+values {d}
+category 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30
+stock nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan
+*end
+
+*part2 (partition)
+year: 1986
+time_step: step2
+values {d}
+category 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30
+stock nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan
+*end
+
+*part3 (partition)
+year: 1986
+time_step: step3
+values {d}
+category 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30
+stock nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan
+*end
+
+*part1 (partition)
+year: 1987
+time_step: step1
+values {d}
+category 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30
+stock nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan
+*end
+
+*part2 (partition)
+year: 1987
+time_step: step2
+values {d}
+category 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30
+stock nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan
+*end
+
+*part3 (partition)
+year: 1987
+time_step: step3
+values {d}
+category 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30
+stock nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan
+*end
+
+*part1 (partition)
+year: 1988
+time_step: step1
+values {d}
+category 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30
+stock nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan
+*end
+
+*part2 (partition)
+year: 1988
+time_step: step2
+values {d}
+category 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30
+stock nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan
+*end
+
+*part3 (partition)
+year: 1988
+time_step: step3
+values {d}
+category 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30
+stock nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan
+*end
+
+*part1 (partition)
+year: 1989
+time_step: step1
+values {d}
+category 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30
+stock nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan
+*end
+
+*part2 (partition)
+year: 1989
+time_step: step2
+values {d}
+category 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30
+stock nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan
+*end
+
+*part3 (partition)
+year: 1989
+time_step: step3
+values {d}
+category 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30
+stock nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan
+*end
+
+*part1 (partition)
+year: 1990
+time_step: step1
+values {d}
+category 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30
+stock nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan
+*end
+
+*part2 (partition)
+year: 1990
+time_step: step2
+values {d}
+category 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30
+stock nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan
+*end
+
+*part3 (partition)
+year: 1990
+time_step: step3
+values {d}
+category 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30
+stock nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan
+*end
+
+*part1 (partition)
+year: 1991
+time_step: step1
+values {d}
+category 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30
+stock nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan
+*end
+
+*part2 (partition)
+year: 1991
+time_step: step2
+values {d}
+category 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30
+stock nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan
+*end
+
+*part3 (partition)
+year: 1991
+time_step: step3
+values {d}
+category 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30
+stock nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan
+*end
+
+*part1 (partition)
+year: 1992
+time_step: step1
+values {d}
+category 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30
+stock nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan
+*end
+
+*part2 (partition)
+year: 1992
+time_step: step2
+values {d}
+category 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30
+stock nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan
+*end
+
+*part3 (partition)
+year: 1992
+time_step: step3
+values {d}
+category 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30
+stock nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan
+*end
+
+*part1 (partition)
+year: 1993
+time_step: step1
+values {d}
+category 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30
+stock nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan
+*end
+
+*part2 (partition)
+year: 1993
+time_step: step2
+values {d}
+category 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30
+stock nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan
+*end
+
+*part3 (partition)
+year: 1993
+time_step: step3
+values {d}
+category 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30
+stock nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan
+*end
+
+*part1 (partition)
+year: 1994
+time_step: step1
+values {d}
+category 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30
+stock nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan
+*end
+
+*part2 (partition)
+year: 1994
+time_step: step2
+values {d}
+category 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30
+stock nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan
+*end
+
+*part3 (partition)
+year: 1994
+time_step: step3
+values {d}
+category 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30
+stock nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan
+*end
+
+*part1 (partition)
+year: 1995
+time_step: step1
+values {d}
+category 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30
+stock nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan
+*end
+
+*part2 (partition)
+year: 1995
+time_step: step2
+values {d}
+category 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30
+stock nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan
+*end
+
+*part3 (partition)
+year: 1995
+time_step: step3
+values {d}
+category 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30
+stock nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan
+*end
+
+*part1 (partition)
+year: 1996
+time_step: step1
+values {d}
+category 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30
+stock nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan
+*end
+
+*part2 (partition)
+year: 1996
+time_step: step2
+values {d}
+category 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30
+stock nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan
+*end
+
+*part3 (partition)
+year: 1996
+time_step: step3
+values {d}
+category 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30
+stock nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan
+*end
+
+*part1 (partition)
+year: 1997
+time_step: step1
+values {d}
+category 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30
+stock nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan
+*end
+
+*part2 (partition)
+year: 1997
+time_step: step2
+values {d}
+category 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30
+stock nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan
+*end
+
+*part3 (partition)
+year: 1997
+time_step: step3
+values {d}
+category 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30
+stock nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan
+*end
+
+*part1 (partition)
+year: 1998
+time_step: step1
+values {d}
+category 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30
+stock nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan
+*end
+
+*part2 (partition)
+year: 1998
+time_step: step2
+values {d}
+category 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30
+stock nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan
+*end
+
+*part3 (partition)
+year: 1998
+time_step: step3
+values {d}
+category 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30
+stock nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan
+*end
+
+*part1 (partition)
+year: 1999
+time_step: step1
+values {d}
+category 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30
+stock nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan
+*end
+
+*part2 (partition)
+year: 1999
+time_step: step2
+values {d}
+category 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30
+stock nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan
+*end
+
+*part3 (partition)
+year: 1999
+time_step: step3
+values {d}
+category 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30
+stock nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan
+*end
+
+*part1 (partition)
+year: 2000
+time_step: step1
+values {d}
+category 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30
+stock nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan
+*end
+
+*part2 (partition)
+year: 2000
+time_step: step2
+values {d}
+category 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30
+stock nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan
+*end
+
+*part3 (partition)
+year: 2000
+time_step: step3
+values {d}
+category 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30
+stock nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan
+*end
+
+*part1 (partition)
+year: 2001
+time_step: step1
+values {d}
+category 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30
+stock nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan
+*end
+
+*part2 (partition)
+year: 2001
+time_step: step2
+values {d}
+category 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30
+stock nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan
+*end
+
+*part3 (partition)
+year: 2001
+time_step: step3
+values {d}
+category 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30
+stock nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan
+*end
+
+*part1 (partition)
+year: 2002
+time_step: step1
+values {d}
+category 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30
+stock nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan
+*end
+
+*part2 (partition)
+year: 2002
+time_step: step2
+values {d}
+category 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30
+stock nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan
+*end
+
+*part3 (partition)
+year: 2002
+time_step: step3
+values {d}
+category 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30
+stock nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan
+*end
+
+*part1 (partition)
+year: 2003
+time_step: step1
+values {d}
+category 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30
+stock nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan
+*end
+
+*part2 (partition)
+year: 2003
+time_step: step2
+values {d}
+category 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30
+stock nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan
+*end
+
+*part3 (partition)
+year: 2003
+time_step: step3
+values {d}
+category 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30
+stock nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan
+*end
+
+*part1 (partition)
+year: 2004
+time_step: step1
+values {d}
+category 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30
+stock nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan
+*end
+
+*part2 (partition)
+year: 2004
+time_step: step2
+values {d}
+category 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30
+stock nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan
+*end
+
+*part3 (partition)
+year: 2004
+time_step: step3
+values {d}
+category 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30
+stock nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan
+*end
+
+*part1 (partition)
+year: 2005
+time_step: step1
+values {d}
+category 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30
+stock nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan
+*end
+
+*part2 (partition)
+year: 2005
+time_step: step2
+values {d}
+category 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30
+stock nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan
+*end
+
+*part3 (partition)
+year: 2005
+time_step: step3
+values {d}
+category 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30
+stock nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan
+*end
+
+*part1 (partition)
+year: 2006
+time_step: step1
+values {d}
+category 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30
+stock nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan
+*end
+
+*part2 (partition)
+year: 2006
+time_step: step2
+values {d}
+category 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30
+stock nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan
+*end
+
+*part3 (partition)
+year: 2006
+time_step: step3
+values {d}
+category 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30
+stock nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan
+*end
+
+*part1 (partition)
+year: 2007
+time_step: step1
+values {d}
+category 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30
+stock nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan
+*end
+
+*part2 (partition)
+year: 2007
+time_step: step2
+values {d}
+category 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30
+stock nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan
+*end
+
+*part3 (partition)
+year: 2007
+time_step: step3
+values {d}
+category 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30
+stock nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan
+*end
+
+*part1 (partition)
+year: 2008
+time_step: step1
+values {d}
+category 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30
+stock nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan
+*end
+
+*part2 (partition)
+year: 2008
+time_step: step2
+values {d}
+category 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30
+stock nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan
+*end
+
+*part3 (partition)
+year: 2008
+time_step: step3
+values {d}
+category 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30
+stock nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan
+*end
+
+*part1 (partition)
+year: 2009
+time_step: step1
+values {d}
+category 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30
+stock nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan
+*end
+
+*part2 (partition)
+year: 2009
+time_step: step2
+values {d}
+category 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30
+stock nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan
+*end
+
+*part3 (partition)
+year: 2009
+time_step: step3
+values {d}
+category 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30
+stock nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan
+*end
+
+*part1 (partition)
+year: 2010
+time_step: step1
+values {d}
+category 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30
+stock nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan
+*end
+
+*part2 (partition)
+year: 2010
+time_step: step2
+values {d}
+category 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30
+stock nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan
+*end
+
+*part3 (partition)
+year: 2010
+time_step: step3
+values {d}
+category 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30
+stock nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan
+*end
+
+*part1 (partition)
+year: 2011
+time_step: step1
+values {d}
+category 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30
+stock nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan
+*end
+
+*part2 (partition)
+year: 2011
+time_step: step2
+values {d}
+category 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30
+stock nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan
+*end
+
+*part3 (partition)
+year: 2011
+time_step: step3
+values {d}
+category 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30
+stock nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan
+*end
+
+*part1 (partition)
+year: 2012
+time_step: step1
+values {d}
+category 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30
+stock nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan
+*end
+
+*part2 (partition)
+year: 2012
+time_step: step2
+values {d}
+category 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30
+stock nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan
+*end
+
+*part3 (partition)
+year: 2012
+time_step: step3
+values {d}
+category 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30
+stock nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan
+*end
+
+*obj (objective_function)
+values {v}
+obs->chatTANbiomass-1992 nan
+obs->chatTANbiomass-1993 nan
+obs->chatTANbiomass-1994 nan
+obs->chatTANbiomass-1995 nan
+obs->chatTANbiomass-1996 nan
+obs->chatTANbiomass-1997 nan
+obs->chatTANbiomass-1998 nan
+obs->chatTANbiomass-1999 nan
+obs->chatTANbiomass-2000 nan
+obs->chatTANbiomass-2001 nan
+obs->chatTANbiomass-2002 nan
+obs->chatTANbiomass-2003 nan
+obs->chatTANbiomass-2004 nan
+obs->chatTANbiomass-2005 nan
+obs->chatTANbiomass-2006 nan
+obs->chatTANbiomass-2007 nan
+obs->chatTANbiomass-2008 nan
+obs->chatTANbiomass-2009 nan
+obs->chatTANbiomass-2010 nan
+obs->chatTANbiomass-2011 nan
+obs->chatTANbiomass-2012 nan
+obs->chatTANage-1990 nan
+obs->chatTANage-1992 nan
+obs->chatTANage-1993 nan
+obs->chatTANage-1994 nan
+obs->chatTANage-1995 nan
+obs->chatTANage-1996 nan
+obs->chatTANage-1997 nan
+obs->chatTANage-1998 nan
+obs->chatTANage-1999 nan
+obs->chatTANage-2000 nan
+obs->chatTANage-2001 nan
+obs->chatTANage-2002 nan
+obs->chatTANage-2003 nan
+obs->chatTANage-2004 nan
+obs->chatTANage-2005 nan
+obs->chatTANage-2006 nan
+obs->chatTANage-2007 nan
+obs->chatTANage-2008 nan
+obs->chatTANage-2009 nan
+obs->chatTANage-2010 nan
+obs->chatTANage-2011 nan
+obs->chatTANage-2012 nan
+obs->chatOBSwst-1992 nan
+obs->chatOBSwst-1994 nan
+obs->chatOBSwst-1995 nan
+obs->chatOBSwst-1996 nan
+obs->chatOBSwst-1997 nan
+obs->chatOBSwst-1998 nan
+obs->chatOBSwst-1999 nan
+obs->chatOBSwst-2000 nan
+obs->chatOBSwst-2001 nan
+obs->chatOBSwst-2002 nan
+obs->chatOBSwst-2003 nan
+obs->chatOBSwst-2004 nan
+obs->chatOBSwst-2005 nan
+obs->chatOBSwst-2006 nan
+obs->chatOBSwst-2008 nan
+obs->chatOBSwst-2009 nan
+obs->chatOBSwst-2010 nan
+obs->chatOBSwst-2011 nan
+obs->chatOBSest-1992 nan
+obs->chatOBSest-1995 nan
+obs->chatOBSest-1997 nan
+obs->chatOBSest-1998 nan
+obs->chatOBSest-2001 nan
+obs->chatOBSest-2004 nan
+obs->chatOBSest-2007 nan
+prior->B0->process[Recruitment].b0 10.8701
+prior->chatTANq->catchability[chatTANq].q -2.2273
+prior->TANSel->selectivity[chatTANSel].mu 1.15512
+prior->TANSel->selectivity[chatTANSel].sigma_l 3.98925e-005
+prior->TANSel->selectivity[chatTANSel].sigma_r 1.5013e-006
+prior->eastFSel_mu->selectivity[eastFSel].mu 0
+prior->eastFSel_sl->selectivity[eastFSel].sigma_l 0
+prior->eastFSel_sr->selectivity[eastFSel].sigma_r 0
+prior->westFSel_mu->selectivity[westFSel].mu 0
+prior->westFSel_sl->selectivity[westFSel].sigma_l 0
+prior->westFSel_sr->selectivity[westFSel].sigma_r 0
+prior->YCS->process[Recruitment].ycs_values{1975} 0.136129
+prior->YCS->process[Recruitment].ycs_values{1976} 0.168723
+prior->YCS->process[Recruitment].ycs_values{1977} 0.193476
+prior->YCS->process[Recruitment].ycs_values{1978} 0.207927
+prior->YCS->process[Recruitment].ycs_values{1979} 0.210281
+prior->YCS->process[Recruitment].ycs_values{1980} 0.196695
+prior->YCS->process[Recruitment].ycs_values{1981} 0.16381
+prior->YCS->process[Recruitment].ycs_values{1982} 0.126309
+prior->YCS->process[Recruitment].ycs_values{1983} 0.103398
+prior->YCS->process[Recruitment].ycs_values{1984} -0.7208
+prior->YCS->process[Recruitment].ycs_values{1985} -0.666027
+prior->YCS->process[Recruitment].ycs_values{1986} -0.611585
+prior->YCS->process[Recruitment].ycs_values{1987} -0.760309
+prior->YCS->process[Recruitment].ycs_values{1988} -0.60279
+prior->YCS->process[Recruitment].ycs_values{1989} -0.701836
+prior->YCS->process[Recruitment].ycs_values{1990} -0.394121
+prior->YCS->process[Recruitment].ycs_values{1991} 0.105077
+prior->YCS->process[Recruitment].ycs_values{1992} -0.26315
+prior->YCS->process[Recruitment].ycs_values{1993} -0.424984
+prior->YCS->process[Recruitment].ycs_values{1994} -0.512902
+prior->YCS->process[Recruitment].ycs_values{1995} -0.651737
+prior->YCS->process[Recruitment].ycs_values{1996} -0.791158
+prior->YCS->process[Recruitment].ycs_values{1997} -0.792986
+prior->YCS->process[Recruitment].ycs_values{1998} -0.729062
+prior->YCS->process[Recruitment].ycs_values{1999} -0.787903
+prior->YCS->process[Recruitment].ycs_values{2000} -0.726387
+prior->YCS->process[Recruitment].ycs_values{2001} -0.789251
+prior->YCS->process[Recruitment].ycs_values{2002} -0.0137253
+prior->YCS->process[Recruitment].ycs_values{2003} -0.604617
+prior->YCS->process[Recruitment].ycs_values{2004} -0.712731
+prior->YCS->process[Recruitment].ycs_values{2005} -0.644076
+prior->YCS->process[Recruitment].ycs_values{2006} -0.792933
+prior->YCS->process[Recruitment].ycs_values{2007} -0.777096
+prior->YCS->process[Recruitment].ycs_values{2008} -0.744926
+prior->YCS->process[Recruitment].ycs_values{2009} -0.777496
+prior->YCS->process[Recruitment].ycs_values{2010} 2.50805
+prior->YCS->process[Recruitment].ycs_values{2011} 2.50805
+additional_prior->YCS_average_1 6.61889
+additional_prior->smooth_YCS 0.27146
+total_score nan
+*end
+
+Total elapsed time: 1 second
+Completed
