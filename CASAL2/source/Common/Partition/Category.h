@@ -59,6 +59,9 @@ public:
   vector<vector<Double>>      age_length_matrix_; // age_length_matrix_[age][length]
   map<unsigned, Double>       mean_length_per_; // map<bin, number per>
   map<unsigned, Double>       mean_weight_per_; // map<age, weight per>
+  map<unsigned, map<unsigned,Double>> mean_length_by_time_step_age_; // map<age, weight per>
+  map<unsigned, map<unsigned,Double>> mean_weight_by_time_step_age_; // map<age, weight per>
+
   AgeLength*                  age_length_ = nullptr;
 
 private:

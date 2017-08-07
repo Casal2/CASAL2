@@ -37,9 +37,15 @@ public:
                                 const vector<Double>& length_bins, bool plus_grp, Selectivity* selectivity);
   void                        CummulativeNormal(Double mu, Double cv, vector<Double>& prop_in_length,
                                 vector<Double> length_bins, string distribution, bool plus_grp);
+  void                        RebuildCache() override final { Reset(); } // For time_varying
+
   // accessors
-  virtual Double              mean_length(unsigned year, unsigned age) = 0;
-  virtual Double              mean_weight(unsigned year, unsigned age) = 0;
+  //Double&                     GetMeanLength(unsigned year, unsigned time_step, unsigned age){return mean_length_[year][time_step][age];};
+  Double&                     GetMeanLength(unsigned time_step, unsigned age){return mean_length_[time_step][age];};
+
+  virtual Double              mean_weight(unsigned time_step, unsigned age) = 0;
+  virtual Double              mean_length(unsigned time_step, unsigned age) = 0;
+
   virtual Double              cv(unsigned year, unsigned age, unsigned time_step) { return cvs_[year][age][time_step]; };
   virtual string              distribution() { return distribution_; };
 
@@ -59,6 +65,9 @@ protected:
   bool                        by_length_;
   string                      distribution_;
   bool                        casal_normal_cdf_ = false;
+  map<unsigned, map<unsigned, Double>> mean_length_;
+
+  //map<unsigned, map<unsigned, map<unsigned, Double>>> mean_length_;
 };
 
 } /* namespace niwa */

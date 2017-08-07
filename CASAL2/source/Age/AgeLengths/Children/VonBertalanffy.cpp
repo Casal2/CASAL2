@@ -56,6 +56,18 @@ void VonBertalanffy::DoBuild() {
   length_weight_ = model_->managers().length_weight()->GetLengthWeight(length_weight_label_);
   if (!length_weight_)
     LOG_ERROR_P(PARAM_LENGTH_WEIGHT) << "(" << length_weight_label_ << ") could not be found. Have you defined it?";
+
+  // Build up our mean_length_ container.
+  unsigned min_age = model_->min_age();
+  unsigned max_age = model_->max_age();
+  vector<string> time_steps = model_->time_steps();
+  for (unsigned step_iter = 0; step_iter < time_steps.size(); ++step_iter) {
+    for (unsigned age_iter = min_age; age_iter <= max_age; ++age_iter) {
+      mean_length_[step_iter][age_iter] = mean_length(step_iter,age_iter);
+    }
+  }
+
+
 }
 
 /**
@@ -65,8 +77,8 @@ void VonBertalanffy::DoBuild() {
  * @param age The age of the population we want mean length for
  * @return The mean length for 1 member
  */
-Double VonBertalanffy::mean_length(unsigned year, unsigned age) {
-  Double proportion = time_step_proportions_[model_->managers().time_step()->current_time_step()];
+Double VonBertalanffy::mean_length(unsigned time_step, unsigned age) {
+  Double proportion = time_step_proportions_[time_step];
   if ((-k_ * ((age + proportion) - t0_)) > 10)
     LOG_ERROR_P(PARAM_K) << "exp(-k*(age-t0)) is enormous. The k or t0 parameters are probably wrong.";
 
@@ -84,9 +96,9 @@ Double VonBertalanffy::mean_length(unsigned year, unsigned age) {
  * @param age The age of the population we want mean weight for
  * @return mean weight for 1 member
  */
-Double VonBertalanffy::mean_weight(unsigned year, unsigned age) {
-  unsigned time_step = model_->managers().time_step()->current_time_step();
-  Double size = this->mean_length(year, age);
+Double VonBertalanffy::mean_weight(unsigned time_step, unsigned age) {
+  unsigned year = model_->current_year();
+  Double size = mean_length_[time_step][age];
   Double mean_weight = 0.0; //
   mean_weight = length_weight_->mean_weight(size, distribution_, cvs_[year][age][time_step]);// make a map [key = age]
   return mean_weight;

@@ -16,6 +16,7 @@
 #include "Common/Utilities/Map.h"
 #include "Common/Utilities/To.h"
 #include "Common/Catchabilities/Children/Nuisance.h"
+#include "Common/TimeSteps/Manager.h"
 
 // namespaces
 namespace niwa {
@@ -147,6 +148,7 @@ void Biomass::PreExecute() {
  */
 void Biomass::Execute() {
   LOG_FINEST() << "Entering observation " << label_;
+  unsigned time_step_index = model_->managers().time_step()->current_time_step();
 
   Double expected_total = 0.0; // value in the model
   vector<string> keys;
@@ -180,7 +182,7 @@ void Biomass::Execute() {
     auto category_iter = partition_iter->begin();
     auto cached_category_iter = cached_partition_iter->begin();
     for (unsigned category_offset = 0; category_iter != partition_iter->end(); ++category_offset, ++cached_category_iter, ++category_iter) {
-      (*category_iter)->UpdateMeanWeightData();
+      //(*category_iter)->UpdateMeanWeightData();
 
       for (unsigned data_offset = 0; data_offset < (*category_iter)->data_.size(); ++data_offset) {
         age = (*category_iter)->min_age_ + data_offset;
@@ -198,7 +200,7 @@ void Biomass::Execute() {
           temp = temp < 0 ? temp : temp * -1.0;
           final_value = temp * proportion_of_time_;
         }
-        expected_total += selectivity_result * final_value * (*category_iter)->mean_weight_per_[age];
+        expected_total += selectivity_result * final_value * (*category_iter)->mean_weight_by_time_step_age_[time_step_index][age];
       }
     }
 
