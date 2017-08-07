@@ -16,6 +16,7 @@
 #include "Common/Penalties/Manager.h"
 #include "Common/Selectivities/Manager.h"
 #include "Common/Utilities/DoubleCompare.h"
+#include "Common/TimeSteps/Manager.h"
 
 // namespaces
 namespace niwa {
@@ -106,20 +107,19 @@ void MortalityEventBiomass::DoBuild() {
 void MortalityEventBiomass::DoExecute() {
   if (catch_years_[model_->current_year()] == 0)
     return;
-
+  unsigned time_step_index = model_->managers().time_step()->current_time_step();
   LOG_TRACE();
-
   /**
    * Work our how much of the stock is vulnerable
    */
   Double vulnerable = 0.0;
   unsigned i = 0;
   for (auto categories : partition_) {
-    categories->UpdateMeanWeightData();
+    //categories->UpdateMeanWeightData();
     unsigned offset = 0;
     for (Double& data : categories->data_) {
       Double temp = data * selectivities_[i]->GetResult(categories->min_age_ + offset, categories->age_length_);
-      vulnerable += temp * categories->mean_weight_per_[categories->min_age_ + offset];
+      vulnerable += temp * categories->mean_weight_by_time_step_age_[time_step_index][categories->min_age_ + offset];
       ++offset;
     }
 

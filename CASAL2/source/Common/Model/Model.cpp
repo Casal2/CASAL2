@@ -460,9 +460,9 @@ void Model::RunBasic() {
       LOG_FINEST() << "finishing update time varying now Update Category mean length and weight before beginning annual cycle";
 
       // Iterate over all partition members and UpDate Mean Weight for this year.
-      //for (auto iterator = all_view.Begin(); iterator != all_view.End(); ++iterator) {
-      //  (*iterator)->UpdateMeanLengthData();
-      //}
+      for (auto iterator = all_view.Begin(); iterator != all_view.End(); ++iterator) {
+        (*iterator)->UpdateMeanLengthData();
+      }
 
       time_step_manager.Execute(current_year_);
     }

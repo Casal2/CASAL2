@@ -195,8 +195,10 @@ void MortalityInstantaneous::DoValidate() {
   // Check the business rule that a fishery can only exist one time-step
   for(auto fishery : fishery_time_step) {
     if (!std::equal(fishery.second.begin() + 1, fishery.second.end(), fishery.second.begin()))
-      LOG_ERROR_P(PARAM_METHOD) << "Found method '" << fishery.first << "' in more than one time step. You can only have a method occur in each time step. If a fishery occcurs in multiple time steps then call it method_step1 and method_step2 or something like that.";
+      LOG_ERROR_P(PARAM_METHOD) << "Found method '" << fishery.first << "' in more than one time step. You can only have a method occur in each time step. If a fishery occcurs in multiple time steps then define each time step as a seperate fishery.";
   }
+  // Check to see if there are any time_steps that we don't have enter the fisheries section. i.e no fishing in certain time-steps
+
 
 
   /**
@@ -305,6 +307,10 @@ void MortalityInstantaneous::DoBuild() {
       LOG_ERROR_P(PARAM_SELECTIVITIES) << "selectivity " << label << " does not exist. Have you defined it?";
     selectivities_.push_back(selectivity);
   }
+
+  /**
+   * Find what time_steps we can skip.
+   */
 }
 
 /**
@@ -369,7 +375,7 @@ void MortalityInstantaneous::DoExecute() {
               * exp(-0.5 * ratio * m_[categories->name_] * selectivities_[category_offset]->GetResult(categories->min_age_ + i, categories->age_length_));
           fishery_vulnerability[fishery_category.fishery_label_] += vulnerable;
         }
-        LOG_FINEST() << ": Vulnerable biomass from category " << categories->name_ << " contributing to fishery " << fishery_category.fishery_label_ << " = " << fishery_vulnerability[fishery_category.fishery_label_];
+        LOG_FINEST() << "Vulnerable biomass from category " << categories->name_ << " contributing to fishery " << fishery_category.fishery_label_ << " = " << fishery_vulnerability[fishery_category.fishery_label_];
       }
       ++category_offset;
     }

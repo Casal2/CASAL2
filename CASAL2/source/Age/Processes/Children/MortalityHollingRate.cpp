@@ -142,6 +142,7 @@ void MortalityHollingRate::DoExecute() {
   LOG_TRACE();
   // Check if we are executing this process in current year
   if (std::find(years_.begin(), years_.end(), model_->current_year()) != years_.end()) {
+    unsigned time_step_index = model_->managers().time_step()->current_time_step();
 
     /**
      * Loop for prey each category, calculate vulnerable abundance
@@ -154,9 +155,9 @@ void MortalityHollingRate::DoExecute() {
 
     for (auto prey_categories : prey_partition_) {
       if (!is_abundance_) {
-        prey_categories->UpdateMeanWeightData(); // is not abundance
+        //prey_categories->UpdateMeanWeightData(); // is not abundance
         for (unsigned i = 0; i < prey_categories->data_.size(); ++i)
-          Vulnerable += prey_categories->data_[i] * prey_selectivities_[prey_offset]->GetResult(prey_categories->min_age_ + i, prey_categories->age_length_) * prey_categories->mean_weight_per_[prey_categories->min_age_ + i];
+          Vulnerable += prey_categories->data_[i] * prey_selectivities_[prey_offset]->GetResult(prey_categories->min_age_ + i, prey_categories->age_length_) * prey_categories->mean_weight_by_time_step_age_[time_step_index][prey_categories->min_age_ + i];
       } else {
         for (unsigned i = 0; i < prey_categories->data_.size(); ++i)
           Vulnerable += prey_categories->data_[i] * prey_selectivities_[prey_offset]->GetResult(prey_categories->min_age_ + i, prey_categories->age_length_);
@@ -173,7 +174,7 @@ void MortalityHollingRate::DoExecute() {
       if (!is_abundance_) {
         predator_categories->UpdateMeanWeightData();
         for (unsigned i = 0; i < predator_categories->data_.size(); ++i)
-          PredatorVulnerable += predator_categories->data_[i] * predator_selectivities_[predator_offset]->GetResult(predator_categories->min_age_ + i, predator_categories->age_length_) * predator_categories->mean_weight_per_[predator_categories->min_age_ + i];
+          PredatorVulnerable += predator_categories->data_[i] * predator_selectivities_[predator_offset]->GetResult(predator_categories->min_age_ + i, predator_categories->age_length_) * predator_categories->mean_weight_by_time_step_age_[time_step_index][predator_categories->min_age_ + i];
       } else {
         for (unsigned i = 0; i < predator_categories->data_.size(); ++i)
           PredatorVulnerable += predator_categories->data_[i] * predator_selectivities_[predator_offset]->GetResult(predator_categories->min_age_ + i, predator_categories->age_length_);

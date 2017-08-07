@@ -28,6 +28,7 @@ void Biomass::PreExecute() {
 
   auto iterator = partition_.begin();
   unsigned time_step_index = model_->managers().time_step()->current_time_step();
+  LOG_FINE() << "Time step for calculating biomass = " << time_step_index;
 
   // iterate over each category
   for (unsigned i = 0; i < partition_.size() && iterator != partition_.end(); ++i, ++iterator) {
@@ -36,6 +37,8 @@ void Biomass::PreExecute() {
     for (unsigned j = 0; j < (*iterator)->data_.size(); ++j) {
       unsigned age = (*iterator)->min_age_ + j;
       cache_value_ += (*iterator)->data_[j] * selectivities_[i]->GetResult(age, (*iterator)->age_length_) * (*iterator)->mean_weight_by_time_step_age_[time_step_index][age];
+      //LOG_FINE() << "Initialisation Biomass (Pre-execute) for category = " << (*iterator)->name_ << " age = " << age << " mean weight = " << (*iterator)->mean_weight_by_time_step_age_[time_step_index][age];
+
     }
   }
 }
@@ -53,7 +56,7 @@ void Biomass::Execute() {
   LOG_TRACE();
   Double value = 0.0;
   unsigned time_step_index = model_->managers().time_step()->current_time_step();
-
+  LOG_FINE() << "Time step for calculating biomass = " << time_step_index;
   if (model_->state() == State::kInitialise) {
 
     auto iterator = partition_.begin();
@@ -62,7 +65,7 @@ void Biomass::Execute() {
       //(*iterator)->UpdateMeanWeightData();
       for (unsigned j = 0; j < (*iterator)->data_.size(); ++j) {
         unsigned age = (*iterator)->min_age_ + j;
-        LOG_FINE() << "Initialisation Biomass for category = " << (*iterator)->name_ << " age = " << age << " mean weight = " << (*iterator)->mean_weight_by_time_step_age_[time_step_index][age];
+        //LOG_FINE() << "Initialisation Biomass for category = " << (*iterator)->name_ << " age = " << age << " mean weight = " << (*iterator)->mean_weight_by_time_step_age_[time_step_index][age];
         value += (*iterator)->data_[j] * selectivities_[i]->GetResult(age, (*iterator)->age_length_) * (*iterator)->mean_weight_by_time_step_age_[time_step_index][age];
       }
     }
