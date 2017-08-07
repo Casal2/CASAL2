@@ -101,8 +101,8 @@ void AgeLength::BuildCV() {
           cvs_[year_iter][age_iter][step_iter] = (cv_first_);
       } else if (by_length_) {  // if passed the first test we have a min and max CV. So ask if this is linear interpolated by length at age
         for (unsigned age_iter = min_age; age_iter <= max_age; ++age_iter)
-          cvs_[year_iter][age_iter][step_iter] = ((mean_length(year_iter, age_iter) - mean_length(year_iter, min_age)) * (cv_last_ - cv_first_)
-              / (mean_length(year_iter, max_age) - mean_length(year_iter, min_age)) + cv_first_);
+          cvs_[year_iter][age_iter][step_iter] = ((this->mean_length(step_iter, age_iter) - this->mean_length(step_iter, min_age)) * (cv_last_ - cv_first_)
+              / (this->mean_length(step_iter, max_age) - this->mean_length(step_iter, min_age)) + cv_first_);
       } else {
         // else Do linear interpolation between cv_first_ and cv_last_ based on age class
         for (unsigned age_iter = min_age; age_iter <= max_age; ++age_iter) {
@@ -116,7 +116,6 @@ void AgeLength::BuildCV() {
 /*
   * Calculates the proportion in each length_bins for a single age
   *
-  *@param mu mean of length bin
   *@param mu mean length for an age
   *@param cv cv of the age
   *@param prop_in_length reference parameter that proportions are stored in

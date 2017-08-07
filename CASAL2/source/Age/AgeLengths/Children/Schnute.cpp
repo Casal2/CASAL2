@@ -59,6 +59,17 @@ void Schnute::DoBuild() {
   length_weight_ = model_->managers().length_weight()->GetLengthWeight(length_weight_label_);
   if (!length_weight_)
     LOG_ERROR_P(PARAM_LENGTH_WEIGHT) << "(" << length_weight_label_ << ") could not be found. Have you defined it?";
+
+  // Build up our mean_length_ container.
+  unsigned min_age = model_->min_age();
+  unsigned max_age = model_->max_age();
+  vector<string> time_steps = model_->time_steps();
+  for (unsigned step_iter = 0; step_iter < time_steps.size(); ++step_iter) {
+    for (unsigned age_iter = min_age; age_iter <= max_age; ++age_iter) {
+      mean_length_[step_iter][age_iter] = mean_length(step_iter,age_iter);
+      LOG_FINE() << "age_length = " << label_ << " age = " << age_iter << " mean lenght = " << mean_length_[step_iter][age_iter];
+    }
+  }
 }
 
 /**
@@ -68,11 +79,11 @@ void Schnute::DoBuild() {
  * @param age The age of the population we want mean length for
  * @return The mean length for 1 member
  */
-Double Schnute::mean_length(unsigned year, unsigned age) {
+Double Schnute::mean_length(unsigned time_step,  unsigned age) {
   Double temp = 0.0;
   Double size = 0.0;
 
-  Double proportion = time_step_proportions_[model_->managers().time_step()->current_time_step()];
+  Double proportion = time_step_proportions_[time_step];
 
   if (a_ != 0.0)
     temp = (1 - exp( -a_ * ((age + proportion) - tau1_))) / (1 - exp(-a_ * (tau2_ - tau1_)));
@@ -97,9 +108,9 @@ Double Schnute::mean_length(unsigned year, unsigned age) {
  * @param age The age of the population we want mean weight for
  * @return mean weight for 1 member
  */
-Double Schnute::mean_weight(unsigned year, unsigned age) {
-  Double size = this->mean_length(year, age);
-  unsigned time_step = model_->managers().time_step()->current_time_step();
+Double Schnute::mean_weight(unsigned time_step, unsigned age) {
+  unsigned year = model_->current_year();
+  Double size = mean_length_[time_step][age];
 
   Double mean_weight = length_weight_->mean_weight(size, distribution_, cvs_[year][age][time_step]);
   return mean_weight;

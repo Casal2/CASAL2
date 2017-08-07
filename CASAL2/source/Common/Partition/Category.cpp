@@ -14,6 +14,7 @@
 #include "Age/AgeLengths/AgeLength.h"
 #include "Common/Categories/Categories.h"
 #include "Common/Model/Model.h"
+#include "Common/TimeSteps/Manager.h"
 
 // namespaces
 namespace niwa {
@@ -22,15 +23,25 @@ namespace partition {
 /**
  * This method will populate the length data on the partition category object.
  * This is required to be called by any object that wants to update the length
- * data from the age data.
+ * data from the age data. For time_steps in a year. There are a few reasons this will be updated between years
+ * firstly if age_length typw == data then there will be a different length at age for each year. Secondly if any of the
+ * Age length parameters time vary.
  */
 void Category::UpdateMeanLengthData() {
   Categories* categories = model_->categories();
-  unsigned year = model_->current_year();
-
+  vector<string> time_steps = model_->time_steps();
   AgeLength* age_length = categories->age_length(name_);
-  for (unsigned age = min_age_; age <= max_age_; ++age)
-    mean_length_per_[age] = age_length->mean_length(year, age);
+  for (unsigned step_iter = 0; step_iter < time_steps.size(); ++step_iter) {
+    for (unsigned age = min_age_; age <= max_age_; ++age) {
+      //mean_length_per_[age] = age_length->mean_length(year, age);
+      // This way We should only have to update at the beginning of every year instead of on the fly.
+      mean_length_by_time_step_age_[step_iter][age] = age_length->GetMeanLength(step_iter, age);
+      mean_length_per_[age] = age_length->GetMeanLength(step_iter, age);
+
+    }
+  }
+  // If this has been updated we need to update Mean weight
+  UpdateMeanWeightData();
 }
 
 
@@ -41,11 +52,12 @@ void Category::UpdateMeanLengthData() {
 
 void Category::UpdateMeanWeightData() {
   Categories* categories = model_->categories();
-  unsigned year = model_->current_year();
-
+  vector<string> time_steps = model_->time_steps();
   AgeLength* age_length = categories->age_length(name_);
-  for (unsigned age = min_age_; age <= max_age_; ++age)
-    mean_weight_per_[age] = age_length->mean_weight(year, age);
+  for (unsigned step_iter = 0; step_iter < time_steps.size(); ++step_iter) {
+    for (unsigned age = min_age_; age <= max_age_; ++age)
+      mean_weight_by_time_step_age_[step_iter][age] = age_length->mean_weight(step_iter, age);
+  }
 }
 
 

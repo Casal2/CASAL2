@@ -19,6 +19,7 @@
 #include <boost/algorithm/string/replace.hpp>
 #include <boost/algorithm/string/trim_all.hpp>
 #include <boost/algorithm/string/split.hpp>
+#include "Common/Partition/Accessors/All.h"
 
 #include "Factory.h"
 #include "Managers.h"
@@ -375,6 +376,8 @@ void Model::RunBasic() {
   bool single_step = global_configuration_->single_step();
   vector<string> single_step_addressables;
   vector<Double*> estimable_targets;
+  // Create an instance of all categories
+  niwa::partition::accessors::All all_view(this);
 
   // Model is about to run
   for (unsigned i = 0; i < adressable_values_count_; ++i) {
@@ -383,6 +386,10 @@ void Model::RunBasic() {
       Reset();
     }
 
+    // Iterate over all partition members and UpDate Mean Weight for the inital weight calculations
+    for (auto iterator = all_view.Begin(); iterator != all_view.End(); ++iterator) {
+      (*iterator)->UpdateMeanLengthData();
+    }
     LOG_FINE() << "Model: State change to PreExecute";
     managers_->report()->Execute(State::kPreExecute);
 
@@ -450,7 +457,13 @@ void Model::RunBasic() {
       }
       LOG_TRACE();
       time_varying_manager.Update(current_year_);
-      LOG_FINEST() << "finishing update now running annual cycle";
+      LOG_FINEST() << "finishing update time varying now Update Category mean length and weight before beginning annual cycle";
+
+      // Iterate over all partition members and UpDate Mean Weight for this year.
+      //for (auto iterator = all_view.Begin(); iterator != all_view.End(); ++iterator) {
+      //  (*iterator)->UpdateMeanLengthData();
+      //}
+
       time_step_manager.Execute(current_year_);
     }
 

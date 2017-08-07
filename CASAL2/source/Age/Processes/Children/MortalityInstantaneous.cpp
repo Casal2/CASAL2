@@ -358,13 +358,13 @@ void MortalityInstantaneous::DoExecute() {
     category_offset = 0;
     for (auto categories : partition_) {
     	LOG_FINEST() << "applying mortality to category " << categories->name_;
-      categories->UpdateMeanWeightData();
+      //categories->UpdateMeanWeightData();
       for (auto fishery_category : fishery_categories_) {
         if (fishery_category.category_label_ != categories->name_ || fisheries_[fishery_category.fishery_label_].time_step_index_ != time_step_index)
           continue;
 
         for (unsigned i = 0; i < categories->data_.size(); ++i) {
-          Double vulnerable = categories->data_[i] * categories->mean_weight_per_[categories->min_age_ + i]
+          Double vulnerable = categories->data_[i] * categories->mean_weight_by_time_step_age_[time_step_index][categories->min_age_ + i]
               * fishery_category.selectivity_->GetResult(categories->min_age_ + i, categories->age_length_)
               * exp(-0.5 * ratio * m_[categories->name_] * selectivities_[category_offset]->GetResult(categories->min_age_ + i, categories->age_length_));
           fishery_vulnerability[fishery_category.fishery_label_] += vulnerable;

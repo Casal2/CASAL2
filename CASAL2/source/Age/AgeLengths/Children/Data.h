@@ -32,12 +32,11 @@ public:
   void                        DoValidate() override final {};
   void                        DoBuild() override final;
   void                        DoReset() override final {};
-  Double                      mean_length(unsigned year, unsigned age) override final;
-  Double                      mean_weight(unsigned year, unsigned age) override final;
+  virtual Double              mean_length(unsigned time_step, unsigned age) override final {return 0.0;};
+  Double                      mean_weight(unsigned time_step, unsigned age) override final;
 
 protected:
   //methods
-
 private:
   // methods
   void                        FillExternalGaps();
@@ -51,7 +50,6 @@ private:
   string                        internal_gaps_;
   map<unsigned, vector<Double>> data_by_year_;
   map<unsigned,map<unsigned,Double>> data_by_age_time_step_; // used in the initialisation
-  map<unsigned,map<unsigned,map<unsigned,Double>>> data_by_year_age_time_step_; // used in mean length
   map<unsigned,map<unsigned,Double>> mean_data_by_year_and_step_;
   string                        step_data_supplied_;
   unsigned                      step_index_data_supplied_;
