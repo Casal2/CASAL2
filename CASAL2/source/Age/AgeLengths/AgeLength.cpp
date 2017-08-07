@@ -91,14 +91,15 @@ void AgeLength::BuildCV() {
   unsigned start_year = model_->start_year();
   unsigned final_year = model_->final_year();
   vector<string> time_steps = model_->time_steps();
-  LOG_MEDIUM() << ": number of time steps " << time_steps.size();
-  LOG_MEDIUM() << ": label of first time step " << time_steps[0];
+  LOG_FINE() << "number of time steps " << time_steps.size();
   for (unsigned year_iter = start_year; year_iter <= final_year; ++year_iter) {
     for (unsigned step_iter = 0; step_iter < time_steps.size(); ++step_iter) {
       if (!parameters_.Get(PARAM_CV_LAST)->has_been_defined()) { // this test is robust but not compatible with testing framework, blah
         //If cv_last_ is not defined in the input then assume cv_first_ represents the cv for all age classes i.e constant cv
-        for (unsigned age_iter = min_age; age_iter <= max_age; ++age_iter)
+        for (unsigned age_iter = min_age; age_iter <= max_age; ++age_iter) {
           cvs_[year_iter][age_iter][step_iter] = (cv_first_);
+          LOG_FINE() << "cv for age = " << age_iter << " in time_step " << step_iter << " in year " << year_iter << " = " << cvs_[year_iter][age_iter][step_iter];
+        }
       } else if (by_length_) {  // if passed the first test we have a min and max CV. So ask if this is linear interpolated by length at age
         for (unsigned age_iter = min_age; age_iter <= max_age; ++age_iter)
           cvs_[year_iter][age_iter][step_iter] = ((this->mean_length(step_iter, age_iter) - this->mean_length(step_iter, min_age)) * (cv_last_ - cv_first_)

@@ -30,7 +30,7 @@ public:
   PartitionMeanWeight(Model* model);
   virtual                     ~PartitionMeanWeight() = default;
   void                        DoValidate() override final { };
-  void                        DoBuild() override final { };
+  void                        DoBuild() override final;
   void                        DoExecute() override final;
   void                        DoExecuteTabular() override final { };
 };

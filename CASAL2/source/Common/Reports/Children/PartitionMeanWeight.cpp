@@ -17,6 +17,7 @@
 #include "Common/Partition/Partition.h"
 #include "Common/Partition/Accessors/All.h"
 #include "Common/LengthWeights/Manager.h"
+#include "Common/TimeSteps/Manager.h"
 
 // namespaces
 namespace niwa {
@@ -34,9 +35,19 @@ PartitionMeanWeight::PartitionMeanWeight(Model* model) : Report(model) {
 }
 
 /**
+ * Build method
+ */
+void PartitionMeanWeight::DoBuild() {
+  if (!parameters_.Get(PARAM_YEARS)->has_been_defined()) {
+    years_ = model_->years();
+  }
+}
+
+/**
  * Execute method
  */
 void PartitionMeanWeight::DoExecute() {
+  unsigned time_step_index = model_->managers().time_step()->current_time_step();
 
 //  auto categories = Categories::Instance();
   niwa::partition::accessors::All all_view(model_);
@@ -44,8 +55,6 @@ void PartitionMeanWeight::DoExecute() {
   cache_ << "*" << label_ << " " << "("<< type_ << ")"<<"\n";
   cache_ << "year: " << year << "\n";
   for (auto iterator = all_view.Begin(); iterator != all_view.End(); ++iterator) {
-    (*iterator)->UpdateMeanWeightData();
-    (*iterator)->UpdateMeanLengthData();
 
     string category = (*iterator)->name_;
     cache_ << category << " " << REPORT_R_LIST << "\n";
@@ -54,7 +63,7 @@ void PartitionMeanWeight::DoExecute() {
     cache_ << "values: ";
 
     for (unsigned age = (*iterator)->min_age_; age <= (*iterator)->max_age_; ++age)
-      cache_ << AS_DOUBLE((*iterator)->mean_weight_per_[age]) << " ";
+      cache_ << AS_DOUBLE((*iterator)->mean_weight_by_time_step_age_[time_step_index][age]) << " ";
     cache_<<"\n";
 
     cache_ << REPORT_R_LIST_END <<"\n";
@@ -64,7 +73,7 @@ void PartitionMeanWeight::DoExecute() {
     cache_ << "values: ";
 
     for (unsigned age = (*iterator)->min_age_; age <= (*iterator)->max_age_; ++age)
-      cache_ << AS_DOUBLE((*iterator)->mean_length_per_[age]) << " ";
+      cache_ << AS_DOUBLE((*iterator)->mean_length_by_time_step_age_[time_step_index][age]) << " ";
     cache_<<"\n";
 
     cache_ << REPORT_R_LIST_END <<"\n";

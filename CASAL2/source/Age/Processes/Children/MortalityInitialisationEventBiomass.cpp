@@ -18,6 +18,7 @@
 #include "Common/Selectivities/Manager.h"
 #include "Common/Utilities/DoubleCompare.h"
 #include "Common/Utilities/To.h"
+#include "Common/TimeSteps/Manager.h"
 
 // Namespaces
 namespace niwa {
@@ -93,6 +94,7 @@ void MortalityInitialisationEventBiomass::DoBuild() {
  */
 void MortalityInitialisationEventBiomass::DoExecute() {
   LOG_TRACE();
+  unsigned time_step_index = model_->managers().time_step()->current_time_step();
 
   // only apply if initialisation phase
   if (model_->state() == State::kInitialise) {
@@ -103,10 +105,10 @@ void MortalityInitialisationEventBiomass::DoExecute() {
     unsigned i = 0;
     for (auto categories : partition_) {
       unsigned j = 0;
-      categories->UpdateMeanWeightData();
+      //categories->UpdateMeanWeightData();
       for (Double& data : categories->data_) {
         Double temp = data * selectivities_[i]->GetResult(categories->min_age_ + j, categories->age_length_);
-        vulnerable += temp * categories->mean_weight_per_[categories->min_age_ + j];
+        vulnerable += temp * categories->mean_weight_by_time_step_age_[time_step_index][categories->min_age_ + j];
         ++j;
       }
       ++i;
