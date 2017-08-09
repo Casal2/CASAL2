@@ -31,7 +31,7 @@ public:
   virtual                     ~VonBertalanffy() = default;
   void                        DoValidate() override final { };
   void                        DoBuild() override final;
-  void                        DoReset() override final { };
+  void                        DoReset() override final;
 
   // accessors
   Double                      mean_length(unsigned time_step, unsigned age) override final;

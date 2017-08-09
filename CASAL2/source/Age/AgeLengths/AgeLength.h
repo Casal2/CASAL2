@@ -40,14 +40,14 @@ public:
   void                        RebuildCache() override final { Reset(); } // For time_varying
 
   // accessors
-  //Double&                     GetMeanLength(unsigned year, unsigned time_step, unsigned age){return mean_length_[year][time_step][age];};
-  Double&                     GetMeanLength(unsigned time_step, unsigned age){return mean_length_[time_step][age];};
+  //Double&                   GetMeanLength(unsigned time_step, unsigned age){return mean_length_[time_step][age];};
+  virtual Double              cv(unsigned year, unsigned age, unsigned time_step) { return cvs_[year][age][time_step]; };
+  virtual string              distribution() { return distribution_; };
 
+  // Methods
   virtual Double              mean_weight(unsigned time_step, unsigned age) = 0;
   virtual Double              mean_length(unsigned time_step, unsigned age) = 0;
 
-  virtual Double              cv(unsigned year, unsigned age, unsigned time_step) { return cvs_[year][age][time_step]; };
-  virtual string              distribution() { return distribution_; };
 
 protected:
   // methods
@@ -67,7 +67,7 @@ protected:
   bool                        casal_normal_cdf_ = false;
   map<unsigned, map<unsigned, Double>> mean_length_;
 
-  //map<unsigned, map<unsigned, map<unsigned, Double>>> mean_length_;
+  //;
 };
 
 } /* namespace niwa */
