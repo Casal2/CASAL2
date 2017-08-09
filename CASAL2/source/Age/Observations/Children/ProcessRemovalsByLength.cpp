@@ -287,7 +287,6 @@ void ProcessRemovalsByLength::Execute() {
     auto cached_category_iter = cached_partition_iter->begin();
     for (; category_iter != partition_iter->end(); ++cached_category_iter, ++category_iter) {
       AgeLength* age_length = categories->age_length((*category_iter)->name_);
-      (*category_iter)->UpdateMeanLengthData();
 
       age_length_matrix_.resize((*category_iter)->data_.size());
 
@@ -304,7 +303,7 @@ void ProcessRemovalsByLength::Execute() {
 
         vector<Double> age_frequencies;
 
-        Double mu= (*category_iter)->mean_length_per_[age];
+        Double mu= (*category_iter)->mean_length_by_time_step_age_[time_step][age];
 
         LOG_FINEST() << "mean = " << mu << " cv = " << age_length->cv(year, age, time_step) << " distribution = " << age_length->distribution() << " and length plus group = " << length_plus_;
         age_length->CummulativeNormal(mu, age_length->cv(year, age, time_step), age_frequencies, length_bins_, age_length->distribution(), length_plus_);

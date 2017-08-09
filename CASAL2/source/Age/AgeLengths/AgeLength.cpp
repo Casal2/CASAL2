@@ -212,7 +212,7 @@ void AgeLength::DoAgeToLengthConversion(partition::Category* category, const vec
     if (cvs_[year][age][time_step] <= 0.0)
         LOG_FATAL_P(PARAM_CV_FIRST) << "Identified a CV of 0.0, in year " << year << ", for age " << age << " and time step = " << time_step << " please check parameters cv_first and cv_last in the @age_length, or make sure you have specified suitable bounds in the @estimate block";
 
-    Double mu= category->mean_length_per_[age];
+    Double mu= category->mean_length_by_time_step_age_[time_step][age];
     CummulativeNormal(mu, cvs_[year][age][time_step], age_frequencies, length_bins, distribution_, plus_grp);
     category->age_length_matrix_[i].resize(size);
 

@@ -167,12 +167,12 @@ TEST(AgeLengths, VonBertalanffy_DoAgeLengthConversion) {
   male.max_age_ = 10;
   male.data_.assign((male.max_age_ - male.min_age_) + 1, 100); // add 100 fish to each age class
 
-  male.mean_length_per_[5] = 21.84162;
-  male.mean_length_per_[6] = 23.45148;
-  male.mean_length_per_[7] = 25.00753;
-  male.mean_length_per_[8] = 26.51156;
-  male.mean_length_per_[9] = 27.96531;
-  male.mean_length_per_[10] = 29.37047;
+  male.mean_length_by_time_step_age_[0][5] = 21.84162;
+  male.mean_length_by_time_step_age_[0][6] = 23.45148;
+  male.mean_length_by_time_step_age_[0][7] = 25.00753;
+  male.mean_length_by_time_step_age_[0][8] = 26.51156;
+  male.mean_length_by_time_step_age_[0][9] = 27.96531;
+  male.mean_length_by_time_step_age_[0][10] = 29.37047;
 
   MockVonBertalanffy von_bertalanffy(model, 70, 0.034, -6, false, 0.1, 0.1, {0.0});
 
@@ -186,8 +186,8 @@ TEST(AgeLengths, VonBertalanffy_DoAgeLengthConversion) {
   // Check that the CV is being built appropriately and that the mean is stored correctly
 
 
-  EXPECT_DOUBLE_EQ(21.84162, male.mean_length_per_[5]);
-  EXPECT_DOUBLE_EQ(29.37047, male.mean_length_per_[10]);
+  EXPECT_DOUBLE_EQ(21.84162, male.mean_length_by_time_step_age_[0][5]);
+  EXPECT_DOUBLE_EQ(29.37047, male.mean_length_by_time_step_age_[0][10]);
 
   //Run through length for the min and max age
   vector<Double> expec1 = {8.0702029084675753e-007, 5.4401509671141266, 19.80017616005102, 2.016943794826572};
@@ -241,12 +241,12 @@ TEST(AgeLengths, VonBertalanffy_DoAgeLengthConversion_plusGrp) {
   male.max_age_ = 10;
   male.data_.assign((male.max_age_ - male.min_age_) + 1, 6000);
 
-  male.mean_length_per_[5] = 4.95960;
-  male.mean_length_per_[6] = 9.61173;
-  male.mean_length_per_[7] = 13.97545;
-  male.mean_length_per_[8] = 18.06864;
-  male.mean_length_per_[9] = 21.90808;
-  male.mean_length_per_[10] = 25.50949;
+  male.mean_length_by_time_step_age_[0][5] = 4.95960;
+  male.mean_length_by_time_step_age_[0][6] = 9.61173;
+  male.mean_length_by_time_step_age_[0][7] = 13.97545;
+  male.mean_length_by_time_step_age_[0][8] = 18.06864;
+  male.mean_length_by_time_step_age_[0][9] = 21.90808;
+  male.mean_length_by_time_step_age_[0][10] = 25.50949;
 
   MockVonBertalanffy von_bertalanffy1(model, 80, 0.064, 4, false, 0.2, 0.2, {1.0});
   ASSERT_NO_THROW(von_bertalanffy1.MockBuildCV());

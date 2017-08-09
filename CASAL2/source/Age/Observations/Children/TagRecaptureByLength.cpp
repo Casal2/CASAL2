@@ -356,8 +356,6 @@ void TagRecaptureByLength::Execute() {
     for (; category_iter != partition_iter->end(); ++cached_category_iter, ++category_iter) {
 
       // Update/Populate Numbers At Length container for each category
-      (*cached_category_iter).UpdateMeanLengthData();
-      (*category_iter)->UpdateMeanLengthData();
       (*cached_category_iter).UpdateAgeLengthData(length_bins_, plus_group_, selectivities_[category_offset]);
       (*category_iter)->UpdateAgeLengthData(length_bins_, plus_group_, selectivities_[category_offset]);
       (*cached_category_iter).CollapseAgeLengthDataToLength();
