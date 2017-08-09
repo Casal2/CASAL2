@@ -13,6 +13,7 @@ from Globals import *
 from Builder import *
 from Documentation import *
 from Archiver import *
+from rlibrary import *
 from ModelRunner import *
 from Installer import *
 from DebBuilder import *
@@ -41,6 +42,7 @@ def print_usage():
   print '            Application is built using shared libraries'
   print '            so a single casal2 exectable is created.'
   print '  check - Do a check of the build system'
+  print '  rlibrary - Build the R library'
   print '  modelrunner - Run the test suite of models'
   print '  installer - Build an installer package'
   print '  deb - Create linux .deb installer'
@@ -77,12 +79,14 @@ def start_build_system():
     Globals.compiler_path_ = system_info.find_exe_path('g++.exe')
     Globals.gfortran_path_ = system_info.find_exe_path('gfortran.exe')
     Globals.latex_path_    = system_info.find_exe_path('bibtex.exe')
-    Globals.git_path_      = system_info.find_exe_path('git.exe')  
+    Globals.git_path_      = system_info.find_exe_path('git.exe')
+    Globals.r_path_        = system_info.find_exe_path('R.exe')
   else:
     Globals.compiler_path_ = system_info.find_exe_path('g++')
     Globals.gfortran_path_ = system_info.find_exe_path('gfortran')
     Globals.latex_path_    = system_info.find_exe_path('bibtex')
     Globals.git_path_      = system_info.find_exe_path('git')    
+    Globals.r_path_        = system_info.find_exe_path('R')
     if system_info.find_exe_path('unzip') == '':
       return Globals.PrintError('unzip is not in the current path. Please ensure it has been installed')
     if system_info.find_exe_path('cmake') == '':
@@ -97,7 +101,9 @@ def start_build_system():
     return Globals.PrintError("git is not in the current path. Please install a git command line client (e.g http://git-scm.com/downloads)")  
   if Globals.operating_system_ == 'windows' and os.path.exists(Globals.git_path_ + '\\sh.exe'):
   	return Globals.PrintError("git version has sh.exe in the same location. This will conflict with cmake. Please upgrade to a 64bit version of Git")
-  
+  if Globals.r_path_ == "":
+  	return Globals.PrintError("R is not in the current path please add R to your path.")
+    
   if not system_info.find_gcc_version():
     return False
 
@@ -227,6 +233,13 @@ def start():
     print "--> Cleaning all CASAL2 built files, including third party headers and libs"
     cleaner = Cleaner()
     if not cleaner.clean_all():
+      return False
+  elif build_target == "rlibrary":
+    print "*************************************************************************"
+    print "*************************************************************************"
+    print "--> Starting " + Globals.build_target_ + " Build"    
+    rlibrary = Rlibrary()
+    if not rlibrary.start():
       return False
   elif build_target == "installer":
     print "*************************************************************************"

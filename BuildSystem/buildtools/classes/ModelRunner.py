@@ -12,7 +12,7 @@ EX_OK = getattr(os, "EX_OK", 0)
 
 class ModelRunner:
   """
-  Start the documentation builder
+  Start the modelrunner builder
   """
   def start(self):
     binary_name = 'casal2'
