@@ -84,10 +84,11 @@ void DoubleNormal::Reset() {
  */
 
 Double DoubleNormal::GetLengthBasedResult(unsigned age, AgeLength* age_length) {
+  LOG_TRACE();
   unsigned year = model_->current_year();
   unsigned time_step = model_->managers().time_step()->current_time_step();
   Double cv = age_length->cv(year, age, time_step);
-  Double mean = age_length->mean_length(year, age);
+  Double mean = age_length->mean_length(time_step, age);
   string dist = age_length->distribution();
 
   if (dist == PARAM_NONE || n_quant_ <= 1) {

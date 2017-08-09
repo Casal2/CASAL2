@@ -386,19 +386,18 @@ void Model::RunBasic() {
       Reset();
     }
 
-    // Iterate over all partition members and UpDate Mean Weight for the inital weight calculations
-    for (auto iterator = all_view.Begin(); iterator != all_view.End(); ++iterator) {
-      (*iterator)->UpdateMeanLengthData();
-    }
     LOG_FINE() << "Model: State change to PreExecute";
     managers_->report()->Execute(State::kPreExecute);
-
     /**
      * Running the model now
      */
     LOG_FINE() << "Model: State change to Execute";
     state_ = State::kInitialise;
     current_year_ = start_year_;
+    // Iterate over all partition members and UpDate Mean Weight for the inital weight calculations
+    for (auto iterator = all_view.Begin(); iterator != all_view.End(); ++iterator) {
+      (*iterator)->UpdateMeanLengthData();
+    }
     initialisationphases::Manager& init_phase_manager = *managers_->initialisation_phase();
     init_phase_manager.Execute();
     managers_->report()->Execute(State::kInitialise);
@@ -634,6 +633,8 @@ void Model::RunSimulation() {
     estimables->LoadValues(0);
     Reset();
   }
+  niwa::partition::accessors::All all_view(this);
+
 
   int simulation_candidates = global_configuration_->simulation_candidates();
   if (simulation_candidates < 1) {
@@ -657,6 +658,11 @@ void Model::RunSimulation() {
 
     state_ = State::kInitialise;
     current_year_ = start_year_;
+    // Iterate over all partition members and UpDate Mean Weight for the inital weight calculations
+    for (auto iterator = all_view.Begin(); iterator != all_view.End(); ++iterator) {
+      (*iterator)->UpdateMeanLengthData();
+    }
+
     initialisationphases::Manager& init_phase_manager = *managers_->initialisation_phase();
     init_phase_manager.Execute();
     managers_->report()->Execute(State::kInitialise);
@@ -667,6 +673,10 @@ void Model::RunSimulation() {
     for (current_year_ = start_year_; current_year_ <= final_year_; ++current_year_) {
       LOG_FINE() << "Iteration year: " << current_year_;
       time_varying_manager.Update(current_year_);
+      // Iterate over all partition members and UpDate Mean Weight for the inital weight calculations
+      for (auto iterator = all_view.Begin(); iterator != all_view.End(); ++iterator) {
+        (*iterator)->UpdateMeanLengthData();
+      }
       managers_->simulate()->Update(current_year_);
       time_step_manager.Execute(current_year_);
     }
@@ -694,6 +704,8 @@ void Model::RunProjection() {
   }
   Estimables& estimables = *managers_->estimables();
   vector<Double*> estimable_targets;
+  // Create an instance of all categories
+  niwa::partition::accessors::All all_view(this);
 
   // Model is about to run
   for (unsigned i = 0; i < adressable_values_count_; ++i) {
@@ -709,6 +721,10 @@ void Model::RunProjection() {
       LOG_FINE() << "Model: State change to Execute";
       state_ = State::kInitialise;
       current_year_ = start_year_;
+      // Iterate over all partition members and UpDate Mean Weight for the inital weight calculations
+      for (auto iterator = all_view.Begin(); iterator != all_view.End(); ++iterator) {
+        (*iterator)->UpdateMeanLengthData();
+      }
       initialisationphases::Manager& init_phase_manager = *managers_->initialisation_phase();
       init_phase_manager.Execute();
 
@@ -721,6 +737,10 @@ void Model::RunProjection() {
       for (current_year_ = start_year_; current_year_ <= final_year_; ++current_year_) {
         LOG_FINE() << "Iteration year: " << current_year_;
         time_varying_manager.Update(current_year_);
+        // Iterate over all partition members and UpDate Mean Weight for the inital weight calculations
+        for (auto iterator = all_view.Begin(); iterator != all_view.End(); ++iterator) {
+          (*iterator)->UpdateMeanLengthData();
+        }
         time_step_manager.Execute(current_year_);
         project_manager.StoreValues(current_year_);
       }
@@ -744,6 +764,10 @@ void Model::RunProjection() {
       LOG_FINE() << "Starting projection years";
       for (; current_year_ <= projection_final_year_; ++current_year_) {
         LOG_FINE() << "Iteration year: " << current_year_;
+        // Iterate over all partition members and UpDate Mean Weight for the inital weight calculations
+        for (auto iterator = all_view.Begin(); iterator != all_view.End(); ++iterator) {
+          (*iterator)->UpdateMeanLengthData();
+        }
         project_manager.Update(current_year_);
         time_step_manager.Execute(current_year_);
       }
@@ -770,9 +794,15 @@ void Model::RunProjection() {
  */
 void Model::Iterate() {
   LOG_TRACE();
+  // Create an instance of all categories
+  niwa::partition::accessors::All all_view(this);
 
   state_ = State::kInitialise;
   current_year_ = start_year_;
+  // Iterate over all partition members and UpDate Mean Weight for the inital weight calculations
+  for (auto iterator = all_view.Begin(); iterator != all_view.End(); ++iterator) {
+    (*iterator)->UpdateMeanLengthData();
+  }
   initialisationphases::Manager& init_phase_manager = *managers_->initialisation_phase();
   init_phase_manager.Execute();
   managers_->report()->Execute(State::kInitialise);
@@ -783,6 +813,10 @@ void Model::Iterate() {
   for (current_year_ = start_year_; current_year_ <= final_year_; ++current_year_) {
     LOG_FINE() << "Iteration year: " << current_year_;
     time_varying_manager.Update(current_year_);
+    // Iterate over all partition members and UpDate Mean Weight for the inital weight calculations
+    for (auto iterator = all_view.Begin(); iterator != all_view.End(); ++iterator) {
+      (*iterator)->UpdateMeanLengthData();
+    }
     time_step_manager.Execute(current_year_);
   }
 

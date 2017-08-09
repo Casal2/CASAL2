@@ -366,9 +366,10 @@ void MortalityInstantaneous::DoExecute() {
     	LOG_FINEST() << "applying mortality to category " << categories->name_;
       //categories->UpdateMeanWeightData();
       for (auto fishery_category : fishery_categories_) {
+        LOG_FINEST() << "checking fishery = " << fishery_category.fishery_label_;
         if (fishery_category.category_label_ != categories->name_ || fisheries_[fishery_category.fishery_label_].time_step_index_ != time_step_index)
           continue;
-
+        LOG_FINEST() << "Category is fished in this time_step " << time_step_index << " numbers at age = " << categories->data_.size();
         for (unsigned i = 0; i < categories->data_.size(); ++i) {
           Double vulnerable = categories->data_[i] * categories->mean_weight_by_time_step_age_[time_step_index][categories->min_age_ + i]
               * fishery_category.selectivity_->GetResult(categories->min_age_ + i, categories->age_length_)

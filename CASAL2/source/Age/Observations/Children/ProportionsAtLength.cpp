@@ -280,8 +280,8 @@ void ProportionsAtLength::Execute() {
     for (; category_iter != partition_iter->end(); ++cached_category_iter, ++category_iter) {
       LOG_FINEST() << "Selectivity for " << category_labels_[category_offset] << " " << selectivities_[category_offset]->label();
 
-      (*cached_category_iter).UpdateMeanLengthData();
-      (*category_iter)->UpdateMeanLengthData();
+      //(*cached_category_iter).UpdateMeanLengthData();
+      //(*category_iter)->UpdateMeanLengthData();
       (*cached_category_iter).UpdateAgeLengthData(length_bins_, length_plus_, selectivities_[category_offset]);
       (*category_iter)->UpdateAgeLengthData(length_bins_, length_plus_, selectivities_[category_offset]);
       (*cached_category_iter).CollapseAgeLengthDataToLength();

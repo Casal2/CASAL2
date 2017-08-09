@@ -12,6 +12,7 @@
 
 #include "Common/Model/Model.h"
 #include "Common/Partition/Accessors/All.h"
+#include "Common/TimeSteps/Manager.h"
 
 namespace niwa {
 namespace reports {
@@ -47,6 +48,7 @@ void PartitionBiomass::DoExecute() {
   unsigned lowest         = 9999;
   unsigned highest        = 0;
   unsigned longest_length = 0;
+  unsigned time_step_index = model_->managers().time_step()->current_time_step();
 
   niwa::partition::accessors::All all_view(model_);
   for (auto iterator = all_view.Begin(); iterator != all_view.End(); ++iterator) {
@@ -71,13 +73,13 @@ void PartitionBiomass::DoExecute() {
   cache_ << std::fixed;
 
   for (auto iterator = all_view.Begin(); iterator != all_view.End(); ++iterator) {
-    (*iterator)->UpdateMeanWeightData();
+    //(*iterator)->UpdateMeanWeightData();
 
     cache_ << (*iterator)->name_;
     for (unsigned i = 0; i < (*iterator)->data_.size(); ++i) {
       unsigned age = (*iterator)->min_age_ + i;
       if (age >= lowest && age <= highest)
-        cache_ << " " << std::fixed << std::setprecision(6) << AS_DOUBLE(((*iterator)->data_[i] * (*iterator)->mean_weight_per_[age]));
+        cache_ << " " << std::fixed << std::setprecision(5) << AS_DOUBLE(((*iterator)->data_[i] * (*iterator)->mean_weight_by_time_step_age_[time_step_index][age]));
       else
         cache_ << " " << "null";
     }
