@@ -33,7 +33,7 @@ void Category::UpdateMeanLengthData() {
   AgeLength* age_length = categories->age_length(name_);
   for (unsigned step_iter = 0; step_iter < time_steps.size(); ++step_iter) {
     for (unsigned age = min_age_; age <= max_age_; ++age) {
-      mean_length_by_time_step_age_[step_iter][age] = age_length->GetMeanLength(step_iter, age);
+      mean_length_by_time_step_age_[step_iter][age] = age_length->mean_length(step_iter, age);
     }
   }
   // If this has been updated we need to update Mean weight

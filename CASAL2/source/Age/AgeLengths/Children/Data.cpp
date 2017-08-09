@@ -122,7 +122,7 @@ void Data::DoBuild() {
    * Build our average map for use in initialisation and simulation phases and projections (I am guessing, I havent' tested projections yet)
    */
     for (unsigned i = 0; i < model_->age_spread(); ++i) {
-      data_by_age_time_step_[model_->min_age() + i][step_index_data_supplied_] = total_length[i] / number_of_years;
+      data_by_age_time_step_[step_index_data_supplied_][model_->min_age() + i] = total_length[i] / number_of_years;
     }
     // Make adjustment for data_by_age_time_step_ for different time steps.
 
@@ -188,13 +188,13 @@ void Data::InterpolateTimeStepsForInitialConditions() {
           w1 += 1;
           w2 -= 1;
         }
-        data_by_age_time_step_[age][i] = w1 * means_[a1] + w2 * means_[a2];
+        data_by_age_time_step_[i][age] = w1 * means_[a1] + w2 * means_[a2];
         LOG_FINEST() << "for age = " << a + model_->min_age() << " a1 = " << a1 + model_->min_age();
         LOG_FINEST() << means_[a1];
         LOG_FINEST() << "for a2 = " << a2 + model_->min_age();
         LOG_FINEST() << means_[a2];
         LOG_FINEST() << "w1 = " << w1 << " w2 = " << w2 << " final result";
-        data_by_age_time_step_[age][i];
+        data_by_age_time_step_[i][age];
       }
     }
   }
@@ -205,7 +205,7 @@ void Data::InterpolateTimeStepsForInitialConditions() {
  */
 void Data::InterpolateTimeStepsForAllYears() {
   LOG_TRACE();
-/*  // Now we need to work with average_mean_sizes, using interpolation
+  // Now we need to work with average_mean_sizes, using interpolation
   // We only have to figure sizes for steps j in steps_to_figure:
   unsigned y1, y2 ,a1, a2, age;
   Double w1, w2;
@@ -248,23 +248,23 @@ void Data::InterpolateTimeStepsForAllYears() {
           }
           if ((a2 + model_->min_age()) > model_->max_age() || y2 > model_->final_year() || (a1 + model_->min_age()) < model_->min_age() || y1 < model_->start_year()){
             // unusual case - very little info on this cohort - just use averages
-            mean_length_[year][age][i] = data_by_age_time_step_[age][i];
+            mean_length_by_year_[year][age][i] = data_by_age_time_step_[i][age];
             LOG_FINEST() << "for age = " << a + model_->min_age();
             LOG_FINEST() <<" final result";
-            LOG_FINEST() << mean_length_[year][age][i];
+            LOG_FINEST() << mean_length_by_year_[year][age][i];
           } else {
-            mean_length_[year][age][i] = w1 * data_by_year_[y1][a1] + w2 * data_by_year_[y2][a2];
+            mean_length_by_year_[year][age][i] = w1 * data_by_year_[y1][a1] + w2 * data_by_year_[y2][a2];
             LOG_FINEST() << "for age = " << a + model_->min_age() << " a1 = " << a1 + model_->min_age() << " y1 = "  << y1 << " y2 = " << y2;
             LOG_FINEST() << data_by_year_[y1][a1];
             LOG_FINEST() << "for a2 = " << a2 + model_->min_age();
             LOG_FINEST() << data_by_year_[y2][a2];
             LOG_FINEST() << "w1 = " << w1 << " w2 = " << w2 << " final result";
-            LOG_FINEST() << mean_length_[year][age][i];
+            LOG_FINEST() << mean_length_by_year_[year][age][i];
           }
         }
       }
     }
-  }*/
+  }
 }
 
 /**
@@ -397,6 +397,19 @@ void Data::FillInternalGaps() {
 }
 
 
+/**
+ * Get the mean weight of a single population
+ *
+ * @param time_step The year we want mean weight for
+ * @param age The age of the population we want mean weight for
+ * @return mean length for 1 member cvs_[i]
+ */
+Double Data::mean_length(unsigned time_step, unsigned age) {
+  if (model_->state() == State::kInitialise)
+    return data_by_age_time_step_[time_step][age];
+  unsigned year = model_->current_year();
+  return mean_length_by_year_[year][age][time_step];
+}
 
 /**
  * Get the mean weight of a single population

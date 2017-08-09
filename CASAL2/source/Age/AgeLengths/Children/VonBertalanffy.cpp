@@ -66,8 +66,6 @@ void VonBertalanffy::DoBuild() {
       mean_length_[step_iter][age_iter] = mean_length(step_iter,age_iter);
     }
   }
-
-
 }
 
 /**
@@ -102,6 +100,22 @@ Double VonBertalanffy::mean_weight(unsigned time_step, unsigned age) {
   Double mean_weight = 0.0; //
   mean_weight = length_weight_->mean_weight(size, distribution_, cvs_[year][age][time_step]);// make a map [key = age]
   return mean_weight;
+}
+
+/**
+ * Build any objects that will need to be utilised by this object.
+ * Obtain smart_pointers to any objects that will be used by this object.
+ */
+void VonBertalanffy::DoReset() {
+  // ReBuild our mean_length_ container.
+  unsigned min_age = model_->min_age();
+  unsigned max_age = model_->max_age();
+  vector<string> time_steps = model_->time_steps();
+  for (unsigned step_iter = 0; step_iter < time_steps.size(); ++step_iter) {
+    for (unsigned age_iter = min_age; age_iter <= max_age; ++age_iter) {
+      mean_length_[step_iter][age_iter] = mean_length(step_iter,age_iter);
+    }
+  }
 }
 
 } /* namespace agelengths */

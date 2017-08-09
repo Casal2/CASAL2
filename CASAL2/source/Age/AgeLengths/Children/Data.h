@@ -32,7 +32,7 @@ public:
   void                        DoValidate() override final {};
   void                        DoBuild() override final;
   void                        DoReset() override final {};
-  virtual Double              mean_length(unsigned time_step, unsigned age) override final {return 0.0;};
+  virtual Double              mean_length(unsigned time_step, unsigned age) override final;
   Double                      mean_weight(unsigned time_step, unsigned age) override final;
 
 protected:
@@ -51,6 +51,7 @@ private:
   map<unsigned, vector<Double>> data_by_year_;
   map<unsigned,map<unsigned,Double>> data_by_age_time_step_; // used in the initialisation
   map<unsigned,map<unsigned,Double>> mean_data_by_year_and_step_;
+  map<unsigned, map<unsigned, map<unsigned, Double>>> mean_length_by_year_;
   string                        step_data_supplied_;
   unsigned                      step_index_data_supplied_;
   unsigned                      ageing_index_;
