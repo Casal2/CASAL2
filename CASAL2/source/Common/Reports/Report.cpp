@@ -21,6 +21,7 @@
 #include "Common/Model/Managers.h"
 #include "Common/Reports/Manager.h"
 #include "Common/TimeSteps/Manager.h"
+#include "Common/Reports/Children/StandardHeader.h"
 
 // Namespaces
 namespace niwa {
@@ -123,10 +124,19 @@ void Report::Finalise() {
  */
 void Report::PrepareTabular() {
   LOG_FINEST() << "preparing tabular report: " << label_;
+  // Put a header in
+
   Report::lock_.lock();
   SetUpInternalStates();
+  // Put a header in each file. this is for R library compatibility more than anything.
+/*  if (file_name_ != "" && write_mode_ == PARAM_OVERWRITE) {
+    reports::StandardHeader standard_report(model_);
+    cache_ << standard_report.DoPrepare();
+  }*/
   DoPrepareTabular();
   Report::lock_.unlock();
+
+
 }
 
 /**

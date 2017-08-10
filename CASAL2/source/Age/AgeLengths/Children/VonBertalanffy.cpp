@@ -21,6 +21,7 @@
 #include "Common/LengthWeights/LengthWeight.h"
 #include "Common/LengthWeights/Manager.h"
 #include "Common/TimeSteps/Manager.h"
+#include "Common/Estimates/Manager.h"
 
 // namespaces
 namespace niwa {
@@ -66,6 +67,19 @@ void VonBertalanffy::DoBuild() {
       mean_length_[step_iter][age_iter] = mean_length(step_iter,age_iter);
     }
   }
+  // Check to see if CV need's to be built every iterations
+  if (by_length_) {
+    // Check if we are estimating any of the age_length parameters.
+    string linf_lab = "age_length[" + label_ + "].linf";
+    string k_lab = "age_length[" + label_ + "].k";
+    string t0_lab = "age_length[" + label_ + "].t0";
+    bool linf_estimate = model_->managers().estimate()->HasEstimate(linf_lab);
+    bool k_estimate = model_->managers().estimate()->HasEstimate(k_lab);
+    bool t0_estimate = model_->managers().estimate()->HasEstimate(t0_lab);
+
+    if (linf_estimate || k_estimate || t0_estimate)
+      rebuild_cv_ = true;
+  }
 }
 
 /**
@@ -103,11 +117,29 @@ Double VonBertalanffy::mean_weight(unsigned time_step, unsigned age) {
 }
 
 /**
- * Build any objects that will need to be utilised by this object.
- * Obtain smart_pointers to any objects that will be used by this object.
+ * If time Varied we need to rebuild the cache
  */
 void VonBertalanffy::DoReset() {
-  // ReBuild our mean_length_ container.
+
+}
+
+/**
+ * Return the mean length for an time_step and age
+ *
+ * @param year Ignored for this child (was implemented for the Data AgeLength child)
+ * @param time_step time_step
+ * @param age The age of the population we want mean weight for
+ * @return mean weight for 1 member
+ */
+Double VonBertalanffy::GetMeanLength(unsigned year, unsigned time_step, unsigned age) {
+  return mean_length_[time_step][age];
+}
+
+/**
+ * ReBuildCache: initialised by the timevarying class.
+ */
+void VonBertalanffy::DoRebuildCache() {
+  // Re Build up our mean_length_ container.
   unsigned min_age = model_->min_age();
   unsigned max_age = model_->max_age();
   vector<string> time_steps = model_->time_steps();

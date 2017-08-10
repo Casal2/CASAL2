@@ -22,6 +22,11 @@ function (file, path = "") {
 
   filename = make.filename(path = path, file = file)
   file = convert.to.lines(filename)
+  
+  ## Check this isn't a tabular report by looking at the Call:
+  if (grepl(pattern = "--tabular", x = file[2]))
+   stop("This model was run with the command '--tabular', please use the extract.tabular() function to import model runs with --tabular")  
+  
   temp = get.lines(file, starts.with = "\\*",fixed=F)
   if (length(temp) != 0) {
     if(!is.even(length(temp))) {

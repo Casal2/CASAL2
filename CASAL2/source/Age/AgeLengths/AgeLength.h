@@ -37,10 +37,10 @@ public:
                                 const vector<Double>& length_bins, bool plus_grp, Selectivity* selectivity);
   void                        CummulativeNormal(Double mu, Double cv, vector<Double>& prop_in_length,
                                 vector<Double> length_bins, string distribution, bool plus_grp);
-  void                        RebuildCache() override final { Reset(); } // For time_varying
+  virtual void                RebuildCache();
 
   // accessors
-  //virtual Double&             GetMeanLength(unsigned year, unsigned time_step, unsigned age)  = 0;
+  virtual Double              GetMeanLength(unsigned year, unsigned time_step, unsigned age) = 0;
   virtual Double              cv(unsigned year, unsigned age, unsigned time_step) { return cvs_[year][age][time_step]; };
   virtual string              distribution() { return distribution_; };
 
@@ -55,6 +55,8 @@ protected:
   virtual void                DoValidate() = 0;
   virtual void                DoBuild() = 0;
   virtual void                DoReset() = 0;
+  virtual void                DoRebuildCache() = 0;
+
   void                        BuildCV();
   // members
   Model*                      model_ = nullptr;
@@ -65,6 +67,8 @@ protected:
   bool                        by_length_;
   string                      distribution_;
   bool                        casal_normal_cdf_ = false;
+  bool                        rebuild_cv_ = false;
+
 
   //;
 };

@@ -53,6 +53,7 @@ Data::~Data() {
  * Obtain smart_pointers to any objects that will be used by this object.
  */
 void Data::DoBuild() {
+
   LOG_FINE() << "Building age length block " << label_;
   length_weight_ = model_->managers().length_weight()->GetLengthWeight(length_weight_label_);
   if (!length_weight_)
@@ -398,11 +399,11 @@ void Data::FillInternalGaps() {
 
 
 /**
- * Get the mean weight of a single population
+ * Get the mean length of a single population
  *
- * @param time_step The year we want mean weight for
+ * @param time_step we want mean weight for
  * @param age The age of the population we want mean weight for
- * @return mean length for 1 member cvs_[i]
+ * @return mean length for 1 member cvs_
  */
 Double Data::mean_length(unsigned time_step, unsigned age) {
   if (model_->state() == State::kInitialise)
@@ -424,7 +425,21 @@ Double Data::mean_weight(unsigned time_step, unsigned age) {
   return length_weight_->mean_weight(size, distribution_, cvs_[year][age][time_step]);
 }
 
+/**
+ * Return the mean length for an time_step and age
+ *
+ * @param year Ignored for this child (was implemented for the Data AgeLength child)
+ * @param time_step time_step
+ * @param age The age of the population we want mean weight for
+ * @return mean weight for 1 member
+ */
+Double Data::GetMeanLength(unsigned year, unsigned time_step, unsigned age) {
+  if (model_->state() == State::kInitialise)
+    return data_by_age_time_step_[time_step][age];
 
+  return mean_length_by_year_[year][age][time_step];
+
+}
 
 } /* namespace agelengths */
 } /* namespace niwa */

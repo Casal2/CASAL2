@@ -20,6 +20,8 @@
 #include "Common/Model/Managers.h"
 #include "Common/TimeSteps/Manager.h"
 #include "Common/Utilities/Map.h"
+#include "Common/Estimates/Manager.h"
+
 
 // namespaces
 namespace niwa {
@@ -77,6 +79,14 @@ void AgeLength::Build() {
       LOG_ERROR_P(PARAM_TIME_STEP_PROPORTIONS) << " value (" << iter << ") must be in the range 0.0-1.0";
   }
 
+  string cv_last_lab = "age_length[" + label_ + "].cv_last";
+  string cv_first_lab = "age_length[" + label_ + "].cv_first";
+  bool cv_last = model_->managers().estimate()->HasEstimate(cv_last_lab);
+  bool cv_first = model_->managers().estimate()->HasEstimate(cv_first_lab);
+
+  if (cv_last || cv_first)
+    rebuild_cv_ = true;
+
   DoBuild();
   BuildCV();
 }
@@ -128,7 +138,6 @@ void AgeLength::BuildCV() {
 void AgeLength::CummulativeNormal(Double mu, Double cv, vector<Double>& prop_in_length, vector<Double> length_bins, string distribution, bool plus_grp) {
 
   Double sigma = cv * mu;
-
   if (distribution == "lognormal") {
     // Transform parameters in to log space
     Double cv_temp = sigma / mu;
@@ -228,9 +237,18 @@ void AgeLength::DoAgeToLengthConversion(partition::Category* category, const vec
  * Reset the age length class.
  */
 void AgeLength::Reset() {
+  if (rebuild_cv_)
+    BuildCV();
   DoReset();
-  BuildCV();
 }
 
+/**
+ * ReBuild Cache: intiated by the time_varying class.
+ */
+void AgeLength::RebuildCache() {
+  if (rebuild_cv_)
+    BuildCV();
+  DoRebuildCache();
+}
 
 } /* namespace niwa */
