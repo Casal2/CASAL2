@@ -48,6 +48,8 @@ protected:
   Double                      b_;
   string                      length_weight_label_;
   LengthWeight*               length_weight_ = nullptr;
+  map<unsigned, map<unsigned, Double>> mean_length_;
+
 };
 
 } /* namespace agelengths */
