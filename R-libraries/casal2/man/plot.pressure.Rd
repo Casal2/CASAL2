@@ -25,6 +25,14 @@ plot.pressure(model, report_label = "", xlim, ylim, xlab, ylab, main, col,
 \description{
 A plotting function to plot fishing presuure (U's )for the 'casal2TAB' and 'casal2MPD' objects.
 }
+\examples{
+library(casal2)
+data <- extract.mpd(file = system.file("extdata", "MPD.log", package="casal2"))
+names(data)
+plot.pressure(model = data, report_label = "exploit", col = c("black", "red"))
+# if you are unhappy with the default plotting you can use plot.it = FALSE and create a plot of your own.
+Fish_pressure = plot.pressure(model = data, report_label = "exploit", plot.it = FALSE)
+}
 \author{
 C. Marsh
 }
