@@ -391,8 +391,8 @@ void RecruitmentBevertonHolt::DoExecute() {
     if (!utilities::To<unsigned, string>(ssb_year, ssb_year_string))
       LOG_CODE_ERROR() << "Could not convert the value " << ssb_year << " to a string for storage in the tabular report";
 
-    string stand_label = "standardiesed_ycs." + ssb_year_string;
-    string true_ycs_label = "true_ycs." + ssb_year_string;
+    string stand_label = "standardiesed_ycs_" + ssb_year_string;
+    string true_ycs_label = "true_ycs_" + ssb_year_string;
 
     LOG_FINEST() << "adding tabular report = " << true_ycs_label;
 

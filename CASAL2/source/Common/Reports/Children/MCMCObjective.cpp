@@ -57,11 +57,13 @@ void MCMCObjective::DoExecute() {
 
   if (first_write_ && !model_->global_configuration().resume()) {
   	/// Up here!!!!!!!!!
-  	//vector<Estimate*>           GetIsEstimated
+  	vector<Estimate*>  estimates = model_->managers().estimate()->GetIsEstimated();
     cache_ << "starting_covariance_matrix {m}\n";
     auto covariance = mcmc_->covariance_matrix();
-    for (unsigned i = 0; i < covariance.size1(); ++i) {
-
+    if (estimates.size() != covariance.size1())
+      LOG_CODE_ERROR() << "different number of estimates to what are in the covariance matrix. estimates.size() != covariance.size1()";
+    for (unsigned i = 0; i < estimates.size(); ++i) {
+      cache_ << estimates[i]->parameter() << " ";
     }
     cache_ << "\n";
     for (unsigned i = 0; i < covariance.size1(); ++i) {

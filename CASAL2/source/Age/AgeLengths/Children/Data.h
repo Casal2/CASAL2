@@ -32,8 +32,12 @@ public:
   void                        DoValidate() override final {};
   void                        DoBuild() override final;
   void                        DoReset() override final {};
-  virtual Double              mean_length(unsigned time_step, unsigned age) override final;
+  void                        DoRebuildCache() override final { }; // This should never happen. i.e time vary data type.
+
+  Double                      mean_length(unsigned time_step, unsigned age) override final;
   Double                      mean_weight(unsigned time_step, unsigned age) override final;
+
+  Double                      GetMeanLength(unsigned year, unsigned time_step, unsigned age) override final;
 
 protected:
   //methods

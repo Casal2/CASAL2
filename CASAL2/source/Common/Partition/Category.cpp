@@ -31,9 +31,10 @@ void Category::UpdateMeanLengthData() {
   Categories* categories = model_->categories();
   vector<string> time_steps = model_->time_steps();
   AgeLength* age_length = categories->age_length(name_);
+  unsigned year = model_->current_year();
   for (unsigned step_iter = 0; step_iter < time_steps.size(); ++step_iter) {
     for (unsigned age = min_age_; age <= max_age_; ++age) {
-      mean_length_by_time_step_age_[step_iter][age] = age_length->mean_length(step_iter, age);
+      mean_length_by_time_step_age_[step_iter][age] = age_length->GetMeanLength(year, step_iter, age);
     }
   }
   // If this has been updated we need to update Mean weight
