@@ -132,9 +132,9 @@ class Archiver:
     os.system('cp -r ../README.txt Casal2/README.txt')
     ## deal with R libraries
     if Globals.operating_system_ == "windows":
-      os.system('cp ../R-libraries/CASAL2_1.0.zip Casal2/R-Libraries/CASAL2.zip')
+      os.system('cp ../R-libraries/casal2_1.0.zip Casal2/R-Libraries/casal2.zip')
     else: 
-      os.system('cp ../R-libraries/CASAL2_1.0.tar.gz Casal2/R-Libraries/CASAL2.tar.gz')
+      os.system('cp ../R-libraries/casal2_1.0.tar.gz Casal2/R-Libraries/casal2.tar.gz')
       
     if Globals.operating_system_ == "windows":
       os.system("zip -r Casal2.zip CASAL2/*")
