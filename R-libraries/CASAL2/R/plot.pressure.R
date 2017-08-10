@@ -10,7 +10,13 @@
 #' @rdname plot.pressure
 #' @export plot.pressure
 #'
-
+#' @examples
+#' library(casal2)
+#' data <- extract.mpd(file = system.file("extdata", "MPD.log", package="casal2"))
+#' names(data)
+#' plot.pressure(model = data, report_label = "exploit", col = c("black", "red"))
+#' # if you are unhappy with the default plotting you can use plot.it = FALSE and create a plot of your own.
+#' Fish_pressure = plot.pressure(model = data, report_label = "exploit", plot.it = FALSE)
 "plot.pressure" <-
 function(model, report_label="", xlim, ylim, xlab, ylab, main, col,plot.it = T, ...){
   UseMethod("plot.pressure",model)

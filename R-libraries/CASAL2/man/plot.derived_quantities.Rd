@@ -3,28 +3,47 @@
 \name{plot.derived_quantities}
 \alias{plot.derived_quantities}
 \alias{plot.derived_quantities.casal2MPD}
+\alias{plot.derived_quantities.casal2TAB}
 \title{plot.derived_quantities default}
 \usage{
-plot.derived_quantities(model, type = "number", report_label = "", xlim,
+plot.derived_quantities(model, report_label = "", type = "number", xlim,
   ylim, xlab, ylab, main, col, plot.it = T, ...)
 
-\method{plot.derived_quantities}{casal2MPD}(model, type = "number",
-  report_label = "", xlim, ylim, xlab, ylab, main, col, plot.it = T, ...)
+\method{plot.derived_quantities}{casal2MPD}(model, report_label = "",
+  type = "number", xlim, ylim, xlab, ylab, main, col, plot.it = T, ...)
+
+\method{plot.derived_quantities}{casal2TAB}(model, report_label = "",
+  type = "number", xlim, ylim, xlab, ylab, main, col, plot.it = T, ...)
 }
 \arguments{
 \item{model}{<casal2MPD, casal2TAB> object that are generated from one of the extract() functions.}
 
-\item{type}{<string> whether numbers or scaled by B0.}
-
 \item{report_label}{<string>}
+
+\item{type}{<string> whether numbers or scaled by B0.}
 
 \item{...}{remaining plotting functions.}
 }
 \value{
 \code{NULL}
+
+\code{NULL}
 }
 \description{
 A plotting function to plot SSB's for the 'casal2TAB' and 'casal2MPD' objects.
+}
+\examples{
+library(casal2)
+# plotting Standard Output
+data <- extract.mpd(file = system.file("extdata", "MPD.log", package="casal2"))
+names(data)
+plot.derived_quantity(model = data, report_label = "biomass")
+# if you are unhappy with the default plotting you can use plot.it = FALSE and create a plot of your own.
+SSB = plot.pressure(model = data, report_label = "biomass", plot.it = FALSE)
+# plotting Tabular Output
+tab <- extract.tabular(file = system.file("extdata", "single_file.out", package="casal2"))
+names(tab)
+plot.derived_quantities(model = tab, report_label = "derived_quant")
 }
 \author{
 C. Marsh

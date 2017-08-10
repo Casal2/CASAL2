@@ -9,8 +9,10 @@
 #' @param path Optionally, the path to the file
 #' @return a 'casal2MPD' object which is essentially a list, that can be integrated using the str() function.
 #' @export
-#'
-#'
+#' @examples
+#' library(casal2)
+#' data <- extract.mpd(file = system.file("extdata", "MPD.log", package="casal2"))
+#' class(data)
 "extract.mpd" <-
 function (file, path = "") {
   set.class <- function(object,new.class){

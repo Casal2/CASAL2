@@ -10,10 +10,21 @@
 #' @param ... remaining plotting functions.
 #' @rdname plot.derived_quantities
 #' @export plot.derived_quantities
-#'
+#' @examples
+#' library(casal2)
+#' # plotting Standard Output
+#' data <- extract.mpd(file = system.file("extdata", "MPD.log", package="casal2"))
+#' names(data)
+#' plot.derived_quantity(model = data, report_label = "biomass")
+#' # if you are unhappy with the default plotting you can use plot.it = FALSE and create a plot of your own.
+#' SSB = plot.pressure(model = data, report_label = "biomass", plot.it = FALSE)
+#' # plotting Tabular Output
+#' tab <- extract.tabular(file = system.file("extdata", "single_file.out", package="casal2"))
+#' names(tab)
+#' plot.derived_quantities(model = tab, report_label = "derived_quant")
 
 "plot.derived_quantities"<-
-function(model, type = "number", report_label="", xlim, ylim, xlab, ylab, main, col,plot.it = T, ...){
+function(model, report_label="", type = "number", xlim, ylim, xlab, ylab, main, col,plot.it = T, ...){
   UseMethod("plot.derived_quantities",model)
 }
 
@@ -22,7 +33,7 @@ function(model, type = "number", report_label="", xlim, ylim, xlab, ylab, main, 
 #' @rdname plot.derived_quantities
 #' @method plot.derived_quantities casal2MPD
 #' @export
-"plot.derived_quantities.casal2MPD" = function(model, type="number", report_label="", xlim, ylim, xlab, ylab, main, col,plot.it = T, ...) {
+"plot.derived_quantities.casal2MPD" = function(model, report_label="", type = "number", xlim, ylim, xlab, ylab, main, col,plot.it = T, ...) {
   if (!type %in% c("number", "percent")) {
     stop ("the parameter type must be: 'number' or 'percent'")
   }
@@ -162,6 +173,60 @@ function(model, type = "number", report_label="", xlim, ylim, xlab, ylab, main, 
   }
   if (plot.it == FALSE)
     return(temp_DF)
+    
+  invisible();  
 }
 
 ## method for class casal2TAB
+#' @return \code{NULL}
+#'
+#' @rdname plot.derived_quantities
+#' @method plot.derived_quantities casal2TAB
+#' @export
+"plot.derived_quantities.casal2TAB" = function(model, report_label="", type = "number", xlim, ylim, xlab, ylab, main, col,plot.it = T, ...) {
+  if (!type %in% c("number", "percent")) {
+    stop ("the parameter type must be: 'number' or 'percent'")
+  }
+
+  ## check report label exists
+  if (!report_label %in% names(model))
+    stop(Paste("In model the report label '", report_label, "' could not be found. The report labels available are ", paste(names(model),collapse = ", ")))
+  ## get the report out
+  this_report = get(report_label, model)
+  ## check that the report label is of type derived_quantity
+  if (this_report$type != "derived_quantity") {
+    stop(Paste("The report label ", report_label, " in model is not a derived quantity plz Check you have specified the correct report_label."))     
+  }
+  if (plot.it) {
+    ## Can be multiple SSB's
+    Labs = colnames(this_report$values);
+    start_index = as.numeric(regexpr(pattern = "\\[",text =Labs)) + 1
+    stop_index = as.numeric(regexpr(pattern = "\\]",text = Labs)) - 1
+    DQ_s = unique(substring(Labs, start_index,last = stop_index))
+    
+    ## create a multi-plot panel
+    par(mfrow = c(1,length(DQ_s)))
+    for (i in 1:length(DQ_s)) {
+      ## pull out label and years
+      ndx = grepl(pattern = DQ_s[i], x = Labs)
+      this_ssb = this_report$values[,ndx]
+      start_nd = as.numeric(regexpr(pattern = "_",text = colnames(this_ssb))) + 1
+      years = as.numeric(substring(colnames(this_ssb),first = start_nd))
+      vals = apply(this_ssb, 2, quantile, c(0.025,0.5,0.975))
+      ## pull out type of derived Quantity i.e abundance or biomass.
+      end_index = as.numeric(regexpr(pattern = "\\[",text = colnames(this_ssb))) - 1
+      DQ_type = unique(substring(colnames(this_ssb),first = 0, last = end_index))
+      ## cut off 0's they are most likely Projections years.
+      zero_nd = vals == 0.0
+      zero_cols = apply(zero_nd,2,all)
+      vals = vals[,!zero_cols]
+      years = years[!zero_cols]
+      plot(years,vals["50%",],ylim = c(0, max(vals)), xlab = DQ_type, ylab = "years", type = "l", main = "DQ_s")
+      polygon(x = c(years, rev(years)), y = c(vals["2.5%",], rev(vals["97.5%",])), col = "gray60")
+      lines(years,vals["50%",], col = "red", lwd = 2)
+    }
+  } else {
+    return(this_report$values)
+  }
+  invisible();  
+}
