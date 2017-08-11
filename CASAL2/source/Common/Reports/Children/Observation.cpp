@@ -27,8 +27,8 @@ namespace dc = niwa::utilities::doublecompare;
  */
 Observation::Observation(Model* model) : Report(model) {
   LOG_TRACE();
-  model_state_ = State::kPostExecute;
-  run_mode_    = (RunMode::Type)(RunMode::kBasic | RunMode::kSimulation);
+  run_mode_    = (RunMode::Type)(RunMode::kBasic | RunMode::kProjection | RunMode::kSimulation| RunMode::kEstimation | RunMode::kProfiling);
+  model_state_ = (State::Type)(State::kIterationComplete);
   parameters_.Bind<string>(PARAM_OBSERVATION, &observation_label_, "Observation label", "");
   parameters_.Bind<bool>(PARAM_PEARSONS_RESIDUALS, &pearson_resids_, "Print Pearsons Residuals", "", false);
   parameters_.Bind<bool>(PARAM_NORMALISED_RESIDUALS, &normalised_resids_, "Print Normalised Residuals", "", false);
@@ -68,6 +68,8 @@ void Observation::DoBuild() {
  */
 void Observation::DoExecute() {
   cache_ << "*" << label_ << " " << "("<< type_ << ")"<<"\n";
+  cache_ << "observation_type: " << observation_->type() << "\n";
+  cache_ << "likelihood: " << observation_->likelihood() << "\n";
   cache_ << "Comparisons " <<REPORT_R_DATAFRAME <<"\n";
   map<unsigned, vector<obs::Comparison>>& comparisons = observation_->comparisons();
   if(pearson_resids_ & !normalised_resids_) {
@@ -157,6 +159,8 @@ void Observation::DoExecuteTabular() {
   if (first_run_) {
     first_run_ = false;
     cache_ << "*" << label_ << " " << "(" << type_ << ")" << "\n";
+    cache_ << "observation_type: " << observation_->type() << "\n";
+    cache_ << "likelihood: " << observation_->likelihood() << "\n";
     cache_ << "values " << REPORT_R_DATAFRAME << "\n";
     string bin,year,label;
     /**

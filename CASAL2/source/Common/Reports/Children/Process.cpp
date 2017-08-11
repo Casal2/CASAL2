@@ -88,6 +88,7 @@ void Process::DoExecuteTabular() {
   if (first_run_) {
     first_run_ = false;
     cache_ << "*" << label_ << " " << "(" << type_ << ")" << "\n";
+    cache_ << "process_type: " << process_->type() << "\n";
     cache_ << "values " << REPORT_R_DATAFRAME << "\n";
     for (auto Reports : print_tabular_values)
       cache_ << Reports.first << " ";

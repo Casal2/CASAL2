@@ -17,8 +17,8 @@ namespace niwa {
 namespace reports {
 
 Selectivity::Selectivity(Model* model) : Report(model) {
-  run_mode_     = (RunMode::Type)(RunMode::kBasic | RunMode::kProjection);
-  model_state_  = State::kFinalise;
+  run_mode_    = (RunMode::Type)(RunMode::kBasic | RunMode::kProjection | RunMode::kSimulation| RunMode::kEstimation | RunMode::kProfiling);
+  model_state_ = (State::Type)(State::kIterationComplete);
 
   parameters_.Bind<string>(PARAM_SELECTIVITY, &selectivity_label_, "Selectivity name", "");
 }
@@ -61,7 +61,7 @@ void Selectivity::DoExecute() {
 }
 
 void Selectivity::DoExecuteTabular() {
-  if (selectivity_->IsSelectivityLengthBased()) {
+  if (!selectivity_->IsSelectivityLengthBased()) {
     if (first_run_) {
       first_run_ = false;
       cache_ << "*" << label_ << " " << "(" << type_ << ")" << "\n";

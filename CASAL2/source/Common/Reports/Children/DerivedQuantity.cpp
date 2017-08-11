@@ -82,7 +82,7 @@ void DerivedQuantity::DoExecuteTabular() {
       const map<unsigned, Double> values = dq->values();
       string derived_type = dq->type();
       for (auto iter = values.begin(); iter != values.end(); ++iter)
-        cache_ << derived_type << "[" << dq->label() <<"]_" << iter->first << " ";
+        cache_ << derived_type << "[" << dq->label() <<"][" << iter->first << "] ";
     }
     cache_ << "\n";
   }

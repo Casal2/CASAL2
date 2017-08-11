@@ -309,8 +309,36 @@ void MortalityInstantaneous::DoBuild() {
   }
 
   /**
-   * Find what time_steps we can skip.
+   * Find what time_steps Instant Mortality is applied in
    */
+  vector<unsigned> instant_mort_time_step;
+  unsigned i = 0;
+  for (auto time_step : model_->managers().time_step()->ordered_time_steps()) {
+    for (auto process : time_step->processes()) {
+      if (process->process_type() == ProcessType::kMortality && process->type() == PARAM_MORTALITY_INSTANTANEOUS) {
+        LOG_FINEST() << "instant_mortality process in time step " << i;
+        instant_mort_time_step.push_back(i);
+      }
+    }
+    ++i;
+  }
+
+  // Now out of these lets see if we can skip the exploitation code i.e no F just M
+  for (auto time_step : instant_mort_time_step) {
+    bool fishery_in_timestep = false;
+    for (auto& fishery_iter : fisheries_) {
+      LOG_FINEST() << "checking fishery " << fishery_iter.first << " in time step index = " << fishery_iter.second.time_step_index_;
+      if (fishery_iter.second.time_step_index_ == time_step) {
+        LOG_FINEST() << "fishery = " << fishery_iter.first << " is in time step " << time_step;
+        fishery_in_timestep = true;
+      }
+    }
+    if (!fishery_in_timestep) {
+      time_steps_to_skip_applying_F_mortaltiy_.push_back(time_step);
+      LOG_FINEST() << "time step " << time_step << " doesn't have a method associated so we will skip the exploitation calculation during DoExecute";
+    }
+  }
+
 }
 
 /**
@@ -359,7 +387,8 @@ void MortalityInstantaneous::DoExecute() {
    */
   map<string, map<unsigned, Double>> category_by_age_with_exploitation;
   unsigned category_offset = 0;
-  if (model_->state() != State::kInitialise) {
+  if (model_->state() != State::kInitialise || (find(time_steps_to_skip_applying_F_mortaltiy_.begin(),time_steps_to_skip_applying_F_mortaltiy_.end(), time_step_index) != time_steps_to_skip_applying_F_mortaltiy_.end())) {
+    LOG_FINEST() << "time step = " << time_step_index << " not in initialisation and there is an F method in this timestep.";
     map<string, Double> fishery_vulnerability;
     category_offset = 0;
     for (auto categories : partition_) {
@@ -510,8 +539,8 @@ void MortalityInstantaneous::DoExecute() {
     	auto fishery = fishery_iter.second;
       if (fisheries_[fishery.label_].time_step_index_ != time_step_index)
       	continue;
-      catch_label = "catch[" + fishery.label_ + "]." + year_string;
-    	U_label = "fishing_pressure[" + fishery.label_ + "]." + year_string;
+      catch_label = "catch[" + fishery.label_ + "][" + year_string + "]";
+    	U_label = "fishing_pressure[" + fishery.label_ + "][" + year_string + "]";
       StoreForTabularReport(catch_label, AS_DOUBLE(fisheries_[fishery.label_].catches_[model_->current_year()]));
       StoreForTabularReport(U_label, AS_DOUBLE(fishery_exploitation[fishery.label_]));
     }

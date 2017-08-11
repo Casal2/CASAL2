@@ -1,25 +1,28 @@
 #' @title plot.derived_quantities default
 #'
 #' @description
-#' A plotting function to plot SSB's for the 'casal2TAB' and 'casal2MPD' objects.
+#' A plotting function to plot Derived Quantities for the 'casal2TAB' and 'casal2MPD' objects.
 #'
-#' @author C. Marsh
+#' @author Craig Marsh
 #' @param model <casal2MPD, casal2TAB> object that are generated from one of the extract() functions.
 #' @param report_label <string>
 #' @param type <string> whether numbers or scaled by B0.
-#' @param ... remaining plotting functions.
+#' @param plot.it Whether to generate a default plot or return the values as a matrix.
+#' @param ... remaining plotting options
+#' @return A plot of derived quantities over time if plot.it = T, if plot.it = F it will return a matrix of derived quantities.
 #' @rdname plot.derived_quantities
 #' @export plot.derived_quantities
 #' @examples
 #' library(casal2)
 #' # plotting Standard Output
-#' data <- extract.mpd(file = system.file("extdata", "MPD.log", package="casal2"))
+#' data <- extract.mpd(file = system.file("extdata", "estimate.log", package="casal2"))
 #' names(data)
-#' plot.derived_quantity(model = data, report_label = "biomass")
+#' plot.derived_quantities(model = data, report_label = "biomass")
 #' # if you are unhappy with the default plotting you can use plot.it = FALSE and create a plot of your own.
-#' SSB = plot.pressure(model = data, report_label = "biomass", plot.it = FALSE)
+#' SSB = plot.derived_quantities(model = data, report_label = "biomass", plot.it = FALSE)
+#' plot(rownames(SSB),SSB, main = "My SSB", type = "l", ylim = c(0,90000))
 #' # plotting Tabular Output
-#' tab <- extract.tabular(file = system.file("extdata", "single_file.out", package="casal2"))
+#' tab <- extract.tabular(file = system.file("extdata", "tabular_report.out", package="casal2"))
 #' names(tab)
 #' plot.derived_quantities(model = tab, report_label = "derived_quant")
 
@@ -203,15 +206,14 @@ function(model, report_label="", type = "number", xlim, ylim, xlab, ylab, main, 
     start_index = as.numeric(regexpr(pattern = "\\[",text =Labs)) + 1
     stop_index = as.numeric(regexpr(pattern = "\\]",text = Labs)) - 1
     DQ_s = unique(substring(Labs, start_index,last = stop_index))
-    
     ## create a multi-plot panel
     par(mfrow = c(1,length(DQ_s)))
     for (i in 1:length(DQ_s)) {
       ## pull out label and years
       ndx = grepl(pattern = DQ_s[i], x = Labs)
       this_ssb = this_report$values[,ndx]
-      start_nd = as.numeric(regexpr(pattern = "_",text = colnames(this_ssb))) + 1
-      years = as.numeric(substring(colnames(this_ssb),first = start_nd))
+      start_nd = as.numeric(regexpr(pattern = "\\]",text = colnames(this_ssb))) + 2
+      years = as.numeric(substring(colnames(this_ssb),first = start_nd, last = nchar(colnames(this_ssb)) - 1))
       vals = apply(this_ssb, 2, quantile, c(0.025,0.5,0.975))
       ## pull out type of derived Quantity i.e abundance or biomass.
       end_index = as.numeric(regexpr(pattern = "\\[",text = colnames(this_ssb))) - 1
@@ -221,7 +223,7 @@ function(model, report_label="", type = "number", xlim, ylim, xlab, ylab, main, 
       zero_cols = apply(zero_nd,2,all)
       vals = vals[,!zero_cols]
       years = years[!zero_cols]
-      plot(years,vals["50%",],ylim = c(0, max(vals)), xlab = DQ_type, ylab = "years", type = "l", main = "DQ_s")
+      plot(years,vals["50%",],ylim = c(0, max(vals)), ylab = DQ_type, xlab = "years", type = "l", main = DQ_s[i])
       polygon(x = c(years, rev(years)), y = c(vals["2.5%",], rev(vals["97.5%",])), col = "gray60")
       lines(years,vals["50%",], col = "red", lwd = 2)
     }

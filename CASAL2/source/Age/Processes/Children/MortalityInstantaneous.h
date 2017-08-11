@@ -98,6 +98,7 @@ private:
   map<unsigned,  map<string, map<string, vector<Double>>>> removals_by_year_fishery_category_; // Year,  fishery, category
   // Members for reporting
   unsigned 										reporting_year_ = 0;
+  vector<unsigned>            time_steps_to_skip_applying_F_mortaltiy_;
 };
 
 } /* namespace processes */
