@@ -108,7 +108,7 @@ void AgeLength::BuildCV() {
         //If cv_last_ is not defined in the input then assume cv_first_ represents the cv for all age classes i.e constant cv
         for (unsigned age_iter = min_age; age_iter <= max_age; ++age_iter) {
           cvs_[year_iter][age_iter][step_iter] = (cv_first_);
-          LOG_FINE() << "cv for age = " << age_iter << " in time_step " << step_iter << " in year " << year_iter << " = " << cvs_[year_iter][age_iter][step_iter];
+          //LOG_FINE() << "cv for age = " << age_iter << " in time_step " << step_iter << " in year " << year_iter << " = " << cvs_[year_iter][age_iter][step_iter];
         }
       } else if (by_length_) {  // if passed the first test we have a min and max CV. So ask if this is linear interpolated by length at age
         for (unsigned age_iter = min_age; age_iter <= max_age; ++age_iter)

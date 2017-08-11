@@ -50,6 +50,8 @@ Observation::Observation(Model* model) : model_(model) {
 void Observation::Validate() {
   LOG_TRACE();
   parameters_.Populate();
+  LOG_FINEST() << "validating obs " << label_ << " of type = " << type_;
+
   category_labels_ = model_->categories()->ExpandLabels(category_labels_, parameters_.Get(PARAM_CATEGORIES));
   if (model_->run_mode() == RunMode::kSimulation) {
     if (likelihood_type_ == PARAM_PSEUDO) {

@@ -22,29 +22,34 @@ plot.derived_quantities(model, report_label = "", type = "number", xlim,
 
 \item{type}{<string> whether numbers or scaled by B0.}
 
-\item{...}{remaining plotting functions.}
+\item{plot.it}{Whether to generate a default plot or return the values as a matrix.}
+
+\item{...}{remaining plotting options}
 }
 \value{
+A plot of derived quantities over time if plot.it = T, if plot.it = F it will return a matrix of derived quantities.
+
 \code{NULL}
 
 \code{NULL}
 }
 \description{
-A plotting function to plot SSB's for the 'casal2TAB' and 'casal2MPD' objects.
+A plotting function to plot Derived Quantities for the 'casal2TAB' and 'casal2MPD' objects.
 }
 \examples{
 library(casal2)
 # plotting Standard Output
-data <- extract.mpd(file = system.file("extdata", "MPD.log", package="casal2"))
+data <- extract.mpd(file = system.file("extdata", "estimate.log", package="casal2"))
 names(data)
-plot.derived_quantity(model = data, report_label = "biomass")
+plot.derived_quantities(model = data, report_label = "biomass")
 # if you are unhappy with the default plotting you can use plot.it = FALSE and create a plot of your own.
-SSB = plot.pressure(model = data, report_label = "biomass", plot.it = FALSE)
+SSB = plot.derived_quantities(model = data, report_label = "biomass", plot.it = FALSE)
+plot(rownames(SSB),SSB, main = "My SSB", type = "l", ylim = c(0,90000))
 # plotting Tabular Output
-tab <- extract.tabular(file = system.file("extdata", "single_file.out", package="casal2"))
+tab <- extract.tabular(file = system.file("extdata", "tabular_report.out", package="casal2"))
 names(tab)
 plot.derived_quantities(model = tab, report_label = "derived_quant")
 }
 \author{
-C. Marsh
+Craig Marsh
 }

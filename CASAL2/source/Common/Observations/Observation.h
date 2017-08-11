@@ -67,7 +67,6 @@ protected:
 
   // members
   Model*                      model_ = nullptr;
-  string                      type_ = "";
   map<unsigned, Double>       scores_;
   Double                      proportion_of_time_ = 0;
   bool                        mean_proportion_method_ = false;

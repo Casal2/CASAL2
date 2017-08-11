@@ -3,7 +3,8 @@
 \name{plot.ycs}
 \alias{plot.ycs}
 \alias{plot.ycs.casal2MPD}
-\title{plot.ycs plot Year Class Strengths from a Casal2 model.}
+\alias{plot.ycs.casal2TAB}
+\title{plot.ycs plot true Year Class Strengths from a Casal2 model.}
 \usage{
 plot.ycs(model, report_label = "", xlim, ylim, xlab, ylab, main, col,
   plot.it = T, ...)
@@ -11,20 +12,38 @@ plot.ycs(model, report_label = "", xlim, ylim, xlab, ylab, main, col,
 \method{plot.ycs}{casal2MPD}(model, report_label = "", xlim = NULL,
   ylim = NULL, xlab = NULL, ylab = NULL, main = NULL, col = NULL,
   plot.it = T, ...)
+
+\method{plot.ycs}{casal2TAB}(model, report_label = "", xlim, ylim, xlab, ylab,
+  main, col, plot.it = T, ...)
 }
 \arguments{
 \item{model}{<casal2MPD, casal2TAB> object that are generated from one of the extract.mpd() and extract.tabular() functions.}
 
 \item{report_label}{<string>}
 
-\item{...}{remaining plotting functions.}
+\item{plot.it}{Whether to generate a default plot or return the values as a matrix.}
+
+\item{...}{remaining plotting options}
 }
 \value{
+generate a plot over time if plot.it = T, if plot.it = F it will return a matrix of values.
+
+\code{NULL}
+
 \code{NULL}
 }
 \description{
 A plotting function to plot YCS for the 'casal2TAB' and 'casal2MPD' objects.
 }
+\examples{
+library(casal2)
+# plotting Standard Output
+data <- extract.mpd(file = system.file("extdata", "estimate.log", package="casal2"))
+names(data)
+plot.ycs(model = data, report_label = "Rec")
+# if you are unhappy with the default plotting you can use plot.it = FALSE and create a plot of your own.
+true_YCS = plot.ycs(model = data, report_label = "Rec", plot.it = FALSE)
+}
 \author{
-C. Marsh
+Craig Marsh
 }

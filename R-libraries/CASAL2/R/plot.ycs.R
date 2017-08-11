@@ -1,15 +1,25 @@
-#' @title plot.ycs plot Year Class Strengths from a Casal2 model.
+#' @title plot.ycs plot true Year Class Strengths from a Casal2 model.
 #'
 #' @description
 #' A plotting function to plot YCS for the 'casal2TAB' and 'casal2MPD' objects.
 #'
-#' @author C. Marsh
+#' @author Craig Marsh
 #' @param model <casal2MPD, casal2TAB> object that are generated from one of the extract.mpd() and extract.tabular() functions.
 #' @param report_label <string>
-#' @param ... remaining plotting functions.
+#' @param plot.it Whether to generate a default plot or return the values as a matrix.
+#' @param ... remaining plotting options
+#' @return generate a plot over time if plot.it = T, if plot.it = F it will return a matrix of values.
 #' @rdname plot.ycs
 #' @export plot.ycs
-#'
+#' @examples
+#' library(casal2)
+#' # plotting Standard Output
+#' data <- extract.mpd(file = system.file("extdata", "estimate.log", package="casal2"))
+#' names(data)
+#' plot.ycs(model = data, report_label = "Rec")
+#' # if you are unhappy with the default plotting you can use plot.it = FALSE and create a plot of your own.
+#' true_YCS = plot.ycs(model = data, report_label = "Rec", plot.it = FALSE)
+
 
 "plot.ycs"<-
 function(model, report_label="", xlim, ylim, xlab, ylab, main, col,plot.it = T, ...){
@@ -35,7 +45,7 @@ function(model, report_label="", xlim, ylim, xlab, ylab, main, col,plot.it = T, 
   if (this_report$'1'$type != "process") {
     stop(Paste("The report label ", report_label, " in model is not a process plz Check you have specified the correct report_label."))     
   }
-  if (this_report$'1'$process_type != "recruitment_beverton_holt") {
+  if (this_report$'1'$process_type != "recruitment_beverton_holt" || is.null(this_report$process_type)) {
     stop(Paste("The process type in report ", report_label, " is not a recruitment_beverton_holt plz Check you have specified the correct report_label."))     
   }  
   if (length(this_report) > 1) {
@@ -75,4 +85,43 @@ function(model, report_label="", xlim, ylim, xlab, ylab, main, col,plot.it = T, 
   if (plot.it == FALSE)
     return(temp_DF)
   invisible();
+}
+
+## method for class casal2TAB
+#' @return \code{NULL}
+#'
+#' @rdname plot.ycs
+#' @method plot.ycs casal2TAB
+#' @export
+"plot.ycs.casal2TAB" = function(model, report_label="", xlim, ylim, xlab, ylab, main, col,plot.it = T, ...) {
+  ## check report label exists
+  if (!report_label %in% names(model))
+    stop(Paste("In model the report label '", report_label, "' could not be found. The report labels available are ", paste(names(model),collapse = ", ")))
+  ## get the report out
+  this_report = get(report_label, model)
+  ## check that the report label is of type derived_quantity
+  if (this_report$type != "process") {
+    stop(Paste("The report label ", report_label, " in model is not a derived quantity plz Check you have specified the correct report_label."))     
+  }
+  if (this_report$process_type != "recruitment_beverton_holt" || is.null(this_report$process_type)) {
+    stop(Paste("The process type in report ", report_label, " is not a recruitment_beverton_holt plz Check you have specified the correct report_label."))     
+  }  
+    
+  if (plot.it) {
+    Labs = colnames(this_report$values);
+    true_ycs = this_report$values[,grepl(pattern = "true_ycs", x = Labs)]
+    start_index = as.numeric(regexpr(pattern = "\\[",text = colnames(true_ycs))) + 1
+    stop_index = as.numeric(regexpr(pattern = "\\]",text = colnames(true_ycs))) - 1
+    years = as.numeric(substring(colnames(true_ycs), start_index,last = stop_index))
+    
+    vals = apply(true_ycs,2,quantile,c(0.025,0.5,0.975))
+    ## create a multi-plot panel
+    plot(years,vals["50%",],ylim = c(0, max(vals)), xlab = "years", ylab = "True YCS", type = "l", main = "DQ_s")
+    polygon(x = c(years, rev(years)), y = c(vals["2.5%",], rev(vals["97.5%",])), col = "gray60")
+    lines(years,vals["50%",], col = "red", lwd = 2)
+    abline(h = 1.0, lty = 2)
+  } else {
+    return(this_report$values)
+  }
+  invisible();  
 }
