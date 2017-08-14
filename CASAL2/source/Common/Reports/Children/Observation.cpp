@@ -239,13 +239,13 @@ void Observation::DoExecuteTabular() {
         if (!utilities::To<unsigned, string>(iter->first, year))
           LOG_CODE_ERROR() << "Could not convert the value " << iter->first << " to a string for storage in the tabular report";
         for (obs::Comparison comparison : iter->second) {
-        	if((comparison.length_ == 0) & (comparison.age_ == 0)) {
+        	if((comparison.length_ == 0) && (comparison.age_ == 0)) {
         		// Biomass/abundance
-        	} else if ((comparison.length_ == 0) & (comparison.age_ != 0)) {
+        	} else if ((comparison.length_ == 0) && (comparison.age_ != 0)) {
         		// age based observation
             if (!utilities::To<Double, string>(comparison.age_, bin))
               LOG_CODE_ERROR() << "Could not convert the value " << comparison.age_ << " to a string for storage in the tabular report";
-        	} else if ((comparison.length_ != 0) & (comparison.age_ == 0)) {
+        	} else if ((comparison.length_ != 0) && (comparison.age_ == 0)) {
         		// length based observation
             if (!utilities::To<Double, string>(comparison.length_, bin))
               LOG_CODE_ERROR() << "Could not convert the value " << comparison.length_ << " to a string for storage in the tabular report";
@@ -263,20 +263,20 @@ void Observation::DoExecuteTabular() {
         if (!utilities::To<unsigned, string>(iter->first, year))
           LOG_CODE_ERROR() << "Could not convert the value " << iter->first << " to a string for storage in the tabular report";
         for (obs::Comparison comparison : iter->second) {
-        	if((comparison.length_ == 0) & (comparison.age_ == 0)) {
+        	if((comparison.length_ == 0) && (comparison.age_ == 0)) {
         		// Biomass/abundance
-        	} else if ((comparison.length_ == 0) & (comparison.age_ != 0)) {
+        	} else if ((comparison.length_ == 0) && (comparison.age_ != 0)) {
         		// age based observation
             if (!utilities::To<Double, string>(comparison.age_, bin))
               LOG_CODE_ERROR() << "Could not convert the value " << comparison.age_ << " to a string for storage in the tabular report";
-        	} else if ((comparison.length_ != 0) & (comparison.age_ == 0)) {
+        	} else if ((comparison.length_ != 0) && (comparison.age_ == 0)) {
         		// length based observation
             if (!utilities::To<Double, string>(comparison.length_, bin))
               LOG_CODE_ERROR() << "Could not convert the value " << comparison.length_ << " to a string for storage in the tabular report";
         	} else {
         		LOG_ERROR() << "Haven't coded a tabular report for an observation that has a structured comparison as in observation " << observation_label_;
         	}
-        	label_ = observation_label_ + ".normalised_resids" + "[" + year + "][" + bin + "]";
+        	label = observation_label_ + ".normalised_resids" + "[" + year + "][" + bin + "]";
         	cache_ << label << " ";
         }
       }
@@ -339,7 +339,7 @@ void Observation::DoExecuteTabular() {
         } else if (observation_->likelihood() == PARAM_NORMAL) {
           resid =  (comparison.observed_ - comparison.expected_) / (comparison.expected_ * comparison.adjusted_error_);
         } else {
-          LOG_CODE_ERROR() << "Unknown coded likelihood type should be dealt with in DoBuild(), if the pearsons residual is unknown for this likelihood set, pearsons_residual false";
+          LOG_CODE_ERROR() << "Unknown coded likelihood type should be dealt with in DoBuild(), if the normalised residual is unknown for this likelihood set, normalised_residual false";
         }
       	cache_ << resid << " ";
       }
