@@ -19,6 +19,7 @@ class Rlibrary:
     binary_name = 'casal2'
     if Globals.operating_system_ == 'windows':
       binary_name += '.exe'
+   
     ## Check Casal2 is in your path. The R script needs it to get versions and that sort of information. Betadiff should be in the system because it is required for
     ## modelrunner class
     if not os.path.exists('bin/' + Globals.operating_system_ + '/release_betadiff/' + binary_name):
