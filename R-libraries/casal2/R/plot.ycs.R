@@ -45,7 +45,7 @@ function(model, report_label="", xlim, ylim, xlab, ylab, main, col,plot.it = T, 
   if (this_report$'1'$type != "process") {
     stop(Paste("The report label ", report_label, " in model is not a process plz Check you have specified the correct report_label."))     
   }
-  if (this_report$'1'$process_type != "recruitment_beverton_holt" || is.null(this_report$process_type)) {
+  if (this_report$'1'$process_type != "recruitment_beverton_holt" || is.null(this_report$'1'$process_type)) {
     stop(Paste("The process type in report ", report_label, " is not a recruitment_beverton_holt plz Check you have specified the correct report_label."))     
   }  
   if (length(this_report) > 1) {

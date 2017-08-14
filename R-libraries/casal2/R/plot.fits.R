@@ -17,6 +17,7 @@
 #' # plotting Standard Output
 #' data <- extract.mpd(file = system.file("extdata", "estimate.log", package="casal2"))
 #' names(data)
+#' par(mfrow = c(1,2))
 #' plot.fits(model = data, report_label = "Tangaroa_propn_at_age_Aug")
 #' plot.fits(model = data, report_label = "wcsiTRLcpue")
 #' # if you are unhappy with the default plotting you can use plot.it = FALSE and create a plot of your own.
@@ -25,6 +26,7 @@
 #' tab <- extract.tabular(file = system.file("extdata", "tabular_report.out", package="casal2"))
 #' names(tab)
 #' plot.fits(model = tab, report_label = "Tangaroa_propn_at_age_Aug")
+#' par(mfrow = c(1,1))
 #' plot.fits(model = tab, report_label = "wcsiTRLcpue")
 
 
@@ -83,7 +85,7 @@ function(model, report_label="", plot.it = T, xlim, ylim, xlab, ylab, main, col,
           if (missing(ylim)) 
             ylim <- c(min(L_CI), max(U_CI))
           if (missing(xlim)) 
-            xlim <- range(years)    
+            xlim <- range(t_comp$year)    
           if (missing(xlab))
             xlab = "Year"
           if (missing(ylab)) 
@@ -100,7 +102,7 @@ function(model, report_label="", plot.it = T, xlim, ylim, xlab, ylab, main, col,
           if (missing(ylim)) 
             ylim <- c(min(L_CI), max(U_CI))
           if (missing(xlim)) 
-            xlim <- range(years)
+            xlim <- range(t_comp$year)
           if (missing(xlab))
             xlab = "Year"
           if (missing(ylab)) 
@@ -179,9 +181,51 @@ function(model, report_label="", plot.it = T, xlim, ylim, xlab, ylab, main, col,
   }  
   
   if (plot.it) {
-    if (this_report$likelihood == "lognormal") {   
-      
+    if (this_report$likelihood == "lognormal") {
+      norm_ndx = grepl(pattern = "normalised_resids", x = names(this_report$values))
+      if(!any(norm_ndx)) {
+        stop("Could not find normalised_resids in your tabular report. make sure in your report.csl2 under your @report for this observation: pearsons_residuals true")
+      }
+      this_normal = this_report$values[,norm_ndx]
+      start_index = as.numeric(regexpr(pattern = "\\[",text = names(this_normal))) + 1
+      stop_index = as.numeric(regexpr(pattern = "\\]",text = names(this_normal))) - 1
+      years = unique(as.numeric(substring(names(this_normal), start_index,last = stop_index)))
+      end_nd = as.numeric(regexpr(pattern = "\\.",text = names(this_normal))) - 1
+      obs = unique(substring(colnames(this_normal),first = 0, last = end_nd))
+      ## generate a boxplot of pearsons residuals by year
+      boxplot(this_normal,ylim = c(-3,3),xlab = "Year", ylab = "Normalised residuals", main = obs,names = years)
+      abline(h = c(2,-2), col = "red")  
+      abline(h = 0, lty = 0)        
     } else if (this_report$likelihood == "normal"){
+      norm_ndx = grepl(pattern = "normalised_resids", x = names(this_report$values))
+      pears_ndx = grepl(pattern = "normalised_resids", x = names(this_report$values))
+      
+      if(!any(norm_ndx) & !any(pears_ndx)) {
+        stop("Could not find normalised_resids or pearson_residuals in your tabular report. make sure in your report.csl2 under your @report for this observation: pearsons_residuals true or normalised_residuals true")
+      }
+      if (any(norm_ndx)) {
+        this_normal = this_report$values[,norm_ndx]
+        start_index = as.numeric(regexpr(pattern = "\\[",text = names(this_normal))) + 1
+        stop_index = as.numeric(regexpr(pattern = "\\]",text = names(this_normal))) - 1
+        years = unique(as.numeric(substring(names(this_normal), start_index,last = stop_index)))
+        end_nd = as.numeric(regexpr(pattern = "\\.",text = names(this_normal))) - 1
+        obs = unique(substring(colnames(this_normal),first = 0, last = end_nd))
+        ## generate a boxplot of pearsons residuals by year
+        boxplot(this_normal,ylim = c(-3,3),xlab = "Year", ylab = "Normalised residuals", main = "",names = years)
+        abline(h = c(2,-2), col = "red")  
+        abline(h = 0, lty = 0)        
+      } else if (any(pears_ndx)) {
+        this_normal = this_report$values[,pears_ndx]
+        start_index = as.numeric(regexpr(pattern = "\\[",text = names(this_normal))) + 1
+        stop_index = as.numeric(regexpr(pattern = "\\]",text = names(this_normal))) - 1
+        years = unique(as.numeric(substring(names(this_normal), start_index,last = stop_index)))
+        end_nd = as.numeric(regexpr(pattern = "\\.",text = names(this_normal))) - 1
+        obs = unique(substring(colnames(this_normal),first = 0, last = end_nd))
+        ## generate a boxplot of pearsons residuals by year
+        boxplot(this_normal,ylim = c(-3,3),xlab = "Year", ylab = "Pearsons residuals", main = obs,names = years)
+        abline(h = c(2,-2), col = "red")  
+        abline(h = 0, lty = 0)        
+      }
     
     } else if (this_report$likelihood == "multinomial"){
       pear_ndx = grepl(pattern = "pearson_resids", x = names(this_report$values))
@@ -208,7 +252,7 @@ function(model, report_label="", plot.it = T, xlim, ylim, xlab, ylab, main, col,
         stop(Paste("there are ", n_years, " years of compositional data you should just have plot.it = FALSE and use another axuillary function to plot them, it will most likely look prettier than what I can be bothered coding"))
       for (y in 1:n_years) {
         this_year = this_pearson[,grepl(pattern = Paste("pearson_resids\\[",years[y]), x = names(this_pearson))]
-        boxplot(this_year,ylim = c(3,-3),xlab = "bins", ylab = "Pearsons residuals", main = years[y] ,names = bins)
+        boxplot(this_year,ylim = c(-3,3),xlab = "bins", ylab = "Pearsons residuals", main = years[y] ,names = bins)
         abline(h = c(2,-2), col = "red")
         abline(h = 0, lty = 0) 
       }    
