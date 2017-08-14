@@ -80,13 +80,11 @@ def start_build_system():
     Globals.gfortran_path_ = system_info.find_exe_path('gfortran.exe')
     Globals.latex_path_    = system_info.find_exe_path('bibtex.exe')
     Globals.git_path_      = system_info.find_exe_path('git.exe')
-    Globals.r_path_        = system_info.find_exe_path('R.exe')
   else:
     Globals.compiler_path_ = system_info.find_exe_path('g++')
     Globals.gfortran_path_ = system_info.find_exe_path('gfortran')
     Globals.latex_path_    = system_info.find_exe_path('bibtex')
     Globals.git_path_      = system_info.find_exe_path('git')    
-    Globals.r_path_        = system_info.find_exe_path('R')
     if system_info.find_exe_path('unzip') == '':
       return Globals.PrintError('unzip is not in the current path. Please ensure it has been installed')
     if system_info.find_exe_path('cmake') == '':
@@ -100,10 +98,7 @@ def start_build_system():
   if Globals.git_path_ == "":
     return Globals.PrintError("git is not in the current path. Please install a git command line client (e.g http://git-scm.com/downloads)")  
   if Globals.operating_system_ == 'windows' and os.path.exists(Globals.git_path_ + '\\sh.exe'):
-  	return Globals.PrintError("git version has sh.exe in the same location. This will conflict with cmake. Please upgrade to a 64bit version of Git")
-  if Globals.r_path_ == "":
-  	return Globals.PrintError("R is not in the current path please add R to your path.")
-    
+  	return Globals.PrintError("git version has sh.exe in the same location. This will conflict with cmake. Please upgrade to a 64bit version of Git")    
   if not system_info.find_gcc_version():
     return False
 
@@ -237,7 +232,16 @@ def start():
   elif build_target == "rlibrary":
     print "*************************************************************************"
     print "*************************************************************************"
-    print "--> Starting " + Globals.build_target_ + " Build"    
+    print "--> Starting " + Globals.build_target_ + " Build"   
+    r_path = '' 
+    if Globals.operating_system_ == 'windows':
+      print "find windows R"
+      r_path = system_info.find_exe_path('R.exe') 
+    else:
+      r_path = system_info.find_exe_path('R')  
+    print "R path = " + r_path  
+    if r_path == '':
+      return Globals.PrintError("R is not in the current path please add R to your path.")  
     rlibrary = Rlibrary()
     if not rlibrary.start():
       return False
@@ -246,7 +250,7 @@ def start():
     print "*************************************************************************"
     print "--> Building CASAL2 Installer"
     if Globals.operating_system_ == 'linux':
-      return Globals.PrintError('Building Windows installer under Lindows is not supported')
+      return Globals.PrintError('Building Windows installer under linux is not supported')
     installer = Installer()
     installer.start()
   elif build_target == "deb":
