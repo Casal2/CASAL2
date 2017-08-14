@@ -41,6 +41,7 @@ library(casal2)
 # plotting Standard Output
 data <- extract.mpd(file = system.file("extdata", "estimate.log", package="casal2"))
 names(data)
+par(mfrow = c(1,2))
 plot.fits(model = data, report_label = "Tangaroa_propn_at_age_Aug")
 plot.fits(model = data, report_label = "wcsiTRLcpue")
 # if you are unhappy with the default plotting you can use plot.it = FALSE and create a plot of your own.
@@ -49,6 +50,7 @@ Tangaroa_fits = plot.fits(model = data, report_label = "Tangaroa_propn_at_age_Au
 tab <- extract.tabular(file = system.file("extdata", "tabular_report.out", package="casal2"))
 names(tab)
 plot.fits(model = tab, report_label = "Tangaroa_propn_at_age_Aug")
+par(mfrow = c(1,1))
 plot.fits(model = tab, report_label = "wcsiTRLcpue")
 }
 \author{
