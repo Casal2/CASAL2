@@ -99,6 +99,7 @@ private:
   // Members for reporting
   unsigned 										reporting_year_ = 0;
   vector<unsigned>            time_steps_to_skip_applying_F_mortaltiy_;
+  map<string, map<unsigned, Double>> category_by_age_with_exploitation;
 };
 
 } /* namespace processes */
