@@ -1,6 +1,7 @@
-#' Utility extract function
+#' Utility function for observation related functionality
 #'
 #' @author Craig marsh
+#' @keywords internal
 #'
 "transform.comparisons" = function(Data) {
   years = unique(Data[,"year"])

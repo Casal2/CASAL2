@@ -1,6 +1,7 @@
 #' Utility extract function
 #'
 #' @author Dan Fu
+#' @keywords internal
 #'
 "string.to.vector.of.numbers" <-
 function(string)

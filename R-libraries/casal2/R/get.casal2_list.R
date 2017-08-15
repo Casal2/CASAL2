@@ -1,6 +1,7 @@
 #' Utility function
 #'
 #' @author Craig Marsh
+#' @keywords internal
 #'
 "get.casal2_list" <-
     function() {

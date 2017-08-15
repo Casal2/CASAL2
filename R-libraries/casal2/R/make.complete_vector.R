@@ -1,6 +1,7 @@
 #' Utility extract function
 #'
 #' @author Dan Fu
+#' @keywords internal
 #'
 make.complete_vector <- function(lines)
 {

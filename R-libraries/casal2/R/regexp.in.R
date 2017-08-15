@@ -1,6 +1,7 @@
 #' Utility extract function
 #'
 #' @author Dan Fu
+#' @keywords internal
 #'
 "regexp.in" <-
 function(vector, regexp)

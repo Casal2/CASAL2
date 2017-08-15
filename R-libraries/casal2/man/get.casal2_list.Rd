@@ -12,3 +12,4 @@ Utility function
 \author{
 Craig Marsh
 }
+\keyword{internal}

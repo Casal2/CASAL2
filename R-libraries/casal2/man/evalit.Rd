@@ -12,3 +12,4 @@ Utility plot function
 \author{
 Craig Marsh
 }
+\keyword{internal}

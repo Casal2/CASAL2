@@ -3,6 +3,7 @@
 #' @author Dan Fu
 #' @description 
 #' create a matrix, does not expect header values.
+#' @keywords internal
 #'
 "make.matrix" <-
 function(lines)

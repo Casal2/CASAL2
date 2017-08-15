@@ -1,3 +1,8 @@
+#' Utility extract function
+#'
+#' @author Dan Fu
+#' @keywords internal
+#'
 make.filename <- function(file,path="")
 {
   if(path != "") {

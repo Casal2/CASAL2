@@ -1,6 +1,7 @@
 #' Utility extract function
 #'
 #' @author Dan Fu
+#' @keywords internal
 #'
 "remove.first.words" <-
 function(string, words = 1)
