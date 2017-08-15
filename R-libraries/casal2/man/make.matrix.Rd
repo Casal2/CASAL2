@@ -12,3 +12,4 @@ create a matrix, does not expect header values.
 \author{
 Dan Fu
 }
+\keyword{internal}

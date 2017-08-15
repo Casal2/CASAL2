@@ -1,3 +1,8 @@
+#' Utility extract function
+#'
+#' @author Dan Fu
+#' @keywords internal
+#'
 remove.last.words <- function(string, words = 1)
 {
   temp <- unpaste(string, sep = " ")

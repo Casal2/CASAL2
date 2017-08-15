@@ -12,3 +12,4 @@ used in the summarise function for casal2MPD
 \author{
 Craig Marsh
 }
+\keyword{internal}

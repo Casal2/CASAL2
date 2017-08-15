@@ -2,13 +2,14 @@
 % Please edit documentation in R/transform.comparisons.R
 \name{transform.comparisons}
 \alias{transform.comparisons}
-\title{Utility extract function}
+\title{Utility function for observation related functionality}
 \usage{
 \method{transform}{comparisons}(Data)
 }
 \description{
-Utility extract function
+Utility function for observation related functionality
 }
 \author{
 Craig marsh
 }
+\keyword{internal}

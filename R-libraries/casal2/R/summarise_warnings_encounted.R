@@ -3,6 +3,7 @@
 #' @author Craig Marsh
 #' @description 
 #' used in the summarise function for casal2MPD
+#' @keywords internal
 #'
 
 summarise_warnings_encounted = function(report_object) {

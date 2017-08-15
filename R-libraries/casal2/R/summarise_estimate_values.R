@@ -3,6 +3,7 @@
 #' @author Craig Marsh
 #' @description 
 #' used in the summarise function for casal2MPD
+#' @keywords internal
 #'
 
 summarise_process = function(report_object) {
