@@ -404,6 +404,7 @@ void MortalityInstantaneous::DoExecute() {
   unsigned time_step_index = model_->managers().time_step()->current_time_step();
   unsigned year =  model_->current_year();
   Double ratio = time_step_ratios_[time_step_index];
+  Double selectivity_value = 0.0;
 
   for (auto& category : categories_) {
     // Is this category used?
@@ -413,12 +414,13 @@ void MortalityInstantaneous::DoExecute() {
         used = true;
 
       category.used_in_current_timestep_ = used;
-      if (used)
-        for (unsigned i = 0; i < category.category_->age_spread(); ++i) {
-          category.exploitation_[i] = 0.0;
-          category.exp_values_[i] = exp(-0.5 * ratio * (*category.m_) * category.selectivity_->GetResult(category.category_->min_age_ + i, category.category_->age_length_));
-          category.selectivity_values_[i] = category.selectivity_->GetResult(category.category_->min_age_ + i, category.category_->age_length_);
-        }
+      for (unsigned i = 0; i < category.category_->age_spread(); ++i) {
+        selectivity_value = category.selectivity_->GetResult(category.category_->min_age_ + i, category.category_->age_length_);
+        category.exploitation_[i] = 0.0;
+        category.selectivity_values_[i] = selectivity_value;
+        if (used)
+          category.exp_values_[i] = exp(-0.5 * ratio * (*category.m_) * selectivity_value);
+      }
     }
   }
 
@@ -438,13 +440,11 @@ void MortalityInstantaneous::DoExecute() {
    * category in to the fisheries it belongs too
    */
   if (model_->state() != State::kInitialise || (find(time_steps_to_skip_applying_F_mortaltiy_.begin(),time_steps_to_skip_applying_F_mortaltiy_.end(), time_step_index) != time_steps_to_skip_applying_F_mortaltiy_.end())) {
-//    LOG_FINEST() << "time step = " << time_step_index << " not in initialisation and there is an F method in this timestep.";
-//    	LOG_FINEST() << "applying mortality to category " << categories->name_;
+    LOG_FINEST() << "time step = " << time_step_index << " not in initialisation and there is an F method in this timestep.";
       for (auto& fishery_category : fishery_categories_) {
-//        LOG_FINEST() << "checking fishery = " << fishery_category.fishery_label_;
+        LOG_FINEST() << "checking fishery = " << fishery_category.fishery_label_;
         if (fishery_category.fishery_.time_step_index_ != time_step_index)
           continue;
-//        LOG_FINEST() << "Category is fished in this time_step " << time_step_index << " numbers at age = " << categories->data_.size();
 
         partition::Category* category = fishery_category.category_.category_;
         for (unsigned i = 0; i < category->data_.size(); ++i) {
@@ -455,7 +455,8 @@ void MortalityInstantaneous::DoExecute() {
 
           fishery_category.fishery_.vulnerability_ += vulnerable;
         }
-//        LOG_FINEST() << "Vulnerable biomass from category " << categories->name_ << " contributing to fishery " << fishery_category.fishery_label_ << " = " << fishery_category.fishery_.vulnerability_;
+        LOG_FINEST() << "Category is fished in this time_step " << time_step_index << " numbers at age = " << category->data_.size();
+        LOG_FINEST() << "Vulnerable biomass from category " << category->name_ << " contributing to fishery " << fishery_category.fishery_label_ << " = " << fishery_category.fishery_.vulnerability_;
       }
 
     /**
@@ -489,8 +490,11 @@ void MortalityInstantaneous::DoExecute() {
      */
     bool recalculate_age_exploitation = false;
     for (auto& fishery_category : fishery_categories_) {
-      auto& uobs = fishery_category.fishery_.uobs_fishery_;
       auto& fishery = fishery_category.fishery_;
+      if (fishery.time_step_index_ != time_step_index)
+        continue;
+
+      auto& uobs = fishery_category.fishery_.uobs_fishery_;
       uobs = 0.0;
       for (Double age_exploitation : fishery_category.category_.exploitation_) {
         if (fishery_category.fishery_.time_step_index_ != time_step_index)
@@ -556,41 +560,41 @@ void MortalityInstantaneous::DoExecute() {
 //      category_offset++;
 //    }
 
-//    // Report catches and exploitation rates for fisheries for each year and timestep
-//    if(reporting_year_ != model_->current_year()) {
-//    	StoreForReport("year: ", utilities::ToInline<unsigned,string>(model_->current_year()));
-//    	reporting_year_ = model_->current_year();
-//    }
-//
-//    for (auto& fishery_iter : fisheries_) {
-//      auto& fishery = fishery_iter.second;
-//      if (fisheries_[fishery.label_].time_step_index_ != time_step_index)
-//      	continue;
-////			StoreForReport("fishing_pressure[" + fishery.label_ + "]: ", AS_DOUBLE(fishery_exploitation[fishery.label_]));
-////			StoreForReport("fishing_pressure[" + fishery.label_ + "]: ", AS_DOUBLE(fishery.exploitation_));
-////			StoreForReport("catch[" + fishery.label_ + "]: ",AS_DOUBLE(fisheries_[fishery.label_].catches_[model_->current_year()]));
-////			StoreForReport("actual_catch[" + fishery.label_ + "]: ",fisheries_[fishery.label_].actual_catches_[model_->current_year()]);
-//      LOG_FINEST() << "fishery = " << fishery.label_ << " catch = " << fisheries_[fishery.label_].catches_[model_->current_year()] << " U = " << fishery.exploitation_;
-//
-//    }
-//    // Store for Tabular report
-//    string year_string;
-//    if (!utilities::To<unsigned, string>(model_->current_year(), year_string))
-//      LOG_CODE_ERROR() << "Could not convert the value " << model_->current_year() << " to a string for storage in the tabular report";
-//
-//    string catch_label;
-//    string U_label;
-//
-//    for (auto& fishery_iter : fisheries_) {
-//    	auto& fishery = fishery_iter.second;
-//      if (fisheries_[fishery.label_].time_step_index_ != time_step_index)
-//      	continue;
-//      catch_label = "catch[" + fishery.label_ + "][" + year_string + "]";
-//    	U_label = "fishing_pressure[" + fishery.label_ + "][" + year_string + "]";
-//      StoreForTabularReport(catch_label, AS_DOUBLE(fisheries_[fishery.label_].catches_[model_->current_year()]));
-//      StoreForTabularReport(U_label, AS_DOUBLE(fishery.exploitation_));
-//    }
+    if (print_report_) {
+      // Report catches and exploitation rates for fisheries for each year and timestep
+      if(reporting_year_ != model_->current_year()) {
+        StoreForReport("year: ", utilities::ToInline<unsigned,string>(model_->current_year()));
+        reporting_year_ = model_->current_year();
+      }
 
+      for (auto& fishery_iter : fisheries_) {
+        auto& fishery = fishery_iter.second;
+        if (fisheries_[fishery.label_].time_step_index_ != time_step_index)
+          continue;
+			StoreForReport("fishing_pressure[" + fishery.label_ + "]: ", AS_DOUBLE(fishery.exploitation_));
+			StoreForReport("catch[" + fishery.label_ + "]: ",AS_DOUBLE(fisheries_[fishery.label_].catches_[model_->current_year()]));
+			StoreForReport("actual_catch[" + fishery.label_ + "]: ",fisheries_[fishery.label_].actual_catches_[model_->current_year()]);
+        LOG_FINEST() << "fishery = " << fishery.label_ << " catch = " << fisheries_[fishery.label_].catches_[model_->current_year()] << " U = " << fishery.exploitation_;
+
+      }
+      // Store for Tabular report
+      string year_string;
+      if (!utilities::To<unsigned, string>(model_->current_year(), year_string))
+        LOG_CODE_ERROR() << "Could not convert the value " << model_->current_year() << " to a string for storage in the tabular report";
+
+      string catch_label;
+      string U_label;
+
+      for (auto& fishery_iter : fisheries_) {
+        auto& fishery = fishery_iter.second;
+        if (fisheries_[fishery.label_].time_step_index_ != time_step_index)
+          continue;
+        catch_label = "catch[" + fishery.label_ + "][" + year_string + "]";
+        U_label = "fishing_pressure[" + fishery.label_ + "][" + year_string + "]";
+        StoreForTabularReport(catch_label, AS_DOUBLE(fisheries_[fishery.label_].catches_[model_->current_year()]));
+        StoreForTabularReport(U_label, AS_DOUBLE(fishery.exploitation_));
+      }
+    }
 
   } // if (model_->state() != State::kInitialise )
 
@@ -598,9 +602,6 @@ void MortalityInstantaneous::DoExecute() {
    * Remove the stock now using the exploitation rate
    */
   for (auto& category : categories_) {
-    if (!category.used_in_current_timestep_)
-      continue;
-
     for (unsigned i = 0; i < category.category_->data_.size(); ++i) {
       category.category_->data_[i] *= exp(-(*category.m_) * ratio * category.selectivity_values_[i]) * (1 - category.exploitation_[i]);
       if (category.category_->data_[i] < 0.0) {
