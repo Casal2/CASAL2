@@ -20,6 +20,7 @@
 #include "Common/BaseClasses/Executor.h"
 #include "Common/BaseClasses/Object.h"
 #include "Common/GlobalConfiguration/GlobalConfiguration.h"
+#include "Common/Utilities/Math.h"
 #include "Common/Utilities/RunMode.h"
 
 // Namespaces
@@ -57,6 +58,14 @@ enum class PartitionStructure {
   kMixed    = 4,
   kInvalid  = 4096
 };
+
+namespace Units {
+enum Type {
+  kGrams,
+  kKilograms,
+  kTonnes
+};
+} /* namespace Units */
 
 inline PartitionStructure operator&(PartitionStructure a, PartitionStructure b) {
   return static_cast<PartitionStructure>(static_cast<int>(a) & static_cast<int>(b));

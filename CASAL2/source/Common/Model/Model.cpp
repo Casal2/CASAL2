@@ -296,6 +296,15 @@ void Model::PopulateParameters() {
 
   } else
     LOG_ERROR() << "Partition structure " << (unsigned)partition_structure_ << " not supported";
+
+//  if (base_weight_units_label_ == PARAM_TONNES)
+//    base_weight_units_ = Units::kTonnes;
+//  else if (base_weight_units_label_ == PARAM_KGS)
+//    base_weight_units_ = Units::kKilograms;
+//  else if (base_weight_units_label_ == PARAM_GRAMS)
+//    base_weight_units_ = Units::kGrams;
+//  else
+//    LOG_CODE_ERROR() << "Base weight units for model " << base_weight_units_label_ << " is invalid";
 }
 
 /**
@@ -814,9 +823,9 @@ void Model::Iterate() {
     LOG_FINE() << "Iteration year: " << current_year_;
     time_varying_manager.Update(current_year_);
     // Iterate over all partition members and UpDate Mean Weight for the inital weight calculations
-    for (auto iterator = all_view.Begin(); iterator != all_view.End(); ++iterator) {
-      (*iterator)->UpdateMeanLengthData();
-    }
+//    for (auto iterator = all_view.Begin(); iterator != all_view.End(); ++iterator) {
+//      (*iterator)->UpdateMeanLengthData();
+//    }
     time_step_manager.Execute(current_year_);
   }
 
