@@ -475,7 +475,7 @@ void MortalityInstantaneous::DoExecute() {
     }
 
     for (auto& fishery_category : fishery_categories_) {
-      if (fisheries_[fishery_category.fishery_label_].time_step_index_ != time_step_index)
+      if (fishery_category.fishery_.time_step_index_ != time_step_index)
         continue;
 
       partition::Category* category = fishery_category.category_.category_;
