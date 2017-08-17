@@ -48,6 +48,7 @@ int main(int argc, char * argv[]) {
     Model model;
     reports::StandardHeader standard_report(&model);
 
+
     utilities::RunParameters parameters;
 
     utilities::CommandLineParser parser;
@@ -102,8 +103,10 @@ int main(int argc, char * argv[]) {
     case RunMode::kProfiling:
     case RunMode::kProjection:
     case RunMode::kTesting:
-      if (!model.global_configuration().debug_mode() && !model.global_configuration().disable_standard_report())
+      if (!model.global_configuration().debug_mode() && !model.global_configuration().disable_standard_report()) {
         standard_report.Prepare();
+        model.managers().report()->set_std_header(standard_report.header());
+      }
 
       // load our configuration file
       configuration::Loader config_loader(model);

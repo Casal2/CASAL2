@@ -42,9 +42,12 @@ public:
   void                        DoFinalise() override final;
   void                        DoExecuteTabular() override final { };
 
+  const std::string&          header() const { return header_; }
+
 protected:
   // Variables
   time_t                      time_start_;
+  std::string                 header_ = "";
 
   // Linux Vars
 #if !defined(__MINGW32__) && !defined(_MSC_VER)

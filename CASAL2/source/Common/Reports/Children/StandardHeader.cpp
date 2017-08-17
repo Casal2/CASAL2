@@ -102,6 +102,7 @@ void StandardHeader::DoPrepare() {
 
   // Print Header
   cout << header.str() << endl;
+  header_ = header.str();
 }
 
 /**
