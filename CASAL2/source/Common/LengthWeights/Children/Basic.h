@@ -40,7 +40,7 @@ private:
   Double                      a_ = 0;
   Double                      b_ = 0;
   Double                      cv_ = 0;
-  Double                      unit_multipier_ = 0.0;
+  Double                      unit_multipier_ = 1.0;
   string                      units_;
 
 };
