@@ -144,6 +144,7 @@ void MortalityInstantaneous::DoValidate() {
   /**
    * Build all of our category objects
    */
+  categories_.resize(category_labels_.size());
   for (unsigned i = 0; i < category_labels_.size(); ++i) {
   string label = category_labels_[i];
     CategoryData category;
@@ -151,8 +152,8 @@ void MortalityInstantaneous::DoValidate() {
     category.m_ = &m_[label];
     category.selectivity_label_ = selectivity_labels_[i];
 
-    categories_.push_back(category);
-    category_data_[label] = &categories_[categories_.size() - 1];
+    categories_[i]= category;
+    category_data_[label] = &categories_[i];
   }
 
   /**
@@ -243,6 +244,7 @@ void MortalityInstantaneous::DoValidate() {
  * in the system
  */
 void MortalityInstantaneous::DoBuild() {
+  LOG_TRACE();
   partition_.Init(category_labels_);
 
   /**
@@ -255,8 +257,9 @@ void MortalityInstantaneous::DoBuild() {
     category.selectivity_values_.assign(category.category_->age_spread(), 0.0);
   }
 
-  for (auto& fishery_category : fishery_categories_)
+  for (auto& fishery_category : fishery_categories_) {
     fishery_category.selectivity_values_.assign(fishery_category.category_.category_->age_spread(), 0.0);
+  }
 
   /**
    * Organise our time step ratios. Each time step can
@@ -364,6 +367,8 @@ void MortalityInstantaneous::DoBuild() {
       LOG_FINEST() << "time step " << time_step << " doesn't have a method associated so we will skip the exploitation calculation during DoExecute";
     }
   }
+
+  LOG_TRACE();
 }
 
 /**
@@ -538,27 +543,27 @@ void MortalityInstantaneous::DoExecute() {
     /**
      * Calculate the expectation for a proportions_at_age observation
      */
-//    unsigned age_spread = model_->age_spread();
-//    category_offset = 0;
-//    for (auto& categories : partition_) {
-//      for (auto& fishery_category : fishery_categories_) {
-//        if (fishery_category.category_label_ == categories->name_
-//            && fisheries_[fishery_category.fishery_label_].time_step_index_ == time_step_index) {
-//          removals_by_year_fishery_category_[year][fishery_category.fishery_label_][categories->name_].assign(age_spread, 0.0);
-//          for (unsigned i = 0; i < age_spread; ++i) {
-//            unsigned age_offset = categories->min_age_ - model_->min_age();
-//            if (i < age_offset)
-//              continue;
-//            removals_by_year_fishery_category_[year][fishery_category.fishery_label_][categories->name_][i] += categories->data_[i - age_offset]
-////                * fishery_exploitation[fishery_category.fishery_label_]
-//                * fishery_category.fishery_.exploitation_
-//                * fishery_category.selectivity_->GetResult(categories->min_age_ + i, categories->age_length_)
-//                * exp(-0.5 * ratio * m_[categories->name_] * selectivities_[category_offset]->GetResult(categories->min_age_ + i, categories->age_length_));
-//          }
-//        }
-//      }
-//      category_offset++;
-//    }
+    unsigned age_spread = model_->age_spread();
+    unsigned category_offset = 0;
+    for (auto& categories : partition_) {
+      for (auto& fishery_category : fishery_categories_) {
+        if (fishery_category.category_label_ == categories->name_
+            && fisheries_[fishery_category.fishery_label_].time_step_index_ == time_step_index) {
+          removals_by_year_fishery_category_[year][fishery_category.fishery_label_][categories->name_].assign(age_spread, 0.0);
+          for (unsigned i = 0; i < age_spread; ++i) {
+            unsigned age_offset = categories->min_age_ - model_->min_age();
+            if (i < age_offset)
+              continue;
+            removals_by_year_fishery_category_[year][fishery_category.fishery_label_][categories->name_][i] += categories->data_[i - age_offset]
+//                * fishery_exploitation[fishery_category.fishery_label_]
+                * fishery_category.fishery_.exploitation_
+                * fishery_category.selectivity_->GetResult(categories->min_age_ + i, categories->age_length_)
+                * exp(-0.5 * ratio * m_[categories->name_] * selectivities_[category_offset]->GetResult(categories->min_age_ + i, categories->age_length_));
+          }
+        }
+      }
+      category_offset++;
+    }
 
     if (print_report_) {
       // Report catches and exploitation rates for fisheries for each year and timestep
