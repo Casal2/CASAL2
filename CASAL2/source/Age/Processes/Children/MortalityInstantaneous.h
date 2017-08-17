@@ -46,18 +46,37 @@ class MortalityInstantaneous : public Process {
     map<unsigned, Double>  catches_;
     map<unsigned, Double>  actual_catches_;
 
+    Double          vulnerability_;
+    Double          uobs_fishery_;
+    Double          exploitation_;
+    Double*         m_;
   };
+
+  struct CategoryData {
+      string                category_label_;
+      partition::Category*  category_;
+      Double*               m_;
+      vector<Double>        exploitation_;
+      vector<Double>        exp_values_;
+      string                selectivity_label_;
+      Selectivity*          selectivity_;
+      vector<Double>        selectivity_values_;
+      bool                  used_in_current_timestep_;
+    };
   /**
    * FisheryCategoryData is used to store 1 Fishery x Category x Selectivity
    */
   struct FisheryCategoryData {
-    FisheryCategoryData(FisheryData& x) : fishery_(x) { };
-    string          fishery_label_;
-    string          category_label_;
-    string          selectivity_label_;
-    Selectivity*    selectivity_ = nullptr;
-    FisheryData&    fishery_;
+    FisheryCategoryData(FisheryData& x, CategoryData& y) : fishery_(x), category_(y) { };
+    FisheryData&      fishery_;
+    CategoryData&     category_;
+    string            fishery_label_;
+    string            category_label_;
+    string            selectivity_label_;
+    Selectivity*      selectivity_ = nullptr;
+    vector<Double>    selectivity_values_;
   };
+
 public:
   // methods
   explicit MortalityInstantaneous(Model* model);
@@ -72,6 +91,9 @@ public:
   map<unsigned, map<string, map<string, vector<Double>>>>&  catch_at() { return removals_by_year_fishery_category_; };
 
 private:
+  map<string, CategoryData*>  category_data_;
+  vector<CategoryData>        categories_;
+
   // members
   vector<string>              category_labels_;
   vector<FisheryCategoryData> fishery_categories_;
@@ -80,7 +102,7 @@ private:
   parameters::Table*          method_table_ = nullptr;
   accessor::Categories        partition_;
   Double                      current_m_ = 0.0;
-  map<string, Double>         fishery_exploitation;
+//  map<string, Double>         fishery_exploitation;
 
   // members from mortality event
   Double                      u_max_;
@@ -99,7 +121,7 @@ private:
   // Members for reporting
   unsigned 										reporting_year_ = 0;
   vector<unsigned>            time_steps_to_skip_applying_F_mortaltiy_;
-  map<string, map<unsigned, Double>> category_by_age_with_exploitation;
+//  map<string, map<unsigned, Double>> category_by_age_with_exploitation;
 };
 
 } /* namespace processes */
