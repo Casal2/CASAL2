@@ -71,7 +71,8 @@ void CommandLineParser::Parse(int argc, char* argv[], RunParameters& options) {
     ("output,o", value<string>(), "Create estimate value report directed to <file>")
     ("single-step", "Single step the model each year with new estimable values")
     ("tabular", "Print reports in Tabular mode")
-    ("unittest", "Run the unit tests for CASAL2");
+    ("unittest", "Run the unit tests for CASAL2")
+    ("no-mpd", "Do not create an MPD file");
 
 
   ostringstream o;
@@ -118,6 +119,8 @@ void CommandLineParser::Parse(int argc, char* argv[], RunParameters& options) {
     options.tabular_reports_ = true;
   if (parameters.count("phases"))
     options.estimation_phases_ = parameters["phases"].as<unsigned>();
+  if (parameters.count("no-mpd"))
+    options.create_mpd_file_ = false;
 
   /**
    * Determine what run mode we should be in. If we're

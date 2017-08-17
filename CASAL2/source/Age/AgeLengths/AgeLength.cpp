@@ -160,6 +160,7 @@ void AgeLength::CummulativeNormal(Double mu, Double cv, vector<Double>& prop_in_
   std::vector<int>::size_type sz = length_bins.size();
   prop_in_length.resize(sz);
 
+  // TODO CAN BE THREADED - OPENMP
   for (unsigned j = 0; j < sz; ++j) {
     z = fabs((length_bins[j] - mu)) / sigma;
 

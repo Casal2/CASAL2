@@ -49,6 +49,10 @@ public:
   void                        UpdateAgeLengthData(const vector<Double>& length_bins, bool plus_grp, Selectivity* selectivity);
   void                        CollapseAgeLengthData();
   void                        CollapseAgeLengthDataToLength();
+
+  // accessors
+  unsigned                    age_spread() const { return (max_age_ - min_age_) + 1; }
+
   // members
   string                      name_ = "";
   unsigned                    min_age_ = 0;

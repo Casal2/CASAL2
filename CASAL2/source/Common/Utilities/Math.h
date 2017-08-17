@@ -182,7 +182,13 @@ inline Double Max(const vector<Double>& Values){
   return max;
 }
 
-
+namespace Units {
+enum Type {
+  kGrams,
+  kKilograms,
+  kTonnes
+};
+} /* namespace Units */
 
 } /* namespace math */
 } /* namespace utilities */

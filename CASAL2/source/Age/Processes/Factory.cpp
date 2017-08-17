@@ -21,6 +21,7 @@
 #include "Age/Processes/Children/MortalityConstantRate.h"
 #include "Age/Processes/Children/MortalityEvent.h"
 #include "Age/Processes/Children/MortalityEventBiomass.h"
+#include "Age/Processes/Children/MortalityInstanteousOrig.h"
 #include "Age/Processes/Children/MortalityInstantaneous.h"
 #include "Age/Processes/Children/MortalityInitialisationEvent.h"
 #include "Age/Processes/Children/MortalityInitialisationEventBiomass.h"
@@ -96,6 +97,8 @@ Process* Factory::Create(Model* model, const string& object_type, const string& 
       result = new MortalityEventBiomass(model);
     else if (sub == PARAM_MORTALITY_INSTANTANEOUS)
       result = new MortalityInstantaneous(model);
+    else if (sub == "blah")
+      result = new MortalityInstanteousOrig(model);
     else if (sub == PARAM_MORTALITY_HOLLING_RATE)
       result = new MortalityHollingRate(model);
     else if (sub == PARAM_PREY_SUITABILITY_PREDATION)
