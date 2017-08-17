@@ -79,8 +79,6 @@ protected:
   ProcessType                 process_type_ = ProcessType::kUnknown;
   PartitionStructure          partition_structure_ = PartitionStructure::kInvalid;
   map<unsigned, map<string, vector<Executor*>>> executors_;
-
-private:
   bool                        create_report_ = false;
   bool                        print_report_ = false;
   map<string, vector<string>> print_values_;

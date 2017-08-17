@@ -29,7 +29,7 @@ public:
   explicit                    Basic(Model* model);
   virtual                     ~Basic() = default;
   void                        DoValidate() override final;
-  void                        DoBuild() override final { };
+  void                        DoBuild() override final;
   void                        DoReset() override final { };
 
   // accessors
@@ -40,7 +40,9 @@ private:
   Double                      a_ = 0;
   Double                      b_ = 0;
   Double                      cv_ = 0;
-  string                      units_ = "";
+  Double                      unit_multipier_ = 0.0;
+  string                      units_;
+
 };
 
 } /* namespace lengthweights */
