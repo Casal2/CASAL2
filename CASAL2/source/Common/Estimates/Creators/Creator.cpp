@@ -78,6 +78,8 @@ void Creator::CreateEstimates() {
   }
 
   auto target = model_->objects().FindObject(parameter_);
+  // set estiamted flag
+  target->set_estimated(true);
   if (target->GetAddressableType(parameter) == addressable::kSingle) {
     /**
      * This estimate is only for a single object. So we will validate based on that

@@ -76,6 +76,7 @@ void TimeVarying::Build() {
   }
 
   target_object_ = model_->objects().FindObject(parameter_);
+  target_object_->set_time_varies(true);
 
   DoBuild();
 }

@@ -798,7 +798,7 @@ void Model::RunProjection() {
 
 /**
  * This method will do a single iteration of the model. During
- * a basic run it'll only run once, but during the other times
+ * a basic run it'll only run once, but during the other run modes i.e. estiamtion and MCMC
  * it'll run multiple times.
  */
 void Model::Iterate() {
@@ -823,9 +823,9 @@ void Model::Iterate() {
     LOG_FINE() << "Iteration year: " << current_year_;
     time_varying_manager.Update(current_year_);
     // Iterate over all partition members and UpDate Mean Weight for the inital weight calculations
-//    for (auto iterator = all_view.Begin(); iterator != all_view.End(); ++iterator) {
-//      (*iterator)->UpdateMeanLengthData();
-//    }
+    for (auto iterator = all_view.Begin(); iterator != all_view.End(); ++iterator) {
+      (*iterator)->UpdateMeanLengthData();
+    }
     time_step_manager.Execute(current_year_);
   }
 
