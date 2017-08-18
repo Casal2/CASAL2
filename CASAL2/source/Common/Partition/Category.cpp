@@ -51,9 +51,12 @@ void Category::UpdateMeanWeightData() {
   Categories* categories = model_->categories();
   vector<string> time_steps = model_->time_steps();
   AgeLength* age_length = categories->age_length(name_);
-  for (unsigned step_iter = 0; step_iter < time_steps.size(); ++step_iter) {
-    for (unsigned age = min_age_; age <= max_age_; ++age)
-      mean_weight_by_time_step_age_[step_iter][age] = age_length->mean_weight(step_iter, age);
+  // Only do this under three conditions. We are initialising, it has a time varying component, or is of type data.
+  if (age_length->does_time_vary() || model_->state() == State::kInitialise || age_length->type() == PARAM_DATA) {
+    for (unsigned step_iter = 0; step_iter < time_steps.size(); ++step_iter) {
+      for (unsigned age = min_age_; age <= max_age_; ++age)
+        mean_weight_by_time_step_age_[step_iter][age] = age_length->mean_weight(step_iter, age);
+    }
   }
 }
 
