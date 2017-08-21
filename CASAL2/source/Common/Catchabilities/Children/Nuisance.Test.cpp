@@ -432,7 +432,7 @@ TEST_F(InternalEmptyModel, Nuisance_normal_prior_none_estimation) {
     LoadConfiguration();
     model_->Start(RunMode::kEstimation);
     Catchability* catchability = model_->managers().catchability()->GetCatchability("chatTANq");
-    EXPECT_DOUBLE_EQ(0.052417942854968778, catchability->q());
+    EXPECT_DOUBLE_EQ(0.052417942189074938, catchability->q());
 }
 
 

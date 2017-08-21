@@ -153,7 +153,7 @@ R"(
  @project future_ycs
  type lognormal
  parameter process[Recruitment].ycs_values
- years 2009:2019
+ years 2012:2019
  mean 0
  sigma 0.8
 
@@ -167,7 +167,7 @@ R"(
  @project future_ycs
  type lognormal
  parameter process[Recruitment].ycs_values
- years 2009:2019
+ years 2012:2019
  mean 0
  sigma 0.8
 )";
@@ -180,7 +180,7 @@ R"(
  @project future_ycs
  type lognormal
  parameter process[Recruitment].ycs_values
- years 2009:2019
+ years 2012:2019
  mean 0
  sigma 0.8
 )";
@@ -201,7 +201,7 @@ TEST_F(InternalEmptyModel,Projection_Run_lognormal) {
 //    LOG_FATAL() << "!ycs_param" << error_message;
 
   // check the results
-  vector<Double> expected = {39020.374395850878,37682.623047506087,38068.329938270457,38413.293486112576,38587.282857092388,38357.258716542878,37717.130143529248,36958.935350696898};
+  vector<Double> expected = {39020.374395850878,39119.730338979163,39522.039125316616,39899.741050984972,40219.624154617522,40406.927858193463,40738.987611694509,41620.462926768043};
   niwa::DerivedQuantity* dq = model_->managers().derived_quantity()->GetDerivedQuantity("SSB");
   for (unsigned i = 0; i < 8; ++i) {
     unsigned year = 2012 + i;

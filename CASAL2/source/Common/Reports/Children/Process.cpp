@@ -44,7 +44,9 @@ void Process::DoBuild() {
     LOG_ERROR_P(PARAM_PROCESS) << "process " << process_label_ << " could not be found. Have you defined it?";
   }
 
-  process_->flag_print_report();
+  // Don't store for report's in MCMC mode
+  if (model_->run_mode() != RunMode::kMCMC)
+    process_->flag_print_report();
 }
 
 /**

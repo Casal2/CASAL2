@@ -293,6 +293,7 @@ void RecruitmentBevertonHolt::DoReset() {
         stand_ycs_value_by_year_[ycs_year] = ycs_value_by_year_[ycs_year] / mean_ycs;
     }
   }
+  year_counter_ = 0;
 }
 
 /**
@@ -329,18 +330,24 @@ void RecruitmentBevertonHolt::DoExecute() {
     /**
      * The model is not in an initialisation phase
      */
+    ++year_counter_;
     LOG_FINEST() << "standardise_ycs_.size(): " << standardise_ycs_.size() << "; model_->current_year(): " << model_->current_year()
         << "; model_->start_year(): " << model_->start_year();
     Double ycs;
     // If projection mode ycs values get replaced with projected value from @project block
-    if (RunMode::kProjection && model_->current_year() > model_->final_year()) {
-      // take the value from the ycs_values as that is the container that the @project class will be modifying
+    if (model_->run_mode() == RunMode::kProjection) {
+      // An issue with this is we can start projecting values before final_year(), how can we catch that.
       if (ycs_value_by_year_[ssb_year] == 0.0) {
         LOG_FATAL_P(PARAM_YCS_VALUES) << "You are in a projection mode (-f) and in a projection year but ycs values are = 0 for ycs_year " << model_->current_year() - ssb_offset_ << ", this is an error that will cause the recruitment process to fail. Please check you have correctly specified an @project block for this parameter, thanks";
       }
       ycs = ycs_value_by_year_[ssb_year];
+      // We need to see if this value has changed from the intial input, if it has we are going to assume that this is because the projection class has changed it.
       // set standardised ycs = ycs for reporting
-      stand_ycs_value_by_year_[ssb_year] = ycs;
+
+      if (ycs != ycs_values_[year_counter_])
+        stand_ycs_value_by_year_[ssb_year] = ycs;
+      else
+        ycs = stand_ycs_value_by_year_[ssb_year];
 
       LOG_FINEST() << "Projected ycs = " << ycs;
     // else business as usual

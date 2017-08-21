@@ -9,7 +9,7 @@
  *
  * @section DESCRIPTION
  *
- * << Add Description >>
+ * Follows unit simplex theory, I used chapter 55.6 in the STAN reference map for the jacobian calculation.
  */
 #ifndef SOURCE_ESTIMATETRANSFORMATIONS_CHILDREN_SIMPLEX_H_
 #define SOURCE_ESTIMATETRANSFORMATIONS_CHILDREN_SIMPLEX_H_
@@ -39,12 +39,18 @@ protected:
   // methods
   void                        DoValidate() override final;
   void                        DoBuild() override final;
-  void                        DoTransform() override final { };
+  void                        DoTransform() override final;
   void                        DoRestore() override final;
 
 private:
   // members
-  vector<Double>              simplex_values_;
+  bool                        unit_ = false; // whether this is a unit vector or an average 1 vector.
+  vector<Double>              unit_vector_;
+  vector<Double>              zk_;
+  vector<Double>              yk_;
+  Double                      lower_bound_ = 1.0e-10;
+  Double                      upper_bound_ = 1.0e10;
+
   vector<Estimate*>           estimates_;
   vector<Estimate*>           simplex_estimates_;
   Double                      sub_total_ = 0.0;

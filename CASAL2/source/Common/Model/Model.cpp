@@ -103,9 +103,10 @@ vector<unsigned> Model::years() const {
   unsigned year;
   for (year = start_year_; year <= final_year_; ++year)
     years.push_back(year);
-  for (; year <= projection_final_year_; ++year)
-    years.push_back(year);
-
+  if (run_mode_ == RunMode::kProjection) {
+    for (; year <= projection_final_year_; ++year)
+      years.push_back(year);
+  }
   return years;
 }
 
@@ -719,6 +720,7 @@ void Model::RunProjection() {
   // Model is about to run
   for (unsigned i = 0; i < adressable_values_count_; ++i) {
     for (int j = 0; j < projection_candidates; ++j) {
+      LOG_FINE() << "Beginning initial model run for projections";
       projection_final_phase_ = false;
       if (addressable_values_file_) {
         LOG_FINE() << "loading input parameters";
