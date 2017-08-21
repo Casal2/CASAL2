@@ -268,11 +268,11 @@ TEST_F(InternalEmptyModel, Projects_UserDefined_Catches) {
 	map<unsigned,Double>& values_14 = project_2014->projected_parameters();
 	map<unsigned,Double>& values_13 = project_2013->projected_parameters();
 
-	EXPECT_DOUBLE_EQ(5299296.2951520793, values_15[2015]);
-	EXPECT_DOUBLE_EQ(5892732.2491406947, values_14[2014]);
+	EXPECT_DOUBLE_EQ(6287849.7554903105, values_15[2015]);
+	EXPECT_DOUBLE_EQ(6985248.6047034459, values_14[2014]);
 	EXPECT_DOUBLE_EQ(7674997.1589622563, values_13[2013]);
 
-  vector<double> Expect = {29463661.24570347,26496481.475760397,23779455.099234778};
+  vector<double> Expect = {34926243.023517229,31439248.777451552,28200217.436245844};
 	for (unsigned i = 0; i < 3; ++i) {
     unsigned year = 2013 + i;
     EXPECT_DOUBLE_EQ(Expect[i], dq->GetValue(year)) << " for year " << year << " and value " << Expect[i];

@@ -100,6 +100,9 @@ void AgeLength::BuildCV() {
   unsigned max_age = model_->max_age();
   unsigned start_year = model_->start_year();
   unsigned final_year = model_->final_year();
+  if (model_->run_mode() == RunMode::kProjection)
+    final_year = model_->projection_final_year();
+
   vector<string> time_steps = model_->time_steps();
   LOG_FINE() << "number of time steps " << time_steps.size();
   for (unsigned year_iter = start_year; year_iter <= final_year; ++year_iter) {

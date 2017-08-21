@@ -576,9 +576,9 @@ void MortalityInstantaneous::DoExecute() {
         auto& fishery = fishery_iter.second;
         if (fisheries_[fishery.label_].time_step_index_ != time_step_index)
           continue;
-			StoreForReport("fishing_pressure[" + fishery.label_ + "]: ", AS_DOUBLE(fishery.exploitation_));
-			StoreForReport("catch[" + fishery.label_ + "]: ",AS_DOUBLE(fisheries_[fishery.label_].catches_[model_->current_year()]));
-			StoreForReport("actual_catch[" + fishery.label_ + "]: ",fisheries_[fishery.label_].actual_catches_[model_->current_year()]);
+        StoreForReport("fishing_pressure[" + fishery.label_ + "]: ", AS_DOUBLE(fishery.exploitation_));
+        StoreForReport("catch[" + fishery.label_ + "]: ",AS_DOUBLE(fisheries_[fishery.label_].catches_[model_->current_year()]));
+        StoreForReport("actual_catch[" + fishery.label_ + "]: ",fisheries_[fishery.label_].actual_catches_[model_->current_year()]);
         LOG_FINEST() << "fishery = " << fishery.label_ << " catch = " << fisheries_[fishery.label_].catches_[model_->current_year()] << " U = " << fishery.exploitation_;
 
       }

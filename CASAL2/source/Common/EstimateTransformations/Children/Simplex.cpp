@@ -29,7 +29,8 @@ namespace utils = niwa::utilities;
  */
 Simplex::Simplex(Model* model) : EstimateTransformation(model) {
   //parameters_.Bind<string>(PARAM_ESTIMATE, &estimate_label_, "The label for the estimate label to use in the simplex transformation", "");
-
+  parameters_.Bind<Double>(PARAM_UPPER_BOUND, &upper_bound_, "The empirical upper bound for the simplex transformed, in theory it should be Inf but some of our minimisers won't allow that", "", true);
+  parameters_.Bind<Double>(PARAM_LOWER_BOUND, &lower_bound_, "The empirical lower bound for the simplex transformed, in theory it should be -Inf but some of our minimisers won't allow that", "", true);
   is_simple_ = false;
 }
 
@@ -53,89 +54,94 @@ void Simplex::DoBuild() {
 
   // Validate
   length_ = estimates_.size();
-  simplex_values_.assign((length_ - 1), 0.0);
+  unit_vector_.assign(length_, 0.0);
+  zk_.assign(length_ - 1, 0.0);
+  yk_.assign(length_ - 1, 0.0);
 
   // Check that the vector sums or averages to one
   for (unsigned i = 0; i < estimates_.size(); ++i) {
     total_ += estimates_[i]->value();
-    estimates_[i]->set_estimated(false);
+    estimates_[i]->set_lower_bound(lower_bound_);
+    estimates_[i]->set_upper_bound(upper_bound_);
+
   }
   LOG_MEDIUM() << "total = " << total_ << " length " << length_;
 
   // Do a validation if vector doesn't sum to 1 of length (number of elements) error can't use this method
-  if (fabs(1.0 - total_) > 0.001 && (total_ - (length_)) > 0.001)
-   LOG_ERROR_P(PARAM_ESTIMATE) << "This transformation can only be used on vectors that have a mean = 1 or sum = 1";
+  if (fabs(1.0 - total_) > 0.0001 && (total_ - (length_)) > 0.0001)
+   LOG_ERROR_P(PARAM_ESTIMATE) << "This transformation can only be used on parameters that have a mean = 1.0 or sum = 1.0";
 
-  // Populate the simplex vector
-  for (unsigned i = 0; i < simplex_values_.size(); ++i)
-    sub_total_ += estimates_[i]->value();
-
-  for (unsigned i = 0; i < simplex_values_.size(); ++i) {
-    simplex_values_[i] = estimates_[i]->value() / (total_ - sub_total_);
+  for (unsigned i = 0; i < unit_vector_.size(); ++i) {
+    unit_vector_[i] = estimates_[i]->value() / total_ ;
   }
 
   LOG_MEDIUM() << "sub_total = " << sub_total_;
+  // is it a true simplex or an average simplex. They differ in how many post transformation we need to do before the model can have the parameters back.
+  if (fabs(1.0 - total_) < 0.0001)
+    unit_ = true;
 
-  Double L_bound = estimates_[length_ - 1]->lower_bound();
-  Double U_bound = estimates_[length_ - 1]->upper_bound();
-  // Create, populate and validate simplex estimates
-  for (unsigned i = 0; i < simplex_values_.size(); ++i) {
-    estimates::Uniform* simplex = new estimates::Uniform(model_);
-    simplex->set_block_type(PARAM_ESTIMATE);
-    simplex->set_defined_file_name(__FILE__);
-    simplex->set_defined_line_number(__LINE__);
-
-    string element;
-    if (!utilities::To<unsigned, string>(i, element))
-      LOG_ERROR() << i <<  " could not be converted to type sting";
-    string param_label = "simplex_" + element;
-
-    simplex->set_label(param_label);
-    simplex->set_target(&simplex_values_[i]);
-    simplex->set_creator_parameter(param_label);
-    simplex->set_lower_bound(estimates_[i]->lower_bound()  / U_bound);
-    simplex->set_upper_bound(estimates_[i]->upper_bound()  / L_bound);
-    LOG_MEDIUM() << "value = " << simplex->value() << ", upper bound = " << simplex->upper_bound() << ", lower bound = " << simplex->lower_bound();
-    simplex->set_in_objective_function(false);
-    simplex_estimates_.push_back(simplex);
-    model_->managers().estimate()->AddObject(simplex);
-  }
 }
 
+void Simplex::DoTransform() {
+  LOG_TRACE();
+  for (unsigned i = 0; i < unit_vector_.size(); ++i) {
+    if (!unit_)
+      unit_vector_[i] = estimates_[i]->value() / total_ ;
+    else
+      unit_vector_[i] = estimates_[i]->value();
+    if (i < (unit_vector_.size() - 1))
+      sub_total_ += unit_vector_[i];
+  }
+  // generate zk
+  for (unsigned i = 0; i < (unit_vector_.size() - 1); ++i) {
+    zk_[i] = unit_vector_[i] / (1 - sub_total_);
+  }
+  // generate yk
+  Double count = 1.0;
+  for (unsigned i = 0; i < zk_.size(); ++i) {
+    yk_[i] =log(zk_[i] / (1.0 - zk_[i])) - log(1.0 / ((Double)length_ - count));
+    count += 1.0;
+  }
+  // Set estimates, turn off the last one.
+  for (unsigned i = 0; i < estimates_.size(); ++i) {
+    if (i < (unit_vector_.size() - 1)) {
+      // Turn off the last estimate
+      estimates_[i]->set_in_objective_function(true);
+      estimates_[i]->set_estimated(false);
+    } else {
+      estimates_[i]->set_value(yk_[i]);
+    }
+  }
+
+}
 /**
  *    This will restore values provided by the minimiser that need to be restored for use in the annual cycle
  */
 void Simplex::DoRestore() {
   LOG_TRACE();
-  // intialise as 1 which accounts for the known parameter
-  Double new_total = 1.0;
-
-  for (unsigned i = 0; i < simplex_values_.size(); ++i) {
-    new_total += simplex_values_[i];
+  // Create zk
+  Double count = 1.0;
+  for (unsigned i = 0; i < zk_.size(); ++i) {
+    zk_[i] = 1.0 / (1.0 + exp(-yk_[i] + log(1.0 / ((Double)length_ - count))));
+    count += 1.0;
   }
-  LOG_MEDIUM() << "total: " << new_total;
-
-
-  // Calculate new values for annual cycle whilst reversing the relevant
-  for (unsigned i = 0; i < simplex_values_.size(); ++i) {
-    Double restored_value = (simplex_values_[i] / new_total * total_);
-    LOG_MEDIUM() << "Parameter label: " << estimates_[i]->parameter() << "Restored Value = " << restored_value;
-    estimates_[i]->set_value(restored_value);
+  // translate back to unit simplex.
+  for (unsigned i = 0; i < zk_.size(); ++i) {
+    ////////////////////////////// Up to here //////////////////////////////
+    unit_vector_[i] = 0.0;
   }
-  Double restore_final_value = (1.0 / new_total * total_);
-  estimates_[length_ - 1]->set_value(restore_final_value);
-  LOG_MEDIUM() << "Parameter label: " << estimates_[length_ - 1]->parameter() << "Restored Value = " << restore_final_value;
+
 }
 
 /**
  *  Calculate the Jacobian, to offset the bias of the transformation that enters the objective function
  */
 Double Simplex::GetScore() {
-  jacobian_ = simplex_values_[0] * (1 - simplex_values_[0]);
-  if (simplex_values_.size() > 1 ) {
-  for (unsigned i = 1; i < simplex_values_.size(); ++i) {
-    LOG_MEDIUM() << "val = " << simplex_values_[i];
-    jacobian_ *= simplex_values_[i] * (1 - simplex_values_[i]);
+  jacobian_ = unit_vector_[0] * (1 - unit_vector_[0]);
+  if (unit_vector_.size() > 1 ) {
+  for (unsigned i = 1; i < unit_vector_.size(); ++i) {
+    LOG_MEDIUM() << "val = " << unit_vector_[i];
+    jacobian_ *= unit_vector_[i] * (1 - unit_vector_[i]);
     }
   }
   jacobian_ *= (total_ - sub_total_);

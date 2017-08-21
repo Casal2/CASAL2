@@ -67,6 +67,7 @@ private:
   bool                        have_scaled_partition = false;
   vector<unsigned>            standardise_ycs_;
   DerivedQuantity*            derived_quantity_ = nullptr;
+  unsigned                    year_counter_ = 0;
 };
 
 } /* namespace processes */

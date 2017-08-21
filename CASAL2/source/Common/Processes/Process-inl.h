@@ -34,7 +34,7 @@ using std::map;
  */
 template<typename T>
 void Process::StoreForReport(const string& label, T value) {
-  if (!print_report_)
+  if (!print_report_ && !model_->global_configuration().print_tabular())
       return;
 
   string svalue = utilities::ToInline<T, string>(value);
@@ -51,7 +51,7 @@ void Process::StoreForReport(const string& label, T value) {
  */
 template<typename T>
 void Process::StoreForReport(const string& label, const vector<T>& values) {
-  if (!print_report_)
+  if (!print_report_ && !model_->global_configuration().print_tabular())
     return;
 
   string svalue = "";
@@ -71,7 +71,7 @@ void Process::StoreForReport(const string& label, const vector<T>& values) {
  */
 template<typename T>
 void Process::StoreForTabularReport(const string& label, T value) {
-  if (!print_report_)
+  if (!print_report_ && model_->global_configuration().print_tabular())
       return;
 
   string svalue = utilities::ToInline<T, string>(value);
@@ -88,7 +88,7 @@ void Process::StoreForTabularReport(const string& label, T value) {
  */
 template<typename T>
 void Process::StoreForTabularReport(const string& label, const vector<T>& values) {
-  if (!print_report_)
+  if (!print_report_ && model_->global_configuration().print_tabular())
     return;
 
   string svalue = "";
