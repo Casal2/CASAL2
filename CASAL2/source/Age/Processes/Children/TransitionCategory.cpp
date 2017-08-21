@@ -166,6 +166,7 @@ void TransitionCategory::DoExecute() {
 
       for (unsigned j = 0; j < (*from_iter)->data_.size(); ++j) {
         transition_rates_[i].push_back(proportion * selectivities_[i]->GetResult(min_age + j, (*from_iter)->age_length_));
+        LOG_FINEST() << "transition rate = " << transition_rates_[i][j] << " age = " << min_age + j << " selectivity = " << selectivities_[i]->GetResult(min_age + j, (*from_iter)->age_length_);
         if (selectivities_[i]->GetResult(min_age + j, (*from_iter)->age_length_) > 1.0)
           LOG_ERROR() << " Selectivity result is greater than 1.0, check selectivity";
       }
@@ -179,6 +180,7 @@ void TransitionCategory::DoExecute() {
 
       (*from_iter)->data_[offset] -= amount;
       (*to_iter)->data_[offset] += amount;
+      LOG_FINEST() << "Moving " << amount << " number of individuals";
       if ((*from_iter)->data_[offset] < 0.0)
         LOG_FATAL() << "Maturation rate caused a negative partition if ((*from_iter)->data_[offset] < 0.0) ";
     }

@@ -70,7 +70,7 @@ bool MCMCObjective::LoadFile(const string& file_name) {
   }
 
   if (line != "starting_covariance_matrix {m}") {
-    LOG_ERROR() << "Could not file 'starting_covariance_matrix {m}' string in MCMC objective file: " << file_name;
+    LOG_ERROR() << "Could not find 'starting_covariance_matrix {m}' string in MCMC objective file: " << file_name;
     return false;
   }
 

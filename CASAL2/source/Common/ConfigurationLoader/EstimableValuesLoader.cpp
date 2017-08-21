@@ -61,11 +61,7 @@ void EstimableValuesLoader::LoadValues(const string& file_name) {
     getline(file_, current_line);
     ++line_number;
   }
-  if(current_line == "values {d}") {
-    LOG_FINEST() << "skipping line as it is an input from an MCMC report " << current_line;
-    getline(file_, current_line);
-    ++line_number;
-  }
+
   LOG_FINEST() << "current line: " << current_line;
 
   boost::replace_all(current_line, "\t", " ");
