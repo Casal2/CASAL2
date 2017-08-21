@@ -241,8 +241,10 @@ void AgeLength::DoAgeToLengthConversion(partition::Category* category, const vec
  * Reset the age length class.
  */
 void AgeLength::Reset() {
-  if (rebuild_cv_)
+  if (rebuild_cv_) {
+    LOG_FINEST() << "We are re-building cv lookup table.";
     BuildCV();
+  }
   DoReset();
 }
 

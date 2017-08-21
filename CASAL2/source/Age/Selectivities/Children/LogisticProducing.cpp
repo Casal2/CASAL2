@@ -50,6 +50,10 @@ LogisticProducing::LogisticProducing(Model* model)
  * rules for the model.
  */
 void LogisticProducing::DoValidate() {
+  if (low_ > a50_ || high_ < a50_ || low_ >= high_) {
+    LOG_ERROR_P(PARAM_A50) << "low (l) can't be greater than a50, or high (h) cant be less than a50 and low can't be greater than high";
+  }
+
   if (alpha_ <= 0.0)
     LOG_ERROR_P(PARAM_ALPHA) << ": alpha (" << AS_DOUBLE(alpha_) << ") cannot be less than or equal to 0.0";
   if (ato95_ <= 0.0)
@@ -74,11 +78,15 @@ void LogisticProducing::Reset() {
       values_[age] = 1.0 / (1.0 + pow(19.0, (a50_ - (Double)age) / ato95_)) * alpha_;
     else {
       Double lambda2 = 1.0 / (1.0 + pow(19.0, (a50_- ((Double)age - 1)) / ato95_));
-      if (lambda2 > 0.9999)
+      if (lambda2 > 0.9999) {
         values_[age] = alpha_;
-      Double lambda1 = 1.0 / (1.0 + pow(19.0, (a50_ - (Double)age) / ato95_));
-      values_[age] = (lambda1 - lambda2) / (1.0 - lambda2) * alpha_;
+      } else {
+        Double lambda1 = 1.0 / (1.0 + pow(19.0, (a50_ - (Double)age) / ato95_));
+        values_[age] = (lambda1 - lambda2) / (1.0 - lambda2) * alpha_;
+        LOG_FINEST() << "age = " << age << " lambda1 = " << lambda1 << " lambda2 = " << lambda2 << " value = " <<  values_[age];
+      }
     }
+
   }
 }
 

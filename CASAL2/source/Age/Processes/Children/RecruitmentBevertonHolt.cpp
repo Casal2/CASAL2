@@ -323,7 +323,7 @@ void RecruitmentBevertonHolt::DoExecute() {
       Double true_ycs = 1.0 * ssb_ratio / (1 - ((5 * steepness_ - 1) / (4 * steepness_)) * (1 - ssb_ratio));
       amount_per = r0_ * true_ycs;
 
-      LOG_FINEST() << "b0_: " << b0_ << "; ssb_ratio: " << ssb_ratio << "; true_ycs: " << true_ycs << "; amount_per: " << amount_per;
+      LOG_FINEST() << "b0_: " << b0_ << "; ssb_ratio: " << ssb_ratio << "; true_ycs: " << true_ycs << "; amount_per: " << amount_per << " R0 = " << r0_;
     }
 
   } else {
@@ -413,7 +413,7 @@ void RecruitmentBevertonHolt::DoExecute() {
 
   unsigned i = 0;
   for (auto category : partition_) {
-    LOG_FINEST() << category->name_ << "; age: " << age_ << "; category->min_age_: " << category->min_age_;
+    LOG_FINEST() << category->name_ << "; age: " << age_ << "; category->min_age_: " << category->min_age_ << " recruits = " << AS_DOUBLE(amount_per * proportions_[i]);
     category->data_[age_ - category->min_age_] += amount_per * proportions_[i];
     ++i;
   }
@@ -437,7 +437,7 @@ void RecruitmentBevertonHolt::ScalePartition() {
   r0_ = scalar;
   for (auto category : partition_) {
     for (unsigned j = 0; j < category->data_.size(); ++j) {
-      LOG_FINEST() << "Category "<< category->name_ << " Age = " << j + category->min_age_ << " Numbers at age = " <<  category->data_[j];
+      LOG_FINEST() << "Category "<< category->name_ << " Age = " << j + category->min_age_ << " Numbers at age before = " <<  category->data_[j] << " after = " << AS_DOUBLE(category->data_[j] * scalar);
       category->data_[j] *= scalar;
       LOG_FINEST() << "Category "<< category->name_ << " Age = " << j + category->min_age_ << " Numbers at age = " <<  category->data_[j];
     }

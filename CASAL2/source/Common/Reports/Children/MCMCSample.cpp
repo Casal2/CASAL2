@@ -46,8 +46,6 @@ void MCMCSample::DoBuild() {
 void MCMCSample::DoPrepare() {
   if (!model_->global_configuration().resume()) {
     cache_ << "*mcmc (mcmc_sample)\n";
-    cache_ << "values " << REPORT_R_DATAFRAME << "\n";
-
     auto estimates = model_->managers().estimate()->GetIsEstimated();
     for (unsigned i = 0; i < estimates.size() - 1; ++i)
       cache_ << estimates[i]->parameter() << " ";
