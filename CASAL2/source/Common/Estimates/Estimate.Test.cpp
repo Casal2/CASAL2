@@ -54,12 +54,12 @@ TEST_F(InternalEmptyModel, Estimates_Single_Target) {
   model_->Start(RunMode::kEstimation);
 
   ObjectiveFunction& obj_function = model_->objective_function();
-  EXPECT_DOUBLE_EQ(1726.6295023192379, obj_function.score());
+  EXPECT_DOUBLE_EQ(1726.6295023192436, obj_function.score());
 
   Estimate* estimate = model_->managers().estimate()->GetEstimate("selectivity[FishingSel].a50");
   if (!estimate)
     LOG_FATAL() << "!estimate";
-  EXPECT_DOUBLE_EQ(estimate->value(), 7.2724038656178385);
+  EXPECT_DOUBLE_EQ(estimate->value(), 7.2724038656733399);
 
   // Check results
   estimate->set_value(1.0);
@@ -99,12 +99,12 @@ TEST_F(InternalEmptyModel, Estimates_Single_Target_WithSame) {
   model_->Start(RunMode::kEstimation);
 
   ObjectiveFunction& obj_function = model_->objective_function();
-  EXPECT_DOUBLE_EQ(1726.6295023182802, obj_function.score());
+  EXPECT_DOUBLE_EQ(1726.629502319726, obj_function.score());
 
   Estimate* estimate = model_->managers().estimate()->GetEstimate("selectivity[FishingSel].a50");
   if (!estimate)
     LOG_FATAL() << "!estimate";
-  EXPECT_DOUBLE_EQ(estimate->value(), 7.2724038541486005);
+  EXPECT_DOUBLE_EQ(estimate->value(),7.2724038715085921);
 
   // Validate the sames
   auto same_labels = estimate->same_labels();
@@ -113,7 +113,7 @@ TEST_F(InternalEmptyModel, Estimates_Single_Target_WithSame) {
 
   auto sames = estimate->sames();
   ASSERT_EQ(1u, sames.size());
-  EXPECT_DOUBLE_EQ(*sames[0], 7.2724038541486005);
+  EXPECT_DOUBLE_EQ(*sames[0],7.2724038715085921);
 
   // Check results
   estimate->set_value(1.0);
@@ -150,19 +150,19 @@ TEST_F(InternalEmptyModel, Estimates_Multiple_Defined_Targets_Vector) {
   model_->Start(RunMode::kEstimation);
 
   ObjectiveFunction& obj_function = model_->objective_function();
-  EXPECT_DOUBLE_EQ(35171.333647143554, obj_function.score());
+  EXPECT_DOUBLE_EQ(35171.649398522008, obj_function.score());
 
   Estimate* estimate = model_->managers().estimate()->GetEstimate("selectivity[av].v{21}");
   if (!estimate)
     LOG_FATAL() << "!estimate";
-  EXPECT_DOUBLE_EQ(estimate->value(), 1.0000667295269956);
-  EXPECT_DOUBLE_EQ(estimate->GetScore(), 0.017919754558039881);
+  EXPECT_DOUBLE_EQ(estimate->value(), 1.0018903419355529);
+  EXPECT_DOUBLE_EQ(estimate->GetScore(), 0.01994669208952907);
 
   estimate = model_->managers().estimate()->GetEstimate("selectivity[av].v{25}");
   if (!estimate)
     LOG_FATAL() << "!estimate";
-  EXPECT_DOUBLE_EQ(estimate->value(), 1.000014483955731);
-  EXPECT_DOUBLE_EQ(estimate->GetScore(), 0.017861646655730232);
+  EXPECT_DOUBLE_EQ(estimate->value(),1.0000318985045502);
+  EXPECT_DOUBLE_EQ(estimate->GetScore(),0.017881015473169552);
 }
 
 /**
@@ -188,13 +188,13 @@ TEST_F(InternalEmptyModel, Estimates_Multiple_Defined_Targets_Vector_WithSames) 
   model_->Start(RunMode::kEstimation);
 
   ObjectiveFunction& obj_function = model_->objective_function();
-  EXPECT_DOUBLE_EQ(19760.08265178404, obj_function.score());
+  EXPECT_DOUBLE_EQ(19760.082616411706, obj_function.score());
 
   Estimate* estimate = model_->managers().estimate()->GetEstimate("selectivity[av].v{21}");
   if (!estimate)
     LOG_FATAL() << "!estimate";
-  EXPECT_DOUBLE_EQ(estimate->value(), 1.0000126859810152);
-  EXPECT_DOUBLE_EQ(estimate->GetScore(), 0.017859646898357114);
+  EXPECT_DOUBLE_EQ(estimate->value(), 1.0000126386209927);
+  EXPECT_DOUBLE_EQ(estimate->GetScore(),0.017859594223192582);
 
   // Validate the sames
   auto same_labels = estimate->same_labels();
@@ -203,14 +203,14 @@ TEST_F(InternalEmptyModel, Estimates_Multiple_Defined_Targets_Vector_WithSames) 
 
   auto sames = estimate->sames();
   ASSERT_EQ(1u, sames.size());
-  EXPECT_DOUBLE_EQ(*sames[0], 1.0000126859810152);
+  EXPECT_DOUBLE_EQ(*sames[0], 1.0000126386209927);
 
   //
   estimate = model_->managers().estimate()->GetEstimate("selectivity[av].v{25}");
   if (!estimate)
     LOG_FATAL() << "!estimate";
-  EXPECT_DOUBLE_EQ(estimate->value(), 1.0000000608621287);
-  EXPECT_DOUBLE_EQ(estimate->GetScore(), 0.017845604821652206);
+  EXPECT_DOUBLE_EQ(estimate->value(), 1.0000000598154875);
+  EXPECT_DOUBLE_EQ(estimate->GetScore(), 0.017845603657538064);
 }
 
 /**

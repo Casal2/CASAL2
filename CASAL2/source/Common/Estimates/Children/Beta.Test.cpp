@@ -50,12 +50,12 @@ TEST_F(InternalEmptyModel, Estimates_Beta) {
   model_->Start(RunMode::kEstimation);
 
   ObjectiveFunction& obj_function = model_->objective_function();
-  EXPECT_DOUBLE_EQ(1726.6295023192379, obj_function.score());
+  EXPECT_DOUBLE_EQ(1726.6295023192436, obj_function.score());
 
   Estimate* estimate = model_->managers().estimate()->GetEstimate("selectivity[FishingSel].a50");
   if (!estimate)
     LOG_FATAL() << "!estimate";
-  EXPECT_DOUBLE_EQ(estimate->value(), 7.2724038656178385);
+  EXPECT_DOUBLE_EQ(estimate->value(),7.2724038656733399);
 
   // Check results
   estimate->set_value(1.0);
