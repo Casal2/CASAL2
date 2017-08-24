@@ -42,7 +42,7 @@ TEST_F(InternalEmptyModel, EstimateTransformations_Inverse) {
   model_->Start(RunMode::kEstimation);
 
   ObjectiveFunction& obj_function = model_->objective_function();
-  EXPECT_DOUBLE_EQ(1977.8957256493582, obj_function.score());
+  EXPECT_DOUBLE_EQ(1977.895725058263, obj_function.score());
 }
 
 /**
@@ -66,7 +66,7 @@ TEST_F(InternalEmptyModel, EstimateTransformations_Inverse_NoBounds) {
   model_->Start(RunMode::kEstimation);
 
   ObjectiveFunction& obj_function = model_->objective_function();
-  EXPECT_DOUBLE_EQ(1977.8957256493582, obj_function.score());
+  EXPECT_DOUBLE_EQ(1977.895725058263, obj_function.score());
 }
 
 /**

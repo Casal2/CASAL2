@@ -37,21 +37,21 @@ TEST(Selectivities, LogisticProducing) {
 
   logistic_producing.parameters().Add(PARAM_LABEL, "unit_test_logistic_producing", __FILE__, __LINE__);
   logistic_producing.parameters().Add(PARAM_TYPE, "not needed in test", __FILE__, __LINE__);
-  logistic_producing.parameters().Add(PARAM_L,     "13",  __FILE__, __LINE__);
+  logistic_producing.parameters().Add(PARAM_L,     "2",  __FILE__, __LINE__);
   logistic_producing.parameters().Add(PARAM_H,     "17",  __FILE__, __LINE__);
-  logistic_producing.parameters().Add(PARAM_A50,   "2",  __FILE__, __LINE__);
+  logistic_producing.parameters().Add(PARAM_A50,   "5",  __FILE__, __LINE__);
   logistic_producing.parameters().Add(PARAM_ATO95, "7",  __FILE__, __LINE__);
   logistic_producing.Validate();
   logistic_producing.Build();
 
   EXPECT_DOUBLE_EQ(0.0,                       logistic_producing.GetResult(9, nullptr)); // Below model->min_age()
-  EXPECT_DOUBLE_EQ(0.0,                       logistic_producing.GetResult(10, nullptr)); // At model->min_age()
-  EXPECT_DOUBLE_EQ(0.0,                       logistic_producing.GetResult(11, nullptr));
-  EXPECT_DOUBLE_EQ(0.0,                       logistic_producing.GetResult(12, nullptr));
-  EXPECT_DOUBLE_EQ(0.99031049840094476,       logistic_producing.GetResult(13, nullptr));
-  EXPECT_DOUBLE_EQ(0.3411777524940745,        logistic_producing.GetResult(14, nullptr));
-  EXPECT_DOUBLE_EQ(0.34192724168975369,       logistic_producing.GetResult(15, nullptr));
-  EXPECT_DOUBLE_EQ(0.34242117259057536,       logistic_producing.GetResult(16, nullptr));
+  EXPECT_DOUBLE_EQ(0.30601485103536746,       logistic_producing.GetResult(10, nullptr)); // At model->min_age()
+  EXPECT_DOUBLE_EQ(0.31788957037004134,       logistic_producing.GetResult(11, nullptr));
+  EXPECT_DOUBLE_EQ(0.32620122230997384,       logistic_producing.GetResult(12, nullptr));
+  EXPECT_DOUBLE_EQ(0.33189943287244494,       logistic_producing.GetResult(13, nullptr));
+  EXPECT_DOUBLE_EQ(0.33575058434663646,       logistic_producing.GetResult(14, nullptr));
+  EXPECT_DOUBLE_EQ(0.33832834977572424,       logistic_producing.GetResult(15, nullptr));
+  EXPECT_DOUBLE_EQ(0.34004262636293647,       logistic_producing.GetResult(16, nullptr));
   EXPECT_DOUBLE_EQ(1.0,                       logistic_producing.GetResult(17, nullptr));
   EXPECT_DOUBLE_EQ(1.0,                       logistic_producing.GetResult(18, nullptr));
   EXPECT_DOUBLE_EQ(1.0,                       logistic_producing.GetResult(19, nullptr));
