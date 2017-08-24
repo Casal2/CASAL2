@@ -608,7 +608,6 @@ void MortalityInstantaneous::DoExecute() {
    */
   for (auto& category : categories_) {
     for (unsigned i = 0; i < category.category_->data_.size(); ++i) {
-      LOG_FINEST() << "Category " << category.category_->name_ << " age = " << category.category_->min_age_ + i << " u = " <<  category.exploitation_[i] << " Selectivity = " << category.selectivity_values_[i] << " M = " << AS_DOUBLE((*category.m_) * ratio);
       category.category_->data_[i] *= exp(-(*category.m_) * ratio * category.selectivity_values_[i]) * (1 - category.exploitation_[i]);
       if (category.category_->data_[i] < 0.0) {
         LOG_CODE_ERROR() << " Fishing caused a negative partition : if (categories->data_[i] < 0.0)";
