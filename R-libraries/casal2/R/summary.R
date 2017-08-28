@@ -44,6 +44,23 @@ function(model){
 }
 
 ## method for class casal2MCMC
+#' @return \code{NULL}
+#'
+#' @rdname summary
+#' @method summary casal2MCMC
+#' @export
+"summary.casal2MCMC" = function(model) {
+  ## What do we want to summarise for each MCMC
+  ## Trace plot of Objective function
+  ## marginal posterior's of b0,M,q
+  
+  ##############
+  ## Trace Plot
+  #############
+  plot(model$"sample"/1000, model$"objective_score", xlab = "Iteration (000's)", ylab = "Objective Score", main = "Trace Plot", type = "l")
+
+  
+}
 
 
 ## method for class casal2TAB
