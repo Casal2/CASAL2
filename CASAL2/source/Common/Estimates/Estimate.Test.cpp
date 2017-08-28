@@ -188,13 +188,13 @@ TEST_F(InternalEmptyModel, Estimates_Multiple_Defined_Targets_Vector_WithSames) 
   model_->Start(RunMode::kEstimation);
 
   ObjectiveFunction& obj_function = model_->objective_function();
-  EXPECT_DOUBLE_EQ(19760.082616411706, obj_function.score());
+  EXPECT_NEAR(19760.082616411706, obj_function.score(), 1e-4);
 
   Estimate* estimate = model_->managers().estimate()->GetEstimate("selectivity[av].v{21}");
   if (!estimate)
     LOG_FATAL() << "!estimate";
-  EXPECT_DOUBLE_EQ(estimate->value(), 1.0000126386209927);
-  EXPECT_DOUBLE_EQ(estimate->GetScore(),0.017859594223192582);
+  EXPECT_NEAR(estimate->value(), 1.0000126386209927, 1e-4);
+  EXPECT_NEAR(estimate->GetScore(),0.017859594223192582, 1e-4);
 
   // Validate the sames
   auto same_labels = estimate->same_labels();
@@ -203,14 +203,14 @@ TEST_F(InternalEmptyModel, Estimates_Multiple_Defined_Targets_Vector_WithSames) 
 
   auto sames = estimate->sames();
   ASSERT_EQ(1u, sames.size());
-  EXPECT_DOUBLE_EQ(*sames[0], 1.0000126386209927);
+  EXPECT_NEAR(*sames[0], 1.0000126386209927, 1e-4);
 
   //
   estimate = model_->managers().estimate()->GetEstimate("selectivity[av].v{25}");
   if (!estimate)
     LOG_FATAL() << "!estimate";
-  EXPECT_DOUBLE_EQ(estimate->value(), 1.0000000598154875);
-  EXPECT_DOUBLE_EQ(estimate->GetScore(), 0.017845603657538064);
+  EXPECT_NEAR(estimate->value(), 1.0000000598154875, 1e-4);
+  EXPECT_NEAR(estimate->GetScore(), 0.017845603657538064, 1e-4);
 }
 
 /**
