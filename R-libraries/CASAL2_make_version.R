@@ -17,7 +17,10 @@ cat("Maintainer: Casal2 development team <casal2@niwa.co.nz>\n",file=filename,ap
 cat("License: CPL v1.0. See the CASAL2 User Manual for license details.\n",file=filename,append=TRUE)
 cat("URL: http://www.niwa.co.nz\n",file=filename,append=TRUE)
 cat("Copyright: National Institute of Water & Atmospheric Research (NIWA), New Zealand Ministry for Primary Industries.\n",file=filename,append=TRUE)
-
+cat("LazyData: true\n",file=filename,append=TRUE)
+cat("BugReports: https://github.com/NIWAFisheriesModelling/CASAL2/issues\n",file=filename,append=TRUE)
+cat("Imports:\n",file=filename,append=TRUE)
+cat("\t dplyr\n",file=filename,append=TRUE)
 
 # Create R function to return version number
 filename<-"casal2/R/CASAL2.binary.version.R"
