@@ -494,8 +494,16 @@ void MortalityInstantaneous::DoExecute() {
      * Rescaling exploitation and applying penalties
      */
     bool recalculate_age_exploitation = false;
+    LOG_FINEST() << "Size of fishery_categories_ " << fishery_categories_.size();
+    vector<string> fisheries_checked;
     for (auto& fishery_category : fishery_categories_) {
       auto& fishery = fishery_category.fishery_;
+      if (find(fisheries_checked.begin(), fisheries_checked.end(), fishery.label_) != fisheries_checked.end()) {
+        LOG_FINE() << "We have already rescaled the fishery " << fishery.label_;
+        continue;
+      }
+      LOG_FINE() << "Rescaling exploitation for fishery " << fishery.label_;
+      fisheries_checked.push_back(fishery.label_);
       if (fishery.time_step_index_ != time_step_index)
         continue;
 
@@ -506,16 +514,17 @@ void MortalityInstantaneous::DoExecute() {
           continue;
         uobs = uobs > age_exploitation ? uobs : age_exploitation;
       }
-
+      //fishery.exploitation_ = uobs;
       Double u_max_ = fishery.u_max_;
       if (uobs > u_max_) {
+        LOG_FINE() << fishery.label_ << " exploitation rate before rescaling = " << fishery.exploitation_;
         fishery.exploitation_ *= (u_max_ / uobs); // This may seem weird to be greater than u_max but later we multiply it by the selectivity which scales it to U_max
         LOG_FINE() << "fishery = " << fishery.label_ << " U_obs = " << uobs << " and u_max " << u_max_;
         LOG_FINE() << fishery.label_ << " Rescaled exploitation rate = " << fishery.exploitation_;
         recalculate_age_exploitation = true;
-        fishery.actual_catches_[year] = fishery.vulnerability_ * u_max_;
+        fishery.actual_catches_[year] = fishery.vulnerability_ * fishery.exploitation_;
         if (fishery.penalty_)
-          fishery.penalty_->Trigger(label_, fishery.catches_[year], fishery.vulnerability_ * u_max_);
+          fishery.penalty_->Trigger(label_, fishery.catches_[year], fishery.actual_catches_[year]);
       } else {
         fishery.actual_catches_[year] = fishery.catches_[year];
       }
@@ -542,6 +551,7 @@ void MortalityInstantaneous::DoExecute() {
     }
     /**
      * Calculate the expectation for a proportions_at_age observation
+     *
      */
     unsigned age_spread = model_->age_spread();
     unsigned category_offset = 0;
@@ -611,6 +621,27 @@ void MortalityInstantaneous::DoExecute() {
       category.category_->data_[i] *= exp(-(*category.m_) * ratio * category.selectivity_values_[i]) * (1 - category.exploitation_[i]);
       if (category.category_->data_[i] < 0.0) {
         LOG_CODE_ERROR() << " Fishing caused a negative partition : if (categories->data_[i] < 0.0)";
+      }
+    }
+  }
+}
+/*
+ * @fun calculate_requests_from_removal_observation
+ * @description this builds up a container that is checked what information is to be stored for observations to use later
+ * This has to be able to handle being called multiple times as we can have multiple observations on a single process.
+ * @param years to calculate expectations for
+ * @param methods the methods to store information for
+ * @param categories the categories to store information for
+ *
+*/
+
+void MortalityInstantaneous::calculate_requests_from_removal_observation(vector<unsigned> years, vector<string> methods,vector<string> categories){
+  for (auto year : years) {
+    for (auto method : methods) {
+      for (auto category : categories) {
+         // Do something
+        LOG_FINEST() << "methods = " << method;
+        year_method_category_to_store_[year][method].push_back(category);
       }
     }
   }

@@ -86,10 +86,13 @@ public:
   void                        DoReset() override final;
   void                        DoExecute() override final;
   void                        RebuildCache() override final;
-
+  //
+  void                        calculate_requests_from_removal_observation(vector<unsigned> years, vector<string> methods,vector<string> categories);
   // accessors
   map<unsigned, map<string, map<string, vector<Double>>>>&  catch_at() { return removals_by_year_fishery_category_; };
 
+  // set
+  vector<unsigned>            set_years();
 private:
   map<string, CategoryData*>  category_data_;
   vector<CategoryData>        categories_;
@@ -118,6 +121,7 @@ private:
   vector<Selectivity*>        selectivities_;
   // members for observations
   map<unsigned,  map<string, map<string, vector<Double>>>> removals_by_year_fishery_category_; // Year,  fishery, category
+  map<unsigned, map<string, vector<string>>> year_method_category_to_store_; // Year,  fishery, category
   // Members for reporting
   unsigned 										reporting_year_ = 0;
   vector<unsigned>            time_steps_to_skip_applying_F_mortaltiy_;
