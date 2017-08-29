@@ -153,7 +153,7 @@ void RecruitmentBevertonHolt::DoBuild() {
 
   derived_quantity_ = model_->managers().derived_quantity()->GetDerivedQuantity(ssb_);
   if (!derived_quantity_)
-    LOG_ERROR_P(PARAM_SSB) << "(" << ssb_ << ") could not be found. Have you defined it?";
+    LOG_ERROR_P(PARAM_SSB) << "(" << ssb_ << ") could not be found. Have you defined the right @derived_quantity?";
 
   /**
    * Calculate out SSB offset
