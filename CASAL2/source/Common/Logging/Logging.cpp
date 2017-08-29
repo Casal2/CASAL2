@@ -144,7 +144,7 @@ void Logging::FlushWarnings() {
 
   for (unsigned i = 0; i < warnings_.size(); ++i) {
     cout << "warning_" << i << " " << REPORT_R_STRING_VECTOR <<"\n";
-    cout << warnings_[i] << "'\n";
+    cout << warnings_[i] << "\n";
   }
 
   cout << "*end\n\n";

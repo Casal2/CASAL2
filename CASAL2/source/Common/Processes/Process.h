@@ -48,46 +48,26 @@ public:
   void                        Build();
   void                        Reset();
   void                        Execute(unsigned year, const string& time_step_label);
-  void                        Print();
   void                        Subscribe(unsigned year, const string& time_step_label, Executor* executor);
 
   virtual void                DoValidate() = 0;
   virtual void                DoBuild() = 0;
   virtual void                DoReset() = 0;
   virtual void                DoExecute() = 0;
-  virtual void                FillReportCache(ostringstream& cache, bool first_run) { };
+  virtual void                FillReportCache(ostringstream& cache) { };
   virtual void                FillTabularReportCache(ostringstream& cache, bool first_run) { };
 
   // accessors
-  void                        flag_print_report() { print_report_ = true; }
-  bool                        print_report() const { return print_report_; }
   PartitionStructure          partition_structure() const { return partition_structure_; }
   ProcessType                 process_type() const { return process_type_; }
-  map<string, vector<string>>& print_values() { return print_values_; }
-  map<string, string>& 			  print_tabular_values() { return print_tabular_values_; }
 
 protected:
-  // methods
-  template<typename T>
-  void                        StoreForReport(const string& label, T value);
-  template<typename T>
-  void                        StoreForReport(const string& label, const vector<T>& value);
-  template<typename T>
-  void                        StoreForTabularReport(const string& label, T value);
-  template<typename T>
-  void                        StoreForTabularReport(const string& label, const vector<T>& value);
   // members
   Model*                      model_ = nullptr;
   ProcessType                 process_type_ = ProcessType::kUnknown;
   PartitionStructure          partition_structure_ = PartitionStructure::kInvalid;
   map<unsigned, map<string, vector<Executor*>>> executors_;
-  bool                        create_report_ = false;
-  bool                        print_report_ = false;
-  bool                        print_tabular_mode_ = false;
-  map<string, vector<string>> print_values_;
-  map<string, string> 				print_tabular_values_;
 };
 } /* namespace niwa */
 
-#include "Process-inl.h"
 #endif /* PROCESS_H_ */

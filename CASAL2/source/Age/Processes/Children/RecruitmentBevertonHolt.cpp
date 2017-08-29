@@ -251,6 +251,11 @@ void RecruitmentBevertonHolt::DoBuild() {
     LOG_ERROR() << "Found an @estimate for both R0 and B0 for recruitment process " << label_ << " this is not allowed, you can only estimate one of these parameters";
   }
 
+  // Pre allocate memory
+  ssb_values_.reserve(model_->years().size());
+  true_ycs_values_.reserve(model_->years().size());
+  recruitment_values_.reserve(model_->years().size());
+
   DoReset();
 }
 
@@ -424,39 +429,47 @@ void RecruitmentBevertonHolt::ScalePartition() {
 /**
  *
  */
-void RecruitmentBevertonHolt::FillReportCache(ostringstream& cache, bool first_run) {
-//  cache << "ycs_years: ";
-//  for (auto iter : stand_ycs_value_by_year_)
-//    cache << iter.first << " ";
-//  cache << "\nycs_values: ";
-//  for (auto iter : stand_ycs_value_by_year_)
-//    cache << iter.second << " ";
-//  // Store true_ycs values
-//  StoreForReport("ycs_years: " , ssb_year); // the input parameter isn't updated during projections. So thats why we are reporting it twice.
-//  StoreForReport("ycs_values: " , AS_DOUBLE(ycs_value_by_year_[ssb_year])); // the input parameter isn't updated during projections. So thats why we are reporting it twice.
-//  StoreForReport("true_ycs: " , AS_DOUBLE(true_ycs)); // this is including SR-relationship
-//  StoreForReport("standardiesed_ycs: " , AS_DOUBLE(stand_ycs_value_by_year_[ssb_year]));
-//  StoreForReport("Recruits: " , AS_DOUBLE(amount_per));
+void RecruitmentBevertonHolt::FillReportCache(ostringstream& cache) {
+  cache << "ycs_years: ";
+  for (auto iter : stand_ycs_value_by_year_)
+    cache << iter.first << " ";
+  cache << "\nstandardiesed_ycs: ";
+  for (auto iter : stand_ycs_value_by_year_)
+    cache << iter.second << " ";
+  cache << "\nycs_values: ";
+  for (auto iter : ycs_value_by_year_)
+    cache << iter.second << " ";
+  cache << "\ntrue_ycs: ";
+  for (auto iter : true_ycs_values_)
+    cache << iter << " ";
+  cache << "\nRecruits: ";
+  for (auto iter : recruitment_values_)
+    cache << iter << " ";
+  cache << "\nSSB: ";
+  for (auto iter : ssb_values_)
+    cache << iter << " ";
 }
 
 /**
  *
  */
 void RecruitmentBevertonHolt::FillTabularReportCache(ostringstream& cache, bool first_run) {
-//  if (first_run) {
-//    vector<unsigned> years = model_->years();
-//    for (auto year : years) {
-//      unsigned ssb_year = year - ssb_offset_;
-//      cache << "standardiesed_ycs[" << ssb_year << "] true_ycs[" << ssb_year << "]";
-//    }
-//    cache << " R0 steepness\n";
-//  }
-//
-//  for (auto iter : stand_ycs_value_by_year_)
-//    cache << iter.second << " ";
-//  for (auto value : true_ycs_)
-//    cache << value << " ";
-//  cache << r0_ << steepness_ << "\n";
+  if (first_run) {
+    vector<unsigned> years = model_->years();
+    for (auto year : years) {
+      unsigned ssb_year = year - ssb_offset_;
+      cache << "standardiesed_ycs[" << ssb_year << "] true_ycs[" << ssb_year << "] recruits["<< ssb_year << "] ";
+    }
+    cache << " R0 B0 steepness\n";
+  }
+
+  for (auto iter : stand_ycs_value_by_year_)
+    cache << iter.second << " ";
+  for (auto value : true_ycs_values_)
+    cache << value << " ";
+  for (auto value : recruitment_values_)
+    cache << value << " ";
+  cache << r0_ << " " << b0_ << " " << steepness_ << "\n";
 }
 
 } /* namespace processes */

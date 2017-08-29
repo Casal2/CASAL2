@@ -396,8 +396,6 @@ void Model::RunBasic() {
       Reset();
     }
 
-    LOG_FINE() << "Model: State change to PreExecute";
-    managers_->report()->Execute(State::kPreExecute);
     /**
      * Running the model now
      */
@@ -482,8 +480,6 @@ void Model::RunBasic() {
       executor->Execute();
 
     // Model has finished so we can run finalise.
-    LOG_FINE() << "Model: State change to PostExecute";
-    managers_->report()->Execute(State::kPostExecute);
 
     LOG_FINE() << "Model: State change to Iteration Complete";
     objective_function_->CalculateScore();
@@ -778,7 +774,6 @@ void Model::RunProjection() {
 
       // Model has finished so we can run finalise.
       LOG_FINE() << "Model: State change to PostExecute and iteration complete";
-      managers_->report()->Execute(State::kPostExecute);
       managers_->report()->Execute(State::kIterationComplete);
 
       // Not sure if we need these

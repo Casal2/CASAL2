@@ -277,10 +277,10 @@ void Abundance::CalculateScore() {
         }
       }
     }
+    likelihood_->GetScores(comparisons_);
 
     for (unsigned year : years_) {
       scores_[year] = likelihood_->GetInitialScore(comparisons_, year);
-      likelihood_->GetScores(comparisons_);
       for (obs::Comparison comparison : comparisons_[year]) {
         scores_[year] += comparison.score_;
       }

@@ -29,8 +29,8 @@ namespace reports {
  * @param model Pointer to the current model context
  */
 Process::Process(Model* model) : Report(model) {
-  model_state_ = State::kPostExecute;
-  run_mode_    = (RunMode::Type)(RunMode::kBasic | RunMode::kSimulation | RunMode::kProjection);
+  model_state_ = State::kIterationComplete;
+  run_mode_    = (RunMode::Type)(RunMode::kBasic | RunMode::kSimulation | RunMode::kEstimation | RunMode::kProjection);
 
   parameters_.Bind<string>(PARAM_PROCESS, &process_label_, "Process label that is reported", "", "");
 }
@@ -43,10 +43,6 @@ void Process::DoBuild() {
   if (!process_) {
     LOG_ERROR_P(PARAM_PROCESS) << "process " << process_label_ << " could not be found. Have you defined it?";
   }
-
-  // Don't store for report's in MCMC mode
-  if (model_->run_mode() != RunMode::kMCMC)
-    process_->flag_print_report();
 }
 
 /**
@@ -54,6 +50,7 @@ void Process::DoBuild() {
  */
 void Process::DoExecute() {
   LOG_FINE() <<" printing report " << label_ << " of type " << process_->type();
+
   bool is_BH_recruitment = (process_->type() == PARAM_RECRUITMENT_BEVERTON_HOLT) | (process_->type() == PARAM_BEVERTON_HOLT);
   cache_ << "*" << label_ << " " << "("<< type_ << ")"<<"\n";
   cache_ << "process_type: " << process_->type() << "\n";
@@ -71,14 +68,8 @@ void Process::DoExecute() {
       cache_ << line << "\n";
     }
   }
-
-  auto print_values = process_->print_values();
-  for (auto element : print_values) {
-    cache_ << element.first;
-    string line = boost::algorithm::join(element.second, " ");
-    cache_ << line << "\n";
-  }
-
+  // Fill the rest of the process specific crap
+  process_->FillReportCache(cache_);
   ready_for_writing_ = true;
 }
 
@@ -86,7 +77,6 @@ void Process::DoExecute() {
  * Execute this report
  */
 void Process::DoExecuteTabular() {
-  auto print_tabular_values = process_->print_tabular_values();
   if (first_run_) {
     first_run_ = false;
     cache_ << "*" << label_ << " " << "(" << type_ << ")" << "\n";

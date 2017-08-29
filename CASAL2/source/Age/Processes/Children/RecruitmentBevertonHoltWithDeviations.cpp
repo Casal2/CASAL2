@@ -399,6 +399,7 @@ void RecruitmentBevertonHoltWithDeviations::DoExecute() {
         << recruit_dev_value_by_year_[ssb_year] << "; b0_ = " << b0_ << "; ssb_ratio = " << ssb_ratio << "; true_ycs = "
         << true_ycs << "; amount_per = " << amount_per;
 
+/*
     // Store true_ycs values
     StoreForReport("deviation_years: " , ssb_year); // the input parameter isn't updated during projections. So thats why we are reporting it twice.
     StoreForReport("recruit_devs: " , AS_DOUBLE(recruit_dev_value_by_year_[ssb_year])); // the input parameter isn't updated during projections. So thats why we are reporting it twice.
@@ -419,6 +420,7 @@ void RecruitmentBevertonHoltWithDeviations::DoExecute() {
     StoreForTabularReport(stand_label, AS_DOUBLE(recruit_dev_value_by_year_[ssb_year]));
     StoreForTabularReport(true_ycs_label ,  AS_DOUBLE(true_ycs));
     StoreForTabularReport(ycs_label ,  AS_DOUBLE(ycs));
+*/
 
 
   }
@@ -456,6 +458,25 @@ void RecruitmentBevertonHoltWithDeviations::ScalePartition() {
   LOG_FINEST() << "R0 = " << r0_;
 }
 
+/*
+ * @fun FillReportCache
+ * @description A method for reporting process information
+ * @param cache a cache object to print to
+*/
+void RecruitmentBevertonHoltWithDeviations::FillReportCache(ostringstream& cache) {
+
+}
+
+/*
+ * @fun FillTabularReportCache
+ * @description A method for reporting tabular process information
+ * @param cache a cache object to print to
+ * @param first_run whether to print the header
+ *
+*/
+void RecruitmentBevertonHoltWithDeviations::FillTabularReportCache(ostringstream& cache, bool first_run) {
+
+}
 
 } /* namespace processes */
 } /* namespace age */

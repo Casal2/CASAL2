@@ -31,7 +31,7 @@ public:
   virtual                     ~Data();
   void                        DoValidate() override final {};
   void                        DoBuild() override final;
-  void                        DoReset() override final {};
+  void                        DoReset() override final { };
   void                        DoRebuildCache() override final { }; // This should never happen. i.e time vary data type.
 
   Double                      mean_length(unsigned time_step, unsigned age) override final;
@@ -58,12 +58,13 @@ private:
   map<unsigned, map<unsigned, map<unsigned, Double>>> mean_length_by_year_;
   string                        step_data_supplied_;
   unsigned                      step_index_data_supplied_;
-  unsigned                      ageing_index_;
+  unsigned                      ageing_index_ = 0;
   vector<Double>                means_;
   string                        length_weight_label_;
   const LengthWeight*           length_weight_ = nullptr;
   vector<unsigned>              steps_to_figure_;
   unsigned                      number_time_steps_;
+  unsigned                      final_year_;
 };
 
 } /* namespace agelengths */

@@ -134,16 +134,18 @@ void MortalityInitialisationEventBiomass::DoExecute() {
      * vulnerable * exploitation
      */
     // Report catches and exploitation rates for each category for each iteration
+/*
     StoreForReport("initialisation_iteration: ", init_iteration_);
     StoreForReport("Exploitation: ", AS_DOUBLE(exploitation));
     StoreForReport("Catch: ", AS_DOUBLE(catch_));
+*/
     Double removals =0;
     for (auto categories : partition_) {
       unsigned offset = 0;
       for (Double& data : categories->data_) {
         // report
         removals = vulnerable_[categories->name_][categories->min_age_ + offset] * exploitation;
-        StoreForReport(categories->name_ + "_Removals: ", AS_DOUBLE(removals));
+        //StoreForReport(categories->name_ + "_Removals: ", AS_DOUBLE(removals));
         data -= removals;
         offset++;
       }

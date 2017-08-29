@@ -60,6 +60,10 @@ void Data::DoBuild() {
     LOG_ERROR_P(PARAM_LENGTH_WEIGHT) << "(" << length_weight_label_ << ") could not be found. Have you defined it?";
   if (!data_table_)
     LOG_CODE_ERROR() << "!data_table_";
+  if (model_->run_mode() == RunMode::kProjection)
+    final_year_ = model_->projection_final_year();
+  else
+    final_year_ = model_->final_year();
 
   /**
    * create key parameters that are used to interpolate mean length between time_steps, relative to step_data_supplied_
@@ -113,6 +117,11 @@ void Data::DoBuild() {
     if ((columns.size() - 1) != model_->age_spread())
       LOG_ERROR_P(PARAM_DATA) << "Need to specify an age for every age in the model, you specified " << columns.size() - 1 << " ages, where as there are " << model_->age_spread() << " ages in the model";
     unsigned year = utilities::ToInline<string, unsigned>(row[0]);
+    // Check year is valid
+    if (find(model_->years().begin(), model_->years().end(), year) == model_->years().end())
+      LOG_WARNING() << "Supplied year: " << year << " which is not included in the model run years, this age length wont be used in this run mode.";
+
+
     for (unsigned i = 1; i < row.size(); ++i) {
       data_by_year_[year].push_back(utilities::ToInline<string, Double>(row[i]));
       total_length[i - 1] += utilities::ToInline<string, Double>(row[i]);
@@ -163,7 +172,7 @@ void Data::InterpolateTimeStepsForInitialConditions() {
   Double w1, w2;
   for (unsigned i = 0; i < number_time_steps_; ++i) {
     if (find(steps_to_figure_.begin(),steps_to_figure_.end(),i) != steps_to_figure_.end()) {
-      LOG_FINEST() << "adapting time step = " << i + 1 << " initialiations";
+      LOG_FINEST() << "adapting for time step = " << i + 1 << " initialiations";
       for (unsigned a = 0; a < model_->age_spread(); ++a) {
         age = a + model_->min_age();
         if ((step_index_data_supplied_ < i && i < ageing_index_) || (i < ageing_index_ && ageing_index_ < step_index_data_supplied_) || (ageing_index_ < step_index_data_supplied_ && step_index_data_supplied_ < i) || (ageing_index_ == step_index_data_supplied_) || (i == step_index_data_supplied_))
@@ -195,7 +204,7 @@ void Data::InterpolateTimeStepsForInitialConditions() {
         LOG_FINEST() << "for a2 = " << a2 + model_->min_age();
         LOG_FINEST() << means_[a2];
         LOG_FINEST() << "w1 = " << w1 << " w2 = " << w2 << " final result";
-        data_by_age_time_step_[i][age];
+        LOG_FINEST() << data_by_age_time_step_[i][age];
       }
     }
   }
@@ -211,11 +220,13 @@ void Data::InterpolateTimeStepsForAllYears() {
   unsigned y1, y2 ,a1, a2, age;
   Double w1, w2;
   for (auto year : model_->years()) {
+    LOG_FINEST() << "calculating age-length relationship for year = " << year;
     for (unsigned i = 0; i < number_time_steps_; ++i) {
       if (find(steps_to_figure_.begin(),steps_to_figure_.end(),i) != steps_to_figure_.end()) {
-        LOG_FINEST() << "adapting time step = " << i + 1 << " initialiations";
+        LOG_FINEST() << "adapting time step = " << i + 1;
         for (unsigned a = 0; a < model_->age_spread(); ++a) {
           age = a + model_->min_age();
+          //// Check this code out
           y1 = (i >= step_index_data_supplied_ ? year : year - 1);
           y2 = y1 + 1;
           if ((step_index_data_supplied_ < i && i < ageing_index_) || (i < ageing_index_ && ageing_index_ < step_index_data_supplied_) || (ageing_index_ < step_index_data_supplied_ && step_index_data_supplied_ < i) || (ageing_index_ == step_index_data_supplied_) || (i == step_index_data_supplied_))

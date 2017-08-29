@@ -414,11 +414,12 @@ void ProportionsAtAge::CalculateScore() {
         else
           comparison.expected_  = 0.0;
       }
-
+    }
+    likelihood_->GetScores(comparisons_);
+    for (unsigned year : years_) {
       scores_[year] = likelihood_->GetInitialScore(comparisons_, year);
       LOG_FINEST() << "-- Observation score calculation " << label_;
       LOG_FINEST() << "[" << year << "] Initial Score:"<< scores_[year];
-      likelihood_->GetScores(comparisons_);
       for (obs::Comparison comparison : comparisons_[year]) {
         LOG_FINEST() << "[" << year << "]+ likelihood score: " << comparison.score_;
         scores_[year] += comparison.score_;
