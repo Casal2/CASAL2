@@ -25,7 +25,6 @@ namespace niwa {
 Process::Process(Model* model) : model_(model) {
   parameters_.Bind<string>(PARAM_LABEL, &label_, "The label of the process", "");
   parameters_.Bind<string>(PARAM_TYPE, &type_, "The type of process", "", "");
-  parameters_.Bind<bool>(PARAM_PRINT_REPORT, &create_report_, "Indicates if a process report should be generated for this process", "", false);
 
 }
 
@@ -59,30 +58,6 @@ void Process::Validate() {
  * then call the child build method.
  */
 void Process::Build() {
-  /**
-   * Create a report if the print_report flag is true
-   *
-   * NOTE: Since we're adding reports to the report manager
-   * and it's running in a different thread we need to pause
-   * and resume the manager thread or we'll get weird crashes.
-   */
-  if (create_report_) {
-    model_->managers().report()->Pause();
-
-    reports::Process* report = new reports::Process(model_);
-    report->set_block_type(PARAM_REPORT);
-    report->set_defined_file_name(__FILE__);
-    report->set_defined_line_number(__LINE__);
-    report->parameters().Add(PARAM_LABEL, label_, __FILE__, __LINE__);
-    report->parameters().Add(PARAM_TYPE, PARAM_PROCESS, __FILE__, __LINE__);
-    report->parameters().Add(PARAM_PROCESS, label_, __FILE__, __LINE__);
-    report->Validate();
-    model_->managers().report()->AddObject(report);
-
-    model_->managers().report()->Resume();
-
-    flag_print_report();
-  }
 
   DoBuild();
 }
@@ -92,8 +67,6 @@ void Process::Build() {
  */
 void Process::Reset(){
 	LOG_TRACE();
-  print_values_.clear();
-  print_tabular_values_.clear();
   DoReset();
 }
 
@@ -118,45 +91,5 @@ void Process::Subscribe(unsigned year, const string& time_step_label, Executor* 
 }
 
 
-/**
- * Print the stored values and parameter values for this object.
- */
-void Process::Print() {
-  // Console::RedirectOutput();
-
-//
-//  cout << "*process_report: " << label_ << "\n";
-//  if (type_ == "")
-//    cout << "type: " << type_ << "\n";
-//
-//  if (print_values_.size() > 0) {
-//    cout << "-- print values\n";
-//
-//    auto iter = print_values_.begin();
-//    for (; iter != print_values_.end(); ++iter) {
-//      cout << iter->first << ": ";
-//      for (unsigned i = 0; i < iter->second.size(); ++i)
-//        cout << iter->second[i] << " ";
-//
-//      cout << "\n";
-//    }
-//  }
-//
-//  cout << "-- parameters\n";
-//  const map<string, ParameterPtr>& parameters = parameters_.parameters();
-//
-//  auto iter = parameters.begin();
-//  for (; iter != parameters.end(); ++iter) {
-//    cout << iter->first << ": ";
-//    const vector<string>& values = (*iter).second->values();
-//    for (unsigned i = 0; i < values.size(); ++i)
-//      cout << values[i] << " ";
-//    cout << "\n";
-//  }
-//  cout << "*end\n" << endl;
-
-
-  // Console::Reset();
-}
 
 } /* namespace Casal2 */

@@ -134,6 +134,26 @@ void Maturation::DoExecute() {
   }
 }
 
+/*
+ * @fun FillReportCache
+ * @description A method for reporting process information
+ * @param cache a cache object to print to
+*/
+void Maturation::FillReportCache(ostringstream& cache) {
+
+}
+
+/*
+ * @fun FillTabularReportCache
+ * @description A method for reporting tabular process information
+ * @param cache a cache object to print to
+ * @param first_run whether to print the header
+ *
+*/
+void Maturation::FillTabularReportCache(ostringstream& cache, bool first_run) {
+
+}
+
 } /* namespace processes */
 } /* namespace age */
 } /* namespace niwa */

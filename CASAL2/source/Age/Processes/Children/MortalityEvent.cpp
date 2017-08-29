@@ -150,7 +150,7 @@ void MortalityEvent::DoExecute() {
      * Remove the stock now. The amount to remove is
      * vulnerable * exploitation
      */
-    StoreForReport("year: ", model_->current_year());
+ /*   StoreForReport("year: ", model_->current_year());
     StoreForReport("Exploitation: ", AS_DOUBLE(exploitation));
     StoreForReport("Catch: ", AS_DOUBLE(catch_years_[model_->current_year()]));
 
@@ -161,18 +161,39 @@ void MortalityEvent::DoExecute() {
   	U_label = "fishing_pressure[" + label_ + "]." + current_year;
     StoreForTabularReport(catch_label, AS_DOUBLE(catch_years_[model_->current_year()]));
     StoreForTabularReport(U_label, AS_DOUBLE(catch_years_[model_->current_year()]));
-
+*/
     Double removals = 0;
     for (auto categories : partition_) {
       unsigned offset = 0;
       for (Double& data : categories->data_) {
         removals = vulnerable_[categories->name_][categories->min_age_ + offset] * exploitation;
-        StoreForReport(categories->name_ + "_Removals: ",AS_DOUBLE(removals));
+        //StoreForReport(categories->name_ + "_Removals: ",AS_DOUBLE(removals));
         data -= removals;
         offset++;
       }
     }
   }
+}
+
+
+/*
+ * @fun FillReportCache
+ * @description A method for reporting process information
+ * @param cache a cache object to print to
+*/
+void MortalityEvent::FillReportCache(ostringstream& cache) {
+
+}
+
+/*
+ * @fun FillTabularReportCache
+ * @description A method for reporting tabular process information
+ * @param cache a cache object to print to
+ * @param first_run whether to print the header
+ *
+*/
+void MortalityEvent::FillTabularReportCache(ostringstream& cache, bool first_run) {
+
 }
 
 } /* namespace processes */

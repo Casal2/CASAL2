@@ -366,9 +366,10 @@ void ProportionsMigrating::CalculateScore() {
     /**
      * The comparisons are already proportions so the can be sent straight to the likelihood
      */
+    likelihood_->GetScores(comparisons_);
+
     for (unsigned year : years_) {
       scores_[year] = likelihood_->GetInitialScore(comparisons_, year);
-      likelihood_->GetScores(comparisons_);
       for (obs::Comparison comparison : comparisons_[year]) {
         LOG_FINEST() << "[" << year << "]+ likelihood score: " << comparison.score_;
         scores_[year] += comparison.score_;

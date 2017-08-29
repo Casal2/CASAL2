@@ -44,6 +44,8 @@ public:
   void                        DoReset() override final { };
   void                        DoExecute() override final;
 
+  void                        FillReportCache(ostringstream& cache) override final { };
+  void                        FillTabularReportCache(ostringstream& cache, bool first_run) override final { };
 private:
   // Members
   vector<string>              category_labels_;

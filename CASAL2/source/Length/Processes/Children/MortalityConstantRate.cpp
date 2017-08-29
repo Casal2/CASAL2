@@ -154,7 +154,7 @@ void MortalityConstantRate::DoExecute() {
   LOG_FINEST() << "Ratios.size() " << time_step_ratios_.size() << " : time_step: " << time_step << "; ratio: " << time_step_ratios_[time_step];
   Double ratio = time_step_ratios_[time_step];
 
-  StoreForReport("year", model_->current_year());
+ // StoreForReport("year", model_->current_year());
 
   unsigned i = 0;
   Double amount;
@@ -165,7 +165,7 @@ void MortalityConstantRate::DoExecute() {
     unsigned j = 0;
 
     LOG_FINEST() << "category " << category->name_ << "; min_age: " << category->min_age_ << "; ratio: " << ratio;
-    StoreForReport(category->name_ + " ratio", ratio);
+    //StoreForReport(category->name_ + " ratio", ratio);
     for (Double& data : category->length_data_) {
     	amount = data * (1-exp(m * ratio));
       data -= amount;
@@ -174,12 +174,12 @@ void MortalityConstantRate::DoExecute() {
     }
     ++i;
   }
-  StoreForReport("removals", total_amount);
+  //StoreForReport("removals", total_amount);
   string current_year = utilities::ToInline<unsigned,string>(model_->current_year());
   string removal_label;
 
   removal_label = "removals[" + label_ + "]." + current_year;
-  StoreForTabularReport(removal_label, AS_DOUBLE(total_amount));
+  //StoreForTabularReport(removal_label, AS_DOUBLE(total_amount));
 
 }
 

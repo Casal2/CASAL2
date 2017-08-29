@@ -28,7 +28,7 @@ namespace reports {
  * @param model Pointer to the current model context
  */
 Project::Project(Model* model) : Report(model) {
-  model_state_ = State::kPostExecute;
+  model_state_ = State::kIterationComplete;
   run_mode_    = (RunMode::Type)(RunMode::kBasic | RunMode::kSimulation | RunMode::kProjection);
 
   parameters_.Bind<string>(PARAM_PROJECT, &project_label_, "Project label that is reported", "", "");

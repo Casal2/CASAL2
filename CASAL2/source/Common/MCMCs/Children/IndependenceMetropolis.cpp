@@ -603,16 +603,14 @@ void IndependenceMetropolis::DoExecute() {
   LOG_MEDIUM() << "Covariance matrix has rows = " << covariance_matrix_.size1() << " and cols = " << covariance_matrix_.size2();
   LOG_MEDIUM() << "Estimate Count: " << estimate_count_;
 
+  vector<Double> original_candidates = candidates_;
+  Double previous_score = score;
+  Double previous_prior = prior;
+  Double previous_likelihood = likelihood;
+  Double previous_penalty = penalty;
+  Double previous_additional_prior = additional_prior;
+  Double previous_jacobian = jacobian;
   do {
-  	//LOG_MEDIUM() << "Iteration = " << jumps_;
-    vector<Double> original_candidates = candidates_;
-    Double previous_score = score;
-    Double previous_prior = prior;
-    Double previous_likelihood = likelihood;
-    Double previous_penalty = penalty;
-    Double previous_additional_prior = additional_prior;
-    Double previous_jacobian = jacobian;
-
     // Check If we need to update the step size
     UpdateStepSize();
 

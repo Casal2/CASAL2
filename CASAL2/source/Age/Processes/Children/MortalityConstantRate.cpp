@@ -135,6 +135,15 @@ void MortalityConstantRate::DoBuild() {
     for (unsigned i = 0; i < ratios_.size(); ++i)
       time_step_ratios_[active_time_steps[i]] = ratios_[i];
   }
+
+
+  // Pre allocate memory to reporting containers, this process is run every year so the beauty of this is we can push back and it wont be
+  // dealing with memory allocation during the execute
+  unsigned n_years = model_->years().size();
+  total_removals_by_year_.reserve(n_years);
+
+
+
 }
 
 /**
@@ -149,8 +158,6 @@ void MortalityConstantRate::DoExecute() {
   LOG_FINEST() << "Ratios.size() " << time_step_ratios_.size() << " : time_step: " << time_step << "; ratio: " << time_step_ratios_[time_step];
   Double ratio = time_step_ratios_[time_step];
 
-  StoreForReport("year", model_->current_year());
-
   unsigned i = 0;
   Double amount;
   Double total_amount = 0.0;
@@ -160,7 +167,6 @@ void MortalityConstantRate::DoExecute() {
     unsigned j = 0;
 
     LOG_FINEST() << "category " << category->name_ << "; min_age: " << category->min_age_ << "; ratio: " << ratio;
-    StoreForReport(category->name_ + " ratio", ratio);
     for (Double& data : category->data_) {
     	amount = data * (1-exp(-selectivities_[i]->GetResult(category->min_age_ + j, category->age_length_)  * (m * ratio)));
       data -= amount;
@@ -169,12 +175,8 @@ void MortalityConstantRate::DoExecute() {
     }
     ++i;
   }
-  StoreForReport("removals", total_amount);
-  string current_year = utilities::ToInline<unsigned,string>(model_->current_year());
-  string removal_label;
+  total_removals_by_year_.push_back(total_amount);
 
-  removal_label = "removals[" + label_ + "]." + current_year;
-  StoreForTabularReport(removal_label, AS_DOUBLE(total_amount));
 
 }
 
@@ -183,6 +185,42 @@ void MortalityConstantRate::DoExecute() {
  */
 void MortalityConstantRate::DoReset() {
   mortality_rates_.clear();
+  total_removals_by_year_.clear();
+}
+
+/*
+ * @fun FillReportCache
+ * @description A method for reporting process information
+ * @param cache a cache object to print to
+*/
+void MortalityConstantRate::FillReportCache(ostringstream& cache) {
+  cache << "years: ";
+  for (auto year : model_->years())
+    cache << year << " ";
+  cache << "\ntotal_removals: ";
+  for (auto removal : total_removals_by_year_)
+    cache << removal << " ";
+  cache << "\n";
+}
+
+/*
+ * @fun FillTabularReportCache
+ * @description A method for reporting tabular process information
+ * @param cache a cache object to print to
+ * @param first_run whether to print the header
+ *
+*/
+void MortalityConstantRate::FillTabularReportCache(ostringstream& cache, bool first_run) {
+  if (first_run) {
+    vector<unsigned> years = model_->years();
+    for (auto year : years) {
+      cache << "removals[" << label_ << "][" << year << "] ";
+    }
+    cache << "\n";
+    for (auto removal : total_removals_by_year_)
+      cache << removal << " ";
+    cache << "\n";
+  }
 }
 
 } /* namespace processes */

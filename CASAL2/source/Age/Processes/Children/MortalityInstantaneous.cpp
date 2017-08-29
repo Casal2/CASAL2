@@ -523,10 +523,12 @@ void MortalityInstantaneous::DoExecute() {
         LOG_FINE() << fishery.label_ << " Rescaled exploitation rate = " << fishery.exploitation_;
         recalculate_age_exploitation = true;
         fishery.actual_catches_[year] = fishery.vulnerability_ * fishery.exploitation_;
+        fishery.exploitation_by_year_[year] = fishery.exploitation_;
         if (fishery.penalty_)
           fishery.penalty_->Trigger(label_, fishery.catches_[year], fishery.actual_catches_[year]);
       } else {
         fishery.actual_catches_[year] = fishery.catches_[year];
+        fishery.exploitation_by_year_[year] = fishery.exploitation_;
       }
     }
 
@@ -575,42 +577,6 @@ void MortalityInstantaneous::DoExecute() {
       category_offset++;
     }
 
-    if (print_report_) {
-      // Report catches and exploitation rates for fisheries for each year and timestep
-      if(reporting_year_ != model_->current_year()) {
-        StoreForReport("year: ", utilities::ToInline<unsigned,string>(model_->current_year()));
-        reporting_year_ = model_->current_year();
-      }
-
-      for (auto& fishery_iter : fisheries_) {
-        auto& fishery = fishery_iter.second;
-        if (fisheries_[fishery.label_].time_step_index_ != time_step_index)
-          continue;
-        StoreForReport("fishing_pressure[" + fishery.label_ + "]: ", AS_DOUBLE(fishery.exploitation_));
-        StoreForReport("catch[" + fishery.label_ + "]: ",AS_DOUBLE(fisheries_[fishery.label_].catches_[model_->current_year()]));
-        StoreForReport("actual_catch[" + fishery.label_ + "]: ",fisheries_[fishery.label_].actual_catches_[model_->current_year()]);
-        LOG_FINEST() << "fishery = " << fishery.label_ << " catch = " << fisheries_[fishery.label_].catches_[model_->current_year()] << " U = " << fishery.exploitation_;
-
-      }
-      // Store for Tabular report
-      string year_string;
-      if (!utilities::To<unsigned, string>(model_->current_year(), year_string))
-        LOG_CODE_ERROR() << "Could not convert the value " << model_->current_year() << " to a string for storage in the tabular report";
-
-      string catch_label;
-      string U_label;
-
-      for (auto& fishery_iter : fisheries_) {
-        auto& fishery = fishery_iter.second;
-        if (fisheries_[fishery.label_].time_step_index_ != time_step_index)
-          continue;
-        catch_label = "catch[" + fishery.label_ + "][" + year_string + "]";
-        U_label = "fishing_pressure[" + fishery.label_ + "][" + year_string + "]";
-        StoreForTabularReport(catch_label, AS_DOUBLE(fisheries_[fishery.label_].catches_[model_->current_year()]));
-        StoreForTabularReport(U_label, AS_DOUBLE(fishery.exploitation_));
-      }
-    }
-
   } // if (model_->state() != State::kInitialise )
 
   /**
@@ -634,9 +600,8 @@ void MortalityInstantaneous::DoExecute() {
  * @param categories the categories to store information for
  *
 */
-
 void MortalityInstantaneous::calculate_requests_from_removal_observation(vector<unsigned> years, vector<string> methods,vector<string> categories){
-  for (auto year : years) {
+/*  for (auto year : years) {
     for (auto method : methods) {
       for (auto category : categories) {
          // Do something
@@ -644,7 +609,66 @@ void MortalityInstantaneous::calculate_requests_from_removal_observation(vector<
         year_method_category_to_store_[year][method].push_back(category);
       }
     }
+  }*/
+}
+
+/*
+ * @fun FillReportCache
+ * @description A method for reporting process information
+ * @param cache a cache object to print to
+*/
+void MortalityInstantaneous::FillReportCache(ostringstream& cache) {
+  // This one is niggly because we need to iterate over each year and time step to print the right information so we don't
+  vector<unsigned> years = model_->years();
+  cache << "year: ";
+  for (auto year : years)
+    cache << year << " ";
+  cache << "\n";
+  for (auto& fishery_iter : fisheries_) {
+    auto& fishery = fishery_iter.second;
+    cache << "fishing_pressure[" << fishery.label_ << "]: ";
+    for (auto pressure : fishery.exploitation_by_year_)
+      cache << pressure.second << " ";
+    cache << "\ncatch[" << fishery.label_ << "]: ";
+    for (auto catches : fishery.catches_)
+      cache << catches.second << " ";
+    cache << "\nactual_catch[" << fishery.label_ << "]: ";
+    for (auto actual_catches : fishery.actual_catches_)
+      cache << actual_catches.second << " ";
   }
+}
+
+/*
+ * @fun FillTabularReportCache
+ * @description A method for reporting tabular process information
+ * @param cache a cache object to print to
+ * @param first_run whether to print the header
+ *
+*/
+void MortalityInstantaneous::FillTabularReportCache(ostringstream& cache, bool first_run) {
+  if (first_run) {
+    // print header
+    for (auto& fishery_iter : fisheries_) {
+      auto& fishery = fishery_iter.second;
+      for (auto pressure : fishery.exploitation_by_year_)
+        cache << "fishing_pressure[" << fishery.label_ << "][" << pressure.first << "] ";
+      for (auto catches : fishery.catches_)
+        cache << "catch[" << fishery.label_ << "][" << catches.first << "] ";
+      for (auto actual_catches : fishery.actual_catches_)
+        cache << "actual_catches[" << fishery.label_ << "][" << actual_catches.first << "] ";
+    }
+  }
+  cache << "\n";
+  for (auto& fishery_iter : fisheries_) {
+    auto& fishery = fishery_iter.second;
+    for (auto pressure : fishery.exploitation_by_year_)
+      cache << pressure.second << " ";
+    for (auto catches : fishery.catches_)
+      cache << catches.second << " ";
+    for (auto actual_catches : fishery.actual_catches_)
+      cache <<  actual_catches.second << " ";
+  }
+
 }
 
 } /* namespace processes */

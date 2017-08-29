@@ -41,6 +41,8 @@ public:
   void                        DoBuild() override final;
   void                        DoReset() override final;
   void                        DoExecute() override final;
+  void                        FillReportCache(ostringstream& cache) override final;
+  void                        FillTabularReportCache(ostringstream& cache, bool first_run) override final;
 
 private:
   // Members
@@ -53,6 +55,7 @@ private:
   vector<string>              selectivity_names_;
   accessor::Categories        partition_;
   vector<Selectivity*>        selectivities_;
+  vector<Double>              total_removals_by_year_;
 };
 
 } /* namespace processes */

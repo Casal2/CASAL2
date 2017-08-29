@@ -459,23 +459,10 @@ void TagRecaptureByLength::CalculateScore() {
   if (model_->run_mode() == RunMode::kSimulation) {
     likelihood_->SimulateObserved(comparisons_);
   } else {
-    /**
-     * Convert the expected_values in to a proportion
-     */
-    for (unsigned year : years_) {
-//      Double running_total = 0.0;
-//      for (obs::Comparison comparison : comparisons_[year]) {
-//        running_total += comparison.expected_;
-//      }
-//      for (obs::Comparison& comparison : comparisons_[year]) {
-//        if (running_total != 0.0)
-//          comparison.expected_  = comparison.expected_ / running_total;
-//        else
-//          comparison.expected_  = 0.0;
-//      }
 
+    likelihood_->GetScores(comparisons_);
+    for (unsigned year : years_) {
       scores_[year] = likelihood_->GetInitialScore(comparisons_, year);
-      likelihood_->GetScores(comparisons_);
       for (obs::Comparison comparison : comparisons_[year]) {
         scores_[year] += comparison.score_;
       }

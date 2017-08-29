@@ -36,6 +36,8 @@ public:
   void                        DoBuild() override final;
   void                        DoReset() override final { };
   void                        DoExecute() override final;
+  void                        FillReportCache(ostringstream& cache) override final;
+  void                        FillTabularReportCache(ostringstream& cache, bool first_run) override final;
 
 protected:
   // Members

@@ -162,7 +162,7 @@ void TagLoss::DoExecute() {
     LOG_FINEST() << "Ratios.size() " << time_step_ratios_.size() << " : time_step: " << time_step << "; ratio: " << time_step_ratios_[time_step];
     Double ratio = time_step_ratios_[time_step];
 
-    StoreForReport("year", model_->current_year());
+    //StoreForReport("year", model_->current_year());
 
     unsigned i = 0;
     for (auto category : partition_) {
@@ -170,7 +170,7 @@ void TagLoss::DoExecute() {
 
       unsigned j = 0;
       LOG_FINEST() << "category " << category->name_ << "; min_age: " << category->min_age_ << "; ratio: " << ratio;
-      StoreForReport(category->name_ + " ratio", ratio);
+      //StoreForReport(category->name_ + " ratio", ratio);
       for (Double& data : category->data_) {
         // Deleting this partition. In future we may have a target category to migrate to.
         Double amount = data * (1 - exp(-selectivities_[i]->GetResult(category->min_age_ + j, category->age_length_) * tag_loss * ratio));

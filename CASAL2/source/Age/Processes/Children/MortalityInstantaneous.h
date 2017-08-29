@@ -45,6 +45,7 @@ class MortalityInstantaneous : public Process {
     Penalty*        penalty_ = nullptr;
     map<unsigned, Double>  catches_;
     map<unsigned, Double>  actual_catches_;
+    map<unsigned, Double>  exploitation_by_year_; // I added this so it can be reported
 
     Double          vulnerability_;
     Double          uobs_fishery_;
@@ -86,6 +87,8 @@ public:
   void                        DoReset() override final;
   void                        DoExecute() override final;
   void                        RebuildCache() override final;
+  void                        FillReportCache(ostringstream& cache) override final;
+  void                        FillTabularReportCache(ostringstream& cache, bool first_run) override final;
   //
   void                        calculate_requests_from_removal_observation(vector<unsigned> years, vector<string> methods,vector<string> categories);
   // accessors
@@ -105,10 +108,9 @@ private:
   parameters::Table*          method_table_ = nullptr;
   accessor::Categories        partition_;
   Double                      current_m_ = 0.0;
-//  map<string, Double>         fishery_exploitation;
 
   // members from mortality event
-  Double                      u_max_;
+  Double                      u_max_ = 0.99;
   string                      penalty_label_ = "";
   penalties::Process*         penalty_ = nullptr;
   string                      unit_;
@@ -123,9 +125,10 @@ private:
   map<unsigned,  map<string, map<string, vector<Double>>>> removals_by_year_fishery_category_; // Year,  fishery, category
   map<unsigned, map<string, vector<string>>> year_method_category_to_store_; // Year,  fishery, category
   // Members for reporting
-  unsigned 										reporting_year_ = 0;
   vector<unsigned>            time_steps_to_skip_applying_F_mortaltiy_;
-//  map<string, map<unsigned, Double>> category_by_age_with_exploitation;
+
+
+
 };
 
 } /* namespace processes */
