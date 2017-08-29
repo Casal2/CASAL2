@@ -32,13 +32,17 @@ void Category::UpdateMeanLengthData() {
   vector<string> time_steps = model_->time_steps();
   AgeLength* age_length = categories->age_length(name_);
   unsigned year = model_->current_year();
-  for (unsigned step_iter = 0; step_iter < time_steps.size(); ++step_iter) {
-    for (unsigned age = min_age_; age <= max_age_; ++age) {
-      mean_length_by_time_step_age_[step_iter][age] = age_length->GetMeanLength(year, step_iter, age);
+  // Only do this under three conditions. We are initialising, it has a time varying component, or is of type data.
+  if (age_length->does_time_vary() || model_->state() == State::kInitialise || age_length->type() == PARAM_DATA) {
+    LOG_FINEST() << "Updating mean length and weight";
+    for (unsigned step_iter = 0; step_iter < time_steps.size(); ++step_iter) {
+      for (unsigned age = min_age_; age <= max_age_; ++age) {
+        mean_length_by_time_step_age_[step_iter][age] = age_length->GetMeanLength(year, step_iter, age);
+      }
     }
+    // If this has been updated we need to update Mean weight
+    UpdateMeanWeightData();
   }
-  // If this has been updated we need to update Mean weight
-  UpdateMeanWeightData();
 }
 
 
@@ -51,12 +55,9 @@ void Category::UpdateMeanWeightData() {
   Categories* categories = model_->categories();
   vector<string> time_steps = model_->time_steps();
   AgeLength* age_length = categories->age_length(name_);
-  // Only do this under three conditions. We are initialising, it has a time varying component, or is of type data.
-  if (age_length->does_time_vary() || model_->state() == State::kInitialise || age_length->type() == PARAM_DATA) {
-    for (unsigned step_iter = 0; step_iter < time_steps.size(); ++step_iter) {
-      for (unsigned age = min_age_; age <= max_age_; ++age)
-        mean_weight_by_time_step_age_[step_iter][age] = age_length->mean_weight(step_iter, age);
-    }
+  for (unsigned step_iter = 0; step_iter < time_steps.size(); ++step_iter) {
+    for (unsigned age = min_age_; age <= max_age_; ++age)
+      mean_weight_by_time_step_age_[step_iter][age] = age_length->mean_weight(step_iter, age);
   }
 }
 
