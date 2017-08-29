@@ -55,6 +55,8 @@ public:
   virtual void                DoBuild() = 0;
   virtual void                DoReset() = 0;
   virtual void                DoExecute() = 0;
+  virtual void                FillReportCache(ostringstream& cache, bool first_run) { };
+  virtual void                FillTabularReportCache(ostringstream& cache, bool first_run) { };
 
   // accessors
   void                        flag_print_report() { print_report_ = true; }
@@ -62,7 +64,7 @@ public:
   PartitionStructure          partition_structure() const { return partition_structure_; }
   ProcessType                 process_type() const { return process_type_; }
   map<string, vector<string>>& print_values() { return print_values_; }
-  map<string, string>& 			 print_tabular_values() { return print_tabular_values_; }
+  map<string, string>& 			  print_tabular_values() { return print_tabular_values_; }
 
 protected:
   // methods
@@ -81,6 +83,7 @@ protected:
   map<unsigned, map<string, vector<Executor*>>> executors_;
   bool                        create_report_ = false;
   bool                        print_report_ = false;
+  bool                        print_tabular_mode_ = false;
   map<string, vector<string>> print_values_;
   map<string, string> 				print_tabular_values_;
 };

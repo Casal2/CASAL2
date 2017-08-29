@@ -341,7 +341,7 @@ void RecruitmentBevertonHolt::DoExecute() {
         LOG_FATAL_P(PARAM_YCS_VALUES) << "You are in a projection mode (-f) and in a projection year but ycs values are = 0 for ycs_year " << model_->current_year() - ssb_offset_ << ", this is an error that will cause the recruitment process to fail. Please check you have correctly specified an @project block for this parameter, thanks";
       }
       ycs = ycs_value_by_year_[ssb_year];
-      // We need to see if this value has changed from the intial input, if it has we are going to assume that this is because the projection class has changed it.
+      // We need to see if this value has changed from the initial input, if it has we are going to assume that this is because the projection class has changed it.
       // set standardised ycs = ycs for reporting
 
       if (ycs != ycs_values_[year_counter_])
@@ -385,30 +385,6 @@ void RecruitmentBevertonHolt::DoExecute() {
         << ycs_value_by_year_[ssb_year] << " Standardised year class = "
         << stand_ycs_value_by_year_[ssb_year] << "; b0_ = " << b0_ << "; ssb_ratio = " << ssb_ratio << "; true_ycs = "
         << true_ycs << "; amount_per = " << amount_per;
-
-    // Store true_ycs values
-    StoreForReport("ycs_years: " , ssb_year); // the input parameter isn't updated during projections. So thats why we are reporting it twice.
-    StoreForReport("ycs_values: " , AS_DOUBLE(ycs_value_by_year_[ssb_year])); // the input parameter isn't updated during projections. So thats why we are reporting it twice.
-    StoreForReport("true_ycs: " , AS_DOUBLE(true_ycs)); // this is including SR-relationship
-    StoreForReport("standardiesed_ycs: " , AS_DOUBLE(stand_ycs_value_by_year_[ssb_year]));
-    StoreForReport("Recruits: " , AS_DOUBLE(amount_per));
-
-    // Store for Tabular report
-    string ssb_year_string;
-    if (!utilities::To<unsigned, string>(ssb_year, ssb_year_string))
-      LOG_CODE_ERROR() << "Could not convert the value " << ssb_year << " to a string for storage in the tabular report";
-
-    string stand_label = "standardiesed_ycs[" + ssb_year_string + "]";
-    string true_ycs_label = "true_ycs[" + ssb_year_string + "]";
-
-    LOG_FINEST() << "adding tabular report = " << true_ycs_label;
-
-    StoreForTabularReport(stand_label, AS_DOUBLE(stand_ycs_value_by_year_[ssb_year]));
-    StoreForTabularReport(true_ycs_label ,  AS_DOUBLE(true_ycs));
-    StoreForTabularReport("R0" ,  AS_DOUBLE(r0_));
-    StoreForTabularReport("steepness" ,  AS_DOUBLE(steepness_));
-
-
   }
 
   unsigned i = 0;
@@ -445,6 +421,43 @@ void RecruitmentBevertonHolt::ScalePartition() {
   LOG_FINEST() << "R0 = " << r0_;
 }
 
+/**
+ *
+ */
+void RecruitmentBevertonHolt::FillReportCache(ostringstream& cache, bool first_run) {
+//  cache << "ycs_years: ";
+//  for (auto iter : stand_ycs_value_by_year_)
+//    cache << iter.first << " ";
+//  cache << "\nycs_values: ";
+//  for (auto iter : stand_ycs_value_by_year_)
+//    cache << iter.second << " ";
+//  // Store true_ycs values
+//  StoreForReport("ycs_years: " , ssb_year); // the input parameter isn't updated during projections. So thats why we are reporting it twice.
+//  StoreForReport("ycs_values: " , AS_DOUBLE(ycs_value_by_year_[ssb_year])); // the input parameter isn't updated during projections. So thats why we are reporting it twice.
+//  StoreForReport("true_ycs: " , AS_DOUBLE(true_ycs)); // this is including SR-relationship
+//  StoreForReport("standardiesed_ycs: " , AS_DOUBLE(stand_ycs_value_by_year_[ssb_year]));
+//  StoreForReport("Recruits: " , AS_DOUBLE(amount_per));
+}
+
+/**
+ *
+ */
+void RecruitmentBevertonHolt::FillTabularReportCache(ostringstream& cache, bool first_run) {
+//  if (first_run) {
+//    vector<unsigned> years = model_->years();
+//    for (auto year : years) {
+//      unsigned ssb_year = year - ssb_offset_;
+//      cache << "standardiesed_ycs[" << ssb_year << "] true_ycs[" << ssb_year << "]";
+//    }
+//    cache << " R0 steepness\n";
+//  }
+//
+//  for (auto iter : stand_ycs_value_by_year_)
+//    cache << iter.second << " ";
+//  for (auto value : true_ycs_)
+//    cache << value << " ";
+//  cache << r0_ << steepness_ << "\n";
+}
 
 } /* namespace processes */
 } /* namespace age */

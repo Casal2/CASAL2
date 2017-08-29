@@ -42,9 +42,7 @@ enum Type {
   kBuild, // building and checking relationships between objects
   kVerify, // verifying business rules (not yet implemented)
   kInitialise, // running through the initialisation phases
-  kPreExecute, // called at start of an iteration
   kExecute, // execute the object
-  kPostExecute, // called at the end of an iteration
   kIterationComplete, // a single iteration of the model is complete
   kReset, // called between iterations to ensure objects caches are reset
   kInputIterationComplete, // a single run of the mode is complete using an input file to set estimables

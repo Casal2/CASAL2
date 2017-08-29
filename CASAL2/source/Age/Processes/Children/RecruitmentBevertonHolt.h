@@ -37,7 +37,10 @@ public:
   void                        DoBuild() override final;
   void                        DoReset() override final;
   void                        DoExecute() override final;
+  void                        FillReportCache(ostringstream& cache, bool first_run) override final;
+  void                        FillTabularReportCache(ostringstream& cache, bool first_run) override final;
   void                        ScalePartition();
+
   //accessor
   unsigned                    ssb_offset() {return ssb_offset_;};
   string                      ssb_label() {return ssb_;};

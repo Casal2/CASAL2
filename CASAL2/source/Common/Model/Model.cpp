@@ -662,10 +662,6 @@ void Model::RunSimulation() {
 
     Reset();
 
-    // Model is about to run
-    LOG_FINE() << "Model: State change to PreExecute";
-    managers_->report()->Execute(State::kPreExecute);
-
     state_ = State::kInitialise;
     current_year_ = start_year_;
     // Iterate over all partition members and UpDate Mean Weight for the inital weight calculations
@@ -695,7 +691,6 @@ void Model::RunSimulation() {
 
     // Model has finished so we can run finalise.
     LOG_FINE() << "Model: State change to PostExecute";
-    managers_->report()->Execute(State::kPostExecute);
     managers_->report()->Execute(State::kIterationComplete);
 
     managers_->report()->WaitForReportsToFinish();
@@ -728,7 +723,6 @@ void Model::RunProjection() {
         Reset();
       }
 
-      LOG_FINE() << "Model: State change to PreExecute";
       LOG_FINE() << "Model: State change to Execute";
       state_ = State::kInitialise;
       current_year_ = start_year_;
@@ -763,7 +757,6 @@ void Model::RunProjection() {
       // Reset the model
       projection_final_phase_ = true;
       Reset();
-      managers_->report()->Execute(State::kPreExecute);
       state_ = State::kInitialise;
       current_year_ = start_year_;
       // Run the intialisation phase
@@ -842,19 +835,6 @@ void Model::Iterate() {
  */
 void Model::FullIteration() {
   Reset();
-
-  // Model is about to run
-  LOG_FINE() << "Model: State change to PreExecute";
-  managers_->report()->Execute(State::kPreExecute);
-
-  /**
-   * Running the model now
-   */
-  LOG_FINE() << "Model: State change to Execute";
   Iterate();
-
-  // Model has finished so we can run finalise.
-  LOG_FINE() << "Model: State change to PostExecute";
-  managers_->report()->Execute(State::kPostExecute);
 }
 } /* namespace niwa */
