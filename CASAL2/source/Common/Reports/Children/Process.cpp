@@ -92,13 +92,10 @@ void Process::DoExecuteTabular() {
     cache_ << "*" << label_ << " " << "(" << type_ << ")" << "\n";
     cache_ << "process_type: " << process_->type() << "\n";
     cache_ << "values " << REPORT_R_DATAFRAME << "\n";
-    for (auto Reports : print_tabular_values)
-      cache_ << Reports.first << " ";
+    process_->FillTabularReportCache(cache_, true);
     cache_ << "\n";
-  }
-  for (auto Reports : print_tabular_values)
-    cache_ << Reports.second << " ";
-  cache_ << "\n";
+  } else
+    process_->FillTabularReportCache(cache_, false);
 }
 
 /**

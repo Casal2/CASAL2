@@ -376,6 +376,8 @@ void ProcessRemovalsByAge::CalculateScore() {
     /**
      * Convert the expected_values in to a proportion
      */
+
+
     for (unsigned year : years_) {
       Double running_total = 0.0;
       for (obs::Comparison comparison : comparisons_[year]) {
@@ -387,11 +389,15 @@ void ProcessRemovalsByAge::CalculateScore() {
         else
           comparison.expected_ = 0.0;
       }
+    }
 
+    likelihood_->GetScores(comparisons_);
+
+    for (unsigned year : years_) {
       scores_[year] = likelihood_->GetInitialScore(comparisons_, year);
       LOG_FINEST() << "-- Observation score calculation";
       LOG_FINEST() << "[" << year << "] Initial Score:" << scores_[year];
-      likelihood_->GetScores(comparisons_);
+
       for (obs::Comparison comparison : comparisons_[year]) {
         LOG_FINEST() << "[" << year << "]+ likelihood score: "
             << comparison.score_;
