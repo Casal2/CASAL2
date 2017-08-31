@@ -42,7 +42,7 @@ public:
   virtual                     ~MortalityEvent() = default;
   void                        DoValidate() override final;
   void                        DoBuild() override final;
-  void                        DoReset() override final { };
+  void                        DoReset() override final;
   void                        DoExecute() override final;
   void                        FillReportCache(ostringstream& cache) override final;
   void                        FillTabularReportCache(ostringstream& cache, bool first_run) override final;
@@ -51,6 +51,9 @@ private:
   vector<string>              category_labels_;
   vector<unsigned>            years_;
   vector<Double>              catches_;
+  vector<Double>              exploitation_;
+  vector<Double>              actual_catches_;
+
   map<unsigned, Double>       catch_years_;
   Double                      u_max_;
   vector<string>              selectivity_names_;

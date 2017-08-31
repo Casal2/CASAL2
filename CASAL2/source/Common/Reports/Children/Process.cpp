@@ -74,7 +74,7 @@ void Process::DoExecute() {
 }
 
 /**
- * Execute this report
+ * Execute this tabular report
  */
 void Process::DoExecuteTabular() {
   if (first_run_) {
@@ -83,9 +83,9 @@ void Process::DoExecuteTabular() {
     cache_ << "process_type: " << process_->type() << "\n";
     cache_ << "values " << REPORT_R_DATAFRAME << "\n";
     process_->FillTabularReportCache(cache_, true);
-    cache_ << "\n";
   } else
     process_->FillTabularReportCache(cache_, false);
+  cache_ << "\n";
 }
 
 /**

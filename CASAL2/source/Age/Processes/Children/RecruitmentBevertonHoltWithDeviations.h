@@ -73,6 +73,7 @@ private:
   vector<Double>              recruit_dev_values_;
   map<unsigned, Double>       recruit_dev_value_by_year_;
   vector<Double>              true_ycs_values_;
+  vector<Double>              ycs_values_;
   vector<Double>              recruitment_values_;
   bool                        have_scaled_partition = false;
   DerivedQuantity*            derived_quantity_ = nullptr;

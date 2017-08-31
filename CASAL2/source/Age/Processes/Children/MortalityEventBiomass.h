@@ -37,7 +37,7 @@ public:
   virtual                     ~MortalityEventBiomass() = default;
   void                        DoValidate() override final;
   void                        DoBuild() override final;
-  void                        DoReset() override final { };
+  void                        DoReset() override final;
   void                        DoExecute() override final;
   void                        FillReportCache(ostringstream& cache) override final;
   void                        FillTabularReportCache(ostringstream& cache, bool first_run) override final;
@@ -49,6 +49,8 @@ private:
   vector<Selectivity*>        selectivities_;
   Double                      u_max_ = 0;
   vector<Double>              catches_;
+  vector<Double>              exploitation_by_year_;
+  vector<Double>              actual_catches_;
   map<unsigned, Double>       catch_years_;
   Double                      exploitation_ = 0;
   vector<unsigned>            years_;

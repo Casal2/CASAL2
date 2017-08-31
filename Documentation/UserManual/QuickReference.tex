@@ -14,6 +14,7 @@
 \par\textbf{\commandlabsubarg{additional\_\_prior}{type}{log\_normal}}\par
 \defSub{mu} {The lognormal prior mean (mu) parameter}
 \defSub{cv} {The Lognormal variance (CV) parameter}
+\par\textbf{\commandlabsubarg{additional\_\_prior}{type}{ratio}}\par
 \par\textbf{\commandlabsubarg{additional\_\_prior}{type}{uniform\_log}}\par
 \par\textbf{\commandlabsubarg{additional\_\_prior}{type}{vector\_average}}\par
 \defSub{method} {What calculation method to use, either k, l, or m}
@@ -131,6 +132,8 @@
 \defSub{second\_estimate} {The label from the @estimate block relating to the difference parameter, used in this transformation}
 \par\textbf{\commandlabsubarg{estimate\_\_transformation}{type}{orthogonal}}\par
 \par\textbf{\commandlabsubarg{estimate\_\_transformation}{type}{simplex}}\par
+\defSub{upper\_bound} {The empirical upper bound for the simplex transformed, in theory it should be Inf but some of our minimisers won't allow that}
+\defSub{lower\_bound} {The empirical lower bound for the simplex transformed, in theory it should be -Inf but some of our minimisers won't allow that}
 \par\textbf{\commandlabsubarg{estimate\_\_transformation}{type}{square\_root}}\par
 \defComLab{initialisation\_phase}{Define an object of type \emph{initialisation\_phase}}\par\par
 \defSub{label} {The label of the initialisation phase}
@@ -417,7 +420,6 @@
 \defComLab{process}{Define an object of type \emph{process}}\par\par
 \defSub{label} {The label of the process}
 \defSub{type} {The type of process}
-\defSub{print\_report} {Indicates if a process report should be generated for this process}
 \par\textbf{\commandlabsubarg{process}{type}{ageing}}\par
 \defSub{categories} {The labels of the categories}
 \par\textbf{\commandlabsubarg{process}{type}{growth\_basic}}\par
