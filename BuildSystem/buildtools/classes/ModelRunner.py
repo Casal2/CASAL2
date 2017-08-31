@@ -29,13 +29,13 @@ class ModelRunner:
     print ''
     success_count = 0
     fail_count = 0
-    estimation_dir_list = {"Simple", "TwoSex"}
+    estimation_dir_list = {"Simple", "TwoSex", "SBW"}
     dash_i_dir_list = {"Complex_input","TwoSex_input"}
     dir_list = os.listdir("../TestModels/")
     cwd = os.path.normpath(os.getcwd())  
     # test -r functionality with full/different models
     for folder in dir_list:
-      if folder == "TwoSex":
+      if folder in {"TwoSex", "SBW"}:
       	continue
       if folder in dash_i_dir_list:
         continue

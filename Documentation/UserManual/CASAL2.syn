@@ -186,7 +186,6 @@ prey_categories
 prey_selectivities
 print_default_reports
 print_level
-print_report
 prior_applies_to_transform
 process
 process_error
@@ -380,6 +379,7 @@ pseudo
 random_draw
 random_number_seed
 random_walk
+ratio
 recruitment_beverton_holt
 recruitment_beverton_holt_with_deviations
 recruitment_constant

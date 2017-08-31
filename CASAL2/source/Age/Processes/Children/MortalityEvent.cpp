@@ -101,8 +101,19 @@ void MortalityEvent::DoBuild() {
       LOG_ERROR_P(PARAM_PENALTY) << ": penalty " << penalty_name_ << " does not exist. Have you defined it?";
     }
   }
+
+  // Pre allocate memory
+  exploitation_.reserve(years_.size());
+  actual_catches_.reserve(years_.size());
 }
 
+/**
+ * Reset the runtime relationships required
+ */
+void MortalityEvent::DoReset() {
+  exploitation_.clear();
+  actual_catches_.clear();
+}
 /**
  * Execute our mortality event object.
  *
@@ -138,10 +149,17 @@ void MortalityEvent::DoExecute() {
 
     if (exploitation > u_max_) {
       exploitation = u_max_;
+      actual_catches_.push_back(vulnerable * u_max_);
+      exploitation_.push_back(exploitation);
       if (penalty_)
-        penalty_->Trigger(label_, catch_years_[model_->current_year()], vulnerable*u_max_);
+        penalty_->Trigger(label_, catch_years_[model_->current_year()], vulnerable * u_max_);
 
-    } else if (exploitation < 0.0) {
+    } else {
+      actual_catches_.push_back(catch_years_[model_->current_year()]);
+      exploitation_.push_back(exploitation);
+    }
+    if (exploitation < 0.0) {
+      LOG_CODE_ERROR() << "exploitation < 0.0 for process " << label_;
       exploitation = 0.0;
     }
     LOG_FINEST() << "year: " << model_->current_year() << "; exploitation: " << AS_DOUBLE(exploitation);
@@ -150,24 +168,12 @@ void MortalityEvent::DoExecute() {
      * Remove the stock now. The amount to remove is
      * vulnerable * exploitation
      */
- /*   StoreForReport("year: ", model_->current_year());
-    StoreForReport("Exploitation: ", AS_DOUBLE(exploitation));
-    StoreForReport("Catch: ", AS_DOUBLE(catch_years_[model_->current_year()]));
-
-    string current_year = utilities::ToInline<unsigned,string>(model_->current_year());
-    string catch_label, U_label;
-
-  	catch_label = "catch[" + label_ + "]." + current_year;
-  	U_label = "fishing_pressure[" + label_ + "]." + current_year;
-    StoreForTabularReport(catch_label, AS_DOUBLE(catch_years_[model_->current_year()]));
-    StoreForTabularReport(U_label, AS_DOUBLE(catch_years_[model_->current_year()]));
-*/
     Double removals = 0;
+
     for (auto categories : partition_) {
       unsigned offset = 0;
       for (Double& data : categories->data_) {
         removals = vulnerable_[categories->name_][categories->min_age_ + offset] * exploitation;
-        //StoreForReport(categories->name_ + "_Removals: ",AS_DOUBLE(removals));
         data -= removals;
         offset++;
       }
@@ -182,7 +188,15 @@ void MortalityEvent::DoExecute() {
  * @param cache a cache object to print to
 */
 void MortalityEvent::FillReportCache(ostringstream& cache) {
-
+  cache << "years: ";
+  for (auto year : years_)
+    cache << year << " ";
+  cache << "\nactual_catches: ";
+  for (auto removal : actual_catches_)
+    cache << removal << " ";
+  cache << "\nexploitation_rate: ";
+  for (auto exploit : exploitation_)
+    cache << exploit << " ";
 }
 
 /*
@@ -193,7 +207,19 @@ void MortalityEvent::FillReportCache(ostringstream& cache) {
  *
 */
 void MortalityEvent::FillTabularReportCache(ostringstream& cache, bool first_run) {
-
+  if (first_run) {
+    for (auto year : years_) {
+      cache << "actual_catches[" << label_ << "][" << year << "] ";
+    }
+    for (auto year : years_) {
+      cache << "exploitation[" << label_ << "][" << year << "] ";
+    }
+    cache << "\n";
+  }
+  for (auto removal : actual_catches_)
+    cache << removal << " ";
+  for (auto exploit : exploitation_)
+    cache << exploit << " ";
 }
 
 } /* namespace processes */

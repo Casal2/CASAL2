@@ -458,9 +458,18 @@ void RecruitmentBevertonHolt::FillTabularReportCache(ostringstream& cache, bool 
     vector<unsigned> years = model_->years();
     for (auto year : years) {
       unsigned ssb_year = year - ssb_offset_;
-      cache << "standardiesed_ycs[" << ssb_year << "] true_ycs[" << ssb_year << "] recruits["<< ssb_year << "] ";
+      cache << "standardiesed_ycs[" << ssb_year << "] ";
     }
-    cache << " R0 B0 steepness\n";
+    for (auto year : years) {
+      unsigned ssb_year = year - ssb_offset_;
+      cache <<  "true_ycs[" << ssb_year << "] ";
+    }
+    for (auto year : years) {
+      unsigned ssb_year = year - ssb_offset_;
+      cache << "recruits["<< ssb_year << "] ";
+    }
+    cache << "R0 B0 steepness ";
+    cache << "\n";
   }
 
   for (auto iter : stand_ycs_value_by_year_)
@@ -469,7 +478,7 @@ void RecruitmentBevertonHolt::FillTabularReportCache(ostringstream& cache, bool 
     cache << value << " ";
   for (auto value : recruitment_values_)
     cache << value << " ";
-  cache << r0_ << " " << b0_ << " " << steepness_ << "\n";
+  cache << r0_ << " " << b0_ << " " << steepness_ << " ";
 }
 
 } /* namespace processes */

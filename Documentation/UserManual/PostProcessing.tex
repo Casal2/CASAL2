@@ -1,6 +1,8 @@
 \section{\I{Post processing output using \R} \label{sec:post-processing}}\index{Post processing}\index{Post processing section}
 
-In the downloaded bundle is a R-package that reads \CNAME\ output into \R. The \CNAME\ package has multiple functionalities, it can import \CNAME\ output into \R\ as a list. It also has plotting and summarising functions for \CNAME\ reports.
+\R\ is the main program used to process and visualise output from a \CNAME\ model. \R\ is free and can be downloaded from \url{https://cran.r-project.org/}. Once you have installed \R\ you can load the \cname\ \R\ package for investigating model runs. 
+
+In the downloaded bundle there is a R-package (\texttt{casal2\_1.0.tar.gz}) that reads \CNAME\ output into \R. The \CNAME\ package has multiple functionalities, it can import \CNAME\ output into \R\ as a list. It also has plotting and summarising functions for \CNAME\ reports.
 
 There are three types of output that \CNAME\ will produce and these depend on what type of analysis you are doing. These outputs are Standard output, MCMC output, Derived Quantity outputs. Standard output are the typical reports that are produced in most \CNAME\ runmodes (with the exception of -s and -m). This output can be split into furthur categories where you can have a single parameter run (\texttt{casal2 -r}) or multiparameter run e.g. \texttt{casal2 -r -i many\_pars.out} or running in projection mode (\texttt{-f 1}). Both of the standard output's can be read into \R\ using the \texttt{extract.mpd()} function. The second type of output if generated when doing an MCMC analysis (\texttt{casal2 -m}), which automatically generates two files \texttt{mcmc\_objective.out} and \texttt{mcmc\_sampeles.out}. These reports will be summarised to conclude convergence or chain behaviour, it will also be used to view marginal posteriors and quantify key model parameter uncertainty. The last output type is Derive Quanity outputs or sometimes referred to as tabular output. Usually this is generated after an MCMC is done, and the user wants to see the marginal posteriors for quantities that aren't explicit estimates. For example in fisheries a commonly reported quantity is the spawning stock biomass from the initial year to the final year. These aren't estimated paraemters and so you would need to run the following command to get posteriors for these derived quantities (\texttt{casal2 -r -i mcmc\_samples.out --tabular > Tabular\_report.out}). This can then be read into an \R\ environment using the \texttt{extract.tabular()} function.
 
@@ -47,5 +49,5 @@ Generally when comparing model outputs we are either comparing different paramet
 
 
 \paragraph*{DataWeighting}
-An important component of stock assessment is dealing with data conflicts through the use of dataweighting. There are a range of methods for this for a great summary see \cite{francis2011data} .The function implemented in the \CNAME\ R-library is TA1.8, which can be invoked using \texttt{Method.TA1.8()}.
+An important component of stock assessment is dealing with data conflicts through the use of dataweighting. There are a range of methods for this for a great summary see \cite{francis2011data}. The function implemented in the \CNAME\ R-library is TA1.8, which can be invoked using \texttt{Method.TA1.8()}.
 

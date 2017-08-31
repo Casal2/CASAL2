@@ -99,8 +99,18 @@ void MortalityEventBiomass::DoBuild() {
       LOG_ERROR_P(PARAM_PENALTY) << ": penalty " << penalty_label_ << " does not exist. Have you defined it?";
     }
   }
+  exploitation_by_year_.reserve(years_.size());
+  actual_catches_.reserve(years_.size());
+
 }
 
+/**
+ *
+ */
+void MortalityEventBiomass::DoReset() {
+  exploitation_by_year_.clear();
+  actual_catches_.clear();
+}
 /**
  *
  */
@@ -132,11 +142,18 @@ void MortalityEventBiomass::DoExecute() {
   Double exploitation = catch_years_[model_->current_year()] / utilities::doublecompare::ZeroFun(vulnerable);
   if (exploitation > u_max_) {
     exploitation = u_max_;
+    actual_catches_.push_back(vulnerable * u_max_);
     if (penalty_)
       penalty_->Trigger(label_, catch_years_[model_->current_year()], vulnerable * u_max_);
+    exploitation_by_year_.push_back(exploitation);
+  } else {
+    exploitation_by_year_.push_back(exploitation);
+    actual_catches_.push_back(catch_years_[model_->current_year()]);
 
-  } else if (exploitation < 0.0) {
-    exploitation = 0.0;
+  }
+
+  if (exploitation < 0.0) {
+    LOG_CODE_ERROR() << "exploitation < 0.0 for process " << label_;
   }
 
   LOG_FINEST() << "year: " << model_->current_year() << "; exploitation: " << AS_DOUBLE(exploitation);
@@ -145,19 +162,6 @@ void MortalityEventBiomass::DoExecute() {
    * Remove the stock now. The amount to remove is
    * vulnerable * exploitation and store for report
    */
-/*
-  StoreForReport("year: ", model_->current_year());
-  StoreForReport("Exploitation: ", AS_DOUBLE(exploitation));
-  StoreForReport("Catch: ", AS_DOUBLE(catch_years_[model_->current_year()]));
-  string current_year = utilities::ToInline<unsigned,string>(model_->current_year());
-  string catch_label, U_label;
-
-	catch_label = "catch[" + label_ + "]." + current_year;
-	U_label = "fishing_pressure[" + label_ + "]." + current_year;
-  StoreForTabularReport(catch_label, AS_DOUBLE(catch_years_[model_->current_year()]));
-  StoreForTabularReport(U_label, AS_DOUBLE(catch_years_[model_->current_year()]));
-*/
-
 
   i = 0;
   Double removals = 0;
@@ -179,7 +183,15 @@ void MortalityEventBiomass::DoExecute() {
  * @param cache a cache object to print to
 */
 void MortalityEventBiomass::FillReportCache(ostringstream& cache) {
-
+  cache << "years: ";
+  for (auto year : years_)
+    cache << year << " ";
+  cache << "\nactual_catches: ";
+  for (auto removal : actual_catches_)
+    cache << removal << " ";
+  cache << "\nexploitation_rate: ";
+  for (auto exploit : exploitation_by_year_)
+    cache << exploit << " ";
 }
 
 /*
@@ -190,7 +202,19 @@ void MortalityEventBiomass::FillReportCache(ostringstream& cache) {
  *
 */
 void MortalityEventBiomass::FillTabularReportCache(ostringstream& cache, bool first_run) {
-
+  if (first_run) {
+    for (auto year : years_) {
+      cache << "actual_catches[" << label_ << "][" << year << "] ";
+    }
+    for (auto year : years_) {
+      cache << "exploitation[" << label_ << "][" << year << "] ";
+    }
+    cache << "\n";
+  }
+  for (auto removal : actual_catches_)
+    cache << removal << " ";
+  for (auto exploit : exploitation_by_year_)
+    cache << exploit << " ";
 }
 
 

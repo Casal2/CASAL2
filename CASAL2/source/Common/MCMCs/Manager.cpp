@@ -25,16 +25,15 @@ void Manager::Validate() {
 
   if (objects_.size() == 1)
     mcmc_ = objects_[0];
-  else if (objects_.size() > 1) {
+  else {
     vector<MCMC*> active_mcmcs;
     for (auto mcmc : objects_) {
       if (mcmc->active())
         active_mcmcs.push_back(mcmc);
     }
-
-    if (active_mcmcs.size() > 1)
-      LOG_FATAL() << "Number of active MCMCs is " << active_mcmcs.size() << ". Only 1 MCMC can be defined as active";
-    mcmc_ = active_mcmcs[0];
+    if (active_mcmcs.size() != 1) {
+      LOG_FATAL() << "You can only have one active @mcmc per run, you have specified " << active_mcmcs.size() << " please fix this.";
+    }
   }
 }
 

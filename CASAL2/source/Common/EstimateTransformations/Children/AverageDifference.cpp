@@ -84,7 +84,7 @@ void AverageDifference::DoTransform() {
   x1_ = estimate_->value();
   LOG_MEDIUM() << "x1 = " << x1_ << " diff = " << difference_estimate_->value();
   Double mean = (x1_ + difference_estimate_->value()) / 2.0;
-  Double diff = fabs(mean - x1_) * 2.0;
+  Double diff = (mean - difference_estimate_->value()) * 2.0;
 
   // Set the first estimate as the mean and the second as the difference
   LOG_MEDIUM() << "Transforming @estimate " << estimate_->label() << " from: " << estimate_->value() << "to: " << mean;

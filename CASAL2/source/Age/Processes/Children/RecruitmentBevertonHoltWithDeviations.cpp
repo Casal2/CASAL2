@@ -281,6 +281,12 @@ void RecruitmentBevertonHoltWithDeviations::DoBuild() {
       bias_by_year_[year] = 0.0;
     }
   }
+  // Pre allocate memory for report objects
+  ssb_values_.reserve(model_->years().size());
+  true_ycs_values_.reserve(model_->years().size());
+  ycs_values_.reserve(model_->years().size());
+  recruitment_values_.reserve(model_->years().size());
+
   DoReset();
 }
 
@@ -307,6 +313,7 @@ void RecruitmentBevertonHoltWithDeviations::DoReset() {
   ssb_values_.clear();
   true_ycs_values_.clear();
   recruitment_values_.clear();
+  ycs_values_.clear();
 
   // Check whether B0 as an input paramter or a derived quantity, this is a result of having an r0 or a b0 in the process
   // if its estimated or an input it will be updates.
@@ -329,7 +336,9 @@ void RecruitmentBevertonHoltWithDeviations::DoReset() {
         bias_by_year_[year] = 0.0;
       }
     }
-}
+  }
+
+
 
 }
 
@@ -394,35 +403,10 @@ void RecruitmentBevertonHoltWithDeviations::DoExecute() {
     true_ycs_values_.push_back(true_ycs);
     recruitment_values_.push_back(amount_per);
     ssb_values_.push_back(SSB);
-
+    ycs_values_.push_back(ycs);
     LOG_FINEST() << "year = " << model_->current_year() << " SSB= " << SSB << " SR = " << SR << "; recruit_dev = "
         << recruit_dev_value_by_year_[ssb_year] << "; b0_ = " << b0_ << "; ssb_ratio = " << ssb_ratio << "; true_ycs = "
         << true_ycs << "; amount_per = " << amount_per;
-
-/*
-    // Store true_ycs values
-    StoreForReport("deviation_years: " , ssb_year); // the input parameter isn't updated during projections. So thats why we are reporting it twice.
-    StoreForReport("recruit_devs: " , AS_DOUBLE(recruit_dev_value_by_year_[ssb_year])); // the input parameter isn't updated during projections. So thats why we are reporting it twice.
-    StoreForReport("ycs: " , AS_DOUBLE(ycs));
-    StoreForReport("true_ycs: " , AS_DOUBLE(true_ycs)); // this is including SR-relationship
-
-    // Store for Tabular report
-    string ssb_year_string;
-    if (!utilities::To<unsigned, string>(ssb_year, ssb_year_string))
-      LOG_CODE_ERROR() << "Could not convert the value " << ssb_year << " to a string for storage in the tabular report";
-
-    string stand_label = "recruit_dev_" + ssb_year_string;
-    string true_ycs_label = "true_ycs_" + ssb_year_string;
-    string ycs_label = "ycs_" + ssb_year_string;
-
-    LOG_FINEST() << "adding tabular report = " << true_ycs_label;
-
-    StoreForTabularReport(stand_label, AS_DOUBLE(recruit_dev_value_by_year_[ssb_year]));
-    StoreForTabularReport(true_ycs_label ,  AS_DOUBLE(true_ycs));
-    StoreForTabularReport(ycs_label ,  AS_DOUBLE(ycs));
-*/
-
-
   }
 
   unsigned i = 0;
@@ -464,7 +448,18 @@ void RecruitmentBevertonHoltWithDeviations::ScalePartition() {
  * @param cache a cache object to print to
 */
 void RecruitmentBevertonHoltWithDeviations::FillReportCache(ostringstream& cache) {
-
+  cache << "\nycs_values: ";
+  for (auto iter : ycs_values_)
+    cache << iter<< " ";
+  cache << "\ntrue_ycs: ";
+  for (auto iter : true_ycs_values_)
+    cache << iter << " ";
+  cache << "\nRecruits: ";
+  for (auto iter : recruitment_values_)
+    cache << iter << " ";
+  cache << "\nSSB: ";
+  for (auto iter : ssb_values_)
+    cache << iter << " ";
 }
 
 /*
@@ -475,7 +470,31 @@ void RecruitmentBevertonHoltWithDeviations::FillReportCache(ostringstream& cache
  *
 */
 void RecruitmentBevertonHoltWithDeviations::FillTabularReportCache(ostringstream& cache, bool first_run) {
+  if (first_run) {
+    vector<unsigned> years = model_->years();
+    for (auto year : years) {
+      unsigned ssb_year = year - ssb_offset_;
+      cache << "ycs["<< ssb_year << "] ";
+    }
+    for (auto year : years) {
+      unsigned ssb_year = year - ssb_offset_;
+      cache <<  "true_ycs[" << ssb_year << "] ";
+    }
+    for (auto year : years) {
+      unsigned ssb_year = year - ssb_offset_;
+      cache << "recruits["<< ssb_year << "] ";
+    }
+    cache << "R0 B0 steepness ";
+    cache << "\n";
+  }
 
+  for (auto value : ycs_values_)
+    cache << value << " ";
+  for (auto value : true_ycs_values_)
+    cache << value << " ";
+  for (auto value : recruitment_values_)
+    cache << value << " ";
+  cache << r0_ << " " << b0_ << " " << steepness_ << " ";
 }
 
 } /* namespace processes */
