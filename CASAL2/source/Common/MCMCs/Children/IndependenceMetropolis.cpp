@@ -513,6 +513,8 @@ void IndependenceMetropolis::DoBuild() {
 void IndependenceMetropolis::DoExecute() {
   candidates_.resize(estimate_count_);
   is_enabled_estimate_.resize(estimate_count_);
+  vector<Double> previous_untransformed_candidates = candidates_;
+
 
   // Transform any parameters so that candidates are in the same space as the covariance matrix.
   model_->managers().estimate_transformation()->TransformEstimatesForObjectiveFunction();
@@ -568,6 +570,10 @@ void IndependenceMetropolis::DoExecute() {
   // Do a quick restore so that estimates are in a space the model wants
   model_->managers().estimate_transformation()->RestoreEstimatesFromObjectiveFunction();
   model_->FullIteration();
+  // For reporting purposes
+  for (unsigned i = 0; i < estimate_count_; ++i) {
+    previous_untransformed_candidates[i] = AS_DOUBLE(estimates_[i]->value());
+  }
   ObjectiveFunction& obj_function = model_->objective_function();
   obj_function.CalculateScore();
 
@@ -595,7 +601,7 @@ void IndependenceMetropolis::DoExecute() {
     new_link.acceptance_rate_               = 0;
     new_link.acceptance_rate_since_adapt_   = 0;
     new_link.step_size_                     = step_size_;
-    new_link.values_                        = candidates_;
+    new_link.values_                        = previous_untransformed_candidates;
     chain_.push_back(new_link);
     // Print first value
 		model_->managers().report()->Execute(State::kIterationComplete);
@@ -635,7 +641,7 @@ void IndependenceMetropolis::DoExecute() {
 
     // Check candidates are within the bounds.
     if (WithinBounds()) {
-    	// Trial these candidates.
+    	// Trial these Potential candidates.
       for (unsigned i = 0; i < candidates_.size(); ++i)
       	estimates_[i]->set_value(candidates_[i]);
 
@@ -647,6 +653,7 @@ void IndependenceMetropolis::DoExecute() {
       // evaluate objective score.
       obj_function.CalculateScore();
 
+      // Store objective information if we accept these will become our current step
       score = AS_DOUBLE(obj_function.score());
       penalty = AS_DOUBLE(obj_function.penalties());
       prior = AS_DOUBLE(obj_function.priors());
@@ -660,7 +667,7 @@ void IndependenceMetropolis::DoExecute() {
         ratio = exp(previous_score - score);
       }
 
-
+      // Check if we accept this jump
       if (dc::IsEqual(ratio, 1.0) || rng.uniform() < ratio) {
         LOG_MEDIUM() << "Accept: Possible. Iteration = " << jumps_ << ", score = " << score << " Previous score " << previous_score;
         // Accept this jump
@@ -674,6 +681,10 @@ void IndependenceMetropolis::DoExecute() {
         previous_penalty = penalty;
         previous_additional_prior = additional_prior;
         previous_jacobian = jacobian;
+        // For reporting purposes
+        for (unsigned i = 0; i < estimate_count_; ++i) {
+          previous_untransformed_candidates[i] = AS_DOUBLE(estimates_[i]->value());
+        }
       } else {
       	// reject this jump reset
         candidates_ = previous_candidates;
@@ -700,104 +711,12 @@ void IndependenceMetropolis::DoExecute() {
 			new_link.acceptance_rate_ = Double(successful_jumps_) / Double(jumps_);
 			new_link.acceptance_rate_since_adapt_ = Double(successful_jumps_since_adapt_) / Double(jumps_since_adapt_);
 			new_link.step_size_ = step_size_;
-			new_link.values_ = candidates_;
+			new_link.values_ = previous_untransformed_candidates;
 			chain_.push_back(new_link);
 			//LOG_MEDIUM() << "Storing: Successful Jumps " << successful_jumps_ << " Jumps : " << jumps_;
 			model_->managers().report()->Execute(State::kIterationComplete);
 		}
   } while (jumps_ < length_);
-
-/*
-    // Run model with candidate parameters.
-    model_->FullIteration();
-    // evaluate objective score.
-    obj_function.CalculateScore();
-
-    Double previous_score = score;
-    Double previous_prior = prior;
-    Double previous_likelihood = likelihood;
-    Double previous_penalty = penalty;
-    Double previous_additional_prior = additional_prior;
-    Double previous_jacobian = jacobian;
-
-
-    score = AS_DOUBLE(obj_function.score());
-    penalty = AS_DOUBLE(obj_function.penalties());
-    prior = AS_DOUBLE(obj_function.priors());
-    likelihood = AS_DOUBLE(obj_function.likelihoods());
-    additional_prior = AS_DOUBLE(obj_function.additional_priors());
-    jacobian = AS_DOUBLE(obj_function.jacobians());
-
-    Double ratio = 1.0;
-
-    if (score > previous_score) {
-      ratio = exp(-score + previous_score);
-      LOG_MEDIUM() << " Current Objective score " << score << " Previous score " << previous_score;
-    }
-
-    jumps_++;
-    jumps_since_adapt_++;
-
-    if (dc::IsEqual(ratio, 1.0) || rng.uniform() < ratio) {
-      LOG_MEDIUM() << "Ratio = " << ratio << " random_number = " << rng.uniform();
-      // Accept this jump
-      successful_jumps_++;
-      successful_jumps_since_adapt_++;
-      // Record the score, and its compontent parts if the successful jump divided by keep has no remainder
-      // i.e the accepted candidate is a keep value
-      if (jumps_ % keep_ == 0) {
-        LOG_FINE() << "Keeping jump " << jumps_;
-        mcmc::ChainLink new_link;
-        new_link.iteration_ = jumps_;
-        new_link.penalty_ = obj_function.penalties();
-        new_link.score_ = AS_DOUBLE(obj_function.score());
-        new_link.prior_ = obj_function.priors();
-        new_link.likelihood_ = obj_function.likelihoods();
-        new_link.additional_priors_ = obj_function.additional_priors();
-        new_link.jacobians_ = obj_function.jacobians();
-        new_link.acceptance_rate_ = Double(successful_jumps_) / Double(jumps_);
-        new_link.acceptance_rate_since_adapt_ = Double(successful_jumps_since_adapt_) / Double(jumps_since_adapt_);
-        new_link.step_size_ = step_size_;
-        new_link.values_ = candidates_;
-        chain_.push_back(new_link);
-        LOG_MEDIUM() << "Successful Jumps " << successful_jumps_ << " Jumps : " << jumps_ << " successful jumps since adapt " << successful_jumps_since_adapt_
-            << " jumps since adapt " << jumps_since_adapt_;
-        model_->managers().report()->Execute(State::kIterationComplete);
-      }
-    } else {
-      // Reject this attempt but still record the chain if it lands on a keep
-      score = previous_score;
-      prior = previous_prior;
-      penalty = previous_penalty;
-      likelihood = previous_likelihood;
-      additional_prior = previous_additional_prior;
-      jacobian = previous_jacobian;
-      candidates_ = original_candidates;
-
-      if (jumps_ % keep_ == 0) {
-        LOG_FINE() << "Keeping jump " << jumps_;
-        mcmc::ChainLink new_link;
-        new_link.iteration_ = jumps_;
-        new_link.penalty_ = previous_penalty;
-        new_link.score_ = previous_score;
-        new_link.prior_ = previous_prior;
-        new_link.likelihood_ = previous_likelihood;
-        new_link.additional_priors_ = previous_additional_prior;
-        new_link.jacobians_ = previous_jacobian;
-        new_link.acceptance_rate_ = Double(successful_jumps_) / Double(jumps_);
-        new_link.acceptance_rate_since_adapt_ = Double(successful_jumps_since_adapt_) / Double(jumps_since_adapt_);
-        new_link.step_size_ = step_size_;
-        new_link.values_ = original_candidates;
-        chain_.push_back(new_link);
-        LOG_MEDIUM() << "Successful Jumps " << successful_jumps_ << " Jumps : " << jumps_ << " successful jumps since adapt " << successful_jumps_since_adapt_
-            << " jumps since adapt " << jumps_since_adapt_;
-        model_->managers().report()->Execute(State::kIterationComplete);
-      }
-    }
-
-    LOG_FINEST() << jumps_ << " jumps have been completed";
-  } while (jumps_ <= length_);
-*/
 }
 
 } /* namespace mcmcs */
