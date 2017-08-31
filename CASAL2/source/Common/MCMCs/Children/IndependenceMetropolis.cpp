@@ -13,6 +13,7 @@
 #include "IndependenceMetropolis.h"
 
 #include "Common/Estimates/Manager.h"
+#include "Common/EstimateTransformations/Manager.h"
 #include "Common/Model/Model.h"
 #include "Common/Minimisers/Manager.h"
 #include "Common/ObjectiveFunction/ObjectiveFunction.h"
@@ -218,7 +219,6 @@ void IndependenceMetropolis::GenerateRandomStart() {
 
     candidates_ = original_candidates;
     FillMultivariateNormal(start_);
-
     for (unsigned i = 0; i < estimates.size(); ++i) {
       if (estimates[i]->lower_bound() > candidates_[i] || estimates[i]->upper_bound() < candidates_[i]) {
     	  candidates_pass = false;
@@ -428,8 +428,10 @@ void IndependenceMetropolis::GenerateNewCandidates() {
 */
 bool IndependenceMetropolis::WithinBounds() {
   for (unsigned i = 0; i < estimates_.size(); ++i) {
-    if (estimates_[i]->lower_bound() > candidates_[i] || estimates_[i]->upper_bound() < candidates_[i])
+    if (estimates_[i]->lower_bound() > candidates_[i] || estimates_[i]->upper_bound() < candidates_[i]) {
+      LOG_MEDIUM() << "Estimate outside of bounds = " << estimates_[i]->parameter() << " value = " << candidates_[i] << " u_b = " << estimates_[i]->upper_bound() << " l_b = " << estimates_[i]->lower_bound();
     	return false;
+    }
   }
   return true;
 }
@@ -512,6 +514,8 @@ void IndependenceMetropolis::DoExecute() {
   candidates_.resize(estimate_count_);
   is_enabled_estimate_.resize(estimate_count_);
 
+  // Transform any parameters so that candidates are in the same space as the covariance matrix.
+  model_->managers().estimate_transformation()->TransformEstimatesForObjectiveFunction();
   for (unsigned i = 0; i < estimate_count_; ++i) {
     candidates_[i] = AS_DOUBLE(estimates_[i]->value());
 
@@ -551,15 +555,18 @@ void IndependenceMetropolis::DoExecute() {
   if (!DoCholeskyDecmposition())
     LOG_FATAL() << "Cholesky decomposition failed. Cannot continue MCMC";
 
-  if (start_ > 0.0)
+  if (start_ > 0.0) {
+    // Take into account any transformations so that when we compare with bounds we are in correct space, when: prior_applies_to_transform true
     GenerateRandomStart();
-
+  }
   for(unsigned i = 0; i < estimate_count_; ++i)
   	estimates_[i]->set_value(candidates_[i]);
 
   /**
    * Get the objective score
    */
+  // Do a quick restore so that estimates are in a space the model wants
+  model_->managers().estimate_transformation()->RestoreEstimatesFromObjectiveFunction();
   model_->FullIteration();
   ObjectiveFunction& obj_function = model_->objective_function();
   obj_function.CalculateScore();
@@ -603,7 +610,7 @@ void IndependenceMetropolis::DoExecute() {
   LOG_MEDIUM() << "Covariance matrix has rows = " << covariance_matrix_.size1() << " and cols = " << covariance_matrix_.size2();
   LOG_MEDIUM() << "Estimate Count: " << estimate_count_;
 
-  vector<Double> original_candidates = candidates_;
+  vector<Double> previous_candidates = candidates_;
   Double previous_score = score;
   Double previous_prior = prior;
   Double previous_likelihood = likelihood;
@@ -617,7 +624,9 @@ void IndependenceMetropolis::DoExecute() {
     // Check If we need to update the covariance
     UpdateCovarianceMatrix();
 
-    // Check candidates are within the bounds.
+    // Generate new candidates
+    // Need to make sure estimates are in the correct space.
+    model_->managers().estimate_transformation()->TransformEstimatesForObjectiveFunction();
     GenerateNewCandidates();
 
     // Count the jump
@@ -629,13 +638,14 @@ void IndependenceMetropolis::DoExecute() {
     	// Trial these candidates.
       for (unsigned i = 0; i < candidates_.size(); ++i)
       	estimates_[i]->set_value(candidates_[i]);
+
+      // restore for model run.
+      model_->managers().estimate_transformation()->RestoreEstimatesFromObjectiveFunction();
+
       // Run model with candidate parameters.
       model_->FullIteration();
       // evaluate objective score.
       obj_function.CalculateScore();
-
-
-
 
       score = AS_DOUBLE(obj_function.score());
       penalty = AS_DOUBLE(obj_function.penalties());
@@ -656,22 +666,24 @@ void IndependenceMetropolis::DoExecute() {
         // Accept this jump
         successful_jumps_++;
         successful_jumps_since_adapt_++;
+        // So these become our last step values so save them.
+        previous_candidates = candidates_;
+        previous_score = score;
+        previous_prior = prior;
+        previous_likelihood = likelihood;
+        previous_penalty = penalty;
+        previous_additional_prior = additional_prior;
+        previous_jacobian = jacobian;
       } else {
       	// reject this jump reset
-        score = previous_score;
-        penalty = previous_penalty;
-        prior = previous_prior;
-        likelihood = previous_likelihood;
-        additional_prior = previous_additional_prior;
-        jacobian = previous_jacobian;
-        candidates_ = original_candidates;
+        candidates_ = previous_candidates;
 
       	LOG_MEDIUM() << "Reject: Possible. Iteration = " << jumps_ << ", score = " << score << " Previous score " << previous_score;
       }
     } else {
-    	LOG_MEDIUM() << "Reject: Bounds . Iteration = " << jumps_ << ", score = " << score << " Previous score " << previous_score;
+    	LOG_MEDIUM() << "Reject: Bounds. Iteration = " << jumps_ << ", score = " << score << " Previous score " << previous_score;
       // Reject this attempt but still record the chain if it lands on a keep
-      candidates_ = original_candidates;
+      candidates_ = previous_candidates;
     }
 
 		if (jumps_ % keep_ == 0) {
@@ -679,12 +691,12 @@ void IndependenceMetropolis::DoExecute() {
 			// i.e this proposed candidate is a 'keep' iteration
 			mcmc::ChainLink new_link;
 			new_link.iteration_ = jumps_;
-			new_link.penalty_ = penalty;
-			new_link.score_ = score;
-			new_link.prior_ = prior;
-			new_link.likelihood_ = likelihood;
-			new_link.additional_priors_ = additional_prior;
-			new_link.jacobians_ = jacobian;
+			new_link.penalty_ = previous_penalty;
+			new_link.score_ = previous_score;
+			new_link.prior_ = previous_prior;
+			new_link.likelihood_ = previous_likelihood;
+			new_link.additional_priors_ = previous_additional_prior;
+			new_link.jacobians_ = previous_jacobian;
 			new_link.acceptance_rate_ = Double(successful_jumps_) / Double(jumps_);
 			new_link.acceptance_rate_since_adapt_ = Double(successful_jumps_since_adapt_) / Double(jumps_since_adapt_);
 			new_link.step_size_ = step_size_;
