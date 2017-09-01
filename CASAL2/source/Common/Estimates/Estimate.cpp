@@ -32,7 +32,6 @@ Estimate::Estimate(Model* model) : model_(model) {
   parameters_.Bind<string>(PARAM_PARAMETER, &parameter_, "The name of the parameter to estimate in the model", "");
   parameters_.Bind<Double>(PARAM_LOWER_BOUND, &lower_bound_, "The lower bound for the parameter", "");
   parameters_.Bind<Double>(PARAM_UPPER_BOUND, &upper_bound_, "The upper bound for the parameter", "");
-//  parameters_.Bind<string>(PARAM_PRIOR, &prior_label_, "TBA", "", ""); // This is type
   parameters_.Bind<string>(PARAM_SAME, &same_labels_, "List of parameters that are constrained to have the same value as this parameter", "", "");
   parameters_.Bind<unsigned>(PARAM_ESTIMATION_PHASE, &estimation_phase_, "The first estimation phase to allow this to be estimated", "", 1);
   parameters_.Bind<bool>(PARAM_MCMC, &mcmc_fixed_, "Indicates if this parameter is fixed at the point estimate during an MCMC run", "", false);
@@ -86,7 +85,7 @@ void Estimate::Build() {
     if(!transformation)
       LOG_ERROR_P(PARAM_TRANSFORMATION) << "Wrong transformation type, check the manual for available types.";
     if (!transformation->is_simple())
-      LOG_FATAL_P(PARAM_TRANSFORMATION) << "Transformation type is not simple, only univariate (simple) transfomrations can be applied with this functionality. See the manual for information on how to apply more complex transformations";
+      LOG_FATAL_P(PARAM_TRANSFORMATION) << "Transformation type is not simple, only univariate (is_simple) transfomrations can be applied with this functionality. See the manual for information on how to apply more complex transformations";
 
     transformation->parameters().Add(PARAM_LABEL, transformation_type_ + "_" + label_, __FILE__, __LINE__);
     transformation->parameters().Add(PARAM_TYPE, transformation_type_, __FILE__, __LINE__);

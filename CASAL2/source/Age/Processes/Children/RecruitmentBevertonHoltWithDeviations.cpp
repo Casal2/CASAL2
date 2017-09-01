@@ -448,7 +448,7 @@ void RecruitmentBevertonHoltWithDeviations::ScalePartition() {
  * @param cache a cache object to print to
 */
 void RecruitmentBevertonHoltWithDeviations::FillReportCache(ostringstream& cache) {
-  cache << "\nycs_values: ";
+  cache << "ycs_values: ";
   for (auto iter : ycs_values_)
     cache << iter<< " ";
   cache << "\ntrue_ycs: ";

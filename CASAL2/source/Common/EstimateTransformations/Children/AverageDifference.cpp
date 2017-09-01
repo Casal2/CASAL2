@@ -93,14 +93,6 @@ void AverageDifference::DoTransform() {
   estimate_->set_value(mean);
   difference_estimate_->set_value(diff);
 
-/*
-  // Set the bounds
-  estimate_->set_lower_bound(average_lower_bound_);
-  estimate_->set_upper_bound(average_upper_bound_);
-  difference_estimate_->set_lower_bound(difference_lower_bound_);
-  difference_estimate_->set_upper_bound(difference_upper_bound_);
-*/
-
 }
 
 /**
@@ -111,13 +103,7 @@ void AverageDifference::DoRestore() {
 	x1_ = estimate_->value() + (difference_estimate_->value() / 2.0);
 	difference_estimate_->set_value(estimate_->value() - (difference_estimate_->value() / 2.0));
 	estimate_->set_value(x1_);
-/*
-  // Restore the bounds
-  estimate_->set_lower_bound(average_original_lower_bound_);
-  estimate_->set_upper_bound(average_original_upper_bound_);
-  difference_estimate_->set_lower_bound(difference_original_lower_bound_);
-  difference_estimate_->set_upper_bound(difference_original_upper_bound_);
-*/
+
   // Set the first estimate as the mean and the second as the difference
   LOG_MEDIUM() << "Restoring @estimate " << estimate_->label() << "to: " << estimate_->value();
   LOG_MEDIUM() << "Restoring @estimate " << difference_estimate_->label() << "to: " << difference_estimate_->value();
