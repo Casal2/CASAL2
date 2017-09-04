@@ -595,7 +595,8 @@ void Model::RunProfiling() {
     LOG_FINE() << "Entering the Profiling Sub-System";
     estimates::Manager& estimate_manager = *managers_->estimate();
     auto minimiser = managers_->minimiser()->active_minimiser();
-
+    if (!minimiser)
+      LOG_FATAL() << "couldn't get an active minimiser to estimate for the profile";
     vector<Profile*> profiles = managers_->profile()->objects();
     LOG_FINE() << "Working with " << profiles.size() << " profiles";
     for (auto profile : profiles) {
@@ -607,7 +608,7 @@ void Model::RunProfiling() {
       for (unsigned i = 0; i < profile->steps() + 2; ++i) {
         LOG_FINE() << "Calling minimiser to begin the estimation (profiling)";
         minimiser->Execute();
-
+        LOG_FINE() << "Finished estimation from " << i + 1 << " steps";
         run_mode_ = RunMode::kBasic;
         FullIteration();
 
