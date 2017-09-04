@@ -122,7 +122,7 @@ void Managers::Validate() {
   likelihood_->Validate();
   if (model_->run_mode() == RunMode::kMCMC)
     mcmc_->Validate();
-  if (model_->run_mode() == RunMode::kMCMC || model_->run_mode() == RunMode::kEstimation)
+  if (model_->run_mode() == RunMode::kMCMC || model_->run_mode() == RunMode::kEstimation || model_->run_mode() == RunMode::kProfiling)
     minimiser_->Validate();
 
   observation_->Validate();
@@ -153,7 +153,7 @@ void Managers::Build() {
   likelihood_->Build();
   if (model_->run_mode() == RunMode::kMCMC)
     mcmc_->Build();
-  if (model_->run_mode() == RunMode::kMCMC || model_->run_mode() == RunMode::kEstimation)
+  if (model_->run_mode() == RunMode::kMCMC || model_->run_mode() == RunMode::kEstimation || model_->run_mode() == RunMode::kProfiling)
     minimiser_->Build();
   observation_->Build();
   penalty_->Build();
