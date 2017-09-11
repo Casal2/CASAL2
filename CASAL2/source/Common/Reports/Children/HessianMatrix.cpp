@@ -16,7 +16,7 @@ namespace ublas = boost::numeric::ublas;
  *
  */
 HessianMatrix::HessianMatrix(Model* model) : Report(model) {
-  run_mode_    = (RunMode::Type)(RunMode::kBasic | RunMode::kEstimation | RunMode::kMCMC);
+  run_mode_    = (RunMode::Type)(RunMode::kBasic | RunMode::kEstimation);
   model_state_ = State::kFinalise;
 }
 

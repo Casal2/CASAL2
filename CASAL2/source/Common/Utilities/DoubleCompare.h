@@ -24,6 +24,7 @@ using niwa::utilities::Double;
 #define DELTA 1e-11
 
 inline bool IsZero(const Double &value) { return (value < ZERO && value > -ZERO); }
+//inline bool IsInfinite(const Double &value) { return (isinf(value));}
 inline bool IsTrueZero(const Double &value) { return (value < TRUE_ZERO && value > -TRUE_ZERO); }
 inline bool IsOne(const Double &value) { return ( ((value-ONE) < ZERO) && ((value-ONE) > -ZERO) ); }
 inline bool IsEqual(Double A, Double B) { return ( ((A-B) < ZERO) && ((A-B) > -ZERO) ); }
