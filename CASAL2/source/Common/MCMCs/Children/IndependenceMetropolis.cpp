@@ -146,8 +146,9 @@ void IndependenceMetropolis::BuildCovarianceMatrix() {
  * @return true on success, false on failure
  */
 bool IndependenceMetropolis::DoCholeskyDecmposition() {
+  LOG_TRACE();
   if (covariance_matrix_.size1() != covariance_matrix_.size2())
-      LOG_ERROR() << "Invalid covariance matrix (size1!=size2)";
+      LOG_ERROR() << "Invalid covariance matrix (rows != columns) must be a symetric square matrix";
     unsigned matrix_size1 = covariance_matrix_.size1();
     covariance_matrix_lt = covariance_matrix_;
 
@@ -177,6 +178,7 @@ bool IndependenceMetropolis::DoCholeskyDecmposition() {
         sum += covariance_matrix_lt(i,j) * covariance_matrix_lt(i,j);
 
       if (covariance_matrix_(i,i) <= sum) {
+        LOG_FATAL() << "Cholesky decomposition failed, Singular matrix found, 'covariance_matrix_(i,i) <= sum', for row and column " << i + 1 << " parameter = " << estimates_[i]->parameter() << " sum = " << sum << " value = " << covariance_matrix_(i,i);
         return false;
       }
       covariance_matrix_lt(i,i) = sqrt(covariance_matrix_(i,i) - sum);
@@ -191,8 +193,10 @@ bool IndependenceMetropolis::DoCholeskyDecmposition() {
     sum = 0.0;
     for (unsigned i = 0; i < (matrix_size1 - 1); ++i)
       sum += covariance_matrix_lt(matrix_size1 - 1,i) * covariance_matrix_lt(matrix_size1-1,i);
-    if (covariance_matrix_(matrix_size1 - 1, matrix_size1 - 1) <= sum)
+    if (covariance_matrix_(matrix_size1 - 1, matrix_size1 - 1) <= sum) {
+      LOG_FATAL() << "Cholesky decomposition failed,  Singular matrix found. 'covariance_matrix_(matrix_size1 - 1, matrix_size1 - 1) <= sum', for row and column " << matrix_size1 << " sum = " << sum << " value = " << covariance_matrix_(matrix_size1 - 1, matrix_size1 - 1);
       return false;
+    }
     covariance_matrix_lt(matrix_size1 - 1, matrix_size1 - 1) = sqrt(covariance_matrix_(matrix_size1 - 1, matrix_size1 - 1) - sum);
 
    return true;
