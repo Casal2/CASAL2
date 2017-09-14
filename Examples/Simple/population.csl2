@@ -176,5 +176,7 @@ b 3.288
 ## Catchability
 @catchability chatTANq
 type nuisance
+lower_bound 0.01
+upper_bound 0.40
 
 ## Pick up any other files we want to include
