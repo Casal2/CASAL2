@@ -6,7 +6,7 @@
 \usage{
 extract.mcmc(samples.file = "mcmc_samples.out.0",
   objectives.file = "mcmc_objectives.out.0", path = "",
-  return_covariance = F)
+  return_covariance = F, fileEncoding = "")
 }
 \arguments{
 \item{samples.file}{<string> the name of the input file containing the samples.file output by casal2}
@@ -16,6 +16,8 @@ extract.mcmc(samples.file = "mcmc_samples.out.0",
 \item{path}{Optional<string>, the path to the file}
 
 \item{return_covariance}{Optional<bool>, Whether you want to extract the covariance matrix with the mcmc object?}
+
+\item{fileEncoding}{Optional, allows the R-library to read in files that have been encoded in alternative UTF formats, see the manual for the error message that would indicate when to use this switch.}
 }
 \value{
 a 'casal2MCMC' that can be integrated using the str() function.

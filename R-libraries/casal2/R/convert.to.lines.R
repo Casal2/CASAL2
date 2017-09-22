@@ -4,7 +4,7 @@
 #' @keywords internal
 #'
 "convert.to.lines" <-
-function(filename) {
-  scan(filename, what = "", sep = "\n")
+function(filename, fileEncoding) {
+  scan(filename, what = "", sep = "\n", fileEncoding = fileEncoding)
 }
 

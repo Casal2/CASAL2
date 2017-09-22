@@ -8,12 +8,13 @@
 #' @param N the number of random samples you want.
 #' @param par_file_name = the filename of the file created 
 #' @param all_uniform = logical if TRUE draw from a uniform between bounds regardless of prior distribution
+#' @param fileEncoding Optional, allows the R-library to read in files that have been encoded in alternative UTF formats, see the manual for the error message that would indicate when to use this switch.
 #' @return a file named 'parms.out' in the path directory
 #' @export
 #'
 
-'generate.starting.pars' = function(path = "", Estimation_csl2_file = "Estimation.csl2", N = 10, par_file_name = "starting_pars.out", all_uniform = FALSE) {
-  estimate_config = extract.csl2.file(file = Estimation_csl2_file, path = path);
+'generate.starting.pars' = function(path = "", Estimation_csl2_file = "Estimation.csl2", N = 10, par_file_name = "starting_pars.out", all_uniform = FALSE, fileEncoding = "") {
+  estimate_config = extract.csl2.file(file = Estimation_csl2_file, path = path, fileEncoding = fileEncoding);
   ## pull out the estimates only, they are the only components interested in at the moment
   estimate_ndx = grepl(pattern = "estimate\\[", x = names(estimate_config))  
   estimate_block_labels = names(estimate_config)[estimate_ndx]

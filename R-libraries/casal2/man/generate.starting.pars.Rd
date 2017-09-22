@@ -5,7 +5,8 @@
 \title{generate.starting.pars Generates a parameter file that is formatted for -i input into Casal2.}
 \usage{
 generate.starting.pars(path = "", Estimation_csl2_file = "Estimation.csl2",
-  N = 10, par_file_name = "starting_pars.out", all_uniform = FALSE)
+  N = 10, par_file_name = "starting_pars.out", all_uniform = FALSE,
+  fileEncoding = "")
 }
 \arguments{
 \item{path}{Optionally, the path to the file}
@@ -17,6 +18,8 @@ generate.starting.pars(path = "", Estimation_csl2_file = "Estimation.csl2",
 \item{par_file_name}{= the filename of the file created}
 
 \item{all_uniform}{= logical if TRUE draw from a uniform between bounds regardless of prior distribution}
+
+\item{fileEncoding}{Optional, allows the R-library to read in files that have been encoded in alternative UTF formats, see the manual for the error message that would indicate when to use this switch.}
 }
 \value{
 a file named 'parms.out' in the path directory

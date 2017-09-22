@@ -4,7 +4,7 @@
 \alias{convert.to.lines}
 \title{Utility extract function}
 \usage{
-convert.to.lines(filename)
+convert.to.lines(filename, fileEncoding)
 }
 \description{
 Utility extract function

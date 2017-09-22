@@ -5,10 +5,11 @@
 #' @author Craig Marsh
 #' @param file the name of the input file containing model configuration
 #' @param path Optionally, the path to the file
+#' @param fileEncoding Optional, allows the R-library to read in files that have been encoded in alternative UTF formats, see the manual for the error message that would indicate when to use this switch.
 #' @export
 #'
 "extract.csl2.file" <-
-    function(file, path = "") {
+    function(file, path = "", fileEncoding = "") {
     ## if no path specified look in current directory
     if (missing(path)) 
         path <- ""

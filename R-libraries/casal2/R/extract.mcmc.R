@@ -8,12 +8,13 @@
 #' @param samples.file <string> the name of the input file containing the samples.file output by casal2
 #' @param objectives.file <string> the name of the input file containing the objectives.file output by casal2
 #' @param path Optional<string>, the path to the file
+#' @param fileEncoding Optional, allows the R-library to read in files that have been encoded in alternative UTF formats, see the manual for the error message that would indicate when to use this switch.
 #' @param return_covariance Optional<bool>, Whether you want to extract the covariance matrix with the mcmc object?
 #' @export
 #' @return a 'casal2MCMC' that can be integrated using the str() function.
 #'
 "extract.mcmc" <-
-function (samples.file = "mcmc_samples.out.0",objectives.file = "mcmc_objectives.out.0", path = "", return_covariance = F) {
+function (samples.file = "mcmc_samples.out.0",objectives.file = "mcmc_objectives.out.0", path = "", return_covariance = F, fileEncoding = "") {
   set.class <- function(object,new.class){
     # use in the form
     #  object <- set.class(object,"new class")
@@ -25,7 +26,7 @@ function (samples.file = "mcmc_samples.out.0",objectives.file = "mcmc_objectives
     
   obj_filename = make.filename(path = path, file =  objectives.file)
   sample_filename = make.filename(path = path, file = samples.file)
-  sample_file = convert.to.lines(sample_filename)
+  sample_file = convert.to.lines(sample_filename, fileEncoding = fileEncoding)
   temp = get.lines(sample_file, starts.with = "\\*",fixed=F)
   is.samples = FALSE
   if (temp != "*mcmc (mcmc_sample)") {
@@ -51,7 +52,7 @@ function (samples.file = "mcmc_samples.out.0",objectives.file = "mcmc_objectives
   #########################
   ## Deal with the Objectives
   #########################  
-  objective_file = convert.to.lines(obj_filename);
+  objective_file = convert.to.lines(obj_filename, fileEncoding = fileEncoding);
   covar = get.lines(objective_file, starts.with = "starting_covariance_matrix",fixed=F);
   object = get.lines(objective_file, starts.with = "samples",fixed=F);
   covar_lines = get.lines(objective_file, clip.to = covar);
