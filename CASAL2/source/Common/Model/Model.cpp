@@ -524,6 +524,8 @@ void Model::RunEstimation() {
     }
 
     minimiser->BuildCovarianceMatrix();
+    // Check bounds
+    managers_->estimate()->CheckValuesRelativeToBounds();
 
     run_mode_ = RunMode::kBasic;
     FullIteration();
