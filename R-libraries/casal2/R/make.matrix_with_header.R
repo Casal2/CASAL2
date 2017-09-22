@@ -1,11 +1,11 @@
 #' Utility extract function
 #'
-#' @author Dan Fu
+#' @author Craig Marsh
 #' @description 
-#' create a matrix, does not expect header values.
+#' create a matrix that has a header
 #' @keywords internal
 #'
-"make.matrix" <-
+"make.matrix_with_header" <-
 function(lines)
 {
   columns <- string.to.vector.of.words(lines[1])
@@ -22,4 +22,3 @@ function(lines)
   #colnames(data) <- columns
   data
 }
-
