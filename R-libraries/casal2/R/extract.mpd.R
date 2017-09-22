@@ -40,24 +40,24 @@ function (file, path = "") {
     temp = temp[is.odd(1:length(temp))]
     counter = length(temp)
 
-      result = list()
-      for (i in 1:counter) {
-          header = string.to.vector.of.words( temp[i])
-          label = substring(header[1],2)
-          type = substring(header[2],2,nchar(header[2])-1)
-          report = get.lines(file, clip.to = temp[i])
-          report = get.lines(report,clip.from = "*end")
-          report = make.list(report)
-          report$type = type
-          if (!is.in(label, names(result))) {       
-             result[[label]] = list()
-             result[[label]][["1"]] = report
-          } else {
-               result[[label]][[as.character(length(result[[label]])+1)]] = report
-          }
-          file = get.lines(file, clip.to = "*end")
+    result = list()
+    for (i in 1:counter) {
+        header = string.to.vector.of.words( temp[i])
+        label = substring(header[1],2)
+        type = substring(header[2],2,nchar(header[2])-1)
+        report = get.lines(file, clip.to = temp[i])
+        report = get.lines(report,clip.from = "*end")
+        report = make.list(report)
+        report$type = type
+        if (!is.in(label, names(result))) {       
+           result[[label]] = list()
+           result[[label]][["1"]] = report
+        } else {
+             result[[label]][[as.character(length(result[[label]])+1)]] = report
+        }
+        file = get.lines(file, clip.to = "*end")
 
-      } 
+    } 
     result<-set.class(result,"casal2MPD")
     result
   } else {

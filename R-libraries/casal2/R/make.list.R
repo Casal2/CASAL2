@@ -58,7 +58,7 @@ function(lines) {
                       next_no = next_no + 1
                   }
                   if (next_no-line_no > 1) 
-                        result[[label]] = make.string_vector(lines[(line_no+1):(next_no-1)])
+                        result[[label]] = as.character(lines[(line_no+1):(next_no-1)])
                   else 
                         result[[label]] = vector()
                   line_no  = next_no
@@ -120,6 +120,22 @@ function(lines) {
                   }
                   if (next_no-line_no > 1) 
                         result[[label]] = make.matrix(lines[(line_no+1):(next_no-1)])
+                  else 
+                        result[[label]] = data.frame()
+                  line_no  = next_no
+      
+
+            } else if (type =="M") { # matrix with header
+                  next_no = line_no + 1
+                  while (next_no <= length(lines)) {
+                      next_line = lines[next_no]
+                      next_type = get.line.type(next_line)
+                      if(next_type != "")
+                          break
+                      next_no = next_no + 1
+                  }
+                  if (next_no-line_no > 1) 
+                        result[[label]] = make.matrix_with_header(lines[(line_no+1):(next_no-1)])
                   else 
                         result[[label]] = data.frame()
                   line_no  = next_no

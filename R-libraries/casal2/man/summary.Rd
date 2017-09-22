@@ -3,16 +3,21 @@
 \name{summary.default}
 \alias{summary.default}
 \alias{summary.casal2MPD}
+\alias{summary.casal2MCMC}
 \title{summary default}
 \usage{
 summary.default(model)
 
 \method{summary}{casal2MPD}(model)
+
+\method{summary}{casal2MCMC}(model)
 }
 \arguments{
 \item{model}{<casal2MPD, casal2TAB, casal2MCMC> object that are generated from one of the extract() functions.}
 }
 \value{
+\code{NULL}
+
 \code{NULL}
 }
 \description{

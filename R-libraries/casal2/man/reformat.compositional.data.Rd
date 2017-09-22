@@ -2,7 +2,7 @@
 % Please edit documentation in R/reformat.compositional.data.R
 \name{reformat.compositional.data}
 \alias{reformat.compositional.data}
-\title{Reformat Casal2 compositional observations so they are in the same format as the legacy Casal observations.}
+\title{Reformat Casal2 compositional observation so it is the same format as the legacy Casal observation.}
 \usage{
 reformat.compositional.data(extract_list, comp_label)
 }
