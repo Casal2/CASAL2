@@ -146,7 +146,18 @@ void Manager::Build(Model* model) {
   }
 }
 
+/**
+ * Check to see if the parameters are on or very close to the bounds.
+ */
 
+void Manager::CheckValuesRelativeToBounds() {
+  for (Estimate* estimate : objects_) {
+    if (estimate->estimated()) {
+      if ((estimate->value() - estimate->lower_bound()) < 0.001 || (estimate->upper_bound() - estimate->value()) < 0.001)
+        LOG_WARNING() << "estimated parameter '" <<  estimate->parameter() << "' was within 0.001 of its bound";
+    }
+  }
+}
 /**
  * Count how many of our estimates are enabled
  * and return the count
