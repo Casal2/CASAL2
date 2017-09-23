@@ -51,6 +51,7 @@ private:
   bool                          plus_group_ = false;
   Double                        max_length_ = 0.0;
   vector<string>                selectivity_labels_;
+  vector<string>                split_from_category_labels_;
   map<string, Selectivity*>     selectivities_;
   string                        penalty_label_ = "";
   Penalty*                      penalty_ = nullptr;

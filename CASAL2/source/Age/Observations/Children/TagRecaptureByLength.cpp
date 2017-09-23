@@ -392,8 +392,8 @@ void TagRecaptureByLength::Execute() {
     for (; target_category_iter != target_partition_iter->end(); ++target_cached_category_iter, ++target_category_iter) {
       LOG_FINEST() << "Selectivity for " << target_category_labels_[category_offset] << " " << target_selectivities_[category_offset]->label();
 
-      (*target_cached_category_iter).UpdateMeanLengthData();
-      (*target_category_iter)->UpdateMeanLengthData();
+      //(*target_cached_category_iter).UpdateMeanLengthData();
+      //(*target_category_iter)->UpdateMeanLengthData();
       (*target_cached_category_iter).UpdateAgeLengthData(length_bins_, plus_group_, target_selectivities_[category_offset]);
       (*target_category_iter)->UpdateAgeLengthData(length_bins_, plus_group_, target_selectivities_[category_offset]);
       (*target_cached_category_iter).CollapseAgeLengthDataToLength();
@@ -432,8 +432,8 @@ void TagRecaptureByLength::Execute() {
       Double expected = 0.0;
       Double observed = 0.0;
       if (length_results[i] != 0.0) {
-        expected = length_results[i] * detection_ / target_length_results[i] ;
-        LOG_FINEST() << " total numbers at length " << length_bins_[i] << " = " << target_length_results[i] << ", numerator = " << length_results[i];
+        expected = detection_ * target_length_results[i]  / length_results[i];
+        LOG_FINEST() << " total numbers at length " << length_bins_[i] << " = " << target_length_results[i] << ", denominator = " << length_results[i];
       }
       if (scanned_[model_->current_year()][category_labels_[category_offset]][i] == 0.0)
         observed = 0.0;

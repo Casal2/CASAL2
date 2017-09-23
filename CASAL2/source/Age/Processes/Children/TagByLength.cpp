@@ -17,6 +17,11 @@
 #include "Common/Penalties/Manager.h"
 #include "Common/Utilities/DoubleCompare.h"
 
+#include <boost/algorithm/string/replace.hpp>
+#include <boost/algorithm/string/trim_all.hpp>
+#include <boost/algorithm/string/split.hpp>
+#include <boost/algorithm/string/join.hpp>
+
 // namespaces
 namespace niwa {
 namespace age {
@@ -48,6 +53,7 @@ TagByLength::TagByLength(Model* model)
   parameters_.Bind<Double>(PARAM_N, &n_, "", "", true);
   parameters_.BindTable(PARAM_NUMBERS, numbers_table_, "Table of N data", "", true, true);
   parameters_.BindTable(PARAM_PROPORTIONS, proportions_table_, "Table of proportions to move", "" , true, true);
+
 }
 
 /**
@@ -63,25 +69,58 @@ TagByLength::~TagByLength() {
  */
 void TagByLength::DoValidate() {
   LOG_TRACE();
-  // Check that the user has not specified combined categories
-  for(auto category : from_category_labels_) {
+  // Check if the user has specified combined categories, if so check the same number of categories are
+  for(auto& category : to_category_labels_) {
     bool check_combined = model_->categories()->IsCombinedLabels(category);
     if(check_combined)
-      LOG_ERROR_P(PARAM_FROM) << "You supplied the combined category " << category << " this process can only take seperate categories.";
-  }
-  for(auto category : to_category_labels_) {
-    bool check_combined = model_->categories()->IsCombinedLabels(category);
-    if(check_combined)
-      LOG_ERROR_P(PARAM_TO) << "You supplied the combined category " << category << " this process can only take seperate categories.";
+      LOG_FATAL_P(PARAM_TO) << "You supplied the combined category " << category << " this sub command can only take seperate categories.";
   }
 
-  from_category_labels_ = model_->categories()->ExpandLabels(from_category_labels_, parameters_.Get(PARAM_FROM));
+  vector<string> split_category_labels;
+  unsigned no_combined = 0;
+  for(auto category : from_category_labels_) {
+    if (model_->categories()->IsCombinedLabels(category)) {
+      no_combined= model_->categories()->GetNumberOfCategoriesDefined(category);
+      if (no_combined != to_category_labels_.size()) {
+        LOG_ERROR_P(PARAM_TO) << "you specified '" << no_combined << "' combined from_categories where as you suppled '" << to_category_labels_.size() << "' to categories. you must have an equal number of categories from to";
+      }
+      boost::split(split_category_labels, category, boost::is_any_of("+"));
+      for (const string& split_category_label : split_category_labels) {
+        if (!model_->categories()->IsValid(split_category_label)) {
+          if (split_category_label == category) {
+            LOG_ERROR_P(PARAM_FROM) << ": The category " << split_category_label << " is not a valid category.";
+          } else {
+            LOG_ERROR_P(PARAM_FROM) << ": The category " << split_category_label << " is not a valid category."
+                << " It was defined in the category collection " << category;
+          }
+        }
+      }
+      for (auto& split_category : split_category_labels)
+        split_from_category_labels_.push_back(split_category);
+    } else
+      split_from_category_labels_.push_back(category);
+  }
+  from_category_labels_ = model_->categories()->ExpandLabels(split_from_category_labels_, parameters_.Get(PARAM_FROM));
   to_category_labels_ = model_->categories()->ExpandLabels(to_category_labels_, parameters_.Get(PARAM_TO));
 
-  if (from_category_labels_.size() != to_category_labels_.size()) {
-    LOG_ERROR_P(PARAM_TO) << " number of values supplied (" << to_category_labels_.size()
-        << ") does not match the number of from categories provided (" << from_category_labels_.size() << ")";
+  LOG_FINEST() << "from categories";
+  for(auto category : split_from_category_labels_) {
+    LOG_FINEST() << category;
   }
+  // Check these are valid
+  for(auto category : to_category_labels_) {
+    LOG_FINEST() << category;
+    if(!model_->categories()->IsValid(category))
+      LOG_ERROR_P(PARAM_TO) << "category '" << category << " not a valid category in the system, check spelling please";
+  }
+
+  if (split_from_category_labels_.size() != to_category_labels_.size()) {
+    LOG_ERROR_P(PARAM_TO) << " number of values supplied (" << to_category_labels_.size()
+        << ") does not match the number of from categories provided (" << split_from_category_labels_.size() << ")";
+  }
+
+  if (to_category_labels_.size() != selectivity_labels_.size())
+    LOG_ERROR_P(PARAM_SELECTIVITIES) << "there must be the same number of selectivities as 'to_categories'. You supplied " << to_category_labels_.size() << " 'to_categories' but " << selectivity_labels_.size() << " selectivity labels";
   if (u_max_ <= 0.0 || u_max_ > 1.0)
     LOG_ERROR_P(PARAM_U_MAX) << " (" << u_max_ << ") must be greater than 0.0 and less than 1.0";
   if (!plus_group_ && max_length_ == 0.0)
@@ -141,7 +180,7 @@ void TagByLength::DoValidate() {
         numbers_[year][i - 1] = n_value;
       }
     }
-
+    // Check years allign
     for (auto iter : numbers_) {
       if (std::find(years_.begin(), years_.end(), iter.first) == years_.end())
         LOG_ERROR_P(PARAM_NUMBERS) << " table contains year " << iter.first << " that is not a valid year defined in this process";
@@ -191,7 +230,7 @@ void TagByLength::DoValidate() {
       if (fabs(1.0 - total_proportion) > 0.001)
         LOG_ERROR_P(PARAM_PROPORTIONS) << " total (" << total_proportion << ") is not 1.0 for year " << year;
     }
-
+    // Check years allign
     for (auto iter : numbers_) {
       if (std::find(years_.begin(), years_.end(), iter.first) == years_.end())
         LOG_ERROR_P(PARAM_PROPORTIONS) << " table contains year " << iter.first << " that is not a valid year defined in this process";
@@ -210,7 +249,7 @@ void TagByLength::DoValidate() {
 void TagByLength::DoBuild() {
   LOG_TRACE();
   LOG_FINEST() << "Initialising from categories";
-  from_partition_.Init(from_category_labels_);
+  from_partition_.Init(split_from_category_labels_);
   LOG_FINEST() << "Initialising to categories";
   to_partition_.Init(to_category_labels_);
 
@@ -223,8 +262,8 @@ void TagByLength::DoBuild() {
   for (unsigned i = 0; i < selectivity_labels_.size(); ++i) {
     Selectivity* selectivity = selectivity_manager.GetSelectivity(selectivity_labels_[i]);
     if (!selectivity)
-      LOG_ERROR() << "Selectivity: " << selectivity_labels_[i] << " not found";
-    selectivities_[from_category_labels_[i]] = selectivity;
+      LOG_FATAL_P(PARAM_SELECTIVITIES) << "Selectivity: " << selectivity_labels_[i] << " not found";
+    selectivities_[split_from_category_labels_[i]] = selectivity;
   }
   if (initial_mortality_selectivity_label_ != "")
     initial_mortality_selectivity_ = selectivity_manager.GetSelectivity(initial_mortality_selectivity_label_);
@@ -244,10 +283,10 @@ void TagByLength::DoExecute() {
   /**
    * Do the transition with mortality on the fish we're moving
    */
-  LOG_FINEST() << "numbers__.size(): " << numbers_.size();
-  LOG_FINEST() << "numbers__[current_year].size(): " << numbers_[current_year].size();
+  LOG_FINEST() << "numbers_.size(): " << numbers_.size();
+  LOG_FINEST() << "numbers_[current_year].size(): " << numbers_[current_year].size();
   for (unsigned i = 0; i < numbers_[current_year].size(); ++i)
-    LOG_FINEST() << "numbers__[current_year][" << i << "]: " << numbers_[current_year][i];
+    LOG_FINEST() << "numbers_[current_year][" << i << "]: " << numbers_[current_year][i];
 
   Double total_stock_with_selectivities = 0.0;
   unsigned number_bins = length_bins_.size();
@@ -259,8 +298,8 @@ void TagByLength::DoExecute() {
   // iterate over from_categories to update length data and age length matrix instead of doing in a length loop
   from_iter = from_partition_.begin();
   for (; from_iter != from_partition_.end(); from_iter++) {
-    (*from_iter)->UpdateMeanLengthData();
-    //  build numbers at age length
+    //(*from_iter)->UpdateMeanLengthData();
+    //  build numbers at age and length
     (*from_iter)->UpdateAgeLengthData(length_bins_, plus_group_, selectivities_[(*from_iter)->name_]);
     //  total numbers at length
     (*from_iter)->CollapseAgeLengthDataToLength();
@@ -290,7 +329,7 @@ void TagByLength::DoExecute() {
     LOG_FINEST() << "total_stock_with_selectivities: " << total_stock_with_selectivities << " at length " << length_bins_[i];
 
     /**
-     * Migrate the exploited amount
+     * Migrate the exploited amount using a method analagous to exploitation rate.
      */
     from_iter = from_partition_.begin();
     to_iter   = to_partition_.begin();
@@ -347,12 +386,6 @@ void TagByLength::DoExecute() {
       }
     }
   }  // for (unsigned i = 0; i <  length_bins_.size(); ++i)
-
-
-  for (unsigned year : years_) {
-    if (numbers_.find(year) == numbers_.end())
-      LOG_ERROR_P(PARAM_YEARS) << " value (" << year << ") does not have a corresponding entry in the numbers or proportions table";
-  }
 }
 
 } /* namespace processes */
