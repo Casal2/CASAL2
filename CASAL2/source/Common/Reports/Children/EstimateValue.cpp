@@ -37,9 +37,14 @@ EstimateValue::~EstimateValue() noexcept(true) {
  * Execute this report.
  */
 void EstimateValue::DoExecute() {
-  LOG_TRACE();
   vector<Estimate*> estimates = model_->managers().estimate()->objects();
   vector<Profile*> profiles = model_->managers().profile()->objects();
+  LOG_TRACE();
+  // Check if estiamtes are close to bounds. flag a warning.
+  for (Estimate* estimate : estimates) {
+    if ((estimate->value() - estimate->lower_bound()) < 0.001 || (estimate->upper_bound() - estimate->value()) < 0.001)
+      LOG_WARNING() << "estimated parameter '" <<  estimate->parameter() << "' was within 0.001 of its bound";
+  }
 
   if (estimates.size() > 0) {
     cache_ << "*" << label_ << " " << "(" << type_ << ")" << "\n";

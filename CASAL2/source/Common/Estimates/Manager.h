@@ -55,7 +55,6 @@ public:
   vector<Estimate*>           GetEstimatesByLabel(const string& label);
   void                        SetActivePhase(unsigned phase);
   unsigned                    GetNumberOfPhases();
-  void                        CheckValuesRelativeToBounds();
 
 private:
   // methods
