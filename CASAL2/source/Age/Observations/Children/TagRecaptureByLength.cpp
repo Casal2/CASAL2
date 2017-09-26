@@ -77,6 +77,9 @@ void TagRecaptureByLength::DoValidate() {
   		LOG_ERROR_P(PARAM_YEARS) << "Years can't be less than start_year (" << model_->start_year() << "), or greater than final_year (" << model_->final_year() << "). Please fix this.";
   }
 
+  if (target_category_labels_.size() != target_category_labels_.size())
+    LOG_ERROR_P(PARAM_TARGET_CATEGORIES) << "we expect you to supply the same number of tagged categories 'categories2' as categories. Try using the '+' syntax for the category_label subcommand.";
+
   /**
    * Now go through each target category and split it if required, then check each piece to ensure
    * it's a valid category
@@ -142,7 +145,7 @@ void TagRecaptureByLength::DoValidate() {
    * This is because we'll have 1 set of recaptures per category collection provided.
    * categories male+female male = 2 collections
    */
-  unsigned obs_expected = length_spread_ * category_labels_.size() + 1;
+  unsigned obs_expected = length_spread_ * target_category_labels_.size() + 1;
   vector<vector<string>>& recpatures_data = recaptures_table_->data();
   if (recpatures_data.size() != years_.size()) {
     LOG_ERROR_P(PARAM_RECAPTURED) << " has " << recpatures_data.size() << " rows defined, but we expected " << years_.size()
@@ -175,7 +178,7 @@ void TagRecaptureByLength::DoValidate() {
       recaptures_by_year[year].push_back(value);
     }
     if (recaptures_by_year[year].size() != obs_expected - 1)
-      LOG_CODE_ERROR() << "obs_by_year_[year].size() (" << recaptures_by_year[year].size() << ") != obs_expected - 1 (" << obs_expected -1 << ")";
+      LOG_FATAL_P(PARAM_RECAPTURED) << "We received " << recaptures_by_year[year].size() << " columns but expected " << obs_expected - 1 << ", please check you have specified the table correctly";
 
   }
 
@@ -214,7 +217,7 @@ void TagRecaptureByLength::DoValidate() {
         scanned_by_year[year].assign(obs_expected - 1, scanned_by_year[year][0]);
       }
       if (scanned_by_year[year].size() != obs_expected - 1) {
-        LOG_CODE_ERROR() << "error_values_by_year_[year].size() (" << scanned_by_year[year].size() << ") != obs_expected - 1 (" << obs_expected -1 << ")";
+        LOG_FATAL_P(PARAM_SCANNED) << "We recieved " << scanned_by_year[year].size() << " columns but expected " << obs_expected - 1 << ", please check you have specified the table correctly";
       }
     }
   }

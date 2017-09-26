@@ -52,11 +52,8 @@ void Process::DoExecute() {
   LOG_FINE() <<" printing report " << label_ << " of type " << process_->type();
 
   bool is_BH_recruitment = (process_->type() == PARAM_RECRUITMENT_BEVERTON_HOLT) | (process_->type() == PARAM_BEVERTON_HOLT);
-  cache_ << "*" << label_ << " " << "("<< type_ << ")"<<"\n";
-  cache_ << "process_type: " << process_->type() << "\n";
-  cache_ << "process: " << process_label_ << "\n";
+  cache_ << "*"<< type_ << "[" << label_ << "]" << "\n";
 
-  cache_ << "parameters:\n";
   auto parameters = process_->parameters().parameters();
   for (auto parameter : parameters) {
     if(!(is_BH_recruitment & ((parameter.first == PARAM_YCS_YEARS ||  parameter.first  == PARAM_YCS_VALUES)))) {
@@ -80,8 +77,8 @@ void Process::DoExecute() {
 void Process::DoExecuteTabular() {
   if (first_run_) {
     first_run_ = false;
-    cache_ << "*" << label_ << " " << "(" << type_ << ")" << "\n";
-    cache_ << "process_type: " << process_->type() << "\n";
+    cache_ << "*"<< type_ << "[" << label_ << "]" << "\n";
+    cache_ << "type: " << process_->type() << "\n";
     cache_ << "values " << REPORT_R_DATAFRAME << "\n";
     process_->FillTabularReportCache(cache_, true);
   } else

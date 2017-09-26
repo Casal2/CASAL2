@@ -31,7 +31,7 @@ ObjectiveFunction::ObjectiveFunction(Model* model) : Report(model) {
  * Execute the report
  */
 void ObjectiveFunction::DoExecute() {
-  cache_ << "*" << label_ << " " << "("<< type_ << ")"<<"\n";
+  cache_ << "*"<< type_ << "[" << label_ << "]" << "\n";
   cache_ <<"values " << REPORT_R_VECTOR <<"\n";
 
   ::niwa::ObjectiveFunction& obj_function = model_->objective_function();

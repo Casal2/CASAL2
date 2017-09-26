@@ -32,7 +32,7 @@ RandomNumberSeed::RandomNumberSeed(Model* model) : Report(model) {
 void RandomNumberSeed::DoExecute() {
   // Header
   //cache_ << CONFIG_ARRAY_START << label_ << CONFIG_ARRAY_END << "\n";
-  cache_ << "*" << label_ << " " << "("<< type_ << ")"<<"\n";
+  cache_ << "*"<< type_ << "[" << label_ << "]" << "\n";
   cache_ << PARAM_RANDOM_NUMBER_SEED << ": " << model_->global_configuration().random_seed() << "\n";
   ready_for_writing_ = true;
 }

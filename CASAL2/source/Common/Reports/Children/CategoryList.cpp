@@ -28,8 +28,7 @@ CategoryList::CategoryList(Model* model) : Report(model) {
  * Execute the report
  */
 void CategoryList::DoExecute() {
-  cache_ << "*category_list: " << label_ << "\n";
-
+  cache_ << "*"<< type_ << "[" << label_ << "]" << "\n";
   auto categories = model_->categories();
 
   vector<string> names = categories->category_names();

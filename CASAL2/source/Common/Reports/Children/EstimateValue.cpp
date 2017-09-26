@@ -47,7 +47,7 @@ void EstimateValue::DoExecute() {
   }
 
   if (estimates.size() > 0) {
-    cache_ << "*" << label_ << " " << "(" << type_ << ")" << "\n";
+    cache_ << "*"<< type_ << "[" << label_ << "]" << "\n";
     cache_ << "values " << REPORT_R_DATAFRAME << "\n";
     for (Estimate* estimate : estimates)
       cache_ << estimate->parameter() << " ";
@@ -69,7 +69,7 @@ void EstimateValue::DoExecuteTabular() {
    */
   if (first_run_) {
     first_run_ = false;
-    cache_ << "*" << label_ << " " << "(" << type_ << ")" << "\n";
+    cache_ << "*"<< type_ << "[" << label_ << "]" << "\n";
     cache_ << "values " << REPORT_R_DATAFRAME << "\n";
     for (Estimate* estimate : estimates)
       cache_ << estimate->parameter() << " ";

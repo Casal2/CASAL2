@@ -70,8 +70,7 @@ void Addressable::DoBuild() {
  *
  */
 void Addressable::DoPrepare() {
-  cache_ << "*" << label_ << " " << "("<< type_ << ")"<<"\n";
-
+  cache_ << "*"<< type_ << "[" << label_ << "]" << "\n";
   cache_ << "years: ";
   for (unsigned year : years_)
     cache_ << std::left << std::setw(10) << year;
