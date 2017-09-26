@@ -28,7 +28,7 @@ Catchabilities::Catchabilities(Model* model) : Report(model) {
 void Catchabilities::DoExecute() {
   LOG_TRACE();
   catchabilities::Manager& manager = *model_->managers().catchability();
-  cache_ << "*" << label_ << " " << "("<< type_ << ")"<<"\n";
+  cache_ << "*"<< type_ << "[" << label_ << "]" << "\n";
 
   auto catchabilities = manager.objects();
   for (auto Q : catchabilities) {
@@ -45,7 +45,23 @@ void Catchabilities::DoExecute() {
  */
 
 void Catchabilities::DoExecuteTabular() {
+  LOG_TRACE();
+  catchabilities::Manager& manager = *model_->managers().catchability();
+  auto catchabilities = manager.objects();
+  if (first_run_) {
+    cache_ << "*"<< type_ << "[" << label_ << "]" << "\n";
+    cache_ << "values " << REPORT_R_DATAFRAME << "\n";
+    first_run_ = false;
 
+    for (auto& Q : catchabilities) {
+      string label =  Q->label();
+      cache_ << "catchability[" << label << "] ";
+    }
+  }
+  for (auto& Q : catchabilities) {
+    cache_ << AS_DOUBLE(Q->q()) << " ";
+  }
+  cache_ << "\n";
 }
 
 /**

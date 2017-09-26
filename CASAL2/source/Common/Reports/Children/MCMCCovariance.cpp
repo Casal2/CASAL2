@@ -33,7 +33,7 @@ void MCMCCovariance::DoExecute() {
   MCMC* mcmc = model_->managers().mcmc()->active_mcmc();
   ublas::matrix<Double>& covariance_matrix = mcmc->covariance_matrix();
 
-  cache_ << "*" << label_ << " " << "("<< type_ << ")"<<"\n";
+  cache_ << "*"<< type_ << "[" << label_ << "]" << "\n";
   cache_ << "MCMC_covariance" << REPORT_R_MATRIX <<"\n";
   for (unsigned i = 0; i < covariance_matrix.size1(); ++i) {
      for (unsigned j = 0; j < covariance_matrix.size2(); ++j) {

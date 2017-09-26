@@ -67,10 +67,10 @@ void Observation::DoBuild() {
  *	Execute the report
  */
 void Observation::DoExecute() {
-  cache_ << "*" << label_ << " " << "("<< type_ << ")"<<"\n";
+  cache_ << "*"<< type_ << "[" << label_ << "]" << "\n";
   cache_ << "observation_type: " << observation_->type() << "\n";
   cache_ << "likelihood: " << observation_->likelihood() << "\n";
-  cache_ << "Comparisons " <<REPORT_R_DATAFRAME <<"\n";
+  cache_ << "Values " <<REPORT_R_DATAFRAME <<"\n";
   map<unsigned, vector<obs::Comparison>>& comparisons = observation_->comparisons();
   if(pearson_resids_ & !normalised_resids_) {
     LOG_FINEST() << "calculating pearsons residuals for observation " << label_ << " with likelihood type " << observation_->likelihood();
@@ -207,7 +207,7 @@ void Observation::DoExecuteTabular() {
       	} else {
       		LOG_ERROR() << "Haven't coded a tabular report for an observation that has a structured comparison as in observation " << observation_label_;
       	}
-      	label = observation_label_ + ".obs" + "[" + year + "][" + bin + "]";
+      	label = observation_label_ + ".observed" + "[" + year + "][" + bin + "]";
       	cache_ << label << " ";
       }
     }
@@ -229,7 +229,7 @@ void Observation::DoExecuteTabular() {
       	} else {
       		LOG_ERROR() << "Haven't coded a tabular report for an observation that has a structured comparison as in observation " << observation_label_;
       	}
-      	label = observation_label_ + ".resids" + "[" + year + "][" + bin + "]";
+      	label = observation_label_ + ".residuals" + "[" + year + "][" + bin + "]";
       	cache_ << label << " ";
       }
     }
@@ -252,7 +252,7 @@ void Observation::DoExecuteTabular() {
         	} else {
         		LOG_ERROR() << "Haven't coded a tabular report for an observation that has a structured comparison as in observation " << observation_label_;
         	}
-        	label = observation_label_ + ".pearson_resids" + "[" + year + "][" + bin + "]";
+        	label = observation_label_ + ".pearson_residuals" + "[" + year + "][" + bin + "]";
         	cache_ << label << " ";
         }
       }
@@ -276,7 +276,7 @@ void Observation::DoExecuteTabular() {
         	} else {
         		LOG_ERROR() << "Haven't coded a tabular report for an observation that has a structured comparison as in observation " << observation_label_;
         	}
-        	label = observation_label_ + ".normalised_resids" + "[" + year + "][" + bin + "]";
+        	label = observation_label_ + ".normalised_residuals" + "[" + year + "][" + bin + "]";
         	cache_ << label << " ";
         }
       }

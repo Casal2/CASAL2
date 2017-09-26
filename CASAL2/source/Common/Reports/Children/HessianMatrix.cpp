@@ -35,8 +35,8 @@ void HessianMatrix::DoExecute() {
   hessian_ = minimiser_->hessian_matrix();
   unsigned hessian_size = minimiser_->hessian_size();
 
-  cache_ << "*" << label_ << " " << "(" << type_ << ")" << "\n";
-  cache_ << "Hessian_Matrix " << REPORT_R_MATRIX << "\n";
+  cache_ << "*"<< type_ << "[" << label_ << "]" << "\n";
+  cache_ << "hessian_matrix " << REPORT_R_MATRIX << "\n";
   for (unsigned i = 0; i < hessian_size; ++i) {
     for (unsigned j = 0; j < hessian_size; ++j) {
       Double value = hessian_[i][j];

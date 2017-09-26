@@ -31,7 +31,7 @@ void TimeVarying::DoExecute() {
   LOG_TRACE();
   timevarying::Manager& manager = *model_->managers().time_varying();
   auto time_varying = manager.objects();
-  cache_ << "*" << label_ << " " << "("<< type_ << ")"<<"\n";
+  cache_ << "*"<< type_ << "[" << label_ << "]" << "\n";
 
   for (auto time_var : time_varying) {
     string label =  time_var->label();
@@ -57,7 +57,6 @@ void TimeVarying::DoExecuteTabular() { }
  *
  */
 void TimeVarying::DoFinaliseTabular() {
-  ready_for_writing_ = true;
 }
 
 } /* namespace reports */

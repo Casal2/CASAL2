@@ -32,8 +32,8 @@ void CovarianceMatrix::DoExecute() {
   auto minimiser_ = model_->managers().minimiser()->active_minimiser();
   covariance_matrix_ = minimiser_->covariance_matrix();
 
-  cache_ << "*" << label_ << " " << "(" << type_ << ")" << "\n";
-  cache_ << "Covariance_Matrix " << REPORT_R_MATRIX << "\n";
+  cache_ << "*"<< type_ << "[" << label_ << "]" << "\n";
+  cache_ << "covariance_matrix " << REPORT_R_MATRIX << "\n";
 
   for (unsigned i = 0; i < covariance_matrix_.size1(); ++i) {
     for (unsigned j = 0; j < covariance_matrix_.size2(); ++j)

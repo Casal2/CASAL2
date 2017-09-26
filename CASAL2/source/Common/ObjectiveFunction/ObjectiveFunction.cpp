@@ -62,7 +62,7 @@ void ObjectiveFunction::CalculateScore() {
     bool append_age = scores.size() > 1 ? true : false;
     for(auto iter = scores.begin(); iter != scores.end(); ++iter) {
       objective::Score new_score;
-      new_score.label_ = PARAM_OBS + string("->") + observation->label();
+      new_score.label_ = PARAM_OBSERVATION + string("->") + observation->label();
       if (append_age)
         new_score.label_ += string("-") + utilities::ToInline<unsigned, string>(iter->first);
       new_score.score_ = iter->second;

@@ -51,7 +51,7 @@ void Project::DoBuild() {
 void Project::DoExecute() {
   LOG_FINE() <<" printing report " << label_ << " of type " << project_->type();
   map<unsigned,Double>& values = project_->projected_parameters();
-  cache_ << "*" << label_ << " " << "("<< type_ << ")"<<"\n";
+  cache_ << "*"<< type_ << "[" << label_ << "]" << "\n";
   cache_ << "project: " << project_label_ << "\n";
   cache_ << "values " << REPORT_R_VECTOR <<"\n";
   for(auto value : values) {

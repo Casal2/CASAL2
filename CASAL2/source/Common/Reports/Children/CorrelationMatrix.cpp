@@ -34,8 +34,8 @@ void CorrelationMatrix::DoExecute() {
 
   correlation_matrix_ = minimiser_->correlation_matrix();
 
-  cache_ << "*" << label_ << " " << "(" << type_ << ")" << "\n";
-  cache_ << "Correlation_Matrix " << REPORT_R_MATRIX << "\n";
+  cache_ << "*"<< type_ << "[" << label_ << "]" << "\n";
+  cache_ << "correlation_matrix " << REPORT_R_MATRIX << "\n";
   for (unsigned i = 0; i < correlation_matrix_.size1(); ++i) {
     for (unsigned j = 0; j < correlation_matrix_.size2(); ++j)
       cache_ << AS_DOUBLE(correlation_matrix_(i, j)) << " ";

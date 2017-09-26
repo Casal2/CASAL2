@@ -46,7 +46,7 @@ void OutputParameters::DoExecute() {
   if (first_run_) {
      first_run_ = false;
      if (!skip_tags_) {
-       cache_ << "*" << label_ << " " << "("<< type_ << ")"<<"\n";
+       cache_ << "*"<< type_ << "[" << label_ << "]" << "\n";
        cache_ << "values "<< REPORT_R_MATRIX << "\n";
      }
      for (Estimate* estimate : estimates)

@@ -28,26 +28,17 @@ DerivedQuantity::DerivedQuantity(Model* model) : Report(model) {
 void DerivedQuantity::DoExecute() {
   LOG_TRACE();
   derivedquantities::Manager& manager = *model_->managers().derived_quantity();
-  cache_ << "*" << label_ << " " << "("<< type_ << ")"<<"\n";
+  cache_ << "*"<< type_ << "[" << label_ << "]" << "\n";
 
   auto derived_quantities = manager.objects();
   for (auto dq : derived_quantities) {
     string label =  dq->label();
     cache_ << label << " " << REPORT_R_LIST <<" \n";
-    cache_ << "derived_type: " << dq->type() << " \n";
-    // report b0 and binitial
-    if (model_->b0(label) > 0)
-    cache_ << "B0: " << model_->b0(label) << "\n";
-    if (model_->binitial(dq->label()) > 0)
-    cache_ << "Binitial: " << AS_DOUBLE(model_->binitial(dq->label())) << "\n";
-
-    const vector<vector<Double> > init_values = dq->initialisation_values();
+    cache_ << "type: " << dq->type() << " \n";
+    vector<vector<Double>> init_values = dq->initialisation_values();
     for (unsigned i = 0; i < init_values.size(); ++i) {
-      cache_ << "Initial_phase_"<< i << ": ";
-      for (unsigned j = 0; j < init_values[i].size(); ++j) {
-        Double weight = init_values[i][j];
-        cache_ << AS_DOUBLE(weight) << " ";
-      }
+      cache_ << "initialisation_phase["<< i + 1 << "]: ";
+      cache_ << init_values[i].back() << " ";
       cache_ << "\n";
     }
 
@@ -76,7 +67,7 @@ void DerivedQuantity::DoExecuteTabular() {
 
   if (first_run_) {
     first_run_ = false;
-    cache_ << "*derived_quant (derived_quantity)\n";
+    cache_ << "*"<< type_ << "[" << label_ << "]" << "\n";
     cache_ << "values " << REPORT_R_DATAFRAME << "\n";
     for (auto dq : derived_quantities) {
       const map<unsigned, Double> values = dq->values();

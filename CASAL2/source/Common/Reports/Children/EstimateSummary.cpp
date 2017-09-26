@@ -43,7 +43,7 @@ void EstimateSummary::DoExecute() {
   niwa::estimates::Manager& estimate_manager = *model_->managers().estimate();
   vector<Estimate*> estimates = estimate_manager.objects();
 
-  cache_ << "*" << label_ << " " << "("<< type_ << ")"<<"\n";
+  cache_ << "*"<< type_ << "[" << label_ << "]" << "\n";
   for (Estimate* estimate : estimates) {
 	cache_ << estimate->parameter() << " " << REPORT_R_LIST << "\n";
  //   cache_ << "label: " << estimate->label() << "\n";

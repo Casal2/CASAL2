@@ -36,7 +36,7 @@ public:
 
 private:
   // members
-  bool                        first_run_ = false;
+  bool                        first_run_ = true;
 };
 
 } /* namespace reports */
