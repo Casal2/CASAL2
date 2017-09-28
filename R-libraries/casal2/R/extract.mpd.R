@@ -43,9 +43,9 @@ function (file, path = "",fileEncoding = "") {
 
     result = list()
     for (i in 1:counter) {
-        header = string.to.vector.of.words( temp[i])
-        label = substring(header[1],2)
-        type = substring(header[2],2,nchar(header[2])-1)
+        header = split.header(temp[i])
+        label = header[1]
+        type = header[2]
         report = get.lines(file, clip.to = temp[i])
         report = get.lines(report,clip.from = "*end")
         report = make.list(report)

@@ -37,7 +37,7 @@
         stop(Paste("Found: ",length(this_report) ," reports in under the observation_label, ", observation_labels[i],", ususally this is caused by a multiline parameter run in casal2 -i or a profile run casal2 -p. This function will not work for those run types"))
     }
     ## Reformat the obs
-    Data = this_report$'1'$Comparisons
+    Data = this_report$'1'$Values
     years = unique(Data[,"year"])
     n_categories = length(unique(Data[,"category"]))
 

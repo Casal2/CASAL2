@@ -43,13 +43,16 @@ function (file, path = "",fileEncoding = "") {
 
     result = list()
     for (i in 1:counter) {
-      header = string.to.vector.of.words(temp[i])
-      label = substring(header[1],2)
-      type = substring(header[2],2,nchar(header[2])-1)
+      header = split.header(temp[i])
+      label = header[1]
+      type = header[2]
       report = get.lines(file, clip.to = temp[i])
       report = get.lines(report,clip.from = "*end")
       print(Paste("loading report '" ,label,"'"))
-
+      if (type == "warnings_encounted") {
+        warning("Found a warning in your report. I am skipping that report, just letting you know =)")
+        next;
+      }
       ## report = make.list(report)
       temp_result = list()
       start_ndx = which(temp[i] == original_file) + 1;
@@ -58,6 +61,7 @@ function (file, path = "",fileEncoding = "") {
         current_line = report[line_no]
         report_type = get.line.type(current_line)
         report_label = get.line.label(current_line)
+
         if (report_type == "L_E") {
           temp_result[[report_label]]= make.list_element(current_line)
           line_no = line_no + 1
