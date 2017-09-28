@@ -16,7 +16,7 @@
     ## get the list that lins subcommands to their type.
     casal2_list = get.casal2.unique_subcommands_list();
     filename = make.filename(path = path, file = file)
-    file = convert.to.lines(filename)
+    file = convert.to.lines(filename, fileEncoding = fileEncoding)
     ## remove white space at the beginning of a subcommand or command e.g
     while (any(regexpr(" ", file) == 1)) {
         index <- regexpr(" ", file) == 1
@@ -88,6 +88,7 @@
               if (!is.in(Command,exception_blocks)) {
                 ## Create a label for the block
                 Command = paste(Command, "[", temp[2], "]", sep = "");
+                print(temp[2])
              }
              next; ## if we come across a block we either give it a label and move on or just move on if it is an exception block
           }
@@ -114,7 +115,7 @@
                ## We need to read in the header labels for the table
                Colnames = temp;                   
                ## intialise temp list object for storing info into the table                 
-              } else if ((header > 2 && type != "end_table") || (Label %in% non_header_tables && type != "end_table")){
+              } else if ((header > 2 && temp[1] != "end_table") || (Label %in% non_header_tables && temp[1] != "end_table")){
                 ## create a temp list which will be the same as 
                 if (!Label %in% non_header_tables) {
                   ## if not an observational table
@@ -135,7 +136,7 @@
                 }
               } else if (length(casal2_list$type[casal2_list$command == temp[1]] == "end_table") > 0) {
               ## an initial check to prevent logical(0) in the condition
-                if (type == "end_table") {
+                if (temp[1] == "end_table") {
                  ## we are leaving the table inputs
                  in_table = FALSE;  
                  header = 1;

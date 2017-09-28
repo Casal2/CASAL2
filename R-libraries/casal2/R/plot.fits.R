@@ -70,7 +70,7 @@ function(model, report_label="", plot.it = T, xlim, ylim, xlab, ylab, main, col,
   }  
   if (!muliple_iterations_in_a_report) { 
     ## pull out the comparisons oject
-    Comparisons = this_report$'1'$Comparisons
+    Comparisons = this_report$'1'$Values
     ## transform comparisons to something easier to call
     t_comp = transform.comparisons(Comparisons)
     if (plot.it) {
@@ -182,9 +182,9 @@ function(model, report_label="", plot.it = T, xlim, ylim, xlab, ylab, main, col,
   
   if (plot.it) {
     if (this_report$likelihood == "lognormal") {
-      norm_ndx = grepl(pattern = "normalised_resids", x = names(this_report$values))
+      norm_ndx = grepl(pattern = "normalised_residuals", x = names(this_report$values))
       if(!any(norm_ndx)) {
-        stop("Could not find normalised_resids in your tabular report. make sure in your report.csl2 under your @report for this observation: pearsons_residuals true")
+        stop("Could not find normalised_residuals in your tabular report. make sure in your report.csl2 under your @report for this observation: pearsons_residuals true")
       }
       this_normal = this_report$values[,norm_ndx]
       start_index = as.numeric(regexpr(pattern = "\\[",text = names(this_normal))) + 1
@@ -197,11 +197,11 @@ function(model, report_label="", plot.it = T, xlim, ylim, xlab, ylab, main, col,
       abline(h = c(2,-2), col = "red")  
       abline(h = 0, lty = 0)        
     } else if (this_report$likelihood == "normal"){
-      norm_ndx = grepl(pattern = "normalised_resids", x = names(this_report$values))
-      pears_ndx = grepl(pattern = "normalised_resids", x = names(this_report$values))
+      norm_ndx = grepl(pattern = "normalised_residuals", x = names(this_report$values))
+      pears_ndx = grepl(pattern = "normalised_residuals", x = names(this_report$values))
       
       if(!any(norm_ndx) & !any(pears_ndx)) {
-        stop("Could not find normalised_resids or pearson_residuals in your tabular report. make sure in your report.csl2 under your @report for this observation: pearsons_residuals true or normalised_residuals true")
+        stop("Could not find normalised_residuals or pearson_residuals in your tabular report. make sure in your report.csl2 under your @report for this observation: pearsons_residuals true or normalised_residuals true")
       }
       if (any(norm_ndx)) {
         this_normal = this_report$values[,norm_ndx]
@@ -228,7 +228,7 @@ function(model, report_label="", plot.it = T, xlim, ylim, xlab, ylab, main, col,
       }
     
     } else if (this_report$likelihood == "multinomial"){
-      pear_ndx = grepl(pattern = "pearson_resids", x = names(this_report$values))
+      pear_ndx = grepl(pattern = "pearson_residuals", x = names(this_report$values))
       if(!any(pear_ndx)) {
         stop("Could not find pearson_residuals in your tabular report. make sure in your report.csl2 under your @report for this observation: pearsons_residuals true")
       }
@@ -251,7 +251,7 @@ function(model, report_label="", plot.it = T, xlim, ylim, xlab, ylab, main, col,
       } else 
         stop(Paste("there are ", n_years, " years of compositional data you should just have plot.it = FALSE and use another axuillary function to plot them, it will most likely look prettier than what I can be bothered coding"))
       for (y in 1:n_years) {
-        this_year = this_pearson[,grepl(pattern = Paste("pearson_resids\\[",years[y]), x = names(this_pearson))]
+        this_year = this_pearson[,grepl(pattern = Paste("pearson_residuals\\[",years[y]), x = names(this_pearson))]
         boxplot(this_year,ylim = c(-3,3),xlab = "bins", ylab = "Pearsons residuals", main = years[y] ,names = bins)
         abline(h = c(2,-2), col = "red")
         abline(h = 0, lty = 0) 
