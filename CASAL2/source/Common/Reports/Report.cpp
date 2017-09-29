@@ -213,9 +213,11 @@ void Report::FlushCache() {
     if (!file.is_open())
       LOG_ERROR() << "Unable to open file: " << file_name;
 
-    if (!skip_tags_)
+    LOG_MEDIUM() << "skip tags = " << skip_tags_;
+    if (!skip_tags_) {
       cache_ << CONFIG_END_REPORT << "\n";
-
+      //cerr << "end report\n";
+    }
     file << cache_.str();
     file.close();
 
@@ -223,8 +225,10 @@ void Report::FlushCache() {
 
   } else {
     cout << cache_.str();
-    if (!skip_tags_)
+    if (!skip_tags_) {
       cout << CONFIG_END_REPORT << "\n";
+    }
+
     cout << endl;
     cout.flush();
 

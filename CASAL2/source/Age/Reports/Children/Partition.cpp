@@ -44,6 +44,7 @@ void Partition::DoValidate() {
  *
  */
 void Partition::DoExecute() {
+  //cerr << "execute " << label_ << "\n";
   // First, figure out the lowest and highest ages/length
   unsigned lowest         = 9999;
   unsigned highest        = 0;
@@ -60,7 +61,7 @@ void Partition::DoExecute() {
   }
 
   // Print the header
-  cache_ << "*" << label_ << " " << "("<< type_ << ")"<<"\n";
+  cache_ << "*"<< type_ << "[" << label_ << "]" << "\n";
   cache_ << "year: " << model_->current_year() << "\n";
   cache_ << "time_step: " << time_step_ << "\n";
   cache_ << "values "<< REPORT_R_DATAFRAME<<"\n";
@@ -82,8 +83,6 @@ void Partition::DoExecute() {
     cache_ << "\n";
   }
   ready_for_writing_ = true;
-
-
 }
 
 } /* namespace reports */

@@ -139,7 +139,7 @@ void Logging::FlushWarnings() {
 
   //unsigned to_print = warnings_.size() > 10 ? 10 : warnings_.size();
 
-  cout << "*warnings (warnings_encounted)\n";
+  cout << "*warnings[warnings_encounted]\n";
   cout << "warnings_found: " << warnings_.size() << "\n";
 
   for (unsigned i = 0; i < warnings_.size(); ++i) {
