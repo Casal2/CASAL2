@@ -95,8 +95,9 @@
 \defSub{parameter} {The name of the parameter to estimate in the model}
 \defSub{lower\_bound} {The lower bound for the parameter}
 \defSub{upper\_bound} {The upper bound for the parameter}
+\defSub{same} {List of parameters that are constrained to have the same value as this parameter}
 \defSub{estimation\_phase} {The first estimation phase to allow this to be estimated}
-\defSub{mcmc} {Indicates if this parameter is fixed at the point estimate during an MCMC run}
+\defSub{mcmc} {Indicates if this parameter is estimated at the point estimate but fixed during MCMC estimation run}
 \defSub{transformation} {Type of simple transformation to apply to estimate}
 \defSub{transform\_with\_jacobian} {Apply jacobian during transformation}
 \defSub{prior\_applies\_to\_transform} {Does the prior apply to the transformed parameter? a legacy switch, see Manual for more information}
@@ -414,6 +415,7 @@
 \defComLab{penalty}{Define an object of type \emph{penalty}}\par\par
 \defSub{label} {The label of the penalty}
 \defSub{type} {The type of penalty}
+\par\textbf{\commandlabsubarg{penalty}{type}{normal}}\par
 \par\textbf{\commandlabsubarg{penalty}{type}{process}}\par
 \defSub{multiplier} {The penalty multiplier}
 \defSub{log\_scale} {Indicates if the sums of squares is calculated on the log scale}
@@ -520,6 +522,7 @@
 \defSub{first\_year\_with\_bias} {First year with full bias adjustment}
 \defSub{last\_year\_with\_bias} {Last year with full bias adjustment}
 \defSub{first\_recent\_year\_with\_no\_bias} {First recent year with no bias adjustment}
+\defSub{recruitment\_deviation\_penalty} {The label for the recruitment penalty term when using recruitment devs parameterisation for the recruitent process. If estimating recruitment devs and applying this penalty make sure estimates are type = uniform}
 \defSub{b0\_intialisation\_phase} {Initialisation phase Label that b0 is from}
 \defSub{deviation\_values} {Recruitment deviation values}
 \defSub{deviation\_years} {Recruitment years. A vector of years that relates to the year of the spawning event that created this cohort}

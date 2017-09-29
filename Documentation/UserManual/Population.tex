@@ -705,13 +705,16 @@ Where \texttt{MatureSel} is a selectivity that describes the proportion of age o
 
 \subsubsection{\I{Tag Release events}}\label{sub:tag_release}
 
-Tagging processes can be age or length based processes, where by numbers of fished are moved from an untagged category to a tagged category that the user has defined in the \command{Categories} block. Tag release processes can also account for tag induced mortality on individuals. Age based tag release events take a known number of individuals tagged for each age and do a straightforward category transition along with extra mortality. Length based tag release processes are more complicated, as \CNAME\ needs to calculate the age length matrix and exploitation by each length to then move the correct numbers at age based on the known lengths of release. \CNAME\ also allows for initial tag loss. An example of tag release by length process is as follows. 
+Tagging processes can be age or length based processes, where by numbers of individuals are moved from an untagged category to a tagged category that the user has defined from the \command{categories} block. Tag release processes can also account for tag induced mortality on individuals. Age based tag release events take a known number of individuals tagged for each age and do a straightforward category transition along with extra mortality. We deduct individuals from the non tagged categories and shift them into tagged categories. Often ages are not known of tagged individuals and so length based tagging is the most commonly used tagging process.
+
+
+Length based tag release processes are more complicated, as \CNAME\ needs to calculate the age length matrix and exploitation by each length bin to then move the correct numbers at age based on the known lengths of release. \CNAME\ also allows for initial tag loss. An example of tag release by length process is as follows. 
 
 {\small{\begin{verbatim}
 		@process 2005Tags_shelf
 		type tag_by_length 
 		years 2005
-		from male.untagged  female.untagged
+		from male.untagged+female.untagged
 		to male.2005  female.2005	
 		selectivities MatureSel
 		proportions 1
@@ -728,7 +731,7 @@ Tagging processes can be age or length based processes, where by numbers of fish
 		U_max 0.999
 		\end{verbatim}}}
 
-The above process will move 207 individuals from a combination of male.untagged and female.untagged, based on the combination of growth rates and selectivity between the sexes.
+The above process will move 207 individuals from a combination of male.untagged and female.untagged, based on the combination of growth rates and selectivity into tagged male and tagged female categories.
 
 \subsubsection{\I{Tag Loss}}
 

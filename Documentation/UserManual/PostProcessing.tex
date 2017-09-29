@@ -17,6 +17,8 @@ These extract functions differ by how the expected output is structured and they
 	\item \texttt{extract.mcmc()} - import \CNAME\ mcmc output into \R\ as a list
 	\item \texttt{extract.tabular()} - import \CNAME\ tabular output into \R\ as a list
 	\item \texttt{extract.parameters()} - import \CNAME\ parameter files into \R\ as a list
+	\item \texttt{generate.starting.pars()} - Reads in a file that contains your \command{estimate} blocks and generates 'N' starting values to test 'global convergence'. Pretty handy little bugger I think, encouraged to use.	
+	\item \texttt{burn.in.tabular()} - takes a \subcommand{casal2TAB} object and cuts off the first 'n' rows.
 	\item \texttt{plot.derived\_quantities()} - plot derived quantities
 	\item \texttt{plot.selectivities()} - plot selectivities
 	\item \texttt{plot.ycs()} - plot true ycs strengths
@@ -25,9 +27,8 @@ These extract functions differ by how the expected output is structured and they
 	\item \texttt{extract.csl2.file} - read \CNAME\ .csl2 (configuration) file into \R\ as a list
 	\item \texttt{write.csl2.file} - write \CNAME\ .csl2 (configuration) file from R
 	\item \texttt{ReadSimulatedData} - read \CNAME\ output into \R\ from a \texttt{casal2 -s} run		
-%%	\item \texttt{param.profile()} - plot a parameter profile, from a \texttt{casal2 -p} run
-%%	\item \texttt{param.profile.by.cohort} - plot a parameter profile for an age compositional dataset by cohort and category, from a \texttt{casal2 -p} run
 	\item \texttt{Method.TA1.8()} return a weighting factor for compositional data. See \cite{francis2011data} for more detail.
+	\item \texttt{apply.dataweighting.to.csl2()} - takes a configuration that contains \command{observation} blocks, it applies a weighting factor to a compositional data set and generates a new \subcommand{.csl2} file, with modified effective sample size.
 	
 \end{itemize}
 
@@ -36,18 +37,48 @@ specific settings for these functions can be queried once you have loaded the \C
 \paragraph*{Standard diagnostics and plots for model output}
 An aspect of \CNAME\ that we have added to aid in userability is an \R\ package that has functions that can summarise and diagnose a model with ease. Stock synthesis is exceptional for having a well tested and used \R\ package, this our attempt of trying to follow suit.
 
-\texttt{plot.mpd.derived.quantity()}
+\texttt{plot.derived\_quantity()}
 
-\texttt{plot.mpd.derived.quantity()}
 
 Generally when comparing model outputs we are either comparing different parameters for the same model structure (Option 1) or comparing outputs from multiple model structures (Option 2). This function in theory should work for both of these.
 
-\texttt{plot.mpd.selectivities()}
-
-
-\texttt{plot.mcmc.pearsons.residuals()}
-
+\texttt{plot.selectivities()}
+\texttt{plot.pressure()}
+\texttt{plot.fit()}
+\texttt{plot.ycs()}
 
 \paragraph*{DataWeighting}
-An important component of stock assessment is dealing with data conflicts through the use of dataweighting. There are a range of methods for this for a great summary see \cite{francis2011data}. The function implemented in the \CNAME\ R-library is TA1.8, which can be invoked using \texttt{Method.TA1.8()}.
+An important component of stock assessment is dealing with data conflicts through the use of dataweighting. There are a range of methods for this for a great summary see \cite{francis2011data}. The function implemented in the \CNAME\ R-library is TA1.8, which can be invoked using \texttt{Method.TA1.8()}. I have tried to automate this process for users by adding an assisting function named \subcommand{apply.dataweighting.to.csl2}. This function allows users to automatically apply a weighting factor to a specific compositional \command{observation} block, and generate a new \subcommand{.csl2} file to be re-estimated.
 
+\begin{lstlisting}
+library(casal2)
+
+## read in a reported output from a casal2 -e run
+## in a command prompt run 'casal2 -e > estimate.log'
+## make sure there is @report block for the observation of interest.
+
+Mpd = extract.mpd(estimate.log)
+## calculate weighting factor from Francis method
+WeightingFactor = Method.TA1.8(model = Mpd, observation_labels = "chatTANage")
+## Apply weighting factor to your Observation.csl2 file
+apply.dataweighting.to.csl2(weighting_factor = WeightingFactor, Observation_csl2_file = "Observations.csl2", Observation_label = "chatTANage", Observation_out_filename = "Observation.csl2.0")
+## this will generate a new Observation.csl.0 file with the re-weighted effective sample size.
+\end{lstlisting}
+\paragraph*{Trouble Shooting R package}
+This section documents some issues with solutions that we have come across when using the R package that may come in handy for future users.
+
+if you get the following error when using one of the extract functions 
+\begin{lstlisting}
+Read 1 item
+Warning messages:
+1: In scan(filename, what = "", sep = "\n", fileEncoding = fileEncoding) :
+embedded nul(s) found in input
+2: In extract.mpd(file = "results.txt", fileEncoding = "") :
+File is empty, no reports found
+\end{lstlisting}
+
+I have resolved the abover error by trying an alternative UTF formatting using the \subcommand{fileEncoding} parameter e.g,
+\begin{lstlisting}
+library(casal2)
+MyOutput = extract.mpd(file = "Estimate.log", path = getwd(), , fileEncoding = "UTF-16LE")
+\end{lstlisting}
