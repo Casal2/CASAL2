@@ -1,0 +1,33 @@
+@assert obj
+type objective_function
+value 285.452
+
+@report summary
+type estimate_value
+
+@report objective
+type objective_function
+
+@report 
+type derived_quantity
+label SSB
+
+@report init
+type initialisation_partition
+
+@report Rec
+type process
+process Recruitment
+
+@report Exploit
+type process
+process Mortality
+
+
+@report shelfcatch
+type observation
+observation shelfcatch
+
+@report Tag2001
+type observation
+observation Tag2001
