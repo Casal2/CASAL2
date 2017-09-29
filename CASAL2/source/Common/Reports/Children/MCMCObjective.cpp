@@ -44,7 +44,7 @@ void MCMCObjective::DoBuild() {
  */
 void MCMCObjective::DoPrepare() {
   if (!model_->global_configuration().resume()) {
-    cache_ << "*" << label_ << "\n";
+    cache_ << "*mcmc_objective[mcmc]" << "\n";
   }
 }
 

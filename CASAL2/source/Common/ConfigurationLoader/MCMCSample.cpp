@@ -61,7 +61,7 @@ bool MCMCSample::LoadFile(const string& file_name) {
    * as this is the expected line before our sample lines
    */
   string line = "";
-  while (line != "*mcmc (mcmc_sample)") {
+  while (line != "*mcmc_sample[mcmc]") {
     if (!getline(file, line)) {
       LOG_ERROR() << "Failed to read a line from the MCMC Sample file when looking for '*mcmc (mcmc_sample)'";
       return false;
@@ -70,7 +70,7 @@ bool MCMCSample::LoadFile(const string& file_name) {
   LOG_FINEST() << "line = " << line;
 
 
-  if (line != "*mcmc (mcmc_sample)") {
+  if (line != "*mcmc_sample[mcmc]") {
     LOG_ERROR() << "Could not read '*mcmc (mcmc_sample)' string in MCMC Sample file: " << file_name;
     return false;
   }
@@ -110,7 +110,7 @@ bool MCMCSample::LoadFile(const string& file_name) {
   }
 
   if (last_line == "*end") {
-    LOG_ERROR() << "MCMC sample file " << file_name << " is complete. Cannot resume from a complete file";
+    LOG_ERROR() << "MCMC sample file " << file_name << " found a *end. Don't no what to do so returning a false";
     return false;
   }
 

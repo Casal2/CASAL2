@@ -80,18 +80,24 @@ void AverageDifference::DoBuild() {
  *
  */
 void AverageDifference::DoTransform() {
-  LOG_MEDIUM() << "Applying Transformation";
-  x1_ = estimate_->value();
-  LOG_MEDIUM() << "x1 = " << x1_ << " diff = " << difference_estimate_->value();
-  Double mean = (x1_ + difference_estimate_->value()) / 2.0;
-  Double diff = (mean - difference_estimate_->value()) * 2.0;
+  if (first_time_transform_) {
+    LOG_MEDIUM() << "Applying Transformation";
+    x1_ = estimate_->value();
+    LOG_MEDIUM() << "x1 = " << x1_ << " diff = " << difference_estimate_->value();
+    Double mean = (x1_ + difference_estimate_->value()) / 2.0;
+    Double diff = (mean - difference_estimate_->value()) * 2.0;
 
-  // Set the first estimate as the mean and the second as the difference
-  LOG_MEDIUM() << "Transforming @estimate " << estimate_->label() << " from: " << estimate_->value() << "to: " << mean;
-  LOG_MEDIUM() << "Transforming @estimate " << difference_estimate_->label() << " from: " << difference_estimate_->value() << "to: " << diff;
+    // Set the first estimate as the mean and the second as the difference
+    LOG_MEDIUM() << "Transforming @estimate " << estimate_->label() << " from: " << estimate_->value() << "to: " << mean;
+    LOG_MEDIUM() << "Transforming @estimate " << difference_estimate_->label() << " from: " << difference_estimate_->value() << "to: " << diff;
 
-  estimate_->set_value(mean);
-  difference_estimate_->set_value(diff);
+    estimate_->set_value(mean);
+    difference_estimate_->set_value(diff);
+    first_time_transform_ = false;
+  } else {
+    estimate_->set_value(y1_);
+    difference_estimate_->set_value(y2_);
+  }
 
 }
 
@@ -100,6 +106,9 @@ void AverageDifference::DoTransform() {
  */
 void AverageDifference::DoRestore() {
   LOG_MEDIUM() << "Restoring value";
+  y1_ = estimate_->value();
+  y2_ = difference_estimate_->value();
+
 	x1_ = estimate_->value() + (difference_estimate_->value() / 2.0);
 	difference_estimate_->set_value(estimate_->value() - (difference_estimate_->value() / 2.0));
 	estimate_->set_value(x1_);

@@ -52,6 +52,9 @@ private:
   Double                      difference_lower_bound_;
   Double                      difference_upper_bound_;
   Double 											x1_;
+  Double                      y1_;
+  Double                      y2_;
+  bool                        first_time_transform_ = true;
 };
 
 } /* namespace estimatetransformations */

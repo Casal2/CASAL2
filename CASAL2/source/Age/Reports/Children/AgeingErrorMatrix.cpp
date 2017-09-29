@@ -38,7 +38,7 @@ void AgeingErrorMatrix::DoExecute() {
 
   vector<vector<Double>>& mis_matrix = ageingerror_->mis_matrix();
 
-  cache_ << "*" << label_ << " " << "("<< type_ << ")"<<"\n";
+  cache_ << "*"<< type_ << "[" << label_ << "]" << "\n";
   cache_ << "values "<< REPORT_R_MATRIX<<"\n";
 
   for (unsigned i = 0; i < mis_matrix.size(); ++i) {
