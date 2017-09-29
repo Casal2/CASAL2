@@ -74,6 +74,7 @@ Keywords6 = []
 
 for i in range(len(FILE)):
   count=0
+  Command = ''
   for line in FILE[i]:
     # strip white space at start & end
     line = line.strip()
@@ -95,9 +96,10 @@ for i in range(len(FILE)):
     if (line[1:11]=="subsection" or line[1:14]=="subsubsection" or line[1:11]=="par\\textbf" or line[1:7]=="defCom" or line[1:7]=="defSub") :
       if (line[1:11]=="subsection") :
         count=0
-        line = line + "\\par"
+        line = line + "\\par"        
       if (line[1:7]=="defCom") :
         m = p.search(line)
+        Command = m.group()[1:(len(m.group())-1)]
         Keywords1.append(m.group()[1:(len(m.group())-1)])
         line = line + "\\par"
         if (count!=0):
@@ -112,6 +114,11 @@ for i in range(len(FILE)):
       if (line[1:11]=="par\\textbf") :
         m = q.search(line[::-1])
         n = m.group()[::-1]
+        if (Command == 'process') :
+          mat = n.find('\_')
+          if (mat != -1) :
+            # take into account special cases for processes where part of the type can be a @ block
+            Keywords1.append(n[1:mat])
         Keywords4.append(n[1:(len(n)-2)])
 
       OUTFILE.write(line)

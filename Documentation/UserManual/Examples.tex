@@ -253,6 +253,24 @@ Sometimes in observations we want to amalgamate categories together for example 
 		error_value 0.35
 		\end{verbatim}}}
 
+Another helpful short cut using the amalgamation symbol \subcommand{+} is if your observation wants to compare to the total combined population you can use the following format.
+
+{\small{\begin{verbatim}
+		@observation CPUE
+		type biomass
+		catchability Fishq
+		time_step one
+		categories *+
+		selectivities FishSel
+		likelihood lognormal
+		years 1992:2001
+		time_step_proportion 1.0
+		obs 1.50 1.10 0.93 1.33 1.53 0.90 0.68 0.75 0.57 1.23
+		error_value 0.35
+		\end{verbatim}}}
+
+if \subcommand{male} and \subcommand{female} are the only categories in your population, then this is the same syntax as the observation just above it.
+
 Shorthand syntax can be useful when applying processes to a select group of categories from the partition, for example. If we wanted to apply a spawning migration to the mature categories in the partition and the partition was defined by the categories below,
 {\small{\begin{verbatim}
 		@categories 

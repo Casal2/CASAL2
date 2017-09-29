@@ -455,7 +455,7 @@ Suppose $X$ is one dimensional and $f$: $supp(X) \to \mathbf{R}$ is a one-to-one
 	p_Y(y) = p_X(f^{-1}(y)) \begin{vmatrix} \frac{\partial}{\partial y} f^{-1}(y) \end{vmatrix}
 \end{equation}
 
-where $\begin{vmatrix} \frac{\partial}{\partial y} f^{-1}(y) \end{vmatrix}$ is the jacobian term. The jacobian measures how the scale of the transformed variable changes with respect to the underlying variable. This can be expanded to the multivaiate case where the jacobian becomes a matrix of partial derivatives, see later for some example of multivariate cases. In equation~\ref{eq:jacobian} the term $p_X(f^{-1}(y)) = p_X(X)$ and in a bayesian context is the prior of the untransformed variable/parameter.
+where $\begin{vmatrix} \frac{\partial}{\partial y} f^{-1}(y) \end{vmatrix}$ is the jacobian term. The jacobian measures how the scale of the transformed variable changes with respect to the underlying variable. This can be expanded to the multivaiate case where the jacobian becomes a matrix of partial derivatives, see later for some example of multivariate cases. In equation~\ref{eq:jacobian} the term $p_X(f^{-1}(y)) = p_X(X)$ and in a bayesian context is the prior of the untransformed variable/parameter. \textbf{Note:} if this functionality is in use becareful interpreting the covariance matrix as this will be related to the transformed variable not the variable space that you may be thinking it is in e.g. if you are estimating natural mortality ($M$) as $Y = M/2$ the covariance matrix will be described for $Y$.
 
 {\small{\begin{verbatim}
 		@estimate log_R0
@@ -470,7 +470,7 @@ where $\begin{vmatrix} \frac{\partial}{\partial y} f^{-1}(y) \end{vmatrix}$ is t
 \end{verbatim}}}
 	
 \paragraph*{Transform without Jacobian but prior defined in transformed space}
-This is where users define the priors in transformed space, this clas of transformations will contain functionality that was implemented in the original CASAL. If $f$ is a transformation function defined on the support of $X$, then $Y = f(X)$ is a new random variable (transformed variable). In this class users specify \textit{a priori} information with regard to $p_Y(y)$, an example of this syntax 
+This is where users define the priors in transformed space, this class of transformations will contain functionality that was implemented in the original CASAL. If $f()$ is a transformation function defined on the support of $X$, then $Y = f(X)$ is a new random variable (transformed variable). In this class users specify \textit{a priori} information with regard to $p_Y(y)$ and $X$ can be thought of as a derived quantity, an example of this syntax.
 
 {\small{\begin{verbatim}
 		@estimate log_R0
@@ -510,7 +510,7 @@ $\begin{vmatrix} \frac{\partial}{\partial y} f^{-1}(y) \end{vmatrix} = -X^{-1.5}
 \subcommand{is\_simple = false}\\
 \subcommand{jacobian defined = false}\\
 $Y_1 = \frac{X_1 + X_2}{2}$\\
-$Y_2 = | Y_1 - X_1 |$\\
+$Y_2 =  (Y_1 - X_2)2 $\\
 Restore transformations\\
 $X_1 = Y_1 + 0.5Y_2$\\
 $X_2 = X_1 - 0.5Y_2$\\

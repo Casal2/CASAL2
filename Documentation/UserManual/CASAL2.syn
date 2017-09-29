@@ -40,22 +40,28 @@ CharEsc = \
 @derived_quantity
 @estimate
 @estimate_transformation
+@growth
 @initialisation_phase
 @length_weight
 @likelihood
 @mcmc
 @minimiser
 @model
+@mortality
 @observation
 @penalty
 @process
 @profile
 @project
+@recruitment
 @report
 @selectivity
 @simulate
+@survival
+@tag
 @time_step
 @time_varying
+@transition
 
 [Keywords 2]
 a
@@ -200,6 +206,7 @@ q
 r
 r0
 rates
+recruitment_deviation_penalty
 retape
 rho
 s
