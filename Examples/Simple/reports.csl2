@@ -1,5 +1,5 @@
 ## Report section for now
-
+## Print estimate values
 @report summary
 type estimate_value
 
@@ -10,6 +10,11 @@ type objective_function
 type process
 process Recruitment
 
+@report Mortality
+type process
+process Instantaneous_Mortality
+
+## print the partition
 @report Init
 type initialisation_partition
 
@@ -28,9 +33,11 @@ type partition
 time_step Jun_Aug
 years 1975:2012
 
+## Derived Quantities
 @report SSB
 type derived_quantity
 
+## Fits Observations
 @report obs_tan
 type observation
 observation chatTANbiomass
@@ -47,6 +54,7 @@ observation chatOBSest
 type observation
 observation chatOBSwst
 
+## Ageing error matrix
 @report age_error
 type ageing_error
 ageing_error Normal_ageing
