@@ -1,12 +1,16 @@
 ## Estimation script for HAK base model
-## This is the -e command in CASAL
-
+#############
+## Estimation
+#############
 @minimiser betadiff
 type betadiff
 evaluations 4000
 iterations 1000
 tolerance 0.0002
 
+################
+## MCMC
+################
 @mcmc mcmc
 start 0
 length 4000000
@@ -16,20 +20,19 @@ adapt_stepsize_at 10000 50000 150000 250000 450000 750000 1400000
 proposal_distribution t
 adapt_stepsize_method double_half
 
+#############
+## Estimates
+#############
+## B0
 @estimate B0
 type uniform_log
 parameter process[Recruitment].b0
 lower_bound 10000
 upper_bound 250000
 
-@additional_prior chatTANq
-type lognormal
-parameter catchability[chatTANq].q
-mu 0.16
-cv 0.79
 
-
-@estimate TANSel
+## Selectivities
+@estimate TANSel_mu
 parameter selectivity[chatTANSel].mu
 lower_bound 1  
 upper_bound 25 
@@ -37,7 +40,7 @@ type normal_by_stdev
 mu    8  
 sigma 1 
 
-@estimate TANSel
+@estimate TANSel_sl
 parameter selectivity[chatTANSel].sigma_l
 lower_bound  1   
 upper_bound 50 
@@ -46,7 +49,7 @@ mu    10
 sigma 500 
 
 
-@estimate TANSel
+@estimate TANSel_sr
 parameter selectivity[chatTANSel].sigma_r
 lower_bound   1
 upper_bound  200
@@ -93,10 +96,9 @@ lower_bound   1
 upper_bound  200
 type uniform
 
-
+## Year class parameters
 @estimate YCS
 parameter process[Recruitment].ycs_values{1975:2011}
-#parameter process[Recruitment].ycs_values(2:35)
 #YCS_years    1975 1976 1977 1978 1979 1980 1981 1982 1983 1984 1985 1986 1987 1988 1989 1990 1991 1992 1993 1994 1995 1996 1997 1998 1999 2000 2001 2002 2003 2004 2005 2006 2007 2008 2009 2010 2011
 lower_bound   0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01
 upper_bound    100  100  100  100  100  100  100  100  100  100  100  100  100  100  100  100  100  100  100  100  100  100  100  100  100  100  100  100  100  100  100  100  100  100  100    3    3
@@ -104,19 +106,22 @@ mu               1    1    1    1    1    1    1    1    1    1    1    1    1  
 cv             1.1  1.1  1.1  1.1  1.1  1.1  1.1  1.1  1.1  1.1  1.1  1.1  1.1  1.1  1.1  1.1  1.1  1.1  1.1  1.1  1.1  1.1  1.1  1.1  1.1  1.1  1.1  1.1  1.1  1.1  1.1  1.1  1.1  1.1  1.1   1.1  1.1
 type lognormal
 
-## Penalties and additional priors
-
+##############
+## Penalties 
+##############
 @penalty CatchMustBeTaken1
 type process
 log_scale True
 multiplier 1000
 
+####################
+## Additional Priors
+####################
 @additional_prior YCS_average_1
 type vector_average
 parameter process[Recruitment].ycs_values
 k 1
 multiplier 100
-
 
 @additional_prior smooth_YCS
 type vector_smoothing
@@ -127,7 +132,15 @@ upper_bound 10
 multiplier 100
 log_scale true
 
-## Profile block
+@additional_prior chatTANq
+type lognormal
+parameter catchability[chatTANq].q
+mu 0.16
+cv 0.79
+
+###########
+## Profile 
+###########
 @profile B0
 parameter process[Recruitment].b0
 steps 10
