@@ -127,8 +127,9 @@ class ClassLoader:
         type_to_exclude_third_level_children = [ 'Minimisers' ]
         for folder in parent_class_folders:
             parent_class_ = Class()
+            print folder
 			# Start with Common folder, but know we also go through age and length folders
-            if (os.path.exists(casal2_src_folder + folder + '/Children') or folder in type_without_children_folders):
+            if (os.path.exists(casal2_src_folder + folder) or folder in type_without_children_folders):
                 label_ = Variable()
                 label_.name_ = 'label'
                 label_.type_ = 'string'
@@ -137,6 +138,7 @@ class ClassLoader:
                 type_.name_ = 'type'
                 type_.type_ = 'string'                
                 parent_class_.variables_['type_'] = type_
+                print type
                 if (os.path.exists(casal2_src_folder + folder + '/')): 
                 #This if statement deals with Classes that have parents in Common, it also checks if it has children in Age or Length
                     file_list = os.listdir(casal2_src_folder + folder + '/')
