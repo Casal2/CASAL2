@@ -247,35 +247,9 @@
 \defSub{simulation\_likelihood} {Simulation likelihood to use}
 \defSub{likelihood\_multiplier} {Likelihood score multiplier}
 \defSub{error\_value\_multiplier} {Error value multiplier for likelihood}
-\par\textbf{\commandlabsubarg{observation}{type}{process\_abundance}}\par
-\defSub{selectivities} {Labels of the selectivities}
-\defSub{time\_step} {The label of time-step that the observation occurs in}
-\defSub{catchability} {The label of the catchability (q) block assumed for this observation}
-\defSub{obs} {The observed values}
-\defSub{years} {The years of the observed values}
-\defSub{error\_value} {The error values of the observed values (note the units depend on the likelihood}
-\defSub{process\_error} {The label of the process error}
-\defSub{process} {The label of the process for the observation}
-\defSub{process\_proportion} {Proportion through the process when the observation is evaluated}
 \par\textbf{\commandlabsubarg{observation}{type}{abundance}}\par
 \defSub{selectivities} {Labels of the selectivities}
 \defSub{time\_step} {The label of time-step that the observation occurs in}
-\defSub{catchability} {The label of the catchability coefficient (q) assumed}
-\defSub{obs} {The observed values}
-\defSub{years} {Years for which there are observations}
-\defSub{error\_value} {The error values of the observed values (note the units depend on the likelihood}
-\defSub{process\_error} {The label of the process error block}
-\defSub{time\_step\_proportion} {Proportion through the mortality block of the time step when the observation is evaluated}
-\par\textbf{\commandlabsubarg{observation}{type}{process\_biomass}}\par
-\defSub{catchability} {The time-step of the observation}
-\defSub{time\_step} {The label of time-step that the observation occurs in}
-\defSub{obs} {The observed values}
-\defSub{years} {The years of the observed values}
-\defSub{error\_value} {The error values of the observed values (note the units depend on the likelihood}
-\defSub{selectivities} {Labels of the selectivities}
-\defSub{process\_error} {Value for process error}
-\defSub{process} {The label of the process for the observation}
-\defSub{process\_proportion} {Proportion through the process when the observation is evaluated}
 \par\textbf{\commandlabsubarg{observation}{type}{biomass}}\par
 \defSub{catchability} {The time-step of the observation}
 \defSub{time\_step} {The label of time-step that the observation occurs in}
@@ -284,7 +258,6 @@
 \defSub{error\_value} {The error values of the observed values (note the units depend on the likelihood}
 \defSub{selectivities} {Labels of the selectivities}
 \defSub{process\_error} {Value for process error}
-\defSub{time\_step\_proportion} {Proportion through the mortality block of the time step when the observation is evaluated}
 \par\textbf{\commandlabsubarg{observation}{type}{process\_removals\_by\_age}}\par
 \defSub{min\_age} {Minimum age}
 \defSub{max\_age} {Maximum age}
@@ -305,18 +278,6 @@
 \defSub{process\_errors} {the value of process error}
 \defSub{method\_of\_removal} {Label of observed method of removals}
 \defSub{mortality\_instantaneous\_process} {The label of the mortality instantaneous process for the observation}
-\par\textbf{\commandlabsubarg{observation}{type}{process\_proportions\_at\_age}}\par
-\defSub{min\_age} {Minimum age}
-\defSub{max\_age} {Maximum age}
-\defSub{age\_plus} {Use age plus group}
-\defSub{time\_step} {The label of time-step that the observation occurs in}
-\defSub{tolerance} {Tolerance on the constraint, that for each year the sum of proportions in each age must equal one e.g. tolerance = 0.1 then 1 - Sum(Proportions) can be as great as 0.1}
-\defSub{years} {The years of the observed values}
-\defSub{selectivities} {Labels of the selectivities}
-\defSub{process\_errors} {Process error}
-\defSub{ageing\_error} {Label of ageing error to use}
-\defSub{process} {The label of the process for the observation}
-\defSub{process\_proportion} {Proportion through the process when the observation is evaluated}
 \par\textbf{\commandlabsubarg{observation}{type}{proportions\_at\_age}}\par
 \defSub{min\_age} {Minimum age}
 \defSub{max\_age} {Maximum age}
@@ -327,17 +288,6 @@
 \defSub{selectivities} {Labels of the selectivities}
 \defSub{process\_errors} {Process error}
 \defSub{ageing\_error} {Label of ageing error to use}
-\defSub{time\_step\_proportion} {Proportion through the mortality block of the time step when the observation is evaluated}
-\par\textbf{\commandlabsubarg{observation}{type}{process\_proportions\_at\_length}}\par
-\defSub{length\_bins} {Length bins}
-\defSub{time\_step} {The label of time-step that the observation occurs in}
-\defSub{length\_plus\_group} {Is the last bin a plus group}
-\defSub{tolerance} {Tolerance for rescaling proportions}
-\defSub{years} {Years for which there are observations}
-\defSub{selectivities} {The labels of the selectivities}
-\defSub{process\_errors} {Process error}
-\defSub{process} {The label of the process for the observation}
-\defSub{process\_proportion} {Proportion through the process when the observation is evaluated}
 \par\textbf{\commandlabsubarg{observation}{type}{proportions\_at\_length}}\par
 \defSub{length\_bins} {Length bins}
 \defSub{time\_step} {The label of time-step that the observation occurs in}
@@ -346,19 +296,6 @@
 \defSub{years} {Years for which there are observations}
 \defSub{selectivities} {The labels of the selectivities}
 \defSub{process\_errors} {Process error}
-\defSub{time\_step\_proportion} {Proportion through the mortality block of the time step when the observation is evaluated}
-\par\textbf{\commandlabsubarg{observation}{type}{process\_proportions\_by\_category}}\par
-\defSub{min\_age} {Minimum age}
-\defSub{max\_age} {Maximum age}
-\defSub{time\_step} {The label of time-step that the observation occurs in}
-\defSub{age\_plus} {Use age plus group}
-\defSub{years} {Years for which there are observations}
-\defSub{selectivities} {The labels of the selectivities}
-\defSub{categories2} {Target Categories}
-\defSub{selectivities2} {Target Selectivities}
-\defSub{process\_errors} {Process error}
-\defSub{process} {The label of the process for the observation}
-\defSub{process\_proportion} {Proportion through the mortality block of the time step when the observation is evaluated}
 \par\textbf{\commandlabsubarg{observation}{type}{proportions\_by\_category}}\par
 \defSub{min\_age} {Minimum age}
 \defSub{max\_age} {Maximum age}
@@ -369,7 +306,6 @@
 \defSub{categories2} {Target Categories}
 \defSub{selectivities2} {Target Selectivities}
 \defSub{process\_errors} {Process error}
-\defSub{time\_step\_proportion} {Proportion through the time step to analyse the partition from}
 \par\textbf{\commandlabsubarg{observation}{type}{proportions\_mature\_by\_age}}\par
 \defSub{min\_age} {Minimum age}
 \defSub{max\_age} {Maximum age}

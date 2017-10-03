@@ -196,7 +196,6 @@ prior_applies_to_transform
 process
 process_error
 process_errors
-process_proportion
 processes
 project
 projection_final_year
@@ -369,11 +368,6 @@ partition
 partition_biomass
 partition_mean_weight
 process
-process_abundance
-process_biomass
-process_proportions_at_age
-process_proportions_at_length
-process_proportions_by_category
 process_removals_by_age
 process_removals_by_length
 project
