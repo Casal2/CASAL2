@@ -15,7 +15,7 @@ The population section consists of several components, including;
   \item Derived quantities, required as parameters for some processes (e.g. Mature biomass to resolve any density dependent processes such as the spawner-recruit relationship, in a recruitment process).
 \end{itemize}
 
-\subsection{\I{Population structure}}
+\subsection{\I{Population structure}}\label{sub:sec:pop_sec}
 The basic structure of population section of a \CNAME\ model is defined in terms of an annual cycle, time steps, states, and transitions.
 
 The annual cycle defines what processes happen in each model year, and in what sequence. \CNAME\ runs on an annual cycle rather than, for example, a 6-monthly cycle.) 
@@ -44,7 +44,7 @@ For an example of these ideas, consider a model of a fish population with a matu
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=0.3]{Figures/partition.png}
+	\includegraphics[scale=0.6]{Figures/partition.png}
 		\caption{A visual representation of a partition}\label{Fig:part}
 \end{figure}
 
@@ -68,7 +68,7 @@ An example, to specify a model with 2 categories (male and female) with ages 1-2
 
 \subsection{\I{The state object and the partition}}
 
-The key component of the state object is the partition, a matrix that store numbers of individuals at age for each category. A category represents a group of individuals that have the same specific attributes, examples of such attributes include life histories and growth rates, etc. For example, categories may include labels such as:
+The key component of the state object is the partition, a matrix that stores numbers of individuals at age or length for each category. A category represents a group of individuals that have the same specific attributes, examples of such attributes include life histories and growth rates, etc. For example, categories may include labels such as:
 
 \begin{itemize}
 \item Sex (male or female);
@@ -91,9 +91,13 @@ So, you need to tell \CNAME\ the following:
 
 Age classes are always one year wide, except that the maximum age group can optionally be a plus group. Users need to choose the minimum and maximum age classes. 
 
-\CNAME\ allows categories of the partition to exist for certain years of the model. This is added for computational efficiency, when models contain a large number of categories that do not persist for all model years. Situations where this is beneficial is when a model contains a process that does a one off transition of fish from one category into another category in a subset of the model initialisation phases or years (for example, tagging events). Excluding categories for certain years can save a considerable amount of time as CASAL2 does not need to, for example, initialising empty categories or implement processes in time periods when they have no effect. 
+\CNAME\ allows categories of the partition to exist for certain years of the model. This is added for computational efficiency, when models contain a large number of categories that do not persist for all model years. Situations where this is beneficial is when a model contains a process that does a one off transition of fish from one category into another category in a subset of the model initialisation phases or years (for example, tagging events). Excluding categories for certain years can save a considerable amount of time as CASAL2 does not need to, for example, initialising empty categories or implement processes in time periods when they have no effect. You define the structure of the partition in a configuration block via the \command{categories} as demonstrated earlier in Section~\ref{sub:sec:pop_sec}.
+
 
 Another important component of the state object in \CNAME\ are derived quantities. This includes quantities such as a mature biomass (for example, in fisheries models, the mid-spawning season biomasses of spawning fish, SSB) for either one or sum of more than one category. \CNAME\ derives through the command \command{derived\_quantity}, and may be required in the specification of some processes (i.e., in fisheries models, a recruitment process that  specifies a stock recruitment relationship requires the definition of a derived quantity that specifies the mid-season spawning stock biomass).
+
+
+
 
 \subsection{\I{Time sequences}}
 

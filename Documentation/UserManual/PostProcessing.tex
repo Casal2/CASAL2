@@ -64,6 +64,26 @@ WeightingFactor = Method.TA1.8(model = Mpd, observation_labels = "chatTANage")
 apply.dataweighting.to.csl2(weighting_factor = WeightingFactor, Observation_csl2_file = "Observations.csl2", Observation_label = "chatTANage", Observation_out_filename = "Observation.csl2.0")
 ## this will generate a new Observation.csl.0 file with the re-weighted effective sample size.
 \end{lstlisting}
+
+
+Another handy piece of code that I wrote, which automates the dataweighting process follows.
+
+\begin{lstlisting}
+library(casal2)
+## setwd to your working environment, to your Casal2 files and output
+setwd()
+MPD = extract.mpd(file = "estimate.log")
+Factor = Method.TA1.8(MPD, observation_labels = c("ObserverProportionsAtAge"))
+## Before you start this loop, I suggest making a copy of your Observation.csl2 e.g. Observation_orig.csl2, so that if something goes wrong, you can come back to it.
+while(abs(Factor - 1) > 0.01) {
+	cmd = "betadiff & casal2 -e > estimate.log 2> log.out"
+	shell(cmd);
+	new_mpd = extract.mpd(file = "estimate.log")
+	Factor = Method.TA1.8(new_mpd, observation_labels = c("ObserverProportionsAtAge"))
+	apply.dataweighting.to.csl2(weighting_factor = Factor, Observation_csl2_file = "Observation.csl2", Observation_out_filename = "Observation.csl2", Observation_label = c("ObserverProportionsAtAge"))
+	print(Factor)
+}
+\end{lstlisting}
 \paragraph*{Trouble Shooting R package}
 This section documents some issues with solutions that we have come across when using the R package that may come in handy for future users.
 
