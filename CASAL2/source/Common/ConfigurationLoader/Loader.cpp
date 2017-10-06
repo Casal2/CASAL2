@@ -190,16 +190,18 @@ void Loader::ParseBlock(vector<FileLine> &block) {
   block_label = line_parts.size() == 2 ? line_parts[1] : "";
 
   /**
-   * Look for the object type
+   * Look for the object type and partition_type
    * e.g
    * @block <label>
    * type <object_type>
    */
   string sub_type = "";
+  PartitionType partition_type = PartitionType::kModel;
 
   for(FileLine file_line : block) {
-    if (file_line.line_.length() >= 5 && file_line.line_.substr(0, 4) == PARAM_TYPE) {
+    string& line = file_line.line_;
 
+    if (line.length() >= 5 && line.substr(0, 4) == PARAM_TYPE) {
       // Split the line into a vector
       boost::split(line_parts, file_line.line_, boost::is_any_of(" "));
       if (line_parts.size() == 0)
@@ -212,6 +214,26 @@ void Loader::ParseBlock(vector<FileLine> &block) {
 
       sub_type = line_parts[1];
       continue;
+
+
+    } else if (line.length() >= 19 && line.substr(0, 19) == PARAM_PARTITION_TYPE) {
+      // Split the line into a vector
+      boost::split(line_parts, file_line.line_, boost::is_any_of(" "));
+      if (line_parts.size() == 0)
+        LOG_FATAL() << "At line " << file_line.line_number_ << " in " << file_line.file_name_
+            << ": Could not successfully split the line into an array. Line is incorrectly formatted";
+
+      if (line_parts.size() != 2)
+        LOG_FATAL() << "At line " << file_line.line_number_ << " in " << file_line.file_name_
+            << ": No valid value was specified as the partition_type";
+
+      string temp = utilities::ToLowercase(line_parts[1]);
+      if (!utilities::To<PartitionType>(temp, partition_type))
+        LOG_FATAL() << "Could not convert value " << temp << " to a valid partition_type (model, age, length, hybrid)";
+      if (partition_type == PartitionType::kModel)
+        partition_type = model_.partition_type();
+
+      continue;
     }
   }
 
@@ -221,7 +243,7 @@ void Loader::ParseBlock(vector<FileLine> &block) {
   block_type  = utilities::ToLowercase(block_type);
   sub_type = utilities::ToLowercase(sub_type);
 
-  Object* object = model_.factory().CreateObject(block_type, sub_type);
+  Object* object = model_.factory().CreateObject(block_type, sub_type, partition_type);
   if (!object)
     LOG_FATAL() << "At line " << block[0].line_number_ << " in " << block[0].file_name_
         << ": Block object type or sub-type is invalid.\n"
@@ -236,6 +258,15 @@ void Loader::ParseBlock(vector<FileLine> &block) {
   object->set_block_type(block_type);
   object->set_defined_file_name(block[0].file_name_);
   object->set_defined_line_number(block[0].line_number_);
+
+  /**
+   * If this is the model, tell it what type of model it is
+   */
+  if (block_type == PARAM_MODEL && sub_type != "") {
+    if (!utilities::To<PartitionType>(sub_type, partition_type))
+      LOG_FATAL() << "Could not convert value " << sub_type << " to a valid type (age, length, hybrid) for the @model block";
+    model_.set_partition_type(partition_type);
+  }
 
   /**
    * Load the parameters into our new object
@@ -308,11 +339,11 @@ void Loader::ParseBlock(vector<FileLine> &block) {
 
     } else if (loading_table && parameter_type != PARAM_END_TABLE) {
       /**
-       * Re-process the values based on the symbols we support
+       * Inside a Table
        */
       vector<string> values(line_parts.begin(), line_parts.end());
       string error = "";
-      if (parameter_type != PARAM_PARAMETER && parameter_type != PARAM_EQUATION  && !HandleOperators(values, error))
+      if (parameter_type != PARAM_PARAMETER && parameter_type != PARAM_EQUATION  && !TrimOperators(values))
         LOG_FATAL() << "At line " << file_line.line_number_ << " in " << file_line.file_name_
             << ": " << error;
 
@@ -335,7 +366,7 @@ void Loader::ParseBlock(vector<FileLine> &block) {
 
     } else {
       /**
-       * Re-process the values based on the symbols we support
+       * Normal Parameter
        */
       vector<string> values(line_parts.begin() + 1, line_parts.end());
       string error = "";
@@ -371,23 +402,12 @@ void Loader::ParseBlock(vector<FileLine> &block) {
     model_.PopulateParameters();
 }
 
-/**
- * This method will search through the line for values that have operators in them and then
- * rebuild the vector with the values properly split out as they should be.
- *
- * Operators:
- * + = Join 2 values together as a single value
- * , = These values are 1 parameter (e.g 1,2,4,5
- * - = Split integer range values out (e.g 1-3 = 1,2,3
- *
- * @param line_values The vector containing the split parts we want to modify
- * @return true on success, false on failure
- */
-bool Loader::HandleOperators(vector<string>& line_values, string &error) {
-  string line = boost::algorithm::join(line_values, " ");
-  line_values.clear();
 
-  LOG_FINEST() << "HandleOperators: " << line;
+/**
+ *
+ */
+bool Loader::TrimOperators(vector<string>& line_values) {
+  string line = boost::algorithm::join(line_values, " ");
 
   // join operator
   boost::replace_all(line, " +", "+");
@@ -408,7 +428,28 @@ bool Loader::HandleOperators(vector<string>& line_values, string &error) {
   boost::replace_all(line, " =", "=");
   boost::replace_all(line, "= ", "=");
 
+  boost::split(line_values, line, boost::is_any_of(" "));
+  return true;
+}
 
+/**
+ * This method will search through the line for values that have operators in them and then
+ * rebuild the vector with the values properly split out as they should be.
+ *
+ * Operators:
+ * + = Join 2 values together as a single value
+ * , = These values are 1 parameter (e.g 1,2,4,5
+ * : = Split integer range values out (e.g 1:3 = 1,2,3
+ *
+ * @param line_values The vector containing the split parts we want to modify
+ * @return true on success, false on failure
+ */
+bool Loader::HandleOperators(vector<string>& line_values, string &error) {
+  TrimOperators(line_values);
+
+  string line = boost::algorithm::join(line_values, " ");
+  line_values.clear();
+  LOG_FINEST() << "HandleOperators: " << line;
 
   /**
    * Branch the line back in to values now that we've removed

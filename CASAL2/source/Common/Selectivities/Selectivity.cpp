@@ -31,13 +31,25 @@ Selectivity::Selectivity(Model* model)
   parameters_.Bind<string>(PARAM_TYPE, &type_, "The type of selectivity", "");
   parameters_.Bind<bool>(PARAM_LENGTH_BASED, &length_based_, "Is the selectivity length based", "", false);
   parameters_.Bind<unsigned>(PARAM_INTERVALS, &n_quant_, "Number of quantiles to evaluate a length based selectivity over the age length distribution", "", 5);
+  parameters_.Bind<string>(PARAM_PARTITION_TYPE, &partition_type_label_, "The type of partition this selectivity will support, Defaults to same as the model", "", PARAM_MODEL)
+      ->set_allowed_values({PARAM_MODEL, PARAM_AGE, PARAM_LENGTH, PARAM_HYBRID});
 }
 
 /**
  *
  */
 void Selectivity::Validate() {
-  parameters_.Populate();
+  parameters_.Populate(model_);
+
+  if (partition_type_label_ == PARAM_MODEL)
+    partition_type_ = model_->partition_type();
+  else if (partition_type_label_ == PARAM_AGE)
+    partition_type_ = PartitionType::kAge;
+  else if (partition_type_label_ == PARAM_LENGTH)
+    partition_type_ = PartitionType::kLength;
+//  else
+//    partition_type_ = PartitionType::kHybrid;
+
   DoValidate();
 
   if (length_based_) {
@@ -68,11 +80,20 @@ void Selectivity::Reset() {
  * @return The value stored in the map or 0.0 as default
  */
 
-Double Selectivity::GetResult(unsigned age, AgeLength* age_length) {
+Double Selectivity::GetAgeResult(unsigned age, AgeLength* age_length) {
   if (!length_based_)
     return values_[age];
 
   return GetLengthBasedResult(age, age_length);
 }
+
+/**
+ *
+ */
+Double Selectivity::GetLengthResult(unsigned length_bin_index) {
+  return values_[length_bin_index];
+}
+
+
 
 } /* namespace niwa */

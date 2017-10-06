@@ -61,6 +61,7 @@ public:
 private:
   // Methods
   void                        ParseBlock(vector<FileLine> &block);
+  bool                        TrimOperators(vector<string>& line_values);
   bool                        HandleOperators(vector<string>& line_values, string &error);
   void                        HandleAssignment(const string& input_line, string& output_line);
   void                        HandleInlineDefinitions(FileLine& file_line, const string& parent_label);

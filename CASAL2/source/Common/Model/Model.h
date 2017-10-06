@@ -21,11 +21,11 @@
 #include "Common/BaseClasses/Object.h"
 #include "Common/GlobalConfiguration/GlobalConfiguration.h"
 #include "Common/Utilities/Math.h"
+#include "Common/Utilities/PartitionType.h"
 #include "Common/Utilities/RunMode.h"
 
 // Namespaces
 namespace niwa {
-
 using base::Executor;
 class Managers;
 class Objects;
@@ -50,13 +50,6 @@ enum Type {
 };
 }
 
-enum class PartitionStructure {
-  kAge      = 1,
-  kLength   = 2,
-  kMixed    = 4,
-  kInvalid  = 4096
-};
-
 namespace Units {
 enum Type {
   kGrams,
@@ -64,10 +57,6 @@ enum Type {
   kTonnes
 };
 } /* namespace Units */
-
-inline PartitionStructure operator&(PartitionStructure a, PartitionStructure b) {
-  return static_cast<PartitionStructure>(static_cast<int>(a) & static_cast<int>(b));
-}
 
 /**
  * Class definition
@@ -106,7 +95,8 @@ public:
   virtual bool                age_plus() const { return age_plus_; }
   virtual const vector<string>& time_steps() const { return time_steps_; }
   const vector<string>&       initialisation_phases() const { return initialisation_phases_; }
-  PartitionStructure          partition_structure() const { return partition_structure_; }
+  void                        set_partition_type(PartitionType partition_type) { partition_type_ = partition_type; }
+  PartitionType               partition_type() const { return partition_type_; }
   const vector<unsigned>      length_bins() const { return length_bins_; }
 
   // manager accessors
@@ -152,7 +142,7 @@ protected:
   vector<unsigned>            length_bins_;
   bool                        addressable_values_file_ = false;
   unsigned                    adressable_values_count_ = 1;
-  PartitionStructure          partition_structure_ = PartitionStructure::kInvalid;
+  PartitionType               partition_type_ = PartitionType::kInvalid;
   Managers*                   managers_ = nullptr;
   Objects*                    objects_ = nullptr;
   GlobalConfiguration*        global_configuration_ = nullptr;

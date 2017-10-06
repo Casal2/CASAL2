@@ -24,7 +24,7 @@ namespace processes {
  */
 Nop::Nop(Model* model) : Process(model) {
   process_type_ = ProcessType::kNullProcess;
-  partition_structure_ = PartitionStructure::kMixed;
+  partition_structure_ = PartitionType::kAge | PartitionType::kLength;
 }
 
 }

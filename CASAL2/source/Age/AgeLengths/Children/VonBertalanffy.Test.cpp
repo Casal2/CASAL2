@@ -18,7 +18,7 @@
 
 #include "TestResources/MockClasses/Managers.h"
 #include "TestResources/MockClasses/Model.h"
-#include "Age/Selectivities/Children/Logistic.h"
+#include "Common/Selectivities/Children/Logistic.h"
 #include "Common/TimeSteps/Manager.h"
 
 // namespaces

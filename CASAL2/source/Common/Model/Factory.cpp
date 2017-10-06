@@ -22,6 +22,7 @@
 #include "Common/Estimates/Creators/Factory.h"
 #include "Common/EstimateTransformations/Factory.h"
 #include "Common/InitialisationPhases/Factory.h"
+#include "Common/LengthWeights/Factory.h"
 #include "Common/Likelihoods/Factory.h"
 #include "Common/MCMCs/Factory.h"
 #include "Common/Minimisers/Factory.h"
@@ -32,13 +33,12 @@
 #include "Common/Profiles/Factory.h"
 #include "Common/Projects/Factory.h"
 #include "Common/Reports/Factory.h"
-#include "Common/LengthWeights/Factory.h"
+#include "Common/Selectivities/Factory.h"
 #include "Common/TimeSteps/Factory.h"
 #include "Common/TimeVarying/Factory.h"
 #include "Common/Utilities/To.h"
 
 // Age Factories
-#include "Age/Selectivities/Factory.h"
 #include "Age/AgeingErrors/Factory.h"
 #include "Age/AgeLengths/Factory.h"
 
@@ -63,11 +63,12 @@ Factory::Factory(Model* model) : model_(model) { }
  *
  * @param object_type The type of object to create (e.g process, selectivity)
  * @param sub_type The specialisation/sub_type of the object to create
+ * @param partition_type The specifically defined partition type for this object
  * @return A shared_ptr to the object we've created
  */
-base::Object* Factory::CreateObject(const string& object_type, const string& sub_type) {
-  string lwr_object_type = utilities::ToLowercase(object_type);
-  string lwr_sub_type    = utilities::ToLowercase(sub_type);
+base::Object* Factory::CreateObject(const string& object_type, const string& sub_type, PartitionType partition_type) {
+  string lwr_object_type    = utilities::ToLowercase(object_type);
+  string lwr_sub_type       = utilities::ToLowercase(sub_type);
 
   if (lwr_object_type == PARAM_ADDITIONAL_PRIOR)
     return additionalpriors::Factory::Create(model_, lwr_object_type, lwr_sub_type);
@@ -104,15 +105,15 @@ base::Object* Factory::CreateObject(const string& object_type, const string& sub
   else if (lwr_object_type == PARAM_PENALTY)
     return penalties::Factory::Create(model_, lwr_object_type, lwr_sub_type);
   else if (lwr_object_type == PARAM_PROCESS || lwr_object_type == PARAM_PROCESSES)
-    return processes::Factory::Create(model_, lwr_object_type, lwr_sub_type);
+    return processes::Factory::Create(model_, lwr_object_type, lwr_sub_type, partition_type);
   else if (lwr_object_type == PARAM_PROFILE)
     return profiles::Factory::Create(model_, lwr_object_type, lwr_sub_type);
   else if (lwr_object_type == PARAM_PROJECT || lwr_object_type == PARAM_PROJECTS)
     return projects::Factory::Create(model_, lwr_object_type, lwr_sub_type);
   else if (lwr_object_type == PARAM_AGEING || lwr_object_type == PARAM_MATURATION || lwr_object_type == PARAM_MORTALITY || lwr_object_type == PARAM_RECRUITMENT)
-    return processes::Factory::Create(model_, lwr_object_type, lwr_sub_type);
+    return processes::Factory::Create(model_, lwr_object_type, lwr_sub_type, partition_type);
   else if (lwr_object_type == PARAM_STATE || lwr_object_type == PARAM_TAG || lwr_object_type == PARAM_TRANSITION) // @process specialisation
-    return processes::Factory::Create(model_, lwr_object_type, lwr_sub_type);
+    return processes::Factory::Create(model_, lwr_object_type, lwr_sub_type, partition_type);
   else if (lwr_object_type == PARAM_REPORT)
     return reports::Factory::Create(model_, lwr_object_type, lwr_sub_type);
   else if (lwr_object_type == PARAM_SELECTIVITY || lwr_object_type == PARAM_SELECTIVITIES)

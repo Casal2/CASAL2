@@ -34,15 +34,14 @@ void Manager::Validate(Model* model) {
   if (objects_.size() == 0)
     LOG_ERROR() << "The configuration file requires you specify at least one type of process. E.g @recruitment, @mortality, @ageing";
 
-  PartitionStructure model_structure = model->partition_structure();
+  PartitionType partition_type = model->partition_type();
 
   for (auto process : objects_) {
     LOG_FINEST() << "Validating process" << process->label();
-    if ((PartitionStructure)(process->partition_structure() & PartitionStructure::kInvalid) == PartitionStructure::kInvalid)
+    if ((PartitionType)(process->partition_structure() & PartitionType::kInvalid) == PartitionType::kInvalid)
       LOG_CODE_ERROR() << "Process: " << process->label() << " has not been properly configured to have a partition structure";
 
-    if ((PartitionStructure)(process->partition_structure() & model_structure) != model_structure
-        && process->partition_structure() != PartitionStructure::kMixed) {
+    if ((PartitionType)(process->partition_structure() & partition_type) != partition_type) {
       string label = "unknown";
       Parameter* param = process->parameters().Get(PARAM_LABEL);
       if (param)

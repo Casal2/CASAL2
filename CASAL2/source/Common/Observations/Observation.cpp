@@ -49,7 +49,7 @@ Observation::Observation(Model* model) : model_(model) {
  */
 void Observation::Validate() {
   LOG_TRACE();
-  parameters_.Populate();
+  parameters_.Populate(model_);
   LOG_FINEST() << "validating obs " << label_ << " of type = " << type_;
 
   category_labels_ = model_->categories()->ExpandLabels(category_labels_, parameters_.Get(PARAM_CATEGORIES));

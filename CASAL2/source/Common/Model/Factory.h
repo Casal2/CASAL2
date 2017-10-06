@@ -17,6 +17,8 @@
 // headers
 #include <string>
 
+#include "Common/Utilities/PartitionType.h"
+
 // namespaces
 namespace niwa {
 
@@ -31,7 +33,7 @@ class Factory {
   friend class Model;
 public:
   // methods
-  base::Object*               CreateObject(const string& object_type, const string& sub_type);
+  base::Object*               CreateObject(const string& object_type, const string& sub_type, PartitionType partition_type = PartitionType::kInvalid);
 
 private:
   // methods

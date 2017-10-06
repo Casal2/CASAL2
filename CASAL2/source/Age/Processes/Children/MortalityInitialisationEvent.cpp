@@ -39,7 +39,7 @@ MortalityInitialisationEvent::MortalityInitialisationEvent(Model* model)
   RegisterAsAddressable(PARAM_CATCH, &catch_);
 
   process_type_ = ProcessType::kMortality;
-  partition_structure_ = PartitionStructure::kAge;
+  partition_structure_ = PartitionType::kAge;
 }
 
 /**
@@ -103,7 +103,7 @@ void MortalityInitialisationEvent::DoExecute() {
     for (auto categories : partition_) {
       unsigned j = 0;
       for (Double& data : categories->data_) {
-        Double local_vulnerable = data * selectivities_[i]->GetResult(categories->min_age_ + j, categories->age_length_);
+        Double local_vulnerable = data * selectivities_[i]->GetAgeResult(categories->min_age_ + j, categories->age_length_);
         vulnerable += local_vulnerable;
         vulnerable_[categories->name_][categories->min_age_ + j] = local_vulnerable;
         ++j;

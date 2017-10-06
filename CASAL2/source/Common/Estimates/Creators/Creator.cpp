@@ -414,7 +414,7 @@ niwa::Estimate* Creator::CreateEstimate(string parameter, unsigned index, Double
   estimate->set_creator_parameter(parameter_);
   estimate->set_block_type(PARAM_ESTIMATE);
 
-  estimate->parameters().Populate();
+  estimate->parameters().Populate(model_);
 
   estimates_.push_back(estimate);
   return estimate;

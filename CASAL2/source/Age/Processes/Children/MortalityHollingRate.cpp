@@ -48,7 +48,7 @@ MortalityHollingRate::MortalityHollingRate(Model* model)
     prey_partition_(model),
     predator_partition_(model) {
   process_type_ = ProcessType::kMortality;
-  partition_structure_ = PartitionStructure::kAge;
+  partition_structure_ = PartitionType::kAge;
 
   parameters_.Bind<string>(PARAM_PREY_CATEGORIES, &prey_category_labels_, "Prey Categories labels", "");
   parameters_.Bind<string>(PARAM_PREDATOR_CATEGORIES, &predator_category_labels_, "Predator Categories labels", "");
@@ -157,10 +157,10 @@ void MortalityHollingRate::DoExecute() {
       if (!is_abundance_) {
         //prey_categories->UpdateMeanWeightData(); // is not abundance
         for (unsigned i = 0; i < prey_categories->data_.size(); ++i)
-          Vulnerable += prey_categories->data_[i] * prey_selectivities_[prey_offset]->GetResult(prey_categories->min_age_ + i, prey_categories->age_length_) * prey_categories->mean_weight_by_time_step_age_[time_step_index][prey_categories->min_age_ + i];
+          Vulnerable += prey_categories->data_[i] * prey_selectivities_[prey_offset]->GetAgeResult(prey_categories->min_age_ + i, prey_categories->age_length_) * prey_categories->mean_weight_by_time_step_age_[time_step_index][prey_categories->min_age_ + i];
       } else {
         for (unsigned i = 0; i < prey_categories->data_.size(); ++i)
-          Vulnerable += prey_categories->data_[i] * prey_selectivities_[prey_offset]->GetResult(prey_categories->min_age_ + i, prey_categories->age_length_);
+          Vulnerable += prey_categories->data_[i] * prey_selectivities_[prey_offset]->GetAgeResult(prey_categories->min_age_ + i, prey_categories->age_length_);
       }
       ++prey_offset;
     }
@@ -174,10 +174,10 @@ void MortalityHollingRate::DoExecute() {
       if (!is_abundance_) {
         predator_categories->UpdateMeanWeightData();
         for (unsigned i = 0; i < predator_categories->data_.size(); ++i)
-          PredatorVulnerable += predator_categories->data_[i] * predator_selectivities_[predator_offset]->GetResult(predator_categories->min_age_ + i, predator_categories->age_length_) * predator_categories->mean_weight_by_time_step_age_[time_step_index][predator_categories->min_age_ + i];
+          PredatorVulnerable += predator_categories->data_[i] * predator_selectivities_[predator_offset]->GetAgeResult(predator_categories->min_age_ + i, predator_categories->age_length_) * predator_categories->mean_weight_by_time_step_age_[time_step_index][predator_categories->min_age_ + i];
       } else {
         for (unsigned i = 0; i < predator_categories->data_.size(); ++i)
-          PredatorVulnerable += predator_categories->data_[i] * predator_selectivities_[predator_offset]->GetResult(predator_categories->min_age_ + i, predator_categories->age_length_);
+          PredatorVulnerable += predator_categories->data_[i] * predator_selectivities_[predator_offset]->GetAgeResult(predator_categories->min_age_ + i, predator_categories->age_length_);
       }
       ++predator_offset;
     }
@@ -205,7 +205,7 @@ void MortalityHollingRate::DoExecute() {
       for (unsigned i = 0; i < prey_categories->data_.size(); ++i) {
         Double Current = 0.0;
         // Get Amount to remove
-        Current = prey_categories->data_[i] * prey_selectivities_[prey_offset]->GetResult(prey_categories->min_age_ + i, prey_categories->age_length_) * Exploitation;
+        Current = prey_categories->data_[i] * prey_selectivities_[prey_offset]->GetAgeResult(prey_categories->min_age_ + i, prey_categories->age_length_) * Exploitation;
         // If is Zero, Cont
         if (Current <= 0.0)
           continue;

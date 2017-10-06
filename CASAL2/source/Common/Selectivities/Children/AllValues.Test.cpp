@@ -46,21 +46,21 @@ TEST(Selectivities, AllValues) {
   all_values.Validate();
   all_values.Build();
 
-  EXPECT_DOUBLE_EQ(0.0,  all_values.GetResult(9, nullptr)); // Below model->min_age()
-  EXPECT_DOUBLE_EQ(1.0,  all_values.GetResult(10, nullptr)); // At model->min_age()
-  EXPECT_DOUBLE_EQ(2.0,  all_values.GetResult(11, nullptr));
-  EXPECT_DOUBLE_EQ(3.0,  all_values.GetResult(12, nullptr));
-  EXPECT_DOUBLE_EQ(4.0,  all_values.GetResult(13, nullptr));
-  EXPECT_DOUBLE_EQ(5.0, all_values.GetResult(14, nullptr));
-  EXPECT_DOUBLE_EQ(6.0, all_values.GetResult(15, nullptr));
-  EXPECT_DOUBLE_EQ(7.0, all_values.GetResult(16, nullptr));
-  EXPECT_DOUBLE_EQ(8.0, all_values.GetResult(17, nullptr));
-  EXPECT_DOUBLE_EQ(9.0, all_values.GetResult(18, nullptr));
-  EXPECT_DOUBLE_EQ(10.0, all_values.GetResult(19, nullptr));
-  EXPECT_DOUBLE_EQ(11.0,  all_values.GetResult(20, nullptr)); // At model->max_age()
-  EXPECT_DOUBLE_EQ(0.0,  all_values.GetResult(21, nullptr)); // This is above model->max_age()
-  EXPECT_DOUBLE_EQ(0.0,  all_values.GetResult(22, nullptr));
-  EXPECT_DOUBLE_EQ(0.0,  all_values.GetResult(23, nullptr));
+  EXPECT_DOUBLE_EQ(0.0,  all_values.GetAgeResult(9, nullptr)); // Below model->min_age()
+  EXPECT_DOUBLE_EQ(1.0,  all_values.GetAgeResult(10, nullptr)); // At model->min_age()
+  EXPECT_DOUBLE_EQ(2.0,  all_values.GetAgeResult(11, nullptr));
+  EXPECT_DOUBLE_EQ(3.0,  all_values.GetAgeResult(12, nullptr));
+  EXPECT_DOUBLE_EQ(4.0,  all_values.GetAgeResult(13, nullptr));
+  EXPECT_DOUBLE_EQ(5.0, all_values.GetAgeResult(14, nullptr));
+  EXPECT_DOUBLE_EQ(6.0, all_values.GetAgeResult(15, nullptr));
+  EXPECT_DOUBLE_EQ(7.0, all_values.GetAgeResult(16, nullptr));
+  EXPECT_DOUBLE_EQ(8.0, all_values.GetAgeResult(17, nullptr));
+  EXPECT_DOUBLE_EQ(9.0, all_values.GetAgeResult(18, nullptr));
+  EXPECT_DOUBLE_EQ(10.0, all_values.GetAgeResult(19, nullptr));
+  EXPECT_DOUBLE_EQ(11.0,  all_values.GetAgeResult(20, nullptr)); // At model->max_age()
+  EXPECT_DOUBLE_EQ(0.0,  all_values.GetAgeResult(21, nullptr)); // This is above model->max_age()
+  EXPECT_DOUBLE_EQ(0.0,  all_values.GetAgeResult(22, nullptr));
+  EXPECT_DOUBLE_EQ(0.0,  all_values.GetAgeResult(23, nullptr));
 }
 
 }

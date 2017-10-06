@@ -33,7 +33,7 @@ Simulate::Simulate(Model* model) : model_(model) {
  *
  */
 void Simulate::Validate() {
-  parameters_.Populate();
+  parameters_.Populate(model_);
   DoValidate();
 }
 

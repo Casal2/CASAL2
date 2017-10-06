@@ -37,21 +37,21 @@ TEST(Selectivities, KnifeEdge) {
   knife_edge.Validate();
   knife_edge.Build();
 
-  EXPECT_DOUBLE_EQ(0.0, knife_edge.GetResult(9, nullptr)); // Below model->min_age()
-  EXPECT_DOUBLE_EQ(0.0, knife_edge.GetResult(10, nullptr)); // At model->min_age()
-  EXPECT_DOUBLE_EQ(0.0, knife_edge.GetResult(11, nullptr));
-  EXPECT_DOUBLE_EQ(0.0, knife_edge.GetResult(12, nullptr));
-  EXPECT_DOUBLE_EQ(0.0, knife_edge.GetResult(13, nullptr));
-  EXPECT_DOUBLE_EQ(0.0, knife_edge.GetResult(14, nullptr));
-  EXPECT_DOUBLE_EQ(1.0, knife_edge.GetResult(15, nullptr));
-  EXPECT_DOUBLE_EQ(1.0, knife_edge.GetResult(16, nullptr));
-  EXPECT_DOUBLE_EQ(1.0, knife_edge.GetResult(17, nullptr));
-  EXPECT_DOUBLE_EQ(1.0, knife_edge.GetResult(18, nullptr));
-  EXPECT_DOUBLE_EQ(1.0, knife_edge.GetResult(19, nullptr));
-  EXPECT_DOUBLE_EQ(1.0, knife_edge.GetResult(20, nullptr)); // At model->max_age()
-  EXPECT_DOUBLE_EQ(0.0, knife_edge.GetResult(21, nullptr)); // This is above model->max_age()
-  EXPECT_DOUBLE_EQ(0.0, knife_edge.GetResult(22, nullptr));
-  EXPECT_DOUBLE_EQ(0.0, knife_edge.GetResult(23, nullptr));
+  EXPECT_DOUBLE_EQ(0.0, knife_edge.GetAgeResult(9, nullptr)); // Below model->min_age()
+  EXPECT_DOUBLE_EQ(0.0, knife_edge.GetAgeResult(10, nullptr)); // At model->min_age()
+  EXPECT_DOUBLE_EQ(0.0, knife_edge.GetAgeResult(11, nullptr));
+  EXPECT_DOUBLE_EQ(0.0, knife_edge.GetAgeResult(12, nullptr));
+  EXPECT_DOUBLE_EQ(0.0, knife_edge.GetAgeResult(13, nullptr));
+  EXPECT_DOUBLE_EQ(0.0, knife_edge.GetAgeResult(14, nullptr));
+  EXPECT_DOUBLE_EQ(1.0, knife_edge.GetAgeResult(15, nullptr));
+  EXPECT_DOUBLE_EQ(1.0, knife_edge.GetAgeResult(16, nullptr));
+  EXPECT_DOUBLE_EQ(1.0, knife_edge.GetAgeResult(17, nullptr));
+  EXPECT_DOUBLE_EQ(1.0, knife_edge.GetAgeResult(18, nullptr));
+  EXPECT_DOUBLE_EQ(1.0, knife_edge.GetAgeResult(19, nullptr));
+  EXPECT_DOUBLE_EQ(1.0, knife_edge.GetAgeResult(20, nullptr)); // At model->max_age()
+  EXPECT_DOUBLE_EQ(0.0, knife_edge.GetAgeResult(21, nullptr)); // This is above model->max_age()
+  EXPECT_DOUBLE_EQ(0.0, knife_edge.GetAgeResult(22, nullptr));
+  EXPECT_DOUBLE_EQ(0.0, knife_edge.GetAgeResult(23, nullptr));
 }
 
 } /* namespace niwa */

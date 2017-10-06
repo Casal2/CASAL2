@@ -45,7 +45,7 @@ namespace dc = niwa::utilities::doublecompare;
 MortalityPreySuitability::MortalityPreySuitability(Model* model)
   : Process(model) {
   process_type_ = ProcessType::kMortality;
-  partition_structure_ = PartitionStructure::kAge;
+  partition_structure_ = PartitionType::kAge;
 
   parameters_.Bind<string>(PARAM_PREY_CATEGORIES, &prey_category_labels_, "Prey Categories labels", "");
   parameters_.Bind<string>(PARAM_PREDATOR_CATEGORIES, &predator_category_labels_, "Predator Categories labels", "");
@@ -195,7 +195,7 @@ void MortalityPreySuitability::DoExecute() {
        auto category_iter = partition_iter->begin();
        for (; category_iter != partition_iter->end(); ++category_iter) {
          for (unsigned data_offset = 0; data_offset < (*category_iter)->data_.size(); ++data_offset) {
-           Double vulnerable = (*category_iter)->data_[data_offset] * prey_selectivities_[category_offset]->GetResult((*category_iter)->min_age_ + data_offset, (*category_iter)->age_length_);
+           Double vulnerable = (*category_iter)->data_[data_offset] * prey_selectivities_[category_offset]->GetAgeResult((*category_iter)->min_age_ + data_offset, (*category_iter)->age_length_);
            if (vulnerable <= 0.0)
              vulnerable = 0.0;
            Vulnerable_by_Prey[prey_category_labels_[category_offset]] += vulnerable;
@@ -222,7 +222,7 @@ void MortalityPreySuitability::DoExecute() {
       for (; category_iter != predator_partition_iter->end(); ++category_iter) {
         for (unsigned data_offset = 0; data_offset < (*category_iter)->data_.size(); ++data_offset) {
 
-          Double predator_vulnerable = (*category_iter)->data_[data_offset] * predator_selectivities_[category_offset]->GetResult((*category_iter)->min_age_ + data_offset, (*category_iter)->age_length_);
+          Double predator_vulnerable = (*category_iter)->data_[data_offset] * predator_selectivities_[category_offset]->GetAgeResult((*category_iter)->min_age_ + data_offset, (*category_iter)->age_length_);
           if (predator_vulnerable <= 0.0)
             predator_vulnerable = 0.0;
 
@@ -262,7 +262,7 @@ void MortalityPreySuitability::DoExecute() {
        for (; category_iter != partition_iter->end(); ++category_iter) {
          for (unsigned data_offset = 0; data_offset < (*category_iter)->data_.size(); ++data_offset) {
 
-           Double Current = (*category_iter)->data_.size() * prey_selectivities_[category_offset]->GetResult((*category_iter)->min_age_ + data_offset, (*category_iter)->age_length_)
+           Double Current = (*category_iter)->data_.size() * prey_selectivities_[category_offset]->GetAgeResult((*category_iter)->min_age_ + data_offset, (*category_iter)->age_length_)
                * Exploitation_by_Prey[prey_category_labels_[category_offset]];
            if (Current <= 0.0) {
              LOG_WARNING() << ": Negative partition create";

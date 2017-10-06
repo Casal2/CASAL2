@@ -57,7 +57,7 @@ AgeLength::AgeLength(Model* model) : model_(model) {
  * Note: all parameters are populated from configuration files
  */
 void AgeLength::Validate() {
-  parameters_.Populate();
+  parameters_.Populate(model_);
   DoValidate();
 }
 
@@ -232,7 +232,7 @@ void AgeLength::DoAgeToLengthConversion(partition::Category* category, const vec
     // Loop through the length bins and multiple the partition of the current age to go from
     // length frequencies to age length numbers
     for (unsigned j = 0; j < size; ++j) {
-      category->age_length_matrix_[i][j] = selectivity->GetResult(age, category->age_length_) * category->data_[i] * age_frequencies[j];
+      category->age_length_matrix_[i][j] = selectivity->GetAgeResult(age, category->age_length_) * category->data_[i] * age_frequencies[j];
     }
   }
 }

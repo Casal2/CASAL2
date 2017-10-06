@@ -37,7 +37,7 @@ Profile::Profile(Model* model) : model_(model) {
  *
  */
 void Profile::Validate() {
-  parameters_.Populate();
+  parameters_.Populate(model_);
 }
 
 /**

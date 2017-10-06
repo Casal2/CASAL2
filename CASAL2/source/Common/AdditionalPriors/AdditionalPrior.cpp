@@ -40,7 +40,7 @@ AdditionalPrior::AdditionalPrior(Model* model) : model_(model) {
  * Note: all parameters are populated from configuration files
  */
 void AdditionalPrior::Validate() {
-  parameters_.Populate();
+  parameters_.Populate(model_);
   DoValidate();
 }
 

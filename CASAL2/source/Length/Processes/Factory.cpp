@@ -16,6 +16,8 @@
 #include "Common/Model/Managers.h"
 #include "Common/Processes/Manager.h"
 #include "Length/Processes/Children/GrowthBasic.h"
+#include "Length/Processes/Children/MortalityConstantRate.h"
+#include "Length/Processes/Children/RecruitmentConstant.h"
 #include "Common/Processes/Children/Nop.h"
 
 // Namespaces
@@ -58,6 +60,10 @@ Process* Factory::Create(Model* model, const string& object_type, const string& 
   if (object == PARAM_PROCESS || object == PARAM_PROCESSES) {
     if (sub == PARAM_GROWTH_BASIC)
       result = new GrowthBasic(model);
+    else if (sub == PARAM_MORTALITY_CONSTANT_RATE)
+      result = new MortalityConstantRate(model);
+    else if (sub == PARAM_RECRUITMENT_CONSTANT)
+      result = new RecruitmentConstant(model);
   }
 
   return result;

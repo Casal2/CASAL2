@@ -40,8 +40,8 @@ Catchability::Catchability(Model* model) : model_(model) {
  * Note: all parameters are populated from configuration files
  */
 void Catchability::Validate() {
+  parameters_.Populate(model_);
   DoValidate();
-  parameters_.Populate();
 }
 
 } /* namespace niwa */

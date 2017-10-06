@@ -25,7 +25,7 @@ using observations::Comparison;
 TEST(Likelihood, Dirichlet) {
   utilities::RandomNumberGenerator::Instance().Reset(31373u);
 
-  Dirichlet likelihood;
+  Dirichlet likelihood(nullptr);
   map<unsigned, vector<Comparison> > comparison_list;
 
   // Test case 1

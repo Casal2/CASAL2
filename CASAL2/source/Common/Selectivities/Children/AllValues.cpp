@@ -29,7 +29,10 @@ namespace selectivities {
 AllValues::AllValues(Model* model)
   : Selectivity(model) {
 
-  parameters_.Bind<Double>(PARAM_V, &v_, "V", "");
+  parameters_.Bind<Double>(PARAM_V, &v_, "V", "")->set_partition_type(PartitionType::kAge | PartitionType::kLength);
+//  parameters_.Bind<Double>(PARAM_AGE_V, &v_age_, "V values for the age structure", "")->set_partition_type(PartitionType::kHybrid);
+//  parameters_.Bind<Double>(PARAM_LENGTH_V, &v_length_, "V values for the length structure", "")->set_partition_type(PartitionType::kHybrid);
+
 
   RegisterAsAddressable(PARAM_V, &v_);
 
@@ -47,14 +50,33 @@ AllValues::AllValues(Model* model)
  * rules for the model.
  */
 void AllValues::DoValidate() {
-  if (v_.size() != model_->age_spread()) {
-    LOG_ERROR_P(PARAM_V) << ": Number of 'v' values supplied is not the same as the model age spread.\n"
-        << "Expected: " << model_->age_spread() << " but got " << v_.size();
-  }
+  switch(model_->partition_type()) {
+  case PartitionType::kAge:
+    if (v_.size() != model_->age_spread()) {
+      LOG_ERROR_P(PARAM_V) << ": Number of 'v' values supplied is not the same as the model age spread.\n"
+          << "Expected: " << model_->age_spread() << " but got " << v_.size();
+    }
 
-  //initialise values container
-  for (unsigned age = model_->min_age(); age <= model_->max_age(); ++age)
-    values_for_lookup_[age] = 0.0;
+    for (unsigned age = model_->min_age(); age <= model_->max_age(); ++age)
+      values_for_lookup_[age] = 0.0;
+    break;
+
+  case PartitionType::kLength:
+    if (v_.size() != model_->length_bins().size()) {
+      LOG_ERROR_P(PARAM_V) << ": Number of 'v' values supplied is not the same as the model length bin count.\n"
+            << "Expected: " << model_->length_bins().size() << " but got " << v_.size();
+    }
+
+    for (auto& iter : model_->length_bins())
+      values_for_lookup_[iter] = 0.0;
+    break;
+
+//  case PartitionType::kHybrid:
+//    break;
+
+  default:
+    break;
+  }
 }
 
 /**

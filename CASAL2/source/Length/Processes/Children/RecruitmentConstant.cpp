@@ -37,7 +37,7 @@ RecruitmentConstant::RecruitmentConstant(Model* model)
   RegisterAsAddressable(PARAM_PROPORTIONS, &proportions_categories_);
 
   process_type_ = ProcessType::kRecruitment;
-  partition_structure_ = PartitionStructure::kLength;
+  partition_structure_ = PartitionType::kLength;
 }
 
 /**
@@ -126,11 +126,15 @@ void RecruitmentConstant::DoExecute() {
   for (auto category : partition_) {
    if (category->length_data_.size() != model_->length_bins().size())
      LOG_CODE_ERROR() << "This function was written when categories were forced to have the same length bins as models, this is not the case now please review code.";
+   LOG_TRACE();
    r0_by_length_bin_ = (r0_ * (proportions_categories_[category->name_]) / total_proportions) / length_bins_.size();
+   LOG_TRACE();
    unsigned length_index = 0;
+   LOG_CODE_ERROR() << "THIS IS BROKEN";
    for (auto length_bin : length_bins_) {
      length_index = std::find(model_->length_bins().begin(), model_->length_bins().end(), length_bin) - model_->length_bins().end();
    }
+
    LOG_FINEST() << "putting " << r0_by_length_bin_ << " in category " << category->name_ << " in length bin " << model_->length_bins()[length_index];
    category->length_data_[length_index] = r0_by_length_bin_;
   }

@@ -62,7 +62,7 @@ Minimiser::~Minimiser() {
  */
 void Minimiser::Validate() {
   LOG_TRACE();
-  parameters_.Populate();
+  parameters_.Populate(model_);
 
   DoValidate();
 }

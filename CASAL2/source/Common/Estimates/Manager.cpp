@@ -57,7 +57,7 @@ void Manager::Validate(Model* model) {
    */
   vector<Creator*> delayed_creators;
   for (Creator* creator : creators_) {
-    creator->parameters().Populate();
+    creator->parameters().Populate(model);
 
     if (creator->parameter().substr(0, 8) == PARAM_ESTIMATE) {
       delayed_creators.push_back(creator);

@@ -29,7 +29,7 @@ namespace likelihoods {
 class Multinomial : public niwa::Likelihood {
 public:
   // Methods
-  Multinomial() = default;
+  Multinomial(Model* model) : Likelihood(model) { };
   virtual                     ~Multinomial() = default;
   void                        DoValidate() override final { };
   Double                      AdjustErrorValue(const Double process_error, const Double error_value) override final;

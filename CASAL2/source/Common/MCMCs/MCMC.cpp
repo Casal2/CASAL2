@@ -39,7 +39,7 @@ MCMC::MCMC(Model* model) : model_(model) {
  * Validate the parameters defined in the configuration file
  */
 void MCMC::Validate() {
-  parameters_.Populate();
+  parameters_.Populate(model_);
   DoValidate();
 }
 

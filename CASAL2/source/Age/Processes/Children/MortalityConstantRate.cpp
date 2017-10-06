@@ -33,7 +33,7 @@ MortalityConstantRate::MortalityConstantRate(Model* model)
     partition_(model) {
   LOG_TRACE();
   process_type_ = ProcessType::kMortality;
-  partition_structure_ = PartitionStructure::kAge;
+  partition_structure_ = PartitionType::kAge;
 
   parameters_.Bind<string>(PARAM_CATEGORIES, &category_labels_, "List of categories labels", "");
   parameters_.Bind<Double>(PARAM_M, &m_input_, "Mortality rates", "");
@@ -168,7 +168,7 @@ void MortalityConstantRate::DoExecute() {
 
     LOG_FINEST() << "category " << category->name_ << "; min_age: " << category->min_age_ << "; ratio: " << ratio;
     for (Double& data : category->data_) {
-    	amount = data * (1-exp(-selectivities_[i]->GetResult(category->min_age_ + j, category->age_length_)  * (m * ratio)));
+    	amount = data * (1-exp(-selectivities_[i]->GetAgeResult(category->min_age_ + j, category->age_length_)  * (m * ratio)));
       data -= amount;
       total_amount += amount;
       ++j;

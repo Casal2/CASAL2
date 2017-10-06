@@ -54,7 +54,7 @@ DerivedQuantity::DerivedQuantity(Model* model)
  * Note: all parameters are populated from configuration files
  */
 void DerivedQuantity::Validate() {
-  parameters_.Populate();
+  parameters_.Populate(model_);
   category_labels_ = model_->categories()->ExpandLabels(category_labels_, parameters_.Get(PARAM_CATEGORIES));
 
   // Validate Categories

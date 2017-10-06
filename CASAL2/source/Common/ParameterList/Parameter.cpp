@@ -53,5 +53,12 @@ void Parameter::AddValue(const string& value) {
   values_.push_back(value);
 }
 
+/**
+ *
+ */
+void Parameter::set_partition_type(PartitionType partition_type) {
+  partition_type_ = partition_type;
+}
+
 } /* namespace parameterlist */
 } /* namespace niwa */

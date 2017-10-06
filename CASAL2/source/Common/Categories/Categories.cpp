@@ -42,7 +42,8 @@ Categories::Categories(Model* model) : model_(model) {
   parameters_.Bind<string>(PARAM_FORMAT, &format_, "The format that the category names adhere too", "");
   parameters_.Bind<string>(PARAM_NAMES, &names_, "The names of the categories to be used in the model", "");
   parameters_.Bind<string>(PARAM_YEARS, &years_, "The years that individual categories will be active for. This overrides the model values", "", true);
-  parameters_.Bind<string>(PARAM_AGE_LENGTHS, &age_length_labels_, R"(The labels of age\_length objects that are assigned to categories)", "", true);
+  parameters_.Bind<string>(PARAM_AGE_LENGTHS, &age_length_labels_, R"(The labels of age\_length objects that are assigned to categories)", "", true)->set_partition_type(PartitionType::kAge);
+//  parameters_.Bind<string>(PARAM_LENGTH_WEIGHT, &length_weight_labels_, R("The labels of the length\_weight objects that are assigned to categories)", "", true)->set_partition_type(Partition::kLength)
 }
 
 /**
@@ -56,7 +57,7 @@ void Categories::Validate() {
   if (block_type_ == "")
     LOG_ERROR() << "The @categories block is missing from the configuration file. This block is required";
 
-  parameters_.Populate();
+  parameters_.Populate(model_);
 
   /**
    * Parameter: Names

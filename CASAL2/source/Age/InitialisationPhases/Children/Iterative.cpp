@@ -139,7 +139,6 @@ void Iterative::DoBuild() {
       }
     }
   }
-
 }
 
 /**

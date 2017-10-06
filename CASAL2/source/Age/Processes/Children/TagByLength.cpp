@@ -35,7 +35,7 @@ TagByLength::TagByLength(Model* model)
     to_partition_(model),
     from_partition_(model) {
   process_type_ = ProcessType::kTransition;
-  partition_structure_ = PartitionStructure::kAge;
+  partition_structure_ = PartitionType::kAge;
 
   numbers_table_ = new parameters::Table(PARAM_NUMBERS);
   proportions_table_ = new parameters::Table(PARAM_PROPORTIONS);
@@ -380,7 +380,7 @@ void TagByLength::DoExecute() {
          */
         // Currently multiplying a proportion by a selectivity
         if((initial_mortality_selectivity_label_ != "") & (initial_mortality_ > 0.0))
-          (*to_iter)->data_[j] -= (*to_iter)->data_[j] * initial_mortality_ * initial_mortality_selectivity_->GetResult((*to_iter)->min_age_ + j, (*to_iter)->age_length_);
+          (*to_iter)->data_[j] -= (*to_iter)->data_[j] * initial_mortality_ * initial_mortality_selectivity_->GetAgeResult((*to_iter)->min_age_ + j, (*to_iter)->age_length_);
         else if((initial_mortality_selectivity_label_ == "") & (initial_mortality_ > 0.0))
           (*to_iter)->data_[j] -= (*to_iter)->data_[j] * initial_mortality_;
       }

@@ -39,21 +39,21 @@ Likelihood* Factory::Create(Model* model, const string& object_type, const strin
   Likelihood* result = nullptr;
 
   if (sub_type == PARAM_BINOMIAL)
-    result = new Binomial();
+    result = new Binomial(model);
   else if (sub_type == PARAM_BINOMIAL_APPROX)
-    result = new BinomialApprox();
+    result = new BinomialApprox(model);
   else if (sub_type == PARAM_DIRICHLET)
-    result = new Dirichlet();
+    result = new Dirichlet(model);
   else if (sub_type == PARAM_LOGNORMAL)
-    result = new LogNormal();
+    result = new LogNormal(model);
   else if (sub_type == PARAM_LOGNORMAL_WITH_Q)
-    result = new LogNormalWithQ();
+    result = new LogNormalWithQ(model);
   else if (sub_type == PARAM_MULTINOMIAL)
-    result = new Multinomial();
+    result = new Multinomial(model);
   else if (sub_type == PARAM_NORMAL)
-    result = new Normal();
+    result = new Normal(model);
   else if (sub_type == PARAM_PSEUDO)
-    result = new Pseudo();
+    result = new Pseudo(model);
 
   if (result)
     model->managers().likelihood()->AddObject(result);

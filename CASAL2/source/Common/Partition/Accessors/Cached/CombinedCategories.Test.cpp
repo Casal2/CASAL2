@@ -36,7 +36,7 @@ TEST_F(BasicModel, Accessors_Cached_CombinedCategories) {
   // Recruitment process
   vector<string> recruitment_categories   = { "immature.male", "immature.female" };
   vector<string> proportions  = { "0.6", "0.4" };
-  base::Object* process = model_->factory().CreateObject(PARAM_RECRUITMENT, PARAM_CONSTANT);
+  base::Object* process = model_->factory().CreateObject(PARAM_RECRUITMENT, PARAM_CONSTANT, PartitionType::kAge);
   ASSERT_NE(process, nullptr);
   process->parameters().Add(PARAM_LABEL, "recruitment", __FILE__, __LINE__);
   process->parameters().Add(PARAM_TYPE, "constant", __FILE__, __LINE__);
@@ -47,7 +47,7 @@ TEST_F(BasicModel, Accessors_Cached_CombinedCategories) {
 
   // Mortality process
   vector<string> mortality_categories   = { "immature.male", "immature.female", "mature.male", "mature.female" };
-  process = model_->factory().CreateObject(PARAM_MORTALITY, PARAM_CONSTANT_RATE);
+  process = model_->factory().CreateObject(PARAM_MORTALITY, PARAM_CONSTANT_RATE, PartitionType::kAge);
   ASSERT_NE(process, nullptr);
   process->parameters().Add(PARAM_LABEL, "mortality", __FILE__, __LINE__);
   process->parameters().Add(PARAM_TYPE, "constant_rate", __FILE__, __LINE__);

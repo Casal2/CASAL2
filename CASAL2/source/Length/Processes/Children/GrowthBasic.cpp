@@ -30,7 +30,7 @@ GrowthBasic::GrowthBasic(Model* model)
   : Process(model),
     partition_(model) {
   process_type_ = ProcessType::kTransition;
-  partition_structure_ = PartitionStructure::kLength;
+  partition_structure_ = PartitionType::kLength;
 
   parameters_.Bind<string>(PARAM_CATEGORIES, &category_labels_, "The labels of the categories", "");
   parameters_.Bind<unsigned>(PARAM_NUMBER_OF_GROWTH_EPISODES, &n_growth_episodes_, "Number of growth episodes per year", "");
@@ -120,7 +120,7 @@ void GrowthBasic::DoExecute() {
   // iterate over each category multiplying numbers at length by the transition matrix
   // will have to initialise numbers_transitioning_matrix_;
 
-  // TODO: This will have to be revisited, I don't think it is very effeicent.
+  // TODO: This will have to be revisited, I don't think it is very efficent.
   for (auto category : partition_) {
     unsigned this_length_bin = 0;
     for (Double& data : category->length_data_) {

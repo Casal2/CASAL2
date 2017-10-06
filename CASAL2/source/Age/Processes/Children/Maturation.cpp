@@ -37,7 +37,7 @@ Maturation::Maturation(Model* model)
   RegisterAsAddressable(PARAM_RATES, &rates_by_years_);
 
   process_type_ = ProcessType::kMaturation;
-  partition_structure_ = PartitionStructure::kAge;
+  partition_structure_ = PartitionType::kAge;
 }
 
 /**
@@ -127,7 +127,7 @@ void Maturation::DoExecute() {
     unsigned min_age   = (*from_iter)->min_age_;
 
     for (unsigned offset = 0; offset < (*from_iter)->data_.size(); ++offset) {
-      amount = rate * selectivities_[i]->GetResult(min_age + offset, (*from_iter)->age_length_);
+      amount = rate * selectivities_[i]->GetAgeResult(min_age + offset, (*from_iter)->age_length_);
       (*from_iter)->data_[offset] -= amount;
       (*to_iter)->data_[offset] += amount;
     }

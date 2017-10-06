@@ -55,7 +55,6 @@ inline void Parameter::RequireValueType<unsigned>() const {
   }
 }
 
-
 } /* namespace parameterlist */
 } /* namespace niwa */
 #endif /* PARAMETERLIST_PARAMETER_INL_H_ */

@@ -78,6 +78,7 @@ using niwa::parameters::Bindable;
 using niwa::parameters::BindableVector;
 using niwa::parameterlist::Parameter;
 using niwa::parameterlist::Parameter;
+class Model;
 class Object;
 
 /**
@@ -105,7 +106,7 @@ public:
 
   void                        BindTable(const string& label, parameters::Table* table, const string& description,
                                 const string& values, bool requires_columns = true, bool optional = false);
-  void                        Populate();
+  void                        Populate(Model* model);
 
   // accessors
   string                      location(const string& label);

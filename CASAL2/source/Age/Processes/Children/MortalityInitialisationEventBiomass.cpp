@@ -41,7 +41,7 @@ MortalityInitialisationEventBiomass::MortalityInitialisationEventBiomass(Model* 
   RegisterAsAddressable(PARAM_CATCH, &catch_);
 
   process_type_ = ProcessType::kMortality;
-  partition_structure_ = PartitionStructure::kAge;
+  partition_structure_ = PartitionType::kAge;
 }
 
 /**
@@ -107,7 +107,7 @@ void MortalityInitialisationEventBiomass::DoExecute() {
       unsigned j = 0;
       //categories->UpdateMeanWeightData();
       for (Double& data : categories->data_) {
-        Double temp = data * selectivities_[i]->GetResult(categories->min_age_ + j, categories->age_length_);
+        Double temp = data * selectivities_[i]->GetAgeResult(categories->min_age_ + j, categories->age_length_);
         vulnerable += temp * categories->mean_weight_by_time_step_age_[time_step_index][categories->min_age_ + j];
         ++j;
       }

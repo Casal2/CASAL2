@@ -48,7 +48,7 @@ MortalityInstantaneous::MortalityInstantaneous(Model* model)
   : Process(model),
     partition_(model) {
   process_type_ = ProcessType::kMortality;
-  partition_structure_ = PartitionStructure::kAge;
+  partition_structure_ = PartitionType::kAge;
 
   catches_table_ = new parameters::Table(PARAM_CATCHES);
   method_table_ = new parameters::Table(PARAM_METHOD);
@@ -420,7 +420,7 @@ void MortalityInstantaneous::DoExecute() {
 
       category.used_in_current_timestep_ = used;
       for (unsigned i = 0; i < category.category_->age_spread(); ++i) {
-        selectivity_value = category.selectivity_->GetResult(category.category_->min_age_ + i, category.category_->age_length_);
+        selectivity_value = category.selectivity_->GetAgeResult(category.category_->min_age_ + i, category.category_->age_length_);
         category.exploitation_[i] = 0.0;
         category.selectivity_values_[i] = selectivity_value;
         if (used)
@@ -434,7 +434,7 @@ void MortalityInstantaneous::DoExecute() {
       continue;
 
     for (unsigned i = 0; i < fishery_category.selectivity_values_.size(); ++i)
-      fishery_category.selectivity_values_[i] = fishery_category.selectivity_->GetResult(fishery_category.category_.category_->min_age_ + i, fishery_category.category_.category_->age_length_);
+      fishery_category.selectivity_values_[i] = fishery_category.selectivity_->GetAgeResult(fishery_category.category_.category_->min_age_ + i, fishery_category.category_.category_->age_length_);
   }
 
   for (auto& fishery : fisheries_)
@@ -569,8 +569,8 @@ void MortalityInstantaneous::DoExecute() {
             removals_by_year_fishery_category_[year][fishery_category.fishery_label_][categories->name_][i] += categories->data_[i - age_offset]
 //                * fishery_exploitation[fishery_category.fishery_label_]
                 * fishery_category.fishery_.exploitation_
-                * fishery_category.selectivity_->GetResult(categories->min_age_ + i, categories->age_length_)
-                * exp(-0.5 * ratio * m_[categories->name_] * selectivities_[category_offset]->GetResult(categories->min_age_ + i, categories->age_length_));
+                * fishery_category.selectivity_->GetAgeResult(categories->min_age_ + i, categories->age_length_)
+                * exp(-0.5 * ratio * m_[categories->name_] * selectivities_[category_offset]->GetAgeResult(categories->min_age_ + i, categories->age_length_));
           }
         }
       }

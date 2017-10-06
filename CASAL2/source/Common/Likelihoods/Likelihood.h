@@ -23,7 +23,7 @@
 
 // Namespaces
 namespace niwa {
-
+class Model;
 using niwa::utilities::Double;
 
 /**
@@ -32,7 +32,7 @@ using niwa::utilities::Double;
 class Likelihood : public niwa::base::Object {
 public:
   // Methods
-  Likelihood() = default;
+  Likelihood(Model* model);
   virtual                     ~Likelihood() = default;
   void                        Validate();
   void                        Build() { };
@@ -50,6 +50,7 @@ public:
 
 protected:
   // members
+  Model*                      model_ = nullptr;
   Double                      multiplier_ = 1.0;
   Double                      error_value_multiplier_ = 1.0;
 };

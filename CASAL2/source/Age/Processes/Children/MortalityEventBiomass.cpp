@@ -43,7 +43,7 @@ MortalityEventBiomass::MortalityEventBiomass(Model* model)
   RegisterAsAddressable(PARAM_CATCHES, &catch_years_);
 
   process_type_ = ProcessType::kMortality;
-  partition_structure_ = PartitionStructure::kAge;
+  partition_structure_ = PartitionType::kAge;
 }
 
 /**
@@ -128,7 +128,7 @@ void MortalityEventBiomass::DoExecute() {
     //categories->UpdateMeanWeightData();
     unsigned offset = 0;
     for (Double& data : categories->data_) {
-      Double temp = data * selectivities_[i]->GetResult(categories->min_age_ + offset, categories->age_length_);
+      Double temp = data * selectivities_[i]->GetAgeResult(categories->min_age_ + offset, categories->age_length_);
       vulnerable += temp * categories->mean_weight_by_time_step_age_[time_step_index][categories->min_age_ + offset];
       ++offset;
     }
@@ -168,7 +168,7 @@ void MortalityEventBiomass::DoExecute() {
   for (auto categories : partition_) {
     unsigned offset = 0;
     for (Double& data : categories->data_) {
-      removals = data * selectivities_[i]->GetResult(categories->min_age_ + offset, categories->age_length_) * exploitation;
+      removals = data * selectivities_[i]->GetAgeResult(categories->min_age_ + offset, categories->age_length_) * exploitation;
       //StoreForReport(categories->name_ + "_Removals: ",AS_DOUBLE(removals));
       data -= removals;
       ++offset;

@@ -31,7 +31,7 @@ namespace processes {
  * @param sub_type The child type of the object to create (e.g ageing, schnute)
  * @return shared_ptr to the object we've created
  */
-Process* Factory::Create(Model* model, const string& object_type, const string& sub_type) {
+Process* Factory::Create(Model* model, const string& object_type, const string& sub_type, PartitionType partition_type) {
   Process* result = nullptr;
 
   string object = object_type;
@@ -54,16 +54,18 @@ Process* Factory::Create(Model* model, const string& object_type, const string& 
     LOG_FINE() << "Finished modification of object_type (" << object << ") and sub_type (" << sub << ")";
   }
 
-  if (model->partition_structure() == PartitionStructure::kAge) {
-    result = age::processes::Factory::Create(model, object_type, sub_type);
-  } else if (model->partition_structure() == PartitionStructure::kLength) {
-    result = length::processes::Factory::Create(model, object_type, sub_type);
-  }
+  if (model->partition_type() == PartitionType::kAge || (partition_type == PartitionType::kModel && model->partition_type() == PartitionType::kAge))
+    result    = age::processes::Factory::Create(model, object_type, sub_type);
+//  if (partition_type == PartitionType::kAge && (model->partition_type() == PartitionType::kAge))
+//    result    = age::processes::Factory::Create(model, object_type, sub_type);
+  if (model->partition_type() == PartitionType::kLength || (partition_type == PartitionType::kModel && model->partition_type() == PartitionType::kLength))
+    result    = length::processes::Factory::Create(model, object_type, sub_type);
+//  if (partition_type == PartitionType::kLength && (model->partition_type() == PartitionType::kLength || model->partition_type() == PartitionType::kHybrid))
+//    result    = length::processes::Factory::Create(model, object_type, sub_type);
 
   if (result)
     model->managers().process()->AddObject(result);
 
-  //result->parameters().Get(PARAM_TYPE)->set_value(sub);
   return result;
 }
 
