@@ -62,6 +62,9 @@ void Partition::Build() {
     unsigned age_spread = (categories->max_age(category) - categories->min_age(category)) + 1;
     new_category->data_.resize(age_spread, 0.0);
 
+    unsigned length_bins = model_->length_bins().size();
+    new_category->length_data_.resize(length_bins, 0.0);
+
     partition_[category] = new_category;
   }
 }

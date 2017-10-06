@@ -64,7 +64,7 @@ RecruitmentBevertonHolt::RecruitmentBevertonHolt(Model* model)
 
   phase_b0_         = 0;
   process_type_     = ProcessType::kRecruitment;
-  partition_structure_ = PartitionStructure::kAge;
+  partition_structure_ = PartitionType::kAge;
 }
 
 /**

@@ -68,7 +68,7 @@ Model::Model() {
   parameters_.Bind<string>(PARAM_INITIALISATION_PHASES, &initialisation_phases_, "Define the labels of the phases of the initialisation", R"(A list of valid labels defined by \texttt{@initialisation_phase})", true);
   parameters_.Bind<string>(PARAM_TIME_STEPS, &time_steps_, "Define the labels of the time steps, in the order that they are applied, to form the annual cycle", R"(A list of valid labels defined by \texttt{@time_step})");
   parameters_.Bind<unsigned>(PARAM_PROJECTION_FINAL_YEAR, &projection_final_year_, "Define the final year of the model in projection mode", R"(Defines the last year of the projection period, i.e., the projection period runs from \texttt{final_year}$+1$ to \texttt{projection_final_year}. For the default, $0$, no projections are run.)", 0);
-  parameters_.Bind<string>(PARAM_TYPE, &type_, "TBA: Type of model (the partition structure). Either age, length or hybrid", "", PARAM_AGE)->set_allowed_values({PARAM_AGE, PARAM_LENGTH});
+  parameters_.Bind<string>(PARAM_TYPE, &type_, "TBA: Type of model (the partition structure). Either age, length or hybrid", "", PARAM_AGE)->set_allowed_values({PARAM_AGE, PARAM_LENGTH, PARAM_HYBRID});
   parameters_.Bind<unsigned>(PARAM_LENGTH_BINS, &length_bins_, "", "", true);
   parameters_.Bind<string>(PARAM_BASE_UNTIS, &base_weight_units_, "Define the units for the base weight. This will be the default unit of any weight input parameters ", "", PARAM_TONNES)->set_allowed_values({PARAM_GRAMS, PARAM_TONNES,PARAM_KGS});
 
@@ -263,13 +263,15 @@ void Model::PopulateParameters() {
   /**
    * Validate the parameters
    */
-  parameters_.Populate();
+  parameters_.Populate(this);
   if (type_ == PARAM_AGE)
-    partition_structure_ = PartitionStructure::kAge;
+    partition_type_ = PartitionType::kAge;
   else if (type_ == PARAM_LENGTH)
-    partition_structure_ = PartitionStructure::kLength;
+    partition_type_ = PartitionType::kLength;
+//  else if (type_ == PARAM_HYBRID)
+//    partition_type_ = PartitionType::kHybrid;
 
-  if (partition_structure_ == PartitionStructure::kAge) {
+  if (partition_type_ == PartitionType::kAge) {
     if (start_year_ < 1000)
       LOG_ERROR_P(PARAM_START_YEAR) << " (" << start_year_ << ") cannot be less than 1000";
     if (start_year_ > final_year_)
@@ -285,7 +287,7 @@ void Model::PopulateParameters() {
       }
     }
 
-  } else if (partition_structure_ == PartitionStructure::kLength) {
+  } else if (partition_type_ == PartitionType::kLength) {
     if (!parameters_.Get(PARAM_LENGTH_BINS)->has_been_defined())
       LOG_ERROR() << location() << "@model is missing required parameter " << PARAM_LENGTH_BINS;
     if (parameters_.Get(PARAM_MIN_AGE)->has_been_defined())
@@ -296,7 +298,7 @@ void Model::PopulateParameters() {
       LOG_ERROR_P(PARAM_AGE_PLUS) << "cannot be defined in a length model";
 
   } else
-    LOG_ERROR() << "Partition structure " << (unsigned)partition_structure_ << " not supported";
+    LOG_ERROR() << "Partition structure " << (unsigned)partition_type_ << " not supported";
 
 //  if (base_weight_units_label_ == PARAM_TONNES)
 //    base_weight_units_ = Units::kTonnes;
@@ -317,7 +319,7 @@ void Model::Validate() {
     LOG_ERROR() << "The @model block is missing from configuration file. This block is required.";
 
   if (!parameters_.has_been_populated())
-    parameters_.Populate();
+    parameters_.Populate(this);
 
   // Call validation for the other objects required by the model
   categories_->Validate();
@@ -497,7 +499,6 @@ void Model::RunEstimation() {
    */
   LOG_FINE() << "Doing pre-estimation iteration of the model";
   Iterate();
-
 
   auto minimiser = managers_->minimiser()->active_minimiser();
   if (minimiser == nullptr)

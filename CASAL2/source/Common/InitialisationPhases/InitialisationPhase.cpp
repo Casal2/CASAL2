@@ -33,7 +33,7 @@ InitialisationPhase::InitialisationPhase(Model* model) : model_(model) {
  * 2. Assign local variables from parameters
  */
 void InitialisationPhase::Validate() {
-  parameters_.Populate();
+  parameters_.Populate(model_);
   DoValidate();
 }
 

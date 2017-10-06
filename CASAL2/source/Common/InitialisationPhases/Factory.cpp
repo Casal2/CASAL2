@@ -34,9 +34,9 @@ InitialisationPhase* Factory::Create(Model* model, const string& object_type, co
   InitialisationPhase* result = nullptr;
 
 
-  if (model->partition_structure() == PartitionStructure::kAge) {
+  if (model->partition_type() == PartitionType::kAge) {
     result = age::initialisationphases::Factory::Create(model, object_type, sub_type);
-  } else if (model->partition_structure() == PartitionStructure::kLength) {
+  } else if (model->partition_type() == PartitionType::kLength) {
     result = length::initialisationphases::Factory::Create(model, object_type, sub_type);
   }
 

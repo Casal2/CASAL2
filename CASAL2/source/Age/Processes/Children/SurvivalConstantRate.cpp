@@ -31,7 +31,7 @@ SurvivalConstantRate::SurvivalConstantRate(Model* model)
     partition_(model) {
   LOG_TRACE();
   process_type_ = ProcessType::kMortality;
-  partition_structure_ = PartitionStructure::kAge;
+  partition_structure_ = PartitionType::kAge;
 
   parameters_.Bind<string>(PARAM_CATEGORIES, &category_labels_, "List of categories", "");
   parameters_.Bind<Double>(PARAM_S, &s_input_, "Survival rates", "");
@@ -159,7 +159,7 @@ void SurvivalConstantRate::DoExecute() {
     LOG_FINEST() << "category " << category->name_ << "; min_age: " << category->min_age_ << "; ratio: " << ratio;
     //StoreForReport(category->name_ + " ratio", ratio);
     for (Double& data : category->data_) {
-      data -= data * (1 - exp(-selectivities_[i]->GetResult(category->min_age_ + j, category->age_length_)  * ((1.0 - s) * ratio)));
+      data -= data * (1 - exp(-selectivities_[i]->GetAgeResult(category->min_age_ + j, category->age_length_)  * ((1.0 - s) * ratio)));
       ++j;
     }
 

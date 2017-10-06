@@ -38,7 +38,7 @@ RecruitmentConstant::RecruitmentConstant(Model* model) : Process(model) {
   RegisterAsAddressable(PARAM_PROPORTIONS, &proportions_categories_);
 
   process_type_ = ProcessType::kRecruitment;
-  partition_structure_ = PartitionStructure::kAge;
+  partition_structure_ = PartitionType::kAge;
 }
 
 /**

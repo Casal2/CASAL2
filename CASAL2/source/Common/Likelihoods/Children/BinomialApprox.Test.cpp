@@ -31,7 +31,7 @@ using observations::Comparison;
 TEST(Likelihood, BinomialApprox) {
   utilities::RandomNumberGenerator::Instance().Reset(31373u);
 
-  BinomialApprox likelihood;
+  BinomialApprox likelihood(nullptr);
 
   map<unsigned, vector<Comparison> > comparison_list;
 

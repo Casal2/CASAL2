@@ -31,7 +31,7 @@ using observations::Comparison;
 TEST(Likelihood, LogNormal) {
   utilities::RandomNumberGenerator::Instance().Reset(31373u);
 
-  LogNormal likelihood;
+  LogNormal likelihood(nullptr);
 
   map<unsigned, vector<Comparison> > comparison_list;
 

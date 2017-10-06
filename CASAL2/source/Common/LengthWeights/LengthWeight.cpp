@@ -31,7 +31,7 @@ LengthWeight::LengthWeight(Model* model)
  *
  */
 void LengthWeight::Validate() {
-  parameters_.Populate();
+  parameters_.Populate(model_);
   DoValidate();
 }
 

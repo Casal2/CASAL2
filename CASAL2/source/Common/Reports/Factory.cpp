@@ -120,9 +120,9 @@ Report* Factory::Create(Model* model, const string& object_type, const string& s
       result = new Selectivity(model);
     else if (sub_type == PARAM_TIME_VARYING)
       result = new TimeVarying(model);
-    else if (model->partition_structure() == PartitionStructure::kAge)
+    else if (model->partition_type() == PartitionType::kAge)
       result = age::reports::Factory::Create(model, object_type, sub_type);
-    else if (model->partition_structure() == PartitionStructure::kLength)
+    else if (model->partition_type() == PartitionType::kLength)
       result = length::reports::Factory::Create(model, object_type, sub_type);
 
 

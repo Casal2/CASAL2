@@ -34,7 +34,7 @@ Process::Process(Model* model) : model_(model) {
  */
 void Process::Validate() {
   LOG_TRACE();
-  parameters_.Populate();
+  parameters_.Populate(model_);
   LOG_FINEST() << "Validating process " << label_;
 
   if (block_type_ != PARAM_PROCESS && block_type_ != PARAM_PROCESSES) {

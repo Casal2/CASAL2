@@ -35,7 +35,7 @@ TransitionCategoryByAge::TransitionCategoryByAge(Model* model)
     to_partition_(model),
     from_partition_(model) {
   process_type_ = ProcessType::kTransition;
-  partition_structure_ = PartitionStructure::kAge;
+  partition_structure_ = PartitionType::kAge;
 
   n_table_ = new parameters::Table(PARAM_N);
 

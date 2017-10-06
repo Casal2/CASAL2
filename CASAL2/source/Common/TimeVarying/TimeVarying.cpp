@@ -34,7 +34,7 @@ TimeVarying::TimeVarying(Model* model) : model_(model) {
  *
  */
 void TimeVarying::Validate() {
-  parameters_.Populate();
+  parameters_.Populate(model_);
   DoValidate();
 }
 

@@ -16,6 +16,7 @@
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
 
+#include "Common/Likelihoods/Children/Binomial.h"
 #include "Common/Likelihoods/Factory.h"
 #include "Common/Observations/Comparison.h"
 #include "Common/Utilities/RandomNumberGenerator.h"
@@ -31,7 +32,7 @@ using observations::Comparison;
 TEST(Likelihood, Binomial) {
   utilities::RandomNumberGenerator::Instance().Reset(31373u);
 
-  Binomial likelihood;
+  Binomial likelihood(nullptr);
 
   map<unsigned, vector<Comparison> > comparison_list;
 

@@ -1,8 +1,8 @@
 /**
- * @file Constant.h
+ * @file AllValues.h
  * @author  Scott Rasmussen (scott.rasmussen@zaita.com)
  * @version 1.0
- * @date 11/01/2013
+ * @date 14/01/2013
  * @section LICENSE
  *
  * Copyright NIWA Science ©2013 - www.niwa.co.nz
@@ -13,26 +13,26 @@
  *
  * $Date: 2008-03-04 16:33:32 +1300 (Tue, 04 Mar 2008) $
  */
-#ifndef CONSTANT_H_
-#define CONSTANT_H_
+#ifndef ALLVALUES_H_
+#define ALLVALUES_H_
 
 // Headers
 #include "Common/Selectivities/Selectivity.h"
 
-// Namespacaes
+// Namespaces
 namespace niwa {
 namespace selectivities {
 
 /**
- * Class Definition
+ * Class definition
  */
-class Constant : public niwa::Selectivity {
+class AllValues : public niwa::Selectivity {
 public:
   // Methods
-  explicit Constant(Model* model);
-  virtual                     ~Constant() = default;
-  void                        DoValidate() override final { };
-  Double                      GetResult(unsigned age, AgeLength* age_length) override final;
+  explicit AllValues(Model* model);
+  virtual                     ~AllValues() = default;
+  void                        DoValidate() override final;
+  void                        Reset() override final;
 
 protected:
   //Methods
@@ -40,9 +40,12 @@ protected:
 
 private:
   // Members
-  Double                      c_;
+  vector<Double>              v_;
+  vector<Double>              v_age_;
+  vector<Double>              v_length_;
+  map<unsigned, Double>       values_for_lookup_;
 };
 
 } /* namespace selectivities */
 } /* namespace niwa */
-#endif /* CONSTANT_H_ */
+#endif /* ALLVALUES_H_ */

@@ -22,7 +22,7 @@
 #include "Common/TimeSteps/Factory.h"
 #include "Common/TimeSteps/Manager.h"
 #include "Common/Partition/Partition.h"
-#include "Age/Selectivities/Factory.h"
+#include "Common/Selectivities/Factory.h"
 #include "TestResources/TestFixtures/BasicModel.h"
 
 // Namespaces

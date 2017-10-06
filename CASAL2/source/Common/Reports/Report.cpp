@@ -62,7 +62,7 @@ Report::Report(Model* model) : model_(model) {
  * when the report is not running in the execute phase.
  */
 void Report::Validate() {
-  parameters_.Populate();
+  parameters_.Populate(model_);
   DoValidate();
 }
 

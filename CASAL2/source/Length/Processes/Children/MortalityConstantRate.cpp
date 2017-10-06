@@ -34,7 +34,7 @@ MortalityConstantRate::MortalityConstantRate(Model* model)
     partition_(model) {
   LOG_TRACE();
   process_type_ = ProcessType::kMortality;
-  partition_structure_ = PartitionStructure::kLength;
+  partition_structure_ = PartitionType::kLength;
 
   parameters_.Bind<string>(PARAM_CATEGORIES, &category_labels_, "List of categories labels", "");
   parameters_.Bind<Double>(PARAM_M, &m_input_, "Mortality rates", "");

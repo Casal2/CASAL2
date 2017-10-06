@@ -29,7 +29,7 @@ namespace likelihoods {
 class LogNormal : public niwa::Likelihood {
 public:
   // Methods
-  LogNormal() = default;
+  LogNormal(Model* model) : Likelihood(model) { };
   virtual                     ~LogNormal() = default;
   void                        DoValidate() override final { };
   Double                      AdjustErrorValue(const Double process_error, const Double error_value) override final;

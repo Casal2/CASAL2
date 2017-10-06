@@ -36,8 +36,8 @@ void Biomass::PreExecute() {
 
     for (unsigned j = 0; j < (*iterator)->data_.size(); ++j) {
       unsigned age = (*iterator)->min_age_ + j;
-      cache_value_ += (*iterator)->data_[j] * selectivities_[i]->GetResult(age, (*iterator)->age_length_) * (*iterator)->mean_weight_by_time_step_age_[time_step_index][age];
-      LOG_FINE() << "Biomass (Pre-execute) for category = " << (*iterator)->name_ << " age = " << age << " mean weight = " << (*iterator)->mean_weight_by_time_step_age_[time_step_index][age] << " selectivity = " << selectivities_[i]->GetResult(age, (*iterator)->age_length_) << " numbers = " << (*iterator)->data_[j];
+      cache_value_ += (*iterator)->data_[j] * selectivities_[i]->GetAgeResult(age, (*iterator)->age_length_) * (*iterator)->mean_weight_by_time_step_age_[time_step_index][age];
+      LOG_FINE() << "Biomass (Pre-execute) for category = " << (*iterator)->name_ << " age = " << age << " mean weight = " << (*iterator)->mean_weight_by_time_step_age_[time_step_index][age] << " selectivity = " << selectivities_[i]->GetAgeResult(age, (*iterator)->age_length_) << " numbers = " << (*iterator)->data_[j];
 
     }
   }
@@ -65,8 +65,8 @@ void Biomass::Execute() {
       //(*iterator)->UpdateMeanWeightData();
       for (unsigned j = 0; j < (*iterator)->data_.size(); ++j) {
         unsigned age = (*iterator)->min_age_ + j;
-        LOG_FINE() << "Biomass for category = " << (*iterator)->name_ << " age = " << age << " mean weight = " << (*iterator)->mean_weight_by_time_step_age_[time_step_index][age] << " selectivity = " << selectivities_[i]->GetResult(age, (*iterator)->age_length_) << " numbers = " << (*iterator)->data_[j];
-        value += (*iterator)->data_[j] * selectivities_[i]->GetResult(age, (*iterator)->age_length_) * (*iterator)->mean_weight_by_time_step_age_[time_step_index][age];
+        LOG_FINE() << "Biomass for category = " << (*iterator)->name_ << " age = " << age << " mean weight = " << (*iterator)->mean_weight_by_time_step_age_[time_step_index][age] << " selectivity = " << selectivities_[i]->GetAgeResult(age, (*iterator)->age_length_) << " numbers = " << (*iterator)->data_[j];
+        value += (*iterator)->data_[j] * selectivities_[i]->GetAgeResult(age, (*iterator)->age_length_) * (*iterator)->mean_weight_by_time_step_age_[time_step_index][age];
       }
     }
 
@@ -108,7 +108,7 @@ void Biomass::Execute() {
 
       for (unsigned j = 0; j < (*iterator)->data_.size(); ++j) {
         unsigned age = (*iterator)->min_age_ + j;
-        value += (*iterator)->data_[j] * selectivities_[i]->GetResult(age, (*iterator)->age_length_) * (*iterator)->mean_weight_by_time_step_age_[time_step_index][age];
+        value += (*iterator)->data_[j] * selectivities_[i]->GetAgeResult(age, (*iterator)->age_length_) * (*iterator)->mean_weight_by_time_step_age_[time_step_index][age];
       }
     }
 

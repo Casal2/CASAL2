@@ -20,6 +20,7 @@
 #include <algorithm>
 
 #include "Common/Categories/Categories.h"
+#include "Common/Model/Model.h"
 #include "Common/Translations/Translations.h"
 #include "Common/Logging/Logging.h"
 #include "Common/Utilities/String.h"
@@ -113,7 +114,7 @@ bool ParameterList::Add(const string& label, const string& value, const string& 
 /**
  *
  */
-void ParameterList::Populate() {
+void ParameterList::Populate(Model* model) {
   LOG_TRACE();
   if (already_populated_) {
     LOG_CODE_ERROR() << "  if (already_populated_)";
@@ -125,7 +126,8 @@ void ParameterList::Populate() {
    */
   string missing_parameters = "";
   for (auto iter = parameters_.begin(); iter != parameters_.end(); ++iter) {
-    if (iter->second->values().size() == 0 && !iter->second->is_optional())
+    if (iter->second->values().size() == 0 && !iter->second->is_optional() &&
+        (iter->second->partition_type() != PartitionType::kModel && iter->second->partition_type() == model->partition_type()))
       missing_parameters += iter->first + " ";
   }
   for (auto iter = tables_.begin(); iter != tables_.end(); ++iter) {
@@ -147,6 +149,7 @@ void ParameterList::Populate() {
             << parent_block_type_ << " are required but have not been defined: " << missing_parameters;
       }
     }
+    return;
   }
 
   // NOTE: This has to be last
@@ -159,6 +162,31 @@ void ParameterList::Populate() {
     iter->second->Bind();
   }
   LOG_FINEST() << "Binding complete";
+
+  LOG_FINEST() << "Doing Partition Type Checks";
+  if (parameters_.find(PARAM_PARTITION_TYPE) != parameters_.end()) {
+    Parameter* param = parameters_[PARAM_PARTITION_TYPE];
+    if (param->values().size() != 0) {
+      string temp = parameters_.find(PARAM_PARTITION_TYPE)->second->values()[0];
+      PartitionType partition_type = PartitionType::kInvalid;
+      if (!utilities::To<PartitionType>(temp, partition_type))
+        LOG_FATAL() << "X";
+      bool using_model_partition_type = partition_type == PartitionType::kModel;
+
+      for(auto& iter : parameters_) {
+        if (iter.second->partition_type() != partition_type) {
+          if (using_model_partition_type) {
+            LOG_ERROR() << iter.second->location() << " cannot be defined with the current model partition type defined at " << model->location();
+          } else {
+            LOG_ERROR() << iter.second->location() << " cannot be defined with the current partition_type parameter";
+          }
+        }
+      }
+    }
+  }
+
+
+
 
   if (parameters_.find(PARAM_LABEL) != parameters_.end()) {
     Parameter* param = parameters_[PARAM_LABEL];

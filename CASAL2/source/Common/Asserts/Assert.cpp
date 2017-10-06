@@ -36,7 +36,7 @@ Assert::Assert(Model* model) : model_(model) {
  * Note: all parameters are populated from configuration files
  */
 void Assert::Validate() {
-  parameters_.Populate();
+  parameters_.Populate(model_);
   DoValidate();
 }
 

@@ -29,7 +29,7 @@ namespace likelihoods {
 class Pseudo : public niwa::Likelihood {
 public:
   // Methods
-  Pseudo() = default;
+  Pseudo(Model* model) : Likelihood(model) { };
   virtual                     ~Pseudo() = default;
   void                        DoValidate() override final { };
   Double                      AdjustErrorValue(const Double process_error, const Double error_value) override final;

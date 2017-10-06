@@ -36,7 +36,7 @@ TimeStep::TimeStep(Model* model) : model_(model) {
  * Validate our time step
  */
 void TimeStep::Validate() {
-  parameters_.Populate();
+  parameters_.Populate(model_);
 }
 
 /**
@@ -96,12 +96,12 @@ void TimeStep::ExecuteForInitialisation(const string& phase_label) {
       }
     }
   }
-  if (initialisation_mortality_blocks_[phase_label].first == processes_.size()){
+  if (initialisation_mortality_blocks_[phase_label].first == processes_.size()) {
      for (auto executor : initialisation_block_executors_) {
        executor->PreExecute();
        executor->Execute();
      }
-   }
+  }
 }
 
 /**
@@ -200,6 +200,8 @@ void TimeStep::SetInitialisationProcessLabels(const string& initialisation_phase
  */
 void TimeStep::BuildInitialisationProcesses() {
   LOG_TRACE();
+  initialisation_processes_.clear();
+
   for (auto iter : initialisation_process_labels_) {
     for (string process_label : iter.second) {
       LOG_FINEST() << "Including " << process_label << " process in initialisation phase";

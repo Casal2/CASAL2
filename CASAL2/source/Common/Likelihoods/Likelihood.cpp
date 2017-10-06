@@ -12,15 +12,23 @@
 // headers
 #include "Likelihood.h"
 
+#include "Common/Model/Model.h"
+
 // namespaces
 namespace niwa {
+
+/**
+ *
+ */
+Likelihood::Likelihood(Model* model) : model_(model) {
+}
 
 /**
  * Validate the parameters
  */
 void Likelihood::Validate() {
   LOG_TRACE();
-  parameters_.Populate();
+  parameters_.Populate(model_);
   DoValidate();
 }
 

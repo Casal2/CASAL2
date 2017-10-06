@@ -34,7 +34,7 @@ Project::Project(Model* model) : model_(model) {
  *
  */
 void Project::Validate() {
-  parameters_.Populate();
+  parameters_.Populate(model_);
   DoValidate();
 }
 

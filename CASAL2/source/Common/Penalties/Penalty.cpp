@@ -32,7 +32,7 @@ Penalty::Penalty(Model* model) : model_(model) {
  * Validate our penalty parameters
  */
 void Penalty::Validate() {
-  parameters_.Populate();
+  parameters_.Populate(model_);
   DoValidate();
 }
 

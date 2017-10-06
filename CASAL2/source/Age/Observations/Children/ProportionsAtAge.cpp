@@ -302,7 +302,7 @@ void ProportionsAtAge::Execute() {
         // We now need to loop through all ages to apply ageing misclassification matrix to account
         // for ages older than max_age_ that could be classified as an individual within the observation range
         unsigned age = ( (*category_iter)->min_age_ + data_offset);
-        selectivity_result = selectivities_[selectivity_iter]->GetResult(age, (*category_iter)->age_length_);
+        selectivity_result = selectivities_[selectivity_iter]->GetAgeResult(age, (*category_iter)->age_length_);
         start_value   = (*cached_category_iter).data_[data_offset];
         end_value     = (*category_iter)->data_[data_offset];
         final_value   = 0.0;

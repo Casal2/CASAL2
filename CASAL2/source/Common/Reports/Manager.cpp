@@ -37,6 +37,9 @@ Manager::~Manager() noexcept(true) {
  * based on their type.
  */
 void Manager::Build() {
+  if (objects_.size() == 0)
+    LOG_WARNING() << "No reports have been specified for this model run";
+
   LOG_FINEST() << "objects_.size(): " << objects_.size();
   for (auto report : objects_) {
     report->Build();

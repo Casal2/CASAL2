@@ -34,7 +34,7 @@ Constant::Constant(Model* model)
  * @param age_or_length unsused in this selectivity
  * @return the constant value
  */
-Double Constant::GetResult(unsigned age, AgeLength* age_length) {
+Double Constant::GetAgeResult(unsigned age, AgeLength* age_length) {
   return c_;
 }
 
@@ -47,6 +47,13 @@ Double Constant::GetResult(unsigned age, AgeLength* age_length) {
  */
 
 Double Constant::GetLengthBasedResult(unsigned age, AgeLength* age_length) {
+  return c_;
+}
+
+/**
+ *
+ */
+Double Constant::GetLengthResult(unsigned length_bin_index) {
   return c_;
 }
 

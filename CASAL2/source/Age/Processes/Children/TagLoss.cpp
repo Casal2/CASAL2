@@ -33,7 +33,7 @@ TagLoss::TagLoss(Model* model)
     partition_(model) {
   LOG_TRACE();
   process_type_ = ProcessType::kTransition;
-  partition_structure_ = PartitionStructure::kAge;
+  partition_structure_ = PartitionType::kAge;
 
   parameters_.Bind<string>(PARAM_CATEGORIES, &category_labels_, "List of categories", "");
   parameters_.Bind<Double>(PARAM_TAG_LOSS_RATE, &tag_loss_input_, "Tag Loss rates", "");
@@ -173,7 +173,7 @@ void TagLoss::DoExecute() {
       //StoreForReport(category->name_ + " ratio", ratio);
       for (Double& data : category->data_) {
         // Deleting this partition. In future we may have a target category to migrate to.
-        Double amount = data * (1 - exp(-selectivities_[i]->GetResult(category->min_age_ + j, category->age_length_) * tag_loss * ratio));
+        Double amount = data * (1 - exp(-selectivities_[i]->GetAgeResult(category->min_age_ + j, category->age_length_) * tag_loss * ratio));
         LOG_FINEST() << "Category " << category->name_  << " numbers at age: " << category->min_age_ + j << " = " << data << " removing " << amount;
         data -= amount;
         ++j;

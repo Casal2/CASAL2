@@ -58,14 +58,14 @@ public:
   virtual void                FillTabularReportCache(ostringstream& cache, bool first_run) { };
 
   // accessors
-  PartitionStructure          partition_structure() const { return partition_structure_; }
+  PartitionType               partition_structure() const { return partition_structure_; }
   ProcessType                 process_type() const { return process_type_; }
 
 protected:
   // members
   Model*                      model_ = nullptr;
   ProcessType                 process_type_ = ProcessType::kUnknown;
-  PartitionStructure          partition_structure_ = PartitionStructure::kInvalid;
+  PartitionType               partition_structure_ = PartitionType::kInvalid;
   map<unsigned, map<string, vector<Executor*>>> executors_;
 };
 } /* namespace niwa */

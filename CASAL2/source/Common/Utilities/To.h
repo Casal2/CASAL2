@@ -24,7 +24,8 @@
 
 #include "Common/Logging/Logging.h"
 #include "Common/Utilities/Exception.h"
-
+#include "Common/Utilities/PartitionType.h"
+#include "Common/Translations/Translations.h"
 
 // Namespaces
 namespace niwa {
@@ -143,6 +144,31 @@ inline bool To(const ::std::string arg, bool &result) {
   }
 
   return false;
+}
+
+/**
+ * This is one of our specializations that handles
+ * PartitionType types
+ *
+ * @param arg The argument to check for valid PartitionType type
+ * return true/false. Exception on failure
+ */
+template<>
+inline bool To(const ::std::string arg, PartitionType &result) {
+  result = PartitionType::kInvalid;
+  string value = ToLowercase(arg);
+
+  if (value == PARAM_AGE)
+    result = PartitionType::kAge;
+  else if (value == PARAM_LENGTH)
+    result = PartitionType::kLength;
+//  else if (value == PARAM_HYBRID)
+//    result = PartitionType::kHybrid;
+  else if (value == PARAM_MODEL)
+    result = PartitionType::kModel;
+
+  bool success = result != PartitionType::kInvalid;
+  return success;
 }
 
 /**

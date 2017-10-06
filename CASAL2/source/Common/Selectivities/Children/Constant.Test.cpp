@@ -14,7 +14,10 @@
 // Headers
 #include "Constant.h"
 
+#include <gmock/gmock.h>
 #include <gtest/gtest.h>
+
+#include "TestResources/MockClasses/Model.h"
 
 namespace niwa {
 
@@ -24,18 +27,19 @@ namespace niwa {
  */
 TEST(Selectivities, Constant) {
 
-  niwa::selectivities::Constant constant(nullptr);
+  MockModel model;
+  niwa::selectivities::Constant constant(&model);
   constant.parameters().Add(PARAM_LABEL, "unit_test_constant", __FILE__, __LINE__);
   constant.parameters().Add(PARAM_TYPE, "not needed in test", __FILE__, __LINE__);
   constant.parameters().Add(PARAM_C, "83", __FILE__, __LINE__);
   constant.Validate();
   constant.Build();
 
-  EXPECT_DOUBLE_EQ(83.0, constant.GetResult(0, nullptr));
-  EXPECT_DOUBLE_EQ(83.0, constant.GetResult(1, nullptr));
-  EXPECT_DOUBLE_EQ(83.0, constant.GetResult(2, nullptr));
-  EXPECT_DOUBLE_EQ(83.0, constant.GetResult(3, nullptr));
-  EXPECT_DOUBLE_EQ(83.0, constant.GetResult(4, nullptr));
+  EXPECT_DOUBLE_EQ(83.0, constant.GetAgeResult(0, nullptr));
+  EXPECT_DOUBLE_EQ(83.0, constant.GetAgeResult(1, nullptr));
+  EXPECT_DOUBLE_EQ(83.0, constant.GetAgeResult(2, nullptr));
+  EXPECT_DOUBLE_EQ(83.0, constant.GetAgeResult(3, nullptr));
+  EXPECT_DOUBLE_EQ(83.0, constant.GetAgeResult(4, nullptr));
 }
 
 } /* namespace niwa */

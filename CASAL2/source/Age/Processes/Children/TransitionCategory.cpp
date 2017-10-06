@@ -38,7 +38,7 @@ TransitionCategory::TransitionCategory(Model* model)
   RegisterAsAddressable(PARAM_PROPORTIONS, &proportions_by_category_);
 
   process_type_ = ProcessType::kTransition;
-  partition_structure_ = PartitionStructure::kAge;
+  partition_structure_ = PartitionType::kAge;
 }
 
 /**
@@ -165,9 +165,9 @@ void TransitionCategory::DoExecute() {
       unsigned min_age   = (*from_iter)->min_age_;
 
       for (unsigned j = 0; j < (*from_iter)->data_.size(); ++j) {
-        transition_rates_[i].push_back(proportion * selectivities_[i]->GetResult(min_age + j, (*from_iter)->age_length_));
-        LOG_FINEST() << "transition rate = " << transition_rates_[i][j] << " age = " << min_age + j << " selectivity = " << selectivities_[i]->GetResult(min_age + j, (*from_iter)->age_length_);
-        if (selectivities_[i]->GetResult(min_age + j, (*from_iter)->age_length_) > 1.0)
+        transition_rates_[i].push_back(proportion * selectivities_[i]->GetAgeResult(min_age + j, (*from_iter)->age_length_));
+        LOG_FINEST() << "transition rate = " << transition_rates_[i][j] << " age = " << min_age + j << " selectivity = " << selectivities_[i]->GetAgeResult(min_age + j, (*from_iter)->age_length_);
+        if (selectivities_[i]->GetAgeResult(min_age + j, (*from_iter)->age_length_) > 1.0)
           LOG_ERROR() << " Selectivity result is greater than 1.0, check selectivity";
       }
     }

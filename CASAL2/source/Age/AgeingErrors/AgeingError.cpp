@@ -39,7 +39,7 @@ AgeingError::AgeingError(Model* model) : model_(model) {
  * Note: all parameters are populated from configuration files
  */
 void AgeingError::Validate() {
-  parameters_.Populate();
+  parameters_.Populate(model_);
 
   min_age_    = model_->min_age();
   max_age_    = model_->max_age();

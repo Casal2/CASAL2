@@ -31,7 +31,7 @@ using observations::Comparison;
 TEST(Likelihood, Multinomial) {
   utilities::RandomNumberGenerator::Instance().Reset(31373u);
 
-  Multinomial likelihood;
+  Multinomial likelihood(nullptr);
 
   map<unsigned, vector<Comparison> > comparison_list;
 
