@@ -315,7 +315,7 @@ void IndependenceMetropolis::UpdateStepSize() {
         acceptance_rate = Double(successful_jumps_) / Double(jumps_);
       else
         acceptance_rate = ((Double)successful_jumps_ - (Double)successful_jumps_since_adapt_) / ((Double)jumps_ - (Double)jumps_since_adapt_);
-      LOG_MEDIUM() << "acceptance rate since last jump = " << acceptance_rate << " step size " << step_size_ << " numerator = " << ((Double)successful_jumps_ - (Double)successful_jumps_since_adapt_) << " denominator = " << ((Double)jumps_ - (Double)jumps_since_adapt_);
+      //LOG_MEDIUM() << "acceptance rate since last jump = " << acceptance_rate << " step size " << step_size_ << " numerator = " << ((Double)successful_jumps_ - (Double)successful_jumps_since_adapt_) << " denominator = " << ((Double)jumps_ - (Double)jumps_since_adapt_);
       if (acceptance_rate > 0.5)
         step_size_ *= 2;
       else if (acceptance_rate < 0.2)
