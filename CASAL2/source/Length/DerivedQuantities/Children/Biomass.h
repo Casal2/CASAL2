@@ -11,14 +11,15 @@
  * This derived quantity will calculate the amount of biomass
  * in the partition with a selectivity
  */
-#ifndef DERIVEDQUANTITIES_BIOMASS_H_
-#define DERIVEDQUANTITIES_BIOMASS_H_
+#ifndef DERIVEDQUANTITIES_LENGTH_BIOMASS_H_
+#define DERIVEDQUANTITIES_LENGTH_BIOMASS_H_
 
 // headers
 #include "Common/DerivedQuantities/DerivedQuantity.h"
 
 // namespaces
 namespace niwa {
+namespace length {
 namespace derivedquantities {
 
 // classes
@@ -32,5 +33,6 @@ public:
 };
 
 } /* namespace derivedquantities */
+} /* namespace length */
 } /* namespace niwa */
-#endif /* DERIVEDQUANTITIES_BIOMASS_H_ */
+#endif /* DERIVEDQUANTITIES_LENGTH_BIOMASS_H_ */

@@ -32,6 +32,7 @@ TEST(Selectivities, AllValuesBounded) {
   MockModel model;
   EXPECT_CALL(model, min_age()).WillRepeatedly(Return(10));
   EXPECT_CALL(model, max_age()).WillRepeatedly(Return(20));
+  EXPECT_CALL(model, partition_type()).WillRepeatedly(Return(PartitionType::kAge));
 
   niwa::selectivities::AllValuesBounded all_values_bounded(&model);
 

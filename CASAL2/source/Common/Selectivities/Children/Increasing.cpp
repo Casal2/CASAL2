@@ -47,10 +47,14 @@ Increasing::Increasing(Model* model)
  * rules for the model.
  */
 void Increasing::DoValidate() {
+  if (model_->partition_type() == PartitionType::kAge) {
+      if (low_ < model_->min_age() || low_ > model_->max_age())
+        LOG_ERROR_P(PARAM_L) << ": 'l' (" << low_ << ") must be between the model min_age (" << model_->min_age() << ") and max_age (" << model_->max_age() << ")";
+    }
+
   if (alpha_ <= 0.0)
     LOG_ERROR_P(PARAM_ALPHA) << ": alpha (" << AS_DOUBLE(alpha_) << ") cannot be less than or equal to 0.0";
-  if (low_ < model_->min_age() || low_ > model_->max_age())
-    LOG_ERROR_P(PARAM_L) << ": 'l' (" << low_ << ") must be between the model min_age (" << model_->min_age() << ") and max_age (" << model_->max_age() << ")";
+
   if (high_ <= low_)
     LOG_ERROR_P(PARAM_H) << ": 'h' (" << high_ << ") cannot be less than or the same as 'l' (" << low_ << ")";
 
@@ -74,23 +78,25 @@ void Increasing::DoValidate() {
  * for each age in the model.
  */
 void Increasing::Reset() {
-  for (unsigned age = model_->min_age(); age <= model_->max_age(); ++age) {
+  if (model_->partition_type() == PartitionType::kAge) {
+    for (unsigned age = model_->min_age(); age <= model_->max_age(); ++age) {
 
-    if (age < low_) {
-      values_[age] = 0.0;
+      if (age < low_) {
+        values_[age] = 0.0;
 
-    } else if (age > high_) {
-      values_[age] = *v_.rbegin();
+      } else if (age > high_) {
+        values_[age] = *v_.rbegin();
 
-    } else {
-      Double value = *v_.begin();
-      for (unsigned i = low_ + 1; i < age; ++i) {
-        if (i > high_ || value >= alpha_)
-          break;
-        value += (alpha_ - value) * v_[i - low_];
+      } else {
+        Double value = *v_.begin();
+        for (unsigned i = low_ + 1; i < age; ++i) {
+          if (i > high_ || value >= alpha_)
+            break;
+          value += (alpha_ - value) * v_[i - low_];
+        }
+
+        values_[age] = value;
       }
-
-      values_[age] = value;
     }
   }
 }

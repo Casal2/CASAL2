@@ -43,7 +43,6 @@ private:
   vector<Double>              v_;
   vector<Double>              v_age_;
   vector<Double>              v_length_;
-  map<unsigned, Double>       values_for_lookup_;
 };
 
 } /* namespace selectivities */

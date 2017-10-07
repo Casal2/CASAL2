@@ -10,24 +10,23 @@
  *
  * Standard factory class for the derived quantity
  */
-#ifndef DERIVEDQUANTITIES_FACTORY_H_
-#define DERIVEDQUANTITIES_FACTORY_H_
+#ifndef DERIVEDQUANTITIES_LENGTH_FACTORY_H_
+#define DERIVEDQUANTITIES_LENGTH_FACTORY_H_
 
 // namespaces
 #include "Common/DerivedQuantities/DerivedQuantity.h"
-#include "Common/Utilities/PartitionType.h"
 
 // namespaces
 namespace niwa {
 class Model;
-
+namespace length {
 namespace derivedquantities {
 
 // classes
 class Factory {
 public:
   // methods
-  static DerivedQuantity*     Create(Model* model, const string& object_type, const string& sub_type, PartitionType partition_type);
+  static DerivedQuantity*     Create(Model* model, const string& object_type, const string& sub_type);
 
 private:
   // methods
@@ -36,5 +35,6 @@ private:
 };
 
 } /* namespace derivedquantities */
+} /* namespace length */
 } /* namespace niwa */
-#endif /* FACTORY_H_ */
+#endif /* DERIVEDQUANTITIES_LENGTH_FACTORY_H_ */

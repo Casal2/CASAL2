@@ -68,25 +68,27 @@ void LogisticProducing::DoValidate() {
  * for each age in the model.
  */
 void LogisticProducing::Reset() {
-  for (unsigned age = model_->min_age(); age <= model_->max_age(); ++age) {
+  if (model_->partition_type() == PartitionType::kAge) {
+    for (unsigned age = model_->min_age(); age <= model_->max_age(); ++age) {
 
-    if (age < low_)
-      values_[age] = 0.0;
-    else if (age >= high_)
-      values_[age] = alpha_;
-    else if (age == low_)
-      values_[age] = 1.0 / (1.0 + pow(19.0, (a50_ - (Double)age) / ato95_)) * alpha_;
-    else {
-      Double lambda2 = 1.0 / (1.0 + pow(19.0, (a50_- ((Double)age - 1)) / ato95_));
-      if (lambda2 > 0.9999) {
+      if (age < low_)
+        values_[age] = 0.0;
+      else if (age >= high_)
         values_[age] = alpha_;
-      } else {
-        Double lambda1 = 1.0 / (1.0 + pow(19.0, (a50_ - (Double)age) / ato95_));
-        values_[age] = (lambda1 - lambda2) / (1.0 - lambda2) * alpha_;
-        LOG_FINEST() << "age = " << age << " lambda1 = " << lambda1 << " lambda2 = " << lambda2 << " value = " <<  values_[age];
+      else if (age == low_)
+        values_[age] = 1.0 / (1.0 + pow(19.0, (a50_ - (Double)age) / ato95_)) * alpha_;
+      else {
+        Double lambda2 = 1.0 / (1.0 + pow(19.0, (a50_- ((Double)age - 1)) / ato95_));
+        if (lambda2 > 0.9999) {
+          values_[age] = alpha_;
+        } else {
+          Double lambda1 = 1.0 / (1.0 + pow(19.0, (a50_ - (Double)age) / ato95_));
+          values_[age] = (lambda1 - lambda2) / (1.0 - lambda2) * alpha_;
+          LOG_FINEST() << "age = " << age << " lambda1 = " << lambda1 << " lambda2 = " << lambda2 << " value = " <<  values_[age];
+        }
       }
-    }
 
+    }
   }
 }
 

@@ -153,6 +153,7 @@ TEST(AgeLengths, VonBertalanffy_DoAgeLengthConversion) {
   EXPECT_CALL(model, age_plus()).WillRepeatedly(Return(true));
   EXPECT_CALL(model, managers()).WillRepeatedly(ReturnRef(mock_managers));
   EXPECT_CALL(model, time_steps()).WillRepeatedly(ReturnRef(time_steps));
+  EXPECT_CALL(model, partition_type()).WillRepeatedly(Return(PartitionType::kAge));
 
   selectivities::Logistic logistic(&model);
   logistic.parameters().Add(PARAM_LABEL, "unit_test_logistic", __FILE__, __LINE__);
@@ -227,6 +228,7 @@ TEST(AgeLengths, VonBertalanffy_DoAgeLengthConversion_plusGrp) {
   EXPECT_CALL(model, age_plus()).WillRepeatedly(Return(true));
   EXPECT_CALL(model, managers()).WillRepeatedly(ReturnRef(mock_managers));
   EXPECT_CALL(model, time_steps()).WillRepeatedly(ReturnRef(time_steps));
+  EXPECT_CALL(model, partition_type()).WillRepeatedly(Return(PartitionType::kAge));
 
   selectivities::Logistic logistic(&model);
   logistic.parameters().Add(PARAM_LABEL, "unit_test_logistic", __FILE__, __LINE__);
@@ -274,3 +276,4 @@ TEST(AgeLengths, VonBertalanffy_DoAgeLengthConversion_plusGrp) {
 } /* namespace agelength */
 } /* namespace niwa */
 #endif
+

@@ -35,8 +35,6 @@ AllValues::AllValues(Model* model)
 
 
   RegisterAsAddressable(PARAM_V, &v_);
-
-  RegisterAsAddressable(PARAM_VALUES, &values_for_lookup_,addressable::kLookup);
 }
 
 
@@ -58,7 +56,7 @@ void AllValues::DoValidate() {
     }
 
     for (unsigned age = model_->min_age(); age <= model_->max_age(); ++age)
-      values_for_lookup_[age] = 0.0;
+      values_[age] = 0.0;
     break;
 
   case PartitionType::kLength:
@@ -66,15 +64,10 @@ void AllValues::DoValidate() {
       LOG_ERROR_P(PARAM_V) << ": Number of 'v' values supplied is not the same as the model length bin count.\n"
             << "Expected: " << model_->length_bins().size() << " but got " << v_.size();
     }
-
-    for (auto& iter : model_->length_bins())
-      values_for_lookup_[iter] = 0.0;
     break;
 
-//  case PartitionType::kHybrid:
-//    break;
-
   default:
+    LOG_CODE_ERROR() << "Unknown partition_type on the model at this point";
     break;
   }
 }
@@ -90,7 +83,6 @@ void AllValues::Reset() {
   unsigned min_age = model_->min_age();
   for (unsigned i = 0; i < v_.size(); ++i) {
     values_[min_age + i] = v_[i];
-    values_for_lookup_[min_age + i] = v_[i];
   }
 }
 
@@ -104,7 +96,7 @@ void AllValues::Reset() {
  */
 
 Double AllValues::GetLengthBasedResult(unsigned age, AgeLength* age_length) {
-  LOG_ERROR_P(PARAM_LENGTH_BASED) << ": This selectivity type has not been implemented for length based selectivities ";
+  LOG_ERROR_P(PARAM_LENGTH_BASED) << ": This selectivity type has not been implemented for age length based selectivities ";
   return 0.0;
 }
 

@@ -63,17 +63,19 @@ void Logistic::DoValidate() {
  * for each age in the model.
  */
 void Logistic::Reset() {
-  Double threshold = 0.0;
+  if (model_->partition_type() == PartitionType::kAge) {
+    Double threshold = 0.0;
 
-  for (unsigned age = model_->min_age(); age <= model_->max_age(); ++age) {
-    threshold = (a50_ - (Double)age) / ato95_;
+    for (unsigned age = model_->min_age(); age <= model_->max_age(); ++age) {
+      threshold = (a50_ - (Double)age) / ato95_;
 
-    if (threshold > 5.0)
-      values_[age] = 0.0;
-    else if (threshold < -5.0)
-      values_[age] = alpha_;
-    else
-      values_[age] = alpha_ / (1.0 + pow(19.0, threshold));
+      if (threshold > 5.0)
+        values_[age] = 0.0;
+      else if (threshold < -5.0)
+        values_[age] = alpha_;
+      else
+        values_[age] = alpha_ / (1.0 + pow(19.0, threshold));
+    }
   }
 }
 

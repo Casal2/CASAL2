@@ -83,7 +83,7 @@ base::Object* Factory::CreateObject(const string& object_type, const string& sub
   else if (lwr_object_type == PARAM_CATEGORIES)
     return model_->categories();
   else if (lwr_object_type == PARAM_DERIVED_QUANTITY || lwr_object_type == PARAM_DERIVED_QUANTITIES)
-    return derivedquantities::Factory::Create(model_, lwr_object_type, lwr_sub_type);
+    return derivedquantities::Factory::Create(model_, lwr_object_type, lwr_sub_type, partition_type);
   else if (lwr_object_type == PARAM_ESTIMATE)
     return estimates::creators::Factory::Create(model_, lwr_object_type, lwr_sub_type);
   else if (lwr_object_type == PARAM_ESTIMATE_TRANSFORMATION)

@@ -45,12 +45,14 @@ KnifeEdge::KnifeEdge(Model* model)
  * for each age in the model.
  */
 void KnifeEdge::Reset() {
-  for (unsigned age = model_->min_age(); age <= model_->max_age(); ++age) {
-    Double temp = age * 1.0;
-    if (temp >= edge_)
-      values_[age] = alpha_;
-    else
-      values_[age] = 0.0;
+  if (model_->partition_type() == PartitionType::kAge) {
+    for (unsigned age = model_->min_age(); age <= model_->max_age(); ++age) {
+      Double temp = age * 1.0;
+      if (temp >= edge_)
+        values_[age] = alpha_;
+      else
+        values_[age] = 0.0;
+    }
   }
 }
 

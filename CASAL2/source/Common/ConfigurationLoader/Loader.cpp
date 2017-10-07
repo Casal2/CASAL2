@@ -319,13 +319,13 @@ void Loader::ParseBlock(vector<FileLine> &block) {
 
     } else if (loading_table && loading_columns) {
       /**
-       * Re-process the values based on the symbols we support
+       * Loading column headers from the table if they exist.
        */
       vector<string> values(line_parts.begin(), line_parts.end());
-      string error = "";
-      if (parameter_type != PARAM_PARAMETER && parameter_type != PARAM_EQUATION && !HandleOperators(values, error))
-        LOG_FATAL() << "At line " << file_line.line_number_ << " in " << file_line.file_name_
-            << ": " << error;
+//      string error = "";
+//      if (parameter_type != PARAM_PARAMETER && parameter_type != PARAM_EQUATION)
+//        LOG_FATAL() << "At line " << file_line.line_number_ << " in " << file_line.file_name_
+//            << ": " << error;
 
       // We're on the line after the table <label> definition where the columns will be
       if (!current_table_)
@@ -342,15 +342,17 @@ void Loader::ParseBlock(vector<FileLine> &block) {
        * Inside a Table
        */
       vector<string> values(line_parts.begin(), line_parts.end());
-      string error = "";
-      if (parameter_type != PARAM_PARAMETER && parameter_type != PARAM_EQUATION  && !TrimOperators(values))
-        LOG_FATAL() << "At line " << file_line.line_number_ << " in " << file_line.file_name_
-            << ": " << error;
+//      string error = "";
+//      if (parameter_type != PARAM_PARAMETER && parameter_type != PARAM_EQUATION)
+//        LOG_FATAL() << "At line " << file_line.line_number_ << " in " << file_line.file_name_
+//            << ": " << error;
 
       // We're loading a standard row of data for the table
-      if (current_table_->requires_comlums() && values.size() != current_table_->GetColumnCount())
+      if (current_table_->requires_comlums() && values.size() != current_table_->GetColumnCount()) {
         LOG_FATAL() << "At line " << file_line.line_number_ << " in " << file_line.file_name_
-            << ": Table data does not contain the correct number of columns. Expected (" << current_table_->GetColumnCount() << ") : Actual (" << values.size() << ")";
+            << ": Table data does not contain the correct number of columns. Expected (" << current_table_->GetColumnCount() << ") : Actual (" << values.size() << ")\n"
+            << boost::join(values, ", ");
+      }
 
       current_table_->AddRow(values);
 

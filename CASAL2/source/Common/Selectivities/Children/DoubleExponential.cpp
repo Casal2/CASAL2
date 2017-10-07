@@ -43,9 +43,6 @@ DoubleExponential::DoubleExponential(Model* model)
   RegisterAsAddressable(PARAM_Y1, &y1_);
   RegisterAsAddressable(PARAM_Y2, &y2_);
   RegisterAsAddressable(PARAM_ALPHA, &alpha_);
-
-  RegisterAsAddressable(PARAM_VALUES, &values_for_lookup_,addressable::kLookup);
-
 }
 
 /**
@@ -73,9 +70,6 @@ void DoubleExponential::DoValidate() {
   // Param: alpha
   if (alpha_ <= 0.0)
     LOG_ERROR_P(PARAM_ALPHA) << ": alpha (" << AS_DOUBLE(alpha_) << ") is less than or equal to 0.0";
-  //initialise values container
-  for (unsigned age = model_->min_age(); age <= model_->max_age(); ++age)
-    values_for_lookup_[age] = 0.0;
 }
 
 /**
@@ -86,18 +80,16 @@ void DoubleExponential::DoValidate() {
  * for each age in the model.
  */
 void DoubleExponential::Reset() {
-  for (unsigned age = model_->min_age(); age <= model_->max_age(); ++age) {
-    if ((Double)age <= x0_) {
-      values_[age] = alpha_ * y0_ * pow((y1_ / y0_), ((Double)age - x0_)/(x1_ - x0_));
-      values_for_lookup_[age] = alpha_ * y0_ * pow((y1_ / y0_), ((Double)age - x0_)/(x1_ - x0_));
-    } else if ((Double)age > x0_ && (Double)age <= x2_) {
-      values_[age] = alpha_ * y0_ * pow((y2_ / y0_), ((Double)age - x0_)/(x2_ - x0_));
-      values_for_lookup_[age] = alpha_ * y0_ * pow((y2_ / y0_), ((Double)age - x0_)/(x2_ - x0_));
-    } else {
-      values_[age] = y2_;
-      values_for_lookup_[age] = y2_;
+  if (model_->partition_type() == PartitionType::kAge) {
+    for (unsigned age = model_->min_age(); age <= model_->max_age(); ++age) {
+      if ((Double)age <= x0_) {
+        values_[age] = alpha_ * y0_ * pow((y1_ / y0_), ((Double)age - x0_)/(x1_ - x0_));
+      } else if ((Double)age > x0_ && (Double)age <= x2_) {
+        values_[age] = alpha_ * y0_ * pow((y2_ / y0_), ((Double)age - x0_)/(x2_ - x0_));
+      } else {
+        values_[age] = y2_;
+      }
     }
-
   }
 }
 
@@ -108,7 +100,6 @@ void DoubleExponential::Reset() {
  * @param age_length AgeLength pointer
  * @return Double selectivity for an age based on age length distribution
  */
-
 Double DoubleExponential::GetLengthBasedResult(unsigned age, AgeLength* age_length) {
   unsigned year = model_->current_year();
   unsigned time_step = model_->managers().time_step()->current_time_step();

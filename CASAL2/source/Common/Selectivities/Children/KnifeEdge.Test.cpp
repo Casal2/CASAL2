@@ -29,6 +29,7 @@ TEST(Selectivities, KnifeEdge) {
   MockModel model;
   EXPECT_CALL(model, min_age()).WillRepeatedly(Return(10));
   EXPECT_CALL(model, max_age()).WillRepeatedly(Return(20));
+  EXPECT_CALL(model, partition_type()).WillRepeatedly(Return(PartitionType::kAge));
 
   niwa::selectivities::KnifeEdge knife_edge(&model);
   knife_edge.parameters().Add(PARAM_LABEL, "unit_test_knife_edge", __FILE__, __LINE__);

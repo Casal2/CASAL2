@@ -67,12 +67,14 @@ void DoubleNormal::DoValidate() {
  * for each age in the model.
  */
 void DoubleNormal::Reset() {
-  for (unsigned age = model_->min_age(); age <= model_->max_age(); ++age) {
-	  Double temp = (Double)age;
-    if (temp < mu_)
-      values_[age] = pow(2.0, -((temp - mu_) / sigma_l_ * (temp - mu_) / sigma_l_)) * alpha_;
-    else
-      values_[age] = pow(2.0, -((temp - mu_)/sigma_r_ * (temp - mu_) / sigma_r_)) * alpha_;
+  if (model_->partition_type() == PartitionType::kAge) {
+    for (unsigned age = model_->min_age(); age <= model_->max_age(); ++age) {
+      Double temp = (Double)age;
+      if (temp < mu_)
+        values_[age] = pow(2.0, -((temp - mu_) / sigma_l_ * (temp - mu_) / sigma_l_)) * alpha_;
+      else
+        values_[age] = pow(2.0, -((temp - mu_)/sigma_r_ * (temp - mu_) / sigma_r_)) * alpha_;
+    }
   }
 }
 /**
