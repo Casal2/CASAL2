@@ -20,6 +20,7 @@
 #include "TestResources/MockClasses/Model.h"
 
 namespace niwa {
+using ::testing::Return;
 
 /**
  * Test the return override for the Constant selectivity is
@@ -28,6 +29,8 @@ namespace niwa {
 TEST(Selectivities, Constant) {
 
   MockModel model;
+  EXPECT_CALL(model, partition_type()).WillRepeatedly(Return(PartitionType::kAge));
+
   niwa::selectivities::Constant constant(&model);
   constant.parameters().Add(PARAM_LABEL, "unit_test_constant", __FILE__, __LINE__);
   constant.parameters().Add(PARAM_TYPE, "not needed in test", __FILE__, __LINE__);

@@ -96,8 +96,8 @@ public:
   virtual const vector<string>& time_steps() const { return time_steps_; }
   const vector<string>&       initialisation_phases() const { return initialisation_phases_; }
   void                        set_partition_type(PartitionType partition_type) { partition_type_ = partition_type; }
-  PartitionType               partition_type() const { return partition_type_; }
-  const vector<unsigned>      length_bins() const { return length_bins_; }
+  virtual PartitionType       partition_type() const { return partition_type_; }
+  const vector<unsigned>&     length_bins() const { return length_bins_; }
 
   // manager accessors
   virtual Managers&           managers();

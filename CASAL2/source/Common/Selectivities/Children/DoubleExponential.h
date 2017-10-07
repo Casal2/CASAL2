@@ -47,7 +47,6 @@ private:
   Double                      y1_;
   Double                      y2_;
   Double                      alpha_;
-  map<unsigned, Double>       values_for_lookup_;
 };
 
 } /* namespace selectivities */

@@ -43,7 +43,6 @@ private:
   unsigned                    low_;
   unsigned                    high_;
   vector<Double>              v_;
-  map<unsigned, Double>       values_for_lookup_;
 };
 
 } /* namespace selectivities */

@@ -30,6 +30,7 @@
 
 // Namespaces
 namespace niwa {
+namespace age {
 namespace derivedquantities {
 
 using std::cout;
@@ -78,6 +79,7 @@ TEST_F(InternalEmptyModel, DerivedQuantities_Abundance) {
 }
 
 } /* namespace derivedquantities */
+} /* namespace age */
 } /* namespace niwa */
 
 #endif

@@ -34,7 +34,6 @@ AllValuesBounded::AllValuesBounded(Model* model)
   parameters_.Bind<Double>(PARAM_V, &v_, "V", "");
 
   RegisterAsAddressable(PARAM_V, &v_);
-  RegisterAsAddressable(PARAM_VALUES, &values_for_lookup_,addressable::kLookup);
 }
 
 /**
@@ -47,19 +46,24 @@ AllValuesBounded::AllValuesBounded(Model* model)
  * rules for the model.
  */
 void AllValuesBounded::DoValidate() {
-  unsigned min_age = model_->min_age();
-  unsigned max_age = model_->max_age();
+  if (model_->partition_type() == PartitionType::kAge) {
+    unsigned min_age = model_->min_age();
+    unsigned max_age = model_->max_age();
 
-  // Param: L
-  if (low_ < min_age) {
-    LOG_ERROR_P(PARAM_L) << ": Parameter 'l' is less than the 'min_age' for the model\n"
-        << "Model 'min_age' is " << min_age << " and 'l' is " << low_;
-  }
+    // Param: L
+    if (low_ < min_age) {
+      LOG_ERROR_P(PARAM_L) << ": Parameter 'l' is less than the 'min_age' for the model\n"
+          << "Model 'min_age' is " << min_age << " and 'l' is " << low_;
+    }
 
-  // Param: H
-  if (high_ > max_age) {
-    LOG_ERROR_P(PARAM_H) << ": Parameter 'h' is greater than the 'max_age' for the model\n"
-        << "Model 'max_age' is " << max_age << " and 'h' is " << high_;
+    // Param: H
+    if (high_ > max_age) {
+      LOG_ERROR_P(PARAM_H) << ": Parameter 'h' is greater than the 'max_age' for the model\n"
+          << "Model 'max_age' is " << max_age << " and 'h' is " << high_;
+    }
+
+  } else if (model_->partition_type() == PartitionType::kLength) {
+
   }
 
   if (low_ >= high_) {
@@ -72,9 +76,6 @@ void AllValuesBounded::DoValidate() {
     LOG_ERROR_P(PARAM_V) << ": Parameter 'v' does not have the right amount of elements n = h - l\n"
         << "Expected " << (high_ - low_) + 1 << " but got " << v_.size();
   }
-
-  for (unsigned age = model_->min_age(); age <= model_->max_age(); ++age)
-    values_for_lookup_[age] = 0.0;
 }
 
 /**
@@ -85,27 +86,25 @@ void AllValuesBounded::DoValidate() {
  * for each age in the model.
  */
 void AllValuesBounded::Reset() {
-  unsigned min_age = model_->min_age();
-  unsigned max_age = model_->max_age();
-
-  /**
+    /**
    * Resulting age map should look like
    * While Age < Low :: Value = 0.0
    * While Age > Low && Age < High :: Value = v_
    * While age > High :: Value = Last element if v_
    */
-  unsigned age = min_age;
-  for (; age < low_; ++age) {
-    values_[age] = 0.0;
-    values_for_lookup_[age] = 0.0;
-  }
-  for (unsigned i = 0; i < v_.size(); ++i, ++age) {
-    values_[age] = v_[i];
-    values_for_lookup_[age] = v_[i];
-  }
-  for (; age <= max_age; ++age) {
-    values_[age] = *v_.rbegin();
-    values_for_lookup_[age] = *v_.rbegin();
+  if (model_->partition_type() == PartitionType::kAge) {
+    unsigned min_age = model_->min_age();
+    unsigned max_age = model_->max_age();
+    unsigned age = min_age;
+    for (; age < low_; ++age)
+      values_[age] = 0.0;
+    for (unsigned i = 0; i < v_.size(); ++i, ++age)
+      values_[age] = v_[i];
+    for (; age <= max_age; ++age)
+      values_[age] = *v_.rbegin();
+
+  } else {
+    LOG_CODE_ERROR() << "Selectivity only supports Age partition_type";
   }
 }
 
@@ -118,7 +117,7 @@ void AllValuesBounded::Reset() {
  */
 
 Double AllValuesBounded::GetLengthBasedResult(unsigned age, AgeLength* age_length) {
-  LOG_ERROR_P(PARAM_LENGTH_BASED) << ": This selectivity type has not been implemented for length based selectivities ";
+  LOG_ERROR_P(PARAM_LENGTH_BASED) << ": This selectivity type has not been implemented for age length based selectivities ";
   return 0.0;
 }
 

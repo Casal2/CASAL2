@@ -17,6 +17,7 @@
 
 // namespaces
 namespace niwa {
+namespace age {
 namespace derivedquantities {
 
 /**
@@ -125,4 +126,5 @@ void Biomass::Execute() {
 }
 
 } /* namespace derivedquantities */
+} /* namespace age */
 } /* namespace niwa */

@@ -81,7 +81,6 @@ void DerivedQuantity::Validate() {
 void DerivedQuantity::Build() {
   LOG_TRACE();
 
-
   partition_.Init(category_labels_);
 
   selectivities::Manager& selectivity_manager = *model_->managers().selectivity();

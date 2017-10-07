@@ -12,14 +12,15 @@
  * The abundance derived quantity will get the amount
  * of population in the partition with selectivity
  */
-#ifndef DERIVEDQUANTITIES_ABUNDANCE_H_
-#define DERIVEDQUANTITIES_ABUNDANCE_H_
+#ifndef DERIVEDQUANTITIES_LENGTH_ABUNDANCE_H_
+#define DERIVEDQUANTITIES_LENGTH_ABUNDANCE_H_
 
 // headers
 #include "Common/DerivedQuantities/DerivedQuantity.h"
 
 // namespaces
 namespace niwa {
+namespace length {
 namespace derivedquantities {
 
 // classes
@@ -33,5 +34,6 @@ public:
 };
 
 } /* namespace derivedquantities */
+} /* namespace length */
 } /* namespace niwa */
-#endif /* DERIVEDQUANTITIES_ABUNDANCE_H_ */
+#endif /* DERIVEDQUANTITIES_LENGTH_ABUNDANCE_H_ */

@@ -14,11 +14,12 @@
 #include "Common/Model/Model.h"
 #include "Common/Model/Managers.h"
 #include "Common/DerivedQuantities/Manager.h"
-#include "Age/DerivedQuantities/Factory.h"
-#include "Length/DerivedQuantities/Factory.h"
+#include "Age/DerivedQuantities/Children/Abundance.h"
+#include "Age/DerivedQuantities/Children/Biomass.h"
 
 // namespaces
 namespace niwa {
+namespace age {
 namespace derivedquantities {
 
 /**
@@ -29,20 +30,20 @@ namespace derivedquantities {
  * @param sub_type The child type of the object to create (e.g ageing, schnute)
  * @return shared_ptr to the object we've created
  */
-DerivedQuantity* Factory::Create(Model* model, const string& object_type, const string& sub_type, PartitionType partition_type) {
+DerivedQuantity* Factory::Create(Model* model, const string& object_type, const string& sub_type) {
   DerivedQuantity* result = nullptr;
 
-  if (partition_type == PartitionType::kAge || model->partition_type() == PartitionType::kAge)
-    result = age::derivedquantities::Factory::Create(model, object_type, sub_type);
-  else if (partition_type == PartitionType::kLength || model->partition_type() == PartitionType::kLength)
-    result = length::derivedquantities::Factory::Create(model, object_type, sub_type);
-
-  if (result)
-    model->managers().derived_quantity()->AddObject(result);
+  if (object_type == PARAM_DERIVED_QUANTITY || object_type == PARAM_DERIVED_QUANTITIES) {
+    if (sub_type == PARAM_ABUNDANCE)
+      result = new Abundance(model);
+    else if (sub_type == PARAM_BIOMASS)
+      result = new Biomass(model);
+  }
 
   return result;
 }
 
 
 } /* namespace derivedquantities */
+} /* namespace age */
 } /* namespace niwa */

@@ -52,6 +52,7 @@ protected:
   vector<Double>              quantiles_at_;
   bool                        length_based_ = false;
   map<unsigned, Double>       values_;
+  vector<Double>              length_values_;
   string                      partition_type_label_ = "";
   PartitionType               partition_type_ = PartitionType::kInvalid;
 };

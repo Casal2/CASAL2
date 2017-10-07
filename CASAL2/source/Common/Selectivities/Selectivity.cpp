@@ -33,6 +33,9 @@ Selectivity::Selectivity(Model* model)
   parameters_.Bind<unsigned>(PARAM_INTERVALS, &n_quant_, "Number of quantiles to evaluate a length based selectivity over the age length distribution", "", 5);
   parameters_.Bind<string>(PARAM_PARTITION_TYPE, &partition_type_label_, "The type of partition this selectivity will support, Defaults to same as the model", "", PARAM_MODEL)
       ->set_allowed_values({PARAM_MODEL, PARAM_AGE, PARAM_LENGTH, PARAM_HYBRID});
+
+  RegisterAsAddressable(PARAM_VALUES, &values_, addressable::kLookup);
+  RegisterAsAddressable(PARAM_LENGTH_VALUES, &length_values_, addressable::kLookup);
 }
 
 /**
@@ -47,6 +50,9 @@ void Selectivity::Validate() {
     partition_type_ = PartitionType::kAge;
   else if (partition_type_label_ == PARAM_LENGTH)
     partition_type_ = PartitionType::kLength;
+  else {
+    LOG_CODE_ERROR() << "Selectivity does not recognise the current partition_type. It's not length or age";
+  }
 //  else
 //    partition_type_ = PartitionType::kHybrid;
 
@@ -62,6 +68,13 @@ void Selectivity::Validate() {
       LOG_FINEST() << ": Normal quantile value = " << quantiles_at_[i - 1];
     }
   }
+
+  if (model_->partition_type() == PartitionType::kAge) {
+    for (unsigned age = model_->min_age(); age <= model_->max_age(); ++age)
+      values_[age] = 0.0;
+  } else {
+    length_values_.assign(model_->length_bins().size(), 0.0);
+  }
 }
 
 
@@ -69,7 +82,8 @@ void Selectivity::Validate() {
  *
  */
 void Selectivity::Reset() {
-  values_.clear();
+//  values_.clear();
+  length_values_.assign(length_values_.size(), 0.0);
 }
 
 /**
@@ -91,7 +105,7 @@ Double Selectivity::GetAgeResult(unsigned age, AgeLength* age_length) {
  *
  */
 Double Selectivity::GetLengthResult(unsigned length_bin_index) {
-  return values_[length_bin_index];
+  return length_values_[length_bin_index];
 }
 
 
