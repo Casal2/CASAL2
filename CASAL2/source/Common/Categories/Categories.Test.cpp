@@ -65,6 +65,7 @@ TEST_F(InternalEmptyModel, Categories_AssignSpecificYearsPerCategory_1) {
   EXPECT_CALL(model, max_age()).WillRepeatedly(Return(20));
   EXPECT_CALL(model, start_year()).WillRepeatedly(Return(2000));
   EXPECT_CALL(model, final_year()).WillRepeatedly(Return(2010));
+  EXPECT_CALL(model, partition_type()).WillRepeatedly(Return(PartitionType::kAge));
 
   MockCategories categories(&model);
 
@@ -91,6 +92,7 @@ TEST_F(InternalEmptyModel, Categories_AssignSpecificYearsPerCategory_2_ExpectErr
   EXPECT_CALL(model, max_age()).WillRepeatedly(Return(20));
   EXPECT_CALL(model, start_year()).WillRepeatedly(Return(2000));
   EXPECT_CALL(model, final_year()).WillRepeatedly(Return(2010));
+  EXPECT_CALL(model, partition_type()).WillRepeatedly(Return(PartitionType::kAge));
 
   MockCategories categories(&model);
 
@@ -110,6 +112,7 @@ TEST_F(InternalEmptyModel, Categories_AssignSpecificYearsPerCategory_3) {
   EXPECT_CALL(model, max_age()).WillRepeatedly(Return(20));
   EXPECT_CALL(model, start_year()).WillRepeatedly(Return(2000));
   EXPECT_CALL(model, final_year()).WillRepeatedly(Return(2010));
+  EXPECT_CALL(model, partition_type()).WillRepeatedly(Return(PartitionType::kAge));
 
   MockCategories categories(&model);
 
@@ -134,6 +137,7 @@ TEST_F(InternalEmptyModel, Categories_AssignSpecificYearsPerCategory_4) {
   EXPECT_CALL(model, max_age()).WillRepeatedly(Return(20));
   EXPECT_CALL(model, start_year()).WillRepeatedly(Return(2000));
   EXPECT_CALL(model, final_year()).WillRepeatedly(Return(2010));
+  EXPECT_CALL(model, partition_type()).WillRepeatedly(Return(PartitionType::kAge));
 
   MockCategories categories(&model);
 
@@ -157,6 +161,7 @@ TEST_F(InternalEmptyModel, Categories_AssignSpecificYearsPerCategory) {
   EXPECT_CALL(model, max_age()).WillRepeatedly(Return(20));
   EXPECT_CALL(model, start_year()).WillRepeatedly(Return(2000));
   EXPECT_CALL(model, final_year()).WillRepeatedly(Return(2010));
+  EXPECT_CALL(model, partition_type()).WillRepeatedly(Return(PartitionType::kAge));
 
   MockCategories categories(&model);
   categories.Validate();
@@ -258,7 +263,7 @@ TEST_F(InternalEmptyModel, Categories_AssignSpecificYearsPerCategory) {
  */
 TEST_F(InternalEmptyModel, Categories_GetCategoryLabels) {
   Categories* categories = model_->categories();
-
+  model_->set_partition_type(PartitionType::kAge);
   vector<string> names;
 
   vector<string> sexes  = { "male", "female" };

@@ -20,6 +20,10 @@
 #include "Age/AgeLengths/Factory.h"
 #include "Age/AgeLengths/Manager.h"
 #include "Age/AgeLengths/Children/None.h"
+#include "Common/LengthWeights/LengthWeight.h"
+#include "Common/LengthWeights/Factory.h"
+#include "Common/LengthWeights/Manager.h"
+#include "Common/LengthWeights/Children/None.h"
 #include "Common/Model/Model.h"
 #include "Common/Logging/Logging.h"
 #include "Common/Utilities/String.h"
@@ -43,7 +47,7 @@ Categories::Categories(Model* model) : model_(model) {
   parameters_.Bind<string>(PARAM_NAMES, &names_, "The names of the categories to be used in the model", "");
   parameters_.Bind<string>(PARAM_YEARS, &years_, "The years that individual categories will be active for. This overrides the model values", "", true);
   parameters_.Bind<string>(PARAM_AGE_LENGTHS, &age_length_labels_, R"(The labels of age\_length objects that are assigned to categories)", "", true)->set_partition_type(PartitionType::kAge);
-//  parameters_.Bind<string>(PARAM_LENGTH_WEIGHT, &length_weight_labels_, R("The labels of the length\_weight objects that are assigned to categories)", "", true)->set_partition_type(Partition::kLength)
+  parameters_.Bind<string>(PARAM_LENGTH_WEIGHT, &length_weight_labels_, R"(The labels of the length\_weight objects that are assigned to categories)", "", true)->set_partition_type(PartitionType::kLength);
 }
 
 /**
@@ -73,33 +77,66 @@ void Categories::Validate() {
   for (auto year : model_->years())
     default_years.push_back(year);
 
-  // get the age sizes
-  if (age_length_labels_.size() > 0 && age_length_labels_.size() != names_.size())
-    LOG_ERROR_P(PARAM_AGE_LENGTHS) << " number defined (" << age_length_labels_.size() << ") must be the same as the number " <<
-        " of categories defined (" << names_.size() << ")";
+  if (model_->partition_type() == PartitionType::kAge) {
+    // get the age sizes
+    if (age_length_labels_.size() > 0 && age_length_labels_.size() != names_.size())
+      LOG_ERROR_P(PARAM_AGE_LENGTHS) << " number defined (" << age_length_labels_.size() << ") must be the same as the number " <<
+          " of categories defined (" << names_.size() << ")";
 
-  vector<string> format_chunks;
-  boost::split(format_chunks, format_, boost::is_any_of("."), boost::token_compress_on);
-  // build our categories vector
-  for (unsigned i = 0; i < names_.size(); ++i) {
-    if (age_length_labels_.size() > i)
-      category_age_length_labels_[names_[i]] = age_length_labels_[i];
+    vector<string> format_chunks;
+    boost::split(format_chunks, format_, boost::is_any_of("."), boost::token_compress_on);
+    // build our categories vector
+    for (unsigned i = 0; i < names_.size(); ++i) {
+      if (age_length_labels_.size() > i)
+        category_age_length_labels_[names_[i]] = age_length_labels_[i];
 
-    // expand the names.
-    vector<string> category_chunks;
-    boost::split(category_chunks, names_[i], boost::is_any_of("."), boost::token_compress_on);
-    if (category_chunks.size() != category_chunks.size())
-      LOG_ERROR_P(PARAM_NAMES) << "Category " << names_[i] << " does not match the format: " << format_;
+      // expand the names.
+      vector<string> category_chunks;
+      boost::split(category_chunks, names_[i], boost::is_any_of("."), boost::token_compress_on);
+      if (category_chunks.size() != category_chunks.size())
+        LOG_ERROR_P(PARAM_NAMES) << "Category " << names_[i] << " does not match the format: " << format_;
 
-    // Create a new CategoryInfo object
-    CategoryInfo new_category_info;
-    new_category_info.name_     = names_[i];
-    new_category_info.min_age_  = model_->min_age();
-    new_category_info.max_age_  = model_->max_age();
-    new_category_info.years_    = default_years;
-    categories_[names_[i]] = new_category_info;
+      // Create a new CategoryInfo object
+      CategoryInfo new_category_info;
+      new_category_info.name_     = names_[i];
+      new_category_info.min_age_  = model_->min_age();
+      new_category_info.max_age_  = model_->max_age();
+      new_category_info.years_    = default_years;
+      categories_[names_[i]] = new_category_info;
 
-    category_names_.push_back(names_[i]);
+      category_names_.push_back(names_[i]);
+    }
+  } else if (model_->partition_type() == PartitionType::kLength) {
+    // get the age sizes
+    if (length_weight_labels_.size() > 0 && length_weight_labels_.size() != names_.size())
+      LOG_ERROR_P(PARAM_LENGTH_WEIGHT) << " number defined (" << length_weight_labels_.size() << ") must be the same as the number " <<
+          " of categories defined (" << names_.size() << ")";
+
+    vector<string> format_chunks;
+    boost::split(format_chunks, format_, boost::is_any_of("."), boost::token_compress_on);
+    // build our categories vector
+    for (unsigned i = 0; i < names_.size(); ++i) {
+      if (length_weight_labels_.size() > i)
+        category_length_weight_labels_[names_[i]] = length_weight_labels_[i];
+
+      // expand the names.
+      vector<string> category_chunks;
+      boost::split(category_chunks, names_[i], boost::is_any_of("."), boost::token_compress_on);
+      if (category_chunks.size() != category_chunks.size())
+        LOG_ERROR_P(PARAM_NAMES) << "Category " << names_[i] << " does not match the format: " << format_;
+
+      // Create a new CategoryInfo object
+      CategoryInfo new_category_info;
+      new_category_info.name_     = names_[i];
+      new_category_info.min_age_  = model_->min_age();
+      new_category_info.max_age_  = model_->max_age();
+      new_category_info.years_    = default_years;
+      categories_[names_[i]] = new_category_info;
+
+      category_names_.push_back(names_[i]);
+    }
+  } else {
+    LOG_FATAL() << "There is no functionality, currently to deal with a partition structures that are not age or length";
   }
 
   for (string label : category_names_) {
@@ -150,18 +187,31 @@ void Categories::Validate() {
  * Obtain smart_pointers to any objects that will be used by this object.
  */
 void Categories::Build() {
-  /**
-   * Get our age length objects
-   */
-  agelengths::Manager* age_sizes_manager = model_->managers().age_length();
+  if (model_->partition_type() == PartitionType::kAge) {
+    /**
+     * Get our age length objects if age based partition model
+     */
+    agelengths::Manager* age_sizes_manager = model_->managers().age_length();
 
-  auto iter = category_age_length_labels_.begin();
-  for (; iter != category_age_length_labels_.end(); ++iter) {
-    AgeLength* age_size = age_sizes_manager->FindAgeLength(iter->second);
-    if (!age_size)
-      LOG_ERROR_P(PARAM_AGE_LENGTHS) << "(" << iter->second << ") could not be found. Have you defined it?";
+    auto iter = category_age_length_labels_.begin();
+    for (; iter != category_age_length_labels_.end(); ++iter) {
+      AgeLength* age_size = age_sizes_manager->FindAgeLength(iter->second);
+      if (!age_size)
+        LOG_ERROR_P(PARAM_AGE_LENGTHS) << "(" << iter->second << ") could not be found. Have you defined it?";
 
-    categories_[iter->first].age_length_ = age_size;
+      categories_[iter->first].age_length_ = age_size;
+    }
+  } else if (model_->partition_type() == PartitionType::kLength) {
+    lengthweights::Manager* length_weight_manager = model_->managers().length_weight();
+    auto iter = category_length_weight_labels_.begin();
+    for (; iter != category_length_weight_labels_.end(); ++iter) {
+      LengthWeight* length_weight = length_weight_manager->GetLengthWeight(iter->second);
+      if (!length_weight)
+        LOG_ERROR_P(PARAM_LENGTH_WEIGHT) << "(" << iter->second << ") could not be found. Have you defined it?";
+
+      categories_[iter->first].length_weight_ = length_weight;
+    }
+
   }
 }
 
@@ -479,7 +529,7 @@ vector<unsigned> Categories::years(const string& category_name) {
 }
 
 /**
- *
+ *  Return the corresponding age length pointer for this category
  */
 AgeLength* Categories::age_length(const string& category_name) {
   if (categories_.find(category_name) == categories_.end())
@@ -489,6 +539,19 @@ AgeLength* Categories::age_length(const string& category_name) {
   }
 
   return categories_[category_name].age_length_;
+}
+
+/**
+ *  Return the corresponding lenght weight pointer for this category
+ */
+LengthWeight* Categories::length_weight(const string& category_name) {
+  if (categories_.find(category_name) == categories_.end())
+    LOG_CODE_ERROR() << "Could not find category_name: " << category_name << " in the list of loaded categories";
+  if (!categories_[category_name].length_weight_) {
+    categories_[category_name].length_weight_ = lengthweights::Factory::Create(model_, PARAM_LENGTH_WEIGHT, PARAM_NONE);
+  }
+
+  return categories_[category_name].length_weight_;
 }
 
 /**

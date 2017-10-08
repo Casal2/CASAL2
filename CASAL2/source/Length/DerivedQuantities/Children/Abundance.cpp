@@ -28,8 +28,8 @@ void Abundance::PreExecute() {
   auto iterator = partition_.begin();
   // iterate over each category
   for (unsigned i = 0; i < partition_.size() && iterator != partition_.end(); ++i, ++iterator) {
-    for (unsigned j = 0; j < (*iterator)->length_data_.size(); ++j) {
-      cache_value_ += (*iterator)->length_data_[j] * selectivities_[i]->GetLengthResult(j);
+    for (unsigned j = 0; j < (*iterator)->data_.size(); ++j) {
+      cache_value_ += (*iterator)->data_[j] * selectivities_[i]->GetLengthResult(j);
     }
   }
 }
@@ -50,8 +50,8 @@ void Abundance::Execute() {
     auto iterator = partition_.begin();
     // iterate over each category
     for (unsigned i = 0; i < partition_.size() && iterator != partition_.end(); ++i, ++iterator) {
-      for (unsigned j = 0; j < (*iterator)->length_data_.size(); ++j) {
-        value += (*iterator)->length_data_[j] * selectivities_[i]->GetLengthResult(j);
+      for (unsigned j = 0; j < (*iterator)->data_.size(); ++j) {
+        value += (*iterator)->data_[j] * selectivities_[i]->GetLengthResult(j);
       }
     }
 
@@ -70,7 +70,7 @@ void Abundance::Execute() {
     // iterate over each category
     for (unsigned i = 0; i < partition_.size() && iterator != partition_.end(); ++i, ++iterator) {
       for (unsigned j = 0; j < (*iterator)->data_.size(); ++j) {
-        value += (*iterator)->length_data_[j] * selectivities_[i]->GetLengthResult(j);
+        value += (*iterator)->data_[j] * selectivities_[i]->GetLengthResult(j);
       }
     }
 

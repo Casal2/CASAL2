@@ -18,9 +18,10 @@
 #include "Common/Model/Managers.h"
 #include "Common/Reports/Manager.h"
 #include "Age/Reports/Children/AgeingErrorMatrix.h"
-#include "Age/Reports/Children/InitialisationPartition.h"
+#include "Age/Reports/Children/InitialisationPartitionMeanWeight.h"
+#include "Age/Reports/Children/PartitionMeanWeight.h"
+#include "Age/Reports/Children/PartitionBiomass.h"
 #include "Age/Reports/Children/Partition.h"
-
 
 // Namespaces
 namespace niwa {
@@ -41,8 +42,12 @@ Report* Factory::Create(Model* model, const string& object_type, const string& s
   if (object_type == PARAM_REPORT) {
     if (sub_type == PARAM_AGEING_ERROR)
       result = new AgeingErrorMatrix(model);
-    else if (sub_type == PARAM_INITIALISATION_PARTITION)
-      result = new InitialisationPartition(model);
+    else if (sub_type == PARAM_PARTITION_BIOMASS)
+      result = new PartitionBiomass(model);
+    else if (sub_type == PARAM_PARTITION_MEAN_WEIGHT)
+      result = new PartitionMeanWeight(model);
+    else if (sub_type == PARAM_INITIALISATION_PARTITION_MEAN_WEIGHT)
+      result = new InitialisationPartitionMeanWeight(model);
     else if (sub_type == PARAM_PARTITION)
       result = new Partition(model);
   }

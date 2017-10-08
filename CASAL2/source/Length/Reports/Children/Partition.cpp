@@ -44,30 +44,25 @@ void Partition::DoValidate() {
  *
  */
 void Partition::DoExecute() {
-  // First, figure out the lowest and highest ages/length
-  unsigned longest_length = 0;
 
   niwa::partition::accessors::All all_view(model_);
-  for (auto iterator = all_view.Begin(); iterator != all_view.End(); ++iterator) {
-    if (longest_length < (*iterator)->name_.length())
-      longest_length = (*iterator)->name_.length();
-  }
-
+  vector<unsigned> length_bins = model_->length_bins();
   // Print the header
   cache_ << "*"<< type_ << "[" << label_ << "]" << "\n";
   cache_ << "year: " << model_->current_year() << "\n";
   cache_ << "time_step: " << time_step_ << "\n";
   cache_ << "values "<< REPORT_R_DATAFRAME<<"\n";
   cache_ << "category";
-  for (unsigned i : model_->length_bins())
-    cache_ << " " << i;
+  for (unsigned length_bin : length_bins)
+    cache_ << " " << length_bin;
   cache_ << "\n";
 
   for (auto iterator = all_view.Begin(); iterator != all_view.End(); ++iterator) {
     cache_ << (*iterator)->name_;
-    for (auto values = (*iterator)->length_data_.begin(); values != (*iterator)->length_data_.end(); ++values) {
+    for (auto values = (*iterator)->data_.begin(); values != (*iterator)->data_.end(); ++values) {
         Double value = *values;
         cache_ << " " << std::fixed << AS_DOUBLE(value);
+
     }
     cache_ << "\n";
   }

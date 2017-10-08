@@ -70,8 +70,12 @@ void DerivedQuantity::DoExecuteTabular() {
     cache_ << "*"<< type_ << "[" << label_ << "]" << "\n";
     cache_ << "values " << REPORT_R_DATAFRAME << "\n";
     for (auto dq : derived_quantities) {
+      const vector<vector<Double>> init_values = dq->initialisation_values();
       const map<unsigned, Double> values = dq->values();
       string derived_type = dq->type();
+      for (unsigned i = 0; i < init_values.size(); ++i) {
+        cache_ << derived_type << "[" << dq->label() <<"][initialisation_phase_" << i + 1 << "] ";
+      }
       for (auto iter = values.begin(); iter != values.end(); ++iter)
         cache_ << derived_type << "[" << dq->label() <<"][" << iter->first << "] ";
     }
@@ -80,6 +84,10 @@ void DerivedQuantity::DoExecuteTabular() {
   for (auto dq : derived_quantities) {
     string derived_type = dq->type();
     const map<unsigned, Double> values = dq->values();
+    const vector<vector<Double>> init_values = dq->initialisation_values();
+    for (unsigned i = 0; i < init_values.size(); ++i) {
+      cache_ << init_values[i].back() << " ";
+    }
     for (auto iter = values.begin(); iter != values.end(); ++iter) {
         Double weight = iter->second;
         cache_ << AS_DOUBLE(weight) << " ";

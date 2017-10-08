@@ -158,7 +158,7 @@ void Observation::DoExecuteTabular() {
   map<unsigned, vector<obs::Comparison>>& comparisons = observation_->comparisons();
   if (first_run_) {
     first_run_ = false;
-    cache_ << "*" << label_ << " " << "(" << type_ << ")" << "\n";
+    cache_ << "*"<< type_ << "[" << label_ << "]" << "\n";
     cache_ << "observation_type: " << observation_->type() << "\n";
     cache_ << "likelihood: " << observation_->likelihood() << "\n";
     cache_ << "values " << REPORT_R_DATAFRAME << "\n";

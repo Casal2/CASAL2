@@ -72,7 +72,7 @@ void AllValuesBounded::DoValidate() {
   }
 
   // Param: V
-  if (v_.size() != (high_ - low_)+1) {
+  if (v_.size() != (high_ - low_) + 1) {
     LOG_ERROR_P(PARAM_V) << ": Parameter 'v' does not have the right amount of elements n = h - l\n"
         << "Expected " << (high_ - low_) + 1 << " but got " << v_.size();
   }
@@ -104,7 +104,17 @@ void AllValuesBounded::Reset() {
       values_[age] = *v_.rbegin();
 
   } else {
-    LOG_CODE_ERROR() << "Selectivity only supports Age partition_type";
+    vector<unsigned> length_bins = model_->length_bins();
+    unsigned v_index = 0;
+    for (unsigned length_bin_index = 0; length_bin_index < length_bins.size(); ++length_bin_index)
+      if (length_bins[length_bin_index] < low_)
+        length_values_[length_bin_index] = 0.0;
+      else if (length_bins[length_bin_index] > high_) {
+        length_values_[length_bin_index] = *v_.rbegin();
+      } else {
+        length_values_[length_bin_index] = v_[v_index];
+        ++v_index;
+      }
   }
 }
 
