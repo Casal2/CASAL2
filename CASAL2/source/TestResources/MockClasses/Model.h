@@ -39,6 +39,7 @@ public:
   MOCK_CONST_METHOD0(time_steps, vector<string>&());
   MOCK_CONST_METHOD0(years, vector<unsigned>());
   MOCK_CONST_METHOD0(partition_type, PartitionType());
+  MOCK_CONST_METHOD0(length_bins, vector<unsigned>&());
   MOCK_METHOD0(managers, niwa::Managers&());
 };
 
