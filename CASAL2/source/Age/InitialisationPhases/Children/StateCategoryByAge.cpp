@@ -28,7 +28,8 @@ namespace initialisationphases {
  */
 StateCategoryByAge::StateCategoryByAge(Model* model)
   : InitialisationPhase(model),
-    partition_(model) {
+    partition_(model),
+    cached_partition_(model){
 
   n_table_ = new parameters::Table(PARAM_N);
 
@@ -93,6 +94,8 @@ void StateCategoryByAge::DoValidate() {
  */
 void StateCategoryByAge::DoBuild() {
   partition_.Init(category_labels_);
+  cached_partition_.Init(category_labels_);
+
 }
 
 /**
@@ -103,12 +106,25 @@ void StateCategoryByAge::Execute() {
     unsigned i = 0;
     for (unsigned index = min_age_ - iter->min_age_; index <= max_age_ - iter->min_age_; ++index, ++i)  {
       if (index < 0)
-        LOG_ERROR_P(PARAM_MIN_AGE) << " Cannot be less than category or model min_age which is " << iter->min_age_;
+        LOG_FATAL_P(PARAM_MIN_AGE) << " Cannot be less than category or model min_age which is " << iter->min_age_;
       LOG_MEDIUM() << ": the partition changes from " <<  iter->data_[index];
       iter->data_[index] = n_[iter->name_][i];
       LOG_MEDIUM() << " to = " << iter->data_[index];
     }
   }
+  // Build cache
+  cached_partition_.BuildCache();
+
+  // Execute the annual cycle for one year to calculate Quantities that might get used in year 1 of the annual cycle
+  timesteps::Manager* time_step_manager = model_->managers().time_step();
+  time_step_manager->ExecuteInitialisation(label_, 1);
+
+  auto cached_partition_iter  = cached_partition_.begin();
+  auto partition_iter = partition_.begin();
+  for (unsigned category_offset = 0; category_offset < category_labels_.size(); ++category_offset, ++partition_iter, ++cached_partition_iter) {
+    (*partition_iter)->data_ = cached_partition_iter->data_;
+  }
+  LOG_FINE() << "Finished executing statebycategory initialisation";
 }
 
 } /* namespace initialisationphases */

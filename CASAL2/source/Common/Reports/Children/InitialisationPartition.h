@@ -12,15 +12,14 @@
  * This report will print the partition at the end of the initialisation
  * phases. It's bound to the kInitialise state of the model.
  */
-#ifndef LENGTH_REPORTS_CHILDREN_INITIALISATIONPARTITION_H_
-#define LENGTH_REPORTS_CHILDREN_INITIALISATIONPARTITION_H_
+#ifndef REPORTS_CHILDREN_INITIALISATIONPARTITION_H_
+#define REPORTS_CHILDREN_INITIALISATIONPARTITION_H_
 
 // headers
 #include "Common/Reports/Report.h"
 
 // namespaces
 namespace niwa {
-namespace length {
 namespace reports {
 
 // classes
@@ -36,6 +35,5 @@ public:
 
 } /* namespace reports */
 } /* namespace niwa */
-} /* namespace age */
 
-#endif /* LENGTH_REPORTS_CHILDREN_INITIALISATIONPARTITION_H_ */
+#endif /* AGE_REPORTS_CHILDREN_INITIALISATIONPARTITION_H_ */

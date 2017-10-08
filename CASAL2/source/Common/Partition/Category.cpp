@@ -12,9 +12,12 @@
 #include "Category.h"
 
 #include "Age/AgeLengths/AgeLength.h"
+#include "Common/LengthWeights/LengthWeight.h"
 #include "Common/Categories/Categories.h"
 #include "Common/Model/Model.h"
 #include "Common/TimeSteps/Manager.h"
+#include "Common/Utilities/To.h"
+#include "Common/Utilities/Types.h"
 
 // namespaces
 namespace niwa {
@@ -30,17 +33,24 @@ namespace partition {
 void Category::UpdateMeanLengthData() {
   Categories* categories = model_->categories();
   vector<string> time_steps = model_->time_steps();
-  AgeLength* age_length = categories->age_length(name_);
   unsigned year = model_->current_year();
-  // Only do this under three conditions. We are initialising, it has a time varying component, or is of type data.
-  if (age_length->does_time_vary() || model_->state() == State::kInitialise || age_length->type() == PARAM_DATA) {
-    LOG_FINEST() << "Updating mean length and weight";
-    for (unsigned step_iter = 0; step_iter < time_steps.size(); ++step_iter) {
-      for (unsigned age = min_age_; age <= max_age_; ++age) {
-        mean_length_by_time_step_age_[step_iter][age] = age_length->GetMeanLength(year, step_iter, age);
+
+  if (model_->partition_type() == PartitionType::kAge) {
+    AgeLength* age_length = categories->age_length(name_);
+
+    // Only do this under three conditions. We are initialising, it has a time varying component, or is of type data.
+    if (age_length->does_time_vary() || model_->state() == State::kInitialise || age_length->type() == PARAM_DATA) {
+      LOG_FINEST() << "Updating mean length and weight";
+      for (unsigned step_iter = 0; step_iter < time_steps.size(); ++step_iter) {
+        for (unsigned age = min_age_; age <= max_age_; ++age) {
+          mean_length_by_time_step_age_[step_iter][age] = age_length->GetMeanLength(year, step_iter, age);
+        }
       }
+      // If this has been updated we need to update Mean weight
+      UpdateMeanWeightData();
     }
-    // If this has been updated we need to update Mean weight
+  } else if (model_->partition_type() == PartitionType::kLength) {
+    // Don't need to update length cause we are a length structured model, so just update weight
     UpdateMeanWeightData();
   }
 }
@@ -54,10 +64,28 @@ void Category::UpdateMeanLengthData() {
 void Category::UpdateMeanWeightData() {
   Categories* categories = model_->categories();
   vector<string> time_steps = model_->time_steps();
-  AgeLength* age_length = categories->age_length(name_);
-  for (unsigned step_iter = 0; step_iter < time_steps.size(); ++step_iter) {
-    for (unsigned age = min_age_; age <= max_age_; ++age)
-      mean_weight_by_time_step_age_[step_iter][age] = age_length->mean_weight(step_iter, age);
+  if (model_->partition_type() == PartitionType::kAge) {
+    AgeLength* age_length = categories->age_length(name_);
+    for (unsigned step_iter = 0; step_iter < time_steps.size(); ++step_iter) {
+      for (unsigned age = min_age_; age <= max_age_; ++age)
+        mean_weight_by_time_step_age_[step_iter][age] = age_length->mean_weight(step_iter, age);
+    }
+  } else if (model_->partition_type() == PartitionType::kLength) {
+    // Update mean weight for this category
+    LengthWeight* length_weight = categories->length_weight(name_);
+    // Only do this under two conditions. We are initialising, it has a time varying component
+    if (length_weight->does_time_vary() || model_->state() == State::kInitialise) {
+      vector<unsigned> length_bins = model_->length_bins();
+      for (unsigned step_iter = 0; step_iter < time_steps.size(); ++step_iter) {
+        for (unsigned length_bin_index = 0; length_bin_index < length_bins.size(); ++length_bin_index) {
+          //Double size = 0;
+          //if (!niwa::utilities::To<Double>(length_bins[length_bin_index], size))
+          //  LOG_FATAL() << " value (" << length_bins[length_bin_index] << ") could not be converted to a double";
+
+          mean_weight_by_time_step_length_[step_iter][length_bin_index] = length_weight->mean_weight(length_bins[length_bin_index], PARAM_NONE,0.0);
+        }
+      }
+    }
   }
 }
 

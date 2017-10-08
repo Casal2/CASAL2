@@ -59,12 +59,13 @@ void Partition::Build() {
     new_category->years_      = categories->years(category);
     new_category->age_length_ = categories->age_length(category);
 
-    unsigned age_spread = (categories->max_age(category) - categories->min_age(category)) + 1;
-    new_category->data_.resize(age_spread, 0.0);
-
-    unsigned length_bins = model_->length_bins().size();
-    new_category->length_data_.resize(length_bins, 0.0);
-
+    if (model_->partition_type() == PartitionType::kAge) {
+      unsigned age_spread = (categories->max_age(category) - categories->min_age(category)) + 1;
+      new_category->data_.resize(age_spread, 0.0);
+    } else if (model_->partition_type() == PartitionType::kLength) {
+      unsigned length_bins = model_->length_bins().size();
+      new_category->data_.resize(length_bins, 0.0);
+    }
     partition_[category] = new_category;
   }
 }

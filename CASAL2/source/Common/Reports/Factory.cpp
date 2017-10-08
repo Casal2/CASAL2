@@ -34,9 +34,7 @@
 #include "Common/Reports/Children/MPD.h"
 #include "Common/Reports/Children/ObjectiveFunction.h"
 #include "Common/Reports/Children/Observation.h"
-#include "Common/Reports/Children/InitialisationPartitionMeanWeight.h"
-#include "Common/Reports/Children/PartitionMeanWeight.h"
-#include "Common/Reports/Children/PartitionBiomass.h"
+#include "Common/Reports/Children/InitialisationPartition.h"
 #include "Common/Reports/Children/Process.h"
 #include "Common/Reports/Children/Project.h"
 #include "Common/Reports/Children/RandomNumberSeed.h"
@@ -88,8 +86,6 @@ Report* Factory::Create(Model* model, const string& object_type, const string& s
       result = new EstimateValue(model);
     else if (sub_type == PARAM_HESSIAN_MATRIX)
       result = new HessianMatrix(model);
-    else if (sub_type == PARAM_INITIALISATION_PARTITION_MEAN_WEIGHT)
-      result = new InitialisationPartitionMeanWeight(model);
     else if (sub_type == PARAM_MCMC_COVARIANCE)
       result = new MCMCCovariance(model);
     else if (sub_type == PARAM_MCMC_OBJECTIVE)
@@ -98,10 +94,6 @@ Report* Factory::Create(Model* model, const string& object_type, const string& s
       result = new MCMCSample(model);
     else if (sub_type == PARAM_MPD)
       result = new MPD(model);
-    else if (sub_type == PARAM_PARTITION_BIOMASS)
-      result = new PartitionBiomass(model);
-    else if (sub_type == PARAM_PARTITION_MEAN_WEIGHT)
-      result = new PartitionMeanWeight(model);
     else if (sub_type == PARAM_PROJECT)
       result = new Project(model);
     else if (sub_type == PARAM_PROCESS)
@@ -120,11 +112,12 @@ Report* Factory::Create(Model* model, const string& object_type, const string& s
       result = new Selectivity(model);
     else if (sub_type == PARAM_TIME_VARYING)
       result = new TimeVarying(model);
+    else if (sub_type == PARAM_INITIALISATION_PARTITION)
+      result = new InitialisationPartition(model);
     else if (model->partition_type() == PartitionType::kAge)
       result = age::reports::Factory::Create(model, object_type, sub_type);
     else if (model->partition_type() == PartitionType::kLength)
       result = length::reports::Factory::Create(model, object_type, sub_type);
-
 
     if (result)
       model->managers().report()->AddObject(result);

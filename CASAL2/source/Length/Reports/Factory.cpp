@@ -16,8 +16,11 @@
 #include "Common/Model/Model.h"
 #include "Common/Model/Managers.h"
 #include "Common/Reports/Manager.h"
-#include "Length/Reports/Children/InitialisationPartition.h"
+#include "Length/Reports/Children/InitialisationPartitionMeanWeight.h"
+#include "Length/Reports/Children/PartitionMeanWeight.h"
+#include "Length/Reports/Children/PartitionBiomass.h"
 #include "Length/Reports/Children/Partition.h"
+
 
 
 // Namespaces
@@ -37,8 +40,12 @@ Report* Factory::Create(Model* model, const string& object_type, const string& s
   Report* result = nullptr;
 
   if (object_type == PARAM_REPORT) {
-    if (sub_type == PARAM_INITIALISATION_PARTITION)
-      result = new InitialisationPartition(model);
+    if (sub_type == PARAM_INITIALISATION_PARTITION_MEAN_WEIGHT)
+      result = new InitialisationPartitionMeanWeight(model);
+    else if (sub_type == PARAM_PARTITION_MEAN_WEIGHT)
+      result = new PartitionMeanWeight(model);
+    else if (sub_type == PARAM_PARTITION_BIOMASS)
+      result = new PartitionBiomass(model);
     else if (sub_type == PARAM_PARTITION)
       result = new Partition(model);
   }

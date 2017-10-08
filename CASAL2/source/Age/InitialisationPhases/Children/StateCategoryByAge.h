@@ -18,6 +18,7 @@
 // headers
 #include "Common/InitialisationPhases/InitialisationPhase.h"
 #include "Common/Partition/Accessors/Categories.h"
+#include "Common/Partition/Accessors/Cached/Categories.h"
 
 // namespaces
 namespace niwa {
@@ -43,6 +44,7 @@ protected:
 private:
   // members
   accessor::Categories        partition_;
+  accessor::cached::Categories  cached_partition_;
   vector<string>              category_labels_;
   unsigned                    min_age_ = 0;
   unsigned                    max_age_ = 0;

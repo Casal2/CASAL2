@@ -27,6 +27,7 @@
 // namespaces
 namespace niwa {
 class AgeLength;
+class LengthWeight;
 class Model;
 
 namespace partition {
@@ -61,10 +62,10 @@ public:
   vector<Double>              data_;
   vector<Double>              length_data_;
   vector<vector<Double>>      age_length_matrix_; // age_length_matrix_[age][length]
-  //map<unsigned, Double>       mean_length_per_; // map<bin, number per>
-  //map<unsigned, Double>       mean_weight_per_; // map<age, weight per>
-  map<unsigned, map<unsigned,Double>> mean_length_by_time_step_age_; // map<age, weight per>
-  map<unsigned, map<unsigned,Double>> mean_weight_by_time_step_age_; // map<age, weight per>
+
+  map<unsigned, map<unsigned, Double>> mean_length_by_time_step_age_; // map<time_step, age, length>
+  map<unsigned, map<unsigned, Double>> mean_weight_by_time_step_age_; // map<time_step, age, weight>
+  map<unsigned, map<unsigned, Double>> mean_weight_by_time_step_length_; // map<time_step, length_bin_index, weight>
 
   AgeLength*                  age_length_ = nullptr;
 

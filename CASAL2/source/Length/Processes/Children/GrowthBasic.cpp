@@ -123,14 +123,14 @@ void GrowthBasic::DoExecute() {
   // TODO: This will have to be revisited, I don't think it is very efficent.
   for (auto category : partition_) {
     unsigned this_length_bin = 0;
-    for (Double& data : category->length_data_) {
+    for (Double& data : category->data_) {
       for (unsigned length_bin = 0; length_bin < length_bins_.size(); ++length_bin, ++this_length_bin) {
         numbers_transitioning_matrix_[this_length_bin][length_bin] = data * transition_matrix_[this_length_bin][length_bin];
       }
     }
     // Make the move
     this_length_bin = 0;
-    for (Double& data : category->length_data_) {
+    for (Double& data : category->data_) {
       for (unsigned length_bin = 0; length_bin < length_bins_.size(); ++length_bin, ++this_length_bin) {
         data += numbers_transitioning_matrix_[length_bin][this_length_bin];
       }

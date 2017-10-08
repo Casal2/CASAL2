@@ -80,9 +80,15 @@ void AllValues::DoValidate() {
  * for each age in the model.
  */
 void AllValues::Reset() {
-  unsigned min_age = model_->min_age();
-  for (unsigned i = 0; i < v_.size(); ++i) {
-    values_[min_age + i] = v_[i];
+  if (model_->partition_type() == PartitionType::kAge) {
+    unsigned min_age = model_->min_age();
+    for (unsigned i = 0; i < v_.size(); ++i) {
+      values_[min_age + i] = v_[i];
+    }
+  } else if (model_->partition_type() == PartitionType::kLength) {
+    for (unsigned i = 0; i < v_.size(); ++i) {
+      length_values_[i] = v_[i];
+    }
   }
 }
 

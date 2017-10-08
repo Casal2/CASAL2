@@ -124,14 +124,14 @@ void RecruitmentConstant::DoExecute() {
 
   //Update our partition with new recruitment values
   for (auto category : partition_) {
-   if (category->length_data_.size() != model_->length_bins().size())
+   if (category->data_.size() != model_->length_bins().size())
      LOG_CODE_ERROR() << "This function was written when categories were forced to have the same length bins as models, this is not the case now please review code.";
    r0_by_length_bin_ = (r0_ * (proportions_categories_[category->name_]) / total_proportions) / length_bins_.size();
    unsigned length_index = 0;
    for (auto length_bin : length_bins_) {
      length_index = std::distance(std::find(model_->length_bins().begin(), model_->length_bins().end(), length_bin), model_->length_bins().begin());
      LOG_FINEST() << "putting " << r0_by_length_bin_ << " in category " << category->name_ << " in length bin " << model_->length_bins()[length_index];
-     category->length_data_[length_index] += r0_by_length_bin_;
+     category->data_[length_index] += r0_by_length_bin_;
    }
   }
 }
