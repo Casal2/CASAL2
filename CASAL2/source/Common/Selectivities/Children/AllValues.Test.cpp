@@ -29,7 +29,7 @@ using ::testing::Return;
 /**
  * Test the results of our KnifeEdge are correct
  */
-TEST(Selectivities, AllValues) {
+TEST(Selectivities, AllValues_Age) {
   MockModel model;
   EXPECT_CALL(model, min_age()).WillRepeatedly(Return(10));
   EXPECT_CALL(model, max_age()).WillRepeatedly(Return(20));
@@ -65,6 +65,9 @@ TEST(Selectivities, AllValues) {
   EXPECT_DOUBLE_EQ(0.0,  all_values.GetAgeResult(23, nullptr));
 }
 
+TEST(Selectivities, AllValues_Length) {
+
+}
 }
 
 #endif /* ifdef TESTMODE */
