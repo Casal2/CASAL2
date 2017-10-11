@@ -20,7 +20,7 @@
   observation_ndx = grepl(pattern = "observation\\[", x = names(observation_config))  
   observation_block_labels = names(observation_config)[observation_ndx]
   ## Check Observation_label exists
-  if (!any(grepl(pattern = Observation_label, x = observation_block_labels)) {
+  if (!any(grepl(pattern = Observation_label, x = observation_block_labels))) {
     stop(Paste("could not find the @observation block labelled ",Observation_label, " the observations found are ", paste(observation_block_labels, collapse = ", ")))
   }
   this_obs = observation_config[observation_block_labels][grepl(pattern = Observation_label, x = observation_block_labels)][[1]]
