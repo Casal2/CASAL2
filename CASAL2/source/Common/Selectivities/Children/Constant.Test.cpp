@@ -30,7 +30,8 @@ TEST(Selectivities, Constant) {
 
   MockModel model;
   EXPECT_CALL(model, partition_type()).WillRepeatedly(Return(PartitionType::kAge));
-
+  EXPECT_CALL(model, min_age()).WillRepeatedly(Return(10));
+  EXPECT_CALL(model, max_age()).WillRepeatedly(Return(20));
   niwa::selectivities::Constant constant(&model);
   constant.parameters().Add(PARAM_LABEL, "unit_test_constant", __FILE__, __LINE__);
   constant.parameters().Add(PARAM_TYPE, "not needed in test", __FILE__, __LINE__);
