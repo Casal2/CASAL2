@@ -68,7 +68,9 @@ TEST(Selectivities, AllValues_Age) {
 TEST(Selectivities, AllValues_Length) {
   MockModel model;
   vector<unsigned> lengths = {10, 20, 30, 40, 50, 60, 120};
-  EXPECT_CALL(model, length_bins()).WillRepeatedly(Return(lengths));
+  //ON_CALL(model, length_bins()).WillByDefault(ReturnRef(lengths));
+
+  EXPECT_CALL(model, length_bins()).WillRepeatedly(ReturnRef(lengths));
   EXPECT_CALL(model, partition_type()).WillRepeatedly(Return(PartitionType::kLength));
 
   niwa::selectivities::AllValues all_values(&model);
