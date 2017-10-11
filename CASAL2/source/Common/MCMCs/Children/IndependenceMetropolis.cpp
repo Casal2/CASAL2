@@ -311,10 +311,10 @@ void IndependenceMetropolis::UpdateStepSize() {
     } else if (adapt_stepsize_method_ == PARAM_DOUBLE_HALF) {
       // This is a half or double method really.
       Double acceptance_rate;
-      if (((Double)jumps_ - (Double)jumps_since_adapt_) == 0.0)
+      if ((Double)successful_jumps_since_adapt_ == 0.0)
         acceptance_rate = Double(successful_jumps_) / Double(jumps_);
       else
-        acceptance_rate = ((Double)successful_jumps_ - (Double)successful_jumps_since_adapt_) / ((Double)jumps_ - (Double)jumps_since_adapt_);
+        acceptance_rate = (Double)successful_jumps_since_adapt_ / (Double)jumps_since_adapt_;
       //LOG_MEDIUM() << "acceptance rate since last jump = " << acceptance_rate << " step size " << step_size_ << " numerator = " << ((Double)successful_jumps_ - (Double)successful_jumps_since_adapt_) << " denominator = " << ((Double)jumps_ - (Double)jumps_since_adapt_);
       if (acceptance_rate > 0.5)
         step_size_ *= 2;
@@ -326,7 +326,6 @@ void IndependenceMetropolis::UpdateStepSize() {
 
     jumps_since_adapt_ = 0;
     successful_jumps_since_adapt_ = 0;
-
     return;
   }
 }
