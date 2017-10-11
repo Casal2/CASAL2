@@ -30,7 +30,7 @@ function (samples.file = "mcmc_samples.out.0",objectives.file = "mcmc_objectives
   temp = get.lines(sample_file, starts.with = "\\*",fixed=F)
   is.samples = FALSE
   if (temp != "*mcmc_sample[mcmc]") {
-    stop(Paste("expected the header of " , samples.file , " to read *mcmc (mcmc_sample), please check this is mcmc output generated from CASAL2"))
+    stop(Paste("expected the header of " , samples.file , " to read *mcmc_sample[mcmc], please check this is mcmc output generated from CASAL2"))
   }
   #########################
   ## Deal with the samples.

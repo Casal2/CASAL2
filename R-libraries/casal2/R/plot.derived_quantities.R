@@ -73,8 +73,10 @@ function(model, report_label="", type = "number", xlim, ylim, xlab, ylab, main, 
       }
       years = as.numeric(names(values))
       ## does the user want it plotted as percent B0
-      if (type == "percent")
+      if (type == "percent") {
+        B0 = "hello"
         values = values / this_derived_q$B0 * 100
+      }  
       if(missing(ylim)) {
         ymax = max(values) + quantile(values, 0.05) 
         ylim = c(0, ymax)
@@ -213,7 +215,14 @@ function(model, report_label="", type = "number", xlim, ylim, xlab, ylab, main, 
       ndx = grepl(pattern = DQ_s[i], x = Labs)
       this_ssb = this_report$values[,ndx]
       start_nd = as.numeric(regexpr(pattern = "\\]",text = colnames(this_ssb))) + 2
+      ## check initialisation phases.
+      n_init = sum(grepl(pattern = "initialisation_phase_", x = colnames(this_ssb)))
+      B0 = this_ssb[,n_init]
+      this_ssb = this_ssb[,n_init:ncol(this_ssb)]
       years = as.numeric(substring(colnames(this_ssb),first = start_nd, last = nchar(colnames(this_ssb)) - 1))
+      if (type == "percent") {
+        this_ssb = this_ssb /  B0 * 100
+      }
       vals = apply(this_ssb, 2, quantile, c(0.025,0.5,0.975))
       ## pull out type of derived Quantity i.e abundance or biomass.
       end_index = as.numeric(regexpr(pattern = "\\[",text = colnames(this_ssb))) - 1
