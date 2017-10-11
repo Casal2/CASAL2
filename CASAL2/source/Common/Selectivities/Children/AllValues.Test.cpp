@@ -66,7 +66,6 @@ TEST(Selectivities, AllValues_Age) {
 }
 
 TEST(Selectivities, AllValues_Length) {
-<<<<<<< HEAD
   MockModel model;
   vector<unsigned> lengths = {10, 20, 30, 40, 50, 60, 120};
   //ON_CALL(model, length_bins()).WillByDefault(ReturnRef(lengths));
@@ -88,28 +87,6 @@ TEST(Selectivities, AllValues_Length) {
   for (unsigned i = 0; i < v.size(); ++i) {
     EXPECT_DOUBLE_EQ(values[i],  all_values.GetLengthResult(i));
   }
-=======
-//	MockModel model;
-//	vector<unsigned> lengths = {10, 20, 30, 40, 50, 60, 120};
-//	EXPECT_CALL(model, length_bins()).WillRepeatedly(Return(lengths));
-//	EXPECT_CALL(model, partition_type()).WillRepeatedly(Return(PartitionType::kLength));
-//
-//	niwa::selectivities::AllValues all_values(&model);
-//	vector<string> v = {"0.0","0.1","0.2","0.3","0.1","0.5", "0.0325"};
-//	vector<double> values = { 0.0 ,0.1 , 0.2 , 0.3 , 0.1 , 0.5 , 0.0325};
-//
-//	all_values.parameters().Add(PARAM_LABEL, "unit_test_all_values", __FILE__, __LINE__);
-//	all_values.parameters().Add(PARAM_V, v, __FILE__, __LINE__);
-//	all_values.parameters().Add(PARAM_TYPE, "not needed in test", __FILE__, __LINE__);
-//	all_values.Validate();
-//	all_values.Build();
-//
-//
-//	for (unsigned i = 0; i < v.size(); ++i) {
-//		EXPECT_DOUBLE_EQ(values[i],  all_values.GetLengthResult(i));
-//	}
->>>>>>> 95e6940748c3f2a0e812d24235feb6d9e632d1ab
-
 
 }
 	
