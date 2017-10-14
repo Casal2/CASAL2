@@ -489,37 +489,39 @@ void MortalityInstantaneous::DoExecute() {
       }
     }
 
-
-    /**
-     * Rescaling exploitation and applying penalties
-     */
+  /*
+   * Calculate u_obs for each fishery, this is defined as the maximum proportion of fish taken from any element of the partition
+   * affected by fishery f in this time-step
+  */
     bool recalculate_age_exploitation = false;
     LOG_FINEST() << "Size of fishery_categories_ " << fishery_categories_.size();
     vector<string> fisheries_checked;
-    for (auto& fishery_category : fishery_categories_) {
-      auto& fishery = fishery_category.fishery_;
-      if (find(fisheries_checked.begin(), fisheries_checked.end(), fishery.label_) != fisheries_checked.end()) {
-        LOG_FINE() << "We have already rescaled the fishery " << fishery.label_;
-        continue;
-      }
-      LOG_FINE() << "Rescaling exploitation for fishery " << fishery.label_;
-      fisheries_checked.push_back(fishery.label_);
+
+    for (auto& fishery_iter : fisheries_) {
+      auto& fishery = fishery_iter.second;
+      // Don't enter if this fishery is not executed here.
       if (fishery.time_step_index_ != time_step_index)
         continue;
-
-      auto& uobs = fishery_category.fishery_.uobs_fishery_;
+      auto& uobs = fishery.uobs_fishery_;
       uobs = 0.0;
-      for (Double age_exploitation : fishery_category.category_.exploitation_) {
-        if (fishery_category.fishery_.time_step_index_ != time_step_index)
+      for (auto& fishery_category : fishery_categories_) {
+        if (fishery_category.fishery_.label_ != fishery.label_)
           continue;
-        uobs = uobs > age_exploitation ? uobs : age_exploitation;
+        for (Double age_exploitation : fishery_category.category_.exploitation_) {
+          uobs = uobs > age_exploitation ? uobs : age_exploitation;
+        }
       }
-      //fishery.exploitation_ = uobs;
-      Double u_max_ = fishery.u_max_;
-      if (uobs > u_max_) {
-        LOG_FINE() << fishery.label_ << " exploitation rate before rescaling = " << fishery.exploitation_;
-        fishery.exploitation_ *= (u_max_ / uobs); // This may seem weird to be greater than u_max but later we multiply it by the selectivity which scales it to U_max
-        LOG_FINE() << "fishery = " << fishery.label_ << " U_obs = " << uobs << " and u_max " << u_max_;
+    }
+
+    for (auto& fishery_iter : fisheries_) {
+      auto& fishery = fishery_iter.second;
+      if (fishery.uobs_fishery_ > u_max_) {
+        /**
+         * Rescaling exploitation and applying penalties
+         */
+        LOG_FINE() << fishery.label_ << " exploitation rate before rescaling = " << fishery.exploitation_ << " uobs = " << fishery.uobs_fishery_;
+        fishery.exploitation_ *= (u_max_ / fishery.uobs_fishery_); // This may seem weird to be greater than u_max but later we multiply it by the selectivity which scales it to U_max
+        LOG_FINE() << "fishery = " << fishery.label_ << " U_obs = " << fishery.uobs_fishery_ << " and u_max " << u_max_;
         LOG_FINE() << fishery.label_ << " Rescaled exploitation rate = " << fishery.exploitation_;
         recalculate_age_exploitation = true;
         fishery.actual_catches_[year] = fishery.vulnerability_ * fishery.exploitation_;
@@ -586,7 +588,7 @@ void MortalityInstantaneous::DoExecute() {
     for (unsigned i = 0; i < category.category_->data_.size(); ++i) {
       category.category_->data_[i] *= exp(-(*category.m_) * ratio * category.selectivity_values_[i]) * (1 - category.exploitation_[i]);
       if (category.category_->data_[i] < 0.0) {
-        LOG_CODE_ERROR() << " Fishing caused a negative partition : if (categories->data_[i] < 0.0)";
+        LOG_CODE_ERROR() << " Fishing caused a negative partition : if (categories->data_[i] < 0.0), category.category_->data_[i] = " << category.category_->data_[i] << " i = " << i + 1;
       }
     }
   }
