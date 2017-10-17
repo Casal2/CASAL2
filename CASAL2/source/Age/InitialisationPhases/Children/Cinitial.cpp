@@ -89,10 +89,6 @@ void Cinitial::DoValidate() {
 void Cinitial::DoBuild() {
   time_steps_ = model_->managers().time_step()->ordered_time_steps();
 
-  // Set the default process labels for the time step for this phase
-  for (auto time_step : time_steps_)
-    time_step->SetInitialisationProcessLabels(label_, time_step->process_labels());
-
   // Create Category and cached category pointers
   partition_ = CombinedCategoriesPtr(new niwa::partition::accessors::CombinedCategories(model_, category_labels_));
   cached_partition_ = CachedCombinedCategoriesPtr(new niwa::partition::accessors::cached::CombinedCategories(model_, category_labels_));

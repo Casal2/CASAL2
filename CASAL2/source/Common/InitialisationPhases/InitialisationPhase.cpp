@@ -13,6 +13,9 @@
 // Headers
 #include "InitialisationPhase.h"
 
+#include "Common/TimeSteps/Manager.h"
+#include "Common/TimeSteps/TimeStep.h"
+
 // Namespaces
 namespace niwa {
 
@@ -35,6 +38,20 @@ InitialisationPhase::InitialisationPhase(Model* model) : model_(model) {
 void InitialisationPhase::Validate() {
   parameters_.Populate(model_);
   DoValidate();
+}
+
+/**
+ * Build our initialisation phase.
+ *
+ * 1. Ensure timesteps are setup with the default processes for initialisation phases
+ */
+void InitialisationPhase::Build() {
+  // Set the default process labels for the time step for this phase
+  auto time_steps = model_->managers().time_step()->ordered_time_steps();
+  for (auto time_step : time_steps)
+    time_step->SetInitialisationProcessLabels(label_, time_step->process_labels());
+
+  DoBuild();
 }
 
 } /* namespace niwa */
