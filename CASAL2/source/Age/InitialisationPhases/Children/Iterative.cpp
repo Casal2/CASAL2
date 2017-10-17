@@ -65,10 +65,6 @@ void Iterative::DoBuild() {
   LOG_TRACE();
   time_steps_ = model_->managers().time_step()->ordered_time_steps();
 
-  // Set the default process labels for the time step for this phase
-  for (auto time_step : time_steps_)
-    time_step->SetInitialisationProcessLabels(label_, time_step->process_labels());
-
   // handle any new processes we want to insert
   for (string insert : insert_processes_) {
     vector<string> pieces;

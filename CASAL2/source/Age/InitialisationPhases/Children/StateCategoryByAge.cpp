@@ -95,7 +95,6 @@ void StateCategoryByAge::DoValidate() {
 void StateCategoryByAge::DoBuild() {
   partition_.Init(category_labels_);
   cached_partition_.Init(category_labels_);
-
 }
 
 /**

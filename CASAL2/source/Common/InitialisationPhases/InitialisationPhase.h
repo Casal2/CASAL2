@@ -32,7 +32,7 @@ public:
   explicit InitialisationPhase(Model* model);
   virtual                     ~InitialisationPhase() = default;
   void                        Validate();
-  void                        Build() { DoBuild(); }
+  void                        Build();
   void                        Reset() { };
   virtual void                Execute() = 0;
 
