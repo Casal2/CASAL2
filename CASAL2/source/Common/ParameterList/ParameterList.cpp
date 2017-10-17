@@ -126,8 +126,8 @@ void ParameterList::Populate(Model* model) {
    */
   string missing_parameters = "";
   for (auto iter = parameters_.begin(); iter != parameters_.end(); ++iter) {
-    if (iter->second->values().size() == 0 && !iter->second->is_optional() &&
-        (iter->second->partition_type() != PartitionType::kModel && iter->second->partition_type() == model->partition_type()))
+    if ((iter->second->values().size() == 0 && !iter->second->is_optional())  &&
+        (iter->second->partition_type() == PartitionType::kModel || iter->second->partition_type() == model->partition_type()))
       missing_parameters += iter->first + " ";
   }
   for (auto iter = tables_.begin(); iter != tables_.end(); ++iter) {
