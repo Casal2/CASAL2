@@ -27,6 +27,8 @@
 namespace niwa {
 
 using ::testing::Return;
+using ::testing::ReturnRef;
+
 /**
  * Class Definition
  */
@@ -49,7 +51,7 @@ public:
 /**
  * Test the results of our selectivity are correct
  */
-TEST(Selectivities, Logistic) {
+TEST(Selectivities, Logistic_Age) {
   MockModel model;
   EXPECT_CALL(model, min_age()).WillRepeatedly(Return(10));
   EXPECT_CALL(model, max_age()).WillRepeatedly(Return(20));
@@ -81,47 +83,27 @@ TEST(Selectivities, Logistic) {
   EXPECT_DOUBLE_EQ(0.0,                       logistic.GetAgeResult(23, nullptr));
 }
 
-/**
- * Test the results of our length based selectivity are correct
- */
-TEST(Selectivities, Logistic_length_normal) {
-/*
+TEST(Selectivities, Logistic_Length) {
   MockModel model;
-  MockAgeLength agelength1;
-  MockTimeStepManager time_step_manager;
-  time_step_manager.time_step_index_ = 0;
 
-  EXPECT_CALL(model, min_age()).WillRepeatedly(Return(1));
-  EXPECT_CALL(model, max_age()).WillRepeatedly(Return(10));
-  EXPECT_CALL(model, current_year()).WillRepeatedly(Return(1999));
+  vector<unsigned> lengths = {10, 20, 30, 40, 50, 60, 120};
+  EXPECT_CALL(model, length_bins()).WillRepeatedly(ReturnRef(lengths));
+  EXPECT_CALL(model, partition_type()).WillRepeatedly(Return(PartitionType::kLength));
 
   niwa::selectivities::Logistic logistic(&model);
+
+  vector<double> expected_values = {0.6431099137425979606, 0.5000000000000000000, 0.3568900862574020394, 0.2354523864622996010, 0.1459577602048917067, 0.0866255450880920597, 0.0027624309392264568};
+
   logistic.parameters().Add(PARAM_LABEL, "unit_test_logistic", __FILE__, __LINE__);
   logistic.parameters().Add(PARAM_TYPE, "not needed in test", __FILE__, __LINE__);
-  logistic.parameters().Add(PARAM_A50,   "2",  __FILE__, __LINE__);
-  logistic.parameters().Add(PARAM_ATO95, "7",  __FILE__, __LINE__);
-  logistic.parameters().Add(PARAM_LENGTH_BASED, "true",  __FILE__, __LINE__);
+  logistic.parameters().Add(PARAM_A50,   "20",  __FILE__, __LINE__);
+  logistic.parameters().Add(PARAM_ATO95, "50",  __FILE__, __LINE__);
   logistic.Validate();
   logistic.Build();
 
-  EXPECT_CALL(agelength1, distribution()).WillRepeatedly(Return("normal"));
-  unsigned year,age,time_step;
-
-  EXPECT_CALL(agelength1, cv(year,age,time_step)).WillRepeatedly(Return(0.3));
-  // age 1
-  EXPECT_CALL(agelength1, mean_length()).WillRepeatedly(Return(26.87972));
-  EXPECT_DOUBLE_EQ(1,       logistic.GetResult(1, &agelength)); // At model->min_age()
-
-  // age 4
-  EXPECT_CALL(agelength1, mean_length()).WillOnce(Return(63.32838));
-  EXPECT_DOUBLE_EQ(1,       logistic.GetResult(4, &agelength));
-  // age 7
-  EXPECT_CALL(agelength1, mean_length()).WillOnce(Return(78.14730));
-  EXPECT_DOUBLE_EQ(1,       logistic.GetResult(7, &agelength));
-  // age 9
-  EXPECT_CALL(agelength1, mean_length()).WillOnce(Return(82.72808));
-  EXPECT_DOUBLE_EQ(1,       logistic.GetResult(8, &agelength));
-*/
+  for (unsigned i = 0; i < lengths.size(); ++i) {
+    EXPECT_DOUBLE_EQ(expected_values[i],  logistic.GetLengthResult(i));
+  }
 
 }
 

@@ -28,7 +28,7 @@ namespace selectivities {
  * Explicit Constructor
  */
 KnifeEdge::KnifeEdge(Model* model)
-  : Selectivity(model) {
+: Selectivity(model) {
 
   parameters_.Bind<Double>(PARAM_E, &edge_, "Edge", "");
   parameters_.Bind<Double>(PARAM_ALPHA, &alpha_, "Alpha", "", 1.0);
@@ -52,6 +52,16 @@ void KnifeEdge::Reset() {
         values_[age] = alpha_;
       else
         values_[age] = 0.0;
+    }
+  } else if (model_->partition_type() == PartitionType::kLength) {
+    vector<unsigned> length_bins = model_->length_bins();
+
+    for (unsigned length_bin_index = 0; length_bin_index < length_bins.size(); ++length_bin_index) {
+      Double temp = (Double)length_bins[length_bin_index];
+      if (temp >= edge_)
+        length_values_[length_bin_index] = alpha_;
+      else
+        length_values_[length_bin_index] = 0.0;
     }
   }
 }

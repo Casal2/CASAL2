@@ -24,11 +24,12 @@
 namespace niwa {
 
 using ::testing::Return;
+using ::testing::ReturnRef;
 
 /**
  * Test the results of our selectivity are correct
  */
-TEST(Selectivities, LogisticProducing) {
+TEST(Selectivities, LogisticProducing_Age) {
   MockModel model;
   EXPECT_CALL(model, min_age()).WillRepeatedly(Return(10));
   EXPECT_CALL(model, max_age()).WillRepeatedly(Return(20));
@@ -60,6 +61,32 @@ TEST(Selectivities, LogisticProducing) {
   EXPECT_DOUBLE_EQ(0.0,                       logistic_producing.GetAgeResult(21, nullptr)); // This is above model->max_age()
   EXPECT_DOUBLE_EQ(0.0,                       logistic_producing.GetAgeResult(22, nullptr));
   EXPECT_DOUBLE_EQ(0.0,                       logistic_producing.GetAgeResult(23, nullptr));
+}
+
+TEST(Selectivities, LogisticProducing_Length) {
+  MockModel model;
+
+  vector<unsigned> lengths = {10, 20, 30, 40, 50, 60, 120};
+  EXPECT_CALL(model, length_bins()).WillRepeatedly(ReturnRef(lengths));
+  EXPECT_CALL(model, partition_type()).WillRepeatedly(Return(PartitionType::kLength));
+
+  niwa::selectivities::LogisticProducing logistic_producing(&model);
+
+  vector<double> expected_values = {0, 0.0285941883861936946, 0.0367784120531689865, 0.0437232369834234524, 0.0488412893889367539, 0.0522344024617764913, 1};
+
+  logistic_producing.parameters().Add(PARAM_LABEL, "unit_test_logistic_producing", __FILE__, __LINE__);
+  logistic_producing.parameters().Add(PARAM_TYPE, "not needed in test", __FILE__, __LINE__);
+  logistic_producing.parameters().Add(PARAM_L,     "12",  __FILE__, __LINE__);
+  logistic_producing.parameters().Add(PARAM_H,     "62",  __FILE__, __LINE__);
+  logistic_producing.parameters().Add(PARAM_A50,   "20",  __FILE__, __LINE__);
+  logistic_producing.parameters().Add(PARAM_ATO95, "50",  __FILE__, __LINE__);
+  logistic_producing.Validate();
+  logistic_producing.Build();
+
+  for (unsigned i = 0; i < lengths.size(); ++i) {
+    EXPECT_DOUBLE_EQ(expected_values[i],  logistic_producing.GetLengthResult(i));
+  }
+
 }
 
 }
