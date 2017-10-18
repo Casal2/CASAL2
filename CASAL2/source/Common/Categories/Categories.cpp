@@ -152,7 +152,7 @@ void Categories::Validate() {
   vector<string> years_split;
   auto model_years = model_->years();
   for (auto year_lookup : years_) {
-    category_values = GetCategoryLabelsAndValues(year_lookup, parameters_.Get(PARAM_YEARS));
+    category_values = GetCategoryLabelsAndValues(year_lookup, parameters_.Get(PARAM_YEARS)->location());
     for (auto iter : category_values) {
       if (categories_.find(iter.first) == categories_.end()) {
         LOG_FATAL_P(PARAM_YEARS) << "category " << iter.first << " does not exist.";
@@ -222,15 +222,15 @@ void Categories::Build() {
  * e.g male.immature sex=female == male.immature female.immature female.mature == 3 elements
  *
  * @param category_labels A vector of category definitions to iterate over and expand
- * @param source_parameter The parameter object which holds configuration file details for error reporting
+ * @param parameter_location The location string for the parameter to print incase of error
  * @return a singular vector with each category as it's own element
  */
-vector<string> Categories::ExpandLabels(const vector<string> &category_labels, const Parameter* source_parameter) {
+vector<string> Categories::ExpandLabels(const vector<string> &category_labels, const string& parameter_location) {
   vector<string> result;
 
   vector<string> temp;
   for (const string& label : category_labels) {
-    temp = GetCategoryLabelsV(label, source_parameter);
+    temp = GetCategoryLabelsV(label, parameter_location);
     result.insert(result.end(), temp.begin(), temp.end());
   }
 
@@ -239,10 +239,12 @@ vector<string> Categories::ExpandLabels(const vector<string> &category_labels, c
 
 /**
  *
- * @param lookup_string The
+ * @param category_labels A vector of category definitions to iterate over and expand
+ * @param parameter_location The location string for the parameter to print incase of error
+ * @return a vector of category label
  */
-vector<string> Categories::GetCategoryLabelsV(const string& lookup_string, const Parameter* source_parameter) {
-  string temp = GetCategoryLabels(lookup_string, source_parameter);
+vector<string> Categories::GetCategoryLabelsV(const string& lookup_string, const string& parameter_location) {
+  string temp = GetCategoryLabels(lookup_string, parameter_location);
 
   vector<string> result;
   boost::split(result, temp, boost::is_any_of(" "));
@@ -256,10 +258,10 @@ vector<string> Categories::GetCategoryLabelsV(const string& lookup_string, const
  * silly like that.
  *
  * @param lookup_string The category definition to parse, short-hand or not
- * @param source_parameter Source parameter object defined in configuration file
+ * @param parameter_location Location of the parameter in the configuration file
  * @return String containing the new lookup string once it's been parsed
  */
-string Categories::GetCategoryLabels(const string& lookup_string, const Parameter* source_parameter) {
+string Categories::GetCategoryLabels(const string& lookup_string, const string& parameter_location) {
   /**
    * if we're asking for all categories then get a list of them all joined
    * by the + symbol
@@ -299,7 +301,7 @@ string Categories::GetCategoryLabels(const string& lookup_string, const Paramete
   boost::split(pieces, lookup_string, boost::is_any_of("="), boost::token_compress_on);
 
   if (pieces.size() != 2) {
-    LOG_ERROR() << source_parameter->location() << " short-hand category string (" << lookup_string
+    LOG_ERROR() << parameter_location << " short-hand category string (" << lookup_string
         << ") is not in the proper format. e.g <format_chunk>=<lookup_chunk>";
   }
 
@@ -337,7 +339,7 @@ string Categories::GetCategoryLabels(const string& lookup_string, const Paramete
     boost::split(pieces, lookup, boost::is_any_of("."));
 
     if (pieces.size() != format_pieces) {
-      LOG_ERROR() << source_parameter->location() << " short-hand category string ( " << lookup_string
+      LOG_ERROR() << parameter_location << " short-hand category string ( " << lookup_string
           << ") does not have the correct number of sections. Expected " << format_pieces << " but got " << pieces.size() <<
           ". Pieces are chunks of the string separated with a '.' character";
     }
@@ -370,7 +372,7 @@ string Categories::GetCategoryLabels(const string& lookup_string, const Paramete
      * sex=male
      */
     if (lookup.find(".") != string::npos) {
-      LOG_ERROR() << source_parameter->location() << " short-hand category string (" << lookup_string
+      LOG_ERROR() << parameter_location << " short-hand category string (" << lookup_string
           << ") is not in the correct format. The lookup component (" << lookup
           << ") cannot contain any '.' characters";
     }
@@ -385,7 +387,7 @@ string Categories::GetCategoryLabels(const string& lookup_string, const Paramete
       }
     }
     if (format_offset == pieces.size()) {
-      LOG_ERROR() << source_parameter->location() << " short-hand category syntax (" << lookup_string
+      LOG_ERROR() << parameter_location << " short-hand category syntax (" << lookup_string
           << ") is using an invalid format chunk (" << format << ") for it's lookup. "
           << "Valid format chunks must be taken from the format (" << format_ << ")";
     }
@@ -394,11 +396,11 @@ string Categories::GetCategoryLabels(const string& lookup_string, const Paramete
       matched_categories.erase(
           std::remove_if(matched_categories.begin(), matched_categories.end(),
               // lambda start
-          [&format_offset, &source_parameter, &lookup, &lookup_string](string& category) {
+          [&format_offset, &parameter_location, &lookup, &lookup_string](string& category) {
             vector<string> chunks;
             boost::split(chunks, category, boost::is_any_of("."));
             if (chunks.size() <= format_offset) {
-              LOG_ERROR() << source_parameter->location() << " short-hand category syntax (" << lookup_string
+              LOG_ERROR() << parameter_location << " short-hand category syntax (" << lookup_string
                   << ") could not be compared to category (" << category << ") because category was malformed";
             }
 
@@ -416,7 +418,7 @@ string Categories::GetCategoryLabels(const string& lookup_string, const Paramete
   }
 
   if (matched_categories.size() == 0) {
-    LOG_ERROR() << source_parameter->location() << " short-hand format string (" << lookup_string <<
+    LOG_ERROR() << parameter_location << " short-hand format string (" << lookup_string <<
         ") did not match any of the categories. Please check your string to ensure it's accurate";
   }
 
@@ -443,26 +445,26 @@ string Categories::GetCategoryLabels(const string& lookup_string, const Paramete
  * This is used when setting individual lengths/ages/years on specific categories
  *
  * @param lookup The string we're looking for
- * @param source_parameter The source parameter
+ * @param parameter_location String with file name and line of the parameter
  * @return a map of <category:value>
  */
-map<string, string> Categories::GetCategoryLabelsAndValues(const string& lookup, const Parameter* source_parameter) {
+map<string, string> Categories::GetCategoryLabelsAndValues(const string& lookup, const string& parameter_location) {
   map<string, string> results;
 
   vector<string> pieces;
   boost::split(pieces, lookup, boost::is_any_of("="), boost::token_compress_on);
   if (pieces.size() != 2 && pieces.size() != 3) {
-    LOG_FATAL() << source_parameter->location() << " short-hand category string (" << lookup
+    LOG_FATAL() << parameter_location << " short-hand category string (" << lookup
         << ") is not in the proper format. e.g <format_chunk>=<lookup_chunk>=values";
   }
 
   string temp_lookup = pieces[0];
   if (pieces.size() == 3)
     temp_lookup += "=" + pieces[1];
-  vector<string> categories = GetCategoryLabelsV(temp_lookup, source_parameter);
+  vector<string> categories = GetCategoryLabelsV(temp_lookup, parameter_location);
   for (auto category : categories) {
     if (results.find(category) != results.end()) {
-      LOG_ERROR() << source_parameter->location() << " category " << category
+      LOG_ERROR() << parameter_location << " category " << category
           << " is being assigned a value more than once";
     }
 

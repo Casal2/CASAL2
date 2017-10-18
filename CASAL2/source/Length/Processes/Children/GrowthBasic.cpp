@@ -48,15 +48,8 @@ GrowthBasic::GrowthBasic(Model* model)
  * 3. Check categories
  */
 void GrowthBasic::DoValidate() {
-  category_labels_ = model_->categories()->ExpandLabels(category_labels_, parameters_.Get(PARAM_CATEGORIES));
   if (growth_time_steps_.size() != n_growth_episodes_)
       LOG_ERROR_P(PARAM_GROWTH_TIME_STEPS) << "You supplied " << growth_time_steps_.size() << " time step labels but only have " << n_growth_episodes_ << " in the model. These need to be the same";
-
-  // Ensure defined categories were valid
-  for(const string& category : category_labels_) {
-    if (!model_->categories()->IsValid(category))
-      LOG_ERROR_P(PARAM_CATEGORIES) << ": category " << category << " is not a valid category";
-  }
 }
 
 /**

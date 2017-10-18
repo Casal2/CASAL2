@@ -49,14 +49,6 @@ RecruitmentConstant::RecruitmentConstant(Model* model)
  */
 void RecruitmentConstant::DoValidate() {
   LOG_TRACE();
-  // Validate categories
-  category_labels_ = model_->categories()->ExpandLabels(category_labels_, parameters_.Get(PARAM_CATEGORIES));
-
-  for(const string& label : category_labels_) {
-    if (!model_->categories()->IsValid(label))
-      LOG_ERROR_P(PARAM_CATEGORIES) << ": category " << label << " does not exist. Have you defined it?";
-  }
-
   /**
    * Validate length bins
    */

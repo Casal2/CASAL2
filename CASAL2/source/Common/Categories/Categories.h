@@ -53,9 +53,9 @@ public:
   bool                          IsCombinedLabels(const string& label) const;
   unsigned                      GetNumberOfCategoriesDefined(const string& label) const;
   void                          Clear();
-  vector<string>                ExpandLabels(const vector<string> &category_labels, const Parameter* source_parameter);
-  string                        GetCategoryLabels(const string& lookup_string, const Parameter* source_parameter);
-  vector<string>                GetCategoryLabelsV(const string& lookup_string, const Parameter* source_parameter);
+  vector<string>                ExpandLabels(const vector<string> &category_labels, const string& parameter_location);
+  string                        GetCategoryLabels(const string& lookup_string, const string& parameter_location);
+  vector<string>                GetCategoryLabelsV(const string& lookup_string, const string& parameter_location);
 
   // Accessors
   string                        format() const { return format_; }
@@ -71,7 +71,7 @@ protected:
   Categories() = delete;
   explicit Categories(Model* model);
 
-  virtual map<string, string> GetCategoryLabelsAndValues(const string& lookup, const Parameter* source_parameter);
+  virtual map<string, string> GetCategoryLabelsAndValues(const string& lookup, const string& parameter_location);
 
   // Members
   Model*                      model_ = nullptr;

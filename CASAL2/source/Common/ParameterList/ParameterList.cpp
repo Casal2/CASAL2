@@ -18,6 +18,10 @@
 #include <string>
 #include <iostream>
 #include <algorithm>
+#include <boost/algorithm/string/replace.hpp>
+#include <boost/algorithm/string/trim_all.hpp>
+#include <boost/algorithm/string/split.hpp>
+#include <boost/algorithm/string/join.hpp>
 
 #include "Common/Categories/Categories.h"
 #include "Common/Model/Model.h"
@@ -152,6 +156,35 @@ void ParameterList::Populate(Model* model) {
     return;
   }
 
+  /*
+   * Handle expansion of the categories here if it's not already been done.
+   * e.g. male,female.immature,mature would be:
+   * male.immature male.mature female.immature female.mature
+   */
+  for(auto iter : parameters_) {
+    string label = iter.first;
+    if (label == PARAM_CATEGORIES || label == PARAM_FROM || label == PARAM_TO || label == PARAM_PREY_CATEGORIES || label == PARAM_PREDATOR_CATEGORIES) {
+      LOG_FINE() << "Expanding category name values for " << label << " at " << iter.second->location();
+      LOG_FINE() << "Expanding " << boost::join(iter.second->values(), " ");
+      vector<string> expanded_values = model->categories()->ExpandLabels(iter.second->values(), iter.second->location());
+      iter.second->set_values(expanded_values);
+      LOG_FINE() << "Expanded To: " << boost::join(expanded_values, " ");
+
+      /**
+       * Check to see if each category is value. Handle + syntax by breaking it up
+       * e.g. male+female would be checked as male, then female to function.
+       */
+      for(const string& category_groups : iter.second->values()) {
+        vector<string> plus_split_categories;
+        boost::split(plus_split_categories, category_groups, boost::is_any_of("+"));
+        for (string& single_category : plus_split_categories) {
+          if (!model->categories()->IsValid(single_category))
+            LOG_ERROR() << iter.second->location() << ": category " << single_category << " is not a valid category";
+        }
+      }
+    }
+  }
+
   // NOTE: This has to be last
   // bind parameters
   LOG_FINEST() << "Binding parameters for @" << parent_block_type_ << " defined at line " << defined_line_number_ << " in " << defined_file_name_;
@@ -185,9 +218,6 @@ void ParameterList::Populate(Model* model) {
     }
   }
 
-
-
-
   if (parameters_.find(PARAM_LABEL) != parameters_.end()) {
     Parameter* param = parameters_[PARAM_LABEL];
     if (param->values().size() != 0) {
@@ -196,6 +226,10 @@ void ParameterList::Populate(Model* model) {
         LOG_ERROR() << param->location() << " the label '" << param->values()[0] << "' contains the following invalid characters: " << invalid;
     }
   }
+
+  LOG_FINEST() << "Populating Tables";
+  for (auto table : tables_)
+    table.second->Populate(model);
 
   LOG_FINEST() << "Populate complete";
 }

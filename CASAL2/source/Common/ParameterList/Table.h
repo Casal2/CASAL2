@@ -27,6 +27,8 @@
 
 // Namespaces
 namespace niwa {
+class Model;
+
 namespace parameters {
 
 using std::string;
@@ -46,19 +48,7 @@ public:
   bool                        HasColumns() { return columns_.size() != 0; }
   bool                        has_been_defined() const { return data_.size() != 0; }
   unsigned                    GetColumnCount() { return columns_.size(); }
-  void                        FillMapOfCategoryAges(map<string, vector<Double>>& result);
-
-//  template<typename Values>
-//    bool                        Populate(const string& column, vector<Values> &data);
-//  template<typename Key, typename Values>
-//  bool                        Populate(const vector<Key>& columns, map<Key,vector<Values>> &data);
-  template<typename MasterKey, typename Key, typename Value>
-  bool                        Populate2D(const MasterKey& master_key, const vector<Key>& keys,
-      map<MasterKey, map<Key, Value>>& out_matrix);
-  template<typename MasterKey, typename Key1, typename Key2, typename Value>
-  bool                        Populate3D(const MasterKey& master_key, const Key1& key1,
-      vector<Key2>& key2s, map<MasterKey, map<Key1, map<Key2, Value>>>& out_matrix);
-
+  void                        Populate(Model* model);
 
   // accessors
   void                        set_file_name(const string& file_name) { file_name_ = file_name; }
@@ -86,8 +76,5 @@ private:
 };
 } /* namespace parameters */
 } /* namespace niwa */
-
-// Inline include for template methods
-#include "Table-inl.h"
 
 #endif /* TABLE_H_ */

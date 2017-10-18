@@ -73,7 +73,7 @@ void TagByLength::DoValidate() {
   for(auto& category : to_category_labels_) {
     bool check_combined = model_->categories()->IsCombinedLabels(category);
     if(check_combined)
-      LOG_FATAL_P(PARAM_TO) << "You supplied the combined category " << category << " this sub command can only take seperate categories.";
+      LOG_FATAL_P(PARAM_TO) << "You supplied the combined category " << category << " this sub command can only take separate categories.";
   }
 
   vector<string> split_category_labels;
@@ -100,18 +100,10 @@ void TagByLength::DoValidate() {
     } else
       split_from_category_labels_.push_back(category);
   }
-  from_category_labels_ = model_->categories()->ExpandLabels(split_from_category_labels_, parameters_.Get(PARAM_FROM));
-  to_category_labels_ = model_->categories()->ExpandLabels(to_category_labels_, parameters_.Get(PARAM_TO));
 
   LOG_FINEST() << "from categories";
   for(auto category : split_from_category_labels_) {
     LOG_FINEST() << category;
-  }
-  // Check these are valid
-  for(auto category : to_category_labels_) {
-    LOG_FINEST() << category;
-    if(!model_->categories()->IsValid(category))
-      LOG_ERROR_P(PARAM_TO) << "category '" << category << " not a valid category in the system, check spelling please";
   }
 
   if (split_from_category_labels_.size() != to_category_labels_.size()) {

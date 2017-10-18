@@ -57,8 +57,6 @@ TagLoss::TagLoss(Model* model)
  * - Check the categories are real
  */
 void TagLoss::DoValidate() {
-  category_labels_ = model_->categories()->ExpandLabels(category_labels_, parameters_.Get(PARAM_CATEGORIES));
-
   LOG_FINEST() << "Number of categories = " << category_labels_.size() << " number of proportions given = " << tag_loss_input_.size();
 
   if (tag_loss_input_.size() == 1)
@@ -92,12 +90,6 @@ void TagLoss::DoValidate() {
 
   for (unsigned i = 0; i < tag_loss_input_.size(); ++i)
     tag_loss_[category_labels_[i]] = tag_loss_input_[i];
-
-  // Check categories are real
-  for (const string& label : category_labels_) {
-    if (!model_->categories()->IsValid(label))
-      LOG_ERROR_P(PARAM_CATEGORIES) << ": category " << label << " does not exist. Have you defined it?";
-  }
 }
 
 /**

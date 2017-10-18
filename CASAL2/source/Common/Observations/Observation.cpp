@@ -52,7 +52,6 @@ void Observation::Validate() {
   parameters_.Populate(model_);
   LOG_FINEST() << "validating obs " << label_ << " of type = " << type_;
 
-  category_labels_ = model_->categories()->ExpandLabels(category_labels_, parameters_.Get(PARAM_CATEGORIES));
   if (model_->run_mode() == RunMode::kSimulation) {
     if (likelihood_type_ == PARAM_PSEUDO) {
       likelihood_type_ = simulation_likelihood_label_;
@@ -74,27 +73,7 @@ void Observation::Validate() {
   for (const string& category_label : category_labels_)
     expected_selectivity_count_ += categories->GetNumberOfCategoriesDefined(category_label);
 
-  LOG_FINEST() << "Expected Selectivity cout = " << expected_selectivity_count_;
-  /**
-   * Now go through each category and split it if required, then check each piece to ensure
-   * it's a valid category
-   */
-  vector<string> split_category_labels;
-  for (const string& category_label : category_labels_) {
-    boost::split(split_category_labels, category_label, boost::is_any_of("+"));
-    for (const string& split_category_label : split_category_labels) {
-      if (!categories->IsValid(split_category_label)) {
-        if (split_category_label == category_label) {
-          LOG_ERROR_P(PARAM_CATEGORIES) << ": The category " << split_category_label << " is not a valid category.";
-        } else {
-          LOG_ERROR_P(PARAM_CATEGORIES) << ": The category " << split_category_label << " is not a valid category."
-              << " It was defined in the category collection " << category_label;
-        }
-      }
-    }
-  }
-
-  LOG_TRACE();
+  LOG_FINEST() << "Expected Selectivity count = " << expected_selectivity_count_;
   DoValidate();
 }
 

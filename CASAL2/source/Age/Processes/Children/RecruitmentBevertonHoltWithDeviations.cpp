@@ -77,7 +77,6 @@ RecruitmentBevertonHoltWithDeviations::RecruitmentBevertonHoltWithDeviations(Mod
  */
 void RecruitmentBevertonHoltWithDeviations::DoValidate() {
   LOG_TRACE();
-  category_labels_ = model_->categories()->ExpandLabels(category_labels_, parameters_.Get(PARAM_CATEGORIES));
   if (!parameters_.Get(PARAM_AGE)->has_been_defined())
     age_ = model_->min_age();
 
@@ -86,12 +85,6 @@ void RecruitmentBevertonHoltWithDeviations::DoValidate() {
 
   if (!parameters_.Get(PARAM_R0)->has_been_defined() & !parameters_.Get(PARAM_B0)->has_been_defined())
     LOG_FATAL() << "You need to specify either R0 or B0 to intialise the model with Beverton Holt recruitment";
-
-  // Ensure defined categories were valid
-  for(const string& category : category_labels_) {
-    if (!model_->categories()->IsValid(category))
-      LOG_ERROR_P(PARAM_CATEGORIES) << ": category " << category << " is not a valid category";
-  }
 
   if (age_ < model_->min_age())
     LOG_ERROR_P(PARAM_AGE) << " (" << age_ << ") cannot be less than the model's min_age (" << model_->min_age() << ")";

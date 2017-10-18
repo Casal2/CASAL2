@@ -49,7 +49,7 @@ void BindableVector<T>::Bind() {
       LOG_ERROR() << location() << ": " << label_ << " value " << values_[i] << " could not be converted to type "
         << utilities::demangle(typeid(value).name()) << ". Please check you have defined it properly.";
 
-    target_->push_back(value);
+      target_->push_back(value);
   }
 
   /**

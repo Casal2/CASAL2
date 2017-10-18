@@ -51,6 +51,12 @@ public:
     return result.str();
   }
 
+  // Generic methods for manipulating vectors of strings
+  static bool                        TrimOperators(vector<string>& values);
+  static bool                        HandleOperators(vector<string>& values, string &error);
+  static string                      RangeSplit(const string& range_value);
+  static void                        HandleAssignment(const string& input_line, string& output_line);
+
 }; /* class */
 
 } /* namespace utilities */
