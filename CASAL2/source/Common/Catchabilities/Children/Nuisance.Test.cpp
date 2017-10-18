@@ -260,6 +260,7 @@ time_step step1
 mortality_instantaneous_process instant_mort
 categories stock
 method_of_removal FishingWest
+ageing_error Ageing_error
 min_age 3
 max_age 19
 age_plus true
@@ -307,6 +308,8 @@ table error_values
 2011  9
 end_table
 
+@ageing_error Ageing_error
+type none
 
 @observation chatOBSest
 type process_removals_by_age
@@ -314,6 +317,7 @@ likelihood multinomial
 time_step step1
 mortality_instantaneous_process instant_mort
 categories stock
+ageing_error Ageing_error
 method_of_removal FishingEest
 min_age 4
 max_age 21
@@ -416,7 +420,7 @@ type uniform_log
 parameter catchability[chatTANq].q
 )";
 
-TEST_F(InternalEmptyModel, Nuisance_normal_prior_none) {
+TEST_F(InternalEmptyModel, Catchabilities_nuisance_normal_prior_none) {
     AddConfigurationLine(base_model, __FILE__, 31);
     AddConfigurationLine(normal_biomass, __FILE__, 31);
     LoadConfiguration();
@@ -426,7 +430,7 @@ TEST_F(InternalEmptyModel, Nuisance_normal_prior_none) {
 }
 
 
-TEST_F(InternalEmptyModel, Nuisance_normal_prior_none_estimation) {
+TEST_F(InternalEmptyModel, Catchabilities_nuisance_normal_prior_none_estimation) {
     AddConfigurationLine(base_model, __FILE__, 31);
     AddConfigurationLine(normal_biomass, __FILE__, 31);
     LoadConfiguration();
@@ -436,7 +440,7 @@ TEST_F(InternalEmptyModel, Nuisance_normal_prior_none_estimation) {
 }
 
 
-TEST_F(InternalEmptyModel, Nuisance_normal_prior_uniform_log) {
+TEST_F(InternalEmptyModel, Catchabilities_nuisance_normal_prior_uniform_log) {
     AddConfigurationLine(base_model, __FILE__, 31);
     AddConfigurationLine(normal_biomass, __FILE__, 31);
     AddConfigurationLine(uniform_log_q, __FILE__, 31);
@@ -447,7 +451,7 @@ TEST_F(InternalEmptyModel, Nuisance_normal_prior_uniform_log) {
 }
 
 
-TEST_F(InternalEmptyModel, Nuisance_lognormal_prior_uniform_log) {
+TEST_F(InternalEmptyModel, Catchabilities_nuisance_lognormal_prior_uniform_log) {
     AddConfigurationLine(base_model, __FILE__, 31);
     AddConfigurationLine(lognormal_biomass, __FILE__, 31);
     AddConfigurationLine(uniform_log_q, __FILE__, 31);
@@ -457,7 +461,7 @@ TEST_F(InternalEmptyModel, Nuisance_lognormal_prior_uniform_log) {
     EXPECT_NEAR(0.057232970885068367, catchability->q(), 1e-6);
 }
 
-TEST_F(InternalEmptyModel, Nuisance_lognormal_prior_none) {
+TEST_F(InternalEmptyModel, Catchabilities_nuisance_lognormal_prior_none) {
     AddConfigurationLine(base_model, __FILE__, 31);
     AddConfigurationLine(lognormal_biomass, __FILE__, 31);
     LoadConfiguration();
@@ -465,7 +469,7 @@ TEST_F(InternalEmptyModel, Nuisance_lognormal_prior_none) {
     Catchability* catchability = model_->managers().catchability()->GetCatchability("chatTANq");
     EXPECT_NEAR(0.057403242558276682, catchability->q(), 1e-6);
 }
-TEST_F(InternalEmptyModel, Nuisance_lognormal_prior_lognormal) {
+TEST_F(InternalEmptyModel, Catchabilities_nuisance_lognormal_prior_lognormal) {
     AddConfigurationLine(base_model, __FILE__, 31);
     AddConfigurationLine(lognormal_biomass, __FILE__, 31);
     AddConfigurationLine(lognormal_q, __FILE__, 31);

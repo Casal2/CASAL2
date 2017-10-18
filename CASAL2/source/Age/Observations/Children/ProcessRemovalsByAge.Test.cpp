@@ -179,6 +179,7 @@ likelihood multinomial
 time_step step1
 mortality_instantaneous_process instant_mort
 categories stock
+ageing_error Ageing_error
 method_of_removal FishingEest
 min_age 4
 max_age 21
@@ -204,6 +205,10 @@ table error_values
 2004 43
 2007 42
 end_table    
+
+@ageing_error Ageing_error
+type none
+
 )";
 
 /**

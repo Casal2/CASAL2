@@ -239,11 +239,11 @@ void IndependenceMetropolis::GenerateRandomStart() {
 void IndependenceMetropolis::FillMultivariateNormal(Double step_size) {
   utilities::RandomNumberGenerator& rng = utilities::RandomNumberGenerator::Instance();
 
-  vector<Double>  normals(estimate_count_ * estimate_count_, 0.0);
-  for (unsigned i = 0; i < estimate_count_ * estimate_count_; ++i) {
+  vector<Double>  normals(estimate_count_ , 0.0);
+  for (unsigned i = 0; i < estimate_count_; ++i) {
     normals[i] = rng.normal();
   }
-  vector<Double>  dv(estimate_count_ * estimate_count_, 1.0);
+  vector<Double>  dv(estimate_count_, 0.0);
 
 // Method from CASAL's algorithm
   for (unsigned i = 0; i < estimate_count_; ++i) {
@@ -401,36 +401,18 @@ void IndependenceMetropolis::UpdateCovarianceMatrix() {
  * Generate some new estimate candiddates
  */
 void IndependenceMetropolis::GenerateNewCandidates() {
-	/*
-	vector<Double> original_candidates = candidates_;
+  //LOG_MEDIUM() << step_size_;
+  if (proposal_distribution_ == PARAM_NORMAL)
+    FillMultivariateNormal(step_size_);
+  else if (proposal_distribution_ == PARAM_T)
+    FillMultivariateT(step_size_);
 
-  unsigned attempts = 0;
-  bool candidates_ok = false;
+  // For catching errors.
+  //for (unsigned i = 0; i < estimate_count_; ++i) {
+  //  cerr << candidates_[i] << " ";
+  //}
+  //cerr << "\n";
 
-  do {
-    candidates_ok = true;
-    attempts++;
-    if (attempts >= 1000)
-      LOG_FATAL() << "Failed to generate new MCMC candidates after 1,000 attempts. Try a new random seed";
-*/
-    //LOG_MEDIUM() << step_size_;
-    if (proposal_distribution_ == PARAM_NORMAL)
-      FillMultivariateNormal(step_size_);
-    else if (proposal_distribution_ == PARAM_T)
-      FillMultivariateT(step_size_);
-/*
-    // Check bounds and regenerate if they're not within bounds
-    vector<Estimate*> estimates = model_->managers().estimate()->GetIsEstimated();
-
-    for (unsigned i = 0; i < estimates_.size(); ++i) {
-      if (estimates_[i]->lower_bound() > candidates_[i] || estimates_[i]->upper_bound() < candidates_[i]) {
-      	LOG_MEDIUM() << "failed with estimate " << estimates_[i]->label();
-        candidates_ok = false;
-        candidates_ = original_candidates;
-      }
-    }
-  } while (!candidates_ok);
-*/
 }
 
 /*

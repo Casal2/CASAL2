@@ -23,6 +23,11 @@
 #include "Common/Utilities/Math.h"
 #include "Common/Utilities/To.h"
 
+#include <boost/algorithm/string/replace.hpp>
+#include <boost/algorithm/string/trim_all.hpp>
+#include <boost/algorithm/string/split.hpp>
+#include <boost/algorithm/string/join.hpp>
+
 // Namespaces
 namespace niwa {
 namespace age {
@@ -134,7 +139,7 @@ void ProcessRemovalsByLength::DoValidate() {
       obs_by_year[year].push_back(value);
     }
     if (obs_by_year[year].size() != obs_expected - 1)
-      LOG_CODE_ERROR() << "obs_by_year_[year].size() (" << obs_by_year[year].size() << ") != obs_expected - 1 (" << obs_expected -1 << ")";
+      LOG_FATAL_P(PARAM_OBS) << "you supplied " << obs_by_year[year].size() << " years, but we expected " << obs_expected -1 << " can you please sort this out. Chairs";
   }
 
   /**
@@ -142,7 +147,7 @@ void ProcessRemovalsByLength::DoValidate() {
    */
   vector<vector<string>>& error_values_data = error_values_table_->data();
   if (error_values_data.size() != years_.size()) {
-    LOG_ERROR_P(PARAM_ERROR_VALUES) << " has " << error_values_data.size() << " rows defined, but we expected " << years_.size()
+    LOG_FATAL_P(PARAM_ERROR_VALUES) << " has " << error_values_data.size() << " rows defined, but we expected " << years_.size()
         << " to match the number of years provided";
   }
 
@@ -154,14 +159,14 @@ void ProcessRemovalsByLength::DoValidate() {
 
     unsigned year = 0;
     if (!utilities::To<unsigned>(error_values_data_line[0], year))
-      LOG_ERROR_P(PARAM_ERROR_VALUES) << " value " << error_values_data_line[0] << " could not be converted in to an unsigned integer. It should be the year for this line";
+      LOG_FATAL_P(PARAM_ERROR_VALUES) << " value " << error_values_data_line[0] << " could not be converted in to an unsigned integer. It should be the year for this line";
     if (std::find(years_.begin(), years_.end(), year) == years_.end())
-      LOG_ERROR_P(PARAM_ERROR_VALUES) << " value " << year << " is not a valid year for this observation";
+      LOG_FATAL_P(PARAM_ERROR_VALUES) << " value " << year << " is not a valid year for this observation";
     for (unsigned i = 1; i < error_values_data_line.size(); ++i) {
       Double value = 0;
 
       if (!utilities::To<Double>(error_values_data_line[i], value))
-        LOG_ERROR_P(PARAM_ERROR_VALUES) << " value (" << error_values_data_line[i] << ") could not be converted to a double";
+        LOG_FATAL_P(PARAM_ERROR_VALUES) << " value (" << error_values_data_line[i] << ") could not be converted to a double";
       if (likelihood_type_ == PARAM_LOGNORMAL && value <= 0.0) {
         LOG_ERROR_P(PARAM_ERROR_VALUES) << ": error_value (" << AS_DOUBLE(value) << ") cannot be equal to or less than 0.0";
       } else if (likelihood_type_ == PARAM_MULTINOMIAL && value < 0.0) {
@@ -174,7 +179,7 @@ void ProcessRemovalsByLength::DoValidate() {
       error_values_by_year[year].assign(obs_expected - 1, error_values_by_year[year][0]);
     }
     if (error_values_by_year[year].size() != obs_expected - 1)
-      LOG_CODE_ERROR() << "error_values_by_year_[year].size() (" << error_values_by_year[year].size() << ") != obs_expected - 1 (" << obs_expected -1 << ")";
+      LOG_FATAL_P(PARAM_ERROR_VALUES) << "We counted " << error_values_by_year[year].size() << " error values by year but expected " << obs_expected -1 << " based on the obs table";
   }
 
   /**
@@ -227,6 +232,28 @@ void ProcessRemovalsByLength::DoBuild() {
 
   if (!mortality_instantaneous_)
     LOG_ERROR_P(PARAM_PROCESS) << "This observation can only be used for Process of type = " << PARAM_MORTALITY_INSTANTANEOUS;
+
+  // Need to split the categories if any are combined for checking
+  vector<string> temp_split_category_labels, split_category_labels;
+
+  for (const string& category_label : category_labels_) {
+    boost::split(temp_split_category_labels, category_label, boost::is_any_of("+"));
+    for (const string& split_category_label : temp_split_category_labels) {
+      split_category_labels.push_back(split_category_label);
+    }
+  }
+
+  // Need to make this a vector so its compatible with the function couldn't be bothered templating sorry
+  vector<string> methods;
+  methods.push_back(method_);
+  // Do some checks so that the observation and process are compatible
+  if (!mortality_instantaneous_->check_methods_for_removal_obs(methods))
+    LOG_ERROR_P(PARAM_METHOD_OF_REMOVAL) << "could not find all these methods in the instantaneous_mortality process labeled " << process_label_ << " please check that the methods are compatible with this process";
+  if (!mortality_instantaneous_->check_categories_in_methods_for_removal_obs(methods, split_category_labels))
+    LOG_ERROR_P(PARAM_CATEGORIES) << "could not find all these categories in the instantaneous_mortality process labeled " << process_label_ << " please check that the categories are compatible with this process";
+  if (!mortality_instantaneous_->check_years_in_methods_for_removal_obs(years_, methods))
+    LOG_ERROR_P(PARAM_YEARS) << "could not find catches in all years in the instantaneous_mortality process labeled " << process_label_ << " please check that the years are compatible with this process";
+
 }
 
 /**

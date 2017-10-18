@@ -90,7 +90,10 @@ public:
   void                        FillReportCache(ostringstream& cache) override final;
   void                        FillTabularReportCache(ostringstream& cache, bool first_run) override final;
   //
-  void                        calculate_requests_from_removal_observation(vector<unsigned> years, vector<string> methods,vector<string> categories);
+  bool                       check_categories_in_methods_for_removal_obs(vector<string> methods, vector<string> category_labels);
+  bool                       check_years_in_methods_for_removal_obs(vector<unsigned> years, vector<string> methods);
+  bool                       check_methods_for_removal_obs(vector<string> methods);
+
   // accessors
   map<unsigned, map<string, map<string, vector<Double>>>>&  catch_at() { return removals_by_year_fishery_category_; };
 

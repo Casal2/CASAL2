@@ -68,6 +68,7 @@ protected:
   MortalityInstantaneous*       mortality_instantaneous_ = nullptr;
   vector<string>                time_step_label_;
   string                        process_label_;
+  unsigned                      time_step_to_execute_;
 
   map<unsigned, map<string, vector<Double>>>  proportions_;
   map<unsigned, map<string, vector<Double>>>  error_values_;
