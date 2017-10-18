@@ -24,11 +24,12 @@
 namespace niwa {
 
 using ::testing::Return;
+using ::testing::ReturnRef;
 
 /**
  * Test the results of our selectivity are correct
  */
-TEST(Selectivities, AllValuesBounded) {
+TEST(Selectivities, AllValuesBounded_Age) {
   MockModel model;
   EXPECT_CALL(model, min_age()).WillRepeatedly(Return(10));
   EXPECT_CALL(model, max_age()).WillRepeatedly(Return(20));
@@ -64,6 +65,56 @@ TEST(Selectivities, AllValuesBounded) {
   EXPECT_DOUBLE_EQ(0.0,  all_values_bounded.GetAgeResult(22, nullptr));
   EXPECT_DOUBLE_EQ(0.0,  all_values_bounded.GetAgeResult(23, nullptr));
 }
+
+TEST(Selectivities, AllValuesBounded_Length) {
+  MockModel model;
+  vector<unsigned> lengths = {10, 20, 30, 40, 50, 60, 120};
+
+  EXPECT_CALL(model, length_bins()).WillRepeatedly(ReturnRef(lengths));
+  EXPECT_CALL(model, partition_type()).WillRepeatedly(Return(PartitionType::kLength));
+
+  niwa::selectivities::AllValuesBounded all_values_bounded(&model);
+
+  vector<string> v = {"0.1","0.2","0.3","0.5"};
+  vector<double> values = { 0.1 , 0.2 , 0.3 , 0.5 };
+  vector<double> expected_values = {0, 0, 0.1, 0.2, 0.3, 0.5, 0.5};
+
+  all_values_bounded.parameters().Add(PARAM_LABEL, "unit_test_all_values", __FILE__, __LINE__);
+  all_values_bounded.parameters().Add(PARAM_TYPE, "not needed in test", __FILE__, __LINE__);
+  all_values_bounded.parameters().Add(PARAM_V, v, __FILE__, __LINE__);
+  all_values_bounded.parameters().Add(PARAM_L, "25",  __FILE__, __LINE__);
+  all_values_bounded.parameters().Add(PARAM_H, "65", __FILE__, __LINE__);
+  all_values_bounded.Validate();
+  all_values_bounded.Build();
+
+
+  for (unsigned i = 0; i < lengths.size(); ++i) {
+    EXPECT_DOUBLE_EQ(expected_values[i],  all_values_bounded.GetLengthResult(i));
+  }
+
+}
+
+//TEST(Selectivities, AllValuesBounded_Length_Throw_Exception) {
+//  MockModel model;
+//  vector<unsigned> lengths = {10, 20, 30, 40, 50, 60, 120};
+//
+//  EXPECT_CALL(model, length_bins()).WillRepeatedly(ReturnRef(lengths));
+//  EXPECT_CALL(model, partition_type()).WillRepeatedly(Return(PartitionType::kLength));
+//
+//  niwa::selectivities::AllValuesBounded all_values_bounded(&model);
+//
+//  vector<string> v = {"0.1","0.2","0.3","0.5","0.2"};
+//
+//  all_values_bounded.parameters().Add(PARAM_LABEL, "unit_test_all_values", __FILE__, __LINE__);
+//  all_values_bounded.parameters().Add(PARAM_TYPE, "not needed in test", __FILE__, __LINE__);
+//  all_values_bounded.parameters().Add(PARAM_V, v, __FILE__, __LINE__);
+//  all_values_bounded.parameters().Add(PARAM_L, "25",  __FILE__, __LINE__);
+//  all_values_bounded.parameters().Add(PARAM_H, "65", __FILE__, __LINE__);
+//  ASSERT_THROW(all_values_bounded.Validate(), std::string);
+//
+//}
+
+
 
 }
 

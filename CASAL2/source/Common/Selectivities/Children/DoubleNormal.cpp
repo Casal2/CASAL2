@@ -28,7 +28,7 @@ namespace selectivities {
  * Explicit constructor
  */
 DoubleNormal::DoubleNormal(Model* model)
-  : Selectivity(model) {
+: Selectivity(model) {
 
   parameters_.Bind<Double>(PARAM_MU, &mu_, "Mu", "");
   parameters_.Bind<Double>(PARAM_SIGMA_L, &sigma_l_, "Sigma L", "");
@@ -73,10 +73,20 @@ void DoubleNormal::Reset() {
       if (temp < mu_)
         values_[age] = pow(2.0, -((temp - mu_) / sigma_l_ * (temp - mu_) / sigma_l_)) * alpha_;
       else
-        values_[age] = pow(2.0, -((temp - mu_)/sigma_r_ * (temp - mu_) / sigma_r_)) * alpha_;
+        values_[age] = pow(2.0, -((temp - mu_) / sigma_r_ * (temp - mu_) / sigma_r_)) * alpha_;
+    }
+  } else if (model_->partition_type() == PartitionType::kLength) {
+    vector<unsigned> length_bins = model_->length_bins();
+    for (unsigned length_bin_index = 0; length_bin_index < length_bins.size(); ++length_bin_index) {
+      Double temp = (Double)length_bins[length_bin_index];
+      if (temp < mu_)
+        length_values_[length_bin_index] = pow(2.0, -((temp - mu_) / sigma_l_ * (temp - mu_) / sigma_l_)) * alpha_;
+      else
+        length_values_[length_bin_index] = pow(2.0, -((temp - mu_) / sigma_r_ * (temp - mu_) / sigma_r_)) * alpha_;
     }
   }
 }
+
 /**
  * GetLengthBasedResult function
  *

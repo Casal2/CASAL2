@@ -28,7 +28,7 @@ namespace selectivities {
  * Explicit Constructor
  */
 Logistic::Logistic(Model* model)
-  : Selectivity(model) {
+: Selectivity(model) {
 
   parameters_.Bind<Double>(PARAM_A50, &a50_, "A50", "");
   parameters_.Bind<Double>(PARAM_ATO95, &ato95_, "Ato95", "");
@@ -75,6 +75,20 @@ void Logistic::Reset() {
         values_[age] = alpha_;
       else
         values_[age] = alpha_ / (1.0 + pow(19.0, threshold));
+    }
+  } else if (model_->partition_type() == PartitionType::kLength) {
+    Double threshold = 0.0;
+    vector<unsigned> length_bins = model_->length_bins();
+
+    for (unsigned length_bin_index = 0; length_bin_index < length_bins.size(); ++length_bin_index) {
+      Double temp = (Double)length_bins[length_bin_index];
+      threshold = (Double)(a50_ - temp) / ato95_;
+      if (threshold > 5.0)
+        length_values_[length_bin_index] = 0.0;
+      else if (threshold < -5.0)
+        length_values_[length_bin_index] = alpha_;
+      else
+        length_values_[length_bin_index] = alpha_ - (alpha_ / (1.0 + pow(19.0, threshold)));
     }
   }
 }

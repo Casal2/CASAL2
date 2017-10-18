@@ -27,11 +27,11 @@ namespace selectivities {
  * Explicit Constructor
  */
 AllValues::AllValues(Model* model)
-  : Selectivity(model) {
+: Selectivity(model) {
 
   parameters_.Bind<Double>(PARAM_V, &v_, "V", "")->set_partition_type(PartitionType::kAge | PartitionType::kLength);
-//  parameters_.Bind<Double>(PARAM_AGE_V, &v_age_, "V values for the age structure", "")->set_partition_type(PartitionType::kHybrid);
-//  parameters_.Bind<Double>(PARAM_LENGTH_V, &v_length_, "V values for the length structure", "")->set_partition_type(PartitionType::kHybrid);
+  //  parameters_.Bind<Double>(PARAM_AGE_V, &v_age_, "V values for the age structure", "")->set_partition_type(PartitionType::kHybrid);
+  //  parameters_.Bind<Double>(PARAM_LENGTH_V, &v_length_, "V values for the length structure", "")->set_partition_type(PartitionType::kHybrid);
 
 
   RegisterAsAddressable(PARAM_V, &v_);
@@ -62,7 +62,7 @@ void AllValues::DoValidate() {
   case PartitionType::kLength:
     if (v_.size() != model_->length_bins().size()) {
       LOG_ERROR_P(PARAM_V) << ": Number of 'v' values supplied is not the same as the model length bin count.\n"
-            << "Expected: " << model_->length_bins().size() << " but got " << v_.size();
+          << "Expected: " << model_->length_bins().size() << " but got " << v_.size();
     }
     break;
 

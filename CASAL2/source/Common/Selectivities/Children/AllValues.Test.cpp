@@ -74,6 +74,7 @@ TEST(Selectivities, AllValues_Length) {
   EXPECT_CALL(model, partition_type()).WillRepeatedly(Return(PartitionType::kLength));
 
   niwa::selectivities::AllValues all_values(&model);
+
   vector<string> v = {"0.0","0.1","0.2","0.3","0.1","0.5", "0.0325"};
   vector<double> values = { 0.0 ,0.1 , 0.2 , 0.3 , 0.1 , 0.5 , 0.0325};
 
@@ -89,7 +90,7 @@ TEST(Selectivities, AllValues_Length) {
   }
 
 }
-	
+
 }
 
 #endif /* ifdef TESTMODE */

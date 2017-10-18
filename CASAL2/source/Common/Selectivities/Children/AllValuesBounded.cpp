@@ -27,7 +27,7 @@ namespace selectivities {
  * Explicit Constructor
  */
 AllValuesBounded::AllValuesBounded(Model* model)
-  : Selectivity(model) {
+: Selectivity(model) {
 
   parameters_.Bind<unsigned>(PARAM_L, &low_, "L", "");
   parameters_.Bind<unsigned>(PARAM_H, &high_, "H", "");
@@ -62,7 +62,24 @@ void AllValuesBounded::DoValidate() {
           << "Model 'max_age' is " << max_age << " and 'h' is " << high_;
     }
 
+    // Param: V
+    if (v_.size() != (high_ - low_) + 1) {
+      LOG_ERROR_P(PARAM_V) << ": Parameter 'v' does not have the right amount of elements n = h - l\n"
+          << "Expected " << (high_ - low_) + 1 << " but got " << v_.size();
+    }
+
   } else if (model_->partition_type() == PartitionType::kLength) {
+    vector<unsigned> length_bins = model_->length_bins();
+    unsigned bins = 0;
+    for (unsigned i = 0; i < length_bins.size(); ++i) {
+      if (length_bins[i] >= low_ && length_bins[i] <= high_)
+        ++bins;
+    }
+    if (bins != v_.size()) {
+      LOG_ERROR_P(PARAM_V) << ": Parameter 'v' does not have the right amount of elements n = low <= length_bins <= high, "
+          << "Expected " << bins << " but got " << v_.size();
+    }
+
 
   }
 
@@ -71,11 +88,6 @@ void AllValuesBounded::DoValidate() {
         << "'l' = " << low_ << " and 'h' = " << high_;
   }
 
-  // Param: V
-  if (v_.size() != (high_ - low_) + 1) {
-    LOG_ERROR_P(PARAM_V) << ": Parameter 'v' does not have the right amount of elements n = h - l\n"
-        << "Expected " << (high_ - low_) + 1 << " but got " << v_.size();
-  }
 }
 
 /**
@@ -86,7 +98,7 @@ void AllValuesBounded::DoValidate() {
  * for each age in the model.
  */
 void AllValuesBounded::Reset() {
-    /**
+  /**
    * Resulting age map should look like
    * While Age < Low :: Value = 0.0
    * While Age > Low && Age < High :: Value = v_
@@ -103,7 +115,7 @@ void AllValuesBounded::Reset() {
     for (; age <= max_age; ++age)
       values_[age] = *v_.rbegin();
 
-  } else {
+  } else if (model_->partition_type() == PartitionType::kLength) {
     vector<unsigned> length_bins = model_->length_bins();
     unsigned v_index = 0;
     for (unsigned length_bin_index = 0; length_bin_index < length_bins.size(); ++length_bin_index)

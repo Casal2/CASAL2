@@ -27,7 +27,7 @@ namespace selectivities {
  * Explicit constructor
  */
 LogisticProducing::LogisticProducing(Model* model)
-  : Selectivity(model) {
+: Selectivity(model) {
 
   parameters_.Bind<unsigned>(PARAM_L, &low_, "Low", "");
   parameters_.Bind<unsigned>(PARAM_H, &high_, "High", "");
@@ -87,7 +87,28 @@ void LogisticProducing::Reset() {
           LOG_FINEST() << "age = " << age << " lambda1 = " << lambda1 << " lambda2 = " << lambda2 << " value = " <<  values_[age];
         }
       }
+    }
+  } else if (model_->partition_type() == PartitionType::kLength) {
+    vector<unsigned> length_bins = model_->length_bins();
 
+    for (unsigned length_bin_index = 0; length_bin_index < length_bins.size(); ++length_bin_index) {
+      Double temp = (Double)length_bins[length_bin_index];
+      if (temp < low_)
+        length_values_[length_bin_index] = 0.0;
+      else if (temp >= high_)
+        length_values_[length_bin_index] = alpha_;
+      else if (temp == low_)
+        length_values_[length_bin_index] = 1.0 / (1.0 + pow(19.0, (a50_ - (Double)temp) / ato95_)) * alpha_;
+      else {
+        Double lambda2 = 1.0 / (1.0 + pow(19.0, (a50_- ((Double)temp - 1)) / ato95_));
+        if (lambda2 > 0.9999) {
+          length_values_[length_bin_index] = alpha_;
+        } else {
+          Double lambda1 = 1.0 / (1.0 + pow(19.0, (a50_ - (Double)temp) / ato95_));
+          length_values_[length_bin_index] = (lambda1 - lambda2) / (1.0 - lambda2) * alpha_;
+          LOG_FINEST() << "length = " << temp << " lambda1 = " << lambda1 << " lambda2 = " << lambda2 << " value = " <<  length_values_[length_bin_index];
+        }
+      }
     }
   }
 }

@@ -24,11 +24,12 @@
 namespace niwa {
 
 using ::testing::Return;
+using ::testing::ReturnRef;
 
 /**
  * Test the results of our selectivity are correct
  */
-TEST(Selectivities, Increasing) {
+TEST(Selectivities, Increasing_Age) {
   MockModel model;
   EXPECT_CALL(model, min_age()).WillRepeatedly(Return(10));
   EXPECT_CALL(model, max_age()).WillRepeatedly(Return(20));
@@ -63,6 +64,32 @@ TEST(Selectivities, Increasing) {
   EXPECT_DOUBLE_EQ(0.0,                       increasing.GetAgeResult(21, nullptr)); // This is above model->max_age()
   EXPECT_DOUBLE_EQ(0.0,                       increasing.GetAgeResult(22, nullptr));
   EXPECT_DOUBLE_EQ(0.0,                       increasing.GetAgeResult(23, nullptr));
+}
+
+TEST(Selectivities, Increasing_Length) {
+  MockModel model;
+  vector<unsigned> lengths = {10, 20, 30, 40, 50, 60, 120};
+
+  EXPECT_CALL(model, length_bins()).WillRepeatedly(ReturnRef(lengths));
+  EXPECT_CALL(model, partition_type()).WillRepeatedly(Return(PartitionType::kLength));
+
+  niwa::selectivities::Increasing increasing(&model);
+
+  vector<string> v = {"0.05", "0.1", "0.2", "0.03"};
+  vector<double> expected_values = {0, 0.05, 0.05, 0.145, 0.316, 0.03, 0.03};
+
+  increasing.parameters().Add(PARAM_LABEL, "unit_test_increasing", __FILE__, __LINE__);
+  increasing.parameters().Add(PARAM_TYPE, "not needed in test", __FILE__, __LINE__);
+  increasing.parameters().Add(PARAM_L, "19",  __FILE__, __LINE__);
+  increasing.parameters().Add(PARAM_H, "55",  __FILE__, __LINE__);
+  increasing.parameters().Add(PARAM_V, v,  __FILE__, __LINE__);
+  increasing.Validate();
+  increasing.Build();
+
+  for (unsigned i = 0; i < lengths.size(); ++i) {
+    EXPECT_DOUBLE_EQ(expected_values[i],  increasing.GetLengthResult(i));
+  }
+
 }
 
 }

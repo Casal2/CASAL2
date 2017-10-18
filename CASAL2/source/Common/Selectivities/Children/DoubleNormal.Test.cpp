@@ -24,11 +24,12 @@
 namespace niwa {
 
 using ::testing::Return;
+using ::testing::ReturnRef;
 
 /**
  * Test the results of our selectivity are correct
  */
-TEST(Selectivities, DoubleNormal) {
+TEST(Selectivities, DoubleNormal_Age) {
   MockModel model;
   EXPECT_CALL(model, min_age()).WillRepeatedly(Return(10));
   EXPECT_CALL(model, max_age()).WillRepeatedly(Return(20));
@@ -59,6 +60,31 @@ TEST(Selectivities, DoubleNormal) {
   EXPECT_DOUBLE_EQ(0.0,                       double_normal.GetAgeResult(21, nullptr)); // This is above model->max_age()
   EXPECT_DOUBLE_EQ(0.0,                       double_normal.GetAgeResult(22, nullptr));
   EXPECT_DOUBLE_EQ(0.0,                       double_normal.GetAgeResult(23, nullptr));
+}
+
+TEST(Selectivities, DoubleNormal_Length) {
+  MockModel model;
+  vector<unsigned> lengths = {10, 20, 30, 40, 50, 60};
+
+  EXPECT_CALL(model, length_bins()).WillRepeatedly(ReturnRef(lengths));
+  EXPECT_CALL(model, partition_type()).WillRepeatedly(Return(PartitionType::kLength));
+
+  niwa::selectivities::DoubleNormal double_normal(&model);
+
+  vector<double> expected_values = {2.980232238769531e-08, 8.408964152537145e-01, 2.102241038134286e-01, 1.313900648833929e-02, 2.052969763803014e-04, 8.019413139855523e-07};
+
+  double_normal.parameters().Add(PARAM_LABEL, "unit_test_double_normal", __FILE__, __LINE__);
+  double_normal.parameters().Add(PARAM_TYPE, "not needed in test", __FILE__, __LINE__);
+  double_normal.parameters().Add(PARAM_MU, "15",  __FILE__, __LINE__);
+  double_normal.parameters().Add(PARAM_SIGMA_L, "1",  __FILE__, __LINE__);
+  double_normal.parameters().Add(PARAM_SIGMA_R, "10",  __FILE__, __LINE__);
+  double_normal.Validate();
+  double_normal.Build();
+
+  for (unsigned i = 0; i < lengths.size(); ++i) {
+    EXPECT_DOUBLE_EQ(expected_values[i],  double_normal.GetLengthResult(i));
+  }
+
 }
 
 }
