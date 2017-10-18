@@ -126,7 +126,6 @@ void Increasing::Reset() {
         ++mark;
       }
     }
-    cout << "Start element is " << start_element << endl;
     for (unsigned length_bin_index = 0; length_bin_index < length_bins.size(); ++length_bin_index) {
       Double temp = (Double)length_bins[length_bin_index];
       if (temp < low_) {
@@ -145,9 +144,7 @@ void Increasing::Reset() {
 
         length_values_[length_bin_index] = value;
       }
-      cout << "Element " << length_bin_index << " is " << length_values_[length_bin_index] << endl;
     }
-
   }
 }
 

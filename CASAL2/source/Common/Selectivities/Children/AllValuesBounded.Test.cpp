@@ -114,8 +114,6 @@ TEST(Selectivities, AllValuesBounded_Length) {
 //
 //}
 
-
-
 }
 
 #endif /* ifdef TESTMODE */
