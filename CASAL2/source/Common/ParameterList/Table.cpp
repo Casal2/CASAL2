@@ -99,6 +99,10 @@ void Table::Populate(Model* model) {
     LOG_FINE() << "category_labels: " << boost::join(category_labels, " ");
 
     for (auto label : category_labels) {
+      if (!model->categories()->IsValid(label)) {
+        LOG_ERROR() << location() << " contains an invalid category " << label << ". Perhaps you mis-typed the short-hand?";
+      }
+
       row[category_index] = label;
       LOG_FINE() << "re-adding row to table: " << boost::join(row, " ");
       data_.push_back(row);
