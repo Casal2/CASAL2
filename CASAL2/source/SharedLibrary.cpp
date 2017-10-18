@@ -260,9 +260,8 @@ int Run(int argc, char * argv[], niwa::utilities::RunParameters& options) {
       if (logging.errors().size() > 0) {
         logging.FlushErrors();
         return_code = -1;
-      }
-
-      logging.FlushWarnings();
+      } else
+        logging.FlushWarnings();
 
       if (!model.global_configuration().debug_mode() && !model.global_configuration().disable_standard_report())
         standard_report.Finalise();
