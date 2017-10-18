@@ -52,8 +52,6 @@ SurvivalConstantRate::SurvivalConstantRate(Model* model)
  * - Check the categories are real
  */
 void SurvivalConstantRate::DoValidate() {
-  category_labels_ = model_->categories()->ExpandLabels(category_labels_, parameters_.Get(PARAM_CATEGORIES));
-
   // If one S supplied expand for each category
   if (s_input_.size() == 1)
     s_input_.assign(category_labels_.size(), s_input_[0]);
@@ -81,12 +79,6 @@ void SurvivalConstantRate::DoValidate() {
   // Assign survival rates to a map s_
   for (unsigned i = 0; i < s_input_.size(); ++i)
     s_[category_labels_[i]] = s_input_[i];
-
-  // Check categories are real
-  for (const string& label : category_labels_) {
-    if (!model_->categories()->IsValid(label))
-      LOG_ERROR_P(PARAM_CATEGORIES) << ": category " << label << " does not exist. Have you defined it?";
-  }
 }
 
 /**

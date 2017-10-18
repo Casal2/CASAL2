@@ -87,8 +87,6 @@ void MortalityInstantaneous::DoValidate() {
       LOG_ERROR_P(PARAM_TIME_STEP_RATIO) << "Natural Mortality time step ratio cannot be greater than 1 or less than 0 for a given time step";
   }
 
-  category_labels_ = model_->categories()->ExpandLabels(category_labels_, parameters_.Get(PARAM_CATEGORIES));
-
   /**
    * Load a temporary map of the fishery catch data so we can use this
    * when we load our vector of FisheryData objects
@@ -163,6 +161,12 @@ void MortalityInstantaneous::DoValidate() {
    */
   columns = method_table_->columns();
   rows = method_table_->data();
+  LOG_FINE() << "method_table.columns.size(): " << columns.size();
+  LOG_FINE() << "method_table.rows.size(): " << rows.size();
+  LOG_FINE() << "columns: " << boost::join(columns, " ");
+  for (auto row : rows) {
+    LOG_FINE() << "row: " << boost::join(row, " ");
+  }
 
   // Check the column headers are all specified corectly
   if (std::find(columns.begin(), columns.end(), PARAM_METHOD) == columns.end())
@@ -213,7 +217,7 @@ void MortalityInstantaneous::DoValidate() {
     boost::split(categories, row[category_index], boost::is_any_of(","));
     boost::split(selectivities, row[selectivity_index], boost::is_any_of(","));
     if (categories.size() != selectivities.size())
-      LOG_ERROR_P(PARAM_METHOD) << "The number of categories (" << categories.size()
+      LOG_FATAL_P(PARAM_METHOD) << "The number of categories (" << categories.size()
       << ") and selectivities (" << selectivities.size() << ") provided must be identical";
 
     for (unsigned i = 0; i < categories.size(); ++i) {

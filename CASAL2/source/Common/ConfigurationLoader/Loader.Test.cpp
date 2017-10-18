@@ -19,6 +19,7 @@
 #include "Common/Model/Model.h"
 #include "Common/Processes/Manager.h"
 #include "TestResources/TestFixtures/InternalEmptyModel.h"
+#include "Common/Utilities/String.h"
 
 // Namespaces
 namespace niwa {
@@ -35,7 +36,7 @@ public:
     Model model;
     Loader loader(model);
     string error = "";
-    if (!loader.HandleOperators(line_values, error)) {
+    if (!utilities::String::HandleOperators(line_values, error)) {
       cout << "ERROR: " << error << endl;
       return false;
     }
@@ -43,15 +44,11 @@ public:
   }
 
   void HandleAssignment(const string& input, string& output) {
-    Model model;
-    Loader loader(model);
-    loader.HandleAssignment(input, output);
+    utilities::String::HandleAssignment(input, output);
   }
 
   string RangeSplit(const string& input) {
-    Model model;
-    Loader loader(model);
-    return loader.RangeSplit(input);
+    return utilities::String::RangeSplit(input);
   }
 };
 

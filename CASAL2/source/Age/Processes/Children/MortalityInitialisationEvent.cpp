@@ -49,8 +49,6 @@ MortalityInitialisationEvent::MortalityInitialisationEvent(Model* model)
  * 2. Assign any remaining variables
  */
 void MortalityInitialisationEvent::DoValidate() {
-  category_labels_ = model_->categories()->ExpandLabels(category_labels_, parameters_.Get(PARAM_CATEGORIES));
-
   // Validate that the number of selectivities is the same as the number of categories
   if (category_labels_.size() != selectivity_names_.size()) {
     LOG_ERROR_P(PARAM_SELECTIVITIES)

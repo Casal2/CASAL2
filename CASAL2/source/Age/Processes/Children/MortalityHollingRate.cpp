@@ -74,9 +74,6 @@ MortalityHollingRate::MortalityHollingRate(Model* model)
  * Note: all parameters are populated from configuration files
  */
 void MortalityHollingRate::DoValidate() {
-  prey_category_labels_ = model_->categories()->ExpandLabels(prey_category_labels_, parameters_.Get(PARAM_PREY_CATEGORIES));
-  predator_category_labels_ = model_->categories()->ExpandLabels(predator_category_labels_, parameters_.Get(PARAM_PREDATOR_CATEGORIES));
-
   if (prey_category_labels_.size() != prey_selectivity_labels_.size())
     LOG_ERROR_P(PARAM_PREY_CATEGORIES) << ": You provided (" << prey_selectivity_labels_.size() << ") prey selectivities but we have "
         << prey_category_labels_.size() << " prey catregories";

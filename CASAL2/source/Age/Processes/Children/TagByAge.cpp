@@ -64,9 +64,6 @@ TagByAge::~TagByAge() {
  * Validate the parameters from the configuration file
  */
 void TagByAge::DoValidate() {
-  from_category_labels_ = model_->categories()->ExpandLabels(from_category_labels_, parameters_.Get(PARAM_FROM));
-  to_category_labels_ = model_->categories()->ExpandLabels(to_category_labels_, parameters_.Get(PARAM_TO));
-
   if (from_category_labels_.size() != to_category_labels_.size()) {
     LOG_ERROR_P(PARAM_TO) << " number of values supplied (" << to_category_labels_.size()
         << ") does not match the number of from categories provided (" << from_category_labels_.size() << ")";

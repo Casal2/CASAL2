@@ -55,8 +55,6 @@ MortalityConstantRate::MortalityConstantRate(Model* model)
  * - Check the categories are real
  */
 void MortalityConstantRate::DoValidate() {
-  category_labels_ = model_->categories()->ExpandLabels(category_labels_, parameters_.Get(PARAM_CATEGORIES));
-
   if (m_input_.size() == 1)
     m_input_.assign(category_labels_.size(), m_input_[0]);
 //  if (selectivity_names_.size() == 1)
@@ -84,12 +82,6 @@ void MortalityConstantRate::DoValidate() {
 
   for (unsigned i = 0; i < m_input_.size(); ++i)
     m_[category_labels_[i]] = m_input_[i];
-
-  // Check categories are real
-  for (const string& label : category_labels_) {
-    if (!model_->categories()->IsValid(label))
-      LOG_ERROR_P(PARAM_CATEGORIES) << ": category " << label << " does not exist. Have you defined it?";
-  }
 }
 
 /**

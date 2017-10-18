@@ -55,16 +55,6 @@ DerivedQuantity::DerivedQuantity(Model* model)
  */
 void DerivedQuantity::Validate() {
   parameters_.Populate(model_);
-  category_labels_ = model_->categories()->ExpandLabels(category_labels_, parameters_.Get(PARAM_CATEGORIES));
-
-  // Validate Categories
-  auto categories = model_->categories();
-  for (const string& label : category_labels_) {
-    if (!categories->IsValid(label))
-      LOG_ERROR_P(PARAM_CATEGORIES) << ": category " << label << " does not exist. Have you defined it?";
-  }
-
-
 
   if (proportion_method_ == PARAM_WEIGHTED_PRODUCT)
     mean_proportion_method_ = false;

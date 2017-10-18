@@ -43,13 +43,6 @@ Ageing::Ageing(Model* model)
  * 3. Assign any remaining parameters
  */
 void Ageing::DoValidate() {
-  category_labels_ = model_->categories()->ExpandLabels(category_labels_, parameters_.Get(PARAM_CATEGORIES));
-
-  // Ensure defined categories were valid
-  for(const string& category : category_labels_) {
-    if (!model_->categories()->IsValid(category))
-      LOG_ERROR_P(PARAM_CATEGORIES) << ": category " << category << " is not a valid category";
-  }
 }
 
 /**

@@ -50,8 +50,6 @@ MortalityEvent::MortalityEvent(Model* model)
  * 2. Assign any remaining variables
  */
 void MortalityEvent::DoValidate() {
-  category_labels_ = model_->categories()->ExpandLabels(category_labels_, parameters_.Get(PARAM_CATEGORIES));
-
   // Validate that our number of years_ and catches_ vectors are the same size
   if (years_.size() != catches_.size()) {
     LOG_ERROR_P(PARAM_CATCHES)

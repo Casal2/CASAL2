@@ -15,6 +15,8 @@
 
 #include <algorithm>
 
+#include "Common/Categories/Categories.h"
+#include "Common/Model/Model.h"
 #include "Common/Utilities/String.h"
 #include "Common/Utilities/To.h"
 #include "Common/Translations/Translations.h"
@@ -74,23 +76,34 @@ string Table::location() const {
 }
 
 /**
- * This method will build a map containing the Category by ages
+ *
  */
-void Table::FillMapOfCategoryAges(map<string, vector<Double>>& result) {
-  if (columns_.size() < 2)
-    LOG_CODE_ERROR() << "(columns_.size() < 2)";
-  if (columns_[0] != PARAM_CATEGORY)
-    LOG_ERROR() << location() << " must have " << PARAM_CATEGORY << " as the first column";
+void Table::Populate(Model* model) {
+  // get the index for PARAM_CATEGORY or PARAM_CATEGORIES if it exists
+  unsigned category_index = column_index(PARAM_CATEGORY);
+  category_index = category_index == columns_.size() ? column_index(PARAM_CATEGORIES) : category_index;
+  if (category_index == columns_.size())
+    return; // nothing to see here, move along
 
-  vector<string> temp(columns_.begin()+1, columns_.end());
-  vector<unsigned> age_list;
-  vector<string> invalids = utilities::To<unsigned>(temp, age_list);
-  if (invalids.size() != 0)
-    LOG_ERROR() << location() << ". The following values could not be converted in to unsigned integers for ages: " << utilities::String::join<string>(invalids);
+  // Make a copy of our data object so we can manipulate the container
+  vector<vector<string>> data_copy = data_;
+  data_.clear();
 
-//  unsigned min_age = std::min_element(age_list.begin(), age_list.end());
-//  unsigned max_age = std::max_element(age_list.begin(), age_list.end());
+  vector<string> category_labels;
+  string error = "";
+  for (auto row : data_copy) {
+    string category_lookup = row[category_index];
+    category_labels = model->categories()->GetCategoryLabelsV(category_lookup, location());
+    if (!utilities::String::HandleOperators(category_labels, error))
+      LOG_FATAL() << location() << error;
+    LOG_FINE() << "category_labels: " << boost::join(category_labels, " ");
 
+    for (auto label : category_labels) {
+      row[category_index] = label;
+      LOG_FINE() << "re-adding row to table: " << boost::join(row, " ");
+      data_.push_back(row);
+    }
+  }
 }
 
 } /* namespace parameters */
