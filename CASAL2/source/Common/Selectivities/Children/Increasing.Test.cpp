@@ -92,6 +92,26 @@ TEST(Selectivities, Increasing_Length) {
 
 }
 
+//TEST(Selectivities, Increasing_Length_Throw_Exception) {
+//  MockModel model;
+//  vector<unsigned> lengths = {10, 20, 30, 40, 50, 60, 120};
+//
+//  EXPECT_CALL(model, length_bins()).WillRepeatedly(ReturnRef(lengths));
+//  EXPECT_CALL(model, partition_type()).WillRepeatedly(Return(PartitionType::kLength));
+//
+//  niwa::selectivities::Increasing increasing(&model);
+//
+//  vector<string> v = {"0.1","0.2","0.3","0.5","0.2"};
+//
+//  increasing.parameters().Add(PARAM_LABEL, "unit_test_increasing", __FILE__, __LINE__);
+//  increasing.parameters().Add(PARAM_TYPE, "not needed in test", __FILE__, __LINE__);
+//  increasing.parameters().Add(PARAM_L, "19",  __FILE__, __LINE__);
+//  increasing.parameters().Add(PARAM_H, "55",  __FILE__, __LINE__);
+//  increasing.parameters().Add(PARAM_V, v,  __FILE__, __LINE__);
+//  ASSERT_THROW(increasing.Validate(), std::string);
+//
+//}
+
 }
 
 #endif /* ifdef TESTMODE */
