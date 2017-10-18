@@ -593,26 +593,6 @@ void MortalityInstantaneous::DoExecute() {
     }
   }
 }
-/*
- * @fun calculate_requests_from_removal_observation
- * @description this builds up a container that is checked what information is to be stored for observations to use later
- * This has to be able to handle being called multiple times as we can have multiple observations on a single process.
- * @param years to calculate expectations for
- * @param methods the methods to store information for
- * @param categories the categories to store information for
- *
-*/
-void MortalityInstantaneous::calculate_requests_from_removal_observation(vector<unsigned> years, vector<string> methods,vector<string> categories){
-/*  for (auto year : years) {
-    for (auto method : methods) {
-      for (auto category : categories) {
-         // Do something
-        LOG_FINEST() << "methods = " << method;
-        year_method_category_to_store_[year][method].push_back(category);
-      }
-    }
-  }*/
-}
 
 /*
  * @fun FillReportCache
@@ -670,7 +650,94 @@ void MortalityInstantaneous::FillTabularReportCache(ostringstream& cache, bool f
     for (auto actual_catches : fishery.actual_catches_)
       cache <<  actual_catches.second << " ";
   }
+}
 
+/*
+ * @fun check_categories_in_methods_for_removal_obs
+ * @description method checks if there is a category in each method, to make sure the observation class is compatable with the process
+ * @param methods a vector of methods
+ * @param category_labels a vector of categories to check.
+ *
+*/
+bool MortalityInstantaneous::check_categories_in_methods_for_removal_obs(vector<string> methods, vector<string> category_labels) {
+  LOG_TRACE();
+
+  unsigned fishery_index = 0;
+
+  for (; fishery_index < methods.size(); ++fishery_index) {
+    unsigned categories_counter = 0;
+    for (auto& fishery_iter : fisheries_) {
+      auto& fishery = fishery_iter.second;
+      // Check that the fishery occurs in this time step.
+      if (fishery.label_!= methods[fishery_index])
+        continue;
+      // Check all categories are in this method
+      for (unsigned category_index = 0; category_index < category_labels.size(); ++category_index) {
+        for (auto& fishery_category : fishery_categories_) {
+          if ((fishery_category.fishery_.label_ == fishery.label_) & (fishery_category.category_label_ == category_labels[category_index]))
+            ++categories_counter;
+        }
+      }
+      if (categories_counter != category_labels.size()) {
+        LOG_FINEST() << "category counter = " << categories_counter << " categories supplies = " << category_labels.size();
+        return false;
+      }
+    }
+  }
+
+  return true;
+}
+
+/*
+ * @fun check_years_in_methods_for_removal_obs
+ * @description method checks if there is a category in each method for each year, to make sure the observation class is compatable with the process
+ * @param years a vector of years
+ * @param methods a vector of methods
+ *
+*/
+bool MortalityInstantaneous::check_years_in_methods_for_removal_obs(vector<unsigned> years, vector<string> methods) {
+  LOG_TRACE();
+  for (unsigned fishery_index = 0; fishery_index < methods.size(); ++fishery_index) {
+    for (auto& fishery_iter : fisheries_) {
+      auto& fishery = fishery_iter.second;
+      // Check that the fishery occurs in this time step.
+      if (fishery.label_!= methods[fishery_index])
+        continue;
+      unsigned year_counter = 0;
+      for (auto& catches : fishery.catches_) {
+        // Check year is in the vector
+        if (find(years.begin(),years.end(),catches.first) != years.end()) {
+          if(catches.second <= 0)
+            return false;
+          ++year_counter;
+        }
+      }
+      if (year_counter != years.size())
+        return false;
+    }
+  }
+  return true;
+}
+
+/*
+ * @fun check_categories_in_methods_for_removal_obs
+ * @description method checks if each method exists, to make sure the observation class is compatable with the process
+ * @param methods a vector of methods
+ *
+*/
+bool MortalityInstantaneous::check_methods_for_removal_obs(vector<string> methods) {
+  LOG_TRACE();
+  unsigned method_counter = 0;
+  for (unsigned fishery_index = 0; fishery_index < methods.size(); ++fishery_index) {
+    for (auto& fishery_iter : fisheries_) {
+      if (fishery_iter.second.label_ == methods[fishery_index])
+        ++method_counter;
+    }
+  }
+  if (method_counter != methods.size())
+    return false;
+
+  return true;
 }
 
 } /* namespace processes */
