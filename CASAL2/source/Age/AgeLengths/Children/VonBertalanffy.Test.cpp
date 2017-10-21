@@ -142,6 +142,7 @@ TEST(AgeLengths, VonBertalanffy_DoAgeLengthConversion) {
   MockTimeStepManager time_step_manager;
   time_step_manager.time_step_index_ = 0;
   vector<string> time_steps = {"0", "1", "2"};
+  vector<unsigned> years = { 1990, 1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999 };
   EXPECT_CALL(mock_managers, time_step()).WillRepeatedly(Return(&time_step_manager));
 
   EXPECT_CALL(model, min_age()).WillRepeatedly(Return(5));
@@ -153,6 +154,7 @@ TEST(AgeLengths, VonBertalanffy_DoAgeLengthConversion) {
   EXPECT_CALL(model, age_plus()).WillRepeatedly(Return(true));
   EXPECT_CALL(model, managers()).WillRepeatedly(ReturnRef(mock_managers));
   EXPECT_CALL(model, time_steps()).WillRepeatedly(ReturnRef(time_steps));
+  EXPECT_CALL(model, years()).WillRepeatedly(Return(years));
   EXPECT_CALL(model, partition_type()).WillRepeatedly(Return(PartitionType::kAge));
 
   selectivities::Logistic logistic(&model);
@@ -216,6 +218,7 @@ TEST(AgeLengths, VonBertalanffy_DoAgeLengthConversion_plusGrp) {
   MockTimeStepManager time_step_manager;
   time_step_manager.time_step_index_ = 0;
   vector<string> time_steps = {"0", "1", "2"};
+  vector<unsigned> years = { 1990, 1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999 };
 
   EXPECT_CALL(mock_managers, time_step()).WillRepeatedly(Return(&time_step_manager));
 
@@ -228,6 +231,7 @@ TEST(AgeLengths, VonBertalanffy_DoAgeLengthConversion_plusGrp) {
   EXPECT_CALL(model, age_plus()).WillRepeatedly(Return(true));
   EXPECT_CALL(model, managers()).WillRepeatedly(ReturnRef(mock_managers));
   EXPECT_CALL(model, time_steps()).WillRepeatedly(ReturnRef(time_steps));
+  EXPECT_CALL(model, years()).WillRepeatedly(Return(years));
   EXPECT_CALL(model, partition_type()).WillRepeatedly(Return(PartitionType::kAge));
 
   selectivities::Logistic logistic(&model);
