@@ -119,7 +119,7 @@ void Category::UpdateAgeLengthData(const vector<Double>& length_bins, bool plus_
   AgeLength* age_length = categories->age_length(name_);
   if (!age_length)
     LOG_CODE_ERROR() << "if (!age_length) for category " << name_;
-  age_length->DoAgeToLengthConversion(this, length_bins, plus_grp, selectivity);
+  age_length->DoAgeToLengthMatrixConversion(this, length_bins, plus_grp, selectivity);
 }
 
 
