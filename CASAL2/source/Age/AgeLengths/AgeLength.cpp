@@ -45,6 +45,7 @@ AgeLength::AgeLength(Model* model) : model_(model) {
   parameters_.Bind<Double>(PARAM_CV_LAST, &cv_last_ , "CV for last age class", "",Double(0.0))->set_lower_bound(0.0);
   parameters_.Bind<bool>(PARAM_CASAL_SWITCH, &casal_normal_cdf_ , "If true, use the (less accurate) equation for the cumulative normal function as was used in the legacy version of CASAL.", "",false);
   parameters_.Bind<bool>(PARAM_BY_LENGTH, &by_length_, "Specifies if the linear interpolation of CV's is a linear function of mean length at age. Default is just by age", "", true);
+  parameters_.Bind<Double>(PARAM_LENGTH_BINS, &length_bins_, "List of length bins for this age length", "", true);
 
   RegisterAsAddressable(PARAM_CV_FIRST, &cv_first_);
   RegisterAsAddressable(PARAM_CV_LAST, &cv_last_);
@@ -79,14 +80,6 @@ void AgeLength::Build() {
       LOG_ERROR_P(PARAM_TIME_STEP_PROPORTIONS) << " value (" << iter << ") must be in the range 0.0-1.0";
   }
 
-  string cv_last_lab = "age_length[" + label_ + "].cv_last";
-  string cv_first_lab = "age_length[" + label_ + "].cv_first";
-  bool cv_last = model_->managers().estimate()->HasEstimate(cv_last_lab);
-  bool cv_first = model_->managers().estimate()->HasEstimate(cv_first_lab);
-
-  if (cv_last || cv_first)
-    rebuild_cv_ = true;
-
   DoBuild();
   BuildCV();
 }
@@ -98,14 +91,12 @@ void AgeLength::Build() {
 void AgeLength::BuildCV() {
   unsigned min_age = model_->min_age();
   unsigned max_age = model_->max_age();
-  unsigned start_year = model_->start_year();
-  unsigned final_year = model_->final_year();
-  if (model_->run_mode() == RunMode::kProjection)
-    final_year = model_->projection_final_year();
-
+  vector<unsigned> years = model_->years();
   vector<string> time_steps = model_->time_steps();
   LOG_FINE() << "number of time steps " << time_steps.size();
-  for (unsigned year_iter = start_year; year_iter <= final_year; ++year_iter) {
+
+//  for (unsigned year_iter = 0; year_iter < years.size(); ++year_iter) {
+  for (unsigned year_iter : years) {
     for (unsigned step_iter = 0; step_iter < time_steps.size(); ++step_iter) {
       if (!parameters_.Get(PARAM_CV_LAST)->has_been_defined()) { // this test is robust but not compatible with testing framework, blah
         //If cv_last_ is not defined in the input then assume cv_first_ represents the cv for all age classes i.e constant cv
@@ -241,7 +232,7 @@ void AgeLength::DoAgeToLengthMatrixConversion(partition::Category* category, con
  * Reset the age length class.
  */
 void AgeLength::Reset() {
-  if (rebuild_cv_) {
+  if (is_estimated_) {
     LOG_FINEST() << "We are re-building cv lookup table.";
     BuildCV();
   }
@@ -252,8 +243,7 @@ void AgeLength::Reset() {
  * ReBuild Cache: intiated by the time_varying class.
  */
 void AgeLength::RebuildCache() {
-  if (rebuild_cv_)
-    BuildCV();
+  BuildCV();
   DoRebuildCache();
 }
 
