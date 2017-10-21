@@ -110,17 +110,17 @@ void AgeLength::BuildCV() {
       if (!parameters_.Get(PARAM_CV_LAST)->has_been_defined()) { // this test is robust but not compatible with testing framework, blah
         //If cv_last_ is not defined in the input then assume cv_first_ represents the cv for all age classes i.e constant cv
         for (unsigned age_iter = min_age; age_iter <= max_age; ++age_iter) {
-          cvs_[year_iter][age_iter][step_iter] = (cv_first_);
+          cvs_[year_iter][step_iter][age_iter] = (cv_first_);
           //LOG_FINE() << "cv for age = " << age_iter << " in time_step " << step_iter << " in year " << year_iter << " = " << cvs_[year_iter][age_iter][step_iter];
         }
       } else if (by_length_) {  // if passed the first test we have a min and max CV. So ask if this is linear interpolated by length at age
         for (unsigned age_iter = min_age; age_iter <= max_age; ++age_iter)
-          cvs_[year_iter][age_iter][step_iter] = ((this->mean_length(step_iter, age_iter) - this->mean_length(step_iter, min_age)) * (cv_last_ - cv_first_)
+          cvs_[year_iter][step_iter][age_iter] = ((this->mean_length(step_iter, age_iter) - this->mean_length(step_iter, min_age)) * (cv_last_ - cv_first_)
               / (this->mean_length(step_iter, max_age) - this->mean_length(step_iter, min_age)) + cv_first_);
       } else {
         // else Do linear interpolation between cv_first_ and cv_last_ based on age class
         for (unsigned age_iter = min_age; age_iter <= max_age; ++age_iter) {
-          cvs_[year_iter][age_iter][step_iter] = (cv_first_ + (cv_last_ - cv_first_) * (age_iter - min_age) / (max_age - min_age));
+          cvs_[year_iter][step_iter][age_iter] = (cv_first_ + (cv_last_ - cv_first_) * (age_iter - min_age) / (max_age - min_age));
         }
       }
     }
@@ -208,7 +208,7 @@ void AgeLength::CummulativeNormal(Double mu, Double cv, vector<Double>& prop_in_
  * @param length_bins vector of the length bins to map too
  * @param selectivity SelectivityPointer to apply (age based selectivity)
  */
-void AgeLength::DoAgeToLengthConversion(partition::Category* category, const vector<Double>& length_bins, bool plus_grp, Selectivity* selectivity) {
+void AgeLength::DoAgeToLengthMatrixConversion(partition::Category* category, const vector<Double>& length_bins, bool plus_grp, Selectivity* selectivity) {
   LOG_TRACE();
   unsigned year = model_->current_year();
   unsigned size = length_bins.size();
@@ -222,11 +222,11 @@ void AgeLength::DoAgeToLengthConversion(partition::Category* category, const vec
     vector<Double> age_frequencies;
     unsigned age = category->min_age_ + i;
 
-    if (cvs_[year][age][time_step] <= 0.0)
+    if (cvs_[year][time_step][age] <= 0.0)
         LOG_FATAL_P(PARAM_CV_FIRST) << "Identified a CV of 0.0, in year " << year << ", for age " << age << " and time step = " << time_step << " please check parameters cv_first and cv_last in the @age_length, or make sure you have specified suitable bounds in the @estimate block";
 
     Double mu= category->mean_length_by_time_step_age_[time_step][age];
-    CummulativeNormal(mu, cvs_[year][age][time_step], age_frequencies, length_bins, distribution_, plus_grp);
+    CummulativeNormal(mu, cvs_[year][time_step][age], age_frequencies, length_bins, distribution_, plus_grp);
     category->age_length_matrix_[i].resize(size);
 
     // Loop through the length bins and multiple the partition of the current age to go from

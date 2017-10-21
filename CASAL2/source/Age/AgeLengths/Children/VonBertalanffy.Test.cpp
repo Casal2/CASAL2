@@ -179,10 +179,10 @@ TEST(AgeLengths, VonBertalanffy_DoAgeLengthConversion) {
 
   ASSERT_NO_THROW(von_bertalanffy.MockBuildCV());
 
-  EXPECT_DOUBLE_EQ(0.1, von_bertalanffy.cv(1999, 5, 0));
-  EXPECT_DOUBLE_EQ(0.1, von_bertalanffy.cv(1999, 10, 0));
+  EXPECT_DOUBLE_EQ(0.1, von_bertalanffy.cv(1999, 0, 5));
+  EXPECT_DOUBLE_EQ(0.1, von_bertalanffy.cv(1999, 0, 10));
 
-  von_bertalanffy.DoAgeToLengthConversion(&male, {0, 10, 20, 25, 30}, false, &logistic);
+  von_bertalanffy.DoAgeToLengthMatrixConversion(&male, {0, 10, 20, 25, 30}, false, &logistic);
 
   // Check that the CV is being built appropriately and that the mean is stored correctly
 
@@ -253,11 +253,11 @@ TEST(AgeLengths, VonBertalanffy_DoAgeLengthConversion_plusGrp) {
   MockVonBertalanffy von_bertalanffy1(model, 80, 0.064, 4, false, 0.2, 0.2, {1.0});
   ASSERT_NO_THROW(von_bertalanffy1.MockBuildCV());
 
-  von_bertalanffy1.DoAgeToLengthConversion(&male, {0, 10, 20, 25, 30}, true, &logistic);
+  von_bertalanffy1.DoAgeToLengthMatrixConversion(&male, {0, 10, 20, 25, 30}, true, &logistic);
 
   // Check that the CV is being built appropriately and that the mean is stored correctly
-   EXPECT_DOUBLE_EQ(0.2, von_bertalanffy1.cv(1999, 5, 0));
-   EXPECT_DOUBLE_EQ(0.2, von_bertalanffy1.cv(1999, 10, 0));
+   EXPECT_DOUBLE_EQ(0.2, von_bertalanffy1.cv(1999, 0, 5));
+   EXPECT_DOUBLE_EQ(0.2, von_bertalanffy1.cv(1999, 0, 10));
 
    //Run through length for the min and max age
    vector<Double> expec1 = {1635.5889366403298, 0.00030682770114173025, 0, 0, 0};
