@@ -24,7 +24,7 @@ namespace reports {
  */
 ObjectiveFunction::ObjectiveFunction(Model* model) : Report(model) {
   model_state_ = State::kIterationComplete;
-  run_mode_    = (RunMode::Type)(RunMode::kEstimation | RunMode::kBasic | RunMode::kProjection);
+  run_mode_    = (RunMode::Type)(RunMode::kEstimation | RunMode::kBasic | RunMode::kProjection| RunMode::kProfiling);
 }
 
 /**
