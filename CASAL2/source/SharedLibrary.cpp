@@ -194,7 +194,7 @@ int Run(int argc, char * argv[], niwa::utilities::RunParameters& options) {
     case RunMode::kHelp:
       break;
 
-    case RunMode::kQuery:
+ /*   case RunMode::kQuery:
       {
         string lookup = model.global_configuration().object_to_query();
         vector<string> parts;
@@ -214,7 +214,7 @@ int Run(int argc, char * argv[], niwa::utilities::RunParameters& options) {
         }
       }
       break;
-
+*/
     case RunMode::kBasic:
     case RunMode::kEstimation:
     case RunMode::kMCMC:
