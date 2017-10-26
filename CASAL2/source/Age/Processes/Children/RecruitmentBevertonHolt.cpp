@@ -93,7 +93,7 @@ void RecruitmentBevertonHolt::DoValidate() {
   Double running_total = 0.0;
   for (Double value : proportions_) // Again, ADOLC prevents std::accum
     running_total += value;
-  if (!dc::IsOne(running_total))
+  if ((running_total - 1.0) > 0.0001)
     LOG_ERROR_P(PARAM_PROPORTIONS) << " sum total is " << running_total << " when it should be 1.0";
 
   if (ycs_years_.size() != ((model_->final_year() - model_->start_year()) + 1))

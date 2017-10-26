@@ -139,7 +139,7 @@ void ProcessRemovalsByLength::DoValidate() {
       obs_by_year[year].push_back(value);
     }
     if (obs_by_year[year].size() != obs_expected - 1)
-      LOG_FATAL_P(PARAM_OBS) << "you supplied " << obs_by_year[year].size() << " years, but we expected " << obs_expected -1 << " can you please sort this out. Chairs";
+      LOG_FATAL_P(PARAM_OBS) << "you supplied " << obs_by_year[year].size() << " lengths, but we expected " << obs_expected -1 << " can you please sort this out. Chairs";
   }
 
   /**

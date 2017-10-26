@@ -23,6 +23,7 @@
 #include "Common/Model/Managers.h"
 #include "Common/Processes/Manager.h"
 #include "Common/Selectivities/Manager.h"
+#include "Common/LengthWeights/Manager.h"
 #include "Common/InitialisationPhases/Manager.h"
 #include "Common/TimeVarying/Manager.h"
 #include "Common/Observations/Manager.h"
@@ -50,6 +51,7 @@ Objects::Objects(Model* model) : model_(model) {
  * @return True if the verification was successful, false otherwise
  */
 bool Objects::VerfiyAddressableForUse(const string& parameter_absolute_name, addressable::Usage usage, string& error) {
+  LOG_TRACE();
   string type       = "";
   string label      = "";
   string parameter  = "";
@@ -208,6 +210,9 @@ base::Object* Objects::FindObjectOrNull(const string& parameter_absolute_name) {
   } else if (type == PARAM_AGE_LENGTH) {
     result = model_->managers().age_length()->FindAgeLength(label);
 
+  } else if (type == PARAM_LENGTH_WEIGHT) {
+    result = model_->managers().length_weight()->GetLengthWeight(label);
+
   } else if (type == PARAM_INITIALISATION_PHASE) {
     result = model_->managers().initialisation_phase()->GetInitPhase(label);
 
@@ -226,7 +231,7 @@ base::Object* Objects::FindObjectOrNull(const string& parameter_absolute_name) {
   } else if (type == PARAM_OBSERVATION) {
     result = model_->managers().observation()->GetObservation(label);
   } else {
-    LOG_CODE_ERROR() << "Currently the type " << type << " has not been coded to find addressable, please add it here.";
+    LOG_FATAL() << "Currently the type " << type << ", first please check you have spelt it correctly, if you are confident you have it may not be coded to find addressable, please add it the class to FindObject() in Model/Objects.cpp by contacting the development team";
   }
 
   return result;

@@ -179,7 +179,7 @@ void ParameterList::Populate(Model* model) {
         boost::split(plus_split_categories, category_groups, boost::is_any_of("+"));
         for (string& single_category : plus_split_categories) {
           if (!model->categories()->IsValid(single_category))
-            LOG_ERROR() << iter.second->location() << ": category " << single_category << " is not a valid category";
+            LOG_FATAL() << iter.second->location() << ": category " << single_category << " is not a valid category";
         }
       }
     }
