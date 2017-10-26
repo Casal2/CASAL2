@@ -62,7 +62,8 @@ function(model, report_label="", type = "number", xlim, ylim, xlab, ylab, main, 
     ## only a single trajectory
     derived_quantities = names(this_report$'1')[names(this_report$'1') != "type"]
     ## create a multi-plot panel
-    par(mfrow = c(1,length(derived_quantities)))
+    if (plot.it)
+      par(mfrow = c(1,length(derived_quantities)))
     for (i in 1:length(derived_quantities)) {
       this_derived_q = get(derived_quantities[i], this_report$'1')
       values = this_derived_q$values
@@ -98,7 +99,7 @@ function(model, report_label="", type = "number", xlim, ylim, xlab, ylab, main, 
       if (plot.it == TRUE) {
         plot(years, values, xlim = xlim, ylim = ylim, xlab = xlab, ylab = ylab, main = main, type = "o", ...)
       } else {
-        temp_DF = cbind(values,temp_DF);
+        temp_DF = cbind(temp_DF,values);
       }
     }  
     if (plot.it == FALSE)
@@ -115,7 +116,8 @@ function(model, report_label="", type = "number", xlim, ylim, xlab, ylab, main, 
       Cols = col;
     }
     temp_DF = list();
-    par(mfrow = c(1,length(derived_quantities)))
+    if (plot.it)
+      par(mfrow = c(1,length(derived_quantities)))
     for (k in 1:length(derived_quantities)) {
     temp_df = c()
       first_run = TRUE;
