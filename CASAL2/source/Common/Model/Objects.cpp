@@ -64,7 +64,7 @@ bool Objects::VerfiyAddressableForUse(const string& parameter_absolute_name, add
     return false;
   }
 
-  base::Object* object = this->FindObject(parameter_absolute_name);
+  base::Object* object = this->FindObjectOrNull(parameter_absolute_name);
   if (!object) {
     str << "Parent object for " << parameter_absolute_name << " is not valid. Please double check spelling";
     error = str.str();
@@ -102,7 +102,7 @@ addressable::Type Objects::GetAddressableType(const string& parameter_absolute_n
       return addressable::kMultiple;
   } // TODO; Write unit tests for the above
 
-  base::Object* target = FindObject(parameter_absolute_name); // TODO: Mock FIndObject() so we can unit test this.
+  base::Object* target = FindObjectOrNull(parameter_absolute_name); // TODO: Mock FIndObject() so we can unit test this.
   return target->GetAddressableType(parameter_index.first);
 }
 
@@ -187,8 +187,7 @@ vector<Double>* Objects::GetAddressableVector(const string& parameter_absolute_n
  * @param object_absolute_name The absolute name for the parameter. This includes the object details (e.g process[mortality].m
  * @return Pointer to object or empty pointer if it's not found
  */
-
-base::Object* Objects::FindObject(const string& parameter_absolute_name) {
+base::Object* Objects::FindObjectOrNull(const string& parameter_absolute_name) {
   LOG_FINE() << "Looking for object: " << parameter_absolute_name;
   base::Object* result = nullptr;
 
@@ -230,6 +229,11 @@ base::Object* Objects::FindObject(const string& parameter_absolute_name) {
     LOG_CODE_ERROR() << "Currently the type " << type << " has not been coded to find addressable, please add it here.";
   }
 
+  return result;
+}
+
+base::Object* Objects::FindObject(const string& parameter_absolute_name) {
+  base::Object* result = FindObjectOrNull(parameter_absolute_name);
 
   if (!result) {
     LOG_CODE_ERROR() << parameter_absolute_name << " could not be located. "
