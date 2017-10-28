@@ -48,7 +48,7 @@ Generally when comparing model outputs we are either comparing different paramet
 \texttt{plot.ycs()}
 
 \paragraph*{DataWeighting}
-An important component of stock assessment is dealing with data conflicts through the use of dataweighting. There are a range of methods for this for a great summary see \cite{francis2011data}. The function implemented in the \CNAME\ R-library is TA1.8, which can be invoked using \texttt{Method.TA1.8()}. I have tried to automate this process for users by adding an assisting function named \subcommand{apply.dataweighting.to.csl2}. This function allows users to automatically apply a weighting factor to a specific compositional \command{observation} block, and generate a new \subcommand{.csl2} file to be re-estimated.
+An important component of stock assessment is dealing with data conflicts through the use of dataweighting. There are a range of methods for this for a great summary see \cite{francis2011data}. The function implemented in the \CNAME\ R-library is TA1.8, which can be invoked using \texttt{Method.TA1.8()}. We have tried to automate this process for users by adding an assist function named \subcommand{apply.dataweighting.to.csl2}. This function allows users to automatically apply a weighting factor to a specific compositional \command{observation} block, and generate a new \subcommand{.csl2} file to be re-estimated.
 
 \begin{lstlisting}
 library(casal2)
@@ -66,7 +66,7 @@ apply.dataweighting.to.csl2(weighting_factor = WeightingFactor, Observation_csl2
 \end{lstlisting}
 
 
-Another handy piece of code that I wrote, which automates the dataweighting process follows.
+Another handy piece of code automates the dataweighting process, as follows
 
 \begin{lstlisting}
 library(casal2)
@@ -97,7 +97,7 @@ embedded nul(s) found in input
 File is empty, no reports found
 \end{lstlisting}
 
-I have resolved the abover error by trying an alternative UTF formatting using the \subcommand{fileEncoding} parameter e.g,
+We have resolved the abover error by trying an alternative UTF formatting using the \subcommand{fileEncoding} parameter e.g,
 \begin{lstlisting}
 library(casal2)
 MyOutput = extract.mpd(file = "Estimate.log", path = getwd(), , fileEncoding = "UTF-16LE")
