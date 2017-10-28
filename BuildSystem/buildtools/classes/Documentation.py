@@ -40,6 +40,7 @@ class Class:
         self.parent_name_ = ""
         self.variables_ = {}
         self.estimables_ = {}
+        self.addressables_ = {}
         self.child_classes_  = {}
         self.variable_order_ = []
 
@@ -536,12 +537,21 @@ class VariableLoader:
 	  lookup = pieces[2].replace('addressable::k', '').replace(')', '').lstrip().rstrip()
 	
 	## At some point it would be nice to add the lookup into the auto-documentation but that can wait.
-        print '--> Estimable: ' + name + ' with variable ' + variable + ' lookup = ' + lookup   
+        print '--> Estimable: ' + name + ' with variable ' + variable + ' lookup = ' + lookup  + ' ' + class_.variables_[variable].name_
         if name in translations_:    
           name = translations_[name]
         print class_.variables_
-        class_.estimables_[name] = class_.variables_[variable].type_
-        print '--> Estimable: ' + name + ' as type ' + class_.estimables_[name]
+  	if lookup == "all":
+          class_.estimables_[name] = class_.variables_[variable].type_
+          print '--> Estimable: ' + name + ' as type ' + class_.estimables_[name]
+        else:
+          class_.addressables_[name] = class_.variables_[variable].type_
+          ## This will not deal with the following case. When a object is user defined in the constructor, and has an addressable not 'all'
+          print '--> Addressable: ' + name + ' as type ' + class_.addressables_[name] + ' ' + class_.variables_[variable].name_
+          variable_temp = Variable()
+          variable_temp.name_ = name
+          class_.variables_[name] = variable_temp
+          class_.variable_order_.append(name)
         return True
 
 class Printer:
@@ -619,9 +629,11 @@ class Printer:
     def PrintClass(self, file_, class_):
         class_.estimables_ = collections.OrderedDict(sorted(class_.estimables_.items()))
         for key in class_.variable_order_:
+            print key
             variable = class_.variables_[(key)]
             if variable.name_ == '':
                 continue
+            print variable.name_ + ' ' + class_.name_
             # Remove PARAMs and associated desriptions of variables that have yet to be completed in the code
             if variable.description_.startswith('TBA'):
                 continue
@@ -632,6 +644,11 @@ class Printer:
                     file_.write('\\defType{estimable vector}\n')
                 else:
                     file_.write('\\defType{estimable}\n')
+            elif variable.name_ in class_.addressables_:
+                if class_.addressables_[variable.name_ ].startswith('vector<') or class_.addressables_[variable.name_ ].startswith('map<'):
+                    file_.write('\\defType{Addressable vector}\n')
+                else:
+                    file_.write('\\defType{Addressable}\n')                    
             else:
                 file_.write('\\defType{' + type_aliases_[variable.type_] + '}\n')
 

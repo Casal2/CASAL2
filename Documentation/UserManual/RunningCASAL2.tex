@@ -220,9 +220,9 @@ Alternatively, to comment out an entire block or section place a \commentstart\ 
 		*/
 		\end{verbatim}}}
 
-\subsubsection{Determining \CNAME\ object names\label{sec:object-names}\index{Determining parameter names}\index{Parameter names}}
+\subsubsection{Determining \CNAME\ parameter names\label{sec:parameter-names}\index{Determining parameter names}\index{Parameter names}}
 
-When \CNAME\ processes an \config\ it translates each command block and each subcommand block into a unique \CNAME\ object, each with a unique object name. For commands, this object name is simply the command label. For subcommands, the object name format is either: 
+When \CNAME\ processes an \config\ it translates each command block and each subcommand block into a unique \CNAME\ object, each with a unique parameter name. For commands, this parameter name is simply the command label. For subcommands, the parameter name format is either: 
 
 \begin{description}
 \item \texttt{command[label].subcommand} if the command has a label, or
@@ -231,15 +231,15 @@ When \CNAME\ processes an \config\ it translates each command block and each sub
 \item \texttt{command[label].subcommand\{i:j\}} if the command has a label, and the subcommand arguments are a vector, and we are accessing the elements from $i$ to $j$ (inclusive) of that vector.
 \end{description} 
 
-The unique object name is used to reference that unique object when, for example, estimating, applying a penalty, projecting, time varying or applying a profile. For example, the object name of the Natural mortality rates subcommand \subcommand{m} of the command \command{process} with the label \argument{NaturalMortality} is category related and so, the syntax to reference all m related categories is, 
+The unique parameter name is used to reference that unique parameter when, for example, estimating, applying a penalty, projecting, time varying or applying a profile. For example, the parameter name of the Natural mortality rates subcommand \subcommand{m} of the command \command{process} with the label \argument{NaturalMortality} is category related and so, the syntax to reference all m related categories is, 
 
 \texttt{process[NaturalMortality].m}
 
 Or, the syntax to specify a single category for which to apply the natural mortality process is,
 
-\texttt{process[NaturalMortality].m\{female\}}
+\texttt{process[NaturalMortality].m\{male\}}
 
-All labels (object names) are user specified. As such, naming conventions are non-restrictive and can be model specific.
+All labels (parameter names) are user specified. As such, naming conventions are non-restrictive and can be model specific.
 
 
 \subsection{\I{Single-stepping \CNAME}\label{sec:singlestepping}}\index{Single\_stepping}\index{single\_stepping section}
