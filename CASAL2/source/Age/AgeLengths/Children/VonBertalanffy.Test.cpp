@@ -142,6 +142,7 @@ TEST(AgeLengths, VonBertalanffy_DoAgeLengthConversion) {
   MockTimeStepManager time_step_manager;
   time_step_manager.time_step_index_ = 0;
   vector<string> time_steps = {"0", "1", "2"};
+  vector<unsigned> years = { 1990, 1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999 };
   EXPECT_CALL(mock_managers, time_step()).WillRepeatedly(Return(&time_step_manager));
 
   EXPECT_CALL(model, min_age()).WillRepeatedly(Return(5));
@@ -153,6 +154,7 @@ TEST(AgeLengths, VonBertalanffy_DoAgeLengthConversion) {
   EXPECT_CALL(model, age_plus()).WillRepeatedly(Return(true));
   EXPECT_CALL(model, managers()).WillRepeatedly(ReturnRef(mock_managers));
   EXPECT_CALL(model, time_steps()).WillRepeatedly(ReturnRef(time_steps));
+  EXPECT_CALL(model, years()).WillRepeatedly(Return(years));
   EXPECT_CALL(model, partition_type()).WillRepeatedly(Return(PartitionType::kAge));
 
   selectivities::Logistic logistic(&model);
@@ -179,10 +181,10 @@ TEST(AgeLengths, VonBertalanffy_DoAgeLengthConversion) {
 
   ASSERT_NO_THROW(von_bertalanffy.MockBuildCV());
 
-  EXPECT_DOUBLE_EQ(0.1, von_bertalanffy.cv(1999, 5, 0));
-  EXPECT_DOUBLE_EQ(0.1, von_bertalanffy.cv(1999, 10, 0));
+  EXPECT_DOUBLE_EQ(0.1, von_bertalanffy.cv(1999, 0, 5));
+  EXPECT_DOUBLE_EQ(0.1, von_bertalanffy.cv(1999, 0, 10));
 
-  von_bertalanffy.DoAgeToLengthConversion(&male, {0, 10, 20, 25, 30}, false, &logistic);
+  von_bertalanffy.DoAgeToLengthMatrixConversion(&male, {0, 10, 20, 25, 30}, false, &logistic);
 
   // Check that the CV is being built appropriately and that the mean is stored correctly
 
@@ -216,6 +218,7 @@ TEST(AgeLengths, VonBertalanffy_DoAgeLengthConversion_plusGrp) {
   MockTimeStepManager time_step_manager;
   time_step_manager.time_step_index_ = 0;
   vector<string> time_steps = {"0", "1", "2"};
+  vector<unsigned> years = { 1990, 1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999 };
 
   EXPECT_CALL(mock_managers, time_step()).WillRepeatedly(Return(&time_step_manager));
 
@@ -228,6 +231,7 @@ TEST(AgeLengths, VonBertalanffy_DoAgeLengthConversion_plusGrp) {
   EXPECT_CALL(model, age_plus()).WillRepeatedly(Return(true));
   EXPECT_CALL(model, managers()).WillRepeatedly(ReturnRef(mock_managers));
   EXPECT_CALL(model, time_steps()).WillRepeatedly(ReturnRef(time_steps));
+  EXPECT_CALL(model, years()).WillRepeatedly(Return(years));
   EXPECT_CALL(model, partition_type()).WillRepeatedly(Return(PartitionType::kAge));
 
   selectivities::Logistic logistic(&model);
@@ -253,11 +257,11 @@ TEST(AgeLengths, VonBertalanffy_DoAgeLengthConversion_plusGrp) {
   MockVonBertalanffy von_bertalanffy1(model, 80, 0.064, 4, false, 0.2, 0.2, {1.0});
   ASSERT_NO_THROW(von_bertalanffy1.MockBuildCV());
 
-  von_bertalanffy1.DoAgeToLengthConversion(&male, {0, 10, 20, 25, 30}, true, &logistic);
+  von_bertalanffy1.DoAgeToLengthMatrixConversion(&male, {0, 10, 20, 25, 30}, true, &logistic);
 
   // Check that the CV is being built appropriately and that the mean is stored correctly
-   EXPECT_DOUBLE_EQ(0.2, von_bertalanffy1.cv(1999, 5, 0));
-   EXPECT_DOUBLE_EQ(0.2, von_bertalanffy1.cv(1999, 10, 0));
+   EXPECT_DOUBLE_EQ(0.2, von_bertalanffy1.cv(1999, 0, 5));
+   EXPECT_DOUBLE_EQ(0.2, von_bertalanffy1.cv(1999, 0, 10));
 
    //Run through length for the min and max age
    vector<Double> expec1 = {1635.5889366403298, 0.00030682770114173025, 0, 0, 0};

@@ -39,7 +39,7 @@ void Category::UpdateMeanLengthData() {
     AgeLength* age_length = categories->age_length(name_);
 
     // Only do this under three conditions. We are initialising, it has a time varying component, or is of type data.
-    if (age_length->does_time_vary() || model_->state() == State::kInitialise || age_length->type() == PARAM_DATA) {
+    if (age_length->is_time_varying() || model_->state() == State::kInitialise || age_length->type() == PARAM_DATA) {
       LOG_FINEST() << "Updating mean length and weight";
       for (unsigned step_iter = 0; step_iter < time_steps.size(); ++step_iter) {
         for (unsigned age = min_age_; age <= max_age_; ++age) {
@@ -74,7 +74,7 @@ void Category::UpdateMeanWeightData() {
     // Update mean weight for this category
     LengthWeight* length_weight = categories->length_weight(name_);
     // Only do this under two conditions. We are initialising, it has a time varying component
-    if (length_weight->does_time_vary() || model_->state() == State::kInitialise) {
+    if (length_weight->is_time_varying() || model_->state() == State::kInitialise) {
       vector<unsigned> length_bins = model_->length_bins();
       for (unsigned step_iter = 0; step_iter < time_steps.size(); ++step_iter) {
         for (unsigned length_bin_index = 0; length_bin_index < length_bins.size(); ++length_bin_index) {
@@ -119,7 +119,7 @@ void Category::UpdateAgeLengthData(const vector<Double>& length_bins, bool plus_
   AgeLength* age_length = categories->age_length(name_);
   if (!age_length)
     LOG_CODE_ERROR() << "if (!age_length) for category " << name_;
-  age_length->DoAgeToLengthConversion(this, length_bins, plus_grp, selectivity);
+  age_length->DoAgeToLengthMatrixConversion(this, length_bins, plus_grp, selectivity);
 }
 
 

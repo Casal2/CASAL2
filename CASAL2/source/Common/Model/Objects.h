@@ -55,6 +55,7 @@ private:
   Objects() = delete;
   explicit Objects(Model* model);
   virtual                     ~Objects() = default;
+  base::Object*               FindObjectOrNull(const string& parameter_absolute_name);
   base::Object*               FindObject(const string& parameter_absolute_name);
   void                        ExplodeString(const string& parameter_absolute_name, string &type, string& label, string& parameter, string& index);
   void                        ImplodeString(const string& type, const string& label, const string& parameter, const string& index, string& target_parameter);

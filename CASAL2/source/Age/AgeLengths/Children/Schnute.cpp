@@ -70,26 +70,6 @@ void Schnute::DoBuild() {
       mean_length_[step_iter][age_iter] = mean_length(step_iter,age_iter);
     }
   }
-
-  // Check to see if CV need's to be built every iterations
-  if (by_length_) {
-    // Check if we are estimating any of the age_length parameters.
-    string y1_lab = "age_length[" + label_ + "].y1";
-    string y2_lab = "age_length[" + label_ + "].y2";
-    string tau1_lab = "age_length[" + label_ + "].tau1";
-    string tau2_lab = "age_length[" + label_ + "].tau2";
-    string a_lab = "age_length[" + label_ + "].a";
-    string b_lab = "age_length[" + label_ + "].b";
-    bool y1_estiamte = model_->managers().estimate()->HasEstimate(y1_lab);
-    bool y2_estiamte = model_->managers().estimate()->HasEstimate(y2_lab);
-    bool tau1_estiamte = model_->managers().estimate()->HasEstimate(tau1_lab);
-    bool tau2_estiamte = model_->managers().estimate()->HasEstimate(tau2_lab);
-    bool a_estiamte = model_->managers().estimate()->HasEstimate(a_lab);
-    bool b_estiamte = model_->managers().estimate()->HasEstimate(b_lab);
-
-    if (y1_estiamte || y2_estiamte || tau1_estiamte || tau2_estiamte || a_estiamte || b_estiamte)
-      rebuild_cv_ = true;
-  }
 }
 
 /**
@@ -132,7 +112,7 @@ Double Schnute::mean_weight(unsigned time_step, unsigned age) {
   unsigned year = model_->current_year();
   Double size = mean_length_[time_step][age];
   //LOG_FINE() << "year = " << year << " age " << age << " time step " << time_step << " cv = " <<  cvs_[year][age][time_step];
-  Double mean_weight = length_weight_->mean_weight(size, distribution_, cvs_[year][age][time_step]);
+  Double mean_weight = length_weight_->mean_weight(size, distribution_, cvs_[year][time_step][age]);
   return mean_weight;
 }
 
