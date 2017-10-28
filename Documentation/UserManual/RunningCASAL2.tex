@@ -114,7 +114,7 @@ The model definition, parameters, observations, and reports are specified in \co
 
 \item Population input (Section \ref{sec:population-section}) specifies the model structure, population dynamics, and other associated parameters;
 \item Estimation input (Section \ref{sec:estimation-section}) defines the objective function, parameters of the model, and the method of estimation (point estimates, Bayesian posteriors, profiles, etc.);
-\item Observation input (Section \ref{sec:observation-section}) contains all the observation data available to the model and  describes how the observed values should be formatted, how \CNAME\ calculates the expected values and the likelihoods, available for each type of observation; and
+\item Observation input (Section \ref{sec:observation-section}) contains all the observations data available to the model and  describes how the observed values should be formatted, how \CNAME\ calculates the expected values, and the likelihoods available for each type of observation; and
 \item Report input (Section \ref{sec:report-section}) specifies any output required.
 \end{description}
 
@@ -140,7 +140,7 @@ or
 
 \subsubsection{Subcommands}\index{Commands ! Subcommands}
 
-\CNAME\ subcommands are used for defining options and parameter values related to a particular command. Subcommands always take anargument which is one of a specific \emph{type}. The argument \emph{types} acceptable for each subcommand are defined in Section \ref{sec:syntax}, and are summarised below. 
+\CNAME\ subcommands are used for defining options and parameter values related to a particular command. Subcommands always take an argument which is one of a specific \emph{type}. The argument \emph{types} acceptable for each subcommand are defined in Section \ref{sec:syntax}, and are summarised below. 
 
 Like commands (\command{command}), subcommands and their arguments are not order specific --- except that that all subcommands of a given command must appear before the next \command{command} block. \CNAME\ may report an error if they are not supplied in this way. However, in some circumstances a different order may result in a valid, but unintended set of actions, leading to possible errors in your expected results.  
 
@@ -155,6 +155,8 @@ The argument type for a subcommand can be either\index{Subcommand argument type}
 \textbf{constant vector} & a vector of real numbers (i.e. vector of doubles),\\
 \textbf{estimable} & a real number that can be estimated (i.e. estimable double),\\
 \textbf{estimable vector} & a vector of real numbers that can be estimated (i.e. vector of estimable \\ & doubles),\\
+\textbf{addressable} & a real number that can be referenced but not estimated (i.e. addressable double),\\
+\textbf{addressable vector} & a vector of real numbers that can be referenced but not estimated (i.e. vector of addressable \\ & doubles),\\
 \textbf{string} & a categorical (string) value, or\\
 \textbf{string vector} & a vector of categorical values.
 \end{tabular}
@@ -163,9 +165,11 @@ Switches are parameters which are either true or false. Enter \emph{true} as \ar
 
 Integers must be entered as integers (i.e., if \subcommand{year}\ is an integer then use 2008, not 2008.0)
 
-Arguments of type integer vector, integer range, constant vector, estimable vector, or categorical vector must contain one or more entries on a row, separated by white space (tabs or spaces). 
+Arguments of type integer vector, integer range, constant vector, estimable vector, addressable vector, or categorical vector must contain one or more entries on a row, separated by white space (tabs or spaces). 
 
-Parameters are defined in the population section and can be specified as estimable with the subcommand type \texttt{estimable} or \texttt{estimable vector} .  These parameters will be estimated if specified as such in the estimation section. If the estimable parameter is not specified in the estimation section, it will instead be treated as a contstant (or constant vector). In other words, only estimable parameters can be estimated and \CNAME\ must be explicitly commanded to do so for any particular model run.
+Parameters are defined in the population section and can be specified as estimable with the subcommand type \texttt{estimable} or \texttt{estimable vector}.  These parameters will be estimated if specified as such in the estimation section. If the estimable parameter is not specified in the estimation section it will instead be treated as a contstant (or constant vector). In other words, only estimable parameters can be estimated and \CNAME\ must be explicitly commanded to do so for any particular model run. 
+
+Note that parameters defined as addressable with the subcommand type \texttt{addressable} or \texttt{addressable vector} are usually derived quantities and are not directly estimable. As such, they can be acted upon by the model (e.g. called by various processes; have priors and/or penalties assigned to them), but they do not directly contribute to any estimation within the model
 
 \subsubsection{The command-block format}\index{Command block format}
 Each command-block consists of a single command (starting with the symbol \command{}) and, for most commands, a unique label or an argument. Each command is then followed by its subcommands and their arguments, e.g., 
@@ -194,7 +198,7 @@ Each command-block consists of a single command (starting with the symbol \comma
 	\end{multicols}
 
 
-Blank lines are ignored, as is extra white space (i.e., tabs and spaces) between arguments. However, to start command block, the \command{} character must be the first character on the line and must not be preceded by any white space. Each input file must end with a carriage return.
+Blank lines are ignored, as is extra white space (i.e., tabs and spaces) between arguments. However, to start command block the \command{} character must be the first character on the line and must not be preceded by any white space. Each input file must end with a carriage return.
 
 There is no need to mark the end of a command block. This is automatically recognized by either the end of the file, section, or the start of the next command block (which is marked by the \command{} on the first character of a line). Note, however, that the !\texttt{\emph{include}} is the only exception to this rule (see Section \ref{sec:general-syntax}\index{Command ! Include files} for details of the use of !\texttt{\emph{include}}). 
 
@@ -218,7 +222,7 @@ Alternatively, to comment out an entire block or section place a \commentstart\ 
 
 \subsubsection{Determining \CNAME\ object names\label{sec:object-names}\index{Determining parameter names}\index{Parameter names}}
 
-When \CNAME\ processes a \config, it translates each command block and each subcommand block into a unique \CNAME\ object, each with a unique object name. For commands, this object name is simply the command label. For subcommands, the object name format is either: 
+When \CNAME\ processes an \config\ it translates each command block and each subcommand block into a unique \CNAME\ object, each with a unique object name. For commands, this object name is simply the command label. For subcommands, the object name format is either: 
 
 \begin{description}
 \item \texttt{command[label].subcommand} if the command has a label, or
