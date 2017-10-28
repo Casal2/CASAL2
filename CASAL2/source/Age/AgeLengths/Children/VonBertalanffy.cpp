@@ -67,19 +67,6 @@ void VonBertalanffy::DoBuild() {
       mean_length_[step_iter][age_iter] = mean_length(step_iter,age_iter);
     }
   }
-  // Check to see if CV need's to be built every iterations
-  if (by_length_) {
-    // Check if we are estimating any of the age_length parameters.
-    string linf_lab = "age_length[" + label_ + "].linf";
-    string k_lab = "age_length[" + label_ + "].k";
-    string t0_lab = "age_length[" + label_ + "].t0";
-    bool linf_estimate = model_->managers().estimate()->HasEstimate(linf_lab);
-    bool k_estimate = model_->managers().estimate()->HasEstimate(k_lab);
-    bool t0_estimate = model_->managers().estimate()->HasEstimate(t0_lab);
-
-    if (linf_estimate || k_estimate || t0_estimate)
-      rebuild_cv_ = true;
-  }
 }
 
 /**
@@ -112,7 +99,7 @@ Double VonBertalanffy::mean_weight(unsigned time_step, unsigned age) {
   unsigned year = model_->current_year();
   Double size = mean_length_[time_step][age];
   Double mean_weight = 0.0; //
-  mean_weight = length_weight_->mean_weight(size, distribution_, cvs_[year][age][time_step]);// make a map [key = age]
+  mean_weight = length_weight_->mean_weight(size, distribution_, cvs_[year][time_step][age]);// make a map [key = age]
   return mean_weight;
 }
 
