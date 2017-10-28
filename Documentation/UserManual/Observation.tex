@@ -2,17 +2,17 @@
 
 \subsection{\I{Observations}\label{sec:Observations}\index{Observations}}
 
-The objective function is based on the goodness-of-fit of the model to your observations. Observations are typically supplied at an instance in time, over a group of aggregated categories. \hl{Most observations are different kinds of time series} \textbf{Re-Word}, i.e., data which were recorded for one or more years, in the same format each year. Examples of time series data types include relative abundance indices, commercial catch length frequencies, and survey numbers-at-age.
+The objective function is based on the goodness-of-fit of the model to the supplied observational data. Observations are typically supplied at an instance in time, over a group of aggregated categories. Most observations are formed from time, i.e., data which were recorded for one or more years, in the same format each year. Examples of time series data types include relative abundance indices, commercial catch length frequencies, and survey numbers-at-age.
 
-The definitions for each type of observation are described below, including how the observed values should be formatted, how \CNAME\ calculates the expected values, and the likelihoods that are available for each type of observation.
+Definitions for each type of observation are described below, including how the observed values should be formatted, how \CNAME\ calculates the expected values, and the likelihoods that are available for each type of observation.
 
-There are two main types of observations available in \CNAME. The first are observations that are associated with a \hyperref[sec:mortality_block]{\textbf{mortality block}} and secondly observations that are associated with a specific process. These can be distinguished by the \subcommand{type} subcommand. If an observation type begins with \texttt{process} it is an observation that is associated with a process. If a type does \textbf{not} begin with \texttt{process} it is associated with the mortality block of the time step that you define. For example the observation type \texttt{process\_abundance} is a process based observation vs \texttt{process\_abundance} \texttt{abundance}, which is an observation that is associated with a mortality block.
+There are two main types of observations available in \CNAME. The first are observations that are associated with a \hyperref[sec:mortality_block]{\textbf{mortality block}} and, secondly, observations that are associated with a specific process. These can be distinguished by the \subcommand{type} subcommand. If an observation type begins with \texttt{process} it is an observation that is associated with a process. If a type does \textbf{not} begin with \texttt{process} it is associated with the mortality block of the defined time step. For example, the observation type \texttt{process\_abundance} is a process based observation, whereas \texttt{process\_abundance} \texttt{abundance} is an observation that is associated with a mortality block.
 
 Process specific observations can also be broken into two types. \textbf{Specific process observations} are observations that are associated to a specific process (e.g. \texttt{process\_proportions\_migrating}), and \textbf{general process observations} are observations that can be associated with any process (e.g. \texttt{process\_proportions\_at\_age}). These tiers of observations have been separated in different sections as to reduce the confusion.
 
 \subsubsection{\I{Mortality block associated observations}}
 
-All observations within this class are calculated in a similar fashion. That is an expectation is calculated at the beginning of the mortality block and at the end of the mortality block. \CNAME\ then uses a linear interpolation to approximate an expectation part way through a mortality block usign the subcommand \texttt{time\_step\_proportion}. This could be useful if a survey occurs part-way through an exploitation phase. For example for if modelling a fish population this may be part-way through a fishing season. Each observation in this class will evaluate different expectations of the partition which will be explained in the following descriptions. A list of observation \texttt{types} that are available with this class of observations are as follows,
+All observations within this class are calculated in a similar fashion. That is, an expectation is calculated at the beginning of the mortality block and at the end of the mortality block. \CNAME\ then uses a linear interpolation to approximate an expectation part way through a mortality block using the subcommand \texttt{time\_step\_proportion}. This could be useful if a survey occurs part-way through an exploitation phase, e.g when modelling a fish population this may be part-way through a fishing season. Each observation in this class will evaluate different expectations of the partition (explained in the following descriptions). A list of observation \texttt{types} available with this class of observations are:
 \begin{itemize}
 	\item \texttt{abundance}
 	\item \texttt{biomass}
@@ -24,7 +24,7 @@ All observations within this class are calculated in a similar fashion. That is 
 \end{itemize}
 
 \paragraph*{\I{Abundance or biomass observations}}
-Abundance (or biomass) observations are observations of either a relative or absolute number (or biomass) of individuals from a set of categories after applying a selectivity. The observations classes are the same, except that a biomass observation will use the biomass as the observed (and expected) value (calculated from mean weight of individuals within each age and category) while an abundance observation is just the number of individuals. 
+Abundance (or biomass) observations are observations of either a relative or absolute number (or biomass) of individuals from a set of categories after applying a selectivity. The observation classes are the same, except that a biomass observation will use the biomass as the observed (and expected) value (calculated from mean weight of individuals within each age and category) while an abundance observation is just the number of individuals. 
 
 Each observation is for a given year and time-step, for some selected age classes of the population (i.e., for a range of ages multiplied by a selectivity), for aggregated categories. Further, you need to provide the label of the catchability coefficient $q$, which can either be estimated of fixed. For absolute abundance or absolute biomass observations, define a catchability where $q=1$.
 
@@ -103,11 +103,11 @@ Proportions-at-age observations can be supplied as;
 	\item a set of proportions across aggregated categories.
 \end{enumerate}
 
-The method of evaluating expectation are the same for all three of these sceneries. We will describe how you define these different scenarios and the expected dimensions of observation and error inputs that \CNAME\ expects for each respective scenario with examples.
+The method of evaluating expectations are the same for all three of these sceneries. We will describe how you define these different scenarios and the expected dimensions of observation and error inputs that \CNAME\ expects for each respective scenario with examples.
 
-Like all types of observations that are associated with the mortality block, \CNAME\ will evaluate the numbers at age before the mortality block (after taking into account a selectivity that the user defines) and after for the specified time step of the observation. \CNAME\ will generate expectations from the partition part way through the mortality block using the subcommand \texttt{time\_step\_proportion}. This approximation is an linear interpolation of the numbers at age over the mortality block. 
+Like all types of observations that are associated with the mortality block, \CNAME\ will evaluate the numbers at age before the mortality block (after taking into account a selectivity that the user defines) and after for the specified time step of the observation. \CNAME\ will generate expectations from the partition part way through the mortality block using the subcommand \texttt{time\_step\_proportion}. This approximation is a linear interpolation of the numbers at age over the mortality block. 
 
-Once the interpolation is evaluated \CNAME\ will apply ageing error if the user has specified it. \CNAME\ finally converts numbers at age to proportions at age by dividing all numbers at age bin by the total and sending that to the likelihood to be evaluated.
+Once the interpolation is evaluated \CNAME\ will apply ageing error if the user has specified it. \CNAME\ finally converts numbers at age to proportions at age by dividing all numbers in an age bin by the total and sending that to the likelihood to be evaluated.
 
 Defining an observation for a single category is the simplest, and is used to model a set of proportions of a single category by age class. For example, to specify that the observations are of the proportions of male within each age class, then the subcommand \subcommand{categories} for the \commandlabsubarg{observation}{type}{proportion\_by\_age} command is,
 
@@ -160,14 +160,14 @@ For example,
 		1991 0.02 0.06 0.10 0.21 0.18 0.02 0.03 0.17 0.20 0.01
 		end_table
 		...
-		\end{verbatim}
+		\end{verbatim}}}
 		
 		
 Defining an observation across aggregated categories allows categories to be aggregated before the proportions are calculated. It is used to model a set of proportions from several categories that have been combined by age class. To indicate that two (or more) categories are to be aggregated, separate them with a '+' symbol. For example, to specify that the observations are of the proportions of male and females combined within each age class, then the subcommand \subcommand{categories} for the \commandlabsubarg{observation}{type}{proportion\_by\_age} command is,
 		
-		{\small{\begin{verbatim}
-				categories male + female
-				\end{verbatim}}}
+{\small{\begin{verbatim}
+		categories male + female
+		\end{verbatim}}}
 		
 \CNAME\ then expects that there will be a single vector of proportions supplied, with one proportion for each age class, and that these proportions sum to one. 
 		
@@ -188,7 +188,7 @@ For example,
 				1991 0.02 0.06 0.18 0.35 0.39
 				end_table
 				...
-				\end{verbatim}
+				\end{verbatim}}}
 				
 The later form can then be extended to include multiple categories, or multiple aggregated categories. For example, to describe proportions for the three groups: immature males, mature males, and all females (immature and mature females added together) for ages 1--4, a total of 12 proportions are required 
 				
@@ -208,7 +208,7 @@ end_table
 
 
 \paragraph*{\I{Proportions-at-length}}
-Functionality regarding defining combinations of categories and aggregated categories directly translates over from proportions at age to proportions at length. The difference is the observation is over length bins instead of age-classes. \CNAME\ calculates expectations of numbers at length by converting numbers at age to numbers by length by using the age-length relationship and distribution specified for the category specified in the \command{age\_length} block. Commands that are different are instead of supplying a minimum and maximum age users must supply a vector of length bins. If there is no plus group i.e \texttt{length\_plus\_group=false} \CNAME\ expects a vector of proportions for each year that is $n - 1$, where $n$ is the number of lengths supplied. If \texttt{length\_plus\_group=true} \CNAME\ expects a vector of proportions for each year that is $n$. The last proportion represents the numbers from the last length bin to the maximum length the age-length relationship allows.
+Functionality regarding defining combinations of categories and aggregated categories directly translates over from proportions at age to proportions at length. The difference is the observation is over length bins instead of age-classes. \CNAME\ calculates expectations of numbers at length by converting numbers at age to numbers by length by using the age-length relationship and distribution specified for the category specified in the \command{age\_length} block. Instead of supplying a minimum and maximum age users must supply a vector of length bins. If there is no plus group i..,e \texttt{length\_plus\_group=false} \CNAME\ expects a vector of proportions for each year that is $n - 1$, where $n$ is the number of lengths supplied. If \texttt{length\_plus\_group=true} \CNAME\ expects a vector of proportions for each year that is $n$. The last proportion represents the numbers from the last length bin to the maximum length the age-length relationship allows.
 
 
 {\small{\begin{verbatim}
@@ -270,9 +270,9 @@ The observations must be supplied using all or some of the values defined by a c
 
 \paragraph*{\I{Tag Recapture by length}\label{sec:tag-recapture-by-length}}
 
-Tag data is primarily used to estimate the population abundance of fish. In some models, this estimation can only be made outside the model and the result is used as an estimate of abundance in the model. But in CASAL the tagging data can, alternatively, be fitted within the model.
+Tag data is primarily used to estimate the population abundance of fish. In some models, this estimation can only be made outside the model and the result is used as an estimate of abundance in the model. But in \CNAME\ the tagging data can, alternatively, be fitted within the model.
 \\\\
-Before adding a tag-recapture time series, you will need to define a tag-release process (Section~\ref{sub:tag_release}). Tagging events list the labels of the tags which are modelled, and define the events where fish are tagged (i.e., \CNAME moves fish into the section of the partition corresponding to a specific tag).
+Before adding a tag-recapture time series, you will need to define a tag-release process (Section~\ref{sub:tag_release}). Tagging events list the labels of the tags which are modelled, and define the events where fish are tagged (i.e., \CNAME\ moves fish into the section of the partition corresponding to a specific tag).
 \\\\
 The observations are divided into two parts: (i) the number of fish that were scanned, and (ii) the number of tags that were recaptured. Each can be specified by categories, or for combinations of categories. The precise content of the scanned and recaptured observations depends on the sampling method, and the available options are:
 
@@ -292,7 +292,7 @@ When defining the tag-recapture time series, you also need to specify:
 \end{itemize}
 
 
-An example of a tag recapture observation applied in \CNAME\ is shown, below
+An example of a tag recapture observation applied in \CNAME\,
 {\small{\begin{verbatim}
 		## For the following partition
 		@categories
@@ -333,7 +333,7 @@ The tag-recapture likelihood (binomial) is specified below as it is a modified v
 
 
 \subsubsection{\I{General process observations}}
-A list of \texttt{types} that are associated with this set of observations.
+A list of \texttt{types} that are associated with this set of observations:
 \begin{itemize}
 	\item \texttt{process\_abundance}
 	\item \texttt{process\_biomass}
@@ -345,12 +345,12 @@ A list of \texttt{types} that are associated with this set of observations.
 These observations have the same expectations as the mortality block versions described in Section~\ref{sec:mortality_block}. With the exception that instead of wrapping a mortality block they can wrap any process type available in \CNAME.
 
 \subsubsection{\I{Specific process observations}}
-A list of \texttt{types} that are associated with this set of observations are;
+A list of \texttt{types} that are associated with this set of observations are:
 \begin{itemize}
-	\item \texttt{process\_removals\_by\_age},
-	\item \texttt{process\_removals\_by\_length},
-	\item \texttt{process\_proportions\_migrating}.	
-\\\\	
+	\item \texttt{process\_removals\_by\_age}
+	\item \texttt{process\_removals\_by\_length}
+	\item \texttt{process\_proportions\_migrating}	
+\\	
 \paragraph*{\I{Process removals by age}\label{sec:removals-by-age}}	
 Removals at age observations are observations of the relative number of individuals at age, partway through a process of type \texttt{mortality\_instantaneous}. This observation is exclusively associated with the process of type \texttt{mortality\_instantaneous}, and will error out if associated with any other process type.
 
@@ -830,7 +830,7 @@ Methods for generating the random error, and hence simulated values, depend on t
   \item When simulating observations, \CNAME\ needs the subcommand \subcommand{simulation\_likelihood} to tell it what sort of likelihood to use. In this case, the \subcommand{obs}, \subcommand{error\_value} and \subcommand{process\_error} are used to determine the appropriate terms to use for the likelihood when simulating.
 \end{itemize}
 
-\subsection{\I{Residuals}}\label{sec:Residuals}}
+\subsection{\I{Residuals}}\label{sec:Residuals}
 \CNAME\ will only print the usual residual (i.e. observed less fitted) using the report type \command{report}.type=observation. For an observation \textit{O} and \textit{F} the corresponding fit (=\textit{qE} for relative observations), then
 \begin{itemize}
 	\item Residuals = \textit{O} - \textit{F}
