@@ -369,6 +369,9 @@ type nuisance
 lower_bound 0.01
 upper_bound 0.40
 
+@report DQ
+type derived_quantity
+
 )";
 
 const std::string lognormal_biomass =

@@ -106,6 +106,9 @@ ato95 3
 type logistic
 a50 8
 ato95 3
+
+@report DQ
+type derived_quantity
 )";
 
 /**

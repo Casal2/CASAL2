@@ -43,6 +43,12 @@ TEST_F(BasicModel, Processes_Constant_Recruitment) {
   process->parameters().Add(PARAM_R0, "100000", __FILE__, __LINE__);
   process->parameters().Add(PARAM_AGE, "1", __FILE__, __LINE__);
 
+  // Report process
+  base::Object* report = model_->factory().CreateObject(PARAM_REPORT, PARAM_DERIVED_QUANTITY);
+  ASSERT_NE(report, nullptr);
+  report->parameters().Add(PARAM_LABEL, "DQ", __FILE__, __LINE__);
+  report->parameters().Add(PARAM_TYPE, "derived_quantity", __FILE__, __LINE__);
+
   base::Object* time_step =  model_->factory().CreateObject(PARAM_TIME_STEP, "");
   time_step->parameters().Add(PARAM_LABEL, "step_one", __FILE__, __LINE__);
   time_step->parameters().Add(PARAM_PROCESSES, "recruitment", __FILE__, __LINE__);

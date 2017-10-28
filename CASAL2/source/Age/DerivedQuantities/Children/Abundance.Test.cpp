@@ -64,6 +64,12 @@ TEST_F(InternalEmptyModel, DerivedQuantities_Abundance) {
   object->parameters().Add(PARAM_CATEGORIES, categories, __FILE__, __LINE__);
   object->parameters().Add(PARAM_SELECTIVITIES, selectivities, __FILE__, __LINE__);
 
+  // Report process
+  base::Object* report = model_->factory().CreateObject(PARAM_REPORT, PARAM_DERIVED_QUANTITY);
+  ASSERT_NE(report, nullptr);
+  report->parameters().Add(PARAM_LABEL, "DQ", __FILE__, __LINE__);
+  report->parameters().Add(PARAM_TYPE, "derived_quantity", __FILE__, __LINE__);
+
   // run the model
   model_->Start(RunMode::kBasic);
 
