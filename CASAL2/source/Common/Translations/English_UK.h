@@ -485,6 +485,7 @@
 #define PARAM_PROPORTION_TIME_STEP                "proportion_time-step"
 #define PARAM_PROPOSAL_DISTRIBUTION               "proposal_distribution"
 #define PARAM_PSEUDO                              "none"
+#define PARAM_PSI                                 "psi"
 #define PARAM_Q                                   "q"
 #define PARAM_R                                   "r"
 #define PARAM_RECAPTURED                          "recaptured"

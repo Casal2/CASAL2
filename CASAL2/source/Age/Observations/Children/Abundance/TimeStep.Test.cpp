@@ -55,6 +55,12 @@ TEST_F(BasicModel, Observation_Abundance) {
   process->parameters().Add(PARAM_M, "0.065", __FILE__, __LINE__);
   process->parameters().Add(PARAM_SELECTIVITIES, "constant_one", __FILE__, __LINE__);
 
+  // Report process
+  base::Object* report = model_->factory().CreateObject(PARAM_REPORT, PARAM_DERIVED_QUANTITY);
+  ASSERT_NE(report, nullptr);
+  report->parameters().Add(PARAM_LABEL, "DQ", __FILE__, __LINE__);
+  report->parameters().Add(PARAM_TYPE, "derived_quantity", __FILE__, __LINE__);
+
   // Ageing process
   vector<string> ageing_categories   = { "immature.male", "immature.female" };
   process = model_->factory().CreateObject(PARAM_AGEING, "");

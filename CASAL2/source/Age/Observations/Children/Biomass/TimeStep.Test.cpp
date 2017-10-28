@@ -140,6 +140,9 @@ error_value 0.35
 time_step_proportion 1.0
 delta 1e-10
 
+@report DQ
+type derived_quantity
+
 )";
 
 /**

@@ -144,6 +144,9 @@ multiplier 10
 @assert objective_func
 type objective_function
 value 13.81289313550076
+
+@report DQ
+type derived_quantity
 )";
 
 /**
@@ -278,6 +281,9 @@ multiplier 10
 @assert objective_func
 type objective_function
 value 1.0
+
+@report DQ
+type derived_quantity
 )";
 
 /**

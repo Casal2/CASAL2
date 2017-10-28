@@ -207,6 +207,9 @@ type abundance
 categories *
 selectivities Maturation Maturation Maturation Maturation
 time_step step_one
+
+@report DQ
+type derived_quantity
 )";
 
 } /* */

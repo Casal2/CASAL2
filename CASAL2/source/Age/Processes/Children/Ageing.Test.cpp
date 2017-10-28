@@ -50,6 +50,12 @@ TEST_F(BasicModel, Processes_Ageing) {
   process->parameters().Add(PARAM_LABEL, "ageing", __FILE__, __LINE__);
   process->parameters().Add(PARAM_CATEGORIES, categories, __FILE__, __LINE__);
 
+  // Report
+  base::Object* report = model_->factory().CreateObject(PARAM_REPORT, PARAM_DERIVED_QUANTITY);
+  ASSERT_NE(report, nullptr);
+  report->parameters().Add(PARAM_LABEL, "DQ", __FILE__, __LINE__);
+  report->parameters().Add(PARAM_TYPE, "derived_quantity", __FILE__, __LINE__);
+
 
   base::Object* time_step = model_->factory().CreateObject(PARAM_TIME_STEP, "");
   vector<string> processes    = { "recruitment", "ageing" };
