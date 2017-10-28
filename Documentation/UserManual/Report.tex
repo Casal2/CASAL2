@@ -28,7 +28,7 @@ This syntax should make it easier for external packages to be configured to read
 
 Note that the \texttt{output\_parameters} report does not print either a header or \texttt{*end} at the end of the report. This is as the \texttt{output\_parameters} report is designed to provide a single line (or multi-line for more than one set) vector of the estimated parameter values, suitable for reading by \CNAME\ (with the command \texttt{casal2 -i}). This is a specialised report for \texttt{casal2 -o filename} command. For estimate values in standard output users are recommended to use \texttt{type=estimate\_value}.
 
-Reports can be defined in an \command{report} but may not be generated. For example printing the partition for a year and/or time-step that does not exist or reporting the covariance matrix when not estimating. Certain reports are associated with certain \CNAME\ run modes. Such reports are ignored by \CNAME\ and the program will not generate any output for these reports --- although they must still conform to \CNAME s syntax requirements.
+Reports can be defined in an \command{report} but may not be generated, e.g. printing the partition for a year and/or time-step that does not exist or reporting the covariance matrix when not estimating. Certain reports are associated with certain \CNAME\ run modes. Such reports are ignored by \CNAME\ and the program will not generate any output for these reports --- although they must still conform to \CNAME s syntax requirements.
 
 Not all reports will be generated in all run modes. Some reports are only available in some run modes. For example, when simulating, only simulation reports will be output.
 
@@ -38,7 +38,7 @@ Print the partition following an initialisation phase. This prints out, the numb
 
 \subsection{\I{Print the partition}}\index{Reports ! Partition}
 
-Print the partition for a given year or given years and time-step. This prints out, the numbers of individuals in each age class and category in the partition for each year. Note that this report is evaluated at the end of the time-step in the given year(s). This report will print out in the following runmodes \texttt{-r, -e, -f}.
+Print the partition for a given year or given years and time-step. This prints out the numbers of individuals in each age class and category in the partition for each year. Note that this report is evaluated at the end of the time-step in the given year(s). This report will print out in the following runmodes \texttt{-r, -e, -f}.
 
 
 \subsection{\I{Print the age length and length weight values}}\index{Reports ! Partition}
@@ -73,7 +73,7 @@ Print the total objective function value, and the value of all observations, the
 
 \subsection{\I{Print the covariance matrix}}\index{Reports ! Covariance Matrix}\index{Reports ! Hessian}
 
-Print the Hessian and covariance matrices if estimating and if the covariance has been requested by\commandlabsubarg{minimiser}{covariance}{true}.
+Print the Hessian and covariance matrices if estimating and if the covariance has been requested by \commandlabsubarg{minimiser}{covariance}{true}.
 
 \subsection{\I{Print observations, fits, and residuals}}\index{Reports ! Observations}
 
@@ -107,19 +107,19 @@ Prints the random number seed used by \CNAME\ to generate the random number sequ
 
 \subsection{\I{Print the results of an MCMC}}\index{Reports ! MCMC}
 
-Print the MCMC samples, objective function values, and proposal covariance matrix following an MCMC. This report will print out in the following runmode \texttt{-m}.
+Prints the MCMC samples, objective function values, and proposal covariance matrix following an MCMC. This report will print out in the following runmode \texttt{-m}.
 
 \subsection{\I{Print the MCMC samples as they are calculated}}\index{Reports ! MCMC samples}
 
-Print the MCMC samples for each new \textit{i}th sample as they are calculated while doing an MCMC. The output file will be updated with each new sample as it is calculated by \CNAME. This report will print out by default using the following runmodes \texttt{-m}.
+Prints the MCMC samples for each new \textit{i}th sample as they are calculated while doing an MCMC. The output file will be updated with each new sample as it is calculated by \CNAME. This report will print out by default using the following runmodes \texttt{-m}.
 
 \subsection{\I{Print the MCMC objective function values as they are calculated}}\index{Reports ! MCMC objective functions}
 
-Print the MCMC objective function values (along with the proposal covariance matrix) for each new \textit{i}th sample as they are calculated while doing an MCMC. The output file will be updated with each new set of objective function values as it is calculated by \CNAME. This report will print out by default using the following runmodes \texttt{-m}.
+Prints the MCMC objective function values (along with the proposal covariance matrix) for each new \textit{i}th sample as they are calculated while doing an MCMC. The output file will be updated with each new set of objective function values as it is calculated by \CNAME. This report will print out by default using the following runmodes \texttt{-m}.
 
 \subsection{\I{Print time varying parameters}}\index{Reports ! time varying}
 
-Print all \command{time\_varying} blocks with the values and years that they were implemented in. This report will print out in the following runmodes \texttt{-r, -e, -m}.
+Prints all \command{time\_varying} blocks with the values and years that they were implemented in. This report will print out in the following runmodes \texttt{-r, -e, -m}.
 
 {\small{\begin{verbatim}
 		@report time_varying_parameters
@@ -127,6 +127,6 @@ Print all \command{time\_varying} blocks with the values and years that they wer
 		\end{verbatim}}}
 
 \subsection{\I{Tabular reporting}}\index{Reports ! Tabular}\label{sub:tabular}
-An alternative reporting framework to the standard output is the tabular reporting. Tabular reporting is used with multiline \texttt{-i} input files (like the MCMC sample or -o outputs). Tabular reports will print out a row that will correspond with each row of the \texttt{-i} input files. Tabular reporting is invoked at the command line using the \texttt{--tabular} command e.g. (\texttt{casal2 -r --tabular -i file\_name}). Currently derived quantities, processes, observations and estimate\_values are the only report types that are within this framework. For each input file the output will begin with the names of each column followed by a multiline report ending with the \texttt{*end} syntax. These tables can be easily read into \R\ using the \texttt{CASAL2} package and for the example of MCMC multi-line files posteriors of derived quantities can be plotted. This command is the same as running \texttt{casal -v} in CASAL.
+An alternative reporting framework to the standard output is the tabular reporting. Tabular reporting is used with multiline \texttt{-i} input files (like the MCMC sample or -o outputs). Tabular reports will print out a row that will correspond with each row of the \texttt{-i} input files. Tabular reporting is invoked at the command line using the \texttt{--tabular} command e.g. (\texttt{casal2 -r --tabular -i file\_name}). Currently, derived quantities, processes, observations and estimate\_values are the only report types that are within this framework. For each input file the output will begin with the names of each column followed by a multiline report ending with the \texttt{*end} syntax. These tables can be easily read into \R\ using the \texttt{CASAL2} package and for the example of MCMC multi-line files posteriors of derived quantities can be plotted. This command is the same as running \texttt{casal -v} in CASAL.
 
 

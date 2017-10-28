@@ -3,11 +3,10 @@
 
 \subsection{Input File Specification}
 The file format used for \CNAME\ is based on the formats used for CASAL and SPM. It's a standard text file that contains definitions organised into blocks.
-\\
+
 Without exception, every object specified in a configuration file is part of a block. At the top level blocks have a one-to-one relationships with components in the system.
-\\
+
 Example:
-\\
 {\small{\begin{verbatim}
 @block1 label
 parameter value
@@ -164,7 +163,7 @@ Categories x Ages/Lengths.
 \\\\
 Each category supports the ability to have a different range of ages/lengths and accessibility during different time periods.
 \\\\
-Because each category is quite complicated the syntax for defining categories has been structured to allow complex definitions using a simple short-hand structure.
+Because each category is quite complicated, the syntax for defining categories has been structured to allow complex definitions using a simple short-hand structure.
 \\\\
 The "format" parameter allows you to tell the model the structure of the category labels. By using a "." (period) character between each segment we can utilise this later in the model to do short-hand lookups of categories.
 
@@ -361,11 +360,9 @@ In line declarations can help shorten models by passing \command{} blocks, for e
 		In line declaration tips
 		\end{verbatim}}}
 
-In the above code we are defining and estimating catchability without explicitly creating an \command{catchability} block
+In the above code we are defining and estimating catchability without explicitly creating an \command{catchability} block.
 
-
-When you do an inline declaration the new object will be created with the name of the creator's \texttt{label.index}
-where index will be the word if it's one-nine and the number if it's 10+, for example
+When you do an inline declaration the new object will be created with the name of the creator's \texttt{label.index} where index will be the word if it's one-nine and the number if it's 10+, for example,
 {\small{\begin{verbatim}
 		@mortality halfm
 		selectivities [type=constant; c=1]
@@ -374,7 +371,7 @@ where index will be the word if it's one-nine and the number if it's 10+, for ex
 		@selectivity halfm.one
 		\end{verbatim}}}
 
-if there were 10 categories all with there own selectivity the $10^th$ selectivity would be labelled;
+if there were 10 categories all with there own selectivity the $10^th$ selectivity would be labelled,
 
 {\small{\begin{verbatim}
 		@selectivity halfm.10
@@ -382,7 +379,7 @@ if there were 10 categories all with there own selectivity the $10^th$ selectivi
 
 
 \subsection{Processes}
-Processes are special in how they can be defined, althrough out this document we have been referring to specifying a process as follows,
+Processes are special in how they can be defined, all throughout this document we have been referring to specifying a process as follows,
 
 {\small{\begin{verbatim}
 		@process Recruitment
