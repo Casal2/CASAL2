@@ -44,9 +44,9 @@ TagRecaptureByLength::TagRecaptureByLength(Model* model) : Observation(model) {
   parameters_.Bind<bool>(PARAM_PLUS_GROUP, &plus_group_, "Indicates if the last length bin is a plus group", "", true);
   parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "Years for which there are observations", "");
   parameters_.Bind<string>(PARAM_TIME_STEP, &time_step_label_, "The label of time-step that the observation occurs in", "");
-  parameters_.Bind<string>(PARAM_TARGET_CATEGORIES, &target_category_labels_, "The categories of tagged individuals for the observation", "");
+  parameters_.Bind<string>(PARAM_TAGGED_CATEGORIES, &target_category_labels_, "The categories of tagged individuals for the observation", "");
   parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_labels_, "The labels of the selectivities used for untagged categories", "", true);
-  parameters_.Bind<string>(PARAM_TARGET_SELECTIVITIES, &target_selectivity_labels_, "The labels of the tag category selectivities", "");
+  parameters_.Bind<string>(PARAM_TAGGED_SELECTIVITIES, &target_selectivity_labels_, "The labels of the tag category selectivities", "");
   parameters_.Bind<Double>(PARAM_PROCESS_ERRORS, &process_error_values_, "Process error", "", true);
   parameters_.Bind<Double>(PARAM_DETECTION_PARAMETER,  &detection_, "Probability of detecting a recaptured individual", "");
   parameters_.Bind<Double>(PARAM_DISPERSION,  &despersion_, "Over-dispersion parameter (phi)  ", "", Double(1.0));
@@ -71,14 +71,14 @@ void TagRecaptureByLength::DoValidate() {
     expected_selectivity_count += categories->GetNumberOfCategoriesDefined(category_label);
 
   // Expand out short hand syntax
-  target_category_labels_ = model_->categories()->ExpandLabels(target_category_labels_, parameters_.Get(PARAM_TARGET_CATEGORIES)->location());
+  target_category_labels_ = model_->categories()->ExpandLabels(target_category_labels_, parameters_.Get(PARAM_TAGGED_CATEGORIES)->location());
   for (auto year : years_) {
   	if((year < model_->start_year()) || (year > model_->final_year()))
   		LOG_ERROR_P(PARAM_YEARS) << "Years can't be less than start_year (" << model_->start_year() << "), or greater than final_year (" << model_->final_year() << "). Please fix this.";
   }
 
   if (target_category_labels_.size() != target_category_labels_.size())
-    LOG_ERROR_P(PARAM_TARGET_CATEGORIES) << "we expect you to supply the same number of tagged categories 'categories2' as categories. Try using the '+' syntax for the category_label subcommand.";
+    LOG_ERROR_P(PARAM_TAGGED_CATEGORIES) << "we expect you to supply the same number of tagged categories 'categories2' as categories. Try using the '+' syntax for the category_label subcommand.";
 
   /**
    * Now go through each target category and split it if required, then check each piece to ensure
@@ -92,9 +92,9 @@ void TagRecaptureByLength::DoValidate() {
     for (const string& split_category_label : split_target_category_labels) {
       if (!categories->IsValid(split_category_label)) {
         if (split_category_label == category_label) {
-          LOG_ERROR_P(PARAM_TARGET_CATEGORIES) << ": The category " << split_category_label << " is not a valid category.";
+          LOG_ERROR_P(PARAM_TAGGED_CATEGORIES) << ": The category " << split_category_label << " is not a valid category.";
         } else {
-          LOG_ERROR_P(PARAM_TARGET_CATEGORIES) << ": The category " << split_category_label << " is not a valid category."
+          LOG_ERROR_P(PARAM_TAGGED_CATEGORIES) << ": The category " << split_category_label << " is not a valid category."
               << " It was defined in the category collection " << category_label;
         }
       }
@@ -107,7 +107,7 @@ void TagRecaptureByLength::DoValidate() {
     LOG_ERROR_P(PARAM_CATEGORIES) << ": Number of categories(" << category_labels_.size() << ") does not match the number of "
     PARAM_SELECTIVITIES << "(" << selectivity_labels_.size() << ")";
   if (target_category_labels_.size() != target_selectivity_labels_.size())
-    LOG_ERROR_P(PARAM_TARGET_CATEGORIES) << ": Number of selectivities provided (" << target_selectivity_labels_.size()
+    LOG_ERROR_P(PARAM_TAGGED_CATEGORIES) << ": Number of selectivities provided (" << target_selectivity_labels_.size()
     << ") is not valid. You can specify either the number of category collections (" << target_category_labels_.size() << ") or "
     << "the number of total categories (" << expected_selectivity_count << ")";
 
@@ -281,7 +281,7 @@ void TagRecaptureByLength::DoBuild() {
   for(string label : target_selectivity_labels_) {
     auto selectivity = model_->managers().selectivity()->GetSelectivity(label);
     if (!selectivity) {
-      LOG_ERROR_P(PARAM_TARGET_SELECTIVITIES) << ": " << label << " does not exist. Have you defined it?";
+      LOG_ERROR_P(PARAM_TAGGED_SELECTIVITIES) << ": " << label << " does not exist. Have you defined it?";
     } else
         target_selectivities_.push_back(selectivity);
   }

@@ -254,6 +254,7 @@ void Derived::Execute() {
     }
   }
   if (B0_intial_recruitment) {
+    LOG_FINE() << "B0 initialised";
     // Calculate derived quanitities in the right space if we have a B0 initialised model
     time_step_manager->ExecuteInitialisation(label_, 1);
   }
@@ -266,8 +267,12 @@ void Derived::Execute() {
 
     auto cached_category = cached_partition_.begin();
     auto category = partition_.begin();
-    for (; category != partition_.end(); ++category, ++cached_category)
-      (*category)->data_ = cached_category->data_;
+    for (; category != partition_.end(); ++category, ++cached_category) {
+      for(unsigned n_age = 0; n_age <  (*category)->data_.size(); ++n_age)
+        LOG_FINEST() << "new part = " << (*category)->data_[n_age] << " old part = " << cached_category->data_[n_age];
+
+    }
+    (*category)->data_ = cached_category->data_;
   }
 }
 
