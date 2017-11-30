@@ -565,6 +565,8 @@
 #define PARAM_T0                                  "t0"
 #define PARAM_TABLE                               "table"
 #define PARAM_TAG                                 "tag"
+#define PARAM_TAGGED_CATEGORIES                   "tagged_categories"
+#define PARAM_TAGGED_SELECTIVITIES                "tagged_selectivities"
 #define PARAM_TAG_BY_AGE                          "tag_by_age"
 #define PARAM_TAG_BY_LENGTH                       "tag_by_length"
 #define PARAM_TAG_LOSS_RATE                       "tag_loss_rate"
