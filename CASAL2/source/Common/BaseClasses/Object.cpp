@@ -49,7 +49,7 @@ bool Object::HasAddressable(const string& label) const {
  * Does the target addressable have the usage flag we want?
  */
 bool Object::HasAddressableUsage(const string& label, const addressable::Usage& flag) const {
-  if (addressable_types_.find(label) != addressable_types_.end()) {
+  if (addressable_types_.find(label) == addressable_types_.end()) {
     for (auto container : unnamed_addressable_s_map_vector_) {
       if (container->find(label) != container->end())
         return true; // by default, we allow all usage. Overrises will show up in the types_
