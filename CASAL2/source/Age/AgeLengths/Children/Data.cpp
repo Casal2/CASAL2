@@ -433,7 +433,7 @@ Double Data::mean_length(unsigned time_step, unsigned age) {
 Double Data::mean_weight(unsigned time_step, unsigned age) {
   unsigned year = model_->current_year();
   Double size   = this->mean_length(time_step, age);
-  return length_weight_->mean_weight(size, distribution_, cvs_[year][time_step][age]);
+  return length_weight_->mean_weight(size, distribution_label_, cvs_[year][time_step][age]);
 }
 
 /**

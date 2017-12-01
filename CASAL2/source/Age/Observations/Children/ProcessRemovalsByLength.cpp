@@ -317,23 +317,19 @@ void ProcessRemovalsByLength::Execute() {
 
       age_length_matrix_.resize((*category_iter)->data_.size());
 
+      vector<Double> age_frequencies(length_bins_.size(), 0.0);
       for (unsigned data_offset = 0; data_offset < (*category_iter)->data_.size(); ++data_offset) {
         unsigned age        = ( (*category_iter)->min_age_ + data_offset);
 
         // Calculate the age structure removed from the fishing process
         number_at_age = Removals_at_age[year][method_][(*category_iter)->name_][data_offset];
-
-
         LOG_FINEST() << "Numbers at age = " << age << " = " <<  number_at_age << " start value : "<< start_value << " end value : " << end_value;
         // Implement an algorithm similar to DoAgeLengthConversion() to convert numbers at age to numbers at length
         // This is different to DoAgeLengthConversion as this number is now not related to the partition
-
-        vector<Double> age_frequencies;
-
         Double mu= (*category_iter)->mean_length_by_time_step_age_[time_step][age];
 
         LOG_FINEST() << "mean = " << mu << " cv = " << age_length->cv(year, time_step, age) << " distribution = " << age_length->distribution() << " and length plus group = " << length_plus_;
-        age_length->CummulativeNormal(mu, age_length->cv(year, time_step, age), age_frequencies, length_bins_, age_length->distribution(), length_plus_);
+        age_length->CummulativeNormal(mu, age_length->cv(year, time_step, age), age_frequencies, length_bins_, length_plus_);
 
         age_length_matrix_[data_offset].resize(number_bins_);
 

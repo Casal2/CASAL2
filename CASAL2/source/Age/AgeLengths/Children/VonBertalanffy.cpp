@@ -99,7 +99,7 @@ Double VonBertalanffy::mean_weight(unsigned time_step, unsigned age) {
   unsigned year = model_->current_year();
   Double size = mean_length_[time_step][age];
   Double mean_weight = 0.0; //
-  mean_weight = length_weight_->mean_weight(size, distribution_, cvs_[year][time_step][age]);// make a map [key = age]
+  mean_weight = length_weight_->mean_weight(size, distribution_label_, cvs_[year][time_step][age]);// make a map [key = age]
   return mean_weight;
 }
 

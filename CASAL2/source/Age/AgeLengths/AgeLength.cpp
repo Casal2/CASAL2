@@ -40,7 +40,7 @@ AgeLength::AgeLength(Model* model) : model_(model) {
   parameters_.Bind<string>(PARAM_LABEL, &label_, "Label of the age length relationship", "");
   parameters_.Bind<string>(PARAM_TYPE, &type_, "Type of age length relationship", "");
   parameters_.Bind<Double>(PARAM_TIME_STEP_PROPORTIONS, &time_step_proportions_, "the fraction of the year applied in each time step that is added to the age for the purposes of evaluating the length, i.e., a value of 0.5 for a time step will evaluate the length of individuals at age+0.5 in that time step", "", true);
-  parameters_.Bind<string>(PARAM_DISTRIBUTION, &distribution_, "The assumed distribution for the growth curve", "", PARAM_NORMAL);
+  parameters_.Bind<string>(PARAM_DISTRIBUTION, &distribution_label_, "The assumed distribution for the growth curve", "", PARAM_NORMAL);
   parameters_.Bind<Double>(PARAM_CV_FIRST, &cv_first_ , "CV for the first age class", "",Double(0.0))->set_lower_bound(0.0);
   parameters_.Bind<Double>(PARAM_CV_LAST, &cv_last_ , "CV for last age class", "",Double(0.0))->set_lower_bound(0.0);
   parameters_.Bind<bool>(PARAM_CASAL_SWITCH, &casal_normal_cdf_ , "If true, use the (less accurate) equation for the cumulative normal function as was used in the legacy version of CASAL.", "",false);
@@ -59,6 +59,14 @@ AgeLength::AgeLength(Model* model) : model_(model) {
  */
 void AgeLength::Validate() {
   parameters_.Populate(model_);
+
+  if (distribution_label_ == PARAM_NORMAL)
+    distribution_ = Distribution::kNormal;
+  else if (distribution_label_ == PARAM_LOGNORMAL)
+    distribution_ = Distribution::kLogNormal;
+  else
+    LOG_CODE_ERROR() << "We haven't enum'd the distribution: " << distribution_label_;
+
   DoValidate();
 }
 
@@ -125,14 +133,13 @@ void AgeLength::BuildCV() {
   *@param cv cv of the age
   *@param prop_in_length reference parameter that proportions are stored in
   *@param length_bins a vector of minimum values for each length bin
-  *@param distribution use the Normal or Lognormal distribution
   *@param plus_grp whether the last length bin is a plus group
   *
  */
-void AgeLength::CummulativeNormal(Double mu, Double cv, vector<Double>& prop_in_length, vector<Double> length_bins, string distribution, bool plus_grp) {
+void AgeLength::CummulativeNormal(Double mu, Double cv, vector<Double>& prop_in_length, vector<Double> length_bins, bool plus_grp) {
 
   Double sigma = cv * mu;
-  if (distribution == "lognormal") {
+  if (distribution_ == Distribution::kLogNormal) {
     // Transform parameters in to log space
     Double cv_temp = sigma / mu;
     Double Lvar = log(cv_temp * cv_temp + 1.0);
@@ -149,10 +156,10 @@ void AgeLength::CummulativeNormal(Double mu, Double cv, vector<Double>& prop_in_
 
   Double z, tt, norm, ttt, tmp;
   Double sum = 0;
-  vector<Double> cum;
 
   std::vector<int>::size_type sz = length_bins.size();
-  prop_in_length.resize(sz);
+//  prop_in_length.resize(sz);
+  vector<Double> cum(sz, 0.0);
 
   // TODO CAN BE THREADED - OPENMP
   for (unsigned j = 0; j < sz; ++j) {
@@ -177,7 +184,7 @@ void AgeLength::CummulativeNormal(Double mu, Double cv, vector<Double>& prop_in_
       tmp *= norm;
     }
     tmp = 1.0 - tmp;
-    cum.push_back(tmp);
+    cum[j] = tmp;
     if (length_bins[j] < mu) {
       cum[j] = 1.0 - cum[j];
     }
@@ -186,10 +193,8 @@ void AgeLength::CummulativeNormal(Double mu, Double cv, vector<Double>& prop_in_
       sum += prop_in_length[j - 1];
     }
   }
-  if (plus_grp) {
+  if (plus_grp)
     prop_in_length[sz - 1] = 1.0 - sum - cum[0];
-  } else
-    prop_in_length.resize(sz - 1);
 }
 
 /**
@@ -201,29 +206,30 @@ void AgeLength::CummulativeNormal(Double mu, Double cv, vector<Double>& prop_in_
  */
 void AgeLength::DoAgeToLengthMatrixConversion(partition::Category* category, const vector<Double>& length_bins, bool plus_grp, Selectivity* selectivity) {
   LOG_TRACE();
-  unsigned year = model_->current_year();
-  unsigned size = length_bins.size();
-  unsigned time_step = model_->managers().time_step()->current_time_step();
-  if (!plus_grp)
-    size = length_bins.size() - 1;
+  unsigned year         = model_->current_year();
+  unsigned size         = plus_grp == true ? length_bins.size() : length_bins.size() - 1;
+  unsigned time_step    = model_->managers().time_step()->current_time_step();
+  unsigned current_age  = 0;
+  Double mu             = 0.0;
 
+  vector<Double> ages_at_length_(size, 0.0);
   category->age_length_matrix_.resize(category->data_.size());
+
   for (unsigned i = 0; i < category->data_.size(); ++i) {
+    category->age_length_matrix_[i].resize(size);
 
-    vector<Double> age_frequencies;
-    unsigned age = category->min_age_ + i;
+    current_age = category->min_age_ + i;
+    if (cvs_[year][time_step][current_age] <= 0.0)
+        LOG_FATAL_P(PARAM_CV_FIRST) << "Identified a CV of 0.0, in year " << year << ", for age " << current_age << " and time step = " << time_step << " please check parameters cv_first and cv_last in the @age_length, or make sure you have specified suitable bounds in the @estimate block";
 
-    if (cvs_[year][time_step][age] <= 0.0)
-        LOG_FATAL_P(PARAM_CV_FIRST) << "Identified a CV of 0.0, in year " << year << ", for age " << age << " and time step = " << time_step << " please check parameters cv_first and cv_last in the @age_length, or make sure you have specified suitable bounds in the @estimate block";
-
-    Double mu= category->mean_length_by_time_step_age_[time_step][age];
-    CummulativeNormal(mu, cvs_[year][time_step][age], age_frequencies, length_bins, distribution_, plus_grp);
+    mu = category->mean_length_by_time_step_age_[time_step][current_age];
+    CummulativeNormal(mu, cvs_[year][time_step][current_age], ages_at_length_, length_bins, plus_grp);
     category->age_length_matrix_[i].resize(size);
 
     // Loop through the length bins and multiple the partition of the current age to go from
     // length frequencies to age length numbers
     for (unsigned j = 0; j < size; ++j) {
-      category->age_length_matrix_[i][j] = selectivity->GetAgeResult(age, category->age_length_) * category->data_[i] * age_frequencies[j];
+      category->age_length_matrix_[i][j] = selectivity->GetAgeResult(current_age, category->age_length_) * category->data_[i] * ages_at_length_[j];
     }
   }
 }
