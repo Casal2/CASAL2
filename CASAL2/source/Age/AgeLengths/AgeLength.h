@@ -26,6 +26,12 @@ class Selectivity;
 // classes
 class AgeLength : public niwa::base::Object {
 public:
+  // enums
+  enum class Distribution {
+    kNormal,
+    kLogNormal
+  };
+
   // methods
   AgeLength() = delete;
   explicit AgeLength(Model* model);
@@ -36,13 +42,13 @@ public:
   void                        DoAgeToLengthMatrixConversion(partition::Category* category,
                                 const vector<Double>& length_bins, bool plus_grp, Selectivity* selectivity);
   void                        CummulativeNormal(Double mu, Double cv, vector<Double>& prop_in_length,
-                                vector<Double> length_bins, string distribution, bool plus_grp);
+                                vector<Double> length_bins, bool plus_grp);
   virtual void                RebuildCache();
 
   // accessors
   virtual Double              GetMeanLength(unsigned year, unsigned time_step, unsigned age) = 0;
   virtual Double              cv(unsigned year, unsigned time_step, unsigned age) { return cvs_[year][time_step][age]; };
-  virtual string              distribution() { return distribution_; };
+  virtual string              distribution() { return distribution_label_; };
 
   // Methods
   virtual Double              mean_weight(unsigned time_step, unsigned age) = 0;
@@ -65,7 +71,8 @@ protected:
   Double                      cv_first_ = 0.0;
   Double                      cv_last_;
   bool                        by_length_;
-  string                      distribution_;
+  string                      distribution_label_;
+  AgeLength::Distribution     distribution_;
   bool                        casal_normal_cdf_ = false;
   vector<Double>              length_bins_;
 };
