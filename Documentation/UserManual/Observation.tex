@@ -302,12 +302,12 @@ An example of a tag recapture observation applied in \CNAME\,
 		@observation Tag_2011_Area1_recap_2012 ## individuals tagged in 2011 and recaptured in 2012
 		## in Area1
 		type tag_recapture_by_length
-		categories *.Area1.2011+  ## male and femaled tagged categories
-		categories2 format=*.Area1.*+ ## scanned categories in Area1
+		categories format=*.Area1.*+ ## scanned categories in Area1
+		tagged_categories *.Area1.2011+  ## male and femaled tagged categories
 		detection 0.85 ## detection probability
 		likelihood binomial ## likelihood choice
 		selectivities One ## label of selectivity for tagged
-		selectivities2 One ## label of selectivity for scanned
+		tagged_selectivities One ## label of selectivity for scanned
 		years 2012  ## years to apply observation
 		time_step step2  ## time_step to apply observation	
 		time_step_proportion 0.5 ## proportion of mortality applied before observation is calculated 
@@ -327,7 +327,23 @@ An example of a tag recapture observation applied in \CNAME\,
 		
 		\end{verbatim}}}
 
+The observed ($O_{y,l}$) and expected ($E_{y,l}$) values in year $y$ and length $l$ of this observation are calculated as followed;
 
+\begin{equation}
+O_{y,l} = \frac{R_{y,l}}{S_{y,l}}
+\end{equation}
+where $R_{y,l}$ is the recaptures in year $y$ at length $l$ and $S_{y,l}$ are the scanned values, supplied by the user.
+\begin{equation}
+E_{y,l} = d \frac{\tilde{N}_{y,l,t} +  (\tilde{N}_{y,l,t + 1} - \tilde{N}_{y,l,t}) \times p}
+{N_{y,l,t} + (N_{y,l,t+1} - N_{y,l,t}) \times p} 
+\end{equation}
+where $\tilde{N}_{y,l,t}$ is an element in the tagged categories at the beginning of time step $t$ and $\tilde{N}_{y,l,t + 1}$ is an element in the tagged categories at the end of time step $t$. $N_{y,l,t}$ is the sum of the categories that were vulnerable to sampling when the obervation occured. $p$ is the proportion of the time step that the observation was taken, $d$ is the detection probability. For cases where there are multiple tagged categories and multiple categories that were vulnerble to sampling.
+
+\begin{equation}
+	\tilde{N}_{y,l,t} = \sum_{j = 1}^{J} N_{y,l,t,j}
+\end{equation}
+
+where $j = \{1,2,3,...,J\}$  are all the tagged categories, the same method is applied to the vulnerable categories to get $N_{y,l,t}$. Remember that the tagged categories should be defined in the vulnerable categories. If you think about an extreme case where we tag every individual in the population this would be divide by zero. So to constrain the expectation to be between 0-1, we need the numerator to be in the denominator.
 
 The tag-recapture likelihood (binomial) is specified below as it is a modified version of the more general binomial. Note that this likelihood does not have any user-set precision parameters such as $N$ or $c.v.$ (though there are user-specified robustification and dispersion parameters available). Note that factorials are calculated using the log-gamma function, to allow for non-integer arguments where necessary (and avoid overflow errors).
 
