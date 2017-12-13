@@ -44,7 +44,7 @@ public:
   // Accessors
   unsigned                    min_age() const { return min_age_; }
   unsigned                    max_age() const { return max_age_; }
-  bool                        age_plus() const { return age_plus_; }
+  bool                        plus_group() const { return plus_group_; }
   vector<vector<Double> >&    mis_matrix() { return mis_matrix_; }
 
 protected:
@@ -57,7 +57,7 @@ protected:
   Model*                      model_ = nullptr;
   unsigned                    min_age_ = 0;
   unsigned                    max_age_ = 0;
-  bool                        age_plus_ = false;
+  bool                        plus_group_ = false;
   unsigned                    age_spread_ = 0;
   vector<vector<Double> >     mis_matrix_;
 };

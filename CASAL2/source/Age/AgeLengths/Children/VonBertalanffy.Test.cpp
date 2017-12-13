@@ -151,7 +151,7 @@ TEST(AgeLengths, VonBertalanffy_DoAgeLengthConversion) {
   EXPECT_CALL(model, start_year()).WillRepeatedly(Return(1990));
   EXPECT_CALL(model, final_year()).WillRepeatedly(Return(1999));
   EXPECT_CALL(model, current_year()).WillRepeatedly(Return(1999));
-  EXPECT_CALL(model, age_plus()).WillRepeatedly(Return(true));
+  EXPECT_CALL(model, plus_group()).WillRepeatedly(Return(true));
   EXPECT_CALL(model, managers()).WillRepeatedly(ReturnRef(mock_managers));
   EXPECT_CALL(model, time_steps()).WillRepeatedly(ReturnRef(time_steps));
   EXPECT_CALL(model, years()).WillRepeatedly(Return(years));
@@ -228,7 +228,7 @@ TEST(AgeLengths, VonBertalanffy_DoAgeLengthConversion_plusGrp) {
   EXPECT_CALL(model, start_year()).WillRepeatedly(Return(1999));
   EXPECT_CALL(model, final_year()).WillRepeatedly(Return(1999));
   EXPECT_CALL(model, current_year()).WillRepeatedly(Return(1999));
-  EXPECT_CALL(model, age_plus()).WillRepeatedly(Return(true));
+  EXPECT_CALL(model, plus_group()).WillRepeatedly(Return(true));
   EXPECT_CALL(model, managers()).WillRepeatedly(ReturnRef(mock_managers));
   EXPECT_CALL(model, time_steps()).WillRepeatedly(ReturnRef(time_steps));
   EXPECT_CALL(model, years()).WillRepeatedly(Return(years));

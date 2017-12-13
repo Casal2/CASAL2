@@ -56,7 +56,6 @@ private:
   vector<vector<Double>>      transition_matrix_; // explains how each length bin moves to others.
   vector<vector<Double>>      numbers_transitioning_matrix_; // explains how each length bin moves to others.
 
-
 };
 
 } /* namespace processes */
