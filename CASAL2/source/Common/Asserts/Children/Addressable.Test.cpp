@@ -147,6 +147,9 @@ parameter process[Recruitment].R0
 time_step step_two
 years 1994 1996 1998
 values 997386 997386 997386
+
+@report DQ
+type derived_quantity
 )";
 
 /**
@@ -287,6 +290,9 @@ parameter process[Recruitment].R0
 time_step step_two
 years 1994 1996 1998
 values 997386 1 997386
+
+@report DQ
+type derived_quantity
 )";
 
 /**

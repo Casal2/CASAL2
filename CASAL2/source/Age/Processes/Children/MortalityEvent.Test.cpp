@@ -46,6 +46,12 @@ TEST_F(BasicModel, Processes_Mortality_Event_No_Penalty) {
   process->parameters().Add(PARAM_R0, "100000", __FILE__, __LINE__);
   process->parameters().Add(PARAM_AGE, "1", __FILE__, __LINE__);
 
+  // Report process
+  base::Object* report = model_->factory().CreateObject(PARAM_REPORT, PARAM_DERIVED_QUANTITY);
+  ASSERT_NE(report, nullptr);
+  report->parameters().Add(PARAM_LABEL, "DQ", __FILE__, __LINE__);
+  report->parameters().Add(PARAM_TYPE, "derived_quantity", __FILE__, __LINE__);
+
   // Mortality process
   vector<string> mortality_categories   = { "immature.male", "immature.female", "mature.male", "mature.female" };
   vector<string> years    = { "1998", "1999", "2000", "2001", "2002", "2003", "2004" };

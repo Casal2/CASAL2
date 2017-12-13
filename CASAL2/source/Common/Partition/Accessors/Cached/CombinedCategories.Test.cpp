@@ -45,6 +45,12 @@ TEST_F(BasicModel, Accessors_Cached_CombinedCategories) {
   process->parameters().Add(PARAM_R0, "100000", __FILE__, __LINE__);
   process->parameters().Add(PARAM_AGE, "1", __FILE__, __LINE__);
 
+  // Report process
+  base::Object* report = model_->factory().CreateObject(PARAM_REPORT, PARAM_DERIVED_QUANTITY);
+  ASSERT_NE(report, nullptr);
+  report->parameters().Add(PARAM_LABEL, "DQ", __FILE__, __LINE__);
+  report->parameters().Add(PARAM_TYPE, "derived_quantity", __FILE__, __LINE__);
+
   // Mortality process
   vector<string> mortality_categories   = { "immature.male", "immature.female", "mature.male", "mature.female" };
   process = model_->factory().CreateObject(PARAM_MORTALITY, PARAM_CONSTANT_RATE, PartitionType::kAge);

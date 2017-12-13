@@ -133,7 +133,7 @@ void ProportionsAtAge::DoValidate() {
       obs_by_year[year].push_back(value);
     }
     if (obs_by_year[year].size() != obs_expected - 1)
-      LOG_CODE_ERROR() << "obs_by_year_[year].size() (" << obs_by_year[year].size() << ") != obs_expected - 1 (" << obs_expected -1 << ")";
+      LOG_FATAL_P(PARAM_OBS) << "you supplied " << obs_by_year[year].size() << " ages, but we expected " << obs_expected -1 << " can you please sort this out. Chairs";
   }
 
   /**
@@ -173,7 +173,7 @@ void ProportionsAtAge::DoValidate() {
       error_values_by_year[year].assign(obs_expected - 1, error_values_by_year[year][0]);
     }
     if (error_values_by_year[year].size() != obs_expected - 1)
-      LOG_CODE_ERROR() << "error_values_by_year_[year].size() (" << error_values_by_year[year].size() << ") != obs_expected - 1 (" << obs_expected -1 << ")";
+      LOG_FATAL_P(PARAM_ERROR_VALUES) << "We counted " << error_values_by_year[year].size() << " error values by year but expected " << obs_expected -1 << " based on the obs table";
   }
 
   /**

@@ -84,6 +84,9 @@ ato95 5.25
 type logistic 
 a50 16.92
 ato95 7.68
+
+@report DQ
+type derived_quantity
 )";
 
 TEST_F(InternalEmptyModel, Processes_BevertonHolt_Recruitment_AutoSSBOffset) {
@@ -278,6 +281,9 @@ type basic
 units kgs 
 a 2.0e-6 
 b 3.288
+
+@report DQ
+type derived_quantity
 
 )";
 

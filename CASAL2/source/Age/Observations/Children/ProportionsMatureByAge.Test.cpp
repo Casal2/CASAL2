@@ -64,6 +64,9 @@ steepness 0.75
 ssb SSB
 age 1
 
+@report DQ
+type derived_quantity
+
 @process Ageing
 type ageing
 categories *

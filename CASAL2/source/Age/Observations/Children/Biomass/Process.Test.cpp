@@ -140,6 +140,9 @@ years 1992:2001
 obs 1.50 1.10 0.93 1.33 1.53 0.90 0.68 0.75 0.57 1.23
 error_value 0.35
 delta 1e-10
+
+@report DQ
+type derived_quantity
 )";
 
 /**

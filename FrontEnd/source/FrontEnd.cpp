@@ -156,7 +156,7 @@ int main(int argc, char * argv[]) {
   case RunMode::kSimulation:
   case RunMode::kProfiling:
   case RunMode::kProjection:
-  case RunMode::kQuery:
+  //case RunMode::kQuery:
   case RunMode::kTesting:
     RunBasic(argc, argv, options);
     break;

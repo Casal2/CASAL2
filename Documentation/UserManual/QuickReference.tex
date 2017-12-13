@@ -14,7 +14,6 @@
 \par\textbf{\commandlabsubarg{additional\_\_prior}{type}{log\_normal}}\par
 \defSub{mu} {The lognormal prior mean (mu) parameter}
 \defSub{cv} {The Lognormal variance (CV) parameter}
-\par\textbf{\commandlabsubarg{additional\_\_prior}{type}{ratio}}\par
 \par\textbf{\commandlabsubarg{additional\_\_prior}{type}{uniform\_log}}\par
 \par\textbf{\commandlabsubarg{additional\_\_prior}{type}{vector\_average}}\par
 \defSub{method} {What calculation method to use, either k, l, or m}
@@ -74,11 +73,13 @@
 \par\textbf{\commandlabsubarg{catchability}{type}{nuisance}}\par
 \defSub{lower\_bound} {Upper bound for nuisance catchability}
 \defSub{upper\_bound} {Lower bound for nuisance catchability}
+\defSub{q} {}
 \defComLab{categories}{Define an object of type \emph{categories}}\par\par
 \defSub{format} {The format that the category names adhere too}
 \defSub{names} {The names of the categories to be used in the model}
 \defSub{years} {The years that individual categories will be active for. This overrides the model values}
 \defSub{age\_lengths} {The labels of age\_length objects that are assigned to categories}
+\defSub{length\_weight} {The labels of the length\_weight objects that are assigned to categories}
 \defComLab{derived\_quantity}{Define an object of type \emph{derived\_quantity}}\par\par
 \defSub{label} {Label of the derived quantity}
 \defSub{type} {Type of derived quantity}
@@ -87,6 +88,7 @@
 \defSub{selectivities} {A list of one selectivity}
 \defSub{time\_step\_proportion} {Proportion through the mortality block of the time step when calculated}
 \defSub{time\_step\_proportion\_method} {Method for interpolating for the proportion through the mortality block}
+\defSub{values} {}
 \par\textbf{\commandlabsubarg{derived\_\_quantity}{type}{abundance}}\par
 \par\textbf{\commandlabsubarg{derived\_\_quantity}{type}{biomass}}\par
 \defComLab{estimate}{Define an object of type \emph{estimate}}\par\par
@@ -351,7 +353,6 @@
 \defComLab{penalty}{Define an object of type \emph{penalty}}\par\par
 \defSub{label} {The label of the penalty}
 \defSub{type} {The type of penalty}
-\par\textbf{\commandlabsubarg{penalty}{type}{normal}}\par
 \par\textbf{\commandlabsubarg{penalty}{type}{process}}\par
 \defSub{multiplier} {The penalty multiplier}
 \defSub{log\_scale} {Indicates if the sums of squares is calculated on the log scale}
@@ -458,7 +459,6 @@
 \defSub{first\_year\_with\_bias} {First year with full bias adjustment}
 \defSub{last\_year\_with\_bias} {Last year with full bias adjustment}
 \defSub{first\_recent\_year\_with\_no\_bias} {First recent year with no bias adjustment}
-\defSub{recruitment\_deviation\_penalty} {The label for the recruitment penalty term when using recruitment devs parameterisation for the recruitent process. If estimating recruitment devs and applying this penalty make sure estimates are type = uniform}
 \defSub{b0\_intialisation\_phase} {Initialisation phase Label that b0 is from}
 \defSub{deviation\_values} {Recruitment deviation values}
 \defSub{deviation\_years} {Recruitment years. A vector of years that relates to the year of the spawning event that created this cohort}
@@ -585,7 +585,6 @@
 \par\textbf{\commandlabsubarg{report}{type}{partition\_biomass}}\par
 \defSub{time\_step} {Time Step label}
 \defSub{years} {Years}
-\defSub{units} {Units (Default Kgs}
 \par\textbf{\commandlabsubarg{report}{type}{partition\_mean\_weight}}\par
 \defSub{time\_step} {Time Step label}
 \defSub{years} {Years}
@@ -605,6 +604,9 @@
 \defSub{type} {The type of selectivity}
 \defSub{length\_based} {Is the selectivity length based}
 \defSub{intervals} {Number of quantiles to evaluate a length based selectivity over the age length distribution}
+\defSub{partition\_type} {The type of partition this selectivity will support, Defaults to same as the model}
+\defSub{values} {}
+\defSub{length\_values} {}
 \par\textbf{\commandlabsubarg{selectivity}{type}{all\_values}}\par
 \defSub{v} {V}
 \par\textbf{\commandlabsubarg{selectivity}{type}{all\_values\_bounded}}\par

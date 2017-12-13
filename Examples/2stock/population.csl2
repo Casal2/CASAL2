@@ -187,7 +187,18 @@ Ensp2		female.west.cr		Enspsl		0.3	Apr_Jun		CatchMustBeTaken
 Wsp		female.west.wc		Wspsl		0.67	Jul_Sep		CatchMustBeTaken
 end_table
 
-## Oct_Nov Dec_Mar Apr_Jun End_Jun Jul_Sep
+## An alternative construct for the above table, this will become useful for complex partition structures e.g the introduction of tagging.
+/*
+table method
+method  	category 			selectivity 	u_max 	time_step 	penalty
+Esp		format=*.east.cs		Espsl		0.67	Jul_Sep		CatchMustBeTaken
+Ensp1		area=cr				Enspsl		0.3	Dec_Mar		CatchMustBeTaken
+Ensp2		format=*.*.cr			Enspsl		0.3	Apr_Jun		CatchMustBeTaken
+Wnsp1		format=*.west.sa		Wnspsl		0.3	Dec_Mar		CatchMustBeTaken
+Wnsp2		format=*.west.sa		Wnspsl		0.3	Apr_Jun		CatchMustBeTaken
+Wsp		format=*.west.wc		Wspsl		0.67	Jul_Sep		CatchMustBeTaken
+end_table
+*/
 
 ## Natural Mortality by age and sex
 @selectivity M_male

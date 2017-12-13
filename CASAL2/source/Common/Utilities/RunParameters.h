@@ -51,7 +51,7 @@ struct RunParameters {
   unsigned      override_rng_seed_value_ = 123u;
 
   string        minimiser_ = "";
-  bool          create_mpd_file_ = true;
+  bool          create_mpd_file_ = false;
 };
 
 } /* namespace niwa */

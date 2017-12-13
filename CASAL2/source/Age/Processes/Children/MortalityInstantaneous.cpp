@@ -534,7 +534,7 @@ void MortalityInstantaneous::DoExecute() {
           fishery.penalty_->Trigger(label_, fishery.catches_[year], fishery.actual_catches_[year]);
       } else {
         fishery.actual_catches_[year] = fishery.catches_[year];
-        fishery.exploitation_by_year_[year] = fishery.exploitation_;
+        fishery.exploitation_by_year_[year] = fishery.uobs_fishery_;
       }
     }
 
@@ -612,7 +612,7 @@ void MortalityInstantaneous::FillReportCache(ostringstream& cache) {
   cache << "\n";
   for (auto& fishery_iter : fisheries_) {
     auto& fishery = fishery_iter.second;
-    cache << "fishing_pressure[" << fishery.label_ << "]: ";
+    cache << "\nfishing_pressure[" << fishery.label_ << "]: ";
     for (auto pressure : fishery.exploitation_by_year_)
       cache << pressure.second << " ";
     cache << "\ncatch[" << fishery.label_ << "]: ";

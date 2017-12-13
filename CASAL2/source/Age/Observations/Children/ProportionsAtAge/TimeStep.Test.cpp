@@ -142,6 +142,9 @@ table error_values
 1992 1.399 0.795 0.764 0.663 0.724 0.735 0.709 0.684 0.673 0.59 0.669 0.878 0.53
 end_table
 time_step_proportion 1.0 
+
+@report DQ
+type derived_quantity
 )";
 
 /**
@@ -312,7 +315,10 @@ end_table
 table error_values
 1992 1.091 0.770 0.539 0.421 0.412 0.297 0.367 0.322 0.391 0.510 0.523 0.734 0.481 0.612 0.643 0.756 0.772 0.399 0.369 0.331 0.306 0.304 0.309 0.461 0.752 0.423
 end_table
-time_step_proportion 1.0         
+time_step_proportion 1.0   
+
+@report DQ
+type derived_quantity      
 )";
 
 /**

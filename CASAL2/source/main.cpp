@@ -75,7 +75,7 @@ int main(int argc, char * argv[]) {
     case RunMode::kLicense:
       break;
 
-    case RunMode::kQuery:
+/*    case RunMode::kQuery:
       {
         string lookup = model.global_configuration().object_to_query();
         vector<string> parts;
@@ -94,7 +94,7 @@ int main(int argc, char * argv[]) {
           cout << "Please use object_type.sub_type only when querying an object" << endl;
         }
       }
-      break;
+      break;*/
 
     case RunMode::kBasic:
     case RunMode::kEstimation:
