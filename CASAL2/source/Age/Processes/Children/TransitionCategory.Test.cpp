@@ -50,6 +50,12 @@ TEST_F(BasicModel, Processes_Transition_Category_Constant_One_Selectivity) {
   process->parameters().Add(PARAM_R0, "100000", __FILE__, __LINE__);
   process->parameters().Add(PARAM_AGE, "1", __FILE__, __LINE__);
 
+  // Report process
+  base::Object* report = model_->factory().CreateObject(PARAM_REPORT, PARAM_DERIVED_QUANTITY);
+  ASSERT_NE(report, nullptr);
+  report->parameters().Add(PARAM_LABEL, "DQ", __FILE__, __LINE__);
+  report->parameters().Add(PARAM_TYPE, "derived_quantity", __FILE__, __LINE__);
+
   // Maturation Process
   vector<string> from_categories   = { "immature.male", "immature.female" };
   vector<string> to_categories = { "mature.male", "mature.female" };

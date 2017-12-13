@@ -209,6 +209,9 @@ end_table
 @ageing_error Ageing_error
 type none
 
+@report DQ
+type derived_quantity
+
 )";
 
 /**

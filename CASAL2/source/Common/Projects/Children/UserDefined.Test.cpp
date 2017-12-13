@@ -193,6 +193,9 @@ FishingWest   stock   westFSel 0.7 step1 none
 FishingEest  stock   eastFSel 0.7 step1 none
 end_table
 
+@report DQ
+type derived_quantity
+
 )";
 
 /*

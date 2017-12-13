@@ -133,6 +133,9 @@ type basic
 units kgs 
 a 2.0e-6
 b 3.288
+
+@report DQ
+type derived_quantity
 )";
 
 const std::string test_cases_process_mortality_instantaneous_simple =

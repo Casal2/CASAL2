@@ -29,8 +29,8 @@ class ModelRunner:
     print ''
     success_count = 0
     fail_count = 0
-    estimation_dir_list = {"Simple", "TwoSex", "SBW", "SimpleTagByLength"}
-    dash_i_dir_list = {"Complex_input","TwoSex_input"}
+    estimation_dir_list = {"Simple", "TwoSex", "SBW"}
+    dash_i_dir_list = {"Complex_input","TwoSex_input","SingleSexTagByLength_input"}
     dir_list = os.listdir("../TestModels/")
     cwd = os.path.normpath(os.getcwd())  
     # test -r functionality with full/different models

@@ -296,6 +296,9 @@ a50 9
 ato95 4
 alpha 0.7
 
+@report DQ
+type derived_quantity
+
 )";
 
 /**

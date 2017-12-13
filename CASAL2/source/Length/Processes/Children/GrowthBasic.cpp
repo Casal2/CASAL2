@@ -74,6 +74,7 @@ void GrowthBasic::DoBuild() {
 }
 
 void GrowthBasic::DoReset() {
+
 /*
   // Build Transition Matrix
   Double mu, sigma;
@@ -104,6 +105,7 @@ void GrowthBasic::DoReset() {
     }
   }
 */
+
 }
 
 /**

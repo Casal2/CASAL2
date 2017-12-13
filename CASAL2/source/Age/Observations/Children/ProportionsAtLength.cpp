@@ -117,7 +117,7 @@ void ProportionsAtLength::DoValidate() {
 
   for (vector<string>& obs_data_line : obs_data) {
     if (obs_data_line.size() != obs_expected) {
-      LOG_ERROR_P(PARAM_OBS) << " has " << obs_data_line.size() << " values defined, but we expected " << obs_expected
+      LOG_FATAL_P(PARAM_OBS) << " has " << obs_data_line.size() << " values defined, but we expected " << obs_expected
           << " to match the number bins * categories + 1 (for year)";
     }
 
@@ -134,7 +134,7 @@ void ProportionsAtLength::DoValidate() {
       obs_by_year[year].push_back(value);
     }
     if (obs_by_year[year].size() != obs_expected - 1)
-      LOG_CODE_ERROR() << "obs_by_year_[year].size() (" << obs_by_year[year].size() << ") != obs_expected - 1 (" << obs_expected -1 << ")";
+      LOG_FATAL_P(PARAM_OBS) << "you supplied " << obs_by_year[year].size() << " lengths, but we expected " << obs_expected -1 << " can you please sort this out. Chairs";
   }
 
 
@@ -175,7 +175,7 @@ void ProportionsAtLength::DoValidate() {
       error_values_by_year[year].assign(obs_expected - 1, error_values_by_year[year][0]);
     }
     if (error_values_by_year[year].size() != obs_expected - 1)
-      LOG_CODE_ERROR() << "error_values_by_year_[year].size() (" << error_values_by_year[year].size() << ") != obs_expected - 1 (" << obs_expected -1 << ")";
+      LOG_FATAL_P(PARAM_ERROR_VALUES) << "We counted " << error_values_by_year[year].size() << " error values by year but expected " << obs_expected -1 << " based on the obs table";
   }
 
   /**

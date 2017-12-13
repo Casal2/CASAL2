@@ -76,7 +76,7 @@ void Creator::CreateEstimates() {
 
     new_parameter = new_parameter.substr(0, new_parameter.find('{'));
   }
-
+  LOG_FINEST() << "see if this is where we are crashing";
   auto target = model_->objects().FindObject(parameter_);
   // set estiamted flag
   target->set_estimated(true);

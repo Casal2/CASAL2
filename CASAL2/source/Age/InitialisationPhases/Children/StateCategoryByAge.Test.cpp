@@ -99,6 +99,9 @@ categories *
 selectivities [type = constant; c = 1]*2
 time_step step1
 
+@report DQ
+type derived_quantity
+
 )";
 
 /**

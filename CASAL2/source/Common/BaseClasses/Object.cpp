@@ -50,6 +50,10 @@ bool Object::HasAddressable(const string& label) const {
  */
 bool Object::HasAddressableUsage(const string& label, const addressable::Usage& flag) const {
   if (addressable_types_.find(label) == addressable_types_.end()) {
+    for (auto container : unnamed_addressable_s_map_vector_) {
+      if (container->find(label) != container->end())
+        return true; // by default, we allow all usage. Overrises will show up in the types_
+    }
     LOG_CODE_ERROR() << "The addressable " << label << " has not been registered for the object " << block_type_ << ".type=" << type_;
   }
 

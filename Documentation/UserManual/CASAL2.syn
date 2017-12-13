@@ -150,6 +150,7 @@ length
 length_based
 length_bins
 length_plus_group
+length_values
 length_weight
 likelihood
 likelihood_multiplier
@@ -181,6 +182,7 @@ observation
 p1
 p2
 parameter
+partition_type
 pearsons_residuals
 penalty
 plus_group
@@ -205,7 +207,6 @@ q
 r
 r0
 rates
-recruitment_deviation_penalty
 retape
 rho
 s
@@ -380,7 +381,6 @@ pseudo
 random_draw
 random_number_seed
 random_walk
-ratio
 recruitment_beverton_holt
 recruitment_beverton_holt_with_deviations
 recruitment_constant

@@ -177,6 +177,9 @@ table error_values
 1994 34
 1995 22
 end_table   
+
+@report DQ
+type derived_quantity
 )";
 
 /**

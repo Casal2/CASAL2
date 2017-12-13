@@ -103,7 +103,7 @@ void Biomass::DoBuild() {
 
   catchability_ = model_->managers().catchability()->GetCatchability(catchability_label_);
   if (!catchability_)
-    LOG_ERROR_P(PARAM_CATCHABILITY) << ": catchability " << catchability_label_ << " could not be found. Have you defined it?";
+    LOG_FATAL_P(PARAM_CATCHABILITY) << ": catchability " << catchability_label_ << " could not be found. Have you defined it?";
 
   if (catchability_->type() == PARAM_NUISANCE){
     nuisance_q_ = true;
