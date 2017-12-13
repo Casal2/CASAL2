@@ -39,7 +39,7 @@ ProportionsAtAge::ProportionsAtAge(Model* model) : Observation(model) {
 
   parameters_.Bind<unsigned>(PARAM_MIN_AGE, &min_age_, "Minimum age", "");
   parameters_.Bind<unsigned>(PARAM_MAX_AGE, &max_age_, "Maximum age", "");
-  parameters_.Bind<bool>(PARAM_AGE_PLUS, &age_plus_, "Use age plus group", "", true);
+  parameters_.Bind<bool>(PARAM_PLUS_GROUP, &plus_group_, "Use age plus group", "", true);
   parameters_.Bind<string>(PARAM_TIME_STEP, &time_step_label_, "The label of time-step that the observation occurs in", "");
   parameters_.Bind<Double>(PARAM_TOLERANCE, &tolerance_, "Tolerance on the constraint, that for each year the sum of proportions in each age must equal one e.g. tolerance = 0.1 then 1 - Sum(Proportions) can be as great as 0.1 ", "", Double(0.001));
   parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "The years of the observed values", "");
@@ -350,7 +350,7 @@ void ProportionsAtAge::Execute() {
       if (k >= age_offset && (k - age_offset + min_age_) <= max_age_) {
         expected_values[k - age_offset] = numbers_age[k];
       }
-      if (((k - age_offset + min_age_) > max_age_) && age_plus_) {
+      if (((k - age_offset + min_age_) > max_age_) && plus_group_) {
         expected_values[age_spread_ - 1] += numbers_age[k];
 
       }

@@ -39,7 +39,7 @@ start_year 1975
 final_year 2012
 min_age 1
 max_age 30
-age_plus true
+plus_group true
 base_weight_units tonnes
 initialisation_phases iphase1
 time_steps step1 step2 step3
@@ -198,7 +198,7 @@ time_step step1
 categories stock
 min_age 3
 max_age 19
-age_plus true
+plus_group true
 selectivities chatTANSel
 years 1990 1992:2012
 table obs
@@ -263,7 +263,7 @@ method_of_removal FishingWest
 ageing_error Ageing_error
 min_age 3
 max_age 19
-age_plus true
+plus_group true
 years 1992 1994 1995 1996 1997 1998 1999 2000 2001 2002 2003 2004 2005 2006 2008 2009 2010 2011
 
 table obs
@@ -321,7 +321,7 @@ ageing_error Ageing_error
 method_of_removal FishingEest
 min_age 4
 max_age 21
-age_plus true
+plus_group true
 years 1992 1995 1997 1998 2001 2004 2007
 
 table obs
