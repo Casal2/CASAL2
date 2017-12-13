@@ -68,7 +68,6 @@ TagByLength::~TagByLength() {
  * Validate the parameters from the configuration file
  */
 void TagByLength::DoValidate() {
-  // TODO add a year specific initial mortality and N input for the user.
   LOG_TRACE();
   // Check if the user has specified combined categories, if so check the same number of categories are
   for(auto& category : to_category_labels_) {
@@ -76,9 +75,8 @@ void TagByLength::DoValidate() {
     if(check_combined)
       LOG_FATAL_P(PARAM_TO) << "You supplied the combined category " << category << " this sub command can only take separate categories.";
   }
-
-  if (to_category_labels_.size() != 1) {
-    LOG_FATAL_P(PARAM_FROM) << "This process cannot specify a many to many tagging event. If you have proportions tagged by category then I suggest you create @tag process for each seperate category, see the manual for more details.";
+  if (from_category_labels_.size() != 1) {
+    LOG_FATAL_P(PARAM_FROM) << "This process cannot specify a many to many tagging event. If you have proportions tagged by category then I suggest you create @tag process, you supplied " << from_category_labels_.size() << " from categories";
   }
 
   vector<string> split_category_labels;
