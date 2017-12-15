@@ -795,30 +795,25 @@ calculate the total numbers at length ($T_l$) across all source categories at le
 
 $$T_l = \sum_{j = 1}N_{l,j}$$
 
-Calculate the ($P_{l,j}$) proportion of this tagged fish that will be moved from this each source category
+Calculate the transition rate for this length bin ($u_l$)
 
-$$P_{l,j} = N_{l,j} / T_l$$
-
-
-Calculate the category specific transition rate for this length bin ($u_l$)
-
-$$u_{l,j} = N_l / T_l * P_{l,j}$$
+$$u_{l} = \tilde{N_l} / T_l$$
 
 
 
 Check that we don't exceed some threshold, usually called a $u_{max}$ which is analagous to the $u_{max}$ in a mortality processes.
 
 \[
-u_{l,j} = 
+u_{l} = 
 \begin{cases}
-u_{max},& \text{if } u_{l,j} > u_{max} \text{ \textbf{flag a penalty}}\\
-u_{l,j},  & \text{otherwise}
+u_{max},& \text{if } u_{l} > u_{max} \text{ \textbf{flag a penalty}}\\
+u_{l},  & \text{otherwise}
 \end{cases}
 \]
 
-Calculate the numbers at length in this category that we are going to move by multiplying across the age-length matrix and storing this info by age, for each age we want to accumulated these for all length bins. then move the necceassary 
+Calculate the numbers at age in this category that we are going to move by multiplying across the age-length matrix and storing this info by age, for each age we want to accumulated these for all length bins. then move the necceassary 
 
-$$N_{a,j} += N_{a,l} * u_l * P_{l,j}$$
+$$N_{a,j} += N_{a,l} * u_l$$
 
 The syntax for an example of tag release by length process in \CNAME\ follows, 
 {\small{\begin{verbatim}
