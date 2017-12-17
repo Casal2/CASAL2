@@ -42,7 +42,6 @@ TagLoss::TagLoss(Model* model)
   parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_names_, "Selectivities", "");
   parameters_.Bind<unsigned>(PARAM_YEAR, &year_, "The year the first tagging release process was executed", "");
 
-
   RegisterAsAddressable(PARAM_TAG_LOSS, &tag_loss_);
 }
 
@@ -127,7 +126,7 @@ void TagLoss::DoBuild() {
       time_step_ratios_[i] = 1.0;
   } else {
     if (ratios_.size() != active_time_steps.size())
-      LOG_ERROR_P(PARAM_TIME_STEP_RATIO) << " length (" << ratios_.size()
+      LOG_FATAL_P(PARAM_TIME_STEP_RATIO) << " length (" << ratios_.size()
           << ") does not match the number of time steps this process has been assigned to (" << active_time_steps.size() << ")";
 
     for (Double value : ratios_) {
