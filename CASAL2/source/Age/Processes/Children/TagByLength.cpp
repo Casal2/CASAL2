@@ -271,7 +271,7 @@ void TagByLength::DoBuild() {
 void TagByLength::DoExecute() {
   LOG_TRACE();
   unsigned current_year = model_->current_year();
-  if (std::find(years_.begin(), years_.end(), current_year) == years_.end())
+  if (model_->state() != State::kInitialise && std::find(years_.begin(), years_.end(), current_year) == years_.end())
     return;
 
   auto from_iter = from_partition_.begin();
