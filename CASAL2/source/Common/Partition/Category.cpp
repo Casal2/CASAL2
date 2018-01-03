@@ -37,17 +37,20 @@ void Category::UpdateMeanLengthData() {
 
   if (model_->partition_type() == PartitionType::kAge) {
     AgeLength* age_length = categories->age_length(name_);
-
-    // Only do this under three conditions. We are initialising, it has a time varying component, or is of type data.
-    if (age_length->is_time_varying() || model_->state() == State::kInitialise || age_length->type() == PARAM_DATA) {
-      LOG_FINEST() << "Updating mean length and weight";
-      for (unsigned step_iter = 0; step_iter < time_steps.size(); ++step_iter) {
-        for (unsigned age = min_age_; age <= max_age_; ++age) {
-          mean_length_by_time_step_age_[step_iter][age] = age_length->GetMeanLength(year, step_iter, age);
-        }
-      }
-      // If this has been updated we need to update Mean weight
+    if (!age_length) {
       UpdateMeanWeightData();
+    } else {
+      // Only do this under three conditions. We are initialising, it has a time varying component, or is of type data.
+      if (age_length->is_time_varying() || model_->state() == State::kInitialise || age_length->type() == PARAM_DATA) {
+        LOG_FINEST() << "Updating mean length and weight";
+        for (unsigned step_iter = 0; step_iter < time_steps.size(); ++step_iter) {
+          for (unsigned age = min_age_; age <= max_age_; ++age) {
+            mean_length_by_time_step_age_[step_iter][age] = age_length->GetMeanLength(year, step_iter, age);
+          }
+        }
+        // If this has been updated we need to update Mean weight
+        UpdateMeanWeightData();
+      }
     }
   } else if (model_->partition_type() == PartitionType::kLength) {
     // Don't need to update length cause we are a length structured model, so just update weight
