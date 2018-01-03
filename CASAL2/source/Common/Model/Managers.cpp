@@ -16,6 +16,7 @@
 #include "Common/AdditionalPriors/Manager.h"
 #include "Age/AgeingErrors/Manager.h"
 #include "Age/AgeLengths/Manager.h"
+#include "Age/AgeWeights/Manager.h"
 #include "Common/Asserts/Manager.h"
 #include "Common/Catchabilities/Manager.h"
 #include "Common/DerivedQuantities/Manager.h"
@@ -52,6 +53,7 @@ Managers::Managers(Model* model) {
   additional_prior_       = new additionalpriors::Manager();
   ageing_error_           = new ageingerrors::Manager();
   age_length_             = new agelengths::Manager();
+  age_weight_             = new ageweights::Manager();
   assert_                 = new asserts::Manager();
   catchability_           = new catchabilities::Manager();
   derived_quantity_       = new derivedquantities::Manager();
@@ -82,6 +84,7 @@ Managers::~Managers() {
   delete additional_prior_;
   delete ageing_error_;
   delete age_length_;
+  delete age_weight_;
   delete assert_;
   delete catchability_;
   delete derived_quantity_;
@@ -114,6 +117,7 @@ void Managers::Validate() {
   additional_prior_->Validate();
   ageing_error_->Validate();
   age_length_->Validate();
+  age_weight_->Validate();
   assert_->Validate();
   catchability_->Validate();
   derived_quantity_->Validate();
@@ -146,6 +150,7 @@ void Managers::Build() {
   additional_prior_->Build();
   ageing_error_->Build();
   age_length_->Build();
+  age_weight_->Build();
   assert_->Build();
   catchability_->Build();
   derived_quantity_->Build();
@@ -174,6 +179,7 @@ void Managers::Reset() {
   additional_prior_->Reset();
   ageing_error_->Reset();
   age_length_->Reset();
+  age_weight_->Reset();
   assert_->Reset();
   catchability_->Reset();
   derived_quantity_->Reset();
