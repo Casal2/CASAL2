@@ -17,7 +17,7 @@ namespace ublas = boost::numeric::ublas;
  */
 CorrelationMatrix::CorrelationMatrix(Model* model) : Report(model) {
   run_mode_    = (RunMode::Type)(RunMode::kEstimation | RunMode::kMCMC);
-  model_state_ = State::kIterationComplete;
+  model_state_ = State::kFinalise;
 }
 
 /**
