@@ -17,6 +17,7 @@
 #include "Common/Utilities/To.h"
 #include "Common/Catchabilities/Children/Nuisance.h"
 #include "Common/TimeSteps/Manager.h"
+#include "Age/AgeWeights/Manager.h"
 
 // namespaces
 namespace niwa {
@@ -36,6 +37,7 @@ Biomass::Biomass(Model* model) : Observation(model) {
   parameters_.Bind<Double>(PARAM_ERROR_VALUE, &error_values_, "The error values of the observed values (note the units depend on the likelihood)", "");
   parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_labels_, "Labels of the selectivities", "", true);
   parameters_.Bind<Double>(PARAM_PROCESS_ERROR, &process_error_value_, "Value for process error", "", Double(0.0));
+  parameters_.Bind<string>(PARAM_AGE_WEIGHT_LABELS, &age_weight_labels_, "The labels for the @age_weight block which corresponds to each category, if you want to use that weight calculation method for biomass calculations", "", "");
 
   RegisterAsAddressable(PARAM_PROCESS_ERROR, &process_error_value_);
 
@@ -57,6 +59,13 @@ void Biomass::DoValidate() {
     LOG_ERROR_P(PARAM_SELECTIVITIES) << ": Number of selectivities provided (" << selectivity_labels_.size()
         << ") is not valid. You can specify either the number of category collections (" << category_labels_.size() << ") or "
         << "the number of total categories (" << expected_selectivity_count_ << ")";
+
+  if (parameters_.Get(PARAM_AGE_WEIGHT_LABELS)->has_been_defined()) {
+    if (category_labels_.size() != age_weight_labels_.size() && expected_selectivity_count_ != age_weight_labels_.size())
+      LOG_ERROR_P(PARAM_AGE_WEIGHT_LABELS) << ": Number of age weights provided (" << age_weight_labels_.size()
+          << ") is not valid. You can specify either the number of category collections (" << category_labels_.size() << ") or "
+          << "the number of total categories (" << expected_selectivity_count_ << ")";
+  }
 
   // Delta
   if (delta_ < 0.0)
@@ -128,6 +137,16 @@ void Biomass::DoBuild() {
   if (selectivities_.size() == 1 && category_labels_.size() != 1)
     selectivities_.assign(category_labels_.size(), selectivities_[0]);
 
+  if (parameters_.Get(PARAM_AGE_WEIGHT_LABELS)->has_been_defined()) {
+    for (string label : age_weight_labels_) {
+      AgeWeight* age_weight = model_->managers().age_weight()->FindAgeWeight(label);
+      if (!age_weight)
+        LOG_ERROR_P(PARAM_AGE_WEIGHT_LABELS) << " (" << label << ") could not be found. Have you defined it?";
+      age_weights_.push_back(age_weight);
+    }
+  }
+
+
 
   if (partition_->category_count() != selectivities_.size())
     LOG_ERROR_P(PARAM_SELECTIVITIES) << ": number of selectivities provided (" << selectivities_.size() << ") does not match the number "
@@ -183,24 +202,46 @@ void Biomass::Execute() {
     auto cached_category_iter = cached_partition_iter->begin();
     for (unsigned category_offset = 0; category_iter != partition_iter->end(); ++category_offset, ++cached_category_iter, ++category_iter) {
       //(*category_iter)->UpdateMeanWeightData();
+      if (!parameters_.Get(PARAM_AGE_WEIGHT_LABELS)->has_been_defined()) {
+        // Use the age->length->weight calculation for weight
+        for (unsigned data_offset = 0; data_offset < (*category_iter)->data_.size(); ++data_offset) {
+          age = (*category_iter)->min_age_ + data_offset;
 
-      for (unsigned data_offset = 0; data_offset < (*category_iter)->data_.size(); ++data_offset) {
-        age = (*category_iter)->min_age_ + data_offset;
+          selectivity_result = selectivities_[category_offset]->GetAgeResult(age, (*category_iter)->age_length_);
+          start_value = (*cached_category_iter).data_[data_offset];
+          end_value = (*category_iter)->data_[data_offset];
+          final_value = 0.0;
 
-        selectivity_result = selectivities_[category_offset]->GetAgeResult(age, (*category_iter)->age_length_);
-        start_value = (*cached_category_iter).data_[data_offset];
-        end_value = (*category_iter)->data_[data_offset];
-        final_value = 0.0;
-
-        if (mean_proportion_method_)
-          final_value = start_value + ((end_value - start_value) * proportion_of_time_);
-        else {
-          // re-write of std::abs(start_value - end_value) * temp_step_proportion for ADMB
-          Double temp = start_value - end_value;
-          temp = temp < 0 ? temp : temp * -1.0;
-          final_value = temp * proportion_of_time_;
+          if (mean_proportion_method_)
+            final_value = start_value + ((end_value - start_value) * proportion_of_time_);
+          else {
+            // re-write of std::abs(start_value - end_value) * temp_step_proportion for ADMB
+            Double temp = start_value - end_value;
+            temp = temp < 0 ? temp : temp * -1.0;
+            final_value = temp * proportion_of_time_;
+          }
+          expected_total += selectivity_result * final_value * (*category_iter)->mean_weight_by_time_step_age_[time_step_index][age];
         }
-        expected_total += selectivity_result * final_value * (*category_iter)->mean_weight_by_time_step_age_[time_step_index][age];
+      } else {
+        // Use the age_weight calculation for weight
+        for (unsigned data_offset = 0; data_offset < (*category_iter)->data_.size(); ++data_offset) {
+          age = (*category_iter)->min_age_ + data_offset;
+
+          selectivity_result = selectivities_[category_offset]->GetAgeResult(age, (*category_iter)->age_length_);
+          start_value = (*cached_category_iter).data_[data_offset];
+          end_value = (*category_iter)->data_[data_offset];
+          final_value = 0.0;
+
+          if (mean_proportion_method_)
+            final_value = start_value + ((end_value - start_value) * proportion_of_time_);
+          else {
+            // re-write of std::abs(start_value - end_value) * temp_step_proportion for ADMB
+            Double temp = start_value - end_value;
+            temp = temp < 0 ? temp : temp * -1.0;
+            final_value = temp * proportion_of_time_;
+          }
+          expected_total += selectivity_result * final_value * age_weights_[proportions_index]->mean_weight_at_age_by_year(current_year, age);
+        }
       }
     }
 
