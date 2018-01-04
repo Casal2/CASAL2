@@ -107,12 +107,10 @@ void RecruitmentBevertonHoltWithDeviations::DoValidate() {
   if(recruit_dev_values_.size() != recruit_dev_years_.size()) {
     LOG_FATAL_P(PARAM_DEVIATION_VALUES) << "you supplied " << recruit_dev_years_.size() << " " << PARAM_DEVIATION_YEARS  << " and " << recruit_dev_values_.size() << " " << PARAM_YCS_VALUES << ". These parameters must be of equal length before the model will run.";
   }
-  // initialise ycs_values and check values arn't < 0.0
+  // initialise recruit devs and check values arn't < 0.0
   unsigned ycs_iter = 0;
   for (unsigned ycs_year : recruit_dev_years_) {
     recruit_dev_value_by_year_[ycs_year] = recruit_dev_values_[ycs_iter];
-    if (recruit_dev_values_[ycs_iter] < 0.0)
-        LOG_ERROR_P(PARAM_DEVIATION_YEARS) << " value " << recruit_dev_values_[ycs_iter] << " cannot be less than 0.0";
     ycs_iter++;
   }
 
@@ -374,6 +372,9 @@ void RecruitmentBevertonHoltWithDeviations::DoExecute() {
     Double ycs;
     ycs = exp(recruit_dev_value_by_year_[ssb_year] - (bias_by_year_[ssb_year] * 0.5 * sigma_r_ * sigma_r_));
     LOG_FINEST() << "Projected ycs = " << ycs;
+
+    if (ycs < 0.0)
+      LOG_CODE_ERROR() << "'ycs < 0.0' user shouldn't be able to cause negative recrutiment";
 
 
     // Calculate year to get SSB that contributes to this years recruits
