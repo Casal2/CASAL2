@@ -653,7 +653,18 @@ and for referencing catch parameters for use in projecting, time\_varying and es
 {\small{\begin{verbatim}
 		parameter process[instant_mort].method_FishingWest{2018}
 		\end{verbatim}}}
-		
+
+If you want weight to be calculated by empirical weight at age matricies as described in Section~\ref{sec:weight-at-age} the method table has an additional column that can call weight at age objects. For example
+
+{\small{\begin{verbatim}
+		@age_weight jan_weight_at_age
+		type data
+		table data
+		year 1 		2 		3 		4
+		1980 3.4	5.6		7.23 	8.123
+		end_table
+\end{verbatim}}}
+
 \paragraph{Holling's mortality rate}
 
 The density-dependent Hollings mortality process\index{Holling mortality} applies the Holling Type II and Type III functions \citep{Holling1959}, but is generalised using the Michaelis-Menten equation \citep{MentenMichaelis1913}. The function removes a number or biomass from a set of categories according to the total (selected) abundance (or biomass) and some 'predator' abundance (or biomass), and constrained by a maximum exploitation rate.
@@ -975,7 +986,7 @@ format stock
 names Stock
 \end{verbatim}}}
 
-
+if a weight/biomass based deried quantity, process or observation has a \subcommand{age\_weight\_label} subcommand then it can use the \command{age\_weight} class to calculate mean weight at age.
 
 
 \subsection{\I{Weightless model}\label{sec:weightless-model}}
