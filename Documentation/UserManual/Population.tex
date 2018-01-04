@@ -663,6 +663,12 @@ If you want weight to be calculated by empirical weight at age matricies as desc
 		year 1 		2 		3 		4
 		1980 3.4	5.6		7.23 	8.123
 		end_table
+		
+table method
+method       category  selectivity u_max   time_step penalty 		age_weight
+FishingWest   stock     westFSel    0.7     step1     CatchPenalty
+FishingEast   stock     eastFSel    0.7     step1     CatchPenalty
+end_table		
 \end{verbatim}}}
 
 \paragraph{Holling's mortality rate}
