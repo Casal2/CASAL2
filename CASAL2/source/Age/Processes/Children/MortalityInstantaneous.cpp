@@ -183,7 +183,7 @@ void MortalityInstantaneous::DoValidate() {
     LOG_FATAL_P(PARAM_METHOD) << "Cannot find the column " << PARAM_U_MAX << ", this column is needed, for casal2 to run this process. Please add it =)";
   if (std::find(columns.begin(), columns.end(), PARAM_PENALTY) == columns.end())
     LOG_FATAL_P(PARAM_METHOD) << "Cannot find the column " << PARAM_PENALTY << ", this column is needed, for casal2 to run this process. Please add it =)";
-  if (std::find(columns.begin(), columns.end(), PARAM_AGE_WEIGHT) == columns.end()) {
+  if (std::find(columns.begin(), columns.end(), PARAM_AGE_WEIGHT_LABEL) == columns.end()) {
     // Users can choose not to add this column if they wish
     use_age_weight_ = false;
     LOG_FINE() << "Age weight column not found";
@@ -197,7 +197,7 @@ void MortalityInstantaneous::DoValidate() {
   unsigned penalty_index      = std::find(columns.begin(), columns.end(), PARAM_PENALTY) - columns.begin();
   unsigned age_weight_index = 999;
   if (use_age_weight_)
-    age_weight_index   = std::find(columns.begin(), columns.end(), PARAM_AGE_WEIGHT) - columns.begin();
+    age_weight_index   = std::find(columns.begin(), columns.end(), PARAM_AGE_WEIGHT_LABEL) - columns.begin();
 
   LOG_FINEST() << "indexes: fishery=" << fishery_index << "; category=" << category_index << "; selectivity="
       << selectivity_index << "; time_step=" << time_step_index << "; u_max=" << u_max_index

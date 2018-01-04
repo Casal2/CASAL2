@@ -131,6 +131,7 @@
 #define PARAM_AGE_PLUS                            "age_plus"
 #define PARAM_AGE_V                               "age_v"
 #define PARAM_AGE_WEIGHT                          "age_weight"
+#define PARAM_AGE_WEIGHT_LABEL                    "age_weight_label"
 #define PARAM_AGEING                              "ageing"
 #define PARAM_AGEING_LABEL                        "ageing_label"
 #define PARAM_AGEING_ERROR                        "ageing_error"
