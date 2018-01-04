@@ -132,7 +132,7 @@ private:
   map<unsigned, map<string, vector<string>>> year_method_category_to_store_; // Year,  fishery, category
   // Members for reporting
   vector<unsigned>            time_steps_to_skip_applying_F_mortaltiy_;
-
+  bool                        use_age_weight_ = true;
 };
 
 } /* namespace processes */

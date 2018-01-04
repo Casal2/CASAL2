@@ -30,6 +30,9 @@ public:
   virtual                     ~Biomass() = default;
   void                        PreExecute() override final;
   void                        Execute() override final;
+
+  void                        DoValidate() override final { };
+  void                        DoBuild() override final { };
 };
 
 } /* namespace derivedquantities */
