@@ -949,6 +949,35 @@ Be careful about the scale of $a$ --- this can easily be specified incorrectly. 
 		b 3.132
 \end{verbatim}}}
 
+\subsection{\I{Age-weight relationship}\label{sec:weight-at-age}}
+\CNAME\ also allows users to input direct weight at age measurements. This is different to the method erlier as it is empirical data compared to calculating it via growth models (age->length->weight). This was originally added to compare \CNAME\ models with another seneralised stock assessment program ASAP (\hl{Reference Legualt and someone)}. 
+
+This class represents the weight at age for collection of categories at a point in time. They can be used in weight based derived quantities, processes and observations. An example of applying this in functionality in \CNAME\ model.
+
+{\small{\begin{verbatim}
+		type Data
+		units tonnes
+		table data
+		year 1 2 3 4 5 6 7 8 9 10
+		1986	0.134	0.686	1.639	2.719	3.649	4.901	6.329	6.591	7.238	7.491
+		1987	0.132	0.724	1.534	2.829	4.092	4.853	5.705	6.143	7.179	8.089
+		1988	0.122	0.641	1.533	2.641	3.796	5.054	5.652	6.356	6.95	8.857
+		1989	0.137	0.722	1.606	2.416	3.629	5.027	5.561	6.35	6.933	7.217
+		1990	0.138	0.773	1.645	2.74	3.711	4.506	5.684	6.929	7.424	7.479
+		end_table
+		\end{verbatim}}}
+	
+If weight is purely defined by the weight at age functionality, you can choose not to specify the age length block in teh \command{categories} block.
+
+{\small{\begin{verbatim}
+@categories 
+format stock
+names Stock
+\end{verbatim}}}
+
+
+
+
 \subsection{\I{Weightless model}\label{sec:weightless-model}}
 To model abundance (i.e., not convert the population to weight), the \command{length\_weight} argument is turned off by specifing the keyword \subcommand{none} in the \command{age\_length} block, e.g.,
 {\small{\begin{verbatim}
