@@ -130,6 +130,7 @@ void Category::UpdateAgeLengthData(const vector<Double>& length_bins, bool plus_
  * This method collapses the Numbers at length by age matrix to numbers at age for a category
  */
 void Category::CollapseAgeLengthDataToLength() {
+  LOG_TRACE();
   if (age_length_matrix_.size() == 0)
     LOG_CODE_ERROR() << "if (age_length_matrix_.size() == 0)";
 

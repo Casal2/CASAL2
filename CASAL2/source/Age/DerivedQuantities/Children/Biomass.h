@@ -37,6 +37,7 @@ public:
 protected:
   vector<string>              age_weight_labels_;
   vector<AgeWeight*>          age_weights_;
+  bool                        use_age_weights_ = false;
 };
 
 } /* namespace derivedquantities */
