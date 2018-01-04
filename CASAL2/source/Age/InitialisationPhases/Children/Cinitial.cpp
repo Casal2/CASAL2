@@ -18,7 +18,11 @@
 #include "Common/TimeSteps/Manager.h"
 #include "Common/DerivedQuantities/Manager.h"
 #include "Common/InitialisationPhases/Manager.h"
-#include "Age/Processes/Children/RecruitmentBevertonHolt.h"
+
+#include <boost/algorithm/string/replace.hpp>
+#include <boost/algorithm/string/trim_all.hpp>
+#include <boost/algorithm/string/split.hpp>
+#include <boost/algorithm/string/join.hpp>
 
 // namesapces
 namespace niwa {
@@ -52,6 +56,7 @@ Cinitial::~Cinitial() {
  * Validate the parameters passed in from the configuration file
  */
 void Cinitial::DoValidate() {
+  LOG_TRACE();
 	min_age_ = model_->min_age();
 	max_age_ = model_->max_age();
 
@@ -66,17 +71,40 @@ void Cinitial::DoValidate() {
   vector<vector<string>>& data = n_table_->data();
   unsigned row_number = 1;
   for (auto row : data) {
+    string row_label = row[0];
+    // CHeck that it is a valid category
+    bool check_combined = model_->categories()->IsCombinedLabels(row_label);
+    LOG_FINEST() << "Checking row with label = " << row_label;
+    if (find(category_labels_.begin(),category_labels_.end(), row_label )== category_labels_.end())
+      LOG_FATAL_P(PARAM_N) << " Could not find '" << row_label << "' in the categories supplied, please make sure that categories supplied is the same as the row labels.";
+
+    if (check_combined) {
+      vector<string> split_category_labels;
+      boost::split(split_category_labels, row_label, boost::is_any_of("+"));
+      unsigned category_iter = 0;
+      for (const string& split_category_label : split_category_labels) {
+        if (!model_->categories()->IsValid(split_category_label)) {
+          LOG_FATAL_P(PARAM_N)<< ": The category " << split_category_label << " is not a valid category.";
+        }
+        ++category_iter;
+      }
+    } else {
+      if (!model_->categories()->IsValid(row_label))
+        LOG_FATAL_P(PARAM_N) << ": The category " << row_label << " is not a valid category.";
+    }
+    // convert to lower case
+    row_label = utilities::ToLowercase(row_label);
     if (row.size() != column_count_)
       LOG_ERROR_P(PARAM_N) << "the " << row_number << "the row has " << row.size() << " values but " << column_count_ << " values are expected";
-    if (n_.find(row[0]) != n_.end())
-      LOG_ERROR_P(PARAM_N) << "the category " << row[0] << " is defined more than once. You can only define a category once";
+    if (n_.find(row_label) != n_.end())
+      LOG_ERROR_P(PARAM_N) << "the category " << row_label << " is defined more than once. You can only define a category once";
 
 
     for (unsigned i = 1; i < row.size(); ++i) {
       Double temp = Double();
       if (!utilities::To<Double>(row[i], temp))
         LOG_ERROR_P(PARAM_N) << "value (" << row[i] << ") in row " << row_number << " is not a valid numeric";
-      n_[row[0]].push_back(temp);
+      n_[row_label].push_back(temp);
     }
     row_number++;
   }
@@ -87,25 +115,12 @@ void Cinitial::DoValidate() {
  * Build any data objects that need to be built.
  */
 void Cinitial::DoBuild() {
+  LOG_TRACE();
   time_steps_ = model_->managers().time_step()->ordered_time_steps();
 
   // Create Category and cached category pointers
   partition_ = CombinedCategoriesPtr(new niwa::partition::accessors::CombinedCategories(model_, category_labels_));
   cached_partition_ = CachedCombinedCategoriesPtr(new niwa::partition::accessors::cached::CombinedCategories(model_, category_labels_));
-
-  // Calculate ssb_ofset and ssb label if there is BH_recruitment process in the annual cycle
-  for (auto time_step : model_->managers().time_step()->ordered_time_steps()) {
-    for (auto process : time_step->processes()) {
-      if (process->process_type() == ProcessType::kRecruitment && process->type() == PARAM_RECRUITMENT_BEVERTON_HOLT) {
-        RecruitmentBevertonHolt* recruitment = dynamic_cast<RecruitmentBevertonHolt*>(process);
-        if (!recruitment)
-          LOG_CODE_ERROR() << "BevertonHolt Recruitment exists but dynamic cast pointer cannot be made, if (!recruitment) ";
-        if (recruitment->ssb_offset() > ssb_offset_)
-          ssb_offset_ = recruitment->ssb_offset();
-        derived_quanitity_.push_back(recruitment->ssb_label());
-      }
-    }
-  }
   // Create derived quantity pointers
   unsigned i = 0;
   for (auto derived_quantities : derived_quanitity_) {
@@ -123,9 +138,8 @@ void Cinitial::DoBuild() {
  * Execute Cinitial this code follows from the original CASAL algorithm
  */
 void Cinitial::Execute() {
-
+  LOG_TRACE();
   map<string, vector<Double>> category_by_age_total;
-
   auto partition_iter = partition_->Begin();
   for (unsigned category_offset = 0; category_offset < category_labels_.size(); ++category_offset, ++partition_iter) {
     category_by_age_total[category_labels_[category_offset]].assign((max_age_ - min_age_ + 1), 0.0);
@@ -143,7 +157,7 @@ void Cinitial::Execute() {
       }
     }
   }
-
+  LOG_TRACE();
   // loop through the category_labels and calculate the cinitial factor, which is the n_ / col_sums
   map<string, vector<Double>> category_by_age_factor;
 
@@ -154,11 +168,12 @@ void Cinitial::Execute() {
       if (category_by_age_total[category_labels_[category_offset]][data_offset] == 0.0)
         category_by_age_factor[category_labels_[category_offset]][data_offset] = 1.0;
       else {
-        category_by_age_factor[category_labels_[category_offset]][data_offset] = n_[category_labels_[category_offset]][data_offset]
+        category_by_age_factor[category_labels_[category_offset]][data_offset] = n_[utilities::ToLowercase(category_labels_[category_offset])][data_offset]
             / category_by_age_total[category_labels_[category_offset]][data_offset];
       }
     }
   }
+  LOG_TRACE();
   // Now loop through the combined categories multiplying each category by the factory
   // from the combined group it belongs to
   partition_iter = partition_->Begin();
@@ -178,8 +193,8 @@ void Cinitial::Execute() {
     }
   }
   // Build cache
+  LOG_FINEST() << "finished calculating Cinitial";
   cached_partition_->BuildCache();
-
   // Execute the annual cycle for one year to calculate Cinitial
   timesteps::Manager* time_step_manager = model_->managers().time_step();
   time_step_manager->ExecuteInitialisation(label_, 1);
