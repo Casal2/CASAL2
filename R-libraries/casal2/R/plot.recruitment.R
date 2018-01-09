@@ -19,17 +19,17 @@
 #' # if you are unhappy with the default plotting you can use plot.it = FALSE and create a plot of your own.
 
 
-"plot.ycs"<-
+"plot.recruitment"<-
 function(model, report_label="", xlim, ylim, xlab, ylab, main, col, ...){
   UseMethod("plot.ycs",model)
 }
 
 #' @return \code{NULL}
 #'
-#' @rdname plot.ycs
-#' @method plot.ycs casal2MPD
+#' @rdname plot.recruitment
+#' @method plot.recruitment casal2MPD
 #' @export
-"plot.ycs.casal2MPD" = function(model, report_label="", xlim = NULL, ylim = NULL, xlab = NULL, ylab = NULL, main = NULL, col = NULL, ...) {
+"plot.recruitment.casal2MPD" = function(model, report_label="", xlim = NULL, ylim = NULL, xlab = NULL, ylab = NULL, main = NULL, col = NULL, ...) {
   muliple_iterations_in_a_report = FALSE;
   N_runs = 1;
   temp_DF = NULL;
@@ -101,10 +101,10 @@ function(model, report_label="", xlim, ylim, xlab, ylab, main, col, ...){
 ## method for class casal2TAB
 #' @return \code{NULL}
 #'
-#' @rdname plot.ycs
-#' @method plot.ycs casal2TAB
+#' @rdname plot.recruitment
+#' @method plot.recruitment casal2TAB
 #' @export
-"plot.ycs.casal2TAB" = function(model, report_label="", xlim, ylim, xlab, ylab, main, col, ...) {
+"plot.recruitment.casal2TAB" = function(model, report_label="", xlim, ylim, xlab, ylab, main, col, ...) {
   ## check report label exists
   if (!report_label %in% names(model))
     stop(Paste("In model the report label '", report_label, "' could not be found. The report labels available are ", paste(names(model),collapse = ", ")))

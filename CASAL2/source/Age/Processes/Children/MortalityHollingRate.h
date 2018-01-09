@@ -41,6 +41,8 @@ public:
   void                        DoBuild() override final;
   void                        DoReset() override final { };
   void                        DoExecute() override final;
+  void                        FillReportCache(ostringstream& cache) override final;
+  void                        FillTabularReportCache(ostringstream& cache, bool first_run) override final;
 
 
 private:
@@ -60,6 +62,18 @@ private:
   vector<Selectivity*>        predator_selectivities_;
   accessor::Categories        prey_partition_;
   accessor::Categories        predator_partition_;
+  vector<Double>              prey_vulnerability_by_year_;
+  vector<Double>              prey_mortality_by_year_;
+  vector<Double>              predator_vulnerability_by_year_;
+
+  parameters::Table*          predator_selectivitie_table_ = nullptr;
+  parameters::Table*          prey_selectivitie_table_ = nullptr;
+  map<unsigned,vector<Double>> prey_selectivity_by_year_;
+  map<unsigned,vector<Double>> predator_selectivity_by_year_;
+  bool                        prey_selectivity_by_year_supplied_ = false;
+  bool                        predator_selectivity_by_year_supplied_ = false;
+
+
 };
 
 } /* namespace processes */

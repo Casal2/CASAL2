@@ -68,7 +68,6 @@ TagByLength::~TagByLength() {
  * Validate the parameters from the configuration file
  */
 void TagByLength::DoValidate() {
-  // TODO add a year specific initial mortality and N input for the user.
   LOG_TRACE();
   // Check if the user has specified combined categories, if so check the same number of categories are
   for(auto& category : to_category_labels_) {
@@ -76,9 +75,8 @@ void TagByLength::DoValidate() {
     if(check_combined)
       LOG_FATAL_P(PARAM_TO) << "You supplied the combined category " << category << " this sub command can only take separate categories.";
   }
-
-  if (to_category_labels_.size() != 1) {
-    LOG_FATAL_P(PARAM_FROM) << "This process cannot specify a many to many tagging event. If you have proportions tagged by category then I suggest you create @tag process for each seperate category, see the manual for more details.";
+  if (from_category_labels_.size() != 1) {
+    LOG_FATAL_P(PARAM_FROM) << "This process cannot specify a many to many tagging event. If you have proportions tagged by category then I suggest you create @tag process, you supplied " << from_category_labels_.size() << " from categories";
   }
 
   vector<string> split_category_labels;
@@ -273,7 +271,7 @@ void TagByLength::DoBuild() {
 void TagByLength::DoExecute() {
   LOG_TRACE();
   unsigned current_year = model_->current_year();
-  if (std::find(years_.begin(), years_.end(), current_year) == years_.end())
+  if (model_->state() != State::kInitialise && std::find(years_.begin(), years_.end(), current_year) == years_.end())
     return;
 
   auto from_iter = from_partition_.begin();
@@ -337,30 +335,28 @@ void TagByLength::DoExecute() {
       Double proportion_in_this_category_by_length = (*from_iter)->length_data_[i] / total_stock_with_selectivities;
       //Double current = numbers_[current_year][i] * ((*from_iter)->length_data_[i] / total_stock_with_selectivities);
       Double exploitation_by_length =  numbers_[current_year][i] / total_stock_with_selectivities;
-      Double exploitation_by_length_and_category = exploitation_by_length * proportion_in_this_category_by_length;
-      Double tagged_fish_for_this_category = exploitation_by_length_and_category * total_stock_with_selectivities;
+      Double tagged_fish_for_this_category = exploitation_by_length * (*from_iter)->length_data_[i];
 
       //Double exploitation = current / utilities::doublecompare::ZeroFun((*from_iter)->length_data_[i]);
-      if (exploitation_by_length_and_category > u_max_) {
-        LOG_FINE() << "Exploitation for length " << length_bins_[i] << " = (" << exploitation_by_length_and_category << ") triggered u_max(" << u_max_;
+      if (exploitation_by_length > u_max_) {
+        LOG_FINE() << "Exploitation for length " << length_bins_[i] << " = (" << exploitation_by_length << ") triggered u_max(" << u_max_;
 
-        exploitation_by_length_and_category = u_max_;
+        exploitation_by_length = u_max_;
         Double current = (*from_iter)->length_data_[i] *  u_max_;
         LOG_FINE() << "tried to tag " << tagged_fish_for_this_category << " tagging amount overridden with " << current << " = " << (*from_iter)->length_data_[i] << " * " << u_max_;
 
         if (penalty_)
           penalty_->Trigger(label_, tagged_fish_for_this_category, current);
       }
-      LOG_FINE() << "proportion for length " << length_bins_[i] << " = " << proportion_in_this_category_by_length << " tagged fish = " << tagged_fish_for_this_category << " exploitation = " << exploitation_by_length_and_category;
+      LOG_FINE() << "proportion for length " << length_bins_[i] << " = " << proportion_in_this_category_by_length << " tagged fish = " << tagged_fish_for_this_category << " exploitation = " << exploitation_by_length;
 
       LOG_FINE() << "numbers: " << numbers_[current_year][i] << " total = " << total_stock_with_selectivities;
       LOG_FINE() << (*from_iter)->name_ << " population at length " << length_bins_[i] << ": " << (*from_iter)->length_data_[i];
 
       //vector<Double> numbers_at_age((*from_iter)->data_.size(), 0.0);
       for (unsigned j = 0; j < (*from_iter)->data_.size(); ++j) {
-        numbers_at_age_by_category[(*from_iter)->name_][j] += (*from_iter)->age_length_matrix_[j][i] * exploitation_by_length_and_category;
+        numbers_at_age_by_category[(*from_iter)->name_][j] += (*from_iter)->age_length_matrix_[j][i] * exploitation_by_length;
       }
-
     }
   }
   from_iter = from_partition_.begin();
