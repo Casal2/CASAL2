@@ -63,7 +63,7 @@ RecruitmentBevertonHoltWithDeviations::RecruitmentBevertonHoltWithDeviations(Mod
   RegisterAsAddressable(PARAM_B_MAX, &b_max_);
   RegisterAsAddressable(PARAM_SIGMA_R, &sigma_r_);
   RegisterAsAddressable(PARAM_STEEPNESS, &steepness_);
-  RegisterAsAddressable(PARAM_PROPORTIONS, &proportions_);
+  RegisterAsAddressable(PARAM_PROPORTIONS, &proportions_by_category_);
   RegisterAsAddressable(PARAM_DEVIATION_VALUES, &recruit_dev_value_by_year_);
 
 
@@ -118,6 +118,12 @@ void RecruitmentBevertonHoltWithDeviations::DoValidate() {
   for (unsigned i = 1; i < recruit_dev_years_.size(); ++i) {
     if ((recruit_dev_years_[i - 1] + 1) !=  recruit_dev_years_[i])
       LOG_ERROR_P(PARAM_DEVIATION_YEARS) << " values must be in incremental ascending order. Value " << recruit_dev_years_[i - 1] << " + 1 does not equal " << recruit_dev_years_[i];
+  }
+  // Populate the proportions category, assumes there is a one to one relationship between categories, and proportions.
+  unsigned iter = 0;
+  for (auto& category : category_labels_) {
+    proportions_by_category_[category] = proportions_[iter];
+    ++iter;
   }
 
 }
@@ -328,9 +334,11 @@ void RecruitmentBevertonHoltWithDeviations::DoReset() {
       }
     }
   }
-
-
-
+  unsigned iter = 0;
+  for (auto& category : category_labels_) {
+    proportions_[iter] = proportions_by_category_[category];
+    ++iter;
+  }
 }
 
 /**
@@ -406,7 +414,7 @@ void RecruitmentBevertonHoltWithDeviations::DoExecute() {
   unsigned i = 0;
   for (auto category : partition_) {
     LOG_FINEST() << category->name_ << "; age: " << age_ << "; category->min_age_: " << category->min_age_;
-    category->data_[age_ - category->min_age_] += amount_per * proportions_[i];
+    category->data_[age_ - category->min_age_] += amount_per  * proportions_by_category_[category->name_];
     ++i;
   }
 

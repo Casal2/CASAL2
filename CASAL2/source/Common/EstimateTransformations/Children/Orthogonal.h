@@ -43,7 +43,6 @@ protected:
 
 private:
   // members
-  string                      first_estimate_label_ = "";
   string                      second_estimate_label_ = "";
   Estimate*                   first_estimate_ = nullptr;
   Estimate*                   second_estimate_ = nullptr;
