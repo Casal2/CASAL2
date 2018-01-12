@@ -24,6 +24,7 @@ namespace age {
 namespace processes {
 
 namespace accessor = niwa::partition::accessors;
+using utilities::OrderedMap;
 
 /**
  * class definition
@@ -71,6 +72,7 @@ private:
   vector<unsigned>            standardise_ycs_;
   DerivedQuantity*            derived_quantity_ = nullptr;
   unsigned                    year_counter_ = 0;
+  OrderedMap<string, Double>  proportions_by_category_;
 };
 
 } /* namespace processes */

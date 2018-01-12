@@ -26,7 +26,8 @@ namespace estimatetransformations {
  * Default constructor
  */
 LogSum::LogSum(Model* model) : EstimateTransformation(model) {
-  parameters_.Bind<string>(PARAM_SECOND_ESTIMATE, &second_estimate_label_, "The label from the @estimate block relating to the difference parameter, used in this transformation", "");
+  parameters_.Bind<string>(PARAM_THETA_TWO, &second_estimate_label_, "The label of the @estimate block relating to the $\theta_2$ parameter in the transformation see, see the documentation for more information", "");
+  parameters_.Bind<string>(PARAM_THETA_ONE, &estimate_label_, "Label of @estimate block relating to the $\theta_1$ parameter in the transformation see, see the documentation for more information", "");
   is_simple_ = false;
 }
 
@@ -44,24 +45,40 @@ void LogSum::DoValidate() {
 void LogSum::DoBuild() {
   LOG_TRACE();
   second_estimate_ = model_->managers().estimate()->GetEstimateByLabel(second_estimate_label_);
+  estimate_ = model_->managers().estimate()->GetEstimateByLabel(estimate_label_);
+  if (estimate_ == nullptr) {
+    LOG_ERROR_P(PARAM_THETA_ONE) << "Estimate " << estimate_label_ << " could not be found. Have you defined it?";
+    return;
+  }
+  // Initialise for -r runs
+  current_untransformed_value_ = estimate_->value();
 
+  LOG_FINE() << "transform with objective = " << transform_with_jacobian_ << " estimeate transform " << estimate_->transform_for_objective() << " together = " << !transform_with_jacobian_ && !estimate_->transform_for_objective();
+  if (!transform_with_jacobian_ && !estimate_->transform_for_objective()) {
+    LOG_ERROR_P(PARAM_TRANSFORM_WITH_JACOBIAN) << "You have specified a transformation that does not contribute a jacobian, and the prior parameters do not refer to the transformed estimate, in the @estimate" << estimate_label_ << ". This is not advised, and may cause bias estimation. Please address the user manual if you need help";
+  }
+  if (estimate_->transform_with_jacobian_is_defined()) {
+    if (transform_with_jacobian_ != estimate_->transform_with_jacobian()) {
+      LOG_ERROR_P(PARAM_TRANSFORM_WITH_JACOBIAN) << "This parameter is not consistent with the equivalent parameter in the @estimate block " << estimate_label_ << ". please make sure these are both true or both false.";
+    }
+  }
   if (!second_estimate_) {
-    LOG_ERROR_P(PARAM_SECOND_ESTIMATE) << "Estimate " << second_estimate_label_ << " could not be found. Have you defined it?";
+    LOG_ERROR_P(PARAM_THETA_TWO) << "Estimate " << second_estimate_label_ << " could not be found. Have you defined it?";
     return;
   }
 
   if ((second_estimate_->transform_for_objective() & !estimate_->transform_for_objective()) || (!second_estimate_->transform_for_objective() & estimate_->transform_for_objective()))
-    LOG_ERROR_P(PARAM_SECOND_ESTIMATE) << "This transformation requires that both parameters have transform_for_objective either true or false not one true and the other and vice versa";
+    LOG_ERROR_P(PARAM_THETA_TWO) << "This transformation requires that both parameters have transform_for_objective either true or false not one true and the other and vice versa";
   // check transformation is within bounds;
   if (second_estimate_->transform_for_objective()) {
 
     Transform();
     LOG_MEDIUM() << "Check second param bounds";
     if(second_estimate_->value() < second_estimate_->lower_bound() || second_estimate_->value() > second_estimate_->upper_bound())
-      LOG_ERROR_P(PARAM_SECOND_ESTIMATE) << "You have specified " << PARAM_PRIOR_APPLIES_TO_TRANSFORM << " true, but the transformed parameter = " << second_estimate_->value() << " which is outside one of these bounds, please reconsider your choice in bounds.";
+      LOG_ERROR_P(PARAM_THETA_TWO) << "You have specified " << PARAM_PRIOR_APPLIES_TO_TRANSFORM << " true, but the transformed parameter = " << second_estimate_->value() << " which is outside one of these bounds, please reconsider your choice in bounds.";
     LOG_MEDIUM() << "Check first param bounds";
     if(estimate_->value() < estimate_->lower_bound() || estimate_->value() >  estimate_->upper_bound())
-      LOG_ERROR_P(PARAM_ESTIMATE) << "You have specified " << PARAM_PRIOR_APPLIES_TO_TRANSFORM << " true, but the transformed parameter = " << estimate_->value() << " which is outside one of these bounds, please reconsider your choice in bounds.";
+      LOG_ERROR_P(PARAM_THETA_ONE) << "You have specified " << PARAM_PRIOR_APPLIES_TO_TRANSFORM << " true, but the transformed parameter = " << estimate_->value() << " which is outside one of these bounds, please reconsider your choice in bounds.";
     Restore();
   }
 }

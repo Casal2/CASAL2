@@ -55,7 +55,7 @@ RecruitmentBevertonHolt::RecruitmentBevertonHolt(Model* model)
   RegisterAsAddressable(PARAM_R0, &r0_);
   RegisterAsAddressable(PARAM_B0, &b0_);
   RegisterAsAddressable(PARAM_STEEPNESS, &steepness_);
-  RegisterAsAddressable(PARAM_PROPORTIONS, &proportions_);
+  RegisterAsAddressable(PARAM_PROPORTIONS, &proportions_by_category_);
   RegisterAsAddressable(PARAM_YCS_VALUES, &ycs_value_by_year_);
 
   // Allow these to be used in additional priors.
@@ -129,6 +129,14 @@ void RecruitmentBevertonHolt::DoValidate() {
       LOG_ERROR_P(PARAM_YCS_VALUES) << " values must be in numeric ascending order. Value "
           << ycs_years_[i - 1] << " is not less than " << ycs_years_[i];
   }
+
+  // Populate the proportions category, assumes there is a one to one relationship between categories, and proportions.
+  unsigned iter = 0;
+  for (auto& category : category_labels_) {
+    proportions_by_category_[category] = proportions_[iter];
+    ++iter;
+  }
+
 }
 
 /**
@@ -268,7 +276,11 @@ void RecruitmentBevertonHolt::DoReset() {
     ycs_values_[i] = ycs_value_by_year_[ycs_years_[i]];
     stand_ycs_value_by_year_[ycs_years_[i]] = ycs_value_by_year_[ycs_years_[i]];
   }
-
+  unsigned iter = 0;
+  for (auto& category : category_labels_) {
+    proportions_[iter] = proportions_by_category_[category];
+    ++iter;
+  }
   ssb_values_.clear();
   true_ycs_values_.clear();
   recruitment_values_.clear();
@@ -388,7 +400,7 @@ void RecruitmentBevertonHolt::DoExecute() {
   unsigned i = 0;
   for (auto category : partition_) {
     LOG_FINEST() << category->name_ << "; age: " << age_ << "; category->min_age_: " << category->min_age_ << " recruits = " << amount_per;
-    category->data_[age_ - category->min_age_] += amount_per * proportions_[i];
+    category->data_[age_ - category->min_age_] += amount_per * proportions_by_category_[category->name_];
     ++i;
   }
 }
