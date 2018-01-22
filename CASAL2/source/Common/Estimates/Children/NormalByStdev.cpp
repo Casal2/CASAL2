@@ -23,6 +23,8 @@ namespace estimates {
 NormalByStdev::NormalByStdev(Model* model) : Estimate(model) {
   parameters_.Bind<Double>(PARAM_MU, &mu_, "The normal prior mean (mu) parameter", "");
   parameters_.Bind<Double>(PARAM_SIGMA, &sigma_, "The normal variance (standard devation) parameter", "")->set_lower_bound(0.0, false);
+  parameters_.Bind<bool>(PARAM_LOGNORMAL_TRANSFORMATION, &assume_lognormal_, "Add a jacobian if the derived outcome of the estimate is assumed to be lognormal, used for rectuitment deviations in the recruitment process, see the user manual for more information", "", false);
+
 
   RegisterAsAddressable(PARAM_MU, &mu_);
   RegisterAsAddressable(PARAM_SIGMA, &sigma_);
@@ -35,6 +37,10 @@ NormalByStdev::NormalByStdev(Model* model) : Estimate(model) {
  */
 Double NormalByStdev::GetScore() {
   Double score_ = 0.5 * ((value() - mu_) / sigma_) * ((value() - mu_) / sigma_);
+  if (assume_lognormal_) {
+    LOG_TRACE();
+    score_+= exp(value() - 0.5 * sigma_ * sigma_);
+  }
   return score_;
 }
 

@@ -61,6 +61,7 @@ void Ageing::DoBuild() {
  * Execute our ageing class.
  */
 void Ageing::DoExecute() {
+  LOG_TRACE();
   Double amount_to_move = 0.0;
   Double moved_fish = 0.0;
 
