@@ -205,7 +205,7 @@ void RecruitmentBevertonHolt::DoBuild() {
   }
   recruitment_index = model_->managers().time_step()->GetProcessIndex(label_);
   if (ageing_processes > 1)
-    LOG_ERROR_P(PARAM_SSB_OFFSET) << "BH recruitment year offset has been calculated on the basis of a single ageing process. We have identified "
+    LOG_ERROR_P(PARAM_LABEL) << "BH recruitment 'ssb_offset' has been calculated on the basis of a single ageing process. We have identified "
         << ageing_processes << " ageing processes, we suggest manually setting ssb_offset for this scenerio. Or contacting the development team to discuss a change";
   if (ageing_index == std::numeric_limits<unsigned>::max())
     LOG_ERROR() << location() << " could not calculate the ssb_offset because there is no ageing process";

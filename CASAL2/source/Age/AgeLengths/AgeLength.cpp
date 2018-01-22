@@ -58,12 +58,15 @@ AgeLength::AgeLength(Model* model) : model_(model) {
  * Note: all parameters are populated from configuration files
  */
 void AgeLength::Validate() {
+  LOG_FINEST() << "by_length_ = " << by_length_;
   parameters_.Populate(model_);
 
   if (distribution_label_ == PARAM_NORMAL)
     distribution_ = Distribution::kNormal;
   else if (distribution_label_ == PARAM_LOGNORMAL)
     distribution_ = Distribution::kLogNormal;
+  else if (distribution_label_ == PARAM_NONE)
+    distribution_ = Distribution::kNone;
   else
     LOG_CODE_ERROR() << "We haven't enum'd the distribution: " << distribution_label_;
 
@@ -79,7 +82,7 @@ void AgeLength::Build() {
   if (time_step_proportions_.size() == 0) {
     time_step_proportions_.assign(time_step_count, 0.0);
   } else if (time_step_count != time_step_proportions_.size()) {
-    LOG_ERROR_P(PARAM_TIME_STEP_PROPORTIONS) << "size (" << time_step_proportions_.size() << ") must match the number "
+    LOG_FATAL_P(PARAM_TIME_STEP_PROPORTIONS) << "size (" << time_step_proportions_.size() << ") must match the number "
         "of defined time steps for this process (" << time_step_count << ")";
   }
 

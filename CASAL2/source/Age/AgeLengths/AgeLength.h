@@ -29,7 +29,8 @@ public:
   // enums
   enum class Distribution {
     kNormal,
-    kLogNormal
+    kLogNormal,
+    kNone,
   };
 
   // methods
