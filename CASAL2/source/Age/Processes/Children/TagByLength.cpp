@@ -308,7 +308,7 @@ void TagByLength::DoExecute() {
   // Calculate the exploitation rate by length bin
   for (unsigned i = 0; i <  length_bins_.size(); ++i) {
    // Only continue if we have fish to tag in this length bin.
-   if (numbers_[current_year][i] == 0.0)
+   if (numbers_[current_year].size() == 0.0)
       continue;
 
     /**
