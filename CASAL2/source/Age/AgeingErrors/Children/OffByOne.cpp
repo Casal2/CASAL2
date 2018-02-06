@@ -56,7 +56,7 @@ void OffByOne::DoReset() {
 
   mis_matrix_[age_spread_ - 1][age_spread_ - 2] = p1_;
 
-  if (age_plus_) {
+  if (plus_group_) {
     mis_matrix_[age_spread_ - 1][age_spread_ - 1] = 1.0 - p1_;
   } else {
     mis_matrix_[age_spread_ - 1][age_spread_ - 1] = 1.0 - (p1_ + p2_);

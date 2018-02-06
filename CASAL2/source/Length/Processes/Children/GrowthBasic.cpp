@@ -62,10 +62,10 @@ void GrowthBasic::DoValidate() {
 void GrowthBasic::DoBuild() {
   partition_.Init(category_labels_);
 
-  // Populate legnth mid points
+  // Populate length mid points
   // need to check Categories don't have difference length bins otherwise this won't work.
   length_bins_ = model_->length_bins();
-  for (unsigned l = 0; l < length_bins_.size(); ++l) { // iterate over each lenght bin
+  for (unsigned l = 0; l < length_bins_.size(); ++l) { // iterate over each length bin
     length_bin_mid_points_[l] = (length_bins_[l] + length_bins_[l + 1]) * 0.5;
   }
 
@@ -83,9 +83,9 @@ void GrowthBasic::DoReset() {
     for (unsigned j = 1; j < length_bin; ++j){
       transition_matrix_[length_bin][j] = 0; // no negative growth
     }
-    if (model_->plus_group() && (length_bin == (length_bins_.size() - 1)))
+    if (model_->plus_group() && (length_bin == (length_bins_.size() - 1))) {
       transition_matrix_[length_bin][length_bin] = 1.0; // plus group can't grow any more
-
+    }
     // Calculate incremental change based on mid point
     mu = g_[0] + (g_[1] - g_[0])*(length_bin_mid_points_[length_bin] - l_[0]) / (l_[1] - l_[0]);
     sigma = fmax(cv_ * mu, min_sigma_);

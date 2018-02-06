@@ -94,7 +94,7 @@ type process_removals_by_age
 likelihood multinomial
 mortality_instantaneous_process Instant_mortality
 method_of_removal Esp
-age_plus true
+plus_group true
 ageing_error Ageing_error
 time_step Jul_Sep
 min_age 2
@@ -164,7 +164,7 @@ type process_removals_by_age
 likelihood multinomial
 mortality_instantaneous_process Instant_mortality
 method_of_removal Wsp
-age_plus true
+plus_group true
 ageing_error Ageing_error
 time_step Jul_Sep
 min_age 2
@@ -240,7 +240,7 @@ likelihood multinomial
 mortality_instantaneous_process Instant_mortality
 years 1992 1994 1996 1998
 method_of_removal Ensp1 Ensp2
-age_plus true
+plus_group true
 ageing_error Ageing_error
 time_step Dec_Mar Apr_Jun
 min_age 1
@@ -265,7 +265,7 @@ type process_removals_by_age
 likelihood multinomial
 mortality_instantaneous_process Instant_mortality
 method_of_removal Ensp1 Ensp2
-age_plus true
+plus_group true
 ageing_error Ageing_error
 time_step Dec_Mar Apr_Jun
 min_age 1
@@ -319,7 +319,7 @@ likelihood multinomial
 mortality_instantaneous_process Instant_mortality
 method_of_removal Wnsp1 Wnsp2
 years 1992 1993 1994 1996 1999 2000
-age_plus true
+plus_group true
 ageing_error Ageing_error
 time_step Dec_Mar Apr_Jun
 min_age 2
@@ -349,7 +349,7 @@ type process_removals_by_age
 likelihood multinomial
 mortality_instantaneous_process Instant_mortality
 method_of_removal Wnsp1 Wnsp2
-age_plus true
+plus_group true
 ageing_error Ageing_error
 time_step Dec_Mar Apr_Jun
 min_age 2
@@ -396,7 +396,7 @@ time_step_proportion 0.6
 categories male.west.cr+male.east.cr female.west.cr+female.east.cr 
 selectivities CRsl CRsl
 years 1992 1993 1994 1995 1996 1997 1998 1999 2000 2001 2002 2003 2004 2005 2006 2007 2008 2009 2010 2011 2012 2013 2014 2016
-age_plus true
+plus_group true
 ageing_error Ageing_error
 min_age 1
 max_age 13
@@ -461,7 +461,7 @@ type proportions_at_age
 time_step Dec_Mar
 time_step_proportion 0.5
 years 1992 1993 1994 2001 2002 2003 2004 2005 2006 2007 2008 2009 2010 2012 2013 2015
-age_plus true
+plus_group true
 ageing_error Ageing_error
 min_age 2
 max_age 15
@@ -513,7 +513,7 @@ time_step Apr_Jun
 time_step_proportion 0.1
 min_age 2
 max_age 15
-age_plus true
+plus_group true
 ageing_error Ageing_error
 likelihood multinomial
 categories male.west.sa female.west.sa 
@@ -537,7 +537,7 @@ years 1993
 ageing_error Ageing_error
 time_step End_Jun
 process Wspmg
-age_plus true
+plus_group true
 min_age 4
 max_age 9
 likelihood lognormal
@@ -556,7 +556,7 @@ years 1992 1998
 time_step End_Jun
 ageing_error Ageing_error
 process Wspmg
-age_plus true
+plus_group true
 min_age 3
 max_age 9
 likelihood lognormal

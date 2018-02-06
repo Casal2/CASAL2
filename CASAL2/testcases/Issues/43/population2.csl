@@ -9,7 +9,7 @@
 @model  #MUST BE HERE TO WORK?
 min_age    1 ##5
 max_age   70
-age_plus T  #plus_group   true  #NOT SUPPORTED
+plus_group T  #plus_group   true  #NOT SUPPORTED
 start_year   1974 ##1979     # first year of catch history
 final_year   2009 #2006 
 time_steps step1

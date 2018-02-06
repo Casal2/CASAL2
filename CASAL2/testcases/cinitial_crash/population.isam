@@ -10,7 +10,7 @@ start_year 1979
 final_year 2013
 min_age 2
 max_age 15
-age_plus true
+plus_group true
 initialisation_phases iphase iphase2 #iphase2
 time_steps step1 step2
 

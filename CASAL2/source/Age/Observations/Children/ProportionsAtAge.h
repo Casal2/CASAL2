@@ -55,7 +55,7 @@ protected:
   vector<unsigned>              years_;
   unsigned                      min_age_ = 0;
   unsigned                      max_age_ = 0;
-  bool                          age_plus_ = false;
+  bool                          plus_group_ = false;
   unsigned                      age_spread_ = 0;
   parameters::Table*            obs_table_ = nullptr;
   Double                        tolerance_ = 0.0;
