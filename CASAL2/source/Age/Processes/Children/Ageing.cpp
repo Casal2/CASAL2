@@ -75,7 +75,7 @@ void Ageing::DoExecute() {
       moved_fish = amount_to_move;
     }
 
-    if (model_->age_plus())
+    if (model_->plus_group())
       (* category->data_.rbegin() ) += moved_fish;
   }
 }

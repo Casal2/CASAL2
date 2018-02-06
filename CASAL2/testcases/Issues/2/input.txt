@@ -7,7 +7,7 @@
 @model
 min_age 1
 max_age 70
-age_plus t
+plus_group t
 start_year 1973
 final_year 2007
 initialisation_phases phase1

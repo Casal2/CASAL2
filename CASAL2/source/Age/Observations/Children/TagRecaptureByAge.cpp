@@ -39,7 +39,7 @@ TagRecaptureByAge::TagRecaptureByAge(Model* model) : Observation(model) {
 
   parameters_.Bind<unsigned>(PARAM_MIN_AGE, &min_age_, "Minimum age", "");
   parameters_.Bind<unsigned>(PARAM_MAX_AGE, &max_age_, "Maximum age", "");
-  parameters_.Bind<bool>(PARAM_AGE_PLUS, &age_plus_, "Use age plus group", "", true);
+  parameters_.Bind<bool>(PARAM_PLUS_GROUP, &plus_group_, "Use age plus group", "", true);
   parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "Years for which there are observations", "");
   parameters_.Bind<string>(PARAM_TARGET_CATEGORIES, &target_category_labels_, "The available categories in the partition", "");
   parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_labels_, "The labels of the selectivities", "", true);
@@ -315,7 +315,7 @@ void TagRecaptureByAge::Execute() {
         // Check and skip ages we don't care about.
         if ((*category_iter)->min_age_ + data_offset < min_age_)
           continue;
-        if ((*category_iter)->min_age_ + data_offset > max_age_ && !age_plus_)
+        if ((*category_iter)->min_age_ + data_offset > max_age_ && !plus_group_)
           break;
 
         unsigned age_offset = ( (*category_iter)->min_age_ + data_offset) - min_age_;
@@ -364,7 +364,7 @@ void TagRecaptureByAge::Execute() {
         // Check and skip ages we don't care about.
         if ((*target_category_iter)->min_age_ + data_offset < min_age_)
           continue;
-        if ((*target_category_iter)->min_age_ + data_offset > max_age_ && !age_plus_)
+        if ((*target_category_iter)->min_age_ + data_offset > max_age_ && !plus_group_)
           break;
 
         unsigned age_offset = ( (*target_category_iter)->min_age_ + data_offset) - min_age_;

@@ -43,7 +43,7 @@ type process_removals_by_age
 likelihood multinomial
 mortality_instantaneous_process Instantaneous_Mortality
 method_of_removal Trawl
-age_plus true
+plus_group true
 #ageing_error Ageing_error
 delta 1e-011
 time_step step2

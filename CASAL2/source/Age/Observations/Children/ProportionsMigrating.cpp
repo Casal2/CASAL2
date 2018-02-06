@@ -39,7 +39,7 @@ ProportionsMigrating::ProportionsMigrating(Model* model) : Observation(model) {
   parameters_.Bind<unsigned>(PARAM_MIN_AGE, &min_age_, "Minimum age", "");
   parameters_.Bind<unsigned>(PARAM_MAX_AGE, &max_age_, "Maximum age", "");
   parameters_.Bind<string>(PARAM_TIME_STEP, &time_step_label_, "The label of time-step that the observation occurs in", "");
-  parameters_.Bind<bool>(PARAM_AGE_PLUS, &age_plus_, "Use age plus group", "", true);
+  parameters_.Bind<bool>(PARAM_PLUS_GROUP, &plus_group_, "Use age plus group", "", true);
   parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "Years for which there are observations", "");
   parameters_.Bind<Double>(PARAM_PROCESS_ERRORS, &process_error_values_, "Process error", "", true);
   parameters_.Bind<string>(PARAM_AGEING_ERROR, &ageing_error_label_, "Label of ageing error to use", "", "");
@@ -315,21 +315,21 @@ void ProportionsMigrating::Execute() {
           LOG_FINEST() << "Numbers before migration = " << numbers_age_before[k] << " numbers after migration = " << numbers_age_after[k]
                    << " proportion migrated = " <<   expected_values[k - age_offset];
         }
-        if (((k - age_offset + min_age_) > max_age_) && age_plus_) {
+        if (((k - age_offset + min_age_) > max_age_) && plus_group_) {
           plus_before += numbers_age_before[k];
           plus_after += numbers_age_after[k];
         }
       } else {
           if (k >= age_offset && (k - age_offset + min_age_) <= max_age_)
             expected_values[k] = 0;
-          if (((k - age_offset + min_age_) > max_age_) && age_plus_) {
+          if (((k - age_offset + min_age_) > max_age_) && plus_group_) {
             plus_before += 0;
             plus_after += 0;
           }
       }
     }
     LOG_FINEST() << "Plus group before migration = " << plus_before << " Plus group after migration = " << plus_after;
-    if (age_plus_)
+    if (plus_group_)
       expected_values[age_spread_ - 1] = (plus_before - plus_after) / plus_before;
 
 

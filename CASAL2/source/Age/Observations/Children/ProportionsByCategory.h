@@ -50,7 +50,7 @@ protected:
   vector<unsigned>              years_;
   unsigned                      min_age_ = 0;
   unsigned                      max_age_ = 0;
-  bool                          age_plus_ = false;
+  bool                          plus_group_ = false;
   unsigned                      age_spread_ = 0;
   vector<string>                target_category_labels_;
   vector<string>                target_selectivity_labels_;
