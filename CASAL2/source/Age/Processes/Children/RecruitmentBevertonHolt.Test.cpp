@@ -38,7 +38,7 @@ final_year 2012
 min_age 1
 base_weight_units kgs
 max_age 12
-plus_group t
+age_plus t
 initialisation_phases iphase1 iphase2
 time_steps step_one=[processes=Recruitment] step_two=[processes=Ageing]
 
@@ -127,7 +127,7 @@ final_year 2012
 min_age 1
 max_age 30
 base_weight_units kgs
-plus_group true
+age_plus true
 initialisation_phases iphase1
 time_steps step1 step2 step3
 

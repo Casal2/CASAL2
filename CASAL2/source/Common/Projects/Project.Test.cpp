@@ -33,7 +33,7 @@ final_year 2012
 projection_final_year 2020
 min_age 1
 max_age 30
-plus_group true
+age_plus true
 base_weight_units tonnes
 initialisation_phases Equilibrium_state
 time_steps Sep_Feb Mar_May

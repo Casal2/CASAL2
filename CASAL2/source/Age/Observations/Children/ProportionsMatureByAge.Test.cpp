@@ -35,7 +35,7 @@ start_year 1990
 final_year 1994
 min_age 1
 max_age 100
-plus_group true
+age_plus true
 base_weight_units tonnes
 initialisation_phases Equilibrium_state
 time_steps Annual
