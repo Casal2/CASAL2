@@ -37,7 +37,7 @@ Biomass::Biomass(Model* model) : Observation(model) {
   parameters_.Bind<Double>(PARAM_ERROR_VALUE, &error_values_, "The error values of the observed values (note the units depend on the likelihood)", "");
   parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_labels_, "Labels of the selectivities", "", true);
   parameters_.Bind<Double>(PARAM_PROCESS_ERROR, &process_error_value_, "Value for process error", "", Double(0.0));
-  parameters_.Bind<string>(PARAM_AGE_WEIGHT_LABELS, &age_weight_labels_, "The labels for the @age_weight block which corresponds to each category, if you want to use that weight calculation method for biomass calculations", "", "");
+  parameters_.Bind<string>(PARAM_AGE_WEIGHT_LABELS, &age_weight_labels_, "The labels for the \command{$age\_weight$} block which corresponds to each category, if you want to use that weight calculation method for biomass calculations", "", "");
 
   RegisterAsAddressable(PARAM_PROCESS_ERROR, &process_error_value_);
 
