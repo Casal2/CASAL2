@@ -3,7 +3,7 @@ start_year 1994
 final_year 2012
 min_age 1
 max_age 12
-age_plus t
+plus_group t
 initialisation_phases iphase1 iphase2
 time_steps step_one=[processes=Recruitment] step_two=[processes=Ageing]
 
@@ -57,7 +57,7 @@ selectivities constant
 selectivities2 constant
 min_age 5
 max_age 7
-age_plus t
+plus_group t
 table obs
 2008 0.1 0.2 0.7
 end_table

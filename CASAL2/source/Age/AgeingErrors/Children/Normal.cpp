@@ -91,7 +91,7 @@ void Normal::DoReset() {
 
       if (j == 0)
         mis_matrix_[i][j] = NormalCDF(min_age_class + 1.0, age, age * cv_);
-      else if (j == age_spread_ - 1 && age_plus_)
+      else if (j == age_spread_ - 1 && plus_group_)
         mis_matrix_[i][j] = 1.0 - NormalCDF(min_age_class, age, age * cv_);
       else
         mis_matrix_[i][j] = NormalCDF(min_age_class + 1.0, age, age * cv_) - NormalCDF(min_age_class, age, age * cv_);

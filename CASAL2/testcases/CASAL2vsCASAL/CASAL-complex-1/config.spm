@@ -6,7 +6,7 @@ layer Base
 categories male female
 min_age 2
 max_age 25
-age_plus_group True
+plus_group True
 initialisation_phases phase1
 initial_year 1975
 current_year 2002

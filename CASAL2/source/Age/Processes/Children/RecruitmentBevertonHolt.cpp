@@ -55,7 +55,7 @@ RecruitmentBevertonHolt::RecruitmentBevertonHolt(Model* model)
   RegisterAsAddressable(PARAM_R0, &r0_);
   RegisterAsAddressable(PARAM_B0, &b0_);
   RegisterAsAddressable(PARAM_STEEPNESS, &steepness_);
-  RegisterAsAddressable(PARAM_PROPORTIONS, &proportions_);
+  RegisterAsAddressable(PARAM_PROPORTIONS, &proportions_by_category_);
   RegisterAsAddressable(PARAM_YCS_VALUES, &ycs_value_by_year_);
 
   // Allow these to be used in additional priors.
@@ -115,7 +115,7 @@ void RecruitmentBevertonHolt::DoValidate() {
 
   // Check ascending order
   if (standardise_ycs_.size() == 0) {
-    standardise_ycs_ = ycs_years_;
+    ycs_standardised_ = false;
   } else if (standardise_ycs_.size() > 1) {
     for (unsigned i = 1; i < standardise_ycs_.size(); ++i) {
       if (standardise_ycs_[i - 1] >= standardise_ycs_[i])
@@ -129,6 +129,14 @@ void RecruitmentBevertonHolt::DoValidate() {
       LOG_ERROR_P(PARAM_YCS_VALUES) << " values must be in numeric ascending order. Value "
           << ycs_years_[i - 1] << " is not less than " << ycs_years_[i];
   }
+
+  // Populate the proportions category, assumes there is a one to one relationship between categories, and proportions.
+  unsigned iter = 0;
+  for (auto& category : category_labels_) {
+    proportions_by_category_[category] = proportions_[iter];
+    ++iter;
+  }
+
 }
 
 /**
@@ -197,7 +205,7 @@ void RecruitmentBevertonHolt::DoBuild() {
   }
   recruitment_index = model_->managers().time_step()->GetProcessIndex(label_);
   if (ageing_processes > 1)
-    LOG_ERROR_P(PARAM_SSB_OFFSET) << "BH recruitment year offset has been calculated on the basis of a single ageing process. We have identified "
+    LOG_ERROR_P(PARAM_LABEL) << "BH recruitment 'ssb_offset' has been calculated on the basis of a single ageing process. We have identified "
         << ageing_processes << " ageing processes, we suggest manually setting ssb_offset for this scenerio. Or contacting the development team to discuss a change";
   if (ageing_index == std::numeric_limits<unsigned>::max())
     LOG_ERROR() << location() << " could not calculate the ssb_offset because there is no ageing process";
@@ -226,11 +234,13 @@ void RecruitmentBevertonHolt::DoBuild() {
   if (ycs_years_[ycs_years_.size() - 1] != (model_->final_year() - ssb_offset_))
     LOG_ERROR_P(PARAM_YCS_YEARS) << "The last year class year you supplied is " << ycs_years_[ycs_years_.size() - 1] << ", but with your configuration of the process it should be " << model_->final_year() - ssb_offset_ <<  " please check either the ycs_year parameter or see the manual for more information on how Casal2 calculates this value.";
 
-  if (standardise_ycs_[0] < model_->start_year() - ssb_offset_)
-    LOG_ERROR_P(PARAM_STANDARDISE_YCS_YEARS) << " first value is less than the model's start_year - ssb offset = " << model_->start_year() - ssb_offset_;
-  if ((*standardise_ycs_.rbegin()) > model_->final_year() - ssb_offset_)
-    LOG_ERROR_P(PARAM_STANDARDISE_YCS_YEARS) << " final value (" << (*standardise_ycs_.rbegin())
-        << ") is greater than the model's final year - ssb_offset (" << model_->final_year() - ssb_offset_ << ")";
+  if (ycs_standardised_) {
+    if (standardise_ycs_[0] < model_->start_year() - ssb_offset_)
+      LOG_ERROR_P(PARAM_STANDARDISE_YCS_YEARS) << " first value is less than the model's start_year - ssb offset = " << model_->start_year() - ssb_offset_;
+    if ((*standardise_ycs_.rbegin()) > model_->final_year() - ssb_offset_)
+      LOG_ERROR_P(PARAM_STANDARDISE_YCS_YEARS) << " final value (" << (*standardise_ycs_.rbegin())
+          << ") is greater than the model's final year - ssb_offset (" << model_->final_year() - ssb_offset_ << ")";
+  }
 
   // Check users haven't specified a @estimate block for both R0 and B0
   string b0_param = "process[" + label_ + "].b0";
@@ -268,30 +278,40 @@ void RecruitmentBevertonHolt::DoReset() {
     ycs_values_[i] = ycs_value_by_year_[ycs_years_[i]];
     stand_ycs_value_by_year_[ycs_years_[i]] = ycs_value_by_year_[ycs_years_[i]];
   }
-
+  unsigned iter = 0;
+  for (auto& category : category_labels_) {
+    proportions_[iter] = proportions_by_category_[category];
+    ++iter;
+  }
   ssb_values_.clear();
   true_ycs_values_.clear();
   recruitment_values_.clear();
 
   // Do Haist ycs Parameterisation
-  Double mean_ycs = 0;
-  for (unsigned i = 0; i < ycs_years_.size(); ++i) {
-    for (unsigned j = 0; j < standardise_ycs_.size(); ++j) {
-      if (ycs_years_[i] == standardise_ycs_[j]) {
-        mean_ycs += ycs_value_by_year_[ycs_years_[i]];
-        break;
+  if (ycs_standardised_) {
+    Double mean_ycs = 0;
+    for (unsigned i = 0; i < ycs_years_.size(); ++i) {
+      for (unsigned j = 0; j < standardise_ycs_.size(); ++j) {
+        if (ycs_years_[i] == standardise_ycs_[j]) {
+          mean_ycs += ycs_value_by_year_[ycs_years_[i]];
+          break;
+        }
       }
     }
-  }
 
-  mean_ycs /= standardise_ycs_.size();
-  for (unsigned ycs_year : ycs_years_) {
-      for (unsigned j = 0; j < standardise_ycs_.size(); ++j) {
-      if (ycs_year == standardise_ycs_[j])
-        stand_ycs_value_by_year_[ycs_year] = ycs_value_by_year_[ycs_year] / mean_ycs;
+    mean_ycs /= standardise_ycs_.size();
+    for (unsigned ycs_year : ycs_years_) {
+        for (unsigned j = 0; j < standardise_ycs_.size(); ++j) {
+        if (ycs_year == standardise_ycs_[j])
+          stand_ycs_value_by_year_[ycs_year] = ycs_value_by_year_[ycs_year] / mean_ycs;
+      }
+    }
+    year_counter_ = 0;
+  } else {
+    for (unsigned ycs_year : ycs_years_) {
+      stand_ycs_value_by_year_[ycs_year] = ycs_value_by_year_[ycs_year];
     }
   }
-  year_counter_ = 0;
 }
 
 /**
@@ -388,7 +408,7 @@ void RecruitmentBevertonHolt::DoExecute() {
   unsigned i = 0;
   for (auto category : partition_) {
     LOG_FINEST() << category->name_ << "; age: " << age_ << "; category->min_age_: " << category->min_age_ << " recruits = " << amount_per;
-    category->data_[age_ - category->min_age_] += amount_per * proportions_[i];
+    category->data_[age_ - category->min_age_] += amount_per * proportions_by_category_[category->name_];
     ++i;
   }
 }

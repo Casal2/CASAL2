@@ -22,7 +22,7 @@ categories male female
 min_age 3
 max_age 21
 time_step_proportion 0.2
-age_plus true
+plus_group true
 delta 1e-11
 ageing_error Normal_ageing
 selectivities chatTANSel_m chatTANSel_f
@@ -95,7 +95,7 @@ method_of_removal FishingTrwl
 min_age 4
 max_age 20
 ageing_error Normal_ageing
-age_plus true
+plus_group true
 years 1992 1994:2013
 
 table obs
@@ -159,7 +159,7 @@ categories male+female
 method_of_removal FishingLine
 min_age 5
 max_age 23
-age_plus true
+plus_group true
 ageing_error Normal_ageing
 years 2002:2009 2013
 

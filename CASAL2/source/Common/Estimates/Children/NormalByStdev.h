@@ -39,6 +39,8 @@ private:
   // Members
   Double                      mu_;
   Double                      sigma_;
+  bool                        assume_lognormal_ = false;
+
 };
 
 } /* namespace estimates */

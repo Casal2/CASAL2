@@ -412,7 +412,7 @@ There are a range of parameters and derived values that users can apply addition
 	this is only for catchabilities that are of type \subcommand{nuisance}. Because \subcommand{nuisance} q's are not free parameters to replicate legacy CASAL models with \command{estimate} blocks in nuisance q's we now apply additional priors. Note, if legacy models applied uniform priors this has a null effect and you can ignore functionality when converting to \CNAME\ models.
 \end{itemize}
 \pagebreak
-\subsubsection{\I{Estimate Transformations}\label{sec:transformations}}
+\subsection{\I{Estimate Transformations}\label{sec:transformations}}
 \CNAME\ has multiple methods to transform a parameter, with some methods developed for legacy purposes and others are more recent ideas. All transformations are implemented for the same reason --- to try and achieve 'better' model optimisation. It is no surprise that complex population models can have highly correlated parameters so transforming them to be orthogonal or to be in a different space is a way of trying to remove correlations, and to allow the minimiser to find a 'global' minimum quicker. To read more about transformations and get a better understanding of why they are used we refer you to \cite{gilks1995markov}, specifically chapter 6. 
 
 There are two main methods available in \CNAME, \subcommand{transform\_with\_jacobian} and \subcommand{prior\_applies\_to\_transform}. When using Transform-with-jacobian the user defines priors on parameters in natural/model space (business as usual priors) but when we pass the parameter to the minimiser it gets transformed and a jacobian is added to the objective function to account for the transformation. The second method is when users can specify bounds and prior parameters on the parameters in transformed space. Note that you cannot specify both \subcommand{prior\_applies\_to\_transform} and \subcommand{transform\_with\_jacobian} true, \CNAME\ should gracefully tell you this.
@@ -446,7 +446,7 @@ There are two ways users can apply estimate transformations. The first is within
 		transform_with_jacobian true	
 		\end{verbatim}}}
 
-\paragraph*{Transform with Jacobian}
+\subsubsection*{Transform with Jacobian}
 The support of a random variable $X$ with density $p_X(x)$ is that subset of values for which it has non-zero density, 
 \begin{equation}
  supp(X) = \{x|p_X(x) > 0\}
@@ -472,7 +472,7 @@ where $\begin{vmatrix} \frac{\partial}{\partial y} f^{-1}(y) \end{vmatrix}$ is t
 		upper_bound 24154953		 	
 \end{verbatim}}}
 	
-\paragraph*{Transform without Jacobian but prior defined in transformed space}
+\subsubsection*{Transform without Jacobian but prior defined in transformed space}
 This is where users define the priors in transformed space (this class of transformations will contain functionality that was implemented in the original CASAL). If $f()$ is a transformation function defined on the support of $X$, then $Y = f(X)$ is a new random variable (transformed variable). In this class users specify \textit{a priori} information with regard to $p_Y(y)$ and $X$ can be thought of as a derived quantity. An example of this syntax,
 
 {\small{\begin{verbatim}
@@ -487,7 +487,7 @@ This is where users define the priors in transformed space (this class of transf
 		\end{verbatim}}}
 
 
-\paragraph*{Transformation types}
+\subsubsection*{Transformation types}
 
 
 \begin{itemize}
@@ -509,34 +509,37 @@ $\begin{vmatrix} \frac{\partial}{\partial y} f^{-1}(y) \end{vmatrix} = -X^{-2}$\
 $Y = \sqrt{X}$\\
 $\begin{vmatrix} \frac{\partial}{\partial y} f^{-1}(y) \end{vmatrix} = -X^{-1.5}$\\\\
 
-\item \subcommand{average\_difference} Take two parameters $X_1$ and $X_2$ and transform to $Y_1$ and $Y_2$, where $Y_1$ is the average of the original parameters and $Y_2$ is the difference between the mean and each parameter.\\
+\item \subcommand{average\_difference} Take two parameters $\theta_1$ and $\theta_2$ and transform to $Y_1$ and $Y_2$, where $Y_1$ is the average of the original parameters and $Y_2$ is the difference between the mean and each parameter.\\
 \subcommand{is\_simple = false}\\
 \subcommand{jacobian defined = false}\\
-$Y_1 = \frac{X_1 + X_2}{2}$\\
-$Y_2 =  (Y_1 - X_2)2 $\\
+$Y_1 = \frac{\theta_1 + \theta_2}{2}$\\
+$Y_2 =  (Y_1 - \theta_2)2 $\\
 Restore transformations\\
-$X_1 = Y_1 + 0.5Y_2$\\
-$X_2 = X_1 - 0.5Y_2$\\
+$\theta_1 = Y_1 + 0.5Y_2$\\
+$\theta_2 = \theta_1 - 0.5Y_2$\\
 $\begin{vmatrix} \frac{\partial}{\partial y} f^{-1}(y) \end{vmatrix}$ Hasn't been assessed (i.e it could exist)\\\\
 
-\item \subcommand{log\_sum} Take two parameters $X_1$ and $X_2$ and transform to $Y_1$ and $Y_2$, where $Y_1$ is the natural logorithm of the sum of $X_1$ and $X_2$. $Y_2$ describes the proportion of the sum with respect to $X_1$\\
+\item \subcommand{log\_sum} Take two parameters $\theta_1$ and $\theta_2$ and transform to $Y_1$ and $Y_2$, where $Y_1$ is the natural logorithm of the sum of $\theta_1$ and $\theta_2$. $Y_2$ describes the proportion of the sum with respect to $\theta_1$\\
 \subcommand{is\_simple = false}\\
 \subcommand{jacobian defined = false}\\
-$Y_1 = ln(X_1 + X_2)$\\
-$Y_2 = X_1 / (X_1 + X_2)$\\
+$Y_1 = ln(\theta_1 + \theta_2)$\\
+$Y_2 = \theta_1 / (\theta_1 + \theta_2)$\\
 Restore transformations\\
-$X_1 = exp(Y_1)Y_2$\\
-$X_2 =exp(Y_1)(1 - Y_2)$\\
+$\theta_1 = exp(Y_1)Y_2$\\
+$\theta_2 =exp(Y_1)(1 - Y_2)$\\
 $\begin{vmatrix} \frac{\partial}{\partial y} f^{-1}(y) \end{vmatrix}$ Hasn't been assessed (i.e it could exist)\\\\
 
-\item \subcommand{orthogonal} Take two parameters $X_1$ and $X_2$ and transform to $Y_1$ and $Y_2$, where $Y_1$ is the multiplication of $X_1$ and $X_2$. $Y_2$ is the division of $X_1$ and $X_2$\\
+\item \subcommand{orthogonal} Take two parameters $\theta_1$ and $\theta_2$ and transform to $Y_1$ and $Y_2$, where $Y_1$ is the multiplication of $\theta_1$ and $\theta_2$. $Y_2$ is the division of $\theta_1$ and $\theta_2$\\
 \subcommand{is\_simple = false}\\
 \subcommand{jacobian defined = true}\\
-$Y_1 = X_1 X_2$\\
-$Y_2 = X_1 / X_2$\\
+$Y_1 = \theta_1 \theta_2$\\
+$Y_2 = \theta_1 / \theta_2$\\
 Restore transformations\\
-$X_1 = \sqrt{Y_1 Y_2}$\\
-$X_2 = \sqrt{Y_1 / Y_2}$\\
+$\theta_1 = \sqrt{Y_1 Y_2}$\\
+$\theta_2 = \sqrt{Y_1 / Y_2}$\\
 $\begin{vmatrix} \frac{\partial}{\partial y} f^{-1}(y) \end{vmatrix} = 2Y_2$\\\\
 
+\item \subcommand{SumToOne} Take two parameters $\theta_1$ and $\theta_2$ that have the constraint $\sum_{i = 1}^2\theta_i$ and estimate onlyt $\theta_1$ given $\theta_2 = 1 - \theta_1$\\
+\subcommand{is\_simple = false}\\
+\subcommand{jacobian defined = false}\\
 \end{itemize}

@@ -36,6 +36,8 @@ private:
   // members
   vector<Double>              mu_;
   vector<Double>              sigma_;
+  bool                        assume_lognormal_ = false;
+
 };
 
 } /* namespace creators */

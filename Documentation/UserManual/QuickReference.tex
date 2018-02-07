@@ -46,6 +46,7 @@
 \defSub{cv\_last} {CV for last age class}
 \defSub{casal\_switch} {If true, use the (less accurate) equation for the cumulative normal function as was used in the legacy version of CASAL.}
 \defSub{by\_length} {Specifies if the linear interpolation of CV's is a linear function of mean length at age. Default is just by age}
+\defSub{length\_bins} {List of length bins for this age length}
 \par\textbf{\commandlabsubarg{age\_\_length}{type}{data}}\par
 \defSub{external\_gaps} {}
 \defSub{internal\_gaps} {}
@@ -234,7 +235,7 @@
 \defSub{final\_year} {Define the final year of the model, excluding years in the projection period}
 \defSub{min\_age} {Minimum age of individuals in the population}
 \defSub{max\_age} {Maximum age of individuals in the population}
-\defSub{age\_plus} {Define the oldest age as a plus group}
+\defSub{plus\_group} {Define the oldest age or extra length midpoint (plus\_group\_size) as a plus group}
 \defSub{initialisation\_phases} {Define the labels of the phases of the initialisation}
 \defSub{time\_steps} {Define the labels of the time steps, in the order that they are applied, to form the annual cycle}
 \defSub{projection\_final\_year} {Define the final year of the model in projection mode}
@@ -263,7 +264,7 @@
 \par\textbf{\commandlabsubarg{observation}{type}{process\_removals\_by\_age}}\par
 \defSub{min\_age} {Minimum age}
 \defSub{max\_age} {Maximum age}
-\defSub{age\_plus} {Use age plus group}
+\defSub{plus\_group} {Use age plus group}
 \defSub{time\_step} {The label of time-step that the observation occurs in}
 \defSub{tolerance} {Tolerance}
 \defSub{years} {Years for which there are observations}
@@ -283,7 +284,7 @@
 \par\textbf{\commandlabsubarg{observation}{type}{proportions\_at\_age}}\par
 \defSub{min\_age} {Minimum age}
 \defSub{max\_age} {Maximum age}
-\defSub{age\_plus} {Use age plus group}
+\defSub{plus\_group} {Use age plus group}
 \defSub{time\_step} {The label of time-step that the observation occurs in}
 \defSub{tolerance} {Tolerance on the constraint, that for each year the sum of proportions in each age must equal one e.g. tolerance = 0.1 then 1 - Sum(Proportions) can be as great as 0.1}
 \defSub{years} {The years of the observed values}
@@ -302,7 +303,7 @@
 \defSub{min\_age} {Minimum age}
 \defSub{max\_age} {Maximum age}
 \defSub{time\_step} {The label of time-step that the observation occurs in}
-\defSub{age\_plus} {Use age plus group}
+\defSub{plus\_group} {Use age plus group}
 \defSub{years} {Years for which there are observations}
 \defSub{selectivities} {The labels of the selectivities}
 \defSub{categories2} {Target Categories}
@@ -312,7 +313,7 @@
 \defSub{min\_age} {Minimum age}
 \defSub{max\_age} {Maximum age}
 \defSub{time\_step} {The label of time-step that the observation occurs in}
-\defSub{age\_plus} {Use age plus group}
+\defSub{plus\_group} {Use age plus group}
 \defSub{years} {Years for which there are observations}
 \defSub{ageing\_error} {Label of ageing error to use}
 \defSub{total\_categories} {All category labels that were vulnerable to sampling at the time of this observation (not including the categories already given}
@@ -321,7 +322,7 @@
 \defSub{min\_age} {Minimum age}
 \defSub{max\_age} {Maximum age}
 \defSub{time\_step} {The label of time-step that the observation occurs in}
-\defSub{age\_plus} {Use age plus group}
+\defSub{plus\_group} {Use age plus group}
 \defSub{years} {Years for which there are observations}
 \defSub{process\_errors} {Process error}
 \defSub{ageing\_error} {Label of ageing error to use}
@@ -329,7 +330,7 @@
 \par\textbf{\commandlabsubarg{observation}{type}{tag\_recapture\_by\_age}}\par
 \defSub{min\_age} {Minimum age}
 \defSub{max\_age} {Maximum age}
-\defSub{age\_plus} {Use age plus group}
+\defSub{plus\_group} {Use age plus group}
 \defSub{years} {Years for which there are observations}
 \defSub{categories2} {The available categories in the partition}
 \defSub{selectivities} {The labels of the selectivities}
@@ -343,9 +344,9 @@
 \defSub{plus\_group} {Indicates if the last length bin is a plus group}
 \defSub{years} {Years for which there are observations}
 \defSub{time\_step} {The label of time-step that the observation occurs in}
-\defSub{categories2} {The categories of tagged individuals for the observation}
+\defSub{tagged\_categories} {The categories of tagged individuals for the observation}
 \defSub{selectivities} {The labels of the selectivities used for untagged categories}
-\defSub{selectivities2} {The labels of the tag category selectivities}
+\defSub{tagged\_selectivities} {The labels of the tag category selectivities}
 \defSub{process\_errors} {Process error}
 \defSub{detection} {Probability of detecting a recaptured individual}
 \defSub{dispersion} {Over-dispersion parameter (phi)}
@@ -488,7 +489,7 @@
 \defSub{n} {}
 \par\textbf{\commandlabsubarg{process}{type}{tag\_by\_length}}\par
 \defSub{from} {Categories to transition from}
-\defSub{to} {Categories to transition to}
+\defSub{to} {ategories to transition to}
 \defSub{plus\_group} {Use plus group for last length bin}
 \defSub{maximum\_length} {The upper length when there is no plus group}
 \defSub{penalty} {Penalty label}
