@@ -110,8 +110,11 @@ void AllValuesBounded::Reset() {
     unsigned age = min_age;
     for (; age < low_; ++age)
       values_[age] = 0.0;
-    for (unsigned i = 0; i < v_.size(); ++i, ++age)
+    for (unsigned i = 0; i < v_.size(); ++i, ++age) {
+      if (v_[i] < 0.0)
+        LOG_FATAL_P(PARAM_V) << "cannot have value < 0.0 in this class. Found value = " << v_[i] << " for age = " << age;
       values_[age] = v_[i];
+    }
     for (; age <= max_age; ++age)
       values_[age] = *v_.rbegin();
 

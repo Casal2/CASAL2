@@ -83,6 +83,8 @@ void AllValues::Reset() {
   if (model_->partition_type() == PartitionType::kAge) {
     unsigned min_age = model_->min_age();
     for (unsigned i = 0; i < v_.size(); ++i) {
+      if (v_[i] < 0.0)
+        LOG_FATAL_P(PARAM_V) << "cannot have value < 0.0 in this class. Found value = " << v_[i] << " for age = " << min_age + i;
       values_[min_age + i] = v_[i];
     }
   } else if (model_->partition_type() == PartitionType::kLength) {

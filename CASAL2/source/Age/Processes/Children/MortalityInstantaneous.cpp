@@ -519,13 +519,13 @@ void MortalityInstantaneous::DoExecute() {
 
     for (auto& fishery_iter : fisheries_) {
       auto& fishery = fishery_iter.second;
-      if (fishery.uobs_fishery_ > u_max_) {
+      if (fishery.uobs_fishery_ > fishery.u_max_) {
         /**
          * Rescaling exploitation and applying penalties
          */
         LOG_FINE() << fishery.label_ << " exploitation rate before rescaling = " << fishery.exploitation_ << " uobs = " << fishery.uobs_fishery_;
-        fishery.exploitation_ *= (u_max_ / fishery.uobs_fishery_); // This may seem weird to be greater than u_max but later we multiply it by the selectivity which scales it to U_max
-        LOG_FINE() << "fishery = " << fishery.label_ << " U_obs = " << fishery.uobs_fishery_ << " and u_max " << u_max_;
+        fishery.exploitation_ *= (fishery.u_max_ / fishery.uobs_fishery_); // This may seem weird to be greater than u_max but later we multiply it by the selectivity which scales it to U_max
+        LOG_FINE() << "fishery = " << fishery.label_ << " U_obs = " << fishery.uobs_fishery_ << " and u_max " << fishery.u_max_;
         LOG_FINE() << fishery.label_ << " Rescaled exploitation rate = " << fishery.exploitation_;
         recalculate_age_exploitation = true;
         fishery.actual_catches_[year] = fishery.vulnerability_ * fishery.exploitation_;
@@ -590,6 +590,7 @@ void MortalityInstantaneous::DoExecute() {
    */
   for (auto& category : categories_) {
     for (unsigned i = 0; i < category.category_->data_.size(); ++i) {
+      LOG_FINEST() << "numbers at age = " << category.category_->data_[i] << " age " << i + model_->min_age() << " exploitation = " << category.exploitation_[i] << " M = " << *category.m_;
       category.category_->data_[i] *= exp(-(*category.m_) * ratio * category.selectivity_values_[i]) * (1 - category.exploitation_[i]);
       if (category.category_->data_[i] < 0.0) {
         LOG_CODE_ERROR() << " Fishing caused a negative partition : if (categories->data_[i] < 0.0), category.category_->data_[i] = " << category.category_->data_[i] << " i = " << i + 1;
@@ -609,7 +610,6 @@ void MortalityInstantaneous::FillReportCache(ostringstream& cache) {
   cache << "year: ";
   for (auto year : years)
     cache << year << " ";
-  cache << "\n";
   for (auto& fishery_iter : fisheries_) {
     auto& fishery = fishery_iter.second;
     cache << "\nfishing_pressure[" << fishery.label_ << "]: ";

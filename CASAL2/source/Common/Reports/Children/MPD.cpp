@@ -41,7 +41,7 @@ void MPD::DoExecute() {
    * Print our Estimate Values
    */
   cache_ << "estimate_values:\n";
-  auto estimates = model_->managers().estimate()->objects();
+  auto estimates = model_->managers().estimate()->GetIsEstimated();
   for (auto estimate : estimates)
     cache_ << estimate->parameter() << " ";
   cache_ << "\n";

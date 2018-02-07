@@ -115,7 +115,7 @@ void RecruitmentBevertonHolt::DoValidate() {
 
   // Check ascending order
   if (standardise_ycs_.size() == 0) {
-    standardise_ycs_ = ycs_years_;
+    ycs_standardised_ = false;
   } else if (standardise_ycs_.size() > 1) {
     for (unsigned i = 1; i < standardise_ycs_.size(); ++i) {
       if (standardise_ycs_[i - 1] >= standardise_ycs_[i])
@@ -234,11 +234,13 @@ void RecruitmentBevertonHolt::DoBuild() {
   if (ycs_years_[ycs_years_.size() - 1] != (model_->final_year() - ssb_offset_))
     LOG_ERROR_P(PARAM_YCS_YEARS) << "The last year class year you supplied is " << ycs_years_[ycs_years_.size() - 1] << ", but with your configuration of the process it should be " << model_->final_year() - ssb_offset_ <<  " please check either the ycs_year parameter or see the manual for more information on how Casal2 calculates this value.";
 
-  if (standardise_ycs_[0] < model_->start_year() - ssb_offset_)
-    LOG_ERROR_P(PARAM_STANDARDISE_YCS_YEARS) << " first value is less than the model's start_year - ssb offset = " << model_->start_year() - ssb_offset_;
-  if ((*standardise_ycs_.rbegin()) > model_->final_year() - ssb_offset_)
-    LOG_ERROR_P(PARAM_STANDARDISE_YCS_YEARS) << " final value (" << (*standardise_ycs_.rbegin())
-        << ") is greater than the model's final year - ssb_offset (" << model_->final_year() - ssb_offset_ << ")";
+  if (ycs_standardised_) {
+    if (standardise_ycs_[0] < model_->start_year() - ssb_offset_)
+      LOG_ERROR_P(PARAM_STANDARDISE_YCS_YEARS) << " first value is less than the model's start_year - ssb offset = " << model_->start_year() - ssb_offset_;
+    if ((*standardise_ycs_.rbegin()) > model_->final_year() - ssb_offset_)
+      LOG_ERROR_P(PARAM_STANDARDISE_YCS_YEARS) << " final value (" << (*standardise_ycs_.rbegin())
+          << ") is greater than the model's final year - ssb_offset (" << model_->final_year() - ssb_offset_ << ")";
+  }
 
   // Check users haven't specified a @estimate block for both R0 and B0
   string b0_param = "process[" + label_ + "].b0";
@@ -286,24 +288,30 @@ void RecruitmentBevertonHolt::DoReset() {
   recruitment_values_.clear();
 
   // Do Haist ycs Parameterisation
-  Double mean_ycs = 0;
-  for (unsigned i = 0; i < ycs_years_.size(); ++i) {
-    for (unsigned j = 0; j < standardise_ycs_.size(); ++j) {
-      if (ycs_years_[i] == standardise_ycs_[j]) {
-        mean_ycs += ycs_value_by_year_[ycs_years_[i]];
-        break;
+  if (ycs_standardised_) {
+    Double mean_ycs = 0;
+    for (unsigned i = 0; i < ycs_years_.size(); ++i) {
+      for (unsigned j = 0; j < standardise_ycs_.size(); ++j) {
+        if (ycs_years_[i] == standardise_ycs_[j]) {
+          mean_ycs += ycs_value_by_year_[ycs_years_[i]];
+          break;
+        }
       }
     }
-  }
 
-  mean_ycs /= standardise_ycs_.size();
-  for (unsigned ycs_year : ycs_years_) {
-      for (unsigned j = 0; j < standardise_ycs_.size(); ++j) {
-      if (ycs_year == standardise_ycs_[j])
-        stand_ycs_value_by_year_[ycs_year] = ycs_value_by_year_[ycs_year] / mean_ycs;
+    mean_ycs /= standardise_ycs_.size();
+    for (unsigned ycs_year : ycs_years_) {
+        for (unsigned j = 0; j < standardise_ycs_.size(); ++j) {
+        if (ycs_year == standardise_ycs_[j])
+          stand_ycs_value_by_year_[ycs_year] = ycs_value_by_year_[ycs_year] / mean_ycs;
+      }
+    }
+    year_counter_ = 0;
+  } else {
+    for (unsigned ycs_year : ycs_years_) {
+      stand_ycs_value_by_year_[ycs_year] = ycs_value_by_year_[ycs_year];
     }
   }
-  year_counter_ = 0;
 }
 
 /**
