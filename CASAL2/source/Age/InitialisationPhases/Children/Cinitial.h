@@ -19,7 +19,6 @@
 #include "Common/InitialisationPhases/InitialisationPhase.h"
 #include "Common/Partition/Accessors/CombinedCategories.h"
 #include "Common/Partition/Accessors/Cached/CombinedCategories.h"
-#include "Age/Processes/Children/RecruitmentBevertonHolt.h"
 
 // namespaces
 namespace niwa {
@@ -29,7 +28,6 @@ namespace age {
 namespace initialisationphases {
 using partition::accessors::CombinedCategoriesPtr;
 using partition::accessors::cached::CachedCombinedCategoriesPtr;
-using age::processes::RecruitmentBevertonHolt;
 
 /**
  * Class definition

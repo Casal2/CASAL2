@@ -296,12 +296,14 @@ void TagByLength::DoExecute() {
 
   // iterate over from_categories to update length data and age length matrix instead of doing in a length loop
   for (; from_iter != from_partition_.end(); from_iter++) {
+    LOG_FINE() << "updating length data for category " << (*from_iter)->name_;
     //(*from_iter)->UpdateMeanLengthData();
     //  build numbers at age and length
     (*from_iter)->UpdateAgeLengthData(length_bins_, plus_group_, selectivities_[(*from_iter)->name_]);
     //  total numbers at length
     (*from_iter)->CollapseAgeLengthDataToLength();
     numbers_at_age_by_category[(*from_iter)->name_].resize((*from_iter)->data_.size(),0.0);
+    LOG_FINE() << "Finished updating category " << (*from_iter)->name_;
   }
 
 

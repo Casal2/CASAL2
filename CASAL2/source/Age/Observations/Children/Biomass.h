@@ -20,6 +20,7 @@
 #include "Common/Partition/Accessors/CombinedCategories.h"
 #include "Common/Partition/Accessors/Cached/CombinedCategories.h"
 #include "Common/Catchabilities/Children/Nuisance.h"
+#include "Age/AgeWeights/AgeWeight.h"
 
 // namespaces
 namespace niwa {
@@ -64,7 +65,8 @@ protected:
   string                          time_step_label_ = "";
   Nuisance*                       nuisance_catchability_ = nullptr;
   bool                            nuisance_q_ = false;
-
+  vector<string>                  age_weight_labels_;
+  vector<AgeWeight*>              age_weights_;
 };
 
 } /* namespace observations */
