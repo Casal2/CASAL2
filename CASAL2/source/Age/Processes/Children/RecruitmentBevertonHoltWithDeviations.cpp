@@ -107,7 +107,7 @@ void RecruitmentBevertonHoltWithDeviations::DoValidate() {
   if(recruit_dev_values_.size() != recruit_dev_years_.size()) {
     LOG_FATAL_P(PARAM_DEVIATION_VALUES) << "you supplied " << recruit_dev_years_.size() << " " << PARAM_DEVIATION_YEARS  << " and " << recruit_dev_values_.size() << " " << PARAM_YCS_VALUES << ". These parameters must be of equal length before the model will run.";
   }
-  // initialise recruit devs and check values arn't < 0.0
+  // initialise recruit devs
   unsigned ycs_iter = 0;
   for (unsigned ycs_year : recruit_dev_years_) {
     recruit_dev_value_by_year_[ycs_year] = recruit_dev_values_[ycs_iter];

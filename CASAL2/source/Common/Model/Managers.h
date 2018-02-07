@@ -23,6 +23,7 @@ namespace niwa {
 namespace additionalpriors { class Manager; }
 namespace ageingerrors { class Manager; }
 namespace agelengths { class Manager; }
+namespace ageweights { class Manager; }
 namespace asserts { class Manager; }
 namespace catchabilities { class Manager; }
 namespace derivedquantities { class Manager; }
@@ -56,6 +57,7 @@ public:
   virtual additionalpriors::Manager*      additional_prior() { return additional_prior_; }
   virtual ageingerrors::Manager*          ageing_error() { return ageing_error_; }
   virtual agelengths::Manager*            age_length() { return age_length_; }
+  virtual ageweights::Manager*            age_weight() { return age_weight_; }
   virtual asserts::Manager*               assertx() { return assert_; }
   virtual catchabilities::Manager*        catchability() { return catchability_; }
   virtual derivedquantities::Manager*     derived_quantity() { return derived_quantity_; }
@@ -91,6 +93,7 @@ protected:
   additionalpriors::Manager*          additional_prior_;
   ageingerrors::Manager*              ageing_error_;
   agelengths::Manager*                age_length_;
+  ageweights::Manager*                age_weight_;
   asserts::Manager*                   assert_;
   catchabilities::Manager*            catchability_;
   derivedquantities::Manager*         derived_quantity_;

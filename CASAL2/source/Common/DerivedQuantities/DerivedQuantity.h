@@ -41,6 +41,10 @@ public:
   Double                      GetInitialisationValue(unsigned phase = 0, unsigned index = 0);
   Double                      GetLastValueFromInitialisation(unsigned phase);
 
+  // pure methods
+  virtual void                DoValidate() = 0;
+  virtual void                DoBuild() = 0;
+
   // accessors
   const string&               time_step() { return time_step_label_; }
   vector<vector<Double> >&    initialisation_values() { return initialisation_values_; }
@@ -61,6 +65,8 @@ protected:
   string                      proportion_method_;
   Double                      time_step_proportion_;
   bool                        mean_proportion_method_;
+
+
 };
 } /* namespace niwa */
 #endif /* DERIVEDQUANTITY_H_ */

@@ -22,6 +22,7 @@
 // Namespaces
 namespace niwa {
 class Model;
+class AgeWeight;
 class AgeLength;
 class LengthWeight;
 
@@ -35,6 +36,8 @@ struct CategoryInfo {
   unsigned          max_age_ = 0;
   AgeLength*        age_length_ = nullptr;
   LengthWeight*     length_weight_ = nullptr;
+  AgeWeight*        age_weight_ = nullptr;
+
 };
 
 /**
@@ -65,6 +68,7 @@ public:
   vector<unsigned>              years(const string& category_name);
   AgeLength*                    age_length(const string& category_name);
   LengthWeight*                 length_weight(const string& category_name);
+  AgeWeight*                    age_weight(const string& category_name);
 
 protected:
   // Methods
@@ -79,10 +83,12 @@ protected:
   vector<string>              names_;
   vector<string>              years_;
   vector<string>              category_names_;
+  vector<string>              age_weight_labels_;
   vector<string>              age_length_labels_;
   vector<string>              length_weight_labels_;
   map<string, string>         category_age_length_labels_;
   map<string, string>         category_length_weight_labels_;
+  map<string, string>         category_age_weight_labels_;
   map<string, CategoryInfo>   categories_;
 };
 } /* namespace niwa */

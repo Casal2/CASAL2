@@ -27,6 +27,7 @@
 #include "Common/Utilities/DoubleCompare.h"
 #include "Common/Utilities/To.h"
 #include "Common/Utilities/Math.h"
+#include "Age/AgeWeights/Manager.h"
 
 // namespaces
 namespace niwa {
@@ -115,7 +116,8 @@ void MortalityInstantaneous::DoValidate() {
       Double value = 0.0;
       if (!utilities::To<string, Double>(row[i], value))
         LOG_ERROR_P(PARAM_CATCHES) << "value " << row[i] << " for fishery " << columns[i] << " is not numeric";
-      fishery_year_catch[columns[i]][year] = value;    }
+      fishery_year_catch[columns[i]][year] = value;
+    }
   }
 
   /**
@@ -170,17 +172,22 @@ void MortalityInstantaneous::DoValidate() {
 
   // Check the column headers are all specified corectly
   if (std::find(columns.begin(), columns.end(), PARAM_METHOD) == columns.end())
-    LOG_ERROR_P(PARAM_METHOD) << "Cannot find the column " << PARAM_METHOD << ", this column is needed, for casal2 to run this process. Please add it =)";
+    LOG_FATAL_P(PARAM_METHOD) << "Cannot find the column " << PARAM_METHOD << ", this column is needed, for casal2 to run this process. Please add it =)";
   if (std::find(columns.begin(), columns.end(), PARAM_CATEGORY) == columns.end())
-    LOG_ERROR_P(PARAM_METHOD) << "Cannot find the column " << PARAM_CATEGORY << ", this column is needed, for casal2 to run this process. Please add it =)";
+    LOG_FATAL_P(PARAM_METHOD) << "Cannot find the column " << PARAM_CATEGORY << ", this column is needed, for casal2 to run this process. Please add it =)";
   if (std::find(columns.begin(), columns.end(), PARAM_SELECTIVITY) == columns.end())
-    LOG_ERROR_P(PARAM_METHOD) << "Cannot find the column " << PARAM_SELECTIVITY << ", this column is needed, for casal2 to run this process. Please add it =)";
+    LOG_FATAL_P(PARAM_METHOD) << "Cannot find the column " << PARAM_SELECTIVITY << ", this column is needed, for casal2 to run this process. Please add it =)";
   if (std::find(columns.begin(), columns.end(), PARAM_TIME_STEP) == columns.end())
-    LOG_ERROR_P(PARAM_METHOD) << "Cannot find the column " << PARAM_TIME_STEP << ", this column is needed, for casal2 to run this process. Please add it =)";
+    LOG_FATAL_P(PARAM_METHOD) << "Cannot find the column " << PARAM_TIME_STEP << ", this column is needed, for casal2 to run this process. Please add it =)";
   if (std::find(columns.begin(), columns.end(), PARAM_U_MAX) == columns.end())
-    LOG_ERROR_P(PARAM_METHOD) << "Cannot find the column " << PARAM_U_MAX << ", this column is needed, for casal2 to run this process. Please add it =)";
+    LOG_FATAL_P(PARAM_METHOD) << "Cannot find the column " << PARAM_U_MAX << ", this column is needed, for casal2 to run this process. Please add it =)";
   if (std::find(columns.begin(), columns.end(), PARAM_PENALTY) == columns.end())
-    LOG_ERROR_P(PARAM_METHOD) << "Cannot find the column " << PARAM_PENALTY << ", this column is needed, for casal2 to run this process. Please add it =)";
+    LOG_FATAL_P(PARAM_METHOD) << "Cannot find the column " << PARAM_PENALTY << ", this column is needed, for casal2 to run this process. Please add it =)";
+  if (std::find(columns.begin(), columns.end(), PARAM_AGE_WEIGHT_LABEL) == columns.end()) {
+    // Users can choose not to add this column if they wish
+    use_age_weight_ = false;
+    LOG_FINE() << "Age weight column not found";
+  }
 
   unsigned fishery_index      = std::find(columns.begin(), columns.end(), PARAM_METHOD) - columns.begin();
   unsigned category_index     = std::find(columns.begin(), columns.end(), PARAM_CATEGORY) - columns.begin();
@@ -188,9 +195,13 @@ void MortalityInstantaneous::DoValidate() {
   unsigned time_step_index    = std::find(columns.begin(), columns.end(), PARAM_TIME_STEP) - columns.begin();
   unsigned u_max_index        = std::find(columns.begin(), columns.end(), PARAM_U_MAX) - columns.begin();
   unsigned penalty_index      = std::find(columns.begin(), columns.end(), PARAM_PENALTY) - columns.begin();
+  unsigned age_weight_index = 999;
+  if (use_age_weight_)
+    age_weight_index   = std::find(columns.begin(), columns.end(), PARAM_AGE_WEIGHT_LABEL) - columns.begin();
+
   LOG_FINEST() << "indexes: fishery=" << fishery_index << "; category=" << category_index << "; selectivity="
       << selectivity_index << "; time_step=" << time_step_index << "; u_max=" << u_max_index
-      << "; penalty" << penalty_index;
+      << "; penalty" << penalty_index << " age weight index " << age_weight_index;
   // This is object is going to check the business rule that a fishery can only exist in one time-step in each year
   map<string,vector<string>> fishery_time_step;
   for (auto row : rows) {
@@ -214,8 +225,13 @@ void MortalityInstantaneous::DoValidate() {
     // remove after build
     vector<string> categories;
     vector<string> selectivities;
+    vector<string> age_weights;
+
     boost::split(categories, row[category_index], boost::is_any_of(","));
     boost::split(selectivities, row[selectivity_index], boost::is_any_of(","));
+    if (use_age_weight_)
+      boost::split(age_weights, row[age_weight_index], boost::is_any_of(","));
+
     if (categories.size() != selectivities.size())
       LOG_FATAL_P(PARAM_METHOD) << "The number of categories (" << categories.size()
       << ") and selectivities (" << selectivities.size() << ") provided must be identical";
@@ -228,7 +244,12 @@ void MortalityInstantaneous::DoValidate() {
 		  if (std::find(category_labels_.begin(), category_labels_.end(), categories[i]) == category_labels_.end())
 		  	LOG_ERROR_P(PARAM_METHOD) << "Found the category " << categories[i] << " in table but not in the '" << PARAM_CATEGORIES << "' subcommand, this means you are applying exploitation processes and not natural mortality, which is not currently allowed. Make sure all categories in the methods table are in the categories subcommand.";
       new_category_data.selectivity_label_ = selectivities[i];
-
+      if (use_age_weight_)
+        new_category_data.category_.age_weight_label_ = age_weights[i];
+      else {
+        new_category_data.category_.age_weight_label_ = PARAM_NONE;
+        LOG_FINE() << "setting age weight label to none.";
+      }
       fishery_categories_.push_back(new_category_data);
     }
   }
@@ -334,11 +355,27 @@ void MortalityInstantaneous::DoBuild() {
    * Assign the natural mortality selectivities
    */
   for (auto& category : categories_) {
+    // Selectivity
     Selectivity* selectivity = model_->managers().selectivity()->GetSelectivity(category.selectivity_label_);
     if (!selectivity)
       LOG_ERROR_P(PARAM_SELECTIVITIES) << "selectivity " << category.selectivity_label_ << " does not exist. Have you defined it?";
     category.selectivity_ = selectivity;
     selectivities_.push_back(selectivity);
+
+    // Age Weight if it is defined
+    LOG_FINEST() << "age weight " << category.age_weight_label_;
+    if ((category.age_weight_label_ == PARAM_NONE) || (category.age_weight_label_ == "")) {
+      category.age_weight_label_ = PARAM_NONE;
+      category.age_weight_ = nullptr;
+      use_age_weight_ = false;
+    } else {
+      LOG_FINE() << "age weight found";
+      AgeWeight* age_weight = model_->managers().age_weight()->FindAgeWeight(category.age_weight_label_);
+      if (!age_weight)
+        LOG_ERROR_P(PARAM_METHOD) << "age weight " << category.age_weight_label_ << " does not exist. Have you defined it?";
+      category.age_weight_ = age_weight;
+      use_age_weight_ = true;
+    }
   }
 
   /**
@@ -371,8 +408,6 @@ void MortalityInstantaneous::DoBuild() {
       LOG_FINEST() << "time step " << time_step << " doesn't have a method associated so we will skip the exploitation calculation during DoExecute";
     }
   }
-
-  LOG_TRACE();
 }
 
 /**
@@ -423,6 +458,7 @@ void MortalityInstantaneous::DoExecute() {
         used = true;
 
       category.used_in_current_timestep_ = used;
+
       for (unsigned i = 0; i < category.category_->age_spread(); ++i) {
         selectivity_value = category.selectivity_->GetAgeResult(category.category_->min_age_ + i, category.category_->age_length_);
         category.exploitation_[i] = 0.0;
@@ -456,13 +492,24 @@ void MortalityInstantaneous::DoExecute() {
           continue;
 
         partition::Category* category = fishery_category.category_.category_;
-        for (unsigned i = 0; i < category->data_.size(); ++i) {
-          Double vulnerable = category->data_[i]
-              * category->mean_weight_by_time_step_age_[time_step_index][category->min_age_ + i]
-              * fishery_category.selectivity_values_[i]
-              * fishery_category.category_.exp_values_[i];
+        if (fishery_category.category_.age_weight_) {
+          for (unsigned i = 0; i < category->data_.size(); ++i) {
+            Double vulnerable = category->data_[i]
+                * fishery_category.category_.age_weight_->mean_weight_at_age_by_year(year, i + model_->min_age())
+                * fishery_category.selectivity_values_[i]
+                * fishery_category.category_.exp_values_[i];
 
-          fishery_category.fishery_.vulnerability_ += vulnerable;
+            fishery_category.fishery_.vulnerability_ += vulnerable;
+          }
+        } else {
+          for (unsigned i = 0; i < category->data_.size(); ++i) {
+            Double vulnerable = category->data_[i]
+                * category->mean_weight_by_time_step_age_[time_step_index][category->min_age_ + i]
+                * fishery_category.selectivity_values_[i]
+                * fishery_category.category_.exp_values_[i];
+
+            fishery_category.fishery_.vulnerability_ += vulnerable;
+          }
         }
         LOG_FINEST() << "Category is fished in this time_step " << time_step_index << " numbers at age = " << category->data_.size();
         LOG_FINEST() << "Vulnerable biomass from category " << category->name_ << " contributing to fishery " << fishery_category.fishery_label_ << " = " << fishery_category.fishery_.vulnerability_;

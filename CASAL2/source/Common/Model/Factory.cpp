@@ -41,6 +41,7 @@
 // Age Factories
 #include "Age/AgeingErrors/Factory.h"
 #include "Age/AgeLengths/Factory.h"
+#include "Age/AgeWeights/Factory.h"
 
 // Length Factories
 // namespaces
@@ -76,6 +77,8 @@ base::Object* Factory::CreateObject(const string& object_type, const string& sub
     return ageingerrors::Factory::Create(model_, lwr_object_type, lwr_sub_type);
   else if (lwr_object_type == PARAM_AGE_LENGTH || lwr_object_type == PARAM_AGE_LENGTHS)
     return agelengths::Factory::Create(model_, lwr_object_type, lwr_sub_type);
+  else if (lwr_object_type == PARAM_AGE_WEIGHT)
+    return ageweights::Factory::Create(model_, lwr_object_type, lwr_sub_type);
   else if (lwr_object_type == PARAM_ASSERT)
     return asserts::Factory::Create(model_, lwr_object_type, lwr_sub_type);
   else if (lwr_object_type == PARAM_CATCHABILITY)

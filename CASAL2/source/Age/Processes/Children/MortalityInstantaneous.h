@@ -22,6 +22,7 @@
 #include "Common/Processes/Process.h"
 #include "Common/Selectivities/Selectivity.h"
 #include "Common/Utilities/Map.h"
+#include "Age/AgeWeights/AgeWeight.h"
 
 // namespaces
 namespace niwa {
@@ -62,6 +63,8 @@ class MortalityInstantaneous : public Process {
       string                selectivity_label_;
       Selectivity*          selectivity_;
       vector<Double>        selectivity_values_;
+      AgeWeight*            age_weight_ = nullptr;
+      string                age_weight_label_;
       bool                  used_in_current_timestep_;
     };
   /**
@@ -129,9 +132,7 @@ private:
   map<unsigned, map<string, vector<string>>> year_method_category_to_store_; // Year,  fishery, category
   // Members for reporting
   vector<unsigned>            time_steps_to_skip_applying_F_mortaltiy_;
-
-
-
+  bool                        use_age_weight_ = true;
 };
 
 } /* namespace processes */

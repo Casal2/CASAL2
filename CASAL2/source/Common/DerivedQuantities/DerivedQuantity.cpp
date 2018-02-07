@@ -62,6 +62,7 @@ void DerivedQuantity::Validate() {
   if (category_labels_.size() != selectivity_labels_.size())
     LOG_ERROR_P(PARAM_SELECTIVITIES) << " count (" << selectivity_labels_.size() << ") "
         << " is not the same as the categories count (" << category_labels_.size() << ")";
+  DoValidate();
 }
 
 /**
@@ -90,6 +91,7 @@ void DerivedQuantity::Build() {
     LOG_FATAL_P(PARAM_TIME_STEP) << " (" << time_step_label_ << ") could not be found. Have you defined it?";
   time_step->SubscribeToBlock(this);
   time_step->SubscribeToInitialisationBlock(this);
+  DoBuild();
 }
 
 /**
