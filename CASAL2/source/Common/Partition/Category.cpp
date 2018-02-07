@@ -85,7 +85,7 @@ void Category::UpdateMeanWeightData() {
           //if (!niwa::utilities::To<Double>(length_bins[length_bin_index], size))
           //  LOG_FATAL() << " value (" << length_bins[length_bin_index] << ") could not be converted to a double";
 
-          mean_weight_by_time_step_length_[step_iter][length_bin_index] = length_weight->mean_weight(length_bins[length_bin_index], PARAM_NONE,0.0);
+          mean_weight_by_time_step_length_[step_iter][length_bin_index] = length_weight->mean_weight(length_bins[length_bin_index], AgeLength::Distribution::kNone,0.0);
         }
       }
     }

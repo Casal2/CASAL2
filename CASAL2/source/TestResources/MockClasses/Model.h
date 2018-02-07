@@ -34,7 +34,7 @@ public:
   MOCK_CONST_METHOD0(age_spread, unsigned());
   MOCK_CONST_METHOD0(start_year, unsigned());
   MOCK_CONST_METHOD0(final_year, unsigned());
-  MOCK_CONST_METHOD0(age_plus, bool());
+  MOCK_CONST_METHOD0(plus_group, bool());
   MOCK_CONST_METHOD0(current_year, unsigned());
   MOCK_CONST_METHOD0(time_steps, vector<string>&());
   MOCK_CONST_METHOD0(years, vector<unsigned>());

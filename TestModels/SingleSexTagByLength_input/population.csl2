@@ -2,7 +2,7 @@
 @model  
 min_age    1 
 max_age   50
-age_plus T  #plus_group   
+plus_group T  #plus_group   
 start_year   1995
 final_year   2015
 projection_final_year 2051

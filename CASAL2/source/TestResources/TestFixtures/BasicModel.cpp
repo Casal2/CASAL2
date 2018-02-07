@@ -43,7 +43,7 @@ void BasicModel::SetUp() {
   model_->parameters().Add(PARAM_FINAL_YEAR, "2008", __FILE__, __LINE__);
   model_->parameters().Add(PARAM_MIN_AGE, "1", __FILE__, __LINE__);
   model_->parameters().Add(PARAM_MAX_AGE, "20", __FILE__, __LINE__);
-  model_->parameters().Add(PARAM_AGE_PLUS, "true", __FILE__, __LINE__);
+  model_->parameters().Add(PARAM_PLUS_GROUP, "true", __FILE__, __LINE__);
   model_->parameters().Add(PARAM_TIME_STEPS, "step_one", __FILE__, __LINE__);
   model_->parameters().Add(PARAM_BASE_UNTIS, "kgs", __FILE__, __LINE__);
   model_->PopulateParameters();

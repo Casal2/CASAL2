@@ -95,9 +95,9 @@ prior_applies_to_transform true
 ##################
 @estimate_transformation avg_diff
 type average_difference
-estimate_label M_male_with_avg_prior
+theta1 M_male_with_avg_prior
+theta2 M_female_with_diff_prior
 transform_with_jacobian false
-difference_estimate_label M_female_with_diff_prior
 
 ##################
 ## Acoustic process error

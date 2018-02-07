@@ -61,6 +61,7 @@ void Ageing::DoBuild() {
  * Execute our ageing class.
  */
 void Ageing::DoExecute() {
+  LOG_TRACE();
   Double amount_to_move = 0.0;
   Double moved_fish = 0.0;
 
@@ -74,7 +75,7 @@ void Ageing::DoExecute() {
       moved_fish = amount_to_move;
     }
 
-    if (model_->age_plus())
+    if (model_->plus_group())
       (* category->data_.rbegin() ) += moved_fish;
   }
 }

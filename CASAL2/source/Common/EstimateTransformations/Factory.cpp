@@ -21,6 +21,7 @@
 #include "Common/EstimateTransformations/Children/Log.h"
 #include "Common/EstimateTransformations/Children/LogSum.h"
 #include "Common/EstimateTransformations/Children/SquareRoot.h"
+#include "Common/EstimateTransformations/Children/SumToOne.h"
 #include "Common/EstimateTransformations/Children/Simplex.h"
 // namespaces
 namespace niwa {
@@ -52,7 +53,8 @@ EstimateTransformation* Factory::Create(Model* model, const string& object_type,
       result = new Simplex(model);
     else if (sub_type == PARAM_AVERAGE_DIFFERENCE)
       result = new AverageDifference(model);
-
+    else if (sub_type == PARAM_SUM_TO_ONE)
+      result = new SumToOne(model);
 
     if (result)
       model->managers().estimate_transformation()->AddObject(result);

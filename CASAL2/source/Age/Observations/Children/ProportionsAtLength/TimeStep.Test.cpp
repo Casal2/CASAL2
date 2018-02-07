@@ -33,7 +33,7 @@ start_year 1990
 final_year 1997
 min_age 1
 max_age 4
-age_plus true
+plus_group true
 base_weight_units kgs
 initialisation_phases iphase1
 time_steps init step1 step2 step3
@@ -256,7 +256,7 @@ R"(
 @model
 min_age 2
 max_age 25
-age_plus t
+plus_group t
 start_year 1975
 final_year 2002
 initialisation_phases phase1

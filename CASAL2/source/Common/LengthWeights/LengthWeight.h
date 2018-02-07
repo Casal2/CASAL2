@@ -16,6 +16,7 @@
 // headers
 #include "Common/BaseClasses/Object.h"
 #include "Common/Model/Model.h"
+#include "Age/AgeLengths/AgeLength.h"
 
 // namespaces
 namespace niwa {
@@ -37,7 +38,7 @@ public:
   virtual void                DoReset() = 0;
 
   // accessors
-  virtual Double              mean_weight(Double size, const string &distribution, Double cv) const = 0;
+  virtual Double              mean_weight(Double size, AgeLength::Distribution distribution, Double cv) const = 0;
   // members
   Model*                      model_ = nullptr;
 };

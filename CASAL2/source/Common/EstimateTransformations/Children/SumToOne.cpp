@@ -28,7 +28,7 @@ namespace utils = niwa::utilities;
  * Default constructor
  */
 SumToOne::SumToOne(Model* model) : EstimateTransformation(model) {
-  parameters_.Bind<string>(PARAM_ESTIMATE_LABEL, &estimate_labels_, "The label for the estimates for the sum to one transformation", "");
+  parameters_.Bind<string>(PARAM_ESTIMATE_LABELS, &estimate_labels_, "The label for the estimates for the sum to one transformation", "");
   parameters_.Bind<Double>(PARAM_UPPER_BOUND, &upper_bounds_, "The empirical upper bounds for the transformed parameters. There should be one less bound than parameters", "", true);
   parameters_.Bind<Double>(PARAM_LOWER_BOUND, &lower_bounds_, "The empirical lower bound for the transformed parameters. There should be one less bound than parameters", "", true);
   is_simple_ = false;
@@ -46,7 +46,7 @@ void SumToOne::DoValidate() {
       LOG_ERROR_P(PARAM_LOWER_BOUND) << "You must supple the same number of upper and lower bounds. We found '" << estimate_labels_.size() << "' estimate labels and '" << lower_bounds_.size() << "' bounds, please sort this out or look in the manual";
 
     if ((estimate_labels_.size() - 1) != lower_bounds_.size())
-      LOG_ERROR_P(PARAM_ESTIMATE_LABEL) << "You must supple one less bound than estimate labels. We found '" << upper_bounds_.size() << "' upper bound values and '" << lower_bounds_.size() << "' lower bound values, please sort this out chairs";
+      LOG_ERROR_P(PARAM_ESTIMATE_LABELS) << "You must supple one less bound than estimate labels. We found '" << upper_bounds_.size() << "' upper bound values and '" << lower_bounds_.size() << "' lower bound values, please sort this out chairs";
   }
 }
 
@@ -58,7 +58,7 @@ void SumToOne::DoBuild() {
   for (auto& estimate_label : estimate_labels_) {
     Estimate* estimate = model_->managers().estimate()->GetEstimateByLabel(estimate_label);
     if (estimate == nullptr) {
-      LOG_ERROR_P(PARAM_ESTIMATE_LABEL) << "Estimate " << estimate_label << " could not be found. Have you defined it?";
+      LOG_ERROR_P(PARAM_ESTIMATE_LABELS) << "Estimate " << estimate_label << " could not be found. Have you defined it?";
       return;
     } else {
       LOG_FINE() << "transform with objective = " << transform_with_jacobian_ << " estimate transform " << estimate->transform_for_objective() << " together = " << !transform_with_jacobian_ && !estimate->transform_for_objective();
@@ -83,7 +83,7 @@ void SumToOne::DoBuild() {
     total += estimate->value();
   }
   if (total != 1.0)
-    LOG_ERROR_P(PARAM_ESTIMATE_LABEL) << "The estiamtes you supplied to not sum to 1.0, they sum to " << total << ", please check initial values of these parameters";
+    LOG_ERROR_P(PARAM_ESTIMATE_LABELS) << "The estiamtes you supplied to not sum to 1.0, they sum to " << total << ", please check initial values of these parameters";
 
   // Check that the bounds are sensible
   if (parameters_.Get(PARAM_UPPER_BOUND)->has_been_defined() & parameters_.Get(PARAM_LOWER_BOUND)->has_been_defined()) {

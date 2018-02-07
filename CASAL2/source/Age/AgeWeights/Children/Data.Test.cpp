@@ -37,7 +37,7 @@ projection_final_year 2006
 min_age 1
 max_age 10
 base_weight_units tonnes
-age_plus true
+plus_group true
 initialisation_phases Equilibrium_phase Non_equilibrium_phase
 time_steps Annual Ageing
 

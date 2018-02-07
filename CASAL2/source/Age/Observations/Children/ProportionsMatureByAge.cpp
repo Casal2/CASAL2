@@ -44,7 +44,7 @@ ProportionsMatureByAge::ProportionsMatureByAge(Model* model) : Observation(model
   parameters_.Bind<unsigned>(PARAM_MIN_AGE, &min_age_, "Minimum age", "");
   parameters_.Bind<unsigned>(PARAM_MAX_AGE, &max_age_, "Maximum age", "");
   parameters_.Bind<string>(PARAM_TIME_STEP, &time_step_label_, "The label of time-step that the observation occurs in", "");
-  parameters_.Bind<bool>(PARAM_AGE_PLUS, &age_plus_, "Use age plus group", "", true);
+  parameters_.Bind<bool>(PARAM_PLUS_GROUP, &plus_group_, "Use age plus group", "", true);
   parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "Years for which there are observations", "");
   parameters_.Bind<string>(PARAM_AGEING_ERROR, &ageing_error_label_, "Label of ageing error to use", "", "");
   parameters_.BindTable(PARAM_OBS, obs_table_, "Table of proportions at age mature ", "", false);
@@ -388,7 +388,7 @@ void ProportionsMatureByAge::Execute() {
           LOG_FINEST() << "age = " << k + age_offset << " total = " << total_numbers_age[k] << " mature = " << numbers_age[k];
         }
       }
-      if (((k - age_offset + min_age_) > max_age_) && age_plus_) {
+      if (((k - age_offset + min_age_) > max_age_) && plus_group_) {
         // plus group
         plus += numbers_age[k];
         total_plus += total_numbers_age[k];
@@ -396,7 +396,7 @@ void ProportionsMatureByAge::Execute() {
     }
 
     LOG_FINEST() << "Plus group before migration = " << plus << " Plus group after migration = " << total_plus;
-    if (age_plus_) {
+    if (plus_group_) {
       if (total_plus > 0.0)
         expected_values[age_spread_ - 1] = plus / total_plus;
       else

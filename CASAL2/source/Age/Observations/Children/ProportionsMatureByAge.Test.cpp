@@ -35,7 +35,7 @@ start_year 1990
 final_year 1994
 min_age 1
 max_age 100
-age_plus true
+plus_group true
 base_weight_units tonnes
 initialisation_phases Equilibrium_state
 time_steps Annual
@@ -187,7 +187,7 @@ time_step Annual
 time_step_proportion 0.5
 min_age 10
 max_age 89
-age_plus false
+plus_group false
 categories spawn 
 total_categories nonspawn
 delta 0.00001

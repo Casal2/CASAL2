@@ -25,8 +25,8 @@ namespace estimatetransformations {
  * Default constructor
  */
 Orthogonal::Orthogonal(Model* model) : EstimateTransformation(model) {
-  //parameters_.Bind<string>(PARAM_FIRST_ESTIMATE, &first_estimate_label_, "$\theta_1$ The first variable to use in the transformation", "");
-  //parameters_.Bind<string>(PARAM_SECOND_ESTIMATE, &second_estimate_label_, "$\theta_2$ The second variable to use in the transformation", "");
+  parameters_.Bind<string>(PARAM_THETA_TWO, &second_estimate_label_, "The label of the @estimate block relating to the $\theta_2$ parameter in the transformation see, see the documentation for more information", "");
+  parameters_.Bind<string>(PARAM_THETA_ONE, &estimate_label_, "Label of @estimate block relating to the $\theta_1$ parameter in the transformation see, see the documentation for more information", "");
 
   is_simple_ = false;
 }
@@ -41,16 +41,33 @@ void Orthogonal::DoValidate() {
  *
  */
 void Orthogonal::DoBuild() {
+  estimate_ = model_->managers().estimate()->GetEstimateByLabel(estimate_label_);
+  if (estimate_ == nullptr) {
+    LOG_ERROR_P(PARAM_THETA_ONE) << "Estimate " << estimate_label_ << " could not be found. Have you defined it?";
+    return;
+  }
+  // Initialise for -r runs
+  current_untransformed_value_ = estimate_->value();
+
+  LOG_FINE() << "transform with objective = " << transform_with_jacobian_ << " estimeate transform " << estimate_->transform_for_objective() << " together = " << !transform_with_jacobian_ && !estimate_->transform_for_objective();
+  if (!transform_with_jacobian_ && !estimate_->transform_for_objective()) {
+    LOG_ERROR_P(PARAM_TRANSFORM_WITH_JACOBIAN) << "You have specified a transformation that does not contribute a jacobian, and the prior parameters do not refer to the transformed estimate, in the @estimate" << estimate_label_ << ". This is not advised, and may cause bias estimation. Please address the user manual if you need help";
+  }
+  if (estimate_->transform_with_jacobian_is_defined()) {
+    if (transform_with_jacobian_ != estimate_->transform_with_jacobian()) {
+      LOG_ERROR_P(PARAM_TRANSFORM_WITH_JACOBIAN) << "This parameter is not consistent with the equivalent parameter in the @estimate block " << estimate_label_ << ". please make sure these are both true or both false.";
+    }
+  }
   LOG_TRACE();
-  first_estimate_ = model_->managers().estimate()->GetEstimateByLabel(first_estimate_label_);
+  first_estimate_ = model_->managers().estimate()->GetEstimateByLabel(estimate_label_);
   second_estimate_ = model_->managers().estimate()->GetEstimateByLabel(second_estimate_label_);
 
   if (first_estimate_ == nullptr) {
-    LOG_ERROR_P(PARAM_FIRST_ESTIMATE) << "Estimate " << first_estimate_label_ << " could not be found. Have you defined it in an @estimate block?";
+    LOG_ERROR_P(PARAM_THETA_ONE) << "Estimate " << estimate_label_ << " could not be found. Have you defined it in an @estimate block?";
     return;
   }
   if (second_estimate_ == nullptr) {
-    LOG_ERROR_P(PARAM_SECOND_ESTIMATE) << "Estimate " << second_estimate_label_ << " could not be found. Have you defined it in an @estimate block?";
+    LOG_ERROR_P(PARAM_THETA_TWO) << "Estimate " << second_estimate_label_ << " could not be found. Have you defined it in an @estimate block?";
     return;
   }
   first_original_upper_bound_ =  first_estimate_->upper_bound();
@@ -117,7 +134,7 @@ Double Orthogonal::GetScore() {
  */
 std::set<string> Orthogonal::GetTargetEstimates() {
   set<string> result;
-  result.insert(first_estimate_label_);
+  result.insert(estimate_label_);
   result.insert(second_estimate_label_);
   return result;
 }
