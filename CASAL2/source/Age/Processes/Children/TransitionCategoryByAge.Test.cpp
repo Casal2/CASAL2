@@ -40,7 +40,7 @@ start_year 1994
 final_year 2008
 min_age 1
 max_age 50
-plus_group t
+age_plus t
 initialisation_phases iphase1 iphase2
 time_steps step_one step_one_pt_five step_two
 

@@ -92,7 +92,7 @@ public:
   virtual unsigned            min_age() const { return min_age_; }
   virtual unsigned            max_age() const { return max_age_; }
   virtual unsigned            age_spread() const { return (max_age_ - min_age_) + 1; }
-  virtual bool                plus_group() const { return plus_group_; }
+  virtual bool                age_plus() const { return age_plus_; }
   virtual const vector<string>& time_steps() const { return time_steps_; }
   const vector<string>&       initialisation_phases() const { return initialisation_phases_; }
   void                        set_partition_type(PartitionType partition_type) { partition_type_ = partition_type; }
@@ -136,7 +136,7 @@ protected:
   map<string, Double>         b0_;
   map<string, Double>         binitial_;
   map<string, bool>           b0_initialised_;
-  bool                        plus_group_ = true;
+  bool                        age_plus_ = true;
   vector<string>              initialisation_phases_;
   vector<string>              time_steps_;
   vector<unsigned>            length_bins_;

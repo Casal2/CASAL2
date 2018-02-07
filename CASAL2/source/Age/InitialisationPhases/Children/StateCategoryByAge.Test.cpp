@@ -34,7 +34,7 @@ start_year 1990
 final_year 2000
 min_age 1
 max_age 20
-plus_group true
+age_plus true
 initialisation_phases Fixed
 time_steps step1
 

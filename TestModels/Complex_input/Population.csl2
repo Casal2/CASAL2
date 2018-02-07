@@ -3,7 +3,7 @@
 # Partition
 min_age 1
 max_age 17
-plus_group true
+age_plus true
 base_weight_units tonnes
 start_year 1972
 final_year 2016

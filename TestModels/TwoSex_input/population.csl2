@@ -5,7 +5,7 @@ final_year 2014
 min_age 3
 max_age 25
 base_weight_units tonnes
-plus_group true
+age_plus true
 initialisation_phases iphase1
 time_steps step1 step2
 

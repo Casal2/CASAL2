@@ -6,7 +6,7 @@ projection_final_year 2021
 min_age 2
 max_age 15
 base_weight_units tonnes
-plus_group true
+age_plus true
 initialisation_phases Equilibrium_phase
 time_steps step1 step2
 

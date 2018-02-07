@@ -34,7 +34,7 @@ start_year 1970
 final_year 2012
 min_age 1
 max_age 30
-plus_group true
+age_plus true
 base_weight_units kgs
 initialisation_phases iphase1
 time_steps step1 step2 step3

@@ -31,7 +31,7 @@ R"(
 @model
 min_age 2
 max_age 25
-plus_group t
+age_plus t
 base_weight_units kgs
 start_year 1975
 final_year 2002

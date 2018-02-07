@@ -168,7 +168,7 @@ void Derived::Execute() {
 
   // a shortcut to avoid running the model over more years to get the plus group right
   // calculate the annual change c for each element of the plus group
-  if (model_->plus_group()) {
+  if (model_->age_plus()) {
     cached_partition_.BuildCache();
     // Run the model for an extra year
     time_step_manager->ExecuteInitialisation(label_, 1);
