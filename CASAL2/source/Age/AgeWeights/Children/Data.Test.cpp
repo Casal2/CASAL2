@@ -241,7 +241,7 @@ likelihood lognormal
 @observation Index1_age
 type proportions_at_age
 likelihood multinomial
-age_plus true
+plus_group true
 ageing_error Ageing_error
 delta 1e-011
 time_step Annual
@@ -285,7 +285,7 @@ years 1986:2005
 min_age 1
 max_age 10
 ageing_error Ageing_error
-age_plus true
+plus_group true
 table obs
 1986  0.04  0.165 0.095 0.23  0.16  0.1 0.03  0.095 0.03  0.055
 1987  0.02  0.09  0.16  0.1 0.185 0.18  0.08  0.01  0.09  0.085
