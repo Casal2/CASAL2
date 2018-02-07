@@ -38,8 +38,7 @@ NormalByStdev::NormalByStdev(Model* model) : Estimate(model) {
 Double NormalByStdev::GetScore() {
   Double score_ = 0.5 * ((value() - mu_) / sigma_) * ((value() - mu_) / sigma_);
   if (assume_lognormal_) {
-    LOG_TRACE();
-    score_+= exp(value() - 0.5 * sigma_ * sigma_);
+    score_+= value() - (0.5 * sigma_ * sigma_);
   }
   return score_;
 }

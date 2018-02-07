@@ -73,6 +73,7 @@ private:
   DerivedQuantity*            derived_quantity_ = nullptr;
   unsigned                    year_counter_ = 0;
   OrderedMap<string, Double>  proportions_by_category_;
+  bool                        ycs_standardised_ = true;
 };
 
 } /* namespace processes */

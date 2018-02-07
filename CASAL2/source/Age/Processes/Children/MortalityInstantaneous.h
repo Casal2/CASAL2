@@ -113,7 +113,7 @@ private:
   Double                      current_m_ = 0.0;
 
   // members from mortality event
-  Double                      u_max_ = 0.99;
+  //Double                      u_max_ = 0.99; // Now attached to the fishery object
   string                      penalty_label_ = "";
   penalties::Process*         penalty_ = nullptr;
   string                      unit_;

@@ -57,6 +57,7 @@ void Catchabilities::DoExecuteTabular() {
       string label =  Q->label();
       cache_ << "catchability[" << label << "] ";
     }
+    cache_ << "\n";
   }
   for (auto& Q : catchabilities) {
     cache_ << AS_DOUBLE(Q->q()) << " ";

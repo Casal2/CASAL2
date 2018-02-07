@@ -56,21 +56,21 @@ void SumToOne::DoValidate() {
 void SumToOne::DoBuild() {
   LOG_TRACE();
   for (auto& estimate_label : estimate_labels_) {
-    estimate_ = model_->managers().estimate()->GetEstimateByLabel(estimate_label);
-    if (estimate_ == nullptr) {
+    Estimate* estimate = model_->managers().estimate()->GetEstimateByLabel(estimate_label);
+    if (estimate == nullptr) {
       LOG_ERROR_P(PARAM_ESTIMATE_LABELS) << "Estimate " << estimate_label << " could not be found. Have you defined it?";
       return;
     } else {
-      LOG_FINE() << "transform with objective = " << transform_with_jacobian_ << " estimate transform " << estimate_->transform_for_objective() << " together = " << !transform_with_jacobian_ && !estimate_->transform_for_objective();
-      if (!transform_with_jacobian_ && !estimate_->transform_for_objective()) {
+      LOG_FINE() << "transform with objective = " << transform_with_jacobian_ << " estimate transform " << estimate->transform_for_objective() << " together = " << !transform_with_jacobian_ && !estimate->transform_for_objective();
+      if (!transform_with_jacobian_ && !estimate->transform_for_objective()) {
         LOG_ERROR_P(PARAM_LABEL) << "You have specified a transformation that does not contribute a jacobian, and the prior parameters do not refer to the transformed estimate, in the @estimate" << estimate_label_ << ". This is not advised, and may cause bias estimation. Please address the user manual if you need help";
       }
-      if (estimate_->transform_with_jacobian_is_defined()) {
-        if (transform_with_jacobian_ != estimate_->transform_with_jacobian()) {
+      if (estimate->transform_with_jacobian_is_defined()) {
+        if (transform_with_jacobian_ != estimate->transform_with_jacobian()) {
           LOG_ERROR_P(PARAM_LABEL) << "This parameter is not consistent with the equivalent parameter in the @estimate block " << estimate_label_ << ". please make sure these are both true or both false.";
         }
       }
-      estimates_.push_back(estimate_);
+      estimates_.push_back(estimate);
     }
   }
 
@@ -99,11 +99,11 @@ void SumToOne::DoBuild() {
   // Turn off the last estimate
   LOG_FINE() << "Turning off parameter, this won't be estimated, and will be an outcome of other parameters " << estimates_[estimates_.size() - 1]->parameter() << " in the estimation";
   estimates_[estimates_.size() - 1]->set_estimated(false);
+  LOG_MEDIUM() << "flagged estimated = " << estimates_[estimates_.size() - 1]->estimated();
 }
 
 void SumToOne::DoTransform() {
   LOG_TRACE();
-
   // reset the bounds for the others
   if (parameters_.Get(PARAM_UPPER_BOUND)->has_been_defined() & parameters_.Get(PARAM_LOWER_BOUND)->has_been_defined()) {
     for (unsigned i = 0; i < (estimates_.size() - 1); ++i) {

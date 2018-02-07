@@ -103,7 +103,7 @@ public:
   void                        set_label(string value) { label_ = value;}
   void                        set_defined_file_name(string value) { parameters_.set_defined_file_name(value); }
   void                        set_defined_line_number(unsigned value) { parameters_.set_defined_line_number(value); }
-  void                        set_estimated(bool value) { is_estimated_ = value;} // This should only be used in Estimate/Creator
+  void                        set_estimated(bool value) { is_estimated_ = value;} // This should only be used in Estimate/Creator/EstimateTransformations
   void                        set_time_varying(bool value) { is_time_varying_ = value;} // This should only be TimeVarying.cpp
   string                      block_type() const { return block_type_; }
 
