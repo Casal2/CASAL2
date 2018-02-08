@@ -35,7 +35,7 @@ IndependenceMetropolis::IndependenceMetropolis(Model* model) : MCMC(model) {
   parameters_.Bind<unsigned>(PARAM_KEEP, &keep_, "Spacing between recorded values in the MCMC", "", 1u);
   parameters_.Bind<Double>(PARAM_MAX_CORRELATION, &max_correlation_, "Maximum absolute correlation in the covariance matrix of the proposal distribution", "", 0.8);
   parameters_.Bind<string>(PARAM_COVARIANCE_ADJUSTMENT_METHOD, &correlation_method_, "Method for adjusting small variances in the covariance proposal matrix"
-      , "", PARAM_COVARIANCE)->set_allowed_values({PARAM_COVARIANCE, PARAM_CORRELATION});
+      , "", PARAM_CORRELATION)->set_allowed_values({PARAM_COVARIANCE, PARAM_CORRELATION,PARAM_NONE});
   parameters_.Bind<Double>(PARAM_CORRELATION_ADJUSTMENT_DIFF, &correlation_diff_, "Minimum non-zero variance times the range of the bounds in the covariance matrix of the proposal distribution", "", 0.0001);
   parameters_.Bind<string>(PARAM_PROPOSAL_DISTRIBUTION, &proposal_distribution_, "The shape of the proposal distribution (either the t or the normal distribution)", "", PARAM_T);
   parameters_.Bind<unsigned>(PARAM_DF, &df_, "Degrees of freedom of the multivariate t proposal distribution", "", 4);
@@ -53,6 +53,7 @@ IndependenceMetropolis::IndependenceMetropolis(Model* model) : MCMC(model) {
  * Get the covariance matrix from the minimiser and then
  * adjust it for our proposal distribution
  */
+
 void IndependenceMetropolis::BuildCovarianceMatrix() {
   LOG_MEDIUM() << "Building covariance matrix";
   // Are we starting at MPD or recalculating the matrix based on an empirical sample
@@ -91,11 +92,9 @@ void IndependenceMetropolis::BuildCovarianceMatrix() {
     	LOG_MEDIUM() << "row = " << i + 1 << " col = " << j + 1 << " correlation = " << AS_DOUBLE(value);
       if (original_covariance(i,j) / sqrt(original_covariance(i,i) * original_covariance(j,j)) > max_correlation_) {
         covariance_matrix_(i,j) = max_correlation_ * sqrt(original_covariance(i,i) * original_covariance(j,j));
-        covariance_matrix_(j,i) = max_correlation_ * sqrt(original_covariance(i,i) * original_covariance(j,j));
       }
       if (original_covariance(i,j) / sqrt(original_covariance(i,i) * original_covariance(j,j)) < -max_correlation_){
         covariance_matrix_(i,j) = -max_correlation_ * sqrt(original_covariance(i,i) * original_covariance(j,j));
-        covariance_matrix_(j,i) = -max_correlation_ * sqrt(original_covariance(i,i) * original_covariance(j,j));
       }
     }
   }
@@ -111,8 +110,10 @@ void IndependenceMetropolis::BuildCovarianceMatrix() {
    */
   vector<Double> difference_bounds;
   vector<Estimate*> estimates = model_->managers().estimate()->GetIsEstimated();
+  LOG_MEDIUM() << "upper_bound lower_bound";
   for (Estimate* estimate : estimates) {
     difference_bounds.push_back( estimate->upper_bound() - estimate->lower_bound() );
+    LOG_MEDIUM() << estimate->upper_bound() << " " << estimate->lower_bound();
   }
 
   for (unsigned i = 0; i < covariance_matrix_.size1(); ++i) {
@@ -148,7 +149,7 @@ void IndependenceMetropolis::BuildCovarianceMatrix() {
 bool IndependenceMetropolis::DoCholeskyDecmposition() {
   LOG_TRACE();
   if (covariance_matrix_.size1() != covariance_matrix_.size2())
-      LOG_ERROR() << "Invalid covariance matrix (rows != columns) must be a symetric square matrix";
+      LOG_FATAL() << "Invalid covariance matrix (rows != columns) must be a symetric square matrix";
     unsigned matrix_size1 = covariance_matrix_.size1();
     covariance_matrix_lt = covariance_matrix_;
 
