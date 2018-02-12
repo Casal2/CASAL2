@@ -76,7 +76,7 @@ void StandardHeader::DoPrepare() {
    * Version information
    */
   header << "Version: " << SOURCE_CONTROL_VERSION << endl;
-  header << "Copyright (c) 2012 - " << SOURCE_CONTROL_YEAR << ", NIWA (www.niwa.co.nz)" << endl;
+  header << "Copyright (c) 2018 - " << SOURCE_CONTROL_YEAR << ", NIWA (www.niwa.co.nz)" << endl;
 
   /**
    * User and Computer Information
