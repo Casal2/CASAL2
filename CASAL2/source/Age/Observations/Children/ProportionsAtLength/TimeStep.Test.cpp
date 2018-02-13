@@ -177,7 +177,7 @@ likelihood multinomial
 time_step step1
 categories stock
 time_step_proportion 1
-length_plus_group false
+length_plus false
 selectivities chatTANSel
 length_bins 0 20 40 60 80 110
 delta 1e-5
