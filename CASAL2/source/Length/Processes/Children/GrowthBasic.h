@@ -47,6 +47,8 @@ private:
   vector<Double>              l_;
   vector<Double>              length_bin_mid_points_;
   vector<unsigned>            length_bins_;
+  bool                        length_plus_ = false;
+  unsigned                    length_plus_group_ = 0;
   Model*                      model_ = nullptr;
   vector<string>              category_labels_;
   Double                      cv_ = 0.0;
