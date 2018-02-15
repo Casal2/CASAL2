@@ -71,8 +71,6 @@ void GrowthBasic::DoValidate() {
 void GrowthBasic::DoBuild() {
   LOG_FINEST() << "GrowthBasic DoBuild started";
   partition_.Init(category_labels_);
-  LOG_FINEST() << "TEST 1";
-
   // Populate length mid points
   // need to check Categories don't have difference length bins otherwise this won't work.
   length_bins_ = model_->length_bins(); // check that inputting length bin vector works
@@ -85,7 +83,6 @@ void GrowthBasic::DoBuild() {
     length_bin_mid_points_[length_bins_.size() - 1] = model_->length_plus_group();
     LOG_FINEST() << "Plus group present, length bin " << length_bins_.size() - 1 <<": " << length_bin_mid_points_[length_bins_.size() - 1];
   }
-  LOG_FINEST() << "TEST 3";
   // Build Transition Matrix so call reset
   DoReset();
   LOG_FINEST() << "GrowthBasic DoBuild finished";
@@ -97,36 +94,29 @@ void GrowthBasic::DoReset() {
   LOG_FINEST() << "GrowthBasic DoReset started";
   // Build Transition Matrix
   Double mu, sigma;
-  transition_matrix_[length_bins_.size(), length_bins_.size()]; // make matrix right size?
-  LOG_FINEST() << "Size of transition matrix is " << transition_matrix_.size();
-  for (unsigned length_bin = 0; length_bin < length_bins_.size(); ++length_bin) {
-    LOG_FINEST() << "length_bin = " << length_bin;
+  transition_matrix_.resize(length_bin_mid_points_.size()); // make matrix right number of rows
+  for (unsigned j = 0; j < length_bin_mid_points_.size(); ++j) {
+    transition_matrix_[j].resize(length_bin_mid_points_.size()); // make matrix right number of columns
+  }
+  for (unsigned length_bin = 0; length_bin < length_bin_mid_points_.size(); ++length_bin) {
     Double sum_so_far = 0.0;
-    for (unsigned j = 1; j < length_bin; ++j){
+    for (unsigned j = 0; j < length_bin; ++j){
       transition_matrix_[length_bin][j] = 0; // no negative growth
-      LOG_FINEST() << "transition_matrix_[" << length_bin << "][" << j << "] = " << transition_matrix_[length_bin][j];
     }
-    if (model_->length_plus() && (length_bin == (length_bins_.size() - 1))) {
+    if (model_->length_plus() && (length_bin == (length_bin_mid_points_.size()))) {
       transition_matrix_[length_bin][length_bin] = 1.0; // plus group can't grow any more
-      LOG_FINEST() << "transition_matrix_[" << length_bin << "][" << length_bin << "] = " << transition_matrix_[length_bin][length_bin];
     }
     // Calculate incremental change based on mid point
     mu = g_ref_[0] + (g_ref_[1] - g_ref_[0])*(length_bin_mid_points_[length_bin] - l_ref_[0]) / (l_ref_[1] - l_ref_[0]);
-    LOG_FINEST() << "mu = " << mu;
     sigma = cv_ * mu;
     if (sigma < min_sigma_) // lower limit of min_sigma_
       sigma = min_sigma_;
-    LOG_FINEST() << "sigma = " << sigma;
     // Build boost object.
     // boost::math::normal norm{mu, sigma};
-    transition_matrix_[length_bin][length_bin] = 0.012; // Calculate normal CDF using pnorm function
-    LOG_FINEST() << "transition_matrix_[" << length_bin << "][" << length_bin << "] = " << transition_matrix_[length_bin][length_bin];
     transition_matrix_[length_bin][length_bin] = math::pnorm(length_bins_[length_bin + 1] - length_bin_mid_points_[length_bin], mu, sigma); // Calculate normal CDF using pnorm function
-    LOG_FINEST() << "transition_matrix_[" << length_bin << "][" << length_bin << "] = " << transition_matrix_[length_bin][length_bin]; // Calculate normal CDF using pnorm function
-    LOG_FINEST() << "TEST 5";
     sum_so_far = transition_matrix_[length_bin][length_bin];
 
-    for (unsigned j = length_bin + 1; j < (length_bins_.size() - 1); ++j){
+    for (unsigned j = length_bin + 1; j < (length_bin_mid_points_.size()); ++j){
       transition_matrix_[length_bin][j] = math::pnorm(length_bins_[j + 1] - length_bin_mid_points_[length_bin], mu, sigma) - sum_so_far;
       sum_so_far += transition_matrix_[length_bin][j];
     }
@@ -137,13 +127,11 @@ void GrowthBasic::DoReset() {
     }
   }
 // */
-  LOG_FINEST() << "TEST 3";
-  for (unsigned j = 1; j < length_bins_.size(); ++j) {
-    for (unsigned k = 1; k < length_bins_.size(); ++k) {
+  for (unsigned j = 0; j < length_bin_mid_points_.size(); ++j) {
+    for (unsigned k = 0; k < length_bin_mid_points_.size(); ++k) {
       LOG_FINEST() << "Transition matrix, row " << j << ", column " << k << ", value " << transition_matrix_[j][k];
     }
   }
-  LOG_FINEST() << "Check model start year: " << model_->start_year();
   LOG_FINEST() << "GrowthBasic DoReset finished";
 }
 
