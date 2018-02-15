@@ -13,6 +13,7 @@
 #include "GrowthBasic.h"
 
 #include "Common/Utilities/To.h"
+#include "Common/Model/Managers.h"
 #include "Common/Categories/Categories.h"
 #include "Common/TimeSteps/Manager.h"
 #include "Common/Utilities/Map.h"
@@ -36,11 +37,12 @@ GrowthBasic::GrowthBasic(Model* model)
   partition_structure_ = PartitionType::kLength;
 
   parameters_.Bind<string>(PARAM_CATEGORIES, &category_labels_, "The labels of the categories", "");
-  parameters_.Bind<unsigned>(PARAM_NUMBER_OF_GROWTH_EPISODES, &n_growth_episodes_, "Number of growth episodes per year", "");
+  parameters_.Bind<unsigned>(PARAM_NUMBER_OF_GROWTH_EPISODES, &number_of_growth_episodes_, "Number of growth episodes per year", "");
   parameters_.Bind<string>(PARAM_GROWTH_TIME_STEPS, &growth_time_steps_, "Time step in which each growth episode occurs", "");
   parameters_.Bind<Double>(PARAM_CV, &cv_ , "c.v. for the growth model", "",Double(0.0))->set_lower_bound(0.0);
   parameters_.Bind<Double>(PARAM_SIGMA_MIN, &min_sigma_ , "Lower bound on sigma for the growth model", "",Double(0.0));
-
+  parameters_.Bind<Double>(PARAM_L_REF, &l_ref_ , "Two reference lengths", R"(l_\textlow{ref}[1] $\le$ l_\textlow{ref}[2])");
+  parameters_.Bind<Double>(PARAM_G_REF, &g_ref_ , "Growth rates at reference lengths", R"(g_\textlow{ref}[1] $\le$ g_\textlow{ref}[2])");
 }
 
 /**
@@ -51,12 +53,12 @@ GrowthBasic::GrowthBasic(Model* model)
  * 3. Check categories
  */
 void GrowthBasic::DoValidate() {
-  LOG_FINEST() << "GrowthBasic DoValidate started";
-  if (growth_time_steps_.size() != n_growth_episodes_)
-      LOG_ERROR_P(PARAM_GROWTH_TIME_STEPS) << "You supplied " << growth_time_steps_.size() << " time step labels but only have " << n_growth_episodes_ << " in the model. These need to be the same";
-  length_bins_ = model_->length_bins(); // check that inputting length bin vector works
-  LOG_FINEST() << "Number of length bins: " << length_bins_.size();
-  LOG_FINEST() << "GrowthBasic DoValidate finished";
+  if (growth_time_steps_.size() != number_of_growth_episodes_)
+      LOG_ERROR_P(PARAM_GROWTH_TIME_STEPS) << "You supplied " << growth_time_steps_.size() << " time step labels but only have " << number_of_growth_episodes_ << " in the model. These need to be the same";
+  if (l_ref_.size() != 2)
+      LOG_ERROR_P(PARAM_L_REF) << "You supplied " << l_ref_.size() << " reference lengths (l_ref) but there should be 2.";
+  if (g_ref_.size() != 2)
+      LOG_ERROR_P(PARAM_G_REF) << "You supplied " << g_ref_.size() << " reference growth rates (g_ref) but there should be 2.";
 }
 
 /**
@@ -69,14 +71,21 @@ void GrowthBasic::DoValidate() {
 void GrowthBasic::DoBuild() {
   LOG_FINEST() << "GrowthBasic DoBuild started";
   partition_.Init(category_labels_);
+  LOG_FINEST() << "TEST 1";
 
   // Populate length mid points
   // need to check Categories don't have difference length bins otherwise this won't work.
-  length_bins_ = model_->length_bins();
-  LOG_FINEST() << "Number of length bins: " << model_->length_bins.size();
-  for (unsigned l = 0; l < length_bins_.size(); ++l) { // iterate over each length bin
+  length_bins_ = model_->length_bins(); // check that inputting length bin vector works
+  LOG_FINEST() << "Number of length bins: " << length_bins_.size();
+  for (unsigned l = 0; l < length_bins_.size() - 1; ++l) { // iterate over each length bin
     length_bin_mid_points_[l] = (length_bins_[l] + length_bins_[l + 1]) * 0.5;
+    LOG_FINEST() << "Length bin mid point " << l <<": " << length_bin_mid_points_[l];
   }
+  if (model_->length_plus()) { // presence of plus group
+    length_bin_mid_points_[length_bins_.size() - 1] = model_->length_plus_group();
+    LOG_FINEST() << "Plus group present, length bin " << length_bins_.size() - 1 <<": " << length_bin_mid_points_[length_bins_.size() - 1];
+  }
+  LOG_FINEST() << "TEST 3";
   // Build Transition Matrix so call reset
   DoReset();
   LOG_FINEST() << "GrowthBasic DoBuild finished";
@@ -88,25 +97,35 @@ void GrowthBasic::DoReset() {
   LOG_FINEST() << "GrowthBasic DoReset started";
   // Build Transition Matrix
   Double mu, sigma;
-  LOG_FINEST() << "number of length bins = " << length_bins_.size();
+  transition_matrix_[length_bins_.size(), length_bins_.size()]; // make matrix right size?
+  LOG_FINEST() << "Size of transition matrix is " << transition_matrix_.size();
   for (unsigned length_bin = 0; length_bin < length_bins_.size(); ++length_bin) {
-    LOG_FINEST() << "TEST 1";
+    LOG_FINEST() << "length_bin = " << length_bin;
     Double sum_so_far = 0.0;
     for (unsigned j = 1; j < length_bin; ++j){
       transition_matrix_[length_bin][j] = 0; // no negative growth
+      LOG_FINEST() << "transition_matrix_[" << length_bin << "][" << j << "] = " << transition_matrix_[length_bin][j];
     }
     if (model_->length_plus() && (length_bin == (length_bins_.size() - 1))) {
       transition_matrix_[length_bin][length_bin] = 1.0; // plus group can't grow any more
+      LOG_FINEST() << "transition_matrix_[" << length_bin << "][" << length_bin << "] = " << transition_matrix_[length_bin][length_bin];
     }
     // Calculate incremental change based on mid point
-    mu = g_[0] + (g_[1] - g_[0])*(length_bin_mid_points_[length_bin] - l_[0]) / (l_[1] - l_[0]);
-    sigma = fmax(cv_ * mu, min_sigma_);
+    mu = g_ref_[0] + (g_ref_[1] - g_ref_[0])*(length_bin_mid_points_[length_bin] - l_ref_[0]) / (l_ref_[1] - l_ref_[0]);
+    LOG_FINEST() << "mu = " << mu;
+    sigma = cv_ * mu;
+    if (sigma < min_sigma_) // lower limit of min_sigma_
+      sigma = min_sigma_;
+    LOG_FINEST() << "sigma = " << sigma;
     // Build boost object.
     // boost::math::normal norm{mu, sigma};
+    transition_matrix_[length_bin][length_bin] = 0.012; // Calculate normal CDF using pnorm function
+    LOG_FINEST() << "transition_matrix_[" << length_bin << "][" << length_bin << "] = " << transition_matrix_[length_bin][length_bin];
     transition_matrix_[length_bin][length_bin] = math::pnorm(length_bins_[length_bin + 1] - length_bin_mid_points_[length_bin], mu, sigma); // Calculate normal CDF using pnorm function
+    LOG_FINEST() << "transition_matrix_[" << length_bin << "][" << length_bin << "] = " << transition_matrix_[length_bin][length_bin]; // Calculate normal CDF using pnorm function
+    LOG_FINEST() << "TEST 5";
     sum_so_far = transition_matrix_[length_bin][length_bin];
 
-    LOG_FINEST() << "TEST 2";
     for (unsigned j = length_bin + 1; j < (length_bins_.size() - 1); ++j){
       transition_matrix_[length_bin][j] = math::pnorm(length_bins_[j + 1] - length_bin_mid_points_[length_bin], mu, sigma) - sum_so_far;
       sum_so_far += transition_matrix_[length_bin][j];
@@ -120,11 +139,11 @@ void GrowthBasic::DoReset() {
 // */
   LOG_FINEST() << "TEST 3";
   for (unsigned j = 1; j < length_bins_.size(); ++j) {
-    LOG_FINEST() << "TEST 4";
     for (unsigned k = 1; k < length_bins_.size(); ++k) {
       LOG_FINEST() << "Transition matrix, row " << j << ", column " << k << ", value " << transition_matrix_[j][k];
     }
   }
+  LOG_FINEST() << "Check model start year: " << model_->start_year();
   LOG_FINEST() << "GrowthBasic DoReset finished";
 }
 
