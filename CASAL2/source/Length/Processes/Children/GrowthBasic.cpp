@@ -69,7 +69,7 @@ void GrowthBasic::DoValidate() {
  *
  */
 void GrowthBasic::DoBuild() {
-  LOG_FINEST() << "GrowthBasic DoBuild started";
+  LOG_TRACE();
   partition_.Init(category_labels_);
   // Populate length mid points
   // need to check Categories don't have difference length bins otherwise this won't work.
@@ -80,9 +80,10 @@ void GrowthBasic::DoBuild() {
     LOG_FINEST() << "Length bin mid point " << l <<": " << length_bin_mid_points_[l];
   }
   if (model_->length_plus()) { // presence of plus group
-    length_bin_mid_points_[length_bins_.size() - 1] = model_->length_plus_group();
-    LOG_FINEST() << "Plus group present, length bin " << length_bins_.size() - 1 <<": " << length_bin_mid_points_[length_bins_.size() - 1];
+    length_bin_mid_points_[length_bins_.size()] = model_->length_plus_group();
+    LOG_FINEST() << "Plus group present, length bin " << length_bins_.size() - 1 <<": " << length_bin_mid_points_[length_bins_.size()];
   }
+  LOG_FINEST() << "Number of length midpoints: " << length_bin_mid_points_.size();
   // Build Transition Matrix so call reset
   DoReset();
   LOG_FINEST() << "GrowthBasic DoBuild finished";
@@ -91,7 +92,7 @@ void GrowthBasic::DoBuild() {
 void GrowthBasic::DoReset() {
 
 // /*
-  LOG_FINEST() << "GrowthBasic DoReset started";
+  LOG_TRACE();
   // Build Transition Matrix
   Double mu, sigma;
   transition_matrix_.resize(length_bin_mid_points_.size()); // make matrix right number of rows
@@ -103,33 +104,39 @@ void GrowthBasic::DoReset() {
     for (unsigned j = 0; j < length_bin; ++j){
       transition_matrix_[length_bin][j] = 0; // no negative growth
     }
-    if (model_->length_plus() && (length_bin == (length_bin_mid_points_.size()))) {
+    if (model_->length_plus() && (length_bin == (length_bin_mid_points_.size()) - 1)) {
       transition_matrix_[length_bin][length_bin] = 1.0; // plus group can't grow any more
-    }
-    // Calculate incremental change based on mid point
-    mu = g_ref_[0] + (g_ref_[1] - g_ref_[0])*(length_bin_mid_points_[length_bin] - l_ref_[0]) / (l_ref_[1] - l_ref_[0]);
-    sigma = cv_ * mu;
-    if (sigma < min_sigma_) // lower limit of min_sigma_
-      sigma = min_sigma_;
-    // Build boost object.
-    // boost::math::normal norm{mu, sigma};
-    transition_matrix_[length_bin][length_bin] = math::pnorm(length_bins_[length_bin + 1] - length_bin_mid_points_[length_bin], mu, sigma); // Calculate normal CDF using pnorm function
-    sum_so_far = transition_matrix_[length_bin][length_bin];
-
-    for (unsigned j = length_bin + 1; j < (length_bin_mid_points_.size()); ++j){
-      transition_matrix_[length_bin][j] = math::pnorm(length_bins_[j + 1] - length_bin_mid_points_[length_bin], mu, sigma) - sum_so_far;
-      sum_so_far += transition_matrix_[length_bin][j];
-    }
-    if (model_->length_plus()){
-      transition_matrix_[length_bin][(length_bins_.size() - 1)] = 1 - sum_so_far;
     } else {
-      transition_matrix_[length_bin][(length_bins_.size() - 1)] = math::pnorm(length_bins_[length_bins_.size() - 1] - length_bin_mid_points_[length_bin], mu, sigma) - sum_so_far;
+      // Calculate incremental change based on mid point
+      mu = g_ref_[0] + (g_ref_[1] - g_ref_[0])*(length_bin_mid_points_[length_bin] - l_ref_[0]) / (l_ref_[1] - l_ref_[0]);
+      sigma = cv_ * mu;
+      if (sigma < min_sigma_) // lower limit of min_sigma_
+        sigma = min_sigma_;
+      // Build boost object.
+      // boost::math::normal norm{mu, sigma};
+      transition_matrix_[length_bin][length_bin] = math::pnorm(length_bins_[length_bin + 1] - length_bin_mid_points_[length_bin], mu, sigma); // Calculate normal CDF using pnorm function
+      sum_so_far = transition_matrix_[length_bin][length_bin];
+
+      if (length_bin < (length_bin_mid_points_.size() - 1)) {
+        for (unsigned j = length_bin + 1; j < (length_bin_mid_points_.size() - 1); ++j){
+          transition_matrix_[length_bin][j] = math::pnorm(length_bins_[j+1] - length_bin_mid_points_[length_bin], mu, sigma) - sum_so_far;
+          sum_so_far += transition_matrix_[length_bin][j];
+        }
+      }
+      if (model_->length_plus()){
+        transition_matrix_[length_bin][length_bin_mid_points_.size() - 1] = 1 - sum_so_far;
+      } else {
+        transition_matrix_[length_bin][length_bin_mid_points_.size() - 1] = math::pnorm(length_bins_[length_bins_.size() - 1] - length_bin_mid_points_[length_bin], mu, sigma) - sum_so_far;
+      }
     }
   }
 // */
+  LOG_FINEST() << "Transition matrix:";
   for (unsigned j = 0; j < length_bin_mid_points_.size(); ++j) {
-    for (unsigned k = 0; k < length_bin_mid_points_.size(); ++k) {
-      LOG_FINEST() << "Transition matrix, row " << j << ", column " << k << ", value " << transition_matrix_[j][k];
+    if (model_->length_plus()) {
+      LOG_FINEST() << "Row " << j << ": " << transition_matrix_[j][0] << " " << transition_matrix_[j][1] << " " << transition_matrix_[j][2] << " " << transition_matrix_[j][3] << " " << transition_matrix_[j][4] << " " << transition_matrix_[j][5] << " " << transition_matrix_[j][6] << " " << transition_matrix_[j][7] << " " << transition_matrix_[j][8] << " " << transition_matrix_[j][9] << " " << transition_matrix_[j][10] << " " << transition_matrix_[j][11];
+    } else {
+      LOG_FINEST() << "Row " << j << ": " << transition_matrix_[j][0] << " " << transition_matrix_[j][1] << " " << transition_matrix_[j][2] << " " << transition_matrix_[j][3] << " " << transition_matrix_[j][4] << " " << transition_matrix_[j][5] << " " << transition_matrix_[j][6] << " " << transition_matrix_[j][7] << " " << transition_matrix_[j][8] << " " << transition_matrix_[j][9] << " " << transition_matrix_[j][10];
     }
   }
   LOG_FINEST() << "GrowthBasic DoReset finished";
