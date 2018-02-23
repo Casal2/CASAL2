@@ -58,7 +58,7 @@ private:
   Double                      min_sigma_ = 0.0;
   unsigned                    number_of_growth_episodes_ = 1;
   vector<vector<Double>>      transition_matrix_; // explains how each length bin moves to others.
-  vector<vector<Double>>      numbers_transitioning_matrix_; // explains how each length bin moves to others.
+  vector<Double>              numbers_transitioning_vector_; // explains how much moves into each length bin.
 
 };
 
