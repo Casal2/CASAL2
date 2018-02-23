@@ -151,19 +151,20 @@ void GrowthBasic::DoExecute() {
 
   // TODO: This will have to be revisited, I don't think it is very efficient.
   LOG_FINEST() << "GrowthBasic DoExecute started";
+  numbers_transitioning_vector_.resize(length_bin_mid_points_.size()); // make vector right number of elements
   for (auto category : partition_) {
-    unsigned this_length_bin = 0;
-    for (Double& data : category->data_) {
-      for (unsigned length_bin = 0; length_bin < length_bins_.size(); ++length_bin, ++this_length_bin) {
-        numbers_transitioning_matrix_[this_length_bin][length_bin] = data * transition_matrix_[this_length_bin][length_bin];
+    LOG_FINEST() << "category: " << category;
+    for (unsigned i = 0; i < length_bin_mid_points_.size(); ++i) { // go through each length bin to grow into
+      LOG_FINEST() << "Growing into length_bin " << i;
+      for (unsigned j = 0; j < length_bin_mid_points_.size(); ++j) { // go through each population bin
+        LOG_FINEST() << "From length_bin " << j;
+        numbers_transitioning_vector_[i] += category->data_[j] * transition_matrix_[j][i];
+        LOG_FINEST() << "Total so far: " << numbers_transitioning_vector_[i];
       }
     }
     // Make the move
-    this_length_bin = 0;
-    for (Double& data : category->data_) {
-      for (unsigned length_bin = 0; length_bin < length_bins_.size(); ++length_bin, ++this_length_bin) {
-        data += numbers_transitioning_matrix_[length_bin][this_length_bin];
-      }
+    for (unsigned i = 0; i < length_bin_mid_points_.size(); ++i) { // go through each length bin to grow into
+      category->data_[i] += numbers_transitioning_vector_[i];
     }
   }
   LOG_FINEST() << "GrowthBasic DoExecute finished";
