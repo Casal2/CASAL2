@@ -78,7 +78,7 @@ void Creator::CreateEstimates() {
   }
   LOG_FINEST() << "see if this is where we are crashing";
   auto target = model_->objects().FindObject(parameter_);
-  // set estiamted flag
+  // set estimated flag
   target->set_estimated(true);
   if (target->GetAddressableType(parameter) == addressable::kSingle) {
     /**
@@ -254,6 +254,7 @@ void Creator::HandleSameParameter() {
     }
 
     auto target = model_->objects().FindObject(same);
+    target->set_estimated(true);
     if (target->GetAddressableType(parameter) == addressable::kSingle) {
       /**
        * Handle when our sames are referencing a single object
