@@ -17,6 +17,7 @@
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
 #include <boost/lexical_cast.hpp>
+#include <string>
 
 #include "TestResources/MockClasses/Model.h"
 #include "Common/Utilities/PartitionType.h"
@@ -48,7 +49,7 @@ TEST(Selectivities, AllValues_Age) {
   all_values.Validate();
   all_values.Build();
 
-  EXPECT_DOUBLE_EQ(0.0,  all_values.GetAgeResult(9, nullptr)); // Below model->min_age()
+  ASSERT_THROW(all_values.GetAgeResult(9, nullptr), std::string); // Below model->min_age()
   EXPECT_DOUBLE_EQ(1.0,  all_values.GetAgeResult(10, nullptr)); // At model->min_age()
   EXPECT_DOUBLE_EQ(2.0,  all_values.GetAgeResult(11, nullptr));
   EXPECT_DOUBLE_EQ(3.0,  all_values.GetAgeResult(12, nullptr));
@@ -60,16 +61,15 @@ TEST(Selectivities, AllValues_Age) {
   EXPECT_DOUBLE_EQ(9.0, all_values.GetAgeResult(18, nullptr));
   EXPECT_DOUBLE_EQ(10.0, all_values.GetAgeResult(19, nullptr));
   EXPECT_DOUBLE_EQ(11.0,  all_values.GetAgeResult(20, nullptr)); // At model->max_age()
-  EXPECT_DOUBLE_EQ(0.0,  all_values.GetAgeResult(21, nullptr)); // This is above model->max_age()
-  EXPECT_DOUBLE_EQ(0.0,  all_values.GetAgeResult(22, nullptr));
-  EXPECT_DOUBLE_EQ(0.0,  all_values.GetAgeResult(23, nullptr));
+  ASSERT_THROW(all_values.GetAgeResult(21, nullptr), std::string); // This is above model->max_age()
 }
 
 TEST(Selectivities, AllValues_Length) {
   MockModel model;
   vector<unsigned> lengths = {10, 20, 30, 40, 50, 60, 120};
-  //ON_CALL(model, length_bins()).WillByDefault(ReturnRef(lengths));
-
+  EXPECT_CALL(model, min_age()).WillRepeatedly(Return(10));
+  EXPECT_CALL(model, max_age()).WillRepeatedly(Return(20));
+  EXPECT_CALL(model, age_spread()).WillRepeatedly(Return(11));
   EXPECT_CALL(model, length_bins()).WillRepeatedly(ReturnRef(lengths));
   EXPECT_CALL(model, partition_type()).WillRepeatedly(Return(PartitionType::kLength));
 

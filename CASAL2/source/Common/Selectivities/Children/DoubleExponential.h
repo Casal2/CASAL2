@@ -32,7 +32,7 @@ public:
   explicit DoubleExponential(Model* model);
   virtual                     ~DoubleExponential() = default;
   void                        DoValidate() override final;
-  void                        Reset() override final;
+  void                        RebuildCache() override final;
 
 protected:
   //Methods

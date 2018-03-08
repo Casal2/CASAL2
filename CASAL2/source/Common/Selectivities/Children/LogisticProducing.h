@@ -32,7 +32,7 @@ public:
   explicit LogisticProducing(Model* model);
   virtual                     ~LogisticProducing() = default;
   void                        DoValidate() override final;
-  void                        Reset() override final;
+  void                        RebuildCache() override final;
 
 protected:
   //Methods

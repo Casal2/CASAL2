@@ -32,7 +32,7 @@ public:
   explicit AllValuesBounded(Model* model);
   virtual                     ~AllValuesBounded() = default;
   void                        DoValidate() override final;
-  void                        Reset() override final;
+  void                        RebuildCache() override final;
 
 protected:
   //Methods

@@ -62,7 +62,7 @@ void InverseLogistic::DoValidate() {
  * This method will rebuild the cache of selectivity values
  * for each age in the model.
  */
-void InverseLogistic::Reset() {
+void InverseLogistic::RebuildCache() {
   if (model_->partition_type() == PartitionType::kAge) {
     Double threshold = 0.0;
 
@@ -71,11 +71,11 @@ void InverseLogistic::Reset() {
       threshold = (Double)(a50_ - temp) / ato95_;
 
       if (threshold > 5.0)
-        values_[age] = alpha_;
+        values_[age - age_index_] = alpha_;
       else if (threshold < -5.0)
-        values_[age] = 0.0;
+        values_[age - age_index_] = 0.0;
       else
-        values_[age] = alpha_ - (alpha_ / (1.0 + pow(19.0, threshold)));
+        values_[age - age_index_] = alpha_ - (alpha_ / (1.0 + pow(19.0, threshold)));
     }
   } else if (model_->partition_type() == PartitionType::kLength) {
     Double threshold = 0.0;

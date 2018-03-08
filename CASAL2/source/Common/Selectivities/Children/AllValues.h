@@ -32,7 +32,7 @@ public:
   explicit AllValues(Model* model);
   virtual                     ~AllValues() = default;
   void                        DoValidate() override final;
-  void                        Reset() override final;
+  void                        RebuildCache() override final;
 
 protected:
   //Methods

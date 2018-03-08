@@ -17,6 +17,7 @@
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
 #include <boost/lexical_cast.hpp>
+#include <string>
 
 #include "TestResources/MockClasses/Model.h"
 
@@ -33,6 +34,7 @@ TEST(Selectivities, Increasing_Age) {
   MockModel model;
   EXPECT_CALL(model, min_age()).WillRepeatedly(Return(10));
   EXPECT_CALL(model, max_age()).WillRepeatedly(Return(20));
+  EXPECT_CALL(model, age_spread()).WillRepeatedly(Return(11));
   EXPECT_CALL(model, partition_type()).WillRepeatedly(Return(PartitionType::kAge));
 
   niwa::selectivities::Increasing increasing(&model);
@@ -49,7 +51,7 @@ TEST(Selectivities, Increasing_Age) {
   increasing.Validate();
   increasing.Build();
 
-  EXPECT_DOUBLE_EQ(0.0,                       increasing.GetAgeResult(9, nullptr)); // Below model->min_age()
+  ASSERT_THROW(increasing.GetAgeResult(9, nullptr), std::string); // Below model->min_age()
   EXPECT_DOUBLE_EQ(0.0,                       increasing.GetAgeResult(10, nullptr)); // At model->min_age()
   EXPECT_DOUBLE_EQ(0.0,                       increasing.GetAgeResult(11, nullptr));
   EXPECT_DOUBLE_EQ(0.055555555555555552,      increasing.GetAgeResult(12, nullptr));
@@ -61,15 +63,15 @@ TEST(Selectivities, Increasing_Age) {
   EXPECT_DOUBLE_EQ(0.24920274817394159,       increasing.GetAgeResult(18, nullptr));
   EXPECT_DOUBLE_EQ(0.037037037037037035,      increasing.GetAgeResult(19, nullptr));
   EXPECT_DOUBLE_EQ(0.037037037037037035,      increasing.GetAgeResult(20, nullptr)); // At model->max_age()
-  EXPECT_DOUBLE_EQ(0.0,                       increasing.GetAgeResult(21, nullptr)); // This is above model->max_age()
-  EXPECT_DOUBLE_EQ(0.0,                       increasing.GetAgeResult(22, nullptr));
-  EXPECT_DOUBLE_EQ(0.0,                       increasing.GetAgeResult(23, nullptr));
+  ASSERT_THROW(increasing.GetAgeResult(21, nullptr), std::string); // This is above model->max_age()
 }
 
 TEST(Selectivities, Increasing_Length) {
   MockModel model;
   vector<unsigned> lengths = {10, 20, 30, 40, 50, 60, 120};
-
+  EXPECT_CALL(model, min_age()).WillRepeatedly(Return(10));
+  EXPECT_CALL(model, max_age()).WillRepeatedly(Return(20));
+  EXPECT_CALL(model, age_spread()).WillRepeatedly(Return(11));
   EXPECT_CALL(model, length_bins()).WillRepeatedly(ReturnRef(lengths));
   EXPECT_CALL(model, partition_type()).WillRepeatedly(Return(PartitionType::kLength));
 
