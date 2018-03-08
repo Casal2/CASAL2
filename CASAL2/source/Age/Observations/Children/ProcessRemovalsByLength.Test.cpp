@@ -37,6 +37,8 @@ age_plus true
 base_weight_units kgs
 initialisation_phases iphase1
 time_steps init step1 step2 step3
+length_plus_group false
+length_bins 0 20 40 60 80 110
 
 @categories 
 format stock 

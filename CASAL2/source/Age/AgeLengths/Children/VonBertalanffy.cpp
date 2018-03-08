@@ -59,14 +59,7 @@ void VonBertalanffy::DoBuild() {
     LOG_ERROR_P(PARAM_LENGTH_WEIGHT) << "(" << length_weight_label_ << ") could not be found. Have you defined it?";
 
   // Build up our mean_length_ container.
-  unsigned min_age = model_->min_age();
-  unsigned max_age = model_->max_age();
-  vector<string> time_steps = model_->time_steps();
-  for (unsigned step_iter = 0; step_iter < time_steps.size(); ++step_iter) {
-    for (unsigned age_iter = min_age; age_iter <= max_age; ++age_iter) {
-      mean_length_[step_iter][age_iter] = mean_length(step_iter,age_iter);
-    }
-  }
+  DoRebuildCache();
 }
 
 /**
@@ -123,7 +116,7 @@ Double VonBertalanffy::GetMeanLength(unsigned year, unsigned time_step, unsigned
 }
 
 /**
- * ReBuildCache: initialised by the timevarying class.
+ * ReBuildCache: initialised by the timevarying class and build method
  */
 void VonBertalanffy::DoRebuildCache() {
   // Re Build up our mean_length_ container.

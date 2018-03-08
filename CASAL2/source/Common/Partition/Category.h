@@ -47,14 +47,18 @@ public:
   virtual                     ~Category() = default;
   void                        UpdateMeanLengthData();
   void                        UpdateMeanWeightData();
-  void                        UpdateAgeLengthData(const vector<Double>& length_bins, bool plus_grp, Selectivity* selectivity);
+//  void                        UpdateAgeLengthData(const vector<Double>& length_bins, bool plus_grp, Selectivity* selectivity);
   void                        CollapseAgeLengthData();
   void                        CollapseAgeLengthDataToLength();
+
+  void                        PopulateAgeLengthMatrix(Selectivity* selectivity);
+
 
   // accessors
   unsigned                    age_spread() const { return (max_age_ - min_age_) + 1; }
 
   // members
+  short                       id_ = 0;
   string                      name_ = "";
   unsigned                    min_age_ = 0;
   unsigned                    max_age_ = 0;
@@ -63,7 +67,9 @@ public:
   vector<Double>              length_data_;
   vector<vector<Double>>      age_length_matrix_; // age_length_matrix_[age][length]
 
-  map<unsigned, map<unsigned, Double>> mean_length_by_time_step_age_; // map<time_step, age, length>
+  vector<vector<vector<Double>>> mean_length_by_time_step_age_; // value[year][time_step][age] = length;
+
+//  map<unsigned, map<unsigned, Double>> mean_length_by_time_step_age_; // map<time_step, age, length>
   map<unsigned, map<unsigned, Double>> mean_weight_by_time_step_age_; // map<time_step, age, weight>
   map<unsigned, map<unsigned, Double>> mean_weight_by_time_step_length_; // map<time_step, length_bin_index, weight>
 

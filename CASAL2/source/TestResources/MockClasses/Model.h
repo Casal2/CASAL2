@@ -17,12 +17,16 @@
 #define MOCK_MODEL_H_
 
 // Headers
+#include <gmock/gmock.h>
+
 #include "Common/Model/Model.h"
 #include "Common/Model/Managers.h"
 #include "Common/Utilities/PartitionType.h"
 
 // Namespaces
 namespace niwa {
+using ::testing::Return;
+using ::testing::ReturnRef;
 
 /**
  * Class Definition
@@ -40,8 +44,31 @@ public:
   MOCK_CONST_METHOD0(years, vector<unsigned>());
   MOCK_CONST_METHOD0(partition_type, PartitionType());
   MOCK_CONST_METHOD0(length_bins, vector<unsigned>&());
+  MOCK_CONST_METHOD0(length_plus, bool());
   MOCK_METHOD0(managers, niwa::Managers&());
+  MOCK_METHOD0(categories, niwa::Categories*());
+
+  vector<string> mock_time_steps_ = {"time_step_one", "time_step_two"};
+  vector<unsigned> mock_years_ = { 1990, 1991, 1992 };
+  vector<unsigned> mock_length_bins_ = { 10, 20, 30, 40, 50 };
+  bool mock_length_plus_ = false;
 };
+
+
+inline void init_mock_model_01(MockModel& model) {
+  EXPECT_CALL(model, min_age()).WillRepeatedly(Return(1));
+  EXPECT_CALL(model, max_age()).WillRepeatedly(Return(10));
+  EXPECT_CALL(model, age_spread()).WillRepeatedly(Return(10));
+  EXPECT_CALL(model, start_year()).WillRepeatedly(Return(1990));
+  EXPECT_CALL(model, final_year()).WillRepeatedly(Return(1992));
+  EXPECT_CALL(model, current_year()).WillRepeatedly(Return(1991));
+  EXPECT_CALL(model, age_plus()).WillRepeatedly(Return(true));
+  EXPECT_CALL(model, time_steps()).WillRepeatedly(ReturnRef(model.mock_time_steps_));
+  EXPECT_CALL(model, years()).WillRepeatedly(Return(model.mock_years_));
+  EXPECT_CALL(model, partition_type()).WillRepeatedly(Return(PartitionType::kAge));
+  EXPECT_CALL(model, length_bins()).WillRepeatedly(ReturnRef(model.mock_length_bins_));
+  EXPECT_CALL(model, length_plus()).WillRepeatedly(Return(model.mock_length_plus_));
+}
 
 } /* namespace niwa */
 

@@ -510,20 +510,33 @@ map<string, string> Categories::GetCategoryLabelsAndValues(const string& lookup,
 /**
  * Check if the parameter category label is a valid
  * category or not.
+ *
+ * @param label The label of the category to check for
+ * @return true if category exists, false otherwise
  */
 bool Categories::IsValid(const string& label) const {
   return std::find(category_names_.begin(), category_names_.end(), label) != category_names_.end();
 }
 
 /**
+ * Check to see if the category label we're working with is a combination
+ * of multiple categories. Combination categories contain the + symbol and
+ * are used to aggregate partition elements together
  *
+ * @param label Category label (e.g. male, or male+female)
+ * @return True if the category is combination, false if not
  */
 bool Categories::IsCombinedLabels(const string& label) const {
   return (label.find_first_of("+") != string::npos);
 }
 
 /**
+ * Get the number of categories that have been defined in the combined label
+ * e.g this will return 2 for male+female
+ * 3 for male+female+unsexed etc
  *
+ * @param The category label containing combined categories to check
+ * @return The number of categories defined int he combined label
  */
 unsigned Categories::GetNumberOfCategoriesDefined(const string& label) const {
   vector<string> category_labels;
@@ -533,7 +546,10 @@ unsigned Categories::GetNumberOfCategoriesDefined(const string& label) const {
 }
 
 /**
+ * Get the minimum age for the target category
  *
+ * @param category_name The name of the category to get min_age for
+ * @return The minimum age allowed for the category
  */
 unsigned Categories::min_age(const string& category_name) {
   if (categories_.find(category_name) == categories_.end())
@@ -543,7 +559,10 @@ unsigned Categories::min_age(const string& category_name) {
 }
 
 /**
+ * Get the maximum age for the target category
  *
+ * @param category_name The name of the category to get max_age for
+ * @return The maximum age allowed for the category
  */
 unsigned Categories::max_age(const string& category_name) {
   if (categories_.find(category_name) == categories_.end())
@@ -568,9 +587,6 @@ vector<unsigned> Categories::years(const string& category_name) {
 AgeLength* Categories::age_length(const string& category_name) {
   if (categories_.find(category_name) == categories_.end())
     LOG_CODE_ERROR() << "Could not find category_name: " << category_name << " in the list of loaded categories";
-  if (!categories_[category_name].age_length_) {
-    categories_[category_name].age_length_ = agelengths::Factory::Create(model_, PARAM_AGE_LENGTH, PARAM_NONE);
-  }
 
   return categories_[category_name].age_length_;
 }

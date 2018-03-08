@@ -98,7 +98,7 @@ void Logistic::Reset() {
  *
  * @param age
  * @param age_length AgeLength pointer
- * @return Double selectivity for an age based on age length distribution
+ * @return Double selectivity for an age based on age length distribution_label
  */
 
 Double Logistic::GetLengthBasedResult(unsigned age, AgeLength* age_length) {
@@ -106,10 +106,10 @@ Double Logistic::GetLengthBasedResult(unsigned age, AgeLength* age_length) {
   unsigned time_step = model_->managers().time_step()->current_time_step();
   Double cv = age_length->cv(year, time_step, age);
   Double mean = age_length->mean_length(time_step, age);
-  string dist = age_length->distribution();
+  string dist = age_length->distribution_label();
 
   if (dist == PARAM_NONE || n_quant_ <= 1) {
-    // no distribution just use the mu from age_length
+    // no distribution_label just use the mu from age_length
     Double threshold = (a50_ - (Double) mean) / ato95_;
 
     if (threshold > 5.0)

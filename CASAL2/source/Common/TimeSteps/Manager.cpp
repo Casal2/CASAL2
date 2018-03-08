@@ -47,6 +47,7 @@ TimeStep* Manager::GetTimeStep(const string& label) const {
     }
   }
 
+  LOG_FINE() << "returning: " << result;
   return result;
 }
 

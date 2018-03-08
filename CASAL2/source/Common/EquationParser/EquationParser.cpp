@@ -45,22 +45,22 @@ EquationParser::EquationParser(Model* model) : model_(model) {
 #elif USE_BETADIFF
   parser_ = new Parser<adouble, adub, const badouble&>(this);
 
-  parser_->AddOneArgumentFunction("abs", fabs);
-  parser_->AddOneArgumentFunction("acos", acos);
-  parser_->AddOneArgumentFunction("asin", asin);
-  parser_->AddOneArgumentFunction("atan", atan);
-  parser_->AddOneArgumentFunction("ceil", ceil);
-  parser_->AddOneArgumentFunction("cos", cos);
-  parser_->AddOneArgumentFunction("cosh", cosh);
-  parser_->AddOneArgumentFunction("exp", exp);
-  parser_->AddOneArgumentFunction("floor", floor);
-  parser_->AddOneArgumentFunction("log", log);
-  parser_->AddOneArgumentFunction("log10", log10);
-  parser_->AddOneArgumentFunction("sin", sin);
-  parser_->AddOneArgumentFunction("sinh", sinh);
-  parser_->AddOneArgumentFunction("sqrt", sqrt);
-  parser_->AddOneArgumentFunction("tan", tan);
-  parser_->AddOneArgumentFunction("tanh", tanh);
+//  parser_->AddOneArgumentFunction("abs", fabs);
+//  parser_->AddOneArgumentFunction("acos", acos);
+//  parser_->AddOneArgumentFunction("asin", asin);
+//  parser_->AddOneArgumentFunction("atan", atan);
+//  parser_->AddOneArgumentFunction("ceil", ceil);
+//  parser_->AddOneArgumentFunction("cos", cos);
+//  parser_->AddOneArgumentFunction("cosh", cosh);
+//  parser_->AddOneArgumentFunction("exp", exp);
+//  parser_->AddOneArgumentFunction("floor", floor);
+//  parser_->AddOneArgumentFunction("log", log);
+//  parser_->AddOneArgumentFunction("log10", log10);
+//  parser_->AddOneArgumentFunction("sin", sin);
+//  parser_->AddOneArgumentFunction("sinh", sinh);
+//  parser_->AddOneArgumentFunction("sqrt", sqrt);
+//  parser_->AddOneArgumentFunction("tan", tan);
+//  parser_->AddOneArgumentFunction("tanh", tanh);
 
 #elif USE_CPPAD
   parser_ = new Parser<CppAD::AD<double>, CppAD::AD<double>, const CppAD::AD<double>&>(this);

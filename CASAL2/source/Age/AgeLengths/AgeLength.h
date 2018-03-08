@@ -40,16 +40,14 @@ public:
   void                        Validate();
   void                        Build();
   void                        Reset();
-  void                        DoAgeToLengthMatrixConversion(partition::Category* category,
-                                const vector<Double>& length_bins, bool plus_grp, Selectivity* selectivity);
-  void                        CummulativeNormal(Double mu, Double cv, vector<Double>& prop_in_length,
-                                vector<Double> length_bins, bool plus_grp);
   virtual void                RebuildCache();
 
   // accessors
   virtual Double              GetMeanLength(unsigned year, unsigned time_step, unsigned age) = 0;
   virtual Double              cv(unsigned year, unsigned time_step, unsigned age) { return cvs_[year][time_step][age]; };
-  virtual string              distribution() { return distribution_label_; };
+  virtual string              distribution_label() { return distribution_label_; };
+  AgeLength::Distribution     distribution() const { return distribution_; }
+  bool                        casal_normal_cdf() const { return casal_normal_cdf_; }
 
   // Methods
   virtual Double              mean_weight(unsigned time_step, unsigned age) = 0;
@@ -68,14 +66,14 @@ protected:
   // members
   Model*                      model_ = nullptr;
   vector<Double>              time_step_proportions_;
-  map<unsigned, map<unsigned, map<unsigned, Double>>>       cvs_;  //cvs[year][time_step][age]
   Double                      cv_first_ = 0.0;
   Double                      cv_last_;
   bool                        by_length_;
   string                      distribution_label_;
   AgeLength::Distribution     distribution_;
   bool                        casal_normal_cdf_ = false;
-  vector<Double>              length_bins_;
+
+  map<unsigned, map<unsigned, map<unsigned, Double>>>       cvs_;  //cvs[year][time_step][age]
 };
 
 } /* namespace niwa */
