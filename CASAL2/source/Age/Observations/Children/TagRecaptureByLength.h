@@ -48,9 +48,6 @@ public:
 protected:
   // Members
   vector<unsigned>              years_;
-  vector<Double>                length_bins_;
-  bool                          plus_group_ = false;
-  unsigned                      length_spread_ = 0;
   string                        time_step_label_ = "";
   Double                        detection_;
   Double                        despersion_ = 1.0;
