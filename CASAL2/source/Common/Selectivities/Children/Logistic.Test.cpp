@@ -55,6 +55,7 @@ TEST(Selectivities, Logistic_Age) {
   MockModel model;
   EXPECT_CALL(model, min_age()).WillRepeatedly(Return(10));
   EXPECT_CALL(model, max_age()).WillRepeatedly(Return(20));
+  EXPECT_CALL(model, age_spread()).WillRepeatedly(Return(11));
   EXPECT_CALL(model, partition_type()).WillRepeatedly(Return(PartitionType::kAge));
 
   niwa::selectivities::Logistic logistic(&model);
@@ -66,7 +67,7 @@ TEST(Selectivities, Logistic_Age) {
   logistic.Validate();
   logistic.Build();
 
-  EXPECT_DOUBLE_EQ(0.0,                       logistic.GetAgeResult(9, nullptr)); // Below model->min_age()
+  ASSERT_THROW(logistic.GetAgeResult(9, nullptr), std::string); // Below model->min_age()
   EXPECT_DOUBLE_EQ(0.96659497164362229,       logistic.GetAgeResult(10, nullptr)); // At model->min_age()
   EXPECT_DOUBLE_EQ(0.97781072943439207,       logistic.GetAgeResult(11, nullptr));
   EXPECT_DOUBLE_EQ(0.98531798872758125,       logistic.GetAgeResult(12, nullptr));
@@ -78,14 +79,14 @@ TEST(Selectivities, Logistic_Age) {
   EXPECT_DOUBLE_EQ(0.99880706650531281,       logistic.GetAgeResult(18, nullptr));
   EXPECT_DOUBLE_EQ(0.99921636273936254,       logistic.GetAgeResult(19, nullptr));
   EXPECT_DOUBLE_EQ(0.99948530154281656,       logistic.GetAgeResult(20, nullptr)); // At model->max_age()
-  EXPECT_DOUBLE_EQ(0.0,                       logistic.GetAgeResult(21, nullptr)); // This is above model->max_age()
-  EXPECT_DOUBLE_EQ(0.0,                       logistic.GetAgeResult(22, nullptr));
-  EXPECT_DOUBLE_EQ(0.0,                       logistic.GetAgeResult(23, nullptr));
+  ASSERT_THROW(logistic.GetAgeResult(21, nullptr), std::string); // This is above model->max_age()
 }
 
 TEST(Selectivities, Logistic_Length) {
   MockModel model;
-
+  EXPECT_CALL(model, min_age()).WillRepeatedly(Return(10));
+  EXPECT_CALL(model, max_age()).WillRepeatedly(Return(20));
+  EXPECT_CALL(model, age_spread()).WillRepeatedly(Return(11));
   vector<unsigned> lengths = {10, 20, 30, 40, 50, 60, 120};
   EXPECT_CALL(model, length_bins()).WillRepeatedly(ReturnRef(lengths));
   EXPECT_CALL(model, partition_type()).WillRepeatedly(Return(PartitionType::kLength));

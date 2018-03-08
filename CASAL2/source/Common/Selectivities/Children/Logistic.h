@@ -32,7 +32,7 @@ public:
   explicit Logistic(Model* model);
   virtual                     ~Logistic() = default;
   void                        DoValidate() override final;
-  void                        Reset() override final;
+  void                        RebuildCache() override final;
 
 protected:
   //Methods

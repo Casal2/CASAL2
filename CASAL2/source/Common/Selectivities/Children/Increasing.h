@@ -32,7 +32,7 @@ public:
   explicit Increasing(Model* model);
   virtual                     ~Increasing() = default;
   void                        DoValidate() override final;
-  void                        Reset() override final;
+  void                        RebuildCache() override final;
 
 protected:
   //Methods

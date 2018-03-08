@@ -95,15 +95,15 @@ void Increasing::DoValidate() {
  * This method will rebuild the cache of selectivity values
  * for each age in the model.
  */
-void Increasing::Reset() {
+void Increasing::RebuildCache() {
   if (model_->partition_type() == PartitionType::kAge) {
     for (unsigned age = model_->min_age(); age <= model_->max_age(); ++age) {
 
       if (age < low_) {
-        values_[age] = 0.0;
+        values_[age - age_index_] = 0.0;
 
       } else if (age > high_) {
-        values_[age] = *v_.rbegin();
+        values_[age - age_index_] = *v_.rbegin();
 
       } else {
         Double value = *v_.begin();
@@ -113,7 +113,7 @@ void Increasing::Reset() {
           value += (alpha_ - value) * v_[i - low_];
         }
 
-        values_[age] = value;
+        values_[age - age_index_] = value;
       }
     }
   } else if (model_->partition_type() == PartitionType::kLength) {

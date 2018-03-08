@@ -66,14 +66,14 @@ void DoubleNormal::DoValidate() {
  * This method will rebuild the cache of selectivity values
  * for each age in the model.
  */
-void DoubleNormal::Reset() {
+void DoubleNormal::RebuildCache() {
   if (model_->partition_type() == PartitionType::kAge) {
     for (unsigned age = model_->min_age(); age <= model_->max_age(); ++age) {
       Double temp = (Double)age;
       if (temp < mu_)
-        values_[age] = pow(2.0, -((temp - mu_) / sigma_l_ * (temp - mu_) / sigma_l_)) * alpha_;
+        values_[age - age_index_] = pow(2.0, -((temp - mu_) / sigma_l_ * (temp - mu_) / sigma_l_)) * alpha_;
       else
-        values_[age] = pow(2.0, -((temp - mu_) / sigma_r_ * (temp - mu_) / sigma_r_)) * alpha_;
+        values_[age - age_index_] = pow(2.0, -((temp - mu_) / sigma_r_ * (temp - mu_) / sigma_r_)) * alpha_;
     }
   } else if (model_->partition_type() == PartitionType::kLength) {
     vector<unsigned> length_bins = model_->length_bins();

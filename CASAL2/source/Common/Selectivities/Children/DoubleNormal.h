@@ -32,7 +32,7 @@ public:
   explicit DoubleNormal(Model* model);
   virtual                     ~DoubleNormal() = default;
   void                        DoValidate() override final;
-  void                        Reset() override final;
+  void                        RebuildCache() override final;
 
 protected:
   //Methods

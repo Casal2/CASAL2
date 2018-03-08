@@ -30,9 +30,6 @@ AllValues::AllValues(Model* model)
 : Selectivity(model) {
 
   parameters_.Bind<Double>(PARAM_V, &v_, "V", "")->set_partition_type(PartitionType::kAge | PartitionType::kLength);
-  //  parameters_.Bind<Double>(PARAM_AGE_V, &v_age_, "V values for the age structure", "")->set_partition_type(PartitionType::kHybrid);
-  //  parameters_.Bind<Double>(PARAM_LENGTH_V, &v_length_, "V values for the length structure", "")->set_partition_type(PartitionType::kHybrid);
-
 
   RegisterAsAddressable(PARAM_V, &v_);
 }
@@ -54,9 +51,6 @@ void AllValues::DoValidate() {
       LOG_ERROR_P(PARAM_V) << ": Number of 'v' values supplied is not the same as the model age spread.\n"
           << "Expected: " << model_->age_spread() << " but got " << v_.size();
     }
-
-    for (unsigned age = model_->min_age(); age <= model_->max_age(); ++age)
-      values_[age] = 0.0;
     break;
 
   case PartitionType::kLength:
@@ -79,13 +73,13 @@ void AllValues::DoValidate() {
  * This method will rebuild the cache of selectivity values
  * for each age in the model.
  */
-void AllValues::Reset() {
+void AllValues::RebuildCache() {
   if (model_->partition_type() == PartitionType::kAge) {
     unsigned min_age = model_->min_age();
     for (unsigned i = 0; i < v_.size(); ++i) {
       if (v_[i] < 0.0)
         LOG_FATAL_P(PARAM_V) << "cannot have value < 0.0 in this class. Found value = " << v_[i] << " for age = " << min_age + i;
-      values_[min_age + i] = v_[i];
+      values_[i] = v_[i];
     }
   } else if (model_->partition_type() == PartitionType::kLength) {
     for (unsigned i = 0; i < v_.size(); ++i) {

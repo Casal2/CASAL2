@@ -34,9 +34,8 @@ public:
   explicit Selectivity(Model* model);
   virtual                     ~Selectivity() = default;
   void                        Validate();
-  virtual void                Build() { Reset(); };
-  virtual void                Reset();
-  void                        RebuildCache() override final { Reset(); }
+  virtual void                Build() { RebuildCache(); };
+  void                        Reset();
   virtual Double              GetAgeResult(unsigned age, AgeLength* age_length);
   virtual Double              GetLengthResult(unsigned length_bin_index);
   bool                        IsSelectivityLengthBased() const { return length_based_; }
@@ -51,10 +50,12 @@ protected:
   vector<Double>              quantiles_;
   vector<Double>              quantiles_at_;
   bool                        length_based_ = false;
-  map<unsigned, Double>       values_;
+//  map<unsigned, Double>       values_;
+  vector<Double>              values_;
   vector<Double>              length_values_;
   string                      partition_type_label_ = "";
   PartitionType               partition_type_ = PartitionType::kInvalid;
+  unsigned                    age_index_;
 };
 } /* namespace niwa */
 #endif /* SELECTIVITY_H_ */

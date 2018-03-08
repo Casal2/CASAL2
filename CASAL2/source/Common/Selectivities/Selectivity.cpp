@@ -53,8 +53,7 @@ void Selectivity::Validate() {
   else {
     LOG_CODE_ERROR() << "Selectivity does not recognise the current partition_type. It's not length or age";
   }
-//  else
-//    partition_type_ = PartitionType::kHybrid;
+  age_index_ = model_->min_age();
 
   DoValidate();
 
@@ -70,8 +69,7 @@ void Selectivity::Validate() {
   }
 
   if (model_->partition_type() == PartitionType::kAge) {
-    for (unsigned age = model_->min_age(); age <= model_->max_age(); ++age)
-      values_[age] = 0.0;
+    values_.assign(model_->age_spread(), 0.0);
   } else {
     length_values_.assign(model_->length_bins().size(), 0.0);
   }
@@ -82,8 +80,8 @@ void Selectivity::Validate() {
  *
  */
 void Selectivity::Reset() {
-//  values_.clear();
-  length_values_.assign(length_values_.size(), 0.0);
+  if (is_estimated_)
+    RebuildCache();
 }
 
 /**
@@ -95,8 +93,13 @@ void Selectivity::Reset() {
  */
 
 Double Selectivity::GetAgeResult(unsigned age, AgeLength* age_length) {
-  if (!length_based_)
-    return values_[age];
+  if (!length_based_) {
+    if (age - age_index_ >= values_.size())
+      LOG_CODE_ERROR() << "if (age - age_index_ >= values_.size())";
+    if (age < age_index_)
+      LOG_CODE_ERROR() << "if (age < age_index)";
+    return values_[age - age_index_];
+  }
 
   return GetLengthBasedResult(age, age_length);
 }

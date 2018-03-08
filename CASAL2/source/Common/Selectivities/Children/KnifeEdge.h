@@ -32,7 +32,7 @@ public:
   explicit KnifeEdge(Model* model);
   virtual                     ~KnifeEdge() = default;
   void                        DoValidate() override final { };
-  void                        Reset() override final;
+  void                        RebuildCache() override final;
 
 protected:
   //Methods

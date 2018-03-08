@@ -97,7 +97,7 @@ void AllValuesBounded::DoValidate() {
  * This method will rebuild the cache of selectivity values
  * for each age in the model.
  */
-void AllValuesBounded::Reset() {
+void AllValuesBounded::RebuildCache() {
   /**
    * Resulting age map should look like
    * While Age < Low :: Value = 0.0
@@ -109,14 +109,14 @@ void AllValuesBounded::Reset() {
     unsigned max_age = model_->max_age();
     unsigned age = min_age;
     for (; age < low_; ++age)
-      values_[age] = 0.0;
+      values_[age - age_index_] = 0.0;
     for (unsigned i = 0; i < v_.size(); ++i, ++age) {
       if (v_[i] < 0.0)
         LOG_FATAL_P(PARAM_V) << "cannot have value < 0.0 in this class. Found value = " << v_[i] << " for age = " << age;
-      values_[age] = v_[i];
+      values_[age - age_index_] = v_[i];
     }
     for (; age <= max_age; ++age)
-      values_[age] = *v_.rbegin();
+      values_[age - age_index_] = *v_.rbegin();
 
   } else if (model_->partition_type() == PartitionType::kLength) {
     vector<unsigned> length_bins = model_->length_bins();

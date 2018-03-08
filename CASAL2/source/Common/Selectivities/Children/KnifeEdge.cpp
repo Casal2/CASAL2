@@ -44,14 +44,14 @@ KnifeEdge::KnifeEdge(Model* model)
  * This method will rebuild the cache of selectivity values
  * for each age in the model.
  */
-void KnifeEdge::Reset() {
+void KnifeEdge::RebuildCache() {
   if (model_->partition_type() == PartitionType::kAge) {
     for (unsigned age = model_->min_age(); age <= model_->max_age(); ++age) {
       Double temp = age * 1.0;
       if (temp >= edge_)
-        values_[age] = alpha_;
+        values_[age - age_index_] = alpha_;
       else
-        values_[age] = 0.0;
+        values_[age - age_index_] = 0.0;
     }
   } else if (model_->partition_type() == PartitionType::kLength) {
     vector<unsigned> length_bins = model_->length_bins();
