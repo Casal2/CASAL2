@@ -36,8 +36,8 @@ namespace observations {
 /**
  * Default constructor
  */
-ProcessRemovalsByLength::ProcessRemovalsByLength(Model* model)
-  : Observation(model) {
+ProcessRemovalsByLength::ProcessRemovalsByLength(Model* model) :
+    Observation(model) {
 
   obs_table_ = new parameters::Table(PARAM_OBS);
   error_values_table_ = new parameters::Table(PARAM_ERROR_VALUES);
@@ -72,14 +72,14 @@ ProcessRemovalsByLength::~ProcessRemovalsByLength() {
  */
 void ProcessRemovalsByLength::DoValidate() {
   // How many elements are expected in our observed table;
-  if(length_plus_) {
+  if (length_plus_) {
     number_bins_ = length_bins_.size();
   } else {
     number_bins_ = length_bins_.size() - 1;
   }
   for (auto year : years_) {
-  	if((year < model_->start_year()) || (year > model_->final_year()))
-  		LOG_ERROR_P(PARAM_YEARS) << "Years can't be less than start_year (" << model_->start_year() << "), or greater than final_year (" << model_->final_year() << "). Please fix this.";
+    if ((year < model_->start_year()) || (year > model_->final_year()))
+      LOG_ERROR_P(PARAM_YEARS) << "Years can't be less than start_year (" << model_->start_year() << "), or greater than final_year (" << model_->final_year() << "). Please fix this.";
   }
 
   map<unsigned, vector<Double>> error_values_by_year;
@@ -89,15 +89,14 @@ void ProcessRemovalsByLength::DoValidate() {
    * Do some simple checks
    * e.g Validate that the length_bins are strictly increasing
    */
-  for(unsigned length = 0; length < length_bins_.size(); ++length) {
-    if(length_bins_[length] < 0.0)
-    if(length_bins_[length] > length_bins_[length + 1])
-      LOG_ERROR_P(PARAM_LENGTH_BINS) << ": Length bins must be strictly increasing " << length_bins_[length] << " is greater than " << length_bins_[length +1];
+  for (unsigned length = 0; length < length_bins_.size(); ++length) {
+    if (length_bins_[length] < 0.0)
+      if (length_bins_[length] > length_bins_[length + 1])
+        LOG_ERROR_P(PARAM_LENGTH_BINS) << ": Length bins must be strictly increasing " << length_bins_[length] << " is greater than " << length_bins_[length + 1];
   }
 
   if (process_error_values_.size() != 0 && process_error_values_.size() != years_.size()) {
-    LOG_ERROR_P(PARAM_PROCESS_ERRORS) << " number of values provied (" << process_error_values_.size() << ") does not match the number of years provided ("
-        << years_.size() << ")";
+    LOG_ERROR_P(PARAM_PROCESS_ERRORS) << " number of values provied (" << process_error_values_.size() << ") does not match the number of years provided (" << years_.size() << ")";
   }
   for (Double process_error : process_error_values_) {
     if (process_error < 0.0)
@@ -116,14 +115,12 @@ void ProcessRemovalsByLength::DoValidate() {
   unsigned obs_expected = number_bins_ * category_labels_.size() + 1;
   vector<vector<string>>& obs_data = obs_table_->data();
   if (obs_data.size() != years_.size()) {
-    LOG_ERROR_P(PARAM_OBS) << " has " << obs_data.size() << " rows defined, but we expected " << years_.size()
-        << " to match the number of years provided";
+    LOG_ERROR_P(PARAM_OBS) << " has " << obs_data.size() << " rows defined, but we expected " << years_.size() << " to match the number of years provided";
   }
 
   for (vector<string>& obs_data_line : obs_data) {
     if (obs_data_line.size() != obs_expected) {
-      LOG_ERROR_P(PARAM_OBS) << " has " << obs_data_line.size() << " values defined, but we expected " << obs_expected
-          << " to match the number bins * categories + 1 (for year)";
+      LOG_ERROR_P(PARAM_OBS) << " has " << obs_data_line.size() << " values defined, but we expected " << obs_expected << " to match the number bins * categories + 1 (for year)";
     }
 
     unsigned year = 0;
@@ -139,34 +136,33 @@ void ProcessRemovalsByLength::DoValidate() {
       obs_by_year[year].push_back(value);
     }
     if (obs_by_year[year].size() != obs_expected - 1)
-      LOG_FATAL_P(PARAM_OBS) << "you supplied " << obs_by_year[year].size() << " lengths, but we expected " << obs_expected -1 << " can you please sort this out. Chairs";
-  }
+      LOG_FATAL_P(PARAM_OBS)<< "you supplied " << obs_by_year[year].size() << " lengths, but we expected " << obs_expected -1 << " can you please sort this out. Chairs";
+    }
 
-  /**
-   * Build our error value map
-   */
+    /**
+     * Build our error value map
+     */
   vector<vector<string>>& error_values_data = error_values_table_->data();
   if (error_values_data.size() != years_.size()) {
-    LOG_FATAL_P(PARAM_ERROR_VALUES) << " has " << error_values_data.size() << " rows defined, but we expected " << years_.size()
-        << " to match the number of years provided";
+    LOG_FATAL_P(PARAM_ERROR_VALUES)<< " has " << error_values_data.size() << " rows defined, but we expected " << years_.size()
+    << " to match the number of years provided";
   }
 
   for (vector<string>& error_values_data_line : error_values_data) {
     if (error_values_data_line.size() != 2 && error_values_data_line.size() != obs_expected) {
-      LOG_ERROR_P(PARAM_ERROR_VALUES) << " has " << error_values_data_line.size() << " values defined, but we expected " << obs_expected
-          << " to match the number bins * categories + 1 (for year)";
+      LOG_ERROR_P(PARAM_ERROR_VALUES) << " has " << error_values_data_line.size() << " values defined, but we expected " << obs_expected << " to match the number bins * categories + 1 (for year)";
     }
 
     unsigned year = 0;
     if (!utilities::To<unsigned>(error_values_data_line[0], year))
-      LOG_FATAL_P(PARAM_ERROR_VALUES) << " value " << error_values_data_line[0] << " could not be converted in to an unsigned integer. It should be the year for this line";
+      LOG_FATAL_P(PARAM_ERROR_VALUES)<< " value " << error_values_data_line[0] << " could not be converted in to an unsigned integer. It should be the year for this line";
     if (std::find(years_.begin(), years_.end(), year) == years_.end())
-      LOG_FATAL_P(PARAM_ERROR_VALUES) << " value " << year << " is not a valid year for this observation";
+      LOG_FATAL_P(PARAM_ERROR_VALUES)<< " value " << year << " is not a valid year for this observation";
     for (unsigned i = 1; i < error_values_data_line.size(); ++i) {
       Double value = 0;
 
       if (!utilities::To<Double>(error_values_data_line[i], value))
-        LOG_FATAL_P(PARAM_ERROR_VALUES) << " value (" << error_values_data_line[i] << ") could not be converted to a double";
+        LOG_FATAL_P(PARAM_ERROR_VALUES)<< " value (" << error_values_data_line[i] << ") could not be converted to a double";
       if (likelihood_type_ == PARAM_LOGNORMAL && value <= 0.0) {
         LOG_ERROR_P(PARAM_ERROR_VALUES) << ": error_value (" << AS_DOUBLE(value) << ") cannot be equal to or less than 0.0";
       } else if (likelihood_type_ == PARAM_MULTINOMIAL && value < 0.0) {
@@ -179,14 +175,14 @@ void ProcessRemovalsByLength::DoValidate() {
       error_values_by_year[year].assign(obs_expected - 1, error_values_by_year[year][0]);
     }
     if (error_values_by_year[year].size() != obs_expected - 1)
-      LOG_FATAL_P(PARAM_ERROR_VALUES) << "We counted " << error_values_by_year[year].size() << " error values by year but expected " << obs_expected -1 << " based on the obs table";
-  }
+      LOG_FATAL_P(PARAM_ERROR_VALUES)<< "We counted " << error_values_by_year[year].size() << " error values by year but expected " << obs_expected -1 << " based on the obs table";
+    }
 
-  /**
-   * Build our proportions and error values for use in the observation
-   * If the proportions for a given observation do not sum to 1.0
-   * and is off by more than the tolerance rescale them.
-   */
+    /**
+     * Build our proportions and error values for use in the observation
+     * If the proportions for a given observation do not sum to 1.0
+     * and is off by more than the tolerance rescale them.
+     */
   Double value = 0.0;
   for (auto iter = obs_by_year.begin(); iter != obs_by_year.end(); ++iter) {
     Double total = 0.0;
@@ -224,7 +220,7 @@ void ProcessRemovalsByLength::DoBuild() {
 
   auto time_step = model_->managers().time_step()->GetTimeStep(time_step_label_);
   if (!time_step) {
-    LOG_FATAL_P(PARAM_TIME_STEP) << time_step_label_ << " could not be found. Have you defined it?";
+    LOG_FATAL_P(PARAM_TIME_STEP)<< time_step_label_ << " could not be found. Have you defined it?";
   } else {
     auto process = time_step->SubscribeToProcess(this, years_, process_label_);
     mortality_instantaneous_ = dynamic_cast<MortalityInstantaneous*>(process);
@@ -248,11 +244,14 @@ void ProcessRemovalsByLength::DoBuild() {
   methods.push_back(method_);
   // Do some checks so that the observation and process are compatible
   if (!mortality_instantaneous_->check_methods_for_removal_obs(methods))
-    LOG_ERROR_P(PARAM_METHOD_OF_REMOVAL) << "could not find all these methods in the instantaneous_mortality process labeled " << process_label_ << " please check that the methods are compatible with this process";
+    LOG_ERROR_P(PARAM_METHOD_OF_REMOVAL) << "could not find all these methods in the instantaneous_mortality process labeled " << process_label_
+        << " please check that the methods are compatible with this process";
   if (!mortality_instantaneous_->check_categories_in_methods_for_removal_obs(methods, split_category_labels))
-    LOG_ERROR_P(PARAM_CATEGORIES) << "could not find all these categories in the instantaneous_mortality process labeled " << process_label_ << " please check that the categories are compatible with this process";
+    LOG_ERROR_P(PARAM_CATEGORIES) << "could not find all these categories in the instantaneous_mortality process labeled " << process_label_
+        << " please check that the categories are compatible with this process";
   if (!mortality_instantaneous_->check_years_in_methods_for_removal_obs(years_, methods))
-    LOG_ERROR_P(PARAM_YEARS) << "could not find catches in all years in the instantaneous_mortality process labeled " << process_label_ << " please check that the years are compatible with this process";
+    LOG_ERROR_P(PARAM_YEARS) << "could not find catches in all years in the instantaneous_mortality process labeled " << process_label_
+        << " please check that the years are compatible with this process";
 
 }
 
@@ -269,25 +268,26 @@ void ProcessRemovalsByLength::PreExecute() {
   cached_partition_->BuildCache();
 
   if (cached_partition_->Size() != proportions_[model_->current_year()].size())
-    LOG_CODE_ERROR() << "cached_partition_->Size() != proportions_[model->current_year()].size()";
+    LOG_CODE_ERROR()<< "cached_partition_->Size() != proportions_[model->current_year()].size()";
   if (partition_->Size() != proportions_[model_->current_year()].size())
-    LOG_CODE_ERROR() << "partition_->Size() != proportions_[model->current_year()].size()";
-}
+    LOG_CODE_ERROR()<< "partition_->Size() != proportions_[model->current_year()].size()";
+  }
 
-/**
- *
- */
+  /**
+   *
+   */
 void ProcessRemovalsByLength::Execute() {
   LOG_TRACE();
   /**
    * Verify our cached partition and partition sizes are correct
    */
-  auto categories = model_->categories();
+//  auto categories = model_->categories();
   unsigned year = model_->current_year();
+  unsigned year_index = year - model_->start_year();
   unsigned time_step = model_->managers().time_step()->current_time_step();
-  auto cached_partition_iter  = cached_partition_->Begin();
-  auto partition_iter         = partition_->Begin(); // vector<vector<partition::Category> >
-  map<unsigned,map<string, map<string, vector<Double>>>> &Removals_at_age = mortality_instantaneous_->catch_at();
+  auto cached_partition_iter = cached_partition_->Begin();
+  auto partition_iter = partition_->Begin(); // vector<vector<partition::Category> >
+  map<unsigned, map<string, map<string, vector<Double>>>> &Removals_at_age = mortality_instantaneous_->catch_at();
 
   /**
    * Loop through the provided categories. Each provided category (combination) will have a list of observations
@@ -296,81 +296,82 @@ void ProcessRemovalsByLength::Execute() {
    */
   for (unsigned category_offset = 0; category_offset < category_labels_.size(); ++category_offset, ++partition_iter, ++cached_partition_iter) {
     LOG_FINEST() << "category: " << category_labels_[category_offset];
-    Double      start_value        = 0.0;
-    Double      end_value          = 0.0;
-    Double      number_at_age      = 0.0;
+    Double start_value = 0.0;
+    Double end_value = 0.0;
+    Double number_at_age = 0.0;
 
-    vector<Double>              expected_values(number_bins_, 0.0);
-    vector<Double>              numbers_at_length;
-    vector<vector<Double>>      age_length_matrix_;
+//    LOG_WARNING() << "This is bad code because it allocates memory in the middle of an execute";
+    vector<Double> expected_values(number_bins_, 0.0);
+    vector<Double> numbers_at_length;
+    vector<vector<Double>> age_length_matrix;
 
     /**
      * Loop through the 2 combined categories building up the
      * expected proportions values.
      */
-
-
     auto category_iter = partition_iter->begin();
     auto cached_category_iter = cached_partition_iter->begin();
     for (; category_iter != partition_iter->end(); ++cached_category_iter, ++category_iter) {
-      AgeLength* age_length = categories->age_length((*category_iter)->name_);
+//      AgeLength* age_length = categories->age_length((*category_iter)->name_);
 
-      age_length_matrix_.resize((*category_iter)->data_.size());
+//      LOG_WARNING() << "This is bad code because it allocates memory in the middle of an execute";
+      age_length_matrix.resize((*category_iter)->data_.size());
 
       vector<Double> age_frequencies(length_bins_.size(), 0.0);
+      const auto& age_length_proportions = model_->partition().age_length_proportions((*category_iter)->name_)[year_index][time_step];
+
       for (unsigned data_offset = 0; data_offset < (*category_iter)->data_.size(); ++data_offset) {
-        unsigned age        = ( (*category_iter)->min_age_ + data_offset);
+        unsigned age = ((*category_iter)->min_age_ + data_offset);
 
         // Calculate the age structure removed from the fishing process
         number_at_age = Removals_at_age[year][method_][(*category_iter)->name_][data_offset];
-        LOG_FINEST() << "Numbers at age = " << age << " = " <<  number_at_age << " start value : "<< start_value << " end value : " << end_value;
+        LOG_FINEST() << "Numbers at age = " << age << " = " << number_at_age << " start value : " << start_value << " end value : " << end_value;
         // Implement an algorithm similar to DoAgeLengthConversion() to convert numbers at age to numbers at length
         // This is different to DoAgeLengthConversion as this number is now not related to the partition
-        Double mu= (*category_iter)->mean_length_by_time_step_age_[time_step][age];
+//        Double mu= (*category_iter)->mean_length_by_time_step_age_[time_step][age];
 
-        LOG_FINEST() << "mean = " << mu << " cv = " << age_length->cv(year, time_step, age) << " distribution = " << age_length->distribution() << " and length plus group = " << length_plus_;
-        age_length->CummulativeNormal(mu, age_length->cv(year, time_step, age), age_frequencies, length_bins_, length_plus_);
+//        LOG_FINEST() << "mean = " << mu << " cv = " << age_length->cv(year, time_step, age) << " distribution = " << age_length->distribution_label() << " and length plus group = " << length_plus_;
+//        age_length->CummulativeNormal(mu, age_length->cv(year, time_step, age), age_frequencies, length_bins_, length_plus_);
 
-        age_length_matrix_[data_offset].resize(number_bins_);
+//        LOG_WARNING() << "This is bad code because it allocates memory in the middle of an execute";
+        age_length_matrix[data_offset].resize(number_bins_);
 
         // Loop through the length bins and multiple the partition of the current age to go from
         // length frequencies to age length numbers
-          for (unsigned j = 0; j < number_bins_; ++j) {
-            age_length_matrix_[data_offset][j] = number_at_age * age_frequencies[j];
-            LOG_FINEST() << "The proportion of fish in length bin : " << length_bins_[j] << " = "<< age_frequencies[j];
-          }
+        for (unsigned j = 0; j < number_bins_; ++j) {
+          age_length_matrix[data_offset][j] = number_at_age * age_length_proportions[data_offset][j];
+          LOG_FINEST() << "The proportion of fish in length bin : " << length_bins_[j] << " = " << age_frequencies[j];
+        }
       }
 
-         if (age_length_matrix_.size() == 0)
-            LOG_CODE_ERROR() << "if (age_length_matrix_.size() == 0)";
+      if (age_length_matrix.size() == 0)
+        LOG_CODE_ERROR()<< "if (age_length_matrix_.size() == 0)";
 
-          numbers_at_length.assign(age_length_matrix_[0].size(), 0.0);
-          for (unsigned i = 0; i < age_length_matrix_.size(); ++i) {
-            for (unsigned j = 0; j < age_length_matrix_[i].size(); ++j) {
-              numbers_at_length[j] += age_length_matrix_[i][j];
-            }
-          }
-
-
-
-            for (unsigned length_offset = 0; length_offset < number_bins_; ++length_offset) {
-              LOG_FINEST() << " numbers for length bin : " << length_bins_[length_offset] << " = " <<  numbers_at_length[length_offset];
-             expected_values[length_offset] += numbers_at_length[length_offset];
-
-              LOG_FINE() << "----------";
-              LOG_FINE() << "Category: " << (*category_iter)->name_ << " at length " << length_bins_[length_offset];
-              LOG_FINE() << "start_value: " << start_value << "; end_value: " << end_value << "; final_value: " << numbers_at_length[length_offset];
-              LOG_FINE() << "expected_value becomes: " << expected_values[length_offset];
-            }
+      numbers_at_length.assign(age_length_matrix[0].size(), 0.0);
+      for (unsigned i = 0; i < age_length_matrix.size(); ++i) {
+        for (unsigned j = 0; j < age_length_matrix[i].size(); ++j) {
+          numbers_at_length[j] += age_length_matrix[i][j];
         }
+      }
+
+      for (unsigned length_offset = 0; length_offset < number_bins_; ++length_offset) {
+        LOG_FINEST() << " numbers for length bin : " << length_bins_[length_offset] << " = " << numbers_at_length[length_offset];
+        expected_values[length_offset] += numbers_at_length[length_offset];
+
+        LOG_FINE() << "----------";
+        LOG_FINE() << "Category: " << (*category_iter)->name_ << " at length " << length_bins_[length_offset];
+        LOG_FINE() << "start_value: " << start_value << "; end_value: " << end_value << "; final_value: " << numbers_at_length[length_offset];
+        LOG_FINE() << "expected_value becomes: " << expected_values[length_offset];
+      }
+    }
 
     if (expected_values.size() != proportions_[model_->current_year()][category_labels_[category_offset]].size())
-      LOG_CODE_ERROR() << "expected_values.size(" << expected_values.size() << ") != proportions_[category_offset].size("
-        << proportions_[model_->current_year()][category_labels_[category_offset]].size() << ")";
+      LOG_CODE_ERROR()<< "expected_values.size(" << expected_values.size() << ") != proportions_[category_offset].size("
+      << proportions_[model_->current_year()][category_labels_[category_offset]].size() << ")";
 
-    /**
-     * save our comparisons so we can use them to generate the score from the likelihoods later
-     */
+      /**
+       * save our comparisons so we can use them to generate the score from the likelihoods later
+       */
     for (unsigned i = 0; i < expected_values.size(); ++i) {
       SaveComparison(category_labels_[category_offset], 0, length_bins_[i], expected_values[i], proportions_[model_->current_year()][category_labels_[category_offset]][i],
           process_errors_by_year_[model_->current_year()], error_values_[model_->current_year()][category_labels_[category_offset]][i], 0.0, delta_, 0.0);
@@ -387,11 +388,11 @@ void ProcessRemovalsByLength::CalculateScore() {
    * Simulate or generate results
    * During simulation mode we'll simulate results for this observation
    */
-	LOG_FINEST() << "Calculating score for observation = " << label_;
+  LOG_FINEST() << "Calculating score for observation = " << label_;
 
   if (model_->run_mode() == RunMode::kSimulation) {
     likelihood_->SimulateObserved(comparisons_);
-    for (auto& iter :  comparisons_) {
+    for (auto& iter : comparisons_) {
       Double total = 0.0;
       for (auto& comparison : iter.second)
         total += comparison.observed_;
@@ -409,16 +410,16 @@ void ProcessRemovalsByLength::CalculateScore() {
       }
       for (obs::Comparison& comparison : comparisons_[year]) {
         if (running_total != 0.0)
-          comparison.expected_  = comparison.expected_ / running_total;
+          comparison.expected_ = comparison.expected_ / running_total;
         else
-          comparison.expected_  = 0.0;
+          comparison.expected_ = 0.0;
       }
     }
     likelihood_->GetScores(comparisons_);
     for (unsigned year : years_) {
       scores_[year] = likelihood_->GetInitialScore(comparisons_, year);
       LOG_FINEST() << "-- Observation score calculation";
-      LOG_FINEST() << "[" << year << "] Initial Score:"<< scores_[year];
+      LOG_FINEST() << "[" << year << "] Initial Score:" << scores_[year];
       for (obs::Comparison comparison : comparisons_[year]) {
         LOG_FINEST() << "[" << year << "]+ likelihood score: " << comparison.score_;
         scores_[year] += comparison.score_;

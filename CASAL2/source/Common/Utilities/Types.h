@@ -21,6 +21,7 @@
 #include <memory>
 #include <cxxabi.h>
 #include <string>
+#include <vector>
 
 #ifdef USE_ADOLC
 #include <adolc/adolc.h>
@@ -83,6 +84,7 @@ typedef CppAD::AD<double> Double;
 typedef double Double;
 #endif
 
+typedef std::vector<std::vector<std::vector<std::vector<Double>>>> Vector4;
 
 /**
  * This code is used to demangle the typeid(x).name information

@@ -359,8 +359,12 @@ void TagRecaptureByLength::Execute() {
     for (; category_iter != partition_iter->end(); ++cached_category_iter, ++category_iter) {
 
       // Update/Populate Numbers At Length container for each category
-      (*cached_category_iter).UpdateAgeLengthData(length_bins_, plus_group_, selectivities_[category_offset]);
-      (*category_iter)->UpdateAgeLengthData(length_bins_, plus_group_, selectivities_[category_offset]);
+      LOG_FINEST() << "Populating age length matrix for: " << cached_category_iter->name_;
+      cached_category_iter->PopulateAgeLengthMatrix(selectivities_[category_offset]);
+      LOG_FINEST() << "Populating age length matrix for: " << (*category_iter)->name_;
+      (*category_iter)->PopulateAgeLengthMatrix(selectivities_[category_offset]);
+//      (*cached_category_iter).UpdateAgeLengthData(length_bins_, plus_group_, selectivities_[category_offset]);
+//      (*category_iter)->UpdateAgeLengthData(length_bins_, plus_group_, selectivities_[category_offset]);
       (*cached_category_iter).CollapseAgeLengthDataToLength();
       (*category_iter)->CollapseAgeLengthDataToLength();
 
@@ -397,8 +401,10 @@ void TagRecaptureByLength::Execute() {
 
       //(*target_cached_category_iter).UpdateMeanLengthData();
       //(*target_category_iter)->UpdateMeanLengthData();
-      (*target_cached_category_iter).UpdateAgeLengthData(length_bins_, plus_group_, target_selectivities_[category_offset]);
-      (*target_category_iter)->UpdateAgeLengthData(length_bins_, plus_group_, target_selectivities_[category_offset]);
+      target_cached_category_iter->PopulateAgeLengthMatrix(selectivities_[category_offset]);
+      (*target_category_iter)->PopulateAgeLengthMatrix(selectivities_[category_offset]);
+//      (*target_cached_category_iter).UpdateAgeLengthData(length_bins_, plus_group_, target_selectivities_[category_offset]);
+//      (*target_category_iter)->UpdateAgeLengthData(length_bins_, plus_group_, target_selectivities_[category_offset]);
       (*target_cached_category_iter).CollapseAgeLengthDataToLength();
       (*target_category_iter)->CollapseAgeLengthDataToLength();
 

@@ -47,9 +47,6 @@ private:
   accessor::Categories          to_partition_;
   accessor::Categories          from_partition_;
   vector<unsigned>              years_;
-  vector<Double>                length_bins_;
-  bool                          plus_group_ = false;
-  Double                        max_length_ = 0.0;
   vector<string>                selectivity_labels_;
   vector<string>                split_from_category_labels_;
   map<string, Selectivity*>     selectivities_;

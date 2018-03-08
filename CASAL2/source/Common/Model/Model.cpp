@@ -70,6 +70,7 @@ Model::Model() {
   parameters_.Bind<unsigned>(PARAM_PROJECTION_FINAL_YEAR, &projection_final_year_, "Define the final year of the model in projection mode", R"(Defines the last year of the projection period, i.e., the projection period runs from \texttt{final_year}$+1$ to \texttt{projection_final_year}. For the default, $0$, no projections are run.)", 0);
   parameters_.Bind<string>(PARAM_TYPE, &type_, "TBA: Type of model (the partition structure). Either age, length or hybrid", "", PARAM_AGE)->set_allowed_values({PARAM_AGE, PARAM_LENGTH, PARAM_HYBRID});
   parameters_.Bind<unsigned>(PARAM_LENGTH_BINS, &length_bins_, "", "", true);
+  parameters_.Bind<bool>(PARAM_LENGTH_PLUS, &length_plus_, "Is the last bin a plus group", "", false);
   parameters_.Bind<string>(PARAM_BASE_UNTIS, &base_weight_units_, "Define the units for the base weight. This will be the default unit of any weight input parameters ", "", PARAM_TONNES)->set_allowed_values({PARAM_GRAMS, PARAM_TONNES,PARAM_KGS});
 
   global_configuration_ = new GlobalConfiguration();
@@ -341,6 +342,16 @@ void Model::Validate() {
     if (!time_step_mngr.GetTimeStep(time_step))
       LOG_ERROR_P(PARAM_TIME_STEPS) << "(" << time_step << ") has not been defined. Please ensure you have defined it";
   }
+
+  /**
+   * Do some simple checks
+   * e.g Validate that the length_bins are strictly increasing
+   */
+//  for(unsigned length = 0; length < (length_bins_.size() - 1); ++length) {
+//    if(length_bins_[length] < 0.0)
+//    if(length_bins_[length] > length_bins_[length + 1])
+//      LOG_ERROR_P(PARAM_LENGTH_BINS) << ": Length bins must be strictly increasing " << length_bins_[length] << " is greater than " << length_bins_[length +1];
+//  }
 }
 
 /**
@@ -356,6 +367,12 @@ void Model::Build() {
   if (estimables.GetValueCount() > 0) {
     addressable_values_file_ = true;
     adressable_values_count_ = estimables.GetValueCount();
+  }
+
+  if (categories()->HasAgeLengths()) {
+    partition_->BuildMeanLengthData();
+    if (length_bins_.size() > 0)
+      partition_->BuildAgeLengthProportions();
   }
 }
 

@@ -15,6 +15,7 @@
 #include "Common/LengthWeights/LengthWeight.h"
 #include "Common/Categories/Categories.h"
 #include "Common/Model/Model.h"
+#include "Common/Partition/Partition.h"
 #include "Common/TimeSteps/Manager.h"
 #include "Common/Utilities/To.h"
 #include "Common/Utilities/Types.h"
@@ -31,31 +32,31 @@ namespace partition {
  * Age length parameters time vary.
  */
 void Category::UpdateMeanLengthData() {
-  Categories* categories = model_->categories();
-  vector<string> time_steps = model_->time_steps();
-  unsigned year = model_->current_year();
-
-  if (model_->partition_type() == PartitionType::kAge) {
-    AgeLength* age_length = categories->age_length(name_);
-    if (!age_length) {
-      UpdateMeanWeightData();
-    } else {
-      // Only do this under three conditions. We are initialising, it has a time varying component, or is of type data.
-      if (age_length->is_time_varying() || model_->state() == State::kInitialise || age_length->type() == PARAM_DATA) {
-        LOG_FINEST() << "Updating mean length and weight";
-        for (unsigned step_iter = 0; step_iter < time_steps.size(); ++step_iter) {
-          for (unsigned age = min_age_; age <= max_age_; ++age) {
-            mean_length_by_time_step_age_[step_iter][age] = age_length->GetMeanLength(year, step_iter, age);
-          }
-        }
-        // If this has been updated we need to update Mean weight
-        UpdateMeanWeightData();
-      }
-    }
-  } else if (model_->partition_type() == PartitionType::kLength) {
-    // Don't need to update length cause we are a length structured model, so just update weight
+  if (mean_length_by_time_step_age_.size() > 0)
     UpdateMeanWeightData();
-  }
+//  LOG_WARNING() << "This method no longer exists";
+//  Categories* categories = model_->categories();
+//  vector<string> time_steps = model_->time_steps();
+//  unsigned year = model_->current_year();
+//
+//  if (model_->partition_type() == PartitionType::kAge) {
+//    AgeLength* age_length = categories->age_length(name_);
+//
+//    // Only do this under three conditions. We are initialising, it has a time varying component, or is of type data.
+//    if (age_length->is_time_varying() || model_->state() == State::kInitialise || age_length->type() == PARAM_DATA) {
+//      LOG_FINEST() << "Updating mean length and weight";
+//      for (unsigned step_iter = 0; step_iter < time_steps.size(); ++step_iter) {
+//        for (unsigned age = min_age_; age <= max_age_; ++age) {
+//          mean_length_by_time_step_age_[step_iter][age] = age_length->GetMeanLength(year, step_iter, age);
+//        }
+//      }
+//      // If this has been updated we need to update Mean weight
+//      UpdateMeanWeightData();
+//    }
+//  } else if (model_->partition_type() == PartitionType::kLength) {
+//    // Don't need to update length cause we are a length structured model, so just update weight
+//    UpdateMeanWeightData();
+//  }
 }
 
 
@@ -69,10 +70,18 @@ void Category::UpdateMeanWeightData() {
   vector<string> time_steps = model_->time_steps();
   if (model_->partition_type() == PartitionType::kAge) {
     AgeLength* age_length = categories->age_length(name_);
-    for (unsigned step_iter = 0; step_iter < time_steps.size(); ++step_iter) {
-      for (unsigned age = min_age_; age <= max_age_; ++age)
-        mean_weight_by_time_step_age_[step_iter][age] = age_length->mean_weight(step_iter, age);
+    if (age_length == nullptr) {
+      for (unsigned step_iter = 0; step_iter < time_steps.size(); ++step_iter) {
+        for (unsigned age = min_age_; age <= max_age_; ++age)
+          mean_weight_by_time_step_age_[step_iter][age] = 1.0;
+      }
+    } else {
+      for (unsigned step_iter = 0; step_iter < time_steps.size(); ++step_iter) {
+        for (unsigned age = min_age_; age <= max_age_; ++age)
+          mean_weight_by_time_step_age_[step_iter][age] = age_length->mean_weight(step_iter, age);
+      }
     }
+
   } else if (model_->partition_type() == PartitionType::kLength) {
     // Update mean weight for this category
     LengthWeight* length_weight = categories->length_weight(name_);
@@ -98,6 +107,7 @@ void Category::UpdateMeanWeightData() {
  * to transfer any changes in the length partition back to the age partition.
  */
 void Category::CollapseAgeLengthData() {
+  LOG_CODE_ERROR() << "This is hideously slow, do not allocate memory with the .push_back";
   data_.clear();
 
   for (auto age_row : age_length_matrix_) {
@@ -109,37 +119,92 @@ void Category::CollapseAgeLengthData() {
 }
 
 /**
- * This method updates the numbers at age by length matrix for a category
+ * This method will take the current age population for this category stored
+ * in this->data_ and populate this->length_data_ by using the age length
+ * proportions generated and stored against the Partition class. The age
+ * length proportions are generated during the build phase.
  *
- * @param length_bins  vector of the length bins to map too
- * @param plus_grp whether the last length bin is a plus group
- * @param selectivity Selectivity Pointer
+ * @parameter selectivity The selectivity to apply to the age data
  */
-void Category::UpdateAgeLengthData(const vector<Double>& length_bins, bool plus_grp, Selectivity* selectivity) {
-  LOG_TRACE();
+void Category::PopulateAgeLengthMatrix(Selectivity* selectivity) {
+  LOG_FINEST() << "About to populate the length data for category " << name_ << " in year " << model_->current_year();
 
-  Categories* categories = model_->categories();
-  AgeLength* age_length = categories->age_length(name_);
-  if (!age_length)
-    LOG_CODE_ERROR() << "if (!age_length) for category " << name_;
-  age_length->DoAgeToLengthMatrixConversion(this, length_bins, plus_grp, selectivity);
+  if (selectivity == nullptr)
+    LOG_CODE_ERROR() << "selectivity == nullptr";
+  if (age_length_ == nullptr)
+    LOG_CODE_ERROR() << "In category " << name_ << " there is no age length object to have calculated the age length proportions";
+  if (age_length_matrix_.size() == 0)
+    LOG_CODE_ERROR() << "No memory has been allocated for the age_length_matrix for category " << name_;
+
+  auto& age_length_proportions = model_->partition().age_length_proportions(name_);
+  unsigned year = model_->current_year() - model_->start_year();
+  vector<unsigned> length_bins = model_->length_bins();
+  unsigned time_step_index = model_->managers().time_step()->current_time_step();
+
+  LOG_FINEST() << "Year: " << year << "; time_step: " << time_step_index << "; length_bins: " << length_bins.size();
+  LOG_FINEST() << "Years in proportions: " << age_length_proportions.size();
+  LOG_FINEST() << "Timesteps in current year: " << age_length_proportions[year].size();
+
+  if (year > age_length_proportions.size())
+    LOG_CODE_ERROR() << "year > age_length_proportions.size()";
+  if (time_step_index > age_length_proportions[year].size())
+    LOG_CODE_ERROR() << "time_step_index > age_length_proportions[year].size()";
+  vector<vector<Double>>& proportions_for_now = age_length_proportions[year][time_step_index];
+
+  unsigned size = model_->length_plus() == true ? model_->length_bins().size() : model_->length_bins().size() - 1;
+  LOG_FINEST() << "Calculating age length data";
+  for (unsigned age = min_age_; age <= max_age_; ++age) {
+    unsigned i = age - min_age_;
+    if (i >= proportions_for_now.size())
+      LOG_CODE_ERROR() << "i >= proportions_for_now.size()";
+    if (i >= data_.size())
+      LOG_CODE_ERROR() << "i >= data_.size()";
+    if (i >= age_length_matrix_.size())
+      LOG_CODE_ERROR() << "(i >= age_length_matrix_.size())";
+
+    vector<Double>& ages_at_length = proportions_for_now[i];
+
+    for (unsigned bin = 0; bin < size; ++bin) {
+      if (bin >= age_length_matrix_[i].size())
+        LOG_CODE_ERROR() << "bin (" << bin << ") >= age_length_matrix_[i].size(" << age_length_matrix_[i].size() << ")";
+      if (bin >= ages_at_length.size())
+        LOG_CODE_ERROR() << "bin >= ages_at_length.size()";
+
+      LOG_FINEST() << "pre age_length_matrix data_[" << i << "]: " << data_[i];
+      age_length_matrix_[i][bin] = selectivity->GetAgeResult(age, age_length_) * data_[i] * ages_at_length[bin];
+      LOG_FINEST() << "age_length_matrix_[" << i << "][" << bin << "]: " << age_length_matrix_[i][bin];
+    }
+  }
+
+  LOG_FINEST() << "Finished populating the length data for category " << name_ << " in year " << model_->current_year();
 }
-
 
 /**
  * This method collapses the Numbers at length by age matrix to numbers at age for a category
  */
 void Category::CollapseAgeLengthDataToLength() {
   LOG_TRACE();
+
   if (age_length_matrix_.size() == 0)
     LOG_CODE_ERROR() << "if (age_length_matrix_.size() == 0)";
 
-  length_data_.assign(age_length_matrix_[0].size(), 0.0);
+  LOG_FINE() << "age_length_matrix_.size(): " << age_length_matrix_.size();
+  LOG_FINE() << "age_length_matrix_[0].size(): " << age_length_matrix_[0].size();
+  length_data_.assign(model_->length_bins().size(), 0.0);
   for (unsigned i = 0; i < age_length_matrix_.size(); ++i) {
     for (unsigned j = 0; j < age_length_matrix_[i].size(); ++j) {
+      if (j >= length_data_.size())
+        LOG_CODE_ERROR() << "j >= length_data_.size()";
+
       length_data_[j] += age_length_matrix_[i][j];
     }
   }
+
+  for (unsigned i = 0; i < length_data_.size(); ++i)
+    LOG_FINEST() << "length_data_[" << i << "]: " << length_data_[i];
+
+
+  LOG_TRACE();
 }
 
 

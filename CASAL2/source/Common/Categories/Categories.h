@@ -59,14 +59,15 @@ public:
   vector<string>                ExpandLabels(const vector<string> &category_labels, const string& parameter_location);
   string                        GetCategoryLabels(const string& lookup_string, const string& parameter_location);
   vector<string>                GetCategoryLabelsV(const string& lookup_string, const string& parameter_location);
+  virtual bool                  HasAgeLengths() const { return age_length_labels_.size() != 0; }
 
   // Accessors
   string                        format() const { return format_; }
-  vector<string>                category_names() const { return category_names_;}
+  virtual vector<string>        category_names() const { return category_names_;}
   unsigned                      min_age(const string& category_name);
   unsigned                      max_age(const string& category_name);
   vector<unsigned>              years(const string& category_name);
-  AgeLength*                    age_length(const string& category_name);
+  virtual AgeLength*            age_length(const string& category_name);
   LengthWeight*                 length_weight(const string& category_name);
   AgeWeight*                    age_weight(const string& category_name);
 

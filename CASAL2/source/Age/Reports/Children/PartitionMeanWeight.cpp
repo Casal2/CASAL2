@@ -53,6 +53,7 @@ void PartitionMeanWeight::DoExecute() {
 //  auto categories = Categories::Instance();
   niwa::partition::accessors::All all_view(model_);
   unsigned year = model_->current_year();
+  unsigned year_index = year - model_->start_year();
   cache_ << "*"<< type_ << "[" << label_ << "]" << "\n";
   cache_ << "year: " << year << "\n";
   for (auto iterator = all_view.Begin(); iterator != all_view.End(); ++iterator) {
@@ -73,8 +74,10 @@ void PartitionMeanWeight::DoExecute() {
     cache_ << "age_lengths " << REPORT_R_LIST << "\n";
     cache_ << "values: ";
 
+
+
     for (unsigned age = (*iterator)->min_age_; age <= (*iterator)->max_age_; ++age)
-      cache_ << AS_DOUBLE((*iterator)->mean_length_by_time_step_age_[time_step_index][age]) << " ";
+      cache_ << AS_DOUBLE((*iterator)->mean_length_by_time_step_age_[year_index][time_step_index][age]) << " ";
     cache_<<"\n";
 
     cache_ << REPORT_R_LIST_END <<"\n";

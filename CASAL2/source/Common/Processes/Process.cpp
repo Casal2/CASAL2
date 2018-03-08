@@ -74,10 +74,13 @@ void Process::Reset(){
  * Execute our process and any executors
  */
 void Process::Execute(unsigned year, const string& time_step_label) {
+  LOG_FINEST() << label_;
   for (auto executor : executors_[year][time_step_label])
     executor->PreExecute();
 
+  LOG_TRACE();
   DoExecute();
+  LOG_TRACE();
 
   for (auto executor : executors_[year][time_step_label])
     executor->Execute();

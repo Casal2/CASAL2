@@ -18,6 +18,7 @@
 #include "Common/Model/Managers.h"
 #include "Common/Reports/Manager.h"
 #include "Age/Reports/Children/AgeingErrorMatrix.h"
+#include "Age/Reports/Children/AgeLength.h"
 #include "Age/Reports/Children/InitialisationPartitionMeanWeight.h"
 #include "Age/Reports/Children/PartitionMeanWeight.h"
 #include "Age/Reports/Children/PartitionBiomass.h"
@@ -42,6 +43,8 @@ Report* Factory::Create(Model* model, const string& object_type, const string& s
   if (object_type == PARAM_REPORT) {
     if (sub_type == PARAM_AGEING_ERROR)
       result = new AgeingErrorMatrix(model);
+    if (sub_type == PARAM_AGE_LENGTH)
+      result = new AgeLength(model);
     else if (sub_type == PARAM_PARTITION_BIOMASS)
       result = new PartitionBiomass(model);
     else if (sub_type == PARAM_PARTITION_MEAN_WEIGHT)

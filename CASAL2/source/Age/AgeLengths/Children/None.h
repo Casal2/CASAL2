@@ -36,7 +36,7 @@ public:
   // accessors
   Double                      mean_length(unsigned year, unsigned age) override final { return 1.0; }
   Double                      mean_weight(unsigned year, unsigned age) override final { return 1.0; }
-  Double                     GetMeanLength(unsigned year, unsigned time_step, unsigned age) override final { return 1.0; }
+  Double                      GetMeanLength(unsigned year, unsigned time_step, unsigned age) override final { return 1.0; }
 };
 
 
