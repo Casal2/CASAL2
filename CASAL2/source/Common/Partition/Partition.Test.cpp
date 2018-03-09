@@ -244,35 +244,37 @@ TEST(Partition, BuildAgeLengthProportions) {
   ASSERT_EQ(10u, male_age_props[0][0].size());
   ASSERT_EQ(5u, male_age_props[0][0][0].size());
 
-  EXPECT_DOUBLE_EQ(0u, male_age_props[0][0][0][0]);
-  EXPECT_DOUBLE_EQ(0u, male_age_props[0][0][0][1]);
-  EXPECT_DOUBLE_EQ(0u, male_age_props[0][0][0][2]);
-  EXPECT_DOUBLE_EQ(0u, male_age_props[0][0][0][3]);
-  EXPECT_DOUBLE_EQ(0u, male_age_props[0][0][0][4]);
+  for (unsigned year = 0; year < 3; ++year) {
+  EXPECT_DOUBLE_EQ(0u, male_age_props[year][0][0][0]);
+  EXPECT_DOUBLE_EQ(0u, male_age_props[year][0][0][1]);
+  EXPECT_DOUBLE_EQ(0u, male_age_props[year][0][0][2]);
+  EXPECT_DOUBLE_EQ(0u, male_age_props[year][0][0][3]);
+  EXPECT_DOUBLE_EQ(0u, male_age_props[year][0][0][4]);
 
-  EXPECT_DOUBLE_EQ(0u, male_age_props[0][0][2][0]);
-  EXPECT_DOUBLE_EQ(0u, male_age_props[0][0][2][1]);
-  EXPECT_DOUBLE_EQ(0u, male_age_props[0][0][2][2]);
-  EXPECT_DOUBLE_EQ(0u, male_age_props[0][0][2][3]);
-  EXPECT_DOUBLE_EQ(0u, male_age_props[0][0][2][4]);
+  EXPECT_DOUBLE_EQ(0u, male_age_props[year][0][2][0]);
+  EXPECT_DOUBLE_EQ(0u, male_age_props[year][0][2][1]);
+  EXPECT_DOUBLE_EQ(0u, male_age_props[year][0][2][2]);
+  EXPECT_DOUBLE_EQ(0u, male_age_props[year][0][2][3]);
+  EXPECT_DOUBLE_EQ(0u, male_age_props[year][0][2][4]);
 
-  EXPECT_DOUBLE_EQ(0.41996720731752746,     male_age_props[0][0][4][0]);
-  EXPECT_DOUBLE_EQ(3.2667977767353307e-008, male_age_props[0][0][4][1]);
-  EXPECT_DOUBLE_EQ(0u, male_age_props[0][0][4][2]);
-  EXPECT_DOUBLE_EQ(0u, male_age_props[0][0][4][3]);
-  EXPECT_DOUBLE_EQ(0u, male_age_props[0][0][4][4]);
+  EXPECT_DOUBLE_EQ(0.41996720731752746,     male_age_props[year][0][4][0]);
+  EXPECT_DOUBLE_EQ(3.2667977767353307e-008, male_age_props[year][0][4][1]);
+  EXPECT_DOUBLE_EQ(0u, male_age_props[year][0][4][2]);
+  EXPECT_DOUBLE_EQ(0u, male_age_props[year][0][4][3]);
+  EXPECT_DOUBLE_EQ(0u, male_age_props[year][0][4][4]);
 
-  EXPECT_DOUBLE_EQ(0.69070308538891911,      male_age_props[0][0][6][0]);
-  EXPECT_DOUBLE_EQ(0.29603445809402762,      male_age_props[0][0][6][1]);
-  EXPECT_DOUBLE_EQ(0.00048060422206530617,   male_age_props[0][0][6][2]);
-  EXPECT_DOUBLE_EQ(6.4636329621947652e-010,  male_age_props[0][0][6][3]);
+  EXPECT_DOUBLE_EQ(0.69070308538891911,      male_age_props[year][0][6][0]);
+  EXPECT_DOUBLE_EQ(0.29603445809402762,      male_age_props[year][0][6][1]);
+  EXPECT_DOUBLE_EQ(0.00048060422206530617,   male_age_props[year][0][6][2]);
+  EXPECT_DOUBLE_EQ(6.4636329621947652e-010,  male_age_props[year][0][6][3]);
   EXPECT_DOUBLE_EQ(0u, male_age_props[0][0][6][4]);
 
-  EXPECT_DOUBLE_EQ(0.13891252421751288, male_age_props[0][0][8][0]);
-  EXPECT_DOUBLE_EQ(0.67051952644369806, male_age_props[0][0][8][1]);
-  EXPECT_DOUBLE_EQ(0.18713059299787771, male_age_props[0][0][8][2]);
-  EXPECT_DOUBLE_EQ(0.0022533864694446182, male_age_props[0][0][8][3]);
-  EXPECT_DOUBLE_EQ(7.9325922641704238e-007, male_age_props[0][0][8][4]);
+  EXPECT_DOUBLE_EQ(0.13891252421751288, male_age_props[year][0][8][0]);
+  EXPECT_DOUBLE_EQ(0.67051952644369806, male_age_props[year][0][8][1]);
+  EXPECT_DOUBLE_EQ(0.18713059299787771, male_age_props[year][0][8][2]);
+  EXPECT_DOUBLE_EQ(0.0022533864694446182, male_age_props[year][0][8][3]);
+  EXPECT_DOUBLE_EQ(7.9325922641704238e-007, male_age_props[year][0][8][4]);
+  }
 }
 
 /**
@@ -336,6 +338,8 @@ TEST(Partition, BuildAgeLengthProportions_2) {
   ASSERT_EQ(expected.size(), male_age_props[0][0][0].size());
   for (unsigned i = 0; i < expected.size(); ++i) {
     EXPECT_DOUBLE_EQ(expected[i], male_age_props[0][0][0][i]) << " with i = " << i;
+    EXPECT_DOUBLE_EQ(expected[i], male_age_props[1][0][0][i]) << " with i = " << i;
+    EXPECT_DOUBLE_EQ(expected[i], male_age_props[2][0][0][i]) << " with i = " << i;
   }
 }
 
@@ -399,6 +403,8 @@ TEST(Partition, BuildAgeLengthProportions_3) {
   ASSERT_EQ(expected.size(), male_age_props[0][0][0].size());
   for (unsigned i = 0; i < expected.size(); ++i) {
     EXPECT_DOUBLE_EQ(expected[i], male_age_props[0][0][0][i]) << " with i = " << i;
+    EXPECT_DOUBLE_EQ(expected[i], male_age_props[1][0][0][i]) << " with i = " << i;
+    EXPECT_DOUBLE_EQ(expected[i], male_age_props[2][0][0][i]) << " with i = " << i;
   }
 }
 

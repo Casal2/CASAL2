@@ -170,9 +170,7 @@ void Category::PopulateAgeLengthMatrix(Selectivity* selectivity) {
       if (bin >= ages_at_length.size())
         LOG_CODE_ERROR() << "bin >= ages_at_length.size()";
 
-      LOG_FINEST() << "pre age_length_matrix data_[" << i << "]: " << data_[i];
       age_length_matrix_[i][bin] = selectivity->GetAgeResult(age, age_length_) * data_[i] * ages_at_length[bin];
-      LOG_FINEST() << "age_length_matrix_[" << i << "][" << bin << "]: " << age_length_matrix_[i][bin];
     }
   }
 
@@ -202,9 +200,6 @@ void Category::CollapseAgeLengthDataToLength() {
 
   for (unsigned i = 0; i < length_data_.size(); ++i)
     LOG_FINEST() << "length_data_[" << i << "]: " << length_data_[i];
-
-
-  LOG_TRACE();
 }
 
 

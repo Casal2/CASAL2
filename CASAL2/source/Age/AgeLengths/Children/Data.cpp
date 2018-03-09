@@ -40,6 +40,7 @@ Data::Data(Model* model) : AgeLength(model) {
   parameters_.Bind<string>(PARAM_LENGTH_WEIGHT, &length_weight_label_, "The label from an associated length-weight block", "");
   parameters_.Bind<string>(PARAM_TIME_STEP_MEASUREMENTS_WERE_MADE, &step_data_supplied_, "Time step label for which size-at-age data are provided", "");
 
+  varies_by_year_ = true;
 }
 
 /**
