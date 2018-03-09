@@ -80,8 +80,9 @@ void Selectivity::Validate() {
  *
  */
 void Selectivity::Reset() {
-  if (is_estimated_)
+  if (is_estimated_) {
     RebuildCache();
+  }
 }
 
 /**

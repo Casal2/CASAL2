@@ -79,30 +79,35 @@ TEST_F(BasicModel, Accessors_Cached_CombinedCategories) {
   model_->Start(RunMode::kTesting);
   model_->FullIteration();
 
-  model_->partition().category("immature.male").years_.push_back(2009);
-  model_->partition().category("immature.female").years_.push_back(2009);
-
   // Build our accessor
   vector<string> accessor_category_labels = { "immature.male+immature.female", "immature.male", "immature.female" };
   CachedCombinedCategoriesPtr accessor = CachedCombinedCategoriesPtr(new CombinedCategories(model_, accessor_category_labels));
 
+  EXPECT_EQ(true, accessor->needs_rebuild());
   accessor->BuildCache();
   ASSERT_EQ(3u, accessor->Size());
 
-//  auto cache_iter = accessor->Begin();
-//  EXPECT_EQ("immature.male+immature.female", cache_iter->first);
-//  ASSERT_EQ(2u, cache_iter->second.size());
-//
-//  EXPECT_EQ("immature.male", cache_iter->second[0].name_);
-//
-//  ++cache_iter;
-//  EXPECT_EQ("immature.male", cache_iter->first);
-//
-//
-//  ++cache_iter;
-//  EXPECT_EQ("immature.female", cache_iter->first);
-}
+  EXPECT_EQ(false, accessor->needs_rebuild());
+  accessor->BuildCache();
+  ASSERT_EQ(3u, accessor->Size());
 
+  EXPECT_EQ(false, accessor->needs_rebuild());
+  accessor->BuildCache();
+  ASSERT_EQ(3u, accessor->Size());
+
+  auto cache_iter = accessor->Begin();
+  ASSERT_EQ(cache_iter->size(), 2u);
+  EXPECT_EQ((*cache_iter)[0].name_, "immature.male");
+  EXPECT_EQ((*cache_iter)[1].name_, "immature.female");
+
+  ++cache_iter;
+  ASSERT_EQ(cache_iter->size(), 1u);
+  EXPECT_EQ((*cache_iter)[0].name_, "immature.male");
+
+  ++cache_iter;
+  ASSERT_EQ(cache_iter->size(), 1u);
+  EXPECT_EQ((*cache_iter)[0].name_, "immature.female");
+}
 
 } /* namespace cached */
 } /* namespace accessors */

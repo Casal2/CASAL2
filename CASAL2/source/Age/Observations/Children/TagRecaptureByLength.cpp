@@ -308,7 +308,6 @@ void TagRecaptureByLength::Execute() {
   LOG_TRACE();
   LOG_FINEST() << "Entering observation " << label_;
 
-
   /**
    * Verify our cached partition and partition sizes are correct
    */
@@ -325,6 +324,7 @@ void TagRecaptureByLength::Execute() {
    * compare it to the observations.
    */
   for (unsigned category_offset = 0; category_offset < category_labels_.size(); ++category_offset, ++partition_iter, ++cached_partition_iter) {
+    LOG_FINEST() << "Observing first collection of categories";
     Double      start_value        = 0.0;
     Double      end_value          = 0.0;
     Double      final_value        = 0.0;

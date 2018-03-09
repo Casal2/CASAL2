@@ -54,11 +54,14 @@ public:
   DataType::iterator          End();
   unsigned                    Size();
 
+  bool                        needs_rebuild() const { return need_rebuild_; }
+
 private:
   // Members
   vector<vector<string> >     category_labels_;
   Model*                      model_;
   DataType                    data_;
+  bool                        need_rebuild_ = true;
 };
 
 // Typedef

@@ -842,6 +842,8 @@ void Model::Iterate() {
 
   for (auto executor : executors_[State::kExecute])
     executor->Execute();
+
+  current_year_ = final_year_;
 }
 
 /**

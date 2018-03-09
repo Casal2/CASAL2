@@ -46,12 +46,25 @@ CombinedCategories::CombinedCategories(Model* model, const vector<string>& categ
  * so it can be used for interpolation later.
  */
 void CombinedCategories::BuildCache() {
-  data_.clear();
-  data_.resize(category_labels_.size());
-
-  unsigned year = model_->current_year();
   Partition& partition = model_->partition();
 
+  if (!need_rebuild_) {
+    // just re-populate
+    for (auto& iter : data_) { // vector<vector<partition::Category> >
+      for (auto& category : iter) {
+        partition::Category& part_cat = partition.category(category.name_);
+        category.data_ = part_cat.data_;
+      }
+    }
+    return;
+  }
+
+  // We need to actually build our container, or
+  // the number of categories has changed.
+  // This could definitely be improved, but it works for now
+  data_.clear();
+  data_.resize(category_labels_.size());
+  unsigned year = model_->current_year();
   for (unsigned i = 0; i < category_labels_.size(); ++i) {
     for (auto cat_iter = category_labels_[i].begin(); cat_iter != category_labels_[i].end(); ++cat_iter) {
 
@@ -62,9 +75,22 @@ void CombinedCategories::BuildCache() {
       data_[i].push_back(category);
     }
   }
+
+  // Flag off
+  need_rebuild_ = false;
+  unsigned year_count = model_->years().size();
+  for (auto category_collection : category_labels_) {
+    for (auto category : category_collection)
+      if (partition.category(category).years_.size() != year_count) {
+        need_rebuild_ = true;
+        break;
+      }
+  }
 }
 
 CombinedCategories::DataType::iterator CombinedCategories::Begin() {
+  LOG_TRACE();
+  LOG_FINEST() << data_.size();
   return data_.begin();
 }
 

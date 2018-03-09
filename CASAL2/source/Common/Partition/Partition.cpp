@@ -263,6 +263,16 @@ void Partition::BuildAgeLengthProportions() {
 
         } // for (unsigned age_index = 0; age_index < iter.second->age_spread(); ++age_index)
       } // for (unsigned time_step = 0; time_step < time_step_count; ++time_step)
+
+      // If the age length object is not data, then it doesn't vary by year
+      if (!iter.second->age_length_->varies_by_years()) {
+        auto& source = (*age_length_proportion)[0];
+        for (unsigned year_iter = 1; year_iter < year_count; ++year_iter) {
+          auto& props = (*age_length_proportion)[year_iter];
+          props = source;
+        }
+        break;
+      }
     } // for (unsigned year_iter = 0; year_iter < year_count; ++year_iter)
 
     age_length_proportions_[iter.first] = age_length_proportion;

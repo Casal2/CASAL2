@@ -48,6 +48,7 @@ public:
   virtual string              distribution_label() { return distribution_label_; };
   AgeLength::Distribution     distribution() const { return distribution_; }
   bool                        casal_normal_cdf() const { return casal_normal_cdf_; }
+  bool                        varies_by_years() const { return varies_by_year_; }
 
   // Methods
   virtual Double              mean_weight(unsigned time_step, unsigned age) = 0;
@@ -72,6 +73,7 @@ protected:
   string                      distribution_label_;
   AgeLength::Distribution     distribution_;
   bool                        casal_normal_cdf_ = false;
+  bool                        varies_by_year_ = false;
 
   map<unsigned, map<unsigned, map<unsigned, Double>>>       cvs_;  //cvs[year][time_step][age]
 };
