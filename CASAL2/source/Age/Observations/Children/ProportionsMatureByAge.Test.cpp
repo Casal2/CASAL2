@@ -1,4 +1,3 @@
-
 /**
  * @file ProportionsMatureByAge.Test.cpp
  * @author Craig Marsh
@@ -39,8 +38,6 @@ age_plus true
 base_weight_units tonnes
 initialisation_phases Equilibrium_state
 time_steps Annual
-length_bins 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47
-length_plus_group true
 
 @categories 
 format Maturity 
@@ -167,6 +164,8 @@ likelihood lognormal
 type proportions_at_length
 time_step Annual
 time_step_proportion 0.5
+length_bins 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47
+length_plus true
 categories spawn 
 selectivities NWCR_Fsel
 delta 0.00001
