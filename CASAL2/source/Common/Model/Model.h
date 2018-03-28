@@ -99,7 +99,6 @@ public:
   virtual PartitionType       partition_type() const { return partition_type_; }
   virtual const vector<unsigned>&     length_bins() const { return length_bins_; }
   virtual bool                length_plus() const { return length_plus_; }
-  virtual unsigned            length_plus_group() const { return length_plus_group_; }
 
   // manager accessors
   virtual Managers&           managers();
@@ -142,12 +141,7 @@ protected:
   vector<string>              initialisation_phases_;
   vector<string>              time_steps_;
   vector<unsigned>            length_bins_;
-<<<<<<< HEAD
   bool                        length_plus_ = true;
-=======
-  bool                        length_plus_ = false;
-  unsigned                    length_plus_group_ = 0;
->>>>>>> Samik_length_functionality
   bool                        addressable_values_file_ = false;
   unsigned                    adressable_values_count_ = 1;
   PartitionType               partition_type_ = PartitionType::kInvalid;
