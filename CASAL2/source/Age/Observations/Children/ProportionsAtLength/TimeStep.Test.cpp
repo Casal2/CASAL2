@@ -37,8 +37,6 @@ age_plus true
 base_weight_units kgs
 initialisation_phases iphase1
 time_steps init step1 step2 step3
-length_plus_group false
-length_bins 0 20 40 60 80 110
 
 @categories 
 format stock 
@@ -48,6 +46,9 @@ age_lengths age_size
 @initialisation_phase iphase1
 type iterative
 years 100
+
+
+
 
 @time_step init  
 processes [type=nop]
@@ -61,6 +62,7 @@ processes instant_mort
 @time_step step3 
 processes  Ageing instant_mort
 
+
 @process Recruitment
 type recruitment_beverton_holt
 categories stock
@@ -73,9 +75,11 @@ steepness 0.9
 ssb biomass_t1
 age 1
 
+
 @process Ageing
 type ageing
 categories stock
+
 
 @process instant_mort
 type mortality_instantaneous
@@ -100,12 +104,16 @@ FishingWest   stock     westFSel    0.7     step1     none
 FishingEest   stock     eastFSel    0.7     step1     none
 end_table
 
+
 @derived_quantity biomass_t1
 type biomass
 time_step step1
 categories stock
 time_step_proportion 1.0
 selectivities MaturationSel
+
+
+
 
 @selectivity One
 type constant
@@ -144,6 +152,7 @@ sigma_l 3
 sigma_r 10
 alpha 1.0
 
+
 @age_length age_size
 type von_bertalanffy
 by_length True
@@ -153,11 +162,13 @@ Linf 88.3
 cv_first 0.1  
 length_weight size_weight3  
 
+
 @length_weight size_weight3
 type basic
 units kgs 
 a 2.0e-6 
 b 3.288
+
 
 @observation observation
 type proportions_at_length
@@ -166,7 +177,9 @@ likelihood multinomial
 time_step step1
 categories stock
 time_step_proportion 1
+length_plus false
 selectivities chatTANSel
+length_bins 0 20 40 60 80 110
 delta 1e-5
 table obs
 1990    0.2   0.3   0.1   0.2   0.2 
@@ -197,7 +210,7 @@ TEST_F(InternalEmptyModel, Observation_Proportions_At_Length_Single) {
   model_->Start(RunMode::kBasic);
 
   ObjectiveFunction& obj_function = model_->objective_function();
-  ASSERT_DOUBLE_EQ(312.92195125167586, obj_function.score());
+  EXPECT_DOUBLE_EQ(312.92195125167586, obj_function.score());
 
   Observation* observation = model_->managers().observation()->GetObservation("observation");
 
@@ -417,3 +430,4 @@ TEST_F(InternalEmptyModel, Observation_Proportions_At_Length_Double) {
 
 
 #endif /* TESTMODE */
+>>>>>>> Samik_length_functionality
