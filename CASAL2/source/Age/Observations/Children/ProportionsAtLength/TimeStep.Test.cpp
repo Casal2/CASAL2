@@ -430,4 +430,3 @@ TEST_F(InternalEmptyModel, Observation_Proportions_At_Length_Double) {
 
 
 #endif /* TESTMODE */
->>>>>>> Samik_length_functionality
