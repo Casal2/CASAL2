@@ -95,6 +95,7 @@ void Manager::Execute(unsigned year, const string& time_step_label) {
   RunMode::Type run_mode = model_->run_mode();
   bool tabular = model_->global_configuration().print_tabular();
   for(auto report : time_step_reports_[time_step_label]) {
+    LOG_FINE() << "executing report " << report->label();
     if ( (RunMode::Type)(report->run_mode() & run_mode) != run_mode) {
       LOG_FINEST() << "Skipping report: " << report->label() << " because run mode is not right";
       continue;
@@ -109,6 +110,7 @@ void Manager::Execute(unsigned year, const string& time_step_label) {
     else
       report->Execute();
   }
+  LOG_TRACE();
 }
 
 /**
