@@ -1,0 +1,118 @@
+CASAL2
+Call: casal2 -r 
+Date: Wed Apr 04 12:12:18 2018
+Version: 2018-02-16 01:37:19 UTC (rev. 14cbc443)
+Copyright (c) 2018 - 2018, NIWA (www.niwa.co.nz)
+Environment: machine:NIWA-1019035, user:dattas, os:Windows_NT, pid:2620
+
+*initialisation_partition[Initial_Population]
+values {d}
+category 0
+all 0.000000 null null null null null null null null null null null
+*end
+
+*partition[Populations]
+year: 1991
+time_step: ts_1
+values {d}
+category 10 20 30 40 50 60 70 80 90 100 110 120
+all 100.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
+*end
+
+*partition[Populations]
+year: 1992
+time_step: ts_1
+values {d}
+category 10 20 30 40 50 60 70 80 90 100 110 120
+all 200.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
+*end
+
+*partition[Populations]
+year: 1993
+time_step: ts_1
+values {d}
+category 10 20 30 40 50 60 70 80 90 100 110 120
+all 300.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
+*end
+
+*partition[Populations]
+year: 1994
+time_step: ts_1
+values {d}
+category 10 20 30 40 50 60 70 80 90 100 110 120
+all 400.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
+*end
+
+*partition[Populations]
+year: 1995
+time_step: ts_1
+values {d}
+category 10 20 30 40 50 60 70 80 90 100 110 120
+all 500.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
+*end
+
+*partition[Populations]
+year: 1996
+time_step: ts_1
+values {d}
+category 10 20 30 40 50 60 70 80 90 100 110 120
+all 600.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
+*end
+
+*partition[Populations]
+year: 1997
+time_step: ts_1
+values {d}
+category 10 20 30 40 50 60 70 80 90 100 110 120
+all 700.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
+*end
+
+*partition[Populations]
+year: 1998
+time_step: ts_1
+values {d}
+category 10 20 30 40 50 60 70 80 90 100 110 120
+all 800.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
+*end
+
+*partition[Populations]
+year: 1999
+time_step: ts_1
+values {d}
+category 10 20 30 40 50 60 70 80 90 100 110 120
+all 900.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
+*end
+
+*partition[Populations]
+year: 2000
+time_step: ts_1
+values {d}
+category 10 20 30 40 50 60 70 80 90 100 110 120
+all 1000.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
+*end
+
+*process[Growth]
+categories: all
+cv: 0.31
+g_ref: 11.91 3.61
+growth_time_steps: ts_1
+l_ref: 30 55
+label: growth
+number_of_growth_episodes: 1
+sigma_min: 4.45
+type: growth_basic
+
+*end
+
+*process[Recruitment]
+categories: all
+label: rec
+length_bins: 10
+proportions: 1
+r0: 100
+type: recruitment_constant
+
+*end
+
+Total elapsed time: 1 second
+Completed
