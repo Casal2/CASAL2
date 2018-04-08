@@ -69,7 +69,7 @@ function (file, path = "",fileEncoding = "") {
         } else if (report_type == "d") {
           header = string.to.vector.of.words(original_file[start_ndx + 1])
           ##header1 = read.table(file = filename, skip = (start_ndx + 1 + (i - 1)), nrows = 1, stringsAsFactors = FALSE,  sep = " ", header = F,strip.white=FALSE, fill = FALSE)
-          Data = read.table(file = filename, skip = (start_ndx + 2 + (i - 1)), nrows = (end_file_locations[i] - start_ndx - 3) , stringsAsFactors = FALSE,  sep = " ", header = F,strip.white=FALSE, fill = FALSE)
+          Data = read.table(file = filename, skip = (start_ndx + 2 + (i - 1)), nrows = (end_file_locations[i] - start_ndx - 3) , stringsAsFactors = FALSE,  sep = " ", header = F,strip.white=FALSE, fill = FALSE, fileEncoding = fileEncoding)
           Data = Data[, -ncol(Data)]
           colnames(Data) = header
           temp_result$values = Data
