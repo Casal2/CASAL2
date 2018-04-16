@@ -19,8 +19,7 @@ cat("URL: http://www.niwa.co.nz\n",file=filename,append=TRUE)
 cat("Copyright: National Institute of Water & Atmospheric Research (NIWA), New Zealand Ministry for Primary Industries.\n",file=filename,append=TRUE)
 cat("LazyData: true\n",file=filename,append=TRUE)
 cat("BugReports: https://github.com/NIWAFisheriesModelling/CASAL2/issues\n",file=filename,append=TRUE)
-cat("Imports:\n",file=filename,append=TRUE)
-cat("\t dplyr\n",file=filename,append=TRUE)
+
 
 # Create R function to return version number
 filename<-"casal2/R/CASAL2.binary.version.R"
