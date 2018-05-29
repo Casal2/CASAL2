@@ -162,7 +162,7 @@ time_step step1
 method_of_removal FishingEest
 mortality_instantaneous_process instant_mort
 categories stock
-length_plus false
+length_plus_group false
 length_bins 0 20 40 60 80 110
 delta 1e-5
 table obs

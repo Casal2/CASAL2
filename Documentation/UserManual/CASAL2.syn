@@ -75,8 +75,6 @@ adapt_stepsize_method
 age
 age_lengths
 age_plus
-age_weight
-age_weight_labels
 ageing_error
 alpha
 ato95
@@ -109,6 +107,7 @@ detection
 deviation_values
 deviation_years
 df
+difference_estimate_label
 difference_scale
 dispersion
 distribution
@@ -118,7 +117,6 @@ equation
 error_value
 error_value_multiplier
 estimate_label
-estimate_labels
 estimation_phase
 evaluations
 exclude_processes
@@ -151,7 +149,6 @@ last_year_with_no_bias
 length
 length_based
 length_bins
-length_plus
 length_plus_group
 length_values
 length_weight
@@ -159,7 +156,6 @@ likelihood
 likelihood_multiplier
 linf
 log_scale
-lognormal_transfomration
 loss_rate
 loss_rate_selectivities
 lower_bound
@@ -217,6 +213,7 @@ s
 same
 sb
 scaling_years
+second_estimate
 second_parameter
 selectivities
 selectivities2
@@ -238,12 +235,8 @@ steps
 t0
 tag_loss_rate
 tag_loss_type
-tagged_categories
-tagged_selectivities
 tau1
 tau2
-theta1
-theta2
 time_step
 time_step_measurements_were_made
 time_step_proportion
@@ -398,7 +391,6 @@ simulated_observation
 square_root
 standard_header
 state_category_by_age
-sum_to_one
 survival_constant_rate
 tag_by_age
 tag_by_length

@@ -101,6 +101,9 @@ void Biomass::DoValidate() {
 
           proportions_by_year_[years_[i]].push_back(value);
     }
+    // Check error values
+    if (error_values_[i] <= 0.0)
+      LOG_ERROR_P(PARAM_ERROR_VALUE) << "for year '" << years_[i] << "' we found an error term that is less than or equal to 0.0, this is not allowed please check it";
   }
 }
 
