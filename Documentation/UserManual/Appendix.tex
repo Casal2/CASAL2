@@ -1,0 +1,235 @@
+\begin{appendices}\label{appendix}
+
+\section{Investigating two options for YCS prior distribution
+	formulations}\label{investigating-two-options-for-ycs-prior-distribution-formulations}
+
+There are two common ways of parameterising the log-Normal prior
+distribution of year class strength (YCS) when fitting models in
+fisheries.
+
+Let \(YCS_y\) represent the YCS for year \(y\). The two
+parameterisations used are:
+
+\begin{enumerate}
+	\def\labelenumi{\arabic{enumi}.}
+	\item
+	Option 1: \(YCS_y \sim \,\, LN(\mu, \sigma^2_R)\), with \(\mu\) chosen
+	so that \(E(YCS_y)=1\).
+	\item
+	Option 2:
+	\(YCS_y = e^{\epsilon_y - \frac{1}{2}\sigma^2_R},\,\, \text{where } \epsilon_y \sim \,N(0, \sigma^2_R)\).
+\end{enumerate}
+
+To check whether the two representations are equivalent, we will
+determine, in each case the density function of \(YCS_y\) on the
+log-scale.
+
+Note that, in general, if \(Y \sim LN(\mu, \sigma^2_R)\) (ie random
+variable \(Y\) follows a log-Normal distribution with parameters \(\mu\)
+and \(\sigma^2_R\)), then the expectation, \(E(Y)\), and variance,
+\(Var(Y)\), of \(Y\) are given by
+
+\[E(Y) = e^{\mu + \frac{1}{2}\sigma^2_R},\] and
+
+\[Var(Y) = \left[e^{\sigma^2_R}-1\right]e^{2\mu + \sigma^2_R}.\] The
+log-Normal distribution can be expressed on the log scale as follows:
+
+\[\log\, Y \sim \,\, \text{Normal}(\mu, \sigma^2_R).\]
+
+\subsection*{\texorpdfstring{Option 1:
+		\(YCS_y \sim \,\, LN(\mu, \sigma^2_R)\), with
+		\(E(YCS_y)=1\)}{1.1 Option 1: YCS\_y \textbackslash{}sim \textbackslash{},\textbackslash{}, LN(\textbackslash{}mu, \textbackslash{}sigma\^{}2\_R), with E(YCS\_y)=1}}\label{option-1-ycs_y-sim-lnmu-sigma2_r-with-eycs_y1}
+
+Setting \(E(YCS_y) = 1\) implies
+
+\begin{align}
+e^{\mu + \frac{1}{2}\sigma^2_R} &= 1 \nonumber \\
+\Rightarrow  \mu + \frac{1}{2}\sigma^2_R &= \log 1 \nonumber \\
+\Rightarrow \mu &= -\frac{1}{2}\sigma^2_R
+\label{musolve}
+\end{align}
+
+and
+
+\begin{align}
+Var(YCS_y) &= \left[e^{\sigma^2_R}-1\right]e^{2\mu + \sigma^2_R} \nonumber \\
+&= \left[e^{\sigma^2_R}-1\right]e^{2(-\frac{1}{2}\sigma^2_R) + \sigma^2_R} \nonumber \\
+&=\left[e^{\sigma^2_R}-1\right]e^0 \nonumber \\
+&= e^{\sigma^2_R}-1.
+\end{align}
+
+So, on the log scale we have:
+
+\[\log\, YCS_y \sim \,N\left(-\frac{1}{2}\sigma^2_R, \sigma^2_R\right).\]
+
+\subsection*{\texorpdfstring{Option 2:
+		\(YCS_y = e^{\epsilon_y - \frac{1}{2}\sigma^2_R},\,\, \text{where } \epsilon_y \sim \,N(0, \sigma^2_R)\)}{1.2 Option 2: YCS\_y = e\^{}\{\textbackslash{}epsilon\_y - \textbackslash{}frac\{1\}\{2\}\textbackslash{}sigma\^{}2\_R\},\textbackslash{},\textbackslash{}, \textbackslash{}text\{where \} \textbackslash{}epsilon\_y \textbackslash{}sim \textbackslash{},N(0, \textbackslash{}sigma\^{}2\_R)}}\label{option-2-ycs_y-eepsilon_y---frac12sigma2_r-textwhere-epsilon_y-sim-n0-sigma2_r}
+
+In this case, \(YCS_y = e^{\epsilon_y - \frac{1}{2}\sigma^2_R}\) implies
+
+\[\log\, YCS_y = \epsilon_y - \frac{1}{2}\sigma^2_R\]
+
+and
+
+\[E(\log YCS_y) = E\left(\epsilon_y - \frac{1}{2}\sigma^2_R\right) = -\frac{1}{2}\sigma^2_R,\]
+since \(E(\epsilon_y) =0\). We also have:
+
+\begin{align}
+Var(\log(YCS_y)) &= Var\left(\epsilon_y - \frac{1}{2}\sigma^2_R\right) \nonumber\\
+&=Var(\epsilon_y)\nonumber \\
+&=\sigma^2_R
+\end{align}
+
+Therefore
+
+\[\log\, YCS_y \sim \,N\left(-\frac{1}{2}\sigma^2_R, \sigma^2_R\right).\]
+
+Therefore the two parameterisations result in exactly the same
+distribution for \(YCS_y\) values and should give the same results
+\textbf{if expressed correctly} in MCMC algorithms.
+
+To illustrate that these two distributions are exactly the same, we
+first use simulations to show that we get the same \(YCS_y\) values when
+generating sequences from these two formulations. One is generated
+directly from the log-Normal distribution, while the other is obtained
+by transforming a Normal random variable.
+
+\section*{Investigating prior
+	specification}\label{investigating-prior-specification}
+
+Given the two different representations, the question is how should
+their prior distribution contributions to the negative log-posterior be
+specified?
+
+\subsection*{Prior based on Option 1}\label{prior-based-on-option-1}
+
+For Option 1, this is straight-forward. The \(YCS\)'s are generated from
+a log-Normal distribution, so the contribution to the log posterior is
+based on the log-Normal density function. That is, if we let
+\(Y=YCS_y\), then the density function of \(Y\) is given by
+
+\[f(y)= \frac{1}{y\sigma_R\sqrt{2\pi}}e^{-\frac{1}{2\sigma_R^2}(\log y -\mu)^2}.\]
+Since \(\mu = -\frac{1}{2}\sigma^2_R\) as shown in equation
+\ref{musolve}, we have
+
+\begin{equation}
+-\log f(y)= \log y + \log \sigma_R + \frac{1}{2}\log 2\pi + \frac{1}{2\sigma_R^2}\left(\log y - (-\frac{1}{2}\sigma^2_R)\right)^2.
+\label{logfy}
+\end{equation}
+
+\subsection*{Prior based on Option 2}\label{prior-based-on-option-2}
+
+For Option 2, I will look at two ways used to specify the prior and say
+which one is correct.
+
+\subsubsection*{\texorpdfstring{Prior 2 - Normal distribution for
+		\(\epsilon_y\).}{2.2.1 Prior 2 - Normal distribution for \textbackslash{}epsilon\_y.}}\label{prior-2---normal-distribution-for-epsilon_y.}
+
+In this approach, we have
+\(YCS_y = e^{\epsilon_y - \frac{1}{2}\sigma^2_R},\,\, \text{where } \epsilon_y \sim \,N(0, \sigma^2_R)\).
+
+What is sometimes done is to then express the contribution to the
+negative log-posterior using \(-\log f(\epsilon_y)\),
+
+where
+
+\[f(\epsilon_y) = \frac{1}{\sigma_R\sqrt{2\pi}}e^{-\frac{1}{2\sigma_R^2}\epsilon_y^2},\]
+and therefore
+
+\begin{equation}
+-\log f(\epsilon_y)= \log \sigma_R + \frac{1}{2}\log 2\pi + \frac{1}{2\sigma_R^2}\epsilon_y^2.
+\label{logfeps}
+\end{equation}
+
+However, this contribution is based on the density function for
+\(\epsilon_y\) and not for \(Y\). Such an approach is incorrect. The two
+contributions are different as seen in equations \ref{logfy} and
+\ref{logfeps}, and as shown below.
+
+So what does this mean in practice?
+
+The overall model is based on \(YCS_y\), rather than \(\epsilon_y\).
+Using a negative log-posterior based on \(f(\epsilon_y)\) gives
+incorrect weights to the \(YCS_y\) values in the model, meaning that in
+MCMC steps, acceptance probabilities will be incorrect. When using the
+specification based on \(\epsilon_y\), the correct approach is to use
+variable transformation methods to obtain probability densities for the
+\(YCS_y\) values. These density values based on \(f(Y)\) are the ones to
+use in the negative log-posterior.
+
+\subsubsection*{\texorpdfstring{Prior 3 - Variable transformation
+		to obtain \(f(Y)\) based on
+		\(f(\epsilon_y)\)}{Prior 3 - Variable transformation to obtain f(Y) based on f(\textbackslash{}epsilon\_y)}}\label{prior-3---variable-transformation-to-obtain-fy-based-on-fepsilon_y}
+
+Given
+\(Y = e^{\epsilon_y - \frac{1}{2}\sigma^2_R},\,\, \text{where } \epsilon_y \sim \,N(0, \sigma^2_R)\),
+we need to find \(g(y)\), the distribution of the transformed variable
+\(YCS_y\).
+
+Variable transformation theory tells us that:
+
+\[g(y) = f(s(y))\left\vert \frac{d s(y)}{dy}\right\vert,\]
+
+where \(s(y)=\epsilon_y(y)\) is the result of the conversion from \(Y\)
+to \(\epsilon_y\), and \(\left\vert \frac{d s(y)}{dy}\right\vert\) is
+the Jacobian of the transformation.
+
+We find \(s(y)\) by expressing \(\epsilon_y\) as a function of \(y\):
+
+\begin{align}
+y &= e^{\epsilon_y - \frac{1}{2}\sigma^2_R} \nonumber \\
+\Rightarrow \log y &= \epsilon_y - \frac{1}{2}\sigma^2_R \nonumber \\
+\Rightarrow \epsilon_y &= \log y + \frac{1}{2}\sigma^2_R.
+\end{align}
+
+Therefore
+
+\[\frac{d s(y)}{dy} = \frac{d \epsilon_y(y)}{dy} = \frac{d}{dy}\left(\log y + \frac{1}{2}\sigma^2_R\right) =\frac{1}{y}.\]
+Then
+
+\begin{align}
+g(y) &= \frac{1}{\sigma_R\sqrt{2\pi}}e^{-\frac{1}{2\sigma_R^2}\left[\log y + \frac{1}{2}\sigma^2_R \right]^2}\cdot \left\vert \frac{1}{y}\right\vert \nonumber \\
+&=\frac{1}{y\sigma_R\sqrt{2\pi}}\exp\left\{-\frac{[\log y - (-\frac{1}{2}\sigma^2_R)]^2}{2\sigma^2_R}\right\}.
+\label{gy}
+\end{align}
+
+This is the density function of a logNormal distribution with parameters
+\(\mu= -\frac{1}{2}\sigma^2_R\) and \(\sigma^2_R\),
+
+that is \[Y \sim LN\left(-\frac{1}{2}\sigma^2_R, \sigma^2_R\right),\]
+
+and from equation \ref{gy} we see that
+
+\begin{equation}
+-\log g(y)= \log y + \log \sigma_R + \frac{1}{2}\log 2\pi + \frac{1}{2\sigma_R^2}\left(\log y - (-\frac{1}{2}\sigma^2_R)\right)^2.
+\label{loggy}
+\end{equation}
+
+which is exactly the same expression as that for \(-\log f(y)\) in
+equation \ref{logfy}.
+
+Therefore if used correctly, Option 2 parameterisation results in the
+same contribution, \(-\log g(y)\), to the negative log posterior as
+Option 1 (\(-\log f(y)\).
+
+Note that \(-\log f(y)=-\log f(\epsilon_y)\) only for \(Y=1\).
+
+I'll carry out a brief simulation exercise to illustrate the point. I
+will use the density functions derived above, rather than existing R
+functions and calculate \(-\log f(y) = -\log g(y)\) and
+\(-\log f(\epsilon_y)\) for a sequence of \(YCS_y\) values.
+
+The simulation results indicate that
+\(-\log f(y) = -\log g(y) =-\log f(\epsilon_y)\) only for \(Y=1\). For
+other values of \(Y\), the size of the difference between \(-\log f(y)\)
+and \(-\log f(\epsilon_y)\) is given by \(\vert \log y\vert\) and does
+not depend on \(\sigma^2_R\). Therefore, the differences increase in
+size as the \(YCS\) value diverges further from 1.
+
+What is the implication of this?
+
+Incorrect use of the prior based on \(\epsilon_y\) (ie using
+\(-\log f(\epsilon_y)\) in place of \(-\log g(y)\)) results in prior
+contributions to the negative log-posterior that are lower or higher by
+\(\log YCS_y\) than what they should be.
+\end{appendices}
