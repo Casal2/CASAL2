@@ -15,13 +15,13 @@
 #include "Common/Utilities/To.h"
 #include "Common/Categories/Categories.h"
 #include "Common/TimeSteps/Manager.h"
-#include "Common/Utilities/Map.h"
-#include "boost/math/distributions/normal.hpp"
+#include "Common/Utilities/Math.h"
 
 // Namespaces
 namespace niwa {
 namespace length {
 namespace processes {
+namespace math = niwa::utilities::math;
 
 /**
  * Default constructor
@@ -75,47 +75,43 @@ void GrowthBasic::DoBuild() {
 
 void GrowthBasic::DoReset() {
 
-/*
   // Build Transition Matrix
   Double mu, sigma;
-  for (unsigned length_bin; length_bin < length_bins_.size(); ++length_bin) {
+  for (unsigned length_bin = 0; length_bin < length_bins_.size(); ++length_bin) {
     Double sum_so_far = 0.0;
     for (unsigned j = 1; j < length_bin; ++j){
       transition_matrix_[length_bin][j] = 0; // no negative growth
     }
-    if (model_->plus_group() && (length_bin == (length_bins_.size() - 1))) {
+    if (model_->length_plus() && (length_bin == (length_bins_.size() - 1))) {
       transition_matrix_[length_bin][length_bin] = 1.0; // plus group can't grow any more
     }
     // Calculate incremental change based on mid point
     mu = g_[0] + (g_[1] - g_[0])*(length_bin_mid_points_[length_bin] - l_[0]) / (l_[1] - l_[0]);
     sigma = fmax(cv_ * mu, min_sigma_);
-    // Build boost object.
-    boost::math::normal norm{mu, sigma};
-    transition_matrix_[length_bin][length_bin] = pdf(norm, (length_bins_[length_bin + 1] - length_bin_mid_points_[length_bin])); // Calculate normal PDF I am using Boost not sure if this will play ball.
+    transition_matrix_[length_bin][length_bin] = math::pnorm(length_bins_[length_bin + 1] - length_bin_mid_points_[length_bin],mu,sigma); // Calculate normal PDF I am using Boost not sure if this will play ball.
     sum_so_far = transition_matrix_[length_bin][length_bin];
 
     for (unsigned j = length_bin + 1; j < (length_bins_.size() - 1); ++j){
-      transition_matrix_[length_bin][j] = pdf(norm, (length_bins_[j + 1] - length_bin_mid_points_[length_bin],mu,sigma)) - sum_so_far;
+      transition_matrix_[length_bin][j] = math::pnorm(length_bins_[j + 1] - length_bin_mid_points_[length_bin],mu,sigma) - sum_so_far;
       sum_so_far += transition_matrix_[length_bin][j];
     }
-    if (model_->plus_group()){
+    if (model_->length_plus()){
       transition_matrix_[length_bin][(length_bins_.size() - 1)] = 1 - sum_so_far;
     } else {
-      transition_matrix_[length_bin][(length_bins_.size() - 1)] = pdf(norm, length_bins_[length_bins_.size() - 1] - length_bin_mid_points_[length_bin], mu, sigma) - sum_so_far;
+      transition_matrix_[length_bin][(length_bins_.size() - 1)] = math::pnorm(length_bins_[length_bins_.size() - 1] - length_bin_mid_points_[length_bin], mu, sigma) - sum_so_far;
     }
   }
-*/
 
 }
 
 /**
- * Execute our ageing class.
+ * Execute our length growth class.
  */
 void GrowthBasic::DoExecute() {
   // iterate over each category multiplying numbers at length by the transition matrix
   // will have to initialise numbers_transitioning_matrix_;
 
-  // TODO: This will have to be revisited, I don't think it is very efficent.
+  // TODO: This will have to be revisited, I don't think it is very efficient.
   for (auto category : partition_) {
     unsigned this_length_bin = 0;
     for (Double& data : category->data_) {
