@@ -59,7 +59,7 @@ RecruitmentBevertonHolt::RecruitmentBevertonHolt(Model* model)
   RegisterAsAddressable(PARAM_YCS_VALUES, &ycs_value_by_year_);
 
   // Allow these to be used in additional priors.
-  RegisterAsAddressable(PARAM_STANDARDISE_YCS_YEARS, &stand_ycs_value_by_year_,addressable::kLookup);
+  RegisterAsAddressable(PARAM_STANDARDISE_YCS, &stand_ycs_value_by_year_,addressable::kLookup);
 
 
   phase_b0_         = 0;
@@ -188,7 +188,6 @@ void RecruitmentBevertonHolt::DoBuild() {
       LOG_FINEST() << "process_index = " << process_index;
       if (!mortailty_block) {
         process_index++;
-        LOG_FINEST() << "Are we entering this loop?" << process_index;
         derived_quantity_index = process_index;
         process_index++;
       }
