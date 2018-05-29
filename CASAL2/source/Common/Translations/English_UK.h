@@ -556,6 +556,7 @@
 #define PARAM_SSB_LAYER                           "ssb_layer"
 #define PARAM_SSB_VALUES                          "ssb_values"
 #define PARAM_STANDARDISE_YCS_YEARS               "standardise_ycs_years"
+#define PARAM_STANDARDISE_YCS                     "standardise_ycs"
 #define PARAM_START                               "start"
 #define PARAM_START_YEAR                          "start_year"
 #define PARAM_STATE                               "state"
