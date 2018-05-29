@@ -142,7 +142,7 @@ protected:
   vector<string>              initialisation_phases_;
   vector<string>              time_steps_;
   vector<unsigned>            length_bins_;
-  bool                        length_plus_ = false;
+  bool                        length_plus_ = true;
   unsigned                    length_plus_group_ = 0;
   bool                        addressable_values_file_ = false;
   unsigned                    adressable_values_count_ = 1;
