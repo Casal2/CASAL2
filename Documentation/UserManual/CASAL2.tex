@@ -11,7 +11,7 @@
 \usepackage{tabulary} % better tables
 \usepackage{comment} % block comments
 \usepackage{multicol}
-
+\usepackage[toc,page]{appendix}
 \usepackage[usenames, dvipsnames]{color} % Highlighting text for editing
 
 % hyperref for HTML links within pdf 
@@ -352,6 +352,9 @@ Citation: \ManualRef
 \include{References}
 
 \clearemptydoublepage{}
+
+% Appendix
+\include{Appendix}
 
 \let\stdsection\section % Force index to be a numbered section
 \def\section*#1{\stdsection{#1}}

@@ -73,8 +73,11 @@ adapt_covariance_matrix_at
 adapt_stepsize_at
 adapt_stepsize_method
 age
+age_length
 age_lengths
 age_plus
+age_weight
+age_weight_labels
 ageing_error
 alpha
 ato95
@@ -92,6 +95,7 @@ catchability
 catches
 categories
 categories2
+category
 consumption_rate
 convergence_years
 correlation_adjustment_diff
@@ -107,7 +111,6 @@ detection
 deviation_values
 deviation_years
 df
-difference_estimate_label
 difference_scale
 dispersion
 distribution
@@ -116,7 +119,9 @@ electivities
 equation
 error_value
 error_value_multiplier
+estimate
 estimate_label
+estimate_labels
 estimation_phase
 evaluations
 exclude_processes
@@ -156,6 +161,7 @@ likelihood
 likelihood_multiplier
 linf
 log_scale
+lognormal_transfomration
 loss_rate
 loss_rate_selectivities
 lower_bound
@@ -164,7 +170,6 @@ max_age
 max_correlation
 max_generations
 max_iter
-maximum_length
 mcmc
 mean
 method
@@ -213,7 +218,6 @@ s
 same
 sb
 scaling_years
-second_estimate
 second_parameter
 selectivities
 selectivities2
@@ -235,8 +239,12 @@ steps
 t0
 tag_loss_rate
 tag_loss_type
+tagged_categories
+tagged_selectivities
 tau1
 tau2
+theta1
+theta2
 time_step
 time_step_measurements_were_made
 time_step_proportion
@@ -285,6 +293,7 @@ true
 abundance
 addressable
 adolc
+age_length
 ageing
 ageing_error_matrix
 all_values
@@ -391,6 +400,8 @@ simulated_observation
 square_root
 standard_header
 state_category_by_age
+sum_to_one
+sum_to_zero
 survival_constant_rate
 tag_by_age
 tag_by_length
