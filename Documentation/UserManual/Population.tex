@@ -396,7 +396,7 @@ and where, $a$ is the parameter \texttt{age}, $p_j$ is the proportion of recruit
 
 As stated earlier, recruitment refers to the recruitment into the population and may differ from the spawning event. See two paragraphs below on more information about \texttt{ssb\_offset}, but in general this parameter shouldn't be specified by the user.
 
-$SR$ is the Beverton-Holt stock-recruit relationship parametrised by the steepness $h$ based on \cite{mace_doonan_88} parameterisation,
+$SR$ is the Beverton-Holt stock-recruit relationship parametrised by the steepness $h$ based on \cite{mace_doonan_88} parametrisation,
 
 \begin{equation}\label{eq:BH_SR}
 SR(SSB_y) = \frac{SSB_y}{B_0} / \left( 1-\frac{5h-1}{4h} \left( 1-\frac{SSB_y}{B_0} \right) \right)
@@ -406,16 +406,19 @@ Note that the Beverton-Holt recruitment process requires a value for \Bzero\ and
 
 \texttt{ssb\_offset} should not be manually specified by the user; as is commonplace, \CNAME\ determines \texttt{ssb\_offset} by the order of ageing, recruitment, spawning and the recruitment parameter \texttt{age} accordingly,
 \begin{itemize}
-	\item if order is recruitment, ageing, spawning, then \texttt{ssb\_offset} should equal \texttt{age} + 1, or
-	\item if order is spawning, ageing, recruitment, then \texttt{ssb\_offset} should equal \texttt{age} - 1, or
+	\item if annual time-step order is recruitment, ageing, spawning, then \texttt{ssb\_offset} should equal \texttt{age} + 1, or
+	\item if annual time-step order is spawning, ageing, recruitment, then \texttt{ssb\_offset} should equal \texttt{age} - 1, or
 	\item else \texttt{ssb\_offset} = \texttt{age}
 \end{itemize}
 
-There may be certain scenarios where the user will manually want to input these values, e.g. if there are multiple ageing processes in the annual cycle. \CNAME\ has not been coded to deal with this situation and in this case \texttt{ssb\_offset} needs to be manually defined.
+There may be certain scenarios where the user will manually want to input these values, e.g. if there are multiple ageing processes in the annual cycle. \CNAME\ has not been coded to deal with this situation and in this case \texttt{ssb\_offset} needs to be manually defined. 
 
-Another important input parameter is the \texttt{ycs\_years} which is defined in Equation~\eqref{eq:year_class}. The parameter \texttt{ycs\_values} should always be referenced by the \texttt{ycs\_years} parameter and is important to note when defining \command{estimate}, \command{project} and \command{time\_varying} blocks for the parameter \texttt{ycs\_values}. An example follows.
+There are two variants of this process, and they refer to how the stock recruitment residuals or $YCS_{ycs\_year}$ are parametrised as. This can either be as natural multipliers denotes as year class strength ($YCS$) multipliers or in log space usually termed recruitment deviations. Due to the difference in terminology we decided to split these two parametrisations into two separate processes \subcommand{recruitment\_beverton\_holt} and \subcommand{recruitment\_beverton\_holt\_with\_deviations} respectively. The difference is discussed in the below sections.
 
-Year class values are standardised using the Haist parametrisation suggested by V. Haist. Here, the model parameter \texttt{ycs\_values} is a vector \textbf{Y}, covering the set of years from \texttt{start\_year} - \texttt{ssb\_offset} to \texttt{final\_year} - \texttt{ssb\_offset}, as defined by the parameter \texttt{ycs\_years}. The year class strengths are calculated by $YCS_i=Y_i/\bar{\textbf{Y}}$, where the mean is calculated over the user-specified years \texttt{standardise\_ycs\_years}. Then,
+\paragraph*{YCS ($YCS_y$)}
+The $YCS$ parameter (\texttt{ycs\_years})  is defined in Equation~\eqref{eq:year_class}. The parameter \texttt{ycs\_values} should always be referenced by the \texttt{ycs\_years} parameter and is important to note when defining \command{estimate}, \command{project} and \command{time\_varying} blocks for the parameter \texttt{ycs\_values}. An example is given at the end of the section.
+
+A common practice when estimating $YCS$ is to standardise using the Haist parametrisation suggested by V. Haist. Note that \CNAME\ will only standardise if users define the sub command \subcommand{standardise\_ycs\_years}. When standardising the model parameter \texttt{ycs\_values} is a vector \textbf{Y}, covering the set of years from \texttt{start\_year} - \texttt{ssb\_offset} to \texttt{final\_year} - \texttt{ssb\_offset}, as defined by the parameter \texttt{ycs\_years}. The resulting year class strengths are calculated by $YCS_i=Y_i/\bar{\textbf{Y}}$, where the mean is calculated over the user-specified years \texttt{standardise\_ycs\_years}. Then,
 \[
 YCS_i = 
 \begin{cases}
@@ -426,9 +429,9 @@ Y_i					 & :y \notin S
 
 where S is the set of years from \texttt{standardise\_ycs\_years}. One effect of this parametrisation is that \Rzero\ is then defined as the mean estimated recruitment over the set of years $S$, because the mean year class multiplier over these years will always be one.
 
-Typically, the user will define \texttt{standardise\_ycs\_years} to span the years for which they expect to have reasonable estimates of $YCS$s. Often, the user will wish to force $Y_y=1$ for some or all years $y\in S$ (this is equivalent to forcing Ry=\Rzero\ x SR) by setting the lower and upper bounds of these $Y$s to be 1. An exception to this might occur for the most recent $YCS$s, which the user may want to estimate but not include in the definition of \Rzero\ (because the estimates are based on too few data). Note that, optionally, the user may exclude one or more years within the range from the averaging process of the Haist parameterisation. 
+Typically, the user will define \texttt{standardise\_ycs\_years} to span the years for which they expect to have reasonable estimates of $YCS$s. Often, the user will wish to force $Y_y=1$ for some or all years $y\in S$ (this is equivalent to forcing Ry=\Rzero\ x SR) by setting the lower and upper bounds of these $Y$s to be 1. An exception to this might occur for the most recent $YCS$s, which the user may want to estimate but not include in the definition of \Rzero\ (because the estimates are based on too few data). Note that, optionally, the user may exclude one or more years within the range from the averaging process of the Haist parametrisation. 
 
-The advantage of the Haist parameterisation is that the user need no longer use a large penalty to force the mean of the $YCS$ parameter to be 1 (though they should still use a small penalty to stop the mean of \textbf{Y} from drifting). This may improve MCMC performance.  Projected $YCS$ are not affected by this feature. A disadvantage with this parameterisation in a Bayesian analysis is that the prior refers to the $Y$s, not the $YCS$.
+The advantage of the Haist parametrisation is that the user need no longer use a large penalty to force the mean of the $YCS$ parameter to be 1 (though they should still use a small penalty to stop the mean of \textbf{Y} from drifting). This may improve MCMC performance.  Projected $YCS$ are not affected by this feature. A disadvantage with this parametrisation in a Bayesian analysis is that the prior refers to the $Y$s, not the $YCS$.
 
 The following syntax is an example of a the configuration of the Beverton-Holt recruitment process, where individuals are added to the category `immature' at $age=1$, and the number to add is $R_0=5 \times 10^5$. \texttt{SSB\_derived\_quantity} is a derived quantity that specifies the total spawning stock biomass that contributed to the year class, with \Bzero\ the value of the derived quantity at the end of the initialisation phase labelled \texttt{phase1}. The $YCS$ are standardised to have mean one in the period 1995 to 2004, and recruits enter into the model two years following spawning.
 
@@ -448,6 +451,57 @@ The following syntax is an example of a the configuration of the Beverton-Holt r
 	ycs_values  0.65   0.87    1.6   1.13 1.0235  0.385  2.653   1.35      1      1      1      1      1
 \end{verbatim}}}
 
+
+\paragraph*{Recruitment deviations ($\epsilon_y$)}
+
+Recruitment deviations are modeling the stock recruitment residuals in log space, with the following ling between $YCS_y$ and $\epsilon_y$ shown in equation~\ref{eq:recruit_devs}.
+
+\begin{equation}\label{eq:recruit_devs}
+	YCS_y = exp^{-0.5b_y\sigma^2_R + \epsilon_y}
+\end{equation}
+
+where $\sigma^2_R$ is the expected variance of the stock recruitment residuals, $b_y$ is a bias correction defined by \cite{methot2011adjusting} and equation~\ref{eq::bias}. There is a constraint when using this parametrisation which is that $\epsilon_y\sim N(0,\sigma^2_R)$. That is $\epsilon_y$ are normally distributed in log space and thus lognormal when un-transformed to the resulting stock recruitment relationship $YCS_y$. Recent work has found that this transformation does not technically lead to \textit{a priori} assumption that the resulting $YCS_y$ are lognormal, see appendix~\ref{app::A}(\textbf{ADD an appendix}) for the theoretical proof of this. It is more like an improper normal log distribution.
+
+\begin{equation}\label{eq::bias}
+	    b_y = \left\{\begin{array}{lr}
+	0, & \text{for }y\leq y_1^b\\
+	b_{max}(1 - \frac{y - y_1^b}{y_2^b - y_1^b}), & \text{for } y_1^b < y < y_2^b\\
+	b_{max}, & \text{for } y_2^b\leq y \leq y_3^b\\
+	b_{max}(1 - \frac{y_3^b - y}{y_4^b - y_3^b}), & \text{for }  y_3^b< y < y_4^b\\
+	0, & \text{for } y_4^b\leq y
+	\end{array}\right\}
+\end{equation}
+
+The ramp function described above for the bias correction has the additional subcommands controlling the ramp as follows, 
+\begin{itemize}
+	\item $y_1^b = $ \subcommand{last\_year\_with\_no\_bias}
+	\item $y_2^b = $ \subcommand{first\_year\_with\_bias}
+	\item $y_3^b = $ \subcommand{last\_year\_with\_bias}
+	\item $y_4^b = $ \subcommand{first\_recent\_year\_with\_no\_bias}
+	\item $b_{max} = $ \subcommand{b\_max}
+\end{itemize}
+
+
+{\small{\begin{verbatim}
+		@process Recruitment
+		type recruitment_beverton_holt_with_deviations
+		categories immature
+		proportions 1.0
+		r0 500000
+		last_year_with_no_bias 1940
+		first_year_with_bias 1950
+		last_year_with_bias 2016
+		first_recent_year_with_no_bias 2018
+		b_max 0.85
+		b0_initialisation_phase phase1
+		steepness 0.75
+		age 1
+		ssb SSB_derived_quantity
+		deviation_years   1994   1995   1996   1997   1998   1999   2000   2001   2002   2003   2004   2005   2006
+		deviation_values  0 -0.2 0.4 0 0 0 0 0 0 0 0 0 0
+\end{verbatim}}}
+	
+	
 So, to specify a Beverton-Holt recruitment for each stock, the following information is required:
 \begin{enumerate}
 	\item $YCS$, starting from year (\texttt{start\_year} - \texttt{ssb\_offset}) and extending up to year (\texttt{final\_year} - \texttt{ssb\_offset})
@@ -457,7 +511,7 @@ So, to specify a Beverton-Holt recruitment for each stock, the following informa
 	\item a label for the derived quantity
 \end{enumerate}
 
-Also, when an \command{initialisation\_phase} (Section~\ref{subsec:initialisation}) type = \subcommand{derived} is specified, then all categroies must be specified in the \command{recruitment} block. Ususally in a recruitment processes you only need to define the categories that recieve recruits. Say, for example, a population had a spawning area different from the area that recruits enter the population, then an area specific model could be specified containing spawning categories and recruiting categories. Recruited categories would be specified in the subcommand \subcommand{categories}, as these will be the categories recieving recruits. \textbf{If} you have \command{initialisation\_phase}, \subcommand{type=derived} you need also to specify all categories that are a part of that recruitment process, e.g.,
+Also note when an \command{initialisation\_phase} (Section~\ref{subsec:initialisation}) type = \subcommand{derived} is specified and the recruitment is defined by \subcommand{b0}, then all categories must be specified in the \command{recruitment} block. Usually in a recruitment processes you only need to define the categories that receive recruits. Say, for example, a population had a spawning area different from the area that recruits enter the population, then an area specific model could be specified containing spawning categories and recruiting categories. recruiting categories would be specified in the subcommand \subcommand{categories}, as these will be the categories receiving recruits. \textbf{If} you have \command{initialisation\_phase}, \subcommand{type=derived} you need also to specify all categories that are a part of that recruitment process, e.g.,
 
 {\small{\begin{verbatim}
 		@process Recruitment
@@ -468,7 +522,7 @@ Also, when an \command{initialisation\_phase} (Section~\ref{subsec:initialisatio
 		ssb SSB
 		....
 		\end{verbatim}}}
-and the proportions = 0.0 are needed due to the way the derived initalisation phase works, i.e., it finds a solution for when \subcommand{r0} = 1.0 based on an infinite geometric series for the plus group, and scales the initial partition by \subcommand{r0}. Thus, if all categroies are not specifed, then those that are missed would not be initialised to true values and this could lead to inaccurate model outputs. This cauton extends to multiple-stock fisheries models where all the categories that make up the stock need to be listed.
+The proportions = 0.0 are needed due to the way the derived initialisation phase works, i.e., it finds a solution for when \subcommand{r0} = 1.0 based on an infinite geometric series for the plus group, and scales the initial partition by \subcommand{r0}. Thus, if all categories are not specified, then those that are missed would not be initialised to true values and this could lead to inaccurate model outputs. This caution extends to multiple-stock fisheries models where all the categories that make up the stock need to be listed.
 \subsubsection{\I{Ageing}\label{sec:ageing}}
 
 The ageing process `ages' individuals --- simply, moving all individuals in the named categories $j$ from one age class $a$ to the next $a + 1$, or accumulates them if the last age class is a plus group. 
