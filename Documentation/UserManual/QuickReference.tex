@@ -150,10 +150,6 @@
 \defSub{estimate\_labels} {The label for the estimates for the sum to one transformation}
 \defSub{upper\_bound} {The empirical upper bounds for the transformed parameters. There should be one less bound than parameters}
 \defSub{lower\_bound} {The empirical lower bound for the transformed parameters. There should be one less bound than parameters}
-\par\textbf{\commandlabsubarg{estimate\_\_transformation}{type}{sum\_to\_zero}}\par
-\defSub{estimate} {The label for the estimate label to use in the simplex transformation}
-\defSub{upper\_bound} {The empirical upper bounds for the transformed parameters. There should be one less bound than parameters}
-\defSub{lower\_bound} {The empirical lower bound for the transformed parameters. There should be one less bound than parameters}
 \defComLab{initialisation\_phase}{Define an object of type \emph{initialisation\_phase}}\par\par
 \defSub{label} {The label of the initialisation phase}
 \defSub{type} {The type of initialisation}
@@ -254,8 +250,9 @@
 \defSub{initialisation\_phases} {Define the labels of the phases of the initialisation}
 \defSub{time\_steps} {Define the labels of the time steps, in the order that they are applied, to form the annual cycle}
 \defSub{projection\_final\_year} {Define the final year of the model in projection mode}
-\defSub{length\_bins} {}
-\defSub{length\_plus\_group} {Is the last bin a plus group}
+\defSub{length\_bins} {The minimum length in each length bin}
+\defSub{length\_plus} {Specify whether there is a length plus group or not}
+\defSub{length\_plus\_group} {Mean size of length plus group}
 \defSub{base\_weight\_units} {Define the units for the base weight. This will be the default unit of any weight input parameters}
 \defComLab{observation}{Define an object of type \emph{observation}}\par\par
 \defSub{label} {Label}
@@ -292,7 +289,7 @@
 \par\textbf{\commandlabsubarg{observation}{type}{process\_removals\_by\_length}}\par
 \defSub{length\_bins} {Length bins}
 \defSub{time\_step} {Time step to execute in}
-\defSub{length\_plus\_group} {Is the last bin a plus group}
+\defSub{length\_plus} {Is the last bin a plus group}
 \defSub{tolerance} {Tolerance for rescaling proportions}
 \defSub{years} {Years for which there are observations}
 \defSub{process\_errors} {the value of process error}
