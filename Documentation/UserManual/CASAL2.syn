@@ -119,7 +119,6 @@ electivities
 equation
 error_value
 error_value_multiplier
-estimate
 estimate_label
 estimate_labels
 estimation_phase
@@ -154,6 +153,7 @@ last_year_with_no_bias
 length
 length_based
 length_bins
+length_plus
 length_plus_group
 length_values
 length_weight
@@ -401,7 +401,6 @@ square_root
 standard_header
 state_category_by_age
 sum_to_one
-sum_to_zero
 survival_constant_rate
 tag_by_age
 tag_by_length
