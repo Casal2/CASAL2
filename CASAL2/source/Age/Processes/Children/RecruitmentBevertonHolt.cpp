@@ -423,6 +423,8 @@ void RecruitmentBevertonHolt::ScalePartition() {
   Double alternative_ssb = derived_quantity_->GetValue(model_->start_year() - ssb_offset_);
   // Look at initialisation phase
   Double SSB = derived_quantity_->GetLastValueFromInitialisation(phase_b0_);
+  if (SSB <= 0.0)
+    LOG_FATAL() << "SSB from initialisation was '" << SSB << "' something is wrong with your configuration file, try doing a run with --loglevel trace to help diagnose";
   LOG_FINEST() << "Last SSB value = " << SSB << " init ssb = " << alternative_ssb;
   Double scalar = b0_ / SSB;
   LOG_FINEST() << "Scalar = " << scalar << " B0 = " << b0_;
