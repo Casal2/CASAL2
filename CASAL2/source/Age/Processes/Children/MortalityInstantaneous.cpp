@@ -408,6 +408,12 @@ void MortalityInstantaneous::DoBuild() {
       LOG_FINEST() << "time step " << time_step << " doesn't have a method associated so we will skip the exploitation calculation during DoExecute";
     }
   }
+
+  // reserve memory for reporting objects
+  removals_by_category_age_.resize(category_labels_.size());
+  for (unsigned i = 0; i < category_labels_.size(); ++i)
+    removals_by_category_age_[i].resize(model_->age_spread());
+
 }
 
 /**
@@ -635,16 +641,22 @@ void MortalityInstantaneous::DoExecute() {
   /**
    * Remove the stock now using the exploitation rate
    */
+  unsigned category_ndx = 0;
   for (auto& category : categories_) {
     for (unsigned i = 0; i < category.category_->data_.size(); ++i) {
+      removals_by_category_age_[category_ndx][i] = category.category_->data_[i]; // initial numbers before process
       LOG_FINEST() << "numbers at age = " << category.category_->data_[i] << " age " << i + model_->min_age() << " exploitation = " << category.exploitation_[i] << " M = " << *category.m_;
       category.category_->data_[i] *= exp(-(*category.m_) * ratio * category.selectivity_values_[i]) * (1 - category.exploitation_[i]);
       if (category.category_->data_[i] < 0.0) {
         LOG_CODE_ERROR() << " Fishing caused a negative partition : if (categories->data_[i] < 0.0), category.category_->data_[i] = " << category.category_->data_[i] << " i = " << i + 1
             << "; numbers at age = " << category.category_->data_[i] << " age " << i + model_->min_age() << " exploitation = " << category.exploitation_[i] << " M = " << *category.m_;
       }
+      removals_by_category_age_[category_ndx][i] -= category.category_->data_[i]; // minus what was left thus keeping the difference
+
     }
+    ++category_ndx;
   }
+  removals_by_year_category_age_[model_->current_year()] = removals_by_category_age_;
 }
 
 /*
@@ -653,6 +665,7 @@ void MortalityInstantaneous::DoExecute() {
  * @param cache a cache object to print to
 */
 void MortalityInstantaneous::FillReportCache(ostringstream& cache) {
+  LOG_FINE();
   // This one is niggly because we need to iterate over each year and time step to print the right information so we don't
   vector<unsigned> years = model_->years();
   cache << "year: ";
@@ -669,6 +682,28 @@ void MortalityInstantaneous::FillReportCache(ostringstream& cache) {
     cache << "\nactual_catch[" << fishery.label_ << "]: ";
     for (auto actual_catches : fishery.actual_catches_)
       cache << actual_catches.second << " ";
+  }
+
+  cache << "\n";
+
+  cache << "removals " << REPORT_R_DATAFRAME << "\n";
+  cache << "year category";
+  unsigned age = model_->min_age();
+  while(age <= model_->max_age()) {
+    cache << " " << age ;
+    ++age;
+  }
+  cache << "\n";
+
+  for (auto& removals : removals_by_year_category_age_) {
+    LOG_FINE() << "printing year = " << removals.first;
+    for (unsigned category_ndx = 0; category_ndx < removals.second.size(); ++category_ndx) {
+      cache << removals.first << " " << category_labels_[category_ndx];
+      for (unsigned age_ndx = 0; age_ndx < removals.second[category_ndx].size(); ++age_ndx) {
+        cache << " " << removals.second[category_ndx][age_ndx];
+      }
+      cache << "\n";
+    }
   }
 }
 
@@ -702,6 +737,8 @@ void MortalityInstantaneous::FillTabularReportCache(ostringstream& cache, bool f
     for (auto actual_catches : fishery.actual_catches_)
       cache <<  actual_catches.second << " ";
   }
+  cache << "\n";
+
 }
 
 /*

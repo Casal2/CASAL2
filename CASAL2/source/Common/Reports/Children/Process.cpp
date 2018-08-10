@@ -67,7 +67,6 @@ void Process::DoExecute() {
   }
   // Fill the rest of the process specific crap
   process_->FillReportCache(cache_);
-  cache_ << "\n";
   ready_for_writing_ = true;
 }
 
@@ -83,7 +82,6 @@ void Process::DoExecuteTabular() {
     process_->FillTabularReportCache(cache_, true);
   } else
     process_->FillTabularReportCache(cache_, false);
-  cache_ << "\n";
 }
 
 /**

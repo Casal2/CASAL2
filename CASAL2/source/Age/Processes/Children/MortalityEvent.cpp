@@ -195,6 +195,8 @@ void MortalityEvent::FillReportCache(ostringstream& cache) {
   cache << "\nexploitation_rate: ";
   for (auto exploit : exploitation_)
     cache << exploit << " ";
+  cache << "\n";
+
 }
 
 /*
@@ -218,6 +220,8 @@ void MortalityEvent::FillTabularReportCache(ostringstream& cache, bool first_run
     cache << removal << " ";
   for (auto exploit : exploitation_)
     cache << exploit << " ";
+  cache << "\n";
+
 }
 
 } /* namespace processes */

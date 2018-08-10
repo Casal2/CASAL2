@@ -190,6 +190,8 @@ void MortalityEventBiomass::FillReportCache(ostringstream& cache) {
   cache << "\nexploitation_rate: ";
   for (auto exploit : exploitation_by_year_)
     cache << exploit << " ";
+  cache << "\n";
+
 }
 
 /*
@@ -213,6 +215,8 @@ void MortalityEventBiomass::FillTabularReportCache(ostringstream& cache, bool fi
     cache << removal << " ";
   for (auto exploit : exploitation_by_year_)
     cache << exploit << " ";
+  cache << "\n";
+
 }
 
 

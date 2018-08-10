@@ -462,6 +462,8 @@ void RecruitmentBevertonHoltWithDeviations::FillReportCache(ostringstream& cache
   cache << "\nSSB: ";
   for (auto iter : ssb_values_)
     cache << iter << " ";
+  cache << "\n";
+
 }
 
 /*
@@ -497,6 +499,8 @@ void RecruitmentBevertonHoltWithDeviations::FillTabularReportCache(ostringstream
   for (auto value : recruitment_values_)
     cache << value << " ";
   cache << r0_ << " " << b0_ << " " << steepness_ << " ";
+  cache << "\n";
+
 }
 
 } /* namespace processes */
