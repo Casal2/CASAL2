@@ -100,8 +100,8 @@ prior_applies_to_transform true
 ##########################
 @estimate_transformation log_sum_b0
 type log_sum
-estimate_label B0_E_with_total_log_b0_prior
-second_estimate B0_W_with_proportion_prior
+theta1 B0_E_with_total_log_b0_prior
+theta2 B0_W_with_proportion_prior
 transform_with_jacobian false
 #######
 ## YCS
