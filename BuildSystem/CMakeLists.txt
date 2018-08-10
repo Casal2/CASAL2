@@ -25,7 +25,7 @@ IF (WIN32)
  ## WINDOWS BUILD VARIABLES AND LIBRARIES
  SET(buildOS windows) 
  SET(COMPILE_OPTIONS "${COMPILE_OPTIONS} -D__GNUDOS__ -std=c++11")
- SET(thirdPartyLibraries ${thirdPartyLibraries} winpthread pthread)
+ SET(thirdPartyLibraries ${thirdPartyLibraries} pthread)
  
 ELSE (WIN32)
  ## LINUX BUILD VARIABLES AND LIBRARIES
