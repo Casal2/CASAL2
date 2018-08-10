@@ -644,19 +644,19 @@ void MortalityInstantaneous::DoExecute() {
   unsigned category_ndx = 0;
   for (auto& category : categories_) {
     for (unsigned i = 0; i < category.category_->data_.size(); ++i) {
-      removals_by_category_age_[category_ndx][i] = category.category_->data_[i]; // initial numbers before process
+      //removals_by_category_age_[category_ndx][i] = category.category_->data_[i]; // initial numbers before process
       LOG_FINEST() << "numbers at age = " << category.category_->data_[i] << " age " << i + model_->min_age() << " exploitation = " << category.exploitation_[i] << " M = " << *category.m_;
       category.category_->data_[i] *= exp(-(*category.m_) * ratio * category.selectivity_values_[i]) * (1 - category.exploitation_[i]);
       if (category.category_->data_[i] < 0.0) {
         LOG_CODE_ERROR() << " Fishing caused a negative partition : if (categories->data_[i] < 0.0), category.category_->data_[i] = " << category.category_->data_[i] << " i = " << i + 1
             << "; numbers at age = " << category.category_->data_[i] << " age " << i + model_->min_age() << " exploitation = " << category.exploitation_[i] << " M = " << *category.m_;
       }
-      removals_by_category_age_[category_ndx][i] -= category.category_->data_[i]; // minus what was left thus keeping the difference
+      //removals_by_category_age_[category_ndx][i] -= category.category_->data_[i]; // minus what was left thus keeping the difference
 
     }
     ++category_ndx;
   }
-  removals_by_year_category_age_[model_->current_year()] = removals_by_category_age_;
+  //removals_by_year_category_age_[model_->current_year()] = removals_by_category_age_;
 }
 
 /*
@@ -686,6 +686,7 @@ void MortalityInstantaneous::FillReportCache(ostringstream& cache) {
 
   cache << "\n";
 
+/*
   cache << "removals " << REPORT_R_DATAFRAME << "\n";
   cache << "year category";
   unsigned age = model_->min_age();
@@ -705,6 +706,7 @@ void MortalityInstantaneous::FillReportCache(ostringstream& cache) {
       cache << "\n";
     }
   }
+*/
 }
 
 /*
