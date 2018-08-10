@@ -99,7 +99,7 @@ void ProportionsAtLength::DoValidate() {
     for (auto x : obs_data_line)
     if (obs_data_line.size() != obs_expected) {
       LOG_FATAL_P(PARAM_OBS) << " has " << obs_data_line.size() << " values defined, but we expected " << obs_expected
-          << " to match the number bins * categories + 1 (for year)";
+          << " to match the number bins (" << number_bins << ") * categories (" << category_labels_.size() << ") + 1 (for year)";
     }
 
     unsigned year = 0;
