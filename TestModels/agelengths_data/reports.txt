@@ -3,4 +3,4 @@ type objective_function
 
 @assert objective
 type objective_function
-value 15045.1
+value 15045.07457
