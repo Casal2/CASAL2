@@ -37,6 +37,8 @@ age_plus true
 base_weight_units kgs
 initialisation_phases iphase1
 time_steps init step1 step2 step3
+length_bins 0 20 40 60 80 110
+length_plus f
 
 @categories 
 format stock 
@@ -177,9 +179,7 @@ likelihood multinomial
 time_step step1
 categories stock
 time_step_proportion 1
-length_plus false
 selectivities chatTANSel
-length_bins 0 20 40 60 80 110
 delta 1e-5
 table obs
 1990    0.2   0.3   0.1   0.2   0.2 
