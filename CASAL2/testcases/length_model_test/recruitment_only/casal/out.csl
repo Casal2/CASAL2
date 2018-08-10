@@ -1,0 +1,230 @@
+CASAL (C++ algorithmic stock assessment laboratory)
+Call: casal -r 
+Date: Wed Apr 04 12:11:27 2018
+v2.30-2016-05-01 23:58:51 UTC (rev.5470)  (c) Copyright 2002-2012, NIWA
+User name: dattas
+Machine name: NIWA-1019035 (Microsoft Windows, PID=11460)
+
+Random number seed : 687
+
+Note, this is a weightless model. 'Biomass' and 'weight in tons' should be read as numbers of fish throughout.
+Initial year : 1991
+Current year : 2000
+Final year : 2000
+Annual cycle:
+Step 1:
+  Recruitment
+  Growth
+  Natural mortality: 1 of a year's M
+  Fishery 
+  SSB counted in middle of mortality The Baranov equation is not used.
+The partition, after proportion p of a mortality episode, is considered to be
+  (1-p) x pre-mortality partition + p x post-mortality partition.
+
+Processes and calculations:
+Recruitment:
+  R0: 100
+  YCS (by year of spawning):
+    1990   1991   1992   1993   1994   1995   1996   1997   1998   1999 
+       1      1      1      1      1      1      1      1      1      1 
+  n_rinitial = 1
+  Stock-recruit relationship: none
+  Climate-recruit relationship: none
+  Fish enter the partition in the year 1 years after their cohort is spawned.
+  Proportions recruiting into each element of the partition:
+         10        20        30        40        50        60        70        80        90       100       110 
+          1         0         0         0         0         0         0         0         0         0         0 
+  In projections and stochastic simulations, the YCS are randomised using the following method:
+  constant at1
+
+Growth:
+  Transition matrix: 
+  1 0 0 0 0 0 0 0 0 0 0 
+  0 1 0 0 0 0 0 0 0 0 0 
+  0 0 1 0 0 0 0 0 0 0 0 
+  0 0 0 1 0 0 0 0 0 0 0 
+  0 0 0 0 1 0 0 0 0 0 0 
+  0 0 0 0 0 1 0 0 0 0 0 
+  0 0 0 0 0 0 1 0 0 0 0 
+  0 0 0 0 0 0 0 1 0 0 0 
+  0 0 0 0 0 0 0 0 1 0 0 
+  0 0 0 0 0 0 0 0 0 1 0 
+  0 0 0 0 0 0 0 0 0 0 1 
+
+Mortality in time step 1:
+  1 fishery (without Baranov)
+
+  Fishery 'SummerFishery'
+  Catch :       0 
+  Year  :    2000 
+  Selectivity: FishingSel
+  Fishing pressure limit Umax = 0.5
+
+  plus natural mortality: M*t = 
+         10        20        30        40        50        60        70        80        90       100       110 
+          0         0         0         0         0         0         0         0         0         0         0 
+
+Proportions mature:
+         10        20        30        40        50        60        70        80        90       100       110 
+  0.0008807  0.004505    0.0227    0.1065    0.3797    0.7586    0.9416    0.9881    0.9977    0.9995    0.9999 
+
+Selectivities:
+FishingSel:
+           10        20        30        40        50        60        70        80        90       100       110 
+          0         0         0 3.308e-006   0.01468    0.9853         1         1         1         1         1 
+
+
+Weight:
+  mean weight at size:
+         10        20        30        40        50        60        70        80        90       100       110 
+          1         1         1         1         1         1         1         1         1         1         1 
+
+Data used in calculating the initial state
+  R0 : 100
+  Cinitial : 0 0 0 0 0 0 0 0 0 0 0 
+  Length of equilibrium period : 1
+
+
+Initial state:
+Partition: 
+         10        20        30        40        50        60        70        80        90       100       110 
+          0         0         0         0         0         0         0         0         0         0         0 
+
+SSBs:
+0.08807 0 0 0 0 0 0 0 0 0 0 
+  with indices from 1990 to 2000
+
+
+State at the end of year 1991:
+Partition: 
+         10        20        30        40        50        60        70        80        90       100       110 
+        100         0         0         0         0         0         0         0         0         0         0 
+
+SSBs:
+0.08807 0.08807 0 0 0 0 0 0 0 0 0 
+  with indices from 1990 to 2000
+
+
+State at the end of year 1992:
+Partition: 
+         10        20        30        40        50        60        70        80        90       100       110 
+        200         0         0         0         0         0         0         0         0         0         0 
+
+SSBs:
+0.08807 0.08807 0.1761 0 0 0 0 0 0 0 0 
+  with indices from 1990 to 2000
+
+
+State at the end of year 1993:
+Partition: 
+         10        20        30        40        50        60        70        80        90       100       110 
+        300         0         0         0         0         0         0         0         0         0         0 
+
+SSBs:
+0.08807 0.08807 0.1761 0.2642 0 0 0 0 0 0 0 
+  with indices from 1990 to 2000
+
+
+State at the end of year 1994:
+Partition: 
+         10        20        30        40        50        60        70        80        90       100       110 
+        400         0         0         0         0         0         0         0         0         0         0 
+
+SSBs:
+0.08807 0.08807 0.1761 0.2642 0.3523 0 0 0 0 0 0 
+  with indices from 1990 to 2000
+
+
+State at the end of year 1995:
+Partition: 
+         10        20        30        40        50        60        70        80        90       100       110 
+        500         0         0         0         0         0         0         0         0         0         0 
+
+SSBs:
+0.08807 0.08807 0.1761 0.2642 0.3523 0.4403 0 0 0 0 0 
+  with indices from 1990 to 2000
+
+
+State at the end of year 1996:
+Partition: 
+         10        20        30        40        50        60        70        80        90       100       110 
+        600         0         0         0         0         0         0         0         0         0         0 
+
+SSBs:
+0.08807 0.08807 0.1761 0.2642 0.3523 0.4403 0.5284 0 0 0 0 
+  with indices from 1990 to 2000
+
+
+State at the end of year 1997:
+Partition: 
+         10        20        30        40        50        60        70        80        90       100       110 
+        700         0         0         0         0         0         0         0         0         0         0 
+
+SSBs:
+0.08807 0.08807 0.1761 0.2642 0.3523 0.4403 0.5284 0.6165 0 0 0 
+  with indices from 1990 to 2000
+
+
+State at the end of year 1998:
+Partition: 
+         10        20        30        40        50        60        70        80        90       100       110 
+        800         0         0         0         0         0         0         0         0         0         0 
+
+SSBs:
+0.08807 0.08807 0.1761 0.2642 0.3523 0.4403 0.5284 0.6165 0.7045 0 0 
+  with indices from 1990 to 2000
+
+
+State at the end of year 1999:
+Partition: 
+         10        20        30        40        50        60        70        80        90       100       110 
+        900         0         0         0         0         0         0         0         0         0         0 
+
+SSBs:
+0.08807 0.08807 0.1761 0.2642 0.3523 0.4403 0.5284 0.6165 0.7045 0.7926 0 
+  with indices from 1990 to 2000
+
+
+State at the end of year 2000:
+Partition: 
+         10        20        30        40        50        60        70        80        90       100       110 
+       1000         0         0         0         0         0         0         0         0         0         0 
+
+SSBs:
+0.08807 0.08807 0.1761 0.2642 0.3523 0.4403 0.5284 0.6165 0.7045 0.7926 0.8807 
+  with indices from 1990 to 2000
+
+
+Start extracting output from here
+
+Parameter values :
+recruitment.YCS
+current values: 1 1 1 1 1 1 1 1 1 
+lower bounds: 0 0 0 0 0 0 0 0 0 
+upper bounds: 100 100 100 100 100 100 100 100 100 
+
+
+In a format suitable for -i :
+
+recruitment.YCS 9 
+1 1 1 1 1 1 1 1 1 
+
+Objective function : 0.04412
+
+Components :
+                          prior_on_recruitment.YCS 0.04412
+                            SummerCatchMustBeTaken 0
+
+Output quantities start here
+
+* recruitments
+recruitment 100 100 100 100 100 100 100 100 100 100 
+year 1991 1992 1993 1994 1995 1996 1997 1998 1999 2000 
+
+* FishingVulnerableBiomass
+1998  0 
+1999  0 
+2000  0 
+
+Output quantities finish here
+
