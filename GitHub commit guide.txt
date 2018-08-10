@@ -1,8 +1,10 @@
 Format for commenting commits:
 
-1. Do not commit without a comment. This is a massive hassle for anyone trying to find the history of a file or folder. Spending ages doing manual code comparisons isn't fun.
+1. Verify the unit tests still pass before you commit or merge. Or you will be named and shamed.
 
-2. The first part of each line of your commit message should indicate what time of modification you have done.
+2. Do not commit without a comment. This is a massive hassle for anyone trying to find the history of a file or folder. Spending ages doing manual code comparisons isn't fun.
+
+3. The first part of each line of your commit message should indicate what time of modification you have done.
 
    ADD - Added a new file/class
    CHG - Modified something existing
@@ -24,6 +26,6 @@ An example of a good commit message is:
 
 
 When you add a new functionality please make sure you have done the following;
-1. Update manual of what the functionalty does and its purpose with syntax of how to implement it
-2. unit tests an important aspect of Casal2 is a well validated code base
-3. Check all the unit tests have passed and the doBuild.bat modelrunner 
+1. Update manual of what the functionality does and its purpose with syntax of how to implement it
+2. Verified unit tests still pass!
+3. Check all the unit tests have passed! and the doBuild.bat modelrunner 

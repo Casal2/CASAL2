@@ -37,7 +37,7 @@ age_plus true
 base_weight_units kgs
 initialisation_phases iphase1
 time_steps init step1 step2 step3
-length_plus_group false
+length_plus false
 length_bins 0 20 40 60 80 110
 
 @categories 
@@ -162,7 +162,7 @@ time_step step1
 method_of_removal FishingEest
 mortality_instantaneous_process instant_mort
 categories stock
-length_plus_group false
+length_plus false
 length_bins 0 20 40 60 80 110
 delta 1e-5
 table obs
