@@ -391,6 +391,8 @@ void MortalityHollingRate::FillReportCache(ostringstream& cache) {
   cache << "Prey_Mortality: ";
   for (auto prey_mort : prey_mortality_by_year_)
     cache << prey_mort << " ";
+  cache << "\n";
+
 }
 
 /*
