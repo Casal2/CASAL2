@@ -10,6 +10,8 @@ base_weight_units tonnes
 initialisation_phases phase1
 #time_steps Summer Summer_fishing Summer_tagging Winter Winter_age 
 time_steps Summer Winter Winter_age 
+length_bins  30 40 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220 230
+length_plus False
 
 @categories
 format tagyear #sex.tagyear
@@ -269,8 +271,6 @@ to 2001
 #to male.2001  female.2001
 selectivities Shelfsel#Male ShelfselFemale
 penalty tagging_penalty
-maximum_length 230
-plus_group False
 initial_mortality 0.135
 table proportions
 year  30 40 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220
@@ -288,8 +288,6 @@ to 2002
 #to male.2002  female.2002
 selectivities Shelfsel#Male ShelfselFemale
 penalty tagging_penalty
-maximum_length 230
-plus_group False
 initial_mortality 0.135
 table proportions
 year  30 40 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220
@@ -307,8 +305,6 @@ to 2003
 #to male.2003  female.2003
 selectivities Shelfsel#Male ShelfselFemale
 penalty tagging_penalty
-maximum_length 230
-plus_group False
 initial_mortality 0.124
 table proportions
 year  30 40 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220
@@ -326,8 +322,6 @@ to 2004
 #to male.2004  female.2004
 selectivities Shelfsel#Male ShelfselFemale
 penalty tagging_penalty
-maximum_length 230
-plus_group False
 initial_mortality 0.1
 table proportions
 year 30 40 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220
@@ -345,8 +339,6 @@ to 2005
 #to male.2005  female.2005
 selectivities Shelfsel#Male ShelfselFemale
 penalty tagging_penalty
-maximum_length 230
-plus_group False
 initial_mortality 0.1
 table proportions
 year 30 40 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220
@@ -364,8 +356,6 @@ to 2006
 #to male.2006  female.2006
 selectivities Shelfsel#Male ShelfselFemale
 penalty tagging_penalty
-maximum_length 230
-plus_group False
 initial_mortality 0.1
 table proportions
 year 30 40 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220
@@ -383,8 +373,6 @@ to 2007
 #to male.2007  female.2007
 selectivities Shelfsel#Male ShelfselFemale
 penalty tagging_penalty
-maximum_length 230
-plus_group False
 initial_mortality 0.1
 table proportions
 year 30 40 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220
@@ -402,8 +390,6 @@ to 2008
 #to male.2008 female.2008
 selectivities Shelfsel#Male ShelfselFemale
 penalty tagging_penalty
-maximum_length 230
-plus_group False
 initial_mortality 0.1
 table proportions
 year 30 40 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220
@@ -421,8 +407,6 @@ to 2009
 #to male.2009  female.2009
 selectivities Shelfsel#Male ShelfselFemale
 penalty tagging_penalty
-maximum_length 230
-plus_group False
 initial_mortality 0.1
 table proportions
 year 30 40 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220
@@ -440,8 +424,6 @@ to 2010
 #to male.2010  female.2010
 selectivities Shelfsel#Male ShelfselFemale
 penalty tagging_penalty
-maximum_length 230
-plus_group False
 initial_mortality 0.1
 table proportions
 year 30 40 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220
@@ -459,8 +441,6 @@ to 2011
 #to male.2011  female.2011
 selectivities Shelfsel#Male ShelfselFemale
 penalty tagging_penalty
-maximum_length 230
-plus_group False
 initial_mortality 0.1
 table proportions
 year 30 40 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220
@@ -478,8 +458,6 @@ to 2012
 #to male.2012  female.2012
 selectivities Shelfsel#Male ShelfselFemale
 penalty tagging_penalty
-maximum_length 230
-plus_group False
 initial_mortality 0.1
 table proportions
 year 30 40 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220
@@ -497,8 +475,6 @@ to 2013
 #to male.2013  female.2013
 selectivities Shelfsel#Male ShelfselFemale
 penalty tagging_penalty
-maximum_length 230
-plus_group False
 initial_mortality 0.1
 table proportions
 year 30 40 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220
@@ -516,8 +492,6 @@ to 2014
 #to male.2014  female.2014
 selectivities Shelfsel#Male ShelfselFemale
 penalty tagging_penalty
-maximum_length 230
-plus_group False
 initial_mortality 0.1
 table proportions
 year 30 40 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220
@@ -535,8 +509,6 @@ to 2001
 #to male.2001  female.2001
 selectivities Slopesel#Male SlopeselFemale
 penalty tagging_penalty
-maximum_length 230
-plus_group False
 initial_mortality 0.135
 table proportions
 year 30 40 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220
@@ -554,8 +526,6 @@ to 2002
 #to male.2002  female.2002
 selectivities Slopesel#Male SlopeselFemale
 penalty tagging_penalty
-maximum_length 230
-plus_group False
 initial_mortality 0.135
 table proportions
 year 30 40 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220
@@ -573,8 +543,6 @@ to 2003
 #to male.2003  female.2003
 selectivities Slopesel#Male SlopeselFemale
 penalty tagging_penalty
-maximum_length 230
-plus_group False
 initial_mortality 0.124
 table proportions
 year 30 40 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220
@@ -592,8 +560,6 @@ to 2004
 #to male.2004  female.2004
 selectivities Slopesel#Male SlopeselFemale
 penalty tagging_penalty
-maximum_length 230
-plus_group False
 initial_mortality 0.1
 table proportions
 year 30 40 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220
@@ -611,8 +577,6 @@ to 2005
 #to male.2005  female.2005
 selectivities Slopesel#Male SlopeselFemale
 penalty tagging_penalty
-maximum_length 230
-plus_group False
 initial_mortality 0.1
 table proportions
 year 30 40 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220
@@ -630,8 +594,6 @@ to 2006
 #to male.2006  female.2006
 selectivities Slopesel#Male SlopeselFemale
 penalty tagging_penalty
-maximum_length 230
-plus_group False
 initial_mortality 0.1
 table proportions
 year 30 40 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220
@@ -649,8 +611,6 @@ to 2007
 #to male.2007  female.2007
 selectivities Slopesel#Male SlopeselFemale
 penalty tagging_penalty
-maximum_length 230
-plus_group False
 initial_mortality 0.1
 table proportions
 year 30 40 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220
@@ -668,8 +628,6 @@ to 2008
 #to male.2008  female.2008
 selectivities Slopesel#Male SlopeselFemale
 penalty tagging_penalty
-maximum_length 230
-plus_group False
 initial_mortality 0.1
 table proportions
 year 30 40 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220
@@ -687,8 +645,6 @@ to 2009
 #to male.2009  female.2009
 selectivities Slopesel#Male SlopeselFemale
 penalty tagging_penalty
-maximum_length 230
-plus_group False
 initial_mortality 0.1
 table proportions
 year 30 40 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220
@@ -706,8 +662,6 @@ to 2010
 #to male.2010  female.2010
 selectivities Slopesel#Male SlopeselFemale
 penalty tagging_penalty
-maximum_length 230
-plus_group False
 initial_mortality 0.1
 table proportions
 year 30 40 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220
@@ -725,8 +679,6 @@ to 2011
 #to male.2011  female.2011
 selectivities Slopesel#Male SlopeselFemale
 penalty tagging_penalty
-maximum_length 230
-plus_group False
 initial_mortality 0.1
 table proportions
 year 30 40 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220
@@ -744,8 +696,6 @@ to 2012
 #to male.2012  female.2012
 selectivities Slopesel#Male SlopeselFemale
 penalty tagging_penalty
-maximum_length 230
-plus_group False
 initial_mortality 0.1
 table proportions
 year 30 40 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220
@@ -763,8 +713,6 @@ to 2013
 #to male.2013  female.2013
 selectivities Slopesel#Male SlopeselFemale
 penalty tagging_penalty
-maximum_length 230
-plus_group False
 initial_mortality 0.1
 table proportions
 year 30 40 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220
@@ -782,8 +730,6 @@ to 2014
 #to male.2014  female.2014
 selectivities Slopesel#Male SlopeselFemale
 penalty tagging_penalty
-maximum_length 230
-plus_group False
 initial_mortality 0.1
 table proportions
 year 30 40 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220
@@ -801,8 +747,6 @@ to 2001
 #to male.2001 female.2001
 selectivities Northsel#Male NorthselFemale
 penalty tagging_penalty
-maximum_length 230
-plus_group False
 initial_mortality 0.135
 table proportions
 year 30 40 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220
@@ -820,8 +764,6 @@ to 2002
 #to male.2002  female.2002
 selectivities Northsel#Male NorthselFemale
 penalty tagging_penalty
-maximum_length 230
-plus_group False
 initial_mortality 0.135
 table proportions
 year 30 40 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220
@@ -839,8 +781,6 @@ to 2003
 #to male.2003 female.2003
 selectivities Northsel#Male NorthselFemale
 penalty tagging_penalty
-maximum_length 230
-plus_group False
 initial_mortality 0.124
 table proportions
 year 30 40 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220
@@ -858,8 +798,6 @@ to 2004
 #to male.2004 female.2004
 selectivities Northsel#Male NorthselFemale
 penalty tagging_penalty
-maximum_length 230
-plus_group False
 initial_mortality 0.1
 table proportions
 year 30 40 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220
@@ -877,8 +815,6 @@ to 2005
 #to male.2005 female.2005
 selectivities Northsel#Male NorthselFemale
 penalty tagging_penalty
-maximum_length 230
-plus_group False
 initial_mortality 0.1
 table proportions
 year 30 40 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220
@@ -896,8 +832,6 @@ to 2006
 #to male.2006 female.2006
 selectivities Northsel#Male NorthselFemale
 penalty tagging_penalty
-maximum_length 230
-plus_group False
 initial_mortality 0.1
 table proportions
 year 30 40 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220
@@ -915,8 +849,6 @@ to 2007
 #to male.2007 female.2007
 selectivities Northsel#Male NorthselFemale
 penalty tagging_penalty
-maximum_length 230
-plus_group False
 initial_mortality 0.1
 table proportions
 year 30 40 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220
@@ -934,8 +866,6 @@ to 2008
 #to male.2008 female.2008
 selectivities Northsel#Male NorthselFemale
 penalty tagging_penalty
-maximum_length 230
-plus_group False
 initial_mortality 0.1
 table proportions
 year 30 40 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220
@@ -953,8 +883,6 @@ to 2009
 #to male.2009 female.2009
 selectivities Northsel#Male NorthselFemale
 penalty tagging_penalty
-maximum_length 230
-plus_group False
 initial_mortality 0.1
 table proportions
 year 30 40 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220
@@ -972,8 +900,6 @@ to 2010
 #to male.2010 female.2010
 selectivities Northsel#Male NorthselFemale
 penalty tagging_penalty
-maximum_length 230
-plus_group False
 initial_mortality 0.1
 table proportions
 year 30 40 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220
@@ -991,8 +917,6 @@ to 2011
 #to male.2011 female.2011
 selectivities Northsel#Male NorthselFemale
 penalty tagging_penalty
-maximum_length 230
-plus_group False
 initial_mortality 0.1
 table proportions
 year 30 40 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220
@@ -1010,8 +934,6 @@ to 2012
 #to male.2012 female.2012
 selectivities Northsel#Male NorthselFemale
 penalty tagging_penalty
-maximum_length 230
-plus_group False
 initial_mortality 0.1
 table proportions
 year 30 40 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220
@@ -1029,8 +951,6 @@ to 2013
 #to male.2013 female.2013
 selectivities Northsel#Male NorthselFemale
 penalty tagging_penalty
-maximum_length 230
-plus_group False
 initial_mortality 0.1
 table proportions
 year 30 40 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220
@@ -1048,8 +968,6 @@ to 2014
 #to male.2014 female.2014
 selectivities Northsel#Male NorthselFemale
 penalty tagging_penalty
-maximum_length 230
-plus_group False
 initial_mortality 0.1
 table proportions
 year 30 40 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220

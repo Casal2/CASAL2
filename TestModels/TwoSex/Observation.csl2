@@ -198,7 +198,7 @@ categories male+female
 delta 1e-4
 method_of_removal FishingLine
 length_bins 50  55  60  65  70  75  80  85  90  95  100 105 110 115 120 125 130 135 140 145 150
-length_plus_group true
+length_plus true
 years 1995:2001
 
 table obs

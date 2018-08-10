@@ -2,7 +2,7 @@
 
 @assert obj
 type objective_function
-value 929.019
+value 929.01854
 
 @report Recruitment
 type process

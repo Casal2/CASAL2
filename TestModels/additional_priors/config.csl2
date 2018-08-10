@@ -124,7 +124,7 @@ b 1097386
 
 @assert obj
 type objective_function
-value -2780.06
+value -2780.06012
 
 @report obj
 type objective_function
