@@ -8,6 +8,8 @@ base_weight_units tonnes
 age_plus true
 initialisation_phases iphase1
 time_steps step1 step2
+length_bins 50  55  60  65  70  75  80  85  90  95  100 105 110 115 120 125 130 135 140 145 150
+length_plus true
 
 #CATEGORIES
 #
@@ -216,5 +218,5 @@ q 0.0867659185
 
 @assert obj
 type objective_function
-value 1782.72
+value 1782.72476
 

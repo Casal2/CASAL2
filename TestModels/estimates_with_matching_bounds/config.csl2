@@ -260,7 +260,7 @@ alpha 0.7
 
 @assert obj
 type objective_function
-value 16884.3
+value 16884.27791
 
 @report obj
 type objective_function
