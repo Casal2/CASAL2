@@ -47,7 +47,6 @@ private:
   vector<Double>              l_;
   vector<Double>              length_bin_mid_points_;
   vector<unsigned>            length_bins_;
-  Model*                      model_ = nullptr;
   vector<string>              category_labels_;
   Double                      cv_ = 0.0;
   vector<string>              growth_time_steps_;
