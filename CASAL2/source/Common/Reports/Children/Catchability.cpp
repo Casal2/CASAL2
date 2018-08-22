@@ -1,11 +1,11 @@
 /*
- * Catchabilities.cpp
+ * Catchability.cpp
  *
  *  Created on: 4/09/2013
  *      Author: Admin
  */
 
-#include "Catchabilities.h"
+#include "Catchability.h"
 
 #include "Common/Catchabilities/Manager.h"
 
@@ -16,8 +16,8 @@ namespace reports {
 /**
  *
  */
-Catchabilities::Catchabilities(Model* model) : Report(model) {
-  run_mode_    = (RunMode::Type)(RunMode::kBasic | RunMode::kEstimation | RunMode::kProjection | RunMode::kSimulation);
+Catchability::Catchability(Model* model) : Report(model) {
+  run_mode_    = (RunMode::Type)(RunMode::kBasic | RunMode::kEstimation | RunMode::kProjection | RunMode::kProfiling);
   model_state_ = (State::Type)(State::kFinalise);
 }
 
@@ -25,7 +25,7 @@ Catchabilities::Catchabilities(Model* model) : Report(model) {
 /**
  *
  */
-void Catchabilities::DoExecute() {
+void Catchability::DoExecute() {
   LOG_TRACE();
   catchabilities::Manager& manager = *model_->managers().catchability();
   cache_ << "*"<< type_ << "[" << label_ << "]" << "\n";
@@ -44,7 +44,7 @@ void Catchabilities::DoExecute() {
  * Execute Tabular report
  */
 
-void Catchabilities::DoExecuteTabular() {
+void Catchability::DoExecuteTabular() {
   LOG_TRACE();
   catchabilities::Manager& manager = *model_->managers().catchability();
   auto catchabilities = manager.objects();
@@ -68,7 +68,7 @@ void Catchabilities::DoExecuteTabular() {
 /**
  *
  */
-void Catchabilities::DoFinaliseTabular() {
+void Catchability::DoFinaliseTabular() {
   ready_for_writing_ = true;
 }
 
