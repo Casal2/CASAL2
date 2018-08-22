@@ -585,11 +585,11 @@ class Printer:
                     first_val = third_class.name_[0:8]                  
                     if parent_class_.name_ == 'Observation' and first_val == 'TimeStep':
                     	third_class.name_ = third_class.name_[8:len(third_class.name_)]
-                                        
+                    
                     object_name = re.sub( '(?<!^)(?=[A-Z])', ' ', third_class.name_)
                     class_name = re.sub( '(?<!^)(?=[A-Z])', '\_', third_class.name_).lower()
                     parent_class = re.sub( '(?<!^)(?=[A-Z])', '\_', parent_class_.name_).lower()
-
+					   
                     # Exeption corrections
                     class_name = class_name.replace('m\_c\_m\_c', 'mcmc')
                     class_name = class_name.replace('beta\_diff', 'betadiff')
@@ -601,15 +601,25 @@ class Printer:
                     parent_class = parent_class.replace('a\_d\_o\_l\_c', 'adolc')
                     parent_class = parent_class.replace('c\_p\_p\_a\_d', 'cppad')
                     parent_class = parent_class.replace('d\_e\_solver', 'de\_solver')
+                    object_name = object_name.replace('A D O L C', 'ADOLC')
+                    object_name = object_name.replace('Beta Diff', 'Betadiff')
+                    object_name = object_name.replace('C P P A D', 'CppAD')
+                    object_name = object_name.replace('D E Solver', 'DE Solver')
+                    object_name = object_name.replace('D Lib', 'DLib')
+                    object_name = object_name.replace('M C M C', 'MCMC')
+                    object_name = object_name.replace('M P D', 'MPD')
+                    object_name = object_name.replace('With Q', 'With q')
                     # write file
-                    file.write('\subsubsection[' + object_name + ']{\\commandlabsubarg{' + parent_class + '}{type}{' + class_name + '}}\n\n')
-                    #self.PrintClass(file, child_class)
-                    self.PrintClass(file, third_class)
+                    ## Exception to remove the 'nop' process from the manual
+                    if not (parent_class == 'process' and class_name == 'nop'):
+                      file.write('\subsubsection[' + object_name + ']{\\commandlabsubarg{' + parent_class + '}{type}{' + class_name + '}}\n\n')
+                      self.PrintClass(file, third_class)
             else:
                 object_name = re.sub( '(?<!^)(?=[A-Z])', ' ', child_class.name_)
                 class_name = re.sub( '(?<!^)(?=[A-Z])', '\_', child_class.name_).lower()
                 parent_class = re.sub( '(?<!^)(?=[A-Z])', '\_', parent_class_.name_).lower()
-                # Exeption corrections
+
+ 			   # Exeption corrections
                 class_name = class_name.replace('m\_c\_m\_c', 'mcmc')
                 class_name = class_name.replace('a\_d\_o\_l\_c', 'adolc')
                 class_name = class_name.replace('beta\_diff', 'betadiff')                       
@@ -620,9 +630,19 @@ class Printer:
                 parent_class = parent_class.replace('a\_d\_o\_l\_c', 'adolc')
                 parent_class = parent_class.replace('c\_p\_p\_a\_d', 'cppad')
                 parent_class = parent_class.replace('d\_e\_solver', 'de\_solver')
+                object_name = object_name.replace('A D O L C', 'ADOLC')
+                object_name = object_name.replace('Beta Diff', 'Betadiff')
+                object_name = object_name.replace('C P P A D', 'CppAD')
+                object_name = object_name.replace('D E Solver', 'DE Solver')
+                object_name = object_name.replace('D Lib', 'DLib')
+                object_name = object_name.replace('M C M C', 'MCMC')
+                object_name = object_name.replace('M P D', 'MPD')
+                object_name = object_name.replace('With Q', 'With q')
                 # write file
-                file.write('\subsubsection[' + object_name + ']{\\commandlabsubarg{' + parent_class + '}{type}{' + class_name + '}}\n\n')
-                self.PrintClass(file, child_class)
+                ## Exception to remove the 'nop' process from the manual
+                if not (parent_class == 'process' and class_name == 'nop'):
+                  file.write('\subsubsection[' + object_name + ']{\\commandlabsubarg{' + parent_class + '}{type}{' + class_name + '}}\n\n')
+                  self.PrintClass(file, child_class)
         file.close()
         return True
 
@@ -718,19 +738,19 @@ class Latex:
 
         for i in range(0,3):
           if Globals.operating_system_ == "linux":
-            if os.system('pdflatex --halt-on-error --interaction=nonstopmode CASAL2') != EX_OK:
-              return False
             if os.system('bibtex CASAL2') != EX_OK:
+              return False
+            if os.system('pdflatex --halt-on-error --interaction=nonstopmode CASAL2') != EX_OK:
               return False
             if os.system('makeindex CASAL2') != EX_OK:
               return False
             if not os.path.exists('CASAL2.pdf'):
               return False
           else:
-            if os.system('pdflatex.exe --halt-on-error --enable-installer CASAL2') != EX_OK:
-              return Globals.PrintError('pdflatex failed')
             if os.system('bibtex.exe CASAL2') != EX_OK:
               return Globals.PrintError('bibtex failed')
+            if os.system('pdflatex.exe --halt-on-error --enable-installer CASAL2') != EX_OK:
+              return Globals.PrintError('pdflatex failed')
             if os.system('makeindex.exe CASAL2') != EX_OK:
               return Globals.PrintError('makeindex failed')
         print '-- Built the Casal2 usermanual'
@@ -738,19 +758,19 @@ class Latex:
         os.chdir('../GettingStartedGuide/')
         for i in range(0,3):
           if Globals.operating_system_ == "linux":
-            if os.system('pdflatex --halt-on-error --interaction=nonstopmode GettingStartedGuide') != EX_OK:
-              return False
             if os.system('bibtex GettingStartedGuide') != EX_OK:
+              return False
+            if os.system('pdflatex --halt-on-error --interaction=nonstopmode GettingStartedGuide') != EX_OK:
               return False
             if os.system('makeindex GettingStartedGuide') != EX_OK:
               return False
             if not os.path.exists('GettingStartedGuide.pdf'):
               return False
           else:
-            if os.system('pdflatex.exe --halt-on-error --enable-installer GettingStartedGuide') != EX_OK:
-              return Globals.PrintError('pdflatex failed')
             if os.system('bibtex.exe GettingStartedGuide') != EX_OK:
               return Globals.PrintError('bibtex failed')
+            if os.system('pdflatex.exe --halt-on-error --enable-installer GettingStartedGuide') != EX_OK:
+              return Globals.PrintError('pdflatex failed')
             if os.system('makeindex.exe GettingStartedGuide') != EX_OK:
               return Globals.PrintError('makeindex failed')
               
