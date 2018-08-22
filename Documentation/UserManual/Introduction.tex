@@ -1,15 +1,26 @@
 \section{Introduction\label{sec:Introduction}}
 
-%\CNAME\ is a generalised age-structured population dynamics modelling software package that allows flexibility in specifying model structure, population dynamics, parameter estimation, and model outputs. \CNAME\ can model population dynamics for an age-structured population using a range of population dynamics observations, including mark-recapture, relative and absolute abundance time series, and age frequency data. \CNAME\ does this by implementing an age-structured population dynamics model that can have user defined categories (e.g., immature, mature, male, female, predator, prey, etc.,) to specify the population structure, and a user-defined age range. 
+\subsection{\I{About \CNAME}}
 
-\CNAME\ is NIWA's integrated assessment tool for modelling population dynamics of marine species, including fishery stock assessments. \CNAME\ expands functionality and maintainability over its predecessor, CASAL. %\CNAME\ can be used for quantitative assessments of marine populations, including fish, invertebrates, marine mammals and seabirds.
+\CNAME\ is NIWA's open-source integrated assessment tool for modelling population dynamics of marine species, including fishery stock assessments. \CNAME\ expands functionality and maintainability over its predecessor, CASAL. \CNAME\ can be used for quantitative assessments of marine populations, including fish, invertebrates, marine mammals and seabirds.
 
-\CNAME\ software implements a generalised age-structured marine population model that allows a great deal of choice in specifying the population dynamics, parameter estimation, and model outputs. \CNAME\ is designed for flexibility. It can implement an age-structured model for a single population or multiple populations using user-defined categories such as area, sex and maturity. However, these structural elements are generic and not predefined, but are easily constructed. \CNAME\ models can be used for a single population with a single anthropogenic event (in a fish population model this would be a single fishery), or for multiple species and populations, areas, and/or anthropogenic or exploitation methods.
+\CNAME\ software implements a generalised age-structured marine population model that allows a great deal of choice in specifying the population dynamics, parameter estimation, and model outputs. \CNAME\ is designed for flexibility. It can implement an age-structured model for a single population or multiple populations using user-defined categories such as area, sex and maturity. However, these structural elements are generic and not predefined, but are easily constructed. \CNAME\ models can be used for a single population with a single anthropogenic event (in a fish population model this would be a single fishery), or for multiple species and populations, areas, and/or anthropogenic or exploitation methods, and including predator-prey interactions.
 
-The time period and annual cycle of \CNAME\ is completely defined by the user. Observational data used can be from many different sources, for example removals-at-size or -age from an anthropogenic or exploitation event (e.g. fishery or other human impact), scientific survey and other biomass indices, and mark-recapture data. Model parameters can be estimated using penalised maximum likelihood or Bayesian methods.
+The time period and annual cycle of \CNAME\ is defined by the user. Observational data used can be from many different sources, for example removals-at-size or -age from an anthropogenic or exploitation event (e.g., fishery or other human impact), research survey and other biomass indices, and mark-recapture data. Model parameters can be estimated using penalised maximum likelihood or Bayesian methods.
 
 As well as generating point estimates of the parameters of interest, \CNAME\ can calculate likelihood or posterior profiles and can generate Bayesian posterior distributions using Monte Carlo Markov Chain methods. \CNAME\ can project population status into the future using deterministic or stochastic population dynamics, or simulate observations from a set of given model structures
 
+\subsection{\I{Citing \CNAME}}
+
+A suitable reference for this document is \ManualRef
+
+And the peer-reviewed journal article reference for \CNAME\ is \citep{doonan_casal2}.
+
+\subsection{\I{Software license}}
+
+This program and the accompanying materials are made available under the terms of the \href{http://www.opensource.org/licenses/GPL-2.0}{GNU General Public License version 2} which accompanies this software (see Section \ref{sec:gpl}).
+
+Copyright \copyright 2016-\SourceControlYearDoc, \href{http://www.niwa.co.nz}{\Organisation}. All rights reserved.
 
 \subsection{\I{Where to get \CNAME }}
 
@@ -21,7 +32,7 @@ A Microsoft Windows bundle includes the binary, manual, examples and other help 
 
 \CNAME\ is available for most IBM compatible machines running 64-bit \I{Linux} and \I{Microsoft Windows} operating systems.
 
-Several of \CNAME 's tasks are highly computer intensive and a fast processor is recommended. Depending on the model implemented, some of the \CNAME\ tasks can take a considerable amount of processing time (minutes to hours), and in extreme cases may take several days to undertake an MCMC estimate. 
+Several of \CNAME 's tasks are highly computer intensive and a fast processor is recommended. Depending on the model implemented, some of the \CNAME\ tasks can take a considerable amount of processing time (minutes to hours), and in extreme cases may take several days to complete an MCMC estimate. 
 
 The program itself requires only a few megabytes of hard-disk space but output files can consume large amounts of disk space\index{Disk space}. Depending on the number and type of user output requests, the output could range from a few hundred kilobytes to several hundred megabytes. When estimating model fits, several hundred megabytes of RAM may be required, depending on the spatial size of the model, number of categories, and complexity of processes and observations. For extremely large models, several gigabytes of RAM may occasionally be required. 
 
@@ -29,7 +40,7 @@ The program itself requires only a few megabytes of hard-disk space but output f
 
 For both 64-bit Linux and Microsoft Windows, only the binary executable \texttt{casal2} or \texttt{casal2.exe} is required to run \CNAME . No other software is required. We do not provide a version for 32-bit operating systems. 
 
-\CNAME\ offers little in the way of post-processing of model output, and a package available that allows tabulation and graphing of model outputs is recommended. We suggest software such as \href{http://www.r-project.org}{\R}\ \citep{R} to assist in the post processing of \CNAME\ output. We provide the \texttt{CASAL2} \R\ package for importing the \CNAME\ output into \R\ (see Section \ref{sec:post-processing}).
+However, \CNAME\ offers little in the way of post-processing of model output, and a package available that allows tabulation and graphing of model outputs is recommended. We suggest software such as \href{http://www.r-project.org}{\R}\ \citep{R} to assist in the post processing of \CNAME\ output. We provide the \texttt{CASAL2} \R\ package for importing the \CNAME\ output into \R\ (see Section \ref{sec:post-processing}).
 
 \subsection{Getting help\index{Getting help}\index{User assistance}\index{Notifying errors}}
 
@@ -37,7 +48,7 @@ For both 64-bit Linux and Microsoft Windows, only the binary executable \texttt{
 
 \subsection{Technical details\index{Technical specifications}}\label{sec:tech}
 
-\CNAME\ was compiled on Linux using \texttt{gcc} (\url{http://gcc.gnu.org}), the C/C++ compiler developed by the GNU Project (\url{http://gcc.gnu.org}). The 64-bit Linux \index{Linux} version was compiled using \texttt{gcc} version 5.2.1 20151010 Ubuntu Linux (\url{http://www.ubuntu.com/}). The Microsoft Windows (\url{http://www.microsoft.com})\index{Microsoft Windows} version was compiled using MingW (\url{http://www.mingw.org})\index{Mingw} \texttt{gcc} (tdm64-1) 5.1.0 (\url{http://gcc.gnu.org})\index{gcc}. The Microsoft Windows(\url{http://www.microsoft.com}) installer was built using the Inno Setup 5 (\url{http://www.jrsoftware.org/isdl.php}).
+\CNAME\ was compiled on Linux using \texttt{gcc} (\url{http://gcc.gnu.org}), the C/C++ compiler developed by the GNU Project (\url{http://gcc.gnu.org}). The 64-bit Linux \index{Linux} version was compiled using \texttt{gcc} version 5.2.1 20151010 Ubuntu Linux (\url{http://www.ubuntu.com/}). The Microsoft Windows (\url{http://www.microsoft.com})\index{Microsoft Windows} version was compiled using MingW (\url{http://www.mingw.org})\index{Mingw} \texttt{gcc} 8.1.0 (\url{http://gcc.gnu.org})\index{gcc}. The Microsoft Windows(\url{http://www.microsoft.com}) installer was built using the Inno Setup 5 (\url{http://www.jrsoftware.org/isdl.php}).
 
 \CNAME\ includes number of different minimisers --- Different minimisers may be better at some models than others. The first three are non-differentiation based minimisers: the first is closely based on the main algorithm of \cite{779}, and which uses finite difference gradients\index{Finite differences minimiser}; the second is an implementation of the differential evolution solver\index{Differential evolution minimiser} \citep{1442}, and based on code by \href{mailto:<godwin@pushcorp.com>}{Lester E. Godwin} of \href{http://www.pushcorp.com}{PushCorp, Inc.}; and the third is Dlib \citep{dlib09}. The three differentiation based minimisers are: ADOLC, an auto differentiation minimiser \citep{walther1996adolc}; CPPAD an auto differentiation minimiser similar to ADOLC \citep{wachter2006cppad}; and the third is a modified version of an older version of ADOL-C (v1.8.4) that was used as the auto differentiation minimiser in the first version of CASAL \citep{1388}.
 
