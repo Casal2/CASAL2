@@ -306,7 +306,7 @@ betadiff
 binomial
 binomial_approx
 biomass
-catchabilities
+catchability
 category_info
 category_list
 cinitial
@@ -363,7 +363,6 @@ mortality_instantaneous
 mortality_prey_suitability
 multinomial
 none
-nop
 normal
 normal_by_stdev
 normal_log

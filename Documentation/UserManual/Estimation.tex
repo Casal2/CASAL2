@@ -46,7 +46,7 @@ All parameters are estimated within bounds\index{Bounds}. For each parameter to 
 \subsection{\I{Point estimation}\label{sec:estimate-MPD}}
 Point estimation is invoked with \texttt{\cname\ -e}. Mathematically, it is an attempt to find a minimum of the objective function\index{Objective function}. \CNAME\ has multiple algorithms for solving (minimising) the optimisation problem. There are three non auto differential minimisers: numerical differences, differential evolution minimiser (\subcommand{de\_solver}), and the dlib minimiser. There are also three auto differential (AD) minimisers: ADOL-C, CPPAD, and BETADIFF. For references see Section \ref{sec:tech}. AD minimisers are recommended for complex models as they are on average much faster and tend to find a better minimum when exploring a complex objective surface. 
 
-Recently, with the number of parameters growing in these models, an important input parameter on most minimisers is the \subcommand{tolerance} parameter. This is the stopping rule that minimisers use to define when they have found a 'solution' (remember there is no guarantee that a solution is the global solution, such is the world we live in). Try  alternative starting values, this is easiliy done with the \texttt{-i parameter\_file.txt} in \CNAME. We recommend, when estimating any model with \CNAME\, that you try smaller values for the \subcommand{tolerance} parameter. We have found for some models that if you make it say 0.00000002 that the solution is quite a bit different than when using the default (0.002). This is not ideal model behaviourand that more investigative work may be required to determine what parameters are causing the behaviour. An aside note: this will also effect your covariance matrix --- with different tolerances and searchs you may end up with a different approximate hessian matrix which is inverted to solve for the covariance matrix. We tested the differnce this might make on MCMC results (because the covariance is incorporated into the proposal distribution). However,  MCMC runs with varying tolerances and have not been found, so far, to effect the posterior distribution of the MCMC.
+Recently, with the number of parameters growing in these models, an important input parameter on most minimisers is the \subcommand{tolerance} parameter. This is the stopping rule that minimisers use to define when they have found a 'solution' (remember there is no guarantee that a solution is the global solution, such is the world we live in). Try  alternative starting values, this is easily done with the \texttt{-i parameter\_file.txt} in \CNAME. We recommend, when estimating any model with \CNAME\, that you try smaller values for the \subcommand{tolerance} parameter. We have found for some models that if you make it say 0.00000002 that the solution is quite a bit different than when using the default (0.002). This is not ideal model behaviour and that more investigative work may be required to determine what parameters are causing the behaviour. An aside note: this will also effect your covariance matrix --- with different tolerances and searches you may end up with a different approximate Hessian matrix which is inverted to solve for the covariance matrix. We tested the difference this might make on MCMC results (because the covariance is incorporated into the proposal distribution). However,  MCMC runs with varying tolerances and have not been found, so far, to effect the posterior distribution of the MCMC.
 \subsubsection{\I{The numerical differences minimiser}}
 
 The minimiser has three kinds of (non-error) exit status, depending on the minimiser: 
@@ -95,7 +95,8 @@ We note that there is no proof of convergence for the differential evolution sol
 		\end{verbatim}}}
 
 \subsubsection{\I{Betadiff minimiser}}
-An auto-differentiable minimiser for non-linear models, This is the minimiser from the original CASAL package.
+
+An auto-differentiable minimiser for non-linear models, This is the minimiser from the original CASAL package, based on ADOL-C.
 {\small{\begin{verbatim}
 		@minimiser beta_diff
 		type beta_diff
@@ -103,8 +104,11 @@ An auto-differentiable minimiser for non-linear models, This is the minimiser fr
 		iterations 2500
 		evaluations 4000
 		\end{verbatim}}}
+	
 \subsubsection{\I{ADOL-C minimiser}}
+
 An auto-differentiable minimiser for non-linear models.
+
 {\small{\begin{verbatim}
 		@minimiser ADOLC
 		type adolc
@@ -113,15 +117,20 @@ An auto-differentiable minimiser for non-linear models.
 		evaluations 4000
 		tolerance 1e-6		
 		\end{verbatim}}}
+	
 \subsubsection{\I{CPPAD minimiser}}
+
 An auto-differentiable minimiser for non-linear models using the mumps solver, see \url{https://www.coin-or.org/CppAD/Doc/ipopt_solve.htm} for more information about this solver.
+
 {\small{\begin{verbatim}
 		@minimiser CPPAD
 		type cppad
 		\end{verbatim}}}
-We have found this solver to be by far the quickest solver for models that have a reasonably well defined solution, i.e. there is 'good' information in the data to identify all the parameters. Now you may be thinking...shouldn't this be the case for all minimisers? Short answer is yes, but the other minimisers are quicker than \subcommand{cppad} to tell you there is not a reasonable solution. 
+
+We have found this solver to be by far the quickest solver for models that have a reasonably well defined solution, i.e., there is 'good' information in the data to identify all the parameters. Now you may be thinking...shouldn't this be the case for all minimisers? Short answer is yes, but the other minimisers are quicker than \subcommand{cppad} to tell you there is not a reasonable solution. 
 
 \subsubsection{\I{Dlib minimiser}}
+
 Non auto-diff minimiser
 {\small{\begin{verbatim}
 		@minimiser Dlib
@@ -132,6 +141,7 @@ Non auto-diff minimiser
 		\end{verbatim}}}
 
 \subsection{\I{Posterior profiles}\label{sec:estimate-profiles}}
+
 If profiles are requested \texttt{\cname\ -p}, \CNAME\ will first calculate a point estimate. For each scalar parameter or, in the case of vectors or selectivities, the element of the parameter to be profiled, \CNAME\ will fix its value at a sequence of $n$ evenly spaced numbers ($step$) between a specified lower and upper bounds $l$ and $u$, and calculate a point estimate at each value. 
 
 By default $step=10$, and $(l, u)=($lower bound on parameter plus $(range/(2n))$, upper bound on parameter less $(range/(2n))$. Each minimisation starts at the final parameter values from the previous resulting value of the parameter being profiled. \CNAME\ will report the objective function for each parameter value. Note that an initial point estimate should be compared with the profile, not least to check that none of the other points along the profile have a better objective function value than the initial `minimum'.
@@ -169,7 +179,7 @@ There is currently two options for the starting point of the Markov Chain:
 \begin{itemize}
 \item Start from the point estimate; and
 %\item Start from a random point near the point estimate (the point is generated from a multivariate normal distribution, centred on the point estimate, with covariance equal to the inverse Hessian times a user-specified constant). This may be useful if the chain gets `stuck' at the point estimate, or if you wish to generate multiple chains from  for later MCMC diagnostic tests.
-\item Restart a chain given a covariance matrix and starting points (see section \I{arg1}) 
+\item Restart a chain given a covariance matrix and sand a previous starting point. 
 \end{itemize}
 
 The chain moves in natural space, i.e., no transformations are applied to the estimated parameters. The default proposal distribution is a multivariate $t$ centred on the current point, with covariance matrix equal to a matrix based on the approximate covariance produced by the minimiser, times some stepsize factor. The following steps define the initial covariance matrix of the proposal distribution: 
@@ -187,7 +197,6 @@ The chain moves in natural space, i.e., no transformations are applied to the es
 \kern-\nulldelimiterspace} {{\mathop{\rm sd}\nolimits} \left( i \right)}}
 \]
 for $i \ne j$, and ${\mathop{\rm var}} \left( i \right)^\prime   = k$
-
 
 \item  \commandsubarg{mcmc}{adjustment\_method}{correlation}: that if the variance of the $i$th parameter is non-zero and less than \commandsub{mcmc}{min\_difference} times the difference between the parameters' lower and upper bound, then its variance is changed to $k=min\_diff(upper\_bound_i-lower\_bound_i)$. This differs from (i) above in that the effect of this option is that it also modifies the resulting correlations between the $i$th parameter and all other parameters.
 \end{itemize}
@@ -213,7 +222,6 @@ All modified versions of the covariance matrix are printed to the standard outpu
 
 The variance-covariance matrix of this sub-sample of chain is calculated. As above, correlations greater than \commandsub{mcmc}{max\_correlation} are reduced to \commandsub{mcmc}{max\_correlation}, correlations less than \commandsub{mcmc}{max\_correlation} are increased to  \commandsub{mcmc}{max\_correlation}, and very small non-zero variances are increased (\commandsub{mcmc}{covariance\_adjustment} and \commandsub{mcmc}{min\_difference}. The result is the new variance-covariance matrix of the proposal distribution. 
 
-
 The procedure used to choose the sample of points is as follows. First, all points on the chain so far are taken. All points in an initial user-specified period are discarded. The assumption is that the chain will have started moving during this period - if this is incorrect and the chain has still not moved by the end of this period, it is a fatal error and \CNAME\ stops. The remaining set of points must contain at least some user-specified number of transitions - if this is incorrect and the chain has not moved this often, it is again a fatal error. If this test is passed, the set of points is systematically sub-sampled down to 1000 points (it must be at least this long to start with).
 
 The probability of acceptance for each jump is $0$ if it would move out of the bounds, or $1$ if it improves the posterior, or (new posterior/old posterior) otherwise. You can specify how often the position of the chain is recorded using the keep parameter. For example, with keep $10$, only every $10$th sample is recorded. 
@@ -222,21 +230,18 @@ You have the option to specify that some of the estimated parameters are fixed d
 
 If you specify the start of the chain using \texttt{\cname\ -i}, these fixed parameters are set to the values in the file.
 
-Restarting a mcmc chain, in the case where computers get turned off and an mcmc execution is halted. There is the ability to restart it from where it finishes,
+Restarting an MCMC chain, in the case where computers get turned off and the MCMC execution was halted. This allows the ability to restart it from where it finished,
 
 {\small{\begin{verbatim}
 		casal2 -m --resume --objective-file Objective_file_name --sample-file Sample_file_name
 		\end{verbatim}}}
-where \texttt{Objective\_file\_name} is the file name containing the objective report and \texttt{Sample\_file\_name} is the file name containing the sample report from a mcmc chain.
-
+where \texttt{Objective\_file\_name} is the file name containing the objective report and \texttt{Sample\_file\_name} is the file name containing the sample report from a MCMC chain.
 
 The posterior sample can be used for (projections (Section \ref{sec:projection})) or simulations (Section \ref{sec:simulation-observations}) with the values supplied using \texttt{\cname\ -i \emph{file}}.
 
+A multivariate t distribution is used as an alternative to the multivariate normal proposal distribution. If you request multivariate t proposals, you may want to change the degrees of freedom from the default of 4. As the degrees of freedom decrease, the t distribution becomes more heavy tailed. This may lead to better convergence properties. Note the default is the multivariate t.
 
-A multivariate t distribution is available as an alternative to the multivariate normal proposal distribution. If you request multivariate t proposals, you may want to change the degrees of freedom from the default of 4. As the degrees of freedom decrease, the t distribution becomes more heavy tailed. This may lead to better convergence properties.
-
-
-Given a posterior (sub)sample, \CNAME\ can calculate a list of output quantities for each sample point (see Section~\ref{sec:report-section} scecifically tabular report). These quantities can be dumped into a file (using \texttt{\cname\ -r --tabular}) and read into an external software package where the posterior distributions can be plotted and/or summarised. 
+Given a posterior (sub)sample, \CNAME\ can calculate a list of output quantities for each sample point (see Section~\ref{sec:report-section} specifically tabular report). These quantities can be dumped into a file (using \texttt{\cname\ -r --tabular}) and read into an external software package where the posterior distributions can be plotted and/or summarised. 
 
 The posterior sample can also be used for projections (Section~\ref{sec:projection}). The advantage of this is that the parameter uncertainty, as expressed in your posterior distribution, can be included into the risk estimates.
 
@@ -312,12 +317,12 @@ Vectors of parameters can be independently (but not necessarily identically) dis
 		cv 			0.9 	0.9 	0.9 	0.9 	0.9 	0.9
 		lower_bound 0.01	0.01	0.01	0.01	0.01	0.01
 		upper_bound 9		9		9		9		9		9	
-		
-		
+
 \end{verbatim}}}
 
 \subsection{Penalties\label{sec:penalties}}
-Penalties are associated with processes and can be used to discourage parameter values or model outputs that are non-sensical, by adding a penalty to the objective function. For example, parameter estimates that do not allow a known mortality event to remove enough individuals from the population can be discouraged within an event mortality process. \CNAME\ requires penalty functions for processes that remove or shift a \emph{number} of individuals between categories or from the partition. For CASAL users many of the penalties that were available in CASAL have been moved to be additional priors, see Section~\ref{sec:additional_priors}.
+
+Penalties are associated with processes and can be used to discourage parameter values or model outputs that are nonsensical, by adding a penalty to the objective function. For example, parameter estimates that do not allow a known mortality event to remove enough individuals from the population can be discouraged within an event mortality process. \CNAME\ requires penalty functions for processes that remove or shift a \emph{number} of individuals between categories or from the partition. For CASAL users many of the penalties that were available in CASAL have been moved to be additional priors, see Section~\ref{sec:additional_priors}.
 
 For most penalties, you need to specify a multiplier, and the objective function is increased by this multiplier times the penalty value as described below. In some cases you will need to make the multiplier quite large to prohibit some model behaviour. 
 
@@ -342,6 +347,7 @@ multiplier 10000
 \end{verbatim}}}
 
 Penalties are added to the objective function in the following ways;
+
 \begin{equation}
 	Penalty = (X_1 - X_2)^2
 \end{equation}
@@ -353,6 +359,7 @@ Penalty = (log(X_1) - log(X_2))^2
 Where $X_1$ could be a known catch and $X_2$ is the model catch under a given set of parameter values. These are usually applied in situations where you have known numbers or weight. Another obvious example is tagging, we know for a fact that we tagged $N$ fish this year so don't allow your model to apply less than that because that is nonsensical.
 
 \subsection{Additional Priors\label{sec:additional_priors}}
+
 Additional priors can be thought of as the inverse of penalties and for CASAL users most of the legacy \command{penalty} blocks have now been migrated as \command{additional\_prior} blocks. They constrain or encourage parameters in user defined spaces. The types of additional priors available in \CNAME\ are \texttt{vector\_smoothing}, \texttt{vector\_averaging}, \texttt{uniform\_log}, \texttt{lognormal}, \texttt{element\_difference} and \texttt{Beta}, which are defined as,
 
 \begin{enumerate}
@@ -411,11 +418,12 @@ There are a range of parameters and derived values that users can apply addition
 	\item \subcommand{catchability[Catchability\_label].q}
 	this is only for catchabilities that are of type \subcommand{nuisance}. Because \subcommand{nuisance} q's are not free parameters to replicate legacy CASAL models with \command{estimate} blocks in nuisance q's we now apply additional priors. Note, if legacy models applied uniform priors this has a null effect and you can ignore functionality when converting to \CNAME\ models.
 \end{itemize}
-\pagebreak
+
 \subsection{\I{Estimate Transformations}\label{sec:transformations}}
+
 \CNAME\ has multiple methods to transform a parameter, with some methods developed for legacy purposes and others are more recent ideas. All transformations are implemented for the same reason --- to try and achieve 'better' model optimisation. It is no surprise that complex population models can have highly correlated parameters so transforming them to be orthogonal or to be in a different space is a way of trying to remove correlations, and to allow the minimiser to find a 'global' minimum quicker. To read more about transformations and get a better understanding of why they are used we refer you to \cite{gilks1995markov}, specifically chapter 6. 
 
-There are two main methods available in \CNAME, \subcommand{transform\_with\_jacobian} and \subcommand{prior\_applies\_to\_transform}. When using Transform-with-jacobian the user defines priors on parameters in natural/model space (business as usual priors) but when we pass the parameter to the minimiser it gets transformed and a jacobian is added to the objective function to account for the transformation. The second method is when users can specify bounds and prior parameters on the parameters in transformed space. Note that you cannot specify both \subcommand{prior\_applies\_to\_transform} and \subcommand{transform\_with\_jacobian} true, \CNAME\ should gracefully tell you this.
+There are two main methods available in \CNAME, \subcommand{transform\_with\_jacobian} and \subcommand{prior\_applies\_to\_transform}. When using Transform-with-Jacobian the user defines priors on parameters in natural/model space (business as usual priors) but when we pass the parameter to the minimiser it gets transformed and a Jacobian is added to the objective function to account for the transformation. The second method is when users can specify bounds and prior parameters on the parameters in transformed space. Note that you cannot specify both \subcommand{prior\_applies\_to\_transform} and \subcommand{transform\_with\_jacobian} true, \CNAME\ should gracefully tell you this.
 
 There are two ways users can apply estimate transformations. The first is within the \command{estimate} block, this is for univariate (simple) transformations only. For complicated transformations you will have to specify a \command{estimate\_transformation} block to describe the transformation. Examples of these two implementations,
 
@@ -447,18 +455,22 @@ There are two ways users can apply estimate transformations. The first is within
 		\end{verbatim}}}
 
 \subsubsection*{Transform with Jacobian}
+
 The support of a random variable $X$ with density $p_X(x)$ is that subset of values for which it has non-zero density, 
+
 \begin{equation}
- supp(X) = \{x|p_X(x) > 0\}
+  supp(X) = \{x|p_X(x) > 0\}
 \end{equation}
+
 If $f$ is a transformation function defined on the support of $X$, then $Y = f(X)$ is a new random variable (transformed variable). This section shows the available transformations in \CNAME\ and the probability density function of $Y$. %%This theory follows the STAN manual \cite{STAN}.
 
 Suppose $X$ is one dimensional and $f$: $supp(X) \to \mathbf{R}$ is a one-to-one, monotonic function with a differentiable inverse $f^{-1}$. Then the density of $Y$ is given by
+
 \begin{equation}\label{eq:jacobian}
 	p_Y(y) = p_X(f^{-1}(y)) \begin{vmatrix} \frac{\partial}{\partial y} f^{-1}(y) \end{vmatrix}
 \end{equation}
 
-where $\begin{vmatrix} \frac{\partial}{\partial y} f^{-1}(y) \end{vmatrix}$ is the jacobian term. The jacobian measures how the scale of the transformed variable changes with respect to the underlying variable. This can be expanded to the multivaiate case where the jacobian becomes a matrix of partial derivatives, see later for some example of multivariate cases. In equation~\ref{eq:jacobian} the term $p_X(f^{-1}(y)) = p_X(X)$ and in a bayesian context is the prior of the untransformed variable/parameter. \textbf{Note:} if this functionality is in use be careful interpreting the covariance matrix as this will be related to the transformed variable not the variable space that you may be thinking it is in e.g. if you are estimating natural mortality ($M$) as $Y = M/2$ the covariance matrix will be described for $Y$.
+where $\begin{vmatrix} \frac{\partial}{\partial y} f^{-1}(y) \end{vmatrix}$ is the Jacobian term. The Jacobian measures how the scale of the transformed variable changes with respect to the underlying variable. This can be expanded to the multivariate case where the Jacobian becomes a matrix of partial derivatives, see later for some example of multivariate cases. In equation~\ref{eq:jacobian} the term $p_X(f^{-1}(y)) = p_X(X)$ and in a Bayesian context is the prior of the untransformed variable/parameter. \textbf{Note:} if this functionality is in use be careful interpreting the covariance matrix as this will be related to the transformed variable not the variable space that you may be thinking it is in e.g. if you are estimating natural mortality ($M$) as $Y = M/2$ the covariance matrix will be described for $Y$.
 
 {\small{\begin{verbatim}
 		@estimate log_R0
@@ -491,7 +503,7 @@ This is where users define the priors in transformed space (this class of transf
 
 
 \begin{itemize}
-\item \subcommand{log} natural logorithm transformation\\
+\item \subcommand{log} natural logarithm transformation\\
 \subcommand{is\_simple = true}\\
 \subcommand{jacobian defined = true}\\
 $Y = ln(X)$\\

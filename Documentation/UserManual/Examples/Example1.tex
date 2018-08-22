@@ -18,7 +18,6 @@ The second time-step applies an age increment and the remaining natural mortalit
 
 The first 28 lines of the main section of the \texttt{population.csl2} are,
 % Include config file
-\pagebreak
 \lstinputlisting[firstline=1,lastline=28]{../../Examples/Simple/population.csl2} 
 
 To carry out a run of the model (to verify that the model runs without any syntax errors), use the command \texttt{casal2 -r}. Note that as \CNAME\ looks for a file named \texttt{casal2.txt} by default, we can override this. Hypothetically speaking if our model was all written in \texttt{Mymodel.txt} we could call it using the \texttt{-c} command like \texttt{casal2 -r -c Mymodel.txt}.
@@ -31,5 +30,5 @@ Completed
 
 The main part of the output from the estimation run is summarised in the file \texttt{estimate.log}, and the final MPD parameter values can be piped out as a separate report, in this case named \texttt{paramaters.out}, using the command \texttt{casal2 -e -o paramaters.out > estimate.log}.
 
-A profile on the $R_0$ parameter can also be run, using \texttt{casal2 -p > profile.log}. See the examples folder for an example of the output.
+A profile on the $R_0$ parameter can also be run, using \texttt{casal2 -p > profile.log}. See the examples folder for the example of the output.
 

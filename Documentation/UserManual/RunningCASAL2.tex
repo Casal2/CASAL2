@@ -1,8 +1,8 @@
 \section{Running \CNAME\label{sec:running}\index{Running \CNAME}}
 
-\CNAME\ is run from the console window (i.e., the command line) on \I{Microsoft Windows} or from a terminal window on \I{Linux}. \CNAME\ uses information from input data files -- the \emph{\config\index{Input configuration file}} being the key file. 
+\CNAME\ is run from the console window (i.e., the command line) on \I{Microsoft Windows} or from a terminal window on \I{Linux}. \CNAME\ uses information from input data files -- the \emph{\config\index{Input configuration file}} being the main input file. 
 
-The \config\ is compulsory and defines the model structure, processes, observations, parameters (both the fixed parameters and the parameters to be estimated)\index{Estimable parameters}, and the reports (outputs) requested. The following sections  describe how to construct the \CNAME\ configuration file. By convention, the name of the \config\ ends with the suffix \texttt{.csl2}. However, any file name is acceptable. Note that the \config\ can `include' other files as a part of its syntax. Collectively, these are called the \config.
+The \config\ is compulsory and defines the model structure and processes, the observations and  parameters (both the fixed parameters and the parameters to be estimated)\index{Estimable parameters}, and the reports (outputs) requested. The following sections  describe how to construct the \CNAME\ configuration file. By convention, the name of the \config\ ends with the suffix \texttt{.csl2}. However, any file name is acceptable. Note that the \config\ can `include' other files as a part of its syntax. Collectively, these are called the \config.
 
 Other input files can, in some circumstances, be supplied depending on what is required. For example, an input file can define the starting point for estimation, or points from which to simulate observations, or points from which to run projections.
 
@@ -10,21 +10,19 @@ Simple command line arguments\index{Command line arguments} are used to determin
 
 \subsection{\I{Using \CNAME}}
 
-To use \CNAME, open a console (i.e. the command prompt) window (Microsoft Windows) or a terminal window (Linux). Navigate to a directory of your choice, where your \config s are located. Then enter \cname\ with any arguments (see Section \ref{sec:command-line-arguments} for the the list of possible arguments) to start your \CNAME\ job running. \CNAME\ will print output to the screen and return you to the command prompt when the job has completed. Note that the \CNAME\ executable (binary) and shared libraries (extension \texttt{.dll}) must be either in the same directory as the \config s or in your systems \texttt{PATH}. The \CNAME\ installer should update your path on Windows in any case, but see your operating system documentation for help identifying or modifying your \texttt{PATH}.
-
+To use \CNAME, open a console (i.e. the command prompt) window (Microsoft Windows) or a terminal window (Linux). Navigate to a directory of your choice, where your \config s are located. Then enter \cname\ with any arguments (see Section \ref{sec:command-line-arguments} for the list of possible arguments) to start your \CNAME\ job running. \CNAME\ will print output to the screen and return you to the command prompt when the job has completed. Note that the \CNAME\ executable (binary) and shared libraries (extension \texttt{.dll}) must be either in the same directory as the \config s or in your systems \texttt{PATH}. The \CNAME\ installer should update your path on Windows in any case, but see your operating system documentation for help identifying or modifying your \texttt{PATH}.
 
 \subsection{The \config\label{sec:config-files}}\index{Input configuration file}
 
 The \config\ is made up of four broad sections; the description of the population structure and parameters (the population section), the estimation methods and variables (the estimation section), the observations and their associated likelihoods (the observation section), and the outputs and reports that \CNAME\ will return (the report section). The \config\ is made up of a number of commands (many with subcommands) which specify various options for each of these components.
 
-The command and subcommand definitions in the \config\ can be extensive (especially when you have a model that has many observations), and can result in a \config\ that is long and difficult to navigate. To aid readability and flexibility, we can use the \config\ command !\texttt{\emph{include}} \texttt{\emph{file}}  (e.g. Figure~\ref{fig:config_file_1}). The command causes an external file, \argument{\emph{file}}, to be read and processed, exactly as if its contents had been inserted in the main \config\ at that point\index{Including external files}. The file name must be a complete file name with extension, but can use either a relative or absolute path as part of its name. Note that included files can also contain !\texttt{\emph{include}} commands. See Section \ref{sec:general-syntax} for more detail.
-
+The command and subcommand definitions in the \config\ can be extensive (especially when you have a model that has many observations), and can result in a \config\ that is long and difficult to navigate. To aid readability and flexibility, we can use the \config\ command \texttt{!include \emph{file}}  (e.g. Figure~\ref{fig:config_file_1}). The command causes an external file, \argument{file}, to be read and processed, exactly as if its contents had been inserted in the main \config\ at that point\index{Including external files}. The file name must be a complete file name with extension, but can use either a relative or absolute path as part of its name. Note that included files can also contain \texttt{!include} commands. See Section \ref{sec:general-syntax} for more detail.
 
 \vspace*{3mm}
 \begin{figure}[htp]
 	\includegraphics[scale=1]{Figures/config.png}
-	\caption{\textbf{Example of using the \config\ command !\texttt{\emph{include}}
-	 \texttt{\emph{file}} .}}\label{fig:config_file_1}
+	\caption{\textbf{Example of using the \config\ command \texttt{!include}
+	 \argument{file} .}}\label{fig:config_file_1}
 \end{figure}
 %\vspace*{1mm}
 
@@ -125,7 +123,7 @@ The command and subcommand syntax to be used in each of these configuration file
 \CNAME\ has a range of commands that define the model structure, processes, observations, and how tasks are carried out. There are three types of commands, 
 
 \begin{enumerate}
-\item Commands that have an argument and do not have subcommands (for example, !\texttt{\emph{include}}\ \argument{\emph{file}})
+\item Commands that have an argument and do not have subcommands (for example, \texttt{!include}\ \argument{\emph{file}})
 \item Commands that have a label and subcommands (for example \command{process} must have a label, and has subcommands)
 \item Commands that do not have either a label or argument, but have subcommands (for example \command{model})
 \end{enumerate}
@@ -167,9 +165,9 @@ Integers must be entered as integers (i.e., if \subcommand{year}\ is an integer 
 
 Arguments of type integer vector, integer range, constant vector, estimable vector, addressable vector, or categorical vector must contain one or more entries on a row, separated by white space (tabs or spaces). 
 
-Parameters are defined in the population section and can be specified as estimable with the subcommand type \texttt{estimable} or \texttt{estimable vector}.  These parameters will be estimated if specified as such in the estimation section. If the estimable parameter is not specified in the estimation section it will instead be treated as a contstant (or constant vector). In other words, only estimable parameters can be estimated and \CNAME\ must be explicitly commanded to do so for any particular model run. 
+Parameters are defined in the population section and can be specified as estimable with the subcommand type \texttt{estimable} or \texttt{estimable vector}.  These parameters will be estimated if specified as such in the estimation section. If the estimable parameter is not specified in the estimation section it will instead be treated as a constant (or constant vector). In other words, only estimable parameters can be estimated and \CNAME\ must be explicitly commanded to do so for any particular model run. 
 
-Note that parameters defined as addressable with the subcommand type \texttt{addressable} or \texttt{addressable vector} are usually derived quantities and are not directly estimable. As such, they can be acted upon by the model (e.g. called by various processes; have priors and/or penalties assigned to them), but they do not directly contribute to any estimation within the model
+Note that parameters defined as addressable with the subcommand type \texttt{addressable} or \texttt{addressable vector} are usually derived quantities and are not directly estimable. As such, they can be acted upon by the model (e.g., called by various processes; have priors and/or penalties assigned to them), but they do not directly contribute to any estimation within the model
 
 \subsubsection{The command-block format}\index{Command block format}
 Each command-block consists of a single command (starting with the symbol \command{}) and, for most commands, a unique label or an argument. Each command is then followed by its subcommands and their arguments, e.g., 
@@ -197,12 +195,11 @@ Each command-block consists of a single command (starting with the symbol \comma
 		\end{description}
 	\end{multicols}
 
-
 Blank lines are ignored, as is extra white space (i.e., tabs and spaces) between arguments. However, to start command block the \command{} character must be the first character on the line and must not be preceded by any white space. Each input file must end with a carriage return.
 
-There is no need to mark the end of a command block. This is automatically recognized by either the end of the file, section, or the start of the next command block (which is marked by the \command{} on the first character of a line). Note, however, that the !\texttt{\emph{include}} is the only exception to this rule (see Section \ref{sec:general-syntax}\index{Command ! Include files} for details of the use of !\texttt{\emph{include}}). 
+There is no need to mark the end of a command block. This is automatically recognized by either the end of the file, section, or the start of the next command block (which is marked by the \command{} on the first character of a line). Note, however, that the \texttt{!include} is the only exception to this rule (see Section \ref{sec:general-syntax}\index{command ! include files} for details of the use of \texttt{!include}). 
 
-Commands, sub-commands and arguments in the \config s are not case sensitive. Labels and variable values are case sensitive. Also, on a Linux system, external calls to files are case sensitive (i.e., when using !\texttt{\emph{include}} \subcommand{\emph{file}}, the argument \subcommand{\emph{file}} will be case sensitive). 
+Commands, sub-commands and arguments in the \config s are not case sensitive. Labels and variable values are case sensitive. Also, on a Linux system, external calls to files are case sensitive (i.e., when using \texttt{!include} \argument{\emph{file}}, the argument \argument{\emph{file}} will be case sensitive). 
 
 
 \subsubsection{\I{Commenting out lines}}\index{Comments}
@@ -231,7 +228,7 @@ When \CNAME\ processes an \config\ it translates each command block and each sub
 \item \texttt{command[label].subcommand\{i:j\}} if the command has a label, and the subcommand arguments are a vector, and we are accessing the elements from $i$ to $j$ (inclusive) of that vector.
 \end{description} 
 
-The unique parameter name is used to reference that unique parameter when, for example, estimating, applying a penalty, projecting, time varying or applying a profile. For example, the parameter name of the Natural mortality rates subcommand \subcommand{m} of the command \command{process} with the label \argument{NaturalMortality} is category related and so, the syntax to reference all m related categories is, 
+The unique parameter name is used to reference that unique parameter when, for example, estimating, applying a penalty, projecting, time varying or applying a profile. For example, the parameter name of the Natural mortality rates subcommand \subcommand{m} of the command \command{process} with the label \argument{NaturalMortality} is category related and so, the syntax to reference all \argument{m} related categories is, 
 
 \texttt{process[NaturalMortality].m}
 
@@ -241,16 +238,15 @@ Or, the syntax to specify a single category for which to apply the natural morta
 
 All labels (parameter names) are user specified. As such, naming conventions are non-restrictive and can be model specific.
 
-
 \subsection{\I{Single-stepping \CNAME}\label{sec:singlestepping}}\index{Single\_stepping}\index{single\_stepping section}
 
-Single-stepping means \CNAME\ can `pause' after each year in the annual cycle during a model run, write reports, then wait and process user input of updated estimable parameters for the next year. 
+Single-stepping means \CNAME\ can `pause' after each year in the annual cycle during a model run, write reports, then wait and process user input of updated estimable parameters for the next year (see the command line argument \texttt{ --single-step}). 
 
-This enables \CNAME\ to implement models that require feedback management simulations or scenarios and can be used, for example, in operational management procedures (OMPs). The single-stepping process can be automated using \R, where \CNAME\ may be controlled by \R\ to update input harvest values (e.g. catches in a fisheries model) to evaluate a particular harvest control rule. 
+This enables \CNAME\ to implement models that require feedback management simulations or scenarios and can be used, for example, in operational management procedures (OMPs). The single-stepping process can be automated using \R, where \CNAME\ may be controlled by \R\ to update input harvest values (e.g., catches from a fishery in a fisheries model) to evaluate a particular harvest control rule. 
 
 \subsection{\CNAME\ exit status values\index{Exit status value}}
 Whether \CNAME\ completes its task successfully or errors out gracefully, it returns a single exit status value 'completed' to the standard output. Error messages will be printed to the console. When configuration errors are found \CNAME\ will print error messages, along with the associated files and line numbers where the errors were identified, for example,
 
 {\small{\begin{verbatim}
 	#1: At line 15 in Reports.csl2: Parameter '{' is not supported
-\end{verbatim}}}	
+\end{verbatim}}}

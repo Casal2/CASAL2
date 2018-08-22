@@ -22,6 +22,7 @@ end_table
 \end{verbatim}}}
 
 Some general notes about writing configuration files:
+
 \begin{enumerate}
 	\item Whitespace can be used freely. Tabs and spaces are both accepted
 	\item A block ends only at the beginning of a new block or end of final configuration file
@@ -31,7 +32,7 @@ Some general notes about writing configuration files:
 \end{enumerate}
 
 \subsubsection{Keywords And Reserved Characters}
-In order to allow efficient creation of input files CASAL2's file format contains special keywords and characters that cannot be used for labels etc.
+In order to allow efficient creation of input files \CNAME's file format contains special keywords and characters that cannot be used for labels etc.
 
 \paragraph*{\command Block Definitions}
 Every new block in the configuration file must start with a block definition character. The reserved character for this is the \command character\\
@@ -200,8 +201,11 @@ years tag=2001=1999:2003  tag=2005=2003:2007
 \end{verbatim}}}
 
 \subsection{More examples of shorthand syntax and use of \CNAME's reserved and key characters}\label{sec:ShorthandSyntax-section}
+
 \paragraph*{\I{Categories}\label{sub:categories}}
+
 \CNAME\ allows many user defined categories so shorthand syntax has been added to aid in the readability of complex configuration scripts and partition structures. For example when defining categories you can use a comma for shortening lists of categories. The following syntax is how we would specify the categories the long way.
+
 {\small{\begin{verbatim}
 		@categories 
 		format sex.stage
@@ -403,6 +407,11 @@ The trick is that you can replace the keyword \subcommand{process} with the firs
 		type category
 		\end{verbatim}}}
 	
-\subsection{\I{An example of a simple model}\label{example1}}
-\index{Examples ! Example 1}\index{Examples ! A simple non-spatial model}
+\subsection{An example of a simple model\label{example1}}\index{A simple non-spatial model example}
+
 \input{Examples/Example1}
+
+%\subsection{An example of a simple spatial model\label{example1}}\index{A simple spatial model example}
+
+%\input{Examples/Example2}
+
