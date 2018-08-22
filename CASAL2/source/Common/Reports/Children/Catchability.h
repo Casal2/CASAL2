@@ -1,5 +1,5 @@
 /*
- * Catchabilities.h
+ * Catchability.h
  *
  *  Created on: 4/09/2013
  *      Author: Admin
@@ -18,10 +18,10 @@ namespace reports {
 /**
  *
  */
-class Catchabilities : public niwa::Report {
+class Catchability : public niwa::Report {
 public:
-  Catchabilities(Model* model);
-  virtual                     ~Catchabilities() = default;
+  Catchability(Model* model);
+  virtual                     ~Catchability() = default;
   void                        DoValidate() override final { };
   void                        DoBuild() override final { };
   void                        DoExecute() override final;
