@@ -1,6 +1,17 @@
 \section{Merging changes form a forked repository to a master repository\label{sec:pull_requests}}
 
-This section describes how to merge changes from a forked repository to the master repository. This is under the assumptions that the contributor has followed the rules laid out in Section~\ref{sec:build_rules}. The aim of the forked repository is to maintain code integrity. So we only want contributors who have tested their documented code to be included into the master. This section is the opposite to Section~\ref{sec:maintain_repo} where we are merging changes from a forked repository into the master, which will be incorporated into the next publicly available compiled version of \CNAME. From this example we can see from Figure~\ref{fig:fork_merge} that our forked repository has three commits (underlined in blue) that we want to incorporate into the master repository.
+\textbf{Before you consider this} you need to make sure the following has been checked otherwise, you will waste developers time and patience. In brief summary you have to check that the your new code doesn't break any of the auto-differentiation code, so you need to build all of those. You must check that you have not broken any unit-tests and that all the model runner models have passed.
+
+\begin{enumerate}
+\item \texttt{doBuild archive} this will build all the autodiff librarys.
+\item \texttt{doBuild release betadiff}
+\item \texttt{doBuild modelrunner}
+\item \texttt{doBuild unittests} Then enter the directory where this executable lives e.g. \text{BuildSystem\ bin\ windows\ test}, and run the casal2 executable to check all the unit-tests pass.
+			
+\end{enumerate}
+
+
+\textbf{only once the above is done, should you consider the remaining section}. This section describes how to merge changes from a forked repository to the master repository. This is under the assumptions that the contributor has followed the rules laid out in Section~\ref{sec:build_rules}. The aim of the forked repository is to maintain code integrity. So we only want contributors who have tested their documented code to be included into the master. This section is the opposite to Section~\ref{sec:maintain_repo} where we are merging changes from a forked repository into the master, which will be incorporated into the next publicly available compiled version of \CNAME. From this example we can see from Figure~\ref{fig:fork_merge} that our forked repository has three commits (underlined in blue) that we want to incorporate into the master repository.
 
 \begin{figure}[!ht]
 	\includegraphics[scale=0.6]{Figures/Pull_request0.png}
