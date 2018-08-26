@@ -7,7 +7,6 @@ population dynamics models, using a discrete time-step
 area-space model that represents a cohort-based 
 population age structure. 
 
-
 This repository is standalone containing all thirdparty 
 libraries and source code necessary to compile Casal2. 
 This project is covered under the GNU General Public 
@@ -16,6 +15,7 @@ hope that it will be useful, but WITHOUT ANY WARRANTY;
 without even the implied warranty of MERCHANTABILITY 
 or FITNESS FOR A PARTICULAR PURPOSE.
 
+Note that, at present, Casal2 is in a beta testing phase, with some modules functioning as intended and others in development phase. As such, we cannot guarantee models will run as intended, and we are currently developing tests to verify functionality.
 
 A windows bundle which includes a binary, manual, 
 examples and other help guides can be downloaded at 
