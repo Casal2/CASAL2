@@ -19,7 +19,7 @@
 #include "Common/Reports/Manager.h"
 #include "Common/Reports/Children/Addressable.h"
 #include "Common/Reports/Children/CategoryInfo.h"
-#include "Common/Reports/Children/Catchabilities.h"
+#include "Common/Reports/Children/Catchability.h"
 #include "Common/Reports/Children/CategoryList.h"
 #include "Common/Reports/Children/CovarianceMatrix.h"
 #include "Common/Reports/Children/CorrelationMatrix.h"
@@ -69,7 +69,7 @@ Report* Factory::Create(Model* model, const string& object_type, const string& s
     else if (sub_type == PARAM_CATEGORY_LIST)
       result = new CategoryList(model);
     else if (sub_type == PARAM_CATCHABILITY)
-      result = new Catchabilities(model);
+      result = new Catchability(model);
     else if (sub_type == PARAM_COVARIANCE_MATRIX)
       result = new CovarianceMatrix(model);
     else if (sub_type == PARAM_CORRELATION_MATRIX)
