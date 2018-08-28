@@ -23,6 +23,7 @@
 #include "Age/Reports/Children/PartitionMeanWeight.h"
 #include "Age/Reports/Children/PartitionBiomass.h"
 #include "Age/Reports/Children/Partition.h"
+#include "Age/Reports/Children/PartitionYearCrossAgeMatrix.h"
 
 // Namespaces
 namespace niwa {
@@ -53,7 +54,10 @@ Report* Factory::Create(Model* model, const string& object_type, const string& s
       result = new InitialisationPartitionMeanWeight(model);
     else if (sub_type == PARAM_PARTITION)
       result = new Partition(model);
-  }
+     else if (sub_type == PARAM_REPORT_PARTITION_YEARCROSSAGEMATRIX)
+      result = new Partition_YearCrossAgeMatrix(model);
+
+ }
 
   return result;
 }
