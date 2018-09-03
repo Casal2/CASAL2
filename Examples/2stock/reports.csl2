@@ -57,6 +57,11 @@ type observation
 observation CRsumage
 
 
+@report year_age_mat
+type year_age_matrix
+time_step Jul_Sep
+
+
 @report SAsumage
 type observation
 observation SAsumage
