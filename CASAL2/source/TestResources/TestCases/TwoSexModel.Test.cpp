@@ -14,9 +14,9 @@
 
 #include "TwoSexModel.h"
 
-#include "Common/DerivedQuantities/Manager.h"
-#include "Common/Model/Model.h"
-#include "Common/ObjectiveFunction/ObjectiveFunction.h"
+#include "DerivedQuantities/Manager.h"
+#include "Model/Model.h"
+#include "ObjectiveFunction/ObjectiveFunction.h"
 #include "TestResources/TestFixtures/InternalEmptyModel.h"
 
 // Namespaces

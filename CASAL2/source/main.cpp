@@ -1,3 +1,4 @@
+
 #ifdef TESTMODE
 #include <gtest/gtest.h>
 
@@ -20,17 +21,17 @@ int main(int argc, char **argv) {
 #include <boost/algorithm/string/split.hpp>
 #include <boost/algorithm/string/join.hpp>
 
-#include "Common/ConfigurationLoader/Loader.h"
-#include "Common/GlobalConfiguration/GlobalConfiguration.h"
-#include "Common/Model/Factory.h"
-#include "Common/Model/Managers.h"
-#include "Common/Model/Model.h"
-#include "Common/Reports/Children/StandardHeader.h"
-#include "Common/Reports/Manager.h"
-#include "Common/Utilities/CommandLineParser/CommandLineParser.h"
-#include "Common/Utilities/RandomNumberGenerator.h"
-#include "Common/Utilities/RunParameters.h"
-#include "Common/Logging/Logging.h"
+#include "ConfigurationLoader/Loader.h"
+#include "GlobalConfiguration/GlobalConfiguration.h"
+#include "Model/Factory.h"
+#include "Model/Managers.h"
+#include "Model/Model.h"
+#include "Reports/Common/StandardHeader.h"
+#include "Reports/Manager.h"
+#include "Utilities/CommandLineParser/CommandLineParser.h"
+#include "Utilities/RandomNumberGenerator.h"
+#include "Utilities/RunParameters.h"
+#include "Logging/Logging.h"
 
 // Namespaces
 using namespace niwa;

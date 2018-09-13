@@ -12,8 +12,8 @@
 // headers
 #include "Base.h"
 
-#include "Common/Model/Model.h"
-#include "Common/Model/Managers.h"
+#include "Model/Model.h"
+#include "Model/Managers.h"
 
 // namespaces
 namespace niwa {

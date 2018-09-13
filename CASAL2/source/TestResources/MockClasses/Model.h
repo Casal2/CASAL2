@@ -19,9 +19,9 @@
 // Headers
 #include <gmock/gmock.h>
 
-#include "Common/Model/Model.h"
-#include "Common/Model/Managers.h"
-#include "Common/Utilities/PartitionType.h"
+#include "Model/Model.h"
+#include "Model/Managers.h"
+#include "Utilities/PartitionType.h"
 
 // Namespaces
 namespace niwa {
