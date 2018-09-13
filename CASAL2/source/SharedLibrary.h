@@ -14,7 +14,7 @@
  */
 #ifndef SOURCE_SHAREDLIBRARY_H_
 #define SOURCE_SHAREDLIBRARY_H_
-#include "Common/Utilities/RunParameters.h"
+#include "Utilities/RunParameters.h"
 
 #ifdef __cplusplus
 extern "C" {
