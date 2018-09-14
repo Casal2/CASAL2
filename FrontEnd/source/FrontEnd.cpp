@@ -21,7 +21,7 @@
 #include <unistd.h>
 #endif
 
-#include "Common/Utilities/RunParameters.h"
+#include "Utilities/RunParameters.h"
 
 // namespaces
 using std::cout;
