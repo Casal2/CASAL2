@@ -92,7 +92,7 @@ class Documentation:
     """
     def load_translations(self):
         print '--> Loading translations'
-        file = fileinput.FileInput('../CASAL2/source/Common/Translations/English_UK.h')
+        file = fileinput.FileInput('../CASAL2/source/Translations/English_UK.h')
         if not file:
             return Globals.PrintError('Failed to open the English_UK.h for translation loading')
 
@@ -114,10 +114,7 @@ class Documentation:
 class ClassLoader:
     def Run(self):
         global parent_class_
-        casal2_src_folder = '../CASAL2/source/Common/'
-        casal2_age_src_folder = '../CASAL2/source/Age/'
-        casal2_length_src_folder = '../CASAL2/source/Length/'
-		
+        casal2_src_folder = '../CASAL2/source/'
         parent_class_folders = [ 'AdditionalPriors', 'AgeingErrors', 'AgeLengths', 'Asserts',
                         'Catchabilities', 'Categories', 'DerivedQuantities',
                         'Estimates', 'EstimateTransformations', 'InitialisationPhases', 'LengthWeights',
@@ -129,7 +126,7 @@ class ClassLoader:
         for folder in parent_class_folders:
             parent_class_ = Class()
             print folder
-			# Start with Common folder, but know we also go through age and length folders
+			# Start with folder, but know we also go through age and length folders
             if (os.path.exists(casal2_src_folder + folder) or folder in type_without_children_folders):
                 label_ = Variable()
                 label_.name_ = 'label'
@@ -147,7 +144,7 @@ class ClassLoader:
                         if file.startswith(folder[:-3]) and file.endswith('.h') and not file.endswith('-inl.h'):
                             print '-- Loading Common -> top-level parent class from file ' + file
                             parent_class_.name_ = file.replace('.h', '')
-                            if not VariableLoader().Load('../CASAL2/source/Common/' + folder + '/' + file, parent_class_):
+                            if not VariableLoader().Load('../CASAL2/source/' + folder + '/' + file, parent_class_):
                                 return False
                             break;
 
@@ -164,7 +161,7 @@ class ClassLoader:
                             child_class.variables_['type_'].name_ = ''
                             child_class.name_ = file.replace('.h', '')
                             parent_class_.child_classes_[child_class.name_] = child_class
-                            if not VariableLoader().Load('../CASAL2/source/Common/' + folder + '/Children/' + file, child_class):
+                            if not VariableLoader().Load('../CASAL2/source/' + folder + '/Children/' + file, child_class):
                                 return False
 
                         # Scan 3rd Level Children
@@ -186,14 +183,14 @@ class ClassLoader:
                                         print 'child file ' + sub_child_class.name_
                                         
                                         parent_class_.child_classes_[file].child_classes_[sub_child_class.name_] = sub_child_class
-                                        if not VariableLoader().Load('../CASAL2/source/Common/' + folder + '/Children/' + file + '/' + child_file, sub_child_class):
+                                        if not VariableLoader().Load('../CASAL2/source/' + folder + '/Children/' + file + '/' + child_file, sub_child_class):
                                             return False
 
-                        # Go through Age folders
-                        print '--- Does Source/Age have any children folder named ' + folder
-                if (os.path.exists(casal2_age_src_folder + folder + '/Children/')):
+                # Go through Age folders
+                print '--- Does Source/Age have any children folder named ' + folder
+                if (os.path.exists(casal2_src_folder + folder + '/Children/')):
                     print '--> Scanning for file in source/Age/' + folder
-                    child_file_list = os.listdir(casal2_age_src_folder + folder + '/Children/')
+                    child_file_list = os.listdir(casal2_src_folder + folder + '/Children/')
                     # Scan First For 2nd Level Children
                     for file in child_file_list:
                         if not file.endswith('.h'):
@@ -208,9 +205,10 @@ class ClassLoader:
                         if not VariableLoader().Load('../CASAL2/source/Age/' + folder + '/Children/' + file, child_class):
                             return False
 
-                if (os.path.exists(casal2_length_src_folder + folder + '/Children/')):
+                # Go through Length folders
+                if (os.path.exists(casal2_src_folder + folder + '/Length/')):
                     print '--> Scanning for following child in Length: ' + folder
-                    child_file_list = os.listdir(casal2_length_src_folder + folder + '/Children/')
+                    child_file_list = os.listdir(casal2_src_folder + folder + '/Length/')
                     # Scan First For 2nd Level Children
                     for file in child_file_list:
                         if not file.endswith('.h'):
@@ -221,82 +219,8 @@ class ClassLoader:
                         child_class.variables_['type_'].name_ = ''
                         child_class.name_ = file.replace('.h', '')
                         parent_class_.child_classes_[child_class.name_] = child_class
-                        if not VariableLoader().Load('../CASAL2/source/Length/' + folder + '/Children/' + file, child_class):
+                        if not VariableLoader().Load('../CASAL2/source/' + folder + '/Length/' + file, child_class):
                             return False
-                
-            elif (os.path.exists(casal2_age_src_folder + folder + '/')):
-                print '---Parent class ' + folder + ' only in Age'
-                #This if statement deals with Classes that have parents only in Age
-                label_ = Variable()
-                label_.name_ = 'label'
-                label_.type_ = 'string'
-                parent_class_.variables_['label_'] = label_
-                type_ = Variable()
-                type_.name_ = 'type'
-                type_.type_ = 'string'                
-                parent_class_.variables_['type_'] = type_
-                if (os.path.exists(casal2_age_src_folder + folder + '/')): 
-                    file_list = os.listdir(casal2_age_src_folder + folder + '/')
-                    for file in file_list:
-                        if file.startswith(folder[:-3]) and file.endswith('.h') and not file.endswith('-inl.h'):
-                            print '-- Loading Age -> top-level parent class from file ' + file
-                            parent_class_.name_ = file.replace('.h', '')
-                            if not VariableLoader().Load('../CASAL2/source/Age/' + folder + '/' + file, parent_class_):
-                                return False
-                            break;
-
-                    if os.path.exists(casal2_age_src_folder + folder + '/Children/'):
-                        print '--> Scanning for children'
-                        child_file_list = os.listdir(casal2_age_src_folder + folder + '/Children/')
-                        # Scan First For 2nd Level Children
-                        for file in child_file_list:
-                            if not file.endswith('.h'):
-                                continue
-                            child_class = Class()
-                            child_class.variables_ = copy.deepcopy(parent_class_.variables_)
-                            child_class.variables_['label_'].name_ = ''
-                            child_class.variables_['type_'].name_ = ''
-                            child_class.name_ = file.replace('.h', '')
-                            parent_class_.child_classes_[child_class.name_] = child_class
-                            if not VariableLoader().Load('../CASAL2/source/Age/' + folder + '/Children/' + file, child_class):
-                                return False
-
-            elif (os.path.exists(casal2_length_src_folder + folder + '/')):
-                print '---Parent class ' + folder + ' only in Length'
-                #This if statement deals with Classes that have parents only in Length
-                label_ = Variable()
-                label_.name_ = 'label'
-                label_.type_ = 'string'
-                parent_class_.variables_['label_'] = label_
-                type_ = Variable()
-                type_.name_ = 'type'
-                type_.type_ = 'string'                
-                parent_class_.variables_['type_'] = type_
-                if (os.path.exists(casal2_length_src_folder + folder + '/')): 
-                    file_list = os.listdir(casal2_length_src_folder + folder + '/')
-                    for file in file_list:
-                        if file.startswith(folder[:-3]) and file.endswith('.h') and not file.endswith('-inl.h'):
-                            print '-- Loading Length -> top-level parent class from file ' + file
-                            parent_class_.name_ = file.replace('.h', '')
-                            if not VariableLoader().Load('../CASAL2/source/Length/' + folder + '/' + file, parent_class_):
-                                return False
-                            break;
-
-                    if os.path.exists(casal2_length_src_folder + folder + '/Children/'):
-                        print '--> Scanning for children'
-                        child_file_list = os.listdir(casal2_length_src_folder + folder + '/Children/')
-                        # Scan First For 2nd Level Children
-                        for file in child_file_list:
-                            if not file.endswith('.h'):
-                                continue
-                            child_class = Class()
-                            child_class.variables_ = copy.deepcopy(parent_class_.variables_)
-                            child_class.variables_['label_'].name_ = ''
-                            child_class.variables_['type_'].name_ = ''
-                            child_class.name_ = file.replace('.h', '')
-                            parent_class_.child_classes_[child_class.name_] = child_class
-                            if not VariableLoader().Load('../CASAL2/source/Length/' + folder + '/Children/' + file, child_class):
-                                return False
             
             parent_class_.child_classes_ = collections.OrderedDict(sorted(parent_class_.child_classes_.items()))
             Printer().Run()
