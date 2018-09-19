@@ -38,14 +38,10 @@ class SystemInfo:
   def set_new_path(self):
     print "-- Overriding the system path with new values"
     if Globals.operating_system_ == "windows":
-      # I would put Globals.path_ after self.original_path_ since we 
-      # want the user to be able to build with different versions of
-      # compilers... (Alex Pletzer)
       os.environ['PATH'] = Globals.path_ + ":" + self.original_path_
-      print '-- New Path: ' + Globals.path_ + ":" + self.original_path_
     else:
-      os.environ['PATH'] = self.original_path_ + ':' + Globals.path_ 
-      print '-- New Path: ' + Globals.path_ + ":" + self.original_path_    
+      os.environ['PATH'] = Globals.path_ + ":" + self.original_path_
+    print '-- New Path: ' + os.environ['PATH']
     
   def reset_original_path(self):
     os.environ['PATH'] = self.original_path_
