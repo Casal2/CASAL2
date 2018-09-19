@@ -673,7 +673,7 @@ class Latex:
             if not os.path.exists('CASAL2.pdf'):
               return False
           else:
-            # Why is bibtex run before latex? (Alex Pletzer)
+            # Need to run latex before to produce CASAL2.aux? (Alex Pletzer)
             if os.system('bibtex.exe CASAL2') != EX_OK:
               return Globals.PrintError('bibtex failed')
             if os.system('pdflatex.exe --halt-on-error --enable-installer CASAL2') != EX_OK:
