@@ -1,13 +1,22 @@
 \section{Introduction}\label{sec:introduction}
 
-This document is an introductory help guide for \CNAME, a generalised age-structured population dynamic modelling package. \CNAME\ is run through the command prompt/terminal where it reads text files (configuration files) which defines the model. \CNAME\ then prints output to a screen or a file or errors out gracefully. This short document is aimed at users who are new to \CNAME. \CNAME\ is primarily used on fish populations, but is no means specific to fish population dynamics. \CNAME's predecessor is the primary tool used in assessing New Zealand's tier one stocks, it is also the standard tool used by CCAMLR for modelling Antarctic toothfish. 
+This document is an introductory help guide for \CNAME, a generalised age-structured population dynamic modelling package. \CNAME\ is run through the command prompt/terminal where it reads text files (configuration files) which define the model. \CNAME\ then prints output to a screen or a file or errors out gracefully. This short document is aimed at users who are new to \CNAME. \CNAME\ is primarily used for assessing fish populations, but is by no means specific to fish population dynamics. \CNAME's predecessor is the primary tool used in assessing New Zealand's tier one stocks, it is also the standard tool used by CCAMLR for modelling Antarctic toothfish. 
 \\\\
-\CNAME\ is very generalised, highly flexible, and therefore can be a bit daunting at first sight. It has a large number of run modes, settings, and user defined population dynamics choices that can be turned on and off, depending on circumstances such as, population life history and available data. While there is no requirement for a user to see or understand the underlying code base, it has been written so that it is well tested. Great effort has been put into developing a code base that can be easily interpreted by even novice programmers.
+\CNAME\ is very general, highly flexible, and therefore can be a bit daunting at first sight. 
+It has a large number of run modes, settings, and user defined population dynamics choices that 
+can be turned on and off, depending on circumstances such as, population life history and 
+available data. While there is no requirement for a user to see or understand the underlying 
+code base, great effort has been put into developing a code base that can be easily interpreted 
+by novice programmers. The code has been well tested. 
 \\\\
-\CNAME\ is open source, and is covered under the GNU GPL 2.0 licence. See the terms and conditions in the \CNAME\ Technical User Manual \citep{CASAL2}, or type \texttt{casal2 -l} into the command prompt. There is also supplementary information that may be useful to access when getting familiar with \CNAME. \CNAME\ has a comprehensive user manual \citep{CASAL2} which should be consulted for detail on any model component. \CNAME\ also has a contributors guide to help users add any functionality they wish to tackle any problem, the modular structure of the code base can make adding new processes, observations and likelihoods a breeze. If you have any questions, please contact the \CNAME\ development team at \email, even though this is unsupported software we are keen to help with any advancement.
+\CNAME\ is open source, and is covered under the GNU GPL 2.0 licence. See the terms and conditions in the \CNAME\ Technical User Manual \citep{CASAL2}, or type \texttt{casal2 -l} into the command prompt. There is also supplementary information that may be useful 
+when getting familiar with \CNAME. \CNAME\ has a comprehensive user manual \citep{CASAL2} which should be consulted for 
+detail on any model component. \CNAME\ also has a contributors guide to help users add any functionality for any problem, 
+the modular structure of the code base can make adding new processes, observations and likelihoods a breeze. If you have any questions, please contact the \CNAME\ development team at \email.
 \\\\
-The remaining content of this chapter describes requirements and details about how to run, cite, licensing and contact info for \CNAME. If you are new to population modelling then section~\ref{sec:data_requirements} describes the types of data that you would need to run a \CNAME\ model. This seemed like a logical start to the document as getting \CNAME\ as you want to know if you have the data before you write the model, unless you are using \CNAME\ as an operating model for simulating data. 
-The remaining content of the document goes over how you run \CNAME, the syntax of the configuration files that \CNAME\ uses as inputs, and finally we run through an example.
+The remaining content of this chapter describes requirements and details about how to run, cite, get licensing and contact info for \CNAME. 
+If you are new to population modelling then section~\ref{sec:data_requirements} describes the types of data needed to run a \CNAME\ model. Section~\ref{sec:data_requirements} is a good starting point to find out if you have the data for writing a new model. Otherwise you can use \CNAME\ as an operating model to simulate data. 
+The remaining content of the document explains how to run \CNAME, the syntax of the input configuration files that \CNAME\. Finally we run through an example.
 \\\\
 \subsection{Version\label{sec:version}}
 
