@@ -106,7 +106,7 @@ def start_build_system():
   pieces = Globals.compiler_version_.split('.')
   gcc_version = str(pieces[0]) + str(pieces[1])
   if gcc_version < '48':
-  	return Globals.PrintError("G++ version " + Globals.compiler_version_ + " is not supported due to it's age")
+    return Globals.PrintError("G++ version " + Globals.compiler_version_ + " is not supported due to its age")
 
   return True  
 
