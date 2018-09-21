@@ -80,7 +80,7 @@ class SystemInfo:
   This method will find the GCC Version
   """
   def find_gcc_version(self):
-    p = subprocess.Popen(["g++", "-v"], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    p = subprocess.Popen([Globals.compiler_path_ + "/g++", "-v"], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     out, err = p.communicate()
     lines = out.split('\n')
     err_lines = re.split('version', err)
