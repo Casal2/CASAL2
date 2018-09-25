@@ -15,7 +15,7 @@ hope that it will be useful, but WITHOUT ANY WARRANTY;
 without even the implied warranty of MERCHANTABILITY 
 or FITNESS FOR A PARTICULAR PURPOSE.
 
-Note that, at present, Casal2 is in a beta testing phase, with some modules functioning as intended and others in development phase. As such, we cannot guarantee models will run as intended, and we are currently developing tests to verify functionality.
+Note that, at present, Casal2 is in an alpha testing phase, with some modules functioning as intended and others in development phase. As such, we cannot guarantee models will run as intended, and are currently developing tests to verify functionality.
 
 A windows bundle which includes a binary, manual, 
 examples and other help guides can be downloaded at 
