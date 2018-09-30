@@ -661,9 +661,14 @@ class Latex:
             file_output.close()
 
         for i in range(0,3):
-          if Globals.operating_system_ == "linux":
+          if Globals.operating_system_ != "windows":
+            # Create CASAL2.aux
+            if os.system('pdflatex --interaction=nonstopmode CASAL2') != EX_OK:
+              return False
+            # Create the bibliography
             if os.system('bibtex CASAL2') != EX_OK:
               return False
+            # Fix the references/citations
             if os.system('pdflatex --halt-on-error --interaction=nonstopmode CASAL2') != EX_OK:
               return False
             if os.system('makeindex CASAL2') != EX_OK:
@@ -671,6 +676,8 @@ class Latex:
             if not os.path.exists('CASAL2.pdf'):
               return False
           else:
+            if os.system('pdflatex.exe --enable-installer CASAL2') != EX_OK:
+              return Globals.PrintError('pdflatex failed')
             if os.system('bibtex.exe CASAL2') != EX_OK:
               return Globals.PrintError('bibtex failed')
             if os.system('pdflatex.exe --halt-on-error --enable-installer CASAL2') != EX_OK:
@@ -681,7 +688,9 @@ class Latex:
 
         os.chdir('../GettingStartedGuide/')
         for i in range(0,3):
-          if Globals.operating_system_ == "linux":
+          if Globals.operating_system_ != "windows":
+            if os.system('pdflatex --interaction=nonstopmode GettingStartedGuide') != EX_OK:
+              return False            
             if os.system('bibtex GettingStartedGuide') != EX_OK:
               return False
             if os.system('pdflatex --halt-on-error --interaction=nonstopmode GettingStartedGuide') != EX_OK:
@@ -701,7 +710,7 @@ class Latex:
         print '-- Built the GettingStartedGuide'
         os.chdir('../ContributorsManual/')
         for i in range(0,3):
-          if Globals.operating_system_ == "linux":
+          if Globals.operating_system_ != "windows":
             if os.system('pdflatex --halt-on-error --interaction=nonstopmode ContributorsGuide') != EX_OK:
               return False
           else:

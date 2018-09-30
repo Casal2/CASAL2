@@ -20,7 +20,9 @@ class SystemInfo:
     
     if (Globals.operating_system_.startswith("linux")):
       Globals.operating_system_ = "linux"
-    if (Globals.operating_system_.startswith("win")):
+    elif (Globals.operating_system_.startswith("darwin")):
+      Globals.operating_system_ = "darwin"
+    elif (Globals.operating_system_.startswith("win")):
       Globals.operating_system_ = "windows"
       
     print "-- Configuring for Operating System: " + Globals.operating_system_
@@ -37,10 +39,9 @@ class SystemInfo:
     print "-- Overriding the system path with new values"
     if Globals.operating_system_ == "windows":
       os.environ['PATH'] = Globals.path_ + ":" + self.original_path_
-      print '-- New Path: ' + Globals.path_ + ":" + self.original_path_
     else:
       os.environ['PATH'] = Globals.path_ + ":" + self.original_path_
-      print '-- New Path: ' + Globals.path_ + ":" + self.original_path_    
+    print '-- New Path: ' + os.environ['PATH']
     
   def reset_original_path(self):
     os.environ['PATH'] = self.original_path_
@@ -80,7 +81,7 @@ class SystemInfo:
   This method will find the GCC Version
   """
   def find_gcc_version(self):
-    p = subprocess.Popen(["g++", "-v"], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    p = subprocess.Popen([Globals.compiler_path_ + "/g++", "-v"], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     out, err = p.communicate()
     lines = out.split('\n')
     err_lines = re.split('version', err)
