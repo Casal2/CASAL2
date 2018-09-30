@@ -1,6 +1,6 @@
 \section{Setting up \CNAME\ BuildSystem\label{sec:build_environment}}
 
-This section descibes how to set up the environment on your local machine that will allow you to build and compile \CNAME\. The buld enviroment can be on either Microsoft Windows or Linux systems. At present the \CNAME\ build system supports Microsoft Windows 7+ and Linux (with GCC/G++ 4.9.0+). Apple OSX or other platforms are not currently supported.
+This section describes how to set up the environment on your local machine that will allow you to build and compile \CNAME. The build environment can be on either Microsoft Windows or Linux systems. At present the \CNAME\ build system supports Microsoft Windows 7+ and Linux (with GCC/G++ 4.9.0+). Apple OSX or other platforms are not currently supported.
 
 \subsection{Overview}
 
@@ -23,13 +23,13 @@ The current arguments to doBuild are:
   \item \texttt{thirdpartylean}: Build minimal third party libraries
   \item \texttt{clean}: Remove any previous debug/release build information
   \item \texttt{cleanall}: Remove all previous build information
-  \item \texttt{archive}: Build a zipped archive of the application. The application is built using shared libraries so a single casal2 executable is created. 
+  \item \texttt{archive}: Build a zipped archive of the application. The application is built using shared libraries so a single \CNAME executable is created. 
   \item \texttt{check}: Do a check of the build system
   \item \texttt{modelrunner}: Run the test suite of models
   \item \texttt{installer}: Build an installer package
   \item \texttt{deb}: Create Linux .deb installer
   \item \texttt{library}: Build shared library for use by front end application
-  \item \texttt{frontend}: Build single CASAL2 executable with all minimisers and unit tests
+  \item \texttt{frontend}: Build single \CNAME executable with all minimisers and unit tests
 \end{itemize}
 
 Valid Build Parameters: (thirdparty only)
@@ -53,7 +53,7 @@ Valid Build parameters: (library only)
   \item \texttt{release}: Build release library
 \end{itemize}
 
-The outputs from the build system commands will be placed in subfolders of \path{CASAL2/BuildSystem/bin/<operating system>/<build_type>}
+The outputs from the build system commands will be placed in sub-folders of \path{CASAL2/BuildSystem/bin/<operating system>/<build_type>}
 
 For example:
 
@@ -75,7 +75,7 @@ The building of \CNAME\ requires additional build tools and software, including 
 
 Source: tdm-gcc (MingW64) from \url{http://www.tdm-gcc.tdragon.net/}.
 
-\CNAME\ is designed to compile under GCC on Microsoft Windows and Linux  platforms. While it may be possible to build the package using different compilers, the \CNAME\ Development Team does provide any assistance or recommendations. We recommend using 64-bit TDM-GCC version 5.1.0. Ensure you have the "fortran" and "openmp" options installed as a part of the "gcc" dropdown tickboxes otherwise \CNAME will not compile.. \textbf{Note}: A common error that can be made is having a different GCC compiler in your path when attempting to compile. For example, rtools includes a version of the GCC compiler. We recommend removing these from your path prior to compiling.
+\CNAME\ is designed to compile under GCC on Microsoft Windows and Linux  platforms. While it may be possible to build the package using different compilers, the \CNAME\ Development Team does provide any assistance or recommendations. We recommend using 64-bit TDM-GCC version 5.1.0. Ensure you have the "fortran" and "openmp" options installed as a part of the "gcc" dropdown tickboxes otherwise \CNAME\ will not compile.. \textbf{Note}: A common error that can be made is having a different GCC compiler in your path when attempting to compile. For example, rtools includes a version of the GCC compiler. We recommend removing these from your path prior to compiling.
 
 
 \textbf{GIT Version Control}
@@ -100,7 +100,7 @@ The BuildSystem calls 7zip.exe to unzip files in the build system; it is advised
 
 Source: Inno Setup 5 from \url{http://www.jrsoftware.org/isdl.php}
 
-If you wish to build a Microsoft Windowes compatible Installer for \CNAME\ then you will need the Inno Setup 5 application installed on the machine. The installation path must be \path{C:\Program Files (x86)\Inno Setup 5\} in order for the build scipts to fins and use it.
+If you wish to build a Microsoft Windows compatible Installer for \CNAME\ then you will need the Inno Setup 5 application installed on the machine. The installation path must be \path{C:\Program Files (x86)\Inno Setup 5\} in order for the build scripts to fins and use it.
 
 \subsubsection{Pre-Build Requirements}
 
@@ -177,7 +177,7 @@ Alternatively you can install the complete package:
 
 \subsubsection{Building \CNAME}
 
-The build process is relatively straighforward. You can run \texttt{./doBuild.sh check} to see if your build environment is ready.
+The build process is relatively straightforward. You can run \texttt{./doBuild.sh check} to see if your build environment is ready.
 
 \begin{enumerate}
 	\item Get a copy (clone) of the forked code on your local machine, mentioned in Section~\ref{sec:local_repo}: 
