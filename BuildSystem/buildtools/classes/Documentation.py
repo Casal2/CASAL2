@@ -188,21 +188,21 @@ class ClassLoader:
 
                 # Go through Age folders
                 print '--- Does Source/Age have any children folder named ' + folder
-                if (os.path.exists(casal2_src_folder + folder + '/Children/')):
+                if (os.path.exists(casal2_src_folder + folder + '/Age/')):
                     print '--> Scanning for file in source/Age/' + folder
-                    child_file_list = os.listdir(casal2_src_folder + folder + '/Children/')
+                    child_file_list = os.listdir(casal2_src_folder + folder + '/Age/')
                     # Scan First For 2nd Level Children
                     for file in child_file_list:
                         if not file.endswith('.h'):
                             continue
-                        print '--> Creating class for Age/Source/' + folder + '/' + file
+                        print '--> Creating class for /Source/Age/' + folder + '/' + file
                         child_class = Class()
                         child_class.variables_ = copy.deepcopy(parent_class_.variables_)
                         child_class.variables_['label_'].name_ = ''
                         child_class.variables_['type_'].name_ = ''
                         child_class.name_ = file.replace('.h', '')
                         parent_class_.child_classes_[child_class.name_] = child_class
-                        if not VariableLoader().Load('../CASAL2/source/Age/' + folder + '/Children/' + file, child_class):
+                        if not VariableLoader().Load('../CASAL2/source/' + folder + '/Age/' + file, child_class):
                             return False
 
                 # Go through Length folders
