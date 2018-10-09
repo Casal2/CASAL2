@@ -210,6 +210,9 @@ void TagByLength::DoValidate() {
   if ((initial_mortality_ < 0) | (initial_mortality_ > 1.0))
     LOG_ERROR_P(PARAM_INITIAL_MORTALITY) << ": must be between 0.0 (inclusive) amd less than 1.0 (inclusive)";
 
+  if (model_->length_bins().size() == 0)
+    LOG_ERROR_P(PARAM_TYPE) << ": No length bins have been specified in @model for this process";
+
 }
 
 /**
