@@ -21,6 +21,7 @@ using niwa::utilities::Double;
 #define ONE  1.0
 #define TRUE_ZERO 0.0
 #define ZERO 1e-15
+#define CLOSE 1e-5
 #define DELTA 1e-11
 
 inline bool IsZero(const Double &value) { return (value < ZERO && value > -ZERO); }
@@ -28,6 +29,7 @@ inline bool IsZero(const Double &value) { return (value < ZERO && value > -ZERO)
 inline bool IsTrueZero(const Double &value) { return (value < TRUE_ZERO && value > -TRUE_ZERO); }
 inline bool IsOne(const Double &value) { return ( ((value-ONE) < ZERO) && ((value-ONE) > -ZERO) ); }
 inline bool IsEqual(Double A, Double B) { return ( ((A-B) < ZERO) && ((A-B) > -ZERO) ); }
+inline bool IsBasicallyEqual(Double A, Double B) { return ( ((A-B) < CLOSE) && ((A-B) > -CLOSE) ); }
 
 inline niwa::utilities::Double ZeroFun(Double x) {
   if (x >= ZERO)
@@ -58,14 +60,6 @@ inline double ZeroFun(double x) {
 
 
 
-//  static bool     isZero(double A) { return ( (A < ZERO) && (A > -ZERO) ); }
-//  static bool     isTrueZero(double A) { return ( (A < TRUE_ZERO) && (A > -TRUE_ZERO) ); }
-//  static bool     isNonNegative(double A) { return ( 0.0 <= A ); }
-//  static bool     isPositive(double A) { return ( 0.0 < A ); }
-//  static bool     isEqual(double A, double B) { return ( ((A-B) < ZERO) && ((A-B) > -ZERO) ); }
-//  static bool     isBetween(double A, double B, double C) {
-//    return ( ((A-B) > -ZERO) && ((A-C) < ZERO) );
-//  }
 
 
 #endif /* DOUBLECOMPARE_H_ */

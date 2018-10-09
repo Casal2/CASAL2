@@ -57,7 +57,7 @@ public:
 
 private:
   // Members
-  Model*                    model_;
+  Model*                      model_;
   map<unsigned, DataType>     data_;
   unsigned                    category_count_;
 };
