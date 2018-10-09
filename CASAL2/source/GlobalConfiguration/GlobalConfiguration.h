@@ -65,7 +65,7 @@ public:
   string                mcmc_objective_file() const { return options_.mcmc_objective_file_; }
   bool                  single_step() const { return options_.single_step_model_; }
   bool                  print_tabular() const { return options_.tabular_reports_; }
-  //string                object_to_query() const { return options_.query_object_; }
+  string                object_to_query() const { return options_.query_object_; }
   bool                  skip_loading_config_file() const { return skip_loading_config_file_; }
   void                  flag_skip_config_file() { skip_loading_config_file_ = true; }
   bool                  create_mpd_file() const { return options_.create_mpd_file_; }
