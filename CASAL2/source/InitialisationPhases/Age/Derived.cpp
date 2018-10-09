@@ -270,9 +270,8 @@ void Derived::Execute() {
     for (; category != partition_.end(); ++category, ++cached_category) {
       for(unsigned n_age = 0; n_age <  (*category)->data_.size(); ++n_age)
         LOG_FINEST() << "new part = " << (*category)->data_[n_age] << " old part = " << cached_category->data_[n_age];
-
+      (*category)->data_ = cached_category->data_;
     }
-    (*category)->data_ = cached_category->data_;
   }
 }
 
