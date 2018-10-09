@@ -70,6 +70,8 @@ Factory::Factory(Model* model) : model_(model) { }
 base::Object* Factory::CreateObject(const string& object_type, const string& sub_type, PartitionType partition_type) {
   string lwr_object_type    = utilities::ToLowercase(object_type);
   string lwr_sub_type       = utilities::ToLowercase(sub_type);
+  LOG_FINE() << "lwr_object_type: " << lwr_object_type;
+  LOG_FINE() << "lwr_sub_type: " << lwr_sub_type;
 
   if (lwr_object_type == PARAM_ADDITIONAL_PRIOR)
     return additionalpriors::Factory::Create(model_, lwr_object_type, lwr_sub_type);
@@ -126,6 +128,7 @@ base::Object* Factory::CreateObject(const string& object_type, const string& sub
   else if (lwr_object_type == PARAM_TIME_VARYING)
     return timevarying::Factory::Create(model_, lwr_object_type, lwr_sub_type);
 
+  LOG_FINE() << "Couldn't find appropriate factory";
   return nullptr;
 }
 

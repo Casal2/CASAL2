@@ -346,8 +346,7 @@ void Object::PrintParameterQueryInfo() {
 
   auto map = parameters_.parameters();
   for (auto iter : map) {
-    cout << iter.first << "<" << iter.second->stored_type() << ">\n";
-    cout << "  -- Description: " << iter.second->description() << endl;
+    cout << iter.first << " (" << iter.second->stored_type() << ") - " << iter.second->description() << endl;
   }
 
 }

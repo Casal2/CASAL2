@@ -194,7 +194,7 @@ int Run(int argc, char * argv[], niwa::utilities::RunParameters& options) {
     case RunMode::kHelp:
       break;
 
- /*   case RunMode::kQuery:
+    case RunMode::kQuery:
       {
         string lookup = model.global_configuration().object_to_query();
         vector<string> parts;
@@ -202,19 +202,26 @@ int Run(int argc, char * argv[], niwa::utilities::RunParameters& options) {
         if (parts.size() == 1)
           parts.push_back("");
         if (parts.size() == 2) {
-          base::Object* object = model.factory().CreateObject(parts[0], parts[1]);
+          model.set_partition_type(PartitionType::kAge);
+          base::Object* object = model.factory().CreateObject(parts[0], parts[1], PartitionType::kModel);
           if (object) {
             cout << "Printing information for " << parts[0] << " with sub-type " << parts[1] << endl;
             object->PrintParameterQueryInfo();
           } else {
-            cout << "Object type " << lookup << " is invalid" << endl;
+            model.set_partition_type(PartitionType::kLength);
+            object = model.factory().CreateObject(parts[0], parts[1], PartitionType::kModel);
+            if (object) {
+              cout << "Printing information for " << parts[0] << " with sub-type " << parts[1] << endl;
+              object->PrintParameterQueryInfo();
+            } else
+              cout << "Object type " << lookup << " is invalid" << endl;
           }
         } else {
           cout << "Please use object_type.sub_type only when querying an object" << endl;
         }
       }
       break;
-*/
+
     case RunMode::kBasic:
     case RunMode::kEstimation:
     case RunMode::kMCMC:
