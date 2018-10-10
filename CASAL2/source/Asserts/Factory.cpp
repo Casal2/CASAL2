@@ -17,6 +17,7 @@
 #include "Asserts/Manager.h"
 #include "Asserts/Common/Addressable.h"
 #include "Asserts/Common/ObjectiveFunction.h"
+#include "Asserts/Common/Partition.h"
 
 // namespaces
 namespace niwa {
@@ -38,6 +39,8 @@ Assert* Factory::Create(Model* model, const string& object_type, const string& s
       result = new Addressable(model);
     else if (sub_type == PARAM_OBJECTIVE_FUNCTION)
       result = new ObjectiveFunction(model);
+    else if (sub_type == PARAM_PARTITION)
+      result = new Partition(model);
 
     if (result)
       model->managers().assertx()->AddObject(result);
