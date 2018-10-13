@@ -37,7 +37,7 @@ class Archiver:
       library_name = 'libcasal2.so'
       extension = '.so'
 
-    if skip_building != 'false':
+    if skip_building != 'true':
       print '--> Building third party libraries'
       print '-- Re-Entering build system to build the third party libraries'
       print '-- All output is being diverted to third_party.log'
