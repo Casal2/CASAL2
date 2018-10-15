@@ -76,7 +76,7 @@ class Archiver:
 
       print '--> Building documentation'
       print '-- Re-Entering the build system to build the documentation'
-      print '-- All ourput is being diverted to documentation_build.log'
+      print '-- All output is being diverted to documentation_build.log'
       if os.system(self.do_build_ + ' documentation > documentation_build.log 2>&1') != EX_OK:
         return Globals.PrintError('Failed to build the documentation. Please check documenation_build.log for error')
       os.system('rm -rf documentation_build.log')
@@ -90,7 +90,7 @@ class Archiver:
 
     print '--> Building Front End Binary'
     print '-- Re-Entering the build system to build the front end binary'
-    print '-- All ourput is being diverted to front_end_build.log'
+    print '-- All output is being diverted to front_end_build.log'
     if os.system(self.do_build_ + ' frontend > front_end_build.log 2>&1') != EX_OK:
       return Globals.PrintError('Failed to build the front end binary. Please check front_end_build.log for error')
     os.system('rm -rf front_end_build.log')
@@ -119,16 +119,16 @@ class Archiver:
     os.system('cp ' + binary_path + '/library_betadiff/' + library_name + ' Casal2/casal2_betadiff' + extension)
     os.system('cp ' + binary_path + '/library_cppad/' + library_name + ' Casal2/casal2_cppad' + extension)
     os.system('cp ' + binary_path + '/library_test/' + library_name + ' Casal2/casal2_test' + extension)
-    os.system('cp ../Documentation/UserManual/CASAL2.pdf Casal2/UserManual.pdf')
-    print "-- Copy manual"
+    os.system('cp ../Documentation/UserManual/CASAL2.pdf Casal2/"Casal2 User Manual.pdf"')
+    print "-- Manual copied"
     os.system('cp ../Documentation/GettingStartedGuide/GettingStartedGuide.pdf Casal2/GettingStartedGuide.pdf')
-    print "-- Copy starters guide"
+    print "-- Starters' guide copied"
     os.system('cp ../Documentation/ContributorsManual/ContributorsGuide.pdf Casal2/ContributorsGuide.pdf')    
-    print "-- Copy contriutors guide"
+    print "-- Contributors' guide copied"
     os.system('cp ../Documentation/UserManual/CASAL2.syn Casal2/CASAL2.syn')    
     os.system('cp ../Documentation/UserManual/TextPad_syntax_highlighter.readme Casal2/TextPad_syntax_highlighter.readme')        
     os.system('cp -r ../Examples Casal2/Examples')
-    print "-- Copy contriutors guide"    
+    print "-- Example code copied"    
     os.system('cp -r ../README.txt Casal2/README.txt')
     ## deal with R libraries
     if Globals.operating_system_ == "windows":

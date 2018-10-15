@@ -30,7 +30,7 @@ namespace utilities {
  * the storage and retrieval of data in an "order by insertion" method.
  *
  * This means that no matter what order you put the data in to the map in it'll be
- * retreived in the same order.
+ * retrieved in the same order.
  *
  */
 struct cmp_by_insertion {
