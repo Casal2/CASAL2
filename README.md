@@ -10,7 +10,7 @@ population age structure.
 This repository is standalone containing all thirdparty 
 libraries and source code necessary to compile Casal2. 
 This project is covered under the GNU General Public 
-License vesrion 2. This program is distributed in the 
+License version 2. This program is distributed in the 
 hope that it will be useful, but WITHOUT ANY WARRANTY; 
 without even the implied warranty of MERCHANTABILITY 
 or FITNESS FOR A PARTICULAR PURPOSE.
