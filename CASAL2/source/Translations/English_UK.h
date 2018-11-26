@@ -379,7 +379,6 @@
 #define PARAM_MAX_GENERATIONS                     "max_generations"
 #define PARAM_MAX_ITER                            "max_iter"
 #define PARAM_MAX_ITERATIONS                      "iterations"
-#define PARAM_MAX_LENGTH                          "maximum_length"
 #define PARAM_MCMC                                "mcmc"
 #define PARAM_MCMC_CHAIN                          "mcmc_chain"
 #define PARAM_MCMC_COVARIANCE                     "mcmc_covariance"
