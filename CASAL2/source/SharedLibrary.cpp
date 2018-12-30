@@ -22,6 +22,7 @@
 #include "Model/Factory.h"
 #include "Model/Managers.h"
 #include "Model/Model.h"
+#include "Minimisers/Manager.h"
 #include "Reports/Manager.h"
 #include "Reports/Common/StandardHeader.h"
 #include "Translations/Translations.h"
@@ -86,80 +87,8 @@ int LoadOptions(int argc, char * argv[], niwa::utilities::RunParameters& options
  *
  */
 int PreParseConfigFiles(niwa::utilities::RunParameters& options) {
-  // load our configuration file
-  Model model;
-  model.global_configuration().set_run_parameters(options);
-
-  configuration::Loader config_loader(model);
-  if (!config_loader.LoadConfigFile()) {
-    Logging::Instance().FlushErrors();
-    return -1;
-  }
-
-  // Find the defined minimisers
-  auto file_lines = config_loader.file_lines();
-  vector<unsigned> minimiser_indexes;
-  for (unsigned i = 0; i < file_lines.size(); ++i) {
-    auto file_line = file_lines[i];
-    if (file_line.line_.substr(0, 10) == "@minimiser") {
-      minimiser_indexes.push_back(i);
-    }
-  }
-
-  // Find the active minimisers
-  vector<unsigned> active_minimiser_indexes;
-  if (minimiser_indexes.size() == 1)
-    active_minimiser_indexes.push_back(minimiser_indexes[0]);
-  else {
-    for (unsigned index : minimiser_indexes) {
-      unsigned offset = 0;
-      string line = "";
-      while (line.substr(0,1) != "@") {
-        ++offset;
-        line = file_lines[index + offset].line_;
-        if (line.substr(0, 6) == "active") {
-          vector<string> holding_vec;
-          boost::split(holding_vec, line, boost::is_any_of(" "));
-          if (holding_vec.size() != 2) {
-            LOG_FATAL() << "Holding Vector size was " << holding_vec.size() << " when determining active value" << endl;
-            return -1;
-          }
-
-          bool active = false;
-          if (!utilities::To<bool>(holding_vec[1], active)) {
-            LOG_FATAL() << holding_vec[1] << " could not be converted to a boolean to check if minimiser was active" << endl;
-            return -1;
-          }
-
-          if (active)
-            active_minimiser_indexes.push_back(index);
-        }
-      }
-    }
-  }
-
-  if (active_minimiser_indexes.size() == 0) {
-    LOG_FATAL() << "No active @minimiser blocks have been found in the configuration files";
-  } else if (active_minimiser_indexes.size() > 1) {
-    LOG_FATAL() << active_minimiser_indexes.size() << " active @minimiser's were found in the configuration files";
-  }
-
-  unsigned offset = 0;
-  string line = "";
-  while (line.substr(0, 1) != "@") {
-    ++offset;
-    line = file_lines[active_minimiser_indexes[0] + offset].line_;
-    if (line.substr(0, 4) == "type") {
-      vector<string> holding_vec;
-      boost::split(holding_vec, line, boost::is_any_of(" "));
-      if (holding_vec.size() != 2) {
-        LOG_FATAL() << "Got " << holding_vec.size() << " values instead of 2 when splitting minimiser type " << line << " by space";
-      }
-      options.minimiser_ = holding_vec[1];
-    }
-  }
-
-  return 0;
+  LOG_CODE_ERROR() << "Code Deprecated";
+  return -1;
 }
 
 /**
@@ -222,13 +151,13 @@ int Run(int argc, char * argv[], niwa::utilities::RunParameters& options) {
       }
       break;
 
+    case RunMode::kTesting:
     case RunMode::kBasic:
     case RunMode::kEstimation:
     case RunMode::kMCMC:
     case RunMode::kSimulation:
     case RunMode::kProfiling:
     case RunMode::kProjection:
-    case RunMode::kTesting:
     {
       if (!model.global_configuration().debug_mode() && !model.global_configuration().disable_standard_report())
         standard_report.Prepare();
@@ -275,6 +204,13 @@ int Run(int argc, char * argv[], niwa::utilities::RunParameters& options) {
     }
       break;
     } // switch(run_mode)
+
+    if (run_mode == RunMode::kTesting) {
+      auto minimiser = model.managers().minimiser()->active_minimiser();
+      if (minimiser)
+        options.minimiser_ = minimiser->type();
+    }
+
 
   } catch (const string &exception) {
     cout << "## ERROR - CASAL2 experienced a problem and has stopped execution" << endl;

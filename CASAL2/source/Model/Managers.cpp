@@ -124,11 +124,8 @@ void Managers::Validate() {
   estimate_transformation_->Validate();
   length_weight_->Validate();
   likelihood_->Validate();
-  if (model_->run_mode() == RunMode::kMCMC || model_->run_mode() == RunMode::kEstimation || model_->run_mode() == RunMode::kProfiling) {
-    mcmc_->Validate();
-    minimiser_->Validate();
-  }
-
+  mcmc_->Validate(model_);
+  minimiser_->Validate(model_);
   observation_->Validate();
   penalty_->Validate();
   profile_->Validate();
@@ -156,11 +153,8 @@ void Managers::Build() {
   derived_quantity_->Build();
   length_weight_->Build();
   likelihood_->Build();
-  if (model_->run_mode() == RunMode::kMCMC || model_->run_mode() == RunMode::kEstimation || model_->run_mode() == RunMode::kProfiling) {
-    mcmc_->Build();
-    minimiser_->Build();
-  }
-
+  mcmc_->Build();
+  minimiser_->Build();
   observation_->Build();
   penalty_->Build();
   profile_->Build();
