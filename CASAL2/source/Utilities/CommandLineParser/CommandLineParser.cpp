@@ -54,6 +54,7 @@ void CommandLineParser::Parse(int argc, char* argv[], RunParameters& options) {
     ("run,r", "Basic model run mode")
     ("estimate,e", "Point estimation run mode")
     ("mcmc,m", "Markov Chain Monte Carlo run mode (arg = continue, default: false)")
+    ("skip-estimation", "Skip estimation before running the MCMC, load existing MPD")
     ("resume", "Resume the MCMC chain")
     ("objective-file", value<string>(), "Objective file for resuming an MCMC")
     ("sample-file", value<string>(), "Sample file for resuming an MCMC")
@@ -120,6 +121,8 @@ void CommandLineParser::Parse(int argc, char* argv[], RunParameters& options) {
     options.estimation_phases_ = parameters["phases"].as<unsigned>();
   if (parameters.count("no-mpd"))
     options.create_mpd_file_ = false;
+  if (parameters.count("skip-estimation"))
+    options.skip_estimation_ = true;
 
   /**
    * Determine what run mode we should be in. If we're

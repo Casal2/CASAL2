@@ -479,8 +479,8 @@ void IndependenceMetropolis::DoBuild() {
   unsigned active_estimates = 0;
   estimates_ = model_->managers().estimate()->GetIsEstimated();
 
-  for(auto estiamte : estimates_) {
-		if (!estiamte)
+  for(auto estimate : estimates_) {
+		if (!estimate)
 			LOG_FATAL() << "Could not find any @estimates. these are needed to run in MCMC mode";
   }
   estimate_count_ = estimates_.size();

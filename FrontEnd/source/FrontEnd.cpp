@@ -234,12 +234,14 @@ void RunEstimation(int argc, char * argv[], niwa::utilities::RunParameters &opti
  * Run our MCMC. But first we want to run an Estimation
  */
 void RunMCMC(int argc, char * argv[], niwa::utilities::RunParameters &options) {
-  options.create_mpd_file_ = true;
-  options.no_std_report_   = true;
-  options.run_mode_        = RunMode::kEstimation;
-  RunEstimation(argc, argv, options);
-  if (return_code_ != 0)
-    return;
+  if (!options.skip_estimation_) {
+    options.create_mpd_file_ = true;
+    options.no_std_report_   = true;
+    options.run_mode_        = RunMode::kEstimation;
+    RunEstimation(argc, argv, options);
+    if (return_code_ != 0)
+      return;
+  }
 
   options.run_mode_        = RunMode::kMCMC;
   RunBasic(argc, argv, options);

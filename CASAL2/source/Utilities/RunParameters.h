@@ -31,6 +31,7 @@ struct RunParameters {
   RunMode::Type run_mode_ = RunMode::kInvalid;
   string        config_file_ = "config.csl2";
   bool          resume_mcmc_chain_ = false;
+  bool          skip_estimation_ = false;
   string        mcmc_objective_file_ = "";
   string        mcmc_sample_file_ = "";
   unsigned      estimation_phases_ = 1;
