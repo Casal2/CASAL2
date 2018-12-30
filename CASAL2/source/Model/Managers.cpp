@@ -124,10 +124,10 @@ void Managers::Validate() {
   estimate_transformation_->Validate();
   length_weight_->Validate();
   likelihood_->Validate();
-  if (model_->run_mode() == RunMode::kMCMC)
+  if (model_->run_mode() == RunMode::kMCMC || model_->run_mode() == RunMode::kEstimation || model_->run_mode() == RunMode::kProfiling) {
     mcmc_->Validate();
-  if (model_->run_mode() == RunMode::kMCMC || model_->run_mode() == RunMode::kEstimation || model_->run_mode() == RunMode::kProfiling)
     minimiser_->Validate();
+  }
 
   observation_->Validate();
   penalty_->Validate();
@@ -156,10 +156,11 @@ void Managers::Build() {
   derived_quantity_->Build();
   length_weight_->Build();
   likelihood_->Build();
-  if (model_->run_mode() == RunMode::kMCMC)
+  if (model_->run_mode() == RunMode::kMCMC || model_->run_mode() == RunMode::kEstimation || model_->run_mode() == RunMode::kProfiling) {
     mcmc_->Build();
-  if (model_->run_mode() == RunMode::kMCMC || model_->run_mode() == RunMode::kEstimation || model_->run_mode() == RunMode::kProfiling)
     minimiser_->Build();
+  }
+
   observation_->Build();
   penalty_->Build();
   profile_->Build();
@@ -188,8 +189,11 @@ void Managers::Reset() {
   initialisation_phase_->Reset();
   length_weight_->Reset();
   likelihood_->Reset();
-  mcmc_->Reset();
-  minimiser_->Reset();
+  if (model_->run_mode() == RunMode::kMCMC || model_->run_mode() == RunMode::kEstimation || model_->run_mode() == RunMode::kProfiling) {
+    mcmc_->Reset();
+    minimiser_->Reset();
+  }
+
   observation_->Reset();
   penalty_->Reset();
   process_->Reset();
