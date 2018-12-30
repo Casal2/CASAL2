@@ -92,6 +92,8 @@ void Record::BuildMessage() {
     o << "********                  USER CONFIGURATION ERROR                      ********\n";
     o << "********              THE ERROR SHOULD BE DESCRIBED BELOW               ********\n";
     o << "********************************************************************************\n";
+    o << "Source File: " << file_name_ << "(line: " << line_number_ << ")\n";
+    o << "Source Method: " << function_ << "\n";
     o << "Message:\n";
     o << stream_.str() << "\n\n";
 #endif

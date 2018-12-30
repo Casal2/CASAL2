@@ -367,26 +367,26 @@ void Loader::ParseBlock(vector<FileLine> &block) {
             << ": " << error;
 
       // loading a normal parameter
-      if (!object->parameters().ignore_all_parameters()) {
-        const Parameter* parameter = object->parameters().Get(parameter_type);
-        if (!parameter) {
-          LOG_ERROR() << "At line " << file_line.line_number_ << " in " << file_line.file_name_
-              << ": Parameter '" << parameter_type << "' is not supported";
-        } else if (parameter->has_been_defined()) {
-          LOG_ERROR() << "At line " << file_line.line_number_ << " in " << file_line.file_name_
-              << ": Parameter '" << parameter_type << "' for object " << block_type
-              << " was already specified at line " << parameter->line_number() << " in " << parameter->file_name();
-        } else if (!object->parameters().Add(parameter_type, values, file_line.file_name_, file_line.line_number_)) {
-          LOG_ERROR() << "At line " << file_line.line_number_ << " in " << file_line.file_name_
-              << ": Could not add parameter '" << parameter_type << "' to block '" << block_type << "'. Parameter is not supported";
-        }
-
-        string line = boost::algorithm::join(values, " ");
-        LOG_FINEST() << "Storing values: [" << parameter_type << "]: " << line;
-      } else {
-        string line = boost::algorithm::join(values, " ");
-        LOG_FINEST() << "Ignoring values: [" << parameter_type << "]: " << line;
+//      if (!object->parameters().ignore_all_parameters()) {
+      const Parameter* parameter = object->parameters().Get(parameter_type);
+      if (!parameter) {
+        LOG_ERROR() << "At line " << file_line.line_number_ << " in " << file_line.file_name_
+            << ": Parameter '" << parameter_type << "' is not supported";
+      } else if (parameter->has_been_defined()) {
+        LOG_ERROR() << "At line " << file_line.line_number_ << " in " << file_line.file_name_
+            << ": Parameter '" << parameter_type << "' for object " << block_type
+            << " was already specified at line " << parameter->line_number() << " in " << parameter->file_name();
+      } else if (!object->parameters().Add(parameter_type, values, file_line.file_name_, file_line.line_number_)) {
+        LOG_ERROR() << "At line " << file_line.line_number_ << " in " << file_line.file_name_
+            << ": Could not add parameter '" << parameter_type << "' to block '" << block_type << "'. Parameter is not supported";
       }
+
+      string line = boost::algorithm::join(values, " ");
+      LOG_FINEST() << "Storing values: [" << parameter_type << "]: " << line;
+//      } else {
+//        string line = boost::algorithm::join(values, " ");
+//        LOG_FINEST() << "Ignoring values: [" << parameter_type << "]: " << line;
+//      }
     }
   }
 

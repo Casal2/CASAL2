@@ -34,7 +34,7 @@ public:
   void                        DoValidate() override final { };
   void                        DoBuild() override final { };
   void                        DoReset() override final { };
-  void                        Execute() override final { };
+  void                        Execute() override final;
 };
 } /* namespace minimisers */
 } /* namespace niwa */

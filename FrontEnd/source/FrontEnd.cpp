@@ -80,6 +80,7 @@ void CloseLibrary(void* library) {
 #endif
 
 // Function Prototypes
+void RunConfigurationFileValidation(int argc, char * argv[], niwa::utilities::RunParameters &options);
 void RunBasic(int argc, char * argv[], niwa::utilities::RunParameters &options);
 void RunEstimation(int argc, char * argv[], niwa::utilities::RunParameters &options);
 void RunMCMC(int argc, char * argv[], niwa::utilities::RunParameters &options);
@@ -134,20 +135,17 @@ int main(int argc, char * argv[]) {
     break;
   }
 
+
   /**
-   * Pre-Parse our configuration file so we can determine what library we want
+   * Pre-Validate our configuration file and determine what minimiser
    * to use for the estimation
    */
-  auto preload_method = (PRELOADPROC)LoadLibraryFunction(release_library, "PreParseConfigFiles");
-  if (preload_method == nullptr) {
-    cout << "Error: Failed to get the PreParseConfigFiles method address" << endl;
-    CloseLibrary(release_library);
-    return -1;
-  }
-  if ((preload_method)(options) != 0) {
-    return -1;
-  }
 
+  RunConfigurationFileValidation(argc, argv, options);
+  if (return_code_ != 0)
+    return return_code_;
+
+  // go go go
   switch(options.run_mode_) {
   case RunMode::kLicense:
   case RunMode::kVersion:
@@ -173,6 +171,43 @@ int main(int argc, char * argv[]) {
 
   CloseLibrary(release_library);
 	return return_code_;
+}
+
+/**
+ * This method will re-load the release library to parse the configuration file for any
+ * validation errors. We also use this to figure out what minimisers or MCMC objects we want
+ * to use so we can load proper files in the future.
+ */
+void RunConfigurationFileValidation(int argc, char * argv[], niwa::utilities::RunParameters &options) {
+  /*
+   * load our release library to parse the command line
+   * parameters
+   */
+  auto release_library = LoadSharedLibrary(release_lib.c_str());
+  if (release_library == nullptr) {
+    cout << "Error: Failed to load CASAL2 Release Library: " << release_lib << endl;
+    return_code_ = -1;
+    return;
+  }
+
+  /**
+   * Load the "LoadOptions" method and parse our options
+   */
+  auto main_method = (RUNPROC)LoadLibraryFunction(release_library, "Run");
+  if (main_method == nullptr) {
+    cout << "Error: Failed to get the main method address" << endl;
+    CloseLibrary(release_library);
+    return_code_ = -1;
+    return;
+  }
+
+  RunMode::Type temp = options.run_mode_;
+  options.run_mode_ = RunMode::kTesting;
+
+  return_code_ = (main_method)(argc, argv, options);
+  options.run_mode_  = temp;
+
+  return;
 }
 
 /**

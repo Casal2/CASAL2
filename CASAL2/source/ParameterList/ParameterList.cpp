@@ -62,7 +62,7 @@ ParameterList::~ParameterList() {
  */
 bool ParameterList::Add(const string& label, const vector<string>& values, const string& file_name, const unsigned& line_number) {
   if (parameters_.find(label) == parameters_.end())
-    return false;
+    return ignore_all_parameters_;
 
   auto iter = parameters_.find(label);
   iter->second->set_values(values);

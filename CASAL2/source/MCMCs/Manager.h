@@ -32,7 +32,8 @@ public:
   // methods
   Manager() = default;
   virtual                     ~Manager() = default;
-  void                        Validate();
+  void                        Validate() override final;
+  void                        Validate(Model* model);
 
   // accessors
   MCMC*                       active_mcmc() const { return mcmc_; }
