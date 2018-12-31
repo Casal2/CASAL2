@@ -49,6 +49,7 @@ DLib::DLib(Model* model) : Minimiser(model) {
   parameters_.Bind<double>(PARAM_BOBYQA_INITIAL_TRUST_RADIUS, &bobyqa_initial_trust_radius_, "BOBYQA initial trust radius", "", 1e-2);
   parameters_.Bind<double>(PARAM_BOBYQA_STOPPING_TRUST_RADIUS, &bobyqa_stopping_trust_radius_, "BOBYQA stopping trust radius", "", 1e-6);
   parameters_.Bind<double>(PARAM_BOBYQA_MAX_EVALUATIONS, &bobyqa_max_evaluations_, "BOBYQA max objective evaluations", "", 4000);
+  parameters_.Bind<bool>(PARAM_VERBOSE, &verbose_, "Print debug of objective function calls", "", false);
 }
 
 /**
@@ -87,42 +88,46 @@ void DLib::Execute() {
     ++i;
   }
 
+  decltype(::dlib::objective_delta_stop_strategy(gradient_tolerance_)) gradient_function;
+  if (verbose_)
+  gradient_function = gradient_function.be_verbose();
+
   LOG_MEDIUM() << minimisation_type_ << " : " << search_strategy_;
   if (minimisation_type_ == PARAM_MIN_USING_APPROX_DERIVATIVES) {
     if (search_strategy_ == PARAM_SEARCH_BFGS) {
       ::dlib::find_min_using_approximate_derivatives(::dlib::bfgs_search_strategy(),
-                                                     ::dlib::objective_delta_stop_strategy(gradient_tolerance_),
-                                                      dlib::Callback(model_), start_values, -1);
+          gradient_function,
+          dlib::Callback(model_), start_values, -1);
     } else if (search_strategy_ == PARAM_SEARCH_CG) {
       ::dlib::find_min_using_approximate_derivatives(::dlib::cg_search_strategy(),
-                                                     ::dlib::objective_delta_stop_strategy(gradient_tolerance_),
-                                                      dlib::Callback(model_), start_values, -1);
+          gradient_function,
+          dlib::Callback(model_), start_values, -1);
     } else if (search_strategy_ == PARAM_SEARCH_LBFGS) {
       ::dlib::find_min_using_approximate_derivatives(::dlib::lbfgs_search_strategy(lbfgs_max_size_),
-                                                     ::dlib::objective_delta_stop_strategy(gradient_tolerance_),
-                                                      dlib::Callback(model_), start_values, -1);
+          gradient_function,
+          dlib::Callback(model_), start_values, -1);
     } else if (search_strategy_ == PARAM_SEARCH_NEWTON)
       LOG_FATAL_P(PARAM_SEARCH_STRATEGY) << "Newton is not supported with " << PARAM_MIN_USING_APPROX_DERIVATIVES;
 
   } else if (minimisation_type_ == PARAM_MINIMISATION) {
     if (search_strategy_ == PARAM_SEARCH_BFGS) {
       ::dlib::find_min(::dlib::bfgs_search_strategy(),
-                       ::dlib::objective_delta_stop_strategy(gradient_tolerance_),
-                        dlib::Callback(model_),
-                        calculate_gradient,
-                        start_values, -1);
+          gradient_function,
+          dlib::Callback(model_),
+          calculate_gradient,
+          start_values, -1);
     } else if (search_strategy_ == PARAM_SEARCH_CG) {
       ::dlib::find_min(::dlib::cg_search_strategy(),
-                       ::dlib::objective_delta_stop_strategy(gradient_tolerance_),
-                        dlib::Callback(model_),
-                        calculate_gradient,
-                        start_values, -1);
+          gradient_function,
+          dlib::Callback(model_),
+          calculate_gradient,
+          start_values, -1);
     } else if (search_strategy_ == PARAM_SEARCH_LBFGS) {
       ::dlib::find_min(::dlib::lbfgs_search_strategy(lbfgs_max_size_),
-                       ::dlib::objective_delta_stop_strategy(gradient_tolerance_),
-                        dlib::Callback(model_),
-                        calculate_gradient,
-                        start_values, -1);
+          gradient_function,
+          dlib::Callback(model_),
+          calculate_gradient,
+          start_values, -1);
     } else if (search_strategy_ == PARAM_SEARCH_NEWTON)
       LOG_FATAL_P(PARAM_SEARCH_STRATEGY) << "Newton is not supported with " << PARAM_MIN_USING_APPROX_DERIVATIVES;
 
