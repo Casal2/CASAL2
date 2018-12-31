@@ -648,6 +648,7 @@
 #define PARAM_VON_BERTALANFFY                     "von_bertalanffy"
 #define PARAM_VALUE                               "value"
 #define PARAM_VALUES                              "values"
+#define PARAM_VERBOSE                             "verbose"
 #define PARAM_WIDTH                               "width"
 #define PARAM_WEIGHTS                             "weights"
 #define PARAM_WEIGHTED_PRODUCT                    "weighted_product"
