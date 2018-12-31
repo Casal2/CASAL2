@@ -8,7 +8,8 @@
  *
  * @section DESCRIPTION
  *
- * << Add Description >>
+ * DLib is minimiser available from dlib.net.
+ * Implementation is designed around http://dlib.net/optimization_ex.cpp.html
  */
 #ifndef USE_AUTODIFF
 #ifndef MINIMISERS_DLIB_H_
@@ -20,6 +21,9 @@
 // namespaces
 namespace niwa {
 namespace minimisers {
+
+
+
 
 /**
  * Class definition
@@ -33,6 +37,17 @@ public:
   void                        DoBuild() override final { };
   void                        DoReset() override final { };
   void                        Execute() override final;
+
+private:
+  // members
+  string                      minimisation_type_ = "";
+  string                      search_strategy_ = "";
+  Double                      gradient_tolerance_ = 0;
+  unsigned                    lbfgs_max_size_ = 0;
+  unsigned                    bobyqa_interpolation_points_ = 0;
+  Double                      bobyqa_initial_trust_radius_ = 0.0;
+  Double                      bobyqa_stopping_trust_radius_ = 0.0;
+  Double                      bobyqa_max_evaluations_ = 0.0;
 };
 
 } /* namespace minimisers */
