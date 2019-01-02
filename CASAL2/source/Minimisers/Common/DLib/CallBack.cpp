@@ -42,6 +42,8 @@ Double Callback::operator()(const ::dlib::matrix<double, 0, 1>& Parameters) cons
 
   double penalty = 0;
   for (int i = 0; i < Parameters.size(); ++i) {
+    // Note, we unscale here because DLib doesn't have concept of bounds. This allows us to
+    // add a penalty if the values exceed the bounds.
     Double value = utilities::math::unscale_value(Parameters(i), penalty, estimates[i]->lower_bound(), estimates[i]->upper_bound());
     estimates[i]->set_value(value);
   }
@@ -53,7 +55,8 @@ Double Callback::operator()(const ::dlib::matrix<double, 0, 1>& Parameters) cons
   objective.CalculateScore();
 
   model_->managers().estimate_transformation()->TransformEstimates();
-  return objective.score() + penalty;
+  double score = objective.score() + penalty;
+  return score;
 }
 
 } /* namespace dlib */

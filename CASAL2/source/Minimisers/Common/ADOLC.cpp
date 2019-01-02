@@ -72,6 +72,20 @@ void ADOLC::Execute() {
       hessian_,1,step_size_);
 
   model_->managers().estimate_transformation()->RestoreEstimates();
+
+  switch(status) {
+    case -1:
+      result_ = MinimiserResult::kError;
+      break;
+    case 0:
+      result_ = MinimiserResult::kTooManyIterations;
+      break;
+    case 1:
+      result_ = MinimiserResult::kSuccess;
+      break;
+    default:
+      break;
+  }
 }
 
 } /* namespace minimisers */

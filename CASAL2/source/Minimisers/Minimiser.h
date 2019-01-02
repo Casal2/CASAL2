@@ -29,6 +29,18 @@ namespace ublas = boost::numeric::ublas;
 
 class Model;
 
+namespace MinimiserResult {
+enum Type {
+  kInvalid,
+  kSuccess,
+  kStepSizeTooSmallSuccess,
+  kError,
+  kTooManyIterations,
+  kTooManyEvaluations,
+  kStepSizeTooSmall,
+};
+} /* namespace MinimiserResult */
+
 /**
  * Class Definition
  */
@@ -56,6 +68,7 @@ public:
   ublas::matrix<double>&      correlation_matrix() { return correlation_matrix_; }
   double**                    hessian_matrix() const { return hessian_; }
   unsigned                    hessian_size() const { return hessian_size_; }
+  MinimiserResult::Type       result() const { return result_; }
 
 protected:
   // Members
@@ -66,6 +79,8 @@ protected:
   bool                        build_covariance_;
   ublas::matrix<double>       covariance_matrix_;
   ublas::matrix<double>       correlation_matrix_;
+  MinimiserResult::Type       result_ = MinimiserResult::kInvalid;
+  vector<Double>              gradient_;
 };
 } /* namespace niwa */
 #endif /* MINIMISER_H_ */

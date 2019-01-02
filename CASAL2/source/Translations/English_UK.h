@@ -264,6 +264,7 @@
 #define PARAM_ESTIMATE_VALUE                      "estimate_value"
 #define PARAM_ESTIMATION                          "estimation"
 #define PARAM_ESTIMATION_PHASE                    "estimation_phase"
+#define PARAM_ESTIMATION_RESULT                   "estimation_result"
 #define PARAM_EVENT                               "event"
 #define PARAM_EVENT_MORTALITY                     "event_mortality"
 #define PARAM_EXCLUDE_PROCESSES                   "exclude_processes"
