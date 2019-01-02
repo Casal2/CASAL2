@@ -18,12 +18,14 @@
 // headers
 #include "Minimisers/Minimiser.h"
 
+#include <dlib/optimization.h>
+#include <dlib/global_optimization.h>
+
 // namespaces
 namespace niwa {
 namespace minimisers {
 
-
-
+typedef ::dlib::matrix<double,0,1> column_vector;
 
 /**
  * Class definition
@@ -39,6 +41,8 @@ public:
   void                        Execute() override final;
 
 private:
+  // methods
+  const column_vector         DLibCalculateGradient(const column_vector& m);
   // members
   string                      minimisation_type_ = "";
   string                      search_strategy_ = "";

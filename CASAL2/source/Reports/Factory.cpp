@@ -34,6 +34,7 @@
 #include "Reports/Common/EquationTest.h"
 #include "Reports/Common/EstimateSummary.h"
 #include "Reports/Common/EstimateValue.h"
+#include "Reports/Common/EstimationResult.h"
 #include "Reports/Common/HessianMatrix.h"
 #include "Reports/Common/MCMCCovariance.h"
 #include "Reports/Common/MCMCObjective.h"
@@ -90,6 +91,8 @@ Report* Factory::Create(Model* model, const string& object_type, const string& s
       result = new EstimateSummary(model);
     else if (sub_type == PARAM_ESTIMATE_VALUE)
       result = new EstimateValue(model);
+    else if (sub_type == PARAM_ESTIMATION_RESULT)
+      result = new EstimationResult(model);
     else if (sub_type == PARAM_HESSIAN_MATRIX)
       result = new HessianMatrix(model);
     else if (sub_type == PARAM_MCMC_COVARIANCE)
