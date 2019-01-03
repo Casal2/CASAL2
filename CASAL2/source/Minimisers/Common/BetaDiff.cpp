@@ -105,7 +105,7 @@ void BetaDiff::Execute() {
   
   model_->managers().estimate_transformation()->RestoreEstimates();
 
-  switch(status) {
+  switch(convergence) {
     case -1:
       result_ = MinimiserResult::kError;
       break;
