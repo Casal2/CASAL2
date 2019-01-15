@@ -21,6 +21,7 @@
 #include "EstimateTransformations/Manager.h"
 #include "Model/Model.h"
 #include "ObjectiveFunction/ObjectiveFunction.h"
+#include "Utilities/DoubleCompare.h"
 #include "Utilities/Math.h"
 
 // namespaces
@@ -28,77 +29,82 @@ namespace niwa {
 namespace minimisers {
 
 using namespace dlib;
+namespace dc = utilities::doublecompare;
 
 
 const column_vector DLib::DLibCalculateGradient(const column_vector& estimate_original_values) {
   ::dlib::matrix<double, 0, 1> gradient_values(estimate_original_values.size());
 
+  // Build scaled estimate values
   vector<Estimate*> estimates = model_->managers().estimate()->GetIsEstimated();
-
   vector<Double> estimate_values;
+  Double penalty = 0.0;
   for (unsigned i = 0; i < estimates.size(); ++i) {
     estimate_values.push_back(utilities::math::scale_value(estimates[i]->value(), estimates[i]->lower_bound(), estimates[i]->upper_bound()));
+    utilities::math::unscale_value(estimate_original_values(i), penalty, estimates[i]->lower_bound(), estimates[i]->upper_bound());
   }
 
-  Double eps = 1e-2;
+  /**
+   * Calculate our Pre-Gradient Score
+   */
+  ObjectiveFunction& objective = model_->objective_function();
+
+  penalty = 0.0;
+  for (unsigned j = 0; j < estimates.size(); ++j) {
+    Double value = utilities::math::unscale_value(estimate_original_values(j), penalty, estimates[j]->lower_bound(), estimates[j]->upper_bound());
+    estimates[j]->set_value(value);
+  }
+
+  model_->managers().estimate_transformation()->RestoreEstimates();
+  model_->FullIteration();
+
+  objective.CalculateScore();
+
+  model_->managers().estimate_transformation()->TransformEstimates();
+  Double original_score = objective.score();
+//  cout << "os + p: " << objective.score() << " + " << penalty << endl;
+
+  Double eps = 1e-9;
   Double plus_eps = 0.0;
-  Double minus_eps = 0;
   Double original_estimate_value = 0.0;
-  Double penalty = 0.0;
-
   for (unsigned i = 0; i < estimates.size(); ++i) {
-    // Backup Orig Value
-    original_estimate_value       = estimate_values[i];
+    if (dc::IsEqual(estimates[i]->lower_bound(), estimates[i]->upper_bound())) {
+      gradient_values(i) = 0.0;
 
-    /**
-     * Run Model with plus eps
-     */
-    penalty = 0.0;
-    estimate_values[i] = original_estimate_value + eps;
-    for (unsigned j = 0; j < estimates.size(); ++j) {
-      Double p = 0;
-      Double value = utilities::math::unscale_value(estimate_values[j], p, estimates[j]->lower_bound(), estimates[j]->upper_bound());
-      estimates[j]->set_value(value);
-      if (i == j) penalty += p;
+    } else {
+      // Backup Orig Value
+      original_estimate_value       = estimate_values[i];
+      Double step_sizeI = eps * ((original_estimate_value > 0) ? 1 : -1);
+
+      /**
+       * Run Model with plus eps
+       */
+      penalty = 0.0;
+      estimate_values[i] = original_estimate_value + step_sizeI;
+      for (unsigned j = 0; j < estimates.size(); ++j) {
+        Double value = utilities::math::unscale_value(estimate_values[j], penalty, estimates[j]->lower_bound(), estimates[j]->upper_bound());
+        estimates[j]->set_value(value);
+      }
+
+      model_->managers().estimate_transformation()->RestoreEstimates();
+      model_->FullIteration();
+
+      objective.CalculateScore();
+
+      model_->managers().estimate_transformation()->TransformEstimates();
+      plus_eps = objective.score(); // + penalty;
+
+      /**
+       * Populate Gradient Object
+       * (f(x+eps)-f(x-eps))/(2*eps)
+       */
+      cout << "i: (" << plus_eps << " - " << original_score << ") / " << step_sizeI << endl;
+      gradient_values(i)  = fabs(plus_eps - original_score) / step_sizeI;
+      estimate_values[i]  = original_estimate_value;
     }
-
-    model_->managers().estimate_transformation()->RestoreEstimates();
-    model_->FullIteration();
-
-    ObjectiveFunction& objective = model_->objective_function();
-    objective.CalculateScore();
-
-    model_->managers().estimate_transformation()->TransformEstimates();
-    plus_eps = objective.score() + penalty;
-
-    /**
-     * Run The Model with minus eps
-     */
-    penalty = 0.0;
-    estimate_values[i] = original_estimate_value - eps;
-    for (unsigned j = 0; j < estimates.size(); ++j) {
-      Double p = 0;
-      Double value = utilities::math::unscale_value(estimate_values[j], p, estimates[j]->lower_bound(), estimates[j]->upper_bound());
-      estimates[j]->set_value(value);
-      if (i == j) penalty += p;
-    }
-
-    model_->managers().estimate_transformation()->RestoreEstimates();
-    model_->FullIteration();
-
-    objective.CalculateScore();
-
-    model_->managers().estimate_transformation()->TransformEstimates();
-    minus_eps = objective.score() + penalty;
-
-    /**
-     * Populate Gradient Object
-     * (f(x+eps)-f(x-eps))/(2*eps)
-     */
-    gradient_values(i)  = (plus_eps - minus_eps) / (2*eps);
-    estimate_values[i]  = original_estimate_value;
   }
 
+//  cout << gradient_values << endl;
   return gradient_values;
 }
 
