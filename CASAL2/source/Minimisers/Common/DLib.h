@@ -19,7 +19,6 @@
 #include "Minimisers/Minimiser.h"
 
 #include <dlib/optimization.h>
-#include <dlib/global_optimization.h>
 
 // namespaces
 namespace niwa {
