@@ -579,7 +579,15 @@ bool Model::RunMCMC() {
     // reset RNG seed for resume
     utilities::RandomNumberGenerator::Instance().Reset((unsigned int)time(NULL));
 
-  } else {
+  } else if (!global_configuration_->skip_estimation()){
+    /**
+     * Note: This should only be called when running Casal2 in a standalone executable
+     * as it must use the same build profit (autodiff or not) as the MCMC. When
+     * using the front end application, skip_estimation will be flagged as true.
+     *
+     * This is because the front end handles the minimisation to generate the MPD file
+     * and Covariance matrix for use by the MCMC
+     */
     LOG_FINE() << "Calling minimiser to find our minimum and covariance matrix";
     auto minimiser = managers_->minimiser()->active_minimiser();
     if((minimiser->type() == PARAM_DE_SOLVER) | (minimiser->type() == PARAM_DLIB))

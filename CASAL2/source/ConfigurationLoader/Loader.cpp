@@ -369,10 +369,10 @@ void Loader::ParseBlock(vector<FileLine> &block) {
       // loading a normal parameter
 //      if (!object->parameters().ignore_all_parameters()) {
       const Parameter* parameter = object->parameters().Get(parameter_type);
-      if (!parameter) {
+      if (!parameter && !object->parameters().ignore_all_parameters()) {
         LOG_ERROR() << "At line " << file_line.line_number_ << " in " << file_line.file_name_
             << ": Parameter '" << parameter_type << "' is not supported";
-      } else if (parameter->has_been_defined()) {
+      } else if (parameter && parameter->has_been_defined()) {
         LOG_ERROR() << "At line " << file_line.line_number_ << " in " << file_line.file_name_
             << ": Parameter '" << parameter_type << "' for object " << block_type
             << " was already specified at line " << parameter->line_number() << " in " << parameter->file_name();
