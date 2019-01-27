@@ -112,6 +112,18 @@ vector<unsigned> Model::years() const {
   return years;
 }
 
+vector<unsigned> Model::years_all() const {
+  vector<unsigned> years;
+  unsigned year;
+  for (year = start_year_; year <= final_year_; ++year)
+    years.push_back(year);
+  for (; year <= projection_final_year_; ++year)
+    years.push_back(year);
+
+  return years;
+}
+
+
 /**
  *
  */

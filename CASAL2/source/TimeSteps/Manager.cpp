@@ -216,5 +216,12 @@ void Manager::ExecuteInitialisation(const string& phase_label, unsigned years) {
   current_time_step_ = 0;
 }
 
+unsigned Manager::current_time_step() const {
+  if (model_->state() != State::kInitialise && model_->state() != State::kExecute)
+    LOG_CODE_ERROR() << "Model State is not Init or Execute. It's " << (unsigned)model_->state();
+
+  return current_time_step_;
+}
+
 } /* namespace timesteps */
 } /* namespace niwa */

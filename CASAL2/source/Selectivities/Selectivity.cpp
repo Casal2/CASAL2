@@ -13,10 +13,11 @@
 // Headers
 #include "Selectivity.h"
 
-#include "Model/Model.h"
-#include "AgeLengths/AgeLength.h"
-
 #include <boost/math/distributions/normal.hpp>
+
+#include "AgeLengths/AgeLength.h"
+#include "Model/Model.h"
+#include "TimeSteps/Manager.h"
 
 // Namesapces
 namespace niwa {
@@ -90,13 +91,14 @@ void Selectivity::Reset() {
  * our internal map
  *
  * @param age_or_length The age or length to get selectivity value for
+ * @param time_step_index The time step we want to use for length based results
  * @return The value stored in the map or 0.0 as default
  */
 
 Double Selectivity::GetAgeResult(unsigned age, AgeLength* age_length) {
   if (!length_based_) {
     if (age - age_index_ >= values_.size())
-      LOG_CODE_ERROR() << "if (age - age_index_ >= values_.size())";
+      LOG_CODE_ERROR() << "if (age - age_index_ >= values_.size()) : age: " << age << "; label: " << label_ << "; type: " << type_;
     if (age < age_index_)
       LOG_CODE_ERROR() << "if (age < age_index)";
     return values_[age - age_index_];
@@ -113,5 +115,62 @@ Double Selectivity::GetLengthResult(unsigned length_bin_index) {
 }
 
 
+/**
+ * This method will return a pointer to a 4D vector object
+ * containing age length cached values for the target age_length object.
+ *
+ * If the target object does not exist, then it will build it.
+ */
+Vector3* Selectivity::GetCache(AgeLength* age_length) {
+  RebuildCache();
+  // size varies for multi-dimensional vector
+  unsigned year_count = model_->years().size();
+  unsigned time_step_count = model_->managers().time_step()->size();
+  unsigned age_count = model_->age_spread();
+
+  if (!length_based_) {
+    Vector3* new_vector = &cached_age_length_values_[PARAM_NONE];
+    utilities::allocate_vector3(new_vector, year_count, time_step_count, age_count);
+
+//    cout << "v: " << label_ << " | ";
+//    for (unsigned i = 0; i < values_.size(); ++i)
+//      cout << values_[i] << ", ";
+//    cout << endl;
+
+    for (unsigned i = 0; i < year_count; ++i)
+      for (unsigned j = 0; j < time_step_count; ++j) {
+        for (unsigned k = 0; k < age_count; ++k)
+        (*new_vector)[i][j].assign(values_.begin(), values_.end());
+      }
+
+    return new_vector;
+
+  }
+
+  // This is age length code now.
+  if (age_length == nullptr)
+    LOG_CODE_ERROR() << "(age_length == nullptr)";
+
+  if (cached_age_length_values_.find(age_length->label()) != cached_age_length_values_.end()) {
+    // return existing cache
+    return &cached_age_length_values_.find(age_length->label())->second;
+  }
+
+  // It does not exist, let's build it.
+  Vector3* new_vector = &cached_age_length_values_[age_length->label()];
+  utilities::allocate_vector3(new_vector, year_count, time_step_count, age_count);
+
+  for (unsigned i = 0; i < year_count; ++i) {
+    unsigned year = model_->start_year() + i;
+    for (unsigned j = 0; j < time_step_count; ++j) {
+      for (unsigned k = 0; k < age_count; ++k) {
+        unsigned age = model_->min_age() + k;
+        (*new_vector)[i][j][k] = this->GetLengthBasedResult(age, age_length, year, j);
+      }
+    }
+  }
+
+  return new_vector;
+}
 
 } /* namespace niwa */

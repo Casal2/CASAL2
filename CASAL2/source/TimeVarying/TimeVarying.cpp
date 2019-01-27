@@ -95,6 +95,7 @@ void TimeVarying::Update(unsigned current_year) {
     DoUpdate();
 
   target_object_->RebuildCache();
+  target_object_->NotifySubscribers();
 }
 
 /**

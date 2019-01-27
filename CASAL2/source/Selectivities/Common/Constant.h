@@ -34,10 +34,11 @@ public:
   void                        DoValidate() override final { };
   Double                      GetAgeResult(unsigned age, AgeLength* age_length) override final;
   Double                      GetLengthResult(unsigned length_bin) override final;
+  void                        RebuildCache() override final;
 
 protected:
   //Methods
-  Double                      GetLengthBasedResult(unsigned age, AgeLength* age_length) override final;
+  Double                      GetLengthBasedResult(unsigned age, AgeLength* age_length, unsigned year = 0, int time_step_index = -1) override final;
 
 private:
   // Members

@@ -27,6 +27,17 @@ Constant::Constant(Model* model)
 }
 
 /**
+ * Reset this selectivity so it's ready for the next execution
+ * phase in the model.
+ *
+ * This method will rebuild the cache of selectivity values
+ * for each age in the model.
+ */
+void Constant::RebuildCache() {
+  values_.assign(model_->age_spread(), c_);
+}
+
+/**
  * Return the constant result regardless of the
  * age or length specified
  *
@@ -45,7 +56,7 @@ Double Constant::GetAgeResult(unsigned age, AgeLength* age_length) {
  * @return Double selectivity for an age based on age length distribution
  */
 
-Double Constant::GetLengthBasedResult(unsigned age, AgeLength* age_length) {
+Double Constant::GetLengthBasedResult(unsigned age, AgeLength* age_length, unsigned year, int time_step_index) {
   return c_;
 }
 

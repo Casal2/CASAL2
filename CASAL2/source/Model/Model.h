@@ -86,6 +86,7 @@ public:
   bool                        projection_final_phase() {return projection_final_phase_;}
   void                        set_projection_final_phase(bool phase) {projection_final_phase_ = phase;}
   virtual vector<unsigned>    years() const;
+  virtual vector<unsigned>    years_all() const;
   unsigned                    year_spread() const;
   virtual unsigned            current_year() const { return current_year_; }
   virtual string              base_weight_units() const { return base_weight_units_; }
