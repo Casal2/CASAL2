@@ -84,7 +84,19 @@ typedef CppAD::AD<double> Double;
 typedef double Double;
 #endif
 
+typedef std::vector<Double> Vector1;
+typedef std::vector<std::vector<Double>> Vector2;
+typedef std::vector<std::vector<std::vector<Double>>> Vector3;
 typedef std::vector<std::vector<std::vector<std::vector<Double>>>> Vector4;
+
+inline void allocate_vector3(Vector3* target, unsigned x_size, unsigned y_size, unsigned z_size) {
+  target->resize(x_size);
+  for (unsigned i = 0; i < x_size; ++i) {
+    (*target)[i].resize(y_size);
+    for (unsigned j = 0; j < y_size; ++j)
+      (*target)[i][j].resize(z_size);
+  }
+}
 
 /**
  * This code is used to demangle the typeid(x).name information

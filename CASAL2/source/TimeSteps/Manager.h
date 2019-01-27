@@ -45,7 +45,7 @@ public:
 
   // accessors
   const vector<TimeStep*>&    ordered_time_steps() const { return ordered_time_steps_; }
-  virtual unsigned            current_time_step() const { return current_time_step_; }
+  virtual unsigned            current_time_step() const;
 
 protected:
   // methods

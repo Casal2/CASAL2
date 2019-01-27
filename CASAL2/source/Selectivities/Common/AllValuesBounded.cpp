@@ -140,7 +140,7 @@ void AllValuesBounded::RebuildCache() {
  * @return Double selectivity for an age based on age length distribution
  */
 
-Double AllValuesBounded::GetLengthBasedResult(unsigned age, AgeLength* age_length) {
+Double AllValuesBounded::GetLengthBasedResult(unsigned age, AgeLength* age_length, unsigned year, int time_step_index) {
   LOG_ERROR_P(PARAM_LENGTH_BASED) << ": This selectivity type has not been implemented for age length based selectivities ";
   return 0.0;
 }
