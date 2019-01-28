@@ -63,7 +63,7 @@ public:
 
 TEST(AgeLengths, VonBertalanffy_MeanLength) {
   MockModel model;
-  init_mock_model_01(model);
+  model.bind_calls();
 
   MockVonBertalanffy von_bertalanffy(model, 80, 0.064, 4, false, 0.2, 0.2, {1.0});
   ASSERT_NO_THROW(von_bertalanffy.MockBuildCV());
@@ -82,7 +82,7 @@ TEST(AgeLengths, VonBertalanffy_MeanLength) {
 
 TEST(AgeLengths, VonBertalanffy_MeanLength_2) {
   MockModel model;
-  init_mock_model_01(model);
+  model.bind_calls();
 
   MockVonBertalanffy von_bertalanffy(model, 80, 0.064, 4, false, 0.2, 0.2, {1.0}, false, AgeLength::Distribution::kLogNormal);
   ASSERT_NO_THROW(von_bertalanffy.MockBuildCV());
@@ -105,7 +105,7 @@ TEST(AgeLengths, VonBertalanffy_MeanLength_2) {
  */
 TEST(AgeLengths, VonBertalanffy_CV) {
   MockModel model;
-  init_mock_model_01(model);
+  model.bind_calls();
 
   MockVonBertalanffy von_bertalanffy(model, 80, 0.064, 4, false, 0.2, 0.2, {1.0});
   ASSERT_NO_THROW(von_bertalanffy.MockBuildCV());
@@ -125,7 +125,7 @@ TEST(AgeLengths, VonBertalanffy_CV) {
  */
 TEST(AgeLengths, VonBertalanffy_CV_2) {
   MockModel model;
-  init_mock_model_01(model);
+  model.bind_calls();
 
   MockVonBertalanffy von_bertalanffy(model, 169.07, 0.093, -0.256, true, 0.102, 0.0, {0.0, 0.0}, true);
   ASSERT_NO_THROW(von_bertalanffy.MockBuildCV());

@@ -114,7 +114,7 @@ TEST(Partition, ValidateAndBuild) {
   MockTimeStepManager time_step_manager;
   time_step_manager.time_step_index_ = 0;
 
-  init_mock_model_01(model);
+  model.bind_calls();
   EXPECT_CALL(model, categories()).WillRepeatedly(Return(&mock_categories));
 
   ASSERT_NO_THROW(mock_categories.Validate());
@@ -146,7 +146,7 @@ TEST(Partition, BuildMeanLength) {
   MockTimeStepManager time_step_manager;
   time_step_manager.time_step_index_ = 0;
 
-  init_mock_model_01(model);
+  model.bind_calls();
   EXPECT_CALL(model, categories()).WillRepeatedly(Return(&mock_categories));
 
   ASSERT_NO_THROW(mock_categories.Validate());
@@ -209,8 +209,9 @@ TEST(Partition, BuildAgeLengthProportions) {
   MockTimeStepManager time_step_manager;
   time_step_manager.time_step_index_ = 0;
 
-  model.mock_length_plus_ = true;
-  init_mock_model_01(model);
+  model.set_length_plus(true);
+  model.bind_calls();
+
   EXPECT_CALL(model, categories()).WillRepeatedly(Return(&mock_categories));
 
   ASSERT_NO_THROW(mock_categories.Validate());
@@ -287,9 +288,10 @@ TEST(Partition, BuildAgeLengthProportions_2) {
   MockTimeStepManager time_step_manager;
   time_step_manager.time_step_index_ = 0;
 
-  model.mock_length_plus_ = true;
-  model.mock_length_bins_ = {0, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31 ,32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47};
-  init_mock_model_01(model);
+  model.set_length_plus(true);
+  model.set_length_bins({0, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31 ,32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47});
+  model.bind_calls();
+
   EXPECT_CALL(model, categories()).WillRepeatedly(Return(&mock_categories));
   ASSERT_NO_THROW(mock_categories.Validate());
 
@@ -353,8 +355,8 @@ TEST(Partition, BuildAgeLengthProportions_3) {
   MockTimeStepManager time_step_manager;
   time_step_manager.time_step_index_ = 0;
 
-  model.mock_length_bins_ = {0, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31 ,32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47};
-  init_mock_model_01(model);
+  model.set_length_bins({0, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31 ,32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47});
+  model.bind_calls();
   EXPECT_CALL(model, categories()).WillRepeatedly(Return(&mock_categories));
   ASSERT_NO_THROW(mock_categories.Validate());
 
@@ -418,8 +420,8 @@ TEST(Partition, BuildAgeLengthProportions_4) {
   MockTimeStepManager time_step_manager;
   time_step_manager.time_step_index_ = 0;
 
-  model.mock_length_bins_ = {0, 20, 40, 60 , 80, 110};
-  init_mock_model_01(model);
+  model.set_length_bins({0, 20, 40, 60 , 80, 110});
+  model.bind_calls();
   EXPECT_CALL(model, categories()).WillRepeatedly(Return(&mock_categories));
   ASSERT_NO_THROW(mock_categories.Validate());
 
