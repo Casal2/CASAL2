@@ -21,6 +21,7 @@
 
 #include "Model/Model.h"
 #include "Model/Managers.h"
+#include "Model/Objects.h"
 #include "Utilities/PartitionType.h"
 
 // Namespaces
@@ -47,6 +48,9 @@ public:
     set_length_bins({ 10, 20, 30, 40, 50 });
     set_length_plus(false);
   }
+
+  virtual ~MockModel() = default;
+
   /**
    * Methods we're going to mock
    */
@@ -67,6 +71,7 @@ public:
   MOCK_CONST_METHOD0(length_plus, bool());
   MOCK_METHOD0(managers, niwa::Managers&());
   MOCK_METHOD0(categories, niwa::Categories*());
+  MOCK_METHOD0(objects, niwa::Objects&());
 
   /**
    * Have some setters to handle changing values on the model object
@@ -140,17 +145,9 @@ public:
     EXPECT_CALL(*this, length_plus()).WillRepeatedly(DoDefault());
     EXPECT_CALL(*this, managers()).WillRepeatedly(DoDefault());
     EXPECT_CALL(*this, categories()).WillRepeatedly(DoDefault());
+    EXPECT_CALL(*this, objects()).WillRepeatedly(DoDefault());
   }
 };
-
-/**
- * Set some default values for our model and bind the function
- * call backs
- */
-inline void init_mock_model_01(MockModel& model) {
-  model.bind_calls();
-}
-
 } /* namespace niwa */
 
 #endif /* MOCK_MODEL_H_ */

@@ -58,11 +58,11 @@ protected:
   UpdateFunction              update_function_ = 0;
 
   // members
-  Model*                      model_;
-  base::Object*               target_object_;
+  Model*                      model_ = nullptr;
+  base::Object*               target_object_ = nullptr;
   string                      type_ = "";
   vector<unsigned>            years_;
-  string                      parameter_;
+  string                      parameter_ = "";
   Double                      original_value_ = 0;
   map<unsigned, Double>*      addressable_map_ = 0;
   vector<Double>*             addressable_vector_ = 0;

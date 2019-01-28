@@ -86,7 +86,7 @@ void Category::UpdateMeanWeightData() {
     // Update mean weight for this category
     LengthWeight* length_weight = categories->length_weight(name_);
     // Only do this under two conditions. We are initialising, it has a time varying component
-    if (length_weight->is_time_varying() || model_->state() == State::kInitialise) {
+    if (model_->state() == State::kInitialise) {
       vector<unsigned> length_bins = model_->length_bins();
       for (unsigned step_iter = 0; step_iter < time_steps.size(); ++step_iter) {
         for (unsigned length_bin_index = 0; length_bin_index < length_bins.size(); ++length_bin_index) {

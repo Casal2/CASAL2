@@ -99,7 +99,6 @@ public:
   string                      type() const { return type_; }
   ParameterList&              parameters() { return parameters_; }
   string                      location();
-  bool                        is_time_varying(){ return is_time_varying_; }
   bool                        is_estimated(){ return is_estimated_; }
   void                        set_block_type(string value) { block_type_ = value; parameters_.set_parent_block_type(value); }
   void                        set_label(string value) { label_ = value;}

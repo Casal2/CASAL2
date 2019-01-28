@@ -5,7 +5,7 @@
  *      Author: Admin
  */
 
-#include <TimeVarying/Common/Constant.h>
+#include "Constant.h"
 
 namespace niwa {
 namespace timevarying {
