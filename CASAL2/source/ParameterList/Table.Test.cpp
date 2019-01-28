@@ -29,6 +29,7 @@ namespace parameters {
 
 using std::cout;
 using std::endl;
+using ::testing::NiceMock;
 
 /**
  * Mock Class Definitions
@@ -91,7 +92,8 @@ TEST(Parameters, Table_Populate_Categories) {
   MockModel model;
   MockCategories categories(&model);
 
-  init_mock_model_01(model);
+  model.bind_calls();
+
   ASSERT_NO_THROW(categories.Validate());
 
   EXPECT_CALL(model, categories()).WillRepeatedly(Return(&categories));
@@ -121,7 +123,7 @@ TEST(Parameters, Table_Populate_Categories_Fail) {
   MockModel model;
   MockCategories categories(&model);
 
-  init_mock_model_01(model);
+  model.bind_calls();
   ASSERT_NO_THROW(categories.Validate());
 
   EXPECT_CALL(model, categories()).WillRepeatedly(Return(&categories));
@@ -153,7 +155,7 @@ TEST(Parameters, Table_Populate_Shorthand_Categories) {
   MockModel model;
   MockCategories categories(&model);
 
-  init_mock_model_01(model);
+  model.bind_calls();
   ASSERT_NO_THROW(categories.Validate());
 
   EXPECT_CALL(model, categories()).WillRepeatedly(Return(&categories));
@@ -190,7 +192,7 @@ TEST(Parameters, Table_Populate_Shorthand_Categories_Fail) {
   MockModel model;
   MockCategories categories(&model);
 
-  init_mock_model_01(model);
+  model.bind_calls();
   ASSERT_NO_THROW(categories.Validate());
 
   EXPECT_CALL(model, categories()).WillRepeatedly(Return(&categories));
@@ -217,7 +219,7 @@ TEST(Parameters, Table_Required_Columns) {
   MockModel model;
   MockCategories categories(&model);
 
-  init_mock_model_01(model);
+  model.bind_calls();
   ASSERT_NO_THROW(categories.Validate());
 
   EXPECT_CALL(model, categories()).WillRepeatedly(Return(&categories));
@@ -249,7 +251,7 @@ TEST(Parameters, Table_Required_Columns_Fail) {
   MockModel model;
   MockCategories categories(&model);
 
-  init_mock_model_01(model);
+  model.bind_calls();
   ASSERT_NO_THROW(categories.Validate());
 
   EXPECT_CALL(model, categories()).WillRepeatedly(Return(&categories));
@@ -279,7 +281,7 @@ TEST(Parameters, Table_Extra_Columns) {
   MockModel model;
   MockCategories categories(&model);
 
-  init_mock_model_01(model);
+  model.bind_calls();
   ASSERT_NO_THROW(categories.Validate());
 
   EXPECT_CALL(model, categories()).WillRepeatedly(Return(&categories));
@@ -310,7 +312,7 @@ TEST(Parameters, Table_Optional_Columns) {
   MockModel model;
   MockCategories categories(&model);
 
-  init_mock_model_01(model);
+  model.bind_calls();
   ASSERT_NO_THROW(categories.Validate());
 
   EXPECT_CALL(model, categories()).WillRepeatedly(Return(&categories));
@@ -345,7 +347,7 @@ TEST(Parameters, Table_Optional_Columns_Fail) {
   MockModel model;
   MockCategories categories(&model);
 
-  init_mock_model_01(model);
+  model.bind_calls();
   ASSERT_NO_THROW(categories.Validate());
 
   EXPECT_CALL(model, categories()).WillRepeatedly(Return(&categories));
@@ -375,7 +377,7 @@ TEST(Parameters, Table_CheckColumnType_Unsigned_And_Double) {
   MockModel model;
   MockCategories categories(&model);
 
-  init_mock_model_01(model);
+  model.bind_calls();
   ASSERT_NO_THROW(categories.Validate());
 
   EXPECT_CALL(model, categories()).WillRepeatedly(Return(&categories));
@@ -404,7 +406,7 @@ TEST(Parameters, Table_CheckColumnType_Unsigned_Fail) {
   MockModel model;
   MockCategories categories(&model);
 
-  init_mock_model_01(model);
+  model.bind_calls();
   ASSERT_NO_THROW(categories.Validate());
 
   EXPECT_CALL(model, categories()).WillRepeatedly(Return(&categories));
@@ -433,7 +435,7 @@ TEST(Parameters, Table_CheckColumnType_Double_Fail) {
   MockModel model;
   MockCategories categories(&model);
 
-  init_mock_model_01(model);
+  model.bind_calls();
   ASSERT_NO_THROW(categories.Validate());
 
   EXPECT_CALL(model, categories()).WillRepeatedly(Return(&categories));
@@ -462,7 +464,7 @@ TEST(Parameters, Table_CheckColumnContains_Categories) {
   MockModel model;
   MockCategories categories(&model);
 
-  init_mock_model_01(model);
+  model.bind_calls();
   ASSERT_NO_THROW(categories.Validate());
 
   EXPECT_CALL(model, categories()).WillRepeatedly(Return(&categories));
@@ -491,7 +493,7 @@ TEST(Parameters, Table_CheckColumnContains_Year) {
   MockModel model;
   MockCategories categories(&model);
 
-  init_mock_model_01(model);
+  model.bind_calls();
   ASSERT_NO_THROW(categories.Validate());
 
   EXPECT_CALL(model, categories()).WillRepeatedly(Return(&categories));
@@ -519,10 +521,11 @@ TEST(Parameters, Table_CheckColumnContains_Year) {
  */
 TEST(Parameters, Table_CheckColumnContains_Projection_Year) {
   MockModel model;
-  model.mock_projection_final_year_ = 1995;
   MockCategories categories(&model);
 
-  init_mock_model_01(model);
+  model.set_projection_final_year(1995);
+  model.bind_calls();
+
   ASSERT_NO_THROW(categories.Validate());
 
   EXPECT_CALL(model, categories()).WillRepeatedly(Return(&categories));
@@ -552,7 +555,7 @@ TEST(Parameters, Table_CheckColumnContains_Year_Fail) {
   MockModel model;
   MockCategories categories(&model);
 
-  init_mock_model_01(model);
+  model.bind_calls();
   ASSERT_NO_THROW(categories.Validate());
 
   EXPECT_CALL(model, categories()).WillRepeatedly(Return(&categories));
@@ -580,10 +583,10 @@ TEST(Parameters, Table_CheckColumnContains_Year_Fail) {
  */
 TEST(Parameters, Table_CheckColumnContains_Projection_Year_Fail) {
   MockModel model;
-  model.mock_projection_final_year_ = 1995;
   MockCategories categories(&model);
 
-  init_mock_model_01(model);
+  model.set_projection_final_year(1995);
+  model.bind_calls();
   ASSERT_NO_THROW(categories.Validate());
 
   EXPECT_CALL(model, categories()).WillRepeatedly(Return(&categories));
@@ -613,7 +616,7 @@ TEST(Parameters, Table_GetColumnValuesAs_Unsigned_Double) {
   MockModel model;
   MockCategories categories(&model);
 
-  init_mock_model_01(model);
+  model.bind_calls();
   ASSERT_NO_THROW(categories.Validate());
 
   EXPECT_CALL(model, categories()).WillRepeatedly(Return(&categories));

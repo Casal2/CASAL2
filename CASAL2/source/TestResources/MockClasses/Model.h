@@ -27,12 +27,29 @@
 namespace niwa {
 using ::testing::Return;
 using ::testing::ReturnRef;
+using ::testing::DoDefault;
 
 /**
  * Class Definition
  */
 class MockModel : public niwa::Model {
 public:
+  // Constructor
+  MockModel() {
+    set_min_age(1);
+    set_max_age(10);
+    set_start_year(1990);
+    set_final_year(1992);
+    set_current_year(1991);
+    set_age_plus(true);
+    set_time_steps({ "time_step_one", "time_step_two" });
+    set_partition_type(PartitionType::kAge);
+    set_length_bins({ 10, 20, 30, 40, 50 });
+    set_length_plus(false);
+  }
+  /**
+   * Methods we're going to mock
+   */
   MOCK_CONST_METHOD0(min_age, unsigned());
   MOCK_CONST_METHOD0(max_age, unsigned());
   MOCK_CONST_METHOD0(age_spread, unsigned());
@@ -42,6 +59,7 @@ public:
   MOCK_CONST_METHOD0(age_plus, bool());
   MOCK_CONST_METHOD0(current_year, unsigned());
   MOCK_CONST_METHOD0(time_steps, vector<string>&());
+  MOCK_CONST_METHOD0(initialisation_phases, vector<string>&());
   MOCK_CONST_METHOD0(years, vector<unsigned>());
   MOCK_CONST_METHOD0(years_all, vector<unsigned>());
   MOCK_CONST_METHOD0(partition_type, PartitionType());
@@ -50,39 +68,90 @@ public:
   MOCK_METHOD0(managers, niwa::Managers&());
   MOCK_METHOD0(categories, niwa::Categories*());
 
-  vector<string> mock_time_steps_ = {"time_step_one", "time_step_two"};
-  vector<unsigned> mock_years_ = { 1990, 1991, 1992 };
-  vector<unsigned> mock_years_all_ = { 1990, 1991, 1992 };
-  vector<unsigned> mock_length_bins_ = { 10, 20, 30, 40, 50 };
-  bool mock_length_plus_ = false;
+  /**
+   * Have some setters to handle changing values on the model object
+   */
+  void set_run_mode(RunMode::Type run_mode) { run_mode_ = run_mode; }
+  void set_min_age(unsigned min_age) { min_age_ = min_age; }
+  void set_max_age(unsigned max_age) { max_age_ = max_age; }
+  void set_start_year(unsigned start_year) { start_year_ = start_year; }
+  void set_final_year(unsigned final_year) { final_year_ = final_year; }
+  void set_projection_final_year(unsigned projection_final_year) { projection_final_year_ = projection_final_year; }
+  void set_age_plus(bool age_plus) { age_plus_ = age_plus; }
+  void set_length_plus(bool length_plus) { length_plus_ = length_plus; }
+  void set_current_year(unsigned current_year) { current_year_ = current_year; }
+  void set_time_steps(vector<string> time_steps) { time_steps_ = time_steps; }
+  void set_initialiation_phases(vector<string> init_phases) { initialisation_phases_ = init_phases; }
+  void set_partition_type(PartitionType partition_type) { partition_type_ = partition_type; }
+  void set_length_bins(vector<unsigned> length_bins) { length_bins_ = length_bins; }
 
-  unsigned mock_start_year_ = 1990;
-  unsigned mock_final_year_ = 1992;
-  unsigned mock_projection_final_year_ = 0;
+  /**
+   * Mock methods to call parent
+   */
+  vector<unsigned> mock_years() { return Model::years(); }
+  vector<unsigned> mock_years_all() { return Model::years_all(); }
+  unsigned mock_age_spread() { return Model::age_spread(); }
+
+  /**
+   * Set our call with the values we've put on the base model class
+   */
+  void bind_calls() {
+    EXPECT_CALL(*this, min_age()).WillRepeatedly(Return(min_age_));
+    EXPECT_CALL(*this, max_age()).WillRepeatedly(Return(max_age_));
+    EXPECT_CALL(*this, age_spread()).WillRepeatedly(Return(mock_age_spread()));
+    EXPECT_CALL(*this, start_year()).WillRepeatedly(Return(start_year_));
+    EXPECT_CALL(*this, final_year()).WillRepeatedly(Return(final_year_));
+    EXPECT_CALL(*this, projection_final_year()).WillRepeatedly(Return(projection_final_year_));
+    EXPECT_CALL(*this, current_year()).WillRepeatedly(Return(current_year_));
+    EXPECT_CALL(*this, age_plus()).WillRepeatedly(Return(age_plus_));
+    EXPECT_CALL(*this, time_steps()).WillRepeatedly(ReturnRef(time_steps_));
+    EXPECT_CALL(*this, initialisation_phases()).WillRepeatedly(ReturnRef(initialisation_phases_));
+    EXPECT_CALL(*this, years()).WillRepeatedly(Return(mock_years()));
+    EXPECT_CALL(*this, years_all()).WillRepeatedly(Return(mock_years_all()));
+    EXPECT_CALL(*this, partition_type()).WillRepeatedly(Return(partition_type_));
+    EXPECT_CALL(*this, length_bins()).WillRepeatedly(ReturnRef(length_bins_));
+    EXPECT_CALL(*this, length_plus()).WillRepeatedly(Return(length_plus_));
+  }
+
+  /**
+   * This method will set all the calls to return default values
+   * from GMock. Note: These are not the values specified on the class.
+   *
+   * boolean will default to false
+   * Ints etc to 0
+   * Pointers to null
+   * Enums to null bytes
+   */
+  void bind_calls_to_default() {
+    EXPECT_CALL(*this, min_age()).WillRepeatedly(DoDefault());
+    EXPECT_CALL(*this, max_age()).WillRepeatedly(DoDefault());
+    EXPECT_CALL(*this, age_spread()).WillRepeatedly(DoDefault());
+    EXPECT_CALL(*this, start_year()).WillRepeatedly(DoDefault());
+    EXPECT_CALL(*this, final_year()).WillRepeatedly(DoDefault());
+    EXPECT_CALL(*this, projection_final_year()).WillRepeatedly(DoDefault());
+    EXPECT_CALL(*this, current_year()).WillRepeatedly(DoDefault());
+    EXPECT_CALL(*this, age_plus()).WillRepeatedly(DoDefault());
+    EXPECT_CALL(*this, time_steps()).WillRepeatedly(DoDefault());
+    EXPECT_CALL(*this, initialisation_phases()).WillRepeatedly(DoDefault());
+    EXPECT_CALL(*this, years()).WillRepeatedly(DoDefault());
+    EXPECT_CALL(*this, years_all()).WillRepeatedly(DoDefault());
+    EXPECT_CALL(*this, partition_type()).WillRepeatedly(DoDefault());
+    EXPECT_CALL(*this, length_bins()).WillRepeatedly(DoDefault());
+    EXPECT_CALL(*this, length_plus()).WillRepeatedly(DoDefault());
+    EXPECT_CALL(*this, managers()).WillRepeatedly(DoDefault());
+    EXPECT_CALL(*this, categories()).WillRepeatedly(DoDefault());
+  }
 };
 
-
+/**
+ * Set some default values for our model and bind the function
+ * call backs
+ */
 inline void init_mock_model_01(MockModel& model) {
-  // add our projection years if they exist
-  for (unsigned i = model.mock_final_year_ + 1; i <= model.mock_projection_final_year_; ++i)
-    model.mock_years_all_.push_back(i);
-
-  EXPECT_CALL(model, min_age()).WillRepeatedly(Return(1));
-  EXPECT_CALL(model, max_age()).WillRepeatedly(Return(10));
-  EXPECT_CALL(model, age_spread()).WillRepeatedly(Return(10));
-  EXPECT_CALL(model, start_year()).WillRepeatedly(Return(model.mock_start_year_));
-  EXPECT_CALL(model, final_year()).WillRepeatedly(Return(model.mock_final_year_));
-  EXPECT_CALL(model, projection_final_year()).WillRepeatedly(Return(model.mock_projection_final_year_));
-  EXPECT_CALL(model, current_year()).WillRepeatedly(Return(1991));
-  EXPECT_CALL(model, age_plus()).WillRepeatedly(Return(true));
-  EXPECT_CALL(model, time_steps()).WillRepeatedly(ReturnRef(model.mock_time_steps_));
-  EXPECT_CALL(model, years()).WillRepeatedly(Return(model.mock_years_));
-  EXPECT_CALL(model, years_all()).WillRepeatedly(Return(model.mock_years_all_));
-  EXPECT_CALL(model, partition_type()).WillRepeatedly(Return(PartitionType::kAge));
-  EXPECT_CALL(model, length_bins()).WillRepeatedly(ReturnRef(model.mock_length_bins_));
-  EXPECT_CALL(model, length_plus()).WillRepeatedly(Return(model.mock_length_plus_));
+  model.bind_calls();
 }
 
 } /* namespace niwa */
 
 #endif /* MOCK_MODEL_H_ */
+
