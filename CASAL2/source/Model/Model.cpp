@@ -387,6 +387,8 @@ void Model::Build() {
     if (length_bins_.size() > 0)
       partition_->BuildAgeLengthProportions();
   }
+
+  managers_->Reset();
 }
 
 /**
@@ -837,11 +839,11 @@ void Model::Iterate() {
   niwa::partition::accessors::All all_view(this);
 
   state_ = State::kInitialise;
-  current_year_ = start_year_;
+  current_year_ = start_year_; // TODO: Fix this
   // Iterate over all partition members and UpDate Mean Weight for the inital weight calculations
-  for (auto iterator = all_view.Begin(); iterator != all_view.End(); ++iterator) {
-    (*iterator)->UpdateMeanLengthData();
-  }
+//  for (auto iterator = all_view.Begin(); iterator != all_view.End(); ++iterator) {
+//    (*iterator)->UpdateMeanLengthData();
+//  }
   initialisationphases::Manager& init_phase_manager = *managers_->initialisation_phase();
   init_phase_manager.Execute();
   managers_->report()->Execute(State::kInitialise);
