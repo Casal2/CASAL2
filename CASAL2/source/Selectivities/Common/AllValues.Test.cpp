@@ -27,8 +27,9 @@ namespace niwa {
 
 using ::testing::Return;
 using ::testing::ReturnRef;
+
 /**
- * Test the results of our KnifeEdge are correct
+ * Test the values of this selectivity when using an Age based model
  */
 TEST(Selectivities, AllValues_Age) {
   MockModel model;
@@ -64,6 +65,9 @@ TEST(Selectivities, AllValues_Age) {
   ASSERT_THROW(all_values.GetAgeResult(21, nullptr), std::string); // This is above model->max_age()
 }
 
+/**
+ * Test the values of this selectivity when using a Length based model
+ */
 TEST(Selectivities, AllValues_Length) {
   MockModel model;
   vector<unsigned> lengths = {10, 20, 30, 40, 50, 60, 120};
@@ -83,7 +87,6 @@ TEST(Selectivities, AllValues_Length) {
   all_values.parameters().Add(PARAM_TYPE, "not needed in test", __FILE__, __LINE__);
   all_values.Validate();
   all_values.Build();
-
 
   for (unsigned i = 0; i < v.size(); ++i) {
     EXPECT_DOUBLE_EQ(values[i],  all_values.GetLengthResult(i));

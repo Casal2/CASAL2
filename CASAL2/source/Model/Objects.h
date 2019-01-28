@@ -37,26 +37,27 @@ using utilities::OrderedMap;
 
 // classes
 class Objects {
+  friend class MockObjects;
   friend class Model;
   friend class estimates::Creator;
   friend class TimeVarying;
 public:
   // methods
-  bool                        VerfiyAddressableForUse(const string& parameter_absolute_name, addressable::Usage usage, string& error);
-  addressable::Type           GetAddressableType(const string& parameter_absolute_name);
-  Double*                     GetAddressable(const string& addressable_absolute_name);
-  vector<Double*>*            GetAddressables(const string& addressable_absolute_name);
-  map<unsigned, Double>*      GetAddressableUMap(const string& addressable_absolute_name);
-  OrderedMap<string, Double>* GetAddressableSMap(const string& addressable_absolute_name);
-  vector<Double>*             GetAddressableVector(const string& addressable_absolute_name);
+  virtual                             ~Objects() = default;
+  virtual bool                        VerfiyAddressableForUse(const string& parameter_absolute_name, addressable::Usage usage, string& error);
+  virtual addressable::Type           GetAddressableType(const string& parameter_absolute_name);
+  virtual Double*                     GetAddressable(const string& addressable_absolute_name);
+  virtual vector<Double*>*            GetAddressables(const string& addressable_absolute_name);
+  virtual map<unsigned, Double>*      GetAddressableUMap(const string& addressable_absolute_name);
+  virtual OrderedMap<string, Double>* GetAddressableSMap(const string& addressable_absolute_name);
+  virtual vector<Double>*             GetAddressableVector(const string& addressable_absolute_name);
+  virtual base::Object*               FindObject(const string& parameter_absolute_name);
 
-private:
+protected:
   // methods
   Objects() = delete;
   explicit Objects(Model* model);
-  virtual                     ~Objects() = default;
   base::Object*               FindObjectOrNull(const string& parameter_absolute_name);
-  base::Object*               FindObject(const string& parameter_absolute_name);
   void                        ExplodeString(const string& parameter_absolute_name, string &type, string& label, string& parameter, string& index);
   void                        ImplodeString(const string& type, const string& label, const string& parameter, const string& index, string& target_parameter);
   std::pair<string, string>   ExplodeParameterAndIndex(const string& parameter_absolute_name);

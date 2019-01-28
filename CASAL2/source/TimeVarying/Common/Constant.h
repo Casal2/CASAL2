@@ -26,6 +26,7 @@ namespace timevarying {
  */
 class Constant : public niwa::TimeVarying {
 public:
+  // methods
   explicit Constant(Model* model);
   virtual                     ~Constant() = default;
   void                        DoValidate() override final;
@@ -33,7 +34,7 @@ public:
   void                        DoReset() override final;
   void                        DoUpdate() override final;
 
-private:
+protected:
   // members
   vector<Double>              values_;
 };
