@@ -244,6 +244,12 @@ base::Object* Objects::FindObjectOrNull(const string& parameter_absolute_name) {
   return result;
 }
 
+/**
+ * This method will find the object in Casal2 and return an Object pointer to it.
+ *
+ * @param object_absolute_name The absolute name for the parameter. This includes the object details (e.g process[mortality].m)
+ * @return Pointer to object or throw error if it doesn't exist.
+ */
 base::Object* Objects::FindObject(const string& parameter_absolute_name) {
   base::Object* result = FindObjectOrNull(parameter_absolute_name);
 
@@ -256,6 +262,14 @@ base::Object* Objects::FindObject(const string& parameter_absolute_name) {
 }
 
 /**
+ * This method will take an addressable full name and return the addressable label
+ * and index components.
+ *
+ * Submitting process[myprocess].addressable{1,2} would return pair<"addressable", "1,2">.
+ * This is then used on a base::Object to locate the specific addressable.
+ *
+ * @parameter The absolute name of the addressable/parameter (e.g. process[x].a{1})
+ * @return std::pair<"addressable", "index">
  *
  */
 std::pair<string, string> Objects::ExplodeParameterAndIndex(const string& parameter_absolute_name) {
@@ -320,7 +334,16 @@ void Objects::ExplodeString(const string& parameter_absolute_name, string &type,
 }
 
 /**
+ * This method will take the different parts of a full addressable path and joined them back
+ * into a single string.
+ * e.g. type=process, label=myproc, addressable=a, index=1 would return
+ * process[myproc].a{1}
  *
+ * @parameter type The type of object the addressable belongs to (e.g. process)
+ * @parameter label The label of the object the addressable is on (e.g. my_process)
+ * @parameter parameter The parameter that is being addressed (e.g. b0)
+ * @parameter index The index into the addressable for vector, map types etc
+ * @parameter target_parameter This is the return value, the full string (e.g. process[myproc].a{1})
  */
 void Objects::ImplodeString(const string& type, const string& label, const string& parameter, const string& index, string& target_parameter) {
   target_parameter = util::ToLowercase(type) + "[" + label + "]." + util::ToLowercase(parameter);
