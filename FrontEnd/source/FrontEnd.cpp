@@ -131,6 +131,9 @@ int main(int argc, char * argv[]) {
   case RunMode::kUnitTest:
     RunUnitTests(argc, argv, options);
     return return_code_;
+  case RunMode::kQuery:
+    RunBasic(argc, argv, options);
+    return return_code_;
   default:
     break;
   }
