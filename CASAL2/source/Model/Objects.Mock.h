@@ -37,6 +37,11 @@ public:
   MOCK_METHOD1(GetAddressableSMap, OrderedMap<string, double>*(const string&));
   MOCK_METHOD1(GetAddressableVector, vector<Double>*(const string&));
   MOCK_METHOD1(FindObject, base::Object*(const string&));
+
+  MOCK_METHOD1(FindObjectOrNull, base::Object*(const string&));
+  MOCK_METHOD5(ExplodeString, void(const string&, string&, string&, string&, string&));
+  MOCK_METHOD5(ImplodeString, void(const string&, const string&, const string&, const string&, string&));
+  MOCK_METHOD1(ExplodeParameterAndIndex, std::pair<string, string>(const string&));
 };
 
 } /* namespace niwa */

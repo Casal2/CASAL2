@@ -56,6 +56,7 @@ bool Objects::VerfiyAddressableForUse(const string& parameter_absolute_name, add
   string label      = "";
   string parameter  = "";
   string index      = "";
+  error = "";
 
   ostringstream str;
 
@@ -102,9 +103,11 @@ addressable::Type Objects::GetAddressableType(const string& parameter_absolute_n
       return addressable::kSingle;
     else
       return addressable::kMultiple;
-  } // TODO; Write unit tests for the above
+  }
 
   base::Object* target = FindObjectOrNull(parameter_absolute_name); // TODO: Mock FIndObject() so we can unit test this.
+  if (target == nullptr)
+    LOG_CODE_ERROR() << "target == nullptr: " << parameter_absolute_name;
   return target->GetAddressableType(parameter_index.first);
 }
 
@@ -200,6 +203,8 @@ base::Object* Objects::FindObjectOrNull(const string& parameter_absolute_name) {
 
   ExplodeString(parameter_absolute_name, type, label, parameter, index);
   LOG_FINEST() << "FindObject; type: " << type << "; label: " << label << "; parameter: " << parameter << "; index: " << index;
+  if (type == "" || label == "" || parameter == "")
+    return nullptr;
 
   if (type == PARAM_PROCESS) {
     result = model_->managers().process()->GetProcess(label);
@@ -231,7 +236,9 @@ base::Object* Objects::FindObjectOrNull(const string& parameter_absolute_name) {
   } else if (type == PARAM_OBSERVATION) {
     result = model_->managers().observation()->GetObservation(label);
   } else {
-    LOG_FATAL() << "Currently the type " << type << ", first please check you have spelt it correctly, if you are confident you have it may not be coded to find addressable, please add it the class to FindObject() in Model/Objects.cpp by contacting the development team";
+    LOG_FATAL() << "Currently the type " << type << " is not registered for addressable finding, first please check you have spelt it correctly, if you are "
+        << "confident you have it may not be coded to find addressable, please add it the class to FindObject() "
+        << "in Model/Objects.cpp by contacting the development team";
   }
 
   return result;
@@ -260,14 +267,21 @@ std::pair<string, string> Objects::ExplodeParameterAndIndex(const string& parame
 }
 
 /**
+ * This method will take an absolute parameter name and break it into the different parts so it
+ * can be used to find the binary object in memory
  *
+ * @parameter parameter_absolute_name The name of the object in either type[label].addressable{index} or label.addressable{index}
+ * @parameter type Return parameter to hold the object type (e.g. process, derived quantity)
+ * @parameter label the label of the object
+ * @parameter addressable The addressable parameter we're looking for
+ * @parameter index The indexes into the object. This could be multiple. But we keep it as a single string *
  */
-void Objects::ExplodeString(const string& parameter_absolute_name, string &type, string& label, string& parameter, string& index) {
+void Objects::ExplodeString(const string& parameter_absolute_name, string &type, string& label, string& addressable, string& index) {
   LOG_TRACE();
 
   type       = "";
   label      = "";
-  parameter  = "";
+  addressable  = "";
   index      = "";
    /**
      * This snippet of code will split the parameter from
@@ -287,20 +301,20 @@ void Objects::ExplodeString(const string& parameter_absolute_name, string &type,
 
    type = utilities::ToLowercase(token_list[0]);
    label      = token_list[1];
-   parameter  = utilities::ToLowercase(token_list[2].substr(1));
+   addressable  = utilities::ToLowercase(token_list[2].substr(1));
 
    /**
     * Now check for index
     */
    boost::char_separator<char> seperator2("{}");
-   tokenizer tokens2(parameter, seperator2);
+   tokenizer tokens2(addressable, seperator2);
 
    token_list.clear();
    for (tokenizer::iterator tok_iter = tokens2.begin(); tok_iter != tokens2.end(); ++tok_iter)
      token_list.push_back(*tok_iter);
 
    if (token_list.size() == 2) {
-     parameter  = utilities::ToLowercase(token_list[0]);
+     addressable  = utilities::ToLowercase(token_list[0]);
      index      = token_list[1];
    }
 }

@@ -58,7 +58,7 @@ protected:
   Objects() = delete;
   explicit Objects(Model* model);
   base::Object*               FindObjectOrNull(const string& parameter_absolute_name);
-  void                        ExplodeString(const string& parameter_absolute_name, string &type, string& label, string& parameter, string& index);
+  void                        ExplodeString(const string& parameter_absolute_name, string &type, string& label, string& addressable, string& index);
   void                        ImplodeString(const string& type, const string& label, const string& parameter, const string& index, string& target_parameter);
   std::pair<string, string>   ExplodeParameterAndIndex(const string& parameter_absolute_name);
 
