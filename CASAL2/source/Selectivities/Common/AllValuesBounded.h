@@ -36,7 +36,7 @@ public:
 
 protected:
   //Methods
-  Double                      GetLengthBasedResult(unsigned age, AgeLength* age_length) override final;
+  Double                      GetLengthBasedResult(unsigned age, AgeLength* age_length, unsigned year = 0, int time_step_index = -1) override final;
 
 private:
   // Members

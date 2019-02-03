@@ -112,6 +112,18 @@ vector<unsigned> Model::years() const {
   return years;
 }
 
+vector<unsigned> Model::years_all() const {
+  vector<unsigned> years;
+  unsigned year;
+  for (year = start_year_; year <= final_year_; ++year)
+    years.push_back(year);
+  for (; year <= projection_final_year_; ++year)
+    years.push_back(year);
+
+  return years;
+}
+
+
 /**
  *
  */
@@ -375,6 +387,8 @@ void Model::Build() {
     if (length_bins_.size() > 0)
       partition_->BuildAgeLengthProportions();
   }
+
+  managers_->Reset();
 }
 
 /**
@@ -579,7 +593,15 @@ bool Model::RunMCMC() {
     // reset RNG seed for resume
     utilities::RandomNumberGenerator::Instance().Reset((unsigned int)time(NULL));
 
-  } else {
+  } else if (!global_configuration_->skip_estimation()){
+    /**
+     * Note: This should only be called when running Casal2 in a standalone executable
+     * as it must use the same build profit (autodiff or not) as the MCMC. When
+     * using the front end application, skip_estimation will be flagged as true.
+     *
+     * This is because the front end handles the minimisation to generate the MPD file
+     * and Covariance matrix for use by the MCMC
+     */
     LOG_FINE() << "Calling minimiser to find our minimum and covariance matrix";
     auto minimiser = managers_->minimiser()->active_minimiser();
     if((minimiser->type() == PARAM_DE_SOLVER) | (minimiser->type() == PARAM_DLIB))
@@ -817,11 +839,11 @@ void Model::Iterate() {
   niwa::partition::accessors::All all_view(this);
 
   state_ = State::kInitialise;
-  current_year_ = start_year_;
+  current_year_ = start_year_; // TODO: Fix this
   // Iterate over all partition members and UpDate Mean Weight for the inital weight calculations
-  for (auto iterator = all_view.Begin(); iterator != all_view.End(); ++iterator) {
-    (*iterator)->UpdateMeanLengthData();
-  }
+//  for (auto iterator = all_view.Begin(); iterator != all_view.End(); ++iterator) {
+//    (*iterator)->UpdateMeanLengthData();
+//  }
   initialisationphases::Manager& init_phase_manager = *managers_->initialisation_phase();
   init_phase_manager.Execute();
   managers_->report()->Execute(State::kInitialise);

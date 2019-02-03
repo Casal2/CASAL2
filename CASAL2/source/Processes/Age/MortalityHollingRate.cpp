@@ -97,20 +97,20 @@ void MortalityHollingRate::DoValidate() {
   }
   LOG_TRACE();
   LOG_FINEST() << "prey = " << parameters_.Get(PARAM_PREY_SELECTIVITIES)->has_been_defined();
-  LOG_FINEST() << "prey by year = " << parameters_.GetTable(PARAM_PREY_SELECTIVITIES_BY_YEAR)->has_been_defined();
+  LOG_FINEST() << "prey by year = " << parameters_.GetTable(PARAM_PREY_SELECTIVITIES_BY_YEAR)->HasBeenDefined();
   LOG_TRACE();
   // Check how the user has selected selectivities, this is an unusal process where we allow an alternative way to parameterise the selectivity
-  if (!parameters_.Get(PARAM_PREY_SELECTIVITIES)->has_been_defined() && !parameters_.GetTable(PARAM_PREY_SELECTIVITIES_BY_YEAR)->has_been_defined()) {
+  if (!parameters_.Get(PARAM_PREY_SELECTIVITIES)->has_been_defined() && !parameters_.GetTable(PARAM_PREY_SELECTIVITIES_BY_YEAR)->HasBeenDefined()) {
     LOG_FATAL_P(PARAM_LABEL) << "you need to supply either '" << PARAM_PREY_SELECTIVITIES << "' or '" << PARAM_PREY_SELECTIVITIES_BY_YEAR << "', for this process to work";
     LOG_TRACE();
   }
-  if (parameters_.Get(PARAM_PREY_SELECTIVITIES)->has_been_defined() & parameters_.GetTable(PARAM_PREY_SELECTIVITIES_BY_YEAR)->has_been_defined())
+  if (parameters_.Get(PARAM_PREY_SELECTIVITIES)->has_been_defined() & parameters_.GetTable(PARAM_PREY_SELECTIVITIES_BY_YEAR)->HasBeenDefined())
     LOG_FATAL_P(PARAM_LABEL) << "you cannot supply both '" << PARAM_PREY_SELECTIVITIES << "' or '" << PARAM_PREY_SELECTIVITIES_BY_YEAR << "', for this process to work. Please choose one selectivity method";
   LOG_TRACE();
-  if (!parameters_.Get(PARAM_PREDATOR_SELECTIVITIES)->has_been_defined() & !parameters_.GetTable(PARAM_PREDATOR_SELECTIVITIES_BY_YEAR)->has_been_defined())
+  if (!parameters_.Get(PARAM_PREDATOR_SELECTIVITIES)->has_been_defined() & !parameters_.GetTable(PARAM_PREDATOR_SELECTIVITIES_BY_YEAR)->HasBeenDefined())
     LOG_FATAL_P(PARAM_LABEL) << "you need to supply either '" << PARAM_PREDATOR_SELECTIVITIES << "' or '" << PARAM_PREDATOR_SELECTIVITIES_BY_YEAR << "', for this process to work";
   LOG_TRACE();
-  if (parameters_.Get(PARAM_PREDATOR_SELECTIVITIES)->has_been_defined() & parameters_.GetTable(PARAM_PREDATOR_SELECTIVITIES_BY_YEAR)->has_been_defined())
+  if (parameters_.Get(PARAM_PREDATOR_SELECTIVITIES)->has_been_defined() & parameters_.GetTable(PARAM_PREDATOR_SELECTIVITIES_BY_YEAR)->HasBeenDefined())
     LOG_FATAL_P(PARAM_LABEL) << "you cannot supply both '" << PARAM_PREDATOR_SELECTIVITIES << "' or '" << PARAM_PREDATOR_SELECTIVITIES_BY_YEAR << "', for this process to work. Please choose one selectivity method";
 
   LOG_TRACE();
@@ -127,7 +127,7 @@ void MortalityHollingRate::DoValidate() {
   }
   LOG_TRACE();
   // Populate maps from tables if user has defined them
-  if (parameters_.GetTable(PARAM_PREY_SELECTIVITIES_BY_YEAR)->has_been_defined()) {
+  if (parameters_.GetTable(PARAM_PREY_SELECTIVITIES_BY_YEAR)->HasBeenDefined()) {
     prey_selectivity_by_year_supplied_ = true;
     auto columns = prey_selectivitie_table_->columns();
     if (columns.size() != (model_->age_spread() + 1) )
@@ -173,7 +173,7 @@ void MortalityHollingRate::DoValidate() {
   }
   LOG_TRACE();
   // Predator table
-  if (parameters_.GetTable(PARAM_PREDATOR_SELECTIVITIES_BY_YEAR)->has_been_defined()) {
+  if (parameters_.GetTable(PARAM_PREDATOR_SELECTIVITIES_BY_YEAR)->HasBeenDefined()) {
     predator_selectivity_by_year_supplied_ = true;
     auto columns = predator_selectivitie_table_->columns();
     if (columns.size() != (model_->age_spread() + 1) )

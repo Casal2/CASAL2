@@ -131,6 +131,9 @@ int main(int argc, char * argv[]) {
   case RunMode::kUnitTest:
     RunUnitTests(argc, argv, options);
     return return_code_;
+  case RunMode::kQuery:
+    RunBasic(argc, argv, options);
+    return return_code_;
   default:
     break;
   }
@@ -203,9 +206,14 @@ void RunConfigurationFileValidation(int argc, char * argv[], niwa::utilities::Ru
 
   RunMode::Type temp = options.run_mode_;
   options.run_mode_ = RunMode::kTesting;
+  options.no_std_report_ = true;
+  string log_level = options.log_level_;
+  options.log_level_ = "error";
 
   return_code_ = (main_method)(argc, argv, options);
   options.run_mode_  = temp;
+  options.no_std_report_ = false;
+  options.log_level_ = log_level;
 
   return;
 }
@@ -266,18 +274,25 @@ void RunEstimation(int argc, char * argv[], niwa::utilities::RunParameters &opti
 }
 
 /**
- * Run our MCMC. But first we want to run an Estimation
+ * Run our MCMC. But first we want to run an Estimation.
+ *
+ * This is different than the standalone executable. The standalone
+ * executable will handle the minimisation itself. With the front end application
+ * we want to handle it so we can load specific DLLs/SOs with different autodiff
+ * minimisers, then swap back to the release.dll/.so for MCMC so it's not hideously
+ * slow.
  */
 void RunMCMC(int argc, char * argv[], niwa::utilities::RunParameters &options) {
   if (!options.skip_estimation_) {
-    options.create_mpd_file_ = true;
-    options.no_std_report_   = true;
+    options.create_mpd_file_ = true; // used by MCMC to load covariance matrix
+    options.no_std_report_   = true; // otherwise, we get the report twice
     options.run_mode_        = RunMode::kEstimation;
     RunEstimation(argc, argv, options);
     if (return_code_ != 0)
       return;
   }
 
+  options.skip_estimation_ = true; // Stop the model from re-estimating
   options.run_mode_        = RunMode::kMCMC;
   RunBasic(argc, argv, options);
 }

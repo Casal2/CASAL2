@@ -83,6 +83,9 @@ vector<std::string> String::explode(const std::string& source) {
       result.push_back(index);
   }
 
+  for (auto& str_value: result)
+    boost::trim(str_value);
+
   return result;
 }
 

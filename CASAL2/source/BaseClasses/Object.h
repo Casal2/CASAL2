@@ -86,7 +86,9 @@ public:
   vector<Double>*                 GetAddressableVector(const string& label);
   addressable::Type               GetAddressableType(const string& label) const;
   void                            PrintParameterQueryInfo();
-  virtual void                    RebuildCache() { };
+  virtual void                    RebuildCache();
+  void                            SubscribeToRebuildCache(Object* subscriber);
+  void                            NotifySubscribers();
 
   // pure virtual methods
   virtual void                    Reset() = 0;
@@ -97,7 +99,6 @@ public:
   string                      type() const { return type_; }
   ParameterList&              parameters() { return parameters_; }
   string                      location();
-  bool                        is_time_varying(){ return is_time_varying_; }
   bool                        is_estimated(){ return is_estimated_; }
   void                        set_block_type(string value) { block_type_ = value; parameters_.set_parent_block_type(value); }
   void                        set_label(string value) { label_ = value;}
@@ -128,6 +129,7 @@ protected:
   map<string, vector<Double*> >   addressable_custom_vectors_;
   map<string, addressable::Type>  addressable_types_;
   map<string, addressable::Usage> addressable_usage_;
+  vector<Object*>                 rebuild_cache_subscribers_;
 
   map<string, map<unsigned, Double>* >      addressable_u_maps_;
   map<string, OrderedMap<string, Double>* > addressable_s_maps_;

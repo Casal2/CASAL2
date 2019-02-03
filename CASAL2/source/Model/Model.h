@@ -86,6 +86,7 @@ public:
   bool                        projection_final_phase() {return projection_final_phase_;}
   void                        set_projection_final_phase(bool phase) {projection_final_phase_ = phase;}
   virtual vector<unsigned>    years() const;
+  virtual vector<unsigned>    years_all() const;
   unsigned                    year_spread() const;
   virtual unsigned            current_year() const { return current_year_; }
   virtual string              base_weight_units() const { return base_weight_units_; }
@@ -94,7 +95,7 @@ public:
   virtual unsigned            age_spread() const { return (max_age_ - min_age_) + 1; }
   virtual bool                age_plus() const { return age_plus_; }
   virtual const vector<string>& time_steps() const { return time_steps_; }
-  const vector<string>&       initialisation_phases() const { return initialisation_phases_; }
+  virtual const vector<string>& initialisation_phases() const { return initialisation_phases_; }
   void                        set_partition_type(PartitionType partition_type) { partition_type_ = partition_type; }
   virtual PartitionType       partition_type() const { return partition_type_; }
   virtual const vector<unsigned>&     length_bins() const { return length_bins_; }
@@ -134,7 +135,7 @@ protected:
   unsigned                    current_year_ = 0;
   unsigned                    min_age_ = 0;
   unsigned                    max_age_ = 0;
-  string                      base_weight_units_;
+  string                      base_weight_units_ = "";
   map<string, Double>         b0_;
   map<string, Double>         binitial_;
   map<string, bool>           b0_initialised_;

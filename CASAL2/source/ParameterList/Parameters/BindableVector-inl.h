@@ -108,6 +108,10 @@ void BindableVector<T>::set_allowed_values(std::initializer_list<T> list) {
  * This will be checked during the bind method and an error will be thrown if it's not
  * acceptable.
  *
+ * inclusive means the value being specified as the lower bound is also a valid value.
+ * e.g. lower_bound 0 and inclusive means value >= 0 is ok, but value < 0 is not
+ * a lower bound 0 not inclusive means value > 0 is ok, but value <= 0 is not.
+ *
  * @param lower_bound The lowest the value can be (default inclusive)
  * @param upper_bound The highest the value can be (default inclusive)
  * @param lower_inclusive Is the lower bound value inclusive (default true)
@@ -126,6 +130,10 @@ void BindableVector<T>::set_range(T lower_bound, T upper_bound, bool lower_inclu
 /**
  * This method will set an enforced lower bound only
  *
+ * inclusive means the value being specified as the lower bound is also a valid value.
+ * e.g. lower_bound 0 and inclusive means value >= 0 is ok, but value < 0 is not
+ * a lower bound 0 not inclusive means value > 0 is ok, but value <= 0 is not.
+ *
  * @param lower_bound The lower bound to set
  * @param inclusive Is the lower bound inclusive or exclusive
  */
@@ -138,6 +146,10 @@ void BindableVector<T>::set_lower_bound(T lower_bound, bool inclusive) {
 
 /**
  * This method sets an enforced upper bound and inclusive flag
+ *
+ * inclusive means the value being specified as the lower bound is also a valid value.
+ * e.g. lower_bound 0 and inclusive means value >= 0 is ok, but value < 0 is not
+ * a lower bound 0 not inclusive means value > 0 is ok, but value <= 0 is not.
  *
  * @param upper_bound the Upper bound to set for the parameter
  * @param inclusive is the upper bound inclusive or exclusive

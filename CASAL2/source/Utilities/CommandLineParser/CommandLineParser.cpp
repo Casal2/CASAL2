@@ -165,6 +165,8 @@ void CommandLineParser::Parse(int argc, char* argv[], RunParameters& options) {
   run_mode_count += parameters.count("profiling");
   run_mode_count += parameters.count("simulation");
   run_mode_count += parameters.count("projection");
+  run_mode_count += parameters.count("query");
+  run_mode_count += parameters.count("unittest");
 
   if (run_mode_count == 0)
     LOG_ERROR() << "No valid run mode has been specified on the command line. Please specify a valid run mode (e.g -r)";

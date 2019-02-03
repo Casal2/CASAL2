@@ -66,7 +66,7 @@ bool Loader::LoadConfigFile(const string& override_file_name) {
 
     file.Parse();
 
-    LOG_FINEST() << "file_lines_.size() == " << file_lines_.size();
+    LOG_FINE() << "file_lines_.size() == " << file_lines_.size();
     if (file_lines_.size() == 0)
       LOG_FATAL() << "The configuration file " << config_file << " is empty. Please specify a valid configuration file";
   }
@@ -338,9 +338,9 @@ void Loader::ParseBlock(vector<FileLine> &block) {
       vector<string> values(line_parts.begin(), line_parts.end());
 
       // We're loading a standard row of data for the table
-      if (current_table_->requires_comlums() && values.size() != current_table_->GetColumnCount()) {
+      if (current_table_->requires_comlums() && values.size() != current_table_->column_count()) {
         LOG_FATAL() << "At line " << file_line.line_number_ << " in " << file_line.file_name_
-            << ": Table data does not contain the correct number of columns. Expected (" << current_table_->GetColumnCount() << ") : Actual (" << values.size() << ")\n"
+            << ": Table data does not contain the correct number of columns. Expected (" << current_table_->column_count() << ") : Actual (" << values.size() << ")\n"
             << boost::join(values, ", ");
       }
 
@@ -367,26 +367,26 @@ void Loader::ParseBlock(vector<FileLine> &block) {
             << ": " << error;
 
       // loading a normal parameter
-//      if (!object->parameters().ignore_all_parameters()) {
-      const Parameter* parameter = object->parameters().Get(parameter_type);
-      if (!parameter) {
-        LOG_ERROR() << "At line " << file_line.line_number_ << " in " << file_line.file_name_
-            << ": Parameter '" << parameter_type << "' is not supported";
-      } else if (parameter->has_been_defined()) {
-        LOG_ERROR() << "At line " << file_line.line_number_ << " in " << file_line.file_name_
-            << ": Parameter '" << parameter_type << "' for object " << block_type
-            << " was already specified at line " << parameter->line_number() << " in " << parameter->file_name();
-      } else if (!object->parameters().Add(parameter_type, values, file_line.file_name_, file_line.line_number_)) {
-        LOG_ERROR() << "At line " << file_line.line_number_ << " in " << file_line.file_name_
-            << ": Could not add parameter '" << parameter_type << "' to block '" << block_type << "'. Parameter is not supported";
-      }
+      if (!object->parameters().ignore_all_parameters()) {
+        const Parameter* parameter = object->parameters().Get(parameter_type);
+        if (!parameter) {
+          LOG_ERROR() << "At line " << file_line.line_number_ << " in " << file_line.file_name_
+              << ": Parameter '" << parameter_type << "' is not supported";
+        } else if (parameter->has_been_defined()) {
+          LOG_ERROR() << "At line " << file_line.line_number_ << " in " << file_line.file_name_
+              << ": Parameter '" << parameter_type << "' for object " << block_type
+              << " was already specified at line " << parameter->line_number() << " in " << parameter->file_name();
+        } else if (!object->parameters().Add(parameter_type, values, file_line.file_name_, file_line.line_number_)) {
+          LOG_ERROR() << "At line " << file_line.line_number_ << " in " << file_line.file_name_
+              << ": Could not add parameter '" << parameter_type << "' to block '" << block_type << "'. Parameter is not supported";
+        }
 
-      string line = boost::algorithm::join(values, " ");
-      LOG_FINEST() << "Storing values: [" << parameter_type << "]: " << line;
-//      } else {
-//        string line = boost::algorithm::join(values, " ");
-//        LOG_FINEST() << "Ignoring values: [" << parameter_type << "]: " << line;
-//      }
+        string line = boost::algorithm::join(values, " ");
+        LOG_FINEST() << "Storing values: [" << parameter_type << "]: " << line;
+      } else {
+        string line = boost::algorithm::join(values, " ");
+        LOG_FINEST() << "Ignoring values: [" << parameter_type << "]: " << line;
+      }
     }
   }
 

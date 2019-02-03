@@ -12,6 +12,8 @@
 // headers
 #include "Managers.h"
 
+#include <vector>
+
 #include "Model/Model.h"
 #include "AdditionalPriors/Manager.h"
 #include "AgeingErrors/Manager.h"
@@ -19,6 +21,7 @@
 #include "AgeWeights/Manager.h"
 #include "Asserts/Manager.h"
 #include "Catchabilities/Manager.h"
+#include "Categories/Categories.h"
 #include "DerivedQuantities/Manager.h"
 #include "Estimables/Estimables.h"
 #include "Estimates/Manager.h"
@@ -41,6 +44,7 @@
 
 // namespaces
 namespace niwa {
+using std::vector;
 
 /**
  * Default constructor
@@ -171,17 +175,26 @@ void Managers::Build() {
 
 void Managers::Reset() {
   LOG_TRACE();
-  additional_prior_->Reset();
-  ageing_error_->Reset();
   age_length_->Reset();
   age_weight_->Reset();
+  length_weight_->Reset();
+  selectivity_->Reset();
+
+  /**
+   * Now. Update Age Lengths
+   */
+  vector<string> category_names = model_->categories()->category_names();
+  for (string category_name : category_names)
+    model_->partition().category(category_name).UpdateMeanLengthData();
+
+  additional_prior_->Reset();
+  ageing_error_->Reset();
   assert_->Reset();
   catchability_->Reset();
   derived_quantity_->Reset();
   estimate_->Reset();
   estimate_transformation_->Reset();
   initialisation_phase_->Reset();
-  length_weight_->Reset();
   likelihood_->Reset();
   if (model_->run_mode() == RunMode::kMCMC || model_->run_mode() == RunMode::kEstimation || model_->run_mode() == RunMode::kProfiling) {
     mcmc_->Reset();
@@ -194,7 +207,6 @@ void Managers::Reset() {
   profile_->Reset();
   project_->Reset();
   report_->Reset();
-  selectivity_->Reset();
   simulate_->Reset();
   time_step_->Reset();
   time_varying_->Reset();
