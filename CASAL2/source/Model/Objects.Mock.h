@@ -11,7 +11,7 @@
 
 #ifndef SOURCE_MODEL_OBJECTS_MOCK_H_
 #define SOURCE_MODEL_OBJECTS_MOCK_H_
-
+#ifdef TESTMODE
 // headers
 #include "Objects.h"
 
@@ -46,4 +46,5 @@ public:
 
 } /* namespace niwa */
 
+#endif /* TESTMODE */
 #endif /* SOURCE_MODEL_OBJECTS_MOCK_H_ */
