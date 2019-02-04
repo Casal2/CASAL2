@@ -16,6 +16,8 @@
 
 #include <iostream>
 #include <string>
+#include <gmock/gmock.h>
+#include <gtest/gtest.h>
 
 #include "Model/Managers.h"
 #include "Processes/Manager.h"

@@ -17,7 +17,7 @@ class Builder:
       'gmock_main.a',
       'libgmock_main.a',
       'libgtest.a',
-      'libgmocka',
+      'libgmock.a',
       '02libgmock.a',
       '01libgtest.a'
       ]
