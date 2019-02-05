@@ -5,7 +5,7 @@ from distutils import dir_util
 import Globals
 
 class Builder:
-  version_ = '1.8.1'
+  version_ = '1.8.2'
 
   def is_lean(self):
     return True

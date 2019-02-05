@@ -1,0 +1,60 @@
+@print # Specifies the outputs that CASAL should generate
+# estimation section
+parameters false
+fits_every_eval false
+objective_every_eval false
+parameters_every_eval false
+parameter_vector_every_eval false
+fits true
+resids true
+pearson_resids false
+normalised_resids false
+estimation_section false
+covariance True
+hessian True
+# population section
+requests true
+initial_state true
+state_annually true
+state_every_step false
+final_state true
+results false
+#output section
+yields true
+unused_parameters true
+
+@quantities
+all_free_parameters true
+fishing_pressures true
+true_YCS true
+B0 true
+R0 true
+SSBs true
+YCS true
+actual_catches false
+ogive_parameters selectivity[chatTANsel].male selectivity[chatTANsel].female selectivity[chatFsel].male selectivity[chatFsel].female
+
+@MCY_CAY
+do_MCY true
+MCY_guess 10000
+n_discard 100
+n_keep 100
+n_simulations 100
+do_CAY true
+F_CAY_guess 0.2
+interactive false
+
+@abundance MyAbundance
+biomass True
+years 1990 1991 1992 1993 1994 1995 1996 1997 1998 1999 2000 2001 2002
+ogive chatFsel
+step 2
+proportion_mortality 0.5
+
+@proportions_at MyNumbersAtAge
+years 1990 1991 1992 1993 1994 1995 1996 1997 1998 1999 2000 2001 2002
+sexed True
+ogive chatFsel
+step 2
+proportion_mortality 0.5
+
