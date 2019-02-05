@@ -68,6 +68,19 @@ void Manager<ClassType, StoredType>::Reset() {
   }
 }
 
+/**
+ * This method will iterate over all of the objects
+ * held by this manager looking for a specific type.
+ *
+ */
+template <class ClassType, class StoredType>
+bool Manager<ClassType, StoredType>::HasType(const std::string& type) {
+  for(auto stored_object : objects_) {
+    if (stored_object->type() == type)
+      return true;
+  }
+  return false;
+}
 
 } /* namespae base */
 } /* namespace niwa */

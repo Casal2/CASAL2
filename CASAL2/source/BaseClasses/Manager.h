@@ -46,6 +46,7 @@ public:
   virtual void                Reset();
   void                        AddObject(StoredType* object) { objects_.push_back(object); }
   virtual void                Clear() { objects_.clear(); }
+  bool                        HasType(const std::string& type);
 
   // Accessors/mutators
   vector<StoredType*>         objects() { return objects_; }

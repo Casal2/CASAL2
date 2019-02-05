@@ -24,6 +24,9 @@ void Manager::Validate() {
   LOG_CODE_ERROR() << "This method is not supported";
 }
 
+/**
+ *
+ */
 void Manager::Validate(Model* model) {
   for (auto mcmc : objects_)
     mcmc->Validate();
