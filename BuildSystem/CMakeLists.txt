@@ -109,7 +109,10 @@ ENDFOREACH()
 FOREACH(library ${specialLibraries})
 SET(thirdPartyLibraries ${thirdPartyLibraries} ${library})
 ENDFOREACH()
+
+IF (TEST)
 LIST(SORT thirdPartyLibraries)
+ENDIF()
 
 SET(LINK_OPTIONS " ")
 
