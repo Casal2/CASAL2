@@ -544,7 +544,7 @@ For example, to apply ageing to the categories \texttt{immature} and \texttt{mat
 
 \subsubsection{\I{Mortality}\label{sec:mortality}}
 
-Six types of mortality processes are permissible in \CNAME: constant rate, event, biomass-event, Hollings mortality, initialisation mortality event and instantaneous. These processes remove individuals from the partition, either as a rate, as a total number (abundance), as a biomass of individuals or as a mixture of these. Note that \CNAME\ does not (yet) implement the Baranov catch equation. However, instantaneous mortality is considered an approximation to the Baranov catch equation. To apply both natural and biomass-event mortality \texttt{mortality\_instantaneous} can be specified. Note that all mortality processes occur within a mortality block of a time step see Section~\ref{sec:mortality_block} for more information and definitions on mortality blocks. 
+Seven types of mortality processes are permissible in \CNAME: constant rate, event, biomass-event, instantaneous, Hollings, initialisation, and a density-dependent relationship based on prey suitability. These processes remove individuals from the partition, either as a rate, as a total number (abundance), as a biomass of individuals or as a mixture of these. Note that \CNAME\ does not (yet) implement the Baranov catch equation. However, instantaneous mortality is considered an approximation to the Baranov catch equation. To apply both natural and biomass-event mortality \texttt{mortality\_instantaneous} can be specified. Note that all mortality processes occur within a mortality block of a time step see Section~\ref{sec:mortality_block} for more information and definitions on mortality blocks. 
 
 \paragraph{Constant mortality rate}
 To specify a constant annual mortality rate \index{Constant mortality}(e.g. $M=0.2$) for categories `male' and `female', then, 
@@ -813,7 +813,79 @@ processes Recruitment Instantaneous_Mortality
 
 Note how the \texttt{initialisation\_mortality\_event} has been specified in the initialisation phase \texttt{Predation\_state} but not in the annual cycle.
 
+\paragraph{Prey-suitability mortality}
 
+The density-dependent prey-suitability process\index{Density-dependent prey-suitability} applies predation mortality from a predator group to its prey groups simultaneously. It removes an abundance (or biomass) from each prey group according to the total (selected) abundance (or biomass) of each prey group, the total (selected) abundance (or biomass) of the other prey groups, some 'predator' abundance (or biomass), and the preference (electivity) of the predator to each prey group, but constrained by a maximum exploitation rate. The predator-prey suitability functions were based on the multispecies Virtual Population Analysis (MSVPA) functions described by \citep{JuradoMolina2005}.
+
+For example, the mortality applied to the user-defined prey group $g$ of category $k$, with the numbers removed at age $l$ determined by a selectivity-at-age $S(l)$ is applied as follows:
+
+First, calculate the total predator abundance (or biomass) over all predator categories $k$ in $1 \ldots K$ and ages $l = 1 \ldots L$ that are applying the mortality,
+\begin{equation}
+P(k,l) = S_{predator}(l) N_{predator}(k,l)
+\end{equation}
+
+And define the total predator abundance (or biomass) $P_{total}$ as,
+\begin{equation}
+P_{total}  = \sum\limits_K {\sum\limits_L {P(k,l)}} 
+\end{equation}
+
+Then, given the total vulnerable abundance (or biomass) of prey group $g$ over all categories $k$ in $1 \ldots K$ and ages $l = 1 \ldots L$ that are subject to the mortality,
+\begin{equation}
+V(g,k,l) = S_{prey}(l) N_{prey}(k,l)
+\end{equation}
+
+And define the total vulnerable abundance (or biomass) of each prey group $V(g)_{total}$ as,
+\begin{equation}
+V(g)_{total}  = \sum\limits_K {\sum\limits_L {V(g,k,l)}} 
+\end{equation}
+
+And the total availability $A(g)_{total}$ for each prey group as,
+\begin{equation}
+A(g)_{total} = \frac{V(g)_{total}}{\sum\limits_G {V(i)_{total}}}
+\end{equation}
+
+The vulnerable abundance (or biomass) and availability every prey group $g$ in $1 \ldots G$ is calculated simultaneously. Then the abundance (or biomass) to remove from each prey group $g$ is a function of its electivity $E(g)$, the availability of all other prey groups $i$ in $1 \ldots G$, the electivity of the predator for each prey group $E(i)$, and the total consumption rate of the predator $CR$ and its abundance (or biomass) $P_{total}$,
+\begin{equation}
+R(g)_{total}=P_{total} CR \frac{A(g)_{total} E(g)}{\sum\limits_G {A(i)_{total} E(i)}}
+\end{equation}
+
+Hence the exploitation rate\index{Maximum exploitation rate} to apply to each prey group $g$ is 
+\begin{equation}
+U(g) = \begin{cases}
+R(g)_{total}/V(g)_{total}, & \text{if $R(g)_{total}/V(g)_{total} \leq U_{max}$} \\
+U_{max}, & \text{otherwise}\\ 
+\end{cases} 
+\end{equation}
+
+And the number removed $R(g)$ in each prey group $g$ from each age $l$ in category $k$ is,
+\begin{equation}
+R(g,k,l) = U(g)V(g,k,l)
+\end{equation}
+
+Note that prey suitability choice occurs only between prey groups specified by the process, and the total predator consumption rate represents the consumption of the predator on those prey groups alone. Also note that the electivities must sum to one. Further, the consumption rate can be modified by a layer, to be cell specific. 
+
+The density-dependent prey-suitability process is applied as either a biomass or an abundance depending on the value of the \subcommand{is\_abundance} switch.
+
+Individual categories can be aggregated into prey groups using the '+' symbol. To indicate that two (or more) categories are to be aggregated, separate them with a '+' symbol. For example, to specify two prey groups of two species made up of the males and females in each, then the subcommand would be,
+
+{\small{\begin{verbatim}
+		prey_categories maleSpeciesA + femaleSpeciesA maleSpeciesB + femaleSpeciesB
+		\end{verbatim}}}
+
+This would indicate that there are two prey groups, \texttt{maleSpeciesA + femaleSpeciesA} and \texttt{maleSpeciesB + femaleSpeciesB}, with each group having its own electivity. For example, a biomass prey-suitability mortality process with an overall consumption rate of $0.8$ of \texttt{species A} and \texttt{species B} (modelled as males and females) by our predator \texttt{predatorSpecies} with electivities between \texttt{species A} and \texttt{species B} of $0.18$ and $0.82$ would have syntax,
+
+{\small{\begin{verbatim}
+		@process PreySuitabilityMortality
+		type prey-suitability_predation
+		is_abundance F
+		consumption_rate 0.8
+		categories maleSpeciesA + femaleSpeciesA maleSpeciesB + femaleSpeciesB
+		electivities 0.18 0.82
+		selectivities One One One One
+		predator_categories predatorSpecies
+		predator_selectivities One
+		u_max 0.8
+		\end{verbatim}}}
 
 \subsubsection{\I{Transition By Category}}
 
