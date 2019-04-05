@@ -4,7 +4,7 @@ This section describes how to set up the environment on your local machine that 
 
 \subsection{Overview}
 
-The build system is made up of a collection of python scripts that do various tasks. These are located in \path{CASAL2/BuildSystem/buildtools/classes/}. Each python script has it’s own set of functionality and undertakes one set of actions. 
+The build system is made up of a collection of python scripts that do various tasks. These are located in \path{CASAL2/BuildSystem/buildtools/classes/}. Each python script has it’s own set of functionality and undertakes one set of actions.
 
 The top level of the build system can be found at \path{CASAL2/BuildSystem/}. In this directory you can run \texttt{doBuild.bat help} from the command line in Microsoft Windows systems or \texttt{./doBuild.sh help} from a terminal in Linux systems.
  - this doesn't make sense.
@@ -12,7 +12,7 @@ The build system will take one or two parameters depending on what style of buil
 
 A summary of all of the doBuild arguments can be found using the command \texttt{doBuild help} in the BuildSystem directory.
 
-The current arguments to doBuild are: 
+The current arguments to doBuild are:
 
 \begin{itemize}
   \item \texttt{debug}:  Build standalone debug executable
@@ -23,7 +23,7 @@ The current arguments to doBuild are:
   \item \texttt{thirdpartylean}: Build minimal third party libraries
   \item \texttt{clean}: Remove any previous debug/release build information
   \item \texttt{cleanall}: Remove all previous build information
-  \item \texttt{archive}: Build a zipped archive of the application. The application is built using shared libraries so a single \CNAME executable is created. 
+  \item \texttt{archive}: Build a zipped archive of the application. The application is built using shared libraries so a single \CNAME executable is created.
   \item \texttt{check}: Do a check of the build system
   \item \texttt{modelrunner}: Run the test suite of models
   \item \texttt{installer}: Build an installer package
@@ -69,7 +69,7 @@ For example:
 
 \subsubsection{Prerequisite Software}
 
-The building of \CNAME\ requires additional build tools and software, including git version control, GCC compiler, LaTex compiler, and an Windows package builder. \CNAME\ requires specific implementations and versions in order to build. 
+The building of \CNAME\ requires additional build tools and software, including git version control, GCC compiler, LaTeX compiler, and an Windows package builder. \CNAME\ requires specific implementations and versions in order to build.
 
 \textbf{C++ and Fortran Compiler}
 
@@ -82,18 +82,18 @@ Source: tdm-gcc (MingW64) from \url{http://www.tdm-gcc.tdragon.net/}.
 
 Source: Command line GIT from \url{https://www.git-scm.com/downloads}.
 
-\CNAME\ automatically adds a version number based on the GIT version of the latest commit to its repository. The command line version of GIT is used  to generate a version number for the compiled binaries, R libraries, and the manuals. 
+\CNAME\ automatically adds a version number based on the GIT version of the latest commit to its repository. The command line version of GIT is used  to generate a version number for the compiled binaries, R libraries, and the manuals.
 
 \textbf{MiKTeX Latex Processor}
 
-Source: Portable version from \url{http://www.miktex.org/portable}. 
+Source: Portable version from \url{http://www.miktex.org/portable}.
 
 The main user documentation for \CNAME\ is a PDF manual generated from LaTeX. The LaTeX syntax sections of the documentation are generated, in part, directly from the code. In order to regenerate the user documentation, you will need the MiKTeX LaTeX compiler.
 
 \textbf{7-Zip}
 
 Source: 7-Zip from \url{http://www.7-zip.org/download.html}.
-	
+
 The BuildSystem calls 7zip.exe to unzip files in the build system; it is advised to have this in the path.
 
 \textbf{Inno Setup Installer Builder (optional)}
@@ -110,7 +110,7 @@ Prior to building \CNAME\ you will need to ensure you have both G++ and GIT in y
 
 \texttt{git --version}
 
-This also allows you to check that there are no alternative versions of a GCC compiler that may confuse the \CNAME\ build. 
+This also allows you to check that there are no alternative versions of a GCC compiler that may confuse the \CNAME\ build.
 
 It’s worth checking to ensure GFortran has been installed with the G++ compiler by typing:
 
@@ -125,7 +125,7 @@ If you wish to build the documentation bibtex will also need to be in the path:
 The build process is relatively straightforward. You can run \texttt{doBuild check} to see if your build environment is ready.
 
 \begin{enumerate}
-  \item Get a copy (clone) of the forked code on your local machine, mentioned in Section~\ref{sec:local_repo}: 
+  \item Get a copy (clone) of the forked code on your local machine, mentioned in Section~\ref{sec:local_repo}:
   \item Navigate to the BuildSystem folder in \path{CASAL2/BuildSystem}
   \item You need to build the third party libraries with:
   \begin{itemize}
@@ -134,11 +134,11 @@ The build process is relatively straightforward. You can run \texttt{doBuild che
   \item You need to build the binary you want to use:
   \begin{itemize}
     \item \texttt{doBuild release}
-  \end{itemize}	
+  \end{itemize}
   \item You can build the documentation if you want:
   \begin{itemize}
     \item \texttt{doBuild documentation}
-  \end{itemize}		
+  \end{itemize}
 \end{enumerate}
 
 \subsection{Building on Linux}
@@ -155,7 +155,7 @@ Ubuntu 15.10 comes with G++ 15.10, gfortran is not installed though so we can in
 
 Git isn't installed by default but we can install it with \texttt{sudo apt-get install git}
 
-\CNAME\ automatically adds a version number based on the GIT version of the latest commit to its repository. The command line version of GIT is used  to generate a version number for the compiled binaries, R libraries, and the manuals. 
+\CNAME\ automatically adds a version number based on the GIT version of the latest commit to its repository. The command line version of GIT is used  to generate a version number for the compiled binaries, R libraries, and the manuals.
 
 \textbf{CMake}
 
@@ -180,7 +180,7 @@ Alternatively you can install the complete package:
 The build process is relatively straightforward. You can run \texttt{./doBuild.sh check} to see if your build environment is ready.
 
 \begin{enumerate}
-	\item Get a copy (clone) of the forked code on your local machine, mentioned in Section~\ref{sec:local_repo}: 
+	\item Get a copy (clone) of the forked code on your local machine, mentioned in Section~\ref{sec:local_repo}:
 	\item Navigate to the BuildSystem folder in \path{CASAL2/BuildSystem}
 	\item You need to build the third party libraries with:
 	\begin{itemize}
@@ -189,11 +189,11 @@ The build process is relatively straightforward. You can run \texttt{./doBuild.s
 	\item You need to build the binary you want to use:
 	\begin{itemize}
 		\item \texttt{./doBuild.sh release}
-	\end{itemize}	
+	\end{itemize}
 	\item You can build the documentation if you want:
 	\begin{itemize}
 		\item \texttt{./doBuild.sh documentation}
-	\end{itemize}		
+	\end{itemize}
 \end{enumerate}
 
 \subsection{Troubleshooting}
