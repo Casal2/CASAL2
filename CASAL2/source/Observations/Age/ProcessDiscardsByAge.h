@@ -28,7 +28,7 @@
 
   <meta name="viewport" content="width=device-width">
   
-  <title>CASAL2/MortalityInstantaneous.h at Discards · Craig44/CASAL2</title>
+  <title>CASAL2/ProcessDiscardsByAge.h at Discards · Craig44/CASAL2</title>
     <meta name="description" content="Integrated Population Dynamics Model (CASAL2). Contribute to Craig44/CASAL2 development by creating an account on GitHub.">
     <link rel="search" type="application/opensearchdescription+xml" href="/opensearch.xml" title="GitHub">
   <link rel="fluid-icon" href="https://github.com/fluidicon.png" title="GitHub">
@@ -38,10 +38,10 @@
     <meta property="og:image" content="https://avatars2.githubusercontent.com/u/13144077?s=400&amp;v=4" /><meta property="og:site_name" content="GitHub" /><meta property="og:type" content="object" /><meta property="og:title" content="Craig44/CASAL2" /><meta property="og:url" content="https://github.com/Craig44/CASAL2" /><meta property="og:description" content="Integrated Population Dynamics Model (CASAL2). Contribute to Craig44/CASAL2 development by creating an account on GitHub." />
 
   <link rel="assets" href="https://github.githubassets.com/">
-  <link rel="web-socket" href="wss://live.github.com/_sockets/VjI6Mzg3NTI5MDcwOjhhNmEzMDczYjRkMzE5MjZhMGQxNDQ1NDkwYzU4MDI0NGRmMTU4YWE0MTFhNWExYzg3NzgzY2Q3NTIyMTlhNmQ=--a47e80fd30f968f442a2b15747b3c1b070205d52">
+  <link rel="web-socket" href="wss://live.github.com/_sockets/VjI6Mzg3NTI5MDcwOjYyODc5ZjlkMDhlZmYyOTJlNjYyMTZlYzEyNGRiOWMwZTgxNmNkNDU3MGYwNDM1ZDQyMjJkYmI4NjA5Yjg1ZjU=--f63259add2182d90c2862a2523672a13fff16ebd">
   <meta name="pjax-timeout" content="1000">
   <link rel="sudo-modal" href="/sessions/sudo_modal">
-  <meta name="request-id" content="E77A:2091:1573EC:2096EA:5CAE90A3" data-pjax-transient>
+  <meta name="request-id" content="E77A:2091:151FC1:201601:5CAE9004" data-pjax-transient>
 
 
   
@@ -52,7 +52,7 @@
     <meta name="google-site-verification" content="ZzhVyEFwb7w3e0-uOTltm8Jsck2F5StVihD0exw2fsA">
     <meta name="google-site-verification" content="GXs5KoUUkNCoaAZn7wPN-t01Pywp9M3sEjnt_3_ZWPc">
 
-  <meta name="octolytics-host" content="collector.githubapp.com" /><meta name="octolytics-app-id" content="github" /><meta name="octolytics-event-url" content="https://collector.githubapp.com/github-external/browser_event" /><meta name="octolytics-dimension-request_id" content="E77A:2091:1573EC:2096EA:5CAE90A3" /><meta name="octolytics-dimension-region_edge" content="sea" /><meta name="octolytics-dimension-region_render" content="iad" /><meta name="octolytics-actor-id" content="17199130" /><meta name="octolytics-actor-login" content="SamikDatta" /><meta name="octolytics-actor-hash" content="da4f803ea03729007c9ca38662f19060a2be82e31edf46e7baae18912d512367" />
+  <meta name="octolytics-host" content="collector.githubapp.com" /><meta name="octolytics-app-id" content="github" /><meta name="octolytics-event-url" content="https://collector.githubapp.com/github-external/browser_event" /><meta name="octolytics-dimension-request_id" content="E77A:2091:151FC1:201601:5CAE9004" /><meta name="octolytics-dimension-region_edge" content="sea" /><meta name="octolytics-dimension-region_render" content="iad" /><meta name="octolytics-actor-id" content="17199130" /><meta name="octolytics-actor-login" content="SamikDatta" /><meta name="octolytics-actor-hash" content="da4f803ea03729007c9ca38662f19060a2be82e31edf46e7baae18912d512367" />
 <meta name="analytics-location" content="/&lt;user-name&gt;/&lt;repo-name&gt;/blob/show" data-pjax-transient="true" />
 
 
@@ -71,7 +71,7 @@
     <meta name="user-login" content="SamikDatta">
 
       <meta name="expected-hostname" content="github.com">
-    <meta name="js-proxy-site-detection-payload" content="MGFlYjI0MWQ0ZjBhNTVkYmNkZjBhZWM0MGM4MDYyMWY5NWFjMDcxYmFjMzc5NzRlMDY4NGJhZWEzNzI0ZWYzOHx7InJlbW90ZV9hZGRyZXNzIjoiMjAyLjM2LjI5LjI1MyIsInJlcXVlc3RfaWQiOiJFNzdBOjIwOTE6MTU3M0VDOjIwOTZFQTo1Q0FFOTBBMyIsInRpbWVzdGFtcCI6MTU1NDk0NDE4MCwiaG9zdCI6ImdpdGh1Yi5jb20ifQ==">
+    <meta name="js-proxy-site-detection-payload" content="MTU3YmRkMTY3YWIzODgzNmJiMjhhYjI1Y2FhMThlZjVlMjViNWZhOGU3NGQwYTJmNzE3YTE1MzJiY2RjMGE0Y3x7InJlbW90ZV9hZGRyZXNzIjoiMjAyLjM2LjI5LjI1MyIsInJlcXVlc3RfaWQiOiJFNzdBOjIwOTE6MTUxRkMxOjIwMTYwMTo1Q0FFOTAwNCIsInRpbWVzdGFtcCI6MTU1NDk0NDAyMywiaG9zdCI6ImdpdGh1Yi5jb20ifQ==">
 
     <meta name="enabled-features" content="UNIVERSE_BANNER,MARKETPLACE_INVOICED_BILLING,MARKETPLACE_ENTERPRISE_CONTACTS,MARKETPLACE_SOCIAL_PROOF_CUSTOMERS,MARKETPLACE_TRENDING_SOCIAL_PROOF,MARKETPLACE_RECOMMENDATIONS,NOTIFY_ON_BLOCK,RELATED_ISSUES">
 
@@ -87,7 +87,7 @@
   <meta name="octolytics-dimension-user_id" content="13144077" /><meta name="octolytics-dimension-user_login" content="Craig44" /><meta name="octolytics-dimension-repository_id" content="151049459" /><meta name="octolytics-dimension-repository_nwo" content="Craig44/CASAL2" /><meta name="octolytics-dimension-repository_public" content="true" /><meta name="octolytics-dimension-repository_is_fork" content="true" /><meta name="octolytics-dimension-repository_parent_id" content="11081259" /><meta name="octolytics-dimension-repository_parent_nwo" content="NIWAFisheriesModelling/CASAL2" /><meta name="octolytics-dimension-repository_network_root_id" content="11081259" /><meta name="octolytics-dimension-repository_network_root_nwo" content="NIWAFisheriesModelling/CASAL2" /><meta name="octolytics-dimension-repository_explore_github_marketplace_ci_cta_shown" content="false" />
 
 
-    <link rel="canonical" href="https://github.com/Craig44/CASAL2/blob/Discards/CASAL2/source/Processes/Age/MortalityInstantaneous.h" data-pjax-transient>
+    <link rel="canonical" href="https://github.com/Craig44/CASAL2/blob/Discards/CASAL2/source/Observations/Age/ProcessDiscardsByAge.h" data-pjax-transient>
 
 
   <meta name="browser-stats-url" content="https://api.github.com/_private/browser/stats">
@@ -153,7 +153,7 @@
           aria-autocomplete="list"
           aria-controls="jump-to-results"
           aria-label="Search or jump to…"
-          data-jump-to-suggestions-path="/_graphql/GetSuggestedNavigationDestinations#csrf-token=RCrqwEhtYkpWy4HkJb32QehlQA2ur/u4MjLW51oaAV5TQekTr959v8UfsCxXG2t8XopJqrQosnTwehH91rr+qA=="
+          data-jump-to-suggestions-path="/_graphql/GetSuggestedNavigationDestinations#csrf-token=1qTm6WUkckqoF4DoAiNgycsYg+S36FyqKnuxUeN6Cl/Bz+U6gpdtvzvDsSBwhf30ffeKQ61vFWboM3ZLb9r1qQ=="
           spellcheck="false"
           autocomplete="off"
           >
@@ -362,7 +362,7 @@
       
 <div class="js-user-status-container user-status-compact" data-team-hovercards-enabled>
   <details class="js-user-status-details details-reset details-overlay details-overlay-dark">
-    <summary class="btn-link no-underline js-toggle-user-status-edit toggle-user-status-edit width-full " aria-haspopup="dialog" role="menuitem" data-hydro-click="{&quot;event_type&quot;:&quot;user_profile.click&quot;,&quot;payload&quot;:{&quot;profile_user_id&quot;:13144077,&quot;target&quot;:&quot;EDIT_USER_STATUS&quot;,&quot;user_id&quot;:17199130,&quot;client_id&quot;:&quot;36246073.1553572633&quot;,&quot;originating_request_id&quot;:&quot;E77A:2091:1573EC:2096EA:5CAE90A3&quot;,&quot;originating_url&quot;:&quot;https://github.com/Craig44/CASAL2/blob/Discards/CASAL2/source/Processes/Age/MortalityInstantaneous.h&quot;,&quot;referrer&quot;:&quot;https://github.com/Craig44/CASAL2/tree/Discards/CASAL2/source/Processes/Age&quot;}}" data-hydro-click-hmac="dcd975e2089de47b34b841f513c12353671450d178f1a2b5cd55eb4742e0f0c0">
+    <summary class="btn-link no-underline js-toggle-user-status-edit toggle-user-status-edit width-full " aria-haspopup="dialog" role="menuitem" data-hydro-click="{&quot;event_type&quot;:&quot;user_profile.click&quot;,&quot;payload&quot;:{&quot;profile_user_id&quot;:13144077,&quot;target&quot;:&quot;EDIT_USER_STATUS&quot;,&quot;user_id&quot;:17199130,&quot;client_id&quot;:&quot;36246073.1553572633&quot;,&quot;originating_request_id&quot;:&quot;E77A:2091:151FC1:201601:5CAE9004&quot;,&quot;originating_url&quot;:&quot;https://github.com/Craig44/CASAL2/blob/Discards/CASAL2/source/Observations/Age/ProcessDiscardsByAge.h&quot;,&quot;referrer&quot;:&quot;https://github.com/Craig44/CASAL2/tree/Discards/CASAL2/source/Observations/Age&quot;}}" data-hydro-click-hmac="6149319414b6a487ba1f41e193dec84489cd60c9016dd1f4c20c775699c2c9e0">
       <div class="f6 d-inline-block v-align-middle  user-status-emoji-only-header pl-0 circle lh-condensed user-status-header " style="max-width: 29px">
         <div class="user-status-emoji-container flex-shrink-0 mr-1">
           <svg class="octicon octicon-smiley" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M8 0C3.58 0 0 3.58 0 8s3.58 8 8 8 8-3.58 8-8-3.58-8-8-8zm4.81 12.81a6.72 6.72 0 0 1-2.17 1.45c-.83.36-1.72.53-2.64.53-.92 0-1.81-.17-2.64-.53-.81-.34-1.55-.83-2.17-1.45a6.773 6.773 0 0 1-1.45-2.17A6.59 6.59 0 0 1 1.21 8c0-.92.17-1.81.53-2.64.34-.81.83-1.55 1.45-2.17.62-.62 1.36-1.11 2.17-1.45A6.59 6.59 0 0 1 8 1.21c.92 0 1.81.17 2.64.53.81.34 1.55.83 2.17 1.45.62.62 1.11 1.36 1.45 2.17.36.83.53 1.72.53 2.64 0 .92-.17 1.81-.53 2.64-.34.81-.83 1.55-1.45 2.17zM4 6.8v-.59c0-.66.53-1.19 1.2-1.19h.59c.66 0 1.19.53 1.19 1.19v.59c0 .67-.53 1.2-1.19 1.2H5.2C4.53 8 4 7.47 4 6.8zm5 0v-.59c0-.66.53-1.19 1.2-1.19h.59c.66 0 1.19.53 1.19 1.19v.59c0 .67-.53 1.2-1.19 1.2h-.59C9.53 8 9 7.47 9 6.8zm4 3.2c-.72 1.88-2.91 3-5 3s-4.28-1.13-5-3c-.14-.39.23-1 .66-1h8.59c.41 0 .89.61.75 1z"/></svg>
@@ -372,7 +372,7 @@
           <span class="link-gray">Set your status</span>
       </div>
 </summary>    <details-dialog class="details-dialog rounded-1 anim-fade-in fast Box Box--overlay" role="dialog" tabindex="-1">
-      <!-- '"` --><!-- </textarea></xmp> --></option></form><form class="position-relative flex-auto js-user-status-form" action="/users/status?compact=1&amp;link_mentions=0&amp;truncate=1" accept-charset="UTF-8" method="post"><input name="utf8" type="hidden" value="&#x2713;" /><input type="hidden" name="_method" value="put" /><input type="hidden" name="authenticity_token" value="Y+foQeuN1eu79hYqG7S24kZKmaczAUYaZfEL8Ov7p8iuq67FhWcVhHK8fV9N/c4TBkEKK6uql5OXG6kbkBIWGw==" />
+      <!-- '"` --><!-- </textarea></xmp> --></option></form><form class="position-relative flex-auto js-user-status-form" action="/users/status?compact=1&amp;link_mentions=0&amp;truncate=1" accept-charset="UTF-8" method="post"><input name="utf8" type="hidden" value="&#x2713;" /><input type="hidden" name="_method" value="put" /><input type="hidden" name="authenticity_token" value="g0qJvSeLt+2wQPSGWMuonTDER5mCXiJdV/+7sM8O9HJOBs85SWF3gnkKn/MOgtBscM/UFRr189SlFRlbtOdFoQ==" />
         <div class="Box-header bg-gray border-bottom p-3">
           <button class="Box-btn-octicon js-toggle-user-status-edit btn-octicon float-right" type="reset" aria-label="Close dialog" data-close-dialog>
             <svg class="octicon octicon-x" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M7.48 8l3.75 3.75-1.48 1.48L6 9.48l-3.75 3.75-1.48-1.48L4.52 8 .77 4.25l1.48-1.48L6 6.52l3.75-3.75 1.48 1.48L7.48 8z"/></svg>
@@ -484,17 +484,17 @@
       </li>
       <li class="dropdown-divider" role="none"></li>
         <li>
-          <button type="button" class="btn-link dropdown-item ws-normal js-user-status-expire-button" title="in 30 minutes" value="2019-04-11T13:26:20+12:00">
+          <button type="button" class="btn-link dropdown-item ws-normal js-user-status-expire-button" title="in 30 minutes" value="2019-04-11T13:23:43+12:00">
             in 30 minutes
           </button>
         </li>
         <li>
-          <button type="button" class="btn-link dropdown-item ws-normal js-user-status-expire-button" title="in 1 hour" value="2019-04-11T13:56:20+12:00">
+          <button type="button" class="btn-link dropdown-item ws-normal js-user-status-expire-button" title="in 1 hour" value="2019-04-11T13:53:43+12:00">
             in 1 hour
           </button>
         </li>
         <li>
-          <button type="button" class="btn-link dropdown-item ws-normal js-user-status-expire-button" title="in 4 hours" value="2019-04-11T16:56:20+12:00">
+          <button type="button" class="btn-link dropdown-item ws-normal js-user-status-expire-button" title="in 4 hours" value="2019-04-11T16:53:43+12:00">
             in 4 hours
           </button>
         </li>
@@ -541,7 +541,7 @@
     <div class="dropdown-divider"></div>
     <a role="menuitem" class="dropdown-item" href="https://help.github.com" data-ga-click="Header, go to help, text:help">Help</a>
     <a role="menuitem" class="dropdown-item" href="/settings/profile" data-ga-click="Header, go to settings, icon:settings">Settings</a>
-    <!-- '"` --><!-- </textarea></xmp> --></option></form><form class="logout-form" action="/logout" accept-charset="UTF-8" method="post"><input name="utf8" type="hidden" value="&#x2713;" /><input type="hidden" name="authenticity_token" value="JUo4Xfk29W/XUFon+i/7oeF1vB1V4O9Cso9SzGemhnqS5LcHqVhe7UFVFhBdDWfNYYPjFliYpbkr6rFNQvTYHA==" />
+    <!-- '"` --><!-- </textarea></xmp> --></option></form><form class="logout-form" action="/logout" accept-charset="UTF-8" method="post"><input name="utf8" type="hidden" value="&#x2713;" /><input type="hidden" name="authenticity_token" value="NjtLMD5KUKsjGWdtiWeLYXI+i5j7YxTUURrdn7pCFk+BlcRqbiT7KbUcK1ouRRcN8sjUk/YbXi/Ifz4enxBIKQ==" />
       
       <button type="submit" class="dropdown-item dropdown-signout" data-ga-click="Header, sign out, icon:logout" role="menuitem">
         Sign out
@@ -587,10 +587,10 @@
 
   <li>
     
-    <!-- '"` --><!-- </textarea></xmp> --></option></form><form data-remote="true" class="clearfix js-social-form js-social-container" action="/notifications/subscribe" accept-charset="UTF-8" method="post"><input name="utf8" type="hidden" value="&#x2713;" /><input type="hidden" name="authenticity_token" value="kcaqYExzEIXVNHmDToaEdRpQ2wZNgUDV5/FDdUXuC2flzHJGBgNUa1xvpKFDRnlEuh54liw7jM0sO2FdIjzdHg==" />      <input type="hidden" name="repository_id" value="151049459">
+    <!-- '"` --><!-- </textarea></xmp> --></option></form><form data-remote="true" class="clearfix js-social-form js-social-container" action="/notifications/subscribe" accept-charset="UTF-8" method="post"><input name="utf8" type="hidden" value="&#x2713;" /><input type="hidden" name="authenticity_token" value="8v1P80R6T2GjN9AiMqhIjVIhOBoqS/EjuOIvRMQ77nyG95fVDgoLjypsDQA/aLW88m+bikvxPTtzKA1so+k4BQ==" />      <input type="hidden" name="repository_id" value="151049459">
 
       <details class="details-reset details-overlay select-menu float-left">
-        <summary class="select-menu-button float-left btn btn-sm btn-with-count" data-hydro-click="{&quot;event_type&quot;:&quot;repository.click&quot;,&quot;payload&quot;:{&quot;target&quot;:&quot;WATCH_BUTTON&quot;,&quot;repository_id&quot;:151049459,&quot;client_id&quot;:&quot;36246073.1553572633&quot;,&quot;originating_request_id&quot;:&quot;E77A:2091:1573EC:2096EA:5CAE90A3&quot;,&quot;originating_url&quot;:&quot;https://github.com/Craig44/CASAL2/blob/Discards/CASAL2/source/Processes/Age/MortalityInstantaneous.h&quot;,&quot;referrer&quot;:&quot;https://github.com/Craig44/CASAL2/tree/Discards/CASAL2/source/Processes/Age&quot;,&quot;user_id&quot;:17199130}}" data-hydro-click-hmac="f3424c884000fd035479d7dd8fe07417cb50ecc2bf1fede27543f4f198e0372b" data-ga-click="Repository, click Watch settings, action:blob#show">            <span data-menu-button>
+        <summary class="select-menu-button float-left btn btn-sm btn-with-count" data-hydro-click="{&quot;event_type&quot;:&quot;repository.click&quot;,&quot;payload&quot;:{&quot;target&quot;:&quot;WATCH_BUTTON&quot;,&quot;repository_id&quot;:151049459,&quot;client_id&quot;:&quot;36246073.1553572633&quot;,&quot;originating_request_id&quot;:&quot;E77A:2091:151FC1:201601:5CAE9004&quot;,&quot;originating_url&quot;:&quot;https://github.com/Craig44/CASAL2/blob/Discards/CASAL2/source/Observations/Age/ProcessDiscardsByAge.h&quot;,&quot;referrer&quot;:&quot;https://github.com/Craig44/CASAL2/tree/Discards/CASAL2/source/Observations/Age&quot;,&quot;user_id&quot;:17199130}}" data-hydro-click-hmac="1d3c4d7f88a248d35ff76faa9908bcc035d25c5791c411a791a593cb454e9813" data-ga-click="Repository, click Watch settings, action:blob#show">            <span data-menu-button>
                 <svg class="octicon octicon-eye v-align-text-bottom" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M8.06 2C3 2 0 8 0 8s3 6 8.06 6C13 14 16 8 16 8s-3-6-7.94-6zM8 12c-2.2 0-4-1.78-4-4 0-2.2 1.8-4 4-4 2.22 0 4 1.8 4 4 0 2.22-1.78 4-4 4zm2-4c0 1.11-.89 2-2 2-1.11 0-2-.89-2-2 0-1.11.89-2 2-2 1.11 0 2 .89 2 2z"/></svg>
                 Watch
             </span>
@@ -662,18 +662,18 @@
 
   <li>
       <div class="js-toggler-container js-social-container starring-container ">
-    <!-- '"` --><!-- </textarea></xmp> --></option></form><form class="starred js-social-form" action="/Craig44/CASAL2/unstar" accept-charset="UTF-8" method="post"><input name="utf8" type="hidden" value="&#x2713;" /><input type="hidden" name="authenticity_token" value="adjCkSBPEdK8q6byAURu+hjAQC/JV5ocRz1ZZcXZWqbFe1+9d6+ieZY37PCSFlrZ1rFTw+invu2FZ89z+XJ4Jw==" />
+    <!-- '"` --><!-- </textarea></xmp> --></option></form><form class="starred js-social-form" action="/Craig44/CASAL2/unstar" accept-charset="UTF-8" method="post"><input name="utf8" type="hidden" value="&#x2713;" /><input type="hidden" name="authenticity_token" value="hkPf8uxLBD3Os4/qruhmdcI5DfgCIjRQFlmLrOnebh8q4ELeu6u3luQvxeg9ulJWDEgeFCPSEKHUAx261XVMng==" />
       <input type="hidden" name="context" value="repository"></input>
-      <button type="submit" class="btn btn-sm btn-with-count js-toggler-target" aria-label="Unstar this repository" title="Unstar Craig44/CASAL2" data-hydro-click="{&quot;event_type&quot;:&quot;repository.click&quot;,&quot;payload&quot;:{&quot;target&quot;:&quot;UNSTAR_BUTTON&quot;,&quot;repository_id&quot;:151049459,&quot;client_id&quot;:&quot;36246073.1553572633&quot;,&quot;originating_request_id&quot;:&quot;E77A:2091:1573EC:2096EA:5CAE90A3&quot;,&quot;originating_url&quot;:&quot;https://github.com/Craig44/CASAL2/blob/Discards/CASAL2/source/Processes/Age/MortalityInstantaneous.h&quot;,&quot;referrer&quot;:&quot;https://github.com/Craig44/CASAL2/tree/Discards/CASAL2/source/Processes/Age&quot;,&quot;user_id&quot;:17199130}}" data-hydro-click-hmac="f88102a900e3c27392743a80d1710e740fda3e41bc9868c8df53ca2e76257d2b" data-ga-click="Repository, click unstar button, action:blob#show; text:Unstar">        <svg class="octicon octicon-star v-align-text-bottom" viewBox="0 0 14 16" version="1.1" width="14" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M14 6l-4.9-.64L7 1 4.9 5.36 0 6l3.6 3.26L2.67 14 7 11.67 11.33 14l-.93-4.74L14 6z"/></svg>
+      <button type="submit" class="btn btn-sm btn-with-count js-toggler-target" aria-label="Unstar this repository" title="Unstar Craig44/CASAL2" data-hydro-click="{&quot;event_type&quot;:&quot;repository.click&quot;,&quot;payload&quot;:{&quot;target&quot;:&quot;UNSTAR_BUTTON&quot;,&quot;repository_id&quot;:151049459,&quot;client_id&quot;:&quot;36246073.1553572633&quot;,&quot;originating_request_id&quot;:&quot;E77A:2091:151FC1:201601:5CAE9004&quot;,&quot;originating_url&quot;:&quot;https://github.com/Craig44/CASAL2/blob/Discards/CASAL2/source/Observations/Age/ProcessDiscardsByAge.h&quot;,&quot;referrer&quot;:&quot;https://github.com/Craig44/CASAL2/tree/Discards/CASAL2/source/Observations/Age&quot;,&quot;user_id&quot;:17199130}}" data-hydro-click-hmac="bc3784765e07a990c734723630c92505fa3ffdacea5770240432b0eaad47949d" data-ga-click="Repository, click unstar button, action:blob#show; text:Unstar">        <svg class="octicon octicon-star v-align-text-bottom" viewBox="0 0 14 16" version="1.1" width="14" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M14 6l-4.9-.64L7 1 4.9 5.36 0 6l3.6 3.26L2.67 14 7 11.67 11.33 14l-.93-4.74L14 6z"/></svg>
         Unstar
 </button>        <a class="social-count js-social-count" href="/Craig44/CASAL2/stargazers"
            aria-label="0 users starred this repository">
           0
         </a>
 </form>
-    <!-- '"` --><!-- </textarea></xmp> --></option></form><form class="unstarred js-social-form" action="/Craig44/CASAL2/star" accept-charset="UTF-8" method="post"><input name="utf8" type="hidden" value="&#x2713;" /><input type="hidden" name="authenticity_token" value="f/6P3P1TZSn9Zo2JqM8fs6mWj+nGqqI1pb8xd3vxx4iSr/cnuaGHes24jPcR3RUX9IDZxcRonIqZ8GxAwRaNhQ==" />
+    <!-- '"` --><!-- </textarea></xmp> --></option></form><form class="unstarred js-social-form" action="/Craig44/CASAL2/star" accept-charset="UTF-8" method="post"><input name="utf8" type="hidden" value="&#x2713;" /><input type="hidden" name="authenticity_token" value="7Imnbq+0dx5iZC6Vm03iLj6sp9fh+gGdeUWOJY372xsB2N+V60aVTVK6L+siX+iKY7rx++M4PyJFCtMSNxyRFg==" />
       <input type="hidden" name="context" value="repository"></input>
-      <button type="submit" class="btn btn-sm btn-with-count js-toggler-target" aria-label="Unstar this repository" title="Star Craig44/CASAL2" data-hydro-click="{&quot;event_type&quot;:&quot;repository.click&quot;,&quot;payload&quot;:{&quot;target&quot;:&quot;STAR_BUTTON&quot;,&quot;repository_id&quot;:151049459,&quot;client_id&quot;:&quot;36246073.1553572633&quot;,&quot;originating_request_id&quot;:&quot;E77A:2091:1573EC:2096EA:5CAE90A3&quot;,&quot;originating_url&quot;:&quot;https://github.com/Craig44/CASAL2/blob/Discards/CASAL2/source/Processes/Age/MortalityInstantaneous.h&quot;,&quot;referrer&quot;:&quot;https://github.com/Craig44/CASAL2/tree/Discards/CASAL2/source/Processes/Age&quot;,&quot;user_id&quot;:17199130}}" data-hydro-click-hmac="c4a546fbe642b9ce3952217637ab72d9b76170c75ba63183bd2def5a49d583de" data-ga-click="Repository, click star button, action:blob#show; text:Star">        <svg class="octicon octicon-star v-align-text-bottom" viewBox="0 0 14 16" version="1.1" width="14" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M14 6l-4.9-.64L7 1 4.9 5.36 0 6l3.6 3.26L2.67 14 7 11.67 11.33 14l-.93-4.74L14 6z"/></svg>
+      <button type="submit" class="btn btn-sm btn-with-count js-toggler-target" aria-label="Unstar this repository" title="Star Craig44/CASAL2" data-hydro-click="{&quot;event_type&quot;:&quot;repository.click&quot;,&quot;payload&quot;:{&quot;target&quot;:&quot;STAR_BUTTON&quot;,&quot;repository_id&quot;:151049459,&quot;client_id&quot;:&quot;36246073.1553572633&quot;,&quot;originating_request_id&quot;:&quot;E77A:2091:151FC1:201601:5CAE9004&quot;,&quot;originating_url&quot;:&quot;https://github.com/Craig44/CASAL2/blob/Discards/CASAL2/source/Observations/Age/ProcessDiscardsByAge.h&quot;,&quot;referrer&quot;:&quot;https://github.com/Craig44/CASAL2/tree/Discards/CASAL2/source/Observations/Age&quot;,&quot;user_id&quot;:17199130}}" data-hydro-click-hmac="05351d7a300fd776f073bc237232501fc8a7200af9f2b2dc9da4edf6343b313d" data-ga-click="Repository, click star button, action:blob#show; text:Star">        <svg class="octicon octicon-star v-align-text-bottom" viewBox="0 0 14 16" version="1.1" width="14" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M14 6l-4.9-.64L7 1 4.9 5.36 0 6l3.6 3.26L2.67 14 7 11.67 11.33 14l-.93-4.74L14 6z"/></svg>
         Star
 </button>        <a class="social-count js-social-count" href="/Craig44/CASAL2/stargazers"
            aria-label="0 users starred this repository">
@@ -684,8 +684,8 @@
   </li>
 
   <li>
-          <!-- '"` --><!-- </textarea></xmp> --></option></form><form class="btn-with-count" action="/Craig44/CASAL2/fork" accept-charset="UTF-8" method="post"><input name="utf8" type="hidden" value="&#x2713;" /><input type="hidden" name="authenticity_token" value="Hgf+1r8VPB/7DgagG+bN9vtviyCPF7VZgT/F7m3CT4d4diYnv3GPvAtLCtUHKM08X6pRuUyOfPpj7kIqenPErw==" />
-            <button class="btn btn-sm btn-with-count" data-hydro-click="{&quot;event_type&quot;:&quot;repository.click&quot;,&quot;payload&quot;:{&quot;target&quot;:&quot;FORK_BUTTON&quot;,&quot;repository_id&quot;:151049459,&quot;client_id&quot;:&quot;36246073.1553572633&quot;,&quot;originating_request_id&quot;:&quot;E77A:2091:1573EC:2096EA:5CAE90A3&quot;,&quot;originating_url&quot;:&quot;https://github.com/Craig44/CASAL2/blob/Discards/CASAL2/source/Processes/Age/MortalityInstantaneous.h&quot;,&quot;referrer&quot;:&quot;https://github.com/Craig44/CASAL2/tree/Discards/CASAL2/source/Processes/Age&quot;,&quot;user_id&quot;:17199130}}" data-hydro-click-hmac="67c94d0cd70150c2514bab8fabb28c9df0e0fef02c476b3baa6779069bcc77bd" data-ga-click="Repository, show fork modal, action:blob#show; text:Fork" type="submit" title="Fork your own copy of Craig44/CASAL2 to your account" aria-label="Fork your own copy of Craig44/CASAL2 to your account">              <svg class="octicon octicon-repo-forked v-align-text-bottom" viewBox="0 0 10 16" version="1.1" width="10" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M8 1a1.993 1.993 0 0 0-1 3.72V6L5 8 3 6V4.72A1.993 1.993 0 0 0 2 1a1.993 1.993 0 0 0-1 3.72V6.5l3 3v1.78A1.993 1.993 0 0 0 5 15a1.993 1.993 0 0 0 1-3.72V9.5l3-3V4.72A1.993 1.993 0 0 0 8 1zM2 4.2C1.34 4.2.8 3.65.8 3c0-.65.55-1.2 1.2-1.2.65 0 1.2.55 1.2 1.2 0 .65-.55 1.2-1.2 1.2zm3 10c-.66 0-1.2-.55-1.2-1.2 0-.65.55-1.2 1.2-1.2.65 0 1.2.55 1.2 1.2 0 .65-.55 1.2-1.2 1.2zm3-10c-.66 0-1.2-.55-1.2-1.2 0-.65.55-1.2 1.2-1.2.65 0 1.2.55 1.2 1.2 0 .65-.55 1.2-1.2 1.2z"/></svg>
+          <!-- '"` --><!-- </textarea></xmp> --></option></form><form class="btn-with-count" action="/Craig44/CASAL2/fork" accept-charset="UTF-8" method="post"><input name="utf8" type="hidden" value="&#x2713;" /><input type="hidden" name="authenticity_token" value="k7Adze/gdEM4bmyQO5Df9LbtfXajJ9ov6HMthAzYeZn1wcU874TH4MgrYOUnXt8+Eiin72C+E4wKoqpAG2nysQ==" />
+            <button class="btn btn-sm btn-with-count" data-hydro-click="{&quot;event_type&quot;:&quot;repository.click&quot;,&quot;payload&quot;:{&quot;target&quot;:&quot;FORK_BUTTON&quot;,&quot;repository_id&quot;:151049459,&quot;client_id&quot;:&quot;36246073.1553572633&quot;,&quot;originating_request_id&quot;:&quot;E77A:2091:151FC1:201601:5CAE9004&quot;,&quot;originating_url&quot;:&quot;https://github.com/Craig44/CASAL2/blob/Discards/CASAL2/source/Observations/Age/ProcessDiscardsByAge.h&quot;,&quot;referrer&quot;:&quot;https://github.com/Craig44/CASAL2/tree/Discards/CASAL2/source/Observations/Age&quot;,&quot;user_id&quot;:17199130}}" data-hydro-click-hmac="54b0ee684861916486c7a129a344d4d43cdc67694bb40540d77eed67e4ef5717" data-ga-click="Repository, show fork modal, action:blob#show; text:Fork" type="submit" title="Fork your own copy of Craig44/CASAL2 to your account" aria-label="Fork your own copy of Craig44/CASAL2 to your account">              <svg class="octicon octicon-repo-forked v-align-text-bottom" viewBox="0 0 10 16" version="1.1" width="10" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M8 1a1.993 1.993 0 0 0-1 3.72V6L5 8 3 6V4.72A1.993 1.993 0 0 0 2 1a1.993 1.993 0 0 0-1 3.72V6.5l3 3v1.78A1.993 1.993 0 0 0 5 15a1.993 1.993 0 0 0 1-3.72V9.5l3-3V4.72A1.993 1.993 0 0 0 8 1zM2 4.2C1.34 4.2.8 3.65.8 3c0-.65.55-1.2 1.2-1.2.65 0 1.2.55 1.2 1.2 0 .65-.55 1.2-1.2 1.2zm3 10c-.66 0-1.2-.55-1.2-1.2 0-.65.55-1.2 1.2-1.2.65 0 1.2.55 1.2 1.2 0 .65-.55 1.2-1.2 1.2zm3-10c-.66 0-1.2-.55-1.2-1.2 0-.65.55-1.2 1.2-1.2.65 0 1.2.55 1.2 1.2 0 .65-.55 1.2-1.2 1.2z"/></svg>
               Fork
 </button></form>
     <a href="/Craig44/CASAL2/network/members" class="social-count"
@@ -760,9 +760,9 @@
 
 
   
-    <a class="d-none js-permalink-shortcut" data-hotkey="y" href="/Craig44/CASAL2/blob/af5203b0afae5d438a31fc9ba44f691394013daa/CASAL2/source/Processes/Age/MortalityInstantaneous.h">Permalink</a>
+    <a class="d-none js-permalink-shortcut" data-hotkey="y" href="/Craig44/CASAL2/blob/af5203b0afae5d438a31fc9ba44f691394013daa/CASAL2/source/Observations/Age/ProcessDiscardsByAge.h">Permalink</a>
 
-    <!-- blob contrib key: blob_contributors:v21:4b40226db37cd93d348f8f46a8075638 -->
+    <!-- blob contrib key: blob_contributors:v21:abc75c29cf2fcb43377f2a14f2465750 -->
 
     
 
@@ -777,7 +777,7 @@
     <span class="css-truncate-target">Discards</span>
   </summary>
 
-  <details-menu class="select-menu-modal position-absolute" style="z-index: 99;" src="/Craig44/CASAL2/ref-list/Discards/CASAL2/source/Processes/Age/MortalityInstantaneous.h?source_action=show&amp;source_controller=blob" preload>
+  <details-menu class="select-menu-modal position-absolute" style="z-index: 99;" src="/Craig44/CASAL2/ref-list/Discards/CASAL2/source/Observations/Age/ProcessDiscardsByAge.h?source_action=show&amp;source_controller=blob" preload>
     <include-fragment class="select-menu-loading-overlay anim-pulse">
       <svg height="32" class="octicon octicon-octoface" viewBox="0 0 16 16" version="1.1" width="32" aria-hidden="true"><path fill-rule="evenodd" d="M14.7 5.34c.13-.32.55-1.59-.13-3.31 0 0-1.05-.33-3.44 1.3-1-.28-2.07-.32-3.13-.32s-2.13.04-3.13.32c-2.39-1.64-3.44-1.3-3.44-1.3-.68 1.72-.26 2.99-.13 3.31C.49 6.21 0 7.33 0 8.69 0 13.84 3.33 15 7.98 15S16 13.84 16 8.69c0-1.36-.49-2.48-1.3-3.35zM8 14.02c-3.3 0-5.98-.15-5.98-3.35 0-.76.38-1.48 1.02-2.07 1.07-.98 2.9-.46 4.96-.46 2.07 0 3.88-.52 4.96.46.65.59 1.02 1.3 1.02 2.07 0 3.19-2.68 3.35-5.98 3.35zM5.49 9.01c-.66 0-1.2.8-1.2 1.78s.54 1.79 1.2 1.79c.66 0 1.2-.8 1.2-1.79s-.54-1.78-1.2-1.78zm5.02 0c-.66 0-1.2.79-1.2 1.78s.54 1.79 1.2 1.79c.66 0 1.2-.8 1.2-1.79s-.53-1.78-1.2-1.78z"/></svg>
     </include-fragment>
@@ -785,7 +785,7 @@
 </details>
 
       <h2 id="blob-path" class="breadcrumb flex-auto flex-self-center min-width-0 text-normal mx-2">
-        <span class="js-repo-root text-bold"><span class="js-path-segment"><a data-pjax="true" href="/Craig44/CASAL2/tree/Discards"><span>CASAL2</span></a></span></span><span class="separator">/</span><span class="js-path-segment"><a data-pjax="true" href="/Craig44/CASAL2/tree/Discards/CASAL2"><span>CASAL2</span></a></span><span class="separator">/</span><span class="js-path-segment"><a data-pjax="true" href="/Craig44/CASAL2/tree/Discards/CASAL2/source"><span>source</span></a></span><span class="separator">/</span><span class="js-path-segment"><a data-pjax="true" href="/Craig44/CASAL2/tree/Discards/CASAL2/source/Processes"><span>Processes</span></a></span><span class="separator">/</span><span class="js-path-segment"><a data-pjax="true" href="/Craig44/CASAL2/tree/Discards/CASAL2/source/Processes/Age"><span>Age</span></a></span><span class="separator">/</span><strong class="final-path">MortalityInstantaneous.h</strong>
+        <span class="js-repo-root text-bold"><span class="js-path-segment"><a data-pjax="true" href="/Craig44/CASAL2/tree/Discards"><span>CASAL2</span></a></span></span><span class="separator">/</span><span class="js-path-segment"><a data-pjax="true" href="/Craig44/CASAL2/tree/Discards/CASAL2"><span>CASAL2</span></a></span><span class="separator">/</span><span class="js-path-segment"><a data-pjax="true" href="/Craig44/CASAL2/tree/Discards/CASAL2/source"><span>source</span></a></span><span class="separator">/</span><span class="js-path-segment"><a data-pjax="true" href="/Craig44/CASAL2/tree/Discards/CASAL2/source/Observations"><span>Observations</span></a></span><span class="separator">/</span><span class="js-path-segment"><a data-pjax="true" href="/Craig44/CASAL2/tree/Discards/CASAL2/source/Observations/Age"><span>Age</span></a></span><span class="separator">/</span><strong class="final-path">ProcessDiscardsByAge.h</strong>
       </h2>
       <div class="BtnGroup d-flex flex-justify-end flex-shrink-0">
         <a href="/Craig44/CASAL2/find/Discards"
@@ -794,7 +794,7 @@
               data-hotkey="t">
           Find file
         </a>
-        <clipboard-copy value="CASAL2/source/Processes/Age/MortalityInstantaneous.h" class="btn btn-sm BtnGroup-item">
+        <clipboard-copy value="CASAL2/source/Observations/Age/ProcessDiscardsByAge.h" class="btn btn-sm BtnGroup-item">
           Copy path
         </clipboard-copy>
       </div>
@@ -802,7 +802,7 @@
 
 
 
-    <include-fragment src="/Craig44/CASAL2/contributors/Discards/CASAL2/source/Processes/Age/MortalityInstantaneous.h" class="Box Box--condensed commit-loader">
+    <include-fragment src="/Craig44/CASAL2/contributors/Discards/CASAL2/source/Observations/Age/ProcessDiscardsByAge.h" class="Box Box--condensed commit-loader">
       <div class="Box-body bg-blue-light f6">
         Fetching contributors&hellip;
       </div>
@@ -821,17 +821,17 @@
 <div class="Box-header py-2 d-flex flex-justify-between flex-items-center">
 
   <div class="text-mono f6">
-      157 lines (138 sloc)
+      83 lines (72 sloc)
       <span class="file-info-divider"></span>
-    5.99 KB
+    2.93 KB
   </div>
 
   <div class="d-flex">
 
     <div class="BtnGroup">
-      <a id="raw-url" class="btn btn-sm BtnGroup-item" href="/Craig44/CASAL2/raw/Discards/CASAL2/source/Processes/Age/MortalityInstantaneous.h">Raw</a>
-        <a class="btn btn-sm js-update-url-with-hash BtnGroup-item" data-hotkey="b" href="/Craig44/CASAL2/blame/Discards/CASAL2/source/Processes/Age/MortalityInstantaneous.h">Blame</a>
-      <a rel="nofollow" class="btn btn-sm BtnGroup-item" href="/Craig44/CASAL2/commits/Discards/CASAL2/source/Processes/Age/MortalityInstantaneous.h">History</a>
+      <a id="raw-url" class="btn btn-sm BtnGroup-item" href="/Craig44/CASAL2/raw/Discards/CASAL2/source/Observations/Age/ProcessDiscardsByAge.h">Raw</a>
+        <a class="btn btn-sm js-update-url-with-hash BtnGroup-item" data-hotkey="b" href="/Craig44/CASAL2/blame/Discards/CASAL2/source/Observations/Age/ProcessDiscardsByAge.h">Blame</a>
+      <a rel="nofollow" class="btn btn-sm BtnGroup-item" href="/Craig44/CASAL2/commits/Discards/CASAL2/source/Observations/Age/ProcessDiscardsByAge.h">History</a>
     </div>
 
 
@@ -843,13 +843,13 @@
                 <svg class="octicon octicon-device-desktop" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M15 2H1c-.55 0-1 .45-1 1v9c0 .55.45 1 1 1h5.34c-.25.61-.86 1.39-2.34 2h8c-1.48-.61-2.09-1.39-2.34-2H15c.55 0 1-.45 1-1V3c0-.55-.45-1-1-1zm0 9H1V3h14v8z"/></svg>
             </a>
 
-            <!-- '"` --><!-- </textarea></xmp> --></option></form><form class="inline-form js-update-url-with-hash" action="/Craig44/CASAL2/edit/Discards/CASAL2/source/Processes/Age/MortalityInstantaneous.h" accept-charset="UTF-8" method="post"><input name="utf8" type="hidden" value="&#x2713;" /><input type="hidden" name="authenticity_token" value="ppAlc2biXDJjBayBJ6sWlqOEIWXuMKn+HgYtgw0zvB8IvjzwW0G3JwhhBj4pZkExbAFsmnEh2srwzRzhABC/ww==" />
+            <!-- '"` --><!-- </textarea></xmp> --></option></form><form class="inline-form js-update-url-with-hash" action="/Craig44/CASAL2/edit/Discards/CASAL2/source/Observations/Age/ProcessDiscardsByAge.h" accept-charset="UTF-8" method="post"><input name="utf8" type="hidden" value="&#x2713;" /><input type="hidden" name="authenticity_token" value="DgvMOdHTB504P48s1G/HBrHFasTO7Cl0bcvTRFoOIMNUlCTKZKpfV4C104KDaz4/54fGK7zIaEHx7W72Vlu3oA==" />
               <button class="btn-octicon tooltipped tooltipped-nw" type="submit"
                 aria-label="Edit the file in your fork of this project" data-hotkey="e" data-disable-with>
                 <svg class="octicon octicon-pencil" viewBox="0 0 14 16" version="1.1" width="14" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M0 12v3h3l8-8-3-3-8 8zm3 2H1v-2h1v1h1v1zm10.3-9.3L12 6 9 3l1.3-1.3a.996.996 0 0 1 1.41 0l1.59 1.59c.39.39.39 1.02 0 1.41z"/></svg>
               </button>
 </form>
-          <!-- '"` --><!-- </textarea></xmp> --></option></form><form class="inline-form" action="/Craig44/CASAL2/delete/Discards/CASAL2/source/Processes/Age/MortalityInstantaneous.h" accept-charset="UTF-8" method="post"><input name="utf8" type="hidden" value="&#x2713;" /><input type="hidden" name="authenticity_token" value="v7CfnQKenSltknLhV1OXgjzGDACrmLAyceXS9Oeu8Sw92kcXvgaz6goyAUyUS3BHNOkuMNzgIaRPuT+bsM86mg==" />
+          <!-- '"` --><!-- </textarea></xmp> --></option></form><form class="inline-form" action="/Craig44/CASAL2/delete/Discards/CASAL2/source/Observations/Age/ProcessDiscardsByAge.h" accept-charset="UTF-8" method="post"><input name="utf8" type="hidden" value="&#x2713;" /><input type="hidden" name="authenticity_token" value="qyHuekRZ8vF/bwN2HzqCVF9L0W6C34dgIGLcN9d9FEoslrvWB3cCVsD6bqOvZ3rgHslNEfHM02MtJ1Gg3ZcUjg==" />
             <button class="btn-octicon btn-octicon-danger tooltipped tooltipped-nw" type="submit"
               aria-label="Delete the file in your fork of this project" data-disable-with>
               <svg class="octicon octicon-trashcan" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M11 2H9c0-.55-.45-1-1-1H5c-.55 0-1 .45-1 1H2c-.55 0-1 .45-1 1v1c0 .55.45 1 1 1v9c0 .55.45 1 1 1h7c.55 0 1-.45 1-1V5c.55 0 1-.45 1-1V3c0-.55-.45-1-1-1zm-1 12H3V5h1v8h1V5h1v8h1V5h1v8h1V5h1v9zm1-10H2V3h9v1z"/></svg>
@@ -869,19 +869,19 @@
       </tr>
       <tr>
         <td id="L2" class="blob-num js-line-number" data-line-number="2"></td>
-        <td id="LC2" class="blob-code blob-code-inner js-file-line"><span class="pl-c"> * @file MortalityInstantaneous.h</span></td>
+        <td id="LC2" class="blob-code blob-code-inner js-file-line"><span class="pl-c"> * @file ProcessDiscardsByAge.h</span></td>
       </tr>
       <tr>
         <td id="L3" class="blob-num js-line-number" data-line-number="3"></td>
-        <td id="LC3" class="blob-code blob-code-inner js-file-line"><span class="pl-c"> * @author Scott Rasmussen (scott.rasmussen@zaita.com)</span></td>
+        <td id="LC3" class="blob-code blob-code-inner js-file-line"><span class="pl-c"> * @author  C Marsh</span></td>
       </tr>
       <tr>
         <td id="L4" class="blob-num js-line-number" data-line-number="4"></td>
-        <td id="LC4" class="blob-code blob-code-inner js-file-line"><span class="pl-c"> * @github https://github.com/Zaita</span></td>
+        <td id="LC4" class="blob-code blob-code-inner js-file-line"><span class="pl-c"> * @version 1.0</span></td>
       </tr>
       <tr>
         <td id="L5" class="blob-num js-line-number" data-line-number="5"></td>
-        <td id="LC5" class="blob-code blob-code-inner js-file-line"><span class="pl-c"> * @date 28/07/2015</span></td>
+        <td id="LC5" class="blob-code blob-code-inner js-file-line"><span class="pl-c"> * @date 25/08/15</span></td>
       </tr>
       <tr>
         <td id="L6" class="blob-num js-line-number" data-line-number="6"></td>
@@ -893,7 +893,7 @@
       </tr>
       <tr>
         <td id="L8" class="blob-num js-line-number" data-line-number="8"></td>
-        <td id="LC8" class="blob-code blob-code-inner js-file-line"><span class="pl-c"> * Copyright NIWA Science �2015 - www.niwa.co.nz</span></td>
+        <td id="LC8" class="blob-code blob-code-inner js-file-line"><span class="pl-c"> * Copyright NIWA Science 2016 - www.niwa.co.nz</span></td>
       </tr>
       <tr>
         <td id="L9" class="blob-num js-line-number" data-line-number="9"></td>
@@ -909,60 +909,61 @@
       </tr>
       <tr>
         <td id="L12" class="blob-num js-line-number" data-line-number="12"></td>
-        <td id="LC12" class="blob-code blob-code-inner js-file-line"><span class="pl-c"> * This mortality process is a combination of the</span></td>
+        <td id="LC12" class="blob-code blob-code-inner js-file-line"><span class="pl-c"> * This observation is a specific process observation class. It is associated with the process type mortality_instantaneous.</span></td>
       </tr>
       <tr>
         <td id="L13" class="blob-num js-line-number" data-line-number="13"></td>
-        <td id="LC13" class="blob-code blob-code-inner js-file-line"><span class="pl-c"> * constant and event mortality processes.</span></td>
+        <td id="LC13" class="blob-code blob-code-inner js-file-line"><span class="pl-c"> * It calls a catch at object that is created from the process which represents the numbers at age halfway trough the mortality process</span></td>
       </tr>
       <tr>
         <td id="L14" class="blob-num js-line-number" data-line-number="14"></td>
-        <td id="LC14" class="blob-code blob-code-inner js-file-line"><span class="pl-c"> <span class="pl-c">*/</span></span></td>
+        <td id="LC14" class="blob-code blob-code-inner js-file-line"><span class="pl-c"> * This class then applies ageing error and converts to a proportion which then gets sent to a likelihood for evaluation.</span></td>
       </tr>
       <tr>
         <td id="L15" class="blob-num js-line-number" data-line-number="15"></td>
-        <td id="LC15" class="blob-code blob-code-inner js-file-line">#<span class="pl-k">ifndef</span> SOURCE_PROCESSES_CHILDREN_MORTALITYINSTANTANEOUS_H_</td>
+        <td id="LC15" class="blob-code blob-code-inner js-file-line"><span class="pl-c"> *</span></td>
       </tr>
       <tr>
         <td id="L16" class="blob-num js-line-number" data-line-number="16"></td>
-        <td id="LC16" class="blob-code blob-code-inner js-file-line">#<span class="pl-k">define</span> <span class="pl-en">SOURCE_PROCESSES_CHILDREN_MORTALITYINSTANTANEOUS_H_</span></td>
+        <td id="LC16" class="blob-code blob-code-inner js-file-line"><span class="pl-c"> <span class="pl-c">*/</span></span></td>
       </tr>
       <tr>
         <td id="L17" class="blob-num js-line-number" data-line-number="17"></td>
-        <td id="LC17" class="blob-code blob-code-inner js-file-line">
-</td>
+        <td id="LC17" class="blob-code blob-code-inner js-file-line">#<span class="pl-k">ifndef</span> AGE_OBSERVATIONS_DISCARDS_BY_AGE_H_</td>
       </tr>
       <tr>
         <td id="L18" class="blob-num js-line-number" data-line-number="18"></td>
-        <td id="LC18" class="blob-code blob-code-inner js-file-line"><span class="pl-c"><span class="pl-c">//</span> headers</span></td>
+        <td id="LC18" class="blob-code blob-code-inner js-file-line">#<span class="pl-k">define</span> <span class="pl-en">AGE_OBSERVATIONS_DISCARDS_BY_AGE_H_</span></td>
       </tr>
       <tr>
         <td id="L19" class="blob-num js-line-number" data-line-number="19"></td>
-        <td id="LC19" class="blob-code blob-code-inner js-file-line">#<span class="pl-k">include</span> <span class="pl-s"><span class="pl-pds">&quot;</span>Model/Model.h<span class="pl-pds">&quot;</span></span></td>
+        <td id="LC19" class="blob-code blob-code-inner js-file-line">
+</td>
       </tr>
       <tr>
         <td id="L20" class="blob-num js-line-number" data-line-number="20"></td>
-        <td id="LC20" class="blob-code blob-code-inner js-file-line">#<span class="pl-k">include</span> <span class="pl-s"><span class="pl-pds">&quot;</span>Partition/Accessors/Categories.h<span class="pl-pds">&quot;</span></span></td>
+        <td id="LC20" class="blob-code blob-code-inner js-file-line"><span class="pl-c"><span class="pl-c">//</span> Headers</span></td>
       </tr>
       <tr>
         <td id="L21" class="blob-num js-line-number" data-line-number="21"></td>
-        <td id="LC21" class="blob-code blob-code-inner js-file-line">#<span class="pl-k">include</span> <span class="pl-s"><span class="pl-pds">&quot;</span>Penalties/Common/Process.h<span class="pl-pds">&quot;</span></span></td>
+        <td id="LC21" class="blob-code blob-code-inner js-file-line">#<span class="pl-k">include</span> <span class="pl-s"><span class="pl-pds">&quot;</span>Observations/Observation.h<span class="pl-pds">&quot;</span></span></td>
       </tr>
       <tr>
         <td id="L22" class="blob-num js-line-number" data-line-number="22"></td>
-        <td id="LC22" class="blob-code blob-code-inner js-file-line">#<span class="pl-k">include</span> <span class="pl-s"><span class="pl-pds">&quot;</span>Processes/Process.h<span class="pl-pds">&quot;</span></span></td>
+        <td id="LC22" class="blob-code blob-code-inner js-file-line">
+</td>
       </tr>
       <tr>
         <td id="L23" class="blob-num js-line-number" data-line-number="23"></td>
-        <td id="LC23" class="blob-code blob-code-inner js-file-line">#<span class="pl-k">include</span> <span class="pl-s"><span class="pl-pds">&quot;</span>Selectivities/Selectivity.h<span class="pl-pds">&quot;</span></span></td>
+        <td id="LC23" class="blob-code blob-code-inner js-file-line">#<span class="pl-k">include</span> <span class="pl-s"><span class="pl-pds">&quot;</span>Partition/Accessors/CombinedCategories.h<span class="pl-pds">&quot;</span></span></td>
       </tr>
       <tr>
         <td id="L24" class="blob-num js-line-number" data-line-number="24"></td>
-        <td id="LC24" class="blob-code blob-code-inner js-file-line">#<span class="pl-k">include</span> <span class="pl-s"><span class="pl-pds">&quot;</span>Utilities/Map.h<span class="pl-pds">&quot;</span></span></td>
+        <td id="LC24" class="blob-code blob-code-inner js-file-line">#<span class="pl-k">include</span> <span class="pl-s"><span class="pl-pds">&quot;</span>Processes/Age/MortalityInstantaneous.h<span class="pl-pds">&quot;</span></span></td>
       </tr>
       <tr>
         <td id="L25" class="blob-num js-line-number" data-line-number="25"></td>
-        <td id="LC25" class="blob-code blob-code-inner js-file-line">#<span class="pl-k">include</span> <span class="pl-s"><span class="pl-pds">&quot;</span>AgeWeights/AgeWeight.h<span class="pl-pds">&quot;</span></span></td>
+        <td id="LC25" class="blob-code blob-code-inner js-file-line">#<span class="pl-k">include</span> <span class="pl-s"><span class="pl-pds">&quot;</span>AgeingErrors/AgeingError.h<span class="pl-pds">&quot;</span></span></td>
       </tr>
       <tr>
         <td id="L26" class="blob-num js-line-number" data-line-number="26"></td>
@@ -971,7 +972,7 @@
       </tr>
       <tr>
         <td id="L27" class="blob-num js-line-number" data-line-number="27"></td>
-        <td id="LC27" class="blob-code blob-code-inner js-file-line"><span class="pl-c"><span class="pl-c">//</span> namespaces</span></td>
+        <td id="LC27" class="blob-code blob-code-inner js-file-line"><span class="pl-c"><span class="pl-c">//</span> Namespace</span></td>
       </tr>
       <tr>
         <td id="L28" class="blob-num js-line-number" data-line-number="28"></td>
@@ -979,7 +980,7 @@
       </tr>
       <tr>
         <td id="L29" class="blob-num js-line-number" data-line-number="29"></td>
-        <td id="LC29" class="blob-code blob-code-inner js-file-line"><span class="pl-k">namespace</span> <span class="pl-en">processes</span> {</td>
+        <td id="LC29" class="blob-code blob-code-inner js-file-line"><span class="pl-k">namespace</span> <span class="pl-en">observations</span> {</td>
       </tr>
       <tr>
         <td id="L30" class="blob-num js-line-number" data-line-number="30"></td>
@@ -992,11 +993,11 @@
       </tr>
       <tr>
         <td id="L32" class="blob-num js-line-number" data-line-number="32"></td>
-        <td id="LC32" class="blob-code blob-code-inner js-file-line"><span class="pl-k">namespace</span> <span class="pl-en">accessor</span> <span class="pl-k">=</span> niwa::partition::accessors;</td>
+        <td id="LC32" class="blob-code blob-code-inner js-file-line"><span class="pl-k">using</span> partition::accessors::CombinedCategoriesPtr;</td>
       </tr>
       <tr>
         <td id="L33" class="blob-num js-line-number" data-line-number="33"></td>
-        <td id="LC33" class="blob-code blob-code-inner js-file-line"><span class="pl-k">using</span> utilities::OrderedMap;</td>
+        <td id="LC33" class="blob-code blob-code-inner js-file-line"><span class="pl-k">using</span> processes::age::MortalityInstantaneous;</td>
       </tr>
       <tr>
         <td id="L34" class="blob-num js-line-number" data-line-number="34"></td>
@@ -1005,63 +1006,63 @@
       </tr>
       <tr>
         <td id="L35" class="blob-num js-line-number" data-line-number="35"></td>
-        <td id="LC35" class="blob-code blob-code-inner js-file-line"><span class="pl-c"><span class="pl-c">//</span> classes</span></td>
+        <td id="LC35" class="blob-code blob-code-inner js-file-line"><span class="pl-c"><span class="pl-c">/*</span>*</span></td>
       </tr>
       <tr>
         <td id="L36" class="blob-num js-line-number" data-line-number="36"></td>
-        <td id="LC36" class="blob-code blob-code-inner js-file-line"><span class="pl-k">class</span> <span class="pl-en">MortalityInstantaneous</span> : <span class="pl-k">public</span> <span class="pl-en">Process</span> {</td>
+        <td id="LC36" class="blob-code blob-code-inner js-file-line"><span class="pl-c"> * Class Definition</span></td>
       </tr>
       <tr>
         <td id="L37" class="blob-num js-line-number" data-line-number="37"></td>
-        <td id="LC37" class="blob-code blob-code-inner js-file-line"> <span class="pl-c"><span class="pl-c">/*</span>*</span></td>
+        <td id="LC37" class="blob-code blob-code-inner js-file-line"><span class="pl-c"> <span class="pl-c">*/</span></span></td>
       </tr>
       <tr>
         <td id="L38" class="blob-num js-line-number" data-line-number="38"></td>
-        <td id="LC38" class="blob-code blob-code-inner js-file-line"><span class="pl-c"> * FisheryData holds all the information related to a fishery</span></td>
+        <td id="LC38" class="blob-code blob-code-inner js-file-line"><span class="pl-k">class</span> <span class="pl-en">ProcessDiscardsByAge</span> : <span class="pl-k">public</span> <span class="pl-en">niwa</span>::Observation {</td>
       </tr>
       <tr>
         <td id="L39" class="blob-num js-line-number" data-line-number="39"></td>
-        <td id="LC39" class="blob-code blob-code-inner js-file-line"><span class="pl-c"> <span class="pl-c">*/</span></span></td>
+        <td id="LC39" class="blob-code blob-code-inner js-file-line"><span class="pl-k">public:</span></td>
       </tr>
       <tr>
         <td id="L40" class="blob-num js-line-number" data-line-number="40"></td>
-        <td id="LC40" class="blob-code blob-code-inner js-file-line">  <span class="pl-k">struct</span> <span class="pl-en">FisheryData</span> {</td>
+        <td id="LC40" class="blob-code blob-code-inner js-file-line">  <span class="pl-c"><span class="pl-c">//</span> Methods</span></td>
       </tr>
       <tr>
         <td id="L41" class="blob-num js-line-number" data-line-number="41"></td>
-        <td id="LC41" class="blob-code blob-code-inner js-file-line">    string          label_;</td>
+        <td id="LC41" class="blob-code blob-code-inner js-file-line">  <span class="pl-k">explicit</span> <span class="pl-en">ProcessDiscardsByAge</span>(Model* model);</td>
       </tr>
       <tr>
         <td id="L42" class="blob-num js-line-number" data-line-number="42"></td>
-        <td id="LC42" class="blob-code blob-code-inner js-file-line">    string          time_step_label_;</td>
+        <td id="LC42" class="blob-code blob-code-inner js-file-line">  <span class="pl-k">virtual</span>                     <span class="pl-en">~ProcessDiscardsByAge</span>();</td>
       </tr>
       <tr>
         <td id="L43" class="blob-num js-line-number" data-line-number="43"></td>
-        <td id="LC43" class="blob-code blob-code-inner js-file-line">    <span class="pl-k">unsigned</span>        time_step_index_;</td>
+        <td id="LC43" class="blob-code blob-code-inner js-file-line">  <span class="pl-k">void</span>                        <span class="pl-en">DoValidate</span>() <span class="pl-k">override</span> <span class="pl-k">final</span>;</td>
       </tr>
       <tr>
         <td id="L44" class="blob-num js-line-number" data-line-number="44"></td>
-        <td id="LC44" class="blob-code blob-code-inner js-file-line">    Double          u_max_;</td>
+        <td id="LC44" class="blob-code blob-code-inner js-file-line">  <span class="pl-k">void</span>                        <span class="pl-en">DoBuild</span>() <span class="pl-k">override</span> <span class="pl-k">final</span>;</td>
       </tr>
       <tr>
         <td id="L45" class="blob-num js-line-number" data-line-number="45"></td>
-        <td id="LC45" class="blob-code blob-code-inner js-file-line">    string          penalty_label_;</td>
+        <td id="LC45" class="blob-code blob-code-inner js-file-line">  <span class="pl-k">void</span>                        <span class="pl-en">DoReset</span>() <span class="pl-k">override</span> <span class="pl-k">final</span> { };</td>
       </tr>
       <tr>
         <td id="L46" class="blob-num js-line-number" data-line-number="46"></td>
-        <td id="LC46" class="blob-code blob-code-inner js-file-line">    Penalty*        penalty_ = <span class="pl-c1">nullptr</span>;</td>
+        <td id="LC46" class="blob-code blob-code-inner js-file-line">  <span class="pl-k">void</span>                        <span class="pl-en">PreExecute</span>() <span class="pl-k">override</span> <span class="pl-k">final</span>;</td>
       </tr>
       <tr>
         <td id="L47" class="blob-num js-line-number" data-line-number="47"></td>
-        <td id="LC47" class="blob-code blob-code-inner js-file-line">    map&lt;<span class="pl-k">unsigned</span>, Double&gt;  catches_;</td>
+        <td id="LC47" class="blob-code blob-code-inner js-file-line">  <span class="pl-k">void</span>                        <span class="pl-en">Execute</span>() <span class="pl-k">override</span> <span class="pl-k">final</span>;</td>
       </tr>
       <tr>
         <td id="L48" class="blob-num js-line-number" data-line-number="48"></td>
-        <td id="LC48" class="blob-code blob-code-inner js-file-line">    map&lt;<span class="pl-k">unsigned</span>, Double&gt;  actual_catches_;</td>
+        <td id="LC48" class="blob-code blob-code-inner js-file-line">  <span class="pl-k">void</span>                        <span class="pl-en">CalculateScore</span>() <span class="pl-k">override</span> <span class="pl-k">final</span>;</td>
       </tr>
       <tr>
         <td id="L49" class="blob-num js-line-number" data-line-number="49"></td>
-        <td id="LC49" class="blob-code blob-code-inner js-file-line">    map&lt;<span class="pl-k">unsigned</span>, Double&gt;  exploitation_by_year_; <span class="pl-c"><span class="pl-c">//</span> I added this so it can be reported</span></td>
+        <td id="LC49" class="blob-code blob-code-inner js-file-line">  <span class="pl-k">bool</span>                        <span class="pl-en">HasYear</span>(<span class="pl-k">unsigned</span> year) <span class="pl-k">const</span> <span class="pl-k">override</span> <span class="pl-k">final</span> { <span class="pl-k">return</span> <span class="pl-c1">std::find</span>(years_.<span class="pl-c1">begin</span>(), years_.<span class="pl-c1">end</span>(), year) != years_.<span class="pl-c1">end</span>(); }</td>
       </tr>
       <tr>
         <td id="L50" class="blob-num js-line-number" data-line-number="50"></td>
@@ -1070,440 +1071,135 @@
       </tr>
       <tr>
         <td id="L51" class="blob-num js-line-number" data-line-number="51"></td>
-        <td id="LC51" class="blob-code blob-code-inner js-file-line">    Double          vulnerability_;</td>
+        <td id="LC51" class="blob-code blob-code-inner js-file-line"><span class="pl-k">protected:</span></td>
       </tr>
       <tr>
         <td id="L52" class="blob-num js-line-number" data-line-number="52"></td>
-        <td id="LC52" class="blob-code blob-code-inner js-file-line">    Double          uobs_fishery_;</td>
+        <td id="LC52" class="blob-code blob-code-inner js-file-line">  <span class="pl-c"><span class="pl-c">//</span> Members</span></td>
       </tr>
       <tr>
         <td id="L53" class="blob-num js-line-number" data-line-number="53"></td>
-        <td id="LC53" class="blob-code blob-code-inner js-file-line">    Double          exploitation_;</td>
+        <td id="LC53" class="blob-code blob-code-inner js-file-line">  vector&lt;<span class="pl-k">unsigned</span>&gt;              years_;</td>
       </tr>
       <tr>
         <td id="L54" class="blob-num js-line-number" data-line-number="54"></td>
-        <td id="LC54" class="blob-code blob-code-inner js-file-line">    Double*         m_;</td>
+        <td id="LC54" class="blob-code blob-code-inner js-file-line">  <span class="pl-k">unsigned</span>                      min_age_ = <span class="pl-c1">0</span>;</td>
       </tr>
       <tr>
         <td id="L55" class="blob-num js-line-number" data-line-number="55"></td>
-        <td id="LC55" class="blob-code blob-code-inner js-file-line">  };</td>
+        <td id="LC55" class="blob-code blob-code-inner js-file-line">  <span class="pl-k">unsigned</span>                      max_age_ = <span class="pl-c1">0</span>;</td>
       </tr>
       <tr>
         <td id="L56" class="blob-num js-line-number" data-line-number="56"></td>
-        <td id="LC56" class="blob-code blob-code-inner js-file-line">
-</td>
+        <td id="LC56" class="blob-code blob-code-inner js-file-line">  <span class="pl-k">bool</span>                          plus_group_ = <span class="pl-c1">false</span>;</td>
       </tr>
       <tr>
         <td id="L57" class="blob-num js-line-number" data-line-number="57"></td>
-        <td id="LC57" class="blob-code blob-code-inner js-file-line">  <span class="pl-k">struct</span> <span class="pl-en">CategoryData</span> {</td>
+        <td id="LC57" class="blob-code blob-code-inner js-file-line">  <span class="pl-k">unsigned</span>                      age_spread_ = <span class="pl-c1">0</span>;</td>
       </tr>
       <tr>
         <td id="L58" class="blob-num js-line-number" data-line-number="58"></td>
-        <td id="LC58" class="blob-code blob-code-inner js-file-line">      string                category_label_;</td>
+        <td id="LC58" class="blob-code blob-code-inner js-file-line">  parameters::Table*            obs_table_ = <span class="pl-c1">nullptr</span>;</td>
       </tr>
       <tr>
         <td id="L59" class="blob-num js-line-number" data-line-number="59"></td>
-        <td id="LC59" class="blob-code blob-code-inner js-file-line">      partition::Category*  category_;</td>
+        <td id="LC59" class="blob-code blob-code-inner js-file-line">  Double                        tolerance_ = <span class="pl-c1">0.0</span>;</td>
       </tr>
       <tr>
         <td id="L60" class="blob-num js-line-number" data-line-number="60"></td>
-        <td id="LC60" class="blob-code blob-code-inner js-file-line">      Double*               m_;</td>
+        <td id="LC60" class="blob-code blob-code-inner js-file-line">  vector&lt;Double&gt;                process_error_values_;</td>
       </tr>
       <tr>
         <td id="L61" class="blob-num js-line-number" data-line-number="61"></td>
-        <td id="LC61" class="blob-code blob-code-inner js-file-line">      vector&lt;Double&gt;        exploitation_;</td>
+        <td id="LC61" class="blob-code blob-code-inner js-file-line">  map&lt;<span class="pl-k">unsigned</span>, Double&gt;         process_errors_by_year_;</td>
       </tr>
       <tr>
         <td id="L62" class="blob-num js-line-number" data-line-number="62"></td>
-        <td id="LC62" class="blob-code blob-code-inner js-file-line">      vector&lt;Double&gt;        exp_values_;</td>
+        <td id="LC62" class="blob-code blob-code-inner js-file-line">  string                        ageing_error_label_ = <span class="pl-s"><span class="pl-pds">&quot;</span><span class="pl-pds">&quot;</span></span>;</td>
       </tr>
       <tr>
         <td id="L63" class="blob-num js-line-number" data-line-number="63"></td>
-        <td id="LC63" class="blob-code blob-code-inner js-file-line">      string                selectivity_label_;</td>
+        <td id="LC63" class="blob-code blob-code-inner js-file-line">  vector&lt;string&gt;                method_;</td>
       </tr>
       <tr>
         <td id="L64" class="blob-num js-line-number" data-line-number="64"></td>
-        <td id="LC64" class="blob-code blob-code-inner js-file-line">      Selectivity*          selectivity_;</td>
+        <td id="LC64" class="blob-code blob-code-inner js-file-line">  parameters::Table*            error_values_table_ = <span class="pl-c1">nullptr</span>;</td>
       </tr>
       <tr>
         <td id="L65" class="blob-num js-line-number" data-line-number="65"></td>
-        <td id="LC65" class="blob-code blob-code-inner js-file-line">      vector&lt;Double&gt;        selectivity_values_;</td>
+        <td id="LC65" class="blob-code blob-code-inner js-file-line">  CombinedCategoriesPtr         partition_;</td>
       </tr>
       <tr>
         <td id="L66" class="blob-num js-line-number" data-line-number="66"></td>
-        <td id="LC66" class="blob-code blob-code-inner js-file-line">      AgeWeight*            age_weight_ = <span class="pl-c1">nullptr</span>;</td>
+        <td id="LC66" class="blob-code blob-code-inner js-file-line">  AgeingError*                  ageing_error_ = <span class="pl-c1">nullptr</span>;</td>
       </tr>
       <tr>
         <td id="L67" class="blob-num js-line-number" data-line-number="67"></td>
-        <td id="LC67" class="blob-code blob-code-inner js-file-line">      string                age_weight_label_;</td>
+        <td id="LC67" class="blob-code blob-code-inner js-file-line">  vector&lt;Double&gt;                age_results_;</td>
       </tr>
       <tr>
         <td id="L68" class="blob-num js-line-number" data-line-number="68"></td>
-        <td id="LC68" class="blob-code blob-code-inner js-file-line">      <span class="pl-k">bool</span>                  used_in_current_timestep_;</td>
+        <td id="LC68" class="blob-code blob-code-inner js-file-line">  MortalityInstantaneous*       mortality_instantaneous_ = <span class="pl-c1">nullptr</span>;</td>
       </tr>
       <tr>
         <td id="L69" class="blob-num js-line-number" data-line-number="69"></td>
-        <td id="LC69" class="blob-code blob-code-inner js-file-line">    };</td>
+        <td id="LC69" class="blob-code blob-code-inner js-file-line">  vector&lt;string&gt;                time_step_label_;</td>
       </tr>
       <tr>
         <td id="L70" class="blob-num js-line-number" data-line-number="70"></td>
-        <td id="LC70" class="blob-code blob-code-inner js-file-line">  <span class="pl-c"><span class="pl-c">/*</span>*</span></td>
+        <td id="LC70" class="blob-code blob-code-inner js-file-line">  string                        process_label_;</td>
       </tr>
       <tr>
         <td id="L71" class="blob-num js-line-number" data-line-number="71"></td>
-        <td id="LC71" class="blob-code blob-code-inner js-file-line"><span class="pl-c">   * FisheryCategoryData is used to store 1 Fishery x Category x Selectivity</span></td>
+        <td id="LC71" class="blob-code blob-code-inner js-file-line">  <span class="pl-k">unsigned</span>                      time_step_to_execute_;</td>
       </tr>
       <tr>
         <td id="L72" class="blob-num js-line-number" data-line-number="72"></td>
-        <td id="LC72" class="blob-code blob-code-inner js-file-line"><span class="pl-c">   <span class="pl-c">*/</span></span></td>
+        <td id="LC72" class="blob-code blob-code-inner js-file-line">
+</td>
       </tr>
       <tr>
         <td id="L73" class="blob-num js-line-number" data-line-number="73"></td>
-        <td id="LC73" class="blob-code blob-code-inner js-file-line">  <span class="pl-k">struct</span> <span class="pl-en">FisheryCategoryData</span> {</td>
+        <td id="LC73" class="blob-code blob-code-inner js-file-line">  map&lt;<span class="pl-k">unsigned</span>, map&lt;string, vector&lt;Double&gt;&gt;&gt;  proportions_;</td>
       </tr>
       <tr>
         <td id="L74" class="blob-num js-line-number" data-line-number="74"></td>
-        <td id="LC74" class="blob-code blob-code-inner js-file-line">    <span class="pl-en">FisheryCategoryData</span>(FisheryData&amp; x, CategoryData&amp; y) : fishery_(x), category_(y) { };</td>
+        <td id="LC74" class="blob-code blob-code-inner js-file-line">  map&lt;<span class="pl-k">unsigned</span>, map&lt;string, vector&lt;Double&gt;&gt;&gt;  error_values_;</td>
       </tr>
       <tr>
         <td id="L75" class="blob-num js-line-number" data-line-number="75"></td>
-        <td id="LC75" class="blob-code blob-code-inner js-file-line">    FisheryData&amp;      fishery_;</td>
+        <td id="LC75" class="blob-code blob-code-inner js-file-line">
+</td>
       </tr>
       <tr>
         <td id="L76" class="blob-num js-line-number" data-line-number="76"></td>
-        <td id="LC76" class="blob-code blob-code-inner js-file-line">    CategoryData&amp;     category_;</td>
+        <td id="LC76" class="blob-code blob-code-inner js-file-line">};</td>
       </tr>
       <tr>
         <td id="L77" class="blob-num js-line-number" data-line-number="77"></td>
-        <td id="LC77" class="blob-code blob-code-inner js-file-line">    string            fishery_label_;</td>
+        <td id="LC77" class="blob-code blob-code-inner js-file-line">
+</td>
       </tr>
       <tr>
         <td id="L78" class="blob-num js-line-number" data-line-number="78"></td>
-        <td id="LC78" class="blob-code blob-code-inner js-file-line">    string            category_label_;</td>
+        <td id="LC78" class="blob-code blob-code-inner js-file-line">} <span class="pl-c"><span class="pl-c">/*</span> namespace age <span class="pl-c">*/</span></span></td>
       </tr>
       <tr>
         <td id="L79" class="blob-num js-line-number" data-line-number="79"></td>
-        <td id="LC79" class="blob-code blob-code-inner js-file-line">    string            selectivity_label_;</td>
+        <td id="LC79" class="blob-code blob-code-inner js-file-line">} <span class="pl-c"><span class="pl-c">/*</span> namespace observations <span class="pl-c">*/</span></span></td>
       </tr>
       <tr>
         <td id="L80" class="blob-num js-line-number" data-line-number="80"></td>
-        <td id="LC80" class="blob-code blob-code-inner js-file-line">    Selectivity*      selectivity_ = <span class="pl-c1">nullptr</span>;</td>
+        <td id="LC80" class="blob-code blob-code-inner js-file-line">} <span class="pl-c"><span class="pl-c">/*</span> namespace niwa <span class="pl-c">*/</span></span></td>
       </tr>
       <tr>
         <td id="L81" class="blob-num js-line-number" data-line-number="81"></td>
-        <td id="LC81" class="blob-code blob-code-inner js-file-line">    vector&lt;Double&gt;    selectivity_values_;</td>
+        <td id="LC81" class="blob-code blob-code-inner js-file-line">
+</td>
       </tr>
       <tr>
         <td id="L82" class="blob-num js-line-number" data-line-number="82"></td>
-        <td id="LC82" class="blob-code blob-code-inner js-file-line">    string            discard_selectivity_label_;</td>
-      </tr>
-      <tr>
-        <td id="L83" class="blob-num js-line-number" data-line-number="83"></td>
-        <td id="LC83" class="blob-code blob-code-inner js-file-line">    Selectivity*      discard_selectivity_ = <span class="pl-c1">nullptr</span>;</td>
-      </tr>
-      <tr>
-        <td id="L84" class="blob-num js-line-number" data-line-number="84"></td>
-        <td id="LC84" class="blob-code blob-code-inner js-file-line">  };</td>
-      </tr>
-      <tr>
-        <td id="L85" class="blob-num js-line-number" data-line-number="85"></td>
-        <td id="LC85" class="blob-code blob-code-inner js-file-line">
-</td>
-      </tr>
-      <tr>
-        <td id="L86" class="blob-num js-line-number" data-line-number="86"></td>
-        <td id="LC86" class="blob-code blob-code-inner js-file-line"><span class="pl-k">public:</span></td>
-      </tr>
-      <tr>
-        <td id="L87" class="blob-num js-line-number" data-line-number="87"></td>
-        <td id="LC87" class="blob-code blob-code-inner js-file-line">  <span class="pl-c"><span class="pl-c">//</span> methods</span></td>
-      </tr>
-      <tr>
-        <td id="L88" class="blob-num js-line-number" data-line-number="88"></td>
-        <td id="LC88" class="blob-code blob-code-inner js-file-line">  <span class="pl-k">explicit</span> <span class="pl-en">MortalityInstantaneous</span>(Model* model);</td>
-      </tr>
-      <tr>
-        <td id="L89" class="blob-num js-line-number" data-line-number="89"></td>
-        <td id="LC89" class="blob-code blob-code-inner js-file-line">  <span class="pl-k">virtual</span>                     <span class="pl-en">~MortalityInstantaneous</span>();</td>
-      </tr>
-      <tr>
-        <td id="L90" class="blob-num js-line-number" data-line-number="90"></td>
-        <td id="LC90" class="blob-code blob-code-inner js-file-line">  <span class="pl-k">void</span>                        <span class="pl-en">DoValidate</span>() <span class="pl-k">override</span> <span class="pl-k">final</span>;</td>
-      </tr>
-      <tr>
-        <td id="L91" class="blob-num js-line-number" data-line-number="91"></td>
-        <td id="LC91" class="blob-code blob-code-inner js-file-line">  <span class="pl-k">void</span>                        <span class="pl-en">DoBuild</span>() <span class="pl-k">override</span> <span class="pl-k">final</span>;</td>
-      </tr>
-      <tr>
-        <td id="L92" class="blob-num js-line-number" data-line-number="92"></td>
-        <td id="LC92" class="blob-code blob-code-inner js-file-line">  <span class="pl-k">void</span>                        <span class="pl-en">DoReset</span>() <span class="pl-k">override</span> <span class="pl-k">final</span>;</td>
-      </tr>
-      <tr>
-        <td id="L93" class="blob-num js-line-number" data-line-number="93"></td>
-        <td id="LC93" class="blob-code blob-code-inner js-file-line">  <span class="pl-k">void</span>                        <span class="pl-en">DoExecute</span>() <span class="pl-k">override</span> <span class="pl-k">final</span>;</td>
-      </tr>
-      <tr>
-        <td id="L94" class="blob-num js-line-number" data-line-number="94"></td>
-        <td id="LC94" class="blob-code blob-code-inner js-file-line">  <span class="pl-k">void</span>                        <span class="pl-en">RebuildCache</span>() <span class="pl-k">override</span> <span class="pl-k">final</span>;</td>
-      </tr>
-      <tr>
-        <td id="L95" class="blob-num js-line-number" data-line-number="95"></td>
-        <td id="LC95" class="blob-code blob-code-inner js-file-line">  <span class="pl-k">void</span>                        <span class="pl-en">FillReportCache</span>(ostringstream&amp; cache) <span class="pl-k">override</span> <span class="pl-k">final</span>;</td>
-      </tr>
-      <tr>
-        <td id="L96" class="blob-num js-line-number" data-line-number="96"></td>
-        <td id="LC96" class="blob-code blob-code-inner js-file-line">  <span class="pl-k">void</span>                        <span class="pl-en">FillTabularReportCache</span>(ostringstream&amp; cache, <span class="pl-k">bool</span> first_run) <span class="pl-k">override</span> <span class="pl-k">final</span>;</td>
-      </tr>
-      <tr>
-        <td id="L97" class="blob-num js-line-number" data-line-number="97"></td>
-        <td id="LC97" class="blob-code blob-code-inner js-file-line">  <span class="pl-c"><span class="pl-c">//</span></span></td>
-      </tr>
-      <tr>
-        <td id="L98" class="blob-num js-line-number" data-line-number="98"></td>
-        <td id="LC98" class="blob-code blob-code-inner js-file-line">  <span class="pl-k">bool</span>                       <span class="pl-en">check_categories_in_methods_for_removal_obs</span>(vector&lt;string&gt; methods, vector&lt;string&gt; category_labels);</td>
-      </tr>
-      <tr>
-        <td id="L99" class="blob-num js-line-number" data-line-number="99"></td>
-        <td id="LC99" class="blob-code blob-code-inner js-file-line">  <span class="pl-k">bool</span>                       <span class="pl-en">check_years_in_methods_for_removal_obs</span>(vector&lt;<span class="pl-k">unsigned</span>&gt; years, vector&lt;string&gt; methods);</td>
-      </tr>
-      <tr>
-        <td id="L100" class="blob-num js-line-number" data-line-number="100"></td>
-        <td id="LC100" class="blob-code blob-code-inner js-file-line">  <span class="pl-k">bool</span>                       <span class="pl-en">check_methods_for_removal_obs</span>(vector&lt;string&gt; methods);</td>
-      </tr>
-      <tr>
-        <td id="L101" class="blob-num js-line-number" data-line-number="101"></td>
-        <td id="LC101" class="blob-code blob-code-inner js-file-line">
-</td>
-      </tr>
-      <tr>
-        <td id="L102" class="blob-num js-line-number" data-line-number="102"></td>
-        <td id="LC102" class="blob-code blob-code-inner js-file-line">  <span class="pl-c"><span class="pl-c">//</span> accessors</span></td>
-      </tr>
-      <tr>
-        <td id="L103" class="blob-num js-line-number" data-line-number="103"></td>
-        <td id="LC103" class="blob-code blob-code-inner js-file-line">  map&lt;<span class="pl-k">unsigned</span>, map&lt;string, map&lt;string, vector&lt;Double&gt;&gt;&gt;&gt;&amp;  <span class="pl-en">catch_at</span>() { <span class="pl-k">return</span> removals_by_year_fishery_category_; };</td>
-      </tr>
-      <tr>
-        <td id="L104" class="blob-num js-line-number" data-line-number="104"></td>
-        <td id="LC104" class="blob-code blob-code-inner js-file-line">  map&lt;<span class="pl-k">unsigned</span>, map&lt;string, map&lt;string, vector&lt;Double&gt;&gt;&gt;&gt;&amp;  <span class="pl-en">discard_data</span>() { <span class="pl-k">return</span> discards_by_year_fishery_category_; };</td>
-      </tr>
-      <tr>
-        <td id="L105" class="blob-num js-line-number" data-line-number="105"></td>
-        <td id="LC105" class="blob-code blob-code-inner js-file-line">
-</td>
-      </tr>
-      <tr>
-        <td id="L106" class="blob-num js-line-number" data-line-number="106"></td>
-        <td id="LC106" class="blob-code blob-code-inner js-file-line">  <span class="pl-c"><span class="pl-c">//</span> set</span></td>
-      </tr>
-      <tr>
-        <td id="L107" class="blob-num js-line-number" data-line-number="107"></td>
-        <td id="LC107" class="blob-code blob-code-inner js-file-line">  vector&lt;<span class="pl-k">unsigned</span>&gt;            <span class="pl-en">set_years</span>();</td>
-      </tr>
-      <tr>
-        <td id="L108" class="blob-num js-line-number" data-line-number="108"></td>
-        <td id="LC108" class="blob-code blob-code-inner js-file-line"><span class="pl-k">private:</span></td>
-      </tr>
-      <tr>
-        <td id="L109" class="blob-num js-line-number" data-line-number="109"></td>
-        <td id="LC109" class="blob-code blob-code-inner js-file-line">  map&lt;string, CategoryData*&gt;  category_data_;</td>
-      </tr>
-      <tr>
-        <td id="L110" class="blob-num js-line-number" data-line-number="110"></td>
-        <td id="LC110" class="blob-code blob-code-inner js-file-line">  vector&lt;CategoryData&gt;        categories_;</td>
-      </tr>
-      <tr>
-        <td id="L111" class="blob-num js-line-number" data-line-number="111"></td>
-        <td id="LC111" class="blob-code blob-code-inner js-file-line">
-</td>
-      </tr>
-      <tr>
-        <td id="L112" class="blob-num js-line-number" data-line-number="112"></td>
-        <td id="LC112" class="blob-code blob-code-inner js-file-line">  <span class="pl-c"><span class="pl-c">//</span> members</span></td>
-      </tr>
-      <tr>
-        <td id="L113" class="blob-num js-line-number" data-line-number="113"></td>
-        <td id="LC113" class="blob-code blob-code-inner js-file-line">  vector&lt;string&gt;              category_labels_;</td>
-      </tr>
-      <tr>
-        <td id="L114" class="blob-num js-line-number" data-line-number="114"></td>
-        <td id="LC114" class="blob-code blob-code-inner js-file-line">  vector&lt;FisheryCategoryData&gt; fishery_categories_;</td>
-      </tr>
-      <tr>
-        <td id="L115" class="blob-num js-line-number" data-line-number="115"></td>
-        <td id="LC115" class="blob-code blob-code-inner js-file-line">  map&lt;string, FisheryData&gt;    fisheries_;</td>
-      </tr>
-      <tr>
-        <td id="L116" class="blob-num js-line-number" data-line-number="116"></td>
-        <td id="LC116" class="blob-code blob-code-inner js-file-line">  parameters::Table*          catches_table_ = <span class="pl-c1">nullptr</span>;</td>
-      </tr>
-      <tr>
-        <td id="L117" class="blob-num js-line-number" data-line-number="117"></td>
-        <td id="LC117" class="blob-code blob-code-inner js-file-line">  parameters::Table*          method_table_ = <span class="pl-c1">nullptr</span>;</td>
-      </tr>
-      <tr>
-        <td id="L118" class="blob-num js-line-number" data-line-number="118"></td>
-        <td id="LC118" class="blob-code blob-code-inner js-file-line">
-</td>
-      </tr>
-      <tr>
-        <td id="L119" class="blob-num js-line-number" data-line-number="119"></td>
-        <td id="LC119" class="blob-code blob-code-inner js-file-line">  accessor::Categories        partition_;</td>
-      </tr>
-      <tr>
-        <td id="L120" class="blob-num js-line-number" data-line-number="120"></td>
-        <td id="LC120" class="blob-code blob-code-inner js-file-line">  Double                      current_m_ = <span class="pl-c1">0.0</span>;</td>
-      </tr>
-      <tr>
-        <td id="L121" class="blob-num js-line-number" data-line-number="121"></td>
-        <td id="LC121" class="blob-code blob-code-inner js-file-line">
-</td>
-      </tr>
-      <tr>
-        <td id="L122" class="blob-num js-line-number" data-line-number="122"></td>
-        <td id="LC122" class="blob-code blob-code-inner js-file-line">  <span class="pl-c"><span class="pl-c">//</span> members from mortality event</span></td>
-      </tr>
-      <tr>
-        <td id="L123" class="blob-num js-line-number" data-line-number="123"></td>
-        <td id="LC123" class="blob-code blob-code-inner js-file-line">  <span class="pl-c"><span class="pl-c">//</span>Double                      u_max_ = 0.99; // Now attached to the fishery object</span></td>
-      </tr>
-      <tr>
-        <td id="L124" class="blob-num js-line-number" data-line-number="124"></td>
-        <td id="LC124" class="blob-code blob-code-inner js-file-line">  string                      penalty_label_ = <span class="pl-s"><span class="pl-pds">&quot;</span><span class="pl-pds">&quot;</span></span>;</td>
-      </tr>
-      <tr>
-        <td id="L125" class="blob-num js-line-number" data-line-number="125"></td>
-        <td id="LC125" class="blob-code blob-code-inner js-file-line">  penalties::Process*         penalty_ = <span class="pl-c1">nullptr</span>;</td>
-      </tr>
-      <tr>
-        <td id="L126" class="blob-num js-line-number" data-line-number="126"></td>
-        <td id="LC126" class="blob-code blob-code-inner js-file-line">  string                      unit_;</td>
-      </tr>
-      <tr>
-        <td id="L127" class="blob-num js-line-number" data-line-number="127"></td>
-        <td id="LC127" class="blob-code blob-code-inner js-file-line">  <span class="pl-c"><span class="pl-c">//</span> members from natural mortality</span></td>
-      </tr>
-      <tr>
-        <td id="L128" class="blob-num js-line-number" data-line-number="128"></td>
-        <td id="LC128" class="blob-code blob-code-inner js-file-line">  vector&lt;Double&gt;              m_input_;</td>
-      </tr>
-      <tr>
-        <td id="L129" class="blob-num js-line-number" data-line-number="129"></td>
-        <td id="LC129" class="blob-code blob-code-inner js-file-line">  OrderedMap&lt;string, Double&gt;  m_;</td>
-      </tr>
-      <tr>
-        <td id="L130" class="blob-num js-line-number" data-line-number="130"></td>
-        <td id="LC130" class="blob-code blob-code-inner js-file-line">  vector&lt;Double&gt;              time_step_ratios_temp_;</td>
-      </tr>
-      <tr>
-        <td id="L131" class="blob-num js-line-number" data-line-number="131"></td>
-        <td id="LC131" class="blob-code blob-code-inner js-file-line">  map&lt;<span class="pl-k">unsigned</span>, Double&gt;       time_step_ratios_;</td>
-      </tr>
-      <tr>
-        <td id="L132" class="blob-num js-line-number" data-line-number="132"></td>
-        <td id="LC132" class="blob-code blob-code-inner js-file-line">  vector&lt;string&gt;              selectivity_labels_;</td>
-      </tr>
-      <tr>
-        <td id="L133" class="blob-num js-line-number" data-line-number="133"></td>
-        <td id="LC133" class="blob-code blob-code-inner js-file-line">  vector&lt;Selectivity*&gt;        selectivities_;</td>
-      </tr>
-      <tr>
-        <td id="L134" class="blob-num js-line-number" data-line-number="134"></td>
-        <td id="LC134" class="blob-code blob-code-inner js-file-line">  vector&lt;string&gt;			  discard_selectivity_labels_;</td>
-      </tr>
-      <tr>
-        <td id="L135" class="blob-num js-line-number" data-line-number="135"></td>
-        <td id="LC135" class="blob-code blob-code-inner js-file-line">  <span class="pl-k">bool</span>					 	  include_discards_ = <span class="pl-c1">false</span>;</td>
-      </tr>
-      <tr>
-        <td id="L136" class="blob-num js-line-number" data-line-number="136"></td>
-        <td id="LC136" class="blob-code blob-code-inner js-file-line">  <span class="pl-c"><span class="pl-c">//</span> members for observations</span></td>
-      </tr>
-      <tr>
-        <td id="L137" class="blob-num js-line-number" data-line-number="137"></td>
-        <td id="LC137" class="blob-code blob-code-inner js-file-line">  map&lt;<span class="pl-k">unsigned</span>,  map&lt;string, map&lt;string, vector&lt;Double&gt;&gt;&gt;&gt; removals_by_year_fishery_category_; <span class="pl-c"><span class="pl-c">//</span> Year,  fishery, category</span></td>
-      </tr>
-      <tr>
-        <td id="L138" class="blob-num js-line-number" data-line-number="138"></td>
-        <td id="LC138" class="blob-code blob-code-inner js-file-line">  map&lt;<span class="pl-k">unsigned</span>,  map&lt;string, map&lt;string, vector&lt;Double&gt;&gt;&gt;&gt; discards_by_year_fishery_category_; <span class="pl-c"><span class="pl-c">//</span> Year,  fishery, category</span></td>
-      </tr>
-      <tr>
-        <td id="L139" class="blob-num js-line-number" data-line-number="139"></td>
-        <td id="LC139" class="blob-code blob-code-inner js-file-line">
-</td>
-      </tr>
-      <tr>
-        <td id="L140" class="blob-num js-line-number" data-line-number="140"></td>
-        <td id="LC140" class="blob-code blob-code-inner js-file-line">  map&lt;<span class="pl-k">unsigned</span>, map&lt;string, vector&lt;string&gt;&gt;&gt; year_method_category_to_store_; <span class="pl-c"><span class="pl-c">//</span> Year,  fishery, category</span></td>
-      </tr>
-      <tr>
-        <td id="L141" class="blob-num js-line-number" data-line-number="141"></td>
-        <td id="LC141" class="blob-code blob-code-inner js-file-line">  <span class="pl-c"><span class="pl-c">//</span> Members for reporting</span></td>
-      </tr>
-      <tr>
-        <td id="L142" class="blob-num js-line-number" data-line-number="142"></td>
-        <td id="LC142" class="blob-code blob-code-inner js-file-line">  vector&lt;<span class="pl-k">unsigned</span>&gt;            time_steps_to_skip_applying_F_mortaltiy_;</td>
-      </tr>
-      <tr>
-        <td id="L143" class="blob-num js-line-number" data-line-number="143"></td>
-        <td id="LC143" class="blob-code blob-code-inner js-file-line">  <span class="pl-k">bool</span>                        use_age_weight_ = <span class="pl-c1">true</span>;</td>
-      </tr>
-      <tr>
-        <td id="L144" class="blob-num js-line-number" data-line-number="144"></td>
-        <td id="LC144" class="blob-code blob-code-inner js-file-line">  vector&lt;vector&lt;vector&lt;Double&gt;&gt;&gt; removals_by_year_category_age_; <span class="pl-c"><span class="pl-c">//</span> year[year_ndx][category_ndx][age_ndx]</span></td>
-      </tr>
-      <tr>
-        <td id="L145" class="blob-num js-line-number" data-line-number="145"></td>
-        <td id="LC145" class="blob-code blob-code-inner js-file-line">
-</td>
-      </tr>
-      <tr>
-        <td id="L146" class="blob-num js-line-number" data-line-number="146"></td>
-        <td id="LC146" class="blob-code blob-code-inner js-file-line">  vector&lt;vector&lt;Double&gt;&gt;     removals_by_category_age_; <span class="pl-c"><span class="pl-c">//</span> [category_ndx][age_ndx]</span></td>
-      </tr>
-      <tr>
-        <td id="L147" class="blob-num js-line-number" data-line-number="147"></td>
-        <td id="LC147" class="blob-code blob-code-inner js-file-line">  vector&lt;vector&lt;Double&gt;&gt;     discards_by_category_age_; <span class="pl-c"><span class="pl-c">//</span> [category_ndx][age_ndx]</span></td>
-      </tr>
-      <tr>
-        <td id="L148" class="blob-num js-line-number" data-line-number="148"></td>
-        <td id="LC148" class="blob-code blob-code-inner js-file-line">
-</td>
-      </tr>
-      <tr>
-        <td id="L149" class="blob-num js-line-number" data-line-number="149"></td>
-        <td id="LC149" class="blob-code blob-code-inner js-file-line">
-</td>
-      </tr>
-      <tr>
-        <td id="L150" class="blob-num js-line-number" data-line-number="150"></td>
-        <td id="LC150" class="blob-code blob-code-inner js-file-line">};</td>
-      </tr>
-      <tr>
-        <td id="L151" class="blob-num js-line-number" data-line-number="151"></td>
-        <td id="LC151" class="blob-code blob-code-inner js-file-line">
-</td>
-      </tr>
-      <tr>
-        <td id="L152" class="blob-num js-line-number" data-line-number="152"></td>
-        <td id="LC152" class="blob-code blob-code-inner js-file-line">} <span class="pl-c"><span class="pl-c">/*</span> namespace age <span class="pl-c">*/</span></span></td>
-      </tr>
-      <tr>
-        <td id="L153" class="blob-num js-line-number" data-line-number="153"></td>
-        <td id="LC153" class="blob-code blob-code-inner js-file-line">} <span class="pl-c"><span class="pl-c">/*</span> namespace processes <span class="pl-c">*/</span></span></td>
-      </tr>
-      <tr>
-        <td id="L154" class="blob-num js-line-number" data-line-number="154"></td>
-        <td id="LC154" class="blob-code blob-code-inner js-file-line">} <span class="pl-c"><span class="pl-c">/*</span> namespace niwa <span class="pl-c">*/</span></span></td>
-      </tr>
-      <tr>
-        <td id="L155" class="blob-num js-line-number" data-line-number="155"></td>
-        <td id="LC155" class="blob-code blob-code-inner js-file-line">
-</td>
-      </tr>
-      <tr>
-        <td id="L156" class="blob-num js-line-number" data-line-number="156"></td>
-        <td id="LC156" class="blob-code blob-code-inner js-file-line">#<span class="pl-k">endif</span> <span class="pl-c"><span class="pl-c">/*</span> SOURCE_PROCESSES_CHILDREN_MORTALITYINSTANTANEOUS_H_ <span class="pl-c">*/</span></span></td>
+        <td id="LC82" class="blob-code blob-code-inner js-file-line">#<span class="pl-k">endif</span> <span class="pl-c"><span class="pl-c">/*</span> AGE_OBSERVATIONS_DISCARDS_BY_AGE_H_ <span class="pl-c">*/</span></span></td>
       </tr>
 </table>
 
@@ -1515,7 +1211,7 @@
       <ul class="BlobToolbar-dropdown dropdown-menu dropdown-menu-se mt-2" style="width:185px">
         <li><clipboard-copy role="menuitem" class="dropdown-item" id="js-copy-lines" style="cursor:pointer;" data-original-text="Copy lines">Copy lines</clipboard-copy></li>
         <li><clipboard-copy role="menuitem" class="dropdown-item" id="js-copy-permalink" style="cursor:pointer;" data-original-text="Copy permalink">Copy permalink</clipboard-copy></li>
-        <li><a class="dropdown-item js-update-url-with-hash" id="js-view-git-blame" role="menuitem" href="/Craig44/CASAL2/blame/af5203b0afae5d438a31fc9ba44f691394013daa/CASAL2/source/Processes/Age/MortalityInstantaneous.h">View git blame</a></li>
+        <li><a class="dropdown-item js-update-url-with-hash" id="js-view-git-blame" role="menuitem" href="/Craig44/CASAL2/blame/af5203b0afae5d438a31fc9ba44f691394013daa/CASAL2/source/Observations/Age/ProcessDiscardsByAge.h">View git blame</a></li>
       </ul>
     </details-menu>
   </details>
@@ -1551,7 +1247,7 @@
 <div class="footer container-lg width-full px-3" role="contentinfo">
   <div class="position-relative d-flex flex-justify-between pt-6 pb-2 mt-6 f6 text-gray border-top border-gray-light ">
     <ul class="list-style-none d-flex flex-wrap ">
-      <li class="mr-3">&copy; 2019 <span title="0.25103s from unicorn-7c7654956b-222ds">GitHub</span>, Inc.</li>
+      <li class="mr-3">&copy; 2019 <span title="0.23709s from unicorn-7c7654956b-mnwwh">GitHub</span>, Inc.</li>
         <li class="mr-3"><a data-ga-click="Footer, go to terms, text:terms" href="https://github.com/site/terms">Terms</a></li>
         <li class="mr-3"><a data-ga-click="Footer, go to privacy, text:privacy" href="https://github.com/site/privacy">Privacy</a></li>
         <li class="mr-3"><a data-ga-click="Footer, go to security, text:security" href="https://github.com/security">Security</a></li>
