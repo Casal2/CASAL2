@@ -17,8 +17,8 @@
  * Currently all discards die and so are removed from the partition << CHANGE LATER
  */
  
-#ifndef SOURCE_PROCESSES_CHILDREN_MORTALITYINSTANTANEOUS_H_
-#define SOURCE_PROCESSES_CHILDREN_MORTALITYINSTANTANEOUS_H_
+#ifndef SOURCE_PROCESSES_CHILDREN_MORTALITYINSTANTANEOUSRETAINED_H_
+#define SOURCE_PROCESSES_CHILDREN_MORTALITYINSTANTANEOUSRETAINED_H_
 
 // headers
 #include "Model/Model.h"
@@ -77,7 +77,7 @@ class MortalityInstantaneousRetained : public Process {
 	  string                selectivity_label_;
     Selectivity*          selectivity_;
     vector<Double>        selectivity_values_; // M-ogive
-    vector<Double>        retained_selectivity_values_; // M-ogive
+    vector<Double>        retained_selectivity_values_; // *** TAKE OUT LATER ***
 	  AgeWeight*            age_weight_ = nullptr;
     string                age_weight_label_;
     bool                  used_in_current_timestep_;
@@ -172,4 +172,4 @@ private:
 } /* namespace processes */
 } /* namespace niwa */
 
-#endif /* SOURCE_PROCESSES_CHILDREN_MORTALITYINSTANTANEOUS_H_ */
+#endif /* SOURCE_PROCESSES_CHILDREN_MORTALITYINSTANTANEOUSRETAINED_H_ */

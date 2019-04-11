@@ -131,8 +131,8 @@ private:
   map<unsigned, Double>       time_step_ratios_;
   vector<string>              selectivity_labels_;
   vector<Selectivity*>        selectivities_;
-  vector<string>        discard_selectivity_labels_;
-  bool              include_discards_ = false;
+  vector<string>              discard_selectivity_labels_;
+  bool                        include_discards_ = false;
   // members for observations
   map<unsigned,  map<string, map<string, vector<Double>>>> removals_by_year_fishery_category_; // Year,  fishery, category
   map<unsigned,  map<string, map<string, vector<Double>>>> discards_by_year_fishery_category_; // Year,  fishery, category
