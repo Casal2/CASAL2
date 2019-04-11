@@ -54,6 +54,7 @@ class MortalityInstantaneousRetained : public Process {
     map<unsigned, Double>  retained_catches_; //landing reported for fishery
     map<unsigned, Double>  actual_retained_catches_;
     map<unsigned, Double>  catches_;         //discard + retained as estimated from retained catch
+    map<unsigned, Double>  discards_;         //discard + retained as estimated from retained catch
     map<unsigned, Double>  actual_catches_;  //discard + retained 
     map<unsigned, Double>  actual_discards_; // estimated discard catch
     map<unsigned, Double>  exploitation_by_year_; // I(CM?) added this so it can be reported
@@ -76,6 +77,7 @@ class MortalityInstantaneousRetained : public Process {
 	  string                selectivity_label_;
     Selectivity*          selectivity_;
     vector<Double>        selectivity_values_; // M-ogive
+    vector<Double>        retained_selectivity_values_; // M-ogive
 	  AgeWeight*            age_weight_ = nullptr;
     string                age_weight_label_;
     bool                  used_in_current_timestep_;
@@ -146,7 +148,7 @@ private:
   vector<string>              selectivity_labels_;      //m_ogives?
   vector<Selectivity*>        selectivities_;
   vector<string>			        retained_selectivity_labels_;
-  bool					 	  include_retained_ = false;   //<<<<<<<<<<<<<<<<<<<<<<
+  bool					 	            include_retained_ = false;   //<<<<<<<<<<<<<<<<<<<<<<
   // members for observations
   map<unsigned,  map<string, map<string, vector<Double>>>> removals_by_year_fishery_category_; // Year,  fishery, category
   map<unsigned,  map<string, map<string, vector<Double>>>> retained_by_year_fishery_category_; // Year,  fishery, category
@@ -161,6 +163,7 @@ private:
 		
   vector<vector<Double>>     removals_by_category_age_; // [category_ndx][age_ndx]
   vector<vector<Double>>     discards_by_category_age_; // [category_ndx][age_ndx]
+  vector<vector<Double>>     retained_by_category_age_; // [category_ndx][age_ndx]
 
 
 };

@@ -222,9 +222,9 @@ void MortalityInstantaneousRetained::DoValidate() {
       LOG_ERROR_P(PARAM_METHOD) << "fishery " << new_fishery.label_ << " does not have catch information in the catches table";
   
     new_fishery.catches_                 = fishery_year_catch[new_fishery.label_];  //discards+retained; discards estimated
-	new_fishery.discards_                = fishery_year_catch[new_fishery.label_];  //estimated
-	new_fishery.retained_catches_        = fishery_year_catch[new_fishery.label_];  // set to obs data
-    new_fishery.retained_actual_catches_ = fishery_year_catch[new_fishery.label_];  // set to obs data
+    new_fishery.discards_                = fishery_year_catch[new_fishery.label_];  //estimated
+    new_fishery.retained_catches_        = fishery_year_catch[new_fishery.label_];  // set to obs data
+    new_fishery.actual_retained_catches_ = fishery_year_catch[new_fishery.label_];  // set to obs data
    
 
     fisheries_[new_fishery.label_] = new_fishery;
@@ -450,7 +450,7 @@ void MortalityInstantaneousRetained::DoBuild() {
   for (unsigned i = 0; i < category_labels_.size(); ++i) {
     removals_by_category_age_[i].resize(model_->age_spread());
     discards_by_category_age_[i].resize(model_->age_spread());
-	retained_by_category_age_[i].resize(model_->age_spread());
+    retained_by_category_age_[i].resize(model_->age_spread());
   }
 
 }
@@ -512,11 +512,11 @@ void MortalityInstantaneousRetained::DoExecute() {
         if (used)
           category.exp_values_[i] = exp(-0.5 * ratio * (*category.m_) * selectivity_value);  //category.m_) * selectivity_value = age varying M
 	  
-	  // retained_selectivity_value = category.retained_selectivity_->GetAgeResult(category.category_->min_age_ + i, category.category_->age_length_); //R[a,j]
-      //  category.retained_exploitation_[i] = 0.0;
-      // category.retained_selectivity_values_[i] = retained_selectivity_value;
-      //  if (used)
-      //    category.retained_exp_values_[i] = exp(-0.5 * ratio * (*category.m_) * retained_selectivity_value)* selectivity_value;  
+//        retained_selectivity_value = category.retained_selectivity_->GetAgeResult(category.category_->min_age_ + i, category.category_->age_length_); //R[a,j]
+//        category.retained_exploitation_[i] = 0.0;
+//        category.retained_selectivity_values_[i] = retained_selectivity_value;
+//        if (used)
+//          category.retained_exp_values_[i] = exp(-0.5 * ratio * (*category.m_) * retained_selectivity_value)* selectivity_value;
       }
     }
   }

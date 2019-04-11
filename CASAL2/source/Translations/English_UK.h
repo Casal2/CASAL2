@@ -461,7 +461,7 @@
 #define PARAM_PARTITION_TYPE                      "partition_type"
 #define PARAM_PENALTY                             "penalty"
 #define PARAM_PEARSONS_RESIDUALS                  "pearsons_residuals"
-#define PARA_RETAINED_SELECTIVITY				          "retained_selectivity"
+#define PARAM_RETAINED_SELECTIVITY				        "retained_selectivity"
 #define PARAM_PLUS_GROUP                          "plus_group"
 #define PARAM_POINT_PERTUBATION_RADIUS            "point_pertubation_radius"
 #define PARAM_POPULATION_SIZE                     "population_size"
