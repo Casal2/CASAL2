@@ -149,6 +149,17 @@
 \defSub{selectivities} {Labels of the selectivities}
 \defSub{process\_error} {Value for process error}
 \defSub{age\_weight\_labels} {The labels for the \command{$age\_weight$} block which corresponds to each category, if you want to use that weight calculation method for biomass calculations}
+\par\textbf{\commandlabsubarg{observation}{type}{process\_discards\_by\_age}}\par
+\defSub{min\_age} {Minimum age}
+\defSub{max\_age} {Maximum age}
+\defSub{plus\_group} {Use age plus group}
+\defSub{time\_step} {The label of time-step that the observation occurs in}
+\defSub{tolerance} {Tolerance}
+\defSub{years} {Years for which there are observations}
+\defSub{process\_errors} {Label of process error to use}
+\defSub{ageing\_error} {Label of ageing error to use}
+\defSub{method\_of\_removal} {Label of observed method of removals}
+\defSub{mortality\_instantaneous\_process} {The label of the mortality instantaneous process for the observation}
 \par\textbf{\commandlabsubarg{observation}{type}{process\_removals\_by\_age}}\par
 \defSub{min\_age} {Minimum age}
 \defSub{max\_age} {Maximum age}
@@ -302,6 +313,11 @@
 \defSub{m} {Natural mortality rates for each category}
 \defSub{time\_step\_ratio} {Time step ratios for natural mortality}
 \defSub{selectivities} {The selectivities to apply on the categories for natural mortality}
+\par\textbf{\commandlabsubarg{process}{type}{mortality\_instantaneous\_retained}}\par
+\defSub{categories} {Categories for instantaneous mortality}
+\defSub{m} {Natural mortality rates for each category}
+\defSub{time\_step\_ratio} {Time step ratios for natural mortality}
+\defSub{selectivities} {The selectivities (M-ogives) to apply on the categories for natural mortality}
 \par\textbf{\commandlabsubarg{process}{type}{mortality\_prey\_suitability}}\par
 \defSub{prey\_categories} {Prey Categories labels}
 \defSub{predator\_categories} {Predator Categories labels}

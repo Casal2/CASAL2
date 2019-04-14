@@ -494,7 +494,7 @@ void MortalityInstantaneousRetained::DoExecute() {
   unsigned year =  model_->current_year();
   Double ratio = time_step_ratios_[time_step_index];
   Double selectivity_value = 0.0;  //fishing?NO
-  Double retained_selectivity_value = 0.0;
+//  Double retained_selectivity_value = 0.0;
 
   for (auto& category : categories_) {
     // Is this category used?
