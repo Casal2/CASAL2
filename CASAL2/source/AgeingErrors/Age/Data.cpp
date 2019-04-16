@@ -50,7 +50,7 @@ void Data::DoBuild() {
     return;
   }
   if (data[0].size() != age_spread_) {
-    LOG_ERROR_P(PARAM_TABLE) << "number of columns provided " << data.size() << " does not match the age spread for the model " << age_spread_;
+    LOG_ERROR_P(PARAM_TABLE) << "number of columns provided " << data[0].size() << " does not match the age spread for the model " << age_spread_;
     return;
   }
 

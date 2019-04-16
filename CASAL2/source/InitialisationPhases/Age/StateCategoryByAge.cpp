@@ -72,7 +72,7 @@ void StateCategoryByAge::DoValidate() {
   unsigned row_number = 1;
   for (auto row : data) {
     if (row.size() != column_count_)
-      LOG_ERROR_P(PARAM_N) << "the " << row_number << "the row has " << row.size() << " values but " << column_count_ << " values are expected";
+      LOG_ERROR_P(PARAM_N) << "row " << row_number << " has " << row.size() << " values but " << column_count_ << " values are expected";
     if (n_.find(row[0]) != n_.end())
       LOG_ERROR_P(PARAM_N) << "the category " << row[0] << " is defined more than once. You can only define a category once";
     if (std::find(category_labels_.begin(), category_labels_.end(), row[0]) == category_labels_.end())
