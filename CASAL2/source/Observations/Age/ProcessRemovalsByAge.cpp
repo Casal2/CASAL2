@@ -218,7 +218,7 @@ void ProcessRemovalsByAge::DoBuild() {
       LOG_ERROR_P(PARAM_AGEING_ERROR) << "(" << ageing_error_label_ << ") could not be found. Have you defined it?";
     }
     if (ageing_error_label_ == "") {
-      LOG_WARNING() << "You are suppling a an age based observation with no ageing_misclassification";
+      LOG_WARNING() << "You are supplying an age based observation with no ageing_misclassification";
     }
 
   age_results_.resize(age_spread_ * category_labels_.size(), 0.0);

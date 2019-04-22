@@ -499,6 +499,7 @@
 #define PARAM_PROCESS_PROPORTIONS_BY_CATEGORY     "process_proportions_by_category"
 #define PARAM_PROCESS_PROPORTIONS_MIGRATING       "process_proportions_migrating"
 #define PARAM_PROCESS_REMOVALS_BY_AGE             "process_removals_by_age"
+#define PARAM_PROCESS_REMOVALS_BY_AGE_RETAINED    "process_removals_by_age_retained"
 #define PARAM_PROCESS_REMOVALS_BY_LENGTH          "process_removals_by_length"
 #define PARAM_PROJECTION_FINAL_YEAR               "projection_final_year"
 #define PARAM_PROPORTION                          "proportion"
