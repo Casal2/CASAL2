@@ -1,5 +1,5 @@
 /**
- * @file ProcessRemovalsByAgeRetained.cpp
+ * @file ProcessRemovalsByAgeRetainedTotal.cpp
  * @author  S Datta
  * @version 1.0
  * @date 02/05/19
@@ -9,7 +9,7 @@
  */
 
 // Headers
-#include "ProcessRemovalsByAgeRetained.h"
+#include "ProcessRemovalsByAgeRetainedTotal.h"
 
 #include <algorithm>
 #include <boost/algorithm/string/replace.hpp>
@@ -35,7 +35,7 @@ namespace age {
 /**
  * Default constructor
  */
-ProcessRemovalsByAgeRetained::ProcessRemovalsByAgeRetained(Model* model) : Observation(model) {
+ProcessRemovalsByAgeRetainedTotal::ProcessRemovalsByAgeRetainedTotal(Model* model) : Observation(model) {
   obs_table_ = new parameters::Table(PARAM_OBS);
   error_values_table_ = new parameters::Table(PARAM_ERROR_VALUES);
 
@@ -63,7 +63,7 @@ ProcessRemovalsByAgeRetained::ProcessRemovalsByAgeRetained(Model* model) : Obser
 /**
  * Destructor
  */
-ProcessRemovalsByAgeRetained::~ProcessRemovalsByAgeRetained() {
+ProcessRemovalsByAgeRetainedTotal::~ProcessRemovalsByAgeRetainedTotal() {
   delete obs_table_;
   delete error_values_table_;
 }
@@ -71,7 +71,7 @@ ProcessRemovalsByAgeRetained::~ProcessRemovalsByAgeRetained() {
 /**
  * Validate configuration file parameters
  */
-void ProcessRemovalsByAgeRetained::DoValidate() {
+void ProcessRemovalsByAgeRetainedTotal::DoValidate() {
   age_spread_ = (max_age_ - min_age_) + 1;
   map<unsigned, vector<Double>> error_values_by_year;
   map<unsigned, vector<Double>> obs_by_year;
@@ -208,7 +208,7 @@ void ProcessRemovalsByAgeRetained::DoValidate() {
  * Build any runtime relationships we may have and ensure
  * the labels for other objects are valid.
  */
-void ProcessRemovalsByAgeRetained::DoBuild() {
+void ProcessRemovalsByAgeRetainedTotal::DoBuild() {
   partition_ = CombinedCategoriesPtr(new niwa::partition::accessors::CombinedCategories(model_, category_labels_));
 
   // Create a pointer to misclassification matrix
@@ -283,13 +283,13 @@ void ProcessRemovalsByAgeRetained::DoBuild() {
  * At this point we need to build our cache for the partition
  * structure to use with any interpolation
  */
-void ProcessRemovalsByAgeRetained::PreExecute() {
+void ProcessRemovalsByAgeRetainedTotal::PreExecute() {
 }
 
 /**
  *
  */
-void ProcessRemovalsByAgeRetained::Execute() {
+void ProcessRemovalsByAgeRetainedTotal::Execute() {
   LOG_TRACE();
   LOG_FINEST() << "Entering observation " << label_;
 
@@ -377,7 +377,7 @@ void ProcessRemovalsByAgeRetained::Execute() {
  * This method is called at the end of a model iteration
  * to calculate the score for the observation.
  */
-void ProcessRemovalsByAgeRetained::CalculateScore() {
+void ProcessRemovalsByAgeRetainedTotal::CalculateScore() {
   /**
    * Simulate or generate results
    * During simulation mode we'll simulate results for this observation

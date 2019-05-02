@@ -1,5 +1,5 @@
 /**
- * @file ProcessRemovalsByAge.h
+ * @file ProcessRemovalsByAgeRetainedTotal.h
  * @author  S Datta
  * @version 1.0
  * @date 02/05/19
@@ -14,8 +14,8 @@
  * This class then applies ageing error and converts to a proportion which then gets sent to a likelihood for evaluation.
  *
  */
-#ifndef AGE_OBSERVATIONS_REMOVALS_BY_AGE_RETAINED_H_
-#define AGE_OBSERVATIONS_REMOVALS_BY_AGE_RETAINED_H_
+#ifndef AGE_OBSERVATIONS_REMOVALS_BY_AGE_RETAINED_TOTAL_H_
+#define AGE_OBSERVATIONS_REMOVALS_BY_AGE_RETAINED_TOTAL_H_
 
 // Headers
 #include "Observations/Observation.h"
@@ -35,11 +35,11 @@ using processes::age::MortalityInstantaneousRetained;
 /**
  * Class Definition
  */
-class ProcessRemovalsByAgeRetained : public niwa::Observation {
+class ProcessRemovalsByAgeRetainedTotal : public niwa::Observation {
 public:
   // Methods
-  explicit ProcessRemovalsByAgeRetained(Model* model);
-  virtual                     ~ProcessRemovalsByAgeRetained();
+  explicit ProcessRemovalsByAgeRetainedTotal(Model* model);
+  virtual                     ~ProcessRemovalsByAgeRetainedTotal();
   void                        DoValidate() override final;
   void                        DoBuild() override final;
   void                        DoReset() override final { };
@@ -79,4 +79,4 @@ protected:
 } /* namespace observations */
 } /* namespace niwa */
 
-#endif /* AGE_OBSERVATIONS_REMOVALS_BY_AGE_RETAINED_H_ */
+#endif /* AGE_OBSERVATIONS_REMOVALS_BY_AGE_RETAINED_TOTAL_H_ */

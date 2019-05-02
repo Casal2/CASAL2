@@ -138,7 +138,7 @@ unsigned Manager::GetProcessIndex(const string& process_label) const {
         return index;
     }
   }
-  LOG_ERROR() << "No process with the label " << process_label << " is found in the annaul cycle";
+  LOG_ERROR() << "No process with the label " << process_label << " is found in the annual cycle";
   return 0;
 }
 
