@@ -75,7 +75,7 @@ Observation* Factory::Create(Model* model, const string& object_type, const stri
       else if (sub_type == PARAM_PROCESS_REMOVALS_BY_AGE_RETAINED)
         result = new age::ProcessRemovalsByAgeRetained(model);
       else if (sub_type == PARAM_PROCESS_REMOVALS_BY_AGE_RETAINED_TOTAL)
-        result = new age::ProcessRemovalsByAgeRetained(model);
+        result = new age::ProcessRemovalsByAgeRetainedTotal(model);
       else if (sub_type == PARAM_PROCESS_DISCARDS_BY_AGE)
         result = new age::ProcessDiscardsByAge(model);
       else if (sub_type == PARAM_PROCESS_PROPORTIONS_AT_LENGTH)

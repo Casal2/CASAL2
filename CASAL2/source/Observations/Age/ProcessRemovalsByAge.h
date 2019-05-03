@@ -14,8 +14,8 @@
  * This class then applies ageing error and converts to a proportion which then gets sent to a likelihood for evaluation.
  *
  */
-#ifndef AGE_OBSERVATIONS_REMOVEALS_BY_AGE_H_
-#define AGE_OBSERVATIONS_REMOVEALS_BY_AGE_H_
+#ifndef AGE_OBSERVATIONS_REMOVALS_BY_AGE_H_
+#define AGE_OBSERVATIONS_REMOVALS_BY_AGE_H_
 
 // Headers
 #include "Observations/Observation.h"

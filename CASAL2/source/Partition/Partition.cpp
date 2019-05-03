@@ -302,7 +302,7 @@ void Partition::Reset() {
  */
 partition::Category& Partition::category(const string& category_label) {
   auto find_iter = partition_.find(category_label);
-  LOG_FINE() << "we wont " << category_label;
+  LOG_FINE() << "we want " << category_label;
   for(auto& map_vals : partition_)
     LOG_FINE()  << map_vals.first;
 

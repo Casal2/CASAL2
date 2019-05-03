@@ -169,7 +169,7 @@ void MortalityInstantaneous::DoValidate() {
     LOG_FINE() << "row: " << boost::join(row, " ");
   }
 
-  // Check the column headers are all specified corectly
+  // Check the column headers are all specified correctly
   if (std::find(columns.begin(), columns.end(), PARAM_METHOD) == columns.end())
     LOG_FATAL_P(PARAM_METHOD) << "Cannot find the column " << PARAM_METHOD << ", this column is needed, for casal2 to run this process. Please add it =)";
   if (std::find(columns.begin(), columns.end(), PARAM_CATEGORY) == columns.end())

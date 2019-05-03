@@ -298,7 +298,7 @@ void ProcessRemovalsByAgeRetained::Execute() {
 	if (time_step_to_execute_ == current_time_step) {
 
 		unsigned year = model_->current_year();
-		map<unsigned,map<string, map<string, vector<Double>>>> &Removals_at_age = mortality_instantaneous_retained_->catch_at();
+		map<unsigned,map<string, map<string, vector<Double>>>> &Retained_at_age = mortality_instantaneous_retained_->retained_data(); // edited from catch_at
 
 		auto partition_iter = partition_->Begin(); // vector<vector<partition::Category> >
 		for (unsigned category_offset = 0; category_offset < category_labels_.size(); ++category_offset, ++partition_iter) {
@@ -311,40 +311,40 @@ void ProcessRemovalsByAgeRetained::Execute() {
 				unsigned method_offset = 0;
 				for (string fishery : method_) {
 				  // This should get caught in the DoBuild now.
-					if (Removals_at_age[year][fishery][(*category_iter)->name_].size() == 0) {
-						LOG_FATAL() << "There is no catch at age data in year " << year << " for method " << fishery << " applied to category = " << (*category_iter)->name_ << " please check that your mortality_instantaneous process '" << process_label_<< "' is comparable with the observation " << label_;
+					if (Retained_at_age[year][fishery][(*category_iter)->name_].size() == 0) {
+						LOG_FATAL() << "There is no retained catch at age data in year " << year << " for method " << fishery << " applied to category = " << (*category_iter)->name_ << " please check that your mortality_instantaneous process '" << process_label_<< "' is comparable with the observation " << label_;
 					}
 					/*
-					 *  Apply Ageing error on Removals at age vector
+					 *  Apply Ageing error on Retained at age vector
 					 */
 					if (ageing_error_label_ != "") {
 						vector < vector < Double >> &mis_matrix = ageing_error_->mis_matrix();
-						vector<Double> temp(Removals_at_age[year][fishery][(*category_iter)->name_].size(), 0.0);
+						vector<Double> temp(Retained_at_age[year][fishery][(*category_iter)->name_].size(), 0.0);
 						LOG_FINEST() << "category = " << (*category_iter)->name_;
-						LOG_FINEST() << "size = " << Removals_at_age[year][fishery][(*category_iter)->name_].size();
+						LOG_FINEST() << "size = " << Retained_at_age[year][fishery][(*category_iter)->name_].size();
 
 						for (unsigned i = 0; i < mis_matrix.size(); ++i) {
 							for (unsigned j = 0; j < mis_matrix[i].size(); ++j) {
-								temp[j] += Removals_at_age[year][fishery][(*category_iter)->name_][i] * mis_matrix[i][j];
+								temp[j] += Retained_at_age[year][fishery][(*category_iter)->name_][i] * mis_matrix[i][j];
 							}
 						}
-						Removals_at_age[year][fishery][(*category_iter)->name_] = temp;
+						Retained_at_age[year][fishery][(*category_iter)->name_] = temp;
 					}
 					LOG_TRACE();
 					/*
 					 *  Now collapse the number_age into the expected_values for the observation
 					 */
-					for (unsigned k = 0; k < Removals_at_age[year][fishery][(*category_iter)->name_].size(); ++k) {
+					for (unsigned k = 0; k < Retained_at_age[year][fishery][(*category_iter)->name_].size(); ++k) {
 						LOG_FINE() << "----------";
 						LOG_FINE() << "Fishery: " << fishery;
-						LOG_FINE() << "Numbers At Age After Ageing error: " << (*category_iter)->min_age_ + k << "for category " << (*category_iter)->name_ << " " << Removals_at_age[year][fishery][(*category_iter)->name_][k];
+						LOG_FINE() << "Numbers At Age After Ageing error: " << (*category_iter)->min_age_ + k << "for category " << (*category_iter)->name_ << " " << Retained_at_age[year][fishery][(*category_iter)->name_][k];
 
 						unsigned age_offset = min_age_ - model_->min_age();
 						if (k >= age_offset && (k - age_offset + min_age_) <= max_age_)
-						expected_values[k - age_offset] = Removals_at_age[year][fishery][(*category_iter)->name_][k];
+						expected_values[k - age_offset] = Retained_at_age[year][fishery][(*category_iter)->name_][k];
 						// Deal with the plus group
 						if (((k - age_offset + min_age_) > max_age_) && plus_group_)
-						expected_values[age_spread_ - 1] += Removals_at_age[year][fishery][(*category_iter)->name_][k];
+						expected_values[age_spread_ - 1] += Retained_at_age[year][fishery][(*category_iter)->name_][k];
 					}
 
 					if (expected_values.size() != proportions_[model_->current_year()][category_labels_[category_offset]].size())
