@@ -16,7 +16,6 @@
 #include "Model/Model.h"
 #include "Model/Managers.h"
 #include "Observations/Manager.h"
-#include "Observations/Age/ProcessDiscardsByAge.h"
 #include "Observations/Age/ProcessRemovalsByAge.h"
 #include "Observations/Age/ProcessRemovalsByAgeRetained.h"
 #include "Observations/Age/ProcessRemovalsByAgeRetainedTotal.h"
@@ -76,8 +75,6 @@ Observation* Factory::Create(Model* model, const string& object_type, const stri
         result = new age::ProcessRemovalsByAgeRetained(model);
       else if (sub_type == PARAM_PROCESS_REMOVALS_BY_AGE_RETAINED_TOTAL)
         result = new age::ProcessRemovalsByAgeRetainedTotal(model);
-      else if (sub_type == PARAM_PROCESS_DISCARDS_BY_AGE)
-        result = new age::ProcessDiscardsByAge(model);
       else if (sub_type == PARAM_PROCESS_PROPORTIONS_AT_LENGTH)
         result = new age::ProcessProportionsAtLength(model);
       else if (sub_type == PARAM_PROCESS_REMOVALS_BY_LENGTH)
