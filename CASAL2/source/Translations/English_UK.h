@@ -502,6 +502,8 @@
 #define PARAM_PROCESS_REMOVALS_BY_AGE_RETAINED    "process_removals_by_age_retained"
 #define PARAM_PROCESS_REMOVALS_BY_AGE_RETAINED_TOTAL "process_removals_by_age_retained_total"
 #define PARAM_PROCESS_REMOVALS_BY_LENGTH          "process_removals_by_length"
+#define PARAM_PROCESS_REMOVALS_BY_LENGTH_RETAINED          "process_removals_by_length_retained"
+#define PARAM_PROCESS_REMOVALS_BY_LENGTH_RETAINED_TOTAL          "process_removals_by_length_retained_total"
 #define PARAM_PROJECTION_FINAL_YEAR               "projection_final_year"
 #define PARAM_PROPORTION                          "proportion"
 #define PARAM_PROPORTIONS                         "proportions"

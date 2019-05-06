@@ -23,7 +23,17 @@ This folder shown in Figure~\ref{fig:process} contains a general layout of all m
 From Figure~\ref{fig:process1} the process parent class does not do much {\color{red}-} it assigns a label and type for each child that will be created and a report subcommand. The point of this is to look at the parent class to reduce duplicating functionality in the child class.
 
 
-We will be returning to the factory source code later, but for now let's get adding a new process. Enter the \texttt{Children} folder and create C++ source code labelled \texttt{SurvivalConstantRate.cpp} and \texttt{SurvivalConstantRate.h}. These files were should exist in the source code, but fell free to delete them and go through the process of adding the process to see how easy this process is. I usually copy an existing process and rename it, although this is not good coding practice. It's one of those do-as-I-say-not-as-I-do types of things.
+We will be returning to the factory source code later, but for now let's get adding a new process. Enter the \texttt{Children} folder and create C++ source code labelled \texttt{SurvivalConstantRate.cpp} and \texttt{SurvivalConstantRate.h}. These files should already exist in the source code, but feel free to delete them and go through the process of adding the process to see how easy this process is. I usually copy an existing process and rename it, although this is not good coding practice. It's one of those do-as-I-say-not-as-I-do types of things.
+
+In general, the quick and dirty way you can add a duplicated process into \CNAME\ and make sure it compiles without errors is by taking the following three steps:
+\begin{enumerate}
+	\item Alter all the labels so that \texttt{SURVIVALCONSTANTRATE} and \texttt{SurvivalConstantRate} are written, instead of the function you originally copied over.
+	\item Add the process into the \texttt{Factory.cpp} for Processes (obviously, if it's an observation you're adding, that's the \texttt{Factory.cpp} you want). In this example, you'll want to add the following two lines to the long 'if' loop which specifies ageing processes:
+	\texttt{else if (sub == PARAM\_SURVIVAL\_CONSTANT\_RATE)
+		result = new age::SurvivalConstantRate(model);}
+	\item Add the process into the file \path{Translations\English_UK.h}, as follows: \texttt{\# define PARAM\_SURVIVAL\_CONSTANT\_RATE} \texttt{"survival\_constant\_rate"}	
+\end{enumerate}
+
 \begin{figure}[!ht]
 	\centering
 	\includegraphics[scale=0.6]{Figures/add_survival.png}
