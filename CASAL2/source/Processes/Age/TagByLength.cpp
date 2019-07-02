@@ -142,6 +142,13 @@ void TagByLength::DoValidate() {
       LOG_ERROR_P(PARAM_NUMBERS) << " first column label (" << columns[0] << ") provided must be 'year'";
 
     unsigned number_bins = columns.size();
+    if (model_->length_plus()) {
+      if ((number_bins - 1) != model_->length_bins().size())
+        LOG_ERROR_P(PARAM_NUMBERS) << "Length bins for this observation are defined in the @model block, there must be a column for each length bin '" << model_->length_bins().size() << "' you supplied '"<< number_bins << "'. please address this";
+    } else {
+      if ((number_bins - 1) != (model_->length_bins().size() - 1))
+        LOG_ERROR_P(PARAM_NUMBERS) << "Length bins for this observation are defined in the @model block, there must be a column for each length bin '" << model_->length_bins().size() - 1 << "' you supplied '"<< number_bins << "'. please address this";
+    }
     // load our table data in to our map
     vector<vector<string>> data = numbers_table_->data();
     unsigned year = 0;
@@ -172,6 +179,13 @@ void TagByLength::DoValidate() {
     if (columns[0] != PARAM_YEAR)
       LOG_ERROR_P(PARAM_PROPORTIONS) << " first column label (" << columns[0] << ") provided must be 'year'";
     unsigned number_bins = columns.size();
+    if (model_->length_plus()) {
+      if ((number_bins - 1) != model_->length_bins().size())
+        LOG_ERROR_P(PARAM_NUMBERS) << "Length bins for this observation are defined in the @model block, there must be a column for each length bin '" << model_->length_bins().size() << "' you supplied '"<< number_bins << "'. please address this";
+    } else {
+      if ((number_bins - 1) != (model_->length_bins().size() - 1))
+        LOG_ERROR_P(PARAM_NUMBERS) << "Length bins for this observation are defined in the @model block, there must be a column for each length bin '" << model_->length_bins().size() - 1 << "' you supplied '"<< number_bins << "'. please address this";
+    }
 
     // build a map of n data by year
     if (n_.size() == 1)
@@ -247,7 +261,7 @@ void TagByLength::DoBuild() {
 void TagByLength::DoExecute() {
   LOG_TRACE();
   unsigned current_year = model_->current_year();
-  if (model_->state() != State::kInitialise && std::find(years_.begin(), years_.end(), current_year) == years_.end())
+  if ((model_->state() != State::kInitialise) & (std::find(years_.begin(), years_.end(), current_year) == years_.end()))
     return;
 
   auto from_iter = from_partition_.begin();
