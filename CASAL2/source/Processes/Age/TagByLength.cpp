@@ -144,10 +144,10 @@ void TagByLength::DoValidate() {
     unsigned number_bins = columns.size();
     if (model_->length_plus()) {
       if ((number_bins - 1) != model_->length_bins().size())
-        LOG_ERROR_P(PARAM_NUMBERS) << "Length bins for this observation are defined in the @model block, there must be a column for each length bin '" << model_->length_bins().size() << "' you supplied '"<< number_bins << "'. please address this";
+        LOG_ERROR_P(PARAM_NUMBERS) << "Length bins for this observation are defined in the @model block, there must be a column for each length bin '" << model_->length_bins().size() << "' you supplied '"<< number_bins - 1 << "'. please address this";
     } else {
       if ((number_bins - 1) != (model_->length_bins().size() - 1))
-        LOG_ERROR_P(PARAM_NUMBERS) << "Length bins for this observation are defined in the @model block, there must be a column for each length bin '" << model_->length_bins().size() - 1 << "' you supplied '"<< number_bins << "'. please address this";
+        LOG_ERROR_P(PARAM_NUMBERS) << "Length bins for this observation are defined in the @model block, there must be a column for each length bin '" << model_->length_bins().size() - 1 << "' you supplied '"<< number_bins - 1  << "'. please address this";
     }
     // load our table data in to our map
     vector<vector<string>> data = numbers_table_->data();
@@ -181,10 +181,10 @@ void TagByLength::DoValidate() {
     unsigned number_bins = columns.size();
     if (model_->length_plus()) {
       if ((number_bins - 1) != model_->length_bins().size())
-        LOG_ERROR_P(PARAM_NUMBERS) << "Length bins for this observation are defined in the @model block, there must be a column for each length bin '" << model_->length_bins().size() << "' you supplied '"<< number_bins << "'. please address this";
+        LOG_ERROR_P(PARAM_PROPORTIONS) << "Length bins for this observation are defined in the @model block, there must be a column for each length bin '" << model_->length_bins().size() << "' you supplied '"<< number_bins - 1  << "'. please address this";
     } else {
       if ((number_bins - 1) != (model_->length_bins().size() - 1))
-        LOG_ERROR_P(PARAM_NUMBERS) << "Length bins for this observation are defined in the @model block, there must be a column for each length bin '" << model_->length_bins().size() - 1 << "' you supplied '"<< number_bins << "'. please address this";
+        LOG_ERROR_P(PARAM_PROPORTIONS) << "Length bins for this observation are defined in the @model block, there must be a column for each length bin '" << model_->length_bins().size() - 1 << "' you supplied '"<< number_bins - 1  << "'. please address this";
     }
 
     // build a map of n data by year
@@ -211,7 +211,7 @@ void TagByLength::DoValidate() {
         total_proportion += proportion;
       }
       if (fabs(1.0 - total_proportion) > 0.001)
-        LOG_ERROR_P(PARAM_PROPORTIONS) << " total (" << total_proportion << ") is not 1.0 for year " << year;
+        LOG_ERROR_P(PARAM_PROPORTIONS) << " total (" << total_proportion << ") is not 1.0 (+- 0.001) for year " << year;
     }
     // Check years allign
     for (auto iter : numbers_) {
@@ -225,8 +225,18 @@ void TagByLength::DoValidate() {
     LOG_ERROR_P(PARAM_INITIAL_MORTALITY) << ": must be between 0.0 (inclusive) amd less than 1.0 (inclusive)";
 
   if (model_->length_bins().size() == 0)
-    LOG_ERROR_P(PARAM_TYPE) << ": No length bins have been specified in @model for this process";
+    LOG_ERROR_P(PARAM_TYPE) << ": No length bins have been specified in @model for this process, these are required";
 
+  actual_tagged_fish_from_.resize(years_.size());
+  actual_tagged_fish_to_.resize(years_.size());
+  for(unsigned year_ndx = 0; year_ndx < years_.size(); ++year_ndx) {
+    actual_tagged_fish_from_[year_ndx].resize(from_category_labels_.size());
+    actual_tagged_fish_to_[year_ndx].resize(to_category_labels_.size());
+    for(unsigned from_category_ndx = 0; from_category_ndx < from_category_labels_.size(); ++from_category_ndx)
+        actual_tagged_fish_from_[year_ndx][from_category_ndx].resize(model_->age_spread(),0.0);
+    for(unsigned to_category_ndx = 0; to_category_ndx < to_category_labels_.size(); ++to_category_ndx)
+      actual_tagged_fish_to_[year_ndx][to_category_ndx].resize(model_->age_spread(),0.0);
+  }
 }
 
 /**
@@ -261,8 +271,16 @@ void TagByLength::DoBuild() {
 void TagByLength::DoExecute() {
   LOG_TRACE();
   unsigned current_year = model_->current_year();
-  if ((model_->state() != State::kInitialise) & (std::find(years_.begin(), years_.end(), current_year) == years_.end()))
+
+  if (model_->state() == State::kInitialise)
     return;
+  if ((std::find(years_.begin(), years_.end(), current_year) == years_.end()))
+    return;
+
+  auto iter = years_.begin();
+  iter = find(years_.begin(), years_.end(), model_->current_year());
+  unsigned year_ndx = distance(years_.begin(), iter);
+  LOG_FINE() << "year_ndx = " << year_ndx << " year = " << model_->current_year();
 
   auto from_iter = from_partition_.begin();
   auto to_iter   = to_partition_.begin();
@@ -357,13 +375,18 @@ void TagByLength::DoExecute() {
   } // for (unsigned i = 0; i < length_bins_.size(); ++i)
 
   from_iter = from_partition_.begin();
-  LOG_FINE() << "initial mortality = " << initial_mortality_ << " label = " << label_;
-  for (; from_iter != from_partition_.end(); from_iter++, to_iter++) {
-    LOG_FINEST() << "from category = " << (*from_iter)->name_ << " to category = "<< (*to_iter)->name_;
+  LOG_FINE() << "initial mortality = " << initial_mortality_ << " label = " << label_ << " from = " << from_category_labels_.size() << " to = " << to_category_labels_.size();
+  unsigned category_ndx = 0;
+
+  for (; from_iter != from_partition_.end(); from_iter++, to_iter++,category_ndx++) {
+    LOG_FINEST() << "from category = " << (*from_iter)->name_ << " to category = "<< (*to_iter)->name_ << " category ndx = " << category_ndx;
     for (unsigned j = 0; j < (*from_iter)->data_.size(); ++j) {
       (*from_iter)->data_[j] -= numbers_at_age_by_category[(*from_iter)->name_][j];
       (*to_iter)->data_[j] += numbers_at_age_by_category[(*from_iter)->name_][j];
       // Apply the Initial mortality and tag loss after the tagging event
+      actual_tagged_fish_from_[year_ndx][category_ndx][j] -= numbers_at_age_by_category[(*from_iter)->name_][j];
+      actual_tagged_fish_to_[year_ndx][category_ndx][j] += numbers_at_age_by_category[(*from_iter)->name_][j];
+
       if((initial_mortality_selectivity_label_ != "") & (initial_mortality_ > 0.0))
         (*to_iter)->data_[j] -=  numbers_at_age_by_category[(*from_iter)->name_][j] * initial_mortality_ * initial_mortality_selectivity_->GetAgeResult((*to_iter)->min_age_ + j, (*to_iter)->age_length_);
       else if((initial_mortality_selectivity_label_ == "") & (initial_mortality_ > 0.0))
@@ -373,6 +396,43 @@ void TagByLength::DoExecute() {
 
     }
   }
+}
+
+/*
+ * @fun FillReportCache
+ * @description A method for reporting process information
+ * @param cache a cache object to print to
+*/
+void TagByLength::FillReportCache(ostringstream& cache) {
+  LOG_FINE() << "report age distribution of tagged fish by source and destination";
+  for(unsigned category_ndx = 0; category_ndx < from_category_labels_.size(); ++category_ndx) {
+    cache << "from-" << from_category_labels_[category_ndx] << " " << REPORT_R_DATAFRAME_ROW_LABELS << "\n";
+    cache << "year ";
+    for(unsigned age = model_->min_age(); age <= model_->max_age(); ++age)
+      cache << age << " ";
+    cache << "\n";
+    for(unsigned year_ndx = 0; year_ndx < years_.size(); ++year_ndx) {
+      cache << years_[year_ndx] << " ";
+      for(unsigned age_ndx = 0; age_ndx < model_->age_spread(); ++age_ndx)
+        cache << actual_tagged_fish_from_[year_ndx][category_ndx][age_ndx] << " ";
+      cache << "\n";
+    }
+  }
+
+  for(unsigned category_ndx = 0; category_ndx < to_category_labels_.size(); ++category_ndx) {
+    cache << "to-" << from_category_labels_[category_ndx] << " " << REPORT_R_DATAFRAME_ROW_LABELS << "\n";
+    cache << "year ";
+    for(unsigned age = model_->min_age(); age <= model_->max_age(); ++age)
+      cache << age << " ";
+    cache << "\n";
+    for(unsigned year_ndx = 0; year_ndx < years_.size(); ++year_ndx) {
+      cache << years_[year_ndx] << " ";
+      for(unsigned age_ndx = 0; age_ndx < model_->age_spread(); ++age_ndx)
+        cache << actual_tagged_fish_to_[year_ndx][category_ndx][age_ndx] << " ";
+      cache << "\n";
+    }
+  }
+
 }
 
 } /* namespace age */

@@ -39,6 +39,7 @@ public:
   void                        DoBuild() override final;
   void                        DoReset() override final { };
   void                        DoExecute() override final;
+  void                        FillReportCache(ostringstream& cache) override final;
 
 private:
   // members
@@ -61,6 +62,11 @@ private:
   parameters::Table*            proportions_table_ = nullptr;
   unsigned                      first_year_ = 0;
   map<unsigned, vector<Double>> numbers_;
+
+  // Containers for reporting
+  vector<vector<vector<Double>>> actual_tagged_fish_from_; // n_years x n_from_categories x n_ages
+  vector<vector<vector<Double>>> actual_tagged_fish_to_; // n_years x n_to_categories x n_ages
+
 };
 
 } /* namespace age */
