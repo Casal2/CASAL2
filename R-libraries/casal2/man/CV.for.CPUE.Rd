@@ -23,6 +23,11 @@ This function is useful for deciding on a c.v. to be used with a CPUE series in 
 Originally written in Chris Francis's DataWeighting Package, this has been copied over and modified so that users can use this 
 functionality with Casal2 models/output.
 }
+\note{
+The idea is to fit a lowess line of "appropriate" smoothness to the CPUE data, and use the c.v. of the residuals from that fit in the stock assessment model. 
+This is equivalent to saying that we expect the stock assessment model to fit these data as well as the smoother. You judge what is "appropriate" by visual examination of lines with different degrees of smoothing. 
+This approach is recommended on p. 1132 of the following paper: Francis, R.I.C.C. (2011). Data weighting in statistical fisheries stock assessment models. Canadian Journal of Fisheries and Aquatic Sciences 68: 1124-1138.
+}
 \author{
 Chris Francis
 }

@@ -12,14 +12,6 @@
 #' @rdname plot.pressure
 #' @export plot.pressure
 #'
-#' @examples
-#' library(casal2)
-#' # plotting Standard Output
-#' data <- extract.mpd(file = system.file("extdata", "estimate.log", package="casal2"))
-#' names(data)
-#' plot.pressure(model = data, report_label = "exploit")
-#' # if you are unhappy with the default plotting you can use plot.it = FALSE and create a plot of your own.
-#' Fishing_pressures = plot.pressure(model = data, report_label = "exploit", plot.it = FALSE)
 
 "plot.pressure" <-
 function(model, report_label="", xlim, ylim, xlab, ylab, main, col,plot.it = T, ...){

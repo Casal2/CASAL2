@@ -109,6 +109,21 @@ function(lines) {
                         result[[label]] = data.frame()
                   line_no  = next_no     
 
+            } else if(type =="d_r") { #data.frame
+                  next_no = line_no + 1
+                  while (next_no <= length(lines)) {
+                      next_line = lines[next_no]
+                      next_type = get.line.type(next_line)
+                      if(next_type != "")
+                          break
+                      next_no = next_no + 1
+                  }
+                  if (next_no-line_no > 1) 
+                        result[[label]] = make.data_frame_with_row_labs(lines[(line_no+1):(next_no-1)])
+                  else 
+                        result[[label]] = data.frame()
+                  line_no  = next_no     
+
             } else if (type =="m") { #matrix
                   next_no = line_no + 1
                   while (next_no <= length(lines)) {

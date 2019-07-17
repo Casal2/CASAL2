@@ -9,7 +9,7 @@
 #' @param f degree of lowess smoothing (0 = no smoothing, 1 = maximum smoothing)
 #' @param plot.it If TRUE, plot the index and the smoothed fit. Otherwise, return a dataframe of the year, index, smoothed fitted value, and cv)
 #' @return The function either plots the CPUE, together with a lowess line fitted to it, and returns the c.v. of the residuals to the fit. Or returns a dataframe of the lowess line fits and assocated c.v.s for each point.
-#' @noteThe idea is to fit a lowess line of "appropriate" smoothness to the CPUE data, and use the c.v. of the residuals from that fit in the stock assessment model. 
+#' @note The idea is to fit a lowess line of "appropriate" smoothness to the CPUE data, and use the c.v. of the residuals from that fit in the stock assessment model. 
 #' This is equivalent to saying that we expect the stock assessment model to fit these data as well as the smoother. You judge what is "appropriate" by visual examination of lines with different degrees of smoothing. 
 #' This approach is recommended on p. 1132 of the following paper: Francis, R.I.C.C. (2011). Data weighting in statistical fisheries stock assessment models. Canadian Journal of Fisheries and Aquatic Sciences 68: 1124-1138.
 #' @export

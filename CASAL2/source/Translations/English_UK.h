@@ -46,6 +46,7 @@
 #define REPORT_END                           "*end"
 #define REPORT_R_COMPLETE_VECTOR             "{c}"    // not sure if this is used
 #define REPORT_R_DATAFRAME                   "{d}"    // R library will add a header to the data frame, so if you don't add one to the report R will put row 1 as the header
+#define REPORT_R_DATAFRAME_ROW_LABELS        "{d_r}"  // R-library will add a header and assign the first column as rowlabels
 #define REPORT_R_MATRIX                      "{m}"    // No header's
 #define REPORT_R_NAMED_COMPLETE_VECTOR       "{C}"    // not sure if this is used
 #define REPORT_R_LIST                        "{L}"

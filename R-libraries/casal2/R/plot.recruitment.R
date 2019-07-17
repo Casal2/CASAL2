@@ -10,13 +10,6 @@
 #' @return generate a plot of SSBy vs Ry with the assumed Stock recruitment relationship through it.
 #' @rdname plot.recruitment
 #' @export plot.recruitment
-#' @examples
-#' library(casal2)
-#' # plotting Standard Output
-#' data <- extract.mpd(file = system.file("extdata", "estimate.log", package="casal2"))
-#' names(data)
-#' plot.recruitment(model = data, report_label = "Rec")
-#' # if you are unhappy with the default plotting you can use plot.it = FALSE and create a plot of your own.
 
 
 "plot.recruitment"<-

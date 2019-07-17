@@ -6,8 +6,8 @@
 \alias{plot.fits.casal2TAB}
 \title{plot.fits default}
 \usage{
-plot.fits(model, report_label = "", plot.it = T, xlim, ylim, xlab, ylab,
-  main, col, ...)
+plot.fits(model, report_label = "", plot.it = T, xlim, ylim, xlab,
+  ylab, main, col, ...)
 
 \method{plot.fits}{casal2MPD}(model, report_label = "", type = "fit",
   plot.it = T, xlim, ylim, xlab, ylab, main, col, ...)
