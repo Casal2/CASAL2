@@ -101,9 +101,14 @@ void AgeLength::Build() {
 void AgeLength::BuildCV() {
   unsigned min_age = model_->min_age();
   unsigned max_age = model_->max_age();
-  vector<unsigned> years = model_->years();
+
+  vector<unsigned> years(model_->years().size() + 1,0);
+  unsigned year_ndx = 1;
+  for (unsigned year : model_->years()) {
+    years[year_ndx] = year;
+    ++year_ndx;
+  }
   vector<string> time_steps = model_->time_steps();
-  LOG_FINE() << "number of time steps " << time_steps.size();
 
   for (unsigned year : years) {
     for (unsigned step_iter = 0; step_iter < time_steps.size(); ++step_iter) {
