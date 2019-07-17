@@ -230,9 +230,9 @@ void TagByLength::DoValidate() {
   actual_tagged_fish_from_.resize(years_.size());
   actual_tagged_fish_to_.resize(years_.size());
   for(unsigned year_ndx = 0; year_ndx < years_.size(); ++year_ndx) {
-    actual_tagged_fish_from_[year_ndx].resize(from_category_labels_.size());
+    actual_tagged_fish_from_[year_ndx].resize(split_from_category_labels_.size());
     actual_tagged_fish_to_[year_ndx].resize(to_category_labels_.size());
-    for(unsigned from_category_ndx = 0; from_category_ndx < from_category_labels_.size(); ++from_category_ndx)
+    for(unsigned from_category_ndx = 0; from_category_ndx < split_from_category_labels_.size(); ++from_category_ndx)
         actual_tagged_fish_from_[year_ndx][from_category_ndx].resize(model_->age_spread(),0.0);
     for(unsigned to_category_ndx = 0; to_category_ndx < to_category_labels_.size(); ++to_category_ndx)
       actual_tagged_fish_to_[year_ndx][to_category_ndx].resize(model_->age_spread(),0.0);
@@ -326,7 +326,7 @@ void TagByLength::DoExecute() {
     total_stock_with_selectivities = 0.0;
     for (; from_iter != from_partition_.end(); from_iter++) {
       if (i >= (*from_iter)->length_data_.size())
-        LOG_FATAL() << "Reading out of memory";
+        LOG_CODE_ERROR() << "Reading out of memory";
       total_stock_with_selectivities += (*from_iter)->length_data_[i];
     }
 
@@ -378,7 +378,7 @@ void TagByLength::DoExecute() {
   LOG_FINE() << "initial mortality = " << initial_mortality_ << " label = " << label_ << " from = " << from_category_labels_.size() << " to = " << to_category_labels_.size();
   unsigned category_ndx = 0;
 
-  for (; from_iter != from_partition_.end(); from_iter++, to_iter++,category_ndx++) {
+  for (; from_iter != from_partition_.end(); from_iter++, to_iter++, category_ndx++) {
     LOG_FINEST() << "from category = " << (*from_iter)->name_ << " to category = "<< (*to_iter)->name_ << " category ndx = " << category_ndx;
     for (unsigned j = 0; j < (*from_iter)->data_.size(); ++j) {
       (*from_iter)->data_[j] -= numbers_at_age_by_category[(*from_iter)->name_][j];
