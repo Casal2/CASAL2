@@ -4,8 +4,9 @@
 \alias{generate.starting.pars}
 \title{generate.starting.pars Generates a parameter file that is formatted for -i input into Casal2.}
 \usage{
-generate.starting.pars(path = "", Estimation_csl2_file = "Estimation.csl2",
-  N = 10, par_file_name = "starting_pars.out", all_uniform = FALSE,
+generate.starting.pars(path = "",
+  Estimation_csl2_file = "Estimation.csl2", N = 10,
+  par_file_name = "starting_pars.out", all_uniform = FALSE,
   fileEncoding = "")
 }
 \arguments{

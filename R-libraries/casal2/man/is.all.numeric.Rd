@@ -4,8 +4,8 @@
 \alias{is.all.numeric}
 \title{Utility extract function}
 \usage{
-is.all.numeric(x, what = c("test", "vector"), extras = c(".", "NA", "na",
-  "null", "NULL"))
+is.all.numeric(x, what = c("test", "vector"), extras = c(".", "NA",
+  "na", "null", "NULL"))
 }
 \description{
 Utility extract function

@@ -13,8 +13,8 @@ plot.ycs(model, report_label = "", xlim, ylim, xlab, ylab, main, col,
   ylim = NULL, xlab = NULL, ylab = NULL, main = NULL, col = NULL,
   plot.it = T, ...)
 
-\method{plot.ycs}{casal2TAB}(model, report_label = "", xlim, ylim, xlab, ylab,
-  main, col, plot.it = T, ...)
+\method{plot.ycs}{casal2TAB}(model, report_label = "", xlim, ylim, xlab,
+  ylab, main, col, plot.it = T, ...)
 }
 \arguments{
 \item{model}{<casal2MPD, casal2TAB> object that are generated from one of the extract.mpd() and extract.tabular() functions.}
@@ -34,15 +34,6 @@ generate a plot over time if plot.it = T, if plot.it = F it will return a matrix
 }
 \description{
 A plotting function to plot YCS for the 'casal2TAB' and 'casal2MPD' objects.
-}
-\examples{
-library(casal2)
-# plotting Standard Output
-data <- extract.mpd(file = system.file("extdata", "estimate.log", package="casal2"))
-names(data)
-plot.ycs(model = data, report_label = "Rec")
-# if you are unhappy with the default plotting you can use plot.it = FALSE and create a plot of your own.
-true_YCS = plot.ycs(model = data, report_label = "Rec", plot.it = FALSE)
 }
 \author{
 Craig Marsh
