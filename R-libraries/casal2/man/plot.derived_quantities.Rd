@@ -6,8 +6,8 @@
 \alias{plot.derived_quantities.casal2TAB}
 \title{plot.derived_quantities default}
 \usage{
-plot.derived_quantities(model, report_label = "", type = "number", xlim,
-  ylim, xlab, ylab, main, col, plot.it = T, ...)
+plot.derived_quantities(model, report_label = "", type = "number",
+  xlim, ylim, xlab, ylab, main, col, plot.it = T, ...)
 
 \method{plot.derived_quantities}{casal2MPD}(model, report_label = "",
   type = "number", xlim, ylim, xlab, ylab, main, col, plot.it = T, ...)
@@ -35,20 +35,6 @@ A plot of derived quantities over time if plot.it = T, if plot.it = F it will re
 }
 \description{
 A plotting function to plot Derived Quantities for the 'casal2TAB' and 'casal2MPD' objects.
-}
-\examples{
-library(casal2)
-# plotting Standard Output
-data <- extract.mpd(file = system.file("extdata", "estimate.log", package="casal2"))
-names(data)
-plot.derived_quantities(model = data, report_label = "biomass")
-# if you are unhappy with the default plotting you can use plot.it = FALSE and create a plot of your own.
-SSB = plot.derived_quantities(model = data, report_label = "biomass", plot.it = FALSE)
-plot(rownames(SSB),SSB, main = "My SSB", type = "l", ylim = c(0,90000))
-# plotting Tabular Output
-tab <- extract.tabular(file = system.file("extdata", "tabular_report.out", package="casal2"))
-names(tab)
-plot.derived_quantities(model = tab, report_label = "derived_quant")
 }
 \author{
 Craig Marsh

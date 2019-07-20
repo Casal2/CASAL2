@@ -101,6 +101,23 @@ public:
     return result;
   }
 
+  /**
+   * Build a map from 1 vector of keys and a scalar where the first vector
+   * is the key and the second value is set for all values of the key
+   *
+   * @param key The keys to use
+   * @param value The values to use
+   * @return a Map of keys and values
+   */
+  static std::map<unsigned, Double> create(const std::vector<unsigned>& key, const Double& value) {
+    std::map<unsigned, Double> result;
+
+    for (unsigned i = 0; i < key.size(); ++i)
+      result[key[i]] = value;
+
+    return result;
+  }
+
 }; // class
 
 template<class A, class B, class C>

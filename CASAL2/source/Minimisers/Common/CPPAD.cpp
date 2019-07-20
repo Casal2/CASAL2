@@ -129,6 +129,74 @@ void CPPAD::Execute() {
       options, start_values, lower_bounds, upper_bounds, gl, gu, obj, solution
     );
 
+  LOG_MEDIUM() << "x";
+  for(unsigned i = 0; i < solution.x.size(); ++i)
+    LOG_MEDIUM() << solution.x[i];
+  LOG_MEDIUM() << "g";
+  for(unsigned i = 0; i < solution.g.size(); ++i)
+    LOG_MEDIUM() << solution.g[i];
+  LOG_MEDIUM() << "lambda";
+  for(unsigned i = 0; i < solution.lambda.size(); ++i)
+    LOG_MEDIUM() << solution.lambda[i];
+  LOG_MEDIUM() << "zl";
+  for(unsigned i = 0; i < solution.zl.size(); ++i)
+    LOG_MEDIUM() << solution.zl[i];
+  LOG_MEDIUM() << "zu";
+  for(unsigned i = 0; i < solution.zu.size(); ++i)
+    LOG_MEDIUM() << solution.zu[i];
+  LOG_MEDIUM() << "obj";
+  LOG_MEDIUM() << solution.obj_value;
+  LOG_MEDIUM() << "status";
+  /*
+  switch(solution.status)
+  { // convert status from Ipopt enum to solve_result<Dvector> enum
+    case status_type::success:
+    cerr << "success\n";
+    break;
+    case maxiter_exceeded:
+    cerr << "max iter exceeded\n";
+    break;
+
+    case CppAD::ipopt::solve_result::status_type::stop_at_tiny_step:
+    cerr << "stop at tiny step\n";
+    break;
+
+    case CppAD::ipopt::solve_result::status_type::stop_at_acceptable_point:
+    cerr << "stop at acceptable point\n";
+    break;
+
+    case CppAD::ipopt::solve_result::status_type::local_infeasibility:
+    cerr << "local infeasibility\n";
+    break;
+
+    case CppAD::ipopt::solve_result::status_type::user_requested_stop:
+    cerr << "user requested stop\n";
+    break;
+
+    case CppAD::ipopt::solve_result::status_type::diverging_iterates:
+    cerr << "diverging iterates\n";
+    break;
+
+    case CppAD::ipopt::solve_result::status_type::restoration_failure:
+    cerr << "restoration failure\n";
+    break;
+
+    case CppAD::ipopt::solve_result::status_type::error_in_step_computation:
+    cerr << "error in step computation\n";
+    break;
+
+    case CppAD::ipopt::solve_result::status_type::invalid_number_detected:
+    cerr << "invalid number detected\n";
+    break;
+
+    case CppAD::ipopt::solve_result::status_type::internal_error:
+    cerr << "internal error\n";
+    break;
+
+    default:
+    cerr << "unknown error\n";
+  }
+*/
   model_->managers().estimate_transformation()->RestoreEstimates();
 }
 

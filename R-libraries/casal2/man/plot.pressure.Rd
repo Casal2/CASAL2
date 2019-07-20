@@ -6,15 +6,15 @@
 \alias{plot.pressure.casal2TAB}
 \title{plot.pressure plot fishing pressure if there has been an exploitation process reported.}
 \usage{
-plot.pressure(model, report_label = "", xlim, ylim, xlab, ylab, main, col,
-  plot.it = T, ...)
+plot.pressure(model, report_label = "", xlim, ylim, xlab, ylab, main,
+  col, plot.it = T, ...)
 
-\method{plot.pressure}{casal2MPD}(model, report_label = "", xlim = NULL,
-  ylim = NULL, xlab = NULL, ylab = NULL, main = NULL, col = NULL,
-  plot.it = T, ...)
+\method{plot.pressure}{casal2MPD}(model, report_label = "",
+  xlim = NULL, ylim = NULL, xlab = NULL, ylab = NULL,
+  main = NULL, col = NULL, plot.it = T, ...)
 
-\method{plot.pressure}{casal2TAB}(model, report_label = "", xlim, ylim, xlab,
-  ylab, main, col, plot.it = T, ...)
+\method{plot.pressure}{casal2TAB}(model, report_label = "", xlim, ylim,
+  xlab, ylab, main, col, plot.it = T, ...)
 }
 \arguments{
 \item{model}{<casal2MPD, casal2TAB> object that are generated from one of the extract.mpd() and extract.tabular() functions.}
@@ -34,15 +34,6 @@ generate a plot over time if plot.it = T, if plot.it = F it will return a matrix
 }
 \description{
 A plotting function to plot fishing presuure (U's )for the 'casal2TAB' and 'casal2MPD' objects.
-}
-\examples{
-library(casal2)
-# plotting Standard Output
-data <- extract.mpd(file = system.file("extdata", "estimate.log", package="casal2"))
-names(data)
-plot.pressure(model = data, report_label = "exploit")
-# if you are unhappy with the default plotting you can use plot.it = FALSE and create a plot of your own.
-Fishing_pressures = plot.pressure(model = data, report_label = "exploit", plot.it = FALSE)
 }
 \author{
 Craig Marsh

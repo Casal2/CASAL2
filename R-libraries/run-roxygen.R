@@ -4,5 +4,5 @@ if (!is.element('roxygen2', installed.packages()[,1])) {
 }
   
 require(roxygen2)
-roxygen2::roxygenize("CASAL2/")
+roxygen2::roxygenize(paste0(getwd(),"/casal2"), clean = TRUE)
 

@@ -3,7 +3,6 @@
 %   R/summarise_process.R
 \name{summarise_process}
 \alias{summarise_process}
-\alias{summarise_process}
 \title{Utility summarise_estimate_values function}
 \usage{
 summarise_process(report_object)

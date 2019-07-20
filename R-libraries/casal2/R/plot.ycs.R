@@ -11,14 +11,6 @@
 #' @return generate a plot over time if plot.it = T, if plot.it = F it will return a matrix of values.
 #' @rdname plot.ycs
 #' @export plot.ycs
-#' @examples
-#' library(casal2)
-#' # plotting Standard Output
-#' data <- extract.mpd(file = system.file("extdata", "estimate.log", package="casal2"))
-#' names(data)
-#' plot.ycs(model = data, report_label = "Rec")
-#' # if you are unhappy with the default plotting you can use plot.it = FALSE and create a plot of your own.
-#' true_YCS = plot.ycs(model = data, report_label = "Rec", plot.it = FALSE)
 
 
 "plot.ycs"<-
