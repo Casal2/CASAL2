@@ -6,4 +6,4 @@ type objective_function
 
 @assert obj
 type objective_function
-value 3550.14919
+value 3559.67
