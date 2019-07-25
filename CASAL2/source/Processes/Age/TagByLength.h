@@ -62,7 +62,7 @@ private:
   parameters::Table*            proportions_table_ = nullptr;
   unsigned                      first_year_ = 0;
   map<unsigned, vector<Double>> numbers_;
-
+  map<unsigned, Double>         n_by_year_;
   // Containers for reporting
   vector<vector<vector<Double>>> actual_tagged_fish_from_; // n_years x n_from_categories x n_ages
   vector<vector<vector<Double>>> actual_tagged_fish_to_; // n_years x n_to_categories x n_ages

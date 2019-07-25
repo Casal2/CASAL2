@@ -149,6 +149,7 @@ void TagByLength::DoValidate() {
       if ((number_bins - 1) != (model_->length_bins().size() - 1))
         LOG_ERROR_P(PARAM_NUMBERS) << "Length bins for this observation are defined in the @model block, there must be a column for each length bin '" << model_->length_bins().size() - 1 << "' you supplied '"<< number_bins - 1  << "'. please address this";
     }
+    n_by_year_ = utilities::Map::create(years_, 0.0);
     // load our table data in to our map
     vector<vector<string>> data = numbers_table_->data();
     unsigned year = 0;
@@ -162,6 +163,7 @@ void TagByLength::DoValidate() {
           LOG_ERROR_P(PARAM_NUMBERS) << " value (" << iter[i] << ") could not be converted to a double. Please ensure it's a numeric value";
         if (numbers_[year].size() == 0)
           numbers_[year].resize(number_bins, 0.0);
+        n_by_year_[year] += n_value;
         numbers_[year][i - 1] = n_value;
       }
     }
@@ -192,7 +194,7 @@ void TagByLength::DoValidate() {
       n_.assign(years_.size(), n_[0]);
     else if (n_.size() != years_.size())
       LOG_ERROR_P(PARAM_N) << " values provied (" << n_.size() << ") does not match the number of years (" << years_.size() << ")";
-    map<unsigned, Double> n_by_year = utilities::Map::create(years_, n_);
+    n_by_year_ = utilities::Map::create(years_, n_);
 
     // load our table data in to our map
     vector<vector<string>> data = proportions_table_->data();
@@ -207,7 +209,7 @@ void TagByLength::DoValidate() {
           LOG_ERROR_P(PARAM_PROPORTIONS) << " value (" << iter[i] << ") could not be converted to a double. Please ensure it's a numeric value";
         if (numbers_[year].size() == 0)
           numbers_[year].resize(number_bins, 0.0);
-        numbers_[year][i - 1] = n_by_year[year] * proportion;
+        numbers_[year][i - 1] = n_by_year_[year] * proportion;
         total_proportion += proportion;
       }
       if (fabs(1.0 - total_proportion) > 0.001)
@@ -301,11 +303,9 @@ void TagByLength::DoExecute() {
 
   // iterate over from_categories to update length data and age length matrix instead of doing in a length loop
   for (; from_iter != from_partition_.end(); from_iter++) {
-//    (*from_iter)->UpdateMeanWeightData();
+    //  (*from_iter)->UpdateMeanWeightData();
     //  build numbers at age and length
     (*from_iter)->PopulateAgeLengthMatrix(selectivities_[(*from_iter)->name_]);
-
-//    (*from_iter)->UpdateAgeLengthData(length_bins_, plus_group_, selectivities_[(*from_iter)->name_]);
     //  total numbers at length
     (*from_iter)->CollapseAgeLengthDataToLength();
     numbers_at_age_by_category[(*from_iter)->name_].resize((*from_iter)->data_.size(),0.0);
