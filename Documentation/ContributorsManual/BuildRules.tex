@@ -38,7 +38,15 @@ One of the key focusses in the \CNAME\ development is an emphasis on software in
 	\item Google mocking framework
 \end{itemize}
 
-When adding unit tests, they need to be developed and tested outside of \CNAME\  first, for example in \R\ or another program like \CNAME\ e.g. CASAL or Stock Synthesis. This gives confidence that the test does not contain a calcualtion or other error. 
+When adding unit tests, they need to be developed and tested outside of \CNAME\  first, for example in \R\ or another program like \CNAME\ e.g. CASAL or Stock Synthesis. This gives confidence that the test does not contain a calculation or other errors. There are three different testing concepts in \CNAME\ that I will quickly explain and point to examples in the code base. The three concepts are Mocking specific classes, implementing internal models (these two concepts are implemented in source files with extension \texttt{.Test.cpp}) that have variable test cases for a specific class and overall models found in the TestModel folder.
+
+Mocking specific classes is used to validate specific functionality and is encouraged because it is the easiest to isolate errors introduced with new code changes. Good example in the code base that utilise this are in \texttt{AgeLengths} for the \texttt{VonBertalanffy.Test.cpp} file. You can see in this file we mock the class and test the mean length calculations. Another good example of this is in the \texttt{Partition} class file \texttt{Partition.Test.cpp} which shows how \CNAME\ validate user inputs and model expectations.
+
+Implementing internal models is the most common test resource in the code, and much of the functionality for implementing these are in the source folder \texttt{TestResources}. This method implements simple models and run test cases with differing class implementations. Nice examples of this are in the \texttt{Projects} class, for example \texttt{LogNormal.Test.cpp}. These run an Internal empty model and test output of classes from a simple run. When using this method try and only add test cases that vary the class of interest, remember you trying to tell future developers if code they have added breaks other components and they will thank you if it is easy to find why this happens. Another example is the process \texttt{TagByLength.Test.cpp}, which defines a new model and tests different functionality of the tagging process.
+
+
+Modelunner tests are run using the \texttt{DoBuild} script in the BuildSystem folder. Models are located in the \texttt{TestModel} folder. These models are used to test autodiff library model runs, and other functionality such \texttt{-i} and are more holistic tests. If these fail it can be difficult to isolate the error that is why we encourage you implement the other two unit tests as much as possible. The setup for the modelrunner are defined in the python script found at \texttt{BuildSystem/BuildTools/classes/ModelRunner.py} if you wanted to add simulation TestModels and projections.
+
 
 An example of how to add a unit test for a process is shown in Section~\ref{sec:example}
 
@@ -109,6 +117,6 @@ Then run the second phase of unit tests (requires the debug version is built). T
 \texttt{DoBuild modelrunner}
 
 Build the archive 
-\texttt{DoBuild archive}
+\texttt{DoBuild archive} which builds all autodiff libraries. There are small nuances between Double classes, especially when reporting the class that mean seemingly simple changes can sometimes cause a break in the full build.
 
 
