@@ -23,6 +23,7 @@
 #include "Model/Model.h"
 #include "Logging/Logging.h"
 
+#include "Utilities/Math.h"
 // Namespaces
 namespace niwa {
 
@@ -170,7 +171,7 @@ void Partition::BuildAgeLengthProportions() {
   LOG_FINEST() << "matrix_length_bin_count: " << matrix_length_bin_count;
   for (auto iter : partition_) {
     LOG_FINEST() << "Working on " << iter.first;
-    if (iter.second->age_length_->distribution() == AgeLength::Distribution::kLogNormal) {
+    if (iter.second->age_length_->distribution() == Distribution::kLogNormal) {
       for (unsigned i = 0; i < model_length_bins.size(); ++i) {
         if (model_length_bins[i] < 0.0001)
           length_bins[i] = log(0.0001);
@@ -211,7 +212,7 @@ void Partition::BuildAgeLengthProportions() {
           sigma = cv * mu;
 
 //          LOG_FINEST() << "year: " << year << "; age: " << age << "; mu: " << mu << "; cv: " << cv << "; sigma: " << sigma;
-          if (iter.second->age_length_->distribution() == AgeLength::Distribution::kLogNormal) {
+          if (iter.second->age_length_->distribution() == Distribution::kLogNormal) {
             // Transform parameters in to log space
             cv_temp = sigma / mu;
             Lvar = log(cv_temp * cv_temp + 1.0);

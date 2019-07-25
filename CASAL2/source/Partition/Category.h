@@ -52,6 +52,7 @@ public:
   void                        CollapseAgeLengthDataToLength();
 
   void                        PopulateAgeLengthMatrix(Selectivity* selectivity);
+  void                        CalculateNumbersAtLength(Selectivity* selectivity, const vector<Double>& length_bins, vector<vector<Double>>& age_length_matrix, vector<Double>& numbers_by_length, const bool& length_plus_group);
 
 
   // accessors
@@ -68,6 +69,7 @@ public:
   vector<vector<Double>>      age_length_matrix_; // age_length_matrix_[age][length]
 
   vector<vector<vector<Double>>> mean_length_by_time_step_age_; // value[year][time_step][age] = length;
+
 
 //  map<unsigned, map<unsigned, Double>> mean_length_by_time_step_age_; // map<time_step, age, length>
   map<unsigned, map<unsigned, Double>> mean_weight_by_time_step_age_; // map<time_step, age, weight>

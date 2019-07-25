@@ -33,7 +33,7 @@ public:
   void                        DoReset() override final { };
 
   // accessors
-  Double                      mean_weight(Double size, AgeLength::Distribution distribution, Double cv) const override final { return 1.0; }
+  Double                      mean_weight(Double size, Distribution distribution, Double cv) const override final { return 1.0; }
 };
 
 } /* namespace lengthweights */

@@ -68,11 +68,11 @@ void Basic::DoBuild() {
  * @param size The size of the population to calculate mean weight for
  * @return The mean weight of the population at the parameter size
  */
-Double Basic::mean_weight(Double size, AgeLength::Distribution distribution, Double cv) const {
+Double Basic::mean_weight(Double size, Distribution distribution, Double cv) const {
   Double weight = a_ * pow(size, b_);
 
   // Add distribution offset
-  if (distribution == AgeLength::Distribution::kNormal || distribution == AgeLength::Distribution::kLogNormal)
+  if (distribution == Distribution::kNormal || distribution == Distribution::kLogNormal)
     weight = weight * pow(1.0 + cv * cv, b_ * (b_ - 1.0) / 2.0);  // Give an R example/proof of this theory
 
   weight *= unit_multipier_;

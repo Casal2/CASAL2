@@ -19,6 +19,8 @@
 #include "TimeSteps/Manager.h"
 #include "Utilities/To.h"
 #include "Utilities/Types.h"
+#include "Utilities/Math.h"
+#include <functional>
 
 // namespaces
 namespace niwa {
@@ -94,7 +96,7 @@ void Category::UpdateMeanWeightData() {
           //if (!niwa::utilities::To<Double>(length_bins[length_bin_index], size))
           //  LOG_FATAL() << " value (" << length_bins[length_bin_index] << ") could not be converted to a double";
 
-          mean_weight_by_time_step_length_[step_iter][length_bin_index] = length_weight->mean_weight(length_bins[length_bin_index], AgeLength::Distribution::kNone,0.0);
+          mean_weight_by_time_step_length_[step_iter][length_bin_index] = length_weight->mean_weight(length_bins[length_bin_index], Distribution::kNone,0.0);
         }
       }
     }
@@ -176,6 +178,75 @@ void Category::PopulateAgeLengthMatrix(Selectivity* selectivity) {
 
   LOG_FINEST() << "Finished populating the length data for category " << name_ << " in year " << model_->current_year();
 }
+
+
+/**
+ * This method will take the current age population for this category stored
+ * in this->data_ and populate @param numbers_by_length_ by using the age length
+ * matrix supplied age_length_matrix. This function assumes the all checks are done in the
+ * class that passes objects to this method
+ *
+ * @parameter selectivity The selectivity to apply to the age data
+ * @parameter length_bins vector defining length bins
+ * @parameter age_length_matrix an empty but has memory allocated matrix for using in the temporary transition
+ * @parameter numbers_by_length_ vector that has allocated memory which stores the results
+ * @parameter length_plus_group whether the last bin is a plus group
+
+ */
+void Category::CalculateNumbersAtLength(Selectivity* selectivity,const vector<Double>& length_bins, vector<vector<Double>>& age_length_matrix, vector<Double>& numbers_by_length, const bool& length_plus_group) {
+  // Probably should do some checks and balances, but I want to remove this later on
+  unsigned size = length_plus_group == true ? length_bins.size() : length_bins.size() - 1;
+  Double std_dev = 0;
+  if (age_length_matrix.size() == 0)
+    LOG_CODE_ERROR() << "if (age_length_matrix.size() == 0)";
+  if (age_length_matrix.size() != model_->age_spread())
+    LOG_CODE_ERROR() << "if (age_length_matrix.size() != model_->age_spread())";
+  if (age_length_matrix[0].size() == 0)
+    LOG_CODE_ERROR() << "if (age_length_matrix[0].size() == 0)";
+  if (age_length_matrix[0].size() != numbers_by_length.size())
+    LOG_CODE_ERROR() << "if (age_length_matrix[0].size() != numbers_by_length.size())";
+
+  // Make sure all elements are zero
+  std::fill(numbers_by_length.begin(),numbers_by_length.end(), 0.0);
+
+  auto& age_length_proportions = model_->partition().age_length_proportions(name_);
+  unsigned year_ndx = model_->current_year() - model_->start_year();
+  unsigned time_step_index = model_->managers().time_step()->current_time_step();
+
+  if (year_ndx > age_length_proportions.size())
+    LOG_CODE_ERROR() << "year_ndx > age_length_proportions.size()";
+  if (time_step_index > age_length_proportions[year_ndx].size())
+    LOG_CODE_ERROR() << "time_step_index > age_length_proportions[year].size()";
+  vector<vector<Double>>& proportions_for_now = age_length_proportions[year_ndx][time_step_index];
+
+  LOG_FINEST() << "Calculating age length data";
+  for (unsigned age = min_age_; age <= max_age_; ++age) {
+    unsigned i = age - min_age_;
+    std_dev = age_length_->cv(model_->current_year(), time_step_index,age) * mean_length_by_time_step_age_[year_ndx][time_step_index][i];
+    if (i >= proportions_for_now.size())
+      LOG_CODE_ERROR() << "i >= proportions_for_now.size()";
+    if (i >= data_.size())
+      LOG_CODE_ERROR() << "i >= data_.size()";
+    if (i >= age_length_matrix.size())
+      LOG_CODE_ERROR() << "(i >= age_length_matrix.size())";
+
+    // populate age_length matrix with proportions
+    age_length_matrix[i] = utilities::math::distribution(length_bins, length_plus_group, age_length_->distribution(), mean_length_by_time_step_age_[year_ndx][time_step_index][i], std_dev);
+    if (age_length_matrix[i].size() != numbers_by_length.size())
+      LOG_CODE_ERROR() << "if (age_length_matrix[i].size() != numbers_by_length.size()). Age length dims were " << age_length_matrix[i].size() << " we wanted " << numbers_by_length.size();
+    // Multiply by data_
+    std::transform(age_length_matrix[i].begin(), age_length_matrix[i].end(), age_length_matrix[i].begin(), std::bind(std::multiplies<Double>(), std::placeholders::_1, data_[i]));
+  }
+  // Now collapse down to number at length
+  for (unsigned bin = 0; bin < size; ++bin) {
+    for (unsigned age = min_age_; age <= max_age_; ++age) {
+      unsigned i = age - min_age_;
+      numbers_by_length[bin] += age_length_matrix[i][bin];
+    }
+  }
+}
+
+
 
 /**
  * This method collapses the Numbers at length by age matrix to numbers at age for a category

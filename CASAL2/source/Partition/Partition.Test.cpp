@@ -62,13 +62,13 @@ public:
 
 class MockVonBertalanffy : public agelengths::VonBertalanffy {
 public:
-  MockVonBertalanffy(AgeLength::Distribution distribution = Distribution::kNormal)
+  MockVonBertalanffy(Distribution distribution = Distribution::kNormal)
   : VonBertalanffy(nullptr) {
     distribution_ = distribution;
   }
 
   MockVonBertalanffy(Model& model, Double linf, Double k, Double t0, bool by_length,
-      Double cv_first, Double cv_last, vector<Double> time_step_proportions, bool casal_switch = false, AgeLength::Distribution distributuion = Distribution::kNormal) : VonBertalanffy(&model) {
+      Double cv_first, Double cv_last, vector<Double> time_step_proportions, bool casal_switch = false, Distribution distributuion = Distribution::kNormal) : VonBertalanffy(&model) {
     linf_ = linf;
     k_ = k;
     t0_ = t0;
@@ -360,7 +360,7 @@ TEST(Partition, BuildAgeLengthProportions_3) {
   EXPECT_CALL(model, categories()).WillRepeatedly(Return(&mock_categories));
   ASSERT_NO_THROW(mock_categories.Validate());
 
-  MockVonBertalanffy von_bertalanffy(model, 80, 0.064, 4, false, 0.2, 0.2, {1.0}, false, AgeLength::Distribution::kLogNormal);
+  MockVonBertalanffy von_bertalanffy(model, 80, 0.064, 4, false, 0.2, 0.2, {1.0}, false, Distribution::kLogNormal);
   ASSERT_NO_THROW(von_bertalanffy.MockBuildCV());
   ASSERT_NO_THROW(von_bertalanffy.RebuildCache());
   mock_categories.age_length_ = &von_bertalanffy;
