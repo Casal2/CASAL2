@@ -17,6 +17,7 @@
 // headers
 #include "BaseClasses/Object.h"
 #include "Partition/Category.h"
+#include "Utilities/Distribution.h"
 
 // namespaces
 namespace niwa {
@@ -27,11 +28,7 @@ class Selectivity;
 class AgeLength : public niwa::base::Object {
 public:
   // enums
-  enum class Distribution {
-    kNormal,
-    kLogNormal,
-    kNone,
-  };
+
 
   // methods
   AgeLength() = delete;
@@ -46,7 +43,7 @@ public:
   virtual Double              GetMeanLength(unsigned year, unsigned time_step, unsigned age) = 0;
   virtual Double              cv(unsigned year, unsigned time_step, unsigned age) { return cvs_[year][time_step][age]; };
   virtual string              distribution_label() { return distribution_label_; };
-  AgeLength::Distribution     distribution() const { return distribution_; }
+  Distribution                distribution() const { return distribution_; }
   bool                        casal_normal_cdf() const { return casal_normal_cdf_; }
   bool                        varies_by_years() const { return varies_by_year_; }
 
@@ -71,7 +68,7 @@ protected:
   Double                      cv_last_;
   bool                        by_length_;
   string                      distribution_label_;
-  AgeLength::Distribution     distribution_;
+  Distribution                distribution_;
   bool                        casal_normal_cdf_ = false;
   bool                        varies_by_year_ = false;
 

@@ -16,7 +16,8 @@
 // headers
 #include "BaseClasses/Object.h"
 #include "Model/Model.h"
-#include "AgeLengths/AgeLength.h"
+#include "AgeLengths/AgeLength.h" // Check if we need this now that we have moved DIstribution out of AgeLenght
+#include "Utilities/Distribution.h"
 
 // namespaces
 namespace niwa {
@@ -38,7 +39,7 @@ public:
   virtual void                DoReset() = 0;
 
   // accessors
-  virtual Double              mean_weight(Double size, AgeLength::Distribution distribution, Double cv) const = 0;
+  virtual Double              mean_weight(Double size, Distribution distribution, Double cv) const = 0;
   // members
   Model*                      model_ = nullptr;
 };

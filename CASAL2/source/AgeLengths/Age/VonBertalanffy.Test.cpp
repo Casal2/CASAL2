@@ -21,7 +21,7 @@
 #include "Partition/Partition.h"
 #include "Selectivities/Common/Logistic.h"
 #include "TimeSteps/Manager.h"
-
+#include "Utilities/Distribution.h"
 // namespaces
 namespace niwa {
 namespace agelengths {
@@ -37,13 +37,13 @@ public:
 
 class MockVonBertalanffy : public VonBertalanffy {
 public:
-  MockVonBertalanffy(AgeLength::Distribution distribution = Distribution::kNormal)
+  MockVonBertalanffy(Distribution distribution = Distribution::kNormal)
   : VonBertalanffy(nullptr) {
     distribution_ = distribution;
   }
 
   MockVonBertalanffy(Model& model, Double linf, Double k, Double t0, bool by_length,
-      Double cv_first, Double cv_last, vector<Double> time_step_proportions, bool casal_switch = false, AgeLength::Distribution distributuion = Distribution::kNormal) : VonBertalanffy(&model) {
+      Double cv_first, Double cv_last, vector<Double> time_step_proportions, bool casal_switch = false, Distribution distributuion = Distribution::kNormal) : VonBertalanffy(&model) {
     linf_ = linf;
     k_ = k;
     t0_ = t0;
@@ -84,7 +84,7 @@ TEST(AgeLengths, VonBertalanffy_MeanLength_2) {
   MockModel model;
   model.bind_calls();
 
-  MockVonBertalanffy von_bertalanffy(model, 80, 0.064, 4, false, 0.2, 0.2, {1.0}, false, AgeLength::Distribution::kLogNormal);
+  MockVonBertalanffy von_bertalanffy(model, 80, 0.064, 4, false, 0.2, 0.2, {1.0}, false, Distribution::kLogNormal);
   ASSERT_NO_THROW(von_bertalanffy.MockBuildCV());
 
   EXPECT_DOUBLE_EQ(0.0, von_bertalanffy.mean_length(0, 1));

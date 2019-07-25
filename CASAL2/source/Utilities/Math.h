@@ -22,6 +22,7 @@
 
 #include "Utilities/DoubleCompare.h"
 #include "Utilities/Types.h"
+#include "Utilities/Distribution.h"
 
 #define PI 3.14159265358979
 
@@ -135,39 +136,40 @@ inline Double plognorm(const Double& x, const Double& mu, const Double& sigma) {
 }
 
 // Distribution: this is taken from CASAL, will be useful for Samik and his length structured stuff.
+// CASAL source code development.h
 // Probability distribution of a random variable over classes.
 // distribution(class_mins,plus_group,dist,mean,stdev)[i]
 // is the probability that a random variable with distribution 'dist', 'mean' and 'stdev'
 // falls between class_mins[i] and class_mins[i+1]
-// (unless i = class_mins.indexmax() and plus_group!=0, in which case
+// (unless i = 0 and plus_group!=0, in which case
 // distribution(...)[i] is the probability that the random variable exceeds class_mins[i]).
+// TODO change dist from string -> enum Think about moving enum Distribution from AgeLength to model as it will be used everywhere in the code base.
 //
 // We use an approximation: P(X is more than 5 std.devs away from its mean) = 0.
 //  Almost true for the normal distribution, but may be problematic if you use something more skewed.
-inline vector<Double> distribution(const vector<Double>& class_mins, int plus_group = 0, string dist = "normal", const Double& mean = 0.0, const Double& stdev = 1.0) {
+inline vector<Double> distribution(const vector<Double>& class_mins, bool plus_group = 0, const Distribution& dist = Distribution::kNormal, const Double& mean = 0.0, const Double& stdev = 1.0) {
   int n_bins = class_mins.size() - (plus_group ? 0 : 1);
   vector<Double> result(n_bins, 0.0);
-  Double so_far;
-  Double mu, sigma;
-  if (dist == PARAM_LOGNORMAL){
+  Double so_far = 0;
+  Double mu = 0, sigma = 0;
+  // Adjust mu and sigma for lognormal
+  if (dist == Distribution::kLogNormal){
     sigma = sqrt(log(1+pow(stdev/mean,2)));
     mu = log(mean) - sigma*sigma/2;
   }
-  LOG_TRACE();
-  if (class_mins[0] < mean - 5 * stdev){
+  if (class_mins[0] < mean - 5 * stdev) {
     so_far = 0;
   } else {
-    if (dist == PARAM_NORMAL){
+    if (dist == Distribution::kNormal){
       so_far = pnorm(class_mins[0],mean,stdev);
-    } else if (dist == PARAM_LOGNORMAL){
+    } else if (dist == Distribution::kLogNormal){
       so_far = plognorm(class_mins[0],mu,sigma);
     } else
-      LOG_CODE_ERROR() << "unknown distribution supplies '" << dist;
+      LOG_CODE_ERROR() << "unknown distribution supplies, this should be caught earlier '";
   }
-  LOG_TRACE();
 
   int c;
-  for (c = 0; c < (n_bins - 1); c++){
+  for (c = 0; c < (n_bins - 1); c++) {
     if (class_mins[c + 1] > mean + 5 * stdev){
       result[c] = 1-so_far;
       so_far = 1;
@@ -175,9 +177,9 @@ inline vector<Double> distribution(const vector<Double>& class_mins, int plus_gr
       result[c] = 0;
       so_far = 0;
     } else {
-      if (dist == PARAM_NORMAL){
+      if (dist == Distribution::kNormal){
         result[c] = pnorm(class_mins[c + 1], mean ,stdev) - so_far;
-      } else if (dist == PARAM_LOGNORMAL){
+      } else if (dist == Distribution::kLogNormal){
         result[c] = plognorm(class_mins[c + 1], mu, sigma) - so_far;
       }
       so_far += result[c];
@@ -195,9 +197,9 @@ inline vector<Double> distribution(const vector<Double>& class_mins, int plus_gr
     if (class_mins[c + 1] > mean + 5 * stdev){
       result[c] = 1 - so_far;
     } else {
-      if (dist == PARAM_NORMAL){
+      if (dist == Distribution::kNormal){
         result[c] = pnorm(class_mins[c + 1], mean, stdev) - so_far;
-      } else if (dist == PARAM_LOGNORMAL){
+      } else if (dist == Distribution::kLogNormal){
         result[c] = plognorm(class_mins[c + 1], mu, sigma) - so_far;
       }
     }
@@ -205,7 +207,6 @@ inline vector<Double> distribution(const vector<Double>& class_mins, int plus_gr
       LOG_CODE_ERROR() << "bad result in distribution, got " << result[c];
     }
   }
-  LOG_TRACE();
   return result;
 }
 //**********************************************************************

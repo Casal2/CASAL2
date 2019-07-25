@@ -61,13 +61,13 @@ public:
 
 class MockVonBertalanffy : public agelengths::VonBertalanffy {
 public:
-  MockVonBertalanffy(AgeLength::Distribution distribution = Distribution::kNormal)
+  MockVonBertalanffy(Distribution distribution = Distribution::kNormal)
   : VonBertalanffy(nullptr) {
     distribution_ = distribution;
   }
 
   MockVonBertalanffy(Model& model, Double linf, Double k, Double t0, bool by_length,
-      Double cv_first, Double cv_last, vector<Double> time_step_proportions, bool casal_switch = false, AgeLength::Distribution distributuion = Distribution::kNormal) : VonBertalanffy(&model) {
+      Double cv_first, Double cv_last, vector<Double> time_step_proportions, bool casal_switch = false, Distribution distributuion = Distribution::kNormal) : VonBertalanffy(&model) {
     linf_ = linf;
     k_ = k;
     t0_ = t0;
