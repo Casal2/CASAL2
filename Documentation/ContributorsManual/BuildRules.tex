@@ -103,12 +103,11 @@ The syntax sections of the user manual are automatically generated from the sour
 
 \subsection{Builds to pass before merging changes}
 
-Once you have made changes to the code, you must run the following builds before your changes can be considered for includion in the the main code base.
+Once you have made changes to the code, you must run the following builds before your changes can be considered for inclusion in the the main code base. 
 
 build the unittest version see Section~\ref{sec:build_environment} for how to build unittest depending on your system.
 
-Run the standard and new unit tests to check that they all pass
-\texttt{DoBuild test}
+Run the standard and new unit tests to check that they all pass, to do this first compile the test executable using the script \texttt{DoBuild test}. Then move to the directory with the location of the executable (\texttt{BuildSystem/bin/OS/test}) and run it (open a command terminal and run \texttt{casal2}) to check all the unit-tests pass.
 
 And test that the debug and release of \CNAME\ compile and run.
 \texttt{DoBuild debug}
