@@ -50,7 +50,7 @@ check_mpd_identifiability = function(cas2_mod, delta = .Machine$double.eps) {
     }  
   } else {
     # for values with zero eigenvalues find the absolute largest eigenvector value
-    RowMax = apply(Eig$vectors[, WhichBad], MARGIN = 1, 
+    RowMax = apply(Eig$vectors[, WhichBad, drop=FALSE], MARGIN = 1, 
                    FUN = function(vec) {max(abs(vec))})
     if (est_ndx != 0) {
       params = cas2_mod[[est_ndx]]$`1`$values

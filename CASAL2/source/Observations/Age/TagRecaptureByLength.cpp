@@ -76,14 +76,25 @@ void TagRecaptureByLength::DoValidate() {
       // Cast to a double
       length_bins_[length] = Double(length_bins_input_[length]);
     }
-    use_model_length_bins_ = false;
+
+    // Finally Check the bins are not the same as in the @model, if user accidently set them to the be the same as the  @model
+    // we can ignore there input for performance benefits.
+    vector<unsigned> model_length_bins = model_->length_bins();
+    if (length_bins_input_.size() == model_length_bins.size()) {
+      for(unsigned i = 0; i < model_length_bins.size(); ++i) {
+        if (model_length_bins[i] != length_bins_input_[i])
+          use_model_length_bins_ = false;
+      }
+    }
+
+
   } else {
     // set to model if not defined.
     length_bins_input_ = model_->length_bins();
     length_bins_.resize(length_bins_input_.size(),0.0);
     for (unsigned length = 0; length < length_bins_input_.size(); ++length) {
       length_bins_[length] = Double(length_bins_input_[length]);
-      LOG_FINE() << "length bin " << length + 1 << length_bins_input_[length] << " after static " << length_bins_[length];
+      LOG_FINE() << "length bin " << length + 1 << " " << length_bins_input_[length] << " after static " << length_bins_[length];
     }
   }
 
@@ -91,7 +102,7 @@ void TagRecaptureByLength::DoValidate() {
 
   number_bins_ = length_plus_ ? length_bins_.size() : length_bins_.size() - 1;
 
-  LOG_FINE() << "which model bins are we using = " << use_model_length_bins_ << " n bins = " << number_bins_;
+  LOG_FINE() << "Are we using model length bins = " << use_model_length_bins_ << " (1 = yes). n bins = " << number_bins_;
 
   // reserve memory that we will be using during execute
   age_length_matrix_.resize(model_->age_spread());
@@ -426,8 +437,6 @@ void TagRecaptureByLength::Execute() {
     /**
      * Loop through the tagged combined categories building up the
      * tagged age results
-     * TODO - there are categories in both source and tagged so should maybe skip tagged
-     * partition that are in partition
      */
     auto tagged_category_iter = tagged_partition_iter->begin();
     auto tagged_cached_category_iter = tagged_cached_partition_iter->begin();

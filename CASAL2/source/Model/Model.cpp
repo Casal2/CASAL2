@@ -71,7 +71,7 @@ Model::Model() {
   parameters_.Bind<string>(PARAM_TYPE, &type_, "TBA: Type of model (the partition structure). Either age, length or hybrid", "", PARAM_AGE)->set_allowed_values({PARAM_AGE, PARAM_LENGTH, PARAM_HYBRID});
   parameters_.Bind<unsigned>(PARAM_LENGTH_BINS, &length_bins_, "The minimum length in each length bin", R"($0 \le$ length\textlow{min} $\le$ length\textlow{max})", true);
   parameters_.Bind<bool>(PARAM_LENGTH_PLUS, &length_plus_, "Specify whether there is a length plus group or not", "true, false", true);
-  parameters_.Bind<unsigned>(PARAM_LENGTH_PLUS_GROUP, &length_plus_group_, "Mean size of length plus group", R"(length\textlow{max} $<$ length_plus_group)", 0);
+  parameters_.Bind<unsigned>(PARAM_LENGTH_PLUS_GROUP, &length_plus_group_, "Mean length of length plus group", R"(length\textlow{max} $<$ length_plus_group)", 0);
   parameters_.Bind<string>(PARAM_BASE_UNITS, &base_weight_units_, "Define the units for the base weight. This will be the default unit of any weight input parameters ", "grams, kgs or tonnes", PARAM_TONNES)->set_allowed_values({PARAM_GRAMS, PARAM_TONNES,PARAM_KGS});
 
   global_configuration_ = new GlobalConfiguration();
@@ -356,6 +356,9 @@ void Model::Validate() {
       LOG_ERROR_P(PARAM_TIME_STEPS) << "(" << time_step << ") has not been defined. Please ensure you have defined it";
   }
 
+
+  if (parameters_.Get(PARAM_LENGTH_PLUS_GROUP)->has_been_defined() & (partition_type_ == PartitionType::kAge))
+    LOG_ERROR_P(PARAM_LENGTH_PLUS_GROUP) << "This parameter should only be used for models that have length structured partitions. For age models with length based processes, all length bins should be defined by the length_bins subcommand";
   /**
    * Do some simple checks
    * e.g Validate that the length_bins are strictly increasing
