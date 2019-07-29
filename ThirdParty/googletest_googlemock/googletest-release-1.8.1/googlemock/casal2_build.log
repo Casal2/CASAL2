@@ -1,0 +1,16 @@
+Scanning dependencies of target gtest
+[ 25%] Building CXX object gtest/CMakeFiles/gtest.dir/src/gtest-all.cc.o
+Linking CXX static library libgtest.a
+[ 25%] Built target gtest
+Scanning dependencies of target gmock
+[ 50%] Building CXX object CMakeFiles/gmock.dir/src/gmock-all.cc.o
+Linking CXX static library libgmock.a
+[ 50%] Built target gmock
+Scanning dependencies of target gmock_main
+[ 75%] Building CXX object CMakeFiles/gmock_main.dir/src/gmock_main.cc.o
+Linking CXX static library libgmock_main.a
+[ 75%] Built target gmock_main
+Scanning dependencies of target gtest_main
+[100%] Building CXX object gtest/CMakeFiles/gtest_main.dir/src/gtest_main.cc.o
+Linking CXX static library libgtest_main.a
+[100%] Built target gtest_main

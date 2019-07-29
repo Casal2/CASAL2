@@ -1,0 +1,32 @@
+Format for commenting commits:
+
+1. Verify the unit tests still pass before you commit or merge. 
+   Or your code will be immediately rejected/reverted (dobuild test)
+
+2. Verify the build works on one of the auto-diff compilers (dobuild release cppad) 
+
+3. Verify the model runner passes (dobuild modelrunner)
+
+4. Update the manual if you've made functional changes. Then verify the manual still builds (dobuild documentation)
+
+4. Do not commit without a comment. This is a massive hassle for anyone trying to find the history of a file or folder. 
+   Spending ages doing manual code comparisons isn't fun. Your push will be rejected or reverted.
+
+The first part of each line of your commit message should indicate what time of modification you have done.
+
+   ADD - Added a new file/class
+   CHG - Modified something existing
+   DEL - Removed something
+   FIX - Fixed something that was broken
+
+An example of a bad commit message is: 
+  Changed some stuff to make it better
+
+An example of a good commit message is: 
+  CHG: AgeingErrors now rebuild. This allows them to use Addressables correctly.
+  CHG: AgeingErrors/OffbyOne now build the Matrix slightly differently see .cpp for more info
+  CHG: Derived Quantities now rebuild for estimation
+  CHG: NormalDistribution now uses a static function, no longer inherits from CBaseManager
+  CHG: AgeingError Unit Tests for Observations merged into a single file.
+
+5. Again, Check all the unit tests have passed! and the doBuild.bat modelrunner runs without failure

@@ -1,0 +1,33 @@
+###############################################################
+# TextPad.readme
+###############################################################
+
+Enabling CASAL2 syntax highlighting in TextPad (http://www.textpad.com)
+
+Syntax definition files contain the information TextPad uses to highlight 
+keywords in different colors. The file CASAL2.syn provides syntax 
+highlighting for CASAL2 input parameter files. 
+
+The following instructions show how to enable syntax highlighting of CASAL2 
+input parameter files more readable in TextPad by colour coding CASAL2 
+commands, sucommands, and comments, etc.  
+
+Note you can edit or otherwise modify the syntax highlighting by editing 
+the CASAL2.syn syntax definition file. See the TextPad help for more 
+information.
+
+First, copy CASAL2.syn from the directory where you installed CASAL2 to the 
+folder where personal TextPad syntax files are kept. By default this is 
+in "[user profile]\Application Data\TextPad". See the help topic "How to 
+Customize Folders" in TextPad for information about the location of this 
+folder on your system. 
+
+Then, to enable syntax highlighting for CASAL2 '.csl2' files:
+
+1. Open Textpad, and select Configure | New Document Class
+2. In ‘Document class name’ enter CASAL2 then select ‘Next’
+3. In ‘Class members’ enter *.csl2 then select ‘Next’
+4. Tick the box ‘Enable syntax highlighting’
+5. Select elect CASAL2.syn from the available syntax files in the drop down box. 
+6. Select ‘Finish’
+

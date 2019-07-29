@@ -1,0 +1,163 @@
+\section{Examples}\label{Sec:examples}
+
+\subsection{Simple Example}\label{Sec:simp}
+In the following example describe a situation then go on to configure a \CNAME\ file to run. In this example we have a single area, single stock that has one fishery associated with it. We assume that the partition is made up of a single category (no sex or maturity in the partition). Processes and observations that occur in a typical year in the following order. \\
+\begin{enumerate}
+	\item Recruitment
+	\item Fishing mortality with natural mortality
+	\item A survey takes place out of the fishing season and in the spawning season
+	\item More natural mortality
+	\item At the end of the year all the fish are aged.
+\end{enumerate}
+
+The following model would have the following structure.
+
+{\small{\begin{verbatim}
+@model
+start_year 1975 # Start year
+final_year 2012 # Current year
+min_age 1		# min age of all categories
+max_age 30		# max age of all categories
+age_plus true	# is the last age a plus group
+base_weight_units tonnes
+initialisation_phases Equilibrium_state
+time_steps Sep_Feb Mar_May Jun_Aug ## Defines the time steps
+\end{verbatim}}}
+
+
+
+{\small{\begin{verbatim}
+		@categories
+		format Stock			## format of the category labels
+		names CHAT4 ## category labels
+		age_lengths CHAT4_AL ## Lables of age-length relationship for each category
+		\end{verbatim}}}
+
+
+The \command{categories} command defines the label, number and age-length relationship of categories that make up the partition. A category is a group of individuals that have the same attributes, some examples of such attributes are, life history and growth paths. Characters in a populations that cause differing attributes can be, sex, maturity, multiple area, multiple stock's and tagging information. An example of the \command{categories} block for a simple two area model with male and female in the partition.
+
+
+{\small{\begin{verbatim}
+@time_step Sep_Feb 
+processes Recruitment Instantaneous_Mortality
+
+@time_step Mar_May 
+processes Instantaneous_Mortality 
+
+@time_step Jun_Aug 
+processes  Ageing Instantaneous_Mortality
+		\end{verbatim}}}
+
+The \command{time\_step} command describes which processes are implemented and in what order. We will continue on from the \command{model} block example, where we defined two time steps in the annual cycle (\texttt{time\_steps Sep\_Feb Mar\_May Jun\_Aug}). In each year we have two time steps, within each time step we have processes each process must be derined in \command{process} block the following processes are described.
+
+{\small{\begin{verbatim}
+@process Recruitment
+type recruitment_beverton_holt
+categories HAK4
+proportions 1 
+b0 44000
+ycs_years 1974:2011
+ycs_values   	      1*38
+steepness 0.9
+ssb SSB
+age 1
+standardise_ycs_years 1975:2009
+
+		
+@process Instantaneous_Mortality
+type mortality_instantaneous
+m 0.2
+time_step_ratio 0.42 0.25 0.33
+selectivities One
+categories HAK4
+table catches
+year FishingWest FishingEest
+1975	80	111
+1976	152	336
+1977	74	1214
+1978	28	6
+1979	103	506
+1980	481	269
+1981	914	83
+1982	393	203
+1983	154	148
+1984	224	120
+1985	232	312
+1986	282	80
+1987	387	122
+1988	385	189
+1989	386	418
+1990	309	689
+end_table
+		
+table fisheries
+fishery  	category 	selectivity 	u_max 	time_step 	penalty
+Fishing   	CHAT4   	FSel 		0.7 	step1 		Catchmustbetaken
+end_table
+
+@process Ageing
+type ageing
+categories CHAT4_AL
+\end{verbatim}}}
+
+The above defines all the processes that occur to the partition. In the process  \texttt{Mortality} we associate a selectivity to natural mortality and in the fisheries table \texttt{FSel}, this would be defined as follows. 
+{\small{\begin{verbatim}
+	@selectivity One
+	type constant 
+	c 1
+	
+	@selectivity FSel
+	type double_normal 
+	mu 3.82
+	sigma_l 1.63
+	sigma_r 17
+\end{verbatim}}}
+
+If a age-length relationship is specified in the \command{categories} block then the \command{age\_length} block needs to be defined, this block is used to convert age to length which is then used to convert length to weight in an age based model, it is specified as follows,
+{\small{\begin{verbatim}
+	@age_length CHAT4_AL
+	type von_bertalanffy
+	length_weight CHAT4_LW	## label for @length_weight block
+	k 0.164
+	t0 -2.16
+	linf 100.8
+	
+	@length_weight CHAT4_LW	## label from @age_lenght block
+	type basic
+	units tonnes
+	a 4.79e-09 
+	b 2.89 
+\end{verbatim}}}
+
+The last important block to complete the population text file, is the \command{initialisation\_phase}. This block of commands specifies how you initialise your partition. This describes the state of the partition before \texttt{start\_year} of the model, usually this is an equilibrium state. The subcommands available for this block are as follows,
+{\small{\begin{verbatim}
+	@initialisation_phase phase1
+	type iterative	## Type of initialisation method see manual for more
+	years 100	## How many years to run for
+\end{verbatim}}}
+
+In the above example we have an iterative initialisation type. This will default to iterating your annual cycle for 100 years, which may or may not cause your partition to hit an equilibrium state. \textbf{N.B.} when using this initialisation method you as the user must check if the partition has reached an acceptable equilibrium state.
+
+The next section we are defining is the observation section. We have a survey that occurs in the second time step, which is of relative abundance, this would be defined as follows.
+
+{\small{\begin{verbatim}
+@observation Survey	## label of observation
+type biomass 		## tyoe of observation
+time_step Sep_Feb	## which time step the observation occurs
+time_step_proportion 0.5	## the observation occurs half way through the time step
+categories CHAT4
+selectivities One
+catchability q		## The label for @catchability block
+years 		1992 	1993 	1994 	1995 	
+obs 		2950	3353	3303	2457
+error_value 	0.41	0.52	0.91	0.61
+likelihood lognormal		## likelihood to use for the objective function
+
+@catchability q	## label from @observation
+type free
+q 0.001		## The value
+		\end{verbatim}}}
+
+If you would like to see a complete model configuration of the model we have just started to go through, go to the \texttt{CASAL2/Examples/Simple}. To run the simple example which is located in \texttt{CASAL2/Examples/Simple}. [shift] + right click $->$ open command window in the above directory. Type in the command window \texttt{casal2 -r} and output should print to screen.
+
+

@@ -1,0 +1,40 @@
+@model
+start_year 1994
+final_year 2008
+min_age 1
+max_age 20
+plus_group t
+time_steps step_one
+
+@categories
+format stage.sex
+names immature.male
+
+@time_step step_one
+processes recruitment_constant ageing
+
+@ageing ageing
+categories immature.male
+
+@Recruitment recruitment_constant
+type constant
+categories immature.male
+proportions 1.0
+R0 997386
+age 1
+
+@catchability CPUEq
+q 0.000153139
+
+# OBSERVATIONS: CPUE
+@observation CPUE-1998
+type abundance
+catchability CPUEq
+year 1998
+time_step step_one
+categories immature.male mature.male
+selectivities FishingSel
+obs all 22.55065505
+error_value all 0.2
+likelihood log_normal
+#process_error 0.00

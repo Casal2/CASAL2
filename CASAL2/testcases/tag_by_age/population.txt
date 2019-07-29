@@ -1,0 +1,70 @@
+@model
+start_year 1994
+final_year 2008
+min_age 1
+max_age 50
+plus_group t
+initialisation_phases iphase1 iphase2
+time_steps step_one step_one_pt_five step_two
+
+@categories
+format stage.sex
+names immature.male mature.male tagged.male immature.female mature.female tagged.female
+
+@initialisation_phase iphase1
+years 200
+
+@initialisation_phase iphase2
+years 1
+
+@time_step step_one
+processes Recruitment
+
+@time_step step_one_pt_five
+processes tagging
+
+@time_step step_two
+processes my_ageing
+
+# Population processes
+@ageing my_ageing
+categories immature.male mature.male immature.female mature.female
+
+@process tagging
+type tag_by_age
+from immature.male
+to tagged.male
+min_age 3
+max_age 6
+years 2000
+initial_mortality 0.0
+loss_rate 0.1
+n 100000
+table proportions
+year 3 4 5 6
+2000 0.25 0.25 0.25 0.25
+end_table
+
+@Recruitment Recruitment
+type constant
+categories immature.male immature.female
+proportions 0.5 0.5
+R0 997386
+age 1
+
+# Definition of selecivities
+@selectivity One
+type constant
+c 1
+
+@selectivity Maturation
+type logistic_producing
+L 5
+H 30
+a50 8
+ato95 3
+
+@selectivity FishingSel
+type logistic
+a50 8
+ato95 3

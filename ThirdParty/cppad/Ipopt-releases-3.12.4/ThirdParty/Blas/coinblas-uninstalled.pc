@@ -1,0 +1,9 @@
+prefix=/home/amart/work/projects/CASAL2/dev/CASAL2/ThirdParty/cppad/Ipopt-releases-3.12.4
+libdir=/home/amart/work/projects/CASAL2/dev/CASAL2/ThirdParty/cppad/Ipopt-releases-3.12.4/ThirdParty/Blas
+
+Name: Blas
+Description: Basic linear algebra package
+URL: https://projects.coin-or.org/BuildTools
+Version: 1.3.11
+Libs: ${libdir}/libcoinblas.la  -L/usr/lib/gcc/x86_64-redhat-linux/4.8.5 -L/usr/lib/gcc/x86_64-redhat-linux/4.8.5/../../../../lib64 -L/lib/../lib64 -L/usr/lib/../lib64 -L/usr/lib/gcc/x86_64-redhat-linux/4.8.5/../../.. -lgfortran -lm -lquadmath
+Cflags:

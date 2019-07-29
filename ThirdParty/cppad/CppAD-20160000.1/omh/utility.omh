@@ -1,0 +1,138 @@
+$Id$
+/* --------------------------------------------------------------------------
+CppAD: C++ Algorithmic Differentiation: Copyright (C) 2003-15 Bradley M. Bell
+
+CppAD is distributed under multiple licenses. This distribution is under
+the terms of the
+                    Eclipse Public License Version 1.0.
+
+A copy of this license is included in the COPYING file of this distribution.
+Please visit http://www.coin-or.org/CppAD/ for information on other licenses.
+-------------------------------------------------------------------------- */
+
+$begin utility$$
+$spell
+	CppAD
+	namespace
+	alloc
+	cppad.hpp
+$$
+
+
+$section Some General Purpose Utilities$$
+These routines can be include individually; for example,
+$codep
+	# include <cppad/utility/vector.hpp>
+$$
+only includes the definitions necessary for the $code CppAD::vector$$ class.
+They can also be included as a group, separate from the rest of CppAD, using
+$codep
+	# include <cppad/utility.hpp>
+$$
+They will also be included, along with the rest of CppAD, using
+$codep
+	# include <cppad/cppad.hpp>
+$$
+
+$children%
+	cppad/utility/error_handler.hpp%
+
+	cppad/utility/near_equal.hpp%
+	cppad/utility/speed_test.hpp%
+	cppad/utility/time_test.hpp%
+
+	omh/numeric_type.omh%
+	cppad/utility/check_numeric_type.hpp%
+	omh/simple_vector.omh%
+	cppad/utility/check_simple_vector.hpp%
+
+	cppad/utility/nan.hpp%
+	cppad/utility/pow_int.hpp%
+	cppad/utility/poly.hpp%
+	omh/lu_det_and_solve.omh%
+	cppad/utility/romberg_one.hpp%
+	cppad/utility/romberg_mul.hpp%
+	cppad/utility/runge_45.hpp%
+	cppad/utility/rosen_34.hpp%
+	cppad/utility/ode_err_control.hpp%
+	cppad/utility/ode_gear.hpp%
+	cppad/utility/ode_gear_control.hpp%
+
+	cppad/utility/vector.hpp%
+	omh/thread_alloc.omh%
+	cppad/utility/index_sort.hpp%
+	cppad/utility/to_string.hpp
+%$$
+
+$head Testing$$
+The routines listed below support numerical correctness and speed testing:
+$table
+$rref NearEqual$$
+$rref time_test$$
+$rref speed_test$$
+$rref SpeedTest$$
+$tend
+
+$head C++ Concepts$$
+We refer to a the set of classes that satisfy certain conditions
+as a C++ concept.
+The following concepts are used by the CppAD Template library:
+$table
+$rref NumericType$$
+$rref CheckNumericType$$
+$rref SimpleVector$$
+$rref CheckSimpleVector$$
+$tend
+
+
+$head General Numerical Routines$$
+The routines listed below are general purpose numerical routines
+written with the floating point type a C++ template parameter.
+This enables them to be used with algorithmic differentiation types,
+as well as for other purposes.
+$table
+$rref nan$$
+$rref pow_int$$
+$rref Poly$$
+$rref LuDetAndSolve$$
+$rref RombergOne$$
+$rref RombergMul$$
+$rref Runge45$$
+$rref Rosen34$$
+$rref OdeErrControl$$
+$rref OdeGear$$
+$rref OdeGearControl$$
+$tend
+
+$head Miscellaneous$$
+
+$subhead Error Handler$$
+All of the routines in the CppAD namespace use the following
+general purpose error handler:
+$table
+$rref ErrorHandler$$
+$tend
+
+$subhead Simple Vector Template Class$$
+A simple implementation of a template vector class
+(that is easy to view in a C++ debugger):
+$table
+$rref CppAD_vector$$
+$tend
+
+$subhead Multi-Threading Memory Allocation$$
+$table
+$rref thread_alloc$$
+$tend
+
+$subhead Sorting Indices$$
+$table
+$rref index_sort$$
+$tend
+
+$subhead to_string$$
+$table
+$rref to_string$$
+$tend
+
+$end

@@ -1,0 +1,14 @@
+20130622
+  cplex.c, README.cplex:  for CPLEX 12.5.1, add keyword "splitcuts"
+to control use of lift-and-project cuts on MIP problems.
+Also add keyword "objrep" controlling whether to replace
+	minimize obj: v;
+with
+	minimize obj: f(x)
+when variable v appears linearly in exactly one constraint of the form
+	s.t. c: v >= f(x);
+or
+	s.t. c: v == f(x);
+Default is no for the former, yes for the latter.  See README.cplex.
+This requires use of version >= 20130622 of the AMPL/solver interface
+library.

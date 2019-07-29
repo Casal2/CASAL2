@@ -1,0 +1,11 @@
+prefix=/home/amart/work/projects/CASAL2/dev/CASAL2/ThirdParty/cppad/Ipopt-releases-3.12.4
+exec_prefix=${prefix}
+libdir=${exec_prefix}/lib
+includedir=${prefix}/include/coin/ThirdParty
+
+Name: ASL
+Description: AMPL Solver Library
+URL: https://projects.coin-or.org/BuildTools
+Version: 1.2.16
+Libs: -L${libdir} -lcoinasl -lm -ldl 
+Cflags: -I${includedir}

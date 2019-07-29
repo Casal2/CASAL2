@@ -1,0 +1,55 @@
+# $Id$
+# -----------------------------------------------------------------------------
+# CppAD: C++ Algorithmic Differentiation: Copyright (C) 2003-15 Bradley M. Bell
+#
+# CppAD is distributed under multiple licenses. This distribution is under
+# the terms of the
+#                     Eclipse Public License Version 1.0.
+#
+# A copy of this license is included in the COPYING file of this distribution.
+# Please visit http://www.coin-or.org/CppAD/ for information on other licenses.
+# -----------------------------------------------------------------------------
+#
+# Copy source file so that main.o does not end up in parent directory
+BUILT_SOURCES = main.cpp
+main.cpp:
+	cp $(srcdir)/../main.cpp main.cpp
+#
+#
+# CppAD pusts all it's preprocessor definitions in the cppad/configure.hpp
+DEFS          =
+#
+check_PROGRAMS   = speed_adolc
+#
+AM_CPPFLAGS   = \
+	-I$(top_srcdir) \
+	-I$(ADOLC_DIR)/include \
+	$(BOOST_INCLUDE) \
+	$(EIGEN_INCLUDE)
+#
+# BEGIN OPTIMIZE
+AM_CXXFLAGS   = -O2 -DNDEBUG -DCPPAD_ADOLC_SPEED $(CXX_FLAGS)
+# END OPTIMIZE
+#
+# BEGIN DEBUG
+# AM_CXXFLAGS   = -g $(CXX_FLAGS) -DCPPAD_ADOLC_SPEED
+# END DEBUG
+#
+LDADD            = -lspeed -ladolc -lColPack
+AM_LDFLAGS       = -L../src -L$(ADOLC_DIR)/lib -L$(ADOLC_DIR)/lib64
+#
+speed_adolc_SOURCES = \
+	adolc_alloc_mat.hpp \
+	alloc_mat.cpp \
+	main.cpp \
+	det_lu.cpp \
+	det_minor.cpp \
+	mat_mul.cpp \
+	ode.cpp \
+	poly.cpp \
+	sparse_hessian.cpp \
+	sparse_jacobian.cpp
+
+test: check
+	./speed_adolc correct 123 colpack
+	./speed_adolc correct 123 onetape colpack

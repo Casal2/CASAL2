@@ -1,0 +1,43 @@
+## report configuration file
+
+@assert obj
+type objective_function
+value 929.01854
+
+@report Recruitment
+type process
+process Recruitment
+
+@report Mortality
+type process
+process Instantaneous_Mortality
+
+@report estimate_value
+type estimate_value
+
+@report obj
+type objective_function 
+
+@report SSB
+type derived_quantity
+## report selectivities
+@report MaturationSel_male
+type selectivity
+selectivity MaturationSel_male
+
+@report MaturationSel_female
+type selectivity
+selectivity MaturationSel_female
+
+## report Observations
+@report TangaroaAcousticMature
+type observation
+observation TangaroaAcousticMature
+
+@report TangaroaAcousticImmature
+type observation
+observation TangaroaAcousticImmature
+
+## report Catchabilities
+@report Qs
+type catchability

@@ -1,0 +1,104 @@
+## Structure of my estimation.csl2 
+# - Define Minimiser along with subcommands such as gradient tolerance to stop, how many evaluations to stop at etc.
+# - Define Estimates = Parameters being estiamted with assumed priors and bounds
+# - Define Penalties = Additional Penalties assumed on these models
+# - Define AdditionalPriors = Analogous to Penalties really.
+
+################################### Minimiser ###############################
+@minimiser beta_diff
+type betadiff
+tolerance 1e-8
+iterations 2500
+evaluations 4000
+
+################################### Estimates ###############################
+## Format for parameter in @estimate block = type[label].parameter
+
+#######
+## Q's
+#######
+@estimate acoq_99_12
+type normal
+parameter catchability[acoq_99_12].q
+mu 0.8				
+cv 0.19			
+lower_bound 0.1
+upper_bound 1.5
+
+@estimate acoq_13
+type normal
+parameter catchability[acoq_13].q
+mu 0.3		
+cv 0.19				
+lower_bound 0.03
+upper_bound 0.6
+
+#######
+## YCS
+#######
+@estimate YCS
+parameter process[Recruitment].ycs_values{1940:1979}
+type lognormal
+mu 	      26489122130 * 40
+cv            2980.958 * 40
+lower_bound   0.01 * 40
+upper_bound   10 * 40
+
+#######
+## B0
+#######
+
+@estimate B0
+type uniform_log
+parameter process[Recruitment].b0
+lower_bound 5e3
+upper_bound 3e5
+
+#########################
+## Selectivity Parameter's
+#########################
+#Trawl survey
+@estimate Trawlsel_a50
+parameter selectivity[Trawlsel].a50
+type uniform
+lower_bound 5 
+upper_bound 50
+
+@estimate Trawlsel_ato95
+parameter selectivity[Trawlsel].ato95
+type uniform
+lower_bound 3
+upper_bound 20
+
+# Maturation
+@estimate MaturationSel_a50
+parameter selectivity[MaturationSel].a50
+type uniform
+lower_bound 10 
+upper_bound 100
+
+@estimate MaturationSel_ato95
+parameter selectivity[MaturationSel].ato95
+type uniform
+lower_bound 2.5
+upper_bound 100
+
+#CV's for age-length relationship
+@estimate CV_first
+parameter age_length[VB].cv_first
+type uniform
+lower_bound 0.03
+upper_bound 1
+
+
+@estimate CV_second
+parameter age_length[VB].cv_last
+type uniform
+lower_bound 0.03
+upper_bound 1
+
+################################### Penalties ###############################
+@penalty CatchMustBeTaken
+type process
+log_scale True
+multiplier 200

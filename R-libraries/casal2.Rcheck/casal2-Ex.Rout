@@ -1,0 +1,146 @@
+
+R version 3.6.0 (2019-04-26) -- "Planting of a Tree"
+Copyright (C) 2019 The R Foundation for Statistical Computing
+Platform: x86_64-redhat-linux-gnu (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+  Natural language support but running in an English locale
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> pkgname <- "casal2"
+> source(file.path(R.home("share"), "R", "examples-header.R"))
+> options(warn = 1)
+> library('casal2')
+> 
+> base::assign(".oldSearch", base::search(), pos = 'CheckExEnv')
+> base::assign(".old_wd", base::getwd(), pos = 'CheckExEnv')
+> cleanEx()
+> nameEx("burn.in.tabular")
+> ### * burn.in.tabular
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: burn.in.tabular
+> ### Title: burn.in.tabular used to return a list that has had the beginning
+> ###   cut off.
+> ### Aliases: burn.in.tabular
+> 
+> ### ** Examples
+> 
+> library(casal2)
+> # plotting Standard Output
+> tab <- extract.tabular(file = system.file("extdata", "tabular_report.out", package="casal2"))
+Read 278 items
+[1] "loading report 'summary'"
+[1] "loading report 'Rec'"
+[1] "loading report 'exploit'"
+[1] "loading report 'biomass'"
+[1] "loading report 'Tangaroa_propn_at_age_Aug'"
+[1] "loading report 'wcsiTRLcpue'"
+> burn_in_tab = burn.in.tabular(tab_object = tab, Row = 5);
+[1] "rows remaining after burn-in = 35"
+[1] "rows remaining after burn-in = 35"
+[1] "rows remaining after burn-in = 35"
+[1] "rows remaining after burn-in = 35"
+[1] "rows remaining after burn-in = 35"
+[1] "rows remaining after burn-in = 35"
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("extract.mpd")
+> ### * extract.mpd
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: extract.mpd
+> ### Title: extract MPD function for readin in Casal2 output that has been
+> ###   generated from a -r, -e, -f, -p run mode.
+> ### Aliases: extract.mpd
+> 
+> ### ** Examples
+> 
+> library(casal2)
+> data <- extract.mpd(file = system.file("extdata", "MPD.log", package="casal2"))
+1: class(data)
+2: 
+Read 1 item
+Warning in extract.mpd(file = system.file("extdata", "MPD.log", package = "casal2")) :
+  File is empty, no reports found
+> 
+> 
+> cleanEx()
+> nameEx("plot.fits")
+> ### * plot.fits
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: plot.fits
+> ### Title: plot.fits default
+> ### Aliases: plot.fits plot.fits.casal2MPD plot.fits.casal2TAB
+> 
+> ### ** Examples
+> 
+> library(casal2)
+> # plotting Standard Output
+> data <- extract.mpd(file = system.file("extdata", "estimate.log", package="casal2"))
+Read 1080 items
+> names(data)
+ [1] "Init"                      "step1"                    
+ [3] "step2"                     "summary"                  
+ [5] "objective"                 "Rec"                      
+ [7] "exploit"                   "biomass"                  
+ [9] "Tangaroa_propn_at_age_Aug" "wcsiTRLcpue"              
+[11] "warnings_encounted"       
+> par(mfrow = c(1,2))
+> plot.fits(model = data, report_label = "Tangaroa_propn_at_age_Aug")
+Plotting mean age.
+> plot.fits(model = data, report_label = "wcsiTRLcpue")
+> # if you are unhappy with the default plotting you can use plot.it = FALSE and create a plot of your own.
+> Tangaroa_fits = plot.fits(model = data, report_label = "Tangaroa_propn_at_age_Aug", plot.it = FALSE)
+> # plotting Tabular Output
+> tab <- extract.tabular(file = system.file("extdata", "tabular_report.out", package="casal2"))
+Read 278 items
+[1] "loading report 'summary'"
+[1] "loading report 'Rec'"
+[1] "loading report 'exploit'"
+[1] "loading report 'biomass'"
+[1] "loading report 'Tangaroa_propn_at_age_Aug'"
+[1] "loading report 'wcsiTRLcpue'"
+> names(tab)
+[1] "summary"                   "Rec"                      
+[3] "exploit"                   "biomass"                  
+[5] "Tangaroa_propn_at_age_Aug" "wcsiTRLcpue"              
+> plot.fits(model = tab, report_label = "Tangaroa_propn_at_age_Aug")
+> par(mfrow = c(1,1))
+> plot.fits(model = tab, report_label = "wcsiTRLcpue")
+> 
+> 
+> 
+> graphics::par(get("par.postscript", pos = 'CheckExEnv'))
+> ### * <FOOTER>
+> ###
+> cleanEx()
+> options(digits = 7L)
+> base::cat("Time elapsed: ", proc.time() - base::get("ptime", pos = 'CheckExEnv'),"\n")
+Time elapsed:  0.561 0.015 0.576 0 0 
+> grDevices::dev.off()
+null device 
+          1 
+> ###
+> ### Local variables: ***
+> ### mode: outline-minor ***
+> ### outline-regexp: "\\(> \\)?### [*]+" ***
+> ### End: ***
+> quit('no')

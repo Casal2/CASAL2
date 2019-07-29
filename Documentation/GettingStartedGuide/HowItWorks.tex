@@ -1,0 +1,20 @@
+\section{How it works}\label{sec:intro}
+\CNAME\ is run from a console windows in Microsoft Windows or in a terminal window in Linux, \CNAME\ is executed by typing \texttt{casal2 -"parameter"}, where \texttt{"parameter"} defines the run type of \CNAME. Once a \CNAME\ has been executed with a certain parameter \CNAME\ reads in text files. These text files define the model structure and the output wanted. For help on the parameters available and there descriptions type \texttt{casal2 --help}, this will print a help screen. There are multiple modes that \CNAME\ can be run in. The modes and corresponding parameters include deterministic run \texttt{-r}, parameter estimation \texttt{-e}, parameter profiling \texttt{-p}, mcmc runs \texttt{-m}, and projections \texttt{-f}. There are two ways of printing output, the default is to print all output to screen, the second is to print output to a file. The second is usually the preferred if you intend on post processing output i.e. create plots. The following example shows how to read in text file that out model is configured in (\texttt{My\_model.txt}) and run an estimation on some parameters in that model, then print the output to a file named \texttt{output.txt}.\\
+
+\texttt{casal2 -e  -c My\_model.txt > output.txt}
+
+\CNAME\ calls the program, \texttt{-e} tells the program it is going to do an estimation. \texttt{-c} is the parameter that gives the name of the text file with the configured model is, and \texttt{>} is the command to specify the file name where the output is printed. If the \texttt{-c} is not supplied \CNAME\ will search for a file names \texttt{config.csl2}.
+\\\\
+A list of the main run modes in \CNAME\ with more of a description.
+\begin{itemize}
+	
+	\item \texttt{casal2 -r} will run the model from \texttt{start\_year} to \texttt{final\_year} with the parameters in the configuration file or will use parameters specified using the \texttt{-i} functionalty.
+	
+	\item \texttt{casal2 -e} will run the model in \texttt{-r} many times trying to solve for the global solution.
+	
+	\item \texttt{casal2 -f 1} is the projection mode and will run the model from \texttt{start\_year} to \texttt{projection\_final\_year} applying any \command{project} functionality. Because most of the \command{project} functionality are stochastic in nature, for a given set of parameters you can do many projections. For example \texttt{casal2 -f 50} will do 50 projection runs. If you have multiple candidate parameters (maybe from an mcmc) you could do \texttt{casal2 -f 50 -i mcmc\_params.out} 50 projections for each set, in theory propagating more uncertainty into future predictions.
+	
+	\item \texttt{casal2 -s 1} is the simualtion mode, and \CNAME\ will run from \texttt{start\_year} to \texttt{final\_year}. It will generate expectations for all \command{observation} blocks that will be passed to random number generateors to generate simulated data. You will need to add the neccassary reports that will generate observation files that can be re-estiamted.
+	
+	\item \texttt{casal2 -m} is the mcmc mode and will run an MCMC estimation defined by subcommands in the \command{mcmc}.
+\end{itemize}

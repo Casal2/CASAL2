@@ -1,0 +1,66 @@
+@model
+type length
+length_bins 10 20 30 40 50 60 70 80 90 100 110 120
+length_plus false
+length_plus_group 130
+time_steps ts_1
+start_year 1991
+final_year 2000
+initialisation_phases test
+
+@initialisation_phase test
+type Iterative
+years 0
+
+@categories
+format sex
+names all
+#age_size sex=male=as_male
+#length_weight sex=female=lw_female
+
+@time_steps ts_1
+processes rec # growth # nat_m #[type=ageing; categories=*]
+
+@process rec
+type recruitment_constant
+categories *
+r0 100
+length_bins 10
+proportions 1
+
+@process nat_m
+type mortality_constant_rate
+categories *
+# selectivities all_v_m [type=constant; c=1]
+m 0.1
+
+@process growth
+type growth_basic
+categories *
+number_of_growth_episodes 1
+growth_time_steps ts_1
+l_ref 30 55
+g_ref 11.91 3.61
+cv 0.31
+sigma_min 4.45
+
+# @selectivity all_v_m
+# type all_values
+# v 1 2 3 4 5 6 7 8 9 10
+@report Initial_Population
+type initialisation_partition
+
+@report Populations
+type partition
+years 1991:2000
+time_step ts_1
+
+@report Growth
+type process
+process growth
+
+@report Recruitment
+type process
+process rec
+
+

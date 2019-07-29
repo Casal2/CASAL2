@@ -1,0 +1,4 @@
+@report partition
+type partition
+years 2000 2001 2002
+time_step step_one_pt_five

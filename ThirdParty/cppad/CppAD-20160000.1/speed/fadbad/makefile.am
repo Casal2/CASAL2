@@ -1,0 +1,53 @@
+# $Id$
+# -----------------------------------------------------------------------------
+# CppAD: C++ Algorithmic Differentiation: Copyright (C) 2003-15 Bradley M. Bell
+#
+# CppAD is distributed under multiple licenses. This distribution is under
+# the terms of the
+#                     Eclipse Public License Version 1.0.
+#
+# A copy of this license is included in the COPYING file of this distribution.
+# Please visit http://www.coin-or.org/CppAD/ for information on other licenses.
+# -----------------------------------------------------------------------------
+#
+# Copy source file so that main.o does not end up in parent directory
+BUILT_SOURCES = main.cpp
+main.cpp:
+	cp $(srcdir)/../main.cpp main.cpp
+#
+#
+# CppAD pusts all it's preprocessor definitions in the cppad/configure.hpp
+DEFS          =
+#
+check_PROGRAMS   = speed_fadbad
+#
+AM_CPPFLAGS   = \
+	-I$(top_srcdir) \
+	-I$(FADBAD_DIR)/include \
+	$(BOOST_INCLUDE) \
+	$(EIGEN_INCLUDE)
+#
+# BEGIN OPTIMIZE
+# Use special version of CXX_FLAGS with -Wshadow removed (if present).
+AM_CXXFLAGS   = -O2 -DNDEBUG -DCPPAD_FADBAD_SPEED $(CXX_FLAGS_FADBAD)
+# END OPTIMIZE
+#
+# BEGIN DEBUG
+# AM_CXXFLAGS   = -g -DCPPAD_FADBAD_SPEED $(CXX_FLAGS_FADBAD)
+# END DEBUG
+#
+LDADD           = -lspeed
+AM_LDFLAGS      = -L../src
+#
+speed_fadbad_SOURCES = \
+	main.cpp \
+	det_lu.cpp  \
+	det_minor.cpp  \
+	mat_mul.cpp  \
+	ode.cpp \
+	poly.cpp \
+	sparse_hessian.cpp \
+	sparse_jacobian.cpp
+
+test: check
+	./speed_fadbad correct 123

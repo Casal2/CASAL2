@@ -1,0 +1,37 @@
+iSAM
+Call: isam -e 
+Date: Tue Apr 21 16:37:17 2015
+Version: 2015-04-16 23:48:40 UTC (rev. c45efa5)
+Copyright (c) 2012 - 2015, NIWA (www.niwa.co.nz)
+Environment: machine:ANUBIS, user:Admin, os:Windows_NT, pid:8868
+
+[my-objective-function]
+obs->CAA-year-1998: 190.565
+obs->CAA-year-1999: 233.163
+obs->CAA-year-2000: 168.961
+obs->CAA-year-2001: 191.936
+obs->CAA-year-2002: 181.738
+obs->CAA-year-2003: 297.756
+obs->CAA-year-2004: 186.818
+obs->CAA-year-2005: 202.819
+obs->CAA-year-2006: 255.397
+obs->CAA-year-2007: 256.49
+obs->CPUE-1998: 12.3091
+obs->CPUE-1999: -1.46826
+obs->CPUE-2000: -1.51938
+obs->CPUE-2001: 3.34101
+obs->CPUE-2002: 2.44826
+obs->CPUE-2003: -1.16303
+obs->CPUE-2004: 0.677717
+obs->CPUE-2005: -0.462863
+obs->CPUE-2006: 4.92795
+obs->CPUE-2007: 1.81641
+prior->catchability[CPUEq].q: 0
+prior->xR0->process[Recruitment].R0: 51.1771
+prior->selectivity[FishingSel].a50: 0
+prior->estimate[xR0].cv: 0
+total_score: 2237.73
+*end
+
+Total elapsed time: 5 seconds
+Completed

@@ -1,0 +1,36 @@
+Contributors checklist
+======================
+
+This is a check list for collaborators, who would like to make 
+changes to the master repository. There is an expected standard of 
+coding practice which is the google C++ standard see here for more 
+information https://google.github.io/styleguide/cppguide.html. 
+
+Once you have made changes to the code, you should check that you 
+have done the following checks before you submit a "pull request"
+
+- Filled out all the documentation and put your name on the source 
+  files created
+- Have successfully compiled the code with doBuild.bat "debug", 
+  "release" and "archive" under the BuildSystem directory
+- Check the unit tests have all passed. This involves compiling 
+  the unit tester "doBuild.bat test" then running "casal2" with the 
+  resulting executable.
+- Run the model runner "doBuild.bat Modelrunner"
+
+Once these have bbeen succesfully completed, and all errors or issues 
+have been resolved, the resulting changes can be submitted to the 
+Development Team
+
+
+Developer Commandments (for contributors)
+=========================================
+- Thou shalt use two-space indentation
+- Thou shalt use spaces between equal signs
+- Thou shalt use a space after a comma
+- Thou shalt use comments within a function
+- Thou shalt fill out the doxygen header for each function
+- Thou shalt test thy code
+
+
+With thanks from the development team =)

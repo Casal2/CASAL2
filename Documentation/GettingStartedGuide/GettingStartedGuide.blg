@@ -1,0 +1,56 @@
+This is BibTeX, Version 0.99d (TeX Live 2013)
+Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
+The top-level auxiliary file: GettingStartedGuide.aux
+A level-1 auxiliary file: Introduction.aux
+A level-1 auxiliary file: DataRequirements.aux
+A level-1 auxiliary file: Installing.aux
+A level-1 auxiliary file: HowItWorks.aux
+A level-1 auxiliary file: Syntax.aux
+A level-1 auxiliary file: ModelComponents.aux
+A level-1 auxiliary file: Examples.aux
+A level-1 auxiliary file: Output.aux
+The style file: plainnat.bst
+A level-1 auxiliary file: References.aux
+A level-1 auxiliary file: Acknowledgments.aux
+Database file #1: CASAL2.bib
+You've used 3 entries,
+            2773 wiz_defined-function locations,
+            623 strings with 5557 characters,
+and the built_in function-call counts, 1523 in all, are:
+= -- 124
+> -- 142
+< -- 3
++ -- 48
+- -- 45
+* -- 138
+:= -- 268
+add.period$ -- 10
+call.type$ -- 3
+change.case$ -- 23
+chr.to.int$ -- 3
+cite$ -- 6
+duplicate$ -- 51
+empty$ -- 74
+format.name$ -- 48
+if$ -- 289
+int.to.chr$ -- 1
+int.to.str$ -- 1
+missing$ -- 0
+newline$ -- 24
+num.names$ -- 12
+pop$ -- 40
+preamble$ -- 1
+purify$ -- 21
+quote$ -- 0
+skip$ -- 46
+stack$ -- 0
+substring$ -- 6
+swap$ -- 4
+text.length$ -- 2
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 33
+warning$ -- 0
+while$ -- 9
+width$ -- 0
+write$ -- 48

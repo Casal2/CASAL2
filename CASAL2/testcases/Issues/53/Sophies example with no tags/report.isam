@@ -1,0 +1,104 @@
+@report summary
+type estimate_value
+
+{
+@report estimate-summary
+type estimate_summary
+}
+@report objective
+type objective_function
+
+@report 
+type derived_quantity
+label SSB
+#years 1995:2013
+
+{
+@report CAA-shelfcatch
+type observation
+observation CAA-shelfcatch
+
+@report CAA-slopecatch
+type observation
+observation CAA-slopecatch
+
+@report CAA-northcatch
+type observation
+observation CAA-northcatch
+}
+
+@report N0
+type partition
+time_step one
+years 2008:2011
+
+{
+@report N1
+type partition
+time_step one
+years 2008:2011
+}
+
+@report N2
+type partition
+time_step two
+years 2008:2011
+
+@report N3
+type partition
+time_step three
+years 2008:2011
+
+{
+@report N_age
+type partition
+time_step two
+years 1995:2013
+
+@report B_age
+type partition_biomass
+time_step two
+years 1995
+
+@report ShelfselMale
+type selectivity
+selectivity ShelfselMale
+
+@report ShelfselFemale
+type selectivity
+selectivity ShelfselFemale
+
+@report SlopeselMale
+type selectivity
+selectivity SlopeselMale
+
+@report SlopeselFemale
+type selectivity
+selectivity SlopeselFemale
+
+@report NorthselMale
+type selectivity
+selectivity NorthselMale
+
+@report NorthselFemale
+type selectivity
+selectivity NorthselFemale
+
+@report MaturityMale
+type selectivity
+selectivity MaturityMale
+
+@report MaturityFemale
+type selectivity
+selectivity MaturityFemale
+
+@report mean_weight
+type partition_mean_weight
+time_step two
+years 1995
+
+
+@report estimate
+type estimate_value
+file_name MPD.prof.dat
+}

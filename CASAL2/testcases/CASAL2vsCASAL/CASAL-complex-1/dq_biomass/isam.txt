@@ -1,0 +1,85 @@
+@model
+min_age 2
+max_age 10
+plus_group t
+start_year 1975
+final_year 2002
+initialisation_phases phase1
+time_steps one 
+
+@categories
+format sex
+names male female
+age_sizes age_size_male age_size_female
+
+@age_size age_size_male
+type von_bertalanffy
+size_weight [type=none]
+k 0.277
+t0 0.11
+linf 90.3
+
+@age_size age_size_female
+type von_bertalanffy
+size_weight [type=none]
+k 0.202
+t0 -0.20
+linf 113.4
+
+@initialisation_phase phase1
+years 10
+time_steps one
+
+@time_step one
+processes recruitment ageing
+
+@derived_quantity ssb
+type biomass
+categories male female
+selectivities male_maturity female_maturity
+time_step one
+initialisation_time_steps one
+
+@ageing ageing
+categories male female
+
+@recruitment recruitment
+type constant
+categories male female
+proportions 0.5 0.5
+r0 5e6
+age 2
+
+@age_size age_size_male
+type von_bertalanffy
+size_weight [type=none]
+k 0.277
+t0 0.11
+linf 90.3
+
+@age_size age_size_female
+type von_bertalanffy
+size_weight [type=none]
+k 0.202
+t0 -0.20
+linf 113.4
+
+@selectivity male_maturity
+type logistic
+a50 5
+ato95 2
+
+@selectivity female_maturity
+type logistic
+a50 5
+ato95 2
+
+@report state-3
+type partition
+time_step one
+years 1975 2002
+
+@report dq
+type derived_quantity
+
+

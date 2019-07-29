@@ -1,0 +1,99 @@
+iSAM
+Call: isam -r 
+Date: Tue Apr 21 16:36:25 2015
+Version: 2015-04-16 23:48:40 UTC (rev. c45efa5)
+Copyright (c) 2012 - 2015, NIWA (www.niwa.co.nz)
+Environment: machine:ANUBIS, user:Admin, os:Windows_NT, pid:9004
+
+[my-objective-function]
+obs->CAA-year-1998: 885.18
+obs->CAA-year-1999: 840.09
+obs->CAA-year-2000: 1952.84
+obs->CAA-year-2001: 3778.92
+obs->CAA-year-2002: 4213.81
+obs->CAA-year-2003: 4866.05
+obs->CAA-year-2004: 4036.54
+obs->CAA-year-2005: 3300.85
+obs->CAA-year-2006: 5390.09
+obs->CAA-year-2007: 6730.23
+obs->CPUE-1998: 2.04589
+obs->CPUE-1999: 0.494877
+obs->CPUE-2000: 0.911477
+obs->CPUE-2001: -1.55141
+obs->CPUE-2002: 14.6678
+obs->CPUE-2003: 6.15193
+obs->CPUE-2004: -1.12351
+obs->CPUE-2005: 10.3411
+obs->CPUE-2006: 24.3433
+obs->CPUE-2007: 18.0355
+prior->recruitment.proportions->process[Recruitment].proportions(immature.male): -0.604074
+prior->recruitment.proportions->process[Recruitment].proportions(immature.female): -0.692985
+prior->e3->selectivity[av].v(1): 0.0178455
+prior->e3->selectivity[av].v(2): 5.9017e-005
+prior->e3->selectivity[av].v(3): 0.87358
+prior->e3->selectivity[av].v(4): 0.802624
+prior->e3->selectivity[av].v(5): 1.45276
+prior->e3->selectivity[av].v(6): 1.45276
+prior->e3->selectivity[av].v(7): 1.68963
+prior->e3->selectivity[av].v(8): 1.89889
+prior->e3->selectivity[av].v(9): 2.0608
+prior->e3->selectivity[av].v(10): 2.26505
+prior->e3->selectivity[av].v(11): 2.57727
+prior->e3->selectivity[av].v(12): 2.29528
+prior->e3->selectivity[av].v(13): 2.85041
+prior->e3->selectivity[av].v(14): 2.58119
+prior->e3->selectivity[av].v(15): 3.09378
+prior->e3->selectivity[av].v(16): 3.09378
+prior->e3->selectivity[av].v(17): 2.9514
+prior->e3->selectivity[av].v(18): 3.31368
+prior->e3->selectivity[av].v(19): 3.16705
+prior->e3->selectivity[av].v(20): 3.51454
+prior->e3->selectivity[av].v(21): 3.69961
+prior->e3->selectivity[av].v(22): 3.29479
+prior->e3->selectivity[av].v(23): 3.87136
+prior->e3->selectivity[av].v(24): 3.48013
+prior->e3->selectivity[av].v(25): 4.03172
+prior->e3->selectivity[av].v(26): 4.03172
+prior->e3->selectivity[av].v(27): 3.72382
+prior->e3->selectivity[av].v(28): 4.18221
+prior->e3->selectivity[av].v(29): 3.87585
+prior->e3->selectivity[av].v(30): 4.32405
+prior->e3->selectivity[av].v(31): 4.45825
+prior->e3->selectivity[av].v(32): 3.96905
+prior->e3->selectivity[av].v(33): 4.58566
+prior->e3->selectivity[av].v(34): 4.10384
+prior->e3->selectivity[av].v(35): 4.70697
+prior->e3->selectivity[av].v(36): 4.70697
+prior->e3->selectivity[av].v(37): 4.29271
+prior->e3->selectivity[av].v(38): 4.82278
+prior->e3->selectivity[av].v(39): 4.40636
+prior->e3->selectivity[av].v(40): 4.9336
+prior->e3->selectivity[av].v(41): 5.03988
+prior->e3->selectivity[av].v(42): 4.48538
+prior->e3->selectivity[av].v(43): 5.14199
+prior->e3->selectivity[av].v(44): 4.58717
+prior->e3->selectivity[av].v(45): 5.24027
+prior->e3->selectivity[av].v(46): 5.24027
+prior->e3->selectivity[av].v(47): 4.74723
+prior->e3->selectivity[av].v(48): 5.33503
+prior->e3->selectivity[av].v(49): 4.83363
+prior->e3->selectivity[av].v(50): 5.42652
+prior->process[Fishing].catches(1998): 18.3711
+prior->process[Fishing].catches(1999): 22.8058
+prior->process[Fishing].catches(2000): 29.9663
+prior->process[Fishing].catches(2001): 24.7573
+prior->process[Fishing].catches(2002): 25.008
+prior->process[Fishing].catches(2003): 35.3508
+prior->process[Fishing].catches(2004): 32.7447
+prior->process[Fishing].catches(2005): 31.6908
+prior->process[Fishing].catches(2006): 29.8925
+prior->process[Fishing].catches(2007): 28.8226
+prior->catchability[CPUEq].q: 0
+prior->process[Recruitment].R0: 13.8129
+prior->selectivity[FishingSel].a50: 0
+prior->selectivity[FishingSel].ato95: 0
+total_score: 36536.4
+*end
+
+Total elapsed time: 1 second
+Completed

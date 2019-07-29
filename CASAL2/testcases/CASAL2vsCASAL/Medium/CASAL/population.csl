@@ -1,0 +1,591 @@
+#INITIALSATION
+@initialization
+B0 80000
+
+# PARTITION
+@size_based False
+@min_age 1
+@max_age 50
+@plus_group True
+@sex_partition True
+@mature_partition False
+@n_areas 1
+@n_stocks 1
+@n_tags 10
+@tag_names      2001Tags 2002Tags 2003Tags 2004Tags 2005Tags 2006Tags 2007Tags 2008Tags 2009Tags 2010Tags
+@tag_shedding_rate 0.039    0.039    0.029   0.0084   0.0084   0.0084   0.0084   0.0084   0.0084   0.0084
+@tag_loss_props    0.5 0.5 0.0
+
+@tag_growth_loss 2001Tags
+nogrowth_period 0.5
+
+@tag_growth_loss 2002Tags
+nogrowth_period 0.5
+
+@tag_growth_loss 2003Tags
+nogrowth_period 0.5
+
+@tag_growth_loss 2004Tags
+nogrowth_period 0.5
+
+@tag_growth_loss 2005Tags
+nogrowth_period 0.5
+
+@tag_growth_loss 2006Tags
+nogrowth_period 0.5
+
+@tag_growth_loss 2007Tags
+nogrowth_period 0.5
+
+@tag_growth_loss 2008Tags
+nogrowth_period 0.5
+
+@tag_growth_loss 2009Tags
+nogrowth_period 0.5
+
+@tag_growth_loss 2010Tags
+nogrowth_period 0.5
+
+
+# TIME SEQUENCE
+@initial 1995
+@current 2011
+@final 2047
+@annual_cycle
+time_steps 3
+recruitment_time 1
+spawning_time 2
+spawning_part_mort 0.5
+spawning_ps 1.0
+aging_time 3
+M_props 0.5 0.5 0.0
+growth_props 0.0 0.0 0.0
+baranov False
+fishery_names shelf slope north
+fishery_times 1 1 1
+
+@y_enter 1
+@standardise_YCS True
+@recruitment
+YCS_years 1994 1995 1996 1997 1998 1999 2000 2001 2002 2003 2004 2005 2006 2007 2008 2009 2010
+YCS          1    1    1    1    1    1    1    1    1    1    1    1    1    1    1    1    1
+SR BH
+steepness 0.75
+p_male 0.5
+sigma_r 0.6
+first_free 1994
+last_free  2004
+
+# RECRUITMENT VARIABILITY
+@randomisation_method lognormal
+@first_random_year 2003
+
+#MATURATION
+@maturity_props
+# age                         5    6    7    8    9   10   11   12   13  14   15+
+#all allvalues_bounded 5 15 0.00 0.01 0.04 0.16 0.44 0.74 0.91 0.97 0.99 0.99 1.00
+male logistic 12.788 3.514
+female logistic 16.576 7.322
+
+# NATURAL MORTALITY
+@natural_mortality
+avg 0.13
+diff 0.0
+
+# FISHING -  #Updated 2011 + insung 1 37 tonnes added to north catch in 2011
+@fishery shelf
+years    1998   1999   2000   2001   2002    2003    2004    2005    2006    2007    2008    2009    2010    2011
+catches  6.02  14.31  64.37 112.54  10.10    2.29  140.56  397.32  250.84   67.53   60.55  134.50  327.91   483.23
+U_max 0.999
+selectivity shelfsel
+#future_constant_catches 322.50 # Current TACC = % last 3 years * total TACC
+future_constant_catches 370.9 # CCAMLR yield
+
+@fishery slope
+years    1998   1999   2000   2001   2002    2003    2004    2005    2006    2007    2008    2009    2010    2011
+catches 26.07 281.50 687.54 347.07 933.22  608.65 1667.39 2262.32 2372.83 2438.33 1938.91 1904.16 2170.51 2051.80
+U_max 0.999
+selectivity slopesel
+#future_constant_catches 2147.91 # Current TACC = % last 3 years * total TACC
+future_constant_catches 2474.6 # CCAMLR yield
+
+@fishery north
+years   1998   1999   2000   2001   2002    2003    2004    2005    2006    2007    2008    2009    2010    2011
+catches 3.97   0.43    0.0 132.50 411.96 1157.94  369.77  550.09  343.30  573.01  250.95  392.85  370.00  347.13
+U_max 0.999
+selectivity northsel
+#future_constant_catches 379.58 # Current TACC = % last 3 years * total TACC
+future_constant_catches 435.5 # CCAMLR yield
+
+# SELECTIVITIES - Updated for 2011, somehow north shift was quite different for a number of years
+@n_quant 10
+@selectivity_names shelfsel slopesel northsel
+@selectivity shelfsel
+male double_normal_capped 8 4 10 1.0
+female double_normal_capped 8 4 10 1.0
+shift_years 1998 1999 2000 2001 2002 2003 2004 2005 2006 2007 2008 2009 2010 2011
+shift_E     0.70 0.67 0.72 0.65 0.74 0.69 0.66 0.64 0.65 0.66 0.72 0.72 0.70 0.72
+shift_a 1.0
+
+@selectivity slopesel
+male double_normal_capped 8 4 10 1.0
+female double_normal_capped 8 4 10 1.0
+shift_years 1998 1999 2000 2001 2002 2003 2004 2005 2006 2007 2008 2009 2010 2011
+shift_E     0.98 0.92 0.97 1.24 1.12 1.37 1.23 1.20 1.21 1.19 1.21 1.16 1.16 1.10
+shift_a 1.0
+
+@selectivity northsel
+male double_normal_capped 8 4 10 1.0
+female double_normal_capped 8 4 10 1.0
+shift_years 1998 1999 2000 2001 2002 2003 2004 2005 2006 2007 2008 2009 2010 2011
+shift_E     0.77 0.57 1.00 1.18 1.40 1.48 1.35 1.46 1.38 1.48 1.53 1.62 1.46 1.66
+shift_a 1.0
+
+# SIZE AT AGE
+@size_at_age_type von_Bert
+@size_at_age_dist normal
+@size_at_age
+by_length True
+# Males
+k_male      0.093
+t0_male    -0.256
+Linf_male 169.07
+cv_male     0.102
+#Females
+k_female      0.090
+t0_female     0.021
+Linf_female 180.20
+cv_female     0.102
+
+# SIZE-WEIGHT
+@size_weight
+#Males
+a_male 1.387e-008
+b_male 2.965
+#Females
+a_female 7.154e-009
+b_female 3.108
+verify_size_weight 150 30 50 # 150 cm fish weighs between 30 and 50 kgs
+
+
+
+@tag 2001Tags_shelf
+tag_name 2001Tags
+release_type deterministic
+sex both
+year 2001
+step 1
+mature_only False
+plus_group False
+mortality 0.135
+class_mins  30 40 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220 230
+props_all  0.0000 0.0000 0.0050 0.1337 0.4653 0.3911 0.0050 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000
+number 205
+ogive shelfsel
+
+@tag 2002Tags_shelf
+tag_name 2002Tags
+release_type deterministic
+sex both
+year 2002
+step 1
+mature_only False
+plus_group False
+mortality 0.135
+class_mins  30 40 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220 230
+props_all  0.0000 0.0000 0.0000 0.0000 0.0000 0.6667 0.3333 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000
+number 3
+ogive shelfsel
+
+@tag 2003Tags_shelf
+tag_name 2003Tags
+release_type deterministic
+sex both
+year 2003
+step 1
+mature_only False
+plus_group False
+mortality 0.124
+class_mins  30 40 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220 230
+props_all  0.0 0.0 0.0 0.0 0.5 0.5 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0
+number 2
+ogive shelfsel
+
+@tag 2004Tags_shelf
+tag_name 2004Tags
+release_type deterministic
+sex both
+year 2004
+step 1
+mature_only False
+plus_group False
+mortality 0.1
+class_mins  30 40 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220 230
+props_all  0.0000 0.0000 0.0485 0.2816 0.3689 0.2039 0.0534 0.0291 0.0146 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000
+number 207
+ogive shelfsel
+
+@tag 2005Tags_shelf
+tag_name 2005Tags
+release_type deterministic
+sex both
+year 2005
+step 1
+mature_only False
+plus_group False
+mortality 0.1
+class_mins  30 40 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220 230
+props_all  0.0000 0.0028 0.0560 0.1765 0.3641 0.2157 0.1232 0.0364 0.0196 0.0056 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000
+number 357
+ogive shelfsel
+
+@tag 2006Tags_shelf
+tag_name 2006Tags
+release_type deterministic
+sex both
+year 2006
+step 1
+mature_only False
+plus_group False
+mortality 0.1
+class_mins  30 40 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220 230
+props_all  0.0065 0.0130 0.0844 0.1688 0.2662 0.2013 0.1429 0.0455 0.0455 0.0195 0.0065 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000
+number 156
+ogive shelfsel
+
+@tag 2007Tags_shelf
+tag_name 2007Tags
+release_type deterministic
+sex both
+year 2007
+step 1
+mature_only False
+plus_group False
+mortality 0.1
+class_mins  30 40 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220 230
+props_all  0.0000 0.0000 0.1875 0.2812 0.2812 0.0938 0.1250 0.0312 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000
+number 32
+ogive shelfsel
+
+@tag 2008Tags_shelf
+tag_name 2008Tags
+release_type deterministic
+sex both
+year 2008
+step 1
+mature_only False
+plus_group False
+mortality 0.1
+class_mins  30 40 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220 230
+props_all  0.0000 0.0000 0.0417 0.2917 0.3750 0.2708 0.0208 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000
+number 48
+ogive shelfsel
+
+@tag 2009Tags_shelf
+tag_name 2009Tags
+release_type deterministic
+sex both
+year 2009
+step 1
+mature_only False
+plus_group False
+mortality 0.1
+class_mins  30 40 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220 230
+props_all  0.0000 0.0000 0.0000 0.1220 0.2520 0.2927 0.1789 0.0813 0.0569 0.0081 0.0081 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000
+number 123
+ogive shelfsel
+
+@tag 2010Tags_shelf
+tag_name 2010Tags
+release_type deterministic
+sex both
+year 2010
+step 1
+mature_only False
+plus_group False
+mortality 0.1
+class_mins  30 40 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220 230
+props_all  0.0000 0.0000 0.0095 0.1333 0.5310 0.2095 0.0738 0.0167 0.0048 0.0095 0.0095 0.0000 0.0000 0.0000 0.0024 0.0000 0.0000 0.0000 0.0000 0.0000
+number 421
+ogive shelfsel
+
+@tag 2001Tags_slope
+tag_name 2001Tags
+release_type deterministic
+sex both
+year 2001
+step 1
+mature_only False
+plus_group False
+mortality 0.135
+class_mins  30 40 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220 230
+props_all  0.0000 0.0000 0.0851 0.1702 0.1277 0.1702 0.2979 0.1277 0.0213 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000
+number 47
+ogive slopesel
+
+@tag 2002Tags_slope
+tag_name 2002Tags
+release_type deterministic
+sex both
+year 2002
+step 1
+mature_only False
+plus_group False
+mortality 0.135
+class_mins  30 40 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220 230
+props_all  0.0000 0.0081 0.0778 0.2285 0.0697 0.1313 0.2642 0.1442 0.0567 0.0113 0.0065 0.0016 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000
+number 621
+ogive slopesel
+
+@tag 2003Tags_slope
+tag_name 2003Tags
+release_type deterministic
+sex both
+year 2003
+step 1
+mature_only False
+plus_group False
+mortality 0.124
+class_mins  30 40 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220 230
+props_all  0.0000 0.0063 0.0440 0.0535 0.0440 0.1101 0.3019 0.2799 0.1478 0.0063 0.0063 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000
+number 320
+ogive slopesel
+
+@tag 2004Tags_slope
+tag_name 2004Tags
+release_type deterministic
+sex both
+year 2004
+step 1
+mature_only False
+plus_group False
+mortality 0.1
+class_mins  30 40 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220 230
+props_all  0.0006 0.0025 0.1189 0.2966 0.1240 0.1259 0.1531 0.1271 0.0367 0.0089 0.0044 0.0006 0.0000 0.0006 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000
+number 1582
+ogive slopesel
+
+@tag 2005Tags_slope
+tag_name 2005Tags
+release_type deterministic
+sex both
+year 2005
+step 1
+mature_only False
+plus_group False
+mortality 0.1
+class_mins  30 40 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220 230
+props_all  0.0000 0.0037 0.1144 0.2772 0.1536 0.1208 0.1550 0.0904 0.0521 0.0194 0.0074 0.0055 0.0005 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000
+number 2179
+ogive slopesel
+
+@tag 2006Tags_slope
+tag_name 2006Tags
+release_type deterministic
+sex both
+year 2006
+step 1
+mature_only False
+plus_group False
+mortality 0.1
+class_mins  30 40 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220 230
+props_all  0.0000 0.0041 0.1059 0.1906 0.0961 0.0827 0.1006 0.1303 0.1087 0.0696 0.0635 0.0334 0.0077 0.0057 0.0004 0.0008 0.0000 0.0000 0.0000 0.0000
+number 2459
+ogive slopesel
+
+@tag 2007Tags_slope
+tag_name 2007Tags
+release_type deterministic
+sex both
+year 2007
+step 1
+mature_only False
+plus_group False
+mortality 0.1
+class_mins  30 40 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220 230
+props_all  0.0005 0.0108 0.1033 0.1658 0.1550 0.1653 0.1536 0.0972 0.0456 0.0362 0.0385 0.0183 0.0075 0.0019 0.0005 0.0000 0.0000 0.0000 0.0000 0.0000
+number 2139
+ogive slopesel
+
+@tag 2008Tags_slope
+tag_name 2008Tags
+release_type deterministic
+sex both
+year 2008
+step 1
+mature_only False
+plus_group False
+mortality 0.1
+class_mins  30 40 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220 230
+props_all  0.0000 0.0011 0.0584 0.1291 0.1596 0.2078 0.1848 0.0911 0.0498 0.0461 0.0327 0.0279 0.0107 0.0005 0.0005 0.0000 0.0000 0.0000 0.0000 0.0000
+number 1868
+ogive slopesel
+
+@tag 2009Tags_slope
+tag_name 2009Tags
+release_type deterministic
+sex both
+year 2009
+step 1
+mature_only False
+plus_group False
+mortality 0.1
+class_mins  30 40 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220 230
+props_all  0.0000 0.0000 0.0253 0.2417 0.1630 0.1764 0.1160 0.0717 0.0415 0.0590 0.0464 0.0337 0.0204 0.0028 0.0014 0.0007 0.0000 0.0000 0.0000 0.0000
+number 1423
+ogive slopesel
+
+@tag 2010Tags_slope
+tag_name 2010Tags
+release_type deterministic
+sex both
+year 2010
+step 1
+mature_only False
+plus_group False
+mortality 0.1
+class_mins  30 40 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220 230
+props_all  0.0009 0.0022 0.0076 0.0444 0.1515 0.1847 0.1757 0.1139 0.0977 0.0766 0.0601 0.0542 0.0224 0.0067 0.0013 0.0000 0.0000 0.0000 0.0000 0.0000
+number 2234
+ogive slopesel
+
+@tag 2001Tags_north
+tag_name 2001Tags
+release_type deterministic
+sex both
+year 2001
+step 1
+mature_only False
+plus_group False
+mortality 0.135
+class_mins  30 40 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220 230
+props_all  0.0000 0.0000 0.0000 0.0000 0.2857 0.5714 0.1429 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000
+number 7
+ogive northsel
+
+@tag 2002Tags_north
+tag_name 2002Tags
+release_type deterministic
+sex both
+year 2002
+step 1
+mature_only False
+plus_group False
+mortality 0.135
+class_mins  30 40 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220 230
+props_all  0.0000 0.0175 0.0175 0.0351 0.1579 0.1228 0.3333 0.1754 0.0526 0.0702 0.0175 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000
+number 58
+ogive northsel
+
+@tag 2003Tags_north
+tag_name 2003Tags
+release_type deterministic
+sex both
+year 2003
+step 1
+mature_only False
+plus_group False
+mortality 0.124
+class_mins  30 40 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220 230
+props_all  0.0020 0.0000 0.0060 0.0060 0.0239 0.0378 0.0657 0.1116 0.1494 0.3088 0.1853 0.0657 0.0319 0.0060 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000
+number 515
+ogive northsel
+
+@tag 2004Tags_north
+tag_name 2004Tags
+release_type deterministic
+sex both
+year 2004
+step 1
+mature_only False
+plus_group False
+mortality 0.1
+class_mins  30 40 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220 230
+props_all  0.0000 0.0000 0.0217 0.0261 0.0435 0.0696 0.0826 0.1348 0.0956 0.2262 0.1695 0.0869 0.0261 0.0000 0.0130 0.0043 0.0000 0.0000 0.0000 0.0000
+number 234
+ogive northsel
+
+@tag 2005Tags_north
+tag_name 2005Tags
+release_type deterministic
+sex both
+year 2005
+step 1
+mature_only False
+plus_group False
+mortality 0.1
+class_mins  30 40 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220 230
+props_all  0.0000 0.0000 0.0135 0.0135 0.0135 0.0297 0.0459 0.0838 0.1405 0.2351 0.2189 0.1459 0.0405 0.0162 0.0027 0.0000 0.0000 0.0000 0.0000 0.0000
+number 370
+ogive northsel
+
+@tag 2006Tags_north
+tag_name 2006Tags
+release_type deterministic
+sex both
+year 2006
+step 1
+mature_only False
+plus_group False
+mortality 0.1
+class_mins  30 40 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220 230
+props_all  0.0000 0.0000 0.0000 0.0025 0.0000 0.0025 0.0050 0.0227 0.0806 0.1914 0.3023 0.2242 0.1184 0.0353 0.0101 0.0050 0.0000 0.0000 0.0000 0.0000
+number 397
+ogive northsel
+
+@tag 2007Tags_north
+tag_name 2007Tags
+release_type deterministic
+sex both
+year 2007
+step 1
+mature_only False
+plus_group False
+mortality 0.1
+class_mins  30 40 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220 230
+props_all  0.0000 0.0034 0.0152 0.0337 0.0269 0.0118 0.0185 0.0286 0.0488 0.2424 0.3182 0.1717 0.0572 0.0219 0.0017 0.0000 0.0000 0.0000 0.0000 0.0000
+number 595
+ogive northsel
+
+@tag 2008Tags_north
+tag_name 2008Tags
+release_type deterministic
+sex both
+year 2008
+step 1
+mature_only False
+plus_group False
+mortality 0.1
+class_mins  30 40 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220 230
+props_all  0.0000 0.0051 0.0254 0.0203 0.0254 0.0102 0.0254 0.0152 0.0558 0.1777 0.2589 0.2234 0.1066 0.0508 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000
+number 197
+ogive northsel
+
+@tag 2009Tags_north
+tag_name 2009Tags
+release_type deterministic
+sex both
+year 2009
+step 1
+mature_only False
+plus_group False
+mortality 0.1
+class_mins  30 40 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220 230
+props_all  0.0000 0.0000 0.0328 0.0328 0.0205 0.0000 0.0041 0.0123 0.0902 0.2828 0.2992 0.1311 0.0861 0.0082 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000
+number 244
+ogive northsel
+
+@tag 2010Tags_north
+tag_name 2010Tags
+release_type deterministic
+sex both
+year 2010
+step 1
+mature_only False
+plus_group False
+mortality 0.1
+class_mins  30 40 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220 230
+props_all  0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0131 0.0079 0.0654 0.2199 0.3429 0.2408 0.0864 0.0079 0.0079 0.0079 0.0000 0.0000 0.0000 0.0000
+number 382
+ogive northsel
+

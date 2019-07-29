@@ -1,0 +1,51 @@
+-----BEGIN PGP SIGNED MESSAGE-----
+
+# netlib-bl master Thu Dec 4 10:35:29 EST 2003
+# http://cm.bell-labs.com/netlib/crc/netlib-bl.html
+fQYTfgBA46Rt0Y7ya1n+lw	00lastchange
+trWH9WaQiDm3B0K4gE8Tow	README
+Lo/njyu9ASUHREPT1bFEWA	changes
+r2yeHX3nd0IyBPbDmVD6yA	index
+WIkvcI1/eGZLzoDB68JQ+Q	lp_solve_4.0.tar.gz
+om2kjrcL+96eQhzn55RpLg	lpsolve.c
+x/Zgx3DLc3sfLiZQodO3Vw	makefile.u
+zWIKtZ73GymXiyniSYe/4A	makefile.vc
+JnQ2NStXK5vkJYZJ7+hdmg	xsum0.out
+
+-----BEGIN PGP SIGNATURE-----
+Version: 2.6.2
+
+iQCVAwUBP89UQr5pvxO9gjtZAQGtcgP/fjudixg3DW6dkj5Msa1XpxUdFPxZKseE
+fNIlJcjxbGlwwi9SMbBxCH5607RsTuRRMTZl14hOvdJuTE4IHoeRprhaKPGeNGOE
+LAilvmcsFWaZuSaEJAzdhAi56V2BLlKC5EseGDQx/uKITi3D2tU3usHyTCsUrS4Z
+aGdJwv3scbU=
+=80NY
+-----END PGP SIGNATURE-----
+-----BEGIN PGP SIGNED MESSAGE-----
+
+# netlib-utk master Sat Jul 21 03:10:02 EDT 2012
+vQD0Vukl+kouM8FnCioUCA	00lastchange
+9Lhj5FKLcP6s0GNUzEFy6A	README
+/Ce+JukRYdXU08vfoy1FmA	changes
+r2yeHX3nd0IyBPbDmVD6yA	index
+qowSz9wFZr53Qn5c5/z7rg	index.html
+WIkvcI1/eGZLzoDB68JQ+Q	lp_solve_4.0.tar.gz
+om2kjrcL+96eQhzn55RpLg	lpsolve.c
+om2kjrcL+96eQhzn55RpLg	lpsolve4.c
+pq782G3K71t5HcndYXsWGA	lpsolve5.c
++8lWhb8AkIthWPNaXkdthQ	lpsolve5_date.h
+ZFPNxbnmfaim5dgZYZFkvA	makefile.u
+HBy5Ok8sWxGGbhPF4gjyEQ	makefile.vc
+oUMh6nzSBj+EAEhx6m6npw	makefile4.u
+P3gHIFZTt5VDkxnVQS58pQ	makefile4.vc
+XHsczIxN2s9bx9sLLpnp5w	xsum0.out
+
+-----BEGIN PGP SIGNATURE-----
+Version: 2.6.2
+
+iQCVAwUBUApVzuFlxDEfrjtlAQGhOQP/VYy41myTeOQa9CTpPXssHtjLpzel9rPa
+1vXjGXdDCLGahdG2q1zeX0P9xcOYasoO9+QC+R5hTtLc9y23vqXyw743vmGbCrPX
+DFiHPIfIvFoMUvkV6scqhuJHNCeNCtm4YzcG0HFqvQK/Iy54+aAbiadEe0ethJ59
+Ya7fZknaYvo=
+=SKvt
+-----END PGP SIGNATURE-----
