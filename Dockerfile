@@ -11,14 +11,17 @@ RUN apt-get update && apt-get upgrade -y \
                                                python-pip gfortran texlive-full p7zip cmake build-essential cpp g++ gcc gfortran \
                                                clang unzip bibtool python-dateutil clang-tidy doxygen-latex \
                                                fontforge-extras texlive-font-utils texlive-latex-extra libxml2-dev \
+                                               # libcurl4-openssl-dev libssl-dev zlib1g-dev libgit2-dev \
+                                               libssl-dev zlib1g-dev libgit2-dev libcurl4-gnutls-dev libssh2-1-dev \
  && pip install datetime
-#&& pip install distutils
 
 # TODO uncomment these later to clear caches. package caches are useful during active dev.
 #  && rm -rf /var/lib/apt/lists/* && rm -rf /tmp/*
+RUN R -e "install.packages('devtools')"
 RUN R -e "install.packages('roxygen2')"
 RUN R -e "install.packages('Rcpp')"
 RUN R -e "install.packages('ggplot2')"
+RUN R -e "library(devtools)"
 RUN R -e "library(roxygen2)"
 RUN R -e "library(Rcpp)"
 RUN R -e "library(ggplot2)"
