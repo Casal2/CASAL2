@@ -1,0 +1,136 @@
+@size_based 0
+@min_age 3
+@max_age 25
+@plus_group 1
+@sex_partition 1
+@mature_partition 0
+@n_areas 1
+@area_names home
+@n_stocks 1
+
+@initial 1972
+@current 2018
+@final   2023
+
+@annual_cycle
+time_steps 2
+recruitment_time 1
+recruitment_areas home
+spawning_time 2
+spawning_part_mort 0.5
+spawning_areas home
+spawning_ps 1
+ageing_time 2
+growth_props 0.4 0
+M_props 0.75 0.25
+baranov 0
+fishery_names trawl line_home line_spawn
+fishery_times 1 1 2
+fishery_areas home home home
+n_migrations 0
+maturation_times 1
+
+@y_enter 4
+@standardise_YCS 1
+@recruitment
+YCS_years 1968 1969 1970 1971 1972 1973 1974 1975 1976 1977 1978 1979 1980 1981 1982 1983 1984 1985 1986 1987 1988 1989 1990 1991 1992 1993 1994 1995 1996 1997 1998 1999 2000 2001 2002 2003 2004 2005 2006 2007 2008 2009 2010 2011 2012 2013 2014
+YCS       1    1    1    1    1.00 0.17 1.62 1.15 0.66 1.16 0.88 1.22 0.97 1.52 0.83 1.13 0.67 0.98 0.67 0.66 0.68 0.87 0.91 0.89 0.91 1.56 1.36 1.50 1.20 0.95 0.90 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00
+p_male 0.5
+sigma_r 0.6
+first_free 1972
+last_free 2014
+SR BH
+steepness 0.84
+year_range 1980 2013
+
+@randomisation_method lognormal
+@first_random_year 2015
+
+@maturity_props
+male   allvalues_bounded 3 10  0 0 0.10 0.30 0.50 0.80 1.00 1.00
+female allvalues_bounded 3 10  0 0 0.05 0.10 0.30 0.50 0.80 1.00
+
+
+@natural_mortality
+ogive_all double_exponential 1 25 8 0.18 0.25 0.5
+
+
+@fishery trawl
+years   1973 1974 1975 1976 1977 1978 1979 1980 1981 1982 1983 1984 1985 1986 1987 1988 1989 1990 1991 1992 1993 1994 1995 1996 1997 1998 1999 2000 2001 2002 2003 2004 2005 2006 2007 2008 2009 2010 2011 2012 2013 2014 2015 2016 2017 2018
+catches  500 1120  900 3402 3100 1945 3707 5200 4427 2402 2778 3203 4480 3182 3962 2065 2923 3199 4534 6237 7335 5456 5348 6769 6923 6032 5593 7089 6629 6970 7205 7826 7870 6161 7504 6990 5225 4270 4404 4384 6234 5841 6176 5228 5816 5800   # Last year estimated
+selectivity trawl_sel
+U_max 0.6
+F_max 0.6
+#future_constant_catches 4800
+future_constant_catches 10200
+
+@fishery line_home
+years   1973 1974 1975 1976 1977 1978 1979 1980 1981 1982 1983 1984 1985 1986 1987 1988 1989 1990 1991 1992 1993 1994 1995 1996 1997 1998 1999 2000 2001 2002 2003 2004 2005 2006 2007 2008 2009 2010 2011 2012 2013 2014 2015 2016 2017 2018
+catches    0    0  118  190  301  494 1022    0    0    0    5    2   25    2    0    6   10    9  392  566 1238  770 2355 2153 3412 4032 2721 1421  818  426  183  774  276  178   34  329  276  864  567  934  135  785  611  440  633  600  # Last year estimated
+selectivity line_home_sel
+U_max 0.6
+F_max 0.6
+#future_constant_catches 600
+future_constant_catches 1250
+
+@fishery line_spawn
+years   1973 1974 1975 1976 1977 1978 1979 1980 1981 1982 1983 1984 1985 1986 1987 1988 1989 1990 1991 1992 1993 1994 1995 1996 1997 1998 1999 2000 2001 2002 2003 2004 2005 2006 2007 2008 2009 2010 2011 2012 2013 2014 2015 2016 2017 2018
+catches    0    0  192  309  490  806 1668    0    0    0    1    0    3    0    0    0    2    4   97  518  474  486  338  531  614  581  489 1161 1007 1220  892  471  894  692  651  821  432  313  169  376  340  247  229  190  153  190  # Last year estimated
+selectivity line_spawn_sel
+U_max 0.6
+F_max 0.6
+#future_constant_catches 300
+future_constant_catches 650
+
+@selectivity_names surveysum_sel surveyaut_sel trawl_sel line_home_sel line_spawn_sel
+
+@selectivity surveysum_sel
+#male   double_normal_capped 6 2 20 1
+#female double_normal 6 2 20
+male logistic_capped 5 3 0.9
+female logistic 5 3
+
+@selectivity surveyaut_sel
+#male   double_normal_capped 6 2 20 1
+#female double_normal 6 2 20
+male logistic_capped 5 3 0.9
+female logistic 5 3
+
+@selectivity trawl_sel
+male   double_normal_capped 10 3 25 1
+female double_normal 10 3 25
+#male logistic_capped 6 3 0.9
+#female logistic 6 3
+
+@selectivity line_home_sel
+male logistic_capped 11 3 0.3
+female logistic 11 3
+
+@selectivity line_spawn_sel
+male logistic_capped 11 3 0.5
+female logistic 11 3
+
+
+
+@initialization
+B0 350000
+
+@size_at_age_type von_Bert
+@size_at_age_dist normal
+@size_at_age
+k_male 0.188
+t0_male -0.67
+Linf_male 93.2
+k_female 0.124
+t0_female -1.26
+Linf_female 115.1
+cv_male 0.12
+cv_female 0.12
+
+@size_weight
+a_male 2.08e-9
+b_male 3.190
+a_female 1.28e-9
+b_female 3.303
+verify_size_weight 70 0.8 4
+
