@@ -1,6 +1,6 @@
 # THE MODEL
 @model
-start_year 1972 
+start_year 1972
 final_year 2018
 min_age 3
 max_age 25
@@ -10,7 +10,7 @@ initialisation_phases Equilibrium_phase
 time_steps Dec_Aug Sep_Nov
 
 # CATEGORIES
-@categories 
+@categories
 format sex ## sex category
 names male female
 age_lengths vb_male vb_female ## namimg
@@ -21,19 +21,19 @@ type Derived
 
 ## Define the Annual Cycle
 ## This is a list of labels that correspond to a process
-@time_step Dec_Aug 
+@time_step Dec_Aug
 processes Recruitment Instantaneous_Mortality
 
-@time_step Sep_Nov 
+@time_step Sep_Nov
 processes Ageing Instantaneous_Mortality
 
 ## Define the above Processes
 @process Recruitment
 type recruitment_beverton_holt
 categories male female
-proportions 0.5 0.5 
+proportions 0.5 0.5
 b0 350000          ## find a reasonable starting value
-standardise_ycs_years  1972 1973 1974 1975 1976 1977 1978 1979 1980 1981 1982 1983 1984 1985 1986 1987 1988 1989 1990 1991 1992 1993 1994 1995 1996 1997 1998 1999 2000 2001 2002 2003 2004 2005 2006 2007 2008 2009 2010 2011 2012 2013 
+standardise_ycs_years  1972 1973 1974 1975 1976 1977 1978 1979 1980 1981 1982 1983 1984 1985 1986 1987 1988 1989 1990 1991 1992 1993 1994 1995 1996 1997 1998 1999 2000 2001 2002 2003 2004 2005 2006 2007 2008 2009 2010 2011 2012 2013
 ycs_values            1    1    1    1    1.00 0.17 1.62 1.15 0.66 1.16 0.88 1.22 0.97 1.52 0.83 1.13 0.67 0.98 0.67 0.66 0.68 0.87 0.91 0.89 0.91 1.56 1.36 1.50 1.20 0.95 0.90 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.0
 ycs_years 1967:2013
 steepness 0.84
@@ -45,12 +45,15 @@ age 4           ## Same as min_age
 @process Ageing
 type ageing
 categories male female
+# type normal
+# c 0.06
+
 
 
 ## Fishing Mortality
 @process Instantaneous_Mortality
 type mortality_instantaneous
-m 1 
+m 1
 time_step_ratio 0.75 0.25
 selectivities M_all
 categories male female
@@ -131,13 +134,13 @@ selectivities MaturationSel_male MaturationSel_female
 type all_values_bounded
 l 3
 h 10
-v 0 0 0.100 0.20 0.35 0.50 0.80 1.00
+v 0 0 0.10 0.30 0.50 0.80 1.00 1.00
 
 @selectivity MaturationSel_female
 type all_values_bounded
 l 3
 h 10
-v 0 0 0.001 0.10 0.20 0.35 0.50 1.00
+v 0 0 0.05 0.10 0.30 0.50 0.80 1.00
 
 
 @selectivity summerTANSel_m # Summer research survey
@@ -211,7 +214,7 @@ type double_exponential
 x0 8
 x1 1
 x2 25
-y0 0.18 
+y0 0.18
 y1 0.25
 y2 0.5
 alpha 1.0
@@ -227,7 +230,7 @@ t0 -0.67
 Linf 93.2
 cv_first 0.12
 distribution normal
-length_weight wgt_male 
+length_weight wgt_male
 
 @age_length vb_female
 type von_bertalanffy
@@ -236,21 +239,21 @@ time_step_proportions 0.0 0.5
 k 0.124
 t0 -1.26
 Linf 115.4
-cv_first 0.12 
+cv_first 0.12
 distribution normal
-length_weight wgt_female 
+length_weight wgt_female
 
 
 # SIZE-WEIGHT
 @length_weight wgt_male
 type basic
-units tonnes 
+units tonnes
 a 2.08e-9
 b 3.190
 
 @length_weight wgt_female
 type basic
-units tonnes 
+units tonnes
 a 1.28e-9
 b 3.303
 #verify_size_weight 70 0.8 4
