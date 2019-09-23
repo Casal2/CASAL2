@@ -174,12 +174,14 @@ type double_normal
 mu 10
 sigma_l 3
 sigma_r 25
+alpha  1
 
 @selectivity trwlFSel_f # Trawl fishery
 type double_normal
 mu 10
 sigma_l 3
 sigma_r 25
+alpha  1
 
 
 @selectivity lineHomeFSel_m # Line Non-spawning fishery

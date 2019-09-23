@@ -165,11 +165,11 @@ lower_bound  1
 upper_bound 200
 type uniform
 
-# @estimate
-# parameter selectivity[trwlFSel_m].alpha
-# lower_bound  0
-# upper_bound  5
-# type uniform
+@estimate
+parameter selectivity[trwlFSel_m].alpha
+lower_bound  0
+upper_bound  5
+type uniform
 
 ## Female fishing trawl selectivity (double normal)
 @estimate
