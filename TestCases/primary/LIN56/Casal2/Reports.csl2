@@ -1,0 +1,41 @@
+## Report section for now
+
+@report Init
+type initialisation_partition
+
+@report summary
+type estimate_value
+
+@report objective
+type objective_function
+
+@report state1
+type partition
+time_step Dec_Aug
+years 1972:2017
+
+@report state2
+type partition
+time_step Sep_Nov
+years 1972:2017
+
+@report SSB
+type derived_quantity
+
+@report Mortality
+type process
+process Instantaneous_Mortality
+
+@report Rec
+type process
+process Recruitment
+
+@report Tangaroa_bio_summer
+type observation
+observation summerTANbiomass
+
+@report Tangaroa_bio_autumn
+type observation
+observation autumnTANbiomass
+
+
