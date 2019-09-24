@@ -257,3 +257,4 @@ end_table
 # type none
 type normal
 cv 0.06
+k 3

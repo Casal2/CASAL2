@@ -30,6 +30,66 @@ process Instantaneous_Mortality
 type process
 process Recruitment
 
+
+@report NaturalMortalityOgive_all
+type selectivity
+selectivity M_all
+
+
+@report MaturationOgive_male
+type selectivity
+selectivity MaturationSel_male
+
+@report MaturationOgive_female
+type selectivity
+selectivity MaturationSel_female
+
+
+@report summerTANSel_male
+type selectivity
+selectivity summerTANSel_m
+
+@report summerTANSel_female
+type selectivity
+selectivity summerTANSel_f
+
+
+@report autumnTANSel_male
+type selectivity
+selectivity autumnTANSel_m
+
+@report autumnTANSel_female
+type selectivity
+selectivity autumnTANSel_f
+
+
+@report trwlFSel_male
+type selectivity
+selectivity trwlFSel_m
+
+@report trwlFSel_female
+type selectivity
+selectivity trwlFSel_f
+
+
+@report lineHomeFSel_male
+type selectivity
+selectivity lineHomeFSel_m
+
+@report lineHomeFSel_female
+type selectivity
+selectivity lineHomeFSel_f
+
+
+@report lineSpawnFSel_male
+type selectivity
+selectivity lineSpawnFSel_m
+
+@report lineSpawnFSel_female
+type selectivity
+selectivity lineSpawnFSel_f
+
+
 @report Tangaroa_bio_summer
 type observation
 observation summerTANbiomass
@@ -39,3 +99,6 @@ type observation
 observation autumnTANbiomass
 
 
+@report Ageing_error
+type ageing_error
+ageing_error Normal_ageing
