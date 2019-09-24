@@ -256,7 +256,7 @@ void MortalityInstantaneous::DoValidate() {
   // Check the business rule that a fishery can only exist one time-step
   for(auto fishery : fishery_time_step) {
     if (!std::equal(fishery.second.begin() + 1, fishery.second.end(), fishery.second.begin()))
-      LOG_ERROR_P(PARAM_METHOD) << "Found method '" << fishery.first << "' in more than one time step. You can only have a method occur in each time step. If a fishery occcurs in multiple time steps then define each time step as a seperate fishery.";
+      LOG_ERROR_P(PARAM_METHOD) << "Found method '" << fishery.first << "' in more than one time step. You can only have a method occur in each time step. If a fishery occcurs in multiple time steps then define each time step as a separate fishery.";
   }
   // Check to see if there are any time_steps that we don't have enter the fisheries section. i.e no fishing in certain time-steps
 }

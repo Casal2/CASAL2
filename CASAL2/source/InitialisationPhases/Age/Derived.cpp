@@ -37,7 +37,7 @@ Derived::Derived(Model* model) :
     InitialisationPhase(model), cached_partition_(model), partition_(model) {
   parameters_.Bind<string>(PARAM_INSERT_PROCESSES, &insert_processes_, "Additional processes not defined in the annual cycle, that are to beinserted into this initialisation phase", "", true);
   parameters_.Bind<string>(PARAM_EXCLUDE_PROCESSES, &exclude_processes_, "Processes in the annual cycle to be excluded from this initialisation phase", "", true);
-  parameters_.Bind<bool>(PARAM_CASAL_INTIALISATION, &casal_initialisation_phase_, "Run an extra annual cycle to evalaute equilibrium SSB's. Warning - if true, this may not correctly evaluate the equilibrium state. Use true if attempting to replicate a legacy CASAL model", "", false);
+  parameters_.Bind<bool>(PARAM_CASAL_INITIALISATION, &casal_initialisation_phase_, "Run an extra annual cycle to evalaute equilibrium SSB's. Warning - if true, this may not correctly evaluate the equilibrium state. Use true if attempting to replicate a legacy CASAL model", "", false);
 
 
 }

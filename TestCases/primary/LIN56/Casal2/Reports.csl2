@@ -3,11 +3,18 @@
 @report Init
 type initialisation_partition
 
-@report summary
+@report obj_fun
+type objective_function
+
+@report DQs
+type derived_quantity
+
+@report estimated_values
 type estimate_value
 
-@report objective
-type objective_function
+@report estimated_summary
+type estimate_summary
+
 
 @report state1
 type partition
