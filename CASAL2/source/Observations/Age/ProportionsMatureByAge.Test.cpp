@@ -42,16 +42,16 @@ time_steps Annual
 length_bins 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47
 length_plus true
 
-@categories 
-format Maturity 
+@categories
+format Maturity
 names nonspawn spawn
 age_lengths VB VB
 
 @initialisation_phase Equilibrium_state
 type derived
-casal_intialisation_switch false
+casal_initialisation_switch false
 
-@time_step Annual 
+@time_step Annual
 processes Ageing Recruitment Maturation Instantaneous_Mortality
 
 @process Recruitment
@@ -75,7 +75,7 @@ categories *
 
 @process Maturation
 type transition_category
-from nonspawn 
+from nonspawn
 to spawn
 selectivities MaturationSel
 proportions 1
@@ -110,12 +110,12 @@ selectivities One
 @selectivity MaturationSel
 type logistic_producing
 length_based false
-l 10 
+l 10
 h 60
-a50 37 
+a50 37
 ato95 4.56
 
-@selectivity NWCR_Fsel 
+@selectivity NWCR_Fsel
 type constant
 c 1
 
@@ -125,7 +125,7 @@ a50 6
 ato95 3
 
 @selectivity One
-type constant 
+type constant
 c 1
 
 @age_length VB
@@ -138,11 +138,11 @@ Linf 37.78
 cv_first 0.09483
 cv_last 0.04498
 distribution normal
-length_weight wgt 
+length_weight wgt
 
 @length_weight wgt
 type basic
-units tonnes 
+units tonnes
 a 8.0e-8
 b 2.75
 
@@ -152,25 +152,25 @@ q 0.7685
 
 
 @observation aco_99_12
-type biomass 
+type biomass
 time_step Annual
 time_step_proportion 0.75
 categories spawn
-selectivities NWCR_Fsel 
+selectivities NWCR_Fsel
 catchability acoq_99_12
 years     1992 1993
 obs     8126 14637
-error_value   0.22 0.09 
+error_value   0.22 0.09
 likelihood lognormal
 
 @observation LFcom
 type proportions_at_length
 time_step Annual
 time_step_proportion 0.5
-categories spawn 
+categories spawn
 selectivities NWCR_Fsel
 delta 0.00001
-years 1993 
+years 1993
 likelihood multinomial
 
 table obs
@@ -188,7 +188,7 @@ time_step_proportion 0.5
 min_age 10
 max_age 89
 plus_group false
-categories spawn 
+categories spawn
 total_categories nonspawn
 delta 0.00001
 years 1994
