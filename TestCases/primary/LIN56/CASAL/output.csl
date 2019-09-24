@@ -1,7 +1,7 @@
 @print
 
 # estimation section stuff
-parameters 0
+parameters 1
 fits_every_eval 0
 objective_every_eval 0
 parameters_every_eval 0
@@ -15,10 +15,10 @@ estimation_section 1
 # population section stuff
 requests 1
 population_section 0
-initial_state 0
+initial_state 1
 state_annually 0
 state_every_step 0
-final_state 0
+final_state 1
 results 1
 
 #output section stuff

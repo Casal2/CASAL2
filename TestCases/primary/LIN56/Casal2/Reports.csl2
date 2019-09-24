@@ -19,12 +19,12 @@ type estimate_summary
 @report state1
 type partition
 time_step Dec_Aug
-years 1972:2017
+years 1972:2018
 
 @report state2
 type partition
 time_step Sep_Nov
-years 1972:2017
+years 1972:2018
 
 @report SSB
 type derived_quantity
