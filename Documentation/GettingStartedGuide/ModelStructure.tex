@@ -1,20 +1,28 @@
 \section{Structure of a model}\label{Sec:model}
 
-Will need help with this one as I haven't actually built a model yet. 
-
-When setting up a model, I find for ease of readability and error catching, splitting each model into four sections these are:
+When setting up a model, it may be helpful to separate the model configuration into different files and multiple sections, e.g.,:
 
 \begin{enumerate}
-\item Population
-\item estimation
-\item observation
-\item report
+\item population, for the model and population characteristics
+\item estimation, for the parameter and penalty characteristics
+\item observation, for the fishery and survey data
+\item report, for the specifications for the model output
 \end{enumerate}
 
-The population section defines the categories that make up the partition, the annual cycle and processes that occur to the partition, along with the parameters that control those processes. The estimation sections defines any parameters that the user wants estimated and any prior information associated with parameters or processes. The observation section defines all the observations and there assumed error structure through the likelihoods which contribute to the objective function. The report section defines all the output the user wishes to have at the end of model runs e.g. objective scores, residuals and the state of the partition at a point in time. To keep models readability I split these sections into there own text file. I have a \texttt{casal2.txt} file that has only the following commands\\
-\texttt{!include "population.txt"}\\
-\texttt{!include "estimation.txt"}\\
-\texttt{!include "observation.txt"}\\
-\texttt{!include "report.txt"}
+The population file defines the categories that make up the partition, the time steps in the annual cycle and processes that occur to the partition in each time step, along with the parameters that control those processes.
 
-The \texttt{!include} function looks around in the current directory for the filename that follows it, and reads them all in as a single model. See the Simple example in the Examples for a demonstration of this setup.
+The estimation file defines the estimated parameters and the prior distribution associated with parameters or processes.
+
+The observation file defines the observations and their assumed error structure through the likelihood types which contribute to the objective function.
+
+The report file defines the output at the end of model runs, e.g., the objective scores, residuals, derived values, and the state of the partition at a point in time.
+
+An example \texttt{config.csl2} file may have the following commands:\\
+\texttt{!include "population.csl2"}\\
+\texttt{!include "estimation.csl2"}\\
+\texttt{!include "observation.csl2"}\\
+\texttt{!include "report.csl2"}
+
+The \texttt{!include} function looks in the current directory for the specified filename, and reads in all of the files included in the configuration file as one model.
+
+See the Simple example in the \texttt{Examples} subdirectory.
