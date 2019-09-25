@@ -2,7 +2,7 @@
 
 \subsection{Simple Example}\label{Sec:simp}
 
-In this example is a model for a single stock in a single area which has one fishery associated with it. The partition is made up of a single category, with sex and maturity not defined in the partition. Processes and observations in a given year are defined to occur in the following order:
+In this example is a model for a single stock in a single area with one fishery. The partition is made up of a single category, with sex and maturity not defined in the partition. Processes and observations in a given year are defined to occur in the following order:
 
 \begin{enumerate}
 	\item Recruitment
@@ -41,7 +41,7 @@ This model has the structure:
 		processes Instantaneous_Mortality 
 		
 		@time_step Jun_Aug 
-		processes  Ageing Instantaneous_Mortality
+		processes Ageing Instantaneous_Mortality
 		\end{verbatim}}}
 
 The \command{categories} command defines the type, label, and age-length relationship of categories that make up the partition. A category is a group of individuals that have the same attributes. Examples of such attributes include life history and growth paths. Characteristics in a partition of the population that have different attributes can be sex, maturity, area, stock, and tagging information.
@@ -55,7 +55,7 @@ names male female # category labels
 age_lengths vb_male vb_female # labels for growth categories
 		\end{verbatim}}}
 
-The \command{time\_step} command describes which processes take place in each time step and in what order. Continuing on with the \command{model} block example, where three time steps are defined in the annual cycle (\texttt{time\_steps Sep\_Feb Mar\_May Jun\_Aug}), and within each time step processes are specified. Each process must be defined in a \command{process} block:
+The \command{time\_step} command describes which processes take place in each time step and in what order. Continuing on with the \command{model} block example, where three time steps are defined in the annual cycle (\texttt{time\_steps Sep\_Feb Mar\_May Jun\_Aug}), and within each time step the processes are specified. Each process must be defined in a \command{process} block:
 
 {\small{\begin{verbatim}
 @process Recruitment
@@ -108,7 +108,7 @@ FishingEest  HAK4   	FSel 		 0.7 	Sep_Feb 	Catchmustbetaken
 end_table
 \end{verbatim}}}
 
-The sections above define all of the processes that occur to the partitions. In the \texttt{Mortality} section natural mortality is defined with selectivity ogive \texttt{One}, and fishing mortality is associated with selectivity ogive \texttt{FSel}:
+The sections above define all of the processes that occur to the partitions. In the \texttt{Mortality} section natural mortality is defined with selectivity ogive \texttt{One}, and fishing mortality is applied with selectivity ogive \texttt{FSel}:
 
 {\small{\begin{verbatim}
 	@selectivity One
@@ -122,7 +122,7 @@ The sections above define all of the processes that occur to the partitions. In 
 	sigma_r 17
 \end{verbatim}}}
 
-Since an age-length relationship is specified in the \command{categories} block then the \command{age\_length} block needs to be defined.  This command block is used to convert age to length which is then used to convert length to weight in an age-based model:
+Since an age-length relationship is specified in the \command{categories} block then the \command{age\_length} block needs to be defined. This command block is used to convert age to length which is then used to convert length to weight in an age-based model:
 
 {\small{\begin{verbatim}
 	@age_length HAK4_AL		# label from the @categories block
@@ -141,7 +141,7 @@ Since an age-length relationship is specified in the \command{categories} block 
 	b 2.89 
 \end{verbatim}}}
 
-An important block to complete the population definition is the \command{initialisation\_phase} block. This block specifies how the partition is initialised. This block describes the state of the partition before \texttt{start\_year} of the model, which is usually this is an equilibrium state:
+An important block to complete the population definition is the \command{initialisation\_phase} block. This block specifies how the partition is initialised. This block describes the state of the partition before \texttt{start\_year} of the model, which is usually defined as an equilibrium state:
 
 {\small{\begin{verbatim}
 	@initialisation_phase phase1

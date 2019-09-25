@@ -1,11 +1,13 @@
 \section{Analyses of output}\label{Sec:output}
-An important note about \CNAME\ is that there are no default reports. That is, if a \command{report} block is not specified, then \CNAME\ will not report any output. So before running a \CNAME\ model check that there is at least one \command{report} block.
 
-\CNAME\ has an \textbf{R} library \textbf{casal2} which imports \CNAME\ output files into \textbf{R} as a list. This library can be found in the directory where \CNAME\ is installed.
+An important note about \CNAME\ is that there are no default reports. That is, if no \command{report} blocks are specified, then \CNAME\ will not report any output. So check that there is at least one \command{report} block specified before running a \CNAME\ model.
+
+\CNAME\ has an \textbf{R} library \textbf{casal2} which can read in \CNAME\ output files into \textbf{R} as a list. This library can be found in the directory where \CNAME\ is installed.
 
 There is also another library that helps pull out compress useful information such SSB and objective scores for model components. [Q:  what is this other library?]
 
 {\small{\begin{verbatim}
 	library(casal2)
-	output <- extract.mpd(file = "Output_file.txt", path = "Directory_of_file")
+	
+	output <- extract.mpd(file = "output_file.txt", path = "/path/to/output/file")
 \end{verbatim}}}

@@ -1,20 +1,32 @@
 \section{Syntax of a \CNAME\ file}\label{Sec:stru}
 
-A general structure of \CNAME\ files are that they are split into blocks of subcommands. A block always starts with \command{} symbol. Blocks describe different aspects of the model, fundamental blocks to have in the model are \command{model}, \command{initialisation\_phase}, \command{categories}, \command{time\_step}, and \command{process}. Within each block there will be subcommands some will be optional and important subcommands will be mandatory. An example of subcommand is shown for the \command{model} block,
+The general structure of \CNAME\ is blocks of subcommands to specify model, population, partition, and observation characteristics. A block always starts with \command{} symbol. Blocks describe different aspects of the model. Fundamental blocks to define in a model are
+
+\begin{itemize}
+	\item \command{model},
+	\item \command{initialisation\_phase},
+	\item \command{categories},
+	\item \command{time\_step}, and
+	\item \command{process}.
+\end{itemize}
+
+Each block has subcommands. Some subcommands will be optional and others subcommands will be required. An example of the \command{model} block:
 
 {\small{\begin{verbatim}
 		@model
-		type age		## is the model age or length based?
-		min_age 1		## minimum age in model
-		max_age 17		## maximum age in model
+		type age		## the model is age-based
+		min_age 1		## the minimum age in the model
+		max_age 17		## the maximum age in the model
 		age_plus true	## is the last age group a plus group?
 		start_year 1972	## the first year of the model
-		final_year 2013 	## the first year of the model
-		initialisation_phases phase1
-		## The label for the block @initialisation_phase
-		time_steps step1 step2
-		## Labels for the block @time_step
+		final_year 2013 ## the last year of the model
+		initialisation_phases phase1 ## label for the block @initialisation_phase
+		time_steps step1 step2 ## labels for the block @time_step
 		\end{verbatim}}}
 
-The subcommands are all the options that follow \command{model}, then there is a space which is where the value for the subcommand goes, i.e. \texttt{min\_age} specifies the minimum age in the model and we have set that equal to one but could be any integer. This brings up a useful concept to understand. Different subcommands can take different types of parameters, they can be of type int, double, string and vector. For information about which parameter type a subcommand takes, you should read the syntax section of the manual, there is a field labelled type. If you use the wrong type for a subcommand, for example \texttt{min\_age 1.5}, you will get an error. A line beginning with \texttt{\#} is a comment and that line is ignored by \CNAME. To comment out multiple lines the user can use the C++ syntax of \textbackslash* and *\textbackslash, so that everything between these braces will be ignored by \CNAME. It is a useful tool for annotating models. 
+The subcommands are all of the options that are part of the command \command{model}. The value for a specific subcommand is after the subcommand keyword, e.g., \texttt{min\_age} specifies the minimum age in the model and is set to $1$; this value can be any positive integer.
+
+Different subcommands can take different types of values, which can be of type integer, floating point, string, or vector. The syntax section of the manual has information about which value type a subcommand expects. If the wrong type is used for a subcommand, for example \texttt{min\_age 1.5}, an error will be output.
+
+Comments are indicated by starting a line with \texttt{\#}; comment lines are ignored by \CNAME. To comment out multiple lines the C++ comment syntax of \textbackslash* and *\textbackslash can be used, so that everything between these symbols will be ignored by \CNAME. This feature can be a useful tool for annotating model configuration files. 
 
