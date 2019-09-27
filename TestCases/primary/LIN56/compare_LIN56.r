@@ -185,13 +185,14 @@ c2_alt1_surv <- cas2_mpd_alt1$Tangaroa_bio_summer$`1`$Values
 c2_alt2_surv <- cas2_mpd_alt2$Tangaroa_bio_summer$`1`$Values
 
 max_val <- max(c1_surv,
-               c2_base_surv$observed,
+               (c2_base_surv$observed * exp(1.96 * c2_base_surv$error_value)),
                c2_base_surv$expected,
                c2_alt1_surv$expected,
                c2_alt2_surv$expected)
 
 plot(names(c1_surv), c1_surv, type='l', col='black', lwd=2, ylim=c(0, max_val), xlab='Year', ylab='Biomass (t)', main='Tangaroa summer survey comparison')
 points(c2_base_surv$year, c2_base_surv$observed, pch=20, col='black')
+arrows(c2_base_surv$year, (c2_base_surv$observed * exp(-1.96 * c2_base_surv$error_value)), c2_base_surv$year, (c2_base_surv$observed * exp(1.96 * c2_base_surv$error_value)), length=0.05, angle=90, code=3)
 points(c2_base_surv$year, c2_base_surv$expected, col='blue', pch=15)
 points(c2_alt1_surv$year, c2_alt1_surv$expected, col='green3', pch=16)
 points(c2_alt2_surv$year, c2_alt2_surv$expected, col='red', pch=17)
@@ -206,13 +207,14 @@ c2_alt1_surv <- cas2_mpd_alt1$Tangaroa_bio_autumn$`1`$Values
 c2_alt2_surv <- cas2_mpd_alt2$Tangaroa_bio_autumn$`1`$Values
 
 max_val <- max(c1_surv,
-               c2_base_surv$observed,
+               (c2_base_surv$observed * exp(1.96 * c2_base_surv$error_value)),
                c2_base_surv$expected,
                c2_alt1_surv$expected,
                c2_alt2_surv$expected)
 
 plot(names(c1_surv), c1_surv, type='l', col='black', lwd=2, ylim=c(0, max_val), xlab='Year', ylab='Biomass (t)', main='Tangaroa autumn survey comparison')
 points(c2_base_surv$year, c2_base_surv$observed, pch=20, col='black')
+arrows(c2_base_surv$year, (c2_base_surv$observed * exp(-1.96 * c2_base_surv$error_value)), c2_base_surv$year, (c2_base_surv$observed * exp(1.96 * c2_base_surv$error_value)), length=0.05, angle=90, code=3)
 points(c2_base_surv$year, c2_base_surv$expected, col='blue', pch=15)
 points(c2_alt1_surv$year, c2_alt1_surv$expected, col='green3', pch=16)
 points(c2_alt2_surv$year, c2_alt2_surv$expected, col='red', pch=17)
