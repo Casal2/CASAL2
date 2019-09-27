@@ -101,6 +101,41 @@ legend(c1_quant$SSBs$year[1], 0.50*max_val,
 
 
 
+# plot initial numbers
+
+# Q:  how to get CASAL initial age structure?
+
+# Initial state:
+# Partition:
+#   sex        3         4         5         6         7         8         9         10        11        12        13        14        15        16        17        18        19        20        21        22        23        24        25
+#   male       0         2.134e+07 1.53e+07  1.136e+07 8.705e+06 6.86e+06  5.543e+06 4.581e+06 3.863e+06 3.316e+06 2.884e+06 2.505e+06 2.152e+06 1.825e+06 1.528e+06 1.261e+06 1.024e+06 8.184e+05 6.421e+05 4.941e+05 3.722e+05 2.74e+05  6.655e+05
+#   female     0         2.134e+07 1.53e+07  1.136e+07 8.705e+06 6.86e+06  5.543e+06 4.581e+06 3.863e+06 3.316e+06 2.884e+06 2.505e+06 2.152e+06 1.825e+06 1.528e+06 1.261e+06 1.024e+06 8.184e+05 6.421e+05 4.941e+05 3.722e+05 2.74e+05  6.655e+05
+
+c1_mat <- matrix(c(0,2.134e+07,1.53e+07,1.136e+07,8.705e+06,6.86e+06,5.543e+06,4.581e+06,3.863e+06,3.316e+06,2.884e+06,2.505e+06,2.152e+06,1.825e+06,1.528e+06,1.261e+06,1.024e+06,8.184e+05,6.421e+05,4.941e+05,3.722e+05,2.74e+05,6.655e+05,
+                   0,2.134e+07,1.53e+07,1.136e+07,8.705e+06,6.86e+06,5.543e+06,4.581e+06,3.863e+06,3.316e+06,2.884e+06,2.505e+06,2.152e+06,1.825e+06,1.528e+06,1.261e+06,1.024e+06,8.184e+05,6.421e+05,4.941e+05,3.722e+05,2.74e+05,6.655e+05),
+                 nrow=2, ncol=(25 - 3 + 1), byrow=TRUE)
+
+# omit the 'category' column
+c2_base_mat <- as.matrix(cas2_mpd_base$Init$`1`$values[,-1])
+c2_alt1_mat <- as.matrix(cas2_mpd_alt1$Init$`1`$values[,-1])
+c2_alt2_mat <- as.matrix(cas2_mpd_alt2$Init$`1`$values[,-1])
+
+max_val <- max(c1_mat,
+               c2_base_mat,
+               c2_alt1_mat,
+               c2_alt2_mat)
+
+plot(seq(3, 25), c1_mat[1,], type='l', col='black', lwd=2, ylim=c(0, max_val), xlab='Year', ylab='', main='Initial numbers-at-age comparison')
+lines(seq(3, 25), c1_mat[2,], col='black', lwd=2, lty=3)
+lines(as.numeric(colnames(c2_base_mat)), c2_base_mat[1,], col='blue', lwd=1)
+lines(as.numeric(colnames(c2_base_mat)), c2_base_mat[2,], col='blue', lwd=1, lty=3)
+lines(as.numeric(colnames(c2_alt1_mat)), c2_alt1_mat[1,], col='green3', lwd=1)
+lines(as.numeric(colnames(c2_alt1_mat)), c2_alt1_mat[2,], col='green3', lwd=1, lty=3)
+lines(as.numeric(colnames(c2_alt2_mat)), c2_alt2_mat[1,], col='red', lwd=1)
+lines(as.numeric(colnames(c2_alt2_mat)), c2_alt2_mat[2,], col='red', lwd=1, lty=3)
+
+
+
 # plot YCS
 
 max_val <- max(c1_quant$`Vector parameter values`$recruitment.YCS,
@@ -126,6 +161,151 @@ plot(c1_quant$true_YCS$year, c1_quant$true_YCS$true_YCS, type='l', col='black', 
 lines(cas2_mpd_base$Rec$`1`$ycs_years, cas2_mpd_base$Rec$`1`$true_ycs, col='blue', lwd=1)
 lines(cas2_mpd_alt1$Rec$`1`$ycs_years, cas2_mpd_alt1$Rec$`1`$true_ycs, col='green3', lwd=1)
 lines(cas2_mpd_alt2$Rec$`1`$ycs_years, cas2_mpd_alt2$Rec$`1`$true_ycs, col='red', lwd=1)
+
+
+
+# plot true natural mortality-at-age
+
+max_val <- max(c1_quant$`Ogive parameter values`$natural_mortality.ogive_all,
+               cas2_mpd_base$NaturalMortalityOgive_all$`1`$Values,
+               cas2_mpd_alt1$NaturalMortalityOgive_all$`1`$Values,
+               cas2_mpd_alt2$NaturalMortalityOgive_all$`1`$Values)
+
+plot(c1_quant$`Ogive parameter values`$natural_mortality.ogive_all, type='l', col='black', lwd=2, ylim=c(0, max_val), xlab='Age', ylab='', main='Natural mortality comparison')
+lines(cas2_mpd_base$NaturalMortalityOgive_all$`1`$Values, col='blue', lwd=1)
+lines(cas2_mpd_alt1$NaturalMortalityOgive_all$`1`$Values, col='green3', lwd=1)
+lines(cas2_mpd_alt2$NaturalMortalityOgive_all$`1`$Values, col='red', lwd=1)
+
+
+
+# plot summer survey
+c1_surv      <- cas_mpd$free$`q[tan_sum].q` * unlist(c1_quant$Tangaroa_bio_summer_est)
+c2_base_surv <- cas2_mpd_base$Tangaroa_bio_summer$`1`$Values
+c2_alt1_surv <- cas2_mpd_alt1$Tangaroa_bio_summer$`1`$Values
+c2_alt2_surv <- cas2_mpd_alt2$Tangaroa_bio_summer$`1`$Values
+
+max_val <- max(c1_surv,
+               c2_base_surv$observed,
+               c2_base_surv$expected,
+               c2_alt1_surv$expected,
+               c2_alt2_surv$expected)
+
+plot(names(c1_surv), c1_surv, type='l', col='black', lwd=2, ylim=c(0, max_val), xlab='Year', ylab='Biomass (t)', main='Tangaroa summer survey comparison')
+points(c2_base_surv$year, c2_base_surv$observed, pch=20, col='black')
+points(c2_base_surv$year, c2_base_surv$expected, col='blue', pch=15)
+points(c2_alt1_surv$year, c2_alt1_surv$expected, col='green3', pch=16)
+points(c2_alt2_surv$year, c2_alt2_surv$expected, col='red', pch=17)
+
+
+
+# plot autumn survey
+
+c1_surv <- cas_mpd$free$`q[tan_aut].q` * unlist(c1_quant$Tangaroa_bio_autumn_est)
+c2_base_surv <- cas2_mpd_base$Tangaroa_bio_autumn$`1`$Values
+c2_alt1_surv <- cas2_mpd_alt1$Tangaroa_bio_autumn$`1`$Values
+c2_alt2_surv <- cas2_mpd_alt2$Tangaroa_bio_autumn$`1`$Values
+
+max_val <- max(c1_surv,
+               c2_base_surv$observed,
+               c2_base_surv$expected,
+               c2_alt1_surv$expected,
+               c2_alt2_surv$expected)
+
+plot(names(c1_surv), c1_surv, type='l', col='black', lwd=2, ylim=c(0, max_val), xlab='Year', ylab='Biomass (t)', main='Tangaroa autumn survey comparison')
+points(c2_base_surv$year, c2_base_surv$observed, pch=20, col='black')
+points(c2_base_surv$year, c2_base_surv$expected, col='blue', pch=15)
+points(c2_alt1_surv$year, c2_alt1_surv$expected, col='green3', pch=16)
+points(c2_alt2_surv$year, c2_alt2_surv$expected, col='red', pch=17)
+
+
+
+# plot fishing pressures - trawl
+
+max_val <- max(c1_quant$fishing_pressures$trawl,
+               cas2_mpd_base$Mortality$`1`$`fishing_pressure[FishingTrwl]`,
+               cas2_mpd_alt1$Mortality$`1`$`fishing_pressure[FishingTrwl]`,
+               cas2_mpd_alt2$Mortality$`1`$`fishing_pressure[FishingTrwl]`)
+
+plot(c1_quant$fishing_pressures$year, c1_quant$fishing_pressures$trawl, type='l', col='black', lwd=2, ylim=c(0, max_val), xlab='Year', ylab='U', main='Fishing pressure comparison: trawl')
+lines(cas2_mpd_base$Mortality$`1`$year, cas2_mpd_base$Mortality$`1`$`fishing_pressure[FishingTrwl]`, col='blue', lwd=1)
+lines(cas2_mpd_alt1$Mortality$`1`$year, cas2_mpd_alt1$Mortality$`1`$`fishing_pressure[FishingTrwl]`, col='green3', lwd=1)
+lines(cas2_mpd_alt2$Mortality$`1`$year, cas2_mpd_alt2$Mortality$`1`$`fishing_pressure[FishingTrwl]`, col='red', lwd=1)
+
+
+
+# plot fishing pressures - line_home
+
+max_val <- max(c1_quant$fishing_pressures$line_home,
+               cas2_mpd_base$Mortality$`1`$`fishing_pressure[FishingLineHome]`,
+               cas2_mpd_alt1$Mortality$`1`$`fishing_pressure[FishingLineHome]`,
+               cas2_mpd_alt2$Mortality$`1`$`fishing_pressure[FishingLineHome]`)
+
+plot(c1_quant$fishing_pressures$year, c1_quant$fishing_pressures$line_home, type='l', col='black', lwd=2, ylim=c(0, max_val), xlab='Year', ylab='U', main='Fishing pressure comparison: line_home')
+lines(cas2_mpd_base$Mortality$`1`$year, cas2_mpd_base$Mortality$`1`$`fishing_pressure[FishingLineHome]`, col='blue', lwd=1)
+lines(cas2_mpd_alt1$Mortality$`1`$year, cas2_mpd_alt1$Mortality$`1`$`fishing_pressure[FishingLineHome]`, col='green3', lwd=1)
+lines(cas2_mpd_alt2$Mortality$`1`$year, cas2_mpd_alt2$Mortality$`1`$`fishing_pressure[FishingLineHome]`, col='red', lwd=1)
+
+
+
+# plot fishing pressures - line_spawn
+
+max_val <- max(c1_quant$fishing_pressures$line_spawn,
+               cas2_mpd_base$Mortality$`1`$`fishing_pressure[FishingLineSpawn]`,
+               cas2_mpd_alt1$Mortality$`1`$`fishing_pressure[FishingLineSpawn]`,
+               cas2_mpd_alt2$Mortality$`1`$`fishing_pressure[FishingLineSpawn]`)
+
+plot(c1_quant$fishing_pressures$year, c1_quant$fishing_pressures$line_spawn, type='l', col='black', lwd=2, ylim=c(0, max_val), xlab='Year', ylab='U', main='Fishing pressure comparison: line_spawn')
+lines(cas2_mpd_base$Mortality$`1`$year, cas2_mpd_base$Mortality$`1`$`fishing_pressure[FishingLineSpawn]`, col='blue', lwd=1)
+lines(cas2_mpd_alt1$Mortality$`1`$year, cas2_mpd_alt1$Mortality$`1`$`fishing_pressure[FishingLineSpawn]`, col='green3', lwd=1)
+lines(cas2_mpd_alt2$Mortality$`1`$year, cas2_mpd_alt2$Mortality$`1`$`fishing_pressure[FishingLineSpawn]`, col='red', lwd=1)
+
+
+
+
+
+
+
+c1_quant$`Ogive parameter values`$`selectivity[surveysum_sel].male`
+c1_quant$`Ogive parameter values`$`selectivity[surveysum_sel].female`
+
+cas2_mpd_base$summerTANSel_male$`1`$Values
+cas2_mpd_base$summerTANSel_female$`1`$Values
+
+
+
+c1_quant$`Ogive parameter values`$`selectivity[surveyaut_sel].male`
+c1_quant$`Ogive parameter values`$`selectivity[surveyaut_sel].female`
+
+cas2_mpd_base$autumnTANSel_male$`1`$Values
+cas2_mpd_base$autumnTANSel_female$`1`$Values
+
+
+
+c1_quant$`Ogive parameter values`$`selectivity[trawl_sel].male`
+c1_quant$`Ogive parameter values`$`selectivity[trawl_sel].female`
+
+cas2_mpd_base$trwlFSel_male$`1`$Values
+cas2_mpd_base$trwlFSel_female$`1`$Values
+
+
+
+
+c1_quant$`Ogive parameter values`$`selectivity[line_home_sel].male`
+c1_quant$`Ogive parameter values`$`selectivity[line_home_sel].female`
+
+cas2_mpd_base$lineHomeFSel_male$`1`$Values
+cas2_mpd_base$lineHomeFSel_female$`1`$Values
+
+
+
+
+c1_quant$`Ogive parameter values`$`selectivity[line_spawn_sel].male`
+c1_quant$`Ogive parameter values`$`selectivity[line_spawn_sel].female`
+
+cas2_mpd_base$lineSpawnFSel_male$`1`$Values
+cas2_mpd_base$lineSpawnFSel_female$`1`$Values
+
+
 
 
 
