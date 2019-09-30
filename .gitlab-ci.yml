@@ -10,8 +10,9 @@ services:
   - docker:19.03.1-dind
 
 # Log in to the git.niwa.co.nz container registry for this project
+# insecure-reg is temporary until I fix an issue with internal ssl cert resolution
 before_script:
-  - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+  - docker login --insecure-registry -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
 
 # build docker container and publish to registry
 build:
