@@ -74,7 +74,10 @@ cas2_mpd_alt2 <- casal2::extract.mpd(mpd_run, file.path(base_dir, 'Casal2', C2_a
 
 
 
-save_par <- par()
+# save_par <- par()
+
+# A4 paper landscape is 297 x 210 (11.7 x 8.3)
+pdf(onefile=TRUE, width=11.0, height=7.6, paper='a4r')
 
 # c(bottom, left, top, right)
 par(mar=c(4,4,2,1) + 0.1)
@@ -171,7 +174,7 @@ max_val <- max(c1_quant$`Ogive parameter values`$natural_mortality.ogive_all,
                cas2_mpd_alt1$NaturalMortalityOgive_all$`1`$Values,
                cas2_mpd_alt2$NaturalMortalityOgive_all$`1`$Values)
 
-plot(c1_quant$`Ogive parameter values`$natural_mortality.ogive_all, type='l', col='black', lwd=2, ylim=c(0, max_val), xlab='Age', ylab='', main='Natural mortality comparison')
+plot(c1_quant$`Ogive parameter values`$natural_mortality.ogive_all, type='l', col='black', lwd=2, ylim=c(0, max_val), xlab='Age', ylab='', main='Natural mortality-at-age comparison')
 lines(cas2_mpd_base$NaturalMortalityOgive_all$`1`$Values, col='blue', lwd=1)
 lines(cas2_mpd_alt1$NaturalMortalityOgive_all$`1`$Values, col='green3', lwd=1)
 lines(cas2_mpd_alt2$NaturalMortalityOgive_all$`1`$Values, col='red', lwd=1)
@@ -267,47 +270,83 @@ lines(cas2_mpd_alt2$Mortality$`1`$year, cas2_mpd_alt2$Mortality$`1`$`fishing_pre
 
 
 
-c1_quant$`Ogive parameter values`$`selectivity[surveysum_sel].male`
-c1_quant$`Ogive parameter values`$`selectivity[surveysum_sel].female`
+ages <- seq(3, 25, 1)
 
-cas2_mpd_base$summerTANSel_male$`1`$Values
-cas2_mpd_base$summerTANSel_female$`1`$Values
+max_val <- max(1, c1_quant$`Ogive parameter values`$`selectivity[surveysum_sel].male`, c1_quant$`Ogive parameter values`$`selectivity[surveysum_sel].female`)
+plot(ages, c1_quant$`Ogive parameter values`$`selectivity[surveysum_sel].male`, type='l', col='black', lwd=2, ylim=c(0,max_val), xlab='Age', ylab='', main='Summer survey selectivity-at-age comparison')
+lines(ages, c1_quant$`Ogive parameter values`$`selectivity[surveysum_sel].female`, col='black', lwd=2, lty=3)
 
+lines(ages, cas2_mpd_base$summerTANSel_male$`1`$Values, col='blue', lwd=1)
+lines(ages, cas2_mpd_base$summerTANSel_female$`1`$Values, col='blue', lwd=1, lty=3)
 
+lines(ages, cas2_mpd_alt1$summerTANSel_male$`1`$Values, col='green3', lwd=1)
+lines(ages, cas2_mpd_alt1$summerTANSel_female$`1`$Values, col='green3', lwd=1, lty=3)
 
-c1_quant$`Ogive parameter values`$`selectivity[surveyaut_sel].male`
-c1_quant$`Ogive parameter values`$`selectivity[surveyaut_sel].female`
-
-cas2_mpd_base$autumnTANSel_male$`1`$Values
-cas2_mpd_base$autumnTANSel_female$`1`$Values
-
-
-
-c1_quant$`Ogive parameter values`$`selectivity[trawl_sel].male`
-c1_quant$`Ogive parameter values`$`selectivity[trawl_sel].female`
-
-cas2_mpd_base$trwlFSel_male$`1`$Values
-cas2_mpd_base$trwlFSel_female$`1`$Values
+lines(ages, cas2_mpd_alt2$summerTANSel_male$`1`$Values, col='red', lwd=1)
+lines(ages, cas2_mpd_alt2$summerTANSel_female$`1`$Values, col='red', lwd=1, lty=3)
 
 
 
+max_val <- max(1, c1_quant$`Ogive parameter values`$`selectivity[surveyaut_sel].male`, c1_quant$`Ogive parameter values`$`selectivity[surveyaut_sel].female`)
+plot(ages, c1_quant$`Ogive parameter values`$`selectivity[surveyaut_sel].male`, type='l', col='black', lwd=2, ylim=c(0,max_val), xlab='Age', ylab='', main='Autumn survey selectivity-at-age comparison')
+lines(ages, c1_quant$`Ogive parameter values`$`selectivity[surveyaut_sel].female`, col='black', lwd=2, lty=3)
 
-c1_quant$`Ogive parameter values`$`selectivity[line_home_sel].male`
-c1_quant$`Ogive parameter values`$`selectivity[line_home_sel].female`
+lines(ages, cas2_mpd_base$autumnTANSel_male$`1`$Values, col='blue', lwd=1)
+lines(ages, cas2_mpd_base$autumnTANSel_female$`1`$Values, col='blue', lwd=1, lty=3)
 
-cas2_mpd_base$lineHomeFSel_male$`1`$Values
-cas2_mpd_base$lineHomeFSel_female$`1`$Values
+lines(ages, cas2_mpd_alt1$autumnTANSel_male$`1`$Values, col='green3', lwd=1)
+lines(ages, cas2_mpd_alt1$autumnTANSel_female$`1`$Values, col='green3', lwd=1, lty=3)
 
-
-
-
-c1_quant$`Ogive parameter values`$`selectivity[line_spawn_sel].male`
-c1_quant$`Ogive parameter values`$`selectivity[line_spawn_sel].female`
-
-cas2_mpd_base$lineSpawnFSel_male$`1`$Values
-cas2_mpd_base$lineSpawnFSel_female$`1`$Values
+lines(ages, cas2_mpd_alt2$autumnTANSel_male$`1`$Values, col='red', lwd=1)
+lines(ages, cas2_mpd_alt2$autumnTANSel_female$`1`$Values, col='red', lwd=1, lty=3)
 
 
 
+max_val <- max(1, c1_quant$`Ogive parameter values`$`selectivity[trawl_sel].male`, c1_quant$`Ogive parameter values`$`selectivity[trawl_sel].female`)
+plot(ages, c1_quant$`Ogive parameter values`$`selectivity[trawl_sel].male`, type='l', col='black', lwd=2, ylim=c(0,max_val), xlab='Age',  ylab='',main='Trawl fishery selectivity-at-age comparison')
+lines(ages, c1_quant$`Ogive parameter values`$`selectivity[trawl_sel].female`, col='black', lwd=2, lty=3)
 
+lines(ages, cas2_mpd_base$trwlFSel_male$`1`$Values, col='blue', lwd=1)
+lines(ages, cas2_mpd_base$trwlFSel_female$`1`$Values, col='blue', lwd=1, lty=3)
+
+lines(ages, cas2_mpd_alt1$trwlFSel_male$`1`$Values, col='green3', lwd=1)
+lines(ages, cas2_mpd_alt1$trwlFSel_female$`1`$Values, col='green3', lwd=1, lty=3)
+
+lines(ages, cas2_mpd_alt2$trwlFSel_male$`1`$Values, col='red', lwd=1)
+lines(ages, cas2_mpd_alt2$trwlFSel_female$`1`$Values, col='red', lwd=1, lty=3)
+
+
+
+
+max_val <- max(1, c1_quant$`Ogive parameter values`$`selectivity[line_home_sel].male`, c1_quant$`Ogive parameter values`$`selectivity[line_home_sel].female`)
+plot(ages, c1_quant$`Ogive parameter values`$`selectivity[line_home_sel].male`, type='l', col='black', lwd=2, ylim=c(0,max_val), xlab='Age',  ylab='',main='Longline home fishery selectivity-at-age comparison')
+lines(ages, c1_quant$`Ogive parameter values`$`selectivity[line_home_sel].female`, col='black', lwd=2, lty=3)
+
+lines(ages, cas2_mpd_base$lineHomeFSel_male$`1`$Values, col='blue', lwd=1)
+lines(ages, cas2_mpd_base$lineHomeFSel_female$`1`$Values, col='blue', lwd=1, lty=3)
+
+lines(ages, cas2_mpd_alt1$lineHomeFSel_male$`1`$Values, col='green3', lwd=1)
+lines(ages, cas2_mpd_alt1$lineHomeFSel_female$`1`$Values, col='green3', lwd=1, lty=3)
+
+lines(ages, cas2_mpd_alt2$lineHomeFSel_male$`1`$Values, col='red', lwd=1)
+lines(ages, cas2_mpd_alt2$lineHomeFSel_female$`1`$Values, col='red', lwd=1, lty=3)
+
+
+
+max_val <- max(1, c1_quant$`Ogive parameter values`$`selectivity[line_spawn_sel].male`, c1_quant$`Ogive parameter values`$`selectivity[line_spawn_sel].female`)
+plot(ages, c1_quant$`Ogive parameter values`$`selectivity[line_spawn_sel].male`, type='l', col='black', lwd=2, ylim=c(0,max_val), xlab='Age',  ylab='',main='Longline spawn fishery selectivity-at-age comparison')
+lines(ages, c1_quant$`Ogive parameter values`$`selectivity[line_spawn_sel].female`, col='black', lwd=2, lty=3)
+
+lines(ages, cas2_mpd_base$lineSpawnFSel_male$`1`$Values, col='blue', lwd=1)
+lines(ages, cas2_mpd_base$lineSpawnFSel_female$`1`$Values, col='blue', lwd=1, lty=3)
+
+lines(ages, cas2_mpd_alt1$lineSpawnFSel_male$`1`$Values, col='green3', lwd=1)
+lines(ages, cas2_mpd_alt1$lineSpawnFSel_female$`1`$Values, col='green3', lwd=1, lty=3)
+
+lines(ages, cas2_mpd_alt2$lineSpawnFSel_male$`1`$Values, col='red', lwd=1)
+lines(ages, cas2_mpd_alt2$lineSpawnFSel_female$`1`$Values, col='red', lwd=1, lty=3)
+
+
+
+dev.off()
 
