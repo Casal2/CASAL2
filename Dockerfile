@@ -21,14 +21,14 @@ RUN apt-get -y --no-install-recommends install libxml2-dev \
 
 # TODO uncomment these later to clear caches. package caches are useful during active dev.
 #  && rm -rf /var/lib/apt/lists/* && rm -rf /tmp/*
-RUN R -e "install.packages('devtools')"
-RUN R -e "install.packages('roxygen2')"
-RUN R -e "install.packages('Rcpp')"
-RUN R -e "install.packages('ggplot2')"
-RUN R -e "library(devtools)"
-RUN R -e "library(roxygen2)"
-RUN R -e "library(Rcpp)"
-RUN R -e "library(ggplot2)"
+#RUN R -e "install.packages('devtools')"
+#RUN R -e "install.packages('roxygen2')"
+#RUN R -e "install.packages('Rcpp')"
+#RUN R -e "install.packages('ggplot2')"
+#RUN R -e "library(devtools)"
+#RUN R -e "library(roxygen2)"
+#RUN R -e "library(Rcpp)"
+#RUN R -e "library(ggplot2)"
 WORKDIR /r-script
 
 COPY docker.alias.txt /r-script/.alias
