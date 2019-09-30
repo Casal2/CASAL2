@@ -33,6 +33,7 @@ R0 1
 SSBs 1
 actual_catches 1
 fishing_pressures 1
+ogive_parameters selectivity[surveyaut_sel].male selectivity[surveyaut_sel].female
 
 @abundance Tangaroa_bio_summer_est
 step 1
@@ -61,3 +62,4 @@ n_keep 50
 do_CAY T
 F_CAY_guess 0.2
 interactive 0
+
