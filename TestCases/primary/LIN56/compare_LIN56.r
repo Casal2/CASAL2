@@ -10,6 +10,9 @@ require(CASAL2)
 require(ggplot2)
 
 
+sessionInfo()
+
+
 base_dir <- '../TestCases/primary/LIN56'
 
 C2_base_dir <- 'casal_flags_on'
