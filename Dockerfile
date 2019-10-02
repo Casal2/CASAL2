@@ -12,7 +12,7 @@ RUN apt-get update && apt-get upgrade -y \
                                                clang unzip bibtool python-dateutil clang-tidy doxygen-latex \
                                                fontforge-extras texlive-font-utils texlive-latex-extra bash-completion pkg-config \
 # for devtools dependencies
-                                               libxml2-dev \
+                                               libxml2-dev libudunits2-dev \
                                                # libcurl4-openssl-dev libssl-dev zlib1g-dev libgit2-dev \
                                                libssl-dev zlib1g-dev libgit2-dev libcurl4-gnutls-dev libssh2-1-dev
 
