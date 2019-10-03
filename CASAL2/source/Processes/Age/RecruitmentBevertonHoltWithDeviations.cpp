@@ -77,8 +77,11 @@ RecruitmentBevertonHoltWithDeviations::RecruitmentBevertonHoltWithDeviations(Mod
  */
 void RecruitmentBevertonHoltWithDeviations::DoValidate() {
   LOG_TRACE();
-  if (!parameters_.Get(PARAM_AGE)->has_been_defined())
+  if (!parameters_.Get(PARAM_AGE)->has_been_defined()) {
     age_ = model_->min_age();
+  } else {
+    LOG_WARNING() << "You have supplied age = " << age_ << ", but the model min_age = " << model_->min_age() << ", please check this is what you want to do";
+  }
 
   if (parameters_.Get(PARAM_R0)->has_been_defined() & parameters_.Get(PARAM_B0)->has_been_defined())
     LOG_FATAL_P(PARAM_R0) << "Cannot specify both R0 and B0 in the model";
