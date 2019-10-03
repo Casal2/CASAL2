@@ -20,7 +20,7 @@ RUN pip install datetime
 
 # TODO uncomment these later to clear caches. package caches are useful during active dev.
 #  && rm -rf /var/lib/apt/lists/* && rm -rf /tmp/*
-RUN R -e "install.packages(c('devtools', 'roxygen2', 'Rcpp', 'ggplot2'), dependencies=TRUE)"
+RUN R -e "install.packages(c('devtools', 'roxygen2', 'Rcpp', 'ggplot2'))"
 
 WORKDIR /r-script
 
