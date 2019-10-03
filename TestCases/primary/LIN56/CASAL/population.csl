@@ -52,7 +52,10 @@ female allvalues_bounded 3 10  0 0 0.05 0.10 0.30 0.50 0.80 1.00
 
 
 @natural_mortality
-ogive_all double_exponential 1 25 8 0.18 0.25 0.5
+ogive_all double_exponential 3 25 8 0.18 0.25 0.5 
+## This is an error in CASAL, before you had 1 for the first parameter, but little did you know CASAL ignored you and replaced it with min_age
+## you can check by running the CASAL model with 1 vs 3, it will give identical results. Now Casal2 doesn't do this so as you will
+## see in the Casal2 file x1 = 3 and you get pretty much the same results.
 
 
 @fishery trawl
