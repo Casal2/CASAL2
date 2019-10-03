@@ -5,7 +5,7 @@
 require(here)
 
 require(casal)
-require(CASAL2)
+require(casal2)
 
 require(ggplot2)
 
@@ -13,6 +13,7 @@ require(ggplot2)
 sessionInfo()
 
 
+# start in subdirectory 'R-libraries' of git repository
 base_dir <- '../TestCases/primary/LIN56'
 
 C2_base_dir <- 'casal_flags_on'
