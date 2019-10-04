@@ -28,7 +28,9 @@ COPY docker.alias.txt /r-script/.alias
 
 # RUN uname -a
 
-RUN git clone https://github.com/NIWAFisheriesModelling/CASAL2.git casal2
+# RUN git clone https://github.com/NIWAFisheriesModelling/CASAL2.git casal2
+
+COPY * /r-script/casal2/
 
 RUN cd /r-script/casal2/BuildSystem && ./doBuild.sh check
 
