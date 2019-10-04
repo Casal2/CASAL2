@@ -17,7 +17,7 @@ before_script:
 # build docker container and publish to registry
 build:
   only:
-    - docker-example
+    - master
   stage: build
   tags:
     - docker
