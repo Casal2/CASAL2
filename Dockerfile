@@ -32,5 +32,7 @@ COPY docker.alias.txt /r-script/.alias
 
 COPY [a-zA-Z]* ./
 
-RUN cd BuildSystem && ./doBuild.sh check
+RUN pwd && ls -la
+
+# RUN cd BuildSystem && ./doBuild.sh check
 
