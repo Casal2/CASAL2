@@ -22,7 +22,7 @@ RUN pip install datetime
 #  && rm -rf /var/lib/apt/lists/* && rm -rf /tmp/*
 RUN R -e "install.packages(c('devtools', 'roxygen2', 'Rcpp', 'ggplot2'))"
 
-WORKDIR /r-script
+WORKDIR /r-script/casal2
 
 COPY docker.alias.txt /r-script/.alias
 
@@ -30,7 +30,7 @@ COPY docker.alias.txt /r-script/.alias
 
 # RUN git clone https://github.com/NIWAFisheriesModelling/CASAL2.git casal2
 
-COPY BuildSystem CASAL2 Documentation Examples FrontEnd R-libraries TestCases TestCode TestModels ThirdParty build.bat LICENSE README.md README.txt /r-script/casal2/
+COPY [a-zA-Z]* ./
 
-RUN cd /r-script/casal2/BuildSystem && ./doBuild.sh check
+RUN cd BuildSystem && ./doBuild.sh check
 
