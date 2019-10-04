@@ -30,7 +30,7 @@ COPY docker.alias.txt /r-script/.alias
 
 # RUN git clone https://github.com/NIWAFisheriesModelling/CASAL2.git casal2
 
-COPY * /r-script/casal2/
+COPY BuildSystem CASAL2 Documentation Examples FrontEnd R-libraries TestCases TestCode TestModels ThirdParty build.bat Makefile README.md README.txt /r-script/casal2/
 
 RUN cd /r-script/casal2/BuildSystem && ./doBuild.sh check
 
