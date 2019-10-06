@@ -1,5 +1,4 @@
-.git
-.gitignore
+.git*
 .gitlab*
 .cproject
 .cache
@@ -7,3 +6,5 @@
 .settings
 nbproject
 cppcheck*
+Dockerfile
+.dockerignore
