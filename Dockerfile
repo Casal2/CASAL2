@@ -30,9 +30,9 @@ COPY docker.alias.txt /r-script/.alias
 
 # RUN git clone https://github.com/NIWAFisheriesModelling/CASAL2.git casal2
 
-COPY [a-zA-Z]* ./
+COPY . .
 
-RUN pwd && ls -la
+# RUN pwd && ls -la
 
-# RUN cd BuildSystem && ./doBuild.sh check
+RUN cd BuildSystem && ./doBuild.sh check
 
