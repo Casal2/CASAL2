@@ -14,13 +14,11 @@ RUN apt-get update && apt-get upgrade -y \
 # for devtools dependencies
                                                libxml2-dev libudunits2-dev \
                                                # libcurl4-openssl-dev libssl-dev zlib1g-dev libgit2-dev \
-                                               libssl-dev zlib1g-dev libgit2-dev libcurl4-gnutls-dev libssh2-1-dev
-
-RUN pip install datetime
-
-# TODO uncomment these later to clear caches. package caches are useful during active dev.
-#  && rm -rf /var/lib/apt/lists/* && rm -rf /tmp/*
-RUN R -e "install.packages(c('devtools', 'roxygen2', 'Rcpp', 'ggplot2'))"
+                                               libssl-dev zlib1g-dev libgit2-dev libcurl4-gnutls-dev libssh2-1-dev \
+# [un]comment these out later to clear caches. package caches are useful during active dev.
+ && rm -rf /var/lib/apt/lists/* && rm -rf /tmp/* \
+ && pip install datetime \
+ && R -e "install.packages(c('devtools', 'roxygen2', 'Rcpp', 'data.table', 'dplyr', 'ggplot2', 'Hmisc'))"
 
 WORKDIR /r-script/casal2
 
@@ -30,9 +28,9 @@ COPY docker.alias.txt /r-script/.alias
 
 # RUN git clone https://github.com/NIWAFisheriesModelling/CASAL2.git casal2
 
-COPY . .
-
 # RUN pwd && ls -la
+
+COPY . .
 
 RUN cd BuildSystem && ./doBuild.sh check
 
