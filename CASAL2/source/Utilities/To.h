@@ -25,6 +25,7 @@
 #include "Logging/Logging.h"
 #include "Utilities/Exception.h"
 #include "Utilities/PartitionType.h"
+#include "Utilities/Types.h"
 #include "Translations/Translations.h"
 
 // Namespaces
@@ -66,6 +67,7 @@ inline void ToLowercase(vector<string> &values) {
  */
 template<typename Target>
 bool To(const ::std::string arg, Target &result) {
+  result = Target();
   try {
     result = boost::lexical_cast<Target>(arg);
   } catch (...) {
@@ -99,6 +101,7 @@ vector<string> To(const vector<string>& source, vector<Target>& result) {
  */
 template <>
 inline bool To(const ::std::string arg, unsigned &result) {
+  result = (unsigned)0;
   try {
     int temp = boost::lexical_cast<int>(arg);
     if (temp < 0)
@@ -121,7 +124,7 @@ inline bool To(const ::std::string arg, unsigned &result) {
  */
 template<>
 inline bool To(const ::std::string arg, bool &result) {
-
+  result = false;
   try {
     result = boost::lexical_cast<bool>(arg);
     return true;
@@ -172,12 +175,31 @@ inline bool To(const ::std::string arg, PartitionType &result) {
 }
 
 /**
+ * This is a specialisation for handling unsigned ints that are put in as negative
+ */
+template <typename Source>
+inline bool To(const Source& arg, unsigned &result) {
+  result = (unsigned)0;
+  try {
+    int temp = boost::lexical_cast<int>(arg);
+    if (temp < 0)
+      return false;
+
+    result = (unsigned)temp;
+  } catch (...) {
+    return false;
+  }
+  return true;
+}
+
+/**
  * This is a method of converting from a known type to another
  * type. This method differs from above because we don't have
  * a hard-coded string source
  */
 template<typename Source, typename Target>
 bool To(const Source& arg, Target& result) {
+  result = Target();
   try {
     result = boost::lexical_cast<Target>(arg);
   } catch (...) {

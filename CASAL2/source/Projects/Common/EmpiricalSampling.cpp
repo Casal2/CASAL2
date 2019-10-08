@@ -58,7 +58,8 @@ void EmpiricalSampling::DoReset() {
   for (unsigned project_year : years_) {
     Random_draw = ceil(rng.uniform((unsigned)start_year_, (unsigned)final_year_));
     year = 0;
-    if (!utilities::To<Double, unsigned>(Random_draw, year))
+    // if (!utilities::To<Double, unsigned>(Random_draw, year))
+    if (!utilities::To<Double>(Random_draw, year))
       LOG_ERROR() << " Random Draw " << Random_draw << " Could not be converted from double to type unsigned";
     resampled_years_[project_year] = year;
     LOG_FINEST() << "Value from year: " << year << " used in projection year: " << project_year;
