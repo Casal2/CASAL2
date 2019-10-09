@@ -12,7 +12,7 @@ RUN apt-get update && apt-get upgrade -y \
  && apt-get -y --no-install-recommends install git-svn nano curl procps time \
                                                python-pip p7zip build-essential \
                                                clang bibtool python-dateutil clang-tidy doxygen-latex fontforge-extras \
-                                               texlive-base texlive-font-utils texlive-latex-recommended texlive-latex-extra \
+                                               texlive-full texlive-font-utils texlive-latex-recommended texlive-latex-extra \
 # [un]comment these out later to clear caches. package caches are useful during active dev.
  && rm -rf /var/lib/apt/lists/* && rm -rf /tmp/* \
  && pip install datetime \
