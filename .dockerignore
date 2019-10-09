@@ -7,4 +7,5 @@
 nbproject
 cppcheck*
 Dockerfile
+docker*
 .dockerignore
