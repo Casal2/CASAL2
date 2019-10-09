@@ -9,10 +9,10 @@ LABEL maintainer="Ryan Darby <ryan.darby@niwa.co.nz>"
 ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update && apt-get upgrade -y \
- && apt-get -y --no-install-recommends install git-svn openssh-client nano vim curl procps time \
-                                               python-pip p7zip cmake build-essential cpp gcc \
+ && apt-get -y --no-install-recommends install git-svn nano curl procps time \
+                                               python-pip p7zip build-essential \
                                                clang bibtool python-dateutil clang-tidy doxygen-latex \
-                                               fontforge-extras texlive-font-utils texlive-latex-extra pkg-config \
+                                               fontforge-extras texlive-font-utils texlive-latex-recommended texlive-latex-extra \
 # [un]comment these out later to clear caches. package caches are useful during active dev.
  && rm -rf /var/lib/apt/lists/* && rm -rf /tmp/* \
  && pip install datetime \
