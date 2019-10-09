@@ -26,7 +26,7 @@ RUN useradd --home-dir /r-script -U casal2
 
 USER casal2
 
-COPY docker.alias.txt /r-script/.alias
+COPY alias.txt /r-script/.alias
 
 # RUN git clone https://github.com/NIWAFisheriesModelling/CASAL2.git casal2
 COPY . .
