@@ -8,11 +8,11 @@ import Globals
 EX_OK = getattr(os, "EX_OK", 0)
 
 class Builder:
-  version_ = 3.11
+  version_ = 3.12
     
   def start(self):
     # Variables
-    ipOptFileName         = 'Ipopt-3.11.9'
+    ipOptFileName         = 'Ipopt-releases-3.12.4'
     cppadFileName         = 'cppad-20141128'
     libraries = [ "libcoinblas.a", "libcoinmetis.a", "libcoinmumps.a", "libcoinlapack.a", "libipopt.a" ]
     
@@ -34,8 +34,8 @@ class Builder:
         
     # Decompress our archive
     print '-- Decompressing - check casal2_unzip.log'
-    if os.path.exists(ipOptFileName + '.tgz'):
-      os.system('tar xvzf ' + ipOptFileName + '.tgz 1> casal2_IpOpt_unzip.log 2>&1')
+    if os.path.exists(ipOptFileName + '.tar.gz'):
+      os.system('tar xvzf ' + ipOptFileName + '.tar.gz 1> casal2_IpOpt_unzip.log 2>&1')
       # os.system('tar xvf ' + ipOptFileName + '.tar 1> casal2_untar.log 2>&1')
     if os.path.exists(cppadFileName + '.zip'):
       os.system('unzip ' + cppadFileName + '.zip 1> casal2_CppAD_unzip.log 2>&1')
