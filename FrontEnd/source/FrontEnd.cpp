@@ -263,7 +263,6 @@ void RunEstimation(int argc, char * argv[], niwa::utilities::RunParameters &opti
   auto library = LoadSharedLibrary(library_name);
   if (library == nullptr) {
     cout << "Error: Failed to load CASAL2 Library: " << library_name << endl;
-    CloseLibrary(library);
     return_code_ = -1;
     return;
   }
