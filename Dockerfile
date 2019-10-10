@@ -1,6 +1,6 @@
 # FROM rocker/r-ver:3.6.1
-# FROM rocker/tidyverse:3.6.1
-FROM rocker/verse:3.6.1
+FROM rocker/tidyverse:3.6.1
+# FROM rocker/verse:3.6.1
 
 ARG R_VERSION=3.6.1
 
