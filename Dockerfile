@@ -11,8 +11,9 @@ ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update && apt-get upgrade -y \
  && apt-get -y --no-install-recommends install git-svn nano curl procps time \
                                                python-pip p7zip build-essential \
-                                               clang bibtool python-dateutil clang-tidy doxygen-latex fontforge-extras \
+                                               clang bibtool python-dateutil clang-tidy \
                                                texlive-full texlive-font-utils texlive-latex-recommended texlive-latex-extra \
+                                               doxygen-latex fontforge-extras \
 # [un]comment these out later to clear caches. package caches are useful during active dev.
  && rm -rf /var/lib/apt/lists/* && rm -rf /tmp/* \
  && pip install datetime \
@@ -30,7 +31,7 @@ COPY alias.txt /r-script/.alias
 COPY . .
 
 RUN cd BuildSystem && ./doBuild.sh check && ./doBuild.sh thirdparty \
-                   && ./doBuild.sh release adolc && ./doBuild.sh release betadiff && ./doBuild.sh release cppad && ./doBuild.sh test \
-                   && ./doBuild.sh rlibrary && ./doBuild.sh documentation && ./doBuild.sh frontend
+                   && ./doBuild.sh release adolc && ./doBuild.sh release betadiff && ./doBuild.sh release cppad && ./doBuild.sh test
+#                   && ./doBuild.sh rlibrary && ./doBuild.sh documentation && ./doBuild.sh frontend
 
 CMD ["/bin/bash"]
