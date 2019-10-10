@@ -9,7 +9,7 @@ LABEL maintainer="Ryan Darby <ryan.darby@niwa.co.nz>"
 ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update && apt-get upgrade -y \
- && apt-get -y --no-install-recommends install git-svn nano curl procps time \
+ && apt-get -y --no-install-recommends install git-svn nano curl cmake procps time \
                                                python-pip p7zip build-essential \
                                                clang bibtool python-dateutil clang-tidy \
                                                texlive-full texlive-font-utils texlive-latex-recommended texlive-latex-extra \
