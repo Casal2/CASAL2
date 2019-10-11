@@ -38,4 +38,4 @@ RUN cd BuildSystem && ./doBuild.sh check
 #  && ./doBuild.sh release adolc && ./doBuild.sh release betadiff && ./doBuild.sh release cppad && ./doBuild.sh test
 #  && ./doBuild.sh rlibrary && ./doBuild.sh documentation && ./doBuild.sh frontend
 
-CMD ["/bin/bash"]
+# CMD ["/bin/bash"]
