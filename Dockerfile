@@ -21,17 +21,17 @@ RUN apt-get update && apt-get upgrade -y \
 
 WORKDIR /r-script/casal2
 
-RUN useradd --home-dir /r-script -U casal2
-
-USER casal2
-
-COPY alias.txt /r-script/.alias
-
-# RUN git clone https://github.com/NIWAFisheriesModelling/CASAL2.git casal2
+# RUN git clone https://git.niwa.co.nz/fisheries/modelling/casal2-development.git casal2
 COPY . .
 
 RUN cd BuildSystem && ./doBuild.sh check && ./doBuild.sh thirdparty \
                    && ./doBuild.sh release adolc && ./doBuild.sh release betadiff && ./doBuild.sh release cppad && ./doBuild.sh test
 #                   && ./doBuild.sh rlibrary && ./doBuild.sh documentation && ./doBuild.sh frontend
+
+RUN useradd --home-dir /r-script -U casal2
+
+USER casal2
+
+COPY alias.txt /r-script/.alias
 
 CMD ["/bin/bash"]
