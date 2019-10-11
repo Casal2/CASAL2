@@ -1,7 +1,7 @@
 # see https://www.rocker-project.org/images/
 
-# FROM rocker/r-ver:3.6.1
-FROM rocker/tidyverse:3.6.1
+FROM rocker/r-ver:3.6.1
+# FROM rocker/tidyverse:3.6.1
 # FROM rocker/verse:3.6.1
 
 ARG R_VERSION=3.6.1
@@ -9,15 +9,18 @@ ARG R_VERSION=3.6.1
 ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update && apt-get upgrade -y \
- && apt-get -y --no-install-recommends install git-svn nano curl cmake procps time \
-                                               python-pip p7zip build-essential \
-                                               clang bibtool python-dateutil clang-tidy \
-                                               texlive-full texlive-font-utils texlive-latex-recommended texlive-latex-extra \
-                                               doxygen-latex fontforge-extras \
+ && apt-get -y --no-install-recommends install git git-svn openssh-client nano vim ca-certificates curl procps file time \
+                                               bash-completion pkg-config python-pip python-dateutil cmake build-essential \
+                                               texlive-full cpp g++ gcc gfortran \
+                                               clang clang-tidy unzip p7zip bibtool doxygen-latex \
+                                               fontforge-extras texlive-font-utils texlive-latex-extra \
+# for devtools dependencies
+                                               libxml2-dev libudunits2-dev \
+                                               libssl-dev zlib1g-dev libgit2-dev libcurl4-gnutls-dev libssh2-1-dev \
 # [un]comment these out later to clear caches. package caches are useful during active dev.
  && rm -rf /var/lib/apt/lists/* && rm -rf /tmp/* \
  && pip install datetime \
- && R -e "install.packages(c('roxygen2', 'here', 'Hmisc'))"
+ && R -e "install.packages(c('devtools', 'roxygen2', 'dplyr', 'ggplot2', 'here', 'Hmisc'))"
 
 WORKDIR /r-script/casal2
 
@@ -38,4 +41,4 @@ RUN cd BuildSystem && ./doBuild.sh check
 #  && ./doBuild.sh release adolc && ./doBuild.sh release betadiff && ./doBuild.sh release cppad && ./doBuild.sh test
 #  && ./doBuild.sh rlibrary && ./doBuild.sh documentation && ./doBuild.sh frontend
 
-# CMD ["/bin/bash"]
+CMD ["/bin/bash"]
