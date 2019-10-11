@@ -15,7 +15,7 @@ RUN apt-get update && apt-get upgrade -y \
                                                clang clang-tidy unzip p7zip bibtool doxygen-latex \
                                                fontforge-extras texlive-font-utils texlive-latex-extra \
 # for devtools dependencies
-                                               libxml2-dev libudunits2-dev \
+                                               libxml2-dev libudunits2-dev libgit2-dev \
                                                libssl-dev zlib1g-dev libgit2-dev libcurl4-gnutls-dev libssh2-1-dev \
 # [un]comment these out later to clear caches. package caches are useful during active dev.
  && rm -rf /var/lib/apt/lists/* && rm -rf /tmp/* \

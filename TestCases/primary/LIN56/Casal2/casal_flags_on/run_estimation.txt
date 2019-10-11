@@ -1,11 +1,11 @@
 CASAL2
-Call: ../../../../../BuildSystem/bin/linux/release_betadiff/casal2 -e -o params_est.out 
-Date: Thu Oct  3 17:25:33 2019
-Version: 2019-09-24 01:15:10 UTC (rev. a96d76a)
+Call: ../../../../../BuildSystem/bin/linux/release_betadiff/casal2 -e -o params.out 
+Date: Fri Oct 11 16:52:41 2019
+Version: 2019-10-11 03:33:27 UTC (rev. 7d287b1)
 Copyright (c) 2018 - 2019, NIWA (www.niwa.co.nz)
 -- Username: amart
--- Machine: niwa-1019055.niwa.local (Linux 3.10.0-957.27.2.el7.x86_64 x86_64)
--- Process Id: 758
+-- Machine: niwa-1019055.niwa.local (Linux 3.10.0-1062.1.2.el7.x86_64 x86_64)
+-- Process Id: 19095
 
 resizing from 40000 to 44000
 resizing from 44000 to 48400
@@ -3919,6 +3919,6 @@ end {L}
 
 *end
 
-Total CPU time: 0.005 hours.
-Total elapsed time: 10 seconds
+Total CPU time: 0.006 hours.
+Total elapsed time: 12 seconds
 Completed
