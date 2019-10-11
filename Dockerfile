@@ -1,5 +1,5 @@
 # FROM rocker/r-ver:3.6.1
-FROM rocker/tidyverse:3.6.1
+FROM rocker/tidyverse:3.6.1 # see https://microbadger.com/images/rocker/tidyverse
 # FROM rocker/verse:3.6.1
 
 ARG R_VERSION=3.6.1
@@ -21,17 +21,19 @@ RUN apt-get update && apt-get upgrade -y \
 
 WORKDIR /r-script/casal2
 
-# RUN git clone https://git.niwa.co.nz/fisheries/modelling/casal2-development.git casal2
-COPY . .
-
-RUN cd BuildSystem && ./doBuild.sh check && ./doBuild.sh thirdparty \
-                   && ./doBuild.sh release adolc && ./doBuild.sh release betadiff && ./doBuild.sh release cppad && ./doBuild.sh test
-#                   && ./doBuild.sh rlibrary && ./doBuild.sh documentation && ./doBuild.sh frontend
-
 RUN useradd --home-dir /r-script -U casal2
 
 USER casal2
 
 COPY alias.txt /r-script/.alias
+
+# RUN git clone https://git.niwa.co.nz/fisheries/modelling/casal2-development.git casal2
+COPY . .
+
+RUN cd BuildSystem && ./doBuild.sh check
+
+# RUN ./doBuild.sh thirdparty \
+#  && ./doBuild.sh release adolc && ./doBuild.sh release betadiff && ./doBuild.sh release cppad && ./doBuild.sh test
+#  && ./doBuild.sh rlibrary && ./doBuild.sh documentation && ./doBuild.sh frontend
 
 CMD ["/bin/bash"]
