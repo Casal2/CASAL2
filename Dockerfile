@@ -1,5 +1,7 @@
+ # see https://www.rocker-project.org/images/
+ 
 # FROM rocker/r-ver:3.6.1
-FROM rocker/tidyverse:3.6.1 # see https://microbadger.com/images/rocker/tidyverse
+FROM rocker/tidyverse:3.6.1
 # FROM rocker/verse:3.6.1
 
 ARG R_VERSION=3.6.1
