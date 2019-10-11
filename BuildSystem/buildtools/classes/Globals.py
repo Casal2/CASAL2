@@ -3,6 +3,7 @@ This module contains the list of global variables we're going to be
 using throughout the build system
 """
 operating_system_ = ""
+in_docker_        = ""
 path_             = ""
 compiler_path_    = ""
 gfortran_path_    = ""
