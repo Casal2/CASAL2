@@ -35,10 +35,9 @@ COPY --chown=casal2:casal2 . .
 
 ENV DOCKER='T'
 
-RUN cd BuildSystem && ./doBuild.sh check
-
-# RUN ./doBuild.sh thirdparty \
-#  && ./doBuild.sh release adolc && ./doBuild.sh release betadiff && ./doBuild.sh release cppad && ./doBuild.sh test
+RUN cd BuildSystem && ./doBuild.sh check \
+   && ./doBuild.sh thirdparty \
+   && ./doBuild.sh release adolc && ./doBuild.sh release betadiff && ./doBuild.sh release cppad && ./doBuild.sh test
 #  && ./doBuild.sh rlibrary && ./doBuild.sh documentation && ./doBuild.sh frontend
 
 CMD ["/bin/bash"]
