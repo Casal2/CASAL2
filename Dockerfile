@@ -21,19 +21,20 @@ RUN apt-get update && apt-get upgrade -y \
  && rm -rf /var/lib/apt/lists/* && rm -rf /tmp/* \
  && pip install datetime \
  && R -e "install.packages(c('devtools', 'roxygen2', 'dplyr', 'ggplot2', 'here', 'Hmisc'))"
+ && useradd --home-dir /r-script -U casal2
 
 WORKDIR /r-script/casal2
 
-RUN useradd --home-dir /r-script -U casal2
-
-USER casal2
-
-COPY --chown=casal2:casal2 alias.txt /r-script/.alias
+COPY alias.txt /r-script/.alias
 
 # RUN git clone https://git.niwa.co.nz/fisheries/modelling/casal2-development.git casal2
-COPY --chown=casal2:casal2 . .
+COPY . .
 
 ENV DOCKER='T'
+
+RUN chown -R casal2:casal2 /r-script/*
+
+USER casal2
 
 RUN cd BuildSystem && ./doBuild.sh check && ./doBuild.sh documentation
 #  && ./doBuild.sh thirdparty \
