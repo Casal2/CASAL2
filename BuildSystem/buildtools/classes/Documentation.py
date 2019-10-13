@@ -66,7 +66,7 @@ class Documentation:
         type_aliases_['map<string, vector<string>>'] = 'string matrix'
         type_aliases_['map<string, vector<Double>>'] = 'constant vector'
         type_aliases_['parameters::table*']          = 'constant'
-        
+
     """
     Start the documentation builder
     """
@@ -134,10 +134,10 @@ class ClassLoader:
                 parent_class_.variables_['label_'] = label_
                 type_ = Variable()
                 type_.name_ = 'type'
-                type_.type_ = 'string'                
+                type_.type_ = 'string'
                 parent_class_.variables_['type_'] = type_
                 print type
-                if (os.path.exists(casal2_src_folder + folder + '/')): 
+                if (os.path.exists(casal2_src_folder + folder + '/')):
                 #This if statement deals with Classes that have parents in Common, it also checks if it has children in Age or Length
                     file_list = os.listdir(casal2_src_folder + folder + '/')
                     for file in file_list:
@@ -181,7 +181,7 @@ class ClassLoader:
                                         sub_child_class.name_ = child_file.replace('.h', '') + file
                                         sub_child_class.parent_name_ = file
                                         print 'child file ' + sub_child_class.name_
-                                        
+
                                         parent_class_.child_classes_[file].child_classes_[sub_child_class.name_] = sub_child_class
                                         if not VariableLoader().Load('../CASAL2/source/' + folder + '/Children/' + file + '/' + child_file, sub_child_class):
                                             return False
@@ -221,7 +221,7 @@ class ClassLoader:
                         parent_class_.child_classes_[child_class.name_] = child_class
                         if not VariableLoader().Load('../CASAL2/source/' + folder + '/Length/' + file, child_class):
                             return False
-            
+
             parent_class_.child_classes_ = collections.OrderedDict(sorted(parent_class_.child_classes_.items()))
             Printer().Run()
         return True
@@ -260,7 +260,7 @@ class VariableLoader:
 
             variable = Variable()
             variable.type_ = pieces[0]
-            class_.variables_[pieces[1]] = variable            
+            class_.variables_[pieces[1]] = variable
             print '-- Heading Variable: ' + pieces[1] + '(' + pieces[0] + ')'
 
     def LoadCppFile(self, header_file_, class_):
@@ -304,7 +304,7 @@ class VariableLoader:
             if line.startswith('parameters_.BindTable('):
                 print '-- Bind Table Line ' + line
                 if not self.HandleParameterBindTable(line, class_):
-                    return False            
+                    return False
             if line.startswith('RegisterAsAddressable('):
                 print '-- RegisterAsAddressable Line ' + line
                 if not self.HandlRegisterAsLine(line, class_):
@@ -312,7 +312,7 @@ class VariableLoader:
         return True
 
     def HandleParameterBindLine(self, line, class_):
-        line = line.replace('Double(', '') 
+        line = line.replace('Double(', '')
         lines = re.split('->', line)
         short_line = lines[0].replace('parameters_.Bind<', '')
         pieces = re.split(',|<|>|;|(|)', short_line)
@@ -398,7 +398,7 @@ class VariableLoader:
         return True
 
     def HandleParameterBindTable(self, line, class_):
-        lines  = re.split('->', line)    
+        lines  = re.split('->', line)
         short_line = line.replace('parameters_.BindTable(', '')
         pieces = re.split(',|<|>|;|(|)', short_line)
         pieces = filter(None, pieces)
@@ -411,7 +411,7 @@ class VariableLoader:
             variable = class_.variables_[used_variable];
         else:
             return Globals.PrintError('Could not find record for the header variable: ' + used_variable)
-            
+
         # Check for Name
         variable.name_ = translations_[pieces[0].rstrip().lstrip()]
 
@@ -431,14 +431,14 @@ class VariableLoader:
             value += ',' + pieces[index]
         value = value.replace(')', '')
         variable.value_ = value.replace(')', '').replace('R"(', '').replace(')"', '').replace('"', '').replace(')', '').rstrip().lstrip()
- 
+
         return True
- 
+
          # Set the default value
         index += 1
         if len(pieces) > index:
             variable.default_ = pieces[index].replace(')', '').rstrip().lstrip()
-        
+
     def HandlRegisterAsLine(self, line, class_):
         short_line = line.replace('RegisterAsAddressable(', '')
         pieces = re.split(',|<|>|;|(|)', short_line)
@@ -459,10 +459,10 @@ class VariableLoader:
           name = pieces[0]
           variable = pieces[1].replace('&', '').replace(')', '').lstrip().rstrip()
 	  lookup = pieces[2].replace('addressable::k', '').replace(')', '').lstrip().rstrip()
-	
+
 	## At some point it would be nice to add the lookup into the auto-documentation but that can wait.
         print '--> Estimable: ' + name + ' with variable ' + variable + ' lookup = ' + lookup  + ' ' + class_.variables_[variable].name_
-        if name in translations_:    
+        if name in translations_:
           name = translations_[name]
         print class_.variables_
   	if lookup == "all":
@@ -504,20 +504,20 @@ class Printer:
             if len(child_class.child_classes_) > 0:
                 child_class.child_classes_ = collections.OrderedDict(sorted(child_class.child_classes_.items()))
                 for third_class_name, third_class in child_class.child_classes_.iteritems():
-                    
+
                     ## this is an exception to remove time_step in front of mortality block observations
-                    first_val = third_class.name_[0:8]                  
+                    first_val = third_class.name_[0:8]
                     if parent_class_.name_ == 'Observation' and first_val == 'TimeStep':
                     	third_class.name_ = third_class.name_[8:len(third_class.name_)]
-                    
+
                     object_name = re.sub( '(?<!^)(?=[A-Z])', ' ', third_class.name_)
                     class_name = re.sub( '(?<!^)(?=[A-Z])', '\_', third_class.name_).lower()
                     parent_class = re.sub( '(?<!^)(?=[A-Z])', '\_', parent_class_.name_).lower()
-					   
+
                     # Exeption corrections
                     class_name = class_name.replace('m\_c\_m\_c', 'mcmc')
                     class_name = class_name.replace('beta\_diff', 'betadiff')
-                    class_name = class_name.replace('gamma\_diff', 'numerical\_differences')    
+                    class_name = class_name.replace('gamma\_diff', 'numerical\_differences')
                     class_name = class_name.replace('a\_d\_o\_l\_c', 'adolc')
                     class_name = class_name.replace('c\_p\_p\_a\_d', 'cppad')
                     class_name = class_name.replace('d\_e\_solver', 'de\_solver')
@@ -546,9 +546,9 @@ class Printer:
  			   # Exeption corrections
                 class_name = class_name.replace('m\_c\_m\_c', 'mcmc')
                 class_name = class_name.replace('a\_d\_o\_l\_c', 'adolc')
-                class_name = class_name.replace('beta\_diff', 'betadiff')                       
+                class_name = class_name.replace('beta\_diff', 'betadiff')
                 class_name = class_name.replace('c\_p\_p\_a\_d', 'cppad')
-                class_name = class_name.replace('gamma\_diff', 'numerical\_differences')     
+                class_name = class_name.replace('gamma\_diff', 'numerical\_differences')
                 class_name = class_name.replace('d\_e\_solver', 'de\_solver')
                 parent_class = parent_class.replace('m\_c\_m\_c', 'mcmc')
                 parent_class = parent_class.replace('a\_d\_o\_l\_c', 'adolc')
@@ -582,7 +582,7 @@ class Printer:
             if variable.description_.startswith('TBA'):
                 continue
             # And continue as normal
-            file_.write('\\defSub{' + variable.name_ + '} {' + variable.description_ + '}\n')            
+            file_.write('\\defSub{' + variable.name_ + '} {' + variable.description_ + '}\n')
             if variable.name_ in class_.estimables_:
                 if class_.estimables_[variable.name_ ].startswith('vector<') or class_.estimables_[variable.name_ ].startswith('map<'):
                     file_.write('\\defType{estimable vector}\n')
@@ -592,7 +592,7 @@ class Printer:
                 if class_.addressables_[variable.name_ ].startswith('vector<') or class_.addressables_[variable.name_ ].startswith('map<'):
                     file_.write('\\defType{Addressable vector}\n')
                 else:
-                    file_.write('\\defType{Addressable}\n')                    
+                    file_.write('\\defType{Addressable}\n')
             else:
                 file_.write('\\defType{' + type_aliases_[variable.type_] + '}\n')
 
@@ -619,46 +619,47 @@ class Latex:
         os.chdir('../Documentation/UserManual/')
         print '-- Building CASAL.syn'
         os.system('python QuickReference.py')
-        
+
         # Build the Version.tex file
-        if Globals.git_path_ != '':
-            print '-- Build version.tex with Git log information'
-            p = subprocess.Popen(['git', '--no-pager', 'log', '-n', '1', '--pretty=format:%H%n%h%n%ci' ], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-            out, err = p.communicate()
-            lines = out.split('\n')
-            if len(lines) != 3:
-                return Globals.PrintError('Format printed by GIT did not meet expectations. Expected 3 lines but got ' + str(len(lines)))
+        if Globals.in_docker_ == '':
+            if Globals.git_path_ != '':
+                print '-- Build version.tex with Git log information'
+                p = subprocess.Popen(['git', '--no-pager', 'log', '-n', '1', '--pretty=format:%H%n%h%n%ci' ], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+                out, err = p.communicate()
+                lines = out.split('\n')
+                if len(lines) != 3:
+                    return Globals.PrintError('Format printed by GIT did not meet expectations. Expected 3 lines but got ' + str(len(lines)))
 
-            time_pieces = lines[2].split(' ')
-            del time_pieces[-1];
-            temp = ' '.join(time_pieces)
-            local_time = datetime.strptime(temp, '%Y-%m-%d %H:%M:%S')
-            utc_time   = local_time.replace(tzinfo=tz.tzlocal()).astimezone(tz.tzutc())
+                time_pieces = lines[2].split(' ')
+                del time_pieces[-1];
+                temp = ' '.join(time_pieces)
+                local_time = datetime.strptime(temp, '%Y-%m-%d %H:%M:%S')
+                utc_time   = local_time.replace(tzinfo=tz.tzlocal()).astimezone(tz.tzutc())
 
-            version = '% WARNING: THIS FILE IS AUTOMATICALLY GENERATED BY doBuild documentation. DO NOT EDIT THIS FILE\n'
-            version += '\\newcommand{\\SourceControlRevisionDoc}{' + lines[0] + '}\n'
-            version += '\\newcommand{\\SourceControlDateDoc}{' + utc_time.strftime('%Y-%m-%d') + '}\n'
-            version += '\\newcommand{\\SourceControlYearDoc}{' + utc_time.strftime('%Y') + '}\n'
-            version += '\\newcommand{\\SourceControlMonthDoc}{' + utc_time.strftime('%B') + '}\n'
-            version += '\\newcommand{\\SourceControlTimeDoc}{' + utc_time.strftime('%H:%M:%S') + '}\n'
-            version += '\\newcommand{\\SourceControlShortVersionDoc}{' + utc_time.strftime('%Y-%m-%d') + ' (rev. ' + lines[1] + ')}\n'
-            version += '\\newcommand{\\SourceControlVersionDoc}{' + utc_time.strftime('%Y-%m-%d %H:%M:%S %Z') + ' (rev. ' + lines[1] + ')}\n'
-            file_output = open('Version.tex', 'w')
-            file_output.write(version)
-            file_output.close()
-        else:
-            print '-- Building a default version.tex because Git was not found'
-            version = '% WARNING: THIS FILE IS AUTOMATICALLY GENERATED BY doBuild documentation. DO NOT EDIT THIS FILE\n'
-            version += '\\newcommand{\\SourceControlRevisionDoc}{000000}\n'
-            version += '\\newcommand{\\SourceControlDateDoc}{0000-00-00}\n'
-            version += '\\newcommand{\\SourceControlYearDoc}{0000}\n'
-            version += '\\newcommand{\\SourceControlMonthDoc}{00}\n'
-            version += '\\newcommand{\\SourceControlTimeDoc}{00:00:00}\n'
-            version += '\\newcommand{\\SourceControlShortVersionDoc}{0000-00-00 (rev. 000000)}\n'
-            version += '\\newcommand{\\SourceControlVersionDoc}{0000-00-00 00:00:00 (rev. 000000)}\n'
-            file_output = open('Version.tex', 'w')
-            file_output.write(version)
-            file_output.close()
+                version = '% WARNING: THIS FILE IS AUTOMATICALLY GENERATED BY doBuild documentation. DO NOT EDIT THIS FILE\n'
+                version += '\\newcommand{\\SourceControlRevisionDoc}{' + lines[0] + '}\n'
+                version += '\\newcommand{\\SourceControlDateDoc}{' + utc_time.strftime('%Y-%m-%d') + '}\n'
+                version += '\\newcommand{\\SourceControlYearDoc}{' + utc_time.strftime('%Y') + '}\n'
+                version += '\\newcommand{\\SourceControlMonthDoc}{' + utc_time.strftime('%B') + '}\n'
+                version += '\\newcommand{\\SourceControlTimeDoc}{' + utc_time.strftime('%H:%M:%S') + '}\n'
+                version += '\\newcommand{\\SourceControlShortVersionDoc}{' + utc_time.strftime('%Y-%m-%d') + ' (rev. ' + lines[1] + ')}\n'
+                version += '\\newcommand{\\SourceControlVersionDoc}{' + utc_time.strftime('%Y-%m-%d %H:%M:%S %Z') + ' (rev. ' + lines[1] + ')}\n'
+                file_output = open('Version.tex', 'w')
+                file_output.write(version)
+                file_output.close()
+            else:
+                print '-- Building a default version.tex because Git was not found'
+                version = '% WARNING: THIS FILE IS AUTOMATICALLY GENERATED BY doBuild documentation. DO NOT EDIT THIS FILE\n'
+                version += '\\newcommand{\\SourceControlRevisionDoc}{000000}\n'
+                version += '\\newcommand{\\SourceControlDateDoc}{0000-00-00}\n'
+                version += '\\newcommand{\\SourceControlYearDoc}{0000}\n'
+                version += '\\newcommand{\\SourceControlMonthDoc}{00}\n'
+                version += '\\newcommand{\\SourceControlTimeDoc}{00:00:00}\n'
+                version += '\\newcommand{\\SourceControlShortVersionDoc}{0000-00-00 (rev. 000000)}\n'
+                version += '\\newcommand{\\SourceControlVersionDoc}{0000-00-00 00:00:00 (rev. 000000)}\n'
+                file_output = open('Version.tex', 'w')
+                file_output.write(version)
+                file_output.close()
 
         for i in range(0,3):
           if Globals.operating_system_ != "windows":
@@ -690,7 +691,7 @@ class Latex:
         for i in range(0,3):
           if Globals.operating_system_ != "windows":
             if os.system('pdflatex --interaction=nonstopmode GettingStartedGuide') != EX_OK:
-              return False            
+              return False
             if os.system('bibtex GettingStartedGuide') != EX_OK:
               return False
             if os.system('pdflatex --halt-on-error --interaction=nonstopmode GettingStartedGuide') != EX_OK:
@@ -706,7 +707,7 @@ class Latex:
               return Globals.PrintError('pdflatex failed')
             if os.system('makeindex.exe GettingStartedGuide') != EX_OK:
               return Globals.PrintError('makeindex failed')
-              
+
         print '-- Built the GettingStartedGuide'
         os.chdir('../ContributorsManual/')
         for i in range(0,3):
