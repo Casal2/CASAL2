@@ -36,8 +36,8 @@ RUN chown -R casal2:casal2 /r-script/*
 
 USER casal2
 
-RUN cd BuildSystem && ./doBuild.sh check && ./doBuild.sh documentation
-#  && ./doBuild.sh thirdparty \
+RUN cd BuildSystem && ./doBuild.sh check && ./doBuild.sh documentation \
+  && ./doBuild.sh thirdparty
 #  && ./doBuild.sh release adolc && ./doBuild.sh release betadiff && ./doBuild.sh release cppad && ./doBuild.sh test
 #  && ./doBuild.sh rlibrary && ./doBuild.sh modelrunner && ./doBuild.sh install
 
