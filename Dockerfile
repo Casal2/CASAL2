@@ -20,7 +20,7 @@ RUN apt-get update && apt-get upgrade -y \
 # [un]comment these out later to clear caches. package caches are useful during active dev.
  && rm -rf /var/lib/apt/lists/* && rm -rf /tmp/* \
  && pip install datetime \
- && R -e "install.packages(c('devtools', 'roxygen2', 'dplyr', 'ggplot2', 'here', 'Hmisc'))"
+ && R -e "install.packages(c('devtools', 'roxygen2', 'dplyr', 'ggplot2', 'here', 'Hmisc'))" \
  && useradd --home-dir /r-script -U casal2
 
 WORKDIR /r-script/casal2
