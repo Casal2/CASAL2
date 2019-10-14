@@ -271,8 +271,8 @@ inline Double mean(const vector<Double>& Values){
   Double total = 0.0;
   for (const auto& value : Values)
     total += value;
-  Double n = AS_DOUBLE(Values.size();
-  mu = total / n);
+  Double n = Values.size();
+  mu = total / n;
   return mu;
 }
 
