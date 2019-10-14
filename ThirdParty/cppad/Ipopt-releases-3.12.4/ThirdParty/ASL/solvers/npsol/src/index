@@ -1,5 +1,0 @@
-file	ampl/solvers/npsol/src/makefile.vc
-for	Microsoft VC++
-
-file	ampl/solvers/npsol/src/npsol.lbc
-for	helping make npsol.lib
