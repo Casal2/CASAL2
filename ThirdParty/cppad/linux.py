@@ -13,7 +13,7 @@ class Builder:
   def start(self):
     # Variables
     ipOptFileName         = 'Ipopt-releases-3.12.4'
-    cppadFileName         = 'CppAD-20160000.1'
+    cppadFileName         = 'cppad-20141128'
     libraries = [ "libcoinblas.a", "libcoinmetis.a", "libcoinmumps.a", "libcoinlapack.a", "libipopt.a" ]
     
     # Clean our any existing files if they already exist

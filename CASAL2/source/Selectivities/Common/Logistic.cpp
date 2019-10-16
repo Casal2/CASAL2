@@ -144,10 +144,10 @@ Double Logistic::GetLengthBasedResult(unsigned age, AgeLength* age_length, unsig
     Double mu = log(mean) - sigma * sigma * 0.5;
     Double size = 0.0;
     Double total = 0.0;
-    boost::math::lognormal dist{AS_DOUBLE(mu), AS_DOUBLE(sigma)};
+    boost::math::lognormal dist{AS_VALUE(mu), AS_VALUE(sigma)};
 
     for (unsigned j = 0; j < n_quant_; ++j) {
-      size = mu + sigma * quantile(dist, AS_DOUBLE(quantiles_[j]));
+      size = mu + sigma * quantile(dist, AS_VALUE(quantiles_[j]));
 
       Double threshold = (a50_ - (Double) size) / ato95_;
 

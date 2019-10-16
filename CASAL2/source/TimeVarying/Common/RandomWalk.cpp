@@ -64,7 +64,7 @@ void RandomWalk::DoUpdate() {
   LOG_FINEST() << "value = " << *addressable_;
   utilities::RandomNumberGenerator& rng = utilities::RandomNumberGenerator::Instance();
   Double value = *addressable_;
-  Double deviate = rng.normal(AS_DOUBLE(mu_), AS_DOUBLE(sigma_));
+  Double deviate = rng.normal(AS_VALUE(mu_), AS_VALUE(sigma_));
   value += value * rho_ + deviate;
 
 

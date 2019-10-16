@@ -80,7 +80,7 @@ void LogNormalEmpirical::DoReset() {
     //if (parameters_.Get(PARAM_RHO)->has_been_defined()) {
     //  normal_draw_by_year_[project_year] = rng.normal(0.0, 1.0);
     //} else {
-    normal_draw_by_year_[project_year] = rng.normal(AS_DOUBLE(mean_), AS_DOUBLE(sigma_));
+    normal_draw_by_year_[project_year] = rng.normal(AS_VALUE(mean_), AS_VALUE(sigma_));
     //}
     LOG_FINEST() << "generated value = " << normal_draw_by_year_[project_year] << " to be applied in year " << project_year;
   }

@@ -76,7 +76,7 @@ void LogNormalWithQ::SimulateObserved(map<unsigned, vector<observations::Compari
       if (comparison.expected_ <= 0.0 || error_value <= 0.0)
         comparison.observed_ = comparison.delta_;
       else
-        comparison.observed_ = rng.lognormal(AS_DOUBLE(comparison.expected_), AS_DOUBLE(error_value));
+        comparison.observed_ = rng.lognormal(AS_VALUE(comparison.expected_), AS_VALUE(error_value));
 
       comparison.adjusted_error_ = error_value;
     }

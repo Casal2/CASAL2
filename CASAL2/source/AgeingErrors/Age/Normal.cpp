@@ -33,8 +33,8 @@ Double NormalCDF(Double x, Double mu, Double sigma) {
   else if (sigma <= 0.0 && x >= mu)
     return 1;
 
-  boost::math::normal s(AS_DOUBLE(mu), AS_DOUBLE(sigma));
-  return cdf(s, AS_DOUBLE(x));
+  boost::math::normal s(AS_VALUE(mu), AS_VALUE(sigma));
+  return cdf(s, AS_VALUE(x));
 }
 
 
@@ -63,7 +63,7 @@ Normal::Normal(Model* model) : AgeingError(model) {
  */
 void Normal::DoValidate() {
   if (cv_ <= 0.0)
-    LOG_ERROR_P(PARAM_CV) << "value (" << AS_DOUBLE(cv_) << ") cannot be less than or equal to 0.0";
+    LOG_ERROR_P(PARAM_CV) << "value (" << AS_VALUE(cv_) << ") cannot be less than or equal to 0.0";
   if (k_ > max_age_)
     LOG_ERROR_P(PARAM_K) << "value (" << k_ << ") cannot be greater than the model's max age (" << max_age_ << ")";
 }

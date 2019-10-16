@@ -102,7 +102,7 @@ void Multinomial::SimulateObserved(map<unsigned, vector<observations::Comparison
         comparison.observed_ = 0.0;
       else {
         LOG_FINEST() << "expected = " << comparison.expected_;
-        comparison.observed_ = rng.binomial(AS_DOUBLE(comparison.expected_), AS_DOUBLE(error_value));
+        comparison.observed_ = rng.binomial(AS_VALUE(comparison.expected_), AS_VALUE(error_value));
         LOG_FINEST() << "Simulated = " << comparison.observed_;
 
       }

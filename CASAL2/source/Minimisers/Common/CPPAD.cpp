@@ -95,9 +95,9 @@ void CPPAD::Execute() {
 
   model_->managers().estimate_transformation()->TransformEstimates();
   for (unsigned i = 0; i < estimates.size(); ++i) {
-    lower_bounds[i] = AS_DOUBLE(estimates[i]->lower_bound());
-    upper_bounds[i] = AS_DOUBLE(estimates[i]->upper_bound());
-    start_values[i] = AS_DOUBLE(estimates[i]->value());
+    lower_bounds[i] = AS_VALUE(estimates[i]->lower_bound());
+    upper_bounds[i] = AS_VALUE(estimates[i]->upper_bound());
+    start_values[i] = AS_VALUE(estimates[i]->value());
   }
 
   MyObjective obj(model_);
