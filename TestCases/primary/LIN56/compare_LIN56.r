@@ -18,7 +18,8 @@ base_dir <- '../TestCases/primary/LIN56'
 
 C2_base_dir <- 'casal_flags_on'
 C2_alt1_dir <- 'casal_flags_off'
-C2_alt2_dir <- 'adolc'
+# C2_alt2_dir <- 'adolc'
+C2_alt2_dir <- 'casal_flags_on_low_tol'
 C2_alt3_dir <- 'cppad'
 
 
@@ -114,7 +115,7 @@ lines(names(cas2_mpd_alt2$SSB$`1`$SSB$values), cas2_mpd_alt2$SSB$`1`$SSB$values,
 lines(names(cas2_mpd_alt3$SSB$`1`$SSB$values), cas2_mpd_alt3$SSB$`1`$SSB$values, col='gold', lwd=1)
 
 legend(c1_quant$SSBs$year[1], 0.50*max_val,
-       c('CASAL', 'CASAL sens1', 'Casal2 w/CASAL flags on', 'Casal2 w/CASAL flags off', 'Casal2 ADOL-C', 'Casal2 CppAD'),
+       c('CASAL', 'CASAL sens1', 'Casal2 w/CASAL flags on', 'Casal2 w/CASAL flags off', 'Casal2 w/CASAL flags on and low tolerance', 'Casal2 CppAD'),
        lwd=3,
        col=c('black', 'grey', 'blue', 'green3', 'red', 'gold'))
 

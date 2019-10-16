@@ -1,11 +1,11 @@
 CASAL2
-Call: ../../../../../BuildSystem/bin/linux/release_cppad/casal2 -e -o params.out 
-Date: Fri Oct 11 18:29:32 2019
-Version: 2019-10-11 03:33:27 UTC (rev. 7d287b1)
+Call: ../../../../../BuildSystem/bin/linux/release_cppad/casal2 -e -o params_est.out 
+Date: Wed Oct 16 16:29:04 2019
+Version: 2019-10-15 03:38:10 UTC (rev. 6243738)
 Copyright (c) 2018 - 2019, NIWA (www.niwa.co.nz)
 -- Username: amart
 -- Machine: niwa-1019055.niwa.local (Linux 3.10.0-1062.1.2.el7.x86_64 x86_64)
--- Process Id: 23566
+-- Process Id: 6647
 
 This is Ipopt version 3.12.4, running with linear solver mumps.
 NOTE: Other linear solvers might be more efficient (see Ipopt documentation).
@@ -73,8 +73,8 @@ Number of inequality constraint evaluations          = 43
 Number of equality constraint Jacobian evaluations   = 0
 Number of inequality constraint Jacobian evaluations = 28
 Number of Lagrangian Hessian evaluations             = 27
-Total CPU secs in IPOPT (w/o function evaluations)   =      0.157
-Total CPU secs in NLP function evaluations           =     75.600
+Total CPU secs in IPOPT (w/o function evaluations)   =      0.150
+Total CPU secs in NLP function evaluations           =     69.844
 
 EXIT: Optimal Solution Found.
 *initialisation_partition[Init]
@@ -930,7 +930,6 @@ male 0.000000 24914920.655279 17388474.805837 12320302.096421 7816394.098444 758
 female 0.000000 24916318.046310 17391060.382196 12326480.777169 7828400.101594 7610388.486483 6380519.569844 4650689.336044 4592072.653087 3116666.197348 3245898.201233 2209668.816966 1670577.632884 1222962.719659 1126599.594052 928326.028814 611688.114429 492134.852328 437504.812666 421189.882026 359581.935066 244572.359333 380533.950235
 *end
 
-[WARNING] /home/amart/work/projects/CASAL2/dev/casal2-development/CASAL2/source/Reports/Common/EstimateValue.cpp(line: 46): estimated parameter 'selectivity[trwlFSel_m].sigma_r' was within 0.001 of its bound
 *objective_function[obj_fun]
 values {v}
 observation->summerTANbiomass-1992 -1.67903
@@ -1154,6 +1153,7 @@ values {v}
 end {L}
 *end
 
+[WARNING] /home/amart/work/projects/CASAL2/dev/casal2-development/CASAL2/source/Reports/Common/EstimateValue.cpp(line: 46): estimated parameter 'selectivity[trwlFSel_m].sigma_r' was within 0.001 of its bound
 *estimate_value[estimated_values]
 values {d}
 process[Recruitment].b0 catchability[summerTANq].q catchability[autumnTANq].q selectivity[M_all].x0 selectivity[M_all].y0 selectivity[M_all].y1 selectivity[M_all].y2 selectivity[summerTANSel_m].a50 selectivity[summerTANSel_m].ato95 selectivity[summerTANSel_m].alpha selectivity[summerTANSel_f].a50 selectivity[summerTANSel_f].ato95 selectivity[autumnTANSel_m].a50 selectivity[autumnTANSel_m].ato95 selectivity[autumnTANSel_m].alpha selectivity[autumnTANSel_f].a50 selectivity[autumnTANSel_f].ato95 selectivity[trwlFSel_m].mu selectivity[trwlFSel_m].sigma_l selectivity[trwlFSel_m].sigma_r selectivity[trwlFSel_m].alpha selectivity[trwlFSel_f].mu selectivity[trwlFSel_f].sigma_l selectivity[trwlFSel_f].sigma_r selectivity[lineHomeFSel_m].a50 selectivity[lineHomeFSel_m].ato95 selectivity[lineHomeFSel_m].alpha selectivity[lineHomeFSel_f].a50 selectivity[lineHomeFSel_f].ato95 selectivity[lineSpawnFSel_m].a50 selectivity[lineSpawnFSel_m].ato95 selectivity[lineSpawnFSel_m].alpha selectivity[lineSpawnFSel_f].a50 selectivity[lineSpawnFSel_f].ato95 process[Recruitment].ycs_values{1972} process[Recruitment].ycs_values{1973} process[Recruitment].ycs_values{1974} process[Recruitment].ycs_values{1975} process[Recruitment].ycs_values{1976} process[Recruitment].ycs_values{1977} process[Recruitment].ycs_values{1978} process[Recruitment].ycs_values{1979} process[Recruitment].ycs_values{1980} process[Recruitment].ycs_values{1981} process[Recruitment].ycs_values{1982} process[Recruitment].ycs_values{1983} process[Recruitment].ycs_values{1984} process[Recruitment].ycs_values{1985} process[Recruitment].ycs_values{1986} process[Recruitment].ycs_values{1987} process[Recruitment].ycs_values{1988} process[Recruitment].ycs_values{1989} process[Recruitment].ycs_values{1990} process[Recruitment].ycs_values{1991} process[Recruitment].ycs_values{1992} process[Recruitment].ycs_values{1993} process[Recruitment].ycs_values{1994} process[Recruitment].ycs_values{1995} process[Recruitment].ycs_values{1996} process[Recruitment].ycs_values{1997} process[Recruitment].ycs_values{1998} process[Recruitment].ycs_values{1999} process[Recruitment].ycs_values{2000} process[Recruitment].ycs_values{2001} process[Recruitment].ycs_values{2002} process[Recruitment].ycs_values{2003} process[Recruitment].ycs_values{2004} process[Recruitment].ycs_values{2005} process[Recruitment].ycs_values{2006} process[Recruitment].ycs_values{2007} process[Recruitment].ycs_values{2008} process[Recruitment].ycs_values{2009} process[Recruitment].ycs_values{2010} process[Recruitment].ycs_values{2011} process[Recruitment].ycs_values{2012} process[Recruitment].ycs_values{2013} process[Recruitment].ycs_values{2014} 
@@ -3159,6 +3159,6 @@ warning_0 {s}
 estimated parameter 'selectivity[trwlFSel_m].sigma_r' was within 0.001 of its bound
 *end
 
-Total CPU time: 0.021 hours.
-Total elapsed time: 38 seconds
+Total CPU time: 0.019 hours.
+Total elapsed time: 35 seconds
 Completed
