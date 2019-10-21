@@ -9,10 +9,11 @@ ARG R_VERSION=3.6.1
 ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update && apt-get upgrade -y \
- && apt-get -y --no-install-recommends install git git-svn openssh-client nano vim ca-certificates curl procps file time \
+ && apt-get -y --no-install-recommends install git git-svn openssh-client nano vim ca-certificates curl procps file time locate \
                                                bash-completion pkg-config python-pip python-dateutil cmake build-essential \
-                                               texlive-full cpp g++ gcc gfortran \
-                                               clang clang-tidy unzip p7zip bibtool doxygen-latex \
+                                               texlive-full cpp g++ gcc gfortran clang clang-tidy \
+                                               libc6-dev liblapack-dev libblas-dev libquadmath0 \
+                                               unzip p7zip bibtool doxygen-latex \
                                                fontforge-extras texlive-font-utils texlive-latex-extra \
 # for devtools dependencies
                                                libxml2-dev libudunits2-dev libgit2-dev \
