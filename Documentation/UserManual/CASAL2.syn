@@ -1,0 +1,284 @@
+; TextPad syntax definitions for CASAL2; This is auto generated from the quickreference.py script do not edit
+; ===================================================================================
+;
+;
+C=1
+[Syntax]
+Namespace1 = 6
+IgnoreCase = No
+KeyWordLength = 0
+BracketChars = {[]}
+OperatorChars = -+*/!~%^&|=$:!_<>
+PreprocStart =
+HexPrefix = 0x
+SyntaxStart =
+SyntaxEnd =
+CommentStart = /*
+CommentEnd = */ 
+CommentStartAlt =
+CommentEndAlt =
+SingleComment = #
+SingleCommentCol =
+SingleCommentAlt = @comment
+SingleCommentColAlt =
+SingleCommentEsc =
+StringsSpanLines = No
+StringStart = "
+StringEnd = "
+StringAlt =
+StringEsc = \ 
+CharStart = '
+CharEnd = '
+CharEsc = \ 
+
+[Keywords 1]
+@additional_prior
+@age_length
+@ageing_error
+@catchability
+@categories
+@derived_quantity
+@estimate
+@estimate_transformation
+@growth
+@initialisation_phase
+@length_weight
+@likelihood
+@mcmc
+@minimiser
+@model
+@mortality
+@observation
+@penalty
+@process
+@profile
+@project
+@recruitment
+@report
+@selectivity
+@simulate
+@survival
+@tag
+@time_step
+@time_varying
+@transition
+
+[Keywords 2]
+a
+active
+age
+age_length
+age_lengths
+age_plus
+age_weight
+age_weight_labels
+ageing_error
+b
+b0
+b0_initialisation_phase
+b_max
+base_weight_units
+by_length
+casal_initialisation_switch
+casal_switch
+catch
+catchability
+catches
+categories
+categories2
+category
+consumption_rate
+convergence_years
+covariance
+cv
+cv_first
+cv_last
+delta
+detection
+deviation_values
+deviation_years
+dispersion
+distribution
+electivities
+error_value
+error_value_multiplier
+estimation_phase
+exclude_processes
+external_gaps
+file_name
+final_year
+first_recent_year_with_no_bias
+first_year_with_bias
+format
+from
+growth_time_steps
+initial_mortality
+initial_mortality_selectivity
+initialisation_phases
+insert_processes
+internal_gaps
+intervals
+is_abundance
+k
+label
+lambda
+last_year_with_bias
+last_year_with_no_bias
+length
+length_based
+length_bins
+length_plus
+length_plus_group
+length_values
+length_weight
+likelihood
+likelihood_multiplier
+linf
+loss_rate
+loss_rate_selectivities
+lower_bound
+m
+max_age
+mcmc
+method_of_removal
+min_age
+mortality_instantaneous_process
+multiplier
+n
+names
+number_of_growth_episodes
+obs
+p1
+p2
+parameter
+partition_type
+penalty
+plus_group
+predator_categories
+predator_selectivities
+prey_categories
+prey_selectivities
+print_default_reports
+prior_applies_to_transform
+process
+process_error
+process_errors
+processes
+projection_final_year
+proportions
+r0
+rates
+s
+same
+selectivities
+selectivities2
+sigma_min
+sigma_r
+simulation_likelihood
+ssb
+ssb_offset
+standardise_ycs_years
+start_year
+steepness
+step_size
+steps
+t0
+tag_loss_rate
+tag_loss_type
+tagged_selectivities
+tau1
+tau2
+time_step
+time_step_measurements_were_made
+time_step_proportion
+time_step_proportion_method
+time_step_proportions
+time_step_ratio
+time_steps
+to
+tolerance
+total_categories
+transform_with_jacobian
+transformation
+type
+u_max
+upper_bound
+values
+write_mode
+x
+y1
+y2
+ycs_values
+ycs_years
+year
+years
+
+[Keywords 3]
+F
+False
+T
+True
+f
+false
+t
+true
+
+
+[Keywords 4]
+abundance
+age_length
+ageing
+ageing_error_matrix
+biomass
+cinitial
+data
+derived
+growth_basic
+initialisation_partition_mean_weight
+iterative
+maturation
+mortality_constant_rate
+mortality_event
+mortality_event_biomass
+mortality_holling_rate
+mortality_initialisation_event
+mortality_initialisation_event_biomass
+mortality_instantaneous
+mortality_instantaneous_retained
+mortality_prey_suitability
+none
+normal
+off_by_one
+partition
+partition_biomass
+partition_mean_weight
+partition_year_cross_age_matrix
+process_removals_by_age
+process_removals_by_age_retained
+process_removals_by_age_retained_total
+process_removals_by_length
+process_removals_by_length_retained
+process_removals_by_length_retained_total
+proportions_at_age
+proportions_at_length
+proportions_by_category
+proportions_mature_by_age
+proportions_migrating
+recruitment_beverton_holt
+recruitment_beverton_holt_with_deviations
+recruitment_constant
+schnute
+state_category_by_age
+survival_constant_rate
+tag_by_age
+tag_by_length
+tag_loss
+tag_recapture_by_age
+tag_recapture_by_length
+transition_category
+transition_category_by_age
+von_bertalanffy
+
+[Keywords 5]
+
+[Preprocessor keywords]
