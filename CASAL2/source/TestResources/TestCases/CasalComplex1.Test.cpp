@@ -35,7 +35,7 @@ TEST_F(InternalEmptyModel, Model_CasalComplex1_BasicRun) {
   model_->Start(RunMode::kBasic);
 
   ObjectiveFunction& obj_function = model_->objective_function();
-  EXPECT_DOUBLE_EQ(16420.532246424013, obj_function.score());
+  EXPECT_NEAR(16420.532246424013, obj_function.score(), 0.0000001);
 }
 
 /**
@@ -48,7 +48,7 @@ TEST_F(InternalEmptyModel, Model_CasalComplex1_Estimation) {
   model_->Start(RunMode::kEstimation);
 
   ObjectiveFunction& obj_function = model_->objective_function();
-  EXPECT_DOUBLE_EQ(464.40228291877639, obj_function.score());
+  EXPECT_NEAR(464.40228291877639, obj_function.score(), 0.0000001);
 }
 
 /**
