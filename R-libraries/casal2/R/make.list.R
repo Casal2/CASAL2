@@ -11,6 +11,8 @@ function(lines) {
         current_line = lines[line_no]
         type = get.line.type(current_line)
         label = get.line.label(current_line)
+        if (label == "type")
+          label = 
         if(type=="L") { # List
                next_no = line_no + 1
                test = 1
