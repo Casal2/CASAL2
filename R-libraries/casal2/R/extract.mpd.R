@@ -81,12 +81,10 @@ function (file, path = "",fileEncoding = "") {
               result[[label]][[as.character(length(result[[label]]))]][[as.character(report$year)]][["type"]] = NULL
               result[[label]][[as.character(length(result[[label]]))]][[as.character(report$year)]][["year"]] = NULL
               result[[label]][[as.character(length(result[[label]]))]][["type"]] = type
-
             } else {
               result[[label]][[as.character(length(result[[label]]))]][[as.character(report$year)]] = report
               result[[label]][[as.character(length(result[[label]]))]][[as.character(report$year)]][["type"]] = NULL
               result[[label]][[as.character(length(result[[label]]))]][[as.character(report$year)]][["year"]] = NULL
-              
             }
           } else {
             ## a simple report
@@ -95,9 +93,10 @@ function (file, path = "",fileEncoding = "") {
           file = get.lines(file, clip.to = "*end")
         } else {
           ## deal with the single input run.
-          if (type %in% multi_year_reports) {       
+          if (type %in% multi_year_reports) { 
             result[[label]][[as.character(report$year)]] = report
             result[[label]][[as.character(report$year)]][["type"]] = NULL;
+            result[[label]][[as.character(report$year)]][["year"]] = NULL;
             result[[label]][["type"]] = type
           } else {
             result[[label]] = report
