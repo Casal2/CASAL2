@@ -40,7 +40,17 @@ function (file, path = "",fileEncoding = "") {
     }
     temp = temp[is.odd(1:length(temp))]
     counter = length(temp)
-
+    ## iterate over all reports and see if this is a multi input run, this is identified by checking if -i in the header &
+    ## if ALL reports are duplicated. Some reports will be duplicated because they are year based reports
+    mult_input_run = FALSE;
+    if (grepl(pattern = "-i", x = file[2])) {
+      if (sum(!duplicated(temp)) == length(unique(temp))) {
+        mult_input_run = TRUE;
+        cat("loading a run from -i format\n")
+      }
+    }
+    
+    multi_year_reports = c("partition", "PartitionBiomass", "PartitionMeanWeight")
     result = list()
     for (i in 1:counter) {
         header = split.header(temp[i])
@@ -50,13 +60,50 @@ function (file, path = "",fileEncoding = "") {
         report = get.lines(report,clip.from = "*end")
         report = make.list(report)
         report$type = type
-        if (!is.in(label, names(result))) {       
-           result[[label]] = list()
-           result[[label]][["1"]] = report
+        if (mult_input_run) {
+          ## deal with the multi input run.
+          if (!is.in(label, names(result))) {
+            ## if first appearence of report register it as 1
+            result[[label]][["1"]] = list();
+            if (type %in% multi_year_reports) {
+              result[[label]][["1"]][[as.character(report$year)]] = report
+              result[[label]][["1"]][[as.character(report$year)]][["type"]] = NULL
+              result[[label]][["1"]][[as.character(report$year)]][["year"]] = NULL
+              
+              result[[label]][["1"]][["type"]] = type
+            } else {
+              result[[label]][["1"]] = report
+            }
+          } else if (is.in(label, names(result)) & type %in% multi_year_reports) {  
+            ## if we have seen this report find out if we are adding to -i or year
+            if (report$year %in% names(result[[label]][[as.character(length(result[[label]]))]])) {
+              result[[label]][[as.character(length(result[[label]])+1)]][[as.character(report$year)]] = report
+              result[[label]][[as.character(length(result[[label]]))]][[as.character(report$year)]][["type"]] = NULL
+              result[[label]][[as.character(length(result[[label]]))]][[as.character(report$year)]][["year"]] = NULL
+              result[[label]][[as.character(length(result[[label]]))]][["type"]] = type
+            } else {
+              result[[label]][[as.character(length(result[[label]]))]][[as.character(report$year)]] = report
+              result[[label]][[as.character(length(result[[label]]))]][[as.character(report$year)]][["type"]] = NULL
+              result[[label]][[as.character(length(result[[label]]))]][[as.character(report$year)]][["year"]] = NULL
+            }
+          } else {
+            ## a simple report
+            result[[label]][[as.character(length(result[[label]])+1)]] = report
+          }
+          file = get.lines(file, clip.to = "*end")
         } else {
-             result[[label]][[as.character(length(result[[label]])+1)]] = report
+          ## deal with the single input run.
+          if (type %in% multi_year_reports) { 
+            result[[label]][[as.character(report$year)]] = report
+            result[[label]][[as.character(report$year)]][["type"]] = NULL;
+            result[[label]][[as.character(report$year)]][["year"]] = NULL;
+            result[[label]][["type"]] = type
+          } else {
+            result[[label]] = report
+          }
+          file = get.lines(file, clip.to = "*end")
         }
-        file = get.lines(file, clip.to = "*end")
+
 
     } 
     result<-set.class(result,"casal2MPD")

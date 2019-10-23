@@ -71,11 +71,10 @@ type beverton_holt
 categories male female
 proportions 0.5 0.5
 r0 5e6
-age 3
 steepness 0.9
 ycs_values 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00
 ssb ssb
-ycs_years 1972:1999
+ycs_years 1973:2000
 standardise_ycs_years 1973:1999
 
 @mortality halfm
@@ -157,7 +156,7 @@ TEST_F(InternalEmptyModel, Observation_Proportions_At_Age_Single) {
   model_->Start(RunMode::kBasic);
 
   ObjectiveFunction& obj_function = model_->objective_function();
-  EXPECT_DOUBLE_EQ(242.70420164433611, obj_function.score());
+  EXPECT_DOUBLE_EQ(3.6934966255258015, obj_function.score());
 
   Observation* observation = model_->managers().observation()->GetObservation("observation");
 
@@ -169,33 +168,33 @@ TEST_F(InternalEmptyModel, Observation_Proportions_At_Age_Single) {
   ASSERT_EQ(13u, comparisons[year].size());
   EXPECT_EQ("male+female",                comparisons[year][0].category_);
   EXPECT_DOUBLE_EQ(1.399,                 comparisons[year][0].error_value_);
-  EXPECT_DOUBLE_EQ(0, comparisons[year][0].expected_);
+  EXPECT_DOUBLE_EQ(0.0070693859439931051, comparisons[year][0].expected_);
   EXPECT_DOUBLE_EQ(0.0241,                comparisons[year][0].observed_);
-  EXPECT_DOUBLE_EQ(240.56840045905705,    comparisons[year][0].score_);
+  EXPECT_DOUBLE_EQ(1.4828314527999307,    comparisons[year][0].score_);
 
   EXPECT_EQ("male+female",              comparisons[year][1].category_);
   EXPECT_DOUBLE_EQ(0.79500000000000004, comparisons[year][1].error_value_);
-  EXPECT_DOUBLE_EQ(0.012012717333534687,comparisons[year][1].expected_);
+  EXPECT_DOUBLE_EQ(0.011929133003193012,comparisons[year][1].expected_);
   EXPECT_DOUBLE_EQ(0.047300000000000002,comparisons[year][1].observed_);
-  EXPECT_DOUBLE_EQ(2.307067628174821,  comparisons[year][1].score_);
+  EXPECT_DOUBLE_EQ(2.3301453783481039,  comparisons[year][1].score_);
 
   EXPECT_EQ("male+female",              comparisons[year][2].category_);
   EXPECT_DOUBLE_EQ(0.76400000000000001, comparisons[year][2].error_value_);
-  EXPECT_DOUBLE_EQ(0.019998740797780443,comparisons[year][2].expected_);
+  EXPECT_DOUBLE_EQ(0.019859549506180636,comparisons[year][2].expected_);
   EXPECT_DOUBLE_EQ(0.0448,              comparisons[year][2].observed_);
-  EXPECT_DOUBLE_EQ(0.77965326111568212, comparisons[year][2].score_);
+  EXPECT_DOUBLE_EQ(0.79545078966102301, comparisons[year][2].score_);
 
   EXPECT_EQ("male+female",              comparisons[year][3].category_);
   EXPECT_DOUBLE_EQ(0.66300000000000003, comparisons[year][3].error_value_);
-  EXPECT_DOUBLE_EQ(0.032420722865177096,comparisons[year][3].expected_);
+  EXPECT_DOUBLE_EQ(0.032194953597210377,comparisons[year][3].expected_);
   EXPECT_DOUBLE_EQ(0.070999999999999994,comparisons[year][3].observed_);
-  EXPECT_DOUBLE_EQ(0.77591259580351335, comparisons[year][3].score_);
+  EXPECT_DOUBLE_EQ(0.79450847277003023, comparisons[year][3].score_);
 
   EXPECT_EQ("male+female",              comparisons[year][4].category_);
   EXPECT_DOUBLE_EQ(0.72399999999999998, comparisons[year][4].error_value_);
-  EXPECT_DOUBLE_EQ(0.050028329235357299,comparisons[year][4].expected_);
+  EXPECT_DOUBLE_EQ(0.049679597264279965,comparisons[year][4].expected_);
   EXPECT_DOUBLE_EQ(0.078,               comparisons[year][4].observed_);
-  EXPECT_DOUBLE_EQ(0.076720938255509741,comparisons[year][4].score_);
+  EXPECT_DOUBLE_EQ(0.087647827908079234,comparisons[year][4].score_);
 }
 
 const std::string test_cases_observation_proportions_at_age_double =
