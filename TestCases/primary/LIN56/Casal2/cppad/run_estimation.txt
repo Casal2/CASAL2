@@ -1,11 +1,11 @@
 CASAL2
 Call: ../../../../../BuildSystem/bin/linux/release_cppad/casal2 -e -o params_est.out 
-Date: Thu Oct  3 17:27:33 2019
-Version: 2019-09-26 21:41:20 UTC (rev. f668991)
+Date: Wed Oct 16 16:29:04 2019
+Version: 2019-10-15 03:38:10 UTC (rev. 6243738)
 Copyright (c) 2018 - 2019, NIWA (www.niwa.co.nz)
 -- Username: amart
--- Machine: niwa-1019055.niwa.local (Linux 3.10.0-957.27.2.el7.x86_64 x86_64)
--- Process Id: 869
+-- Machine: niwa-1019055.niwa.local (Linux 3.10.0-1062.1.2.el7.x86_64 x86_64)
+-- Process Id: 6647
 
 This is Ipopt version 3.12.4, running with linear solver mumps.
 NOTE: Other linear solvers might be more efficient (see Ipopt documentation).
@@ -73,8 +73,8 @@ Number of inequality constraint evaluations          = 43
 Number of equality constraint Jacobian evaluations   = 0
 Number of inequality constraint Jacobian evaluations = 28
 Number of Lagrangian Hessian evaluations             = 27
-Total CPU secs in IPOPT (w/o function evaluations)   =      0.166
-Total CPU secs in NLP function evaluations           =     76.189
+Total CPU secs in IPOPT (w/o function evaluations)   =      0.150
+Total CPU secs in NLP function evaluations           =     69.844
 
 EXIT: Optimal Solution Found.
 *initialisation_partition[Init]
@@ -3159,6 +3159,6 @@ warning_0 {s}
 estimated parameter 'selectivity[trwlFSel_m].sigma_r' was within 0.001 of its bound
 *end
 
-Total CPU time: 0.021 hours.
-Total elapsed time: 38 seconds
+Total CPU time: 0.019 hours.
+Total elapsed time: 35 seconds
 Completed

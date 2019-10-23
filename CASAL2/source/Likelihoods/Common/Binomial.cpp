@@ -76,12 +76,12 @@ void Binomial::SimulateObserved(map<unsigned, vector<observations::Comparison> >
   for (; iterator != comparisons.end(); ++iterator) {
     LOG_FINE() << "Simulating values for year: " << iterator->first;
     for (observations::Comparison& comparison : iterator->second) {
-      error_value = ceil(AS_DOUBLE(AdjustErrorValue(comparison.process_error_, comparison.error_value_)));
+      error_value = ceil(AS_VALUE(AdjustErrorValue(comparison.process_error_, comparison.error_value_)));
 
       if (comparison.expected_ <= 0.0 || error_value <= 0.0)
         comparison.observed_ = 0.0;
       else
-        comparison.observed_ = rng.binomial(AS_DOUBLE(comparison.expected_), AS_DOUBLE(error_value)) / error_value;
+        comparison.observed_ = rng.binomial(AS_VALUE(comparison.expected_), AS_VALUE(error_value)) / error_value;
 
       comparison.adjusted_error_ = error_value;
     }

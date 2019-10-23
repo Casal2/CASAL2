@@ -1,3 +1,0 @@
-Wed Sep 23 22:22:22 MDT 2009
-  m551.c: tweak for problems with many linear and no nonlinear
-constraints, so "superbasics_limit=nnn" will not be ignored.

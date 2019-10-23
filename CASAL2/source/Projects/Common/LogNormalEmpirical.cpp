@@ -47,10 +47,11 @@ void LogNormalEmpirical::DoReset() {
   utilities::RandomNumberGenerator& rng = utilities::RandomNumberGenerator::Instance();
   // Empirically calculate the years to sample from
   Double Random_draw = 0.0;
+  unsigned year = 0;
   for (unsigned project_year : years_) {
     Random_draw = ceil(rng.uniform((unsigned)start_year_, (unsigned)final_year_));
-    unsigned year = 0.0;
-    if (!utilities::To<Double, unsigned>(Random_draw, year))
+    year = 0;
+    if (!utilities::To<Double>(Random_draw, year))
       LOG_ERROR() << " Random Draw " << Random_draw << " Could not be converted from double to type unsigned";
     resampled_years_[project_year] = year;
     LOG_FINEST() << "Value from year: " << year << " used in projection year: " << project_year;
@@ -79,7 +80,7 @@ void LogNormalEmpirical::DoReset() {
     //if (parameters_.Get(PARAM_RHO)->has_been_defined()) {
     //  normal_draw_by_year_[project_year] = rng.normal(0.0, 1.0);
     //} else {
-    normal_draw_by_year_[project_year] = rng.normal(AS_DOUBLE(mean_), AS_DOUBLE(sigma_));
+    normal_draw_by_year_[project_year] = rng.normal(AS_VALUE(mean_), AS_VALUE(sigma_));
     //}
     LOG_FINEST() << "generated value = " << normal_draw_by_year_[project_year] << " to be applied in year " << project_year;
   }

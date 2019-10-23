@@ -1,9 +1,0 @@
-prefix=/home/amart/work/projects/CASAL2/dev/CASAL2/ThirdParty/cppad/Ipopt-releases-3.12.4
-libdir=/home/amart/work/projects/CASAL2/dev/CASAL2/ThirdParty/cppad/Ipopt-releases-3.12.4/ThirdParty/Metis
-
-Name: Metis
-Description: Serial Graph Partitioning and Fill-reducing Matrix Ordering
-URL: https://projects.coin-or.org/BuildTools
-Version: 1.2.10
-Libs: ${libdir}/libcoinmetis.la
-Cflags: -I/home/amart/work/projects/CASAL2/dev/CASAL2/ThirdParty/cppad/Ipopt-releases-3.12.4/ThirdParty/Metis/metis-4.0/Lib

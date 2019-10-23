@@ -1,14 +1,25 @@
 \section{Components of a model}\label{Sec:comp}
 
-Components of a model that are important to know before setting up a \CNAME\ model are, How many categories are in the partition, what processes occur to which categories in which order, where observations fit in to the model, and what the assumed state of the partition is before the model years run. \CNAME\ runs in yearly cycles each year is split up by time steps, So processes such as fishing and spawning seasons will have an effect on how to specify time steps and so will observations such as annual surveys. The next section runs through a very simple example.
+Components of a model that are important to know before setting up a \CNAME\ model are
 
-Identifying the partition is an important part and will be usually constrainded by the information available. Categories in the partition should be included if they have varying biological charateristics, or life-history traits. Some examples why you would have multiple categories in the partition.
+\begin{itemize}
+	\item how many categories are in the partition,
+	\item what processes occur to which categories in which order,
+	\item where observations fit in to the model, and
+	\item what the assumed state of the partition is before the model years run.
+\end{itemize}
 
-\begin{enumerate}
-	\item Varying growth
-	\item spatially, temporally varying exploitation (a fishery may target habitats physical characteristics that are more associated with some categories than others.)
-	\item Disproportional recruitment (60\% males 40\% females)
-	\item Tracking maturity
-	\item Tracking tagged fish - this related to observations
-\end{enumerate}
+\CNAME\ runs in annual cycles, and each year is split up into time steps. Time steps are used to specify when processes such as fishing and spawning seasons occur, as well as observations such as annual surveys.
+
+Identifying the partition is an important part of model development, and will be determined by the information available. Categories in the partition should be included if they have different biological characteristics or life history traits.
+
+Examples why a model may have multiple categories in the partition:
+
+\begin{itemize}
+	\item differences in growth among subgroups, e.g., sex- or area-specific growth
+	\item spatial or temporal differences in exploitation, e.g., a fishery may target characteristics that are associated with some subgroups
+	\item disproportionate recruitment (60\% males 40\% females)
+	\item tracking maturity
+	\item tracking tagged fish (this process is related to observations)
+\end{itemize}
 

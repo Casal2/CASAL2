@@ -1,2 +1,0 @@
-#define YYYYMMDD 20120720
-#define qYYYYMMDD "20120720"

@@ -79,15 +79,15 @@ void RecruitmentBevertonHoltWithDeviations::DoValidate() {
   LOG_TRACE();
   if (!parameters_.Get(PARAM_AGE)->has_been_defined()) {
     age_ = model_->min_age();
-  } else {
-    LOG_WARNING() << "You have supplied age = " << age_ << ", but the model min_age = " << model_->min_age() << ", please check this is what you want to do";
+  } else if (age_ != model_->min_age()) {
+    LOG_WARNING() << "You have supplied age = " << age_ << ", but the model min_age = " << model_->min_age() << ". Please check this is what you want to do";
   }
 
   if (parameters_.Get(PARAM_R0)->has_been_defined() & parameters_.Get(PARAM_B0)->has_been_defined())
     LOG_FATAL_P(PARAM_R0) << "Cannot specify both R0 and B0 in the model";
 
   if (!parameters_.Get(PARAM_R0)->has_been_defined() & !parameters_.Get(PARAM_B0)->has_been_defined())
-    LOG_FATAL() << "You need to specify either R0 or B0 to intialise the model with Beverton Holt recruitment";
+    LOG_FATAL() << "You need to specify either R0 or B0 to initialise the model with Beverton Holt recruitment";
 
   if (age_ < model_->min_age())
     LOG_ERROR_P(PARAM_AGE) << " (" << age_ << ") cannot be less than the model's min_age (" << model_->min_age() << ")";

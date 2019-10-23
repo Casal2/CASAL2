@@ -75,7 +75,7 @@ void LogNormal::SimulateObserved(map<unsigned, vector<observations::Comparison> 
         comparison.observed_ = comparison.delta_;
       else {
         LOG_FINEST() << "expected = " << comparison.expected_;
-        comparison.observed_ = rng.lognormal(AS_DOUBLE(comparison.expected_), AS_DOUBLE(error_value));
+        comparison.observed_ = rng.lognormal(AS_VALUE(comparison.expected_), AS_VALUE(error_value));
         LOG_FINEST() << "Simulated = " << comparison.observed_;
 
       }

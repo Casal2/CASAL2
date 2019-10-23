@@ -1,0 +1,11 @@
+version: '2.3'
+services:
+  r:
+      build:
+          context: .
+          target: developer
+      mem_limit: 6G
+      stdin_open: true
+      tty: true
+      command: [ "/bin/bash" ]
+

@@ -244,6 +244,7 @@ mortality_holling_rate
 mortality_initialisation_event
 mortality_initialisation_event_biomass
 mortality_instantaneous
+mortality_instantaneous_retained
 mortality_prey_suitability
 none
 normal
@@ -253,7 +254,11 @@ partition_biomass
 partition_mean_weight
 partition_year_cross_age_matrix
 process_removals_by_age
+process_removals_by_age_retained
+process_removals_by_age_retained_total
 process_removals_by_length
+process_removals_by_length_retained
+process_removals_by_length_retained_total
 proportions_at_age
 proportions_at_length
 proportions_by_category

@@ -38,6 +38,7 @@
 #include "Processes/Length/GrowthBasic.h"
 #include "Processes/Length/MortalityConstantRate.h"
 #include "Processes/Length/RecruitmentConstant.h"
+#include "Processes/Age/MortalityInstantaneousRetained.h"
 
 
 // Namespaces
@@ -99,6 +100,8 @@ Process* Factory::Create(Model* model, const string& object_type, const string& 
           result = new age::MortalityEventBiomass(model);
         else if (sub == PARAM_MORTALITY_INSTANTANEOUS)
           result = new age::MortalityInstantaneous(model);
+        else if (sub == PARAM_MORTALITY_INSTANTANEOUS_RETAINED)
+          result = new age::MortalityInstantaneousRetained(model);
         else if (sub == PARAM_MORTALITY_HOLLING_RATE)
           result = new age::MortalityHollingRate(model);
         else if (sub == PARAM_PREY_SUITABILITY_PREDATION)

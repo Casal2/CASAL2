@@ -1,0 +1,11 @@
+.git*
+.gitlab*
+.cproject
+.cache
+.project
+.settings
+nbproject
+cppcheck*
+Dockerfile
+docker*
+.dockerignore

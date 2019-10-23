@@ -10,31 +10,33 @@ EX_OK = getattr(os, "EX_OK", 0)
 
 class SystemInfo:
   # Variables
-  original_path_ = "" 
-    
+  original_path_ = ""
+
   # Constructor
   def __init__(self):
     print '--> Starting SystemInfo object'
     Globals.operating_system_ = sys.platform
     self.original_path_    = os.getenv('PATH')
-    
+
+    Globals.in_docker_ = os.getenv('DOCKER', '')
+
     if (Globals.operating_system_.startswith("linux")):
       Globals.operating_system_ = "linux"
     elif (Globals.operating_system_.startswith("darwin")):
       Globals.operating_system_ = "darwin"
     elif (Globals.operating_system_.startswith("win")):
       Globals.operating_system_ = "windows"
-      
+
     print "-- Configuring for Operating System: " + Globals.operating_system_
     cwd = os.path.normpath(os.getcwd())
     if (Globals.operating_system_ == "windows"):
       Globals.path_ += cwd + '\\buildtools\\windows\\unixutils;'
-      Globals.path_ += cwd + '\\buildtools\\windows\\cmake\\bin;'   
+      Globals.path_ += cwd + '\\buildtools\\windows\\cmake\\bin;'
       Globals.path_ += cwd + '\\buildtools\\windows\\Python27\\;'
       Globals.path_ += cwd + '\\bin\\' + Globals.operating_system_ + '\\release_betadiff;'
     else:
       Globals.path_ += cwd + '/bin/' + Globals.operating_system_ + '/release_betadiff'
-    
+
   def set_new_path(self):
     print "-- Overriding the system path with new values"
     if Globals.operating_system_ == "windows":
@@ -42,10 +44,10 @@ class SystemInfo:
     else:
       os.environ['PATH'] = Globals.path_ + ":" + self.original_path_
     print '-- New Path: ' + os.environ['PATH']
-    
+
   def reset_original_path(self):
     os.environ['PATH'] = self.original_path_
-    
+
   """
   This method will search the path for a specific EXE and then ensure we put it in to our
   path
@@ -56,9 +58,9 @@ class SystemInfo:
       os.system('rm -rf err.tmp')
       print '## ' + exe + ' not found in the current path'
       return ''
-      
+
     # Read path back from file
-    fi = fileinput.FileInput('which.tmp')    
+    fi = fileinput.FileInput('which.tmp')
     path = ''
     for line in fi:
         path = line
@@ -70,13 +72,13 @@ class SystemInfo:
     elif path != "":
       Globals.path_ = path + ":" + Globals.path_
 
-    os.system('rm -rf err.tmp')      
+    os.system('rm -rf err.tmp')
     if os.system('rm -rf which.tmp') != EX_OK:
       Globals.PrintError('Could not delete the temporary file "which.tmp". Do you have correct file system access?')
       return
-    
+
     return path
-  
+
   """
   This method will find the GCC Version
   """
@@ -93,6 +95,6 @@ class SystemInfo:
 
     Globals.compiler_version_ = pieces[0].lstrip().rstrip()
     print '--> Compiler Version: ' + Globals.compiler_version_
-    
+
     return True
-  
+

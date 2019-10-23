@@ -70,7 +70,7 @@ void RandomDraw::DoReset() {
   // Draw from the random distribution
   if (distribution_ == PARAM_NORMAL) {
     for (unsigned year : years_) {
-    new_value = rng.normal(AS_DOUBLE(mu_), AS_DOUBLE(sigma_));
+    new_value = rng.normal(AS_VALUE(mu_), AS_VALUE(sigma_));
     LOG_FINEST() << "with mean = " << mu_ << " and sigma = " << sigma_ << " new value = " << new_value;
     // Set value
     if (has_at_estimate_) {
@@ -92,7 +92,7 @@ void RandomDraw::DoReset() {
   } else if (distribution_ == PARAM_LOGNORMAL)  {
     for (unsigned year : years_) {
       Double cv = sigma_ / mu_;
-      new_value = rng.lognormal(AS_DOUBLE(mu_), AS_DOUBLE(cv));
+      new_value = rng.lognormal(AS_VALUE(mu_), AS_VALUE(cv));
       LOG_FINEST() << "with mean = " << mu_ << " and sigma = " << sigma_ << " new value = " << new_value;
       // Set value
       if (has_at_estimate_) {
