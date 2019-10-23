@@ -71,12 +71,11 @@ type beverton_holt
 categories male female
 proportions 0.5 0.5
 r0 5e6
-age 3
 steepness 0.9
 ycs_values 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00
 ssb ssb
-ycs_years 1972:1999
-standardise_ycs_years 1973:1999
+ycs_years 1973:2000
+standardise_ycs_years 1973:2000
 
 @mortality halfm
 type constant_rate
