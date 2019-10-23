@@ -50,8 +50,8 @@ class Builder:
     # Move our headers and libraries
     print '-- Moving headers and libraries'
     dir_util.copy_tree('cppad/include/cppad', Globals.target_include_path_ + '/cppad/')
-    dir_util.copy_tree('cppad/Ipopt-3.12.4/include/coin', Globals.target_include_path_ + '/coin/')
+    dir_util.copy_tree('cppad/Ipopt-releases-3.12.4/include/coin', Globals.target_include_path_ + '/coin/')
     for library in libraries:
-      shutil.copy('cppad/Ipopt-3.12.4/lib/' + library, Globals.target_special_lib_path_)    
+      shutil.copy('cppad/Ipopt-releases-3.12.4/lib/' + library, Globals.target_special_lib_path_)    
      
     return True
