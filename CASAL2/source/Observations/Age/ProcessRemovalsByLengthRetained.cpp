@@ -90,8 +90,10 @@ void ProcessRemovalsByLengthRetained::DoValidate() {
    */
   for (unsigned length = 0; length < length_bins_.size(); ++length) {
     if (length_bins_[length] < 0.0)
-      if (length_bins_[length] > length_bins_[length + 1])
-        LOG_ERROR_P(PARAM_LENGTH_BINS) << ": Length bins must be strictly increasing " << length_bins_[length] << " is greater than " << length_bins_[length + 1];
+      LOG_ERROR_P(PARAM_LENGTH_BINS) << ": Length bins must be positive: " << length_bins_[length] << " is less than 0.0";
+
+    if (length > 0 && length_bins_[length - 1] >= length_bins_[length])
+      LOG_ERROR_P(PARAM_LENGTH_BINS) << ": Length bins must be strictly increasing: " << length_bins_[length - 1] << " is greater than or equal to " << length_bins_[length];
   }
 
   // Check that length bins lie within range of model_->length_bins

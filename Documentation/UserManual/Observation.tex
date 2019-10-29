@@ -208,7 +208,7 @@ end_table
 
 
 \paragraph*{\I{Proportions-at-length}}
-Functionality regarding defining combinations of categories and aggregated categories directly translates over from proportions at age to proportions at length. The difference is the observation is over length bins instead of age-classes. \CNAME\ calculates expectations of numbers at length by converting numbers at age to numbers by length by using the age-length relationship and distribution specified for the category specified in the \command{age\_length} block. Instead of supplying a minimum and maximum age users must supply a vector of length bins. If there is no plus group, i.e., \texttt{length\_plus=false}, then \CNAME\ expects a vector of proportions for each year that is $n - 1$, where $n$ is the number of lengths supplied. If \texttt{length\_plus=true} \CNAME\ expects a vector of proportions for each year that is $n$. The last proportion represents the numbers from the last length bin to the maximum length the age-length relationship allows.
+Functionality regarding defining combinations of categories and aggregated categories directly translates over from proportions at age to proportions at length. The difference is the observation is over length bins instead of age-classes. \CNAME\ calculates expectations of numbers at length by converting numbers at age to numbers by length by using the age-length relationship and distribution specified for the category specified in the \command{age\_length} block. Instead of supplying a minimum and maximum age users must supply a vector of length bins. If there is no plus group, i.e., \texttt{length\_plus=false}, then \CNAME\ expects a vector of proportions for each year that is $n - 1$, where $n$ is the number of lengths supplied. If \texttt{length\_plus=true} then \CNAME\ expects a vector of proportions for each year that is $n$. The last proportion represents the numbers from the last length bin to the maximum length the age-length relationship allows.
 
 
 {\small{\begin{verbatim}
@@ -220,7 +220,7 @@ time_step Summer
 fishery EastChathamRise
 process instant_mort
 categories male
-length_plus_group false
+length_plus false
 length_bins 0 20 40 60 80 110
 table obs
 1991    0.2   0.25    0.15     0.2     0.2
@@ -463,7 +463,7 @@ type process_removals_by_length
 years  1993 1994 1995
 method_of_removal FishingEast
 mortality_instantaneous_process instant_mort
-length_plus_group false
+length_plus false
 length_bins 0 20 40 60 80 110
 delta 1e-5
 table obs
