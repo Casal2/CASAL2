@@ -5,7 +5,7 @@
  * @date 18/02/2015
  * @section LICENSE
  *
- * Copyright NIWA Science ©2015 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2015 - www.niwa.co.nz
  *
  * @section DESCRIPTION
  *
@@ -52,7 +52,7 @@ public:
   void                        CollapseAgeLengthDataToLength();
 
   void                        PopulateAgeLengthMatrix(Selectivity* selectivity);
-  void                        CalculateNumbersAtLength(Selectivity* selectivity, const vector<Double>& length_bins, vector<vector<Double>>& age_length_matrix, vector<Double>& numbers_by_length, const bool& length_plus_group);
+  void                        CalculateNumbersAtLength(Selectivity* selectivity, const vector<Double>& length_bins, vector<vector<Double>>& age_length_matrix, vector<Double>& numbers_by_length, const bool& length_plus);
 
 
   // accessors

@@ -5,7 +5,7 @@
  * @date 18/02/2015
  * @section LICENSE
  *
- * Copyright NIWA Science ©2015 - www.niwa.co.nz
+ * Copyright NIWA Science ï¿½2015 - www.niwa.co.nz
  */
 
 // headers
@@ -190,12 +190,12 @@ void Category::PopulateAgeLengthMatrix(Selectivity* selectivity) {
  * @parameter length_bins vector defining length bins
  * @parameter age_length_matrix an empty but has memory allocated matrix for using in the temporary transition
  * @parameter numbers_by_length_ vector that has allocated memory which stores the results
- * @parameter length_plus_group whether the last bin is a plus group
+ * @parameter length_plus whether the last bin is a plus group
 
  */
-void Category::CalculateNumbersAtLength(Selectivity* selectivity,const vector<Double>& length_bins, vector<vector<Double>>& age_length_matrix, vector<Double>& numbers_by_length, const bool& length_plus_group) {
+void Category::CalculateNumbersAtLength(Selectivity* selectivity,const vector<Double>& length_bins, vector<vector<Double>>& age_length_matrix, vector<Double>& numbers_by_length, const bool& length_plus) {
   // Probably should do some checks and balances, but I want to remove this later on
-  unsigned size = length_plus_group == true ? length_bins.size() : length_bins.size() - 1;
+  unsigned size = length_plus == true ? length_bins.size() : length_bins.size() - 1;
   Double std_dev = 0;
   if (age_length_matrix.size() == 0)
     LOG_CODE_ERROR() << "if (age_length_matrix.size() == 0)";
@@ -231,7 +231,7 @@ void Category::CalculateNumbersAtLength(Selectivity* selectivity,const vector<Do
       LOG_CODE_ERROR() << "(i >= age_length_matrix.size())";
 
     // populate age_length matrix with proportions
-    age_length_matrix[i] = utilities::math::distribution(length_bins, length_plus_group, age_length_->distribution(), mean_length_by_time_step_age_[year_ndx][time_step_index][i], std_dev);
+    age_length_matrix[i] = utilities::math::distribution(length_bins, length_plus, age_length_->distribution(), mean_length_by_time_step_age_[year_ndx][time_step_index][i], std_dev);
     if (age_length_matrix[i].size() != numbers_by_length.size())
       LOG_CODE_ERROR() << "if (age_length_matrix[i].size() != numbers_by_length.size()). Age length dims were " << age_length_matrix[i].size() << " we wanted " << numbers_by_length.size();
     // Multiply by data_
