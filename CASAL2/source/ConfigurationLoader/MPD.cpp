@@ -51,12 +51,18 @@ bool MPD::LoadFile(const string& file_name) {
   string line = "";
   if (!getline(file, line) || line == "")
     LOG_FATAL() << "MPD file appears to be empty, or the first line is blank. File: " << file_name;
+
+  boost::replace_all(line, "\t", " ");
+  boost::trim_all(line);
   if (line != "* MPD")
     LOG_FATAL() << "MPD first line should be '* MPD'. But it was " << line << " in file: " << file_name;
 
   // estimate_values line
   if (!getline(file, line) || line == "")
     LOG_FATAL() << "MPD file appears to be empty, or the first line is blank. File: " << file_name;
+
+  boost::replace_all(line, "\t", " ");
+  boost::trim_all(line);
   if (line != "estimate_values:")
     LOG_FATAL() << "MPD third line should be 'estimate_values:'. But it was " << line << " in file: " << file_name;
 
@@ -102,6 +108,8 @@ bool MPD::LoadFile(const string& file_name) {
   if (!getline(file, line) || line == "")
     LOG_FATAL() << "MPD file appears to be empty, or the covariance_matrix line is invalid. File: " << file_name;
 
+  boost::replace_all(line, "\t", " ");
+  boost::trim_all(line);
   if (line != "covariance_matrix:") {
     LOG_ERROR() << "Could not file 'covariance_matrix:' string in MPD file: " << file_name;
     return false;
