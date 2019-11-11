@@ -1,0 +1,566 @@
+CASAL2
+
+Input File Specification
+
+v2016.1
+
+Author:
+
+Scott Rasmussen
+
+Zaita
+
+scott.rasmussen@zaita.com
+
+# <span id="anchor"></span>Document History
+
+|         |                                                |             |            |
+| ------- | ---------------------------------------------- | ----------- | ---------- |
+| 1.0     | Initial version - Draft                        | S.Rasmussen | 20/11/2012 |
+| V2016.1 | Updated for CASAL2 information and actual func | S.Rasmussen | 20/01/2116 |
+|         |                                                |             |            |
+|         |                                                |             |            |
+
+# <span id="anchor-1"></span>File Format Overview
+
+The file format used for CASAL2 is based on the formats used for CASAL
+and SPM. It's a standard text file that contains definitions organised
+into blocks.
+
+Without exception, every object specfified in a configuration file is
+part of a block. At the top level blocks have a one-to-one relationships
+with components in the system.
+
+Example:
+
+<table>
+<tbody>
+<tr class="odd">
+<td><p>@block1 label</p>
+<p>parameter value</p>
+<p>parameter value_1 value 2</p>
+<p>@block2 label</p>
+<p>parameter value</p>
+<p>table table_name</p>
+<p>column_1 column_2</p>
+<p>data_1 data_2</p>
+<p>data_3 data_4</p>
+<p>end_table</p></td>
+</tr>
+</tbody>
+</table>
+
+Some general notes about writing configuration files:
+
+1.  1\. Whitespace can be used freely. Tabs and spaces are both accepted
+2.  2\. A block ends only at the beginning of a new block or end of
+    final configuration file
+3.  You can include another configuration file from anywhere
+4.  Included files are placed inline, so you can continue a block in a
+    new file
+5.  The configuration files support inline declarations of objects
+
+# <span id="anchor-2"></span>Keywords And Reserved Characters
+
+In order to allow efficient creation of input files CASAL2's file format
+contains special keywords and characters that cannot be used for labels
+etc.
+
+## '@' Block Definitions
+
+Every new block in the configuration file must start with a block
+definition character. The reserved character for this is the '@'
+character.
+
+Example:
+
+<table>
+<tbody>
+<tr class="odd">
+<td><p>@block1 &lt;label&gt;</p>
+<p>type &lt;type&gt;</p>
+<p>@block2 &lt;label&gt;</p>
+<p>type &lt;type&gt;</p></td>
+</tr>
+</tbody>
+</table>
+
+## 'Type' Keyword
+
+The 'type' keyword is used for declaring the sub-type of a defined
+block. Any block object that has multiple sub-types will use the type
+keyword.
+
+Example:
+
+<table>
+<tbody>
+<tr class="odd">
+<td><p>@block1 &lt;label&gt;</p>
+<p>type &lt;sub_type&gt;</p>
+<p>@block2 &lt;label&gt;</p>
+<p>type &lt;sub_type&gt;</p></td>
+</tr>
+</tbody>
+</table>
+
+## \# (Single-Line Comment)
+
+Comments are supported in the configuration file in either single-line
+(to end-of-line) or multi-line
+
+Example:
+
+<table>
+<tbody>
+<tr class="odd">
+<td><p>@block &lt;label&gt;</p>
+<p>type &lt;sub_type&gt; #Descriptive comment</p>
+<p>#parameter &lt;value_1&gt; – This whole line is commented out</p>
+<p>parameter &lt;value_1&gt; #&lt;value_2&gt;(value_2 is commented out)</p></td>
+</tr>
+</tbody>
+</table>
+
+## { } (Multi-Line Comment)
+
+Multiple line comments are supported by surrounding the comments in {
+and }
+
+Example:
+
+<table>
+<tbody>
+<tr class="odd">
+<td><p>@block &lt;label&gt;</p>
+<p>type &lt;sub_type&gt;</p>
+<p>parameter &lt;value_1&gt; </p>
+<p>parameter &lt;value_1&gt; &lt;value_2&gt;</p>
+<p>{ Do not load this process</p>
+<p>@block &lt;label&gt;</p>
+<p>type &lt;sub_type&gt;</p>
+<p>parameter &lt;value_1&gt;</p>
+<p>parameter &lt;value_1&gt; &lt;value_2&gt;</p>
+<p>}</p></td>
+</tr>
+</tbody>
+</table>
+
+## ':' (Range Specifier)
+
+The range specifier allows you to specify a range of values at once
+instead of having to input them manually. Ranges can be either
+incremental or decremental.
+
+Example:
+
+<table>
+<tbody>
+<tr class="odd">
+<td><p>@process my_recruitment_process</p>
+<p>type constant_recruitment</p>
+<p>years_to_run 1999:2009 #With range specifier</p>
+<p>@process my_mortality_process</p>
+<p>type natural_mortality</p>
+<p>years_to_run 2000 2001 2002 2003 2004 2005 2006 2007 #Without range specifier</p></td>
+</tr>
+</tbody>
+</table>
+
+## ',' (List Specifier)
+
+When a parameter supports multiple values in a single entry you can use
+the list specifier to supply multiple values as a single parameter.
+
+Example:
+
+<table>
+<tbody>
+<tr class="odd">
+<td><p>@categories</p>
+<p>format sex.stage</p>
+<p>names male,female.immature,mature #With list specifier</p>
+<p>@categories </p>
+<p>format sex.stage</p>
+<p>names male.immature male.mature female.immature female.mature #Without list specifier</p></td>
+</tr>
+</tbody>
+</table>
+
+## 'Table' and 'End\_Table' Keyword
+
+The table keyword is used to define a table of information used as a
+parameter. The line following the table declaration must contain a list
+of columns to be used.
+
+Following lines are rows of the table. Each row must have the same
+number of values as the number of columns specified.
+
+The table definition must end with the 'end\_table' keyword on it's own
+line.
+
+The first row of a table will be the name of the columns if required.
+
+Example:
+
+<table>
+<tbody>
+<tr class="odd">
+<td><p>@block &lt;label&gt;</p>
+<p>type &lt;sub_type&gt;</p>
+<p>parameter &lt;value_1&gt;</p>
+<p>table &lt;table_label&gt;</p>
+<p>&lt;column_1&gt; &lt;column_2&gt; &lt;column_n&gt;</p>
+<p>&lt;row1_value1&gt; &lt;row1_value2&gt; &lt;row1_valueN&gt;</p>
+<p>&lt;row2_value1&gt; &lt;row2_value2&gt; &lt;row2_valueN&gt;</p>
+<p>end_table</p></td>
+</tr>
+</tbody>
+</table>
+
+## \[ \] (Inline Declarations)
+
+When an object takes the label of a target object as a parameter this
+can be replaced with an inline declaration. An inline declaration is a
+complete declaration of an object one 1 line. This is designed to allow
+the configuration writer to simplify the configuration writing process.
+
+Example:
+
+<table>
+<tbody>
+<tr class="odd">
+<td><p>#With inline declaration with label specified for time step</p>
+<p>@model</p>
+<p>time_steps step_one=[type=iterative; processes=recruitment ageing]</p>
+<p>#With inline declaration with default label (model.1)</p>
+<p>@model</p>
+<p>time_steps [type=iterative; processes=recruitment ageing]</p>
+<p>#Without inline declaration</p>
+<p>@model</p>
+<p>time_steps step_one </p>
+<p>@time_step step_one</p>
+<p>processes recruitment ageing</p></td>
+</tr>
+</tbody>
+</table>
+
+# Categories
+
+# <span id="anchor-3"></span>The CASAL2 model is essentially a 2-dimensional model. The model partition is:
+
+# Categories x Ages/Lengths.
+
+#
+Each category supports the ability to have a different range of ages/lengths and accessibility during different time periods.
+
+#
+Because each category is quite complicated the syntax for defining categories has been structured to allow complex definitions using a simple short-hand structure.
+
+#
+
+# The “format” parameter allows you to tell the model the structure of the category labels. By using a “.” (period) character between each segment we can utilise this later in the model to do short-hand lookups of categories.
+
+#
+
+# The “names” parameter is a list of the category names. The syntax of these names will need to match the “format” parameter so CASAL2 can organise and search on them. Using the “list specifier” and range characters we can shorten this parameter significantly.
+
+Example:
+
+<table>
+<tbody>
+<tr class="odd">
+<td><p>@categories</p>
+<p>format sex.stage.tag</p>
+<p>names male.immature.notag male.immature.2001 male.mature.notag male.mature.2001</p>
+<p>names male.immature #Invalid: No tag information</p>
+<p>names female #Invalid: no stage of tag information</p>
+<p>names female.immature.notag.1 #Invalid: Extra format segment not defined</p>
+<p>names male,female.immature,mature.notag,2001:2005 #OK! </p>
+<p>#Without short-hand. You'd have to write:</p>
+<p>names male.immature.notag male.immature.2001 male.immature.2002 male.immature.2003 male.immature.2004 male.immature.2005 male.mature.notag male.mature.2001 male.mature.2002 male.mature.2003 male.mature.2004 male.mature.2005 female.immature.notag female.immature.2001 female.immature.2002 female.immature.2003 female.immature.2004 female.immature.2005 female.mature.notag female.mature.2001 female.mature.2002 female.mature.2003 female.mature.2004 female.mature.2005</p></td>
+</tr>
+</tbody>
+</table>
+
+When we have specific data for a year in a category we don't want the
+model to process this category during other years (or the initialisation
+stages). We can define a list of years where each category will be
+available, this will override the default of all years in the model. Any
+category where you overwrite the default will no longer be accessible in
+the initialisation phases.
+
+Examples:
+
+<table>
+<tbody>
+<tr class="odd">
+<td><p>@model</p>
+<p>start_year 1998</p>
+<p>final_year 2010</p>
+<p>@categories</p>
+<p>format sex.stage.tag</p>
+<p>names male,female.immature,mature.notag,2001:2005 #OK! </p>
+<p>years tag=2001=1999:2003 tag=2005=2003:2007 </p>
+<p># Categories with the tag value “2001” will be available during years 1999, 2000, 2001, 2002 and 2003</p>
+<p># Categories with the tag value “2005” will be available during the years 2003, 2004, 2005, 2006, 2007</p></td>
+</tr>
+</tbody>
+</table>
+
+Notes: Specifying a category more than once during this phase will cause
+an error
+
+## <span id="anchor-4"></span>Operating Systems
+
+# <span id="anchor-5"></span>Microsoft Windows 7 (x64)
+
+<span id="anchor-6"></span>OpenSuSe 11.4 Celadon (x86\_64)
+
+#
+
+## <span id="anchor-7"></span>Development Environment
+
+# Note: It is expected that during the development of CASAL II some of these tools/libraries will be upgraded to more current versions as they are released.
+
+### <span id="anchor-8"></span>Windows
+
+  - # <span id="anchor-9"></span>TDM-GCC 4.6 (<http://tdm-gcc.tdragon.net/> )
+
+  - # Notepad++ (<http://notepad-plus-plus.org/> )
+
+  - # AQTime3 – Profiling
+
+  - # AMD Code Analyst
+
+  - # AMD App Profiler
+
+    #
+
+### <span id="anchor-10"></span>Linux
+
+  - # <span id="anchor-11"></span>GCC/G++ 4.5.1
+
+  - # Valgrind
+
+    #
+
+### <span id="anchor-12"></span>Both
+
+  - # <span id="anchor-13"></span>Eclipse Indigo (<http://www.eclipse.org/> )
+
+  - # Boost 1.49.X (<http://www.boost.org/> )
+
+  - # CMake 2.8.X (<http://www.cmake.org/> )
+
+  - # CLANG (<http://clang.llvm.org/> )
+
+  - # GNU Debugger (GDB)
+
+#
+
+## <span id="anchor-14"></span>Coding Style
+
+# While it's going to be a step away from the style used for SPM, CASAL II will use the Google Coding style (<http://google-styleguide.googlecode.com/svn/trunk/cppguide.xml> ). Google provides a handy script to parse source code and highlight errors that do not match their coding style.
+
+#
+
+# Spelling of variable names, classes etc will all be done using British English.
+
+#
+
+# Note: The only deviation from this style is the use of \*.cpp instead of \*.cc for filename extensions.
+
+# <span id="anchor-15"></span>High-Level Design
+
+## <span id="anchor-16"></span>Level 0 Data-Flow-Diagram
+
+![](images/input_output.png)
+
+## <span id="anchor-17"></span>State-Transition Diagram
+
+![](images/state_flow.png)
+
+# State Descriptions
+
+## Initialise
+
+The initialise state is the creation of components and parsing of
+configuration files.
+
+Tasks completed:
+
+  - Parse command line
+  - Parse configuration file
+  - Load plugins
+  - Load estimate values from input files
+
+## Validate
+
+The validate state is used for checking user supplied options and
+parameters to ensure they fit within hard-limits imposed by the
+software.
+
+## Verify
+
+The verification state is used to check the loaded configuration against
+logical business rules. These are not hard-conditions imposed by the
+system, but more logical conditions to ensure the user's configuration
+file is going to produce a logical and useful result.
+
+The amount of verification done can be customised through the
+configuration file or command line options. This means verification is
+not forced, and can optionally be ignored.
+
+## Build
+
+The build phase is where the system will build relationships between
+objects that rely on each other. Because validation has been completed,
+each object in it's self-contained configuration is ok.
+
+This phase generally assigns values to shared\_ptrs\<\> for objects so
+they don't need to do lookups of objects during execution phases.
+
+## PreExecute
+
+The pre-execution phase is I don't know.
+
+## Execution
+
+Das
+
+## Finalise
+
+meh
+
+# <span id="anchor-18"></span>Software Components
+
+## <span id="anchor-19"></span>Utilities Library
+
+A stand-alone library for doing common functions within NIWA's modelling
+applications will be developed for CASAL II.
+
+This library will offer functionality like: Logging, Error handling,
+double comparison, vector/map manipulation, string manipulation.
+
+## <span id="anchor-20"></span>Configuration File Parser
+
+A stand-alone library for loading and parsing configuration files for
+NIWA's modelling applications will be developed for CASAL II. The code
+from this will be mostly inherited from SPM and Random Station, but will
+be largely re-factored to fit into a stand-alone library.
+
+## <span id="anchor-21"></span>Equation Parser
+
+CASAL II will use an open source equation parser with modifications to
+make it compatible with ADMB. It's likely that two equation parsers will
+exist within CASAL and a runtime decision will be made about which one
+to picked based on the runtime parameters.
+
+## <span id="anchor-22"></span>Minimisers
+
+CASAL II will support 3 minimisers natively,
+
+  - DE Solver
+  - GammaDiff
+  - ADMB
+
+While ADMB does need tight integration with CASAL II, the other 2
+minimisers do not. These minimisers will be extracted into seperate
+shared libraries and built as stand-alone components.
+
+## <span id="anchor-23"></span>State-Model
+
+As the state model for CASAL II is quite transferable across different
+modelling applications it will be also extracted into it's own
+stand-alone library.
+
+# <span id="anchor-24"></span>Plugin Architecture
+
+## <span id="anchor-25"></span>Dynamic-Library
+
+Developers with enough competence in C++ will be able to develop and
+load their own plugins by building shared-libraries and specifying the
+location of these within their configuration files.
+
+An expected inclusion section of someone's plugin would be:
+
+\#include \<niwa/casal/process.h\>
+
+\#include \<niwa/casal/selecvity.h\>
+
+class myNewProcess : public niwa::casal::process {
+
+public:
+
+void validate() { }
+
+void build() { }
+
+void execute() { }
+
+}
+
+*Difficulty for user to develop:* High
+
+*Execution speed:* Fast
+
+## <span id="anchor-26"></span>Command-Line Executable
+
+Some components of the application will be replacable with command line
+applications that take specific arguments and return a single result
+(e.g Selectivities/Layers).
+
+A specification will be developed to allow people to build and specify
+stand-alone executable based plugins for specific functionality within
+CASAL II.
+
+The upside to this approach is that the user can specify any type of
+executable they wish, developed in any language, including
+shell-scripts. The application will simply do an exec() call on that
+object and intepret the result.
+
+*Difficulty for user to develop:* Low
+
+*Execution speed:* Slow
+
+## <span id="anchor-27"></span>Equation Parser
+
+CASAL II will have an inbuilt equation parser for handling equations
+specified natively in the configuration file.
+
+A valid example equation would be: 3^x \* 2
+
+Where the user is able to bind 'x' to an internal parameter inside CASAL
+II.
+
+*Difficulty for user to develop:* Low
+
+*Execution speed:* Slow
+
+## <span id="anchor-28"></span>OpenCL Kernel
+
+Note: This method was investigated, but at this point in time will not
+persued. Keeping this information in here as a possible future expansion
+of the software.
+
+An OpenCL kernel is a small file containing a vectorised C++ snippet of
+code. When CASAL II starts it's able to load the kernel and compile it
+against either a GPU (when one is present) or a CPU.
+
+The speed benefits from using OpenCL on a GPU can be enormous because of
+it's natively ability to work with multi-dimensional sets of data. Other
+benefits are the ability to send someone a code-snippet and have CASAL
+II compile it on the fly for execution, so platform indepdence is not an
+issue.
+
+The major downsides to this approach are development architecture and
+difficulty. Developing an application around an OpenCL architecture
+either has to be very modular or completely ingrained in the
+application's structure. Difficulty in developing for OpenCL is very
+high, especially among people who are not familiar with C++ syntax or
+vector languages (e.g R/S+).
+
+*Difficulty for user to develop:* High
+
+Execution speed: Extremely Fast

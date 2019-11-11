@@ -82,32 +82,85 @@ v2016.1
 
 Author:
 
-Scott Rasmussen
+\emph{Scott Rasmussen}
 
-Zaita
+\emph{Zaita}
 
-scott.rasmussen@zaita.com
+\emph{scott.rasmussen@zaita.com}
+
+Table of Contents
+
+\protect\hyperlink{document-history}{Document History 3}
+
+\protect\hyperlink{file-format-overview}{CASAL II Overview 3}
+
+\protect\hyperlink{keywords-and-reserved-characters}{Supported Software
+Requirements 3}
+
+\protect\hyperlink{__RefHeading__140_571873561}{Development Environment
+4}
+
+\protect\hyperlink{operating-systems}{Operating Systems 4}
+
+\protect\hyperlink{development-environment}{Development Environment 4}
+
+\protect\hyperlink{windows}{Windows 4}
+
+\protect\hyperlink{linux}{Linux 4}
+
+\protect\hyperlink{both}{Both 4}
+
+\protect\hyperlink{coding-style}{Coding Style 4}
+
+\protect\hyperlink{high-level-design}{High-Level Design 5}
+
+\protect\hyperlink{level-0-data-flow-diagram}{Level 0 Data-Flow-Diagram
+5}
+
+\protect\hyperlink{state-transition-diagram}{State-Transition Diagram 5}
+
+\protect\hyperlink{software-components}{Software Components 6}
+
+\protect\hyperlink{utilities-library}{Utilities Library 6}
+
+\protect\hyperlink{configuration-file-parser}{Configuration File Parser
+6}
+
+\protect\hyperlink{equation-parser}{Equation Parser 6}
+
+\protect\hyperlink{minimisers}{Minimisers 6}
+
+\protect\hyperlink{state-model}{State-Model 6}
+
+\protect\hyperlink{plugin-architecture}{Plugin Architecture 7}
+
+\protect\hyperlink{dynamic-library}{Dynamic-Library 7}
+
+\protect\hyperlink{command-line-executable}{Command-Line Executable 7}
+
+\protect\hyperlink{equation-parser-1}{Equation Parser 7}
+
+\protect\hyperlink{opencl-kernel}{OpenCL Kernel 8}
 
 \hypertarget{document-history}{%
-\section[Document
-History]{\texorpdfstring{\protect\hypertarget{anchor}{}{}Document
-History}{Document History}}\label{document-history}}
+\section{Document History}\label{document-history}}
 
 \begin{longtable}[]{@{}llll@{}}
 \toprule
 \endhead
-1.0 & Initial version - Draft & S.Rasmussen & 20/11/2012\tabularnewline
-V2016.1 & Updated for CASAL2 information and actual func & S.Rasmussen &
-20/01/2116\tabularnewline
+Version & Description & Author & Date\tabularnewline
+1.0 & \emph{Initial version - Draft} & S.Rasmussen &
+20/11/2012\tabularnewline
+V2016.1 & \emph{Updated for CASAL2 information and actual func} &
+S.Rasmussen & 20/01/2116\tabularnewline
 & & &\tabularnewline
 & & &\tabularnewline
 \bottomrule
 \end{longtable}
 
 \hypertarget{file-format-overview}{%
-\section[File Format
-Overview]{\texorpdfstring{\protect\hypertarget{anchor-1}{}{}File Format
-Overview}{File Format Overview}}\label{file-format-overview}}
+\section{\texorpdfstring{File Format Overview
+}{File Format Overview }}\label{file-format-overview}}
 
 The file format used for CASAL2 is based on the formats used for CASAL
 and SPM. It's a standard text file that contains definitions organised
@@ -150,7 +203,6 @@ Some general notes about writing configuration files:
 
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi}.}
-\tightlist
 \item
   1. Whitespace can be used freely. Tabs and spaces are both accepted
 \item
@@ -166,10 +218,8 @@ Some general notes about writing configuration files:
 \end{enumerate}
 
 \hypertarget{keywords-and-reserved-characters}{%
-\section[Keywords And Reserved
-Characters]{\texorpdfstring{\protect\hypertarget{anchor-2}{}{}Keywords
-And Reserved
-Characters}{Keywords And Reserved Characters}}\label{keywords-and-reserved-characters}}
+\section{Keywords And Reserved
+Characters}\label{keywords-and-reserved-characters}}
 
 In order to allow efficient creation of input files CASAL2's file format
 contains special keywords and characters that cannot be used for labels
@@ -427,51 +477,34 @@ processes recruitment ageing\strut
 \bottomrule
 \end{longtable}
 
-\hypertarget{categories}{%
-\section{Categories}\label{categories}}
+\begin{enumerate}
+\setcounter{enumi}{3}
+\item ~
+  \hypertarget{categories}{%
+  \section{Categories}\label{categories}}
 
-\hypertarget{the-casal2-model-is-essentially-a-2-dimensional-model.-the-model-partition-is}{%
-\section[The CASAL2 model is essentially a 2-dimensional model. The
-model partition
-is:]{\texorpdfstring{\protect\hypertarget{anchor-3}{}{}The CASAL2 model
-is essentially a 2-dimensional model. The model partition
-is:}{The CASAL2 model is essentially a 2-dimensional model. The model partition is:}}\label{the-casal2-model-is-essentially-a-2-dimensional-model.-the-model-partition-is}}
+  The CASAL2 model is essentially a 2-dimensional model. The model
+  partition is:
 
-\hypertarget{categories-x-ageslengths.}{%
-\section{Categories x Ages/Lengths.}\label{categories-x-ageslengths.}}
+  Categories x Ages/Lengths.
 
-\hypertarget{each-category-supports-the-ability-to-have-a-different-range-of-ageslengths-and-accessibility-during-different-time-periods.}{%
-\section{\texorpdfstring{\hfill\break
-Each category supports the ability to have a different range of
-ages/lengths and accessibility during different time
-periods.}{ Each category supports the ability to have a different range of ages/lengths and accessibility during different time periods.}}\label{each-category-supports-the-ability-to-have-a-different-range-of-ageslengths-and-accessibility-during-different-time-periods.}}
+  Each category supports the ability to have a different range of
+  ages/lengths and accessibility during different time periods.
 
-\hypertarget{because-each-category-is-quite-complicated-the-syntax-for-defining-categories-has-been-structured-to-allow-complex-definitions-using-a-simple-short-hand-structure.}{%
-\section{\texorpdfstring{\hfill\break
-Because each category is quite complicated the syntax for defining
-categories has been structured to allow complex definitions using a
-simple short-hand
-structure.}{ Because each category is quite complicated the syntax for defining categories has been structured to allow complex definitions using a simple short-hand structure.}}\label{because-each-category-is-quite-complicated-the-syntax-for-defining-categories-has-been-structured-to-allow-complex-definitions-using-a-simple-short-hand-structure.}}
+  Because each category is quite complicated the syntax for defining
+  categories has been structured to allow complex definitions using a
+  simple short-hand structure.
 
-\hypertarget{section}{%
-\section{}\label{section}}
+  The ``format'' parameter allows you to tell the model the structure of
+  the category labels. By using a ``.'' (period) character between each
+  segment we can utilise this later in the model to do short-hand
+  lookups of categories.
 
-\hypertarget{the-format-parameter-allows-you-to-tell-the-model-the-structure-of-the-category-labels.-by-using-a-.-period-character-between-each-segment-we-can-utilise-this-later-in-the-model-to-do-short-hand-lookups-of-categories.}{%
-\section{The ``format'' parameter allows you to tell the model the
-structure of the category labels. By using a ``.'' (period) character
-between each segment we can utilise this later in the model to do
-short-hand lookups of
-categories.}\label{the-format-parameter-allows-you-to-tell-the-model-the-structure-of-the-category-labels.-by-using-a-.-period-character-between-each-segment-we-can-utilise-this-later-in-the-model-to-do-short-hand-lookups-of-categories.}}
-
-\hypertarget{section-1}{%
-\section{}\label{section-1}}
-
-\hypertarget{the-names-parameter-is-a-list-of-the-category-names.-the-syntax-of-these-names-will-need-to-match-the-format-parameter-so-casal2-can-organise-and-search-on-them.-using-the-list-specifier-and-range-characters-we-can-shorten-this-parameter-significantly.}{%
-\section{The ``names'' parameter is a list of the category names. The
-syntax of these names will need to match the ``format'' parameter so
-CASAL2 can organise and search on them. Using the ``list specifier'' and
-range characters we can shorten this parameter
-significantly.}\label{the-names-parameter-is-a-list-of-the-category-names.-the-syntax-of-these-names-will-need-to-match-the-format-parameter-so-casal2-can-organise-and-search-on-them.-using-the-list-specifier-and-range-characters-we-can-shorten-this-parameter-significantly.}}
+  The ``names'' parameter is a list of the category names. The syntax of
+  these names will need to match the ``format'' parameter so CASAL2 can
+  organise and search on them. Using the ``list specifier'' and range
+  characters we can shorten this parameter significantly.
+\end{enumerate}
 
 Example:
 
@@ -516,7 +549,7 @@ available, this will override the default of all years in the model. Any
 category where you overwrite the default will no longer be accessible in
 the initialisation phases.
 
-Examples:
+\emph{Examples:}
 
 \begin{longtable}[]{@{}l@{}}
 \toprule
@@ -545,166 +578,137 @@ years 2003, 2004, 2005, 2006, 2007\strut
 \bottomrule
 \end{longtable}
 
-Notes: Specifying a category more than once during this phase will cause
-an error
+\emph{Notes: Specifying a category more than once during this phase will
+cause an error}
 
-\hypertarget{operating-systems}{%
-\subsection[Operating
-Systems]{\texorpdfstring{\protect\hypertarget{anchor-4}{}{}Operating
-Systems}{Operating Systems}}\label{operating-systems}}
+\begin{enumerate}
+\item ~
+  \hypertarget{operating-systems}{%
+  \subsection{Operating Systems}\label{operating-systems}}
 
-\hypertarget{microsoft-windows-7-x64}{%
-\section[Microsoft Windows 7
-(x64)]{\texorpdfstring{\protect\hypertarget{anchor-5}{}{}Microsoft
-Windows 7
-(x64)}{Microsoft Windows 7 (x64)}}\label{microsoft-windows-7-x64}}
+  Microsoft Windows 7 (x64)
+\end{enumerate}
 
-\protect\hypertarget{anchor-6}{}{}OpenSuSe 11.4 Celadon (x86\_64)
+OpenSuSe 11.4 Celadon (x86\_64)
 
-\hypertarget{section-2}{%
-\section{}\label{section-2}}
+\begin{enumerate}
+\setcounter{enumi}{1}
+\item ~
+  \hypertarget{development-environment}{%
+  \subsection{Development Environment}\label{development-environment}}
 
-\hypertarget{development-environment}{%
-\subsection[Development
-Environment]{\texorpdfstring{\protect\hypertarget{anchor-7}{}{}Development
-Environment}{Development Environment}}\label{development-environment}}
+  \emph{Note: It is expected that during the development of CASAL II
+  some of these tools/libraries will be upgraded to more current
+  versions as they are released.}
 
-\hypertarget{note-it-is-expected-that-during-the-development-of-casal-ii-some-of-these-toolslibraries-will-be-upgraded-to-more-current-versions-as-they-are-released.}{%
-\section{Note: It is expected that during the development of CASAL II
-some of these tools/libraries will be upgraded to more current versions
-as they are
-released.}\label{note-it-is-expected-that-during-the-development-of-casal-ii-some-of-these-toolslibraries-will-be-upgraded-to-more-current-versions-as-they-are-released.}}
-
-\hypertarget{windows}{%
-\subsubsection[Windows]{\texorpdfstring{\protect\hypertarget{anchor-8}{}{}Windows}{Windows}}\label{windows}}
+  \begin{enumerate}
+  \item ~
+    \hypertarget{windows}{%
+    \subsubsection{Windows}\label{windows}}
+  \end{enumerate}
+\end{enumerate}
 
 \begin{itemize}
-\item ~
-  \hypertarget{tdm-gcc-4.6-httptdm-gcc.tdragon.net}{%
-  \section[TDM-GCC 4.6 (\url{http://tdm-gcc.tdragon.net/}
-  )]{\texorpdfstring{\protect\hypertarget{anchor-9}{}{}TDM-GCC 4.6
-  (\url{http://tdm-gcc.tdragon.net/}
-  )}{TDM-GCC 4.6 (http://tdm-gcc.tdragon.net/ )}}\label{tdm-gcc-4.6-httptdm-gcc.tdragon.net}}
-\item ~
-  \hypertarget{notepad-httpnotepad-plus-plus.org}{%
-  \section{\texorpdfstring{Notepad++
-  (\url{http://notepad-plus-plus.org/}
-  )}{Notepad++ (http://notepad-plus-plus.org/ )}}\label{notepad-httpnotepad-plus-plus.org}}
-\item ~
-  \hypertarget{aqtime3-profiling}{%
-  \section{AQTime3 -- Profiling}\label{aqtime3-profiling}}
-\item ~
-  \hypertarget{amd-code-analyst}{%
-  \section{AMD Code Analyst}\label{amd-code-analyst}}
-\item ~
-  \hypertarget{amd-app-profiler}{%
-  \section{AMD App Profiler}\label{amd-app-profiler}}
+\item
+  TDM-GCC 4.6
+  (\href{http://tdm-gcc.tdragon.net/}{{http://tdm-gcc.tdragon.net/}} )
+\item
+  Notepad++
+  (\href{http://notepad-plus-plus.org/}{{http://notepad-plus-plus.org/}}
+  )
+\item
+  AQTime3 -- Profiling
+\item
+  AMD Code Analyst
+\item
+  AMD App Profiler
 
-  \hypertarget{section-3}{%
-  \section{}\label{section-3}}
+  \begin{enumerate}
+  \item ~
+    \hypertarget{linux}{%
+    \subsubsection{Linux}\label{linux}}
+  \end{enumerate}
 \end{itemize}
-
-\hypertarget{linux}{%
-\subsubsection[Linux]{\texorpdfstring{\protect\hypertarget{anchor-10}{}{}Linux}{Linux}}\label{linux}}
 
 \begin{itemize}
-\item ~
-  \hypertarget{gccg-4.5.1}{%
-  \section[GCC/G++
-  4.5.1]{\texorpdfstring{\protect\hypertarget{anchor-11}{}{}GCC/G++
-  4.5.1}{GCC/G++ 4.5.1}}\label{gccg-4.5.1}}
-\item ~
-  \hypertarget{valgrind}{%
-  \section{Valgrind}\label{valgrind}}
+\item
+  GCC/G++ 4.5.1
+\item
+  Valgrind
 
-  \hypertarget{section-4}{%
-  \section{}\label{section-4}}
+  \begin{enumerate}
+  \item ~
+    \hypertarget{both}{%
+    \subsubsection{Both}\label{both}}
+  \end{enumerate}
 \end{itemize}
-
-\hypertarget{both}{%
-\subsubsection[Both]{\texorpdfstring{\protect\hypertarget{anchor-12}{}{}Both}{Both}}\label{both}}
 
 \begin{itemize}
-\item ~
-  \hypertarget{eclipse-indigo-httpwww.eclipse.org}{%
-  \section[Eclipse Indigo (\url{http://www.eclipse.org/}
-  )]{\texorpdfstring{\protect\hypertarget{anchor-13}{}{}Eclipse Indigo
-  (\url{http://www.eclipse.org/}
-  )}{Eclipse Indigo (http://www.eclipse.org/ )}}\label{eclipse-indigo-httpwww.eclipse.org}}
-\item ~
-  \hypertarget{boost-1.49.x-httpwww.boost.org}{%
-  \section{\texorpdfstring{Boost 1.49.X (\url{http://www.boost.org/}
-  )}{Boost 1.49.X (http://www.boost.org/ )}}\label{boost-1.49.x-httpwww.boost.org}}
-\item ~
-  \hypertarget{cmake-2.8.x-httpwww.cmake.org}{%
-  \section{\texorpdfstring{CMake 2.8.X (\url{http://www.cmake.org/}
-  )}{CMake 2.8.X (http://www.cmake.org/ )}}\label{cmake-2.8.x-httpwww.cmake.org}}
-\item ~
-  \hypertarget{clang-httpclang.llvm.org}{%
-  \section{\texorpdfstring{CLANG (\url{http://clang.llvm.org/}
-  )}{CLANG (http://clang.llvm.org/ )}}\label{clang-httpclang.llvm.org}}
-\item ~
-  \hypertarget{gnu-debugger-gdb}{%
-  \section{GNU Debugger (GDB)}\label{gnu-debugger-gdb}}
+\item
+  Eclipse Indigo
+  (\href{http://www.eclipse.org/}{{http://www.eclipse.org/}} )
+\item
+  Boost 1.49.X (\href{http://www.boost.org/}{{http://www.boost.org/}} )
+\item
+  CMake 2.8.X (\href{http://www.cmake.org/}{{http://www.cmake.org/}} )
+\item
+  CLANG (\href{http://clang.llvm.org/}{{http://clang.llvm.org/}} )
+\item
+  GNU Debugger (GDB)
+
+  \begin{enumerate}
+  \item ~
+    \hypertarget{coding-style}{%
+    \subsection{Coding Style}\label{coding-style}}
+
+    While it's going to be a step away from the style used for SPM,
+    CASAL II will use the Google Coding style
+    (\href{http://google-styleguide.googlecode.com/svn/trunk/cppguide.xml}{{http://google-styleguide.googlecode.com/svn/trunk/cppguide.xml}}
+    ). Google provides a handy script to parse source code and highlight
+    errors that do not match their coding style.
+
+    Spelling of variable names, classes etc will all be done using
+    British English.
+
+    \emph{Note: The only deviation from this style is the use of *.cpp
+    instead of *.cc for filename extensions.}
+  \end{enumerate}
 \end{itemize}
 
-\hypertarget{section-5}{%
-\section{}\label{section-5}}
+\begin{enumerate}
+\setcounter{enumi}{4}
+\item ~
+  \hypertarget{high-level-design}{%
+  \section{\texorpdfstring{\textbf{High-Level
+  Design}}{High-Level Design}}\label{high-level-design}}
 
-\hypertarget{coding-style}{%
-\subsection[Coding
-Style]{\texorpdfstring{\protect\hypertarget{anchor-14}{}{}Coding
-Style}{Coding Style}}\label{coding-style}}
+  \begin{enumerate}
+  \item ~
+    \hypertarget{level-0-data-flow-diagram}{%
+    \subsection{Level 0
+    Data-Flow-Diagram}\label{level-0-data-flow-diagram}}
+  \end{enumerate}
+\end{enumerate}
 
-\hypertarget{while-its-going-to-be-a-step-away-from-the-style-used-for-spm-casal-ii-will-use-the-google-coding-style-httpgoogle-styleguide.googlecode.comsvntrunkcppguide.xml-.-google-provides-a-handy-script-to-parse-source-code-and-highlight-errors-that-do-not-match-their-coding-style.}{%
-\section{\texorpdfstring{While it's going to be a step away from the
-style used for SPM, CASAL II will use the Google Coding style
-(\url{http://google-styleguide.googlecode.com/svn/trunk/cppguide.xml} ).
-Google provides a handy script to parse source code and highlight errors
-that do not match their coding
-style.}{While it's going to be a step away from the style used for SPM, CASAL II will use the Google Coding style (http://google-styleguide.googlecode.com/svn/trunk/cppguide.xml ). Google provides a handy script to parse source code and highlight errors that do not match their coding style.}}\label{while-its-going-to-be-a-step-away-from-the-style-used-for-spm-casal-ii-will-use-the-google-coding-style-httpgoogle-styleguide.googlecode.comsvntrunkcppguide.xml-.-google-provides-a-handy-script-to-parse-source-code-and-highlight-errors-that-do-not-match-their-coding-style.}}
-
-\hypertarget{section-6}{%
-\section{}\label{section-6}}
-
-\hypertarget{spelling-of-variable-names-classes-etc-will-all-be-done-using-british-english.}{%
-\section{\texorpdfstring{Spelling of variable names, classes etc will
-all be done using British English.
-}{Spelling of variable names, classes etc will all be done using British English. }}\label{spelling-of-variable-names-classes-etc-will-all-be-done-using-british-english.}}
-
-\hypertarget{section-7}{%
-\section{}\label{section-7}}
-
-\hypertarget{note-the-only-deviation-from-this-style-is-the-use-of-.cpp-instead-of-.cc-for-filename-extensions.}{%
-\section{Note: The only deviation from this style is the use of *.cpp
-instead of *.cc for filename
-extensions.}\label{note-the-only-deviation-from-this-style-is-the-use-of-.cpp-instead-of-.cc-for-filename-extensions.}}
-
-\hypertarget{high-level-design}{%
-\section[High-Level
-Design]{\texorpdfstring{\protect\hypertarget{anchor-15}{}{}High-Level
-Design}{High-Level Design}}\label{high-level-design}}
-
-\hypertarget{level-0-data-flow-diagram}{%
-\subsection[Level 0
-Data-Flow-Diagram]{\texorpdfstring{\protect\hypertarget{anchor-16}{}{}Level
-0
-Data-Flow-Diagram}{Level 0 Data-Flow-Diagram}}\label{level-0-data-flow-diagram}}
-
-%\includegraphics[width=6.6929in,height=2.8811in]{Pictures/10000000000002D700000139939F451210178B33.png}
+\includegraphics[width=6.0in,height=2.5in]{images/input_output.png}
 
 \hypertarget{state-transition-diagram}{%
-\subsection[State-Transition
-Diagram]{\texorpdfstring{\protect\hypertarget{anchor-17}{}{}State-Transition
-Diagram}{State-Transition Diagram}}\label{state-transition-diagram}}
+\subsection{State-Transition Diagram}\label{state-transition-diagram}}
 
-%\includegraphics[width=6.6929in,height=4.1252in]{Pictures/10000000000003AD00000244E198C8F6A5A56890.png}
+\includegraphics[width=6.0in,height=4.0in]{images/state_flow.png}
 
-\hypertarget{state-descriptions}{%
-\section{State Descriptions}\label{state-descriptions}}
+\begin{enumerate}
+\setcounter{enumi}{5}
+\item ~
+  \hypertarget{state-descriptions}{%
+  \section{State Descriptions}\label{state-descriptions}}
 
-\hypertarget{initialise}{%
-\subsection{Initialise}\label{initialise}}
+  \begin{enumerate}
+  \item ~
+    \hypertarget{initialise}{%
+    \subsection{Initialise}\label{initialise}}
+  \end{enumerate}
+\end{enumerate}
 
 The initialise state is the creation of components and parsing of
 configuration files.
@@ -712,7 +716,6 @@ configuration files.
 Tasks completed:
 
 \begin{itemize}
-\tightlist
 \item
   Parse command line
 \item
@@ -721,10 +724,13 @@ Tasks completed:
   Load plugins
 \item
   Load estimate values from input files
-\end{itemize}
 
-\hypertarget{validate}{%
-\subsection{Validate}\label{validate}}
+  \begin{enumerate}
+  \item ~
+    \hypertarget{validate}{%
+    \subsection{Validate}\label{validate}}
+  \end{enumerate}
+\end{itemize}
 
 The validate state is used for checking user supplied options and
 parameters to ensure they fit within hard-limits imposed by the
@@ -768,15 +774,18 @@ Das
 
 meh
 
-\hypertarget{software-components}{%
-\section[Software
-Components]{\texorpdfstring{\protect\hypertarget{anchor-18}{}{}Software
-Components}{Software Components}}\label{software-components}}
+\begin{enumerate}
+\setcounter{enumi}{6}
+\item ~
+  \hypertarget{software-components}{%
+  \section{Software Components}\label{software-components}}
 
-\hypertarget{utilities-library}{%
-\subsection[Utilities
-Library]{\texorpdfstring{\protect\hypertarget{anchor-19}{}{}Utilities
-Library}{Utilities Library}}\label{utilities-library}}
+  \begin{enumerate}
+  \item ~
+    \hypertarget{utilities-library}{%
+    \subsection{Utilities Library}\label{utilities-library}}
+  \end{enumerate}
+\end{enumerate}
 
 A stand-alone library for doing common functions within NIWA's modelling
 applications will be developed for CASAL II.
@@ -785,10 +794,7 @@ This library will offer functionality like: Logging, Error handling,
 double comparison, vector/map manipulation, string manipulation.
 
 \hypertarget{configuration-file-parser}{%
-\subsection[Configuration File
-Parser]{\texorpdfstring{\protect\hypertarget{anchor-20}{}{}Configuration
-File
-Parser}{Configuration File Parser}}\label{configuration-file-parser}}
+\subsection{Configuration File Parser}\label{configuration-file-parser}}
 
 A stand-alone library for loading and parsing configuration files for
 NIWA's modelling applications will be developed for CASAL II. The code
@@ -796,9 +802,7 @@ from this will be mostly inherited from SPM and Random Station, but will
 be largely re-factored to fit into a stand-alone library.
 
 \hypertarget{equation-parser}{%
-\subsection[Equation
-Parser]{\texorpdfstring{\protect\hypertarget{anchor-21}{}{}Equation
-Parser}{Equation Parser}}\label{equation-parser}}
+\subsection{Equation Parser}\label{equation-parser}}
 
 CASAL II will use an open source equation parser with modifications to
 make it compatible with ADMB. It's likely that two equation parsers will
@@ -806,12 +810,11 @@ exist within CASAL and a runtime decision will be made about which one
 to picked based on the runtime parameters.
 
 \hypertarget{minimisers}{%
-\subsection[Minimisers]{\texorpdfstring{\protect\hypertarget{anchor-22}{}{}Minimisers}{Minimisers}}\label{minimisers}}
+\subsection{Minimisers}\label{minimisers}}
 
 CASAL II will support 3 minimisers natively,
 
 \begin{itemize}
-\tightlist
 \item
   DE Solver
 \item
@@ -825,19 +828,24 @@ minimisers do not. These minimisers will be extracted into seperate
 shared libraries and built as stand-alone components.
 
 \hypertarget{state-model}{%
-\subsection[State-Model]{\texorpdfstring{\protect\hypertarget{anchor-23}{}{}State-Model}{State-Model}}\label{state-model}}
+\subsection{State-Model}\label{state-model}}
 
 As the state model for CASAL II is quite transferable across different
 modelling applications it will be also extracted into it's own
 stand-alone library.
 
-\hypertarget{plugin-architecture}{%
-\section[Plugin
-Architecture]{\texorpdfstring{\protect\hypertarget{anchor-24}{}{}Plugin
-Architecture}{Plugin Architecture}}\label{plugin-architecture}}
+\begin{enumerate}
+\setcounter{enumi}{7}
+\item ~
+  \hypertarget{plugin-architecture}{%
+  \section{Plugin Architecture}\label{plugin-architecture}}
 
-\hypertarget{dynamic-library}{%
-\subsection[Dynamic-Library]{\texorpdfstring{\protect\hypertarget{anchor-25}{}{}Dynamic-Library}{Dynamic-Library}}\label{dynamic-library}}
+  \begin{enumerate}
+  \item ~
+    \hypertarget{dynamic-library}{%
+    \subsection{Dynamic-Library}\label{dynamic-library}}
+  \end{enumerate}
+\end{enumerate}
 
 Developers with enough competence in C++ will be able to develop and
 load their own plugins by building shared-libraries and specifying the
@@ -866,9 +874,7 @@ void execute() \{ \}
 \emph{Execution speed:} Fast
 
 \hypertarget{command-line-executable}{%
-\subsection[Command-Line
-Executable]{\texorpdfstring{\protect\hypertarget{anchor-26}{}{}Command-Line
-Executable}{Command-Line Executable}}\label{command-line-executable}}
+\subsection{Command-Line Executable}\label{command-line-executable}}
 
 Some components of the application will be replacable with command line
 applications that take specific arguments and return a single result
@@ -888,9 +894,7 @@ object and intepret the result.
 \emph{Execution speed:} Slow
 
 \hypertarget{equation-parser-1}{%
-\subsection[Equation
-Parser]{\texorpdfstring{\protect\hypertarget{anchor-27}{}{}Equation
-Parser}{Equation Parser}}\label{equation-parser-1}}
+\subsection{Equation Parser}\label{equation-parser-1}}
 
 CASAL II will have an inbuilt equation parser for handling equations
 specified natively in the configuration file.
@@ -905,13 +909,11 @@ II.
 \emph{Execution speed:} Slow
 
 \hypertarget{opencl-kernel}{%
-\subsection[OpenCL
-Kernel]{\texorpdfstring{\protect\hypertarget{anchor-28}{}{}OpenCL
-Kernel}{OpenCL Kernel}}\label{opencl-kernel}}
+\subsection{OpenCL Kernel}\label{opencl-kernel}}
 
-Note: This method was investigated, but at this point in time will not
-persued. Keeping this information in here as a possible future expansion
-of the software.
+\emph{Note: This method was investigated, but at this point in time will
+not persued. Keeping this information in here as a possible future
+expansion of the software.}
 
 An OpenCL kernel is a small file containing a vectorised C++ snippet of
 code. When CASAL II starts it's able to load the kernel and compile it
@@ -932,6 +934,6 @@ vector languages (e.g R/S+).
 
 \emph{Difficulty for user to develop:} High
 
-Execution speed: Extremely Fast
+\emph{Execution speed:} Extremely Fast
 
 \end{document}
