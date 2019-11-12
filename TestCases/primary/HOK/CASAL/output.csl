@@ -22,6 +22,9 @@ YCS 1
 true_YCS T
 recruitments T
 
+ogive_parameters selectivity[Enspsl].all selectivity[Wnspsl].all selectivity[Espsl].all selectivity[Wspsl].all selectivity[CRsl].all selectivity[SAsl].all
+#selectivity[slopesel].male selectivity[slopesel].female selectivity[northsel].male selectivity[northsel].female
+# Espsl Wspsl CRsl SAsl
 
 @per_recruit
 do_YPR_SPR T
