@@ -238,6 +238,12 @@ void ProportionsMigrating::PreExecute() {
   }
   if (partition_->Size() != proportions_[model_->current_year()].size())
     LOG_CODE_ERROR() << "partition_->Size() != proportions_[model->current_year()].size()";
+
+  expected_values_.resize(age_spread_, 0.0);
+  numbers_age_before_.resize((model_->age_spread() + 1), 0.0);
+  numbers_age_after_.resize((model_->age_spread() + 1), 0.0);
+  numbers_age_before_with_ageing_error_.resize(numbers_age_before_.size(), 0.0);
+  numbers_age_after_with_ageing_error_.resize(numbers_age_after_.size(), 0.0);
 }
 
 /**
@@ -262,10 +268,10 @@ void ProportionsMigrating::Execute() {
     Double      start_value        = 0.0;
     Double      end_value          = 0.0;
 
+    fill(numbers_age_before_.begin(), numbers_age_before_.end(),0.0);
+    fill(numbers_age_after_.begin(), numbers_age_after_.end(),0.0);
+    fill(expected_values_.begin(), expected_values_.end(),0.0);
 
-    vector<Double> expected_values(age_spread_, 0.0);
-    vector<Double> numbers_age_before((model_->age_spread() + 1), 0.0);
-    vector<Double> numbers_age_after((model_->age_spread() + 1), 0.0);
 
     /**
      * Loop through the 2 combined categories building up the
@@ -282,8 +288,8 @@ void ProportionsMigrating::Execute() {
         start_value   = (*cached_category_iter).data_[data_offset];
         end_value     = (*category_iter)->data_[data_offset];
 
-        numbers_age_before[data_offset] += start_value;
-        numbers_age_after[data_offset] += end_value;
+        numbers_age_before_[data_offset] += start_value;
+        numbers_age_after_[data_offset] += end_value;
 
         LOG_FINE() << "----------";
         LOG_FINE() << "Category: " << (*category_iter)->name_ << " at age " << age;
@@ -296,17 +302,17 @@ void ProportionsMigrating::Execute() {
     */
     if (ageing_error_label_ != "") {
       vector<vector<Double>>& mis_matrix = ageing_error_->mis_matrix();
-      vector<Double> temp_before(numbers_age_before.size(), 0.0);
-      vector<Double> temp_after(numbers_age_after.size(), 0.0);
+      fill(numbers_age_before_with_ageing_error_.begin(), numbers_age_before_with_ageing_error_.end(),0.0);
+      fill(numbers_age_after_with_ageing_error_.begin(), numbers_age_after_with_ageing_error_.end(),0.0);
 
       for (unsigned i = 0; i < mis_matrix.size(); ++i) {
         for (unsigned j = 0; j < mis_matrix[i].size(); ++j) {
-          temp_before[j] += numbers_age_before[i] * mis_matrix[i][j];
-          temp_after[j] += numbers_age_after[i] * mis_matrix[i][j];
+          numbers_age_before_with_ageing_error_[j] += numbers_age_before_[i] * mis_matrix[i][j];
+          numbers_age_after_with_ageing_error_[j] += numbers_age_after_[i] * mis_matrix[i][j];
         }
       }
-      numbers_age_before = temp_before;
-      numbers_age_after = temp_after;
+      numbers_age_before_ = numbers_age_before_with_ageing_error_;
+      numbers_age_after_ = numbers_age_after_with_ageing_error_;
     }
 
 
@@ -314,22 +320,22 @@ void ProportionsMigrating::Execute() {
      *  Now collapse the number_age into out expected values
      */
     Double plus_before = 0, plus_after = 0;
-    for (unsigned k = 0; k < numbers_age_before.size(); ++k) {
+    for (unsigned k = 0; k < numbers_age_before_.size(); ++k) {
       // this is the difference between the
       unsigned age_offset = min_age_ - model_->min_age();
-      if (numbers_age_before[k] > 0) {
+      if (numbers_age_before_[k] > 0) {
         if (k >= age_offset && (k - age_offset + min_age_) <= max_age_) {
-          expected_values[k - age_offset] = (numbers_age_before[k] - numbers_age_after[k]) / numbers_age_before[k];
-          LOG_FINEST() << "Numbers before migration = " << numbers_age_before[k] << " numbers after migration = " << numbers_age_after[k]
-                   << " proportion migrated = " <<   expected_values[k - age_offset];
+          expected_values_[k - age_offset] = (numbers_age_before_[k] - numbers_age_after_[k]) / numbers_age_before_[k];
+          LOG_FINEST() << "Numbers before migration = " << numbers_age_before_[k] << " numbers after migration = " << numbers_age_after_[k]
+                   << " proportion migrated = " <<   expected_values_[k - age_offset];
         }
         if (((k - age_offset + min_age_) > max_age_) && plus_group_) {
-          plus_before += numbers_age_before[k];
-          plus_after += numbers_age_after[k];
+          plus_before += numbers_age_before_[k];
+          plus_after += numbers_age_after_[k];
         }
       } else {
           if (k >= age_offset && (k - age_offset + min_age_) <= max_age_)
-            expected_values[k] = 0;
+            expected_values_[k] = 0;
           if (((k - age_offset + min_age_) > max_age_) && plus_group_) {
             plus_before += 0;
             plus_after += 0;
@@ -338,20 +344,20 @@ void ProportionsMigrating::Execute() {
     }
     LOG_FINEST() << "Plus group before migration = " << plus_before << " Plus group after migration = " << plus_after;
     if (plus_group_)
-      expected_values[age_spread_ - 1] = (plus_before - plus_after) / plus_before;
+      expected_values_[age_spread_ - 1] = (plus_before - plus_after) / plus_before;
 
 
-    if (expected_values.size() != proportions_[model_->current_year()][category_labels_[category_offset]].size())
-      LOG_CODE_ERROR() << "expected_values.size(" << expected_values.size() << ") != proportions_[category_offset].size("
+    if (expected_values_.size() != proportions_[model_->current_year()][category_labels_[category_offset]].size())
+      LOG_CODE_ERROR() << "expected_values.size(" << expected_values_.size() << ") != proportions_[category_offset].size("
         << proportions_[model_->current_year()][category_labels_[category_offset]].size() << ")";
 
     /**
      * save our comparisons so we can use them to generate the score from the likelihoods later
      */
 
-    for (unsigned i = 0; i < expected_values.size(); ++i) {
-      LOG_FINEST() << " Numbers at age " << min_age_ + i << " = " << expected_values[i];
-      SaveComparison(category_labels_[category_offset], min_age_ + i ,0.0 ,expected_values[i], proportions_[model_->current_year()][category_labels_[category_offset]][i],
+    for (unsigned i = 0; i < expected_values_.size(); ++i) {
+      LOG_FINEST() << " Numbers at age " << min_age_ + i << " = " << expected_values_[i];
+      SaveComparison(category_labels_[category_offset], min_age_ + i ,0.0 ,expected_values_[i], proportions_[model_->current_year()][category_labels_[category_offset]][i],
           process_errors_by_year_[model_->current_year()], error_values_[model_->current_year()][category_labels_[category_offset]][i], 0.0, delta_, 0.0);
     }
   }

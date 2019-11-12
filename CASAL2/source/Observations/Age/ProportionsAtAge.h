@@ -72,7 +72,9 @@ protected:
   vector<Selectivity*>          selectivities_;
   string                        time_step_label_ = "";
   bool													selectivity_for_combined_categories_ = false;
-
+  vector<Double>                expected_values_;
+  vector<Double>                numbers_age_;
+  vector<Double>                numbers_at_age_with_error_;
   map<unsigned, map<string, vector<Double>>>  proportions_;
   map<unsigned, map<string, vector<Double>>>  error_values_;
 

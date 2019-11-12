@@ -41,6 +41,7 @@ using niwa::utilities::Double;
  * @param file_name The name of the file containing the values
  */
 void EstimableValuesLoader::LoadValues(const string& file_name) {
+  LOG_FINE() << "Load values from file " << file_name;
   ifstream file_;
   file_.open(file_name.c_str());
   if (file_.fail() || !file_.is_open())

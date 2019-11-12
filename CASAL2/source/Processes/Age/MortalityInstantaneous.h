@@ -114,7 +114,7 @@ private:
   parameters::Table*          method_table_ = nullptr;
   accessor::Categories        partition_;
   Double                      current_m_ = 0.0;
-
+  vector<unsigned>            process_years_;
   // members from mortality event
   //Double                      u_max_ = 0.99; // Now attached to the fishery object
   string                      penalty_label_ = "";
@@ -129,7 +129,6 @@ private:
   vector<Selectivity*>        selectivities_;
   // members for observations
   map<unsigned,  map<string, map<string, vector<Double>>>> removals_by_year_fishery_category_; // Year,  fishery, category
-  map<unsigned, map<string, vector<string>>> year_method_category_to_store_; // Year,  fishery, category
   // Members for reporting
   vector<unsigned>            time_steps_to_skip_applying_F_mortaltiy_;
   bool                        use_age_weight_ = true;

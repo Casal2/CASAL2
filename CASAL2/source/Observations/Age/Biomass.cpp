@@ -173,13 +173,6 @@ void Biomass::Execute() {
   unsigned time_step_index = model_->managers().time_step()->current_time_step();
 
   Double expected_total = 0.0; // value in the model
-  vector<string> keys;
-  vector<Double> expecteds;
-  vector<Double> observeds;
-  vector<Double> error_values;
-  vector<Double> process_errors;
-  vector<Double> scores;
-
   Double selectivity_result = 0.0;
   Double start_value = 0.0;
   Double end_value = 0.0;
@@ -260,15 +253,9 @@ void Biomass::Execute() {
     error_value = error_values_by_year_[current_year];
 
     // Store the values
-    keys.push_back(category_labels_[proportions_index]);
-    expecteds.push_back(expected_total);
-    observeds.push_back(proportions_by_year_[current_year][proportions_index]);
-    error_values.push_back(error_value);
-    process_errors.push_back(process_error_value_);
-  }
+    SaveComparison(category_labels_[proportions_index], expected_total,proportions_by_year_[current_year][proportions_index], process_error_value_, error_value, 0.0, delta_, 0.0);
 
-  for (unsigned index = 0; index < observeds.size(); ++index)
-    SaveComparison(keys[index], expecteds[index], observeds[index], process_errors[index], error_values[index],0.0, delta_, 0.0);
+  }
 }
 
 /**
