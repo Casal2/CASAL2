@@ -12,8 +12,8 @@
 #evaluations 10
 type betadiff
 tolerance 1e-6
-iterations 500
-evaluations 500
+iterations 1000
+evaluations 1000
 
 /*
 @minimiser CPPAD
@@ -346,8 +346,6 @@ parameter selectivity[SAsl].sigma_r
 type uniform
 lower_bound 1
 upper_bound 50
-
-
 ################################### Penalties ###############################
 @penalty CatchMustBeTaken
 type process
