@@ -40,7 +40,10 @@ USER casal2
 RUN cd BuildSystem && ./doBuild.sh check && ./doBuild.sh documentation \
   && ./doBuild.sh thirdparty adolc && ./doBuild.sh thirdparty betadiff && ./doBuild.sh thirdparty boost \
   && ./doBuild.sh thirdparty dlib && ./doBuild.sh thirdparty googletest_googlemock && ./doBuild.sh thirdparty parser \
-  && ./doBuild.sh release adolc && ./doBuild.sh release betadiff && ./doBuild.sh rlibrary && ./doBuild.sh test
-#  && ./doBuild.sh thirdparty cppad && ./doBuild.sh release cppad && ./doBuild.sh modelrunner
+  && ./doBuild.sh release adolc && ./doBuild.sh release betadiff \
+  && ./doBuild.sh rlibrary \
+  && ./doBuild.sh test && ./doBuild.sh modelrunner
+#  && ./doBuild.sh thirdparty cppad && ./doBuild.sh release cppad
 
 CMD ["/bin/bash"]
+
