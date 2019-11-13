@@ -74,7 +74,7 @@ mu 0.17
 cv 0.61
 lower_bound 0.020
 upper_bound 0.51
-{
+
 @estimate 
 parameter q[SAaut].q
 prior lognormal
@@ -82,7 +82,7 @@ mu 0.17
 cv 0.61
 lower_bound 0.020
 upper_bound 0.51
-}
+
 @q_method free
 
 @q CSacous
@@ -97,10 +97,9 @@ q 0.0804276
 @q SAsum
 q 0.109987
 
-{
 @q SAaut
 q 0.0878128
-}
+
 
 @estimate 
 parameter relative_abundance[CRsumbio].cv_process_error

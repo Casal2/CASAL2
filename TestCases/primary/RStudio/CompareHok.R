@@ -3,7 +3,10 @@ library(casal2)
 
 ## bring in functions
 source("AuxillaryFunsToincludeInLibrary.r")
-
+#############
+## Comapre CASAL and Casal2 with the exact same parameters
+#############
+## read in parameters
 casal_pars = casal::extract.free.parameters.from.table("../HOK/CASAL/params_est.out")
 casal2_pars = casal2::extract.parameters("../HOK/Casal2/params_est.out")
 
@@ -13,8 +16,6 @@ names(casal2_pars)
 #cas_mpd = casal::extract.mpd("../HOK/CASAL/estimate.log")
 cas_mpd = casal::extract.mpd("../HOK/CASAL/run.log")
 #cas_orig = casal::extract.mpd("../HOK/CASAL/orig_run.log")
-
-
 cas2_mpd = casal2::extract.mpd("../HOK/Casal2/run.log")
 
 ## create Casal2 catch table
@@ -139,8 +140,8 @@ cas_obj$value[cas_obj$label == "prior_on_recruitment[W].YCS"]
 cas2_obj$Value[cas2_obj$Label == "YCS_W"]
 
 ########################
-## Check Start conditions 
-## are not close to starting conditions
+## Check Start conditions, similar to above but these will be furthur away from the 
+## solution space
 ########################
 cas_mpd = casal::extract.mpd("../HOK/CASAL/check_start.log")
 cas2_mpd = casal2::extract.mpd("../HOK/Casal2/check_start.log")
@@ -241,6 +242,10 @@ round(rbind(cas2_mpd$Mortality$`1`$`fishing_pressure[Wnsp1]`,
 
 ########################
 ## Estimation 
+## this is the real test
+## on my machine 
+## CASAL was 4.86 mins
+## Casal2 was 5.55 mins
 ########################
 cas_mpd = casal::extract.mpd("../HOK/CASAL/estimate.log")
 cas2_mpd = casal2::extract.mpd("../HOK/Casal2/estimate.log")
@@ -301,21 +306,10 @@ for(i in 1:obs_across_both) {
   comp[i,2] = cas2_obj$Value[cas2_obj$Label == labels[i]]
   comp[i,3] = comp[i,1] - comp[i,2]
 }
-## CASAL calculates the spawn wrong in the objective - calculation, it accumulates
-## both pspawn and pspawn_1993 see line: 137 in CASAL\run.log
-round(comp,3)
-# pspawn for CASAL should be -13.3195
-# to prove it here are the observed values and expected values.
-cas_mpd$fits$pspawn$fits -
-  matrix(cas2_mpd$pspawn$`1`$Values$expected, nrow = 2, byrow = T)
+round(comp,5)
 
-cas_mpd$fits$pspawn$obs - 
-  matrix(cas2_mpd$pspawn$`1`$Values$observed, nrow = 2, byrow = T)
-
-cas_mpd$fits$pspawn$error.value - 
-  matrix(cas2_mpd$pspawn$`1`$Values$error_value, nrow = 2, byrow = T)
-
-## non invertable matrix?
+## non invertable matrix? need to see how betadiff if calculating the Hessian if 
+## I can't invert it in R? (hopefully me just being an idiot and not a serious issue!!)
 isSymmetric(cas2_mpd$Hess$`1`$hessian_matrix)
 solve(cas2_mpd$Hess$`1`$hessian_matrix)
 isSymmetric(cas2_mpd$Covar$`1`$covariance_matrix)

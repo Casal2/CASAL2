@@ -48,6 +48,14 @@ observation Wspage
 type observation
 observation Enspage
 
+@report EnspOLF
+type observation
+observation EnspOLF
+
+@report WnspOLF
+type observation
+observation WnspOLF
+
 @report Wnspage
 type observation
 observation Wnspage
@@ -61,11 +69,11 @@ observation CRsumage
 type observation
 observation SAsumage
 
-/*
+
 @report SAautage
 type observation
 observation SAautage
-*/
+
 @report CRsumbio
 type observation
 observation CRsumbio
@@ -73,12 +81,6 @@ observation CRsumbio
 @report SAsumbio
 type observation
 observation SAsumbio
-
-/*
-@report SAsumage
-type observation
-observation SAsumage
-*/
 
 @report pspawn_1993
 type observation

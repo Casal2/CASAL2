@@ -1,11 +1,11 @@
 CASAL (C++ algorithmic stock assessment laboratory)
 Call: casal -r -i start_pars.txt 
-Date: Tue Nov 12 09:02:21 2019
+Date: Wed Nov 13 16:49:15 2019
 v2.30-2016-05-01 23:58:51 UTC (rev.5470)  (c) Copyright 2002-2012, NIWA
 User name: craig
-Machine name: LAPTOP-3JA8IB67 (Microsoft Windows, PID=21220)
+Machine name: LAPTOP-3JA8IB67 (Microsoft Windows, PID=21164)
 
-Random number seed : 2541
+Random number seed : 16955
 
 Start extracting output from here
 
@@ -27,6 +27,11 @@ upper bound: 0.51
 
 q[SAsum].q
 current value: 0.109987
+lower bound: 0.02
+upper bound: 0.51
+
+q[SAaut].q
+current value: 0.0878128
 lower bound: 0.02
 upper bound: 0.51
 
@@ -113,20 +118,24 @@ upper bounds: 17 50 50
 
 In a format suitable for -i :
 
-q[CSacous].q q[WCacous].q q[CRsum].q q[SAsum].q relative_abundance[CRsumbio].cv_process_error relative_abundance[SAsumbio].cv_process_error log_B0_total B0_prop_stock1 natural_mortality.all selectivity[Wspsl].shift_a recruitment[E].YCS 42 recruitment[W].YCS 42 migration[Whome].rates_all 8 migration[Espmg].rates_all 8 migration[Wspmg].rates_all 8 selectivity[Enspsl].all 3 selectivity[Wnspsl].all 3 selectivity[Espsl].all 3 selectivity[CRsl].all 3 selectivity[SAsl].all 3 
-1.22472 0.938112 0.0804276 0.109987 0.146332 0.374328 13.9 0.25 0.275 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0.1 0.1 0.43 0.56 0.88 0.9 0.95 1 0.1 0.2 0.3 0.4 0.5 0.6 0.6 0.6 0.1 0.2 0.3 0.4 0.5 0.6 0.6 0.6 3.82578 1.63038 17 5.34802 2.12396 7.79647 10.6006 7.58432 3.60395 1.0008 1 8.71781 10 5.5028 3.24635 
+q[CSacous].q q[WCacous].q q[CRsum].q q[SAsum].q q[SAaut].q relative_abundance[CRsumbio].cv_process_error relative_abundance[SAsumbio].cv_process_error log_B0_total B0_prop_stock1 natural_mortality.all selectivity[Wspsl].shift_a recruitment[E].YCS 42 recruitment[W].YCS 42 migration[Whome].rates_all 8 migration[Espmg].rates_all 8 migration[Wspmg].rates_all 8 selectivity[Enspsl].all 3 selectivity[Wnspsl].all 3 selectivity[Espsl].all 3 selectivity[CRsl].all 3 selectivity[SAsl].all 3 
+1.22472 0.938112 0.0804276 0.109987 0.0878128 0.146332 0.374328 13.9 0.25 0.275 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0.1 0.1 0.43 0.56 0.88 0.9 0.95 1 0.1 0.2 0.3 0.4 0.5 0.6 0.6 0.6 0.1 0.2 0.3 0.4 0.5 0.6 0.6 0.6 3.82578 1.63038 17 5.34802 2.12396 7.79647 10.6006 7.58432 3.60395 1.0008 1 8.71781 10 5.5028 3.24635 
 
-Objective function : 5698.29
+Objective function : 5923.59
 
 Components :
                                           CRsumbio 81.2284
                                            CSacous -0.861302
+                                          SAautbio 4.42874
                                           SAsumbio 2.30305
                                            WCacous -1.50429
                                           CRsumage 547.148
+                                          SAautage 48.9729
                                           SAsumage 349.753
+                                           EnspOLF 34.1719
                                            Enspage 413.539
                                             Espage 1057.21
+                                           WnspOLF 139.76
                                            Wnspage 227.732
                                             Wspage 521.97
                                             pspawn -11.1668
@@ -135,6 +144,7 @@ Components :
                              prior_on_q[WCacous].q 1.26056
                                prior_on_q[CRsum].q -2.23682
                                prior_on_q[SAsum].q -2.08589
+                               prior_on_q[SAaut].q -2.03357
 prior_on_relative_abundance[CRsumbio].cv_process_error 0
 prior_on_relative_abundance[SAsumbio].cv_process_error 0
                              prior_on_log_B0_total 0
@@ -165,12 +175,16 @@ Fits :
 The observations are:
 CRsumbio
 CSacous
+SAautbio
 SAsumbio
 WCacous
 CRsumage
+SAautage
 SAsumage
+EnspOLF
 Enspage
 Espage
+WnspOLF
 Wnspage
 Wspage
 pspawn
@@ -276,6 +290,17 @@ objective function: lognormal likelihood, with cv =
 0.3 
 0.33 
 0.36 
+
+SAautbio :
+relative (with q = 0.0878128) abundances in time step 3 after proportion 0.1 of mortality in area SA using selectivity SAsl:
+year obs     fits    resids  Pearson_resids Normalised_resids 
+1992   67832 45849.4 21982.6 2.21416 1.93673
+1996   89029 45402.6 43626.4 4.36474 3.20417
+1998   67709 44367.7 23341.3 2.30483 1.98836
+objective function: lognormal likelihood, with cv = 
+0.216539 
+0.220145 
+0.228254 
 
 SAsumbio :
 relative (with q = 0.109987) abundances in time step 2 in area SA using selectivity SAsl:
@@ -478,6 +503,33 @@ objective function: multinomial likelihood, with delta = 1e-011, N =
 47 47 47 47 47 47 47 47 47 47 47 47 47 
 56 56 56 56 56 56 56 56 56 56 56 56 56 
 
+SAautage :
+proportions-at-age in time step 3 after proportion 0.1 of mortality in area SA using selectivity SAsl with ageing error (constrained to sum to 1):
+obs (last class is a plus group):
+class       2       3       4       5       6       7       8       9      10      11      12      13      14      15 
+1992 0.013218 0.096714 0.30677 0.02118 0.080823 0.203547 0.143431 0.038656 0.029968 0.022516 0.010965 0.01286 0.009997 0.009355 
+1996 0.185035 0.326481 0.184962 0.011023 0.017982 0.088946 0.112134 0.008914 0.023809 0.025295 0.007652 0.003335 0.002879 0.001553 
+1998 0.03502 0.181426 0.112354 0.25342 0.163106 0.040561 0.031445 0.072592 0.053464 0.013016 0.016505 0.013783 0.006426 0.006883 
+fits (last class is a plus group):
+class       2       3       4       5       6       7       8       9      10      11      12      13      14      15 
+1992 0.0466255 0.125952 0.181668 0.19566 0.157881 0.109621 0.0675589 0.0442831 0.0283487 0.0177718 0.010728 0.00615558 0.0033932 0.00435154 
+1996 0.0455625 0.120329 0.172422 0.188018 0.159302 0.119075 0.0784284 0.0524091 0.031566 0.0170283 0.00833783 0.00381813 0.00170165 0.00200098 
+1998 0.0461939 0.11713 0.164248 0.17895 0.156731 0.121975 0.0829246 0.0569982 0.0358641 0.020448 0.0103443 0.00462356 0.00188916 0.0016804 
+resids (last class is a plus group):
+class       2       3       4       5       6       7       8       9      10      11      12      13      14      15 
+1992 -0.0334075 -0.0292384 0.125102 -0.17448 -0.0770584 0.0939255 0.0758721 -0.00562708 0.00161935 0.00474415 0.000236961 0.00670442 0.0066038 0.00500346 
+1996 0.139473 0.206152 0.0125397 -0.176995 -0.14132 -0.030129 0.0337056 -0.0434951 -0.00775701 0.00826675 -0.00068583 -0.000483135 0.00117735 -0.000447975 
+1998 -0.0111739 0.0642962 -0.0518937 0.07447 0.00637502 -0.0814142 -0.0514796 0.0155938 0.0175999 -0.00743199 0.00616073 0.00915944 0.00453684 0.0052026 
+pearson_resids (last class is a plus group):
+class       2       3       4       5       6       7       8       9      10      11      12      13      14      15 
+1992 -0.69068 -0.384114 1.41428 -1.91713 -0.921181 1.31046 1.31767 -0.119227 0.04253 0.156517 0.0100262 0.373632 0.494999 0.331339 
+1996 2.83758  2.6883 0.140839 -1.92187 -1.63836 -0.394677 0.531909 -0.828062 -0.188229 0.271091 -0.0319996 -0.0332361 0.121193 -0.0425309 
+1998 -0.271438 1.01951 -0.714189 0.990644 0.0894144 -1.26852 -0.951871 0.342966 0.482611 -0.267764 0.310475 0.688452 0.532741 0.647688 
+objective function: multinomial likelihood, with delta = 1e-011, N =
+19 19 19 19 19 19 19 19 19 19 19 19 19 19 
+18 18 18 18 18 18 18 18 18 18 18 18 18 18 
+26 26 26 26 26 26 26 26 26 26 26 26 26 26 
+
 SAsumage :
 proportions-at-age in time step 2 in area SA using selectivity SAsl with ageing error (constrained to sum to 1):
 obs (last class is a plus group):
@@ -574,6 +626,38 @@ objective function: multinomial likelihood, with delta = 1e-011, N =
 15 15 15 15 15 15 15 15 15 15 15 15 15 15 
 17 17 17 17 17 17 17 17 17 17 17 17 17 17 
 18 18 18 18 18 18 18 18 18 18 18 18 18 18 
+
+EnspOLF :
+catch proportions-at-age for fisheries Ensp1 Ensp2  with ageing error (constrained to sum to 1):
+obs (last class is a plus group):
+class       1       2       3       4       5       6 
+1992 0.005207 0.009153 0.363327 0.492867 0.053837 0.07561 
+1994 0.105823 0.293903 0.005681 0.024833 0.142837 0.426923 
+1996 0.239616 0.173171 0.370691 0.117053 0.035713 0.063756 
+1998 0.033278 0.054074 0.533844 0.075126 0.105369 0.198308 
+fits (last class is a plus group):
+class       1       2       3       4       5       6 
+1992 0.0978643 0.223296 0.268095 0.169959 0.0855856 0.155201 
+1994 0.103895 0.235257 0.274365 0.168399 0.0814572 0.136627 
+1996 0.108542 0.243811 0.281668 0.171258 0.081113 0.113608 
+1998 0.123183 0.271132 0.29771 0.166977 0.0705217 0.0704765 
+resids (last class is a plus group):
+class       1       2       3       4       5       6 
+1992 -0.0926573 -0.214143 0.0952322 0.322908 -0.0317486 -0.0795907 
+1994 0.00192807 0.058646 -0.268684 -0.143566 0.0613798 0.290296 
+1996 0.131074 -0.0706398 0.0890226 -0.0542049 -0.0454 -0.0498516 
+1998 -0.0899049 -0.217058 0.236134 -0.0918515 0.0348473 0.127832 
+pearson_resids (last class is a plus group):
+class       1       2       3       4       5       6 
+1992 -0.93552 -1.54261 0.644961 2.57917 -0.340466 -0.659417 
+1994 0.0227834 0.498518 -2.17115 -1.38323 0.809064 3.04751 
+1996 1.39753 -0.545637 0.656395 -0.477199 -0.551539 -0.521025 
+1998 -0.907298 -1.61941 1.71278 -0.816818 0.451423 1.65646 
+objective function: multinomial likelihood, with delta = 1e-011, N =
+9 9 9 9 9 9 
+13 13 13 13 13 13 
+11 11 11 11 11 11 
+11 11 11 11 11 11 
 
 Enspage :
 catch proportions-at-age for fisheries Ensp1 Ensp2  with ageing error (constrained to sum to 1):
@@ -828,6 +912,48 @@ objective function: multinomial likelihood, with delta = 1e-011, N =
 98 98 98 98 98 98 98 98 98 98 98 98 98 98 
 85 85 85 85 85 85 85 85 85 85 85 85 85 85 
 87 87 87 87 87 87 87 87 87 87 87 87 87 87 
+
+WnspOLF :
+catch proportions-at-age for fisheries Wnsp1 Wnsp2  with ageing error (constrained to sum to 1):
+obs (last class is a plus group):
+class       2       3       4       5       6 
+1992 0.000871 0.109446 0.453033 0.116888 0.319762 
+1993 0.004296 0.004078 0.171825 0.523102 0.296699 
+1994 0.079372 0.020973 0.019909 0.463609 0.416136 
+1996 0.125139 0.311189 0.23711 0.043075 0.283486 
+1999 0.04474 0.065895 0.301093 0.035005 0.553267 
+2000 0.044353 0.019826 0.15674 0.16521 0.613871 
+fits (last class is a plus group):
+class       2       3       4       5       6 
+1992 0.0233974 0.0943016 0.208584 0.244033 0.429684 
+1993 0.0220551 0.0859752 0.201421 0.243794 0.446754 
+1994 0.0226942 0.0892924 0.201695 0.239984 0.446334 
+1996 0.0230107 0.0909082 0.200574 0.237506 0.448001 
+1999 0.0259423 0.0985001 0.198845 0.227187 0.449525 
+2000 0.0267957 0.101368 0.203249 0.226472 0.442115 
+resids (last class is a plus group):
+class       2       3       4       5       6 
+1992 -0.0225264 0.0151444 0.244449 -0.127145 -0.109922 
+1993 -0.0177591 -0.0818972 -0.0295965 0.279308 -0.150055 
+1994 0.0566778 -0.0683194 -0.181786 0.223625 -0.0301979 
+1996 0.102128 0.220281 0.0365359 -0.194431 -0.164515 
+1999 0.0187977 -0.0326051 0.102248 -0.192182 0.103742 
+2000 0.0175573 -0.0815417 -0.0465092 -0.061262 0.171756 
+pearson_resids (last class is a plus group):
+class       2       3       4       5       6 
+1992 -1.20145 0.417789 4.85068 -2.38661 -1.79023 
+1993 -0.920924 -2.22494 -0.562008 4.95412 -2.29865 
+1994 3.20678 -2.01872 -3.81731 4.41211 -0.511861 
+1996 5.57538 6.27204 0.746846 -3.73979 -2.70791 
+1999 1.09023 -1.00877 2.36183 -4.22857 1.92272 
+2000 1.09265 -2.71519 -1.16151 -1.47098 3.47562 
+objective function: multinomial likelihood, with delta = 1e-011, N =
+65 65 65 65 65 
+58 58 58 58 58 
+71 71 71 71 71 
+67 67 67 67 67 
+85 85 85 85 85 
+101 101 101 101 101 
 
 Wnspage :
 catch proportions-at-age for fisheries Wnsp1 Wnsp2  with ageing error (constrained to sum to 1):
