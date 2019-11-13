@@ -1,13 +1,11 @@
 CASAL2
 Call: casal2 -r -i pars.out 
-Date: Mon Jul 29 13:17:28 2019
-Version: 2019-07-29 00:45:08 UTC (rev. 46f4393)
+Date: Wed Nov 13 16:18:19 2019
+Version: 2019-11-12 21:36:55 UTC (rev. 8359cd6)
 Copyright (c) 2018 - 2019, NIWA (www.niwa.co.nz)
--- Username: amart
--- Machine: niwa-1019055.niwa.local (Linux 3.10.0-957.21.3.el7.x86_64 x86_64)
--- Process Id: 15627
+Environment: machine:LAPTOP-3JA8IB67, user:craig, os:Windows_NT, pid:23044
 
-[WARNING] /home/amart/work/projects/CASAL2/dev/CASAL2/CASAL2/source/Estimates/Manager.cpp(line: 93): Estimates were removed because of matching lower and upper bounds. Originally had 152 estimates, now have 151
+[WARNING] C:\Software\casal2-development\CASAL2\source\Estimates\Manager.cpp(line: 93): Estimates were removed because of matching lower and upper bounds. Originally had 152 estimates, now have 151
 resizing from 40000 to 44000
 resizing from 44000 to 48400
 resizing from 48400 to 53240
@@ -30,19 +28,19 @@ resizing from 222387 to 244625
 resizing from 244625 to 269087
 resizing from 269087 to 295995
 resizing from 295995 to 325594
-[WARNING] /home/amart/work/projects/CASAL2/dev/CASAL2/CASAL2/source/Reports/Common/EstimateValue.cpp(line: 46): estimated parameter 'process[recruit_E].b0' was within 0.001 of its bound
-[WARNING] /home/amart/work/projects/CASAL2/dev/CASAL2/CASAL2/source/Reports/Common/EstimateValue.cpp(line: 46): estimated parameter 'process[recruit_W].b0' was within 0.001 of its bound
-[WARNING] /home/amart/work/projects/CASAL2/dev/CASAL2/CASAL2/source/Reports/Common/EstimateValue.cpp(line: 46): estimated parameter 'process[recruit_E].ycs_values{1999}' was within 0.001 of its bound
-[WARNING] /home/amart/work/projects/CASAL2/dev/CASAL2/CASAL2/source/Reports/Common/EstimateValue.cpp(line: 46): estimated parameter 'process[recruit_W].ycs_values{1999}' was within 0.001 of its bound
-[WARNING] /home/amart/work/projects/CASAL2/dev/CASAL2/CASAL2/source/Reports/Common/EstimateValue.cpp(line: 46): estimated parameter 'selectivity[M_male].y0' was within 0.001 of its bound
-[WARNING] /home/amart/work/projects/CASAL2/dev/CASAL2/CASAL2/source/Reports/Common/EstimateValue.cpp(line: 46): estimated parameter 'selectivity[sel_Whome].v{7}' was within 0.001 of its bound
-[WARNING] /home/amart/work/projects/CASAL2/dev/CASAL2/CASAL2/source/Reports/Common/EstimateValue.cpp(line: 46): estimated parameter 'selectivity[sel_Espmg_Female].v{1}' was within 0.001 of its bound
-[WARNING] /home/amart/work/projects/CASAL2/dev/CASAL2/CASAL2/source/Reports/Common/EstimateValue.cpp(line: 46): estimated parameter 'selectivity[sel_Espmg_Female].v{8}' was within 0.001 of its bound
-[WARNING] /home/amart/work/projects/CASAL2/dev/CASAL2/CASAL2/source/Reports/Common/EstimateValue.cpp(line: 46): estimated parameter 'selectivity[sel_Wspmg_Female].v{8}' was within 0.001 of its bound
-[WARNING] /home/amart/work/projects/CASAL2/dev/CASAL2/CASAL2/source/Reports/Common/EstimateValue.cpp(line: 46): estimated parameter 'selectivity[Espsl].ato95' was within 0.001 of its bound
-[WARNING] /home/amart/work/projects/CASAL2/dev/CASAL2/CASAL2/source/Reports/Common/EstimateValue.cpp(line: 46): estimated parameter 'selectivity[CRsl].mu' was within 0.001 of its bound
-[WARNING] /home/amart/work/projects/CASAL2/dev/CASAL2/CASAL2/source/Reports/Common/EstimateValue.cpp(line: 46): estimated parameter 'selectivity[SAsl].mu' was within 0.001 of its bound
-[WARNING] /home/amart/work/projects/CASAL2/dev/CASAL2/CASAL2/source/Reports/Common/EstimateValue.cpp(line: 46): estimated parameter 'selectivity[SAsl].sigma_r' was within 0.001 of its bound
+[WARNING] C:\Software\casal2-development\CASAL2\source\Reports\Common\EstimateValue.cpp(line: 46): estimated parameter 'process[recruit_E].b0' was within 0.001 of its bound
+[WARNING] C:\Software\casal2-development\CASAL2\source\Reports\Common\EstimateValue.cpp(line: 46): estimated parameter 'process[recruit_W].b0' was within 0.001 of its bound
+[WARNING] C:\Software\casal2-development\CASAL2\source\Reports\Common\EstimateValue.cpp(line: 46): estimated parameter 'process[recruit_E].ycs_values{1999}' was within 0.001 of its bound
+[WARNING] C:\Software\casal2-development\CASAL2\source\Reports\Common\EstimateValue.cpp(line: 46): estimated parameter 'process[recruit_W].ycs_values{1999}' was within 0.001 of its bound
+[WARNING] C:\Software\casal2-development\CASAL2\source\Reports\Common\EstimateValue.cpp(line: 46): estimated parameter 'selectivity[M_male].y0' was within 0.001 of its bound
+[WARNING] C:\Software\casal2-development\CASAL2\source\Reports\Common\EstimateValue.cpp(line: 46): estimated parameter 'selectivity[sel_Whome].v{7}' was within 0.001 of its bound
+[WARNING] C:\Software\casal2-development\CASAL2\source\Reports\Common\EstimateValue.cpp(line: 46): estimated parameter 'selectivity[sel_Espmg_Female].v{1}' was within 0.001 of its bound
+[WARNING] C:\Software\casal2-development\CASAL2\source\Reports\Common\EstimateValue.cpp(line: 46): estimated parameter 'selectivity[sel_Espmg_Female].v{8}' was within 0.001 of its bound
+[WARNING] C:\Software\casal2-development\CASAL2\source\Reports\Common\EstimateValue.cpp(line: 46): estimated parameter 'selectivity[sel_Wspmg_Female].v{8}' was within 0.001 of its bound
+[WARNING] C:\Software\casal2-development\CASAL2\source\Reports\Common\EstimateValue.cpp(line: 46): estimated parameter 'selectivity[Espsl].ato95' was within 0.001 of its bound
+[WARNING] C:\Software\casal2-development\CASAL2\source\Reports\Common\EstimateValue.cpp(line: 46): estimated parameter 'selectivity[CRsl].mu' was within 0.001 of its bound
+[WARNING] C:\Software\casal2-development\CASAL2\source\Reports\Common\EstimateValue.cpp(line: 46): estimated parameter 'selectivity[SAsl].mu' was within 0.001 of its bound
+[WARNING] C:\Software\casal2-development\CASAL2\source\Reports\Common\EstimateValue.cpp(line: 46): estimated parameter 'selectivity[SAsl].sigma_r' was within 0.001 of its bound
 *estimate_value[summary]
 values {d}
 catchability[CSacous].q catchability[WCacous].q catchability[CRsum].q catchability[SAsum].q catchability[SAaut].q observation[CRsumbio].process_error observation[SAsumbio].process_error process[recruit_E].b0 process[recruit_W].b0 process[recruit_E].ycs_values{1975} process[recruit_E].ycs_values{1976} process[recruit_E].ycs_values{1977} process[recruit_E].ycs_values{1978} process[recruit_E].ycs_values{1979} process[recruit_E].ycs_values{1980} process[recruit_E].ycs_values{1981} process[recruit_E].ycs_values{1982} process[recruit_E].ycs_values{1983} process[recruit_E].ycs_values{1984} process[recruit_E].ycs_values{1985} process[recruit_E].ycs_values{1986} process[recruit_E].ycs_values{1987} process[recruit_E].ycs_values{1988} process[recruit_E].ycs_values{1989} process[recruit_E].ycs_values{1990} process[recruit_E].ycs_values{1991} process[recruit_E].ycs_values{1992} process[recruit_E].ycs_values{1993} process[recruit_E].ycs_values{1994} process[recruit_E].ycs_values{1995} process[recruit_E].ycs_values{1996} process[recruit_E].ycs_values{1997} process[recruit_E].ycs_values{1998} process[recruit_E].ycs_values{1999} process[recruit_E].ycs_values{2000} process[recruit_E].ycs_values{2001} process[recruit_E].ycs_values{2002} process[recruit_E].ycs_values{2003} process[recruit_E].ycs_values{2004} process[recruit_E].ycs_values{2005} process[recruit_E].ycs_values{2006} process[recruit_E].ycs_values{2007} process[recruit_E].ycs_values{2008} process[recruit_E].ycs_values{2009} process[recruit_E].ycs_values{2010} process[recruit_E].ycs_values{2011} process[recruit_E].ycs_values{2012} process[recruit_E].ycs_values{2013} process[recruit_E].ycs_values{2014} process[recruit_W].ycs_values{1975} process[recruit_W].ycs_values{1976} process[recruit_W].ycs_values{1977} process[recruit_W].ycs_values{1978} process[recruit_W].ycs_values{1979} process[recruit_W].ycs_values{1980} process[recruit_W].ycs_values{1981} process[recruit_W].ycs_values{1982} process[recruit_W].ycs_values{1983} process[recruit_W].ycs_values{1984} process[recruit_W].ycs_values{1985} process[recruit_W].ycs_values{1986} process[recruit_W].ycs_values{1987} process[recruit_W].ycs_values{1988} process[recruit_W].ycs_values{1989} process[recruit_W].ycs_values{1990} process[recruit_W].ycs_values{1991} process[recruit_W].ycs_values{1992} process[recruit_W].ycs_values{1993} process[recruit_W].ycs_values{1994} process[recruit_W].ycs_values{1995} process[recruit_W].ycs_values{1996} process[recruit_W].ycs_values{1997} process[recruit_W].ycs_values{1998} process[recruit_W].ycs_values{1999} process[recruit_W].ycs_values{2000} process[recruit_W].ycs_values{2001} process[recruit_W].ycs_values{2002} process[recruit_W].ycs_values{2003} process[recruit_W].ycs_values{2004} process[recruit_W].ycs_values{2005} process[recruit_W].ycs_values{2006} process[recruit_W].ycs_values{2007} process[recruit_W].ycs_values{2008} process[recruit_W].ycs_values{2009} process[recruit_W].ycs_values{2010} process[recruit_W].ycs_values{2011} process[recruit_W].ycs_values{2012} process[recruit_W].ycs_values{2013} process[recruit_W].ycs_values{2014} selectivity[M_male].x0 selectivity[M_male].y0 selectivity[M_male].y1 selectivity[M_male].y2 selectivity[M_female].x0 selectivity[M_female].y0 selectivity[M_female].y1 selectivity[M_female].y2 selectivity[sel_Whome].v{1} selectivity[sel_Whome].v{2} selectivity[sel_Whome].v{3} selectivity[sel_Whome].v{4} selectivity[sel_Whome].v{5} selectivity[sel_Whome].v{6} selectivity[sel_Whome].v{7} selectivity[sel_Espmg_Male].v{1} selectivity[sel_Espmg_Male].v{2} selectivity[sel_Espmg_Male].v{3} selectivity[sel_Espmg_Male].v{4} selectivity[sel_Espmg_Male].v{5} selectivity[sel_Espmg_Male].v{6} selectivity[sel_Espmg_Male].v{7} selectivity[sel_Espmg_Male].v{8} selectivity[sel_Wspmg_Male].v{1} selectivity[sel_Wspmg_Male].v{2} selectivity[sel_Wspmg_Male].v{3} selectivity[sel_Wspmg_Male].v{4} selectivity[sel_Wspmg_Male].v{5} selectivity[sel_Wspmg_Male].v{6} selectivity[sel_Wspmg_Male].v{7} selectivity[sel_Wspmg_Male].v{8} selectivity[sel_Espmg_Female].v{1} selectivity[sel_Espmg_Female].v{2} selectivity[sel_Espmg_Female].v{3} selectivity[sel_Espmg_Female].v{4} selectivity[sel_Espmg_Female].v{5} selectivity[sel_Espmg_Female].v{6} selectivity[sel_Espmg_Female].v{7} selectivity[sel_Espmg_Female].v{8} selectivity[sel_Wspmg_Female].v{1} selectivity[sel_Wspmg_Female].v{2} selectivity[sel_Wspmg_Female].v{3} selectivity[sel_Wspmg_Female].v{4} selectivity[sel_Wspmg_Female].v{5} selectivity[sel_Wspmg_Female].v{6} selectivity[sel_Wspmg_Female].v{7} selectivity[sel_Wspmg_Female].v{8} selectivity[Enspsl].mu selectivity[Enspsl].sigma_l selectivity[Enspsl].sigma_r selectivity[Wnspsl].mu selectivity[Wnspsl].sigma_l selectivity[Wnspsl].sigma_r selectivity[Espsl].a50 selectivity[Espsl].ato95 time_varying[shifted_a50].a selectivity[CRsl].mu selectivity[CRsl].sigma_l selectivity[CRsl].sigma_r selectivity[SAsl].mu selectivity[SAsl].sigma_l selectivity[SAsl].sigma_r 
@@ -406,14 +404,14 @@ prior->Wnspsl_s_l->selectivity[Wnspsl].sigma_l 0
 prior->Wnspsl_s_r->selectivity[Wnspsl].sigma_r 0
 prior->Espsl_a50->selectivity[Espsl].a50 0
 prior->Espsl_ato95->selectivity[Espsl].ato95 0
-prior->Wspsl_shift_param->time_varying[shifted_a50].a 6.05453e-05
+prior->Wspsl_shift_param->time_varying[shifted_a50].a 6.05453e-005
 prior->CRsl_mu->selectivity[CRsl].mu 0
 prior->CRsl_s_l->selectivity[CRsl].sigma_l 0
 prior->CRsl_s_r->selectivity[CRsl].sigma_r 0
 prior->SAsl_mu->selectivity[SAsl].mu 0
 prior->SAsl_s_l->selectivity[SAsl].sigma_l 0
 prior->SAsl_s_r->selectivity[SAsl].sigma_r 0
-additional_prior->YCS.eq.14 4.9e-06
+additional_prior->YCS.eq.14 4.9e-006
 additional_prior->sp.migr.F 4
 additional_prior->sp.migr.M 0.053324
 additional_prior->prior_on_Mmale 11.9663
@@ -454,6 +452,5 @@ warning_13 {s}
 estimated parameter 'selectivity[SAsl].sigma_r' was within 0.001 of its bound
 *end
 
-Total CPU time: 0.0002 hours.
 Total elapsed time: 1 second
 Completed
