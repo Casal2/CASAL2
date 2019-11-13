@@ -66,10 +66,10 @@ TEST_F(InternalEmptyModel, Projects_LogNormal_Empirical_YCS) {
 		++iter;
 	}
 	// test the final SSB's haven't changed, this will ensure as well as saving the parameters the parameters in the underlying system have changed as well
-  vector<double> Expect = {15112190.605040472,15724504.276644826,15882921.319337627,15392091.662398864,14587729.092482634,13867540.848839389,13515726.024550743,13252531.182031905,12969554.128736978,12614842.753095761};
+  vector<double> Expect = {14416960.8,  15029708.91,  15241070.46,  14841433.57,  14129449.26,  13489008.6, 13203140.65,  12994232.07,  12755996.14,  12438217.98,  14294453.21,  14524240.72,  14802669.39,  15306948.26,  17112346.68,  18073583.53,  16981920.2, 15163751.16,  13717890.51,  12354198.6};
 	for (unsigned i = 0; i < 10; ++i) {
     unsigned year = 2002 + i;
-    EXPECT_DOUBLE_EQ(Expect[i], dq->GetValue(year)) << " for year " << year << " and value " << Expect[i];
+    EXPECT_NEAR(Expect[i], dq->GetValue(year), 1e-2);// << " for year " << year << " and value " << Expect[i];
   }
 
 }

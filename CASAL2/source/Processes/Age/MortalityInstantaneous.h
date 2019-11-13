@@ -114,7 +114,7 @@ private:
   parameters::Table*          method_table_ = nullptr;
   accessor::Categories        partition_;
   Double                      current_m_ = 0.0;
-  vector<unsigned>            process_years_;
+  vector<unsigned>            process_years_; // Can we get @project classes to modify this?
   // members from mortality event
   //Double                      u_max_ = 0.99; // Now attached to the fishery object
   string                      penalty_label_ = "";

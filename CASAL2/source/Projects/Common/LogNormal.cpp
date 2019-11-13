@@ -22,8 +22,8 @@ namespace projects {
  */
 
 LogNormal::LogNormal(Model* model) : Project(model) {
-  parameters_.Bind<Double>(PARAM_SIGMA, &sigma_, "Standard deviation of gaussian process on the log scale", "");
-  parameters_.Bind<Double>(PARAM_MEAN, &mean_, "Mean of gaussian process", "",0.0);
+  parameters_.Bind<Double>(PARAM_SIGMA, &sigma_, "Standard deviation of the lognormal process", "")->set_lower_bound(0.0);
+  parameters_.Bind<Double>(PARAM_MEAN, &mean_, "Expectation of the lognormal process", "",0.0);
   //parameters_.Bind<Double>(PARAM_RHO, &rho_, "an autocorrelation parameter on the log scale", "", 0.0);
   //parameters_.Bind<Double>(PARAM_ALPHA, &alpha_, "The alpha constant in the gaussian AR(1) process", 0.0,true);
 
@@ -33,8 +33,7 @@ LogNormal::LogNormal(Model* model) : Project(model) {
  * Validate
  */
 void LogNormal::DoValidate() {
-  if (sigma_ == 0)
-    LOG_ERROR_P(PARAM_SIGMA) << " must not equal 0.0, Use the constant projection method if you would like to project a parameter with 0 variability";
+
 }
 
 /**

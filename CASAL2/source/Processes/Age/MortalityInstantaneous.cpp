@@ -508,11 +508,16 @@ void MortalityInstantaneous::DoExecute() {
     fishery.second.vulnerability_ = 0.0;
 
   /**
+   * This is where F gets applied, only enter if
+   * - not in initialisation phase or no F in this time-step
+   *  or if no F in this year or we are in projection years, as we probably want to project.
    * Loop for each category. Add the vulnerability from each
    * category in to the fisheries it belongs too
    */
-  if (model_->state() != State::kInitialise || (find(time_steps_to_skip_applying_F_mortaltiy_.begin(),time_steps_to_skip_applying_F_mortaltiy_.end(), time_step_index) != time_steps_to_skip_applying_F_mortaltiy_.end())) {
-    LOG_FINEST() << "time step = " << time_step_index << " not in initialisation and there is an F method in this timestep.";
+  if ((model_->state() != State::kInitialise ||
+      (find(time_steps_to_skip_applying_F_mortaltiy_.begin(),time_steps_to_skip_applying_F_mortaltiy_.end(), time_step_index) != time_steps_to_skip_applying_F_mortaltiy_.end())) &&
+      ((find(process_years_.begin(), process_years_.end(), year) != process_years_.end()) | (year > model_->final_year()))) {
+    LOG_FINEST() << "time step = " << time_step_index << " not in initialisation and there is an F method in this timestep. year = " << model_->current_year();
       for (auto& fishery_category : fishery_categories_) {
         LOG_FINEST() << "checking fishery = " << fishery_category.fishery_label_;
         if (fishery_category.fishery_.time_step_index_ != time_step_index)
@@ -638,25 +643,27 @@ void MortalityInstantaneous::DoExecute() {
      *
      */
     LOG_FINEST() << "Calc prop at age";
-    unsigned age_spread = model_->age_spread();
-    unsigned category_offset = 0;
-    for (auto& categories : partition_) {
-      for (auto& fishery_category : fishery_categories_) {
-        if (fishery_category.category_label_ == categories->name_
-            && fisheries_[fishery_category.fishery_label_].time_step_index_ == time_step_index) {
-          LOG_FINE() << "year " << year << " fishery = " << fishery_category.fishery_label_ << " category = " << fishery_category.category_label_ <<"  size of vector = " << removals_by_year_fishery_category_[year][fishery_category.fishery_label_][categories->name_].size();//.assign(age_spread, 0.0);
-          for (unsigned i = 0; i < age_spread; ++i) {
-            unsigned age_offset = categories->min_age_ - model_->min_age();
-            if (i < age_offset)
-              continue;
-            removals_by_year_fishery_category_[year][fishery_category.fishery_label_][categories->name_][i] = categories->data_[i - age_offset]
-                * fishery_category.fishery_.exploitation_
-                * fishery_category.selectivity_->GetAgeResult(categories->min_age_ + i, categories->age_length_)
-                * exp(-0.5 * ratio * m_[categories->name_] * selectivities_[category_offset]->GetAgeResult(categories->min_age_ + i, categories->age_length_));
+    if (find(process_years_.begin(), process_years_.end(),year) != process_years_.end()) {
+      // only calculate observed fits for years the process exists for
+      unsigned age_spread = model_->age_spread();
+      unsigned category_offset = 0;
+      for (auto& categories : partition_) {
+        for (auto& fishery_category : fishery_categories_) {
+          if (fishery_category.category_label_ == categories->name_
+              && fisheries_[fishery_category.fishery_label_].time_step_index_ == time_step_index) {
+            for (unsigned i = 0; i < age_spread; ++i) {
+              unsigned age_offset = categories->min_age_ - model_->min_age();
+              if (i < age_offset)
+                continue;
+              removals_by_year_fishery_category_[year][fishery_category.fishery_label_][categories->name_][i] = categories->data_[i - age_offset]
+                  * fishery_category.fishery_.exploitation_
+                  * fishery_category.selectivity_->GetAgeResult(categories->min_age_ + i, categories->age_length_)
+                  * exp(-0.5 * ratio * m_[categories->name_] * selectivities_[category_offset]->GetAgeResult(categories->min_age_ + i, categories->age_length_));
+            }
           }
         }
+        category_offset++;
       }
-      category_offset++;
     }
   } // if (model_->state() != State::kInitialise )
 
