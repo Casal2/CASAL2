@@ -74,6 +74,7 @@ private:
   unsigned                    year_counter_ = 0;
   OrderedMap<string, Double>  proportions_by_category_;
   bool                        ycs_standardised_ = true;
+  unsigned                    last_ycs_year_;
 };
 
 } /* namespace age */

@@ -48,7 +48,9 @@ TEST_F(InternalEmptyModel, Projects_Empirical_Sampling_YCS) {
 	AddConfigurationLine(testresources::models::test_cases_models_casal_complex_1, "TestResources/Models/CasalComplex1.h", 28);
 	AddConfigurationLine(EmpiricalSampling_ycs, __FILE__, 35);
 	LoadConfiguration();
+
 	model_->Start(RunMode::kProjection);
+
 
 	Project* project = model_->managers().project()->GetProject("future_ycs");
 	if(!project)
@@ -66,10 +68,10 @@ TEST_F(InternalEmptyModel, Projects_Empirical_Sampling_YCS) {
 		++iter;
 	}
 	// test the final SSB's haven't changed, this will ensure as well as saving the parameters the parameters in the underlying system have changed as well
-  vector<double> Expect = {15075468.368182484,15649309.464668676,15819762.460147802,15583918.802098621,15216025.504482362,14947874.832287829,14838694.368666304,14810118.208268102,14705639.439621212,14417736.847245166};
-	for (unsigned i = 0; i < 10; ++i) {
+  vector<double> Expect = {14380285.66, 14954609.6, 15177987.29,  15033001.02,  14756909.92,  14567939.81,  14524441.87,  14549946.66,  14490135.35,  14239342.24};
+  for (unsigned i = 0; i < 10; ++i) {
     unsigned year = 2002 + i;
-    EXPECT_DOUBLE_EQ(Expect[i], dq->GetValue(year)) << " for year " << year << " and value " << Expect[i];
+    EXPECT_NEAR(Expect[i], dq->GetValue(year), 1e-2);
   }
 
 }

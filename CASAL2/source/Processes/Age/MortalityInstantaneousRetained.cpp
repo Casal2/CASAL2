@@ -232,7 +232,7 @@ void MortalityInstantaneousRetained::DoValidate() {
     
     RegisterAsAddressable(PARAM_METHOD + string("_") + utilities::ToLowercase(new_fishery.label_), &fisheries_[new_fishery.label_].catches_);
 
-    LOG_FINEST() << "Creating addressable: " << PARAM_FISHERY + string("_") + utilities::ToLowercase(new_fishery.label_), &fisheries_[new_fishery.label_].catches_;
+    LOG_FINEST() << "Creating addressable: " << PARAM_METHOD + string("_") + utilities::ToLowercase(new_fishery.label_);
     // remove after build
     vector<string> categories;
     vector<string> selectivities;

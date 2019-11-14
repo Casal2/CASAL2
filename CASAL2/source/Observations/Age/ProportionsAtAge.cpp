@@ -247,6 +247,10 @@ void ProportionsAtAge::DoBuild() {
   if (selectivity_labels_.size() > category_labels_.size()) {
   	selectivity_for_combined_categories_ = true;
   }
+
+  expected_values_.resize(age_spread_, 0.0);
+  numbers_age_.resize((model_->age_spread() + 1), 0.0);
+  numbers_at_age_with_error_.resize((model_->age_spread() + 1), 0.0);
 }
 
 /**
@@ -292,9 +296,8 @@ void ProportionsAtAge::Execute() {
     Double      end_value          = 0.0;
     Double      final_value        = 0.0;
 
-    vector<Double> expected_values(age_spread_, 0.0);
-    vector<Double> numbers_age((model_->age_spread() + 1), 0.0);
-
+    fill(numbers_age_.begin(), numbers_age_.end(),0.0);
+    fill(expected_values_.begin(), expected_values_.end(),0.0);
     /**
      * Loop through the 2 combined categories building up the
      * expected proportions values.
@@ -317,17 +320,17 @@ void ProportionsAtAge::Execute() {
 
         if (mean_proportion_method_) {
           final_value = start_value + ((end_value - start_value) * proportion_of_time_);
-          numbers_age[data_offset] += final_value * selectivity_result;
+          numbers_age_[data_offset] += final_value * selectivity_result;
         } else {
           final_value = fabs(start_value - end_value);
-          numbers_age[data_offset] += final_value * selectivity_result;
+          numbers_age_[data_offset] += final_value * selectivity_result;
         }
 
         LOG_FINE() << "----------";
         LOG_FINE() << "Category: " << (*category_iter)->name_ << " at age " << age;
         LOG_FINE() << "Selectivity: " << selectivities_[selectivity_iter]->label() << ": " << selectivity_result;
         LOG_FINE() << "start_value: " << start_value << "; end_value: " << end_value << "; final_value: " << final_value;
-        LOG_FINE() << "Numbers at age before ageing error is applied: " << numbers_age[data_offset];
+        LOG_FINE() << "Numbers at age before ageing error is applied: " << numbers_age_[data_offset];
       }
     	if(selectivity_for_combined_categories_) {
     		++selectivity_iter;
@@ -339,42 +342,41 @@ void ProportionsAtAge::Execute() {
     */
     if (ageing_error_label_ != "") {
       vector<vector<Double>>& mis_matrix = ageing_error_->mis_matrix();
-      vector<Double> temp(numbers_age.size(), 0.0);
-
+      fill(numbers_at_age_with_error_.begin(), numbers_at_age_with_error_.end(),0.0);
       for (unsigned i = 0; i < mis_matrix.size(); ++i) {
         for (unsigned j = 0; j < mis_matrix[i].size(); ++j) {
-          temp[j] += numbers_age[i] * mis_matrix[i][j];
+          numbers_at_age_with_error_[j] += numbers_age_[i] * mis_matrix[i][j];
         }
       }
-      numbers_age = temp;
+      numbers_age_ = numbers_at_age_with_error_;
     }
 
     /*
      *  Now collapse the number_age into out expected values
      */
-    for (unsigned k = 0; k < numbers_age.size(); ++k) {
+    for (unsigned k = 0; k < numbers_age_.size(); ++k) {
       // this is the difference between the
       unsigned age_offset = min_age_ - model_->min_age();
       if (k >= age_offset && (k - age_offset + min_age_) <= max_age_) {
-        expected_values[k - age_offset] = numbers_age[k];
+        expected_values_[k - age_offset] = numbers_age_[k];
       }
       if (((k - age_offset + min_age_) > max_age_) && plus_group_) {
-        expected_values[age_spread_ - 1] += numbers_age[k];
+        expected_values_[age_spread_ - 1] += numbers_age_[k];
 
       }
     }
 
 
-    if (expected_values.size() != proportions_[model_->current_year()][category_labels_[category_offset]].size())
-      LOG_CODE_ERROR() << "expected_values.size(" << expected_values.size() << ") != proportions_[category_offset].size("
+    if (expected_values_.size() != proportions_[model_->current_year()][category_labels_[category_offset]].size())
+      LOG_CODE_ERROR() << "expected_values_.size(" << expected_values_.size() << ") != proportions_[category_offset].size("
         << proportions_[model_->current_year()][category_labels_[category_offset]].size() << ")";
 
 
-    for (unsigned i = 0; i < expected_values.size(); ++i) {
+    for (unsigned i = 0; i < expected_values_.size(); ++i) {
       LOG_FINEST() << "-----";
-      LOG_FINEST() << "Numbers at age for all categories in age " << min_age_ + i << " = " << expected_values[i];
+      LOG_FINEST() << "Numbers at age for all categories in age " << min_age_ + i << " = " << expected_values_[i];
 
-      SaveComparison(category_labels_[category_offset], min_age_ + i ,0.0 ,expected_values[i], proportions_[model_->current_year()][category_labels_[category_offset]][i],
+      SaveComparison(category_labels_[category_offset], min_age_ + i ,0.0 ,expected_values_[i], proportions_[model_->current_year()][category_labels_[category_offset]][i],
           process_errors_by_year_[model_->current_year()], error_values_[model_->current_year()][category_labels_[category_offset]][i], 0.0, delta_, 0.0);
     }
   }

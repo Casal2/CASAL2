@@ -46,7 +46,7 @@ void Process::Trigger(const string& source_label, Double value_1, Double value_2
     value_2 = log(utilities::doublecompare::ZeroFun(value_2));
   }
 
-  string name  = label_ + "(" + source_label + ")";
+  string name  = label_ + "[" + source_label + "]";
   Double value = (value_1 - value_2) * (value_1 - value_2) * multiplier_;
   model_->managers().penalty()->FlagPenalty(name, value);
 }

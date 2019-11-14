@@ -7,10 +7,13 @@
 ################################### Minimiser ###############################
 
 @minimiser beta_diff
+#type numerical_differences
+#iterations 10
+#evaluations 10
 type betadiff
 tolerance 1e-6
-iterations 2500
-evaluations 4000
+iterations 1000
+evaluations 1000
 
 /*
 @minimiser CPPAD
@@ -53,6 +56,7 @@ mu 0.17
 cv 0.61
 lower_bound 0.020
 upper_bound 0.51
+
 
 @estimate SAautq
 type lognormal
@@ -113,30 +117,50 @@ theta1 B0_E_with_total_log_b0_prior
 theta2 B0_W_with_proportion_prior
 transform_with_jacobian F  
 
+## Natural Mortality
+@estimate M_all
+parameter process[Instant_mortality].m{west.sa}
+same process[Instant_mortality].m{east.cr} process[Instant_mortality].m{west.cr} process[Instant_mortality].m{west.wc} process[Instant_mortality].m{east.cs} 
+type lognormal
+mu 0.298
+cv 0.153
+lower_bound 0.22
+upper_bound 0.44
+## Western Home Migration
+# Note to Andy, in some selectivities I have removed the sexed aspect, because you force them to be the same in estimation
+# there is no point in my mind why you would different selectivities for each sex if you force them to be the same.
+## Western spawning fishery time_varying parameter
+@estimate Wspsl_shift_param
+parameter time_varying[shifted_mu].a
+type normal_by_stdev
+mu 0.0
+sigma 0.25
+lower_bound -10.24
+upper_bound 2.24
 ####### 
 ## YCS
 #######
 @estimate YCS_E
-parameter process[recruit_E].ycs_values{1975:2014}
+parameter process[recruit_E].ycs_values{1975:2016}
 type lognormal
-#YCS_years    1975 1976 1977 1978 1979 1980 1981 1982 1983 1984 1985 1986 1987 1988 1989 1990 1991 1992 1993 1994 1995 1996 1997 1998 1999 2000 2001 2002 2003 2004 2005 2006 2007 2008 2009 2010 2011 2012 2013 2014
-mu 	         1    1    1    1    1    1    1    1    1    1    1    1    1    1    1    1    1    1    1    1    1    1    1    1    1    1    1    1    1    1    1    1    1    1    1    1    1    1    1    1
-cv            0.95 0.95 0.95 0.95 0.95 0.95 0.95 0.95 0.95 0.95 0.95 0.95 0.95 0.95 0.95 0.95 0.95 0.95 0.95 0.95 0.95 0.95 0.95 0.95 0.95 0.95 0.95 0.95 0.95 0.95 0.95 0.95 0.95 0.95 0.95 0.95 0.95 0.95 0.95 0.95
-lower_bound   0.06 0.06 0.06 0.06 0.06 0.06 0.06 0.06 0.06 0.06 0.06 0.06 0.06 0.06 0.06 0.06 0.06 0.06 0.06 0.06 0.06 0.06 0.06 0.06 0.06 0.06 0.06 0.06 0.06 0.06 0.06 0.06 0.06 0.06 0.06 0.06 0.06 0.06 0.06 0.06
-upper_bound   8.60 8.60 8.60 8.60 8.60 8.60 8.60 8.60 8.60 8.60 8.60 8.60 8.60 8.60 8.60 8.60 8.60 8.60 8.60 8.60 8.60 8.60 8.60 8.60 8.60 8.60 8.60 8.60 8.60 8.60 8.60 8.60 8.60 8.60 8.60 8.60 8.60 8.60 8.60 8.60
+#YCS_years						1975	1976	1977	1978	1979	1980	1981	1982	1983	1984	1985	1986	1987	1988	1989	1990	1991	1992	1993	1994	1995	1996	1997	1998	1999	2000	2001	2002	2003	2004	2005	2006	2007	2008	2009	2010	2011	2012	2013	2014	2015	2016
+mu							1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1
+cv							0.95	0.95	0.95	0.95	0.95	0.95	0.95	0.95	0.95	0.95	0.95	0.95	0.95	0.95	0.95	0.95	0.95	0.95	0.95	0.95	0.95	0.95	0.95	0.95	0.95	0.95	0.95	0.95	0.95	0.95	0.95	0.95	0.95	0.95	0.95	0.95	0.95	0.95	0.95	0.95	0.95	0.95
+lower_bound						0.06	0.06	0.06	0.06	0.06	0.06	0.06	0.06	0.06	0.06	0.06	0.06	0.06	0.06	0.06	0.06	0.06	0.06	0.06	0.06	0.06	0.06	0.06	0.06	0.06	0.06	0.06	0.06	0.06	0.06	0.06	0.06	0.06	0.06	0.06	0.06	0.06	0.06	0.06	0.06	0.06	0.06
+upper_bound						8.6	8.6	8.6	8.6	8.6	8.6	8.6	8.6	8.6	8.6	8.6	8.6	8.6	8.6	8.6	8.6	8.6	8.6	8.6	8.6	8.6	8.6	8.6	8.6	8.6	8.6	8.6	8.6	8.6	8.6	8.6	8.6	8.6	8.6	8.6	8.6	8.6	8.6	8.6	8.6	8.6	8.6
 
 @estimate YCS_W
-parameter process[recruit_W].ycs_values{1975:2014}
+parameter process[recruit_W].ycs_values{1975:2016}
 type lognormal
-#YCS_years    1975 1976 1977 1978 1979 1980 1981 1982 1983 1984 1985 1986 1987 1988 1989 1990 1991 1992 1993 1994 1995 1996 1997 1998 1999 2000 2001 2002 2003 2004 2005 2006 2007 2008 2009 2010 2011 2012 2013 2014
-mu 	         1    1    1    1    1    1    1    1    1    1    1    1    1    1    1    1    1    1    1    1    1    1    1    1    1    1    1    1    1    1    1    1    1    1    1    1    1    1    1    1
-cv            0.95 0.95 0.95 0.95 0.95 0.95 0.95 0.95 0.95 0.95 0.95 0.95 0.95 0.95 0.95 0.95 0.95 0.95 0.95 0.95 0.95 0.95 0.95 0.95 0.95 0.95 0.95 0.95 0.95 0.95 0.95 0.95 0.95 0.95 0.95 0.95 0.95 0.95 0.95 0.95
-lower_bound   0.06 0.06 0.06 0.06 0.06 0.06 0.06 0.06 0.06 0.06 0.06 0.06 0.06 0.06 0.06 0.06 0.06 0.06 0.06 0.06 0.06 0.06 0.06 0.06 0.06 0.06 0.06 0.06 0.06 0.06 0.06 0.06 0.06 0.06 0.06 0.06 0.06 0.06 0.06 0.06
-upper_bound   8.60 8.60 8.60 8.60 8.60 8.60 8.60 8.60 8.60 8.60 8.60 8.60 8.60 8.60 8.60 8.60 8.60 8.60 8.60 8.60 8.60 8.60 8.60 8.60 8.60 8.60 8.60 8.60 8.60 8.60 8.60 8.60 8.60 8.60 8.60 8.60 8.60 8.60 8.60 8.60
+#YCS_years						1975	1976	1977	1978	1979	1980	1981	1982	1983	1984	1985	1986	1987	1988	1989	1990	1991	1992	1993	1994	1995	1996	1997	1998	1999	2000	2001	2002	2003	2004	2005	2006	2007	2008	2009	2010	2011	2012	2013	2014	2015	2016
+mu							1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1
+cv							0.95	0.95	0.95	0.95	0.95	0.95	0.95	0.95	0.95	0.95	0.95	0.95	0.95	0.95	0.95	0.95	0.95	0.95	0.95	0.95	0.95	0.95	0.95	0.95	0.95	0.95	0.95	0.95	0.95	0.95	0.95	0.95	0.95	0.95	0.95	0.95	0.95	0.95	0.95	0.95	0.95	0.95
+lower_bound						0.06	0.06	0.06	0.06	0.06	0.06	0.06	0.06	0.06	0.06	0.06	0.06	0.06	0.06	0.06	0.06	0.06	0.06	0.06	0.06	0.06	0.06	0.06	0.06	0.06	0.06	0.06	0.06	0.06	0.06	0.06	0.06	0.06	0.06	0.06	0.06	0.06	0.06	0.06	0.06	0.06	0.06
+upper_bound						8.6	8.6	8.6	8.6	8.6	8.6	8.6	8.6	8.6	8.6	8.6	8.6	8.6	8.6	8.6	8.6	8.6	8.6	8.6	8.6	8.6	8.6	8.6	8.6	8.6	8.6	8.6	8.6	8.6	8.6	8.6	8.6	8.6	8.6	8.6	8.6	8.6	8.6	8.6	8.6	8.6	8.6
 #########################
 ## Selectivity Parameter's
 #########################
-## Natural Mortality
+/*
 # male
 @estimate M_male_x0
 parameter selectivity[M_male].x0
@@ -186,10 +210,8 @@ parameter selectivity[M_female].y2
 type uniform
 lower_bound 0.5 
 upper_bound 2.0
+*/
 
-## Western Home Migration
-# Note to Andy, in some selectivities I have removed the sexed aspect, because you force them to be the same in estimation
-# there is no point in my mind why you would different selectivities for each sex if you force them to be the same.
 @estimate sel_Whome
 parameter selectivity[sel_Whome].v
 type uniform
@@ -199,7 +221,7 @@ upper_bound    1    1    1 1 1 1 1 1
 ## Eastern-Spawning Migration
 # male
 @estimate sel_Espmg_male
-parameter selectivity[sel_Espmg_Male].v
+parameter selectivity[sel_Espmg].v
 type uniform
 lower_bound 0 0 0 0 0 0 0 0
 upper_bound 1 1 1 1 1 1 1 1
@@ -207,11 +229,11 @@ upper_bound 1 1 1 1 1 1 1 1
 ## Western-Spawning Migration
 # male
 @estimate sel_Wspmg_male
-parameter selectivity[sel_Wspmg_Male].v
+parameter selectivity[sel_Wspmg].v
 type uniform
 lower_bound 0 0 0 0 0 0 0 0
 upper_bound 1 1 1 1 1 1 1 1
-
+/*
 #female
 @estimate sel_Espmg_female
 parameter selectivity[sel_Espmg_Female].v
@@ -225,109 +247,105 @@ parameter selectivity[sel_Wspmg_Female].v
 type uniform
 lower_bound 0 0 0 0 0 0 0 0.6
 upper_bound 1 1 1 1 1 1 1 1
-
+*/
 # fishing selectivities
 ## Eastern Non-Spawning Fishery
 @estimate Enspsl_mu
 parameter selectivity[Enspsl].mu
 type uniform
-lower_bound 64 
-upper_bound 84
+lower_bound 1
+upper_bound 17
 
 @estimate Enspsl_s_l
 parameter selectivity[Enspsl].sigma_l
 type uniform
-lower_bound 4
-upper_bound 44
+lower_bound 1
+upper_bound 50
 
 @estimate Enspsl_s_r
 parameter selectivity[Enspsl].sigma_r
 type uniform
-lower_bound 4
-upper_bound 44
+lower_bound 1
+upper_bound 50
 
 ## Western Non-Spawning Fishery
 @estimate Wnspsl_mu
 parameter selectivity[Wnspsl].mu
 type uniform
-lower_bound 64 
-upper_bound 84
+lower_bound 1
+upper_bound 17
 
 @estimate Wnspsl_s_l
 parameter selectivity[Wnspsl].sigma_l
+lower_bound 1
+upper_bound 50
 type uniform
-lower_bound 4
-upper_bound 44
 
 @estimate Wnspsl_s_r
 parameter selectivity[Wnspsl].sigma_r
 type uniform
-lower_bound 4
-upper_bound 44
-
+lower_bound 1
+upper_bound 50
 ## Eastern Spawning Fishery
 # note - I am forcing the western spawning fishery to be the same.
-@estimate Espsl_a50
-parameter selectivity[Espsl].a50
-same selectivity[Wspsl].a50
+@estimate Espsl_mu
+parameter selectivity[Espsl].mu
+same selectivity[Wspsl].mu
 type uniform
-lower_bound 6 
-upper_bound 80
+lower_bound 1
+upper_bound 17
 
-@estimate Espsl_ato95
-parameter selectivity[Espsl].ato95
-same selectivity[Wspsl].ato95
+@estimate Espsl_s_l
+parameter selectivity[Espsl].sigma_l
+same selectivity[Wspsl].sigma_l
 type uniform
-lower_bound 4
-upper_bound 60
+lower_bound 1
+upper_bound 50
 
-## Western spawning fishery time_varying parameter
-@estimate Wspsl_shift_param
-parameter time_varying[shifted_a50].a
-type normal_by_stdev
-mu 0.0
-sigma 0.25
-lower_bound -10.24
-upper_bound 2.24
+@estimate Espsl_s_r
+parameter selectivity[Espsl].sigma_r
+same selectivity[Wspsl].sigma_r
+type uniform
+lower_bound 1
+upper_bound 50
 
 ## Chatham Rise Survey
 @estimate CRsl_mu
 parameter selectivity[CRsl].mu
 type uniform
-lower_bound 64 
-upper_bound 84
+lower_bound 1
+upper_bound 17
 
 @estimate CRsl_s_l
 parameter selectivity[CRsl].sigma_l
 type uniform
-lower_bound 4
-upper_bound 44
+lower_bound 1
+upper_bound 50
 
 @estimate CRsl_s_r
 parameter selectivity[CRsl].sigma_r
 type uniform
-lower_bound 4
-upper_bound 44
+lower_bound 1
+upper_bound 50
 
 ## Sub Antarctic Survey
 @estimate SAsl_mu
 parameter selectivity[SAsl].mu
 type uniform
-lower_bound 64 
-upper_bound 84
+lower_bound 1
+upper_bound 17
 
 @estimate SAsl_s_l
 parameter selectivity[SAsl].sigma_l
 type uniform
-lower_bound 4
-upper_bound 44
+lower_bound 1
+upper_bound 50
 
 @estimate SAsl_s_r
 parameter selectivity[SAsl].sigma_r
 type uniform
-lower_bound 4
-upper_bound 44
-
+lower_bound 1
+upper_bound 50
 ################################### Penalties ###############################
 @penalty CatchMustBeTaken
 type process
@@ -336,14 +354,22 @@ multiplier 10000
 
 ################################### Additional Priors ###############################
 ## Year class prior
-@additional_prior YCS.eq.14
+@additional_prior YCS.eq.16
 type element_difference
-parameter process[recruit_E].ycs_values{2014}
-second_parameter process[recruit_W].ycs_values{2014}
+parameter process[recruit_E].ycs_values{2016}
+second_parameter process[recruit_W].ycs_values{2016}
 multiplier 1000
 
+
+@additional_prior sp.migr
+type element_difference
+parameter selectivity[sel_Espmg].values{8}  ## 8 year old values
+second_parameter selectivity[sel_Wspmg].values{8}  ## 8 year old values
+multiplier 100
 ## Ogive_difference_prior
 #Female
+
+/*
 @additional_prior sp.migr.F
 type element_difference
 parameter selectivity[sel_Espmg_Female].values{8}  ## 8 year old values
@@ -355,6 +381,7 @@ type element_difference
 parameter selectivity[sel_Espmg_Male].values{8}
 second_parameter selectivity[sel_Wspmg_Male].values{8}
 multiplier 100
+*/
 
 ## The old HOKI user Defined penalty is actually just a log_normal evaluation of specific age based selectivities
 # Have generalised prior_penalty_Mprior3.cpp which is from Patrick's report, WG-HOK-2007/11, 
@@ -364,6 +391,8 @@ multiplier 100
 # mnM = 0.182355
 # cv = sqrt(exp(sd^2) - 1)
 # cv = 0.5090222
+
+/*
 @additional_prior prior_on_Mmale
 type lognormal
 parameter selectivity[M_male].values{5:9}
@@ -375,3 +404,4 @@ type lognormal
 parameter selectivity[M_female].values{5:9}
 mu 0.182355
 cv 0.5090222
+*/

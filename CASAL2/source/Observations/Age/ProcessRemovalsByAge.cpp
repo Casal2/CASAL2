@@ -281,8 +281,8 @@ void ProcessRemovalsByAge::DoBuild() {
     time_step_to_execute_ = time_step_index[0];
   }
 
-  LOG_FINEST() << "Executing observation in time step = " << time_step_to_execute_;
-
+  expected_values_.resize(age_spread_, 0.0);
+  accumulated_expected_values_.resize(age_spread_, 0.0);
 }
 
 /**
@@ -299,20 +299,18 @@ void ProcessRemovalsByAge::PreExecute() {
  *
  */
 void ProcessRemovalsByAge::Execute() {
-  LOG_TRACE();
-  LOG_FINEST() << "Entering observation " << label_;
-
+  LOG_MEDIUM() << "Entering observation " << label_;
+  unsigned year = model_->current_year();
+  LOG_MEDIUM() << "current year " << year;
   // Check if we are in the final time_step so we have all the relevent information from the Mortaltiy process
   unsigned current_time_step = model_->managers().time_step()->current_time_step();
 	if (time_step_to_execute_ == current_time_step) {
 
-		unsigned year = model_->current_year();
 		map<unsigned,map<string, map<string, vector<Double>>>> &Removals_at_age = mortality_instantaneous_->catch_at();
-
 		auto partition_iter = partition_->Begin(); // vector<vector<partition::Category> >
 		for (unsigned category_offset = 0; category_offset < category_labels_.size(); ++category_offset, ++partition_iter) {
-			vector<Double> expected_values(age_spread_, 0.0);
-			vector<Double> accumulated_expected_values(age_spread_, 0.0);
+      fill(accumulated_expected_values_.begin(), accumulated_expected_values_.end(),0.0);
+      fill(expected_values_.begin(), expected_values_.end(),0.0);
 			LOG_FINEST() << "Category = " << category_labels_[category_offset];
 			auto category_iter = partition_iter->begin();
 			for (; category_iter != partition_iter->end(); ++category_iter) {
@@ -350,19 +348,19 @@ void ProcessRemovalsByAge::Execute() {
 
 						unsigned age_offset = min_age_ - model_->min_age();
 						if (k >= age_offset && (k - age_offset + min_age_) <= max_age_)
-						expected_values[k - age_offset] = Removals_at_age[year][fishery][(*category_iter)->name_][k];
+						  expected_values_[k - age_offset] = Removals_at_age[year][fishery][(*category_iter)->name_][k];
 						// Deal with the plus group
 						if (((k - age_offset + min_age_) > max_age_) && plus_group_)
-						expected_values[age_spread_ - 1] += Removals_at_age[year][fishery][(*category_iter)->name_][k];
+						  expected_values_[age_spread_ - 1] += Removals_at_age[year][fishery][(*category_iter)->name_][k];
 					}
 
-					if (expected_values.size() != proportions_[model_->current_year()][category_labels_[category_offset]].size())
-					LOG_CODE_ERROR()<< "expected_values.size(" << expected_values.size() << ") != proportions_[category_offset].size("
+					if (expected_values_.size() != proportions_[model_->current_year()][category_labels_[category_offset]].size())
+					LOG_CODE_ERROR()<< "expected_values_.size(" << expected_values_.size() << ") != proportions_[category_offset].size("
 					<< proportions_[model_->current_year()][category_labels_[category_offset]].size() << ")";
 
 					// Accumulate the expectations if they come form multiple fisheries
-					for (unsigned i = 0; i < expected_values.size(); ++i)
-					accumulated_expected_values[i] += expected_values[i];
+					for (unsigned i = 0; i < expected_values_.size(); ++i)
+					accumulated_expected_values_[i] += expected_values_[i];
 
 					method_offset++;
 				}
@@ -371,10 +369,10 @@ void ProcessRemovalsByAge::Execute() {
 			/**
 			 * save our comparisons so we can use them to generate the score from the likelihoods later
 			 */
-			for (unsigned i = 0; i < expected_values.size(); ++i) {
+			for (unsigned i = 0; i < accumulated_expected_values_.size(); ++i) {
 				LOG_FINEST() << "-----";
-				LOG_FINEST() << "Numbers at age for category: " << category_labels_[category_offset] << " for age " << min_age_ + i << " = " << accumulated_expected_values[i];
-				SaveComparison(category_labels_[category_offset], min_age_ + i, 0.0, accumulated_expected_values[i],
+				LOG_FINEST() << "Numbers at age for category: " << category_labels_[category_offset] << " for age " << min_age_ + i << " = " << accumulated_expected_values_[i];
+				SaveComparison(category_labels_[category_offset], min_age_ + i, 0.0, accumulated_expected_values_[i],
 				proportions_[model_->current_year()][category_labels_[category_offset]][i], process_errors_by_year_[model_->current_year()],
 				error_values_[model_->current_year()][category_labels_[category_offset]][i],0.0, delta_, 0.0);
 			}

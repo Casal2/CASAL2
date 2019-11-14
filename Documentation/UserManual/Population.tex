@@ -1459,6 +1459,34 @@ This class allows the use of the equation parser to define the future values of 
 
 The syntax of the equation parser can be messy and care should be taken when writing it. In words the above equation is, if $\%B_{2014} \leq 0.1$ then set next years catch to 0.0, else if $\%B_{2014} > 0.1 \text{ } \& \text{ } \%B_{2014} \leq 0.2$ then set next years catch equal to $\%B_{2014} \times SSB_{2014}$, else set next years catch to $0.2 SSB_{2014}$.
 
+\subsubsection[Catches]\index{Projections!Catches}
+Catches are unique in that they are known inputs in a table format. To project catches that are in a table use this example projection block,
+{\small{\begin{verbatim}
+# fishing process 
+@process Fishing
+type mortality_instantaneous_retained
+m 0.17*6  #0.17    #testing at old values
+time_step_ratio 1
+selectivities One*6   #for age based M
+categories *
+table catches			
+year	FishingLine	FishingPot	Recreation
+1900	0	0	0
+1901	13.2	0	22.9
+1902	26.4	0	23.5
+1903	39.6	0	24
+end_table			
+
+# projection block
+@project future_catch
+type constant
+parameter process[Fishing].method_fishingpot
+years 2020:2029
+values 4000
+\end{verbatim}}}
+
+This follows the syntax, \texttt{block\_type[block\_label].method\_fishinglabel}. \textbf{note} the fishing label which is defined in the table needs to be lower case form in the \command{projection} block.
+
 \subsection{\I{Time Varying Parameters}\label{sec:time_var}}
 
 \CNAME\ has the functionality to vary any parameter annually between the start and final year of a model run. This can be for blocks of years or specific years. For years that are not specified the parameter will default to the input, or if in an iterative state such as estimation mode, the value being trialled at that iteration. Method types for time varying a parameter are; \subcommand{constant}, \subcommand{random\_walk}, \subcommand{exogenous}, \subcommand{linear}, \subcommand{annual\_shift}, \subcommand{random\_draw}. This allows users to let a parameter be known in a year, be the result of a deterministic equation, or stochastic. \textbf{Note} stochastic time varying was added for simulation purposes. It has not been tested in an estimation context. To implement hierarchical I have estimated the prior values with hyper-priors. If you were to try an implement a hierarchical model using the time varying functionality, firstly you could only do this at MCMC estimation because an MPD we would not be doing that integral which is required to obtain unbiased estimates. In an MCMC context you would be assuming a Gibbs sampler. That is every draw is from a conditional distribution and so every draw is a candidate value.

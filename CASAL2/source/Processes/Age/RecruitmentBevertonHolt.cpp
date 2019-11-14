@@ -139,6 +139,7 @@ void RecruitmentBevertonHolt::DoValidate() {
     proportions_by_category_[category] = proportions_[iter];
     ++iter;
   }
+  last_ycs_year_ = ycs_years_[std::distance(ycs_years_.begin(),std::max_element(ycs_years_.begin(), ycs_years_.end()))];
 
 }
 
@@ -321,7 +322,8 @@ void RecruitmentBevertonHolt::DoReset() {
  */
 
 void RecruitmentBevertonHolt::DoExecute() {
-  unsigned ssb_year = model_->current_year() - ssb_offset_;
+  unsigned current_year = model_->current_year();
+  unsigned ssb_year = current_year - ssb_offset_;
 
   Double amount_per = 0.0;
   if (model_->state() == State::kInitialise) {
@@ -350,26 +352,32 @@ void RecruitmentBevertonHolt::DoExecute() {
     /**
      * The model is not in an initialisation phase
      */
-    ++year_counter_;
-    LOG_FINEST() << "standardise_ycs_.size(): " << standardise_ycs_.size() << "; model_->current_year(): " << model_->current_year()
+    LOG_FINEST() << "standardise_ycs_.size(): " << standardise_ycs_.size() << "; model_->current_year(): " << current_year
         << "; model_->start_year(): " << model_->start_year();
     Double ycs;
     // If projection mode ycs values get replaced with projected value from @project block
+    // note that the container ycs_value_by_year_ is changed by time_varying and projection classes
+    // but the code wants to use stand_ycs_value_by_year_ in the functions following here, so we might need to update this.
     if (model_->run_mode() == RunMode::kProjection) {
-      // An issue with this is we can start projecting values before final_year(), how can we catch that.
       if (ycs_value_by_year_[ssb_year] == 0.0) {
-        LOG_FATAL_P(PARAM_YCS_VALUES) << "You are in a projection mode (-f) and in a projection year but ycs values are = 0 for ycs_year " << model_->current_year() - ssb_offset_ << ", this is an error that will cause the recruitment process to fail. Please check you have correctly specified an @project block for this parameter, thanks";
+        LOG_FATAL_P(PARAM_YCS_VALUES) << "You are in a projection mode (-f) but ycs values are = 0 for ycs_year " << model_->current_year() - ssb_offset_ << ", this is an error that will cause the recruitment process to supply 0 recruits. Please check you have correctly specified an @project block for this parameter, thanks";
       }
+      // Projection classes will update this container automatically
       ycs = ycs_value_by_year_[ssb_year];
       // We need to see if this value has changed from the initial input, if it has we are going to assume that this is because the projection class has changed it.
       // set standardised ycs = ycs for reporting
-
-      if (ycs != ycs_values_[year_counter_])
+      LOG_FINE() << "year = " << ssb_year << " value = " << ycs << " last val = " << last_ycs_year_ << " counter = " << year_counter_ << " size of vector " << ycs_values_.size();
+      if (ssb_year > last_ycs_year_) {
+        // we are in projection years so force standardised ycs to be the same as ycs_value_by_year_[ssb_year];
         stand_ycs_value_by_year_[ssb_year] = ycs;
-      else
-        ycs = stand_ycs_value_by_year_[ssb_year];
-
-      LOG_FINEST() << "Projected ycs = " << ycs;
+      } else {
+        // we are still within start-final_year need to check if we have overwritten any values.
+        if (ycs != ycs_values_[year_counter_])
+          stand_ycs_value_by_year_[ssb_year] = ycs;
+        else
+          ycs = stand_ycs_value_by_year_[ssb_year];
+      }
+      LOG_FINEST() << "Projected ycs = " << ycs << " what is in the original " <<  ycs_values_[year_counter_];
     // else business as usual
     } else {
       ycs = stand_ycs_value_by_year_[ssb_year];
@@ -405,6 +413,7 @@ void RecruitmentBevertonHolt::DoExecute() {
         << ycs_value_by_year_[ssb_year] << " Standardised year class = "
         << stand_ycs_value_by_year_[ssb_year] << "; b0_ = " << b0_ << "; ssb_ratio = " << ssb_ratio << "; true_ycs = "
         << true_ycs << "; amount_per = " << amount_per;
+    ++year_counter_;
   }
 
   unsigned i = 0;

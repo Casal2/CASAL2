@@ -69,7 +69,8 @@ protected:
   vector<string>                time_step_label_;
   string                        process_label_;
   unsigned                      time_step_to_execute_;
-
+  vector<Double>                expected_values_;
+  vector<Double>                accumulated_expected_values_;
   map<unsigned, map<string, vector<Double>>>  proportions_;
   map<unsigned, map<string, vector<Double>>>  error_values_;
 

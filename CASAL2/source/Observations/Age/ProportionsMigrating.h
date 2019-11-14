@@ -69,7 +69,11 @@ protected:
   vector<Double>                age_results_;
   string                        time_step_label_ = "";
   string                        process_label_;
-
+  vector<Double>                expected_values_;
+  vector<Double>                numbers_age_before_;
+  vector<Double>                numbers_age_after_;
+  vector<Double>                numbers_age_before_with_ageing_error_;
+  vector<Double>                numbers_age_after_with_ageing_error_;
   map<unsigned, map<string, vector<Double>>>  proportions_;
   map<unsigned, map<string, vector<Double>>>  error_values_;
 };

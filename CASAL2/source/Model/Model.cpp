@@ -31,6 +31,7 @@
 #include "EquationParser/EquationParser.h"
 #include "Estimables/Estimables.h"
 #include "Estimates/Manager.h"
+#include "EstimateTransformations/Manager.h"
 #include "GlobalConfiguration/GlobalConfiguration.h"
 #include "InitialisationPhases/Manager.h"
 #include "Logging/Logging.h"
@@ -519,7 +520,9 @@ void Model::RunBasic() {
     // Model has finished so we can run finalise.
 
     LOG_FINE() << "Model: State change to Iteration Complete";
+    managers_->estimate_transformation()->TransformEstimates();
     objective_function_->CalculateScore();
+    managers_->estimate_transformation()->RestoreEstimates();
     managers_->report()->Execute(State::kIterationComplete);
   }
 }

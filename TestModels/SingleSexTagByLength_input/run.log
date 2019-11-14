@@ -1,16 +1,22 @@
 CASAL2
 Call: casal2 -r -i pars.out 
-Date: Mon Jul 29 13:17:28 2019
-Version: 2019-07-29 00:45:08 UTC (rev. 46f4393)
+Date: Wed Nov 13 16:18:20 2019
+Version: 2019-11-12 21:36:55 UTC (rev. 8359cd6)
 Copyright (c) 2018 - 2019, NIWA (www.niwa.co.nz)
--- Username: amart
--- Machine: niwa-1019055.niwa.local (Linux 3.10.0-957.21.3.el7.x86_64 x86_64)
--- Process Id: 15630
+Environment: machine:LAPTOP-3JA8IB67, user:craig, os:Windows_NT, pid:25076
 
 resizing from 40000 to 44000
 resizing from 44000 to 48400
 resizing from 48400 to 53240
-[WARNING] /home/amart/work/projects/CASAL2/dev/CASAL2/CASAL2/source/Estimates/Manager.cpp(line: 93): Estimates were removed because of matching lower and upper bounds. Originally had 33 estimates, now have 16
+[WARNING] C:\Software\casal2-development\CASAL2\source\Estimates\Manager.cpp(line: 93): Estimates were removed because of matching lower and upper bounds. Originally had 33 estimates, now have 16
+*warnings[warnings_encounted]
+warnings_found: 1
+warning_0 {s}
+Estimates were removed because of matching lower and upper bounds. Originally had 33 estimates, now have 16
+*end
+
+Total elapsed time: 1 second
+Completed
 resizing from 53240 to 58564
 resizing from 58564 to 64420
 resizing from 64420 to 70862
@@ -54,12 +60,3 @@ resizing from 2190410 to 2409451
 resizing from 2409451 to 2650396
 resizing from 2650396 to 2915435
 resizing from 2915435 to 3206978
-*warnings[warnings_encounted]
-warnings_found: 1
-warning_0 {s}
-Estimates were removed because of matching lower and upper bounds. Originally had 33 estimates, now have 16
-*end
-
-Total CPU time: 0.0005 hours.
-Total elapsed time: 1 second
-Completed
