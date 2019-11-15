@@ -88,10 +88,10 @@ void TagByAge::DoValidate() {
    */
   if (loss_rate_.size() == 1) {
     loss_rate_.assign(from_category_labels_.size(), loss_rate_[0]);
-    loss_rate_by_category_ = utilities::Map::create(from_category_labels_, loss_rate_);
+    loss_rate_by_category_ = utilities::Map<Double>::create(from_category_labels_, loss_rate_);
 
   } else if (loss_rate_.size() == from_category_labels_.size()) {
-    loss_rate_by_category_ = utilities::Map::create(from_category_labels_, loss_rate_);
+    loss_rate_by_category_ = utilities::Map<Double>::create(from_category_labels_, loss_rate_);
 
   } else {
     LOG_ERROR_P(PARAM_LOSS_RATE) << " number provided (" << loss_rate_.size() << " does not match the number of " << PARAM_FROM << " categories ("
@@ -172,7 +172,7 @@ void TagByAge::DoValidate() {
       n_.assign(years_.size(), n_[0]);
     else if (n_.size() != years_.size())
       LOG_ERROR_P(PARAM_N) << " values provied (" << n_.size() << ") does not match the number of years (" << years_.size() << ")";
-    map<unsigned, Double> n_by_year = utilities::Map::create(years_, n_);
+    map<unsigned, Double> n_by_year = utilities::Map<Double>::create(years_, n_);
 
     // load our table data in to our map
     vector<vector<string>> data = proportions_table_->data();

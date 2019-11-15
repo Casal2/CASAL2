@@ -65,6 +65,7 @@ class OrderedMap : public ::std::map<_Key, _Tp, cmp_by_insertion> { };
 /**
  * Namespace for our map methods
  */
+template<typename _Tp>
 class Map {
 public:
   /**
@@ -75,8 +76,8 @@ public:
    * @param value The values to use
    * @return a Map of keys and values
    */
-  static std::map<unsigned, Double> create(const std::vector<unsigned>& key, const std::vector<Double>& value) {
-    std::map<unsigned, Double> result;
+  static std::map<unsigned, _Tp> create(const std::vector<unsigned>& key, const std::vector<_Tp>& value) {
+    std::map<unsigned, _Tp> result;
 
     for (unsigned i = 0; i < key.size(); ++i)
       result[key[i]] = value[i];
@@ -92,8 +93,8 @@ public:
    * @param value The values to use
    * @return a Map of keys and values
    */
-  static std::map<std::string, Double> create(const std::vector<std::string>& key, const std::vector<Double>& value) {
-    std::map<std::string, Double> result;
+  static std::map<std::string, _Tp> create(const std::vector<std::string>& key, const std::vector<_Tp>& value) {
+    std::map<std::string, _Tp> result;
 
     for (unsigned i = 0; i < key.size(); ++i)
       result[key[i]] = value[i];
@@ -109,14 +110,15 @@ public:
    * @param value The values to use
    * @return a Map of keys and values
    */
-  static std::map<unsigned, Double> create(const std::vector<unsigned>& key, const Double& value) {
-    std::map<unsigned, Double> result;
+  static std::map<unsigned, _Tp> create(const std::vector<unsigned>& key, const _Tp& value) {
+    std::map<unsigned, _Tp> result;
 
     for (unsigned i = 0; i < key.size(); ++i)
       result[key[i]] = value;
 
     return result;
   }
+
 
 }; // class
 

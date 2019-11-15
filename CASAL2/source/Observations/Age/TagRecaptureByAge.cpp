@@ -45,11 +45,12 @@ TagRecaptureByAge::TagRecaptureByAge(Model* model) : Observation(model) {
   parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_labels_, "The labels of the selectivities", "", true);
   parameters_.Bind<string>(PARAM_TIME_STEP, &time_step_label_, "The label of time-step that the observation occurs in", "");
   parameters_.Bind<string>(PARAM_TARGET_SELECTIVITIES, &target_selectivity_labels_, "The categories of tagged individuals for the observation", "");
+  // TODO:  is tolerance missing?
   parameters_.Bind<Double>(PARAM_PROCESS_ERRORS, &process_error_values_, "Process error", "", true);
   parameters_.Bind<Double>(PARAM_DETECTION_PARAMETER,  &detection_, "Probability of detecting a recaptured individual", "");
   parameters_.BindTable(PARAM_RECAPTURED, recaptures_table_, "Table of observed recaptured individuals in each age class", "", false);
   parameters_.BindTable(PARAM_SCANNED, scanned_table_, "Table of observed scanned individuals in each age class", "", false);
-  parameters_.Bind<Double>(PARAM_TIME_STEP_PROPORTION, &time_step_proportion_, "Proportion through the mortality block of the time step when the observation is evaluated", "", Double(0.5));
+  parameters_.Bind<double>(PARAM_TIME_STEP_PROPORTION, &time_step_proportion_, "Proportion through the mortality block of the time step when the observation is evaluated", "", double(0.5));
 
   mean_proportion_method_ = true;
 
@@ -75,8 +76,10 @@ void TagRecaptureByAge::DoValidate() {
     << "the number of total categories (" << expected_selectivity_count << ")";
 
   age_spread_ = (max_age_ - min_age_) + 1;
-  map<unsigned, vector<Double>> recaptures_by_year;
-  map<unsigned, vector<Double>> scanned_by_year;
+
+  map<unsigned, vector<double>> recaptures_by_year;
+  map<unsigned, vector<double>> scanned_by_year;
+
   for (auto year : years_) {
   	if((year < model_->start_year()) || (year > model_->final_year()))
   		LOG_ERROR_P(PARAM_YEARS) << "Years can't be less than start_year (" << model_->start_year() << "), or greater than final_year (" << model_->final_year() << "). Please fix this.";
@@ -94,7 +97,7 @@ void TagRecaptureByAge::DoValidate() {
 
 
   if (delta_ < 0.0)
-    LOG_ERROR_P(PARAM_DELTA) << ": delta (" << AS_DOUBLE(delta_) << ") cannot be less than 0.0";
+    LOG_ERROR_P(PARAM_DELTA) << ": delta (" << delta_ << ") cannot be less than 0.0";
 
   /**
    * Validate the number of recaptures provided matches age spread * category_labels * years
@@ -128,8 +131,8 @@ void TagRecaptureByAge::DoValidate() {
     }
 
     for (unsigned i = 1; i < recaptures_data_line.size(); ++i) {
-      Double value = 0;
-      if (!utilities::To<Double>(recaptures_data_line[i], value))
+      double value = 0.0;
+      if (!utilities::To<double>(recaptures_data_line[i], value))
         LOG_ERROR_P(PARAM_RECAPTURED) << " value (" << recaptures_data_line[i] << ") could not be converted to a double";
       recaptures_by_year[year].push_back(value);
     }
@@ -159,15 +162,15 @@ void TagRecaptureByAge::DoValidate() {
       LOG_ERROR_P(PARAM_SCANNED) << " value " << year << " is not a valid year for this observation";
     } else {
         for (unsigned i = 1; i < scanned_values_data_line.size(); ++i) {
-          Double value = 0;
-        if (!utilities::To<Double>(scanned_values_data_line[i], value)) {
-          LOG_ERROR_P(PARAM_SCANNED) << " value (" << scanned_values_data_line[i] << ") could not be converted to a double";
-        } else if (likelihood_type_ == PARAM_MULTINOMIAL && value < 0.0) {
-            LOG_ERROR_P(PARAM_ERROR_VALUES) << ": error_value (" << AS_DOUBLE(value) << ") cannot be less than 0.0";
-        }
+          double value = 0.0;
+          if (!utilities::To<double>(scanned_values_data_line[i], value)) {
+            LOG_ERROR_P(PARAM_SCANNED) << " value (" << scanned_values_data_line[i] << ") could not be converted to a double";
+          } else if (likelihood_type_ == PARAM_MULTINOMIAL && value < 0.0) {
+              LOG_ERROR_P(PARAM_ERROR_VALUES) << ": error_value (" << value << ") cannot be less than 0.0";
+          }
 
-        scanned_by_year[year].push_back(value);
-      }
+          scanned_by_year[year].push_back(value);
+        }
       if (scanned_by_year[year].size() == 1) {
         scanned_by_year[year].assign(obs_expected - 1, scanned_by_year[year][0]);
       }
@@ -180,19 +183,19 @@ void TagRecaptureByAge::DoValidate() {
   /**
    * Build our Recaptured and scanned maps for use in the DoExecute() section
    */
-  Double value = 0.0;
+  double value = 0.0;
   for (auto iter = recaptures_by_year.begin(); iter != recaptures_by_year.end(); ++iter) {
-    Double total = 0.0;
+    double total = 0.0;
 
     for (unsigned i = 0; i < category_labels_.size(); ++i) {
       for (unsigned j = 0; j < age_spread_; ++j) {
         unsigned obs_index = i * age_spread_ + j;
-        if (!utilities::To<Double>(iter->second[obs_index], value)) {
+        if (!utilities::To<double>(iter->second[obs_index], value)) {
           LOG_ERROR_P(PARAM_OBS) << ": obs_ value (" << iter->second[obs_index] << ") at index " << obs_index + 1
               << " in the definition could not be converted to a numeric double";
         }
 
-        Double error_value = scanned_by_year[iter->first][obs_index];
+        double error_value = scanned_by_year[iter->first][obs_index];
         scanned_[iter->first][category_labels_[i]].push_back(error_value);
         recaptures_[iter->first][category_labels_[i]].push_back(value);
         total += error_value;
@@ -244,7 +247,7 @@ void TagRecaptureByAge::DoBuild() {
     target_selectivities_.assign(category_labels_.size(), target_selectivities_[0]);
 
   if (time_step_proportion_ < 0.0 || time_step_proportion_ > 1.0)
-    LOG_ERROR_P(PARAM_TIME_STEP_PROPORTION) << ": time_step_proportion (" << AS_DOUBLE(time_step_proportion_) << ") must be between 0.0 and 1.0";
+    LOG_ERROR_P(PARAM_TIME_STEP_PROPORTION) << ": time_step_proportion (" << time_step_proportion_ << ") must be between 0.0 and 1.0";
   proportion_of_time_ = time_step_proportion_;
 
   auto time_step = model_->managers().time_step()->GetTimeStep(time_step_label_);

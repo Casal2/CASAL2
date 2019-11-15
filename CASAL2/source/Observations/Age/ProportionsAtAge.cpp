@@ -41,7 +41,7 @@ ProportionsAtAge::ProportionsAtAge(Model* model) : Observation(model) {
   parameters_.Bind<unsigned>(PARAM_MAX_AGE, &max_age_, "Maximum age", "");
   parameters_.Bind<bool>(PARAM_PLUS_GROUP, &plus_group_, "Use age plus group", "", true);
   parameters_.Bind<string>(PARAM_TIME_STEP, &time_step_label_, "The label of time-step that the observation occurs in", "");
-  parameters_.Bind<Double>(PARAM_TOLERANCE, &tolerance_, "Tolerance on the constraint, that for each year the sum of proportions in each age must equal one e.g. tolerance = 0.1 then 1 - Sum(Proportions) can be as great as 0.1 ", "", Double(0.001));
+  parameters_.Bind<double>(PARAM_TOLERANCE, &tolerance_, "Tolerance on the constraint, that for each year the sum of proportions in each age must equal one e.g. tolerance = 0.1 then 1 - Sum(Proportions) can be as great as 0.1 ", "", double(0.001));
   parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "The years of the observed values", "");
   parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_labels_, "Labels of the selectivities", "", true);
   parameters_.Bind<Double>(PARAM_PROCESS_ERRORS, &process_error_values_, "Process error", "", true);
@@ -70,8 +70,10 @@ ProportionsAtAge::~ProportionsAtAge() {
 void ProportionsAtAge::DoValidate() {
   LOG_TRACE();
   age_spread_ = (max_age_ - min_age_) + 1;
-  map<unsigned, vector<Double>> error_values_by_year;
-  map<unsigned, vector<Double>> obs_by_year;
+
+  map<unsigned, vector<double>> error_values_by_year;
+  map<unsigned, vector<double>> obs_by_year;
+
   LOG_FINEST() << "category_labels_.size() = " << category_labels_.size();
   if (category_labels_.size() != selectivity_labels_.size() && expected_selectivity_count_ != selectivity_labels_.size())
     LOG_ERROR_P(PARAM_SELECTIVITIES) << ": Number of selectivities provided (" << selectivity_labels_.size()
@@ -101,14 +103,14 @@ void ProportionsAtAge::DoValidate() {
     if (process_error_values_.size() != years_.size()) {
       LOG_FATAL_P(PARAM_PROCESS_ERRORS) << "need to supply a process error for each year, you supplied '" << process_error_values_.size() << "', but you need to supply '" << years_.size() << "'";
     }
-    process_errors_by_year_ = utilities::Map::create(years_, process_error_values_);
+    process_errors_by_year_ = utilities::Map<Double>::create(years_, process_error_values_);
   } else {
     Double process_val = 0.0;
-    process_errors_by_year_ = utilities::Map::create(years_, process_val);
+    process_errors_by_year_ = utilities::Map<Double>::create(years_, process_val);
   }
 
   if (delta_ < 0.0)
-    LOG_ERROR_P(PARAM_DELTA) << ": delta (" << AS_DOUBLE(delta_) << ") cannot be less than 0.0";
+    LOG_ERROR_P(PARAM_DELTA) << ": delta (" << delta_ << ") cannot be less than 0.0";
 
   /**
    * Validate the number of obs provided matches age spread * category_labels * years
@@ -135,8 +137,8 @@ void ProportionsAtAge::DoValidate() {
       LOG_ERROR_P(PARAM_OBS) << " value " << year << " is not a valid year for this observation";
 
     for (unsigned i = 1; i < obs_data_line.size(); ++i) {
-      Double value = 0;
-      if (!utilities::To<Double>(obs_data_line[i], value))
+      double value = 0.0;
+      if (!utilities::To<double>(obs_data_line[i], value))
         LOG_ERROR_P(PARAM_OBS) << " value (" << obs_data_line[i] << ") could not be converted to a double";
       obs_by_year[year].push_back(value);
     }
@@ -165,14 +167,13 @@ void ProportionsAtAge::DoValidate() {
     if (std::find(years_.begin(), years_.end(), year) == years_.end())
       LOG_ERROR_P(PARAM_ERROR_VALUES) << " value " << year << " is not a valid year for this observation";
     for (unsigned i = 1; i < error_values_data_line.size(); ++i) {
-      Double value = 0;
-
-      if (!utilities::To<Double>(error_values_data_line[i], value))
+      double value = 0.0;
+      if (!utilities::To<double>(error_values_data_line[i], value))
         LOG_ERROR_P(PARAM_ERROR_VALUES) << " value (" << error_values_data_line[i] << ") could not be converted to a double";
       if (likelihood_type_ == PARAM_LOGNORMAL && value <= 0.0) {
-        LOG_ERROR_P(PARAM_ERROR_VALUES) << ": error_value (" << AS_DOUBLE(value) << ") cannot be equal to or less than 0.0";
+        LOG_ERROR_P(PARAM_ERROR_VALUES) << ": error_value (" << value << ") cannot be equal to or less than 0.0";
       } else if ((likelihood_type_ == PARAM_MULTINOMIAL && value < 0.0) || (likelihood_type_ == PARAM_DIRICHLET && value < 0.0)) {
-        LOG_ERROR_P(PARAM_ERROR_VALUES) << ": error_value (" << AS_DOUBLE(value) << ") cannot be less than 0.0";
+        LOG_ERROR_P(PARAM_ERROR_VALUES) << ": error_value (" << value << ") cannot be less than 0.0";
       }
 
       error_values_by_year[year].push_back(value);
@@ -189,15 +190,16 @@ void ProportionsAtAge::DoValidate() {
    * If the proportions for a given observation do not sum to 1.0
    * and is off by more than the tolerance rescale them.
    */
-  Double value = 0.0;
+  double value = 0.0;
   for (auto iter = obs_by_year.begin(); iter != obs_by_year.end(); ++iter) {
-    Double total = 0.0;
+    double total = 0.0;
 
     for (unsigned i = 0; i < category_labels_.size(); ++i) {
       for (unsigned j = 0; j < age_spread_; ++j) {
         unsigned obs_index = i * age_spread_ + j;
         value = iter->second[obs_index];
-        Double error_value = error_values_by_year[iter->first][obs_index];
+
+        double error_value = error_values_by_year[iter->first][obs_index];
         error_values_[iter->first][category_labels_[i]].push_back(error_value);
         proportions_[iter->first][category_labels_[i]].push_back(value);
         total += value;

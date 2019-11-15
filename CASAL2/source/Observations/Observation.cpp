@@ -36,10 +36,10 @@ Observation::Observation(Model* model) : model_(model) {
   parameters_.Bind<string>(PARAM_TYPE, &type_, "Type of observation", "");
   parameters_.Bind<string>(PARAM_LIKELIHOOD, &likelihood_type_, "Type of likelihood to use", "");
   parameters_.Bind<string>(PARAM_CATEGORIES, &category_labels_, "Category labels to use", "", true);
-  parameters_.Bind<Double>(PARAM_DELTA, &delta_, "Robustification value (delta) for the likelihood", "", DELTA);
+  parameters_.Bind<double>(PARAM_DELTA, &delta_, "Robustification value (delta) for the likelihood", "", DELTA);
   parameters_.Bind<string>(PARAM_SIMULATION_LIKELIHOOD, &simulation_likelihood_label_, "Simulation likelihood to use", "", "");
-  parameters_.Bind<Double>(PARAM_LIKELIHOOD_MULTIPLIER, &likelihood_multiplier_, "Likelihood score multiplier", "", Double(1.0));
-  parameters_.Bind<Double>(PARAM_ERROR_VALUE_MULTIPLIER, &error_value_multiplier_, "Error value multiplier for likelihood", "", Double(1.0));
+  parameters_.Bind<double>(PARAM_LIKELIHOOD_MULTIPLIER, &likelihood_multiplier_, "Likelihood score multiplier", "", double(1.0));
+  parameters_.Bind<double>(PARAM_ERROR_VALUE_MULTIPLIER, &error_value_multiplier_, "Error value multiplier for likelihood", "", double(1.0));
   mean_proportion_method_ = true;
 }
 
@@ -121,8 +121,8 @@ void Observation::Reset() {
  * @param error_value The error value for this comparison
  * @param score The amount of score for this comparison
  */
-void Observation::SaveComparison(string category, unsigned age, Double length, Double expected, Double observed,
-    Double process_error, Double error_value, Double adjusted_error, Double delta, Double score) {
+void Observation::SaveComparison(string category, unsigned age, Double length, Double expected, double observed,
+    Double process_error, double error_value, Double adjusted_error, double delta, Double score) {
   observations::Comparison new_comparison;
   new_comparison.category_ = category;
   new_comparison.age_ = age;
@@ -148,9 +148,9 @@ void Observation::SaveComparison(string category, unsigned age, Double length, D
  * @param error_value The error value for this comparison
  * @param score The amount of score for this comparison
  */
-void Observation::SaveComparison(string category, Double expected, Double observed,
-    Double process_error, Double error_value, Double adjusted_error, Double delta, Double score) {
-  SaveComparison(category, 0, 0, expected, observed, process_error, error_value,adjusted_error, delta, score);
+void Observation::SaveComparison(string category, Double expected, double observed,
+    Double process_error, double error_value, Double adjusted_error, double delta, Double score) {
+  SaveComparison(category, 0, 0, expected, observed, process_error, error_value, adjusted_error, delta, score);
 }
 
 } /* namespace niwa */

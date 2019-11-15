@@ -37,7 +37,7 @@ TagLoss::TagLoss(Model* model)
 
   parameters_.Bind<string>(PARAM_CATEGORIES, &category_labels_, "List of categories", "");
   parameters_.Bind<Double>(PARAM_TAG_LOSS_RATE, &tag_loss_input_, "Tag Loss rates", "");
-  parameters_.Bind<Double>(PARAM_TIME_STEP_RATIO, &ratios_, "Time step ratios for Tag Loss", "", true);
+  parameters_.Bind<double>(PARAM_TIME_STEP_RATIO, &ratios_, "Time step ratios for Tag Loss", "", true);
   parameters_.Bind<string>(PARAM_TAG_LOSS_TYPE, &tag_loss_type_, "Type of tag loss", "");
   parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_names_, "Selectivities", "");
   parameters_.Bind<unsigned>(PARAM_YEAR, &year_, "The year the first tagging release process was executed", "");

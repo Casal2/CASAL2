@@ -26,7 +26,7 @@ namespace age {
 ProcessProportionsByCategory::ProcessProportionsByCategory(Model* model)
    : observations::age::ProportionsByCategory(model) {
   parameters_.Bind<string>(PARAM_PROCESS, &process_label_, "The label of the process for the observation", "");
-  parameters_.Bind<Double>(PARAM_PROCESS_PROPORTION, &process_proportion_, "Proportion through the mortality block of the time step when the observation is evaluated", "", Double(0.5));
+  parameters_.Bind<double>(PARAM_PROCESS_PROPORTION, &process_proportion_, "Proportion through the mortality block of the time step when the observation is evaluated", "", double(0.5));
 
   mean_proportion_method_ = false;
 }
@@ -38,7 +38,7 @@ void ProcessProportionsByCategory::DoBuild() {
   ProportionsByCategory::DoBuild();
 
   if (process_proportion_ < 0.0 || process_proportion_ > 1.0)
-    LOG_ERROR_P(PARAM_PROCESS_PROPORTION) << ": process_proportion (" << AS_DOUBLE(process_proportion_) << ") must be between 0.0 and 1.0";
+    LOG_ERROR_P(PARAM_PROCESS_PROPORTION) << ": process_proportion (" << process_proportion_ << ") must be between 0.0 and 1.0";
   proportion_of_time_ = process_proportion_;
 
   auto time_step = model_->managers().time_step()->GetTimeStep(time_step_label_);

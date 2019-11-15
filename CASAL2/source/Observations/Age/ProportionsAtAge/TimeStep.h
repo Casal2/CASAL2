@@ -33,7 +33,7 @@ public:
   void                        DoBuild() override final;
 
 private:
-  Double                      time_step_proportion_;
+  double                      time_step_proportion_;
 };
 
 } /* namespace age */

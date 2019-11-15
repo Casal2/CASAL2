@@ -41,10 +41,10 @@ ProcessRemovalsByLengthRetained::ProcessRemovalsByLengthRetained(Model* model) :
   obs_table_ = new parameters::Table(PARAM_OBS);
   error_values_table_ = new parameters::Table(PARAM_ERROR_VALUES);
 
-  parameters_.Bind<Double>(PARAM_LENGTH_BINS, &length_bins_, "Length bins", "");
+  parameters_.Bind<double>(PARAM_LENGTH_BINS, &length_bins_, "Length bins", "");
   parameters_.Bind<string>(PARAM_TIME_STEP, &time_step_label_, "Time step to execute in", "");
   parameters_.Bind<bool>(PARAM_LENGTH_PLUS, &length_plus_, "Is the last bin a plus group", "", true);
-  parameters_.Bind<Double>(PARAM_TOLERANCE, &tolerance_, "Tolerance for rescaling proportions", "", Double(0.001));
+  parameters_.Bind<double>(PARAM_TOLERANCE, &tolerance_, "Tolerance for rescaling proportions", "", double(0.001));
   parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "Years for which there are observations", "");
   parameters_.Bind<Double>(PARAM_PROCESS_ERRORS, &process_error_values_, "the value of process error", "", true);
   parameters_.Bind<string>(PARAM_METHOD_OF_REMOVAL, &method_, "Label of observed method of removals", "", "");
@@ -81,8 +81,8 @@ void ProcessRemovalsByLengthRetained::DoValidate() {
       LOG_ERROR_P(PARAM_YEARS) << "Years can't be less than start_year (" << model_->start_year() << "), or greater than final_year (" << model_->final_year() << "). Please fix this.";
   }
 
-  map<unsigned, vector<Double>> error_values_by_year;
-  map<unsigned, vector<Double>> obs_by_year;
+  map<unsigned, vector<double>> error_values_by_year;
+  map<unsigned, vector<double>> obs_by_year;
 
   /**
    * Do some simple checks
@@ -113,9 +113,9 @@ void ProcessRemovalsByLengthRetained::DoValidate() {
       LOG_ERROR_P(PARAM_PROCESS_ERRORS) << ": process_error (" << AS_DOUBLE(process_error) << ") cannot be less than 0.0";
   }
   if (process_error_values_.size() != 0)
-    process_errors_by_year_ = utilities::Map::create(years_, process_error_values_);
+    process_errors_by_year_ = utilities::Map<Double>::create(years_, process_error_values_);
   if (delta_ < 0.0)
-    LOG_ERROR_P(PARAM_DELTA) << ": delta (" << AS_DOUBLE(delta_) << ") cannot be less than 0.0";
+    LOG_ERROR_P(PARAM_DELTA) << ": delta (" << delta_ << ") cannot be less than 0.0";
 
   /**
    * Validate the number of obs provided matches age spread * category_labels * years
@@ -140,8 +140,8 @@ void ProcessRemovalsByLengthRetained::DoValidate() {
       LOG_ERROR_P(PARAM_OBS) << " value " << year << " is not a valid year for this observation";
 
     for (unsigned i = 1; i < obs_data_line.size(); ++i) {
-      Double value = 0;
-      if (!utilities::To<Double>(obs_data_line[i], value))
+      double value = 0.0;
+      if (!utilities::To<double>(obs_data_line[i], value))
         LOG_ERROR_P(PARAM_OBS) << " value (" << obs_data_line[i] << ") could not be converted to a double";
       obs_by_year[year].push_back(value);
     }
@@ -169,14 +169,13 @@ void ProcessRemovalsByLengthRetained::DoValidate() {
     if (std::find(years_.begin(), years_.end(), year) == years_.end())
       LOG_FATAL_P(PARAM_ERROR_VALUES)<< " value " << year << " is not a valid year for this observation";
     for (unsigned i = 1; i < error_values_data_line.size(); ++i) {
-      Double value = 0;
-
-      if (!utilities::To<Double>(error_values_data_line[i], value))
+      double value = 0.0;
+      if (!utilities::To<double>(error_values_data_line[i], value))
         LOG_FATAL_P(PARAM_ERROR_VALUES)<< " value (" << error_values_data_line[i] << ") could not be converted to a double";
       if (likelihood_type_ == PARAM_LOGNORMAL && value <= 0.0) {
-        LOG_ERROR_P(PARAM_ERROR_VALUES) << ": error_value (" << AS_DOUBLE(value) << ") cannot be equal to or less than 0.0";
+        LOG_ERROR_P(PARAM_ERROR_VALUES) << ": error_value (" << value << ") cannot be equal to or less than 0.0";
       } else if (likelihood_type_ == PARAM_MULTINOMIAL && value < 0.0) {
-        LOG_ERROR_P(PARAM_ERROR_VALUES) << ": error_value (" << AS_DOUBLE(value) << ") cannot be less than 0.0";
+        LOG_ERROR_P(PARAM_ERROR_VALUES) << ": error_value (" << value << ") cannot be less than 0.0";
       }
 
       error_values_by_year[year].push_back(value);
@@ -193,16 +192,16 @@ void ProcessRemovalsByLengthRetained::DoValidate() {
      * If the proportions for a given observation do not sum to 1.0
      * and is off by more than the tolerance rescale them.
      */
-  Double value = 0.0;
+  double value = 0.0;
   for (auto iter = obs_by_year.begin(); iter != obs_by_year.end(); ++iter) {
-    Double total = 0.0;
+    double total = 0.0;
 
     for (unsigned i = 0; i < category_labels_.size(); ++i) {
       for (unsigned j = 0; j < number_bins_; ++j) {
         unsigned obs_index = i * number_bins_ + j;
         value = iter->second[obs_index];
 
-        Double error_value = error_values_by_year[iter->first][obs_index];
+        double error_value = error_values_by_year[iter->first][obs_index];
         error_values_[iter->first][category_labels_[i]].push_back(error_value);
         proportions_[iter->first][category_labels_[i]].push_back(value);
         total += value;

@@ -47,12 +47,13 @@ TagRecaptureByLength::TagRecaptureByLength(Model* model) : Observation(model) {
   parameters_.Bind<string>(PARAM_TAGGED_CATEGORIES, &tagged_category_labels_, "The categories of tagged individuals for the observation", "");
   parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_labels_, "The labels of the selectivities used for untagged categories", "", true);
   parameters_.Bind<string>(PARAM_TAGGED_SELECTIVITIES, &tagged_selectivity_labels_, "The labels of the tag category selectivities", "");
+  // TODO:  is tolerance missing?
   parameters_.Bind<Double>(PARAM_PROCESS_ERRORS, &process_error_values_, "Process error", "", true);
   parameters_.Bind<Double>(PARAM_DETECTION_PARAMETER,  &detection_, "Probability of detecting a recaptured individual", "");
   parameters_.Bind<Double>(PARAM_DISPERSION,  &despersion_, "Over-dispersion parameter (phi)  ", "", Double(1.0));
   parameters_.BindTable(PARAM_RECAPTURED, recaptures_table_, "Table of observed recaptured individuals in each length bin", "", false);
   parameters_.BindTable(PARAM_SCANNED, scanned_table_, "Table of observed scanned individuals in each length bin", "", false);
-  parameters_.Bind<Double>(PARAM_TIME_STEP_PROPORTION, &time_step_proportion_, "Proportion through the mortality block of the time step when the observation is evaluated", "", Double(0.5));
+  parameters_.Bind<double>(PARAM_TIME_STEP_PROPORTION, &time_step_proportion_, "Proportion through the mortality block of the time step when the observation is evaluated", "", double(0.5));
 
   mean_proportion_method_ = true;
 
@@ -68,13 +69,16 @@ void TagRecaptureByLength::DoValidate() {
    * e.g Validate that the length_bins are strictly increasing
    */
   if (parameters_.Get(PARAM_LENGTH_BINS)->has_been_defined()) {
-    length_bins_.resize(length_bins_input_.size(),0.0);
+    length_bins_.resize(length_bins_input_.size(), 0.0);
     for (unsigned length = 0; length < length_bins_input_.size(); ++length) {
       if (length_bins_input_[length] < 0.0)
-        if (length_bins_input_[length] > length_bins_input_[length + 1])
-          LOG_ERROR_P(PARAM_LENGTH_BINS) << ": Length bins must be strictly increasing " << length_bins_input_[length] << " is greater than " << length_bins_input_[length + 1];
+        LOG_ERROR_P(PARAM_LENGTH_BINS) << ": Length bins must be positive " << length_bins_input_[length] << " is less than 0";
+
+      if (length > 0 && length_bins_input_[length - 1] >= length_bins_input_[length])
+        LOG_ERROR_P(PARAM_LENGTH_BINS) << ": Length bins must be strictly increasing " << length_bins_input_[length - 1] << " is greater than " << length_bins_input_[length];
+
       // Cast to a double
-      length_bins_[length] = Double(length_bins_input_[length]);
+      length_bins_[length] = double(length_bins_input_[length]);
     }
 
     // Finally Check the bins are not the same as in the @model, if user accidently set them to the be the same as the  @model
@@ -91,9 +95,9 @@ void TagRecaptureByLength::DoValidate() {
   } else {
     // set to model if not defined.
     length_bins_input_ = model_->length_bins();
-    length_bins_.resize(length_bins_input_.size(),0.0);
+    length_bins_.resize(length_bins_input_.size(), 0.0);
     for (unsigned length = 0; length < length_bins_input_.size(); ++length) {
-      length_bins_[length] = Double(length_bins_input_[length]);
+      length_bins_[length] = double(length_bins_input_[length]);
       LOG_FINE() << "length bin " << length + 1 << " " << length_bins_input_[length] << " after static " << length_bins_[length];
     }
   }
@@ -165,14 +169,14 @@ void TagRecaptureByLength::DoValidate() {
     << ") is not valid. You can specify either the number of category collections (" << tagged_category_labels_.size() << ") or "
     << "the number of total categories (" << expected_selectivity_count << ")";
 
-  map<unsigned, vector<Double>> recaptures_by_year;
-  map<unsigned, vector<Double>> scanned_by_year;
+  map<unsigned, vector<double>> recaptures_by_year;
+  map<unsigned, vector<double>> scanned_by_year;
 
   if (detection_ < 0.0 || detection_ > 1.0) {
     LOG_ERROR_P(PARAM_DETECTION_PARAMETER) << ": detection probability must be between 0 and 1";
   }
   if (delta_ < 0.0) {
-    LOG_ERROR_P(PARAM_DELTA) << ": delta (" << AS_DOUBLE(delta_) << ") cannot be less than 0.0";
+    LOG_ERROR_P(PARAM_DELTA) << ": delta (" << delta_ << ") cannot be less than 0.0";
   }
 
 
@@ -209,8 +213,8 @@ void TagRecaptureByLength::DoValidate() {
     }
 
     for (unsigned i = 1; i < recaptures_data_line.size(); ++i) {
-      Double value = 0;
-      if (!utilities::To<Double>(recaptures_data_line[i], value))
+      double value = 0.0;
+      if (!utilities::To<double>(recaptures_data_line[i], value))
         LOG_ERROR_P(PARAM_RECAPTURED) << " value (" << recaptures_data_line[i] << ") could not be converted to a double";
       recaptures_by_year[year].push_back(value);
     }
@@ -241,11 +245,11 @@ void TagRecaptureByLength::DoValidate() {
       LOG_ERROR_P(PARAM_SCANNED) << " value " << year << " is not a valid year for this observation";
     } else {
         for (unsigned i = 1; i < scanned_values_data_line.size(); ++i) {
-          Double value = 0;
-        if (!utilities::To<Double>(scanned_values_data_line[i], value)) {
+          double value = 0.0;
+        if (!utilities::To<double>(scanned_values_data_line[i], value)) {
           LOG_ERROR_P(PARAM_SCANNED) << " value (" << scanned_values_data_line[i] << ") could not be converted to a double";
         } else if (likelihood_type_ == PARAM_MULTINOMIAL && value < 0.0) {
-            LOG_ERROR_P(PARAM_ERROR_VALUES) << ": error_value (" << AS_DOUBLE(value) << ") cannot be less than 0.0";
+            LOG_ERROR_P(PARAM_ERROR_VALUES) << ": error_value (" << value << ") cannot be less than 0.0";
         }
 
         scanned_by_year[year].push_back(value);
@@ -262,19 +266,19 @@ void TagRecaptureByLength::DoValidate() {
   /**
    * Build our Recaptured and scanned maps for use in the DoExecute() section
    */
-  Double value = 0.0;
+  double value = 0.0;
   for (auto iter = recaptures_by_year.begin(); iter != recaptures_by_year.end(); ++iter) {
-    Double total = 0.0;
+    double total = 0.0;
 
     for (unsigned i = 0; i < category_labels_.size(); ++i) {
       for (unsigned j = 0; j < number_bins_; ++j) {
         unsigned obs_index = i * number_bins_ + j;
-        if (!utilities::To<Double>(iter->second[obs_index], value)) {
+        if (!utilities::To<double>(iter->second[obs_index], value)) {
           LOG_ERROR_P(PARAM_OBS) << ": obs_ value (" << iter->second[obs_index] << ") at index " << obs_index + 1
               << " in the definition could not be converted to a numeric double";
         }
 
-        Double error_value = scanned_by_year[iter->first][obs_index];
+        double error_value = scanned_by_year[iter->first][obs_index];
         scanned_[iter->first][category_labels_[i]].push_back(error_value);
         recaptures_[iter->first][category_labels_[i]].push_back(value);
         total += error_value;
@@ -376,7 +380,7 @@ void TagRecaptureByLength::DoBuild() {
     tagged_selectivities_.assign(category_labels_.size(), tagged_selectivities_[0]);
 
   if (time_step_proportion_ < 0.0 || time_step_proportion_ > 1.0)
-    LOG_ERROR_P(PARAM_TIME_STEP_PROPORTION) << ": time_step_proportion (" << AS_DOUBLE(time_step_proportion_) << ") must be between 0.0 and 1.0";
+    LOG_ERROR_P(PARAM_TIME_STEP_PROPORTION) << ": time_step_proportion (" << time_step_proportion_ << ") must be between 0.0 and 1.0";
   proportion_of_time_ = time_step_proportion_;
 
   auto time_step = model_->managers().time_step()->GetTimeStep(time_step_label_);

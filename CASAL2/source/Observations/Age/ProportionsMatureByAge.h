@@ -55,7 +55,7 @@ protected:
   bool                          plus_group_ = false;
   unsigned                      age_spread_ = 0;
   parameters::Table*            obs_table_ = nullptr;
-  Double                        tolerance_ = 0.0;
+  double                        tolerance_ = 0.0;
   vector<Double>                process_error_values_;
   map<unsigned, Double>         process_errors_by_year_;
   string                        ageing_error_label_;
@@ -65,13 +65,13 @@ protected:
   vector<string>                total_category_labels_;
   CachedCombinedCategoriesPtr   total_cached_partition_;
   CombinedCategoriesPtr         total_partition_;
-  Double                        time_step_proportion_;
+  double                        time_step_proportion_;
   AgeingError*                  ageing_error_ = nullptr;
   vector<Double>                age_results_;
   string                        time_step_label_ = "";
 
-  map<unsigned, map<string, vector<Double>>>  proportions_;
-  map<unsigned, map<string, vector<Double>>>  error_values_;
+  map<unsigned, map<string, vector<double>>>  proportions_;
+  map<unsigned, map<string, vector<double>>>  error_values_;
 };
 
 } /* namespace age */

@@ -49,7 +49,7 @@ void Abundance::DoValidate() {
 
   // Delta
   if (delta_ < 0.0)
-    LOG_ERROR_P(PARAM_DELTA) << ": delta (" << AS_DOUBLE(delta_) << ") cannot be less than 0.0";
+    LOG_ERROR_P(PARAM_DELTA) << ": delta (" << delta_ << ") cannot be less than 0.0";
   if (process_error_value_ < 0.0)
     LOG_ERROR_P(PARAM_PROCESS_ERROR) << ": process_error (" << AS_DOUBLE(process_error_value_) << ") cannot be less than 0.0";
 
@@ -66,19 +66,19 @@ void Abundance::DoValidate() {
     LOG_ERROR_P(PARAM_ERROR_VALUE) << ": error_value length (" << error_values_.size()
         << ") must be same length as obs (" << obs.size() << ")";
 
-  error_values_by_year_ = utils::Map::create(years_, error_values_);
+  error_values_by_year_ = utils::Map<Double>::create(years_, error_values_);
 
-  Double value = 0.0;
+  double value = 0.0;
   for (unsigned i = 0; i < years_.size(); ++i) {
     for (unsigned j = 0; j < category_labels_.size(); ++j) {
       unsigned index = (i * category_labels_.size()) + j;
 
-      if (!utils::To<Double>(obs[index], value))
-            LOG_ERROR_P(PARAM_OBS) << ": obs value " << obs[index] << " cannot be converted to a double";
-          if (value <= 0.0)
-            LOG_ERROR_P(PARAM_OBS) << ": obs value " << value << " cannot be less than or equal to 0.0";
+      if (!utils::To<double>(obs[index], value))
+        LOG_ERROR_P(PARAM_OBS) << ": obs value " << obs[index] << " cannot be converted to a double";
+      if (value <= 0.0)
+        LOG_ERROR_P(PARAM_OBS) << ": obs value " << value << " cannot be less than or equal to 0.0";
 
-          proportions_by_year_[years_[i]].push_back(value);
+      proportions_by_year_[years_[i]].push_back(value);
     }
   }
 }
@@ -145,8 +145,8 @@ void Abundance::Execute() {
   Double expected_total = 0.0; // value in the model
   vector<string> keys;
   vector<Double> expecteds;
-  vector<Double> observeds;
-  vector<Double> error_values;
+  vector<double> observeds;
+  vector<double> error_values;
   vector<Double> process_errors;
   vector<Double> scores;
 
@@ -155,7 +155,7 @@ void Abundance::Execute() {
   Double end_value = 0.0;
   Double final_value = 0.0;
   unsigned age = 0;
-  Double error_value = 0.0;
+  double error_value = 0.0;
 
   unsigned current_year = model_->current_year();
 
