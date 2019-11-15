@@ -17,12 +17,14 @@ namespace utilities {
 using std::cout;
 using std::endl;
 
-
+/*
+ * most of these will be robust as they come from the boost library, more testing if we change random number generator
+ * in the future.
+ */
 TEST(RandomNumberGenerator, Reset) {
-
   RandomNumberGenerator& rng = RandomNumberGenerator::Instance();
-
   rng.Reset(2468);
+  // This can stay to validate the seed going forward
   EXPECT_DOUBLE_EQ(0.45965513936243951, rng.uniform());
   EXPECT_DOUBLE_EQ(0.13950349437072873,  rng.uniform());
   EXPECT_DOUBLE_EQ(0.51783327478915453,   rng.uniform());
@@ -107,6 +109,143 @@ TEST(RandomNumberGenerator, Reset) {
   EXPECT_DOUBLE_EQ(0.70000371866995148,  rng.chi_square(2.0));
 }
 
+/*
+ * This test suite is responsible for confirming the distributions used for simulation match the theoretical first and second moments (mean, variance)
+ */
+TEST(RandomNumberGenerator, uniform_properties) {
+  RandomNumberGenerator& rng = RandomNumberGenerator::Instance();
+  rng.Reset(2468);
+  //------------------------
+  // check expectation and variance
+  //------------------------
+  // uniform
+  unsigned N_sim = 100000;
+  std::vector<Double> runiform(N_sim, 0.0);
+  Double total = 0.0;
+  Double Var = 0.0;
+  for(unsigned i = 0; i < N_sim; ++i) {
+    runiform[i] = rng.uniform();
+    total += runiform[i];
+  }
+  Double mean = total/(Double)N_sim;
+  for(unsigned i = 0; i < N_sim; ++i)
+    Var += (runiform[i] - mean) * (runiform[i] - mean);
+  // mean = 1/2 * (1 - 0)
+  EXPECT_NEAR(mean, 0.5, 1e-3);
+  // var = 1/12 * (1 - 0)
+  EXPECT_NEAR(Var/(Double)N_sim, 0.0833333, 1e-2);
+}
+
+TEST(RandomNumberGenerator, normal_properties) {
+  RandomNumberGenerator& rng = RandomNumberGenerator::Instance();
+  rng.Reset(2468);
+  // normal
+  unsigned N_sim = 100000;
+  std::vector<Double> rnorm(N_sim, 0.0);
+  Double total = 0.0;
+  Double Var = 0.0;
+  for(unsigned i = 0; i < N_sim; ++i) {
+    rnorm[i] = rng.normal(1.3,0.7);
+    total += rnorm[i];
+  }
+  Double mean = total/(Double)N_sim;
+  for(unsigned i = 0; i < N_sim; ++i)
+    Var += (rnorm[i] - mean) * (rnorm[i] - mean);
+
+  EXPECT_NEAR(mean, 1.3, 1e-3);
+  // var = 0.7 * 0.7
+  EXPECT_NEAR(sqrt(Var/(Double)N_sim), 0.7, 1e-2);
+}
+
+TEST(RandomNumberGenerator, lognormal_properties) {
+  RandomNumberGenerator& rng = RandomNumberGenerator::Instance();
+  rng.Reset(2468);
+  // lognormal
+  unsigned N_sim = 100000;
+  std::vector<Double> rlnorm(N_sim, 0.0);
+  Double total = 0.0;
+  Double Var = 0.0;
+  for(unsigned i = 0; i < N_sim; ++i) {
+    rlnorm[i] = rng.lognormal(2.4, 0.2);
+    total += rlnorm[i];
+  }
+  Double mean = total/(Double)N_sim;
+  for(unsigned i = 0; i < N_sim; ++i)
+    Var += (rlnorm[i] - mean) * (rlnorm[i] - mean);
+  // note the lognormal() is parameterised by the mean, and cv. This is unusual for the fact that
+  // usually the lognormal() is parameterised by mu and cv.
+  EXPECT_NEAR(mean, 2.4, 1e-3);
+  // - the following R-code generates the variance check
+  // - sigma = sqrt(log(0.2^2 + 1));
+  // - mu = log(2.4) - sigma^2 / 2
+  // - var = (exp(sigma*sigma) - 1) * exp(2*mu + sigma*sigma)
+  EXPECT_NEAR(Var/(Double)N_sim, 0.23, 1e-2);
+}
+
+TEST(RandomNumberGenerator, binomial_properties) {
+  RandomNumberGenerator& rng = RandomNumberGenerator::Instance();
+  rng.Reset(2468);
+  // lognormal
+  unsigned N_sim = 100000;
+  std::vector<Double> rbinom(N_sim, 0.0);
+  Double total = 0.0;
+  Double Var = 0.0;
+  for(unsigned i = 0; i < N_sim; ++i) {
+    rbinom[i] = rng.binomial(0.2, 200);
+    total += rbinom[i];
+  }
+  Double mean = total/(Double)N_sim;
+  for(unsigned i = 0; i < N_sim; ++i)
+    Var += (rbinom[i] - mean) * (rbinom[i] - mean);
+  // Discrete distributions I have lowered the tolerance.
+  // mean = n*p
+  EXPECT_NEAR(mean, 40, 1e-1);
+  // var = n*p*(1-p)
+  EXPECT_NEAR(Var/(Double)N_sim, 32, 1e-1);
+}
+
+TEST(RandomNumberGenerator, gamma_properties) {
+  RandomNumberGenerator& rng = RandomNumberGenerator::Instance();
+  rng.Reset(2468);
+  // lognormal
+  unsigned N_sim = 100000;
+  std::vector<Double> rgamma(N_sim, 0.0);
+  Double total = 0.0;
+  Double Var = 0.0;
+  for(unsigned i = 0; i < N_sim; ++i) {
+    rgamma[i] = rng.gamma(2.7);
+    total += rgamma[i];
+  }
+  Double mean = total/(Double)N_sim;
+  for(unsigned i = 0; i < N_sim; ++i)
+    Var += (rgamma[i] - mean) * (rgamma[i] - mean);
+  // mean = shape
+  EXPECT_NEAR(mean, 2.7, 1e-2);
+  // var = shape
+  EXPECT_NEAR(Var/(Double)N_sim, 2.7, 1e-2);
+}
+
+
+TEST(RandomNumberGenerator, chi_squared_properties) {
+  RandomNumberGenerator& rng = RandomNumberGenerator::Instance();
+  rng.Reset(2468);
+  // lognormal
+  unsigned N_sim = 100000;
+  std::vector<Double> rchi(N_sim, 0.0);
+  Double total = 0.0;
+  Double Var = 0.0;
+  for(unsigned i = 0; i < N_sim; ++i) {
+    rchi[i] = rng.chi_square(5);
+    total += rchi[i];
+  }
+  Double mean = total/(Double)N_sim;
+  for(unsigned i = 0; i < N_sim; ++i)
+    Var += (rchi[i] - mean) * (rchi[i] - mean);
+  // mean = shape
+  EXPECT_NEAR(mean, 5, 1e-2);
+  // var = shape
+  EXPECT_NEAR(Var/(Double)N_sim, 10, 0.1);
+}
 
 } /* namespace utilities */
 } /* namespace niwa */
