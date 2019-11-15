@@ -314,3 +314,47 @@ isSymmetric(cas2_mpd$Hess$`1`$hessian_matrix)
 solve(cas2_mpd$Hess$`1`$hessian_matrix)
 isSymmetric(cas2_mpd$Covar$`1`$covariance_matrix)
 solve(cas2_mpd$Covar$`1`$covariance_matrix)
+
+
+
+## Speed test run CASAL 10 times, with the same number of iterations as Casal2
+## betadiff 400 iterations and evaluations. Both models can't find a minimum
+## after 400 iterations so should roughly be doing the same amount of work.
+## 
+CASAL_time = vector()
+Casal2_time = vector()
+N_runs = 10
+setwd("../HOK/CASAL")
+casal_cmd = "cmd & casal -e -i start_pars.txt > a.log 2> b.log"
+casal2_cmd = "cmd & casal2 -e -i start_pars.txt > a.log 2> b.log"
+
+## CASAL
+for(i in 1:N_runs) {
+  start_time <- Sys.time()
+  shell(cmd = casal_cmd, mustWork = FALSE)
+  CASAL_time[i] = Sys.time() - start_time
+}
+setwd("../Casal2")
+## Casal2
+for(i in 1:N_runs) {
+  start_time <- Sys.time()
+  shell(cmd = casal2_cmd, mustWork = FALSE)
+  Casal2_time[i] = Sys.time() - start_time
+}
+## go back to normal directory
+setwd("../../RStudio")
+
+summary(CASAL_time)
+#Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+#27.30   27.80   28.70   31.58   29.53   58.32 
+## about 30 seconds
+CASAL_time
+#[1] 58.32045 28.40155 28.10000 29.31127 29.60712 27.69924 30.61005 27.49335
+#[9] 29.00511 27.29818
+summary(Casal2_time)
+#Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+#1.340   1.344   1.356   1.359   1.363   1.403 
+# about 1.5 minutes
+Casal2_time
+#[1] 1.402804 1.339903 1.347733 1.340978 1.342607 1.381387 1.364987 1.356603
+#[9] 1.356565 1.354933
