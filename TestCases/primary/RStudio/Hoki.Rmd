@@ -1,0 +1,186 @@
+---
+title: "Compare CASAL & Casal2 for the HOK assessment"
+author: "C.Marsh"
+date: "15 November 2019"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+```{r wrap-hook, include=FALSE}
+library(knitr)
+hook_output = knit_hooks$get('output')
+knit_hooks$set(output = function(x, options) {
+  # this hook is used only when the linewidth option is not NULL
+  if (!is.null(n <- options$linewidth)) {
+    x = knitr:::split_lines(x)
+    # any lines wider than n should be wrapped
+    if (any(nchar(x) > n)) x = strwrap(x, width = n)
+    x = paste(x, collapse = '\n')
+  }
+  hook_output(x, options)
+})
+```
+## Comparing CASAL mpd with Casal2 models
+Comparing CASAL and Casal2 models for the modified stock assessment. This model differs from the actual assessment by two key points. First sex is ignored in this assessment, and secondly the original assessment uses length based selectivities.
+
+
+The firsrt thing we want to confirm is that when run deterministically with the exact same parameters (\texttt{casal2 -r -i casal_pars.txt > run.log}) that they give the same initial partition, SSB and expected values as CASAL. You should always look to confirm if the initial age or length structure is correct. If this isn't correct it suggests that either growth, movement or natural mortality are incorrectly specified (assuming you are using an equilibrium age structure). 
+
+
+```{r source, linewidth=60}
+library(casal)
+library(casal2)
+library(xtable)
+## bring in functions
+source("AuxillaryFunsToincludeInLibrary.r")
+
+#cas_mpd = casal::extract.mpd("../HOK/CASAL/estimate.log")
+cas_mpd = casal::extract.mpd("../HOK/CASAL/run.log")
+#cas_orig = casal::extract.mpd("../HOK/CASAL/orig_run.log")
+cas2_mpd = casal2::extract.mpd("../HOK/Casal2/run.log")
+
+## look at B0
+cas_mpd$quantities$B0
+cas2_mpd$Recruit_E$`1`$b0
+cas2_mpd$Recruit_W$`1`$b0
+
+## look at R0
+cas_mpd$quantities$R0$E - cas2_mpd$Recruit_E$`1`$r0
+cas_mpd$quantities$R0$W - cas2_mpd$Recruit_W$`1`$r0
+
+# look at m
+cas_mpd$free$natural_mortality.all
+cas2_mpd$Mortality$`1`$m
+
+# plot SSB
+cas2_ssb = plot.derived_quantities(cas2_mpd, "SSB", plot.it = F)
+par(mfrow = c(1,2))
+plot(rownames(cas2_ssb), cas2_ssb[,"SSB_E"], ylim = c(0,1e6), lwd = 2, type = "l",
+     xlab = "years", ylab = "SSB", main = "Eastern stock")
+lines(rownames(cas2_ssb), cas_mpd$quantities$SSBs$E, lty = 2, lwd = 2, col = "red")
+
+
+plot(rownames(cas2_ssb), cas2_ssb[,"SSB_W"], ylim = c(0,1.6e6), lwd = 2, type = "l",
+     xlab = "years", ylab = "SSB", main = "Western stock")
+lines(rownames(cas2_ssb), cas_mpd$quantities$SSBs$W, lty = 2, lwd = 2, col = "red")
+legend('bottomleft', legend = c("Casal2","CASAL"),col = c("black","red"), lwd = 2, cex = 0.6)
+
+## Recruitment
+par(mfrow = c(1,2))
+plot(cas_mpd$quantities$true_YCS$year, cas_mpd$quantities$true_YCS$E,
+     type = "l", lwd = 2, col = "red", ylab  = "True YCS", xlab = "years", 
+     ylim = c(0,3), main = "Eastern")
+lines(cas2_mpd$Recruit_E$`1`$ycs_years, cas2_mpd$Recruit_E$`1`$true_ycs, 
+      col = "black", lwd =2 ,lty = 2)
+legend('topright', legend = c("Casal2","CASAL"),col = c("black","red"), lwd = 2, cex = 0.6)
+
+plot(cas_mpd$quantities$true_YCS$year, cas_mpd$quantities$true_YCS$W, 
+     type = "l", lwd = 2, col = "red", ylab  = "", xlab = "years", 
+     ylim = c(0,3), main = "Western")
+lines(cas2_mpd$Recruit_W$`1`$ycs_years, cas2_mpd$Recruit_W$`1`$true_ycs, col = "black", lwd =2,
+      lty = 2)
+
+```
+
+So this looks like the process dynamics are doing the right thing, lets look at how Casal2 is generating fits to observations, and the likelihood contribution.
+
+```{r obs, linewidth=60, results="asis"}
+cas_obj = cas_mpd$objective.function$components
+cas2_obj = split_obj(cas2_mpd, label = "objective") ## custom function,
+sum(cas2_obj$Value) - cas2_mpd$objective$`1`$values["total_score"] 
+cas2_mpd$objective$`1`$values["total_score"] 
+obs_across_both = sum(cas_obj$label %in% cas2_obj$Label)
+comp = matrix(NA, nrow = obs_across_both, ncol = 3)
+colnames(comp) = c("CASAL", "Casal2","Diff")
+labels = cas_obj$label[cas_obj$label %in% cas2_obj$Label]
+nonlabels = cas_obj$label[!cas_obj$label %in% cas2_obj$Label]
+
+rownames(comp) = labels
+for(i in 1:obs_across_both) {
+  comp[i,1] = cas_obj$value[cas_obj$label == labels[i]]
+  comp[i,2] = cas2_obj$Value[cas2_obj$Label == labels[i]]
+  comp[i,3] = comp[i,1] - comp[i,2]
+}
+tab = xtable(comp, digits = 8, caption = "Comparison of Casal2 and CASAL
+             objective function contributions for the main data sets.")
+print(tab)
+```
+
+
+# Compare Casal2 and CASAL estimation
+```{r est, linewidth=60, results="asis"}
+cas_mpd = casal::extract.mpd("../HOK/CASAL/estimate.log")
+cas2_mpd = casal2::extract.mpd("../HOK/Casal2/estimate.log")
+
+## look at B0
+cas_mpd$quantities$B0
+cas2_mpd$Recruit_E$`1`$b0
+cas2_mpd$Recruit_W$`1`$b0
+
+## look at R0
+cas_mpd$quantities$R0$E - cas2_mpd$Recruit_E$`1`$r0
+cas_mpd$quantities$R0$W - cas2_mpd$Recruit_W$`1`$r0
+
+# look at m
+cas_mpd$free$natural_mortality.all
+cas2_mpd$Mortality$`1`$m
+
+# plot SSB
+cas2_ssb = plot.derived_quantities(cas2_mpd, "SSB", plot.it = F)
+par(mfrow = c(1,2))
+plot(rownames(cas2_ssb), cas2_ssb[,"SSB_E"], ylim = c(0,1e6), lwd = 2, type = "l",
+     xlab = "years", ylab = "SSB", main = "Eastern stock")
+lines(rownames(cas2_ssb), cas_mpd$quantities$SSBs$E, lty = 2, lwd = 2, col = "red")
+
+
+plot(rownames(cas2_ssb), cas2_ssb[,"SSB_W"], ylim = c(0,1.6e6), lwd = 2, type = "l",
+     xlab = "years", ylab = "SSB", main = "Western stock")
+lines(rownames(cas2_ssb), cas_mpd$quantities$SSBs$W, lty = 2, lwd = 2, col = "red")
+legend('bottomleft', legend = c("Casal2","CASAL"),col = c("black","red"), lwd = 2, cex = 0.6)
+
+## Recruitment
+par(mfrow = c(1,2))
+plot(cas_mpd$quantities$true_YCS$year, cas_mpd$quantities$true_YCS$E,
+     type = "l", lwd = 2, col = "red", ylab  = "True YCS", xlab = "years", 
+     ylim = c(0,3), main = "Eastern")
+lines(cas2_mpd$Recruit_E$`1`$ycs_years, cas2_mpd$Recruit_E$`1`$true_ycs, 
+      col = "black", lwd =2 ,lty = 2)
+legend('topright', legend = c("Casal2","CASAL"),col = c("black","red"), lwd = 2, cex = 0.6)
+
+plot(cas_mpd$quantities$true_YCS$year, cas_mpd$quantities$true_YCS$W, 
+     type = "l", lwd = 2, col = "red", ylab  = "", xlab = "years", 
+     ylim = c(0,3), main = "Western")
+lines(cas2_mpd$Recruit_W$`1`$ycs_years, cas2_mpd$Recruit_W$`1`$true_ycs, col = "black", lwd =2,
+      lty = 2)
+
+```
+
+So this looks like the process dynamics are doing the right thing, lets look at how Casal2 is generating fits to observations, and the likelihood contribution.
+
+```{r obs_est, linewidth=60, results="asis"}
+cas_obj = cas_mpd$objective.function$components
+cas2_obj = split_obj(cas2_mpd, label = "objective") ## custom function,
+sum(cas2_obj$Value) - cas2_mpd$objective$`1`$values["total_score"] 
+cas2_mpd$objective$`1`$values["total_score"] 
+obs_across_both = sum(cas_obj$label %in% cas2_obj$Label)
+comp = matrix(NA, nrow = obs_across_both, ncol = 3)
+colnames(comp) = c("CASAL", "Casal2","Diff")
+labels = cas_obj$label[cas_obj$label %in% cas2_obj$Label]
+nonlabels = cas_obj$label[!cas_obj$label %in% cas2_obj$Label]
+
+rownames(comp) = labels
+for(i in 1:obs_across_both) {
+  comp[i,1] = cas_obj$value[cas_obj$label == labels[i]]
+  comp[i,2] = cas2_obj$Value[cas2_obj$Label == labels[i]]
+  comp[i,3] = comp[i,1] - comp[i,2]
+}
+tab = xtable(comp, digits = 8, caption = "Comparison of Casal2 and CASAL
+             objective function contributions for the main data sets.")
+print(tab)
+```
+
+
+
+
