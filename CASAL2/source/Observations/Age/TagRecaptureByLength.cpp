@@ -49,8 +49,8 @@ TagRecaptureByLength::TagRecaptureByLength(Model* model) : Observation(model) {
   parameters_.Bind<string>(PARAM_TAGGED_SELECTIVITIES, &tagged_selectivity_labels_, "The labels of the tag category selectivities", "");
   // TODO:  is tolerance missing?
   parameters_.Bind<Double>(PARAM_PROCESS_ERRORS, &process_error_values_, "Process error", "", true);
-  parameters_.Bind<Double>(PARAM_DETECTION_PARAMETER,  &detection_, "Probability of detecting a recaptured individual", "");
-  parameters_.Bind<Double>(PARAM_DISPERSION,  &despersion_, "Over-dispersion parameter (phi)  ", "", Double(1.0));
+  parameters_.Bind<double>(PARAM_DETECTION_PARAMETER,  &detection_, "Probability of detecting a recaptured individual", "");
+  parameters_.Bind<double>(PARAM_DISPERSION,  &despersion_, "Over-dispersion parameter (phi)  ", "", double(1.0));
   parameters_.BindTable(PARAM_RECAPTURED, recaptures_table_, "Table of observed recaptured individuals in each length bin", "", false);
   parameters_.BindTable(PARAM_SCANNED, scanned_table_, "Table of observed scanned individuals in each length bin", "", false);
   parameters_.Bind<double>(PARAM_TIME_STEP_PROPORTION, &time_step_proportion_, "Proportion through the mortality block of the time step when the observation is evaluated", "", double(0.5));
@@ -572,7 +572,7 @@ void TagRecaptureByLength::Execute() {
     //save our comparisons so we can use them to generate the score from the likelihoods later
     for (unsigned i = 0; i < length_results_.size(); ++i) {
       Double expected = 0.0;
-      Double observed = 0.0;
+      double observed = 0.0;
       if (length_results_[i] != 0.0) {
         expected = detection_ * tagged_length_results_[i]  / (length_results_[i]+  tagged_length_results_[i]);
         LOG_FINEST() << " total numbers at length " << length_bins_[i] << " = " << tagged_length_results_[i] << ", denominator = " << length_results_[i] << " + " << tagged_length_results_[i] ;

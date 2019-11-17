@@ -71,7 +71,7 @@ void Dirichlet::GetScores(map<unsigned, vector<observations::Comparison> >& comp
 void Dirichlet::SimulateObserved(map<unsigned, vector<observations::Comparison> >& comparisons) {
   // instance the random number generator
   utilities::RandomNumberGenerator& rng = utilities::RandomNumberGenerator::Instance();
-  map<string, Double> totals;
+  map<string, double> totals;
 
   auto iterator = comparisons.begin();
   for (; iterator != comparisons.end(); ++iterator) {

@@ -91,7 +91,7 @@ void SimulatedObservation::DoExecute() {
     for (auto iter = comparison.begin(); iter != comparison.end(); ++iter) {
       cache_ << iter->first << " ";
       for (obs::Comparison comparison : iter->second) {
-        cache_ << AS_DOUBLE(comparison.observed_) << " ";
+        cache_ << comparison.observed_ << " ";
       }
       cache_ << "\n";
     }
@@ -115,7 +115,7 @@ void SimulatedObservation::DoExecute() {
     for (auto iter = comparison.begin(); iter != comparison.end(); ++iter) {
       cache_ << iter->first << " ";
       for (obs::Comparison comparison : iter->second) {
-        cache_ << AS_DOUBLE(comparison.error_value_) << " ";
+        cache_ << comparison.error_value_ << " ";
       }
       cache_ << "\n";
     }

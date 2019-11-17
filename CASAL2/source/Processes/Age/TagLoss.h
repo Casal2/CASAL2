@@ -46,10 +46,10 @@ public:
 private:
   // Members
   vector<string>              category_labels_;
-  vector<Double>              tag_loss_input_;
+  vector<double>              tag_loss_input_;
   OrderedMap<string, Double>  tag_loss_;
   string                      tag_loss_type_ = "single";
-  vector<Double>              ratios_;
+  vector<double>              ratios_;
   map<unsigned, double>       time_step_ratios_;
   vector<string>              selectivity_names_;
   accessor::Categories        partition_;

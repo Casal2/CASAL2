@@ -49,8 +49,8 @@ private:
   vector<Double>              unit_vector_;
   vector<Double>              zk_;
   vector<Double>              yk_;
-  vector<Double>              lower_bounds_;
-  vector<Double>              upper_bounds_;
+  vector<double>              lower_bounds_;
+  vector<double>              upper_bounds_;
 
   vector<string>              estimate_labels_;
   vector<Estimate*>           estimates_;

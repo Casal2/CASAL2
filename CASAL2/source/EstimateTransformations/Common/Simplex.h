@@ -48,8 +48,8 @@ private:
   vector<Double>              unit_vector_;
   vector<Double>              zk_;
   vector<Double>              yk_;
-  Double                      lower_bound_ = 1.0e-10;
-  Double                      upper_bound_ = 1.0e10;
+  double                      lower_bound_ = 1.0e-10;
+  double                      upper_bound_ = 1.0e10;
 
   vector<Estimate*>           estimates_;
   vector<Estimate*>           simplex_estimates_;

@@ -66,7 +66,7 @@ void Abundance::DoValidate() {
     LOG_ERROR_P(PARAM_ERROR_VALUE) << ": error_value length (" << error_values_.size()
         << ") must be same length as obs (" << obs.size() << ")";
 
-  error_values_by_year_ = utils::Map<Double>::create(years_, error_values_);
+  error_values_by_year_ = utils::Map<double>::create(years_, error_values_);
 
   double value = 0.0;
   for (unsigned i = 0; i < years_.size(); ++i) {
@@ -249,7 +249,7 @@ void Abundance::CalculateScore() {
     }
     likelihood_->SimulateObserved(comparisons_);
     for (auto& iter : comparisons_) {
-      Double total = 0.0;
+      double total = 0.0;
       for (auto& comparison : iter.second)
         total += comparison.observed_;
       for (auto& comparison : iter.second)

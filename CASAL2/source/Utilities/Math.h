@@ -147,7 +147,7 @@ inline Double plognorm(const Double& x, const Double& mu, const Double& sigma) {
 //
 // We use an approximation: P(X is more than 5 std.devs away from its mean) = 0.
 //  Almost true for the normal distribution, but may be problematic if you use something more skewed.
-inline vector<Double> distribution(const vector<Double>& class_mins, bool plus_group = 0, const Distribution& dist = Distribution::kNormal, const Double& mean = 0.0, const Double& stdev = 1.0) {
+inline vector<Double> distribution(const vector<double>& class_mins, bool plus_group = 0, const Distribution& dist = Distribution::kNormal, const Double& mean = 0.0, const Double& stdev = 1.0) {
   int n_bins = class_mins.size() - (plus_group ? 0 : 1);
   vector<Double> result(n_bins, 0.0);
   Double so_far = 0;

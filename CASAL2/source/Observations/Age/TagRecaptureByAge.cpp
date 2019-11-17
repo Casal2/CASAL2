@@ -47,7 +47,7 @@ TagRecaptureByAge::TagRecaptureByAge(Model* model) : Observation(model) {
   parameters_.Bind<string>(PARAM_TARGET_SELECTIVITIES, &target_selectivity_labels_, "The categories of tagged individuals for the observation", "");
   // TODO:  is tolerance missing?
   parameters_.Bind<Double>(PARAM_PROCESS_ERRORS, &process_error_values_, "Process error", "", true);
-  parameters_.Bind<Double>(PARAM_DETECTION_PARAMETER,  &detection_, "Probability of detecting a recaptured individual", "");
+  parameters_.Bind<double>(PARAM_DETECTION_PARAMETER,  &detection_, "Probability of detecting a recaptured individual", "");
   parameters_.BindTable(PARAM_RECAPTURED, recaptures_table_, "Table of observed recaptured individuals in each age class", "", false);
   parameters_.BindTable(PARAM_SCANNED, scanned_table_, "Table of observed scanned individuals in each age class", "", false);
   parameters_.Bind<double>(PARAM_TIME_STEP_PROPORTION, &time_step_proportion_, "Proportion through the mortality block of the time step when the observation is evaluated", "", double(0.5));
@@ -411,15 +411,17 @@ void TagRecaptureByAge::Execute() {
 
     for (unsigned i = 0; i < age_results.size(); ++i) {
       Double expected = 0.0;
-      Double observed = 0.0;
+      double observed = 0.0;
       if (age_results[i] != 0.0)
         expected = target_age_results[i] / age_results[i];
       if (scanned_[model_->current_year()][category_labels_[category_offset]][i] == 0.0)
         observed = 0.0;
       else
-        observed = (1 / detection_ * recaptures_[model_->current_year()][category_labels_[category_offset]][i]) / scanned_[model_->current_year()][category_labels_[category_offset]][i];                                                                                                                                                                    ;
+        observed = (1.0 / detection_ * recaptures_[model_->current_year()][category_labels_[category_offset]][i]) / scanned_[model_->current_year()][category_labels_[category_offset]][i];
+
       LOG_MEDIUM() << "Comparison for age " << min_age_ + i << " Expected = " << expected << " observed = " << observed << " error = "
           << scanned_[model_->current_year()][category_labels_[category_offset]][i] << " recaptures = " << recaptures_[model_->current_year()][category_labels_[category_offset]][i];
+
       SaveComparison(target_category_labels_[category_offset], min_age_ + i, 0, expected, observed,
           process_errors_by_year_[model_->current_year()], scanned_[model_->current_year()][category_labels_[category_offset]][i], 0.0, delta_, 0.0);
     }

@@ -402,7 +402,7 @@ void ProcessRemovalsByLengthRetained::CalculateScore() {
   if (model_->run_mode() == RunMode::kSimulation) {
     likelihood_->SimulateObserved(comparisons_);
     for (auto& iter : comparisons_) {
-      Double total = 0.0;
+      double total = 0.0;
       for (auto& comparison : iter.second)
         total += comparison.observed_;
       for (auto& comparison : iter.second)

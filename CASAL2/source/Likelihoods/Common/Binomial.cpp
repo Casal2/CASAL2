@@ -71,7 +71,7 @@ void Binomial::GetScores(map<unsigned, vector<observations::Comparison> >& compa
 void Binomial::SimulateObserved(map<unsigned, vector<observations::Comparison> >& comparisons) {
   utilities::RandomNumberGenerator& rng = utilities::RandomNumberGenerator::Instance();
 
-  Double error_value = 0.0;
+  double error_value = 0.0;
   auto iterator = comparisons.begin();
   for (; iterator != comparisons.end(); ++iterator) {
     LOG_FINE() << "Simulating values for year: " << iterator->first;
@@ -81,7 +81,7 @@ void Binomial::SimulateObserved(map<unsigned, vector<observations::Comparison> >
       if (comparison.expected_ <= 0.0 || error_value <= 0.0)
         comparison.observed_ = 0.0;
       else
-        comparison.observed_ = rng.binomial(AS_VALUE(comparison.expected_), AS_VALUE(error_value)) / error_value;
+        comparison.observed_ = rng.binomial(AS_VALUE(comparison.expected_), error_value) / error_value;
 
       comparison.adjusted_error_ = error_value;
     }

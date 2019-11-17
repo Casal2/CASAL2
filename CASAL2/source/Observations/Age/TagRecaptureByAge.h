@@ -52,7 +52,7 @@ protected:
   unsigned                      max_age_ = 0;
   bool                          plus_group_ = false;
   unsigned                      age_spread_ = 0;
-  Double                        detection_;
+  double                        detection_;
   vector<string>                target_category_labels_;
   vector<string>                target_selectivity_labels_;
   parameters::Table*            recaptures_table_ = nullptr;
