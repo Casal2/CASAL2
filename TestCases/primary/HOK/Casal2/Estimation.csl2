@@ -8,12 +8,12 @@
 
 @minimiser beta_diff
 #type numerical_differences
-#iterations 10
-#evaluations 10
+#iterations 1000
+#evaluations 1000
 type betadiff
 tolerance 1e-6
-iterations 1000
-evaluations 1000
+iterations 400 # if doing speed tests
+evaluations 400 # if doing speed tests
 
 /*
 @minimiser CPPAD

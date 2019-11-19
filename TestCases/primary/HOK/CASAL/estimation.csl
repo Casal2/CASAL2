@@ -1,9 +1,10 @@
 @estimator Bayes
 
+## set to 400 if you want to check speed test with Casal2
+#@max_iters 400
+#@max_evals 400
 @max_iters 1000
-
 @max_evals 1000
-
 @grad_tol 1e-6
 
 @MCMC 
