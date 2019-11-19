@@ -80,7 +80,7 @@ protected:
   ublas::matrix<double>       covariance_matrix_;
   ublas::matrix<double>       correlation_matrix_;
   MinimiserResult::Type       result_ = MinimiserResult::kInvalid;
-  vector<Double>              gradient_;
+  vector<double>              gradient_;
 };
 } /* namespace niwa */
 #endif /* MINIMISER_H_ */

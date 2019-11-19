@@ -121,7 +121,7 @@ void Observation::Reset() {
  * @param error_value The error value for this comparison
  * @param score The amount of score for this comparison
  */
-void Observation::SaveComparison(string category, unsigned age, Double length, Double expected, double observed,
+void Observation::SaveComparison(string category, unsigned age, double length, Double expected, double observed,
     Double process_error, double error_value, Double adjusted_error, double delta, Double score) {
   observations::Comparison new_comparison;
   new_comparison.category_ = category;

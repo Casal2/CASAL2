@@ -319,7 +319,6 @@ void Biomass::CalculateScore() {
   }
 }
 
-
 } /* namespace age */
 } /* namespace observations */
 } /* namespace niwa */

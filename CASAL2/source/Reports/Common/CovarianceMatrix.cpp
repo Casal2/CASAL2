@@ -37,7 +37,7 @@ void CovarianceMatrix::DoExecute() {
 
   for (unsigned i = 0; i < covariance_matrix_.size1(); ++i) {
     for (unsigned j = 0; j < covariance_matrix_.size2(); ++j)
-      cache_ << AS_DOUBLE(covariance_matrix_(i, j)) << " ";
+      cache_ << covariance_matrix_(i, j) << " ";
     cache_ << "\n";
   }
 
@@ -50,8 +50,8 @@ void CovarianceMatrix::DoExecute() {
       auto covariance = mcmc_->covariance_matrix();
       for (unsigned i = 0; i < covariance.size1(); ++i) {
         for (unsigned j = 0; j < covariance.size2() - 1; ++j)
-          cache_ << AS_DOUBLE(covariance(i, j)) << " ";
-        cache_ << AS_DOUBLE(covariance(i, covariance.size2() - 1)) << "\n";
+          cache_ << covariance(i, j) << " ";
+        cache_ << covariance(i, covariance.size2() - 1) << "\n";
       }
     }
   }

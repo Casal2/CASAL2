@@ -412,7 +412,6 @@ void ProcessRemovalsByAge::CalculateScore() {
      * Convert the expected_values in to a proportion
      */
 
-
     for (unsigned year : years_) {
       Double running_total = 0.0;
       for (obs::Comparison comparison : comparisons_[year]) {

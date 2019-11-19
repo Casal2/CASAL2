@@ -59,7 +59,7 @@ public:
 
 protected:
   // methods
-  void                        SaveComparison(string category, unsigned age, Double length, Double expected, double observed,
+  void                        SaveComparison(string category, unsigned age, double length, Double expected, double observed,
       Double process_error, double error_value, Double adjusted_error, double delta, Double score);
 
   void                        SaveComparison(string category, Double expected, double observed,

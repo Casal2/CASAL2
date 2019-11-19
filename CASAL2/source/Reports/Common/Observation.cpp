@@ -92,7 +92,7 @@ void Observation::DoExecute() {
         } else {
           LOG_CODE_ERROR() << "Unknown coded likelihood type should be dealt with in DoBuild(), if the pearsons residual is unknown for this likelihood set, pearsons_residual false";
         }
-        cache_ << iter->first << " " << comparison.category_ << " " << comparison.age_ << " " << AS_DOUBLE(comparison.length_) << " " << comparison.observed_ << " " << AS_DOUBLE(comparison.expected_)
+        cache_ << iter->first << " " << comparison.category_ << " " << comparison.age_ << " " << comparison.length_ << " " << comparison.observed_ << " " << AS_DOUBLE(comparison.expected_)
              << " " << comparison.observed_ - AS_DOUBLE(comparison.expected_) << " " << comparison.error_value_ << " " <<AS_DOUBLE(comparison.process_error_) << " "
              << AS_DOUBLE(comparison.adjusted_error_) << " " << AS_DOUBLE(comparison.score_) << " " << AS_DOUBLE(resid) << "\n";
       }
@@ -111,7 +111,7 @@ void Observation::DoExecute() {
         } else {
           LOG_CODE_ERROR() << "Unknown coded likelihood type should be dealt with in DoBuild(), if the pearsons residual is unknown for this likelihood set, pearsons_residual false";
         }
-        cache_ << iter->first << " " << comparison.category_ << " " << comparison.age_ << " " << AS_DOUBLE(comparison.length_) << " " << comparison.observed_ << " " << AS_DOUBLE(comparison.expected_)
+        cache_ << iter->first << " " << comparison.category_ << " " << comparison.age_ << " " << comparison.length_ << " " << comparison.observed_ << " " << AS_DOUBLE(comparison.expected_)
              << " " << comparison.observed_ - AS_DOUBLE(comparison.expected_) << " " << comparison.error_value_ << " " <<AS_DOUBLE(comparison.process_error_) << " "
              << AS_DOUBLE(comparison.adjusted_error_) << " " << AS_DOUBLE(comparison.score_) << " " << AS_DOUBLE(resid) << "\n";
       }
@@ -132,7 +132,7 @@ void Observation::DoExecute() {
         } else {
           LOG_CODE_ERROR() << "Unknown coded likelihood type should be dealt with in DoBuild(), if the pearsons residual is unknown for this likelihood set, pearsons_residual false";
         }
-        cache_ << iter->first << " " << comparison.category_ << " " << comparison.age_ << " " << AS_DOUBLE(comparison.length_) << " " << comparison.observed_ << " " << AS_DOUBLE(comparison.expected_)
+        cache_ << iter->first << " " << comparison.category_ << " " << comparison.age_ << " " << comparison.length_ << " " << comparison.observed_ << " " << AS_DOUBLE(comparison.expected_)
              << " " << comparison.observed_ - AS_DOUBLE(comparison.expected_) << " " << comparison.error_value_ << " " <<AS_DOUBLE(comparison.process_error_)  << " "
              << AS_DOUBLE(comparison.adjusted_error_) << " " << AS_DOUBLE(comparison.score_) << " " << AS_DOUBLE(pearson_resid) << " " << AS_DOUBLE(normalised_resid) << "\n";
       }
@@ -142,7 +142,7 @@ void Observation::DoExecute() {
     cache_ << "year category age length observed expected residual error_value process_error adjusted_error score\n";
     for (auto iter = comparisons.begin(); iter != comparisons.end(); ++iter) {
       for (obs::Comparison comparison : iter->second) {
-        cache_ << iter->first << " " << comparison.category_ << " " << comparison.age_ << " " << AS_DOUBLE(comparison.length_) << " " << comparison.observed_ << " " << AS_DOUBLE(comparison.expected_)
+        cache_ << iter->first << " " << comparison.category_ << " " << comparison.age_ << " " << comparison.length_ << " " << comparison.observed_ << " " << AS_DOUBLE(comparison.expected_)
              << " " << comparison.observed_ - AS_DOUBLE(comparison.expected_) << " " << comparison.error_value_ << " " << AS_DOUBLE(comparison.process_error_)  << " "
              << AS_DOUBLE(comparison.adjusted_error_) << " " << AS_DOUBLE(comparison.score_) << "\n";
       }

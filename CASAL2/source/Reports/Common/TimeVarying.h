@@ -33,7 +33,7 @@ public:
 
 
 private:
-  bool						  first_run_ = true;
+  bool                        first_run_ = true;
 };
 
 } /* namespace reports */

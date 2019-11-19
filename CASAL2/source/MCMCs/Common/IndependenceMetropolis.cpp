@@ -30,12 +30,12 @@ namespace dc = niwa::utilities::doublecompare;
  * Default constructor
  */
 IndependenceMetropolis::IndependenceMetropolis(Model* model) : MCMC(model) {
-  parameters_.Bind<Double>(PARAM_START, &start_, "Covariance multiplier for the starting point of the MCMC", "", 0.0);
+  parameters_.Bind<double>(PARAM_START, &start_, "Covariance multiplier for the starting point of the MCMC", "", 0.0);
   parameters_.Bind<unsigned>(PARAM_KEEP, &keep_, "Spacing between recorded values in the MCMC", "", 1u);
-  parameters_.Bind<Double>(PARAM_MAX_CORRELATION, &max_correlation_, "Maximum absolute correlation in the covariance matrix of the proposal distribution", "", 0.8);
+  parameters_.Bind<double>(PARAM_MAX_CORRELATION, &max_correlation_, "Maximum absolute correlation in the covariance matrix of the proposal distribution", "", 0.8);
   parameters_.Bind<string>(PARAM_COVARIANCE_ADJUSTMENT_METHOD, &correlation_method_, "Method for adjusting small variances in the covariance proposal matrix"
       , "", PARAM_CORRELATION)->set_allowed_values({PARAM_COVARIANCE, PARAM_CORRELATION,PARAM_NONE});
-  parameters_.Bind<Double>(PARAM_CORRELATION_ADJUSTMENT_DIFF, &correlation_diff_, "Minimum non-zero variance times the range of the bounds in the covariance matrix of the proposal distribution", "", 0.0001);
+  parameters_.Bind<double>(PARAM_CORRELATION_ADJUSTMENT_DIFF, &correlation_diff_, "Minimum non-zero variance times the range of the bounds in the covariance matrix of the proposal distribution", "", 0.0001);
   parameters_.Bind<string>(PARAM_PROPOSAL_DISTRIBUTION, &proposal_distribution_, "The shape of the proposal distribution (either the t or the normal distribution)", "", PARAM_T);
   parameters_.Bind<unsigned>(PARAM_DF, &df_, "Degrees of freedom of the multivariate t proposal distribution", "", 4);
   parameters_.Bind<unsigned>(PARAM_ADAPT_STEPSIZE_AT, &adapt_step_size_, "Iterations in the chain to check and resize the MCMC stepsize", "", true);
@@ -56,7 +56,7 @@ IndependenceMetropolis::IndependenceMetropolis(Model* model) : MCMC(model) {
 void IndependenceMetropolis::BuildCovarianceMatrix() {
   LOG_MEDIUM() << "Building covariance matrix";
   // Are we starting at MPD or recalculating the matrix based on an empirical sample
-	ublas::matrix<Double> original_correlation;
+	ublas::matrix<double> original_correlation;
   if (recalculate_covariance_) {
     LOG_MEDIUM() << "recalculate covariance";
     covariance_matrix_ = covariance_matrix_lt;
@@ -81,14 +81,14 @@ void IndependenceMetropolis::BuildCovarianceMatrix() {
     }
   }
   LOG_MEDIUM() << "and we are out of that print out";
-  ublas::matrix<Double> original_covariance(covariance_matrix_);
+  ublas::matrix<double> original_covariance(covariance_matrix_);
 
   LOG_MEDIUM() << "Beginning covar adjustment. rows = " << original_covariance.size1() << " cols = " << original_covariance.size2();
   for (unsigned i = 0; i < (covariance_matrix_.size1() - 1); ++i) {
     for (unsigned j = i + 1; j < covariance_matrix_.size2(); ++j) {
       // This is the lower triangle of the covariance matrix
-    	Double value = original_covariance(i,j) / sqrt(original_covariance(i,i) * original_covariance(j,j));
-    	LOG_MEDIUM() << "row = " << i + 1 << " col = " << j + 1 << " correlation = " << AS_DOUBLE(value);
+    	double value = original_covariance(i,j) / sqrt(original_covariance(i,i) * original_covariance(j,j));
+    	LOG_MEDIUM() << "row = " << i + 1 << " col = " << j + 1 << " correlation = " << value;
       if (original_covariance(i,j) / sqrt(original_covariance(i,i) * original_covariance(j,j)) > max_correlation_) {
         covariance_matrix_(i,j) = max_correlation_ * sqrt(original_covariance(i,i) * original_covariance(j,j));
       }
@@ -107,7 +107,7 @@ void IndependenceMetropolis::BuildCovarianceMatrix() {
   /**
    * Adjust any non-zero variances less than min_diff_ * difference between bounds
    */
-  vector<Double> difference_bounds;
+  vector<double> difference_bounds;
   vector<Estimate*> estimates = model_->managers().estimate()->GetIsEstimated();
   LOG_MEDIUM() << "upper_bound lower_bound";
   for (Estimate* estimate : estimates) {
@@ -118,7 +118,7 @@ void IndependenceMetropolis::BuildCovarianceMatrix() {
   for (unsigned i = 0; i < covariance_matrix_.size1(); ++i) {
     if (covariance_matrix_(i,i) < (correlation_diff_ * difference_bounds[i]) && covariance_matrix_(i,i) != 0) {
       if (correlation_method_ == PARAM_COVARIANCE) {
-        Double multiply_covariance = (sqrt(correlation_diff_) * difference_bounds[i]) / sqrt(covariance_matrix_(i,i));
+        double multiply_covariance = (sqrt(correlation_diff_) * difference_bounds[i]) / sqrt(covariance_matrix_(i,i));
         LOG_MEDIUM() << "multiplier = " << multiply_covariance << " for parameter = " << i + 1;
         for (unsigned j = 0; j < covariance_matrix_.size1(); ++j) {
           covariance_matrix_(i,j) = covariance_matrix_(i,j) * multiply_covariance;
@@ -165,7 +165,7 @@ bool IndependenceMetropolis::DoCholeskyDecmposition() {
     if (covariance_matrix_(0,0) < 0) {
       return false;
     }
-    Double sum = 0.0;
+    double sum = 0.0;
 
     covariance_matrix_lt(0,0) = sqrt(covariance_matrix_(0,0));
 
@@ -236,14 +236,14 @@ void IndependenceMetropolis::GenerateRandomStart() {
 /**
  * Fill the candidates with an attempt using a multivariate normal
  */
-void IndependenceMetropolis::FillMultivariateNormal(Double step_size) {
+void IndependenceMetropolis::FillMultivariateNormal(double step_size) {
   utilities::RandomNumberGenerator& rng = utilities::RandomNumberGenerator::Instance();
 
-  vector<Double>  normals(estimate_count_ , 0.0);
+  vector<double>  normals(estimate_count_ , 0.0);
   for (unsigned i = 0; i < estimate_count_; ++i) {
     normals[i] = rng.normal();
   }
-  vector<Double>  dv(estimate_count_, 0.0);
+  vector<double>  dv(estimate_count_, 0.0);
 
 // Method from CASAL's algorithm
   for (unsigned i = 0; i < estimate_count_; ++i) {
@@ -271,18 +271,18 @@ void IndependenceMetropolis::FillMultivariateNormal(Double step_size) {
 /**
  * Fill candidates with an attempt using a multivariate
  */
-void IndependenceMetropolis::FillMultivariateT(Double step_size) {
+void IndependenceMetropolis::FillMultivariateT(double step_size) {
   utilities::RandomNumberGenerator& rng = utilities::RandomNumberGenerator::Instance();
 
-  vector<Double>  normals(estimate_count_, 0.0);
-  vector<Double>  chisquares(estimate_count_, 0.0);
+  vector<double>  normals(estimate_count_, 0.0);
+  vector<double>  chisquares(estimate_count_, 0.0);
   for (unsigned i = 0; i < estimate_count_; ++i) {
     normals[i] = rng.normal();
     chisquares[i] = 1 / (rng.chi_square(df_) / df_);
   }
 
   for (unsigned i = 0; i < estimate_count_; ++i) {
-    Double row_sum = 0.0;
+    double row_sum = 0.0;
     for (unsigned j = 0; j < estimate_count_; ++j) {
       row_sum += covariance_matrix_lt(i, j) * normals[j] * chisquares[j];
     }
@@ -304,17 +304,17 @@ void IndependenceMetropolis::UpdateStepSize() {
       return;
     if (adapt_stepsize_method_ == PARAM_RATIO) {
       // modify the stepsize so that AcceptanceRate = 0.24
-      step_size_ *= ((Double)successful_jumps_since_adapt_ / (Double)jumps_since_adapt_) * 4.166667;
+      step_size_ *= ((double)successful_jumps_since_adapt_ / (double)jumps_since_adapt_) * 4.166667;
       // Ensure the stepsize remains positive
-      step_size_ = AS_DOUBLE(dc::ZeroFun(step_size_, 1e-10));
+      step_size_ = AS_VALUE(dc::ZeroFun(step_size_, 1e-10));
       // reset counters
     } else if (adapt_stepsize_method_ == PARAM_DOUBLE_HALF) {
       // This is a half or double method really.
-      Double acceptance_rate;
-      if ((Double)successful_jumps_since_adapt_ == 0.0)
-        acceptance_rate = Double(successful_jumps_) / Double(jumps_);
+      double acceptance_rate;
+      if ((double)successful_jumps_since_adapt_ == 0.0)
+        acceptance_rate = double(successful_jumps_) / double(jumps_);
       else
-        acceptance_rate = (Double)successful_jumps_since_adapt_ / (Double)jumps_since_adapt_;
+        acceptance_rate = (double)successful_jumps_since_adapt_ / (double)jumps_since_adapt_;
       //LOG_MEDIUM() << "acceptance rate since last jump = " << acceptance_rate << " step size " << step_size_ << " numerator = " << ((Double)successful_jumps_ - (Double)successful_jumps_since_adapt_) << " denominator = " << ((Double)jumps_ - (Double)jumps_since_adapt_);
       if (acceptance_rate > 0.5)
         step_size_ *= 2;
@@ -350,31 +350,31 @@ void IndependenceMetropolis::UpdateCovarianceMatrix() {
     int n_iter = chain_.size() - 1;
     LOG_MEDIUM() << "Number of parameters = " << n_params << ", number of iterations used to recalculate covariance = " << n_iter;
     // temp covariance matrix
-    ublas::matrix<Double> temp_covariance = covariance_matrix_;
+    ublas::matrix<double> temp_covariance = covariance_matrix_;
     // Mean parameter vector
-    vector<Double> mean_var(n_params, 1.0);
+    vector<double> mean_var(n_params, 1.0);
     for (int i = 0; i < n_params; ++i) {
-      Double sx = 0.0;
+      double sx = 0.0;
       for (int k = 0; k < n_iter; ++k) {
-       sx +=  chain_[k].values_[i];
+       sx += AS_VALUE(chain_[k].values_[i]);
       }
       mean_var[i] = sx / n_iter;
 
       LOG_MEDIUM() << "Total = " << sx << "\n";
       LOG_MEDIUM() << "Mean = " << mean_var[i]  << "\n";
 
-      Double sxx = 0.0;
+      double sxx = 0.0;
       for (int k = 0; k < n_iter; ++k) {
-       sxx += pow(chain_[k].values_[i] - mean_var[i],2);
+       sxx += pow(AS_VALUE(chain_[k].values_[i]) - mean_var[i],2);
       }
-      Double var = sxx / (n_iter - 1);
+      double var = sxx / (n_iter - 1);
       temp_covariance(i,i) = var;
       for (int j = 0; j < i; j++){
-        Double sxy = 0;
+        double sxy = 0;
         for (int k = 0; k < n_iter; k++){
-          sxy += (chain_[k].values_[i] - mean_var[i]) * (chain_[k].values_[j] - mean_var[j]);
+          sxy += (AS_VALUE(chain_[k].values_[i]) - mean_var[i]) * (AS_VALUE(chain_[k].values_[j]) - mean_var[j]);
         }
-        Double cov = (sxy / (n_iter - 1));
+        double cov = (sxy / (n_iter - 1));
         temp_covariance(i,j) = cov;
         temp_covariance(j,i) = cov;
       }
@@ -496,7 +496,7 @@ void IndependenceMetropolis::DoBuild() {
     LOG_ERROR() << "While building the MCMC system the number of active estimates was 0. You need at least 1 non-fixed MCMC estimate";
 
   if (step_size_ == 0.0)
-    step_size_ = 2.4 * pow((Double)active_estimates, -0.5);
+    step_size_ = 2.4 * pow((double)active_estimates, -0.5);
 }
 
 /**
@@ -511,7 +511,7 @@ void IndependenceMetropolis::DoExecute() {
   // Transform any parameters so that candidates are in the same space as the covariance matrix.
   model_->managers().estimate_transformation()->TransformEstimatesForObjectiveFunction();
   for (unsigned i = 0; i < estimate_count_; ++i) {
-    candidates_[i] = AS_DOUBLE(estimates_[i]->value());
+    candidates_[i] = estimates_[i]->value();
 
     if (estimates_[i]->lower_bound() == estimates_[i]->upper_bound() || estimates_[i]->mcmc_fixed())
       is_enabled_estimate_[i] = false;
@@ -537,9 +537,9 @@ void IndependenceMetropolis::DoExecute() {
     jumps_= starting_iteration_;
     jumps_since_adapt_ = jumps_ - jumps_since_last_adapt;
 
-    Double temp_success_jumps = (Double)jumps_since_adapt_ * acceptance_rate_since_last_adapt_;
+    double temp_success_jumps = (double)jumps_since_adapt_ * acceptance_rate_since_last_adapt_;
 
-    if (!utilities::To<Double, unsigned>(temp_success_jumps, successful_jumps_since_adapt_))
+    if (!utilities::To<double, unsigned>(temp_success_jumps, successful_jumps_since_adapt_))
       LOG_ERROR() << "Could not convert " << temp_success_jumps << " to an unsigned";
 
     LOG_FINE() << "jumps = " << jumps_ << "jumps since last adapt " << jumps_since_adapt_ << " successful jumps since last adapt " << successful_jumps_since_adapt_ << " step size " << step_size_ << " successful jumps " << successful_jumps_;
@@ -554,7 +554,7 @@ void IndependenceMetropolis::DoExecute() {
     GenerateRandomStart();
   }
   for(unsigned i = 0; i < estimate_count_; ++i)
-  	estimates_[i]->set_value(candidates_[i]);
+    estimates_[i]->set_value(candidates_[i]);
 
   /**
    * Get the objective score
@@ -564,7 +564,7 @@ void IndependenceMetropolis::DoExecute() {
   model_->FullIteration();
   // For reporting purposes
   for (unsigned i = 0; i < estimate_count_; ++i) {
-    previous_untransformed_candidates[i] = AS_DOUBLE(estimates_[i]->value());
+    previous_untransformed_candidates[i] = estimates_[i]->value();
   }
   ObjectiveFunction& obj_function = model_->objective_function();
   obj_function.CalculateScore();
@@ -675,7 +675,7 @@ void IndependenceMetropolis::DoExecute() {
         previous_jacobian = jacobian;
         // For reporting purposes
         for (unsigned i = 0; i < estimate_count_; ++i) {
-          previous_untransformed_candidates[i] = AS_DOUBLE(estimates_[i]->value());
+          previous_untransformed_candidates[i] = estimates_[i]->value();
         }
       } else {
       	// reject this jump reset
@@ -700,8 +700,8 @@ void IndependenceMetropolis::DoExecute() {
 			new_link.likelihood_ = previous_likelihood;
 			new_link.additional_priors_ = previous_additional_prior;
 			new_link.jacobians_ = previous_jacobian;
-			new_link.acceptance_rate_ = Double(successful_jumps_) / Double(jumps_);
-			new_link.acceptance_rate_since_adapt_ = Double(successful_jumps_since_adapt_) / Double(jumps_since_adapt_);
+			new_link.acceptance_rate_ = double(successful_jumps_) / double(jumps_);
+			new_link.acceptance_rate_since_adapt_ = double(successful_jumps_since_adapt_) / double(jumps_since_adapt_);
 			new_link.step_size_ = step_size_;
 			new_link.values_ = previous_untransformed_candidates;
 			chain_.push_back(new_link);

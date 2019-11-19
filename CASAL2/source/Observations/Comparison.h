@@ -28,7 +28,7 @@ using utilities::Double;
 struct Comparison {
   string    category_ = "";
   unsigned  age_ = 0;
-  Double    length_ = 0;
+  double    length_ = 0;
   Double    expected_ = 0;
   double    observed_ = 0;
   double    error_value_ = 0;

@@ -32,7 +32,7 @@ public:
   void                        DoExecuteTabular() override final { };
 
 private:
-  ublas::matrix<Double>       correlation_matrix_;
+  ublas::matrix<double>       correlation_matrix_;
 
 };
 
