@@ -1,11 +1,11 @@
 CASAL2
-Call: ../../../../../BuildSystem/bin/linux/release_cppad/casal2 -e -o params_est.20191118.out 
-Date: Mon Nov 18 12:44:12 2019
-Version: 2019-11-17 23:02:07 UTC (rev. 592868c)
+Call: ../../../../../BuildSystem/bin/linux/release_cppad/casal2 -e -o params_est.20191119.out 
+Date: Tue Nov 19 15:26:23 2019
+Version: 2019-11-18 03:40:39 UTC (rev. 52fc9a4)
 Copyright (c) 2018 - 2019, NIWA (www.niwa.co.nz)
 -- Username: amart
 -- Machine: niwa-1019055.niwa.local (Linux 3.10.0-1062.4.1.el7.x86_64 x86_64)
--- Process Id: 6223
+-- Process Id: 30778
 
 [WARNING] /home/amart/work/projects/CASAL2/dev/casal2-development/CASAL2/source/Estimates/Manager.cpp(line: 93): Estimates were removed because of matching lower and upper bounds. Originally had 134 estimates, now have 133
 This is Ipopt version 3.12.4, running with linear solver mumps.
@@ -124,8 +124,8 @@ Number of inequality constraint evaluations          = 113
 Number of equality constraint Jacobian evaluations   = 0
 Number of inequality constraint Jacobian evaluations = 73
 Number of Lagrangian Hessian evaluations             = 72
-Total CPU secs in IPOPT (w/o function evaluations)   =      0.472
-Total CPU secs in NLP function evaluations           =    494.246
+Total CPU secs in IPOPT (w/o function evaluations)   =      0.512
+Total CPU secs in NLP function evaluations           =    573.983
 
 EXIT: Optimal Solution Found.
 *initialisation_partition[Init]
@@ -3492,6 +3492,6 @@ warning_5 {s}
 estimated parameter 'selectivity[CRsl].mu' was within 0.001 of its bound
 *end
 
-Total CPU time: 0.138 hours.
-Total elapsed time: 4.133 minutes
+Total CPU time: 0.16 hours.
+Total elapsed time: 4.8 minutes
 Completed
