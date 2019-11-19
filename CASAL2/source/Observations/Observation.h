@@ -59,25 +59,25 @@ public:
 
 protected:
   // methods
-  void                        SaveComparison(string category, unsigned age, Double length, Double expected, Double observed,
-      Double process_error, Double error_value, Double adjusted_error, Double delta, Double score);
+  void                        SaveComparison(string category, unsigned age, double length, Double expected, double observed,
+      Double process_error, double error_value, Double adjusted_error, double delta, Double score);
 
-  void                        SaveComparison(string category, Double expected, Double observed,
-      Double process_error, Double error_value, Double adjusted_error, Double delta, Double score);
+  void                        SaveComparison(string category, Double expected, double observed,
+      Double process_error, double error_value, Double adjusted_error, double delta, Double score);
 
   // members
   Model*                      model_ = nullptr;
   map<unsigned, Double>       scores_;
-  Double                      proportion_of_time_ = 0;
+  double                      proportion_of_time_ = 0;
   bool                        mean_proportion_method_ = false;
   string                      likelihood_type_ = "";
   string                      simulation_likelihood_label_ = "";
-  Double                      delta_ = 0;
+  double                      delta_ = 0;
   bool                        run_in_simulation_mode_ = false;
   Likelihood*                 likelihood_ = nullptr;
   vector<string>              allowed_likelihood_types_;
-  Double                      error_value_multiplier_ = 1.0;
-  Double                      likelihood_multiplier_ = 1.0;
+  double                      error_value_multiplier_ = 1.0;
+  double                      likelihood_multiplier_ = 1.0;
   vector<string>              category_labels_;
   unsigned                    expected_selectivity_count_;
   map<unsigned, vector<obs::Comparison> > comparisons_;

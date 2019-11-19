@@ -51,7 +51,7 @@ protected:
   // Members
   vector<unsigned>              years_;
   parameters::Table*            obs_table_ = nullptr;
-  Double                        tolerance_ = 0.0;
+  double                        tolerance_ = 0.0;
   vector<Double>                process_error_values_;
   map<unsigned, Double>         process_errors_by_year_;
   parameters::Table*            error_values_table_ = nullptr;
@@ -62,8 +62,8 @@ protected:
   vector<Selectivity*>          selectivities_;
   string                        time_step_label_ = "";
 
-  map<unsigned, map<string, vector<Double>>> proportions_;
-  map<unsigned, map<string, vector<Double>>> error_values_;
+  map<unsigned, map<string, vector<double>>> proportions_;
+  map<unsigned, map<string, vector<double>>> error_values_;
 };
 
 } /* namespace age */

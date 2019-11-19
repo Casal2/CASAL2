@@ -29,8 +29,8 @@ namespace utils = niwa::utilities;
  */
 Simplex::Simplex(Model* model) : EstimateTransformation(model) {
   //parameters_.Bind<string>(PARAM_ESTIMATE, &estimate_label_, "The label for the estimate label to use in the simplex transformation", "");
-  parameters_.Bind<Double>(PARAM_UPPER_BOUND, &upper_bound_, "The empirical upper bound for the simplex transformed, in theory it should be Inf but some of our minimisers won't allow that", "", true);
-  parameters_.Bind<Double>(PARAM_LOWER_BOUND, &lower_bound_, "The empirical lower bound for the simplex transformed, in theory it should be -Inf but some of our minimisers won't allow that", "", true);
+  parameters_.Bind<double>(PARAM_UPPER_BOUND, &upper_bound_, "The empirical upper bound for the simplex transformed, in theory it should be Inf but some of our minimisers won't allow that", "", true);
+  parameters_.Bind<double>(PARAM_LOWER_BOUND, &lower_bound_, "The empirical lower bound for the simplex transformed, in theory it should be -Inf but some of our minimisers won't allow that", "", true);
   is_simple_ = false;
 }
 

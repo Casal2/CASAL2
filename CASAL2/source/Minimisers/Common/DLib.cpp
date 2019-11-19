@@ -64,7 +64,7 @@ const column_vector DLib::DLibCalculateGradient(const column_vector& estimate_or
   Double original_score = objective.score();
 //  cout << "os + p: " << objective.score() << " + " << penalty << endl;
 
-  Double eps = 1e-9;
+  double eps = 1e-9;
   Double plus_eps = 0.0;
   Double original_estimate_value = 0.0;
   for (unsigned i = 0; i < estimates.size(); ++i) {
@@ -120,9 +120,9 @@ DLib::DLib(Model* model) : Minimiser(model) {
   parameters_.Bind<double>(PARAM_TOLERANCE, &gradient_tolerance_, "Tolerance of the gradient for convergence", "", 1e-7);
   parameters_.Bind<unsigned>(PARAM_LBFGS_MAX_SIZE, &lbfgs_max_size_, "Max Size for LBFGS search strategy", "", 1);
   parameters_.Bind<unsigned>(PARAM_BOBYQA_INTERPOLATION_POINTS, &bobyqa_interpolation_points_, "BOBYQA interpolation points", "", 5u);
-  parameters_.Bind<double>(PARAM_BOBYQA_INITIAL_TRUST_RADIUS, &bobyqa_initial_trust_radius_, "BOBYQA initial trust radius", "", 1e-2);
-  parameters_.Bind<double>(PARAM_BOBYQA_STOPPING_TRUST_RADIUS, &bobyqa_stopping_trust_radius_, "BOBYQA stopping trust radius", "", 1e-6);
-  parameters_.Bind<double>(PARAM_BOBYQA_MAX_EVALUATIONS, &bobyqa_max_evaluations_, "BOBYQA max objective evaluations", "", 4000);
+  parameters_.Bind<Double>(PARAM_BOBYQA_INITIAL_TRUST_RADIUS, &bobyqa_initial_trust_radius_, "BOBYQA initial trust radius", "", 1e-2);
+  parameters_.Bind<Double>(PARAM_BOBYQA_STOPPING_TRUST_RADIUS, &bobyqa_stopping_trust_radius_, "BOBYQA stopping trust radius", "", 1e-6);
+  parameters_.Bind<Double>(PARAM_BOBYQA_MAX_EVALUATIONS, &bobyqa_max_evaluations_, "BOBYQA max objective evaluations", "", 4000);
   parameters_.Bind<bool>(PARAM_VERBOSE, &verbose_, "Print debug of objective function calls", "", false);
 }
 

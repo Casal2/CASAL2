@@ -6,7 +6,13 @@ rem this assumes that 'release betadiff' and 'release cppad' have already been b
 cd CASAL
 casal -e -o params_est.out > run_estimation.txt 2>&1
 
+cd ..\CASAL_sens1
+casal -e -o params_est.out > run_estimation.txt 2>&1
+
 cd ..\Casal2\casal_flags_on
+..\..\..\..\..\BuildSystem\bin\windows\release_betadiff\casal2 -e -o params_est.out > run_estimation.txt 2>&1
+
+cd ..\casal_flags_on_low_tol
 ..\..\..\..\..\BuildSystem\bin\windows\release_betadiff\casal2 -e -o params_est.out > run_estimation.txt 2>&1
 
 cd ..\casal_flags_off

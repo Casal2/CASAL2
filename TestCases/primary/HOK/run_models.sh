@@ -1,12 +1,26 @@
-# this assumes that 'release adolc', 'release betadiff', have already been built successfully
+# this assumes that 'release adolc', 'release betadiff', and 'release cppad' have already been built successfully
 # start in directory TestCases/primary/HOK
 
 cd CASAL
-../../casal -r -i start_pars.txt > check_start.log
-../../casal -r -i params_est.out > run.log
-../../casal -e -i params_est.out > estimate.log 2> log.out
+../../casal -e -o params_est.out > run_estimation.txt 2>&1
+
+cd ../CASAL_sens1
+../../casal -e -o params_est.out > run_estimation.txt 2>&1
+
+
 
 cd ../Casal2/adolc
-../../../../../BuildSystem/bin/linux/release_adolc/casal2 -r -i start_pars.txt > check_start.log
-../../../../../BuildSystem/bin/linux/release_adolc/casal2 -r -i params_est.out > run.log
-../../../../../BuildSystem/bin/linux/release_adolc/casal2 -e -i params_est.out > estimate.log 2> log.out
+../../../../../BuildSystem/bin/linux/release_adolc/casal2 -e -o params_est.out > run_estimation.txt 2>&1
+
+cd ../casal_flag_on
+../../../../../BuildSystem/bin/linux/release_betadiff/casal2 -e -o params_est.out > run_estimation.txt 2>&1
+
+cd ../casal_flag_on_low_tol
+../../../../../BuildSystem/bin/linux/release_betadiff/casal2 -e -o params_est.out > run_estimation.txt 2>&1
+
+cd ../casal_flag_off
+../../../../../BuildSystem/bin/linux/release_betadiff/casal2 -e -o params_est.out > run_estimation.txt 2>&1
+
+cd ../cppad
+../../../../../BuildSystem/bin/linux/release_cppad/casal2 -e -o params_est.out > run_estimation.txt 2>&1
+

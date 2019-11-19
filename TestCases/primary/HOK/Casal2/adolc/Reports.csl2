@@ -1,0 +1,130 @@
+@report summary
+type estimate_value
+
+@report objective
+type objective_function
+
+@report SSB
+type derived_quantity
+
+@report Recruit_E
+type process
+process recruit_E
+
+@report Recruit_W
+type process
+process recruit_W
+
+@report Mortality
+type process
+process Instant_mortality
+
+@report M_male
+type selectivity
+selectivity M_male
+
+@report M_female
+type selectivity
+selectivity M_female
+
+## observations
+@report CSacous
+type observation
+observation CSacous
+
+@report WCacous
+type observation
+observation WCacous
+
+@report Espage
+type observation
+observation Espage
+
+@report Wspage
+type observation
+observation Wspage
+
+@report Enspage
+type observation
+observation Enspage
+
+@report EnspOLF
+type observation
+observation EnspOLF
+
+@report WnspOLF
+type observation
+observation WnspOLF
+
+@report Wnspage
+type observation
+observation Wnspage
+
+@report CRsumage
+type observation
+observation CRsumage
+
+
+@report SAsumage
+type observation
+observation SAsumage
+
+
+@report SAautage
+type observation
+observation SAautage
+
+@report CRsumbio
+type observation
+observation CRsumbio
+
+@report SAsumbio
+type observation
+observation SAsumbio
+
+@report pspawn_1993
+type observation
+observation pspawn_1993
+
+@report pspawn
+type observation
+observation pspawn
+
+@report Init
+type initialisation_partition
+
+## selectivities
+@report Enspsl
+type selectivity
+selectivity Enspsl
+@report Wnspsl
+type selectivity
+selectivity Wnspsl
+@report Espsl
+type selectivity
+selectivity Espsl
+@report Wspsl
+type selectivity
+selectivity Wspsl
+@report CRsl
+type selectivity
+selectivity CRsl
+@report SAsl
+type selectivity
+selectivity SAsl
+
+@report time_var
+type time_varying
+
+@report Qs
+type catchability
+
+## estimation stuff
+@report Covar
+type covariance_matrix
+
+@report Hess
+type hessian_matrix
+
+@report Corr
+type correlation_matrix

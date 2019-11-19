@@ -36,8 +36,8 @@ TagLoss::TagLoss(Model* model)
   partition_structure_ = PartitionType::kAge;
 
   parameters_.Bind<string>(PARAM_CATEGORIES, &category_labels_, "List of categories", "");
-  parameters_.Bind<Double>(PARAM_TAG_LOSS_RATE, &tag_loss_input_, "Tag Loss rates", "");
-  parameters_.Bind<Double>(PARAM_TIME_STEP_RATIO, &ratios_, "Time step ratios for Tag Loss", "", true);
+  parameters_.Bind<double>(PARAM_TAG_LOSS_RATE, &tag_loss_input_, "Tag Loss rates", "");
+  parameters_.Bind<double>(PARAM_TIME_STEP_RATIO, &ratios_, "Time step ratios for Tag Loss", "", true);
   parameters_.Bind<string>(PARAM_TAG_LOSS_TYPE, &tag_loss_type_, "Type of tag loss", "");
   parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_names_, "Selectivities", "");
   parameters_.Bind<unsigned>(PARAM_YEAR, &year_, "The year the first tagging release process was executed", "");
@@ -82,9 +82,9 @@ void TagLoss::DoValidate() {
   if (tag_loss_type_ == PARAM_DOUBLE)
     LOG_ERROR() << PARAM_TAG_LOSS_TYPE << " " << PARAM_DOUBLE << " is not implemented yet";
   // Validate our Ms are between 1.0 and 0.0
-  for (Double tag_loss : tag_loss_input_) {
+  for (double tag_loss : tag_loss_input_) {
     if (tag_loss < 0.0 || tag_loss > 1.0)
-      LOG_ERROR_P(PARAM_TAG_LOSS_RATE) << ": m value " << AS_DOUBLE(tag_loss) << " must be between 0.0 and 1.0 (inclusive)";
+      LOG_ERROR_P(PARAM_TAG_LOSS_RATE) << ": m value " << tag_loss << " must be between 0.0 and 1.0 (inclusive)";
   }
 
   for (unsigned i = 0; i < tag_loss_input_.size(); ++i)
@@ -129,7 +129,7 @@ void TagLoss::DoBuild() {
       LOG_FATAL_P(PARAM_TIME_STEP_RATIO) << " length (" << ratios_.size()
           << ") does not match the number of time steps this process has been assigned to (" << active_time_steps.size() << ")";
 
-    for (Double value : ratios_) {
+    for (double value : ratios_) {
       if (value < 0.0 || value > 1.0)
         LOG_ERROR_P(PARAM_TIME_STEP_RATIO) << " value (" << value << ") must be between 0.0 (inclusive) and 1.0 (inclusive)";
     }
@@ -151,7 +151,7 @@ void TagLoss::DoExecute() {
     unsigned time_step = model_->managers().time_step()->current_time_step();
 
     LOG_FINEST() << "Ratios.size() " << time_step_ratios_.size() << " : time_step: " << time_step << "; ratio: " << time_step_ratios_[time_step];
-    Double ratio = time_step_ratios_[time_step];
+    double ratio = time_step_ratios_[time_step];
 
     //StoreForReport("year", model_->current_year());
 

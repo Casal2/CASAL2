@@ -27,9 +27,9 @@ namespace timevarying {
 RandomWalk::RandomWalk(Model* model) : TimeVarying(model) {
   parameters_.Bind<Double>(PARAM_MEAN, &mu_, "Mean", "", 0);
   parameters_.Bind<Double>(PARAM_SIGMA, &sigma_, "Standard deviation", "", 1);
-  parameters_.Bind<Double>(PARAM_UPPER_BOUND, &upper_bound_, "Upper bound for the random walk", "", 1);
-  parameters_.Bind<Double>(PARAM_UPPER_BOUND, &lower_bound_, "Lower bound for the random walk", "", 1);
-  parameters_.Bind<Double>(PARAM_RHO, &rho_, "Auto Correlation parameter", "", 1);
+  parameters_.Bind<double>(PARAM_UPPER_BOUND, &upper_bound_, "Upper bound for the random walk", "", 1);
+  parameters_.Bind<double>(PARAM_UPPER_BOUND, &lower_bound_, "Lower bound for the random walk", "", 1);
+  parameters_.Bind<double>(PARAM_RHO, &rho_, "Auto Correlation parameter", "", 1);
   parameters_.Bind<string>(PARAM_DISTRIBUTION, &distribution_, "distribution", "", PARAM_NORMAL);
 
   RegisterAsAddressable(PARAM_MEAN, &mu_);
@@ -64,7 +64,7 @@ void RandomWalk::DoUpdate() {
   LOG_FINEST() << "value = " << *addressable_;
   utilities::RandomNumberGenerator& rng = utilities::RandomNumberGenerator::Instance();
   Double value = *addressable_;
-  Double deviate = rng.normal(AS_VALUE(mu_), AS_VALUE(sigma_));
+  double deviate = rng.normal(AS_VALUE(mu_), AS_VALUE(sigma_));
   value += value * rho_ + deviate;
 
 

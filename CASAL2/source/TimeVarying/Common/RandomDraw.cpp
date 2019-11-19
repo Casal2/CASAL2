@@ -66,7 +66,7 @@ void RandomDraw::DoBuild() {
  */
 void RandomDraw::DoReset() {
   utilities::RandomNumberGenerator& rng = utilities::RandomNumberGenerator::Instance();
-  Double new_value = 0.0;
+  double new_value = 0.0;
   // Draw from the random distribution
   if (distribution_ == PARAM_NORMAL) {
     for (unsigned year : years_) {

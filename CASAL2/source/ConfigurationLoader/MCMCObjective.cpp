@@ -93,8 +93,8 @@ bool MCMCObjective::LoadFile(const string& file_name) {
 
     for (unsigned j = 0; j < estimate_count; ++j) {
       LOG_FINE() << "i: " << i << ", j: " << j << ", value: " << addressable_values[j];
-      Double value = 0;
-      if (!utilities::To<string, Double>(addressable_values[j], value)) {
+      double value = 0;
+      if (!utilities::To<string, double>(addressable_values[j], value)) {
         LOG_ERROR() << "MCMC Objective file " << file_name << " is not in the correct format."
             << " Value " << addressable_values[j] << " could not be converted to a numeric";
         return false;
@@ -122,32 +122,32 @@ bool MCMCObjective::LoadFile(const string& file_name) {
   }
 
   // Acceptance rate
-  Double AR = 0;
-  if (!utilities::To<string, Double>(Chain_info[8], AR)) {
-    LOG_ERROR() << "Could not convert " << Chain_info[8] << " to a Double";
+  double AR = 0;
+  if (!utilities::To<string, double>(Chain_info[8], AR)) {
+    LOG_ERROR() << "Could not convert " << Chain_info[8] << " to a double";
     return false;
   }
   LOG_FINE() << "Acceptance rate = " << AR;
   // Now calculate successful jumps
-  Double succesful_jumps = (Double)iteration_number * AR;
+  double succesful_jumps = (double)iteration_number * AR;
   LOG_FINE() << "Successful jumps = " << succesful_jumps;
 
   unsigned success_jump;
-  if (!utilities::To<Double, unsigned>(succesful_jumps, success_jump)) {
+  if (!utilities::To<double, unsigned>(succesful_jumps, success_jump)) {
     LOG_ERROR() << "Could not convert " << succesful_jumps << " to an unsigned";
     return false;
   }
   // Acceptance rate since last adapt
-   Double AR_since_last_adapt = 0;
-   if (!utilities::To<string, Double>(Chain_info[9], AR_since_last_adapt)) {
-     LOG_ERROR() << "Could not convert " << Chain_info[9] << " to a Double";
+   double AR_since_last_adapt = 0;
+   if (!utilities::To<string, double>(Chain_info[9], AR_since_last_adapt)) {
+     LOG_ERROR() << "Could not convert " << Chain_info[9] << " to a double";
      return false;
    }
 
   // step size
-  Double step_size = 0;
-  if (!utilities::To<string, Double>(Chain_info[7], step_size)) {
-    LOG_ERROR() << "Could not convert " << Chain_info[7] << " to an Double";
+  double step_size = 0;
+  if (!utilities::To<string, double>(Chain_info[7], step_size)) {
+    LOG_ERROR() << "Could not convert " << Chain_info[7] << " to an double";
     return false;
   }
   LOG_FINE() << "step size = " << step_size;

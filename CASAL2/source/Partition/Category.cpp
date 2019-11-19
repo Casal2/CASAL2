@@ -193,7 +193,7 @@ void Category::PopulateAgeLengthMatrix(Selectivity* selectivity) {
  * @parameter length_plus whether the last bin is a plus group
 
  */
-void Category::CalculateNumbersAtLength(Selectivity* selectivity,const vector<Double>& length_bins, vector<vector<Double>>& age_length_matrix, vector<Double>& numbers_by_length, const bool& length_plus) {
+void Category::CalculateNumbersAtLength(Selectivity* selectivity, const vector<double>& length_bins, vector<vector<Double>>& age_length_matrix, vector<Double>& numbers_by_length, const bool& length_plus) {
   // Probably should do some checks and balances, but I want to remove this later on
   unsigned size = length_plus == true ? length_bins.size() : length_bins.size() - 1;
   Double std_dev = 0;

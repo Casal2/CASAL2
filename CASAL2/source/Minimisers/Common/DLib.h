@@ -45,7 +45,7 @@ private:
   // members
   string                      minimisation_type_ = "";
   string                      search_strategy_ = "";
-  Double                      gradient_tolerance_ = 0;
+  double                      gradient_tolerance_ = 0;
   bool                        verbose_ = false;
   unsigned                    lbfgs_max_size_ = 0;
   unsigned                    bobyqa_interpolation_points_ = 0;

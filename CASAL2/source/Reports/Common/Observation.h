@@ -41,7 +41,7 @@ private:
   niwa::Observation*  observation_;
   bool                normalised_resids_ = false;
   bool                pearson_resids_ = false;
-  bool								first_run_ = true;
+  bool                first_run_ = true;
 };
 
 } /* namespace reports */

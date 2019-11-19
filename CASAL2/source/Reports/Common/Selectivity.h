@@ -30,7 +30,7 @@ public:
 private:
   string                      selectivity_label_;
   niwa::Selectivity*          selectivity_;
-  bool												first_run_ = true;
+  bool                        first_run_ = true;
 };
 
 } /* namespace reports */

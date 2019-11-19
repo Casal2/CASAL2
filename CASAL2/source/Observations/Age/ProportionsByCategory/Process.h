@@ -35,7 +35,7 @@ public:
 private:
   // members
   string                      process_label_;
-  Double                      process_proportion_;
+  double                      process_proportion_;
 };
 
 } /* namespace age */

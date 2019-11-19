@@ -75,8 +75,8 @@ void BetaDiff::Execute() {
   int i = 0;
   for (auto estimate : estimates) {
     ++i;
-    lower_bounds[i] = AS_DOUBLE(estimate->lower_bound());
-    upper_bounds[i] = AS_DOUBLE(estimate->upper_bound());
+    lower_bounds[i] = estimate->lower_bound();
+    upper_bounds[i] = estimate->upper_bound();
     start_values[i] = AS_DOUBLE(estimate->value());
 
 //    if (estimate->value() < estimate->lower_bound()) {
@@ -102,7 +102,7 @@ void BetaDiff::Execute() {
       hessian_[row][col] = betadiff_hessian[row+1][col+1];
     }
   }
-  
+
   model_->managers().estimate_transformation()->RestoreEstimates();
 
   switch(convergence) {

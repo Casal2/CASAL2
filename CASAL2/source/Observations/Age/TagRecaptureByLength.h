@@ -49,18 +49,18 @@ protected:
   // Members
   vector<unsigned>              years_;
   string                        time_step_label_ = "";
-  Double                        detection_;
-  Double                        despersion_ = 1.0;
-  Double                        tolerance_ = 0.0;
+  double                        detection_;
+  double                        despersion_ = 1.0;
+  double                        tolerance_ = 0.0;
   vector<Double>                process_error_values_;
   map<unsigned, Double>         process_errors_by_year_;
   vector<unsigned>              length_bins_input_;
-  vector<Double>                length_bins_;
+  vector<double>                length_bins_;
   bool                          length_plus_;
   string                        ageing_error_label_;
   parameters::Table*            recaptures_table_ = nullptr;
   parameters::Table*            scanned_table_ = nullptr;
-  Double                        time_step_proportion_;
+  double                        time_step_proportion_;
   unsigned                      number_bins_;
   bool                          use_model_length_bins_ = true;
   // Category members
@@ -89,10 +89,8 @@ protected:
   vector<vector<Double>>        age_length_matrix_;
   vector<vector<Double>>        cached_age_length_matrix_;
 
-
-
-  map<unsigned, map<string, vector<Double>>> recaptures_;
-  map<unsigned, map<string, vector<Double>>> scanned_;
+  map<unsigned, map<string, vector<double>>> recaptures_;
+  map<unsigned, map<string, vector<double>>> scanned_;
 };
 
 } /* namespace age */

@@ -47,6 +47,10 @@ bool Object::HasAddressable(const string& label) const {
 
 /**
  * Does the target addressable have the usage flag we want?
+ *
+ * @param label of the estimate we are looking for
+ * @param flag of addressable usage type
+ * @return True if found, false if not
  */
 bool Object::HasAddressableUsage(const string& label, const addressable::Usage& flag) const {
   if (addressable_types_.find(label) == addressable_types_.end()) {

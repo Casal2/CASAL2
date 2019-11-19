@@ -90,8 +90,8 @@ void EstimableValuesLoader::LoadValues(const string& file_name) {
       boost::trim_all(parameters[i]);
       boost::trim_all(values[i]);
 
-      Double numeric = 0.0;
-      if (!utilities::To<Double>(values[i], numeric))
+      double numeric = 0.0;
+      if (!utilities::To<double>(values[i], numeric))
         LOG_FATAL() << "In estimate_value file could not convert the value " << values[i] << " to a double";
       estimables.AddValue(parameters[i], numeric);
     }

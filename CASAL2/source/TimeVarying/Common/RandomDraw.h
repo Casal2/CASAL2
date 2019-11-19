@@ -42,8 +42,8 @@ private:
   bool                        has_at_estimate_ = false;
   string                      distribution_;
   Double*                     value_;
-  Double                      lower_bound_;
-  Double                      upper_bound_;
+  double                      lower_bound_;
+  double                      upper_bound_;
 
 };
 

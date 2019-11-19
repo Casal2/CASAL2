@@ -15,6 +15,9 @@ cd ../Casal2/adolc
 cd ../casal_flag_on
 ../../../../../BuildSystem/bin/linux/release_betadiff/casal2 -e -o params_est.out > run_estimation.txt 2>&1
 
+cd ../casal_flag_on_low_tol
+../../../../../BuildSystem/bin/linux/release_betadiff/casal2 -e -o params_est.out > run_estimation.txt 2>&1
+
 cd ../casal_flag_off
 ../../../../../BuildSystem/bin/linux/release_betadiff/casal2 -e -o params_est.out > run_estimation.txt 2>&1
 

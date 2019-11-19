@@ -54,7 +54,7 @@ void Exogenous::DoBuild() {
  */
 void Exogenous::DoReset() {
   // Add this to the Reset so that if a, is estimated the model can actually update the model.
-  values_by_year_ = utilities::Map::create(years_, exogenous_);
+  values_by_year_ = utilities::Map<Double>::create(years_, exogenous_);
   Double* value = model_->objects().GetAddressable(parameter_);
   LOG_FINEST() << "Parameter value = " << (*value);
   Double total = 0.0;

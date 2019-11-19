@@ -52,11 +52,11 @@ protected:
   unsigned                      max_age_ = 0;
   bool                          plus_group_ = false;
   unsigned                      age_spread_ = 0;
-  Double                        detection_;
+  double                        detection_;
   vector<string>                target_category_labels_;
   vector<string>                target_selectivity_labels_;
   parameters::Table*            recaptures_table_ = nullptr;
-  Double                        tolerance_ = 0.0;
+  double                        tolerance_ = 0.0;
   vector<Double>                process_error_values_;
   map<unsigned, Double>         process_errors_by_year_;
   string                        ageing_error_label_;
@@ -70,10 +70,10 @@ protected:
   vector<string>                selectivity_labels_;
   vector<Selectivity*>          selectivities_;
   string                        time_step_label_ = "";
-  Double                      time_step_proportion_;
+  double                        time_step_proportion_;
 
-  map<unsigned, map<string, vector<Double>>> recaptures_;
-  map<unsigned, map<string, vector<Double>>> scanned_;
+  map<unsigned, map<string, vector<double>>> recaptures_;
+  map<unsigned, map<string, vector<double>>> scanned_;
 };
 
 } /* namespace age */

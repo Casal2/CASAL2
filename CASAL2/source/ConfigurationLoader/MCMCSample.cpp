@@ -136,8 +136,8 @@ bool MCMCSample::LoadFile(const string& file_name) {
   }
 
   for (unsigned i = 0; i < columns.size(); ++i) {
-    Double value = 0.0;
-    if (!utilities::To<string, Double>(addressable_values[i], value)) {
+    double value = 0.0;
+    if (!utilities::To<string, double>(addressable_values[i], value)) {
       LOG_ERROR() << "";
       return false;
     }

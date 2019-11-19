@@ -93,11 +93,11 @@ bool MPD::LoadFile(const string& file_name) {
     boost::trim_all(parameters[i]);
     boost::trim_all(values[i]);
 
-    Double numeric = 0.0;
-    if (!utilities::To<Double>(values[i], numeric))
+    double numeric = 0.0;
+    if (!utilities::To<double>(values[i], numeric))
       LOG_FATAL() << "In estimate_value file could not convert the value " << values[i] << " to a double";
 
-    auto estimate      = model_->managers().estimate()->GetEstimate(parameters[i]);
+    auto estimate = model_->managers().estimate()->GetEstimate(parameters[i]);
     if (!estimate)
       LOG_FATAL() << "Estimate " << parameters[i] << " was defined in MPD file but could not be found";
 
@@ -135,8 +135,8 @@ bool MPD::LoadFile(const string& file_name) {
 
     for (unsigned j = 0; j < estimate_count; ++j) {
       LOG_FINE() << "i: " << i << ", j: " << j << ", value: " << estimable_values[j];
-      Double value = 0;
-      if (!utilities::To<string, Double>(estimable_values[j], value)) {
+      double value = 0;
+      if (!utilities::To<string, double>(estimable_values[j], value)) {
         LOG_ERROR() << "MPD file " << file_name << " is not in the correct format."
             << " Value " << estimable_values[j] << " could not be converted to a numeric";
         return false;

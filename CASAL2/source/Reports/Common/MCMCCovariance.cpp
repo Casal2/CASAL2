@@ -31,13 +31,13 @@ MCMCCovariance::MCMCCovariance(Model* model) : Report(model) {
  */
 void MCMCCovariance::DoExecute() {
   MCMC* mcmc = model_->managers().mcmc()->active_mcmc();
-  ublas::matrix<Double>& covariance_matrix = mcmc->covariance_matrix();
+  ublas::matrix<double>& covariance_matrix = mcmc->covariance_matrix();
 
   cache_ << "*"<< type_ << "[" << label_ << "]" << "\n";
   cache_ << "MCMC_covariance" << REPORT_R_MATRIX <<"\n";
   for (unsigned i = 0; i < covariance_matrix.size1(); ++i) {
      for (unsigned j = 0; j < covariance_matrix.size2(); ++j) {
-       cache_ << AS_DOUBLE(covariance_matrix(i,j)) << " ";
+       cache_ << covariance_matrix(i,j) << " ";
        if ( j == (covariance_matrix.size1() - 1))
          cache_ << "\n";
      }
