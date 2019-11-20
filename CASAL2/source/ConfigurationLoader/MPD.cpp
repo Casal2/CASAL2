@@ -133,12 +133,12 @@ bool MPD::LoadFile(const string& file_name) {
       return false;
     }
 
+    double value = 0;
     for (unsigned j = 0; j < estimate_count; ++j) {
       LOG_FINE() << "i: " << i << ", j: " << j << ", value: " << estimable_values[j];
-      double value = 0;
       if (!utilities::To<string, double>(estimable_values[j], value)) {
         LOG_ERROR() << "MPD file " << file_name << " is not in the correct format."
-            << " Value " << estimable_values[j] << " could not be converted to a numeric";
+            << " Value " << estimable_values[j] << " could not be converted to a double";
         return false;
       }
 

@@ -50,8 +50,8 @@ protected:
   // members
   Model*                      model_ = nullptr;
   string                      parameter_;
-  vector<Double>              lower_bounds_;
-  vector<Double>              upper_bounds_;
+  vector<double>              lower_bounds_;
+  vector<double>              upper_bounds_;
   string                      prior_label_;
   vector<string>              same_labels_;
   string                      estimation_phase_;

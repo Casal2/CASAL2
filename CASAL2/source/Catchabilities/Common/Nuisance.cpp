@@ -34,8 +34,8 @@ namespace utils = niwa::utilities;
  * Note: The constructor is parsed to generate Latex for the documentation.
  */
 Nuisance::Nuisance(Model* model) : Catchability(model) {
-  parameters_.Bind<Double>(PARAM_LOWER_BOUND, &lower_bound_, "Upper bound for nuisance catchability", "");
-  parameters_.Bind<Double>(PARAM_UPPER_BOUND, &upper_bound_, "Lower bound for nuisance catchability", "");
+  parameters_.Bind<double>(PARAM_LOWER_BOUND, &lower_bound_, "Upper bound for nuisance catchability", "");
+  parameters_.Bind<double>(PARAM_UPPER_BOUND, &upper_bound_, "Lower bound for nuisance catchability", "");
 
   RegisterAsAddressable(PARAM_Q, &q_, addressable::kLookup);
 }
@@ -79,17 +79,17 @@ void Nuisance::DoBuild() {
     map<string, Parameter*> parameters = additional_prior->parameters().parameters();
      for (auto iter = parameters.begin(); iter != parameters.end(); ++iter) {
        if (iter->first == PARAM_MU) {
-         Double mu = 0.0;
+         double mu = 0.0;
          for (string parameter_value : iter->second->values()) {
-           if (!utils::To<Double>(parameter_value, mu))
+           if (!utils::To<double>(parameter_value, mu))
              LOG_ERROR() << "parameter mu = " << parameter_value << " cannot be converted to a double";
          }
          mu_ = mu;
        }
        if (iter->first == PARAM_CV) {
-         Double cv = 0.0;
+         double cv = 0.0;
          for (string parameter_value : iter->second->values()) {
-           if (!utils::To<Double>(parameter_value, cv))
+           if (!utils::To<double>(parameter_value, cv))
              LOG_ERROR() << "parameter cv = " << parameter_value << " cannot be converted to a double";
          }
          cv_ = cv;

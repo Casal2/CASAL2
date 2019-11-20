@@ -105,9 +105,9 @@ public:
   void                        FillReportCache(ostringstream& cache) override final;
   void                        FillTabularReportCache(ostringstream& cache, bool first_run) override final;
   //
-  bool                       check_categories_in_methods_for_removal_obs(vector<string> methods, vector<string> category_labels);
-  bool                       check_years_in_methods_for_removal_obs(vector<unsigned> years, vector<string> methods);
-  bool                       check_methods_for_removal_obs(vector<string> methods);
+  bool                        check_categories_in_methods_for_removal_obs(vector<string> methods, vector<string> category_labels);
+  bool                        check_years_in_methods_for_removal_obs(vector<unsigned> years, vector<string> methods);
+  bool                        check_methods_for_removal_obs(vector<string> methods);
 
   // accessors
   map<unsigned, map<string, map<string, vector<Double>>>>&  catch_at() { return removals_by_year_fishery_category_; };
@@ -137,11 +137,12 @@ private:
   // members from natural mortality
   vector<Double>              m_input_;
   OrderedMap<string, Double>  m_;
-  vector<Double>              time_step_ratios_temp_;
-  map<unsigned, Double>       time_step_ratios_;
+  vector<double>              time_step_ratios_temp_;
+  map<unsigned, double>       time_step_ratios_;
   vector<string>              selectivity_labels_;
   vector<Selectivity*>        selectivities_;
   vector<string>              retained_selectivity_labels_;
+
   // members for observations
   map<unsigned,  map<string, map<string, vector<Double>>>> removals_by_year_fishery_category_; // Year,  fishery, category
   map<unsigned,  map<string, map<string, vector<Double>>>> retained_by_year_fishery_category_; // Year,  fishery, category
@@ -158,7 +159,6 @@ private:
   vector<vector<Double>>     removals_by_category_age_; // [category_ndx][age_ndx]
   vector<vector<Double>>     retained_by_category_age_; // [category_ndx][age_ndx]
   vector<vector<Double>>     discards_by_category_age_; // [category_ndx][age_ndx]
-
 
 };
 

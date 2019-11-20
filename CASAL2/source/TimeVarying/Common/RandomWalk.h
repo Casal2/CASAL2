@@ -38,8 +38,8 @@ private:
   // members
   Double                      mu_ = 0.0;
   Double                      sigma_ = 1.0;
-  double                      rho_ = 1.0;
-  double                      intercept_;
+  Double                      rho_ = 1.0;
+  Double                      intercept_;
   string                      distribution_;
   map<unsigned, Double>       values_by_year_;
   bool                        has_at_estimate_;

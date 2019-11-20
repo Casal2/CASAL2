@@ -135,10 +135,10 @@ bool MCMCSample::LoadFile(const string& file_name) {
     return false;
   }
 
+  double value = 0.0;
   for (unsigned i = 0; i < columns.size(); ++i) {
-    double value = 0.0;
     if (!utilities::To<string, double>(addressable_values[i], value)) {
-      LOG_ERROR() << "";
+      LOG_ERROR() << " Value " << addressable_values[i] << " could not be converted to a double";
       return false;
     }
 

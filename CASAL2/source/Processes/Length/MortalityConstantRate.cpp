@@ -35,8 +35,8 @@ MortalityConstantRate::MortalityConstantRate(Model* model)
   partition_structure_ = PartitionType::kLength;
 
   parameters_.Bind<string>(PARAM_CATEGORIES, &category_labels_, "List of categories labels", "");
-  parameters_.Bind<Double>(PARAM_M, &m_input_, "Mortality rates", "");
-  parameters_.Bind<Double>(PARAM_TIME_STEP_RATIO, &ratios_, "Time step ratios for the mortality rates", "", true);
+  parameters_.Bind<Double>(PARAM_M, &m_input_, "Mortality rates", "")->set_lower_bound(0.0);
+  parameters_.Bind<double>(PARAM_TIME_STEP_RATIO, &ratios_, "Time step ratios for the mortality rates", "", true)->set_range(0.0, 1.0);
 //  parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_names_, "List of selectivities for the categories", "");
 
   RegisterAsAddressable(PARAM_M, &m_);
@@ -72,10 +72,10 @@ void MortalityConstantRate::DoValidate() {
   }
 */
 
-  // Validate our Ms are between 1.0 and 0.0
+  // Validate our Ms are greater than or equal to 0.0
   for (Double m : m_input_) {
-    if (m < 0.0 || m > 1.0)
-      LOG_ERROR_P(PARAM_M) << ": m value " << AS_DOUBLE(m) << " must be between 0.0 and 1.0 (inclusive)";
+    if (m < 0.0)
+      LOG_ERROR_P(PARAM_M) << ": m value " << AS_DOUBLE(m) << " must be greater than or equal to 0.0";
   }
 
   for (unsigned i = 0; i < m_input_.size(); ++i)
@@ -122,7 +122,7 @@ void MortalityConstantRate::DoBuild() {
       LOG_ERROR_P(PARAM_TIME_STEP_RATIO) << " length (" << ratios_.size()
           << ") does not match the number of time steps this process has been assigned to (" << active_time_steps.size() << ")";
 
-    for (Double value : ratios_) {
+    for (double value : ratios_) {
       if (value < 0.0 || value > 1.0)
         LOG_ERROR_P(PARAM_TIME_STEP_RATIO) << " value (" << value << ") must be between 0.0 (exclusive) and 1.0 (inclusive)";
     }
@@ -142,7 +142,7 @@ void MortalityConstantRate::DoExecute() {
   unsigned time_step = model_->managers().time_step()->current_time_step();
 
   LOG_FINEST() << "Ratios.size() " << time_step_ratios_.size() << " : time_step: " << time_step << "; ratio: " << time_step_ratios_[time_step];
-  Double ratio = time_step_ratios_[time_step];
+  double ratio = time_step_ratios_[time_step];
 
  // StoreForReport("year", model_->current_year());
 
@@ -157,7 +157,7 @@ void MortalityConstantRate::DoExecute() {
     LOG_FINEST() << "category " << category->name_ << "; min_age: " << category->min_age_ << "; ratio: " << ratio;
     //StoreForReport(category->name_ + " ratio", ratio);
     for (Double& data : category->data_) {
-    	amount = data * (1-exp(m * ratio));
+    	amount = data * (1-exp(-m * ratio));
       data -= amount;
       total_amount += amount;
       ++j;

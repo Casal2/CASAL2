@@ -77,7 +77,7 @@ void BetaDiff::Execute() {
     ++i;
     lower_bounds[i] = estimate->lower_bound();
     upper_bounds[i] = estimate->upper_bound();
-    start_values[i] = AS_DOUBLE(estimate->value());
+    start_values[i] = AS_VALUE(estimate->value());
 
 //    if (estimate->value() < estimate->lower_bound()) {
 //      LOG_ERROR_P("When starting the DESolver minimiser the starting value (" << estimate->value() << ") for estimate "

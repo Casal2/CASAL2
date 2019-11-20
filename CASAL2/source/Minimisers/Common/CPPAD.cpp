@@ -77,7 +77,7 @@ CPPAD::CPPAD(Model* model) : Minimiser(model) {
   parameters_.Bind<double>(PARAM_ACCEPTABLE_OBJ_CHANGE_TOL, &acceptable_obj_change_tol_, "", "", 1e+20)->set_lower_bound(0u, false);
   parameters_.Bind<string>(PARAM_DERIVATIVE_TEST, &derivative_test_, "How to test for derivaties", "", "none")
       ->set_allowed_values({"none", "first-order", "second-order", "only-second-order"});
-  parameters_.Bind<double>(PARAM_POINT_PERTUBATION_RADIUS, &point_perturbation_radius_, "", "", 0.0)->set_lower_bound(0.0, true);
+  parameters_.Bind<Double>(PARAM_POINT_PERTUBATION_RADIUS, &point_perturbation_radius_, "", "", 0.0)->set_lower_bound(0.0, true);
 }
 
 /**

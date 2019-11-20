@@ -86,11 +86,12 @@ void EstimableValuesLoader::LoadValues(const string& file_name) {
     boost::split(values, current_line, boost::is_any_of(" "));
     if (values.size() != parameters.size())
       LOG_FATAL() << "In estimate_value file, line " << line_number << " has " << values.size() << " values when we expected " << parameters.size();
+
+    double numeric = 0.0;
     for (unsigned i = 0; i < values.size(); ++i) {
       boost::trim_all(parameters[i]);
       boost::trim_all(values[i]);
 
-      double numeric = 0.0;
       if (!utilities::To<double>(values[i], numeric))
         LOG_FATAL() << "In estimate_value file could not convert the value " << values[i] << " to a double";
       estimables.AddValue(parameters[i], numeric);

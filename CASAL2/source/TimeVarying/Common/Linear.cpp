@@ -57,7 +57,7 @@ void Linear::DoReset() {
   unsigned diff = model_->current_year() - years_[0];
   LOG_FINE() << "diff unsigned = " << diff;
 
-  Double years_since_first_year = (Double)model_->current_year() - (Double)years_[0];
+  Double years_since_first_year = (Double)(model_->current_year() - years_[0]);
   LOG_FINE() << "diff from start of year = " << years_since_first_year;
   LOG_FINE() << " did we make it past this if statement " << current_year;
   if (current_year) {

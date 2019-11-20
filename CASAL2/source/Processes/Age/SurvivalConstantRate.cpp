@@ -1,10 +1,10 @@
 /**
  * @file SurvivalConstantRate.cpp
  * @author  You're Name e.g. Craig Marsh
- * @institute NIWA 
+ * @institute NIWA
  * @version 1.0
  * @date date of creation e.g. 17/07/16
- * @licence 
+ * @licence
  *
  */
 
@@ -35,7 +35,7 @@ SurvivalConstantRate::SurvivalConstantRate(Model* model)
 
   parameters_.Bind<string>(PARAM_CATEGORIES, &category_labels_, "List of categories", "");
   parameters_.Bind<Double>(PARAM_S, &s_input_, "Survival rates", "");
-  parameters_.Bind<Double>(PARAM_TIME_STEP_RATIO, &ratios_, "Time step ratios for S", "", true);
+  parameters_.Bind<double>(PARAM_TIME_STEP_RATIO, &ratios_, "Time step ratios for S", "", true);
   parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_names_, "Selectivity label", "");
 
   RegisterAsAddressable(PARAM_S, &s_);
@@ -151,7 +151,7 @@ void SurvivalConstantRate::DoExecute() {
     LOG_FINEST() << "category " << category->name_ << "; min_age: " << category->min_age_ << "; ratio: " << ratio;
     //StoreForReport(category->name_ + " ratio", ratio);
     for (Double& data : category->data_) {
-      data -= data * (1 - exp(-selectivities_[i]->GetAgeResult(category->min_age_ + j, category->age_length_)  * ((1.0 - s) * ratio)));
+      data -= data * (1 - exp(-selectivities_[i]->GetAgeResult(category->min_age_ + j, category->age_length_) * ((1.0 - s) * ratio)));
       ++j;
     }
 

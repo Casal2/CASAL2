@@ -306,7 +306,7 @@ void IndependenceMetropolis::UpdateStepSize() {
       // modify the stepsize so that AcceptanceRate = 0.24
       step_size_ *= ((double)successful_jumps_since_adapt_ / (double)jumps_since_adapt_) * 4.166667;
       // Ensure the stepsize remains positive
-      step_size_ = AS_VALUE(dc::ZeroFun(step_size_, 1e-10));
+      step_size_ = dc::ZeroFun(step_size_, 1e-10);
       // reset counters
     } else if (adapt_stepsize_method_ == PARAM_DOUBLE_HALF) {
       // This is a half or double method really.

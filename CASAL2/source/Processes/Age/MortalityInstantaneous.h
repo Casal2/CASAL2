@@ -93,15 +93,16 @@ public:
   void                        FillReportCache(ostringstream& cache) override final;
   void                        FillTabularReportCache(ostringstream& cache, bool first_run) override final;
   //
-  bool                       check_categories_in_methods_for_removal_obs(vector<string> methods, vector<string> category_labels);
-  bool                       check_years_in_methods_for_removal_obs(vector<unsigned> years, vector<string> methods);
-  bool                       check_methods_for_removal_obs(vector<string> methods);
+  bool                        check_categories_in_methods_for_removal_obs(vector<string> methods, vector<string> category_labels);
+  bool                        check_years_in_methods_for_removal_obs(vector<unsigned> years, vector<string> methods);
+  bool                        check_methods_for_removal_obs(vector<string> methods);
 
   // accessors
   map<unsigned, map<string, map<string, vector<Double>>>>&  catch_at() { return removals_by_year_fishery_category_; };
 
   // set
   vector<unsigned>            set_years();
+
 private:
   map<string, CategoryData*>  category_data_;
   vector<CategoryData>        categories_;
@@ -123,8 +124,8 @@ private:
   // members from natural mortality
   vector<Double>              m_input_;
   OrderedMap<string, Double>  m_;
-  vector<Double>              time_step_ratios_temp_;
-  map<unsigned, Double>       time_step_ratios_;
+  vector<double>              time_step_ratios_temp_;
+  map<unsigned, double>       time_step_ratios_;
   vector<string>              selectivity_labels_;
   vector<Selectivity*>        selectivities_;
   // members for observations
@@ -134,7 +135,6 @@ private:
   bool                        use_age_weight_ = true;
   vector<vector<vector<Double>>> removals_by_year_category_age_; // year[year_ndx][category_ndx][age_ndx]
   vector<vector<Double>>     removals_by_category_age_; // [category_ndx][age_ndx]
-
 
 };
 

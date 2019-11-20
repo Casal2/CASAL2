@@ -49,7 +49,7 @@ private:
   double                      acceptable_tol_ = 0.0;
   double                      acceptable_obj_change_tol_ = 0.0;
   string                      derivative_test_ = "";
-  double                      point_perturbation_radius_ = 0.0;
+  Double                      point_perturbation_radius_ = 0.0;
 };
 
 } /* namespace minimisers */
