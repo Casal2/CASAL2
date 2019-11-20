@@ -40,7 +40,7 @@ void HessianMatrix::DoExecute() {
   for (unsigned i = 0; i < hessian_size; ++i) {
     for (unsigned j = 0; j < hessian_size; ++j) {
       Double value = hessian_[i][j];
-      cache_ << AS_DOUBLE(value) << " ";
+      cache_ << AS_VALUE(value) << " ";
     }
     cache_ << "\n";
   }

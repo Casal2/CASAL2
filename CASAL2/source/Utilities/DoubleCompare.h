@@ -45,6 +45,19 @@ inline niwa::utilities::Double ZeroFun(Double x, Double delta) {
   return delta / (2.0 - (x / delta));
 }
 
+
+// mix of Double and double
+inline bool IsEqual(Double A, double B) { return ( ((AS_VALUE(A)-B) < ZERO) && ((AS_VALUE(A)-B) > -ZERO) ); }
+inline bool IsBasicallyEqual(Double A, double B) { return ( ((AS_VALUE(A)-B) < CLOSE) && ((AS_VALUE(A)-B) > -CLOSE) ); }
+
+inline niwa::utilities::Double ZeroFun(Double x, double delta) {
+  if (x >= delta)
+    return x;
+
+  return delta / (2.0 - (x / delta));
+}
+
+
 #ifdef USE_AUTODIFF
 inline bool IsZero(const double &value) { return (value < ZERO && value > -ZERO); }
 //inline bool IsInfinite(const double &value) { return (isinf(value));}

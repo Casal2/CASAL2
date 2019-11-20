@@ -46,7 +46,7 @@ protected:
   map<unsigned, Double>*      second_addressable_map_ = nullptr;
   vector<Double>*             second_addressable_vector_ = nullptr;
   vector<Double*>*            second_addressable_ptr_vector_ = nullptr;
-  Double                      multiplier_ = 0.0;
+  double                      multiplier_ = 0.0;
 };
 
 } /* namespace additionalpriors */

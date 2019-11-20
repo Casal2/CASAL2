@@ -34,7 +34,7 @@ Biomass::Biomass(Model* model) : Observation(model) {
   parameters_.Bind<string>(PARAM_TIME_STEP, &time_step_label_, "The label of time-step that the observation occurs in", "");
   parameters_.Bind<string>(PARAM_OBS, &obs_, "The observed values", "");
   parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "The years of the observed values", "");
-  parameters_.Bind<double>(PARAM_ERROR_VALUE, &error_values_, "The error values of the observed values (note the units depend on the likelihood)", "");
+  parameters_.Bind<Double>(PARAM_ERROR_VALUE, &error_values_, "The error values of the observed values (note the units depend on the likelihood)", "");
   parameters_.Bind<string>(PARAM_SELECTIVITIES, &selectivity_labels_, "Labels of the selectivities", "", true);
   parameters_.Bind<Double>(PARAM_PROCESS_ERROR, &process_error_value_, "Value for process error", "", Double(0.0));
   parameters_.Bind<string>(PARAM_AGE_WEIGHT_LABELS, &age_weight_labels_, R"(The labels for the \command{$age\_weight$} block which corresponds to each category, if you want to use that weight calculation method for biomass calculations)", "", "");
@@ -87,7 +87,7 @@ void Biomass::DoValidate() {
     LOG_ERROR_P(PARAM_ERROR_VALUE) << ": error_value length (" << error_values_.size()
         << ") must be same length as obs (" << obs.size() << ")";
 
-  error_values_by_year_ = utils::Map<double>::create(years_, error_values_);
+  error_values_by_year_ = utils::Map<Double>::create(years_, error_values_);
 
   double value = 0.0;
   for (unsigned i = 0; i < years_.size(); ++i) {
@@ -178,7 +178,7 @@ void Biomass::Execute() {
   Double end_value = 0.0;
   Double final_value = 0.0;
   unsigned age = 0;
-  double error_value = 0.0;
+  Double error_value = 0.0;
 
   unsigned current_year = model_->current_year();
 

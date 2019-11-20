@@ -36,7 +36,7 @@ Observation::Observation(Model* model) : model_(model) {
   parameters_.Bind<string>(PARAM_TYPE, &type_, "Type of observation", "");
   parameters_.Bind<string>(PARAM_LIKELIHOOD, &likelihood_type_, "Type of likelihood to use", "");
   parameters_.Bind<string>(PARAM_CATEGORIES, &category_labels_, "Category labels to use", "", true);
-  parameters_.Bind<double>(PARAM_DELTA, &delta_, "Robustification value (delta) for the likelihood", "", DELTA);
+  parameters_.Bind<double>(PARAM_DELTA, &delta_, "Robustification value (delta) for the likelihood", "", DELTA)->set_lower_bound(0.0);
   parameters_.Bind<string>(PARAM_SIMULATION_LIKELIHOOD, &simulation_likelihood_label_, "Simulation likelihood to use", "", "");
   parameters_.Bind<double>(PARAM_LIKELIHOOD_MULTIPLIER, &likelihood_multiplier_, "Likelihood score multiplier", "", double(1.0));
   parameters_.Bind<double>(PARAM_ERROR_VALUE_MULTIPLIER, &error_value_multiplier_, "Error value multiplier for likelihood", "", double(1.0));
@@ -122,7 +122,7 @@ void Observation::Reset() {
  * @param score The amount of score for this comparison
  */
 void Observation::SaveComparison(string category, unsigned age, double length, Double expected, double observed,
-    Double process_error, double error_value, Double adjusted_error, double delta, Double score) {
+    Double process_error, Double error_value, Double adjusted_error, double delta, Double score) {
   observations::Comparison new_comparison;
   new_comparison.category_ = category;
   new_comparison.age_ = age;
@@ -149,7 +149,7 @@ void Observation::SaveComparison(string category, unsigned age, double length, D
  * @param score The amount of score for this comparison
  */
 void Observation::SaveComparison(string category, Double expected, double observed,
-    Double process_error, double error_value, Double adjusted_error, double delta, Double score) {
+    Double process_error, Double error_value, Double adjusted_error, double delta, Double score) {
   SaveComparison(category, 0, 0, expected, observed, process_error, error_value, adjusted_error, delta, score);
 }
 

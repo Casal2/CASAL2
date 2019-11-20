@@ -39,7 +39,7 @@ protected:
 
 private:
   // members
-  Double                      multiplier_;
+  double                      multiplier_;
   bool                        log_scale_;
 };
 } /* namespace penalties */

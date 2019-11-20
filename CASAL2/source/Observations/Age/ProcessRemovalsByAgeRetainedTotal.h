@@ -71,7 +71,7 @@ protected:
   unsigned                      time_step_to_execute_;
 
   map<unsigned, map<string, vector<double>>>  proportions_;
-  map<unsigned, map<string, vector<double>>>  error_values_;
+  map<unsigned, map<string, vector<Double>>>  error_values_;
 
 };
 

@@ -41,7 +41,6 @@ ProportionsMigrating::ProportionsMigrating(Model* model) : Observation(model) {
   parameters_.Bind<string>(PARAM_TIME_STEP, &time_step_label_, "The label of time-step that the observation occurs in", "");
   parameters_.Bind<bool>(PARAM_PLUS_GROUP, &plus_group_, "Use age plus group", "", true);
   parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "Years for which there are observations", "");
-  // TODO:  is tolerance missing?
   parameters_.Bind<Double>(PARAM_PROCESS_ERRORS, &process_error_values_, "Process error", "", true);
   parameters_.Bind<string>(PARAM_AGEING_ERROR, &ageing_error_label_, "Label of ageing error to use", "", "");
   parameters_.BindTable(PARAM_OBS, obs_table_, "Table of observed values", "", false);
@@ -68,7 +67,7 @@ ProportionsMigrating::~ProportionsMigrating() {
  */
 void ProportionsMigrating::DoValidate() {
   age_spread_ = (max_age_ - min_age_) + 1;
-  map<unsigned, vector<double>> error_values_by_year;
+  map<unsigned, vector<Double>> error_values_by_year;
   map<unsigned, vector<double>> obs_by_year;
 
   /**
@@ -160,9 +159,9 @@ void ProportionsMigrating::DoValidate() {
     if (std::find(years_.begin(), years_.end(), year) == years_.end())
       LOG_ERROR_P(PARAM_ERROR_VALUES) << " value " << year << " is not a valid year for this observation";
     for (unsigned i = 1; i < error_values_data_line.size(); ++i) {
-      double value = 0.0;
-      if (!utilities::To<double>(error_values_data_line[i], value))
-        LOG_ERROR_P(PARAM_ERROR_VALUES) << " value (" << error_values_data_line[i] << ") could not be converted to a double";
+      Double value = 0.0;
+      if (!utilities::To<Double>(error_values_data_line[i], value))
+        LOG_ERROR_P(PARAM_ERROR_VALUES) << " value (" << error_values_data_line[i] << ") could not be converted to a Double";
       if (likelihood_type_ == PARAM_LOGNORMAL && value <= 0.0) {
         LOG_ERROR_P(PARAM_ERROR_VALUES) << ": error_value (" << value << ") cannot be equal to or less than 0.0";
       } else if ((likelihood_type_ == PARAM_MULTINOMIAL && value < 0.0) || (likelihood_type_ == PARAM_DIRICHLET && value < 0.0)) {
@@ -189,7 +188,7 @@ void ProportionsMigrating::DoValidate() {
       for (unsigned j = 0; j < age_spread_; ++j) {
         unsigned obs_index = i * age_spread_ + j;
 
-        double error_value = error_values_by_year[iter->first][obs_index];
+        Double error_value = error_values_by_year[iter->first][obs_index];
         error_values_[iter->first][category_labels_[i]].push_back(error_value);
         proportions_[iter->first][category_labels_[i]].push_back(iter->second[obs_index]);
       }

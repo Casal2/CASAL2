@@ -66,7 +66,7 @@ void Abundance::DoValidate() {
     LOG_ERROR_P(PARAM_ERROR_VALUE) << ": error_value length (" << error_values_.size()
         << ") must be same length as obs (" << obs.size() << ")";
 
-  error_values_by_year_ = utils::Map<double>::create(years_, error_values_);
+  error_values_by_year_ = utils::Map<Double>::create(years_, error_values_);
 
   double value = 0.0;
   for (unsigned i = 0; i < years_.size(); ++i) {
@@ -146,7 +146,7 @@ void Abundance::Execute() {
   vector<string> keys;
   vector<Double> expecteds;
   vector<double> observeds;
-  vector<double> error_values;
+  vector<Double> error_values;
   vector<Double> process_errors;
   vector<Double> scores;
 
@@ -155,7 +155,7 @@ void Abundance::Execute() {
   Double end_value = 0.0;
   Double final_value = 0.0;
   unsigned age = 0;
-  double error_value = 0.0;
+  Double error_value = 0.0;
 
   unsigned current_year = model_->current_year();
 

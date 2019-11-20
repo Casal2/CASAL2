@@ -47,7 +47,7 @@ void MPD::DoExecute() {
   cache_ << "\n";
 
   for (auto estimate : estimates)
-    cache_ << AS_DOUBLE(estimate->value()) << " ";
+    cache_ << AS_VALUE(estimate->value()) << " ";
   cache_ << "\n";
 
   /**

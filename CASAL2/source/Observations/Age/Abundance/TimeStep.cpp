@@ -28,7 +28,7 @@ TimeStepAbundance::TimeStepAbundance(Model* model)
   parameters_.Bind<string>(PARAM_CATCHABILITY, &catchability_label_, "The label of the catchability coefficient (q) assumed", "");
   parameters_.Bind<string>(PARAM_OBS, &obs_, "The observed values", "");
   parameters_.Bind<unsigned>(PARAM_YEARS, &years_, "Years for which there are observations", "");
-  parameters_.Bind<double>(PARAM_ERROR_VALUE, &error_values_, "The error values of the observed values (note the units depend on the likelihood)", "");
+  parameters_.Bind<Double>(PARAM_ERROR_VALUE, &error_values_, "The error values of the observed values (note the units depend on the likelihood)", "");
   parameters_.Bind<Double>(PARAM_PROCESS_ERROR, &process_error_value_, "The label of the process error block", "", Double(0.0));
   parameters_.Bind<double>(PARAM_TIME_STEP_PROPORTION, &time_step_proportion_, "Proportion through the mortality block of the time step when the observation is evaluated", "", double(0.5));
 

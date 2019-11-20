@@ -83,7 +83,7 @@ void ProcessRemovalsByLength::DoValidate() {
       LOG_ERROR_P(PARAM_YEARS) << "Years can't be less than start_year (" << model_->start_year() << "), or greater than final_year (" << model_->final_year() << "). Please fix this.";
   }
 
-  map<unsigned, vector<double>> error_values_by_year;
+  map<unsigned, vector<Double>> error_values_by_year;
   map<unsigned, vector<double>> obs_by_year;
 
   /**
@@ -170,8 +170,8 @@ void ProcessRemovalsByLength::DoValidate() {
     if (std::find(years_.begin(), years_.end(), year) == years_.end())
       LOG_FATAL_P(PARAM_ERROR_VALUES)<< " value " << year << " is not a valid year for this observation";
     for (unsigned i = 1; i < error_values_data_line.size(); ++i) {
-      double value = 0.0;
-      if (!utilities::To<double>(error_values_data_line[i], value))
+      Double value = 0.0;
+      if (!utilities::To<Double>(error_values_data_line[i], value))
         LOG_FATAL_P(PARAM_ERROR_VALUES)<< " value (" << error_values_data_line[i] << ") could not be converted to a double";
       if (likelihood_type_ == PARAM_LOGNORMAL && value <= 0.0) {
         LOG_ERROR_P(PARAM_ERROR_VALUES) << ": error_value (" << value << ") cannot be equal to or less than 0.0";
@@ -202,7 +202,7 @@ void ProcessRemovalsByLength::DoValidate() {
         unsigned obs_index = i * number_bins_ + j;
         value = iter->second[obs_index];
 
-        double error_value = error_values_by_year[iter->first][obs_index];
+        Double error_value = error_values_by_year[iter->first][obs_index];
         error_values_[iter->first][category_labels_[i]].push_back(error_value);
         proportions_[iter->first][category_labels_[i]].push_back(value);
         total += value;
