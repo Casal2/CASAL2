@@ -139,7 +139,7 @@ void SurvivalConstantRate::DoExecute() {
   unsigned time_step = model_->managers().time_step()->current_time_step();
 
   LOG_FINEST() << "Ratios.size() " << time_step_ratios_.size() << " : time_step: " << time_step << "; ratio: " << time_step_ratios_[time_step];
-  Double ratio = time_step_ratios_[time_step];
+  double ratio = time_step_ratios_[time_step];
 
   //StoreForReport("year", model_->current_year());
 

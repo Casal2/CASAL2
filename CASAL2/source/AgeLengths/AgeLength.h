@@ -63,7 +63,7 @@ protected:
   void                        BuildCV();
   // members
   Model*                      model_ = nullptr;
-  vector<Double>              time_step_proportions_;
+  vector<double>              time_step_proportions_;
   Double                      cv_first_ = 0.0;
   Double                      cv_last_;
   bool                        by_length_;

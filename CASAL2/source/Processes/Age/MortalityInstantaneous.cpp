@@ -553,15 +553,17 @@ void MortalityInstantaneous::DoExecute() {
     for (auto& fishery_iter : fisheries_) {
       auto& fishery = fishery_iter.second;
       Double exploitation = 0.0;
+
       // If fishery occurs in this time step calculate exploitation rate
       if (fishery.time_step_index_ == time_step_index) {
         exploitation = fishery.catches_[year] / utilities::doublecompare::ZeroFun(fishery.vulnerability_);
         LOG_FINEST() << " Vulnerable biomass for fishery : " << fishery.label_ << " = " << fishery.vulnerability_ << " with Catch = " << fishery.catches_[model_->current_year()] << " = exploitation = " << exploitation;
       }
+
       // U_obs is used to account for selectivity, almost like a temporary container that we use to rescale exploitation_ at the end
       fishery.exploitation_ = exploitation;
       fishery.uobs_fishery_ = exploitation;
-      LOG_FINE() << "fishery = " << fishery.label_ << " exploitation = " << fishery.exploitation_;
+      LOG_FINE() << "time step = " << time_step_index << " fishery = " << fishery.label_ << " exploitation = " << fishery.exploitation_;
     }
 
     for (auto& fishery_category : fishery_categories_) {
@@ -583,9 +585,11 @@ void MortalityInstantaneous::DoExecute() {
     LOG_FINEST() << "Size of fishery_categories_ " << fishery_categories_.size();
     for (auto& fishery_iter : fisheries_) {
       auto& fishery = fishery_iter.second;
+
       // Don't enter if this fishery is not executed here.
       if (fishery.time_step_index_ != time_step_index)
         continue;
+
       auto& uobs = fishery.uobs_fishery_;
       uobs = 0.0;
       for (auto& fishery_category : fishery_categories_) {
@@ -599,6 +603,11 @@ void MortalityInstantaneous::DoExecute() {
 
     for (auto& fishery_iter : fisheries_) {
       auto& fishery = fishery_iter.second;
+
+      // Don't enter if this fishery is not executed here.
+      if (fishery.time_step_index_ != time_step_index)
+        continue;
+
       if (fishery.uobs_fishery_ > fishery.u_max_) {
         /**
          * Rescaling exploitation and applying penalties
@@ -697,9 +706,11 @@ void MortalityInstantaneous::FillReportCache(ostringstream& cache) {
   LOG_FINE();
   // This one is niggly because we need to iterate over each year and time step to print the right information so we don't
   vector<unsigned> years = model_->years();
+
   cache << "year: ";
   for (auto year : years)
     cache << year << " ";
+
   for (auto& fishery_iter : fisheries_) {
     auto& fishery = fishery_iter.second;
     cache << "\nfishing_pressure[" << fishery.label_ << "]: ";
@@ -759,6 +770,7 @@ void MortalityInstantaneous::FillTabularReportCache(ostringstream& cache, bool f
     }
     cache << "\n";
   }
+
   for (auto& fishery_iter : fisheries_) {
     auto& fishery = fishery_iter.second;
     for (auto pressure : fishery.exploitation_by_year_)

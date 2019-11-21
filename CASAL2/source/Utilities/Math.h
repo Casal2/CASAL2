@@ -230,7 +230,7 @@ inline void cond_assign(Double &res, const Double &cond, const Double &arg) {
  * Boundary Pin
  */
 
-inline Double scale_value(Double value, Double min, Double max) {
+inline Double scale_value(Double value, double min, double max) {
   if (dc::IsEqual(value, min))
     return -1;
   else if (dc::IsEqual(value, max))
@@ -242,7 +242,7 @@ inline Double scale_value(Double value, Double min, Double max) {
 /**
  *
  */
-inline Double unscale_value(const Double& value, Double& penalty, Double min, Double max) {
+inline Double unscale_value(const Double& value, Double& penalty, double min, double max) {
   // courtesy of AUTODIF - modified to correct error -
   // penalty on values outside [-1,1] multiplied by 100 as of 14/1/02.
   Double t = 0.0;

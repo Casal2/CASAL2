@@ -83,7 +83,7 @@ Double Schnute::mean_length(unsigned time_step,  unsigned age) {
   Double temp = 0.0;
   Double size = 0.0;
 
-  Double proportion = time_step_proportions_[time_step];
+  double proportion = time_step_proportions_[time_step];
 
   if (a_ != 0.0)
     temp = (1 - exp( -a_ * ((age + proportion) - tau1_))) / (1 - exp(-a_ * (tau2_ - tau1_)));

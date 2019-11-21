@@ -594,6 +594,7 @@ void MortalityInstantaneousRetained::DoExecute() {
       }
 
       fishery.exploitation_ = exploitation;
+      LOG_FINE() << "time_step = " << time_step_index << " fishery = " << fishery.label_ << " exploitation = " << fishery.exploitation_;
     }
 
     for (auto& fishery_category : fishery_categories_) {
@@ -912,6 +913,7 @@ void MortalityInstantaneousRetained::FillTabularReportCache(ostringstream& cache
     }
     cache << "\n";
   }
+
   for (auto& fishery_iter : fisheries_) {
     auto& fishery = fishery_iter.second;
     for (auto pressure : fishery.exploitation_by_year_)
