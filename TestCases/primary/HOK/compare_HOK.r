@@ -611,3 +611,38 @@ lines(ages, cas2_mpd_alt3$SAsl$Values, col='gold', lwd=1)
 
 dev.off()
 
+
+
+# do the catches differ?
+
+time_series_match <- function(t1_vec, t2_vec)
+{
+    if (length(t1_vec) == length(t2_vec))
+    {
+        return (ifelse(max(abs(range(t1_vec - t2_vec))) == 0, 'yes', 'no'))
+    }
+
+    return ('no')
+}
+
+
+
+print(paste('Actual catches for Ensp1 match:',
+            time_series_match(c1_quant$actual_catches$Ensp1, cas2_mpd_base$Mortality$`actual_catch[Ensp1]`)))
+
+print(paste('Actual catches for Wnsp1 match:',
+            time_series_match(c1_quant$actual_catches$Wnsp1, cas2_mpd_base$Mortality$`actual_catch[Wnsp1]`)))
+
+print(paste('Actual catches for Ensp2 match:',
+            time_series_match(c1_quant$actual_catches$Ensp2, cas2_mpd_base$Mortality$`actual_catch[Ensp2]`)))
+
+print(paste('Actual catches for Wnsp2 match:',
+            time_series_match(c1_quant$actual_catches$Wnsp2, cas2_mpd_base$Mortality$`actual_catch[Wnsp2]`)))
+
+print(paste('Actual catches for Esp match:',
+            time_series_match(c1_quant$actual_catches$Esp, cas2_mpd_base$Mortality$`actual_catch[Esp]`)))
+
+print(paste('Actual catches for Wsp match:',
+            time_series_match(c1_quant$actual_catches$Wsp, cas2_mpd_base$Mortality$`actual_catch[Wsp]`)))
+
+

@@ -471,3 +471,32 @@ lines(ages, cas2_mpd_alt3$lineSpawnFSel_female$Values, col='gold', lwd=1, lty=3)
 
 dev.off()
 
+
+
+# do the catches differ?
+
+time_series_match <- function(t1_vec, t2_vec)
+{
+    if (length(t1_vec) == length(t2_vec))
+    {
+        return (ifelse(max(abs(range(t1_vec - t2_vec))) == 0, 'yes', 'no'))
+    }
+
+    return ('no')
+}
+
+
+
+print(paste('Actual catches for trawl match:',
+            time_series_match(c1_quant$actual_catches$trawl, cas2_mpd_base$Mortality$`actual_catch[FishingTrwl]`)))
+
+print(paste('Actual catches for line_home match:',
+            time_series_match(c1_quant$actual_catches$line_home, cas2_mpd_base$Mortality$`actual_catch[FishingLineHome]`)))
+
+print(paste('Actual catches for line_spawn match:',
+            time_series_match(c1_quant$actual_catches$line_spawn, cas2_mpd_base$Mortality$`actual_catch[FishingLineSpawn]`)))
+
+
+
+
+

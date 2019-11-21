@@ -1,11 +1,11 @@
 CASAL2
-Call: ../../../../../BuildSystem/bin/linux/release_cppad/casal2 -e -o params_est.20191119.out 
-Date: Tue Nov 19 15:31:31 2019
-Version: 2019-11-18 03:40:39 UTC (rev. 52fc9a4)
+Call: ../../../../../BuildSystem/bin/linux/release_cppad/casal2 -e -o params_est.out 
+Date: Thu Nov 21 15:11:31 2019
+Version: 2019-11-21 01:14:25 UTC (rev. de8e724)
 Copyright (c) 2018 - 2019, NIWA (www.niwa.co.nz)
 -- Username: amart
 -- Machine: niwa-1019055.niwa.local (Linux 3.10.0-1062.4.1.el7.x86_64 x86_64)
--- Process Id: 31584
+-- Process Id: 18598
 
 This is Ipopt version 3.12.4, running with linear solver mumps.
 NOTE: Other linear solvers might be more efficient (see Ipopt documentation).
@@ -73,8 +73,8 @@ Number of inequality constraint evaluations          = 43
 Number of equality constraint Jacobian evaluations   = 0
 Number of inequality constraint Jacobian evaluations = 28
 Number of Lagrangian Hessian evaluations             = 27
-Total CPU secs in IPOPT (w/o function evaluations)   =      0.219
-Total CPU secs in NLP function evaluations           =     87.768
+Total CPU secs in IPOPT (w/o function evaluations)   =      0.150
+Total CPU secs in NLP function evaluations           =     75.628
 
 EXIT: Optimal Solution Found.
 *initialisation_partition[Init]
@@ -930,7 +930,6 @@ male 0.000000 24914920.655279 17388474.805837 12320302.096421 7816394.098444 758
 female 0.000000 24916318.046310 17391060.382196 12326480.777169 7828400.101594 7610388.486483 6380519.569844 4650689.336044 4592072.653087 3116666.197348 3245898.201233 2209668.816966 1670577.632884 1222962.719659 1126599.594052 928326.028814 611688.114429 492134.852328 437504.812666 421189.882026 359581.935066 244572.359333 380533.950235
 *end
 
-[WARNING] /home/amart/work/projects/CASAL2/dev/casal2-development/CASAL2/source/Reports/Common/EstimateValue.cpp(line: 46): estimated parameter 'selectivity[trwlFSel_m].sigma_r' was within 0.001 of its bound
 *objective_function[obj_fun]
 values {v}
 observation->summerTANbiomass-1992 -1.67903
@@ -1154,6 +1153,7 @@ values {v}
 end {L}
 *end
 
+[WARNING] /home/amart/work/projects/CASAL2/dev/casal2-development/CASAL2/source/Reports/Common/EstimateValue.cpp(line: 46): estimated parameter 'selectivity[trwlFSel_m].sigma_r' was within 0.001 of its bound
 *estimate_value[estimated_values]
 values {d}
 process[Recruitment].b0 catchability[summerTANq].q catchability[autumnTANq].q selectivity[M_all].x0 selectivity[M_all].y0 selectivity[M_all].y1 selectivity[M_all].y2 selectivity[summerTANSel_m].a50 selectivity[summerTANSel_m].ato95 selectivity[summerTANSel_m].alpha selectivity[summerTANSel_f].a50 selectivity[summerTANSel_f].ato95 selectivity[autumnTANSel_m].a50 selectivity[autumnTANSel_m].ato95 selectivity[autumnTANSel_m].alpha selectivity[autumnTANSel_f].a50 selectivity[autumnTANSel_f].ato95 selectivity[trwlFSel_m].mu selectivity[trwlFSel_m].sigma_l selectivity[trwlFSel_m].sigma_r selectivity[trwlFSel_m].alpha selectivity[trwlFSel_f].mu selectivity[trwlFSel_f].sigma_l selectivity[trwlFSel_f].sigma_r selectivity[lineHomeFSel_m].a50 selectivity[lineHomeFSel_m].ato95 selectivity[lineHomeFSel_m].alpha selectivity[lineHomeFSel_f].a50 selectivity[lineHomeFSel_f].ato95 selectivity[lineSpawnFSel_m].a50 selectivity[lineSpawnFSel_m].ato95 selectivity[lineSpawnFSel_m].alpha selectivity[lineSpawnFSel_f].a50 selectivity[lineSpawnFSel_f].ato95 process[Recruitment].ycs_values{1972} process[Recruitment].ycs_values{1973} process[Recruitment].ycs_values{1974} process[Recruitment].ycs_values{1975} process[Recruitment].ycs_values{1976} process[Recruitment].ycs_values{1977} process[Recruitment].ycs_values{1978} process[Recruitment].ycs_values{1979} process[Recruitment].ycs_values{1980} process[Recruitment].ycs_values{1981} process[Recruitment].ycs_values{1982} process[Recruitment].ycs_values{1983} process[Recruitment].ycs_values{1984} process[Recruitment].ycs_values{1985} process[Recruitment].ycs_values{1986} process[Recruitment].ycs_values{1987} process[Recruitment].ycs_values{1988} process[Recruitment].ycs_values{1989} process[Recruitment].ycs_values{1990} process[Recruitment].ycs_values{1991} process[Recruitment].ycs_values{1992} process[Recruitment].ycs_values{1993} process[Recruitment].ycs_values{1994} process[Recruitment].ycs_values{1995} process[Recruitment].ycs_values{1996} process[Recruitment].ycs_values{1997} process[Recruitment].ycs_values{1998} process[Recruitment].ycs_values{1999} process[Recruitment].ycs_values{2000} process[Recruitment].ycs_values{2001} process[Recruitment].ycs_values{2002} process[Recruitment].ycs_values{2003} process[Recruitment].ycs_values{2004} process[Recruitment].ycs_values{2005} process[Recruitment].ycs_values{2006} process[Recruitment].ycs_values{2007} process[Recruitment].ycs_values{2008} process[Recruitment].ycs_values{2009} process[Recruitment].ycs_values{2010} process[Recruitment].ycs_values{2011} process[Recruitment].ycs_values{2012} process[Recruitment].ycs_values{2013} process[Recruitment].ycs_values{2014} 
@@ -1223,13 +1223,13 @@ selectivities: M_all M_all
 time_step_ratio: 0.75 0.25
 type: mortality_instantaneous
 year: 1972 1973 1974 1975 1976 1977 1978 1979 1980 1981 1982 1983 1984 1985 1986 1987 1988 1989 1990 1991 1992 1993 1994 1995 1996 1997 1998 1999 2000 2001 2002 2003 2004 2005 2006 2007 2008 2009 2010 2011 2012 2013 2014 2015 2016 2017 2018 
-fishing_pressure[FishingLineHome]: 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+fishing_pressure[FishingLineHome]: 0 0 0 0.00072117 0.00116583 0.00186976 0.00310682 0.00649826 0 0 0 3.3906e-05 1.36865e-05 0.000172298 1.38985e-05 0 4.14979e-05 6.81272e-05 6.03997e-05 0.0025951 0.00373498 0.00826595 0.00528309 0.016603 0.01583 0.0263872 0.033036 0.0234604 0.0126204 0.00739066 0.00382542 0.00160618 0.00654739 0.00225201 0.00140915 0.000262099 0.00250943 0.00210305 0.0065569 0.00428942 0.00702818 0.00100992 0.00581708 0.00446711 0.00316141 0.00444711 0.00413976 
 catch[FishingLineHome]: 0 0 0 118 190 301 494 1022 0 0 0 5 2 25 2 0 6 10 9 392 566 1238 770 2355 2153 3412 4032 2721 1421 818 426 183 774 276 178 34 329 276 864 567 934 135 785 611 440 633 600 
 actual_catch[FishingLineHome]: 0 0 0 118 190 301 494 1022 0 0 0 5 2 25 2 0 6 10 9 392 566 1238 770 2355 2153 3412 4032 2721 1421 818 426 183 774 276 178 34 329 276 864 567 934 135 785 611 440 633 600 
 fishing_pressure[FishingLineSpawn]: 0 0 0 0.000907879 0.00147936 0.00237552 0.0039439 0.00830929 0 0 0 5.26844e-06 0 1.6056e-05 0 0 0 1.05024e-05 2.07626e-05 0.000501667 0.00269943 0.00252613 0.00264695 0.00190798 0.00313837 0.00382062 0.003791 0.00328751 0.00796355 0.00695986 0.00835546 0.00596528 0.00305752 0.00561872 0.00423194 0.00392791 0.00492661 0.00257126 0.00185011 0.000990332 0.00218901 0.0019658 0.00141318 0.00129245 0.0010512 0.000832284 0.00101825 
 catch[FishingLineSpawn]: 0 0 0 192 309 490 806 1668 0 0 0 1 0 3 0 0 0 2 4 97 518 474 486 338 531 614 581 489 1161 1007 1220 892 471 894 692 651 821 432 313 169 376 340 247 229 190 153 190 
 actual_catch[FishingLineSpawn]: 0 0 0 192 309 490 806 1668 0 0 0 1 0 3 0 0 0 2 4 97 518 474 486 338 531 614 581 489 1161 1007 1220 892 471 894 692 651 821 432 313 169 376 340 247 229 190 153 190 
-fishing_pressure[FishingTrwl]: 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+fishing_pressure[FishingTrwl]: 0 0.0015648 0.0035099 0.00282869 0.0107247 0.00987745 0.00627029 0.0121105 0.017452 0.0152048 0.00836693 0.00969789 0.0112078 0.0156635 0.0110551 0.0135118 0.00690792 0.00958561 0.0104114 0.01484 0.020803 0.0254121 0.0198447 0.0202927 0.0266931 0.0282261 0.0253847 0.0239902 0.0301214 0.0272841 0.0272608 0.0270418 0.0287041 0.0289091 0.0229702 0.0282342 0.0265141 0.0199064 0.0162061 0.0165323 0.0160859 0.0222351 0.020314 0.0210568 0.0175472 0.0192937 0.019187 
 catch[FishingTrwl]: 0 500 1120 900 3402 3100 1945 3707 5200 4427 2402 2778 3203 4480 3182 3962 2065 2923 3199 4534 6237 7335 5456 5348 6769 6923 6032 5593 7089 6629 6970 7205 7826 7870 6161 7504 6990 5225 4270 4404 4384 6234 5841 6176 5228 5816 5800 
 actual_catch[FishingTrwl]: 0 500 1120 900 3402 3100 1945 3707 5200 4427 2402 2778 3203 4480 3182 3962 2065 2923 3199 4534 6237 7335 5456 5348 6769 6923 6032 5593 7089 6629 6970 7205 7826 7870 6161 7504 6990 5225 4270 4404 4384 6234 5841 6176 5228 5816 5800 
 *end
@@ -3159,6 +3159,6 @@ warning_0 {s}
 estimated parameter 'selectivity[trwlFSel_m].sigma_r' was within 0.001 of its bound
 *end
 
-Total CPU time: 0.024 hours.
-Total elapsed time: 45 seconds
+Total CPU time: 0.021 hours.
+Total elapsed time: 38 seconds
 Completed
