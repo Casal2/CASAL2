@@ -552,17 +552,19 @@ void MortalityInstantaneous::DoExecute() {
      */
     for (auto& fishery_iter : fisheries_) {
       auto& fishery = fishery_iter.second;
-      Double exploitation = 0.0;
+      // Double exploitation = 0.0;
 
       // If fishery occurs in this time step calculate exploitation rate
       if (fishery.time_step_index_ == time_step_index) {
-        exploitation = fishery.catches_[year] / utilities::doublecompare::ZeroFun(fishery.vulnerability_);
+        Double exploitation = fishery.catches_[year] / utilities::doublecompare::ZeroFun(fishery.vulnerability_);
+        fishery.exploitation_ = exploitation;
+        fishery.uobs_fishery_ = exploitation;
         LOG_FINEST() << " Vulnerable biomass for fishery : " << fishery.label_ << " = " << fishery.vulnerability_ << " with Catch = " << fishery.catches_[model_->current_year()] << " = exploitation = " << exploitation;
       }
 
       // U_obs is used to account for selectivity, almost like a temporary container that we use to rescale exploitation_ at the end
-      fishery.exploitation_ = exploitation;
-      fishery.uobs_fishery_ = exploitation;
+      // fishery.exploitation_ = exploitation;
+      // fishery.uobs_fishery_ = exploitation;
       LOG_FINE() << "time step = " << time_step_index << " fishery = " << fishery.label_ << " exploitation = " << fishery.exploitation_;
     }
 
@@ -603,10 +605,6 @@ void MortalityInstantaneous::DoExecute() {
 
     for (auto& fishery_iter : fisheries_) {
       auto& fishery = fishery_iter.second;
-
-      // Don't enter if this fishery is not executed here.
-      if (fishery.time_step_index_ != time_step_index)
-        continue;
 
       if (fishery.uobs_fishery_ > fishery.u_max_) {
         /**
