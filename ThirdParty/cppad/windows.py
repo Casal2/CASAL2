@@ -6,7 +6,7 @@ from distutils import dir_util
 import Globals
 
 class Builder:
-  version_ = 3.12
+  version_ = 3.11
     
   def start(self):
     # Variables
@@ -50,8 +50,8 @@ class Builder:
     # Move our headers and libraries
     print '-- Moving headers and libraries'
     dir_util.copy_tree('cppad/include/cppad', Globals.target_include_path_ + '/cppad/')
-    dir_util.copy_tree('cppad/Ipopt-releases-3.12.4/include/coin', Globals.target_include_path_ + '/coin/')
+    dir_util.copy_tree('cppad/Ipopt-releases-3.11.9/include/coin', Globals.target_include_path_ + '/coin/')
     for library in libraries:
-      shutil.copy('cppad/Ipopt-releases-3.12.4/lib/' + library, Globals.target_special_lib_path_)    
+      shutil.copy('cppad/Ipopt-releases-3.11.9/lib/' + library, Globals.target_special_lib_path_)    
      
     return True
