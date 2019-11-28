@@ -26,7 +26,7 @@ C2_subdir <- c('betadiff_casal_flags_on',
 # C2_altN_dir <- 'adolc_casal_flags_on_low_tol'
 num_C2_models <- length(C2_subdir)
 
-C2_color <- c('blue', 'green3', 'red', 'gold', 'magenta', 'cyan')
+C2_color <- c('blue', 'green3', 'red', 'gold', 'magenta', 'cyan', 'brown', 'orange')
 
 
 # MPD files are params_est.out, run_estimation.txt, and mpd.out for both CASAL and Casal2
