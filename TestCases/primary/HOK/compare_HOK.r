@@ -16,11 +16,17 @@ sessionInfo()
 # start in subdirectory 'R-libraries' of git repository
 base_dir <- '../TestCases/primary/HOK'
 
-C2_base_dir <- 'casal_flags_on'
-C2_alt1_dir <- 'casal_flags_off'
-# C2_alt2_dir <- 'adolc'
-C2_alt2_dir <- 'casal_flags_on_low_tol'
-C2_alt3_dir <- 'cppad'
+C2_subdir <- c('betadiff_casal_flags_on',
+               'betadiff_casal_flags_off',
+               'betadiff_casal_flags_on_low_tol',
+               'cppad_casal_flags_on',
+               'cppad_casal_flags_off')
+# C2_altN_dir <- 'adolc_casal_flags_on'
+# C2_altN_dir <- 'adolc_casal_flags_off'
+# C2_altN_dir <- 'adolc_casal_flags_on_low_tol'
+num_C2_models <- length(C2_subdir)
+
+C2_color <- c('blue', 'green3', 'red', 'gold', 'magenta', 'cyan', 'brown', 'orange')
 
 
 # MPD files are params_est.out, run_estimation.txt, and mpd.out for both CASAL and Casal2
@@ -49,40 +55,25 @@ c1_sens1_quant <- cas_mpd_sens1$quantities
 
 
 # read in Casal2 MPD results
-cas2_mpd_base <- casal2::extract.mpd(mpd_run, file.path(base_dir, 'Casal2', C2_base_dir))
-cas2_mpd_alt1 <- casal2::extract.mpd(mpd_run, file.path(base_dir, 'Casal2', C2_alt1_dir))
-cas2_mpd_alt2 <- casal2::extract.mpd(mpd_run, file.path(base_dir, 'Casal2', C2_alt2_dir))
-cas2_mpd_alt3 <- casal2::extract.mpd(mpd_run, file.path(base_dir, 'Casal2', C2_alt3_dir))
+cas2_mpd <- list()
+for (c in 1:num_C2_models)
+{
+    cas2_mpd[[c]] <- casal2::extract.mpd(mpd_run, file.path(base_dir, 'Casal2', C2_subdir[c]))
+}
 
-# > names(cas2_mpd_base)
-#  [1] "Init"                      "state1"
-#  [3] "state2"                    "obj_fun"
-#  [5] "DQs"                       "estimated_values"
-#  [7] "SSB"                       "Mortality"
-#  [9] "Rec"                       "NaturalMortalityOgive_all"
-# [11] "MaturationOgive_male"      "MaturationOgive_female"
-# [13] "summerTANSel_male"         "summerTANSel_female"
-# [15] "autumnTANSel_male"         "autumnTANSel_female"
-# [17] "trwlFSel_male"             "trwlFSel_female"
-# [19] "lineHomeFSel_male"         "lineHomeFSel_female"
-# [21] "lineSpawnFSel_male"        "lineSpawnFSel_female"
-# [23] "Tangaroa_bio_summer"       "Tangaroa_bio_autumn"
-# [25] "estimated_summary"
-# > names(cas2_mpd_alt2)
-#  [1] "Init"                      "state1"
-#  [3] "state2"                    "obj_fun"
-#  [5] "DQs"                       "estimated_values"
-#  [7] "SSB"                       "Mortality"
-#  [9] "Rec"                       "NaturalMortalityOgive_all"
-# [11] "MaturationOgive_male"      "MaturationOgive_female"
-# [13] "summerTANSel_male"         "summerTANSel_female"
-# [15] "autumnTANSel_male"         "autumnTANSel_female"
-# [17] "trwlFSel_male"             "trwlFSel_female"
-# [19] "lineHomeFSel_male"         "lineHomeFSel_female"
-# [21] "lineSpawnFSel_male"        "lineSpawnFSel_female"
-# [23] "Tangaroa_bio_summer"       "Tangaroa_bio_autumn"
-# [25] "estimated_summary"         "warnings_encounted"
-
+# > names(cas2_mpd[[1]])
+#  [1] "Init"               "summary"            "objective"
+#  [4] "SSB"                "Recruit_E"          "Recruit_W"
+#  [7] "Mortality"          "M_male"             "M_female"
+# [10] "CSacous"            "WCacous"            "Espage"
+# [13] "Wspage"             "Enspage"            "EnspOLF"
+# [16] "WnspOLF"            "Wnspage"            "CRsumage"
+# [19] "SAsumage"           "SAautage"           "CRsumbio"
+# [22] "SAsumbio"           "pspawn_1993"        "pspawn"
+# [25] "Enspsl"             "Wnspsl"             "Espsl"
+# [28] "Wspsl"              "CRsl"               "SAsl"
+# [31] "time_var"           "Qs"                 "Covar"
+# [34] "Hess"               "Corr"               "warnings_encounted"
 
 
 
@@ -102,22 +93,19 @@ par(mfrow=c(2,1))
 
 max_val <- max(c1_quant$SSBs$E,
                c1_sens1_quant$SSBs$E,
-               cas2_mpd_base$SSB$SSB_E$values,
-               cas2_mpd_alt1$SSB$SSB_E$values,
-               cas2_mpd_alt2$SSB$SSB_E$values,
-               cas2_mpd_alt3$SSB$SSB_E$values)
+               max(unlist(list.map(cas2_mpd, max(SSB$SSB_E$values)))))
 
 plot(c1_quant$SSBs$year, c1_quant$SSBs$E, type='l', col='black', lwd=3, ylim=c(0, max_val), xlab='Year', ylab='Biomass (t)', main='E SSB comparison')
 lines(c1_sens1_quant$SSBs$year, c1_sens1_quant$SSBs$E, type='l', col='grey', lwd=3)
-lines(names(cas2_mpd_base$SSB$SSB_E$values), cas2_mpd_base$SSB$SSB_E$values, col='blue', lwd=1)
-lines(names(cas2_mpd_alt1$SSB$SSB_E$values), cas2_mpd_alt1$SSB$SSB_E$values, col='green3', lwd=1)
-lines(names(cas2_mpd_alt2$SSB$SSB_E$values), cas2_mpd_alt2$SSB$SSB_E$values, col='red', lwd=1)
-lines(names(cas2_mpd_alt3$SSB$SSB_E$values), cas2_mpd_alt3$SSB$SSB_E$values, col='gold', lwd=1)
+for (c in 1:num_C2_models)
+{
+    lines(names(cas2_mpd[[c]]$SSB$SSB_E$values), cas2_mpd[[c]]$SSB$SSB_E$values, col=C2_color[c], lwd=1)
+}
 
 legend(c1_quant$SSBs$year[1], 0.50*max_val,
-       c('CASAL', 'CASAL sens1', 'Casal2 w/CASAL flags on', 'Casal2 w/CASAL flags off', 'Casal2 w/CASAL flags on and low tolerance', 'Casal2 CppAD'),
+       c('CASAL', 'CASAL sens1', 'BetaDiff Casal2 w/CASAL flags on', 'BetaDiff Casal2 w/CASAL flags off', 'BetaDiff Casal2 w/CASAL flags on and low tolerance', 'CppAD Casal2 w/CASAL flags on', 'CppAD Casal2 w/CASAL flags off'),
        lwd=3,
-       col=c('black', 'grey', 'blue', 'green3', 'red', 'gold'))
+       col=c('black', 'grey', C2_color))
 
 
 
@@ -125,17 +113,14 @@ legend(c1_quant$SSBs$year[1], 0.50*max_val,
 
 max_val <- max(c1_quant$SSBs$W,
                c1_sens1_quant$SSBs$W,
-               cas2_mpd_base$SSB$SSB_W$values,
-               cas2_mpd_alt1$SSB$SSB_W$values,
-               cas2_mpd_alt2$SSB$SSB_W$values,
-               cas2_mpd_alt3$SSB$SSB_W$values)
+               max(unlist(list.map(cas2_mpd, max(SSB$SSB_W$values)))))
 
 plot(c1_quant$SSBs$year, c1_quant$SSBs$W, type='l', col='black', lwd=3, ylim=c(0, max_val), xlab='Year', ylab='Biomass (t)', main='W SSB comparison')
 lines(c1_sens1_quant$SSBs$year, c1_sens1_quant$SSBs$W, type='l', col='grey', lwd=3)
-lines(names(cas2_mpd_base$SSB$SSB_E$values), cas2_mpd_base$SSB$SSB_W$values, col='blue', lwd=1)
-lines(names(cas2_mpd_alt1$SSB$SSB_E$values), cas2_mpd_alt1$SSB$SSB_W$values, col='green3', lwd=1)
-lines(names(cas2_mpd_alt2$SSB$SSB_E$values), cas2_mpd_alt2$SSB$SSB_W$values, col='red', lwd=1)
-lines(names(cas2_mpd_alt3$SSB$SSB_E$values), cas2_mpd_alt3$SSB$SSB_W$values, col='gold', lwd=1)
+for (c in 1:num_C2_models)
+{
+    lines(names(cas2_mpd[[c]]$SSB$SSB_E$values), cas2_mpd[[c]]$SSB$SSB_W$values, col=C2_color[c], lwd=1)
+}
 
 
 # plot initial numbers
@@ -181,60 +166,53 @@ c1_sens1_mat <- matrix(c(
 # omit the 'category' column
 # categories: west.sa, east.cr, west.cr, west.wc, east.cs
 
-c2_base_mat <- as.matrix(cas2_mpd_base$Init$values[,-1])
-c2_alt1_mat <- as.matrix(cas2_mpd_alt1$Init$values[,-1])
-c2_alt2_mat <- as.matrix(cas2_mpd_alt2$Init$values[,-1])
-c2_alt3_mat <- as.matrix(cas2_mpd_alt3$Init$values[,-1])
+c2_mat <- array(0, dim=c(num_C2_models, dim(as.matrix(cas2_mpd[[1]]$Init$values[,-1]))))
+for (c in 1:num_C2_models)
+{
+    c2_mat[c,,] <- as.matrix(cas2_mpd[[c]]$Init$values[,-1])
+}
 
 
-for (i in 1:nrow(c2_base_mat))
+for (i in 1:nrow(c2_mat[1,,]))
 {
     max_val <- max(c1_mat[i,],
                    c1_sens1_mat[i,],
-                   c2_base_mat[i,],
-                   c2_alt1_mat[i,],
-                   c2_alt2_mat[i,],
-                   c2_alt3_mat[i,])
+                   max(c2_mat[,i,]))
 
-    plot(seq(1, 17), c1_mat[i,], type='l', col='black', lwd=3, ylim=c(0, max_val), xlab='Year', ylab='', main=paste('Initial numbers-at-age comparison:', cas2_mpd_base$Init$values[i,1]))
+    plot(seq(1, 17), c1_mat[i,], type='l', col='black', lwd=3, ylim=c(0, max_val), xlab='Year', ylab='', main=paste('Initial numbers-at-age comparison:', cas2_mpd[[1]]$Init$values[i,1]))
     lines(seq(1, 17), c1_sens1_mat[i,], col='grey', lwd=3)
-    lines(as.numeric(colnames(c2_base_mat)), c2_base_mat[i,], col='blue', lwd=1)
-    lines(as.numeric(colnames(c2_alt1_mat)), c2_alt1_mat[i,], col='green3', lwd=1)
-    lines(as.numeric(colnames(c2_alt2_mat)), c2_alt2_mat[i,], col='red', lwd=1)
-    lines(as.numeric(colnames(c2_alt3_mat)), c2_alt3_mat[i,], col='gold', lwd=1)
+    for (c in 1:num_C2_models)
+    {
+        lines(seq(1, dim(c2_mat[c,,])[2]), c2_mat[c,i,], col=C2_color[c], lwd=1)
+    }
 }
+
 
 
 # plot YCS
 
 max_val <- max(c1_quant$YCS$E,
                c1_sens1_quant$YCS$E,
-               cas2_mpd_base$Recruit_E$ycs_values,
-               cas2_mpd_alt1$Recruit_E$ycs_values,
-               cas2_mpd_alt2$Recruit_E$ycs_values,
-               cas2_mpd_alt3$Recruit_E$ycs_values)
+               max(unlist(list.map(cas2_mpd, max(Recruit_E$ycs_values)))))
 
 plot(c1_quant$YCS$E, type='l', col='black', lwd=3, ylim=c(0, max_val), xlab='Year', ylab='', main='E YCS comparison')
 lines(c1_sens1_quant$YCS$E, type='l', col='grey', lwd=3)
-lines(cas2_mpd_base$Recruit_E$ycs_values, col='blue', lwd=1)
-lines(cas2_mpd_alt1$Recruit_E$ycs_values, col='green3', lwd=1)
-lines(cas2_mpd_alt2$Recruit_E$ycs_values, col='red', lwd=1)
-lines(cas2_mpd_alt3$Recruit_E$ycs_values, col='gold', lwd=1)
+for (c in 1:num_C2_models)
+{
+    lines(cas2_mpd[[c]]$Recruit_E$ycs_values, col=C2_color[c], lwd=1)
+}
 
 
 max_val <- max(c1_quant$YCS$W,
                c1_sens1_quant$YCS$W,
-               cas2_mpd_base$Recruit_W$ycs_values,
-               cas2_mpd_alt1$Recruit_W$ycs_values,
-               cas2_mpd_alt2$Recruit_W$ycs_values,
-               cas2_mpd_alt3$Recruit_W$ycs_values)
+               max(unlist(list.map(cas2_mpd, max(Recruit_W$ycs_values)))))
 
 plot(c1_quant$YCS$W, type='l', col='black', lwd=3, ylim=c(0, max_val), xlab='Year', ylab='', main='W YCS comparison')
 lines(c1_sens1_quant$YCS$W, type='l', col='grey', lwd=3)
-lines(cas2_mpd_base$Recruit_W$ycs_values, col='blue', lwd=1)
-lines(cas2_mpd_alt1$Recruit_W$ycs_values, col='green3', lwd=1)
-lines(cas2_mpd_alt2$Recruit_W$ycs_values, col='red', lwd=1)
-lines(cas2_mpd_alt3$Recruit_W$ycs_values, col='gold', lwd=1)
+for (c in 1:num_C2_models)
+{
+    lines(cas2_mpd[[c]]$Recruit_W$ycs_values, col=C2_color[c], lwd=1)
+}
 
 
 
@@ -242,32 +220,26 @@ lines(cas2_mpd_alt3$Recruit_W$ycs_values, col='gold', lwd=1)
 
 max_val <- max(c1_quant$true_YCS$E,
                c1_sens1_quant$true_YCS$E,
-               cas2_mpd_base$Recruit_E$true_ycs,
-               cas2_mpd_alt1$Recruit_E$true_ycs,
-               cas2_mpd_alt2$Recruit_E$true_ycs,
-               cas2_mpd_alt3$Recruit_E$true_ycs)
+               max(unlist(list.map(cas2_mpd, max(Recruit_E$true_ycs)))))
 
 plot(c1_quant$true_YCS$year, c1_quant$true_YCS$E, type='l', col='black', lwd=3, ylim=c(0, max_val), xlab='Year', ylab='', main='E true YCS comparison')
 lines(c1_sens1_quant$true_YCS$year, c1_sens1_quant$true_YCS$E, type='l', col='grey', lwd=3)
-lines(cas2_mpd_base$Recruit_E$ycs_years, cas2_mpd_base$Recruit_E$true_ycs, col='blue', lwd=1)
-lines(cas2_mpd_alt1$Recruit_E$ycs_years, cas2_mpd_alt1$Recruit_E$true_ycs, col='green3', lwd=1)
-lines(cas2_mpd_alt2$Recruit_E$ycs_years, cas2_mpd_alt2$Recruit_E$true_ycs, col='red', lwd=1)
-lines(cas2_mpd_alt3$Recruit_E$ycs_years, cas2_mpd_alt3$Recruit_E$true_ycs, col='gold', lwd=1)
+for (c in 1:num_C2_models)
+{
+    lines(cas2_mpd[[c]]$Recruit_E$ycs_years, cas2_mpd[[c]]$Recruit_E$true_ycs, col=C2_color[c], lwd=1)
+}
 
 
 max_val <- max(c1_quant$true_YCS$W,
                c1_sens1_quant$true_YCS$W,
-               cas2_mpd_base$Recruit_W$true_ycs,
-               cas2_mpd_alt1$Recruit_W$true_ycs,
-               cas2_mpd_alt2$Recruit_W$true_ycs,
-               cas2_mpd_alt3$Recruit_W$true_ycs)
+               max(unlist(list.map(cas2_mpd, max(Recruit_W$true_ycs)))))
 
 plot(c1_quant$true_YCS$year, c1_quant$true_YCS$W, type='l', col='black', lwd=3, ylim=c(0, max_val), xlab='Year', ylab='', main='W true YCS comparison')
 lines(c1_sens1_quant$true_YCS$year, c1_sens1_quant$true_YCS$W, type='l', col='grey', lwd=3)
-lines(cas2_mpd_base$Recruit_E$ycs_years, cas2_mpd_base$Recruit_W$true_ycs, col='blue', lwd=1)
-lines(cas2_mpd_alt1$Recruit_E$ycs_years, cas2_mpd_alt1$Recruit_W$true_ycs, col='green3', lwd=1)
-lines(cas2_mpd_alt2$Recruit_E$ycs_years, cas2_mpd_alt2$Recruit_W$true_ycs, col='red', lwd=1)
-lines(cas2_mpd_alt3$Recruit_E$ycs_years, cas2_mpd_alt3$Recruit_W$true_ycs, col='gold', lwd=1)
+for (c in 1:num_C2_models)
+{
+    lines(cas2_mpd[[c]]$Recruit_E$ycs_years, cas2_mpd[[c]]$Recruit_W$true_ycs, col=C2_color[c], lwd=1)
+}
 
 
 
@@ -275,32 +247,26 @@ lines(cas2_mpd_alt3$Recruit_E$ycs_years, cas2_mpd_alt3$Recruit_W$true_ycs, col='
 
 max_val <- max(c1_quant$recruitments$E,
                c1_sens1_quant$recruitments$E,
-               cas2_mpd_base$Recruit_E$Recruits,
-               cas2_mpd_alt1$Recruit_E$Recruits,
-               cas2_mpd_alt2$Recruit_E$Recruits,
-               cas2_mpd_alt3$Recruit_E$Recruits)
+               max(unlist(list.map(cas2_mpd, max(Recruit_E$Recruits)))))
 
 plot(c1_quant$recruitments$year, c1_quant$recruitments$E, type='l', col='black', lwd=3, ylim=c(0, max_val), xlab='Year', ylab='', main='E Recruits comparison')
 lines(c1_sens1_quant$recruitments$year, c1_sens1_quant$recruitments$E, type='l', col='grey', lwd=3)
-lines(cas2_mpd_base$Recruit_E$ycs_years, cas2_mpd_base$Recruit_E$Recruits, col='blue', lwd=1)
-lines(cas2_mpd_alt1$Recruit_E$ycs_years, cas2_mpd_alt1$Recruit_E$Recruits, col='green3', lwd=1)
-lines(cas2_mpd_alt2$Recruit_E$ycs_years, cas2_mpd_alt2$Recruit_E$Recruits, col='red', lwd=1)
-lines(cas2_mpd_alt3$Recruit_E$ycs_years, cas2_mpd_alt3$Recruit_E$Recruits, col='gold', lwd=1)
+for (c in 1:num_C2_models)
+{
+    lines(cas2_mpd[[c]]$Recruit_E$ycs_years, cas2_mpd[[c]]$Recruit_E$Recruits, col=C2_color[c], lwd=1)
+}
 
 
 max_val <- max(c1_quant$recruitments$W,
                c1_sens1_quant$recruitments$W,
-               cas2_mpd_base$Recruit_W$Recruits,
-               cas2_mpd_alt1$Recruit_W$Recruits,
-               cas2_mpd_alt2$Recruit_W$Recruits,
-               cas2_mpd_alt3$Recruit_W$Recruits)
+               max(unlist(list.map(cas2_mpd, max(Recruit_W$Recruits)))))
 
 plot(c1_quant$recruitments$year, c1_quant$recruitments$W, type='l', col='black', lwd=3, ylim=c(0, max_val), xlab='Year', ylab='', main='W Recruits comparison')
 lines(c1_sens1_quant$recruitments$year, c1_sens1_quant$recruitments$W, type='l', col='grey', lwd=3)
-lines(cas2_mpd_base$Recruit_E$ycs_years, cas2_mpd_base$Recruit_W$Recruits, col='blue', lwd=1)
-lines(cas2_mpd_alt1$Recruit_E$ycs_years, cas2_mpd_alt1$Recruit_W$Recruits, col='green3', lwd=1)
-lines(cas2_mpd_alt2$Recruit_E$ycs_years, cas2_mpd_alt2$Recruit_W$Recruits, col='red', lwd=1)
-lines(cas2_mpd_alt3$Recruit_E$ycs_years, cas2_mpd_alt3$Recruit_W$Recruits, col='gold', lwd=1)
+for (c in 1:num_C2_models)
+{
+    lines(cas2_mpd[[c]]$Recruit_E$ycs_years, cas2_mpd[[c]]$Recruit_W$Recruits, col=C2_color[c], lwd=1)
+}
 
 
 
@@ -321,7 +287,7 @@ lines(cas2_mpd_alt3$Recruit_E$ycs_years, cas2_mpd_alt3$Recruit_W$Recruits, col='
 # [16] "Espsl04"                "SAsl04"                 "Wnspsl04"
 # [19] "Wspsl04"
 
-# > names(cas2_mpd_base)
+# > names(cas2_mpd[[1]])
 #  [1] "Init"               "summary"            "objective"
 #  [4] "SSB"                "Recruit_E"          "Recruit_W"
 #  [7] "Mortality"          "M_male"             "M_female"
@@ -335,90 +301,88 @@ lines(cas2_mpd_alt3$Recruit_E$ycs_years, cas2_mpd_alt3$Recruit_W$Recruits, col='
 # [31] "time_var"           "Qs"                 "Covar"
 # [34] "Hess"               "Corr"               "warnings_encounted"
 
+
 # plot surveys
 
 c1_surv      <- cas_mpd$free$`q[WCacous].q` * unlist(c1_quant$WCacous)
 c1_s1_surv   <- cas_mpd_sens1$free$`q[WCacous].q` * unlist(c1_sens1_quant$WCacous)
-c2_base_surv <- cas2_mpd_base$WCacous$Values
-c2_alt1_surv <- cas2_mpd_alt1$WCacous$Values
-c2_alt2_surv <- cas2_mpd_alt2$WCacous$Values
-c2_alt3_surv <- cas2_mpd_alt3$WCacous$Values
+
+c2_surv <- list()
+for (c in 1:num_C2_models)
+{
+    c2_surv[[c]] <- cas2_mpd[[c]]$WCacous$Values
+}
 
 max_val <- max(c1_surv,
                c1_s1_surv,
-               (c2_base_surv$observed * exp(1.96 * c2_base_surv$error_value)),
-               c2_base_surv$expected,
-               c2_alt1_surv$expected,
-               c2_alt2_surv$expected,
-               c2_alt3_surv$expected)
+               (c2_surv[[1]]$observed * exp(1.96 * c2_surv[[1]]$error_value)),
+               max(unlist(list.map(c2_surv, max(expected)))))
 
 plot(names(c1_surv), c1_surv, type='l', col='black', lwd=3, ylim=c(0, max_val), xlab='Year', ylab='Biomass (t)', main='Survey comparison: WCacous')
 lines(names(c1_s1_surv), c1_s1_surv, type='l', col='grey', lwd=3)
-points(c2_base_surv$year, c2_base_surv$observed, pch=20, col='black')
-arrows(c2_base_surv$year, (c2_base_surv$observed * exp(-1.96 * c2_base_surv$error_value)), c2_base_surv$year, (c2_base_surv$observed * exp(1.96 * c2_base_surv$error_value)), length=0.05, angle=90, code=3)
-points(c2_base_surv$year, c2_base_surv$expected, col='blue', pch=15)
-points(c2_alt1_surv$year, c2_alt1_surv$expected, col='green3', pch=16)
-points(c2_alt2_surv$year, c2_alt2_surv$expected, col='red', pch=17)
-points(c2_alt3_surv$year, c2_alt3_surv$expected, col='gold', pch=18)
+points(c2_surv[[c]]$year, c2_surv[[c]]$observed, pch=20, col='black')
+arrows(c2_surv[[c]]$year, (c2_surv[[c]]$observed * exp(-1.96 * c2_surv[[c]]$error_value)), c2_surv[[c]]$year, (c2_surv[[c]]$observed * exp(1.96 * c2_surv[[c]]$error_value)), length=0.05, angle=90, code=3)
+for (c in 1:num_C2_models)
+{
+    points(c2_surv[[c]]$year, c2_surv[[c]]$expected, col=C2_color[c], pch=(15+c-1))
+}
 
 
 
 c1_surv      <- cas_mpd$free$`q[CRsum].q` * unlist(c1_quant$CRsumbio)
 c1_s1_surv   <- cas_mpd_sens1$free$`q[CRsum].q` * unlist(c1_sens1_quant$CRsumbio)
-c2_base_surv <- cas2_mpd_base$CRsumbio$Values
-c2_alt1_surv <- cas2_mpd_alt1$CRsumbio$Values
-c2_alt2_surv <- cas2_mpd_alt2$CRsumbio$Values
-c2_alt3_surv <- cas2_mpd_alt3$CRsumbio$Values
+
+c2_surv <- list()
+for (c in 1:num_C2_models)
+{
+    c2_surv[[c]] <- cas2_mpd[[c]]$CRsumbio$Values
+}
 
 max_val <- max(c1_surv,
                c1_s1_surv,
-               (c2_base_surv$observed * exp(1.96 * c2_base_surv$error_value)),
-               c2_base_surv$expected,
-               c2_alt1_surv$expected,
-               c2_alt2_surv$expected,
-               c2_alt3_surv$expected)
+               (c2_surv[[1]]$observed * exp(1.96 * c2_surv[[1]]$error_value)),
+               max(unlist(list.map(c2_surv, max(expected)))))
 
 plot(names(c1_surv), c1_surv, type='l', col='black', lwd=3, ylim=c(0, max_val), xlab='Year', ylab='Biomass (t)', main='Survey comparison: CRsumbio')
 lines(names(c1_s1_surv), c1_s1_surv, type='l', col='grey', lwd=3)
-points(c2_base_surv$year, c2_base_surv$observed, pch=20, col='black')
-arrows(c2_base_surv$year, (c2_base_surv$observed * exp(-1.96 * c2_base_surv$error_value)), c2_base_surv$year, (c2_base_surv$observed * exp(1.96 * c2_base_surv$error_value)), length=0.05, angle=90, code=3)
-points(c2_base_surv$year, c2_base_surv$expected, col='blue', pch=15)
-points(c2_alt1_surv$year, c2_alt1_surv$expected, col='green3', pch=16)
-points(c2_alt2_surv$year, c2_alt2_surv$expected, col='red', pch=17)
-points(c2_alt3_surv$year, c2_alt3_surv$expected, col='gold', pch=18)
+points(c2_surv[[c]]$year, c2_surv[[c]]$observed, pch=20, col='black')
+arrows(c2_surv[[c]]$year, (c2_surv[[c]]$observed * exp(-1.96 * c2_surv[[c]]$error_value)), c2_surv[[c]]$year, (c2_surv[[c]]$observed * exp(1.96 * c2_surv[[c]]$error_value)), length=0.05, angle=90, code=3)
+for (c in 1:num_C2_models)
+{
+    points(c2_surv[[c]]$year, c2_surv[[c]]$expected, col=C2_color[c], pch=(15+c-1))
+}
 
 
 
 c1_surv      <- cas_mpd$free$`q[SAsum].q` * unlist(c1_quant$SAbio)
 c1_s1_surv   <- cas_mpd_sens1$free$`q[SAsum].q` * unlist(c1_sens1_quant$SAbio)
-c2_base_surv <- cas2_mpd_base$SAsumbio$Values
-c2_alt1_surv <- cas2_mpd_alt1$SAsumbio$Values
-c2_alt2_surv <- cas2_mpd_alt2$SAsumbio$Values
-c2_alt3_surv <- cas2_mpd_alt3$SAsumbio$Values
+
+c2_surv <- list()
+for (c in 1:num_C2_models)
+{
+    c2_surv[[c]] <- cas2_mpd[[c]]$SAsumbio$Values
+}
 
 max_val <- max(c1_surv,
                c1_s1_surv,
-               (c2_base_surv$observed * exp(1.96 * c2_base_surv$error_value)),
-               c2_base_surv$expected,
-               c2_alt1_surv$expected,
-               c2_alt2_surv$expected,
-               c2_alt3_surv$expected)
+               (c2_surv[[1]]$observed * exp(1.96 * c2_surv[[1]]$error_value)),
+               max(unlist(list.map(c2_surv, max(expected)))))
 
 plot(names(c1_surv), c1_surv, type='l', col='black', lwd=3, ylim=c(0, max_val), xlab='Year', ylab='Biomass (t)', main='Survey comparison: CRsumbio')
 lines(names(c1_s1_surv), c1_s1_surv, type='l', col='grey', lwd=3)
-points(c2_base_surv$year, c2_base_surv$observed, pch=20, col='black')
-arrows(c2_base_surv$year, (c2_base_surv$observed * exp(-1.96 * c2_base_surv$error_value)), c2_base_surv$year, (c2_base_surv$observed * exp(1.96 * c2_base_surv$error_value)), length=0.05, angle=90, code=3)
-points(c2_base_surv$year, c2_base_surv$expected, col='blue', pch=15)
-points(c2_alt1_surv$year, c2_alt1_surv$expected, col='green3', pch=16)
-points(c2_alt2_surv$year, c2_alt2_surv$expected, col='red', pch=17)
-points(c2_alt3_surv$year, c2_alt3_surv$expected, col='gold', pch=18)
+points(c2_surv[[c]]$year, c2_surv[[c]]$observed, pch=20, col='black')
+arrows(c2_surv[[c]]$year, (c2_surv[[c]]$observed * exp(-1.96 * c2_surv[[c]]$error_value)), c2_surv[[c]]$year, (c2_surv[[c]]$observed * exp(1.96 * c2_surv[[c]]$error_value)), length=0.05, angle=90, code=3)
+for (c in 1:num_C2_models)
+{
+    points(c2_surv[[c]]$year, c2_surv[[c]]$expected, col=C2_color[c], pch=(15+c-1))
+}
 
 
 
 # > names(c1_quant$fishing_pressures)
 # [1] "Ensp1" "Wnsp1" "Ensp2" "Wnsp2" "Esp"   "Wsp"   "year"
 
-# > names(cas2_mpd_base$Mortality)
+# > names(cas2_mpd[[1]]$Mortality)
 #  [1] "categories"              "label"                   "m"
 #  [4] "selectivities"           "time_step_ratio"         "type"
 #  [7] "year"                    "fishing_pressure[Ensp1]" "catch[Ensp1]"
@@ -433,96 +397,79 @@ points(c2_alt3_surv$year, c2_alt3_surv$expected, col='gold', pch=18)
 
 max_val <- max(c1_quant$fishing_pressures$Ensp1,
                c1_sens1_quant$fishing_pressures$Ensp1,
-               cas2_mpd_base$Mortality$`fishing_pressure[Ensp1]`,
-               cas2_mpd_alt1$Mortality$`fishing_pressure[Ensp1]`,
-               cas2_mpd_alt2$Mortality$`fishing_pressure[Ensp1]`,
-               cas2_mpd_alt3$Mortality$`fishing_pressure[Ensp1]`)
+               max(unlist(list.map(cas2_mpd, max(Mortality$`fishing_pressure[Ensp1]`)))))
 
 plot(c1_quant$fishing_pressures$year, c1_quant$fishing_pressures$Ensp1, type='l', col='black', lwd=3, ylim=c(0, max_val), xlab='Year', ylab='U', main='Fishing pressure comparison: Ensp1')
 lines(c1_sens1_quant$fishing_pressures$year, c1_sens1_quant$fishing_pressures$Ensp1, type='l', col='grey', lwd=3)
-lines(cas2_mpd_base$Mortality$year, cas2_mpd_base$Mortality$`fishing_pressure[Ensp1]`, col='blue', lwd=1)
-lines(cas2_mpd_alt1$Mortality$year, cas2_mpd_alt1$Mortality$`fishing_pressure[Ensp1]`, col='green3', lwd=1)
-lines(cas2_mpd_alt2$Mortality$year, cas2_mpd_alt2$Mortality$`fishing_pressure[Ensp1]`, col='red', lwd=1)
-lines(cas2_mpd_alt3$Mortality$year, cas2_mpd_alt3$Mortality$`fishing_pressure[Ensp1]`, col='gold', lwd=1)
+for (c in 1:num_C2_models)
+{
+    lines(cas2_mpd[[c]]$Mortality$year, cas2_mpd[[c]]$Mortality$`fishing_pressure[Ensp1]`, col=C2_color[c], lwd=1)
+}
 
 
 
 max_val <- max(c1_quant$fishing_pressures$Wnsp1,
                c1_sens1_quant$fishing_pressures$Wnsp1,
-               cas2_mpd_base$Mortality$`fishing_pressure[Wnsp1]`,
-               cas2_mpd_alt1$Mortality$`fishing_pressure[Wnsp1]`,
-               cas2_mpd_alt2$Mortality$`fishing_pressure[Wnsp1]`,
-               cas2_mpd_alt3$Mortality$`fishing_pressure[Wnsp1]`)
+               max(unlist(list.map(cas2_mpd, max(Mortality$`fishing_pressure[Wnsp1]`)))))
 
 plot(c1_quant$fishing_pressures$year, c1_quant$fishing_pressures$Wnsp1, type='l', col='black', lwd=3, ylim=c(0, max_val), xlab='Year', ylab='U', main='Fishing pressure comparison: Wnsp1')
 lines(c1_sens1_quant$fishing_pressures$year, c1_sens1_quant$fishing_pressures$Wnsp1, type='l', col='grey', lwd=3)
-lines(cas2_mpd_base$Mortality$year, cas2_mpd_base$Mortality$`fishing_pressure[Wnsp1]`, col='blue', lwd=1)
-lines(cas2_mpd_alt1$Mortality$year, cas2_mpd_alt1$Mortality$`fishing_pressure[Wnsp1]`, col='green3', lwd=1)
-lines(cas2_mpd_alt2$Mortality$year, cas2_mpd_alt2$Mortality$`fishing_pressure[Wnsp1]`, col='red', lwd=1)
-lines(cas2_mpd_alt3$Mortality$year, cas2_mpd_alt3$Mortality$`fishing_pressure[Wnsp1]`, col='gold', lwd=1)
+for (c in 1:num_C2_models)
+{
+    lines(cas2_mpd[[c]]$Mortality$year, cas2_mpd[[c]]$Mortality$`fishing_pressure[Wnsp1]`, col=C2_color[c], lwd=1)
+}
+
 
 
 max_val <- max(c1_quant$fishing_pressures$Ensp2,
                c1_sens1_quant$fishing_pressures$Ensp2,
-               cas2_mpd_base$Mortality$`fishing_pressure[Ensp2]`,
-               cas2_mpd_alt1$Mortality$`fishing_pressure[Ensp2]`,
-               cas2_mpd_alt2$Mortality$`fishing_pressure[Ensp2]`,
-               cas2_mpd_alt3$Mortality$`fishing_pressure[Ensp2]`)
+               max(unlist(list.map(cas2_mpd, max(Mortality$`fishing_pressure[Ensp2]`)))))
 
 plot(c1_quant$fishing_pressures$year, c1_quant$fishing_pressures$Ensp2, type='l', col='black', lwd=3, ylim=c(0, max_val), xlab='Year', ylab='U', main='Fishing pressure comparison: Ensp2')
 lines(c1_sens1_quant$fishing_pressures$year, c1_sens1_quant$fishing_pressures$Ensp2, type='l', col='grey', lwd=3)
-lines(cas2_mpd_base$Mortality$year, cas2_mpd_base$Mortality$`fishing_pressure[Ensp2]`, col='blue', lwd=1)
-lines(cas2_mpd_alt1$Mortality$year, cas2_mpd_alt1$Mortality$`fishing_pressure[Ensp2]`, col='green3', lwd=1)
-lines(cas2_mpd_alt2$Mortality$year, cas2_mpd_alt2$Mortality$`fishing_pressure[Ensp2]`, col='red', lwd=1)
-lines(cas2_mpd_alt3$Mortality$year, cas2_mpd_alt3$Mortality$`fishing_pressure[Ensp2]`, col='gold', lwd=1)
+for (c in 1:num_C2_models)
+{
+    lines(cas2_mpd[[c]]$Mortality$year, cas2_mpd[[c]]$Mortality$`fishing_pressure[Ensp2]`, col=C2_color[c], lwd=1)
+}
 
 
 
 max_val <- max(c1_quant$fishing_pressures$Wnsp2,
                c1_sens1_quant$fishing_pressures$Wnsp2,
-               cas2_mpd_base$Mortality$`fishing_pressure[Wnsp2]`,
-               cas2_mpd_alt1$Mortality$`fishing_pressure[Wnsp2]`,
-               cas2_mpd_alt2$Mortality$`fishing_pressure[Wnsp2]`,
-               cas2_mpd_alt3$Mortality$`fishing_pressure[Wnsp2]`)
+               max(unlist(list.map(cas2_mpd, max(Mortality$`fishing_pressure[Wnsp2]`)))))
 
 plot(c1_quant$fishing_pressures$year, c1_quant$fishing_pressures$Wnsp2, type='l', col='black', lwd=3, ylim=c(0, max_val), xlab='Year', ylab='U', main='Fishing pressure comparison: Wnsp2')
 lines(c1_sens1_quant$fishing_pressures$year, c1_sens1_quant$fishing_pressures$Wnsp2, type='l', col='grey', lwd=3)
-lines(cas2_mpd_base$Mortality$year, cas2_mpd_base$Mortality$`fishing_pressure[Wnsp2]`, col='blue', lwd=1)
-lines(cas2_mpd_alt1$Mortality$year, cas2_mpd_alt1$Mortality$`fishing_pressure[Wnsp2]`, col='green3', lwd=1)
-lines(cas2_mpd_alt2$Mortality$year, cas2_mpd_alt2$Mortality$`fishing_pressure[Wnsp2]`, col='red', lwd=1)
-lines(cas2_mpd_alt3$Mortality$year, cas2_mpd_alt3$Mortality$`fishing_pressure[Wnsp2]`, col='gold', lwd=1)
+for (c in 1:num_C2_models)
+{
+    lines(cas2_mpd[[c]]$Mortality$year, cas2_mpd[[c]]$Mortality$`fishing_pressure[Wnsp2]`, col=C2_color[c], lwd=1)
+}
 
 
 
 max_val <- max(c1_quant$fishing_pressures$Esp,
                c1_sens1_quant$fishing_pressures$Esp,
-               cas2_mpd_base$Mortality$`fishing_pressure[Esp]`,
-               cas2_mpd_alt1$Mortality$`fishing_pressure[Esp]`,
-               cas2_mpd_alt2$Mortality$`fishing_pressure[Esp]`,
-               cas2_mpd_alt3$Mortality$`fishing_pressure[Esp]`)
+               max(unlist(list.map(cas2_mpd, max(Mortality$`fishing_pressure[Esp]`)))))
 
 plot(c1_quant$fishing_pressures$year, c1_quant$fishing_pressures$Esp, type='l', col='black', lwd=3, ylim=c(0, max_val), xlab='Year', ylab='U', main='Fishing pressure comparison: Esp')
 lines(c1_sens1_quant$fishing_pressures$year, c1_sens1_quant$fishing_pressures$Esp, type='l', col='grey', lwd=3)
-lines(cas2_mpd_base$Mortality$year, cas2_mpd_base$Mortality$`fishing_pressure[Esp]`, col='blue', lwd=1)
-lines(cas2_mpd_alt1$Mortality$year, cas2_mpd_alt1$Mortality$`fishing_pressure[Esp]`, col='green3', lwd=1)
-lines(cas2_mpd_alt2$Mortality$year, cas2_mpd_alt2$Mortality$`fishing_pressure[Esp]`, col='red', lwd=1)
-lines(cas2_mpd_alt3$Mortality$year, cas2_mpd_alt3$Mortality$`fishing_pressure[Esp]`, col='gold', lwd=1)
+for (c in 1:num_C2_models)
+{
+    lines(cas2_mpd[[c]]$Mortality$year, cas2_mpd[[c]]$Mortality$`fishing_pressure[Esp]`, col=C2_color[c], lwd=1)
+}
 
 
 
 max_val <- max(c1_quant$fishing_pressures$Wsp,
                c1_sens1_quant$fishing_pressures$Wsp,
-               cas2_mpd_base$Mortality$`fishing_pressure[Wsp]`,
-               cas2_mpd_alt1$Mortality$`fishing_pressure[Wsp]`,
-               cas2_mpd_alt2$Mortality$`fishing_pressure[Wsp]`,
-               cas2_mpd_alt3$Mortality$`fishing_pressure[Wsp]`)
+               max(unlist(list.map(cas2_mpd, max(Mortality$`fishing_pressure[Wsp]`)))))
 
 plot(c1_quant$fishing_pressures$year, c1_quant$fishing_pressures$Wsp, type='l', col='black', lwd=3, ylim=c(0, max_val), xlab='Year', ylab='U', main='Fishing pressure comparison: Wsp')
 lines(c1_sens1_quant$fishing_pressures$year, c1_sens1_quant$fishing_pressures$Wsp, type='l', col='grey', lwd=3)
-lines(cas2_mpd_base$Mortality$year, cas2_mpd_base$Mortality$`fishing_pressure[Wsp]`, col='blue', lwd=1)
-lines(cas2_mpd_alt1$Mortality$year, cas2_mpd_alt1$Mortality$`fishing_pressure[Wsp]`, col='green3', lwd=1)
-lines(cas2_mpd_alt2$Mortality$year, cas2_mpd_alt2$Mortality$`fishing_pressure[Wsp]`, col='red', lwd=1)
-lines(cas2_mpd_alt3$Mortality$year, cas2_mpd_alt3$Mortality$`fishing_pressure[Wsp]`, col='gold', lwd=1)
+for (c in 1:num_C2_models)
+{
+    lines(cas2_mpd[[c]]$Mortality$year, cas2_mpd[[c]]$Mortality$`fishing_pressure[Wsp]`, col=C2_color[c], lwd=1)
+}
 
 
 
@@ -541,10 +488,10 @@ max_val <- max(1,
                c1_sens1_quant$`Ogive parameter values`$`selectivity[Enspsl].all`)
 plot(ages, c1_quant$`Ogive parameter values`$`selectivity[Enspsl].all`, type='l', col='black', lwd=3, ylim=c(0,max_val), xlab='Age', ylab='', main='Survey selectivity-at-age comparison: Enspsl')
 lines(ages, c1_sens1_quant$`Ogive parameter values`$`selectivity[Enspsl].all`, col='grey', lwd=3)
-lines(ages, cas2_mpd_base$Enspsl$Values, col='blue', lwd=1)
-lines(ages, cas2_mpd_alt1$Enspsl$Values, col='green3', lwd=1)
-lines(ages, cas2_mpd_alt2$Enspsl$Values, col='red', lwd=1)
-lines(ages, cas2_mpd_alt3$Enspsl$Values, col='gold', lwd=1)
+for (c in 1:num_C2_models)
+{
+    lines(ages, cas2_mpd[[c]]$Enspsl$Values, col=C2_color[c], lwd=1)
+}
 
 
 
@@ -553,11 +500,10 @@ max_val <- max(1,
                c1_sens1_quant$`Ogive parameter values`$`selectivity[Wnspsl].all`)
 plot(ages, c1_quant$`Ogive parameter values`$`selectivity[Wnspsl].all`, type='l', col='black', lwd=3, ylim=c(0,max_val), xlab='Age', ylab='', main='Survey selectivity-at-age comparison: Wnspsl')
 lines(ages, c1_sens1_quant$`Ogive parameter values`$`selectivity[Wnspsl].all`, col='grey', lwd=3)
-lines(ages, cas2_mpd_base$Wnspsl$Values, col='blue', lwd=1)
-lines(ages, cas2_mpd_alt1$Wnspsl$Values, col='green3', lwd=1)
-lines(ages, cas2_mpd_alt2$Wnspsl$Values, col='red', lwd=1)
-lines(ages, cas2_mpd_alt3$Wnspsl$Values, col='gold', lwd=1)
-
+for (c in 1:num_C2_models)
+{
+    lines(ages, cas2_mpd[[c]]$Wnspsl$Values, col=C2_color[c], lwd=1)
+}
 
 
 max_val <- max(1,
@@ -565,11 +511,10 @@ max_val <- max(1,
                c1_sens1_quant$`Ogive parameter values`$`selectivity[Espsl].all`)
 plot(ages, c1_quant$`Ogive parameter values`$`selectivity[Espsl].all`, type='l', col='black', lwd=3, ylim=c(0,max_val), xlab='Age', ylab='', main='Survey selectivity-at-age comparison: Espsl')
 lines(ages, c1_sens1_quant$`Ogive parameter values`$`selectivity[Espsl].all`, col='grey', lwd=3)
-lines(ages, cas2_mpd_base$Espsl$Values, col='blue', lwd=1)
-lines(ages, cas2_mpd_alt1$Espsl$Values, col='green3', lwd=1)
-lines(ages, cas2_mpd_alt2$Espsl$Values, col='red', lwd=1)
-lines(ages, cas2_mpd_alt3$Espsl$Values, col='gold', lwd=1)
-
+for (c in 1:num_C2_models)
+{
+    lines(ages, cas2_mpd[[c]]$Espsl$Values, col=C2_color[c], lwd=1)
+}
 
 
 max_val <- max(1,
@@ -577,11 +522,10 @@ max_val <- max(1,
                c1_sens1_quant$`Ogive parameter values`$`selectivity[Wspsl].all`)
 plot(ages, c1_quant$`Ogive parameter values`$`selectivity[Wspsl].all`, type='l', col='black', lwd=3, ylim=c(0,max_val), xlab='Age', ylab='', main='Survey selectivity-at-age comparison: Wspsl')
 lines(ages, c1_sens1_quant$`Ogive parameter values`$`selectivity[Wspsl].all`, col='grey', lwd=3)
-lines(ages, cas2_mpd_base$Wspsl$Values, col='blue', lwd=1)
-lines(ages, cas2_mpd_alt1$Wspsl$Values, col='green3', lwd=1)
-lines(ages, cas2_mpd_alt2$Wspsl$Values, col='red', lwd=1)
-lines(ages, cas2_mpd_alt3$Wspsl$Values, col='gold', lwd=1)
-
+for (c in 1:num_C2_models)
+{
+    lines(ages, cas2_mpd[[c]]$Wspsl$Values, col=C2_color[c], lwd=1)
+}
 
 
 max_val <- max(1,
@@ -589,11 +533,10 @@ max_val <- max(1,
                c1_sens1_quant$`Ogive parameter values`$`selectivity[CRsl].all`)
 plot(ages, c1_quant$`Ogive parameter values`$`selectivity[CRsl].all`, type='l', col='black', lwd=3, ylim=c(0,max_val), xlab='Age', ylab='', main='Survey selectivity-at-age comparison: CRsl')
 lines(ages, c1_sens1_quant$`Ogive parameter values`$`selectivity[CRsl].all`, col='grey', lwd=3)
-lines(ages, cas2_mpd_base$CRsl$Values, col='blue', lwd=1)
-lines(ages, cas2_mpd_alt1$CRsl$Values, col='green3', lwd=1)
-lines(ages, cas2_mpd_alt2$CRsl$Values, col='red', lwd=1)
-lines(ages, cas2_mpd_alt3$CRsl$Values, col='gold', lwd=1)
-
+for (c in 1:num_C2_models)
+{
+    lines(ages, cas2_mpd[[c]]$CRsl$Values, col=C2_color[c], lwd=1)
+}
 
 
 max_val <- max(1,
@@ -601,11 +544,10 @@ max_val <- max(1,
                c1_sens1_quant$`Ogive parameter values`$`selectivity[SAsl].all`)
 plot(ages, c1_quant$`Ogive parameter values`$`selectivity[SAsl].all`, type='l', col='black', lwd=3, ylim=c(0,max_val), xlab='Age', ylab='', main='Survey selectivity-at-age comparison: SAsl')
 lines(ages, c1_sens1_quant$`Ogive parameter values`$`selectivity[SAsl].all`, col='grey', lwd=3)
-lines(ages, cas2_mpd_base$SAsl$Values, col='blue', lwd=1)
-lines(ages, cas2_mpd_alt1$SAsl$Values, col='green3', lwd=1)
-lines(ages, cas2_mpd_alt2$SAsl$Values, col='red', lwd=1)
-lines(ages, cas2_mpd_alt3$SAsl$Values, col='gold', lwd=1)
-
+for (c in 1:num_C2_models)
+{
+    lines(ages, cas2_mpd[[c]]$SAsl$Values, col=C2_color[c], lwd=1)
+}
 
 
 
@@ -628,21 +570,21 @@ time_series_match <- function(t1_vec, t2_vec)
 
 
 print(paste('Actual catches for Ensp1 match:',
-            time_series_match(c1_quant$actual_catches$Ensp1, cas2_mpd_base$Mortality$`actual_catch[Ensp1]`)))
+            time_series_match(c1_quant$actual_catches$Ensp1, cas2_mpd[[1]]$Mortality$`actual_catch[Ensp1]`)))
 
 print(paste('Actual catches for Wnsp1 match:',
-            time_series_match(c1_quant$actual_catches$Wnsp1, cas2_mpd_base$Mortality$`actual_catch[Wnsp1]`)))
+            time_series_match(c1_quant$actual_catches$Wnsp1, cas2_mpd[[1]]$Mortality$`actual_catch[Wnsp1]`)))
 
 print(paste('Actual catches for Ensp2 match:',
-            time_series_match(c1_quant$actual_catches$Ensp2, cas2_mpd_base$Mortality$`actual_catch[Ensp2]`)))
+            time_series_match(c1_quant$actual_catches$Ensp2, cas2_mpd[[1]]$Mortality$`actual_catch[Ensp2]`)))
 
 print(paste('Actual catches for Wnsp2 match:',
-            time_series_match(c1_quant$actual_catches$Wnsp2, cas2_mpd_base$Mortality$`actual_catch[Wnsp2]`)))
+            time_series_match(c1_quant$actual_catches$Wnsp2, cas2_mpd[[1]]$Mortality$`actual_catch[Wnsp2]`)))
 
 print(paste('Actual catches for Esp match:',
-            time_series_match(c1_quant$actual_catches$Esp, cas2_mpd_base$Mortality$`actual_catch[Esp]`)))
+            time_series_match(c1_quant$actual_catches$Esp, cas2_mpd[[1]]$Mortality$`actual_catch[Esp]`)))
 
 print(paste('Actual catches for Wsp match:',
-            time_series_match(c1_quant$actual_catches$Wsp, cas2_mpd_base$Mortality$`actual_catch[Wsp]`)))
+            time_series_match(c1_quant$actual_catches$Wsp, cas2_mpd[[1]]$Mortality$`actual_catch[Wsp]`)))
 
 

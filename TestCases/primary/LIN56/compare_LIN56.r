@@ -136,7 +136,7 @@ for (c in 1:num_C2_models)
 legend(c1_quant$SSBs$year[1], 0.50*max_val,
        c('CASAL', 'CASAL sens1', 'BetaDiff Casal2 w/CASAL flags on', 'BetaDiff Casal2 w/CASAL flags off', 'BetaDiff Casal2 w/CASAL flags on and low tolerance', 'CppAD Casal2  w/CASAL flags on', 'CppAD Casal2  w/CASAL flags off'),
        lwd=3,
-       col=c('black', 'grey', 'blue', 'green3', 'red', 'gold', 'magenta'))
+       col=c('black', 'grey', C2_color))
 
 
 
@@ -166,25 +166,27 @@ c1_sens1_mat <- matrix(c(0,2.54E+07,1.73E+07,1.23E+07,9.13E+06,7.02E+06,5.56E+06
                        nrow=2, ncol=(25 - 3 + 1), byrow=TRUE)
 
 
+ages <- seq(3, 25)
+
 # omit the 'category' column
-c2_mat <- list()
+c2_mat <- array(0, dim=c(num_C2_models, dim(as.matrix(cas2_mpd[[1]]$Init$values[,-1]))))
 for (c in 1:num_C2_models)
 {
-    c2_mat[[c]] <- as.matrix(cas2_mpd[[c]]$Init$values[,-1])
+    c2_mat[c,,] <- as.matrix(cas2_mpd[[c]]$Init$values[,-1])
 }
 
 max_val <- max(c1_mat,
                c1_sens1_mat,
-               max(unlist(c2_mat)))
+               max(c2_mat))
 
-plot(seq(3, 25), c1_mat[1,], type='l', col='black', lwd=3, ylim=c(0, max_val), xlab='Year', ylab='', main='Initial numbers-at-age comparison')
-lines(seq(3, 25), c1_mat[2,], col='black', lwd=3, lty=3)
-lines(seq(3, 25), c1_sens1_mat[1,], col='grey', lwd=3)
-lines(seq(3, 25), c1_sens1_mat[2,], col='grey', lwd=3, lty=3)
+plot(ages, c1_mat[1,], type='l', col='black', lwd=3, ylim=c(0, max_val), xlab='Year', ylab='', main='Initial numbers-at-age comparison')
+lines(ages, c1_mat[2,], col='black', lwd=3, lty=3)
+lines(ages, c1_sens1_mat[1,], col='grey', lwd=3)
+lines(ages, c1_sens1_mat[2,], col='grey', lwd=3, lty=3)
 for (c in 1:num_C2_models)
 {
-    lines(as.numeric(colnames(c2_mat[[c]])), c2_mat[[c]][1,], col=C2_color[c], lwd=1)
-    lines(as.numeric(colnames(c2_mat[[c]])), c2_mat[[c]][2,], col=C2_color[c], lwd=1, lty=3)
+    lines(ages, c2_mat[c,1,], col=C2_color[c], lwd=1)
+    lines(ages, c2_mat[c,2,], col=C2_color[c], lwd=1, lty=3)
 }
 
 
