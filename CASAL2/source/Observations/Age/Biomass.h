@@ -52,8 +52,8 @@ protected:
   // members
   vector<unsigned>                years_;
   map<unsigned, vector<double> >  proportions_by_year_;
-  map<unsigned, Double>           error_values_by_year_;
-  vector<Double>                  error_values_;
+  map<unsigned, double>           error_values_by_year_;
+  vector<double>                  error_values_;
   string                          catchability_label_;
   Catchability*                   catchability_ = nullptr;
   Double                          process_error_value_;

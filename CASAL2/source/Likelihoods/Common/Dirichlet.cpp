@@ -34,7 +34,7 @@ namespace math = niwa::utilities::math;
  * @param error_value The observations error_value
  * @return An adjusted error value
  */
-Double Dirichlet::AdjustErrorValue(const Double process_error, const Double error_value) {
+Double Dirichlet::AdjustErrorValue(const Double process_error, const double error_value) {
   if ((error_value > 0.0) && (process_error > 0.0))
     return (error_value * process_error);
 

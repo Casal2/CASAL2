@@ -93,7 +93,7 @@ void Observation::DoExecute() {
           LOG_CODE_ERROR() << "Unknown coded likelihood type should be dealt with in DoBuild(), if the pearsons residual is unknown for this likelihood set, pearsons_residual false";
         }
         cache_ << iter->first << " " << comparison.category_ << " " << comparison.age_ << " " << comparison.length_ << " " << comparison.observed_ << " " << AS_VALUE(comparison.expected_)
-             << " " << comparison.observed_ - AS_VALUE(comparison.expected_) << " " << AS_VALUE(comparison.error_value_) << " " <<AS_VALUE(comparison.process_error_) << " "
+             << " " << comparison.observed_ - AS_VALUE(comparison.expected_) << " " << comparison.error_value_ << " " <<AS_VALUE(comparison.process_error_) << " "
              << AS_VALUE(comparison.adjusted_error_) << " " << AS_VALUE(comparison.score_) << " " << AS_VALUE(resid) << "\n";
       }
     }
@@ -112,7 +112,7 @@ void Observation::DoExecute() {
           LOG_CODE_ERROR() << "Unknown coded likelihood type should be dealt with in DoBuild(), if the pearsons residual is unknown for this likelihood set, pearsons_residual false";
         }
         cache_ << iter->first << " " << comparison.category_ << " " << comparison.age_ << " " << comparison.length_ << " " << comparison.observed_ << " " << AS_VALUE(comparison.expected_)
-             << " " << comparison.observed_ - AS_VALUE(comparison.expected_) << " " << AS_VALUE(comparison.error_value_) << " " <<AS_VALUE(comparison.process_error_) << " "
+             << " " << comparison.observed_ - AS_VALUE(comparison.expected_) << " " << comparison.error_value_ << " " <<AS_VALUE(comparison.process_error_) << " "
              << AS_VALUE(comparison.adjusted_error_) << " " << AS_VALUE(comparison.score_) << " " << AS_VALUE(resid) << "\n";
       }
     }
@@ -133,7 +133,7 @@ void Observation::DoExecute() {
           LOG_CODE_ERROR() << "Unknown coded likelihood type should be dealt with in DoBuild(), if the pearsons residual is unknown for this likelihood set, pearsons_residual false";
         }
         cache_ << iter->first << " " << comparison.category_ << " " << comparison.age_ << " " << comparison.length_ << " " << comparison.observed_ << " " << AS_VALUE(comparison.expected_)
-             << " " << comparison.observed_ - AS_VALUE(comparison.expected_) << " " << AS_VALUE(comparison.error_value_) << " " <<AS_VALUE(comparison.process_error_)  << " "
+             << " " << comparison.observed_ - AS_VALUE(comparison.expected_) << " " << comparison.error_value_ << " " <<AS_VALUE(comparison.process_error_)  << " "
              << AS_VALUE(comparison.adjusted_error_) << " " << AS_VALUE(comparison.score_) << " " << AS_VALUE(pearson_resid) << " " << AS_VALUE(normalised_resid) << "\n";
       }
     }
@@ -143,7 +143,7 @@ void Observation::DoExecute() {
     for (auto iter = comparisons.begin(); iter != comparisons.end(); ++iter) {
       for (obs::Comparison comparison : iter->second) {
         cache_ << iter->first << " " << comparison.category_ << " " << comparison.age_ << " " << comparison.length_ << " " << comparison.observed_ << " " << AS_VALUE(comparison.expected_)
-             << " " << comparison.observed_ - AS_VALUE(comparison.expected_) << " " << AS_VALUE(comparison.error_value_) << " " << AS_VALUE(comparison.process_error_)  << " "
+             << " " << comparison.observed_ - AS_VALUE(comparison.expected_) << " " << comparison.error_value_ << " " << AS_VALUE(comparison.process_error_)  << " "
              << AS_VALUE(comparison.adjusted_error_) << " " << AS_VALUE(comparison.score_) << "\n";
       }
     }

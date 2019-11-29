@@ -30,7 +30,7 @@ namespace dc = niwa::utilities::doublecompare;
  * @param error_value The observations error_value
  * @return An adjusted error value
  */
-Double BinomialApprox::AdjustErrorValue(const Double process_error, const Double error_value) {
+Double BinomialApprox::AdjustErrorValue(const Double process_error, const double error_value) {
   if (error_value > 0.0 && process_error > 0.0)
     return (1.0 / (1.0 / error_value + 1.0 / process_error));
 

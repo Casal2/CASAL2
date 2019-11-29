@@ -74,7 +74,7 @@ ProcessRemovalsByAgeRetainedTotal::~ProcessRemovalsByAgeRetainedTotal() {
 void ProcessRemovalsByAgeRetainedTotal::DoValidate() {
   age_spread_ = (max_age_ - min_age_) + 1;
 
-  map<unsigned, vector<Double>> error_values_by_year;
+  map<unsigned, vector<double>> error_values_by_year;
   map<unsigned, vector<double>> obs_by_year;
 
   /**
@@ -158,8 +158,8 @@ void ProcessRemovalsByAgeRetainedTotal::DoValidate() {
       LOG_ERROR_P(PARAM_ERROR_VALUES) << " value " << year << " is not a valid year for this observation";
 
     for (unsigned i = 1; i < error_values_data_line.size(); ++i) {
-      Double value = 0;
-      if (!utilities::To<Double>(error_values_data_line[i], value))
+      double value = 0;
+      if (!utilities::To<double>(error_values_data_line[i], value))
         LOG_FATAL_P(PARAM_ERROR_VALUES) << " value (" << error_values_data_line[i] << ") could not be converted to a double";
       if (likelihood_type_ == PARAM_LOGNORMAL && value <= 0.0) {
         LOG_ERROR_P(PARAM_ERROR_VALUES) << ": error_value (" << value << ") cannot be equal to or less than 0.0";
@@ -190,7 +190,7 @@ void ProcessRemovalsByAgeRetainedTotal::DoValidate() {
         unsigned obs_index = i * age_spread_ + j;
         value = iter->second[obs_index];
 
-        Double error_value = error_values_by_year[iter->first][obs_index];
+        double error_value = error_values_by_year[iter->first][obs_index];
         error_values_[iter->first][category_labels_[i]].push_back(error_value);
         proportions_[iter->first][category_labels_[i]].push_back(value);
         total += value;

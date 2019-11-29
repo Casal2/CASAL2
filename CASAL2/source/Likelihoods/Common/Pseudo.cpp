@@ -24,7 +24,7 @@ namespace likelihoods {
  * @param error_value The observations error_value
  * @return An adjusted error value
  */
-Double Pseudo::AdjustErrorValue(const Double process_error, const Double error_value) {
+Double Pseudo::AdjustErrorValue(const Double process_error, const double error_value) {
   return 0.0;
 }
 

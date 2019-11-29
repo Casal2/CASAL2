@@ -37,7 +37,7 @@ public:
   void                        Validate();
   void                        Build() { };
   void                        Reset() override final { };
-  virtual Double              AdjustErrorValue(const Double process_error, const Double error_value) = 0;
+  virtual Double              AdjustErrorValue(const Double process_error, const double error_value) = 0;
   virtual void                SimulateObserved(map<unsigned, vector<observations::Comparison> >& comparisons) { };
   virtual Double              GetInitialScore(map<unsigned, vector<observations::Comparison> >& comparisons, unsigned year) { return 0.0; };
   virtual void                GetScores(map<unsigned, vector<observations::Comparison> >& comparisons) { };
