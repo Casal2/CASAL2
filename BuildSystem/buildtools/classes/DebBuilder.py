@@ -56,7 +56,7 @@ class DebBuilder:
     os.system('cp ../Documentation/UserManual/CASAL2.pdf ' + folder + '/usr/local/share/doc/casal2/')
     os.system('cp ../Documentation/ContributorsManual/ContributorsGuide.pdf ' + folder + '/usr/local/share/doc/ContributorsGuide/')
     os.system('cp ../Documentation/GettingStartedGuide/GettingStartedGuide.pdf ' + folder + '/usr/local/share/doc/GettingStartedGuide/') 
-    os.system('cp ../README ' + folder + '/usr/local/share/doc/README/')     
+    os.system('cp ../README.txt ' + folder + '/usr/local/share/doc/README/')     
     os.system('cp -a ../Examples/. ' + folder + '/usr/local/share/doc/Examples/')       
     os.system('cp ../"R-libraries"/casal2_1.0.tar.gz ' + folder + '/usr/local/share/doc/R-library/casal2_1.0.tar.gz')
     os.makedirs(folder + '/DEBIAN')
