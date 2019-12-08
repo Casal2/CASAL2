@@ -27,10 +27,10 @@ allowed_build_parameters_ = [ "", "adolc", "betadiff", "cppad" ]
 allowed_library_parameters_ = [ "release", "test", "adolc", "betadiff", "cppad" ]
 
 def PrintError(error_message):
-  print "\n\n\n"
-  print "###### ERROR ######"
-  print "Error Description:"
-  print error_message
-  print "###### ERROR ######"
-  print "\n\n\n"
+  print("\n\n\n")
+  print("###### ERROR ######")
+  print("Error Description:")
+  print(error_message)
+  print("###### ERROR ######")
+  print("\n\n\n")
   return False

@@ -20,13 +20,13 @@ class ModelRunner:
       binary_name += '.exe'
 
     if not os.path.exists('bin/' + Globals.operating_system_ + '/release_betadiff/' + binary_name):
-      print 'Looking for bin/' + Globals.operating_system_ + '/release_betadiff/' + binary_name
-      print 'CASAL2 binary was not found. Can not continue'
-      print 'Please complete a release betadiff binary build before running the models'
+      print('Looking for bin/' + Globals.operating_system_ + '/release_betadiff/' + binary_name)
+      print('CASAL2 binary was not found. Can not continue')
+      print('Please complete a release betadiff binary build before running the models')
       return False
   
 
-    print ''
+    print('')
     success_count = 0
     fail_count = 0
     estimation_dir_list = {"Simple", "TwoSex", "SBW"}
@@ -50,11 +50,11 @@ class ModelRunner:
       result = False;
       if os.system("casal2 -r --loglevel=trace> run.log 2>&1") != EX_OK:
         elapsed = time.time() - start
-        print '[FAILED] - ' + folder + ' in ' + str(round(elapsed, 2)) + ' seconds'
+        print('[FAILED] - ' + folder + ' in ' + str(round(elapsed, 2)) + ' seconds')
         fail_count += 1
       else:
         elapsed = time.time() - start
-        print '[OK] - ' + folder + ' in ' + str(round(elapsed, 2)) + ' seconds'
+        print('[OK] - ' + folder + ' in ' + str(round(elapsed, 2)) + ' seconds')
         success_count += 1
       os.chdir(cwd)   
     # test -i functionality 
@@ -62,11 +62,11 @@ class ModelRunner:
       os.chdir("../TestModels/" + folder)
       if os.system("casal2 -r -i pars.out > run.log 2>&1") != EX_OK:
         elapsed = time.time() - start
-        print '[FAILED] - ' + folder + ' -i run in ' + str(round(elapsed, 2)) + ' seconds'
+        print('[FAILED] - ' + folder + ' -i run in ' + str(round(elapsed, 2)) + ' seconds')
         fail_count += 1
       else:
         elapsed = time.time() - start
-        print '[OK] - ' + folder + ' -i run in ' + str(round(elapsed, 2)) + ' seconds'
+        print('[OK] - ' + folder + ' -i run in ' + str(round(elapsed, 2)) + ' seconds')
         success_count += 1
       os.chdir(cwd) 
     # test -e functionality
@@ -74,18 +74,18 @@ class ModelRunner:
       os.chdir("../TestModels/" + folder)
       if os.system("casal2 -e -g 20 > estimate.log 2>&1") != EX_OK:
         elapsed = time.time() - start
-        print '[FAILED] - ' + folder + ' betadiff estimation in ' + str(round(elapsed, 2)) + ' seconds'
+        print('[FAILED] - ' + folder + ' betadiff estimation in ' + str(round(elapsed, 2)) + ' seconds')
         fail_count += 1
       else:
         elapsed = time.time() - start
-        print '[OK] - ' + folder + ' betadiff estimation in ' + str(round(elapsed, 2)) + ' seconds'
+        print('[OK] - ' + folder + ' betadiff estimation in ' + str(round(elapsed, 2)) + ' seconds')
         success_count += 1
       os.chdir(cwd) 
       
-    print ''
-    print 'Total Models: ' + str(success_count + fail_count)
-    print 'Failed Models: ' + str(fail_count)
+    print('')
+    print('Total Models: ' + str(success_count + fail_count))
+    print('Failed Models: ' + str(fail_count))
     if fail_count > 0:
-      print 'Please check the run.log or estimate.log file in each of the failed model directories'
+      print('Please check the run.log or estimate.log file in each of the failed model directories')
       return False
     return True

@@ -23,9 +23,9 @@ class Rlibrary:
     ## Check Casal2 is in your path. The R script needs it to get versions and that sort of information. Betadiff should be in the system because it is required for
     ## modelrunner class
     if not os.path.exists('bin/' + Globals.operating_system_ + '/release_betadiff/' + binary_name):
-      print 'Looking for bin/' + Globals.operating_system_ + '/release_betadiff/' + binary_name
-      print 'CASAL2 binary was not found. Can not continue'
-      print 'Please complete a release betadiff binary build before running the models'
+      print('Looking for bin/' + Globals.operating_system_ + '/release_betadiff/' + binary_name)
+      print('CASAL2 binary was not found. Can not continue')
+      print('Please complete a release betadiff binary build before running the models')
       return False
     ## CHG Dir to R library
     os.chdir("../R-libraries/")  

@@ -20,7 +20,7 @@ class Builder:
     library  = 'parser.a'
     
     # Clean our any existing files if they already exist
-    print '-- Cleaning Parser files'
+    print('-- Cleaning Parser files')
     if os.path.exists(fileName):
       shutil.rmtree(fileName)
     os.system('rm -rf ' + Globals.target_include_path_ + header)
@@ -29,7 +29,7 @@ class Builder:
     os.system('rm -rf ' + Globals.target_release_lib_path_ + library)        
     
     # Decompress our archive
-    print '-- Decompressing Parser - check casal2_unzip.log'
+    print('-- Decompressing Parser - check casal2_unzip.log')
     if os.path.exists(fileName + '.zip'):
       os.system('unzip ' + fileName + '.zip 1> casal2_unzip.log 2>&1')
     
@@ -37,7 +37,7 @@ class Builder:
     os.chdir(fileName)
             
     # Move our headers and libraries
-    print '-- Moving headers and libraries'
+    print('-- Moving headers and libraries')
     shutil.copy(header, Globals.target_include_path_)
     shutil.copy(header2, Globals.target_include_path_)
         
