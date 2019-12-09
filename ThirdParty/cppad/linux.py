@@ -17,7 +17,7 @@ class Builder:
     libraries = [ "libcoinblas.a", "libcoinmetis.a", "libcoinmumps.a", "libcoinlapack.a", "libipopt.a" ]
     
     # Clean our any existing files if they already exist
-    print '-- Cleaning files'
+    print('-- Cleaning files')
     if os.path.exists(ipOptFileName):
       os.system('chmod 777 -R ' + ipOptFileName)
       shutil.rmtree(ipOptFileName)    
@@ -26,14 +26,14 @@ class Builder:
       shutil.rmtree(cppadFileName)
     os.system('rm -rf *.tar')
 
-    print '-- Removing previously built headers and libraries'
+    print('-- Removing previously built headers and libraries')
     os.system('rm -rf ' + Globals.target_include_path_ + "cppad")
     os.system('rm -rf ' + Globals.target_include_path_ + "coin")
     for library in libraries:
       os.system('rm -rf ' + Globals.target_special_lib_path_ + library)        
         
     # Decompress our archive
-    print '-- Decompressing - check casal2_unzip.log'
+    print('-- Decompressing - check casal2_unzip.log')
     if os.path.exists(ipOptFileName + '.tar.gz'):
       os.system('tar xvzf ' + ipOptFileName + '.tar.gz 1> casal2_IpOpt_unzip.log 2>&1')
       # os.system('tar xvf ' + ipOptFileName + '.tar 1> casal2_untar.log 2>&1')
@@ -48,7 +48,7 @@ class Builder:
       return Globals.PrintError("Failed to install code base. Please see above for build error")
     os.chdir('../')
 
-    print '-- Building CppAD Library'
+    print('-- Building CppAD Library')
     os.chdir(cppadFileName)
     os.system('chmod +x configure')
     if os.system("./configure --prefix=$PWD 1> casal2_configure.log 2>&1") != EX_OK:
@@ -60,7 +60,7 @@ class Builder:
     os.chdir('../')
     
     # Move our headers and libraries
-    print '-- Moving headers and libraries'
+    print('-- Moving headers and libraries')
     dir_util.copy_tree(cppadFileName + '/include/cppad', Globals.target_include_path_ + '/cppad/')
     dir_util.copy_tree(ipOptFileName + '/include/coin', Globals.target_include_path_ + '/coin/')
     if os.path.exists(ipOptFileName + '/lib64'):

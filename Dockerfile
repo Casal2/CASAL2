@@ -13,7 +13,7 @@ RUN apt-get update && apt-get upgrade -y \
                                                bash-completion pkg-config python-pip python-dateutil cmake build-essential gawk \
                                                less graphviz subversion cpp g++ gcc gfortran clang clang-tidy \
                                                libc6-dev liblapack-dev libblas-dev libquadmath0 \
-                                               unzip p7zip bibtool doxygen-latex \
+                                               unzip p7zip bibtool doxygen-latex python3-hypothesis \
                                                fontforge-extras texlive-full texlive-font-utils texlive-latex-extra \
 # for devtools dependencies
                                                libxml2-dev libudunits2-dev libgit2-dev \

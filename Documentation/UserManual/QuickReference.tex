@@ -22,7 +22,7 @@
 \defSub{distribution} {The assumed distribution for the growth curve}
 \defSub{cv\_first} {CV for the first age class}
 \defSub{cv\_last} {CV for last age class}
-\defSub{casal\_switch} {If true, use the (less accurate) equation for the cumulative normal function as was used in the legacy version of CASAL.}
+\defSub{casal\_switch} {If true, use the ,less accurate, equation for the cumulative normal function as was used in the legacy version of CASAL.}
 \defSub{by\_length} {Specifies if the linear interpolation of CV's is a linear function of mean length at age. Default is just by age}
 \par\textbf{\commandlabsubarg{age\_\_length}{type}{data}}\par
 \defSub{external\_gaps} {}
@@ -50,9 +50,9 @@
 \defSub{format} {The format that the category names adhere too}
 \defSub{names} {The names of the categories to be used in the model}
 \defSub{years} {The years that individual categories will be active for. This overrides the model values}
-\defSub{age\_lengths} {The labels of age\_length objects that are assigned to categories}
-\defSub{length\_weight} {The labels of the length\_weight objects that are assigned to categories}
-\defSub{age\_weight} {The labels of the age\_weight objects that are assigned to categories}
+\defSub{age\_lengths} {R,The labels of age\_length objects that are assigned to categories,}
+\defSub{length\_weight} {R,The labels of the length\_weight objects that are assigned to categories,}
+\defSub{age\_weight} {R,The labels of the age\_weight objects that are assigned to categories,}
 \defComLab{derived\_quantity}{Define an object of type \emph{derived\_quantity}}\par\par
 \defSub{label} {Label of the derived quantity}
 \defSub{type} {Type of derived quantity}
@@ -90,11 +90,11 @@
 \defSub{exclude\_processes} {Processes in the annual cycle to be excluded from this initialisation phase}
 \defSub{casal\_initialisation\_switch} {Run an extra annual cycle to evalaute equilibrium SSB's. Warning - if true, this may not correctly evaluate the equilibrium state. Use true if attempting to replicate a legacy CASAL model}
 \par\textbf{\commandlabsubarg{initialisation\_\_phase}{type}{iterative}}\par
-\defSub{years} {The number of iterations (years) over which to execute this initialisation phase}
-\defSub{insert\_processes} {(years) over which to execute this initialisation phase}
+\defSub{years} {The number of iterations ,years, over which to execute this initialisation phase}
+\defSub{insert\_processes} {,years, over which to execute this initialisation phase}
 \defSub{exclude\_processes} {Processes in the annual cycle to be excluded from this initialisation phase}
-\defSub{convergence\_years} {The iteration (year) when the test for converegence (lambda) is evaluated}
-\defSub{lambda} {The maximum value of the absolute sum of differences (lambda) between the partition at year-1 and year that indicates successfull convergence}
+\defSub{convergence\_years} {The iteration ,year, when the test for converegence ,lambda, is evaluated}
+\defSub{lambda} {The maximum value of the absolute sum of differences ,lambda, between the partition at year-1 and year that indicates successfull convergence}
 \par\textbf{\commandlabsubarg{initialisation\_\_phase}{type}{state\_category\_by\_age}}\par
 \defSub{categories} {The list of categories for the category state initialisation}
 \defSub{min\_age} {The minimum age of values supplied in the definition of the category state}
@@ -109,7 +109,7 @@
 \defSub{length} {The number of iterations in for the MCMC chain}
 \defSub{active} {Indicates if this is the active MCMC algorithm}
 \defSub{print\_default\_reports} {Indicates if the output prints the default reports}
-\defSub{step\_size} {Initial stepsize (as a multiplier of the approximate covariance matrix}
+\defSub{step\_size} {Initial stepsize ,as a multiplier of the approximate covariance matrix,}
 \defComLab{minimiser}{Define an object of type \emph{minimiser}}\par\par
 \defSub{label} {The minimiser label}
 \defSub{type} {The type of minimiser to use}
@@ -120,7 +120,7 @@
 \defSub{final\_year} {Define the final year of the model, excluding years in the projection period}
 \defSub{min\_age} {Minimum age of individuals in the population}
 \defSub{max\_age} {Maximum age of individuals in the population}
-\defSub{age\_plus} {Define the oldest age or extra length midpoint (plus group size) as a plus group}
+\defSub{age\_plus} {Define the oldest age or extra length midpoint ,plus group size, as a plus group}
 \defSub{initialisation\_phases} {Define the labels of the phases of the initialisation}
 \defSub{time\_steps} {Define the labels of the time steps, in the order that they are applied, to form the annual cycle}
 \defSub{projection\_final\_year} {Define the final year of the model in projection mode}
@@ -133,7 +133,7 @@
 \defSub{type} {Type of observation}
 \defSub{likelihood} {Type of likelihood to use}
 \defSub{categories} {Category labels to use}
-\defSub{delta} {Robustification value (delta) for the likelihood}
+\defSub{delta} {Robustification value ,delta, for the likelihood}
 \defSub{simulation\_likelihood} {Simulation likelihood to use}
 \defSub{likelihood\_multiplier} {Likelihood score multiplier}
 \defSub{error\_value\_multiplier} {Error value multiplier for likelihood}
@@ -145,10 +145,10 @@
 \defSub{time\_step} {The label of time-step that the observation occurs in}
 \defSub{obs} {The observed values}
 \defSub{years} {The years of the observed values}
-\defSub{error\_value} {The error values of the observed values (note the units depend on the likelihood}
+\defSub{error\_value} {The error values of the observed values ,note the units depend on the likelihood,}
 \defSub{selectivities} {Labels of the selectivities}
 \defSub{process\_error} {Value for process error}
-\defSub{age\_weight\_labels} {The labels for the \command{$age\_weight$} block which corresponds to each category, if you want to use that weight calculation method for biomass calculations}
+\defSub{age\_weight\_labels} {R,The labels for the \command{$age\_weight$} block which corresponds to each category, if you want to use that weight calculation method for biomass calculations,}
 \par\textbf{\commandlabsubarg{observation}{type}{process\_removals\_by\_age}}\par
 \defSub{min\_age} {Minimum age}
 \defSub{max\_age} {Maximum age}
@@ -214,7 +214,7 @@
 \defSub{max\_age} {Maximum age}
 \defSub{plus\_group} {Use age plus group}
 \defSub{time\_step} {The label of time-step that the observation occurs in}
-\defSub{tolerance} {Tolerance on the constraint, that for each year the sum of proportions in each age must equal one e.g. tolerance = 0.1 then 1 - Sum(Proportions) can be as great as 0.1}
+\defSub{tolerance} {Tolerance on the constraint, that for each year the sum of proportions in each age must equal one e.g. tolerance = 0.1 then 1 - Sum,Proportions, can be as great as 0.1}
 \defSub{years} {The years of the observed values}
 \defSub{selectivities} {Labels of the selectivities}
 \defSub{process\_errors} {Process error}
@@ -241,7 +241,7 @@
 \defSub{plus\_group} {Use age plus group}
 \defSub{years} {Years for which there are observations}
 \defSub{ageing\_error} {Label of ageing error to use}
-\defSub{total\_categories} {All category labels that were vulnerable to sampling at the time of this observation (not including the categories already given}
+\defSub{total\_categories} {All category labels that were vulnerable to sampling at the time of this observation ,not including the categories already given,}
 \defSub{time\_step\_proportion} {Proportion through the mortality block of the time step when the observation is evaluated}
 \par\textbf{\commandlabsubarg{observation}{type}{proportions\_migrating}}\par
 \defSub{min\_age} {Minimum age}
@@ -270,7 +270,7 @@
 \defSub{selectivities} {The labels of the selectivities used for untagged categories}
 \defSub{tagged\_selectivities} {The labels of the tag category selectivities}
 \defSub{detection} {Probability of detecting a recaptured individual}
-\defSub{dispersion} {Over-dispersion parameter (phi)}
+\defSub{dispersion} {Over-dispersion parameter ,phi,}
 \defSub{time\_step\_proportion} {Proportion through the mortality block of the time step when the observation is evaluated}
 \defComLab{penalty}{Define an object of type \emph{penalty}}\par\par
 \defSub{label} {The label of the penalty}
@@ -299,16 +299,16 @@
 \par\textbf{\commandlabsubarg{process}{type}{mortality\_event}}\par
 \defSub{categories} {Categories}
 \defSub{years} {Years in which to apply the mortality process}
-\defSub{catches} {The number of removals (catches) to apply for each year}
-\defSub{u\_max} {Maximum exploitation rate ($Umax$}
+\defSub{catches} {The number of removals ,catches, to apply for each year}
+\defSub{u\_max} {Maximum exploitation rate ,$Umax$,}
 \defSub{selectivities} {List of selectivities}
 \defSub{penalty} {The label of the penalty to apply if the total number of removals cannot be taken}
 \par\textbf{\commandlabsubarg{process}{type}{mortality\_event\_biomass}}\par
 \defSub{categories} {Category labels}
 \defSub{selectivities} {The labels of the selectivities for each of the categories}
 \defSub{years} {Years in which to apply the mortality process}
-\defSub{catches} {The biomass of removals (catches) to apply for each year}
-\defSub{u\_max} {Maximum exploitation rate ($Umax$}
+\defSub{catches} {The biomass of removals ,catches, to apply for each year}
+\defSub{u\_max} {Maximum exploitation rate ,$Umax$,}
 \defSub{penalty} {The label of the penalty to apply if the total biomass of removals cannot be taken}
 \par\textbf{\commandlabsubarg{process}{type}{mortality\_holling\_rate}}\par
 \defSub{prey\_categories} {Prey Categories labels}
@@ -316,22 +316,22 @@
 \defSub{is\_abundance} {Is vulnerable amount of prey and predator an abundance [true] or biomass [false]}
 \defSub{a} {parameter a}
 \defSub{b} {parameter b}
-\defSub{x} {This parameter controls the type of functional form, Holling function type 2 (x=2) or 3 (x=3), or generalised (Michaelis Menten, x,=1}
-\defSub{u\_max} {Maximum exploitation rate ($Umax$}
+\defSub{x} {This parameter controls the type of functional form, Holling function type 2 ,x=2, or 3 ,x=3, or generalised ,Michaelis Menten, x,=1,}
+\defSub{u\_max} {Maximum exploitation rate ,$Umax$,}
 \defSub{prey\_selectivities} {Selectivities for prey categories}
 \defSub{predator\_selectivities} {Selectivities for predator categories}
 \defSub{penalty} {Label of penalty to be applied}
 \defSub{years} {Years in which to apply the mortality process}
 \par\textbf{\commandlabsubarg{process}{type}{mortality\_initialisation\_event}}\par
 \defSub{categories} {Categories}
-\defSub{catch} {The number of removals (catches) to apply for each year}
-\defSub{u\_max} {Maximum exploitation rate ($Umax$}
+\defSub{catch} {The number of removals ,catches, to apply for each year}
+\defSub{u\_max} {Maximum exploitation rate ,$Umax$,}
 \defSub{selectivities} {List of selectivities}
 \defSub{penalty} {The label of the penalty to apply if the total number of removals cannot be taken}
 \par\textbf{\commandlabsubarg{process}{type}{mortality\_initialisation\_event\_biomass}}\par
 \defSub{categories} {Categories}
-\defSub{catch} {The number of removals (catches) to apply for each year}
-\defSub{u\_max} {Maximum exploitation rate ($Umax$}
+\defSub{catch} {The number of removals ,catches, to apply for each year}
+\defSub{u\_max} {Maximum exploitation rate ,$Umax$,}
 \defSub{selectivities} {List of selectivities}
 \defSub{penalty} {The label of the penalty to apply if the total number of removals cannot be taken}
 \par\textbf{\commandlabsubarg{process}{type}{mortality\_instantaneous}}\par
@@ -362,7 +362,7 @@
 \defSub{age} {Age to recruit at}
 \defSub{ssb\_offset} {Spawning biomass year offset}
 \defSub{steepness} {Steepness}
-\defSub{ssb} {SSB Label (derived quantity}
+\defSub{ssb} {SSB Label ,derived quantity,}
 \defSub{b0\_initialisation\_phase} {Initialisation phase Label that b0 is from}
 \defSub{ycs\_values} {YCS Values}
 \defSub{ycs\_years} {Recruitment years. A vector of years that relates to the year of the spawning event that created this cohort}
@@ -375,7 +375,7 @@
 \defSub{age} {Age to recruit at}
 \defSub{ssb\_offset} {Spawning biomass year offset}
 \defSub{steepness} {Steepness}
-\defSub{ssb} {SSB Label (derived quantity}
+\defSub{ssb} {SSB Label ,derived quantity,}
 \defSub{sigma\_r} {Sigma r}
 \defSub{b\_max} {Max bias adjustment}
 \defSub{last\_year\_with\_no\_bias} {Last year with no bias adjustment}
