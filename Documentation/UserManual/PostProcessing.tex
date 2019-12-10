@@ -1,6 +1,6 @@
 \section{\I{Post processing output using \R} \label{sec:post-processing}}\index{Post processing}\index{Post processing section}
 
-\R\ is the main program used to process and visualise output from a \CNAME\ model. \R\ is free and can be downloaded from \url{https://cran.r-project.org/}. Once you have installed \R\ you can load the \cname\ \R\ package for investigating model runs. 
+\R\ is the main program used to process and visualise output from a \CNAME\ model. \R\ is free and can be downloaded from \url{https://cran.r-project.org/}. Once you have installed \R\ you can load the \cname\ \R\ package for investigating model runs.
 
 In the downloaded bundle there is a R-package (\texttt{casal2\_1.0.tar.gz}) that reads \CNAME\ output into \R. The \CNAME\ package has multiple functionalities, it can import \CNAME\ output into \R\ as a list. It also has plotting and summarising functions for \CNAME\ reports.
 
@@ -17,19 +17,19 @@ These extract functions differ by how the expected output is structured and they
 	\item \texttt{extract.mcmc()} - import \CNAME\ mcmc output into \R\ as a list
 	\item \texttt{extract.tabular()} - import \CNAME\ tabular output into \R\ as a list
 	\item \texttt{extract.parameters()} - import \CNAME\ parameter files into \R\ as a list
-	\item \texttt{generate.starting.pars()} - Reads in a file that contains your \command{estimate} blocks and generates 'N' starting values to test 'global convergence'. Pretty handy little bugger I think, encouraged to use.	
+	\item \texttt{generate.starting.pars()} - Reads in a file that contains your \command{estimate} blocks and generates 'N' starting values to test 'global convergence'. Pretty handy little bugger I think, encouraged to use.
 	\item \texttt{burn.in.tabular()} - takes a \subcommand{casal2TAB} object and cuts off the first 'n' rows.
 	\item \texttt{plot.derived\_quantities()} - plot derived quantities
 	\item \texttt{plot.selectivities()} - plot selectivities
 	\item \texttt{plot.ycs()} - plot true ycs strengths
-	\item \texttt{plot.pressure()} - plot fishing pressures		
-	\item \texttt{summary()} - summarise a model run	
+	\item \texttt{plot.pressure()} - plot fishing pressures
+	\item \texttt{summary()} - summarise a model run
 	\item \texttt{extract.csl2.file} - read \CNAME\ .csl2 (configuration) file into \R\ as a list
 	\item \texttt{write.csl2.file} - write \CNAME\ .csl2 (configuration) file from R
-	\item \texttt{ReadSimulatedData} - read \CNAME\ output into \R\ from a \texttt{casal2 -s} run		
+	\item \texttt{ReadSimulatedData} - read \CNAME\ output into \R\ from a \texttt{casal2 -s} run
 	\item \texttt{Method.TA1.8()} return a weighting factor for compositional data. See \cite{francis2011data} for more detail.
 	\item \texttt{apply.dataweighting.to.csl2()} - takes a configuration that contains \command{observation} blocks, it applies a weighting factor to a compositional data set and generates a new \subcommand{.csl2} file, with modified effective sample size.
-	
+
 \end{itemize}
 
 specific settings for these functions can be queried once you have loaded the \CNAME\ R library into your current R session via (\texttt{library(casal2)}), using the standard \R\ help syntax \texttt{?} (i.e. \texttt{?param.profile()}). Most of the help files should have example data that you can replicate to help understand with syntax.
@@ -87,7 +87,7 @@ while(abs(Factor - 1) > 0.01) {
 \paragraph*{Trouble Shooting R package}
 This section documents some issues with solutions that we have come across when using the R package that may come in handy for future users.
 
-if you get the following error when using one of the extract functions 
+if you get the following error when using one of the extract functions
 \begin{lstlisting}
 Read 1 item
 Warning messages:

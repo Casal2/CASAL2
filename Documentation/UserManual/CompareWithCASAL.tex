@@ -1,23 +1,23 @@
 \section{\I{Tips for setting up Casal2 model based on an existing CASAL model}\label{sec:setupCasal2}}
 
-For many users that are about to embark on the \CNAME\ journey, firstly good luck, but secondly, most of you will be coming from a functioning CASAL model. This section focuses on transitioning from CASAL to \CNAME. 
+For many users that are about to embark on the \CNAME\ journey, firstly good luck, but secondly, most of you will be coming from a functioning CASAL model. This section focuses on transitioning from CASAL to \CNAME.
 
 
 There are a range of expected reasons why \CNAME\ will provide (report) different values when comparing model output to CASAL models. There are also reasons why values will differ that are not so obvious such as, reasons caused from using different compilers on different machines where over/underflow might occur. It is thought/assumed that the latter inconspicuous reasons are insignificant (or at least should be), and the 'overall' behaviour when it comes to estimation will be the same between CASAL and \CNAME. Reasons why you can expect different values reported between CASAL and \CNAME\ that I have discovered so far are;
 
 \begin{itemize}
 	\item Report rounding. There are setting with respect to std::out in CASAL that set significant figures for writing to files. So if things look truncated, there might be a very simple reason for this.
-	
+
 	\item Priors on parameters that are turned off with \subcommand{upper\_bound} = \subcommand{lower\_bound}. In both programs you can turn off the estimation of parameters by setting the bounds equal. CASAL will evaluate the prior value and add this to the objective function, you don't need to worry as this contribution is a constant so will not effect parameter inference. It may however confuse you when comparing output between the two models.
-	
+
 	\item Default values\dots This one seems obvious but there are a lot of switches in these programs, and even subtle things like the \subcommand{delta} in \CNAME\ or \subcommand{r} parameter in CASAL for robustifying likelihoods can catch you out.
-	
+
 	\item order of processes. CASAL has a predefined sequence in which it executes processes with in a time step, where as \CNAME\ is completely user defined.
-		
+
 	\item Length based process/observations. \CNAME\ has updated the normal distribution cdf calculation (its approximated no closed form solution) with better approximations.
-	
+
 	\item Age observations currently Casal2 doesn't have the \subcommand{sum\_to\_one} subcommand, where as CASAL does this behind the scenes. Check that this is false if you want to truly compare
-	
+
 	\item Tag Penalties. CASAL applies a penalty as sum of squares on total tagged fish in an a 'tagging episode' from the model compared to observed number tagged fish. \CNAME\ applies a penalty on the transition rate by length. If you ask to apply a tags in a length bin that doesn't have fish e.g. asking to tag 2 fish of length 60-61cm when there is 0 will flag a penalty. Unsure the consequence of this during estimation.
 \end{itemize}
 

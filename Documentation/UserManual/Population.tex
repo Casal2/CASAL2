@@ -1462,20 +1462,20 @@ The syntax of the equation parser can be messy and care should be taken when wri
 \subsubsection[Catches]\index{Projections!Catches}
 Catches are unique in that they are known inputs in a table format. To project catches that are in a table use this example projection block,
 {\small{\begin{verbatim}
-# fishing process 
+# fishing process
 @process Fishing
 type mortality_instantaneous_retained
 m 0.17*6  #0.17    #testing at old values
 time_step_ratio 1
 selectivities One*6   #for age based M
 categories *
-table catches			
+table catches
 year	FishingLine	FishingPot	Recreation
 1900	0	0	0
 1901	13.2	0	22.9
 1902	26.4	0	23.5
 1903	39.6	0	24
-end_table			
+end_table
 
 # projection block
 @project future_catch

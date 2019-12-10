@@ -1,5 +1,5 @@
 \section{\I{The report section}\label{sec:report-section}}\index{Reports}\index{Reports section}
-The report section specifies the printouts and other outputs from the model. \CNAME\ does not, in general, produce any output unless requested by a valid \command{report} block. 
+The report section specifies the printouts and other outputs from the model. \CNAME\ does not, in general, produce any output unless requested by a valid \command{report} block.
 
 Reports from \CNAME\ can be defined to print partition and states objects at a particular point in time, observation summaries, estimated parameters and objective function values. See below for a more extensive list of report types, and an example of an observation report.
 
@@ -7,7 +7,7 @@ Reports from \CNAME\ can be defined to print partition and states objects at a p
 		@report observation_age ## label of report
 		type observation		## Type of report
 		observation age_1990	## label corresponding to an @observation report, shown below
-		
+
 		@observation age_1990
 		type proportion_at_age
 		year 1990
@@ -17,7 +17,7 @@ Reports from \CNAME\ can be defined to print partition and states objects at a p
 
 Reports from \CNAME\ all conform to a standard style\index{Reports ! standard style} (with one exception --- the \texttt{output\_parameters} report, see below). The standard style is that reports are prefixed with an aster-ix followed by a user-defined label and type of report in brackets (e.g., \texttt{*label (type)}), with the report ending with the line \texttt{*end}. For example,
 
-\begin{verbatim} 
+\begin{verbatim}
 *My_report(type)
 ...
 *end
@@ -25,7 +25,7 @@ Reports from \CNAME\ all conform to a standard style\index{Reports ! standard st
 
 This syntax should make it easier for external packages to be configured to read \CNAME\ output. The \texttt{extract} functions in the \R\ \CNAME package uses this information to identify and read \CNAME\ output within an \R\ environment.
 
-Note that the \texttt{output\_parameters} report does not print either a header or \texttt{*end} at the end of the report. This is as the \texttt{output\_parameters} report is designed to provide a single line (or multi-line for more than one set) vector of the estimated parameter values, suitable for reading by \CNAME\ (with the command \texttt{casal2 -i}). This is a specialised report for \texttt{casal2 -o filename} command. 
+Note that the \texttt{output\_parameters} report does not print either a header or \texttt{*end} at the end of the report. This is as the \texttt{output\_parameters} report is designed to provide a single line (or multi-line for more than one set) vector of the estimated parameter values, suitable for reading by \CNAME\ (with the command \texttt{casal2 -i}). This is a specialised report for \texttt{casal2 -o filename} command.
 
 For estimate values in standard output users are recommended to use the \texttt{type=estimate\_value} report.
 
@@ -77,11 +77,11 @@ Print the Hessian and covariance matrices if estimating and if the covariance ha
 
 \subsection{\I{Print observations, fits, and residuals}}\index{Reports ! Observations}
 
-Prints out for each category or combination of categories, expected values as calculated by the model, residuals (observed $-$ expected), the error value, process error, and the total error (i.e., the error value as modified by any additional process error), and the contribution to the total objective function of that individual point in the observation. 
+Prints out for each category or combination of categories, expected values as calculated by the model, residuals (observed $-$ expected), the error value, process error, and the total error (i.e., the error value as modified by any additional process error), and the contribution to the total objective function of that individual point in the observation.
 
 Note that constants in likelihoods are often ignored in the objective function score of individual points. Hence, the total score from an observation equals the contribution of the objective function scores from each individual point plus a constant term (if applicable). In likelihoods without a constant term, then the total score from an observation will equal the contribution of the objective function scores from each individual point.
 
-If simulating, then the contribution to the objective function of each observation is reported as zero. 
+If simulating, then the contribution to the objective function of each observation is reported as zero.
 
 \begin{verbatim}
 		@report Tan_at_age_obs
@@ -128,11 +128,11 @@ Prints all \command{time\_varying} blocks with the values and years that they we
 
 \subsection{\I{Tabular reporting}}\index{Reports ! Tabular}\label{sub:tabular}
 
-An alternative reporting framework to the standard output is the tabular reporting. Tabular reporting is used with multi-line \texttt{-i} input files (like the MCMC sample or -o outputs). Tabular reports will print out a row that will correspond with each row of the \texttt{-i} input files. 
+An alternative reporting framework to the standard output is the tabular reporting. Tabular reporting is used with multi-line \texttt{-i} input files (like the MCMC sample or -o outputs). Tabular reports will print out a row that will correspond with each row of the \texttt{-i} input files.
 
-Tabular reporting is invoked at the command line using the \texttt{--tabular} command e.g. (\texttt{casal2 -r --tabular -i file\_name}). 
+Tabular reporting is invoked at the command line using the \texttt{--tabular} command e.g. (\texttt{casal2 -r --tabular -i file\_name}).
 
-Currently, derived quantities, processes, observations and estimate\_values are the only report types that are within this framework. For each input file the output will begin with the names of each column followed by a multi-line report ending with the \texttt{*end} syntax. 
+Currently, derived quantities, processes, observations and estimate\_values are the only report types that are within this framework. For each input file the output will begin with the names of each column followed by a multi-line report ending with the \texttt{*end} syntax.
 
 These tables can be easily read into \R\ using the \texttt{CASAL2} package and for the example of MCMC multi-line files posteriors of derived quantities can be plotted. This command is the same as running \texttt{casal -v} in CASAL.
 

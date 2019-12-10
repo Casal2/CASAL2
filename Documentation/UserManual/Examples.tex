@@ -75,7 +75,7 @@ type <sub_type>
 parameter <value_1>
 parameter <value_1> <value_2>
 
-\* 
+\*
 	Do not load this process
 	@block <label>
 	type <sub_type>
@@ -95,7 +95,7 @@ Example:
 		lower_bound
 		upper_bound
 		\end{verbatim}}}
-	
+
 \paragraph*{':' (Range Specifier)}
 The range specifier allows you to specify a range of values at once instead of having to input them manually. Ranges can be either incremental or decremental.\\
 Example:
@@ -207,17 +207,17 @@ years tag=2001=1999:2003  tag=2005=2003:2007
 \CNAME\ allows many user defined categories so shorthand syntax has been added to aid in the readability of complex configuration scripts and partition structures. For example when defining categories you can use a comma for shortening lists of categories. The following syntax is how we would specify the categories the long way.
 
 {\small{\begin{verbatim}
-		@categories 
+		@categories
 		format sex.stage
-		names male.immature male.mature female.immature female.mature		
-		\end{verbatim}}}	
+		names male.immature male.mature female.immature female.mature
+		\end{verbatim}}}
 
 for the exact same partition structure but specified in a shorter way users could define the categories as, (note the use of the list character ','),
 
 {\small{\begin{verbatim}
-		@categories 
+		@categories
 		format sex.stage
-		names male,female.immature,mature	
+		names male,female.immature,mature
 		\end{verbatim}}}
 
 \CNAME\ asks for categories in processes and observations so that it can apply the right model dynamics to the right elements of the partition. For the same reason as defining categories shorthand syntax aids in readability and input management. An example of a process where categories need to be supplied as an input command is in ageing,
@@ -226,15 +226,15 @@ for the exact same partition structure but specified in a shorter way users coul
 		# 1. The standard way
 		@ageing my_ageing
 		categories male.immature male.mature female.immature female.mature
-		
+
 		# 2. The 1st short-hand way
 		@ageing my_ageing
 		categories male,female.immature,mature
-		
+
 		# 3. Wild Card (all categories)
 		@ageing my_ageing
 		categories *
-		
+
 		# 4. The 2nd short-hand way
 		@ageing my_ageing
 		categories sex=male sex=female
@@ -276,18 +276,18 @@ if \subcommand{male} and \subcommand{female} are the only categories in your pop
 
 Shorthand syntax can be useful when applying processes to a select group of categories from the partition, for example. If we wanted to apply a spawning migration to the mature categories in the partition and the partition was defined by the categories below,
 {\small{\begin{verbatim}
-		@categories 
+		@categories
 		format area.maturity.tag
 		names north.immature.notag,2011 north.mature.notag,2011 south.immature.notag,2011
-		south.mature.notag,2011		
-		\end{verbatim}}}	
+		south.mature.notag,2011
+		\end{verbatim}}}
 
 If we wanted to migrate a portion of the mature population from the southern area to the northern are you could use the following syntax,
 
 {\small{\begin{verbatim}
 		@process spawn_migration
-		type transition_category 		
-		from format=south.mature.*	
+		type transition_category
+		from format=south.mature.*
 		to format=north.mature.*
 		proportions 1.0
 		selectivities One
@@ -301,13 +301,13 @@ If we wanted to migrate a portion of the mature population from the southern are
 		type recruitment_beverton_holt
 		r0 400000
 		years
-		ycs_values 1 1 1 1 1 1 1 1 
+		ycs_values 1 1 1 1 1 1 1 1
 		ycs_years 1975:1983
 		An alternative specification to the sequence of values you can use an astrix to
 		shorthand repeating integers e.g.
-		
+
 		ycs_values 1*8
-		
+
 		steepness 0.9
 		age 1
 		\end{verbatim}}}
@@ -319,7 +319,7 @@ Lets say we wanted to only estimate the last four years of the parameter \texttt
 		parameter process[WestRecruitment].ycs_values{1979:1983}
 		type uniform
 		lower_bound 0.1 0.1 0.1 0.1
-		upper_bound  10  10  10  10 
+		upper_bound  10  10  10  10
 		\end{verbatim}}}
 
 Note the first element of a vector is indexed by 1. This syntax can be applied to parameters that are of type map as well, for information on what type a parameter is see the syntax section. An example of a parameter that is of type map is \command{time\_varying}\texttt{[label].type=constant}. For the following \command{time\_varying} block,
@@ -329,7 +329,7 @@ Note the first element of a vector is indexed by 1. This syntax can be applied t
 		type constant
 		parameter catchability[Fishq].q
 		years 	1992	1993	1994	1995
-		value 	0.2		0.2		0.2		0.2	
+		value 	0.2		0.2		0.2		0.2
 		\end{verbatim}}}
 
 In this example a user may want to estimate only one element of the map (say 1992), but force all other years to be the same as the one estimate. This can be done in an estimate block as follows,
@@ -339,10 +339,10 @@ In this example a user may want to estimate only one element of the map (say 199
 		same time_varying[q_step1].value{1993:1995}
 		type uniform
 		lower_bound 0.1 0.1 0.1 0.1
-		upper_bound  10  10  10  10 
+		upper_bound  10  10  10  10
 		\end{verbatim}}}
 \paragraph*{\I{In line declaration}\label{sec:declare}}
-In line declarations can help shorten models by passing \command{} blocks, for example 
+In line declarations can help shorten models by passing \command{} blocks, for example
 {\small{\begin{verbatim}
 		@observation chatCPUE
 		type biomass
@@ -355,8 +355,8 @@ In line declarations can help shorten models by passing \command{} blocks, for e
 		time_step_proportion 1.0
 		obs 1.50 1.10 0.93 1.33 1.53 0.90 0.68 0.75 0.57 1.23
 		error_value 0.35
-		
-		@estimate 
+
+		@estimate
 		parameter catchability[chatTANbiomass.one].q
 		type uniform_log
 		lower_bound 1e-2
@@ -370,7 +370,7 @@ When you do an inline declaration the new object will be created with the name o
 {\small{\begin{verbatim}
 		@mortality halfm
 		selectivities [type=constant; c=1]
-		
+
 		would create
 		@selectivity halfm.one
 		\end{verbatim}}}
@@ -406,7 +406,7 @@ The trick is that you can replace the keyword \subcommand{process} with the firs
 		@transition Migration
 		type category
 		\end{verbatim}}}
-	
+
 \subsection{An example of a simple model\label{example1}}\index{A simple non-spatial model example}
 
 \input{Examples/Example1}

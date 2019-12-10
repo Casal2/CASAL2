@@ -9,12 +9,12 @@ FILE = [open('Syntax/AdditionalPrior.tex', 'r'),
 	open('Syntax/AgeingError.tex', 'r'),
         open('Syntax/AgeLength.tex', 'r'),
         open('Syntax/Catchability.tex', 'r'),
-        open('Syntax/Categories.tex', 'r'),        
+        open('Syntax/Categories.tex', 'r'),
         open('Syntax/DerivedQuantity.tex', 'r'),
         open('Syntax/Estimate.tex', 'r'),
-        open('Syntax/EstimateTransformation.tex', 'r'),        
+        open('Syntax/EstimateTransformation.tex', 'r'),
         open('Syntax/InitialisationPhase.tex', 'r'),
-        open('Syntax/LengthWeight.tex', 'r'),        
+        open('Syntax/LengthWeight.tex', 'r'),
         open('Syntax/Likelihood.tex', 'r'),
         open('Syntax/MCMC.tex', 'r'),
         open('Syntax/Minimiser.tex', 'r'),
@@ -23,10 +23,10 @@ FILE = [open('Syntax/AdditionalPrior.tex', 'r'),
         open('Syntax/Penalty.tex', 'r'),
         open('Syntax/Process.tex', 'r'),
         open('Syntax/Profile.tex', 'r'),
-        open('Syntax/Project.tex', 'r'),    
+        open('Syntax/Project.tex', 'r'),
         open('Syntax/Report.tex', 'r'),
         open('Syntax/Selectivity.tex', 'r'),
-        open('Syntax/Simulate.tex', 'r'),        
+        open('Syntax/Simulate.tex', 'r'),
         open('Syntax/TimeStep.tex', 'r'),
         open('Syntax/TimeVarying.tex', 'r')]
 OUTFILE = open('QuickReference.tex', 'w')
@@ -96,7 +96,7 @@ for i in range(len(FILE)):
     if (line[1:11]=="subsection" or line[1:14]=="subsubsection" or line[1:11]=="par\\textbf" or line[1:7]=="defCom" or line[1:7]=="defSub") :
       if (line[1:11]=="subsection") :
         count=0
-        line = line + "\\par"        
+        line = line + "\\par"
       if (line[1:7]=="defCom") :
         m = p.search(line)
         Command = m.group()[1:(len(m.group())-1)]
