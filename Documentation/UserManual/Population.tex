@@ -150,7 +150,14 @@ A mortality block is defined as a consecutive sequence of mortality processes wi
 
 Initialisation is the process of determining the model starting state. The initial state can be equilibrium/steady state or some other initial state for the model (e.g., exploited), prior to the start year of the model.
 
-There are multiple options for partition initialisation in \CNAME, including Iterative, Fixed, Derived, and Cinitial.
+There are multiple options for partition initialisation in \CNAME, including
+
+\begin{itemize}
+	\item Iterative
+	\item Derived
+	\item Cinitial
+	\item Fixed
+\end{itemize}
 
 Model initialisation can also occur in several phases\index{Initialisation!phases}, each of which can use a different method. The initialisations are performed in sequence. At the end of all of the initialisation phases, \CNAME\ then runs through the model years applying the user-defined processes in each time step in the annual cycle.
 
@@ -194,24 +201,26 @@ This command removes the process labelled \texttt{Instantaneous\_Mortality} duri
 
 \paragraph{\I{Iterative Initialisation}}
 
-The iterative initialisation is a general solution for initialising the model. The iterative method can be slow to converge, depending on the model, but can work on even complex structured models that may be difficult or impossible to implement using analytic approximations.
+The \texttt{Iterative} initialisation is a general solution for initialising the model. The iterative method can be slow to converge, depending on the model, but can work on even complex structured models that may be difficult or impossible to implement using analytic approximations.
 
 The number of iterations in the iterative initialisation can increase the model output, and the number of iterations should be chosen to be large enough to allow the population state to fully converge. A period of about two generation times is recommended to ensure convergence. \CNAME\ can be configured to report convergence statistics that can assist in determining convergence properties.
 
-In addition, the iterative initialisation phase can optionally be stopped early if user-defined convergence criteria is met. For a list of supplied years in the initialisation phase, the convergence criteria is met if the proportional absolute summed difference between the state in year $t-1$ and the state in year $t$ ($\widehat{\lambda}$) is less than the user-defined value of $\lambda$ where
+In addition, the iterative initialisation phase can optionally be stopped early if user-defined convergence criteria is met. For a list of supplied years in the initialisation phase, the convergence criteria is met if the proportional absolute summed difference between the state in year $t-1$ and the state in year $t$ ($\widehat{\lambda}$) is less than the user-defined value of $\lambda$, where
 
 \begin{equation}
   \widehat{\lambda} = \frac{\sum\limits_{i} \sum\limits_{j} \left|\text{element}(i,j)_t - \text{element}(i,j)_{t-1} \right|}{\sum\limits_{i} \sum\limits_{j} \frac{}{}\text{element}(i,j)_t}
 \end{equation}
 
-Hence, for an iterative initialisation you need to define:
+Hence, for initialisation define:
+
 \begin{itemize}
-  \item The initialisation phases,
+  \item The number of initialisation phases,
   \item The number of years in each phase, and
-  \item the processes to apply in each (default is the annual cycle).
+  \item The processes to apply in each phase, where the default processes are those applied in the annual cycle
 \end{itemize}
 
-An example of the syntax to implement this would be,
+An example with one initialisation phase:
+
 {\small{\begin{verbatim}
 @model
 ...
@@ -226,9 +235,10 @@ convergence_years 20 40
 
 \paragraph{\I{Derived Initialisation}}
 
-\texttt{Derived} initialisation is an analytical solution that calculates the equilibrium age structure and the plus group using a geometric series solution. The benefit of this method is it can be solved in max\_age--min\_age +1 years, so is computationally faster than the iterative initialisation phase. Users should be warned that we have found under some process combinations (e.g. one-way migrations) that this solution does not reach the exact equilibrium partition. We recommend, if using this method, users confirm the partition has reached an equilibrium state by either comparing with an iterative initialisation, or by adding a second iterative initialisation phase of a limited number of iterations to confirm convergence.
+The \texttt{Derived} initialisation is an analytical solution that calculates the equilibrium age structure and the plus group using a geometric series solution. The benefit of this method is it can be solved in \texttt{max\_age - min\_age + 1} years/steps/units?, so it is computationally faster than the iterative initialisation phase. Under some process combinations (e.g., one-way migrations) this initialisation does not calculate the exact equilibrium partition. When using this initialisation, confirm that the partition has reached an equilibrium state by either comparing with an iterative initialisation, or by adding a second iterative initialisation phase with a limited number of iterations for comparison.
 
-An example of the syntax to implement this would be,
+An example with one initialisation phase:
+
 {\small{\begin{verbatim}
 		@model
 		...
@@ -240,25 +250,31 @@ An example of the syntax to implement this would be,
 
 \paragraph{\I{Cinitial Initialisation}}
 
-This initialisation is only available as a second or greater phase initialisation, and can only be applied after derived or iterative initialisation phases. The Cinitial factors that can be estimated to shift the initial population away from an equilibrium state prior to the start year. If there is known exploitation before data exists for a population this can be a solution for estimating a non-equilibrium population. Note that it may be advisable to include an observation of age composition data for the first year of the model in order to estimate the non-equilibrium population state.
+The \texttt{Cinitial} initialisation is used only as a second or greater phase initialisation, and can only be applied after Derived or Iterative initialisation phases. This initialisation can be a method for estimating the non-equilibrium state of population if there is exploitation before the data start. The estimated Cinitial factors shift the initial population away from an equilibrium state prior to the start year. It would be helpful to include an observation of age composition data for the first year of the model in order to estimate the non-equilibrium population state.
 
-An example of the syntax to implement this would be,
+An example with two initialisation phases:
 
 {\small{\begin{verbatim}
 		@model
 		...
-		initialisation_phases Cinitial
+		initialisation_phases Iterative Cinitial
+
+		@initialisation_phase Iterative
+		type iterative
+		years 10
+		lambda 0.0001
+		convergence_years 10 20
 
 		@initialisation_phase Cinitial
 		type cinitial
-		categories spawn.male+nonspawn.male 	spawn.female+nonspawn.female
+		categories spawn.male+nonspawn.male spawn.female+nonspawn.female
 		table n
-		spawn.male+nonspawn.male   5e7 5e7 7e6 6e6 5e6 4e6 3e6 2e6 1e6 1e6 1e1 1e1 1e1 1e1
+		spawn.male+nonspawn.male     5e7 5e7 7e6 6e6 5e6 4e6 3e6 2e6 1e6 1e6 1e1 1e1 1e1 1e1
 		spawn.female+nonspawn.female 5e7 5e7 7e6 6e6 5e6 4e6 3e6 2e6 1e6 1e6 1e1 1e1 1e1 1e1
 		end_table
 		\end{verbatim}}}
 
-The Cinitial factors can also be estimated using the following syntax
+The Cinitial factors can also be estimated with the syntax
 
 {\small{\begin{verbatim}
 	@estimate cinit_male
@@ -271,9 +287,10 @@ The Cinitial factors can also be estimated using the following syntax
 
 \paragraph{\I{Fixed Initialisation}}
 
-Fixed initialisation takes a user defined table to be the initial partition prior to the start year. Users have the ability to initialise models by specify the numbers-at-age for each category. When initialising models with this type, undefined behaviour may be result if the model applies processes that require derived quantities to be calculated in the initialisation phase.
+The \texttt{Fixed} initialisation uses a user-defined table as the initial partition numbers-at-age prior to the start year. Models can be initialised by specifying the numbers-at-age for each category. When initialising models with this type, undefined behaviour may be result if the model applies processes that require derived quantities to be calculated in the initialisation phase.
 
-An example of the syntax to implement this would be,
+An example with one initialisation phase:
+
 {\small{\begin{verbatim}
 		@model
 		...
@@ -292,42 +309,48 @@ An example of the syntax to implement this would be,
 
 \subsubsection{\I{Model run years}}
 
-Following initialisation, the model then runs over a number of user-defined years from (initial\_year to final\_year). For this part of the model, the annual cycle can be broken into separate time steps, and observations can be associated with the state of the model at the end of any time step, i.e., likelihoods for particular observations are evaluated, if required, within each time step.
+Following initialisation, the model then runs over the user-defined years, from \texttt{start\_year} to \texttt{final\_year}. For this part of the model, the annual cycle can be broken into multiple time steps per year, and observations can be associated with specific time steps.
 
-Processes are carried out in the order specified within each time step. These can be the same or different to the processes in initialisation phases of the model.
+Processes are applied in the order specified within each time step. These processes can be the same or different from the processes specified for the initialisation phases.
 
-The run years define the years over which the model is to run and the annual cycle within each year. The model runs from the start of year \argument{initial} to the end of year \argument{final}. The projection then extends the run time up to the end of year \argument{project\_final\_year}. The following must be specified in the model,
+The run years define the years over which the model is to run and the annual cycle within each year. The model runs from the start of year \argument{initial} to the end of year \argument{final}. The projection then extends the run time up to the end of year \argument{project\_final\_year}.
+
+The model properties must be specified:
+
 \begin{itemize}
-  \item The time steps and the processes applied in each
-  \item The initial year (i.e., the model start year)
-  \item The final year (i.e., the model end year)
-  \item The projection final year (i.e., the model projection end year)
+  \item The number of time steps and the processes applied in each
+  \item The first year, the model start year
+  \item The last year, the model final year
+  \item The last projection year, the model projection final year
 \end{itemize}
 
-and an example of how the syntax would look,
+An example of the syntax:
 
 {\small{\begin{verbatim}
 	@model
 	start_year 1972
 	final_year 2016
 	projection_final_year 2021
-	min_age 1  ## Define the age bins "columns" in the partition
+	## Define the ages in the partition
+	min_age 1
 	max_age 30
 	age_plus true
 	base_weight_units tonnes
 	initialisation_phases Equilibrium_state
-	time_steps Sep_Feb Mar_May Jun_Aug  ## Defines the annual cycle
+	## Define the annual cycle
+	time_steps Sep_Feb Mar_May Jun_Aug
 
 	## Define the "rows" in the partition
+	## This is a single sex and area population
 	@categories
-	format stock  ## This is a single sex and area population
+	format stock
 	names HAK4
 	age_lengths age_size
 
 	@initialisation_phase Equilibrium_state
 	type derived
 
-	## Define the processes in the Annual Cycle
+	## Define the processes in the annual cycle
 	## A list of labels in each time step that correspond to a process
 	@time_step Sep_Feb
 	processes Recruitment Instantaneous_Mortality
@@ -342,49 +365,82 @@ and an example of how the syntax would look,
 
 \subsubsection{\I{Projection years}}\label{sec:projection}
 
-Projecting is the process of running the model forwards into the future, using stochastic and/or deterministic values for population dynamic parameters, such as recruitments and catches. The \CNAME\ command to run the model in projection mode is \texttt{casal2 -f 1}. The number that follows the \texttt{-f} parameter indicates how many projections to undertake for each set of parameters supplied. This allows the exploration of many future scenarios for a single set of parameters. Th value should only be greater than 1 if applying a projection type that is stochastic. When running projections after a Bayesian analysis, the \texttt{--tabular} parameter should be added into the command. This will output a tabular report (see Section~\ref{sub:tabular}) which is easier to manipulate and run diagnostics on in the \R\ environment.
+The Projection functionality runs the model forwards, using stochastic and/or deterministic values for some population parameters, such as recruitments and catches.
 
-Projection years occur immediately after the model run years, and are defined as the \subcommand{final\_year + 1} up to and including \subcommand{final\_projection\_year}.
+The \CNAME\ command to run the model in projection mode is \texttt{casal2 -f 1}. The number that follows the \texttt{-f} parameter indicates the number of projections to generate for each set of parameters supplied. This functionality allows for the exploration of many scenarios with a single set of parameters. The number of projections should be greater than 1 only if applying a projection type that is stochastic.
 
-For a projection run in \CNAME\, a model is initialised and run through the model years from \argument{start\_year} to \argument{final\_year}. During this phase \CNAME\ stores all parameter values so that projection classes can (if the users chooses) allow parameters before \subcommand{final\_year} to be projected (See end of this paragraph for an example of when to do this). The model then is re-run from \argument{start\_year} to \argument{projection\_final\_year}, where any parameter can be either fixed or, if specified, drawn from a stochastic distribution or process during that time period. An example of when users may want to begin projecting a parameter before the projection phase has started is for year class parameters. Usually, the last few year class parameters are poorly estimated (if they are estimated at all), although this depends on the quality and coverage of the compositional data that would inform these parameters, or the presence of a recruitment index. Therefore, users may wish to assume such parameters are unknown and apply projection methods as for future values.
+The \texttt{-{}-tabular} flag should be used when running projections after a Bayesian analysis. This option will output a tabular report (see Section~\ref{sub:tabular}) which can then be analysed in \R.
 
-\CNAME\ does not have any default projections for when parameters are specified by year. These must be specified using the \command{project} command block. This is important for parameters that may vary from year to year (e.g. year class strength parameters). \CNAME\ should error out if run in projection mode without a \command{project} block for the \subcommand{ycs\_values} parameter being specified.
+Projection years are after the model run years, and are defined as the \subcommand{final\_year + 1} through the \subcommand{final\_projection\_year}.
 
-\CNAME\ allows any estimable parameter to be specified in a \command{project} block and then used in a projection. The available projection types for these parameters include: constant, lognormal, empirical-lognormal, empirical re-sampling, or user-defined. To see all the projection classes available, and examples of their syntax, see Section~\ref{sec:projections}.
+For a projection run in \CNAME\, the model is initialised and run through the model years from \argument{start\_year} to \argument{final\_year}. During this run mode \CNAME\ stores all parameter values so that projection classes can allow parameters before \subcommand{final\_year} to be projected. The model then is re-run from \argument{start\_year} to \argument{projection\_final\_year}, where any parameter can either be fixed or drawn from a stochastic distribution or process.
 
-Common to all projection methods are the subcommands \subcommand{years}, \subcommand{parameter} and \argument{multiplier}, as a constant is multiplied to the projected value after it has been derived by its respective method.
+An example of when a parameter is projected before the projection phase has started is for year class parameters. The last few year class parameters may be poorly estimated, which depends on the quality and coverage of the composition data that could inform these parameters or the use of a recruitment index. Thus, users may assume that these parameters are unknown and apply projection methods for the future values.
 
-\textbf{Important note} for the specific year class parameter: the definition of year applies to the \argument{ycs\_years}, not the model years. As defined in Section~\ref{subsubsec:BH-recruitment}, \argument{ycs\_years} are offset between time of spawning and when they enter the partition.
+\CNAME\ has no default projection properties for parameters that are specified by year, e.g., year class strength parameters. The projections for these parameters must be specified using the \command{project} command block. \CNAME\ will produce errors if run in projection mode without a \command{project} block for the \subcommand{ycs\_values} parameter being specified.
+
+\CNAME\ allows any estimable parameter to be specified in a \command{project} block and then used in a projection. The available projection types for these parameters include:
+
+\begin{itemize}
+	\item constant
+	\item lognormal
+	\item empirical-lognormal
+	\item empirical re-sampling
+	\item user-defined
+\end{itemize}
+
+The projection classes available, and examples of their syntax, are in  Section~\ref{sec:projections}.
+
+The subcommands \subcommand{years} and \subcommand{parameter} are common to all projection methods. The argument \argument{multiplier} is a constant which is multiplied with the projected value after it has been generated.
+
+\textbf{Note for the year class parameters:} the definition of year applies to the \argument{ycs\_years}, not the model years. As defined in Section~\ref{subsubsec:BH-recruitment}, \argument{ycs\_years} are offset between the time of spawning and when individuals are added to the partition.
 
 \subsection{\I{Population processes}}
-Population processes are those processes that change the model state. Processes produce changes in the model partition by adding and removing individuals, or by moving individuals between ages and/or categories. The population processes include: recruitment\index{Recruitment}, ageing\index{Ageing},  growth \index{Growth}, maturation \index{Maturation}, mortality\index{Mortality} events (e.g., natural and anthropogenic) and category transition processes\index{Category transition} (i.e., processes that move individuals between categories while preserving their age structure).
 
-There are two types of processes, processes that occur across multiple time steps in the annual cycle e.g \subcommand{mortality\_constant\_rate} and \subcommand{mortality\_instantaneous}. There are also processes that only occur within the time step they are defined. Each of these processes are carried out in the user-defined prescribed order when initialising the model, and then for a user-defined order in each year in the annual cycle\index{Annual cycle}.
+Population processes are processes that change the model state. These processes produce changes in the partition by adding and removing individuals, or by moving individuals between ages and/or categories.
+
+The population processes include:
+
+\begin{itemize}
+\item recruitment\index{Recruitment},
+\item ageing\index{Ageing},
+\item growth\index{Growth},
+\item maturation\index{Maturation},
+\item mortality\index{Mortality} events (e.g., natural and fishing), and
+\item category transition processes\index{Category transition}, i.e., processes that move individuals between categories while preserving their age structure.
+\end{itemize}
+
+There are two types of processes: (1) processes that occur across multiple time steps in the annual cycle, e.g., \subcommand{mortality\_constant\_rate} and \subcommand{mortality\_instantaneous}; and (2) processes that occur only within the time step in which they are defined. These processes are applied in the user-defined order when initialising the model, and then for a user-defined order in each year in the annual cycle\index{Annual cycle}.
 
 \subsubsection{\I{Recruitment}}
 
-Recruitment processes are defined as a process that introduces new individuals into the partition. \CNAME\ currently implements two types of recruitment process, constant recruitment\index{Recruitment ! Constant} and  \I{Beverton-Holt recruitment}\index{Recruitment ! Beverton-Holt} \citep{1203}.
+Recruitment processes are defined as processes that add new individuals to the partition. \CNAME\ has three options for recruitment processes, constant recruitment\index{Recruitment ! Constant}, \I{Beverton-Holt recruitment}\index{Recruitment ! Beverton-Holt} \citep{1203}, and  \I{Beverton-Holt recruitment with deviations}\index{Recruitment ! Beverton-Holt}.
 
-In the recruitment processes, a number of individuals are added to a single age class within the partition, with the amount defined by the type of recruitment process specified and its function. If more than one category is defined, then the proportion of recruiting individuals to be added to each category is specified by the \argument{proportions} parameter, or multiple recruitment processes can be defined. For example, if recruiting to categories labelled \texttt{male} and \texttt{female}, then you might set the proportions as $0.5$ and $0.5$ respectively, to denote that half of the recruits recruit to the male category and the remaining half to the female category.
+In the recruitment processes, a number of individuals are added to a single age class within the partition, with the number determined by the type of recruitment process specified. If more than one category (of recruits?) is defined, then the proportion of recruits to be added to each category is specified by the \argument{proportions} property, or multiple recruitment processes can be defined. For example, if recruiting to categories labelled \texttt{male} and \texttt{female}, then the proportions may be set to $0.5$ and $0.5$, so that half of the recruits are added to the male category and the other half to the female category.
 
-An important note here is that recruitment can differ between a spawning event or the creation of a cohort/year class. In a fisheries context, recruitment usually refers to individuals 'recruiting' to the fishery. This is done for a few reasons, one being that often there is not a lot of information relating to age classes between spawning and data collection i.e. an information gap exists. Once again, in a fisheries context this information gap can refer to the time between spawning and being vulnerable to a survey or fishery for data collection. Thus, users may only want to model the population for which data is available. This offset between spawning and recruitment is parameterised either by the recruitment variable \texttt{age}, or \texttt{min\_age} (the default value for the \texttt{age} parameter in the recruitment process). (Note for CASAL users: the \CNAME\ parameter \texttt{age} is the same as the CASAL parameter \texttt{y\_enter}.)
+Recruitment can differ between a spawning event or the creation of a cohort/year class. In a fisheries context, recruitment usually refers to individuals "recruiting" to a fishery. This definition is used because there is usually not a lot of information on younger age classes between the time of spawning and being vulnerable to a survey or fishery for data collection. Thus, the model configuration may specify the population for which data are available.
 
-For the constant and Beverton-Holt recruitment processes, the  number of individuals following recruitment in year $y$ is,
+The offset between spawning and recruitment is parameterised either by the recruitment variable \texttt{age}, or \texttt{min\_age}, which is the default value for the \texttt{age} property in the recruitment process. The \CNAME\ parameter \texttt{age} is the same as the CASAL parameter \texttt{y\_enter}.
+
+For the constant and Beverton-Holt recruitment processes, the  number of individuals following recruitment in year $y$ is
+
 \begin{equation}
-N_{y,a,j} \leftarrow N_{y,a - 1,j} + p_j(R_{y,a})
+N_{y,a,j} \leftarrow N_{y,a - 1,j} + p_j(R_y)
 \end{equation}
-where $N_{y,a,j}$ is the numbers in category $j$ at age $a$, $p_j$ is the proportion to category $j$, and $R_{y,a}$ is the number of recruits for year $y$. See below for how $N_{y,a,j}$ is determined in each of these cases.
+
+where $N_{y,a,j}$ is the numbers in year $y$ and category $j$ at age $a$, $p_j$ is the proportion added to category $j$, and $R_y$ is the total number of recruits in year $y$.
 
 \paragraph{\I{Constant recruitment}}\label{subsubsec:constant-recruitment}
 
-In the constant recruitment process the total number of recruits added in each year $y$ in age $a$ is $R_{y,a}$, and is simply $p_j(R_0)$, i.e.,
+In the constant recruitment process the total number of recruits added in each year $y$ in age $a$ is $R_y$, with $R_y = R_0$ for all years
+
 \begin{equation}
-  R_{y,a,j} = p_j(R_0)
+  R_{y,j} = p_j(R_0)
 \end{equation}
 
-Constant recruitment recruits a constant number of individuals each year. It is equivalent to a Beverton-Holt recruitment process with steepness set equal to one (i.e., $h=1$).
+Constant recruitment is equivalent to a Beverton-Holt recruitment process with steepness ($h$) set to 1.
 
-For example, to specify a constant recruitment process, where individuals are added to male and female immature categories at $age=1$ evenly (\texttt{proportions} = 0.5), and the number to add is $R_0=5 \times 10^5$, the syntax is,
+For example, to specify a constant recruitment process where individuals are added to the male and female immature categories at $age=1$ in equal proportion (\texttt{proportions} = 0.5), and the number to add is $R_0=5 \times 10^5$, the syntax is
 
 {\small{\begin{verbatim}
 	@process Recruitment
@@ -397,44 +453,52 @@ For example, to specify a constant recruitment process, where individuals are ad
 
 \paragraph{\I{Beverton-Holt recruitment}}\label{subsubsec:BH-recruitment}
 
-In the Beverton-Holt recruitment process the total number of recruits added each year is $R_y$. $R_y$ is the product of the average recruitment $R_0$, the annual year class strength multiplier $YCS$, and the stock-recruit relationship $SR$, i.e.,
+In the Beverton-Holt recruitment process the total number of recruits added each year is $R_y$. $R_y$ is the product of the average recruitment $R_0$, the annual year class strength multiplier $YCS$, and the stock-recruit relationship $SR(SSB_y)$
+
 \begin{equation}\label{eq:BH}
   R_{y,a,j} = p_j(R_0 \times YCS_{ycs\_year} \times SR(SSB_{ycs\_year}))
 \end{equation}
 
-where,
+where
 
 \begin{equation}\label{eq:year_class}
 ycs\_year = y - \texttt{ssb\_offset}
 \end{equation}
 
-and where, $a$ is the parameter \texttt{age}, $p_j$ is the proportion of recruits to enter category $j$, and \texttt{ssb\_offset} is the lag between spawning and recruitment.
+and $a$ is age, $p_j$ is the proportion of recruits to enter category $j$, and \texttt{ssb\_offset} is the number of years lag between spawning and recruitment.
 
-As stated earlier, recruitment refers to the recruitment into the population and may differ from the spawning event. See two paragraphs below on more information about \texttt{ssb\_offset}, but in general this parameter shouldn't be specified by the user.
+Recruitment refers to recruitment into the population and may differ from the spawning event. See below on more information about \texttt{ssb\_offset}. In general this parameter should not be specified by the user.
 
-$SR$ is the Beverton-Holt stock-recruit relationship parametrised by the steepness $h$ based on \cite{mace_doonan_88} parametrisation,
+$SR(SSB_y)$ is the Beverton-Holt stock-recruit relationship parametrised by the steepness $h$, and based on \cite{mace_doonan_88} parametrisation
 
 \begin{equation}\label{eq:BH_SR}
 SR(SSB_y) = \frac{SSB_y}{B_0} / \left( 1-\frac{5h-1}{4h} \left( 1-\frac{SSB_y}{B_0} \right) \right)
 \end{equation}
 
-Note that the Beverton-Holt recruitment process requires a value for \Bzero\ and $SSB_y$ to resolve the stock-recruitment relationship. Here, a derived quantity (see Section \ref{sec:derived-quantities}) must be defined that provides the annual $SSB_y$ for the recruitment process. \Bzero\ is then defined as the value of the $SSB$ at the end of one of the initialisation phases, this initialisation phase is defined by the parameter \texttt{b0\_initialisation\_phase}. During initialisation the $YCS$ multipliers are assumed to be equal to one, and recruitment that happens in the initialisation phases that occur before and during the phase when \Bzero\ is determined is assumed to have steepness $h=1$ (i.e. in those initialisation phases, recruitment is simply equal to \Rzero). Recruitment in the initialisation phases after the phase where \Bzero\ was determined follow the Beverton-Holt stock-recruit relationship defined above. \Rzero\ and \Bzero\ have a direct relationship when there are no density dependent processes in the annual cycle, for this reason users can choose to initialise models using \Bzero\ or \Rzero.
+The Beverton-Holt recruitment process requires a value for \Bzero\ and $SSB_y$ to calculate the number of recruits. A derived quantity (see Section \ref{sec:derived-quantities}) must be defined that provides the annual $SSB_y$ for the recruitment process. \Bzero\ is then defined as the value of the $SSB$ at the end of one of the initialisation phases, which is defined by the parameter \texttt{b0\_initialisation\_phase}.
 
-\texttt{ssb\_offset} should not be manually specified by the user; as is commonplace, \CNAME\ determines \texttt{ssb\_offset} by the order of ageing, recruitment, spawning and the recruitment parameter \texttt{age} accordingly,
+During initialisation the $YCS$ multipliers are assumed to be equal to 1, and recruitment that happens in the initialisation phases that occur before and during the phase when \Bzero\ is determined are assumed to have steepness $h=1$ (i.e., in those initialisation phases, recruitment is equal to \Rzero).
+
+Recruitment in the initialisation phases after the phase where \Bzero\ was determined are calculated using the Beverton-Holt stock-recruit relationship. \Rzero\ and \Bzero\ have a direct relationship when there are no density-dependent processes in the annual cycle. Models can thus be initialised using \Bzero\ or \Rzero.
+
+The property \texttt{ssb\_offset} should not be manually specified; \CNAME\ determines \texttt{ssb\_offset} by the order of ageing, recruitment, spawning, and the recruitment parameter \texttt{age}
+
 \begin{itemize}
-	\item if annual time step order is recruitment, ageing, spawning, then \texttt{ssb\_offset} should equal \texttt{age} + 1, or
-	\item if annual time step order is spawning, ageing, recruitment, then \texttt{ssb\_offset} should equal \texttt{age} - 1, or
-	\item else \texttt{ssb\_offset} = \texttt{age}
+	\item if the annual time step order is recruitment, ageing, spawning, then \texttt{ssb\_offset} should equal \texttt{age} + 1, or
+	\item if the annual time step order is spawning, ageing, recruitment, then \texttt{ssb\_offset} should equal \texttt{age} - 1, or
+	\item \texttt{ssb\_offset} = \texttt{age}
 \end{itemize}
 
-There may be certain scenarios where the user will manually want to input these values, e.g. if there are multiple ageing processes in the annual cycle. \CNAME\ has not been coded to deal with this situation and in this case \texttt{ssb\_offset} needs to be manually defined.
+There may be scenarios where the user will input these values, e.g., if there are multiple ageing processes in the annual cycle. \CNAME\ does not have functionality to accommodate this situation, so in this case \texttt{ssb\_offset} would be manually defined.
 
-There are two variants of this process, and they refer to how the stock recruitment residuals or $YCS_{ycs\_year}$ are parametrised as. This can either be as natural multipliers denotes as year class strength ($YCS$) multipliers or in log space usually termed recruitment deviations. Due to the difference in terminology we decided to split these two parametrisations into two separate processes \subcommand{recruitment\_beverton\_holt} and \subcommand{recruitment\_beverton\_holt\_with\_deviations} respectively. The difference is discussed in the below sections.
+There are two variants of this process and they refer to how the stock recruitment residuals or $YCS_{ycs\_year}$ are parametrised. This parametrisation can either be in natural space as year class strength ($YCS$) multipliers, or in log space as recruitment deviations. Due to the difference in terminology, these variants are implemented in two separate processes, \subcommand{recruitment\_beverton\_holt} and \subcommand{recruitment\_beverton\_holt\_with\_deviations}, respectively.
 
 \paragraph*{YCS ($YCS_y$)}
-The $YCS$ parameter (\texttt{ycs\_years})  is defined in Equation~\eqref{eq:year_class}. The parameter \texttt{ycs\_values} should always be referenced by the \texttt{ycs\_years} parameter and is important to note when defining \command{estimate}, \command{project} and \command{time\_varying} blocks for the parameter \texttt{ycs\_values}. An example is given at the end of the section.
 
-A common practice when estimating $YCS$ is to standardise using the Haist parametrisation suggested by V. Haist. Note that \CNAME\ will only standardise if users define the sub command \subcommand{standardise\_ycs\_years}. When standardising the model parameter \texttt{ycs\_values} is a vector \textbf{Y}, covering the set of years from \texttt{start\_year} - \texttt{ssb\_offset} to \texttt{final\_year} - \texttt{ssb\_offset}, as defined by the parameter \texttt{ycs\_years}. The resulting year class strengths are calculated by $YCS_i=Y_i/\bar{\textbf{Y}}$, where the mean is calculated over the user-specified years \texttt{standardise\_ycs\_years}. Then,
+The $YCS$ parameter (\texttt{ycs\_years}) is defined in Equation~\eqref{eq:year_class}. The parameter \texttt{ycs\_values} is referenced by the \texttt{ycs\_years} parameter and is important to note when defining \command{estimate}, \command{project}, and \command{time\_varying} blocks for the parameter \texttt{ycs\_values}. An example is at the end of the section.
+
+A common practice when estimating $YCS$ is to standardise using the Haist parametrisation, which was described by V. Haist. \CNAME\ will standardise $YCS$ only if subccommand \subcommand{standardise\_ycs\_years} is defined. The model parameter \texttt{ycs\_values} is a vector \textbf{Y}, covering the years from \texttt{start\_year} - \texttt{ssb\_offset} to \texttt{final\_year} - \texttt{ssb\_offset}, as defined by the parameter \texttt{ycs\_years}. The resulting year class strengths are calculated by $YCS_i=Y_i/\bar{\textbf{Y}}$, where the mean is calculated over the user-specified years \texttt{standardise\_ycs\_years}.
+
 \[
 YCS_i =
 \begin{cases}
@@ -443,13 +507,13 @@ Y_i					 & :y \notin S
 \end{cases}
 \]
 
-where S is the set of years from \texttt{standardise\_ycs\_years}. One effect of this parametrisation is that \Rzero\ is then defined as the mean estimated recruitment over the set of years $S$, because the mean year class multiplier over these years will always be one.
+where S is the set of years from \texttt{standardise\_ycs\_years}. One effect of this parametrisation is that \Rzero\ is then defined as the mean estimated recruitment over the set of years $S$, because the mean $YCS$ multiplier over these years will always be one.
 
-Typically, the user will define \texttt{standardise\_ycs\_years} to span the years for which they expect to have reasonable estimates of $YCS$s. Often, the user will wish to force $Y_y=1$ for some or all years $y\in S$ (this is equivalent to forcing Ry=\Rzero\ x SR) by setting the lower and upper bounds of these $Y$s to be 1. An exception to this might occur for the most recent $YCS$s, which the user may want to estimate but not include in the definition of \Rzero\ (because the estimates are based on too few data). Note that, optionally, the user may exclude one or more years within the range from the averaging process of the Haist parametrisation.
+Typically \texttt{standardise\_ycs\_years} is defined to span the years over which $YCS$ is reasonably well estimated. For years that are not well estimated, $Y_y$ can be set to 1 for some or all years $y\in S$ (which is equivalent to forcing $R_y$ = \Rzero\ x $SR(SSB_y)$) by setting the lower and upper bounds of these $Y$ values to 1. An exception to this might occur for the most recent $YCS$ values, which the user may estimate but not include in the definition of \Rzero\ (because the estimates may be based on too few data). One or more years may be excluded from the range of years for the averaging process of the Haist parametrisation.
 
-The advantage of the Haist parametrisation is that the user need no longer use a large penalty to force the mean of the $YCS$ parameter to be 1 (though they should still use a small penalty to stop the mean of \textbf{Y} from drifting). This may improve MCMC performance.  Projected $YCS$ are not affected by this feature. A disadvantage with this parametrisation in a Bayesian analysis is that the prior refers to the $Y$s, not the $YCS$.
+The advantage of the Haist parametrisation is that a large penalty is not necessary to force the mean of the $YCS$ parameter to be 1, although a small penalty should still be used to stop the mean of \textbf{Y} from drifting. These adjustments may improve MCMC performance. Projected $YCS$ values are not affected by this feature. A disadvantage with this parametrisation in a Bayesian analysis is that the prior applies to $Y$, not $YCS$.
 
-The following syntax is an example of a the configuration of the Beverton-Holt recruitment process, where individuals are added to the category `immature' at $age=1$, and the number to add is $R_0=5 \times 10^5$. \texttt{SSB\_derived\_quantity} is a derived quantity that specifies the total spawning stock biomass that contributed to the year class, with \Bzero\ the value of the derived quantity at the end of the initialisation phase labelled \texttt{phase1}. The $YCS$ are standardised to have mean one in the period 1995 to 2004, and recruits enter into the model two years following spawning.
+An example of the specification of a Beverton-Holt recruitment process, where individuals are added to the category "immature" at $age=1$, and the number added is $R_0=5 \times 10^5$; \texttt{SSB\_derived\_quantity} is a derived quantity that specifies the total spawning stock biomass that contributed to the year class, with \Bzero\ the value of the derived quantity at the end of the initialisation phase labelled \texttt{phase1}; and $YCS$ are standardised to have mean one in the period 1995 to 2004, and recruits enter into the model two years following spawning
 
 {\small{\begin{verbatim}
 	@process Recruitment
@@ -467,27 +531,30 @@ The following syntax is an example of a the configuration of the Beverton-Holt r
 \end{verbatim}}}
 
 
-\paragraph*{Recruitment deviations ($\epsilon_y$)}
+\paragraph*{Recruitment deviations, $\epsilon_y$}
 
-Recruitment deviations model the stock recruitment residuals in log space, with the following ling between $YCS_y$ and $\epsilon_y$ shown in equation~\ref{eq:recruit_devs}.
+Recruitment deviations represent the stock-recruitment relationship residuals in log space, with the link between $YCS_y$ and $\epsilon_y$
 
 \begin{equation}\label{eq:recruit_devs}
-	YCS_y = exp^{-0.5b_y\sigma^2_R + \epsilon_y}
+	YCS_y = exp(\epsilon_y - b_y\sigma^2_R / 2)
 \end{equation}
 
-where $\sigma^2_R$ is the expected variance of the stock recruitment residuals, $b_y$ is a bias correction defined by \cite{methot2011adjusting} and equation~\ref{eq::bias}. There is a constraint when using this parametrisation which is that $\epsilon_y\sim N(0,\sigma^2_R)$. That is $\epsilon_y$ are normally distributed in log space and thus log normal when back-transformed to the resulting stock recruitment relationship $YCS_y$. Recent work has found that this transformation does not technically lead to \textit{a priori} assumption that the resulting $YCS_y$ are lognormal, see appendix~\ref{investigating-two-options-for-ycs-prior-distribution-formulations} for more discussion.
+where $\epsilon_y\sim N(0,\sigma^2_R)$, $\sigma^2_R$ is the variance of the stock-recruitment residuals, and $b_y$ is a bias correction defined by \cite{methot2011adjusting}
 
 \begin{equation}\label{eq::bias}
-	    b_y = \left\{\begin{array}{lr}
-	0, & \text{for }y\leq y_1^b\\
-	b_{max}(1 - \frac{y - y_1^b}{y_2^b - y_1^b}), & \text{for } y_1^b < y < y_2^b\\
-	b_{max}, & \text{for } y_2^b\leq y \leq y_3^b\\
-	b_{max}(1 - \frac{y_3^b - y}{y_4^b - y_3^b}), & \text{for }  y_3^b< y < y_4^b\\
-	0, & \text{for } y_4^b\leq y
-	\end{array}\right\}
+b_y = \left\{\begin{array}{lr}
+0, & \text{for }y\leq y_1^b\\
+b_{max}(1 - \frac{y - y_1^b}{y_2^b - y_1^b}), & \text{for } y_1^b < y < y_2^b\\
+b_{max}, & \text{for } y_2^b\leq y \leq y_3^b\\
+b_{max}(1 - \frac{y_3^b - y}{y_4^b - y_3^b}), & \text{for }  y_3^b< y < y_4^b\\
+0, & \text{for } y_4^b\leq y
+\end{array}\right\}
 \end{equation}
 
+The $\epsilon_y$ values are normally distributed in log space and thus lognormal when back-transformed to the resulting stock-recruitment relationship $YCS_y$. Recent work has found that this transformation does not technically lead to the \textit{a priori} assumption that the resulting $YCS_y$ are lognormal. See appendix~\ref{investigating-two-options-for-ycs-prior-distribution-formulations} for more discussion.
+
 The ramp function described above for the bias correction has the additional subcommands controlling the ramp as follows,
+
 \begin{itemize}
 	\item $y_1^b = $ \subcommand{last\_year\_with\_no\_bias}
 	\item $y_2^b = $ \subcommand{first\_year\_with\_bias}
@@ -516,7 +583,8 @@ The ramp function described above for the bias correction has the additional sub
 \end{verbatim}}}
 
 
-So, to specify a Beverton-Holt recruitment for each stock, the following information is required:
+To specify a Beverton-Holt recruitment for each stock, the information required is:
+
 \begin{enumerate}
 	\item $YCS$, starting from year (\texttt{start\_year} - \texttt{ssb\_offset}) and extending up to year (\texttt{final\_year} - \texttt{ssb\_offset})
 	\item the value of \texttt{age} (a.k.a. \texttt{y\_enter} to CASAL users)
