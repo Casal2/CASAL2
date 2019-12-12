@@ -132,7 +132,7 @@ The annual cycle is implemented as a set of processes that occur in a user-defin
 
 There is an associated \emph{mortality block} for every time step in the annual cycle. Mortality blocks are a key concept in \CNAME.
 
-Mortality blocks are used to define the `point' in the model time sequence when observations (see Section~\ref{sec:observation-section}) are evaluated, and derived quantities (see Section~\ref{sec:derived-quantities}) are evaluated.
+Mortality blocks are used to define the "point" in the model time sequence when observations (see Section~\ref{sec:observation-section}) are evaluated, and derived quantities (see Section~\ref{sec:derived-quantities}) are evaluated.
 
 A mortality block is defined as a consecutive sequence of mortality processes within a time step. The mortality processes are described in Subsection~\ref{sec:mortality}.
 
@@ -414,7 +414,7 @@ There are two types of processes: (1) processes that occur across multiple time 
 
 \subsubsection{\I{Recruitment}}
 
-Recruitment processes are defined as processes that add new individuals to the partition. \CNAME\ has three options for recruitment processes, constant recruitment\index{Recruitment ! Constant}, \I{Beverton-Holt recruitment}\index{Recruitment ! Beverton-Holt} \citep{1203}, and  \I{Beverton-Holt recruitment with deviations}\index{Recruitment ! Beverton-Holt}.
+Recruitment processes are defined as processes that add new individuals to the partition. \CNAME\ has two options for recruitment processes, constant recruitment\index{Recruitment ! Constant} and the \I{Beverton-Holt stock-recruitment relationship}\index{Recruitment ! Beverton-Holt} \citep{1203}.
 
 In the recruitment processes, a number of individuals are added to a single age class within the partition, with the number determined by the type of recruitment process specified. If more than one category (of recruits?) is defined, then the proportion of recruits to be added to each category is specified by the \argument{proportions} property, or multiple recruitment processes can be defined. For example, if recruiting to categories labelled \texttt{male} and \texttt{female}, then the proportions may be set to $0.5$ and $0.5$, so that half of the recruits are added to the male category and the other half to the female category.
 
@@ -551,9 +551,9 @@ b_{max}(1 - \frac{y_3^b - y}{y_4^b - y_3^b}), & \text{for }  y_3^b< y < y_4^b\\
 \end{array}\right\}
 \end{equation}
 
-The $\epsilon_y$ values are normally distributed in log space and thus lognormal when back-transformed to the resulting stock-recruitment relationship $YCS_y$. Recent work has found that this transformation does not technically lead to the \textit{a priori} assumption that the resulting $YCS_y$ are lognormal. See appendix~\ref{investigating-two-options-for-ycs-prior-distribution-formulations} for more discussion.
+The $\epsilon_y$ values are normally distributed in log space and thus lognormal when back-transformed to the resulting stock-recruitment relationship $YCS_y$. Recent work has found that this transformation does not technically lead to the \textit{a priori} assumption that the resulting $YCS_y$ are lognormal. See Appendix~\ref{investigating-two-options-for-ycs-prior-distribution-formulations} for more discussion.
 
-The ramp function described above for the bias correction has the additional subcommands controlling the ramp as follows,
+The ramp function described above for the bias correction has the additional subcommands controlling the ramp
 
 \begin{itemize}
 	\item $y_1^b = $ \subcommand{last\_year\_with\_no\_bias}
@@ -582,18 +582,19 @@ The ramp function described above for the bias correction has the additional sub
 		deviation_values  0 -0.2 0.4 0 0 0 0 0 0 0 0 0 0
 \end{verbatim}}}
 
-
 To specify a Beverton-Holt recruitment for each stock, the information required is:
 
 \begin{enumerate}
 	\item $YCS$, starting from year (\texttt{start\_year} - \texttt{ssb\_offset}) and extending up to year (\texttt{final\_year} - \texttt{ssb\_offset})
-	\item the value of \texttt{age} (a.k.a. \texttt{y\_enter} to CASAL users)
+	\item the value of \texttt{age} (which is \texttt{y\_enter} in CASAL)
 	\item the steepness parameter \texttt{h}
 	\item in a multi category model, the proportion of recruits for each category
 	\item a label for the derived quantity
 \end{enumerate}
 
-Also note when an \command{initialisation\_phase} (Section~\ref{subsec:initialisation}) type = \subcommand{derived} is specified and the recruitment is defined by \subcommand{b0}, then all categories must be specified in the \command{recruitment} block. Usually in a recruitment processes you only need to define the categories that receive recruits. Say, for example, a population had a spawning area different from the area that recruits enter the population, then an area specific model could be specified containing spawning categories and recruiting categories. recruiting categories would be specified in the subcommand \subcommand{categories}, as these will be the categories receiving recruits. \textbf{If} you have \command{initialisation\_phase}, \subcommand{type=derived} you need also to specify all categories that are a part of that recruitment process, e.g.,
+When an \command{initialisation\_phase} (Section~\ref{subsec:initialisation}) type = \subcommand{derived} is specified and the recruitment is defined by \subcommand{b0}, then all categories must be specified in the \command{recruitment} block. Usually in a recruitment processes only the categories that receive recruits need to be defined. For example, a population has a spawning area that is different from the area where recruits enter the population. An area-specific model could then be specified which contains spawning categories and recruiting categories. The recruiting categories would be specified in the subcommand \subcommand{categories}, as these would be the categories receiving recruits.
+
+If \command{initialisation\_phase}, \subcommand{type=derived} is used, then all categories that are a part of that recruitment process need to be specified as well
 
 {\small{\begin{verbatim}
 		@process Recruitment
@@ -604,14 +605,16 @@ Also note when an \command{initialisation\_phase} (Section~\ref{subsec:initialis
 		ssb SSB
 		....
 		\end{verbatim}}}
-The proportions = 0.0 are needed due to the way the derived initialisation phase works, i.e., it finds a solution for when \subcommand{r0} = 1.0 based on an infinite geometric series for the plus group, and scales the initial partition by \subcommand{r0}. Thus, if all categories are not specified, then those that are missed would not be initialised to true values and this could lead to inaccurate model outputs. This caution extends to multiple-stock fisheries models where all the categories that make up the stock need to be listed.
+	
+The \texttt{proportions = 0.0} for "spawn.male" and "spawn.female" are needed due to the way the derived initialisation phase works. The derived initialisation finds a solution for when \subcommand{r0} = 1.0 based on an infinite geometric series for the plus group, and scales the initial partition by \subcommand{r0}. Thus, if all categories are not specified, then those that are missed would not be initialised to true values and this could lead to inaccurate model outputs. This set-up extends to multiple-stock fisheries model configurations as well, where all of the categories that make up the stock need to be listed.
+
 \subsubsection{\I{Ageing}\label{sec:ageing}}
 
-The ageing process `ages' individuals --- simply, moving all individuals in the named categories $j$ from one age class $a$ to the next $a + 1$, or accumulates them if the last age class is a plus group.
+The ageing process "ages" individuals, i.e., this process moves all individuals in the named categories $j$ from one age class $a$ to age class $a + 1$, or accumulates them if the last age class is a plus group.
 
 The ageing process is defined as,
 \begin{equation}
-  \text{element}(a,j) \leftarrow \text{element}(a + 1,j)
+  \text{element}(a + 1,j) \leftarrow \text{element}(a,j)
 \end{equation}
 
 except in the case of the plus group (if defined),
@@ -619,7 +622,7 @@ except in the case of the plus group (if defined),
   \text{element}(a_{\text{max}}, j) \leftarrow \text{element}(a_{\text{max}}, j) + \text{element}(a_{\text{max}-1}, j).
 \end{equation}
 
-For example, to apply ageing to the categories \texttt{immature} and \texttt{mature}, then the syntax is,
+For example, to apply ageing to the categories \texttt{immature} and \texttt{mature}, the syntax is
 
 {\small{\begin{verbatim}
 	@process Ageing
@@ -627,29 +630,48 @@ For example, to apply ageing to the categories \texttt{immature} and \texttt{mat
 	categories immature mature
 	\end{verbatim}}}
 
-\textbf{Note} that ageing is \emph{not} applied by \CNAME\ by default. As with other processes, \CNAME\ will not apply a process unless it is defined and specified as a process within the annual cycle. Hence, it is possible to specify a model where a category is not aged. \emph{\CNAME\ will not check or otherwise warn if there is a category defined where ageing is not applied.}
+\textbf{Note:} the ageing process is \emph{NOT} applied by \CNAME\ by default. As with other processes, \CNAME\ will not apply a process unless it is defined and specified as a process within the annual cycle. Hence, it is possible to specify a model where a category is not aged. \emph{\CNAME\ will NOT check or otherwise warn if there is a category defined where ageing is not applied.}
 
 \subsubsection{\I{Mortality}\label{sec:mortality}}
 
-Eight types of mortality processes are permissible in \CNAME: constant rate, event, biomass-event, instantaneous, instantaneous retained, Hollings, initialisation, and a density-dependent relationship based on prey suitability. These processes remove individuals from the partition, either as a rate, as a total number (abundance), as a biomass of individuals or as a mixture of these. Note that \CNAME\ does not (yet) implement the Baranov catch equation. However, instantaneous mortality is considered an approximation to the Baranov catch equation. To apply both natural and biomass-event mortality \texttt{mortality\_instantaneous} can be specified. Note that all mortality processes occur within a mortality block of a time step see Section~\ref{sec:mortality_block} for more information and definitions on mortality blocks.
+There are 8 types of mortality processes available in \CNAME:
+
+\begin{itemize}
+	\item constant rate,
+	\item event,
+	\item biomass-event,
+	\item instantaneous,
+	\item instantaneous retained,
+	\item Hollings,
+	\item initialisation, and
+	\item a density-dependent relationship based on prey suitability.
+\end{itemize}
+
+These processes remove individuals from the partition, either as a rate, as a total number (abundance), as a biomass of individuals or, as a combination of these. \CNAME\ does not (yet) implement the Baranov catch equation. However, instantaneous mortality is considered an approximation to the Baranov catch equation.
+
+To apply both natural and biomass-event mortality, the mortality type \texttt{mortality\_instantaneous} can be specified. Note that all mortality processes occur within the mortality block of a time step. See Section~\ref{sec:mortality_block} for more information and definitions on mortality blocks.
 
 \paragraph{Constant mortality rate}
-To specify a constant annual mortality rate \index{Constant mortality}(e.g. $M=0.2$) for categories `male' and `female', then,
+
+To specify a constant annual mortality rate \index{Constant mortality}(e.g. $M=0.2$) for categories "male" and "female"
+
 {\small{\begin{verbatim}
 @process NaturalMortality
 type mortality_constant_rate
 categories male female
 selectivities One One
 m 0.2 0.2
-
 \end{verbatim}}}
 
-\begin{equation}
-D_{j,t} = \sum_a N_{a,j} (1 - \exp{S_{a,j} M_j p_t})
-\end{equation}
-Where, $D_{j,t}$ is the number of deaths in category $j$ in time step $t$, $N_{a,j}$ is the number of individuals in category $j$ at age $a$. $S_{a,j}$ is the selectivity value for age $a$ in category $j$, $M_j$ is the mortality rate for category $j$, and $p_t$ is the proportion of the mortality rate to apply in time step $t$.
+The total number of individuals removed from a category
 
-Note that the mortality rate process requires a selectivity. To apply the same mortality rate over all age classes, use a selectivity defined as $S_j=1.0$ for all ages $j$, e.g.,
+\begin{equation}
+D_{j,t} = \sum_a N_{a,j,t} [1 - \exp(-S_{a,j} M_{a,j} p_t)]
+\end{equation}
+
+where $D_{j,t}$ is the total number of deaths in category $j$ in time step $t$, $N_{a,j,t}$ is the number of individuals in category $j$ of age $a$ in time step $t$, $S_{a,j}$ is the selectivity value for age $a$ in category $j$, $M_{a,j}$ is the mortality rate for category $j$ for age $a$, and $p_t$ is the proportion of the mortality rate to apply in time step $t$.
+
+The mortality rate process requires a selectivity. To apply the same mortality rate over all age classes in a category, use a selectivity defined as $S_{a,j}=1.0$ for all ages $a$ in category $j$
 
 {\small{\begin{verbatim}
 @selectivity One
@@ -657,7 +679,7 @@ type constant
 c 1
 \end{verbatim}}}
 
-You can also apply age specific mortality rates. For example consider the hypothesis that mortality is higher for younger and older individuals and lowest when individuals are at their optimal fitness. This could be done using a double exponential selectivity (see Section~\ref{sec:selectivities} for what that selectivity looks like);
+Age-specific mortality rates can also be applied. For example, the hypothesis that mortality is higher for younger and older individuals and lowest when individuals are at their optimal fitness could be defined by using a double exponential selectivity (see Section~\ref{sec:selectivities})
 
 {\small{\begin{verbatim}
 @selectivity age_specific_M
@@ -677,26 +699,32 @@ selectivities age_specific_M age_specific_M
 m 1.0 1.0
 \end{verbatim}}}
 
-In the above syntax you can see how you set \subcommand{m} to zero and allow the rate to be described through the selectivity. This concept can be applied in other mortality methods such as \subcommand{instantaneous\_mortality}.
+In this definition \subcommand{m} is set to 1.0 and the rate is described through the selectivity. This concept can be constructed similarly for other mortality methods such as \subcommand{instantaneous\_mortality}.
+
 \paragraph{Event and biomass-event mortality}
 
-The event mortality\index{Event mortality} and biomass-event mortality\index{Biomass-event mortality} processes act in a similar manner, except that they remove a specified abundance (number of individuals) or biomass respectively. These can be used to include anthropogenic mortality where numbers of removals are known, e.g. fishing in a fisheries model, rather than applying mortality as a rate.
+The event mortality\index{Event mortality} and biomass-event mortality\index{Biomass-event mortality} processes are applied in a similar manner, except that they remove a specified abundance (number of individuals) or biomass, respectively. These mortality processes can be used to define mortality events where the numbers of removals are known, e.g., fishing, rather than applying mortality as a rate.
 
-In these cases, the abundance or biomass removed is also constrained by a maximum exploitation rate. \CNAME\ removes as many individuals, or as much biomass, as it can while not exceeding the maximum exploitation rate. When minimising, event mortality processes require a penalty to discourage parameter values that will not allow the defined number of individuals to be removed. Here, the model penalises those parameter estimates that result in an too low a number of individuals in the defined categories (after applying selectivities) to allow for removals at the maximum exploitation rate (and similarly for biomass). See Section \ref{sec:penalties} for more information on how to specify penalties.
+In these cases, the abundance or biomass removed is also constrained by a maximum exploitation rate. \CNAME\ removes as many individuals or as much biomass as possible,  while not exceeding the maximum exploitation rate.
 
-For example, the event mortality applied to user-defined categories $i$, with the numbers removed at age $j$ determined by a selectivity-at-age $S_j$ is applied as follows:
+Event mortality processes require a penalty to avoid estimating parameter values that will not allow the defined number of individuals to be removed. The model penalises those parameter estimates that result in an too low a number of individuals in the defined categories (after applying selectivities) to allow for removals at the maximum exploitation rate, with a similar penalty for biomass. See Section \ref{sec:penalties} for more information on how to specify penalties.
 
-First, calculate the vulnerable abundance for each category $j$ in $1 \ldots J$ for ages $a = 1 \ldots A$ that are subject to event mortality,
+For example, the event mortality applied to user-defined categories $i$, with the numbers removed at age $j$ determined by a selectivity-at-age $S_j$:
+
+First, calculate the vulnerable abundance for each category $j$ in $1 \ldots J$ for ages $a = 1 \ldots A$ that are subject to event mortality
+
 \begin{equation}
-  V(a,j) = S(a) N(a,j)
+  V_{a,j} = S_{a,j} N_{a,j}
 \end{equation}
 
-and, hence, define the total vulnerable abundance $V_{total}$ as,
+and define the total vulnerable abundance $V_{total}$ as
+
 \begin{equation}
-  V_{total}  = \sum\limits_j {\sum\limits_a {V(a,j)}}
+  V_{total}  = \sum\limits_j {\sum\limits_a {V_{a,j}}}
 \end{equation}
 
-Hence the exploitation rate\index{Maximum exploitation rate} to apply is
+The exploitation rate\index{Maximum exploitation rate} to apply is
+
 \begin{equation}
 U = \begin{cases}
   C/V_{total}, & \text{if $C/V_{total} \leq U_{max}$} \\
@@ -704,12 +732,13 @@ U = \begin{cases}
   \end{cases}
 \end{equation}
 
-And the number removed $R$ from each age $a$ in category $j$ is,
+The number removed $R_{a,j}$ from each age $a$ in category $j$ is,
+
 \begin{equation}
-  R(a,j) = UV(a,j)
+  R_{a,j} = U V_{a,j}
 \end{equation}
 
-For example, to specify an \textbf{abundance based} fishing mortality process in a fisheries model, with catches given for a set of specific years, over categories `immature' and 'mature', with selectivity `FishingSel', and assuming a maximum possible exploitation rate of 0.7, the syntax is,
+For example, to specify an \textbf{abundance-based} fishing mortality process with catches given for a set of specific years over categories "immature" and "mature", with selectivity "FishingSel", and assuming a maximum possible exploitation rate of 0.7, the syntax is
 
 {\small{\begin{verbatim}
 	@process Fishing
@@ -721,7 +750,7 @@ For example, to specify an \textbf{abundance based} fishing mortality process in
 	penalty event_mortality_penalty
 	\end{verbatim}}}
 
-and specifed similarly for a \textbf{biomass} based fishing mortality process,
+and specifed similarly for a \textbf{biomass-based} fishing mortality process
 
 {\small{\begin{verbatim}
 		@process Fishing
@@ -898,7 +927,7 @@ When the \texttt{mortality\_instantaneous\_retained} process is applied, the fol
 
 \paragraph{Holling's mortality rate}
 
-The density-dependent Hollings mortality process\index{Holling mortality} applies the Holling Type II and Type III functions \citep{Holling1959}, but is generalised using the Michaelis-Menten equation \citep{MentenMichaelis1913}. The function removes a number or biomass from a set of categories according to the total (selected) abundance (or biomass) and some 'predator' abundance (or biomass), and constrained by a maximum exploitation rate.
+The density-dependent Hollings mortality process\index{Holling mortality} applies the Holling Type II and Type III functions \citep{Holling1959}, but is generalised using the Michaelis-Menten equation \citep{MentenMichaelis1913}. The function removes a number or biomass from a set of categories according to the total (selected) abundance (or biomass) and some "predator" abundance (or biomass), and constrained by a maximum exploitation rate.
 
 For example, the mortality applied to user-defined categories $k$, with the numbers removed at age $l$, determined by a selectivity-at-age $S(l)$ is applied as follows:
 
@@ -991,7 +1020,7 @@ Note how the \texttt{initialisation\_mortality\_event} has been specified in the
 
 \paragraph{Prey-suitability mortality}
 
-The density-dependent prey-suitability process\index{Density-dependent prey-suitability} applies predation mortality from a predator group to its prey groups simultaneously. It removes an abundance (or biomass) from each prey group according to the total (selected) abundance (or biomass) of each prey group, the total (selected) abundance (or biomass) of the other prey groups, some 'predator' abundance (or biomass), and the preference (electivity) of the predator to each prey group, but constrained by a maximum exploitation rate. The predator-prey suitability functions were based on the multispecies Virtual Population Analysis (MSVPA) functions described by \citep{JuradoMolina2005}.
+The density-dependent prey-suitability process\index{Density-dependent prey-suitability} applies predation mortality from a predator group to its prey groups simultaneously. It removes an abundance (or biomass) from each prey group according to the total (selected) abundance (or biomass) of each prey group, the total (selected) abundance (or biomass) of the other prey groups, some "predator" abundance (or biomass), and the preference (electivity) of the predator to each prey group, but constrained by a maximum exploitation rate. The predator-prey suitability functions were based on the multispecies Virtual Population Analysis (MSVPA) functions described by \citep{JuradoMolina2005}.
 
 For example, the mortality applied to the user-defined prey group $g$ of category $k$, with the numbers removed at age $l$ determined by a selectivity-at-age $S(l)$ is applied as follows:
 
@@ -1042,7 +1071,7 @@ Note that prey suitability choice occurs only between prey groups specified by t
 
 The density-dependent prey-suitability process is applied as either a biomass or an abundance depending on the value of the \subcommand{is\_abundance} switch.
 
-Individual categories can be aggregated into prey groups using the '+' symbol. To indicate that two (or more) categories are to be aggregated, separate them with a '+' symbol. For example, to specify two prey groups of two species made up of the males and females in each, then the subcommand would be,
+Individual categories can be aggregated into prey groups using the "+" symbol. To indicate that two (or more) categories are to be aggregated, separate them with a "+" symbol. For example, to specify two prey groups of two species made up of the males and females in each, then the subcommand would be,
 
 {\small{\begin{verbatim}
 		prey_categories maleSpeciesA + femaleSpeciesA maleSpeciesB + femaleSpeciesB
@@ -1071,14 +1100,14 @@ This process moves individuals between categories. The \CNAME\ partition is user
 
 A special case is annual transition by category, which allows a transition to occur in a specific subset of years only, where each year can have a different rate.
 
-In both cases, there has to be a one to one relationship between the `from' category and the `to' category, i.e., for every source category there is one target category,
+In both cases, there has to be a one to one relationship between the "from" category and the "to" category, i.e., for every source category there is one target category,
 
 \begin{equation}
 	N_{a,j} = N_{a,i} \times P_i \times S_{a,i}
 \end{equation}
 where $N_{a,j}$ is the number of individuals that have moved to category $j$ from category $i$ in age $a$ and $N_{a,i}$ is the number of individuals in category $i$. $P_i$ is the proportion parameter for category $i$ and $S_{a,i}$ is the selectivity at age $a$ for category $i$.
 
-Note, to merge categories just repeat the `to' category multiple times.
+Note, to merge categories just repeat the "to" category multiple times.
 
 An example, to specify a simple spawning migration of mature males from a western area to an eastern (spawning) area, the syntax is,
 {\small{\begin{verbatim}
@@ -1178,7 +1207,7 @@ Derived quantities are associated with a mortality block see section~\ref{sec:mo
 \end{itemize}
 where, $n_{p,j}$ is the derived quantity at proportion $p$ of the mortality block for category $j$, $n_j$ is the quantity at the beginning of the mortality block and $n'_j$ is the quantity at the end of the mortality block.
 
-As an example, to define a biomass derived quantity (say spawning stock biomass, $SSB$), evaluated at the end of the first time step (labelled \texttt{step\_one}), over all 'mature' male and female categories and halfway through the mortality block using the \texttt{weighted\_sum} method, we would use the syntax,
+As an example, to define a biomass derived quantity (say spawning stock biomass, $SSB$), evaluated at the end of the first time step (labelled \texttt{step\_one}), over all "mature" male and female categories and halfway through the mortality block using the \texttt{weighted\_sum} method, we would use the syntax,
 
 {\small{\begin{verbatim}
 @derived_quantity SSB
@@ -1227,7 +1256,7 @@ There is an option for users to input empirical length at age by year, this is a
 
 \subsection{\I{Length-weight relationship}\label{sec:mean-weight}}
 
-There are two length-weight relationships available in \CNAME. The first is the 'naive' --- which the relationship where the weight of an individual, regardless of length, is always 1. The second is the 'basic' relationship, which is the standard cubic function of length.
+There are two length-weight relationships available in \CNAME. The first is the "naive" --- which the relationship where the weight of an individual, regardless of length, is always 1. The second is the "basic" relationship, which is the standard cubic function of length.
 
 \paragraph[None]{\argument{none}}\index{Length-weight relationshsip!None}
 
@@ -1428,7 +1457,7 @@ f(x)=\begin{cases}
   \end{cases}
 \end{equation}
 
-The double-exponential selectivity has non-estimable parameters $x_1$ and $x_2$, and estimable parameters $x_0$, $y_0$, $y_1$, and $y_2$.  $\alpha$ is a scaling parameter, with default value of $\alpha = 1$. It can be `U-shaped'. Bounds for $x_0$ must be such that $x_1 < x_0 < x_2$. With $\alpha=1$, the selectivity passes through the points $(x_1, y)$, $(x_0, y_0)$, and $(x_2, y_2)$. If both $y_1$ and $y_2$ are greater than $y_0$ the selectivity is `U-shaped' with minimum at $(x_0, y_0)$.
+The double-exponential selectivity has non-estimable parameters $x_1$ and $x_2$, and estimable parameters $x_0$, $y_0$, $y_1$, and $y_2$.  $\alpha$ is a scaling parameter, with default value of $\alpha = 1$. It can be "U-shaped". Bounds for $x_0$ must be such that $x_1 < x_0 < x_2$. With $\alpha=1$, the selectivity passes through the points $(x_1, y)$, $(x_0, y_0)$, and $(x_2, y_2)$. If both $y_1$ and $y_2$ are greater than $y_0$ the selectivity is "U-shaped" with minimum at $(x_0, y_0)$.
 
 %\subsubsection[Spline]{\argument{spline}}\index{Selectivities!Spline}
 %
