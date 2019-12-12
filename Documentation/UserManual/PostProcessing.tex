@@ -1,93 +1,112 @@
-\section{\I{Post processing output using \R} \label{sec:post-processing}}\index{Post processing}\index{Post processing section}
+\section{\I{Post-processing output using \R} \label{sec:post-processing}}\index{Post processing}\index{Post-processing section}
 
-\R\ is the main program used to process and visualise output from a \CNAME\ model. \R\ is free and can be downloaded from \url{https://cran.r-project.org/}. Once you have installed \R\ you can load the \cname\ \R\ package for investigating model runs.
+\R\ (\url{https://www.r-project.org/}) is the main application used to process and visualise output from a \CNAME\ model. \R\ is free and can be downloaded from \url{https://cran.r-project.org/}. Once you have installed \R\ you can install the \cname\ \R\ package from the file (\texttt{casal2\_1.0.tar.gz}) which is part of the \CNAME\ download.
 
-In the downloaded bundle there is a R-package (\texttt{casal2\_1.0.tar.gz}) that reads \CNAME\ output into \R. The \CNAME\ package has multiple functionalities, it can import \CNAME\ output into \R\ as a list. It also has plotting and summarising functions for \CNAME\ reports.
+The \CNAME\ \R\ package has functionality to parse \CNAME\ output into a list. It also has diagnostic, plotting, and summarising functions.
 
-There are three types of output that \CNAME\ will produce and these depend on what type of analysis you are doing. These outputs are Standard output, MCMC output, Derived Quantity outputs. Standard output are the typical reports that are produced in most \CNAME\ runmodes (with the exception of -s and -m). This output can be split into furthur categories where you can have a single parameter run (\texttt{casal2 -r}) or multiparameter run e.g. \texttt{casal2 -r -i many\_pars.out} or running in projection mode (\texttt{-f 1}). Both of the standard output's can be read into \R\ using the \texttt{extract.mpd()} function. The second type of output if generated when doing an MCMC analysis (\texttt{casal2 -m}), which automatically generates two files \texttt{mcmc\_objective.out} and \texttt{mcmc\_sampeles.out}. These reports will be summarised to conclude convergence or chain behaviour, it will also be used to view marginal posteriors and quantify key model parameter uncertainty. The last output type is Derive Quanity outputs or sometimes referred to as tabular output. Usually this is generated after an MCMC is done, and the user wants to see the marginal posteriors for quantities that aren't explicit estimates. For example in fisheries a commonly reported quantity is the spawning stock biomass from the initial year to the final year. These aren't estimated paraemters and so you would need to run the following command to get posteriors for these derived quantities (\texttt{casal2 -r -i mcmc\_samples.out --tabular > Tabular\_report.out}). This can then be read into an \R\ environment using the \texttt{extract.tabular()} function.
+There are three types of output that \CNAME\ can produce, depending on the type of analysis run. These outputs are: Standard, MCMC, and Derived Quantity.
 
+The Standard outputs are the reports that are produced in most \CNAME\ run modes, with the exception of \texttt{-s} and \texttt{-m}. The Standard output can be split into two additional categories, a single parameter run (\texttt{casal2 -r}) or a multi-parameter run (\texttt{casal2 -r -i many\_pars.out}), or running in projection mode (\texttt{-f 1}). The Standard outputs can be read into \R\ using the \texttt{extract.mpd()} function.
 
-\CNAME's reported output is written so that each \command{report} will start with a '*' and end with `*end'. Users can use this format as the basis to construct \R\ or other functions that read \CNAME\ output to identify and read individual reports for post-processing.
+The second type of output is generated when doing an MCMC analysis (\texttt{casal2 -m}), which can generate two files, \texttt{mcmc\_objective.out} and \texttt{mcmc\_samples.out}. The MCMC outputs can be used to summarise convergence properties or chain behaviour, and can also be used to view marginal posteriors and quantify parameter uncertainty.
 
+The third output type is the Derived Quantity outputs, also referred to as tabular output. The Derived Quantity output can be generated after an MCMC analysis is done, to produce the marginal posteriors for derived quantities. A commonly reported derived quantity in fisheries stock assessment modelling is the time series of spawning stock biomass. To get the posterior distributions for these derived quantities use the \texttt{-{}-tabular} flag (e.g., \texttt{casal2 -r -i mcmc\_samples.out -{}-tabular > Tabular\_report.out}). This output can then be read into \R\ using the \texttt{extract.tabular()} function.
 
-These extract functions differ by how the expected output is structured and they each create a different \texttt{casal2} object in \R\ that when run with \texttt{summary, plot} functions will generate different plots. To query an object from an \texttt{extract()} function just type \texttt{class(object)}. The following is a list of available \R\ functions with their descriptions that are available in the \texttt{casal2} R package.
+\CNAME's reported output is written so that each \command{report} will start with a '*' and end with `*end'. This format can be used as the basis to construct functions that read \CNAME\ output to identify and read individual reports for post-processing.
+
+The \CNAME\ \R\ \texttt{extract()} functions differ by how the expected output is structured and they each create a different \cname\ object. The \texttt{summary()} and \texttt{plot()} functions will generate different plots for the different \cname\ objects. Objects produced by the \texttt{extract()} function can be queried with \texttt{class(object)}.
+
+The list of \cname\ \R\ functions include:
 
 \begin{itemize}
-	\item \texttt{extract.mpd()} - import \CNAME\ default output into \R\ as a list
-	\item \texttt{extract.mcmc()} - import \CNAME\ mcmc output into \R\ as a list
-	\item \texttt{extract.tabular()} - import \CNAME\ tabular output into \R\ as a list
-	\item \texttt{extract.parameters()} - import \CNAME\ parameter files into \R\ as a list
-	\item \texttt{generate.starting.pars()} - Reads in a file that contains your \command{estimate} blocks and generates 'N' starting values to test 'global convergence'. Pretty handy little bugger I think, encouraged to use.
-	\item \texttt{burn.in.tabular()} - takes a \subcommand{casal2TAB} object and cuts off the first 'n' rows.
-	\item \texttt{plot.derived\_quantities()} - plot derived quantities
-	\item \texttt{plot.selectivities()} - plot selectivities
-	\item \texttt{plot.ycs()} - plot true ycs strengths
-	\item \texttt{plot.pressure()} - plot fishing pressures
-	\item \texttt{summary()} - summarise a model run
-	\item \texttt{extract.csl2.file} - read \CNAME\ .csl2 (configuration) file into \R\ as a list
-	\item \texttt{write.csl2.file} - write \CNAME\ .csl2 (configuration) file from R
-	\item \texttt{ReadSimulatedData} - read \CNAME\ output into \R\ from a \texttt{casal2 -s} run
-	\item \texttt{Method.TA1.8()} return a weighting factor for compositional data. See \cite{francis2011data} for more detail.
-	\item \texttt{apply.dataweighting.to.csl2()} - takes a configuration that contains \command{observation} blocks, it applies a weighting factor to a compositional data set and generates a new \subcommand{.csl2} file, with modified effective sample size.
-
+	\item \texttt{extract.mpd()}, which parses the \CNAME\ default output into a list
+	\item \texttt{extract.mcmc()}, which parses the \CNAME\ MCMC output into a list
+	\item \texttt{extract.tabular()}, which parses the \CNAME\ tabular output into a list
+	\item \texttt{extract.parameters()}, which parses the \CNAME\ parameter files into a list
+	\item \texttt{generate.starting.pars()}, which reads in a file that contains the \command{estimate} blocks and generates 'N' starting values to test convergence (???)
+	\item \texttt{burn.in.tabular()}, which omits the first 'N' rows from a \subcommand{casal2TAB} object
+	\item \texttt{plot.derived\_quantities()}, which plots the derived quantities
+	\item \texttt{plot.selectivities()}, which plots the selectivities
+	\item \texttt{plot.ycs()}, which plots the true YCS strengths
+	\item \texttt{plot.pressure()}, which plots the fishing pressures
+	\item \texttt{summary()}, which summarises a model run
+	\item \texttt{extract.csl2.file()}, which reads a \CNAME\ .csl2 (configuration) file into a list
+	\item \texttt{write.csl2.file()}, which writes a \CNAME\ .csl2 (configuration) file from (???)
+	\item \texttt{ReadSimulatedData()}, which parses \CNAME\ output from a \texttt{casal2 -s} run
+	\item \texttt{Method.TA1.8()}, which returns a weighting factor for age or length composition data. See \cite{francis2011data} for more detail.
+	\item \texttt{apply.dataweighting.to.csl2()}, which parses a \CNAME\ .csl2 (configuration) file that contains \command{observation} blocks, applies a weighting factor to an age or length composition data set, and generates a new \subcommand{.csl2} file with modified effective sample size values
 \end{itemize}
 
-specific settings for these functions can be queried once you have loaded the \CNAME\ R library into your current R session via (\texttt{library(casal2)}), using the standard \R\ help syntax \texttt{?} (i.e. \texttt{?param.profile()}). Most of the help files should have example data that you can replicate to help understand with syntax.
-\\
-\paragraph*{Standard diagnostics and plots for model output}
-An aspect of \CNAME\ that we have added to aid in userability is an \R\ package that has functions that can summarise and diagnose a model with ease. Stock synthesis is exceptional for having a well tested and used \R\ package, this our attempt of trying to follow suit.
+The required and optional arguments for these functions can be queried after loading the \CNAME\ \R\ library with \texttt{library(casal2)} and using the standard \R\ help syntax \texttt{?} (e.g., \texttt{?param.profile()}). Many of the help files have example code and data to demonstrate function syntax.
+
+\paragraph*{Standard diagnostic functions and plots for model output}
+
+TODO (functionality description)
 
 \texttt{plot.derived\_quantity()}
 
+When comparing model output either: different parameters for the same model structure are being compared (Situation 1), or outputs from multiple model structures are being compared (Situation 2). These functions can be useful for both comparison types.
 
-Generally when comparing model outputs we are either comparing different parameters for the same model structure (Option 1) or comparing outputs from multiple model structures (Option 2). This function in theory should work for both of these.
+\begin{itemize}
+	\item \texttt{plot.selectivities()}
+	\item \texttt{plot.pressure()}
+	\item \texttt{plot.fit()}
+	\item \texttt{plot.ycs()}
+\end{itemize}
 
-\texttt{plot.selectivities()}
-\texttt{plot.pressure()}
-\texttt{plot.fit()}
-\texttt{plot.ycs()}
+\paragraph*{Data weighting}
 
-\paragraph*{DataWeighting}
-An important component of stock assessment is dealing with data conflicts through the use of dataweighting. There are a range of methods for this for a great summary see \cite{francis2011data}. The function implemented in the \CNAME\ R-library is TA1.8, which can be invoked using \texttt{Method.TA1.8()}. We have tried to automate this process for users by adding an assist function named \subcommand{apply.dataweighting.to.csl2}. This function allows users to automatically apply a weighting factor to a specific compositional \command{observation} block, and generate a new \subcommand{.csl2} file to be re-estimated.
+An important component of fisheries stock assessment modelling is addressing data conflicts through the use of data weighting. There are a range of methods that can be used (\cite{francis2011data}). The \CNAME\ \R\ function is \texttt{Method.TA1.8()}. An additional function \subcommand{apply.dataweighting.to.csl2()} automatically applies a weighting factor to a specific age or length composition data in an \command{observation} block, and generates a new \subcommand{.csl2} file with modified effective sample size values.
 
 \begin{lstlisting}
 library(casal2)
 
-## read in a reported output from a casal2 -e run
-## in a command prompt run 'casal2 -e > estimate.log'
-## make sure there is @report block for the observation of interest.
+## read in the reported output from a "casal2 -e" run
+## ensure there is a @report block for the observation of interest.
+mpd <- extract.mpd(file = "estimate.log")
 
-Mpd = extract.mpd(estimate.log)
 ## calculate weighting factor from Francis method
-WeightingFactor = Method.TA1.8(model = Mpd, observation_labels = "chatTANage")
-## Apply weighting factor to your Observation.csl2 file
-apply.dataweighting.to.csl2(weighting_factor = WeightingFactor, Observation_csl2_file = "Observations.csl2", Observation_label = "chatTANage", Observation_out_filename = "Observation.csl2.0")
-## this will generate a new Observation.csl.0 file with the re-weighted effective sample size.
+WeightingFactor <- Method.TA1.8(model = mpd, observation_labels = "chatTANage")
+
+## Apply the weighting factor to the block in the Observation.csl2 file
+## this call generates a new file (Observation.csl2.0) with the re-weighted effective sample sizes
+apply.dataweighting.to.csl2(weighting_factor = WeightingFactor,
+                                Observation_csl2_file = "Observations.csl2",
+                                Observation_label = "chatTANage",
+                                Observation_out_filename = "Observation.csl2.0")
 \end{lstlisting}
 
 
-Another handy piece of code automates the dataweighting process, as follows
+Automating the data weighting process:
 
 \begin{lstlisting}
 library(casal2)
-## setwd to your working environment, to your Casal2 files and output
-setwd()
-MPD = extract.mpd(file = "estimate.log")
-Factor = Method.TA1.8(MPD, observation_labels = c("ObserverProportionsAtAge"))
-## Before you start this loop, I suggest making a copy of your Observation.csl2 e.g. Observation_orig.csl2, so that if something goes wrong, you can come back to it.
-while(abs(Factor - 1) > 0.01) {
-	cmd = "betadiff & casal2 -e > estimate.log 2> log.out"
-	shell(cmd);
-	new_mpd = extract.mpd(file = "estimate.log")
-	Factor = Method.TA1.8(new_mpd, observation_labels = c("ObserverProportionsAtAge"))
-	apply.dataweighting.to.csl2(weighting_factor = Factor, Observation_csl2_file = "Observation.csl2", Observation_out_filename = "Observation.csl2", Observation_label = c("ObserverProportionsAtAge"))
-	print(Factor)
+
+mpd <- extract.mpd(file = "estimate.log")
+
+ModelFactor <- Method.TA1.8(mpd, observation_labels = c("ObserverProportionsAtAge"))
+
+## make a back-up copy of the file Observation.csl2 before running this section
+
+while(abs(ModelFactor - 1) > 0.01) {
+	shell("betadiff & casal2 -e > estimate.log 2> log.out")
+	
+	new_mpd <- extract.mpd(file = "estimate.log")
+
+	ModelFactor <- Method.TA1.8(new_mpd, observation_labels = c("ObserverProportionsAtAge"))
+	
+	apply.dataweighting.to.csl2(weighting_factor = ModelFactor,
+                                  Observation_csl2_file = "Observation.csl2",
+                                  Observation_out_filename = "Observation.csl2",
+                                  Observation_label = c("ObserverProportionsAtAge"))
+	print(ModelFactor)
 }
 \end{lstlisting}
-\paragraph*{Trouble Shooting R package}
-This section documents some issues with solutions that we have come across when using the R package that may come in handy for future users.
 
-if you get the following error when using one of the extract functions
+\paragraph*{Troubleshooting the \cname\ \R\ package}
+
+If you get this error when using one of the \texttt{extract()} functions
+
 \begin{lstlisting}
 Read 1 item
 Warning messages:
@@ -97,8 +116,8 @@ embedded nul(s) found in input
 File is empty, no reports found
 \end{lstlisting}
 
-We have resolved the abover error by trying an alternative UTF formatting using the \subcommand{fileEncoding} parameter e.g,
+You may be able to resolve this issue by using an alternative UTF format by specifying this format with the \subcommand{fileEncoding} parameter
+
 \begin{lstlisting}
-library(casal2)
-MyOutput = extract.mpd(file = "Estimate.log", path = getwd(), , fileEncoding = "UTF-16LE")
+MyOutput <- extract.mpd(file = "Estimate.log", path = getwd(), fileEncoding = "UTF-16LE")
 \end{lstlisting}
