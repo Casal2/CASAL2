@@ -1,47 +1,52 @@
 \section{\I{The population section}\label{sec:population-section}}
 
 \subsection{Introduction}
-The population section\index{Population section} specifies the model of the population dynamics. It describes the model structure (population structure), defines the population processes (e.g., recruitment, migration, and mortality), the selectivities, and associated parameters.
 
-The population section consists of several components, including:
+The population section\index{Population section} specifies the model of the population dynamics. It describes the model structure, the population partitions and categories, the population processes (e.g., recruitment, ageing, migration, and mortality), the selectivities, and the associated parameters.
+
+The population section includes:
+
 \begin{itemize}
-  \item The population structure (categories and ages in an age-based model);
-  \item Model initialisation (i.e., the state of the partition at the start of the first year)\index{Initialisation}\index{Model ! initialisation};
-  \item The years over which the model runs (i.e., the start and end years of the model)
-  \item The annual cycle (time-steps and processes that are applied in each time-step)\index{Annual cycle};
-  \item The specification and parameters of the population processes (i.e., processes that add, remove individuals to or from the partition, or shift numbers between ages and categories in the partition);
-  \item Selectivities;
-  \item Parameter values and their definitions; and
-  \item Derived quantities, required as parameters for some processes (e.g. mature biomass to resolve any density dependent processes, such as the spawner-recruit relationship in a recruitment process).
+  \item The population structure, the categories and ages in an age-based model;
+  \item The initialisation process, the state of the partition at the start of the first year\index{Initialisation}\index{Model ! initialisation};
+  \item The years over which the model runs, the start and end years of the model;
+  \item The annual cycle, the number of time steps and the processes that are applied in each time step\index{Annual cycle};
+  \item The specification of and the parameters for the population processes, processes that add or remove individuals from a partition, or shift individuals between ages and categories in a partition;
+  \item The selectivities;
+  \item The parameters, their definitions, initial values, prior distributions, and other characteristics; and
+  \item Derived quantities, e.g., mature biomass to include in density-dependent processes such as the spawner-recruit relationship
 \end{itemize}
 
 \subsection{\I{Population structure}}\label{sub:sec:pop_sec}
+
 The basic structure of the population section of a \CNAME\ model is defined in terms of an annual cycle, time steps, states, and transitions.
 
-The annual cycle defines what processes happen in each model year, and in what sequence. \CNAME\ runs on an annual cycle rather than, for example, a 6-monthly cycle.
+The annual cycle defines what processes happen in each model year, and in what sequence. \CNAME\ assumes an annual cycle.
 
-Each year is split into one or more time steps, with at least one process occurring in each time step. Each time step can be thought of as representing a particular part of the calendar year, or time steps can be treated as an abstract sequence of events. Note that mortality processes are grouped into a mortality block --- in every time step, there exists a mortality block (defined from a group of consecutive mortality-based processes) where individuals are removed from the partition (see Section~\ref{sec:mortality_block}).
+Each year is defined by one or more time steps, with at least one process occurring in each time step. Each time step can represent a specific period of the calendar year, or it can be an abstract sequence of events.
 
-The state is the current status of the population at any given time. The state can change one or more times in each time step of every year. The state object must contain sufficient information to figure out how the underlying population changes over time (given a model and a complete set of parameters).
+The division of the year into time steps allows the user to specify the exact order in which processes and observations occur throughout the year. The user specifies the time step in which each process occurs. If more than one process occurs in the same time step, the order in which to apply each process is specified in the \command{time\_step} block.
 
-The state can undergo a number of possible changes during the annual cycle, called transitions. Transitions are accomplished by processes, for example, recruitment, natural mortality, anthropogenic mortality, ageing, migration, tagging events, or maturation. These are repeated for each year of the model (although some processes can be specified to only occur in a subset of years).
+The mortality processes are grouped into a mortality block: in every time step, a mortality block (a group of consecutive mortality-based processes) exists in which individuals are removed from the partition (see Section~\ref{sec:mortality_block}).
 
-The division of the year into an arbitrary number of time steps allows the user to specify the exact order in which processes and observations occur throughout the year. The user needs to specify the time step in which each process occurs. If more than one process occurs in the same time step, the order in which to apply each process is specified in the \command{time\_step} block.
+The state is the current status of the population at any given time. The state can change one or more times in each time step in each year. The state object must contain sufficient information to determine how the population changes over time, given a model and a complete set of parameters.
 
-The key element of the state is the partition. The partition divides the total number of individuals in the current population into different categories. The partition records numbers of individuals in each age or length, and category. The individuals are grouped into categories, for example, sex, maturity state, area, and species. \CNAME\ has no predefined categories --- these are defined by the user (this differs from CASAL \citep{1388} that has only pre-defined partition categories). It is up the the user to define these.
+The state can undergo a number of possible changes during the annual cycle, called transitions. Transitions are applied by processes. Transitions include recruitment, natural mortality, fishing mortality, ageing, migration, tagging events, and maturation. These transitions are repeated for each year of the model, although some processes can be specified to occur in a subset of years only.
 
-The resulting partition can be conceptualised as a matrix, where each row is represented by a category and the columns are the age classes, shown in Figure~\ref{Fig:part}. Each row represents the number of individuals for that category in that age class.
+The key element of the state is the partition. The partition separates the total number of individuals in the population into different ages, lengths, and/or categories. The categories include sex, maturity state, area, and species. \CNAME\ has no predefined categories; \emph{all} categories are defined by the user, which differs from CASAL \citep{1388}.
 
-The names of categories are user defined, but there must be at least one category defined for any model. The ages are defined as a sequence from $age_{min}$ to $age_{max}$, with the last age optionally a plus group. In order to calculate biomass, the age-length relationship for each category must also be defined for an age based model (but could be defined as `none'). An example of how this is specified for four categories based on sex and area is as follows,
+The partitions can be conceptualised as a matrix, where each row represents a category and the columns are the age classes (Figure~\ref{Fig:part}). Each row represents all individuals that category.
+
+The names of categories are user defined. There must be at least one category defined for each model. The model ages are a sequence from $age_{min}$ to $age_{max}$, with the last age optionally a plus group. The age-length relationship for each category must also be defined for an age-based model, although this relationship could be defined as "none". An example of four categories based on sex and area is:
 
 {\small{\begin{verbatim}
 	@categories
 	format mature.sex
-	names 		spawn.male 	spawn.female 	nonspawn.male 	nonspawn.female
-	age_lengths 	male_AL		female_AL   male_AL		female_AL
+	names        spawn.male   spawn.female   nonspawn.male   nonspawn.female
+	age_lengths  male_AL      female_AL      male_AL         female_AL
 \end{verbatim}}}
 
-For an example of these ideas, consider a model of a fish population with a mature and non-spawning fishery. We assume that the non-spawning fishery happens over most of the year (say 10 months) in the non-spawning area. The mature fish then migrate to the spawning area, where the spawning fishery operates. At the end of spawning, these fish, along with the recruits from the previous year, migrate back to the non-spawning area. The modeller decides that fish will be divided in the partition by age, sex, maturity, and area (spawning and non-spawning grounds). So the partition has 8 rows, 2 sexes $\times$ (mature or immature) $\times$ 2 areas, and one column per age class.
+Consider a model of a fish population with a mature fishery and a non-spawning fishery. Assume that the non-spawning fishery occurs in the non-spawning area. The mature fish then migrate to the spawning area, where the spawning fishery occurs. At the end of spawning, these fish, along with the recruits from the previous year, migrate back to the non-spawning area. The fish population can be represented with partitions by age, sex, maturity, and area (spawning and non-spawning areas). So the partition has 8 rows of numbers-at-age, for 2 sexes $\times$ (mature or immature) $\times$ 2 areas.
 
 \begin{figure}[H]
 	\centering
@@ -49,138 +54,152 @@ For an example of these ideas, consider a model of a fish population with a matu
 		\caption{A visual representation of a partition.}\label{Fig:part}
 \end{figure}
 
-For this example four time steps are defined and labelled 1 through 4: \texttt{step1} includes the non-spawning fishery, \texttt{step2} includes the migration to the spawning area, \texttt{step3} includes the spawning fishery, and \texttt{step4} includes recruitment and migration back to the non-spawning area. Note that the default order of processes within a time step places migrations before fisheries, therefore a single step could have been specified in place of steps 2 and 3. Other details that define population structure are also specified in time steps, such as proportions of natural mortality occurring in each time step and where observations occur.
+For this example four time steps are defined and labelled 1 through 4: \texttt{step1} for the non-spawning fishery period, \texttt{step2} for the migration to the spawning area, \texttt{step3} for the spawning fishery period, and \texttt{step4} for recruitment and migration back to the non-spawning area. The default order of processes within a time step has migrations occurring before fisheries (TODO: check this), so that the processes in steps 2 and 3 could have occurred in one time step. Other details that describe the population structure are also linked to time steps, such as proportion of natural mortality occurring in each time step and in which time step the observations occur.
 
-This structure can be used to implement complex models, with intermingling of separate species and stocks, with complex migration patterns occurring over multiple areas, and including multiple sources of anthropogenic impact using different methods that cover different areas and times. However, the specification of stock structure is constrained by the available data and we note that there is little point in using a complex structure to model a population when there are no observations to support that structure.  For information on how to define categories and using \CNAME's shorthand syntax see Section~\ref{sec:ShorthandSyntax-section}.
+The definition and ordering of processes in multiple time steps can be used to represent complex dynamics, with the intermingling of multiple species and stocks, migration patterns occurring over multiple areas, and/or multiple sources of anthropogenic impact using a range of methods which cover different areas and times. However, the complexity of a stock structure definition is constrained by the available data. It is challenging to use a complex structure to model a population when there are no observations to support that structure.  For information on how to define categories and use the shorthand syntax see Section~\ref{sec:ShorthandSyntax-section}.
 
-The model is run from an initial year up to the final (current) year. It can also be run past the final year to make projections --- to estimate the state of the population sometime in the future --- up to the final projection year.
+The model is run from the start year through the final year. It can also be run past the final year to project the state of the population through the final projection year.
 
-An example, to specify a model with 2 categories (male and female) with ages 1-20 (with the last age a plus group) and an age-length relationship defined with the label \texttt{male\_growth} and \texttt{female\_growth}, then the \texttt{@model} block is specified as:
+To specify a model with two categories, male and female, population ages 1-20, with the last age a plus group, three time steps, and sex-specific age-length relationships, the \command{model} and \command{categories} blocks are:
+
 {\small{\begin{verbatim}
 		@model
-		start_year
-		final_year
+		start_year 1901
+		final_year 2000
+		projection_final_year 2010
+		base_weight_units tonnes
 		min_age 1
 		max_age 20
-		age_plus_group True
-		initialisation_phases iphase
-		time_steps step1 step2 step 3
+		age_plus_group true
+		initialisation_phases Equilibrium_phase
+		time_steps step1 step2 step3
+		
+		@categories
+		format sex
+		names male female
+		age_lengths male_growth female_growth
 \end{verbatim}}}
 
 \subsection{\I{The state object and the partition}}
 
-The key component of the state object is the partition, a matrix that stores numbers of individuals at age or length for each category. A category represents a group of individuals that have the same specific attributes, examples of such attributes include life histories and growth rates, etc. For example, categories may include labels such as:
+The key component of the state object is the partition, a matrix that stores the numbers of individuals at age or length for each category. A category represents a group of individuals that have the same attributes, e.g., life histories characteristics, growth rates, etc.
 
 \begin{itemize}
 \item Sex (male or female)
-\item Area (any number of areas, named by the user)
+\item Area
 \item Maturity (immature or mature)
-\item Growth-path (any number of growth-paths)
-\item Tag (any number of tagging events)
+\item Growth path
+\item Tagging event
+\item Stock
 \item Species
 \end{itemize}
 
-A stock can be thought of as a population of individuals which recruits to that population. Maturity can either be defined as a separate category in the partition, or calculated from the population at the time required --- see Section \ref{sec:maturity-notinpartition} for the treatment of maturity when maturity is not a category in the partition.
+A stock is defined as a population of individuals which recruits to that population. Maturity can either be defined as a separate category in the partition, or calculated from the population at the time required; see Section \ref{sec:maturity-notinpartition} for the treatment of maturity when maturity is not a category in the partition.
 
-\CNAME\ requires the following:
+Each \CNAME\ model requires:
 
 \begin{itemize}
-\item	The minimum and maximum age classes in an age-based model
-\item	Whether there is an age-plus group
-\item The names of all categories
+\item The minimum and maximum population ages
+\item Whether the maximum age is a plus group
+\item The names of all of the categories
 \end{itemize}
 
-Age classes are always one year wide, except for the maximum age group which can (optionally) be a plus group. Users need to choose the minimum and maximum age classes.
+The age range is sequential by 1 starting with the minimum age through the maximum age.
 
-\CNAME\ allows categories of the partition to exist for certain years of the model. This aids computational efficiency for when models contain a large number of categories that do not persist over all model years. This is beneficial when a model contains a process that does a one-off transition of individuals from one category into another that is in a subset of the model initialisation phases or years (e.g. tagging events). Excluding categories for certain years can save a considerable amount of computational time as \CNAME\ does not need to initialise empty categories or implement processes in time periods where they will have no effect. The structure of the partition is defined in a configuration block via the \command{categories} as discussed earlier in Section~\ref{sub:sec:pop_sec}.
+\CNAME\ allows categories of the partition to exist for a subset of years of a model. This feature enables more efficient computations when models contain categories that do not persist over all model years. A model may define one-off processes that transition individuals from one category into another in a subset of the model initialisation phases or years (e.g., tagging events). Excluding categories for certain years can be more efficient as \CNAME\ will not initialise these categories or apply processes to categories in years or time steps in which they do not exist.
 
-Derived quantities are another important component of the state object. Derived quantities include mature biomass, i.e., in fisheries models the mid-spawning season biomass of spawning fish (SSB) for either one, or the sum over more than one, category. \CNAME\ calculates such a quantity through the command \command{derived\_quantity}, and this may need to be specified for some processes (e.g., in fisheries models, a recruitment process that specifies a stock recruitment relationship requires the definition of a derived quantity that specifies the mid-season spawning stock biomass).
+The structure of the partition is defined in a configuration block with the \command{categories} block (Section~\ref{sub:sec:pop_sec}).
+
+Derived quantities are another important component of the state object. An example of a derived quantity is spawning stock biomass (SSB; the biomass of [female] spawning fish calculated at the mid point of the spawning season). \CNAME\ calculates derived quantities using the command \command{derived\_quantity}, which may be required for some processes. In fisheries stock assessment models, a recruitment process which includes a stock-recruitment relationship requires the definition of a derived quantity that specifies the mid-season spawning stock biomass.
 
 \subsection{\I{Time sequences}}
 
-The time sequence of the model is defined in the following parts;
+The time sequence of the model is defined in:
+
 \begin{itemize}
-  \item \I{Annual cycle}
-  \item \I{Mortality blocks}
-  \item \I{Initialisation}
-  \item \I{Model run years}
-  \item \I{Projection year}s
+  \item \I{The annual cycle}
+  \item \I{The mortality blocks}
+  \item \I{The initialisation phases}
+  \item \I{The model run years}
+  \item \I{The projection years}
 \end{itemize}
 
-\subsubsection{\I{Annual cycle}}
+\subsubsection{\I{The annual cycle}}
 
-The annual cycle is implemented as a set of processes that occur, in a user-defined order, within each year. Time-steps are used to break the annual cycle into separate components, and allow observations to be associated with different time periods and processes. Any number of processes can occur within each time-step, in any order (although there are limitations around mortality based processes --- see Section~\ref{sec:mortality_block}) and can occur multiple times within each time-step. Note that time-steps are not implemented during the initialisation phases (effectively, there is only one time-step), and that the annual cycle in the initialisation phases can, optionally, be different from that which is applied during the model years.
+The annual cycle is implemented as a set of processes that occur in a user-defined order within each year. Time steps are used to break the annual cycle into separate components and allow observations to be associated with specific time periods and processes. Any number of processes can occur within each time step, in any order, although there are restrictions for mortality-based processes (see Section~\ref{sec:mortality_block}); processes can occur multiple times within each time step. Time steps are not implemented during the initialisation phases (effectively there is only one initialisation time step), and the annual cycle in the initialisation phases can be different from the annual cycle specified for the model years.
 
-\subsubsection{\I{Mortality blocks}}\label{sec:mortality_block}
+\subsubsection{\I{The mortality blocks}}\label{sec:mortality_block}
 
-For every time step in an annual cycle there is an associated \emph{mortality block}. Mortality blocks are a key concept in \CNAME.
+There is an associated \emph{mortality block} for every time step in the annual cycle. Mortality blocks are a key concept in \CNAME.
 
 Mortality blocks are used to define the `point' in the model time sequence when observations (see Section~\ref{sec:observation-section}) are evaluated, and derived quantities (see Section~\ref{sec:derived-quantities}) are evaluated.
 
-A mortality block is defined as a consecutive sequence of mortality processes within a time step. The processes that are mortality processes are all pre-defined in \CNAME, and cannot be modified. These mortality processes are described in subsection~\ref{sec:mortality}.
+A mortality block is defined as a consecutive sequence of mortality processes within a time step. The mortality processes are described in Subsection~\ref{sec:mortality}.
 
-\CNAME\ requires that each time step has exactly one mortality block. To achieve this, either all the mortality processes in a time step must be sequential (i.e., there can not be a non-mortality process between any two mortality processes within any one time step); or if no mortality processes occur in a time step then the mortality block is defined to occur at the end of the time step.
+\CNAME\ requires that each time step has exactly one mortality block. Either all of the mortality processes in a time step must be sequential (i.e., there can not be a non-mortality process between any two mortality processes within any one time step); or, if no mortality processes occur in a time step, then the mortality block is defined to occur at the end of the time step.
 
-\CNAME\ will error out if more than one mortality block occurs in a single time step. Use separate time-steps to sequence mortality blocks if required.
+\CNAME\ will output an error if more than one mortality block occurs in a single time step. Use separate time steps to define a sequence of mortality blocks.
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.5]{Figures/annual_cycle.jpg}
-	\caption{A visual representation of a hypothetical sequence for an annual cycle.}\label{Fig:annual}
+	\caption{A example sequence for an annual cycle.}\label{Fig:annual}
 \end{figure}
 
-\subsubsection{\I{Initialisation}}\label{subsec:initialisation}
+\subsubsection{\I{The initialisation phases}}\label{subsec:initialisation}
 
-Initialisation is the process of determining the model starting state, whether it be equilibrium/steady state or some other initial state for the model (e.g exploited), prior to the start year of the model. This can be computationally expensive if a plus group is present in the partition.
+Initialisation is the process of determining the model starting state. The initial state can be equilibrium/steady state or some other initial state for the model (e.g., exploited), prior to the start year of the model.
 
-There are multiple methods to initialise a partition in \CNAME, including iterative, fixed, derived, and Cinitial.
+There are multiple options for partition initialisation in \CNAME, including Iterative, Fixed, Derived, and Cinitial.
 
-Model initialisation can also occur in several phases\index{Initialisation!phases}, each of which can be a different method. These are carried out in sequence. At the end of all of the initialisations, \CNAME\ then runs the model years carrying out the user-defined processes in each time step in the annual cycle.
+Model initialisation can also occur in several phases\index{Initialisation!phases}, each of which can use a different method. The initialisations are performed in sequence. At the end of all of the initialisation phases, \CNAME\ then runs through the model years applying the user-defined processes in each time step in the annual cycle.
 
-The multi-phased initialisation allows the user to choose a number of initialisations that may assist with optimising the models for speed, initialise a non-equilibrium starting state, or resolve simple processes before introducing more complex ones.
+The multi-phased initialisation allows for flexibility in the number and type of initialisations, for initialising a non-equilibrium starting state, or applying simple processes before applying more complex ones.
 
-Each phase of the initialisation defaults to have the same processes and in the same order as defined in the annual cycle. Although, an initialisation phase can involve any number of processes using the \texttt{insert\_processes} subcommand.
+Each phase of the initialisation defaults to have the same processes and in the same order as defined in the annual cycle. An initialisation phase can include other processes with the \texttt{insert\_processes} subcommand.
 
-In each initialisation phase, the processes defined for that phase are carried out and used as the starting point for the following phase or, if it is the last phase, the starting point for the years that the model is run over.
+In each initialisation phase, the processes defined for that phase are applied and used as the starting point for the following phase or, if it is the last phase, the start year of the model.
 
-Note that the \emph{first} initialisation phase is always initialised with each element (i.e., each age and category) set at zero. Care must be taken when using complex category inter-relationships or density dependent processes that depend on a previously calculated state, as they may fail when used in the first phase of an initialisation.
+The \emph{first} initialisation phase is always initialised with each age and category set to zero. Care must be taken when using complex category inter-relationships or density-dependent processes that depend on a previously calculated state, as they may fail when used in the first phase of an initialisation.
 
-Multi-phase iterations\index{Multi-phase iteration} can also be used to determine if the initialisation has converged. Here, add a second initialisation phase for, say, $1$ year (with the same processes applied). Then report the state at the end of the first and second phase. If these states are identical, then its likely that the initialisation has converged to an equilibrium state.
+Multi-phase iterations\index{Multi-phase iteration} can also be used to determine if an initialisation has converged. A second initialisation phase can be added for 1 year, with the same processes applied as in the first phase. The state at the end of the first and second phase is then output. If these states are identical, then it is likely that the initialisation has converged to an equilibrium state.
 
 The subcommands for including or excluding processes are \texttt{insert\_processes} and \texttt{exclude\_processes}.
 
 For the \texttt{insert\_processes} the syntax is:
+
 {\small{\begin{verbatim}
 		insert_processes time_step_label(process_label_in_annual_cycle) = label_new_process
 \end{verbatim}}}
 
-For example, this could be used in an \command{time\_step} labelled \texttt{Oct\_Nov}, and including the \command{process} labelled \texttt{predationIni}, and before the \command{process} labelled \texttt{Instantaneous\_Mortality},
+For example, this subcommand could be used in a \command{time\_step} labelled \texttt{Oct\_Nov}, which includes the \command{process} labelled \texttt{predationInit}, and before the \command{process} labelled \texttt{Instantaneous\_Mortality},
 
 {\small{\begin{verbatim}
-		insert_processes Oct_Nov(Instantaneous_Mortality)=predationIni
+		insert_processes Oct_Nov(Instantaneous_Mortality)=predationInit
 \end{verbatim}}}
 
-and to  include a process at the end of the time step you can use the following syntax,
+To include a process at the end of the time step:
 
 {\small{\begin{verbatim}
-		insert_processes Oct_Nov()=predationIni
+		insert_processes Oct_Nov()=predationInit
 		\end{verbatim}}}
 
-To exclude a process from an initialisation phase the syntax is much simpler, for example, using the subcommand \texttt{exclude\_processes} in \command{initialisation\_phase},
+To exclude a process from an initialisation phase, use the subcommand \texttt{exclude\_processes} in a command \command{initialisation\_phase},
 
 {\small{\begin{verbatim}
 		exclude_processes Instantaneous_Mortality
 		\end{verbatim}}}
 
-The command above will remove the process labelled \texttt{Instantaneous\_Mortality} during that particular initialisation phase.
+This command removes the process labelled \texttt{Instantaneous\_Mortality} during that particular initialisation phase.
 
 \paragraph{\I{Iterative Initialisation}}
 
-The iterative initialisation is a general solution for initialising the model. The iterative method can be slow to converge, depending on the nature of the problem being resolved, but will work on even complex structured models that may be difficult or impossible to implement using analytic approximations.
+The iterative initialisation is a general solution for initialising the model. The iterative method can be slow to converge, depending on the model, but can work on even complex structured models that may be difficult or impossible to implement using analytic approximations.
 
-The number of iterations in the iterative initialisation can effect the model output, and these should be chosen to be large enough to allow the population state to fully converge. We recommend that a period of about two generations to ensure convergence. \CNAME\ can be requested to report a number of convergence statistics that can assist the user in determining the level of convergence.
+The number of iterations in the iterative initialisation can increase the model output, and the number of iterations should be chosen to be large enough to allow the population state to fully converge. A period of about two generation times is recommended to ensure convergence. \CNAME\ can be configured to report convergence statistics that can assist in determining convergence properties.
 
-In addition, the iterative initialisation phase can optionally be stopped early if some user defined convergence criteria is met. For a list of supplied years in the initialisation phase, convergence is defined as met if the proportional absolute summed difference between the state in year $t-1$ and the state in year $t$ ($\widehat{\lambda}$) is less than a user defined $\lambda$ where,
+In addition, the iterative initialisation phase can optionally be stopped early if user-defined convergence criteria is met. For a list of supplied years in the initialisation phase, the convergence criteria is met if the proportional absolute summed difference between the state in year $t-1$ and the state in year $t$ ($\widehat{\lambda}$) is less than the user-defined value of $\lambda$ where
+
 \begin{equation}
   \widehat{\lambda} = \frac{\sum\limits_{i} \sum\limits_{j} \left|\text{element}(i,j)_t - \text{element}(i,j)_{t-1} \right|}{\sum\limits_{i} \sum\limits_{j} \frac{}{}\text{element}(i,j)_t}
 \end{equation}
@@ -273,13 +292,13 @@ An example of the syntax to implement this would be,
 
 \subsubsection{\I{Model run years}}
 
-Following initialisation, the model then runs over a number of user-defined years from (initial\_year to final\_year). For this part of the model, the annual cycle can be broken into separate time-steps, and observations can be associated with the state of the model at the end of any time-step, i.e., likelihoods for particular observations are evaluated, if required, within each time-step.
+Following initialisation, the model then runs over a number of user-defined years from (initial\_year to final\_year). For this part of the model, the annual cycle can be broken into separate time steps, and observations can be associated with the state of the model at the end of any time step, i.e., likelihoods for particular observations are evaluated, if required, within each time step.
 
-Processes are carried out in the order specified within each time-step. These can be the same or different to the processes in initialisation phases of the model.
+Processes are carried out in the order specified within each time step. These can be the same or different to the processes in initialisation phases of the model.
 
 The run years define the years over which the model is to run and the annual cycle within each year. The model runs from the start of year \argument{initial} to the end of year \argument{final}. The projection then extends the run time up to the end of year \argument{project\_final\_year}. The following must be specified in the model,
 \begin{itemize}
-  \item The time-steps and the processes applied in each
+  \item The time steps and the processes applied in each
   \item The initial year (i.e., the model start year)
   \item The final year (i.e., the model end year)
   \item The projection final year (i.e., the model projection end year)
@@ -403,8 +422,8 @@ Note that the Beverton-Holt recruitment process requires a value for \Bzero\ and
 
 \texttt{ssb\_offset} should not be manually specified by the user; as is commonplace, \CNAME\ determines \texttt{ssb\_offset} by the order of ageing, recruitment, spawning and the recruitment parameter \texttt{age} accordingly,
 \begin{itemize}
-	\item if annual time-step order is recruitment, ageing, spawning, then \texttt{ssb\_offset} should equal \texttt{age} + 1, or
-	\item if annual time-step order is spawning, ageing, recruitment, then \texttt{ssb\_offset} should equal \texttt{age} - 1, or
+	\item if annual time step order is recruitment, ageing, spawning, then \texttt{ssb\_offset} should equal \texttt{age} + 1, or
+	\item if annual time step order is spawning, ageing, recruitment, then \texttt{ssb\_offset} should equal \texttt{age} - 1, or
 	\item else \texttt{ssb\_offset} = \texttt{age}
 \end{itemize}
 
@@ -787,7 +806,7 @@ The total catch is found using by using a selectivity, $S_{f,a}$, in the same wa
 When the \texttt{mortality\_instantaneous\_retained} process is applied, the following equations are used:
 
 \begin{itemize}
-    \item Total catch (catch-on-board), $C_{f}$, is calculated by (retained catch) * VF / VR, where VF is vulnerable retained biomass, $j$ indexes categories and $t$ is the proportion of M in the time-step, and VF is the full vulnerable biomass, $VF = \sum_{a,j} \overline{w}_{a} S_{a,j} n_{a,j} \exp(-0.5 t M_{a,j})$.
+    \item Total catch (catch-on-board), $C_{f}$, is calculated by (retained catch) * VF / VR, where VF is vulnerable retained biomass, $j$ indexes categories and $t$ is the proportion of M in the time step, and VF is the full vulnerable biomass, $VF = \sum_{a,j} \overline{w}_{a} S_{a,j} n_{a,j} \exp(-0.5 t M_{a,j})$.
 
     \item An exploitation rate (actually a proportion) is calculated for each fishery, as the total catch (retained + discards) divided by the selected biomass (VF above) using selectivity $S_{f,a}$,
         $$ U_f = \frac{C_f}{\sum_a \bar{w}_a S_{f,a} n_a \exp(-0.5 t M_{a})}$$
@@ -1079,7 +1098,7 @@ Tag Loss is the process which accounts for tags being lost from tagged individua
 
 \subsection{\I{Derived quantities}\label{sec:derived-quantities}}
 
-Some processes require, as arguments, a population value derived from the population state. These are termed \texttt{derived quantities}. Derived quantities are values, calculated by \CNAME\ at the end of a specified time-step in every year, and hence have a single value for each year of the model. Derived quantities can be calculated as either an abundance or as a biomass. Abundance derived quantities are simply the count or sum over the categories (after applying a selectivity). Similarly for biomass Biomass derived quantities. Derived quantities are also calculated during the initialisation phases. Therefore, the time-step during each phase must also be specified. If the initialisation time-steps are not specified, \CNAME\ will calculate the derived quantity during the initialisation phases in every year, at the end of the annual cycle.
+Some processes require, as arguments, a population value derived from the population state. These are termed \texttt{derived quantities}. Derived quantities are values, calculated by \CNAME\ at the end of a specified time step in every year, and hence have a single value for each year of the model. Derived quantities can be calculated as either an abundance or as a biomass. Abundance derived quantities are simply the count or sum over the categories (after applying a selectivity). Similarly for biomass Biomass derived quantities. Derived quantities are also calculated during the initialisation phases. Therefore, the time step during each phase must also be specified. If the initialisation time steps are not specified, \CNAME\ will calculate the derived quantity during the initialisation phases in every year, at the end of the annual cycle.
 
 Derived quantities are required by some processes, e.g. the Beverton-Holt recruitment process. The Beverton-Holt recruitment process can require an equilibrium biomass ($B_0$) and annual spawning stock biomass values ($SSB_y$) to resolve the stock-recruit relationship. Here, these would be defined as the abundance or biomass of a part of the population at some point in the annual cycle for selected ages and categories, and would be calculated as a derived quantity.
 
@@ -1091,7 +1110,7 @@ Derived quantities are associated with a mortality block see section~\ref{sec:mo
 \end{itemize}
 where, $n_{p,j}$ is the derived quantity at proportion $p$ of the mortality block for category $j$, $n_j$ is the quantity at the beginning of the mortality block and $n'_j$ is the quantity at the end of the mortality block.
 
-As an example, to define a biomass derived quantity (say spawning stock biomass, $SSB$), evaluated at the end of the first time-step (labelled \texttt{step\_one}), over all 'mature' male and female categories and halfway through the mortality block using the \texttt{weighted\_sum} method, we would use the syntax,
+As an example, to define a biomass derived quantity (say spawning stock biomass, $SSB$), evaluated at the end of the first time step (labelled \texttt{step\_one}), over all 'mature' male and female categories and halfway through the mortality block using the \texttt{weighted\_sum} method, we would use the syntax,
 
 {\small{\begin{verbatim}
 @derived_quantity SSB
