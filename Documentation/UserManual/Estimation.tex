@@ -8,7 +8,7 @@ The role of the estimation section is to define the tasks carried out by \CNAME:
   \item Define the parameters to be estimated (see Section \ref{sec:estimate-free-parameters})
   \item Calculate a point estimate, i.e., the maximum posterior density estimate (MPD) (see Section \ref{sec:estimate-MPD})\index{Maximum posterior density estimate (MPD)}\index{MPD (Maximum posterior density estimate)}
   \item Calculate a posterior profile selected parameters, i.e., find, for each of a series of values of a parameter, allowing the other estimated parameters to vary, the minimum value of the objective function (see Section \ref{sec:estimate-profiles}\index{Profiles})
-  \item Generate an MCMC\index{Monte Carlo Markov Chain (MCMC)} sample from the posterior distribution (see Section \ref{sec:estimate-MCMC}\index{MCMC})
+  \item Generate an MCMC\index{Markov chain Monte Carlo (MCMC)} sample from the posterior distribution (see Section \ref{sec:estimate-MCMC}\index{MCMC})
   \item Calculate the approximate covariance matrix of the parameters as the inverse of the minimizer\textquoteright{}s approximation to the \I{Hessian}, and the corresponding correlation matrix (see Section \ref{sec:estimate-MPD}\index{Covariance matrix})
 \end{enumerate}
 
@@ -154,7 +154,7 @@ If you get an implausible profile, it may be a result of not using enough iterat
 
 \subsection{\I{Bayesian estimation}\label{sec:estimate-MCMC}}
 
-\CNAME\ can use a \I{Monte Carlo Markov Chain (MCMC)}\index{MCMC} to generate a sample from the posterior distribution of the estimated parameters \texttt{\cname\ -m} and output the sampled values to a file (optionally keeping only every $n$th set of values).
+\CNAME\ can use a \I{Markov chain Monte Carlo (MCMC)}\index{MCMC} to generate a sample from the posterior distribution of the estimated parameters \texttt{\cname\ -m} and output the sampled values to a file (optionally keeping only every $n$th set of values).
 
 As \CNAME\ has no post-processing capabilities. \CNAME\ cannot produce MCMC convergence diagnostics (use a package such as \href{http://www.public-health.uiowa.edu/boa}{BOA}) or plot/summarize the posterior distributions of the output quantities (for example, use a general-purpose statistical or spreadsheet package such as \href{http://www.insightful.com}{S-Plus}, \href{http://www.r-project.org}{\R}, or \href{http://www.microsoft.com}{Microsoft Excel}).
 
@@ -174,7 +174,7 @@ An initial point estimate is produced before the chain starts, which is done so 
 
 The user can specify the starting point of the point estimate minimiser using \texttt{\cname\ -i}. Don't start it too close to the actual estimate (either by using \texttt{\cname\ -i}, or by changing the initial parameter values in \config) as it takes a few iterations to form a reasonable approximation to the Hessian.
 
-There is currently two options for the starting point of the Markov Chain:
+There is currently two options for the starting point of the Markov chain:
 
 \begin{itemize}
 \item Start from the point estimate; and
