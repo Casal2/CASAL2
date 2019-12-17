@@ -2,11 +2,13 @@
 \section{\I{Syntax conventions, examples and niceties}\label{sec:examples}}
 
 \subsection{Input File Specification}
-The file format used for \CNAME\ is based on the formats used for CASAL and SPM. It's a standard text file that contains definitions organised into blocks.
+
+The file format used for \CNAME\ is based on the formats used for CASAL and SPM. It is a text file that contains definitions organised into blocks.
 
 Without exception, every object specified in a configuration file is part of a block. At the top level blocks have a one-to-one relationships with components in the system.
 
 Example:
+
 {\small{\begin{verbatim}
 @block1 label
 parameter value
@@ -23,20 +25,24 @@ end_table
 
 Some general notes about writing configuration files:
 
-\begin{enumerate}
+\begin{itemize}
 	\item Whitespace can be used freely. Tabs and spaces are both accepted
 	\item A block ends only at the beginning of a new block or end of final configuration file
 	\item You can include another configuration file from anywhere
 	\item Included files are placed inline, so you can continue a block in a new file
 	\item The configuration files support inline declarations of objects
-\end{enumerate}
+\end{itemize}
 
 \subsubsection{Keywords And Reserved Characters}
+
 In order to allow efficient creation of input files \CNAME's file format contains special keywords and characters that cannot be used for labels etc.
 
 \paragraph*{\command Block Definitions}
+
 Every new block in the configuration file must start with a block definition character. The reserved character for this is the \command character\\
+
 Example:
+
 {\small{\begin{verbatim}
 @block1 <label>
 type <type>
@@ -46,8 +52,11 @@ type <type>
 \end{verbatim}}}
 
 \paragraph*{'type' Keyword}
+
 The 'type' keyword is used for declaring the sub-type of a defined block. Any block object that has multiple sub-types will use the type keyword.\\
+
 Example:
+
 {\small{\begin{verbatim}
 @block1 <label>
 type <sub_type>
@@ -57,8 +66,11 @@ type <sub_type>
 \end{verbatim}}}
 
 \paragraph*{\# (Single-Line Comment)}
+
 Comments are supported in the configuration file in either single-line (to end-of-line) or multi-line\\
+
 Example:
+
 {\small{\begin{verbatim}
 @block <label>
 type <sub_type> #Descriptive comment
@@ -67,8 +79,11 @@ parameter <value_1> #<value_2>(value_2 is commented out)
 \end{verbatim}}}
 
 \paragraph*{\commentstart\ \commentend\ (Multi-Line Comment)}
+
 Multiple line comments are supported by surrounding the comments in \commentstart\ and \commentend\\
+
 Example:
+
 {\small{\begin{verbatim}
 @block <label>
 type <sub_type>
@@ -87,7 +102,9 @@ parameter <value_1> <value_2>
 \paragraph*{$\{ \}$ (Indexing Parameters)}
 
 Users can reference individual elements of a map using the \{ \} syntax, for example when estimating \subcommand{ycs\_values} you may only want to estimate a block of YCS not all of them say between 1975 and 2012.
+
 Example:
+
 {\small{\begin{verbatim}
 		@estimate YCS
 		parameter process[Recruitment].ycs_values{1975:2012}
@@ -97,8 +114,11 @@ Example:
 		\end{verbatim}}}
 
 \paragraph*{':' (Range Specifier)}
+
 The range specifier allows you to specify a range of values at once instead of having to input them manually. Ranges can be either incremental or decremental.\\
+
 Example:
+
 {\small{\begin{verbatim}
 @process my_recruitment_process
 type constant_recruitment
@@ -110,8 +130,11 @@ years_to_run 2000 2001 2002 2003 2004 2005 2006 2007 #Without range specifier
 \end{verbatim}}}
 
 \paragraph*{',' (List Specifier)}
+
 When a parameter supports multiple values in a single entry you can use the list specifier to supply multiple values as a single parameter.\\
+
 Example:
+
 {\small{\begin{verbatim}
 @categories
 format sex.stage
@@ -123,10 +146,11 @@ names male.immature male.mature female.immature female.mature #Without list spec
 \end{verbatim}}}
 
 \paragraph*{'table' and 'end\_table' Keyword}
-The table keyword is used to define a table of information used as a parameter. The line following the table declaration must contain a list of columns to be used. Following lines are rows of the table. Each row must have the same number of values as the number of columns specified.
-The table definition must end with the 'end\_table' keyword on it's own line.
-The first row of a table will be the name of the columns if required.\\
+
+The table keyword is used to define a table of information used as a parameter. The line following the table declaration must contain a list of columns to be used. Following lines are rows of the table. Each row must have the same number of values as the number of columns specified. The table definition must end with the 'end\_table' keyword on its own line. The first row of a table will be the name of the columns if required.
+
 Example:
+
 {\small{\begin{verbatim}
 @block <label>
 type <sub_type>
@@ -139,8 +163,11 @@ end_table
 \end{verbatim}}}
 
 \paragraph*{[ ] (Inline Declarations)}
-When an object takes the label of a target object as a parameter this can be replaced with an inline declaration. An inline declaration is a complete declaration of an object one 1 line. This is designed to allow the configuration writer to simplify the configuration writing process.\\
+
+When an object takes the label of a target object as a parameter this can be replaced with an inline declaration. An inline declaration is a complete declaration of an object one 1 line. This is designed to allow the configuration writer to simplify the configuration writing process.
+
 Example:
+
 {\small{\begin{verbatim}
 #With inline declaration with label specified for time step
 @model
@@ -159,17 +186,21 @@ processes recruitment ageing
 \end{verbatim}}}
 
 \paragraph*{Categories}
-The \CNAME\ model is essentially a 2-dimensional model. The model partition is:\\
+
+The \CNAME\ model is essentially a 2-dimensional model. The model partition is:
+
 Categories x Ages/Lengths.
-\\\\
+
 Each category supports the ability to have a different range of ages/lengths and accessibility during different time periods.
-\\\\
+
 Because each category is quite complicated, the syntax for defining categories has been structured to allow complex definitions using a simple short-hand structure.
-\\\\
+
 The "format" parameter allows you to tell the model the structure of the category labels. By using a "." (period) character between each segment we can utilise this later in the model to do short-hand lookups of categories.
 
-The "names" parameter is a list of the category names. The syntax of these names will need to match the "format" parameter so \CNAME\ can organise and search on them. Using the "list specifier" and range characters we can shorten this parameter significantly.\\
+The "names" parameter is a list of the category names. The syntax of these names will need to match the "format" parameter so \CNAME\ can organise and search on them. Using the "list specifier" and range characters we can shorten this parameter significantly.
+
 Example:
+
 {\small{\begin{verbatim}
 @categories
 format sex.stage.tag
@@ -185,8 +216,9 @@ names male.immature.notag male.immature.2001 male.immature.2002 male.immature.20
 \end{verbatim}}}
 
 When we have specific data for a year in a category we don't want the model to process this category during other years (or the initialisation stages). We can define a list of years where each category will be available, this will override the default of all years in the model. Any category where you overwrite the default will no longer be accessible in the initialisation phases.
-\\
+
 Examples:
+
 {\small{\begin{verbatim}
 @model
 start_year 1998
@@ -212,7 +244,7 @@ years tag=2001=1999:2003  tag=2005=2003:2007
 		names male.immature male.mature female.immature female.mature
 		\end{verbatim}}}
 
-for the exact same partition structure but specified in a shorter way users could define the categories as, (note the use of the list character ','),
+for the exact same partition structure but specified in a shorter way users could define the categories as, (note the use of the list character ',')
 
 {\small{\begin{verbatim}
 		@categories
@@ -220,7 +252,9 @@ for the exact same partition structure but specified in a shorter way users coul
 		names male,female.immature,mature
 		\end{verbatim}}}
 
-\CNAME\ asks for categories in processes and observations so that it can apply the right model dynamics to the right elements of the partition. For the same reason as defining categories shorthand syntax aids in readability and input management. An example of a process where categories need to be supplied as an input command is in ageing,
+\CNAME\ requires categories in processes and observations so that it can apply the right model dynamics to the right elements of the partition. For the same reason as defining categories shorthand syntax aids in readability and input management.
+
+An example of a process where categories need to be supplied as an input command is in ageing
 
 {\small{\begin{verbatim}
 		# 1. The standard way
@@ -240,7 +274,9 @@ for the exact same partition structure but specified in a shorter way users coul
 		categories sex=male sex=female
 		\end{verbatim}}}
 
-Sometimes in observations we want to amalgamate categories together for example if we had a biomass estimate of the population that was made up of both males and females in the population you can specify this using the + special character, for example
+Sometimes in observations we want to amalgamate categories together for example if we had a biomass estimate of the population that was made up of both males and females in the population you can specify this using the + special character.
+
+For example,
 
 {\small{\begin{verbatim}
 		@observation CPUE
@@ -274,7 +310,8 @@ Another helpful short cut using the amalgamation symbol \subcommand{+} is if you
 
 if \subcommand{male} and \subcommand{female} are the only categories in your population, then this is the same syntax as the observation just above it.
 
-Shorthand syntax can be useful when applying processes to a select group of categories from the partition, for example. If we wanted to apply a spawning migration to the mature categories in the partition and the partition was defined by the categories below,
+Shorthand syntax can be useful when applying processes to a select group of categories from the partition, for example. If we wanted to apply a spawning migration to the mature categories in the partition and the partition was defined
+
 {\small{\begin{verbatim}
 		@categories
 		format area.maturity.tag
@@ -282,7 +319,7 @@ Shorthand syntax can be useful when applying processes to a select group of cate
 		south.mature.notag,2011
 		\end{verbatim}}}
 
-If we wanted to migrate a portion of the mature population from the southern area to the northern are you could use the following syntax,
+If we wanted to migrate a portion of the mature population from the southern area to the northern are you could use the following syntax
 
 {\small{\begin{verbatim}
 		@process spawn_migration
@@ -295,7 +332,9 @@ If we wanted to migrate a portion of the mature population from the southern are
 
 
 \paragraph*{\I{Parameters}\label{sec:params}}
-\CNAME\ also allows parameters that are of type vector or map to be referenced and estimated partially. An example of a parameter that is type vector is \texttt{ycs\_values} in a recruitment process. Let say a recruitment block was specified as follows,
+
+\CNAME\ also allows parameters that are of type vector or map to be referenced and estimated partially. An example of a parameter that is type vector is \texttt{ycs\_values} in a recruitment process. Let say a recruitment block was specified as
+
 {\small{\begin{verbatim}
 		@process WestRecruitment
 		type recruitment_beverton_holt
@@ -312,7 +351,7 @@ If we wanted to migrate a portion of the mature population from the southern are
 		age 1
 		\end{verbatim}}}
 
-Lets say we wanted to only estimate the last four years of the parameter \texttt{process[WestRecruitment].ycs\_values}. This can be done as specified in the following \command{estimate} block,
+Lets say we wanted to only estimate the last four years of the parameter \texttt{process[WestRecruitment].ycs\_values}. This can be done as specified in the following \command{estimate} block
 
 {\small{\begin{verbatim}
 		@estimate
@@ -322,7 +361,9 @@ Lets say we wanted to only estimate the last four years of the parameter \texttt
 		upper_bound  10  10  10  10
 		\end{verbatim}}}
 
-Note the first element of a vector is indexed by 1. This syntax can be applied to parameters that are of type map as well, for information on what type a parameter is see the syntax section. An example of a parameter that is of type map is \command{time\_varying}\texttt{[label].type=constant}. For the following \command{time\_varying} block,
+Note the first element of a vector is indexed by 1. This syntax can be applied to parameters that are of type map as well, for information on what type a parameter is see the syntax section. An example of a parameter that is of type map is \command{time\_varying}\texttt{[label].type=constant}.
+
+For the following \command{time\_varying} block,
 
 {\small{\begin{verbatim}
 		@time_varying q_step1
@@ -332,7 +373,8 @@ Note the first element of a vector is indexed by 1. This syntax can be applied t
 		value 	0.2		0.2		0.2		0.2
 		\end{verbatim}}}
 
-In this example a user may want to estimate only one element of the map (say 1992), but force all other years to be the same as the one estimate. This can be done in an estimate block as follows,
+In this example a user may want to estimate only one element of the map (say 1992), but force all other years to be the same as the one estimate. This can be done in an estimate block as
+
 {\small{\begin{verbatim}
 		@estimate
 		parameter time_varying[q_step1].value{1992}
@@ -341,8 +383,13 @@ In this example a user may want to estimate only one element of the map (say 199
 		lower_bound 0.1 0.1 0.1 0.1
 		upper_bound  10  10  10  10
 		\end{verbatim}}}
+	
 \paragraph*{\I{In line declaration}\label{sec:declare}}
-In line declarations can help shorten models by passing \command{} blocks, for example
+
+In line declarations can help shorten models by passing \command{} blocks.
+
+For example,
+
 {\small{\begin{verbatim}
 		@observation chatCPUE
 		type biomass
@@ -366,7 +413,10 @@ In line declarations can help shorten models by passing \command{} blocks, for e
 
 In the above code we are defining and estimating catchability without explicitly creating an \command{catchability} block.
 
-When you do an inline declaration the new object will be created with the name of the creator's \texttt{label.index} where index will be the word if it's one-nine and the number if it's 10+, for example,
+When you do an inline declaration the new object will be created with the name of the creator's \texttt{label.index} where index will be the word if it is one through nine and the number if it is 10+.
+
+For example,
+
 {\small{\begin{verbatim}
 		@mortality halfm
 		selectivities [type=constant; c=1]
@@ -375,21 +425,23 @@ When you do an inline declaration the new object will be created with the name o
 		@selectivity halfm.one
 		\end{verbatim}}}
 
-if there were 10 categories all with there own selectivity the $10^th$ selectivity would be labelled,
+If there were 10 categories each with its own selectivity, the $10^th$ selectivity would be labelled
 
 {\small{\begin{verbatim}
 		@selectivity halfm.10
 		\end{verbatim}}}
 
-
 \subsection{Processes}
-Processes are special in how they can be defined, all throughout this document we have been referring to specifying a process as follows,
+
+Processes are special in how they can be defined, all throughout this document we have been referring to specifying a process as
 
 {\small{\begin{verbatim}
 		@process Recruitment
 		type recruitment_beverton_holt
 		\end{verbatim}}}
-However for convenience and for file clarity you could equally specify this block as follows,
+	
+However, for convenience and for file clarity you could equally specify this block as
+
 {\small{\begin{verbatim}
 		@recruitment Recruitment
 		type beverton_holt

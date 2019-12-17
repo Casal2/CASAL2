@@ -1,6 +1,7 @@
 \section{\I{The estimation section}\label{sec:estimation-section}}
 
 \subsection{\I{Role of the estimation section}\label{sec:role-of-the-estimation-section}}
+
 The role of the estimation section is to define the tasks carried out by \CNAME:
 
 \begin{enumerate}
@@ -29,6 +30,7 @@ The contribution to the objective function from the likelihoods are defined in S
 Penalties can be used to ensure that the exploitation rate constraints on mortality events (i.e., fisheries) are not breached (otherwise there is nothing to prevent the model from having abundances so low that the recorded mortalities could not have been taken), penalties on category transitions (to ensure there are enough individuals to move), and possibly penalties to encourage estimated values to be similar or smooth, etc. Equation~\ref{objective_function} can mathematically reduce to a penalised likelihood equation if all priors are assumed to be uniform. This is because uniform priors have a zero contribution to the objective function so Equation~\ref{objective_function} reduces to likelihoods plus penalties.
 
 \subsection{\I{Specifying the parameters to be estimated}\label{sec:estimate-free-parameters}}
+
 The parameters that will be estimated (estimables) are defined using \command{estimate} commands (see Section \ref{sec:estimation-syntax}). An \command{estimate} command-block looks like\index{Estimating parameters},
 
 {\small{\begin{verbatim}
@@ -44,16 +46,18 @@ See Section \ref{sec:parameter-names} for instructions on how to generate the pa
 All parameters are estimated within bounds\index{Bounds}. For each parameter to be estimated, you need to specify the bounds and the prior\index{Priors} (\texttt{type}) (Section \ref{sec:priors}). Note that the bounds and prior for each parameter refer to the values of the parameters, not the actual values resulting from the application of the parameter to an equation. Bounds should be carefully chosen as they effect the space in which the minimisers search over. Some minimisers convert lower and upper bound into a minimisation space (for example -1,1 space for the numerical differences algorithm). If estimating only some elements of a vector, either define each element of the vector to be estimated (see \ref{sec:parameter-names}) or fix the others by setting the bounds equal.
 
 \subsection{\I{Point estimation}\label{sec:estimate-MPD}}
+
 Point estimation is invoked with \texttt{\cname\ -e}. Mathematically, it is an attempt to find a minimum of the objective function\index{Objective function}. \CNAME\ has multiple algorithms for solving (minimising) the optimisation problem. There are three non auto differential minimisers: numerical differences, differential evolution minimiser (\subcommand{de\_solver}), and the dlib minimiser. There are also three auto differential (AD) minimisers: ADOL-C, CPPAD, and BETADIFF. For references see Section \ref{sec:tech}. AD minimisers are recommended for complex models as they are on average much faster and tend to find a better minimum when exploring a complex objective surface.
 
 Recently, with the number of parameters growing in these models, an important input parameter on most minimisers is the \subcommand{tolerance} parameter. This is the stopping rule that minimisers use to define when they have found a 'solution' (remember there is no guarantee that a solution is the global solution, such is the world we live in). Try  alternative starting values, this is easily done with the \texttt{-i parameter\_file.txt} in \CNAME. We recommend, when estimating any model with \CNAME\, that you try smaller values for the \subcommand{tolerance} parameter. We have found for some models that if you make it say 0.00000002 that the solution is quite a bit different than when using the default (0.002). This is not ideal model behaviour and that more investigative work may be required to determine what parameters are causing the behaviour. An aside note: this will also effect your covariance matrix --- with different tolerances and searches you may end up with a different approximate Hessian matrix which is inverted to solve for the covariance matrix. We tested the difference this might make on MCMC results (because the covariance is incorporated into the proposal distribution). However,  MCMC runs with varying tolerances and have not been found, so far, to effect the posterior distribution of the MCMC.
+
 \subsubsection{\I{The numerical differences minimiser}}
 
 The minimiser has three kinds of (non-error) exit status, depending on the minimiser:
 
 \begin{enumerate}
 \item Successful convergence (suggests you have found a local minimum, at least).
-\item Convergence failure (you have not reached a local minimum, though you may deem yourself to be `close enough' at your own risk).
+\item Convergence failure (you have not reached a local minimum, though you may deem yourself to be 'close enough' at your own risk).
 \item Convergence unclear (the minimiser halted but was unable to determine if convergence occurred. You may be at a local minimum, although you should check by restarting the minimiser at the final values of the estimated parameters).
 \end{enumerate}
 
@@ -68,7 +72,7 @@ The approximate covariance matrix\index{Covariance matrix} of the estimated para
 \item the inverse Hessian is not a good approximation to the covariance matrix of the estimated parameters, and may not be useful to construct, for example, confidence intervals.
 \end{itemize}
 
-Also note that if an estimated parameter has equal lower and upper bounds, it will have entries of `0' in the covariance matrix and \texttt{NaN} or \texttt{-1.\#IND} (depending on the operating system) in the correlation matrix.
+Also note that if an estimated parameter has equal lower and upper bounds, it will have entries of '0' in the covariance matrix and \texttt{NaN} or \texttt{-1.\#IND} (depending on the operating system) in the correlation matrix.
 
 {\small{\begin{verbatim}
 @minimiser numerical_diff
@@ -97,6 +101,7 @@ We note that there is no proof of convergence for the differential evolution sol
 \subsubsection{\I{Betadiff minimiser}}
 
 An auto-differentiable minimiser for non-linear models, This is the minimiser from the original CASAL package, based on ADOL-C.
+
 {\small{\begin{verbatim}
 		@minimiser beta_diff
 		type beta_diff
@@ -188,7 +193,7 @@ The chain moves in natural space, i.e., no transformations are applied to the es
 \item The covariance matrix is taken as the inverse of the approximate Hessian from the quasi-Newton minimiser.
 \item The covariance matrix is modified so as to decrease all correlations greater than \commandsub{mcmc}{max\_correlation} down to \commandsub{mcmc}{max\_correlation}, and similarly to increase all correlations less than  -\commandsub{mcmc}{max\_correlation} up to -\commandsub{mcmc}{max\_correlation} (the \commandsub{mcmc}{max\_correlation} parameter defaults to 0.8). This should help to avoid getting `stuck' in a lower-dimensional subspace.
 
-\item The covariance matrix is then modified either by,
+\item The covariance matrix is then modified either by
 
 \begin{itemize}
 \item  \commandsubarg{mcmc}{adjustment\_method}{covariance}: that if the variance of the $i$th parameter is non-zero and less than \commandsub{mcmc}{min\_difference} times the difference between the parameters' lower and upper bound, then the variance is changed, without changing the associated correlations, to $k=$min\_diff$(upper\_bound_i-lower\_bound_i)$. This is done by setting \[
@@ -210,7 +215,6 @@ The proposal distribution can also change adaptively during the chain, using two
 
 \begin{enumerate}
 \item You can request that the stepsize change adaptively at one or more sample numbers (See next paragraph for details on the stepsize adaptation methods)
-
 \item You can request that the entire covariance matrix change adaptively at one or more sample numbers. At each adaptation, the covariance matrix is replaced with an empirical covariance, derived from the MCMC chain. The idea here is that an empirical covariance is a better approximation to the proposal distribution than the inverse of the hessian matrix, and can improve convergence and mixing of your chain.
 \end{enumerate}
 
@@ -287,7 +291,6 @@ Note that when some of these priors are parameterised in terms of mean, c.v., an
 
 where $s$ is the standard deviation of $\log(p)$ and $s= \sqrt{\log \left(1+c^2 \right)}$.
 
-
 \item{Beta\index{Beta prior}\index{Priors ! Beta} with mean $\mu$ and standard deviation $\sigma$, and range parameters $A$ and $B$}
 
 \begin{equation}
@@ -360,18 +363,17 @@ Where $X_1$ could be a known catch and $X_2$ is the model catch under a given se
 
 \subsection{Additional Priors\label{sec:additional_priors}}
 
-Additional priors can be thought of as the inverse of penalties and for CASAL users most of the legacy \command{penalty} blocks have now been migrated as \command{additional\_prior} blocks. They constrain or encourage parameters in user defined spaces. The types of additional priors available in \CNAME\ are \texttt{vector\_smoothing}, \texttt{vector\_averaging}, \texttt{uniform\_log}, \texttt{lognormal}, \texttt{element\_difference} and \texttt{Beta}, which are defined as,
+Additional priors can be thought of as the inverse of penalties and for CASAL users most of the legacy \command{penalty} blocks have now been migrated as \command{additional\_prior} blocks. They constrain or encourage parameters in user defined spaces. The types of additional priors available in \CNAME\ are \texttt{vector\_smoothing}, \texttt{vector\_averaging}, \texttt{uniform\_log}, \texttt{lognormal}, \texttt{element\_difference} and \texttt{Beta}, which are
 
 \begin{enumerate}
 	\item \texttt{vector\_averaging}
-	\\\\
+	
 	Applied to a vector parameter. Sum of squares of rth differences, optionally on a log scale. This encourages the vector to be like a polynomial of degree (r-1). Note, a range of the vector to be “smoothed” can be specified (and if not, the smoother is applied to the entire vector), but this must be specified by an index of the vector and must be between 1 and the length of the vector, inclusive.
 	\item \texttt{vector\_smoothing}
-	\\\\
+	
 	Applied to a vector parameter. Square of (mean(vector)-k), or of (mean(log(vector))-l), or of (log(mean(vector)/m)). Encourages the vector to average arithmetically to k or m, or geometrically to exp(l). Typically used for YCS with k=1 or m=1 or l=0, to encourage the YCS to centre on 1. Optionally, you can choose to exclude indices outside a given set of bounds.
-	\\\\
-	\item\texttt{lognormal}
-	 with mean $\mu$ and c.v. $c$
+	\item\texttt{lognormal} with mean $\mu$ and c.v. $c$
+	
 	\begin{equation}
 	- \log \left(\pi \left(p \right) \right) = \log \left( p \right) + 0.5 \left( \frac{\log \left( p / \mu \right)}{s} + \frac{s}{2} \right)^2
 	\end{equation}
@@ -386,17 +388,19 @@ Additional priors can be thought of as the inverse of penalties and for CASAL us
 	\begin{equation}
 	- \log \left(\pi \left(p_1,p_2 \right) \right) = \sum_{i = 1}^n \left( p_{1,i} - p_{2,i} \right)^2
 	\end{equation}
-	\\\\
+
 	\item\texttt{Beta}
+	
 	{Beta\index{Beta additional prior}\index{Additional Priors ! Beta} with mean $\mu$ and standard deviation $\sigma$, and range parameters $A$ and $B$, for parameter value = $p$}
 
 	\begin{equation}
 	- \log \left(\pi \left( p \right) \right) = \left( 1 - m \right) \log \left( p - A \right) + \left( 1 - n \right)\log \left( B - p \right)
 	\end{equation}
+	
 	where $\nu  = \frac{\mu  - A}{B - A}$, and $\tau = \frac{\left(\mu -A \right)\left(B - \mu \right)}{\sigma ^2} - 1$ and then $m=\tau \nu$ and $n=\tau(1-\nu)$. Note that the beta prior is undefined when $\tau \leq 0$.
 \end{enumerate}
 
-Methods available for the type \texttt{vector\_average} are \subcommand{l}, \subcommand{k}, \subcommand{m}. For a target vector parameter $\textbf{X}$ and desired average $k$, the contribution to the objective score is.
+Methods available for the type \texttt{vector\_average} are \subcommand{l}, \subcommand{k}, \subcommand{m}. For a target vector parameter $\textbf{X}$ and desired average $k$, the contribution to the objective score is
 
 \begin{itemize}
 	\item \subcommand{method k}\\\\
@@ -408,6 +412,7 @@ Methods available for the type \texttt{vector\_average} are \subcommand{l}, \sub
 	\item \subcommand{method m}\\\\
 $- \log \left(\pi \left(p \right) \right) = \left(ln\left(\bar{X}\right) - k\right)^2$
 \end{itemize}
+
 where $\overline{ln\left(X\right)}$ is the mean of the logged values.
 
 
@@ -485,7 +490,8 @@ where $\begin{vmatrix} \frac{\partial}{\partial y} f^{-1}(y) \end{vmatrix}$ is t
 \end{verbatim}}}
 
 \subsubsection*{Transform without Jacobian but prior defined in transformed space}
-This is where users define the priors in transformed space (this class of transformations will contain functionality that was implemented in the original CASAL). If $f()$ is a transformation function defined on the support of $X$, then $Y = f(X)$ is a new random variable (transformed variable). In this class users specify \textit{a priori} information with regard to $p_Y(y)$ and $X$ can be thought of as a derived quantity. An example of this syntax,
+
+This is where users define the priors in transformed space (this class of transformations will contain functionality that was implemented in the original CASAL). If $f()$ is a transformation function defined on the support of $X$, then $Y = f(X)$ is a new random variable (transformed variable). In this class users specify \textit{a priori} information with regard to $p_Y(y)$ and $X$ can be thought of as a derived quantity. An example of this syntax
 
 {\small{\begin{verbatim}
 		@estimate log_R0
