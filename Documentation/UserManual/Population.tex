@@ -1695,11 +1695,11 @@ values 4000
 
 This uses the syntax \texttt{block\_type[block\_label].method\_fishinglabel}. \textbf{Note:} the fishing label which is defined in the table needs to be lower case form in the \command{projection} block.
 
-\subsection{\I{Time Varying Parameters}\label{sec:time_var}}
+\subsection{\I{Time-varying Parameters}\label{sec:time_var}}
 
 \CNAME\ has the functionality to vary any parameter annually between the start and final year of a model run. This can be for blocks of years or specific years. For years that are not specified the parameter will default to the input, or if in an iterative state such as estimation mode, the value being trialled at that iteration.
 
-Method types for time varying a parameter are: 
+Method types for a time-varying parameter are: 
 
 \begin{itemize}
 \item \subcommand{constant},
@@ -1710,15 +1710,13 @@ Method types for time varying a parameter are:
 \item \subcommand{random\_draw}.
 \end{itemize}
 
-This option allows for a parameter to be known in a year, or be the result of a deterministic or stochastic equation. \textbf{Note:} the stochastic time varying functionality was added for simulation purposes. It has not been tested in an estimation context.
+This option allows for a parameter to be known in a year, or be the result of a deterministic or stochastic equation. \textbf{Note:} the stochastic time-varying functionality was added for simulation purposes. It has not been tested in an estimation context.
 
-TODO got to here 2019-12-13
+To implement hierarchical models, estimated the prior parameter values with hyperpriors. To implement a hierarchical model using the time-varying functionality, use MCMC estimation to calculate the integral which is required to obtain unbiased estimates. In an MCMC context a Gibbs sampler is assumed. That is, every draw is from a conditional distribution and so every draw is a candidate value.
 
-To implement hierarchical models, estimated the prior parameter values with hyper-priors. If you were to try an implement a hierarchical model using the time varying functionality, firstly you could only do this at MCMC estimation because an MPD we would not be doing that integral which is required to obtain unbiased estimates. In an MCMC context you would be assuming a Gibbs sampler. That is every draw is from a conditional distribution and so every draw is a candidate value.
+When allowing removals with annually varying catchabilities, selectivities, and/or other model components, simulated observations more closely model real data and associated conclusions become more useful. Implementing time-varying parameters also allows for mean or location parameters of selectivities to change between years based on an explanatory variable. An example of this is in the New Zealand Hoki fishery where the $\mu$ and $a_{50}$ parameters are allowed to shift depending on when the fishing season occurs. Descriptive analysis showed that when fishing was earlier relative to other years smaller fish were caught and vice versa. This can be shown in the CASAL2/Examples/2stock directory, implemented at line: \texttt{382} in the \texttt{population.csl2} file.
 
-When allowing removals to have annual varying catchabilities, selectivities and other more realistic model components, simulated observations more closely model real data and associated conclusions become more useful. Another driver for implementing time-varying parameters was allowing mean or location parameters of selectivities to change between years based on an explanatory variable. An example of this is in the New Zealand Hoki fishery where we allow the $\mu$ and $a_{50}$ parameters to shift depending on when the fishing season occurs. Descriptive analysis showed that when fishing was earlier relative to other years smaller fish were caught and vice versa. This can be shown in the CASAL2/Examples/2stock directory, implemented at line: \texttt{382} in the \texttt{population.csl2} file.
-
-\subsubsection[Constant]{\argument{constant}}\index{Time Varying Parameters!Constant}
+\subsubsection[Constant]{\argument{constant}}\index{Time-varying Parameters!Constant}
 
 This option allows a parameter to have an alternative value during certain years, which can be estimated.
 
@@ -1730,7 +1728,7 @@ This option allows a parameter to have an alternative value during certain years
 		values 0.001
 		\end{verbatim}}}
 
-These year values can be estimated using the following syntax, caution is that you shouldn't estimate the actual parameter and its time varying counterpart, as the time varying value will overwrite the actual parameter making the first value unidentifiable and an impossible optimization process.
+These year values can be estimated using the syntax
 
 {\small{\begin{verbatim}
 		@estimate q_time_var
@@ -1740,11 +1738,11 @@ These year values can be estimated using the following syntax, caution is that y
 		upper_bound 2 2
 		\end{verbatim}}}
 
-\textbf{Caution required}: the actual parameter and its time varying counterpart should not both be estimated, as the time varying value will overwrite the actual parameter making the first value unidentifiable and an impossible optimization process.
+\textbf{Caution}: do not estimate both the actual parameter and its time-varying counterpart, as the time-varying value will overwrite the actual parameter making the actual value unidentifiable.
 
-\subsubsection[Random Walk]{\argument{random\_walk}}\index{Time Varying Parameters!Random Walk}
+\subsubsection[Random Walk]{\argument{random\_walk}}\index{Time-varying Parameters!Random Walk}
 
-A random deviate is added into the last value drawn from a standard normal distribution. This has an estimable parameter $\sigma_p$ for each time varying parameter $p$. For reproducible modelling, it is highly recommended that users set the seed (see Section~\ref{sec:command-line-arguments}) when using stochastic functionality like this, otherwise reproducing models becomes almost impossible.
+A random deviate drawn from a standard normal distribution is added to the previous value. This option has an estimable parameter $\sigma_p$ for each time-varying parameter $p$. For reproducible modelling when using stochastic functionality, set the random seed (see Section~\ref{sec:command-line-arguments}).
 
 {\small{\begin{verbatim}
 		@time_varying q_time_var
@@ -1755,7 +1753,11 @@ A random deviate is added into the last value drawn from a standard normal distr
 		sigma 3
 		\end{verbatim}}}
 
-If the \texttt{parameter} specified in the \command{time\_varying} block is associated with an \command{estimate} block then the parameter is constrained to stay within the lower and upper bounds of the \command{estimate} block. \textbf{WARNING}, if the parameter does not have an associated \command{estimate} block then there is no safe guard for a random deviate to put the parameter in a space where the model fails, i.e generates NA or INF values. To avoid this, we recommended an \command{estimate} block is specified even though the parameter is not actually being estimated, see example syntax, below. A constraint whilst using this functionality is that a parameter cannot be less than 0.0, if it is \CNAME\ sets it equal to 0.01.
+If the \texttt{parameter} specified in the \command{time\_varying} block is associated with an \command{estimate} block, then the parameter is constrained to stay within the lower and upper bounds of the \command{estimate} block.
+
+\textbf{WARNING:} if the parameter does not have an associated \command{estimate} block then there is no safeguard against the application of a random deviate resulting in parameter values which cause the model to fail, i.e., generates NA or INF values. To avoid this, specify an \command{estimate} block even though the parameter is not actually being estimated; see the example syntax below.
+
+A constraint whilst using this functionality is that a parameter cannot be less than 0.0. If it is then \CNAME\ sets it equal to 0.01.
 
 {\small{\begin{verbatim}
 		@estimate survey_q_est
@@ -1765,11 +1767,11 @@ If the \texttt{parameter} specified in the \command{time\_varying} block is asso
 		upper_bound 10
 		\end{verbatim}}}
 	
-This will insure the random walk time varying process will set the any new candidate within the lower and upper bound of the \command{estimate} block.
+This configuration will insure the random walk time-varying process will set the any new candidate values within the lower and upper bound of the \command{estimate} block.
 
-\subsubsection[Annual shift]{\argument{annual\_shift}}\index{Time Varying Parameters!Annual shift}
+\subsubsection[Annual shift]{\argument{annual\_shift}}\index{Time-varying Parameters!Annual shift}
 
-A parameter generated in year $y$ ($\theta'_y$) depends on the value specified by the user ($\theta_y$) along with three coefficients $a,b$ and $c$
+A parameter generated in year $y$ ($\theta'_y$) depends on the value specified by the user ($\theta_y$) along with three coefficients $a$, $b$, and $c$
 
 \begin{equation}
 \bar{\theta}_y = \frac{\sum_{y}^Y\theta_y}{Y}
@@ -1779,9 +1781,9 @@ A parameter generated in year $y$ ($\theta'_y$) depends on the value specified b
 \theta'_y = a \bar{\theta}_y + b\bar{\theta}_y^{2} + c\bar{\theta}_y^{3}
 \end{equation}
 
-\subsubsection[Exogenous]{\argument{exogenous}}\index{Time Varying Parameters!Exogenous}
+\subsubsection[Exogenous]{\argument{exogenous}}\index{Time-varying Parameters!Exogenous}
 
-Parameters are shifted based on an exogenous variable, an example of this is an exploitation selectivity parameters that may vary between years based on known changes in exploitation behaviour such as season, start time, and average depth of exploitation.
+Parameters are shifted based on an exogenous variable. An example of this is an exploitation selectivity parameters that may vary between years based on known changes in exploitation behaviour such as season, start time, and average depth of exploitation.
 
 \begin{equation}
 \delta_y = a(E_y - \bar{E})
@@ -1791,44 +1793,46 @@ Parameters are shifted based on an exogenous variable, an example of this is an 
 \theta'_y = \theta_y + \delta_y
 \end{equation}
 
-where $\delta_y$ is the shift or deviation in parameter $\theta_y$ in year $y$ to generate the new parameter value in year $y$ ($\theta'_y$). $a$ is an estimable shift parameter, $E$ is the exogenous variable and $E_y$ is the value of this variable in year $y$. For more information readers can see \cite{francis_03}.
+where $\delta_y$ is the shift or deviation in parameter $\theta_y$ in year $y$ to generate the new parameter value in year $y$ ($\theta'_y$). $a$ is an estimable shift parameter, $E$ is the exogenous variable, and $E_y$ is the value of this variable in year $y$. For more information readers can see \cite{francis_03}.
 
 \subsection{\I{Equation Parser}\label{sec:eq_parser}}
 
-\CNAME\ has the ability to use an equation parser, which is currently implemented in Projections (section~\ref{sec:projections}), Derived quantities (section~\ref{sec:derived-quantities}), and Reports (section~\ref{sec:report-section}).
+\CNAME\ has equation parser functionality, which is currently implemented in Projections (section~\ref{sec:projections}), Derived quantities (section~\ref{sec:derived-quantities}), and Reports (section~\ref{sec:report-section}).
 
-Examples of syntax for implementing the equation parser follow from here. For a more detailed look at the parser see \url{https://github.com/nickgammon/parser/blob/master/parser.cpp}\\
+Examples of syntax for implementing the equation parser are below. For more information on the parser, see \url{https://github.com/nickgammon/parser/blob/master/parser.cpp}
+
+TODO what does this first example do?
 
 {\small{\begin{verbatim}
 		equation process[Recruitment].r0 * (2-1)
 		\end{verbatim}}}
 
-and can apply routine mathematical functions such as \texttt{log},  \texttt{exp},  \texttt{cos}, \texttt{sin}, \texttt{tan}
+mathematical functions such as \texttt{sqrt()}, \texttt{log()},  \texttt{exp()},  \texttt{cos()}, \texttt{sin()}, and \texttt{tan()} can be used
 
 {\small{\begin{verbatim}
 		equation sqrt(process[Recruitment].r0)
 		\end{verbatim}}}
 
-apply exponents
+exponents can be used with \texttt{pow()}
 
 {\small{\begin{verbatim}
 		equation pow(2, 3)
 		\end{verbatim}}}
 
-evaluate the absolute of an equation using the \texttt{abs()} syntax
+the absolute value of an equation using \texttt{abs()}
 
 {\small{\begin{verbatim}
 		equation abs(sqrt(process[Recruitment].r0) * 1.33)
 		\end{verbatim}}}
 
-use if else statements
+\texttt{if-else} statements can be used
 
 {\small{\begin{verbatim}
 		equation if(process[Recruitment].r0 > 23, 44, 55)
 		## if R0 is greater than 23 return 44 else return 55
 		\end{verbatim}}}
 
-if else statements can also be linked, but the syntax becomes more complex
+\texttt{if-else} statements can also be linked, more complex syntax
 
 {\small{\begin{verbatim}
 		equation if(process[Recruitment].r0 > 23, 44,
@@ -1837,9 +1841,11 @@ if else statements can also be linked, but the syntax becomes more complex
 		else R0 must be less than 10 return 66
 		\end{verbatim}}}
 
-Only singletons can be reference, so an equation cannot be applied to vector parameters, e.g. \subcommand{process[Recruit].ycs\_values\{1974:1980\}} can't be referenced. To see which parameters can be included in an equation parser go to the syntax section (Section~\ref{sec:syntax}). Any subcommand that has a \texttt{type estimable} could, in theory, be addressed in an equation parser.
+Only single values can be referenced, so an equation cannot be applied to a vector, e.g., \subcommand{process[Recruit].ycs\_values\{1974:1980\}} cannot be referenced. More information on which parameters can be included in an equation parser is available (Section~\ref{sec:syntax}). Any subcommand that has a \texttt{type estimable} could be referenced with the equation parser.
 
-With the equation parser it is difficult to catch all user configuration errors, we cannot check whether a parameter that exists in the system has been populated when the user requires it. For example, the wrong year could easily be misspecified in the case of next years (2015) removals to be based on the this years (2014) state of the population
+\textbf{Note:} the equation parser will not catch all user configuration errors, such as checking whether a parameter that exists in the system has been populated when it is required.
+
+For example, the wrong year could be misspecified in the case of removals in year $y$ which is based on the state of the population in year $y-1$
 
 {\small{\begin{verbatim}
 		parameter process[removals].catch
@@ -1847,4 +1853,4 @@ With the equation parser it is difficult to catch all user configuration errors,
 		equation derived_quantity[percent_b0].values{2020}
 		\end{verbatim}}}
 
-The above would be an acceptable equation but obviously will cause nonsensical results, because you are asking for a value in 2020 when you are in 2015. This is just a caution, for although the equation parser adds a great deal of flexibility, users should be careful because it is easy to misspecify models in this manner.
+This example is a valid equation but it will have nonsensical results, since a value for 2020 is to be calculated using values for 2015. Although the equation parser adds flexibility, it is easy to misspecify equations.
