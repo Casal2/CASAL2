@@ -1,34 +1,44 @@
-This example implements a very simple single species and area model, with recruitment, maturation, natural and fishing mortality, and an annual age increment. The population structure has ages $1-30^{+}$ with a single category.
+This example describes a single species and area model, with recruitment, maturation, natural and fishing mortality, and an annual age increment. The population structure has ages $1-30^{+}$ with a single category.
 
-\CNAME\ default file to search for in your current working directory is \texttt{casal2.csl2}. In this example, \texttt{casal2.csl2} specifies all the files necessary to run your \CNAME\ model from your current working directory. This is done using the !\texttt{\emph{include}} command as follows.
+The default \CNAME\ configuration filename is \texttt{config.csl2}. In this example, \texttt{config.csl2} specifies the files to include to run the \CNAME\ model from the current directory using the !\texttt{\emph{include}} command.
+
 \lstinputlisting[firstline=2,lastline=5]{../../Examples/Simple/config.csl2} 
 
-Breaking up a \CNAME\ model into sections is recommended, as it aids in readability and error checking. \texttt{population.csl2} contains the population information. The model runs from 1975-2012 and is initialised over a 120 year period prior to  1975, which applies the following processes,
+It is recommended to separate the sections of a \CNAME\ model for enhancing readability and error checking, and including the files in a version control system.
 
-\begin{enumerate}
+The file  \texttt{population.csl2} contains the population information. The model years are from 1975 through 2012, with 3 time steps. The model is initialised over a 120 year period prior to 1975 and applies the following processes
+
+\begin{itemize}
 \item A Beverton-Holt recruitment process, recruiting a constant number of individuals to the first age class (i.e., $age=1$).
-\item A constant mortality process representing natural mortality$(M)$. This process is repeated in all three time steps, so that each with its own time step proportion of $M$ applied.
+
+\item A constant mortality process representing natural mortality$(M)$. This process is repeated in all 3 time steps, so that a proportion of $M$ is applied in each time step.
 
 \item An ageing process, where all individuals are aged by one year, and with a plus group accumulator age class at $age=30$.
-\end{enumerate}
+\end{itemize}
 
-Following initialisation, the model runs from the years 1975 to 2012 iterating through two time-steps. The first time-step applies processes of recruitment, and  $\frac{1}{2} M_1 + F + \frac{1}{2} M_1$ processes, where $M_1$ is the proportion of $M$ applied in the first time step. The exploitation process (fishing) is applied in the years 1975--2012. Catches are defined in the catches table and attribute information on each fishery such as selectivity and time-step they are implemented are in the fisheries table in the \command{process} block.
+Following initialisation, the model runs from the years 1975 to 2012 iterating through 3 time steps.
 
-The second time-step applies an age increment and the remaining natural mortality.
+The first time step applies processes of recruitment, and  $\frac{1}{2} M_1 + F + \frac{1}{2} M_1$ processes, where $M_1$ is the proportion of $M$ applied in the first time step. The exploitation process (fishing) is applied in the years 1975 - 2012. Catches are defined in the catches table and attributes for each fishery, such as selectivity and time step they are implemented, are in the fisheries table in the \command{process} block.
 
-The first 28 lines of the main section of the \texttt{population.csl2} are,
+The second time step applies an age increment and the remaining natural mortality.
+
+The third time step applies TODO.
+
+The first 28 lines of the main section of the \texttt{population.csl2}:
+
 % Include config file
 \lstinputlisting[firstline=1,lastline=28]{../../Examples/Simple/population.csl2} 
 
-To carry out a run of the model (to verify that the model runs without any syntax errors), use the command \texttt{casal2 -r}. Note that as \CNAME\ looks for a file named \texttt{casal2.txt} by default, we can override this. Hypothetically speaking if our model was all written in \texttt{Mymodel.txt} we could call it using the \texttt{-c} command like \texttt{casal2 -r -c Mymodel.txt}.
+To run the model to verify that the model runs without any syntax errors, use the command \texttt{casal2 -r}. Since \CNAME\ reads in the default filename \texttt{config.csl2}, this filename can be overridden. For example, if the model is in file \texttt{Mymodel.txt}, then this filename would be specified using the \texttt{-c} option, \texttt{casal2 -r -c Mymodel.txt}.
 
-To run an estimation, and hence estimate the parameters defined in the file \texttt{estimation.csl2} (the catchability constant $q$, recruitment $R_0$, and the selectivity parameters $a_{50}$ and $a_{to95}$), use  \texttt{casal2 -e}. Here, we have piped the output to \texttt{estimate.log} using the command \texttt{casal2 -e > estimate.log}, reports the user defined reports \texttt{reports.csl2} from the final iteration of the estimation, and successful convergence printed to screen,
+To estimate the parameters defined in the file \texttt{estimation.csl2} (the catchability constant $q$, recruitment $R_0$, and the selectivity parameters $a_{50}$ and $a_{to95}$), use \texttt{casal2 -e}. The output has been redirected to file  \texttt{estimate.log} using the command \texttt{casal2 -e > estimate.log}. Reports for the user-defined reports \texttt{reports.csl2} from the final iteration of the estimation are output to the file \texttt{estimate.log}, and successful convergence is printed to the screen
+
 {\small{\begin{verbatim}
 Total elapsed time: 1 second
 Completed
 \end{verbatim}}}
 
-The main part of the output from the estimation run is summarised in the file \texttt{estimate.log}, and the final MPD parameter values can be piped out as a separate report, in this case named \texttt{paramaters.out}, using the command \texttt{casal2 -e -o paramaters.out > estimate.log}.
+The main output from the estimation run is summarised in the file \texttt{estimate.log}, and the final MPD parameter values can also be redirected as a separate report, in this case named \texttt{paramaters.out}, using the command \texttt{casal2 -e -o paramaters.out > estimate.log}.
 
-A profile on the $R_0$ parameter can also be run, using \texttt{casal2 -p > profile.log}. See the examples folder for the example of the output.
+A profile on the $R_0$ parameter can be run, using \texttt{casal2 -p > profile.log}. See the examples folder for the example of the output.
 

@@ -1,46 +1,40 @@
 \section{\I{Tips for setting up Casal2 model based on an existing CASAL model}\label{sec:setupCasal2}}
 
-For many users that are about to embark on the \CNAME\ journey, firstly good luck, but secondly, most of you will be coming from a functioning CASAL model. This section focuses on transitioning from CASAL to \CNAME. 
+Many users of \CNAME\ may be be starting with a functioning CASAL model. This section focuses on transitioning from CASAL to \CNAME. 
 
+There are a range of reasons why \CNAME\ will output different values when comparing model output to CASAL models. There are also reasons why values will differ that are not so obvious such as, reasons caused from using different compilers on different machines where over/underflow might occur. It is assumed that the latter reasons  should be rare, and the 'overall' behaviour when it comes to estimation will be the same between CASAL and \CNAME.
 
-There are a range of expected reasons why \CNAME\ will provide (report) different values when comparing model output to CASAL models. There are also reasons why values will differ that are not so obvious such as, reasons caused from using different compilers on different machines where over/underflow might occur. It is thought/assumed that the latter inconspicuous reasons are insignificant (or at least should be), and the 'overall' behaviour when it comes to estimation will be the same between CASAL and \CNAME. Reasons why you can expect different values reported between CASAL and \CNAME\ that I have discovered so far are;
+Reasons why there may be different values reported between CASAL and \CNAME\ include:
 
 \begin{itemize}
-	\item Report rounding. There are setting with respect to std::out in CASAL that set significant figures for writing to files. So if things look truncated, there might be a very simple reason for this.
+	\item Report rounding. There are settings with respect to output in CASAL that set the number of significant figures for writing to files. So if values look truncated, this might be the reason.
 	
-	\item Priors on parameters that are turned off with \subcommand{upper\_bound} = \subcommand{lower\_bound}. In both programs you can turn off the estimation of parameters by setting the bounds equal. CASAL will evaluate the prior value and add this to the objective function, you don't need to worry as this contribution is a constant so will not effect parameter inference. It may however confuse you when comparing output between the two models.
+	\item Priors on parameters that are turned off with \subcommand{upper\_bound} = \subcommand{lower\_bound}. In both CASAL and \CNAME\ the estimation of parameters can be turned off by setting the bounds equal. CASAL will evaluate the prior value and add this to the objective function.  This contribution is a constant value so it will not affect parameter inference. It may however be confusing when comparing output between the two models.
 	
-	\item Default values\dots This one seems obvious but there are a lot of switches in these programs, and even subtle things like the \subcommand{delta} in \CNAME\ or \subcommand{r} parameter in CASAL for robustifying likelihoods can catch you out.
+	\item Default values. There are a lot of switches in these programs, and options like the \subcommand{delta} in \CNAME\ or \subcommand{r} parameter in CASAL for robustifying likelihoods can cause differences.
 	
-	\item order of processes. CASAL has a predefined sequence in which it executes processes with in a time step, where as \CNAME\ is completely user defined.
+	\item The order of processes. CASAL has a predefined sequence in which it executes processes within a time step (i.e., ageing, recruitment, maturation, migration, growth, natural and fishing mortality, disease mortality, tag release events, tag shedding rate, and semelparous mortality), where as \CNAME\ is completely user defined.
 		
-	\item Length based process/observations. \CNAME\ has updated the normal distribution cdf calculation (its approximated no closed form solution) with better approximations.
+	\item Length-based processes or observations. \CNAME\ has updated the cumulative normal distribution calculation (CASAL used the approximated no closed form solution) with better approximations.
 	
-	\item Age observations currently Casal2 doesn't have the \subcommand{sum\_to\_one} subcommand, where as CASAL does this behind the scenes. Check that this is false if you want to truly compare
+	\item Age-based observations. \CNAME\ does not have the \subcommand{sum\_to\_one} subcommand implemented, and CASAL makes this adjustment implicitly. Check that this flag is set to 'false' in the CASAL model for a more accurate comparison.
 	
-	\item Tag Penalties. CASAL applies a penalty as sum of squares on total tagged fish in an a 'tagging episode' from the model compared to observed number tagged fish. \CNAME\ applies a penalty on the transition rate by length. If you ask to apply a tags in a length bin that doesn't have fish e.g. asking to tag 2 fish of length 60-61cm when there is 0 will flag a penalty. Unsure the consequence of this during estimation.
+	\item Tag penalties. CASAL applies a penalty to the sum of squares on total tagged fish in a 'tagging episode' from the model compared to observed number of tagged fish. \CNAME\ applies a penalty on the transition rate by length. If tags are applied in a length bin that does not have individuals, e.g., a model configuration which tags 2 individuals of length $l$ when there are no individuals in that length bin will include a penalty.
 \end{itemize}
 
+Many of the flags and options in CASAL and \CNAME\ are the same or similar. The syntax section of this document (Sections~\ref{sec:population-syntax}) provides more details about the \CNAME\ functionality and behaviour. Check that the programs produce the same results with a \textbf{range} of parameter values using the deterministic run command (\texttt{casal2 -r}), before doing an estimation run (\texttt{casal2 -e}).
 
-Many of the switches between CASAL and \CNAME\ are pretty similar but if there is any confusion you should go to the syntax section of this document (Sections~\ref{sec:population-syntax}). So it should be easy to get a model up and running between the two programs. One tip I have is never do an estimation run (\texttt{casal2 -e}) until you have convinced yourself that the programs give the same (keep in mind the points above) results with a \textbf{range} of parameter values using the deterministic run commands (\texttt{casal2 -r}).
+The first outputs to check when comparing \CNAME\ and CASAL versions of the same model are the stock dynamics outputs, ignoring the fits to observations. That is, check the initial age structure, the SSB and YCS values and patterns, R0, B0, etc. If these outputs differ, then the fits to the observations will likely also be different.
 
+There are a few linkages with certain stock dynamics outputs to check to determine if processes are misspecified. Differences between the proportions in the initial age structure, assuming an equilibrium state, are due to $M$, natural mortality. Differences in the initial equilibrium recruitment value, $R_0$, are due to growth (\command{age\_length} or \command{length\_weight}). Many models estimate $B_0$ so that $R_0$ is a back calculation through the growth curve.
 
-The first thing you should look/investigate at when setting up a comparison between \CNAME\ and CASAL is focus on the stock dynamics outputs which I call the process dynamics model (i.e. ignore observations). This is your initial age-structure, SSB's and the like. If these components differ between programs then your observations will certainly be different and thus, if you blindly did an estimation you would almost certainly get different results and possibly conclude there is a bug or something.
+If the initial age structure is the same, next check the derived quantities such as the SSB values. Differences in these values are generally caused by how fishing and recruitment processes are specified. Check which $YCS$ values are estimated or standardised, the definition and designation of selectivities, etc.
 
+Once the stock dynamics outputs match, check the results with a few different sets of starting parameter values by using the \texttt{-i} command line option. Next, check the fits to the observation data by comparing the expected values.  Assuming the observations in both models match, the differences in the objective function value come from the expected values and the likelihood configurations. This is where subcommands such as the robustification values and the default values may differ between CASAL and \CNAME.
 
-There are few links that you can make with certain stock outputs that will point you in a direction of processes that are misspecified. Any difference between proportions in the initial age-structure (assuming an equilibrium state) is due to $M$ (natural mortality). For difference in absolute initial age-structure (defined as $R_0$ in the recruitment process) will be due to growth (\command{age\_length} or \command{length\_weight}). Most of our models are $B_0$ initialised so $R_0$ is a back calculation through the growth curve.
+Once the stock dynamics outputs and the fits to the observation data are the same, do an estimation run (\texttt{casal2 -e}). If CASAL and \CNAME\ do not optimise to the same parameter values, then use the parameter values from CASAL and do a deterministic run with \CNAME\ using the CASAL estimated parameter values (\texttt{casal2 -r -i CASAL\_mpd\_pars.txt}). Then check the stock dynamics outputs and the fits to the observation data and determine where the differences in the parameter estimates and outputs are.
 
-
-If you have successfully got the initial age-structure between the programs the same, then you can move on to focusing on derived quantities such as SSB's. Difference in these will generally be caused by how fishing and recruitment processes are configured. Look at things like which year class values are standardised, and choice of selectivities etc.
-
-
-Once you are happy that the process dynamic model is doing the same between the two programs. I reiterate, do this with a few different set of parameter values (I suggest by using the \texttt{-i} functionality). Then you can move on to investigating the observation model. Things you want to pull out and examine are expected values between CASAL and \CNAME\ assuming you have input the correct observations the difference in objective function will come from model expectations and likelihood configurations, this is where subcommands such as robustification and default values will annoy you.
-
-
-Once you are satisfied that the process model and observation models are the same between CASAL and \CNAME\ you can unleash an estimation run (\texttt{casal2 -e}). Now I would love to say on the first attempt everything will work out and both CASAL and \CNAME\ will minimise to the same values, but from my experience they wont. If this happens to you, what I suggest you do is get the parameter values from CASAL and do a deterministic run with \CNAME\ using CASAL estimated parameter values (\texttt{casal2 -r -i CASAL\_mpd\_pars.txt}). Then once again look at the process dynamic model, once you are satisfied inspect the observation model and see if you can identify the culprit.
-
-
-The next question is how close do the model estimates and outputs have to be, before we can conclusively say the models are identical? This is an ongoing decision historically we have used subjective qualitative measures to decide whether the models are doing the same thing. A recorded comparison for the hake stock assessment can be found at Appendix B in \cite{horn2017stock}.
+The next question is, how close do the parameter estimates, expected values, and objective function values have to be to say that the models are equivalent? This is an ongoing topic of discussion.  Previously, subjective qualitative measures have been used to decide whether the models are equivalent. A recorded comparison for the hake stock assessment can be found at Appendix B in \cite{horn2017stock}.
 
 
 

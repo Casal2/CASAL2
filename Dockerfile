@@ -43,11 +43,11 @@ RUN cd BuildSystem && ./doBuild.sh check \
  && ./doBuild.sh thirdparty dlib && ./doBuild.sh thirdparty googletest_googlemock && ./doBuild.sh thirdparty parser \
  && ./doBuild.sh release adolc && ./doBuild.sh release betadiff \
  && ./doBuild.sh rlibrary \
-# && ./doBuild.sh documentation \
- && ./doBuild.sh test && ./doBuild.sh modelrunner
+ && ./doBuild.sh documentation \
+ && ./doBuild.sh test && ./doBuild.sh modelrunner \
 # && ./doBuild.sh thirdparty cppad && ./doBuild.sh release cppad
-# && ./doBuild.sh library test && ./doBuild.sh library adolc && ./doBuild.sh library betadiff && ./doBuild.sh library cppad \
-# && ./doBuild.sh frontend && ./doBuild.sh deb
+ && ./doBuild.sh library release && ./doBuild.sh library adolc && ./doBuild.sh library betadiff && ./doBuild.sh library cppad \
+ && ./doBuild.sh frontend && ./doBuild.sh deb
 
 CMD ["/bin/bash"]
 
